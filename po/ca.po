@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-07-07 19:49-0400\n"
+"POT-Creation-Date: 2009-08-13 18:54-0400\n"
 "PO-Revision-Date: 2009-03-23 23:12+0100\n"
 "Last-Translator: David Planella <david.planella@gmail.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
@@ -88,52 +88,52 @@ msgstr "Interfície CORBA"
 msgid "Provides a CORBA scripting interface"
 msgstr "Proporciona una interfície d'ordres per a CORBA"
 
-#: ../plugins/derivatives/options.c:2278 ../plugins/derivatives/options.c:2283
-#: ../plugins/derivatives/options.c:2288 ../plugins/derivatives/options.c:2293
-#: ../plugins/derivatives/options.c:2308
+#: ../plugins/derivatives/options.c:1973 ../plugins/derivatives/options.c:1978
+#: ../plugins/derivatives/options.c:1983 ../plugins/derivatives/options.c:1988
+#: ../plugins/derivatives/options.c:2003
 msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
 msgstr ""
 "senyalador_crida_posa, preu, valor, temps, taxa, volatilitat, cost_de_càrrega"
 
-#: ../plugins/derivatives/options.c:2298 ../plugins/derivatives/options.c:2303
+#: ../plugins/derivatives/options.c:1993 ../plugins/derivatives/options.c:1998
 msgid "spot, strike, time, rate, volatility, cost_of_carry"
 msgstr "preu, valor, temps, taxa, volatilitat, cost_de_càrrega"
 
-#: ../plugins/derivatives/options.c:2313
+#: ../plugins/derivatives/options.c:2008
 msgid "a, b, rho"
 msgstr "a, b, rho"
 
-#: ../plugins/derivatives/options.c:2318
+#: ../plugins/derivatives/options.c:2013
 msgid ""
 "call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
 msgstr ""
 "senyalador_crida_posa, preu, valor, temps, taxa_domèstica, taxa_estrangera, "
 "volatilitat"
 
-#: ../plugins/derivatives/options.c:2323
+#: ../plugins/derivatives/options.c:2018
 msgid "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
 msgstr ""
 "senyalador_crida_posa, preu, valor, temps, t2, taxa, volatilitat, "
 "cost_de_càrrega"
 
-#: ../plugins/derivatives/options.c:2328
+#: ../plugins/derivatives/options.c:2023
 msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
 msgstr ""
 "senyalador_crida_posa, preu, valor, temps, taxa, volatilitat, lambda, gamma"
 
-#: ../plugins/derivatives/options.c:2333
+#: ../plugins/derivatives/options.c:2028
 msgid ""
 "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
 msgstr ""
 "senyalador_crida_posa, preu, valor, temps, taxa, volatilitat, "
 "cost_de_càrrega, lambda"
 
-#: ../plugins/derivatives/options.c:2338 ../plugins/derivatives/options.c:2348
+#: ../plugins/derivatives/options.c:2033 ../plugins/derivatives/options.c:2043
 msgid "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
 msgstr ""
 "senyalador_crida_posa, preu, valor, temps, taxa, cost_de_càrrega, volatilitat"
 
-#: ../plugins/derivatives/options.c:2343
+#: ../plugins/derivatives/options.c:2038
 msgid ""
 "call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, "
 "kappa_e, kappa_f)"
@@ -141,29 +141,29 @@ msgstr ""
 "senyalador_crida_posa, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, "
 "rho_ef, kappa_e, kappa_f)"
 
-#: ../plugins/derivatives/options.c:2353
+#: ../plugins/derivatives/options.c:2048
 msgid "spot, strike, t1, t2, rate, d, volatility"
 msgstr "preu, valor, t1, t2, taxa, d, volatilitat"
 
-#: ../plugins/derivatives/options.c:2358
+#: ../plugins/derivatives/options.c:2053
 msgid ""
 "call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
 msgstr ""
 "senyalador_crida_posa, preu, alfa, temps1, temps, taxa, volatilitat, "
 "cost_de_càrrega"
 
-#: ../plugins/derivatives/options.c:2363
+#: ../plugins/derivatives/options.c:2058
 msgid ""
 "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
 msgstr ""
 "senyalador_crida_posa, preu, valor, a, temps, m, dt, taxa, cost_de_càrrega, "
 "volatilitat"
 
-#: ../plugins/derivatives/options.c:2368
+#: ../plugins/derivatives/options.c:2063
 msgid "spot, strike, time1, time2, rate, cost_of_carry, volatility"
 msgstr "preu, valor, temps1, temps2, taxa, cost_de_càrrega, volatilitat"
 
-#: ../plugins/derivatives/options.c:2373
+#: ../plugins/derivatives/options.c:2068
 msgid ""
 "spot, strike_call, strike_put, time, time_call, time_put, rate, "
 "cost_of_carry, volatility"
@@ -171,7 +171,7 @@ msgstr ""
 "preu, crida_valor, posa_valor, temps, crida_temps, posa_temps, taxa, "
 "cost_de_càrrega, volatilitat"
 
-#: ../plugins/derivatives/options.c:2378 ../plugins/derivatives/options.c:2383
+#: ../plugins/derivatives/options.c:2073 ../plugins/derivatives/options.c:2078
 msgid ""
 "type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, "
 "volatility"
@@ -179,7 +179,7 @@ msgstr ""
 "senyalador_tipus, preu, valor1, valor2, temps1, temps2, taxa, "
 "cost_de_càrrega, volatilitat"
 
-#: ../plugins/derivatives/options.c:2388
+#: ../plugins/derivatives/options.c:2083
 msgid ""
 "type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, "
 "cost_of_carry2, rate, volatility1, volatility2, rho"
@@ -187,7 +187,7 @@ msgstr ""
 "senyalador_tipus, preu1, preu2, valor1, valor2, temps, cost_de_càrrega1, "
 "cost_de_càrrega2, taxa, volatilitat1, volatilitat2, rho"
 
-#: ../plugins/derivatives/options.c:2393 ../plugins/derivatives/options.c:2398
+#: ../plugins/derivatives/options.c:2088 ../plugins/derivatives/options.c:2093
 msgid ""
 "spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
 "volatility2,rho"
@@ -195,7 +195,7 @@ msgstr ""
 "preu1,preu2,qty1,qty2,temps,taxa,cost_de_càrrega1,cost_de_càrrega2,"
 "volatilitat1,volatilitat2,rho"
 
-#: ../plugins/derivatives/options.c:2403
+#: ../plugins/derivatives/options.c:2098
 msgid ""
 "call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,"
 "volatility2,rho"
@@ -203,13 +203,13 @@ msgstr ""
 "senyalador_crida_posa,fut_preu1,fut_preu2,valor,temps,taxa,volatilitat1,"
 "volatilitat2,rho"
 
-#: ../plugins/derivatives/options.c:2408
+#: ../plugins/derivatives/options.c:2103
 msgid "call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
 msgstr ""
 "senyalador_crida_posa,preu,preu_mín,preu_màx,temps,taxa,cost_de_càrrega,"
 "volatilitat"
 
-#: ../plugins/derivatives/options.c:2413
+#: ../plugins/derivatives/options.c:2108
 msgid ""
 "call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
 "volatility"
@@ -217,7 +217,7 @@ msgstr ""
 "senyalador_crida_posa,preu,preu_mín,preu_màx,valor,temps,taxa,"
 "cost_de_càrrega,volatilitat"
 
-#: ../plugins/derivatives/options.c:2419
+#: ../plugins/derivatives/options.c:2114
 msgid ""
 "amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
 "volatility, cost_of_carry"
@@ -240,7 +240,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Les funcions relacionades amb els subproductes financers"
 
 #: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6660
-#: ../plugins/mps/mps.c:540 ../plugins/openoffice/openoffice-read.c:4785
+#: ../plugins/mps/mps.c:540 ../plugins/openoffice/openoffice-read.c:5168
 #: ../src/xml-io.c:2669 ../src/xml-sax-read.c:2726
 msgid "Reading file..."
 msgstr "S'està llegint el fitxer..."
@@ -342,7 +342,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Atribut inesperat %s::%s == «%s»."
 
 #: ../plugins/excel/excel-xml-read.c:1069
-#: ../plugins/openoffice/openoffice-read.c:4852 ../src/xml-sax-read.c:2744
+#: ../plugins/openoffice/openoffice-read.c:5235 ../src/xml-sax-read.c:2744
 msgid "XML document not well formed!"
 msgstr "El document XML està mal format"
 
@@ -692,23 +692,23 @@ msgstr "Funcions complexes"
 msgid "Functions for complex numbers"
 msgstr "Funcions per a nombres complexos"
 
-#: ../plugins/fn-database/functions.c:1245
-#: ../plugins/fn-database/functions.c:1248
-#: ../plugins/fn-database/functions.c:1251
-#: ../plugins/fn-database/functions.c:1254
-#: ../plugins/fn-database/functions.c:1257
-#: ../plugins/fn-database/functions.c:1260
-#: ../plugins/fn-database/functions.c:1263
-#: ../plugins/fn-database/functions.c:1266
-#: ../plugins/fn-database/functions.c:1269
-#: ../plugins/fn-database/functions.c:1272
-#: ../plugins/fn-database/functions.c:1275
-#: ../plugins/fn-database/functions.c:1278
+#: ../plugins/fn-database/functions.c:769
+#: ../plugins/fn-database/functions.c:772
+#: ../plugins/fn-database/functions.c:775
+#: ../plugins/fn-database/functions.c:778
+#: ../plugins/fn-database/functions.c:781
+#: ../plugins/fn-database/functions.c:784
+#: ../plugins/fn-database/functions.c:787
+#: ../plugins/fn-database/functions.c:790
+#: ../plugins/fn-database/functions.c:793
+#: ../plugins/fn-database/functions.c:796
+#: ../plugins/fn-database/functions.c:799
+#: ../plugins/fn-database/functions.c:802
 msgid "database,field,criteria"
 msgstr "base de dades,camp,criteri"
 
 #. XL stores in lookup
-#: ../plugins/fn-database/functions.c:1283
+#: ../plugins/fn-database/functions.c:807
 msgid "pivot_table,field_name"
 msgstr "taula_pral,nom_camp"
 
@@ -724,64 +724,64 @@ msgstr "Funcions de base de dades"
 msgid "Functions looking up values in databases"
 msgstr "Funcions que cerquen valors a bases de dades"
 
-#: ../plugins/fn-date/functions.c:1282
+#: ../plugins/fn-date/functions.c:1133
 msgid "year,month,day"
 msgstr "any,mes,dia"
 
-#: ../plugins/fn-date/functions.c:1286
+#: ../plugins/fn-date/functions.c:1137
 msgid "date_str"
 msgstr "cadena_data"
 
-#: ../plugins/fn-date/functions.c:1290
+#: ../plugins/fn-date/functions.c:1141
 msgid "date1,date2,interval"
 msgstr "data1,data2,interval"
 
-#: ../plugins/fn-date/functions.c:1294 ../plugins/fn-date/functions.c:1318
-#: ../plugins/fn-date/functions.c:1346 ../plugins/fn-date/functions.c:1350
-#: ../plugins/fn-date/functions.c:1358 ../plugins/fn-date/functions.c:1362
-#: ../plugins/fn-date/functions.c:1375 ../plugins/fn-date/functions.c:1379
+#: ../plugins/fn-date/functions.c:1145 ../plugins/fn-date/functions.c:1169
+#: ../plugins/fn-date/functions.c:1197 ../plugins/fn-date/functions.c:1201
+#: ../plugins/fn-date/functions.c:1209 ../plugins/fn-date/functions.c:1213
+#: ../plugins/fn-date/functions.c:1226 ../plugins/fn-date/functions.c:1230
 #: ../src/print-info.c:576
 msgid "date"
 msgstr "data"
 
-#: ../plugins/fn-date/functions.c:1298
+#: ../plugins/fn-date/functions.c:1149
 msgid "date1,date2,method"
 msgstr "data1,data2,mètode"
 
-#: ../plugins/fn-date/functions.c:1302
+#: ../plugins/fn-date/functions.c:1153
 msgid "date,months"
 msgstr "data,mesos"
 
-#: ../plugins/fn-date/functions.c:1306
+#: ../plugins/fn-date/functions.c:1157
 msgid "start_date,months"
 msgstr "data_inici,mesos"
 
-#: ../plugins/fn-date/functions.c:1310 ../plugins/fn-date/functions.c:1314
-#: ../plugins/fn-date/functions.c:1330 ../src/print-info.c:577
+#: ../plugins/fn-date/functions.c:1161 ../plugins/fn-date/functions.c:1165
+#: ../plugins/fn-date/functions.c:1181 ../src/print-info.c:577
 msgid "time"
 msgstr "hora"
 
-#: ../plugins/fn-date/functions.c:1322
+#: ../plugins/fn-date/functions.c:1173
 msgid "start_date,end_date,holidays"
 msgstr "data_inici,data_fi,vacances"
 
-#: ../plugins/fn-date/functions.c:1334
+#: ../plugins/fn-date/functions.c:1185
 msgid "hours,minutes,seconds"
 msgstr "hores,minuts,segons"
 
-#: ../plugins/fn-date/functions.c:1338
+#: ../plugins/fn-date/functions.c:1189
 msgid "timetext"
 msgstr "texthora"
 
-#: ../plugins/fn-date/functions.c:1354
+#: ../plugins/fn-date/functions.c:1205
 msgid "date,days,holidays"
 msgstr "data,dies,vacances"
 
-#: ../plugins/fn-date/functions.c:1367
+#: ../plugins/fn-date/functions.c:1218
 msgid "unixtime"
 msgstr "horaunix"
 
-#: ../plugins/fn-date/functions.c:1371
+#: ../plugins/fn-date/functions.c:1222
 msgid "serial"
 msgstr "serial"
 
@@ -835,7 +835,7 @@ msgstr "Funcions d'ajuda per a l'anàlisi d'Erlang"
 
 # FIXME: crec que es refereix a «interest rate», per la qual cosa
 # també podria ser «tipus,valors» (dpm)
-#: ../plugins/fn-financial/functions.c:4113
+#: ../plugins/fn-financial/functions.c:3551
 msgid "rate,values"
 msgstr "taxa,valors"
 
@@ -951,7 +951,7 @@ msgstr "Discordança de tipus"
 
 #: ../plugins/fn-logical/functions.c:281 ../plugins/fn-logical/functions.c:285
 #: ../plugins/fn-logical/functions.c:304 ../plugins/fn-math/functions.c:2870
-#: ../src/func-builtin.c:344 ../src/func-builtin.c:350
+#: ../src/func-builtin.c:347 ../src/func-builtin.c:353
 msgid "number,number,"
 msgstr "nombre,nombre"
 
@@ -990,7 +990,7 @@ msgstr "valor,valor"
 msgid "Functions for manipulating truth values"
 msgstr "Funcions per a manipular valors certs"
 
-#: ../plugins/fn-logical/plugin.xml.in.h:2 ../src/func-builtin.c:386
+#: ../plugins/fn-logical/plugin.xml.in.h:2 ../src/func-builtin.c:391
 msgid "Logic"
 msgstr "Lògiques"
 
@@ -998,56 +998,56 @@ msgstr "Lògiques"
 msgid "Logic Functions"
 msgstr "Funcions lògiques"
 
-#: ../plugins/fn-lookup/functions.c:1636
+#: ../plugins/fn-lookup/functions.c:1505
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr "fila_num,col_num,abs_num,a1,text"
 
-#: ../plugins/fn-lookup/functions.c:1639
+#: ../plugins/fn-lookup/functions.c:1508
 msgid "reference"
 msgstr "referència"
 
-#: ../plugins/fn-lookup/functions.c:1642
+#: ../plugins/fn-lookup/functions.c:1511
 msgid "index,value,"
 msgstr "índex,valor,"
 
-#: ../plugins/fn-lookup/functions.c:1645 ../plugins/fn-lookup/functions.c:1651
-#: ../plugins/fn-lookup/functions.c:1675 ../plugins/fn-lookup/functions.c:1678
+#: ../plugins/fn-lookup/functions.c:1514 ../plugins/fn-lookup/functions.c:1520
+#: ../plugins/fn-lookup/functions.c:1544 ../plugins/fn-lookup/functions.c:1547
 msgid "ref"
 msgstr "ref"
 
-#: ../plugins/fn-lookup/functions.c:1648
+#: ../plugins/fn-lookup/functions.c:1517
 msgid "colname"
 msgstr "nomcolumna"
 
-#: ../plugins/fn-lookup/functions.c:1654 ../plugins/fn-lookup/functions.c:1684
+#: ../plugins/fn-lookup/functions.c:1523 ../plugins/fn-lookup/functions.c:1553
 msgid "val,range,col_idx,approx,as_index"
 msgstr "val,abast,col_idx,aprox,com_índex"
 
-#: ../plugins/fn-lookup/functions.c:1657
+#: ../plugins/fn-lookup/functions.c:1526
 msgid "link_location, label"
 msgstr "localització_enllaç, etiqueta"
 
-#: ../plugins/fn-lookup/functions.c:1660
+#: ../plugins/fn-lookup/functions.c:1529
 msgid "ref_string,format"
 msgstr "ref_cadena,format"
 
-#: ../plugins/fn-lookup/functions.c:1663
+#: ../plugins/fn-lookup/functions.c:1532
 msgid "reference,row,col,area"
 msgstr "referència,fila,col,àrea"
 
-#: ../plugins/fn-lookup/functions.c:1666
+#: ../plugins/fn-lookup/functions.c:1535
 msgid "val,range,range"
 msgstr "val,abast,abast"
 
-#: ../plugins/fn-lookup/functions.c:1669
+#: ../plugins/fn-lookup/functions.c:1538
 msgid "val,range,approx"
 msgstr "val,abast,aprox"
 
-#: ../plugins/fn-lookup/functions.c:1672
+#: ../plugins/fn-lookup/functions.c:1541
 msgid "ref,row,col,height,width"
 msgstr "ref,fila,col,alt,ample"
 
-#: ../plugins/fn-lookup/functions.c:1681 ../plugins/fn-math/functions.c:2908
+#: ../plugins/fn-lookup/functions.c:1550 ../plugins/fn-math/functions.c:2908
 msgid "array"
 msgstr "llista"
 
@@ -1148,7 +1148,7 @@ msgstr "Funcions matemàtiques"
 msgid "Mathematical Functions"
 msgstr "Funcions matemàtiques"
 
-#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:378
+#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:381
 msgid "Mathematics"
 msgstr "Matemàtiques"
 
@@ -1529,7 +1529,7 @@ msgid "Functions for manipulating strings"
 msgstr "Funcions per a tractar cadenes"
 
 #: ../plugins/fn-string/plugin.xml.in.h:2 ../src/dialogs/dialog-search.c:151
-#: ../src/func.c:1023
+#: ../src/func.c:1027
 msgid "String"
 msgstr "Cadena"
 
@@ -1710,13 +1710,13 @@ msgstr "Restriccions:"
 #: ../src/dialogs/dialog-define-names.c:576
 #: ../src/dialogs/dialog-doc-metadata.c:1276
 #: ../src/dialogs/dialog-formula-guru.c:827
-#: ../src/dialogs/dialog-function-select.c:914
-#: ../src/dialogs/dialog-function-select.c:936
-#: ../src/dialogs/dialog-function-select.c:941
+#: ../src/dialogs/dialog-function-select.c:913
+#: ../src/dialogs/dialog-function-select.c:935
+#: ../src/dialogs/dialog-function-select.c:940
 #: ../src/dialogs/dialog-paste-names.c:93
 #: ../src/dialogs/dialog-scenarios.c:374
 #: ../src/dialogs/dialog-simulation.c:217 ../src/dialogs/dialog-zoom.c:191
-#: ../src/format-template.c:250 ../src/sheet.c:819
+#: ../src/format-template.c:250 ../src/sheet.c:832
 #: ../src/tools/solver/reports-write.c:79
 #: ../src/tools/solver/reports-write.c:101
 #: ../src/tools/solver/reports-write.c:128
@@ -1821,7 +1821,7 @@ msgstr "GNU Oleo (*.oleo)"
 msgid "Imports GNU Oleo documents"
 msgstr "Importa documents GNU Oleo"
 
-#: ../plugins/openoffice/openoffice-read.c:674
+#: ../plugins/openoffice/openoffice-read.c:689
 #, c-format
 msgid ""
 "Unable to parse\n"
@@ -1832,71 +1832,79 @@ msgstr ""
 "   «%s»\n"
 "perquè «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:1013
+#: ../plugins/openoffice/openoffice-read.c:1057
 #, fuzzy, c-format
 msgid "Content past the maximum number of rows (%i) supported."
 msgstr ""
 "El contingut sobrepassa el nombre màxim de files que permet aquest muntatge "
 "(%u). Recompileu amb uns límits més grans."
 
-#: ../plugins/openoffice/openoffice-read.c:1103
+#: ../plugins/openoffice/openoffice-read.c:1165
 msgid "Missing expression"
 msgstr "Manca l'expressió"
 
-#: ../plugins/openoffice/openoffice-read.c:1122
+#: ../plugins/openoffice/openoffice-read.c:1184
 #, fuzzy, c-format
 msgid "Missing or unknown expression namespace: %s"
 msgstr "Manca l'espai de noms de l'expressió"
 
-#: ../plugins/openoffice/openoffice-read.c:1130
+#: ../plugins/openoffice/openoffice-read.c:1192
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "L'expressió «%s» no comença amb un caràcter reconegut"
 
-#: ../plugins/openoffice/openoffice-read.c:1258
+#: ../plugins/openoffice/openoffice-read.c:1320
 msgid "Invalid array expression does not specify number of columns."
 msgstr ""
 "L'expressió de vector no és vàlida i no especifica el nombre de columnes."
 
-#: ../plugins/openoffice/openoffice-read.c:1261
+#: ../plugins/openoffice/openoffice-read.c:1323
 msgid "Invalid array expression does not specify number of rows."
 msgstr "L'expressió de vector no és vàlida i no especifica el nombre de files."
 
+#: ../plugins/openoffice/openoffice-read.c:1525
+msgid "Duplicate default column style encountered."
+msgstr ""
+
+#: ../plugins/openoffice/openoffice-read.c:1540
+msgid "Duplicate default row style encountered."
+msgstr ""
+
 # FIXME: break es refereix a final de línia en aquest cas? (dpm)
-#: ../plugins/openoffice/openoffice-read.c:2498
+#: ../plugins/openoffice/openoffice-read.c:2582
 #, fuzzy, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr "El tipus de final de línia «%s» és desconegut. S'establirà a manual."
 
-#: ../plugins/openoffice/openoffice-read.c:2718
+#: ../plugins/openoffice/openoffice-read.c:2802
 #, fuzzy, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
 msgstr "Tipus de valor desconegut «%s» a la línia %d. S'ignorarà."
 
-#: ../plugins/openoffice/openoffice-read.c:2886
+#: ../plugins/openoffice/openoffice-read.c:3021
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "l'expressió «%s» a «%s» no és una referència de cel·la"
 
 # FIXME DB = base de dades? (dpm)
-#: ../plugins/openoffice/openoffice-read.c:2923
+#: ../plugins/openoffice/openoffice-read.c:3058
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "El rang de DB «%s» no és vàlid"
 
-#: ../plugins/openoffice/openoffice-read.c:4724
+#: ../plugins/openoffice/openoffice-read.c:5101
 msgid "Unknown mimetype for openoffice file."
 msgstr "Tipus mime desconegut per a un fitxer de l'OpenOffice."
 
-#: ../plugins/openoffice/openoffice-read.c:4732
+#: ../plugins/openoffice/openoffice-read.c:5109
 msgid "No stream named content.xml found."
 msgstr "No s'ha trobat cap flux de dades anomenat content.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:4740
+#: ../plugins/openoffice/openoffice-read.c:5117
 msgid "No stream named styles.xml found."
 msgstr "No s'ha trobat cap flux de dades anomenat styles.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:4795
+#: ../plugins/openoffice/openoffice-read.c:5178
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Metadades «%s» no vàlides"
@@ -2285,7 +2293,7 @@ msgstr "El fitxer no conté el diccionari «%s»."
 msgid "Object \"%s\" is not a dictionary."
 msgstr "L'objecte «%s» no és un diccionari."
 
-#: ../plugins/python-loader/python-loader.c:715 ../src/gnm-plugin.c:555
+#: ../plugins/python-loader/python-loader.c:715 ../src/gnm-plugin.c:568
 #, c-format
 msgid "Unknown action: %s"
 msgstr "Acció desconeguda: %s"
@@ -3644,7 +3652,7 @@ msgid "Deleting row %s"
 msgstr "Suprimir fila %s"
 
 #. Check for locked cells
-#: ../src/commands.c:1501 ../src/commands.c:1505 ../src/sheet.c:4050
+#: ../src/commands.c:1501 ../src/commands.c:1505 ../src/sheet.c:4061
 msgid "Clear"
 msgstr "Buida"
 
@@ -3887,7 +3895,7 @@ msgid "Merging %s"
 msgstr "Fusionar %s"
 
 #. Corrected below.
-#: ../src/commands.c:4151 ../src/dialogs/search-replace.glade.h:30
+#: ../src/commands.c:4151 ../src/dialogs/search-replace.glade.h:31
 msgid "Search and Replace"
 msgstr "Cercar i reemplaçar"
 
@@ -5314,389 +5322,389 @@ msgstr "_K:"
 msgid "_Use ssmedian"
 msgstr "_Usa ssmedian"
 
-#: ../src/dialogs/dialog-about.c:51
+#: ../src/dialogs/dialog-about.c:50
 msgid "Core"
 msgstr "Part principal"
 
-#: ../src/dialogs/dialog-about.c:52
+#: ../src/dialogs/dialog-about.c:51
 msgid "Features"
 msgstr "Característiques"
 
-#: ../src/dialogs/dialog-about.c:53
+#: ../src/dialogs/dialog-about.c:52
 msgid "Analytics"
 msgstr "Analítiques"
 
-#: ../src/dialogs/dialog-about.c:54
+#: ../src/dialogs/dialog-about.c:53
 msgid "Import Export"
 msgstr "Importació i exportació"
 
-#: ../src/dialogs/dialog-about.c:55
+#: ../src/dialogs/dialog-about.c:54
 msgid "Scripting"
 msgstr "Fitxers de seqüència"
 
-#: ../src/dialogs/dialog-about.c:56
+#: ../src/dialogs/dialog-about.c:55
 msgid "UI"
 msgstr "Interfície"
 
-#: ../src/dialogs/dialog-about.c:57
+#: ../src/dialogs/dialog-about.c:56
 msgid "Usability"
 msgstr "Usabilitat"
 
-#: ../src/dialogs/dialog-about.c:58
+#: ../src/dialogs/dialog-about.c:57
 msgid "Documentation"
 msgstr "Documentació"
 
-#: ../src/dialogs/dialog-about.c:59
+#: ../src/dialogs/dialog-about.c:58
 msgid "Translation"
 msgstr "Traducció"
 
-#: ../src/dialogs/dialog-about.c:60
+#: ../src/dialogs/dialog-about.c:59
 msgid "QA"
 msgstr "Qualitat"
 
-#: ../src/dialogs/dialog-about.c:61
+#: ../src/dialogs/dialog-about.c:60
 msgid "Art"
 msgstr "Gràfics"
 
-#: ../src/dialogs/dialog-about.c:62
+#: ../src/dialogs/dialog-about.c:61
 msgid "Packaging"
 msgstr "Empaquetament"
 
-#: ../src/dialogs/dialog-about.c:70
+#: ../src/dialogs/dialog-about.c:69
 msgid "Harald Ashburner"
 msgstr "Harald Ashburner"
 
-#: ../src/dialogs/dialog-about.c:71
+#: ../src/dialogs/dialog-about.c:70
 msgid "Options pricers"
 msgstr "Avaluadors d'opcions"
 
-#: ../src/dialogs/dialog-about.c:72
+#: ../src/dialogs/dialog-about.c:71
 msgid "Sean Atkinson"
 msgstr "Sean Atkinson"
 
-#: ../src/dialogs/dialog-about.c:73
+#: ../src/dialogs/dialog-about.c:72
 msgid "Functions and X-Base importing."
 msgstr "Funcions i importació d'X-Base."
 
-#: ../src/dialogs/dialog-about.c:74
+#: ../src/dialogs/dialog-about.c:73
 msgid "Michel Berkelaar"
 msgstr "Michel Berkelaar"
 
 # FIXME què vol dir LP? (dpm)
-#: ../src/dialogs/dialog-about.c:75 ../src/dialogs/dialog-about.c:89
+#: ../src/dialogs/dialog-about.c:74 ../src/dialogs/dialog-about.c:88
 msgid "Simplex algorithm for Solver (LP Solve)."
 msgstr "Algorisme símplex per al resoledor (resoledor LP)."
 
-#: ../src/dialogs/dialog-about.c:76
+#: ../src/dialogs/dialog-about.c:75
 msgid "Jean Brefort"
 msgstr "Jean Brefort"
 
-#: ../src/dialogs/dialog-about.c:77
+#: ../src/dialogs/dialog-about.c:76
 msgid "Core charting engine."
 msgstr "Motor principal dels gràfics."
 
-#: ../src/dialogs/dialog-about.c:78
+#: ../src/dialogs/dialog-about.c:77
 msgid "Grandma Chema Celorio"
 msgstr "Chema Celorio"
 
-#: ../src/dialogs/dialog-about.c:79
+#: ../src/dialogs/dialog-about.c:78
 msgid "Quality Assurance and sheet copy."
 msgstr "Prova de qualitat i còpia de full."
 
-#: ../src/dialogs/dialog-about.c:80
+#: ../src/dialogs/dialog-about.c:79
 msgid "Frank Chiulli"
 msgstr "Frank Chiulli"
 
-#: ../src/dialogs/dialog-about.c:81
+#: ../src/dialogs/dialog-about.c:80
 msgid "OLE2 support."
 msgstr "Suport per a OLE2."
 
-#: ../src/dialogs/dialog-about.c:82
+#: ../src/dialogs/dialog-about.c:81
 msgid "Kenneth Christiansen"
 msgstr "Kenneth Christiansen"
 
-#: ../src/dialogs/dialog-about.c:83
+#: ../src/dialogs/dialog-about.c:82
 msgid "Localization."
 msgstr "Localització."
 
-#: ../src/dialogs/dialog-about.c:84
+#: ../src/dialogs/dialog-about.c:83
 msgid "Zbigniew Chyla"
 msgstr "Zbigniew Chyla"
 
-#: ../src/dialogs/dialog-about.c:85
+#: ../src/dialogs/dialog-about.c:84
 msgid "Plugin system, localization."
 msgstr "Sistema de connectors, localització."
 
-#: ../src/dialogs/dialog-about.c:86
+#: ../src/dialogs/dialog-about.c:85
 msgid "J.H.M. Dassen (Ray)"
 msgstr "J.H.M. Dassen (Ray)"
 
-#: ../src/dialogs/dialog-about.c:87
+#: ../src/dialogs/dialog-about.c:86
 msgid "Debian packaging."
 msgstr "Empaquetador per a Debian."
 
-#: ../src/dialogs/dialog-about.c:88
+#: ../src/dialogs/dialog-about.c:87
 msgid "Jeroen Dirks"
 msgstr "Jeroen Dirks"
 
-#: ../src/dialogs/dialog-about.c:90
+#: ../src/dialogs/dialog-about.c:89
 msgid "Tom Dyas"
 msgstr "Tom Dyas"
 
-#: ../src/dialogs/dialog-about.c:91
+#: ../src/dialogs/dialog-about.c:90
 msgid "Original plugin engine."
 msgstr "Motor de connectors original."
 
-#: ../src/dialogs/dialog-about.c:92
+#: ../src/dialogs/dialog-about.c:91
 msgid "Kjell Eikland"
 msgstr "Kjell Eikland"
 
-#: ../src/dialogs/dialog-about.c:93 ../src/dialogs/dialog-about.c:119
+#: ../src/dialogs/dialog-about.c:92 ../src/dialogs/dialog-about.c:118
 msgid "LP-solve"
 msgstr "Resol LP"
 
-#: ../src/dialogs/dialog-about.c:94
+#: ../src/dialogs/dialog-about.c:93
 msgid "Gergo Erdi"
 msgstr "Gergo Erdi"
 
-#: ../src/dialogs/dialog-about.c:95
+#: ../src/dialogs/dialog-about.c:94
 msgid "Custom UI tools"
 msgstr "Eines d'interfície personalitzada"
 
-#: ../src/dialogs/dialog-about.c:96
+#: ../src/dialogs/dialog-about.c:95
 msgid "John Gotts"
 msgstr "John Gotts"
 
-#: ../src/dialogs/dialog-about.c:97
+#: ../src/dialogs/dialog-about.c:96
 msgid "RPM packaging"
 msgstr "Paquets RPM"
 
-#: ../src/dialogs/dialog-about.c:98
+#: ../src/dialogs/dialog-about.c:97
 msgid "Andreas J. Gülzow"
 msgstr "Andreas J. Gülzow"
 
-#: ../src/dialogs/dialog-about.c:99
+#: ../src/dialogs/dialog-about.c:98
 msgid "Statistics and GUI master"
 msgstr "Estadístiques i mestre de la interfície"
 
-#: ../src/dialogs/dialog-about.c:100
+#: ../src/dialogs/dialog-about.c:99
 msgid "Jon Kåre Hellan"
 msgstr "Jon Kåre Hellan"
 
-#: ../src/dialogs/dialog-about.c:101
+#: ../src/dialogs/dialog-about.c:100
 msgid "UI polish and all round bug fixer"
 msgstr "Neteja la interfície i corregeix molts errors"
 
-#: ../src/dialogs/dialog-about.c:102
+#: ../src/dialogs/dialog-about.c:101
 msgid "Ross Ihaka"
 msgstr "Ross Ihaka"
 
-#: ../src/dialogs/dialog-about.c:103
+#: ../src/dialogs/dialog-about.c:102
 msgid "Special functions"
 msgstr "Funcions especials"
 
-#: ../src/dialogs/dialog-about.c:104
+#: ../src/dialogs/dialog-about.c:103
 msgid "Jukka-Pekka Iivonen"
 msgstr "Jukka-Pekka Iivonen"
 
-#: ../src/dialogs/dialog-about.c:105
+#: ../src/dialogs/dialog-about.c:104
 msgid "Solver, lots of worksheet functions, and general trailblazer"
 msgstr ""
 "Funció per a resoldre, moltes funcions de full de càlcul, i feines generals"
 
-#: ../src/dialogs/dialog-about.c:106
+#: ../src/dialogs/dialog-about.c:105
 msgid "Jakub Jelínek"
 msgstr "Jakub Jelínek"
 
-#: ../src/dialogs/dialog-about.c:107
+#: ../src/dialogs/dialog-about.c:106
 msgid "One of the original core contributors"
 msgstr "Un dels col·laboradors originals principals"
 
-#: ../src/dialogs/dialog-about.c:108
+#: ../src/dialogs/dialog-about.c:107
 msgid "Chris Lahey"
 msgstr "Chris Lahey"
 
-#: ../src/dialogs/dialog-about.c:109
+#: ../src/dialogs/dialog-about.c:108
 msgid "The original value format engine and libgoffice work"
 msgstr "El motor de format de valor original i treball per a libgoffice"
 
-#: ../src/dialogs/dialog-about.c:110
+#: ../src/dialogs/dialog-about.c:109
 msgid "Takashi Matsuda"
 msgstr "Takashi Matsuda"
 
-#: ../src/dialogs/dialog-about.c:111
+#: ../src/dialogs/dialog-about.c:110
 msgid "The original text plugin"
 msgstr "Connector de text original"
 
-#: ../src/dialogs/dialog-about.c:112
+#: ../src/dialogs/dialog-about.c:111
 msgid "Michael Meeks"
 msgstr "Michael Meeks"
 
-#: ../src/dialogs/dialog-about.c:113
+#: ../src/dialogs/dialog-about.c:112
 msgid "Started the MS Excel import/export engine, and 'GnmStyle'"
 msgstr "Inicià el motor d'importació/exportació de l'MS Excel i el «GnmStyle»"
 
-#: ../src/dialogs/dialog-about.c:114
+#: ../src/dialogs/dialog-about.c:113
 msgid "Lutz Muller"
 msgstr "Lutz Muller"
 
-#: ../src/dialogs/dialog-about.c:115
+#: ../src/dialogs/dialog-about.c:114
 msgid "SheetObject improvement"
 msgstr "Millores en SheetObject"
 
-#: ../src/dialogs/dialog-about.c:116
+#: ../src/dialogs/dialog-about.c:115
 msgid "Yukihiro Nakai"
 msgstr "Yukihiro Nakai"
 
-#: ../src/dialogs/dialog-about.c:117
+#: ../src/dialogs/dialog-about.c:116
 msgid "Support for non-Latin languages"
 msgstr "Implementació d'idiomes no llatins"
 
-#: ../src/dialogs/dialog-about.c:118
+#: ../src/dialogs/dialog-about.c:117
 msgid "Peter Notebaert"
 msgstr "Peter Notebaert"
 
-#: ../src/dialogs/dialog-about.c:120
+#: ../src/dialogs/dialog-about.c:119
 msgid "Emmanuel Pacaud"
 msgstr "Emmanuel Pacaud"
 
-#: ../src/dialogs/dialog-about.c:121
+#: ../src/dialogs/dialog-about.c:120
 msgid "Many plot types for charting engine."
 msgstr "Molts tipus de traçat per al motor de gràfiques."
 
-#: ../src/dialogs/dialog-about.c:122
+#: ../src/dialogs/dialog-about.c:121
 msgid "Federico M. Quintero"
 msgstr "Federico M. Quintero"
 
-#: ../src/dialogs/dialog-about.c:123
+#: ../src/dialogs/dialog-about.c:122
 msgid "canvas support"
 msgstr "Suport per al llenç"
 
-#: ../src/dialogs/dialog-about.c:124
+#: ../src/dialogs/dialog-about.c:123
 msgid "Mark Probst"
 msgstr "Mark Probst"
 
-#: ../src/dialogs/dialog-about.c:125 ../src/dialogs/dialog-about.c:131
+#: ../src/dialogs/dialog-about.c:124 ../src/dialogs/dialog-about.c:130
 msgid "Guile support"
 msgstr "Suport per a Guile"
 
-#: ../src/dialogs/dialog-about.c:126
+#: ../src/dialogs/dialog-about.c:125
 msgid "Rasca"
 msgstr "Rasca"
 
-#: ../src/dialogs/dialog-about.c:127
+#: ../src/dialogs/dialog-about.c:126
 msgid "HTML, troff, LaTeX exporters"
 msgstr "Exportadors d'HTML, troff i LaTeX."
 
-#: ../src/dialogs/dialog-about.c:128
+#: ../src/dialogs/dialog-about.c:127
 msgid "Vincent Renardias"
 msgstr "Vincent Renardias"
 
-#: ../src/dialogs/dialog-about.c:129
+#: ../src/dialogs/dialog-about.c:128
 msgid "original CSV support, French localization"
 msgstr "Suport de CSV original, localització en francès."
 
-#: ../src/dialogs/dialog-about.c:130
+#: ../src/dialogs/dialog-about.c:129
 msgid "Ariel Rios"
 msgstr "Ariel Rios"
 
-#: ../src/dialogs/dialog-about.c:132
+#: ../src/dialogs/dialog-about.c:131
 msgid "Jakub Steiner"
 msgstr "Jakub Steiner"
 
-#: ../src/dialogs/dialog-about.c:133
+#: ../src/dialogs/dialog-about.c:132
 msgid "Icons and Images"
 msgstr "Icones i imatges"
 
-#: ../src/dialogs/dialog-about.c:134
+#: ../src/dialogs/dialog-about.c:133
 msgid "Uwe Steinmann"
 msgstr "Uwe Steinmann"
 
-#: ../src/dialogs/dialog-about.c:135
+#: ../src/dialogs/dialog-about.c:134
 msgid "Paradox Importer"
 msgstr "Importador del Paradox"
 
-#: ../src/dialogs/dialog-about.c:136
+#: ../src/dialogs/dialog-about.c:135
 msgid "Arturo Tena"
 msgstr "Artuno Tena"
 
-#: ../src/dialogs/dialog-about.c:137
+#: ../src/dialogs/dialog-about.c:136
 msgid "Initial work on OLE2 for libgsf"
 msgstr "Treball inicial en OLE2 per a libgsf"
 
-#: ../src/dialogs/dialog-about.c:138
+#: ../src/dialogs/dialog-about.c:137
 msgid "Almer S. Tigelaar"
 msgstr "Almer S. Tigelaar"
 
-#: ../src/dialogs/dialog-about.c:139
+#: ../src/dialogs/dialog-about.c:138
 msgid "Consolidation and Structured Text importer"
 msgstr "Importador de consolidació i text estructurat"
 
-#: ../src/dialogs/dialog-about.c:140
+#: ../src/dialogs/dialog-about.c:139
 msgid "Bruno Unna"
 msgstr "Bruno Unna"
 
-#: ../src/dialogs/dialog-about.c:141
+#: ../src/dialogs/dialog-about.c:140
 msgid "Pieces of MS Excel import"
 msgstr "Parts de la importació del MS Excel"
 
-#: ../src/dialogs/dialog-about.c:142
+#: ../src/dialogs/dialog-about.c:141
 msgid "Arief Mulya Utama"
 msgstr "Arief Mulya Utama"
 
-#: ../src/dialogs/dialog-about.c:143
+#: ../src/dialogs/dialog-about.c:142
 msgid "Telecommunications functions"
 msgstr "Funcions de telecomunicacions"
 
-#: ../src/dialogs/dialog-about.c:144
+#: ../src/dialogs/dialog-about.c:143
 msgid "Daniel Veillard"
 msgstr "Daniel Veillard"
 
-#: ../src/dialogs/dialog-about.c:145
+#: ../src/dialogs/dialog-about.c:144
 msgid "Initial XML support"
 msgstr "Suport d'XML inicial"
 
-#: ../src/dialogs/dialog-about.c:146
+#: ../src/dialogs/dialog-about.c:145
 msgid "Vladimir Vuksan"
 msgstr "Vladimir Vuksan"
 
-#: ../src/dialogs/dialog-about.c:147
+#: ../src/dialogs/dialog-about.c:146
 msgid "Some financial functions"
 msgstr "Funcions financeres"
 
-#: ../src/dialogs/dialog-about.c:148
+#: ../src/dialogs/dialog-about.c:147
 msgid "Morten Welinder"
 msgstr "Morten Welinder"
 
-#: ../src/dialogs/dialog-about.c:149
+#: ../src/dialogs/dialog-about.c:148
 msgid "All round powerhouse"
 msgstr "Tots els arrodoniments"
 
-#: ../src/dialogs/dialog-about.c:150
+#: ../src/dialogs/dialog-about.c:149
 msgid "Kevin Breit"
 msgstr "Kevin Breit"
 
-#: ../src/dialogs/dialog-about.c:151
+#: ../src/dialogs/dialog-about.c:150
 msgid "Thomas Canty"
 msgstr "Thomas Canty"
 
-#: ../src/dialogs/dialog-about.c:152
+#: ../src/dialogs/dialog-about.c:151
 msgid "Adrian Custer"
 msgstr "Adrian Custer"
 
-#: ../src/dialogs/dialog-about.c:153
+#: ../src/dialogs/dialog-about.c:152
 msgid "Adrian Likins"
 msgstr "Adrian Likins"
 
-#: ../src/dialogs/dialog-about.c:154
+#: ../src/dialogs/dialog-about.c:153
 msgid "Aaron Weber"
 msgstr "Aaron Weber"
 
-#: ../src/dialogs/dialog-about.c:155
+#: ../src/dialogs/dialog-about.c:154
 msgid "Alexander Kirillov"
 msgstr "Alexander Kirillov"
 
-#: ../src/dialogs/dialog-about.c:255
+#: ../src/dialogs/dialog-about.c:254
 msgid "About Gnumeric"
 msgstr "Quant al Gnumeric"
 
@@ -5723,9 +5731,9 @@ msgstr "No s'han trobat els registres demanats."
 
 #: ../src/dialogs/dialog-advanced-filter.c:152
 #: ../src/dialogs/dialog-analysis-tools.c:640
-#: ../src/dialogs/dialog-analysis-tools.c:759
-#: ../src/dialogs/dialog-analysis-tools.c:2137
-#: ../src/dialogs/dialog-analysis-tools.c:3469
+#: ../src/dialogs/dialog-analysis-tools.c:760
+#: ../src/dialogs/dialog-analysis-tools.c:2153
+#: ../src/dialogs/dialog-analysis-tools.c:3503
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "S'ha produït un error inesperat: %d."
@@ -5737,13 +5745,13 @@ msgstr "No s'ha pogut crear el diàleg de filtre avançat."
 #: ../src/dialogs/dialog-analysis-tool-chi-squared.c:144
 #: ../src/dialogs/dialog-analysis-tool-frequency.c:100
 #: ../src/dialogs/dialog-analysis-tools.c:561
-#: ../src/dialogs/dialog-analysis-tools.c:1103
-#: ../src/dialogs/dialog-analysis-tools.c:1801
-#: ../src/dialogs/dialog-analysis-tools.c:2382
-#: ../src/dialogs/dialog-analysis-tools.c:2736
-#: ../src/dialogs/dialog-analysis-tools.c:3020
-#: ../src/dialogs/dialog-analysis-tools.c:3296
-#: ../src/dialogs/dialog-analysis-tools.c:3510
+#: ../src/dialogs/dialog-analysis-tools.c:1109
+#: ../src/dialogs/dialog-analysis-tools.c:1815
+#: ../src/dialogs/dialog-analysis-tools.c:2403
+#: ../src/dialogs/dialog-analysis-tools.c:2762
+#: ../src/dialogs/dialog-analysis-tools.c:3050
+#: ../src/dialogs/dialog-analysis-tools.c:3329
+#: ../src/dialogs/dialog-analysis-tools.c:3544
 #: ../src/dialogs/dialog-shuffle.c:75
 msgid "The input range is invalid."
 msgstr "El rang d'entrada no és vàlid."
@@ -5754,8 +5762,8 @@ msgid "The input range is too small."
 msgstr "El rang d'entrada no és vàlid."
 
 #: ../src/dialogs/dialog-analysis-tool-chi-squared.c:165
-#: ../src/dialogs/dialog-analysis-tools.c:3307
-#: ../src/dialogs/dialog-analysis-tools.c:3521
+#: ../src/dialogs/dialog-analysis-tools.c:3340
+#: ../src/dialogs/dialog-analysis-tools.c:3555
 msgid "The alpha value should be a number between 0 and 1."
 msgstr "El valor alfa ha de ser un nombre entre 0 i 1."
 
@@ -5763,18 +5771,18 @@ msgstr "El valor alfa ha de ser un nombre entre 0 i 1."
 #: ../src/dialogs/dialog-analysis-tool-frequency.c:128
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:191
 #: ../src/dialogs/dialog-analysis-tools.c:570
-#: ../src/dialogs/dialog-analysis-tools.c:1154
-#: ../src/dialogs/dialog-analysis-tools.c:1849
-#: ../src/dialogs/dialog-analysis-tools.c:2244
-#: ../src/dialogs/dialog-analysis-tools.c:2436
-#: ../src/dialogs/dialog-analysis-tools.c:2767
-#: ../src/dialogs/dialog-analysis-tools.c:3048
-#: ../src/dialogs/dialog-analysis-tools.c:3316
-#: ../src/dialogs/dialog-analysis-tools.c:3542
+#: ../src/dialogs/dialog-analysis-tools.c:1160
+#: ../src/dialogs/dialog-analysis-tools.c:1863
+#: ../src/dialogs/dialog-analysis-tools.c:2260
+#: ../src/dialogs/dialog-analysis-tools.c:2457
+#: ../src/dialogs/dialog-analysis-tools.c:2793
+#: ../src/dialogs/dialog-analysis-tools.c:3078
+#: ../src/dialogs/dialog-analysis-tools.c:3349
+#: ../src/dialogs/dialog-analysis-tools.c:3576
 msgid "The output specification is invalid."
 msgstr "L'especificació de sortida no és vàlida."
 
-#: ../src/dialogs/dialog-analysis-tool-chi-squared.c:215
+#: ../src/dialogs/dialog-analysis-tool-chi-squared.c:218
 #, fuzzy
 msgid "Could not create the Chi Squared Tests tool dialog."
 msgstr "No s'ha pogut crear el diàleg de les eines del test per a la mitjana."
@@ -5787,7 +5795,7 @@ msgstr "El rang de categories no és vàlid."
 msgid "The number of categories is invalid."
 msgstr "El nombre de categories no és vàlid."
 
-#: ../src/dialogs/dialog-analysis-tool-frequency.c:254
+#: ../src/dialogs/dialog-analysis-tool-frequency.c:258
 msgid "Could not create the Frequency Tool dialog."
 msgstr "No s'ha pogut crear el diàleg de l'eina de freqüència."
 
@@ -5841,59 +5849,59 @@ msgstr "De"
 msgid "To"
 msgstr "Fins a"
 
-#: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:615
+#: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:620
 msgid "Could not create the Kaplan Meier Tool dialog."
 msgstr "No s'ha pogut crear el diàleg de l'eina de Kaplan Meier."
 
 #: ../src/dialogs/dialog-analysis-tools.c:626
-#: ../src/dialogs/dialog-analysis-tools.c:745
+#: ../src/dialogs/dialog-analysis-tools.c:746
 msgid "The selected input rows must have equal size!"
 msgstr "Les files d'entrada seleccionades han de ser d'igual mida."
 
 #: ../src/dialogs/dialog-analysis-tools.c:631
-#: ../src/dialogs/dialog-analysis-tools.c:750
+#: ../src/dialogs/dialog-analysis-tools.c:751
 msgid "The selected input columns must have equal size!"
 msgstr "Les columnes d'entrada seleccionades han de ser d'igual mida."
 
 #: ../src/dialogs/dialog-analysis-tools.c:636
-#: ../src/dialogs/dialog-analysis-tools.c:755
+#: ../src/dialogs/dialog-analysis-tools.c:756
 msgid "The selected input areas must have equal size!"
 msgstr "Les àrees d'entrada seleccionades han de ser d'igual mida."
 
-#: ../src/dialogs/dialog-analysis-tools.c:683
+#: ../src/dialogs/dialog-analysis-tools.c:684
 msgid "Could not create the Correlation Tool dialog."
 msgstr "No s'ha pogut crear el diàleg d'eina de correlació."
 
-#: ../src/dialogs/dialog-analysis-tools.c:802
+#: ../src/dialogs/dialog-analysis-tools.c:804
 msgid "Could not create the Covariance Tool dialog."
 msgstr "No s'ha pogut crear el diàleg de l'eina de la covariància."
 
-#: ../src/dialogs/dialog-analysis-tools.c:892
+#: ../src/dialogs/dialog-analysis-tools.c:896
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr "No s'ha pogut crear el diàleg de les eines de percentil i de rang."
 
-#: ../src/dialogs/dialog-analysis-tools.c:983
+#: ../src/dialogs/dialog-analysis-tools.c:989
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "No s'ha pogut crear el diàleg de l'eina de l'anàlisi de Fourier."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1112
+#: ../src/dialogs/dialog-analysis-tools.c:1118
 msgid "No statistics are selected."
 msgstr "No s'ha seleccionat cap estadística"
 
-#: ../src/dialogs/dialog-analysis-tools.c:1122
+#: ../src/dialogs/dialog-analysis-tools.c:1128
 msgid "The confidence level should be between 0 and 1."
 msgstr "El nivell de confiança ha d'estar entre 0 i 1."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1134
-#: ../src/dialogs/dialog-analysis-tools.c:1145
+#: ../src/dialogs/dialog-analysis-tools.c:1140
+#: ../src/dialogs/dialog-analysis-tools.c:1151
 msgid "K must be a positive integer."
 msgstr "K ha de ser un enter positiu."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1194
+#: ../src/dialogs/dialog-analysis-tools.c:1202
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "No s'ha pogut crear el diàleg de les eines d'estadística descriptiva."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1339
+#: ../src/dialogs/dialog-analysis-tools.c:1347
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -5901,7 +5909,7 @@ msgstr ""
 "Introduïu una variància\n"
 "de població vàlida per a la variable 1."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1348
+#: ../src/dialogs/dialog-analysis-tools.c:1356
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -5909,113 +5917,113 @@ msgstr ""
 "Introduïu una variància\n"
 "de població vàlida per a la variable 2."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1564
+#: ../src/dialogs/dialog-analysis-tools.c:1577
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "No s'ha pogut crear el diàleg de les eines del test per a la mitjana."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1751
+#: ../src/dialogs/dialog-analysis-tools.c:1765
 msgid "Could not create the FTest Tool dialog."
 msgstr "No s'ha pogut crear el diàleg de l'eina FTest."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1811
+#: ../src/dialogs/dialog-analysis-tools.c:1825
 msgid "The requested number of samples is invalid."
 msgstr "El rang de mostres sol·licitat no és vàlid."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1824
+#: ../src/dialogs/dialog-analysis-tools.c:1838
 msgid "The requested period is invalid."
 msgstr "El període sol·licitat no és vàlid."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1832
+#: ../src/dialogs/dialog-analysis-tools.c:1846
 msgid "The requested offset is invalid."
 msgstr "El desplaçament sol·licitat no és vàlid."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1841
+#: ../src/dialogs/dialog-analysis-tools.c:1855
 msgid "The requested sample size is invalid."
 msgstr "La mida de mostra sol·licitada no és vàlida."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1999
+#: ../src/dialogs/dialog-analysis-tools.c:2015
 msgid "Could not create the Sampling Tool dialog."
 msgstr "No s'ha pogut crear el diàleg de l'eina de mostreig."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2178
-#: ../src/dialogs/dialog-analysis-tools.c:2189
+#: ../src/dialogs/dialog-analysis-tools.c:2194
+#: ../src/dialogs/dialog-analysis-tools.c:2205
 msgid "The y variable range is invalid."
 msgstr "El rang de la variable y no és vàlid."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2195
+#: ../src/dialogs/dialog-analysis-tools.c:2211
 msgid "The y variable range must be a vector (n by 1 or 1 by n)."
 msgstr "El rang de la variable y ha de ser un vector (d'n per 1 o d'1 per n)."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2201
+#: ../src/dialogs/dialog-analysis-tools.c:2217
 msgid "The y variable range is to small"
 msgstr "El rang de la variable y és massa petit"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2210
-#: ../src/dialogs/dialog-analysis-tools.c:2221
+#: ../src/dialogs/dialog-analysis-tools.c:2226
+#: ../src/dialogs/dialog-analysis-tools.c:2237
 msgid "The x variables range is invalid."
 msgstr "El rang de les variables x no és vàlid."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2228
+#: ../src/dialogs/dialog-analysis-tools.c:2244
 msgid "The sizes of the x variable and y variable ranges do not match."
 msgstr "Les mides de la variable x i de la variable y no concorden."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2237
+#: ../src/dialogs/dialog-analysis-tools.c:2253
 msgid "The confidence level is invalid."
 msgstr "El nivell de confiança no és vàlid."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2281
+#: ../src/dialogs/dialog-analysis-tools.c:2302
 msgid "Could not create the Regression Tool dialog."
 msgstr "No s'ha pogut crear el diàleg de l'eina de la regressió."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2395
+#: ../src/dialogs/dialog-analysis-tools.c:2416
 msgid "The given seasonal damping factor is invalid."
 msgstr "El factor d'esmorteïment estacional especificat no és vàlid."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2404
+#: ../src/dialogs/dialog-analysis-tools.c:2425
 msgid "The given seasonal period is invalid."
 msgstr "El període estacional especificat no és vàlid."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2415
+#: ../src/dialogs/dialog-analysis-tools.c:2436
 msgid "The given growthdamping factor is invalid."
 msgstr "El factor d'esmorteïment del creixement especificat no és vàlid."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2427
+#: ../src/dialogs/dialog-analysis-tools.c:2448
 msgid "The given damping factor is invalid."
 msgstr "El factor d'esmorteïment especificat no és vàlid."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2552
+#: ../src/dialogs/dialog-analysis-tools.c:2578
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "No s'ha pogut crear el diàleg de l'eina de suavitzat exponencial."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2749
+#: ../src/dialogs/dialog-analysis-tools.c:2775
 msgid "The given interval is invalid."
 msgstr "L'interval especificat no és vàlid."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2759
+#: ../src/dialogs/dialog-analysis-tools.c:2785
 msgid "The given offset is invalid."
 msgstr "El desplaçament especificat no és vàlid."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2916
+#: ../src/dialogs/dialog-analysis-tools.c:2946
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "No s'ha pogut crear el diàleg d'eina de mitjana mòbil."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3034
+#: ../src/dialogs/dialog-analysis-tools.c:3064
 msgid "The cutoff range is not valid."
 msgstr "El rang de tall no és vàlid."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3041
+#: ../src/dialogs/dialog-analysis-tools.c:3071
 msgid "The number of to be calculated cutoffs is invalid."
 msgstr "El nombre de talls a calcular no és vàlid."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3179
+#: ../src/dialogs/dialog-analysis-tools.c:3212
 msgid "Could not create the Histogram Tool dialog."
 msgstr "No s'ha pogut crear el diàleg d'eina de l'histograma."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3355
+#: ../src/dialogs/dialog-analysis-tools.c:3389
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "No s'ha pogut crear el diàleg de l'Eina ANOVA (factor únic)."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3435
+#: ../src/dialogs/dialog-analysis-tools.c:3469
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -6023,7 +6031,7 @@ msgstr ""
 "El rang d'entrada introduït hauria de contenir almenys dues columnes i dues "
 "files de dades i les etiquetes."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3438
+#: ../src/dialogs/dialog-analysis-tools.c:3472
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
@@ -6031,7 +6039,7 @@ msgstr ""
 "El rang d'entrada introduït hauria de contenir almenys dues columnes i dues "
 "files de dades."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3444
+#: ../src/dialogs/dialog-analysis-tools.c:3478
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
@@ -6039,13 +6047,13 @@ msgstr ""
 "El rang d'entrada introduït hauria de contenir almenys dues columnes de "
 "dades i les etiquetes."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3447
+#: ../src/dialogs/dialog-analysis-tools.c:3481
 msgid "The given input range should contain at least two columns of data."
 msgstr ""
 "El rang d'entrada introduït hauria de contenir almenys dues columnes de "
 "dades."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3453
+#: ../src/dialogs/dialog-analysis-tools.c:3487
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
@@ -6053,22 +6061,22 @@ msgstr ""
 "El rang d'entrada introduït hauria de contenir almenys dues files de dades i "
 "les etiquetes."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3456
+#: ../src/dialogs/dialog-analysis-tools.c:3490
 msgid "The given input range should contain at least two rows of data."
 msgstr ""
 "El rang d'entrada introduït hauria de contenir almenys dues files de dades."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3463
+#: ../src/dialogs/dialog-analysis-tools.c:3497
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr ""
 "El nombre de files de dades ha de ser un múltiple del nombre de la "
 "replicació."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3533
+#: ../src/dialogs/dialog-analysis-tools.c:3567
 msgid "The number of rows per sample should be a positive integer."
 msgstr "El nombre de files per mostra hauria de ser un enter positiu."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3579
+#: ../src/dialogs/dialog-analysis-tools.c:3620
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "No s'ha pogut crear el diàleg de l'eina ANOVA (dos factors)."
 
@@ -6207,7 +6215,7 @@ msgid "Double"
 msgstr "Doble"
 
 #: ../src/dialogs/dialog-cell-format.c:479 ../src/dialogs/dialog-search.c:153
-#: ../src/func.c:1021 ../src/wbc-gtk-actions.c:2311
+#: ../src/func.c:1025 ../src/wbc-gtk-actions.c:2311
 msgid "Number"
 msgstr "Nombre"
 
@@ -6524,55 +6532,55 @@ msgstr "Funció/argument"
 msgid "Could not create the formula guru."
 msgstr "No s'ha pogut crear l'expert en fórmules."
 
-#: ../src/dialogs/dialog-function-select.c:216
+#: ../src/dialogs/dialog-function-select.c:215
 msgid "Recently Used"
 msgstr "Usades recentment"
 
-#: ../src/dialogs/dialog-function-select.c:221
+#: ../src/dialogs/dialog-function-select.c:220
 msgid "All Functions (long list)"
 msgstr "Totes les funcions (llista llarga)"
 
-#: ../src/dialogs/dialog-function-select.c:438
+#: ../src/dialogs/dialog-function-select.c:437
 #, fuzzy, c-format
 msgid "%s evaluates to %s."
 msgstr "%s versió %s"
 
-#: ../src/dialogs/dialog-function-select.c:497
+#: ../src/dialogs/dialog-function-select.c:496
 msgid "Arguments:"
 msgstr "Arguments:"
 
-#: ../src/dialogs/dialog-function-select.c:517
+#: ../src/dialogs/dialog-function-select.c:516
 msgid "Note: "
 msgstr "Nota: "
 
-#: ../src/dialogs/dialog-function-select.c:529
+#: ../src/dialogs/dialog-function-select.c:528
 msgid "Examples:"
 msgstr "Exemples:"
 
 #. Not translated
-#: ../src/dialogs/dialog-function-select.c:545
+#: ../src/dialogs/dialog-function-select.c:544
 msgid "See also: "
 msgstr "Vegeu també: "
 
-#: ../src/dialogs/dialog-function-select.c:560
+#: ../src/dialogs/dialog-function-select.c:559
 msgid ", "
 msgstr ", "
 
-#: ../src/dialogs/dialog-function-select.c:592
+#: ../src/dialogs/dialog-function-select.c:591
 #, fuzzy
 msgid "Further information: "
 msgstr "Informació del sistema"
 
-#: ../src/dialogs/dialog-function-select.c:594
+#: ../src/dialogs/dialog-function-select.c:593
 #, fuzzy
 msgid "online descriptions"
 msgstr "Descripció"
 
-#: ../src/dialogs/dialog-function-select.c:605
+#: ../src/dialogs/dialog-function-select.c:604
 msgid "Microsoft Excel: "
 msgstr ""
 
-#: ../src/dialogs/dialog-function-select.c:613
+#: ../src/dialogs/dialog-function-select.c:612
 msgid "ODF (OpenFormula): "
 msgstr ""
 
@@ -6964,75 +6972,75 @@ msgstr "Capçalera i peu de pàgina"
 msgid "Screen"
 msgstr "Pantalla"
 
-#: ../src/dialogs/dialog-printer-setup.c:708
+#: ../src/dialogs/dialog-printer-setup.c:698
 msgid "points"
 msgstr "punts"
 
-#: ../src/dialogs/dialog-printer-setup.c:712
+#: ../src/dialogs/dialog-printer-setup.c:702
 msgid "inches"
 msgstr "polzades"
 
-#: ../src/dialogs/dialog-printer-setup.c:716
+#: ../src/dialogs/dialog-printer-setup.c:706
 msgid "mm"
 msgstr "mm"
 
-#: ../src/dialogs/dialog-printer-setup.c:1479
+#: ../src/dialogs/dialog-printer-setup.c:1469
 msgid "Default date format"
 msgstr "Format de data predeterminat"
 
-#: ../src/dialogs/dialog-printer-setup.c:1485
+#: ../src/dialogs/dialog-printer-setup.c:1475
 msgid "Custom date format"
 msgstr "Format de data personalitzat"
 
-#: ../src/dialogs/dialog-printer-setup.c:1517
+#: ../src/dialogs/dialog-printer-setup.c:1507
 msgid "Default time format"
 msgstr "Format d'hora predeterminat"
 
-#: ../src/dialogs/dialog-printer-setup.c:1523
+#: ../src/dialogs/dialog-printer-setup.c:1513
 msgid "Custom time format"
 msgstr "Format d'hora personalitzat"
 
-#: ../src/dialogs/dialog-printer-setup.c:1562
+#: ../src/dialogs/dialog-printer-setup.c:1552
 msgid "$A$1 (first cell of this worksheet)"
 msgstr "$A$1 (primera cel·la d'aquest full de treball)"
 
-#: ../src/dialogs/dialog-printer-setup.c:1627
+#: ../src/dialogs/dialog-printer-setup.c:1617
 msgid "Custom header configuration"
 msgstr "Configuració de la capçalera personalitzada"
 
-#: ../src/dialogs/dialog-printer-setup.c:1632
+#: ../src/dialogs/dialog-printer-setup.c:1622
 msgid "Custom footer configuration"
 msgstr "Configuració del peu de pàgina personalitzat"
 
-#: ../src/dialogs/dialog-printer-setup.c:1781
+#: ../src/dialogs/dialog-printer-setup.c:1771
 msgid "Date format selection"
 msgstr "Selecció del format de data"
 
-#: ../src/dialogs/dialog-printer-setup.c:1783
+#: ../src/dialogs/dialog-printer-setup.c:1773
 msgid "Time format selection"
 msgstr "Selecció del format d'hora"
 
-#: ../src/dialogs/dialog-printer-setup.c:2195
+#: ../src/dialogs/dialog-printer-setup.c:2192
 #, c-format
 msgid "%.0f pixels wide by %.0f pixels tall"
 msgstr "%.0f píxels d'amplada per %.0f píxels d'alçada"
 
-#: ../src/dialogs/dialog-printer-setup.c:2198
+#: ../src/dialogs/dialog-printer-setup.c:2195
 #, c-format
 msgid "%.0f points wide by %.0f points tall"
 msgstr "%.0f punts d'amplada per %.0f punts d'alçada"
 
-#: ../src/dialogs/dialog-printer-setup.c:2201
+#: ../src/dialogs/dialog-printer-setup.c:2198
 #, c-format
 msgid "%.1f in wide by %.1f in tall"
 msgstr "%.1f polzades d'amplada per %.1f polzades d'alçada"
 
-#: ../src/dialogs/dialog-printer-setup.c:2204
+#: ../src/dialogs/dialog-printer-setup.c:2201
 #, c-format
 msgid "%.0f mm wide by %.0f mm tall"
 msgstr "%.0f mm d'amplada per %.0f mm d'alçada"
 
-#: ../src/dialogs/dialog-printer-setup.c:2207
+#: ../src/dialogs/dialog-printer-setup.c:2204
 #, c-format
 msgid "%.1f wide by %.1f tall"
 msgstr "%.1f d'amplada per %.1f d'alçada"
@@ -7465,7 +7473,7 @@ msgstr "Dir"
 
 #: ../src/dialogs/dialog-sheet-order.c:719
 #: ../src/dialogs/sheet-resize.glade.h:5 ../src/sheet-object-graph.c:669
-#: ../src/sheet.c:995
+#: ../src/sheet.c:1008
 msgid "Rows"
 msgstr "Files"
 
@@ -7869,39 +7877,39 @@ msgid_plural "A maximum of %d columns can be imported."
 msgstr[0] "Es pot importar %d columna com a màxim."
 msgstr[1] "Es poden importar %d columnes com a màxim."
 
-#: ../src/dialogs/dialog-stf-format-page.c:318
+#: ../src/dialogs/dialog-stf-format-page.c:325
 msgid "Ignore all columns on right"
 msgstr "Ignora les columnes a la dreta"
 
-#: ../src/dialogs/dialog-stf-format-page.c:319
+#: ../src/dialogs/dialog-stf-format-page.c:326
 msgid "Ignore all columns on left"
 msgstr "Ignora les columnes a l'esquerra"
 
-#: ../src/dialogs/dialog-stf-format-page.c:320
+#: ../src/dialogs/dialog-stf-format-page.c:327
 msgid "Import all columns on right"
 msgstr "Importa les columnes a la dreta"
 
-#: ../src/dialogs/dialog-stf-format-page.c:321
+#: ../src/dialogs/dialog-stf-format-page.c:328
 msgid "Import all columns on left"
 msgstr "Importa les columnes a l'esquerra"
 
-#: ../src/dialogs/dialog-stf-format-page.c:322
+#: ../src/dialogs/dialog-stf-format-page.c:329
 msgid "Copy format to right"
 msgstr "Copia el format a la dreta"
 
-#: ../src/dialogs/dialog-stf-format-page.c:512
+#: ../src/dialogs/dialog-stf-format-page.c:519
 #, c-format
 msgid "A maximum of %d columns can be imported."
 msgstr "Es poden importar %d columnes com a màxim."
 
-#: ../src/dialogs/dialog-stf-format-page.c:543
+#: ../src/dialogs/dialog-stf-format-page.c:550
 msgid ""
 "If this checkbox is selected, the column will be imported into Gnumeric."
 msgstr ""
 "Si se selecciona aquesta casella de verificació, la columna s'importarà en "
 "el Gnumeric."
 
-#: ../src/dialogs/dialog-stf-format-page.c:696
+#: ../src/dialogs/dialog-stf-format-page.c:703
 #: ../src/dialogs/dialog-stf-preview.h:24
 #: ../src/tools/analysis-exp-smoothing.c:152
 #: ../src/tools/analysis-exp-smoothing.c:327
@@ -8005,7 +8013,7 @@ msgid "Column selection"
 msgstr "Selecció de columnes"
 
 #: ../src/dialogs/dialog-stf.glade.h:15 ../src/dialogs/sheet-resize.glade.h:3
-#: ../src/sheet-object-graph.c:668 ../src/sheet.c:988
+#: ../src/sheet-object-graph.c:668 ../src/sheet.c:1001
 msgid "Columns"
 msgstr "Columnes"
 
@@ -9677,55 +9685,60 @@ msgstr "Reemplaçar"
 msgid "Scope"
 msgstr "Àmbit"
 
-#: ../src/dialogs/search-replace.glade.h:29
+#: ../src/dialogs/search-replace.glade.h:29 ../src/dialogs/search.glade.h:15
 msgid "Search"
 msgstr "Cerca"
 
-#: ../src/dialogs/search-replace.glade.h:31
+#: ../src/dialogs/search-replace.glade.h:30
+#, fuzzy
+msgid "Search & Replace"
+msgstr "Cercar i reemplaçar"
+
+#: ../src/dialogs/search-replace.glade.h:32
 msgid "Search and Replace Query"
 msgstr "Consulta per cercar i reemplaçar"
 
-#: ../src/dialogs/search-replace.glade.h:32
+#: ../src/dialogs/search-replace.glade.h:33
 msgid "Search and replace in all cells in the workbook"
 msgstr "Cerca i reemplaça a totes les cel·les del llibre de treball"
 
-#: ../src/dialogs/search-replace.glade.h:33
+#: ../src/dialogs/search-replace.glade.h:34
 msgid "Search and replace in current sheet only"
 msgstr "Cerca i reemplaça només al full actual"
 
-#: ../src/dialogs/search-replace.glade.h:34
+#: ../src/dialogs/search-replace.glade.h:35
 msgid "Search and replace in specified range only"
 msgstr "Cerca i reemplaça només al rang especificat"
 
-#: ../src/dialogs/search-replace.glade.h:35 ../src/dialogs/search.glade.h:17
+#: ../src/dialogs/search-replace.glade.h:36 ../src/dialogs/search.glade.h:17
 msgid "Search column by column"
 msgstr "Cerca columna per columna"
 
-#: ../src/dialogs/search-replace.glade.h:36 ../src/dialogs/search.glade.h:21
+#: ../src/dialogs/search-replace.glade.h:37 ../src/dialogs/search.glade.h:21
 msgid "Search line by line"
 msgstr "Cerca línia per línia"
 
-#: ../src/dialogs/search-replace.glade.h:37
+#: ../src/dialogs/search-replace.glade.h:38
 msgid "Skip cells that that would result in errors"
 msgstr "Omet les cel·les que puguin resultar en error"
 
-#: ../src/dialogs/search-replace.glade.h:38 ../src/dialogs/search.glade.h:26
+#: ../src/dialogs/search-replace.glade.h:39 ../src/dialogs/search.glade.h:26
 msgid "The search text is a regular expression"
 msgstr "El text de cerca és una expressió habitual"
 
-#: ../src/dialogs/search-replace.glade.h:39 ../src/dialogs/search.glade.h:27
+#: ../src/dialogs/search-replace.glade.h:40 ../src/dialogs/search.glade.h:27
 msgid "The search text is taken literally."
 msgstr "El text de cerca es pren literalment."
 
-#: ../src/dialogs/search-replace.glade.h:40
+#: ../src/dialogs/search-replace.glade.h:41
 msgid "Turn unparsable entries into string values"
 msgstr "Canvia les entrades que no es puguin analitzar en valors de cadenes"
 
-#: ../src/dialogs/search-replace.glade.h:41 ../src/dialogs/search.glade.h:28
+#: ../src/dialogs/search-replace.glade.h:42 ../src/dialogs/search.glade.h:28
 msgid "When set, do not distinguish between upper and lower case letters"
 msgstr "En definir, no distingeixis entre majúscules i minúscules"
 
-#: ../src/dialogs/search-replace.glade.h:42
+#: ../src/dialogs/search-replace.glade.h:43
 msgid ""
 "When set, string values will remain as such after replacement, even if they "
 "look like numbers or expressions"
@@ -9733,71 +9746,71 @@ msgstr ""
 "En definir, els valors de les cadenes es mantindran iguals després del "
 "reemplaçament, encara que semblin nombres o expressions."
 
-#: ../src/dialogs/search-replace.glade.h:43
+#: ../src/dialogs/search-replace.glade.h:44
 msgid "_Column major"
 msgstr "_Columna major"
 
-#: ../src/dialogs/search-replace.glade.h:44 ../src/dialogs/search.glade.h:29
+#: ../src/dialogs/search-replace.glade.h:45 ../src/dialogs/search.glade.h:29
 msgid "_Comments"
 msgstr "_Comentaris"
 
-#: ../src/dialogs/search-replace.glade.h:45 ../src/dialogs/search.glade.h:30
+#: ../src/dialogs/search-replace.glade.h:46 ../src/dialogs/search.glade.h:30
 msgid "_Current sheet"
 msgstr "Full a_ctual"
 
-#: ../src/dialogs/search-replace.glade.h:46
+#: ../src/dialogs/search-replace.glade.h:47
 msgid "_Don't change"
 msgstr "_No canviïs"
 
-#: ../src/dialogs/search-replace.glade.h:47 ../src/dialogs/search.glade.h:31
+#: ../src/dialogs/search-replace.glade.h:48 ../src/dialogs/search.glade.h:31
 msgid "_Entire workbook"
 msgstr "Tot _el llibre de treball"
 
-#: ../src/dialogs/search-replace.glade.h:48 ../src/dialogs/search.glade.h:32
+#: ../src/dialogs/search-replace.glade.h:49 ../src/dialogs/search.glade.h:32
 msgid "_Expressions"
 msgstr "_Expressions"
 
-#: ../src/dialogs/search-replace.glade.h:49
+#: ../src/dialogs/search-replace.glade.h:50
 msgid "_Fail"
 msgstr "_Fallida"
 
-#: ../src/dialogs/search-replace.glade.h:50 ../src/dialogs/search.glade.h:33
+#: ../src/dialogs/search-replace.glade.h:51 ../src/dialogs/search.glade.h:33
 msgid "_Ignore case"
 msgstr "Considera _iguals majúscules i minúscules"
 
-#: ../src/dialogs/search-replace.glade.h:51
+#: ../src/dialogs/search-replace.glade.h:52
 msgid "_Keep strings as strings"
 msgstr "_Manté les cadenes com a cadenes"
 
-#: ../src/dialogs/search-replace.glade.h:52 ../src/dialogs/search.glade.h:35
+#: ../src/dialogs/search-replace.glade.h:53 ../src/dialogs/search.glade.h:35
 msgid "_Other values"
 msgstr "Altres val_ors"
 
-#: ../src/dialogs/search-replace.glade.h:53 ../src/dialogs/search.glade.h:36
+#: ../src/dialogs/search-replace.glade.h:54 ../src/dialogs/search.glade.h:36
 msgid "_Plain text"
 msgstr "Text sim_ple"
 
-#: ../src/dialogs/search-replace.glade.h:54
+#: ../src/dialogs/search-replace.glade.h:55
 msgid "_Preserve case"
 msgstr "_Preserva majúscula/minúscula"
 
-#: ../src/dialogs/search-replace.glade.h:55
+#: ../src/dialogs/search-replace.glade.h:56
 msgid "_Query"
 msgstr "_Consulta"
 
-#: ../src/dialogs/search-replace.glade.h:56
+#: ../src/dialogs/search-replace.glade.h:57
 msgid "_Replace by"
 msgstr "_Reemplaça per"
 
-#: ../src/dialogs/search-replace.glade.h:57 ../src/dialogs/search.glade.h:39
+#: ../src/dialogs/search-replace.glade.h:58 ../src/dialogs/search.glade.h:39
 msgid "_Row major"
 msgstr "_Fila major"
 
-#: ../src/dialogs/search-replace.glade.h:58
+#: ../src/dialogs/search-replace.glade.h:59
 msgid "_Search for"
 msgstr "_Cerca"
 
-#: ../src/dialogs/search-replace.glade.h:59 ../src/dialogs/search.glade.h:41
+#: ../src/dialogs/search-replace.glade.h:60 ../src/dialogs/search.glade.h:41
 msgid "_Strings"
 msgstr "_Text"
 
@@ -9840,10 +9853,6 @@ msgstr "Coincidències"
 #: ../src/dialogs/search.glade.h:12
 msgid "Miscellaneous"
 msgstr "Miscel·lània"
-
-#: ../src/dialogs/search.glade.h:15
-msgid "Search Center"
-msgstr "Centre de cerca"
 
 #: ../src/dialogs/search.glade.h:16
 msgid "Search cells containing"
@@ -10489,49 +10498,49 @@ msgstr ""
 "avaluarà i retornarà el segon argument. En cas contrari, avaluarà i "
 "retornarà el darrer argument."
 
-#: ../src/func-builtin.c:369
+#: ../src/func-builtin.c:372
 msgid "condition,if true,if false"
 msgstr "condició,si cert,si fals"
 
-#: ../src/func-builtin.c:382
+#: ../src/func-builtin.c:386
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: ../src/func.c:299
+#: ../src/func.c:300
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "No es pot crear el fitxer %s\n"
 
-#: ../src/func.c:628
+#: ../src/func.c:621
 msgid "Function implementation not available."
 msgstr "No està disponible la implementació de la funció."
 
-#: ../src/func.c:843
+#: ../src/func.c:846
 msgid "Unknown Function"
 msgstr "Funció desconeguda"
 
-#: ../src/func.c:1025
+#: ../src/func.c:1029
 msgid "Boolean"
 msgstr "Booleà"
 
-#: ../src/func.c:1027
+#: ../src/func.c:1031
 msgid "Cell Range"
 msgstr "Rang de la cel·la"
 
-#: ../src/func.c:1029
+#: ../src/func.c:1033
 msgid "Area"
 msgstr "Àrea"
 
-#: ../src/func.c:1031
+#: ../src/func.c:1035
 msgid "Scalar, Blank, or Error"
 msgstr "Escalar, en blanc o error"
 
-#: ../src/func.c:1033
+#: ../src/func.c:1037
 msgid "Scalar"
 msgstr "Escalar"
 
 #. Missing values will be NULL.
-#: ../src/func.c:1036
+#: ../src/func.c:1040
 msgid "Any"
 msgstr "Qualsevol"
 
@@ -10585,49 +10594,49 @@ msgstr ""
 "%.1f x %.1f pts\n"
 "%d x %d píxels"
 
-#: ../src/gnm-plugin.c:113
+#: ../src/gnm-plugin.c:121
 msgid "Missing function category name."
 msgstr "Manca el nom de la categoria de la funció."
 
-#: ../src/gnm-plugin.c:117
+#: ../src/gnm-plugin.c:125
 msgid "Function group is empty."
 msgstr "El grup de funció està buit."
 
-#: ../src/gnm-plugin.c:145
+#: ../src/gnm-plugin.c:155
 msgid "No func_desc_load method.\n"
 msgstr "No hi ha mètode func_desc_load.\n"
 
-#: ../src/gnm-plugin.c:214
+#: ../src/gnm-plugin.c:225
 #, c-format
 msgid "%d function in category \"%s\""
 msgid_plural "Group of %d functions in category \"%s\""
 msgstr[0] "%d funció en la categoria «%s»"
 msgstr[1] "grup de %d funcions en la categoria «%s»"
 
-#: ../src/gnm-plugin.c:321
+#: ../src/gnm-plugin.c:334
 msgid "Missing file name."
 msgstr "Manca el nom del fitxer"
 
-#: ../src/gnm-plugin.c:370
+#: ../src/gnm-plugin.c:383
 #, c-format
 msgid "Cannot read UI description from XML file %s: %s"
 msgstr ""
 "No es pot llegir la descripció de la interfície gràfica del fitxer XML %s: %s"
 
 #. xgettext : %d gives the number of actions. This is input to ngettext.
-#: ../src/gnm-plugin.c:411
+#: ../src/gnm-plugin.c:424
 #, c-format
 msgid "User interface with %d action"
 msgid_plural "User interface with %d actions"
 msgstr[0] "Interfície d'usuari amb %d acció"
 msgstr[1] "Interfície d'usuari amb %d accions"
 
-#: ../src/gnm-plugin.c:511 ../src/gnm-plugin.c:583
+#: ../src/gnm-plugin.c:524 ../src/gnm-plugin.c:596
 #, c-format
 msgid "Module file \"%s\" has invalid format."
 msgstr "El fitxer del mòdul «%s» té un format invàlid."
 
-#: ../src/gnm-plugin.c:515 ../src/gnm-plugin.c:586
+#: ../src/gnm-plugin.c:528 ../src/gnm-plugin.c:599
 #, c-format
 msgid "File doesn't contain \"%s\" array."
 msgstr "El fitxer no conté el vector «%s»."
@@ -10711,6 +10720,16 @@ msgstr "Errors múltiples\n"
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "No es pot obrir el fitxer «%s»"
+
+#: ../src/gui-util.c:1383
+#, c-format
+msgid "The plugin with id %s is required but cannot be found."
+msgstr ""
+
+#: ../src/gui-util.c:1391
+#, c-format
+msgid "The %s plugin is required but is not loaded."
+msgstr ""
 
 #: ../src/hlink.c:161 ../src/hlink.c:177
 msgid "Link target"
@@ -11549,7 +11568,7 @@ msgid "Cut"
 msgstr "Retalla"
 
 #. Oh, yeah?
-#: ../src/sheet.c:642
+#: ../src/sheet.c:653
 msgid ""
 "This is a special version of Gnumeric.  It has been compiled\n"
 "with support for a very large number of columns.  Access to the\n"
@@ -11561,319 +11580,319 @@ msgstr ""
 "columna anomenada VERTADER pot causar conflictes amb la constant del\n"
 "mateix nom. Espereu fenòmens estranys."
 
-#: ../src/sheet.c:803
+#: ../src/sheet.c:816
 #, fuzzy
 msgid "Sheet Type"
 msgstr "Full"
 
-#: ../src/sheet.c:804
+#: ../src/sheet.c:817
 #, fuzzy
 msgid "How type of sheet this is."
 msgstr "Com és el full de visible."
 
-#: ../src/sheet.c:812
+#: ../src/sheet.c:825
 #, fuzzy
 msgid "Parent workbook"
 msgstr "_Protegeix el llibre de treball"
 
-#: ../src/sheet.c:813
+#: ../src/sheet.c:826
 msgid "The workbook in which this sheet lives"
 msgstr ""
 
-#: ../src/sheet.c:820
+#: ../src/sheet.c:833
 msgid "The name of the sheet."
 msgstr "El nom del full."
 
-#: ../src/sheet.c:825
+#: ../src/sheet.c:838
 msgid "text-is-rtl"
 msgstr "text-és-rtl"
 
-#: ../src/sheet.c:826
+#: ../src/sheet.c:839
 msgid "Text goes from right to left."
 msgstr "El text va de dreta a esquerra."
 
-#: ../src/sheet.c:831
+#: ../src/sheet.c:844
 msgid "Visibility"
 msgstr "Visibilitat"
 
-#: ../src/sheet.c:832
+#: ../src/sheet.c:845
 msgid "How visible the sheet is."
 msgstr "Com és el full de visible."
 
-#: ../src/sheet.c:838
+#: ../src/sheet.c:851
 msgid "Display Formulas"
 msgstr "Mostra les fórmules"
 
-#: ../src/sheet.c:839
+#: ../src/sheet.c:852
 msgid "Control whether formulas are shown instead of values."
 msgstr "Controla si es mostren les fórmules en comptes dels valors."
 
-#: ../src/sheet.c:844
+#: ../src/sheet.c:857
 msgid "Display Zeros"
 msgstr "Mostra els zeros"
 
-#: ../src/sheet.c:845
+#: ../src/sheet.c:858
 msgid "Control whether zeros are shown are blanked out."
 msgstr "Controla si es mostren els zeros."
 
-#: ../src/sheet.c:850
+#: ../src/sheet.c:863
 msgid "Display Grid"
 msgstr "Mostra la graella"
 
-#: ../src/sheet.c:851
+#: ../src/sheet.c:864
 msgid "Control whether the grid is shown."
 msgstr "Controla si es mostra la graella."
 
-#: ../src/sheet.c:856
+#: ../src/sheet.c:869
 msgid "Display Column Headers"
 msgstr "Mostra les capçaleres de les columnes"
 
-#: ../src/sheet.c:857
+#: ../src/sheet.c:870
 msgid "Control whether column headers are shown."
 msgstr "Controla si es mostren les capçaleres de les columnes."
 
-#: ../src/sheet.c:862
+#: ../src/sheet.c:875
 msgid "Display Row Headers"
 msgstr "Mostra les capçaleres de les files"
 
-#: ../src/sheet.c:863
+#: ../src/sheet.c:876
 msgid "Control whether row headers are shown."
 msgstr "Controla si es mostren les capçaleres de les files."
 
-#: ../src/sheet.c:868
+#: ../src/sheet.c:881
 msgid "Display Outlines"
 msgstr "Mostra els contorns"
 
-#: ../src/sheet.c:869
+#: ../src/sheet.c:882
 msgid "Control whether outlines are shown."
 msgstr "Controla si es mostren els contorns."
 
-#: ../src/sheet.c:874
+#: ../src/sheet.c:887
 msgid "Display Outlines Below"
 msgstr "Mostra els contorns a sota"
 
-#: ../src/sheet.c:875
+#: ../src/sheet.c:888
 msgid "Control whether outline symbols are shown below."
 msgstr "Controla si es mostren els símbols de contorn a sota."
 
-#: ../src/sheet.c:880
+#: ../src/sheet.c:893
 msgid "Display Outlines Right"
 msgstr "Mostra els contorns a la dreta"
 
-#: ../src/sheet.c:881
+#: ../src/sheet.c:894
 msgid "Control whether outline symbols are shown to the right."
 msgstr "Controla si es mostren els símbols de contorn a la dreta."
 
-#: ../src/sheet.c:887 ../src/workbook-view.c:883
+#: ../src/sheet.c:900 ../src/workbook-view.c:883
 msgid "Protected"
 msgstr "Protegit"
 
-#: ../src/sheet.c:888
+#: ../src/sheet.c:901
 msgid "Sheet is protected."
 msgstr "El full està protegit."
 
-#: ../src/sheet.c:891
+#: ../src/sheet.c:904
 msgid "Protected Allow Edit objects"
 msgstr "Edició d'objectes en mode protegit"
 
-#: ../src/sheet.c:892
+#: ../src/sheet.c:905
 msgid "Allow objects to be edited while a sheet is protected"
 msgstr "Permet editar objectes en un full protegit"
 
-#: ../src/sheet.c:895
+#: ../src/sheet.c:908
 msgid "Protected allow edit scenarios"
 msgstr "Edició d'escenaris en mode protegit"
 
-#: ../src/sheet.c:896
+#: ../src/sheet.c:909
 msgid "Allow scenarios to be edited while a sheet is protected"
 msgstr "Permet editar escenaris en un full protegit"
 
-#: ../src/sheet.c:899
+#: ../src/sheet.c:912
 msgid "Protected allow cell formatting"
 msgstr "Formatació de cel·les en mode protegit"
 
-#: ../src/sheet.c:900
+#: ../src/sheet.c:913
 msgid "Allow cell format changes while a sheet is protected"
 msgstr "Permet modificar el format de les cel·les en un full protegit"
 
-#: ../src/sheet.c:903
+#: ../src/sheet.c:916
 msgid "Protected allow column formatting"
 msgstr "Formatació de columnes en mode protegit"
 
-#: ../src/sheet.c:904
+#: ../src/sheet.c:917
 msgid "Allow column formatting while a sheet is protected"
 msgstr "Permet modificar el format de les columnes en un full protegit"
 
-#: ../src/sheet.c:907
+#: ../src/sheet.c:920
 msgid "Protected allow row formatting"
 msgstr "Formatació de files en mode protegit"
 
-#: ../src/sheet.c:908
+#: ../src/sheet.c:921
 msgid "Allow row formatting while a sheet is protected"
 msgstr "Permet modificar el format de les files en un full protegit"
 
-#: ../src/sheet.c:911
+#: ../src/sheet.c:924
 msgid "Protected allow insert columns"
 msgstr "Inserció de columnes en mode protegit"
 
-#: ../src/sheet.c:912
+#: ../src/sheet.c:925
 msgid "Allow columns to be inserted while a sheet is protected"
 msgstr "Permet inserir columnes en un full protegit"
 
-#: ../src/sheet.c:915
+#: ../src/sheet.c:928
 msgid "Protected allow insert rows"
 msgstr "Inserció de files en mode protegit"
 
-#: ../src/sheet.c:916
+#: ../src/sheet.c:929
 msgid "Allow rows to be inserted while a sheet is protected"
 msgstr "Permet inserir files en un full protegit"
 
-#: ../src/sheet.c:919
+#: ../src/sheet.c:932
 msgid "Protected allow insert hyperlinks"
 msgstr "Inserció d'enllaços en mode protegit"
 
-#: ../src/sheet.c:920
+#: ../src/sheet.c:933
 msgid "Allow hyperlinks to be inserted while a sheet is protected"
 msgstr "Permet inserir enllaços en un full protegit"
 
-#: ../src/sheet.c:923
+#: ../src/sheet.c:936
 msgid "Protected allow delete columns"
 msgstr "Supressió de columnes en mode protegit"
 
-#: ../src/sheet.c:924
+#: ../src/sheet.c:937
 msgid "Allow columns to be deleted while a sheet is protected"
 msgstr "Permet suprimir columnes en un full protegit"
 
-#: ../src/sheet.c:927
+#: ../src/sheet.c:940
 msgid "Protected allow delete rows"
 msgstr "Supressió de files en mode protegit"
 
-#: ../src/sheet.c:928
+#: ../src/sheet.c:941
 msgid "Allow rows to be deleted while a sheet is protected"
 msgstr "Permet suprimir files en un full protegit"
 
-#: ../src/sheet.c:931
+#: ../src/sheet.c:944
 msgid "Protected allow select locked cells"
 msgstr "Selecció de cel·les blocades en un full protegit"
 
-#: ../src/sheet.c:932
+#: ../src/sheet.c:945
 msgid "Allow the user to select locked cells while a sheet is protected"
 msgstr "Permet seleccionar cel·les blocades en un full protegit"
 
-#: ../src/sheet.c:935
+#: ../src/sheet.c:948
 msgid "Protected allow sort ranges"
 msgstr "Ordenació de rangs en mode protegit"
 
-#: ../src/sheet.c:936
+#: ../src/sheet.c:949
 msgid "Allow ranges to be sorted while a sheet is protected"
 msgstr "Permet ordenar rangs en un full protegit"
 
-#: ../src/sheet.c:939
+#: ../src/sheet.c:952
 msgid "Protected allow edit auto filters"
 msgstr "Edició d'autofiltres en mode protegit"
 
-#: ../src/sheet.c:940
+#: ../src/sheet.c:953
 msgid "Allow auto filters to be edited while a sheet is protected"
 msgstr "Permet editar filtres automàtics en un full protegit"
 
-#: ../src/sheet.c:943
+#: ../src/sheet.c:956
 msgid "Protected allow edit pivottable"
 msgstr "Edició de taules principals en mode protegit"
 
-#: ../src/sheet.c:944
+#: ../src/sheet.c:957
 msgid "Allow pivottable to be edited while a sheet is protected"
 msgstr "Permet editar taules principals en un full protegit"
 
-#: ../src/sheet.c:947
+#: ../src/sheet.c:960
 msgid "Protected allow select unlocked cells"
 msgstr "Selecció de cel·les no blocades en un full protegit"
 
-#: ../src/sheet.c:948
+#: ../src/sheet.c:961
 msgid "Allow the user to select unlocked cells while a sheet is protected"
 msgstr "Permet seleccionar cel·les no blocades en un full protegit"
 
-#: ../src/sheet.c:952
+#: ../src/sheet.c:965
 msgid "Display convention for expressions (default Gnumeric A1)"
 msgstr ""
 "Tipus de visualització de les expressions (A1 per defecte en el Gnumeric)"
 
-#: ../src/sheet.c:953
+#: ../src/sheet.c:966
 msgid "How to format displayed expressions, (A1 vs R1C1, function names, ...)"
 msgstr ""
 "Indica com s'han de formatar les expressions en ser visualitzades (A1 o bé "
 "F1C1, noms de les funcions, ...)"
 
 #. convenience wrapper to CONVENTIONS
-#: ../src/sheet.c:957
+#: ../src/sheet.c:970
 msgid "Display convention for expressions as XLS_R1C1 vs default"
 msgstr "Tipus de visualització per a expressions del tipus XLS_F1C1"
 
 # FIXME: conveniència (dpm)
-#: ../src/sheet.c:958
+#: ../src/sheet.c:971
 msgid "How to format displayed expressions, (a convenience api)"
 msgstr ""
 "Indica com s'han de formater les expressions en ser visualitzades, (API de "
 "conveniència)"
 
-#: ../src/sheet.c:964
+#: ../src/sheet.c:977
 msgid "Tab Foreground"
 msgstr "Primer pla de la pestanya"
 
-#: ../src/sheet.c:965
+#: ../src/sheet.c:978
 msgid "The foreground color of the tab."
 msgstr "El color de primer pla de la pestanya."
 
-#: ../src/sheet.c:970
+#: ../src/sheet.c:983
 msgid "Tab Background"
 msgstr "Fons de la pestanya"
 
-#: ../src/sheet.c:971
+#: ../src/sheet.c:984
 msgid "The background color of the tab."
 msgstr "El color de fons de la pestanya."
 
-#: ../src/sheet.c:978
+#: ../src/sheet.c:991
 msgid "Zoom Factor"
 msgstr "Factor d'ampliació"
 
-#: ../src/sheet.c:979
+#: ../src/sheet.c:992
 msgid "The level of zoom used for this sheet."
 msgstr "El factor d'ampliació usat per a aquest full."
 
-#: ../src/sheet.c:989
+#: ../src/sheet.c:1002
 #, fuzzy
 msgid "Columns number in the sheet"
 msgstr "El nom del full."
 
-#: ../src/sheet.c:996
+#: ../src/sheet.c:1009
 #, fuzzy
 msgid "Rows number in the sheet"
 msgstr "El nom del full."
 
-#: ../src/sheet.c:3111
+#: ../src/sheet.c:3122
 msgid "Target region contains merged cells"
 msgstr "La regió de destí conté cel·les fusionades"
 
-#: ../src/sheet.c:3172
+#: ../src/sheet.c:3183
 msgid "cannot operate on merged cells"
 msgstr "no es pot treballar en cel·les fusionades"
 
-#: ../src/sheet.c:3182
+#: ../src/sheet.c:3193
 msgid "cannot operate on array formulae"
 msgstr "no es pot treballar en fórmules de vector"
 
-#: ../src/sheet.c:4408
+#: ../src/sheet.c:4419
 msgid "Insert Columns"
 msgstr "Insereix columnes"
 
-#: ../src/sheet.c:4501
+#: ../src/sheet.c:4512
 msgid "Delete Columns"
 msgstr "Suprimir columnes"
 
-#: ../src/sheet.c:4584
+#: ../src/sheet.c:4595
 msgid "Insert Rows"
 msgstr "Insereix files"
 
-#: ../src/sheet.c:4677
+#: ../src/sheet.c:4688
 msgid "Delete Rows"
 msgstr "Suprimir files"
 
@@ -12829,12 +12848,9 @@ msgstr ""
 msgid "Fourier Transform"
 msgstr "Sèries de Fourier"
 
-#: ../src/tools/analysis-tools.c:4196 ../src/tools/solver/reports-write.c:644
-msgid "Real"
-msgstr "Real"
-
-#: ../src/tools/analysis-tools.c:4197
-msgid "Imaginary"
+#: ../src/tools/analysis-tools.c:4196
+#, fuzzy
+msgid "/Real/Imaginary"
 msgstr "Imaginari"
 
 #: ../src/tools/analysis-tools.c:4249
@@ -13253,6 +13269,10 @@ msgstr "Usuari"
 msgid "System"
 msgstr "Sistema"
 
+#: ../src/tools/solver/reports-write.c:644
+msgid "Real"
+msgstr "Real"
+
 #: ../src/tools/solver/reports-write.c:645
 msgid "Time (sec.)"
 msgstr "Temps (seg.)"
@@ -13460,54 +13480,54 @@ msgstr "Major o igual que"
 msgid "Less than or Equal"
 msgstr "Menor o igual que"
 
-#: ../src/validation.c:279
+#: ../src/validation.c:285
 msgid "Missing formula for validation"
 msgstr "Manca la fórmula per validar"
 
-#: ../src/validation.c:282
+#: ../src/validation.c:288
 msgid "Extra formula for validation"
 msgstr "Fórmula addicional per validar"
 
-#: ../src/validation.c:293
+#: ../src/validation.c:299
 msgid "Gnumeric: Validation"
 msgstr "Gnumeric: validació"
 
-#: ../src/validation.c:356
+#: ../src/validation.c:362
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "La cel·la %s no pot estar en blanc"
 
-#: ../src/validation.c:364
+#: ../src/validation.c:370
 #, c-format
 msgid "Cell %s is not permitted to contain error values"
 msgstr "La cel·la %s no pot contenir valors d'error"
 
-#: ../src/validation.c:375
+#: ../src/validation.c:381
 #, c-format
 msgid "Cell %s is not permitted to contain strings"
 msgstr "La cel·la %s no pot contenir cadenes"
 
-#: ../src/validation.c:391
+#: ../src/validation.c:397
 #, c-format
 msgid "'%s' is not an integer"
 msgstr "«%s» no és un enter"
 
-#: ../src/validation.c:401
+#: ../src/validation.c:407
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "«%s» no és una data vàlida"
 
-#: ../src/validation.c:423
+#: ../src/validation.c:429
 #, c-format
 msgid "%s does not contain the new value."
 msgstr "%s no conté el nou valor."
 
-#: ../src/validation.c:457
+#: ../src/validation.c:463
 #, c-format
 msgid "%s is not true."
 msgstr "%s no és cert."
 
-#: ../src/validation.c:496
+#: ../src/validation.c:502
 #, c-format
 msgid "%s is out of permitted range"
 msgstr "%s està fora del rang permès"
@@ -14150,16 +14170,18 @@ msgid "Edit the selected cell's comment"
 msgstr "Edita el comentari de les cel·les seleccionades"
 
 #: ../src/wbc-gtk-actions.c:1921
-msgid "_Find..."
-msgstr "Ce_rca..."
+#, fuzzy
+msgid "S_earch..."
+msgstr "Cerca"
 
 #: ../src/wbc-gtk-actions.c:1922
 msgid "Search for something"
 msgstr "Cerca alguna cosa"
 
 #: ../src/wbc-gtk-actions.c:1924
-msgid "R_eplace..."
-msgstr "Reemp_laça..."
+#, fuzzy
+msgid "Search _& Replace..."
+msgstr "Cercar i reemplaçar"
 
 #: ../src/wbc-gtk-actions.c:1925
 msgid "Search for something and replace it with something else"
@@ -16202,6 +16224,15 @@ msgstr "Plantilla de llista lila"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "Una plantilla de llista senzilla"
+
+#~ msgid "Search Center"
+#~ msgstr "Centre de cerca"
+
+#~ msgid "_Find..."
+#~ msgstr "Ce_rca..."
+
+#~ msgid "R_eplace..."
+#~ msgstr "Reemp_laça..."
 
 #~ msgid "Error: no recordsets were returned"
 #~ msgstr "Error: no s'ha retornat cap recordset"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gnumeric HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-07-07 19:49-0400\n"
+"POT-Creation-Date: 2009-08-13 18:54-0400\n"
 "PO-Revision-Date: 2003-07-23 23:51+0800\n"
 "Last-Translator: Hasbullah Bin Pit <sebol@ikhlas.com>\n"
 "Language-Team: Projek Gabai <gabai-penyumbang@lists.sourceforge.org>\n"
@@ -75,107 +75,107 @@ msgstr "Antaramuka CORBA"
 msgid "Provides a CORBA scripting interface"
 msgstr "Membekal antaramuka pengskripan CORBA"
 
-#: ../plugins/derivatives/options.c:2278 ../plugins/derivatives/options.c:2283
-#: ../plugins/derivatives/options.c:2288 ../plugins/derivatives/options.c:2293
-#: ../plugins/derivatives/options.c:2308
+#: ../plugins/derivatives/options.c:1973 ../plugins/derivatives/options.c:1978
+#: ../plugins/derivatives/options.c:1983 ../plugins/derivatives/options.c:1988
+#: ../plugins/derivatives/options.c:2003
 msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2298 ../plugins/derivatives/options.c:2303
+#: ../plugins/derivatives/options.c:1993 ../plugins/derivatives/options.c:1998
 msgid "spot, strike, time, rate, volatility, cost_of_carry"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2313
+#: ../plugins/derivatives/options.c:2008
 msgid "a, b, rho"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2318
+#: ../plugins/derivatives/options.c:2013
 msgid ""
 "call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2323
+#: ../plugins/derivatives/options.c:2018
 msgid "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2328
+#: ../plugins/derivatives/options.c:2023
 msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2333
+#: ../plugins/derivatives/options.c:2028
 msgid ""
 "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2338 ../plugins/derivatives/options.c:2348
+#: ../plugins/derivatives/options.c:2033 ../plugins/derivatives/options.c:2043
 msgid "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2343
+#: ../plugins/derivatives/options.c:2038
 msgid ""
 "call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, "
 "kappa_e, kappa_f)"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2353
+#: ../plugins/derivatives/options.c:2048
 msgid "spot, strike, t1, t2, rate, d, volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2358
+#: ../plugins/derivatives/options.c:2053
 msgid ""
 "call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2363
+#: ../plugins/derivatives/options.c:2058
 msgid ""
 "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2368
+#: ../plugins/derivatives/options.c:2063
 msgid "spot, strike, time1, time2, rate, cost_of_carry, volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2373
+#: ../plugins/derivatives/options.c:2068
 msgid ""
 "spot, strike_call, strike_put, time, time_call, time_put, rate, "
 "cost_of_carry, volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2378 ../plugins/derivatives/options.c:2383
+#: ../plugins/derivatives/options.c:2073 ../plugins/derivatives/options.c:2078
 msgid ""
 "type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, "
 "volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2388
+#: ../plugins/derivatives/options.c:2083
 msgid ""
 "type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, "
 "cost_of_carry2, rate, volatility1, volatility2, rho"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2393 ../plugins/derivatives/options.c:2398
+#: ../plugins/derivatives/options.c:2088 ../plugins/derivatives/options.c:2093
 msgid ""
 "spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
 "volatility2,rho"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2403
+#: ../plugins/derivatives/options.c:2098
 msgid ""
 "call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,"
 "volatility2,rho"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2408
+#: ../plugins/derivatives/options.c:2103
 msgid "call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2413
+#: ../plugins/derivatives/options.c:2108
 msgid ""
 "call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
 "volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2419
+#: ../plugins/derivatives/options.c:2114
 msgid ""
 "amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
 "volatility, cost_of_carry"
@@ -196,7 +196,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Fungsi berkait dengan terbitan kewangan"
 
 #: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6660
-#: ../plugins/mps/mps.c:540 ../plugins/openoffice/openoffice-read.c:4785
+#: ../plugins/mps/mps.c:540 ../plugins/openoffice/openoffice-read.c:5168
 #: ../src/xml-io.c:2669 ../src/xml-sax-read.c:2726
 msgid "Reading file..."
 msgstr "Membaca fail..."
@@ -293,7 +293,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Atribut dijangka %s::%s == '%s'."
 
 #: ../plugins/excel/excel-xml-read.c:1069
-#: ../plugins/openoffice/openoffice-read.c:4852 ../src/xml-sax-read.c:2744
+#: ../plugins/openoffice/openoffice-read.c:5235 ../src/xml-sax-read.c:2744
 msgid "XML document not well formed!"
 msgstr "Dokumen XML tidak sempurna!"
 
@@ -647,23 +647,23 @@ msgstr "Fungsi Kompleks"
 msgid "Functions for complex numbers"
 msgstr "Fungsi untuk nombor kompleks"
 
-#: ../plugins/fn-database/functions.c:1245
-#: ../plugins/fn-database/functions.c:1248
-#: ../plugins/fn-database/functions.c:1251
-#: ../plugins/fn-database/functions.c:1254
-#: ../plugins/fn-database/functions.c:1257
-#: ../plugins/fn-database/functions.c:1260
-#: ../plugins/fn-database/functions.c:1263
-#: ../plugins/fn-database/functions.c:1266
-#: ../plugins/fn-database/functions.c:1269
-#: ../plugins/fn-database/functions.c:1272
-#: ../plugins/fn-database/functions.c:1275
-#: ../plugins/fn-database/functions.c:1278
+#: ../plugins/fn-database/functions.c:769
+#: ../plugins/fn-database/functions.c:772
+#: ../plugins/fn-database/functions.c:775
+#: ../plugins/fn-database/functions.c:778
+#: ../plugins/fn-database/functions.c:781
+#: ../plugins/fn-database/functions.c:784
+#: ../plugins/fn-database/functions.c:787
+#: ../plugins/fn-database/functions.c:790
+#: ../plugins/fn-database/functions.c:793
+#: ../plugins/fn-database/functions.c:796
+#: ../plugins/fn-database/functions.c:799
+#: ../plugins/fn-database/functions.c:802
 msgid "database,field,criteria"
 msgstr "pangkalandata,medan,kriteria"
 
 #. XL stores in lookup
-#: ../plugins/fn-database/functions.c:1283
+#: ../plugins/fn-database/functions.c:807
 msgid "pivot_table,field_name"
 msgstr ""
 
@@ -679,67 +679,67 @@ msgstr "Fungsi PangakalanData"
 msgid "Functions looking up values in databases"
 msgstr "Fungsi mencari nilai dalam pangkalan data"
 
-#: ../plugins/fn-date/functions.c:1282
+#: ../plugins/fn-date/functions.c:1133
 msgid "year,month,day"
 msgstr "tahun,bulan,hari"
 
-#: ../plugins/fn-date/functions.c:1286
+#: ../plugins/fn-date/functions.c:1137
 #, fuzzy
 msgid "date_str"
 msgstr "tarikh"
 
-#: ../plugins/fn-date/functions.c:1290
+#: ../plugins/fn-date/functions.c:1141
 msgid "date1,date2,interval"
 msgstr "tarikh1,tarikh2,selangmasa"
 
-#: ../plugins/fn-date/functions.c:1294 ../plugins/fn-date/functions.c:1318
-#: ../plugins/fn-date/functions.c:1346 ../plugins/fn-date/functions.c:1350
-#: ../plugins/fn-date/functions.c:1358 ../plugins/fn-date/functions.c:1362
-#: ../plugins/fn-date/functions.c:1375 ../plugins/fn-date/functions.c:1379
+#: ../plugins/fn-date/functions.c:1145 ../plugins/fn-date/functions.c:1169
+#: ../plugins/fn-date/functions.c:1197 ../plugins/fn-date/functions.c:1201
+#: ../plugins/fn-date/functions.c:1209 ../plugins/fn-date/functions.c:1213
+#: ../plugins/fn-date/functions.c:1226 ../plugins/fn-date/functions.c:1230
 #: ../src/print-info.c:576
 msgid "date"
 msgstr "tarikh"
 
-#: ../plugins/fn-date/functions.c:1298
+#: ../plugins/fn-date/functions.c:1149
 msgid "date1,date2,method"
 msgstr "tarikh1,tarikh2,kaedah"
 
-#: ../plugins/fn-date/functions.c:1302
+#: ../plugins/fn-date/functions.c:1153
 msgid "date,months"
 msgstr "tarikh,bulan"
 
-#: ../plugins/fn-date/functions.c:1306
+#: ../plugins/fn-date/functions.c:1157
 msgid "start_date,months"
 msgstr "tarikh_mula,bulan"
 
-#: ../plugins/fn-date/functions.c:1310 ../plugins/fn-date/functions.c:1314
-#: ../plugins/fn-date/functions.c:1330 ../src/print-info.c:577
+#: ../plugins/fn-date/functions.c:1161 ../plugins/fn-date/functions.c:1165
+#: ../plugins/fn-date/functions.c:1181 ../src/print-info.c:577
 msgid "time"
 msgstr "masa"
 
-#: ../plugins/fn-date/functions.c:1322
+#: ../plugins/fn-date/functions.c:1173
 msgid "start_date,end_date,holidays"
 msgstr "tarikh_mula,tarikh_akhir,cuti"
 
-#: ../plugins/fn-date/functions.c:1334
+#: ../plugins/fn-date/functions.c:1185
 msgid "hours,minutes,seconds"
 msgstr "jam,minit,saat"
 
-#: ../plugins/fn-date/functions.c:1338
+#: ../plugins/fn-date/functions.c:1189
 #, fuzzy
 msgid "timetext"
 msgstr "masa"
 
-#: ../plugins/fn-date/functions.c:1354
+#: ../plugins/fn-date/functions.c:1205
 msgid "date,days,holidays"
 msgstr "tarikh,hari,cuti"
 
-#: ../plugins/fn-date/functions.c:1367
+#: ../plugins/fn-date/functions.c:1218
 #, fuzzy
 msgid "unixtime"
 msgstr "masa"
 
-#: ../plugins/fn-date/functions.c:1371
+#: ../plugins/fn-date/functions.c:1222
 msgid "serial"
 msgstr "bersiri"
 
@@ -793,7 +793,7 @@ msgstr "Fungsi Rentetan"
 msgid "Functions to help Erlang Analysis"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:4113
+#: ../plugins/fn-financial/functions.c:3551
 #, fuzzy
 msgid "rate,values"
 msgstr "Nilai _lain"
@@ -911,7 +911,7 @@ msgstr "Jenis tidak padan"
 
 #: ../plugins/fn-logical/functions.c:281 ../plugins/fn-logical/functions.c:285
 #: ../plugins/fn-logical/functions.c:304 ../plugins/fn-math/functions.c:2870
-#: ../src/func-builtin.c:344 ../src/func-builtin.c:350
+#: ../src/func-builtin.c:347 ../src/func-builtin.c:353
 msgid "number,number,"
 msgstr "nombor,nombor,"
 
@@ -951,7 +951,7 @@ msgstr "nilai"
 msgid "Functions for manipulating truth values"
 msgstr "Fungsi untuk memanipulasi nilai kebenaran"
 
-#: ../plugins/fn-logical/plugin.xml.in.h:2 ../src/func-builtin.c:386
+#: ../plugins/fn-logical/plugin.xml.in.h:2 ../src/func-builtin.c:391
 msgid "Logic"
 msgstr "Logik"
 
@@ -959,57 +959,57 @@ msgstr "Logik"
 msgid "Logic Functions"
 msgstr "Fungsi Logik"
 
-#: ../plugins/fn-lookup/functions.c:1636
+#: ../plugins/fn-lookup/functions.c:1505
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1639
+#: ../plugins/fn-lookup/functions.c:1508
 msgid "reference"
 msgstr "rujukan"
 
-#: ../plugins/fn-lookup/functions.c:1642
+#: ../plugins/fn-lookup/functions.c:1511
 msgid "index,value,"
 msgstr "indeks, nilai,"
 
-#: ../plugins/fn-lookup/functions.c:1645 ../plugins/fn-lookup/functions.c:1651
-#: ../plugins/fn-lookup/functions.c:1675 ../plugins/fn-lookup/functions.c:1678
+#: ../plugins/fn-lookup/functions.c:1514 ../plugins/fn-lookup/functions.c:1520
+#: ../plugins/fn-lookup/functions.c:1544 ../plugins/fn-lookup/functions.c:1547
 msgid "ref"
 msgstr "ruj"
 
-#: ../plugins/fn-lookup/functions.c:1648
+#: ../plugins/fn-lookup/functions.c:1517
 #, fuzzy
 msgid "colname"
 msgstr "setengah nama"
 
-#: ../plugins/fn-lookup/functions.c:1654 ../plugins/fn-lookup/functions.c:1684
+#: ../plugins/fn-lookup/functions.c:1523 ../plugins/fn-lookup/functions.c:1553
 msgid "val,range,col_idx,approx,as_index"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1657
+#: ../plugins/fn-lookup/functions.c:1526
 msgid "link_location, label"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1660
+#: ../plugins/fn-lookup/functions.c:1529
 msgid "ref_string,format"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1663
+#: ../plugins/fn-lookup/functions.c:1532
 msgid "reference,row,col,area"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1666
+#: ../plugins/fn-lookup/functions.c:1535
 msgid "val,range,range"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1669
+#: ../plugins/fn-lookup/functions.c:1538
 msgid "val,range,approx"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1672
+#: ../plugins/fn-lookup/functions.c:1541
 msgid "ref,row,col,height,width"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1681 ../plugins/fn-math/functions.c:2908
+#: ../plugins/fn-lookup/functions.c:1550 ../plugins/fn-math/functions.c:2908
 #, fuzzy
 msgid "array"
 msgstr "Sabtu"
@@ -1111,7 +1111,7 @@ msgstr "Fungsi Matematik"
 msgid "Mathematical Functions"
 msgstr ""
 
-#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:378
+#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:381
 msgid "Mathematics"
 msgstr "Matematik"
 
@@ -1500,7 +1500,7 @@ msgid "Functions for manipulating strings"
 msgstr ""
 
 #: ../plugins/fn-string/plugin.xml.in.h:2 ../src/dialogs/dialog-search.c:151
-#: ../src/func.c:1023
+#: ../src/func.c:1027
 msgid "String"
 msgstr "Rentetan"
 
@@ -1683,13 +1683,13 @@ msgstr "Pengekangan:"
 #: ../src/dialogs/dialog-define-names.c:576
 #: ../src/dialogs/dialog-doc-metadata.c:1276
 #: ../src/dialogs/dialog-formula-guru.c:827
-#: ../src/dialogs/dialog-function-select.c:914
-#: ../src/dialogs/dialog-function-select.c:936
-#: ../src/dialogs/dialog-function-select.c:941
+#: ../src/dialogs/dialog-function-select.c:913
+#: ../src/dialogs/dialog-function-select.c:935
+#: ../src/dialogs/dialog-function-select.c:940
 #: ../src/dialogs/dialog-paste-names.c:93
 #: ../src/dialogs/dialog-scenarios.c:374
 #: ../src/dialogs/dialog-simulation.c:217 ../src/dialogs/dialog-zoom.c:191
-#: ../src/format-template.c:250 ../src/sheet.c:819
+#: ../src/format-template.c:250 ../src/sheet.c:832
 #: ../src/tools/solver/reports-write.c:79
 #: ../src/tools/solver/reports-write.c:101
 #: ../src/tools/solver/reports-write.c:128
@@ -1792,7 +1792,7 @@ msgstr "GNU Oleo (*.oleo)"
 msgid "Imports GNU Oleo documents"
 msgstr "Imports dokumen GNU Oleo"
 
-#: ../plugins/openoffice/openoffice-read.c:674
+#: ../plugins/openoffice/openoffice-read.c:689
 #, fuzzy, c-format
 msgid ""
 "Unable to parse\n"
@@ -1800,67 +1800,75 @@ msgid ""
 "because '%s'"
 msgstr "Tak dapat menghantar '%s' kerana '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:1013
+#: ../plugins/openoffice/openoffice-read.c:1057
 #, c-format
 msgid "Content past the maximum number of rows (%i) supported."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1103
+#: ../plugins/openoffice/openoffice-read.c:1165
 msgid "Missing expression"
 msgstr "Ungkapan hilang"
 
-#: ../plugins/openoffice/openoffice-read.c:1122
+#: ../plugins/openoffice/openoffice-read.c:1184
 #, fuzzy, c-format
 msgid "Missing or unknown expression namespace: %s"
 msgstr "Ungkapan hilang"
 
-#: ../plugins/openoffice/openoffice-read.c:1130
+#: ../plugins/openoffice/openoffice-read.c:1192
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "Ungkapan '%s' tak bermula dengan aksara yg dikenali"
 
-#: ../plugins/openoffice/openoffice-read.c:1258
+#: ../plugins/openoffice/openoffice-read.c:1320
 msgid "Invalid array expression does not specify number of columns."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1261
+#: ../plugins/openoffice/openoffice-read.c:1323
 msgid "Invalid array expression does not specify number of rows."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:2498
+#: ../plugins/openoffice/openoffice-read.c:1525
+msgid "Duplicate default column style encountered."
+msgstr ""
+
+#: ../plugins/openoffice/openoffice-read.c:1540
+msgid "Duplicate default row style encountered."
+msgstr ""
+
+#: ../plugins/openoffice/openoffice-read.c:2582
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:2718
+#: ../plugins/openoffice/openoffice-read.c:2802
 #, fuzzy, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
 msgstr "Jenis nilai tidak diketahui %d pada baris %d. Diabaikan."
 
-#: ../plugins/openoffice/openoffice-read.c:2886
+#: ../plugins/openoffice/openoffice-read.c:3021
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:2923
+#: ../plugins/openoffice/openoffice-read.c:3058
 #, fuzzy, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Dengan Mengubah Sel:"
 
-#: ../plugins/openoffice/openoffice-read.c:4724
+#: ../plugins/openoffice/openoffice-read.c:5101
 msgid "Unknown mimetype for openoffice file."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4732
+#: ../plugins/openoffice/openoffice-read.c:5109
 msgid "No stream named content.xml found."
 msgstr "Tiada aliran bernama content.xml dijumpai."
 
-#: ../plugins/openoffice/openoffice-read.c:4740
+#: ../plugins/openoffice/openoffice-read.c:5117
 #, fuzzy
 msgid "No stream named styles.xml found."
 msgstr "Tiada aliran bernama content.xml dijumpai."
 
-#: ../plugins/openoffice/openoffice-read.c:4795
+#: ../plugins/openoffice/openoffice-read.c:5178
 #, fuzzy, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Katalaluan tidak sah"
@@ -2255,7 +2263,7 @@ msgstr "Fail tidak mengandungi kamus \"%s\"."
 msgid "Object \"%s\" is not a dictionary."
 msgstr "Objek \"%s\" bukanlah satu kamus"
 
-#: ../plugins/python-loader/python-loader.c:715 ../src/gnm-plugin.c:555
+#: ../plugins/python-loader/python-loader.c:715 ../src/gnm-plugin.c:568
 #, fuzzy, c-format
 msgid "Unknown action: %s"
 msgstr "Fungsi tidak diketahui"
@@ -3478,7 +3486,7 @@ msgid "Deleting row %s"
 msgstr "Memadam baris %s"
 
 #. Check for locked cells
-#: ../src/commands.c:1501 ../src/commands.c:1505 ../src/sheet.c:4050
+#: ../src/commands.c:1501 ../src/commands.c:1505 ../src/sheet.c:4061
 msgid "Clear"
 msgstr "Terangkan"
 
@@ -3719,7 +3727,7 @@ msgid "Merging %s"
 msgstr "Mencantum %s"
 
 #. Corrected below.
-#: ../src/commands.c:4151 ../src/dialogs/search-replace.glade.h:30
+#: ../src/commands.c:4151 ../src/dialogs/search-replace.glade.h:31
 msgid "Search and Replace"
 msgstr "Cari dan Ganti"
 
@@ -5203,408 +5211,408 @@ msgstr ""
 msgid "_Use ssmedian"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:51
+#: ../src/dialogs/dialog-about.c:50
 #, fuzzy
 msgid "Core"
 msgstr "Lagi"
 
-#: ../src/dialogs/dialog-about.c:52
+#: ../src/dialogs/dialog-about.c:51
 msgid "Features"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:53
+#: ../src/dialogs/dialog-about.c:52
 #, fuzzy
 msgid "Analytics"
 msgstr "Baltik"
 
-#: ../src/dialogs/dialog-about.c:54
+#: ../src/dialogs/dialog-about.c:53
 msgid "Import Export"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:55
+#: ../src/dialogs/dialog-about.c:54
 #, fuzzy
 msgid "Scripting"
 msgstr "Mengisih"
 
-#: ../src/dialogs/dialog-about.c:56
+#: ../src/dialogs/dialog-about.c:55
 msgid "UI"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:57
+#: ../src/dialogs/dialog-about.c:56
 msgid "Usability"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:58
+#: ../src/dialogs/dialog-about.c:57
 #, fuzzy
 msgid "Documentation"
 msgstr "Lokasi"
 
-#: ../src/dialogs/dialog-about.c:59
+#: ../src/dialogs/dialog-about.c:58
 #, fuzzy
 msgid "Translation"
 msgstr "Terjemahan: Hasbullah Bin Pit (sebol) <sebol@ikhlas.com>"
 
-#: ../src/dialogs/dialog-about.c:60
+#: ../src/dialogs/dialog-about.c:59
 msgid "QA"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:61
+#: ../src/dialogs/dialog-about.c:60
 msgid "Art"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:62
+#: ../src/dialogs/dialog-about.c:61
 msgid "Packaging"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:70
+#: ../src/dialogs/dialog-about.c:69
 msgid "Harald Ashburner"
 msgstr ""
 
 # ui/galeon.glade.h:247
-#: ../src/dialogs/dialog-about.c:71
+#: ../src/dialogs/dialog-about.c:70
 #, fuzzy
 msgid "Options pricers"
 msgstr "Opsyen"
 
-#: ../src/dialogs/dialog-about.c:72
+#: ../src/dialogs/dialog-about.c:71
 msgid "Sean Atkinson"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:73
+#: ../src/dialogs/dialog-about.c:72
 #, fuzzy
 msgid "Functions and X-Base importing."
 msgstr "Sean Atkinson, fungsi dan pengimportan X-Base."
 
-#: ../src/dialogs/dialog-about.c:74
+#: ../src/dialogs/dialog-about.c:73
 msgid "Michel Berkelaar"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:75 ../src/dialogs/dialog-about.c:89
+#: ../src/dialogs/dialog-about.c:74 ../src/dialogs/dialog-about.c:88
 msgid "Simplex algorithm for Solver (LP Solve)."
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:76
+#: ../src/dialogs/dialog-about.c:75
 msgid "Jean Brefort"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:77
+#: ../src/dialogs/dialog-about.c:76
 #, fuzzy
 msgid "Core charting engine."
 msgstr "Ralat menghantar baris"
 
-#: ../src/dialogs/dialog-about.c:78
+#: ../src/dialogs/dialog-about.c:77
 msgid "Grandma Chema Celorio"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:79
+#: ../src/dialogs/dialog-about.c:78
 msgid "Quality Assurance and sheet copy."
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:80
+#: ../src/dialogs/dialog-about.c:79
 msgid "Frank Chiulli"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:81
+#: ../src/dialogs/dialog-about.c:80
 #, fuzzy
 msgid "OLE2 support."
 msgstr "Frank Chiulli, sokongan OLE."
 
-#: ../src/dialogs/dialog-about.c:82
+#: ../src/dialogs/dialog-about.c:81
 msgid "Kenneth Christiansen"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:83
+#: ../src/dialogs/dialog-about.c:82
 #, fuzzy
 msgid "Localization."
 msgstr "Lokasi"
 
-#: ../src/dialogs/dialog-about.c:84
+#: ../src/dialogs/dialog-about.c:83
 msgid "Zbigniew Chyla"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:85
+#: ../src/dialogs/dialog-about.c:84
 msgid "Plugin system, localization."
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:86
+#: ../src/dialogs/dialog-about.c:85
 msgid "J.H.M. Dassen (Ray)"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:87
+#: ../src/dialogs/dialog-about.c:86
 msgid "Debian packaging."
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:88
+#: ../src/dialogs/dialog-about.c:87
 msgid "Jeroen Dirks"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:90
+#: ../src/dialogs/dialog-about.c:89
 msgid "Tom Dyas"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:91
+#: ../src/dialogs/dialog-about.c:90
 msgid "Original plugin engine."
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:92
+#: ../src/dialogs/dialog-about.c:91
 msgid "Kjell Eikland"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:93 ../src/dialogs/dialog-about.c:119
+#: ../src/dialogs/dialog-about.c:92 ../src/dialogs/dialog-about.c:118
 #, fuzzy
 msgid "LP-solve"
 msgstr "Selsai"
 
-#: ../src/dialogs/dialog-about.c:94
+#: ../src/dialogs/dialog-about.c:93
 msgid "Gergo Erdi"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:95
+#: ../src/dialogs/dialog-about.c:94
 #, fuzzy
 msgid "Custom UI tools"
 msgstr "Warna Tersendiri:"
 
-#: ../src/dialogs/dialog-about.c:96
+#: ../src/dialogs/dialog-about.c:95
 msgid "John Gotts"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:97
+#: ../src/dialogs/dialog-about.c:96
 #, fuzzy
 msgid "RPM packaging"
 msgstr "_Mengganti"
 
-#: ../src/dialogs/dialog-about.c:98
+#: ../src/dialogs/dialog-about.c:97
 msgid "Andreas J. Gülzow"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:99
+#: ../src/dialogs/dialog-about.c:98
 msgid "Statistics and GUI master"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:100
+#: ../src/dialogs/dialog-about.c:99
 msgid "Jon Kåre Hellan"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:101
+#: ../src/dialogs/dialog-about.c:100
 msgid "UI polish and all round bug fixer"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:102
+#: ../src/dialogs/dialog-about.c:101
 msgid "Ross Ihaka"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:103
+#: ../src/dialogs/dialog-about.c:102
 #, fuzzy
 msgid "Special functions"
 msgstr "Fungsi Kewangan"
 
-#: ../src/dialogs/dialog-about.c:104
+#: ../src/dialogs/dialog-about.c:103
 msgid "Jukka-Pekka Iivonen"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:105
+#: ../src/dialogs/dialog-about.c:104
 msgid "Solver, lots of worksheet functions, and general trailblazer"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:106
+#: ../src/dialogs/dialog-about.c:105
 msgid "Jakub Jelínek"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:107
+#: ../src/dialogs/dialog-about.c:106
 msgid "One of the original core contributors"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:108
+#: ../src/dialogs/dialog-about.c:107
 msgid "Chris Lahey"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:109
+#: ../src/dialogs/dialog-about.c:108
 msgid "The original value format engine and libgoffice work"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:110
+#: ../src/dialogs/dialog-about.c:109
 msgid "Takashi Matsuda"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:111
+#: ../src/dialogs/dialog-about.c:110
 msgid "The original text plugin"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:112
+#: ../src/dialogs/dialog-about.c:111
 msgid "Michael Meeks"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:113
+#: ../src/dialogs/dialog-about.c:112
 msgid "Started the MS Excel import/export engine, and 'GnmStyle'"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:114
+#: ../src/dialogs/dialog-about.c:113
 msgid "Lutz Muller"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:115
+#: ../src/dialogs/dialog-about.c:114
 msgid "SheetObject improvement"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:116
+#: ../src/dialogs/dialog-about.c:115
 msgid "Yukihiro Nakai"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:117
+#: ../src/dialogs/dialog-about.c:116
 msgid "Support for non-Latin languages"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:118
+#: ../src/dialogs/dialog-about.c:117
 msgid "Peter Notebaert"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:120
+#: ../src/dialogs/dialog-about.c:119
 msgid "Emmanuel Pacaud"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:121
+#: ../src/dialogs/dialog-about.c:120
 msgid "Many plot types for charting engine."
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:122
+#: ../src/dialogs/dialog-about.c:121
 msgid "Federico M. Quintero"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:123
+#: ../src/dialogs/dialog-about.c:122
 msgid "canvas support"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:124
+#: ../src/dialogs/dialog-about.c:123
 msgid "Mark Probst"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:125 ../src/dialogs/dialog-about.c:131
+#: ../src/dialogs/dialog-about.c:124 ../src/dialogs/dialog-about.c:130
 #, fuzzy
 msgid "Guile support"
 msgstr "Ralat Guile"
 
-#: ../src/dialogs/dialog-about.c:126
+#: ../src/dialogs/dialog-about.c:125
 #, fuzzy
 msgid "Rasca"
 msgstr "Pautan"
 
-#: ../src/dialogs/dialog-about.c:127
+#: ../src/dialogs/dialog-about.c:126
 msgid "HTML, troff, LaTeX exporters"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:128
+#: ../src/dialogs/dialog-about.c:127
 msgid "Vincent Renardias"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:129
+#: ../src/dialogs/dialog-about.c:128
 msgid "original CSV support, French localization"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:130
+#: ../src/dialogs/dialog-about.c:129
 msgid "Ariel Rios"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:132
+#: ../src/dialogs/dialog-about.c:131
 msgid "Jakub Steiner"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:133
+#: ../src/dialogs/dialog-about.c:132
 #, fuzzy
 msgid "Icons and Images"
 msgstr "Selit imej"
 
-#: ../src/dialogs/dialog-about.c:134
+#: ../src/dialogs/dialog-about.c:133
 msgid "Uwe Steinmann"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:135
+#: ../src/dialogs/dialog-about.c:134
 msgid "Paradox Importer"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:136
+#: ../src/dialogs/dialog-about.c:135
 msgid "Arturo Tena"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:137
+#: ../src/dialogs/dialog-about.c:136
 msgid "Initial work on OLE2 for libgsf"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:138
+#: ../src/dialogs/dialog-about.c:137
 msgid "Almer S. Tigelaar"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:139
+#: ../src/dialogs/dialog-about.c:138
 msgid "Consolidation and Structured Text importer"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:140
+#: ../src/dialogs/dialog-about.c:139
 msgid "Bruno Unna"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:141
+#: ../src/dialogs/dialog-about.c:140
 msgid "Pieces of MS Excel import"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:142
+#: ../src/dialogs/dialog-about.c:141
 msgid "Arief Mulya Utama"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:143
+#: ../src/dialogs/dialog-about.c:142
 #, fuzzy
 msgid "Telecommunications functions"
 msgstr "Fungsi Maklumat"
 
-#: ../src/dialogs/dialog-about.c:144
+#: ../src/dialogs/dialog-about.c:143
 msgid "Daniel Veillard"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:145
+#: ../src/dialogs/dialog-about.c:144
 msgid "Initial XML support"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:146
+#: ../src/dialogs/dialog-about.c:145
 msgid "Vladimir Vuksan"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:147
+#: ../src/dialogs/dialog-about.c:146
 #, fuzzy
 msgid "Some financial functions"
 msgstr "Fungsi Kewangan"
 
-#: ../src/dialogs/dialog-about.c:148
+#: ../src/dialogs/dialog-about.c:147
 #, fuzzy
 msgid "Morten Welinder"
 msgstr "Cipta satu penggelungsur"
 
-#: ../src/dialogs/dialog-about.c:149
+#: ../src/dialogs/dialog-about.c:148
 msgid "All round powerhouse"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:150
+#: ../src/dialogs/dialog-about.c:149
 msgid "Kevin Breit"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:151
+#: ../src/dialogs/dialog-about.c:150
 msgid "Thomas Canty"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:152
+#: ../src/dialogs/dialog-about.c:151
 msgid "Adrian Custer"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:153
+#: ../src/dialogs/dialog-about.c:152
 msgid "Adrian Likins"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:154
+#: ../src/dialogs/dialog-about.c:153
 msgid "Aaron Weber"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:155
+#: ../src/dialogs/dialog-about.c:154
 msgid "Alexander Kirillov"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:255
+#: ../src/dialogs/dialog-about.c:254
 #, fuzzy
 msgid "About Gnumeric"
 msgstr "Gnumeric"
@@ -5633,9 +5641,9 @@ msgstr "Ralat: tiada set rekod dikembalikan"
 
 #: ../src/dialogs/dialog-advanced-filter.c:152
 #: ../src/dialogs/dialog-analysis-tools.c:640
-#: ../src/dialogs/dialog-analysis-tools.c:759
-#: ../src/dialogs/dialog-analysis-tools.c:2137
-#: ../src/dialogs/dialog-analysis-tools.c:3469
+#: ../src/dialogs/dialog-analysis-tools.c:760
+#: ../src/dialogs/dialog-analysis-tools.c:2153
+#: ../src/dialogs/dialog-analysis-tools.c:3503
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr ""
@@ -5648,13 +5656,13 @@ msgstr "Tidak dapat cipta fail sementara"
 #: ../src/dialogs/dialog-analysis-tool-chi-squared.c:144
 #: ../src/dialogs/dialog-analysis-tool-frequency.c:100
 #: ../src/dialogs/dialog-analysis-tools.c:561
-#: ../src/dialogs/dialog-analysis-tools.c:1103
-#: ../src/dialogs/dialog-analysis-tools.c:1801
-#: ../src/dialogs/dialog-analysis-tools.c:2382
-#: ../src/dialogs/dialog-analysis-tools.c:2736
-#: ../src/dialogs/dialog-analysis-tools.c:3020
-#: ../src/dialogs/dialog-analysis-tools.c:3296
-#: ../src/dialogs/dialog-analysis-tools.c:3510
+#: ../src/dialogs/dialog-analysis-tools.c:1109
+#: ../src/dialogs/dialog-analysis-tools.c:1815
+#: ../src/dialogs/dialog-analysis-tools.c:2403
+#: ../src/dialogs/dialog-analysis-tools.c:2762
+#: ../src/dialogs/dialog-analysis-tools.c:3050
+#: ../src/dialogs/dialog-analysis-tools.c:3329
+#: ../src/dialogs/dialog-analysis-tools.c:3544
 #: ../src/dialogs/dialog-shuffle.c:75
 #, fuzzy
 msgid "The input range is invalid."
@@ -5666,8 +5674,8 @@ msgid "The input range is too small."
 msgstr "Penyimpan fail default tidak ada."
 
 #: ../src/dialogs/dialog-analysis-tool-chi-squared.c:165
-#: ../src/dialogs/dialog-analysis-tools.c:3307
-#: ../src/dialogs/dialog-analysis-tools.c:3521
+#: ../src/dialogs/dialog-analysis-tools.c:3340
+#: ../src/dialogs/dialog-analysis-tools.c:3555
 msgid "The alpha value should be a number between 0 and 1."
 msgstr ""
 
@@ -5675,19 +5683,19 @@ msgstr ""
 #: ../src/dialogs/dialog-analysis-tool-frequency.c:128
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:191
 #: ../src/dialogs/dialog-analysis-tools.c:570
-#: ../src/dialogs/dialog-analysis-tools.c:1154
-#: ../src/dialogs/dialog-analysis-tools.c:1849
-#: ../src/dialogs/dialog-analysis-tools.c:2244
-#: ../src/dialogs/dialog-analysis-tools.c:2436
-#: ../src/dialogs/dialog-analysis-tools.c:2767
-#: ../src/dialogs/dialog-analysis-tools.c:3048
-#: ../src/dialogs/dialog-analysis-tools.c:3316
-#: ../src/dialogs/dialog-analysis-tools.c:3542
+#: ../src/dialogs/dialog-analysis-tools.c:1160
+#: ../src/dialogs/dialog-analysis-tools.c:1863
+#: ../src/dialogs/dialog-analysis-tools.c:2260
+#: ../src/dialogs/dialog-analysis-tools.c:2457
+#: ../src/dialogs/dialog-analysis-tools.c:2793
+#: ../src/dialogs/dialog-analysis-tools.c:3078
+#: ../src/dialogs/dialog-analysis-tools.c:3349
+#: ../src/dialogs/dialog-analysis-tools.c:3576
 #, fuzzy
 msgid "The output specification is invalid."
 msgstr "Penyimpan fail default tidak ada."
 
-#: ../src/dialogs/dialog-analysis-tool-chi-squared.c:215
+#: ../src/dialogs/dialog-analysis-tool-chi-squared.c:218
 #, fuzzy
 msgid "Could not create the Chi Squared Tests tool dialog."
 msgstr "Tidak dapat cipta fail sementara"
@@ -5702,7 +5710,7 @@ msgstr "Penyimpan fail default tidak ada."
 msgid "The number of categories is invalid."
 msgstr "Penyimpan fail default tidak ada."
 
-#: ../src/dialogs/dialog-analysis-tool-frequency.c:254
+#: ../src/dialogs/dialog-analysis-tool-frequency.c:258
 #, fuzzy
 msgid "Could not create the Frequency Tool dialog."
 msgstr "Tidak dapat cipta fail sementara"
@@ -5762,241 +5770,241 @@ msgstr "Bingkai"
 msgid "To"
 msgstr "Atas"
 
-#: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:615
+#: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:620
 #, fuzzy
 msgid "Could not create the Kaplan Meier Tool dialog."
 msgstr "Tidak dapat cipta fail sementara"
 
 #: ../src/dialogs/dialog-analysis-tools.c:626
-#: ../src/dialogs/dialog-analysis-tools.c:745
+#: ../src/dialogs/dialog-analysis-tools.c:746
 msgid "The selected input rows must have equal size!"
 msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tools.c:631
-#: ../src/dialogs/dialog-analysis-tools.c:750
+#: ../src/dialogs/dialog-analysis-tools.c:751
 msgid "The selected input columns must have equal size!"
 msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tools.c:636
-#: ../src/dialogs/dialog-analysis-tools.c:755
+#: ../src/dialogs/dialog-analysis-tools.c:756
 msgid "The selected input areas must have equal size!"
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:683
+#: ../src/dialogs/dialog-analysis-tools.c:684
 #, fuzzy
 msgid "Could not create the Correlation Tool dialog."
 msgstr "Tidak dapat cipta fail sementara"
 
-#: ../src/dialogs/dialog-analysis-tools.c:802
+#: ../src/dialogs/dialog-analysis-tools.c:804
 #, fuzzy
 msgid "Could not create the Covariance Tool dialog."
 msgstr "Tidak dapat cipta fail sementara"
 
-#: ../src/dialogs/dialog-analysis-tools.c:892
+#: ../src/dialogs/dialog-analysis-tools.c:896
 #, fuzzy
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr "Tidak dapat cipta fail sementara"
 
-#: ../src/dialogs/dialog-analysis-tools.c:983
+#: ../src/dialogs/dialog-analysis-tools.c:989
 #, fuzzy
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "Tidak dapat cipta fail sementara"
 
-#: ../src/dialogs/dialog-analysis-tools.c:1112
+#: ../src/dialogs/dialog-analysis-tools.c:1118
 msgid "No statistics are selected."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:1122
+#: ../src/dialogs/dialog-analysis-tools.c:1128
 msgid "The confidence level should be between 0 and 1."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:1134
-#: ../src/dialogs/dialog-analysis-tools.c:1145
+#: ../src/dialogs/dialog-analysis-tools.c:1140
+#: ../src/dialogs/dialog-analysis-tools.c:1151
 msgid "K must be a positive integer."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:1194
+#: ../src/dialogs/dialog-analysis-tools.c:1202
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:1339
+#: ../src/dialogs/dialog-analysis-tools.c:1347
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:1348
+#: ../src/dialogs/dialog-analysis-tools.c:1356
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:1564
+#: ../src/dialogs/dialog-analysis-tools.c:1577
 #, fuzzy
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Tidak dapat cipta fail sementara"
 
-#: ../src/dialogs/dialog-analysis-tools.c:1751
+#: ../src/dialogs/dialog-analysis-tools.c:1765
 #, fuzzy
 msgid "Could not create the FTest Tool dialog."
 msgstr "Tidak dapat cipta fail sementara"
 
-#: ../src/dialogs/dialog-analysis-tools.c:1811
+#: ../src/dialogs/dialog-analysis-tools.c:1825
 #, fuzzy
 msgid "The requested number of samples is invalid."
 msgstr "Penyimpan fail default tidak ada."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1824
+#: ../src/dialogs/dialog-analysis-tools.c:1838
 #, fuzzy
 msgid "The requested period is invalid."
 msgstr "Penyimpan fail default tidak ada."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1832
+#: ../src/dialogs/dialog-analysis-tools.c:1846
 #, fuzzy
 msgid "The requested offset is invalid."
 msgstr "Penyimpan fail default tidak ada."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1841
+#: ../src/dialogs/dialog-analysis-tools.c:1855
 #, fuzzy
 msgid "The requested sample size is invalid."
 msgstr "Penyimpan fail default tidak ada."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1999
+#: ../src/dialogs/dialog-analysis-tools.c:2015
 #, fuzzy
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Tidak dapat cipta fail sementara"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2178
-#: ../src/dialogs/dialog-analysis-tools.c:2189
+#: ../src/dialogs/dialog-analysis-tools.c:2194
+#: ../src/dialogs/dialog-analysis-tools.c:2205
 #, fuzzy
 msgid "The y variable range is invalid."
 msgstr "Penyimpan fail default tidak ada."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2195
+#: ../src/dialogs/dialog-analysis-tools.c:2211
 msgid "The y variable range must be a vector (n by 1 or 1 by n)."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:2201
+#: ../src/dialogs/dialog-analysis-tools.c:2217
 msgid "The y variable range is to small"
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:2210
-#: ../src/dialogs/dialog-analysis-tools.c:2221
+#: ../src/dialogs/dialog-analysis-tools.c:2226
+#: ../src/dialogs/dialog-analysis-tools.c:2237
 #, fuzzy
 msgid "The x variables range is invalid."
 msgstr "Penyimpan fail default tidak ada."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2228
+#: ../src/dialogs/dialog-analysis-tools.c:2244
 msgid "The sizes of the x variable and y variable ranges do not match."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:2237
+#: ../src/dialogs/dialog-analysis-tools.c:2253
 #, fuzzy
 msgid "The confidence level is invalid."
 msgstr "Penyimpan fail default tidak ada."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2281
+#: ../src/dialogs/dialog-analysis-tools.c:2302
 msgid "Could not create the Regression Tool dialog."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:2395
+#: ../src/dialogs/dialog-analysis-tools.c:2416
 #, fuzzy
 msgid "The given seasonal damping factor is invalid."
 msgstr "Penyimpan fail default tidak ada."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2404
+#: ../src/dialogs/dialog-analysis-tools.c:2425
 #, fuzzy
 msgid "The given seasonal period is invalid."
 msgstr "Penyimpan fail default tidak ada."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2415
+#: ../src/dialogs/dialog-analysis-tools.c:2436
 #, fuzzy
 msgid "The given growthdamping factor is invalid."
 msgstr "Penyimpan fail default tidak ada."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2427
+#: ../src/dialogs/dialog-analysis-tools.c:2448
 #, fuzzy
 msgid "The given damping factor is invalid."
 msgstr "Penyimpan fail default tidak ada."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2552
+#: ../src/dialogs/dialog-analysis-tools.c:2578
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:2749
+#: ../src/dialogs/dialog-analysis-tools.c:2775
 #, fuzzy
 msgid "The given interval is invalid."
 msgstr "Penyimpan fail default tidak ada."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2759
+#: ../src/dialogs/dialog-analysis-tools.c:2785
 #, fuzzy
 msgid "The given offset is invalid."
 msgstr "Penyimpan fail default tidak ada."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2916
+#: ../src/dialogs/dialog-analysis-tools.c:2946
 #, fuzzy
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Tidak dapat cipta fail sementara"
 
-#: ../src/dialogs/dialog-analysis-tools.c:3034
+#: ../src/dialogs/dialog-analysis-tools.c:3064
 #, fuzzy
 msgid "The cutoff range is not valid."
 msgstr "Penyimpan fail default tidak ada."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3041
+#: ../src/dialogs/dialog-analysis-tools.c:3071
 msgid "The number of to be calculated cutoffs is invalid."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:3179
+#: ../src/dialogs/dialog-analysis-tools.c:3212
 #, fuzzy
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Tidak dapat cipta fail sementara"
 
-#: ../src/dialogs/dialog-analysis-tools.c:3355
+#: ../src/dialogs/dialog-analysis-tools.c:3389
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:3435
+#: ../src/dialogs/dialog-analysis-tools.c:3469
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:3438
+#: ../src/dialogs/dialog-analysis-tools.c:3472
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:3444
+#: ../src/dialogs/dialog-analysis-tools.c:3478
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:3447
+#: ../src/dialogs/dialog-analysis-tools.c:3481
 msgid "The given input range should contain at least two columns of data."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:3453
+#: ../src/dialogs/dialog-analysis-tools.c:3487
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:3456
+#: ../src/dialogs/dialog-analysis-tools.c:3490
 msgid "The given input range should contain at least two rows of data."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:3463
+#: ../src/dialogs/dialog-analysis-tools.c:3497
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:3533
+#: ../src/dialogs/dialog-analysis-tools.c:3567
 msgid "The number of rows per sample should be a positive integer."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:3579
+#: ../src/dialogs/dialog-analysis-tools.c:3620
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr ""
 
@@ -6139,7 +6147,7 @@ msgid "Double"
 msgstr "Selesai"
 
 #: ../src/dialogs/dialog-cell-format.c:479 ../src/dialogs/dialog-search.c:153
-#: ../src/func.c:1021 ../src/wbc-gtk-actions.c:2311
+#: ../src/func.c:1025 ../src/wbc-gtk-actions.c:2311
 msgid "Number"
 msgstr "Nombor"
 
@@ -6469,61 +6477,61 @@ msgstr "Fungsi/Hujah"
 msgid "Could not create the formula guru."
 msgstr "Tidak dapat cipta fail sementara"
 
-#: ../src/dialogs/dialog-function-select.c:216
+#: ../src/dialogs/dialog-function-select.c:215
 msgid "Recently Used"
 msgstr "Sering Digunakan"
 
-#: ../src/dialogs/dialog-function-select.c:221
+#: ../src/dialogs/dialog-function-select.c:220
 #, fuzzy
 msgid "All Functions (long list)"
 msgstr "Fungsi tidak wujud"
 
-#: ../src/dialogs/dialog-function-select.c:438
+#: ../src/dialogs/dialog-function-select.c:437
 #, fuzzy, c-format
 msgid "%s evaluates to %s."
 msgstr "%s versi %s"
 
-#: ../src/dialogs/dialog-function-select.c:497
+#: ../src/dialogs/dialog-function-select.c:496
 #, fuzzy
 msgid "Arguments:"
 msgstr "Jajaran"
 
-#: ../src/dialogs/dialog-function-select.c:517
+#: ../src/dialogs/dialog-function-select.c:516
 #, fuzzy
 msgid "Note: "
 msgstr "_Nama:"
 
-#: ../src/dialogs/dialog-function-select.c:529
+#: ../src/dialogs/dialog-function-select.c:528
 #, fuzzy
 msgid "Examples:"
 msgstr "Sampel"
 
 #. Not translated
-#: ../src/dialogs/dialog-function-select.c:545
+#: ../src/dialogs/dialog-function-select.c:544
 msgid "See also: "
 msgstr ""
 
-#: ../src/dialogs/dialog-function-select.c:560
+#: ../src/dialogs/dialog-function-select.c:559
 #, fuzzy
 msgid ", "
 msgstr " "
 
-#: ../src/dialogs/dialog-function-select.c:592
+#: ../src/dialogs/dialog-function-select.c:591
 #, fuzzy
 msgid "Further information: "
 msgstr "Maklumat Sistem"
 
 # ui/galeon.glade.h:247
-#: ../src/dialogs/dialog-function-select.c:594
+#: ../src/dialogs/dialog-function-select.c:593
 #, fuzzy
 msgid "online descriptions"
 msgstr "Huraian"
 
-#: ../src/dialogs/dialog-function-select.c:605
+#: ../src/dialogs/dialog-function-select.c:604
 msgid "Microsoft Excel: "
 msgstr ""
 
-#: ../src/dialogs/dialog-function-select.c:613
+#: ../src/dialogs/dialog-function-select.c:612
 msgid "ODF (OpenFormula): "
 msgstr ""
 
@@ -6936,85 +6944,85 @@ msgstr "Turutan halaman"
 msgid "Screen"
 msgstr "Skrin %d"
 
-#: ../src/dialogs/dialog-printer-setup.c:708
+#: ../src/dialogs/dialog-printer-setup.c:698
 #, fuzzy
 msgid "points"
 msgstr "Titik"
 
-#: ../src/dialogs/dialog-printer-setup.c:712
+#: ../src/dialogs/dialog-printer-setup.c:702
 #, fuzzy
 msgid "inches"
 msgstr "Garisan"
 
-#: ../src/dialogs/dialog-printer-setup.c:716
+#: ../src/dialogs/dialog-printer-setup.c:706
 msgid "mm"
 msgstr ""
 
-#: ../src/dialogs/dialog-printer-setup.c:1479
+#: ../src/dialogs/dialog-printer-setup.c:1469
 #, fuzzy
 msgid "Default date format"
 msgstr "Pentafsir default"
 
-#: ../src/dialogs/dialog-printer-setup.c:1485
+#: ../src/dialogs/dialog-printer-setup.c:1475
 #, fuzzy
 msgid "Custom date format"
 msgstr "Personalisasi kekaki"
 
-#: ../src/dialogs/dialog-printer-setup.c:1517
+#: ../src/dialogs/dialog-printer-setup.c:1507
 #, fuzzy
 msgid "Default time format"
 msgstr "Pentafsir default"
 
-#: ../src/dialogs/dialog-printer-setup.c:1523
+#: ../src/dialogs/dialog-printer-setup.c:1513
 #, fuzzy
 msgid "Custom time format"
 msgstr "Personalisasi kekaki"
 
-#: ../src/dialogs/dialog-printer-setup.c:1562
+#: ../src/dialogs/dialog-printer-setup.c:1552
 msgid "$A$1 (first cell of this worksheet)"
 msgstr ""
 
-#: ../src/dialogs/dialog-printer-setup.c:1627
+#: ../src/dialogs/dialog-printer-setup.c:1617
 #, fuzzy
 msgid "Custom header configuration"
 msgstr "Konfigurasi proksi _automatik"
 
-#: ../src/dialogs/dialog-printer-setup.c:1632
+#: ../src/dialogs/dialog-printer-setup.c:1622
 #, fuzzy
 msgid "Custom footer configuration"
 msgstr "Konfigurasi proksi _automatik"
 
-#: ../src/dialogs/dialog-printer-setup.c:1781
+#: ../src/dialogs/dialog-printer-setup.c:1771
 #, fuzzy
 msgid "Date format selection"
 msgstr "_Auto muat pilihan"
 
-#: ../src/dialogs/dialog-printer-setup.c:1783
+#: ../src/dialogs/dialog-printer-setup.c:1773
 #, fuzzy
 msgid "Time format selection"
 msgstr "_Auto muat pilihan"
 
-#: ../src/dialogs/dialog-printer-setup.c:2195
+#: ../src/dialogs/dialog-printer-setup.c:2192
 #, c-format
 msgid "%.0f pixels wide by %.0f pixels tall"
 msgstr ""
 
-#: ../src/dialogs/dialog-printer-setup.c:2198
+#: ../src/dialogs/dialog-printer-setup.c:2195
 #, c-format
 msgid "%.0f points wide by %.0f points tall"
 msgstr ""
 
-#: ../src/dialogs/dialog-printer-setup.c:2201
+#: ../src/dialogs/dialog-printer-setup.c:2198
 #, c-format
 msgid "%.1f in wide by %.1f in tall"
 msgstr ""
 
-#: ../src/dialogs/dialog-printer-setup.c:2204
+#: ../src/dialogs/dialog-printer-setup.c:2201
 #, c-format
 msgid "%.0f mm wide by %.0f mm tall"
 msgstr ""
 
-#: ../src/dialogs/dialog-printer-setup.c:2207
+#: ../src/dialogs/dialog-printer-setup.c:2204
 #, c-format
 msgid "%.1f wide by %.1f tall"
 msgstr ""
@@ -7473,7 +7481,7 @@ msgstr "_Dimatikan"
 
 #: ../src/dialogs/dialog-sheet-order.c:719
 #: ../src/dialogs/sheet-resize.glade.h:5 ../src/sheet-object-graph.c:669
-#: ../src/sheet.c:995
+#: ../src/sheet.c:1008
 #, fuzzy
 msgid "Rows"
 msgstr "Ba_ris"
@@ -7861,38 +7869,38 @@ msgid_plural "A maximum of %d columns can be imported."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/dialogs/dialog-stf-format-page.c:318
+#: ../src/dialogs/dialog-stf-format-page.c:325
 msgid "Ignore all columns on right"
 msgstr ""
 
-#: ../src/dialogs/dialog-stf-format-page.c:319
+#: ../src/dialogs/dialog-stf-format-page.c:326
 msgid "Ignore all columns on left"
 msgstr ""
 
-#: ../src/dialogs/dialog-stf-format-page.c:320
+#: ../src/dialogs/dialog-stf-format-page.c:327
 msgid "Import all columns on right"
 msgstr ""
 
-#: ../src/dialogs/dialog-stf-format-page.c:321
+#: ../src/dialogs/dialog-stf-format-page.c:328
 msgid "Import all columns on left"
 msgstr ""
 
-#: ../src/dialogs/dialog-stf-format-page.c:322
+#: ../src/dialogs/dialog-stf-format-page.c:329
 #, fuzzy
 msgid "Copy format to right"
 msgstr "Mengautoformat %s"
 
-#: ../src/dialogs/dialog-stf-format-page.c:512
+#: ../src/dialogs/dialog-stf-format-page.c:519
 #, c-format
 msgid "A maximum of %d columns can be imported."
 msgstr ""
 
-#: ../src/dialogs/dialog-stf-format-page.c:543
+#: ../src/dialogs/dialog-stf-format-page.c:550
 msgid ""
 "If this checkbox is selected, the column will be imported into Gnumeric."
 msgstr ""
 
-#: ../src/dialogs/dialog-stf-format-page.c:696
+#: ../src/dialogs/dialog-stf-format-page.c:703
 #: ../src/dialogs/dialog-stf-preview.h:24
 #: ../src/tools/analysis-exp-smoothing.c:152
 #: ../src/tools/analysis-exp-smoothing.c:327
@@ -7989,7 +7997,7 @@ msgid "Column selection"
 msgstr "Potong pilihan"
 
 #: ../src/dialogs/dialog-stf.glade.h:15 ../src/dialogs/sheet-resize.glade.h:3
-#: ../src/sheet-object-graph.c:668 ../src/sheet.c:988
+#: ../src/sheet-object-graph.c:668 ../src/sheet.c:1001
 msgid "Columns"
 msgstr "Kolum"
 
@@ -9809,129 +9817,134 @@ msgstr "_Mengganti"
 msgid "Scope"
 msgstr "Skop"
 
-#: ../src/dialogs/search-replace.glade.h:29
+#: ../src/dialogs/search-replace.glade.h:29 ../src/dialogs/search.glade.h:15
 msgid "Search"
 msgstr "Cari"
 
-#: ../src/dialogs/search-replace.glade.h:31
+#: ../src/dialogs/search-replace.glade.h:30
+#, fuzzy
+msgid "Search & Replace"
+msgstr "Cari dan Ganti"
+
+#: ../src/dialogs/search-replace.glade.h:32
 #, fuzzy
 msgid "Search and Replace Query"
 msgstr "Cari dan Ganti"
 
-#: ../src/dialogs/search-replace.glade.h:32
+#: ../src/dialogs/search-replace.glade.h:33
 msgid "Search and replace in all cells in the workbook"
 msgstr ""
 
-#: ../src/dialogs/search-replace.glade.h:33
+#: ../src/dialogs/search-replace.glade.h:34
 msgid "Search and replace in current sheet only"
 msgstr ""
 
-#: ../src/dialogs/search-replace.glade.h:34
+#: ../src/dialogs/search-replace.glade.h:35
 msgid "Search and replace in specified range only"
 msgstr ""
 
-#: ../src/dialogs/search-replace.glade.h:35 ../src/dialogs/search.glade.h:17
+#: ../src/dialogs/search-replace.glade.h:36 ../src/dialogs/search.glade.h:17
 msgid "Search column by column"
 msgstr "Car kolum demi kolum"
 
-#: ../src/dialogs/search-replace.glade.h:36 ../src/dialogs/search.glade.h:21
+#: ../src/dialogs/search-replace.glade.h:37 ../src/dialogs/search.glade.h:21
 msgid "Search line by line"
 msgstr "Cari baris demi baris"
 
-#: ../src/dialogs/search-replace.glade.h:37
+#: ../src/dialogs/search-replace.glade.h:38
 msgid "Skip cells that that would result in errors"
 msgstr ""
 
-#: ../src/dialogs/search-replace.glade.h:38 ../src/dialogs/search.glade.h:26
+#: ../src/dialogs/search-replace.glade.h:39 ../src/dialogs/search.glade.h:26
 msgid "The search text is a regular expression"
 msgstr ""
 
-#: ../src/dialogs/search-replace.glade.h:39 ../src/dialogs/search.glade.h:27
+#: ../src/dialogs/search-replace.glade.h:40 ../src/dialogs/search.glade.h:27
 msgid "The search text is taken literally."
 msgstr ""
 
-#: ../src/dialogs/search-replace.glade.h:40
+#: ../src/dialogs/search-replace.glade.h:41
 msgid "Turn unparsable entries into string values"
 msgstr ""
 
-#: ../src/dialogs/search-replace.glade.h:41 ../src/dialogs/search.glade.h:28
+#: ../src/dialogs/search-replace.glade.h:42 ../src/dialogs/search.glade.h:28
 msgid "When set, do not distinguish between upper and lower case letters"
 msgstr ""
 
-#: ../src/dialogs/search-replace.glade.h:42
+#: ../src/dialogs/search-replace.glade.h:43
 msgid ""
 "When set, string values will remain as such after replacement, even if they "
 "look like numbers or expressions"
 msgstr ""
 
-#: ../src/dialogs/search-replace.glade.h:43
+#: ../src/dialogs/search-replace.glade.h:44
 #, fuzzy
 msgid "_Column major"
 msgstr "_Kolum"
 
-#: ../src/dialogs/search-replace.glade.h:44 ../src/dialogs/search.glade.h:29
+#: ../src/dialogs/search-replace.glade.h:45 ../src/dialogs/search.glade.h:29
 msgid "_Comments"
 msgstr "_Komen"
 
-#: ../src/dialogs/search-replace.glade.h:45 ../src/dialogs/search.glade.h:30
+#: ../src/dialogs/search-replace.glade.h:46 ../src/dialogs/search.glade.h:30
 msgid "_Current sheet"
 msgstr "Helaian _semasa"
 
-#: ../src/dialogs/search-replace.glade.h:46
+#: ../src/dialogs/search-replace.glade.h:47
 #, fuzzy
 msgid "_Don't change"
 msgstr "Julat _Input"
 
-#: ../src/dialogs/search-replace.glade.h:47 ../src/dialogs/search.glade.h:31
+#: ../src/dialogs/search-replace.glade.h:48 ../src/dialogs/search.glade.h:31
 msgid "_Entire workbook"
 msgstr "_Seluruh bukukerja"
 
-#: ../src/dialogs/search-replace.glade.h:48 ../src/dialogs/search.glade.h:32
+#: ../src/dialogs/search-replace.glade.h:49 ../src/dialogs/search.glade.h:32
 msgid "_Expressions"
 msgstr "_Ungkapan"
 
-#: ../src/dialogs/search-replace.glade.h:49
+#: ../src/dialogs/search-replace.glade.h:50
 msgid "_Fail"
 msgstr "_Gagal"
 
-#: ../src/dialogs/search-replace.glade.h:50 ../src/dialogs/search.glade.h:33
+#: ../src/dialogs/search-replace.glade.h:51 ../src/dialogs/search.glade.h:33
 msgid "_Ignore case"
 msgstr "_Abaikan huruf kecil/besar"
 
-#: ../src/dialogs/search-replace.glade.h:51
+#: ../src/dialogs/search-replace.glade.h:52
 msgid "_Keep strings as strings"
 msgstr ""
 
-#: ../src/dialogs/search-replace.glade.h:52 ../src/dialogs/search.glade.h:35
+#: ../src/dialogs/search-replace.glade.h:53 ../src/dialogs/search.glade.h:35
 msgid "_Other values"
 msgstr "Nilai _lain"
 
-#: ../src/dialogs/search-replace.glade.h:53 ../src/dialogs/search.glade.h:36
+#: ../src/dialogs/search-replace.glade.h:54 ../src/dialogs/search.glade.h:36
 #, fuzzy
 msgid "_Plain text"
 msgstr "Plan Perfect"
 
-#: ../src/dialogs/search-replace.glade.h:54
+#: ../src/dialogs/search-replace.glade.h:55
 msgid "_Preserve case"
 msgstr ""
 
-#: ../src/dialogs/search-replace.glade.h:55
+#: ../src/dialogs/search-replace.glade.h:56
 msgid "_Query"
 msgstr "_Kueri"
 
-#: ../src/dialogs/search-replace.glade.h:56
+#: ../src/dialogs/search-replace.glade.h:57
 msgid "_Replace by"
 msgstr "_Ganti dengan"
 
-#: ../src/dialogs/search-replace.glade.h:57 ../src/dialogs/search.glade.h:39
+#: ../src/dialogs/search-replace.glade.h:58 ../src/dialogs/search.glade.h:39
 msgid "_Row major"
 msgstr ""
 
-#: ../src/dialogs/search-replace.glade.h:58
+#: ../src/dialogs/search-replace.glade.h:59
 msgid "_Search for"
 msgstr "_Cari "
 
-#: ../src/dialogs/search-replace.glade.h:59 ../src/dialogs/search.glade.h:41
+#: ../src/dialogs/search-replace.glade.h:60 ../src/dialogs/search.glade.h:41
 msgid "_Strings"
 msgstr "_Rentetan"
 
@@ -9975,10 +9988,6 @@ msgstr "Padanan"
 #: ../src/dialogs/search.glade.h:12
 msgid "Miscellaneous"
 msgstr "Lain-lain"
-
-#: ../src/dialogs/search.glade.h:15
-msgid "Search Center"
-msgstr "Pusat Carian"
 
 #: ../src/dialogs/search.glade.h:16
 msgid "Search cells containing"
@@ -10646,50 +10655,50 @@ msgid ""
 "and return the last argument."
 msgstr ""
 
-#: ../src/func-builtin.c:369
+#: ../src/func-builtin.c:372
 msgid "condition,if true,if false"
 msgstr ""
 
-#: ../src/func-builtin.c:382
+#: ../src/func-builtin.c:386
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: ../src/func.c:299
+#: ../src/func.c:300
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "Tidak boleh cipta fail %s\n"
 
-#: ../src/func.c:628
+#: ../src/func.c:621
 msgid "Function implementation not available."
 msgstr ""
 
-#: ../src/func.c:843
+#: ../src/func.c:846
 msgid "Unknown Function"
 msgstr "Fungsi tidak diketahui"
 
-#: ../src/func.c:1025
+#: ../src/func.c:1029
 msgid "Boolean"
 msgstr "Boolean"
 
-#: ../src/func.c:1027
+#: ../src/func.c:1031
 msgid "Cell Range"
 msgstr "Julat Sel"
 
-#: ../src/func.c:1029
+#: ../src/func.c:1033
 msgid "Area"
 msgstr "Kawasan"
 
-#: ../src/func.c:1031
+#: ../src/func.c:1035
 #, fuzzy
 msgid "Scalar, Blank, or Error"
 msgstr "_Lebar Piawai"
 
-#: ../src/func.c:1033
+#: ../src/func.c:1037
 msgid "Scalar"
 msgstr ""
 
 #. Missing values will be NULL.
-#: ../src/func.c:1036
+#: ../src/func.c:1040
 msgid "Any"
 msgstr "Sebarang"
 
@@ -10751,48 +10760,48 @@ msgid ""
 "%d x %d pixels"
 msgstr "Lebar: %.2f ttk (%d piksel)"
 
-#: ../src/gnm-plugin.c:113
+#: ../src/gnm-plugin.c:121
 msgid "Missing function category name."
 msgstr ""
 
-#: ../src/gnm-plugin.c:117
+#: ../src/gnm-plugin.c:125
 msgid "Function group is empty."
 msgstr ""
 
-#: ../src/gnm-plugin.c:145
+#: ../src/gnm-plugin.c:155
 msgid "No func_desc_load method.\n"
 msgstr ""
 
-#: ../src/gnm-plugin.c:214
+#: ../src/gnm-plugin.c:225
 #, c-format
 msgid "%d function in category \"%s\""
 msgid_plural "Group of %d functions in category \"%s\""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/gnm-plugin.c:321
+#: ../src/gnm-plugin.c:334
 msgid "Missing file name."
 msgstr "Kehilangan nama fail."
 
-#: ../src/gnm-plugin.c:370
+#: ../src/gnm-plugin.c:383
 #, c-format
 msgid "Cannot read UI description from XML file %s: %s"
 msgstr ""
 
 #. xgettext : %d gives the number of actions. This is input to ngettext.
-#: ../src/gnm-plugin.c:411
+#: ../src/gnm-plugin.c:424
 #, c-format
 msgid "User interface with %d action"
 msgid_plural "User interface with %d actions"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/gnm-plugin.c:511 ../src/gnm-plugin.c:583
+#: ../src/gnm-plugin.c:524 ../src/gnm-plugin.c:596
 #, c-format
 msgid "Module file \"%s\" has invalid format."
 msgstr "Fail module \"%s\" mempunyai format tidak sah."
 
-#: ../src/gnm-plugin.c:515 ../src/gnm-plugin.c:586
+#: ../src/gnm-plugin.c:528 ../src/gnm-plugin.c:599
 #, fuzzy, c-format
 msgid "File doesn't contain \"%s\" array."
 msgstr "tidak mengandungi"
@@ -10878,6 +10887,16 @@ msgstr "Banyak ralat\n"
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Tak dapat membuka fail '%s'"
+
+#: ../src/gui-util.c:1383
+#, c-format
+msgid "The plugin with id %s is required but cannot be found."
+msgstr ""
+
+#: ../src/gui-util.c:1391
+#, c-format
+msgid "The %s plugin is required but is not loaded."
+msgstr ""
 
 #: ../src/hlink.c:161 ../src/hlink.c:177
 msgid "Link target"
@@ -11746,7 +11765,7 @@ msgid "Cut"
 msgstr "Potong"
 
 #. Oh, yeah?
-#: ../src/sheet.c:642
+#: ../src/sheet.c:653
 msgid ""
 "This is a special version of Gnumeric.  It has been compiled\n"
 "with support for a very large number of columns.  Access to the\n"
@@ -11754,332 +11773,332 @@ msgid ""
 "name.  Expect weirdness."
 msgstr ""
 
-#: ../src/sheet.c:803
+#: ../src/sheet.c:816
 #, fuzzy
 msgid "Sheet Type"
 msgstr "Helaian 1"
 
-#: ../src/sheet.c:804
+#: ../src/sheet.c:817
 msgid "How type of sheet this is."
 msgstr ""
 
-#: ../src/sheet.c:812
+#: ../src/sheet.c:825
 #, fuzzy
 msgid "Parent workbook"
 msgstr "Cetak bukukerja"
 
-#: ../src/sheet.c:813
+#: ../src/sheet.c:826
 msgid "The workbook in which this sheet lives"
 msgstr ""
 
-#: ../src/sheet.c:820
+#: ../src/sheet.c:833
 #, fuzzy
 msgid "The name of the sheet."
 msgstr "Tukarnama helaian semasa"
 
-#: ../src/sheet.c:825
+#: ../src/sheet.c:838
 msgid "text-is-rtl"
 msgstr ""
 
-#: ../src/sheet.c:826
+#: ../src/sheet.c:839
 msgid "Text goes from right to left."
 msgstr ""
 
-#: ../src/sheet.c:831
+#: ../src/sheet.c:844
 msgid "Visibility"
 msgstr ""
 
-#: ../src/sheet.c:832
+#: ../src/sheet.c:845
 msgid "How visible the sheet is."
 msgstr ""
 
-#: ../src/sheet.c:838
+#: ../src/sheet.c:851
 #, fuzzy
 msgid "Display Formulas"
 msgstr "Papar _Formula"
 
-#: ../src/sheet.c:839
+#: ../src/sheet.c:852
 msgid "Control whether formulas are shown instead of values."
 msgstr ""
 
-#: ../src/sheet.c:844
+#: ../src/sheet.c:857
 #, fuzzy
 msgid "Display Zeros"
 msgstr "Papar _Formula"
 
-#: ../src/sheet.c:845
+#: ../src/sheet.c:858
 msgid "Control whether zeros are shown are blanked out."
 msgstr ""
 
-#: ../src/sheet.c:850
+#: ../src/sheet.c:863
 #, fuzzy
 msgid "Display Grid"
 msgstr "_Dimatikan"
 
-#: ../src/sheet.c:851
+#: ../src/sheet.c:864
 msgid "Control whether the grid is shown."
 msgstr ""
 
-#: ../src/sheet.c:856
+#: ../src/sheet.c:869
 #, fuzzy
 msgid "Display Column Headers"
 msgstr "Papar _Formula"
 
-#: ../src/sheet.c:857
+#: ../src/sheet.c:870
 msgid "Control whether column headers are shown."
 msgstr ""
 
-#: ../src/sheet.c:862
+#: ../src/sheet.c:875
 #, fuzzy
 msgid "Display Row Headers"
 msgstr "Sembunyi Pengepala _Baris"
 
-#: ../src/sheet.c:863
+#: ../src/sheet.c:876
 msgid "Control whether row headers are shown."
 msgstr ""
 
-#: ../src/sheet.c:868
+#: ../src/sheet.c:881
 #, fuzzy
 msgid "Display Outlines"
 msgstr "Papar _Formula"
 
-#: ../src/sheet.c:869
+#: ../src/sheet.c:882
 msgid "Control whether outlines are shown."
 msgstr ""
 
-#: ../src/sheet.c:874
+#: ../src/sheet.c:887
 msgid "Display Outlines Below"
 msgstr ""
 
-#: ../src/sheet.c:875
+#: ../src/sheet.c:888
 msgid "Control whether outline symbols are shown below."
 msgstr ""
 
-#: ../src/sheet.c:880
+#: ../src/sheet.c:893
 msgid "Display Outlines Right"
 msgstr ""
 
-#: ../src/sheet.c:881
+#: ../src/sheet.c:894
 msgid "Control whether outline symbols are shown to the right."
 msgstr ""
 
-#: ../src/sheet.c:887 ../src/workbook-view.c:883
+#: ../src/sheet.c:900 ../src/workbook-view.c:883
 #, fuzzy
 msgid "Protected"
 msgstr "Fungsi rosak"
 
-#: ../src/sheet.c:888
+#: ../src/sheet.c:901
 #, fuzzy
 msgid "Sheet is protected."
 msgstr "Nama helaian diperlukan"
 
-#: ../src/sheet.c:891
+#: ../src/sheet.c:904
 msgid "Protected Allow Edit objects"
 msgstr ""
 
-#: ../src/sheet.c:892
+#: ../src/sheet.c:905
 msgid "Allow objects to be edited while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:895
+#: ../src/sheet.c:908
 msgid "Protected allow edit scenarios"
 msgstr ""
 
-#: ../src/sheet.c:896
+#: ../src/sheet.c:909
 msgid "Allow scenarios to be edited while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:899
+#: ../src/sheet.c:912
 #, fuzzy
 msgid "Protected allow cell formatting"
 msgstr "Pengformatan per kolum"
 
-#: ../src/sheet.c:900
+#: ../src/sheet.c:913
 msgid "Allow cell format changes while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:903
+#: ../src/sheet.c:916
 #, fuzzy
 msgid "Protected allow column formatting"
 msgstr "Pengformatan per kolum"
 
-#: ../src/sheet.c:904
+#: ../src/sheet.c:917
 msgid "Allow column formatting while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:907
+#: ../src/sheet.c:920
 #, fuzzy
 msgid "Protected allow row formatting"
 msgstr "Pengformatan keseluruhan"
 
-#: ../src/sheet.c:908
+#: ../src/sheet.c:921
 msgid "Allow row formatting while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:911
+#: ../src/sheet.c:924
 msgid "Protected allow insert columns"
 msgstr ""
 
-#: ../src/sheet.c:912
+#: ../src/sheet.c:925
 msgid "Allow columns to be inserted while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:915
+#: ../src/sheet.c:928
 msgid "Protected allow insert rows"
 msgstr ""
 
-#: ../src/sheet.c:916
+#: ../src/sheet.c:929
 msgid "Allow rows to be inserted while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:919
+#: ../src/sheet.c:932
 msgid "Protected allow insert hyperlinks"
 msgstr ""
 
-#: ../src/sheet.c:920
+#: ../src/sheet.c:933
 msgid "Allow hyperlinks to be inserted while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:923
+#: ../src/sheet.c:936
 #, fuzzy
 msgid "Protected allow delete columns"
 msgstr "Potong pilihan"
 
-#: ../src/sheet.c:924
+#: ../src/sheet.c:937
 msgid "Allow columns to be deleted while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:927
+#: ../src/sheet.c:940
 msgid "Protected allow delete rows"
 msgstr ""
 
-#: ../src/sheet.c:928
+#: ../src/sheet.c:941
 msgid "Allow rows to be deleted while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:931
+#: ../src/sheet.c:944
 #, fuzzy
 msgid "Protected allow select locked cells"
 msgstr "Tengah merentas sel yang dipilih"
 
-#: ../src/sheet.c:932
+#: ../src/sheet.c:945
 msgid "Allow the user to select locked cells while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:935
+#: ../src/sheet.c:948
 msgid "Protected allow sort ranges"
 msgstr ""
 
-#: ../src/sheet.c:936
+#: ../src/sheet.c:949
 msgid "Allow ranges to be sorted while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:939
+#: ../src/sheet.c:952
 msgid "Protected allow edit auto filters"
 msgstr ""
 
-#: ../src/sheet.c:940
+#: ../src/sheet.c:953
 msgid "Allow auto filters to be edited while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:943
+#: ../src/sheet.c:956
 #, fuzzy
 msgid "Protected allow edit pivottable"
 msgstr "Cipta jadual pivot"
 
-#: ../src/sheet.c:944
+#: ../src/sheet.c:957
 msgid "Allow pivottable to be edited while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:947
+#: ../src/sheet.c:960
 #, fuzzy
 msgid "Protected allow select unlocked cells"
 msgstr "Tengah merentas sel yang dipilih"
 
-#: ../src/sheet.c:948
+#: ../src/sheet.c:961
 msgid "Allow the user to select unlocked cells while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:952
+#: ../src/sheet.c:965
 msgid "Display convention for expressions (default Gnumeric A1)"
 msgstr ""
 
-#: ../src/sheet.c:953
+#: ../src/sheet.c:966
 msgid "How to format displayed expressions, (A1 vs R1C1, function names, ...)"
 msgstr ""
 
 #. convenience wrapper to CONVENTIONS
-#: ../src/sheet.c:957
+#: ../src/sheet.c:970
 msgid "Display convention for expressions as XLS_R1C1 vs default"
 msgstr ""
 
-#: ../src/sheet.c:958
+#: ../src/sheet.c:971
 msgid "How to format displayed expressions, (a convenience api)"
 msgstr ""
 
-#: ../src/sheet.c:964
+#: ../src/sheet.c:977
 #, fuzzy
 msgid "Tab Foreground"
 msgstr "Latar Depan"
 
-#: ../src/sheet.c:965
+#: ../src/sheet.c:978
 msgid "The foreground color of the tab."
 msgstr ""
 
-#: ../src/sheet.c:970
+#: ../src/sheet.c:983
 #, fuzzy
 msgid "Tab Background"
 msgstr "LatarBelakang"
 
-#: ../src/sheet.c:971
+#: ../src/sheet.c:984
 #, fuzzy
 msgid "The background color of the tab."
 msgstr "Tetapkan warna latar"
 
-#: ../src/sheet.c:978
+#: ../src/sheet.c:991
 #, fuzzy
 msgid "Zoom Factor"
 msgstr "Nama _Cecikut"
 
-#: ../src/sheet.c:979
+#: ../src/sheet.c:992
 msgid "The level of zoom used for this sheet."
 msgstr ""
 
-#: ../src/sheet.c:989
+#: ../src/sheet.c:1002
 #, fuzzy
 msgid "Columns number in the sheet"
 msgstr "Tukarnama helaian semasa"
 
-#: ../src/sheet.c:996
+#: ../src/sheet.c:1009
 #, fuzzy
 msgid "Rows number in the sheet"
 msgstr "Tukarnama helaian semasa"
 
-#: ../src/sheet.c:3111
+#: ../src/sheet.c:3122
 msgid "Target region contains merged cells"
 msgstr ""
 
-#: ../src/sheet.c:3172
+#: ../src/sheet.c:3183
 msgid "cannot operate on merged cells"
 msgstr ""
 
-#: ../src/sheet.c:3182
+#: ../src/sheet.c:3193
 msgid "cannot operate on array formulae"
 msgstr ""
 
-#: ../src/sheet.c:4408
+#: ../src/sheet.c:4419
 msgid "Insert Columns"
 msgstr "Selit Kolum"
 
-#: ../src/sheet.c:4501
+#: ../src/sheet.c:4512
 msgid "Delete Columns"
 msgstr "Padam Kolum"
 
-#: ../src/sheet.c:4584
+#: ../src/sheet.c:4595
 msgid "Insert Rows"
 msgstr "Selit Baris"
 
-#: ../src/sheet.c:4677
+#: ../src/sheet.c:4688
 #, fuzzy
 msgid "Delete Rows"
 msgstr "Pa_dam"
@@ -12981,12 +13000,9 @@ msgstr ""
 msgid "Fourier Transform"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4196 ../src/tools/solver/reports-write.c:644
-msgid "Real"
-msgstr "Nyata"
-
-#: ../src/tools/analysis-tools.c:4197
-msgid "Imaginary"
+#: ../src/tools/analysis-tools.c:4196
+#, fuzzy
+msgid "/Real/Imaginary"
 msgstr "Khayalan"
 
 #: ../src/tools/analysis-tools.c:4249
@@ -13414,6 +13430,10 @@ msgstr "Pengguna"
 msgid "System"
 msgstr "Sistem"
 
+#: ../src/tools/solver/reports-write.c:644
+msgid "Real"
+msgstr "Nyata"
+
 #: ../src/tools/solver/reports-write.c:645
 msgid "Time (sec.)"
 msgstr "masa (saat)"
@@ -13610,54 +13630,54 @@ msgstr ""
 msgid "Less than or Equal"
 msgstr ""
 
-#: ../src/validation.c:279
+#: ../src/validation.c:285
 msgid "Missing formula for validation"
 msgstr ""
 
-#: ../src/validation.c:282
+#: ../src/validation.c:288
 msgid "Extra formula for validation"
 msgstr ""
 
-#: ../src/validation.c:293
+#: ../src/validation.c:299
 msgid "Gnumeric: Validation"
 msgstr "Gnumeric: Pengesahan"
 
-#: ../src/validation.c:356
+#: ../src/validation.c:362
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "Sel %s tidak diizinkan  kosong"
 
-#: ../src/validation.c:364
+#: ../src/validation.c:370
 #, fuzzy, c-format
 msgid "Cell %s is not permitted to contain error values"
 msgstr "Sel %s tidak diizinkan  kosong"
 
-#: ../src/validation.c:375
+#: ../src/validation.c:381
 #, fuzzy, c-format
 msgid "Cell %s is not permitted to contain strings"
 msgstr "Sel %s tidak diizinkan  kosong"
 
-#: ../src/validation.c:391
+#: ../src/validation.c:397
 #, c-format
 msgid "'%s' is not an integer"
 msgstr "'%s' adalah bukan integer"
 
-#: ../src/validation.c:401
+#: ../src/validation.c:407
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "%s adalah bukan tarikh yang sah"
 
-#: ../src/validation.c:423
+#: ../src/validation.c:429
 #, c-format
 msgid "%s does not contain the new value."
 msgstr ""
 
-#: ../src/validation.c:457
+#: ../src/validation.c:463
 #, c-format
 msgid "%s is not true."
 msgstr "%s adalah palsu."
 
-#: ../src/validation.c:496
+#: ../src/validation.c:502
 #, fuzzy, c-format
 msgid "%s is out of permitted range"
 msgstr "Sel %s tidak diizinkan  kosong"
@@ -14340,8 +14360,8 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1921
 #, fuzzy
-msgid "_Find..."
-msgstr "_Lebar..."
+msgid "S_earch..."
+msgstr "Cari..."
 
 #: ../src/wbc-gtk-actions.c:1922
 #, fuzzy
@@ -14350,8 +14370,8 @@ msgstr "Cari rentetan"
 
 #: ../src/wbc-gtk-actions.c:1924
 #, fuzzy
-msgid "R_eplace..."
-msgstr "_Ganti:"
+msgid "Search _& Replace..."
+msgstr "Cari dan Ganti..."
 
 #: ../src/wbc-gtk-actions.c:1925
 msgid "Search for something and replace it with something else"
@@ -16519,6 +16539,17 @@ msgstr "Nama bagi templat"
 msgid "A simple list template"
 msgstr "Nama bagi templat"
 
+#~ msgid "Search Center"
+#~ msgstr "Pusat Carian"
+
+#, fuzzy
+#~ msgid "_Find..."
+#~ msgstr "_Lebar..."
+
+#, fuzzy
+#~ msgid "R_eplace..."
+#~ msgstr "_Ganti:"
+
 #, fuzzy
 #~ msgid "Missing theme"
 #~ msgstr "Kehilangan nama fail."
@@ -18105,12 +18136,6 @@ msgstr "Nama bagi templat"
 
 #~ msgid "Open..."
 #~ msgstr "Buka ..."
-
-#~ msgid "Search..."
-#~ msgstr "Cari..."
-
-#~ msgid "Search and Replace..."
-#~ msgstr "Cari dan Ganti..."
 
 #~ msgid "HTML"
 #~ msgstr "HTML"
