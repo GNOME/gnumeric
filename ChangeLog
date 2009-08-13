@@ -1,3 +1,8 @@
+2009-08-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gnm-plugin.c (plugin_service_function_group_read_xml): get "lang"
+	property instead of "xml:lang" since the namespace is dropped.
+
 2009-08-05  Morten Welinder  <terra@gnome.org>
 
 	* src/GNOME_Gnumeric-gtk.xml.in: Add VUndo and VRedo.  See bug

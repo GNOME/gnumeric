@@ -75,7 +75,7 @@ plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree,
 	if (translated_category_node != NULL) {
 		gchar *lang;
 
-		lang = xml_node_get_cstr (translated_category_node, "xml:lang");
+		lang = xml_node_get_cstr (translated_category_node, "lang");
 		if (lang != NULL) {
 			xmlChar *val;
 
