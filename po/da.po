@@ -48,7 +48,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 0.71\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-07-07 19:49-0400\n"
-"PO-Revision-Date: 2009-07-07 20:26-0400\n"
+"PO-Revision-Date: 2009-08-13 09:52-0400\n"
 "Last-Translator: Morten Welinder <terra@gnome.org>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -225,17 +225,16 @@ msgstr ""
 #: ../plugins/derivatives/plugin.xml.in.h:1
 #: ../plugins/fn-financial/plugin.xml.in.h:1
 #: ../plugins/sample_datasource/plugin.xml.in.h:2
-#, fuzzy
 msgid "Finance"
 msgstr "Finans"
 
 #: ../plugins/derivatives/plugin.xml.in.h:2
 msgid "Financial Derivatives"
-msgstr "Finansielle afledede"
+msgstr "Finansielle afledte"
 
 #: ../plugins/derivatives/plugin.xml.in.h:3
 msgid "Functions related to financial derivatives"
-msgstr "Funktioner relaterede til finansielle afledede"
+msgstr "Funktioner relaterede til finansielle afledte instrumenter"
 
 #: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6660
 #: ../plugins/mps/mps.c:540 ../plugins/openoffice/openoffice-read.c:4785
@@ -396,7 +395,7 @@ msgstr ""
 
 #: ../plugins/excel/ms-excel-read.c:5845
 msgid "No password supplied"
-msgstr ""
+msgstr "Password ikke angivet"
 
 #: ../plugins/excel/ms-excel-write.c:215
 #, c-format
@@ -460,9 +459,8 @@ msgid "MS Excel (tm) (*.xls)"
 msgstr "MS Excel (tm) (*.xls)"
 
 #: ../plugins/excel/plugin.xml.in.h:4
-#, fuzzy
 msgid "MS Excel (tm) 2003 SpreadsheetML"
-msgstr "MS Excel (tm)"
+msgstr "MS Excel (tm) 2003 SpreadsheetML"
 
 #: ../plugins/excel/plugin.xml.in.h:5
 msgid "MS Excel (tm) 2007"
@@ -667,18 +665,16 @@ msgstr "Tal"
 
 # stikprøve kolliderer med at det bruges i betydningen "et eksempel"
 #: ../plugins/fn-complex/plugin.xml.in.h:1
-#, fuzzy
 msgid "Complex"
-msgstr "Prøve"
+msgstr "Compleks"
 
 #: ../plugins/fn-complex/plugin.xml.in.h:2
-#, fuzzy
 msgid "Complex Functions"
-msgstr "Funktion"
+msgstr "Complekse funktioner"
 
 #: ../plugins/fn-complex/plugin.xml.in.h:3
 msgid "Functions for complex numbers"
-msgstr ""
+msgstr "Funktioner til complekse tal"
 
 #: ../plugins/fn-database/functions.c:1245
 #: ../plugins/fn-database/functions.c:1248
@@ -705,9 +701,8 @@ msgid "Database"
 msgstr "Database"
 
 #: ../plugins/fn-database/plugin.xml.in.h:2
-#, fuzzy
 msgid "Database Functions"
-msgstr "Python-funktioner"
+msgstr "Databasefunktioner"
 
 #: ../plugins/fn-database/plugin.xml.in.h:3
 msgid "Functions looking up values in databases"
@@ -783,7 +778,6 @@ msgid "Date and Time Functions"
 msgstr ""
 
 #: ../plugins/fn-date/plugin.xml.in.h:2
-#, fuzzy
 msgid "Date/Time"
 msgstr "Dato/klokkeslet"
 
@@ -1163,18 +1157,16 @@ msgid "array,matrix_type,bandsize"
 msgstr ""
 
 #: ../plugins/fn-math/plugin.xml.in.h:1
-#, fuzzy
 msgid "Math Functions"
-msgstr "Python-funktioner"
+msgstr "Matematikfunktioner"
 
 #: ../plugins/fn-math/plugin.xml.in.h:2
 msgid "Mathematical Functions"
-msgstr ""
+msgstr "Matematiske funktioner"
 
 #: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:378
-#, fuzzy
 msgid "Mathematics"
-msgstr "_Fundne"
+msgstr "Matematik"
 
 #: ../plugins/fn-r/plugin.xml.in.h:1 ../plugins/fn-stat/plugin.xml.in.h:1
 #, fuzzy
@@ -1273,12 +1265,11 @@ msgstr ""
 
 #: ../plugins/fn-random/plugin.xml.in.h:1
 msgid "Functions for generating random numbers"
-msgstr ""
+msgstr "Funktioner til generering af tilfældige tal"
 
 #: ../plugins/fn-random/plugin.xml.in.h:2
-#, fuzzy
 msgid "Random Number Functions"
-msgstr "Generering af tilfældige tal"
+msgstr "Funktioner til generering af tilfældige tal"
 
 #: ../plugins/fn-random/plugin.xml.in.h:3
 #: ../src/dialogs/random-generation.glade.h:6
@@ -1569,7 +1560,7 @@ msgstr ""
 
 #: ../plugins/fn-string/plugin.xml.in.h:1
 msgid "Functions for manipulating strings"
-msgstr ""
+msgstr "Funktioner til manipulation af tekst"
 
 #: ../plugins/fn-string/plugin.xml.in.h:2 ../src/dialogs/dialog-search.c:151
 #: ../src/func.c:1023
@@ -1577,9 +1568,8 @@ msgid "String"
 msgstr "Tekst"
 
 #: ../plugins/fn-string/plugin.xml.in.h:3
-#, fuzzy
 msgid "String Functions"
-msgstr "Python-funktioner"
+msgstr "Tekstfunktioner"
 
 #: ../plugins/fn-tsa/functions.c:1011
 msgid "Abscissas,Ordinates,Targets,Interpolation"
@@ -1594,14 +1584,12 @@ msgid "Sequence,Inverse"
 msgstr ""
 
 #: ../plugins/fn-tsa/plugin.xml.in.h:1
-#, fuzzy
 msgid "Time Series Analysis"
-msgstr "Fourier-analyse"
+msgstr "Tidsserieanalyse"
 
 #: ../plugins/fn-tsa/plugin.xml.in.h:2
-#, fuzzy
 msgid "Time Series Analysis Functions"
-msgstr "Teknisk"
+msgstr "Funktioner til tidsserie analyse"
 
 #: ../plugins/gda/plugin-gda.c:158
 msgid "Too much data returned"
@@ -1679,9 +1667,8 @@ msgid "HTML (*.html) fragment"
 msgstr "HTML-fragment (*.html)"
 
 #: ../plugins/html/plugin.xml.in.h:3
-#, fuzzy
 msgid "HTML (*.html, *.htm)"
-msgstr "HTML 3.2 (*.html)"
+msgstr "HTML 3.2 (*.html, *.htm)"
 
 #: ../plugins/html/plugin.xml.in.h:4
 msgid "HTML 3.2 (*.html)"
@@ -1700,18 +1687,16 @@ msgid "LaTeX 2e (*.tex)"
 msgstr "LaTeX 2e (*.tex)"
 
 #: ../plugins/html/plugin.xml.in.h:8
-#, fuzzy
 msgid "LaTeX 2e (*.tex) table fragment"
-msgstr "LaTeX 2e (*.tex)"
+msgstr "LaTeX 2e (*.tex) tabelfragment"
 
 #: ../plugins/html/plugin.xml.in.h:9
 msgid "TROFF (*.me)"
 msgstr "TROFF (*.me)"
 
 #: ../plugins/html/plugin.xml.in.h:10
-#, fuzzy
 msgid "XHTML (*.html)"
-msgstr "HTML 3.2 (*.html)"
+msgstr "XHTML (*.html)"
 
 #: ../plugins/html/plugin.xml.in.h:11
 msgid "XHTML range - for export to clipboard"
@@ -1730,9 +1715,8 @@ msgid "Lotus 123"
 msgstr "Lotus 123"
 
 #: ../plugins/lotus-123/plugin.xml.in.h:3
-#, fuzzy
 msgid "Lotus 123 (*.wk1, *.wks, *.123)"
-msgstr "Lotus 123 (*.wk1)"
+msgstr "Lotus 123 (*.wk1, *.wks, *.123)"
 
 #: ../plugins/mps/mps.c:177
 msgid "Program Name"
@@ -1846,7 +1830,7 @@ msgstr "Læser LP-programmer gemt i MPS-formatet (*.mps)"
 
 #: ../plugins/numtheory/plugin.xml.in.h:1
 msgid "Bitwise Operations"
-msgstr "Bitvise operationer"
+msgstr "Bitoperationer"
 
 #: ../plugins/numtheory/plugin.xml.in.h:2
 msgid "Number Theory"
@@ -1857,9 +1841,7 @@ msgstr "Talteori"
 msgid ""
 "Several basic utilities for prime numbers, pi, phi, sigma. It also holds "
 "some simple bitwise operations."
-msgstr ""
-"Forskellige basale programmer for primtal, pi, sigma.  Modulet indeholder "
-"også nogle simple bitvise operationer"
+msgstr "Forskellige basale funktioner for primtal, pi, sigma.  Modulet indeholder også nogle simple bitoperationer"
 
 #: ../plugins/oleo/plugin.xml.in.h:1
 msgid "GNU Oleo"
@@ -1968,9 +1950,8 @@ msgid "Open Document Format as used by OpenOffice, Lotus Symphony, etc."
 msgstr ""
 
 #: ../plugins/paradox/paradox.c:67 ../plugins/paradox/paradox.c:117
-#, fuzzy
 msgid "Error while opening Paradox file."
-msgstr "Fejl ved åbning af xbase-fil."
+msgstr "Fejl ved åbning af Paradox-fil."
 
 #: ../plugins/paradox/paradox.c:115
 #, fuzzy
@@ -2513,7 +2494,6 @@ msgid "Autocorrect names of days"
 msgstr "_Navne på dage med stort"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:9
-#, fuzzy
 msgid "Autocorrect replace"
 msgstr "Automatiske rettelser"
 
@@ -6606,48 +6586,42 @@ msgstr "Kunne ikke fremmane navnehjælperen."
 
 #: ../src/dialogs/dialog-function-select.c:216
 msgid "Recently Used"
-msgstr ""
+msgstr "Senest brugte"
 
 #: ../src/dialogs/dialog-function-select.c:221
-#, fuzzy
 msgid "All Functions (long list)"
-msgstr "Funktionen eksisterer ikke"
+msgstr "Alle funktioner (lang liste)"
 
 #: ../src/dialogs/dialog-function-select.c:438
-#, fuzzy, c-format
+#, c-format
 msgid "%s evaluates to %s."
-msgstr "%s version %s"
+msgstr "%s resulterer i %s."
 
 #: ../src/dialogs/dialog-function-select.c:497
-#, fuzzy
 msgid "Arguments:"
-msgstr "Justering"
+msgstr "Argumenter:"
 
 #: ../src/dialogs/dialog-function-select.c:517
-#, fuzzy
 msgid "Note: "
-msgstr "Navn: "
+msgstr "Bemærk: "
 
 # stikprøve kolliderer med at det bruges i betydningen "et eksempel"
 #: ../src/dialogs/dialog-function-select.c:529
-#, fuzzy
 msgid "Examples:"
-msgstr "Prøve"
+msgstr "Eksempler:"
 
 #. Not translated
 #: ../src/dialogs/dialog-function-select.c:545
 msgid "See also: "
-msgstr ""
+msgstr "Se også: "
 
 #: ../src/dialogs/dialog-function-select.c:560
-#, fuzzy
 msgid ", "
-msgstr " "
+msgstr ", "
 
 #: ../src/dialogs/dialog-function-select.c:592
-#, fuzzy
 msgid "Further information: "
-msgstr "Information"
+msgstr "Yderligere information: "
 
 #: ../src/dialogs/dialog-function-select.c:594
 #, fuzzy
@@ -6656,11 +6630,11 @@ msgstr "Beskrivelse"
 
 #: ../src/dialogs/dialog-function-select.c:605
 msgid "Microsoft Excel: "
-msgstr ""
+msgstr "Microsoft Excel: "
 
 #: ../src/dialogs/dialog-function-select.c:613
 msgid "ODF (OpenFormula): "
-msgstr ""
+msgstr "ODF (OpenFormula): "
 
 #: ../src/dialogs/dialog-goal-seek.c:330
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
