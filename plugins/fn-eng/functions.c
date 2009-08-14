@@ -518,9 +518,6 @@ gnumeric_hex2oct (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_hex2dec[] = {
         { GNM_FUNC_HELP_NAME, F_("HEX2DEC:decimal representation of the hexadecimal number @{x}") },
         { GNM_FUNC_HELP_ARG, F_("x:a hexadecimal number, either as a string or as a number if no A to F are needed") },
-        { GNM_FUNC_HELP_ARG, F_("places:number of digits") },
-        { GNM_FUNC_HELP_DESCRIPTION, F_("If @{places} is given, HEX2DEC pads the result with zeros to achieve "
-					"exactly @{places} digits. If this is not possible, HEX2DEC returns #NUM!") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=HEX2DEC(\"2A\")" },
         { GNM_FUNC_HELP_SEEALSO, ("DEC2HEX,HEX2BIN,HEX2OCT") },

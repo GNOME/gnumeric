@@ -276,9 +276,6 @@ static GnmFuncHelp const help_randnegbinom[] = {
         { GNM_FUNC_HELP_ARG, F_("n:number of failures") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 RANDNEGBINOM returns #NUM!") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{n} < 1 RANDNEGBINOM returns #NUM!") },
-        { GNM_FUNC_HELP_ARG, F_("area0:first cell area") },
-        { GNM_FUNC_HELP_ARG, F_("area1:second cell area") },
-        { GNM_FUNC_HELP_DESCRIPTION, F_("number.") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDNEGBINOM(0.5,5)" },
         { GNM_FUNC_HELP_SEEALSO, "RAND,RANDBETWEEN" },
         { GNM_FUNC_HELP_END}

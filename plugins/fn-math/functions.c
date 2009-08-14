@@ -301,7 +301,7 @@ gnumeric_acot (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_acoth[] = {
 	{ GNM_FUNC_HELP_NAME, F_("ACOTH:inverse hyperbolic cotangent of a value")},
-	{ GNM_FUNC_HELP_ARG, F_("x:value")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=ACOTH(2.2)" },
 	{ GNM_FUNC_HELP_SEEALSO, "COTH,TANH" },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:InverseHyperbolicCotangent.html") },
@@ -319,6 +319,7 @@ gnumeric_acoth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_asin[] = {
         { GNM_FUNC_HELP_NAME, F_("ASIN:the arc sine of @{x}")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
         { GNM_FUNC_HELP_DESCRIPTION, F_("ASIN calculates the arc sine of @{x}; that is the value whose sine is @{x}.")},
  	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} falls outside the range -1 to 1, ASIN returns #NUM!") },	
@@ -707,7 +708,7 @@ gnumeric_cosh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_cot[] = {
 	{ GNM_FUNC_HELP_NAME, F_("COT:cotangent of a value")},
-	{ GNM_FUNC_HELP_ARG, F_("x:value")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=COT(0.12)" },
 	{ GNM_FUNC_HELP_SEEALSO, "TAN,ACOT" },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:Cotangent.html") },
@@ -725,7 +726,7 @@ gnumeric_cot (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_coth[] = {
 	{ GNM_FUNC_HELP_NAME, F_("COT:hyperbolic cotangent of a value")},
-	{ GNM_FUNC_HELP_ARG, F_("x:value")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=COTH(0.12)" },
 	{ GNM_FUNC_HELP_SEEALSO, "TANH,ACOTH" },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:HyperbolicCotangent.html") },
@@ -904,7 +905,7 @@ gnumeric_combin (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_floor[] = {
 	{ GNM_FUNC_HELP_NAME, F_("FLOOR:nearest multiple of @{significance} whose absolute value is at most ABS(@{x}).") },
-	{ GNM_FUNC_HELP_ARG, F_("x:value.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:number.") },
 	{ GNM_FUNC_HELP_ARG, F_("significance:base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} <0)") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_(
 			"FLOOR(@{x},@{significance}) is the nearest multiple of @{significance} whose absolute value is at most ABS(@{x})") },

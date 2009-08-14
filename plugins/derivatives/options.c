@@ -1618,13 +1618,14 @@ static GnmFuncHelp const help_opt_2_asset_correlation[] = {
         { GNM_FUNC_HELP_ARG, F_("strike1:strike prices of the first option")},
         { GNM_FUNC_HELP_ARG, F_("strike1:strike prices of the second option")},
 	DEF_ARG_TIME_MATURITY_Y,
-	DEF_ARG_RATE_RISKFREE_ANN,
         { GNM_FUNC_HELP_ARG, F_("cost_of_carry1:net cost of holding the underlying asset of the first option "
 				"(for common stocks, the risk free rate less the dividend yield)")},
         { GNM_FUNC_HELP_ARG, F_("cost_of_carry2:net cost of holding the underlying asset of the second option "
 				"(for common stocks, the risk free rate less the dividend yield)")},
+	DEF_ARG_RATE_RISKFREE_ANN,
         { GNM_FUNC_HELP_ARG, F_("volatility1:annualized volatility in price of the underlying asset of the first option")},
         { GNM_FUNC_HELP_ARG, F_("volatility2:annualized volatility in price of the underlying asset of the second option")},
+	{ GNM_FUNC_HELP_ARG, F_("rho:correlation between the two underlying assets")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_2_ASSET_CORRELATION models the theoretical price of options "
 					"on 2 assets with correlation @{rho}. The payoff for a call is "
 					"max(@{spot2} - @{strike2},0) if @{spot1} > @{strike1} or 0 otherwise. "

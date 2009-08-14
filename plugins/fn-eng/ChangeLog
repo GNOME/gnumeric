@@ -1,3 +1,7 @@
+2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_hex2dec): remove incorrect argument
+
 2009-08-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_besselj): fix spelling

@@ -1,3 +1,8 @@
+2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* derivatives.c (help_opt_2_asset_correlation): add argument and
+	  fix argument order
+
 2009-08-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	Fixes [#448580]
