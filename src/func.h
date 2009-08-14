@@ -12,6 +12,7 @@ void functions_init     (void);
 void functions_shutdown (void);
 
 void function_dump_defs (char const *filename, int dump_type);
+int gnm_func_sanity_check (void);
 
 /******************************************************************************/
 /* Function group support */

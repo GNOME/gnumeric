@@ -35,6 +35,7 @@
 #include "gutils.h"
 #include "gnm-plugin.h"
 #include "application.h"
+#include "func.h"
 
 #include <gtk/gtk.h>
 #include <glib/gstdio.h>
@@ -61,6 +62,7 @@ static gboolean split_funcdocs = FALSE;
 static gboolean immediate_exit_flag = FALSE;
 static gboolean gnumeric_no_splash = FALSE;
 static gboolean gnumeric_no_warnings = FALSE;
+static gboolean func_sanity_check = FALSE;
 static gchar  *func_def_file = NULL;
 static gchar  *func_state_file = NULL;
 static gchar  *ext_refs_file = NULL;
@@ -105,6 +107,10 @@ static const GOptionEntry gnumeric_options [] = {
 		"split-func", 0,
 		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &split_funcdocs,
 		N_("Generate new help and po files"),
+		NULL
+	},
+	{ "func-sanity-check", 0, 0, G_OPTION_ARG_NONE, &func_sanity_check,
+		N_("Sanity check functions' help texts"),
 		NULL
 	},
 	{
@@ -368,6 +374,8 @@ main (int argc, char const **argv)
 		return gnm_dump_func_defs (NULL, 2);
 	if (ext_refs_file)
 		return gnm_dump_func_defs (ext_refs_file, 4);
+	if (func_sanity_check)
+		return gnm_func_sanity_check ();
 
 	/* Keep in sync with .desktop file */
 	g_set_application_name (_("Gnumeric Spreadsheet"));

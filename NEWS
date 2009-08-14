@@ -41,6 +41,7 @@ Morten:
 	* Avoid using gtk_tree_view_column_get_cell_renderers.  [#589105]
 	* Fix DEC2HEX and friends for large values.  [#588997]
 	* Make undo/redo visible for vertical toolbar.
+	* Add some checking of help texts' sanity.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.9

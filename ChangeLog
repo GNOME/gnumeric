@@ -1,3 +1,11 @@
+2009-08-14  Morten Welinder  <terra@gnome.org>
+
+	* src/main-application.c (main): Add new --func-sanity-check
+	option.
+
+	* src/func.c (gnm_func_sanity_check, gnm_func_sanity_check1): New
+	functions.
+
 2009-08-13  Morten Welinder  <terra@gnome.org>
 
 	* src/func.c (func_def_cmp, function_category_compare): Take

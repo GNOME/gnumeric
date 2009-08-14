@@ -27,6 +27,8 @@
 #include "value.h"
 #include "number-match.h"
 #include "func-builtin.h"
+#include "command-context-stderr.h"
+#include "gnm-plugin.h"
 
 #include <goffice/goffice.h>
 #include <glib.h>
@@ -516,6 +518,74 @@ function_dump_defs (char const *filename, int dump_type)
 
 	g_ptr_array_free (ordered, TRUE);
 	fclose (output_file);
+}
+
+/* ------------------------------------------------------------------------- */
+
+static int
+gnm_func_sanity_check1 (GnmFunc const *fd)
+{
+	GnmFuncHelp const *h;
+	int counts[(int)GNM_FUNC_HELP_ODF + 1];
+	int res = 0;
+
+	memset (counts, 0, sizeof (counts));
+	for (h = fd->help; h->type != GNM_FUNC_HELP_END; h++) {
+		g_assert (h->type <= GNM_FUNC_HELP_ODF);
+		counts[h->type]++;
+
+		switch (h->type) {
+		case GNM_FUNC_HELP_NAME: {
+			size_t nlen = strlen (fd->name);
+			if (g_ascii_strncasecmp (fd->name, h->text, nlen) ||
+			    h->text[nlen] != ':') {
+				g_printerr ("%s: Invalid NAME record\n",
+					    fd->name);
+				res = 1;
+			}
+			break;
+		}
+		case GNM_FUNC_HELP_ARG:
+			break;
+		default:
+			; /* Nothing */
+		}
+	}
+
+	return res;
+}
+
+int
+gnm_func_sanity_check (void)
+{
+	int res;
+	GOCmdContext *cc = cmd_context_stderr_new ();
+	GPtrArray *ordered;
+	unsigned ui;
+
+	gnm_plugins_init (cc);
+	res = cmd_context_stderr_get_status (COMMAND_CONTEXT_STDERR (cc));
+	if (res)
+		goto out;
+	
+	ordered = g_ptr_array_new ();
+	g_hash_table_foreach (global_symbol_table->hash,
+			      copy_hash_table_to_ptr_array, ordered);
+	if (ordered->len > 0)
+		qsort (&g_ptr_array_index (ordered, 0),
+		       ordered->len, sizeof (gpointer),
+		       func_def_cmp);
+
+	for (ui = 0; ui < ordered->len; ui++) {
+		GnmFunc const *fd = g_ptr_array_index (ordered, ui);
+		if (gnm_func_sanity_check1 (fd))
+			res = 1;
+	}
+
+	g_ptr_array_free (ordered, TRUE);
+
+ out:
+	return res;
 }
 
 /* ------------------------------------------------------------------------- */
