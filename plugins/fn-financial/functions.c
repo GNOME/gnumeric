@@ -359,7 +359,7 @@ func_coup (GnmFuncEvalInfo *ei, GnmValue const * const *argv,
  */
 
 static GnmFuncHelp const help_accrint[] = {
-        { GNM_FUNC_HELP_NAME, F_("ACCRINT:calculate accrued interest")},
+        { GNM_FUNC_HELP_NAME, F_("ACCRINT:accrued interest")},
         { GNM_FUNC_HELP_ARG, F_("issue:date of issue")},
         { GNM_FUNC_HELP_ARG, F_("first_interest:date of first interest payment")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
@@ -420,7 +420,7 @@ gnumeric_accrint (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_accrintm[] = {
-        { GNM_FUNC_HELP_NAME, F_("ACCRINTM:calculate accrued interest")},
+        { GNM_FUNC_HELP_NAME, F_("ACCRINTM:accrued interest")},
         { GNM_FUNC_HELP_ARG, F_("issue:date of issue")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("rate:nominal annual interest rate")},
@@ -458,7 +458,7 @@ gnumeric_accrintm (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_intrate[] = {
-        { GNM_FUNC_HELP_NAME, F_("INTRATE:calculate interest rate")},
+        { GNM_FUNC_HELP_NAME, F_("INTRATE:interest rate")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("investment:amount paid on settlement")},
@@ -496,7 +496,7 @@ gnumeric_intrate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_received[] = {
-        { GNM_FUNC_HELP_NAME, F_("RECEIVED:calculate amount to be received at maturity")},
+        { GNM_FUNC_HELP_NAME, F_("RECEIVED:amount to be received at maturity")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("investment:amount paid on settlement")},
@@ -537,7 +537,7 @@ gnumeric_received (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_pricedisc[] = {
-        { GNM_FUNC_HELP_NAME, F_("PRICEDISC:calculate discounted price")},
+        { GNM_FUNC_HELP_NAME, F_("PRICEDISC:discounted price")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("discount:annual rate at which to discount")},
@@ -573,7 +573,7 @@ gnumeric_pricedisc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_pricemat[] = {
-        { GNM_FUNC_HELP_NAME, F_("PRICEMAT:calculate price at maturity")},
+        { GNM_FUNC_HELP_NAME, F_("PRICEMAT:price at maturity")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("issue:date of issue")},
@@ -618,7 +618,7 @@ gnumeric_pricemat (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_disc[] = {
-        { GNM_FUNC_HELP_NAME, F_("DISC:calculate discount rate")},
+        { GNM_FUNC_HELP_NAME, F_("DISC:discount rate")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("par:price per $100 face value")},
@@ -656,7 +656,7 @@ gnumeric_disc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_effect[] = {
-        { GNM_FUNC_HELP_NAME, F_("EFFECT:calculate effective interest rate")},
+        { GNM_FUNC_HELP_NAME, F_("EFFECT:effective interest rate")},
         { GNM_FUNC_HELP_ARG, F_("rate:nominal annual interest rate")},
         { GNM_FUNC_HELP_ARG, F_("nper:number of periods used for compounding")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("EFFECT calculates the effective interest rate using the formula (1+@{rate}/@{nper})^@{nper}-1.") },
@@ -681,7 +681,7 @@ gnumeric_effect (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_nominal[] = {
-        { GNM_FUNC_HELP_NAME, F_("NOMINAL:calculate nominal interest rate")},
+        { GNM_FUNC_HELP_NAME, F_("NOMINAL:nominal interest rate")},
         { GNM_FUNC_HELP_ARG, F_("rate:effective annual interest rate")},
         { GNM_FUNC_HELP_ARG, F_("nper:number of periods used for compounding")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("NOMINAL calculates the nominal interest rate from the effective rate.") },
@@ -706,7 +706,7 @@ gnumeric_nominal (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_ispmt[] = {
-        { GNM_FUNC_HELP_NAME, F_("ISPMT:calculate interest payment for period")},
+        { GNM_FUNC_HELP_NAME, F_("ISPMT:interest payment for period")},
         { GNM_FUNC_HELP_ARG, F_("rate:effective annual interest rate")},
         { GNM_FUNC_HELP_ARG, F_("per:period number")},
         { GNM_FUNC_HELP_ARG, F_("nper:number of periods")},
@@ -742,7 +742,7 @@ gnumeric_ispmt (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_db[] = {
-        { GNM_FUNC_HELP_NAME, F_("DB:calculate depreciation of an asset")},
+        { GNM_FUNC_HELP_NAME, F_("DB:depreciation of an asset")},
         { GNM_FUNC_HELP_ARG, F_("cost:initial cost of asset")},
         { GNM_FUNC_HELP_ARG, F_("salvage:value after depreciation")},
         { GNM_FUNC_HELP_ARG, F_("life:number of periods")},
@@ -792,7 +792,7 @@ gnumeric_db (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_ddb[] = {
-        { GNM_FUNC_HELP_NAME, F_("DDB:calculate depreciation of an asset")},
+        { GNM_FUNC_HELP_NAME, F_("DDB:depreciation of an asset")},
         { GNM_FUNC_HELP_ARG, F_("cost:initial cost of asset")},
         { GNM_FUNC_HELP_ARG, F_("salvage:value after depreciation")},
         { GNM_FUNC_HELP_ARG, F_("life:number of periods")},
@@ -841,7 +841,7 @@ gnumeric_ddb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_sln[] = {
-        { GNM_FUNC_HELP_NAME, F_("SLN:calculate depreciation of an asset")},
+        { GNM_FUNC_HELP_NAME, F_("SLN:depreciation of an asset")},
         { GNM_FUNC_HELP_ARG, F_("cost:initial cost of asset")},
         { GNM_FUNC_HELP_ARG, F_("salvage:value after depreciation")},
         { GNM_FUNC_HELP_ARG, F_("life:number of periods")},
@@ -871,7 +871,7 @@ gnumeric_sln (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_syd[] = {
-        { GNM_FUNC_HELP_NAME, F_("SYD:calculate sum-of-years depreciation")},
+        { GNM_FUNC_HELP_NAME, F_("SYD:sum-of-years depreciation")},
         { GNM_FUNC_HELP_ARG, F_("cost:initial cost of asset")},
         { GNM_FUNC_HELP_ARG, F_("salvage:value after depreciation")},
         { GNM_FUNC_HELP_ARG, F_("life:number of periods")},
@@ -998,7 +998,7 @@ gnumeric_dollarfr (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_mirr[] = {
-        { GNM_FUNC_HELP_NAME, F_("MIRR:calculate modified internal rate of return")},
+        { GNM_FUNC_HELP_NAME, F_("MIRR:modified internal rate of return")},
         { GNM_FUNC_HELP_ARG, F_("values:cash flow")},
         { GNM_FUNC_HELP_ARG, F_("finance_rate:interest rate for financing cost")},
         { GNM_FUNC_HELP_ARG, F_("reinvest_rate:interest rate for reinvestments")},
@@ -1056,7 +1056,7 @@ out:
 /***************************************************************************/
 
 static GnmFuncHelp const help_tbilleq[] = {
-        { GNM_FUNC_HELP_NAME, F_("TBILLEQ:calculate bond-equivalent yield for a treasury bill")},
+        { GNM_FUNC_HELP_NAME, F_("TBILLEQ:bond-equivalent yield for a treasury bill")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("discount:annual rate at which to discount")},
@@ -1094,7 +1094,7 @@ gnumeric_tbilleq (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_tbillprice[] = {
-        { GNM_FUNC_HELP_NAME, F_("TBILLPRICE:calculate price of a treasury bill")},
+        { GNM_FUNC_HELP_NAME, F_("TBILLPRICE:price of a treasury bill")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("discount:annual rate at which to discount")},
@@ -1128,7 +1128,7 @@ gnumeric_tbillprice (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_tbillyield[] = {
-        { GNM_FUNC_HELP_NAME, F_("TBILLYIELD:calculate yield of a treasury bill")},
+        { GNM_FUNC_HELP_NAME, F_("TBILLYIELD:yield of a treasury bill")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("price:price")},
@@ -1162,7 +1162,7 @@ gnumeric_tbillyield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_rate[] = {
-        { GNM_FUNC_HELP_NAME, F_("RATE:calculate rate of investment")},
+        { GNM_FUNC_HELP_NAME, F_("RATE:rate of investment")},
         { GNM_FUNC_HELP_ARG, F_("nper:number of periods")},
         { GNM_FUNC_HELP_ARG, F_("pmt:payment at each period")},
         { GNM_FUNC_HELP_ARG, F_("pv:present value")},
@@ -1276,7 +1276,7 @@ gnumeric_rate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_irr[] = {
-        { GNM_FUNC_HELP_NAME, F_("IRR:calculate internal rate of return")},
+        { GNM_FUNC_HELP_NAME, F_("IRR:internal rate of return")},
         { GNM_FUNC_HELP_ARG, F_("values:cash flow")},
         { GNM_FUNC_HELP_ARG, F_("guess:an estimate of what the result should be")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("IRR calculates the internal rate of return of a cash flow with periodic payments.  @{values} lists the payments (negative values) and receipts (positive values) for each period.") },
@@ -1393,7 +1393,7 @@ gnumeric_irr (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_pv[] = {
-        { GNM_FUNC_HELP_NAME, F_("PV:calculate present value")},
+        { GNM_FUNC_HELP_NAME, F_("PV:present value")},
         { GNM_FUNC_HELP_ARG, F_("rate:effective interest rate per period")},
         { GNM_FUNC_HELP_ARG, F_("nper:number of periods")},
         { GNM_FUNC_HELP_ARG, F_("pmt:payment at each period")},
@@ -1433,7 +1433,7 @@ gnumeric_pv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_npv[] = {
-        { GNM_FUNC_HELP_NAME, F_("NPV:calculate net present value")},
+        { GNM_FUNC_HELP_NAME, F_("NPV:net present value")},
         { GNM_FUNC_HELP_ARG, F_("rate:effective interest rate per period")},
         { GNM_FUNC_HELP_ARG, F_("value1:cash flow for period 1")},
         { GNM_FUNC_HELP_ARG, F_("value2:cash flow for period 2")},
@@ -1478,7 +1478,7 @@ gnumeric_npv (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_xnpv[] = {
-        { GNM_FUNC_HELP_NAME, F_("XNPV:calculate net present value")},
+        { GNM_FUNC_HELP_NAME, F_("XNPV:net present value")},
         { GNM_FUNC_HELP_ARG, F_("rate:effective annual interest rate")},
         { GNM_FUNC_HELP_ARG, F_("values:cash flow")},
         { GNM_FUNC_HELP_ARG, F_("dates:dates of cash flow")},
@@ -1534,7 +1534,7 @@ gnumeric_xnpv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_xirr[] = {
-        { GNM_FUNC_HELP_NAME, F_("XIRR:calculate internal rate of return")},
+        { GNM_FUNC_HELP_NAME, F_("XIRR:internal rate of return")},
         { GNM_FUNC_HELP_ARG, F_("values:cash flow")},
         { GNM_FUNC_HELP_ARG, F_("dates:dates of cash flow")},
         { GNM_FUNC_HELP_ARG, F_("guess:an estimate of what the result should be")},
@@ -1628,7 +1628,7 @@ gnumeric_xirr (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_fv[] = {
-        { GNM_FUNC_HELP_NAME, F_("FV:calculate future value")},
+        { GNM_FUNC_HELP_NAME, F_("FV:future value")},
         { GNM_FUNC_HELP_ARG, F_("rate:effective interest rate per period")},
         { GNM_FUNC_HELP_ARG, F_("nper:number of periods")},
         { GNM_FUNC_HELP_ARG, F_("pmt:payment at each period")},
@@ -1664,7 +1664,7 @@ gnumeric_fv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_pmt[] = {
-        { GNM_FUNC_HELP_NAME, F_("PMT:calculate payment for annuity")},
+        { GNM_FUNC_HELP_NAME, F_("PMT:payment for annuity")},
         { GNM_FUNC_HELP_ARG, F_("rate:effective annual interest rate")},
         { GNM_FUNC_HELP_ARG, F_("nper:number of periods")},
         { GNM_FUNC_HELP_ARG, F_("pv:present value")},
@@ -1694,7 +1694,7 @@ gnumeric_pmt (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_ipmt[] = {
-        { GNM_FUNC_HELP_NAME, F_("IPMT:calculate interest payment for period")},
+        { GNM_FUNC_HELP_NAME, F_("IPMT:interest payment for period")},
         { GNM_FUNC_HELP_ARG, F_("rate:effective annual interest rate")},
         { GNM_FUNC_HELP_ARG, F_("per:period number")},
         { GNM_FUNC_HELP_ARG, F_("nper:number of periods")},
@@ -1734,7 +1734,7 @@ gnumeric_ipmt (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_ppmt[] = {
-        { GNM_FUNC_HELP_NAME, F_("PPMT:calculate interest payment for period")},
+        { GNM_FUNC_HELP_NAME, F_("PPMT:interest payment for period")},
         { GNM_FUNC_HELP_ARG, F_("rate:effective annual interest rate")},
         { GNM_FUNC_HELP_ARG, F_("per:period number")},
         { GNM_FUNC_HELP_ARG, F_("nper:number of periods")},
@@ -1778,7 +1778,7 @@ gnumeric_ppmt (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_nper[] = {
-        { GNM_FUNC_HELP_NAME, F_("NPER:calculate number of periods")},
+        { GNM_FUNC_HELP_NAME, F_("NPER:number of periods")},
         { GNM_FUNC_HELP_ARG, F_("rate:effective annual interest rate")},
         { GNM_FUNC_HELP_ARG, F_("pmt:payment at each period")},
         { GNM_FUNC_HELP_ARG, F_("pv:present value")},
@@ -1826,7 +1826,7 @@ gnumeric_nper (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_duration[] = {
-        { GNM_FUNC_HELP_NAME, F_("DURATION:calculates the duration of a security")},
+        { GNM_FUNC_HELP_NAME, F_("DURATION:the duration of a security")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("coupon:annual coupon rate")},
@@ -1870,7 +1870,7 @@ gnumeric_duration (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_g_duration[] = {
-        { GNM_FUNC_HELP_NAME, F_("G_DURATION:calculates the duration of a investment") },
+        { GNM_FUNC_HELP_NAME, F_("G_DURATION:the duration of a investment") },
         { GNM_FUNC_HELP_ARG, F_("rate:effective annual interest rate")},
         { GNM_FUNC_HELP_ARG, F_("pv:present value")},
         { GNM_FUNC_HELP_ARG, F_("fv:future value")},
@@ -1902,7 +1902,7 @@ gnumeric_g_duration (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_fvschedule[] = {
-        { GNM_FUNC_HELP_NAME, F_("FVSCHEDULE:calculate future value")},
+        { GNM_FUNC_HELP_NAME, F_("FVSCHEDULE:future value")},
         { GNM_FUNC_HELP_ARG, F_("principal:intial value")},
         { GNM_FUNC_HELP_ARG, F_("schedule:range of interest rates")},
         { GNM_FUNC_HELP_DESCRIPTION, F_("FVSCHEDULE calculates the future value of @{principal} after applying a range of interest rates with compounding.") },
@@ -1938,7 +1938,7 @@ out:
 /***************************************************************************/
 
 static GnmFuncHelp const help_euro[] = {
-        { GNM_FUNC_HELP_NAME, F_("EURO:calculate equivalent of 1 EUR")},
+        { GNM_FUNC_HELP_NAME, F_("EURO:equivalent of 1 EUR")},
         { GNM_FUNC_HELP_ARG, F_("currency:three-letter currency code")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("EURO calculates the national currency amount corresponding to 1 EUR for any of the national currencies that were replaced by the Euro on its introduction.") },
 	{ GNM_FUNC_HELP_NOTE, F_("@{currency} must be one of "
@@ -2037,7 +2037,7 @@ gnumeric_euro (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_euroconvert[] = {
-        { GNM_FUNC_HELP_NAME, F_("EUROCONVERT:calculate pre-Euro amount from one currency to another")},
+        { GNM_FUNC_HELP_NAME, F_("EUROCONVERT:pre-Euro amount from one currency to another")},
         { GNM_FUNC_HELP_ARG, F_("n:amount")},
         { GNM_FUNC_HELP_ARG, F_("source:three-letter source currency code")},
         { GNM_FUNC_HELP_ARG, F_("target:three-letter target currency code")},
@@ -2065,7 +2065,7 @@ gnumeric_euroconvert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_price[] = {
-        { GNM_FUNC_HELP_NAME, F_("PRICE:calculates price of a security")},
+        { GNM_FUNC_HELP_NAME, F_("PRICE:price of a security")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("rate:nominal annual interest rate")},
@@ -2115,7 +2115,7 @@ gnumeric_price (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_yield[] = {
-        { GNM_FUNC_HELP_NAME, F_("YIELD:calculates yield of a security")},
+        { GNM_FUNC_HELP_NAME, F_("YIELD:yield of a security")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("rate:nominal annual interest rate")},
@@ -2224,7 +2224,7 @@ gnumeric_yield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_yielddisc[] = {
-        { GNM_FUNC_HELP_NAME, F_("YIELDDISC:calculates yield of a discounted security")},
+        { GNM_FUNC_HELP_NAME, F_("YIELDDISC:yield of a discounted security")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("price:price of security")},
@@ -2269,7 +2269,7 @@ gnumeric_yielddisc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_yieldmat[] = {
-        { GNM_FUNC_HELP_NAME, F_("YIELDMAT:calculates yield of a security")},
+        { GNM_FUNC_HELP_NAME, F_("YIELDMAT:yield of a security")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("issue:date of issue")},
@@ -2308,7 +2308,7 @@ gnumeric_yieldmat (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_oddfprice[] = {
-        { GNM_FUNC_HELP_NAME, F_("ODDFPRICE:calculates price of a security that has an odd first period")},
+        { GNM_FUNC_HELP_NAME, F_("ODDFPRICE:price of a security that has an odd first period")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("issue:date of issue")},
@@ -2458,7 +2458,7 @@ gnumeric_oddfprice (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_oddfyield[] = {
-        { GNM_FUNC_HELP_NAME, F_("ODDFYIELD:calculates yield of a security that has an odd first period")},
+        { GNM_FUNC_HELP_NAME, F_("ODDFYIELD:yield of a security that has an odd first period")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("issue:date of issue")},
@@ -2554,7 +2554,7 @@ gnumeric_oddfyield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_oddlprice[] = {
-        { GNM_FUNC_HELP_NAME, F_("ODDLPRICE:calculates price of a security that has an odd last period")},
+        { GNM_FUNC_HELP_NAME, F_("ODDLPRICE:price of a security that has an odd last period")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("last_interest:last interest date")},
@@ -2632,7 +2632,7 @@ gnumeric_oddlprice (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_oddlyield[] = {
-        { GNM_FUNC_HELP_NAME, F_("ODDLYIELD:calculates yield of a security that has an odd last period")},
+        { GNM_FUNC_HELP_NAME, F_("ODDLYIELD:yield of a security that has an odd last period")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("last_interest:last interest date")},
@@ -2710,7 +2710,7 @@ gnumeric_oddlyield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_amordegrc[] = {
-        { GNM_FUNC_HELP_NAME, F_("AMORDEGRC:calculate depreciation of an asset using French accounting conventions")},
+        { GNM_FUNC_HELP_NAME, F_("AMORDEGRC:depreciation of an asset using French accounting conventions")},
         { GNM_FUNC_HELP_ARG, F_("cost:initial cost of asset")},
         { GNM_FUNC_HELP_ARG, F_("purchase_date:date of purchase")},
         { GNM_FUNC_HELP_ARG, F_("first_period:end of first period")},
@@ -2758,7 +2758,7 @@ gnumeric_amordegrc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_amorlinc[] = {
-        { GNM_FUNC_HELP_NAME, F_("AMORLINC:calculate depreciation of an asset using French accounting conventions")},
+        { GNM_FUNC_HELP_NAME, F_("AMORLINC:depreciation of an asset using French accounting conventions")},
         { GNM_FUNC_HELP_ARG, F_("cost:initial cost of asset")},
         { GNM_FUNC_HELP_ARG, F_("purchase_date:date of purchase")},
         { GNM_FUNC_HELP_ARG, F_("first_period:end of first period")},
@@ -2804,7 +2804,7 @@ gnumeric_amorlinc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_coupdaybs[] = {
-        { GNM_FUNC_HELP_NAME, F_("COUPDAYBS:calculates number of days from coupon period to settlement")},
+        { GNM_FUNC_HELP_NAME, F_("COUPDAYBS:number of days from coupon period to settlement")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
@@ -2828,7 +2828,7 @@ gnumeric_coupdaybs (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_coupdays[] = {
-        { GNM_FUNC_HELP_NAME, F_("COUPDAYS:calculates number of days in the coupon period of the settlement date")},
+        { GNM_FUNC_HELP_NAME, F_("COUPDAYS:number of days in the coupon period of the settlement date")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
@@ -2852,7 +2852,7 @@ gnumeric_coupdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_coupdaysnc[] = {
-        { GNM_FUNC_HELP_NAME, F_("COUPDAYSNC:calculates number of days from the settlement date to the next coupon period")},
+        { GNM_FUNC_HELP_NAME, F_("COUPDAYSNC:number of days from the settlement date to the next coupon period")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
@@ -2876,7 +2876,7 @@ gnumeric_coupdaysnc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_coupncd[] = {
-        { GNM_FUNC_HELP_NAME, F_("COUPNCD:calculates the next coupon date after settlement")},
+        { GNM_FUNC_HELP_NAME, F_("COUPNCD:the next coupon date after settlement")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
@@ -2902,7 +2902,7 @@ gnumeric_coupncd (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_couppcd[] = {
-        { GNM_FUNC_HELP_NAME, F_("COUPPCD:calculates the last coupon date before settlement")},
+        { GNM_FUNC_HELP_NAME, F_("COUPPCD:the last coupon date before settlement")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
@@ -2928,7 +2928,7 @@ gnumeric_couppcd (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_coupnum[] = {
-        { GNM_FUNC_HELP_NAME, F_("COUPNUM:calculates number of coupons")},
+        { GNM_FUNC_HELP_NAME, F_("COUPNUM:number of coupons")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
@@ -2952,7 +2952,7 @@ gnumeric_coupnum (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_cumipmt[] = {
-        { GNM_FUNC_HELP_NAME, F_("CUMIPMT:calculate cumulative interest payment")},
+        { GNM_FUNC_HELP_NAME, F_("CUMIPMT:cumulative interest payment")},
         { GNM_FUNC_HELP_ARG, F_("rate:effective annual interest rate")},
         { GNM_FUNC_HELP_ARG, F_("nper:number of periods")},
         { GNM_FUNC_HELP_ARG, F_("pv:present value")},
@@ -2996,7 +2996,7 @@ gnumeric_cumipmt (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_cumprinc[] = {
-        { GNM_FUNC_HELP_NAME, F_("CUMPRINC:calculate cumulative principal")},
+        { GNM_FUNC_HELP_NAME, F_("CUMPRINC:cumulative principal")},
         { GNM_FUNC_HELP_ARG, F_("rate:effective annual interest rate")},
         { GNM_FUNC_HELP_ARG, F_("nper:number of periods")},
         { GNM_FUNC_HELP_ARG, F_("pv:present value")},
@@ -3040,7 +3040,7 @@ gnumeric_cumprinc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_mduration[] = {
-        { GNM_FUNC_HELP_NAME, F_("MDURATION:calculates the Macauley duration of a security")},
+        { GNM_FUNC_HELP_NAME, F_("MDURATION:the Macauley duration of a security")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("coupon:annual coupon rate")},
@@ -3085,7 +3085,7 @@ gnumeric_mduration (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_vdb[] = {
-        { GNM_FUNC_HELP_NAME, F_("VDB:calculate depreciation of an asset")},
+        { GNM_FUNC_HELP_NAME, F_("VDB:depreciation of an asset")},
         { GNM_FUNC_HELP_ARG, F_("cost:initial cost of asset")},
         { GNM_FUNC_HELP_ARG, F_("salvage:value after depreciation")},
         { GNM_FUNC_HELP_ARG, F_("life:number of periods")},

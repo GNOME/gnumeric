@@ -2809,7 +2809,7 @@ gnumeric_percentile (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_quartile[] = {
-	{ GNM_FUNC_HELP_NAME, F_("QUARTILE:calculates the @{k}-th quartile of the data points")},
+	{ GNM_FUNC_HELP_NAME, F_("QUARTILE:the @{k}-th quartile of the data points")},
 	{ GNM_FUNC_HELP_ARG, F_("array:data points")},
 	{ GNM_FUNC_HELP_ARG, F_("quart:A number from 0 to 4, indicating which quartile to calculate. "
 				"A value of 0 causes the smallest value of @{array} to be returned.")},
@@ -3082,7 +3082,7 @@ gnumeric_ttest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_frequency[] = {
-	{ GNM_FUNC_HELP_NAME, F_("FREQUENCY:calculates a frequency table")},
+	{ GNM_FUNC_HELP_NAME, F_("FREQUENCY:the frequency table")},
 	{ GNM_FUNC_HELP_ARG, F_("data_array:data values")},
 	{ GNM_FUNC_HELP_ARG, F_("bins_array:array of cutoff values")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The results are given as an array.") },
@@ -3400,7 +3400,7 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_logreg[] = {
-	{ GNM_FUNC_HELP_NAME, F_("LOGREG:calculates a logarithmic regression")},
+	{ GNM_FUNC_HELP_NAME, F_("LOGREG:the logarithmic regression")},
 	{ GNM_FUNC_HELP_ARG, F_("known_y's:known y-values")},
 	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.")},
 	{ GNM_FUNC_HELP_ARG, F_("const:If this is FALSE, the curve will be forced to go through "
@@ -4274,7 +4274,7 @@ gnumeric_forecast (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_intercept[] = {
-	{ GNM_FUNC_HELP_NAME, F_("INTERCEPT:calculates the intercept of a linear regression line")},
+	{ GNM_FUNC_HELP_NAME, F_("INTERCEPT:the intercept of a linear regression line")},
 	{ GNM_FUNC_HELP_ARG, F_("known_y's:known y-values")},
 	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{known_x} or @{known_y} contains no data entries or different "
@@ -4320,7 +4320,7 @@ gnumeric_intercept (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_slope[] = {
-	{ GNM_FUNC_HELP_NAME, F_("SLOPE:calculates the slope of a linear regression line")},
+	{ GNM_FUNC_HELP_NAME, F_("SLOPE:the slope of a linear regression line")},
 	{ GNM_FUNC_HELP_ARG, F_("known_y's:known y-values")},
 	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -4366,7 +4366,7 @@ gnumeric_slope (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_subtotal[] = {
-	{ GNM_FUNC_HELP_NAME, F_("SUBTOTAL:calculates a subtotal of the given list of arguments")},
+	{ GNM_FUNC_HELP_NAME, F_("SUBTOTAL:the subtotal of the given list of arguments")},
 	{ GNM_FUNC_HELP_ARG, F_("function_nbr:determines which function to use according to the following table:\n"
 				"\t1   AVERAGE\n"
 				"\t2   COUNT\n"

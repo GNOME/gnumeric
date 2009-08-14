@@ -1,5 +1,9 @@
 2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* functions.c: skip "calculate(s)" and "return(s)" in NAME records
+
+2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c (help_ddb): fix name record
 	(help_amorlinc): fix
 	

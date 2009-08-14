@@ -1,3 +1,7 @@
+2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c: skip "calculate(s)" and "return(s)" in NAME records
+
 2009-07-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (gnumeric_linest): in the non-affine case the 

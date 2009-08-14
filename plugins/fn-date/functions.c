@@ -186,7 +186,7 @@ gnumeric_date2unix (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_datevalue[] = {
-        { GNM_FUNC_HELP_NAME, F_("DATEVALUE:return date part of a date and time serial value")},
+        { GNM_FUNC_HELP_NAME, F_("DATEVALUE:the date part of a date and time serial value")},
         { GNM_FUNC_HELP_ARG, F_("serial:date and time serial value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("DATEVALUE returns the date serial value part of a date and time serial value.") },
         { GNM_FUNC_HELP_EXAMPLES, "=DATEVALUE(NOW())" },
@@ -204,7 +204,7 @@ gnumeric_datevalue (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_datedif[] = {
-        { GNM_FUNC_HELP_NAME, F_("DATEDIF:calculate difference between dates") },
+        { GNM_FUNC_HELP_NAME, F_("DATEDIF:difference between dates") },
         { GNM_FUNC_HELP_ARG, F_("start_date:starting date serial value")},
         { GNM_FUNC_HELP_ARG, F_("end_date:ending date serial value")},
         { GNM_FUNC_HELP_ARG, F_("interval:counting unit")},
@@ -381,7 +381,7 @@ gnumeric_edate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_today[] = {
-        { GNM_FUNC_HELP_NAME, F_("TODAY:return the date serial value of today") },
+        { GNM_FUNC_HELP_NAME, F_("TODAY:the date serial value of today") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The TODAY function returns the date serial value of the day it is computed.  Recomputing on a later date will produce a different value.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=TODAY()" },
@@ -398,7 +398,7 @@ gnumeric_today (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_now[] = {
-        { GNM_FUNC_HELP_NAME, F_("NOW:return the date and time serial value of the current time") },
+        { GNM_FUNC_HELP_NAME, F_("NOW:the date and time serial value of the current time") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The NOW function returns the date and time serial value of the moment it is computed.  Recomputing later will produce a different value.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=NOW()" },
@@ -442,7 +442,7 @@ gnumeric_time (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_timevalue[] = {
-        { GNM_FUNC_HELP_NAME, F_("TIMEVALUE:return time part of a date and time serial value")},
+        { GNM_FUNC_HELP_NAME, F_("TIMEVALUE:the time part of a date and time serial value")},
         { GNM_FUNC_HELP_ARG, F_("serial:date and time serial value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("TIMEVALUE returns the time-of-day part of a date and time serial value.") },
         { GNM_FUNC_HELP_EXAMPLES, "=TIMEVALUE(NOW())" },
@@ -530,7 +530,7 @@ gnumeric_second (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_year[] = {
-        { GNM_FUNC_HELP_NAME, F_("YEAR:Return the year part of a date serial value") },
+        { GNM_FUNC_HELP_NAME, F_("YEAR:the year part of a date serial value") },
         { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The YEAR function returns the year part of @{date}.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -554,7 +554,7 @@ gnumeric_year (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_month[] = {
-        { GNM_FUNC_HELP_NAME, F_("MONTH:Return the month part of a date serial value") },
+        { GNM_FUNC_HELP_NAME, F_("MONTH:the month part of a date serial value") },
         { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The MONTH function returns the month part of @{date}.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -578,7 +578,7 @@ gnumeric_month (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_day[] = {
-        { GNM_FUNC_HELP_NAME, F_("DAY:Return the day-of-month part of a date serial value") },
+        { GNM_FUNC_HELP_NAME, F_("DAY:the day-of-month part of a date serial value") },
         { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The DAY function returns the day-of-month part of @{date}.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -602,7 +602,7 @@ gnumeric_day (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_weekday[] = {
-        { GNM_FUNC_HELP_NAME, F_("WEEKDAY:Calculate day-of-week") },
+        { GNM_FUNC_HELP_NAME, F_("WEEKDAY:day-of-week") },
         { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
         { GNM_FUNC_HELP_ARG, F_("method:numbering system")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The WEEKDAY function returns the day-of-week of @{date}.  The value of @{method} determines how days are numbered.") },
@@ -642,7 +642,7 @@ gnumeric_weekday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_days360[] = {
-        { GNM_FUNC_HELP_NAME, F_("DAYS360:calculate days between dates") },
+        { GNM_FUNC_HELP_NAME, F_("DAYS360:days between dates") },
         { GNM_FUNC_HELP_ARG, F_("start_date:starting date serial value")},
         { GNM_FUNC_HELP_ARG, F_("end_date:ending date serial value")},
         { GNM_FUNC_HELP_ARG, F_("method:counting method")},
@@ -684,7 +684,7 @@ gnumeric_days360 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_eomonth[] = {
-        { GNM_FUNC_HELP_NAME, F_("EOMONTH:calculate end of month") },
+        { GNM_FUNC_HELP_NAME, F_("EOMONTH:end of month") },
         { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
         { GNM_FUNC_HELP_ARG, F_("months:signed number of months")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("EOMONTH returns the date serial value of the end of the month specified by @{date} adjusted forward or backward the number of months specified by @{months}.") },
@@ -888,7 +888,7 @@ gnumeric_workday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_networkdays[] = {
-        { GNM_FUNC_HELP_NAME, F_("NETWORKDAYS:calculate number of workdays in range") },
+        { GNM_FUNC_HELP_NAME, F_("NETWORKDAYS:number of workdays in range") },
         { GNM_FUNC_HELP_ARG, F_("start_date:starting date serial value")},
         { GNM_FUNC_HELP_ARG, F_("end_date:ending date serial value")},
         { GNM_FUNC_HELP_ARG, F_("holidays:array of holidays")},
@@ -1007,7 +1007,7 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_isoweeknum[] = {
-        { GNM_FUNC_HELP_NAME, F_("ISOWEEKNUM:calculate ISO week number")},
+        { GNM_FUNC_HELP_NAME, F_("ISOWEEKNUM:ISO week number")},
         { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("ISOWEEKNUM calculates the week number according to the ISE 8601 standard.  Weeks start on Mondays and week 1 contains the first Thursday of the year.") },
 	{ GNM_FUNC_HELP_NOTE, F_("January 1 of a year is sometimes in week 52 or 53 of the previous year.  Similarly, December 31 is sometimes in week 1 of the following year.") },
@@ -1031,7 +1031,7 @@ gnumeric_isoweeknum (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_isoyear[] = {
-        { GNM_FUNC_HELP_NAME, F_("ISOYEAR:calculate year corresponding to the ISO week number")},
+        { GNM_FUNC_HELP_NAME, F_("ISOYEAR:year corresponding to the ISO week number")},
         { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("ISOYEAR calculates the year to go with week number according to the ISE 8601 standard.") },
 	{ GNM_FUNC_HELP_NOTE, F_("January 1 of a year is sometimes in week 52 or 53 of the previous year.  Similarly, December 31 is sometimes in week 1 of the following year.") },
@@ -1067,7 +1067,7 @@ gnumeric_isoyear (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_weeknum[] = {
-        { GNM_FUNC_HELP_NAME, F_("WEEKNUM:calculate ISO week number")},
+        { GNM_FUNC_HELP_NAME, F_("WEEKNUM:ISO week number")},
         { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
         { GNM_FUNC_HELP_ARG, F_("method:numbering system")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("WEEKNUM calculates the week number according to @{method} which defaults to 1.") },
@@ -1101,7 +1101,7 @@ gnumeric_weeknum (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_yearfrac[] = {
-        { GNM_FUNC_HELP_NAME, F_("YEARFRAC:calculates fractional number of years between dates")},
+        { GNM_FUNC_HELP_NAME, F_("YEARFRAC:fractional number of years between dates")},
         { GNM_FUNC_HELP_ARG, F_("start_date:starting date serial value")},
         { GNM_FUNC_HELP_ARG, F_("end_date:ending date serial value")},
         { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},

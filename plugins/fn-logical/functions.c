@@ -244,7 +244,7 @@ gnumeric_iferror (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_true[] = {
-	{ GNM_FUNC_HELP_NAME, F_("TRUE:return the value TRUE.") },
+	{ GNM_FUNC_HELP_NAME, F_("TRUE:the value TRUE.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("TRUE returns the value TRUE.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_SEEALSO, "FALSE,IF" },
@@ -261,7 +261,7 @@ gnumeric_true (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /***************************************************************************/
 
 static GnmFuncHelp const help_false[] = {
-	{ GNM_FUNC_HELP_NAME, F_("FALSE:return the value FALSE.") },
+	{ GNM_FUNC_HELP_NAME, F_("FALSE:the value FALSE.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("FALSE returns the value FALSE.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_SEEALSO, "TRUE,IF" },
