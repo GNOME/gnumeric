@@ -705,7 +705,7 @@ gnumeric_imsech (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_imcsch[] = {
-        { GNM_FUNC_HELP_NAME, F_("IMSECH:the hyperbolic cosecant of the complex number @{z}") },
+        { GNM_FUNC_HELP_NAME, F_("IMCSCH:the hyperbolic cosecant of the complex number @{z}") },
         { GNM_FUNC_HELP_ARG, F_("z:a complex number") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
         { GNM_FUNC_HELP_EXAMPLES, "=IMCSCH(\"1+j\")" },

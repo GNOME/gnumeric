@@ -217,7 +217,7 @@ gnumeric_hypot (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_abs[] = {
-        { GNM_FUNC_HELP_NAME, F_("integers and floating point numbers.ABS:absolute value")},
+        { GNM_FUNC_HELP_NAME, F_("ABS:absolute value")},
         { GNM_FUNC_HELP_ARG, F_("x:number")},
         { GNM_FUNC_HELP_DESCRIPTION, F_("ABS gives the absolute value of @{x}, i.e. the non-negative number of the same magnitude as @{x}.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -344,11 +344,11 @@ gnumeric_asin (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_asinh[] = {
         { GNM_FUNC_HELP_NAME, F_("ASINH:the inverse hyperbolic sine of @{x}")},
-	{ GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
         { GNM_FUNC_HELP_DESCRIPTION, F_("ASINH calculates the inverse hyperbolic sine of @{x}; that is the value whose hyperbolic sine is @{x}.")},
  	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-        { GNM_FUNC_HELP_EXAMPLES, "=ASIN(0.5)" },
-        { GNM_FUNC_HELP_EXAMPLES, "=ASIN(1)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=ASINH(0.5)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=ASINH(1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "ASIN,ACOSH,SIN,COS,DEGREES,RADIANS"},
         { GNM_FUNC_HELP_END}
 };
@@ -725,7 +725,7 @@ gnumeric_cot (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_coth[] = {
-	{ GNM_FUNC_HELP_NAME, F_("COT:hyperbolic cotangent of a value")},
+	{ GNM_FUNC_HELP_NAME, F_("COTH:hyperbolic cotangent of a value")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=COTH(0.12)" },
 	{ GNM_FUNC_HELP_SEEALSO, "TANH,ACOTH" },
@@ -743,7 +743,7 @@ gnumeric_coth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_degrees[] = {
-        { GNM_FUNC_HELP_NAME, F_("DEGGREES:Equivalent degrees to @{x} radians.")},
+        { GNM_FUNC_HELP_NAME, F_("DEGREES:Equivalent degrees to @{x} radians.")},
         { GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=DEGREES(2.5)" },
@@ -1214,7 +1214,7 @@ gnumeric_csc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_csch[] = {
-	{ GNM_FUNC_HELP_NAME, F_("CSC:Hyperbolic cosecant")},
+	{ GNM_FUNC_HELP_NAME, F_("CSCH:Hyperbolic cosecant")},
 	{ GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is not Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
@@ -1272,11 +1272,11 @@ gnumeric_sech (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 /***************************************************************************/
 static GnmFuncHelp const help_sinh[] = {
-        { GNM_FUNC_HELP_NAME, F_("ASINH:the inverse hyperbolic sine of @{x}")},
-        { GNM_FUNC_HELP_ARG, F_("x:number")},
+        { GNM_FUNC_HELP_NAME, F_("SINH:the hyperbolic sine of @{x}")},
+        { GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-        { GNM_FUNC_HELP_EXAMPLES, "=ASINH(0.1)" },
-        { GNM_FUNC_HELP_EXAMPLES, "=ASINH(-0.1)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=SINH(0.1)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=SINH(-0.1)" },
         { GNM_FUNC_HELP_SEEALSO, "ACOS,ASINH,DEGREES,RADIANS "}, 
         { GNM_FUNC_HELP_END}
 };
@@ -1424,7 +1424,7 @@ gnumeric_tan (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_tanh[] = {
-        { GNM_FUNC_HELP_NAME, F_("TAN:hyperbolic tangent")},
+        { GNM_FUNC_HELP_NAME, F_("TANH:hyperbolic tangent")},
         { GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=TANH(2)"},
@@ -1742,7 +1742,7 @@ gnumeric_rounddown (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_round[] = {
-	{ GNM_FUNC_HELP_NAME, F_("ROUNDDOWN:rounded @{x}")},
+	{ GNM_FUNC_HELP_NAME, F_("ROUND:rounded @{x}")},
         { GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_ARG, F_("d:integer, defaults to 0")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("If @{d} is greater than zero, @{x} is rounded to the given number of digits.\n"

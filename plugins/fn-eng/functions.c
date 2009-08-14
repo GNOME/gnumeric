@@ -400,7 +400,7 @@ gnumeric_decimal (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_oct2dec[] = {
-        { GNM_FUNC_HELP_NAME, F_("BIN2DEC:decimal representation of the octal number @{x}") },
+        { GNM_FUNC_HELP_NAME, F_("OCT2DEC:decimal representation of the octal number @{x}") },
         { GNM_FUNC_HELP_ARG, F_("x:a octal number, either as a string or as a number") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=OCT2DEC(\"124\")" },
@@ -630,7 +630,7 @@ gnumeric_besselj (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_bessely[] = {
-        { GNM_FUNC_HELP_NAME, F_("BESSELJ:Bessel function of the second kind of order @{\xce\xb1} at @{x}") },
+        { GNM_FUNC_HELP_NAME, F_("BESSELY:Bessel function of the second kind of order @{\xce\xb1} at @{x}") },
         { GNM_FUNC_HELP_ARG, F_("X:number") },
         { GNM_FUNC_HELP_ARG, F_("\xce\xb1:order (any non-negative integer)") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{\xce\xb1} are not numeric, #VALUE! is returned. "
@@ -1095,7 +1095,7 @@ gnumeric_erf (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_erfc[] = {
-        { GNM_FUNC_HELP_NAME, F_("ERF:Complementary Gauss error function") },
+        { GNM_FUNC_HELP_NAME, F_("ERFC:Complementary Gauss error function") },
         { GNM_FUNC_HELP_ARG, F_("x:number") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("ERFC returns 2/sqrt(\xcf\x80)* integral from @{x} to \xe2\x88\x9e of exp(-t*t) dt") },
         { GNM_FUNC_HELP_EXAMPLES, "=ERFC(6)" },

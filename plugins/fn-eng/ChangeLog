@@ -1,5 +1,11 @@
 2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* functions.c (help_oct2dec): fix name record
+	(help_bessely): ditto
+	(help_erfc): ditto
+
+2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c (help_hex2dec): remove incorrect argument
 
 2009-08-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>

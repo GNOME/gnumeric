@@ -1,5 +1,16 @@
 2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* functions.c (help_abs): fix name record
+	(help_asinh): fix name record
+	(help_coth): fix name record
+	(help_degrees): fix name record
+	(help_csch): fix name record
+	(help_sinh): fix
+	(help_tanh): fix name record
+	(help_round): fix name record
+	
+2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c (help_*): change x:value to x:number throughout
 	(help_asin): add argument description
 

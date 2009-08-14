@@ -2767,7 +2767,7 @@ static GnmFuncHelp const help_amorlinc[] = {
         { GNM_FUNC_HELP_ARG, F_("rate:depreciation rate")},
         { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_(
-			"AMORDEGRC calculates the depreciation of an asset using French accounting conventions. "
+			"AMORLINC calculates the depreciation of an asset using French accounting conventions. "
 			"Assets purchased in the middle of a period take prorated depreciation into account. ") },
 	{ GNM_FUNC_HELP_NOTE, F_("Named for AMORtissement LINeaire Comptabilite.") },
 	GNM_DATE_BASIS_HELP

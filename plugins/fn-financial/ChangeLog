@@ -1,3 +1,8 @@
+2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_ddb): fix name record
+	(help_amorlinc): fix
+	
 2009-08-14  Morten Welinder  <terra@gnome.org>
 
 	* functions.c: Convert to new doc format.
