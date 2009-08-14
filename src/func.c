@@ -688,7 +688,7 @@ gnm_func_load_stub (GnmFunc *func)
 	memset (&desc, 0, sizeof (GnmFuncDescriptor));
 
 	if (func->fn.load_desc (func, &desc)) {
-		func->arg_names	 = desc.arg_names;
+		func->arg_names	 = "";
 		func->help	 = desc.help ? desc.help : NULL;
 		if (desc.fn_args != NULL) {
 			func->fn_type		= GNM_FUNC_TYPE_ARGS;
@@ -801,7 +801,7 @@ gnm_func_add (GnmFuncGroup *fn_group,
 		textdomain = GETTEXT_PACKAGE;
 
 	func->name		= desc->name;
-	func->arg_names		= desc->arg_names;
+	func->arg_names		= "";
 	func->help		= desc->help ? desc->help : NULL;
 	func->textdomain        = go_string_new (textdomain);
 	func->linker		= desc->linker;
@@ -908,7 +908,6 @@ gnm_func_add_placeholder (Workbook *scope,
 	memset (&desc, 0, sizeof (GnmFuncDescriptor));
 	desc.name	  = copy_name ? g_strdup (name) : name;
 	desc.arg_spec	  = NULL;
-	desc.arg_names	  = "...";
 	desc.help	  = NULL;
 	desc.fn_args	  = NULL;
 	desc.fn_nodes	  = &unknownFunctionHandler;

@@ -1,5 +1,9 @@
 2009-08-14 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* functions.c (help_concatenate): fix argument descriptions
+
+2009-08-14 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c (help_len*): make desription consitent
 	(help_mid): ditto
 	(help_leftb): add argument description

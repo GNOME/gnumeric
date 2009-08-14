@@ -508,7 +508,7 @@ gnumeric_upper (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_concatenate[] = {
         { GNM_FUNC_HELP_NAME, F_("CONCATENATE:the concatenation of the strings @{s1}, @{s2},...")},
         { GNM_FUNC_HELP_ARG, F_("s1:first string")},
-        { GNM_FUNC_HELP_ARG, F_("s2 second string")},
+        { GNM_FUNC_HELP_ARG, F_("s2:second string")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=CONCATENATE(\"aa\",\"bb\")" },
         { GNM_FUNC_HELP_SEEALSO, "LEFT,MID,RIGHT"},

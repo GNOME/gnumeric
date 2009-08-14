@@ -1,5 +1,13 @@
 2009-08-14 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/func.h (_GnmFuncDescriptor): rename arg_names to 
+	  arg_names_depreceated
+	* src/func.c (gnm_func_load_stub): don't use arg_names
+	(gnm_func_add): ditto
+	(gnm_func_add_placeholder): ditto
+
+2009-08-14 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/func.c (function_def_get_arg_name): rewrite without using 
 	  fn_def->arg_names
 
