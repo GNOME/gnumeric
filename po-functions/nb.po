@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.8.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-07 15:05+0200\n"
+"POT-Creation-Date: 2009-08-13 19:01-0400\n"
 "PO-Revision-Date: 2009-08-07 15:17+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <i18n-nb@lister.ping.uio.no>\n"
@@ -1852,6 +1852,8 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:545
 #: ../plugins/fn-financial/functions.c:582
 #: ../plugins/fn-financial/functions.c:626
+#: ../plugins/fn-financial/functions.c:1836
+#: ../plugins/fn-financial/functions.c:3356
 msgid "basis:calendar basis"
 msgstr ""
 
@@ -2500,6 +2502,8 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:363
 #: ../plugins/fn-financial/functions.c:424
 #: ../plugins/fn-financial/functions.c:579
+#: ../plugins/fn-financial/functions.c:1833
+#: ../plugins/fn-financial/functions.c:3353
 msgid "issue:date of issue"
 msgstr ""
 
@@ -2513,6 +2517,11 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:541
 #: ../plugins/fn-financial/functions.c:577
 #: ../plugins/fn-financial/functions.c:622
+#: ../plugins/fn-financial/functions.c:1060
+#: ../plugins/fn-financial/functions.c:1098
+#: ../plugins/fn-financial/functions.c:1132
+#: ../plugins/fn-financial/functions.c:1830
+#: ../plugins/fn-financial/functions.c:3350
 msgid "settlement:settlement date"
 msgstr ""
 
@@ -2529,6 +2538,8 @@ msgid "par:par value"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:368
+#: ../plugins/fn-financial/functions.c:1835
+#: ../plugins/fn-financial/functions.c:3355
 msgid "frequency:number of interest payments per year"
 msgstr ""
 
@@ -2548,6 +2559,11 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:542
 #: ../plugins/fn-financial/functions.c:578
 #: ../plugins/fn-financial/functions.c:623
+#: ../plugins/fn-financial/functions.c:1061
+#: ../plugins/fn-financial/functions.c:1099
+#: ../plugins/fn-financial/functions.c:1133
+#: ../plugins/fn-financial/functions.c:1831
+#: ../plugins/fn-financial/functions.c:3351
 msgid "maturity:maturity date"
 msgstr ""
 
@@ -2592,6 +2608,8 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:543
 #: ../plugins/fn-financial/functions.c:580
+#: ../plugins/fn-financial/functions.c:1062
+#: ../plugins/fn-financial/functions.c:1100
 msgid "discount:annual rate at which to discount"
 msgstr ""
 
@@ -2606,6 +2624,8 @@ msgid "PRICEMAT:calculate price at maturity"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:581
+#: ../plugins/fn-financial/functions.c:1834
+#: ../plugins/fn-financial/functions.c:3354
 msgid "yield:annual yield of security"
 msgstr ""
 
@@ -2652,8 +2672,14 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:685
 #: ../plugins/fn-financial/functions.c:710
-#: ../plugins/fn-financial/functions.c:1603
-#: ../plugins/fn-financial/functions.c:1789
+#: ../plugins/fn-financial/functions.c:1482
+#: ../plugins/fn-financial/functions.c:1668
+#: ../plugins/fn-financial/functions.c:1698
+#: ../plugins/fn-financial/functions.c:1738
+#: ../plugins/fn-financial/functions.c:1782
+#: ../plugins/fn-financial/functions.c:1875
+#: ../plugins/fn-financial/functions.c:3262
+#: ../plugins/fn-financial/functions.c:3306
 msgid "rate:effective annual interest rate"
 msgstr ""
 
@@ -2666,558 +2692,427 @@ msgid "ISPMT:calculate interest payment for period"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:711
+#: ../plugins/fn-financial/functions.c:1699
+#: ../plugins/fn-financial/functions.c:1739
 msgid "per:period number"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:712
-#: ../plugins/fn-financial/functions.c:1287
-#: ../plugins/fn-financial/functions.c:1519
-#: ../plugins/fn-financial/functions.c:1754
-#: ../plugins/fn-financial/functions.c:1790
+#: ../plugins/fn-financial/functions.c:1166
+#: ../plugins/fn-financial/functions.c:1398
+#: ../plugins/fn-financial/functions.c:1633
+#: ../plugins/fn-financial/functions.c:1669
+#: ../plugins/fn-financial/functions.c:1700
+#: ../plugins/fn-financial/functions.c:1740
+#: ../plugins/fn-financial/functions.c:3263
+#: ../plugins/fn-financial/functions.c:3307
 msgid "nper:number of periods"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:713
-#: ../plugins/fn-financial/functions.c:1289
-#: ../plugins/fn-financial/functions.c:1756
-#: ../plugins/fn-financial/functions.c:1791
+#: ../plugins/fn-financial/functions.c:1168
+#: ../plugins/fn-financial/functions.c:1635
+#: ../plugins/fn-financial/functions.c:1670
+#: ../plugins/fn-financial/functions.c:1701
+#: ../plugins/fn-financial/functions.c:1741
+#: ../plugins/fn-financial/functions.c:1784
+#: ../plugins/fn-financial/functions.c:1876
+#: ../plugins/fn-financial/functions.c:3264
+#: ../plugins/fn-financial/functions.c:3308
 msgid "pv:present value"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:714
-msgid "ISPMT calculates the interest payment for period number @{period}."
+msgid "ISPMT calculates the interest payment for period number @{per}."
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:745
+#: ../plugins/fn-financial/functions.c:795
+msgid "DB:calculate depreciation of an asset"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:746
-msgid ""
-"@FUNCTION=DB\n"
-"@SYNTAX=DB(cost,salvage,life,period[,month])\n"
-"@DESCRIPTION=DB calculates the depreciation of an asset for a given period "
-"using the fixed-declining balance method.  @cost is the initial value of the "
-"asset.  @salvage is the value after the depreciation.\n"
-"\n"
-"@life is the number of periods overall.  @period is the period for which you "
-"want the depreciation to be calculated.  @month is the number of months in "
-"the first year of depreciation.\n"
-"\n"
-"* If @month is omitted, it is assumed to be 12.\n"
-"* If @cost = 0, DB returns #NUM! error.\n"
-"* If @life <= 0, DB returns #NUM! error.\n"
-"* If @salvage / @cost < 0, DB returns #NUM! error.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DDB,SLN,SYD"
-msgstr ""
-"@FUNCTION=DB\n"
-"@SYNTAX=DB(kost,gjenstående,liv,periode[,måned])\n"
-"@DESCRIPTION=DB kalkulerer avskrivingen for et objekt for en gitt periode "
-"ved bruk av \"fixed-declining balance method\".  @kost er den initielle "
-"verdien for objektet. @gjenstående er verdien etter nedskrivingen.\n"
-"\n"
-"@liv er antall perioder totalt.  @periode er perioden du ønsker "
-"nedskrivingen kalkulert for. @måned er antall måneder i det første året med "
-"nedskriving.\n"
-"\n"
-"* Hvis @måned utelates brukes forvalgt verdi 12.\n"
-"* Hvis @kost = 0 returnerer DB en #NUM!-feil.\n"
-"* Hvis @liv <= 0 returnerer DB en #NUM!-feil.\n"
-"* Hvis @gjenstående / @kost < 0 returnerer DB en #NUM!-feil.\n"
-" \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DDB,SLN,SYD"
-
-#: ../plugins/fn-financial/functions.c:810
-msgid ""
-"@FUNCTION=DDB\n"
-"@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
-"@DESCRIPTION=DDB returns the depreciation of an asset for a given period "
-"using the double-declining balance method or some other similar method you "
-"specify.\n"
-"\n"
-"@cost is the initial value of the asset, @salvage is the value after the "
-"last period, @life is the number of periods, @period is the period for which "
-"you want the depreciation to be calculated, and @factor is the factor at "
-"which the balance declines.\n"
-"\n"
-"* If @factor is omitted, it is assumed to be two (double-declining balance "
-"method).\n"
-"* If @life <= 0, DDB returns #NUM! error.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=SLN,SYD"
-msgstr ""
-"@FUNCTION=DDB\n"
-"@SYNTAX=DDB(kost,gjenstående,liv,periode[,faktor])\n"
-"@DESCRIPTION=DDB kalkulerer avskrivingen for et objekt for en gitt periode "
-"ved bruk av \"double-declining balance method\", eller en annen lignende "
-"metode du oppgir.\n"
-"\n"
-"@kost er den initielle verdien for objektet. @gjenstående er verdien etter "
-"nedskrivingen. @liv er antall perioder totalt. @periode er perioden du "
-"ønsker nedskrivingen kalkulert for og @faktor er faktoren for "
-"nedskrivingen.\n"
-"\n"
-"* Hvis @faktor utelates, antas den å være 2 (double-declining balance "
-"method).\n"
-"* Hvis @liv <= 0 returnerer DDB en #NUM!-feil.\n"
-" \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=SLN,SYD"
-
-#: ../plugins/fn-financial/functions.c:873
-msgid ""
-"@FUNCTION=SLN\n"
-"@SYNTAX=SLN(cost,salvage_value,life)\n"
-"@DESCRIPTION=SLN function will determine the straight line depreciation of "
-"an asset for a single period.\n"
-"\n"
-"The formula is:\n"
-"\n"
-"Depreciation expense = ( @cost - @salvage_value ) / @life\n"
-"\n"
-"@cost is the cost of an asset when acquired (market value).\n"
-"@salvage_value is the amount you get when asset is sold at the end of the "
-"asset's useful life.\n"
-"@life is the anticipated life of an asset.\n"
-"\n"
-"* If @life <= 0, SLN returns #NUM! error.\n"
-"\n"
-"@EXAMPLES=\n"
-"For example, lets suppose your company purchases a new machine for $10,000, "
-"which has a salvage value of $700 and will have a useful life of 10 years. "
-"The SLN yearly depreciation is computed as follows:\n"
-"=SLN(10000, 700, 10)\n"
-"This will return the yearly depreciation figure of $930.\n"
-"@SEEALSO=SYD"
+#: ../plugins/fn-financial/functions.c:796
+#: ../plugins/fn-financial/functions.c:845
+#: ../plugins/fn-financial/functions.c:875
+#: ../plugins/fn-financial/functions.c:3396
+msgid "cost:initial cost of asset"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:926
-msgid ""
-"@FUNCTION=SYD\n"
-"@SYNTAX=SYD(cost,salvage_value,life,period)\n"
-"@DESCRIPTION=SYD function calculates the sum-of-years digits depreciation "
-"for an asset based on its cost, salvage value, anticipated life and a "
-"particular period. This method accelerates the rate of the depreciation, so "
-"that more depreciation expense occurs in earlier periods than in later ones. "
-"The depreciable cost is the actual cost minus the salvage value. The useful "
-"life is the number of periods (typically years) over which the asset is "
-"depreciated.\n"
-"\n"
-"The Formula used for sum-of-years digits depreciation is:\n"
-"\n"
-"Depreciation expense =\n"
-"\n"
-"\t ( @cost - @salvage_value ) * (@life - @period + 1) * 2 / @life * (@life + "
-"1).\n"
-"\n"
-"@cost is the cost of an asset when acquired (market value).\n"
-"@salvage_value is the amount you get when asset sold at the end of its "
-"useful life.\n"
-"@life is the anticipated life of an asset.\n"
-"@period is the period for which we need the expense.\n"
-"\n"
-"* If @life <= 0, SYD returns #NUM! error.\n"
-"\n"
-"@EXAMPLES=\n"
-"For example say a company purchases a new computer for $5000 which has a "
-"salvage value of $200, and a useful life of five years. We would use the "
-"following to calculate the second year's depreciation using the SYD method:\n"
-"=SYD(5000, 200, 5, 2) which returns 1,280.00.\n"
-"@SEEALSO=SLN"
+#: ../plugins/fn-financial/functions.c:747
+#: ../plugins/fn-financial/functions.c:797
+#: ../plugins/fn-financial/functions.c:846
+#: ../plugins/fn-financial/functions.c:876
+#: ../plugins/fn-financial/functions.c:3397
+msgid "salvage:value after depreciation"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:986
+#: ../plugins/fn-financial/functions.c:748
+#: ../plugins/fn-financial/functions.c:798
+#: ../plugins/fn-financial/functions.c:847
+#: ../plugins/fn-financial/functions.c:877
+#: ../plugins/fn-financial/functions.c:3398
+msgid "life:number of periods"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:749
+#: ../plugins/fn-financial/functions.c:799
+#: ../plugins/fn-financial/functions.c:878
+msgid "period:subject period"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:750
+msgid "month:number of months in first year of depreciation"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:751
+msgid ""
+"DB calculates the depreciation of an asset for a given period using the "
+"fixed-declining balance method."
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:800
+#: ../plugins/fn-financial/functions.c:3401
+msgid "factor:factor at which the balance declines"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:801
+msgid ""
+"DDB calculates the depreciation of an asset for a given period using the "
+"double-declining balance method."
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:844
+msgid "SLN:calculate depreciation of an asset"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:848
+msgid ""
+"SLN calculates the depreciation of an asset using the straight-line method."
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:874
+msgid "SYD:calculate sum-of-years depreciation"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:879
+msgid ""
+"SYD calculates the depreciation of an asset using the sum-of-years method."
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:907
 msgid "DOLLARDE:convert to decimal dollar amount"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:987
+#: ../plugins/fn-financial/functions.c:908
 msgid "fractional_dollar:amount to convert"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:988
-#: ../plugins/fn-financial/functions.c:1036
+#: ../plugins/fn-financial/functions.c:909
+#: ../plugins/fn-financial/functions.c:957
 msgid "fraction:denominator"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:989
+#: ../plugins/fn-financial/functions.c:910
 msgid ""
 "DOLLARDE converts a fractional dollar amount into a decimal amount.  This is "
 "the inverse of the DOLLARFR function."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1034
+#: ../plugins/fn-financial/functions.c:955
 msgid "DOLLARFR:convert to dollar fraction"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1035
+#: ../plugins/fn-financial/functions.c:956
 msgid "decimal_dollar:amount to convert"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1037
+#: ../plugins/fn-financial/functions.c:958
 msgid ""
 "DOLLARFR converts a fractional dollar amount into a fraction which is "
 "represented as the digits after the decimal point.  For example, 2/8 would "
 "be represented as .2 while 3/16 would be represented as .03."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1081
-msgid ""
-"@FUNCTION=MIRR\n"
-"@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
-"@DESCRIPTION=MIRR function returns the modified internal rate of return for "
-"a given periodic cash flow. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=NPV"
-msgstr ""
-"@FUNCTION=MIRR\n"
-"@SYNTAX=COUNTIF(verdier,finans_rate,reinversterings_rate)\n"
-"@DESCRIPTION=MIRR-funksjonen returnerer den endrede internraten for retur på "
-"en gitt periodisk pengestrøm. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=NPV"
-
-#: ../plugins/fn-financial/functions.c:1144
-msgid ""
-"@FUNCTION=TBILLEQ\n"
-"@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
-"@DESCRIPTION=TBILLEQ function returns the bond-yield equivalent (BEY) for a "
-"treasury bill.  TBILLEQ is equivalent to\n"
-"\n"
-"\t(365 * @discount) / (360 - @discount * DSM),\n"
-"\n"
-"where DSM is the days between @settlement and @maturity.\n"
-"\n"
-"* If @settlement is after @maturity or the @maturity is set to over one year "
-"later than the @settlement, TBILLEQ returns #NUM! error.\n"
-"* If @discount is negative, TBILLEQ returns #NUM! error.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=TBILLPRICE,TBILLYIELD"
+#: ../plugins/fn-financial/functions.c:1001
+msgid "MIRR:calculate modified internal rate of return"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1195
-msgid ""
-"@FUNCTION=TBILLPRICE\n"
-"@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
-"@DESCRIPTION=TBILLPRICE function returns the price per $100 value for a "
-"treasury bill where @settlement is the settlement date and @maturity is the "
-"maturity date of the bill.  @discount is the treasury bill's discount rate.\n"
-"\n"
-"* If @settlement is after @maturity or the @maturity is set to over one year "
-"later than the @settlement, TBILLPRICE returns #NUM! error.\n"
-"* If @discount is negative, TBILLPRICE returns #NUM! error.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=TBILLEQ,TBILLYIELD"
+#: ../plugins/fn-financial/functions.c:1002
+#: ../plugins/fn-financial/functions.c:1280
+#: ../plugins/fn-financial/functions.c:1483
+#: ../plugins/fn-financial/functions.c:1538
+msgid "values:cash flow"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1241
-msgid ""
-"@FUNCTION=TBILLYIELD\n"
-"@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
-"@DESCRIPTION=TBILLYIELD function returns the yield for a treasury bill. "
-"@settlement is the settlement date and @maturity is the maturity date of the "
-"bill.  @discount is the treasury bill's discount rate.\n"
-"\n"
-"* If @settlement is after @maturity or the @maturity is set to over one year "
-"later than the @settlement, TBILLYIELD returns #NUM! error.\n"
-"* If @pr is negative, TBILLYIELD returns #NUM! error.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=TBILLEQ,TBILLPRICE"
+#: ../plugins/fn-financial/functions.c:1003
+msgid "finance_rate:interest rate for financing cost"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1286
+#: ../plugins/fn-financial/functions.c:1004
+msgid "reinvest_rate:interest rate for reinvestments"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:1005
+msgid ""
+"MIRR calculates the modified internal rate of return of a periodic cash flow."
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:1059
+msgid "TBILLEQ:calculate bond-equivalent yield for a treasury bill"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:1063
+msgid "TBILLEQ calculates the bond-equivalent yield for a treasury bill."
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:1097
+msgid "TBILLPRICE:calculate price of a treasury bill"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:1101
+msgid ""
+"TBILLPRICE calculates the price per $100 face value for a treasury bill."
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:1131
+msgid "TBILLYIELD:calculate yield of a treasury bill"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:1134
+msgid "price:price"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:1135
+msgid "TBILLYIELD calculates the yield of a treasury bill."
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:1165
 msgid "RATE:calculate rate of investment"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1288
-#: ../plugins/fn-financial/functions.c:1520
-#: ../plugins/fn-financial/functions.c:1755
+#: ../plugins/fn-financial/functions.c:1167
+#: ../plugins/fn-financial/functions.c:1399
+#: ../plugins/fn-financial/functions.c:1634
+#: ../plugins/fn-financial/functions.c:1783
 msgid "pmt:payment at each period"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1290
-#: ../plugins/fn-financial/functions.c:1521
-#: ../plugins/fn-financial/functions.c:1792
+#: ../plugins/fn-financial/functions.c:1169
+#: ../plugins/fn-financial/functions.c:1400
+#: ../plugins/fn-financial/functions.c:1671
+#: ../plugins/fn-financial/functions.c:1702
+#: ../plugins/fn-financial/functions.c:1742
+#: ../plugins/fn-financial/functions.c:1785
+#: ../plugins/fn-financial/functions.c:1877
 msgid "fv:future value"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1291
-#: ../plugins/fn-financial/functions.c:1522
-#: ../plugins/fn-financial/functions.c:1757
-#: ../plugins/fn-financial/functions.c:1793
+#: ../plugins/fn-financial/functions.c:1170
+#: ../plugins/fn-financial/functions.c:1401
+#: ../plugins/fn-financial/functions.c:1636
+#: ../plugins/fn-financial/functions.c:1672
+#: ../plugins/fn-financial/functions.c:1703
+#: ../plugins/fn-financial/functions.c:1743
+#: ../plugins/fn-financial/functions.c:1786
+#: ../plugins/fn-financial/functions.c:3267
+#: ../plugins/fn-financial/functions.c:3311
 msgid "type:payment type"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1292
-#: ../plugins/fn-financial/functions.c:1402
-#: ../plugins/fn-financial/functions.c:1661
+#: ../plugins/fn-financial/functions.c:1171
+#: ../plugins/fn-financial/functions.c:1281
+#: ../plugins/fn-financial/functions.c:1540
 msgid "guess:an estimate of what the result should be"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1293
+#: ../plugins/fn-financial/functions.c:1172
 msgid "RATE calculates the rate of return."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1295
-#: ../plugins/fn-financial/functions.c:1405
-#: ../plugins/fn-financial/functions.c:1663
+#: ../plugins/fn-financial/functions.c:1174
+#: ../plugins/fn-financial/functions.c:1284
+#: ../plugins/fn-financial/functions.c:1542
 msgid ""
 "The optional @{guess} is needed because there can be more than one valid "
 "result.  It defaults to 10%."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1400
+#: ../plugins/fn-financial/functions.c:1279
 msgid "IRR:calculate internal rate of return"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1401
-#: ../plugins/fn-financial/functions.c:1604
-#: ../plugins/fn-financial/functions.c:1659
-msgid "values:cash flow"
-msgstr ""
-
-#: ../plugins/fn-financial/functions.c:1403
+#: ../plugins/fn-financial/functions.c:1282
 msgid ""
 "IRR calculates the internal rate of return of a cash flow with periodic "
 "payments.  @{values} lists the payments (negative values) and receipts "
 "(positive values) for each period."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1517
+#: ../plugins/fn-financial/functions.c:1396
 msgid "PV:calculate present value"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1518
-#: ../plugins/fn-financial/functions.c:1558
-#: ../plugins/fn-financial/functions.c:1753
+#: ../plugins/fn-financial/functions.c:1397
+#: ../plugins/fn-financial/functions.c:1437
+#: ../plugins/fn-financial/functions.c:1632
 msgid "rate:effective interest rate per period"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1523
+#: ../plugins/fn-financial/functions.c:1402
 msgid ""
 "PV calculates the present value of @{fv} which is @{nper} periods into the "
 "future, assuming a periodic payment of @{pmt} and an interest rate of @"
 "{rate} per period."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1557
+#: ../plugins/fn-financial/functions.c:1436
 msgid "NPV:calculate net present value"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1559
+#: ../plugins/fn-financial/functions.c:1438
 msgid "value1:cash flow for period 1"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1560
+#: ../plugins/fn-financial/functions.c:1439
 msgid "value2:cash flow for period 2"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1561
+#: ../plugins/fn-financial/functions.c:1440
 msgid "NPV calculates the net present value of a cash flow."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1602
+#: ../plugins/fn-financial/functions.c:1481
 msgid "XNPV:calculate net present value"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1605
-#: ../plugins/fn-financial/functions.c:1660
+#: ../plugins/fn-financial/functions.c:1484
+#: ../plugins/fn-financial/functions.c:1539
 msgid "dates:dates of cash flow"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1606
+#: ../plugins/fn-financial/functions.c:1485
 msgid "XNPV calculates the net present value of a cash flow at irregular times"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1658
+#: ../plugins/fn-financial/functions.c:1537
 msgid "XIRR:calculate internal rate of return"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1662
+#: ../plugins/fn-financial/functions.c:1541
 msgid ""
 "XIRR calculates the annualized internal rate of return of a cash flow at "
 "arbitrary points in time.  @{values} lists the payments (negative values) "
 "and receipts (positive values) with one value for each entry in @{dates}."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1752
+#: ../plugins/fn-financial/functions.c:1631
 msgid "FV:calculate future value"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1758
+#: ../plugins/fn-financial/functions.c:1637
 msgid ""
 "FV calculates the future value of @{pv} moved @{nper} periods into the "
 "future, assuming a periodic payment of @{pmt} and an interest rate of @"
 "{rate} per period."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1788
+#: ../plugins/fn-financial/functions.c:1667
 msgid "PMT:calculate payment for annuity"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1794
+#: ../plugins/fn-financial/functions.c:1673
 msgid "PMT calculates the payment amount for an annuity."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1819
-msgid ""
-"@FUNCTION=IPMT\n"
-"@SYNTAX=IPMT(rate,per,nper,pv[,fv,type])\n"
-"@DESCRIPTION=IPMT calculates the amount of a payment of an annuity going "
-"towards interest.\n"
-"\n"
-"Formula for IPMT is:\n"
-"\n"
-"IPMT(PER) = -PRINCIPAL(PER-1) * INTEREST_RATE\n"
-"\n"
-"where:\n"
-"\n"
-"PRINCIPAL(PER-1) = amount of the remaining principal from last period\n"
-"\n"
-"* If @fv is omitted, it is assumed to be 0.\n"
-"* If @type is omitted, it is assumed to be 0.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=PPMT,PV,FV"
+#: ../plugins/fn-financial/functions.c:1697
+msgid "IPMT:calculate interest payment for period"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1871
+#: ../plugins/fn-financial/functions.c:1704
 msgid ""
-"@FUNCTION=PPMT\n"
-"@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
-"@DESCRIPTION=PPMT calculates the amount of a payment of an annuity going "
-"towards principal.\n"
-"\n"
-"Formula for it is:\n"
-"PPMT(per) = PMT - IPMT(per)\n"
-"where:\n"
-"\n"
-"PMT = Payment received on annuity\n"
-"IPMT(per) = amount of interest for period @per\n"
-"\n"
-"* If @fv is omitted, it is assumed to be 0.\n"
-"* If @type is omitted, it is assumed to be 0.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IPMT,PV,FV"
+"IPMT calculates the interest part of an annuity's payment for period number @"
+"{per}."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1927
-msgid ""
-"@FUNCTION=NPER\n"
-"@SYNTAX=NPER(rate,pmt,pv[,fv,type])\n"
-"@DESCRIPTION=NPER calculates number of periods of an investment based on "
-"periodic constant payments and a constant interest rate.\n"
-"\n"
-"The interest rate per period is @rate, @pmt is the payment made each period, "
-"@pv is the present value, @fv is the future value and @type is when the "
-"payments are due. If @type = 1, payments are due at the beginning of the "
-"period, if @type = 0, payments are due at the end of the period.\n"
-"\n"
-"* If @rate <= 0, NPER returns #DIV0 error.\n"
-"\n"
-"@EXAMPLES=\n"
-"For example, if you deposit $10,000 in a savings account that earns an "
-"interest rate of 6%. To calculate how many years it will take to double your "
-"investment use NPER as follows:\n"
-"=NPER(0.06, 0, -10000, 20000,0)returns 11.895661046 which indicates that you "
-"can double your money just before the end of the 12th year.\n"
-"@SEEALSO=PPMT,PV,FV"
+#: ../plugins/fn-financial/functions.c:1737
+msgid "PPMT:calculate interest payment for period"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1991
+#: ../plugins/fn-financial/functions.c:1744
 msgid ""
-"@FUNCTION=DURATION\n"
-"@SYNTAX=DURATION(settlement,maturity,coup,yield,frequency[,basis])\n"
-"@DESCRIPTION=DURATION calculates the duration of a security.\n"
-"\n"
-"@settlement is the settlement date of the security.\n"
-"@maturity is the maturity date of the security.\n"
-"@coup The annual coupon rate as a percentage.\n"
-"@yield The annualized yield of the security as a percentage.\n"
-"@frequency is the number of coupon payments per year. Allowed frequencies "
-"are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting "
-"system you want to use:\n"
-"\n"
-"  0  US 30/360\n"
-"  1  actual days/actual days\n"
-"  2  actual days/360\n"
-"  3  actual days/365\n"
-"  4  European 30/360\n"
-"\n"
-"* If @frequency is other than 1, 2, or 4, DURATION returns #NUM! error.\n"
-"* If @basis is omitted, US 30/360 is applied.\n"
-"* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=G_DURATION,MDURATION"
+"PPMT calculates the principal part of an annuity's payment for period number "
+"@{per}."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2053
-msgid ""
-"@FUNCTION=G_DURATION\n"
-"@SYNTAX=G_DURATION(rate,pv,fv)\n"
-"@DESCRIPTION=G_DURATION calculates number of periods needed for an "
-"investment to attain a desired value. This function is similar to FV and PV "
-"with a difference that we do not need give the direction of cash flows e.g. -"
-"100 for a cash outflow and +100 for a cash inflow.\n"
-"\n"
-"* If @rate <= 0, G_DURATION returns #DIV0 error.\n"
-"* If @fv = 0 or @pv = 0, G_DURATION returns #DIV0 error.\n"
-"* If @fv / @pv < 0, G_DURATION returns #VALUE error.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=PPMT,PV,FV,DURATION,MDURATION"
+#: ../plugins/fn-financial/functions.c:1781
+msgid "NPER:calculate number of periods"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2097
+#: ../plugins/fn-financial/functions.c:1787
 msgid ""
-"@FUNCTION=FVSCHEDULE\n"
-"@SYNTAX=FVSCHEDULE(principal,schedule)\n"
-"@DESCRIPTION=FVSCHEDULE returns the future value of given initial value "
-"after applying a series of compound periodic interest rates. The argument "
-"@principal is the present value; @schedule is an array of interest rates to "
-"apply. The @schedule argument must be a range of cells.\n"
-"\n"
-"@EXAMPLES=\n"
-"Let us assume that the cells A1, A2, ..., A5 contain interest rates 0.11, "
-"0.13, 0.09, 0.17, and 0.03.  Then\n"
-"FVSCHEDULE(3000,A1:A5) equals 4942.7911611.\n"
-"@SEEALSO=PV,FV"
+"NPER calculates the number of periods of an investment based on periodic "
+"constant payments and a constant interest rate."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2143
+#: ../plugins/fn-financial/functions.c:1829
+msgid "DURATION:calculates the duration of a security"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:1832
+#: ../plugins/fn-financial/functions.c:3352
+msgid "coupon:annual coupon rate"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:1837
+msgid "DURATION calculates the duration of a security."
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:1874
+msgid "G_DURATION:calculates the duration of a investment"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:1878
+msgid ""
+"G_DURATION calculates the number of periods needed for an investment to "
+"attain a desired value."
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:1906
+msgid "FVSCHEDULE:calculate future value"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:1907
+msgid "principal:intial value"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:1908
+msgid "schedule:range of interest rates"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:1909
+msgid ""
+"FVSCHEDULE calculates the future value of @{principal} after applying a "
+"range of interest rates with compounding."
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:1942
 msgid "EURO:calculate equivalent of 1 EUR"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2144
-#: ../plugins/fn-financial/functions.c:2246
+#: ../plugins/fn-financial/functions.c:1943
+#: ../plugins/fn-financial/functions.c:2045
 msgid "currency:three-letter currency code"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2145
+#: ../plugins/fn-financial/functions.c:1944
 msgid ""
 "EURO calculates the national currency amount corresponding to 1 EUR for any "
 "of the national currencies that were replaced by the Euro on its "
 "introduction."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2146
+#: ../plugins/fn-financial/functions.c:1945
 msgid ""
 "@{currency} must be one of ATS (Austria), BEF (Belgium), DEM (Germany), ESP "
 "(Spain), EUR (Euro), FIM (Finland), FRF (France), GRD (Greece), IEP "
@@ -3225,41 +3120,41 @@ msgid ""
 "(Portugal)."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2160
-#: ../plugins/fn-financial/functions.c:2249
+#: ../plugins/fn-financial/functions.c:1959
+#: ../plugins/fn-financial/functions.c:2048
 msgid "This function is not likely to be useful anymore."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2242
+#: ../plugins/fn-financial/functions.c:2041
 msgid "EUROCONVERT:calculate pre-Euro amount from one currency to another"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2243
+#: ../plugins/fn-financial/functions.c:2042
 msgid "n:amount"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2244
+#: ../plugins/fn-financial/functions.c:2043
 msgid "source:three-letter source currency code"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2245
+#: ../plugins/fn-financial/functions.c:2044
 msgid "target:three-letter target currency code"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2247
+#: ../plugins/fn-financial/functions.c:2046
 msgid ""
 "EUROCONVERT converts @{n} units of currency @{source} to currency @"
 "{target}.  The rates used are the official ones used on the introduction of "
 "the Euro."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2248
+#: ../plugins/fn-financial/functions.c:2047
 msgid ""
 "@{source} and @{target} must be one of the currencies listed for the EURO "
 "function."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2272
+#: ../plugins/fn-financial/functions.c:2071
 msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,[frequency,basis])\n"
@@ -3285,7 +3180,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2339
+#: ../plugins/fn-financial/functions.c:2138
 msgid ""
 "@FUNCTION=YIELD\n"
 "@SYNTAX=YIELD(settlement,maturity,rate,price,redemption_price,frequency[,"
@@ -3312,7 +3207,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2462
+#: ../plugins/fn-financial/functions.c:2261
 msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])\n"
@@ -3339,7 +3234,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2526
+#: ../plugins/fn-financial/functions.c:2325
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
@@ -3366,7 +3261,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2582
+#: ../plugins/fn-financial/functions.c:2381
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
 "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
@@ -3395,7 +3290,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2747
+#: ../plugins/fn-financial/functions.c:2546
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
 "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,"
@@ -3423,7 +3318,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2858
+#: ../plugins/fn-financial/functions.c:2657
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
@@ -3451,7 +3346,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2952
+#: ../plugins/fn-financial/functions.c:2751
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
 "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
@@ -3479,7 +3374,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3046
+#: ../plugins/fn-financial/functions.c:2845
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -3514,7 +3409,7 @@ msgid ""
 "@SEEALSO=AMORLINC"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3113
+#: ../plugins/fn-financial/functions.c:2912
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -3547,7 +3442,7 @@ msgid ""
 "@SEEALSO=AMORDEGRC"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3175
+#: ../plugins/fn-financial/functions.c:2974
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis,eom])\n"
@@ -3582,7 +3477,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3223
+#: ../plugins/fn-financial/functions.c:3022
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis,eom])\n"
@@ -3618,7 +3513,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3272
+#: ../plugins/fn-financial/functions.c:3071
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis,eom])\n"
@@ -3653,7 +3548,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3320
+#: ../plugins/fn-financial/functions.c:3119
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -3687,7 +3582,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3369
+#: ../plugins/fn-financial/functions.c:3168
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -3721,7 +3616,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3419
+#: ../plugins/fn-financial/functions.c:3218
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis,eom])\n"
@@ -3754,105 +3649,65 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3463
-msgid ""
-"@FUNCTION=CUMIPMT\n"
-"@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
-"@DESCRIPTION=CUMIPMT returns the cumulative interest paid on a loan between "
-"@start_period and @end_period.\n"
-"\n"
-"* If @rate <= 0, CUMIPMT returns #NUM! error.\n"
-"* If @nper <= 0, CUMIPMT returns #NUM! error.\n"
-"* If @pv <= 0, CUMIPMT returns #NUM! error.\n"
-"* If @start_period < 1, CUMIPMT returns #NUM! error.\n"
-"* If @end_period < @start_period, CUMIPMT returns #NUM! error.\n"
-"* If @end_period > @nper, CUMIPMT returns #NUM! error.\n"
-"* If @type <> 0 and @type <> 1, CUMIPMT returns #NUM! error.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
+#: ../plugins/fn-financial/functions.c:3261
+msgid "CUMIPMT:calculate cumulative interest payment"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3516
-msgid ""
-"@FUNCTION=CUMPRINC\n"
-"@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
-"@DESCRIPTION=CUMPRINC returns the cumulative principal paid on a loan "
-"between @start_period and @end_period.\n"
-"\n"
-"* If @rate <= 0, CUMPRINC returns #NUM! error.\n"
-"* If @nper <= 0, CUMPRINC returns #NUM! error.\n"
-"* If @pv <= 0, CUMPRINC returns #NUM! error.\n"
-"* If @start_period < 1, CUMPRINC returns #NUM! error.\n"
-"* If @end_period < @start_period, CUMPRINC returns #NUM! error.\n"
-"* If @end_period > @nper, CUMPRINC returns #NUM! error.\n"
-"* If @type <> 0 and @type <> 1, CUMPRINC returns #NUM! error.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
-msgstr ""
-"@FUNCTION=CUMPRINC\n"
-"@SYNTAX=CUMPRINC(rate,nper,pv,start_periode,slutt_periode,type)\n"
-"@DESCRIPTION=CUMPRINC returnerer kumulativ prinsipal betalt på et lån mellom "
-"@start_periode og @slutt_periode.\n"
-"\n"
-"* Hvis @rate <= 0, returnerer CUMPRINC #NUM!.\n"
-"* Hvis @nper <= 0, returnerer CUMPRINC #NUM!.\n"
-"* Hvis @pv <= 0, returnerer CUMPRINC #NUM!.\n"
-"* Hvis @start_period < 1, returnerer CUMPRINC #NUM!.\n"
-"* Hvis @end_period < @start_period, returnerer CUMPRINC #NUM!.\n"
-"* Hvis @end_period > @nper, returnerer CUMPRINC #NUM!.\n"
-"* Hvis @type <> 0 and @type <> 1, returnerer CUMPRINC #NUM!.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
-
-#: ../plugins/fn-financial/functions.c:3569
-msgid ""
-"@FUNCTION=MDURATION\n"
-"@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
-"@DESCRIPTION=MDURATION returns the Macauley duration for a security with par "
-"value 100.\n"
-"\n"
-"@basis is the type of day counting system you want to use:\n"
-"\n"
-"  0  MSRB 30/360 (MSRB Rule G33 (e))\n"
-"  1  actual days/actual days\n"
-"  2  actual days/360\n"
-"  3  actual days/365\n"
-"  4  European 30/360\n"
-"  5  European+ 30/360\n"
-"\n"
-"* If @settlement or @maturity are not valid dates, MDURATION returns #NUM! "
-"error.\n"
-"* If @frequency is other than 1, 2, or 4, MDURATION returns #NUM! error.\n"
-"* If @basis is omitted, MSRB 30/360 is applied.\n"
-"* If @basis is invalid, #NUM! error is returned.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DURATION,G_DURATION"
+#: ../plugins/fn-financial/functions.c:3265
+#: ../plugins/fn-financial/functions.c:3309
+#: ../plugins/fn-financial/functions.c:3399
+msgid "start_period:first period to accumulate for"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3630
+#: ../plugins/fn-financial/functions.c:3266
+#: ../plugins/fn-financial/functions.c:3310
+#: ../plugins/fn-financial/functions.c:3400
+msgid "end_period:last period to accumulate for"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:3268
 msgid ""
-"@FUNCTION=VDB\n"
-"@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
-"@DESCRIPTION=VDB calculates the depreciation of an asset for a given period "
-"or partial period using the double-declining balance method.\n"
-"\n"
-"* If @start_period < 0, VDB returns #NUM! error.\n"
-"* If @start_period > @end_period, VDB returns #NUM! error.\n"
-"* If @end_period > @life, VDB returns #NUM! error.\n"
-"* If @cost < 0, VDB returns #NUM! error.\n"
-"* If @salvage > @cost, VDB returns #NUM! error.\n"
-"* If @factor <= 0, VDB returns #NUM! error.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DB"
+"CUMIPMT calculates the cumulative interest paid on a loan from @"
+"{start_period} to @{end_period}."
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:3305
+msgid "CUMPRINC:calculate cumulative principal"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:3312
+msgid ""
+"CUMPRINC calculates the cumulative principal paid on a loan from @"
+"{start_period} to @{end_period}."
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:3349
+msgid "MDURATION:calculates the Macauley duration of a security"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:3357
+msgid "MDURATION calculates the Macauley duration of a security."
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:3395
+msgid "VDB:calculate depreciation of an asset"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:3402
+msgid "no_switch:do not switch to straight-line depreciation"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:3403
+msgid ""
+"VDB calculates the depreciation of an asset for a given period range using "
+"the double-declining balance method."
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:3404
+msgid ""
+"If @{no_switch} is FALSE, the calculation switches to straight-line "
+"depreciation when depreciation is greater than the declining balance "
+"calculation."
 msgstr ""
 
 #: ../plugins/fn-info/functions.c:67
@@ -9789,3 +9644,132 @@ msgstr ""
 #: ../plugins/sample_datasource/sample_datasource.c:273
 msgid "This is not intended to be generally enabled and is OFF by default."
 msgstr ""
+
+#~ msgid ""
+#~ "@FUNCTION=DB\n"
+#~ "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
+#~ "@DESCRIPTION=DB calculates the depreciation of an asset for a given "
+#~ "period using the fixed-declining balance method.  @cost is the initial "
+#~ "value of the asset.  @salvage is the value after the depreciation.\n"
+#~ "\n"
+#~ "@life is the number of periods overall.  @period is the period for which "
+#~ "you want the depreciation to be calculated.  @month is the number of "
+#~ "months in the first year of depreciation.\n"
+#~ "\n"
+#~ "* If @month is omitted, it is assumed to be 12.\n"
+#~ "* If @cost = 0, DB returns #NUM! error.\n"
+#~ "* If @life <= 0, DB returns #NUM! error.\n"
+#~ "* If @salvage / @cost < 0, DB returns #NUM! error.\n"
+#~ "\n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DDB,SLN,SYD"
+#~ msgstr ""
+#~ "@FUNCTION=DB\n"
+#~ "@SYNTAX=DB(kost,gjenstående,liv,periode[,måned])\n"
+#~ "@DESCRIPTION=DB kalkulerer avskrivingen for et objekt for en gitt periode "
+#~ "ved bruk av \"fixed-declining balance method\".  @kost er den initielle "
+#~ "verdien for objektet. @gjenstående er verdien etter nedskrivingen.\n"
+#~ "\n"
+#~ "@liv er antall perioder totalt.  @periode er perioden du ønsker "
+#~ "nedskrivingen kalkulert for. @måned er antall måneder i det første året "
+#~ "med nedskriving.\n"
+#~ "\n"
+#~ "* Hvis @måned utelates brukes forvalgt verdi 12.\n"
+#~ "* Hvis @kost = 0 returnerer DB en #NUM!-feil.\n"
+#~ "* Hvis @liv <= 0 returnerer DB en #NUM!-feil.\n"
+#~ "* Hvis @gjenstående / @kost < 0 returnerer DB en #NUM!-feil.\n"
+#~ " \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DDB,SLN,SYD"
+
+#~ msgid ""
+#~ "@FUNCTION=DDB\n"
+#~ "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
+#~ "@DESCRIPTION=DDB returns the depreciation of an asset for a given period "
+#~ "using the double-declining balance method or some other similar method "
+#~ "you specify.\n"
+#~ "\n"
+#~ "@cost is the initial value of the asset, @salvage is the value after the "
+#~ "last period, @life is the number of periods, @period is the period for "
+#~ "which you want the depreciation to be calculated, and @factor is the "
+#~ "factor at which the balance declines.\n"
+#~ "\n"
+#~ "* If @factor is omitted, it is assumed to be two (double-declining "
+#~ "balance method).\n"
+#~ "* If @life <= 0, DDB returns #NUM! error.\n"
+#~ "\n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=SLN,SYD"
+#~ msgstr ""
+#~ "@FUNCTION=DDB\n"
+#~ "@SYNTAX=DDB(kost,gjenstående,liv,periode[,faktor])\n"
+#~ "@DESCRIPTION=DDB kalkulerer avskrivingen for et objekt for en gitt "
+#~ "periode ved bruk av \"double-declining balance method\", eller en annen "
+#~ "lignende metode du oppgir.\n"
+#~ "\n"
+#~ "@kost er den initielle verdien for objektet. @gjenstående er verdien "
+#~ "etter nedskrivingen. @liv er antall perioder totalt. @periode er perioden "
+#~ "du ønsker nedskrivingen kalkulert for og @faktor er faktoren for "
+#~ "nedskrivingen.\n"
+#~ "\n"
+#~ "* Hvis @faktor utelates, antas den å være 2 (double-declining balance "
+#~ "method).\n"
+#~ "* Hvis @liv <= 0 returnerer DDB en #NUM!-feil.\n"
+#~ " \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=SLN,SYD"
+
+#~ msgid ""
+#~ "@FUNCTION=MIRR\n"
+#~ "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
+#~ "@DESCRIPTION=MIRR function returns the modified internal rate of return "
+#~ "for a given periodic cash flow. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=NPV"
+#~ msgstr ""
+#~ "@FUNCTION=MIRR\n"
+#~ "@SYNTAX=COUNTIF(verdier,finans_rate,reinversterings_rate)\n"
+#~ "@DESCRIPTION=MIRR-funksjonen returnerer den endrede internraten for retur "
+#~ "på en gitt periodisk pengestrøm. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=NPV"
+
+#~ msgid ""
+#~ "@FUNCTION=CUMPRINC\n"
+#~ "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
+#~ "@DESCRIPTION=CUMPRINC returns the cumulative principal paid on a loan "
+#~ "between @start_period and @end_period.\n"
+#~ "\n"
+#~ "* If @rate <= 0, CUMPRINC returns #NUM! error.\n"
+#~ "* If @nper <= 0, CUMPRINC returns #NUM! error.\n"
+#~ "* If @pv <= 0, CUMPRINC returns #NUM! error.\n"
+#~ "* If @start_period < 1, CUMPRINC returns #NUM! error.\n"
+#~ "* If @end_period < @start_period, CUMPRINC returns #NUM! error.\n"
+#~ "* If @end_period > @nper, CUMPRINC returns #NUM! error.\n"
+#~ "* If @type <> 0 and @type <> 1, CUMPRINC returns #NUM! error.\n"
+#~ "\n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO="
+#~ msgstr ""
+#~ "@FUNCTION=CUMPRINC\n"
+#~ "@SYNTAX=CUMPRINC(rate,nper,pv,start_periode,slutt_periode,type)\n"
+#~ "@DESCRIPTION=CUMPRINC returnerer kumulativ prinsipal betalt på et lån "
+#~ "mellom @start_periode og @slutt_periode.\n"
+#~ "\n"
+#~ "* Hvis @rate <= 0, returnerer CUMPRINC #NUM!.\n"
+#~ "* Hvis @nper <= 0, returnerer CUMPRINC #NUM!.\n"
+#~ "* Hvis @pv <= 0, returnerer CUMPRINC #NUM!.\n"
+#~ "* Hvis @start_period < 1, returnerer CUMPRINC #NUM!.\n"
+#~ "* Hvis @end_period < @start_period, returnerer CUMPRINC #NUM!.\n"
+#~ "* Hvis @end_period > @nper, returnerer CUMPRINC #NUM!.\n"
+#~ "* Hvis @type <> 0 and @type <> 1, returnerer CUMPRINC #NUM!.\n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO="
