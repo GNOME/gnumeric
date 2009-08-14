@@ -1,5 +1,9 @@
 2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* functions.c (help_sech): fix name record
+
+2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c (help_abs): fix name record
 	(help_asinh): fix name record
 	(help_coth): fix name record

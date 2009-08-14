@@ -1254,7 +1254,7 @@ gnumeric_sec (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_sech[] = {
-	{ GNM_FUNC_HELP_NAME, F_("SEC:Hyperbolic secant")},
+	{ GNM_FUNC_HELP_NAME, F_("SECH:Hyperbolic secant")},
 	{ GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is not Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, F_("SECH(@{x}) is exported to OpenFormula as 1/COSH(@{x}).") },
