@@ -1109,39 +1109,24 @@ function_def_get_arg_type_string (GnmFunc const *fn_def,
 char *
 function_def_get_arg_name (GnmFunc const *fn_def, int arg_idx)
 {
-	const char *start, *end;
-	const char *translated_arguments;
-	gunichar uc;
-	char delimiter[7];
+	int i;
 
 	g_return_val_if_fail (arg_idx >= 0, NULL);
 	g_return_val_if_fail (fn_def != NULL, NULL);
 
 	gnm_func_load_if_stub ((GnmFunc *)fn_def);
 
-	if (!fn_def->arg_names)
-		return NULL;
-
-	translated_arguments = (strlen (fn_def->arg_names)>0
-				? _(fn_def->arg_names)
-				: fn_def->arg_names);
-	uc = (strcmp (translated_arguments, fn_def->arg_names) == 0)
-		? ','
-		: go_locale_get_arg_sep ();
-	delimiter[g_unichar_to_utf8 (uc, delimiter)] = 0;
-
-	start = translated_arguments;
-	while (arg_idx > 0) {
-		const char *del = strstr (start, delimiter);
-		if (!del)
-			return NULL;
-		arg_idx--;
-		start = del + strlen (delimiter);
+	for (i = 0;
+	     fn_def->help[i].type != GNM_FUNC_HELP_END;
+	     i++) {
+		if (fn_def->help[i].type == GNM_FUNC_HELP_ARG) {
+			if (arg_idx == 0)
+				return split_at_colon (_(fn_def->help[i].text), NULL);
+			else
+				arg_idx--;	
+		}
 	}
-	end = strstr (start, delimiter);
-	if (!end) end = start + strlen (start);
-
-	return g_strndup (start, end - start);
+	return NULL;
 }
 
 /* ------------------------------------------------------------------------- */
