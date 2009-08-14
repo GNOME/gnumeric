@@ -1,3 +1,7 @@
+2009-08-14  Morten Welinder  <terra@gnome.org>
+
+	* src/func.c (gnm_func_sanity_check1): Check EXAMPLES too.
+
 2009-08-14 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/func-builtin.c: remove argument names from GnmFuncDescriptor

@@ -103,34 +103,6 @@ func_def_cmp (gconstpointer a, gconstpointer b)
 	return g_ascii_strcasecmp (fda->name, fdb->name);
 }
 
-static char const *
-check_name_match (char const *name, char const *description, char const *tag)
-{
-	unsigned tag_len = strlen (tag);
-	char const *tmp;
-	char *desc_name, *up_name;
-
-	if (NULL == (tmp = strstr (description, tag))) {
-		g_printerr ("'%s' : missing '%s' section.  text = '%s'\n", name, tag, description);
-		return NULL;
-	}
-
-	description = tmp + tag_len;
-	for (tmp = description ; *tmp && *tmp != '(' && !g_ascii_isspace(*tmp) ; tmp++)
-		;
-	desc_name = g_strndup (description, tmp-description);
-	up_name = g_ascii_strup (name, -1);
-	if (strcmp (desc_name, up_name)) {
-		g_printerr ("'%s' : does not match '%s' in @FUNCTION\n", desc_name, up_name);
-		g_free (up_name);
-		g_free (desc_name);
-		return NULL;
-	}
-	g_free (up_name);
-	g_free (desc_name);
-	return tmp;
-}
-
 static void
 cb_dump_usage (gpointer key, Symbol *sym, FILE *out)
 {
@@ -476,6 +448,7 @@ gnm_func_sanity_check1 (GnmFunc const *fd)
 	GnmFuncHelp const *h;
 	int counts[(int)GNM_FUNC_HELP_ODF + 1];
 	int res = 0;
+	size_t nlen = strlen (fd->name);
 
 	memset (counts, 0, sizeof (counts));
 	for (h = fd->help; h->type != GNM_FUNC_HELP_END; h++) {
@@ -483,8 +456,7 @@ gnm_func_sanity_check1 (GnmFunc const *fd)
 		counts[h->type]++;
 
 		switch (h->type) {
-		case GNM_FUNC_HELP_NAME: {
-			size_t nlen = strlen (fd->name);
+		case GNM_FUNC_HELP_NAME:
 			if (g_ascii_strncasecmp (fd->name, h->text, nlen) ||
 			    h->text[nlen] != ':') {
 				g_printerr ("%s: Invalid NAME record\n",
@@ -492,8 +464,23 @@ gnm_func_sanity_check1 (GnmFunc const *fd)
 				res = 1;
 			}
 			break;
-		}
 		case GNM_FUNC_HELP_ARG:
+			if (strchr (h->text, ':') == NULL) {
+				g_printerr ("%s: Invalid ARG record\n",
+					    fd->name);
+				res = 1;
+			}
+			break;
+		case GNM_FUNC_HELP_EXAMPLES:
+			if (h->text[0] == '=') {
+				if (g_ascii_strncasecmp (fd->name,
+							 h->text + 1, nlen) ||
+				    g_ascii_isalnum (h->text[nlen + 1])) {
+					g_printerr ("%s: Invalid EXAMPLES record\n",
+						    fd->name);
+					res = 1;
+				}
+			}
 			break;
 		default:
 			; /* Nothing */
