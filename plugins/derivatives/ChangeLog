@@ -1,5 +1,12 @@
 2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* derivatives.c (help_opt_bs_carrycost): fix description
+	(help_opt_complex_chooser): This should not have a call_put flag
+	(derivatives_functions): fix number of arguments for opt_bs_delta,
+	  opt_bs_rho, opt_bs_theta, and opt_bs_carrycost
+
+2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* derivatives.c (help_opt_2_asset_correlation): add argument and
 	  fix argument order
 

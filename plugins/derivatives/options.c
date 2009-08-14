@@ -569,7 +569,7 @@ static GnmFuncHelp const help_opt_bs_carrycost[] = {
 	DEF_ARG_RATE_RISKFREE,
 	DEF_ARG_VOLATILITY,
 	DEF_ARG_CC_OPT,
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_BS_DELTA uses the Black-Scholes model to calculate "
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_BS_CARRYCOST uses the Black-Scholes model to calculate "
 					"the 'elasticity' of a European option struck at @{strike} "
 					"on an asset with spot price @{spot}. The elasticity of an option "
 					"is the rate of change of its price "
@@ -1382,7 +1382,6 @@ opt_complex_chooser(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_opt_complex_chooser[] = {
 	{ GNM_FUNC_HELP_NAME, F_("OPT_COMPLEX_CHOOSER:theoretical price of a complex chooser option")},
-	DEF_ARG_CALL_PUT_FLAG,
 	DEF_ARG_SPOT,
         { GNM_FUNC_HELP_ARG, F_("strike_call:strike price, if exercised as a call option.")},
         { GNM_FUNC_HELP_ARG, F_("strike_put:strike price, if exercised as a put option")},
@@ -1976,17 +1975,17 @@ GnmFuncDescriptor const derivatives_functions [] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_bs_delta",
-	  "sffffff|f", N_("call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"),
+	  "sfffff|f", N_("call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"),
 	  help_opt_bs_delta, opt_bs_delta, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_bs_rho",
-	  "sffffff|f", N_("call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"),
+	  "sfffff|f", N_("call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"),
 	  help_opt_bs_rho, opt_bs_rho, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_bs_theta",
-	  "sffffff|f", N_("call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"),
+	  "sfffff|f", N_("call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"),
 	  help_opt_bs_theta, opt_bs_theta, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
@@ -2001,7 +2000,7 @@ GnmFuncDescriptor const derivatives_functions [] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_bs_carrycost",
-	  "sffffff|f", N_("call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"),
+	  "sfffff|f", N_("call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"),
 	  help_opt_bs_carrycost, opt_bs_carrycost, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
