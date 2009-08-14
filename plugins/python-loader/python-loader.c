@@ -536,12 +536,11 @@ python_function_get_gnumeric_help (PyObject *python_fn_info_dict, PyObject *pyth
 		PyObject *python_fn_help = ((PyFunctionObject *) python_fn)->func_doc;
 		if (python_fn_help != NULL && PyString_Check (python_fn_help)) {
 			GnmFuncHelp *new_help = g_new (GnmFuncHelp, 2);
-			gchar *help_str = PyString_AsString (python_fn_help);
 			int i = 0;
 
 #if 0
 			new_help[i].type = GNM_FUNC_HELP_OLD;
-			new_help[i].text = help_str;
+			new_help[i].text = PyString_AsString (python_fn_help);
 			i++;
 #endif
 
@@ -592,7 +591,9 @@ gplp_func_desc_load (GOPluginService *service,
 		    (python_fn = PyTuple_GetItem (fn_info_obj, 2)) != NULL &&
 		    PyFunction_Check (python_fn)) {
 			res->arg_spec	= PyString_AsString (python_args);
+#if 0
 			res->arg_names  = PyString_AsString (python_arg_names);
+#endif
 			res->help	= python_function_get_gnumeric_help (
 				loader_data->python_fn_info_dict, python_fn, name);
 			res->fn_args	= &call_python_function_args;
@@ -610,7 +611,6 @@ gplp_func_desc_load (GOPluginService *service,
 
 	if (PyFunction_Check (fn_info_obj)) {
 		res->arg_spec	= "";
-		res->arg_names  = "";
 		res->help	= python_function_get_gnumeric_help (
 			loader_data->python_fn_info_dict, fn_info_obj, name);
 		res->fn_args	= NULL;

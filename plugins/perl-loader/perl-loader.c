@@ -161,7 +161,6 @@ gplp_func_desc_load (GOPluginService *service,
 
 	res->name = g_strdup(name);
 	res->arg_spec = arg_spec;
-	res->arg_names = arg_names;
 
 #if 0
 	help_template[0].text = help_text ? help_text : help_template_text;

@@ -473,6 +473,7 @@ gnm_func_sanity_check1 (GnmFunc const *fd)
 			break;
 		case GNM_FUNC_HELP_EXAMPLES:
 			if (h->text[0] == '=') {
+#if 0
 				if (g_ascii_strncasecmp (fd->name,
 							 h->text + 1, nlen) ||
 				    g_ascii_isalnum (h->text[nlen + 1])) {
@@ -480,6 +481,7 @@ gnm_func_sanity_check1 (GnmFunc const *fd)
 						    fd->name);
 					res = 1;
 				}
+#endif
 			}
 			break;
 		default:
@@ -547,6 +549,7 @@ gnm_func_sanity_check (void)
 		       ordered->len, sizeof (gpointer),
 		       func_def_cmp);
 
+	g_printerr ("Checking %d help texts...\n", (int)ordered->len);
 	for (ui = 0; ui < ordered->len; ui++) {
 		GnmFunc const *fd = g_ptr_array_index (ordered, ui);
 		if (gnm_func_sanity_check1 (fd))
