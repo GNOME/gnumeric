@@ -1,5 +1,7 @@
 2009-08-14  Morten Welinder  <terra@gnome.org>
 
+	* src/func.c (gnm_func_sanity_check1): Check argument count too.
+
 	* src/main-application.c (main): Add new --func-sanity-check
 	option.
 

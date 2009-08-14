@@ -552,6 +552,16 @@ gnm_func_sanity_check1 (GnmFunc const *fd)
 		}
 	}
 
+	if (fd->fn_type == GNM_FUNC_TYPE_ARGS) {
+		int n = counts[GNM_FUNC_HELP_ARG];
+		if (n != fd->fn.args.max_args) {
+			g_printerr ("%s: Help for %d args, but takes %d-%d\n",
+				    fd->name, n,
+				    fd->fn.args.min_args, fd->fn.args.max_args);
+			res = 1;
+		}
+	}
+
 	return res;
 }
 
