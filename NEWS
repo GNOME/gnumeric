@@ -22,6 +22,7 @@ Andreas:
 	* Fix percentage histogram . [#590375]
 	* Fix non-label 2-factor ANOVA with replication.
 	* Fix various minor bugs.
+	* Convert old help texts to new format.
 
 Jody:
 	* Fix col/row resize. [#588297]
@@ -33,7 +34,7 @@ Morten:
 	* Rework loading of configuration.  [#585701]
 	* Support evaluated examples in function docs.
 	* Simplify Win32 build.
-	* Convert fn-logical and sample_datasource to new help format.
+	* Convert old help texts to new format.
 	* Fix problem with print area.
 	* Fix problems with in-sheet combos.  [#587992]
 	* Fix translation textdomain confusion.  [#588110]

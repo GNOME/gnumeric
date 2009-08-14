@@ -2806,42 +2806,18 @@ gnumeric_amorlinc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_coupdaybs[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=COUPDAYBS\n"
-	   "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis,eom])\n"
-	   "@DESCRIPTION="
-	   "COUPDAYBS returns the number of days from the beginning of the "
-	   "coupon period to the settlement date.\n"
-	   "\n"
-	   "@settlement is the settlement date of the security.\n"
-	   "@maturity is the maturity date of the security.\n"
-	   "@frequency is the number of coupon payments per year.\n"
-	   "@eom = TRUE handles end of month maturity dates special.\n"
-	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, "
-	   "6 = bimonthly, 12 = monthly.\n"
-	   "@basis is the type of day counting system you want to use:\n"
-	   "\n"
-	   "  0  MSRB 30/360 (MSRB Rule G33 (e))\n"
-	   "  1  actual days/actual days\n"
-	   "  2  actual days/360\n"
-	   "  3  actual days/365\n"
-	   "  4  European 30/360\n"
-	   "  5  European+ 30/360\n"
-	   "\n"
-	   "(See the gnumeric manual for a detailed description of these "
-	   "bases).\n"
-	   "\n"
-	   "* If @frequency is invalid, COUPDAYBS returns #NUM! "
-	   "error.\n"
-	   "* If @basis is omitted, MSRB 30/360 is applied.\n"
-	   "* If @basis is invalid, #NUM! error is returned.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "COUPDAYBS (DATE(2002,11,29),DATE(2004,2,29),4,0) = 89\n"
-	   "COUPDAYBS (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 0\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
+        { GNM_FUNC_HELP_NAME, F_("COUPDAYBS:calculates number of days from coupon period to settlement")},
+        { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
+        { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+        { GNM_FUNC_HELP_ARG, F_("eom:end-of-month flag")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("COUPDAYBS calculates the number of days from the beginning of the coupon period to the settlement date.") },
+	FREQ_HELP,
+	GNM_DATE_BASIS_HELP
+	{ GNM_FUNC_HELP_EXAMPLES, "=COUPDAYBS(DATE(2002,11,29),DATE(2004,2,29),4,0)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=COUPDAYBS(DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE)" },
+        { GNM_FUNC_HELP_SEEALSO, "COUPDAYS"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2854,43 +2830,18 @@ gnumeric_coupdaybs (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_coupdays[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=COUPDAYS\n"
-	   "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis,eom])\n"
-	   "@DESCRIPTION="
-	   "COUPDAYS returns the number of days in the coupon period of the "
-	   "settlement date.\n"
-	   "\n"
-	   "@settlement is the settlement date of the security.\n"
-	   "@maturity is the maturity date of the security.\n"
-	   "@frequency is the number of coupon payments per year.\n"
-	   "@eom = TRUE handles end of month maturity dates special.\n"
-	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, "
-	   "6 = bimonthly, 12 = monthly.\n"
-	   "@basis is the type of day counting system you want to use:\n"
-	   "\n"
-	   "  0  MSRB 30/360 (MSRB Rule G33 (e))\n"
-	   "  1  actual days/actual days\n"
-	   "  2  actual days/360\n"
-	   "  3  actual days/365\n"
-	   "  4  European 30/360\n"
-	   "  5  European+ 30/360\n"
-	   "\n"
-	   "(See the gnumeric manual for a detailed description of these "
-	   "bases).\n"
-	   "\n"
-	   "* If @frequency is invalid, COUPDAYS returns #NUM! "
-	   "error.\n"
-	   "* If @basis is omitted, MSRB 30/360 is applied.\n"
-	   "* If @basis is invalid, #NUM! error is returned.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "COUPDAYS (DATE(2002,11,29),DATE(2004,2,29),4,0) = 90\n"
-	   "COUPDAYS (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 90\n"
-	   "COUPDAYS (DATE(2002,11,29),DATE(2004,2,29),4,1,FALSE) = 91\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
+        { GNM_FUNC_HELP_NAME, F_("COUPDAYS:calculates number of days in the coupon period of the settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
+        { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+        { GNM_FUNC_HELP_ARG, F_("eom:end-of-month flag")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("COUPDAYS calculates the number of days in the coupon period of the settlement date.") },
+	FREQ_HELP,
+	GNM_DATE_BASIS_HELP
+	{ GNM_FUNC_HELP_EXAMPLES, "=COUPDAYS(DATE(2002,11,29),DATE(2004,2,29),4,0)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=COUPDAYS(DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE)" },
+        { GNM_FUNC_HELP_SEEALSO, "COUPDAYBS,COUPDAYSNC"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2903,42 +2854,18 @@ gnumeric_coupdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_coupdaysnc[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=COUPDAYSNC\n"
-	   "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis,eom])\n"
-	   "@DESCRIPTION="
-	   "COUPDAYSNC returns the number of days from the settlement date "
-	   "to the next coupon date.\n"
-	   "\n"
-	   "@settlement is the settlement date of the security.\n"
-	   "@maturity is the maturity date of the security.\n"
-	   "@frequency is the number of coupon payments per year.\n"
-	   "@eom = TRUE handles end of month maturity dates special.\n"
-	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, "
-	   "6 = bimonthly, 12 = monthly.\n"
-	   "@basis is the type of day counting system you want to use:\n"
-	   "\n"
-	   "  0  MSRB 30/360 (MSRB Rule G33 (e))\n"
-	   "  1  actual days/actual days\n"
-	   "  2  actual days/360\n"
-	   "  3  actual days/365\n"
-	   "  4  European 30/360\n"
-	   "  5  European+ 30/360\n"
-	   "\n"
-	   "(See the gnumeric manual for a detailed description of these "
-	   "bases).\n"
-	   "\n"
-	   "* If @frequency is invalid, COUPDAYSNC returns #NUM! "
-	   "error.\n"
-	   "* If @basis is omitted, MSRB 30/360 is applied.\n"
-	   "* If @basis is invalid, #NUM! error is returned.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "COUPDAYSNC (DATE(2002,11,29),DATE(2004,2,29),4,0) = 1\n"
-	   "COUPDAYSNC (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 89\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
+        { GNM_FUNC_HELP_NAME, F_("COUPDAYSNC:calculates number of days from the settlement date to the next coupon period")},
+        { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
+        { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+        { GNM_FUNC_HELP_ARG, F_("eom:end-of-month flag")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("COUPDAYSNC calculates number of days from the settlement date to the next coupon period.") },
+	FREQ_HELP,
+	GNM_DATE_BASIS_HELP
+	{ GNM_FUNC_HELP_EXAMPLES, "=COUPDAYSNC(DATE(2002,11,29),DATE(2004,2,29),4,0)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=COUPDAYSNC(DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE)" },
+        { GNM_FUNC_HELP_SEEALSO, "COUPDAYS,COUPDAYBS"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2951,41 +2878,18 @@ gnumeric_coupdaysnc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_coupncd[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=COUPNCD\n"
-	   "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis,eom])\n"
-	   "@DESCRIPTION="
-	   "COUPNCD returns the coupon date following settlement.\n"
-	   "\n"
-	   "@settlement is the settlement date of the security.\n"
-	   "@maturity is the maturity date of the security.\n"
-	   "@frequency is the number of coupon payments per year.\n"
-	   "@eom = TRUE handles end of month maturity dates special.\n"
-	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, "
-	   "6 = bimonthly, 12 = monthly.\n"
-	   "@basis is the type of day counting system you want to use:\n"
-	   "\n"
-	   "  0  MSRB 30/360 (MSRB Rule G33 (e))\n"
-	   "  1  actual days/actual days\n"
-	   "  2  actual days/360\n"
-	   "  3  actual days/365\n"
-	   "  4  European 30/360\n"
-	   "  5  European+ 30/360\n"
-	   "\n"
-	   "(See the gnumeric manual for a detailed description of these "
-	   "bases).\n"
-	   "\n"
-	   "* If @frequency is invalid, COUPNCD returns #NUM! "
-	   "error.\n"
-	   "* If @basis is omitted, MSRB 30/360 is applied.\n"
-	   "* If @basis is invalid, #NUM! error is returned.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "COUPNCD (DATE(2002,11,29),DATE(2004,2,29),4,0) = 30-Nov-2002\n"
-	   "COUPNCD (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 28-Feb-2003\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
+        { GNM_FUNC_HELP_NAME, F_("COUPNCD:calculates the next coupon date after settlement")},
+        { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
+        { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+        { GNM_FUNC_HELP_ARG, F_("eom:end-of-month flag")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("COUPNCD calculates the coupon date following settlement.") },
+	FREQ_HELP,
+	GNM_DATE_BASIS_HELP
+	{ GNM_FUNC_HELP_EXAMPLES, "=COUPNCD(DATE(2002,11,29),DATE(2004,2,29),4,0)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=COUPNCD(DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE)" },
+        { GNM_FUNC_HELP_SEEALSO, "COUPPCD,COUPDAYS,COUPDAYBS"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -3000,42 +2904,18 @@ gnumeric_coupncd (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_couppcd[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=COUPPCD\n"
-	   "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])\n"
-	   "@DESCRIPTION="
-	   "COUPPCD returns the coupon date preceding settlement.\n"
-	   "\n"
-	   "@settlement is the settlement date of the security.\n"
-	   "@maturity is the maturity date of the security.\n"
-	   "@frequency is the number of coupon payments per year.\n"
-	   "@eom = TRUE handles end of month maturity dates special.\n"
-	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, "
-	   "6 = bimonthly, 12 = monthly.\n"
-	   "@basis is the type of day counting system you want to use:\n"
-	   "\n"
-	   "  0  MSRB 30/360 (MSRB Rule G33 (e))\n"
-	   "  1  actual days/actual days\n"
-	   "  2  actual days/360\n"
-	   "  3  actual days/365\n"
-	   "  4  European 30/360\n"
-	   "  5  European+ 30/360\n"
-	   "\n"
-	   "(See the gnumeric manual for a detailed description of these "
-	   "bases).\n"
-	   "\n"
-	   "* If @frequency is invalid, COUPPCD returns #NUM! "
-	   "error.\n"
-	   "* If @basis is omitted, MSRB 30/360 is applied.\n"
-	   "* If @basis is invalid, #NUM! error is returned.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "COUPPCD (DATE(2002,11,29),DATE(2004,2,29),4,0) = 31-Aug-2002\n"
-	   "COUPPCD (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = "
-	   "29-Nov-2002\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
+        { GNM_FUNC_HELP_NAME, F_("COUPPCD:calculates the last coupon date before settlement")},
+        { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
+        { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+        { GNM_FUNC_HELP_ARG, F_("eom:end-of-month flag")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("COUPPCD calculates the coupon date preceeding settlement.") },
+	FREQ_HELP,
+	GNM_DATE_BASIS_HELP
+	{ GNM_FUNC_HELP_EXAMPLES, "=COUPPCD(DATE(2002,11,29),DATE(2004,2,29),4,0)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=COUPPCD(DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE)" },
+        { GNM_FUNC_HELP_SEEALSO, "COUPNCD,COUPDAYS,COUPDAYBS"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -3050,38 +2930,18 @@ gnumeric_couppcd (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_coupnum[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=COUPNUM\n"
-	   "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis,eom])\n"
-	   "@DESCRIPTION="
-	   "COUPNUM returns the numbers of coupons to be paid between "
-	   "the settlement and maturity dates, rounded up.\n"
-	   "\n"
-	   "@settlement is the settlement date of the security.\n"
-	   "@maturity is the maturity date of the security.\n"
-	   "@frequency is the number of coupon payments per year.\n"
-	   "@eom = TRUE handles end of month maturity dates special.\n"
-	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
-	   "6 = bimonthly, 12 = monthly.\n"
-	   "@basis is the type of day counting system you want to use:\n"
-	   "\n"
-	   "  0  MSRB 30/360 (MSRB Rule G33 (e))\n"
-	   "  1  actual days/actual days\n"
-	   "  2  actual days/360\n"
-	   "  3  actual days/365\n"
-	   "  4  European 30/360\n"
-	   "  5  European+ 30/360\n"
-	   "\n"
-	   "* If @frequency is other than 1, 2, 4, 6 or 12, COUPNUM returns #NUM! "
-	   "error.\n"
-	   "* If @basis is omitted, MSRB 30/360 is applied.\n"
-	   "* If @basis is not in between 0 and 5, #NUM! error is returned.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "COUPNUM (DATE(2002,11,29),DATE(2004,2,29),4,0) = 6\n"
-	   "COUPNUM (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 5\n"
-	   "@SEEALSO=")
-	},
+        { GNM_FUNC_HELP_NAME, F_("COUPNUM:calculates number of coupons")},
+        { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
+        { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+        { GNM_FUNC_HELP_ARG, F_("eom:end-of-month flag")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("COUPNUM calculates the number of coupons to be paid between the settlement and maturity dates, rounded up.") },
+	FREQ_HELP,
+	GNM_DATE_BASIS_HELP
+	{ GNM_FUNC_HELP_EXAMPLES, "=COUPNUM(DATE(2002,11,29),DATE(2004,2,29),4,0)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=COUPNUM(DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE)" },
+        { GNM_FUNC_HELP_SEEALSO, "COUPNCD,COUPPCD"},
 	{ GNM_FUNC_HELP_END }
 };
 
