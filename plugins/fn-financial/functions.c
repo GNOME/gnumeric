@@ -792,7 +792,7 @@ gnumeric_db (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_ddb[] = {
-        { GNM_FUNC_HELP_NAME, F_("DB:calculate depreciation of an asset")},
+        { GNM_FUNC_HELP_NAME, F_("DDB:calculate depreciation of an asset")},
         { GNM_FUNC_HELP_ARG, F_("cost:initial cost of asset")},
         { GNM_FUNC_HELP_ARG, F_("salvage:value after depreciation")},
         { GNM_FUNC_HELP_ARG, F_("life:number of periods")},
@@ -1830,7 +1830,6 @@ static GnmFuncHelp const help_duration[] = {
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("coupon:annual coupon rate")},
-        { GNM_FUNC_HELP_ARG, F_("issue:date of issue")},
         { GNM_FUNC_HELP_ARG, F_("yield:annual yield of security")},
         { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
         { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
@@ -2042,7 +2041,6 @@ static GnmFuncHelp const help_euroconvert[] = {
         { GNM_FUNC_HELP_ARG, F_("n:amount")},
         { GNM_FUNC_HELP_ARG, F_("source:three-letter source currency code")},
         { GNM_FUNC_HELP_ARG, F_("target:three-letter target currency code")},
-        { GNM_FUNC_HELP_ARG, F_("currency:three-letter currency code")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("EUROCONVERT converts @{n} units of currency @{source} to currency @{target}.  The rates used are the official ones used on the introduction of the Euro.") },
 	{ GNM_FUNC_HELP_NOTE, F_("@{source} and @{target} must be one of the currencies listed for the EURO function.") },
 	{ GNM_FUNC_HELP_NOTE, F_("This function is not likely to be useful anymore.") },
@@ -2760,7 +2758,7 @@ gnumeric_amordegrc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_amorlinc[] = {
-        { GNM_FUNC_HELP_NAME, F_("AMORDEGRC:calculate depreciation of an asset using French accounting conventions")},
+        { GNM_FUNC_HELP_NAME, F_("AMORLINC:calculate depreciation of an asset using French accounting conventions")},
         { GNM_FUNC_HELP_ARG, F_("cost:initial cost of asset")},
         { GNM_FUNC_HELP_ARG, F_("purchase_date:date of purchase")},
         { GNM_FUNC_HELP_ARG, F_("first_period:end of first period")},
@@ -3046,7 +3044,6 @@ static GnmFuncHelp const help_mduration[] = {
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("coupon:annual coupon rate")},
-        { GNM_FUNC_HELP_ARG, F_("issue:date of issue")},
         { GNM_FUNC_HELP_ARG, F_("yield:annual yield of security")},
         { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
         { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
