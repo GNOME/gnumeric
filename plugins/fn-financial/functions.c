@@ -2226,34 +2226,15 @@ gnumeric_yield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_yielddisc[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=YIELDDISC\n"
-	   "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])\n"
-	   "@DESCRIPTION="
-	   "YIELDDISC calculates the annual yield of a security that is "
-	   "discounted.\n"
-	   "\n"
-	   "@settlement is the settlement date of the security.  "
-	   "@maturity is the maturity date of the security. "
-	   "@pr is the price per $100 face value of the security. "
-	   "@redemption is the redemption value per $100 face value. "
-	   "@basis is the type of day counting system you want to use:\n"
-	   "\n"
-	   "  0  US 30/360\n"
-	   "  1  actual days/actual days\n"
-	   "  2  actual days/360\n"
-	   "  3  actual days/365\n"
-	   "  4  European 30/360\n"
-	   "\n"
-	   "* If @frequency is other than 1, 2, or 4, YIELDDISC returns #NUM! "
-	   "error.\n"
-	   "* If @basis is omitted, US 30/360 is applied.\n"
-	   "* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
+        { GNM_FUNC_HELP_NAME, F_("YIELDDISC:calculates yield of a discounted security")},
+        { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
+        { GNM_FUNC_HELP_ARG, F_("price:price of security")},
+        { GNM_FUNC_HELP_ARG, F_("redemption:amount received at maturity")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("YIELDDISC calculates the yield of a discounted security.") },
+	GNM_DATE_BASIS_HELP
+        { GNM_FUNC_HELP_SEEALSO, "PRICE,DURATION"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2290,33 +2271,16 @@ gnumeric_yielddisc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_yieldmat[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=YIELDMAT\n"
-	   "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
-	   "@DESCRIPTION="
-	   "YIELDMAT calculates the annual yield of a security for which "
-	   "the interest is paid at maturity date.\n"
-	   "\n"
-	   "@settlement is the settlement date of the security. "
-	   "@maturity is the maturity date of the security. "
-	   "@issue is the issue date of the security. "
-	   "@rate is the interest rate set to the security. "
-	   "@pr is the price per $100 face value of the security. "
-	   "@basis is the type of day counting system you want to use:\n"
-	   "\n"
-	   "  0  US 30/360\n"
-	   "  1  actual days/actual days\n"
-	   "  2  actual days/360\n"
-	   "  3  actual days/365\n"
-	   "  4  European 30/360\n"
-	   "\n"
-	   "* If @basis is omitted, US 30/360 is applied.\n"
-	   "* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
+        { GNM_FUNC_HELP_NAME, F_("YIELDMAT:calculates yield of a security")},
+        { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
+        { GNM_FUNC_HELP_ARG, F_("issue:date of issue")},
+        { GNM_FUNC_HELP_ARG, F_("rate:nominal annual interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("price:price of security")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("YIELDMAT calculates the yield of a security for which the interest is paid at maturity date.") },
+	GNM_DATE_BASIS_HELP
+        { GNM_FUNC_HELP_SEEALSO, "YIELDDISC,YIELD"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2346,35 +2310,20 @@ gnumeric_yieldmat (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_oddfprice[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ODDFPRICE\n"
-	   "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,frequency[,basis])\n"
-	   "@DESCRIPTION="
-	   "ODDFPRICE returns the price per $100 face value of a security. "
-	   "The security should have an odd short or long first period.\n"
-	   "\n"
-	   "@settlement is the settlement date of the security. "
-	   "@maturity is the maturity date of the security. "
-	   "@issue is the issue date of the security. "
-	   "@frequency is the number of coupon payments per year. "
-	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
-	   "@basis is the type of day counting system you want to use:\n"
-	   "\n"
-	   "  0  US 30/360\n"
-	   "  1  actual days/actual days\n"
-	   "  2  actual days/360\n"
-	   "  3  actual days/365\n"
-	   "  4  European 30/360\n"
-	   "\n"
-	   "* If @frequency is other than 1, 2, or 4, ODDFPRICE returns #NUM! "
-	   "error.\n"
-	   "* If @basis is omitted, US 30/360 is applied.\n"
-	   "* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
+        { GNM_FUNC_HELP_NAME, F_("ODDFPRICE:calculates price of a security that has an odd first period")},
+        { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
+        { GNM_FUNC_HELP_ARG, F_("issue:date of issue")},
+        { GNM_FUNC_HELP_ARG, F_("first_interest:first interest date")},
+        { GNM_FUNC_HELP_ARG, F_("rate:nominal annual interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("yield:annual yield of security")},
+        { GNM_FUNC_HELP_ARG, F_("redemption:amount received at maturity")},
+        { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("ODDFPRICE calculates the price per $100 face value of a security that pays periodic interest, but has an odd first period.") },
+	FREQ_HELP,
+	GNM_DATE_BASIS_HELP
+        { GNM_FUNC_HELP_SEEALSO, "ODDLPRICE,ODDFYIELD"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2511,35 +2460,20 @@ gnumeric_oddfprice (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_oddfyield[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ODDFYIELD\n"
-	   "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,"
-	   "pr,redemption,frequency[,basis])\n"
-	   "@DESCRIPTION="
-	   "ODDFYIELD calculates the yield of a security having an odd first "
-	   "period.\n"
-	   "\n"
-	   "@settlement is the settlement date of the security. "
-	   "@maturity is the maturity date of the security. "
-	   "@frequency is the number of coupon payments per year. "
-	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
-	   "@basis is the type of day counting system you want to use:\n"
-	   "\n"
-	   "  0  US 30/360\n"
-	   "  1  actual days/actual days\n"
-	   "  2  actual days/360\n"
-	   "  3  actual days/365\n"
-	   "  4  European 30/360\n"
-	   "\n"
-	   "* If @frequency is other than 1, 2, or 4, ODDFYIELD returns #NUM! "
-	   "error.\n"
-	   "* If @basis is omitted, US 30/360 is applied.\n"
-	   "* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
+        { GNM_FUNC_HELP_NAME, F_("ODDFYIELD:calculates yield of a security that has an odd first period")},
+        { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
+        { GNM_FUNC_HELP_ARG, F_("issue:date of issue")},
+        { GNM_FUNC_HELP_ARG, F_("first_interest:first interest date")},
+        { GNM_FUNC_HELP_ARG, F_("rate:nominal annual interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("price:price of security")},
+        { GNM_FUNC_HELP_ARG, F_("redemption:amount received at maturity")},
+        { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("ODDFYIELD calculates the yield of a security that pays periodic interest, but has an odd first period.") },
+	FREQ_HELP,
+	GNM_DATE_BASIS_HELP
+        { GNM_FUNC_HELP_SEEALSO, "ODDFPRICE,ODDLYIELD"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2622,35 +2556,19 @@ gnumeric_oddfyield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_oddlprice[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ODDLPRICE\n"
-	   "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,"
-	   "redemption,frequency[,basis])\n"
-	   "@DESCRIPTION="
-	   "ODDLPRICE calculates the price per $100 face value of a security "
-	   "that has an odd last coupon period.\n"
-	   "\n"
-	   "@settlement is the settlement date of the security. "
-	   "@maturity is the maturity date of the security. "
-	   "@frequency is the number of coupon payments per year. "
-	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
-	   "@basis is the type of day counting system you want to use:\n"
-	   "\n"
-	   "  0  US 30/360\n"
-	   "  1  actual days/actual days\n"
-	   "  2  actual days/360\n"
-	   "  3  actual days/365\n"
-	   "  4  European 30/360\n"
-	   "\n"
-	   "* If @frequency is other than 1, 2, or 4, ODDLPRICE returns #NUM! "
-	   "error.\n"
-	   "* If @basis is omitted, US 30/360 is applied.\n"
-	   "* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
+        { GNM_FUNC_HELP_NAME, F_("ODDLPRICE:calculates price of a security that has an odd last period")},
+        { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
+        { GNM_FUNC_HELP_ARG, F_("last_interest:last interest date")},
+        { GNM_FUNC_HELP_ARG, F_("rate:nominal annual interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("yield:annual yield of security")},
+        { GNM_FUNC_HELP_ARG, F_("redemption:amount received at maturity")},
+        { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("ODDLPRICE calculates the price per $100 face value of a security that pays periodic interest, but has an odd last period.") },
+	FREQ_HELP,
+	GNM_DATE_BASIS_HELP
+        { GNM_FUNC_HELP_SEEALSO, "YIELD,DURATION"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2716,35 +2634,19 @@ gnumeric_oddlprice (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_oddlyield[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ODDLYIELD\n"
-	   "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,"
-	   "redemption,frequency[,basis])\n"
-	   "@DESCRIPTION="
-	   "ODDLYIELD calculates the yield of a security having an odd last "
-	   "period.\n"
-	   "\n"
-	   "@settlement is the settlement date of the security. "
-	   "@maturity is the maturity date of the security. "
-	   "@frequency is the number of coupon payments per year. "
-	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
-	   "@basis is the type of day counting system you want to use:\n"
-	   "\n"
-	   "  0  US 30/360\n"
-	   "  1  actual days/actual days\n"
-	   "  2  actual days/360\n"
-	   "  3  actual days/365\n"
-	   "  4  European 30/360\n"
-	   "\n"
-	   "* If @frequency is other than 1, 2, or 4, ODDLYIELD returns #NUM! "
-	   "error.\n"
-	   "* If @basis is omitted, US 30/360 is applied.\n"
-	   "* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
+        { GNM_FUNC_HELP_NAME, F_("ODDLYIELD:calculates yield of a security that has an odd last period")},
+        { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
+        { GNM_FUNC_HELP_ARG, F_("last_interest:last interest date")},
+        { GNM_FUNC_HELP_ARG, F_("rate:nominal annual interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("price:price of security")},
+        { GNM_FUNC_HELP_ARG, F_("redemption:amount received at maturity")},
+        { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("ODDLYIELD calculates the yield of a security that pays periodic interest, but has an odd last period.") },
+	FREQ_HELP,
+	GNM_DATE_BASIS_HELP
+        { GNM_FUNC_HELP_SEEALSO, "YIELD,DURATION"},
 	{ GNM_FUNC_HELP_END }
 };
 
