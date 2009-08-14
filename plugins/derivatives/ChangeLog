@@ -1,31 +1,35 @@
 2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* derivatives.c (help_opt_bs_carrycost): fix description
+	* options.c: remove argument names from GnmFuncDescriptor
+
+2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* options.c (help_opt_bs_carrycost): fix description
 	(help_opt_complex_chooser): This should not have a call_put flag
 	(derivatives_functions): fix number of arguments for opt_bs_delta,
 	  opt_bs_rho, opt_bs_theta, and opt_bs_carrycost
 
 2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* derivatives.c (help_opt_2_asset_correlation): add argument and
+	* options.c (help_opt_2_asset_correlation): add argument and
 	  fix argument order
 
 2009-08-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	Fixes [#448580]
-	* derivatives.c: change the definition of cost_of_carry throughout
+	* options.c: change the definition of cost_of_carry throughout
 
 2009-08-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	Fixes part of [#312746]
-	* derivatives.c (help_opt_extendible_writer): clarify
+	* options.c (help_opt_extendible_writer): clarify
 	(help_opt_float_strk_lkbk): simplify and spell out the option
 	  type
 	(help_opt_fixed_strk_lkbk): ditto
 
 2009-08-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* derivatives.c (help_*): convert to "new" style
+	* options.c (help_*): convert to "new" style
 
 2009-06-20  Morten Welinder <terra@gnome.org>
 

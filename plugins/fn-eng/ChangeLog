@@ -1,5 +1,9 @@
 2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* functions.c: remove argument names from GnmFuncDescriptor
+
+2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c (help_oct2dec): fix name record
 	(help_bessely): ditto
 	(help_erfc): ditto

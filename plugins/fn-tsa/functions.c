@@ -1008,15 +1008,15 @@ gnumeric_fourier (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 const GnmFuncDescriptor TimeSeriesAnalysis_functions[] = {
 
-        { "interpolation",       "AAA|f",   N_("Abscissas,Ordinates,Targets,Interpolation"),
+        { "interpolation",       "AAA|f",   
 	  help_interpolation, gnumeric_interpolation, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-	{ "periodogram",       "A|fAff",   N_("Ordinates,Filter,Abscissas,Interpolation,Number"),
+	{ "periodogram",       "A|fAff",   
 	  help_periodogram, gnumeric_periodogram, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-	{ "fourier",       "A|b",   N_("Sequence,Inverse"),
+	{ "fourier",       "A|b",   
 	  help_fourier, gnumeric_fourier, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 

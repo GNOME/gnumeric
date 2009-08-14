@@ -344,32 +344,32 @@ func_builtin_init (void)
 	const char *textdomain = GETTEXT_PACKAGE;
 
 	static GnmFuncDescriptor const builtins [] = {
-		{	"sum",		NULL,	N_("number,number,"),
+		{	"sum",		NULL,	
 			help_sum,	NULL,	gnumeric_sum,
 			NULL, NULL, NULL, GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 			GNM_FUNC_IMPL_STATUS_COMPLETE,
 			GNM_FUNC_TEST_STATUS_BASIC
 		},
-		{	"product",		NULL,	N_("number,number,"),
+		{	"product",		NULL,	
 			help_product,	NULL,	gnumeric_product,
 			NULL, NULL, NULL, GNM_FUNC_SIMPLE,
 			GNM_FUNC_IMPL_STATUS_COMPLETE,
 			GNM_FUNC_TEST_STATUS_BASIC
 		},
-		{	"gnumeric_version",	"",	"",
+		{	"gnumeric_version",	"",	
 			help_gnumeric_version,	gnumeric_version, NULL,
 			NULL, NULL, NULL, GNM_FUNC_SIMPLE,
 			GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 			GNM_FUNC_TEST_STATUS_EXHAUSTIVE
 		},
-		{	"table",	"",	"",
+		{	"table",	"",
 			NULL,		NULL,	gnumeric_table,
 			gnumeric_table_link, NULL,
 			NULL, GNM_FUNC_SIMPLE + GNM_FUNC_INTERNAL,
 			GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 			GNM_FUNC_TEST_STATUS_EXHAUSTIVE
 		},
-		{	"if", "b|EE", N_("condition,if true,if false"),
+		{	"if", "b|EE",
 			help_if, gnumeric_if, NULL,
 			NULL, NULL, NULL,
 			GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_SECOND,

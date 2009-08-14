@@ -1,5 +1,9 @@
 2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* functions.c: remove argument names from GnmFuncDescriptor
+
+2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c (help_countblank): add argument description
 
 2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>

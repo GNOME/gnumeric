@@ -177,7 +177,6 @@ typedef struct {
 struct _GnmFuncDescriptor {
 	char const *name;
 	char const *arg_spec;
-	char const *arg_names_depreceated;
 	GnmFuncHelp const *help;
 	GnmFuncArgs	  fn_args;
 	GnmFuncNodes	  fn_nodes;
