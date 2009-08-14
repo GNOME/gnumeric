@@ -411,8 +411,8 @@ static GnmFuncHelp const help_atan2[] = {
         { GNM_FUNC_HELP_ARG, F_("b2:angle in radians")},
         { GNM_FUNC_HELP_DESCRIPTION, F_("ATAN2 calculates the arc tangent of the ratio @{b1}/@{b2} with the sign according to the quadrant containing (@{b1},@{b2}).")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-        { GNM_FUNC_HELP_EXAMPLES, "=ATAN(0.5,1.0)" },
-        { GNM_FUNC_HELP_EXAMPLES, "=ATAN(-0.5,2.0)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=ATAN2(0.5,1.0)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=ATAN2(-0.5,2.0)" },
         { GNM_FUNC_HELP_SEEALSO, "ATAN,ATANH,COS,SIN,DEGREES,RADIANS"},
         { GNM_FUNC_HELP_END}
 };
