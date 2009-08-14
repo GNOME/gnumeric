@@ -2712,39 +2712,22 @@ gnumeric_oddlyield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_amordegrc[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=AMORDEGRC\n"
-	   "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,basis])\n"
-	   "@DESCRIPTION="
-	   "AMORDEGRC: Calculates depreciation for each accounting period using "
-	   "French accounting conventions.   Assets purchased in the middle of "
-	   "a period take prorated depreciation into account.  This is similar "
-	   "to AMORLINC, except that a depreciation coefficient is applied in "
-	   "the calculation depending on the life of the assets.\n"
-	   "Named for AMORtissement DEGRessif Comptabilite\n"
-	   "\n"
-	   "@cost The value of the asset.\n"
-	   "@purchase_date The date the asset was purchased.\n"
-	   "@first_period The end of the first period.\n"
-	   "@salvage Asset value at maturity.\n"
-	   "@period The length of accounting periods.\n"
-	   "@rate rate of depreciation as a percentage.\n"
-	   "@basis is the type of day counting system you want to use:\n"
-	   "\n"
-	   "  0  US 30/360\n"
-	   "  1  actual days/actual days\n"
-	   "  2  actual days/360\n"
-	   "  3  actual days/365\n"
-	   "  4  European 30/360\n"
-	   "\n"
-	   "* If @basis is omitted, US 30/360 is applied.\n"
-	   "* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "AMORDEGRC(2400,DATE(1998,8,19),DATE(1998,12,30),300,1,0.14,1) = 733\n"
-	   "\n"
-	   "@SEEALSO=AMORLINC")
-	},
+        { GNM_FUNC_HELP_NAME, F_("AMORDEGRC:calculate depreciation of an asset using French accounting conventions")},
+        { GNM_FUNC_HELP_ARG, F_("cost:initial cost of asset")},
+        { GNM_FUNC_HELP_ARG, F_("purchase_date:date of purchase")},
+        { GNM_FUNC_HELP_ARG, F_("first_period:end of first period")},
+        { GNM_FUNC_HELP_ARG, F_("salvage:value after depreciation")},
+        { GNM_FUNC_HELP_ARG, F_("period:subject period")},
+        { GNM_FUNC_HELP_ARG, F_("rate:depreciation rate")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_(
+			"AMORDEGRC calculates the depreciation of an asset using French accounting conventions. "
+			"Assets purchased in the middle of a period take prorated depreciation into account. "
+			"This is similar to AMORLINC, except that a depreciation coefficient is applied in the calculation depending on the life of the assets.") },
+	{ GNM_FUNC_HELP_NOTE, F_("Named for AMORtissement DEGRessif Comptabilite.") },
+	GNM_DATE_BASIS_HELP
+	{ GNM_FUNC_HELP_EXAMPLES, "=AMORDEGRC(2400,DATE(1998,8,19),DATE(1998,12,30),300,1,0.14,1)" },
+        { GNM_FUNC_HELP_SEEALSO, "AMORLINC"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2776,40 +2759,22 @@ gnumeric_amordegrc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
-
-
 static GnmFuncHelp const help_amorlinc[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=AMORLINC\n"
-	   "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,basis])\n"
-	   "@DESCRIPTION="
-	   "AMORLINC: Calculates depreciation for each accounting period using "
-	   "French accounting conventions.   Assets purchased in the middle of "
-	   "a period take prorated depreciation into account.\n"
-	   "Named for AMORtissement LINeaire Comptabilite.\n"
-	   "\n"
-	   "@cost The value of the asset.\n"
-	   "@purchase_date The date the asset was purchased.\n"
-	   "@first_period The end of the first period.\n"
-	   "@salvage Asset value at maturity.\n"
-	   "@period The length of accounting periods.\n"
-	   "@rate rate of depreciation as a percentage.\n"
-	   "@basis is the type of day counting system you want to use:\n"
-	   "\n"
-	   "  0  US 30/360\n"
-	   "  1  actual days/actual days\n"
-	   "  2  actual days/360\n"
-	   "  3  actual days/365\n"
-	   "  4  European 30/360\n"
-	   "\n"
-	   "* If @basis is omitted, US 30/360 is applied.\n"
-	   "* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "AMORLINC(2400,DATE(1998,8,19),DATE(1998,12,31),300,1,0.15,1) = 360\n"
-	   "\n"
-	   "@SEEALSO=AMORDEGRC")
-	},
+        { GNM_FUNC_HELP_NAME, F_("AMORDEGRC:calculate depreciation of an asset using French accounting conventions")},
+        { GNM_FUNC_HELP_ARG, F_("cost:initial cost of asset")},
+        { GNM_FUNC_HELP_ARG, F_("purchase_date:date of purchase")},
+        { GNM_FUNC_HELP_ARG, F_("first_period:end of first period")},
+        { GNM_FUNC_HELP_ARG, F_("salvage:value after depreciation")},
+        { GNM_FUNC_HELP_ARG, F_("period:subject period")},
+        { GNM_FUNC_HELP_ARG, F_("rate:depreciation rate")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_(
+			"AMORDEGRC calculates the depreciation of an asset using French accounting conventions. "
+			"Assets purchased in the middle of a period take prorated depreciation into account. ") },
+	{ GNM_FUNC_HELP_NOTE, F_("Named for AMORtissement LINeaire Comptabilite.") },
+	GNM_DATE_BASIS_HELP
+	{ GNM_FUNC_HELP_EXAMPLES, "=AMORLINC(2400,DATE(1998,8,19),DATE(1998,12,30),300,1,0.14,1)" },
+        { GNM_FUNC_HELP_SEEALSO, "AMORDEGRC"},
 	{ GNM_FUNC_HELP_END }
 };
 
