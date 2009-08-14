@@ -135,8 +135,6 @@ typedef gboolean (*GnmFuncLoadDesc)  (GnmFunc const *f, GnmFuncDescriptor *fd);
 typedef enum {
 	GNM_FUNC_HELP_END,		/* Format */
 					/* ------ */
-	GNM_FUNC_HELP_OLD,		/* old token based format */
-
 	GNM_FUNC_HELP_NAME,
 	/* <NAME>:<1 SENTENCE DESCRIPTION> (translated) */
 

@@ -50,7 +50,9 @@ static const char help_template_text[] =
 	   "This is the perl function template. \n");
 
 static GnmFuncHelp help_template[] = {
+#if 0
 	{ GNM_FUNC_HELP_OLD, help_template_text },
+#endif
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -161,7 +163,9 @@ gplp_func_desc_load (GOPluginService *service,
 	res->arg_spec = arg_spec;
 	res->arg_names = arg_names;
 
+#if 0
 	help_template[0].text = help_text ? help_text : help_template_text;
+#endif
 
 	res->help = g_slice_dup (GnmFuncHelp, help_template);
 	res->fn_args = NULL;

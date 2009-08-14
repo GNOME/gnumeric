@@ -535,12 +535,19 @@ python_function_get_gnumeric_help (PyObject *python_fn_info_dict, PyObject *pyth
 	if (cobject_help_value == NULL) {
 		PyObject *python_fn_help = ((PyFunctionObject *) python_fn)->func_doc;
 		if (python_fn_help != NULL && PyString_Check (python_fn_help)) {
-			GnmFuncHelp *new_help = g_new(GnmFuncHelp, 2);
+			GnmFuncHelp *new_help = g_new (GnmFuncHelp, 2);
 			gchar *help_str = PyString_AsString (python_fn_help);
-			new_help[0].type = GNM_FUNC_HELP_OLD;
-			new_help[0].text = help_str;
-			new_help[1].type = GNM_FUNC_HELP_END;
-			new_help[1].text = NULL;
+			int i = 0;
+
+#if 0
+			new_help[i].type = GNM_FUNC_HELP_OLD;
+			new_help[i].text = help_str;
+			i++;
+#endif
+
+			new_help[i].type = GNM_FUNC_HELP_END;
+			new_help[i].text = NULL;
+			i++;
 
 			cobject_help_value = PyCObject_FromVoidPtr (new_help, &g_free);
 			PyDict_SetItemString (python_fn_info_dict, help_attr_name, cobject_help_value);

@@ -132,54 +132,6 @@ check_name_match (char const *name, char const *description, char const *tag)
 }
 
 static void
-cb_generate_po (gpointer key, Symbol *sym, gpointer array)
-{
-	GnmFunc const *fd = sym->data;
-	char const *ptr, *tmp;
-
-	gnm_func_load_if_stub ((GnmFunc *) fd);
-
-	if (fd->help == NULL) {
-		g_warning ("'%s' : no help defined", fd->name);
-		return;
-	}
-	if (fd->help[0].type != GNM_FUNC_HELP_OLD) {
-		g_warning ("'%s' : wrong type of help '%d' != %d", fd->name,
-			   fd->help[0].type, GNM_FUNC_HELP_OLD);
-		return;
-	}
-	if (fd->help[0].text == NULL) {
-		g_warning ("'%s' : missing help text", fd->name);
-		return;
-	}
-
-	ptr = dgettext ("gnumeric-functions", fd->help[0].text);
-	if (NULL == (ptr = check_name_match (fd->name, ptr, "@FUNCTION=")))
-		return;
-	if (NULL == (ptr = check_name_match (fd->name, ptr, "@SYNTAX=")))
-		return;
-
-	if (NULL == (tmp = strstr (ptr, "@DESCRIPTION="))) {
-		g_printerr ("'%s' : missing @DESCRIPTION section\n", fd->name);
-		return;
-	}
-	if (NULL == (tmp = strstr (ptr, "@EXAMPLES="))) {
-		return;
-	}
-	if (NULL == (tmp = strstr (ptr, "@SEEALSO="))) {
-		g_printerr ("'%s' : missing @SEEALSO section\n", fd->name);
-		return;
-	}
-}
-
-static void
-generate_po (void)
-{
-	g_hash_table_foreach (global_symbol_table->hash,
-		(GHFunc) cb_generate_po, NULL);
-}
-
-static void
 cb_dump_usage (gpointer key, Symbol *sym, FILE *out)
 {
 	if (sym != NULL) {
@@ -293,7 +245,7 @@ function_dump_defs (char const *filename, int dump_type)
 	GnmFuncGroup const *group = NULL;
 
 	if (dump_type == 2) {
-		generate_po ();
+		g_printerr ("generate po is obsolete.\n");
 		return;
 	}
 	g_return_if_fail (filename != NULL);
@@ -397,10 +349,6 @@ function_dump_defs (char const *filename, int dump_type)
 			     fd->help[i].type != GNM_FUNC_HELP_END;
 			     i++) {
 				switch (fd->help[i].type) {
-				case GNM_FUNC_HELP_OLD:
-					fprintf (output_file, "%s\n",
-						 _(fd->help[i].text));
-					break;
 				case GNM_FUNC_HELP_NAME: {
 					char *short_desc;
 					char *name = split_at_colon (_(fd->help[i].text), &short_desc);
@@ -560,6 +508,32 @@ gnm_func_sanity_check1 (GnmFunc const *fd)
 				    fd->fn.args.min_args, fd->fn.args.max_args);
 			res = 1;
 		}
+	}
+
+#if 0
+	if (counts[GNM_FUNC_HELP_DESCRIPTION] != 1) {
+		g_printerr ("%s: Help has %d descriptions.\n",
+			    fd->name, counts[GNM_FUNC_HELP_DESCRIPTION]);
+		res = 1;
+	}
+#endif
+
+	if (counts[GNM_FUNC_HELP_NAME] != 1) {
+		g_printerr ("%s: Help has %d NAME records.\n",
+			    fd->name, counts[GNM_FUNC_HELP_NAME]);
+		res = 1;
+	}
+
+	if (counts[GNM_FUNC_HELP_EXCEL] > 1) {
+		g_printerr ("%s: Help has %d Excel notes.\n",
+			    fd->name, counts[GNM_FUNC_HELP_EXCEL]);
+		res = 1;
+	}
+
+	if (counts[GNM_FUNC_HELP_ODF] > 1) {
+		g_printerr ("%s: Help has %d ODF notes.\n",
+			    fd->name, counts[GNM_FUNC_HELP_ODF]);
+		res = 1;
 	}
 
 	return res;
@@ -1720,49 +1694,6 @@ tokenized_help_new (GnmFunc const *func)
 	tok->fndef = func;
 	tok->help_copy = NULL;
 	tok->sections = NULL;
-
-	if (func->help != NULL && func->help[0].type == GNM_FUNC_HELP_OLD) {
-		char *ptr, *start;
-		gboolean seek_at = TRUE;
-		gboolean last_newline = TRUE;
-
-#warning "fixme, use the rest of the pieces and get rid of this routine."
-		tok->help_is_localized = TRUE;
-		tok->help_copy = g_strdup (dgettext ("gnumeric-functions", func->help[0].text));
-		tok->sections = g_ptr_array_new ();
-
-		for (start = ptr = tok->help_copy; *ptr ; ptr++) {
-			if (ptr[0] == '\\' && ptr[1]) {
-				ptr = g_utf8_next_char (ptr + 1);
-				continue;
-			}
-
-			/* FIXME : This is hugely ugly.  we need a decent
-			 * format for this stuff.
-			 * @SECTION=content is damn ugly considering we
-			 * are saying things like @r = bob in side the content.
-			 * for now make the assumption that any args will
-			 * always start with lower case.
-			 */
-			if (*ptr == '@' &&
-			    g_unichar_isupper (g_utf8_get_char (ptr + 1)) &&
-			    seek_at && last_newline) {
-				/* previous newline if this is not the first */
-				if (ptr != start)
-					*(ptr-1) = '\0';
-				else
-					*ptr = '\0';
-
-				g_ptr_array_add (tok->sections, (ptr+1));
-				seek_at = FALSE;
-			} else if (*ptr == '=' && !seek_at){
-				*ptr = 0;
-				g_ptr_array_add (tok->sections, (ptr+1));
-				seek_at = TRUE;
-			}
-			last_newline = (*ptr == '\n');
-		}
-	}
 
 	return tok;
 }

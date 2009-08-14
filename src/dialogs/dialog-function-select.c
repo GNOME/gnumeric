@@ -232,113 +232,6 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 }
 
 
-static void
-describe_old_style (GtkTextBuffer *description, GnmFunc const *func)
-{
-	TokenizedHelp *help = tokenized_help_new (func);
-	char const * f_desc = tokenized_help_find (help, "DESCRIPTION");
-	char const *f_syntax = tokenized_help_find (help, "SYNTAX");
-
-	char const * cursor;
-	GString    * buf = g_string_new (NULL);
-	GtkTextIter  start, end;
-	GtkTextTag * tag;
-	int          syntax_length =  g_utf8_strlen (f_syntax,-1);
-
-	g_string_append (buf, f_syntax);
-	g_string_append (buf, "\n\n");
-	g_string_append (buf, f_desc);
-	gtk_text_buffer_set_text (description, buf->str, -1);
-
-	/* Set the syntax Bold */
-	tag = gtk_text_buffer_create_tag (description,
-					  NULL,
-					  "weight",
-					  PANGO_WEIGHT_BOLD,
-					  NULL);
-	gtk_text_buffer_get_iter_at_offset (description,
-					    &start, 0);
-	gtk_text_buffer_get_iter_at_offset (description,
-					    &end, syntax_length);
-	gtk_text_buffer_apply_tag (description, tag,
-				   &start, &end);
-	syntax_length += 2;
-
-	/* Set the arguments and errors Italic */
-	for (cursor = f_desc; *cursor; cursor = g_utf8_next_char (cursor)) {
-		int i;
-		if (*cursor == '@' || *cursor == '#') {
-			int j;
-
-			cursor++;
-			for (i = 0;
-			     *cursor && !g_unichar_isspace (g_utf8_get_char (cursor));
-			     i++)
-				cursor = g_utf8_next_char (cursor);
-
-			j = g_utf8_pointer_to_offset (f_desc, cursor);
-
-			if (i > 0)
-				cursor = g_utf8_prev_char (cursor);
-
-			tag = gtk_text_buffer_create_tag
-				(description,
-				 NULL, "style",
-				 PANGO_STYLE_ITALIC, NULL);
-			gtk_text_buffer_get_iter_at_offset
-				(description, &start,
-				 j - i + syntax_length);
-			gtk_text_buffer_get_iter_at_offset
-				(description, &end,
-				 j + syntax_length);
-			gtk_text_buffer_apply_tag
-				(description, tag,
-				 &start, &end);
-		} else if (*cursor == '\n' &&
-			   cursor[1] == '*' &&
-			   cursor[2] == ' ') {
-			int j = g_utf8_pointer_to_offset (f_desc, cursor);
-			char const *p;
-
-			tag = gtk_text_buffer_create_tag
-				(description, NULL,
-				 "weight", PANGO_WEIGHT_BOLD,
-				 NULL);
-			gtk_text_buffer_get_iter_at_offset
-				(description, &start,
-				 j + 1 + syntax_length);
-			gtk_text_buffer_get_iter_at_offset
-				(description, &end,
-				 j + 2 + syntax_length);
-			gtk_text_buffer_apply_tag
-				(description, tag,
-				 &start, &end);
-
-			/* Make notes to look cooler. */
-			p = cursor + 2;
-			for (i = 0; *p && *p != '\n'; i++)
-				p = g_utf8_next_char (p);
-
-			tag = gtk_text_buffer_create_tag
-				(description, NULL,
-				 "scale", 0.85, NULL);
-
-			gtk_text_buffer_get_iter_at_offset
-				(description,
-				 &start, j + 1 + syntax_length);
-			gtk_text_buffer_get_iter_at_offset
-				(description, &end,
-				 j + i + 1 + syntax_length);
-			gtk_text_buffer_apply_tag
-				(description, tag,
-				 &start, &end);
-		}
-	}
-
-	g_string_free (buf, TRUE);
-	tokenized_help_destroy (help);
-}
-
 static GtkTextTag *
 make_link (GtkTextBuffer *description, const char *name,
 	   GCallback cb, gpointer user)
@@ -816,8 +709,6 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *selection,
 
 		if (func->help == NULL)
 			gtk_text_buffer_set_text (description, "?", -1);
-		else if (func->help[0].type == GNM_FUNC_HELP_OLD)
-			describe_old_style (description, func);
 		else
 			describe_new_style (description, func, state->sheet);
 
