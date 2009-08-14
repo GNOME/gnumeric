@@ -1,5 +1,9 @@
 2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* functions.c (help_countblank): add argument description
+
+2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c (help_error_type): fix name record
 	
 2009-07-5  Andreas J. Guelzow <aguelzow@pyrshep.ca>

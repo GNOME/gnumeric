@@ -1250,6 +1250,7 @@ gnumeric_get_formula (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_countblank[] = {
         { GNM_FUNC_HELP_NAME, F_("COUNTBLANK:the number of blank cells in @{range}")},
+        { GNM_FUNC_HELP_ARG, F_("range:a cell range")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, F_("COUNTBLANK(A1:A20) returns the number of blank cell in A1:A20.") },
         { GNM_FUNC_HELP_SEEALSO, "COUNT"},
