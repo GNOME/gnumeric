@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arabic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-13 18:54-0400\n"
+"POT-Creation-Date: 2009-08-14 20:22-0400\n"
 "PO-Revision-Date: 2007-04-14 18:49+0100\n"
 "Last-Translator: Djihed Afifi <djihed@gmail.com>\n"
 "Language-Team: Arabeyes <doc@arabeyes.org>\n"
@@ -20,7 +20,7 @@ msgid "Calculation, Analysis, and Visualization of Information"
 msgstr ""
 
 #. Keep in sync with .desktop file
-#: ../gnumeric.desktop.in.h:2 ../src/main-application.c:373
+#: ../gnumeric.desktop.in.h:2 ../src/main-application.c:381
 #, fuzzy
 msgid "Gnumeric Spreadsheet"
 msgstr "نتائج جنوميتريس"
@@ -77,112 +77,6 @@ msgstr "الواجهة"
 
 #: ../plugins/corba/plugin.xml.in.h:2
 msgid "Provides a CORBA scripting interface"
-msgstr ""
-
-#: ../plugins/derivatives/options.c:1973 ../plugins/derivatives/options.c:1978
-#: ../plugins/derivatives/options.c:1983 ../plugins/derivatives/options.c:1988
-#: ../plugins/derivatives/options.c:2003
-msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
-msgstr ""
-
-#: ../plugins/derivatives/options.c:1993 ../plugins/derivatives/options.c:1998
-msgid "spot, strike, time, rate, volatility, cost_of_carry"
-msgstr ""
-
-#: ../plugins/derivatives/options.c:2008
-msgid "a, b, rho"
-msgstr ""
-
-#: ../plugins/derivatives/options.c:2013
-msgid ""
-"call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
-msgstr ""
-
-#: ../plugins/derivatives/options.c:2018
-msgid "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
-msgstr ""
-
-#: ../plugins/derivatives/options.c:2023
-msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
-msgstr ""
-
-#: ../plugins/derivatives/options.c:2028
-msgid ""
-"call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
-msgstr ""
-
-#: ../plugins/derivatives/options.c:2033 ../plugins/derivatives/options.c:2043
-msgid "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
-msgstr ""
-
-#: ../plugins/derivatives/options.c:2038
-msgid ""
-"call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, "
-"kappa_e, kappa_f)"
-msgstr ""
-
-#: ../plugins/derivatives/options.c:2048
-msgid "spot, strike, t1, t2, rate, d, volatility"
-msgstr ""
-
-#: ../plugins/derivatives/options.c:2053
-msgid ""
-"call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
-msgstr ""
-
-#: ../plugins/derivatives/options.c:2058
-msgid ""
-"call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
-msgstr ""
-
-#: ../plugins/derivatives/options.c:2063
-msgid "spot, strike, time1, time2, rate, cost_of_carry, volatility"
-msgstr ""
-
-#: ../plugins/derivatives/options.c:2068
-msgid ""
-"spot, strike_call, strike_put, time, time_call, time_put, rate, "
-"cost_of_carry, volatility"
-msgstr ""
-
-#: ../plugins/derivatives/options.c:2073 ../plugins/derivatives/options.c:2078
-msgid ""
-"type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, "
-"volatility"
-msgstr ""
-
-#: ../plugins/derivatives/options.c:2083
-msgid ""
-"type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, "
-"cost_of_carry2, rate, volatility1, volatility2, rho"
-msgstr ""
-
-#: ../plugins/derivatives/options.c:2088 ../plugins/derivatives/options.c:2093
-msgid ""
-"spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
-"volatility2,rho"
-msgstr ""
-
-#: ../plugins/derivatives/options.c:2098
-msgid ""
-"call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,"
-"volatility2,rho"
-msgstr ""
-
-#: ../plugins/derivatives/options.c:2103
-msgid "call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
-msgstr ""
-
-#: ../plugins/derivatives/options.c:2108
-msgid ""
-"call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
-"volatility"
-msgstr ""
-
-#: ../plugins/derivatives/options.c:2114
-msgid ""
-"amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
-"volatility, cost_of_carry"
 msgstr ""
 
 #: ../plugins/derivatives/plugin.xml.in.h:1
@@ -584,59 +478,6 @@ msgstr "لا توجد أي نتائج."
 msgid "Skipping invalid pivot field group for field '%s' because : %s"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:1227
-msgid "real,im,suffix"
-msgstr ""
-
-#: ../plugins/fn-complex/functions.c:1230
-#: ../plugins/fn-complex/functions.c:1233
-#: ../plugins/fn-complex/functions.c:1236
-#: ../plugins/fn-complex/functions.c:1239
-#: ../plugins/fn-complex/functions.c:1242
-#: ../plugins/fn-complex/functions.c:1248
-#: ../plugins/fn-complex/functions.c:1251
-#: ../plugins/fn-complex/functions.c:1254
-#: ../plugins/fn-complex/functions.c:1257
-#: ../plugins/fn-complex/functions.c:1263
-#: ../plugins/fn-complex/functions.c:1266
-#: ../plugins/fn-complex/functions.c:1269
-#: ../plugins/fn-complex/functions.c:1279
-#: ../plugins/fn-complex/functions.c:1282
-#: ../plugins/fn-complex/functions.c:1285
-#: ../plugins/fn-complex/functions.c:1291
-#: ../plugins/fn-complex/functions.c:1294
-#: ../plugins/fn-complex/functions.c:1297
-#: ../plugins/fn-complex/functions.c:1300
-#: ../plugins/fn-complex/functions.c:1303
-#: ../plugins/fn-complex/functions.c:1306
-#: ../plugins/fn-complex/functions.c:1309
-#: ../plugins/fn-complex/functions.c:1312
-#: ../plugins/fn-complex/functions.c:1315
-#: ../plugins/fn-complex/functions.c:1318
-#: ../plugins/fn-complex/functions.c:1321
-#: ../plugins/fn-complex/functions.c:1324
-#: ../plugins/fn-complex/functions.c:1327
-#: ../plugins/fn-complex/functions.c:1330
-#: ../plugins/fn-complex/functions.c:1333
-#: ../plugins/fn-complex/functions.c:1336
-#: ../plugins/fn-complex/functions.c:1339
-#: ../plugins/fn-complex/functions.c:1342
-#: ../plugins/fn-complex/functions.c:1345
-#: ../plugins/fn-complex/functions.c:1348
-#: ../plugins/fn-complex/functions.c:1351
-#, fuzzy
-msgid "inumber"
-msgstr "الرقم"
-
-#: ../plugins/fn-complex/functions.c:1245
-#: ../plugins/fn-complex/functions.c:1260
-#: ../plugins/fn-complex/functions.c:1272
-#: ../plugins/fn-complex/functions.c:1275
-#: ../plugins/fn-complex/functions.c:1288
-#, fuzzy
-msgid "inumber,inumber"
-msgstr "_أرقام السطور:"
-
 #: ../plugins/fn-complex/plugin.xml.in.h:1
 #, fuzzy
 msgid "Complex"
@@ -652,26 +493,6 @@ msgstr "وظائف المجموعات"
 msgid "Functions for complex numbers"
 msgstr "وصف الخط الذي سيستخدم لأرقام السّطور"
 
-#: ../plugins/fn-database/functions.c:769
-#: ../plugins/fn-database/functions.c:772
-#: ../plugins/fn-database/functions.c:775
-#: ../plugins/fn-database/functions.c:778
-#: ../plugins/fn-database/functions.c:781
-#: ../plugins/fn-database/functions.c:784
-#: ../plugins/fn-database/functions.c:787
-#: ../plugins/fn-database/functions.c:790
-#: ../plugins/fn-database/functions.c:793
-#: ../plugins/fn-database/functions.c:796
-#: ../plugins/fn-database/functions.c:799
-#: ../plugins/fn-database/functions.c:802
-msgid "database,field,criteria"
-msgstr ""
-
-#. XL stores in lookup
-#: ../plugins/fn-database/functions.c:807
-msgid "pivot_table,field_name"
-msgstr ""
-
 #: ../plugins/fn-database/plugin.xml.in.h:1 ../plugins/gda/plugin.xml.in.h:1
 msgid "Database"
 msgstr "قاعدة بيانات"
@@ -684,76 +505,6 @@ msgstr "دالات التاريخ و الساعة"
 #: ../plugins/fn-database/plugin.xml.in.h:3
 msgid "Functions looking up values in databases"
 msgstr ""
-
-#: ../plugins/fn-date/functions.c:1133
-#, fuzzy
-msgid "year,month,day"
-msgstr "ليرموث"
-
-#: ../plugins/fn-date/functions.c:1137
-#, fuzzy
-msgid "date_str"
-msgstr "محوّل"
-
-#: ../plugins/fn-date/functions.c:1141
-#, fuzzy
-msgid "date1,date2,interval"
-msgstr "فترة التحديث"
-
-#: ../plugins/fn-date/functions.c:1145 ../plugins/fn-date/functions.c:1169
-#: ../plugins/fn-date/functions.c:1197 ../plugins/fn-date/functions.c:1201
-#: ../plugins/fn-date/functions.c:1209 ../plugins/fn-date/functions.c:1213
-#: ../plugins/fn-date/functions.c:1226 ../plugins/fn-date/functions.c:1230
-#: ../src/print-info.c:576
-#, fuzzy
-msgid "date"
-msgstr "أوداتي"
-
-#: ../plugins/fn-date/functions.c:1149
-msgid "date1,date2,method"
-msgstr ""
-
-#: ../plugins/fn-date/functions.c:1153
-#, fuzzy
-msgid "date,months"
-msgstr "أشهر"
-
-#: ../plugins/fn-date/functions.c:1157
-msgid "start_date,months"
-msgstr ""
-
-#: ../plugins/fn-date/functions.c:1161 ../plugins/fn-date/functions.c:1165
-#: ../plugins/fn-date/functions.c:1181 ../src/print-info.c:577
-#, fuzzy
-msgid "time"
-msgstr "المؤقِت"
-
-#: ../plugins/fn-date/functions.c:1173
-msgid "start_date,end_date,holidays"
-msgstr ""
-
-#: ../plugins/fn-date/functions.c:1185
-msgid "hours,minutes,seconds"
-msgstr ""
-
-#: ../plugins/fn-date/functions.c:1189
-#, fuzzy
-msgid "timetext"
-msgstr "نص"
-
-#: ../plugins/fn-date/functions.c:1205
-msgid "date,days,holidays"
-msgstr ""
-
-#: ../plugins/fn-date/functions.c:1218
-#, fuzzy
-msgid "unixtime"
-msgstr "حتّى"
-
-#: ../plugins/fn-date/functions.c:1222
-#, fuzzy
-msgid "serial"
-msgstr "بني داكن"
 
 #: ../plugins/fn-date/plugin.xml.in.h:1
 #, fuzzy
@@ -782,18 +533,6 @@ msgstr "دالات محولة"
 msgid "Functions for complex numbers, base conversions, and more"
 msgstr ""
 
-#: ../plugins/fn-erlang/functions.c:288 ../plugins/fn-erlang/functions.c:293
-msgid "traffic,circuits"
-msgstr ""
-
-#: ../plugins/fn-erlang/functions.c:298
-msgid "traffic,gos"
-msgstr ""
-
-#: ../plugins/fn-erlang/functions.c:303
-msgid "circuits,gos"
-msgstr ""
-
 #: ../plugins/fn-erlang/plugin.xml.in.h:1
 #, fuzzy
 msgid "Erlang"
@@ -807,11 +546,6 @@ msgstr "دالّات بيرل"
 #: ../plugins/fn-erlang/plugin.xml.in.h:3
 msgid "Functions to help Erlang Analysis"
 msgstr ""
-
-#: ../plugins/fn-financial/functions.c:3551
-#, fuzzy
-msgid "rate,values"
-msgstr "القيمة"
 
 #: ../plugins/fn-financial/plugin.xml.in.h:2
 #, fuzzy
@@ -829,21 +563,21 @@ msgstr "تأدية حسابات"
 #. * reference of the top and leftmost cell visible in the
 #. * window, based on the current scrolling position.
 #.
-#: ../plugins/fn-info/functions.c:1333 ../plugins/fn-info/functions.c:1349
+#: ../plugins/fn-info/functions.c:1334 ../plugins/fn-info/functions.c:1350
 #, fuzzy
 msgid "Unimplemented"
 msgstr "غير مطبق"
 
-#: ../plugins/fn-info/functions.c:1357
+#: ../plugins/fn-info/functions.c:1358
 msgid "Unknown version"
 msgstr "نسخة مجهولة"
 
-#: ../plugins/fn-info/functions.c:1359
+#: ../plugins/fn-info/functions.c:1360
 #, c-format
 msgid "%s version %s"
 msgstr "%s إصدارة %s"
 
-#: ../plugins/fn-info/functions.c:1374
+#: ../plugins/fn-info/functions.c:1375
 #: ../src/dialogs/dialog-cell-format.c:2515
 #: ../src/dialogs/dialog-cell-format.c:2519
 #: ../src/dialogs/dialog-cell-format.c:2527 ../src/wbc-gtk.c:2823
@@ -851,71 +585,25 @@ msgstr "%s إصدارة %s"
 msgid "Automatic"
 msgstr "_تلقائي"
 
-#: ../plugins/fn-info/functions.c:1374
+#: ../plugins/fn-info/functions.c:1375
 #, fuzzy
 msgid "Manual"
 msgstr "ي_دوي"
 
-#: ../plugins/fn-info/functions.c:1384
+#: ../plugins/fn-info/functions.c:1385
 #, fuzzy
 msgid "Unknown system"
 msgstr "عنصر مجهول"
 
-#: ../plugins/fn-info/functions.c:1400
+#: ../plugins/fn-info/functions.c:1401
 #, fuzzy
 msgid "Unknown info_type"
 msgstr "نوع مجهول"
 
-#: ../plugins/fn-info/functions.c:1657
+#: ../plugins/fn-info/functions.c:1658
 #, fuzzy
 msgid "Invalid number of arguments"
 msgstr "معطيات غير سليمة"
-
-#: ../plugins/fn-info/functions.c:1779
-msgid "info_type, cell"
-msgstr ""
-
-#: ../plugins/fn-info/functions.c:1782 ../plugins/fn-info/functions.c:1788
-#: ../plugins/fn-info/functions.c:1791 ../plugins/fn-info/functions.c:1794
-#: ../plugins/fn-info/functions.c:1797 ../plugins/fn-info/functions.c:1800
-#: ../plugins/fn-info/functions.c:1803 ../plugins/fn-info/functions.c:1806
-#: ../plugins/fn-info/functions.c:1809 ../plugins/fn-info/functions.c:1812
-#: ../plugins/fn-info/functions.c:1815 ../plugins/fn-info/functions.c:1818
-#: ../plugins/fn-info/functions.c:1821 ../plugins/fn-info/functions.c:1827
-#: ../plugins/fn-string/functions.c:1479
-#, fuzzy
-msgid "value"
-msgstr "القيمة:"
-
-#: ../plugins/fn-info/functions.c:1785
-#, fuzzy
-msgid "info_type"
-msgstr "<نوع غير محدد>"
-
-#. XL stores this in statistical ?
-#: ../plugins/fn-info/functions.c:1832
-msgid "range"
-msgstr "المدى"
-
-#: ../plugins/fn-info/functions.c:1836 ../plugins/fn-string/functions.c:1410
-#: ../plugins/fn-string/functions.c:1413 ../plugins/fn-string/functions.c:1416
-#: ../plugins/fn-string/functions.c:1443 ../plugins/fn-string/functions.c:1446
-#: ../plugins/fn-string/functions.c:1449 ../plugins/fn-string/functions.c:1458
-#: ../plugins/fn-string/functions.c:1485 ../plugins/fn-string/functions.c:1488
-#: ../plugins/fn-string/functions.c:1491
-msgid "text"
-msgstr "نص"
-
-#. XLM : looks common in charts
-#: ../plugins/fn-info/functions.c:1840 ../plugins/fn-info/functions.c:1844
-#: ../src/print-info.c:580 ../src/ssgrep.c:352
-msgid "cell"
-msgstr "خلية"
-
-#: ../plugins/fn-info/functions.c:1848 ../plugins/fn-string/functions.c:1401
-#: ../plugins/fn-string/functions.c:1434 ../src/ssconvert.c:102
-msgid "string"
-msgstr "سلسلة نص"
 
 #: ../plugins/fn-info/plugin.xml.in.h:1
 msgid "Functions for inspecting values, cells, and more"
@@ -935,46 +623,6 @@ msgstr "وظيفة الإنشاء"
 msgid "Type Mismatch"
 msgstr "لخبطة في النوع"
 
-#: ../plugins/fn-logical/functions.c:281 ../plugins/fn-logical/functions.c:285
-#: ../plugins/fn-logical/functions.c:304 ../plugins/fn-math/functions.c:2870
-#: ../src/func-builtin.c:347 ../src/func-builtin.c:353
-#, fuzzy
-msgid "number,number,"
-msgstr "رقم فريد"
-
-#. MS Excel puts this in the engineering functions
-#: ../plugins/fn-logical/functions.c:289 ../plugins/fn-math/functions.c:2674
-#: ../plugins/fn-math/functions.c:2678 ../plugins/fn-math/functions.c:2681
-#: ../plugins/fn-math/functions.c:2684 ../plugins/fn-math/functions.c:2687
-#: ../plugins/fn-math/functions.c:2690 ../plugins/fn-math/functions.c:2693
-#: ../plugins/fn-math/functions.c:2696 ../plugins/fn-math/functions.c:2699
-#: ../plugins/fn-math/functions.c:2711 ../plugins/fn-math/functions.c:2714
-#: ../plugins/fn-math/functions.c:2717 ../plugins/fn-math/functions.c:2720
-#: ../plugins/fn-math/functions.c:2729 ../plugins/fn-math/functions.c:2737
-#: ../plugins/fn-math/functions.c:2740 ../plugins/fn-math/functions.c:2743
-#: ../plugins/fn-math/functions.c:2746 ../plugins/fn-math/functions.c:2749
-#: ../plugins/fn-math/functions.c:2754 ../plugins/fn-math/functions.c:2758
-#: ../plugins/fn-math/functions.c:2764 ../plugins/fn-math/functions.c:2767
-#: ../plugins/fn-math/functions.c:2770 ../plugins/fn-math/functions.c:2777
-#: ../plugins/fn-math/functions.c:2784 ../plugins/fn-math/functions.c:2791
-#: ../plugins/fn-math/functions.c:2794 ../plugins/fn-math/functions.c:2800
-#: ../plugins/fn-math/functions.c:2803 ../plugins/fn-math/functions.c:2816
-#: ../plugins/fn-math/functions.c:2822 ../plugins/fn-math/functions.c:2828
-#: ../plugins/fn-math/functions.c:2846 ../plugins/fn-math/functions.c:2849
-#: ../plugins/fn-math/functions.c:2855 ../plugins/fn-math/functions.c:2858
-#: ../plugins/fn-math/functions.c:2861 ../plugins/fn-math/functions.c:2864
-#: ../plugins/fn-math/functions.c:2867 ../plugins/fn-math/functions.c:2880
-#: ../plugins/fn-math/functions.c:2892 ../plugins/fn-math/functions.c:2895
-#: ../plugins/fn-string/functions.c:1404 ../plugins/fn-string/functions.c:1407
-#, fuzzy
-msgid "number"
-msgstr "الرقم"
-
-#: ../plugins/fn-logical/functions.c:293
-#, fuzzy
-msgid "value,value"
-msgstr "القيمة:"
-
 #: ../plugins/fn-logical/plugin.xml.in.h:1
 #, fuzzy
 msgid "Functions for manipulating truth values"
@@ -990,66 +638,6 @@ msgstr "لغ"
 msgid "Logic Functions"
 msgstr "وظائف ال XML"
 
-#: ../plugins/fn-lookup/functions.c:1505
-msgid "row_num,col_num,abs_num,a1,text"
-msgstr ""
-
-#: ../plugins/fn-lookup/functions.c:1508
-#, fuzzy
-msgid "reference"
-msgstr "تفضيلات"
-
-#: ../plugins/fn-lookup/functions.c:1511
-#, fuzzy
-msgid "index,value,"
-msgstr "اخفي القيمة"
-
-#: ../plugins/fn-lookup/functions.c:1514 ../plugins/fn-lookup/functions.c:1520
-#: ../plugins/fn-lookup/functions.c:1544 ../plugins/fn-lookup/functions.c:1547
-#, fuzzy
-msgid "ref"
-msgstr "NULL"
-
-#: ../plugins/fn-lookup/functions.c:1517
-#, fuzzy
-msgid "colname"
-msgstr "اسم الأيقونة"
-
-#: ../plugins/fn-lookup/functions.c:1523 ../plugins/fn-lookup/functions.c:1553
-msgid "val,range,col_idx,approx,as_index"
-msgstr ""
-
-#: ../plugins/fn-lookup/functions.c:1526
-#, fuzzy
-msgid "link_location, label"
-msgstr "جدول الضرب"
-
-#: ../plugins/fn-lookup/functions.c:1529
-#, fuzzy
-msgid "ref_string,format"
-msgstr "نسق مسبق"
-
-#: ../plugins/fn-lookup/functions.c:1532
-msgid "reference,row,col,area"
-msgstr ""
-
-#: ../plugins/fn-lookup/functions.c:1535
-msgid "val,range,range"
-msgstr ""
-
-#: ../plugins/fn-lookup/functions.c:1538
-msgid "val,range,approx"
-msgstr ""
-
-#: ../plugins/fn-lookup/functions.c:1541
-msgid "ref,row,col,height,width"
-msgstr ""
-
-#: ../plugins/fn-lookup/functions.c:1550 ../plugins/fn-math/functions.c:2908
-#, fuzzy
-msgid "array"
-msgstr "مصفوفة"
-
 #: ../plugins/fn-lookup/plugin.xml.in.h:1
 msgid "Functions for looking up values in ranges"
 msgstr ""
@@ -1063,94 +651,6 @@ msgstr "المظهر"
 #, fuzzy
 msgid "Lookup Functions"
 msgstr "وظائف ال XML"
-
-#: ../plugins/fn-math/functions.c:2702
-msgid "xnum,ynum"
-msgstr ""
-
-#: ../plugins/fn-math/functions.c:2705 ../plugins/fn-math/functions.c:2708
-#: ../plugins/fn-random/functions.c:891 ../plugins/fn-random/functions.c:912
-#: ../plugins/fn-random/functions.c:918 ../plugins/fn-random/functions.c:957
-#: ../plugins/fn-random/functions.c:972 ../plugins/fn-random/functions.c:975
-#, fuzzy
-msgid "a,b"
-msgstr "لسان"
-
-#. MS Excel puts this in statistical
-#: ../plugins/fn-math/functions.c:2725
-#, fuzzy
-msgid "range,criteria"
-msgstr "معايير:"
-
-#: ../plugins/fn-math/functions.c:2733
-#, fuzzy
-msgid "number,significance"
-msgstr "1 أرقام كسرية"
-
-#: ../plugins/fn-math/functions.c:2761 ../plugins/fn-stat/functions.c:4988
-#, fuzzy
-msgid "n,k"
-msgstr "حبر"
-
-#: ../plugins/fn-math/functions.c:2774
-#, fuzzy
-msgid "number,number"
-msgstr "رقم فريد"
-
-#: ../plugins/fn-math/functions.c:2797
-#, fuzzy
-msgid "number,base"
-msgstr "همبرسايد"
-
-#: ../plugins/fn-math/functions.c:2806 ../plugins/fn-math/functions.c:2825
-msgid "numerator,denominator"
-msgstr ""
-
-#: ../plugins/fn-math/functions.c:2809
-#, fuzzy
-msgid "number,multiple"
-msgstr "متعدد"
-
-#: ../plugins/fn-math/functions.c:2819
-#, fuzzy
-msgid "base,exponent"
-msgstr "مكوّن مضمّن"
-
-#: ../plugins/fn-math/functions.c:2831
-#, fuzzy
-msgid "number,type"
-msgstr "عدد، مغاير"
-
-#: ../plugins/fn-math/functions.c:2834 ../plugins/fn-math/functions.c:2838
-#: ../plugins/fn-math/functions.c:2842 ../plugins/fn-math/functions.c:2898
-#, fuzzy
-msgid "number,digits"
-msgstr "أخضر محمر"
-
-#: ../plugins/fn-math/functions.c:2852
-msgid "x,n,m,coefficients"
-msgstr ""
-
-#: ../plugins/fn-math/functions.c:2874
-msgid "range,criteria,actual_range"
-msgstr ""
-
-#: ../plugins/fn-math/functions.c:2877
-#, fuzzy
-msgid "range,range,"
-msgstr "يوسفي"
-
-#: ../plugins/fn-math/functions.c:2883 ../plugins/fn-math/functions.c:2886
-#: ../plugins/fn-math/functions.c:2889 ../plugins/fn-math/functions.c:2905
-#: ../plugins/fn-stat/functions.c:4847 ../plugins/fn-stat/functions.c:4856
-#: ../plugins/fn-stat/functions.c:4886 ../plugins/fn-stat/functions.c:4979
-#: ../plugins/fn-stat/functions.c:5035
-msgid "array1,array2"
-msgstr ""
-
-#: ../plugins/fn-math/functions.c:2911 ../plugins/fn-math/functions.c:2915
-msgid "array,matrix_type,bandsize"
-msgstr ""
 
 #: ../plugins/fn-math/plugin.xml.in.h:1
 #, fuzzy
@@ -1183,92 +683,6 @@ msgstr ""
 msgid "Statistics"
 msgstr "إح_صائيّات"
 
-#: ../plugins/fn-random/functions.c:888 ../plugins/fn-random/functions.c:924
-#: ../plugins/fn-random/functions.c:942 ../plugins/fn-stat/functions.c:4976
-#, fuzzy
-msgid "p"
-msgstr "فوق"
-
-#: ../plugins/fn-random/functions.c:894
-#, fuzzy
-msgid "bottom,top"
-msgstr "الأسفل/الأعلى"
-
-#: ../plugins/fn-random/functions.c:897
-#, fuzzy
-msgid "p,trials"
-msgstr "خياري"
-
-#: ../plugins/fn-random/functions.c:900 ../plugins/fn-random/functions.c:936
-#: ../plugins/fn-random/functions.c:945
-msgid "a"
-msgstr "أ"
-
-#: ../plugins/fn-random/functions.c:903 ../plugins/fn-random/functions.c:969
-#, fuzzy
-msgid "nu"
-msgstr "قائمة"
-
-#: ../plugins/fn-random/functions.c:906
-msgid "value_range,prob_range"
-msgstr ""
-
-#: ../plugins/fn-random/functions.c:909
-#, fuzzy
-msgid "b"
-msgstr "أداء"
-
-#: ../plugins/fn-random/functions.c:915
-msgid "nu1,nu2"
-msgstr ""
-
-#: ../plugins/fn-random/functions.c:921 ../plugins/fn-random/functions.c:966
-#, fuzzy
-msgid "a,sigma"
-msgstr "كاغوشيما"
-
-#: ../plugins/fn-random/functions.c:927
-#, fuzzy
-msgid "a,b,type"
-msgstr "حسب النوع"
-
-#: ../plugins/fn-random/functions.c:930
-msgid "n1,n2,t"
-msgstr ""
-
-#: ../plugins/fn-random/functions.c:939
-#, fuzzy
-msgid "c,alpha,beta"
-msgstr "الأبجدية"
-
-#: ../plugins/fn-random/functions.c:948
-msgid "zeta,sigma"
-msgstr ""
-
-#: ../plugins/fn-random/functions.c:951
-#, fuzzy
-msgid "p,failures"
-msgstr "فشل"
-
-#: ../plugins/fn-random/functions.c:954
-#, fuzzy
-msgid "mean,stdev"
-msgstr "أوشنسايد"
-
-#: ../plugins/fn-random/functions.c:960
-#, fuzzy
-msgid "lambda"
-msgstr "سامبا"
-
-#: ../plugins/fn-random/functions.c:963
-#, fuzzy
-msgid "sigma"
-msgstr "كيغوما"
-
-#: ../plugins/fn-random/functions.c:978
-msgid "d1,d2,...,dN"
-msgstr ""
-
 #: ../plugins/fn-random/plugin.xml.in.h:1
 msgid "Functions for generating random numbers"
 msgstr ""
@@ -1290,301 +704,13 @@ msgstr "رقم عشوائي"
 msgid "Array version not implemented!"
 msgstr "الأمر غير مدمج"
 
-#: ../plugins/fn-stat/functions.c:4804 ../plugins/fn-stat/functions.c:4808
-#: ../plugins/fn-stat/functions.c:4812 ../plugins/fn-stat/functions.c:4850
-#: ../plugins/fn-stat/functions.c:4853 ../plugins/fn-stat/functions.c:4862
-#: ../plugins/fn-stat/functions.c:4898 ../plugins/fn-stat/functions.c:4905
-#: ../plugins/fn-stat/functions.c:4915 ../plugins/fn-stat/functions.c:4940
-#: ../plugins/fn-stat/functions.c:4944 ../plugins/fn-stat/functions.c:4948
-#: ../plugins/fn-stat/functions.c:4952 ../plugins/fn-stat/functions.c:4956
-#: ../plugins/fn-stat/functions.c:4960 ../plugins/fn-stat/functions.c:5038
-#: ../plugins/fn-stat/functions.c:5082 ../plugins/fn-stat/functions.c:5103
-#, fuzzy
-msgid "number1,number2,"
-msgstr "رقم فريد"
-
-#: ../plugins/fn-stat/functions.c:4817
-#, fuzzy
-msgid "k,p"
-msgstr "كمس"
-
-#: ../plugins/fn-stat/functions.c:4821
-#, fuzzy
-msgid "x,alpha,beta,a,b"
-msgstr "أبجدياً"
-
-#: ../plugins/fn-stat/functions.c:4824
-#, fuzzy
-msgid "p,alpha,beta,a,b"
-msgstr "أبجدياً"
-
-#: ../plugins/fn-stat/functions.c:4827
-#, fuzzy
-msgid "n,trials,p,cumulative"
-msgstr "إداري"
-
-#: ../plugins/fn-stat/functions.c:4831
-#, fuzzy
-msgid "x,a,cumulative"
-msgstr "إداري"
-
-#: ../plugins/fn-stat/functions.c:4835
-msgid "x,dof"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:4838 ../plugins/fn-stat/functions.c:5044
-msgid "p,dof"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:4841
-msgid "actual_range,theoretical_range"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:4844
-msgid "x,stddev,size"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:4859
-msgid "trials,p,alpha"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:4865
-#, fuzzy
-msgid "x,y,cumulative"
-msgstr "إداري"
-
-#: ../plugins/fn-stat/functions.c:4868
-msgid "x,dof_of_num,dof_of_denom"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:4871
-msgid "p,dof_of_num,dof_of_denom"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:4874 ../plugins/fn-stat/functions.c:4877
-#: ../plugins/fn-stat/functions.c:4895 ../plugins/fn-stat/functions.c:4973
-#: ../plugins/fn-stat/functions.c:5085 ../src/dialogs/col-width.glade.h:5
-#: ../src/dialogs/row-height.glade.h:5
-#, fuzzy
-msgid "x"
-msgstr "بكسل"
-
-#: ../plugins/fn-stat/functions.c:4880
-msgid "x,known_y's,known_x's"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:4883
-msgid "data_array,bins_array"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:4889
-#, fuzzy
-msgid "x,alpha,beta,cumulative"
-msgstr "إداري"
-
-#: ../plugins/fn-stat/functions.c:4892
-#, fuzzy
-msgid "p,alpha,beta"
-msgstr "الأبجدية"
-
-#: ../plugins/fn-stat/functions.c:4902 ../plugins/fn-stat/functions.c:5047
-msgid "known_y's,known_x's,new_x's,const"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:4909
-msgid "x,n,M,N,cumulative"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:4912 ../plugins/fn-stat/functions.c:4928
-#: ../plugins/fn-stat/functions.c:5003 ../plugins/fn-stat/functions.c:5032
-msgid "known_y's,known_x's"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:4918 ../plugins/fn-stat/functions.c:5006
-msgid "data,k,"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:4922
-msgid "known_y's,known_x's,affine,stat"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:4925 ../plugins/fn-stat/functions.c:4937
-msgid "known_y's,known_x's,const,stat"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:4931 ../plugins/fn-stat/functions.c:4970
-msgid "p,mean,stddev"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:4934 ../plugins/fn-stat/functions.c:5010
-msgid "x,mean,stddev"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:4964
-msgid "f,t,p"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:4967
-msgid "x,mean,stddev,cumulative"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:4982
-#, fuzzy
-msgid "array,k"
-msgstr "مصفوفة"
-
-#: ../plugins/fn-stat/functions.c:4985
-#, fuzzy
-msgid "array,x,significance"
-msgstr "1 أرقام كسرية"
-
-#: ../plugins/fn-stat/functions.c:4991
-#, fuzzy
-msgid "x,mean,cumulative"
-msgstr "إداري"
-
-#: ../plugins/fn-stat/functions.c:4994
-msgid "x_range,prob_range,lower_limit,upper_limit"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:4997
-msgid "array,quart"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:5000
-#, fuzzy
-msgid "x,ref,order"
-msgstr "انعش"
-
-#: ../plugins/fn-stat/functions.c:5013
-#, fuzzy
-msgid "array,interval"
-msgstr "المدة"
-
-#: ../plugins/fn-stat/functions.c:5016 ../plugins/fn-stat/functions.c:5020
-#: ../plugins/fn-stat/functions.c:5024 ../plugins/fn-stat/functions.c:5028
-#: ../plugins/fn-stat/functions.c:5057 ../plugins/fn-stat/functions.c:5060
-#: ../plugins/fn-stat/functions.c:5063 ../plugins/fn-stat/functions.c:5066
-#, fuzzy
-msgid "area1,area2,"
-msgstr "انعش"
-
-#: ../plugins/fn-stat/functions.c:5041
-msgid "x,dof,tails"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:5050
-#, fuzzy
-msgid "ref,fraction"
-msgstr "جزء"
-
-#: ../plugins/fn-stat/functions.c:5054
-msgid "array1,array2,tails,type"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:5069
-msgid "x.alpha,beta,cumulative"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:5072
-msgid "ref,x[,stddev]"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:5076 ../plugins/fn-stat/functions.c:5094
-msgid "x,a,b"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:5079
-#, fuzzy
-msgid "k,p,cumulative"
-msgstr "إداري"
-
-#: ../plugins/fn-stat/functions.c:5088 ../plugins/fn-stat/functions.c:5091
-msgid "x,a"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:5097
-#, fuzzy
-msgid "x,sigma"
-msgstr "كيغوما"
-
-#: ../plugins/fn-stat/functions.c:5100
-msgid "x,a,sigma"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:5106
-msgid "function_nbr,ref1,ref2,"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:5109
-#, fuzzy
-msgid "ref1,ref2,"
-msgstr "انعش"
-
-#: ../plugins/fn-string/functions.c:1419
-msgid "text,text,"
-msgstr ""
-
-#: ../plugins/fn-string/functions.c:1422
-#, fuzzy
-msgid "num,decimals"
-msgstr "عشري"
-
-#: ../plugins/fn-string/functions.c:1425
-msgid "text1,text2"
-msgstr ""
-
-#: ../plugins/fn-string/functions.c:1428
-msgid "text1,text2,num"
-msgstr ""
-
-#: ../plugins/fn-string/functions.c:1431
-msgid "num,decs,no_commas"
-msgstr ""
-
-#: ../plugins/fn-string/functions.c:1437 ../plugins/fn-string/functions.c:1467
-#, fuzzy
-msgid "text,num_chars"
-msgstr "ليوشارز"
-
-#: ../plugins/fn-string/functions.c:1440 ../plugins/fn-string/functions.c:1470
-#, fuzzy
-msgid "text,num_bytes"
-msgstr "نص"
-
-#: ../plugins/fn-string/functions.c:1452 ../plugins/fn-string/functions.c:1455
-msgid "text,pos,num"
-msgstr ""
-
-#: ../plugins/fn-string/functions.c:1461
-msgid "old,start,num,new"
-msgstr ""
-
-#: ../plugins/fn-string/functions.c:1464
-#, fuzzy
-msgid "text,num"
-msgstr "نص"
-
-#: ../plugins/fn-string/functions.c:1473
-msgid "search_string,text,start_num"
-msgstr ""
-
-#: ../plugins/fn-string/functions.c:1476
-msgid "text,old,new,num"
-msgstr ""
-
-#: ../plugins/fn-string/functions.c:1482
-#, fuzzy
-msgid "value,format_text"
-msgstr "نص منسّق"
-
 #: ../plugins/fn-string/plugin.xml.in.h:1
 #, fuzzy
 msgid "Functions for manipulating strings"
 msgstr "تطبيقات لعرض الرسوم والتعامل معها"
 
 #: ../plugins/fn-string/plugin.xml.in.h:2 ../src/dialogs/dialog-search.c:151
-#: ../src/func.c:1027
+#: ../src/func.c:1070
 #, fuzzy
 msgid "String"
 msgstr "سلسلة2"
@@ -1593,18 +719,6 @@ msgstr "سلسلة2"
 #, fuzzy
 msgid "String Functions"
 msgstr "الوظائف المبنية"
-
-#: ../plugins/fn-tsa/functions.c:1011
-msgid "Abscissas,Ordinates,Targets,Interpolation"
-msgstr ""
-
-#: ../plugins/fn-tsa/functions.c:1015
-msgid "Ordinates,Filter,Abscissas,Interpolation,Number"
-msgstr ""
-
-#: ../plugins/fn-tsa/functions.c:1019
-msgid "Sequence,Inverse"
-msgstr ""
 
 #: ../plugins/fn-tsa/plugin.xml.in.h:1
 #, fuzzy
@@ -1774,9 +888,9 @@ msgstr "ثوابت"
 #: ../src/dialogs/dialog-define-names.c:576
 #: ../src/dialogs/dialog-doc-metadata.c:1276
 #: ../src/dialogs/dialog-formula-guru.c:827
-#: ../src/dialogs/dialog-function-select.c:913
-#: ../src/dialogs/dialog-function-select.c:935
-#: ../src/dialogs/dialog-function-select.c:940
+#: ../src/dialogs/dialog-function-select.c:804
+#: ../src/dialogs/dialog-function-select.c:826
+#: ../src/dialogs/dialog-function-select.c:831
 #: ../src/dialogs/dialog-paste-names.c:93
 #: ../src/dialogs/dialog-scenarios.c:374
 #: ../src/dialogs/dialog-simulation.c:217 ../src/dialogs/dialog-zoom.c:191
@@ -2139,23 +1253,23 @@ msgid ""
 "@DESCRIPTION=This is the perl function template. \n"
 msgstr ""
 
-#: ../plugins/perl-loader/perl-loader.c:87
+#: ../plugins/perl-loader/perl-loader.c:89
 #, fuzzy
 msgid "Perl error: "
 msgstr "خطأ Camel: %s"
 
-#: ../plugins/perl-loader/perl-loader.c:127
-#: ../plugins/perl-loader/perl-loader.c:146
+#: ../plugins/perl-loader/perl-loader.c:129
+#: ../plugins/perl-loader/perl-loader.c:148
 #, fuzzy, c-format
 msgid "Perl error: %s\n"
 msgstr "خطأ Camel: %s"
 
-#: ../plugins/perl-loader/perl-loader.c:191
+#: ../plugins/perl-loader/perl-loader.c:194
 #, fuzzy
 msgid "Module name not given."
 msgstr "حبات ثلجية متوسطة"
 
-#: ../plugins/perl-loader/perl-loader.c:218
+#: ../plugins/perl-loader/perl-loader.c:221
 #, fuzzy
 msgid "perl_func.pl doesn't exist."
 msgstr "المجلّد غير موجود"
@@ -2352,8 +1466,8 @@ msgstr "اسم المصدر"
 
 #: ../plugins/python-loader/python-loader.c:338
 #: ../plugins/python-loader/python-loader.c:431
-#: ../plugins/python-loader/python-loader.c:655
-#: ../plugins/python-loader/python-loader.c:767
+#: ../plugins/python-loader/python-loader.c:662
+#: ../plugins/python-loader/python-loader.c:774
 #, fuzzy, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr "تنسيق '%s' غير صحيح"
@@ -2364,24 +1478,24 @@ msgstr "تنسيق '%s' غير صحيح"
 msgid "File doesn't contain \"%s\" function."
 msgstr ""
 
-#: ../plugins/python-loader/python-loader.c:660
-#: ../plugins/python-loader/python-loader.c:772
+#: ../plugins/python-loader/python-loader.c:667
+#: ../plugins/python-loader/python-loader.c:779
 #, fuzzy, c-format
 msgid "File doesn't contain \"%s\" dictionary."
 msgstr "لا يحوي الجهاز '%s' وسيطا."
 
-#: ../plugins/python-loader/python-loader.c:665
-#: ../plugins/python-loader/python-loader.c:777
+#: ../plugins/python-loader/python-loader.c:672
+#: ../plugins/python-loader/python-loader.c:784
 #, fuzzy, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr "الجسم ليس مخزناً"
 
-#: ../plugins/python-loader/python-loader.c:715 ../src/gnm-plugin.c:568
+#: ../plugins/python-loader/python-loader.c:722 ../src/gnm-plugin.c:568
 #, fuzzy, c-format
 msgid "Unknown action: %s"
 msgstr "إجراء مجهول: %s !"
 
-#: ../plugins/python-loader/python-loader.c:720
+#: ../plugins/python-loader/python-loader.c:727
 #, fuzzy, c-format
 msgid "Not a valid function for action: %s"
 msgstr "هوية تنشيط غير سليمة"
@@ -5151,6 +4265,11 @@ msgstr "عرض العمود"
 msgid "_Use Default"
 msgstr "استخدم الافترا_ضي"
 
+#: ../src/dialogs/col-width.glade.h:5 ../src/dialogs/row-height.glade.h:5
+#, fuzzy
+msgid "x"
+msgstr "بكسل"
+
 #: ../src/dialogs/colrow.glade.h:1
 msgid "Group/Ungroup"
 msgstr ""
@@ -6467,7 +5586,7 @@ msgid "Double"
 msgstr "ضعف"
 
 #: ../src/dialogs/dialog-cell-format.c:479 ../src/dialogs/dialog-search.c:153
-#: ../src/func.c:1025 ../src/wbc-gtk-actions.c:2311
+#: ../src/func.c:1068 ../src/wbc-gtk-actions.c:2311
 msgid "Number"
 msgstr "الرقم"
 
@@ -6812,52 +5931,52 @@ msgstr "مضاف حديثاُ"
 msgid "All Functions (long list)"
 msgstr "دالة لوج"
 
-#: ../src/dialogs/dialog-function-select.c:437
+#: ../src/dialogs/dialog-function-select.c:330
 #, fuzzy, c-format
 msgid "%s evaluates to %s."
 msgstr "%s إصدارة %s"
 
-#: ../src/dialogs/dialog-function-select.c:496
+#: ../src/dialogs/dialog-function-select.c:389
 #, fuzzy
 msgid "Arguments:"
 msgstr "الم_عاملات:"
 
-#: ../src/dialogs/dialog-function-select.c:516
+#: ../src/dialogs/dialog-function-select.c:409
 #, fuzzy
 msgid "Note: "
 msgstr "الإ_سم:"
 
-#: ../src/dialogs/dialog-function-select.c:528
+#: ../src/dialogs/dialog-function-select.c:421
 #, fuzzy
 msgid "Examples:"
 msgstr "عينة"
 
 #. Not translated
-#: ../src/dialogs/dialog-function-select.c:544
+#: ../src/dialogs/dialog-function-select.c:437
 #, fuzzy
 msgid "See also: "
 msgstr "راجع أيضا:"
 
-#: ../src/dialogs/dialog-function-select.c:559
+#: ../src/dialogs/dialog-function-select.c:452
 #, fuzzy
 msgid ", "
 msgstr "  "
 
-#: ../src/dialogs/dialog-function-select.c:591
+#: ../src/dialogs/dialog-function-select.c:484
 #, fuzzy
 msgid "Further information: "
 msgstr "معلومات المستخدم"
 
-#: ../src/dialogs/dialog-function-select.c:593
+#: ../src/dialogs/dialog-function-select.c:486
 #, fuzzy
 msgid "online descriptions"
 msgstr "ال_وصف"
 
-#: ../src/dialogs/dialog-function-select.c:604
+#: ../src/dialogs/dialog-function-select.c:497
 msgid "Microsoft Excel: "
 msgstr ""
 
-#: ../src/dialogs/dialog-function-select.c:612
+#: ../src/dialogs/dialog-function-select.c:505
 msgid "ODF (OpenFormula): "
 msgstr ""
 
@@ -11242,56 +10361,52 @@ msgid ""
 "and return the last argument."
 msgstr ""
 
-#: ../src/func-builtin.c:372
-msgid "condition,if true,if false"
-msgstr ""
-
 #: ../src/func-builtin.c:386
 #, fuzzy
 msgid "Gnumeric"
 msgstr "رقمي"
 
-#: ../src/func.c:300
+#: ../src/func.c:226
 #, fuzzy, c-format
 msgid "Cannot create file %s\n"
 msgstr "تعذر ايجاد الملف %s\n"
 
-#: ../src/func.c:621
+#: ../src/func.c:665
 #, fuzzy
 msgid "Function implementation not available."
 msgstr "المعلومات غير متوفّرة"
 
-#: ../src/func.c:846
+#: ../src/func.c:890
 #, fuzzy
 msgid "Unknown Function"
 msgstr "عنوان غير معروف"
 
-#: ../src/func.c:1029
+#: ../src/func.c:1072
 #, fuzzy
 msgid "Boolean"
 msgstr "منطقي"
 
-#: ../src/func.c:1031
+#: ../src/func.c:1074
 #, fuzzy
 msgid "Cell Range"
 msgstr "فلطية البطارية"
 
-#: ../src/func.c:1033
+#: ../src/func.c:1076
 #, fuzzy
 msgid "Area"
 msgstr "قراءة"
 
-#: ../src/func.c:1035
+#: ../src/func.c:1078
 msgid "Scalar, Blank, or Error"
 msgstr ""
 
-#: ../src/func.c:1037
+#: ../src/func.c:1080
 #, fuzzy
 msgid "Scalar"
 msgstr "طالب علم"
 
 #. Missing values will be NULL.
-#: ../src/func.c:1040
+#: ../src/func.c:1083
 msgid "Any"
 msgstr "أيّ"
 
@@ -11614,50 +10729,54 @@ msgstr "معلومات عامة عادية"
 msgid "Show Gnumeric Options"
 msgstr "معلومات عامة عادية"
 
-#: ../src/main-application.c:74
+#: ../src/main-application.c:76
 #, fuzzy
 msgid "Specify the size and location of the initial window"
 msgstr "يحدد موقع الحاشية اليمنى."
 
-#: ../src/main-application.c:75
+#: ../src/main-application.c:77
 #, fuzzy
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "العرضxالطول+س+ع"
 
-#: ../src/main-application.c:78
+#: ../src/main-application.c:80
 #, fuzzy
 msgid "Don't show splash screen"
 msgstr "أظهر شاشة البدأ"
 
-#: ../src/main-application.c:80
+#: ../src/main-application.c:82
 #, fuzzy
 msgid "Don't display warning dialogs when importing"
 msgstr "اعرض صندوق حوار الإنذار"
 
-#: ../src/main-application.c:89 ../src/main-application.c:95
+#: ../src/main-application.c:91 ../src/main-application.c:97
 #, fuzzy
 msgid "Dumps the function definitions"
 msgstr "إذهب إلى التعريف التالي"
 
-#: ../src/main-application.c:90 ../src/main-application.c:96
-#: ../src/main-application.c:102 ../src/ssgrep.c:74
+#: ../src/main-application.c:92 ../src/main-application.c:98
+#: ../src/main-application.c:104 ../src/ssgrep.c:74
 msgid "FILE"
 msgstr "FILE"
 
-#: ../src/main-application.c:101
+#: ../src/main-application.c:103
 msgid "Dumps web page for function help"
 msgstr ""
 
-#: ../src/main-application.c:107
+#: ../src/main-application.c:109
 #, fuzzy
 msgid "Generate new help and po files"
 msgstr "_وَلِّد ألغازاً جديدة"
 
 #: ../src/main-application.c:113
+msgid "Sanity check functions' help texts"
+msgstr ""
+
+#: ../src/main-application.c:119
 msgid "Exit immediately after loading the selected books"
 msgstr ""
 
-#: ../src/main-application.c:226 ../src/ssconvert.c:567 ../src/ssgrep.c:434
+#: ../src/main-application.c:232 ../src/ssconvert.c:567 ../src/ssgrep.c:434
 #: ../src/ssindex.c:253
 #, c-format
 msgid ""
@@ -11832,6 +10951,16 @@ msgstr "صفحة"
 msgid "pages"
 msgstr " صفحات"
 
+#: ../src/print-info.c:576
+#, fuzzy
+msgid "date"
+msgstr "أوداتي"
+
+#: ../src/print-info.c:577
+#, fuzzy
+msgid "time"
+msgstr "المؤقِت"
+
 #: ../src/print-info.c:578 ../src/ssconvert.c:88
 msgid "file"
 msgstr "ملف"
@@ -11840,6 +10969,10 @@ msgstr "ملف"
 #, fuzzy
 msgid "path"
 msgstr "المسار"
+
+#: ../src/print-info.c:580 ../src/ssgrep.c:352
+msgid "cell"
+msgstr "خلية"
 
 #: ../src/print-info.c:744 ../src/stf-export.c:630
 #, fuzzy, c-format
@@ -12790,6 +11923,10 @@ msgstr ""
 #: ../src/ssconvert.c:101
 msgid "Detailed instructions for the chosen exporter"
 msgstr ""
+
+#: ../src/ssconvert.c:102
+msgid "string"
+msgstr "سلسلة نص"
 
 #: ../src/ssconvert.c:108
 #, fuzzy
@@ -17469,6 +16606,291 @@ msgstr "تحرير القالب"
 #, fuzzy
 msgid "A simple list template"
 msgstr "الملف فارغ"
+
+#, fuzzy
+#~ msgid "inumber"
+#~ msgstr "الرقم"
+
+#, fuzzy
+#~ msgid "inumber,inumber"
+#~ msgstr "_أرقام السطور:"
+
+#, fuzzy
+#~ msgid "year,month,day"
+#~ msgstr "ليرموث"
+
+#, fuzzy
+#~ msgid "date_str"
+#~ msgstr "محوّل"
+
+#, fuzzy
+#~ msgid "date1,date2,interval"
+#~ msgstr "فترة التحديث"
+
+#, fuzzy
+#~ msgid "date,months"
+#~ msgstr "أشهر"
+
+#, fuzzy
+#~ msgid "timetext"
+#~ msgstr "نص"
+
+#, fuzzy
+#~ msgid "unixtime"
+#~ msgstr "حتّى"
+
+#, fuzzy
+#~ msgid "serial"
+#~ msgstr "بني داكن"
+
+#, fuzzy
+#~ msgid "rate,values"
+#~ msgstr "القيمة"
+
+#, fuzzy
+#~ msgid "value"
+#~ msgstr "القيمة:"
+
+#, fuzzy
+#~ msgid "info_type"
+#~ msgstr "<نوع غير محدد>"
+
+#~ msgid "range"
+#~ msgstr "المدى"
+
+#~ msgid "text"
+#~ msgstr "نص"
+
+#, fuzzy
+#~ msgid "number,number,"
+#~ msgstr "رقم فريد"
+
+#, fuzzy
+#~ msgid "number"
+#~ msgstr "الرقم"
+
+#, fuzzy
+#~ msgid "value,value"
+#~ msgstr "القيمة:"
+
+#, fuzzy
+#~ msgid "reference"
+#~ msgstr "تفضيلات"
+
+#, fuzzy
+#~ msgid "index,value,"
+#~ msgstr "اخفي القيمة"
+
+#, fuzzy
+#~ msgid "ref"
+#~ msgstr "NULL"
+
+#, fuzzy
+#~ msgid "colname"
+#~ msgstr "اسم الأيقونة"
+
+#, fuzzy
+#~ msgid "link_location, label"
+#~ msgstr "جدول الضرب"
+
+#, fuzzy
+#~ msgid "ref_string,format"
+#~ msgstr "نسق مسبق"
+
+#, fuzzy
+#~ msgid "array"
+#~ msgstr "مصفوفة"
+
+#, fuzzy
+#~ msgid "a,b"
+#~ msgstr "لسان"
+
+#, fuzzy
+#~ msgid "range,criteria"
+#~ msgstr "معايير:"
+
+#, fuzzy
+#~ msgid "number,significance"
+#~ msgstr "1 أرقام كسرية"
+
+#, fuzzy
+#~ msgid "n,k"
+#~ msgstr "حبر"
+
+#, fuzzy
+#~ msgid "number,number"
+#~ msgstr "رقم فريد"
+
+#, fuzzy
+#~ msgid "number,base"
+#~ msgstr "همبرسايد"
+
+#, fuzzy
+#~ msgid "number,multiple"
+#~ msgstr "متعدد"
+
+#, fuzzy
+#~ msgid "base,exponent"
+#~ msgstr "مكوّن مضمّن"
+
+#, fuzzy
+#~ msgid "number,type"
+#~ msgstr "عدد، مغاير"
+
+#, fuzzy
+#~ msgid "number,digits"
+#~ msgstr "أخضر محمر"
+
+#, fuzzy
+#~ msgid "range,range,"
+#~ msgstr "يوسفي"
+
+#, fuzzy
+#~ msgid "p"
+#~ msgstr "فوق"
+
+#, fuzzy
+#~ msgid "bottom,top"
+#~ msgstr "الأسفل/الأعلى"
+
+#, fuzzy
+#~ msgid "p,trials"
+#~ msgstr "خياري"
+
+#~ msgid "a"
+#~ msgstr "أ"
+
+#, fuzzy
+#~ msgid "nu"
+#~ msgstr "قائمة"
+
+#, fuzzy
+#~ msgid "b"
+#~ msgstr "أداء"
+
+#, fuzzy
+#~ msgid "a,sigma"
+#~ msgstr "كاغوشيما"
+
+#, fuzzy
+#~ msgid "a,b,type"
+#~ msgstr "حسب النوع"
+
+#, fuzzy
+#~ msgid "c,alpha,beta"
+#~ msgstr "الأبجدية"
+
+#, fuzzy
+#~ msgid "p,failures"
+#~ msgstr "فشل"
+
+#, fuzzy
+#~ msgid "mean,stdev"
+#~ msgstr "أوشنسايد"
+
+#, fuzzy
+#~ msgid "lambda"
+#~ msgstr "سامبا"
+
+#, fuzzy
+#~ msgid "sigma"
+#~ msgstr "كيغوما"
+
+#, fuzzy
+#~ msgid "number1,number2,"
+#~ msgstr "رقم فريد"
+
+#, fuzzy
+#~ msgid "k,p"
+#~ msgstr "كمس"
+
+#, fuzzy
+#~ msgid "x,alpha,beta,a,b"
+#~ msgstr "أبجدياً"
+
+#, fuzzy
+#~ msgid "p,alpha,beta,a,b"
+#~ msgstr "أبجدياً"
+
+#, fuzzy
+#~ msgid "n,trials,p,cumulative"
+#~ msgstr "إداري"
+
+#, fuzzy
+#~ msgid "x,a,cumulative"
+#~ msgstr "إداري"
+
+#, fuzzy
+#~ msgid "x,y,cumulative"
+#~ msgstr "إداري"
+
+#, fuzzy
+#~ msgid "x,alpha,beta,cumulative"
+#~ msgstr "إداري"
+
+#, fuzzy
+#~ msgid "p,alpha,beta"
+#~ msgstr "الأبجدية"
+
+#, fuzzy
+#~ msgid "array,k"
+#~ msgstr "مصفوفة"
+
+#, fuzzy
+#~ msgid "array,x,significance"
+#~ msgstr "1 أرقام كسرية"
+
+#, fuzzy
+#~ msgid "x,mean,cumulative"
+#~ msgstr "إداري"
+
+#, fuzzy
+#~ msgid "x,ref,order"
+#~ msgstr "انعش"
+
+#, fuzzy
+#~ msgid "array,interval"
+#~ msgstr "المدة"
+
+#, fuzzy
+#~ msgid "area1,area2,"
+#~ msgstr "انعش"
+
+#, fuzzy
+#~ msgid "ref,fraction"
+#~ msgstr "جزء"
+
+#, fuzzy
+#~ msgid "k,p,cumulative"
+#~ msgstr "إداري"
+
+#, fuzzy
+#~ msgid "x,sigma"
+#~ msgstr "كيغوما"
+
+#, fuzzy
+#~ msgid "ref1,ref2,"
+#~ msgstr "انعش"
+
+#, fuzzy
+#~ msgid "num,decimals"
+#~ msgstr "عشري"
+
+#, fuzzy
+#~ msgid "text,num_chars"
+#~ msgstr "ليوشارز"
+
+#, fuzzy
+#~ msgid "text,num_bytes"
+#~ msgstr "نص"
+
+#, fuzzy
+#~ msgid "text,num"
+#~ msgstr "نص"
+
+#, fuzzy
+#~ msgid "value,format_text"
+#~ msgstr "نص منسّق"
 
 #, fuzzy
 #~ msgid "Search Center"

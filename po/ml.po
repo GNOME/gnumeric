@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:gnumeric.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-13 18:54-0400\n"
+"POT-Creation-Date: 2009-08-14 20:22-0400\n"
 "PO-Revision-Date: 2003-07-05 10:29+0530\n"
 "Last-Translator: FSF-India <locale@gnu.org.in>\n"
 "Language-Team: Malayalam <locale@gnu.org.in>\n"
@@ -20,7 +20,7 @@ msgid "Calculation, Analysis, and Visualization of Information"
 msgstr ""
 
 #. Keep in sync with .desktop file
-#: ../gnumeric.desktop.in.h:2 ../src/main-application.c:373
+#: ../gnumeric.desktop.in.h:2 ../src/main-application.c:381
 msgid "Gnumeric Spreadsheet"
 msgstr "ജിന്യ‌ൂമറിക് വിസ്തൃതപത്രിക"
 
@@ -75,149 +75,6 @@ msgstr "CORBA മുഖരൂപം"
 #: ../plugins/corba/plugin.xml.in.h:2
 msgid "Provides a CORBA scripting interface"
 msgstr "CORBA സ്ക്രിപ്റ്റിംഗ് മുഖരൂപം ലഭ്യമാക്കുക"
-
-#: ../plugins/derivatives/options.c:1973 ../plugins/derivatives/options.c:1978
-#: ../plugins/derivatives/options.c:1983 ../plugins/derivatives/options.c:1988
-#: ../plugins/derivatives/options.c:2003
-msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
-msgstr ""
-"കാള്‌ പുട്ട് ഫ്ളാഗ്, സ്ഥലം (പാട്), തട്ടുക (നീക്കം ചെയ്യ‌ുക), സമയം, വില, ലയിച്ചുപോകുന്ന, കോസ്റ്റ് "
-"ഓഫ് ക്യാരി "
-
-#: ../plugins/derivatives/options.c:1993 ../plugins/derivatives/options.c:1998
-msgid "spot, strike, time, rate, volatility, cost_of_carry"
-msgstr "സ്ഥലം (പാട്), തട്ടുക (നീക്കം ചെയ്യ‌ുക), സമയം, വില, ലയിച്ചുപോകുന്ന, കോസ്റ്റ് ഓഫ് ക്യാരി"
-
-#: ../plugins/derivatives/options.c:2008
-msgid "a, b, rho"
-msgstr "a, b, rho"
-
-#: ../plugins/derivatives/options.c:2013
-msgid ""
-"call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
-msgstr ""
-"കാള്‌ പുട്ട് ഫ്ളാഗ്, സ്ഥലം (പാട്), തട്ടുക (നീക്കം ചെയ്യ‌ുക), സമയം, ഗാ‌ര്ഹികമൂല്യം, വിദേശമൂല്യം, "
-"ലയിച്ചുപോകുന്ന"
-
-#: ../plugins/derivatives/options.c:2018
-msgid "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
-msgstr ""
-"കാള്‌ പുട്ട് ഫ്ളാഗ്, സ്ഥലം (പാട്), തട്ടുക (നീക്കം ചെയ്യ‌ുക), സമയം, t2, ഗാ‌ര്ഹികമൂല്യം, "
-"വിദേശമൂല്യം, ലയിച്ചുപോകുന്ന കോസ്റ്റ് ഓഫ് ക്യാരി"
-
-#: ../plugins/derivatives/options.c:2023
-msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
-msgstr ""
-"കാള്‌ പുട്ട് ഫ്ളാഗ്, സ്ഥലം (പാട്), തട്ടുക (നീക്കം ചെയ്യ‌ുക), സമയം, ലയിച്ചുപോകുന്ന, ലാംഡ, ഗാമാ"
-
-#: ../plugins/derivatives/options.c:2028
-msgid ""
-"call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
-msgstr ""
-"കാള്‌ പുട്ട് ഫ്ളാഗ്, സ്ഥലം (പാട്), തട്ടുക (നീക്കം ചെയ്യ‌ുക), സമയം, ലയിച്ചുപോകുന്ന, കോസ്റ്റ് ഓഫ് "
-"ക്യാരി, ലാംഡ"
-
-#: ../plugins/derivatives/options.c:2033 ../plugins/derivatives/options.c:2043
-msgid "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
-msgstr ""
-"കാള്‌ പുട്ട് ഫ്ളാഗ്, സ്ഥലം (പാട്), തട്ടുക (നീക്കം ചെയ്യ‌ുക), സമയം, കോസ്റ്റ് ഓഫ് ക്യാരി, "
-"ലയിച്ചുപോകുന്ന"
-
-#: ../plugins/derivatives/options.c:2038
-msgid ""
-"call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, "
-"kappa_e, kappa_f)"
-msgstr ""
-"call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, "
-"kappa_e, kappa_f)"
-
-#: ../plugins/derivatives/options.c:2048
-#, fuzzy
-msgid "spot, strike, t1, t2, rate, d, volatility"
-msgstr "call_put_flag, സ്ഥലം (പാട്), നീക്കം ചെയ്യ‌ുക, t1, t2, നിരക്ക്, d, ലയിച്ചുപോകുന്ന"
-
-#: ../plugins/derivatives/options.c:2053
-msgid ""
-"call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
-msgstr ""
-"കാള്‌ പുട്ട് ഫ്ളാഗ്, സ്ഥലം, ആല്‌ഫ, സമയം1, സമയം, നിരക്ക്, ലയിച്ചുപോകുന്ന, കോസ്റ്റ് ഓഫ് ക്യാരി"
-
-#: ../plugins/derivatives/options.c:2058
-msgid ""
-"call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
-msgstr ""
-"call_put_flag, സ്ഥലം, നീക്കം ചെയ്യ‌ുക, a, സമയം, m, dt, നിരക്ക്, കോസ്റ്റ് ഓഫ് ക്യാരി, "
-"ലയിച്ചുപോകുന്ന"
-
-#: ../plugins/derivatives/options.c:2063
-msgid "spot, strike, time1, time2, rate, cost_of_carry, volatility"
-msgstr "സ്ഥലം, നീക്കം ചെയ്യ‌ുക, സമയം1, സമയം2, കോസ്റ്റ് ഓഫ് ക്യാരി, ലയിച്ചുപോകുന്ന"
-
-#: ../plugins/derivatives/options.c:2068
-msgid ""
-"spot, strike_call, strike_put, time, time_call, time_put, rate, "
-"cost_of_carry, volatility"
-msgstr ""
-"സ്ഥലം, സ്ട്രൈക്ക് കാള്, സ്ട്രൈക്ക് പുട്ട്, സമയം, ടൈം കാള്, ടൈം പുട്ട്, നിരക്ക്, കോസ്റ്റ് ഓഫ് ക്യാരി, "
-"ലയിച്ചുപോകുന്ന"
-
-#: ../plugins/derivatives/options.c:2073 ../plugins/derivatives/options.c:2078
-msgid ""
-"type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, "
-"volatility"
-msgstr ""
-"ടൈപ്പ് ഫ്ളാഗ്, സ്ഥലം, സ്ട്രൈക്ക്1, സ്ട്രൈക്ക്2, ടൈം1, ടൈം2, നിരക്ക്, കോസ്റ്റ് ഓഫ് ക്യാരി, ലയിച്ച് "
-"പോകുന്ന"
-
-#: ../plugins/derivatives/options.c:2083
-#, fuzzy
-msgid ""
-"type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, "
-"cost_of_carry2, rate, volatility1, volatility2, rho"
-msgstr ""
-"ടൈപ്പ് ഫ്ളാഗ്, സ്ഥലം, സ്ട്രൈക്ക്1, സ്ട്രൈക്ക്2, ടൈം1, ടൈം2, നിരക്ക്, കോസ്റ്റ് ഓഫ് ക്യാരി, ലയിച്ച് "
-"പോകുന്ന"
-
-#: ../plugins/derivatives/options.c:2088 ../plugins/derivatives/options.c:2093
-#, fuzzy
-msgid ""
-"spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
-"volatility2,rho"
-msgstr "സ്ഥലം, നീക്കം ചെയ്യ‌ുക, സമയം1, സമയം2, കോസ്റ്റ് ഓഫ് ക്യാരി, ലയിച്ചുപോകുന്ന"
-
-#: ../plugins/derivatives/options.c:2098
-#, fuzzy
-msgid ""
-"call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,"
-"volatility2,rho"
-msgstr ""
-"കാള്‌ പുട്ട് ഫ്ളാഗ്, സ്ഥലം (പാട്), തട്ടുക (നീക്കം ചെയ്യ‌ുക), സമയം, കോസ്റ്റ് ഓഫ് ക്യാരി, "
-"ലയിച്ചുപോകുന്ന"
-
-#: ../plugins/derivatives/options.c:2103
-#, fuzzy
-msgid "call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
-msgstr ""
-"കാള്‌ പുട്ട് ഫ്ളാഗ്, സ്ഥലം (പാട്), തട്ടുക (നീക്കം ചെയ്യ‌ുക), സമയം, കോസ്റ്റ് ഓഫ് ക്യാരി, "
-"ലയിച്ചുപോകുന്ന"
-
-#: ../plugins/derivatives/options.c:2108
-#, fuzzy
-msgid ""
-"call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
-"volatility"
-msgstr ""
-"കാള്‌ പുട്ട് ഫ്ളാഗ്, സ്ഥലം (പാട്), തട്ടുക (നീക്കം ചെയ്യ‌ുക), സമയം, കോസ്റ്റ് ഓഫ് ക്യാരി, "
-"ലയിച്ചുപോകുന്ന"
-
-#: ../plugins/derivatives/options.c:2114
-#, fuzzy
-msgid ""
-"amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
-"volatility, cost_of_carry"
-msgstr ""
-"കാള്‌ പുട്ട് ഫ്ളാഗ്, സ്ഥലം (പാട്), തട്ടുക (നീക്കം ചെയ്യ‌ുക), സമയം, വില, ലയിച്ചുപോകുന്ന, കോസ്റ്റ് "
-"ഓഫ് ക്യാരി "
 
 #: ../plugins/derivatives/plugin.xml.in.h:1
 #: ../plugins/fn-financial/plugin.xml.in.h:1
@@ -607,57 +464,6 @@ msgstr "പ്രവ‌ര്‌ത്തി പുസ്തകമോ അല്�
 msgid "Skipping invalid pivot field group for field '%s' because : %s"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:1227
-msgid "real,im,suffix"
-msgstr ""
-
-#: ../plugins/fn-complex/functions.c:1230
-#: ../plugins/fn-complex/functions.c:1233
-#: ../plugins/fn-complex/functions.c:1236
-#: ../plugins/fn-complex/functions.c:1239
-#: ../plugins/fn-complex/functions.c:1242
-#: ../plugins/fn-complex/functions.c:1248
-#: ../plugins/fn-complex/functions.c:1251
-#: ../plugins/fn-complex/functions.c:1254
-#: ../plugins/fn-complex/functions.c:1257
-#: ../plugins/fn-complex/functions.c:1263
-#: ../plugins/fn-complex/functions.c:1266
-#: ../plugins/fn-complex/functions.c:1269
-#: ../plugins/fn-complex/functions.c:1279
-#: ../plugins/fn-complex/functions.c:1282
-#: ../plugins/fn-complex/functions.c:1285
-#: ../plugins/fn-complex/functions.c:1291
-#: ../plugins/fn-complex/functions.c:1294
-#: ../plugins/fn-complex/functions.c:1297
-#: ../plugins/fn-complex/functions.c:1300
-#: ../plugins/fn-complex/functions.c:1303
-#: ../plugins/fn-complex/functions.c:1306
-#: ../plugins/fn-complex/functions.c:1309
-#: ../plugins/fn-complex/functions.c:1312
-#: ../plugins/fn-complex/functions.c:1315
-#: ../plugins/fn-complex/functions.c:1318
-#: ../plugins/fn-complex/functions.c:1321
-#: ../plugins/fn-complex/functions.c:1324
-#: ../plugins/fn-complex/functions.c:1327
-#: ../plugins/fn-complex/functions.c:1330
-#: ../plugins/fn-complex/functions.c:1333
-#: ../plugins/fn-complex/functions.c:1336
-#: ../plugins/fn-complex/functions.c:1339
-#: ../plugins/fn-complex/functions.c:1342
-#: ../plugins/fn-complex/functions.c:1345
-#: ../plugins/fn-complex/functions.c:1348
-#: ../plugins/fn-complex/functions.c:1351
-msgid "inumber"
-msgstr "ഐനമ്പര്‌"
-
-#: ../plugins/fn-complex/functions.c:1245
-#: ../plugins/fn-complex/functions.c:1260
-#: ../plugins/fn-complex/functions.c:1272
-#: ../plugins/fn-complex/functions.c:1275
-#: ../plugins/fn-complex/functions.c:1288
-msgid "inumber,inumber"
-msgstr "ഐനമ്പര്‌, ഐനമ്പര്‌"
-
 #: ../plugins/fn-complex/plugin.xml.in.h:1
 msgid "Complex"
 msgstr "സങ്കീ‌ര്ണ്ണമായ"
@@ -670,26 +476,6 @@ msgstr "സങ്കീ‌ര്ണ്ണമായ ധ‌‌‌ര്മ്മ�
 msgid "Functions for complex numbers"
 msgstr "സങ്കീ‌ര്ണ്ണസംഖ്യകളുടെ ധ‌‌ര്മ്മങ്ങള്‌"
 
-#: ../plugins/fn-database/functions.c:769
-#: ../plugins/fn-database/functions.c:772
-#: ../plugins/fn-database/functions.c:775
-#: ../plugins/fn-database/functions.c:778
-#: ../plugins/fn-database/functions.c:781
-#: ../plugins/fn-database/functions.c:784
-#: ../plugins/fn-database/functions.c:787
-#: ../plugins/fn-database/functions.c:790
-#: ../plugins/fn-database/functions.c:793
-#: ../plugins/fn-database/functions.c:796
-#: ../plugins/fn-database/functions.c:799
-#: ../plugins/fn-database/functions.c:802
-msgid "database,field,criteria"
-msgstr ""
-
-#. XL stores in lookup
-#: ../plugins/fn-database/functions.c:807
-msgid "pivot_table,field_name"
-msgstr ""
-
 #: ../plugins/fn-database/plugin.xml.in.h:1 ../plugins/gda/plugin.xml.in.h:1
 msgid "Database"
 msgstr "വസ്തുതാശേഖരം"
@@ -701,69 +487,6 @@ msgstr "വസ്തുതശേഖര പ്രവ‌‌‌ര്ത്തന�
 #: ../plugins/fn-database/plugin.xml.in.h:3
 msgid "Functions looking up values in databases"
 msgstr ""
-
-#: ../plugins/fn-date/functions.c:1133
-msgid "year,month,day"
-msgstr "വ‌ര്ഷം, മാസം, ദിവസം"
-
-#: ../plugins/fn-date/functions.c:1137
-msgid "date_str"
-msgstr "തീയതി_str"
-
-#: ../plugins/fn-date/functions.c:1141
-#, fuzzy
-msgid "date1,date2,interval"
-msgstr "തീയതി1,തീയതി2,ഇടവേള"
-
-#: ../plugins/fn-date/functions.c:1145 ../plugins/fn-date/functions.c:1169
-#: ../plugins/fn-date/functions.c:1197 ../plugins/fn-date/functions.c:1201
-#: ../plugins/fn-date/functions.c:1209 ../plugins/fn-date/functions.c:1213
-#: ../plugins/fn-date/functions.c:1226 ../plugins/fn-date/functions.c:1230
-#: ../src/print-info.c:576
-msgid "date"
-msgstr "തീയതി"
-
-#: ../plugins/fn-date/functions.c:1149
-msgid "date1,date2,method"
-msgstr "തീയതി1,തീയതി2,രീതി"
-
-#: ../plugins/fn-date/functions.c:1153
-#, fuzzy
-msgid "date,months"
-msgstr "സ്റ്റാ‌ര്ട്ട് തീയതി, മാസങ്ങള്‌"
-
-#: ../plugins/fn-date/functions.c:1157
-msgid "start_date,months"
-msgstr "സ്റ്റാ‌ര്ട്ട് തീയതി, മാസങ്ങള്‌"
-
-#: ../plugins/fn-date/functions.c:1161 ../plugins/fn-date/functions.c:1165
-#: ../plugins/fn-date/functions.c:1181 ../src/print-info.c:577
-msgid "time"
-msgstr "സമയം"
-
-#: ../plugins/fn-date/functions.c:1173
-msgid "start_date,end_date,holidays"
-msgstr "ആരംഭ തീയതി,അവസാനിക്കുന്ന തീയതി,അവധികള്‌"
-
-#: ../plugins/fn-date/functions.c:1185
-msgid "hours,minutes,seconds"
-msgstr "മണിക്കൂറുകള്‌, മിനിറ്റ്സുകള്‌,സെക്കന്റുകള്‌"
-
-#: ../plugins/fn-date/functions.c:1189
-msgid "timetext"
-msgstr "സമയവാക്യം"
-
-#: ../plugins/fn-date/functions.c:1205
-msgid "date,days,holidays"
-msgstr "തീയതി,ദിവസങ്ങള്‌,അവധികള്‌"
-
-#: ../plugins/fn-date/functions.c:1218
-msgid "unixtime"
-msgstr "യുണിക്സ്‌സമയം"
-
-#: ../plugins/fn-date/functions.c:1222
-msgid "serial"
-msgstr "സീരിയല്‌"
 
 #: ../plugins/fn-date/plugin.xml.in.h:1
 msgid "Date and Time Functions"
@@ -789,18 +512,6 @@ msgstr "എഞ്ചിനീയറിംഗ് പ്രവ‌ര്ത്ത�
 msgid "Functions for complex numbers, base conversions, and more"
 msgstr ""
 
-#: ../plugins/fn-erlang/functions.c:288 ../plugins/fn-erlang/functions.c:293
-msgid "traffic,circuits"
-msgstr ""
-
-#: ../plugins/fn-erlang/functions.c:298
-msgid "traffic,gos"
-msgstr ""
-
-#: ../plugins/fn-erlang/functions.c:303
-msgid "circuits,gos"
-msgstr ""
-
 #: ../plugins/fn-erlang/plugin.xml.in.h:1
 #, fuzzy
 msgid "Erlang"
@@ -816,11 +527,6 @@ msgstr "സ്ട്രിംഗ് പ്രവ‌ര്ത്തനങ്ങ�
 msgid "Functions to help Erlang Analysis"
 msgstr "സ്ട്രിംഗ് കൈകാര്യം ചെയ്യ‌ുന്നതിനുവേണ്ടിയുള്ള പ്രവ‌ര്ത്തനങ്ങള്‌"
 
-#: ../plugins/fn-financial/functions.c:3551
-#, fuzzy
-msgid "rate,values"
-msgstr "മറ്റുമൂല്യങ്ങള്"
-
 #: ../plugins/fn-financial/plugin.xml.in.h:2
 msgid "Financial Functions"
 msgstr "സാമ്പത്തിക പ്രവ‌ര്ത്തനങ്ങള്"
@@ -835,86 +541,42 @@ msgstr "പലിശനിരക്ക് കണക്കാക്കലുക�
 #. * reference of the top and leftmost cell visible in the
 #. * window, based on the current scrolling position.
 #.
-#: ../plugins/fn-info/functions.c:1333 ../plugins/fn-info/functions.c:1349
+#: ../plugins/fn-info/functions.c:1334 ../plugins/fn-info/functions.c:1350
 msgid "Unimplemented"
 msgstr ""
 
-#: ../plugins/fn-info/functions.c:1357
+#: ../plugins/fn-info/functions.c:1358
 msgid "Unknown version"
 msgstr "അറിയപ്പെടാത്ത പതിപ്പ്"
 
-#: ../plugins/fn-info/functions.c:1359
+#: ../plugins/fn-info/functions.c:1360
 #, c-format
 msgid "%s version %s"
 msgstr "%s പതിപ്പ് %s"
 
-#: ../plugins/fn-info/functions.c:1374
+#: ../plugins/fn-info/functions.c:1375
 #: ../src/dialogs/dialog-cell-format.c:2515
 #: ../src/dialogs/dialog-cell-format.c:2519
 #: ../src/dialogs/dialog-cell-format.c:2527 ../src/wbc-gtk.c:2823
 msgid "Automatic"
 msgstr "തനിയെയുള്ള"
 
-#: ../plugins/fn-info/functions.c:1374
+#: ../plugins/fn-info/functions.c:1375
 #, fuzzy
 msgid "Manual"
 msgstr "നേരിട്ട് ചെയ്യ‍ുക"
 
-#: ../plugins/fn-info/functions.c:1384
+#: ../plugins/fn-info/functions.c:1385
 msgid "Unknown system"
 msgstr "അറിയപ്പെടാത്ത വ്യവസ്ഥ"
 
-#: ../plugins/fn-info/functions.c:1400
+#: ../plugins/fn-info/functions.c:1401
 msgid "Unknown info_type"
 msgstr "അറിയാത്ത വിവരതരം"
 
-#: ../plugins/fn-info/functions.c:1657
+#: ../plugins/fn-info/functions.c:1658
 msgid "Invalid number of arguments"
 msgstr "സാധുതയില്ലാത്ത ക്രിയാങ്ക മൂല്യം"
-
-#: ../plugins/fn-info/functions.c:1779
-msgid "info_type, cell"
-msgstr ""
-
-#: ../plugins/fn-info/functions.c:1782 ../plugins/fn-info/functions.c:1788
-#: ../plugins/fn-info/functions.c:1791 ../plugins/fn-info/functions.c:1794
-#: ../plugins/fn-info/functions.c:1797 ../plugins/fn-info/functions.c:1800
-#: ../plugins/fn-info/functions.c:1803 ../plugins/fn-info/functions.c:1806
-#: ../plugins/fn-info/functions.c:1809 ../plugins/fn-info/functions.c:1812
-#: ../plugins/fn-info/functions.c:1815 ../plugins/fn-info/functions.c:1818
-#: ../plugins/fn-info/functions.c:1821 ../plugins/fn-info/functions.c:1827
-#: ../plugins/fn-string/functions.c:1479
-msgid "value"
-msgstr ""
-
-#: ../plugins/fn-info/functions.c:1785
-msgid "info_type"
-msgstr "വിവരഇനം"
-
-#. XL stores this in statistical ?
-#: ../plugins/fn-info/functions.c:1832
-msgid "range"
-msgstr "പരിധി"
-
-#: ../plugins/fn-info/functions.c:1836 ../plugins/fn-string/functions.c:1410
-#: ../plugins/fn-string/functions.c:1413 ../plugins/fn-string/functions.c:1416
-#: ../plugins/fn-string/functions.c:1443 ../plugins/fn-string/functions.c:1446
-#: ../plugins/fn-string/functions.c:1449 ../plugins/fn-string/functions.c:1458
-#: ../plugins/fn-string/functions.c:1485 ../plugins/fn-string/functions.c:1488
-#: ../plugins/fn-string/functions.c:1491
-msgid "text"
-msgstr "വാക്യം"
-
-#. XLM : looks common in charts
-#: ../plugins/fn-info/functions.c:1840 ../plugins/fn-info/functions.c:1844
-#: ../src/print-info.c:580 ../src/ssgrep.c:352
-msgid "cell"
-msgstr "അറ"
-
-#: ../plugins/fn-info/functions.c:1848 ../plugins/fn-string/functions.c:1401
-#: ../plugins/fn-string/functions.c:1434 ../src/ssconvert.c:102
-msgid "string"
-msgstr "നിര"
 
 #: ../plugins/fn-info/plugin.xml.in.h:1
 msgid "Functions for inspecting values, cells, and more"
@@ -932,44 +594,6 @@ msgstr "വിവരധ‌‌‌ര്മ്മങ്ങള്‌"
 msgid "Type Mismatch"
 msgstr "യോജിക്കാത്ത തരം"
 
-#: ../plugins/fn-logical/functions.c:281 ../plugins/fn-logical/functions.c:285
-#: ../plugins/fn-logical/functions.c:304 ../plugins/fn-math/functions.c:2870
-#: ../src/func-builtin.c:347 ../src/func-builtin.c:353
-msgid "number,number,"
-msgstr "സംഖ്യ,സംഖ്യ,"
-
-#. MS Excel puts this in the engineering functions
-#: ../plugins/fn-logical/functions.c:289 ../plugins/fn-math/functions.c:2674
-#: ../plugins/fn-math/functions.c:2678 ../plugins/fn-math/functions.c:2681
-#: ../plugins/fn-math/functions.c:2684 ../plugins/fn-math/functions.c:2687
-#: ../plugins/fn-math/functions.c:2690 ../plugins/fn-math/functions.c:2693
-#: ../plugins/fn-math/functions.c:2696 ../plugins/fn-math/functions.c:2699
-#: ../plugins/fn-math/functions.c:2711 ../plugins/fn-math/functions.c:2714
-#: ../plugins/fn-math/functions.c:2717 ../plugins/fn-math/functions.c:2720
-#: ../plugins/fn-math/functions.c:2729 ../plugins/fn-math/functions.c:2737
-#: ../plugins/fn-math/functions.c:2740 ../plugins/fn-math/functions.c:2743
-#: ../plugins/fn-math/functions.c:2746 ../plugins/fn-math/functions.c:2749
-#: ../plugins/fn-math/functions.c:2754 ../plugins/fn-math/functions.c:2758
-#: ../plugins/fn-math/functions.c:2764 ../plugins/fn-math/functions.c:2767
-#: ../plugins/fn-math/functions.c:2770 ../plugins/fn-math/functions.c:2777
-#: ../plugins/fn-math/functions.c:2784 ../plugins/fn-math/functions.c:2791
-#: ../plugins/fn-math/functions.c:2794 ../plugins/fn-math/functions.c:2800
-#: ../plugins/fn-math/functions.c:2803 ../plugins/fn-math/functions.c:2816
-#: ../plugins/fn-math/functions.c:2822 ../plugins/fn-math/functions.c:2828
-#: ../plugins/fn-math/functions.c:2846 ../plugins/fn-math/functions.c:2849
-#: ../plugins/fn-math/functions.c:2855 ../plugins/fn-math/functions.c:2858
-#: ../plugins/fn-math/functions.c:2861 ../plugins/fn-math/functions.c:2864
-#: ../plugins/fn-math/functions.c:2867 ../plugins/fn-math/functions.c:2880
-#: ../plugins/fn-math/functions.c:2892 ../plugins/fn-math/functions.c:2895
-#: ../plugins/fn-string/functions.c:1404 ../plugins/fn-string/functions.c:1407
-msgid "number"
-msgstr "സംഖ്യ‌"
-
-#: ../plugins/fn-logical/functions.c:293
-#, fuzzy
-msgid "value,value"
-msgstr "സൂചകമൂല്യം"
-
 #: ../plugins/fn-logical/plugin.xml.in.h:1
 msgid "Functions for manipulating truth values"
 msgstr ""
@@ -984,59 +608,6 @@ msgstr "യുക്തിയുക്തമായ"
 msgid "Logic Functions"
 msgstr "യുക്തിയുക്തമായ പ്രവ‌ര്ത്തനങ്ങള്"
 
-#: ../plugins/fn-lookup/functions.c:1505
-msgid "row_num,col_num,abs_num,a1,text"
-msgstr ""
-
-#: ../plugins/fn-lookup/functions.c:1508
-msgid "reference"
-msgstr "സൂചന"
-
-#: ../plugins/fn-lookup/functions.c:1511
-msgid "index,value,"
-msgstr "സൂചകമൂല്യം"
-
-#: ../plugins/fn-lookup/functions.c:1514 ../plugins/fn-lookup/functions.c:1520
-#: ../plugins/fn-lookup/functions.c:1544 ../plugins/fn-lookup/functions.c:1547
-msgid "ref"
-msgstr "സൂചന"
-
-#: ../plugins/fn-lookup/functions.c:1517
-msgid "colname"
-msgstr ""
-
-#: ../plugins/fn-lookup/functions.c:1523 ../plugins/fn-lookup/functions.c:1553
-msgid "val,range,col_idx,approx,as_index"
-msgstr ""
-
-#: ../plugins/fn-lookup/functions.c:1526
-msgid "link_location, label"
-msgstr "ബന്ധസ്ഥാനം, ലിഖിതം"
-
-#: ../plugins/fn-lookup/functions.c:1529
-msgid "ref_string,format"
-msgstr ""
-
-#: ../plugins/fn-lookup/functions.c:1532
-msgid "reference,row,col,area"
-msgstr "സൂചന,നിര,വരി,വിസ്തീ‌‌ര്ണ്ണം"
-
-#: ../plugins/fn-lookup/functions.c:1535
-msgid "val,range,range"
-msgstr "മൂല്യം,പരിധി,പരിധി"
-
-#: ../plugins/fn-lookup/functions.c:1538
-msgid "val,range,approx"
-msgstr "മൂല്യം,പരിധി,അപ്രോക്സ്"
-
-#: ../plugins/fn-lookup/functions.c:1541
-msgid "ref,row,col,height,width"
-msgstr "സൂചന,നിര,വരി,ഉയരം,വീതി"
-
-#: ../plugins/fn-lookup/functions.c:1550 ../plugins/fn-math/functions.c:2908
-msgid "array"
-msgstr "ശ്രേണി"
-
 #: ../plugins/fn-lookup/plugin.xml.in.h:1
 msgid "Functions for looking up values in ranges"
 msgstr ""
@@ -1048,83 +619,6 @@ msgstr "മുകളിലേക്ക് നോക്കൂ"
 #: ../plugins/fn-lookup/plugin.xml.in.h:3
 msgid "Lookup Functions"
 msgstr "പ്രവ‌ര്ത്തനങ്ങള് നോക്കൂ"
-
-#: ../plugins/fn-math/functions.c:2702
-msgid "xnum,ynum"
-msgstr ""
-
-#: ../plugins/fn-math/functions.c:2705 ../plugins/fn-math/functions.c:2708
-#: ../plugins/fn-random/functions.c:891 ../plugins/fn-random/functions.c:912
-#: ../plugins/fn-random/functions.c:918 ../plugins/fn-random/functions.c:957
-#: ../plugins/fn-random/functions.c:972 ../plugins/fn-random/functions.c:975
-msgid "a,b"
-msgstr "എ,ബി"
-
-#. MS Excel puts this in statistical
-#: ../plugins/fn-math/functions.c:2725
-msgid "range,criteria"
-msgstr "പരിധി, ക്രൈറ്റീരിയ"
-
-#: ../plugins/fn-math/functions.c:2733
-msgid "number,significance"
-msgstr "സംഖ്യ,പ്രാധാന്യം"
-
-#: ../plugins/fn-math/functions.c:2761 ../plugins/fn-stat/functions.c:4988
-msgid "n,k"
-msgstr "എന്,കെ"
-
-#: ../plugins/fn-math/functions.c:2774
-msgid "number,number"
-msgstr "സംഖ്യ,സംഖ്യ"
-
-#: ../plugins/fn-math/functions.c:2797
-msgid "number,base"
-msgstr "സംഖ്യ,ആധാരം‌"
-
-#: ../plugins/fn-math/functions.c:2806 ../plugins/fn-math/functions.c:2825
-msgid "numerator,denominator"
-msgstr "അംശം,ഛേദം"
-
-#: ../plugins/fn-math/functions.c:2809
-msgid "number,multiple"
-msgstr "സംഖ്യ,ഗുണിതം"
-
-#: ../plugins/fn-math/functions.c:2819
-msgid "base,exponent"
-msgstr "ആധാരം,ഘാതാങ്കം"
-
-#: ../plugins/fn-math/functions.c:2831
-msgid "number,type"
-msgstr "സംഖ്യ,ഇനം"
-
-#: ../plugins/fn-math/functions.c:2834 ../plugins/fn-math/functions.c:2838
-#: ../plugins/fn-math/functions.c:2842 ../plugins/fn-math/functions.c:2898
-msgid "number,digits"
-msgstr "സംഖ്യാ,അക്കങ്ങള്‌‌"
-
-#: ../plugins/fn-math/functions.c:2852
-msgid "x,n,m,coefficients"
-msgstr "x,n,m,ഗുണാങ്കം"
-
-#: ../plugins/fn-math/functions.c:2874
-msgid "range,criteria,actual_range"
-msgstr "പരിധി,ക്രൈറ്റീരിയ,യഥാര്‌ത്ഥ പരിധി"
-
-#: ../plugins/fn-math/functions.c:2877
-msgid "range,range,"
-msgstr "പരിധി,പരിധി"
-
-#: ../plugins/fn-math/functions.c:2883 ../plugins/fn-math/functions.c:2886
-#: ../plugins/fn-math/functions.c:2889 ../plugins/fn-math/functions.c:2905
-#: ../plugins/fn-stat/functions.c:4847 ../plugins/fn-stat/functions.c:4856
-#: ../plugins/fn-stat/functions.c:4886 ../plugins/fn-stat/functions.c:4979
-#: ../plugins/fn-stat/functions.c:5035
-msgid "array1,array2"
-msgstr "ശ്രേണി1,ശ്രേണി2"
-
-#: ../plugins/fn-math/functions.c:2911 ../plugins/fn-math/functions.c:2915
-msgid "array,matrix_type,bandsize"
-msgstr "ശ്രേണി, മെട്രിക്സ് തരം,ബാന്ഡ് സൈസ്"
 
 #: ../plugins/fn-math/plugin.xml.in.h:1
 msgid "Math Functions"
@@ -1154,83 +648,6 @@ msgstr ""
 msgid "Statistics"
 msgstr "സ്ഥിതിവിവരങ്ങള്‌"
 
-#: ../plugins/fn-random/functions.c:888 ../plugins/fn-random/functions.c:924
-#: ../plugins/fn-random/functions.c:942 ../plugins/fn-stat/functions.c:4976
-msgid "p"
-msgstr "പി"
-
-#: ../plugins/fn-random/functions.c:894
-msgid "bottom,top"
-msgstr "താഴെ,മുകളില്‌"
-
-#: ../plugins/fn-random/functions.c:897
-msgid "p,trials"
-msgstr "പി,ട്രയല്‌സ്"
-
-#: ../plugins/fn-random/functions.c:900 ../plugins/fn-random/functions.c:936
-#: ../plugins/fn-random/functions.c:945
-msgid "a"
-msgstr "എ"
-
-#: ../plugins/fn-random/functions.c:903 ../plugins/fn-random/functions.c:969
-msgid "nu"
-msgstr "നമ്പര്‌"
-
-#: ../plugins/fn-random/functions.c:906
-msgid "value_range,prob_range"
-msgstr "മൂല്യപരിധി,പ്രോബ് പരിധി"
-
-#: ../plugins/fn-random/functions.c:909
-msgid "b"
-msgstr "ബി"
-
-#: ../plugins/fn-random/functions.c:915
-msgid "nu1,nu2"
-msgstr "നമ്പര്1,നമ്പര്2"
-
-#: ../plugins/fn-random/functions.c:921 ../plugins/fn-random/functions.c:966
-msgid "a,sigma"
-msgstr "എ,സിഗ്മ"
-
-#: ../plugins/fn-random/functions.c:927
-#, fuzzy
-msgid "a,b,type"
-msgstr "എ,ബി[ , ഇനം‌]"
-
-#: ../plugins/fn-random/functions.c:930
-msgid "n1,n2,t"
-msgstr "n1,n2,t"
-
-#: ../plugins/fn-random/functions.c:939
-#, fuzzy
-msgid "c,alpha,beta"
-msgstr "c,ആല്‌ഫ[,ബീറ്റ]"
-
-#: ../plugins/fn-random/functions.c:948
-msgid "zeta,sigma"
-msgstr "zeta,sigma"
-
-#: ../plugins/fn-random/functions.c:951
-msgid "p,failures"
-msgstr "പി,പരാജയം"
-
-#: ../plugins/fn-random/functions.c:954
-msgid "mean,stdev"
-msgstr "mean,stdev"
-
-#: ../plugins/fn-random/functions.c:960
-msgid "lambda"
-msgstr "ലാംഡ"
-
-#: ../plugins/fn-random/functions.c:963
-msgid "sigma"
-msgstr "സിഗ്മ"
-
-#: ../plugins/fn-random/functions.c:978
-#, fuzzy
-msgid "d1,d2,...,dN"
-msgstr "d1[,d2,...,dN]"
-
 #: ../plugins/fn-random/plugin.xml.in.h:1
 msgid "Functions for generating random numbers"
 msgstr ""
@@ -1249,311 +666,18 @@ msgstr "ക്രമമില്ലാത്ത സംഖ്യകള്"
 msgid "Array version not implemented!"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4804 ../plugins/fn-stat/functions.c:4808
-#: ../plugins/fn-stat/functions.c:4812 ../plugins/fn-stat/functions.c:4850
-#: ../plugins/fn-stat/functions.c:4853 ../plugins/fn-stat/functions.c:4862
-#: ../plugins/fn-stat/functions.c:4898 ../plugins/fn-stat/functions.c:4905
-#: ../plugins/fn-stat/functions.c:4915 ../plugins/fn-stat/functions.c:4940
-#: ../plugins/fn-stat/functions.c:4944 ../plugins/fn-stat/functions.c:4948
-#: ../plugins/fn-stat/functions.c:4952 ../plugins/fn-stat/functions.c:4956
-#: ../plugins/fn-stat/functions.c:4960 ../plugins/fn-stat/functions.c:5038
-#: ../plugins/fn-stat/functions.c:5082 ../plugins/fn-stat/functions.c:5103
-#, fuzzy
-msgid "number1,number2,"
-msgstr "സംഖ്യ,സംഖ്യ,"
-
-#: ../plugins/fn-stat/functions.c:4817
-msgid "k,p"
-msgstr "കെ,പി"
-
-#: ../plugins/fn-stat/functions.c:4821
-msgid "x,alpha,beta,a,b"
-msgstr "എക്സ്,ആല്‌ഫ,ബീറ്റ,എ,ബി"
-
-#: ../plugins/fn-stat/functions.c:4824
-msgid "p,alpha,beta,a,b"
-msgstr "പി,ആല്‌ഫ,ബീറ്റ,എ,ബി"
-
-#: ../plugins/fn-stat/functions.c:4827
-#, fuzzy
-msgid "n,trials,p,cumulative"
-msgstr "x,y,സഞ്ചിതം"
-
-#: ../plugins/fn-stat/functions.c:4831
-#, fuzzy
-msgid "x,a,cumulative"
-msgstr "x,y,സഞ്ചിതം"
-
-#: ../plugins/fn-stat/functions.c:4835
-msgid "x,dof"
-msgstr "എകസ്,ഡോഫ്"
-
-#: ../plugins/fn-stat/functions.c:4838 ../plugins/fn-stat/functions.c:5044
-msgid "p,dof"
-msgstr "പി,ഡോഫ്"
-
-#: ../plugins/fn-stat/functions.c:4841
-#, fuzzy
-msgid "actual_range,theoretical_range"
-msgstr "ആക്ട്_പരിധി,തിയോ_പരിധി"
-
-#: ../plugins/fn-stat/functions.c:4844
-msgid "x,stddev,size"
-msgstr "x,stddev,തരം"
-
-#: ../plugins/fn-stat/functions.c:4859
-msgid "trials,p,alpha"
-msgstr "ശ്രമങ്ങള്,p,ആല്ഫ"
-
-#: ../plugins/fn-stat/functions.c:4865
-msgid "x,y,cumulative"
-msgstr "x,y,സഞ്ചിതം"
-
-#: ../plugins/fn-stat/functions.c:4868
-#, fuzzy
-msgid "x,dof_of_num,dof_of_denom"
-msgstr "x,dof of num,dof of denom"
-
-#: ../plugins/fn-stat/functions.c:4871
-#, fuzzy
-msgid "p,dof_of_num,dof_of_denom"
-msgstr "p,dof of num,dof of denom"
-
-#: ../plugins/fn-stat/functions.c:4874 ../plugins/fn-stat/functions.c:4877
-#: ../plugins/fn-stat/functions.c:4895 ../plugins/fn-stat/functions.c:4973
-#: ../plugins/fn-stat/functions.c:5085 ../src/dialogs/col-width.glade.h:5
-#: ../src/dialogs/row-height.glade.h:5
-msgid "x"
-msgstr "x"
-
-#: ../plugins/fn-stat/functions.c:4880
-#, fuzzy
-msgid "x,known_y's,known_x's"
-msgstr "known_y's,known_x's"
-
-#: ../plugins/fn-stat/functions.c:4883
-msgid "data_array,bins_array"
-msgstr "വസ്തുതാ_ശ്രേണി,ബിന്‌സ്_ശ്രേണി"
-
-#: ../plugins/fn-stat/functions.c:4889
-#, fuzzy
-msgid "x,alpha,beta,cumulative"
-msgstr "x.ആല്‌ഫ,ബീറ്റ,സഞ്ചിതം"
-
-#: ../plugins/fn-stat/functions.c:4892
-#, fuzzy
-msgid "p,alpha,beta"
-msgstr "c,ആല്‌ഫ[,ബീറ്റ]"
-
-#: ../plugins/fn-stat/functions.c:4902 ../plugins/fn-stat/functions.c:5047
-msgid "known_y's,known_x's,new_x's,const"
-msgstr "known_y's,known_x's,new_x's,const"
-
-#: ../plugins/fn-stat/functions.c:4909
-#, fuzzy
-msgid "x,n,M,N,cumulative"
-msgstr "x,y,സഞ്ചിതം"
-
-#: ../plugins/fn-stat/functions.c:4912 ../plugins/fn-stat/functions.c:4928
-#: ../plugins/fn-stat/functions.c:5003 ../plugins/fn-stat/functions.c:5032
-msgid "known_y's,known_x's"
-msgstr "known_y's,known_x's"
-
-#: ../plugins/fn-stat/functions.c:4918 ../plugins/fn-stat/functions.c:5006
-msgid "data,k,"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:4922
-#, fuzzy
-msgid "known_y's,known_x's,affine,stat"
-msgstr "known_y's,known_x's,const,stat"
-
-#: ../plugins/fn-stat/functions.c:4925 ../plugins/fn-stat/functions.c:4937
-msgid "known_y's,known_x's,const,stat"
-msgstr "known_y's,known_x's,const,stat"
-
-#: ../plugins/fn-stat/functions.c:4931 ../plugins/fn-stat/functions.c:4970
-msgid "p,mean,stddev"
-msgstr "p,മാധ്യം,stddev"
-
-#: ../plugins/fn-stat/functions.c:4934 ../plugins/fn-stat/functions.c:5010
-msgid "x,mean,stddev"
-msgstr "x,മാധ്യം,stddev"
-
-#: ../plugins/fn-stat/functions.c:4964
-msgid "f,t,p"
-msgstr "f,t,p"
-
-#: ../plugins/fn-stat/functions.c:4967
-#, fuzzy
-msgid "x,mean,stddev,cumulative"
-msgstr "x,മാധ്യം,stdev,സഞ്ചിതം"
-
-#: ../plugins/fn-stat/functions.c:4982
-msgid "array,k"
-msgstr "ശ്രേണി,k"
-
-#: ../plugins/fn-stat/functions.c:4985
-msgid "array,x,significance"
-msgstr "ശ്രേണി,x,പ്രാധാന്യം"
-
-#: ../plugins/fn-stat/functions.c:4991
-msgid "x,mean,cumulative"
-msgstr "x,മാധ്യം,സഞ്ചിതം"
-
-#: ../plugins/fn-stat/functions.c:4994
-msgid "x_range,prob_range,lower_limit,upper_limit"
-msgstr "x_പരിധി,സാധ്യതാ_പരിധി,നീച_പരിധി,ഉച്ച_പരിധി"
-
-#: ../plugins/fn-stat/functions.c:4997
-msgid "array,quart"
-msgstr "ശ്രേണി,quart"
-
-#: ../plugins/fn-stat/functions.c:5000
-#, fuzzy
-msgid "x,ref,order"
-msgstr "ref,ref,"
-
-#: ../plugins/fn-stat/functions.c:5013
-msgid "array,interval"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:5016 ../plugins/fn-stat/functions.c:5020
-#: ../plugins/fn-stat/functions.c:5024 ../plugins/fn-stat/functions.c:5028
-#: ../plugins/fn-stat/functions.c:5057 ../plugins/fn-stat/functions.c:5060
-#: ../plugins/fn-stat/functions.c:5063 ../plugins/fn-stat/functions.c:5066
-#, fuzzy
-msgid "area1,area2,"
-msgstr "ശ്രേണി1,ശ്രേണി2"
-
-#: ../plugins/fn-stat/functions.c:5041
-msgid "x,dof,tails"
-msgstr "x,dof,പരിമിതികള്‌"
-
-#: ../plugins/fn-stat/functions.c:5050
-msgid "ref,fraction"
-msgstr "സൂചന,ചെറുഭാഗം"
-
-#: ../plugins/fn-stat/functions.c:5054
-msgid "array1,array2,tails,type"
-msgstr "ശ്രേണി1,ശ്രേണി2,പരിമിതികള്‌,തരം"
-
-#: ../plugins/fn-stat/functions.c:5069
-msgid "x.alpha,beta,cumulative"
-msgstr "x.ആല്‌ഫ,ബീറ്റ,സഞ്ചിതം"
-
-#: ../plugins/fn-stat/functions.c:5072
-msgid "ref,x[,stddev]"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:5076 ../plugins/fn-stat/functions.c:5094
-msgid "x,a,b"
-msgstr "x,a,b"
-
-#: ../plugins/fn-stat/functions.c:5079
-#, fuzzy
-msgid "k,p,cumulative"
-msgstr "x,y,സഞ്ചിതം"
-
-#: ../plugins/fn-stat/functions.c:5088 ../plugins/fn-stat/functions.c:5091
-msgid "x,a"
-msgstr "x,a"
-
-#: ../plugins/fn-stat/functions.c:5097
-msgid "x,sigma"
-msgstr "x,സിഗ്മ"
-
-#: ../plugins/fn-stat/functions.c:5100
-msgid "x,a,sigma"
-msgstr "x,a,സിഗ്മ"
-
-#: ../plugins/fn-stat/functions.c:5106
-#, fuzzy
-msgid "function_nbr,ref1,ref2,"
-msgstr "function_nbr,ref,ref,"
-
-#: ../plugins/fn-stat/functions.c:5109
-#, fuzzy
-msgid "ref1,ref2,"
-msgstr "ref,ref,"
-
-#: ../plugins/fn-string/functions.c:1419
-msgid "text,text,"
-msgstr "വാക്യം,വാക്യം,"
-
-#: ../plugins/fn-string/functions.c:1422
-msgid "num,decimals"
-msgstr "സംഖ്യ,ദശാംശങ്ങള്‌"
-
-#: ../plugins/fn-string/functions.c:1425
-msgid "text1,text2"
-msgstr "വാക്യം1,വാക്യം2"
-
-#: ../plugins/fn-string/functions.c:1428
-msgid "text1,text2,num"
-msgstr "വാക്യം1,വാക്യം2,സംഖ്യ"
-
-#: ../plugins/fn-string/functions.c:1431
-msgid "num,decs,no_commas"
-msgstr "സംഖ്യ,ദശാംശങ്ങള്‌,നം_വിരമങ്ങള്‌"
-
-#: ../plugins/fn-string/functions.c:1437 ../plugins/fn-string/functions.c:1467
-msgid "text,num_chars"
-msgstr "വാക്യം,num_chars"
-
-#: ../plugins/fn-string/functions.c:1440 ../plugins/fn-string/functions.c:1470
-#, fuzzy
-msgid "text,num_bytes"
-msgstr "വാക്യം,സംഖ്യ"
-
-#: ../plugins/fn-string/functions.c:1452 ../plugins/fn-string/functions.c:1455
-msgid "text,pos,num"
-msgstr "വാക്യം,pos,num"
-
-#: ../plugins/fn-string/functions.c:1461
-msgid "old,start,num,new"
-msgstr "പഴയ,ആരംഭം,സംഖ്യ,പുതിയ"
-
-#: ../plugins/fn-string/functions.c:1464
-msgid "text,num"
-msgstr "വാക്യം,സംഖ്യ"
-
-#: ../plugins/fn-string/functions.c:1473
-msgid "search_string,text,start_num"
-msgstr ""
-
-#: ../plugins/fn-string/functions.c:1476
-msgid "text,old,new,num"
-msgstr ",വാക്യംപഴയ,പുതിയ,സംഖ്യ"
-
-#: ../plugins/fn-string/functions.c:1482
-msgid "value,format_text"
-msgstr "മൂല്യം,വാക്യ രീതി"
-
 #: ../plugins/fn-string/plugin.xml.in.h:1
 msgid "Functions for manipulating strings"
 msgstr "സ്ട്രിംഗ് കൈകാര്യം ചെയ്യ‌ുന്നതിനുവേണ്ടിയുള്ള പ്രവ‌ര്ത്തനങ്ങള്‌"
 
 #: ../plugins/fn-string/plugin.xml.in.h:2 ../src/dialogs/dialog-search.c:151
-#: ../src/func.c:1027
+#: ../src/func.c:1070
 msgid "String"
 msgstr "വാക്യം"
 
 #: ../plugins/fn-string/plugin.xml.in.h:3
 msgid "String Functions"
 msgstr "സ്ട്രിംഗ് പ്രവ‌ര്ത്തനങ്ങള്"
-
-#: ../plugins/fn-tsa/functions.c:1011
-msgid "Abscissas,Ordinates,Targets,Interpolation"
-msgstr ""
-
-#: ../plugins/fn-tsa/functions.c:1015
-msgid "Ordinates,Filter,Abscissas,Interpolation,Number"
-msgstr ""
-
-#: ../plugins/fn-tsa/functions.c:1019
-msgid "Sequence,Inverse"
-msgstr ""
 
 #: ../plugins/fn-tsa/plugin.xml.in.h:1
 #, fuzzy
@@ -1718,9 +842,9 @@ msgstr "മാര്ഗ്ഗതടസ്സം:"
 #: ../src/dialogs/dialog-define-names.c:576
 #: ../src/dialogs/dialog-doc-metadata.c:1276
 #: ../src/dialogs/dialog-formula-guru.c:827
-#: ../src/dialogs/dialog-function-select.c:913
-#: ../src/dialogs/dialog-function-select.c:935
-#: ../src/dialogs/dialog-function-select.c:940
+#: ../src/dialogs/dialog-function-select.c:804
+#: ../src/dialogs/dialog-function-select.c:826
+#: ../src/dialogs/dialog-function-select.c:831
 #: ../src/dialogs/dialog-paste-names.c:93
 #: ../src/dialogs/dialog-scenarios.c:374
 #: ../src/dialogs/dialog-simulation.c:217 ../src/dialogs/dialog-zoom.c:191
@@ -2068,23 +1192,23 @@ msgid ""
 "@DESCRIPTION=This is the perl function template. \n"
 msgstr ""
 
-#: ../plugins/perl-loader/perl-loader.c:87
+#: ../plugins/perl-loader/perl-loader.c:89
 #, fuzzy
 msgid "Perl error: "
 msgstr " "
 
-#: ../plugins/perl-loader/perl-loader.c:127
-#: ../plugins/perl-loader/perl-loader.c:146
+#: ../plugins/perl-loader/perl-loader.c:129
+#: ../plugins/perl-loader/perl-loader.c:148
 #, c-format
 msgid "Perl error: %s\n"
 msgstr ""
 
-#: ../plugins/perl-loader/perl-loader.c:191
+#: ../plugins/perl-loader/perl-loader.c:194
 #, fuzzy
 msgid "Module name not given."
 msgstr "ഖണ്ഡരചന നാമം നല്കിയിട്ടില്ല."
 
-#: ../plugins/perl-loader/perl-loader.c:218
+#: ../plugins/perl-loader/perl-loader.c:221
 #, fuzzy
 msgid "perl_func.pl doesn't exist."
 msgstr "ഖണ‌്ഡം \"%s\" നിലവിലില്ല."
@@ -2268,8 +1392,8 @@ msgstr "ചില പേ‌ര‌്"
 
 #: ../plugins/python-loader/python-loader.c:338
 #: ../plugins/python-loader/python-loader.c:431
-#: ../plugins/python-loader/python-loader.c:655
-#: ../plugins/python-loader/python-loader.c:767
+#: ../plugins/python-loader/python-loader.c:662
+#: ../plugins/python-loader/python-loader.c:774
 #, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr "പൈതണ് രചന \"%s\" അസാധുവായ ക്രമീകരണമാണ‌്"
@@ -2280,24 +1404,24 @@ msgstr "പൈതണ് രചന \"%s\" അസാധുവായ ക്രമ�
 msgid "File doesn't contain \"%s\" function."
 msgstr "രചനയില് \"%s\" എന്ന പ്രവ‌ര്ത്തനം ഉള്‌ക്കൊള്ളുന്നില്ല."
 
-#: ../plugins/python-loader/python-loader.c:660
-#: ../plugins/python-loader/python-loader.c:772
+#: ../plugins/python-loader/python-loader.c:667
+#: ../plugins/python-loader/python-loader.c:779
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
 msgstr "രചനയില് \"%s\" എന്ന നിഘണ്ടു ഉള്‌ക്കൊള്ളുന്നില്ല."
 
-#: ../plugins/python-loader/python-loader.c:665
-#: ../plugins/python-loader/python-loader.c:777
+#: ../plugins/python-loader/python-loader.c:672
+#: ../plugins/python-loader/python-loader.c:784
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr "വസ്തു \"%s\" ഒരു നിഘണ‌്ഡു അല്ല."
 
-#: ../plugins/python-loader/python-loader.c:715 ../src/gnm-plugin.c:568
+#: ../plugins/python-loader/python-loader.c:722 ../src/gnm-plugin.c:568
 #, fuzzy, c-format
 msgid "Unknown action: %s"
 msgstr "അറിയപ്പെടാത്ത പതിപ്പ്: %s"
 
-#: ../plugins/python-loader/python-loader.c:720
+#: ../plugins/python-loader/python-loader.c:727
 #, c-format
 msgid "Not a valid function for action: %s"
 msgstr ""
@@ -4868,6 +3992,10 @@ msgstr "നിരയുടെ വീതി"
 msgid "_Use Default"
 msgstr "സ്വതേയുള്ളത് ഉപയോഗിക്കുക"
 
+#: ../src/dialogs/col-width.glade.h:5 ../src/dialogs/row-height.glade.h:5
+msgid "x"
+msgstr "x"
+
 #: ../src/dialogs/colrow.glade.h:1
 msgid "Group/Ungroup"
 msgstr "കൂട്ടം/വേ‌ര്പിരിഞ്ഞ"
@@ -6100,7 +5228,7 @@ msgid "Double"
 msgstr "ഡബിള്"
 
 #: ../src/dialogs/dialog-cell-format.c:479 ../src/dialogs/dialog-search.c:153
-#: ../src/func.c:1025 ../src/wbc-gtk-actions.c:2311
+#: ../src/func.c:1068 ../src/wbc-gtk-actions.c:2311
 msgid "Number"
 msgstr "സംഖ്യകള്‌"
 
@@ -6430,51 +5558,51 @@ msgstr "ഇപ്പോള് ഉപയോഗിച്ച"
 msgid "All Functions (long list)"
 msgstr "പ്രവ‌ര്ത്തനം നിലവിലില്ല"
 
-#: ../src/dialogs/dialog-function-select.c:437
+#: ../src/dialogs/dialog-function-select.c:330
 #, fuzzy, c-format
 msgid "%s evaluates to %s."
 msgstr "%s പതിപ്പ് %s"
 
-#: ../src/dialogs/dialog-function-select.c:496
+#: ../src/dialogs/dialog-function-select.c:389
 #, fuzzy
 msgid "Arguments:"
 msgstr "ക്രമീകരണം"
 
-#: ../src/dialogs/dialog-function-select.c:516
+#: ../src/dialogs/dialog-function-select.c:409
 #, fuzzy
 msgid "Note: "
 msgstr "_പേര‍്:"
 
-#: ../src/dialogs/dialog-function-select.c:528
+#: ../src/dialogs/dialog-function-select.c:421
 #, fuzzy
 msgid "Examples:"
 msgstr "മാതൃക"
 
 #. Not translated
-#: ../src/dialogs/dialog-function-select.c:544
+#: ../src/dialogs/dialog-function-select.c:437
 msgid "See also: "
 msgstr ""
 
-#: ../src/dialogs/dialog-function-select.c:559
+#: ../src/dialogs/dialog-function-select.c:452
 #, fuzzy
 msgid ", "
 msgstr " "
 
-#: ../src/dialogs/dialog-function-select.c:591
+#: ../src/dialogs/dialog-function-select.c:484
 #, fuzzy
 msgid "Further information: "
 msgstr "വിവരം"
 
-#: ../src/dialogs/dialog-function-select.c:593
+#: ../src/dialogs/dialog-function-select.c:486
 #, fuzzy
 msgid "online descriptions"
 msgstr "വിവരണം"
 
-#: ../src/dialogs/dialog-function-select.c:604
+#: ../src/dialogs/dialog-function-select.c:497
 msgid "Microsoft Excel: "
 msgstr ""
 
-#: ../src/dialogs/dialog-function-select.c:612
+#: ../src/dialogs/dialog-function-select.c:505
 msgid "ODF (OpenFormula): "
 msgstr ""
 
@@ -10520,50 +9648,46 @@ msgid ""
 "and return the last argument."
 msgstr ""
 
-#: ../src/func-builtin.c:372
-msgid "condition,if true,if false"
-msgstr "വ്യവസ്ഥ, ശരിയാണെങ്കില്‌, തെറ്റാണെങ്കില്‌"
-
 #: ../src/func-builtin.c:386
 msgid "Gnumeric"
 msgstr "ജിന്യ‌ൂമറിക്"
 
-#: ../src/func.c:300
+#: ../src/func.c:226
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr ""
 
-#: ../src/func.c:621
+#: ../src/func.c:665
 msgid "Function implementation not available."
 msgstr ""
 
-#: ../src/func.c:846
+#: ../src/func.c:890
 msgid "Unknown Function"
 msgstr ""
 
-#: ../src/func.c:1029
+#: ../src/func.c:1072
 msgid "Boolean"
 msgstr "ബൂളിയന്"
 
-#: ../src/func.c:1031
+#: ../src/func.c:1074
 msgid "Cell Range"
 msgstr "അറ പരിധി"
 
-#: ../src/func.c:1033
+#: ../src/func.c:1076
 msgid "Area"
 msgstr "വിസ്തീര്ണ്ണം"
 
-#: ../src/func.c:1035
+#: ../src/func.c:1078
 #, fuzzy
 msgid "Scalar, Blank, or Error"
 msgstr "അദിശം അല്ലെങ്കില്‌ തെറ്റ്"
 
-#: ../src/func.c:1037
+#: ../src/func.c:1080
 msgid "Scalar"
 msgstr "അദിശം"
 
 #. Missing values will be NULL.
-#: ../src/func.c:1040
+#: ../src/func.c:1083
 msgid "Any"
 msgstr "ഏതെങ്കിലും"
 
@@ -10877,44 +10001,48 @@ msgstr "ജിന്യ‌ൂമറിക്"
 msgid "Show Gnumeric Options"
 msgstr "ജിന്യ‌ൂമറിക്"
 
-#: ../src/main-application.c:74
+#: ../src/main-application.c:76
 msgid "Specify the size and location of the initial window"
 msgstr ""
 
-#: ../src/main-application.c:75
+#: ../src/main-application.c:77
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "WIDTHxHEIGHT+XOFF+YOFF"
 
-#: ../src/main-application.c:78
+#: ../src/main-application.c:80
 msgid "Don't show splash screen"
 msgstr ""
 
-#: ../src/main-application.c:80
+#: ../src/main-application.c:82
 msgid "Don't display warning dialogs when importing"
 msgstr ""
 
-#: ../src/main-application.c:89 ../src/main-application.c:95
+#: ../src/main-application.c:91 ../src/main-application.c:97
 msgid "Dumps the function definitions"
 msgstr ""
 
-#: ../src/main-application.c:90 ../src/main-application.c:96
-#: ../src/main-application.c:102 ../src/ssgrep.c:74
+#: ../src/main-application.c:92 ../src/main-application.c:98
+#: ../src/main-application.c:104 ../src/ssgrep.c:74
 msgid "FILE"
 msgstr "FILE"
 
-#: ../src/main-application.c:101
+#: ../src/main-application.c:103
 msgid "Dumps web page for function help"
 msgstr ""
 
-#: ../src/main-application.c:107
+#: ../src/main-application.c:109
 msgid "Generate new help and po files"
 msgstr ""
 
 #: ../src/main-application.c:113
+msgid "Sanity check functions' help texts"
+msgstr ""
+
+#: ../src/main-application.c:119
 msgid "Exit immediately after loading the selected books"
 msgstr ""
 
-#: ../src/main-application.c:226 ../src/ssconvert.c:567 ../src/ssgrep.c:434
+#: ../src/main-application.c:232 ../src/ssconvert.c:567 ../src/ssgrep.c:434
 #: ../src/ssindex.c:253
 #, c-format
 msgid ""
@@ -11085,6 +10213,14 @@ msgstr ""
 msgid "pages"
 msgstr "അനുബന്ധങ്ങള്"
 
+#: ../src/print-info.c:576
+msgid "date"
+msgstr "തീയതി"
+
+#: ../src/print-info.c:577
+msgid "time"
+msgstr "സമയം"
+
 #: ../src/print-info.c:578 ../src/ssconvert.c:88
 msgid "file"
 msgstr ""
@@ -11093,6 +10229,10 @@ msgstr ""
 #, fuzzy
 msgid "path"
 msgstr "പിണയുക"
+
+#: ../src/print-info.c:580 ../src/ssgrep.c:352
+msgid "cell"
+msgstr "അറ"
 
 #: ../src/print-info.c:744 ../src/stf-export.c:630
 #, fuzzy, c-format
@@ -12000,6 +11140,10 @@ msgstr ""
 #: ../src/ssconvert.c:101
 msgid "Detailed instructions for the chosen exporter"
 msgstr ""
+
+#: ../src/ssconvert.c:102
+msgid "string"
+msgstr "നിര"
 
 #: ../src/ssconvert.c:108
 msgid "List the available exporters"
@@ -16346,6 +15490,522 @@ msgstr "ടെമ്പ്ളേറ്റിന്റെ പേര‌്"
 #, fuzzy
 msgid "A simple list template"
 msgstr "ടെമ്പ്ളേറ്റിന്റെ പേര‌്"
+
+#~ msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
+#~ msgstr ""
+#~ "കാള്‌ പുട്ട് ഫ്ളാഗ്, സ്ഥലം (പാട്), തട്ടുക (നീക്കം ചെയ്യ‌ുക), സമയം, വില, ലയിച്ചുപോകുന്ന, "
+#~ "കോസ്റ്റ് ഓഫ് ക്യാരി "
+
+#~ msgid "spot, strike, time, rate, volatility, cost_of_carry"
+#~ msgstr ""
+#~ "സ്ഥലം (പാട്), തട്ടുക (നീക്കം ചെയ്യ‌ുക), സമയം, വില, ലയിച്ചുപോകുന്ന, കോസ്റ്റ് ഓഫ് ക്യാരി"
+
+#~ msgid "a, b, rho"
+#~ msgstr "a, b, rho"
+
+#~ msgid ""
+#~ "call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
+#~ msgstr ""
+#~ "കാള്‌ പുട്ട് ഫ്ളാഗ്, സ്ഥലം (പാട്), തട്ടുക (നീക്കം ചെയ്യ‌ുക), സമയം, ഗാ‌ര്ഹികമൂല്യം, "
+#~ "വിദേശമൂല്യം, ലയിച്ചുപോകുന്ന"
+
+#~ msgid ""
+#~ "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
+#~ msgstr ""
+#~ "കാള്‌ പുട്ട് ഫ്ളാഗ്, സ്ഥലം (പാട്), തട്ടുക (നീക്കം ചെയ്യ‌ുക), സമയം, t2, ഗാ‌ര്ഹികമൂല്യം, "
+#~ "വിദേശമൂല്യം, ലയിച്ചുപോകുന്ന കോസ്റ്റ് ഓഫ് ക്യാരി"
+
+#~ msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
+#~ msgstr ""
+#~ "കാള്‌ പുട്ട് ഫ്ളാഗ്, സ്ഥലം (പാട്), തട്ടുക (നീക്കം ചെയ്യ‌ുക), സമയം, ലയിച്ചുപോകുന്ന, ലാംഡ, ഗാമാ"
+
+#~ msgid ""
+#~ "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
+#~ msgstr ""
+#~ "കാള്‌ പുട്ട് ഫ്ളാഗ്, സ്ഥലം (പാട്), തട്ടുക (നീക്കം ചെയ്യ‌ുക), സമയം, ലയിച്ചുപോകുന്ന, കോസ്റ്റ് ഓഫ് "
+#~ "ക്യാരി, ലാംഡ"
+
+#~ msgid "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
+#~ msgstr ""
+#~ "കാള്‌ പുട്ട് ഫ്ളാഗ്, സ്ഥലം (പാട്), തട്ടുക (നീക്കം ചെയ്യ‌ുക), സമയം, കോസ്റ്റ് ഓഫ് ക്യാരി, "
+#~ "ലയിച്ചുപോകുന്ന"
+
+#~ msgid ""
+#~ "call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, "
+#~ "rho_ef, kappa_e, kappa_f)"
+#~ msgstr ""
+#~ "call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, "
+#~ "rho_ef, kappa_e, kappa_f)"
+
+#, fuzzy
+#~ msgid "spot, strike, t1, t2, rate, d, volatility"
+#~ msgstr ""
+#~ "call_put_flag, സ്ഥലം (പാട്), നീക്കം ചെയ്യ‌ുക, t1, t2, നിരക്ക്, d, ലയിച്ചുപോകുന്ന"
+
+#~ msgid ""
+#~ "call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
+#~ msgstr ""
+#~ "കാള്‌ പുട്ട് ഫ്ളാഗ്, സ്ഥലം, ആല്‌ഫ, സമയം1, സമയം, നിരക്ക്, ലയിച്ചുപോകുന്ന, കോസ്റ്റ് ഓഫ് ക്യാരി"
+
+#~ msgid ""
+#~ "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, "
+#~ "volatility"
+#~ msgstr ""
+#~ "call_put_flag, സ്ഥലം, നീക്കം ചെയ്യ‌ുക, a, സമയം, m, dt, നിരക്ക്, കോസ്റ്റ് ഓഫ് ക്യാരി, "
+#~ "ലയിച്ചുപോകുന്ന"
+
+#~ msgid "spot, strike, time1, time2, rate, cost_of_carry, volatility"
+#~ msgstr "സ്ഥലം, നീക്കം ചെയ്യ‌ുക, സമയം1, സമയം2, കോസ്റ്റ് ഓഫ് ക്യാരി, ലയിച്ചുപോകുന്ന"
+
+#~ msgid ""
+#~ "spot, strike_call, strike_put, time, time_call, time_put, rate, "
+#~ "cost_of_carry, volatility"
+#~ msgstr ""
+#~ "സ്ഥലം, സ്ട്രൈക്ക് കാള്, സ്ട്രൈക്ക് പുട്ട്, സമയം, ടൈം കാള്, ടൈം പുട്ട്, നിരക്ക്, കോസ്റ്റ് ഓഫ് "
+#~ "ക്യാരി, ലയിച്ചുപോകുന്ന"
+
+#~ msgid ""
+#~ "type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, "
+#~ "volatility"
+#~ msgstr ""
+#~ "ടൈപ്പ് ഫ്ളാഗ്, സ്ഥലം, സ്ട്രൈക്ക്1, സ്ട്രൈക്ക്2, ടൈം1, ടൈം2, നിരക്ക്, കോസ്റ്റ് ഓഫ് ക്യാരി, "
+#~ "ലയിച്ച് പോകുന്ന"
+
+#, fuzzy
+#~ msgid ""
+#~ "type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, "
+#~ "cost_of_carry2, rate, volatility1, volatility2, rho"
+#~ msgstr ""
+#~ "ടൈപ്പ് ഫ്ളാഗ്, സ്ഥലം, സ്ട്രൈക്ക്1, സ്ട്രൈക്ക്2, ടൈം1, ടൈം2, നിരക്ക്, കോസ്റ്റ് ഓഫ് ക്യാരി, "
+#~ "ലയിച്ച് പോകുന്ന"
+
+#, fuzzy
+#~ msgid ""
+#~ "spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
+#~ "volatility2,rho"
+#~ msgstr "സ്ഥലം, നീക്കം ചെയ്യ‌ുക, സമയം1, സമയം2, കോസ്റ്റ് ഓഫ് ക്യാരി, ലയിച്ചുപോകുന്ന"
+
+#, fuzzy
+#~ msgid ""
+#~ "call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,"
+#~ "volatility2,rho"
+#~ msgstr ""
+#~ "കാള്‌ പുട്ട് ഫ്ളാഗ്, സ്ഥലം (പാട്), തട്ടുക (നീക്കം ചെയ്യ‌ുക), സമയം, കോസ്റ്റ് ഓഫ് ക്യാരി, "
+#~ "ലയിച്ചുപോകുന്ന"
+
+#, fuzzy
+#~ msgid ""
+#~ "call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
+#~ msgstr ""
+#~ "കാള്‌ പുട്ട് ഫ്ളാഗ്, സ്ഥലം (പാട്), തട്ടുക (നീക്കം ചെയ്യ‌ുക), സമയം, കോസ്റ്റ് ഓഫ് ക്യാരി, "
+#~ "ലയിച്ചുപോകുന്ന"
+
+#, fuzzy
+#~ msgid ""
+#~ "call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
+#~ "volatility"
+#~ msgstr ""
+#~ "കാള്‌ പുട്ട് ഫ്ളാഗ്, സ്ഥലം (പാട്), തട്ടുക (നീക്കം ചെയ്യ‌ുക), സമയം, കോസ്റ്റ് ഓഫ് ക്യാരി, "
+#~ "ലയിച്ചുപോകുന്ന"
+
+#, fuzzy
+#~ msgid ""
+#~ "amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
+#~ "volatility, cost_of_carry"
+#~ msgstr ""
+#~ "കാള്‌ പുട്ട് ഫ്ളാഗ്, സ്ഥലം (പാട്), തട്ടുക (നീക്കം ചെയ്യ‌ുക), സമയം, വില, ലയിച്ചുപോകുന്ന, "
+#~ "കോസ്റ്റ് ഓഫ് ക്യാരി "
+
+#~ msgid "inumber"
+#~ msgstr "ഐനമ്പര്‌"
+
+#~ msgid "inumber,inumber"
+#~ msgstr "ഐനമ്പര്‌, ഐനമ്പര്‌"
+
+#~ msgid "year,month,day"
+#~ msgstr "വ‌ര്ഷം, മാസം, ദിവസം"
+
+#~ msgid "date_str"
+#~ msgstr "തീയതി_str"
+
+#, fuzzy
+#~ msgid "date1,date2,interval"
+#~ msgstr "തീയതി1,തീയതി2,ഇടവേള"
+
+#~ msgid "date1,date2,method"
+#~ msgstr "തീയതി1,തീയതി2,രീതി"
+
+#, fuzzy
+#~ msgid "date,months"
+#~ msgstr "സ്റ്റാ‌ര്ട്ട് തീയതി, മാസങ്ങള്‌"
+
+#~ msgid "start_date,months"
+#~ msgstr "സ്റ്റാ‌ര്ട്ട് തീയതി, മാസങ്ങള്‌"
+
+#~ msgid "start_date,end_date,holidays"
+#~ msgstr "ആരംഭ തീയതി,അവസാനിക്കുന്ന തീയതി,അവധികള്‌"
+
+#~ msgid "hours,minutes,seconds"
+#~ msgstr "മണിക്കൂറുകള്‌, മിനിറ്റ്സുകള്‌,സെക്കന്റുകള്‌"
+
+#~ msgid "timetext"
+#~ msgstr "സമയവാക്യം"
+
+#~ msgid "date,days,holidays"
+#~ msgstr "തീയതി,ദിവസങ്ങള്‌,അവധികള്‌"
+
+#~ msgid "unixtime"
+#~ msgstr "യുണിക്സ്‌സമയം"
+
+#~ msgid "serial"
+#~ msgstr "സീരിയല്‌"
+
+#, fuzzy
+#~ msgid "rate,values"
+#~ msgstr "മറ്റുമൂല്യങ്ങള്"
+
+#~ msgid "info_type"
+#~ msgstr "വിവരഇനം"
+
+#~ msgid "range"
+#~ msgstr "പരിധി"
+
+#~ msgid "text"
+#~ msgstr "വാക്യം"
+
+#~ msgid "number,number,"
+#~ msgstr "സംഖ്യ,സംഖ്യ,"
+
+#~ msgid "number"
+#~ msgstr "സംഖ്യ‌"
+
+#, fuzzy
+#~ msgid "value,value"
+#~ msgstr "സൂചകമൂല്യം"
+
+#~ msgid "reference"
+#~ msgstr "സൂചന"
+
+#~ msgid "index,value,"
+#~ msgstr "സൂചകമൂല്യം"
+
+#~ msgid "ref"
+#~ msgstr "സൂചന"
+
+#~ msgid "link_location, label"
+#~ msgstr "ബന്ധസ്ഥാനം, ലിഖിതം"
+
+#~ msgid "reference,row,col,area"
+#~ msgstr "സൂചന,നിര,വരി,വിസ്തീ‌‌ര്ണ്ണം"
+
+#~ msgid "val,range,range"
+#~ msgstr "മൂല്യം,പരിധി,പരിധി"
+
+#~ msgid "val,range,approx"
+#~ msgstr "മൂല്യം,പരിധി,അപ്രോക്സ്"
+
+#~ msgid "ref,row,col,height,width"
+#~ msgstr "സൂചന,നിര,വരി,ഉയരം,വീതി"
+
+#~ msgid "array"
+#~ msgstr "ശ്രേണി"
+
+#~ msgid "a,b"
+#~ msgstr "എ,ബി"
+
+#~ msgid "range,criteria"
+#~ msgstr "പരിധി, ക്രൈറ്റീരിയ"
+
+#~ msgid "number,significance"
+#~ msgstr "സംഖ്യ,പ്രാധാന്യം"
+
+#~ msgid "n,k"
+#~ msgstr "എന്,കെ"
+
+#~ msgid "number,number"
+#~ msgstr "സംഖ്യ,സംഖ്യ"
+
+#~ msgid "number,base"
+#~ msgstr "സംഖ്യ,ആധാരം‌"
+
+#~ msgid "numerator,denominator"
+#~ msgstr "അംശം,ഛേദം"
+
+#~ msgid "number,multiple"
+#~ msgstr "സംഖ്യ,ഗുണിതം"
+
+#~ msgid "base,exponent"
+#~ msgstr "ആധാരം,ഘാതാങ്കം"
+
+#~ msgid "number,type"
+#~ msgstr "സംഖ്യ,ഇനം"
+
+#~ msgid "number,digits"
+#~ msgstr "സംഖ്യാ,അക്കങ്ങള്‌‌"
+
+#~ msgid "x,n,m,coefficients"
+#~ msgstr "x,n,m,ഗുണാങ്കം"
+
+#~ msgid "range,criteria,actual_range"
+#~ msgstr "പരിധി,ക്രൈറ്റീരിയ,യഥാര്‌ത്ഥ പരിധി"
+
+#~ msgid "range,range,"
+#~ msgstr "പരിധി,പരിധി"
+
+#~ msgid "array1,array2"
+#~ msgstr "ശ്രേണി1,ശ്രേണി2"
+
+#~ msgid "array,matrix_type,bandsize"
+#~ msgstr "ശ്രേണി, മെട്രിക്സ് തരം,ബാന്ഡ് സൈസ്"
+
+#~ msgid "p"
+#~ msgstr "പി"
+
+#~ msgid "bottom,top"
+#~ msgstr "താഴെ,മുകളില്‌"
+
+#~ msgid "p,trials"
+#~ msgstr "പി,ട്രയല്‌സ്"
+
+#~ msgid "a"
+#~ msgstr "എ"
+
+#~ msgid "nu"
+#~ msgstr "നമ്പര്‌"
+
+#~ msgid "value_range,prob_range"
+#~ msgstr "മൂല്യപരിധി,പ്രോബ് പരിധി"
+
+#~ msgid "b"
+#~ msgstr "ബി"
+
+#~ msgid "nu1,nu2"
+#~ msgstr "നമ്പര്1,നമ്പര്2"
+
+#~ msgid "a,sigma"
+#~ msgstr "എ,സിഗ്മ"
+
+#, fuzzy
+#~ msgid "a,b,type"
+#~ msgstr "എ,ബി[ , ഇനം‌]"
+
+#~ msgid "n1,n2,t"
+#~ msgstr "n1,n2,t"
+
+#, fuzzy
+#~ msgid "c,alpha,beta"
+#~ msgstr "c,ആല്‌ഫ[,ബീറ്റ]"
+
+#~ msgid "zeta,sigma"
+#~ msgstr "zeta,sigma"
+
+#~ msgid "p,failures"
+#~ msgstr "പി,പരാജയം"
+
+#~ msgid "mean,stdev"
+#~ msgstr "mean,stdev"
+
+#~ msgid "lambda"
+#~ msgstr "ലാംഡ"
+
+#~ msgid "sigma"
+#~ msgstr "സിഗ്മ"
+
+#, fuzzy
+#~ msgid "d1,d2,...,dN"
+#~ msgstr "d1[,d2,...,dN]"
+
+#, fuzzy
+#~ msgid "number1,number2,"
+#~ msgstr "സംഖ്യ,സംഖ്യ,"
+
+#~ msgid "k,p"
+#~ msgstr "കെ,പി"
+
+#~ msgid "x,alpha,beta,a,b"
+#~ msgstr "എക്സ്,ആല്‌ഫ,ബീറ്റ,എ,ബി"
+
+#~ msgid "p,alpha,beta,a,b"
+#~ msgstr "പി,ആല്‌ഫ,ബീറ്റ,എ,ബി"
+
+#, fuzzy
+#~ msgid "n,trials,p,cumulative"
+#~ msgstr "x,y,സഞ്ചിതം"
+
+#, fuzzy
+#~ msgid "x,a,cumulative"
+#~ msgstr "x,y,സഞ്ചിതം"
+
+#~ msgid "x,dof"
+#~ msgstr "എകസ്,ഡോഫ്"
+
+#~ msgid "p,dof"
+#~ msgstr "പി,ഡോഫ്"
+
+#, fuzzy
+#~ msgid "actual_range,theoretical_range"
+#~ msgstr "ആക്ട്_പരിധി,തിയോ_പരിധി"
+
+#~ msgid "x,stddev,size"
+#~ msgstr "x,stddev,തരം"
+
+#~ msgid "trials,p,alpha"
+#~ msgstr "ശ്രമങ്ങള്,p,ആല്ഫ"
+
+#~ msgid "x,y,cumulative"
+#~ msgstr "x,y,സഞ്ചിതം"
+
+#, fuzzy
+#~ msgid "x,dof_of_num,dof_of_denom"
+#~ msgstr "x,dof of num,dof of denom"
+
+#, fuzzy
+#~ msgid "p,dof_of_num,dof_of_denom"
+#~ msgstr "p,dof of num,dof of denom"
+
+#, fuzzy
+#~ msgid "x,known_y's,known_x's"
+#~ msgstr "known_y's,known_x's"
+
+#~ msgid "data_array,bins_array"
+#~ msgstr "വസ്തുതാ_ശ്രേണി,ബിന്‌സ്_ശ്രേണി"
+
+#, fuzzy
+#~ msgid "x,alpha,beta,cumulative"
+#~ msgstr "x.ആല്‌ഫ,ബീറ്റ,സഞ്ചിതം"
+
+#, fuzzy
+#~ msgid "p,alpha,beta"
+#~ msgstr "c,ആല്‌ഫ[,ബീറ്റ]"
+
+#~ msgid "known_y's,known_x's,new_x's,const"
+#~ msgstr "known_y's,known_x's,new_x's,const"
+
+#, fuzzy
+#~ msgid "x,n,M,N,cumulative"
+#~ msgstr "x,y,സഞ്ചിതം"
+
+#~ msgid "known_y's,known_x's"
+#~ msgstr "known_y's,known_x's"
+
+#, fuzzy
+#~ msgid "known_y's,known_x's,affine,stat"
+#~ msgstr "known_y's,known_x's,const,stat"
+
+#~ msgid "known_y's,known_x's,const,stat"
+#~ msgstr "known_y's,known_x's,const,stat"
+
+#~ msgid "p,mean,stddev"
+#~ msgstr "p,മാധ്യം,stddev"
+
+#~ msgid "x,mean,stddev"
+#~ msgstr "x,മാധ്യം,stddev"
+
+#~ msgid "f,t,p"
+#~ msgstr "f,t,p"
+
+#, fuzzy
+#~ msgid "x,mean,stddev,cumulative"
+#~ msgstr "x,മാധ്യം,stdev,സഞ്ചിതം"
+
+#~ msgid "array,k"
+#~ msgstr "ശ്രേണി,k"
+
+#~ msgid "array,x,significance"
+#~ msgstr "ശ്രേണി,x,പ്രാധാന്യം"
+
+#~ msgid "x,mean,cumulative"
+#~ msgstr "x,മാധ്യം,സഞ്ചിതം"
+
+#~ msgid "x_range,prob_range,lower_limit,upper_limit"
+#~ msgstr "x_പരിധി,സാധ്യതാ_പരിധി,നീച_പരിധി,ഉച്ച_പരിധി"
+
+#~ msgid "array,quart"
+#~ msgstr "ശ്രേണി,quart"
+
+#, fuzzy
+#~ msgid "x,ref,order"
+#~ msgstr "ref,ref,"
+
+#, fuzzy
+#~ msgid "area1,area2,"
+#~ msgstr "ശ്രേണി1,ശ്രേണി2"
+
+#~ msgid "x,dof,tails"
+#~ msgstr "x,dof,പരിമിതികള്‌"
+
+#~ msgid "ref,fraction"
+#~ msgstr "സൂചന,ചെറുഭാഗം"
+
+#~ msgid "array1,array2,tails,type"
+#~ msgstr "ശ്രേണി1,ശ്രേണി2,പരിമിതികള്‌,തരം"
+
+#~ msgid "x.alpha,beta,cumulative"
+#~ msgstr "x.ആല്‌ഫ,ബീറ്റ,സഞ്ചിതം"
+
+#~ msgid "x,a,b"
+#~ msgstr "x,a,b"
+
+#, fuzzy
+#~ msgid "k,p,cumulative"
+#~ msgstr "x,y,സഞ്ചിതം"
+
+#~ msgid "x,a"
+#~ msgstr "x,a"
+
+#~ msgid "x,sigma"
+#~ msgstr "x,സിഗ്മ"
+
+#~ msgid "x,a,sigma"
+#~ msgstr "x,a,സിഗ്മ"
+
+#, fuzzy
+#~ msgid "function_nbr,ref1,ref2,"
+#~ msgstr "function_nbr,ref,ref,"
+
+#, fuzzy
+#~ msgid "ref1,ref2,"
+#~ msgstr "ref,ref,"
+
+#~ msgid "text,text,"
+#~ msgstr "വാക്യം,വാക്യം,"
+
+#~ msgid "num,decimals"
+#~ msgstr "സംഖ്യ,ദശാംശങ്ങള്‌"
+
+#~ msgid "text1,text2"
+#~ msgstr "വാക്യം1,വാക്യം2"
+
+#~ msgid "text1,text2,num"
+#~ msgstr "വാക്യം1,വാക്യം2,സംഖ്യ"
+
+#~ msgid "num,decs,no_commas"
+#~ msgstr "സംഖ്യ,ദശാംശങ്ങള്‌,നം_വിരമങ്ങള്‌"
+
+#~ msgid "text,num_chars"
+#~ msgstr "വാക്യം,num_chars"
+
+#, fuzzy
+#~ msgid "text,num_bytes"
+#~ msgstr "വാക്യം,സംഖ്യ"
+
+#~ msgid "text,pos,num"
+#~ msgstr "വാക്യം,pos,num"
+
+#~ msgid "old,start,num,new"
+#~ msgstr "പഴയ,ആരംഭം,സംഖ്യ,പുതിയ"
+
+#~ msgid "text,num"
+#~ msgstr "വാക്യം,സംഖ്യ"
+
+#~ msgid "text,old,new,num"
+#~ msgstr ",വാക്യംപഴയ,പുതിയ,സംഖ്യ"
+
+#~ msgid "value,format_text"
+#~ msgstr "മൂല്യം,വാക്യ രീതി"
+
+#~ msgid "condition,if true,if false"
+#~ msgstr "വ്യവസ്ഥ, ശരിയാണെങ്കില്‌, തെറ്റാണെങ്കില്‌"
 
 #~ msgid "Search Center"
 #~ msgstr "മദ്ധ്യം തെരയൂ"

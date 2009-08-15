@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-13 18:54-0400\n"
+"POT-Creation-Date: 2009-08-14 20:22-0400\n"
 "PO-Revision-Date: 2008-12-23 20:42+0100\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>\n"
 "Language-Team: Basque <itzulpena@euskalgnu.org>\n"
@@ -23,7 +23,7 @@ msgid "Calculation, Analysis, and Visualization of Information"
 msgstr "Kalkulatu, analizatu eta bistaratu informazioa"
 
 #. Keep in sync with .desktop file
-#: ../gnumeric.desktop.in.h:2 ../src/main-application.c:373
+#: ../gnumeric.desktop.in.h:2 ../src/main-application.c:381
 msgid "Gnumeric Spreadsheet"
 msgstr "Gnumeric kalkulu-orria"
 
@@ -77,145 +77,6 @@ msgstr "CORBA interfazea"
 #: ../plugins/corba/plugin.xml.in.h:2
 msgid "Provides a CORBA scripting interface"
 msgstr "CORBA script interfazea eskaintzen du"
-
-#: ../plugins/derivatives/options.c:1973 ../plugins/derivatives/options.c:1978
-#: ../plugins/derivatives/options.c:1983 ../plugins/derivatives/options.c:1988
-#: ../plugins/derivatives/options.c:2003
-msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
-msgstr ""
-"call_put_flag, spot, strike, denbora, tasa, hegazkortasuna, exekuzio-kostua"
-
-#: ../plugins/derivatives/options.c:1993 ../plugins/derivatives/options.c:1998
-msgid "spot, strike, time, rate, volatility, cost_of_carry"
-msgstr "spot, strike, denbora, tasa, hegazkortasuna, exekuzio-kostua"
-
-#: ../plugins/derivatives/options.c:2008
-msgid "a, b, rho"
-msgstr "a, b, rho"
-
-#: ../plugins/derivatives/options.c:2013
-msgid ""
-"call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
-msgstr ""
-"call_put_marka, spot, strike, denbora, tasa_nazionala, atzerri-tasa, "
-"hegazkortasuna"
-
-#: ../plugins/derivatives/options.c:2018
-msgid "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
-msgstr ""
-"call_put_marka, spot, strike, denbora, t2, tasa, hegazkortasuna, exekuzio-"
-"kostua"
-
-#: ../plugins/derivatives/options.c:2023
-msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
-msgstr ""
-"call_put_flag, spot, strike, denbora, tasa, hegazkortasuna, lambda, gamma"
-
-#: ../plugins/derivatives/options.c:2028
-msgid ""
-"call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
-msgstr ""
-"call_put_marka, spot, strike, denbora, tasa, hegazkortasuna, exekuzio-"
-"kostua, lambda"
-
-#: ../plugins/derivatives/options.c:2033 ../plugins/derivatives/options.c:2043
-msgid "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
-msgstr ""
-"call_put_flag, spot, strike, denbora, tasa, exekuzio-kostua, hegazkortasuna"
-
-#: ../plugins/derivatives/options.c:2038
-msgid ""
-"call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, "
-"kappa_e, kappa_f)"
-msgstr ""
-"call_put_marka, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, "
-"kappa_e, kappa_f)"
-
-#: ../plugins/derivatives/options.c:2048
-#, fuzzy
-msgid "spot, strike, t1, t2, rate, d, volatility"
-msgstr "call_put_marka, spot, strike, t1, t2, tasa, d, hegazkortasuna"
-
-#: ../plugins/derivatives/options.c:2053
-msgid ""
-"call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
-msgstr ""
-"call_put_marka, spot, alfa, denbora1, denbora, tasa, hegazkortasuna, "
-"exekuzio-kostua"
-
-#: ../plugins/derivatives/options.c:2058
-msgid ""
-"call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
-msgstr ""
-"call_put_marka, spot, strike, a, denbora, m, dt, tasa, exekuzio-kostua, "
-"hegazkortasuna"
-
-#: ../plugins/derivatives/options.c:2063
-msgid "spot, strike, time1, time2, rate, cost_of_carry, volatility"
-msgstr ""
-"spot, strike, denbora1, denbora2, tasa, exekuzio-kostua, hegazkortasuna"
-
-#: ../plugins/derivatives/options.c:2068
-msgid ""
-"spot, strike_call, strike_put, time, time_call, time_put, rate, "
-"cost_of_carry, volatility"
-msgstr ""
-"spot, strike_call, strike_put, denbora, denbora_call, denbora_put, tasa, "
-"exekuzio-kostua, hegazkortasuna"
-
-#: ../plugins/derivatives/options.c:2073 ../plugins/derivatives/options.c:2078
-msgid ""
-"type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, "
-"volatility"
-msgstr ""
-"mota_marka, spot, strike1, strike2, denbora1, denbora2, tasa, exekuzio-"
-"kostua, hegazkortasuna"
-
-#: ../plugins/derivatives/options.c:2083
-msgid ""
-"type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, "
-"cost_of_carry2, rate, volatility1, volatility2, rho"
-msgstr ""
-"mota_marka, spot1, spot2, strike1, strike2, denbora, exekuzio-kostua1, "
-"exekuzio-kostua2, tasa, hegazkortasuna1, hegazkortasuna2, rho"
-
-#: ../plugins/derivatives/options.c:2088 ../plugins/derivatives/options.c:2093
-msgid ""
-"spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
-"volatility2,rho"
-msgstr ""
-"spot1,spot2,kantitatea1,kantitatea2,denbora,tasa,exekuzio-denbora1,exekuzio-"
-"denbora2,hegazkortasuna1,hegazkortasuna2,rho"
-
-#: ../plugins/derivatives/options.c:2098
-msgid ""
-"call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,"
-"volatility2,rho"
-msgstr ""
-"call_put_marka,fut_price1,fut_price2,strike,denbora,tasa,hegazkortasuna1,"
-"hegazkortasuna2,rho"
-
-#: ../plugins/derivatives/options.c:2103
-msgid "call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
-msgstr ""
-"call_put_marka,spot,spot_min,spot_max,denbora,tasa,exekuzio-kostua,"
-"hegazkortasuna"
-
-#: ../plugins/derivatives/options.c:2108
-msgid ""
-"call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
-"volatility"
-msgstr ""
-"call_put_marka,spot,spot_min,spot_max,strike,denbora,tasa,exekuzio-kostua,"
-"hegazkortasuna"
-
-#: ../plugins/derivatives/options.c:2114
-msgid ""
-"amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
-"volatility, cost_of_carry"
-msgstr ""
-"amer_euro_marka,call_put_marka,denbora-urrats_kopurua, spot, strike, "
-"denbora, tasa, hegazkortasuna, exekuzio-kostua"
 
 #: ../plugins/derivatives/plugin.xml.in.h:1
 #: ../plugins/fn-financial/plugin.xml.in.h:1
@@ -619,57 +480,6 @@ msgstr "Ez da aurkitu laneko liburuen korronterik."
 msgid "Skipping invalid pivot field group for field '%s' because : %s"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:1227
-msgid "real,im,suffix"
-msgstr "real,im,suffix"
-
-#: ../plugins/fn-complex/functions.c:1230
-#: ../plugins/fn-complex/functions.c:1233
-#: ../plugins/fn-complex/functions.c:1236
-#: ../plugins/fn-complex/functions.c:1239
-#: ../plugins/fn-complex/functions.c:1242
-#: ../plugins/fn-complex/functions.c:1248
-#: ../plugins/fn-complex/functions.c:1251
-#: ../plugins/fn-complex/functions.c:1254
-#: ../plugins/fn-complex/functions.c:1257
-#: ../plugins/fn-complex/functions.c:1263
-#: ../plugins/fn-complex/functions.c:1266
-#: ../plugins/fn-complex/functions.c:1269
-#: ../plugins/fn-complex/functions.c:1279
-#: ../plugins/fn-complex/functions.c:1282
-#: ../plugins/fn-complex/functions.c:1285
-#: ../plugins/fn-complex/functions.c:1291
-#: ../plugins/fn-complex/functions.c:1294
-#: ../plugins/fn-complex/functions.c:1297
-#: ../plugins/fn-complex/functions.c:1300
-#: ../plugins/fn-complex/functions.c:1303
-#: ../plugins/fn-complex/functions.c:1306
-#: ../plugins/fn-complex/functions.c:1309
-#: ../plugins/fn-complex/functions.c:1312
-#: ../plugins/fn-complex/functions.c:1315
-#: ../plugins/fn-complex/functions.c:1318
-#: ../plugins/fn-complex/functions.c:1321
-#: ../plugins/fn-complex/functions.c:1324
-#: ../plugins/fn-complex/functions.c:1327
-#: ../plugins/fn-complex/functions.c:1330
-#: ../plugins/fn-complex/functions.c:1333
-#: ../plugins/fn-complex/functions.c:1336
-#: ../plugins/fn-complex/functions.c:1339
-#: ../plugins/fn-complex/functions.c:1342
-#: ../plugins/fn-complex/functions.c:1345
-#: ../plugins/fn-complex/functions.c:1348
-#: ../plugins/fn-complex/functions.c:1351
-msgid "inumber"
-msgstr "iZenbakia"
-
-#: ../plugins/fn-complex/functions.c:1245
-#: ../plugins/fn-complex/functions.c:1260
-#: ../plugins/fn-complex/functions.c:1272
-#: ../plugins/fn-complex/functions.c:1275
-#: ../plugins/fn-complex/functions.c:1288
-msgid "inumber,inumber"
-msgstr "iZenbakia,iZenbakia"
-
 #: ../plugins/fn-complex/plugin.xml.in.h:1
 msgid "Complex"
 msgstr "Konplexua"
@@ -682,26 +492,6 @@ msgstr "Funtzio konplexuak"
 msgid "Functions for complex numbers"
 msgstr "Zenbaki konplexuentzako funtzioak"
 
-#: ../plugins/fn-database/functions.c:769
-#: ../plugins/fn-database/functions.c:772
-#: ../plugins/fn-database/functions.c:775
-#: ../plugins/fn-database/functions.c:778
-#: ../plugins/fn-database/functions.c:781
-#: ../plugins/fn-database/functions.c:784
-#: ../plugins/fn-database/functions.c:787
-#: ../plugins/fn-database/functions.c:790
-#: ../plugins/fn-database/functions.c:793
-#: ../plugins/fn-database/functions.c:796
-#: ../plugins/fn-database/functions.c:799
-#: ../plugins/fn-database/functions.c:802
-msgid "database,field,criteria"
-msgstr "datu-basea,eremua,irizpidea"
-
-#. XL stores in lookup
-#: ../plugins/fn-database/functions.c:807
-msgid "pivot_table,field_name"
-msgstr "taula_dinamikoa,eremu_izena"
-
 #: ../plugins/fn-database/plugin.xml.in.h:1 ../plugins/gda/plugin.xml.in.h:1
 msgid "Database"
 msgstr "Datu-basea"
@@ -713,67 +503,6 @@ msgstr "Datu-baseen funtzioak"
 #: ../plugins/fn-database/plugin.xml.in.h:3
 msgid "Functions looking up values in databases"
 msgstr "Datu-baseetan balioak bilatzeko funtzioak"
-
-#: ../plugins/fn-date/functions.c:1133
-msgid "year,month,day"
-msgstr "urtea,hilabetea,eguna"
-
-#: ../plugins/fn-date/functions.c:1137
-msgid "date_str"
-msgstr "data_str"
-
-#: ../plugins/fn-date/functions.c:1141
-msgid "date1,date2,interval"
-msgstr "data1,data2,bitartea"
-
-#: ../plugins/fn-date/functions.c:1145 ../plugins/fn-date/functions.c:1169
-#: ../plugins/fn-date/functions.c:1197 ../plugins/fn-date/functions.c:1201
-#: ../plugins/fn-date/functions.c:1209 ../plugins/fn-date/functions.c:1213
-#: ../plugins/fn-date/functions.c:1226 ../plugins/fn-date/functions.c:1230
-#: ../src/print-info.c:576
-msgid "date"
-msgstr "data"
-
-#: ../plugins/fn-date/functions.c:1149
-msgid "date1,date2,method"
-msgstr "data1,data2,metodoa"
-
-#: ../plugins/fn-date/functions.c:1153
-msgid "date,months"
-msgstr "data,hilabeteak"
-
-#: ../plugins/fn-date/functions.c:1157
-msgid "start_date,months"
-msgstr "hasierako_data,hilabeteak"
-
-#: ../plugins/fn-date/functions.c:1161 ../plugins/fn-date/functions.c:1165
-#: ../plugins/fn-date/functions.c:1181 ../src/print-info.c:577
-msgid "time"
-msgstr "ordua"
-
-#: ../plugins/fn-date/functions.c:1173
-msgid "start_date,end_date,holidays"
-msgstr "hasierako_data,amaierako_data,oporrak"
-
-#: ../plugins/fn-date/functions.c:1185
-msgid "hours,minutes,seconds"
-msgstr "orduak,minutuak,segundoak"
-
-#: ../plugins/fn-date/functions.c:1189
-msgid "timetext"
-msgstr "ordu-testua"
-
-#: ../plugins/fn-date/functions.c:1205
-msgid "date,days,holidays"
-msgstr "data,egunak,oporrak"
-
-#: ../plugins/fn-date/functions.c:1218
-msgid "unixtime"
-msgstr "unix ordua"
-
-#: ../plugins/fn-date/functions.c:1222
-msgid "serial"
-msgstr "seriekoa"
 
 #: ../plugins/fn-date/plugin.xml.in.h:1
 msgid "Date and Time Functions"
@@ -799,18 +528,6 @@ msgstr "Ingeniaritzako funtzioak"
 msgid "Functions for complex numbers, base conversions, and more"
 msgstr "Zenbaki konplexuetarako funtzioak, oinarri-bihurketak, eta gehiago"
 
-#: ../plugins/fn-erlang/functions.c:288 ../plugins/fn-erlang/functions.c:293
-msgid "traffic,circuits"
-msgstr "trafikoa,zirkuituak"
-
-#: ../plugins/fn-erlang/functions.c:298
-msgid "traffic,gos"
-msgstr "trafikoa,gos"
-
-#: ../plugins/fn-erlang/functions.c:303
-msgid "circuits,gos"
-msgstr "zirkuituak,gos"
-
 #: ../plugins/fn-erlang/plugin.xml.in.h:1
 msgid "Erlang"
 msgstr "Erlang"
@@ -822,10 +539,6 @@ msgstr "Erlang funtzioak"
 #: ../plugins/fn-erlang/plugin.xml.in.h:3
 msgid "Functions to help Erlang Analysis"
 msgstr "Erlang analisiari laguntzeko funtzioak"
-
-#: ../plugins/fn-financial/functions.c:3551
-msgid "rate,values"
-msgstr "tasa,balioak"
 
 #: ../plugins/fn-financial/plugin.xml.in.h:2
 msgid "Financial Functions"
@@ -841,85 +554,41 @@ msgstr "Interes-tasaren kalkuluak"
 #. * reference of the top and leftmost cell visible in the
 #. * window, based on the current scrolling position.
 #.
-#: ../plugins/fn-info/functions.c:1333 ../plugins/fn-info/functions.c:1349
+#: ../plugins/fn-info/functions.c:1334 ../plugins/fn-info/functions.c:1350
 msgid "Unimplemented"
 msgstr "Inplementatu gabe"
 
-#: ../plugins/fn-info/functions.c:1357
+#: ../plugins/fn-info/functions.c:1358
 msgid "Unknown version"
 msgstr "Bertsio ezezaguna"
 
-#: ../plugins/fn-info/functions.c:1359
+#: ../plugins/fn-info/functions.c:1360
 #, c-format
 msgid "%s version %s"
 msgstr "%s bertsioa %s"
 
-#: ../plugins/fn-info/functions.c:1374
+#: ../plugins/fn-info/functions.c:1375
 #: ../src/dialogs/dialog-cell-format.c:2515
 #: ../src/dialogs/dialog-cell-format.c:2519
 #: ../src/dialogs/dialog-cell-format.c:2527 ../src/wbc-gtk.c:2823
 msgid "Automatic"
 msgstr "Automatikoa"
 
-#: ../plugins/fn-info/functions.c:1374
+#: ../plugins/fn-info/functions.c:1375
 msgid "Manual"
 msgstr "Eskuliburua"
 
-#: ../plugins/fn-info/functions.c:1384
+#: ../plugins/fn-info/functions.c:1385
 msgid "Unknown system"
 msgstr "Sistema ezezaguna"
 
-#: ../plugins/fn-info/functions.c:1400
+#: ../plugins/fn-info/functions.c:1401
 msgid "Unknown info_type"
 msgstr "Informazio_mota ezezaguna"
 
-#: ../plugins/fn-info/functions.c:1657
+#: ../plugins/fn-info/functions.c:1658
 msgid "Invalid number of arguments"
 msgstr "Argumentu kopuru baliogabea"
-
-#: ../plugins/fn-info/functions.c:1779
-msgid "info_type, cell"
-msgstr "informazio_mota, gelaxka"
-
-#: ../plugins/fn-info/functions.c:1782 ../plugins/fn-info/functions.c:1788
-#: ../plugins/fn-info/functions.c:1791 ../plugins/fn-info/functions.c:1794
-#: ../plugins/fn-info/functions.c:1797 ../plugins/fn-info/functions.c:1800
-#: ../plugins/fn-info/functions.c:1803 ../plugins/fn-info/functions.c:1806
-#: ../plugins/fn-info/functions.c:1809 ../plugins/fn-info/functions.c:1812
-#: ../plugins/fn-info/functions.c:1815 ../plugins/fn-info/functions.c:1818
-#: ../plugins/fn-info/functions.c:1821 ../plugins/fn-info/functions.c:1827
-#: ../plugins/fn-string/functions.c:1479
-msgid "value"
-msgstr "balioa"
-
-#: ../plugins/fn-info/functions.c:1785
-msgid "info_type"
-msgstr "informazio_mota"
-
-#. XL stores this in statistical ?
-#: ../plugins/fn-info/functions.c:1832
-msgid "range"
-msgstr "barrutia"
-
-#: ../plugins/fn-info/functions.c:1836 ../plugins/fn-string/functions.c:1410
-#: ../plugins/fn-string/functions.c:1413 ../plugins/fn-string/functions.c:1416
-#: ../plugins/fn-string/functions.c:1443 ../plugins/fn-string/functions.c:1446
-#: ../plugins/fn-string/functions.c:1449 ../plugins/fn-string/functions.c:1458
-#: ../plugins/fn-string/functions.c:1485 ../plugins/fn-string/functions.c:1488
-#: ../plugins/fn-string/functions.c:1491
-msgid "text"
-msgstr "testua"
-
-#. XLM : looks common in charts
-#: ../plugins/fn-info/functions.c:1840 ../plugins/fn-info/functions.c:1844
-#: ../src/print-info.c:580 ../src/ssgrep.c:352
-msgid "cell"
-msgstr "gelaxka"
-
-#: ../plugins/fn-info/functions.c:1848 ../plugins/fn-string/functions.c:1401
-#: ../plugins/fn-string/functions.c:1434 ../src/ssconvert.c:102
-msgid "string"
-msgstr "karaktere-katea"
 
 #: ../plugins/fn-info/plugin.xml.in.h:1
 msgid "Functions for inspecting values, cells, and more"
@@ -937,43 +606,6 @@ msgstr "Informazio-funtzioak"
 msgid "Type Mismatch"
 msgstr "Motak ez datoz bat"
 
-#: ../plugins/fn-logical/functions.c:281 ../plugins/fn-logical/functions.c:285
-#: ../plugins/fn-logical/functions.c:304 ../plugins/fn-math/functions.c:2870
-#: ../src/func-builtin.c:347 ../src/func-builtin.c:353
-msgid "number,number,"
-msgstr "zenbakia,zenbakia"
-
-#. MS Excel puts this in the engineering functions
-#: ../plugins/fn-logical/functions.c:289 ../plugins/fn-math/functions.c:2674
-#: ../plugins/fn-math/functions.c:2678 ../plugins/fn-math/functions.c:2681
-#: ../plugins/fn-math/functions.c:2684 ../plugins/fn-math/functions.c:2687
-#: ../plugins/fn-math/functions.c:2690 ../plugins/fn-math/functions.c:2693
-#: ../plugins/fn-math/functions.c:2696 ../plugins/fn-math/functions.c:2699
-#: ../plugins/fn-math/functions.c:2711 ../plugins/fn-math/functions.c:2714
-#: ../plugins/fn-math/functions.c:2717 ../plugins/fn-math/functions.c:2720
-#: ../plugins/fn-math/functions.c:2729 ../plugins/fn-math/functions.c:2737
-#: ../plugins/fn-math/functions.c:2740 ../plugins/fn-math/functions.c:2743
-#: ../plugins/fn-math/functions.c:2746 ../plugins/fn-math/functions.c:2749
-#: ../plugins/fn-math/functions.c:2754 ../plugins/fn-math/functions.c:2758
-#: ../plugins/fn-math/functions.c:2764 ../plugins/fn-math/functions.c:2767
-#: ../plugins/fn-math/functions.c:2770 ../plugins/fn-math/functions.c:2777
-#: ../plugins/fn-math/functions.c:2784 ../plugins/fn-math/functions.c:2791
-#: ../plugins/fn-math/functions.c:2794 ../plugins/fn-math/functions.c:2800
-#: ../plugins/fn-math/functions.c:2803 ../plugins/fn-math/functions.c:2816
-#: ../plugins/fn-math/functions.c:2822 ../plugins/fn-math/functions.c:2828
-#: ../plugins/fn-math/functions.c:2846 ../plugins/fn-math/functions.c:2849
-#: ../plugins/fn-math/functions.c:2855 ../plugins/fn-math/functions.c:2858
-#: ../plugins/fn-math/functions.c:2861 ../plugins/fn-math/functions.c:2864
-#: ../plugins/fn-math/functions.c:2867 ../plugins/fn-math/functions.c:2880
-#: ../plugins/fn-math/functions.c:2892 ../plugins/fn-math/functions.c:2895
-#: ../plugins/fn-string/functions.c:1404 ../plugins/fn-string/functions.c:1407
-msgid "number"
-msgstr "zenbakia"
-
-#: ../plugins/fn-logical/functions.c:293
-msgid "value,value"
-msgstr "balioa,balioa"
-
 #: ../plugins/fn-logical/plugin.xml.in.h:1
 msgid "Functions for manipulating truth values"
 msgstr "Egiazko balioak manipulatzeko funtzioak"
@@ -986,59 +618,6 @@ msgstr "Logika"
 msgid "Logic Functions"
 msgstr "Funtzio logikoak"
 
-#: ../plugins/fn-lookup/functions.c:1505
-msgid "row_num,col_num,abs_num,a1,text"
-msgstr "errenkada_zk,zutabe_zk,zk_abs,a1,testua"
-
-#: ../plugins/fn-lookup/functions.c:1508
-msgid "reference"
-msgstr "erreferentzia"
-
-#: ../plugins/fn-lookup/functions.c:1511
-msgid "index,value,"
-msgstr "indizea,balioa,"
-
-#: ../plugins/fn-lookup/functions.c:1514 ../plugins/fn-lookup/functions.c:1520
-#: ../plugins/fn-lookup/functions.c:1544 ../plugins/fn-lookup/functions.c:1547
-msgid "ref"
-msgstr "erref"
-
-#: ../plugins/fn-lookup/functions.c:1517
-msgid "colname"
-msgstr "zutabe-izena"
-
-#: ../plugins/fn-lookup/functions.c:1523 ../plugins/fn-lookup/functions.c:1553
-msgid "val,range,col_idx,approx,as_index"
-msgstr "balioa,barrutia,zutabe_ind,ggb,indize_gisa"
-
-#: ../plugins/fn-lookup/functions.c:1526
-msgid "link_location, label"
-msgstr "esteka_kokalekua, etiketa"
-
-#: ../plugins/fn-lookup/functions.c:1529
-msgid "ref_string,format"
-msgstr "erref_katea,formatua"
-
-#: ../plugins/fn-lookup/functions.c:1532
-msgid "reference,row,col,area"
-msgstr "erreferentzia,errenkada,zutabea,area"
-
-#: ../plugins/fn-lookup/functions.c:1535
-msgid "val,range,range"
-msgstr "balioa,barrutia,barrutia"
-
-#: ../plugins/fn-lookup/functions.c:1538
-msgid "val,range,approx"
-msgstr "balioa,barrutia,ggb"
-
-#: ../plugins/fn-lookup/functions.c:1541
-msgid "ref,row,col,height,width"
-msgstr "erref,errenkada,zutabea,altuera,zabalera"
-
-#: ../plugins/fn-lookup/functions.c:1550 ../plugins/fn-math/functions.c:2908
-msgid "array"
-msgstr "array-a"
-
 #: ../plugins/fn-lookup/plugin.xml.in.h:1
 msgid "Functions for looking up values in ranges"
 msgstr "Barrutietan balioak bilatzeko funtzioak"
@@ -1050,83 +629,6 @@ msgstr "Bilatu"
 #: ../plugins/fn-lookup/plugin.xml.in.h:3
 msgid "Lookup Functions"
 msgstr "Bilaketak egiteko funtzioak"
-
-#: ../plugins/fn-math/functions.c:2702
-msgid "xnum,ynum"
-msgstr "xnum,ynum"
-
-#: ../plugins/fn-math/functions.c:2705 ../plugins/fn-math/functions.c:2708
-#: ../plugins/fn-random/functions.c:891 ../plugins/fn-random/functions.c:912
-#: ../plugins/fn-random/functions.c:918 ../plugins/fn-random/functions.c:957
-#: ../plugins/fn-random/functions.c:972 ../plugins/fn-random/functions.c:975
-msgid "a,b"
-msgstr "a,b"
-
-#. MS Excel puts this in statistical
-#: ../plugins/fn-math/functions.c:2725
-msgid "range,criteria"
-msgstr "barrutia,irizpidea"
-
-#: ../plugins/fn-math/functions.c:2733
-msgid "number,significance"
-msgstr "zenbakia,zenbaki esanguratsua"
-
-#: ../plugins/fn-math/functions.c:2761 ../plugins/fn-stat/functions.c:4988
-msgid "n,k"
-msgstr "n,k"
-
-#: ../plugins/fn-math/functions.c:2774
-msgid "number,number"
-msgstr "zenbakia,zenbakia"
-
-#: ../plugins/fn-math/functions.c:2797
-msgid "number,base"
-msgstr "zenbakia,oinarria"
-
-#: ../plugins/fn-math/functions.c:2806 ../plugins/fn-math/functions.c:2825
-msgid "numerator,denominator"
-msgstr "zenbakitzailea,izendatzailea"
-
-#: ../plugins/fn-math/functions.c:2809
-msgid "number,multiple"
-msgstr "zenbakia,multiploa"
-
-#: ../plugins/fn-math/functions.c:2819
-msgid "base,exponent"
-msgstr "oinarria,berretzailea"
-
-#: ../plugins/fn-math/functions.c:2831
-msgid "number,type"
-msgstr "zenbakia,mota"
-
-#: ../plugins/fn-math/functions.c:2834 ../plugins/fn-math/functions.c:2838
-#: ../plugins/fn-math/functions.c:2842 ../plugins/fn-math/functions.c:2898
-msgid "number,digits"
-msgstr "zenbakia,digituak"
-
-#: ../plugins/fn-math/functions.c:2852
-msgid "x,n,m,coefficients"
-msgstr "x,n,m,koefizienteak"
-
-#: ../plugins/fn-math/functions.c:2874
-msgid "range,criteria,actual_range"
-msgstr "barrutia,irizpidea,uneko_barrutia"
-
-#: ../plugins/fn-math/functions.c:2877
-msgid "range,range,"
-msgstr "barrutia,barrutia"
-
-#: ../plugins/fn-math/functions.c:2883 ../plugins/fn-math/functions.c:2886
-#: ../plugins/fn-math/functions.c:2889 ../plugins/fn-math/functions.c:2905
-#: ../plugins/fn-stat/functions.c:4847 ../plugins/fn-stat/functions.c:4856
-#: ../plugins/fn-stat/functions.c:4886 ../plugins/fn-stat/functions.c:4979
-#: ../plugins/fn-stat/functions.c:5035
-msgid "array1,array2"
-msgstr "array1,array2"
-
-#: ../plugins/fn-math/functions.c:2911 ../plugins/fn-math/functions.c:2915
-msgid "array,matrix_type,bandsize"
-msgstr "array-a,matrize_mota,banda-zabalera"
 
 #: ../plugins/fn-math/plugin.xml.in.h:1
 msgid "Math Functions"
@@ -1155,80 +657,6 @@ msgstr "Funtzio estatistikoak R Project-eko izendatze- eta dei-konbentzioekin."
 msgid "Statistics"
 msgstr "Estatistika"
 
-#: ../plugins/fn-random/functions.c:888 ../plugins/fn-random/functions.c:924
-#: ../plugins/fn-random/functions.c:942 ../plugins/fn-stat/functions.c:4976
-msgid "p"
-msgstr "p"
-
-#: ../plugins/fn-random/functions.c:894
-msgid "bottom,top"
-msgstr "behean,goian"
-
-#: ../plugins/fn-random/functions.c:897
-msgid "p,trials"
-msgstr "p,saiakerak"
-
-#: ../plugins/fn-random/functions.c:900 ../plugins/fn-random/functions.c:936
-#: ../plugins/fn-random/functions.c:945
-msgid "a"
-msgstr "a"
-
-#: ../plugins/fn-random/functions.c:903 ../plugins/fn-random/functions.c:969
-msgid "nu"
-msgstr "nu"
-
-#: ../plugins/fn-random/functions.c:906
-msgid "value_range,prob_range"
-msgstr "balio_barrutia,prob_barrutia"
-
-#: ../plugins/fn-random/functions.c:909
-msgid "b"
-msgstr "b"
-
-#: ../plugins/fn-random/functions.c:915
-msgid "nu1,nu2"
-msgstr "nu1,nu2"
-
-#: ../plugins/fn-random/functions.c:921 ../plugins/fn-random/functions.c:966
-msgid "a,sigma"
-msgstr "a,sigma"
-
-#: ../plugins/fn-random/functions.c:927
-msgid "a,b,type"
-msgstr "a,b,mota"
-
-#: ../plugins/fn-random/functions.c:930
-msgid "n1,n2,t"
-msgstr "n1,n2,t"
-
-#: ../plugins/fn-random/functions.c:939
-msgid "c,alpha,beta"
-msgstr "c,alfa,beta"
-
-#: ../plugins/fn-random/functions.c:948
-msgid "zeta,sigma"
-msgstr "zeta,sigma"
-
-#: ../plugins/fn-random/functions.c:951
-msgid "p,failures"
-msgstr "p,hutsegiteak"
-
-#: ../plugins/fn-random/functions.c:954
-msgid "mean,stdev"
-msgstr "batez_bestekoa,desbEst"
-
-#: ../plugins/fn-random/functions.c:960
-msgid "lambda"
-msgstr "lambda"
-
-#: ../plugins/fn-random/functions.c:963
-msgid "sigma"
-msgstr "sigma"
-
-#: ../plugins/fn-random/functions.c:978
-msgid "d1,d2,...,dN"
-msgstr "d1,d2,...,dN"
-
 #: ../plugins/fn-random/plugin.xml.in.h:1
 msgid "Functions for generating random numbers"
 msgstr "Ausazko zenbakiak sortzeko funtzioak"
@@ -1247,308 +675,18 @@ msgstr "Ausazko zenbakiak"
 msgid "Array version not implemented!"
 msgstr "Array bertsioa inplementatu gabe"
 
-#: ../plugins/fn-stat/functions.c:4804 ../plugins/fn-stat/functions.c:4808
-#: ../plugins/fn-stat/functions.c:4812 ../plugins/fn-stat/functions.c:4850
-#: ../plugins/fn-stat/functions.c:4853 ../plugins/fn-stat/functions.c:4862
-#: ../plugins/fn-stat/functions.c:4898 ../plugins/fn-stat/functions.c:4905
-#: ../plugins/fn-stat/functions.c:4915 ../plugins/fn-stat/functions.c:4940
-#: ../plugins/fn-stat/functions.c:4944 ../plugins/fn-stat/functions.c:4948
-#: ../plugins/fn-stat/functions.c:4952 ../plugins/fn-stat/functions.c:4956
-#: ../plugins/fn-stat/functions.c:4960 ../plugins/fn-stat/functions.c:5038
-#: ../plugins/fn-stat/functions.c:5082 ../plugins/fn-stat/functions.c:5103
-#, fuzzy
-msgid "number1,number2,"
-msgstr "zenbakia,zenbakia"
-
-#: ../plugins/fn-stat/functions.c:4817
-msgid "k,p"
-msgstr "k,p"
-
-#: ../plugins/fn-stat/functions.c:4821
-msgid "x,alpha,beta,a,b"
-msgstr "x,alfa,beta,a,b"
-
-#: ../plugins/fn-stat/functions.c:4824
-msgid "p,alpha,beta,a,b"
-msgstr "p,alfa,beta,a,b"
-
-#: ../plugins/fn-stat/functions.c:4827
-#, fuzzy
-msgid "n,trials,p,cumulative"
-msgstr "x,n,M,N,metatua"
-
-#: ../plugins/fn-stat/functions.c:4831
-#, fuzzy
-msgid "x,a,cumulative"
-msgstr "x,y,metatua"
-
-#: ../plugins/fn-stat/functions.c:4835
-msgid "x,dof"
-msgstr "x,askGrad"
-
-#: ../plugins/fn-stat/functions.c:4838 ../plugins/fn-stat/functions.c:5044
-msgid "p,dof"
-msgstr "p,askGrad"
-
-#: ../plugins/fn-stat/functions.c:4841
-#, fuzzy
-msgid "actual_range,theoretical_range"
-msgstr "uneko_barrutia,barruti_teorikoa"
-
-#: ../plugins/fn-stat/functions.c:4844
-msgid "x,stddev,size"
-msgstr "x,desbEst,tamaina"
-
-#: ../plugins/fn-stat/functions.c:4859
-msgid "trials,p,alpha"
-msgstr "saiakerak,p,alfa"
-
-#: ../plugins/fn-stat/functions.c:4865
-msgid "x,y,cumulative"
-msgstr "x,y,metatua"
-
-#: ../plugins/fn-stat/functions.c:4868
-#, fuzzy
-msgid "x,dof_of_num,dof_of_denom"
-msgstr "x,zenbakiaren_askGrad,izendatzailearen_askGrad"
-
-#: ../plugins/fn-stat/functions.c:4871
-#, fuzzy
-msgid "p,dof_of_num,dof_of_denom"
-msgstr "p,zenbakiaren_askGrad,izendatzailearen_askGrad"
-
-#: ../plugins/fn-stat/functions.c:4874 ../plugins/fn-stat/functions.c:4877
-#: ../plugins/fn-stat/functions.c:4895 ../plugins/fn-stat/functions.c:4973
-#: ../plugins/fn-stat/functions.c:5085 ../src/dialogs/col-width.glade.h:5
-#: ../src/dialogs/row-height.glade.h:5
-msgid "x"
-msgstr "x"
-
-#: ../plugins/fn-stat/functions.c:4880
-#, fuzzy
-msgid "x,known_y's,known_x's"
-msgstr "y_ezagunak,x_ezagunak"
-
-#: ../plugins/fn-stat/functions.c:4883
-msgid "data_array,bins_array"
-msgstr "datu_array,bin_array"
-
-#: ../plugins/fn-stat/functions.c:4889
-#, fuzzy
-msgid "x,alpha,beta,cumulative"
-msgstr "x.alfa,beta,metatua"
-
-#: ../plugins/fn-stat/functions.c:4892
-#, fuzzy
-msgid "p,alpha,beta"
-msgstr "c,alfa,beta"
-
-#: ../plugins/fn-stat/functions.c:4902 ../plugins/fn-stat/functions.c:5047
-msgid "known_y's,known_x's,new_x's,const"
-msgstr "y_ezagunak,x_ezagunak,x_berriak,konst"
-
-#: ../plugins/fn-stat/functions.c:4909
-msgid "x,n,M,N,cumulative"
-msgstr "x,n,M,N,metatua"
-
-#: ../plugins/fn-stat/functions.c:4912 ../plugins/fn-stat/functions.c:4928
-#: ../plugins/fn-stat/functions.c:5003 ../plugins/fn-stat/functions.c:5032
-msgid "known_y's,known_x's"
-msgstr "y_ezagunak,x_ezagunak"
-
-#: ../plugins/fn-stat/functions.c:4918 ../plugins/fn-stat/functions.c:5006
-msgid "data,k,"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:4922
-#, fuzzy
-msgid "known_y's,known_x's,affine,stat"
-msgstr "y_ezagunak,x_ezagunak,konst,estat"
-
-#: ../plugins/fn-stat/functions.c:4925 ../plugins/fn-stat/functions.c:4937
-msgid "known_y's,known_x's,const,stat"
-msgstr "y_ezagunak,x_ezagunak,konst,estat"
-
-#: ../plugins/fn-stat/functions.c:4931 ../plugins/fn-stat/functions.c:4970
-msgid "p,mean,stddev"
-msgstr "p,batez_bestekoa,desbEst"
-
-#: ../plugins/fn-stat/functions.c:4934 ../plugins/fn-stat/functions.c:5010
-msgid "x,mean,stddev"
-msgstr "x,batez_bestekoa,desbEst"
-
-#: ../plugins/fn-stat/functions.c:4964
-msgid "f,t,p"
-msgstr "f,t,p"
-
-#: ../plugins/fn-stat/functions.c:4967
-msgid "x,mean,stddev,cumulative"
-msgstr "x,batez_bestekoa,desbEst,metatua"
-
-#: ../plugins/fn-stat/functions.c:4982
-msgid "array,k"
-msgstr "array,k"
-
-#: ../plugins/fn-stat/functions.c:4985
-msgid "array,x,significance"
-msgstr "array-a,x,zk_esanguratsua"
-
-#: ../plugins/fn-stat/functions.c:4991
-msgid "x,mean,cumulative"
-msgstr "x,batez_bestekoa,metatua"
-
-#: ../plugins/fn-stat/functions.c:4994
-msgid "x_range,prob_range,lower_limit,upper_limit"
-msgstr "x_barrutia,prob_barrutia,behe_muga,goi_muga"
-
-#: ../plugins/fn-stat/functions.c:4997
-msgid "array,quart"
-msgstr "array-a,kuart"
-
-#: ../plugins/fn-stat/functions.c:5000
-msgid "x,ref,order"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:5013
-msgid "array,interval"
-msgstr "array-a,tartea"
-
-#: ../plugins/fn-stat/functions.c:5016 ../plugins/fn-stat/functions.c:5020
-#: ../plugins/fn-stat/functions.c:5024 ../plugins/fn-stat/functions.c:5028
-#: ../plugins/fn-stat/functions.c:5057 ../plugins/fn-stat/functions.c:5060
-#: ../plugins/fn-stat/functions.c:5063 ../plugins/fn-stat/functions.c:5066
-#, fuzzy
-msgid "area1,area2,"
-msgstr "array1,array2"
-
-#: ../plugins/fn-stat/functions.c:5041
-msgid "x,dof,tails"
-msgstr "x,askGrad,ilarak"
-
-#: ../plugins/fn-stat/functions.c:5050
-msgid "ref,fraction"
-msgstr "erref,frakzioa"
-
-#: ../plugins/fn-stat/functions.c:5054
-msgid "array1,array2,tails,type"
-msgstr "array1,array2,ilarak,mota"
-
-#: ../plugins/fn-stat/functions.c:5069
-msgid "x.alpha,beta,cumulative"
-msgstr "x.alfa,beta,metatua"
-
-#: ../plugins/fn-stat/functions.c:5072
-msgid "ref,x[,stddev]"
-msgstr "erref,,x[,desbEst]"
-
-#: ../plugins/fn-stat/functions.c:5076 ../plugins/fn-stat/functions.c:5094
-msgid "x,a,b"
-msgstr "x,a,b"
-
-#: ../plugins/fn-stat/functions.c:5079
-#, fuzzy
-msgid "k,p,cumulative"
-msgstr "x,y,metatua"
-
-#: ../plugins/fn-stat/functions.c:5088 ../plugins/fn-stat/functions.c:5091
-msgid "x,a"
-msgstr "x,a"
-
-#: ../plugins/fn-stat/functions.c:5097
-msgid "x,sigma"
-msgstr "x,sigma"
-
-#: ../plugins/fn-stat/functions.c:5100
-msgid "x,a,sigma"
-msgstr "x,a,sigma"
-
-#: ../plugins/fn-stat/functions.c:5106
-#, fuzzy
-msgid "function_nbr,ref1,ref2,"
-msgstr "funtzio-zk,erref,erref,"
-
-#: ../plugins/fn-stat/functions.c:5109
-#, fuzzy
-msgid "ref1,ref2,"
-msgstr "erref,erref,"
-
-#: ../plugins/fn-string/functions.c:1419
-msgid "text,text,"
-msgstr "testua,testua,"
-
-#: ../plugins/fn-string/functions.c:1422
-msgid "num,decimals"
-msgstr "kop,dezimalak"
-
-#: ../plugins/fn-string/functions.c:1425
-msgid "text1,text2"
-msgstr "testua1,testua2"
-
-#: ../plugins/fn-string/functions.c:1428
-msgid "text1,text2,num"
-msgstr "testua1,testua2,kop"
-
-#: ../plugins/fn-string/functions.c:1431
-msgid "num,decs,no_commas"
-msgstr "kop,dezimalak,komarik_ez"
-
-#: ../plugins/fn-string/functions.c:1437 ../plugins/fn-string/functions.c:1467
-msgid "text,num_chars"
-msgstr "testua,karaktere_kop"
-
-#: ../plugins/fn-string/functions.c:1440 ../plugins/fn-string/functions.c:1470
-#, fuzzy
-msgid "text,num_bytes"
-msgstr "testua,kop"
-
-#: ../plugins/fn-string/functions.c:1452 ../plugins/fn-string/functions.c:1455
-msgid "text,pos,num"
-msgstr "testua,pos,kop"
-
-#: ../plugins/fn-string/functions.c:1461
-msgid "old,start,num,new"
-msgstr "zaharra,hasiera,kop,berria"
-
-#: ../plugins/fn-string/functions.c:1464
-msgid "text,num"
-msgstr "testua,kop"
-
-#: ../plugins/fn-string/functions.c:1473
-msgid "search_string,text,start_num"
-msgstr "bilaketa-katea,testua,hasiera_kop"
-
-#: ../plugins/fn-string/functions.c:1476
-msgid "text,old,new,num"
-msgstr "testua,zaharra,berria,kop"
-
-#: ../plugins/fn-string/functions.c:1482
-msgid "value,format_text"
-msgstr "balioa,testu-formatua"
-
 #: ../plugins/fn-string/plugin.xml.in.h:1
 msgid "Functions for manipulating strings"
 msgstr "Karaktere-kateak manipulatzeko funtzioak"
 
 #: ../plugins/fn-string/plugin.xml.in.h:2 ../src/dialogs/dialog-search.c:151
-#: ../src/func.c:1027
+#: ../src/func.c:1070
 msgid "String"
 msgstr "Katea"
 
 #: ../plugins/fn-string/plugin.xml.in.h:3
 msgid "String Functions"
 msgstr "Kate-funtzioak"
-
-#: ../plugins/fn-tsa/functions.c:1011
-msgid "Abscissas,Ordinates,Targets,Interpolation"
-msgstr "Abszisak,Ordenatuak,Xedeak,Interpolazioa"
-
-#: ../plugins/fn-tsa/functions.c:1015
-msgid "Ordinates,Filter,Abscissas,Interpolation,Number"
-msgstr "Ordenatuak,Iragazkia,Abszisak,Interpolazioa,Zenbakia"
-
-#: ../plugins/fn-tsa/functions.c:1019
-msgid "Sequence,Inverse"
-msgstr ""
 
 #: ../plugins/fn-tsa/plugin.xml.in.h:1
 msgid "Time Series Analysis"
@@ -1708,9 +846,9 @@ msgstr "Murriztapenak:"
 #: ../src/dialogs/dialog-define-names.c:576
 #: ../src/dialogs/dialog-doc-metadata.c:1276
 #: ../src/dialogs/dialog-formula-guru.c:827
-#: ../src/dialogs/dialog-function-select.c:913
-#: ../src/dialogs/dialog-function-select.c:935
-#: ../src/dialogs/dialog-function-select.c:940
+#: ../src/dialogs/dialog-function-select.c:804
+#: ../src/dialogs/dialog-function-select.c:826
+#: ../src/dialogs/dialog-function-select.c:831
 #: ../src/dialogs/dialog-paste-names.c:93
 #: ../src/dialogs/dialog-scenarios.c:374
 #: ../src/dialogs/dialog-simulation.c:217 ../src/dialogs/dialog-zoom.c:191
@@ -2061,21 +1199,21 @@ msgid ""
 "@DESCRIPTION=This is the perl function template. \n"
 msgstr ""
 
-#: ../plugins/perl-loader/perl-loader.c:87
+#: ../plugins/perl-loader/perl-loader.c:89
 msgid "Perl error: "
 msgstr "Perl errorea: "
 
-#: ../plugins/perl-loader/perl-loader.c:127
-#: ../plugins/perl-loader/perl-loader.c:146
+#: ../plugins/perl-loader/perl-loader.c:129
+#: ../plugins/perl-loader/perl-loader.c:148
 #, c-format
 msgid "Perl error: %s\n"
 msgstr "Perl errorea: %s\n"
 
-#: ../plugins/perl-loader/perl-loader.c:191
+#: ../plugins/perl-loader/perl-loader.c:194
 msgid "Module name not given."
 msgstr "Ez duzu eman modulu-izenik."
 
-#: ../plugins/perl-loader/perl-loader.c:218
+#: ../plugins/perl-loader/perl-loader.c:221
 msgid "perl_func.pl doesn't exist."
 msgstr "perl_func.pl fitxategirik ez dago."
 
@@ -2261,8 +1399,8 @@ msgstr "Izen bat"
 
 #: ../plugins/python-loader/python-loader.c:338
 #: ../plugins/python-loader/python-loader.c:431
-#: ../plugins/python-loader/python-loader.c:655
-#: ../plugins/python-loader/python-loader.c:767
+#: ../plugins/python-loader/python-loader.c:662
+#: ../plugins/python-loader/python-loader.c:774
 #, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr "Formatu baliogabea du Python-eko \"%s\" fitxategiak."
@@ -2273,24 +1411,24 @@ msgstr "Formatu baliogabea du Python-eko \"%s\" fitxategiak."
 msgid "File doesn't contain \"%s\" function."
 msgstr "Fitxategiak ez dauka \"%s\" funtziorik."
 
-#: ../plugins/python-loader/python-loader.c:660
-#: ../plugins/python-loader/python-loader.c:772
+#: ../plugins/python-loader/python-loader.c:667
+#: ../plugins/python-loader/python-loader.c:779
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
 msgstr "Fitxategiak ez dauka \"%s\" hiztegirik."
 
-#: ../plugins/python-loader/python-loader.c:665
-#: ../plugins/python-loader/python-loader.c:777
+#: ../plugins/python-loader/python-loader.c:672
+#: ../plugins/python-loader/python-loader.c:784
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr "\"%s\" objektua ez da hiztegia."
 
-#: ../plugins/python-loader/python-loader.c:715 ../src/gnm-plugin.c:568
+#: ../plugins/python-loader/python-loader.c:722 ../src/gnm-plugin.c:568
 #, c-format
 msgid "Unknown action: %s"
 msgstr "Ekintza ezezaguna: %s"
 
-#: ../plugins/python-loader/python-loader.c:720
+#: ../plugins/python-loader/python-loader.c:727
 #, c-format
 msgid "Not a valid function for action: %s"
 msgstr "Ez da ekintza honetarako baliozko funtzio bat: %s"
@@ -5021,6 +4159,10 @@ msgstr "Zu_tabe-zabalera (pt):"
 msgid "_Use Default"
 msgstr "_Erabili lehenetsia"
 
+#: ../src/dialogs/col-width.glade.h:5 ../src/dialogs/row-height.glade.h:5
+msgid "x"
+msgstr "x"
+
 #: ../src/dialogs/colrow.glade.h:1
 msgid "Group/Ungroup"
 msgstr "Elkartu/Banandu"
@@ -6233,7 +5375,7 @@ msgid "Double"
 msgstr "Bikoitza"
 
 #: ../src/dialogs/dialog-cell-format.c:479 ../src/dialogs/dialog-search.c:153
-#: ../src/func.c:1025 ../src/wbc-gtk-actions.c:2311
+#: ../src/func.c:1068 ../src/wbc-gtk-actions.c:2311
 msgid "Number"
 msgstr "Zenbakia"
 
@@ -6557,50 +5699,50 @@ msgstr "Erabili berriak"
 msgid "All Functions (long list)"
 msgstr "Funtzio guztiak (zerrenda luzea)"
 
-#: ../src/dialogs/dialog-function-select.c:437
+#: ../src/dialogs/dialog-function-select.c:330
 #, fuzzy, c-format
 msgid "%s evaluates to %s."
 msgstr "%s bertsioa %s"
 
-#: ../src/dialogs/dialog-function-select.c:496
+#: ../src/dialogs/dialog-function-select.c:389
 msgid "Arguments:"
 msgstr "Argumentuak:"
 
-#: ../src/dialogs/dialog-function-select.c:516
+#: ../src/dialogs/dialog-function-select.c:409
 #, fuzzy
 msgid "Note: "
 msgstr "Izena: "
 
-#: ../src/dialogs/dialog-function-select.c:528
+#: ../src/dialogs/dialog-function-select.c:421
 #, fuzzy
 msgid "Examples:"
 msgstr "Lagina"
 
 #. Not translated
-#: ../src/dialogs/dialog-function-select.c:544
+#: ../src/dialogs/dialog-function-select.c:437
 msgid "See also: "
 msgstr "Ikus halaber: "
 
-#: ../src/dialogs/dialog-function-select.c:559
+#: ../src/dialogs/dialog-function-select.c:452
 #, fuzzy
 msgid ", "
 msgstr " "
 
-#: ../src/dialogs/dialog-function-select.c:591
+#: ../src/dialogs/dialog-function-select.c:484
 #, fuzzy
 msgid "Further information: "
 msgstr "Sistemaren informazioa"
 
-#: ../src/dialogs/dialog-function-select.c:593
+#: ../src/dialogs/dialog-function-select.c:486
 #, fuzzy
 msgid "online descriptions"
 msgstr "Azalpena"
 
-#: ../src/dialogs/dialog-function-select.c:604
+#: ../src/dialogs/dialog-function-select.c:497
 msgid "Microsoft Excel: "
 msgstr ""
 
-#: ../src/dialogs/dialog-function-select.c:612
+#: ../src/dialogs/dialog-function-select.c:505
 msgid "ODF (OpenFormula): "
 msgstr ""
 
@@ -10544,49 +9686,45 @@ msgid ""
 "and return the last argument."
 msgstr ""
 
-#: ../src/func-builtin.c:372
-msgid "condition,if true,if false"
-msgstr "baldintza,baldin egiazkoa,baldin faltsua"
-
 #: ../src/func-builtin.c:386
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: ../src/func.c:300
+#: ../src/func.c:226
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "Ezin da %s fitxategia sortu\n"
 
-#: ../src/func.c:621
+#: ../src/func.c:665
 msgid "Function implementation not available."
 msgstr "Funtzio-inplementazioa ez dago erabilgarri."
 
-#: ../src/func.c:846
+#: ../src/func.c:890
 msgid "Unknown Function"
 msgstr "Funtzio ezezaguna"
 
-#: ../src/func.c:1029
+#: ../src/func.c:1072
 msgid "Boolean"
 msgstr "Boolearra"
 
-#: ../src/func.c:1031
+#: ../src/func.c:1074
 msgid "Cell Range"
 msgstr "Gelaxka-barrutia"
 
-#: ../src/func.c:1033
+#: ../src/func.c:1076
 msgid "Area"
 msgstr "Area"
 
-#: ../src/func.c:1035
+#: ../src/func.c:1078
 msgid "Scalar, Blank, or Error"
 msgstr "Eskalarra, hutsa edo errorea"
 
-#: ../src/func.c:1037
+#: ../src/func.c:1080
 msgid "Scalar"
 msgstr "Eskalarra"
 
 #. Missing values will be NULL.
-#: ../src/func.c:1040
+#: ../src/func.c:1083
 msgid "Any"
 msgstr "Edozein"
 
@@ -10890,44 +10028,48 @@ msgstr "Gnumeric-en aukerak"
 msgid "Show Gnumeric Options"
 msgstr "Erakutsi Gnumeric-en aukerak"
 
-#: ../src/main-application.c:74
+#: ../src/main-application.c:76
 msgid "Specify the size and location of the initial window"
 msgstr "Zehaztu hasierako leihoaren tamaina eta kokalekua"
 
-#: ../src/main-application.c:75
+#: ../src/main-application.c:77
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "ZABALERAxALTUERA+X+Y"
 
-#: ../src/main-application.c:78
+#: ../src/main-application.c:80
 msgid "Don't show splash screen"
 msgstr "Ez erakutsi harrerako pantaila"
 
-#: ../src/main-application.c:80
+#: ../src/main-application.c:82
 msgid "Don't display warning dialogs when importing"
 msgstr "Ez erakutsi abisuen elkarrizketa-koadroak inportatzean"
 
-#: ../src/main-application.c:89 ../src/main-application.c:95
+#: ../src/main-application.c:91 ../src/main-application.c:97
 msgid "Dumps the function definitions"
 msgstr "Funtzio-definizioak iraultzen ditu"
 
-#: ../src/main-application.c:90 ../src/main-application.c:96
-#: ../src/main-application.c:102 ../src/ssgrep.c:74
+#: ../src/main-application.c:92 ../src/main-application.c:98
+#: ../src/main-application.c:104 ../src/ssgrep.c:74
 msgid "FILE"
 msgstr "FITXATEGIA"
 
-#: ../src/main-application.c:101
+#: ../src/main-application.c:103
 msgid "Dumps web page for function help"
 msgstr ""
 
-#: ../src/main-application.c:107
+#: ../src/main-application.c:109
 msgid "Generate new help and po files"
 msgstr "Sortu laguntza eta po fitxategi berriak"
 
 #: ../src/main-application.c:113
+msgid "Sanity check functions' help texts"
+msgstr ""
+
+#: ../src/main-application.c:119
 msgid "Exit immediately after loading the selected books"
 msgstr "Irten berehala hautatutako liburuak kargatu ondoren"
 
-#: ../src/main-application.c:226 ../src/ssconvert.c:567 ../src/ssgrep.c:434
+#: ../src/main-application.c:232 ../src/ssconvert.c:567 ../src/ssgrep.c:434
 #: ../src/ssindex.c:253
 #, c-format
 msgid ""
@@ -11099,6 +10241,14 @@ msgstr "orria"
 msgid "pages"
 msgstr "orriak"
 
+#: ../src/print-info.c:576
+msgid "date"
+msgstr "data"
+
+#: ../src/print-info.c:577
+msgid "time"
+msgstr "ordua"
+
 #: ../src/print-info.c:578 ../src/ssconvert.c:88
 msgid "file"
 msgstr "fitxategia"
@@ -11106,6 +10256,10 @@ msgstr "fitxategia"
 #: ../src/print-info.c:579
 msgid "path"
 msgstr "bide-izena"
+
+#: ../src/print-info.c:580 ../src/ssgrep.c:352
+msgid "cell"
+msgstr "gelaxka"
 
 #: ../src/print-info.c:744 ../src/stf-export.c:630
 #, c-format
@@ -11972,6 +11126,10 @@ msgstr "Aukera gisa zehaztu zein esportatzaile erabili"
 #: ../src/ssconvert.c:101
 msgid "Detailed instructions for the chosen exporter"
 msgstr "Aukeratutako esportatzailearen instrukzio xeheak"
+
+#: ../src/ssconvert.c:102
+msgid "string"
+msgstr "karaktere-katea"
 
 #: ../src/ssconvert.c:108
 msgid "List the available exporters"
@@ -16257,6 +15415,559 @@ msgstr "Zerrenda-txantiloi lila"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "Zerrenda-txantiloia sinplea"
+
+#~ msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
+#~ msgstr ""
+#~ "call_put_flag, spot, strike, denbora, tasa, hegazkortasuna, exekuzio-"
+#~ "kostua"
+
+#~ msgid "spot, strike, time, rate, volatility, cost_of_carry"
+#~ msgstr "spot, strike, denbora, tasa, hegazkortasuna, exekuzio-kostua"
+
+#~ msgid "a, b, rho"
+#~ msgstr "a, b, rho"
+
+#~ msgid ""
+#~ "call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
+#~ msgstr ""
+#~ "call_put_marka, spot, strike, denbora, tasa_nazionala, atzerri-tasa, "
+#~ "hegazkortasuna"
+
+#~ msgid ""
+#~ "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
+#~ msgstr ""
+#~ "call_put_marka, spot, strike, denbora, t2, tasa, hegazkortasuna, exekuzio-"
+#~ "kostua"
+
+#~ msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
+#~ msgstr ""
+#~ "call_put_flag, spot, strike, denbora, tasa, hegazkortasuna, lambda, gamma"
+
+#~ msgid ""
+#~ "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
+#~ msgstr ""
+#~ "call_put_marka, spot, strike, denbora, tasa, hegazkortasuna, exekuzio-"
+#~ "kostua, lambda"
+
+#~ msgid "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
+#~ msgstr ""
+#~ "call_put_flag, spot, strike, denbora, tasa, exekuzio-kostua, "
+#~ "hegazkortasuna"
+
+#~ msgid ""
+#~ "call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, "
+#~ "rho_ef, kappa_e, kappa_f)"
+#~ msgstr ""
+#~ "call_put_marka, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, "
+#~ "rho_ef, kappa_e, kappa_f)"
+
+#, fuzzy
+#~ msgid "spot, strike, t1, t2, rate, d, volatility"
+#~ msgstr "call_put_marka, spot, strike, t1, t2, tasa, d, hegazkortasuna"
+
+#~ msgid ""
+#~ "call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
+#~ msgstr ""
+#~ "call_put_marka, spot, alfa, denbora1, denbora, tasa, hegazkortasuna, "
+#~ "exekuzio-kostua"
+
+#~ msgid ""
+#~ "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, "
+#~ "volatility"
+#~ msgstr ""
+#~ "call_put_marka, spot, strike, a, denbora, m, dt, tasa, exekuzio-kostua, "
+#~ "hegazkortasuna"
+
+#~ msgid "spot, strike, time1, time2, rate, cost_of_carry, volatility"
+#~ msgstr ""
+#~ "spot, strike, denbora1, denbora2, tasa, exekuzio-kostua, hegazkortasuna"
+
+#~ msgid ""
+#~ "spot, strike_call, strike_put, time, time_call, time_put, rate, "
+#~ "cost_of_carry, volatility"
+#~ msgstr ""
+#~ "spot, strike_call, strike_put, denbora, denbora_call, denbora_put, tasa, "
+#~ "exekuzio-kostua, hegazkortasuna"
+
+#~ msgid ""
+#~ "type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, "
+#~ "volatility"
+#~ msgstr ""
+#~ "mota_marka, spot, strike1, strike2, denbora1, denbora2, tasa, exekuzio-"
+#~ "kostua, hegazkortasuna"
+
+#~ msgid ""
+#~ "type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, "
+#~ "cost_of_carry2, rate, volatility1, volatility2, rho"
+#~ msgstr ""
+#~ "mota_marka, spot1, spot2, strike1, strike2, denbora, exekuzio-kostua1, "
+#~ "exekuzio-kostua2, tasa, hegazkortasuna1, hegazkortasuna2, rho"
+
+#~ msgid ""
+#~ "spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
+#~ "volatility2,rho"
+#~ msgstr ""
+#~ "spot1,spot2,kantitatea1,kantitatea2,denbora,tasa,exekuzio-denbora1,"
+#~ "exekuzio-denbora2,hegazkortasuna1,hegazkortasuna2,rho"
+
+#~ msgid ""
+#~ "call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,"
+#~ "volatility2,rho"
+#~ msgstr ""
+#~ "call_put_marka,fut_price1,fut_price2,strike,denbora,tasa,hegazkortasuna1,"
+#~ "hegazkortasuna2,rho"
+
+#~ msgid ""
+#~ "call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
+#~ msgstr ""
+#~ "call_put_marka,spot,spot_min,spot_max,denbora,tasa,exekuzio-kostua,"
+#~ "hegazkortasuna"
+
+#~ msgid ""
+#~ "call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
+#~ "volatility"
+#~ msgstr ""
+#~ "call_put_marka,spot,spot_min,spot_max,strike,denbora,tasa,exekuzio-kostua,"
+#~ "hegazkortasuna"
+
+#~ msgid ""
+#~ "amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
+#~ "volatility, cost_of_carry"
+#~ msgstr ""
+#~ "amer_euro_marka,call_put_marka,denbora-urrats_kopurua, spot, strike, "
+#~ "denbora, tasa, hegazkortasuna, exekuzio-kostua"
+
+#~ msgid "real,im,suffix"
+#~ msgstr "real,im,suffix"
+
+#~ msgid "inumber"
+#~ msgstr "iZenbakia"
+
+#~ msgid "inumber,inumber"
+#~ msgstr "iZenbakia,iZenbakia"
+
+#~ msgid "database,field,criteria"
+#~ msgstr "datu-basea,eremua,irizpidea"
+
+#~ msgid "pivot_table,field_name"
+#~ msgstr "taula_dinamikoa,eremu_izena"
+
+#~ msgid "year,month,day"
+#~ msgstr "urtea,hilabetea,eguna"
+
+#~ msgid "date_str"
+#~ msgstr "data_str"
+
+#~ msgid "date1,date2,interval"
+#~ msgstr "data1,data2,bitartea"
+
+#~ msgid "date1,date2,method"
+#~ msgstr "data1,data2,metodoa"
+
+#~ msgid "date,months"
+#~ msgstr "data,hilabeteak"
+
+#~ msgid "start_date,months"
+#~ msgstr "hasierako_data,hilabeteak"
+
+#~ msgid "start_date,end_date,holidays"
+#~ msgstr "hasierako_data,amaierako_data,oporrak"
+
+#~ msgid "hours,minutes,seconds"
+#~ msgstr "orduak,minutuak,segundoak"
+
+#~ msgid "timetext"
+#~ msgstr "ordu-testua"
+
+#~ msgid "date,days,holidays"
+#~ msgstr "data,egunak,oporrak"
+
+#~ msgid "unixtime"
+#~ msgstr "unix ordua"
+
+#~ msgid "serial"
+#~ msgstr "seriekoa"
+
+#~ msgid "traffic,circuits"
+#~ msgstr "trafikoa,zirkuituak"
+
+#~ msgid "traffic,gos"
+#~ msgstr "trafikoa,gos"
+
+#~ msgid "circuits,gos"
+#~ msgstr "zirkuituak,gos"
+
+#~ msgid "rate,values"
+#~ msgstr "tasa,balioak"
+
+#~ msgid "info_type, cell"
+#~ msgstr "informazio_mota, gelaxka"
+
+#~ msgid "value"
+#~ msgstr "balioa"
+
+#~ msgid "info_type"
+#~ msgstr "informazio_mota"
+
+#~ msgid "range"
+#~ msgstr "barrutia"
+
+#~ msgid "text"
+#~ msgstr "testua"
+
+#~ msgid "number,number,"
+#~ msgstr "zenbakia,zenbakia"
+
+#~ msgid "number"
+#~ msgstr "zenbakia"
+
+#~ msgid "value,value"
+#~ msgstr "balioa,balioa"
+
+#~ msgid "row_num,col_num,abs_num,a1,text"
+#~ msgstr "errenkada_zk,zutabe_zk,zk_abs,a1,testua"
+
+#~ msgid "reference"
+#~ msgstr "erreferentzia"
+
+#~ msgid "index,value,"
+#~ msgstr "indizea,balioa,"
+
+#~ msgid "ref"
+#~ msgstr "erref"
+
+#~ msgid "colname"
+#~ msgstr "zutabe-izena"
+
+#~ msgid "val,range,col_idx,approx,as_index"
+#~ msgstr "balioa,barrutia,zutabe_ind,ggb,indize_gisa"
+
+#~ msgid "link_location, label"
+#~ msgstr "esteka_kokalekua, etiketa"
+
+#~ msgid "ref_string,format"
+#~ msgstr "erref_katea,formatua"
+
+#~ msgid "reference,row,col,area"
+#~ msgstr "erreferentzia,errenkada,zutabea,area"
+
+#~ msgid "val,range,range"
+#~ msgstr "balioa,barrutia,barrutia"
+
+#~ msgid "val,range,approx"
+#~ msgstr "balioa,barrutia,ggb"
+
+#~ msgid "ref,row,col,height,width"
+#~ msgstr "erref,errenkada,zutabea,altuera,zabalera"
+
+#~ msgid "array"
+#~ msgstr "array-a"
+
+#~ msgid "xnum,ynum"
+#~ msgstr "xnum,ynum"
+
+#~ msgid "a,b"
+#~ msgstr "a,b"
+
+#~ msgid "range,criteria"
+#~ msgstr "barrutia,irizpidea"
+
+#~ msgid "number,significance"
+#~ msgstr "zenbakia,zenbaki esanguratsua"
+
+#~ msgid "n,k"
+#~ msgstr "n,k"
+
+#~ msgid "number,number"
+#~ msgstr "zenbakia,zenbakia"
+
+#~ msgid "number,base"
+#~ msgstr "zenbakia,oinarria"
+
+#~ msgid "numerator,denominator"
+#~ msgstr "zenbakitzailea,izendatzailea"
+
+#~ msgid "number,multiple"
+#~ msgstr "zenbakia,multiploa"
+
+#~ msgid "base,exponent"
+#~ msgstr "oinarria,berretzailea"
+
+#~ msgid "number,type"
+#~ msgstr "zenbakia,mota"
+
+#~ msgid "number,digits"
+#~ msgstr "zenbakia,digituak"
+
+#~ msgid "x,n,m,coefficients"
+#~ msgstr "x,n,m,koefizienteak"
+
+#~ msgid "range,criteria,actual_range"
+#~ msgstr "barrutia,irizpidea,uneko_barrutia"
+
+#~ msgid "range,range,"
+#~ msgstr "barrutia,barrutia"
+
+#~ msgid "array1,array2"
+#~ msgstr "array1,array2"
+
+#~ msgid "array,matrix_type,bandsize"
+#~ msgstr "array-a,matrize_mota,banda-zabalera"
+
+#~ msgid "p"
+#~ msgstr "p"
+
+#~ msgid "bottom,top"
+#~ msgstr "behean,goian"
+
+#~ msgid "p,trials"
+#~ msgstr "p,saiakerak"
+
+#~ msgid "a"
+#~ msgstr "a"
+
+#~ msgid "nu"
+#~ msgstr "nu"
+
+#~ msgid "value_range,prob_range"
+#~ msgstr "balio_barrutia,prob_barrutia"
+
+#~ msgid "b"
+#~ msgstr "b"
+
+#~ msgid "nu1,nu2"
+#~ msgstr "nu1,nu2"
+
+#~ msgid "a,sigma"
+#~ msgstr "a,sigma"
+
+#~ msgid "a,b,type"
+#~ msgstr "a,b,mota"
+
+#~ msgid "n1,n2,t"
+#~ msgstr "n1,n2,t"
+
+#~ msgid "c,alpha,beta"
+#~ msgstr "c,alfa,beta"
+
+#~ msgid "zeta,sigma"
+#~ msgstr "zeta,sigma"
+
+#~ msgid "p,failures"
+#~ msgstr "p,hutsegiteak"
+
+#~ msgid "mean,stdev"
+#~ msgstr "batez_bestekoa,desbEst"
+
+#~ msgid "lambda"
+#~ msgstr "lambda"
+
+#~ msgid "sigma"
+#~ msgstr "sigma"
+
+#~ msgid "d1,d2,...,dN"
+#~ msgstr "d1,d2,...,dN"
+
+#, fuzzy
+#~ msgid "number1,number2,"
+#~ msgstr "zenbakia,zenbakia"
+
+#~ msgid "k,p"
+#~ msgstr "k,p"
+
+#~ msgid "x,alpha,beta,a,b"
+#~ msgstr "x,alfa,beta,a,b"
+
+#~ msgid "p,alpha,beta,a,b"
+#~ msgstr "p,alfa,beta,a,b"
+
+#, fuzzy
+#~ msgid "n,trials,p,cumulative"
+#~ msgstr "x,n,M,N,metatua"
+
+#, fuzzy
+#~ msgid "x,a,cumulative"
+#~ msgstr "x,y,metatua"
+
+#~ msgid "x,dof"
+#~ msgstr "x,askGrad"
+
+#~ msgid "p,dof"
+#~ msgstr "p,askGrad"
+
+#, fuzzy
+#~ msgid "actual_range,theoretical_range"
+#~ msgstr "uneko_barrutia,barruti_teorikoa"
+
+#~ msgid "x,stddev,size"
+#~ msgstr "x,desbEst,tamaina"
+
+#~ msgid "trials,p,alpha"
+#~ msgstr "saiakerak,p,alfa"
+
+#~ msgid "x,y,cumulative"
+#~ msgstr "x,y,metatua"
+
+#, fuzzy
+#~ msgid "x,dof_of_num,dof_of_denom"
+#~ msgstr "x,zenbakiaren_askGrad,izendatzailearen_askGrad"
+
+#, fuzzy
+#~ msgid "p,dof_of_num,dof_of_denom"
+#~ msgstr "p,zenbakiaren_askGrad,izendatzailearen_askGrad"
+
+#, fuzzy
+#~ msgid "x,known_y's,known_x's"
+#~ msgstr "y_ezagunak,x_ezagunak"
+
+#~ msgid "data_array,bins_array"
+#~ msgstr "datu_array,bin_array"
+
+#, fuzzy
+#~ msgid "x,alpha,beta,cumulative"
+#~ msgstr "x.alfa,beta,metatua"
+
+#, fuzzy
+#~ msgid "p,alpha,beta"
+#~ msgstr "c,alfa,beta"
+
+#~ msgid "known_y's,known_x's,new_x's,const"
+#~ msgstr "y_ezagunak,x_ezagunak,x_berriak,konst"
+
+#~ msgid "x,n,M,N,cumulative"
+#~ msgstr "x,n,M,N,metatua"
+
+#~ msgid "known_y's,known_x's"
+#~ msgstr "y_ezagunak,x_ezagunak"
+
+#, fuzzy
+#~ msgid "known_y's,known_x's,affine,stat"
+#~ msgstr "y_ezagunak,x_ezagunak,konst,estat"
+
+#~ msgid "known_y's,known_x's,const,stat"
+#~ msgstr "y_ezagunak,x_ezagunak,konst,estat"
+
+#~ msgid "p,mean,stddev"
+#~ msgstr "p,batez_bestekoa,desbEst"
+
+#~ msgid "x,mean,stddev"
+#~ msgstr "x,batez_bestekoa,desbEst"
+
+#~ msgid "f,t,p"
+#~ msgstr "f,t,p"
+
+#~ msgid "x,mean,stddev,cumulative"
+#~ msgstr "x,batez_bestekoa,desbEst,metatua"
+
+#~ msgid "array,k"
+#~ msgstr "array,k"
+
+#~ msgid "array,x,significance"
+#~ msgstr "array-a,x,zk_esanguratsua"
+
+#~ msgid "x,mean,cumulative"
+#~ msgstr "x,batez_bestekoa,metatua"
+
+#~ msgid "x_range,prob_range,lower_limit,upper_limit"
+#~ msgstr "x_barrutia,prob_barrutia,behe_muga,goi_muga"
+
+#~ msgid "array,quart"
+#~ msgstr "array-a,kuart"
+
+#~ msgid "array,interval"
+#~ msgstr "array-a,tartea"
+
+#, fuzzy
+#~ msgid "area1,area2,"
+#~ msgstr "array1,array2"
+
+#~ msgid "x,dof,tails"
+#~ msgstr "x,askGrad,ilarak"
+
+#~ msgid "ref,fraction"
+#~ msgstr "erref,frakzioa"
+
+#~ msgid "array1,array2,tails,type"
+#~ msgstr "array1,array2,ilarak,mota"
+
+#~ msgid "x.alpha,beta,cumulative"
+#~ msgstr "x.alfa,beta,metatua"
+
+#~ msgid "ref,x[,stddev]"
+#~ msgstr "erref,,x[,desbEst]"
+
+#~ msgid "x,a,b"
+#~ msgstr "x,a,b"
+
+#, fuzzy
+#~ msgid "k,p,cumulative"
+#~ msgstr "x,y,metatua"
+
+#~ msgid "x,a"
+#~ msgstr "x,a"
+
+#~ msgid "x,sigma"
+#~ msgstr "x,sigma"
+
+#~ msgid "x,a,sigma"
+#~ msgstr "x,a,sigma"
+
+#, fuzzy
+#~ msgid "function_nbr,ref1,ref2,"
+#~ msgstr "funtzio-zk,erref,erref,"
+
+#, fuzzy
+#~ msgid "ref1,ref2,"
+#~ msgstr "erref,erref,"
+
+#~ msgid "text,text,"
+#~ msgstr "testua,testua,"
+
+#~ msgid "num,decimals"
+#~ msgstr "kop,dezimalak"
+
+#~ msgid "text1,text2"
+#~ msgstr "testua1,testua2"
+
+#~ msgid "text1,text2,num"
+#~ msgstr "testua1,testua2,kop"
+
+#~ msgid "num,decs,no_commas"
+#~ msgstr "kop,dezimalak,komarik_ez"
+
+#~ msgid "text,num_chars"
+#~ msgstr "testua,karaktere_kop"
+
+#, fuzzy
+#~ msgid "text,num_bytes"
+#~ msgstr "testua,kop"
+
+#~ msgid "text,pos,num"
+#~ msgstr "testua,pos,kop"
+
+#~ msgid "old,start,num,new"
+#~ msgstr "zaharra,hasiera,kop,berria"
+
+#~ msgid "text,num"
+#~ msgstr "testua,kop"
+
+#~ msgid "search_string,text,start_num"
+#~ msgstr "bilaketa-katea,testua,hasiera_kop"
+
+#~ msgid "text,old,new,num"
+#~ msgstr "testua,zaharra,berria,kop"
+
+#~ msgid "value,format_text"
+#~ msgstr "balioa,testu-formatua"
+
+#~ msgid "Abscissas,Ordinates,Targets,Interpolation"
+#~ msgstr "Abszisak,Ordenatuak,Xedeak,Interpolazioa"
+
+#~ msgid "Ordinates,Filter,Abscissas,Interpolation,Number"
+#~ msgstr "Ordenatuak,Iragazkia,Abszisak,Interpolazioa,Zenbakia"
+
+#~ msgid "condition,if true,if false"
+#~ msgstr "baldintza,baldin egiazkoa,baldin faltsua"
 
 #~ msgid "Search Center"
 #~ msgstr "Bilaketa-zentroa"

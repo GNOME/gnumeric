@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-13 18:54-0400\n"
+"POT-Creation-Date: 2009-08-14 20:22-0400\n"
 "PO-Revision-Date: 2009-03-14 13:17+0000\n"
 "Last-Translator: Jen Ockwell <jenfraggleubuntu@gmail.com>\n"
 "Language-Team: British English <en_GB@li.org>\n"
@@ -22,7 +22,7 @@ msgid "Calculation, Analysis, and Visualization of Information"
 msgstr "Calculation, Analysis, and Visualisation of Information"
 
 #. Keep in sync with .desktop file
-#: ../gnumeric.desktop.in.h:2 ../src/main-application.c:373
+#: ../gnumeric.desktop.in.h:2 ../src/main-application.c:381
 msgid "Gnumeric Spreadsheet"
 msgstr "Gnumeric Spreadsheet"
 
@@ -76,133 +76,6 @@ msgstr "CORBA Interface"
 #: ../plugins/corba/plugin.xml.in.h:2
 msgid "Provides a CORBA scripting interface"
 msgstr "Provides a CORBA scripting interface"
-
-#: ../plugins/derivatives/options.c:1973 ../plugins/derivatives/options.c:1978
-#: ../plugins/derivatives/options.c:1983 ../plugins/derivatives/options.c:1988
-#: ../plugins/derivatives/options.c:2003
-msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
-msgstr "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
-
-#: ../plugins/derivatives/options.c:1993 ../plugins/derivatives/options.c:1998
-msgid "spot, strike, time, rate, volatility, cost_of_carry"
-msgstr "spot, strike, time, rate, volatility, cost_of_carry"
-
-#: ../plugins/derivatives/options.c:2008
-msgid "a, b, rho"
-msgstr "a, b, rho"
-
-#: ../plugins/derivatives/options.c:2013
-msgid ""
-"call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
-msgstr ""
-"call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
-
-#: ../plugins/derivatives/options.c:2018
-msgid "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
-msgstr "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
-
-#: ../plugins/derivatives/options.c:2023
-msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
-msgstr "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
-
-#: ../plugins/derivatives/options.c:2028
-msgid ""
-"call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
-msgstr ""
-"call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
-
-#: ../plugins/derivatives/options.c:2033 ../plugins/derivatives/options.c:2043
-msgid "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
-msgstr "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
-
-#: ../plugins/derivatives/options.c:2038
-msgid ""
-"call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, "
-"kappa_e, kappa_f)"
-msgstr ""
-"call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, "
-"kappa_e, kappa_f)"
-
-#: ../plugins/derivatives/options.c:2048
-msgid "spot, strike, t1, t2, rate, d, volatility"
-msgstr "spot, strike, t1, t2, rate, d, volatility"
-
-#: ../plugins/derivatives/options.c:2053
-msgid ""
-"call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
-msgstr ""
-"call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
-
-#: ../plugins/derivatives/options.c:2058
-msgid ""
-"call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
-msgstr ""
-"call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
-
-#: ../plugins/derivatives/options.c:2063
-msgid "spot, strike, time1, time2, rate, cost_of_carry, volatility"
-msgstr "spot, strike, time1, time2, rate, cost_of_carry, volatility"
-
-#: ../plugins/derivatives/options.c:2068
-msgid ""
-"spot, strike_call, strike_put, time, time_call, time_put, rate, "
-"cost_of_carry, volatility"
-msgstr ""
-"spot, strike_call, strike_put, time, time_call, time_put, rate, "
-"cost_of_carry, volatility"
-
-#: ../plugins/derivatives/options.c:2073 ../plugins/derivatives/options.c:2078
-msgid ""
-"type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, "
-"volatility"
-msgstr ""
-"type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, "
-"volatility"
-
-#: ../plugins/derivatives/options.c:2083
-msgid ""
-"type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, "
-"cost_of_carry2, rate, volatility1, volatility2, rho"
-msgstr ""
-"type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, "
-"cost_of_carry2, rate, volatility1, volatility2, rho"
-
-#: ../plugins/derivatives/options.c:2088 ../plugins/derivatives/options.c:2093
-msgid ""
-"spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
-"volatility2,rho"
-msgstr ""
-"spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
-"volatility2,rho"
-
-#: ../plugins/derivatives/options.c:2098
-msgid ""
-"call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,"
-"volatility2,rho"
-msgstr ""
-"call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,"
-"volatility2,rho"
-
-#: ../plugins/derivatives/options.c:2103
-msgid "call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
-msgstr ""
-"call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
-
-#: ../plugins/derivatives/options.c:2108
-msgid ""
-"call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
-"volatility"
-msgstr ""
-"call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
-"volatility"
-
-#: ../plugins/derivatives/options.c:2114
-msgid ""
-"amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
-"volatility, cost_of_carry"
-msgstr ""
-"amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
-"volatility, cost_of_carry"
 
 #: ../plugins/derivatives/plugin.xml.in.h:1
 #: ../plugins/fn-financial/plugin.xml.in.h:1
@@ -602,57 +475,6 @@ msgstr "No workbook stream found."
 msgid "Skipping invalid pivot field group for field '%s' because : %s"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:1227
-msgid "real,im,suffix"
-msgstr "real,im,suffix"
-
-#: ../plugins/fn-complex/functions.c:1230
-#: ../plugins/fn-complex/functions.c:1233
-#: ../plugins/fn-complex/functions.c:1236
-#: ../plugins/fn-complex/functions.c:1239
-#: ../plugins/fn-complex/functions.c:1242
-#: ../plugins/fn-complex/functions.c:1248
-#: ../plugins/fn-complex/functions.c:1251
-#: ../plugins/fn-complex/functions.c:1254
-#: ../plugins/fn-complex/functions.c:1257
-#: ../plugins/fn-complex/functions.c:1263
-#: ../plugins/fn-complex/functions.c:1266
-#: ../plugins/fn-complex/functions.c:1269
-#: ../plugins/fn-complex/functions.c:1279
-#: ../plugins/fn-complex/functions.c:1282
-#: ../plugins/fn-complex/functions.c:1285
-#: ../plugins/fn-complex/functions.c:1291
-#: ../plugins/fn-complex/functions.c:1294
-#: ../plugins/fn-complex/functions.c:1297
-#: ../plugins/fn-complex/functions.c:1300
-#: ../plugins/fn-complex/functions.c:1303
-#: ../plugins/fn-complex/functions.c:1306
-#: ../plugins/fn-complex/functions.c:1309
-#: ../plugins/fn-complex/functions.c:1312
-#: ../plugins/fn-complex/functions.c:1315
-#: ../plugins/fn-complex/functions.c:1318
-#: ../plugins/fn-complex/functions.c:1321
-#: ../plugins/fn-complex/functions.c:1324
-#: ../plugins/fn-complex/functions.c:1327
-#: ../plugins/fn-complex/functions.c:1330
-#: ../plugins/fn-complex/functions.c:1333
-#: ../plugins/fn-complex/functions.c:1336
-#: ../plugins/fn-complex/functions.c:1339
-#: ../plugins/fn-complex/functions.c:1342
-#: ../plugins/fn-complex/functions.c:1345
-#: ../plugins/fn-complex/functions.c:1348
-#: ../plugins/fn-complex/functions.c:1351
-msgid "inumber"
-msgstr "inumber"
-
-#: ../plugins/fn-complex/functions.c:1245
-#: ../plugins/fn-complex/functions.c:1260
-#: ../plugins/fn-complex/functions.c:1272
-#: ../plugins/fn-complex/functions.c:1275
-#: ../plugins/fn-complex/functions.c:1288
-msgid "inumber,inumber"
-msgstr "inumber,inumber"
-
 #: ../plugins/fn-complex/plugin.xml.in.h:1
 msgid "Complex"
 msgstr "Complex"
@@ -665,26 +487,6 @@ msgstr "Complex Functions"
 msgid "Functions for complex numbers"
 msgstr "Functions for complex numbers"
 
-#: ../plugins/fn-database/functions.c:769
-#: ../plugins/fn-database/functions.c:772
-#: ../plugins/fn-database/functions.c:775
-#: ../plugins/fn-database/functions.c:778
-#: ../plugins/fn-database/functions.c:781
-#: ../plugins/fn-database/functions.c:784
-#: ../plugins/fn-database/functions.c:787
-#: ../plugins/fn-database/functions.c:790
-#: ../plugins/fn-database/functions.c:793
-#: ../plugins/fn-database/functions.c:796
-#: ../plugins/fn-database/functions.c:799
-#: ../plugins/fn-database/functions.c:802
-msgid "database,field,criteria"
-msgstr "database,field,criteria"
-
-#. XL stores in lookup
-#: ../plugins/fn-database/functions.c:807
-msgid "pivot_table,field_name"
-msgstr "pivot_table,field_name"
-
 #: ../plugins/fn-database/plugin.xml.in.h:1 ../plugins/gda/plugin.xml.in.h:1
 msgid "Database"
 msgstr "Database"
@@ -696,67 +498,6 @@ msgstr "Database Functions"
 #: ../plugins/fn-database/plugin.xml.in.h:3
 msgid "Functions looking up values in databases"
 msgstr "Functions looking up values in databases"
-
-#: ../plugins/fn-date/functions.c:1133
-msgid "year,month,day"
-msgstr "year,month,day"
-
-#: ../plugins/fn-date/functions.c:1137
-msgid "date_str"
-msgstr "date_str"
-
-#: ../plugins/fn-date/functions.c:1141
-msgid "date1,date2,interval"
-msgstr "date1,date2,interval"
-
-#: ../plugins/fn-date/functions.c:1145 ../plugins/fn-date/functions.c:1169
-#: ../plugins/fn-date/functions.c:1197 ../plugins/fn-date/functions.c:1201
-#: ../plugins/fn-date/functions.c:1209 ../plugins/fn-date/functions.c:1213
-#: ../plugins/fn-date/functions.c:1226 ../plugins/fn-date/functions.c:1230
-#: ../src/print-info.c:576
-msgid "date"
-msgstr "date"
-
-#: ../plugins/fn-date/functions.c:1149
-msgid "date1,date2,method"
-msgstr "date1,date2,method"
-
-#: ../plugins/fn-date/functions.c:1153
-msgid "date,months"
-msgstr "date,months"
-
-#: ../plugins/fn-date/functions.c:1157
-msgid "start_date,months"
-msgstr "start_date,months"
-
-#: ../plugins/fn-date/functions.c:1161 ../plugins/fn-date/functions.c:1165
-#: ../plugins/fn-date/functions.c:1181 ../src/print-info.c:577
-msgid "time"
-msgstr "time"
-
-#: ../plugins/fn-date/functions.c:1173
-msgid "start_date,end_date,holidays"
-msgstr "start_date,end_date,holidays"
-
-#: ../plugins/fn-date/functions.c:1185
-msgid "hours,minutes,seconds"
-msgstr "hours,minutes,seconds"
-
-#: ../plugins/fn-date/functions.c:1189
-msgid "timetext"
-msgstr "timetext"
-
-#: ../plugins/fn-date/functions.c:1205
-msgid "date,days,holidays"
-msgstr "date,days,holidays"
-
-#: ../plugins/fn-date/functions.c:1218
-msgid "unixtime"
-msgstr "unixtime"
-
-#: ../plugins/fn-date/functions.c:1222
-msgid "serial"
-msgstr "serial"
 
 #: ../plugins/fn-date/plugin.xml.in.h:1
 msgid "Date and Time Functions"
@@ -782,18 +523,6 @@ msgstr "Engineering Functions"
 msgid "Functions for complex numbers, base conversions, and more"
 msgstr "Functions for complex numbers, base conversions, and more"
 
-#: ../plugins/fn-erlang/functions.c:288 ../plugins/fn-erlang/functions.c:293
-msgid "traffic,circuits"
-msgstr "traffic,circuits"
-
-#: ../plugins/fn-erlang/functions.c:298
-msgid "traffic,gos"
-msgstr "traffic,gos"
-
-#: ../plugins/fn-erlang/functions.c:303
-msgid "circuits,gos"
-msgstr "circuits,gos"
-
 #: ../plugins/fn-erlang/plugin.xml.in.h:1
 msgid "Erlang"
 msgstr "Erlang"
@@ -805,10 +534,6 @@ msgstr "Erlang Functions"
 #: ../plugins/fn-erlang/plugin.xml.in.h:3
 msgid "Functions to help Erlang Analysis"
 msgstr "Functions to help Erlang Analysis"
-
-#: ../plugins/fn-financial/functions.c:3551
-msgid "rate,values"
-msgstr "rate,values"
 
 #: ../plugins/fn-financial/plugin.xml.in.h:2
 msgid "Financial Functions"
@@ -824,85 +549,41 @@ msgstr "Interest rate calculations"
 #. * reference of the top and leftmost cell visible in the
 #. * window, based on the current scrolling position.
 #.
-#: ../plugins/fn-info/functions.c:1333 ../plugins/fn-info/functions.c:1349
+#: ../plugins/fn-info/functions.c:1334 ../plugins/fn-info/functions.c:1350
 msgid "Unimplemented"
 msgstr "Unimplemented"
 
-#: ../plugins/fn-info/functions.c:1357
+#: ../plugins/fn-info/functions.c:1358
 msgid "Unknown version"
 msgstr "Unknown version"
 
-#: ../plugins/fn-info/functions.c:1359
+#: ../plugins/fn-info/functions.c:1360
 #, c-format
 msgid "%s version %s"
 msgstr "%s version %s"
 
-#: ../plugins/fn-info/functions.c:1374
+#: ../plugins/fn-info/functions.c:1375
 #: ../src/dialogs/dialog-cell-format.c:2515
 #: ../src/dialogs/dialog-cell-format.c:2519
 #: ../src/dialogs/dialog-cell-format.c:2527 ../src/wbc-gtk.c:2823
 msgid "Automatic"
 msgstr "Automatic"
 
-#: ../plugins/fn-info/functions.c:1374
+#: ../plugins/fn-info/functions.c:1375
 msgid "Manual"
 msgstr "Manual"
 
-#: ../plugins/fn-info/functions.c:1384
+#: ../plugins/fn-info/functions.c:1385
 msgid "Unknown system"
 msgstr "Unknown system"
 
-#: ../plugins/fn-info/functions.c:1400
+#: ../plugins/fn-info/functions.c:1401
 msgid "Unknown info_type"
 msgstr "Unknown info_type"
 
-#: ../plugins/fn-info/functions.c:1657
+#: ../plugins/fn-info/functions.c:1658
 msgid "Invalid number of arguments"
 msgstr "Invalid number of arguments"
-
-#: ../plugins/fn-info/functions.c:1779
-msgid "info_type, cell"
-msgstr "info_type, cell"
-
-#: ../plugins/fn-info/functions.c:1782 ../plugins/fn-info/functions.c:1788
-#: ../plugins/fn-info/functions.c:1791 ../plugins/fn-info/functions.c:1794
-#: ../plugins/fn-info/functions.c:1797 ../plugins/fn-info/functions.c:1800
-#: ../plugins/fn-info/functions.c:1803 ../plugins/fn-info/functions.c:1806
-#: ../plugins/fn-info/functions.c:1809 ../plugins/fn-info/functions.c:1812
-#: ../plugins/fn-info/functions.c:1815 ../plugins/fn-info/functions.c:1818
-#: ../plugins/fn-info/functions.c:1821 ../plugins/fn-info/functions.c:1827
-#: ../plugins/fn-string/functions.c:1479
-msgid "value"
-msgstr "value"
-
-#: ../plugins/fn-info/functions.c:1785
-msgid "info_type"
-msgstr "info_type"
-
-#. XL stores this in statistical ?
-#: ../plugins/fn-info/functions.c:1832
-msgid "range"
-msgstr "range"
-
-#: ../plugins/fn-info/functions.c:1836 ../plugins/fn-string/functions.c:1410
-#: ../plugins/fn-string/functions.c:1413 ../plugins/fn-string/functions.c:1416
-#: ../plugins/fn-string/functions.c:1443 ../plugins/fn-string/functions.c:1446
-#: ../plugins/fn-string/functions.c:1449 ../plugins/fn-string/functions.c:1458
-#: ../plugins/fn-string/functions.c:1485 ../plugins/fn-string/functions.c:1488
-#: ../plugins/fn-string/functions.c:1491
-msgid "text"
-msgstr "text"
-
-#. XLM : looks common in charts
-#: ../plugins/fn-info/functions.c:1840 ../plugins/fn-info/functions.c:1844
-#: ../src/print-info.c:580 ../src/ssgrep.c:352
-msgid "cell"
-msgstr "cell"
-
-#: ../plugins/fn-info/functions.c:1848 ../plugins/fn-string/functions.c:1401
-#: ../plugins/fn-string/functions.c:1434 ../src/ssconvert.c:102
-msgid "string"
-msgstr "string"
 
 #: ../plugins/fn-info/plugin.xml.in.h:1
 msgid "Functions for inspecting values, cells, and more"
@@ -920,43 +601,6 @@ msgstr "Information Functions"
 msgid "Type Mismatch"
 msgstr "Type Mismatch"
 
-#: ../plugins/fn-logical/functions.c:281 ../plugins/fn-logical/functions.c:285
-#: ../plugins/fn-logical/functions.c:304 ../plugins/fn-math/functions.c:2870
-#: ../src/func-builtin.c:347 ../src/func-builtin.c:353
-msgid "number,number,"
-msgstr "number,number,"
-
-#. MS Excel puts this in the engineering functions
-#: ../plugins/fn-logical/functions.c:289 ../plugins/fn-math/functions.c:2674
-#: ../plugins/fn-math/functions.c:2678 ../plugins/fn-math/functions.c:2681
-#: ../plugins/fn-math/functions.c:2684 ../plugins/fn-math/functions.c:2687
-#: ../plugins/fn-math/functions.c:2690 ../plugins/fn-math/functions.c:2693
-#: ../plugins/fn-math/functions.c:2696 ../plugins/fn-math/functions.c:2699
-#: ../plugins/fn-math/functions.c:2711 ../plugins/fn-math/functions.c:2714
-#: ../plugins/fn-math/functions.c:2717 ../plugins/fn-math/functions.c:2720
-#: ../plugins/fn-math/functions.c:2729 ../plugins/fn-math/functions.c:2737
-#: ../plugins/fn-math/functions.c:2740 ../plugins/fn-math/functions.c:2743
-#: ../plugins/fn-math/functions.c:2746 ../plugins/fn-math/functions.c:2749
-#: ../plugins/fn-math/functions.c:2754 ../plugins/fn-math/functions.c:2758
-#: ../plugins/fn-math/functions.c:2764 ../plugins/fn-math/functions.c:2767
-#: ../plugins/fn-math/functions.c:2770 ../plugins/fn-math/functions.c:2777
-#: ../plugins/fn-math/functions.c:2784 ../plugins/fn-math/functions.c:2791
-#: ../plugins/fn-math/functions.c:2794 ../plugins/fn-math/functions.c:2800
-#: ../plugins/fn-math/functions.c:2803 ../plugins/fn-math/functions.c:2816
-#: ../plugins/fn-math/functions.c:2822 ../plugins/fn-math/functions.c:2828
-#: ../plugins/fn-math/functions.c:2846 ../plugins/fn-math/functions.c:2849
-#: ../plugins/fn-math/functions.c:2855 ../plugins/fn-math/functions.c:2858
-#: ../plugins/fn-math/functions.c:2861 ../plugins/fn-math/functions.c:2864
-#: ../plugins/fn-math/functions.c:2867 ../plugins/fn-math/functions.c:2880
-#: ../plugins/fn-math/functions.c:2892 ../plugins/fn-math/functions.c:2895
-#: ../plugins/fn-string/functions.c:1404 ../plugins/fn-string/functions.c:1407
-msgid "number"
-msgstr "number"
-
-#: ../plugins/fn-logical/functions.c:293
-msgid "value,value"
-msgstr "value,value"
-
 #: ../plugins/fn-logical/plugin.xml.in.h:1
 msgid "Functions for manipulating truth values"
 msgstr "Functions for manipulating truth values"
@@ -969,59 +613,6 @@ msgstr "Logic"
 msgid "Logic Functions"
 msgstr "Logic Functions"
 
-#: ../plugins/fn-lookup/functions.c:1505
-msgid "row_num,col_num,abs_num,a1,text"
-msgstr "row_num,col_num,abs_num,a1,text"
-
-#: ../plugins/fn-lookup/functions.c:1508
-msgid "reference"
-msgstr "reference"
-
-#: ../plugins/fn-lookup/functions.c:1511
-msgid "index,value,"
-msgstr "index,value,"
-
-#: ../plugins/fn-lookup/functions.c:1514 ../plugins/fn-lookup/functions.c:1520
-#: ../plugins/fn-lookup/functions.c:1544 ../plugins/fn-lookup/functions.c:1547
-msgid "ref"
-msgstr "ref"
-
-#: ../plugins/fn-lookup/functions.c:1517
-msgid "colname"
-msgstr "colname"
-
-#: ../plugins/fn-lookup/functions.c:1523 ../plugins/fn-lookup/functions.c:1553
-msgid "val,range,col_idx,approx,as_index"
-msgstr "val,range,col_idx,approx,as_index"
-
-#: ../plugins/fn-lookup/functions.c:1526
-msgid "link_location, label"
-msgstr "link_location, label"
-
-#: ../plugins/fn-lookup/functions.c:1529
-msgid "ref_string,format"
-msgstr "ref_string,format"
-
-#: ../plugins/fn-lookup/functions.c:1532
-msgid "reference,row,col,area"
-msgstr "reference,row,col,area"
-
-#: ../plugins/fn-lookup/functions.c:1535
-msgid "val,range,range"
-msgstr "val,range,range"
-
-#: ../plugins/fn-lookup/functions.c:1538
-msgid "val,range,approx"
-msgstr "val,range,approx"
-
-#: ../plugins/fn-lookup/functions.c:1541
-msgid "ref,row,col,height,width"
-msgstr "ref,row,col,height,width"
-
-#: ../plugins/fn-lookup/functions.c:1550 ../plugins/fn-math/functions.c:2908
-msgid "array"
-msgstr "array"
-
 #: ../plugins/fn-lookup/plugin.xml.in.h:1
 msgid "Functions for looking up values in ranges"
 msgstr "Functions for looking up values in ranges"
@@ -1033,83 +624,6 @@ msgstr "Lookup"
 #: ../plugins/fn-lookup/plugin.xml.in.h:3
 msgid "Lookup Functions"
 msgstr "Lookup Functions"
-
-#: ../plugins/fn-math/functions.c:2702
-msgid "xnum,ynum"
-msgstr "xnum,ynum"
-
-#: ../plugins/fn-math/functions.c:2705 ../plugins/fn-math/functions.c:2708
-#: ../plugins/fn-random/functions.c:891 ../plugins/fn-random/functions.c:912
-#: ../plugins/fn-random/functions.c:918 ../plugins/fn-random/functions.c:957
-#: ../plugins/fn-random/functions.c:972 ../plugins/fn-random/functions.c:975
-msgid "a,b"
-msgstr "a,b"
-
-#. MS Excel puts this in statistical
-#: ../plugins/fn-math/functions.c:2725
-msgid "range,criteria"
-msgstr "range,criteria"
-
-#: ../plugins/fn-math/functions.c:2733
-msgid "number,significance"
-msgstr "number,significance"
-
-#: ../plugins/fn-math/functions.c:2761 ../plugins/fn-stat/functions.c:4988
-msgid "n,k"
-msgstr "n,k"
-
-#: ../plugins/fn-math/functions.c:2774
-msgid "number,number"
-msgstr "number,number"
-
-#: ../plugins/fn-math/functions.c:2797
-msgid "number,base"
-msgstr "number,base"
-
-#: ../plugins/fn-math/functions.c:2806 ../plugins/fn-math/functions.c:2825
-msgid "numerator,denominator"
-msgstr "numerator,denominator"
-
-#: ../plugins/fn-math/functions.c:2809
-msgid "number,multiple"
-msgstr "number,multiple"
-
-#: ../plugins/fn-math/functions.c:2819
-msgid "base,exponent"
-msgstr "base,exponent"
-
-#: ../plugins/fn-math/functions.c:2831
-msgid "number,type"
-msgstr "number,type"
-
-#: ../plugins/fn-math/functions.c:2834 ../plugins/fn-math/functions.c:2838
-#: ../plugins/fn-math/functions.c:2842 ../plugins/fn-math/functions.c:2898
-msgid "number,digits"
-msgstr "number,digits"
-
-#: ../plugins/fn-math/functions.c:2852
-msgid "x,n,m,coefficients"
-msgstr "x,n,m,coefficients"
-
-#: ../plugins/fn-math/functions.c:2874
-msgid "range,criteria,actual_range"
-msgstr "range,criteria,actual_range"
-
-#: ../plugins/fn-math/functions.c:2877
-msgid "range,range,"
-msgstr "range,range,"
-
-#: ../plugins/fn-math/functions.c:2883 ../plugins/fn-math/functions.c:2886
-#: ../plugins/fn-math/functions.c:2889 ../plugins/fn-math/functions.c:2905
-#: ../plugins/fn-stat/functions.c:4847 ../plugins/fn-stat/functions.c:4856
-#: ../plugins/fn-stat/functions.c:4886 ../plugins/fn-stat/functions.c:4979
-#: ../plugins/fn-stat/functions.c:5035
-msgid "array1,array2"
-msgstr "array1,array2"
-
-#: ../plugins/fn-math/functions.c:2911 ../plugins/fn-math/functions.c:2915
-msgid "array,matrix_type,bandsize"
-msgstr "array,matrix_type,bandsize"
 
 #: ../plugins/fn-math/plugin.xml.in.h:1
 msgid "Math Functions"
@@ -1139,80 +653,6 @@ msgstr ""
 msgid "Statistics"
 msgstr "Statistics"
 
-#: ../plugins/fn-random/functions.c:888 ../plugins/fn-random/functions.c:924
-#: ../plugins/fn-random/functions.c:942 ../plugins/fn-stat/functions.c:4976
-msgid "p"
-msgstr "p"
-
-#: ../plugins/fn-random/functions.c:894
-msgid "bottom,top"
-msgstr "bottom,top"
-
-#: ../plugins/fn-random/functions.c:897
-msgid "p,trials"
-msgstr "p,trials"
-
-#: ../plugins/fn-random/functions.c:900 ../plugins/fn-random/functions.c:936
-#: ../plugins/fn-random/functions.c:945
-msgid "a"
-msgstr "a"
-
-#: ../plugins/fn-random/functions.c:903 ../plugins/fn-random/functions.c:969
-msgid "nu"
-msgstr "nu"
-
-#: ../plugins/fn-random/functions.c:906
-msgid "value_range,prob_range"
-msgstr "value_range,prob_range"
-
-#: ../plugins/fn-random/functions.c:909
-msgid "b"
-msgstr "b"
-
-#: ../plugins/fn-random/functions.c:915
-msgid "nu1,nu2"
-msgstr "nu1,nu2"
-
-#: ../plugins/fn-random/functions.c:921 ../plugins/fn-random/functions.c:966
-msgid "a,sigma"
-msgstr "a,sigma"
-
-#: ../plugins/fn-random/functions.c:927
-msgid "a,b,type"
-msgstr "a,b,type"
-
-#: ../plugins/fn-random/functions.c:930
-msgid "n1,n2,t"
-msgstr "n1,n2,t"
-
-#: ../plugins/fn-random/functions.c:939
-msgid "c,alpha,beta"
-msgstr "c,alpha,beta"
-
-#: ../plugins/fn-random/functions.c:948
-msgid "zeta,sigma"
-msgstr "zeta,sigma"
-
-#: ../plugins/fn-random/functions.c:951
-msgid "p,failures"
-msgstr "p,failures"
-
-#: ../plugins/fn-random/functions.c:954
-msgid "mean,stdev"
-msgstr "mean,stdev"
-
-#: ../plugins/fn-random/functions.c:960
-msgid "lambda"
-msgstr "lambda"
-
-#: ../plugins/fn-random/functions.c:963
-msgid "sigma"
-msgstr "sigma"
-
-#: ../plugins/fn-random/functions.c:978
-msgid "d1,d2,...,dN"
-msgstr "d1,d2,...,dN"
-
 #: ../plugins/fn-random/plugin.xml.in.h:1
 msgid "Functions for generating random numbers"
 msgstr "Functions for generating random numbers"
@@ -1231,294 +671,18 @@ msgstr "Random Numbers"
 msgid "Array version not implemented!"
 msgstr "Array version not implemented!"
 
-#: ../plugins/fn-stat/functions.c:4804 ../plugins/fn-stat/functions.c:4808
-#: ../plugins/fn-stat/functions.c:4812 ../plugins/fn-stat/functions.c:4850
-#: ../plugins/fn-stat/functions.c:4853 ../plugins/fn-stat/functions.c:4862
-#: ../plugins/fn-stat/functions.c:4898 ../plugins/fn-stat/functions.c:4905
-#: ../plugins/fn-stat/functions.c:4915 ../plugins/fn-stat/functions.c:4940
-#: ../plugins/fn-stat/functions.c:4944 ../plugins/fn-stat/functions.c:4948
-#: ../plugins/fn-stat/functions.c:4952 ../plugins/fn-stat/functions.c:4956
-#: ../plugins/fn-stat/functions.c:4960 ../plugins/fn-stat/functions.c:5038
-#: ../plugins/fn-stat/functions.c:5082 ../plugins/fn-stat/functions.c:5103
-msgid "number1,number2,"
-msgstr "number1,number2,"
-
-#: ../plugins/fn-stat/functions.c:4817
-msgid "k,p"
-msgstr "k,p"
-
-#: ../plugins/fn-stat/functions.c:4821
-msgid "x,alpha,beta,a,b"
-msgstr "x,alpha,beta,a,b"
-
-#: ../plugins/fn-stat/functions.c:4824
-msgid "p,alpha,beta,a,b"
-msgstr "p,alpha,beta,a,b"
-
-#: ../plugins/fn-stat/functions.c:4827
-msgid "n,trials,p,cumulative"
-msgstr "n,trials,p,cumulative"
-
-#: ../plugins/fn-stat/functions.c:4831
-msgid "x,a,cumulative"
-msgstr "x,a,cumulative"
-
-#: ../plugins/fn-stat/functions.c:4835
-msgid "x,dof"
-msgstr "x,dof"
-
-#: ../plugins/fn-stat/functions.c:4838 ../plugins/fn-stat/functions.c:5044
-msgid "p,dof"
-msgstr "p,dof"
-
-#: ../plugins/fn-stat/functions.c:4841
-msgid "actual_range,theoretical_range"
-msgstr "actual_range,theoretical_range"
-
-#: ../plugins/fn-stat/functions.c:4844
-msgid "x,stddev,size"
-msgstr "x,stddev,size"
-
-#: ../plugins/fn-stat/functions.c:4859
-msgid "trials,p,alpha"
-msgstr "trials,p,alpha"
-
-#: ../plugins/fn-stat/functions.c:4865
-msgid "x,y,cumulative"
-msgstr "x,y,cumulative"
-
-#: ../plugins/fn-stat/functions.c:4868
-msgid "x,dof_of_num,dof_of_denom"
-msgstr "x,dof_of_num,dof_of_denom"
-
-#: ../plugins/fn-stat/functions.c:4871
-msgid "p,dof_of_num,dof_of_denom"
-msgstr "p,dof_of_num,dof_of_denom"
-
-#: ../plugins/fn-stat/functions.c:4874 ../plugins/fn-stat/functions.c:4877
-#: ../plugins/fn-stat/functions.c:4895 ../plugins/fn-stat/functions.c:4973
-#: ../plugins/fn-stat/functions.c:5085 ../src/dialogs/col-width.glade.h:5
-#: ../src/dialogs/row-height.glade.h:5
-msgid "x"
-msgstr "x"
-
-#: ../plugins/fn-stat/functions.c:4880
-msgid "x,known_y's,known_x's"
-msgstr "x,known_y's,known_x's"
-
-#: ../plugins/fn-stat/functions.c:4883
-msgid "data_array,bins_array"
-msgstr "data_array,bins_array"
-
-#: ../plugins/fn-stat/functions.c:4889
-msgid "x,alpha,beta,cumulative"
-msgstr "x,alpha,beta,cumulative"
-
-#: ../plugins/fn-stat/functions.c:4892
-msgid "p,alpha,beta"
-msgstr "p,alpha,beta"
-
-#: ../plugins/fn-stat/functions.c:4902 ../plugins/fn-stat/functions.c:5047
-msgid "known_y's,known_x's,new_x's,const"
-msgstr "known_y's,known_x's,new_x's,const"
-
-#: ../plugins/fn-stat/functions.c:4909
-msgid "x,n,M,N,cumulative"
-msgstr "x,n,M,N,cumulative"
-
-#: ../plugins/fn-stat/functions.c:4912 ../plugins/fn-stat/functions.c:4928
-#: ../plugins/fn-stat/functions.c:5003 ../plugins/fn-stat/functions.c:5032
-msgid "known_y's,known_x's"
-msgstr "known_y's,known_x's"
-
-#: ../plugins/fn-stat/functions.c:4918 ../plugins/fn-stat/functions.c:5006
-msgid "data,k,"
-msgstr "data,k,"
-
-#: ../plugins/fn-stat/functions.c:4922
-msgid "known_y's,known_x's,affine,stat"
-msgstr "known_y's,known_x's,affine,stat"
-
-#: ../plugins/fn-stat/functions.c:4925 ../plugins/fn-stat/functions.c:4937
-msgid "known_y's,known_x's,const,stat"
-msgstr "known_y's,known_x's,const,stat"
-
-#: ../plugins/fn-stat/functions.c:4931 ../plugins/fn-stat/functions.c:4970
-msgid "p,mean,stddev"
-msgstr "p,mean,stddev"
-
-#: ../plugins/fn-stat/functions.c:4934 ../plugins/fn-stat/functions.c:5010
-msgid "x,mean,stddev"
-msgstr "x,mean,stddev"
-
-#: ../plugins/fn-stat/functions.c:4964
-msgid "f,t,p"
-msgstr "f,t,p"
-
-#: ../plugins/fn-stat/functions.c:4967
-msgid "x,mean,stddev,cumulative"
-msgstr "x,mean,stddev,cumulative"
-
-#: ../plugins/fn-stat/functions.c:4982
-msgid "array,k"
-msgstr "array,k"
-
-#: ../plugins/fn-stat/functions.c:4985
-msgid "array,x,significance"
-msgstr "array,x,significance"
-
-#: ../plugins/fn-stat/functions.c:4991
-msgid "x,mean,cumulative"
-msgstr "x,mean,cumulative"
-
-#: ../plugins/fn-stat/functions.c:4994
-msgid "x_range,prob_range,lower_limit,upper_limit"
-msgstr "x_range,prob_range,lower_limit,upper_limit"
-
-#: ../plugins/fn-stat/functions.c:4997
-msgid "array,quart"
-msgstr "array,quart"
-
-#: ../plugins/fn-stat/functions.c:5000
-msgid "x,ref,order"
-msgstr "x,ref,order"
-
-#: ../plugins/fn-stat/functions.c:5013
-msgid "array,interval"
-msgstr "array,interval"
-
-#: ../plugins/fn-stat/functions.c:5016 ../plugins/fn-stat/functions.c:5020
-#: ../plugins/fn-stat/functions.c:5024 ../plugins/fn-stat/functions.c:5028
-#: ../plugins/fn-stat/functions.c:5057 ../plugins/fn-stat/functions.c:5060
-#: ../plugins/fn-stat/functions.c:5063 ../plugins/fn-stat/functions.c:5066
-msgid "area1,area2,"
-msgstr "area1,area2,"
-
-#: ../plugins/fn-stat/functions.c:5041
-msgid "x,dof,tails"
-msgstr "x,dof,tails"
-
-#: ../plugins/fn-stat/functions.c:5050
-msgid "ref,fraction"
-msgstr "ref,fraction"
-
-#: ../plugins/fn-stat/functions.c:5054
-msgid "array1,array2,tails,type"
-msgstr "array1,array2,tails,type"
-
-#: ../plugins/fn-stat/functions.c:5069
-msgid "x.alpha,beta,cumulative"
-msgstr "x.alpha,beta,cumulative"
-
-#: ../plugins/fn-stat/functions.c:5072
-msgid "ref,x[,stddev]"
-msgstr "ref,x[,stddev]"
-
-#: ../plugins/fn-stat/functions.c:5076 ../plugins/fn-stat/functions.c:5094
-msgid "x,a,b"
-msgstr "x,a,b"
-
-#: ../plugins/fn-stat/functions.c:5079
-msgid "k,p,cumulative"
-msgstr "k,p,cumulative"
-
-#: ../plugins/fn-stat/functions.c:5088 ../plugins/fn-stat/functions.c:5091
-msgid "x,a"
-msgstr "x,a"
-
-#: ../plugins/fn-stat/functions.c:5097
-msgid "x,sigma"
-msgstr "x,sigma"
-
-#: ../plugins/fn-stat/functions.c:5100
-msgid "x,a,sigma"
-msgstr "x,a,sigma"
-
-#: ../plugins/fn-stat/functions.c:5106
-msgid "function_nbr,ref1,ref2,"
-msgstr "function_nbr,ref1,ref2,"
-
-#: ../plugins/fn-stat/functions.c:5109
-msgid "ref1,ref2,"
-msgstr "ref1,ref2,"
-
-#: ../plugins/fn-string/functions.c:1419
-msgid "text,text,"
-msgstr "text,text,"
-
-#: ../plugins/fn-string/functions.c:1422
-msgid "num,decimals"
-msgstr "num,decimals"
-
-#: ../plugins/fn-string/functions.c:1425
-msgid "text1,text2"
-msgstr "text1,text2"
-
-#: ../plugins/fn-string/functions.c:1428
-msgid "text1,text2,num"
-msgstr "text1,text2,num"
-
-#: ../plugins/fn-string/functions.c:1431
-msgid "num,decs,no_commas"
-msgstr "num,decs,no_commas"
-
-#: ../plugins/fn-string/functions.c:1437 ../plugins/fn-string/functions.c:1467
-msgid "text,num_chars"
-msgstr "text,num_chars"
-
-#: ../plugins/fn-string/functions.c:1440 ../plugins/fn-string/functions.c:1470
-#, fuzzy
-msgid "text,num_bytes"
-msgstr "text,num"
-
-#: ../plugins/fn-string/functions.c:1452 ../plugins/fn-string/functions.c:1455
-msgid "text,pos,num"
-msgstr "text,pos,num"
-
-#: ../plugins/fn-string/functions.c:1461
-msgid "old,start,num,new"
-msgstr "old,start,num,new"
-
-#: ../plugins/fn-string/functions.c:1464
-msgid "text,num"
-msgstr "text,num"
-
-#: ../plugins/fn-string/functions.c:1473
-msgid "search_string,text,start_num"
-msgstr "search_string,text,start_num"
-
-#: ../plugins/fn-string/functions.c:1476
-msgid "text,old,new,num"
-msgstr "text,old,new,num"
-
-#: ../plugins/fn-string/functions.c:1482
-msgid "value,format_text"
-msgstr "value,format_text"
-
 #: ../plugins/fn-string/plugin.xml.in.h:1
 msgid "Functions for manipulating strings"
 msgstr "Functions for manipulating strings"
 
 #: ../plugins/fn-string/plugin.xml.in.h:2 ../src/dialogs/dialog-search.c:151
-#: ../src/func.c:1027
+#: ../src/func.c:1070
 msgid "String"
 msgstr "String"
 
 #: ../plugins/fn-string/plugin.xml.in.h:3
 msgid "String Functions"
 msgstr "String Functions"
-
-#: ../plugins/fn-tsa/functions.c:1011
-msgid "Abscissas,Ordinates,Targets,Interpolation"
-msgstr "Abscissas,Ordinates,Targets,Interpolation"
-
-#: ../plugins/fn-tsa/functions.c:1015
-msgid "Ordinates,Filter,Abscissas,Interpolation,Number"
-msgstr "Ordinates,Filter,Abscissas,Interpolation,Number"
-
-#: ../plugins/fn-tsa/functions.c:1019
-msgid "Sequence,Inverse"
-msgstr ""
 
 #: ../plugins/fn-tsa/plugin.xml.in.h:1
 msgid "Time Series Analysis"
@@ -1675,9 +839,9 @@ msgstr "Constraints:"
 #: ../src/dialogs/dialog-define-names.c:576
 #: ../src/dialogs/dialog-doc-metadata.c:1276
 #: ../src/dialogs/dialog-formula-guru.c:827
-#: ../src/dialogs/dialog-function-select.c:913
-#: ../src/dialogs/dialog-function-select.c:935
-#: ../src/dialogs/dialog-function-select.c:940
+#: ../src/dialogs/dialog-function-select.c:804
+#: ../src/dialogs/dialog-function-select.c:826
+#: ../src/dialogs/dialog-function-select.c:831
 #: ../src/dialogs/dialog-paste-names.c:93
 #: ../src/dialogs/dialog-scenarios.c:374
 #: ../src/dialogs/dialog-simulation.c:217 ../src/dialogs/dialog-zoom.c:191
@@ -2027,21 +1191,21 @@ msgstr ""
 "@SYNTAX=PERL_FUNCTION_TEMPLATE(value1, value2, ...)\n"
 "@DESCRIPTION=This is the perl function template. \n"
 
-#: ../plugins/perl-loader/perl-loader.c:87
+#: ../plugins/perl-loader/perl-loader.c:89
 msgid "Perl error: "
 msgstr "Perl error: "
 
-#: ../plugins/perl-loader/perl-loader.c:127
-#: ../plugins/perl-loader/perl-loader.c:146
+#: ../plugins/perl-loader/perl-loader.c:129
+#: ../plugins/perl-loader/perl-loader.c:148
 #, c-format
 msgid "Perl error: %s\n"
 msgstr "Perl error: %s\n"
 
-#: ../plugins/perl-loader/perl-loader.c:191
+#: ../plugins/perl-loader/perl-loader.c:194
 msgid "Module name not given."
 msgstr "Module name not given."
 
-#: ../plugins/perl-loader/perl-loader.c:218
+#: ../plugins/perl-loader/perl-loader.c:221
 msgid "perl_func.pl doesn't exist."
 msgstr "perl_func.pl doesn't exist."
 
@@ -2222,8 +1386,8 @@ msgstr "Some name"
 
 #: ../plugins/python-loader/python-loader.c:338
 #: ../plugins/python-loader/python-loader.c:431
-#: ../plugins/python-loader/python-loader.c:655
-#: ../plugins/python-loader/python-loader.c:767
+#: ../plugins/python-loader/python-loader.c:662
+#: ../plugins/python-loader/python-loader.c:774
 #, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr "Python file \"%s\" has invalid format."
@@ -2234,24 +1398,24 @@ msgstr "Python file \"%s\" has invalid format."
 msgid "File doesn't contain \"%s\" function."
 msgstr "File doesn't contain \"%s\" function."
 
-#: ../plugins/python-loader/python-loader.c:660
-#: ../plugins/python-loader/python-loader.c:772
+#: ../plugins/python-loader/python-loader.c:667
+#: ../plugins/python-loader/python-loader.c:779
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
 msgstr "File doesn't contain \"%s\" dictionary."
 
-#: ../plugins/python-loader/python-loader.c:665
-#: ../plugins/python-loader/python-loader.c:777
+#: ../plugins/python-loader/python-loader.c:672
+#: ../plugins/python-loader/python-loader.c:784
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr "Object \"%s\" is not a dictionary."
 
-#: ../plugins/python-loader/python-loader.c:715 ../src/gnm-plugin.c:568
+#: ../plugins/python-loader/python-loader.c:722 ../src/gnm-plugin.c:568
 #, c-format
 msgid "Unknown action: %s"
 msgstr "Unknown action: %s"
 
-#: ../plugins/python-loader/python-loader.c:720
+#: ../plugins/python-loader/python-loader.c:727
 #, c-format
 msgid "Not a valid function for action: %s"
 msgstr "Not a valid function for action: %s"
@@ -4957,6 +4121,10 @@ msgstr "_Column width in pixels:"
 msgid "_Use Default"
 msgstr "_Use Default"
 
+#: ../src/dialogs/col-width.glade.h:5 ../src/dialogs/row-height.glade.h:5
+msgid "x"
+msgstr "x"
+
 #: ../src/dialogs/colrow.glade.h:1
 msgid "Group/Ungroup"
 msgstr "Group/Ungroup"
@@ -6133,7 +5301,7 @@ msgid "Double"
 msgstr "Double"
 
 #: ../src/dialogs/dialog-cell-format.c:479 ../src/dialogs/dialog-search.c:153
-#: ../src/func.c:1025 ../src/wbc-gtk-actions.c:2311
+#: ../src/func.c:1068 ../src/wbc-gtk-actions.c:2311
 msgid "Number"
 msgstr "Number"
 
@@ -6453,47 +5621,47 @@ msgstr "Recently Used"
 msgid "All Functions (long list)"
 msgstr "All Functions (long list)"
 
-#: ../src/dialogs/dialog-function-select.c:437
+#: ../src/dialogs/dialog-function-select.c:330
 #, fuzzy, c-format
 msgid "%s evaluates to %s."
 msgstr "%s version %s"
 
-#: ../src/dialogs/dialog-function-select.c:496
+#: ../src/dialogs/dialog-function-select.c:389
 msgid "Arguments:"
 msgstr "Arguments:"
 
-#: ../src/dialogs/dialog-function-select.c:516
+#: ../src/dialogs/dialog-function-select.c:409
 msgid "Note: "
 msgstr "Note: "
 
-#: ../src/dialogs/dialog-function-select.c:528
+#: ../src/dialogs/dialog-function-select.c:421
 msgid "Examples:"
 msgstr "Examples:"
 
 #. Not translated
-#: ../src/dialogs/dialog-function-select.c:544
+#: ../src/dialogs/dialog-function-select.c:437
 msgid "See also: "
 msgstr "See also: "
 
-#: ../src/dialogs/dialog-function-select.c:559
+#: ../src/dialogs/dialog-function-select.c:452
 msgid ", "
 msgstr ", "
 
-#: ../src/dialogs/dialog-function-select.c:591
+#: ../src/dialogs/dialog-function-select.c:484
 #, fuzzy
 msgid "Further information: "
 msgstr "File Information"
 
-#: ../src/dialogs/dialog-function-select.c:593
+#: ../src/dialogs/dialog-function-select.c:486
 #, fuzzy
 msgid "online descriptions"
 msgstr "Description"
 
-#: ../src/dialogs/dialog-function-select.c:604
+#: ../src/dialogs/dialog-function-select.c:497
 msgid "Microsoft Excel: "
 msgstr ""
 
-#: ../src/dialogs/dialog-function-select.c:612
+#: ../src/dialogs/dialog-function-select.c:505
 msgid "ODF (OpenFormula): "
 msgstr ""
 
@@ -10377,49 +9545,45 @@ msgstr ""
 "then evaluate and return the second argument.  Otherwise, it will evaluate "
 "and return the last argument."
 
-#: ../src/func-builtin.c:372
-msgid "condition,if true,if false"
-msgstr "condition,if true,if false"
-
 #: ../src/func-builtin.c:386
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: ../src/func.c:300
+#: ../src/func.c:226
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "Cannot create file %s\n"
 
-#: ../src/func.c:621
+#: ../src/func.c:665
 msgid "Function implementation not available."
 msgstr "Function implementation not available."
 
-#: ../src/func.c:846
+#: ../src/func.c:890
 msgid "Unknown Function"
 msgstr "Unknown Function"
 
-#: ../src/func.c:1029
+#: ../src/func.c:1072
 msgid "Boolean"
 msgstr "Boolean"
 
-#: ../src/func.c:1031
+#: ../src/func.c:1074
 msgid "Cell Range"
 msgstr "Cell Range"
 
-#: ../src/func.c:1033
+#: ../src/func.c:1076
 msgid "Area"
 msgstr "Area"
 
-#: ../src/func.c:1035
+#: ../src/func.c:1078
 msgid "Scalar, Blank, or Error"
 msgstr "Scalar, Blank, or Error"
 
-#: ../src/func.c:1037
+#: ../src/func.c:1080
 msgid "Scalar"
 msgstr "Scalar"
 
 #. Missing values will be NULL.
-#: ../src/func.c:1040
+#: ../src/func.c:1083
 msgid "Any"
 msgstr "Any"
 
@@ -10723,44 +9887,48 @@ msgstr "Gnumeric Options"
 msgid "Show Gnumeric Options"
 msgstr "Show Gnumeric Options"
 
-#: ../src/main-application.c:74
+#: ../src/main-application.c:76
 msgid "Specify the size and location of the initial window"
 msgstr "Specify the size and location of the initial window"
 
-#: ../src/main-application.c:75
+#: ../src/main-application.c:77
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "WIDTHxHEIGHT+XOFF+YOFF"
 
-#: ../src/main-application.c:78
+#: ../src/main-application.c:80
 msgid "Don't show splash screen"
 msgstr "Don't show splash screen"
 
-#: ../src/main-application.c:80
+#: ../src/main-application.c:82
 msgid "Don't display warning dialogs when importing"
 msgstr "Don't display warning dialogues when importing"
 
-#: ../src/main-application.c:89 ../src/main-application.c:95
+#: ../src/main-application.c:91 ../src/main-application.c:97
 msgid "Dumps the function definitions"
 msgstr "Dumps the function definitions"
 
-#: ../src/main-application.c:90 ../src/main-application.c:96
-#: ../src/main-application.c:102 ../src/ssgrep.c:74
+#: ../src/main-application.c:92 ../src/main-application.c:98
+#: ../src/main-application.c:104 ../src/ssgrep.c:74
 msgid "FILE"
 msgstr "FILE"
 
-#: ../src/main-application.c:101
+#: ../src/main-application.c:103
 msgid "Dumps web page for function help"
 msgstr ""
 
-#: ../src/main-application.c:107
+#: ../src/main-application.c:109
 msgid "Generate new help and po files"
 msgstr "Generate new help and po files"
 
 #: ../src/main-application.c:113
+msgid "Sanity check functions' help texts"
+msgstr ""
+
+#: ../src/main-application.c:119
 msgid "Exit immediately after loading the selected books"
 msgstr "Exit immediately after loading the selected books"
 
-#: ../src/main-application.c:226 ../src/ssconvert.c:567 ../src/ssgrep.c:434
+#: ../src/main-application.c:232 ../src/ssconvert.c:567 ../src/ssgrep.c:434
 #: ../src/ssindex.c:253
 #, c-format
 msgid ""
@@ -10932,6 +10100,14 @@ msgstr "page"
 msgid "pages"
 msgstr "pages"
 
+#: ../src/print-info.c:576
+msgid "date"
+msgstr "date"
+
+#: ../src/print-info.c:577
+msgid "time"
+msgstr "time"
+
 #: ../src/print-info.c:578 ../src/ssconvert.c:88
 msgid "file"
 msgstr "file"
@@ -10939,6 +10115,10 @@ msgstr "file"
 #: ../src/print-info.c:579
 msgid "path"
 msgstr "path"
+
+#: ../src/print-info.c:580 ../src/ssgrep.c:352
+msgid "cell"
+msgstr "cell"
 
 #: ../src/print-info.c:744 ../src/stf-export.c:630
 #, c-format
@@ -11795,6 +10975,10 @@ msgstr "Optionally specify which exporter to use"
 #: ../src/ssconvert.c:101
 msgid "Detailed instructions for the chosen exporter"
 msgstr "Detailed instructions for the chosen exporter"
+
+#: ../src/ssconvert.c:102
+msgid "string"
+msgstr "string"
 
 #: ../src/ssconvert.c:108
 msgid "List the available exporters"
@@ -16065,6 +15249,539 @@ msgstr "Lila list template"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "A simple list template"
+
+#~ msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
+#~ msgstr "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
+
+#~ msgid "spot, strike, time, rate, volatility, cost_of_carry"
+#~ msgstr "spot, strike, time, rate, volatility, cost_of_carry"
+
+#~ msgid "a, b, rho"
+#~ msgstr "a, b, rho"
+
+#~ msgid ""
+#~ "call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
+#~ msgstr ""
+#~ "call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
+
+#~ msgid ""
+#~ "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
+#~ msgstr ""
+#~ "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
+
+#~ msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
+#~ msgstr "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
+
+#~ msgid ""
+#~ "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
+#~ msgstr ""
+#~ "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
+
+#~ msgid "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
+#~ msgstr "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
+
+#~ msgid ""
+#~ "call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, "
+#~ "rho_ef, kappa_e, kappa_f)"
+#~ msgstr ""
+#~ "call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, "
+#~ "rho_ef, kappa_e, kappa_f)"
+
+#~ msgid "spot, strike, t1, t2, rate, d, volatility"
+#~ msgstr "spot, strike, t1, t2, rate, d, volatility"
+
+#~ msgid ""
+#~ "call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
+#~ msgstr ""
+#~ "call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
+
+#~ msgid ""
+#~ "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, "
+#~ "volatility"
+#~ msgstr ""
+#~ "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, "
+#~ "volatility"
+
+#~ msgid "spot, strike, time1, time2, rate, cost_of_carry, volatility"
+#~ msgstr "spot, strike, time1, time2, rate, cost_of_carry, volatility"
+
+#~ msgid ""
+#~ "spot, strike_call, strike_put, time, time_call, time_put, rate, "
+#~ "cost_of_carry, volatility"
+#~ msgstr ""
+#~ "spot, strike_call, strike_put, time, time_call, time_put, rate, "
+#~ "cost_of_carry, volatility"
+
+#~ msgid ""
+#~ "type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, "
+#~ "volatility"
+#~ msgstr ""
+#~ "type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, "
+#~ "volatility"
+
+#~ msgid ""
+#~ "type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, "
+#~ "cost_of_carry2, rate, volatility1, volatility2, rho"
+#~ msgstr ""
+#~ "type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, "
+#~ "cost_of_carry2, rate, volatility1, volatility2, rho"
+
+#~ msgid ""
+#~ "spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
+#~ "volatility2,rho"
+#~ msgstr ""
+#~ "spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
+#~ "volatility2,rho"
+
+#~ msgid ""
+#~ "call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,"
+#~ "volatility2,rho"
+#~ msgstr ""
+#~ "call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,"
+#~ "volatility2,rho"
+
+#~ msgid ""
+#~ "call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
+#~ msgstr ""
+#~ "call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
+
+#~ msgid ""
+#~ "call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
+#~ "volatility"
+#~ msgstr ""
+#~ "call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
+#~ "volatility"
+
+#~ msgid ""
+#~ "amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
+#~ "volatility, cost_of_carry"
+#~ msgstr ""
+#~ "amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
+#~ "volatility, cost_of_carry"
+
+#~ msgid "real,im,suffix"
+#~ msgstr "real,im,suffix"
+
+#~ msgid "inumber"
+#~ msgstr "inumber"
+
+#~ msgid "inumber,inumber"
+#~ msgstr "inumber,inumber"
+
+#~ msgid "database,field,criteria"
+#~ msgstr "database,field,criteria"
+
+#~ msgid "pivot_table,field_name"
+#~ msgstr "pivot_table,field_name"
+
+#~ msgid "year,month,day"
+#~ msgstr "year,month,day"
+
+#~ msgid "date_str"
+#~ msgstr "date_str"
+
+#~ msgid "date1,date2,interval"
+#~ msgstr "date1,date2,interval"
+
+#~ msgid "date1,date2,method"
+#~ msgstr "date1,date2,method"
+
+#~ msgid "date,months"
+#~ msgstr "date,months"
+
+#~ msgid "start_date,months"
+#~ msgstr "start_date,months"
+
+#~ msgid "start_date,end_date,holidays"
+#~ msgstr "start_date,end_date,holidays"
+
+#~ msgid "hours,minutes,seconds"
+#~ msgstr "hours,minutes,seconds"
+
+#~ msgid "timetext"
+#~ msgstr "timetext"
+
+#~ msgid "date,days,holidays"
+#~ msgstr "date,days,holidays"
+
+#~ msgid "unixtime"
+#~ msgstr "unixtime"
+
+#~ msgid "serial"
+#~ msgstr "serial"
+
+#~ msgid "traffic,circuits"
+#~ msgstr "traffic,circuits"
+
+#~ msgid "traffic,gos"
+#~ msgstr "traffic,gos"
+
+#~ msgid "circuits,gos"
+#~ msgstr "circuits,gos"
+
+#~ msgid "rate,values"
+#~ msgstr "rate,values"
+
+#~ msgid "info_type, cell"
+#~ msgstr "info_type, cell"
+
+#~ msgid "value"
+#~ msgstr "value"
+
+#~ msgid "info_type"
+#~ msgstr "info_type"
+
+#~ msgid "range"
+#~ msgstr "range"
+
+#~ msgid "text"
+#~ msgstr "text"
+
+#~ msgid "number,number,"
+#~ msgstr "number,number,"
+
+#~ msgid "number"
+#~ msgstr "number"
+
+#~ msgid "value,value"
+#~ msgstr "value,value"
+
+#~ msgid "row_num,col_num,abs_num,a1,text"
+#~ msgstr "row_num,col_num,abs_num,a1,text"
+
+#~ msgid "reference"
+#~ msgstr "reference"
+
+#~ msgid "index,value,"
+#~ msgstr "index,value,"
+
+#~ msgid "ref"
+#~ msgstr "ref"
+
+#~ msgid "colname"
+#~ msgstr "colname"
+
+#~ msgid "val,range,col_idx,approx,as_index"
+#~ msgstr "val,range,col_idx,approx,as_index"
+
+#~ msgid "link_location, label"
+#~ msgstr "link_location, label"
+
+#~ msgid "ref_string,format"
+#~ msgstr "ref_string,format"
+
+#~ msgid "reference,row,col,area"
+#~ msgstr "reference,row,col,area"
+
+#~ msgid "val,range,range"
+#~ msgstr "val,range,range"
+
+#~ msgid "val,range,approx"
+#~ msgstr "val,range,approx"
+
+#~ msgid "ref,row,col,height,width"
+#~ msgstr "ref,row,col,height,width"
+
+#~ msgid "array"
+#~ msgstr "array"
+
+#~ msgid "xnum,ynum"
+#~ msgstr "xnum,ynum"
+
+#~ msgid "a,b"
+#~ msgstr "a,b"
+
+#~ msgid "range,criteria"
+#~ msgstr "range,criteria"
+
+#~ msgid "number,significance"
+#~ msgstr "number,significance"
+
+#~ msgid "n,k"
+#~ msgstr "n,k"
+
+#~ msgid "number,number"
+#~ msgstr "number,number"
+
+#~ msgid "number,base"
+#~ msgstr "number,base"
+
+#~ msgid "numerator,denominator"
+#~ msgstr "numerator,denominator"
+
+#~ msgid "number,multiple"
+#~ msgstr "number,multiple"
+
+#~ msgid "base,exponent"
+#~ msgstr "base,exponent"
+
+#~ msgid "number,type"
+#~ msgstr "number,type"
+
+#~ msgid "number,digits"
+#~ msgstr "number,digits"
+
+#~ msgid "x,n,m,coefficients"
+#~ msgstr "x,n,m,coefficients"
+
+#~ msgid "range,criteria,actual_range"
+#~ msgstr "range,criteria,actual_range"
+
+#~ msgid "range,range,"
+#~ msgstr "range,range,"
+
+#~ msgid "array1,array2"
+#~ msgstr "array1,array2"
+
+#~ msgid "array,matrix_type,bandsize"
+#~ msgstr "array,matrix_type,bandsize"
+
+#~ msgid "p"
+#~ msgstr "p"
+
+#~ msgid "bottom,top"
+#~ msgstr "bottom,top"
+
+#~ msgid "p,trials"
+#~ msgstr "p,trials"
+
+#~ msgid "a"
+#~ msgstr "a"
+
+#~ msgid "nu"
+#~ msgstr "nu"
+
+#~ msgid "value_range,prob_range"
+#~ msgstr "value_range,prob_range"
+
+#~ msgid "b"
+#~ msgstr "b"
+
+#~ msgid "nu1,nu2"
+#~ msgstr "nu1,nu2"
+
+#~ msgid "a,sigma"
+#~ msgstr "a,sigma"
+
+#~ msgid "a,b,type"
+#~ msgstr "a,b,type"
+
+#~ msgid "n1,n2,t"
+#~ msgstr "n1,n2,t"
+
+#~ msgid "c,alpha,beta"
+#~ msgstr "c,alpha,beta"
+
+#~ msgid "zeta,sigma"
+#~ msgstr "zeta,sigma"
+
+#~ msgid "p,failures"
+#~ msgstr "p,failures"
+
+#~ msgid "mean,stdev"
+#~ msgstr "mean,stdev"
+
+#~ msgid "lambda"
+#~ msgstr "lambda"
+
+#~ msgid "sigma"
+#~ msgstr "sigma"
+
+#~ msgid "d1,d2,...,dN"
+#~ msgstr "d1,d2,...,dN"
+
+#~ msgid "number1,number2,"
+#~ msgstr "number1,number2,"
+
+#~ msgid "k,p"
+#~ msgstr "k,p"
+
+#~ msgid "x,alpha,beta,a,b"
+#~ msgstr "x,alpha,beta,a,b"
+
+#~ msgid "p,alpha,beta,a,b"
+#~ msgstr "p,alpha,beta,a,b"
+
+#~ msgid "n,trials,p,cumulative"
+#~ msgstr "n,trials,p,cumulative"
+
+#~ msgid "x,a,cumulative"
+#~ msgstr "x,a,cumulative"
+
+#~ msgid "x,dof"
+#~ msgstr "x,dof"
+
+#~ msgid "p,dof"
+#~ msgstr "p,dof"
+
+#~ msgid "actual_range,theoretical_range"
+#~ msgstr "actual_range,theoretical_range"
+
+#~ msgid "x,stddev,size"
+#~ msgstr "x,stddev,size"
+
+#~ msgid "trials,p,alpha"
+#~ msgstr "trials,p,alpha"
+
+#~ msgid "x,y,cumulative"
+#~ msgstr "x,y,cumulative"
+
+#~ msgid "x,dof_of_num,dof_of_denom"
+#~ msgstr "x,dof_of_num,dof_of_denom"
+
+#~ msgid "p,dof_of_num,dof_of_denom"
+#~ msgstr "p,dof_of_num,dof_of_denom"
+
+#~ msgid "x,known_y's,known_x's"
+#~ msgstr "x,known_y's,known_x's"
+
+#~ msgid "data_array,bins_array"
+#~ msgstr "data_array,bins_array"
+
+#~ msgid "x,alpha,beta,cumulative"
+#~ msgstr "x,alpha,beta,cumulative"
+
+#~ msgid "p,alpha,beta"
+#~ msgstr "p,alpha,beta"
+
+#~ msgid "known_y's,known_x's,new_x's,const"
+#~ msgstr "known_y's,known_x's,new_x's,const"
+
+#~ msgid "x,n,M,N,cumulative"
+#~ msgstr "x,n,M,N,cumulative"
+
+#~ msgid "known_y's,known_x's"
+#~ msgstr "known_y's,known_x's"
+
+#~ msgid "data,k,"
+#~ msgstr "data,k,"
+
+#~ msgid "known_y's,known_x's,affine,stat"
+#~ msgstr "known_y's,known_x's,affine,stat"
+
+#~ msgid "known_y's,known_x's,const,stat"
+#~ msgstr "known_y's,known_x's,const,stat"
+
+#~ msgid "p,mean,stddev"
+#~ msgstr "p,mean,stddev"
+
+#~ msgid "x,mean,stddev"
+#~ msgstr "x,mean,stddev"
+
+#~ msgid "f,t,p"
+#~ msgstr "f,t,p"
+
+#~ msgid "x,mean,stddev,cumulative"
+#~ msgstr "x,mean,stddev,cumulative"
+
+#~ msgid "array,k"
+#~ msgstr "array,k"
+
+#~ msgid "array,x,significance"
+#~ msgstr "array,x,significance"
+
+#~ msgid "x,mean,cumulative"
+#~ msgstr "x,mean,cumulative"
+
+#~ msgid "x_range,prob_range,lower_limit,upper_limit"
+#~ msgstr "x_range,prob_range,lower_limit,upper_limit"
+
+#~ msgid "array,quart"
+#~ msgstr "array,quart"
+
+#~ msgid "x,ref,order"
+#~ msgstr "x,ref,order"
+
+#~ msgid "array,interval"
+#~ msgstr "array,interval"
+
+#~ msgid "area1,area2,"
+#~ msgstr "area1,area2,"
+
+#~ msgid "x,dof,tails"
+#~ msgstr "x,dof,tails"
+
+#~ msgid "ref,fraction"
+#~ msgstr "ref,fraction"
+
+#~ msgid "array1,array2,tails,type"
+#~ msgstr "array1,array2,tails,type"
+
+#~ msgid "x.alpha,beta,cumulative"
+#~ msgstr "x.alpha,beta,cumulative"
+
+#~ msgid "ref,x[,stddev]"
+#~ msgstr "ref,x[,stddev]"
+
+#~ msgid "x,a,b"
+#~ msgstr "x,a,b"
+
+#~ msgid "k,p,cumulative"
+#~ msgstr "k,p,cumulative"
+
+#~ msgid "x,a"
+#~ msgstr "x,a"
+
+#~ msgid "x,sigma"
+#~ msgstr "x,sigma"
+
+#~ msgid "x,a,sigma"
+#~ msgstr "x,a,sigma"
+
+#~ msgid "function_nbr,ref1,ref2,"
+#~ msgstr "function_nbr,ref1,ref2,"
+
+#~ msgid "ref1,ref2,"
+#~ msgstr "ref1,ref2,"
+
+#~ msgid "text,text,"
+#~ msgstr "text,text,"
+
+#~ msgid "num,decimals"
+#~ msgstr "num,decimals"
+
+#~ msgid "text1,text2"
+#~ msgstr "text1,text2"
+
+#~ msgid "text1,text2,num"
+#~ msgstr "text1,text2,num"
+
+#~ msgid "num,decs,no_commas"
+#~ msgstr "num,decs,no_commas"
+
+#~ msgid "text,num_chars"
+#~ msgstr "text,num_chars"
+
+#, fuzzy
+#~ msgid "text,num_bytes"
+#~ msgstr "text,num"
+
+#~ msgid "text,pos,num"
+#~ msgstr "text,pos,num"
+
+#~ msgid "old,start,num,new"
+#~ msgstr "old,start,num,new"
+
+#~ msgid "text,num"
+#~ msgstr "text,num"
+
+#~ msgid "search_string,text,start_num"
+#~ msgstr "search_string,text,start_num"
+
+#~ msgid "text,old,new,num"
+#~ msgstr "text,old,new,num"
+
+#~ msgid "value,format_text"
+#~ msgstr "value,format_text"
+
+#~ msgid "Abscissas,Ordinates,Targets,Interpolation"
+#~ msgstr "Abscissas,Ordinates,Targets,Interpolation"
+
+#~ msgid "Ordinates,Filter,Abscissas,Interpolation,Number"
+#~ msgstr "Ordinates,Filter,Abscissas,Interpolation,Number"
+
+#~ msgid "condition,if true,if false"
+#~ msgstr "condition,if true,if false"
 
 #~ msgid "Search Center"
 #~ msgstr "Search Centre"

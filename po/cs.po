@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-13 18:54-0400\n"
+"POT-Creation-Date: 2009-08-14 20:22-0400\n"
 "PO-Revision-Date: 2008-05-02 00:16+0100\n"
 "Last-Translator: Petr Kovar <pknbe@volny.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -28,7 +28,7 @@ msgid "Calculation, Analysis, and Visualization of Information"
 msgstr ""
 
 #. Keep in sync with .desktop file
-#: ../gnumeric.desktop.in.h:2 ../src/main-application.c:373
+#: ../gnumeric.desktop.in.h:2 ../src/main-application.c:381
 msgid "Gnumeric Spreadsheet"
 msgstr "Tabulkový kalkulátor Gnumeric"
 
@@ -82,158 +82,6 @@ msgstr "Rozhraní CORBA"
 #: ../plugins/corba/plugin.xml.in.h:2
 msgid "Provides a CORBA scripting interface"
 msgstr "Poskytuje skriptovací rozhraní CORBA"
-
-#: ../plugins/derivatives/options.c:1973 ../plugins/derivatives/options.c:1978
-#: ../plugins/derivatives/options.c:1983 ../plugins/derivatives/options.c:1988
-#: ../plugins/derivatives/options.c:2003
-msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
-msgstr ""
-"příznak_call_put, cena, realizační_cena, doba_do_realizace, úrok, "
-"míra_kolísání, náklady_držení"
-
-#: ../plugins/derivatives/options.c:1993 ../plugins/derivatives/options.c:1998
-msgid "spot, strike, time, rate, volatility, cost_of_carry"
-msgstr ""
-"cena, realizační_cena, doba_do_realizace, úrok, míra_kolísání, náklady_držení"
-
-#: ../plugins/derivatives/options.c:2008
-msgid "a, b, rho"
-msgstr "a, b, rho"
-
-#: ../plugins/derivatives/options.c:2013
-msgid ""
-"call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
-msgstr ""
-"příznak_call_put, cena, realizační_cena, doba_do_realizace, domácí_úrok, "
-"zahraniční_úrok, míra_kolísání"
-
-#: ../plugins/derivatives/options.c:2018
-msgid "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
-msgstr ""
-"příznak_call_put, cena, realizační_cena, doba_do_realizace, t2, úrok, "
-"míra_kolísání, náklady_držení"
-
-#: ../plugins/derivatives/options.c:2023
-msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
-msgstr ""
-"příznak_call_put, cena, realizační_cena, doba_do_realizace, úrok, "
-"míra_kolísání, lambda, gama"
-
-#: ../plugins/derivatives/options.c:2028
-msgid ""
-"call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
-msgstr ""
-"příznak_call_put, cena, realizační_cena, doba_do_realizace, úrok, "
-"míra_kolísání, náklady_držení, lambda"
-
-#: ../plugins/derivatives/options.c:2033 ../plugins/derivatives/options.c:2043
-msgid "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
-msgstr ""
-"příznak_call_put, cena, realizační_cena, doba_do_realizace, úrok, "
-"náklady_držení, míra_kolísání"
-
-#: ../plugins/derivatives/options.c:2038
-msgid ""
-"call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, "
-"kappa_e, kappa_f)"
-msgstr ""
-"příznak_call_put, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, "
-"rho_ef, kappa_e, kappa_f)"
-
-#: ../plugins/derivatives/options.c:2048
-#, fuzzy
-msgid "spot, strike, t1, t2, rate, d, volatility"
-msgstr ""
-"příznak_call_put, cena, realizační_cena, t1, t2, úrok, d, míra_kolísání"
-
-#: ../plugins/derivatives/options.c:2053
-msgid ""
-"call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
-msgstr ""
-"příznak_call_put, cena, alfa, čas1, doba_do_realizace, úrok, míra_kolísání, "
-"náklady_držení"
-
-#: ../plugins/derivatives/options.c:2058
-msgid ""
-"call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
-msgstr ""
-"příznak_call_put, cena, realizační_cena, a, doba_do_realizace, m, dt, úrok, "
-"náklady_držení, míra_kolísání"
-
-#: ../plugins/derivatives/options.c:2063
-msgid "spot, strike, time1, time2, rate, cost_of_carry, volatility"
-msgstr ""
-"cena, realizační_cena, doba_do_realizace1, doba_do_realizace2, úrok, "
-"náklady_držení, míra_kolísání"
-
-#: ../plugins/derivatives/options.c:2068
-msgid ""
-"spot, strike_call, strike_put, time, time_call, time_put, rate, "
-"cost_of_carry, volatility"
-msgstr ""
-"cena, realizační_cena_call, realizační_cena_put, doba_do_realizace, "
-"doba_do_realizace_call, doba_do_realizace_put, úrok, náklady_držení, "
-"míra_kolísání"
-
-#: ../plugins/derivatives/options.c:2073 ../plugins/derivatives/options.c:2078
-msgid ""
-"type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, "
-"volatility"
-msgstr ""
-"příznak_typu, cena, realizační_cena1, realizační_cena2, doba_do_realizace1, "
-"doba_do_realizace2, úrok, náklady_držení, míra_kolísání"
-
-#: ../plugins/derivatives/options.c:2083
-#, fuzzy
-msgid ""
-"type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, "
-"cost_of_carry2, rate, volatility1, volatility2, rho"
-msgstr ""
-"příznak_typu, cena, realizační_cena1, realizační_cena2, doba_do_realizace1, "
-"doba_do_realizace2, úrok, náklady_držení, míra_kolísání"
-
-#: ../plugins/derivatives/options.c:2088 ../plugins/derivatives/options.c:2093
-#, fuzzy
-msgid ""
-"spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
-"volatility2,rho"
-msgstr ""
-"cena, realizační_cena, doba_do_realizace1, doba_do_realizace2, úrok, "
-"náklady_držení, míra_kolísání"
-
-#: ../plugins/derivatives/options.c:2098
-#, fuzzy
-msgid ""
-"call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,"
-"volatility2,rho"
-msgstr ""
-"příznak_call_put, cena, realizační_cena, doba_do_realizace, úrok, "
-"náklady_držení, míra_kolísání"
-
-#: ../plugins/derivatives/options.c:2103
-#, fuzzy
-msgid "call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
-msgstr ""
-"příznak_call_put, cena, realizační_cena, doba_do_realizace, úrok, "
-"náklady_držení, míra_kolísání"
-
-#: ../plugins/derivatives/options.c:2108
-#, fuzzy
-msgid ""
-"call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
-"volatility"
-msgstr ""
-"příznak_call_put, cena, realizační_cena, doba_do_realizace, úrok, "
-"náklady_držení, míra_kolísání"
-
-#: ../plugins/derivatives/options.c:2114
-#, fuzzy
-msgid ""
-"amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
-"volatility, cost_of_carry"
-msgstr ""
-"příznak_call_put, cena, realizační_cena, doba_do_realizace, úrok, "
-"míra_kolísání, náklady_držení"
 
 #: ../plugins/derivatives/plugin.xml.in.h:1
 #: ../plugins/fn-financial/plugin.xml.in.h:1
@@ -636,57 +484,6 @@ msgstr "Nebyly nalezeny žádné kanály pro sešit nebo knihu."
 msgid "Skipping invalid pivot field group for field '%s' because : %s"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:1227
-msgid "real,im,suffix"
-msgstr "reálná,im,přípona"
-
-#: ../plugins/fn-complex/functions.c:1230
-#: ../plugins/fn-complex/functions.c:1233
-#: ../plugins/fn-complex/functions.c:1236
-#: ../plugins/fn-complex/functions.c:1239
-#: ../plugins/fn-complex/functions.c:1242
-#: ../plugins/fn-complex/functions.c:1248
-#: ../plugins/fn-complex/functions.c:1251
-#: ../plugins/fn-complex/functions.c:1254
-#: ../plugins/fn-complex/functions.c:1257
-#: ../plugins/fn-complex/functions.c:1263
-#: ../plugins/fn-complex/functions.c:1266
-#: ../plugins/fn-complex/functions.c:1269
-#: ../plugins/fn-complex/functions.c:1279
-#: ../plugins/fn-complex/functions.c:1282
-#: ../plugins/fn-complex/functions.c:1285
-#: ../plugins/fn-complex/functions.c:1291
-#: ../plugins/fn-complex/functions.c:1294
-#: ../plugins/fn-complex/functions.c:1297
-#: ../plugins/fn-complex/functions.c:1300
-#: ../plugins/fn-complex/functions.c:1303
-#: ../plugins/fn-complex/functions.c:1306
-#: ../plugins/fn-complex/functions.c:1309
-#: ../plugins/fn-complex/functions.c:1312
-#: ../plugins/fn-complex/functions.c:1315
-#: ../plugins/fn-complex/functions.c:1318
-#: ../plugins/fn-complex/functions.c:1321
-#: ../plugins/fn-complex/functions.c:1324
-#: ../plugins/fn-complex/functions.c:1327
-#: ../plugins/fn-complex/functions.c:1330
-#: ../plugins/fn-complex/functions.c:1333
-#: ../plugins/fn-complex/functions.c:1336
-#: ../plugins/fn-complex/functions.c:1339
-#: ../plugins/fn-complex/functions.c:1342
-#: ../plugins/fn-complex/functions.c:1345
-#: ../plugins/fn-complex/functions.c:1348
-#: ../plugins/fn-complex/functions.c:1351
-msgid "inumber"
-msgstr "komplex_číslo"
-
-#: ../plugins/fn-complex/functions.c:1245
-#: ../plugins/fn-complex/functions.c:1260
-#: ../plugins/fn-complex/functions.c:1272
-#: ../plugins/fn-complex/functions.c:1275
-#: ../plugins/fn-complex/functions.c:1288
-msgid "inumber,inumber"
-msgstr "komplex_číslo,komplex_číslo"
-
 #: ../plugins/fn-complex/plugin.xml.in.h:1
 msgid "Complex"
 msgstr "Komplexní"
@@ -699,26 +496,6 @@ msgstr "Komplexní funkce"
 msgid "Functions for complex numbers"
 msgstr "Funkce pro komplexní čísla"
 
-#: ../plugins/fn-database/functions.c:769
-#: ../plugins/fn-database/functions.c:772
-#: ../plugins/fn-database/functions.c:775
-#: ../plugins/fn-database/functions.c:778
-#: ../plugins/fn-database/functions.c:781
-#: ../plugins/fn-database/functions.c:784
-#: ../plugins/fn-database/functions.c:787
-#: ../plugins/fn-database/functions.c:790
-#: ../plugins/fn-database/functions.c:793
-#: ../plugins/fn-database/functions.c:796
-#: ../plugins/fn-database/functions.c:799
-#: ../plugins/fn-database/functions.c:802
-msgid "database,field,criteria"
-msgstr "databáze,pole,kritéria"
-
-#. XL stores in lookup
-#: ../plugins/fn-database/functions.c:807
-msgid "pivot_table,field_name"
-msgstr "kont_tabulka,název_pole"
-
 #: ../plugins/fn-database/plugin.xml.in.h:1 ../plugins/gda/plugin.xml.in.h:1
 msgid "Database"
 msgstr "Databázové"
@@ -730,67 +507,6 @@ msgstr "Databázové funkce"
 #: ../plugins/fn-database/plugin.xml.in.h:3
 msgid "Functions looking up values in databases"
 msgstr "Funkce pro vyhledávání hodnot v databázích"
-
-#: ../plugins/fn-date/functions.c:1133
-msgid "year,month,day"
-msgstr "rok,měsíc,den"
-
-#: ../plugins/fn-date/functions.c:1137
-msgid "date_str"
-msgstr "řetězec_datum"
-
-#: ../plugins/fn-date/functions.c:1141
-msgid "date1,date2,interval"
-msgstr "datum1,datum2,interval"
-
-#: ../plugins/fn-date/functions.c:1145 ../plugins/fn-date/functions.c:1169
-#: ../plugins/fn-date/functions.c:1197 ../plugins/fn-date/functions.c:1201
-#: ../plugins/fn-date/functions.c:1209 ../plugins/fn-date/functions.c:1213
-#: ../plugins/fn-date/functions.c:1226 ../plugins/fn-date/functions.c:1230
-#: ../src/print-info.c:576
-msgid "date"
-msgstr "datum"
-
-#: ../plugins/fn-date/functions.c:1149
-msgid "date1,date2,method"
-msgstr "datum1,datum2,metoda"
-
-#: ../plugins/fn-date/functions.c:1153
-msgid "date,months"
-msgstr "datum,měsíce"
-
-#: ../plugins/fn-date/functions.c:1157
-msgid "start_date,months"
-msgstr "poč_datum,měsíce"
-
-#: ../plugins/fn-date/functions.c:1161 ../plugins/fn-date/functions.c:1165
-#: ../plugins/fn-date/functions.c:1181 ../src/print-info.c:577
-msgid "time"
-msgstr "čas"
-
-#: ../plugins/fn-date/functions.c:1173
-msgid "start_date,end_date,holidays"
-msgstr "poč_datum,kon_datum,svátky"
-
-#: ../plugins/fn-date/functions.c:1185
-msgid "hours,minutes,seconds"
-msgstr "hodiny,minuty,sekundy"
-
-#: ../plugins/fn-date/functions.c:1189
-msgid "timetext"
-msgstr "textový_čas"
-
-#: ../plugins/fn-date/functions.c:1205
-msgid "date,days,holidays"
-msgstr "datum,dny,svátky"
-
-#: ../plugins/fn-date/functions.c:1218
-msgid "unixtime"
-msgstr "unixčas"
-
-#: ../plugins/fn-date/functions.c:1222
-msgid "serial"
-msgstr "sériové_číslo"
 
 #: ../plugins/fn-date/plugin.xml.in.h:1
 msgid "Date and Time Functions"
@@ -816,18 +532,6 @@ msgstr "Inženýrské funkce"
 msgid "Functions for complex numbers, base conversions, and more"
 msgstr "Funkce pro komplexní čísla, převody mezi soustavami a další"
 
-#: ../plugins/fn-erlang/functions.c:288 ../plugins/fn-erlang/functions.c:293
-msgid "traffic,circuits"
-msgstr "provoz,obvodů"
-
-#: ../plugins/fn-erlang/functions.c:298
-msgid "traffic,gos"
-msgstr "provoz,ss"
-
-#: ../plugins/fn-erlang/functions.c:303
-msgid "circuits,gos"
-msgstr "obvodů,ss"
-
 #: ../plugins/fn-erlang/plugin.xml.in.h:1
 msgid "Erlang"
 msgstr "Erlang"
@@ -841,11 +545,6 @@ msgstr "Textové funkce"
 #, fuzzy
 msgid "Functions to help Erlang Analysis"
 msgstr "Funkce pro práci s řetězci"
-
-#: ../plugins/fn-financial/functions.c:3551
-#, fuzzy
-msgid "rate,values"
-msgstr "_Jiné hodnoty"
 
 #: ../plugins/fn-financial/plugin.xml.in.h:2
 msgid "Financial Functions"
@@ -861,85 +560,41 @@ msgstr "Výpočty úrokových měr"
 #. * reference of the top and leftmost cell visible in the
 #. * window, based on the current scrolling position.
 #.
-#: ../plugins/fn-info/functions.c:1333 ../plugins/fn-info/functions.c:1349
+#: ../plugins/fn-info/functions.c:1334 ../plugins/fn-info/functions.c:1350
 msgid "Unimplemented"
 msgstr "Neimplementováno"
 
-#: ../plugins/fn-info/functions.c:1357
+#: ../plugins/fn-info/functions.c:1358
 msgid "Unknown version"
 msgstr "Neznámá verze"
 
-#: ../plugins/fn-info/functions.c:1359
+#: ../plugins/fn-info/functions.c:1360
 #, c-format
 msgid "%s version %s"
 msgstr "%s verze %s"
 
-#: ../plugins/fn-info/functions.c:1374
+#: ../plugins/fn-info/functions.c:1375
 #: ../src/dialogs/dialog-cell-format.c:2515
 #: ../src/dialogs/dialog-cell-format.c:2519
 #: ../src/dialogs/dialog-cell-format.c:2527 ../src/wbc-gtk.c:2823
 msgid "Automatic"
 msgstr "Automatické"
 
-#: ../plugins/fn-info/functions.c:1374
+#: ../plugins/fn-info/functions.c:1375
 msgid "Manual"
 msgstr "Ruční"
 
-#: ../plugins/fn-info/functions.c:1384
+#: ../plugins/fn-info/functions.c:1385
 msgid "Unknown system"
 msgstr "Neznámý systém"
 
-#: ../plugins/fn-info/functions.c:1400
+#: ../plugins/fn-info/functions.c:1401
 msgid "Unknown info_type"
 msgstr "Neznámý typ_informace"
 
-#: ../plugins/fn-info/functions.c:1657
+#: ../plugins/fn-info/functions.c:1658
 msgid "Invalid number of arguments"
 msgstr "Neplatný počet parametrů"
-
-#: ../plugins/fn-info/functions.c:1779
-msgid "info_type, cell"
-msgstr "info_type, buňka"
-
-#: ../plugins/fn-info/functions.c:1782 ../plugins/fn-info/functions.c:1788
-#: ../plugins/fn-info/functions.c:1791 ../plugins/fn-info/functions.c:1794
-#: ../plugins/fn-info/functions.c:1797 ../plugins/fn-info/functions.c:1800
-#: ../plugins/fn-info/functions.c:1803 ../plugins/fn-info/functions.c:1806
-#: ../plugins/fn-info/functions.c:1809 ../plugins/fn-info/functions.c:1812
-#: ../plugins/fn-info/functions.c:1815 ../plugins/fn-info/functions.c:1818
-#: ../plugins/fn-info/functions.c:1821 ../plugins/fn-info/functions.c:1827
-#: ../plugins/fn-string/functions.c:1479
-msgid "value"
-msgstr "hodnota"
-
-#: ../plugins/fn-info/functions.c:1785
-msgid "info_type"
-msgstr "info_type"
-
-#. XL stores this in statistical ?
-#: ../plugins/fn-info/functions.c:1832
-msgid "range"
-msgstr "oblast"
-
-#: ../plugins/fn-info/functions.c:1836 ../plugins/fn-string/functions.c:1410
-#: ../plugins/fn-string/functions.c:1413 ../plugins/fn-string/functions.c:1416
-#: ../plugins/fn-string/functions.c:1443 ../plugins/fn-string/functions.c:1446
-#: ../plugins/fn-string/functions.c:1449 ../plugins/fn-string/functions.c:1458
-#: ../plugins/fn-string/functions.c:1485 ../plugins/fn-string/functions.c:1488
-#: ../plugins/fn-string/functions.c:1491
-msgid "text"
-msgstr "text"
-
-#. XLM : looks common in charts
-#: ../plugins/fn-info/functions.c:1840 ../plugins/fn-info/functions.c:1844
-#: ../src/print-info.c:580 ../src/ssgrep.c:352
-msgid "cell"
-msgstr "buňka"
-
-#: ../plugins/fn-info/functions.c:1848 ../plugins/fn-string/functions.c:1401
-#: ../plugins/fn-string/functions.c:1434 ../src/ssconvert.c:102
-msgid "string"
-msgstr "řetězec"
 
 #: ../plugins/fn-info/plugin.xml.in.h:1
 msgid "Functions for inspecting values, cells, and more"
@@ -957,44 +612,6 @@ msgstr "Informační funkce"
 msgid "Type Mismatch"
 msgstr "Neshodné typy"
 
-#: ../plugins/fn-logical/functions.c:281 ../plugins/fn-logical/functions.c:285
-#: ../plugins/fn-logical/functions.c:304 ../plugins/fn-math/functions.c:2870
-#: ../src/func-builtin.c:347 ../src/func-builtin.c:353
-msgid "number,number,"
-msgstr "číslo,číslo,"
-
-#. MS Excel puts this in the engineering functions
-#: ../plugins/fn-logical/functions.c:289 ../plugins/fn-math/functions.c:2674
-#: ../plugins/fn-math/functions.c:2678 ../plugins/fn-math/functions.c:2681
-#: ../plugins/fn-math/functions.c:2684 ../plugins/fn-math/functions.c:2687
-#: ../plugins/fn-math/functions.c:2690 ../plugins/fn-math/functions.c:2693
-#: ../plugins/fn-math/functions.c:2696 ../plugins/fn-math/functions.c:2699
-#: ../plugins/fn-math/functions.c:2711 ../plugins/fn-math/functions.c:2714
-#: ../plugins/fn-math/functions.c:2717 ../plugins/fn-math/functions.c:2720
-#: ../plugins/fn-math/functions.c:2729 ../plugins/fn-math/functions.c:2737
-#: ../plugins/fn-math/functions.c:2740 ../plugins/fn-math/functions.c:2743
-#: ../plugins/fn-math/functions.c:2746 ../plugins/fn-math/functions.c:2749
-#: ../plugins/fn-math/functions.c:2754 ../plugins/fn-math/functions.c:2758
-#: ../plugins/fn-math/functions.c:2764 ../plugins/fn-math/functions.c:2767
-#: ../plugins/fn-math/functions.c:2770 ../plugins/fn-math/functions.c:2777
-#: ../plugins/fn-math/functions.c:2784 ../plugins/fn-math/functions.c:2791
-#: ../plugins/fn-math/functions.c:2794 ../plugins/fn-math/functions.c:2800
-#: ../plugins/fn-math/functions.c:2803 ../plugins/fn-math/functions.c:2816
-#: ../plugins/fn-math/functions.c:2822 ../plugins/fn-math/functions.c:2828
-#: ../plugins/fn-math/functions.c:2846 ../plugins/fn-math/functions.c:2849
-#: ../plugins/fn-math/functions.c:2855 ../plugins/fn-math/functions.c:2858
-#: ../plugins/fn-math/functions.c:2861 ../plugins/fn-math/functions.c:2864
-#: ../plugins/fn-math/functions.c:2867 ../plugins/fn-math/functions.c:2880
-#: ../plugins/fn-math/functions.c:2892 ../plugins/fn-math/functions.c:2895
-#: ../plugins/fn-string/functions.c:1404 ../plugins/fn-string/functions.c:1407
-msgid "number"
-msgstr "číslo"
-
-#: ../plugins/fn-logical/functions.c:293
-#, fuzzy
-msgid "value,value"
-msgstr "hodnota"
-
 #: ../plugins/fn-logical/plugin.xml.in.h:1
 msgid "Functions for manipulating truth values"
 msgstr "Funkce pro práci s pravdivostními hodnotami"
@@ -1007,59 +624,6 @@ msgstr "Logické"
 msgid "Logic Functions"
 msgstr "Logické funkce"
 
-#: ../plugins/fn-lookup/functions.c:1505
-msgid "row_num,col_num,abs_num,a1,text"
-msgstr "číslo_řádku,číslo_sloupce,abs_počet,a1,text"
-
-#: ../plugins/fn-lookup/functions.c:1508
-msgid "reference"
-msgstr "odkaz"
-
-#: ../plugins/fn-lookup/functions.c:1511
-msgid "index,value,"
-msgstr "index,hodnota,"
-
-#: ../plugins/fn-lookup/functions.c:1514 ../plugins/fn-lookup/functions.c:1520
-#: ../plugins/fn-lookup/functions.c:1544 ../plugins/fn-lookup/functions.c:1547
-msgid "ref"
-msgstr "ref"
-
-#: ../plugins/fn-lookup/functions.c:1517
-msgid "colname"
-msgstr "názevsloupce"
-
-#: ../plugins/fn-lookup/functions.c:1523 ../plugins/fn-lookup/functions.c:1553
-msgid "val,range,col_idx,approx,as_index"
-msgstr "hodnota,oblast,idx_slou,přibl,jako_index"
-
-#: ../plugins/fn-lookup/functions.c:1526
-msgid "link_location, label"
-msgstr "umístění_odkazu, popis"
-
-#: ../plugins/fn-lookup/functions.c:1529
-msgid "ref_string,format"
-msgstr "ref_řetězec,formát"
-
-#: ../plugins/fn-lookup/functions.c:1532
-msgid "reference,row,col,area"
-msgstr "odkaz,řádek,sloupec,oblast"
-
-#: ../plugins/fn-lookup/functions.c:1535
-msgid "val,range,range"
-msgstr "hodnota,oblast,oblast"
-
-#: ../plugins/fn-lookup/functions.c:1538
-msgid "val,range,approx"
-msgstr "hodnota,oblast,přibliž"
-
-#: ../plugins/fn-lookup/functions.c:1541
-msgid "ref,row,col,height,width"
-msgstr "ref,řádek,sloupec,výška,šířka"
-
-#: ../plugins/fn-lookup/functions.c:1550 ../plugins/fn-math/functions.c:2908
-msgid "array"
-msgstr "pole"
-
 #: ../plugins/fn-lookup/plugin.xml.in.h:1
 msgid "Functions for looking up values in ranges"
 msgstr "Funkce pro hledání hodnot v oblastech"
@@ -1071,83 +635,6 @@ msgstr "Vyhledávání"
 #: ../plugins/fn-lookup/plugin.xml.in.h:3
 msgid "Lookup Functions"
 msgstr "Vyhledávací funkce"
-
-#: ../plugins/fn-math/functions.c:2702
-msgid "xnum,ynum"
-msgstr "xnum,ynum"
-
-#: ../plugins/fn-math/functions.c:2705 ../plugins/fn-math/functions.c:2708
-#: ../plugins/fn-random/functions.c:891 ../plugins/fn-random/functions.c:912
-#: ../plugins/fn-random/functions.c:918 ../plugins/fn-random/functions.c:957
-#: ../plugins/fn-random/functions.c:972 ../plugins/fn-random/functions.c:975
-msgid "a,b"
-msgstr "a,b"
-
-#. MS Excel puts this in statistical
-#: ../plugins/fn-math/functions.c:2725
-msgid "range,criteria"
-msgstr "oblast,kritéria"
-
-#: ../plugins/fn-math/functions.c:2733
-msgid "number,significance"
-msgstr "počet,významnost"
-
-#: ../plugins/fn-math/functions.c:2761 ../plugins/fn-stat/functions.c:4988
-msgid "n,k"
-msgstr "n,k"
-
-#: ../plugins/fn-math/functions.c:2774
-msgid "number,number"
-msgstr "číslo,číslo"
-
-#: ../plugins/fn-math/functions.c:2797
-msgid "number,base"
-msgstr "číslo,základ"
-
-#: ../plugins/fn-math/functions.c:2806 ../plugins/fn-math/functions.c:2825
-msgid "numerator,denominator"
-msgstr "dělenec,dělitel"
-
-#: ../plugins/fn-math/functions.c:2809
-msgid "number,multiple"
-msgstr "číslo,násobek"
-
-#: ../plugins/fn-math/functions.c:2819
-msgid "base,exponent"
-msgstr "základ,exponent"
-
-#: ../plugins/fn-math/functions.c:2831
-msgid "number,type"
-msgstr "počet,typ"
-
-#: ../plugins/fn-math/functions.c:2834 ../plugins/fn-math/functions.c:2838
-#: ../plugins/fn-math/functions.c:2842 ../plugins/fn-math/functions.c:2898
-msgid "number,digits"
-msgstr "počet,číslice"
-
-#: ../plugins/fn-math/functions.c:2852
-msgid "x,n,m,coefficients"
-msgstr "x,n,m,koeficienty"
-
-#: ../plugins/fn-math/functions.c:2874
-msgid "range,criteria,actual_range"
-msgstr "oblast,kritéria,skutečná_oblast"
-
-#: ../plugins/fn-math/functions.c:2877
-msgid "range,range,"
-msgstr "oblast,oblast,"
-
-#: ../plugins/fn-math/functions.c:2883 ../plugins/fn-math/functions.c:2886
-#: ../plugins/fn-math/functions.c:2889 ../plugins/fn-math/functions.c:2905
-#: ../plugins/fn-stat/functions.c:4847 ../plugins/fn-stat/functions.c:4856
-#: ../plugins/fn-stat/functions.c:4886 ../plugins/fn-stat/functions.c:4979
-#: ../plugins/fn-stat/functions.c:5035
-msgid "array1,array2"
-msgstr "pole1,pole2"
-
-#: ../plugins/fn-math/functions.c:2911 ../plugins/fn-math/functions.c:2915
-msgid "array,matrix_type,bandsize"
-msgstr "pole,typ_matice,velikost"
 
 #: ../plugins/fn-math/plugin.xml.in.h:1
 msgid "Math Functions"
@@ -1177,80 +664,6 @@ msgstr "Statistické funkce s pojmenováním a volacími konvencemi z projektu R
 msgid "Statistics"
 msgstr "Statistika"
 
-#: ../plugins/fn-random/functions.c:888 ../plugins/fn-random/functions.c:924
-#: ../plugins/fn-random/functions.c:942 ../plugins/fn-stat/functions.c:4976
-msgid "p"
-msgstr "p "
-
-#: ../plugins/fn-random/functions.c:894
-msgid "bottom,top"
-msgstr "dolní_mez,horní_mez"
-
-#: ../plugins/fn-random/functions.c:897
-msgid "p,trials"
-msgstr "p,pokusy"
-
-#: ../plugins/fn-random/functions.c:900 ../plugins/fn-random/functions.c:936
-#: ../plugins/fn-random/functions.c:945
-msgid "a"
-msgstr "a"
-
-#: ../plugins/fn-random/functions.c:903 ../plugins/fn-random/functions.c:969
-msgid "nu"
-msgstr "nu"
-
-#: ../plugins/fn-random/functions.c:906
-msgid "value_range,prob_range"
-msgstr "oblast_hodnot,oblast_pravd"
-
-#: ../plugins/fn-random/functions.c:909
-msgid "b"
-msgstr "b"
-
-#: ../plugins/fn-random/functions.c:915
-msgid "nu1,nu2"
-msgstr "nu1,nu2"
-
-#: ../plugins/fn-random/functions.c:921 ../plugins/fn-random/functions.c:966
-msgid "a,sigma"
-msgstr "a,sigma"
-
-#: ../plugins/fn-random/functions.c:927
-msgid "a,b,type"
-msgstr "a,b,typ"
-
-#: ../plugins/fn-random/functions.c:930
-msgid "n1,n2,t"
-msgstr "n1,n2,t"
-
-#: ../plugins/fn-random/functions.c:939
-msgid "c,alpha,beta"
-msgstr "c,alfa,beta"
-
-#: ../plugins/fn-random/functions.c:948
-msgid "zeta,sigma"
-msgstr "zeta,sigma"
-
-#: ../plugins/fn-random/functions.c:951
-msgid "p,failures"
-msgstr "p,selhání"
-
-#: ../plugins/fn-random/functions.c:954
-msgid "mean,stdev"
-msgstr "průměr,směr_odchylka"
-
-#: ../plugins/fn-random/functions.c:960
-msgid "lambda"
-msgstr "lambda"
-
-#: ../plugins/fn-random/functions.c:963
-msgid "sigma"
-msgstr "sigma"
-
-#: ../plugins/fn-random/functions.c:978
-msgid "d1,d2,...,dN"
-msgstr "d1,d2,...,dN"
-
 #: ../plugins/fn-random/plugin.xml.in.h:1
 msgid "Functions for generating random numbers"
 msgstr "Funkce pro generování náhodných čísel"
@@ -1269,309 +682,18 @@ msgstr "Náhodná čísla"
 msgid "Array version not implemented!"
 msgstr "Verze pro pole není implementována!"
 
-#: ../plugins/fn-stat/functions.c:4804 ../plugins/fn-stat/functions.c:4808
-#: ../plugins/fn-stat/functions.c:4812 ../plugins/fn-stat/functions.c:4850
-#: ../plugins/fn-stat/functions.c:4853 ../plugins/fn-stat/functions.c:4862
-#: ../plugins/fn-stat/functions.c:4898 ../plugins/fn-stat/functions.c:4905
-#: ../plugins/fn-stat/functions.c:4915 ../plugins/fn-stat/functions.c:4940
-#: ../plugins/fn-stat/functions.c:4944 ../plugins/fn-stat/functions.c:4948
-#: ../plugins/fn-stat/functions.c:4952 ../plugins/fn-stat/functions.c:4956
-#: ../plugins/fn-stat/functions.c:4960 ../plugins/fn-stat/functions.c:5038
-#: ../plugins/fn-stat/functions.c:5082 ../plugins/fn-stat/functions.c:5103
-#, fuzzy
-msgid "number1,number2,"
-msgstr "číslo,číslo,"
-
-#: ../plugins/fn-stat/functions.c:4817
-msgid "k,p"
-msgstr "k,p"
-
-#: ../plugins/fn-stat/functions.c:4821
-msgid "x,alpha,beta,a,b"
-msgstr "x,alfa,beta,a,b"
-
-#: ../plugins/fn-stat/functions.c:4824
-msgid "p,alpha,beta,a,b"
-msgstr "p,alfa,beta,a,b"
-
-#: ../plugins/fn-stat/functions.c:4827
-#, fuzzy
-msgid "n,trials,p,cumulative"
-msgstr "x,n,M,N,kumulativní"
-
-#: ../plugins/fn-stat/functions.c:4831
-#, fuzzy
-msgid "x,a,cumulative"
-msgstr "x,y,kumulativní"
-
-#: ../plugins/fn-stat/functions.c:4835
-msgid "x,dof"
-msgstr "x,dof"
-
-#: ../plugins/fn-stat/functions.c:4838 ../plugins/fn-stat/functions.c:5044
-msgid "p,dof"
-msgstr "p,dof"
-
-#: ../plugins/fn-stat/functions.c:4841
-#, fuzzy
-msgid "actual_range,theoretical_range"
-msgstr "skut_rozsah,teor_rozsah"
-
-#: ../plugins/fn-stat/functions.c:4844
-msgid "x,stddev,size"
-msgstr "x,odchylka,velikost"
-
-#: ../plugins/fn-stat/functions.c:4859
-msgid "trials,p,alpha"
-msgstr "pokusy,p,alfa"
-
-#: ../plugins/fn-stat/functions.c:4865
-msgid "x,y,cumulative"
-msgstr "x,y,kumulativní"
-
-#: ../plugins/fn-stat/functions.c:4868
-#, fuzzy
-msgid "x,dof_of_num,dof_of_denom"
-msgstr "x,dof dělence,dof dělitele"
-
-#: ../plugins/fn-stat/functions.c:4871
-#, fuzzy
-msgid "p,dof_of_num,dof_of_denom"
-msgstr "p,dof dělence,dof dělitele"
-
-#: ../plugins/fn-stat/functions.c:4874 ../plugins/fn-stat/functions.c:4877
-#: ../plugins/fn-stat/functions.c:4895 ../plugins/fn-stat/functions.c:4973
-#: ../plugins/fn-stat/functions.c:5085 ../src/dialogs/col-width.glade.h:5
-#: ../src/dialogs/row-height.glade.h:5
-msgid "x"
-msgstr "x"
-
-#: ../plugins/fn-stat/functions.c:4880
-#, fuzzy
-msgid "x,known_y's,known_x's"
-msgstr "známe_y,známe_x"
-
-#: ../plugins/fn-stat/functions.c:4883
-msgid "data_array,bins_array"
-msgstr "pole_dat,pole_adresářů"
-
-#: ../plugins/fn-stat/functions.c:4889
-#, fuzzy
-msgid "x,alpha,beta,cumulative"
-msgstr "x.alfa,beta,kumulativní"
-
-#: ../plugins/fn-stat/functions.c:4892
-#, fuzzy
-msgid "p,alpha,beta"
-msgstr "c,alfa,beta"
-
-#: ../plugins/fn-stat/functions.c:4902 ../plugins/fn-stat/functions.c:5047
-msgid "known_y's,known_x's,new_x's,const"
-msgstr "známe_y,známe_x,nové_x,konst"
-
-#: ../plugins/fn-stat/functions.c:4909
-msgid "x,n,M,N,cumulative"
-msgstr "x,n,M,N,kumulativní"
-
-#: ../plugins/fn-stat/functions.c:4912 ../plugins/fn-stat/functions.c:4928
-#: ../plugins/fn-stat/functions.c:5003 ../plugins/fn-stat/functions.c:5032
-msgid "known_y's,known_x's"
-msgstr "známe_y,známe_x"
-
-#: ../plugins/fn-stat/functions.c:4918 ../plugins/fn-stat/functions.c:5006
-msgid "data,k,"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:4922
-#, fuzzy
-msgid "known_y's,known_x's,affine,stat"
-msgstr "známe_y,známe_x,konst,stat"
-
-#: ../plugins/fn-stat/functions.c:4925 ../plugins/fn-stat/functions.c:4937
-msgid "known_y's,known_x's,const,stat"
-msgstr "známe_y,známe_x,konst,stat"
-
-#: ../plugins/fn-stat/functions.c:4931 ../plugins/fn-stat/functions.c:4970
-msgid "p,mean,stddev"
-msgstr "p,průměr,odchylka"
-
-#: ../plugins/fn-stat/functions.c:4934 ../plugins/fn-stat/functions.c:5010
-msgid "x,mean,stddev"
-msgstr "x,průměr,odchylka"
-
-#: ../plugins/fn-stat/functions.c:4964
-msgid "f,t,p"
-msgstr "f,t,p"
-
-#: ../plugins/fn-stat/functions.c:4967
-msgid "x,mean,stddev,cumulative"
-msgstr "x,průměr,stdodchylka,kumulativní"
-
-#: ../plugins/fn-stat/functions.c:4982
-msgid "array,k"
-msgstr "pole,k"
-
-#: ../plugins/fn-stat/functions.c:4985
-msgid "array,x,significance"
-msgstr "pole,x,významnost"
-
-#: ../plugins/fn-stat/functions.c:4991
-msgid "x,mean,cumulative"
-msgstr "x,průměr,kumulativní"
-
-#: ../plugins/fn-stat/functions.c:4994
-msgid "x_range,prob_range,lower_limit,upper_limit"
-msgstr "x_rozsah,pravd_rozsah,dolní_limit,horní_limit"
-
-#: ../plugins/fn-stat/functions.c:4997
-msgid "array,quart"
-msgstr "pole,kvart"
-
-#: ../plugins/fn-stat/functions.c:5000
-#, fuzzy
-msgid "x,ref,order"
-msgstr "ref,ref,"
-
-#: ../plugins/fn-stat/functions.c:5013
-msgid "array,interval"
-msgstr "pole,interval"
-
-#: ../plugins/fn-stat/functions.c:5016 ../plugins/fn-stat/functions.c:5020
-#: ../plugins/fn-stat/functions.c:5024 ../plugins/fn-stat/functions.c:5028
-#: ../plugins/fn-stat/functions.c:5057 ../plugins/fn-stat/functions.c:5060
-#: ../plugins/fn-stat/functions.c:5063 ../plugins/fn-stat/functions.c:5066
-#, fuzzy
-msgid "area1,area2,"
-msgstr "pole1,pole2"
-
-#: ../plugins/fn-stat/functions.c:5041
-msgid "x,dof,tails"
-msgstr "x,dof,konce"
-
-#: ../plugins/fn-stat/functions.c:5050
-msgid "ref,fraction"
-msgstr "ref,zlomek"
-
-#: ../plugins/fn-stat/functions.c:5054
-msgid "array1,array2,tails,type"
-msgstr "pole1,pole2,konce,typ"
-
-#: ../plugins/fn-stat/functions.c:5069
-msgid "x.alpha,beta,cumulative"
-msgstr "x.alfa,beta,kumulativní"
-
-#: ../plugins/fn-stat/functions.c:5072
-msgid "ref,x[,stddev]"
-msgstr ""
-
-#: ../plugins/fn-stat/functions.c:5076 ../plugins/fn-stat/functions.c:5094
-msgid "x,a,b"
-msgstr "x,a,b"
-
-#: ../plugins/fn-stat/functions.c:5079
-#, fuzzy
-msgid "k,p,cumulative"
-msgstr "x,y,kumulativní"
-
-#: ../plugins/fn-stat/functions.c:5088 ../plugins/fn-stat/functions.c:5091
-msgid "x,a"
-msgstr "x,a"
-
-#: ../plugins/fn-stat/functions.c:5097
-msgid "x,sigma"
-msgstr "x,sigma"
-
-#: ../plugins/fn-stat/functions.c:5100
-msgid "x,a,sigma"
-msgstr "x,a,sigma"
-
-#: ../plugins/fn-stat/functions.c:5106
-#, fuzzy
-msgid "function_nbr,ref1,ref2,"
-msgstr "číslo_funkce,ref,ref,"
-
-#: ../plugins/fn-stat/functions.c:5109
-#, fuzzy
-msgid "ref1,ref2,"
-msgstr "ref,ref,"
-
-#: ../plugins/fn-string/functions.c:1419
-msgid "text,text,"
-msgstr "text,text,"
-
-#: ../plugins/fn-string/functions.c:1422
-msgid "num,decimals"
-msgstr "počet,des_místa"
-
-#: ../plugins/fn-string/functions.c:1425
-msgid "text1,text2"
-msgstr "text1,text2"
-
-#: ../plugins/fn-string/functions.c:1428
-msgid "text1,text2,num"
-msgstr "text1,text2,počet"
-
-#: ../plugins/fn-string/functions.c:1431
-msgid "num,decs,no_commas"
-msgstr "počet,des,bez_čárek"
-
-#: ../plugins/fn-string/functions.c:1437 ../plugins/fn-string/functions.c:1467
-msgid "text,num_chars"
-msgstr "text,počet_znaků"
-
-#: ../plugins/fn-string/functions.c:1440 ../plugins/fn-string/functions.c:1470
-#, fuzzy
-msgid "text,num_bytes"
-msgstr "text,počet"
-
-#: ../plugins/fn-string/functions.c:1452 ../plugins/fn-string/functions.c:1455
-msgid "text,pos,num"
-msgstr "text,poz,počet"
-
-#: ../plugins/fn-string/functions.c:1461
-msgid "old,start,num,new"
-msgstr "starý,zač,počet,nový"
-
-#: ../plugins/fn-string/functions.c:1464
-msgid "text,num"
-msgstr "text,počet"
-
-#: ../plugins/fn-string/functions.c:1473
-msgid "search_string,text,start_num"
-msgstr "hledaný_řetězec,text,počáteční_číslo"
-
-#: ../plugins/fn-string/functions.c:1476
-msgid "text,old,new,num"
-msgstr "text,starý,nový,počet"
-
-#: ../plugins/fn-string/functions.c:1482
-msgid "value,format_text"
-msgstr "hodnota,formát_textu"
-
 #: ../plugins/fn-string/plugin.xml.in.h:1
 msgid "Functions for manipulating strings"
 msgstr "Funkce pro práci s řetězci"
 
 #: ../plugins/fn-string/plugin.xml.in.h:2 ../src/dialogs/dialog-search.c:151
-#: ../src/func.c:1027
+#: ../src/func.c:1070
 msgid "String"
 msgstr "Řetězec"
 
 #: ../plugins/fn-string/plugin.xml.in.h:3
 msgid "String Functions"
 msgstr "Textové funkce"
-
-#: ../plugins/fn-tsa/functions.c:1011
-msgid "Abscissas,Ordinates,Targets,Interpolation"
-msgstr ""
-
-#: ../plugins/fn-tsa/functions.c:1015
-msgid "Ordinates,Filter,Abscissas,Interpolation,Number"
-msgstr ""
-
-#: ../plugins/fn-tsa/functions.c:1019
-msgid "Sequence,Inverse"
-msgstr ""
 
 #: ../plugins/fn-tsa/plugin.xml.in.h:1
 #, fuzzy
@@ -1731,9 +853,9 @@ msgstr "Omezení:"
 #: ../src/dialogs/dialog-define-names.c:576
 #: ../src/dialogs/dialog-doc-metadata.c:1276
 #: ../src/dialogs/dialog-formula-guru.c:827
-#: ../src/dialogs/dialog-function-select.c:913
-#: ../src/dialogs/dialog-function-select.c:935
-#: ../src/dialogs/dialog-function-select.c:940
+#: ../src/dialogs/dialog-function-select.c:804
+#: ../src/dialogs/dialog-function-select.c:826
+#: ../src/dialogs/dialog-function-select.c:831
 #: ../src/dialogs/dialog-paste-names.c:93
 #: ../src/dialogs/dialog-scenarios.c:374
 #: ../src/dialogs/dialog-simulation.c:217 ../src/dialogs/dialog-zoom.c:191
@@ -2079,21 +1201,21 @@ msgid ""
 "@DESCRIPTION=This is the perl function template. \n"
 msgstr ""
 
-#: ../plugins/perl-loader/perl-loader.c:87
+#: ../plugins/perl-loader/perl-loader.c:89
 msgid "Perl error: "
 msgstr "Chyba Perlu: "
 
-#: ../plugins/perl-loader/perl-loader.c:127
-#: ../plugins/perl-loader/perl-loader.c:146
+#: ../plugins/perl-loader/perl-loader.c:129
+#: ../plugins/perl-loader/perl-loader.c:148
 #, c-format
 msgid "Perl error: %s\n"
 msgstr "Chyba Perlu: %s\n"
 
-#: ../plugins/perl-loader/perl-loader.c:191
+#: ../plugins/perl-loader/perl-loader.c:194
 msgid "Module name not given."
 msgstr "Nezadán název modulu."
 
-#: ../plugins/perl-loader/perl-loader.c:218
+#: ../plugins/perl-loader/perl-loader.c:221
 msgid "perl_func.pl doesn't exist."
 msgstr "perl_func.pl neexistuje."
 
@@ -2279,8 +1401,8 @@ msgstr "Nějaký název"
 
 #: ../plugins/python-loader/python-loader.c:338
 #: ../plugins/python-loader/python-loader.c:431
-#: ../plugins/python-loader/python-loader.c:655
-#: ../plugins/python-loader/python-loader.c:767
+#: ../plugins/python-loader/python-loader.c:662
+#: ../plugins/python-loader/python-loader.c:774
 #, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr "Soubor Pythonu \"%s\" má neplatný formát."
@@ -2291,24 +1413,24 @@ msgstr "Soubor Pythonu \"%s\" má neplatný formát."
 msgid "File doesn't contain \"%s\" function."
 msgstr "Soubor neobsahuje funkci \"%s\"."
 
-#: ../plugins/python-loader/python-loader.c:660
-#: ../plugins/python-loader/python-loader.c:772
+#: ../plugins/python-loader/python-loader.c:667
+#: ../plugins/python-loader/python-loader.c:779
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
 msgstr "Soubor neobsahuje slovník \"%s\"."
 
-#: ../plugins/python-loader/python-loader.c:665
-#: ../plugins/python-loader/python-loader.c:777
+#: ../plugins/python-loader/python-loader.c:672
+#: ../plugins/python-loader/python-loader.c:784
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr "Objekt \"%s\" není slovník."
 
-#: ../plugins/python-loader/python-loader.c:715 ../src/gnm-plugin.c:568
+#: ../plugins/python-loader/python-loader.c:722 ../src/gnm-plugin.c:568
 #, c-format
 msgid "Unknown action: %s"
 msgstr "Neznámá akce: %s"
 
-#: ../plugins/python-loader/python-loader.c:720
+#: ../plugins/python-loader/python-loader.c:727
 #, c-format
 msgid "Not a valid function for action: %s"
 msgstr "Není platná funkce pro akci: %s"
@@ -5033,6 +4155,10 @@ msgstr "Šířka _sloupce (pt.):"
 msgid "_Use Default"
 msgstr "Po_užít výchozí"
 
+#: ../src/dialogs/col-width.glade.h:5 ../src/dialogs/row-height.glade.h:5
+msgid "x"
+msgstr "x"
+
 #: ../src/dialogs/colrow.glade.h:1
 msgid "Group/Ungroup"
 msgstr "Seskupit/Rozeskupit"
@@ -6234,7 +5360,7 @@ msgid "Double"
 msgstr "Dvojité"
 
 #: ../src/dialogs/dialog-cell-format.c:479 ../src/dialogs/dialog-search.c:153
-#: ../src/func.c:1025 ../src/wbc-gtk-actions.c:2311
+#: ../src/func.c:1068 ../src/wbc-gtk-actions.c:2311
 msgid "Number"
 msgstr "Číslo"
 
@@ -6560,51 +5686,51 @@ msgstr "Nedávno použité"
 msgid "All Functions (long list)"
 msgstr "Všechny funkce (dlouhý seznam)"
 
-#: ../src/dialogs/dialog-function-select.c:437
+#: ../src/dialogs/dialog-function-select.c:330
 #, fuzzy, c-format
 msgid "%s evaluates to %s."
 msgstr "%s verze %s"
 
-#: ../src/dialogs/dialog-function-select.c:496
+#: ../src/dialogs/dialog-function-select.c:389
 #, fuzzy
 msgid "Arguments:"
 msgstr "Zarovnání"
 
-#: ../src/dialogs/dialog-function-select.c:516
+#: ../src/dialogs/dialog-function-select.c:409
 #, fuzzy
 msgid "Note: "
 msgstr "Název: "
 
-#: ../src/dialogs/dialog-function-select.c:528
+#: ../src/dialogs/dialog-function-select.c:421
 #, fuzzy
 msgid "Examples:"
 msgstr "Vzorek"
 
 #. Not translated
-#: ../src/dialogs/dialog-function-select.c:544
+#: ../src/dialogs/dialog-function-select.c:437
 msgid "See also: "
 msgstr ""
 
-#: ../src/dialogs/dialog-function-select.c:559
+#: ../src/dialogs/dialog-function-select.c:452
 #, fuzzy
 msgid ", "
 msgstr " "
 
-#: ../src/dialogs/dialog-function-select.c:591
+#: ../src/dialogs/dialog-function-select.c:484
 #, fuzzy
 msgid "Further information: "
 msgstr "Informace o souboru"
 
-#: ../src/dialogs/dialog-function-select.c:593
+#: ../src/dialogs/dialog-function-select.c:486
 #, fuzzy
 msgid "online descriptions"
 msgstr "Popis"
 
-#: ../src/dialogs/dialog-function-select.c:604
+#: ../src/dialogs/dialog-function-select.c:497
 msgid "Microsoft Excel: "
 msgstr ""
 
-#: ../src/dialogs/dialog-function-select.c:612
+#: ../src/dialogs/dialog-function-select.c:505
 msgid "ODF (OpenFormula): "
 msgstr ""
 
@@ -10625,50 +9751,46 @@ msgid ""
 "and return the last argument."
 msgstr ""
 
-#: ../src/func-builtin.c:372
-msgid "condition,if true,if false"
-msgstr "podmínka,pokud platí,pokud neplatí"
-
 #: ../src/func-builtin.c:386
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: ../src/func.c:300
+#: ../src/func.c:226
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "Nelze vytvořit soubor %s\n"
 
-#: ../src/func.c:621
+#: ../src/func.c:665
 msgid "Function implementation not available."
 msgstr "Implementace funkce není k dispozici."
 
-#: ../src/func.c:846
+#: ../src/func.c:890
 msgid "Unknown Function"
 msgstr "Neznámá funkce"
 
-#: ../src/func.c:1029
+#: ../src/func.c:1072
 msgid "Boolean"
 msgstr "Logická hodnota"
 
-#: ../src/func.c:1031
+#: ../src/func.c:1074
 msgid "Cell Range"
 msgstr "Oblast buněk"
 
-#: ../src/func.c:1033
+#: ../src/func.c:1076
 msgid "Area"
 msgstr "Plocha"
 
-#: ../src/func.c:1035
+#: ../src/func.c:1078
 #, fuzzy
 msgid "Scalar, Blank, or Error"
 msgstr "Skalár nebo chyba"
 
-#: ../src/func.c:1037
+#: ../src/func.c:1080
 msgid "Scalar"
 msgstr "Skalár"
 
 #. Missing values will be NULL.
-#: ../src/func.c:1040
+#: ../src/func.c:1083
 msgid "Any"
 msgstr "Cokoli"
 
@@ -10986,45 +10108,49 @@ msgstr "Možnosti Gnumericu"
 msgid "Show Gnumeric Options"
 msgstr "Možnosti Gnumericu"
 
-#: ../src/main-application.c:74
+#: ../src/main-application.c:76
 msgid "Specify the size and location of the initial window"
 msgstr "Určení velikosti a umístění počátečního okna"
 
-#: ../src/main-application.c:75
+#: ../src/main-application.c:77
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "ŠÍŘKAxVÝŠKA+XPOS+YPOS"
 
-#: ../src/main-application.c:78
+#: ../src/main-application.c:80
 msgid "Don't show splash screen"
 msgstr "Nezobrazovat uvítací obrazovku"
 
-#: ../src/main-application.c:80
+#: ../src/main-application.c:82
 msgid "Don't display warning dialogs when importing"
 msgstr "Nezobrazovat varovné dialogy při importu"
 
-#: ../src/main-application.c:89 ../src/main-application.c:95
+#: ../src/main-application.c:91 ../src/main-application.c:97
 msgid "Dumps the function definitions"
 msgstr "Vypsat definice funkcí"
 
-#: ../src/main-application.c:90 ../src/main-application.c:96
-#: ../src/main-application.c:102 ../src/ssgrep.c:74
+#: ../src/main-application.c:92 ../src/main-application.c:98
+#: ../src/main-application.c:104 ../src/ssgrep.c:74
 msgid "FILE"
 msgstr "SOUBOR"
 
-#: ../src/main-application.c:101
+#: ../src/main-application.c:103
 msgid "Dumps web page for function help"
 msgstr ""
 
-#: ../src/main-application.c:107
+#: ../src/main-application.c:109
 msgid "Generate new help and po files"
 msgstr "Vygenerovat nové soubory nápovědy a po"
 
 #: ../src/main-application.c:113
+msgid "Sanity check functions' help texts"
+msgstr ""
+
+#: ../src/main-application.c:119
 #, fuzzy
 msgid "Exit immediately after loading the selected books"
 msgstr "Skončit hned po načtení vybraných sešitů (vhodné pro testování)."
 
-#: ../src/main-application.c:226 ../src/ssconvert.c:567 ../src/ssgrep.c:434
+#: ../src/main-application.c:232 ../src/ssconvert.c:567 ../src/ssgrep.c:434
 #: ../src/ssindex.c:253
 #, c-format
 msgid ""
@@ -11193,6 +10319,14 @@ msgstr "strana"
 msgid "pages"
 msgstr "stran"
 
+#: ../src/print-info.c:576
+msgid "date"
+msgstr "datum"
+
+#: ../src/print-info.c:577
+msgid "time"
+msgstr "čas"
+
 #: ../src/print-info.c:578 ../src/ssconvert.c:88
 msgid "file"
 msgstr "soubor"
@@ -11200,6 +10334,10 @@ msgstr "soubor"
 #: ../src/print-info.c:579
 msgid "path"
 msgstr "cesta"
+
+#: ../src/print-info.c:580 ../src/ssgrep.c:352
+msgid "cell"
+msgstr "buňka"
 
 #: ../src/print-info.c:744 ../src/stf-export.c:630
 #, fuzzy, c-format
@@ -12084,6 +11222,10 @@ msgstr "Nepovinné určení, který exportér používat"
 #: ../src/ssconvert.c:101
 msgid "Detailed instructions for the chosen exporter"
 msgstr ""
+
+#: ../src/ssconvert.c:102
+msgid "string"
+msgstr "řetězec"
 
 #: ../src/ssconvert.c:108
 msgid "List the available exporters"
@@ -16399,6 +15541,570 @@ msgstr "Šablona fialového seznamu"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "Šablona jednoduchého seznamu"
+
+#~ msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
+#~ msgstr ""
+#~ "příznak_call_put, cena, realizační_cena, doba_do_realizace, úrok, "
+#~ "míra_kolísání, náklady_držení"
+
+#~ msgid "spot, strike, time, rate, volatility, cost_of_carry"
+#~ msgstr ""
+#~ "cena, realizační_cena, doba_do_realizace, úrok, míra_kolísání, "
+#~ "náklady_držení"
+
+#~ msgid "a, b, rho"
+#~ msgstr "a, b, rho"
+
+#~ msgid ""
+#~ "call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
+#~ msgstr ""
+#~ "příznak_call_put, cena, realizační_cena, doba_do_realizace, domácí_úrok, "
+#~ "zahraniční_úrok, míra_kolísání"
+
+#~ msgid ""
+#~ "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
+#~ msgstr ""
+#~ "příznak_call_put, cena, realizační_cena, doba_do_realizace, t2, úrok, "
+#~ "míra_kolísání, náklady_držení"
+
+#~ msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
+#~ msgstr ""
+#~ "příznak_call_put, cena, realizační_cena, doba_do_realizace, úrok, "
+#~ "míra_kolísání, lambda, gama"
+
+#~ msgid ""
+#~ "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
+#~ msgstr ""
+#~ "příznak_call_put, cena, realizační_cena, doba_do_realizace, úrok, "
+#~ "míra_kolísání, náklady_držení, lambda"
+
+#~ msgid "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
+#~ msgstr ""
+#~ "příznak_call_put, cena, realizační_cena, doba_do_realizace, úrok, "
+#~ "náklady_držení, míra_kolísání"
+
+#~ msgid ""
+#~ "call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, "
+#~ "rho_ef, kappa_e, kappa_f)"
+#~ msgstr ""
+#~ "příznak_call_put, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, "
+#~ "rho_ef, kappa_e, kappa_f)"
+
+#, fuzzy
+#~ msgid "spot, strike, t1, t2, rate, d, volatility"
+#~ msgstr ""
+#~ "příznak_call_put, cena, realizační_cena, t1, t2, úrok, d, míra_kolísání"
+
+#~ msgid ""
+#~ "call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
+#~ msgstr ""
+#~ "příznak_call_put, cena, alfa, čas1, doba_do_realizace, úrok, "
+#~ "míra_kolísání, náklady_držení"
+
+#~ msgid ""
+#~ "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, "
+#~ "volatility"
+#~ msgstr ""
+#~ "příznak_call_put, cena, realizační_cena, a, doba_do_realizace, m, dt, "
+#~ "úrok, náklady_držení, míra_kolísání"
+
+#~ msgid "spot, strike, time1, time2, rate, cost_of_carry, volatility"
+#~ msgstr ""
+#~ "cena, realizační_cena, doba_do_realizace1, doba_do_realizace2, úrok, "
+#~ "náklady_držení, míra_kolísání"
+
+#~ msgid ""
+#~ "spot, strike_call, strike_put, time, time_call, time_put, rate, "
+#~ "cost_of_carry, volatility"
+#~ msgstr ""
+#~ "cena, realizační_cena_call, realizační_cena_put, doba_do_realizace, "
+#~ "doba_do_realizace_call, doba_do_realizace_put, úrok, náklady_držení, "
+#~ "míra_kolísání"
+
+#~ msgid ""
+#~ "type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, "
+#~ "volatility"
+#~ msgstr ""
+#~ "příznak_typu, cena, realizační_cena1, realizační_cena2, "
+#~ "doba_do_realizace1, doba_do_realizace2, úrok, náklady_držení, "
+#~ "míra_kolísání"
+
+#, fuzzy
+#~ msgid ""
+#~ "type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, "
+#~ "cost_of_carry2, rate, volatility1, volatility2, rho"
+#~ msgstr ""
+#~ "příznak_typu, cena, realizační_cena1, realizační_cena2, "
+#~ "doba_do_realizace1, doba_do_realizace2, úrok, náklady_držení, "
+#~ "míra_kolísání"
+
+#, fuzzy
+#~ msgid ""
+#~ "spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
+#~ "volatility2,rho"
+#~ msgstr ""
+#~ "cena, realizační_cena, doba_do_realizace1, doba_do_realizace2, úrok, "
+#~ "náklady_držení, míra_kolísání"
+
+#, fuzzy
+#~ msgid ""
+#~ "call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,"
+#~ "volatility2,rho"
+#~ msgstr ""
+#~ "příznak_call_put, cena, realizační_cena, doba_do_realizace, úrok, "
+#~ "náklady_držení, míra_kolísání"
+
+#, fuzzy
+#~ msgid ""
+#~ "call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
+#~ msgstr ""
+#~ "příznak_call_put, cena, realizační_cena, doba_do_realizace, úrok, "
+#~ "náklady_držení, míra_kolísání"
+
+#, fuzzy
+#~ msgid ""
+#~ "call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
+#~ "volatility"
+#~ msgstr ""
+#~ "příznak_call_put, cena, realizační_cena, doba_do_realizace, úrok, "
+#~ "náklady_držení, míra_kolísání"
+
+#, fuzzy
+#~ msgid ""
+#~ "amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
+#~ "volatility, cost_of_carry"
+#~ msgstr ""
+#~ "příznak_call_put, cena, realizační_cena, doba_do_realizace, úrok, "
+#~ "míra_kolísání, náklady_držení"
+
+#~ msgid "real,im,suffix"
+#~ msgstr "reálná,im,přípona"
+
+#~ msgid "inumber"
+#~ msgstr "komplex_číslo"
+
+#~ msgid "inumber,inumber"
+#~ msgstr "komplex_číslo,komplex_číslo"
+
+#~ msgid "database,field,criteria"
+#~ msgstr "databáze,pole,kritéria"
+
+#~ msgid "pivot_table,field_name"
+#~ msgstr "kont_tabulka,název_pole"
+
+#~ msgid "year,month,day"
+#~ msgstr "rok,měsíc,den"
+
+#~ msgid "date_str"
+#~ msgstr "řetězec_datum"
+
+#~ msgid "date1,date2,interval"
+#~ msgstr "datum1,datum2,interval"
+
+#~ msgid "date1,date2,method"
+#~ msgstr "datum1,datum2,metoda"
+
+#~ msgid "date,months"
+#~ msgstr "datum,měsíce"
+
+#~ msgid "start_date,months"
+#~ msgstr "poč_datum,měsíce"
+
+#~ msgid "start_date,end_date,holidays"
+#~ msgstr "poč_datum,kon_datum,svátky"
+
+#~ msgid "hours,minutes,seconds"
+#~ msgstr "hodiny,minuty,sekundy"
+
+#~ msgid "timetext"
+#~ msgstr "textový_čas"
+
+#~ msgid "date,days,holidays"
+#~ msgstr "datum,dny,svátky"
+
+#~ msgid "unixtime"
+#~ msgstr "unixčas"
+
+#~ msgid "serial"
+#~ msgstr "sériové_číslo"
+
+#~ msgid "traffic,circuits"
+#~ msgstr "provoz,obvodů"
+
+#~ msgid "traffic,gos"
+#~ msgstr "provoz,ss"
+
+#~ msgid "circuits,gos"
+#~ msgstr "obvodů,ss"
+
+#, fuzzy
+#~ msgid "rate,values"
+#~ msgstr "_Jiné hodnoty"
+
+#~ msgid "info_type, cell"
+#~ msgstr "info_type, buňka"
+
+#~ msgid "value"
+#~ msgstr "hodnota"
+
+#~ msgid "info_type"
+#~ msgstr "info_type"
+
+#~ msgid "range"
+#~ msgstr "oblast"
+
+#~ msgid "text"
+#~ msgstr "text"
+
+#~ msgid "number,number,"
+#~ msgstr "číslo,číslo,"
+
+#~ msgid "number"
+#~ msgstr "číslo"
+
+#, fuzzy
+#~ msgid "value,value"
+#~ msgstr "hodnota"
+
+#~ msgid "row_num,col_num,abs_num,a1,text"
+#~ msgstr "číslo_řádku,číslo_sloupce,abs_počet,a1,text"
+
+#~ msgid "reference"
+#~ msgstr "odkaz"
+
+#~ msgid "index,value,"
+#~ msgstr "index,hodnota,"
+
+#~ msgid "ref"
+#~ msgstr "ref"
+
+#~ msgid "colname"
+#~ msgstr "názevsloupce"
+
+#~ msgid "val,range,col_idx,approx,as_index"
+#~ msgstr "hodnota,oblast,idx_slou,přibl,jako_index"
+
+#~ msgid "link_location, label"
+#~ msgstr "umístění_odkazu, popis"
+
+#~ msgid "ref_string,format"
+#~ msgstr "ref_řetězec,formát"
+
+#~ msgid "reference,row,col,area"
+#~ msgstr "odkaz,řádek,sloupec,oblast"
+
+#~ msgid "val,range,range"
+#~ msgstr "hodnota,oblast,oblast"
+
+#~ msgid "val,range,approx"
+#~ msgstr "hodnota,oblast,přibliž"
+
+#~ msgid "ref,row,col,height,width"
+#~ msgstr "ref,řádek,sloupec,výška,šířka"
+
+#~ msgid "array"
+#~ msgstr "pole"
+
+#~ msgid "xnum,ynum"
+#~ msgstr "xnum,ynum"
+
+#~ msgid "a,b"
+#~ msgstr "a,b"
+
+#~ msgid "range,criteria"
+#~ msgstr "oblast,kritéria"
+
+#~ msgid "number,significance"
+#~ msgstr "počet,významnost"
+
+#~ msgid "n,k"
+#~ msgstr "n,k"
+
+#~ msgid "number,number"
+#~ msgstr "číslo,číslo"
+
+#~ msgid "number,base"
+#~ msgstr "číslo,základ"
+
+#~ msgid "numerator,denominator"
+#~ msgstr "dělenec,dělitel"
+
+#~ msgid "number,multiple"
+#~ msgstr "číslo,násobek"
+
+#~ msgid "base,exponent"
+#~ msgstr "základ,exponent"
+
+#~ msgid "number,type"
+#~ msgstr "počet,typ"
+
+#~ msgid "number,digits"
+#~ msgstr "počet,číslice"
+
+#~ msgid "x,n,m,coefficients"
+#~ msgstr "x,n,m,koeficienty"
+
+#~ msgid "range,criteria,actual_range"
+#~ msgstr "oblast,kritéria,skutečná_oblast"
+
+#~ msgid "range,range,"
+#~ msgstr "oblast,oblast,"
+
+#~ msgid "array1,array2"
+#~ msgstr "pole1,pole2"
+
+#~ msgid "array,matrix_type,bandsize"
+#~ msgstr "pole,typ_matice,velikost"
+
+#~ msgid "p"
+#~ msgstr "p "
+
+#~ msgid "bottom,top"
+#~ msgstr "dolní_mez,horní_mez"
+
+#~ msgid "p,trials"
+#~ msgstr "p,pokusy"
+
+#~ msgid "a"
+#~ msgstr "a"
+
+#~ msgid "nu"
+#~ msgstr "nu"
+
+#~ msgid "value_range,prob_range"
+#~ msgstr "oblast_hodnot,oblast_pravd"
+
+#~ msgid "b"
+#~ msgstr "b"
+
+#~ msgid "nu1,nu2"
+#~ msgstr "nu1,nu2"
+
+#~ msgid "a,sigma"
+#~ msgstr "a,sigma"
+
+#~ msgid "a,b,type"
+#~ msgstr "a,b,typ"
+
+#~ msgid "n1,n2,t"
+#~ msgstr "n1,n2,t"
+
+#~ msgid "c,alpha,beta"
+#~ msgstr "c,alfa,beta"
+
+#~ msgid "zeta,sigma"
+#~ msgstr "zeta,sigma"
+
+#~ msgid "p,failures"
+#~ msgstr "p,selhání"
+
+#~ msgid "mean,stdev"
+#~ msgstr "průměr,směr_odchylka"
+
+#~ msgid "lambda"
+#~ msgstr "lambda"
+
+#~ msgid "sigma"
+#~ msgstr "sigma"
+
+#~ msgid "d1,d2,...,dN"
+#~ msgstr "d1,d2,...,dN"
+
+#, fuzzy
+#~ msgid "number1,number2,"
+#~ msgstr "číslo,číslo,"
+
+#~ msgid "k,p"
+#~ msgstr "k,p"
+
+#~ msgid "x,alpha,beta,a,b"
+#~ msgstr "x,alfa,beta,a,b"
+
+#~ msgid "p,alpha,beta,a,b"
+#~ msgstr "p,alfa,beta,a,b"
+
+#, fuzzy
+#~ msgid "n,trials,p,cumulative"
+#~ msgstr "x,n,M,N,kumulativní"
+
+#, fuzzy
+#~ msgid "x,a,cumulative"
+#~ msgstr "x,y,kumulativní"
+
+#~ msgid "x,dof"
+#~ msgstr "x,dof"
+
+#~ msgid "p,dof"
+#~ msgstr "p,dof"
+
+#, fuzzy
+#~ msgid "actual_range,theoretical_range"
+#~ msgstr "skut_rozsah,teor_rozsah"
+
+#~ msgid "x,stddev,size"
+#~ msgstr "x,odchylka,velikost"
+
+#~ msgid "trials,p,alpha"
+#~ msgstr "pokusy,p,alfa"
+
+#~ msgid "x,y,cumulative"
+#~ msgstr "x,y,kumulativní"
+
+#, fuzzy
+#~ msgid "x,dof_of_num,dof_of_denom"
+#~ msgstr "x,dof dělence,dof dělitele"
+
+#, fuzzy
+#~ msgid "p,dof_of_num,dof_of_denom"
+#~ msgstr "p,dof dělence,dof dělitele"
+
+#, fuzzy
+#~ msgid "x,known_y's,known_x's"
+#~ msgstr "známe_y,známe_x"
+
+#~ msgid "data_array,bins_array"
+#~ msgstr "pole_dat,pole_adresářů"
+
+#, fuzzy
+#~ msgid "x,alpha,beta,cumulative"
+#~ msgstr "x.alfa,beta,kumulativní"
+
+#, fuzzy
+#~ msgid "p,alpha,beta"
+#~ msgstr "c,alfa,beta"
+
+#~ msgid "known_y's,known_x's,new_x's,const"
+#~ msgstr "známe_y,známe_x,nové_x,konst"
+
+#~ msgid "x,n,M,N,cumulative"
+#~ msgstr "x,n,M,N,kumulativní"
+
+#~ msgid "known_y's,known_x's"
+#~ msgstr "známe_y,známe_x"
+
+#, fuzzy
+#~ msgid "known_y's,known_x's,affine,stat"
+#~ msgstr "známe_y,známe_x,konst,stat"
+
+#~ msgid "known_y's,known_x's,const,stat"
+#~ msgstr "známe_y,známe_x,konst,stat"
+
+#~ msgid "p,mean,stddev"
+#~ msgstr "p,průměr,odchylka"
+
+#~ msgid "x,mean,stddev"
+#~ msgstr "x,průměr,odchylka"
+
+#~ msgid "f,t,p"
+#~ msgstr "f,t,p"
+
+#~ msgid "x,mean,stddev,cumulative"
+#~ msgstr "x,průměr,stdodchylka,kumulativní"
+
+#~ msgid "array,k"
+#~ msgstr "pole,k"
+
+#~ msgid "array,x,significance"
+#~ msgstr "pole,x,významnost"
+
+#~ msgid "x,mean,cumulative"
+#~ msgstr "x,průměr,kumulativní"
+
+#~ msgid "x_range,prob_range,lower_limit,upper_limit"
+#~ msgstr "x_rozsah,pravd_rozsah,dolní_limit,horní_limit"
+
+#~ msgid "array,quart"
+#~ msgstr "pole,kvart"
+
+#, fuzzy
+#~ msgid "x,ref,order"
+#~ msgstr "ref,ref,"
+
+#~ msgid "array,interval"
+#~ msgstr "pole,interval"
+
+#, fuzzy
+#~ msgid "area1,area2,"
+#~ msgstr "pole1,pole2"
+
+#~ msgid "x,dof,tails"
+#~ msgstr "x,dof,konce"
+
+#~ msgid "ref,fraction"
+#~ msgstr "ref,zlomek"
+
+#~ msgid "array1,array2,tails,type"
+#~ msgstr "pole1,pole2,konce,typ"
+
+#~ msgid "x.alpha,beta,cumulative"
+#~ msgstr "x.alfa,beta,kumulativní"
+
+#~ msgid "x,a,b"
+#~ msgstr "x,a,b"
+
+#, fuzzy
+#~ msgid "k,p,cumulative"
+#~ msgstr "x,y,kumulativní"
+
+#~ msgid "x,a"
+#~ msgstr "x,a"
+
+#~ msgid "x,sigma"
+#~ msgstr "x,sigma"
+
+#~ msgid "x,a,sigma"
+#~ msgstr "x,a,sigma"
+
+#, fuzzy
+#~ msgid "function_nbr,ref1,ref2,"
+#~ msgstr "číslo_funkce,ref,ref,"
+
+#, fuzzy
+#~ msgid "ref1,ref2,"
+#~ msgstr "ref,ref,"
+
+#~ msgid "text,text,"
+#~ msgstr "text,text,"
+
+#~ msgid "num,decimals"
+#~ msgstr "počet,des_místa"
+
+#~ msgid "text1,text2"
+#~ msgstr "text1,text2"
+
+#~ msgid "text1,text2,num"
+#~ msgstr "text1,text2,počet"
+
+#~ msgid "num,decs,no_commas"
+#~ msgstr "počet,des,bez_čárek"
+
+#~ msgid "text,num_chars"
+#~ msgstr "text,počet_znaků"
+
+#, fuzzy
+#~ msgid "text,num_bytes"
+#~ msgstr "text,počet"
+
+#~ msgid "text,pos,num"
+#~ msgstr "text,poz,počet"
+
+#~ msgid "old,start,num,new"
+#~ msgstr "starý,zač,počet,nový"
+
+#~ msgid "text,num"
+#~ msgstr "text,počet"
+
+#~ msgid "search_string,text,start_num"
+#~ msgstr "hledaný_řetězec,text,počáteční_číslo"
+
+#~ msgid "text,old,new,num"
+#~ msgstr "text,starý,nový,počet"
+
+#~ msgid "value,format_text"
+#~ msgstr "hodnota,formát_textu"
+
+#~ msgid "condition,if true,if false"
+#~ msgstr "podmínka,pokud platí,pokud neplatí"
 
 #~ msgid "Search Center"
 #~ msgstr "Centrum vyhledávání"
