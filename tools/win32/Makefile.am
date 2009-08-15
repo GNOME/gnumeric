@@ -1,3 +1,5 @@
+EXTRA_DIST = gnumeric.nsi.in
+
 WINEDIR=${HOME}/.wine/drive_c
 
 setup :

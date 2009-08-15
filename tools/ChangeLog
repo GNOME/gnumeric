@@ -1,3 +1,7 @@
+2009-08-15  Morten Welinder  <terra@gnome.org>
+
+	* win32/Makefile.am: Distribute gnumeric.nsi.in.
+
 2009-07-01  Morten Welinder  <terra@gnome.org>
 
 	* handle-conf-options (make_get_conf_node): Create _get_node and
