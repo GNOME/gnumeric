@@ -254,9 +254,9 @@ create_reports (WorkbookControl *wbc, simulation_t *sim, simstats_t **stats,
 		dao_set_cell (dao, 10, 6 + n * rinc, _("Kurtosis"));
 		dao_set_cell (dao, 11, 6 + n * rinc, _("Range"));
 		dao_set_cell (dao, 12, 6 + n * rinc, _("Count"));
-		dao_set_cell (dao, 13, 6 + n * rinc, _("Confidence (95 %)"));
-		dao_set_cell (dao, 14, 6 + n * rinc, _("Lower Limit (95 %)"));
-		dao_set_cell (dao, 15, 6 + n * rinc, _("Upper Limit (95 %)"));
+		dao_set_cell (dao, 13, 6 + n * rinc, _("Confidence (95%)"));
+		dao_set_cell (dao, 14, 6 + n * rinc, _("Lower Limit (95%)"));
+		dao_set_cell (dao, 15, 6 + n * rinc, _("Upper Limit (95%)"));
 		dao_set_bold (dao,  1, 6 + n * rinc, 15, 6 + n * rinc);
 
 		for (i = 0; i < sim->n_vars; i++) {
