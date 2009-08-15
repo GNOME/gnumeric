@@ -275,7 +275,7 @@ static GnmFuncHelp const help_atl_last[] = {
 };
 
 GnmFuncDescriptor const ATL_functions[] = {
-	{"atl_last", "s", "tag", help_atl_last, atl_last, NULL, atl_last_link, atl_last_unlink },
+	{"atl_last", "s", help_atl_last, atl_last, NULL, atl_last_link, atl_last_unlink },
 
 	{NULL}
 };

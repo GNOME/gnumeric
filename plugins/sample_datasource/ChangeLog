@@ -1,3 +1,7 @@
+2009-08-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* sample_datasource.c: remove argument names from GnmFuncDescriptor
+
 2009-06-30  Morten Welinder  <terra@gnome.org>
 
 	* sample_datasource.c (ATL_LAST): update to new help.
