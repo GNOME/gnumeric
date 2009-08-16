@@ -1,3 +1,7 @@
+2009-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.10
+
 2009-07-01  Morten Welinder  <terra@gnome.org>
 
 	* widget-font-selector.c (fs_modify_style): If nothing changed, do

@@ -1,3 +1,7 @@
+2009-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.10
+
 2009-08-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-anova.c (analysis_tool_anova_two_factor_engine_run):

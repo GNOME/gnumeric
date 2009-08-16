@@ -1,3 +1,7 @@
+2009-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.10
+
 2009-08-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* dialog-about.c : use GocCanvas nstead of FooCanvas.
