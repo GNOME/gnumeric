@@ -452,7 +452,7 @@ gnumeric_ceil (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_countif[] = {
-        { GNM_FUNC_HELP_NAME, F_("COUNTIF:count of the cells meeting the given @criteria")},
+        { GNM_FUNC_HELP_NAME, F_("COUNTIF:count of the cells meeting the given @{criteria}")},
         { GNM_FUNC_HELP_ARG, F_("range:cell area")},
         { GNM_FUNC_HELP_ARG, F_("criteria: condition for a cell to be counted")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -526,7 +526,7 @@ gnumeric_countif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_sumif[] = {
-        { GNM_FUNC_HELP_NAME, F_("SUMIF:sum of the cells in actual range for which the corresponding cells in the range meet the given @criteria")},
+        { GNM_FUNC_HELP_NAME, F_("SUMIF:sum of the cells in actual range for which the corresponding cells in the range meet the given @{criteria}")},
         { GNM_FUNC_HELP_ARG, F_("range:cell area")},
         { GNM_FUNC_HELP_ARG, F_("criteria: condition for a cell to be sumed")},
         { GNM_FUNC_HELP_ARG, F_("actual_range: cell area, defaults to @{range}")},
@@ -1114,7 +1114,7 @@ static GnmFuncHelp const help_mod[] = {
         { GNM_FUNC_HELP_NAME, F_("MOD: the remainder of @{x} under division by @{n}")},
         { GNM_FUNC_HELP_ARG, F_("x:integer")},
         { GNM_FUNC_HELP_ARG, F_("n:integer")},
-        { GNM_FUNC_HELP_DESCRIPTION, F_("MOD function returns the remainder when @{x} is divided by @n.")},
+        { GNM_FUNC_HELP_DESCRIPTION, F_("MOD function returns the remainder when @{x} is divided by @{n}.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{n} is 0, MOD returns #DIV/0!")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=MOD(23,7)" },
@@ -2315,8 +2315,8 @@ done:
 static GnmFuncHelp const help_minverse[] = {
         { GNM_FUNC_HELP_NAME, F_("MINVERSE:the inverse matrix of @{matrix}")},
         { GNM_FUNC_HELP_ARG, F_("matrix:a square matrix")},
-	{ GNM_FUNC_HELP_NOTE, F_("If @matrix is not invertible, MINVERSE returns #NUM!") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @matrix does not contain an equal number of columns and rows, MINVERSE returns #VALUE!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{matrix} is not invertible, MINVERSE returns #NUM!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{matrix} does not contain an equal number of columns and rows, MINVERSE returns #VALUE!") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_SEEALSO, "MMULT, MDETERM"},
         { GNM_FUNC_HELP_END}

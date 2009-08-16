@@ -1,3 +1,8 @@
+2009-08-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c: a few description corrections:
+	  @argument --> @{argument}
+
 2009-08-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.10
