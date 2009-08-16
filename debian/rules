@@ -242,7 +242,6 @@ binary-indep: build install
 #	dh_undocumented -i
 	dh_installchangelogs ChangeLog -i
 	dh_gconf -i
-	dh_scrollkeeper -i
 	dh_icons -i
 	dh_link -i
 	dh_compress -i
@@ -276,7 +275,6 @@ binary-arch: build install
 #	dh_undocumented -a
 	dh_installchangelogs ChangeLog -a
 	dh_gconf -a
-	dh_scrollkeeper -a
 	dh_icons -a
 	dh_strip -a
 	dh_link -a

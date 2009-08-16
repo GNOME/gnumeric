@@ -1,3 +1,21 @@
+gnumeric (1.9.10-1) unstable; urgency=low
+
+  * New upstream development release.
+  * [debian/control]
+    * Bumped goffice build dependency as per per configure.in .
+    * Updated Standards-Version.
+  * [debian/rules]
+    * dh_scrollkeeper is a deprecated no-op nowadays; removed call.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 16 Aug 2009 14:00:53 +0200
+
+gnumeric (1.9.9-2) unstable; urgency=medium
+
+  * [src/print-info.c] (gnm_page_breaks_clean): handle breaks being NULL.
+    (Closes: #541095)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu, 13 Aug 2009 19:49:05 +0200
+
 gnumeric (1.9.9-1) unstable; urgency=low
 
   * New upstream development release.
