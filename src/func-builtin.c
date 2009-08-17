@@ -260,6 +260,7 @@ static GnmFuncHelp const help_if[] = {
 	{ GNM_FUNC_HELP_ARG, N_("trueval:value to use if condition is true.") },
 	{ GNM_FUNC_HELP_ARG, N_("falseval:value to use if condition is false.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, N_("This function first evaluates the condition.  If the result is true, it will then evaluate and return the second argument.  Otherwise, it will evaluate and return the last argument.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=IF(1+2=3,\"x\",\"y\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "AND,OR,XOR,NOT,IFERROR" },
 	{ GNM_FUNC_HELP_END }
 };

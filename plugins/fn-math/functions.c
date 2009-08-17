@@ -173,6 +173,7 @@ gnumeric_lcm (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 static GnmFuncHelp const help_gd[] = {
 	{ GNM_FUNC_HELP_NAME, F_("GD:Gudermannian function")},
 	{ GNM_FUNC_HELP_ARG, F_("x:value")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=GD(0.5)" },
 	{ GNM_FUNC_HELP_SEEALSO, "TAN,TANH" },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:Gudermannian.html") },
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Gudermannian_function") },

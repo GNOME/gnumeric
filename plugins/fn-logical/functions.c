@@ -231,6 +231,7 @@ static GnmFuncHelp const help_iferror[] = {
 	{ GNM_FUNC_HELP_ARG, F_("x:value to test for error.") },
 	{ GNM_FUNC_HELP_ARG, F_("y:alternate value.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the first value, unless that is an error, in which case it returns the second.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=IFERROR(1/0,14)" },
 	{ GNM_FUNC_HELP_SEEALSO, "IF,ISERROR" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -247,6 +248,7 @@ static GnmFuncHelp const help_true[] = {
 	{ GNM_FUNC_HELP_NAME, F_("TRUE:the value TRUE.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("TRUE returns the value TRUE.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=TRUE()" },
 	{ GNM_FUNC_HELP_SEEALSO, "FALSE,IF" },
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Logical_value") },
 	{ GNM_FUNC_HELP_END }
@@ -264,6 +266,7 @@ static GnmFuncHelp const help_false[] = {
 	{ GNM_FUNC_HELP_NAME, F_("FALSE:the value FALSE.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("FALSE returns the value FALSE.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=FALSE()" },
 	{ GNM_FUNC_HELP_SEEALSO, "TRUE,IF" },
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Logical_value") },
 	{ GNM_FUNC_HELP_END }
