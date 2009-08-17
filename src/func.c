@@ -665,6 +665,34 @@ error_function_no_full_info (GnmFuncEvalInfo *ei,
 	return value_new_error (ei->pos, _("Function implementation not available."));
 }
 
+/**
+ * function_def_create_arg_names:
+ * @fn_def: the fn defintion
+ *
+ * Return value: a ptrarray of argument names (that must be freed)
+ **/
+static GPtrArray *
+function_def_create_arg_names (GnmFunc const *fn_def)
+{
+	int i;
+	GPtrArray *ptr;
+
+	g_return_val_if_fail (fn_def != NULL, NULL);
+
+	ptr = g_ptr_array_new ();
+	if (fn_def->help != NULL)
+		for (i = 0;
+		     fn_def->help[i].type != GNM_FUNC_HELP_END;
+		     i++) {
+			if (fn_def->help[i].type == GNM_FUNC_HELP_ARG)
+				g_ptr_array_add 
+					(ptr, split_at_colon 
+					 (_(fn_def->help[i].text), NULL));
+		}
+	return ptr;
+}
+
+
 void
 gnm_func_load_stub (GnmFunc *func)
 {
@@ -678,7 +706,6 @@ gnm_func_load_stub (GnmFunc *func)
 	memset (&desc, 0, sizeof (GnmFuncDescriptor));
 
 	if (func->fn.load_desc (func, &desc)) {
-		func->arg_names	 = "";
 		func->help	 = desc.help ? desc.help : NULL;
 		if (desc.fn_args != NULL) {
 			func->fn_type		= GNM_FUNC_TYPE_ARGS;
@@ -696,8 +723,9 @@ gnm_func_load_stub (GnmFunc *func)
 		func->impl_status = desc.impl_status;
 		func->test_status = desc.test_status;
 		func->flags	  = desc.flags;
+		func->arg_names_p = function_def_create_arg_names (func);
 	} else {
-		func->arg_names = "";
+		func->arg_names_p = NULL;
 		func->fn_type = GNM_FUNC_TYPE_NODES;
 		func->fn.nodes = &error_function_no_full_info;
 		func->linker   = NULL;
@@ -737,6 +765,11 @@ gnm_func_free (GnmFunc *func)
 
 	if (func->textdomain)
 		go_string_unref (func->textdomain);
+
+	if (func->arg_names_p) {
+		g_ptr_array_foreach (func->arg_names_p, (GFunc) g_free, NULL);
+		g_ptr_array_free (func->arg_names_p, TRUE);
+	}
 
 	g_free (func);
 }
@@ -791,7 +824,6 @@ gnm_func_add (GnmFuncGroup *fn_group,
 		textdomain = GETTEXT_PACKAGE;
 
 	func->name		= desc->name;
-	func->arg_names		= "";
 	func->help		= desc->help ? desc->help : NULL;
 	func->textdomain        = go_string_new (textdomain);
 	func->linker		= desc->linker;
@@ -833,6 +865,8 @@ gnm_func_add (GnmFuncGroup *fn_group,
 		gnm_func_group_add_func (fn_group, func);
 	if (!(func->flags & GNM_FUNC_IS_WORKBOOK_LOCAL))
 		symbol_install (global_symbol_table, func->name, SYMBOL_FUNCTION, func);
+
+	func->arg_names_p = function_def_create_arg_names (func);
 
 	return func;
 }
@@ -1096,27 +1130,19 @@ function_def_get_arg_type_string (GnmFunc const *fn_def,
  * Return value: the name of the argument (must be freed)
  **/
 char *
-function_def_get_arg_name (GnmFunc const *fn_def, int arg_idx)
+function_def_get_arg_name (GnmFunc const *fn_def, guint arg_idx)
 {
-	int i;
-
-	g_return_val_if_fail (arg_idx >= 0, NULL);
 	g_return_val_if_fail (fn_def != NULL, NULL);
 
 	gnm_func_load_if_stub ((GnmFunc *)fn_def);
 
-	for (i = 0;
-	     fn_def->help[i].type != GNM_FUNC_HELP_END;
-	     i++) {
-		if (fn_def->help[i].type == GNM_FUNC_HELP_ARG) {
-			if (arg_idx == 0)
-				return split_at_colon (_(fn_def->help[i].text), NULL);
-			else
-				arg_idx--;	
-		}
-	}
+	if ((fn_def->arg_names_p != NULL) 
+	    && (arg_idx < fn_def->arg_names_p->len))
+		return g_strdup (g_ptr_array_index (fn_def->arg_names_p, 
+						     arg_idx));
 	return NULL;
 }
+
 
 /* ------------------------------------------------------------------------- */
 

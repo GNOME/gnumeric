@@ -1,3 +1,13 @@
+2009-08-17 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/func.h (function_def_get_arg_name): change argument
+	* src/func.c (function_def_get_arg_name): rewrite using
+	  function_def_create_arg_names
+	(function_def_create_arg_names): new
+	(gnm_func_load_stub): call function_def_create_arg_names
+	(gnm_func_free): free argument list
+	(gnm_func_add): call function_def_create_arg_names
+
 2009-08-15  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

@@ -190,7 +190,7 @@ struct _GnmFuncDescriptor {
 
 struct _GnmFunc {
 	char const *name;
-	char const *arg_names;
+	GPtrArray  *arg_names_p;
 	GnmFuncHelp const *help;
 	GOString *textdomain;
 	GnmFuncType fn_type;
@@ -254,7 +254,7 @@ char        function_def_get_arg_type  (GnmFunc const *fn_def,
 char const *function_def_get_arg_type_string  (GnmFunc const *fn_def,
                                         gint arg_idx);
 char       *function_def_get_arg_name  (GnmFunc const *fn_def,
-                                        gint arg_idx);
+                                        guint arg_idx);
 
 /*************************************************************************/
 
