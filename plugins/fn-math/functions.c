@@ -56,7 +56,7 @@ static GnmFuncHelp const help_gcd[] = {
         { GNM_FUNC_HELP_NAME, F_("GCD:the greatest common divisor")},
         { GNM_FUNC_HELP_ARG, F_("n0:positive integer")},
         { GNM_FUNC_HELP_ARG, F_("n1:positive integer")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("GCD calculates the greates common divisor of the given numbers @{n0},@{n1},..., the greatest integer that is a divisor of each argument.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("GCD calculates the greatest common divisor of the given numbers @{n0},@{n1},..., the greatest integer that is a divisor of each argument.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If any of the arguments is not an integer, it is truncated.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=GCD(470,770)" },
