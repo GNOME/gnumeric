@@ -527,9 +527,9 @@ gnumeric_countif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_sumif[] = {
-        { GNM_FUNC_HELP_NAME, F_("SUMIF:sum of the cells in actual range for which the corresponding cells in the range meet the given @{criteria}")},
+        { GNM_FUNC_HELP_NAME, F_("SUMIF:sum of the cells in @{actual_range} for which the corresponding cells in the range meet the given @{criteria}")},
         { GNM_FUNC_HELP_ARG, F_("range:cell area")},
-        { GNM_FUNC_HELP_ARG, F_("criteria: condition for a cell to be sumed")},
+        { GNM_FUNC_HELP_ARG, F_("criteria: condition for a cell to be summed")},
         { GNM_FUNC_HELP_ARG, F_("actual_range: cell area, defaults to @{range}")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_SEEALSO, "SUM,COUNTIF"},
@@ -634,6 +634,120 @@ gnumeric_sumif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	return value_new_float (res.sum);
 }
 
+/***************************************************************************/
+
+static GnmFuncHelp const help_averageif[] = {
+        { GNM_FUNC_HELP_NAME, F_("AVERAGEIF:average of the cells in @{actual range} for which the corresponding cells in the range meet the given @{criteria}")},
+        { GNM_FUNC_HELP_ARG, F_("range:cell area")},
+        { GNM_FUNC_HELP_ARG, F_("criteria: condition for a cell to be included")},
+        { GNM_FUNC_HELP_ARG, F_("actual_range: cell area, defaults to @{range}")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_SEEALSO, "SUMIF,COUNTIF"},
+        { GNM_FUNC_HELP_END}
+};
+
+typedef struct {
+	GnmCriteria *crit;
+	Sheet *target_sheet;
+	int offset_col, offset_row;
+	gnm_float sum;
+	int count;
+} AverageIfClosure;
+
+static GnmValue *
+cb_averageif (GnmCellIter const *iter, AverageIfClosure *res)
+{
+	GnmCell *cell = iter->cell;
+	GnmValue *v;
+	if (!cell)
+		return NULL;
+
+	gnm_cell_eval (cell);
+	v = cell->value;
+
+	if (!VALUE_IS_NUMBER (v) && !VALUE_IS_STRING (v))
+		return NULL;
+
+	if (!res->crit->fun (v, res->crit))
+		return NULL;
+
+	if (NULL != res->target_sheet) {
+		cell = sheet_cell_get (res->target_sheet,
+				       iter->pp.eval.col + res->offset_col,
+				       iter->pp.eval.row + res->offset_row);
+		if (!cell)
+			return NULL;
+
+		gnm_cell_eval (cell);
+		v = cell->value;
+
+		/* FIXME: Check bools.  */
+		if (!VALUE_IS_FLOAT (v))
+			return NULL;
+	}
+
+	/* FIXME: Check bools.  */
+	res->sum += value_get_as_float (v);
+	res->count++;
+
+	return NULL;
+}
+
+static GnmValue *
+gnumeric_averageif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	GnmRange rs;
+	Sheet *start_sheet, *end_sheet;
+	AverageIfClosure res;
+	GnmValue *problem;
+	GODateConventions const *date_conv =
+		workbook_date_conv (ei->pos->sheet->workbook);
+
+	/* XL has some limitations on @range that we currently emulate, but do
+	 * not need to.
+	 * 1) @range must be a range, arrays are not supported
+	 * 2) @range can not be 3d */
+	if (argv[0]->type != VALUE_CELLRANGE ||
+	    (!VALUE_IS_NUMBER (argv[1]) && !VALUE_IS_STRING (argv[1])) ||
+	    (argv[2] != NULL && argv[2]->type != VALUE_CELLRANGE))
+	        return value_new_error_VALUE (ei->pos);
+
+	gnm_rangeref_normalize (&argv[0]->v_range.cell, ei->pos,
+				&start_sheet, &end_sheet,
+				&rs);
+	if (start_sheet != end_sheet)
+		return value_new_error_VALUE (ei->pos);
+
+	if (argv[2]) {
+		GnmRange ra;
+		/* See 557782.  */
+		gnm_rangeref_normalize (&argv[2]->v_range.cell, ei->pos,
+					&res.target_sheet, &end_sheet,
+					&ra);
+		if (res.target_sheet != end_sheet)
+			return value_new_error_VALUE (ei->pos);
+
+		res.offset_col = ra.start.col - rs.start.col;
+		res.offset_row = ra.start.row - rs.start.row;
+	} else
+		res.target_sheet = NULL;
+
+	res.sum = 0.;
+	res.count = 0;
+	res.crit = parse_criteria (argv[1], date_conv);
+#warning "2006/May/31  Why do we not filter non-existent as a flag, rather than checking for NULL in cb_averageif"
+	problem = sheet_foreach_cell_in_range
+		(start_sheet, res.crit->iter_flags,
+		 rs.start.col, rs.start.row, rs.end.col, rs.end.row,
+		 (CellIterFunc) &cb_averageif, &res);
+	free_criteria (res.crit);
+
+	if (NULL != problem)
+	        return value_new_error_VALUE (ei->pos);
+	if (res.count == 0)
+		return value_new_error_DIV0 (ei->pos);
+	return value_new_float (res.sum/res.count);
+}
 /***************************************************************************/
 
 static GnmFuncHelp const help_ceiling[] = {
@@ -2876,6 +2990,9 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "sumif",   "rS|r",  help_sumif,
 	  gnumeric_sumif, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "averageif",   "rS|r",  help_averageif,
+	  gnumeric_averageif, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "sumproduct", NULL,  help_sumproduct,
 	  NULL, gnumeric_sumproduct, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

@@ -1,5 +1,14 @@
 2009-08-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* functions.c (help_sumif): fix argument name
+	(help_averageif): new
+	(cb_averageif): new
+	(gnumeric_averageif): new
+	(math_functions): add AVERAGEIF
+	* plugin.xml.in: add AVERAGEIF
+
+2009-08-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c: a few description corrections:
 	  @argument --> @{argument}
 
