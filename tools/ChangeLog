@@ -1,3 +1,7 @@
+2009-08-18  Morten Welinder  <terra@gnome.org>
+
+	* check-glade-parsing: New checker.
+
 2009-08-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.10
