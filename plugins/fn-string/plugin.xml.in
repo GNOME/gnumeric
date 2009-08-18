@@ -19,6 +19,7 @@
 				<function name="dollar"/>
 				<function name="exact"/>
 				<function name="find"/>
+				<function name="findb"/>
 				<function name="fixed"/>
 				<function name="jis"/>
 				<function name="left"/>

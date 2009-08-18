@@ -1,3 +1,10 @@
+2009-08-17 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_expr_func_handler): we now have a
+	  FINDB and AVERAGEIF
+	* openoffice-read.c (oo_func_map_in): we now have a FINDB and
+	  AVERAGEIF
+
 2009-08-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.10

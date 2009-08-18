@@ -4571,7 +4571,6 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "COUNTIFS","ODF.COUNTIFS" },
 		{ "DAYS","ODF.DAYS" },
 		{ "DDE","ODF.DDE" },
-		{ "FINDB","ODF.FINDB" },
 		{ "GAMMA","ODF.GAMMA" },
 		{ "GAUSS","ODF.GAUSS" },
 		{ "IFNA","ODF.IFNA" },
@@ -4607,8 +4606,6 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "USDOLLAR","DOLLAR" },
 
 /* { "ADDRESS","ADDRESS" },       also  see handler */
-
-
 /* { "ABS","ABS" }, */
 /* { "ACCRINT","ACCRINT" }, */
 /* { "ACCRINTM","ACCRINTM" }, */
@@ -4630,6 +4627,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 /* { "AVEDEV","AVEDEV" }, */
 /* { "AVERAGE","AVERAGE" }, */
 /* { "AVERAGEA","AVERAGEA" }, */
+/* { "AVERAGEIF","AVERAGEIF" }, */
 /* { "AVERAGEIFS","AVERAGEIFS" }, */
 /* { "B","B" }, */
 /* { "BASE","BASE" }, */

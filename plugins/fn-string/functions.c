@@ -415,6 +415,49 @@ gnumeric_midb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_findb[] = {
+        { GNM_FUNC_HELP_NAME, F_("FINDB:first byte position of @{string1} in @{string2} following byte position @{start}")},
+        { GNM_FUNC_HELP_ARG, F_("string1:search string")},
+        { GNM_FUNC_HELP_ARG, F_("string2:search field")},
+        { GNM_FUNC_HELP_ARG, F_("start:starting byte position, defaults to 1")},
+        { GNM_FUNC_HELP_NOTE, F_("This search is case-sensitive.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("While this function is syntactically Excel compatible, "
+				  "the differences in the underlying text encoding will usually yield different results.")},
+	{ GNM_FUNC_HELP_ODF, F_("While this function is OpenFormula compatible, most of its behavior is, at this time, implementation specific.")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=FINDB(\"v\",\"L\xc3\xa9vy\")" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=FINDB(\"v\",\"L\xc3\xa9vy\",3)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=FINDB(\"v\",\"L\xc3\xa9vy\",5)" },
+	{ GNM_FUNC_HELP_SEEALSO, "FIND,LEFTB,RIGHTB,LENB,LEFT,MID,RIGHT,LEN"},
+        { GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_findb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	char const *needle   = value_peek_string (argv[0]);
+	char const *haystack = value_peek_string (argv[1]);
+	gnm_float count      = argv[2] ? value_get_as_float (argv[2]) : 1.0;
+	size_t haystacksize = strlen (haystack);
+	size_t icount;
+	char const *p;
+
+
+	if (count < 1 || count >= haystacksize + 1)
+		return value_new_error_VALUE (ei->pos);
+
+	icount = (size_t) count;
+	p = (icount == 1) ? haystack : g_utf8_find_next_char (haystack + (icount - 2) , NULL);
+
+	p = g_strstr_len (p, strlen (p), needle);
+	if (p)
+		return value_new_int
+			((p - haystack) + 1);
+	else
+		return value_new_error_VALUE (ei->pos);
+}
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_right[] = {
 	{ GNM_FUNC_HELP_NAME, F_("RIGHT:the last @{num_chars} characters of the string @{s}")},
 	{ GNM_FUNC_HELP_ARG, F_("s:the string")},   
@@ -1433,6 +1476,9 @@ GnmFuncDescriptor const string_functions[] = {
         { "find",       "SS|f",           help_find,
 	  gnumeric_find, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+        { "findb",       "SS|f",           help_findb,
+	  gnumeric_findb, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
         { "fixed",      "f|fb",        help_fixed,
 	  gnumeric_fixed, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

@@ -1585,6 +1585,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "AVEDEV","AVEDEV" },
 		{ "AVERAGE","AVERAGE" },
 		{ "AVERAGEA","AVERAGEA" },
+		{ "AVERAGEIF","AVERAGEIF" },
 		/* { "ODF.AVERAGEIFS","AVERAGEIFS" },  not implemented */
 		/* { "ODF.B","B" },  not implemented */
 		{ "BASE","BASE" },
@@ -1690,7 +1691,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "FACTDOUBLE","FACTDOUBLE" },
 		{ "FALSE","FALSE" },
 		{ "FIND","FIND" },
-		/* { "FINDB","FINDB" },  not implemented */
+		{ "FINDB","FINDB" },
 		{ "FISHER","FISHER" },
 		{ "FISHERINV","FISHERINV" },
 		{ "FIXED","FIXED" },
