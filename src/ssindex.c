@@ -234,7 +234,7 @@ ssindex (char const *file, IOContext *ioc)
 int
 main (int argc, char const **argv)
 {
-	ErrorInfo	*plugin_errs;
+	GOErrorInfo	*plugin_errs;
 	int		 res = 0;
 	GOCmdContext	*cc;
 	GOptionContext *ocontext;
@@ -275,7 +275,7 @@ main (int argc, char const **argv)
 		go_plugins_get_available_plugins (), &plugin_errs);
 	if (plugin_errs) {
 		/* FIXME: What do we want to do here? */
-		error_info_free (plugin_errs);
+		go_error_info_free (plugin_errs);
 	}
 
 	if (ssindex_run_indexer) {

@@ -265,11 +265,11 @@ dif_parse_sheet (DifInputContext *ctxt)
 	GnmLocale *locale = gnm_push_C_locale ();
 
 	if (!dif_parse_header (ctxt)) {
-		gnumeric_io_error_info_set (ctxt->io_context, error_info_new_printf (
+		gnumeric_io_go_error_info_set (ctxt->io_context, go_error_info_new_printf (
 		_("Unexpected end of file at line %d while reading header."),
 		ctxt->line_no));
 	} else if (!dif_parse_data(ctxt)) {
-		gnumeric_io_error_info_set (ctxt->io_context, error_info_new_printf (
+		gnumeric_io_go_error_info_set (ctxt->io_context, go_error_info_new_printf (
 		_("Unexpected end of file at line %d while reading data."),
 		ctxt->line_no));
 	}
@@ -290,7 +290,7 @@ dif_file_open (GOFileOpener const *fo, IOContext *io_context,
 		dif_parse_sheet (ctxt);
 		if (gnumeric_io_error_occurred (io_context))
 			gnumeric_io_error_push (io_context,
-				error_info_new_str (_("Error while reading DIF file.")));
+				go_error_info_new_str (_("Error while reading DIF file.")));
 		dif_input_context_destroy (ctxt);
 	} else if (!gnumeric_io_error_occurred (io_context))
 		gnumeric_io_error_unknown (io_context);

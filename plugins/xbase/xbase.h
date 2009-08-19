@@ -35,7 +35,7 @@ void      record_free (XBrecord *record);
 gchar	*record_get_field (XBrecord const *record, guint num);
 gboolean  record_deleted (XBrecord *record);
 
-XBfile *xbase_open (GsfInput *input, ErrorInfo **ret_error);
+XBfile *xbase_open (GsfInput *input, GOErrorInfo **ret_error);
 void    xbase_close (XBfile *file);
 
 #endif

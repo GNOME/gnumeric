@@ -107,7 +107,7 @@ record_deleted (XBrecord *record)
 }
 
 static void
-xbase_read_header (XBfile *x, ErrorInfo **ret_error)
+xbase_read_header (XBfile *x, GOErrorInfo **ret_error)
 {
 	static struct {
 		guint8 const id;
@@ -146,7 +146,7 @@ xbase_read_header (XBfile *x, ErrorInfo **ret_error)
 	guint8 hdr[32];
 
 	if (gsf_input_read (x->input, 32, hdr) == NULL) {
-		*ret_error = error_info_new_str (_("Failed to read DBF header."));
+		*ret_error = go_error_info_new_str (_("Failed to read DBF header."));
 		return;
 	}
 
@@ -296,7 +296,7 @@ xbase_field_new (XBfile *file)
 }
 
 XBfile *
-xbase_open (GsfInput *input, ErrorInfo **ret_error)
+xbase_open (GsfInput *input, GOErrorInfo **ret_error)
 {
 	XBfile *ans;
 	guint allocated = GNM_DEFAULT_COLS;

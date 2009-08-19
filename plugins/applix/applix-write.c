@@ -49,7 +49,7 @@
 
 typedef struct {
 	GsfOutput     *sink;
-	ErrorInfo     *parse_error;
+	GOErrorInfo     *parse_error;
 	WorkbookView const *wb_view;
 	Workbook      *wb;
 } ApplixWriteState;
@@ -99,5 +99,5 @@ applix_write (IOContext *io_context, WorkbookView const *wb_view, GsfOutput *sin
 	d (1, fprintf (stderr, "------------Finish writing"););
 
 	if (state.parse_error != NULL)
-		gnumeric_io_error_info_set (io_context, state.parse_error);
+		gnumeric_io_go_error_info_set (io_context, state.parse_error);
 }

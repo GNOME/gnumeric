@@ -57,11 +57,11 @@ ccs_error_error (GOCmdContext *cc, GError *error)
 	ccs->status = -1;
 }
 static void
-ccs_error_info (GOCmdContext *cc, ErrorInfo *error)
+ccs_error_info (GOCmdContext *cc, GOErrorInfo *error)
 {
 	CmdContextStderr *ccs = COMMAND_CONTEXT_STDERR (cc);
 
-	error_info_print (error);
+	go_error_info_print (error);
 	ccs->status = -1;
 }
 

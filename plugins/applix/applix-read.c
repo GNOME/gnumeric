@@ -62,7 +62,7 @@
 
 typedef struct {
 	GsfInputTextline *input;
-	ErrorInfo     *parse_error;
+	GOErrorInfo     *parse_error;
 	WorkbookView  *wb_view;
 	Workbook      *wb;
 	GHashTable    *exprs, *styles;
@@ -119,14 +119,14 @@ applix_parse_error (ApplixReadState *state, char const *format, ...)
 	char *err;
 
 	if (state->parse_error == NULL)
-		state->parse_error = error_info_new_str (
+		state->parse_error = go_error_info_new_str (
 			_("Parse error while reading Applix file."));
 
 	va_start (args, format);
 	err = g_strdup_vprintf (format, args);
 	va_end (args);
 
-	error_info_add_details (state->parse_error, error_info_new_str (err));
+	go_error_info_add_details (state->parse_error, go_error_info_new_str (err));
 	g_free (err);
 
 	return -1;
@@ -1702,7 +1702,7 @@ applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	g_ptr_array_free (state.font_names, TRUE);
 
 	if (state.parse_error != NULL)
-		gnumeric_io_error_info_set (io_context, state.parse_error);
+		gnumeric_io_go_error_info_set (io_context, state.parse_error);
 
 	gnm_conventions_free (state.convs);
 }

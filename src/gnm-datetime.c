@@ -158,7 +158,7 @@ yearfrac (GDate const *from, GDate const *to, basis_t basis)
 	if (!g_date_valid (from) || !g_date_valid (to))
 		return gnm_nan;
 
-	days = days_between_basis (from, to, basis);
+	days = go_datetime_days_between_basis (from, to, basis);
 
 	if (days < 0) {
 		const GDate *tmp;

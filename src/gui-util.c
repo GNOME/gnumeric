@@ -38,9 +38,9 @@
 #define ERROR_INFO_TAG_NAME "errorinfotag%i"
 
 static void
-insert_error_info (GtkTextBuffer* text, ErrorInfo *error, gint level)
+insert_error_info (GtkTextBuffer* text, GOErrorInfo *error, gint level)
 {
-	gchar *message = (gchar *) error_info_peek_message (error);
+	gchar *message = (gchar *) go_error_info_peek_message (error);
 	GSList *details_list, *l;
 	GtkTextIter start, last;
 	gchar *tag_name = g_strdup_printf (ERROR_INFO_TAG_NAME,
@@ -55,21 +55,21 @@ insert_error_info (GtkTextBuffer* text, ErrorInfo *error, gint level)
 						  tag_name, NULL);
 	g_free (tag_name);
 	g_free (message);
-	details_list = error_info_peek_details (error);
+	details_list = go_error_info_peek_details (error);
 	for (l = details_list; l != NULL; l = l->next) {
-		ErrorInfo *detail_error = l->data;
+		GOErrorInfo *detail_error = l->data;
 		insert_error_info (text, detail_error, level + 1);
 	}
 	return;
 }
 
 /**
- * gnumeric_error_info_dialog_new
+ * gnumeric_go_error_info_dialog_new
  *
  * SHOULD BE IN GOFFICE
  */
 GtkWidget *
-gnumeric_error_info_dialog_new (ErrorInfo *error)
+gnumeric_go_error_info_dialog_new (GOErrorInfo *error)
 {
 	GtkWidget *dialog;
 	GtkWidget *scrolled_window;
@@ -83,12 +83,12 @@ gnumeric_error_info_dialog_new (ErrorInfo *error)
 
 	g_return_val_if_fail (error != NULL, NULL);
 
-	message = (gchar *) error_info_peek_message (error);
+	message = (gchar *) go_error_info_peek_message (error);
 	if (message == NULL)
 		bf_lim++;
 
 	mtype = GTK_MESSAGE_ERROR;
-	if (error_info_peek_severity (error) < GO_ERROR)
+	if (go_error_info_peek_severity (error) < GO_ERROR)
 		mtype = GTK_MESSAGE_WARNING;
 	dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
 					 mtype, GTK_BUTTONS_CLOSE, " ");
@@ -134,13 +134,13 @@ gnumeric_error_info_dialog_new (ErrorInfo *error)
 }
 
 /**
- * gnumeric_error_info_dialog_show
+ * gnumeric_go_error_info_dialog_show
  *
  */
 void
-gnumeric_error_info_dialog_show (GtkWindow *parent, ErrorInfo *error)
+gnumeric_go_error_info_dialog_show (GtkWindow *parent, GOErrorInfo *error)
 {
-	GtkWidget *dialog = gnumeric_error_info_dialog_new (error);
+	GtkWidget *dialog = gnumeric_go_error_info_dialog_new (error);
 	go_gtk_dialog_run (GTK_DIALOG (dialog), parent);
 }
 
@@ -1378,20 +1378,20 @@ gnm_check_for_plugins_missing (char const **ids, GtkWindow *parent)
 	for (; *ids != NULL; ids++) {
 		GOPlugin *pi = go_plugins_get_plugin_by_id (*ids);
 		if (pi == NULL) {
-			ErrorInfo *error;
-			error = error_info_new_printf 
+			GOErrorInfo *error;
+			error = go_error_info_new_printf 
 				(_("The plugin with id %s is required "
 				   "but cannot be found."), *ids);
-			gnumeric_error_info_dialog_show (parent,
+			gnumeric_go_error_info_dialog_show (parent,
 							 error);
 			return TRUE;
 		} else if (!go_plugin_is_active (pi)) {
-			ErrorInfo *error;
-			error = error_info_new_printf 
+			GOErrorInfo *error;
+			error = go_error_info_new_printf 
 				(_("The %s plugin is required "
 				   "but is not loaded."), 
 				 go_plugin_get_name (pi));
-			gnumeric_error_info_dialog_show (parent,
+			gnumeric_go_error_info_dialog_show (parent,
 							 error);
 			return TRUE;			
 		}

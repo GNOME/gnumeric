@@ -117,7 +117,7 @@ gnumeric_date (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_date_add_days (&date, (int)day - 1);
 
 	if (!g_date_valid (&date) ||
-	    g_date_get_year (&date) < gnm_date_convention_base (conv) ||
+	    g_date_get_year (&date) < go_date_convention_base (conv) ||
 	    g_date_get_year (&date) >= 11900)
 		goto error;
 
@@ -678,7 +678,7 @@ gnumeric_days360 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (!g_date_valid (&date1) || !g_date_valid (&date2))
 		return value_new_error_VALUE (ei->pos);
 
-	return value_new_int (days_between_basis (&date1, &date2, basis));
+	return value_new_int (go_datetime_days_between_basis (&date1, &date2, basis));
 }
 
 /***************************************************************************/

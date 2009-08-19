@@ -2806,7 +2806,7 @@ odf_print_spreadsheet_content_prelude (GnmOOExport *state)
 	if (get_gsf_odf_version () > 101)
 		odf_add_bool (state->xml, TABLE "use-wildcards", FALSE);
 	gsf_xml_out_start_element (state->xml, TABLE "null-date");
-	if (gnm_date_convention_base (workbook_date_conv (state->wb)) == 1900)
+	if (go_date_convention_base (workbook_date_conv (state->wb)) == 1900)
 		/* As encouraged by the OpenFormula definition we "compensate" here. */
 		gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "date-value", "1899-12-30");
 	else

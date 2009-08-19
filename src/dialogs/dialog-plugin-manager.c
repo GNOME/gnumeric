@@ -163,7 +163,7 @@ set_plugin_model_row (PluginManagerGUI *pm_gui, GtkTreeIter *iter, GOPlugin *plu
 static void
 cb_pm_button_rescan_directories_clicked (PluginManagerGUI *pm_gui)
 {
-	ErrorInfo *error;
+	GOErrorInfo *error;
 	GSList *new_plugins, *l;
 	GtkTreeModel *model = GTK_TREE_MODEL (pm_gui->model_plugins);
 	GtkTreeIter iter, new_iter;
@@ -172,7 +172,7 @@ cb_pm_button_rescan_directories_clicked (PluginManagerGUI *pm_gui)
 	go_plugins_rescan (&error, &new_plugins);
 	if (error != NULL) {
 		go_cmd_context_error_info (pm_gui->cc, error);
-		error_info_free (error);
+		go_error_info_free (error);
 	}
 	GO_SLIST_SORT (new_plugins, plugin_compare_name);
 	for (has_iter = gtk_tree_model_get_iter_first (model, &iter), l = new_plugins;
@@ -481,16 +481,16 @@ static void
 cb_pm_button_activate_all_clicked (G_GNUC_UNUSED GtkButton *button,
 				   PluginManagerGUI *pm_gui)
 {
-	ErrorInfo *activation_error, *error;
+	GOErrorInfo *activation_error, *error;
 
 	go_plugin_db_activate_plugin_list (
 		go_plugins_get_available_plugins (), &activation_error);
 	if (activation_error != NULL) {
-		error = error_info_new_str_with_details (
+		error = go_error_info_new_str_with_details (
 			_("Errors while activating plugins"), activation_error);
-		gnumeric_error_info_dialog_show (
+		gnumeric_go_error_info_dialog_show (
 			GTK_WINDOW (pm_gui->dialog_pm), error);
-		error_info_free (error);
+		go_error_info_free (error);
 	}
 }
 
@@ -562,7 +562,7 @@ cb_active_toggled (G_GNUC_UNUSED GtkCellRendererToggle *celltoggle,
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	GOPlugin *plugin;
-	ErrorInfo *error;
+	GOErrorInfo *error;
 	gboolean has_iter;
 
 	model = gtk_tree_view_get_model (pm_gui->list_plugins);
@@ -615,18 +615,18 @@ cb_active_toggled (G_GNUC_UNUSED GtkCellRendererToggle *celltoggle,
 		}
 	}
 	if (error != NULL) {
-		ErrorInfo *new_error;
+		GOErrorInfo *new_error;
 
 		if (go_plugin_is_active (plugin)) {
-			new_error = error_info_new_printf (
+			new_error = go_error_info_new_printf (
 				_("Error while deactivating plugin \"%s\"."),
 				go_plugin_get_name (plugin));
 		} else {
-			new_error = error_info_new_printf (
+			new_error = go_error_info_new_printf (
 				_("Error while activating plugin \"%s\"."),
 				go_plugin_get_name (plugin));
 		}
-		error_info_add_details (new_error, error);
+		go_error_info_add_details (new_error, error);
 		go_cmd_context_error_info (pm_gui->cc, new_error);
 	}
 }

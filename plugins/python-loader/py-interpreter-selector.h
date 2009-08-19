@@ -14,7 +14,7 @@
 GType gnm_py_interpreter_selector_get_type (void);
 typedef struct _GnmPyInterpreterSelector GnmPyInterpreterSelector;
 
-GtkWidget         *gnm_py_interpreter_selector_new (ErrorInfo **err);
+GtkWidget         *gnm_py_interpreter_selector_new (GOErrorInfo **err);
 GnmPyInterpreter  *gnm_py_interpreter_selector_get_current (GnmPyInterpreterSelector *sel);
 
 #endif /* PY_INTERPRETER_SELECTOR */

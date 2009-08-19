@@ -483,7 +483,7 @@ pln_calc_font_width (guint16 cwidth, gboolean permit_default)
 	return (cwidth & 0xff) * FONT_WIDTH;
 }
 
-static ErrorInfo *
+static GOErrorInfo *
 pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 {
 	int max_col = gnm_sheet_get_max_cols (state->sheet);
@@ -500,7 +500,7 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 
 	data = gsf_input_read (input, 16, NULL);
 	if (data == NULL || GSF_LE_GET_GUINT16 (data + 12) != 0)
-		return error_info_new_str (_("PLN : Spreadsheet is password encrypted"));
+		return go_error_info_new_str (_("PLN : Spreadsheet is password encrypted"));
 
 	/* Process the record based sections
 	 * Each record consists of a two-byte record type code,
@@ -568,11 +568,11 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 			return NULL;
 
 		if (pp.eval.row > max_row)
-			return error_info_new_printf (
+			return go_error_info_new_printf (
 				_("Ignoring data that claims to be in row %u which is > max row %u"),
 				pp.eval.row, max_row);
 		if (pp.eval.col > max_col)
-			return error_info_new_printf (
+			return go_error_info_new_printf (
 				_("Ignoring data that claims to be in column %u which is > max column %u"),
 				pp.eval.col, max_col);
 
@@ -659,7 +659,7 @@ pln_file_open (GOFileOpener const *fo, IOContext *io_context,
 	Workbook *wb;
 	char  *name;
 	Sheet *sheet;
-	ErrorInfo *error;
+	GOErrorInfo *error;
 	PlanPerfectImport state;
 
 	wb    = wb_view_get_workbook (wb_view);
@@ -677,6 +677,6 @@ pln_file_open (GOFileOpener const *fo, IOContext *io_context,
 	g_hash_table_destroy (state.styles);
 	if (error != NULL) {
 		workbook_sheet_delete (sheet);
-		gnumeric_io_error_info_set (io_context, error);
+		gnumeric_io_go_error_info_set (io_context, error);
 	}
 }

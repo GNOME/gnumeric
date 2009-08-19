@@ -638,7 +638,7 @@ mps_file_open (GOFileOpener const *fo, IOContext *io_context,
 	if (ctxt != NULL) {
 	        mps_parse_file (ctxt);
 		if (gnumeric_io_error_occurred (io_context)) {
-		        gnumeric_io_error_push (io_context, error_info_new_str
+		        gnumeric_io_error_push (io_context, go_error_info_new_str
 						(_("Error while reading MPS "
 						   "file.")));
 		} else

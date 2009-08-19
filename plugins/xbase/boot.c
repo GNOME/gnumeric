@@ -151,12 +151,12 @@ xbase_file_open (GOFileOpener const *fo, IOContext *io_context,
 	XBfile	  *file;
 	XBrecord  *record;
 	Sheet	  *sheet = NULL;
-	ErrorInfo *open_error;
+	GOErrorInfo *open_error;
 	int rows = GNM_MAX_ROWS;
 	int pass;
 
 	if ((file = xbase_open (input, &open_error)) == NULL) {
-		gnumeric_io_error_info_set (io_context, error_info_new_str_with_details (
+		gnumeric_io_go_error_info_set (io_context, go_error_info_new_str_with_details (
 		                            _("Error while opening xbase file."),
 		                            open_error));
 		return;

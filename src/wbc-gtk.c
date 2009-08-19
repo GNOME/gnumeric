@@ -4786,9 +4786,9 @@ wbcg_error_error (GOCmdContext *cc, GError *err)
 	g_free (text);
 }
 static void
-wbcg_error_error_info (GOCmdContext *cc, ErrorInfo *error)
+wbcg_error_error_info (GOCmdContext *cc, GOErrorInfo *error)
 {
-	gnumeric_error_info_dialog_show (
+	gnumeric_go_error_info_dialog_show (
 		wbcg_toplevel (WBC_GTK (cc)), error);
 }
 static void

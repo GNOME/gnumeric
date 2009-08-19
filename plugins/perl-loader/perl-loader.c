@@ -179,7 +179,7 @@ gplp_func_desc_load (GOPluginService *service,
 }
 
 static void
-gplp_set_attributes (GOPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret_error)
+gplp_set_attributes (GOPluginLoader *loader, GHashTable *attrs, GOErrorInfo **ret_error)
 {
 	GnmPerlPluginLoader *loader_perl = GNM_PERL_PLUGIN_LOADER (loader);
 
@@ -190,13 +190,13 @@ gplp_set_attributes (GOPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret_
 	if (module_name) {
 		loader_perl->module_name = g_strdup (module_name);
 	} else {
-		*ret_error = error_info_new_str (
+		*ret_error = go_error_info_new_str (
 			     _("Module name not given."));
 	}
 }
 
 static void
-gplp_load_base (GOPluginLoader *loader, ErrorInfo **ret_error)
+gplp_load_base (GOPluginLoader *loader, GOErrorInfo **ret_error)
 {
 	char *argv[] = { (char*)"", NULL, NULL, NULL };
 	char const *arg;
@@ -217,7 +217,7 @@ gplp_load_base (GOPluginLoader *loader, ErrorInfo **ret_error)
 		PL_exit_flags |= PERL_EXIT_DESTRUCT_END;
 #endif
 	} else {
-		*ret_error = error_info_new_printf (
+		*ret_error = go_error_info_new_printf (
 			     _("perl_func.pl doesn't exist."));
 	}
 
@@ -228,7 +228,7 @@ gplp_load_base (GOPluginLoader *loader, ErrorInfo **ret_error)
 static void
 gplp_load_service_function_group (GOPluginLoader *loader,
 				  GOPluginService *service,
-				  ErrorInfo **ret_error)
+				  GOErrorInfo **ret_error)
 {
 	PluginServiceFunctionGroupCallbacks *cbs;
 
@@ -241,7 +241,7 @@ gplp_load_service_function_group (GOPluginLoader *loader,
 }
 
 static gboolean
-gplp_service_load (GOPluginLoader *l, GOPluginService *s, ErrorInfo **err)
+gplp_service_load (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 {
 	if (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (s))
 		gplp_load_service_function_group (l, s, err);
@@ -251,7 +251,7 @@ gplp_service_load (GOPluginLoader *l, GOPluginService *s, ErrorInfo **err)
 }
 
 static gboolean
-gplp_service_unload (GOPluginLoader *l, GOPluginService *s, ErrorInfo **err)
+gplp_service_unload (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 {
 	if (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (s))
 		;

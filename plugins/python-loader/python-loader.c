@@ -57,7 +57,7 @@ typedef GObjectClass GnmPythonPluginLoaderClass;
 	gnm_py_interpreter_switch_to (PLUGIN_GET_LOADER (plugin)->py_interpreter_info)
 
 static void
-gplp_set_attributes (GOPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret_error)
+gplp_set_attributes (GOPluginLoader *loader, GHashTable *attrs, GOErrorInfo **ret_error)
 {
 	GnmPythonPluginLoader *loader_python = GNM_PYTHON_PLUGIN_LOADER (loader);
 	gchar *module_name = NULL;
@@ -67,13 +67,13 @@ gplp_set_attributes (GOPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret_
 	if (module_name != NULL) {
 		loader_python->module_name = g_strdup (module_name);
 	} else {
-		*ret_error = error_info_new_str (
+		*ret_error = go_error_info_new_str (
 		             _("Python module name not given."));
 	}
 }
 
 static FILE *
-gnumeric_fopen_error_info (const char *file_name, const char *mode, ErrorInfo **ret_error)
+gnumeric_fopen_error_info (const char *file_name, const char *mode, GOErrorInfo **ret_error)
 {
 	FILE *f;
 
@@ -85,21 +85,21 @@ gnumeric_fopen_error_info (const char *file_name, const char *mode, ErrorInfo **
 	f = g_fopen (file_name, mode);
 	if (f == NULL) {
 		if (strchr (mode, 'w') != NULL && strchr (mode, 'r') == NULL) {
-			*ret_error = error_info_new_printf (
+			*ret_error = go_error_info_new_printf (
 			             _("Error while opening file \"%s\" for writing."),
 			             file_name);
 		} else {
-			*ret_error = error_info_new_printf (
+			*ret_error = go_error_info_new_printf (
 			             _("Error while opening file \"%s\" for reading."),
 			             file_name);
 		}
-		error_info_add_details (*ret_error, error_info_new_from_errno ());
+		go_error_info_add_details (*ret_error, go_error_info_new_from_errno ());
 	}
 
 	return f;
 }
 static void
-gplp_load_base (GOPluginLoader *loader, ErrorInfo **ret_error)
+gplp_load_base (GOPluginLoader *loader, GOErrorInfo **ret_error)
 {
 	static gchar const *python_file_extensions[] = {"py", "pyc", "pyo", NULL};
 
@@ -110,7 +110,7 @@ gplp_load_base (GOPluginLoader *loader, ErrorInfo **ret_error)
 	gchar *full_module_file_name = NULL;
 	FILE *f;
 	GOPlugin *plugin = go_plugin_loader_get_plugin (loader);
-	ErrorInfo *open_error = NULL;
+	GOErrorInfo *open_error = NULL;
 	PyObject *modules, *main_module, *main_module_dict;
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
@@ -121,7 +121,7 @@ gplp_load_base (GOPluginLoader *loader, ErrorInfo **ret_error)
 		return;		/* gnm_python_object_get sets ret_error */
 	py_interpreter_info = gnm_python_new_interpreter (py_object, plugin);
 	if (py_interpreter_info == NULL) {
-		*ret_error = error_info_new_str (_("Cannot create new Python interpreter."));
+		*ret_error = go_error_info_new_str (_("Cannot create new Python interpreter."));
 		gnm_python_clear_error_if_needed (py_object);
 		g_object_unref (py_object);
 		return;
@@ -141,7 +141,7 @@ gplp_load_base (GOPluginLoader *loader, ErrorInfo **ret_error)
 			g_free (path);
 	}
 	if (full_module_file_name == NULL) {
-		*ret_error = error_info_new_printf (
+		*ret_error = go_error_info_new_printf (
 		             _("Module \"%s\" doesn't exist."),
 		             loader_python->module_name);
 		gnm_python_destroy_interpreter (py_object, py_interpreter_info);
@@ -159,7 +159,7 @@ gplp_load_base (GOPluginLoader *loader, ErrorInfo **ret_error)
 
 	if (PyRun_SimpleFile (f, loader_python->module_name) != 0) {
 		(void) fclose (f);
-		*ret_error = error_info_new_printf (
+		*ret_error = go_error_info_new_printf (
 		             _("Execution of module \"%s\" failed."),
 		             loader_python->module_name);
 		gnm_python_destroy_interpreter (py_object, py_interpreter_info);
@@ -181,7 +181,7 @@ gplp_load_base (GOPluginLoader *loader, ErrorInfo **ret_error)
 }
 
 static void
-gplp_unload_base (GOPluginLoader *loader, ErrorInfo **ret_error)
+gplp_unload_base (GOPluginLoader *loader, GOErrorInfo **ret_error)
 {
 	GnmPythonPluginLoader *loader_python = GNM_PYTHON_PLUGIN_LOADER (loader);
 	GOPlugin *plugin = go_plugin_loader_get_plugin (loader);
@@ -296,7 +296,7 @@ gplp_func_file_open (GOFileOpener const *fo,
 static void
 gplp_load_service_file_opener (GOPluginLoader *loader,
 			       GOPluginService *service,
-			       ErrorInfo **ret_error)
+			       GOErrorInfo **ret_error)
 {
 	GnmPythonPluginLoader *loader_python = GNM_PYTHON_PLUGIN_LOADER (loader);
 	gchar *func_name_file_probe, *func_name_file_open;
@@ -334,11 +334,11 @@ gplp_load_service_file_opener (GOPluginLoader *loader,
 			(G_OBJECT (service), "loader_data", loader_data,
 			 (GDestroyNotify) gplp_loader_data_opener_free);
 	} else {
-		*ret_error = error_info_new_printf (
+		*ret_error = go_error_info_new_printf (
 		             _("Python file \"%s\" has invalid format."),
 		             loader_python->module_name);
-		error_info_add_details (*ret_error,
-		                        error_info_new_printf (
+		go_error_info_add_details (*ret_error,
+		                        go_error_info_new_printf (
 		                        _("File doesn't contain \"%s\" function."),
 		                        func_name_file_open));
 	}
@@ -398,7 +398,7 @@ gplp_func_file_save (GOFileSaver const *fs, GOPluginService *service,
 static void
 gplp_load_service_file_saver (GOPluginLoader *loader,
 			      GOPluginService *service,
-			      ErrorInfo **ret_error)
+			      GOErrorInfo **ret_error)
 {
 	GnmPythonPluginLoader *loader_python = GNM_PYTHON_PLUGIN_LOADER (loader);
 	gchar *func_name_file_save;
@@ -427,12 +427,12 @@ gplp_load_service_file_saver (GOPluginLoader *loader,
 			(G_OBJECT (service), "loader_data", saver_data,
 			 (GDestroyNotify) gplp_loader_data_saver_free);
 	} else {
-		*ret_error = error_info_new_printf (
+		*ret_error = go_error_info_new_printf (
 		             _("Python file \"%s\" has invalid format."),
 		             loader_python->module_name);
 		if (python_func_file_save == NULL) {
-			error_info_add_details (*ret_error,
-			                        error_info_new_printf (
+			go_error_info_add_details (*ret_error,
+			                        go_error_info_new_printf (
 			                        _("File doesn't contain \"%s\" function."),
 			                        func_name_file_save));
 		}
@@ -629,7 +629,7 @@ gplp_func_desc_load (GOPluginService *service,
 static void
 gplp_load_service_function_group (GOPluginLoader *loader,
 				  GOPluginService *service,
-				  ErrorInfo **ret_error)
+				  GOErrorInfo **ret_error)
 {
 	GnmPythonPluginLoader *loader_python = GNM_PYTHON_PLUGIN_LOADER (loader);
 	gchar *fn_info_dict_name;
@@ -658,17 +658,17 @@ gplp_load_service_function_group (GOPluginLoader *loader,
 			(G_OBJECT (service), "loader_data", loader_data,
 			 (GDestroyNotify) gplp_loader_data_fngroup_free);
 	} else {
-		*ret_error = error_info_new_printf (
+		*ret_error = go_error_info_new_printf (
 		             _("Python file \"%s\" has invalid format."),
 		             loader_python->module_name);
 		if (python_fn_info_dict == NULL) {
-			error_info_add_details (*ret_error,
-			                        error_info_new_printf (
+			go_error_info_add_details (*ret_error,
+			                        go_error_info_new_printf (
 			                        _("File doesn't contain \"%s\" dictionary."),
 			                        fn_info_dict_name));
 		} else if (!PyDict_Check (python_fn_info_dict)) {
-			error_info_add_details (*ret_error,
-			                        error_info_new_printf (
+			go_error_info_add_details (*ret_error,
+			                        go_error_info_new_printf (
 			                        _("Object \"%s\" is not a dictionary."),
 			                        fn_info_dict_name));
 		}
@@ -679,7 +679,7 @@ gplp_load_service_function_group (GOPluginLoader *loader,
 static void
 gplp_unload_service_function_group (GOPluginLoader *loader,
 				    GOPluginService *service,
-				    ErrorInfo **ret_error)
+				    GOErrorInfo **ret_error)
 {
 	ServiceLoaderDataFunctionGroup *loader_data;
 
@@ -707,7 +707,7 @@ static void
 gplp_func_exec_action (GOPluginService *service,
 		       GnmAction const *action,
 		       WorkbookControl *wbc,
-		       ErrorInfo **ret_error)
+		       GOErrorInfo **ret_error)
 {
 	ServiceLoaderDataUI *loader_data;
 	PyObject *fn, *ret;
@@ -719,18 +719,18 @@ gplp_func_exec_action (GOPluginService *service,
 	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
 	fn = PyDict_GetItemString (loader_data->ui_actions, action->id);
 	if (fn == NULL) {
-		*ret_error = error_info_new_printf (_("Unknown action: %s"),
+		*ret_error = go_error_info_new_printf (_("Unknown action: %s"),
 						    action->id);
 		return;
 	} else if (!PyFunction_Check (fn)) {
-		*ret_error = error_info_new_printf (
+		*ret_error = go_error_info_new_printf (
 			_("Not a valid function for action: %s"), action->id);
 		return;
 	}
 	ret = PyObject_CallFunction (fn, (char *) "N",
 				     py_new_Gui_object (WBC_GTK (wbc)));
 	if (ret == NULL) {
-		*ret_error = error_info_new_str (py_exc_to_string ());
+		*ret_error = go_error_info_new_str (py_exc_to_string ());
 		PyErr_Clear ();
 	} else {
 		Py_DECREF (ret);
@@ -740,7 +740,7 @@ gplp_func_exec_action (GOPluginService *service,
 static void
 gplp_load_service_ui (GOPluginLoader *loader,
 		      GOPluginService *service,
-		      ErrorInfo **ret_error)
+		      GOErrorInfo **ret_error)
 {
 
 	GnmPythonPluginLoader *loader_python = GNM_PYTHON_PLUGIN_LOADER (loader);
@@ -770,17 +770,17 @@ gplp_load_service_ui (GOPluginLoader *loader,
 			(G_OBJECT (service), "loader_data", loader_data,
 			 (GDestroyNotify) gplp_loader_data_ui_free);
 	} else {
-		*ret_error = error_info_new_printf (
+		*ret_error = go_error_info_new_printf (
 		             _("Python file \"%s\" has invalid format."),
 		             loader_python->module_name);
 		if (ui_actions == NULL) {
-			error_info_add_details (*ret_error,
-			                        error_info_new_printf (
+			go_error_info_add_details (*ret_error,
+			                        go_error_info_new_printf (
 			                        _("File doesn't contain \"%s\" dictionary."),
 			                        ui_action_names));
 		} else if (!PyDict_Check (ui_actions)) {
-			error_info_add_details (*ret_error,
-			                        error_info_new_printf (
+			go_error_info_add_details (*ret_error,
+			                        go_error_info_new_printf (
 			                        _("Object \"%s\" is not a dictionary."),
 			                        ui_action_names));
 		}
@@ -789,7 +789,7 @@ gplp_load_service_ui (GOPluginLoader *loader,
 }
 
 static gboolean
-gplp_service_load (GOPluginLoader *l, GOPluginService *s, ErrorInfo **err)
+gplp_service_load (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 {
 	if (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (s))
 		gplp_load_service_function_group (l, s, err);
@@ -801,7 +801,7 @@ gplp_service_load (GOPluginLoader *l, GOPluginService *s, ErrorInfo **err)
 }
 
 static gboolean
-gplp_service_unload (GOPluginLoader *l, GOPluginService *s, ErrorInfo **err)
+gplp_service_unload (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 {
 	if (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (s))
 		;

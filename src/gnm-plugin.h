@@ -35,7 +35,7 @@ typedef struct _PluginServiceUI PluginServiceUI;
 typedef struct {
 	void (*plugin_func_exec_action) (
 		GOPluginService *service, GnmAction const *action,
-		WorkbookControl *wbc, ErrorInfo **ret_error);
+		WorkbookControl *wbc, GOErrorInfo **ret_error);
 } PluginServiceUICallbacks;
 
 /* This type is intended for use with "ui" service.

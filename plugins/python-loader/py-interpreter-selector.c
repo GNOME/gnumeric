@@ -217,7 +217,7 @@ gnm_py_interpreter_selector_class_init (GObjectClass *gobject_class)
 }
 
 GtkWidget *
-gnm_py_interpreter_selector_new (ErrorInfo **err)
+gnm_py_interpreter_selector_new (GOErrorInfo **err)
 {
 	GSList *interpreters;
 	GtkTreePath *path;

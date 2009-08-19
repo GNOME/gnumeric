@@ -545,8 +545,8 @@ html_file_open (GOFileOpener const *fo, IOContext *io_context,
 			html_search_for_tables (ptr, doc, wb_view, &tc);
 		xmlFreeDoc (doc);
 	} else
-		gnumeric_io_error_info_set (io_context,
-			error_info_new_str (_("Unable to parse the html.")));
+		gnumeric_io_go_error_info_set (io_context,
+			go_error_info_new_str (_("Unable to parse the html.")));
 }
 
 /* Quick and dirty html probe. */

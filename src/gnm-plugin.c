@@ -55,7 +55,7 @@ plugin_service_function_group_finalize (GObject *obj)
 }
 
 static void
-plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree, ErrorInfo **ret_error)
+plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo **ret_error)
 {
 	xmlNode *category_node, *translated_category_node, *functions_node;
 	gchar *category_name, *translated_category_name;
@@ -117,15 +117,15 @@ plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree,
 		GSList *error_list = NULL;
 
 		if (category_name == NULL) {
-			GO_SLIST_PREPEND (error_list, error_info_new_str (
+			GO_SLIST_PREPEND (error_list, go_error_info_new_str (
 				_("Missing function category name.")));
 		}
 		if (function_name_list == NULL) {
-			GO_SLIST_PREPEND (error_list, error_info_new_str (
+			GO_SLIST_PREPEND (error_list, go_error_info_new_str (
 				_("Function group is empty.")));
 		}
 		GO_SLIST_REVERSE (error_list);
-		*ret_error = error_info_new_from_error_list (error_list);
+		*ret_error = go_error_info_new_from_error_list (error_list);
 
 		g_free (category_name);
 		g_free (translated_category_name);
@@ -141,20 +141,20 @@ plugin_service_function_group_func_desc_load (GnmFunc const *fn_def,
 {
 	GOPluginService	*service = gnm_func_get_user_data (fn_def);
 	PluginServiceFunctionGroup *sfg = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
-	ErrorInfo *error = NULL;
+	GOErrorInfo *error = NULL;
 
 	g_return_val_if_fail (fn_def != NULL, FALSE);
 
 	plugin_service_load (service, &error);
 	if (error != NULL) {
-		error_info_print (error);
-		error_info_free (error);
+		go_error_info_print (error);
+		go_error_info_free (error);
 		return FALSE;
 	}
 	if (NULL == sfg->cbs.func_desc_load) {
-                error = error_info_new_printf (_("No func_desc_load method.\n"));
-		error_info_print (error);
-		error_info_free (error);
+                error = go_error_info_new_printf (_("No func_desc_load method.\n"));
+		go_error_info_print (error);
+		go_error_info_free (error);
 		return FALSE;
 	}
 	return sfg->cbs.func_desc_load (service,
@@ -177,7 +177,7 @@ plugin_service_function_group_func_ref_notify  (GnmFunc *fn_def, int refcount)
 }
 
 static void
-plugin_service_function_group_activate (GOPluginService *service, ErrorInfo **ret_error)
+plugin_service_function_group_activate (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	PluginServiceFunctionGroup *sfg =
 		GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
@@ -198,7 +198,7 @@ plugin_service_function_group_activate (GOPluginService *service, ErrorInfo **re
 }
 
 static void
-plugin_service_function_group_deactivate (GOPluginService *service, ErrorInfo **ret_error)
+plugin_service_function_group_deactivate (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	PluginServiceFunctionGroup *sfg = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
 
@@ -299,28 +299,28 @@ plugin_service_ui_finalize (GObject *obj)
 static void
 cb_ui_service_activate (GnmAction const *action, WorkbookControl *wbc, GOPluginService *service)
 {
-	ErrorInfo *load_error = NULL;
+	GOErrorInfo *load_error = NULL;
 
 	plugin_service_load (service, &load_error);
 	if (load_error == NULL) {
 		PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
-		ErrorInfo *ignored_error = NULL;
+		GOErrorInfo *ignored_error = NULL;
 
 		g_return_if_fail (service_ui->cbs.plugin_func_exec_action != NULL);
 		service_ui->cbs.plugin_func_exec_action (
 			service, action, wbc, &ignored_error);
 		if (ignored_error != NULL) {
-			error_info_print (ignored_error);
-			error_info_free (ignored_error);
+			go_error_info_print (ignored_error);
+			go_error_info_free (ignored_error);
 		}
 	} else {
-		error_info_print (load_error);
-		error_info_free (load_error);
+		go_error_info_print (load_error);
+		go_error_info_free (load_error);
 	}
 }
 
 static void
-plugin_service_ui_read_xml (GOPluginService *service, xmlNode *tree, ErrorInfo **ret_error)
+plugin_service_ui_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo **ret_error)
 {
 	PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
 	xmlChar *file_name;
@@ -330,7 +330,7 @@ plugin_service_ui_read_xml (GOPluginService *service, xmlNode *tree, ErrorInfo *
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	file_name = xml_node_get_cstr (tree, "file");
 	if (file_name == NULL) {
-		*ret_error = error_info_new_str (
+		*ret_error = go_error_info_new_str (
 		             _("Missing file name."));
 		return;
 	}
@@ -366,7 +366,7 @@ plugin_service_ui_read_xml (GOPluginService *service, xmlNode *tree, ErrorInfo *
 }
 
 static void
-plugin_service_ui_activate (GOPluginService *service, ErrorInfo **ret_error)
+plugin_service_ui_activate (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
 	GError *err = NULL;
@@ -379,7 +379,7 @@ plugin_service_ui_activate (GOPluginService *service, ErrorInfo **ret_error)
 		go_plugin_get_dir_name (service->plugin),
 		service_ui->file_name, NULL);
 	if (!g_file_get_contents (full_file_name, &xml_ui, NULL, &err)) {
-		*ret_error = error_info_new_printf
+		*ret_error = go_error_info_new_printf
 			(_("Cannot read UI description from XML file %s: %s"),
 			 full_file_name,
 			 err ? err->message : "?");
@@ -401,7 +401,7 @@ plugin_service_ui_activate (GOPluginService *service, ErrorInfo **ret_error)
 }
 
 static void
-plugin_service_ui_deactivate (GOPluginService *service, ErrorInfo **ret_error)
+plugin_service_ui_deactivate (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
 
@@ -489,7 +489,7 @@ gnm_plugin_loader_module_func_desc_load (GOPluginService *service,
 static void
 gnm_plugin_loader_module_load_service_function_group (GOPluginLoader  *loader,
 						      GOPluginService *service,
-						      ErrorInfo **ret_error)
+						      GOErrorInfo **ret_error)
 {
 	GnmPluginLoaderModule *loader_module = GNM_PLUGIN_LOADER_MODULE (loader);
 	gchar *fn_info_array_name;
@@ -520,11 +520,11 @@ gnm_plugin_loader_module_load_service_function_group (GOPluginLoader  *loader,
 		g_object_set_data_full (
 			G_OBJECT (service), "loader_data", loader_data, function_group_loader_data_free);
 	} else {
-		*ret_error = error_info_new_printf (
+		*ret_error = go_error_info_new_printf (
 		             _("Module file \"%s\" has invalid format."),
 		             loader_module->module_file_name);
-		error_info_add_details (*ret_error,
-					error_info_new_printf (
+		go_error_info_add_details (*ret_error,
+					go_error_info_new_printf (
 					_("File doesn't contain \"%s\" array."),
 					fn_info_array_name));
 	}
@@ -553,7 +553,7 @@ static void
 gnm_plugin_loader_module_func_exec_action (GOPluginService *service,
 					   GnmAction const *action,
 					   WorkbookControl *wbc,
-					   ErrorInfo **ret_error)
+					   GOErrorInfo **ret_error)
 {
 	ServiceLoaderDataUI *loader_data;
 	gpointer action_index_ptr;
@@ -565,7 +565,7 @@ gnm_plugin_loader_module_func_exec_action (GOPluginService *service,
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	if (!g_hash_table_lookup_extended (loader_data->ui_actions_hash, action->id,
 	                                   NULL, &action_index_ptr)) {
-		*ret_error = error_info_new_printf (_("Unknown action: %s"), action->id);
+		*ret_error = go_error_info_new_printf (_("Unknown action: %s"), action->id);
 		return;
 	}
 	action_index = GPOINTER_TO_INT (action_index_ptr);
@@ -576,7 +576,7 @@ gnm_plugin_loader_module_func_exec_action (GOPluginService *service,
 static void
 gnm_plugin_loader_module_load_service_ui (GOPluginLoader *loader,
 					  GOPluginService *service,
-					  ErrorInfo **ret_error)
+					  GOErrorInfo **ret_error)
 {
 	GnmPluginLoaderModule *loader_module = GNM_PLUGIN_LOADER_MODULE (loader);
 	char *ui_actions_array_name;
@@ -592,10 +592,10 @@ gnm_plugin_loader_module_load_service_ui (GOPluginLoader *loader,
 		plugin_service_get_id (service), "_ui_actions", NULL);
 	g_module_symbol (loader_module->handle, ui_actions_array_name, (gpointer) &module_ui_actions_array);
 	if (module_ui_actions_array == NULL) {
-		*ret_error = error_info_new_printf (
+		*ret_error = go_error_info_new_printf (
 			_("Module file \"%s\" has invalid format."),
 			loader_module->module_file_name);
-		error_info_add_details (*ret_error, error_info_new_printf (
+		go_error_info_add_details (*ret_error, go_error_info_new_printf (
 			_("File doesn't contain \"%s\" array."), ui_actions_array_name));
 		g_free (ui_actions_array_name);
 		return;
@@ -617,7 +617,7 @@ gnm_plugin_loader_module_load_service_ui (GOPluginLoader *loader,
 }
 
 static gboolean
-gplm_service_load (GOPluginLoader *l, GOPluginService *s, ErrorInfo **err)
+gplm_service_load (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 {
 	if (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (s))
 		gnm_plugin_loader_module_load_service_function_group (l, s, err);
@@ -629,7 +629,7 @@ gplm_service_load (GOPluginLoader *l, GOPluginService *s, ErrorInfo **err)
 }
 
 static gboolean
-gplm_service_unload (GOPluginLoader *l, GOPluginService *s, ErrorInfo **err)
+gplm_service_unload (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 {
 	if (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (s)) {
 		PluginServiceFunctionGroupCallbacks *cbs = plugin_service_get_cbs (s);

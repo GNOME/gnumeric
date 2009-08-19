@@ -1030,7 +1030,7 @@ static GNM_ACTION_DEF (cb_help_docs)
 	g_free (argv[1]);
 #endif
 	if (NULL != err) {
-		ErrorInfo *ei = error_info_new_printf 
+		GOErrorInfo *ei = go_error_info_new_printf 
 			(_("Unable to start the help browser (%s).\n"
 			   "The system error message is: \n\n%s"), 
 			 argv[0], err->message);

@@ -510,11 +510,11 @@ sc_parse_line (ScParseState *state, char *buf)
 }
 
 
-static ErrorInfo *
+static GOErrorInfo *
 sc_parse_sheet (ScParseState *state)
 {
 	unsigned char *data;
-	ErrorInfo *res = NULL;
+	GOErrorInfo *res = NULL;
 
 	while ((data = gsf_input_textline_ascii_gets (state->textline)) != NULL) {
 		char *utf8data;
@@ -525,7 +525,7 @@ sc_parse_sheet (ScParseState *state)
 
 		if (g_ascii_isalpha (*data) && !sc_parse_line (state, utf8data)) {
 			if (!res)
-				res = error_info_new_str
+				res = go_error_info_new_str
 					(_("Error parsing line"));
 		}
 
@@ -600,7 +600,7 @@ sc_file_open (GOFileOpener const *fo, IOContext *io_context,
 {
 	Workbook  *wb;
 	char      *name;
-	ErrorInfo *error;
+	GOErrorInfo *error;
 	ScParseState state;
 
 	wb = wb_view_get_workbook (wb_view);
@@ -617,7 +617,7 @@ sc_file_open (GOFileOpener const *fo, IOContext *io_context,
 	error = sc_parse_sheet (&state);
 	if (error != NULL) {
 		workbook_sheet_delete (state.sheet);
-		gnumeric_io_error_info_set (io_context, error);
+		gnumeric_io_go_error_info_set (io_context, error);
 	}
 	g_object_unref (G_OBJECT (state.textline));
 	g_iconv_close (state.converter);

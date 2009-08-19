@@ -16,9 +16,9 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
-GType python_get_loader_type (ErrorInfo **ret_error);
+GType python_get_loader_type (GOErrorInfo **ret_error);
 G_MODULE_EXPORT GType
-python_get_loader_type (ErrorInfo **ret_error)
+python_get_loader_type (GOErrorInfo **ret_error)
 {
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	return TYPE_GNM_PYTHON_PLUGIN_LOADER;

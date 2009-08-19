@@ -258,11 +258,11 @@ icg_progress_message_set (GOCmdContext *cc, gchar const *msg)
 }
 
 static void
-icg_error_error_info (GOCmdContext *cc, ErrorInfo *error)
+icg_error_error_info (GOCmdContext *cc, GOErrorInfo *error)
 {
 	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
 	if (icg->show_warnings) {
-		GtkWidget *dialog = gnumeric_error_info_dialog_new (error);
+		GtkWidget *dialog = gnumeric_go_error_info_dialog_new (error);
 		gtk_widget_show_all (GTK_WIDGET (dialog));
 		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);

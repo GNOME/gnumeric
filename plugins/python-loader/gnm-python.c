@@ -116,7 +116,7 @@ gnm_python_class_init (GObjectClass *gobject_class)
  *      import gobject
  */
 static void
-gnm_init_pygobject (ErrorInfo **err)
+gnm_init_pygobject (GOErrorInfo **err)
 {
 	PyObject *pygtk, *mdict, *require, *ret, *gobject, *cobject;
 
@@ -125,14 +125,14 @@ gnm_init_pygobject (ErrorInfo **err)
 	pygtk = PyImport_ImportModule((char *) "pygtk");
 	if (pygtk == NULL) {
 		if (err != NULL)
-			*err = error_info_new_printf (_("Could not import %s."),
+			*err = go_error_info_new_printf (_("Could not import %s."),
 						      "pygtk");
 		return;
 	}
 	mdict = PyModule_GetDict (pygtk);
 	require = PyDict_GetItemString (mdict, (char *) "require");
 	if (!PyFunction_Check (require)) {
-		*err = error_info_new_printf (_("Could not find %s."),
+		*err = go_error_info_new_printf (_("Could not find %s."),
 					      "pygtk.require");
 		return;
 	} else {
@@ -140,21 +140,21 @@ gnm_init_pygobject (ErrorInfo **err)
 			(require, (char *) "O",
 			 PyString_FromString ((char *) "2.0"));
 		if (!ret) {
-			*err = error_info_new_printf (_("Could not initialize Python bindings for Gtk+, etc: %s"),
+			*err = go_error_info_new_printf (_("Could not initialize Python bindings for Gtk+, etc: %s"),
 						      py_exc_to_string ());
 			return;
 		}
 	}
 	gobject = PyImport_ImportModule((char *) "gobject");
 	if (gobject == NULL) {
-		*err = error_info_new_printf (_("Could not import %s."),
+		*err = go_error_info_new_printf (_("Could not import %s."),
 					      "gobject");
 		return;
 	}
         mdict = PyModule_GetDict(gobject);
         cobject = PyDict_GetItemString(mdict, (char *) "_PyGObject_API");
         if (!PyCObject_Check(cobject)) {
-		*err = error_info_new_printf (_("Could not find %s"),
+		*err = go_error_info_new_printf (_("Could not find %s"),
 					      "_PyGObject_API");
 		return;
         } else {
@@ -163,7 +163,7 @@ gnm_init_pygobject (ErrorInfo **err)
 }
 
 GnmPython *
-gnm_python_object_get (ErrorInfo **err)
+gnm_python_object_get (GOErrorInfo **err)
 {
 	GO_INIT_RET_ERROR_INFO (err);
 	if (!Py_IsInitialized ()) {

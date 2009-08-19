@@ -2580,7 +2580,7 @@ xml_dom_read_warning (gpointer state, char const *fmt, ...)
 	va_start (args, fmt);
 	if (gnumeric_io_warning_occurred (io_context))
 		gnumeric_io_error_push (io_context,
-			error_info_new_vprintf (GO_ERROR, fmt, args));
+			go_error_info_new_vprintf (GO_ERROR, fmt, args));
 	else
 		gnm_io_warning_varargs (io_context, fmt, args);
 	va_end (args);
@@ -2589,16 +2589,16 @@ xml_dom_read_warning (gpointer state, char const *fmt, ...)
 static void
 xml_dom_read_error (gpointer state, char const *fmt, ...)
 {
-	ErrorInfo *ei;
+	GOErrorInfo *ei;
 	va_list args;
 	va_start (args, fmt);
-	ei = error_info_new_vprintf (GO_ERROR, fmt, args);
+	ei = go_error_info_new_vprintf (GO_ERROR, fmt, args);
 	va_end (args);
 
 	if (gnumeric_io_error_occurred (io_context))
 		gnumeric_io_error_push (io_context, ei);
 	else
-		gnumeric_io_error_info_set (io_context, ei);
+		gnumeric_io_go_error_info_set (io_context, ei);
 }
 
 /**************************************************************************/

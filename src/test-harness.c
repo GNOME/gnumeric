@@ -39,7 +39,7 @@ test_options[] = {
 int
 main (int argc, char const *argv [])
 {
-	ErrorInfo	*plugin_errs;
+	GOErrorInfo	*plugin_errs;
 	int		 res = 0;
 	GOCmdContext	*cc;
 	GError		*error = NULL;

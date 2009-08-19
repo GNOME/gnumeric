@@ -13,10 +13,10 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
-GType perl_get_loader_type (ErrorInfo **ret_error);
+GType perl_get_loader_type (GOErrorInfo **ret_error);
 
 G_MODULE_EXPORT GType
-perl_get_loader_type (ErrorInfo **ret_error)
+perl_get_loader_type (GOErrorInfo **ret_error)
 {
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	return gnm_perl_plugin_loader_get_type ();

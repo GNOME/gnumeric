@@ -648,8 +648,8 @@ psiconv_read (IOContext *io_context, Workbook *wb, GsfInput *input)
 	psiconv_file   psi_file = NULL;
 
 	if ((buf = psiconv_stream_to_buffer (input, -1)) == NULL) {
-		gnumeric_io_error_info_set (io_context,
-		                            error_info_new_str(_("Error while reading psiconv file.")));
+		gnumeric_io_go_error_info_set (io_context,
+		                            go_error_info_new_str(_("Error while reading psiconv file.")));
 		goto out;
 	}
 
@@ -659,16 +659,16 @@ psiconv_read (IOContext *io_context, Workbook *wb, GsfInput *input)
 	psiconv_config_read(NULL,&config);
 	if (psiconv_parse(config, buf, &psi_file) != 0) {
 		psi_file = NULL;
-		gnumeric_io_error_info_set (io_context,
-		                            error_info_new_str(_("Error while parsing Psion file.")));
+		gnumeric_io_go_error_info_set (io_context,
+		                            go_error_info_new_str(_("Error while parsing Psion file.")));
 		goto out;
 	}
 
 	if (psi_file->type == psiconv_sheet_file)
 		add_sheetfile(wb,psi_file->file);
 	else
-		gnumeric_io_error_info_set (io_context,
-		                            error_info_new_str(_("This Psion file is not a Sheet file.")));
+		gnumeric_io_go_error_info_set (io_context,
+		                            go_error_info_new_str(_("This Psion file is not a Sheet file.")));
 
 
 out:

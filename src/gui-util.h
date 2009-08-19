@@ -16,9 +16,9 @@ G_BEGIN_DECLS
 #define GNM_ACTION_DEF(name)			\
 	void name (GtkAction *a, WBCGtk *wbcg)
 
-GtkWidget* gnumeric_error_info_dialog_new (ErrorInfo *error);
-void       gnumeric_error_info_dialog_show (GtkWindow *parent,
-                                            ErrorInfo *error);
+GtkWidget* gnumeric_go_error_info_dialog_new (GOErrorInfo *error);
+void       gnumeric_go_error_info_dialog_show (GtkWindow *parent,
+                                            GOErrorInfo *error);
 void       gnumeric_restore_window_geometry (GtkWindow *dialog,
 					     const char *key);
 void       gnumeric_keyed_dialog (WBCGtk *wbcg,

@@ -2342,10 +2342,10 @@ date_ratio (GDate const *d1, const GDate *d2, const GDate *d3,
 		return gnm_nan;
 
 	if (g_date_compare (&next_coupon, d2) >= 0)
-		return days_between_basis (d1, d2, conv->basis) /
+		return go_datetime_days_between_basis (d1, d2, conv->basis) /
 			go_coupdays (&prev_coupon, &next_coupon, conv);
 
-	res = days_between_basis (d1, &next_coupon, conv->basis) /
+	res = go_datetime_days_between_basis (d1, &next_coupon, conv->basis) /
 		go_coupdays (&prev_coupon, &next_coupon, conv);
 	while (1) {
 		prev_coupon = next_coupon;
@@ -2353,7 +2353,7 @@ date_ratio (GDate const *d1, const GDate *d2, const GDate *d3,
 		if (!g_date_valid (&next_coupon))
 			return gnm_nan;
 		if (g_date_compare (&next_coupon, d2) >= 0) {
-			res += days_between_basis (&prev_coupon, d2, conv->basis) /
+			res += go_datetime_days_between_basis (&prev_coupon, d2, conv->basis) /
 				go_coupdays (&prev_coupon, &next_coupon, conv);
 			return res;
 		}
@@ -2368,9 +2368,9 @@ calc_oddfprice (const GDate *settlement, const GDate *maturity,
 		GnmCouponConvention const *conv)
 
 {
-	gnm_float a = days_between_basis (issue, settlement, conv->basis);
-	gnm_float ds = days_between_basis (settlement, first_coupon, conv->basis);
-	gnm_float df = days_between_basis (issue, first_coupon, conv->basis);
+	gnm_float a = go_datetime_days_between_basis (issue, settlement, conv->basis);
+	gnm_float ds = go_datetime_days_between_basis (settlement, first_coupon, conv->basis);
+	gnm_float df = go_datetime_days_between_basis (issue, first_coupon, conv->basis);
 	gnm_float e = go_coupdays (settlement, maturity, conv);
 	int n = (int)coupnum (settlement, maturity, conv);
 	gnm_float scale = 100.0 * rate / conv->freq;
@@ -2382,7 +2382,7 @@ calc_oddfprice (const GDate *settlement, const GDate *maturity,
 		switch (conv->basis) {
 		case BASIS_MSRB_30_360:
 		case BASIS_30E_360: {
-			int cdays = days_between_basis (first_coupon, maturity, conv->basis);
+			int cdays = go_datetime_days_between_basis (first_coupon, maturity, conv->basis);
 			n = 1 + (int)gnm_ceil (cdays / e);
 			break;
 		}
@@ -2394,7 +2394,7 @@ calc_oddfprice (const GDate *settlement, const GDate *maturity,
 				GDate prev_date = d;
 				gnm_date_add_months (&d, 12 / conv->freq);
 				if (g_date_compare (&d, maturity) >= 0) {
-					n += (int)gnm_ceil (days_between_basis (&prev_date, maturity, conv->basis) /
+					n += (int)gnm_ceil (go_datetime_days_between_basis (&prev_date, maturity, conv->basis) /
 							    go_coupdays (&prev_date, &d, conv))
 						+ 1;
 					break;

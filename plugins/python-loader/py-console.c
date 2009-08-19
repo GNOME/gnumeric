@@ -142,7 +142,7 @@ show_python_console (GnmAction const *action, WorkbookControl *wbc)
 	GtkWidget *vbox, *sc_win, *hbox, *sel, *cline, *w;
 	GtkTextIter enditer;
 	PangoFontDescription *font_desc;
-	ErrorInfo *err = NULL;
+	GOErrorInfo *err = NULL;
 
 	if (app != NULL) {
 		gtk_window_present (GTK_WINDOW (app->win));
@@ -152,7 +152,7 @@ show_python_console (GnmAction const *action, WorkbookControl *wbc)
 	sel = gnm_py_interpreter_selector_new (&err);
 	if (err != NULL) {
 		go_cmd_context_error_info (GO_CMD_CONTEXT (wbc), err);
-		error_info_free (err);
+		go_error_info_free (err);
 		return;
 	}
 	app = g_new (App, 1);
