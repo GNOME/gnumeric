@@ -56,7 +56,7 @@ set_clone_restart (GnomeClient *client)
 	workbooks = g_list_copy (gnm_app_workbook_list ());
 	for (ptr = workbooks; ptr != NULL ; ptr = ptr->next) {
 		Workbook *wb = ptr->data;
-		if (wb->file_format_level == FILE_FL_AUTO) {
+		if (wb->file_format_level == GO_FILE_FL_AUTO) {
 			argv[count] = g_strdup (go_doc_get_uri (GO_DOC (wb)));
 			count++;
 		}

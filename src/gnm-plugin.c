@@ -20,9 +20,9 @@
 
 #define CXML2C(s) ((char const *)(s))
 
-typedef PluginServiceSimpleClass	PluginServiceFunctionGroupClass;
+typedef GOPluginServiceSimpleClass	PluginServiceFunctionGroupClass;
 struct _PluginServiceFunctionGroup {
-	PluginServiceSimple	base;
+	GOPluginServiceSimple	base;
 
 	gchar *category_name, *translated_category_name;
 	GSList *function_name_list;
@@ -145,7 +145,7 @@ plugin_service_function_group_func_desc_load (GnmFunc const *fn_def,
 
 	g_return_val_if_fail (fn_def != NULL, FALSE);
 
-	plugin_service_load (service, &error);
+	go_plugin_service_load (service, &error);
 	if (error != NULL) {
 		go_error_info_print (error);
 		go_error_info_free (error);
@@ -262,7 +262,7 @@ GSF_CLASS (PluginServiceFunctionGroup, plugin_service_function_group,
  */
 typedef GOPluginServiceClass PluginServiceUIClass;
 struct _PluginServiceUI {
-	PluginServiceSimple	base;
+	GOPluginServiceSimple	base;
 
 	char *file_name;
 	GSList *actions;
@@ -301,7 +301,7 @@ cb_ui_service_activate (GnmAction const *action, WorkbookControl *wbc, GOPluginS
 {
 	GOErrorInfo *load_error = NULL;
 
-	plugin_service_load (service, &load_error);
+	go_plugin_service_load (service, &load_error);
 	if (load_error == NULL) {
 		PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
 		GOErrorInfo *ignored_error = NULL;
@@ -499,14 +499,14 @@ gnm_plugin_loader_module_load_service_function_group (GOPluginLoader  *loader,
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	fn_info_array_name = g_strconcat (
-		plugin_service_get_id (service), "_functions", NULL);
+		go_plugin_service_get_id (service), "_functions", NULL);
 	g_module_symbol (loader_module->handle, fn_info_array_name, (gpointer) &module_fn_info_array);
 	if (module_fn_info_array != NULL) {
 		PluginServiceFunctionGroupCallbacks *cbs;
 		ServiceLoaderDataFunctionGroup *loader_data;
 		gint i;
 
-		cbs = plugin_service_get_cbs (service);
+		cbs = go_plugin_service_get_cbs (service);
 		cbs->func_desc_load = &gnm_plugin_loader_module_func_desc_load;
 
 		loader_data = g_new (ServiceLoaderDataFunctionGroup, 1);
@@ -589,7 +589,7 @@ gnm_plugin_loader_module_load_service_ui (GOPluginLoader *loader,
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	ui_actions_array_name = g_strconcat (
-		plugin_service_get_id (service), "_ui_actions", NULL);
+		go_plugin_service_get_id (service), "_ui_actions", NULL);
 	g_module_symbol (loader_module->handle, ui_actions_array_name, (gpointer) &module_ui_actions_array);
 	if (module_ui_actions_array == NULL) {
 		*ret_error = go_error_info_new_printf (
@@ -602,7 +602,7 @@ gnm_plugin_loader_module_load_service_ui (GOPluginLoader *loader,
 	}
 	g_free (ui_actions_array_name);
 
-	cbs = plugin_service_get_cbs (service);
+	cbs = go_plugin_service_get_cbs (service);
 	cbs->plugin_func_exec_action = gnm_plugin_loader_module_func_exec_action;
 
 	loader_data = g_new (ServiceLoaderDataUI, 1);
@@ -632,10 +632,10 @@ static gboolean
 gplm_service_unload (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 {
 	if (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (s)) {
-		PluginServiceFunctionGroupCallbacks *cbs = plugin_service_get_cbs (s);
+		PluginServiceFunctionGroupCallbacks *cbs = go_plugin_service_get_cbs (s);
 		cbs->func_desc_load = NULL;
 	} else if (IS_GNM_PLUGIN_SERVICE_UI (s)) {
-		PluginServiceUICallbacks *cbs = plugin_service_get_cbs (s);
+		PluginServiceUICallbacks *cbs = go_plugin_service_get_cbs (s);
 		cbs->plugin_func_exec_action = NULL;
 	} else
 		return FALSE;

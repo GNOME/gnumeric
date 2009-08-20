@@ -160,7 +160,7 @@ gui_file_template (WBCGtk *wbcg, char const *uri)
 
 	if (wbv != NULL) {
 		Workbook *wb = wb_view_get_workbook (wbv);
-		workbook_set_saveinfo (wb, FILE_FL_NEW, NULL);
+		workbook_set_saveinfo (wb, GO_FILE_FL_NEW, NULL);
 		gui_wb_view_show (wbcg, wbv);
 		return TRUE;
 	}
@@ -381,7 +381,7 @@ check_multiple_sheet_support_if_needed (GOFileSaver *fs,
 {
 	gboolean ret_val = TRUE;
 
-	if (go_file_saver_get_save_scope (fs) != FILE_SAVE_WORKBOOK &&
+	if (go_file_saver_get_save_scope (fs) != GO_FILE_SAVE_WORKBOOK &&
 	    gnm_conf_get_core_file_save_single_sheet ()) {
 		Workbook *wb = wb_view_get_workbook (wb_view);
 		gchar *msg = _("Selected file format doesn't support "
@@ -417,7 +417,7 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view)
 	for (l = go_get_file_savers (); l; l = l->next) {
 		if ((l->data == NULL) ||
 		    (go_file_saver_get_save_scope (GO_FILE_SAVER (l->data))
-		     != FILE_SAVE_RANGE))
+		     != GO_FILE_SAVE_RANGE))
 			savers = g_list_prepend (savers, l->data);
 	}
 	savers = g_list_sort (savers, file_saver_description_cmp);
@@ -594,7 +594,7 @@ gui_file_save (WBCGtk *wbcg, WorkbookView *wb_view)
 					nb->allocation.height);
 	}
 
-	if (wb->file_format_level < FILE_FL_AUTO)
+	if (wb->file_format_level < GO_FILE_FL_AUTO)
 		return gui_file_save_as (wbcg, wb_view);
 	else {
 		gboolean ok = wb_view_save (wb_view, GO_CMD_CONTEXT (wbcg));

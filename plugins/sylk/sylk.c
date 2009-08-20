@@ -832,7 +832,7 @@ sylk_file_open (GOFileOpener const *fo,
 	locale = gnm_push_C_locale ();
 	sylk_parse_sheet (&state);
 	gnm_pop_C_locale (locale);
-	workbook_set_saveinfo (state.pp.wb, FILE_FL_AUTO,
+	workbook_set_saveinfo (state.pp.wb, GO_FILE_FL_AUTO,
 		go_file_saver_for_id ("Gnumeric_sylk:sylk"));
 
 	for (i = state.fonts->len ; i-- > 0 ; )

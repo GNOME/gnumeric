@@ -2723,7 +2723,7 @@ gnumeric_xml_read_workbook (GOFileOpener const *fo,
 	ctxt->version = version;
 	xml_workbook_read (context, ctxt, res->xmlRootNode);
 	workbook_set_saveinfo (wb_view_get_workbook (ctxt->wb_view),
-		FILE_FL_AUTO, go_file_saver_for_id ("Gnumeric_XmlIO:sax"));
+		GO_FILE_FL_AUTO, go_file_saver_for_id ("Gnumeric_XmlIO:sax"));
 
 	xml_parse_ctx_destroy (ctxt);
 	xmlFreeDoc (res);
@@ -2751,7 +2751,7 @@ xml_init (void)
 	saver = go_file_saver_new ("Gnumeric_XmlIO:sax",
 				   "gnumeric",
 				   _("Gnumeric XML (*.gnumeric)"),
-				   FILE_FL_AUTO, gnm_xml_file_save);
+				   GO_FILE_FL_AUTO, gnm_xml_file_save);
 	g_object_set (G_OBJECT (saver),
 		      "mime-type", "application/x-gnumeric",
 		      NULL);

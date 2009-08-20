@@ -236,7 +236,7 @@ gplp_load_service_function_group (GOPluginLoader *loader,
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 
-	cbs = plugin_service_get_cbs (service);
+	cbs = go_plugin_service_get_cbs (service);
 	cbs->func_desc_load = &gplp_func_desc_load;
 }
 

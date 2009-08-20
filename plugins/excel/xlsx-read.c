@@ -5189,7 +5189,7 @@ xlsx_file_open (GOFileOpener const *fo, GOIOContext *context,
 	xlsx_style_array_free (state.table_styles);
 	g_hash_table_destroy (state.theme_colors_by_name);
 
-	workbook_set_saveinfo (state.wb, FILE_FL_AUTO,
+	workbook_set_saveinfo (state.wb, GO_FILE_FL_AUTO,
 		go_file_saver_for_id ("Gnumeric_Excel:xlsx"));
 }
 

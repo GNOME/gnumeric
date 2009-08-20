@@ -796,7 +796,7 @@ print_init (void)
 	GOFileSaver *saver = go_file_saver_new (
 		PDF_SAVER_ID, "pdf",
 		_("PDF export"),
-		FILE_FL_WRITE_ONLY, pdf_write_workbook);
+		GO_FILE_FL_WRITE_ONLY, pdf_write_workbook);
 	g_signal_connect (G_OBJECT (saver), "set-export-options",
 			  G_CALLBACK (pdf_set_export_options),
 			  NULL);

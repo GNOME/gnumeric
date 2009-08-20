@@ -19,7 +19,7 @@ struct _Workbook {
 
 	gboolean is_placeholder;
 
-	FileFormatLevel  file_format_level;
+	GOFileFormatLevel  file_format_level;
 	GOFileSaver	*file_saver;
 
 	/* Undo support */

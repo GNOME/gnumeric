@@ -284,7 +284,7 @@ dif_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	Workbook *wb = wb_view_get_workbook (wbv);
 	DifInputContext *ctxt = dif_input_context_new (io_context, wb, input);
 
-	workbook_set_saveinfo (wb, FILE_FL_MANUAL_REMEMBER,
+	workbook_set_saveinfo (wb, GO_FILE_FL_MANUAL_REMEMBER,
 		go_file_saver_for_id ("Gnumeric_dif:dif"));
 	if (ctxt != NULL) {
 		dif_parse_sheet (ctxt);

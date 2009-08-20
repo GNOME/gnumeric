@@ -73,7 +73,7 @@ workbook_update_history (Workbook *wb)
 {
 	g_return_if_fail (IS_WORKBOOK (wb));
 
-	if (wb->doc.uri && wb->file_format_level >= FILE_FL_MANUAL_REMEMBER) {
+	if (wb->doc.uri && wb->file_format_level >= GO_FILE_FL_MANUAL_REMEMBER) {
 		const char *mimetype = wb->file_saver
 			? go_file_saver_get_mime_type (wb->file_saver)
 			: NULL;
@@ -179,7 +179,7 @@ workbook_init (GObject *object)
 
 	workbook_set_1904 (wb, FALSE);
 
-	wb->file_format_level = FILE_FL_NEW;
+	wb->file_format_level = GO_FILE_FL_NEW;
 	wb->file_saver        = NULL;
 
 	wb->during_destruction = FALSE;
@@ -382,13 +382,13 @@ workbook_new_with_sheets (int sheet_count)
  * FIXME : Add a check to ensure the name is unique.
  */
 gboolean
-workbook_set_saveinfo (Workbook *wb, FileFormatLevel level, GOFileSaver *fs)
+workbook_set_saveinfo (Workbook *wb, GOFileFormatLevel level, GOFileSaver *fs)
 {
 	g_return_val_if_fail (wb != NULL, FALSE);
-	g_return_val_if_fail (level > FILE_FL_NONE && level <= FILE_FL_AUTO,
+	g_return_val_if_fail (level > GO_FILE_FL_NONE && level <= GO_FILE_FL_AUTO,
 			      FALSE);
 
-	if (level <= FILE_FL_WRITE_ONLY)
+	if (level <= GO_FILE_FL_WRITE_ONLY)
 		return FALSE;
 
 	wb->file_format_level = level;

@@ -425,8 +425,8 @@ cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 			gtk_tree_store_append (pm_gui->model_details, &iter3, &iter2);
 			gtk_tree_store_set (
 				pm_gui->model_details, &iter3,
-				DETAILS_DESC, plugin_service_get_description (service),
-				DETAILS_ID, plugin_service_get_id (service),
+				DETAILS_DESC, go_plugin_service_get_description (service),
+				DETAILS_ID, go_plugin_service_get_id (service),
 				-1);
 		);
 		gtk_tree_view_expand_all (pm_gui->view_details);

@@ -230,13 +230,13 @@ excel_file_open (GOFileOpener const *fo, GOIOContext *context,
 
 	/* simple guess of format based on stream names */
 	if (is_double_stream_file)
-		workbook_set_saveinfo (wb, FILE_FL_AUTO,
+		workbook_set_saveinfo (wb, GO_FILE_FL_AUTO,
 			go_file_saver_for_id ("Gnumeric_Excel:excel_dsf"));
 	else if (is_97)
-		workbook_set_saveinfo (wb, FILE_FL_AUTO,
+		workbook_set_saveinfo (wb, GO_FILE_FL_AUTO,
 			go_file_saver_for_id ("Gnumeric_Excel:excel_biff8"));
 	else
-		workbook_set_saveinfo (wb, FILE_FL_AUTO,
+		workbook_set_saveinfo (wb, GO_FILE_FL_AUTO,
 			go_file_saver_for_id ("Gnumeric_Excel:excel_biff7"));
 }
 

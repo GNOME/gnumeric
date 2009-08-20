@@ -693,9 +693,9 @@ gnm_stf_file_saver_new (gchar const *id)
 	GOFileSaver *fs = go_file_saver_new (id,
 					     "txt",
 					     _("Text (configurable)"),
-					     FILE_FL_WRITE_ONLY,
+					     GO_FILE_FL_WRITE_ONLY,
 					     gnm_stf_file_saver_save);
-	go_file_saver_set_save_scope (fs, FILE_SAVE_WORKBOOK);
+	go_file_saver_set_save_scope (fs, GO_FILE_SAVE_WORKBOOK);
 	g_signal_connect (G_OBJECT (fs), "set-export-options",
 			  G_CALLBACK (gnm_stf_fs_set_export_options),
 			  NULL);

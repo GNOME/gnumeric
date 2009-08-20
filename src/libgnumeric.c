@@ -250,9 +250,9 @@ gnm_init (void)
 	call_gnome_vfs_init ();
 
 	libgoffice_init ();
-	plugin_service_define ("function_group",
+	go_plugin_service_define ("function_group",
 		&plugin_service_function_group_get_type);
-	plugin_service_define ("ui",
+	go_plugin_service_define ("ui",
 		&plugin_service_ui_get_type);
 	go_plugin_loader_module_register_version ("gnumeric", GNM_VERSION_FULL);
 
@@ -339,7 +339,7 @@ gnm_shutdown (void)
 	gnm_style_shutdown ();
 
 	libgoffice_shutdown ();
-	plugin_services_shutdown ();
+	go_plugin_services_shutdown ();
 	g_object_unref (gnm_app_get_app ());
 	gutils_shutdown ();
 }

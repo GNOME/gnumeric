@@ -558,7 +558,7 @@ write_row (GsfOutput *output, Sheet *sheet, gint row, GnmRange *range, html_vers
  */
 static void
 write_sheet (GsfOutput *output, Sheet *sheet,
-	     html_version_t version, FileSaveScope save_scope)
+	     html_version_t version, GOFileSaveScope save_scope)
 {
 	GnmRange total_range;
 	gint row;
@@ -575,7 +575,7 @@ write_sheet (GsfOutput *output, Sheet *sheet,
 		break;
 	}
 
-	if (save_scope != FILE_SAVE_RANGE) {
+	if (save_scope != GO_FILE_SAVE_RANGE) {
 		gsf_output_puts (output, "<caption>");
 		html_print_encoded (output, sheet->name_unquoted);
 		gsf_output_puts (output, "</caption>\n");
@@ -600,7 +600,7 @@ html_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 {
 	GSList *sheets, *ptr;
 	Workbook *wb = wb_view_get_workbook (wb_view);
-	FileSaveScope save_scope;
+	GOFileSaveScope save_scope;
 
 	g_return_if_fail (fs != NULL);
 	g_return_if_fail (wb != NULL);

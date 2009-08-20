@@ -44,7 +44,7 @@ GnmExprSharer *workbook_share_expressions (Workbook *wb, gboolean freeit);
 void        workbook_optimize_style     (Workbook *wb);
 
 /* IO Routines */
-gboolean       workbook_set_saveinfo	(Workbook *wb, FileFormatLevel lev,
+gboolean       workbook_set_saveinfo	(Workbook *wb, GOFileFormatLevel lev,
 					 GOFileSaver *saver);
 void           workbook_update_history  (Workbook *wb);
 GOFileSaver *workbook_get_file_saver	(Workbook *wb);

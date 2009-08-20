@@ -523,7 +523,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 					     wb,
 					     ssconvert_range);
 			else if (workbook_sheet_count (wb) > 1 &&
-				 go_file_saver_get_save_scope (fs) != FILE_SAVE_WORKBOOK) {
+				 go_file_saver_get_save_scope (fs) != GO_FILE_SAVE_WORKBOOK) {
 				if (ssconvert_one_file_per_sheet) {
 					g_warning ("TODO: one sheet per file is not implemented");
 				} else

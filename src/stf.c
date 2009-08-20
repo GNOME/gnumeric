@@ -586,8 +586,8 @@ stf_init (void)
 	saver = go_file_saver_new (
 		"Gnumeric_stf:stf_csv", "csv",
 		_("Comma separated values (CSV)"),
-		FILE_FL_WRITE_ONLY, stf_write_csv);
-	go_file_saver_set_save_scope (saver, FILE_SAVE_SHEET);
+		GO_FILE_FL_WRITE_ONLY, stf_write_csv);
+	go_file_saver_set_save_scope (saver, GO_FILE_SAVE_SHEET);
 	go_file_saver_register (saver);
 	g_object_unref (saver);
 }

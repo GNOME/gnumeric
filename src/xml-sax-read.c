@@ -2738,7 +2738,7 @@ gnm_xml_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 		workbook_queue_all_recalc (state.wb);
 		workbook_set_saveinfo
 			(state.wb,
-			 FILE_FL_AUTO,
+			 GO_FILE_FL_AUTO,
 			 go_file_saver_for_id ("Gnumeric_XmlIO:sax"));
 	} else {
 		go_io_error_string (io_context, _("XML document not well formed!"));
