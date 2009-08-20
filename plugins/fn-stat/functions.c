@@ -849,36 +849,6 @@ gnumeric_bernoulli (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
-static GnmFuncHelp const help_gammaln[] = {
-	{ GNM_FUNC_HELP_NAME, F_("GAMMALN:natural logarithm of the gamma function.")},
-	{ GNM_FUNC_HELP_ARG, F_("x:")},
-	{ GNM_FUNC_HELP_NOTE, F_("If @{x} is non-number then this function returns a #VALUE! error.")},
-	{ GNM_FUNC_HELP_NOTE, F_("If @{x} <= 0 then this function returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("GAMMALN(23) equals 48.471181352.") },
-	{ GNM_FUNC_HELP_SEEALSO, "POISSON"},
-	{ GNM_FUNC_HELP_END }
-};
-
-static GnmValue *
-gnumeric_gammaln (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
-{
-	gnm_float x;
-
-	/* FIXME: the gamma function is defined for all real numbers except
-	 * the integers 0, -1, -2, ...  It is positive (and log(gamma(x)) is
-	 * thus defined) when x>0 or -2<x<-1 or -4<x<-3 ...  */
-
-	x = value_get_as_float (argv[0]);
-
-	if (x <= 0)
-		return value_new_error_NUM (ei->pos);
-
-	return value_new_float (gnm_lgamma (x));
-}
-
-/***************************************************************************/
-
 static GnmFuncHelp const help_gammadist[] = {
 	{ GNM_FUNC_HELP_NAME, F_("GAMMADIST:(cumulative) density function of the gamma distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("x:")},
@@ -4891,9 +4861,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "gammainv",     "fff",   
 	  help_gammainv, gnumeric_gammainv, NULL, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "gammaln",      "f",    
-	  help_gammaln, gnumeric_gammaln, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "geomean", NULL,      
 	  help_geomean, NULL, gnumeric_geomean, NULL, NULL, NULL,

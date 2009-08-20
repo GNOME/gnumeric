@@ -19,18 +19,19 @@
 				<function name="asin"/>
 				<function name="asinh"/>
 				<function name="atan"/>
-				<function name="atanh"/>
 				<function name="atan2"/>
+				<function name="atanh"/>
 				<function name="averageif"/>
 				<function name="beta"/>
 				<function name="betaln"/>
+				<function name="ceil"/>
+				<function name="ceiling"/>
+				<function name="combin"/>
 				<function name="cos"/>
 				<function name="cosh"/>
 				<function name="cot"/>
 				<function name="coth"/>
 				<function name="countif"/>
-				<function name="ceil"/>
-				<function name="ceiling"/>
 				<function name="csc"/>
 				<function name="csch"/>
 				<function name="degrees"/>
@@ -40,8 +41,10 @@
 				<function name="fact"/>
 				<function name="factdouble"/>
 				<function name="fib"/>
-				<function name="combin"/>
 				<function name="floor"/>
+				<function name="g_product"/>
+				<function name="gamma"/>
+				<function name="gammaln"/>
 				<function name="gcd"/>
 				<function name="gd"/>
 				<function name="hypot"/>
@@ -50,14 +53,17 @@
 				<function name="ln"/>
 				<function name="ln1p"/>
 				<function name="log"/>
-				<function name="log2"/>
 				<function name="log10"/>
+				<function name="log2"/>
+				<function name="mdeterm"/>
+				<function name="minverse"/>
+				<function name="mmult"/>
 				<function name="mod"/>
 				<function name="mround"/>
 				<function name="multinomial"/>
 				<function name="odd"/>
+				<function name="pi"/>
 				<function name="power"/>
-				<function name="g_product"/>
 				<function name="quotient"/>
 				<function name="radians"/>
 				<function name="roman"/>
@@ -82,10 +88,6 @@
 				<function name="tan"/>
 				<function name="tanh"/>
 				<function name="trunc"/>
-				<function name="pi"/>
-				<function name="mmult"/>
-				<function name="minverse"/>
-				<function name="mdeterm"/>
 				<!-- <function name="logmdeterm"/> -->
 			</functions>
 		</service>

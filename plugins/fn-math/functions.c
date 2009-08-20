@@ -940,6 +940,60 @@ gnumeric_fact (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_gamma[] = {
+        { GNM_FUNC_HELP_NAME, F_("GAMMA:the Gamma function")},
+        { GNM_FUNC_HELP_ARG, F_("x:number")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=GAMMA(-1.8)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=GAMMA(2.4)" },
+	{ GNM_FUNC_HELP_SEEALSO, "LNGAMMA"},
+        { GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_gamma (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float x = value_get_as_float (argv[0]);
+	gboolean x_is_integer = (x == gnm_floor (x));
+
+	if (x < 0 && x_is_integer)
+		return value_new_error_NUM (ei->pos);
+
+	if (x_is_integer)
+		return value_new_float (fact (x - 1));
+	else {
+		gnm_float res = gnm_exp (gnm_lgamma (x));
+		if (x < 0 && gnm_fmod (gnm_floor (-x), 2.0) == 0.0)
+			res = 0 - res;
+		return value_new_float (res);
+	}
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_gammaln[] = {
+	{ GNM_FUNC_HELP_NAME, F_("GAMMALN:natural logarithm of the Gamma function.")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=GAMMALN(23)" },
+	{ GNM_FUNC_HELP_SEEALSO, "GAMMA"},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_gammaln (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float x = value_get_as_float (argv[0]);
+	gboolean x_is_integer = (x == gnm_floor (x));
+
+	if (x < 0 && (x_is_integer ||
+		      gnm_fmod (gnm_floor (-x), 2.0) == 0.0))
+		return value_new_error_NUM (ei->pos);
+	else
+		return value_new_float (gnm_lgamma (x));
+}
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_beta[] = {
         { GNM_FUNC_HELP_NAME, F_("BETA:Euler beta function")},
         { GNM_FUNC_HELP_ARG, F_("x:number")},
@@ -2887,6 +2941,12 @@ GnmFuncDescriptor const math_functions[] = {
 	  gnumeric_floor, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "gamma",    "f",     help_gamma,
+	  gnumeric_gamma, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{ "gammaln",      "f",    
+	  help_gammaln, gnumeric_gammaln, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "gcd", NULL,  help_gcd,
 	  NULL, gnumeric_gcd, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

@@ -41,7 +41,6 @@
 				<function name="forecast"/>
 				<function name="frequency"/>
 				<function name="ftest"/>
-				<function name="gammaln"/>
 				<function name="gammadist"/>
 				<function name="gammainv"/>
 				<function name="geomean"/>
