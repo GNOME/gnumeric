@@ -1038,10 +1038,10 @@ doc/C/figures/Makefile
 doc/C/figures/icons/Makefile
 doc/developer/Makefile
 plugins/Makefile
-plugins/numtheory/Makefile
 plugins/fn-complex/Makefile
 plugins/fn-database/Makefile
 plugins/fn-date/Makefile
+plugins/fn-derivatives/Makefile
 plugins/fn-eng/Makefile
 plugins/fn-erlang/Makefile
 plugins/fn-financial/Makefile
@@ -1049,12 +1049,12 @@ plugins/fn-info/Makefile
 plugins/fn-logical/Makefile
 plugins/fn-lookup/Makefile
 plugins/fn-math/Makefile
+plugins/fn-numtheory/Makefile
 plugins/fn-r/Makefile
 plugins/fn-stat/Makefile
 plugins/fn-string/Makefile
 plugins/fn-random/Makefile
 plugins/fn-tsa/Makefile
-plugins/derivatives/Makefile
 plugins/sc/Makefile
 plugins/sylk/Makefile
 plugins/excel/Makefile

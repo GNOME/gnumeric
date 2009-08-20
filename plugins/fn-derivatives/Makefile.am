@@ -3,11 +3,11 @@ AM_CPPFLAGS = \
     -I$(top_srcdir)/src	-I$(top_builddir)/src	\
     $(GNUMERIC_CFLAGS)
 
-gnumeric_plugin_numtheorydir = $(gnumeric_plugindir)/numtheory
-xmldir = $(gnumeric_plugin_numtheorydir)
-gnumeric_plugin_numtheory_LTLIBRARIES = numtheory.la
-numtheory_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
-numtheory_la_SOURCES = numtheory.c
+gnumeric_plugin_derivativesdir = $(gnumeric_plugindir)/fn-derivatives
+xmldir = $(gnumeric_plugin_derivativesdir)
+gnumeric_plugin_derivatives_LTLIBRARIES = plugin.la
+plugin_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
+plugin_la_SOURCES = options.c
 
 xml_in_files = plugin.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
