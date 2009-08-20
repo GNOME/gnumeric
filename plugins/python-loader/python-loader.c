@@ -253,7 +253,7 @@ gplp_func_file_probe (GOFileOpener const *fo, GOPluginService *service,
 static void
 gplp_func_file_open (GOFileOpener const *fo,
 		     GOPluginService *service,
-		     IOContext *io_context,
+		     GOIOContext *io_context,
 		     gpointer wb_view,
 		     GsfInput *input)
 {
@@ -287,7 +287,7 @@ gplp_func_file_open (GOFileOpener const *fo,
 		Py_DECREF (open_result);
 		workbook_sheet_attach (wb_view_get_workbook (wb_view), sheet);
 	} else {
-		gnumeric_io_error_string (io_context, py_exc_to_string ());
+		go_io_error_string (io_context, py_exc_to_string ());
 		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
 		g_object_unref (sheet);
 	}
@@ -363,7 +363,7 @@ gplp_loader_data_saver_free (ServiceLoaderDataFileSaver *loader_data)
 
 static void
 gplp_func_file_save (GOFileSaver const *fs, GOPluginService *service,
-		     IOContext *io_context, gconstpointer wb_view,
+		     GOIOContext *io_context, gconstpointer wb_view,
 		     GsfOutput *output)
 {
 	ServiceLoaderDataFileSaver *saver_data;
@@ -390,7 +390,7 @@ gplp_func_file_save (GOFileSaver const *fs, GOPluginService *service,
 	if (save_result != NULL) {
 		Py_DECREF (save_result);
 	} else {
-		gnumeric_io_error_string (io_context, py_exc_to_string ());
+		go_io_error_string (io_context, py_exc_to_string ());
 		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
 	}
 }

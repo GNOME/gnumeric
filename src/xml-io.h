@@ -18,7 +18,7 @@ struct _XmlParseContext {
 	Sheet	     *sheet;	/* the associated sheet */
 	Workbook     *wb;	/* the associated workbook */
 	WorkbookView *wb_view;
-	IOContext    *io_context;
+	GOIOContext    *io_context;
 
 	GHashTable *style_table;/* old style styles compatibility */
 	GHashTable *expr_map;	/*

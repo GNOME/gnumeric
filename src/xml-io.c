@@ -404,11 +404,11 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 				       texpr,
 				       &err, TRUE, NULL);
 			if (err != NULL) {
-				gnm_io_warning (ctxt->io_context, "%s", err);
+				go_io_warning (ctxt->io_context, "%s", err);
 				g_free (err);
 			}
 		} else
-			gnm_io_warning (ctxt->io_context, "%s", perr.err->message);
+			go_io_warning (ctxt->io_context, "%s", perr.err->message);
 		parse_error_free (&perr);
 
 		xmlFree (name_str);
@@ -1692,7 +1692,7 @@ xml_read_sheet_object (XmlParseContext const *ctxt, xmlNodePtr tree,
 		if (type == 0) {
 			char *str = g_strdup_printf (_("Unsupported object type '%s'"),
 						     tree->name);
-			gnm_io_warning_unsupported_feature (ctxt->io_context, str);
+			go_io_warning_unsupported_feature (ctxt->io_context, str);
 			g_free (str);
 			return NULL;
 		}
@@ -2351,7 +2351,7 @@ xml_read_workbook_n_elements (xmlNodePtr tree)
  * Create a Workbook equivalent to the XML subtree of doc.
  */
 static gboolean
-xml_workbook_read (IOContext *context,
+xml_workbook_read (GOIOContext *context,
 		   XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	Sheet     *sheet;
@@ -2572,17 +2572,17 @@ maybe_convert (GsfInput *input, gboolean quiet)
 
 /**************************************************************************/
 
-static IOContext *io_context = NULL;
+static GOIOContext *io_context = NULL;
 static void
 xml_dom_read_warning (gpointer state, char const *fmt, ...)
 {
 	va_list args;
 	va_start (args, fmt);
-	if (gnumeric_io_warning_occurred (io_context))
-		gnumeric_io_error_push (io_context,
+	if (go_io_warning_occurred (io_context))
+		go_io_error_push (io_context,
 			go_error_info_new_vprintf (GO_ERROR, fmt, args));
 	else
-		gnm_io_warning_varargs (io_context, fmt, args);
+		go_io_warning_varargs (io_context, fmt, args);
 	va_end (args);
 }
 
@@ -2595,10 +2595,10 @@ xml_dom_read_error (gpointer state, char const *fmt, ...)
 	ei = go_error_info_new_vprintf (GO_ERROR, fmt, args);
 	va_end (args);
 
-	if (gnumeric_io_error_occurred (io_context))
-		gnumeric_io_error_push (io_context, ei);
+	if (go_io_error_occurred (io_context))
+		go_io_error_push (io_context, ei);
 	else
-		gnumeric_io_go_error_info_set (io_context, ei);
+		go_io_error_info_set (io_context, ei);
 }
 
 /**************************************************************************/
@@ -2648,7 +2648,7 @@ xml_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
  */
 static void
 gnumeric_xml_read_workbook (GOFileOpener const *fo,
-                            IOContext *context,
+                            GOIOContext *context,
                             gpointer wb_view,
                             GsfInput *input)
 {

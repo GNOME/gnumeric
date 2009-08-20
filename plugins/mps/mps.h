@@ -114,7 +114,7 @@ typedef struct {
  * Input context.
  */
 typedef struct {
-        IOContext *io_context;
+        GOIOContext *io_context;
 
 	GsfInputTextline *input;
         gint   line_no;
@@ -159,7 +159,7 @@ static const int CONSTRAINT_ROW      = 10;
  */
 
 /* Reads the MPS file in and creates a spreadsheet model of it. */
-void     mps_file_open  (GOFileOpener const *fo, IOContext *io_context,
+void     mps_file_open  (GOFileOpener const *fo, GOIOContext *io_context,
 			 WorkbookView *wbv, GsfInput *input);
 
 void     mps_parse_file (MpsInputContext *ctxt);

@@ -83,7 +83,7 @@ applix_write_colormap (ApplixWriteState *state)
 }
 
 void
-applix_write (IOContext *io_context, WorkbookView const *wb_view, GsfOutput *sink)
+applix_write (GOIOContext *io_context, WorkbookView const *wb_view, GsfOutput *sink)
 {
 	ApplixWriteState	state;
 
@@ -99,5 +99,5 @@ applix_write (IOContext *io_context, WorkbookView const *wb_view, GsfOutput *sin
 	d (1, fprintf (stderr, "------------Finish writing"););
 
 	if (state.parse_error != NULL)
-		gnumeric_io_go_error_info_set (io_context, state.parse_error);
+		go_io_error_info_set (io_context, state.parse_error);
 }

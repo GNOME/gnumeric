@@ -55,14 +55,14 @@ main (int argc, char const **argv)
 {
 	GOCmdContext *cc;
 	WorkbookControl *wbc;
-	IOContext *ioc;
+	GOIOContext *ioc;
 
 	argv = gnm_pre_parse_init (argc, argv);
 	gtk_init (&argc, &argv);
 	gnm_init ();
 
 	cc  = cmd_context_stderr_new ();
-	ioc = gnumeric_io_context_new (cc);
+	ioc = go_io_context_new (cc);
 	g_object_unref (cc);
 
 	gnm_plugins_init (GO_CMD_CONTEXT (ioc));

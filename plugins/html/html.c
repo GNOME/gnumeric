@@ -595,7 +595,7 @@ write_sheet (GsfOutput *output, Sheet *sheet,
  * write the html file (version of html according to version argument)
  */
 static void
-html_file_save (GOFileSaver const *fs, IOContext *io_context,
+html_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		WorkbookView const *wb_view, GsfOutput *output, html_version_t version)
 {
 	GSList *sheets, *ptr;
@@ -690,35 +690,35 @@ html_file_save (GOFileSaver const *fs, IOContext *io_context,
 }
 
 void
-html40_file_save (GOFileSaver const *fs, IOContext *io_context,
+html40_file_save (GOFileSaver const *fs, GOIOContext *io_context,
                   WorkbookView const *wb_view, GsfOutput *output)
 {
 	html_file_save (fs, io_context, wb_view, output, HTML40);
 }
 
 void
-html32_file_save (GOFileSaver const *fs, IOContext *io_context,
+html32_file_save (GOFileSaver const *fs, GOIOContext *io_context,
                   WorkbookView const *wb_view, GsfOutput *output)
 {
 	html_file_save (fs, io_context, wb_view, output, HTML32);
 }
 
 void
-html40frag_file_save (GOFileSaver const *fs, IOContext *io_context,
+html40frag_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		      WorkbookView const *wb_view, GsfOutput *output)
 {
 	html_file_save (fs, io_context, wb_view, output, HTML40F);
 }
 
 void
-xhtml_file_save (GOFileSaver const *fs, IOContext *io_context,
+xhtml_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		 WorkbookView const *wb_view, GsfOutput *output)
 {
 	html_file_save (fs, io_context, wb_view, output, XHTML);
 }
 
 void
-xhtml_range_file_save (GOFileSaver const *fs, IOContext *io_context,
+xhtml_range_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		      WorkbookView const *wb_view, GsfOutput *output)
 {
 	/* Identical, but fs->save_scope is different */

@@ -958,13 +958,13 @@ workbook_view_new (Workbook *wb)
  * @wbv : #WorkbookView
  * @fs  : #GOFileSaver
  * @output : #GsfOutput
- * @io_context : #IOContext
+ * @io_context : #GOIOContext
  *
  * NOTE : Temporary api until we get the new output framework.
  **/
 void
 wbv_save_to_output (WorkbookView *wbv, GOFileSaver const *fs,
-		    GsfOutput *output, IOContext *io_context)
+		    GsfOutput *output, GOIOContext *io_context)
 {
 	GError const *err;
 	char const   *msg;
@@ -980,13 +980,13 @@ wbv_save_to_output (WorkbookView *wbv, GOFileSaver const *fs,
 	if (NULL == (msg = err->message))
 		msg = _("An unexplained error happened while saving.");
 	g_printerr ("  ==> %s\n", msg);
-	if (!gnumeric_io_error_occurred (io_context))
+	if (!go_io_error_occurred (io_context))
 		go_cmd_context_error_export (GO_CMD_CONTEXT (io_context), msg);
 }
 
 void
 wb_view_save_to_uri (WorkbookView *wbv, GOFileSaver const *fs,
-		     char const *uri, IOContext *io_context)
+		     char const *uri, GOIOContext *io_context)
 {
 	char   *msg = NULL;
 	GError *err = NULL;
@@ -1028,7 +1028,7 @@ gboolean
 wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 		 GOCmdContext *context)
 {
-	IOContext *io_context;
+	GOIOContext *io_context;
 	Workbook  *wb;
 	gboolean has_error, has_warning;
 
@@ -1039,14 +1039,14 @@ wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 
 	wb = wb_view_get_workbook (wbv);
 	g_object_ref (wb);
-	io_context = gnumeric_io_context_new (context);
+	io_context = go_io_context_new (context);
 
 	go_cmd_context_set_sensitive (context, FALSE);
 	wb_view_save_to_uri (wbv, fs, uri, io_context);
 	go_cmd_context_set_sensitive (context, TRUE);
 
-	has_error   = gnumeric_io_error_occurred (io_context);
-	has_warning = gnumeric_io_warning_occurred (io_context);
+	has_error   = go_io_error_occurred (io_context);
+	has_warning = go_io_warning_occurred (io_context);
 	if (!has_error) {
 		if (workbook_set_saveinfo (wb,
 			go_file_saver_get_format_level (fs), fs) &&
@@ -1054,7 +1054,7 @@ wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 			go_doc_set_dirty (GO_DOC (wb), FALSE);
 	}
 	if (has_error || has_warning)
-		gnumeric_io_error_display (io_context);
+		go_io_error_display (io_context);
 	g_object_unref (G_OBJECT (io_context));
 	g_object_unref (wb);
 
@@ -1075,7 +1075,7 @@ wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 gboolean
 wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 {
-	IOContext	*io_context;
+	GOIOContext	*io_context;
 	Workbook	*wb;
 	GOFileSaver	*fs;
 	gboolean has_error, has_warning;
@@ -1090,7 +1090,7 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 	if (fs == NULL)
 		fs = go_file_saver_get_default ();
 
-	io_context = gnumeric_io_context_new (context);
+	io_context = go_io_context_new (context);
 	if (fs == NULL)
 		go_cmd_context_error_export (GO_CMD_CONTEXT (io_context),
 			_("Default file saver is not available."));
@@ -1099,12 +1099,12 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 		wb_view_save_to_uri (wbv, fs, uri, io_context);
 	}
 
-	has_error   = gnumeric_io_error_occurred (io_context);
-	has_warning = gnumeric_io_warning_occurred (io_context);
+	has_error   = go_io_error_occurred (io_context);
+	has_warning = go_io_warning_occurred (io_context);
 	if (!has_error)
 		go_doc_set_dirty (GO_DOC (wb), FALSE);
 	if (has_error || has_warning)
-		gnumeric_io_error_display (io_context);
+		go_io_error_display (io_context);
 
 	g_object_unref (G_OBJECT (io_context));
 	g_object_unref (wb);
@@ -1115,7 +1115,7 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 WorkbookView *
 wb_view_new_from_input  (GsfInput *input,
 			 GOFileOpener const *optional_fmt,
-			 IOContext *io_context,
+			 GOIOContext *io_context,
 			 char const *optional_enc)
 {
 	WorkbookView *new_wbv = NULL;
@@ -1179,7 +1179,7 @@ wb_view_new_from_input  (GsfInput *input,
 		go_file_opener_open (optional_fmt, optional_enc, io_context, new_wbv, input);
 		workbook_enable_recursive_dirty (new_wb, old);
 
-		if (gnumeric_io_error_occurred (io_context)) {
+		if (go_io_error_occurred (io_context)) {
 			g_object_unref (G_OBJECT (new_wb));
 			new_wbv = NULL;
 		} else if (workbook_sheet_count (new_wb) == 0) {
@@ -1215,7 +1215,7 @@ wb_view_new_from_input  (GsfInput *input,
 WorkbookView *
 wb_view_new_from_uri (char const *uri,
 		      GOFileOpener const *optional_fmt,
-		      IOContext *io_context,
+		      GOIOContext *io_context,
 		      char const *optional_enc)
 {
 	char *msg = NULL;

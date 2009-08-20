@@ -270,7 +270,7 @@ search_string_table (Workbook *wb, char const *file_name, GHashTable *targets)
 }
 
 static void
-ssgrep (const char *arg, char const *uri, IOContext *ioc, GHashTable *targets, char const *pattern)
+ssgrep (const char *arg, char const *uri, GOIOContext *ioc, GHashTable *targets, char const *pattern)
 {
 	WorkbookView *wbv;
 	Workbook *wb;
@@ -414,7 +414,7 @@ main (int argc, char const **argv)
 {
 	GHashTable	*ssgrep_targets;
 	GOErrorInfo	*plugin_errs;
-	IOContext	*ioc;
+	GOIOContext	*ioc;
 	GOCmdContext	*cc;
 	GOptionContext	*ocontext;
 	GError		*error = NULL;
@@ -519,8 +519,8 @@ main (int argc, char const **argv)
 		go_error_info_free (plugin_errs);
 	}
 
-	ioc = gnumeric_io_context_new (cc);
-	gnm_io_context_set_num_files (ioc, N);
+	ioc = go_io_context_new (cc);
+	go_io_context_set_num_files (ioc, N);
 
 	if (ssgrep_print_filenames == (gboolean)2)
 		ssgrep_print_filenames = (N > 1);
@@ -528,7 +528,7 @@ main (int argc, char const **argv)
 	for (; argv[i]; i++) {
 		const char *arg = argv[i];
 		char *uri = go_shell_arg_to_uri (arg);
-		gnm_io_context_processing_file (ioc, uri);
+		go_io_context_processing_file (ioc, uri);
 		ssgrep (arg, uri, ioc, ssgrep_targets, ssgrep_pattern);
 		g_free (uri);
 	}

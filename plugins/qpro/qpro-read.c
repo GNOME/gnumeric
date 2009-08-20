@@ -56,7 +56,7 @@ GNM_PLUGIN_MODULE_HEADER;
 
 gboolean qpro_file_probe (GOFileOpener const *fo, GsfInput *input,
 			  FileProbeLevel pl);
-void     qpro_file_open (GOFileOpener const *fo, IOContext *context,
+void     qpro_file_open (GOFileOpener const *fo, GOIOContext *context,
 			 WorkbookView *new_wb_view, GsfInput *input);
 
 static gboolean
@@ -102,7 +102,7 @@ qpro_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 
 typedef struct {
 	GsfInput	*input;
-	IOContext	*io_context;
+	GOIOContext	*io_context;
 	WorkbookView	*wbv;
 	Workbook	*wb;
 	Sheet		*cur_sheet;
@@ -864,7 +864,7 @@ qpro_read_sheet (QProReadState *state)
 
 				if (low == 100) {
 					if (high < 10 || high > 400)
-						gnm_io_warning (state->io_context,
+						go_io_warning (state->io_context,
 							_("Invalid zoom %hd %%"), high);
 					else
 						g_object_set (sheet, "zoom-factor", high / 100.0, NULL);
@@ -905,7 +905,7 @@ qpro_read_workbook (QProReadState *state, GsfInput *input)
 
 		default :
 			if (id > QPRO_LAST_SANE_ID)
-				gnm_io_warning (state->io_context,
+				go_io_warning (state->io_context,
 					_("Invalid record %d of length %hd"),
 					id, len);
 		};
@@ -915,7 +915,7 @@ qpro_read_workbook (QProReadState *state, GsfInput *input)
 }
 
 void
-qpro_file_open (GOFileOpener const *fo, IOContext *context,
+qpro_file_open (GOFileOpener const *fo, GOIOContext *context,
 		WorkbookView *new_wb_view, GsfInput *input)
 {
 	QProReadState state;
@@ -938,7 +938,7 @@ qpro_file_open (GOFileOpener const *fo, IOContext *context,
 			qpro_read_workbook (&state, stream);
 			g_object_unref (G_OBJECT (stream));
 		} else
-			gnm_io_warning (context,
+			go_io_warning (context,
 				_("Unable to find the PerfectOffice_MAIN stream.  Is this really a Quattro Pro file?"));
 		g_object_unref (G_OBJECT (ole));
 	} else

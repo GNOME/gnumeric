@@ -7,6 +7,6 @@
 #include <gsf/gsf-input.h>
 
 gboolean psiconv_read_header (GsfInput *input);
-void	 psiconv_read (IOContext *io_context, Workbook *wb, GsfInput *input);
+void	 psiconv_read (GOIOContext *io_context, Workbook *wb, GsfInput *input);
 
 #endif /* PLUGIN_PSICONV_PLUGIN_H */

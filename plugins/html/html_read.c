@@ -463,7 +463,7 @@ html_search_for_tables (htmlNodePtr cur, htmlDocPtr doc,
 }
 
 void
-html_file_open (GOFileOpener const *fo, IOContext *io_context,
+html_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 		WorkbookView *wb_view, GsfInput *input)
 {
 	guint8 const *buf;
@@ -545,7 +545,7 @@ html_file_open (GOFileOpener const *fo, IOContext *io_context,
 			html_search_for_tables (ptr, doc, wb_view, &tc);
 		xmlFreeDoc (doc);
 	} else
-		gnumeric_io_go_error_info_set (io_context,
+		go_io_error_info_set (io_context,
 			go_error_info_new_str (_("Unable to parse the html.")));
 }
 

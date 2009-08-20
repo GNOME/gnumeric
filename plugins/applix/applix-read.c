@@ -1632,7 +1632,7 @@ applix_conventions_new (void)
 }
 
 void
-applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
+applix_read (GOIOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 {
 	int i;
 	int res;
@@ -1702,7 +1702,7 @@ applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	g_ptr_array_free (state.font_names, TRUE);
 
 	if (state.parse_error != NULL)
-		gnumeric_io_go_error_info_set (io_context, state.parse_error);
+		go_io_error_info_set (io_context, state.parse_error);
 
 	gnm_conventions_free (state.convs);
 }

@@ -538,32 +538,32 @@ void
 mps_parse_file (MpsInputContext *ctxt)
 {
         if (!mps_parse_name (ctxt)) {
-	        gnumeric_io_go_error_info_set
+	        go_io_error_info_set
 			(ctxt->io_context,
 			 go_error_info_new_printf (_("Problem name was not "
 						  "defined in the file.")));
 	} else if (!mps_parse_rows (ctxt)) {
-	        gnumeric_io_go_error_info_set
+	        go_io_error_info_set
 			(ctxt->io_context,
 			 go_error_info_new_printf (_("Invalid ROWS section in "
 						  "the file.")));
 	} else if (!mps_parse_columns (ctxt)) {
-	        gnumeric_io_go_error_info_set
+	        go_io_error_info_set
 			(ctxt->io_context,
 			 go_error_info_new_printf (_("Invalid COLUMNS section "
 						  "in the file.")));
 	} else if (!mps_parse_rhs (ctxt)) {
-	        gnumeric_io_go_error_info_set
+	        go_io_error_info_set
 			(ctxt->io_context,
 			 go_error_info_new_printf (_("Invalid RHS section in the "
 						  "file.")));
 	} else if (!mps_parse_ranges (ctxt)) {
-	        gnumeric_io_go_error_info_set
+	        go_io_error_info_set
 			(ctxt->io_context,
 			 go_error_info_new_printf (_("Invalid RANGES section in "
 						  "the file.")));
 	} else if (!mps_parse_bounds (ctxt)) {
-	        gnumeric_io_go_error_info_set
+	        go_io_error_info_set
 			(ctxt->io_context,
 			 go_error_info_new_printf (_("Invalid BOUNDS section in "
 						  "the file.")));

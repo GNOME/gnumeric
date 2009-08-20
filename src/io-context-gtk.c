@@ -28,12 +28,12 @@
 #define ICG_POPUP_DELAY 3.0
 
 #define IO_CONTEXT_GTK_CLASS(klass) \
-    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_IO_CONTEXT_GTK, IOContextGtk))
-#define IS_IO_CONTEXT_GTK_CLASS(klass) \
-    (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_IO_CONTEXT_GTK))
+    (G_TYPE_CHECK_CLASS_CAST ((klass), GO_TYPE_IO_CONTEXT_GTK, IOContextGtk))
+#define GO_IS_IO_CONTEXT_GTK_CLASS(klass) \
+    (G_TYPE_CHECK_CLASS_TYPE ((klass), GO_TYPE_IO_CONTEXT_GTK))
 
 struct _IOContextGtk {
-	IOContext parent;
+	GOIOContext parent;
 	GtkWindow *window;
 	GtkWindow *parent_window;
 	GtkProgressBar *file_bar;
@@ -53,7 +53,7 @@ struct _IOContextGtk {
 };
 
 struct _IOContextGtkClass {
-	IOContextClass parent_class;
+	GOIOContextClass parent_class;
 };
 
 enum {
@@ -270,13 +270,13 @@ icg_error_error_info (GOCmdContext *cc, GOErrorInfo *error)
 }
 
 static void
-icg_set_num_files (IOContext *icg, guint files_total)
+icg_set_num_files (GOIOContext *icg, guint files_total)
 {
 	IO_CONTEXT_GTK (icg)->files_total = files_total;
 }
 
 static void
-icg_processing_file (IOContext *ioc, char const *file)
+icg_processing_file (GOIOContext *ioc, char const *file)
 {
 	IOContextGtk *icg = IO_CONTEXT_GTK (ioc);
 
@@ -339,7 +339,7 @@ icg_finalize (GObject *obj)
 		g_timer_destroy (icg->timer);
 	icg->timer = NULL;
 
-	G_OBJECT_CLASS (g_type_class_peek (TYPE_IO_CONTEXT))->finalize (obj);
+	G_OBJECT_CLASS (g_type_class_peek (GO_TYPE_IO_CONTEXT))->finalize (obj);
 }
 
 static void
@@ -372,7 +372,7 @@ icg_gnm_cmd_context_init (GOCmdContextClass *cc_class)
 static void
 icg_class_init (GObjectClass *gobj_klass)
 {
-	IOContextClass *ioc_klass = (IOContextClass *)gobj_klass;
+	GOIOContextClass *ioc_klass = (GOIOContextClass *)gobj_klass;
 
 	gobj_klass->finalize	   = icg_finalize;
 	gobj_klass->set_property   = icg_set_property;
@@ -413,7 +413,7 @@ icg_init (IOContextGtk *icg)
 
 GSF_CLASS_FULL (IOContextGtk, io_context_gtk,
 		NULL, NULL, icg_class_init, NULL,
-		icg_init, TYPE_IO_CONTEXT, 0,
+		icg_init, GO_TYPE_IO_CONTEXT, 0,
 		GSF_INTERFACE (icg_gnm_cmd_context_init, GO_TYPE_CMD_CONTEXT))
 
 void

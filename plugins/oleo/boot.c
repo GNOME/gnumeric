@@ -16,11 +16,11 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
-void oleo_file_open (GOFileOpener const *fo, IOContext *io_context,
+void oleo_file_open (GOFileOpener const *fo, GOIOContext *io_context,
                      WorkbookView *wb_view, GsfInput *input);
 
 void
-oleo_file_open (GOFileOpener const *fo, IOContext *io_context,
+oleo_file_open (GOFileOpener const *fo, GOIOContext *io_context,
                 WorkbookView *wb_view, GsfInput *input)
 {
 	Workbook *wb = wb_view_get_workbook (wb_view);

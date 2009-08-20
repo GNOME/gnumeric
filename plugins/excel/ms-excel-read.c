@@ -2998,7 +2998,7 @@ ms_wb_get_font_markup (MSContainer const *c, unsigned indx)
 }
 
 static GnmXLImporter *
-gnm_xl_importer_new (IOContext *context, WorkbookView *wb_view)
+gnm_xl_importer_new (GOIOContext *context, WorkbookView *wb_view)
 {
 	static MSContainerClass const vtbl = {
 		NULL, NULL,
@@ -3260,7 +3260,7 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 					     TRUE, NULL);
 
 		if (texpr == NULL) {
-			gnm_io_warning (importer->context, _("Failure parsing name '%s'"), name);
+			go_io_warning (importer->context, _("Failure parsing name '%s'"), name);
 			texpr = gnm_expr_top_new_constant (value_new_error_REF (NULL));
 		} else d (2, {
 			char *tmp;
@@ -3295,7 +3295,7 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 			       texpr,
 			       &err, link_to_container, stub);
 	if (nexpr == NULL) {
-		gnm_io_warning (importer->context, "%s", err);
+		go_io_warning (importer->context, "%s", err);
 		g_free (err);
 		return NULL;
 	}
@@ -3378,16 +3378,16 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 					expr_len = el;
 					expr_data = q->data + 9 + namelen;
 				} else
-					gnm_io_warning (container->importer->context,
+					go_io_warning (container->importer->context,
 						_("Incorrect expression for name '%s': content will be lost.\n"),
 						name);
 			}
 		} else if ((flags & 0x10) == 0) /* DDE */
-			gnm_io_warning (container->importer->context,
+			go_io_warning (container->importer->context,
 				_("DDE links are not supported yet.\nName '%s' will be lost.\n"),
 				name ? name : "NULL");
 		else /* OLE */
-			gnm_io_warning (container->importer->context,
+			go_io_warning (container->importer->context,
 				_("OLE links are not supported yet.\nName '%s' will be lost.\n"),
 				name ? name : "NULL");
 
@@ -5802,7 +5802,7 @@ excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container)
 	default:
 		/* Fix when we get placeholders to external workbooks */
 		d (1, gsf_mem_dump (q->data, q->length););
-		gnm_io_warning_unsupported_feature (container->importer->context,
+		go_io_warning_unsupported_feature (container->importer->context,
 			_("external references"));
 	}
 
@@ -6536,7 +6536,7 @@ static void
 excel_read_BOF (BiffQuery	 *q,
 		GnmXLImporter	 *importer,
 		WorkbookView	 *wb_view,
-		IOContext	 *context,
+		GOIOContext	 *context,
 		MsBiffBofData	**version, unsigned *current_sheet)
 {
 	/* The first BOF seems to be OK, the rest lie ? */
@@ -6646,7 +6646,7 @@ excel_read_CODEPAGE (BiffQuery *q, GnmXLImporter *importer)
 }
 
 void
-excel_read_workbook (IOContext *context, WorkbookView *wb_view, GsfInput *input,
+excel_read_workbook (GOIOContext *context, WorkbookView *wb_view, GsfInput *input,
 		     gboolean *is_double_stream_file)
 {
 	GnmXLImporter *importer;

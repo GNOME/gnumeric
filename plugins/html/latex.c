@@ -1175,7 +1175,7 @@ latex2e_print_hhline (GsfOutput *output, GnmStyleBorderType *clines, int n, GnmS
  * to render the format and contents of the cell.
  */
 void
-latex_file_save (GOFileSaver const *fs, IOContext *io_context,
+latex_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		 WorkbookView const *wb_view, GsfOutput *output)
 {
 	GnmCell *cell;
@@ -1445,7 +1445,7 @@ latex2e_table_write_file_header(GsfOutput *output)
  * We try to avoid all formatting.
  */
 void
-latex_table_file_save (GOFileSaver const *fs, IOContext *io_context,
+latex_table_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		 WorkbookView const *wb_view, GsfOutput *output)
 {
 	GnmCell *cell;

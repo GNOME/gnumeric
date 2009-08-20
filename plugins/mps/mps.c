@@ -510,7 +510,7 @@ mps_create_sheet (MpsInputContext *ctxt, WorkbookView *wbv)
 
 /* Make the initializations. */
 static MpsInputContext *
-mps_input_context_new (IOContext *io_context, Workbook *wb, GsfInput *input)
+mps_input_context_new (GOIOContext *io_context, Workbook *wb, GsfInput *input)
 {
         MpsInputContext *ctxt = NULL;
 
@@ -628,7 +628,7 @@ mps_input_context_destroy (MpsInputContext *ctxt)
  */
 
 void
-mps_file_open (GOFileOpener const *fo, IOContext *io_context,
+mps_file_open (GOFileOpener const *fo, GOIOContext *io_context,
                WorkbookView *wbv, GsfInput *input)
 {
         MpsInputContext *ctxt;
@@ -637,13 +637,13 @@ mps_file_open (GOFileOpener const *fo, IOContext *io_context,
 				      input);
 	if (ctxt != NULL) {
 	        mps_parse_file (ctxt);
-		if (gnumeric_io_error_occurred (io_context)) {
-		        gnumeric_io_error_push (io_context, go_error_info_new_str
+		if (go_io_error_occurred (io_context)) {
+		        go_io_error_push (io_context, go_error_info_new_str
 						(_("Error while reading MPS "
 						   "file.")));
 		} else
 			mps_create_sheet (ctxt, wbv);
 		mps_input_context_destroy (ctxt);
-	} else if (!gnumeric_io_error_occurred (io_context))
-		gnumeric_io_error_unknown (io_context);
+	} else if (!go_io_error_occurred (io_context))
+		go_io_error_unknown (io_context);
 }

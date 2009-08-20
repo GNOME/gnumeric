@@ -80,7 +80,7 @@ typedef struct {
 struct _XLSExporter {
 	XLExportBase	base;
 
-	IOContext     *io_context;
+	GOIOContext     *io_context;
 	BiffPut	      *bp;
 
 	GPtrArray     *esheets;
@@ -170,7 +170,7 @@ GHashTable *excel_collect_hlinks       (GnmStyleList *ptr,
 GHashTable *excel_collect_pivot_caches (Workbook const *wb);
 
 void excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GnmStyle **col_styles,
-			 int maxcols, int maxrows, IOContext *io_context);
+			 int maxcols, int maxrows, GOIOContext *io_context);
 
 int excel_font_from_go_font (XLExportBase *ewb, GOFont const *font);
 

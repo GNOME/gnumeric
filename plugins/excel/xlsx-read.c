@@ -106,7 +106,7 @@ typedef struct {
 typedef struct {
 	GsfInfile	*zip;
 
-	IOContext	*context;	/* The IOcontext managing things */
+	GOIOContext	*context;	/* The IOcontext managing things */
 	WorkbookView	*wb_view;	/* View for the new workbook */
 	Workbook	*wb;		/* The new workbook */
 
@@ -241,7 +241,7 @@ xlsx_parse_stream (XLSXReadState *state, GsfInput *in, GsfXMLInNode const *dtd)
 		success = gsf_xml_in_doc_parse (doc, in, state);
 
 		if (!success)
-			gnm_io_warning (state->context,
+			go_io_warning (state->context,
 				_("'%s' is corrupt!"),
 				gsf_input_name (in));
 
@@ -266,7 +266,7 @@ xlsx_parse_rel_by_id (GsfXMLIn *xin, char const *part_id,
 	err = gsf_open_pkg_parse_rel_by_id (xin, part_id, dtd, ns);
 	if (NULL != err) {
 		XLSXReadState *state = (XLSXReadState *)xin->user_state;
-		gnm_io_warning (state->context, "%s", err->message);
+		go_io_warning (state->context, "%s", err->message);
 		g_error_free (err);
 	}
 
@@ -305,7 +305,7 @@ xlsx_warning (GsfXMLIn *xin, char const *fmt, ...)
 		msg = tmp;
 	}
 
-	gnm_io_warning (state->context, "%s", msg);
+	go_io_warning (state->context, "%s", msg);
 	g_printerr ("%s\n", msg);
 	g_free (msg);
 
@@ -5103,11 +5103,11 @@ xlsx_style_array_free (GPtrArray *styles)
 }
 
 G_MODULE_EXPORT void
-xlsx_file_open (GOFileOpener const *fo, IOContext *context,
+xlsx_file_open (GOFileOpener const *fo, GOIOContext *context,
 		WorkbookView *wb_view, GsfInput *input);
 
 void
-xlsx_file_open (GOFileOpener const *fo, IOContext *context,
+xlsx_file_open (GOFileOpener const *fo, GOIOContext *context,
 		WorkbookView *wb_view, GsfInput *input)
 {
 	XLSXReadState	 state;

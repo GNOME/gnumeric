@@ -35,10 +35,10 @@ static void *gn_realloc (pxdoc_t *p, void *mem, size_t len, const char *caller)	
 static void  gn_free	(pxdoc_t *p, void *ptr)					{ g_free ((gpointer) ptr); ptr = NULL; }
 #endif
 
-void paradox_file_open (GOFileOpener const *fo, IOContext *io_context,
+void paradox_file_open (GOFileOpener const *fo, GOIOContext *io_context,
                         WorkbookView *wb_view, GsfInput *input);
 G_MODULE_EXPORT void
-paradox_file_open (GOFileOpener const *fo, IOContext *io_context,
+paradox_file_open (GOFileOpener const *fo, GOIOContext *io_context,
                    WorkbookView *wb_view, GsfInput *input)
 {
 	Workbook  *wb;
@@ -63,7 +63,7 @@ paradox_file_open (GOFileOpener const *fo, IOContext *io_context,
 	pxdoc = PX_new2 (gn_errorhandler, gn_malloc, gn_realloc, gn_free);
 #endif
 	if (PX_open_gsf (pxdoc, input) < 0) {
-		gnumeric_io_go_error_info_set (io_context, go_error_info_new_str_with_details (
+		go_io_error_info_set (io_context, go_error_info_new_str_with_details (
 					    _("Error while opening Paradox file."),
 					    open_error));
 		return;
@@ -113,7 +113,7 @@ paradox_file_open (GOFileOpener const *fo, IOContext *io_context,
 	}
 
 	if ((data = (char *) pxdoc->malloc (pxdoc, pxh->px_recordsize, _("Could not allocate memory for record."))) == NULL) {
-		gnumeric_io_go_error_info_set (io_context, go_error_info_new_str_with_details (
+		go_io_error_info_set (io_context, go_error_info_new_str_with_details (
 					    _("Error while opening Paradox file."),
 					    open_error));
 		return;
@@ -291,10 +291,10 @@ paradox_file_probe (GOFileOpener const *fo, GsfInput *input,
 
 /*****************************************************************************/
 
-void paradox_file_save (GOFileSaver const *fs, IOContext *io_context,
+void paradox_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 			WorkbookView const *wb_view, GsfOutput *output);
 G_MODULE_EXPORT void
-paradox_file_save (GOFileSaver const *fs, IOContext *io_context,
+paradox_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		   WorkbookView const *wb_view, GsfOutput *output)
 {
 	Sheet *sheet;
@@ -308,7 +308,7 @@ paradox_file_save (GOFileSaver const *fs, IOContext *io_context,
 
 	sheet = wb_view_cur_sheet (wb_view);
 	if (sheet == NULL) {
-		gnumeric_io_error_string (io_context, _("Cannot get default sheet."));
+		go_io_error_string (io_context, _("Cannot get default sheet."));
 		return;
 	}
 
@@ -324,7 +324,7 @@ paradox_file_save (GOFileSaver const *fs, IOContext *io_context,
 	 * PX_create_fp(). The memory is freed by PX_delete() including
 	 * the memory for the field name. */
 	if ((pxf = (pxfield_t *) pxdoc->malloc (pxdoc, (r.end.col+1)*sizeof (pxfield_t), _("Allocate memory for field definitions."))) == NULL){
-		gnumeric_io_error_string (io_context, _("Cannot allocate memory for field definitions."));
+		go_io_error_string (io_context, _("Cannot allocate memory for field definitions."));
 		PX_delete (pxdoc);
 		return;
 	}
@@ -332,7 +332,7 @@ paradox_file_save (GOFileSaver const *fs, IOContext *io_context,
 	for (col = r.start.col; col <= r.end.col; col++) {
 		GnmCell *cell = sheet_cell_get (sheet, col, 0);
 		if (gnm_cell_is_empty (cell)) {
-			gnumeric_io_error_string (io_context, _("First line of sheet must contain database specification."));
+			go_io_error_string (io_context, _("First line of sheet must contain database specification."));
 			PX_delete (pxdoc);
 			return;
 		} else {

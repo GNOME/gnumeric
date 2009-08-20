@@ -79,7 +79,7 @@ typedef struct {
 	GHashTable	*shared_string_hash;
 	GPtrArray	*shared_string_array;
 	GnmConventions	*convs;
-	IOContext	*io_context;
+	GOIOContext	*io_context;
 
 	GsfOutfile	*xl_dir;
 	struct {
@@ -1489,10 +1489,10 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 }
 
 G_MODULE_EXPORT void
-xlsx_file_save (GOFileSaver const *fs, IOContext *io_context,
+xlsx_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		gconstpointer wb_view, GsfOutput *output);
 void
-xlsx_file_save (GOFileSaver const *fs, IOContext *io_context,
+xlsx_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		gconstpointer wb_view, GsfOutput *output)
 {
 	XLSXWriteState state;

@@ -86,17 +86,17 @@ gboolean wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs,
 			  char const *file_name, GOCmdContext *cc);
 gboolean wb_view_save	 (WorkbookView *wbv, GOCmdContext *cc);
 void	 wbv_save_to_output (WorkbookView *wbv, GOFileSaver const *fs,
-			     GsfOutput *output, IOContext *io_context);
+			     GsfOutput *output, GOIOContext *io_context);
 void     wb_view_save_to_uri (WorkbookView *wbv, GOFileSaver const *fs,
-			      char const *uri, IOContext *io_context);
+			      char const *uri, GOIOContext *io_context);
 
 WorkbookView *wb_view_new_from_input  (GsfInput *input,
 				       GOFileOpener const *optional_format,
-				       IOContext *io_context,
+				       GOIOContext *io_context,
 				       gchar const *optional_encoding);
 WorkbookView *wb_view_new_from_uri  (char const *uri,
 				     GOFileOpener const *optional_format,
-				     IOContext *io_context,
+				     GOIOContext *io_context,
 				     gchar const *optional_encoding);
 
 #define WORKBOOK_VIEW_FOREACH_CONTROL(wbv, control, code)			\

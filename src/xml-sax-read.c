@@ -270,7 +270,7 @@ xml_sax_attr_range (xmlChar const * const *attrs, GnmRange *res)
 typedef struct {
 	GsfXMLIn base;
 
-	IOContext	*context;	/* The IOcontext managing things */
+	GOIOContext	*context;	/* The IOcontext managing things */
 	WorkbookView	*wb_view;	/* View for the new workbook */
 	Workbook	*wb;		/* The new workbook */
 	GnumericXMLVersion version;
@@ -387,7 +387,7 @@ unknown_attr (GsfXMLIn *xin, xmlChar const * const *attrs)
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	if (state->version == GNM_XML_LATEST)
-		gnm_io_warning (state->context,
+		go_io_warning (state->context,
 			_("Unexpected attribute %s::%s == '%s'."),
 			(NULL != xin->node &&
 			 NULL != xin->node->name) ?
@@ -423,7 +423,7 @@ xml_sax_wb (GsfXMLIn *xin, xmlChar const **attrs)
 			for (i = 0 ; GnumericVersions [i].id != NULL ; ++i )
 				if (attr_eq (attrs[1], GnumericVersions [i].id)) {
 					if (state->version != GNM_XML_UNKNOWN)
-						gnm_io_warning (state->context,
+						go_io_warning (state->context,
 							_("Multiple version specifications.  Assuming %d"),
 							state->version);
 					else {
@@ -698,7 +698,7 @@ xml_sax_sheet_name (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (state->version >= GNM_XML_V7) {
 		sheet = workbook_sheet_by_name (state->wb, content);
 		if (!sheet) {
-			gnumeric_io_error_string (state->context,
+			go_io_error_string (state->context,
 				_("File has inconsistent SheetNameIndex element."));
 			sheet = sheet_new (state->wb, content,
 					   columns, rows);
@@ -1975,7 +1975,7 @@ xml_sax_filter_operator (XMLSaxParseState *state,
 			return;
 		}
 
-	gnm_io_warning (state->context, _("Unknown filter operator \"%s\""), str);
+	go_io_warning (state->context, _("Unknown filter operator \"%s\""), str);
 }
 
 static void
@@ -2015,7 +2015,7 @@ xml_sax_filter_condition (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gnm_xml_attr_int (attrs+i, "Value1", &tmp)) vtype1 = tmp;
 
 	if (NULL == type) {
-		gnm_io_warning (state->context, _("Missing filter type"));
+		go_io_warning (state->context, _("Missing filter type"));
 	} else if (0 == g_ascii_strcasecmp (type, "expr")) {
 		GnmValue *v0 = NULL, *v1 = NULL;
 		if (val0 != NULL && vtype0 != VALUE_EMPTY)
@@ -2037,7 +2037,7 @@ xml_sax_filter_condition (GsfXMLIn *xin, xmlChar const **attrs)
 		cond = gnm_filter_condition_new_bucket (
 			top, items, bucket_count);
 	} else {
-		gnm_io_warning (state->context, _("Unknown filter type \"%s\""), type);
+		go_io_warning (state->context, _("Unknown filter type \"%s\""), type);
 	}
 	if (cond != NULL)
 		gnm_filter_set_condition (state->filter, cond_num, cond, FALSE);
@@ -2057,7 +2057,7 @@ xml_sax_filter_start (GsfXMLIn *xin, xmlChar const **attrs)
 		    range_parse (&r, CXML2C (attrs[i + 1]), gnm_sheet_get_size (state->sheet)))
 			state->filter = gnm_filter_new (state->sheet, &r);
 	if (NULL == state->filter)
-		gnm_io_warning (state->context, _("Invalid filter, missing Area"));
+		go_io_warning (state->context, _("Invalid filter, missing Area"));
 }
 
 static void
@@ -2114,7 +2114,7 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 		if (type == 0) {
 			char *str = g_strdup_printf (_("Unsupported object type '%s'"),
 						     type_name);
-			gnm_io_warning_unsupported_feature (state->context, str);
+			go_io_warning_unsupported_feature (state->context, str);
 			g_free (str);
 			return;
 		}
@@ -2348,7 +2348,7 @@ handle_delayed_names (XMLSaxParseState *state)
 			nexpr->pos.eval = pp.eval;
 			expr_name_set_expr (nexpr, texpr);
 		} else
-			gnm_io_warning (state->context, "%s", perr.err->message);
+			go_io_warning (state->context, "%s", perr.err->message);
 
 		parse_error_free (&perr);
 		g_free (expr_str);
@@ -2671,7 +2671,7 @@ maybe_convert (GsfInput *input, gboolean quiet)
 }
 
 void
-gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
+gnm_xml_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 		   gpointer wb_view, GsfInput *input)
 {
 	XMLSaxParseState state;
@@ -2741,7 +2741,7 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 			 FILE_FL_AUTO,
 			 go_file_saver_for_id ("Gnumeric_XmlIO:sax"));
 	} else {
-		gnumeric_io_error_string (io_context, _("XML document not well formed!"));
+		go_io_error_string (io_context, _("XML document not well formed!"));
 	}
 
 	g_object_unref (input);

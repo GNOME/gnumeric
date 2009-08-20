@@ -114,7 +114,7 @@ static GNM_ACTION_DEF (cb_file_sendto) {
 	WorkbookView *wbv = wb_control_view (wbc);
 	GOCmdContext *gcc = GO_CMD_CONTEXT (wbcg);
 	gboolean problem = FALSE;
-	IOContext *io_context;
+	GOIOContext *io_context;
 	Workbook *wb;
 	GOFileSaver *fs;
 
@@ -124,7 +124,7 @@ static GNM_ACTION_DEF (cb_file_sendto) {
 	if (fs == NULL)
 		fs = go_file_saver_get_default ();
 
-	io_context = gnumeric_io_context_new (gcc);
+	io_context = go_io_context_new (gcc);
 	if (fs != NULL) {
 		char *template, *full_name, *uri;
 		char *basename = g_path_get_basename (go_doc_get_uri (GO_DOC (wb)));
@@ -152,7 +152,7 @@ static GNM_ACTION_DEF (cb_file_sendto) {
 			if (errno != EEXIST) {
 				go_cmd_context_error_export (gcc,
 					_("Failed to create temporary file for sending."));
-				gnumeric_io_error_display (io_context);
+				go_io_error_display (io_context);
 				problem = TRUE;
 				break;
 			}
@@ -170,11 +170,11 @@ static GNM_ACTION_DEF (cb_file_sendto) {
 
 		wb_view_save_to_uri (wbv, fs, uri, io_context);
 
-		if (gnumeric_io_error_occurred (io_context) ||
-		    gnumeric_io_warning_occurred (io_context))
-			gnumeric_io_error_display (io_context);
+		if (go_io_error_occurred (io_context) ||
+		    go_io_warning_occurred (io_context))
+			go_io_error_display (io_context);
 
-		if (gnumeric_io_error_occurred (io_context)) {
+		if (go_io_error_occurred (io_context)) {
 			problem = TRUE;
 		} else {
 			/* mutt does not handle urls with no destination
@@ -190,7 +190,7 @@ static GNM_ACTION_DEF (cb_file_sendto) {
 			if (err != NULL) {
 				go_cmd_context_error (GO_CMD_CONTEXT (io_context), err);
 				g_error_free (err);
-				gnumeric_io_error_display (io_context);
+				go_io_error_display (io_context);
 				problem = TRUE;
 			}
 		}
@@ -209,7 +209,7 @@ static GNM_ACTION_DEF (cb_file_sendto) {
 	} else {
 		go_cmd_context_error_export (GO_CMD_CONTEXT (io_context),
 			_("Default file saver is not available."));
-		gnumeric_io_error_display (io_context);
+		go_io_error_display (io_context);
 		problem = TRUE;
 	}
 

@@ -216,10 +216,10 @@ sylk_conventions_new (void)
 }
 
 G_MODULE_EXPORT void
-sylk_file_save (GOFileSaver const *fs, IOContext *io_context,
+sylk_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		gconstpointer wb_view, GsfOutput *output);
 void
-sylk_file_save (GOFileSaver const *fs, IOContext *io_context,
+sylk_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		gconstpointer wb_view, GsfOutput *output)
 {
 	GnmLocale *locale;
@@ -231,7 +231,7 @@ sylk_file_save (GOFileSaver const *fs, IOContext *io_context,
 	state.convs  = sylk_conventions_new ();
 
 	if (NULL == state.sheet) {
-		gnumeric_io_error_string (io_context, _("Cannot get default sheet."));
+		go_io_error_string (io_context, _("Cannot get default sheet."));
 		return;
 	}
 

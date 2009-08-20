@@ -699,7 +699,7 @@ hf_render_info_destroy (HFRenderInfo *hfi)
 }
 
 static void
-pdf_write_workbook (GOFileSaver const *fs, IOContext *context,
+pdf_write_workbook (GOFileSaver const *fs, GOIOContext *context,
 		    gconstpointer wbv_, GsfOutput *output)
 {
 	WorkbookView const *wbv = wbv_;

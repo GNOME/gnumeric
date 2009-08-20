@@ -26,7 +26,7 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
-void xbase_file_open (GOFileOpener const *fo, IOContext *io_context,
+void xbase_file_open (GOFileOpener const *fo, GOIOContext *io_context,
                       WorkbookView *wb_view, GsfInput *input);
 
 
@@ -144,7 +144,7 @@ create_header (Sheet *sheet, XBfile *file)
 }
 
 void
-xbase_file_open (GOFileOpener const *fo, IOContext *io_context,
+xbase_file_open (GOFileOpener const *fo, GOIOContext *io_context,
                  WorkbookView *wb_view, GsfInput *input)
 {
 	Workbook  *wb;
@@ -156,7 +156,7 @@ xbase_file_open (GOFileOpener const *fo, IOContext *io_context,
 	int pass;
 
 	if ((file = xbase_open (input, &open_error)) == NULL) {
-		gnumeric_io_go_error_info_set (io_context, go_error_info_new_str_with_details (
+		go_io_error_info_set (io_context, go_error_info_new_str_with_details (
 		                            _("Error while opening xbase file."),
 		                            open_error));
 		return;

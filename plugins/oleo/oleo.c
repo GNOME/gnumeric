@@ -250,7 +250,7 @@ oleo_conventions_new (void)
 }
 
 void
-oleo_read (IOContext *io_context, Workbook *wb, GsfInput *input)
+oleo_read (GOIOContext *io_context, Workbook *wb, GsfInput *input)
 {
 	int sheetidx = 0;
 	GnmStyle *style = NULL;

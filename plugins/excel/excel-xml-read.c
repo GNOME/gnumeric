@@ -60,7 +60,7 @@
 
 typedef struct {
 	GnumericXMLVersion version;
-	IOContext	*context;	/* The IOcontext managing things */
+	GOIOContext	*context;	/* The IOcontext managing things */
 	WorkbookView	*wb_view;	/* View for the new workbook */
 	Workbook	*wb;		/* The new workbook */
 	Sheet		*sheet;		/* The current sheet */
@@ -112,7 +112,7 @@ xl_xml_warning (GsfXMLIn *xin, char const *fmt, ...)
 		msg = tmp;
 	}
 
-	gnm_io_warning (state->context, "%s", msg);
+	go_io_warning (state->context, "%s", msg);
 	g_warning ("%s", msg);
 	g_free (msg);
 
@@ -127,7 +127,7 @@ unknown_attr (GsfXMLIn *xin,
 	g_return_if_fail (attrs != NULL);
 
 	if (state->version == GNM_XML_LATEST)
-		gnm_io_warning (state->context,
+		go_io_warning (state->context,
 			_("Unexpected attribute %s::%s == '%s'."),
 			name, attrs[0], attrs[1]);
 }
@@ -1011,7 +1011,7 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "Workbook", GSF_XML_NO_CONTENT,
 };
 
 G_MODULE_EXPORT void
-excel_xml_file_open (GOFileOpener const *fo, IOContext *context,
+excel_xml_file_open (GOFileOpener const *fo, GOIOContext *context,
 		     WorkbookView *wbv, GsfInput *input);
 
 G_MODULE_EXPORT gboolean
@@ -1048,7 +1048,7 @@ excel_xml_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl
 }
 
 void
-excel_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
+excel_xml_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 		     WorkbookView *wb_view, GsfInput *input)
 {
 	GsfXMLInDoc *doc;
@@ -1066,7 +1066,7 @@ excel_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 
 	doc = gsf_xml_in_doc_new (excel_xml_dtd, content_ns);
 	if (!gsf_xml_in_doc_parse (doc, input, &state))
-		gnumeric_io_error_string (io_context, _("XML document not well formed!"));
+		go_io_error_string (io_context, _("XML document not well formed!"));
 	gsf_xml_in_doc_free (doc);
 
 	g_hash_table_destroy (state.style_hash);

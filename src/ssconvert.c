@@ -237,7 +237,7 @@ list_them (get_them_f get_them,
  */
 static GSList *
 read_files_to_merge (const char *inputs[], GOFileOpener *fo,
-		     IOContext *io_context, GOCmdContext *cc)
+		     GOIOContext *io_context, GOCmdContext *cc)
 {
 	GSList *wbs = NULL;
 
@@ -250,7 +250,7 @@ read_files_to_merge (const char *inputs[], GOFileOpener *fo,
 		g_free (uri);
 		inputs++;
 
-		if (gnumeric_io_error_occurred (io_context)) {
+		if (go_io_error_occurred (io_context)) {
 			go_slist_free_custom (wbs, g_object_unref);
 			return NULL;
 		}
@@ -381,15 +381,15 @@ merge_single (Workbook *wb, Workbook *wb2,
 /* Merge a collection of workbooks into one. */
 static gboolean
 merge (Workbook *wb, char const *inputs[],
-       GOFileOpener *fo, IOContext *io_context, GOCmdContext *cc)
+       GOFileOpener *fo, GOIOContext *io_context, GOCmdContext *cc)
 {
 	GSList *wbs, *l;
 	int result = 0;
 	int cmax, rmax;
 
 	wbs = read_files_to_merge (inputs, fo, io_context, cc);
-	if (gnumeric_io_error_occurred (io_context)) {
-		gnumeric_io_error_display (io_context);
+	if (go_io_error_occurred (io_context)) {
+		go_io_error_display (io_context);
 		return TRUE;
 	}
 
@@ -472,7 +472,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	}
 
 	if (fs != NULL) {
-		IOContext *io_context = gnumeric_io_context_new (cc);
+		GOIOContext *io_context = go_io_context_new (cc);
 		WorkbookView *wbv;
 		if (mergeargs==NULL) {
 			wbv = wb_view_new_from_uri (infile, fo,
@@ -482,8 +482,8 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 			wbv = workbook_view_new (NULL);
 		}
 
-		if (wbv == NULL || gnumeric_io_error_occurred (io_context)) {
-			gnumeric_io_error_display (io_context);
+		if (wbv == NULL || go_io_error_occurred (io_context)) {
+			go_io_error_display (io_context);
 			res = 1;
 		} else {
 			Workbook *wb = wb_view_get_workbook (wbv);

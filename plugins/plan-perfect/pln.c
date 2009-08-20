@@ -32,7 +32,7 @@ GNM_PLUGIN_MODULE_HEADER;
 
 gboolean pln_file_probe (GOFileOpener const *fo, GsfInput *input,
 			 FileProbeLevel pl);
-void     pln_file_open (GOFileOpener const *fo, IOContext *io_context,
+void     pln_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 			WorkbookView *wb_view, GsfInput *input);
 
 static char const *formula1[] = {
@@ -653,7 +653,7 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 }
 
 void
-pln_file_open (GOFileOpener const *fo, IOContext *io_context,
+pln_file_open (GOFileOpener const *fo, GOIOContext *io_context,
                WorkbookView *wb_view, GsfInput *input)
 {
 	Workbook *wb;
@@ -677,6 +677,6 @@ pln_file_open (GOFileOpener const *fo, IOContext *io_context,
 	g_hash_table_destroy (state.styles);
 	if (error != NULL) {
 		workbook_sheet_delete (sheet);
-		gnumeric_io_go_error_info_set (io_context, error);
+		go_io_error_info_set (io_context, error);
 	}
 }

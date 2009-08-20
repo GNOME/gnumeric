@@ -173,7 +173,7 @@ stf_store_results (DialogStfResult_t *dialogresult,
  **/
 static void
 stf_read_workbook (GOFileOpener const *fo,  gchar const *enc,
-		   IOContext *context, gpointer wbv, GsfInput *input)
+		   GOIOContext *context, gpointer wbv, GsfInput *input)
 {
 	DialogStfResult_t *dialogresult = NULL;
 	char *name, *nameutf8 = NULL;
@@ -338,7 +338,7 @@ stf_text_to_columns (WorkbookControl *wbc, GOCmdContext *cc)
  **/
 static void
 stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
-			       IOContext *context,
+			       GOIOContext *context,
 			       gpointer wbv, GsfInput *input)
 {
 	Sheet *sheet, *old_sheet;
@@ -443,7 +443,7 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 /***********************************************************************************/
 
 static void
-stf_write_csv (GOFileSaver const *fs, IOContext *context,
+stf_write_csv (GOFileSaver const *fs, GOIOContext *context,
 	       gconstpointer wbv, GsfOutput *output)
 {
 	Sheet *sheet;

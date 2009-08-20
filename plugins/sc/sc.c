@@ -36,7 +36,7 @@ GNM_PLUGIN_MODULE_HEADER;
 
 gboolean sc_file_probe (GOFileOpener const *fo, GsfInput *input,
 			FileProbeLevel pl);
-void sc_file_open (GOFileOpener const *fo, IOContext *io_context,
+void sc_file_open (GOFileOpener const *fo, GOIOContext *io_context,
                    WorkbookView *wb_view, GsfInput *input);
 
 typedef struct {
@@ -595,7 +595,7 @@ sc_conventions (void)
 
 
 void
-sc_file_open (GOFileOpener const *fo, IOContext *io_context,
+sc_file_open (GOFileOpener const *fo, GOIOContext *io_context,
               WorkbookView *wb_view, GsfInput *input)
 {
 	Workbook  *wb;
@@ -617,7 +617,7 @@ sc_file_open (GOFileOpener const *fo, IOContext *io_context,
 	error = sc_parse_sheet (&state);
 	if (error != NULL) {
 		workbook_sheet_delete (state.sheet);
-		gnumeric_io_go_error_info_set (io_context, error);
+		go_io_error_info_set (io_context, error);
 	}
 	g_object_unref (G_OBJECT (state.textline));
 	g_iconv_close (state.converter);

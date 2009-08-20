@@ -33,13 +33,13 @@ GNM_PLUGIN_MODULE_HEADER;
 
 #define N_INPUT_LINES_BETWEEN_UPDATES   50
 
-void dif_file_open (GOFileOpener const *fo, IOContext *io_context,
+void dif_file_open (GOFileOpener const *fo, GOIOContext *io_context,
                     WorkbookView *wbv, GsfInput *input);
-void dif_file_save (GOFileSaver const *fs, IOContext *io_context,
+void dif_file_save (GOFileSaver const *fs, GOIOContext *io_context,
                     WorkbookView const *wbv, GsfOutput *out);
 
 typedef struct {
-	IOContext *io_context;
+	GOIOContext *io_context;
 
 	GsfInputTextline *input;
 	gint   line_no;
@@ -53,7 +53,7 @@ typedef struct {
 
 
 static DifInputContext *
-dif_input_context_new (IOContext *io_context, Workbook *wb, GsfInput *input)
+dif_input_context_new (GOIOContext *io_context, Workbook *wb, GsfInput *input)
 {
 	DifInputContext *ctxt = NULL;
 
@@ -170,7 +170,7 @@ dif_parse_data (DifInputContext *ctxt)
 		if (val_type == 0) {
 			gchar const *comma = strchr (ctxt->line, ',');
 			if (comma == NULL)
-				gnm_io_warning (ctxt->io_context,
+				go_io_warning (ctxt->io_context,
 						_("Syntax error at line %d. Ignoring."),
 						ctxt->line_no);
 			else if (col > gnm_sheet_get_max_cols (ctxt->sheet)) {
@@ -192,7 +192,7 @@ dif_parse_data (DifInputContext *ctxt)
 				} else if (0 == strcmp (ctxt->line, "FALSE")) {	/* FALSE   bool F	 res must be O */
 					v = value_new_bool (TRUE);
 				} else if (0 == strcmp (ctxt->line, "ERROR")) {	/* ERROR   err		 res must be O */
-					gnm_io_warning (ctxt->io_context,
+					go_io_warning (ctxt->io_context,
 							_("Unknown value type '%s' at line %d. Ignoring."),
 							ctxt->line, ctxt->line_no);
 				}
@@ -265,11 +265,11 @@ dif_parse_sheet (DifInputContext *ctxt)
 	GnmLocale *locale = gnm_push_C_locale ();
 
 	if (!dif_parse_header (ctxt)) {
-		gnumeric_io_go_error_info_set (ctxt->io_context, go_error_info_new_printf (
+		go_io_error_info_set (ctxt->io_context, go_error_info_new_printf (
 		_("Unexpected end of file at line %d while reading header."),
 		ctxt->line_no));
 	} else if (!dif_parse_data(ctxt)) {
-		gnumeric_io_go_error_info_set (ctxt->io_context, go_error_info_new_printf (
+		go_io_error_info_set (ctxt->io_context, go_error_info_new_printf (
 		_("Unexpected end of file at line %d while reading data."),
 		ctxt->line_no));
 	}
@@ -278,7 +278,7 @@ dif_parse_sheet (DifInputContext *ctxt)
 }
 
 void
-dif_file_open (GOFileOpener const *fo, IOContext *io_context,
+dif_file_open (GOFileOpener const *fo, GOIOContext *io_context,
                WorkbookView *wbv, GsfInput *input)
 {
 	Workbook *wb = wb_view_get_workbook (wbv);
@@ -288,19 +288,19 @@ dif_file_open (GOFileOpener const *fo, IOContext *io_context,
 		go_file_saver_for_id ("Gnumeric_dif:dif"));
 	if (ctxt != NULL) {
 		dif_parse_sheet (ctxt);
-		if (gnumeric_io_error_occurred (io_context))
-			gnumeric_io_error_push (io_context,
+		if (go_io_error_occurred (io_context))
+			go_io_error_push (io_context,
 				go_error_info_new_str (_("Error while reading DIF file.")));
 		dif_input_context_destroy (ctxt);
-	} else if (!gnumeric_io_error_occurred (io_context))
-		gnumeric_io_error_unknown (io_context);
+	} else if (!go_io_error_occurred (io_context))
+		go_io_error_unknown (io_context);
 }
 
 /*
  * Write _current_ sheet of the workbook to a DIF format file
  */
 void
-dif_file_save (GOFileSaver const *fs, IOContext *io_context,
+dif_file_save (GOFileSaver const *fs, GOIOContext *io_context,
                WorkbookView const *wbv, GsfOutput *out)
 {
 	GnmLocale *locale;
@@ -311,7 +311,7 @@ dif_file_save (GOFileSaver const *fs, IOContext *io_context,
 
 	sheet = wb_view_cur_sheet (wbv);
 	if (sheet == NULL) {
-		gnumeric_io_error_string (io_context, _("Cannot get default sheet."));
+		go_io_error_string (io_context, _("Cannot get default sheet."));
 		return;
 	}
 
@@ -363,5 +363,5 @@ dif_file_save (GOFileSaver const *fs, IOContext *io_context,
 	gnm_pop_C_locale (locale);
 
 	if (!ok)
-		gnumeric_io_error_string (io_context, _("Error while saving DIF file."));
+		go_io_error_string (io_context, _("Error while saving DIF file."));
 }

@@ -262,7 +262,7 @@ table_cellregion_read (WorkbookControl *wbc, char const *reader_id,
 	GSList *sheets;
 	GnmCellRegion *ret = NULL;
 	const GOFileOpener *reader = go_file_opener_for_id (reader_id);
-	IOContext *ioc;
+	GOIOContext *ioc;
 	GsfInput *input;
 
 	if (!reader) {
@@ -270,11 +270,11 @@ table_cellregion_read (WorkbookControl *wbc, char const *reader_id,
 		return NULL;
 	}
 
-	ioc = gnumeric_io_context_new (GO_CMD_CONTEXT (wbc));
+	ioc = go_io_context_new (GO_CMD_CONTEXT (wbc));
 	input = gsf_input_memory_new (buffer, length, FALSE);
 	wb_view = wb_view_new_from_input  (input, reader, ioc, NULL);
-	if (gnumeric_io_error_occurred (ioc) || wb_view == NULL) {
-		gnumeric_io_error_display (ioc);
+	if (go_io_error_occurred (ioc) || wb_view == NULL) {
+		go_io_error_display (ioc);
 		goto out;
 	}
 
@@ -522,7 +522,7 @@ table_cellregion_write (GOCmdContext *ctx, GnmCellRegion *cr,
 	guchar *ret = NULL;
 	const GOFileSaver *saver = go_file_saver_for_id (saver_id);
 	GsfOutput *output;
-	IOContext *ioc;
+	GOIOContext *ioc;
 	Workbook *wb;
 	WorkbookView *wb_view;
 	Sheet *sheet;
@@ -534,7 +534,7 @@ table_cellregion_write (GOCmdContext *ctx, GnmCellRegion *cr,
 		return NULL;
 
 	output = gsf_output_memory_new ();
-	ioc = gnumeric_io_context_new (ctx);
+	ioc = go_io_context_new (ctx);
 
 	{
 		int cols = cr->cols;
@@ -556,7 +556,7 @@ table_cellregion_write (GOCmdContext *ctx, GnmCellRegion *cr,
 			   PASTE_COMMENTS | PASTE_OBJECTS);
 	if (clipboard_paste_region (cr, &pt, ctx) == FALSE) {
 		go_file_saver_save (saver, ioc, wb_view, output);
-		if (!gnumeric_io_error_occurred (ioc)) {
+		if (!go_io_error_occurred (ioc)) {
 			GsfOutputMemory *omem = GSF_OUTPUT_MEMORY (output);
 			gsf_off_t osize = gsf_output_size (output);
 

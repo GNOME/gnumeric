@@ -8,10 +8,10 @@
 
 G_BEGIN_DECLS
 
-void	gnm_xml_file_open	(GOFileOpener const *fo, IOContext *io_context,
+void	gnm_xml_file_open	(GOFileOpener const *fo, GOIOContext *io_context,
 				 gpointer wb_view, GsfInput *input);
 
-void	gnm_xml_file_save	(GOFileSaver const *fs, IOContext *io_context,
+void	gnm_xml_file_save	(GOFileSaver const *fs, GOIOContext *io_context,
 				 gconstpointer wb_view, GsfOutput *output);
 GsfOutputMemory *
 	gnm_cellregion_to_xml	(GnmCellRegion const *cr);

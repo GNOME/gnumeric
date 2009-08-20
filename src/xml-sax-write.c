@@ -1267,7 +1267,7 @@ gnm_xml_io_conventions (void)
 }
 
 void
-gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
+gnm_xml_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		   gconstpointer wb_view, GsfOutput *output)
 {
 	GnmOutputXML state;

@@ -66,10 +66,10 @@ gint ms_excel_write_debug = 0;
 gint ms_excel_object_debug = 0;
 
 gboolean excel_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
-void excel_file_open (GOFileOpener const *fo, IOContext *context, WorkbookView *wbv, GsfInput *input);
-void excel_biff7_file_save (GOFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
-void excel_biff8_file_save (GOFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
-void excel_dsf_file_save   (GOFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
+void excel_file_open (GOFileOpener const *fo, GOIOContext *context, WorkbookView *wbv, GsfInput *input);
+void excel_biff7_file_save (GOFileSaver const *fs, GOIOContext *context, WorkbookView const *wbv, GsfOutput *output);
+void excel_biff8_file_save (GOFileSaver const *fs, GOIOContext *context, WorkbookView const *wbv, GsfOutput *output);
+void excel_dsf_file_save   (GOFileSaver const *fs, GOIOContext *context, WorkbookView const *wbv, GsfOutput *output);
 
 static GsfInput *
 find_content_stream (GsfInfile *ole, gboolean *is_97)
@@ -122,14 +122,14 @@ excel_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 
 static void
 excel_read_metadata (GsfDocMetaData *meta_data, GsfInfile *ole, char const *name,
-		     IOContext *context)
+		     GOIOContext *context)
 {
 	GsfInput *stream = gsf_infile_child_by_name (ole, name);
 
 	if (stream != NULL) {
 		GError *err = gsf_msole_metadata_read (stream, meta_data);
 		if (err != NULL) {
-			gnm_io_warning (context, "%s", err->message);
+			go_io_warning (context, "%s", err->message);
 			g_error_free (err);
 		}
 
@@ -147,7 +147,7 @@ cb_dump_vba (char const *name, guint8 const *src_code)
 
 /* Service entry point */
 void
-excel_file_open (GOFileOpener const *fo, IOContext *context,
+excel_file_open (GOFileOpener const *fo, GOIOContext *context,
                  WorkbookView *wbv, GsfInput *input)
 {
 	GsfInput  *stream = NULL;
@@ -241,7 +241,7 @@ excel_file_open (GOFileOpener const *fo, IOContext *context,
 }
 
 static void
-excel_save (IOContext *context, WorkbookView const *wbv, GsfOutput *output,
+excel_save (GOIOContext *context, WorkbookView const *wbv, GsfOutput *output,
 	    gboolean biff7, gboolean biff8)
 {
 	Workbook *wb;
@@ -300,20 +300,20 @@ excel_save (IOContext *context, WorkbookView const *wbv, GsfOutput *output,
 }
 
 void
-excel_dsf_file_save (GOFileSaver const *fs, IOContext *context,
+excel_dsf_file_save (GOFileSaver const *fs, GOIOContext *context,
 		       WorkbookView const *wbv, GsfOutput *output)
 {
 	excel_save (context, wbv, output, TRUE, TRUE);
 }
 void
-excel_biff8_file_save (GOFileSaver const *fs, IOContext *context,
+excel_biff8_file_save (GOFileSaver const *fs, GOIOContext *context,
 		       WorkbookView const *wbv, GsfOutput *output)
 {
 	excel_save (context, wbv, output, FALSE, TRUE);
 }
 
 void
-excel_biff7_file_save (GOFileSaver const *fs, IOContext *context,
+excel_biff7_file_save (GOFileSaver const *fs, GOIOContext *context,
 		       WorkbookView const *wbv, GsfOutput *output)
 {
 	excel_save (context, wbv, output, TRUE, FALSE);

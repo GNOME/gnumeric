@@ -300,7 +300,7 @@ main (int argc, char const **argv)
 {
 	gboolean opened_workbook = FALSE;
 	gboolean with_gui;
-	IOContext *ioc;
+	GOIOContext *ioc;
 	WorkbookView *wbv;
 	GSList *wbcgs_to_kill = NULL;
 
@@ -352,8 +352,8 @@ main (int argc, char const **argv)
 	gnm_init ();
 
 	if (with_gui) {
-		ioc = IO_CONTEXT
-			(g_object_new (TYPE_IO_CONTEXT_GTK,
+		ioc = GO_IO_CONTEXT
+			(g_object_new (GO_TYPE_IO_CONTEXT_GTK,
 				       "show-splash", !gnumeric_no_splash,
 				       "show-warnings", !gnumeric_no_warnings,
 				       NULL));
@@ -362,7 +362,7 @@ main (int argc, char const **argv)
 	} else {
 		/* TODO: Make this inconsistency go away */
 		GOCmdContext *cc = cmd_context_stderr_new ();
-		ioc = gnumeric_io_context_new (cc);
+		ioc = go_io_context_new (cc);
 		g_object_unref (cc);
 	}
 
@@ -390,7 +390,7 @@ main (int argc, char const **argv)
 		for (i = 0; startup_files [i]; i++)
 			;
 
-		gnm_io_context_set_num_files (ioc, i);
+		go_io_context_set_num_files (ioc, i);
 		for (i = 0;
 		     startup_files [i] && !initial_workbook_open_complete;
 		     i++) {
@@ -401,14 +401,14 @@ main (int argc, char const **argv)
 				continue;
 			}
 
-			gnm_io_context_processing_file (ioc, uri);
+			go_io_context_processing_file (ioc, uri);
 			wbv = wb_view_new_from_uri (uri, NULL, ioc, NULL);
 			g_free (uri);
 
-			if (gnumeric_io_error_occurred (ioc) ||
-			    gnumeric_io_warning_occurred (ioc)) {
-				gnumeric_io_error_display (ioc);
-				gnumeric_io_error_clear (ioc);
+			if (go_io_error_occurred (ioc) ||
+			    go_io_warning_occurred (ioc)) {
+				go_io_error_display (ioc);
+				go_io_error_clear (ioc);
 			}
 			if (wbv != NULL) {
 				WBCGtk *wbcg;

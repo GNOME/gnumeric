@@ -100,7 +100,7 @@ typedef struct {
 
 struct _GnmXLImporter {
 	MSContainer	  container;
-	IOContext	 *context;
+	GOIOContext	 *context;
 	WorkbookView	 *wbv;
 	Workbook         *wb;
 	MsBiffVersion	  ver;

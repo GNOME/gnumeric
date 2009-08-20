@@ -583,7 +583,7 @@ gnm_stf_get_stfe (GObject *obj)
 }
 
 static void
-gnm_stf_file_saver_save (GOFileSaver const *fs, IOContext *context,
+gnm_stf_file_saver_save (GOFileSaver const *fs, GOIOContext *context,
 			 gconstpointer wbv, GsfOutput *output)
 {
 	Workbook *wb = wb_view_get_workbook (wbv);
@@ -596,7 +596,7 @@ gnm_stf_file_saver_save (GOFileSaver const *fs, IOContext *context,
 		gboolean cancelled =
 			stf_export_dialog (WBC_GTK (context->impl), stfe, wb);
 		if (cancelled) {
-			gnumeric_io_error_unknown (context);
+			go_io_error_unknown (context);
 			return;
 		}
 	}

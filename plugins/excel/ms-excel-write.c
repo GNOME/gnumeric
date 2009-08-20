@@ -203,7 +203,7 @@ map_color_to_palette (XLExportBase const *xle,
 
 void
 excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GnmStyle **col_styles,
-		    int maxcols, int maxrows, IOContext *io_context)
+		    int maxcols, int maxrows, GOIOContext *io_context)
 {
 	int i;
 
@@ -211,7 +211,7 @@ excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GnmStyle **col_styles,
 	*extent = sheet_get_extent (sheet, FALSE);
 
 	if (extent->end.col >= maxcols) {
-		gnm_io_warning (io_context,
+		go_io_warning (io_context,
 			ngettext("Some content will be lost when saving.  "
 				 "This format only supports %u column, and "
 				 "this workbook has %d",
@@ -223,7 +223,7 @@ excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GnmStyle **col_styles,
 		extent->end.col = maxcols - 1;
 	}
 	if (extent->end.row >= maxrows) {
-		gnm_io_warning (io_context,
+		go_io_warning (io_context,
 			ngettext("Some content will be lost when saving.  "
 				 "This format only supports %u row, and "
 				 "this workbook has %d",
@@ -5862,7 +5862,7 @@ free_excel_func (ExcelFunc *efunc)
 }
 
 ExcelWriteState *
-excel_write_state_new (IOContext *context, WorkbookView const *wb_view,
+excel_write_state_new (GOIOContext *context, WorkbookView const *wb_view,
 		       gboolean biff7, gboolean biff8)
 {
 	ExcelWriteState *ewb = g_new (ExcelWriteState, 1);

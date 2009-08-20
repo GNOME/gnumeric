@@ -88,7 +88,7 @@ go_gnm_component_get_data (GOComponent *component, gpointer *data, int *length,
 	GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
 	if (gognm->edited) {
 		GOCmdContext *cc = go_component_get_command_context ();
-		IOContext *io_context = gnumeric_io_context_new (cc);
+		GOIOContext *io_context = go_io_context_new (cc);
 		GsfOutput *output = gsf_output_memory_new ();
 		WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (gognm->edited));
 		Workbook *wb = wb_view_get_workbook (wbv);
@@ -112,7 +112,7 @@ go_gnm_component_set_data (GOComponent *component)
 	SheetView *sv;
 	GnmRange const *range;
 	GOCmdContext *cc = go_component_get_command_context ();
-	IOContext *io_context = gnumeric_io_context_new (cc);
+	GOIOContext *io_context = go_io_context_new (cc);
 	GsfInput *input = gsf_input_memory_new (component->data, component->length, FALSE);
 
 	g_object_set (G_OBJECT (io_context), "exec-main-loop", FALSE, NULL);
@@ -190,7 +190,7 @@ go_gnm_component_edit (GOComponent *component)
 		wv = workbook_view_new (workbook_new_with_sheets (1));
 	} else {
 		GOCmdContext *cc = go_component_get_command_context ();
-		IOContext *io_context = gnumeric_io_context_new (cc);
+		GOIOContext *io_context = go_io_context_new (cc);
 		GsfInput *input = gsf_input_memory_new (component->data, component->length, FALSE);
 
 		g_object_set (G_OBJECT (io_context), "exec-main-loop", FALSE, NULL);

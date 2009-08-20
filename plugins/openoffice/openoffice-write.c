@@ -97,7 +97,7 @@
 typedef struct {
 	GsfXMLOut *xml;
 	GsfOutfile *outfile;
-	IOContext *ioc;
+	GOIOContext *ioc;
 	WorkbookView const *wbv;
 	Workbook const	   *wb;
 	Sheet const	   *sheet;
@@ -3784,7 +3784,7 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 /**********************************************************************************/
 
 static void
-openoffice_file_save_real (GOFileSaver const *fs, IOContext *ioc,
+openoffice_file_save_real (GOFileSaver const *fs, GOIOContext *ioc,
 			   WorkbookView const *wbv, GsfOutput *output, gboolean with_extension)
 {
 	static struct {
@@ -3887,22 +3887,22 @@ openoffice_file_save_real (GOFileSaver const *fs, IOContext *ioc,
 
 
 void
-openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
+openoffice_file_save (GOFileSaver const *fs, GOIOContext *ioc,
 		      WorkbookView const *wbv, GsfOutput *output);
 
 G_MODULE_EXPORT void
-openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
+openoffice_file_save (GOFileSaver const *fs, GOIOContext *ioc,
 		      WorkbookView const *wbv, GsfOutput *output)
 {
 	openoffice_file_save_real (fs, ioc, wbv, output, FALSE);
 }
 
 void
-odf_file_save (GOFileSaver const *fs, IOContext *ioc,
+odf_file_save (GOFileSaver const *fs, GOIOContext *ioc,
 		      WorkbookView const *wbv, GsfOutput *output);
 
 G_MODULE_EXPORT void
-odf_file_save (GOFileSaver const *fs, IOContext *ioc,
+odf_file_save (GOFileSaver const *fs, GOIOContext *ioc,
 		      WorkbookView const *wbv, GsfOutput *output)
 {
 	openoffice_file_save_real (fs, ioc, wbv, output, TRUE);

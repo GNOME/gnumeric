@@ -73,7 +73,7 @@ static GOptionEntry const ssindex_options [] = {
 
 
 typedef struct {
-	IOContext	   *context;
+	GOIOContext	   *context;
 	WorkbookView const *wb_view;
 	Workbook const	   *wb;
 	Sheet		   *sheet;
@@ -161,7 +161,7 @@ cb_index_name (const char *name, GnmExprName const *nexpr, IndexerState *state)
  * - plugins used
  **/
 static int
-ssindex (char const *file, IOContext *ioc)
+ssindex (char const *file, GOIOContext *ioc)
 {
 	int i, res = 0;
 	GParamSpec *pspec;
@@ -279,14 +279,14 @@ main (int argc, char const **argv)
 	}
 
 	if (ssindex_run_indexer) {
-		IOContext *ioc = gnumeric_io_context_new (cc);
+		GOIOContext *ioc = go_io_context_new (cc);
 		int i;
 
-		gnm_io_context_set_num_files (ioc, argc - 1);
+		go_io_context_set_num_files (ioc, argc - 1);
 
 		for (i = 1; i < argc; i++) {
 			char const *file = argv[i];
-			gnm_io_context_processing_file (ioc, file);
+			go_io_context_processing_file (ioc, file);
 			res |= ssindex (file, ioc);
 		}
 		g_object_unref (ioc);

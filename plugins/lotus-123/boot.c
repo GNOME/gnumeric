@@ -25,7 +25,7 @@ GNM_PLUGIN_MODULE_HEADER;
 
 gboolean lotus_file_probe (GOFileOpener const *fo, GsfInput *input,
                            FileProbeLevel pl);
-void     lotus_file_open (GOFileOpener const *fo, IOContext *io_context,
+void     lotus_file_open (GOFileOpener const *fo, GOIOContext *io_context,
                           WorkbookView *wb_view, GsfInput *input);
 
 
@@ -66,7 +66,7 @@ lotus_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 }
 
 void
-lotus_file_open (GOFileOpener const *fo, IOContext *io_context,
+lotus_file_open (GOFileOpener const *fo, GOIOContext *io_context,
                  WorkbookView *wb_view, GsfInput *input)
 {
 	LotusState state;
@@ -79,7 +79,7 @@ lotus_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.sheet_area_error = FALSE;
 
 	if (!lotus_read (&state))
-		gnumeric_io_error_string (io_context,
+		go_io_error_string (io_context,
 			_("Error while reading lotus workbook."));
 }
 

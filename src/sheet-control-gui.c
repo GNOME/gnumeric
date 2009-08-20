@@ -3290,7 +3290,7 @@ scg_drag_receive_img_uri (SheetControlGUI *scg, double x, double y, const gchar 
 {
 	GError *err = NULL;
 	GsfInput *input = go_file_open (uri, &err);
-	IOContext *ioc = gnumeric_io_context_new (GO_CMD_CONTEXT (scg->wbcg));
+	GOIOContext *ioc = go_io_context_new (GO_CMD_CONTEXT (scg->wbcg));
 
 	if (input != NULL) {
 		unsigned len = gsf_input_size (input);
@@ -3301,10 +3301,10 @@ scg_drag_receive_img_uri (SheetControlGUI *scg, double x, double y, const gchar 
 	} else
 		go_cmd_context_error (GO_CMD_CONTEXT (ioc), err);
 
-	if (gnumeric_io_error_occurred (ioc) ||
-	    gnumeric_io_warning_occurred (ioc)) {
-		gnumeric_io_error_display (ioc);
-		gnumeric_io_error_clear (ioc);
+	if (go_io_error_occurred (ioc) ||
+	    go_io_warning_occurred (ioc)) {
+		go_io_error_display (ioc);
+		go_io_error_clear (ioc);
 	}
 	g_object_unref (ioc);
 }
@@ -3314,7 +3314,7 @@ scg_drag_receive_spreadsheet (SheetControlGUI *scg, const gchar *uri)
 {
 	GError *err = NULL;
 	GsfInput *input = go_file_open (uri, &err);
-	IOContext *ioc = gnumeric_io_context_new (GO_CMD_CONTEXT (scg->wbcg));
+	GOIOContext *ioc = go_io_context_new (GO_CMD_CONTEXT (scg->wbcg));
 
 	if (input != NULL) {
 		WorkbookView *wbv;
@@ -3327,10 +3327,10 @@ scg_drag_receive_spreadsheet (SheetControlGUI *scg, const gchar *uri)
 	} else
 		go_cmd_context_error (GO_CMD_CONTEXT (ioc), err);
 
-	if (gnumeric_io_error_occurred (ioc) ||
-	    gnumeric_io_warning_occurred (ioc)) {
-		gnumeric_io_error_display (ioc);
-		gnumeric_io_error_clear (ioc);
+	if (go_io_error_occurred (ioc) ||
+	    go_io_warning_occurred (ioc)) {
+		go_io_error_display (ioc);
+		go_io_error_clear (ioc);
 	}
 	g_object_unref (ioc);
 }

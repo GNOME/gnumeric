@@ -67,7 +67,7 @@ capp_workbook_open (PortableServer_Servant ignore,
 			wbv = NULL;
 	} else {
 		GOCmdContext *cc = cmd_context_stderr_new ();
-		IOContext *io_context = gnumeric_io_context_new (cc);
+		GOIOContext *io_context = go_io_context_new (cc);
 		wbv = wb_view_new_from_uri (file_name, NULL, io_context, NULL);
 		g_object_unref (G_OBJECT (io_context));
 		g_object_unref (G_OBJECT (cc));

@@ -205,7 +205,7 @@ typedef enum {
 } odf_elapsed_set_t;
 
 typedef struct {
-	IOContext	*context;	/* The IOcontext managing things */
+	GOIOContext	*context;	/* The IOcontext managing things */
 	WorkbookView	*wb_view;	/* View for the new workbook */
 	OOVer		 ver;		/* Its an OOo v1.0 or v2.0? */
 	GsfInfile	*zip;		/* Reference to the open file, to load graphs and images*/
@@ -308,7 +308,7 @@ oo_warning (GsfXMLIn *xin, char const *fmt, ...)
 		msg = tmp;
 	}
 
-	gnm_io_warning (state->context, "%s", msg);
+	go_io_warning (state->context, "%s", msg);
 	g_free (msg);
 
 	return FALSE; /* convenience */
@@ -5066,10 +5066,10 @@ determine_oo_version (GsfInfile *zip, OOVer def)
 
 
 void
-openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
+openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 		      WorkbookView *wb_view, GsfInput *input);
 G_MODULE_EXPORT void
-openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
+openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 		      WorkbookView *wb_view, GsfInput *input)
 {
 	GsfXMLInDoc	*doc;
@@ -5172,7 +5172,7 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 			meta_data = gsf_doc_meta_data_new ();
 			err = gsf_opendoc_metadata_read (meta_file, meta_data);
 			if (NULL != err) {
-				gnm_io_warning (io_context,
+				go_io_warning (io_context,
 					_("Invalid metadata '%s'"), err->message);
 				g_error_free (err);
 			} else
@@ -5230,7 +5230,7 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 			}
 		}
 	} else
-		gnumeric_io_error_string (io_context, _("XML document not well formed!"));
+		go_io_error_string (io_context, _("XML document not well formed!"));
 	gsf_xml_in_doc_free (doc);
 
 	io_progress_unset (state.context);
