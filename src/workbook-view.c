@@ -1131,19 +1131,19 @@ wb_view_new_from_input  (GsfInput *input,
 
 	/* Search for an applicable opener */
 	if (optional_fmt == NULL) {
-		FileProbeLevel pl;
+		GOFileProbeLevel pl;
 		GList *l;
 		int input_refs = G_OBJECT (input)->ref_count;
 
-		for (pl = FILE_PROBE_FILE_NAME; pl < FILE_PROBE_LAST && optional_fmt == NULL; pl++) {
+		for (pl = GO_FILE_PROBE_FILE_NAME; pl < GO_FILE_PROBE_LAST && optional_fmt == NULL; pl++) {
 			for (l = go_get_file_openers (); l != NULL; l = l->next) {
 				GOFileOpener const *tmp_fo = GO_FILE_OPENER (l->data);
 				int new_input_refs;
 				/* A name match needs to be a content match too */
 				if (go_file_opener_probe (tmp_fo, input, pl) &&
-				    (pl == FILE_PROBE_CONTENT ||
-				     !go_file_opener_can_probe	(tmp_fo, FILE_PROBE_CONTENT) ||
-				     go_file_opener_probe (tmp_fo, input, FILE_PROBE_CONTENT)))
+				    (pl == GO_FILE_PROBE_CONTENT ||
+				     !go_file_opener_can_probe	(tmp_fo, GO_FILE_PROBE_CONTENT) ||
+				     go_file_opener_probe (tmp_fo, input, GO_FILE_PROBE_CONTENT)))
 					optional_fmt = tmp_fo;
 
 				new_input_refs = G_OBJECT (input)->ref_count;

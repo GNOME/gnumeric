@@ -37,13 +37,13 @@
 GNM_PLUGIN_MODULE_HEADER;
 
 gboolean psiconv_file_probe (GOFileOpener const *fo, GsfInput *input,
-                            FileProbeLevel pl);
+                            GOFileProbeLevel pl);
 void     psiconv_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 			    WorkbookView *wb_view, GsfInput *input);
 
 
 gboolean
-psiconv_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+psiconv_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 {
 	return psiconv_read_header (input);
 }

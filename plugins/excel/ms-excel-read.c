@@ -6152,7 +6152,7 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 	}
 
 	for (; ms_biff_query_next (q) ;
-	     value_io_progress_update (importer->context, q->streamPos)) {
+	     go_io_value_progress_update (importer->context, q->streamPos)) {
 
 		d (5, fprintf (stderr,"Opcode: 0x%x\n", q->opcode););
 
@@ -6657,8 +6657,8 @@ excel_read_workbook (GOIOContext *context, WorkbookView *wb_view, GsfInput *inpu
 	gboolean stop_loading = FALSE;
 	gboolean prev_was_eof = FALSE;
 
-	io_progress_message (context, _("Reading file..."));
-	value_io_progress_set (context, gsf_input_size (input), N_BYTES_BETWEEN_PROGRESS_UPDATES);
+	go_io_progress_message (context, _("Reading file..."));
+	go_io_value_progress_set (context, gsf_input_size (input), N_BYTES_BETWEEN_PROGRESS_UPDATES);
 	q = ms_biff_query_new (input);
 
 	importer = gnm_xl_importer_new (context, wb_view);
@@ -6840,7 +6840,7 @@ excel_read_workbook (GOIOContext *context, WorkbookView *wb_view, GsfInput *inpu
 	ms_biff_query_destroy (q);
 	if (ver)
 		ms_biff_bof_data_destroy (ver);
-	io_progress_unset (context);
+	go_io_progress_unset (context);
 
 	d (1, fprintf (stderr,"finished read\n"););
 

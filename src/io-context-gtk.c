@@ -32,7 +32,7 @@
 #define GO_IS_IO_CONTEXT_GTK_CLASS(klass) \
     (G_TYPE_CHECK_CLASS_TYPE ((klass), GO_TYPE_IO_CONTEXT_GTK))
 
-struct _IOContextGtk {
+struct _GOIOContextGtk {
 	GOIOContext parent;
 	GtkWindow *window;
 	GtkWindow *parent_window;
@@ -52,7 +52,7 @@ struct _IOContextGtk {
 	gboolean show_warnings;
 };
 
-struct _IOContextGtkClass {
+struct _GOIOContextGtkClass {
 	GOIOContextClass parent_class;
 };
 

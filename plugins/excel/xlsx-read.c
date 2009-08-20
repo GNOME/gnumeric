@@ -5069,10 +5069,10 @@ GSF_XML_IN_NODE_FULL (START, THEME, XL_NS_DRAW, "theme", GSF_XML_NO_CONTENT, FAL
 /****************************************************************************/
 
 G_MODULE_EXPORT gboolean
-xlsx_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
+xlsx_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl);
 
 gboolean
-xlsx_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+xlsx_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 {
 	GsfInfile *zip;
 	GsfInput  *stream;

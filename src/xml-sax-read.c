@@ -352,7 +352,7 @@ maybe_update_progress (GsfXMLIn *xin)
 	gsf_off_t pos = gsf_input_tell (input);
 
 	if (pos >= state->last_progress_update + 10000) {
-		value_io_progress_update (state->context, pos);
+		go_io_value_progress_update (state->context, pos);
 		state->last_progress_update = pos;
 	}
 }
@@ -2723,8 +2723,8 @@ gnm_xml_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	go_doc_init_read (GO_DOC (state.wb), input);
 	gsf_input_seek (input, 0, G_SEEK_SET);
 
-	io_progress_message (state.context, _("Reading file..."));
-	value_io_progress_set (state.context, gsf_input_size (input), 0);
+	go_io_progress_message (state.context, _("Reading file..."));
+	go_io_value_progress_set (state.context, gsf_input_size (input), 0);
 
 	locale = gnm_push_C_locale ();
 	ok = gsf_xml_in_doc_parse (doc, input, &state);
@@ -2732,7 +2732,7 @@ gnm_xml_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	gnm_pop_C_locale (locale);
 	go_doc_end_read (GO_DOC (state.wb));
 
-	io_progress_unset (state.context);
+	go_io_progress_unset (state.context);
 
 	if (ok) {
 		workbook_queue_all_recalc (state.wb);

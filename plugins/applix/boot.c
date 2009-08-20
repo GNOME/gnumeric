@@ -36,14 +36,14 @@
 GNM_PLUGIN_MODULE_HEADER;
 
 gboolean applix_file_probe (GOFileOpener const *fo, GsfInput *input,
-                            FileProbeLevel pl);
+                            GOFileProbeLevel pl);
 void     applix_file_open (GOFileOpener const *fo, GOIOContext *io_context,
                            WorkbookView *wb_view, GsfInput *input);
 void     applix_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 			   WorkbookView const *wb_view, GsfOutput *output);
 
 gboolean
-applix_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+applix_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 {
 	static guint8 const signature[] = "*BEGIN SPREADSHEETS VERSION";
 	guint8 const *header;

@@ -4766,7 +4766,7 @@ excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 					run_size = 0;
 				}
 				excel_write_cell (ewb, esheet, cell, xf);
-				count_io_progress_update (esheet->ewb->io_context, 1);
+				go_io_count_progress_update (esheet->ewb->io_context, 1);
 			}
 		}
 		if (run_size > 0)
@@ -5702,11 +5702,11 @@ excel_write_workbook (ExcelWriteState *ewb)
 	n = 0;
 	for (i = workbook_sheet_count (ewb->base.wb) ; i-- > 0 ;)
 		n += sheet_cells_count (workbook_sheet_by_index (ewb->base.wb, i));
-	count_io_progress_set (ewb->io_context,
+	go_io_count_progress_set (ewb->io_context,
 		n, N_CELLS_BETWEEN_UPDATES);
 	for (i = 0; i < ewb->esheets->len; i++)
 		excel_write_sheet (ewb, g_ptr_array_index (ewb->esheets, i));
-	io_progress_unset (ewb->io_context);
+	go_io_progress_unset (ewb->io_context);
 
 	/* Finalise Workbook stuff */
 	for (i = 0; i < ewb->esheets->len; i++) {

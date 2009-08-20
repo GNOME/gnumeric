@@ -24,13 +24,13 @@
 GNM_PLUGIN_MODULE_HEADER;
 
 gboolean lotus_file_probe (GOFileOpener const *fo, GsfInput *input,
-                           FileProbeLevel pl);
+                           GOFileProbeLevel pl);
 void     lotus_file_open (GOFileOpener const *fo, GOIOContext *io_context,
                           WorkbookView *wb_view, GsfInput *input);
 
 
 gboolean
-lotus_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+lotus_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 {
 	char const *h = NULL;
 	int len;

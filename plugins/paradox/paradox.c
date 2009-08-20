@@ -263,11 +263,11 @@ paradox_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 
 gboolean
 paradox_file_probe (GOFileOpener const *fo, GsfInput *input,
-                    FileProbeLevel pl);
+                    GOFileProbeLevel pl);
 
 G_MODULE_EXPORT gboolean
 paradox_file_probe (GOFileOpener const *fo, GsfInput *input,
-                    FileProbeLevel pl)
+                    GOFileProbeLevel pl)
 {
 	pxdoc_t		*pxdoc;
 	pxhead_t	*pxh;

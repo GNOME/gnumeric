@@ -1015,7 +1015,7 @@ excel_xml_file_open (GOFileOpener const *fo, GOIOContext *context,
 		     WorkbookView *wbv, GsfInput *input);
 
 G_MODULE_EXPORT gboolean
-excel_xml_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
+excel_xml_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl);
 
 static gboolean
 xl_xml_probe_start_element (const xmlChar *name,
@@ -1034,9 +1034,9 @@ xl_xml_probe_start_element (const xmlChar *name,
 }
 
 gboolean
-excel_xml_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+excel_xml_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 {
-	if (pl == FILE_PROBE_FILE_NAME) {
+	if (pl == GO_FILE_PROBE_FILE_NAME) {
 		char const *ext;
 		char const *name = gsf_input_name (input);
 		return  NULL != name &&

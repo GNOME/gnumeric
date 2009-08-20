@@ -67,7 +67,7 @@ dif_input_context_new (GOIOContext *io_context, Workbook *wb, GsfInput *input)
 	ctxt->sheet          = workbook_sheet_add (wb, -1, GNM_DEFAULT_COLS, GNM_DEFAULT_ROWS);
 	ctxt->converter      = g_iconv_open ("UTF-8", "ISO-8859-1");
 
-	io_progress_message (io_context, _("Reading file..."));
+	go_io_progress_message (io_context, _("Reading file..."));
 
 	return ctxt;
 }
@@ -75,7 +75,7 @@ dif_input_context_new (GOIOContext *io_context, Workbook *wb, GsfInput *input)
 static void
 dif_input_context_destroy (DifInputContext *ctxt)
 {
-	io_progress_unset (ctxt->io_context);
+	go_io_progress_unset (ctxt->io_context);
 	g_object_unref (G_OBJECT (ctxt->input)); ctxt->input = NULL;
 	gsf_iconv_close (ctxt->converter);
 	g_free (ctxt->line);

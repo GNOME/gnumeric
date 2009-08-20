@@ -273,7 +273,7 @@ maybe_update_progress (GsfXMLIn *xin)
 	gsf_off_t pos = gsf_input_tell (input);
 
 	if (pos >= state->last_progress_update + 10000) {
-		value_io_progress_update (state->context, pos);
+		go_io_value_progress_update (state->context, pos);
 		state->last_progress_update = pos;
 	}
 }
@@ -5163,8 +5163,8 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	state.page_breaks.h = state.page_breaks.v = NULL;
 	state.last_progress_update = 0;
 
-	io_progress_message (state.context, _("Reading file..."));
-	value_io_progress_set (state.context, gsf_input_size (contents), 0);
+	go_io_progress_message (state.context, _("Reading file..."));
+	go_io_value_progress_set (state.context, gsf_input_size (contents), 0);
 
 	if (state.ver == OOO_VER_OPENDOC) {
 		GsfInput *meta_file = gsf_infile_child_by_name (zip, "meta.xml");
@@ -5233,7 +5233,7 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 		go_io_error_string (io_context, _("XML document not well formed!"));
 	gsf_xml_in_doc_free (doc);
 
-	io_progress_unset (state.context);
+	go_io_progress_unset (state.context);
 
 	if (state.default_style.cells)
 		gnm_style_unref (state.default_style.cells);
@@ -5261,10 +5261,10 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 }
 
 gboolean
-openoffice_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
+openoffice_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl);
 
 gboolean
-openoffice_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+openoffice_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 {
 	GsfInfile *zip;
 	OOVer ver;

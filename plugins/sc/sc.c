@@ -35,7 +35,7 @@
 GNM_PLUGIN_MODULE_HEADER;
 
 gboolean sc_file_probe (GOFileOpener const *fo, GsfInput *input,
-			FileProbeLevel pl);
+			GOFileProbeLevel pl);
 void sc_file_open (GOFileOpener const *fo, GOIOContext *io_context,
                    WorkbookView *wb_view, GsfInput *input);
 
@@ -630,7 +630,7 @@ static guint8 const signature[] =
 
 gboolean
 sc_file_probe (GOFileOpener const *fo, GsfInput *input,
-	       FileProbeLevel pl)
+	       GOFileProbeLevel pl)
 {
 	char const *header = NULL;
 

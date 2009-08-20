@@ -212,7 +212,7 @@ gplp_loader_data_opener_free (ServiceLoaderDataFileOpener *loader_data)
 
 static gboolean
 gplp_func_file_probe (GOFileOpener const *fo, GOPluginService *service,
-		      GsfInput *input, FileProbeLevel pl)
+		      GsfInput *input, GOFileProbeLevel pl)
 {
 	ServiceLoaderDataFileOpener *loader_data;
 	PyObject *probe_result = NULL;

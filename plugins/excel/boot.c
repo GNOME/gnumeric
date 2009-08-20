@@ -65,7 +65,7 @@ gint ms_excel_chart_debug = 0;
 gint ms_excel_write_debug = 0;
 gint ms_excel_object_debug = 0;
 
-gboolean excel_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
+gboolean excel_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl);
 void excel_file_open (GOFileOpener const *fo, GOIOContext *context, WorkbookView *wbv, GsfInput *input);
 void excel_biff7_file_save (GOFileSaver const *fs, GOIOContext *context, WorkbookView const *wbv, GsfOutput *output);
 void excel_biff8_file_save (GOFileSaver const *fs, GOIOContext *context, WorkbookView const *wbv, GsfOutput *output);
@@ -94,7 +94,7 @@ find_content_stream (GsfInfile *ole, gboolean *is_97)
 }
 
 gboolean
-excel_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+excel_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 {
 	GsfInfile *ole;
 	GsfInput  *stream;
@@ -251,10 +251,10 @@ excel_save (GOIOContext *context, WorkbookView const *wbv, GsfOutput *output,
 	GsfStructuredBlob *blob;
 	GsfDocMetaData *meta_data;
 
-	io_progress_message (context, _("Preparing to save..."));
-	io_progress_range_push (context, 0.0, 0.1);
+	go_io_progress_message (context, _("Preparing to save..."));
+	go_io_progress_range_push (context, 0.0, 0.1);
 	ewb = excel_write_state_new (context, wbv, biff7, biff8);
-	io_progress_range_pop (context);
+	go_io_progress_range_pop (context);
 	if (ewb == NULL)
 		return;
 
@@ -263,14 +263,14 @@ excel_save (GOIOContext *context, WorkbookView const *wbv, GsfOutput *output,
 	ewb->export_macros = (biff8 &&
 		NULL != g_object_get_data (G_OBJECT (wb), "MS_EXCEL_MACROS"));
 
-	io_progress_message (context, _("Saving file..."));
-	io_progress_range_push (context, 0.1, 1.0);
+	go_io_progress_message (context, _("Saving file..."));
+	go_io_progress_range_push (context, 0.1, 1.0);
 	if (biff7)
 		excel_write_v7 (ewb, outfile);
 	if (biff8)
 		excel_write_v8 (ewb, outfile);
 	excel_write_state_free (ewb);
-	io_progress_range_pop (context);
+	go_io_progress_range_pop (context);
 
 	meta_data = go_doc_get_meta_data (GO_DOC (wb));
 	if (meta_data != NULL) {

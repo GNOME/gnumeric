@@ -1794,7 +1794,7 @@ xml_read_styles (XmlParseContext *ctxt, xmlNodePtr tree)
 	for (regions = child->xmlChildrenNode; regions != NULL; regions = regions->next) {
 		if (!xmlIsBlankNode (regions))
 			xml_read_style_region (ctxt, regions);
-		count_io_progress_update (ctxt->io_context, 1);
+		go_io_count_progress_update (ctxt->io_context, 1);
 	}
 }
 
@@ -2006,7 +2006,7 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 		for (cell = child->xmlChildrenNode; cell != NULL; cell = cell->next) {
 			if (!xmlIsBlankNode (cell))
 				xml_read_cell (ctxt, cell);
-			count_io_progress_update (ctxt->io_context, 1);
+			go_io_count_progress_update (ctxt->io_context, 1);
 		}
 	}
 
@@ -2397,9 +2397,9 @@ xml_workbook_read (GOIOContext *context,
 	if (child == NULL)
 		return FALSE;
 
-	io_progress_message (context, _("Processing file..."));
-	io_progress_range_push (context, 0.5, 1.0);
-	count_io_progress_set (context, xml_read_workbook_n_elements (child),
+	go_io_progress_message (context, _("Processing file..."));
+	go_io_progress_range_push (context, 0.5, 1.0);
+	go_io_count_progress_set (context, xml_read_workbook_n_elements (child),
 			       N_ELEMENTS_BETWEEN_UPDATES);
 	ctxt->io_context = context;
 
@@ -2425,8 +2425,8 @@ xml_workbook_read (GOIOContext *context,
 		if (!xmlIsBlankNode (c))
 			sheet = xml_sheet_read (ctxt, c);
 
-	io_progress_unset (context);
-	io_progress_range_pop (context);
+	go_io_progress_unset (context);
+	go_io_progress_range_pop (context);
 
 	child = e_xml_get_child_by_name (tree, CC2XML ("Attributes"));
 	if (child && ctxt->version >= GNM_XML_V5)
@@ -2617,9 +2617,9 @@ gnm_xml_probe_element (const xmlChar *name,
 		NULL != URI && NULL != strstr (URI, "gnumeric");
 }
 static gboolean
-xml_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+xml_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 {
-	if (pl == FILE_PROBE_FILE_NAME) {
+	if (pl == GO_FILE_PROBE_FILE_NAME) {
 		char const *name = gsf_input_name (input);
 		int len;
 
@@ -2666,15 +2666,15 @@ gnumeric_xml_read_workbook (GOFileOpener const *fo,
 	if (gsf_input_seek (input, 0, G_SEEK_SET))
 		return;
 
-	io_progress_message (context, _("Reading file..."));
-	io_progress_range_push (context, 0.0, 0.5);
+	go_io_progress_message (context, _("Reading file..."));
+	go_io_progress_range_push (context, 0.0, 0.5);
 
 	g_object_ref (input);
 	input = maybe_gunzip (input);
 	input = maybe_convert (input, FALSE);
 	gsf_input_seek (input, 0, G_SEEK_SET);
 
-	value_io_progress_set (context, gsf_input_size (input), 0);
+	go_io_value_progress_set (context, gsf_input_size (input), 0);
 
 	buf = gsf_input_read (input, 4, NULL);
 	size = gsf_input_remaining (input);
@@ -2696,7 +2696,7 @@ gnumeric_xml_read_workbook (GOFileOpener const *fo,
 			if (buf == NULL)
 				break;
 			xmlParseChunk (pctxt, (char *)buf, len, 0);
-			value_io_progress_update (context, gsf_input_tell (input));
+			go_io_value_progress_update (context, gsf_input_tell (input));
 		}
 		xmlParseChunk (pctxt, (char *)buf, 0, 1);
 		res = pctxt->myDoc;
@@ -2705,8 +2705,8 @@ gnumeric_xml_read_workbook (GOFileOpener const *fo,
 	}
 
 	g_object_unref (input);
-	io_progress_unset (context);
-	io_progress_range_pop (context);
+	go_io_progress_unset (context);
+	go_io_progress_range_pop (context);
 
 	/* Do a bit of checking, get the namespaces, and check the top elem. */
 	gmr = xml_check_version (res, &version);

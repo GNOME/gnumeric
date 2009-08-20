@@ -9,8 +9,8 @@
 
 G_BEGIN_DECLS
 
-typedef struct _IOContextGtk IOContextGtk;
-typedef struct _IOContextGtkClass IOContextGtkClass;
+typedef struct _GOIOContextGtk IOContextGtk;
+typedef struct _GOIOContextGtkClass IOContextGtkClass;
 
 #define GO_TYPE_IO_CONTEXT_GTK    (io_context_gtk_get_type ())
 #define IO_CONTEXT_GTK(obj) \

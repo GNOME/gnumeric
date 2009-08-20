@@ -31,7 +31,7 @@
 GNM_PLUGIN_MODULE_HEADER;
 
 gboolean pln_file_probe (GOFileOpener const *fo, GsfInput *input,
-			 FileProbeLevel pl);
+			 GOFileProbeLevel pl);
 void     pln_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 			WorkbookView *wb_view, GsfInput *input);
 
@@ -171,7 +171,7 @@ pln_get_func_table2 (unsigned i)
 
 gboolean
 pln_file_probe (GOFileOpener const *fo, GsfInput *input,
-		FileProbeLevel pl)
+		GOFileProbeLevel pl)
 {
 	/*
 	 * a plan-perfect header

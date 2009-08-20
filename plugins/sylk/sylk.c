@@ -42,7 +42,7 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
-gboolean sylk_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
+gboolean sylk_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl);
 void     sylk_file_open (GOFileOpener const *fo, GOIOContext *io_context,
                          WorkbookView *wb_view, GsfInput *input);
 
@@ -848,7 +848,7 @@ sylk_file_open (GOFileOpener const *fo,
 }
 
 gboolean
-sylk_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+sylk_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 {
 	char const *header = NULL;
 	if (!gsf_input_seek (input, 0, G_SEEK_SET))

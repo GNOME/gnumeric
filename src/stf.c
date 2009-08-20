@@ -472,13 +472,13 @@ stf_write_csv (GOFileSaver const *fs, GOIOContext *context,
 }
 
 static gboolean
-csv_tsv_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+csv_tsv_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 {
 	/* Rough and ready heuristic.  If the first N bytes have no
 	 * unprintable characters this may be text */
 	const gsf_off_t N = 512;
 
-	if (pl == FILE_PROBE_CONTENT) {
+	if (pl == GO_FILE_PROBE_CONTENT) {
 		guint8 const *header;
 		gsf_off_t i;
 		char const *enc = NULL;
@@ -494,7 +494,7 @@ csv_tsv_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 		/* If someone ships us an empty file, accept it only if
 		   it has a proper name.  */
 		if (i == 0)
-			return csv_tsv_probe (fo, input, FILE_PROBE_FILE_NAME);
+			return csv_tsv_probe (fo, input, GO_FILE_PROBE_FILE_NAME);
 
 		if (i > N) i = N;
 		if (NULL == (header = gsf_input_read (input, i, NULL)))

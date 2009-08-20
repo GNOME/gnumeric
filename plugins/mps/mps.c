@@ -537,7 +537,7 @@ mps_input_context_new (GOIOContext *io_context, Workbook *wb, GsfInput *input)
 
 	g_slist_free (ctxt->rows);
 
-	io_progress_message (io_context, _("Reading file..."));
+	go_io_progress_message (io_context, _("Reading file..."));
 
 	return ctxt;
 }
@@ -567,7 +567,7 @@ mps_input_context_destroy (MpsInputContext *ctxt)
 {
         GSList *current;
 
-	io_progress_unset (ctxt->io_context);
+	go_io_progress_unset (ctxt->io_context);
 
 	/* Free ROWS */
 	for (current = ctxt->rows; current != NULL; current = current->next) {

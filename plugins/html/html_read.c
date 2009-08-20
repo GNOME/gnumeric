@@ -551,7 +551,7 @@ html_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 
 /* Quick and dirty html probe. */
 gboolean
-html_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+html_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 {
 	gsf_off_t size = 200;
 	guint8 const* buf = gsf_input_read (input, size, NULL);

@@ -55,7 +55,7 @@
 GNM_PLUGIN_MODULE_HEADER;
 
 gboolean qpro_file_probe (GOFileOpener const *fo, GsfInput *input,
-			  FileProbeLevel pl);
+			  GOFileProbeLevel pl);
 void     qpro_file_open (GOFileOpener const *fo, GOIOContext *context,
 			 WorkbookView *new_wb_view, GsfInput *input);
 
@@ -78,7 +78,7 @@ qpro_check_signature (GsfInput *input)
 }
 
 gboolean
-qpro_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+qpro_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 {
 	GsfInfile *ole;
 	GsfInput  *stream;
