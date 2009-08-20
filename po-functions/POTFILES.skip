@@ -14,12 +14,12 @@ src/go-val.c
 gnumeric.desktop.in
 plugins/applix/plugin.xml.in
 plugins/corba/plugin.xml.in
-plugins/derivatives/plugin.xml.in
 plugins/dif/plugin.xml.in
 plugins/excel/plugin.xml.in
 plugins/fn-complex/plugin.xml.in
 plugins/fn-database/plugin.xml.in
 plugins/fn-date/plugin.xml.in
+plugins/fn-derivatives/plugin.xml.in
 plugins/fn-eng/plugin.xml.in
 plugins/fn-erlang/plugin.xml.in
 plugins/fn-financial/plugin.xml.in
@@ -27,6 +27,7 @@ plugins/fn-info/plugin.xml.in
 plugins/fn-logical/plugin.xml.in
 plugins/fn-lookup/plugin.xml.in
 plugins/fn-math/plugin.xml.in
+plugins/fn-numtheory/plugin.xml.in
 plugins/fn-r/plugin.xml.in
 plugins/fn-random/plugin.xml.in
 plugins/fn-stat/plugin.xml.in
@@ -39,7 +40,6 @@ plugins/gnome-glossary/plugin.xml.in
 plugins/html/plugin.xml.in
 plugins/lotus-123/plugin.xml.in
 plugins/mps/plugin.xml.in
-plugins/numtheory/plugin.xml.in
 plugins/oleo/plugin.xml.in
 plugins/openoffice/plugin.xml.in
 plugins/paradox/plugin.xml.in

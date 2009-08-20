@@ -7,8 +7,6 @@ gnumeric.desktop.in
 plugins/applix/applix-read.c
 plugins/applix/plugin.xml.in
 plugins/corba/plugin.xml.in
-plugins/derivatives/options.c
-plugins/derivatives/plugin.xml.in
 plugins/dif/dif.c
 plugins/dif/plugin.xml.in
 plugins/excel/boot.c
@@ -26,6 +24,8 @@ plugins/fn-database/functions.c
 plugins/fn-database/plugin.xml.in
 plugins/fn-date/functions.c
 plugins/fn-date/plugin.xml.in
+plugins/fn-derivatives/options.c
+plugins/fn-derivatives/plugin.xml.in
 plugins/fn-eng/functions.c
 plugins/fn-eng/plugin.xml.in
 plugins/fn-erlang/functions.c
@@ -40,6 +40,8 @@ plugins/fn-lookup/functions.c
 plugins/fn-lookup/plugin.xml.in
 plugins/fn-math/functions.c
 plugins/fn-math/plugin.xml.in
+plugins/fn-numtheory/numtheory.c
+plugins/fn-numtheory/plugin.xml.in
 plugins/fn-r/functions.c
 plugins/fn-r/plugin.xml.in
 plugins/fn-random/functions.c
@@ -65,8 +67,6 @@ plugins/lotus-123/plugin.xml.in
 plugins/mps/mps.c
 plugins/mps/parser.c
 plugins/mps/plugin.xml.in
-plugins/numtheory/numtheory.c
-plugins/numtheory/plugin.xml.in
 plugins/oleo/oleo.c
 plugins/oleo/plugin.xml.in
 plugins/openoffice/openoffice-read.c
