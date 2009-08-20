@@ -327,7 +327,7 @@ static GnmFuncHelp const help_negbinomdist[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If (@{f} + @{t} -1) <= 0 this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this functions returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("NEGBINOMDIST(2,5,0.55) equals 0.152872629.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=NEGBINOMDIST(2,5,0.55)" },
 	{ GNM_FUNC_HELP_SEEALSO, "BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -352,7 +352,7 @@ static GnmFuncHelp const help_normsdist[] = {
 	{ GNM_FUNC_HELP_ARG, F_("x:")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, F_("NORMSDIST is the OpenFormula function LEGACY.NORMSDIST.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("NORMSDIST(2) equals 0.977249868.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=NORMSDIST(2)" },
 	{ GNM_FUNC_HELP_SEEALSO, "NORMDIST"},
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Normal_distribution") },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:NormalDistribution.html") },
@@ -377,7 +377,7 @@ static GnmFuncHelp const help_normsinv[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, F_("NORMSINV is the OpenFormula function LEGACY.NORMSINV.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("NORMSINV(0.2) equals -0.841621234.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=NORMSINV(0.2)" },
 	{ GNM_FUNC_HELP_SEEALSO, "NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"},
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Normal_distribution") },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:NormalDistribution.html") },
@@ -407,7 +407,7 @@ static GnmFuncHelp const help_lognormdist[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{stddev} = 0 LOGNORMDIST returns a #DIV/0! error.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} <= 0, @{mean} < 0 or @{stddev} <= 0 this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("LOGNORMDIST(3,1,2) equals 0.519662338.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=LOGNORMDIST(3,1,2)" },
 	{ GNM_FUNC_HELP_SEEALSO, "NORMDIST"},
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Log-normal_distribution") },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:LogNormalDistribution.html") },
@@ -436,7 +436,7 @@ static GnmFuncHelp const help_loginv[] = {
 	{ GNM_FUNC_HELP_ARG, F_("stddev:standard deviation")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 or @{stddev} <= 0 this function returns #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("LOGINV(0.5,2,3) equals 7.389056099.")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=LOGINV(0.5,2,3)" },
 	{ GNM_FUNC_HELP_SEEALSO, ("EXP,LN,LOG,LOG10,LOGNORMDIST")},
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Log-normal_distribution") },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:LogNormalDistribution.html") },
@@ -465,7 +465,7 @@ static GnmFuncHelp const help_fisherinv[] = {
 	{ GNM_FUNC_HELP_ARG, F_("x:")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} is a non-number this function returns a #VALUE! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("FISHERINV(2) equals 0.96402758.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=FISHERINV(2)" },
 	{ GNM_FUNC_HELP_SEEALSO, "FISHER,TANH"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -790,7 +790,7 @@ static GnmFuncHelp const help_expondist[] = {
 	   "1 - exp (-@{y}*@{x}).")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < 0 or @{y} <= 0 this will return an error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("EXPONDIST(2,4,0) equals 0.001341851.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=EXPONDIST(2,4,0)" },
 	{ GNM_FUNC_HELP_SEEALSO, "POISSON"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -819,7 +819,7 @@ static GnmFuncHelp const help_bernoulli[] = {
 	{ GNM_FUNC_HELP_ARG, F_("p:probability of success")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{k} != 0 and @{k} != 1 this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("BERNOULLI(0,0.5).") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=BERNOULLI(0,0.5)" },
 	{ GNM_FUNC_HELP_SEEALSO, "RANDBERNOULLI"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -858,7 +858,7 @@ static GnmFuncHelp const help_gammadist[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < 0 this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{alpha} <= 0 or @{beta} <= 0, this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("GAMMADIST(1,2,3,0) equals 0.07961459.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=GAMMADIST(1,2,3,0)" },
 	{ GNM_FUNC_HELP_SEEALSO, "GAMMAINV"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -890,7 +890,7 @@ static GnmFuncHelp const help_gammainv[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{alpha} <= 0 or @{beta} <= 0 this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("GAMMAINV(0.34,2,4) equals 4.829093908.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=GAMMAINV(0.34,2,4)" },
 	{ GNM_FUNC_HELP_SEEALSO, "GAMMADIST"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -921,7 +921,7 @@ static GnmFuncHelp const help_chidist[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{dof} < 1 this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, F_("CHIDIST(@{x},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{x},@{dof}).") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("CHIDIST(5.3,2) equals 0.070651213.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=CHIDIST(5.3,2)" },
 	{ GNM_FUNC_HELP_SEEALSO, "CHIINV,CHITEST"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -948,7 +948,7 @@ static GnmFuncHelp const help_chiinv[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 or @{dof} < 1 this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, F_("CHIINV(@{p},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{p},@{dof}).") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("CHIINV(0.98,7) equals 1.564293004.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=CHIINV(0.98,7)" },
 	{ GNM_FUNC_HELP_SEEALSO, "CHIDIST,CHITEST"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1064,7 +1064,7 @@ static GnmFuncHelp const help_betadist[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{alpha} <= 0 or @{beta} <= 0, this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{a} >= @{b} this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("BETADIST(0.12,2,3) equals 0.07319808.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=BETADIST(0.12,2,3)" },
 	{ GNM_FUNC_HELP_SEEALSO, "BETAINV"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1101,7 +1101,7 @@ static GnmFuncHelp const help_betainv[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{alpha} <= 0 or @{beta} <= 0, this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{a} >= @{b} this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("BETAINV(0.45,1.6,1) equals 0.607096629.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=BETAINV(0.45,1.6,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "BETADIST"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1138,9 +1138,9 @@ static GnmFuncHelp const help_tdist[] = {
 	   "what is used for, e.g., NORMSDIST.  This is a common source of "
 	   "mistakes, but necessary for compatibility.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible for non-negative @{x}.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("TDIST(2,5,1) equals 0.050969739.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("TDIST(-2,5,1) equals 0.949030261.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("TDIST(0,5,2) equals 1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=TDIST(2,5,1)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=TDIST(-2,5,1)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=TDIST(0,5,2)" },
 	{ GNM_FUNC_HELP_SEEALSO, "TINV,TTEST"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1171,7 +1171,7 @@ static GnmFuncHelp const help_tinv[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("The parameterization of this function is different from "
 	   "what is used for, e.g., NORMSINV.  This is a common source of "
 	   "mistakes, but necessary for compatibility.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("TINV(0.4,32) equals 0.852998454.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=TINV(0.4,32)" },
 	{ GNM_FUNC_HELP_SEEALSO, "TDIST,TTEST"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1206,7 +1206,7 @@ static GnmFuncHelp const help_fdist[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{dof_of_num} < 1 or @{dof_of_denom} < 1, this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, F_("FDIST is the OpenFormula function LEGACY.FDIST.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("FDIST(2,5,5) equals 0.232511319.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=FDIST(2,5,5)" },
 	{ GNM_FUNC_HELP_SEEALSO, "FINV"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1229,7 +1229,7 @@ gnumeric_fdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_landau[] = {
 	{ GNM_FUNC_HELP_NAME, F_("LANDAU:approximate probability density function of the Landau distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("x:")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("LANDAU(0.34).") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=LANDAU(0.34)" },
 	{ GNM_FUNC_HELP_SEEALSO, "RANDLANDAU"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1372,7 +1372,7 @@ static GnmFuncHelp const help_finv[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{dof_of_num} < 1 or @{dof_of_denom} < 1 this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, F_("FINV is the OpenFormula function LEGACY.FINV.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("FINV(0.2,2,4) equals 2.472135955.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=FINV(0.2,2,4)" },
 	{ GNM_FUNC_HELP_SEEALSO, "FDIST"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1403,7 +1403,7 @@ static GnmFuncHelp const help_binomdist[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{n} > @{trials} this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("BINOMDIST(3,5,0.8,0) equals 0.2048.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=BINOMDIST(3,5,0.8,0)" },
 	{ GNM_FUNC_HELP_SEEALSO, "POISSON"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1435,7 +1435,7 @@ static GnmFuncHelp const help_cauchy[] = {
 	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the density function or the cumulative distribution function")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{a} < 0 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{cumulative} is neither TRUE nor FALSE this function returns a #VALUE! error.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("CAUCHY(0.43,1,TRUE) returns 0.370735.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=CAUCHY(0.43,1,TRUE)" },
 	{ GNM_FUNC_HELP_SEEALSO, "RANDCAUCHY"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1468,7 +1468,7 @@ static GnmFuncHelp const help_critbinom[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{alpha} < 0 or @{alpha} > 1 this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("CRITBINOM(10,0.5,0.75) equals 6.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=CRITBINOM(10,0.5,0.75)" },
 	{ GNM_FUNC_HELP_SEEALSO, "BINOMDIST"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1495,7 +1495,7 @@ static GnmFuncHelp const help_permut[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{n} = 0 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{n} < @{k} this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("PERMUT(7,3) equals 7 times 6 times 5 = 210.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=PERMUT(7,3)" },
 	{ GNM_FUNC_HELP_SEEALSO, "COMBIN"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1525,7 +1525,7 @@ static GnmFuncHelp const help_hypgeomdist[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x},@{n},@{M} or @{N} < 0 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} > @{M} or @{n} > @{N} this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("HYPGEOMDIST(1,2,3,10) equals 0.4666667.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=HYPGEOMDIST(1,2,3,10)" },
 	{ GNM_FUNC_HELP_SEEALSO, "BINOMDIST,POISSON"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1560,7 +1560,7 @@ static GnmFuncHelp const help_confidence[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{size} < 0 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{size} is 0 this function returns a #DIV/0! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("CONFIDENCE(0.05,1,33) equals 0.341185936.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=CONFIDENCE(0.05,1,33)" },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1587,7 +1587,7 @@ static GnmFuncHelp const help_standardize[] = {
 	{ GNM_FUNC_HELP_ARG, F_("stddev:standard deviation of the original distribution")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{stddev} is 0 this function returns a #DIV/0! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("STANDARDIZE(3,2,4) equals 0.25.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=STANDARDIZE(3,2,4)" },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1619,7 +1619,7 @@ static GnmFuncHelp const help_weibull[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < 0 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{alpha} <= 0 or @{beta} <= 0 this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("WEIBULL(3,2,4,0) equals 0.213668559.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=WEIBULL(3,2,4,0)" },
 	{ GNM_FUNC_HELP_SEEALSO, "POISSON"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1651,7 +1651,7 @@ static GnmFuncHelp const help_normdist[] = {
 	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the density function or the cumulative distribution function")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{stddev} is 0 this function returns a #DIV/0! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("NORMDIST(2,1,2,0) equals 0.176032663.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=NORMDIST(2,1,2,0)" },
 	{ GNM_FUNC_HELP_SEEALSO, "POISSON"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1683,7 +1683,7 @@ static GnmFuncHelp const help_norminv[] = {
 	{ GNM_FUNC_HELP_ARG, F_("stddev:standard deviation of the distribution")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 or @{stddev} <= 0 this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("NORMINV(0.76,2,3) equals 4.118907689.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=NORMINV(0.76,2,3)" },
 	{ GNM_FUNC_HELP_SEEALSO, "NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1816,7 +1816,7 @@ static GnmFuncHelp const help_fisher[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} is not a number, this function returns a #VALUE! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} <= -1 or @{x} >= 1, this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("FISHER(0.332) equals 0.345074339.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=FISHER(0.332)" },
 	{ GNM_FUNC_HELP_SEEALSO, "FISHERINV,ATANH"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1848,7 +1848,7 @@ static GnmFuncHelp const help_poisson[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < 0 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{mean} <= 0 POISSON returns the #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("POISSON(3,6,0) equals 0.089235078.")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=POISSON(3,6,0)"},
 	{ GNM_FUNC_HELP_SEEALSO, ("NORMDIST,WEIBULL")},
 	{ GNM_FUNC_HELP_END }
 };
@@ -4552,7 +4552,7 @@ static GnmFuncHelp const help_geomdist[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{k} < 0 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{cumulative} is neither TRUE nor FALSE this function returns a #VALUE! error.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("GEOMDIST(2,10.4,TRUE).") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=GEOMDIST(2,10.4,TRUE)" },
 	{ GNM_FUNC_HELP_SEEALSO, "RANDGEOM"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -4579,7 +4579,7 @@ static GnmFuncHelp const help_logistic[] = {
 	{ GNM_FUNC_HELP_NAME, F_("LOGISTIC:probability density function of the logistic distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("x:")},
 	{ GNM_FUNC_HELP_ARG, F_("a:scale parameter")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("LOGISTIC(0.4,1).") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=LOGISTIC(0.4,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "RANDLOGISTIC"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -4611,7 +4611,7 @@ static GnmFuncHelp const help_pareto[] = {
 	{ GNM_FUNC_HELP_ARG, F_("x:")},
 	{ GNM_FUNC_HELP_ARG, F_("a:exponent")},
 	{ GNM_FUNC_HELP_ARG, F_("b:scale parameter")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("PARETO(0.6,1,2).") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=PARETO(0.6,1,2)" },
 	{ GNM_FUNC_HELP_SEEALSO, "RANDPARETO"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -4644,7 +4644,7 @@ static GnmFuncHelp const help_rayleigh[] = {
 	{ GNM_FUNC_HELP_NAME, F_("RAYLEIGH:probability density function of the Rayleigh distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("x:")},
 	{ GNM_FUNC_HELP_ARG, F_("sigma:scale parameter")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("RAYLEIGH(0.4,1).") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=RAYLEIGH(0.4,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "RANDRAYLEIGH"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -4680,7 +4680,7 @@ static GnmFuncHelp const help_rayleightail[] = {
 	{ GNM_FUNC_HELP_ARG, F_("x:")},
 	{ GNM_FUNC_HELP_ARG, F_("a:lower limit")},
 	{ GNM_FUNC_HELP_ARG, F_("sigma:scale parameter")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("RAYLEIGHTAIL(0.6,0.3,1)") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=RAYLEIGHTAIL(0.6,0.3,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "RANDRAYLEIGHTAIL"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -4724,7 +4724,7 @@ static GnmFuncHelp const help_exppowdist[] = {
 			"when a U-shaped hazard function is desired. "
 			"This corresponds to rapid failure once the product starts to "
 			"wear out after a period of steady or even improving reliability.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("EXPPOWDIST(0.4,1,2)") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=EXPPOWDIST(0.4,1,2)" },
 	{ GNM_FUNC_HELP_SEEALSO, "RANDEXPPOW"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -4751,7 +4751,7 @@ static GnmFuncHelp const help_laplace[] = {
 	{ GNM_FUNC_HELP_NAME, F_("LAPLACE:probability density function of the Laplace distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("x:")},
 	{ GNM_FUNC_HELP_ARG, F_("a:mean")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("LAPLACE(0.4,1)") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=LAPLACE(0.4,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "RANDLAPLACE"},
 	{ GNM_FUNC_HELP_END }
 };
