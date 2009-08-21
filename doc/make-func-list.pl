@@ -1,162 +1,264 @@
+# Task: convert gnumeric's function documentation into a valid DocBook XML
+# fragment.
+
+# Input format: as produced by gnumeric --dump-func-defs=file, i.e.
+# a series of chunks documenting functions. The chunks consist of a number
+# of lines. Lines are either
+# - @KEYWORD=value
+# - @{parameter name}: text
+# - a continuation of the previous line
+# Chunks are separated by empty lines, but note that lines in a chunk may
+# be empty, so empty lines are not always chunk separators.
+# Chunks may contain multiple @KEYWORD=value lines for the same keyword.
+# The various keywords have their own enum value in GnmFuncHelpType in
+# src/func.h .
+
 use strict;
+use warnings;
+use diagnostics;
 
-my $state = 0;
-my $cat = "";
-my $func = "";
+#
+# Global state that we need to track
+#
 
-while (<>) {
-    s/\s+$//;
-    if (/^\@CATEGORY=(.*)/) {
-	if ($state) {
-	    print "    </refsect1>\n";
-	    print "  </refentry>\n\n";
+# On the input side (parser state):
+my $curcat = undef;	# Current category
+my $curfunc = undef;	# Current function name
+my $curkeyword = undef;	# Current input marker (keyword)
+
+# On the output side:
+my @tagstack = ();	# Closing tags that still need to be output at some
+			# future point for proper balance.
+
+#
+# Helper functions
+#
+
+sub quote_stuff($) {
+	# Escape/quote the characters which are special in XML: ampersand,
+	# less than sign and greater than sign.
+	my ($str) = @_;
+
+	# Let's do this one first...
+	$str =~ s/\&/\&amp;/g;
+
+	$str =~ s/</\&lt;/g;
+	$str =~ s/>/\&gt;/g;
+	return $str;
+}
+
+sub markup_stuff($) {
+	my ($str) = @_;
+
+	$str = &quote_stuff ($str);
+	$str =~ s/\b$curfunc\b/<function>$curfunc<\/function>/g;
+	$str =~ s/\@\{(\w*)\}/<parameter>$1<\/parameter>/g;
+	$str =~ s/\@(\w*)\b/<parameter>$1<\/parameter>/g;
+	return $str;
+}
+
+sub close_including($) {
+	my ($tag) = @_;
+	while (1) {
+		my $element = pop @tagstack;
+		last unless defined $element;
+		print "  " x scalar(@tagstack), $element, "\n";
 	}
-	if ($cat ne $1) {
-	    if ($cat ne "") {
-		print "</sect1>\n";
-	    }
-	    $cat = $1;
-	    my $cat_id = "CATEGORY_" . $cat;
-	    $cat_id =~ s/\s+/_/g;
-	    $cat_id =~ s/[^A-Za-z_]//g;
-	    print "<sect1 id=\"$cat_id\">\n";
-	    print "  <title>", &quote_stuff ($cat), "</title>\n";
+}
+
+sub close_upto($) {
+	my ($tag) = @_;
+	while (1) {
+		my $element = pop @tagstack;
+		last unless defined $element;
+		if ($element eq $tag) {
+			push @tagstack, $element;
+			last;	
+		}
+		print "  " x scalar(@tagstack), $element, "\n";
 	}
-	$state = 0;
-    }
-    if (/^\@FUNCTION=(.*)/) {
-	if ($state) {
-	    if ($state == 3) {
-		print "        </itemizedlist>\n";
-	    }
-	    print "      </refsect1>\n";
-	    print "    </refentry>\n\n";
+}
+
+#
+# Functions to process specific keywords
+#
+
+sub processnotimplemented($) {
+	die("Sorry, no code has been implemented yet to handle the $curkeyword keyword"),
+}
+
+sub process_category($) {
+	my ($cat) = @_;
+	chomp($cat);
+
+	my $ws = "  " x scalar(@tagstack);
+
+	if ((not defined $curcat) or ($curcat ne $cat)) {
+		# Start of a new category.
+
+		# Finish up the old one (if there is one)
+		close_including('</sect1>');
+
+		# And start on the new one
+		my $cat_id = "CATEGORY_" . $cat;
+		$cat_id =~ s/\s+/_/g;
+		$cat_id =~ s/[^A-Za-z_]//g;
+		print $ws, "<sect1 id=\"$cat_id\">\n";
+		print $ws, "  <title>", &quote_stuff ($cat), "</title>\n";
+		push @tagstack, ('</sect1>');
 	}
-	$func = $1;
-	my $mod_func = &fixup_function_name ($1);
-	$state = 0;
-	print "\n\n";
-	print "  <refentry id=\"gnumeric-$mod_func\">\n";
-	print "    <refmeta>\n";
-	print "      <refentrytitle><function>$func</function></refentrytitle>\n";
-	print "    </refmeta>\n";
-	print "    <refnamediv>\n";
-	print "      <refname><function>$func</function></refname>\n";
-	print "    <refpurpose/>\n";
-	print "    </refnamediv>\n";
-	next;
-    }
+}
 
-    if (/^\@SYNTAX=(.*)/) {
-	my $str = &markup_stuff ($1);
-	$str =~ s/([\(\,])(\w*)/\1<parameter>\2<\/parameter>/g;
-	print "    <refsynopsisdiv>\n";
-	print "      <synopsis>$str</synopsis>\n";
-	print "    </refsynopsisdiv>\n";
-	next;
-    }
+sub process_function($) {
+	my ($func) = @_;
 
-    if (/^\@DESCRIPTION=(.*)/) {
-	print "    <refsect1>\n";
-	print "      <title>Description</title>\n";
-	print "      <para>", &markup_stuff ($1), "</para>\n";
-	$state = 1;
-	next;
-    }
+	my $ws = "  " x scalar(@tagstack);
+	print $ws, "<refentry id=\"gnumeric-$func\">\n";
+	print $ws, "  <refmeta>\n";
+	print $ws, "    <refentrytitle><function>$func</function></refentrytitle>\n";
+	print $ws, "  </refmeta>\n";
+	print $ws, "  <refnamediv>\n";
+	print $ws, "    <refname><function>$func</function></refname>\n";
+	print $ws, "  <refpurpose/>\n";
+	print $ws, "  </refnamediv>\n";
+	push @tagstack, ('</refentry>');
+}
 
-    if (/^\@EXAMPLES=(.*)/) {
-	if ($state) {
-	    if ($state == 3) {
-		print "        </itemizedlist>\n";
-	    }
-	    print "    </refsect1>\n";
+sub process_description($) {
+	my ($text) = @_;
+	my $ws = "  " x scalar(@tagstack);
+	print $ws, "<refsect1>\n";
+	print $ws, "  <title>Description</title>\n";
+	my $haveparameters = 0;
+	foreach my $l (split(/\n/, $text)) {
+		if (!$haveparameters && $l =~ m/^\@\{/) {
+			$haveparameters = 1;
+		}
+		print $ws,"    <para>", &markup_stuff($l), "</para>\n";
 	}
-	print "    <refsect1>\n";
-	print "      <title>Examples</title>\n";
-	print "      <para>", &markup_stuff ($1), "</para>\n";
-	$state = 2;
-	next;
-    }
+	print $ws, "</refsect1>\n";
+}
 
-    if (/^\@SEEALSO=(.*)/) {
-	my $linktxt = $1;
+sub process_syntax($) {
+	my ($str) = @_;
+	my $ws = "  " x scalar(@tagstack);
+	$str = &markup_stuff ($str);
+	$str =~ s/([\(\,])(\w*)/$1<parameter>$2<\/parameter>/g;
+	print $ws, "<refsynopsisdiv>\n";
+	print $ws, "  <synopsis>$str</synopsis>\n";
+	print $ws, "</refsynopsisdiv>\n";
+}
+
+sub process_examples($) {
+	my ($text) = @_;
+	my $ws = "  " x scalar(@tagstack);
+	print $ws, "<refsect1>\n";
+	print $ws, "   <title>Examples</title>\n";
+	print $ws, "   <para>", &markup_stuff ($text), "</para>\n";
+	push @tagstack, ('</refsect1>');
+}
+
+sub process_seealso($) {
+	my ($text) = @_;
+
+	my $linktxt = $text;
 	$linktxt =~ s/\s//g;
 	$linktxt =~ s/\.$//;
 	my @links = split (/,/, $linktxt);
 
-	if ($state) {
-	    if ($state == 3) {
-		print "        </itemizedlist>\n";
-	    }
-	    print "    </refsect1>\n";
-	}
-	print "    <refsect1>\n";
-	print "      <title>See also</title>\n";
+	my $ws = "  " x scalar(@tagstack);
+	print $ws, "<refsect1>\n";
+	print $ws, "  <title>See also</title>\n";
 	my @a = ();
-	print   "      <para>\n";
+	print $ws, "  <para>\n";
 	foreach my $link (@links) {
-	    my $fixed_name = &fixup_function_name ($link);
-	    push @a, "        <link linkend=\"gnumeric-$fixed_name\"><function>$link</function></link>";
+	    push @a, $ws . "    <link linkend=\"gnumeric-$link\"><function>$link</function></link>";
 	}
-	if (@a > 0) {
+	if (scalar(@a) > 0) {
 	    print join (",\n", @a), ".\n";
 	}
-	print "      </para>\n";
-	print "    </refsect1>\n";
-	print "  </refentry>\n\n";
-	$state = 0;
-	next;
-    }
+	print $ws, "  </para>\n";
+	push @tagstack, ('</refsect1>');
+}
 
-    if ($state) {
-	if (/^\*\s/) {
-	    my $str = &markup_stuff ($_);
-	    $str =~ s/^\*\s+//;
-	    if ($state ne 3) {
-		print "        <itemizedlist>\n";
-		$state = 3;
-	    }
-	    print "          <listitem><para>$str</para></listitem>\n";
+my %processor = (
+	'CATEGORY'	=> \&process_category,
+	'FUNCTION'	=> \&process_function,
+	'SYNTAX'	=> \&process_syntax,
+	'DESCRIPTION'	=> \&process_description,
+	'SEEALSO'	=> \&process_seealso,
+
+	'NOTE'		=> \&processnotimplemented,
+	'EXCEL'		=> \&processnotimplemented,
+	'ODF'		=> \&processnotimplemented,
+);
+
+sub process_chunk(@) {
+	my (@chunk) = @_;
+	return unless scalar(@chunk) > 0;
+
+	# Trim off any trailing empty lines
+	while (scalar(@chunk) > 0) {
+		last unless $chunk[$#chunk] =~ /^\s*$/;
+		pop @chunk;
 	}
-	elsif ($_ ne "") {
-	    if ($state == 3) {
-		print "        </itemizedlist>\n";
-		$state = 1;
-	    }
-	    print "        <para>", &markup_stuff ($_), "</para>\n";
+	
+	my $cat;
+	my $in_description = 0;
+
+	$curkeyword = undef;
+	my $lines = "";
+	for my $i (0..$#chunk) {
+		my $chunk = $chunk[$i];
+		chomp $chunk;
+
+		if ($chunk =~ m/^\@(\w+)=(.*)/) {
+			my ($key, $val) = (uc($1), $2);
+
+			$cat = $val if ($key eq 'CATEGORY');
+			$curfunc = $val if ($key eq 'FUNCTION');
+
+			if (defined($processor{$key})) {
+				if (defined($curkeyword)) {
+					# Process the previous tag for which
+					# all lines have been gathered now.
+					&{$processor{$curkeyword}}($lines);
+				}
+				$curkeyword = $key;
+				$lines = $val;
+				next;
+			} else {
+				die("Unrecognised keyword: $key\n");
+			}
+		}
+		$lines .= "\n" . $chunk;
 	}
-    }
+	&{$processor{$curkeyword}}($lines);
+
+	$curcat = $cat;
+
+	close_upto('</sect1>'); # Closing tag of a category.
 }
 
-print "</sect1>\n";
-
-sub markup_stuff {
-    my ($str) = @_;
-
-    $str = &quote_stuff ($str);
-
-    $str =~ s/\b$func\b/<function>$func<\/function>/g;
-    $str =~ s/\@\{(\w*)\}/<parameter>\1<\/parameter>/g;
-    $str =~ s/\@(\w*)\b/<parameter>\1<\/parameter>/g;
-
-    return $str;
+sub main() {
+	my $line;
+	my @chunk = ();
+	while ($line = <>) {
+		if ($line =~ m/^\@CATEGORY=/) {
+			# We're at the start of a new chunk of function
+			# documentation
+			process_chunk(@chunk);
+			print "\n";
+			@chunk = ($line);
+		} else {
+			push @chunk, $line;
+		}
+	}
+	process_chunk(@chunk);
+	while (my $el = pop @tagstack) {
+		print "  " x scalar(@tagstack), $el, "\n";
+	}
 }
 
-sub quote_stuff {
-    my ($str) = @_;
-
-    # Let's do this one first...
-    $str =~ s/\&/\&amp;/g;
-
-    $str =~ s/</\&lt;/g;
-    $str =~ s/>/\&gt;/g;
-    return $str;
-}
-
-sub fixup_function_name {
-    my ($name) = @_;
-#    why did we need this ?  leave the routine here just in case
-#    $name =~ s/_/x/g;
-    return $name;
-}
-
+main();
+exit(0);
