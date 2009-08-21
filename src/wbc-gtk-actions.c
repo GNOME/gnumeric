@@ -702,7 +702,7 @@ static GNM_ACTION_DEF (cb_view_freeze_panes)
 /****************************************************************************/
 
 static void
-insert_date_time_common (WBCGtk *wbcg, int what)
+insert_date_time_common (WBCGtk *wbcg, gboolean do_date, gboolean do_time)
 {
 	if (wbcg_edit_start (wbcg, FALSE, FALSE)) {
 		WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
@@ -715,39 +715,33 @@ insert_date_time_common (WBCGtk *wbcg, int what)
 			workbook_date_conv (sheet->workbook);
 		GnmValue *v = value_new_float
 			(datetime_timet_to_serial_raw (time (NULL), date_conv));
-		GOFormat *vfmt;
 		char *txt;
+		char *dtxt = NULL;
+		char *ttxt = NULL;
 
-		switch (what) {
-		case 1:
-			vfmt = go_format_default_time ();
-			go_format_ref (vfmt);
-			break;
-		case 2:
-			vfmt = gnm_format_for_date_editing (cell);
-			break;
-		case 3: {
-			GString *fstr;
-
-			vfmt = gnm_format_for_date_editing (cell);
-			fstr = g_string_new (go_format_as_XL (vfmt));
-			go_format_unref (vfmt);
-			g_string_append_c (fstr, ' ');
-			vfmt = go_format_default_time ();
-			g_string_append (fstr, go_format_as_XL (vfmt));
-			vfmt = go_format_new_from_XL (fstr->str);
-			g_string_free (fstr, TRUE);
-			break;
-		}
-		default:
-			g_assert_not_reached ();
+		if (do_date) {
+			GOFormat *fmt = gnm_format_for_date_editing (cell);
+			dtxt = format_value (fmt, v, NULL, -1, date_conv);
+			go_format_unref (fmt);
 		}
 
-		txt = format_value (vfmt, v, NULL, -1, date_conv);
+		if (do_time) {
+			GOFormat const *fmt = go_format_default_time ();
+			ttxt = format_value (fmt, v, NULL, -1, date_conv);
+		}
+
+		if (do_date && do_time) {
+			txt = g_strconcat (dtxt, " ", ttxt, NULL);
+			g_free (dtxt);
+			g_free (ttxt);
+		} else if (do_date)
+			txt = dtxt;
+		else
+			txt = ttxt;
+
 		wb_control_edit_line_set (wbc, txt);
 
 		value_release (v);
-		go_format_unref (vfmt);
 		g_free (txt);
 	}
 }
@@ -756,16 +750,16 @@ insert_date_time_common (WBCGtk *wbcg, int what)
 
 static GNM_ACTION_DEF (cb_insert_current_date_time)
 {
-	insert_date_time_common (wbcg, 3);
+	insert_date_time_common (wbcg, TRUE, TRUE);
 }
 static GNM_ACTION_DEF (cb_insert_current_date)
 {
-	insert_date_time_common (wbcg, 2);
+	insert_date_time_common (wbcg, TRUE, FALSE);
 }
 
 static GNM_ACTION_DEF (cb_insert_current_time)
 {
-	insert_date_time_common (wbcg, 1);
+	insert_date_time_common (wbcg, FALSE, TRUE);
 }
 
 static GNM_ACTION_DEF (cb_define_name)
