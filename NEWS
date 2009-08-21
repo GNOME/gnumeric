@@ -5,7 +5,7 @@ Andreas:
 
 Morten:
 	* Add GAMMA.
-	* Fix Insert-Date.  [#592545]
+	* Fix Insert-Date+Time.  [#592545]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.10
