@@ -32,6 +32,7 @@
 				<function name="devsq"/>
 				<function name="exppowdist"/>
 				<function name="permut"/>
+				<function name="permutationa"/>
 				<function name="poisson"/>
 				<function name="expondist"/>
 				<function name="fdist"/>

@@ -1702,7 +1702,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "FTEST","FTEST" },
 		{ "FV","FV" },
 		{ "FVSCHEDULE","FVSCHEDULE" },
-		/* { "GAMMA","GAMMA" },  not implemented */
+		{ "GAMMA","GAMMA" },
 		{ "GAMMADIST","GAMMADIST" },
 		{ "GAMMAINV","GAMMAINV" },
 		{ "GAMMALN","GAMMALN" },
@@ -1840,7 +1840,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "PERCENTILE","PERCENTILE" },
 		{ "PERCENTRANK","PERCENTRANK" },
 		{ "PERMUT","PERMUT" },
-		/* { "PERMUTATIONA","PERMUTATIONA" },  not implemented */
+		{ "PERMUTATIONA","PERMUTATIONA" },
 		/* { "PHI","PHI" },  not implemented */
 		{ "PI","PI" },
 		{ "PMT","PMT" },

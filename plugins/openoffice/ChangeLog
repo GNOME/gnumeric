@@ -1,3 +1,10 @@
+2009-08-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_func_map_in): no need to map GAMMA and 
+	  PERMUTATIONA
+	* openoffice-write.c (odf_expr_func_handler): we now have 
+	  GAMMA and PERMUTATIONA
+	
 2009-08-17 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_expr_func_handler): we now have a

@@ -4770,6 +4770,39 @@ gnumeric_laplace (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_permutationa[] = {
+        { GNM_FUNC_HELP_NAME, F_("PERMUTATIONA:the number of permutations of @{y} objects chosen from @{x} objects with repetition allowed.")},
+        { GNM_FUNC_HELP_ARG, F_("x:total number of objects")},
+        { GNM_FUNC_HELP_ARG, F_("y:number of selected objects")},
+	{ GNM_FUNC_HELP_NOTE, F_("If both @{x} and @{y} equal 0, PERMUTATIONA returns 1.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < 0 or @{y} < 0, PERMUTATIONA returns #NUM!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{y} are not integers, they are truncated") },
+	{ GNM_FUNC_HELP_ODF, F_("This function is ODF compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=PERMUTATIONA(2,7)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=PERMUTATIONA(2.3,7.6)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=PERMUTATIONA(0,0)" },
+        { GNM_FUNC_HELP_SEEALSO, "POWER"},
+        { GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_permutationa (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float y = value_get_as_float (argv[1]);
+	int ix = (int) x;
+	int iy = (int) y;
+
+	if (ix < 0 || iy < 0)
+		return value_new_error_NUM (ei->pos);
+	else if (ix == 0 && iy == 0)
+		return value_new_float (0);
+	else
+		return value_new_float (gnm_pow (ix, iy));
+}
+
+/***************************************************************************/
+
 GnmFuncDescriptor const stat_functions[] = {
         { "avedev", NULL,      
 	  help_avedev, NULL, gnumeric_avedev, NULL, NULL, NULL,
@@ -5076,6 +5109,9 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "cronbach", NULL,      
 	  help_cronbach, NULL, gnumeric_cronbach, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{ "permutationa",   "ff",       help_permutationa,
+	  gnumeric_permutationa, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
         {NULL}
 };

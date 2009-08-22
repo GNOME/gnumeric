@@ -1,3 +1,10 @@
+2009-08-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_permutationa): new
+	(gnumeric_permutationa): new
+	(stat_functions): add PERMUTATIONA
+	* plugin.xml.in: add PERMUTATIONA
+
 2009-08-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.10
