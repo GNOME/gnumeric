@@ -475,7 +475,7 @@ xl_xml_data_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			g_date_clear (&date, 1);
 			g_date_set_dmy (&date, d, mo, y);
 			if (g_date_valid (&date)) {
-				unsigned d_serial = datetime_g_to_serial (&date,
+				unsigned d_serial = go_date_g_to_serial (&date,
 					workbook_date_conv (state->wb));
 				v = value_new_float (d_serial + h/24. + mi/(24.*60.) + s/(24.*60.*60.));
 			} else

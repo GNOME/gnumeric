@@ -598,7 +598,7 @@ afm_compute (AutoFillerMonth *afm, int n)
 		g_date_set_day (&d, g_date_get_days_in_month (month, year));
 	}
 
-	v = value_new_int (datetime_g_to_serial (&d, afm->dateconv));
+	v = value_new_int (go_date_g_to_serial (&d, afm->dateconv));
 	if (afm->format)
 		value_set_fmt (v, afm->format);
 	return v;

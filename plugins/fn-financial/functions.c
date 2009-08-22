@@ -245,7 +245,7 @@ days_monthly_basis (GnmValue const *issue_date,
  */
 static gnm_float
 coupnum (GDate const *settlement, GDate const *maturity,
-	 GnmCouponConvention const *conv)
+	 GoCouponConvention const *conv)
 {
         int        months;
 	GDate      this_coupondate = *maturity;
@@ -275,25 +275,25 @@ coupnum (GDate const *settlement, GDate const *maturity,
 
 static gnm_float
 couppcd (GDate const *settlement, GDate const *maturity,
-	 GnmCouponConvention const *conv)
+	 GoCouponConvention const *conv)
 {
 	GDate date;
 	go_coup_cd (&date, settlement, maturity, conv->freq, conv->eom, FALSE);
-	return datetime_g_to_serial (&date, conv->date_conv);
+	return go_date_g_to_serial (&date, conv->date_conv);
 }
 
 static gnm_float
 coupncd (GDate const *settlement, GDate const *maturity,
-	 GnmCouponConvention const *conv)
+	 GoCouponConvention const *conv)
 {
 	GDate date;
 	go_coup_cd (&date, settlement, maturity, conv->freq, conv->eom, TRUE);
-	return datetime_g_to_serial (&date, conv->date_conv);
+	return go_date_g_to_serial (&date, conv->date_conv);
 }
 
 static gnm_float
 price (GDate *settlement, GDate *maturity, gnm_float rate, gnm_float yield,
-       gnm_float redemption, GnmCouponConvention const *conv)
+       gnm_float redemption, GoCouponConvention const *conv)
 {
 	gnm_float a, d, e, sum, den, basem1, exponent, first_term, last_term;
 	int       n;
@@ -330,13 +330,13 @@ price (GDate *settlement, GDate *maturity, gnm_float rate, gnm_float yield,
 static GnmValue *
 func_coup (GnmFuncEvalInfo *ei, GnmValue const * const *argv,
 	   gnm_float (coup_fn) (GDate const *settle, GDate const *mat,
-				GnmCouponConvention const *conv))
+				GoCouponConvention const *conv))
 {
         GDate   settlement, maturity;
-	GnmCouponConvention conv;
+	GoCouponConvention conv;
 
         conv.freq  = value_get_freq (argv[2]);
-	conv.basis = value_get_basis (argv[3], BASIS_MSRB_30_360);
+	conv.basis = value_get_basis (argv[3], GO_BASIS_MSRB_30_360);
 	conv.eom   = argv[4] ? value_get_as_checked_bool (argv[4]) : TRUE;
 	conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
 
@@ -391,7 +391,7 @@ gnumeric_accrint (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	rate           = value_get_as_float (argv[3]);
 	par            = value_get_as_float (argv[4]);
 	freq           = value_get_freq (argv[5]);
-	basis          = value_get_basis (argv[6], BASIS_MSRB_30_360);
+	basis          = value_get_basis (argv[6], GO_BASIS_MSRB_30_360);
 
         if (rate <= 0.	||
 	    par <= 0.	||
@@ -443,7 +443,7 @@ gnumeric_accrintm (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	rate  = value_get_as_float (argv[2]);
 	par   = argv[3] ? value_get_as_float (argv[3]) : 1000;
-	basis = value_get_basis (argv[4], BASIS_MSRB_30_360);
+	basis = value_get_basis (argv[4], GO_BASIS_MSRB_30_360);
 
 	a = days_monthly_basis (argv[0], argv[1], basis, date_conv);
 	d = annual_year_basis (argv[0], basis, date_conv);
@@ -481,7 +481,7 @@ gnumeric_intrate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	investment = value_get_as_float (argv[2]);
 	redemption = value_get_as_float (argv[3]);
-	basis      = value_get_basis (argv[4], BASIS_MSRB_30_360);
+	basis      = value_get_basis (argv[4], GO_BASIS_MSRB_30_360);
 
 	a = days_monthly_basis (argv[0], argv[1], basis, date_conv);
 	d = annual_year_basis (argv[0], basis, date_conv);
@@ -519,7 +519,7 @@ gnumeric_received (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	investment = value_get_as_float (argv[2]);
 	discount   = value_get_as_float (argv[3]);
-	basis      = value_get_basis (argv[4], BASIS_MSRB_30_360);
+	basis      = value_get_basis (argv[4], GO_BASIS_MSRB_30_360);
 
 	a = days_monthly_basis (argv[0], argv[1], basis, date_conv);
 	d = annual_year_basis (argv[0], basis, date_conv);
@@ -559,7 +559,7 @@ gnumeric_pricedisc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	discount   = value_get_as_float (argv[2]);
 	redemption = value_get_as_float (argv[3]);
-	basis      = value_get_basis (argv[4], BASIS_MSRB_30_360);
+	basis      = value_get_basis (argv[4], GO_BASIS_MSRB_30_360);
 
 	a = days_monthly_basis (argv[0], argv[1], basis, date_conv);
 	d = annual_year_basis (argv[0], basis, date_conv);
@@ -596,7 +596,7 @@ gnumeric_pricemat (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	discount = value_get_as_float (argv[3]);
 	yield    = value_get_as_float (argv[4]);
-	basis    = value_get_basis (argv[5], BASIS_MSRB_30_360);
+	basis    = value_get_basis (argv[5], GO_BASIS_MSRB_30_360);
 
 	dsm = days_monthly_basis (argv[0], argv[1], basis, date_conv);
 	dim = days_monthly_basis (argv[2], argv[1], basis, date_conv);
@@ -641,7 +641,7 @@ gnumeric_disc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	par        = value_get_as_float (argv[2]);
 	redemption = value_get_as_float (argv[3]);
-	basis      = value_get_basis (argv[4], BASIS_MSRB_30_360);
+	basis      = value_get_basis (argv[4], GO_BASIS_MSRB_30_360);
 
 	b = annual_year_basis (argv[0], basis, date_conv);
 	dsm = days_monthly_basis (argv[0], argv[1], basis, date_conv);
@@ -1846,7 +1846,7 @@ gnumeric_duration (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
         GDate     nSettle, nMat;
 	gnm_float fCoup, fYield;
         gnm_float fNumOfCoups;
-	GnmCouponConvention conv;
+	GoCouponConvention conv;
 
 	conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
 	conv.eom = TRUE;
@@ -1854,7 +1854,7 @@ gnumeric_duration (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	fCoup      = value_get_as_float (argv[2]);
 	fYield     = value_get_as_float (argv[3]);
 	conv.freq  = value_get_freq (argv[4]);
-        conv.basis = value_get_basis (argv[5], BASIS_MSRB_30_360);
+        conv.basis = value_get_basis (argv[5], GO_BASIS_MSRB_30_360);
 
         if (!datetime_value_to_g (&nSettle, argv[0], conv.date_conv) ||
 	    !datetime_value_to_g (&nMat, argv[1], conv.date_conv) ||
@@ -2085,7 +2085,7 @@ gnumeric_price (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
         GDate      settlement, maturity;
 	gnm_float rate, yield, redemption;
-	GnmCouponConvention conv;
+	GoCouponConvention conv;
 
 	conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
 
@@ -2094,7 +2094,7 @@ gnumeric_price (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	redemption = value_get_as_float (argv[4]);
         conv.freq  = value_get_freq (argv[5]);
 	conv.eom   = TRUE;
-        conv.basis = value_get_basis (argv[6], BASIS_MSRB_30_360);
+        conv.basis = value_get_basis (argv[6], GO_BASIS_MSRB_30_360);
 
 	if (!datetime_value_to_g (&settlement, argv[0], conv.date_conv) ||
 	    !datetime_value_to_g (&maturity, argv[1], conv.date_conv))
@@ -2133,7 +2133,7 @@ static GnmFuncHelp const help_yield[] = {
 typedef struct {
         GDate settlement, maturity;
 	gnm_float rate, redemption, par;
-	GnmCouponConvention conv;
+	GoCouponConvention conv;
 } gnumeric_yield_t;
 
 static GoalSeekStatus
@@ -2158,7 +2158,7 @@ gnumeric_yield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	udata.par        = value_get_as_float (argv[3]);
 	udata.redemption = value_get_as_float (argv[4]);
         udata.conv.freq  = value_get_freq (argv[5]);
-        udata.conv.basis = value_get_basis (argv[6], BASIS_MSRB_30_360);
+        udata.conv.basis = value_get_basis (argv[6], GO_BASIS_MSRB_30_360);
         udata.conv.eom   = TRUE;
         udata.conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
 
@@ -2248,7 +2248,7 @@ gnumeric_yielddisc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	fPrice     = value_get_as_float (argv[2]);
 	fRedemp    = value_get_as_float (argv[3]);
-        basis      = value_get_basis (argv[4], BASIS_MSRB_30_360);
+        basis      = value_get_basis (argv[4], GO_BASIS_MSRB_30_360);
 
         if (!is_valid_basis (basis) ||
 	    !datetime_value_to_g (&settlement, argv[0], date_conv) ||
@@ -2293,7 +2293,7 @@ gnumeric_yieldmat (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	fRate      = value_get_as_float (argv[3]);
 	fPrice     = value_get_as_float (argv[4]);
-        basis      = value_get_basis (argv[5], BASIS_MSRB_30_360);
+        basis      = value_get_basis (argv[5], GO_BASIS_MSRB_30_360);
 
         if (!is_valid_basis (basis) ||
 	    fRate < 0 ||
@@ -2327,7 +2327,7 @@ static GnmFuncHelp const help_oddfprice[] = {
 
 static gnm_float
 date_ratio (GDate const *d1, const GDate *d2, const GDate *d3,
-	    GnmCouponConvention const *conv)
+	    GoCouponConvention const *conv)
 {
 	GDate next_coupon, prev_coupon;
 	gnm_float res;
@@ -2342,10 +2342,10 @@ date_ratio (GDate const *d1, const GDate *d2, const GDate *d3,
 		return gnm_nan;
 
 	if (g_date_compare (&next_coupon, d2) >= 0)
-		return go_datetime_days_between_basis (d1, d2, conv->basis) /
+		return go_date_days_between_basis (d1, d2, conv->basis) /
 			go_coupdays (&prev_coupon, &next_coupon, conv);
 
-	res = go_datetime_days_between_basis (d1, &next_coupon, conv->basis) /
+	res = go_date_days_between_basis (d1, &next_coupon, conv->basis) /
 		go_coupdays (&prev_coupon, &next_coupon, conv);
 	while (1) {
 		prev_coupon = next_coupon;
@@ -2353,7 +2353,7 @@ date_ratio (GDate const *d1, const GDate *d2, const GDate *d3,
 		if (!g_date_valid (&next_coupon))
 			return gnm_nan;
 		if (g_date_compare (&next_coupon, d2) >= 0) {
-			res += go_datetime_days_between_basis (&prev_coupon, d2, conv->basis) /
+			res += go_date_days_between_basis (&prev_coupon, d2, conv->basis) /
 				go_coupdays (&prev_coupon, &next_coupon, conv);
 			return res;
 		}
@@ -2365,12 +2365,12 @@ static gnm_float
 calc_oddfprice (const GDate *settlement, const GDate *maturity,
 		const GDate *issue, const GDate *first_coupon,
 		gnm_float rate, gnm_float yield, gnm_float redemption,
-		GnmCouponConvention const *conv)
+		GoCouponConvention const *conv)
 
 {
-	gnm_float a = go_datetime_days_between_basis (issue, settlement, conv->basis);
-	gnm_float ds = go_datetime_days_between_basis (settlement, first_coupon, conv->basis);
-	gnm_float df = go_datetime_days_between_basis (issue, first_coupon, conv->basis);
+	gnm_float a = go_date_days_between_basis (issue, settlement, conv->basis);
+	gnm_float ds = go_date_days_between_basis (settlement, first_coupon, conv->basis);
+	gnm_float df = go_date_days_between_basis (issue, first_coupon, conv->basis);
 	gnm_float e = go_coupdays (settlement, maturity, conv);
 	int n = (int)coupnum (settlement, maturity, conv);
 	gnm_float scale = 100.0 * rate / conv->freq;
@@ -2380,9 +2380,9 @@ calc_oddfprice (const GDate *settlement, const GDate *maturity,
 	if (ds > e) {
 		/* Odd-long corrections.  */
 		switch (conv->basis) {
-		case BASIS_MSRB_30_360:
-		case BASIS_30E_360: {
-			int cdays = go_datetime_days_between_basis (first_coupon, maturity, conv->basis);
+		case GO_BASIS_MSRB_30_360:
+		case GO_BASIS_30E_360: {
+			int cdays = go_date_days_between_basis (first_coupon, maturity, conv->basis);
 			n = 1 + (int)gnm_ceil (cdays / e);
 			break;
 		}
@@ -2394,7 +2394,7 @@ calc_oddfprice (const GDate *settlement, const GDate *maturity,
 				GDate prev_date = d;
 				gnm_date_add_months (&d, 12 / conv->freq);
 				if (g_date_compare (&d, maturity) >= 0) {
-					n += (int)gnm_ceil (go_datetime_days_between_basis (&prev_date, maturity, conv->basis) /
+					n += (int)gnm_ceil (go_date_days_between_basis (&prev_date, maturity, conv->basis) /
 							    go_coupdays (&prev_date, &d, conv))
 						+ 1;
 					break;
@@ -2422,7 +2422,7 @@ gnumeric_oddfprice (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
         GDate     settlement, maturity, issue, first_coupon;
 	gnm_float rate, yield, redemption;
-	GnmCouponConvention conv;
+	GoCouponConvention conv;
 
 	rate       = value_get_as_float (argv[4]);
 	yield      = value_get_as_float (argv[5]);
@@ -2430,7 +2430,7 @@ gnumeric_oddfprice (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
         conv.eom   = TRUE;
         conv.freq  = value_get_freq (argv[7]);
-        conv.basis = value_get_basis (argv[8], BASIS_MSRB_30_360);
+        conv.basis = value_get_basis (argv[8], GO_BASIS_MSRB_30_360);
 	conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
 
 	if (!datetime_value_to_g (&settlement, argv[0], conv.date_conv) ||
@@ -2478,7 +2478,7 @@ static GnmFuncHelp const help_oddfyield[] = {
 struct gnumeric_oddyield_f {
         GDate settlement, maturity, issue, first_coupon;
 	gnm_float rate, price, redemption;
-	GnmCouponConvention conv;
+	GoCouponConvention conv;
 };
 
 static GoalSeekStatus
@@ -2508,7 +2508,7 @@ gnumeric_oddfyield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
         udata.conv.eom   = TRUE;
         udata.conv.freq  = value_get_freq (argv[7]);
-        udata.conv.basis = value_get_basis (argv[8], BASIS_MSRB_30_360);
+        udata.conv.basis = value_get_basis (argv[8], GO_BASIS_MSRB_30_360);
 	udata.conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
 
 	if (!datetime_value_to_g (&udata.settlement, argv[0], udata.conv.date_conv) ||
@@ -2574,7 +2574,7 @@ static gnm_float
 calc_oddlprice (const GDate *settlement, const GDate *maturity,
 		const GDate *last_interest,
 		gnm_float rate, gnm_float yield, gnm_float redemption,
-		GnmCouponConvention *conv)
+		GoCouponConvention *conv)
 {
 	GDate d = *last_interest;
 	gnm_float x1, x2, x3;
@@ -2598,7 +2598,7 @@ gnumeric_oddlprice (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
         GDate     settlement, maturity, last_interest;
 	gnm_float rate, yield, redemption;
-	GnmCouponConvention conv;
+	GoCouponConvention conv;
 
 	rate       = value_get_as_float (argv[3]);
 	yield      = value_get_as_float (argv[4]);
@@ -2606,7 +2606,7 @@ gnumeric_oddlprice (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
         conv.eom   = TRUE;
         conv.freq  = value_get_freq (argv[6]);
-        conv.basis = value_get_basis (argv[7], BASIS_MSRB_30_360);
+        conv.basis = value_get_basis (argv[7], GO_BASIS_MSRB_30_360);
 	conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
 
 	if (!datetime_value_to_g (&settlement, argv[0], conv.date_conv) ||
@@ -2653,7 +2653,7 @@ static gnm_float
 calc_oddlyield (GDate const *settlement, GDate const *maturity,
 		GDate const *last_interest,
 		gnm_float rate, gnm_float price, gnm_float redemption,
-		GnmCouponConvention const *conv)
+		GoCouponConvention const *conv)
 {
 	GDate d = *last_interest;
 	gnm_float x1, x2, x3;
@@ -2676,7 +2676,7 @@ gnumeric_oddlyield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
         GDate     settlement, maturity, last_interest;
 	gnm_float rate, price, redemption;
-	GnmCouponConvention conv;
+	GoCouponConvention conv;
 
 	rate       = value_get_as_float (argv[3]);
 	price      = value_get_as_float (argv[4]);
@@ -2684,7 +2684,7 @@ gnumeric_oddlyield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
         conv.eom   = TRUE;
         conv.freq  = value_get_freq (argv[6]);
-        conv.basis = value_get_basis (argv[7], BASIS_MSRB_30_360);
+        conv.basis = value_get_basis (argv[7], GO_BASIS_MSRB_30_360);
 	conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
 
 	if (!datetime_value_to_g (&settlement, argv[0], conv.date_conv) ||
@@ -2743,7 +2743,7 @@ gnumeric_amordegrc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	fRestVal   = value_get_as_float (argv[3]);
         nPer       = value_get_as_int (argv[4]);
 	fRate      = value_get_as_float (argv[5]);
-        basis      = value_get_basis (argv[6], BASIS_MSRB_30_360);
+        basis      = value_get_basis (argv[6], GO_BASIS_MSRB_30_360);
 
         if (!is_valid_basis (basis) ||
 	    fRate < 0 ||
@@ -2789,7 +2789,7 @@ gnumeric_amorlinc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	fRestVal   = value_get_as_float (argv[3]);
         nPer       = value_get_as_int (argv[4]);
 	fRate      = value_get_as_float (argv[5]);
-        basis      = value_get_basis (argv[6], BASIS_MSRB_30_360);
+        basis      = value_get_basis (argv[6], GO_BASIS_MSRB_30_360);
 
         if (!is_valid_basis (basis) ||
 	    fRate < 0 ||
@@ -3060,7 +3060,7 @@ gnumeric_mduration (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
         GDate     nSettle, nMat;
 	gnm_float fCoup, fYield;
         gnm_float fNumOfCoups;
-	GnmCouponConvention conv;
+	GoCouponConvention conv;
 
 	conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
 	conv.eom = TRUE;
@@ -3068,7 +3068,7 @@ gnumeric_mduration (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	fCoup      = value_get_as_float (argv[2]);
 	fYield     = value_get_as_float (argv[3]);
 	conv.freq  = value_get_freq (argv[4]);
-        conv.basis = value_get_basis (argv[5], BASIS_MSRB_30_360);
+        conv.basis = value_get_basis (argv[5], GO_BASIS_MSRB_30_360);
         conv.eom   = FALSE;
 
         if (!is_valid_basis (conv.basis) ||

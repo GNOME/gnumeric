@@ -1215,7 +1215,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				GDate date;
 				g_date_set_dmy (&date, d, m, y);
 				if (g_date_valid (&date)) {
-					unsigned d_serial = datetime_g_to_serial (&date,
+					unsigned d_serial = go_date_g_to_serial (&date,
 						workbook_date_conv (state->pos.wb));
 					if (n >= 6) {
 						double time_frac = h + ((double)mi / 60.) + ((double)s / 3600.);

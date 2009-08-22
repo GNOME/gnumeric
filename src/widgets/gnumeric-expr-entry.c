@@ -338,7 +338,7 @@ cb_calendar_changed (GOCalendarButton *calb, GnmExprEntry *gee)
 	if (!go_calendar_button_get_date (calb, &date))
 		return;
 
-	serial = datetime_g_to_serial (&date, date_conv);
+	serial = go_date_g_to_serial (&date, date_conv);
 
 	gee_set_value_double (GOG_DATA_EDITOR (gee), serial, date_conv);
 }

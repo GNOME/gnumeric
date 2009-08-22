@@ -121,7 +121,7 @@ gnumeric_date (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	    g_date_get_year (&date) >= 11900)
 		goto error;
 
-	return make_date (value_new_int (datetime_g_to_serial (&date, conv)));
+	return make_date (value_new_int (go_date_g_to_serial (&date, conv)));
 
  error:
 	return value_new_error_NUM (ei->pos);
@@ -149,7 +149,7 @@ gnumeric_unix2date (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (gnm_abs (futime - utime) >= 1.0)
 		return value_new_error_VALUE (ei->pos);
 
-	serial = datetime_timet_to_serial_raw (utime, DATE_CONV (ei->pos));
+	serial = go_date_timet_to_serial_raw (utime, DATE_CONV (ei->pos));
 	if (serial == G_MAXINT)
 		return value_new_error_VALUE (ei->pos);
 
@@ -173,7 +173,7 @@ gnumeric_date2unix (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float fserial = value_get_as_float (argv [0]);
 	int        serial  = (int)fserial;
-	time_t     utime   = datetime_serial_to_timet (serial, DATE_CONV (ei->pos));
+	time_t     utime   = go_date_serial_to_timet (serial, DATE_CONV (ei->pos));
 
 	/* Check for overflow.  */
 	if (gnm_abs (fserial - serial) >= 1.0 || utime == (time_t)-1)
@@ -226,7 +226,7 @@ datedif_opt_ym (GDate *gdate1, GDate *gdate2)
 	g_assert (g_date_valid (gdate1));
 	g_assert (g_date_valid (gdate2));
 
-	return datetime_g_months_between (gdate1, gdate2) % 12;
+	return go_date_g_months_between (gdate1, gdate2) % 12;
 }
 
 static int
@@ -240,7 +240,7 @@ datedif_opt_yd (GDate *gdate1, GDate *gdate2, int excel_compat)
 	day = g_date_get_day (gdate1);
 
 	gnm_date_add_years (gdate1,
-			    datetime_g_years_between (gdate1, gdate2));
+			    go_date_g_years_between (gdate1, gdate2));
 	/* according to glib.h, feb 29 turns to feb 28 if necessary */
 
 	if (excel_compat) {
@@ -279,7 +279,7 @@ datedif_opt_md (GDate *gdate1, GDate *gdate2, gboolean excel_compat)
 	day = g_date_get_day (gdate1);
 
 	gnm_date_add_months (gdate1,
-			     datetime_g_months_between (gdate1, gdate2));
+			     go_date_g_months_between (gdate1, gdate2));
 	/* according to glib.h, days>28 decrease if necessary */
 
 	if (excel_compat) {
@@ -322,15 +322,15 @@ gnumeric_datedif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (!strcmp (opt, "d"))
 		return value_new_int (date2 - date1);
 
-	datetime_serial_to_g (&d1, date1, conv);
-	datetime_serial_to_g (&d2, date2, conv);
+	go_date_serial_to_g (&d1, date1, conv);
+	go_date_serial_to_g (&d2, date2, conv);
 	if (!g_date_valid (&d1) || !g_date_valid (&d2))
 		return value_new_error_VALUE (ei->pos);
 
 	if (!strcmp (opt, "m"))
-		return value_new_int (datetime_g_months_between (&d1, &d2));
+		return value_new_int (go_date_g_months_between (&d1, &d2));
 	else if (!strcmp (opt, "y"))
-		return value_new_int (datetime_g_years_between (&d1, &d2));
+		return value_new_int (go_date_g_years_between (&d1, &d2));
 	else if (!strcmp (opt, "ym"))
 		return value_new_int (datedif_opt_ym (&d1, &d2));
 	else if (!strcmp (opt, "yd"))
@@ -367,7 +367,7 @@ gnumeric_edate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (months > INT_MAX / 2 || -months > INT_MAX / 2)
                   return value_new_error_NUM (ei->pos);
 
-	datetime_serial_to_g (&date, (int)serial, conv);
+	go_date_serial_to_g (&date, (int)serial, conv);
 	gnm_date_add_months (&date, (int)months);
 
 	if (!g_date_valid (&date) ||
@@ -375,7 +375,7 @@ gnumeric_edate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	    g_date_get_year (&date) > 9999)
 		return value_new_error_NUM (ei->pos);
 
-	return make_date (value_new_int (datetime_g_to_serial (&date, conv)));
+	return make_date (value_new_int (go_date_g_to_serial (&date, conv)));
 }
 
 /***************************************************************************/
@@ -392,7 +392,7 @@ static GnmFuncHelp const help_today[] = {
 static GnmValue *
 gnumeric_today (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return make_date (value_new_int (datetime_timet_to_serial (time (NULL), DATE_CONV (ei->pos))));
+	return make_date (value_new_int (go_date_timet_to_serial (time (NULL), DATE_CONV (ei->pos))));
 }
 
 /***************************************************************************/
@@ -409,7 +409,7 @@ static GnmFuncHelp const help_now[] = {
 static GnmValue *
 gnumeric_now (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float (datetime_timet_to_serial_raw (time (NULL), DATE_CONV (ei->pos)));
+	return value_new_float (go_date_timet_to_serial_raw (time (NULL), DATE_CONV (ei->pos)));
 }
 
 /***************************************************************************/
@@ -659,7 +659,7 @@ static GnmFuncHelp const help_days360[] = {
 static GnmValue *
 gnumeric_days360 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	basis_t basis;
+	go_basis_t basis;
 	GDate date1, date2;
 	GODateConventions const *date_conv = DATE_CONV (ei->pos);
 	gnm_float serial1 = datetime_value_to_serial (argv[0], date_conv);
@@ -667,18 +667,18 @@ gnumeric_days360 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float method = argv[2] ? gnm_floor (value_get_as_float (argv[2])) : 0;
 
 	switch ((int)method) {
-	case 0: basis = BASIS_MSRB_30_360; break;
+	case 0: basis = GO_BASIS_MSRB_30_360; break;
 	default:
-	case 1: basis = BASIS_30E_360; break;
-	case 2: basis = BASIS_MSRB_30_360_SYM; break;
+	case 1: basis = GO_BASIS_30E_360; break;
+	case 2: basis = GO_BASIS_MSRB_30_360_SYM; break;
 	}
 
-	datetime_serial_to_g (&date1, serial1, date_conv);
-	datetime_serial_to_g (&date2, serial2, date_conv);
+	go_date_serial_to_g (&date1, serial1, date_conv);
+	go_date_serial_to_g (&date2, serial2, date_conv);
 	if (!g_date_valid (&date1) || !g_date_valid (&date2))
 		return value_new_error_VALUE (ei->pos);
 
-	return value_new_int (go_datetime_days_between_basis (&date1, &date2, basis));
+	return value_new_int (go_date_days_between_basis (&date1, &date2, basis));
 }
 
 /***************************************************************************/
@@ -718,7 +718,7 @@ gnumeric_eomonth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			g_date_get_days_in_month (g_date_get_month (&date),
 						  g_date_get_year (&date)));
 
-	return make_date (value_new_int (datetime_g_to_serial (&date, conv)));
+	return make_date (value_new_int (go_date_g_to_serial (&date, conv)));
 }
 
 /***************************************************************************/
@@ -785,7 +785,7 @@ gnumeric_workday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			hserial = (int)s;
 			if (j > 0 && hserial == holidays[j - 1])
 				continue;  /* Dupe */
-			datetime_serial_to_g (&hol, hserial, conv);
+			go_date_serial_to_g (&hol, hserial, conv);
 			if (!g_date_valid (&hol))
 				goto bad;
 			if (g_date_get_weekday (&hol) >= G_DATE_SATURDAY)
@@ -803,7 +803,7 @@ gnumeric_workday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	idays = (int)days;
 
 	weekday = g_date_get_weekday (&date);
-	serial = datetime_g_to_serial (&date, conv);
+	serial = go_date_g_to_serial (&date, conv);
 
 	if (idays > 0) {
 		int h = 0;
@@ -872,13 +872,13 @@ gnumeric_workday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	g_free (holidays);
 
-	datetime_serial_to_g (&date, serial, conv);
+	go_date_serial_to_g (&date, serial, conv);
 	if (!g_date_valid (&date) ||
 	    g_date_get_year (&date) < 1900 ||
 	    g_date_get_year (&date) > 9999)
 		return value_new_error_NUM (ei->pos);
 
-	return make_date (value_new_int (datetime_g_to_serial (&date, conv)));
+	return make_date (value_new_int (go_date_g_to_serial (&date, conv)));
 
  bad:
 	g_free (holidays);
@@ -910,7 +910,7 @@ get_serial_weekday (int serial, int *offset, GODateConventions const *conv)
 
 	if (serial <= 0)
 		return serial;
-	datetime_serial_to_g (&date, serial, conv);
+	go_date_serial_to_g (&date, serial, conv);
         if (g_date_valid (&date)) {
 		/* Jan 1 1900 was a monday so we won't go < 0 */
 		*offset = (int)g_date_get_weekday (&date) - 1;
@@ -944,7 +944,7 @@ cb_networkdays_holiday (GnmValueIter const *v_iter,
 	if (serial < cls->start_serial || cls->end_serial < serial)
 		return NULL;
 
-	datetime_serial_to_g (&date, serial, conv);
+	go_date_serial_to_g (&date, serial, conv);
         if (!g_date_valid (&date))
 		return value_new_error_NUM (v_iter->ep);
 	if (g_date_get_weekday (&date) < G_DATE_SATURDAY)
@@ -972,7 +972,7 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		end_serial = tmp;
 	}
 
-	datetime_serial_to_g (&start_date, start_serial, DATE_CONV (ei->pos));
+	go_date_serial_to_g (&start_date, start_serial, DATE_CONV (ei->pos));
 	cls.start_serial = start_serial;
 	cls.end_serial = end_serial;
 	cls.res = 0;
@@ -1025,7 +1025,7 @@ gnumeric_isoweeknum (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (!g_date_valid (&date))
                   return value_new_error_VALUE (ei->pos);
 
-	return value_new_int (datetime_weeknum (&date, WEEKNUM_METHOD_ISO));
+	return value_new_int (go_date_weeknum (&date, GO_WEEKNUM_METHOD_ISO));
 }
 
 /***************************************************************************/
@@ -1053,7 +1053,7 @@ gnumeric_isoyear (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (!g_date_valid (&date))
 		return value_new_error_VALUE (ei->pos);
 
-	isoweeknum = datetime_weeknum (&date, WEEKNUM_METHOD_ISO);
+	isoweeknum = go_date_weeknum (&date, GO_WEEKNUM_METHOD_ISO);
 	year = g_date_get_year (&date);
 	month = g_date_get_month (&date);
 	if (isoweeknum >= 52 && month == G_DATE_JANUARY)
@@ -1086,16 +1086,16 @@ gnumeric_weeknum (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GDate date;
 	gnm_float method = argv[1] ? gnm_floor (value_get_as_float (argv[1])) : 1;
 
-	if (!(method == WEEKNUM_METHOD_SUNDAY ||
-	      method == WEEKNUM_METHOD_MONDAY ||
-	      method == WEEKNUM_METHOD_ISO))
+	if (!(method == GO_WEEKNUM_METHOD_SUNDAY ||
+	      method == GO_WEEKNUM_METHOD_MONDAY ||
+	      method == GO_WEEKNUM_METHOD_ISO))
 		return value_new_error_VALUE (ei->pos);
 
 	datetime_value_to_g (&date, argv[0], DATE_CONV (ei->pos));
 	if (!g_date_valid (&date))
                   return value_new_error_VALUE (ei->pos);
 
-	return value_new_int (datetime_weeknum (&date, (int)method));
+	return value_new_int (go_date_weeknum (&date, (int)method));
 }
 
 /***************************************************************************/
@@ -1117,7 +1117,7 @@ gnumeric_yearfrac (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	GODateConventions const *conv = DATE_CONV (ei->pos);
 	GDate start_date, end_date;
-	int basis = value_get_basis (argv[2], BASIS_MSRB_30_360);
+	int basis = value_get_basis (argv[2], GO_BASIS_MSRB_30_360);
 
 	if (basis < 0 || basis > 4 ||
 	    !datetime_value_to_g (&start_date, argv[0], conv) ||

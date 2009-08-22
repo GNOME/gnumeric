@@ -147,7 +147,7 @@ xls_read_pivot_cache_value (XLSReadPivot *s, BiffQuery *q)
 
 			g_date_set_dmy (&date, d, m, y);
 			if (g_date_valid (&date)) {
-				unsigned d_serial = datetime_g_to_serial (&date,
+				unsigned d_serial = go_date_g_to_serial (&date,
 					workbook_date_conv (s->imp->wb));
 				double time_frac = h + ((double)mi / 60.) + ((double)se / 3600.);
 				GnmValue *res = value_new_float (d_serial + time_frac / 24.);

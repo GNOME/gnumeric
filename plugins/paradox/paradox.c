@@ -187,7 +187,7 @@ paradox_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 					if (0 < PX_get_data_long (pxdoc, &data[offset], pxf->px_flen, &value)) {
 						PX_SdnToGregorian (value+1721425, &year, &month, &day);
 						date = g_date_new_dmy (day, month, year);
-						val = value_new_int (datetime_g_to_serial (date, NULL));
+						val = value_new_int (go_date_g_to_serial (date, NULL));
 						value_set_fmt (val, go_format_default_date ());
 						g_date_free (date);
 					}

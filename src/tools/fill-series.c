@@ -59,14 +59,14 @@ do_row_filling_wday (data_analysis_output_t *dao, fill_series_t *info)
 		int days = (steps / 5) * 7 + steps % 5;
 		GDateWeekday wd;
 
-		datetime_serial_to_g (&date, start, conv);
+		go_date_serial_to_g (&date, start, conv);
 		wd = g_date_get_weekday (&date);
 		if (wd + (steps % 5) > G_DATE_FRIDAY)
 				days += 2;
 		gnm_date_add_days (&date, days);
 		
 		dao_set_cell_float (dao, i, 0, 
-				    datetime_g_to_serial (&date, conv));
+				    go_date_g_to_serial (&date, conv));
 	}
 
 }
@@ -86,14 +86,14 @@ do_column_filling_wday (data_analysis_output_t *dao, fill_series_t *info)
 		int days = (steps / 5) * 7 + steps % 5;
 		GDateWeekday wd;
 
-		datetime_serial_to_g (&date, start, conv);
+		go_date_serial_to_g (&date, start, conv);
 		wd = g_date_get_weekday (&date);
 		if (wd + (steps % 5) > G_DATE_FRIDAY)
 				days += 2;
 		gnm_date_add_days (&date, days);
 		
 		dao_set_cell_float (dao, 0,i, 
-				    datetime_g_to_serial (&date, conv));
+				    go_date_g_to_serial (&date, conv));
 	}
 
 
@@ -110,11 +110,11 @@ do_row_filling_month (data_analysis_output_t *dao, fill_series_t *info)
 
 	
 	for (i = 0; i < info->n; i++) {
-		datetime_serial_to_g (&date, start, conv);
+		go_date_serial_to_g (&date, start, conv);
 		gnm_date_add_months (&date, i * info->step_value);
 		
 		dao_set_cell_float (dao, i, 0, 
-				    datetime_g_to_serial (&date, conv));
+				    go_date_g_to_serial (&date, conv));
 	}
 }
 
@@ -129,11 +129,11 @@ do_column_filling_month (data_analysis_output_t *dao, fill_series_t *info)
 
 	
 	for (i = 0; i < info->n; i++) {
-		datetime_serial_to_g (&date, start, conv);
+		go_date_serial_to_g (&date, start, conv);
 		gnm_date_add_months (&date, i * info->step_value);
 		
 		dao_set_cell_float (dao, 0, i, 
-				    datetime_g_to_serial (&date, conv));
+				    go_date_g_to_serial (&date, conv));
 	}
 }
 
@@ -148,11 +148,11 @@ do_row_filling_year (data_analysis_output_t *dao, fill_series_t *info)
 
 	
 	for (i = 0; i < info->n; i++) {
-		datetime_serial_to_g (&date, start, conv);
+		go_date_serial_to_g (&date, start, conv);
 		gnm_date_add_years (&date, i * info->step_value);
 		
 		dao_set_cell_float (dao, i, 0, 
-				    datetime_g_to_serial (&date, conv));
+				    go_date_g_to_serial (&date, conv));
 	}
 }
 
@@ -167,11 +167,11 @@ do_column_filling_year (data_analysis_output_t *dao, fill_series_t *info)
 
 	
 	for (i = 0; i < info->n; i++) {
-		datetime_serial_to_g (&date, start, conv);
+		go_date_serial_to_g (&date, start, conv);
 		gnm_date_add_years (&date, i * info->step_value);
 		
 		dao_set_cell_float (dao, 0, i, 
-				    datetime_g_to_serial (&date, conv));
+				    go_date_g_to_serial (&date, conv));
 	}
 }
 
@@ -246,14 +246,14 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 				workbook_date_conv (dao->sheet->workbook);
 
 			if (info->step_value < 0) {
-				datetime_serial_to_g (&from_date, 
+				go_date_serial_to_g (&from_date, 
 						      info->stop_value, conv);
-				datetime_serial_to_g (&to_date, 
+				go_date_serial_to_g (&to_date, 
 						      info->start_value, conv);
 			} else {
-				datetime_serial_to_g (&from_date, 
+				go_date_serial_to_g (&from_date, 
 						      info->start_value, conv);
-				datetime_serial_to_g (&to_date, 
+				go_date_serial_to_g (&to_date, 
 						      info->stop_value, conv);
 			}
 			switch (info->date_unit) {

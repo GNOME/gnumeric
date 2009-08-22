@@ -546,7 +546,7 @@ attr_datetime (GsfXMLIn *xin, xmlChar const **attrs,
 		g_date_set_dmy (&date, d, m, y);
 		if (g_date_valid (&date)) {
 			XLSXReadState *state = (XLSXReadState *)xin->user_state;
-			unsigned d_serial = datetime_g_to_serial (&date,
+			unsigned d_serial = go_date_g_to_serial (&date,
 				workbook_date_conv (state->wb));
 			if (n >= 6) {
 				double time_frac = h + ((double)mi / 60.) + ((double)s / 3600.);

@@ -62,7 +62,7 @@ gnm_value_new_from_gda (GValue const *gval,
 	if (t == GDA_TYPE_USHORT)
 		return value_new_int (gda_value_get_ushort (gval));
 	if (t ==  G_TYPE_DATE) {
-		res = value_new_int (datetime_g_to_serial (
+		res = value_new_int (go_date_g_to_serial (
 			(GDate const *) g_value_get_boxed (gval), date_conv));
 		value_set_fmt (res, go_format_default_date ());
 		return res;

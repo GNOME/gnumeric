@@ -89,7 +89,7 @@ datetime_value_to_serial (GnmValue const *v, GODateConventions const *conv)
 	double serial = datetime_value_to_serial_raw (v, conv);
 	if (serial >= G_MAXINT || serial < G_MININT)
 		return G_MAXINT;
-	return datetime_serial_raw_to_serial (serial);
+	return go_date_serial_raw_to_serial (serial);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -102,7 +102,7 @@ datetime_value_to_g (GDate *res, GnmValue const *v, GODateConventions const *con
 		g_date_clear (res, 1);
 		return FALSE;
 	}
-	datetime_serial_to_g (res, serial, conv);
+	go_date_serial_to_g (res, serial, conv);
 	return g_date_valid (res);
 }
 
@@ -125,24 +125,24 @@ datetime_value_to_g (GDate *res, GnmValue const *v, GODateConventions const *con
  * year).
  */
 int
-annual_year_basis (GnmValue const *value_date, basis_t basis,
+annual_year_basis (GnmValue const *value_date, go_basis_t basis,
 		   GODateConventions const *date_conv)
 {
         GDate    date;
 
 	switch (basis) {
-	case BASIS_MSRB_30_360:
+	case GO_BASIS_MSRB_30_360:
 	        return 360;
-	case BASIS_ACT_ACT:
+	case GO_BASIS_ACT_ACT:
 		if (!datetime_value_to_g (&date, value_date, date_conv))
 		        return -1;
 		return g_date_is_leap_year (g_date_get_year (&date))
 			? 366 : 365;
-	case BASIS_ACT_360:
+	case GO_BASIS_ACT_360:
 	        return 360;
-	case BASIS_ACT_365:
+	case GO_BASIS_ACT_365:
 	        return 365;
-	case BASIS_30E_360:
+	case GO_BASIS_30E_360:
 	        return 360;
 	default:
 	        return -1;
@@ -150,7 +150,7 @@ annual_year_basis (GnmValue const *value_date, basis_t basis,
 }
 
 gnm_float
-yearfrac (GDate const *from, GDate const *to, basis_t basis)
+yearfrac (GDate const *from, GDate const *to, go_basis_t basis)
 {
 	int days;
 	gnm_float peryear;
@@ -158,7 +158,7 @@ yearfrac (GDate const *from, GDate const *to, basis_t basis)
 	if (!g_date_valid (from) || !g_date_valid (to))
 		return gnm_nan;
 
-	days = go_datetime_days_between_basis (from, to, basis);
+	days = go_date_days_between_basis (from, to, basis);
 
 	if (days < 0) {
 		const GDate *tmp;
@@ -167,7 +167,7 @@ yearfrac (GDate const *from, GDate const *to, basis_t basis)
 	}
 
 	switch (basis) {
-	case BASIS_ACT_ACT: {
+	case GO_BASIS_ACT_ACT: {
 		int y1 = g_date_get_year (from);
 		int y2 = g_date_get_year (to);
 		GDate d1, d2;

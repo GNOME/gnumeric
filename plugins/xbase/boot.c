@@ -93,7 +93,7 @@ xbase_field_as_value (gchar *content, XBfield *field, XBfile *file)
 			 g_date_valid_dmy (day, month, year)) {
 			GDate *date = g_date_new_dmy (day, month, year);
 			/* Use default date convention */
-			val = value_new_int (datetime_g_to_serial (date, NULL));
+			val = value_new_int (go_date_g_to_serial (date, NULL));
 			g_date_free (date);
 		} else
 			val = value_new_string (s);

@@ -17,9 +17,9 @@ int	  datetime_value_to_seconds    (GnmValue const *v, GODateConventions const *
 gboolean datetime_value_to_g		(GDate *res, GnmValue const *v, GODateConventions const *conv);
 int      datetime_value_to_serial	(GnmValue const *v, GODateConventions const *conv);
 
-int     annual_year_basis  (GnmValue const *value_date, basis_t basis,
+int     annual_year_basis  (GnmValue const *value_date, go_basis_t basis,
 			    GODateConventions const *date_conv);
-gnm_float yearfrac (GDate const *from, GDate const *to, basis_t basis);
+gnm_float yearfrac (GDate const *from, GDate const *to, go_basis_t basis);
 
 void gnm_date_add_days (GDate *d, int n);
 void gnm_date_add_months (GDate *d, int n);

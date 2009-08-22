@@ -735,7 +735,7 @@ format_match_datetime (char const *text,
 	g_date_set_dmy (&date, day, month, year);
 	if (!g_date_valid (&date))
 		goto out;
-	date_val = datetime_g_to_serial (&date, date_conv);
+	date_val = go_date_g_to_serial (&date, date_conv);
 
 	SKIP_SPACES (text);
 
