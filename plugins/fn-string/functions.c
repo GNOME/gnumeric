@@ -830,6 +830,59 @@ gnumeric_replace (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 /***************************************************************************/
+
+static GnmFuncHelp const help_replaceb[] = {
+        { GNM_FUNC_HELP_NAME, F_("REPLACEB:string @{old} with up to @{num} bytes "
+				 "starting at @{start} replaced by @{new}")},
+        { GNM_FUNC_HELP_ARG, F_("old:original text")},
+        { GNM_FUNC_HELP_ARG, F_("start:starting byte position")},
+        { GNM_FUNC_HELP_ARG, F_("num:number of bytes to be replaced")},
+        { GNM_FUNC_HELP_ARG, F_("new:replacement string")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("REPLACEB replaces the string of valid unicode characters starting "
+					"at the byte @{start} and ending at @{start}+@{num}-1 with the string @{new}.")},
+	{ GNM_FUNC_HELP_NOTE, F_("The semantics of this function is subject to change as various applications implement it.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("While this function is syntactically Excel compatible, "
+				  "the differences in the underlying text encoding will usually yield different results.")},
+	{ GNM_FUNC_HELP_ODF, F_("While this function is OpenFormula compatible, most of its behavior is, at this time, implementation specific.")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=REPLACEB(\"L\xc3\xa9vy\",2,1,\"*\")" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=REPLACEB(\"L\xc3\xa9vy\",2,2,\"*\")" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=REPLACEB(\"L\xc3\xa9vy\",2,3,\"*\")" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=REPLACEB(\"L\xc3\xa9vy\",2,4,\"*\")" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=REPLACEB(\"L\xc3\xa9vy\",3,2,\"*\")" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=REPLACEB(\"L\xc3\xa9vy\",3,3,\"*\")" },
+        { GNM_FUNC_HELP_SEEALSO, "MID,SEARCH,SUBSTITUTE,TRIM"},
+        { GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_replaceb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	char const *old = value_peek_string (argv[0]);
+	gnm_float pos = value_get_as_float (argv[1]);
+	gnm_float len = value_get_as_float (argv[2]);
+	char const *new = value_peek_string (argv[3]);
+ 	int slen = strlen (old);
+	int ipos, ilen, newlen;
+	char *res;
+
+	if ((len < 0) || (pos < 1))
+		return value_new_error_VALUE (ei->pos);
+	ipos = (int)MIN ((gnm_float)INT_MAX, pos) - 1;
+	ilen = (int)MIN ((gnm_float)INT_MAX, len);
+	if ((ipos >= slen) || 
+	    (ipos + ilen - 1 > slen) ||
+	    ((gunichar)-1 == g_utf8_get_char_validated (old + ipos, -1)) ||
+	    !g_utf8_validate (old + ipos, ilen, NULL))
+		return value_new_error_VALUE (ei->pos);
+	newlen = strlen (new);
+	res = g_malloc (slen - ilen + newlen);
+	memcpy (res, old, ipos);
+	memcpy (res + ipos, new, newlen);
+	memcpy (res + ipos + newlen, new + ipos + ilen + 1, slen - ipos - ilen);
+	return value_new_string_nocopy (res);
+}
+
+/***************************************************************************/
 /* Note: help_t is a reserved symbol.  */
 
 static GnmFuncHelp const help_t_[] = {
@@ -1512,6 +1565,9 @@ GnmFuncDescriptor const string_functions[] = {
         { "replace",    "SffS",         help_replace,
 	  gnumeric_replace, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+        { "replaceb",    "SffS",         help_replaceb,
+	  gnumeric_replaceb, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
         { "rept",       "Sf",                    help_rept,
 	  gnumeric_rept, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
