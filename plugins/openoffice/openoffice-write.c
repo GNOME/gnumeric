@@ -1863,7 +1863,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "RATE","RATE" },
 		{ "RECEIVED","RECEIVED" },
 		{ "REPLACE","REPLACE" },
-		/* { "REPLACEB","REPLACEB" },  not implemented */
+		{ "REPLACEB","REPLACEB" },
 		{ "REPT","REPT" },
 		{ "RIGHT","RIGHT" },
 		{ "RIGHTB","RIGHTB" },
