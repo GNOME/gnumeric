@@ -470,7 +470,7 @@ gnm_soi_read_xml_dom (SheetObject *so, char const *typename,
 	xmlNodePtr child;
 	xmlChar    *type, *content;
 
-	child = e_xml_get_child_by_name (tree, "Content");
+	child = go_xml_get_child_by_name (tree, "Content");
 	type  = xmlGetProp (child, CC2XML ("image-type"));
 	if (type == NULL)
 		return FALSE;

@@ -356,12 +356,12 @@ xml_read_format_col_row_info (FormatColRowInfo *info, xmlNodePtr parent)
 			continue;
 		if (attr_eq (child->name, "Placement")) {
 			g_return_if_fail (!(found & 1));
-			xml_node_get_int  (child, "offset", &info->offset);
-			xml_node_get_int  (child, "offset_gravity", &info->offset_gravity);
+			go_xml_node_get_int  (child, "offset", &info->offset);
+			go_xml_node_get_int  (child, "offset_gravity", &info->offset_gravity);
 			found |= 1;
 		} else if (attr_eq (child->name, "Dimensions")) {
 			g_return_if_fail (!(found & 2));
-			xml_node_get_int (child, "size", &info->size);
+			go_xml_node_get_int (child, "size", &info->size);
 			found |= 2;
 		}
 	}
@@ -387,13 +387,13 @@ xml_read_format_template_member (XmlParseContext *ctxt, GnmFormatTemplate *ft, x
 			xml_read_format_col_row_info (&member->row, child);
 		else if (attr_eq (child->name, "Frequency")) {
 			if (found & 1) { g_warning ("Multiple Frequency specs"); }
-			if (xml_node_get_int (child, "direction", &tmp))
+			if (go_xml_node_get_int (child, "direction", &tmp))
 				format_template_member_set_direction (member, tmp);
-			if (xml_node_get_int (child, "repeat", &tmp))
+			if (go_xml_node_get_int (child, "repeat", &tmp))
 				format_template_member_set_repeat (member, tmp);
-			if (xml_node_get_int (child, "skip", &tmp))
+			if (go_xml_node_get_int (child, "skip", &tmp))
 				format_template_member_set_skip (member, tmp);
-			if (xml_node_get_int (child, "edge", &tmp))
+			if (go_xml_node_get_int (child, "edge", &tmp))
 				format_template_member_set_edge (member, tmp);
 			found |= 1;
 		} else if (attr_eq (child->name, "Style")) {
@@ -419,11 +419,11 @@ xml_read_format_template_members (XmlParseContext *ctxt, GnmFormatTemplate *ft, 
 
 	g_return_val_if_fail (attr_eq (tree->name, "FormatTemplate"), FALSE);
 
-	child = e_xml_get_child_by_name_by_lang (tree, "Information");
+	child = go_xml_get_child_by_name_by_lang (tree, "Information");
 	if (child) {
-		xmlChar *author = xml_node_get_cstr (child, "author");
-		xmlChar *name   = xml_node_get_cstr (child, "name");
-		xmlChar *descr  = xml_node_get_cstr (child, "description");
+		xmlChar *author = go_xml_node_get_cstr (child, "author");
+		xmlChar *name   = go_xml_node_get_cstr (child, "name");
+		xmlChar *descr  = go_xml_node_get_cstr (child, "description");
 
 		format_template_set_author (ft, _(CXML2C (author)));
 		format_template_set_name (ft,  _(CXML2C (name)));
@@ -435,7 +435,7 @@ xml_read_format_template_members (XmlParseContext *ctxt, GnmFormatTemplate *ft, 
 	} else
 		return FALSE;
 
-	child = e_xml_get_child_by_name (tree, "Members");
+	child = go_xml_get_child_by_name (tree, "Members");
 	if (child == NULL)
 		return FALSE;
 	for (child = child->xmlChildrenNode; child != NULL ; child = child->next)
@@ -512,11 +512,11 @@ format_colrow_info_write_xml (FormatColRowInfo const *info,
 
 	container = xmlNewChild (parent, parent->ns, type, NULL);
 	tmp = xmlNewChild (container, container->ns, CC2XML ("Placement"), NULL);
-	xml_node_set_int (tmp, "offset", info->offset);
-	xml_node_set_int (tmp, "offset_gravity", info->offset_gravity);
+	go_xml_node_set_int (tmp, "offset", info->offset);
+	go_xml_node_set_int (tmp, "offset_gravity", info->offset_gravity);
 
 	tmp = xmlNewChild (container, container->ns, CC2XML ("Dimensions"), NULL);
-	xml_node_set_int (tmp, "size", info->size);
+	go_xml_node_set_int (tmp, "size", info->size);
 
 	return container;
 }
@@ -537,10 +537,10 @@ xml_write_format_template_member (XmlParseContext *ctxt, TemplateMember *member)
 	format_colrow_info_write_xml (&member->row, member_node, "Row", ctxt);
 
 	tmp = xmlNewChild (member_node, member_node->ns, CC2XML ("Frequency") , NULL);
-	xml_node_set_int (tmp, "direction", member->direction);
-	xml_node_set_int (tmp, "repeat", member->repeat);
-	xml_node_set_int (tmp, "skip", member->skip);
-	xml_node_set_int (tmp, "edge", member->edge);
+	go_xml_node_set_int (tmp, "direction", member->direction);
+	go_xml_node_set_int (tmp, "repeat", member->repeat);
+	go_xml_node_set_int (tmp, "skip", member->skip);
+	go_xml_node_set_int (tmp, "edge", member->edge);
 
 	xmlAddChild (member_node, xml_write_style (ctxt, member->mstyle));
 
@@ -565,9 +565,9 @@ xml_write_format_template_members (XmlParseContext *ctxt, GnmFormatTemplate cons
 	ctxt->ns = ns;
 
 	child = xmlNewChild (root, ns, CC2XML ("Information"), NULL);
-	xml_node_set_cstr (child, "author", ft->author);
-	xml_node_set_cstr (child, "name", ft->name);
-	xml_node_set_cstr (child, "description", ft->description);
+	go_xml_node_set_cstr (child, "author", ft->author);
+	go_xml_node_set_cstr (child, "name", ft->name);
+	go_xml_node_set_cstr (child, "description", ft->description);
 
 	child = xmlNewChild (root, ns, CC2XML ("Members"), NULL);
 	for (member = ft->members ; member != NULL ; member = member->next)

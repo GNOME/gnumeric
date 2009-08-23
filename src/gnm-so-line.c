@@ -291,16 +291,16 @@ gnm_so_line_read_xml_dom (SheetObject *so, char const *typename,
 	double width, a, b, c;
 	xmlNode *child;
 
-	if (xml_node_get_double (node, "ArrowShapeA", &a) &&
-	    xml_node_get_double (node, "ArrowShapeB", &b) &&
-	    xml_node_get_double (node, "ArrowShapeC", &c))
+	if (go_xml_node_get_double (node, "ArrowShapeA", &a) &&
+	    go_xml_node_get_double (node, "ArrowShapeB", &b) &&
+	    go_xml_node_get_double (node, "ArrowShapeC", &c))
 		go_arrow_init (&sol->end_arrow, a, b, c);
 
-	if (NULL != (child = e_xml_get_child_by_name (node, "Style"))) /* new version */
+	if (NULL != (child = go_xml_get_child_by_name (node, "Style"))) /* new version */
 		return !go_persist_dom_load (GO_PERSIST (sol->style), child);
 	/* Old 1.0 and 1.2 */
-	xml_node_get_gocolor (node, "FillColor", &sol->style->line.color);
-	if (xml_node_get_double  (node, "Width", &width))
+	go_xml_node_get_gocolor (node, "FillColor", &sol->style->line.color);
+	if (go_xml_node_get_double  (node, "Width", &width))
 		sol->style->line.width = width;
 
 	return FALSE;

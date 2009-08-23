@@ -119,7 +119,7 @@ gnumeric_xml_read_format_template_category (char const *dir_name)
 	if (doc != NULL && doc->xmlRootNode != NULL
 	    && xmlSearchNsByHref (doc, doc->xmlRootNode, (xmlChar *)"http://www.gnome.org/gnumeric/format-template-category/v1") != NULL
 	    && strcmp (CXML2C (doc->xmlRootNode->name), "FormatTemplateCategory") == 0
-	    && (node = e_xml_get_child_by_name (doc->xmlRootNode, "Information")) != NULL) {
+	    && (node = go_xml_get_child_by_name (doc->xmlRootNode, "Information")) != NULL) {
 		xmlChar *name = xmlGetProp (node, (xmlChar *)"name");
 		if (name != NULL) {
 			xmlChar *description = xmlGetProp (node, (xmlChar *)"description");

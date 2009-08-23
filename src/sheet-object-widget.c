@@ -1298,19 +1298,19 @@ sheet_widget_adjustment_read_xml_dom (SheetObject *so, char const *typename,
 	read_dep (&swa->dep, "Input", tree, context);
 	swa->dep.flags = adjustment_get_dep_type ();
 
-	if (xml_node_get_double (tree, "Min", &tmp))
+	if (go_xml_node_get_double (tree, "Min", &tmp))
 		swa->adjustment->lower = tmp;
-	if (xml_node_get_double (tree, "Max", &tmp))
+	if (go_xml_node_get_double (tree, "Max", &tmp))
 		swa->adjustment->upper = tmp;  /* allow scrolling to max */
-	if (xml_node_get_double (tree, "Inc", &tmp))
+	if (go_xml_node_get_double (tree, "Inc", &tmp))
 		swa->adjustment->step_increment = tmp;
-	if (xml_node_get_double (tree, "Page", &tmp))
+	if (go_xml_node_get_double (tree, "Page", &tmp))
 		swa->adjustment->page_increment = tmp;
-	if (xml_node_get_double  (tree, "Value", &tmp))
+	if (go_xml_node_get_double  (tree, "Value", &tmp))
 		swa->adjustment->value = tmp;
 	if (swa_class->htype != G_TYPE_NONE &&
 	    swa_class->vtype != G_TYPE_NONE &&
-	    xml_node_get_bool (tree, "Horizontal", &b))
+	    go_xml_node_get_bool (tree, "Horizontal", &b))
 		swa->horizontal = b;
 
 	gtk_adjustment_changed	(swa->adjustment);
@@ -1932,7 +1932,7 @@ sheet_widget_checkbox_read_xml_dom (SheetObject *so, char const *typename,
 
 	read_dep (&swc->dep, "Input", tree, context);
 	swc->dep.flags = checkbox_get_dep_type ();
-	xml_node_get_int (tree, "Value", &swc->value);
+	go_xml_node_get_int (tree, "Value", &swc->value);
 
 	return FALSE;
 }

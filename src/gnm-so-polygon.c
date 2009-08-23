@@ -213,8 +213,8 @@ gnm_so_polygon_read_xml_dom (SheetObject *so, char const *typename,
 	for (ptr = node->xmlChildrenNode; ptr != NULL ; ptr = ptr->next)
 		if (!xmlIsBlankNode (ptr) && ptr->name &&
 		    attr_eq (ptr->name, "Point") &&
-		    xml_node_get_double	(ptr, "x", vals + 0) &&
-		    xml_node_get_double	(ptr, "y", vals + 1))
+		    go_xml_node_get_double	(ptr, "x", vals + 0) &&
+		    go_xml_node_get_double	(ptr, "y", vals + 1))
 			g_array_append_vals (sop->points, vals, 2);
 
 	return gnm_so_polygon_parent_class->

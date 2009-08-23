@@ -312,16 +312,16 @@ gnm_so_filled_read_xml_dom (SheetObject *so, char const *typename,
 		xmlFree (label);
 	}
 
-	if (xml_node_get_int (node, "Type", &type))
+	if (go_xml_node_get_int (node, "Type", &type))
 		sof->is_oval = (type == 102);
 
-	if (NULL != (child = e_xml_get_child_by_name (node, "Style"))) /* new version */
+	if (NULL != (child = go_xml_get_child_by_name (node, "Style"))) /* new version */
 		return !go_persist_dom_load (GO_PERSIST (sof->style), child);
 
 	/* Old 1.0 and 1.2 */
-	xml_node_get_gocolor (node, "OutlineColor", &sof->style->outline.color);
-	xml_node_get_gocolor (node, "FillColor",    &sof->style->fill.pattern.back);
-	if (xml_node_get_double  (node, "Width", &width))
+	go_xml_node_get_gocolor (node, "OutlineColor", &sof->style->outline.color);
+	go_xml_node_get_gocolor (node, "FillColor",    &sof->style->fill.pattern.back);
+	if (go_xml_node_get_double  (node, "Width", &width))
 		sof->style->outline.width = width;
 
 	return FALSE;

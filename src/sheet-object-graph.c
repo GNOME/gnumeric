@@ -331,7 +331,7 @@ static gboolean
 gnm_sog_read_xml_dom (SheetObject *so, char const *typename,
 				 XmlParseContext const *ctxt, xmlNodePtr tree)
 {
-	xmlNodePtr child = e_xml_get_child_by_name (tree, "GogObject");
+	xmlNodePtr child = go_xml_get_child_by_name (tree, "GogObject");
 
 	if (child != NULL) {
 		GogObject *graph = gog_object_new_from_xml

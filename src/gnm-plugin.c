@@ -63,7 +63,7 @@ plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree,
 	gchar *textdomain = NULL;
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	category_node = e_xml_get_child_by_name_no_lang (tree, "category");
+	category_node = go_xml_get_child_by_name_no_lang (tree, "category");
 	if (category_node != NULL) {
 		xmlChar *val = xmlNodeGetContent (category_node);
 		category_name = g_strdup (CXML2C (val));
@@ -71,11 +71,11 @@ plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree,
 	} else {
 		category_name = NULL;
 	}
-	translated_category_node = e_xml_get_child_by_name_by_lang (tree, "category");
+	translated_category_node = go_xml_get_child_by_name_by_lang (tree, "category");
 	if (translated_category_node != NULL) {
 		gchar *lang;
 
-		lang = xml_node_get_cstr (translated_category_node, "lang");
+		lang = go_xml_node_get_cstr (translated_category_node, "lang");
 		if (lang != NULL) {
 			xmlChar *val;
 
@@ -89,17 +89,17 @@ plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree,
 	} else {
 		translated_category_name = NULL;
 	}
-	functions_node = e_xml_get_child_by_name (tree, (xmlChar *)"functions");
+	functions_node = go_xml_get_child_by_name (tree, (xmlChar *)"functions");
 	if (functions_node != NULL) {
 		xmlNode *node;
 
-		textdomain = xml_node_get_cstr (functions_node, "textdomain");
+		textdomain = go_xml_node_get_cstr (functions_node, "textdomain");
 
 		for (node = functions_node->xmlChildrenNode; node != NULL; node = node->next) {
 			gchar *func_name;
 
 			if (strcmp (CXML2C (node->name), "function") != 0 ||
-			    (func_name = xml_node_get_cstr (node, "name")) == NULL) {
+			    (func_name = go_xml_node_get_cstr (node, "name")) == NULL) {
 				continue;
 			}
 			GO_SLIST_PREPEND (function_name_list, func_name);
@@ -328,13 +328,13 @@ plugin_service_ui_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo
 	GSList *actions = NULL;
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	file_name = xml_node_get_cstr (tree, "file");
+	file_name = go_xml_node_get_cstr (tree, "file");
 	if (file_name == NULL) {
 		*ret_error = go_error_info_new_str (
 		             _("Missing file name."));
 		return;
 	}
-	verbs_node = e_xml_get_child_by_name (tree, "actions");
+	verbs_node = go_xml_get_child_by_name (tree, "actions");
 	if (verbs_node != NULL) {
 		xmlNode *ptr;
 		xmlChar *name, *label, *icon;
@@ -345,10 +345,10 @@ plugin_service_ui_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo
 			if (xmlIsBlankNode (ptr) || ptr->name == NULL ||
 			    strcmp (CXML2C (ptr->name), "action"))
 				continue;
-			name  = xml_node_get_cstr (ptr, "name");
-			label = xml_node_get_cstr (ptr, "label");
-			icon  = xml_node_get_cstr (ptr, "icon");
-			if (!xml_node_get_bool (ptr, "always_available", &always_available))
+			name  = go_xml_node_get_cstr (ptr, "name");
+			label = go_xml_node_get_cstr (ptr, "label");
+			icon  = go_xml_node_get_cstr (ptr, "icon");
+			if (!go_xml_node_get_bool (ptr, "always_available", &always_available))
 				always_available = FALSE;
 			action = gnm_action_new (name, label, icon, always_available,
 				(GnmActionHandler) cb_ui_service_activate);
