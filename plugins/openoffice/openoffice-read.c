@@ -4340,6 +4340,25 @@ odf_func_phi_handler (GnmConventions const *convs, Workbook *scope, GnmExprList 
 }
 
 static GnmExpr const *
+odf_func_gauss_handler (GnmConventions const *convs, Workbook *scope, GnmExprList *args)
+{
+	GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("NORMDIST", scope, FALSE);
+	
+	args = g_slist_append ((GSList *) args,
+			       (gpointer) gnm_expr_new_constant (value_new_int (0)));
+	args = g_slist_append ((GSList *) args,
+			       (gpointer) gnm_expr_new_constant (value_new_int (1)));
+
+	args = g_slist_append ((GSList *) args,
+			       (gpointer) gnm_expr_new_funcall 
+			       (gnm_func_lookup_or_add_placeholder ("FALSE", scope, TRUE), NULL));
+	
+	return gnm_expr_new_binary (gnm_expr_new_funcall (f, args),
+				    GNM_EXPR_OP_SUB,
+				    gnm_expr_new_constant (value_new_float (0.5)));
+}
+
+static GnmExpr const *
 odf_func_floor_handler (GnmConventions const *convs, Workbook *scope, GnmExprList *args)
 {
 	guint argc = gnm_expr_list_length (args);
@@ -4566,6 +4585,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{"FLOOR", odf_func_floor_handler},
 		{"ADDRESS", odf_func_address_handler},
 		{"PHI", odf_func_phi_handler},
+		{"GAUSS", odf_func_gauss_handler},
 		{NULL, NULL}
 	};
 	
@@ -4589,7 +4609,6 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "COUNTIFS","ODF.COUNTIFS" },
 		{ "DAYS","ODF.DAYS" },
 		{ "DDE","ODF.DDE" },
-		{ "GAUSS","ODF.GAUSS" },
 		{ "IFNA","ODF.IFNA" },
 		{ "ISFORMULA","ODF.ISFORMULA" },
 		{ "MULTIPLE.OPERATIONS","ODF.MULTIPLE.OPERATIONS" },
@@ -4609,6 +4628,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "CHISQDIST","ODF.CHISQDIST" },      /* see handler */
 		{ "FLOOR","ODF.FLOOR" },              /* see handler */
 		{ "FORMULA","GET.FORMULA" },
+		{ "GAUSS","NORMDIST" },              /* see handler */
 		{ "LEGACY.CHIDIST","CHIDIST" },
 		{ "LEGACY.CHIINV","CHIINV" },
 		{ "LEGACY.CHITEST","CHITEST" },
@@ -4756,7 +4776,6 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 /* { "GAMMADIST","GAMMADIST" }, */
 /* { "GAMMAINV","GAMMAINV" }, */
 /* { "GAMMALN","GAMMALN" }, */
-/* { "GAUSS","GAUSS" }, */
 /* { "GCD","GCD" }, */
 /* { "GEOMEAN","GEOMEAN" }, */
 /* { "GESTEP","GESTEP" }, */
@@ -4884,7 +4903,6 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 /* { "PERCENTRANK","PERCENTRANK" }, */
 /* { "PERMUT","PERMUT" }, */
 /* { "PERMUTATIONA","PERMUTATIONA" }, */
-/* { "PHI","PHI" }, */
 /* { "PI","PI" }, */
 /* { "PMT","PMT" }, */
 /* { "POISSON","POISSON" }, */

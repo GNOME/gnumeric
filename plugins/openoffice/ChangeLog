@@ -1,5 +1,10 @@
 2009-08-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_func_gauss_handler): new
+	(oo_func_map_in): map GAUSS to NORMDIST-0.5
+
+2009-08-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_func_phi_handler): new
 	(oo_func_map_in): map PHI to NORMDIST
 
