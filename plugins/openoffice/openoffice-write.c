@@ -1876,7 +1876,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		/* { "RRI","RRI" },  not implemented */
 		{ "RSQ","RSQ" },
 		{ "SEARCH","SEARCH" },
-		/* { "SEARCHB","SEARCHB" },  not implemented */
+		{ "SEARCHB","SEARCHB" },
 		{ "SEC","SEC" },
 		{ "SECH","SECH" },
 		{ "SECOND","SECOND" },
