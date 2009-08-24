@@ -4323,6 +4323,23 @@ odf_func_address_handler (GnmConventions const *convs, Workbook *scope, GnmExprL
 }
 
 static GnmExpr const *
+odf_func_phi_handler (GnmConventions const *convs, Workbook *scope, GnmExprList *args)
+{
+	GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("NORMDIST", scope, FALSE);
+	
+	args = g_slist_append ((GSList *) args,
+			       (gpointer) gnm_expr_new_constant (value_new_int (0)));
+	args = g_slist_append ((GSList *) args,
+			       (gpointer) gnm_expr_new_constant (value_new_int (1)));
+
+	args = g_slist_append ((GSList *) args,
+			       (gpointer) gnm_expr_new_funcall 
+			       (gnm_func_lookup_or_add_placeholder ("FALSE", scope, FALSE), NULL));
+	
+	return gnm_expr_new_funcall (f, args);
+}
+
+static GnmExpr const *
 odf_func_floor_handler (GnmConventions const *convs, Workbook *scope, GnmExprList *args)
 {
 	guint argc = gnm_expr_list_length (args);
@@ -4548,6 +4565,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{"CEILING", odf_func_ceiling_handler},
 		{"FLOOR", odf_func_floor_handler},
 		{"ADDRESS", odf_func_address_handler},
+		{"PHI", odf_func_phi_handler},
 		{NULL, NULL}
 	};
 	
@@ -4578,7 +4596,6 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "MUNIT","ODF.MUNIT" },
 		{ "NUMBERVALUE","ODF.NUMBERVALUE" },
 		{ "PDURATION","ODF.PDURATION" },
-		{ "PHI","ODF.PHI" },
 		{ "RRI","ODF.RRI" },
 		{ "SHEET","ODF.SHEET" },
 		{ "SHEETS","ODF.SHEETS" },
@@ -4599,6 +4616,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "LEGACY.FINV","FINV" },
 		{ "LEGACY.NORMSDIST","NORMSDIST" },
 		{ "LEGACY.NORMSINV","NORMSINV" },
+		{ "PHI","NORMDIST" },              /* see handler */
 		{ "USDOLLAR","DOLLAR" },
 
 /* { "ADDRESS","ADDRESS" },       also  see handler */
