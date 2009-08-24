@@ -1,3 +1,7 @@
+2009-08-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_g_duration): add ODF note
+
 2009-08-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.10

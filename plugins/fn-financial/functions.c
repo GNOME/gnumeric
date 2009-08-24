@@ -1875,6 +1875,7 @@ static GnmFuncHelp const help_g_duration[] = {
         { GNM_FUNC_HELP_ARG, F_("pv:present value")},
         { GNM_FUNC_HELP_ARG, F_("fv:future value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("G_DURATION calculates the number of periods needed for an investment to attain a desired value.") },
+	{ GNM_FUNC_HELP_ODF, F_("G_DURATION is the OpenFormula function PDURATION.") },
         { GNM_FUNC_HELP_SEEALSO, "FV,PV"},
 	{ GNM_FUNC_HELP_END }
 };

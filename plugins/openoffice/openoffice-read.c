@@ -4618,7 +4618,6 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "MULTIPLE.OPERATIONS","ODF.MULTIPLE.OPERATIONS" },
 		{ "MUNIT","ODF.MUNIT" },
 		{ "NUMBERVALUE","ODF.NUMBERVALUE" },
-		{ "PDURATION","ODF.PDURATION" },
 		{ "RRI","ODF.RRI" },
 		{ "SHEET","ODF.SHEET" },
 		{ "SHEETS","ODF.SHEETS" },
@@ -4640,6 +4639,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "LEGACY.FINV","FINV" },
 		{ "LEGACY.NORMSDIST","NORMSDIST" },
 		{ "LEGACY.NORMSINV","NORMSINV" },
+		{ "PDURATION","G_DURATION" },
 		{ "PHI","NORMDIST" },              /* see handler */
 		{ "USDOLLAR","DOLLAR" },
 
@@ -4901,7 +4901,6 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 /* { "ODDLYIELD","ODDLYIELD" }, */
 /* { "OFFSET","OFFSET" }, */
 /* { "OR","OR" }, */
-/* { "PDURATION","PDURATION" }, */
 /* { "PEARSON","PEARSON" }, */
 /* { "PERCENTILE","PERCENTILE" }, */
 /* { "PERCENTRANK","PERCENTRANK" }, */

@@ -1835,7 +1835,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "ODDLYIELD","ODDLYIELD" },
 		{ "OFFSET","OFFSET" },
 		{ "OR","OR" },
-		/* { "PDURATION","PDURATION" },  not implemented */
+		{ "G_DURATION","PDURATION" },
 		{ "PEARSON","PEARSON" },
 		{ "PERCENTILE","PERCENTILE" },
 		{ "PERCENTRANK","PERCENTRANK" },
