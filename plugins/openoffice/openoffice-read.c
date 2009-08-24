@@ -4342,20 +4342,24 @@ odf_func_phi_handler (GnmConventions const *convs, Workbook *scope, GnmExprList 
 static GnmExpr const *
 odf_func_gauss_handler (GnmConventions const *convs, Workbook *scope, GnmExprList *args)
 {
-	GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("NORMDIST", scope, FALSE);
-	
-	args = g_slist_append (args,
-			       (gpointer) gnm_expr_new_constant (value_new_int (0)));
-	args = g_slist_append (args,
-			       (gpointer) gnm_expr_new_constant (value_new_int (1)));
+	guint argc = gnm_expr_list_length (args);
+	GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("ERF", scope, FALSE);
+	GnmFunc  *fs = gnm_func_lookup_or_add_placeholder ("SQRT", scope, FALSE);
+	GnmExpr const * expr;
 
-	args = g_slist_append (args,
-			       (gpointer) gnm_expr_new_funcall 
-			       (gnm_func_lookup_or_add_placeholder ("FALSE", scope, TRUE), NULL));
-	
-	return gnm_expr_new_binary (gnm_expr_new_funcall (f, args),
-				    GNM_EXPR_OP_SUB,
-				    gnm_expr_new_constant (value_new_float (0.5)));
+	if (argc != 1)
+		return NULL;
+
+	expr = gnm_expr_new_binary (gnm_expr_new_funcall1 
+				    (f, gnm_expr_new_binary ((gnm_expr_copy ((GnmExpr const *)(args->data))),
+							     GNM_EXPR_OP_DIV,
+									     gnm_expr_new_funcall1 (fs,
+												    gnm_expr_new_constant 
+												    (value_new_int (2))))),
+				    GNM_EXPR_OP_DIV,
+				    gnm_expr_new_constant (value_new_int (2)));
+	gnm_expr_list_unref (args);
+	return expr;
 }
 
 static GnmExpr const *
@@ -4628,7 +4632,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "CHISQDIST","ODF.CHISQDIST" },      /* see handler */
 		{ "FLOOR","ODF.FLOOR" },              /* see handler */
 		{ "FORMULA","GET.FORMULA" },
-		{ "GAUSS","NORMDIST" },              /* see handler */
+		{ "GAUSS","ODF.GAUSS" },              /* see handler */
 		{ "LEGACY.CHIDIST","CHIDIST" },
 		{ "LEGACY.CHIINV","CHIINV" },
 		{ "LEGACY.CHITEST","CHITEST" },
