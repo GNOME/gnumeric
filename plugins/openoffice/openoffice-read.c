@@ -4327,12 +4327,12 @@ odf_func_phi_handler (GnmConventions const *convs, Workbook *scope, GnmExprList 
 {
 	GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("NORMDIST", scope, FALSE);
 	
-	args = g_slist_append ((GSList *) args,
+	args = g_slist_append (args,
 			       (gpointer) gnm_expr_new_constant (value_new_int (0)));
-	args = g_slist_append ((GSList *) args,
+	args = g_slist_append (args,
 			       (gpointer) gnm_expr_new_constant (value_new_int (1)));
 
-	args = g_slist_append ((GSList *) args,
+	args = g_slist_append (args,
 			       (gpointer) gnm_expr_new_funcall 
 			       (gnm_func_lookup_or_add_placeholder ("FALSE", scope, FALSE), NULL));
 	
@@ -4344,12 +4344,12 @@ odf_func_gauss_handler (GnmConventions const *convs, Workbook *scope, GnmExprLis
 {
 	GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("NORMDIST", scope, FALSE);
 	
-	args = g_slist_append ((GSList *) args,
+	args = g_slist_append (args,
 			       (gpointer) gnm_expr_new_constant (value_new_int (0)));
-	args = g_slist_append ((GSList *) args,
+	args = g_slist_append (args,
 			       (gpointer) gnm_expr_new_constant (value_new_int (1)));
 
-	args = g_slist_append ((GSList *) args,
+	args = g_slist_append (args,
 			       (gpointer) gnm_expr_new_funcall 
 			       (gnm_func_lookup_or_add_placeholder ("FALSE", scope, TRUE), NULL));
 	
