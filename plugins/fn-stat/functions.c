@@ -3320,7 +3320,7 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	linres = g_new (gnm_float, dim + 1);
 
 	if (gnm_linear_regression (xss, dim, ys, nx, affine,
-			       linres, extra_stat) != REG_ok) {
+			       linres, extra_stat) != GO_REG_ok) {
 		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
@@ -3580,7 +3580,7 @@ gnumeric_logreg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	logreg_res = g_new (gnm_float, dim + 1);
 
 	if (gnm_logarithmic_regression (xss, dim, ys, nx, affine,
-				    logreg_res, extra_stat) != REG_ok) {
+				    logreg_res, extra_stat) != GO_REG_ok) {
 		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
@@ -3704,7 +3704,7 @@ numbers */
 
 	logfit_res = g_new (gnm_float, 5);
 
-	if (gnm_logarithmic_fit (xs, ys, nx, logfit_res) != REG_ok) {
+	if (gnm_logarithmic_fit (xs, ys, nx, logfit_res) != GO_REG_ok) {
 		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
@@ -3811,7 +3811,7 @@ gnumeric_trend (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	dim = 1;
 
 	if (gnm_linear_regression (&xs, dim, ys, nx, affine, linres, NULL) !=
-	    REG_ok) {
+	    GO_REG_ok) {
 		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
@@ -4017,7 +4017,7 @@ gnumeric_logest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	expres = g_new (gnm_float, dim + 1);
 	if (gnm_exponential_regression (xss, dim, ys, nx, affine,
-				    expres, extra_stat) != REG_ok) {
+				    expres, extra_stat) != GO_REG_ok) {
 		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
@@ -4155,7 +4155,7 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	dim = 1;
 
 	if (gnm_exponential_regression (&xs, dim,
-				    ys, nx, affine, expres, NULL) != REG_ok) {
+				    ys, nx, affine, expres, NULL) != GO_REG_ok) {
 		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
@@ -4228,7 +4228,7 @@ gnumeric_forecast (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	dim = 1;
 
-	if (gnm_linear_regression (&xs, dim, ys, nx, 1, linres, NULL) != REG_ok) {
+	if (gnm_linear_regression (&xs, dim, ys, nx, 1, linres, NULL) != GO_REG_ok) {
 		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
@@ -4268,7 +4268,7 @@ range_intercept (gnm_float const *xs, gnm_float const *ys, int n, gnm_float *res
 
 	if (n <= 0 ||
 	    gnm_linear_regression ((gnm_float **)&xs, dim,
-				   ys, n, 1, linres, NULL) != REG_ok)
+				   ys, n, 1, linres, NULL) != GO_REG_ok)
 		return 1;
 
 	*res = linres[0];
@@ -4314,7 +4314,7 @@ range_slope (gnm_float const *xs, gnm_float const *ys, int n, gnm_float *res)
 
 	if (n <= 0 ||
 	    gnm_linear_regression ((gnm_float **)&xs, dim,
-				   ys, n, 1, linres, NULL) != REG_ok)
+				   ys, n, 1, linres, NULL) != GO_REG_ok)
 		return 1;
 
 	*res = linres[1];
