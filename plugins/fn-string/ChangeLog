@@ -1,5 +1,12 @@
 2009-08-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* functions.c (help_searchb): new
+	(gnumeric_searchb): new
+	(string_functions): add SEARCHB
+	* plugin.xml.in: add SEARCHB
+	
+2009-08-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c (help_replaceb): new
 	(gnumeric_replaceb): new
 	(string_functions): add REPLACEB

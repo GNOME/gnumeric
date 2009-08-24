@@ -1209,7 +1209,7 @@ static GnmFuncHelp const help_search[] = {
         { GNM_FUNC_HELP_EXAMPLES, "=SEARCH(\"c\",\"Canc\xc3\xban\",2)" },
         { GNM_FUNC_HELP_EXAMPLES, "=SEARCH(\"c*c\",\"Canc\xc3\xban\")" },
         { GNM_FUNC_HELP_EXAMPLES, "=SEARCH(\"c*c\",\"Canc\xc3\xban\",2)" },
-        { GNM_FUNC_HELP_SEEALSO, "FIND"},
+        { GNM_FUNC_HELP_SEEALSO, "FIND,SEARCHB"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -1245,6 +1245,74 @@ gnumeric_search (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			return value_new_int
 				(1 + istart +
 				 g_utf8_pointer_to_offset (hay2, hay2 + rm.rm_so));
+		default:
+			g_warning ("Unexpected go_regexec result");
+		}
+		go_regfree (&r);
+	} else {
+		g_warning ("Unexpected regcomp result");
+	}
+
+	return value_new_error_VALUE (ei->pos);
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_searchb[] = {
+        { GNM_FUNC_HELP_NAME, F_("SEARCHB:the location of the @{search} string within "
+				 "@{text} after byte position @{start}")},
+        { GNM_FUNC_HELP_ARG, F_("search:search string")},
+        { GNM_FUNC_HELP_ARG, F_("text:search field")},
+        { GNM_FUNC_HELP_ARG, F_("start:starting byte position, defaults to 1")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("@{search} may contain wildcard characters (*) and "
+					"question marks (?). A question mark matches any "
+					"single character, and a wildcard matches any "
+					"string including the empty string. To search for "
+					"* or ?, precede the symbol with ~.")},
+	{ GNM_FUNC_HELP_NOTE, F_("This search is not case sensitive.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{search} is not found, SEARCH returns #VALUE!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{start} is less than one or it is greater than "
+				 "the byte length of @{text}, SEARCH returns #VALUE!") },
+	{ GNM_FUNC_HELP_NOTE, F_("The semantics of this function is subject to change as various applications implement it.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("While this function is syntactically Excel compatible, "
+				  "the differences in the underlying text encoding will usually yield different results.")},
+	{ GNM_FUNC_HELP_ODF, F_("While this function is OpenFormula compatible, most of its behavior is, at this time, implementation specific.")},
+        { GNM_FUNC_HELP_EXAMPLES, "=SEARCHB(\"n\",\"Canc\xc3\xban\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=SEARCHB(\"n\",\"Canc\xc3\xban\",4)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=SEARCHB(\"n\",\"Canc\xc3\xban\",6)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=SEARCHB(\"n*n\",\"Canc\xc3\xban\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=SEARCHB(\"n*n\",\"Canc\xc3\xban\",4)" },
+        { GNM_FUNC_HELP_SEEALSO, "FINDB,SEARCH"},
+        { GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_searchb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	char const *needle = value_peek_string (argv[0]);
+	char const *haystack = value_peek_string (argv[1]);
+	gnm_float start = argv[2] ? value_get_as_float (argv[2]) : 1.0;
+	size_t istart;
+	GORegexp r;
+
+	if (start < 1 || start >= INT_MAX || start > strlen (haystack))
+		return value_new_error_VALUE (ei->pos);
+	/* Make istart zero-based.  */
+	istart = (int)(start - 1);
+
+	if (istart > 0)
+		istart = g_utf8_next_char(haystack + istart - 1) - haystack;
+
+	if (gnm_regcomp_XL (&r, needle, REG_ICASE, FALSE) == REG_OK) {
+		GORegmatch rm;
+
+		switch (go_regexec (&r, haystack + istart, 1, &rm, 0)) {
+		case REG_NOMATCH:
+			break;
+		case REG_OK:
+			go_regfree (&r);
+			return value_new_int
+				(1 + istart + rm.rm_so);
 		default:
 			g_warning ("Unexpected go_regexec result");
 		}
@@ -1580,6 +1648,9 @@ GnmFuncDescriptor const string_functions[] = {
         { "search",     "SS|f",     help_search,
 	  gnumeric_search, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+        { "searchb",     "SS|f",     help_searchb,
+	  gnumeric_searchb, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
         { "substitute", "SSS|f",        help_substitute,
 	  gnumeric_substitute, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

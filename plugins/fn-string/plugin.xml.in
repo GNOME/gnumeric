@@ -36,6 +36,7 @@
 				<function name="right"/>
 				<function name="rightb"/>
 				<function name="search"/>
+				<function name="searchb"/>
 				<function name="substitute"/>
 				<function name="t"/>
 				<function name="text"/>
