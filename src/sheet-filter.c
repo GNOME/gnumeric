@@ -148,7 +148,7 @@ filter_expr_init (FilterExpr *fexpr, unsigned i,
 			workbook_date_conv (filter->sheet->workbook);
 
 		if ((op == GNM_FILTER_OP_EQUAL || op == GNM_FILTER_OP_NOT_EQUAL) &&
-		    gnm_regcomp_XL (fexpr->regexp + i, str, REG_ICASE, TRUE) == REG_OK) {
+		    gnm_regcomp_XL (fexpr->regexp + i, str, GO_REG_ICASE, TRUE) == GO_REG_OK) {
 			fexpr->val[i] = NULL;
 			return;
 		}
@@ -185,14 +185,14 @@ filter_expr_eval (GnmFilterOp op, GnmValue const *src, GORegexp const *regexp,
 		int res = go_regexec (regexp, str, 1, &rm, 0);
 
 		switch (res) {
-		case REG_OK:
+		case GO_REG_OK:
 			if (rm.rm_so == 0 && strlen (str) == (size_t)rm.rm_eo) {
 				g_free (str);
 				return op == GNM_FILTER_OP_EQUAL;
 			}
 			/* fall through */
 
-		case REG_NOMATCH:
+		case GO_REG_NOMATCH:
 			g_free (str);
 			return op == GNM_FILTER_OP_NOT_EQUAL;
 

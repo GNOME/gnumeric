@@ -146,7 +146,7 @@ my_regerror (int err, GORegexp const *preg)
 static void
 datetime_locale_setup1 (GORegexp *rx, char const *pat)
 {
-	int ret = go_regcomp (rx, pat, REG_ICASE);
+	int ret = go_regcomp (rx, pat, GO_REG_ICASE);
 	if (ret) {
 		g_warning ("Failed to compile rx \"%s\": %s\n",
 			   pat,

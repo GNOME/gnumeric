@@ -1234,13 +1234,13 @@ gnumeric_search (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		hay2 = g_utf8_next_char (hay2);
 	}
 
-	if (gnm_regcomp_XL (&r, needle, REG_ICASE, FALSE) == REG_OK) {
+	if (gnm_regcomp_XL (&r, needle, GO_REG_ICASE, FALSE) == GO_REG_OK) {
 		GORegmatch rm;
 
 		switch (go_regexec (&r, hay2, 1, &rm, 0)) {
-		case REG_NOMATCH:
+		case GO_REG_NOMATCH:
 			break;
-		case REG_OK:
+		case GO_REG_OK:
 			go_regfree (&r);
 			return value_new_int
 				(1 + istart +
@@ -1303,13 +1303,13 @@ gnumeric_searchb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (istart > 0)
 		istart = g_utf8_next_char(haystack + istart - 1) - haystack;
 
-	if (gnm_regcomp_XL (&r, needle, REG_ICASE, FALSE) == REG_OK) {
+	if (gnm_regcomp_XL (&r, needle, GO_REG_ICASE, FALSE) == GO_REG_OK) {
 		GORegmatch rm;
 
 		switch (go_regexec (&r, haystack + istart, 1, &rm, 0)) {
-		case REG_NOMATCH:
+		case GO_REG_NOMATCH:
 			break;
-		case REG_OK:
+		case GO_REG_OK:
 			go_regfree (&r);
 			return value_new_int
 				(1 + istart + rm.rm_so);
