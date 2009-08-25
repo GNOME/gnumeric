@@ -1706,7 +1706,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "GAMMADIST","GAMMADIST" },
 		{ "GAMMAINV","GAMMAINV" },
 		{ "GAMMALN","GAMMALN" },
-		/* { "GAUSS","GAUSS" },  not implemented */
+		/* { "GAUSS","GAUSS" },  converted to ERF on import */
 		{ "GCD","GCD" },
 		{ "GEOMEAN","GEOMEAN" },
 		{ "GESTEP","GESTEP" },
@@ -1812,7 +1812,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "MROUND","MROUND" },
 		{ "MULTINOMIAL","MULTINOMIAL" },
 		/* { "MULTIPLE.OPERATIONS","MULTIPLE.OPERATIONS" },  not implemented */
-		/* { "MUNIT","MUNIT" },  not implemented */
+		{ "MUNIT","MUNIT" },
 		{ "N","N" },
 		{ "NA","NA" },
 		{ "NEGBINOMDIST","NEGBINOMDIST" },
@@ -1841,7 +1841,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "PERCENTRANK","PERCENTRANK" },
 		{ "PERMUT","PERMUT" },
 		{ "PERMUTATIONA","PERMUTATIONA" },
-		/* { "PHI","PHI" },  not implemented */
+		/* { "PHI","PHI" },  converted to NORMDIST on import */
 		{ "PI","PI" },
 		{ "PMT","PMT" },
 		{ "POISSON","POISSON" },
@@ -1873,7 +1873,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "ROUNDUP","ROUNDUP" },
 		{ "ROW","ROW" },
 		{ "ROWS","ROWS" },
-		/* { "RRI","RRI" },  not implemented */
+		{ "RRI","RRI" },
 		{ "RSQ","RSQ" },
 		{ "SEARCH","SEARCH" },
 		{ "SEARCHB","SEARCHB" },

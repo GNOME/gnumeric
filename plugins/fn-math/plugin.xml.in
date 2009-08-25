@@ -61,6 +61,7 @@
 				<function name="mod"/>
 				<function name="mround"/>
 				<function name="multinomial"/>
+				<function name="munit"/>
 				<function name="odd"/>
 				<function name="pi"/>
 				<function name="power"/>

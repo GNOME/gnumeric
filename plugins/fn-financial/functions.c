@@ -1275,6 +1275,41 @@ gnumeric_rate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_rri[] = {
+        { GNM_FUNC_HELP_NAME, F_("RRI:equivalent interest rate for an investment increasing in value")},
+        { GNM_FUNC_HELP_ARG, F_("p:number of periods")},
+        { GNM_FUNC_HELP_ARG, F_("pv:present value")},
+        { GNM_FUNC_HELP_ARG, F_("fv:future value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("RRI dtermines an equivalent interest rate for an investment that increases in value. The interest is compounded after each complete period.") },
+	TYPE_HELP,
+	{ GNM_FUNC_HELP_NOTE, F_("Note that @{p} need not be an integer but for fractional value the calculated rate is only approximate.") },
+	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RRI(12,5000,10000)" },
+        { GNM_FUNC_HELP_SEEALSO, "PV,FV,RATE"},
+	{ GNM_FUNC_HELP_END }
+};
+
+
+static GnmValue *
+gnumeric_rri (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float      per, pv, fv;
+
+	per = value_get_as_float (argv[0]);
+	pv = value_get_as_float (argv[1]);
+	fv = value_get_as_float (argv[2]);
+
+	if (per < 0)
+		return value_new_error_NUM (ei->pos);
+        if (pv == 0. || per == 0.)
+		return value_new_error_DIV0 (ei->pos);
+
+	return value_new_float (gnm_pow(fv/pv,1/per)-1.);
+}
+
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_irr[] = {
         { GNM_FUNC_HELP_NAME, F_("IRR:internal rate of return")},
         { GNM_FUNC_HELP_ARG, F_("values:cash flow")},
@@ -3285,6 +3320,10 @@ GnmFuncDescriptor const financial_functions[] = {
 	  help_rate,	  gnumeric_rate, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_PERCENT,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "rri", "fff", 
+	  help_rri,	  gnumeric_rri, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_PERCENT,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "received", "ffff|f", 
 	  help_received,  gnumeric_received, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_MONETARY,

@@ -1,3 +1,10 @@
+2009-08-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_func_map_in): no need to map RRI
+	  and MUNIT
+	* openoffice-write.c (odf_expr_func_handler): we now have
+	  RRI and MUNIT
+	
 2009-08-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_func_map_in): map PDURATION to

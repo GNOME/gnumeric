@@ -2615,6 +2615,36 @@ gnumeric_minverse (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_munit[] = {
+        { GNM_FUNC_HELP_NAME, F_("MUNIT:the @{n} by @{n} identity matrix")},
+        { GNM_FUNC_HELP_ARG, F_("n:size of the matrix")},
+	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.")},	
+	{ GNM_FUNC_HELP_SEEALSO, "MMULT,MDETERM,MINVERSE"},
+        { GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_munit (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float n = value_get_as_float (argv[0]);
+	gint ni = (int) n, c;
+
+	GnmValue *res;
+
+	if (n <= 0)
+		return value_new_error_NUM (ei->pos);;
+
+	res = value_new_array (ni, ni);
+	for (c = 0; c < ni; ++c) {
+		value_release (res->v_array.vals[c][c]);
+		res->v_array.vals[c][c] =  value_new_int (1);
+	}
+
+	return res;
+}
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_mmult[] = {
         { GNM_FUNC_HELP_NAME, F_("MMULT:the matrix product of @{mat1} and @{mat2}")},
         { GNM_FUNC_HELP_ARG, F_("mat1:a matrix")},
@@ -3090,6 +3120,10 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "mdeterm", "A",  help_mdeterm,
 	  gnumeric_mdeterm, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "munit","f",      help_munit,
+	  gnumeric_munit, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, 
+	  GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 #if 0
 	{ "logmdeterm", "A|si", 
 	  help_logmdeterm, gnumeric_logmdeterm, NULL, NULL, NULL },

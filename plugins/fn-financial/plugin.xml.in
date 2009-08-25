@@ -56,6 +56,7 @@
 				<function name="pv"/>
 				<function name="rate"/>
 				<function name="received"/>
+				<function name="rri"/>
 				<function name="sln"/>
 				<function name="syd"/>
 				<function name="tbilleq"/>

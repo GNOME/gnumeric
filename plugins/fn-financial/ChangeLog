@@ -1,3 +1,10 @@
+2009-08-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* plugin.xml.in: add rri
+	* functions.c (help_rri): new
+	(gnumeric_rri): new
+	(financial_functions): add RRI
+
 2009-08-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_g_duration): add ODF note
