@@ -13,9 +13,8 @@
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
 
-static void gnumeric_dashed_canvas_line_draw (FooCanvasItem *item,
-					      GdkDrawable *drawable,
-					      GdkEventExpose *event);
+static void gnumeric_dashed_canvas_line_draw (GocItem const *item,
+					      cairo_t *cr);
 
 static GnumericDashedCanvasLineClass *gnumeric_dashed_canvas_line_class;
 
@@ -73,27 +72,17 @@ hypothenuse (double xlength, double ylength)
  * (x0,y0) - B is the y offset from y0 of the start of this line.
  */
 static void
-double_line_draw (FooCanvasItem *item, GdkDrawable *drawable,
-		  GdkEventExpose *event)
+double_line_draw (GocItem const *item, cairo_t *cr)
 {
-	double *coords;
+	double coords[4];
 	double length, xdiff, ydiff, xoffs, yoffs;
-	double offsetcoords[4];
 
-	GnumericDashedCanvasLine *line = GNUMERIC_DASHED_CANVAS_LINE (item);
+	GocLine *line = GOC_LINE (item);
 
-	if (FOO_CANVAS_LINE (line)->num_points != 2) {
-		g_warning ("file %s: line %d: \n%s", __FILE__, __LINE__,
-			   "GnumericDashedCanvasLine only supports a "
-			   "single line segment.");
-
-		line->dash_style_index = GNM_STYLE_BORDER_MEDIUM;
-		gnumeric_dashed_canvas_line_draw
-			(FOO_CANVAS_ITEM (line), drawable, event);
-		return;
-	}
-
-	coords = FOO_CANVAS_LINE (line)->coords;
+	coords[0] = line->startx;
+	coords[1] = line->starty;
+	coords[2] = line->endx;
+	coords[3] = line->endy;
 	xdiff = coords[2] - coords[0];
 	ydiff = coords[3] - coords[1];
 
@@ -101,51 +90,47 @@ double_line_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	yoffs = xdiff/length;
 	xoffs = -ydiff/length;
 
-	gnm_style_border_set_gc_dash (FOO_CANVAS_LINE (item)->gc,
-				  GNM_STYLE_BORDER_THIN);
-	offsetcoords[0] = coords[0] + xoffs;
-	offsetcoords[1] = coords[1] + yoffs;
-	offsetcoords[2] = coords[2] + xoffs;
-	offsetcoords[3] = coords[3] + yoffs;
-	FOO_CANVAS_LINE (line)->coords = offsetcoords;
+	line->startx = coords[0] + xoffs;
+	line->starty = coords[1] + yoffs;
+	line->endx = coords[2] + xoffs;
+	line->endy = coords[3] + yoffs;
 	gnumeric_dashed_canvas_line_class->
-		real_draw (item, drawable, event);
+		real_draw (item, cr);
 
-	offsetcoords[0] = coords[0] - xoffs;
-	offsetcoords[1] = coords[1] - yoffs;
-	offsetcoords[2] = coords[2] - xoffs;
-	offsetcoords[3] = coords[3] - yoffs;
+	line->startx = coords[0] - xoffs;
+	line->starty = coords[1] - yoffs;
+	line->endx = coords[2] - xoffs;
+	line->endy = coords[3] - yoffs;
 	gnumeric_dashed_canvas_line_class->
-		real_draw (item, drawable, event);
+		real_draw (item, cr);
 
-	FOO_CANVAS_LINE (line)->coords = coords;
+	line->startx = coords[0];
+	line->starty = coords[1];
+	line->endx = coords[2];
+	line->endy = coords[3];
 }
 
 static void
-gnumeric_dashed_canvas_line_draw (FooCanvasItem *item,
-				  GdkDrawable *drawable,
-				  GdkEventExpose *event)
+gnumeric_dashed_canvas_line_draw (GocItem const *item, cairo_t *cr)
 {
 	GnumericDashedCanvasLine *line = GNUMERIC_DASHED_CANVAS_LINE (item);
 
 	if (line->dash_style_index == GNM_STYLE_BORDER_DOUBLE)
-		double_line_draw (item, drawable, event);
+		double_line_draw (item, cr);
 	else {
-		gnm_style_border_set_gc_dash (FOO_CANVAS_LINE (item)->gc,
-					  line->dash_style_index);
 		gnumeric_dashed_canvas_line_class->
-			real_draw (item, drawable, event);
+			real_draw (item, cr);
 	}
 }
 
 static void
 gnumeric_dashed_canvas_line_class_init (GnumericDashedCanvasLineClass *klass)
 {
-	FooCanvasItemClass *item_class;
+	GocItemClass *item_class;
 
 	gnumeric_dashed_canvas_line_class = klass;
 
-	item_class = (FooCanvasItemClass *) klass;
+	item_class = (GocItemClass *) klass;
 
 	klass->real_draw = item_class->draw;
 	item_class->draw = &gnumeric_dashed_canvas_line_draw;
@@ -159,17 +144,17 @@ gnumeric_dashed_canvas_line_init (GnumericDashedCanvasLine *line)
 
 GSF_CLASS (GnumericDashedCanvasLine, gnumeric_dashed_canvas_line,
 	   gnumeric_dashed_canvas_line_class_init,
-	   gnumeric_dashed_canvas_line_init, FOO_TYPE_CANVAS_LINE)
+	   gnumeric_dashed_canvas_line_init, GOC_TYPE_LINE)
 
 void
 gnumeric_dashed_canvas_line_set_dash_index (GnumericDashedCanvasLine *line,
 					    GnmStyleBorderType const indx)
 {
 	gint const width = gnm_style_border_get_width (indx);
+	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (line));
 	line->dash_style_index = indx;
-	foo_canvas_item_set (FOO_CANVAS_ITEM (line),
-			       "width-pixels", width,
-			       NULL);
+	style->line.width = width;
+	style->line.dash_type = (indx == GNM_STYLE_BORDER_DOUBLE)? GNM_STYLE_BORDER_THIN: indx;
 
-	foo_canvas_item_request_update (FOO_CANVAS_ITEM (line));
+	goc_item_invalidate (GOC_ITEM (line));
 }

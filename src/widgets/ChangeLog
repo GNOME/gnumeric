@@ -1,3 +1,51 @@
+2009-08-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* Makefile.am:
+	* gnm-cell-combo-foo-view-impl.h:
+	* gnm-cell-combo-foo-view.c:
+	* gnm-cell-combo-foo-view.h:
+	* gnm-cell-combo-view-impl.h:
+	* gnm-cell-combo-view.c (ccombo_create_arrow), (ccombo_activate),
+	(ccombo_create_list), (ccombo_focus_change),
+	(cb_ccombo_autoscroll), (ccombo_autoscroll_set),
+	(ccombo_popup_destroy), (cb_ccombo_key_press),
+	(cb_ccombo_popup_motion), (cb_ccombo_list_motion),
+	(cb_ccombo_list_button_press), (cb_ccombo_button_press),
+	(cb_ccombo_button_release), (cb_ccombo_button_pressed),
+	(gnm_cell_combo_view_popdown), (gnm_cell_combo_view_new),
+	(gnm_cell_combo_view_init):
+	* gnm-cell-combo-view.h:
+	* gnm-filter-combo-foo-view.c:
+	* gnm-filter-combo-foo-view.h:
+	* gnm-filter-combo-view.c (fcombo_activate), (cb_collect_content),
+	(cb_hash_domain), (formatted_value_equal), (fcombo_create_list),
+	(fcombo_arrow_format), (fcombo_create_arrow),
+	(filter_view_set_bounds), (gnm_filter_view_class_init):
+	* gnm-filter-combo-view.h:
+	* gnm-sheet-slicer-combo-foo-view.c:
+	* gnm-sheet-slicer-combo-foo-view.h:
+	* gnm-sheet-slicer-combo-view.c (sscombo_activate),
+	(cb_filter_toggle), (sscombo_create_list), (sscombo_create_arrow),
+	(sscombo_set_bounds), (sscombo_class_init):
+	* gnm-sheet-slicer-combo-view.h:
+	* gnm-validation-combo-foo-view.c:
+	* gnm-validation-combo-foo-view.h:
+	* gnm-validation-combo-view.c (vcombo_activate),
+	(cb_collect_unique), (cb_hash_domain), (vcombo_create_list),
+	(vcombo_create_arrow), (vcombo_set_bounds),
+	(gnm_validation_view_class_init):
+	* gnm-validation-combo-view.h:
+	* gnumeric-dashed-canvas-line.c (double_line_draw),
+	(gnumeric_dashed_canvas_line_draw),
+	(gnumeric_dashed_canvas_line_class_init),
+	(gnumeric_dashed_canvas_line_set_dash_index):
+	* gnumeric-dashed-canvas-line.h:
+	* widget-font-selector.c (fs_modify_style), (canvas_size_changed),
+	(fs_init), (font_selector_set_value):
+	* widget-font-selector.h:
+
 2009-08-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.10

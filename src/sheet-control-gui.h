@@ -50,7 +50,7 @@ gboolean scg_colrow_select	(SheetControlGUI *scg,
 				 gboolean is_cols, int index, int modifiers);
 void scg_colrow_size_set	(SheetControlGUI *scg,
 				 gboolean is_cols, int index, int new_size_pixels);
-int  scg_colrow_distance_get	(SheetControlGUI const *scg,
+gint64  scg_colrow_distance_get	(SheetControlGUI const *scg,
 				 gboolean is_cols, int from, int to);
 
 void scg_edit_start		(SheetControlGUI *scg);
@@ -88,7 +88,7 @@ void scg_set_top_row		(SheetControlGUI *scg, int new_first_row);
 void scg_size_guide_start	(SheetControlGUI *scg, gboolean vert,
 				 int colrow, int width);
 void scg_size_guide_motion	(SheetControlGUI *scg, gboolean vert,
-				 int guide_pos);
+				 gint64 guide_pos);
 void scg_size_guide_stop	(SheetControlGUI *scg);
 
 typedef void (*SCGUIMoveFunc)	(SheetControlGUI *, int n,

@@ -124,8 +124,8 @@ void gnm_dialog_setup_destroy_handlers (GtkDialog *dialog,
 					WBCGtk *wbcg,
 					GnmDialogDestroyOptions what);
 
-void gnm_canvas_get_position (FooCanvas *canvas, int *x, int *y,
-			      int px, int py);
+void gnm_canvas_get_position (GocCanvas *canvas, int *x, int *y,
+			      gint64 px, gint64 py);
 
 gboolean gnm_check_for_plugins_missing (char const **ids, GtkWindow *parent);
 

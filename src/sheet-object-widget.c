@@ -23,7 +23,7 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
 #include "gnumeric.h"
-#include "sheet-object-widget.h"
+#include "sheet-object-widget-impl.h"
 
 #include "gnm-pane.h"
 #include "gnumeric-simple-canvas.h"
@@ -52,7 +52,6 @@
 
 #include <gsf/gsf-impl-utils.h>
 #include <libxml/globals.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-widget.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 #include <math.h>
@@ -123,16 +122,18 @@ so_clear_sheet (SheetObject *so)
 static void
 so_widget_view_destroy (SheetObjectView *sov)
 {
-	gtk_object_destroy (GTK_OBJECT (sov));
+	g_object_unref (G_OBJECT (sov));
 }
+
 static void
 so_widget_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
-	FooCanvasItem *view = FOO_CANVAS_ITEM (sov);
-	double left = MIN (coords [0], coords [2]);
-	double top = MIN (coords [1], coords [3]);
-	double width = fabs (coords [2] - coords [0]) + 1.;
-	double height = fabs (coords [3] - coords [1]) + 1.;
+	GocItem *view = GOC_ITEM (sov);
+	double scale = goc_canvas_get_pixels_per_unit (view->canvas); 
+	double left = MIN (coords [0], coords [2]) / scale;
+	double top = MIN (coords [1], coords [3]) / scale;
+	double width = (fabs (coords [2] - coords [0]) + 1.) / scale;
+	double height = (fabs (coords [3] - coords [1]) + 1.) / scale;
 
 	/* We only need the next check for frames, but it doesn't hurt otherwise. */
 	if (width < 8.)
@@ -140,29 +141,23 @@ so_widget_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean 
 
 	if (visible) {
 		/* NOTE : far point is EXCLUDED so we add 1 */
-		foo_canvas_item_set (view,
-			"x",	  left,
-			"y",	  top,
-			"width",  width,
-			"height", height,
-			NULL);
-		foo_canvas_item_show (view);
+		goc_widget_set_bounds (GOC_WIDGET (GOC_GROUP (view)->children->data),
+			left, top, width, height);
+		goc_item_show (view);
 	} else
-		foo_canvas_item_hide (view);
+		goc_item_hide (view);
 }
 
 static void
-so_widget_foo_view_init (SheetObjectViewIface *sov_iface)
+so_widget_view_class_init (SheetObjectViewClass *sov_klass)
 {
-	sov_iface->destroy	= so_widget_view_destroy;
-	sov_iface->set_bounds	= so_widget_view_set_bounds;
+	sov_klass->destroy	= so_widget_view_destroy;
+	sov_klass->set_bounds	= so_widget_view_set_bounds;
 }
-typedef FooCanvasWidget		SOWidgetFooView;
-typedef FooCanvasWidgetClass	SOWidgetFooViewClass;
-static GSF_CLASS_FULL (SOWidgetFooView, so_widget_foo_view,
-	NULL, NULL, NULL, NULL,
-	NULL, FOO_TYPE_CANVAS_WIDGET, 0,
-	GSF_INTERFACE (so_widget_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
+
+static GSF_CLASS (SOWidgetView, so_widget_view,
+	so_widget_view_class_init, NULL,
+	SHEET_OBJECT_VIEW_TYPE)
 
 /****************************************************************************/
 
@@ -278,15 +273,17 @@ sheet_object_widget_new_view (SheetObject *so, SheetObjectViewContainer *contain
 {
 	GtkWidget *view_widget =
 		SOW_CLASS(so)->create_widget (SHEET_OBJECT_WIDGET (so));
-	FooCanvasItem *view_item = foo_canvas_item_new (
+	GocItem *view_item = goc_item_new (
 		gnm_pane_object_group (GNM_PANE (container)),
-		so_widget_foo_view_get_type (),
-		"widget", view_widget,
-		"size_pixels", FALSE,
+		so_widget_view_get_type (),
 		NULL);
+	goc_item_new (GOC_GROUP (view_item),
+		      GOC_TYPE_WIDGET,
+		      "widget", view_widget,
+		      NULL);
 	/* g_warning ("%p is widget for so %p", (void *)view_widget, (void *)so);*/
 	gtk_widget_show_all (view_widget);
-	foo_canvas_item_hide (view_item);
+	goc_item_hide (view_item);
 	gnm_pane_widget_register (so, view_widget, view_item);
 	return gnm_pane_object_register (so, view_item, TRUE);
 }
@@ -467,7 +464,7 @@ sheet_widget_frame_set_label (SheetObject *so, char const* str)
 	swf->label = g_strdup (str);
 
 	for (ptr = swf->sow.realized_list; ptr != NULL; ptr = ptr->next) {
-		FooCanvasWidget *item = FOO_CANVAS_WIDGET (ptr->data);
+		GocWidget *item = GOC_WIDGET (ptr->data);
 		gtk_frame_set_label (GTK_FRAME (item->widget), str);
 	}
 }
@@ -677,7 +674,7 @@ sheet_widget_button_set_label (SheetObject *so, char const *str)
 	swb->label = new_label;
 
 	for (ptr = swb->sow.realized_list; ptr != NULL; ptr = ptr->next) {
-		FooCanvasWidget *item = FOO_CANVAS_WIDGET (ptr->data);
+		GocWidget *item = GOC_WIDGET (ptr->data);
 		gtk_button_set_label (GTK_BUTTON (item->widget), swb->label);
 	}
 }
@@ -696,7 +693,7 @@ sheet_widget_button_set_markup (SheetObject *so, PangoAttrList *markup)
 	if (markup) pango_attr_list_ref (markup);
 
 	for (ptr = swb->sow.realized_list; ptr != NULL; ptr = ptr->next) {
-		FooCanvasWidget *item = FOO_CANVAS_WIDGET (ptr->data);
+		GocWidget *item = GOC_WIDGET (ptr->data);
 		gtk_label_set_attributes (GTK_LABEL (GTK_BIN (item->widget)->child),
 					  swb->markup);
 	}
@@ -901,11 +898,11 @@ sheet_widget_adjustment_set_horizontal (SheetWidgetAdjustment *swa,
 
 	/* Change direction for all realized widgets.  */
 	for (ptr = swa->sow.realized_list; ptr != NULL; ptr = ptr->next) {
-		FooCanvasItem *item = FOO_CANVAS_ITEM (ptr->data);
+		GocItem *item = GOC_ITEM (ptr->data);
 		GtkWidget *neww =
 			SOW_CLASS (swa)->create_widget (SHEET_OBJECT (swa));
 		gtk_widget_show (neww);
-		foo_canvas_item_set (item, "widget", neww, NULL);
+		goc_item_set (item, "widget", neww, NULL);
 	}
 }
 
@@ -1583,7 +1580,7 @@ sheet_widget_checkbox_set_active (SheetWidgetCheckbox *swc)
 
 	ptr = swc->sow.realized_list;
 	for (; ptr != NULL ; ptr = ptr->next) {
-		FooCanvasWidget *item = FOO_CANVAS_WIDGET (ptr->data);
+		GocWidget *item = GOC_WIDGET (GOC_GROUP (ptr->data)->children->data);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (item->widget),
 					      swc->value);
 	}
@@ -1975,7 +1972,7 @@ sheet_widget_checkbox_set_label	(SheetObject *so, char const *str)
 
 	list = swc->sow.realized_list;
 	for (; list != NULL; list = list->next) {
-		FooCanvasWidget *item = FOO_CANVAS_WIDGET (list->data);
+		GocWidget *item = GOC_WIDGET (list->data);
 		gtk_button_set_label (GTK_BUTTON (item->widget), swc->label);
 	}
 }
@@ -2154,7 +2151,7 @@ sheet_widget_radio_button_set_label (SheetObject *so, char const *str)
 
 	list = swrb->sow.realized_list;
 	for (; list != NULL; list = list->next) {
-		FooCanvasWidget *item = FOO_CANVAS_WIDGET (list->data);
+		GocWidget *item = GOC_WIDGET (list->data);
 		gtk_button_set_label (GTK_BUTTON (item->widget), swrb->label);
 	}
 }

@@ -1,3 +1,45 @@
+2009-08-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/cell-draw.c: use GocCanvas ibstead of FooCanvas
+	* src/cell-draw.h: ditto.
+	* src/gnm-pane-impl.h: ditto.
+	* src/gnm-pane.c: ditto.
+	* src/gnm-pane.h: ditto.
+	* src/gnm-sheet-slicer-combo.c: ditto.
+	* src/gnm-so-filled.c: ditto.
+	* src/gnm-so-line.c: ditto.
+	* src/gnm-so-polygon.c: ditto.
+	* src/gnumeric-simple-canvas.c: ditto.
+	* src/gnumeric-simple-canvas.h: ditto.
+	* src/gui-util.c: ditto.
+	* src/gui-util.h: ditto.
+	* src/item-bar.c: ditto.
+	* src/item-bar.h: ditto.
+	* src/item-cursor.c: ditto.
+	* src/item-cursor.h: ditto.
+	* src/item-edit.c: ditto.
+	* src/item-grid.c: ditto.
+	* src/item-grid.h: ditto.
+	* src/pattern.c: ditto.
+	* src/pattern.h: ditto.
+	* src/preview-grid-impl.h: ditto.
+	* src/preview-grid.c: ditto.
+	* src/sheet-control-gui.c: ditto.
+	* src/sheet-control-gui.h: ditto.
+	* src/sheet-filter.c: ditto.
+	* src/sheet-object-cell-comment.c: ditto.
+	* src/sheet-object-graph.c: ditto.
+	* src/sheet-object-image.c: ditto.
+	* src/sheet-object-impl.h: ditto.
+	* src/sheet-object-widget.c: ditto.
+	* src/sheet-object.c: ditto.
+	* src/sheet-object.h: ditto.
+	* src/style-border.c: ditto.
+	* src/style-border.h: ditto.
+	* src/style-color.c: ditto.
+	* src/validation.c: ditto.
+	* src/wbc-gtk-edit.c: ditto.
+
 2009-08-21  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk-actions.c (insert_date_time_common): Rewrite to work

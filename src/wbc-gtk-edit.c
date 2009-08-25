@@ -331,9 +331,9 @@ workbook_edit_complete_notify (char const *text, void *closure)
 	g_free (wbcg->auto_complete_text);
 	wbcg->auto_complete_text = g_strdup (text);
 
-	SCG_FOREACH_PANE (scg, pane,
+/*	SCG_FOREACH_PANE (scg, pane,
 		if (pane->editor != NULL)
-			foo_canvas_item_request_update (FOO_CANVAS_ITEM (pane->editor)););
+			foo_canvas_item_request_update (FOO_CANVAS_ITEM (pane->editor)););*/
 }
 
 static void
@@ -493,10 +493,10 @@ cb_entry_delete_text (GtkEditable    *editable,
 	if (wbcg->auto_completing) {
 		SheetControlGUI *scg = wbcg_cur_scg (wbcg);
 		wbcg_auto_complete_destroy (wbcg);
-		if (scg)
+/*		if (scg)
 			SCG_FOREACH_PANE (scg, pane,
 					  if (pane->editor != NULL)
-					  foo_canvas_item_request_update (FOO_CANVAS_ITEM (pane->editor)););
+					  foo_canvas_item_request_update (FOO_CANVAS_ITEM (pane->editor)););*/
 	}
 
 	if (wbcg->edit_line.full_content) {

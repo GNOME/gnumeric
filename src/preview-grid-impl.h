@@ -3,20 +3,22 @@
 # define _GNM_PREVIEW_GRID_IMPL_H_
 
 #include "preview-grid.h"
-#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 
 struct _PreviewGrid {
-	FooCanvasGroup base;
+	GocGroup base;
 
 	Sheet *sheet;
 
+#if 0
 	struct { /* Gc's */
 		GdkGC *fill;	/* Default background fill gc */
 		GdkGC *cell;	/* Color used for the cell */
 		GdkGC *empty;	/* GC used for drawing empty cells */
 	} gc;
+#endif
 
 	struct {
 		int     col_width;
@@ -29,7 +31,7 @@ struct _PreviewGrid {
 };
 
 typedef struct {
-	FooCanvasGroupClass parent_class;
+	GocGroupClass parent_class;
 
 	/* Virtuals */
 	GnmStyle * (* get_cell_style) (PreviewGrid *pg, int col, int row);

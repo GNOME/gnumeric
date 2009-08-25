@@ -1350,12 +1350,11 @@ gnm_dialog_setup_destroy_handlers (GtkDialog *dialog,
 
 
 void
-gnm_canvas_get_position (FooCanvas *canvas, int *x, int *y, int px, int py)
+gnm_canvas_get_position (GocCanvas *canvas, int *x, int *y, gint64 px, gint64 py)
 {
 	GtkWidget *cw = GTK_WIDGET (canvas);
 	GdkWindow *cbw = GTK_LAYOUT (cw)->bin_window;
 	int wx, wy, ox, oy;
-	double pdx, pdy;
 
 	/*
 	 * Get offsets for the 16-bit X11 system within the 32-bit gdk system.
@@ -1365,10 +1364,11 @@ gnm_canvas_get_position (FooCanvas *canvas, int *x, int *y, int px, int py)
 
 	gdk_window_get_origin (cbw, &wx, &wy);
 
-	foo_canvas_world_to_window (canvas, px, py, &pdx, &pdy);
+	px = (px - canvas->scroll_x1) / canvas->pixels_per_unit;
+	py = (py - canvas->scroll_y1) / canvas->pixels_per_unit;
 
-	*x = (int)pdx + wx - ox;
-	*y = (int)pdy + wy - oy;
+	*x = px + wx - ox;
+	*y = py + wy - oy;
 }
 
 

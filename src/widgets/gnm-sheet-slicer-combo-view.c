@@ -22,7 +22,7 @@
 
 #include <gnumeric-config.h>
 #include "gnm-sheet-slicer-combo-foo-view.h"
-#include "gnm-cell-combo-foo-view-impl.h"
+#include "gnm-cell-combo-view-impl.h"
 
 #include "gnm-sheet-slicer-combo.h"
 #include "workbook.h"
@@ -34,7 +34,6 @@
 #include "go-data-slicer-field.h"
 #include "go-data-cache-field.h"
 #include <goffice/goffice.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-widget.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
@@ -111,7 +110,7 @@ sscombo_create_list (SheetObject *so, GtkTreePath **clip, GtkTreePath **select)
 			workbook_date_conv (sscombo->parent.sv->sheet->workbook))) {
 			gtk_list_store_append (model, &iter);
 			gtk_list_store_set (model, &iter, 0, TRUE, 1, str->str, -1);
-			g_string_truncate (str, 0); 
+			g_string_truncate (str, 0);
 		}
 	}
 	list = gtk_tree_view_new_with_model (GTK_TREE_MODEL (model));
@@ -137,13 +136,13 @@ sscombo_create_arrow (G_GNUC_UNUSED SheetObject *so)
 	return gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_IN);
 }
 
-static void
-sscombo_ccombo_init (GnmCComboFooViewIface *ccombo_iface)
+/*static void
+sscombo_ccombo_init (GnmCComboViewIface void *ccombo_iface)
 {
 	ccombo_iface->create_list	= sscombo_create_list;
 	ccombo_iface->create_arrow	= sscombo_create_arrow;
 	ccombo_iface->activate		= sscombo_activate;
-}
+}*/
 
 /*******************************************************************************/
 
@@ -152,42 +151,38 @@ sscombo_ccombo_init (GnmCComboFooViewIface *ccombo_iface)
 static void
 sscombo_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
-	FooCanvasItem *view = FOO_CANVAS_ITEM (sov);
+	GocItem *view = GOC_ITEM (sov);
 
 	if (visible) {
 		double h = (coords[3] - coords[1]) + 1.;
 		if (h > 20.)	/* clip vertically */
 			h = 20.;
-		foo_canvas_item_set (view,
+		goc_item_set (view,
 			/* put it outside the cell */
 			"x",	  ((coords[2] >= 0.) ? coords[2] : (coords[0]-h+1.)),
 			"y",	  coords [3] - h + 1.,
 			"width",  h,	/* force a square, use h for width too */
 			"height", h,
 			NULL);
-		foo_canvas_item_show (view);
+		goc_item_show (view);
 	} else
-		foo_canvas_item_hide (view);
+		goc_item_hide (view);
 }
+
 static void
-sscombo_destroy (SheetObjectView *sov)
+sscombo_class_init (GnmCComboViewClass *ccombo_class)
 {
-	gtk_object_destroy (GTK_OBJECT (sov));
-}
-static void
-sscombo_sov_init (SheetObjectViewIface *sov_iface)
-{
-	sov_iface->destroy	= sscombo_destroy;
-	sov_iface->set_bounds	= sscombo_set_bounds;
+	SheetObjectViewClass *sov_class = (SheetObjectViewClass *) ccombo_class;
+	ccombo_class->create_list	= sscombo_create_list;
+	ccombo_class->create_arrow	= sscombo_create_arrow;
+	ccombo_class->activate		= sscombo_activate;
+	sov_class->set_bounds		= sscombo_set_bounds;
 }
 
 /****************************************************************************/
 
-typedef FooCanvasWidget		GnmSheetSlicerComboFooView;
-typedef FooCanvasWidgetClass	GnmSheetSlicerComboFooViewClass;
-GSF_CLASS_FULL (GnmSheetSlicerComboFooView, gnm_sheet_slicer_combo_foo_view,
-	NULL, NULL, NULL, NULL,
-	NULL, FOO_TYPE_CANVAS_WIDGET, 0,
-	GSF_INTERFACE (sscombo_sov_init, SHEET_OBJECT_VIEW_TYPE)
-	GSF_INTERFACE (sscombo_ccombo_init, GNM_CCOMBO_FOO_VIEW_TYPE)
-)
+typedef GnmCComboView		GnmSheetSlicerComboView;
+typedef GnmCComboViewClass	GnmSheetSlicerComboViewClass;
+GSF_CLASS (GnmSheetSlicerComboView, gnm_sheet_slicer_combo_view,
+	sscombo_class_init, NULL,
+	GNM_CCOMBO_VIEW_TYPE)

@@ -1,8 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
- * gnm-validation-combo-foo-view.c: A foocanvas object for Validate from list
- *				in cell combos
+ * gnm-validation-combo-view.c: A canvas object for Validate from list
+ * 				in cell combos
  *
  * Copyright (C) 2006 Jody Goldberg (jody@gnome.org)
  *
@@ -22,8 +22,8 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnm-validation-combo-foo-view.h"
-#include "gnm-cell-combo-foo-view-impl.h"
+#include "gnm-validation-combo-view.h"
+#include "gnm-cell-combo-view-impl.h"
 
 #include "validation-combo.h"
 #include "commands.h"
@@ -40,7 +40,6 @@
 
 #include "gui-gnumeric.h"
 #include <goffice/goffice.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-widget.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
@@ -179,14 +178,6 @@ vcombo_create_arrow (G_GNUC_UNUSED SheetObject *so)
 	return gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_IN);
 }
 
-static void
-vcombo_ccombo_init (GnmCComboFooViewIface *ccombo_iface)
-{
-	ccombo_iface->create_list	= vcombo_create_list;
-	ccombo_iface->create_arrow	= vcombo_create_arrow;
-	ccombo_iface->activate		= vcombo_activate;
-}
-
 /*******************************************************************************/
 
 /* Somewhat magic.
@@ -194,42 +185,39 @@ vcombo_ccombo_init (GnmCComboFooViewIface *ccombo_iface)
 static void
 vcombo_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
-	FooCanvasItem *view = FOO_CANVAS_ITEM (sov);
+	GocItem *view = GOC_ITEM (sov);
 
 	if (visible) {
 		double h = (coords[3] - coords[1]) + 1.;
 		if (h > 20.)	/* clip vertically */
 			h = 20.;
-		foo_canvas_item_set (view,
+		goc_item_set (view,
 			/* put it outside the cell */
 			"x",	  ((coords[2] >= 0.) ? coords[2] : (coords[0]-h+1.)),
 			"y",	  coords [3] - h + 1.,
 			"width",  h,	/* force a square, use h for width too */
 			"height", h,
 			NULL);
-		foo_canvas_item_show (view);
+		goc_item_show (view);
 	} else
-		foo_canvas_item_hide (view);
-}
-static void
-vcombo_destroy (SheetObjectView *sov)
-{
-	gtk_object_destroy (GTK_OBJECT (sov));
-}
-static void
-vcombo_sov_init (SheetObjectViewIface *sov_iface)
-{
-	sov_iface->destroy	= vcombo_destroy;
-	sov_iface->set_bounds	= vcombo_set_bounds;
+		goc_item_hide (view);
 }
 
 /****************************************************************************/
 
-typedef FooCanvasWidget		GnmValidationComboFooView;
-typedef FooCanvasWidgetClass	GnmValidationComboFooViewClass;
-GSF_CLASS_FULL (GnmValidationComboFooView, gnm_validation_combo_foo_view,
-	NULL, NULL, NULL, NULL,
-	NULL, FOO_TYPE_CANVAS_WIDGET, 0,
-	GSF_INTERFACE (vcombo_sov_init, SHEET_OBJECT_VIEW_TYPE)
-	GSF_INTERFACE (vcombo_ccombo_init, GNM_CCOMBO_FOO_VIEW_TYPE)
-)
+static void
+gnm_validation_view_class_init (GnmCComboViewClass *ccombo_class)
+{
+	SheetObjectViewClass *sov_class = (SheetObjectViewClass *) ccombo_class;
+	ccombo_class->create_list	= vcombo_create_list;
+	ccombo_class->create_arrow	= vcombo_create_arrow;
+	ccombo_class->activate		= vcombo_activate;
+	sov_class->set_bounds		= vcombo_set_bounds;
+}
+
+typedef GnmCComboView		GnmValidationComboView;
+typedef GnmCComboViewClass	GnmValidationComboViewClass;
+GSF_CLASS (GnmValidationComboView, gnm_validation_combo_view,
+	gnm_validation_view_class_init, NULL,
+	GNM_CCOMBO_VIEW_TYPE)
+

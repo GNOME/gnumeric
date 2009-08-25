@@ -5,6 +5,7 @@
 G_BEGIN_DECLS
 
 #include "sheet-object.h"
+#include <goffice/goffice.h>
 #include <gsf/gsf-libxml.h>
 #include <libxml/tree.h>
 #include <glib-object.h>
@@ -105,21 +106,27 @@ typedef struct {
 
 /***************************************************************************/
 
+struct _SheetObjectView {
+	GocGroup base;
+
+	GnmSOResizeMode resize_mode;
+};
+
 typedef struct {
-	GTypeInterface base;
+	GocGroupClass base;
 
 	void (*destroy)    (SheetObjectView *sov);
 	void (*active)	   (SheetObjectView *sov, gboolean is_active);
 	void (*set_bounds) (SheetObjectView *sov,
 			    double const *coords, gboolean visible);
-} SheetObjectViewIface;
+} SheetObjectViewClass;
 
 #define SHEET_OBJECT_VIEW_TYPE		(sheet_object_view_get_type ())
 #define SHEET_OBJECT_VIEW(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), SHEET_OBJECT_VIEW_TYPE, SheetObjectView))
 #define IS_SHEET_OBJECT_VIEW(o)		(G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_VIEW_TYPE))
 #define SHEET_OBJECT_VIEW_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST((k), SHEET_OBJECT_VIEW_TYPE, SheetObjectViewIface))
 #define IS_SHEET_OBJECT_VIEW_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE((k), SHEET_OBJECT_VIEW_TYPE))
-#define SHEET_OBJECT_VIEW_GET_CLASS(o)  (G_TYPE_INSTANCE_GET_INTERFACE ((o), SHEET_OBJECT_VIEW_TYPE, SheetObjectViewIface))
+#define SHEET_OBJECT_VIEW_GET_CLASS(o)  (G_TYPE_INSTANCE_GET_CLASS ((o), SHEET_OBJECT_VIEW_TYPE, SheetObjectViewClass))
 
 GType	     sheet_object_view_get_type	  (void);
 SheetObject *sheet_object_view_get_so	  (SheetObjectView *sov);

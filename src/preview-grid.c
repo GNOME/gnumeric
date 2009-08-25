@@ -41,7 +41,7 @@
 
 #include <gsf/gsf-impl-utils.h>
 
-static FooCanvasItemClass *parent_klass;
+static GocItemClass *parent_klass;
 enum {
 	PREVIEW_GRID_PROP_0,
 	PREVIEW_GRID_PROP_RENDER_GRIDLINES,
@@ -163,77 +163,29 @@ pg_get_col_offset (PreviewGrid *pg, int const x, int *col_origin)
 }
 
 static void
-preview_grid_realize (FooCanvasItem *item)
+preview_grid_update_bounds (GocItem *item)
 {
-	GtkStyle    *style;
-	GdkWindow   *window = GTK_WIDGET (item->canvas)->window;
-	PreviewGrid *pg = PREVIEW_GRID (item);
-
-
-	if (parent_klass->realize)
-		(*parent_klass->realize) (item);
-
-	/* Set the default background color of the canvas itself to white.
-	 * This makes the redraws when the canvas scrolls flicker less.
-	 */
-	style = gtk_style_copy (GTK_WIDGET (item->canvas)->style);
-	style->bg[GTK_STATE_NORMAL] = style->white;
-	gtk_widget_set_style (GTK_WIDGET (item->canvas), style);
-	g_object_unref (style);
-
-	/* Configure the default grid gc */
-	pg->gc.fill  = gdk_gc_new (window);
-	pg->gc.cell  = gdk_gc_new (window);
-	pg->gc.empty = gdk_gc_new (window);
-
-	gdk_gc_set_rgb_fg_color (pg->gc.fill, &gs_white);
-	gdk_gc_set_rgb_bg_color (pg->gc.fill, &gs_light_gray);
-	gdk_gc_set_fill (pg->gc.cell, GDK_SOLID);
+	item->x0 = -2;
+	item->y0 = -2;
+	item->x1 = INT_MAX/2;	/* FIXME add some num cols/rows abilities */
+	item->y1 = INT_MAX/2;	/* FIXME and some flags to decide how to adapt */
 }
 
 static void
-preview_grid_unrealize (FooCanvasItem *item)
-{
-	PreviewGrid *pg = PREVIEW_GRID (item);
-	g_object_unref (pg->gc.fill);  pg->gc.fill  = NULL;
-	g_object_unref (pg->gc.cell);  pg->gc.cell  = NULL;
-	g_object_unref (pg->gc.empty); pg->gc.empty = NULL;
-	if (parent_klass->unrealize)
-		(*parent_klass->unrealize) (item);
-}
-
-static void
-preview_grid_update (FooCanvasItem *item,  double i2w_dx, double i2w_dy, int flags)
-{
-	FooCanvasGroup *group = FOO_CANVAS_GROUP (item);
-	if (parent_klass->update)
-		(*parent_klass->update) (item, i2w_dx, i2w_dy, flags);
-
-	item->x1 = group->xpos - 2;
-	item->y1 = group->ypos - 2;
-	item->x2 = INT_MAX/2;	/* FIXME add some num cols/rows abilities */
-	item->y2 = INT_MAX/2;	/* FIXME and some flags to decide how to adapt */
-
-	foo_canvas_item_request_redraw (item);
-}
-
-static void
-preview_grid_draw_background (GdkDrawable *drawable, PreviewGrid const *pg, GnmStyle const *mstyle,
+preview_grid_draw_background (cairo_t *cr, PreviewGrid const *pg, GnmStyle const *mstyle,
 			      int col, int row, int x, int y, int w, int h)
 {
-	GdkGC *gc = pg->gc.empty;
-
-	if (gnumeric_background_set_gc (mstyle, gc, pg->base.item.canvas, FALSE))
-		/* Fill the entire cell (API excludes far pixel) */
-		gdk_draw_rectangle (drawable, gc, TRUE, x, y, w+1, h+1);
-
-	gnm_style_border_draw_diag (mstyle, drawable, x, y, x+w, y+h);
+	if (gnumeric_background_set (mstyle, cr, FALSE)) {
+		cairo_rectangle (cr, x, y, w+1, h+1);
+		cairo_fill (cr);
+	}
+	gnm_style_border_draw_diag (mstyle, cr, x, y, x+w, y+h);
 }
 
 #define border_null(b)	((b) == none || (b) == NULL)
 static void
 pg_style_get_row (PreviewGrid *pg, GnmStyleRow *sr)
-{
+{	
 	GnmBorder const *top, *bottom, *none = gnm_style_border_none ();
 	GnmBorder const *left, *right;
 	int const end = sr->end_col, row = sr->row;
@@ -272,14 +224,16 @@ pg_style_get_row (PreviewGrid *pg, GnmStyleRow *sr)
 }
 
 /* no spans or merges */
-static void
-preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
-		   GdkEventExpose *expose)
+static gboolean
+preview_grid_draw_region (GocItem const *item, cairo_t *cr,
+			  double x0, double y0, double x1, double y1)
 {
+#if 0
 	gint draw_x = expose->area.x;
 	gint draw_y = expose->area.y;
 	gint width  = expose->area.width;
 	gint height = expose->area.height;
+#endif
 	PreviewGrid *pg = PREVIEW_GRID (item);
 	PangoContext *context = gtk_widget_get_pango_context
 		(gtk_widget_get_toplevel (GTK_WIDGET (item->canvas)));
@@ -292,11 +246,11 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	 * However, that feels like more hassle that it is worth.  Look into this someday.
 	 */
 	int x, y, col, row, n;
-	int const start_col = pg_get_col_offset (pg, draw_x - 2, &x);
-	int end_col         = pg_get_col_offset (pg, draw_x + width + 2, NULL);
+	int const start_col = pg_get_col_offset (pg, x0 - 2, &x);
+	int end_col         = pg_get_col_offset (pg, x1+ 2, NULL);
 	int diff_x    = x;
-	int start_row       = pg_get_row_offset (pg, draw_y - 2, &y);
-	int end_row         = pg_get_row_offset (pg, draw_y + height + 2, NULL);
+	int start_row       = pg_get_row_offset (pg, y0 - 2, &y);
+	int end_row         = pg_get_row_offset (pg, y1 + 2, NULL);
 	int diff_y    = y;
 	int row_height = pg->defaults.row_height;
 
@@ -328,10 +282,10 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	for (col = start_col; col <= end_col; col++)
 		colwidths[col] = pg->defaults.col_width;
 
-	foo_canvas_w2c (item->canvas, diff_x, diff_y, &diff_x, &diff_y);
 	/* Fill entire region with default background (even past far edge) */
-	gdk_draw_rectangle (drawable, pg->gc.fill, TRUE,
-			    diff_x, diff_y, width, height);
+	cairo_set_source_rgb (cr, 1., 1., 1.);
+	cairo_rectangle (cr, diff_x, diff_y, x1 - x0, y1 - y0);
+	cairo_fill (cr);
 
 	for (y = diff_y; row <= end_row; row = sr.row = next_sr.row) {
 		if (++next_sr.row > end_row) {
@@ -346,19 +300,19 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 			GnmCell const  *cell  = pg_fetch_cell (pg,
 				col, row, context, style);
 
-			preview_grid_draw_background (drawable, pg,
+			preview_grid_draw_background (cr, pg,
 						      style, col, row, x, y,
 						      colwidths [col], row_height);
 
 			if (!gnm_cell_is_empty (cell))
-				cell_draw (cell, pg->gc.cell, drawable,
+				cell_draw (cell, cr,
 					   x, y, colwidths [col], row_height, -1);
 
 			x += colwidths [col];
 		}
 
-		gnm_style_borders_row_draw (prev_vert, &sr,
-					drawable, diff_x, y, y+row_height,
+		gnm_style_borders_row_draw (prev_vert, &sr, cr,
+					diff_x, y, y+row_height,
 					colwidths, TRUE, 1 /* cheat dir == 1 for now */);
 
 		/* roll the pointers */
@@ -370,11 +324,12 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 
 		y += row_height;
 	}
+	return TRUE;
 }
 
 static double
-preview_grid_point (FooCanvasItem *item, double x, double y, int cx, int cy,
-		    FooCanvasItem **actual_item)
+preview_grid_distance (GocItem *item, double cx, double cy,
+		    GocItem **actual_item)
 {
 	*actual_item = item;
 	return 0.0;
@@ -417,7 +372,7 @@ preview_grid_set_property (GObject *obj, guint param_id,
 		return; /* NOTE : RETURN */
 	}
 
-	foo_canvas_item_request_update (FOO_CANVAS_ITEM (obj));
+	goc_item_invalidate (GOC_ITEM (obj));
 }
 
 static void
@@ -445,13 +400,6 @@ preview_grid_dispose (GObject *obj)
 static void
 preview_grid_init (PreviewGrid *pg)
 {
-	FooCanvasItem *item = FOO_CANVAS_ITEM (pg);
-
-	item->x1 = 0;
-	item->y1 = 0;
-	item->x2 = 0;
-	item->y2 = 0;
-
 	pg->sheet = g_object_new (GNM_SHEET_TYPE,
 				  "rows", 256,
 				  "columns", 256,
@@ -466,7 +414,7 @@ preview_grid_init (PreviewGrid *pg)
 static void
 preview_grid_class_init (GObjectClass *gobject_klass)
 {
-	FooCanvasItemClass *item_klass = (FooCanvasItemClass *)gobject_klass;
+	GocItemClass *item_klass = (GocItemClass *)gobject_klass;
 
 	parent_klass = g_type_class_peek_parent (gobject_klass);
 
@@ -491,13 +439,11 @@ preview_grid_class_init (GObjectClass *gobject_klass)
                  g_param_spec_pointer ("default-value", NULL, NULL,
 			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 
-	item_klass->update      = preview_grid_update;
-	item_klass->realize     = preview_grid_realize;
-	item_klass->unrealize   = preview_grid_unrealize;
-	item_klass->draw        = preview_grid_draw;
-	item_klass->point       = preview_grid_point;
+	item_klass->update_bounds = preview_grid_update_bounds;
+	item_klass->draw_region = preview_grid_draw_region;
+	item_klass->distance    = preview_grid_distance;
 }
 
 GSF_CLASS (PreviewGrid, preview_grid,
 	   preview_grid_class_init, preview_grid_init,
-	   FOO_TYPE_CANVAS_GROUP)
+	   GOC_TYPE_GROUP)

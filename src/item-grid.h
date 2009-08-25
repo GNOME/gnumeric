@@ -4,6 +4,7 @@
 
 #include "gui-gnumeric.h"
 #include <glib-object.h>
+#include <goffice/canvas/goffice-canvas.h>
 
 G_BEGIN_DECLS
 

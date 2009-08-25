@@ -21,6 +21,8 @@
 #include <preview-grid.h>
 
 #include <goffice/goffice.h>
+#include <goffice/canvas/goc-canvas.h>
+#include <goffice/canvas/goc-item.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtk.h>
 #include <glade/glade.h>
@@ -39,8 +41,8 @@ struct _FontSelector {
 	GtkTreeView *font_style_list;
 	GtkTreeView *font_size_list;
 
-	FooCanvas *font_preview_canvas;
-	FooCanvasItem *font_preview_grid;
+	GocCanvas *font_preview_canvas;
+	GocItem	  *font_preview_grid;
 
 	GnmStyle     *mstyle;
 
@@ -90,7 +92,7 @@ fs_modify_style (FontSelector *fs, GnmStyle *modification)
 		fs->mstyle = new_style;
 		g_signal_emit (G_OBJECT (fs),
 			       fs_signals[FONT_CHANGED], 0, modification);
-		foo_canvas_item_set (fs->font_preview_grid,
+		goc_item_set (fs->font_preview_grid,
 				     "default-style",  fs->mstyle,
 				     NULL);
 		gnm_style_unref (original);
@@ -354,13 +356,10 @@ canvas_size_changed (G_GNUC_UNUSED GtkWidget *widget,
 	int width  = allocation->width - 1;
 	int height = allocation->height - 1;
 
-	foo_canvas_item_set (fs->font_preview_grid,
+	goc_item_set (fs->font_preview_grid,
                  "default-col-width",  width,
                  "default-row-height", height,
 		 NULL);
-
-	foo_canvas_set_scroll_region (fs->font_preview_canvas, 0, 0,
-				      width, height);
 }
 
 static void
@@ -387,15 +386,14 @@ fs_init (FontSelector *fs)
 	fs->font_style_list = GTK_TREE_VIEW (glade_xml_get_widget (fs->gui, "font-style-list"));
 	fs->font_size_list  = GTK_TREE_VIEW (glade_xml_get_widget (fs->gui, "font-size-list"));
 
-	w = foo_canvas_new ();
-	fs->font_preview_canvas = FOO_CANVAS (w);
-	foo_canvas_set_scroll_region (fs->font_preview_canvas, -1, -1, INT_MAX/2, INT_MAX/2);
-	foo_canvas_scroll_to (fs->font_preview_canvas, 0, 0);
+	w = g_object_new (GOC_TYPE_CANVAS, NULL);
+	fs->font_preview_canvas = GOC_CANVAS (w);
+	goc_canvas_scroll_to (fs->font_preview_canvas, 0, 0);
 	gtk_widget_show_all (w);
 	w = glade_xml_get_widget (fs->gui, "font-preview-frame");
 	gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (fs->font_preview_canvas));
-	fs->font_preview_grid = FOO_CANVAS_ITEM (foo_canvas_item_new (
-		foo_canvas_root (fs->font_preview_canvas),
+	fs->font_preview_grid = GOC_ITEM (goc_item_new (
+		goc_canvas_get_root (fs->font_preview_canvas),
 		preview_grid_get_type (),
 		"render-gridlines",	FALSE,
 		"default-value",	value_new_string ("AaBbCcDdEe12345"),
@@ -477,7 +475,7 @@ font_selector_set_value (FontSelector *fs, GnmValue const *v)
 	val = (v != NULL)
 		? value_dup (v)
 		: value_new_string ("AaBbCcDdEe12345");
-	foo_canvas_item_set (fs->font_preview_grid,
+	goc_item_set (fs->font_preview_grid,
 		"default-value",  val,
 		NULL);
 }

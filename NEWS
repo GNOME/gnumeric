@@ -4,6 +4,9 @@ Andreas:
 	* Add AVERAGEIF, MUNIT, RRI, SEARCHB, REPLACEB.
 	* Improve import of ODF functions
 
+Jean:
+	* Use GocCanvas instead of FooCanvas.
+
 Morten:
 	* Add GAMMA.
 	* Fix Insert-Date+Time.  [#592545]

@@ -5,6 +5,7 @@
 #include "gui-gnumeric.h"
 #include <glib-object.h>
 #include <pango/pango-font.h>
+#include <goffice/canvas/goffice-canvas.h>
 
 G_BEGIN_DECLS
 

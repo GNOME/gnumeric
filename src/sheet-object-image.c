@@ -20,8 +20,6 @@
 #include "xml-io.h"
 
 #include <goffice/goffice.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-pixbuf.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-utils.h>
@@ -53,7 +51,7 @@ so_image_view_destroy (SheetObjectView *sov)
 static void
 so_image_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
-	FooCanvasItem *view = FOO_CANVAS_ITEM (sov);
+	GocItem *view = GOC_ITEM (GOC_GROUP (sov)->children->data);
 	if (visible) {
 		double x, y, width, height;
 		double old_x1, old_y1, old_x2, old_y2, old_width, old_height;
@@ -64,11 +62,10 @@ so_image_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean v
 		width  = fabs (coords [2] - coords [0]);
 		height = fabs (coords [3] - coords [1]);
 
-		foo_canvas_item_get_bounds (view, &old_x1, &old_y1, &old_x2, &old_y2);
-		foo_canvas_item_set (view,
+		goc_item_get_bounds (view, &old_x1, &old_y1, &old_x2, &old_y2);
+		goc_item_set (view,
 			"x", x,			"y", y,
-			"width",  width,	"width_set",  (width > 0.),
-			"height", height,	"height_set", (height > 0.),
+			"width",  width,	"height", height,
 			NULL);
 
 		/* regenerate the image if necessary */
@@ -78,27 +75,26 @@ so_image_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean v
 		    (fabs (width - old_width) > 0.5 || fabs (height - old_height) > 0.5)) {
 			GdkPixbuf *newimage = go_pixbuf_tile (placeholder,
 				(guint)width, (guint)height);
-			foo_canvas_item_set (view, "pixbuf", newimage, NULL);
+			goc_item_set (view, "pixbuf", newimage, NULL);
 			g_object_unref (newimage);
 		}
 
-		foo_canvas_item_show (view);
+		goc_item_show (view);
 	} else
-		foo_canvas_item_hide (view);
+		goc_item_hide (view);
 }
 
 static void
-so_image_foo_view_init (SheetObjectViewIface *sov_iface)
+so_image_goc_view_class_init (SheetObjectViewClass *sov_klass)
 {
-	sov_iface->destroy	= so_image_view_destroy;
-	sov_iface->set_bounds	= so_image_view_set_bounds;
+	sov_klass->destroy	= so_image_view_destroy;
+	sov_klass->set_bounds	= so_image_view_set_bounds;
 }
-typedef FooCanvasPixbuf		SOImageFooView;
-typedef FooCanvasPixbufClass	SOImageFooViewClass;
-static GSF_CLASS_FULL (SOImageFooView, so_image_foo_view,
-	NULL, NULL, NULL, NULL,
-	NULL, FOO_TYPE_CANVAS_PIXBUF, 0,
-	GSF_INTERFACE (so_image_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
+typedef SheetObjectView	SOImageGocView;
+typedef SheetObjectViewClass	SOImageGocViewClass;
+static GSF_CLASS (SOImageGocView, so_image_goc_view,
+	so_image_goc_view_class_init, NULL,
+	SHEET_OBJECT_VIEW_TYPE)
 
 /****************************************************************************/
 struct _SheetObjectImage {
@@ -306,7 +302,7 @@ static SheetObjectView *
 gnm_soi_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
-	FooCanvasItem *item = NULL;
+	GocItem *item = NULL;
 	GdkPixbuf *pixbuf, *placeholder = NULL;
 
 	pixbuf = soi_get_pixbuf (soi, 1.);
@@ -318,12 +314,14 @@ gnm_soi_new_view (SheetObject *so, SheetObjectViewContainer *container)
 		pixbuf = gdk_pixbuf_copy (placeholder);
 	}
 
-	item = foo_canvas_item_new (
+	item = goc_item_new (
 		gnm_pane_object_group (GNM_PANE (container)),
-		so_image_foo_view_get_type (),
-		"pixbuf", pixbuf,
-		"visible", FALSE,
+		so_image_goc_view_get_type (),
 		NULL);
+	goc_item_hide (goc_item_new (GOC_GROUP (item),
+		GOC_TYPE_PIXBUF,
+		"pixbuf", pixbuf,
+		NULL));
 	g_object_unref (G_OBJECT (pixbuf));
 
 	if (placeholder)

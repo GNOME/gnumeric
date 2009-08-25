@@ -24,6 +24,7 @@
 #include "parse-util.h"
 #include "commands.h"
 
+#include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtk.h>
 #define GNUMERIC_ITEM "BAR"
@@ -32,7 +33,7 @@
 #include <string.h>
 
 struct _ItemBar {
-	FooCanvasItem	 base;
+	GocItem	 base;
 
 	GnmPane		*pane;
 	GdkGC           *text_gc, *filter_gc, *lines, *shade;
@@ -56,8 +57,8 @@ struct _ItemBar {
 	} pango;
 };
 
-typedef FooCanvasItemClass ItemBarClass;
-static FooCanvasItemClass *parent_class;
+typedef GocItemClass ItemBarClass;
+static GocItemClass *parent_class;
 
 enum {
 	ITEM_BAR_PROP_0,
@@ -165,7 +166,6 @@ item_bar_calc_size (ItemBar *ib)
 					'A');
 
 	ib->indent = ib_compute_pixels_from_indent (sheet, ib->is_col_header);
-	foo_canvas_item_request_update (&ib->base);
 
 	return ib->indent +
 		(ib->is_col_header ? ib->cell_height : ib->cell_width);
@@ -184,51 +184,30 @@ item_bar_indent	(ItemBar const *ib)
 }
 
 static void
-item_bar_update (FooCanvasItem *item,  double i2w_dx, double i2w_dy, int flags)
+item_bar_update_bounds (GocItem *item)
 {
 	ItemBar *ib = ITEM_BAR (item);
-
-	item->x1 = 0;
-	item->y1 = 0;
+	item->x0 = 0;
+	item->y0 = 0;
 	if (ib->is_col_header) {
-		item->x2 = G_MAXINT/2;
-		item->y2 = (ib->cell_height + ib->indent);
+		item->x1 = G_MAXINT64/2;
+		item->y1 = (ib->cell_height + ib->indent);
 	} else {
-		item->x2 = (ib->cell_width  + ib->indent);
-		item->y2 = G_MAXINT/2;
+		item->x1 = (ib->cell_width  + ib->indent);
+		item->y1 = G_MAXINT64/2;
 	}
-
-	if (parent_class->update)
-		(*parent_class->update)(item, i2w_dx, i2w_dy, flags);
 }
 
 static void
-item_bar_realize (FooCanvasItem *item)
+item_bar_realize (GocItem *item)
 {
 	ItemBar *ib;
-	GdkWindow *window;
-	GtkStyle *style;
 	GdkDisplay *display;
 
 	if (parent_class->realize)
 		(*parent_class->realize)(item);
 
 	ib = ITEM_BAR (item);
-	window = GTK_WIDGET (item->canvas)->window;
-
-	/* Configure our gc */
-	style = gtk_widget_get_style (GTK_WIDGET (item->canvas));
-
-	ib->text_gc = gdk_gc_new (window);
-	gdk_gc_set_rgb_fg_color (ib->text_gc, &style->text[GTK_STATE_NORMAL]);
-	ib->filter_gc = gdk_gc_new (window);
-	gdk_gc_set_rgb_fg_color (ib->filter_gc, &gs_yellow);
-	ib->shade = gdk_gc_new (window);
-	gdk_gc_set_rgb_fg_color (ib->shade, &style->dark[GTK_STATE_NORMAL]);
-	ib->lines = gdk_gc_new (window);
-	gdk_gc_copy (ib->lines, ib->text_gc);
-	gdk_gc_set_line_attributes (ib->lines, 2, GDK_LINE_SOLID,
-				    GDK_CAP_NOT_LAST, GDK_JOIN_MITER);
 
 	display = gtk_widget_get_display (GTK_WIDGET (item->canvas));
 	ib->normal_cursor = gdk_cursor_new_for_display (display, GDK_LEFT_PTR);
@@ -240,69 +219,67 @@ item_bar_realize (FooCanvasItem *item)
 }
 
 static void
-item_bar_unrealize (FooCanvasItem *item)
+item_bar_unrealize (GocItem *item)
 {
 	ItemBar *ib = ITEM_BAR (item);
 
-	g_object_unref (G_OBJECT (ib->text_gc));
-	g_object_unref (G_OBJECT (ib->filter_gc));
-	g_object_unref (G_OBJECT (ib->lines));
-	g_object_unref (G_OBJECT (ib->shade));
 	gdk_cursor_unref (ib->change_cursor);
 	gdk_cursor_unref (ib->normal_cursor);
-
-	if (parent_class->unrealize)
-		(*parent_class->unrealize)(item);
 }
 
 static void
-ib_draw_cell (ItemBar const * const ib, GdkDrawable *drawable,
-	      GdkGC *text_gc, ColRowSelectionType const type,
-	      char const * const str, GdkRectangle *rect)
+ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
+	      ColRowSelectionType const type,
+	      char const * const str, GocRect *rect)
 {
-	GtkWidget	*canvas = GTK_WIDGET (ib->base.canvas);
-	GdkGC		*gc;
+	GtkLayout	*canvas = GTK_LAYOUT (ib->base.canvas);
+	GtkWidget   *widget = GTK_WIDGET (canvas);
 	PangoFont	*font;
 	PangoRectangle   size;
+	GOColor color;
 	int shadow, ascent;
 
 	switch (type) {
 	default:
 	case COL_ROW_NO_SELECTION:
 		shadow = GTK_SHADOW_OUT;
-		gc     = canvas->style->bg_gc [GTK_STATE_ACTIVE];
 		font   = ib->normal_font;
+		color = GDK_TO_UINT (widget->style->bg[GTK_STATE_ACTIVE]);
 		ascent = ib->normal_font_ascent;
 		break;
 
 	case COL_ROW_PARTIAL_SELECTION:
 		shadow = GTK_SHADOW_OUT;
-		gc     = canvas->style->dark_gc [GTK_STATE_PRELIGHT];
 		font   = ib->bold_font;
+		color = GDK_TO_UINT (widget->style->dark[GTK_STATE_PRELIGHT]);
 		ascent = ib->bold_font_ascent;
 		break;
 
 	case COL_ROW_FULL_SELECTION:
 		shadow = GTK_SHADOW_IN;
-		gc     = canvas->style->dark_gc [GTK_STATE_NORMAL];
 		font   = ib->bold_font;
+		color = GDK_TO_UINT (widget->style->dark[GTK_STATE_NORMAL]);
 		ascent = ib->bold_font_ascent;
 		break;
 	}
 	/* When we are really small leave out the shadow and the text */
+	cairo_save (cr);
+	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
 	if (rect->width <= 2 || rect->height <= 2) {
-		gdk_draw_rectangle (drawable, gc, TRUE,
-			rect->x, rect->y, rect->width, rect->height);
+		cairo_rectangle (cr, rect->x, rect->y, rect->width, rect->height);
+		cairo_fill (cr);
+		cairo_restore (cr);
 		return;
 	}
 
-	gdk_draw_rectangle (drawable, gc, TRUE,
-		rect->x + 1, rect->y + 1, rect->width - 1, rect->height - 1);
+	cairo_rectangle (cr, rect->x + 1, rect->y + 1, rect->width - 1, rect->height - 1);
+	cairo_fill (cr);
+	cairo_restore (cr);
 
 	/* The widget parameters could be NULL, but if so some themes would emit a warning.
 	 * (Murrine is known to do this: http://bugzilla.gnome.org/show_bug.cgi?id=564410). */
-	gtk_paint_shadow (canvas->style, drawable, GTK_STATE_NORMAL, shadow,
-			  NULL, canvas, "GnmItemBarCell",
+	gtk_paint_shadow (widget->style, canvas->bin_window, GTK_STATE_NORMAL, shadow,
+			  NULL, widget, "GnmItemBarCell",
 			  rect->x, rect->y, rect->width + 1, rect->height + 1);
 
 	g_return_if_fail (font != NULL);
@@ -311,11 +288,13 @@ ib_draw_cell (ItemBar const * const ib, GdkDrawable *drawable,
 	pango_shape (str, strlen (str), &(ib->pango.item->analysis), ib->pango.glyphs);
 	pango_glyph_string_extents (ib->pango.glyphs, font, NULL, &size);
 
-	gdk_gc_set_clip_rectangle (text_gc, rect);
-	gdk_draw_glyphs (drawable, text_gc, font,
-		rect->x + (rect->width - PANGO_PIXELS (size.width)) / 2,
-		rect->y + (rect->height - PANGO_PIXELS (size.height)) / 2 + ascent,
-		ib->pango.glyphs);
+	cairo_save (cr);
+	cairo_set_source_rgb (cr, 0., 0., 0.);
+	cairo_translate (cr,
+					 rect->x + (rect->width - PANGO_PIXELS (size.width)) / 2,
+					 rect->y  + (rect->height - PANGO_PIXELS (size.height)) / 2 + ascent);
+	pango_cairo_show_glyph_string (cr, font, ib->pango.glyphs);
+	cairo_restore (cr);
 }
 
 int
@@ -324,9 +303,11 @@ item_bar_group_size (ItemBar const *ib, int max_outline)
 	return (max_outline > 0) ? (ib->indent - 2) / (max_outline + 1) : 0;
 }
 
-static void
-item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expose)
+static gboolean
+item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, double x_1, double y_1)
 {
+	double scale = item->canvas->pixels_per_unit;
+	int x0, x1, y0, y1;
 	ItemBar const         *ib = ITEM_BAR (item);
 	GnmPane	 const	      *pane = ib->pane;
 	SheetControlGUI const *scg    = pane->simple.scg;
@@ -339,33 +320,31 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 	gboolean const draw_below = sheet->outline_symbols_below != FALSE;
 	gboolean const draw_right = sheet->outline_symbols_right != FALSE;
 	int prev_level;
-	GdkRectangle rect;
-	GdkPoint points[3];
+	GocRect rect;
+	GocPoint points[3];
 	gboolean const has_object = scg->wbcg->new_object != NULL || scg->selected_objects != NULL;
 	gboolean const rtl = sheet->text_is_rtl != FALSE;
 	int shadow;
 	int first_line_offset = 1;
+	GtkStyle *style = gtk_widget_get_style (canvas);
+	GOColor color = GDK_TO_UINT (style->text[GTK_STATE_NORMAL]);
+	goc_canvas_c2w (item->canvas, x_0, y_0, &x0, &y0);
+	goc_canvas_c2w (item->canvas, x_1, y_1, &x1, &y1);
 
 	if (ib->is_col_header) {
 		int const inc = item_bar_group_size (ib, sheet->cols.max_outline_level);
 		int const base_pos = .2 * inc;
 		int const len = (inc > 4) ? 4 : inc;
-		int end = expose->area.x;
-		int total, col = pane->first.col;
+		int end, total, col = pane->first.col;// = 0;
 		gboolean const char_label = !sheet->convs->r1c1_addresses;
 
 		/* shadow type selection must be keep in sync with code in ib_draw_cell */
+		goc_canvas_c2w (item->canvas, pane->first_offset.x / scale, 0, &total, NULL);
+		end = x1;
 		rect.y = ib->indent;
 		rect.height = ib->cell_height;
 		shadow = (col > 0 && !has_object && sv_selection_col_type (sv, col-1) == COL_ROW_FULL_SELECTION)
 			? GTK_SHADOW_IN : GTK_SHADOW_OUT;
-
-		if (rtl)
-			total = gnm_foo_canvas_x_w2c (item->canvas, pane->first_offset.col);
-		else {
-			total = pane->first_offset.col;
-			end += expose->area.width;
-		}
 
 		if (col > 0) {
 			cri = sheet_col_get_info (sheet, col-1);
@@ -378,7 +357,7 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 
 		do {
 			if (col >= gnm_sheet_get_max_cols (sheet))
-				return;
+				return TRUE;
 
 			/* DO NOT enable resizing all until we get rid of
 			 * resize_start_pos.  It will be wrong if things ahead
@@ -403,7 +382,7 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 				}
 
 				rect.width = pixels;
-				ib_draw_cell (ib, drawable, ib->text_gc,
+				ib_draw_cell (ib, cr,
 					       has_object
 						       ? COL_ROW_NO_SELECTION
 						       : sv_selection_col_type (sv, col),
@@ -413,6 +392,11 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 					       &rect);
 
 				if (len > 0) {
+					cairo_save (cr);
+					cairo_set_line_width (cr, 2.0);
+					cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
+					cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
+					cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
 					if (!draw_right) {
 						next = sheet_col_get_info (sheet, col + 1);
 						prev_level = next->outline_level;
@@ -426,16 +410,17 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 					for (level = cri->outline_level; i++ < level ; pos += inc) {
 						points[0].y = points[1].y = pos;
 						points[2].y		  = pos + len;
-						if (i > prev_level)
-							gdk_draw_lines (drawable, ib->lines, points, 3);
-						else if (rtl)
-							gdk_draw_line (drawable, ib->lines,
-								       left - first_line_offset, pos,
-								       total + pixels,		 pos);
-						else
-							gdk_draw_line (drawable, ib->lines,
-								       left - first_line_offset, pos,
-								       total,			 pos);
+						if (i > prev_level) {
+							cairo_move_to (cr, points[0].x, points[0].y);
+							cairo_line_to (cr, points[1].x, points[1].y);
+							cairo_line_to (cr, points[2].x, points[2].y);
+						} else if (rtl) {
+							cairo_move_to (cr, left - first_line_offset, pos);
+							cairo_line_to (cr, total + pixels, pos);
+						} else {
+							cairo_move_to (cr, left - first_line_offset, pos);
+							cairo_line_to (cr, total, pos);
+						}
 					}
 					first_line_offset = 0;
 
@@ -450,7 +435,7 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 							else if (size < 6)
 								safety = 6 - size;
 
-							gtk_paint_shadow (canvas->style, drawable,
+							gtk_paint_shadow (canvas->style, GTK_LAYOUT (canvas)->bin_window,
 								 GTK_STATE_NORMAL,
 								 prev_visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
 								 NULL, NULL, "GnmItemBarCell",
@@ -459,18 +444,16 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 								if (!prev_visible) {
 									top++;
 									left++;
-									gdk_draw_line (drawable, ib->lines,
-										       left+size/2, top+3,
-										       left+size/2, top+size-4);
+									cairo_move_to (cr, left+size/2, top+3);
+									cairo_line_to (cr, left+size/2, top+size-4);
 								}
-								gdk_draw_line (drawable, ib->lines,
-									       left+3,	    top+size/2,
-									       left+size-4, top+size/2);
+								cairo_move_to (cr, left+3,	    top+size/2);
+								cairo_line_to (cr, left+size-4, top+size/2);
 							}
-						} else if (level > 0)
-							gdk_draw_line (drawable, ib->lines,
-								       left+pixels/2, pos,
-								       left+pixels/2, pos+len);
+						} else if (level > 0) {
+							cairo_move_to (cr, left+pixels/2, pos);
+							cairo_line_to (cr, left+pixels/2, pos+len);
+						}
 					} else {
 						if (prev_level > level) {
 							int safety = 0;
@@ -484,7 +467,7 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 								safety = 6 - size;
 
 							right = (rtl ? (total + pixels) : total) - size;
-							gtk_paint_shadow (canvas->style, drawable,
+							gtk_paint_shadow (canvas->style, GTK_LAYOUT (canvas)->bin_window,
 								 GTK_STATE_NORMAL,
 								 prev_visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
 								 NULL, NULL, "GnmItemBarCell",
@@ -493,19 +476,19 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 								if (!prev_visible) {
 									top++;
 									right++;
-									gdk_draw_line (drawable, ib->lines,
-										       right+size/2, top+3,
-										       right+size/2, top+size-4);
+									cairo_move_to (cr, right+size/2, top+3);
+									cairo_line_to (cr, right+size/2, top+size-4);
 								}
-								gdk_draw_line (drawable, ib->lines,
-									       right+3,	    top+size/2,
-									       right+size-4, top+size/2);
+								cairo_move_to (cr, right+3,	    top+size/2);
+								cairo_line_to (cr, right+size-4, top+size/2);
 							}
-						} else if (level > 0)
-							gdk_draw_line (drawable, ib->lines,
-								       left+pixels/2, pos,
-								       left+pixels/2, pos+len);
+						} else if (level > 0) {
+								cairo_move_to (cr, left+pixels/2, pos);
+								cairo_line_to (cr, left+pixels/2, pos+len);
+						}
 					}
+					cairo_stroke (cr);
+					cairo_restore (cr);
 				}
 			}
 			prev_visible = cri->visible;
@@ -516,10 +499,10 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 		int const inc = item_bar_group_size (ib, sheet->rows.max_outline_level);
 		int base_pos = .2 * inc;
 		int const len = (inc > 4) ? 4 : inc;
-		int const end = expose->area.y + expose->area.height;
+		int const end = y1;
 		int const dir = rtl ? -1 : 1;
 
-		int total = pane->first_offset.row;
+		int total = pane->first_offset.y - item->canvas->scroll_y1 * scale;
 		int row = pane->first.row;
 
 		if (rtl) {
@@ -541,7 +524,7 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 
 		do {
 			if (row >= gnm_sheet_get_max_rows (sheet))
-				return;
+				return TRUE;
 
 			/* DO NOT enable resizing all until we get rid of
 			 * resize_start_pos.  It will be wrong if things ahead
@@ -561,15 +544,18 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 				total += pixels;
 				rect.y = top;
 				rect.height = pixels;
-				ib_draw_cell (ib, drawable,
-					      cri->in_filter
-						      ? ib->filter_gc : ib->text_gc,
+				ib_draw_cell (ib, cr,
 					      has_object
 						      ? COL_ROW_NO_SELECTION
 						      : sv_selection_row_type (sv, row),
 					      row_name (row), &rect);
 
 				if (len > 0) {
+					cairo_save (cr);
+					cairo_set_line_width (cr, 2.0);
+					cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
+					cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
+					cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
 					if (!draw_below) {
 						next = sheet_row_get_info (sheet, row + 1);
 						points[0].y = top;
@@ -581,14 +567,18 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 					for (level = cri->outline_level; i++ < level ; pos += inc * dir) {
 						points[0].x = points[1].x = pos;
 						points[2].x		  = pos + len * dir;
-						if (draw_below && i > prev_level)
-							gdk_draw_lines (drawable, ib->lines, points, 3);
-						else if (!draw_below && i > next->outline_level)
-							gdk_draw_lines (drawable, ib->lines, points, 3);
-						else
-							gdk_draw_line (drawable, ib->lines,
-								       pos, top - first_line_offset,
-								       pos, total);
+						if (draw_below && i > prev_level) {
+							cairo_move_to (cr, points[0].x, points[0].y);
+							cairo_line_to (cr, points[1].x, points[1].y);
+							cairo_line_to (cr, points[2].x, points[2].y);
+						} else if (!draw_below && i > next->outline_level) {
+							cairo_move_to (cr, points[0].x, points[0].y);
+							cairo_line_to (cr, points[1].x, points[1].y);
+							cairo_line_to (cr, points[2].x, points[2].y);
+						} else {
+							cairo_move_to (cr, pos, top - first_line_offset);
+							cairo_line_to (cr, pos, total);
+						}
 					}
 					first_line_offset = 0;
 
@@ -606,7 +596,7 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 							left = pos - dir * (.2 * inc - 2);
 							if (rtl)
 								left -= size;
-							gtk_paint_shadow (canvas->style, drawable,
+							gtk_paint_shadow (canvas->style, GTK_LAYOUT (canvas)->bin_window,
 								 GTK_STATE_NORMAL,
 								 prev_visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
 								 NULL, NULL, "GnmItemBarCell",
@@ -615,18 +605,15 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 								if (!prev_visible) {
 									left += dir;
 									top++;
-									gdk_draw_line (drawable, ib->lines,
-										       left+size/2, top+3,
-										       left+size/2, top+size-4);
+									cairo_move_to (cr, left+size/2, top+3);
+									cairo_line_to (cr, left+size/2, top+size-4);
 								}
-								gdk_draw_line (drawable, ib->lines,
-									       left+3,	    top+size/2,
-									       left+size-4, top+size/2);
+								cairo_move_to (cr, left+3,	    top+size/2);
+								cairo_line_to (cr, left+size-4, top+size/2);
 							}
 						} else if (level > 0)
-							gdk_draw_line (drawable, ib->lines,
-								       pos,      top+pixels/2,
-								       pos+len,  top+pixels/2);
+							cairo_move_to (cr, pos,      top+pixels/2);
+							cairo_line_to (cr, pos+len,  top+pixels/2);
 					} else {
 						if (next->outline_level > level) {
 							int left, safety = 0;
@@ -643,7 +630,7 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 							if (rtl)
 								left -= size;
 							bottom = total - size;
-							gtk_paint_shadow (canvas->style, drawable,
+							gtk_paint_shadow (canvas->style, GTK_LAYOUT (canvas)->bin_window,
 								 GTK_STATE_NORMAL,
 								 next->visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
 								 NULL, NULL, "GnmItemBarCell",
@@ -652,19 +639,18 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 								if (!next->visible) {
 									left += dir;
 									top++;
-									gdk_draw_line (drawable, ib->lines,
-										       left+size/2, bottom+3,
-										       left+size/2, bottom+size-4);
+									cairo_move_to (cr, left+size/2, bottom+3);
+									cairo_line_to (cr, left+size/2, bottom+size-4);
 								}
-								gdk_draw_line (drawable, ib->lines,
-									       left+3,	    bottom+size/2,
-									       left+size-4, bottom+size/2);
+								cairo_move_to (cr, left+3,	    bottom+size/2);
+								cairo_line_to (cr, left+size-4, bottom+size/2);
 							}
 						} else if (level > 0)
-							gdk_draw_line (drawable, ib->lines,
-								       pos,      top+pixels/2,
-								       pos+len,  top+pixels/2);
+							cairo_move_to (cr, pos,      top+pixels/2);
+							cairo_line_to (cr, pos+len,  top+pixels/2);
 					}
+					cairo_stroke (cr);
+					cairo_restore (cr);
 				}
 			}
 			prev_visible = cri->visible;
@@ -672,11 +658,12 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 			++row;
 		} while (total <= end);
 	}
+	return TRUE;
 }
 
 static double
-item_bar_point (FooCanvasItem *item, double x, double y, int cx, int cy,
-		FooCanvasItem **actual_item)
+item_bar_distance (GocItem *item, double x, double y,
+		GocItem **actual_item)
 {
 	*actual_item = item;
 	return 0.0;
@@ -697,30 +684,30 @@ item_bar_point (FooCanvasItem *item, double x, double y, int cx, int cy,
  * Returns non-NULL if point (@x,@y) is on a division
  **/
 static ColRowInfo const *
-is_pointer_on_division (ItemBar const *ib, double x, double y,
-			int *the_total, int *the_element, int *minor_pos)
+is_pointer_on_division (ItemBar const *ib, gint64 x, gint64 y,
+			gint64 *the_total, int *the_element, gint64 *minor_pos)
 {
 	Sheet *sheet = scg_sheet (ib->pane->simple.scg);
 	ColRowInfo const *cri;
-	double const scale = ib->base.canvas->pixels_per_unit;
-	int major, minor, i, total = 0;
+	gint64 major, minor, total = 0;
+	int i;
 
-	x *= scale;
-	y *= scale;
 	if (ib->is_col_header) {
 		major = x;
 		minor = y;
+		i = ib->pane->first.col;
+		total = ib->pane->first_offset.x;
 	} else {
 		major = y;
-		minor = sheet->text_is_rtl ? (ib->cell_width + ib->indent - x) : x;
+		minor = x;
+		i = ib->pane->first.row;
+		total = ib->pane->first_offset.y;
 	}
 	if (NULL != minor_pos)
 		*minor_pos = minor;
-	if (ib->is_col_header && sheet->text_is_rtl)
-		major = -major;
 	if (NULL != the_element)
 		*the_element = -1;
-	for (i = 0; total < major; i++) {
+	for (; total < major; i++) {
 		if (ib->is_col_header) {
 			if (i >= gnm_sheet_get_max_cols (sheet))
 				return NULL;
@@ -757,7 +744,7 @@ is_pointer_on_division (ItemBar const *ib, double x, double y,
 
 /* x & y in world coords */
 static void
-ib_set_cursor (ItemBar *ib, double x, double y)
+ib_set_cursor (ItemBar *ib, gint64 x, gint64 y)
 {
 	GdkWindow *window = GTK_WIDGET (ib->base.canvas)->window;
 	GdkCursor *cursor = ib->normal_cursor;
@@ -838,11 +825,11 @@ outline_button_press (ItemBar const *ib, int element, int pixel)
 	return TRUE;
 }
 
-static gint
-item_bar_event (FooCanvasItem *item, GdkEvent *e)
+static gboolean
+item_bar_button_pressed (GocItem *item, int button, double x_, double y_)
 {
 	ColRowInfo const *cri;
-	FooCanvas	* const canvas = item->canvas;
+	GocCanvas	* const canvas = item->canvas;
 	ItemBar		* const ib = ITEM_BAR (item);
 	GnmPane		* const pane = ib->pane;
 	SheetControlGUI	* const scg = pane->simple.scg;
@@ -850,106 +837,35 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 	Sheet		* const sheet = sc_sheet (sc);
 	WBCGtk * const wbcg = scg_wbcg (scg);
 	gboolean const is_cols = ib->is_col_header;
-	int pos, minor_pos, start, element, x, y;
+	gint64 minor_pos, start;
+	int element;
+	GdkEventButton *event = (GdkEventButton *) goc_canvas_get_cur_event (item->canvas);
+	gint64 x = x_ * item->canvas->pixels_per_unit, y = y_ * item->canvas->pixels_per_unit;
 
-	/* NOTE :
-	 * No need to map coordinates since we do the zooming of the item bars manually
-	 * there is no transform needed.
-	 */
-	switch (e->type){
-	case GDK_ENTER_NOTIFY:
-		ib_set_cursor (ib, e->crossing.x, e->crossing.y);
-		break;
+	if (button > 3)
+		return FALSE;
 
-	case GDK_MOTION_NOTIFY:
-		foo_canvas_w2c (canvas, e->motion.x, e->motion.y, &x, &y);
+	if (wbc_gtk_get_guru (wbcg) == NULL)
+		scg_mode_edit (scg);
 
-		/* Do col/row resizing or incremental marking */
-		if (ib->colrow_being_resized != -1) {
-			int new_size;
-			if (!ib->has_resize_guides) {
-				ib->has_resize_guides = TRUE;
-				scg_size_guide_start (ib->pane->simple.scg,
-					ib->is_col_header, ib->colrow_being_resized, 1);
+	cri = is_pointer_on_division (ib, x, y,
+		&start, &element, &minor_pos);
+	if (element < 0)
+		return FALSE;
+	if (minor_pos < ib->indent)
+		return outline_button_press (ib, element, minor_pos);
 
-				gnm_simple_canvas_grab (item,
-					GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
-					ib->change_cursor, e->motion.time);
-			}
-
-			cri = sheet_colrow_get_info (sheet,
-				ib->colrow_being_resized, is_cols);
-			pos = is_cols ? (sheet->text_is_rtl ? -e->motion.x : e->motion.x) : e->motion.y;
-			pos *= ib->base.canvas->pixels_per_unit;
-			new_size = pos - ib->resize_start_pos;
-			if (is_cols && sheet->text_is_rtl)
-				new_size += cri->size_pixels;
-
-			/* Ensure we always have enough room for the margins */
-			if (is_cols) {
-				if (new_size <= (GNM_COL_MARGIN + GNM_COL_MARGIN)) {
-					new_size = GNM_COL_MARGIN + GNM_COL_MARGIN + 1;
-					pos = pane->first_offset.col +
-						scg_colrow_distance_get (scg, TRUE,
-							pane->first.col,
-							ib->colrow_being_resized);
-					pos += new_size;
-				}
-			} else {
-				if (new_size <= (GNM_ROW_MARGIN + GNM_ROW_MARGIN)) {
-					new_size = GNM_ROW_MARGIN + GNM_ROW_MARGIN + 1;
-					pos = pane->first_offset.row +
-						scg_colrow_distance_get (scg, FALSE,
-							pane->first.row,
-							ib->colrow_being_resized);
-					pos += new_size;
-				}
-			}
-
-			ib->colrow_resize_size = new_size;
-			colrow_tip_setlabel (ib, is_cols, new_size);
-			scg_size_guide_motion (scg, is_cols, pos);
-
-			/* Redraw the ItemBar to show nice incremental progress */
-			foo_canvas_request_redraw (canvas, 0, 0, G_MAXINT/2,  G_MAXINT/2);
-
-		} else if (ib->start_selection != -1) {
-
-			gnm_pane_handle_motion (ib->pane,
-				canvas, &e->motion,
-				GNM_PANE_SLIDE_AT_COLROW_BOUND |
-					(is_cols ? GNM_PANE_SLIDE_X : GNM_PANE_SLIDE_Y),
-				cb_extend_selection, ib);
-		} else
-			ib_set_cursor (ib, e->motion.x, e->motion.y);
-		break;
-
-	case GDK_BUTTON_PRESS:
-		/* Ignore scroll wheel events */
-		if (e->button.button > 3)
-			return FALSE;
-
-		if (wbc_gtk_get_guru (wbcg) == NULL)
-			scg_mode_edit (scg);
-
-		cri = is_pointer_on_division (ib, e->button.x, e->button.y,
-			&start, &element, &minor_pos);
-		if (element < 0)
-			return FALSE;
-		if (minor_pos < ib->indent)
-			return outline_button_press (ib, element, minor_pos);
-
-		if (e->button.button == 3) {
-			if (wbc_gtk_get_guru (wbcg) != NULL)
-				return TRUE;
+	if (button == 3) {
+		if (wbc_gtk_get_guru (wbcg) != NULL)
+			return TRUE;
 			/* If the selection does not contain the current row/col
 			 * then clear the selection and add it.
 			 */
 			if (!sv_is_colrow_selected (sc_view (sc), element, is_cols))
 				scg_colrow_select (scg, is_cols,
-						   element, e->button.state);
+						   element, event->state);
 
-			scg_context_menu (scg, &e->button, is_cols, !is_cols);
+			scg_context_menu (scg, event, is_cols, !is_cols);
 		} else if (cri != NULL) {
 			/*
 			 * Record the important bits.
@@ -966,10 +882,6 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 			if (ib->tip == NULL) {
 				GtkWidget *cw = GTK_WIDGET (canvas);
 				int wx, wy;
-
-				gnm_canvas_get_position (canvas, &wx, &wy,
-							 e->button.x,
-							 e->button.y);
 				ib->tip = gnumeric_create_tooltip (cw);
 				colrow_tip_setlabel (ib, is_cols, ib->colrow_resize_size);
 				/* Position above the current point for both
@@ -978,73 +890,140 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 				 * the tip under the cursor which can have odd
 				 * effects on the event stream.  win32 was
 				 * different from X. */
-				gnumeric_position_tooltip (ib->tip, wx, wy,
-							   TRUE);
+
+				gnm_canvas_get_position (canvas, &wx, &wy,x, y);
+				gnumeric_position_tooltip (ib->tip,
+							   wx, wy, TRUE);
 				gtk_widget_show_all (gtk_widget_get_toplevel (ib->tip));
 			}
 		} else {
 			if (wbc_gtk_get_guru (wbcg) != NULL &&
 			    !wbcg_entry_has_logical (wbcg))
-				break;
+				return TRUE;
 
 			/* If we're editing it is possible for this to fail */
-			if (!scg_colrow_select (scg, is_cols, element, e->button.state))
-				break;
+			if (!scg_colrow_select (scg, is_cols, element, event->state))
+				return TRUE;
 
 			ib->start_selection = element;
 			gnm_pane_slide_init (pane);
-			gnm_simple_canvas_grab (item,
-				GDK_POINTER_MOTION_MASK |
-				GDK_BUTTON_RELEASE_MASK,
-				ib->normal_cursor,
-				e->button.time);
-
-		}
-		break;
-
-	case GDK_2BUTTON_PRESS:
-		/* Ignore scroll wheel events */
-		if (e->button.button > 3)
-			return FALSE;
-
-		if (e->button.button != 3)
-			item_bar_resize_stop (ib, -1);
-		break;
-
-	case GDK_BUTTON_RELEASE: {
-		gboolean needs_ungrab = FALSE;
-
-		/* Ignore scroll wheel events */
-		if (e->button.button > 3)
-			return FALSE;
-
-		gnm_pane_slide_stop (ib->pane);
-
-		if (ib->start_selection >= 0) {
-			needs_ungrab = TRUE;
-			ib->start_selection = -1;
-			gnm_expr_entry_signal_update (
-				wbcg_get_entry_logical (wbcg), TRUE);
-		}
-		if (ib->colrow_being_resized >= 0) {
-			if (ib->has_resize_guides) {
-				needs_ungrab = TRUE;
-				item_bar_resize_stop (ib, ib->colrow_resize_size);
-			} else
-				/*
-				 * No need to resize, nothing changed.
-				 * This will handle the case of a double click.
-				 */
-				item_bar_resize_stop (ib, 0);
-		}
-		if (needs_ungrab)
-			gnm_simple_canvas_ungrab (item, e->button.time);
-		break;
 	}
+	gnm_simple_canvas_grab (item,
+		GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
+		ib->change_cursor, event->time);
+	return TRUE;
+}
 
-	default:
+static gboolean
+item_bar_2button_pressed (GocItem *item, int button, double x, double y)
+{
+	ItemBar		* const ib = ITEM_BAR (item);
+	if (button > 3)
 		return FALSE;
+
+	if (button != 3)
+		item_bar_resize_stop (ib, -1);
+	return TRUE;
+}
+
+static gboolean
+item_bar_enter_notify (GocItem *item, double x_, double y_)
+{
+	ItemBar		* const ib = ITEM_BAR (item);
+	gint64 x = x_ * item->canvas->pixels_per_unit, y = y_ * item->canvas->pixels_per_unit;
+	ib_set_cursor (ib, x, y);
+	return TRUE;
+}
+
+static gboolean
+item_bar_motion (GocItem *item, double x_, double y_)
+{
+	ColRowInfo const *cri;
+	GocCanvas	* const canvas = item->canvas;
+	ItemBar		* const ib = ITEM_BAR (item);
+	GnmPane		* const pane = ib->pane;
+	SheetControlGUI	* const scg = pane->simple.scg;
+	SheetControl	* const sc = (SheetControl *) pane->simple.scg;
+	Sheet		* const sheet = sc_sheet (sc);
+	gboolean const is_cols = ib->is_col_header;
+	gint64 pos;
+	gint64 x = x_ * item->canvas->pixels_per_unit, y = y_ * item->canvas->pixels_per_unit;
+
+	if (ib->colrow_being_resized != -1) {
+		int new_size;
+		if (!ib->has_resize_guides) {
+			ib->has_resize_guides = TRUE;
+			scg_size_guide_start (ib->pane->simple.scg,
+				ib->is_col_header, ib->colrow_being_resized, 1);
+
+			gnm_simple_canvas_grab (item,
+				GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
+				ib->change_cursor,
+			    ((GdkEventMotion *) goc_canvas_get_cur_event (canvas))->time);
+		}
+
+		cri = sheet_colrow_get_info (sheet,
+			ib->colrow_being_resized, is_cols);
+		pos = is_cols ? x: y;
+		new_size = pos - ib->resize_start_pos;
+		if (is_cols && sheet->text_is_rtl)
+			new_size += cri->size_pixels;
+
+		/* Ensure we always have enough room for the margins */
+		if (is_cols) {
+			if (new_size <= (GNM_COL_MARGIN + GNM_COL_MARGIN)) {
+				new_size = GNM_COL_MARGIN + GNM_COL_MARGIN + 1;
+				pos = pane->first_offset.x +
+					scg_colrow_distance_get (scg, TRUE,
+						pane->first.col,
+						ib->colrow_being_resized);
+				pos += new_size;
+			}
+		} else {
+			if (new_size <= (GNM_ROW_MARGIN + GNM_ROW_MARGIN)) {
+				new_size = GNM_ROW_MARGIN + GNM_ROW_MARGIN + 1;
+				pos = pane->first_offset.y +
+					scg_colrow_distance_get (scg, FALSE,
+						pane->first.row,
+						ib->colrow_being_resized);
+				pos += new_size;
+			}
+		}
+
+		ib->colrow_resize_size = new_size;
+		colrow_tip_setlabel (ib, is_cols, new_size);
+		scg_size_guide_motion (scg, is_cols, pos);
+
+		/* Redraw the ItemBar to show nice incremental progress */
+		goc_canvas_invalidate (canvas, 0, 0, G_MAXINT/2,  G_MAXINT/2);
+
+	} else if (ib->start_selection != -1) {
+		gnm_pane_handle_motion (ib->pane,
+			canvas, x, y,
+			GNM_PANE_SLIDE_AT_COLROW_BOUND |
+				(is_cols ? GNM_PANE_SLIDE_X : GNM_PANE_SLIDE_Y),
+			cb_extend_selection, ib);
+	} else
+		ib_set_cursor (ib, x, y);
+	return TRUE;
+}
+
+static gboolean
+item_bar_button_released (GocItem *item, int button, double x, double y)
+{
+	ItemBar	*ib = ITEM_BAR (item);
+	gnm_simple_canvas_ungrab (item, 0);
+	if (ib->colrow_being_resized >= 0) {
+		if (ib->has_resize_guides)
+			item_bar_resize_stop (ib, ib->colrow_resize_size);
+		else
+			/*
+			 * No need to resize, nothing changed.
+			 * This will handle the case of a double click.
+			 */
+			item_bar_resize_stop (ib, 0);
 	}
+	ib->start_selection = -1;
 	return TRUE;
 }
 
@@ -1060,9 +1039,9 @@ item_bar_set_property (GObject *obj, guint param_id,
 		break;
 	case ITEM_BAR_PROP_IS_COL_HEADER:
 		ib->is_col_header = g_value_get_boolean (value);
+		goc_item_bounds_changed (GOC_ITEM (obj));
 		break;
 	}
-	foo_canvas_item_request_update (&ib->base);
 }
 
 static void
@@ -1092,10 +1071,10 @@ item_bar_dispose (GObject *obj)
 static void
 item_bar_init (ItemBar *ib)
 {
+	ib->base.x0 = 0;
+	ib->base.y0 = 0;
 	ib->base.x1 = 0;
 	ib->base.y1 = 0;
-	ib->base.x2 = 0;
-	ib->base.y2 = 0;
 
 	ib->dragging = FALSE;
 	ib->is_col_header = FALSE;
@@ -1116,7 +1095,7 @@ item_bar_init (ItemBar *ib)
 static void
 item_bar_class_init (GObjectClass  *gobject_klass)
 {
-	FooCanvasItemClass *item_klass = (FooCanvasItemClass *) gobject_klass;
+	GocItemClass *item_klass = (GocItemClass *) gobject_klass;
 
 	parent_class = g_type_class_peek_parent (gobject_klass);
 
@@ -1133,14 +1112,18 @@ item_bar_class_init (GObjectClass  *gobject_klass)
 			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 
-	item_klass->update      = item_bar_update;
 	item_klass->realize     = item_bar_realize;
 	item_klass->unrealize   = item_bar_unrealize;
-	item_klass->draw        = item_bar_draw;
-	item_klass->point       = item_bar_point;
-	item_klass->event       = item_bar_event;
+	item_klass->draw_region = item_bar_draw_region;
+	item_klass->update_bounds  = item_bar_update_bounds;
+	item_klass->distance	= item_bar_distance;
+	item_klass->button_pressed = item_bar_button_pressed;
+	item_klass->button_released = item_bar_button_released;
+	item_klass->button2_pressed = item_bar_2button_pressed;
+	item_klass->enter_notify = item_bar_enter_notify;
+	item_klass->motion = item_bar_motion;
 }
 
 GSF_CLASS (ItemBar, item_bar,
 	   item_bar_class_init, item_bar_init,
-	   FOO_TYPE_CANVAS_ITEM)
+	   GOC_TYPE_ITEM)

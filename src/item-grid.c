@@ -40,7 +40,7 @@
 #include "hlink.h"
 #include "gui-util.h"
 
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
+#include <goffice/goffice.h>
 #include <gtk/gtk.h>
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
@@ -61,7 +61,7 @@ typedef enum {
 } ItemGridSelectionType;
 
 struct _ItemGrid {
-	FooCanvasItem canvas_item;
+	GocItem canvas_item;
 
 	SheetControlGUI *scg;
 
@@ -78,7 +78,7 @@ struct _ItemGrid {
 
 	/* information for the cursor motion handler */
 	guint cursor_timer;
-	gint last_x, last_y;
+	gint64 last_x, last_y;
 	GnmHLink *cur_link; /* do not derference, just a pointer */
 	GtkWidget *tip;
 	guint tip_timer;
@@ -87,8 +87,8 @@ struct _ItemGrid {
 
 	guint32 last_click_time;
 };
-typedef FooCanvasItemClass ItemGridClass;
-static FooCanvasItemClass *parent_class;
+typedef GocItemClass ItemGridClass;
+static GocItemClass *parent_class;
 
 enum {
 	ITEM_GRID_PROP_0,
@@ -129,16 +129,14 @@ static gint
 cb_cursor_motion (ItemGrid *ig)
 {
 	Sheet const *sheet = scg_sheet (ig->scg);
-	FooCanvas *canvas = ig->canvas_item.canvas;
+	GocCanvas *canvas = ig->canvas_item.canvas;
 	GnmPane *pane = GNM_PANE (canvas);
-	int x, y;
 	GdkCursor *cursor;
 	GnmCellPos pos;
 	GnmHLink *old_link;
 
-	foo_canvas_w2c (canvas, ig->last_x, ig->last_y, &x, &y);
-	pos.col = gnm_pane_find_col (pane, x, NULL);
-	pos.row = gnm_pane_find_row (pane, y, NULL);
+	pos.col = gnm_pane_find_col (pane, ig->last_x, NULL);
+	pos.row = gnm_pane_find_row (pane, ig->last_y, NULL);
 
 	old_link = ig->cur_link;
 	ig->cur_link = sheet_hlink_find (sheet, &pos);
@@ -161,9 +159,8 @@ cb_cursor_motion (ItemGrid *ig)
 }
 
 static void
-item_grid_realize (FooCanvasItem *item)
+item_grid_realize (GocItem *item)
 {
-	GdkWindow  *window;
 	GdkDisplay *display;
 	ItemGrid   *ig;
 
@@ -171,22 +168,6 @@ item_grid_realize (FooCanvasItem *item)
 		(*parent_class->realize) (item);
 
 	ig = ITEM_GRID (item);
-	window = GTK_WIDGET (item->canvas)->window;
-
-	/* Configure the default grid gc */
-	ig->gc.cell = gdk_gc_new (window);
-	gdk_gc_set_fill (ig->gc.cell, GDK_SOLID);
-
-	ig->gc.empty = gdk_gc_new (window);
-
-	ig->gc.fill = gdk_gc_new (window);
-	gdk_gc_set_rgb_fg_color (ig->gc.fill,  &gs_white);
-	gdk_gc_set_rgb_bg_color (ig->gc.fill,  &gs_light_gray);
-
-	ig->gc.bound = gdk_gc_new (window);
-	gdk_gc_set_rgb_fg_color (ig->gc.bound, &gs_dark_gray);
-	gdk_gc_set_line_attributes (ig->gc.bound, 3, GDK_LINE_SOLID,
-				    GDK_CAP_NOT_LAST, GDK_JOIN_MITER);
 
 	display = gtk_widget_get_display (GTK_WIDGET (item->canvas));
 	ig->cursor_link  = gdk_cursor_new_for_display (display, GDK_HAND2);
@@ -197,42 +178,21 @@ item_grid_realize (FooCanvasItem *item)
 }
 
 static void
-item_grid_unrealize (FooCanvasItem *item)
+item_grid_update_bounds (GocItem *item)
 {
-	ItemGrid *ig = ITEM_GRID (item);
-
-	gdk_cursor_unref (ig->cursor_link);
-	gdk_cursor_unref (ig->cursor_cross);
-
-	g_object_unref (G_OBJECT (ig->gc.fill));	ig->gc.fill = NULL;
-	g_object_unref (G_OBJECT (ig->gc.cell));	ig->gc.cell = NULL;
-	g_object_unref (G_OBJECT (ig->gc.empty));	ig->gc.empty = NULL;
-	g_object_unref (G_OBJECT (ig->gc.bound));	ig->gc.bound = NULL;
-
-	if (parent_class->unrealize)
-		(*parent_class->unrealize) (item);
+	item->x0 = 0;
+	item->y0 = 0;
+	item->x1 = G_MAXINT64/2;
+	item->y1 = G_MAXINT64/2;
 }
 
 static void
-item_grid_update (FooCanvasItem *item, double i2w_dx, double i2w_dy, int flags)
-{
-	if (parent_class->update)
-		(*parent_class->update) (item, i2w_dx, i2w_dy, flags);
-
-	item->x1 = 0;
-	item->y1 = 0;
-	item->x2 = INT_MAX/2;
-	item->y2 = INT_MAX/2;
-}
-
-static void
-item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
+item_grid_draw_merged_range (cairo_t *cr, ItemGrid *ig,
 			     int start_x, int start_y,
 			     GnmRange const *view, GnmRange const *range,
 			     gboolean draw_selection)
 {
 	int l, r, t, b, last;
-	GdkGC *gc = ig->gc.empty;
 	SheetView const *sv = scg_view (ig->scg);
 	Sheet const *sheet  = sv->sheet;
 	GnmCell  const *cell   = sheet_cell_get (sheet, range->start.col, range->start.row);
@@ -274,14 +234,14 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 	}
 
 	/* Check for background THEN selection */
-	if (gnumeric_background_set_gc (style, gc,
-		ig->canvas_item.canvas, is_selected) ||
-	    is_selected) {
+	if (gnumeric_background_set (style, cr,
+		is_selected) || is_selected) {
 		/* Remember X excludes the far pixels */
 		if (dir > 0)
-			gdk_draw_rectangle (drawable, gc, TRUE, l, t, r-l+1, b-t+1);
+			cairo_rectangle (cr, l, t, r-l+1, b-t+1);
 		else
-			gdk_draw_rectangle (drawable, gc, TRUE, r, t, l-r+1, b-t+1);
+			cairo_rectangle (cr, r, t, l-r+1, b-t+1);
+		cairo_fill (cr);
 	}
 
 	/* Expand the coords to include non-visible areas too.  The clipped
@@ -306,32 +266,30 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 			row_calc_spans ((ColRowInfo *)ri, cell->pos.row, sheet);
 
 		if (dir > 0)
-			cell_draw (cell, ig->gc.cell, drawable,
+			cell_draw (cell, cr,
 				l, t, r - l, b - t, -1);
 		else
-			cell_draw (cell, ig->gc.cell, drawable,
+			cell_draw (cell, cr,
 				r, t, l - r, b - t, -1);
 	}
 	if (dir > 0)
-		gnm_style_border_draw_diag (style, drawable, l, t, r, b);
+		gnm_style_border_draw_diag (style, cr, l, t, r, b);
 	else
-		gnm_style_border_draw_diag (style, drawable, r, t, l, b);
+		gnm_style_border_draw_diag (style, cr, r, t, l, b);
 }
 
 static void
-item_grid_draw_background (GdkDrawable *drawable, ItemGrid *ig,
+item_grid_draw_background (cairo_t *cr, ItemGrid *ig,
 			   GnmStyle const *style,
 			   int col, int row, int x, int y, int w, int h,
 			   gboolean draw_selection)
 {
-	GdkGC           *gc = ig->gc.empty;
 	SheetView const *sv = scg_view (ig->scg);
 	gboolean const is_selected = draw_selection &&
 		(sv->edit_pos.col != col || sv->edit_pos.row != row) &&
 		sv_is_pos_selected (sv, col, row);
 	gboolean const has_back =
-		gnumeric_background_set_gc (style, gc,
-					    ig->canvas_item.canvas,
+		gnumeric_background_set (style, cr,
 					    is_selected);
 
 #if DEBUG_SELECTION_PAINT
@@ -339,11 +297,13 @@ item_grid_draw_background (GdkDrawable *drawable, ItemGrid *ig,
 		g_printerr ("x = %d, w = %d\n", x, w+1);
 	}
 #endif
-	if (has_back || is_selected)
+	if (has_back || is_selected) {
 		/* Fill the entire cell (API excludes far pixel) */
-		gdk_draw_rectangle (drawable, gc, TRUE, x, y, w+1, h+1);
+		cairo_rectangle (cr, x, y, w+1, h+1);
+		cairo_fill (cr);
+	}
 
-	gnm_style_border_draw_diag (style, drawable, x, y, x+w, y+h);
+	gnm_style_border_draw_diag (style, cr, x, y, x+w, y+h);
 }
 
 static gint
@@ -353,11 +313,26 @@ merged_col_cmp (GnmRange const *a, GnmRange const *b)
 }
 
 static void
-item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expose)
+ig_cairo_draw_bound (cairo_t* cr, int x0, int y0, int x1, int y1)
 {
-	gint width  = expose->area.width;
-	gint height = expose->area.height;
-	FooCanvas *canvas = item->canvas;
+	cairo_set_line_width (cr, 1.);
+	cairo_set_dash (cr, NULL, 0, 0.);
+	cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
+	cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
+	cairo_set_source_rgba (cr, 0.2, 0.2, 0.2, 1.);
+	cairo_move_to (cr, x0 - .5, y0 - .5);
+	cairo_line_to (cr, x1 - .5, y1 - .5);
+	cairo_stroke (cr);
+}
+
+static gboolean
+item_grid_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, double x_1, double y_1)
+{
+	GocCanvas *canvas = item->canvas;
+	double scale = canvas->pixels_per_unit;
+	gint64 x0 = x_0 * scale, y0 = y_0 * scale, x1 = x_1 * scale, y1 = y_1 * scale;
+	gint width  = x1 - x0;
+	gint height = y1 - y0;
 	GnmPane *pane = GNM_PANE (canvas);
 	Sheet const *sheet = scg_sheet (pane->simple.scg);
 	WBCGtk *wbcg = scg_wbcg (pane->simple.scg);
@@ -373,10 +348,12 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 	 * painting the borders of the edges and not the content.
 	 * However, that feels like more hassle that it is worth.  Look into this someday.
 	 */
-	int x, y, col, row, n, start_col, end_col, start_x, offset;
-	int start_row = gnm_pane_find_row (pane, expose->area.y-2, &y);
-	int end_row = gnm_pane_find_row (pane, expose->area.y+height+2, NULL);
-	int const start_y = y;
+	int x;
+	gint64 y, start_x, offset;
+	int col, row, n, start_col, end_col;
+	int start_row = gnm_pane_find_row (pane, y0-2, &y);
+	int end_row = gnm_pane_find_row (pane, y1+2, NULL);
+	gint64 const start_y = y - canvas->scroll_y1 * scale;
 
 	GnmStyleRow sr, next_sr;
 	GnmStyle const **styles;
@@ -394,15 +371,10 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 		ig->scg->selected_objects == NULL &&
 		wbcg->new_object == NULL;
 
-	if (dir < 0) {
-		start_col = gnm_pane_find_col (pane, expose->area.x+width+2, &start_x);
-		end_col   = gnm_pane_find_col (pane, expose->area.x-2, NULL);
-	} else {
-		start_col = gnm_pane_find_col (pane, expose->area.x-2, &start_x);
-		end_col   = gnm_pane_find_col (pane, expose->area.x+width+2, NULL);
-	}
+	start_col = gnm_pane_find_col (pane, x0-2, &start_x);
+	end_col   = gnm_pane_find_col (pane, x1+2, NULL);
 
-	g_return_if_fail (start_col <= end_col);
+	g_return_val_if_fail (start_col <= end_col, TRUE);
 
 #if 0
 	g_printerr ("%s:", cell_coord_name (start_col, start_row));
@@ -432,7 +404,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 	/* if everything is hidden no need to draw */
 	if (end_col < ig->bound.start.col || start_col > ig->bound.end.col ||
 	    end_row < ig->bound.start.row || start_row > ig->bound.end.row)
-		return;
+		return TRUE;
 
 	/* Respan all rows that need it.  */
 	for (row = start_row; row <= end_row; row++) {
@@ -444,8 +416,12 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 	sheet_style_update_grid_color (sheet);
 
 	/* Fill entire region with default background (even past far edge) */
-	gdk_draw_rectangle (drawable, ig->gc.fill, TRUE,
-		expose->area.x, expose->area.y, width, height);
+	cairo_save (cr);
+	/* FIXME: we previously used gs_white */
+	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (RGBA_WHITE));
+	cairo_rectangle (cr, x0, y0, width, height);
+	cairo_fill (cr);
+	cairo_restore (cr);
 
 	/* Get ordered list of merged regions */
 	merged_active = merged_active_seen = merged_used = NULL;
@@ -477,11 +453,12 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 		colwidths[col] = ci->visible ? ci->size_pixels : -1;
 	}
 
-	x = start_x; /* make gcc happy in case there are no visible rows */
+	goc_canvas_c2w (canvas, start_x / scale, 0, &x, NULL);
+	start_x = x;
 	for (y = start_y; row <= end_row; row = sr.row = next_sr.row, ri = next_ri) {
 		/* Restore the set of ranges seen, but still active.
 		 * Reinverting list to maintain the original order */
-		g_return_if_fail (merged_active == NULL);
+		g_return_val_if_fail (merged_active == NULL, TRUE);
 
 #if DEBUG_SELECTION_PAINT
 		g_printerr ("row = %d (startcol = %d)\n", row, start_col);
@@ -534,7 +511,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 					MERGE_DEBUG (r, " : unused -> active\n");
 
 					if (ci->visible)
-						item_grid_draw_merged_range (drawable, ig,
+						item_grid_draw_merged_range (cr, ig,
 							start_x, y, &view, r, draw_selection);
 				}
 			} else {
@@ -628,7 +605,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 			if (dir < 0)
 				x -= ci->size_pixels;
 			style = sr.styles [col];
-			item_grid_draw_background (drawable, ig,
+			item_grid_draw_background (cr, ig,
 				style, col, row, x, y,
 				ci->size_pixels, ri->size_pixels,
 				draw_selection);
@@ -648,7 +625,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 				 */
 				GnmCell const *cell = sheet_cell_get (sheet, col, row);
 				if (!gnm_cell_is_empty (cell) && cell != edit_cell)
-					cell_draw (cell, ig->gc.cell, drawable,
+					cell_draw (cell, cr,
 						   x, y, ci->size_pixels,
 						   ri->size_pixels, -1);
 
@@ -696,7 +673,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 						real_x -= offset;
 				}
 
-				cell_draw (cell, ig->gc.cell, drawable,
+				cell_draw (cell, cr,
 					   real_x, y, tmp_width,
 					   ri->size_pixels, center_offset);
 			} else if (col != span->left)
@@ -706,7 +683,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 				x += ci->size_pixels;
 		}
 		gnm_style_borders_row_draw (prev_vert, &sr,
-					drawable, start_x, y, y+ri->size_pixels,
+					cr, start_x, y, y+ri->size_pixels,
 					colwidths, TRUE, dir);
 
 		/* In case there were hidden merges that trailed off the end */
@@ -737,24 +714,28 @@ plain_draw : /* a quick hack to deal with 142267 */
 
 	if (row >= ig->bound.end.row) {
 		gnm_style_borders_row_draw (prev_vert, &sr,
-			drawable, start_x, y, y, colwidths, FALSE, dir);
+			cr, start_x, y, y, colwidths, FALSE, dir);
 		if (pane->index >= 2)
-			gdk_draw_line (drawable, ig->gc.bound, start_x, y, x, y);
+			ig_cairo_draw_bound (cr, start_x, y, x, y);
 	}
 	if (col >= ig->bound.end.col &&
 	    /* TODO : Add pane flags to avoid hard coding pane numbers */
-	    (pane->index == 1 || pane->index == 2))
-		gdk_draw_line (drawable, ig->gc.bound, x, start_y, x, y);
+	    (pane->index == 1 || pane->index == 2)) {
+		if (canvas->direction == GOC_DIRECTION_RTL)
+			x += 1; /* fix a border effect */
+		ig_cairo_draw_bound (cr, x, start_y, x, y);
+	    }
 
 	g_slist_free (merged_used);	   /* merges with bottom in view */
 	g_slist_free (merged_active_seen); /* merges with bottom the view */
 	g_slist_free (merged_unused);	   /* merges in hidden rows */
-	g_return_if_fail (merged_active == NULL);
+	g_return_val_if_fail (merged_active == NULL, TRUE);
+	return TRUE;
 }
 
 static double
-item_grid_point (FooCanvasItem *item, double x, double y, int cx, int cy,
-		 FooCanvasItem **actual_item)
+item_grid_distance (GocItem *item, double x, double y,
+		 GocItem **actual_item)
 {
 	*actual_item = item;
 	return 0.0;
@@ -763,9 +744,9 @@ item_grid_point (FooCanvasItem *item, double x, double y, int cx, int cy,
 /***********************************************************************/
 
 static gboolean
-ig_obj_create_begin (ItemGrid *ig, GdkEventButton *event)
+ig_obj_create_begin (ItemGrid *ig, int button, gint64 x, gint64 y)
 {
-	GnmPane *pane = GNM_PANE (FOO_CANVAS_ITEM (ig)->canvas);
+	GnmPane *pane = GNM_PANE (GOC_ITEM (ig)->canvas);
 	SheetObject *so = ig->scg->wbcg->new_object;
 	SheetObjectAnchor anchor;
 	double coords[4];
@@ -773,14 +754,14 @@ ig_obj_create_begin (ItemGrid *ig, GdkEventButton *event)
 	g_return_val_if_fail (ig->scg->selected_objects == NULL, TRUE);
 	g_return_val_if_fail (so != NULL, TRUE);
 
-	coords[0] = coords[2] = event->x;
-	coords[1] = coords[3] = event->y;
+	coords[0] = coords[2] = x;
+	coords[1] = coords[3] = y;
 	sheet_object_anchor_init (&anchor, NULL, NULL, GOD_ANCHOR_DIR_DOWN_RIGHT);
 	scg_object_coords_to_anchor (ig->scg, coords, &anchor);
 	sheet_object_set_anchor (so, &anchor);
 	sheet_object_set_sheet (so, scg_sheet (ig->scg));
 	scg_object_select (ig->scg, so);
-	gnm_pane_object_start_resize (pane, event, so, 7, TRUE);
+	gnm_pane_object_start_resize (pane, button, x, y, so, 7, TRUE);
 
 	return TRUE;
 }
@@ -788,10 +769,10 @@ ig_obj_create_begin (ItemGrid *ig, GdkEventButton *event)
 /***************************************************************************/
 
 static int
-item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
+item_grid_button_pressed (GocItem *item, int button, double x_, double y_)
 {
-	FooCanvasItem *item = FOO_CANVAS_ITEM (ig);
-	FooCanvas    *canvas = item->canvas;
+	ItemGrid *ig = ITEM_GRID (item);
+	GocCanvas    *canvas = item->canvas;
 	GnmPane *pane = GNM_PANE (canvas);
 	SheetControlGUI *scg = ig->scg;
 	WBCGtk *wbcg = scg_wbcg (scg);
@@ -799,13 +780,13 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 	SheetView	*sv = sc_view (sc);
 	Sheet		*sheet = sv_sheet (sv);
 	GnmCellPos	pos;
-	int x, y;
 	gboolean edit_showed_dialog;
 	gboolean already_selected;
+	GdkEventButton *event = (GdkEventButton *) goc_canvas_get_cur_event (item->canvas);
+	gint64 x = x_ * canvas->pixels_per_unit, y = y_ * canvas->pixels_per_unit;
 
 	gnm_pane_slide_stop (pane);
 
-	foo_canvas_w2c (canvas, event->x, event->y, &x, &y);
 	pos.col = gnm_pane_find_col (pane, x, NULL);
 	pos.row = gnm_pane_find_row (pane, y, NULL);
 
@@ -817,7 +798,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 
 	/* A new object is ready to be realized and inserted */
 	if (wbcg->new_object != NULL)
-		return ig_obj_create_begin (ig, event);
+		return ig_obj_create_begin (ig, button, x, y);
 
 	/* If we are not configuring an object then clicking on the sheet
 	 * ends the edit.  */
@@ -829,7 +810,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 	/* If we were already selecting a range of cells for a formula,
 	 * reset the location to a new place, or extend the selection.
 	 */
-	if (event->button == 1 && scg->rangesel.active) {
+	if (button == 1 && scg->rangesel.active) {
 		ig->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
 		if (event->state & GDK_SHIFT_MASK)
 			scg_rangesel_extend_to (scg, pos.col, pos.row);
@@ -845,7 +826,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 	/* If the user is editing a formula (wbcg_rangesel_possible) then we
 	 * enable the dynamic cell selection mode.
 	 */
-	if (event->button == 1 && wbcg_rangesel_possible (wbcg)) {
+	if (button == 1 && wbcg_rangesel_possible (wbcg)) {
 		scg_rangesel_start (scg, pos.col, pos.row, pos.col, pos.row);
 		ig->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
 		gnm_pane_slide_init (pane);
@@ -864,13 +845,13 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 	if (!wbcg_edit_finish (wbcg, WBC_EDIT_ACCEPT, &edit_showed_dialog))
 		return TRUE;
 
-	if (event->button == 1 && !sheet_selection_is_allowed (sheet, &pos))
+	if (button == 1 && !sheet_selection_is_allowed (sheet, &pos))
 		return TRUE;
 
 	/* button 1 will always change the selection,  the other buttons will
 	 * only effect things if the target is not already selected.  */
 	already_selected = sv_is_pos_selected (sv, pos.col, pos.row);
-	if (event->button == 1 || !already_selected) {
+	if (button == 1 || !already_selected) {
 		if (!(event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
 			sv_selection_reset (sv);
 
@@ -886,7 +867,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 	if (edit_showed_dialog)
 		return TRUE;  /* we already ignored the button release */
 
-	switch (event->button) {
+	switch (button) {
 	case 1: {
 		guint32 double_click_time;
 
@@ -948,16 +929,17 @@ static gint
 cb_cursor_come_to_rest (ItemGrid *ig)
 {
 	Sheet const *sheet = scg_sheet (ig->scg);
-	FooCanvas *canvas = ig->canvas_item.canvas;
+	GocCanvas *canvas = ig->canvas_item.canvas;
 	GnmPane *pane = GNM_PANE (canvas);
 	GnmHLink *link;
-	int x, y;
+	gint64 x, y;
 	GnmCellPos pos;
 	char const *tiptext;
 
 	/* Be anal and look it up in case something has destroyed the link
 	 * since the last motion */
-	foo_canvas_w2c (canvas, ig->last_x, ig->last_y, &x, &y);
+	x = ig->last_x;
+	y = ig->last_y;
 	pos.col = gnm_pane_find_col (pane, x, NULL);
 	pos.row = gnm_pane_find_row (pane, y, NULL);
 
@@ -981,124 +963,126 @@ cb_cursor_come_to_rest (ItemGrid *ig)
 	return FALSE;
 }
 
-static gint
-item_grid_event (FooCanvasItem *item, GdkEvent *event)
+static gboolean
+item_grid_motion (GocItem *item, double x_, double y_)
 {
-	FooCanvas *canvas = item->canvas;
+	ItemGrid *ig = ITEM_GRID (item);
+	GocCanvas *canvas = item->canvas;
 	GnmPane   *pane = GNM_PANE (canvas);
-	ItemGrid  *ig = ITEM_GRID (item);
+	GnmPaneSlideHandler slide_handler = NULL;
+	gint64 x = x_ * canvas->pixels_per_unit, y = y_ * canvas->pixels_per_unit;
+	switch (ig->selecting) {
+	case ITEM_GRID_NO_SELECTION:
+		if (ig->cursor_timer == 0)
+			ig->cursor_timer = g_timeout_add (100,
+				(GSourceFunc)cb_cursor_motion, ig);
+		if (ig->tip_timer != 0)
+			g_source_remove (ig->tip_timer);
+		ig->tip_timer = g_timeout_add (500,
+				(GSourceFunc)cb_cursor_come_to_rest, ig);
+		ig->last_x = x;
+		ig->last_y = y;
+		return TRUE;
+	case ITEM_GRID_SELECTING_CELL_RANGE :
+		slide_handler = &cb_extend_cell_range;
+		break;
+	case ITEM_GRID_SELECTING_FORMULA_RANGE :
+		slide_handler = &cb_extend_expr_range;
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+
+		gnm_pane_handle_motion (pane, canvas, x, y,
+		GNM_PANE_SLIDE_X | GNM_PANE_SLIDE_Y |
+		GNM_PANE_SLIDE_AT_COLROW_BOUND,
+		slide_handler, NULL);
+	return TRUE;
+}
+
+static gboolean
+item_grid_button_released (GocItem *item, int button, G_GNUC_UNUSED double x_, G_GNUC_UNUSED double y_)
+{
+	ItemGrid *ig = ITEM_GRID (item);
+	GnmPane  *pane = GNM_PANE (item->canvas);
 	SheetControlGUI *scg = ig->scg;
 	Sheet *sheet = scg_sheet (scg);
+	ItemGridSelectionType selecting = ig->selecting;
+	GdkEventButton *event = (GdkEventButton *) goc_canvas_get_cur_event (item->canvas);
 
-	switch (event->type){
-	case GDK_ENTER_NOTIFY:
-		scg_set_display_cursor (scg);
+	if (button != 1)
+		return FALSE;
+
+	gnm_pane_slide_stop (pane);
+
+	switch (selecting) {
+	case ITEM_GRID_NO_SELECTION:
 		return TRUE;
-	case GDK_LEAVE_NOTIFY:
-		ig_clear_hlink_tip (ig);
-		if (ig->cursor_timer != 0) {
-			g_source_remove (ig->cursor_timer);
-			ig->cursor_timer = 0;
-		}
-		return TRUE;
 
-	case GDK_BUTTON_RELEASE: {
-		ItemGridSelectionType selecting = ig->selecting;
-
-		if (event->button.button != 1)
-			return FALSE;
-
-		gnm_pane_slide_stop (pane);
-
-		switch (selecting) {
-		case ITEM_GRID_NO_SELECTION:
-			return TRUE;
-
-		case ITEM_GRID_SELECTING_FORMULA_RANGE :
+	case ITEM_GRID_SELECTING_FORMULA_RANGE :
 /*  Removal of this code (2 lines)                                                */
 /*  should fix http://bugzilla.gnome.org/show_bug.cgi?id=63485                    */
 /*			sheet_make_cell_visible (sheet,                           */
 /*				sheet->edit_pos.col, sheet->edit_pos.row, FALSE); */
-			/* Fall through */
-		case ITEM_GRID_SELECTING_CELL_RANGE :
-			wb_view_selection_desc (
-				wb_control_view (scg_wbc (scg)), TRUE, NULL);
-			break;
-
-		default:
-			g_assert_not_reached ();
-		}
-
-		ig->selecting = ITEM_GRID_NO_SELECTION;
-		gnm_simple_canvas_ungrab (item, event->button.time);
-
-		if (selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
-			gnm_expr_entry_signal_update (
-				wbcg_get_entry_logical (scg_wbcg (scg)), TRUE);
-
-		if (selecting == ITEM_GRID_SELECTING_CELL_RANGE) {
-			GnmCellPos const *pos = sv_is_singleton_selected (scg_view (scg));
-			if (pos != NULL) {
-				GnmHLink *link;
-				/* check for hyper links */
-				link = sheet_hlink_find (sheet, pos);
-				if (link != NULL)
-					gnm_hlink_activate (link, scg_wbc (scg));
-			}
-		}
-		return TRUE;
-	}
-
-	case GDK_MOTION_NOTIFY: {
-		GnmPaneSlideHandler slide_handler = NULL;
-		switch (ig->selecting) {
-		case ITEM_GRID_NO_SELECTION:
-			if (ig->cursor_timer == 0)
-				ig->cursor_timer = g_timeout_add (100,
-					(GSourceFunc)cb_cursor_motion, ig);
-			if (ig->tip_timer != 0)
-				g_source_remove (ig->tip_timer);
-			ig->tip_timer = g_timeout_add (500,
-					(GSourceFunc)cb_cursor_come_to_rest, ig);
-			ig->last_x = event->motion.x;
-			ig->last_y = event->motion.y;
-			return TRUE;
-		case ITEM_GRID_SELECTING_CELL_RANGE :
-			slide_handler = &cb_extend_cell_range;
-			break;
-		case ITEM_GRID_SELECTING_FORMULA_RANGE :
-			slide_handler = &cb_extend_expr_range;
-			break;
-		default:
-			g_assert_not_reached ();
-		}
-
-		gnm_pane_handle_motion (pane, canvas, &event->motion,
-			GNM_PANE_SLIDE_X | GNM_PANE_SLIDE_Y |
-			GNM_PANE_SLIDE_AT_COLROW_BOUND,
-			slide_handler, NULL);
-		return TRUE;
-	}
-
-	case GDK_BUTTON_PRESS:
-		return item_grid_button_press (ig, &event->button);
+		/* Fall through */
+	case ITEM_GRID_SELECTING_CELL_RANGE :
+		wb_view_selection_desc (
+			wb_control_view (scg_wbc (scg)), TRUE, NULL);
+		break;
 
 	default:
-		return FALSE;
+		g_assert_not_reached ();
 	}
 
-	return FALSE;
+	ig->selecting = ITEM_GRID_NO_SELECTION;
+	gnm_simple_canvas_ungrab (item, event->time);
+
+	if (selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
+		gnm_expr_entry_signal_update (
+			wbcg_get_entry_logical (scg_wbcg (scg)), TRUE);
+
+	if (selecting == ITEM_GRID_SELECTING_CELL_RANGE) {
+		GnmCellPos const *pos = sv_is_singleton_selected (scg_view (scg));
+		if (pos != NULL) {
+			GnmHLink *link;
+			/* check for hyper links */
+			link = sheet_hlink_find (sheet, pos);
+			if (link != NULL)
+				gnm_hlink_activate (link, scg_wbc (scg));
+		}
+	}
+	return TRUE;
+}
+
+static gboolean
+item_grid_enter_notify (GocItem *item, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
+{
+	ItemGrid  *ig = ITEM_GRID (item);
+	scg_set_display_cursor (ig->scg);
+	return TRUE;
+}
+
+static gboolean
+item_grid_leave_notify (GocItem *item, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
+{
+	ItemGrid  *ig = ITEM_GRID (item);
+	ig_clear_hlink_tip (ig);
+	if (ig->cursor_timer != 0) {
+		g_source_remove (ig->cursor_timer);
+		ig->cursor_timer = 0;
+	}
+	return TRUE;
 }
 
 static void
 item_grid_init (ItemGrid *ig)
 {
-	FooCanvasItem *item = FOO_CANVAS_ITEM (ig);
+	GocItem *item = GOC_ITEM (ig);
 
+	item->x0 = 0;
+	item->y0 = 0;
 	item->x1 = 0;
 	item->y1 = 0;
-	item->x2 = 0;
-	item->y2 = 0;
 
 	ig->selecting = ITEM_GRID_NO_SELECTION;
 	ig->gc.fill = ig->gc.cell = ig->gc.empty = ig->gc.bound = NULL;
@@ -1135,7 +1119,7 @@ item_grid_set_property (GObject *obj, guint param_id,
 static void
 item_grid_class_init (GObjectClass *gobject_klass)
 {
-	FooCanvasItemClass *item_klass = (FooCanvasItemClass *) gobject_klass;
+	GocItemClass *item_klass = (GocItemClass *) gobject_klass;
 
 	parent_class = g_type_class_peek_parent (gobject_klass);
 
@@ -1151,14 +1135,17 @@ item_grid_class_init (GObjectClass *gobject_klass)
 			"The display bounds",
 			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 
-	item_klass->update      = item_grid_update;
 	item_klass->realize     = item_grid_realize;
-	item_klass->unrealize   = item_grid_unrealize;
-	item_klass->draw        = item_grid_draw;
-	item_klass->point       = item_grid_point;
-	item_klass->event       = item_grid_event;
+	item_klass->draw_region     = item_grid_draw_region;
+	item_klass->update_bounds   = item_grid_update_bounds;
+	item_klass->button_pressed  = item_grid_button_pressed;
+	item_klass->button_released = item_grid_button_released;
+	item_klass->motion          = item_grid_motion;
+	item_klass->enter_notify    = item_grid_enter_notify;
+	item_klass->leave_notify    = item_grid_leave_notify;
+	item_klass->distance        = item_grid_distance;
 }
 
 GSF_CLASS (ItemGrid, item_grid,
 	   item_grid_class_init, item_grid_init,
-	   FOO_TYPE_CANVAS_ITEM)
+	   GOC_TYPE_ITEM)

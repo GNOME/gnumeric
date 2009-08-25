@@ -15,7 +15,7 @@ void cell_finish_layout (GnmCell *cell, GnmRenderedValue *rv,
 			 int col_width,
 			 gboolean inhibit_overflow);
 
-void cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
+void cell_draw (GnmCell const *cell, cairo_t* cr,
 		int x, int y, int height, int width, int h_center);
 
 G_END_DECLS

@@ -276,8 +276,7 @@ cell_finish_layout (GnmCell *cell, GnmRenderedValue *rv,
 /**
  * cell_draw:
  * @cell : #GnmCell const
- * @gc   : #GdkGC
- * @drawable : #GdkDrawable
+ * @cr   : #cairo_t
  * @x1 :
  * @y1 :
  * @width : including margins and leading grid line
@@ -285,7 +284,7 @@ cell_finish_layout (GnmCell *cell, GnmRenderedValue *rv,
  * @h_center :
  **/
 void
-cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
+cell_draw (GnmCell const *cell, cairo_t *cr,
 	   int x1, int y1, int width, int height, int h_center)
 {
 	GOColor fore_color;
@@ -309,15 +308,13 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 			      height * PANGO_SCALE,
 			      h_center == -1 ? -1 : (h_center * PANGO_SCALE),
 			      &fore_color, &x, &y)) {
-		GdkColor fore_gdk;
 
 		/* +1 to get past left grid-line.  */
-		GdkRectangle rect;
-		rect.x = x1 + 1 + GNM_COL_MARGIN;
-		rect.y = y1 + 1 + GNM_ROW_MARGIN;
-		rect.width = width;
-		rect.height = height;
+		cairo_rectangle (cr, x1 + 1 + GNM_COL_MARGIN,
+				 y1 + 1 + GNM_ROW_MARGIN,
+				 width, height);
 
+		cairo_save (cr);
 #if 0
 		gdk_gc_set_clip_rectangle (gc, &rect);
 		if (cell->pos.col == 3 && cell->pos.row == 10) {
@@ -334,12 +331,11 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 		 * approximation to the right effect.  (The right way
 		 * would be to create a proper cellspan type.)
 		 */
-		gdk_gc_set_clip_rectangle (gc,
-					   rv->rotation ? NULL : &rect);
+		if (!rv->rotation)
+			cairo_clip (cr);
 
 		/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
-		go_color_to_gdk (fore_color, &fore_gdk);
-		gdk_gc_set_rgb_fg_color (gc, &fore_gdk);
+		cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (fore_color));
 
 		if (rv->rotation) {
 			GnmRenderedRotatedValue *rrv = (GnmRenderedRotatedValue *)rv;
@@ -352,17 +348,18 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 			for (lines = pango_layout_get_lines (rv->layout);
 			     lines;
 			     lines = lines->next, li++) {
-				gdk_draw_layout_line (drawable, gc,
-					x1 + PANGO_PIXELS (x + li->dx),
-					y1 + PANGO_PIXELS (y + li->dy),
-					lines->data);
+				cairo_save (cr);
+				cairo_translate (cr, x1 + PANGO_PIXELS (x + li->dx), y1 + PANGO_PIXELS (y + li->dy));
+				cairo_rotate (cr, -rv->rotation * M_PI / 180);
+				pango_cairo_show_layout_line (cr, lines->data);
+				cairo_restore (cr);
 			}
 			pango_context_set_matrix (context, NULL);
 			pango_layout_context_changed (rv->layout);
-		} else
-			gdk_draw_layout (drawable, gc,
-				x1 + PANGO_PIXELS (x),
-				y1 + PANGO_PIXELS (y),
-				rv->layout);
+		} else {
+			cairo_translate (cr, x1 + PANGO_PIXELS (x), y1 + PANGO_PIXELS (y));
+			pango_cairo_show_layout (cr, rv->layout);
+		}
+		cairo_restore (cr);
 	}
 }

@@ -35,8 +35,8 @@
 #include "number-match.h"
 #include "gutils.h"
 #include "sheet-object.h"
-#include "gnm-filter-combo-foo-view.h"
-#include "gnm-cell-combo-foo-view.h"
+#include "gnm-filter-combo-view.h"
+#include "gnm-cell-combo-view.h"
 #include <gsf/gsf-impl-utils.h>
 
 #include <glib/gi18n-lib.h>
@@ -510,10 +510,10 @@ gnm_filter_combo_init (SheetObject *so)
 	so->flags &= ~SHEET_OBJECT_MOVE_WITH_CELLS;
 }
 static SheetObjectView *
-gnm_filter_combo_foo_view_new (SheetObject *so, SheetObjectViewContainer *container)
+gnm_filter_combo_view_new (SheetObject *so, SheetObjectViewContainer *container)
 {
-	return gnm_cell_combo_foo_view_new (so,
-		gnm_filter_combo_foo_view_get_type (), container);
+	return gnm_cell_combo_view_new (so,
+		gnm_filter_combo_view_get_type (), container);
 }
 static void
 gnm_filter_combo_class_init (GObjectClass *gobject_class)
@@ -524,7 +524,7 @@ gnm_filter_combo_class_init (GObjectClass *gobject_class)
 	gobject_class->finalize = gnm_filter_combo_finalize;
 
 	/* SheetObject class method overrides */
-	so_class->new_view	= gnm_filter_combo_foo_view_new;
+	so_class->new_view	= gnm_filter_combo_view_new;
 	so_class->read_xml_dom  = NULL;
 	so_class->write_xml_sax = NULL;
 	so_class->prep_sax_parser = NULL;

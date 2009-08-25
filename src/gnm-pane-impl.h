@@ -4,6 +4,7 @@
 
 #include <src/gnm-pane.h>
 #include <src/gnumeric-simple-canvas.h>
+#include <goffice/canvas/goc-structs.h>
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS
@@ -14,12 +15,15 @@ G_BEGIN_DECLS
 struct _GnmPane {
 	GnmSimpleCanvas simple;
 
-	GnmCellPos first, last_full, last_visible, first_offset;
+	GnmCellPos first, last_full, last_visible;
+	struct {
+		gint64 x, y;
+	} first_offset;
 
 	/* In stacking order from lowest to highest */
-	FooCanvasGroup *grid_items;	/* grid & cursors */
-	FooCanvasGroup *object_views;	/* object views */
-	FooCanvasGroup *action_items;	/* drag cursors, and object ctrl pts */
+	GocGroup *grid_items;	/* grid & cursors */
+	GocGroup *object_views;	/* object views */
+	GocGroup *action_items;	/* drag cursors, and object ctrl pts */
 
 	/* Sliding scroll */
 	GnmPaneSlideHandler slide_handler;
@@ -41,15 +45,15 @@ struct _GnmPane {
 	int		 index;
 	struct {
 		GtkWidget *alignment;
-		FooCanvas *canvas;
+		GocCanvas *canvas;
 		ItemBar   *item;
 	} col, row;
 
 	/* Lines across the grid.  Used for col/row resize and the creation of
 	 * frozen panes */
 	struct {
-		FooCanvasItem   *guide, *start;
-		FooCanvasPoints *points;
+		GocItem   *guide, *start;
+		GocPoint  *points;
 	} size_guide;
 
 	ItemGrid      *grid;

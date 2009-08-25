@@ -124,10 +124,8 @@ libspreadsheet_la_SOURCES =			\
 	hlink.c					\
 	history.c				\
 	input-msg.c				\
-	item-acetate.c				\
 	item-bar.c				\
 	item-cursor.c				\
-	item-debug.c				\
 	item-edit.c				\
 	item-grid.c				\
 	libgnumeric.c				\
@@ -248,10 +246,8 @@ libspreadsheet_include_HEADERS = 	\
 	hlink-impl.h				\
 	history.h				\
 	input-msg.h				\
-	item-acetate.h				\
 	item-bar.h				\
 	item-cursor.h				\
-	item-debug.h				\
 	item-edit.h				\
 	item-grid.h				\
 	libgnumeric.h				\

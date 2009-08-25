@@ -37,7 +37,6 @@
 #include <string.h>
 #include <libxml/globals.h>
 #include <gsf/gsf-impl-utils.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-polygon.h>
 
 struct _GnmComment {
 	SheetObject	base;
@@ -65,17 +64,18 @@ comment_view_destroy (SheetObjectView *sov)
 static void
 comment_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
-	FooCanvasItem *view = FOO_CANVAS_ITEM (sov);
+	GocPoints *points = goc_points_new (3);
+	GocItem *item = GOC_ITEM (GOC_GROUP (sov)->children->data);
 	if (visible) {
 		SheetObject *so = sheet_object_view_get_so (sov);
-		SheetControlGUI const *scg = GNM_SIMPLE_CANVAS (view->canvas)->scg;
+		SheetControlGUI const *scg = GNM_SIMPLE_CANVAS (item->canvas)->scg;
 		double scale;
-		int x, y, dx, far_col;
-		FooCanvasPoints *points = foo_canvas_points_new (3);
+		gint64 x, y, dx;
+		int far_col;
 		GnmRange const *r = gnm_sheet_merge_is_corner (so->sheet,
 			&so->anchor.cell_bound.start);
 
-		scale = 1. / view->canvas->pixels_per_unit;
+		scale = 1. / item->canvas->pixels_per_unit;
 
 		if (r != NULL)
 			far_col = 1 + r->end.col;
@@ -86,9 +86,9 @@ comment_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vi
 		/* Add 1 to y because we measure from start, x is measured from end, so
 		 * it does not need it */
 		y = scg_colrow_distance_get (scg, FALSE, 0, so->anchor.cell_bound.start.row)+ 1;
-		points->coords[1] = scale * y;
-		points->coords[3] = scale * y;
-		points->coords[5] = scale * y + TRIANGLE_WIDTH;
+		points->points[0].y = scale * y;
+		points->points[1].y = scale * y;
+		points->points[2].y = scale * y + TRIANGLE_WIDTH;
 
 		dx = TRIANGLE_WIDTH;
 		if (so->sheet->text_is_rtl) {
@@ -96,29 +96,87 @@ comment_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vi
 			scale = -scale;
 		}
 		x = scg_colrow_distance_get (scg, TRUE, 0, far_col);
-		points->coords[0] = scale * x - dx;
-		points->coords[2] = scale * x;
-		points->coords[4] = scale * x;
+		points->points[0].x = scale * x - dx;
+		points->points[1].x = scale * x;
+		points->points[2].x = scale * x;
 
-		foo_canvas_item_set (view, "points", points, NULL);
-		foo_canvas_points_free (points);
-		foo_canvas_item_show (view);
+		goc_item_set (item, "points", points, NULL);
+		goc_points_unref (points);
+		goc_item_show (GOC_ITEM (sov));
 	} else
-		foo_canvas_item_hide (view);
+		goc_item_hide (GOC_ITEM (sov));
+}
+
+static gboolean
+comment_view_button_released (GocItem *item, int button, double x, double y)
+{
+	if (button !=1)
+		return FALSE;
+
+	scg_comment_display (GNM_PANE (item->canvas)->simple.scg,
+	                     CELL_COMMENT (sheet_object_view_get_so (SHEET_OBJECT_VIEW (item))));
+	return TRUE;
+}
+
+static gboolean
+comment_view_button_pressed (GocItem *item, int button, double x, double y)
+{
+	return TRUE;
+}
+
+static gboolean
+comment_view_button2_pressed (GocItem *item, int button, double x, double y)
+{
+	SheetObject *so;
+	GnmRange const *r;
+	SheetControlGUI *scg;
+	if (button !=1)
+		return FALSE;
+
+	scg = GNM_PANE (item->canvas)->simple.scg;
+	so = sheet_object_view_get_so (SHEET_OBJECT_VIEW (item));
+	r = sheet_object_get_range (so);
+	dialog_cell_comment (scg->wbcg, so->sheet, &r->start);
+	return TRUE;
+}
+
+static gboolean
+comment_view_enter_notify (GocItem *item, double x, double y)
+{
+	gnm_widget_set_cursor_type (GTK_WIDGET (item->canvas), GDK_ARROW);
+	scg_comment_select (GNM_PANE (item->canvas)->simple.scg,
+	                     CELL_COMMENT (sheet_object_view_get_so (SHEET_OBJECT_VIEW (item))));
+	return TRUE;
+}
+
+static gboolean
+comment_view_leave_notify (GocItem *item, double x, double y)
+{
+	scg_comment_unselect (GNM_PANE (item->canvas)->simple.scg,
+	                     CELL_COMMENT (sheet_object_view_get_so (SHEET_OBJECT_VIEW (item))));
+	return TRUE;
 }
 
 static void
-comment_foo_view_init (SheetObjectViewIface *sov_iface)
+comment_view_class_init (SheetObjectViewClass *sov_klass)
 {
-	sov_iface->destroy	= comment_view_destroy;
-	sov_iface->set_bounds	= comment_view_set_bounds;
+	GocItemClass *item_klass = (GocItemClass *) sov_klass;
+
+	sov_klass->destroy	= comment_view_destroy;
+	sov_klass->set_bounds	= comment_view_set_bounds;
+
+	item_klass->button_pressed = comment_view_button_pressed;
+	item_klass->button_released = comment_view_button_released;
+	item_klass->button2_pressed = comment_view_button2_pressed;
+	item_klass->enter_notify = comment_view_enter_notify;
+	item_klass->leave_notify = comment_view_leave_notify;
 }
-typedef FooCanvasPolygon	CommentFooView;
-typedef FooCanvasPolygonClass	CommentFooViewClass;
-static GSF_CLASS_FULL (CommentFooView, comment_foo_view,
-	NULL, NULL, NULL, NULL,
-	NULL, FOO_TYPE_CANVAS_POLYGON, 0,
-	GSF_INTERFACE (comment_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
+
+typedef SheetObjectView		CommentView;
+typedef SheetObjectViewClass	CommentViewClass;
+static GSF_CLASS (CommentView, comment_view,
+	comment_view_class_init, NULL,
+	SHEET_OBJECT_VIEW_TYPE)
 
 static void
 cell_comment_finalize (GObject *object)
@@ -196,70 +254,18 @@ cell_comment_get_property (GObject *obj, guint param_id,
 	}
 }
 
-static int
-cell_comment_event (FooCanvasItem *view, GdkEvent *event, GnmPane *pane)
-{
-	GnmComment *cc;
-	SheetObject *so;
-	GnmRange const *r;
-	SheetControlGUI *scg;
-
-	switch (event->type) {
-	default:
-		return FALSE;
-
-	case GDK_BUTTON_RELEASE:
-		if (event->button.button != 1)
-			return FALSE;
-	case GDK_ENTER_NOTIFY:
-	case GDK_LEAVE_NOTIFY:
-	case GDK_2BUTTON_PRESS:
-		break;
-	}
-
-	scg = pane->simple.scg;
-	so = sheet_object_view_get_so (SHEET_OBJECT_VIEW (view));
-	cc = CELL_COMMENT (so);
-
-	g_return_val_if_fail (cc != NULL, FALSE);
-
-	switch (event->type) {
-	case GDK_BUTTON_RELEASE:
-		scg_comment_display (scg, cc);
-		break;
-
-	case GDK_ENTER_NOTIFY:
-		gnm_widget_set_cursor_type (GTK_WIDGET (view->canvas), GDK_ARROW);
-		scg_comment_select (scg, cc);
-		break;
-
-	case GDK_LEAVE_NOTIFY:
-		scg_comment_unselect (scg, cc);
-		break;
-
-	case GDK_2BUTTON_PRESS:
-		r = sheet_object_get_range (so);
-		dialog_cell_comment (scg->wbcg, so->sheet, &r->start);
-		break;
-
-	default:
-		return FALSE;
-	}
-	return TRUE;
-}
-
 static SheetObjectView *
 cell_comment_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
 	GnmPane	*pane = GNM_PANE (container);
-	FooCanvasItem	*view = foo_canvas_item_new (pane->grid_items,
-		comment_foo_view_get_type (),
-		"fill-color",	"red",
+	GocItem	*view = goc_item_new (pane->grid_items,
+		comment_view_get_type (),
 		NULL);
-	/* Do not use the standard handler, comments are not movable */
-	g_signal_connect (view,
-		"event",
-		G_CALLBACK (cell_comment_event), container);
+	GOStyle *style = go_styled_object_get_style (
+		GO_STYLED_OBJECT (goc_item_new (GOC_GROUP (view),
+			GOC_TYPE_POLYGON, NULL)));
+	style->outline.dash_type = GO_LINE_NONE;
+	style->fill.pattern.back = RGBA_RED;
 	return gnm_pane_object_register (so, view, FALSE);
 }
 

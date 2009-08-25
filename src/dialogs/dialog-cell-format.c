@@ -56,8 +56,9 @@
 #include <style-conditions.h>
 
 #include <goffice/goffice.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
+#include <goffice/canvas/goc-canvas.h>
+#include <goffice/canvas/goc-item.h>
+#include <goffice/canvas/goc-rectangle.h>
 #include <glade/glade.h>
 #include <gtk/gtk.h>
 
@@ -150,10 +151,10 @@ typedef struct _FormatState {
 		ColorPicker      color;
 	} font;
 	struct {
-		FooCanvas	*canvas;
+		GocCanvas	*canvas;
 		GtkButton	*preset[BORDER_PRESET_MAX];
-		FooCanvasItem	*back;
-		FooCanvasItem *lines[20];
+		GocItem		*back;
+		GocItem		*lines[20];
 
 		BorderPicker	 edge[GNM_STYLE_BORDER_EDGE_MAX];
 		ColorPicker      color;
@@ -162,7 +163,7 @@ typedef struct _FormatState {
 		PatternPicker	 pattern;
 	} border;
 	struct {
-		FooCanvas	*canvas;
+		GocCanvas	*canvas;
 		PreviewGrid     *grid;
 		GnmStyle        *style;
 
@@ -906,7 +907,7 @@ back_style_changed (FormatState *state)
 		gnm_style_merge_element (state->result, state->back.style, MSTYLE_PATTERN);
 		gnm_style_merge_element (state->result, state->back.style, MSTYLE_COLOR_BACK);
 		gnm_style_merge_element (state->result, state->back.style, MSTYLE_COLOR_PATTERN);
-		foo_canvas_item_set (FOO_CANVAS_ITEM (state->back.grid),
+		goc_item_set (GOC_ITEM (state->back.grid),
 			"default-style",	state->back.style,
 			NULL);
 	}
@@ -966,18 +967,17 @@ fmt_dialog_init_background_page (FormatState *state)
 	int w = 120;
 	int h = 60;
 
-	widget = foo_canvas_new ();
-	state->back.canvas = FOO_CANVAS (widget);
+	widget = g_object_new (GOC_TYPE_CANVAS, NULL);
+	state->back.canvas = GOC_CANVAS (widget);
 	gtk_widget_set_size_request (widget, w, h);
-	foo_canvas_set_scroll_region (state->back.canvas, -1, -1, w, h);
 
 	widget = glade_xml_get_widget (state->gui, "back_sample_frame");
 	gtk_container_add (GTK_CONTAINER (widget),
 		GTK_WIDGET (state->back.canvas));
 	gtk_widget_show_all (widget);
 
-	state->back.grid = PREVIEW_GRID (foo_canvas_item_new (
-		foo_canvas_root (state->back.canvas),
+	state->back.grid = PREVIEW_GRID (goc_item_new (
+		goc_canvas_get_root (state->back.canvas),
 		preview_grid_get_type (),
 		"render-gridlines",	FALSE,
 		"default-col-width",	w,
@@ -1104,10 +1104,8 @@ border_format_has_changed (FormatState *state, BorderPicker *edge)
 		for (i = 0; line_info[i].states != 0 ; ++i ) {
 			if (line_info[i].location == edge->index &&
 			    state->border.lines[i] != NULL)
-				foo_canvas_item_set (
-					FOO_CANVAS_ITEM (state->border.lines[i]),
-					"fill-color-rgba", edge->rgba,
-					NULL);
+				go_styled_object_get_style (
+					GO_STYLED_OBJECT (state->border.lines[i]))->line.color = edge->rgba;
 		}
 	}
 	if ((int)edge->pattern_index != state->border.pattern.cur_index) {
@@ -1246,35 +1244,36 @@ draw_border_preview (FormatState *state)
 	    { R+1., H-5., R+1., H, R+5., H },
 	    { R+1., H+5., R+1., H, R+5., H }
 	};
-	int i, j;
+	int i, j, k;
 
 	/* The first time through lets initialize */
 	if (state->border.canvas == NULL) {
-		FooCanvasGroup  *group;
-		FooCanvasPoints *points;
+		GocGroup  *group;
+		GocPoints *points;
+		GOStyle *style;
 
-		state->border.canvas = FOO_CANVAS (foo_canvas_new ());
+		state->border.canvas = GOC_CANVAS (g_object_new (GOC_TYPE_CANVAS, NULL));
 		gtk_widget_show (GTK_WIDGET (state->border.canvas));
 		gtk_widget_set_size_request (GTK_WIDGET (state->border.canvas),
 					     150, 100);
 		gtk_container_add (GTK_CONTAINER (glade_xml_get_widget (state->gui, "border_sample_container")),
 				   GTK_WIDGET (state->border.canvas));
-		group = FOO_CANVAS_GROUP (foo_canvas_root (state->border.canvas));
+		group = GOC_GROUP (goc_canvas_get_root (state->border.canvas));
 
 		g_signal_connect (G_OBJECT (state->border.canvas),
 			"button-press-event",
 			G_CALLBACK (border_event), state);
 
-		state->border.back = foo_canvas_item_new (group,
-			FOO_TYPE_CANVAS_RECT,
-			"x1", L-10.,	"y1", T-10.,
-			"x2", R+10.,	"y2", B+10.,
-			"width-pixels", (int) 0,
-			"fill-color",	"white",
+		state->border.back = goc_item_new (group,
+			GOC_TYPE_RECTANGLE,
+			"x", L-10.,		"y", T-10.,
+			"width", R-L+20.,	"height", B-T+20.,
 			NULL);
+		style = go_styled_object_get_style (GO_STYLED_OBJECT (state->border.back));
+		style->outline.dash_type = GO_LINE_NONE;
 
 		/* Draw the corners */
-		points = foo_canvas_points_new (3);
+		points = goc_points_new (3);
 
 		for (i = 0; i < 12 ; ++i) {
 			if (i >= 8) {
@@ -1285,45 +1284,48 @@ draw_border_preview (FormatState *state)
 					continue;
 			}
 
-			for (j = 6 ; --j >= 0 ;)
-				points->coords[j] = corners[i][j];
+			for (j = 3, k = 5 ; --j >= 0 ;) {
+				points->points[j].y = corners[i][k--] + .5;
+				points->points[j].x = corners[i][k--] + .5;
+			}
+				
 
-			foo_canvas_item_new (group,
-					       foo_canvas_line_get_type (),
-					       "width-pixels",	(int) 0,
-					       "fill-color",	"gray63",
+			style = go_styled_object_get_style (GO_STYLED_OBJECT (
+				goc_item_new (group,
+					       goc_polyline_get_type (),
 					       "points",	points,
-					       NULL);
+					       NULL)));
+			style->line.color = RGBA_TO_UINT (0xa1, 0xa1, 0xa1, 0xff); /* gray63 */
+			style->line.width = 0.;
 		}
-		foo_canvas_points_free (points);
+		goc_points_unref (points);
 
-		points = foo_canvas_points_new (2);
 		for (i = 0; line_info[i].states != 0 ; ++i ) {
-			for (j = 4; --j >= 0 ; )
-				points->coords[j] = line_info[i].points[j];
-
 			if (line_info[i].states & state->selection_mask) {
 				BorderPicker const *p =
 				    & state->border.edge[line_info[i].location];
 				state->border.lines[i] =
-					foo_canvas_item_new (group,
-							       gnumeric_dashed_canvas_line_get_type (),
-							       "fill-color-rgba", p->rgba,
-							       "points",	  points,
-							       NULL);
+					goc_item_new (group,
+						      gnumeric_dashed_canvas_line_get_type (),
+					              "x0", line_info[i].points[0],
+					              "y0", line_info[i].points[1],
+					              "x1", line_info[i].points[2],
+					              "y1", line_info[i].points[3],
+						       NULL);
+				style = go_styled_object_get_style (GO_STYLED_OBJECT (state->border.lines[i]));
+				style->line.color = p->rgba;
 				gnumeric_dashed_canvas_line_set_dash_index (
 					GNUMERIC_DASHED_CANVAS_LINE (state->border.lines[i]),
 					p->pattern_index);
 			} else
 				state->border.lines[i] = NULL;
 		}
-		foo_canvas_points_free (points);
 	}
 
 	for (i = 0; i < GNM_STYLE_BORDER_EDGE_MAX; ++i) {
 		BorderPicker *border = &state->border.edge[i];
-		void (*func)(FooCanvasItem *item) = border->is_selected
-			? &foo_canvas_item_show : &foo_canvas_item_hide;
+		void (*func)(GocItem *item) = border->is_selected
+			? &goc_item_show : &goc_item_hide;
 
 		for (j = 0; line_info[j].states != 0 ; ++j) {
 			if ((int)line_info[j].location == i &&
@@ -1331,7 +1333,7 @@ draw_border_preview (FormatState *state)
 				(*func) (state->border.lines[j]);
 		}
 	}
-
+	
 	fmt_dialog_changed (state);
 }
 
@@ -1440,10 +1442,10 @@ init_border_button (FormatState *state, GnmStyleBorderLocation const i,
 		state->border.edge[i].is_selected = TRUE;
 	} else {
 		GnmColor const *c = border->color;
-		state->border.edge[i].rgba = FOO_CANVAS_COLOR (
+		state->border.edge[i].rgba = RGBA_TO_UINT(
 			c->gdk_color.red >> 8,
 			c->gdk_color.green >> 8,
-			c->gdk_color.blue >> 8);
+			c->gdk_color.blue >> 8, 0xff);
 		state->border.edge[i].is_auto_color = c->is_auto;
 		state->border.edge[i].pattern_index = border->line_type;
 		state->border.edge[i].is_selected = (border->line_type != GNM_STYLE_BORDER_NONE);
@@ -2499,10 +2501,10 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	state->border.pattern.draw_preview = NULL;
 	state->border.pattern.current_pattern = NULL;
 	state->border.pattern.state = state;
-	state->border.rgba = FOO_CANVAS_COLOR (
+	state->border.rgba = RGBA_TO_UINT (
 		default_border_color->red   >> 8,
 		default_border_color->green >> 8,
-		default_border_color->blue  >> 8);
+		default_border_color->blue  >> 8, 0xff);
 	for (i = 0; (name = line_pattern_buttons[i].name) != NULL; ++i)
 		setup_pattern_button (gtk_widget_get_screen (GTK_WIDGET (state->dialog)),
 				      state->gui, name, &state->border.pattern,

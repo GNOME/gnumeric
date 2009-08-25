@@ -23,7 +23,7 @@
 #include "gnumeric.h"
 #include "gnm-sheet-slicer-combo.h"
 #include "go-data-slicer-field.h"
-#include "widgets/gnm-cell-combo-foo-view.h"
+#include "widgets/gnm-cell-combo-view.h"
 #include "widgets/gnm-sheet-slicer-combo-foo-view.h"
 
 #include <gsf/gsf-impl-utils.h>
@@ -53,8 +53,8 @@ gnm_sheet_slicer_combo_init (SheetObject *so)
 static SheetObjectView *
 gnm_sheet_slicer_combo_foo_view_new (SheetObject *so, SheetObjectViewContainer *container)
 {
-	return gnm_cell_combo_foo_view_new (so,
-		gnm_sheet_slicer_combo_foo_view_get_type (), container);
+	return gnm_cell_combo_view_new (so,
+		gnm_sheet_slicer_combo_view_get_type (), container);
 }
 
 static void

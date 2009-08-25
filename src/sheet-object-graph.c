@@ -39,6 +39,7 @@
 #include <graph.h>
 
 #include <goffice/goffice.h>
+#include <goffice/canvas/goc-graph.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-utils.h>
@@ -46,48 +47,48 @@
 #include <gsf/gsf-libxml.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-line.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-polygon.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-text.h>
 #include <math.h>
 #include <string.h>
 
 static void
 so_graph_view_destroy (SheetObjectView *sov)
 {
-	gtk_object_destroy (GTK_OBJECT (sov));
+	g_object_unref (G_OBJECT (sov));
 }
 static void
 so_graph_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
-	FooCanvasItem *view = FOO_CANVAS_ITEM (sov);
+	GocItem *view = GOC_ITEM (GOC_GROUP (sov)->children->data);
+	double scale = goc_canvas_get_pixels_per_unit (view->canvas); 
 
 	if (visible) {
-		foo_canvas_item_set (view,
-			"x", MIN (coords [0], coords[2]),
-			"y", MIN (coords [3], coords[1]),
-			"w", fabs (coords [2] - coords [0]) + 1.,
-			"h", fabs (coords [3] - coords [1]) + 1.,
+		goc_item_set (GOC_ITEM (sov),
+			"x", MIN (coords [0], coords[2]) / scale,
+			"y", MIN (coords [3], coords[1]) / scale,
+			NULL);
+		goc_item_set (view,
+			"width", (fabs (coords [2] - coords [0]) + 1.) / scale,
+			"height", (fabs (coords [3] - coords [1]) + 1.) / scale,
 			NULL);
 
-		foo_canvas_item_show (view);
+		goc_item_show (view);
 	} else
-		foo_canvas_item_hide (view);
+		goc_item_hide (view);
 }
 
 static void
-so_graph_foo_view_init (SheetObjectViewIface *sov_iface)
+so_graph_goc_view_class_init (SheetObjectViewClass *sov_klass)
 {
-	sov_iface->destroy	= so_graph_view_destroy;
-	sov_iface->set_bounds	= so_graph_view_set_bounds;
+	sov_klass->destroy	= so_graph_view_destroy;
+	sov_klass->set_bounds	= so_graph_view_set_bounds;
 }
-typedef GogControlFooCanvas		SOGraphFooView;
-typedef GogControlFooCanvasClass	SOGraphFooViewClass;
-static GSF_CLASS_FULL (SOGraphFooView, so_graph_foo_view,
-	NULL, NULL, NULL, NULL,
-	NULL, GOG_TYPE_CONTROL_FOOCANVAS, 0,
-	GSF_INTERFACE (so_graph_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
+
+typedef SheetObjectView		SOGraphGocView;
+typedef SheetObjectViewClass	SOGraphGocViewClass;
+
+static GSF_CLASS (SOGraphGocView, so_graph_goc_view,
+	so_graph_goc_view_class_init, NULL,
+	SHEET_OBJECT_VIEW_TYPE)
 
 /****************************************************************************/
 #define SHEET_OBJECT_CONFIG_KEY "sheet-object-graph-key"
@@ -162,10 +163,13 @@ gnm_sog_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
 	GnmPane *pane = GNM_PANE (container);
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
-	FooCanvasItem *view = foo_canvas_item_new (pane->object_views,
-		so_graph_foo_view_get_type (),
-		"renderer",	sog->renderer,
+	GocItem *view = goc_item_new (pane->object_views,
+		so_graph_goc_view_get_type (),
 		NULL);
+	goc_item_new (GOC_GROUP (view),
+		      GOC_TYPE_GRAPH,
+		      "renderer", sog->renderer,
+		      NULL);
 	return gnm_pane_object_register (so, view, TRUE);
 }
 

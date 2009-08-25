@@ -579,105 +579,6 @@ style_border_vmargins (GnmBorder const * const * prev_vert,
 	return FALSE;
 }
 
-/**
- * gnm_style_borders_row_draw :
- *
- * TODO : This is not the final resting place for this.
- * It will move into the gui layer eventually.
- */
-void
-gnm_style_borders_row_draw (GnmBorder const * const * prev_vert,
-			    GnmStyleRow const *sr,
-			    GdkDrawable * const drawable,
-			    int x, int y1, int y2,
-			    int *colwidths,
-			    gboolean draw_vertical, int dir)
-{
-	int o[2][2];
-	int col, next_x = x;
-	GdkGC *gc;
-
-	for (col = sr->start_col; col <= sr->end_col ; col++, x = next_x) {
-
-		if (colwidths[col] == -1)
-			continue;
-		next_x = x + dir * colwidths[col];
-
-		gc = style_border_get_gc (sr->top [col], drawable);
-		if (gc != NULL) {
-			int y = y1;
-			if (style_border_hmargins (prev_vert, sr, col, o, dir)) {
-				gdk_draw_line (drawable, gc, x + o[1][0], y1-1,
-					       next_x + o[1][1] + dir, y1-1);
-				++y;
-			}
-
-			/* See note in gnm_style_border_set_gc_dash about +1 */
-			gdk_draw_line (drawable, gc, x + o[0][0], y,
-				       next_x + o[0][1] + dir, y);
-		}
-
-		if (!draw_vertical)
-			continue;
-
-		gc = style_border_get_gc (sr->vertical [col], drawable);
-		if (gc != NULL) {
-			int x1 = x;
-			if (style_border_vmargins (prev_vert, sr, col, o)) {
-				gdk_draw_line (drawable, gc, x-dir, y1 + o[1][0],
-					       x-dir, y2 + o[1][1] + 1);
-				x1 += dir;
-			}
-			/* See note in gnm_style_border_set_gc_dash about +1 */
-			gdk_draw_line (drawable, gc, x1, y1 + o[0][0],
-				       x1, y2 + o[0][1] + 1);
-		}
-	}
-	if (draw_vertical) {
-		gc = style_border_get_gc (sr->vertical [col], drawable);
-		if (gc != NULL) {
-			int x1 = x;
-			if (style_border_vmargins (prev_vert, sr, col, o)) {
-				gdk_draw_line (drawable, gc, x-dir, y1 + o[1][0],
-					       x-dir, y2 + o[1][1] + 1);
-				x1 += dir;
-			}
-			/* See note in gnm_style_border_set_gc_dash about +1 */
-			gdk_draw_line (drawable, gc, x1, y1 + o[0][0],
-				       x1, y2 + o[0][1] + 1);
-		}
-	}
-}
-
-void
-gnm_style_border_draw_diag (GnmStyle const *style,
-			    GdkDrawable *drawable,
-			    int x1, int y1, int x2, int y2)
-{
-	GnmBorder const *diag;
-	GdkGC *gc;
-
-	diag = gnm_style_get_border (style, MSTYLE_BORDER_REV_DIAGONAL);
-	if (diag != NULL && diag->line_type != GNM_STYLE_BORDER_NONE) {
-		gc = style_border_get_gc (diag, drawable);
-		if (diag->line_type == GNM_STYLE_BORDER_DOUBLE) {
-			gdk_draw_line (drawable, gc, x1+1, y1+3, x2-3, y2-1);
-			gdk_draw_line (drawable, gc, x1+3, y1+1, x2-1, y2-3);
-		} else
-			gdk_draw_line (drawable, gc, x1, y1, x2, y2);
-	}
-
-	diag = gnm_style_get_border (style, MSTYLE_BORDER_DIAGONAL);
-	if (diag != NULL && diag->line_type != GNM_STYLE_BORDER_NONE) {
-		gc = style_border_get_gc (diag, drawable);
-		if (diag->line_type == GNM_STYLE_BORDER_DOUBLE) {
-			gdk_draw_line (drawable, gc, x1+1, y2-3, x2-3, y1+1);
-			gdk_draw_line (drawable, gc, x1+3, y2-1, x2-1, y1+3);
-		} else
-			gdk_draw_line (drawable, gc, x1, y2, x2, y1);
-	}
-}
-
 static void
 style_border_set_gtk_dash (GnmStyleBorderType const i,
 			   cairo_t *context)
@@ -745,6 +646,127 @@ print_vline_gtk (cairo_t *context,
 	cairo_move_to (context, x, y1);
 	cairo_line_to (context, x, y2);
 	cairo_stroke (context);
+}
+
+/**
+ * gnm_style_borders_row_draw :
+ *
+ * TODO : This is not the final resting place for this.
+ * It will move into the gui layer eventually.
+ */
+void
+gnm_style_borders_row_draw (GnmBorder const * const * prev_vert,
+			    GnmStyleRow const *sr,
+			    cairo_t *cr,
+			    int x, int y1, int y2,
+			    int *colwidths,
+			    gboolean draw_vertical, int dir)
+{
+	int o[2][2];
+	int col, next_x = x;
+	GnmBorder const *border;
+
+	cairo_save (cr);
+
+	for (col = sr->start_col; col <= sr->end_col ; col++, x = next_x) {
+
+		if (colwidths[col] == -1)
+			continue;
+		next_x = x + dir * colwidths[col];
+
+		border = sr->top [col];
+
+		if (style_border_set_gtk (border, cr)) {
+			float y = y1;
+			if (style_border_hmargins (prev_vert, sr, col, o, dir)) {
+				print_hline_gtk (cr, x + o[1][0],
+						 next_x + o[1][1] + dir, y1-1.,
+						 border->width);
+				++y;
+			}
+
+			/* See note in gnm_style_border_set_gc_dash about +1 */
+			print_hline_gtk (cr, x + o[0][0],
+					 next_x + o[0][1] + dir, y, border->width);
+		}
+
+		if (!draw_vertical)
+			continue;
+
+
+		border = sr->vertical [col];
+		if (style_border_set_gtk (border, cr)) {
+			float x1 = x;
+			if (style_border_vmargins (prev_vert, sr, col, o)) {
+				print_vline_gtk (cr, x-dir, y1 + o[1][0],
+						 y2 + o[1][1] + 1., border->width, dir);
+				x1 += dir;
+			}
+			/* See note in gnm_style_border_set_gc_dash about +1 */
+			print_vline_gtk (cr, x1, y1 + o[0][0],
+					 y2 + o[0][1] + 1., border->width, dir);
+		}
+	}
+	if (draw_vertical) {
+		border = sr->vertical [col];
+		if (style_border_set_gtk (border, cr)) {
+			float x1 = x;
+			if (style_border_vmargins (prev_vert, sr, col, o)) {
+				print_vline_gtk (cr, x-dir, y1 + o[1][0] + 1.,
+						 y2 + o[1][1], border->width, dir);
+				x1 += dir;
+			}
+			/* See note in gnm_style_border_set_gc_dash about +1 */
+			print_vline_gtk (cr, x1, y1 + o[0][0],
+					 y2 + o[0][1] + 1, border->width, dir);
+		}
+	}
+
+	cairo_restore (cr);
+}
+
+void
+gnm_style_border_draw_diag (GnmStyle const *style,
+			    cairo_t *cr,
+			    int x1, int y1, int x2, int y2)
+{
+	GnmBorder const *diag;
+
+	cairo_save (cr);
+
+	diag = gnm_style_get_border (style, MSTYLE_BORDER_REV_DIAGONAL);
+	if (diag != NULL && diag->line_type != GNM_STYLE_BORDER_NONE) {
+		style_border_set_gtk (diag, cr);
+		if (diag->line_type == GNM_STYLE_BORDER_DOUBLE) {
+			cairo_move_to (cr, x1+1.5,  y1+3.);
+			cairo_line_to (cr, x2-2.,   y2- .5);
+			cairo_stroke (cr);
+			cairo_move_to (cr, x1+ 3.,  y1+1.5);
+			cairo_line_to (cr, x2-  .5, y2-2.);
+		} else {
+			cairo_move_to (cr, x1+.5, y1+.5);
+			cairo_line_to (cr, x2+.5, y2+.5);
+		}
+		cairo_stroke (cr);
+	}
+
+	diag = gnm_style_get_border (style, MSTYLE_BORDER_DIAGONAL);
+	if (diag != NULL && diag->line_type != GNM_STYLE_BORDER_NONE) {
+		style_border_set_gtk (diag, cr);
+		if (diag->line_type == GNM_STYLE_BORDER_DOUBLE) {
+			cairo_move_to (cr, x1+1.5, y2-2.);
+			cairo_line_to (cr, x2-2.,  y1+1.5);
+			cairo_stroke (cr);
+			cairo_move_to (cr, x1+3.,  y2- .5);
+			cairo_line_to (cr, x2- .5, y1+3.);
+		} else {
+			cairo_move_to (cr, x1+.5, y2+.5);
+			cairo_line_to (cr, x2+.5, y1+.5);
+		}
+		cairo_stroke (cr);
+	}
+
+	cairo_restore (cr);
 }
 
 void

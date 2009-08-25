@@ -3,8 +3,7 @@
 # define _GNM_PANE_H_
 
 #include "gui-gnumeric.h"
-#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
+#include <goffice/goffice.h>
 #include "gui-util.h"
 
 G_BEGIN_DECLS
@@ -17,8 +16,8 @@ GType	 gnm_pane_get_type (void);
 GnmPane *gnm_pane_new (SheetControlGUI *scg,
 		       gboolean col_headers, gboolean row_headers, int index);
 
-int   gnm_pane_find_col		(GnmPane const *pane, int x, int *col_origin);
-int   gnm_pane_find_row		(GnmPane const *pane, int y, int *row_origin);
+int   gnm_pane_find_col		(GnmPane const *pane, gint64 x, gint64 *col_origin);
+int   gnm_pane_find_row		(GnmPane const *pane, gint64 y, gint64 *row_origin);
 void  gnm_pane_redraw_range	(GnmPane *pane, GnmRange const *r);
 void  gnm_pane_compute_visible_region (GnmPane *pane, gboolean full_recompute);
 void  gnm_pane_bound_set	(GnmPane *pane,
@@ -31,7 +30,7 @@ void	gnm_pane_edit_start  (GnmPane *p);
 void	gnm_pane_edit_stop   (GnmPane *p);
 
 void	gnm_pane_size_guide_start  (GnmPane *p, gboolean vert, int colrow, int width);
-void	gnm_pane_size_guide_motion	(GnmPane *p, gboolean vert, int guide_pos);
+void	gnm_pane_size_guide_motion	(GnmPane *p, gboolean vert, gint64 guide_pos);
 void	gnm_pane_size_guide_stop	(GnmPane *p);
 
 void	 gnm_pane_reposition_cursors	   (GnmPane *pane);
@@ -53,19 +52,22 @@ void gnm_pane_objects_drag        (GnmPane *pane, SheetObject *so,
 				   gboolean symmetric,gboolean snap_to_grid);
 void gnm_pane_object_unselect	  (GnmPane *pane, SheetObject *so);
 void gnm_pane_object_update_bbox  (GnmPane *pane, SheetObject *so);
-void gnm_pane_object_start_resize (GnmPane *pane, GdkEventButton *event,
+void gnm_pane_object_start_resize (GnmPane *pane, int button,
+                                   guint64 x, gint64 y,
 				   SheetObject *so, int drag_type,
 				   gboolean is_creation);
 void gnm_pane_object_autoscroll	  (GnmPane *pane, GdkDragContext *context,
 				   gint x, gint y, guint time);
 
-FooCanvasGroup *gnm_pane_object_group (GnmPane *pane);
+GocGroup *gnm_pane_object_group (GnmPane *pane);
+void gnm_pane_display_object_menu (GnmPane *pane, SheetObject *so,
+					   GdkEvent *event);
 
 /* A convenience api */
-SheetObjectView *gnm_pane_object_register (SheetObject *so, FooCanvasItem *view,
+SheetObjectView *gnm_pane_object_register (SheetObject *so, GocItem *view,
 					   gboolean selectable);
 void		 gnm_pane_widget_register (SheetObject *so, GtkWidget *w,
-					   FooCanvasItem *view);
+					   GocItem *view);
 
 /************************************************************************/
 
@@ -84,37 +86,15 @@ typedef gboolean (*GnmPaneSlideHandler) (GnmPane *pane, GnmPaneSlideInfo const *
 void	 gnm_pane_slide_stop	  (GnmPane *pane);
 void	 gnm_pane_slide_init	  (GnmPane *pane);
 gboolean gnm_pane_handle_motion (GnmPane *pane,
-				 FooCanvas    *canvas,
-				 GdkEventMotion *event,
+				 GocCanvas    *canvas,
+				 gint64 x, gint64 y,
 				 GnmPaneSlideFlags   slide_flags,
 				 GnmPaneSlideHandler handler,
 				 gpointer user_data);
 
 /************************************************************************/
 
-void gnm_pane_window_to_coord   (GnmPane *pane,
-				 gint    x,	gint    y,
-				 double *wx, double *wy);
-
-/*
- * gnm_foo_canvas_x_w2c:
- * @canvas: a #FooCanvas
- * @x : a position in world coordinate
- *
- * Converts a x position from world coordinates to canvas coordinates.
- */
-#define gnm_foo_canvas_x_w2c(canvas,x) -(int)((x) + ((canvas)->scroll_x1 * (canvas)->pixels_per_unit) - 0.5)
-
-/*
- * gnm_pane_x_w2c:
- * @pane: a #GnmPane
- * @x: position in world coordinates
- *
- * Convert an x position from world coordinates to canvas coordinates,
- * taking into account sheet right to left text setting.
- */
-#define gnm_pane_x_w2c(pane,x) (scg_sheet ((pane)->simple.scg)->text_is_rtl) ? \
-	gnm_foo_canvas_x_w2c ((FooCanvas *) (pane), (x)) : (x)
+void gnm_pane_set_direction     (GnmPane *pane, GocDirection direction);
 
 G_END_DECLS
 

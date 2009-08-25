@@ -38,15 +38,14 @@
 #define GNUMERIC_ITEM "EDIT"
 
 #include <gtk/gtk.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 #include <goffice/goffice.h>
 
-static FooCanvasItemClass *parent_class;
+static GocItemClass *parent_class;
 
 struct _ItemEdit {
-	FooCanvasItem item;
+	GocItem item;
 
 	SheetControlGUI *scg;
 	GtkEntry	*entry;		/* Utility pointer to the workbook entry */
@@ -60,10 +59,9 @@ struct _ItemEdit {
 
 	GnmFont   *gfont;
 	GnmStyle  *style;
-	GdkGC     *fill_gc;	/* Default background fill gc */
 };
 
-typedef FooCanvasItemClass ItemEditClass;
+typedef GocItemClass ItemEditClass;
 
 /* The arguments we take */
 enum {
@@ -75,13 +73,15 @@ static void
 get_top_left (ItemEdit const *ie, int *top, int *left)
 {
 	GnmVAlign const align = gnm_style_get_align_v (ie->style);
+	GocItem *item = GOC_ITEM (ie);
+	GocCanvas *canvas = item->canvas;
+	double l = (goc_canvas_get_direction (canvas) == GOC_DIRECTION_RTL)? item->x1 - 1: item->x0;
 
-	*left = ((int)ie->item.x1) + GNM_COL_MARGIN;
-	*top  = (int)ie->item.y1;
+	goc_canvas_c2w (canvas, l, item->y0, left, top);
 
 	if (align == VALIGN_CENTER || align == VALIGN_DISTRIBUTED ||
 	    align == VALIGN_BOTTOM) {
-		int text_height, height = (int)(ie->item.y2 - ie->item.y1);
+		int text_height, height = (int)(ie->item.y1 - ie->item.y0) * canvas->pixels_per_unit;
 		pango_layout_get_pixel_size (ie->layout, NULL, &text_height);
 		*top += (align != VALIGN_BOTTOM)
 			? (height - text_height)/2
@@ -90,194 +90,196 @@ get_top_left (ItemEdit const *ie, int *top, int *left)
 }
 
 static void
-item_edit_draw (FooCanvasItem *item, GdkDrawable *drawable,
-		GdkEventExpose *expose)
+item_edit_draw (GocItem const *item, cairo_t *cr)
 {
 	ItemEdit  const *ie	= ITEM_EDIT (item);
-	GdkGC *black_gc		= GTK_WIDGET (item->canvas)->style->black_gc;
 	int top, left;
-
-	if (ie->style == NULL)
-		return;
-
-	/* Draw the background (recall that gdk_draw_rectangle excludes far coords) */
-	gdk_draw_rectangle (drawable, ie->fill_gc, TRUE,
-		(int)item->x1,			(int)item->y1,
-		(int)(item->x2 - item->x1),	(int)(item->y2 - item->y1));
+	PangoLayout *layout;
+	GOColor color;
+	int x0, y0, x1, y1; /* in widget coordinates */
 
 	get_top_left (ie, &top, &left);
-	gdk_draw_layout (drawable, black_gc, left, top, ie->layout);
+	if (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) {
+		goc_canvas_c2w (item->canvas, item->x1, item->y0, &x0, &y0);
+		goc_canvas_c2w (item->canvas, item->x0, item->y1, &x1, &y1);
+	} else {
+		goc_canvas_c2w (item->canvas, item->x0, item->y0, &x0, &y0);
+		goc_canvas_c2w (item->canvas, item->x1, item->y1, &x1, &y1);
+	}
+
+	cairo_rectangle (cr, x0, y0, x1 - x0, y1 - y0);
+	cairo_set_source_rgba (cr, 1., 1., 0.878431373, 1.);
+	cairo_fill (cr);
+
+	color = GDK_TO_UINT (gtk_widget_get_style (GTK_WIDGET (item->canvas))->black);
+	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
+	cairo_move_to (cr, left, top);
+	layout = pango_cairo_create_layout (cr);
+	pango_layout_set_text (layout, pango_layout_get_text (ie->layout), -1);
+	pango_layout_set_attributes (layout, pango_layout_get_attributes (ie->layout));
+	pango_cairo_show_layout (cr, layout);
+	g_object_unref (layout);
 	if (ie->cursor_visible) {
 		PangoRectangle pos;
 		char const *text = gtk_entry_get_text (ie->entry);
 		int cursor_pos = gtk_editable_get_position (GTK_EDITABLE (ie->entry));
 		pango_layout_index_to_pos (ie->layout,
 			g_utf8_offset_to_pointer (text, cursor_pos) - text, &pos);
-		gdk_draw_line (drawable, black_gc,
-			left + PANGO_PIXELS (pos.x), top + PANGO_PIXELS (pos.y),
-			left + PANGO_PIXELS (pos.x), top + PANGO_PIXELS (pos.y + pos.height) - 1);
+		cairo_set_line_width (cr, 1.);
+		cairo_set_dash (cr, NULL, 0, 0.);
+		cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
+		cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
+		cairo_set_source_rgba (cr, 0., 0., 0., 1.);
+		cairo_move_to (cr, left + PANGO_PIXELS (pos.x) + .5, top + PANGO_PIXELS (pos.y));
+		cairo_line_to (cr, left + PANGO_PIXELS (pos.x) + .5, top + PANGO_PIXELS (pos.y + pos.height) - 1);
+		cairo_stroke (cr);
 	}
 }
 
 static double
-item_edit_point (FooCanvasItem *item, double c_x, double c_y, int cx, int cy,
-		 FooCanvasItem **actual_item)
+item_edit_distance (GocItem *item, double cx, double cy,
+		 GocItem **actual_item)
 {
 	*actual_item = NULL;
-	if ((cx < item->x1) || (cy < item->y1) || (cx >= item->x2) || (cy >= item->y2))
+	if ((cx < item->x0) || (cy < item->y0) || (cx >= item->x1) || (cy >= item->y1))
 		return 10000.0;
 
 	*actual_item = item;
 	return 0.0;
 }
 
-static int
-item_edit_event (FooCanvasItem *item, GdkEvent *event)
+static gboolean
+item_edit_enter_notify (GocItem *item, double x, double y)
 {
-	switch (event->type){
-	case GDK_ENTER_NOTIFY:
-		gnm_widget_set_cursor_type (GTK_WIDGET (item->canvas), GDK_XTERM);
-		return TRUE;
+	gnm_widget_set_cursor_type (GTK_WIDGET (item->canvas), GDK_XTERM);
+	return TRUE;
+}
 
-	case GDK_BUTTON_PRESS:
-		if (event->button.button == 1) {
-			ItemEdit *ie = ITEM_EDIT (item);
-			GtkEditable *ed = GTK_EDITABLE (ie->entry);
-			int x, y, target_index, trailing, top, left;
+static int
+item_edit_button_pressed (GocItem *item, int button, double x, double y)
+{
+	if (button == 1) {
+		ItemEdit *ie = ITEM_EDIT (item);
+		GtkEditable *ed = GTK_EDITABLE (ie->entry);
+		int target_index, trailing;
+		int top, left;
 
-			foo_canvas_w2c (item->canvas,
-				event->button.x, event->button.y, &x, &y);
+		get_top_left (ie, &top, &left);
+		y -= top;
+		x -= left;
 
-			get_top_left (ie, &top, &left);
-			y -= top;
-			x -= left;
+		if (pango_layout_xy_to_index (ie->layout,
+					      x * PANGO_SCALE, y * PANGO_SCALE,
+					      &target_index, &trailing)) {
+			int preedit = GNM_PANE (item->canvas)->preedit_length;
+			char const *text = pango_layout_get_text (ie->layout);
+			gint cur_index = gtk_editable_get_position (ed);
+			cur_index = g_utf8_offset_to_pointer (text, cur_index) - text;
 
-			if (pango_layout_xy_to_index (ie->layout,
-						      x * PANGO_SCALE, y * PANGO_SCALE,
-						      &target_index, &trailing)) {
-				int preedit = GNM_PANE (item->canvas)->preedit_length;
-				char const *text = pango_layout_get_text (ie->layout);
-				gint cur_index = gtk_editable_get_position (ed);
-				cur_index = g_utf8_offset_to_pointer (text, cur_index) - text;
-
-				if (target_index >= cur_index && preedit > 0) {
-					if (target_index < (cur_index + preedit)) {
-						target_index = cur_index;
-						trailing = 0;
-					} else
-						target_index -= preedit;
-				}
-				gtk_editable_set_position (GTK_EDITABLE (ie->entry),
-					g_utf8_pointer_to_offset (text, text + target_index)
-					+ trailing);
-
-				return TRUE;
+			if (target_index >= cur_index && preedit > 0) {
+				if (target_index < (cur_index + preedit)) {
+					target_index = cur_index;
+					trailing = 0;
+				} else
+					target_index -= preedit;
 			}
-		}
-		break;
+			gtk_editable_set_position (GTK_EDITABLE (ie->entry),
+				g_utf8_pointer_to_offset (text, text + target_index)
+				+ trailing);
 
-	default :
-		break;
+			return TRUE;
+		}
 	}
 	return FALSE;
 }
 
 static void
-ie_layout (FooCanvasItem *item)
+item_edit_update_bounds (GocItem *item)
 {
 	ItemEdit *ie = ITEM_EDIT (item);
-	GtkWidget const  *canvas = GTK_WIDGET (item->canvas);
-	GnmPane	 const  *pane = GNM_PANE (item->canvas);
-	ColRowInfo const *ci;
-	Sheet const	 *sheet  = scg_sheet (ie->scg);
-	GnmFont  const   *gfont = ie->gfont;
-	GnmRange const   *merged;
-	int col, tmp, width, height, col_size;
-	char const *text, *entered_text;
-	PangoAttrList	*attrs;
-	PangoAttribute  *attr;
-	int cursor_pos = gtk_editable_get_position (GTK_EDITABLE (ie->entry));
+	double scale = item->canvas->pixels_per_unit;
 
-	entered_text = gtk_entry_get_text (ie->entry);
-	text = wbcg_edit_get_display_text (scg_wbcg (ie->scg));
-	pango_layout_set_text (ie->layout, text, -1);
+	if (ie->gfont != NULL) {
+		GtkWidget const  *canvas = GTK_WIDGET (item->canvas);
+		GnmPane	 const  *pane = GNM_PANE (item->canvas);
+		ColRowInfo const *ci;
+		Sheet const	 *sheet  = scg_sheet (ie->scg);
+		GnmFont  const   *gfont = ie->gfont;
+		GnmRange const   *merged;
+		int col, tmp, width, height, col_size;
+		char const *text, *entered_text;
+		PangoAttrList	*attrs;
+		PangoAttribute  *attr;
+		int cursor_pos = gtk_editable_get_position (GTK_EDITABLE (ie->entry));
 
-	pango_layout_set_font_description (ie->layout, gfont->go.font->desc);
-	pango_layout_set_wrap (ie->layout, PANGO_WRAP_WORD_CHAR);
-	pango_layout_set_width (ie->layout, (int)(item->x2 - item->x1)*PANGO_SCALE);
+		entered_text = gtk_entry_get_text (ie->entry);
+		text = wbcg_edit_get_display_text (scg_wbcg (ie->scg));
+		pango_layout_set_text (ie->layout, text, -1);
 
-	attrs = wbcg_edit_get_markup (scg_wbcg (ie->scg), TRUE);
-	if (attrs != NULL)
-		attrs = pango_attr_list_copy (attrs);
-	else
-		attrs = gnm_style_generate_attrs_full (ie->style);
+		pango_layout_set_font_description (ie->layout, gfont->go.font->desc);
+		pango_layout_set_wrap (ie->layout, PANGO_WRAP_WORD_CHAR);
+		pango_layout_set_width (ie->layout, (int)(item->x1 - item->x0)*PANGO_SCALE);
 
-	/* reverse video the auto completion text  */
-	if (entered_text != NULL && entered_text != text) {
-		int const start = strlen (entered_text);
-		GnmColor const *color = gnm_style_get_font_color (ie->style);
-		attr = pango_attr_background_new (
-			color->gdk_color.red, color->gdk_color.green, color->gdk_color.blue);
-		attr->start_index = start;
+		attrs = wbcg_edit_get_markup (scg_wbcg (ie->scg), TRUE);
+		if (attrs != NULL)
+			attrs = pango_attr_list_copy (attrs);
+		else
+			attrs = gnm_style_generate_attrs_full (ie->style);
+
+		/* reverse video the auto completion text  */
+		if (entered_text != NULL && entered_text != text) {
+			int const start = strlen (entered_text);
+			GnmColor const *color = gnm_style_get_font_color (ie->style);
+			attr = pango_attr_background_new (
+				color->gdk_color.red, color->gdk_color.green, color->gdk_color.blue);
+			attr->start_index = start;
+			attr->end_index = G_MAXINT;
+			pango_attr_list_insert (attrs, attr);
+
+			color = gnm_style_get_back_color (ie->style);
+			attr = pango_attr_foreground_new (
+				color->gdk_color.red, color->gdk_color.green, color->gdk_color.blue);
+			attr->start_index = start;
+			attr->end_index = G_MAXINT;
+			pango_attr_list_insert (attrs, attr);
+		}
+		attr = pango_attr_scale_new (item->canvas->pixels_per_unit);
+		attr->start_index = 0;
 		attr->end_index = G_MAXINT;
-		pango_attr_list_insert (attrs, attr);
+		pango_attr_list_insert_before (attrs, attr);
 
-		color = gnm_style_get_back_color (ie->style);
-		attr = pango_attr_foreground_new (
-			color->gdk_color.red, color->gdk_color.green, color->gdk_color.blue);
-		attr->start_index = start;
-		attr->end_index = G_MAXINT;
-		pango_attr_list_insert (attrs, attr);
-	}
-	attr = pango_attr_scale_new (item->canvas->pixels_per_unit);
-	attr->start_index = 0;
-	attr->end_index = G_MAXINT;
-	pango_attr_list_insert_before (attrs, attr);
+		pango_layout_set_attributes (ie->layout, attrs);
+		pango_attr_list_unref (attrs);
 
-	pango_layout_set_attributes (ie->layout, attrs);
-	pango_attr_list_unref (attrs);
+		text = wbcg_edit_get_display_text (scg_wbcg (ie->scg));
 
-	text = wbcg_edit_get_display_text (scg_wbcg (ie->scg));
-
-	if (pane->preedit_length) {
-		PangoAttrList *tmp_attrs = pango_attr_list_new ();
-		pango_attr_list_splice (tmp_attrs, pane->preedit_attrs,
-			g_utf8_offset_to_pointer (text, cursor_pos) - text,
-			g_utf8_offset_to_pointer (text, cursor_pos + pane->preedit_length) - text);
-		pango_layout_set_attributes (ie->layout, tmp_attrs);
-		pango_attr_list_unref (tmp_attrs);
-	}
-
-	pango_layout_set_width (ie->layout, -1);
-	pango_layout_get_pixel_size (ie->layout, &width, &height);
-
-	col = ie->pos.col;
-	if (NULL == (merged = gnm_sheet_merge_is_corner (sheet, &ie->pos))) {
-		ci = sheet_col_get_info (sheet, col);
-		g_return_if_fail (ci != NULL);
-		col_size = ci->size_pixels;
-	} else
-		col_size = scg_colrow_distance_get (ie->scg, TRUE,
-			merged->start.col, merged->end.col+1);
-
-	/* both margins and the gridline */
-	col_size -= GNM_COL_MARGIN + GNM_COL_MARGIN + 1;
-
-	/* far corner based on the span size
-	 *	- margin on each end
-	 *	- the bound excludes the far point => +1 */
-	if (sheet->text_is_rtl) {
-		while (col_size < width && col >= pane->first.col) {
-			ci = sheet_col_get_info (sheet, col--);
-
-			g_return_if_fail (ci != NULL);
-
-			if (ci->visible)
-				col_size += ci->size_pixels;
+		if (pane->preedit_length) {
+			PangoAttrList *tmp_attrs = pango_attr_list_new ();
+			pango_attr_list_splice (tmp_attrs, pane->preedit_attrs,
+				g_utf8_offset_to_pointer (text, cursor_pos) - text,
+				g_utf8_offset_to_pointer (text, cursor_pos + pane->preedit_length) - text);
+			pango_layout_set_attributes (ie->layout, tmp_attrs);
+			pango_attr_list_unref (tmp_attrs);
 		}
 
-		tmp = gnm_foo_canvas_x_w2c (item->canvas, pane->first_offset.col);
-	} else {
+		pango_layout_set_width (ie->layout, -1);
+		pango_layout_get_pixel_size (ie->layout, &width, &height);
+
+		col = ie->pos.col;
+		if (NULL == (merged = gnm_sheet_merge_is_corner (sheet, &ie->pos))) {
+			ci = sheet_col_get_info (sheet, col);
+			g_return_if_fail (ci != NULL);
+			col_size = ci->size_pixels;
+		} else
+			col_size = scg_colrow_distance_get (ie->scg, TRUE,
+				merged->start.col, merged->end.col+1);
+
+		/* both margins and the gridline */
+		col_size -= GNM_COL_MARGIN + GNM_COL_MARGIN + 1;
+
+		/* far corner based on the span size
+		 *	- margin on each end
+		 *	- the bound excludes the far point => +1 */
 		if (merged != NULL)
 			col = merged->end.col;
 
@@ -291,61 +293,38 @@ ie_layout (FooCanvasItem *item)
 			if (ci->visible)
 				col_size += ci->size_pixels;
 		}
-		tmp = pane->first_offset.col + canvas->allocation.width;
-	}
-	item->x2 = item->x1 + col_size + GNM_COL_MARGIN + GNM_COL_MARGIN + 1;
+		tmp = pane->first_offset.x + canvas->allocation.width;
+		item->x1 = item->x0 + (col_size + GNM_COL_MARGIN + GNM_COL_MARGIN + 1) / scale;
 
-	if (item->x2 >= tmp) {
-		item->x2 = tmp;
-		pango_layout_set_width (ie->layout, (item->x2 - item->x1 + 1)*PANGO_SCALE);
-		pango_layout_get_pixel_size (ie->layout, &width, &height);
-	}
+		if (item->x1 >= tmp) {
+			item->x1 = tmp;
+			pango_layout_set_width (ie->layout, (item->x1 - item->x0 + 1)*PANGO_SCALE);
+			pango_layout_get_pixel_size (ie->layout, &width, &height);
+		}
 
-	tmp = scg_colrow_distance_get (ie->scg, FALSE, ie->pos.row,
-		(merged ? merged->end.row : ie->pos.row) + 1) - 2 + 1;
-	item->y2 = item->y1 + MAX (height, tmp);
-}
-
-static void
-item_edit_update (FooCanvasItem *item,  double i2w_dx, double i2w_dy, int flags)
-{
-	ItemEdit *ie = ITEM_EDIT (item);
-
-	if (parent_class->update)
-		(parent_class->update)(item, i2w_dx, i2w_dy, flags);
-
-	/* do not calculate spans until after row/col has been set */
-	if (ie->gfont != NULL) {
-		/* Redraw before and after in case the span changes */
-		foo_canvas_item_request_redraw (item);
-		ie_layout (item);
-		foo_canvas_item_request_redraw (item);
+		tmp = scg_colrow_distance_get (ie->scg, FALSE, ie->pos.row,
+			(merged ? merged->end.row : ie->pos.row) + 1) - 1;
+		item->y1 = item->y0 + (MAX (height, tmp)) / scale;
 	}
 }
 
 static void
-item_edit_realize (FooCanvasItem *item)
+item_edit_realize (GocItem *item)
 {
 	ItemEdit *ie = ITEM_EDIT (item);
 	if (parent_class->realize)
 		(parent_class->realize) (item);
 
-	ie->fill_gc = gdk_gc_new (GTK_WIDGET (item->canvas)->window);
-	if (!gnumeric_background_set_gc (ie->style, ie->fill_gc, item->canvas, FALSE))
-		gdk_gc_set_rgb_fg_color (ie->fill_gc, &gs_yellow);
-
 	ie->layout = gtk_widget_create_pango_layout (GTK_WIDGET (item->canvas), NULL);
-	pango_layout_set_alignment (ie->layout,
-		scg_sheet (ie->scg)->text_is_rtl ? PANGO_ALIGN_RIGHT : PANGO_ALIGN_LEFT);
+	if (ie->scg)
+		pango_layout_set_alignment (ie->layout,
+			scg_sheet (ie->scg)->text_is_rtl ? PANGO_ALIGN_RIGHT : PANGO_ALIGN_LEFT);
 }
 
 static void
-item_edit_unrealize (FooCanvasItem *item)
+item_edit_unrealize (GocItem *item)
 {
 	ItemEdit *ie = ITEM_EDIT (item);
-
-	g_object_unref (G_OBJECT (ie->fill_gc));
-	ie->fill_gc = NULL;
 
 	g_object_unref (G_OBJECT (ie->layout));
 	ie->layout = NULL;
@@ -357,11 +336,11 @@ item_edit_unrealize (FooCanvasItem *item)
 static int
 cb_item_edit_cursor_blink (ItemEdit *ie)
 {
-	FooCanvasItem *item = FOO_CANVAS_ITEM (ie);
+	GocItem *item = GOC_ITEM (ie);
 
 	ie->cursor_visible = !ie->cursor_visible;
-
-	foo_canvas_item_request_redraw (item);
+	
+	goc_item_invalidate (item);
 	return TRUE;
 }
 
@@ -393,21 +372,12 @@ item_edit_cursor_blink_start (ItemEdit *ie)
 static void
 item_edit_init (ItemEdit *ie)
 {
-	FooCanvasItem *item = FOO_CANVAS_ITEM (ie);
-
-	/* Apply an arbitrary size/pos for now.  Init when we get the scg */
-	item->x1 = 0;
-	item->y1 = 0;
-	item->x2 = 1;
-	item->y2 = 1;
-
 	ie->scg = NULL;
 	ie->pos.col = -1;
 	ie->pos.row = -1;
 	ie->gfont = NULL;
 	ie->style      = NULL;
 	ie->cursor_visible = TRUE;
-	ie->fill_gc = NULL;
 }
 
 static void
@@ -434,19 +404,20 @@ item_edit_dispose (GObject *gobject)
 }
 
 static int
-cb_entry_key_press (FooCanvasItem *item)
+cb_entry_key_press (GocItem *item)
 {
-	foo_canvas_item_request_update (item);
+	goc_item_bounds_changed (item);
 	return TRUE;
 }
 
 static int
-cb_entry_cursor_event (FooCanvasItem *item)
+cb_entry_cursor_event (GocItem *item)
 {
 	/* ensure we draw a cursor when moving quickly no matter what the
 	 * current state is */
 	ITEM_EDIT (item)->cursor_visible = TRUE;
-	foo_canvas_item_request_update (item);
+	goc_item_invalidate (item);
+
 	return TRUE;
 }
 
@@ -454,10 +425,11 @@ static void
 item_edit_set_property (GObject *gobject, guint param_id,
 			GValue const *value, GParamSpec *pspec)
 {
-	FooCanvasItem *item      = FOO_CANVAS_ITEM (gobject);
+	GocItem *item      = GOC_ITEM (gobject);
 	ItemEdit        *ie = ITEM_EDIT (gobject);
 	GnmPane		*pane = GNM_PANE (item->canvas);
 	SheetView const	*sv;
+	double scale = item->canvas->pixels_per_unit;
 
 	/* We can only set the sheet-control-gui once */
 	g_return_if_fail (param_id == ARG_SHEET_CONTROL_GUI);
@@ -470,10 +442,10 @@ item_edit_set_property (GObject *gobject, guint param_id,
 	ie->entry = wbcg_get_entry (scg_wbcg (ie->scg));
 	g_signal_connect_object (G_OBJECT (scg_wbcg (ie->scg)),
 		"markup-changed",
-		G_CALLBACK (foo_canvas_item_request_update), G_OBJECT (ie), G_CONNECT_SWAPPED);
+		G_CALLBACK (goc_item_invalidate), G_OBJECT (ie), G_CONNECT_SWAPPED);
 	g_signal_connect_object (G_OBJECT (gtk_widget_get_parent (GTK_WIDGET (ie->entry))),
 		"changed",
-		G_CALLBACK (foo_canvas_item_request_update), G_OBJECT (ie), G_CONNECT_SWAPPED);
+		G_CALLBACK (goc_item_bounds_changed), G_OBJECT (ie), G_CONNECT_SWAPPED);
 	g_signal_connect_object (G_OBJECT (ie->entry),
 		"key-press-event",
 		G_CALLBACK (cb_entry_key_press), G_OBJECT (ie), G_CONNECT_AFTER|G_CONNECT_SWAPPED);
@@ -494,37 +466,28 @@ item_edit_set_property (GObject *gobject, guint param_id,
 			gnm_style_set_align_h (ie->style, HALIGN_LEFT);
 
 		/* move inwards 1 pixel from the grid line */
-		item->y1 = 1 + pane->first_offset.row +
+		item->y0 = (1 + pane->first_offset.y +
 			scg_colrow_distance_get (ie->scg, FALSE,
-				pane->first.row, ie->pos.row);
-		item->x1 = 1 + pane->first_offset.col +
+				pane->first.row, ie->pos.row)) / scale;
+		item->x0 = (1 + pane->first_offset.x +
 			scg_colrow_distance_get (ie->scg, TRUE,
-				pane->first.col, ie->pos.col);
-		if (sv_sheet (sv)->text_is_rtl) {
-			GnmRange const *merged = gnm_sheet_merge_is_corner (sheet, &ie->pos);
-			int end_col = ie->pos.col;
-			if (merged != NULL)
-				end_col = merged->end.col;
+				pane->first.col, ie->pos.col)) / scale;
 
-			/* -1 to remove the above, then 2 more to move from next cell back */
-			item->x1 = 1 + gnm_foo_canvas_x_w2c (item->canvas, item->x1 +
-				scg_colrow_distance_get (ie->scg, TRUE,
-					ie->pos.col, end_col + 1) - 1);
-		}
-
-		item->x2 = item->x1 + 1;
-		item->y2 = item->y2 + 1;
+		item->x1 = item->x0 + 1 / scale;
+		item->y1 = item->y0 + 1 / scale;
 	}
 
-	item_edit_cursor_blink_start (ie);
+	if (ie->layout)
+		pango_layout_set_alignment (ie->layout,
+			scg_sheet (ie->scg)->text_is_rtl ? PANGO_ALIGN_RIGHT : PANGO_ALIGN_LEFT);
 
-	foo_canvas_item_request_update (item);
+	item_edit_cursor_blink_start (ie);
 }
 
 static void
 item_edit_class_init (GObjectClass *gobject_class)
 {
-	FooCanvasItemClass *item_class = (FooCanvasItemClass *) gobject_class;
+	GocItemClass *item_class = (GocItemClass *) gobject_class;
 
 	parent_class = g_type_class_peek_parent (gobject_class);
 
@@ -536,20 +499,21 @@ item_edit_class_init (GObjectClass *gobject_class)
 			"the sheet control gui controlling the item",
 			SHEET_CONTROL_GUI_TYPE,
 			/* resist the urge to use G_PARAM_CONSTRUCT_ONLY
-			 * We are going through foo_canvas_item_new, which
+			 * We are going through goc_item_new, which
 			 * calls g_object_new assigns the parent pointer before
 			 * setting the construction parameters */
 			 GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 
-	/* FooCanvasItem method overrides */
-	item_class->update      = item_edit_update;
-	item_class->realize     = item_edit_realize;
-	item_class->unrealize   = item_edit_unrealize;
-	item_class->draw        = item_edit_draw;
-	item_class->point       = item_edit_point;
-	item_class->event       = item_edit_event;
+	/* GocItem method overrides */
+	item_class->realize        = item_edit_realize;
+	item_class->unrealize      = item_edit_unrealize;
+	item_class->draw           = item_edit_draw;
+	item_class->distance       = item_edit_distance;
+	item_class->update_bounds  = item_edit_update_bounds;
+	item_class->button_pressed = item_edit_button_pressed;
+	item_class->enter_notify   = item_edit_enter_notify;
 }
 
 GSF_CLASS (ItemEdit, item_edit,
 	   item_edit_class_init, item_edit_init,
-	   FOO_TYPE_CANVAS_ITEM)
+	   GOC_TYPE_ITEM)

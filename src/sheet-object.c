@@ -17,13 +17,16 @@
 #include "dependent.h"
 #include "sheet-view.h"
 #include "sheet-control.h"
+#include "sheet-control-gui.h"
 #include "sheet-private.h"
 #include "dialogs.h"
 #include "sheet-object-impl.h"
 #include "expr.h"
 #include "ranges.h"
 #include "commands.h"
+#include "gui-util.h"
 
+#include "gnm-pane-impl.h"
 #include "gnm-so-line.h"
 #include "gnm-so-filled.h"
 #include "sheet-object-cell-comment.h"
@@ -36,7 +39,6 @@
 #include "gutils.h"
 
 #include <libxml/globals.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <string.h>
@@ -1077,11 +1079,11 @@ sheet_object_adjust_stacking (SheetObject *so, gint offset)
 
 	/* TODO : Move this to the container */
 	for (l = so->realized_list; l; l = l->next) {
-		FooCanvasItem *item = FOO_CANVAS_ITEM (l->data);
+		GocItem *item = GOC_ITEM (l->data);
 		if (offset > 0)
-			foo_canvas_item_raise (item, offset);
+			goc_item_raise (item, offset);
 		else
-			foo_canvas_item_lower (item, - offset);
+			goc_item_lower (item, - offset);
 	}
 	return cur - i;
 }
@@ -1092,12 +1094,12 @@ void
 sheet_object_view_set_bounds (SheetObjectView *sov,
 			      double const *coords, gboolean visible)
 {
-	SheetObjectViewIface *iface;
+	SheetObjectViewClass *klass;
 
 	g_return_if_fail (IS_SHEET_OBJECT_VIEW (sov));
-	iface = SHEET_OBJECT_VIEW_GET_CLASS (sov);
-	if (NULL != iface->set_bounds)
-		(iface->set_bounds) (sov, coords, visible);
+	klass = SHEET_OBJECT_VIEW_GET_CLASS (sov);
+	if (NULL != klass->set_bounds)
+		(klass->set_bounds) (sov, coords, visible);
 }
 
 SheetObject *
@@ -1106,33 +1108,71 @@ sheet_object_view_get_so (SheetObjectView *view)
 	return g_object_get_qdata (G_OBJECT (view), sov_so_quark);
 }
 
+static gboolean
+sheet_object_view_enter_notify (GocItem *item, double x, double y)
+{
+	SheetObject *so = (SheetObject *) g_object_get_qdata (G_OBJECT (item), sov_so_quark);
+	gnm_widget_set_cursor_type (GTK_WIDGET (item->canvas),
+		(so->flags & SHEET_OBJECT_CAN_PRESS) ? GDK_HAND2 : GDK_ARROW);
+	return FALSE;
+}
+
+static gboolean
+sheet_object_view_button_pressed (GocItem *item, int button, double x, double y)
+{
+	GnmPane *pane;
+	SheetObject *so;
+
+	if (button > 3)
+		return FALSE;
+
+	pane = GNM_PANE (item->canvas);
+	so = (SheetObject *) g_object_get_qdata (G_OBJECT (item), sov_so_quark);
+
+	x *= goc_canvas_get_pixels_per_unit (item->canvas);
+	y *= goc_canvas_get_pixels_per_unit (item->canvas);
+	/* cb_sheet_object_widget_canvas_event calls even if selected */
+	if (NULL == g_hash_table_lookup (pane->drag.ctrl_pts, so)) {
+		SheetObjectClass *soc =
+			G_TYPE_INSTANCE_GET_CLASS (so, SHEET_OBJECT_TYPE, SheetObjectClass);
+		GdkEventButton *event = (GdkEventButton *) goc_canvas_get_cur_event (item->canvas);
+
+		if (soc->interactive && button != 3)
+			return FALSE;
+
+		if (!(event->state & GDK_SHIFT_MASK))
+			scg_object_unselect (pane->simple.scg, NULL);
+		scg_object_select (pane->simple.scg, so);
+		if (NULL == g_hash_table_lookup (pane->drag.ctrl_pts, so))
+			return FALSE;	/* protected ? */
+	}
+
+	if (button < 3)
+		gnm_pane_object_start_resize (pane, button, x, y, so, 8, FALSE);
+	else
+		gnm_pane_display_object_menu (pane, so, goc_canvas_get_cur_event (item->canvas));
+	return TRUE;
+}
+
 void
 sheet_object_view_destroy (SheetObjectView *sov)
 {
-	SheetObjectViewIface *iface = SHEET_OBJECT_VIEW_GET_CLASS (sov);
-	g_return_if_fail (iface != NULL);
-	if (iface->destroy)
-		iface->destroy (sov);
+	SheetObjectViewClass *klass = SHEET_OBJECT_VIEW_GET_CLASS (sov);
+	g_return_if_fail (klass != NULL);
+	if (klass->destroy)
+		klass->destroy (sov);
 }
 
-GType
-sheet_object_view_get_type (void)
+static void
+sheet_object_view_class_init (GocItemClass *item_klass)
 {
-	static GType type = 0;
-
-	if (!type) {
-		static GTypeInfo const type_info = {
-			sizeof (SheetObjectViewIface),	/* class_size */
-			NULL,				/* base_init */
-			NULL,				/* base_finalize */
-		};
-
-		type = g_type_register_static (G_TYPE_INTERFACE,
-			"SheetObjectView", &type_info, 0);
-	}
-
-	return type;
+	item_klass->enter_notify = sheet_object_view_enter_notify;
+	item_klass->button_pressed = sheet_object_view_button_pressed;
 }
+
+GSF_CLASS (SheetObjectView, sheet_object_view,
+	   sheet_object_view_class_init, NULL,
+	   GOC_TYPE_GROUP)
 
 /*****************************************************************************/
 

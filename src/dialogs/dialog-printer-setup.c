@@ -680,9 +680,6 @@ do_setup_margin (PrinterSetupState *state)
 	g_return_if_fail (state && state->pi);
 
 	state->preview.canvas = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
-	goc_canvas_set_scroll_region (  /* is this useful? */
-		GOC_CANVAS (state->preview.canvas),
-		PREVIEW_X, PREVIEW_Y);
 	gtk_widget_set_size_request (state->preview.canvas, PREVIEW_X, PREVIEW_Y);
 	gtk_widget_show (state->preview.canvas);
 
@@ -1870,8 +1867,6 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		state->pi_footer = pi;
 
 	pi->canvas = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
-
-	goc_canvas_set_scroll_region (GOC_CANVAS (pi->canvas), width, width); /* ? */
 
  	gostyle = go_styled_object_get_style (
 		GO_STYLED_OBJECT (goc_item_new (goc_canvas_get_root (GOC_CANVAS (pi->canvas)),

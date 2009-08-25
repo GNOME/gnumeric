@@ -78,9 +78,6 @@ typedef SheetObjectClass GnmSOLineClass;
 static SheetObjectClass *gnm_so_line_parent_class;
 
 #ifdef GNM_WITH_GTK
-#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-line.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
 static void
 so_line_view_destroy (SheetObjectView *sov)
 {
@@ -89,7 +86,7 @@ so_line_view_destroy (SheetObjectView *sov)
 static void
 so_line_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
-	FooCanvasItem	*view = FOO_CANVAS_ITEM (sov);
+	GocItem	*view = GOC_ITEM (sov), *item = GOC_ITEM (GOC_GROUP (view)->children->data);
 	SheetObject	*so = sheet_object_view_get_so (sov);
 	GOStyleLine const *style = &GNM_SO_LINE (so)->style->line;
 
@@ -97,30 +94,29 @@ so_line_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vi
 
 	if (visible &&
 	    style->color != 0 && style->width >= 0 && style->dash_type != GO_LINE_NONE) {
-		FooCanvasPoints *points = foo_canvas_points_new (2);
-		points->coords[0] = coords[0];
-		points->coords[1] = coords[1];
-		points->coords[2] = coords[2];
-		points->coords[3] = coords[3];
-		foo_canvas_item_set (view, "points", points, NULL);
-		foo_canvas_points_free (points);
-		foo_canvas_item_show (view);
+		goc_item_set (item,
+		              "x0", coords[0],
+		              "y0", coords[1],
+		              "x1", coords[2],
+		              "y1", coords[3],
+		              NULL);
+		goc_item_show (view);
 	} else
-		foo_canvas_item_hide (view);
+		goc_item_hide (view);
 }
 
 static void
-so_line_foo_view_init (SheetObjectViewIface *sov_iface)
+so_line_goc_view_class_init (SheetObjectViewClass *sov_klass)
 {
-	sov_iface->destroy	= so_line_view_destroy;
-	sov_iface->set_bounds	= so_line_view_set_bounds;
+	sov_klass->destroy	= so_line_view_destroy;
+	sov_klass->set_bounds	= so_line_view_set_bounds;
 }
-typedef FooCanvasLine		LineFooView;
-typedef FooCanvasLineClass	LineFooViewClass;
-static GSF_CLASS_FULL (LineFooView, so_line_foo_view,
-	NULL, NULL, NULL, NULL,
-	NULL, FOO_TYPE_CANVAS_LINE, 0,
-	GSF_INTERFACE (so_line_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
+typedef SheetObjectView		LineGocView;
+typedef SheetObjectViewClass	LineGocViewClass;
+static GSF_CLASS (LineGocView, so_line_goc_view,
+	so_line_goc_view_class_init, NULL,
+	SHEET_OBJECT_VIEW_TYPE)
+
 #endif /* GNM_WITH_GTK */
 enum {
 	SOL_PROP_0,
@@ -158,28 +154,14 @@ gnm_so_line_user_config (SheetObject *so, SheetControl *sc)
 static void
 cb_gnm_so_line_changed (GnmSOLine const *sol,
 			G_GNUC_UNUSED GParamSpec *pspec,
-			FooCanvasItem *item)
+			GocItem *item)
 {
-	GOStyleLine const *style = &sol->style->line;
-	GdkColor buf, *gdk = NULL;
-
-	if (style->color != 0 && style->width >= 0 && style->dash_type != GO_LINE_NONE)
-		gdk = go_color_to_gdk (style->color, &buf);
-
-	if (style->width > 0.)	/* in pts */
-		foo_canvas_item_set (item,
-			"width_units",		style->width,
-			"fill_color_gdk",	gdk,
-			NULL);
-	else /* hairline 1 pixel that ignores zoom */
-		foo_canvas_item_set (item,
-			"width_pixels",		1,
-			"fill_color_gdk",	gdk,
-			NULL);
-	foo_canvas_item_set (item,
-		"arrow_shape_a",	sol->end_arrow.a,
-		"arrow_shape_b",	sol->end_arrow.b,
-		"arrow_shape_c",	sol->end_arrow.c,
+	item = GOC_ITEM (GOC_GROUP (item)->children->data);
+	goc_item_set (item,
+	        "style",		sol->style,
+		"arrow-shape-a",	sol->end_arrow.a,
+		"arrow-shape-b",	sol->end_arrow.b,
+		"arrow-shape-c",	sol->end_arrow.c,
 		NULL);
 }
 
@@ -187,10 +169,13 @@ static SheetObjectView *
 gnm_so_line_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
 	GnmSOLine const *sol = GNM_SO_LINE (so);
-	FooCanvasItem *item = foo_canvas_item_new (
+	GocItem *item = goc_item_new (
 		gnm_pane_object_group (GNM_PANE (container)),
-		so_line_foo_view_get_type (),
-		"last_arrowhead",	(sol->end_arrow.a != 0.),
+		so_line_goc_view_get_type (),
+		NULL);
+	goc_item_new (GOC_GROUP (item),
+		GOC_TYPE_LINE,
+		"arrowhead",	(sol->end_arrow.a != 0.),
 		NULL);
 	cb_gnm_so_line_changed (sol, NULL, item);
 	g_signal_connect_object (G_OBJECT (sol),

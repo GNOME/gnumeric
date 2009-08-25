@@ -1,7 +1,7 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
- * gnm-cell-combo-foo-view.c: A foocanvas object for an in-cell combo-box
+ * gnm-cell-combo-view.c: A canvas object for an in-cell combo-box
  *
  * Copyright (C) 2006-2007 Jody Goldberg (jody@gnome.org)
  *
@@ -21,19 +21,19 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnm-cell-combo-foo-view.h"
-#include "gnm-cell-combo-foo-view-impl.h"
+#include "gnm-cell-combo-view.h"
+#include "gnm-cell-combo-view-impl.h"
 
 #include "wbc-gtk.h"
 #include "sheet.h"
 #include "sheet-control-gui.h"
 #include "gnm-pane-impl.h"
-#include "sheet-object-impl.h"
 
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-widget.h>
+#include <goffice/goffice.h>
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
+#include <gsf/gsf-impl-utils.h>
 
 #define	SOV_ID		"sov"
 #define	AUTOSCROLL_ID	"autoscroll-id"
@@ -42,21 +42,21 @@
 static void ccombo_popup_destroy (GtkWidget *popup, GtkWidget *list);
 
 static GtkWidget *
-ccombo_create_arrow (GnmCComboFooView *ccombo, SheetObject *so)
+ccombo_create_arrow (GnmCComboView *ccombo, SheetObject *so)
 {
-	GnmCComboFooViewIface *iface = GNM_CCOMBO_FOO_VIEW_GET_CLASS (ccombo);
-	return (iface->create_arrow) (so);
+	GnmCComboViewClass *klass = GNM_CCOMBO_VIEW_GET_CLASS (ccombo);
+	return (klass->create_arrow) (so);
 }
 
 static gboolean
 ccombo_activate (GtkWidget *popup, GtkTreeView *list)
 {
 	SheetObjectView		*sov    = g_object_get_data (G_OBJECT (list), SOV_ID);
-	FooCanvasItem		*view   = FOO_CANVAS_ITEM (sov);
+	GocItem			*view   = GOC_ITEM (sov);
 	GnmPane			*pane   = GNM_PANE (view->canvas);
-	GnmCComboFooViewIface	*iface  = GNM_CCOMBO_FOO_VIEW_GET_CLASS (sov);
+	GnmCComboViewClass	*klass  = GNM_CCOMBO_VIEW_GET_CLASS (sov);
 
-	if ((iface->activate) (sheet_object_view_get_so (sov), popup, list,
+	if ((klass->activate) (sheet_object_view_get_so (sov), popup, list,
 			      scg_wbcg (pane->simple.scg)))
 	{
 		ccombo_popup_destroy (popup, GTK_WIDGET (list));
@@ -66,11 +66,11 @@ ccombo_activate (GtkWidget *popup, GtkTreeView *list)
 }
 
 static GtkWidget *
-ccombo_create_list (GnmCComboFooView *ccombo,
+ccombo_create_list (GnmCComboView *ccombo,
 		    SheetObject *so, GtkTreePath **clip, GtkTreePath **select)
 {
-	GnmCComboFooViewIface *iface = GNM_CCOMBO_FOO_VIEW_GET_CLASS (ccombo);
-	return (iface->create_list) (so, clip, select);
+	GnmCComboViewClass *klass = GNM_CCOMBO_VIEW_GET_CLASS (ccombo);
+	return (klass->create_list) (so, clip, select);
 }
 
 /****************************************************************************/
@@ -253,20 +253,20 @@ static void
 cb_ccombo_button_pressed (G_GNUC_UNUSED GtkButton *button,
 			  SheetObjectView *sov)
 {
-	gnm_cell_combo_foo_view_popdown (sov, GDK_CURRENT_TIME);
+	gnm_cell_combo_view_popdown (sov, GDK_CURRENT_TIME);
 }
 
 /**
- * gnm_cell_combo_foo_view_popdown:
+ * gnm_cell_combo_view_popdown:
  * @sov : #SheetObjectView
  * @activate_time : event time
  *
  * Open the popup window associated with @sov
  **/
 void
-gnm_cell_combo_foo_view_popdown (SheetObjectView *sov, guint32 activate_time)
+gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 {
-	FooCanvasItem	   *view   = FOO_CANVAS_ITEM (sov);
+	GocItem		   *view   = GOC_ITEM (sov);
 	GnmPane		   *pane   = GNM_PANE (view->canvas);
 	SheetControlGUI	   *scg    = pane->simple.scg;
 	SheetObject	   *so     = sheet_object_view_get_so (sov);
@@ -286,7 +286,7 @@ gnm_cell_combo_foo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 	gtk_window_set_screen (GTK_WINDOW (popup),
 		gtk_widget_get_screen (GTK_WIDGET (toplevel)));
 
-	list = ccombo_create_list (GNM_CCOMBO_FOO_VIEW (sov), so, &clip, &select);
+	list = ccombo_create_list (GNM_CCOMBO_VIEW (sov), so, &clip, &select);
 
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (list), FALSE);
 	gtk_widget_size_request (GTK_WIDGET (list), &req);
@@ -381,7 +381,7 @@ gnm_cell_combo_foo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 }
 
 /**
- * gnm_cell_combo_foo_view_new:
+ * gnm_cell_combo_view_new:
  * @so : #SheetObject
  * @type : #GType
  * @container : SheetObjectViewContainer (a GnmPane)
@@ -389,19 +389,19 @@ gnm_cell_combo_foo_view_popdown (SheetObjectView *sov, guint32 activate_time)
  * Create and register an in cell combo to pick from an autofilter list.
  **/
 SheetObjectView *
-gnm_cell_combo_foo_view_new (SheetObject *so, GType type,
+gnm_cell_combo_view_new (SheetObject *so, GType type,
 			     SheetObjectViewContainer *container)
 {
 	GnmPane *pane = GNM_PANE (container);
 	GtkWidget *view_widget = gtk_button_new ();
-	FooCanvasItem *ccombo = foo_canvas_item_new (pane->object_views, type,
+	GocItem *ccombo = goc_item_new (pane->object_views, type, NULL);
+	goc_item_new (GOC_GROUP (ccombo), GOC_TYPE_WIDGET,
 		"widget",	view_widget,
-		"size_pixels",	FALSE,
 		NULL);
 	GTK_WIDGET_UNSET_FLAGS (view_widget, GTK_CAN_FOCUS);
 
 	gtk_container_add (GTK_CONTAINER (view_widget),
-		ccombo_create_arrow (GNM_CCOMBO_FOO_VIEW (ccombo), so));
+		ccombo_create_arrow (GNM_CCOMBO_VIEW (ccombo), so));
 	g_signal_connect (view_widget, "pressed",
 		G_CALLBACK (cb_ccombo_button_pressed), ccombo);
 	gtk_widget_show_all (view_widget);
@@ -409,21 +409,12 @@ gnm_cell_combo_foo_view_new (SheetObject *so, GType type,
 	return gnm_pane_object_register (so, ccombo, FALSE);
 }
 
-GType
-gnm_ccombo_foo_view_get_type (void)
+static void
+gnm_cell_combo_view_init (SheetObjectView *view)
 {
-	static GType type = 0;
-
-	if (!type) {
-		static GTypeInfo const type_info = {
-			sizeof (GnmCComboFooViewIface),	/* class_size */
-			NULL,				/* base_init */
-			NULL,				/* base_finalize */
-		};
-
-		type = g_type_register_static (G_TYPE_INTERFACE,
-			"GnmCComboFooView", &type_info, 0);
-	}
-
-	return type;
+	view->resize_mode = GNM_SO_RESIZE_AUTO;
 }
+
+GSF_CLASS (GnmCComboView, gnm_ccombo_view,
+	   NULL, gnm_cell_combo_view_init,
+	   SHEET_OBJECT_VIEW_TYPE)

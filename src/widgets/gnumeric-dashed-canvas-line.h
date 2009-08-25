@@ -2,7 +2,7 @@
 #define GNUMERIC_DASHED_CANVAS_LINE_H
 
 /* dashed Line item for the canvas */
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-line.h>
+#include <goffice/goffice.h>
 #include "style-border.h"
 
 #define GNUMERIC_TYPE_DASHED_CANVAS_LINE\
@@ -18,20 +18,16 @@
 
 
 typedef struct _GnumericDashedCanvasLine GnumericDashedCanvasLine;
-typedef struct _GnumericDashedCanvasLineClass GnumericDashedCanvasLineClass;
+typedef struct {
+	GocLineClass base;
+	void (*real_draw) (GocItem const *item, cairo_t *cr);
+} GnumericDashedCanvasLineClass;
 
 struct _GnumericDashedCanvasLine {
-	FooCanvasLine line;
+	GocLine line;
 
 	/* Public : */
 	GnmStyleBorderType dash_style_index;
-};
-
-struct _GnumericDashedCanvasLineClass {
-	FooCanvasLineClass parent_class;
-	void (*real_draw)(FooCanvasItem *item,
-			  GdkDrawable *drawable,
-			  GdkEventExpose *event);
 };
 
 void    gnumeric_dashed_canvas_line_set_dash_index (GnumericDashedCanvasLine *line,

@@ -33,17 +33,13 @@
 #include "cmd-edit.h"
 #include "clipboard.h"
 #include "sheet-filter-combo.h"
-#include "widgets/gnm-cell-combo-foo-view.h"
-#include "item-acetate.h"
+#include "widgets/gnm-cell-combo-view.h"
 #include "item-bar.h"
 #include "item-cursor.h"
 #include "item-edit.h"
 #include "item-grid.h"
 #include "gnumeric-gconf.h"
 
-#include <goffice/goffice.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-line.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <gtk/gtk.h>
@@ -53,8 +49,8 @@
 
 #define SCROLL_LOCK_MASK GDK_MOD5_MASK
 
-typedef FooCanvasClass GnmPaneClass;
-static FooCanvasClass *parent_klass;
+typedef GocCanvasClass GnmPaneClass;
+static GocCanvasClass *parent_klass;
 
 static void cb_pane_popup_menu (GnmPane *pane);
 static void gnm_pane_clear_obj_size_tip (GnmPane *pane);
@@ -95,7 +91,7 @@ gnm_pane_object_key_press (GnmPane *pane, GdkEventKey *ev)
 	gboolean const control	= 0 != (ev->state & GDK_CONTROL_MASK);
 	gboolean const alt	= 0 != (ev->state & GDK_MOD1_MASK);
 	gboolean const symmetric = control && alt;
-	double   const delta = 1.0 / FOO_CANVAS (pane)->pixels_per_unit;
+	double   const delta = 1.0 / GOC_CANVAS (pane)->pixels_per_unit;
 
 	switch (ev->keyval) {
 	case GDK_Escape:
@@ -261,7 +257,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 			if (NULL != so) {
 				SheetObjectView	*sov = sheet_object_get_view (so,
 					(SheetObjectViewContainer *)pane);
-				gnm_cell_combo_foo_view_popdown (sov, event->time);
+				gnm_cell_combo_view_popdown (sov, event->time);
 				break;
 			}
 		}
@@ -363,7 +359,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 			wbcg_auto_complete_destroy (wbcg);
 			SCG_FOREACH_PANE (scg, pane, {
 				if (pane->editor)
-					foo_canvas_item_request_update (FOO_CANVAS_ITEM (pane->editor));
+					goc_item_invalidate (GOC_ITEM (pane->editor));
 			});
 			return TRUE;
 		}
@@ -824,7 +820,7 @@ cb_ctrl_pts_free (GtkObject **ctrl_pts)
 	int i = 10;
 	while (i-- > 0)
 		if (ctrl_pts [i] != NULL)
-			gtk_object_destroy (ctrl_pts [i]);
+			g_object_unref (ctrl_pts [i]);
 	g_free (ctrl_pts);
 }
 
@@ -888,20 +884,17 @@ gnm_pane_dispose (GObject *obj)
 static void
 gnm_pane_init (GnmPane *pane)
 {
-	FooCanvas	*canvas = FOO_CANVAS (pane);
-	FooCanvasGroup	*root_group = FOO_CANVAS_GROUP (canvas->root);
+	GocCanvas	*canvas = GOC_CANVAS (pane);
+	GocGroup	*root_group = goc_canvas_get_root (canvas);
 
-	pane->grid_items   = FOO_CANVAS_GROUP (
-		foo_canvas_item_new (root_group, FOO_TYPE_CANVAS_GROUP, NULL));
-	pane->object_views = FOO_CANVAS_GROUP (
-		foo_canvas_item_new (root_group, FOO_TYPE_CANVAS_GROUP, NULL));
-	pane->action_items = FOO_CANVAS_GROUP (
-		foo_canvas_item_new (root_group, FOO_TYPE_CANVAS_GROUP, NULL));
+	pane->grid_items   = goc_group_new (root_group);
+	pane->object_views = goc_group_new (root_group);
+	pane->action_items = goc_group_new (root_group);
 
 	pane->first.col = pane->last_full.col = pane->last_visible.col = 0;
 	pane->first.row = pane->last_full.row = pane->last_visible.row = 0;
-	pane->first_offset.col = 0;
-	pane->first_offset.row = 0;
+	pane->first_offset.x = 0;
+	pane->first_offset.y = 0;
 
 	pane->editor = NULL;
 	pane->mouse_cursor = NULL;
@@ -976,22 +969,21 @@ static void
 gnm_pane_header_init (GnmPane *pane, SheetControlGUI *scg,
 		      gboolean is_col_header)
 {
-	Sheet *sheet;
+	Sheet *sheet = scg_sheet (scg);
 	GtkWidget *alignment;
-	FooCanvas *canvas = gnm_simple_canvas_new (scg);
-	FooCanvasGroup *group = FOO_CANVAS_GROUP (canvas->root);
-	FooCanvasItem *item = foo_canvas_item_new (group,
+	GocCanvas *canvas = gnm_simple_canvas_new (scg);
+	GocGroup *group = goc_canvas_get_root (canvas);
+	GocItem *item = goc_item_new (group,
 		item_bar_get_type (),
 		"pane",	pane,
 		"IsColHeader", is_col_header,
 		NULL);
 
-	foo_canvas_set_center_scroll_region (canvas, FALSE);
 	/* give a non-constraining default in case something scrolls before we
 	 * are realized */
-	foo_canvas_set_scroll_region (canvas,
-		0, 0, GNM_PANE_MAX_X, GNM_PANE_MAX_Y);
 	if (is_col_header) {
+		if (sheet && sheet->text_is_rtl)
+			goc_canvas_set_direction (canvas, GOC_DIRECTION_RTL);
 		pane->col.canvas = canvas;
 		pane->col.item = ITEM_BAR (item);
 		alignment = pane->col.alignment = gtk_alignment_new (0, 1, 1, 0);
@@ -1007,9 +999,9 @@ gnm_pane_header_init (GnmPane *pane, SheetControlGUI *scg,
 	pane->size_guide.guide  = NULL;
 
 	if (NULL != scg &&
-	    NULL != (sheet = scg_sheet (scg)) &&
+	    NULL != sheet &&
 	    fabs (1. - sheet->last_zoom_factor_used) > 1e-6)
-		foo_canvas_set_pixels_per_unit (canvas, sheet->last_zoom_factor_used);
+		goc_canvas_set_pixels_per_unit (canvas, sheet->last_zoom_factor_used);
 
 	g_signal_connect (G_OBJECT (canvas), "realize",
 		G_CALLBACK (cb_gnm_pane_header_realized), NULL);
@@ -1030,7 +1022,7 @@ cb_pane_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 	}
 #endif
 
-	gnm_pane_window_to_coord (pane, x, y, &wx, &wy);
+	goc_canvas_w2c (GOC_CANVAS (pane), x, y, &wx, &wy);
 	scg_drag_data_received (pane->simple.scg,
 		gtk_drag_get_source_widget (context),
 		wx, wy, selection_data);
@@ -1067,7 +1059,7 @@ cb_pane_drag_motion (GtkWidget *widget, GdkDragContext *context,
 
 		g_object_set_data (&context->parent_instance,
 			"wbcg", scg_wbcg (scg));
-		gnm_pane_window_to_coord (pane, x, y, &wx, &wy);
+		goc_canvas_w2c (GOC_CANVAS (pane), x, y, &wx, &wy);
 
 		gdk_window_get_pointer (gtk_widget_get_parent_window (source_widget),
 			NULL, NULL, &mask);
@@ -1084,12 +1076,17 @@ static void
 cb_pane_drag_end (GtkWidget *widget, GdkDragContext *context,
 		  GnmPane *source_pane)
 {
+	/* ungrab any grabbed item */
+	GocItem *item = goc_canvas_get_grabbed_item (GOC_CANVAS (source_pane));
+	if (item)
+		goc_item_ungrab (item);
 	/* sync the ctrl-pts with the object in case the drag was canceled. */
 	gnm_pane_objects_drag (source_pane, NULL,
 		source_pane->drag.origin_x,
 		source_pane->drag.origin_y,
 		8, FALSE, FALSE);
 	source_pane->drag.had_motion = FALSE;
+	source_pane->drag.button = 0;
 }
 
 /**
@@ -1146,9 +1143,9 @@ GnmPane *
 gnm_pane_new (SheetControlGUI *scg,
 	      gboolean col_headers, gboolean row_headers, int index)
 {
-	FooCanvasItem	*item;
-	GnmPane		*pane;
-	Sheet *sheet;
+	GocItem	*item;
+	GnmPane	*pane;
+	Sheet   *sheet;
 
 	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
 
@@ -1158,18 +1155,18 @@ gnm_pane_new (SheetControlGUI *scg,
 
 	if (NULL != (sheet = scg_sheet (scg)) &&
 	    fabs (1. - sheet->last_zoom_factor_used) > 1e-6)
-		foo_canvas_set_pixels_per_unit (FOO_CANVAS (pane),
+		goc_canvas_set_pixels_per_unit (GOC_CANVAS (pane),
 			sheet->last_zoom_factor_used);
 
 	gnm_pane_drag_dest_init (pane, scg);
 
-	item = foo_canvas_item_new (pane->grid_items,
+	item = goc_item_new (pane->grid_items,
 		item_grid_get_type (),
 		"SheetControlGUI", scg,
 		NULL);
 	pane->grid = ITEM_GRID (item);
 
-	item = foo_canvas_item_new (pane->grid_items,
+	item = goc_item_new (pane->grid_items,
 		item_cursor_get_type (),
 		"SheetControlGUI", scg,
 		NULL);
@@ -1182,11 +1179,6 @@ gnm_pane_new (SheetControlGUI *scg,
 		gnm_pane_header_init (pane, scg, FALSE);
 	else
 		pane->row.canvas = NULL;
-
-	/* FIXME: figure out some real size for the canvas scrolling region */
-	foo_canvas_set_center_scroll_region (FOO_CANVAS (pane), FALSE);
-	foo_canvas_set_scroll_region (FOO_CANVAS (pane), 0, 0,
-		GNM_PANE_MAX_X, GNM_PANE_MAX_Y);
 
 	g_signal_connect_swapped (pane, "popup-menu",
 		G_CALLBACK (cb_pane_popup_menu), pane);
@@ -1205,13 +1197,11 @@ gnm_pane_new (SheetControlGUI *scg,
  * Returns the column containing canvas coord @x
  **/
 int
-gnm_pane_find_col (GnmPane const *pane, int x, int *col_origin)
+gnm_pane_find_col (GnmPane const *pane, gint64 x, gint64 *col_origin)
 {
 	Sheet const *sheet = scg_sheet (pane->simple.scg);
 	int col   = pane->first.col;
-	int pixel = pane->first_offset.col;
-
-	x = gnm_pane_x_w2c (pane, x);
+	gint64 pixel = pane->first_offset.x;
 
 	if (x < pixel) {
 		while (col > 0) {
@@ -1220,14 +1210,13 @@ gnm_pane_find_col (GnmPane const *pane, int x, int *col_origin)
 				pixel -= ci->size_pixels;
 				if (x >= pixel) {
 					if (col_origin)
-						*col_origin = gnm_pane_x_w2c (pane,
-									      pixel);
+						*col_origin = pixel;
 					return col;
 				}
 			}
 		}
 		if (col_origin)
-			*col_origin = gnm_pane_x_w2c (pane, 0);
+			*col_origin = 0;
 		return 0;
 	}
 
@@ -1237,7 +1226,7 @@ gnm_pane_find_col (GnmPane const *pane, int x, int *col_origin)
 			int const tmp = ci->size_pixels;
 			if (x <= pixel + tmp) {
 				if (col_origin)
-					*col_origin = gnm_pane_x_w2c (pane, pixel);
+					*col_origin = pixel;
 				return col;
 			}
 			pixel += tmp;
@@ -1245,7 +1234,7 @@ gnm_pane_find_col (GnmPane const *pane, int x, int *col_origin)
 	} while (++col < gnm_sheet_get_last_col (sheet));
 
 	if (col_origin)
-		*col_origin = gnm_pane_x_w2c (pane, pixel);
+		*col_origin = pixel;
 	return gnm_sheet_get_last_col (sheet);
 }
 
@@ -1258,11 +1247,11 @@ gnm_pane_find_col (GnmPane const *pane, int x, int *col_origin)
  * Returns the column containing canvas coord @y
  **/
 int
-gnm_pane_find_row (GnmPane const *pane, int y, int *row_origin)
+gnm_pane_find_row (GnmPane const *pane, gint64 y, gint64 *row_origin)
 {
 	Sheet const *sheet = scg_sheet (pane->simple.scg);
 	int row   = pane->first.row;
-	int pixel = pane->first_offset.row;
+	gint64 pixel = pane->first_offset.y;
 
 	if (y < pixel) {
 		while (row > 0) {
@@ -1312,8 +1301,9 @@ gnm_pane_compute_visible_region (GnmPane *pane,
 {
 	SheetControlGUI const * const scg = pane->simple.scg;
 	Sheet const *sheet = scg_sheet (scg);
-	FooCanvas   *canvas = FOO_CANVAS (pane);
-	int pixels, col, row, width, height;
+	GocCanvas   *canvas = GOC_CANVAS (pane);
+	gint64 pixels;
+	int col, row, width, height;
 
 #if 0
 	g_warning ("compute_vis(W)[%d] = %d", pane->index,
@@ -1322,22 +1312,19 @@ gnm_pane_compute_visible_region (GnmPane *pane,
 
 	/* When col/row sizes change we need to do a full recompute */
 	if (full_recompute) {
-		int col_offset = pane->first_offset.col = scg_colrow_distance_get (scg,
+		gint64 col_offset = pane->first_offset.x = scg_colrow_distance_get (scg,
 										   TRUE, 0, pane->first.col);
-		if (sheet->text_is_rtl)
-			col_offset = gnm_pane_x_w2c (pane,
-						     pane->first_offset.col + GTK_WIDGET (pane)->allocation.width - 1);
 		if (NULL != pane->col.canvas)
-			foo_canvas_scroll_to (pane->col.canvas, col_offset, 0);
+			goc_canvas_scroll_to (pane->col.canvas, col_offset / canvas->pixels_per_unit, 0);
 
-		pane->first_offset.row = scg_colrow_distance_get (scg,
+		pane->first_offset.y = scg_colrow_distance_get (scg,
 								  FALSE, 0, pane->first.row);
 		if (NULL != pane->row.canvas)
-			foo_canvas_scroll_to (pane->row.canvas,
-					      0, pane->first_offset.row);
+			goc_canvas_scroll_to (pane->row.canvas,
+					      0, pane->first_offset.y / canvas->pixels_per_unit);
 
-		foo_canvas_scroll_to (FOO_CANVAS (pane),
-				      col_offset, pane->first_offset.row);
+		goc_canvas_scroll_to (GOC_CANVAS (pane),
+				      col_offset, pane->first_offset.y / canvas->pixels_per_unit);
 	}
 
 	/* Find out the last visible col and the last full visible column */
@@ -1417,9 +1404,10 @@ void
 gnm_pane_redraw_range (GnmPane *pane, GnmRange const *r)
 {
 	SheetControlGUI *scg;
-	int x1, y1, x2, y2;
+	gint64 x1, y1, x2, y2;
 	GnmRange tmp;
 	Sheet *sheet;
+	double scale = goc_canvas_get_pixels_per_unit (GOC_CANVAS (pane));
 
 	g_return_if_fail (IS_GNM_PANE (pane));
 
@@ -1442,29 +1430,24 @@ gnm_pane_redraw_range (GnmPane *pane, GnmRange const *r)
 	 * NOTE the 2nd coordinates are excluded so add 1 extra (+2border +1include)
 	 */
 	x1 = scg_colrow_distance_get (scg, TRUE, pane->first.col, tmp.start.col) +
-		pane->first_offset.col;
+		pane->first_offset.x;
 	y1 = scg_colrow_distance_get (scg, FALSE, pane->first.row, tmp.start.row) +
-		pane->first_offset.row;
+		pane->first_offset.y;
 	x2 = (tmp.end.col < gnm_sheet_get_last_col (sheet))
 		? 4 + 1 + x1 + scg_colrow_distance_get (scg, TRUE,
 							tmp.start.col, tmp.end.col+1)
-		: INT_MAX;
+		: G_MAXINT64;
 	y2 = (tmp.end.row < gnm_sheet_get_last_row (sheet))
 		? 4 + 1 + y1 + scg_colrow_distance_get (scg, FALSE,
 							tmp.start.row, tmp.end.row+1)
-		: INT_MAX;
+		: G_MAXINT64;
 
 #if 0
 	g_printerr ("%s%s:", col_name (min_col), row_name (first_row));
 	g_printerr ("%s%s\n", col_name (max_col), row_name (last_row));
 #endif
 
-	if (sheet->text_is_rtl)  {
-		int tmp = gnm_pane_x_w2c (pane, x1);
-		x1 = gnm_pane_x_w2c (pane, x2);
-		x2 = tmp;
-	}
-	foo_canvas_request_redraw (&pane->simple.canvas, x1-2, y1-2, x2, y2);
+	goc_canvas_invalidate (&pane->simple.canvas, (x1-2) / scale, (y1-2) / scale, x2 / scale, y2 / scale);
 }
 
 /*****************************************************************************/
@@ -1515,7 +1498,6 @@ cb_pane_sliding (GnmPane *pane)
 	gboolean slide_x = FALSE, slide_y = FALSE;
 	int col = -1, row = -1;
 	Sheet *sheet = scg_sheet (pane->simple.scg);
-	gboolean text_is_rtl = sheet->text_is_rtl;
 	GnmPaneSlideInfo info;
 
 #if 0
@@ -1528,11 +1510,10 @@ cb_pane_sliding (GnmPane *pane)
 		if (pane_index == 1 || pane_index == 2) {
 			if (!pane->sliding_adjacent_h) {
 				int width = GTK_WIDGET (pane)->allocation.width;
-				int x = pane->first_offset.col + width + pane->sliding_dx;
+				int x = pane->first_offset.x + width + pane->sliding_dx;
 
 				/* in case pane is narrow */
-				col = gnm_pane_find_col (pane, text_is_rtl
-							 ? -(x + pane->simple.canvas.scroll_x1 * pane->simple.canvas.pixels_per_unit) : x, NULL);
+				col = gnm_pane_find_col (pane, x, NULL);
 				if (col > pane0->last_full.col) {
 					pane->sliding_adjacent_h = TRUE;
 					pane->sliding_dx = 1; /* good enough */
@@ -1560,9 +1541,8 @@ cb_pane_sliding (GnmPane *pane)
 				int width = GTK_WIDGET (pane1)->allocation.width;
 				if (pane->sliding_dx > (-width) &&
 				    col <= pane1->last_visible.col) {
-					int x = pane1->first_offset.col + width + pane->sliding_dx;
-					col = gnm_pane_find_col (pane, text_is_rtl
-								 ? -(x + pane->simple.canvas.scroll_x1 * pane->simple.canvas.pixels_per_unit) : x, NULL);
+					int x = pane1->first_offset.x + width + pane->sliding_dx;
+					col = gnm_pane_find_col (pane, x, NULL);
 					slide_x = FALSE;
 				}
 			}
@@ -1584,7 +1564,7 @@ cb_pane_sliding (GnmPane *pane)
 		if (pane_index == 3 || pane_index == 2) {
 			if (!pane->sliding_adjacent_v) {
 				int height = GTK_WIDGET (pane)->allocation.height;
-				int y = pane->first_offset.row + height + pane->sliding_dy;
+				int y = pane->first_offset.y + height + pane->sliding_dy;
 
 				/* in case pane is short */
 				row = gnm_pane_find_row (pane, y, NULL);
@@ -1615,7 +1595,7 @@ cb_pane_sliding (GnmPane *pane)
 				int height = GTK_WIDGET (pane3)->allocation.height;
 				if (pane->sliding_dy > (-height) &&
 				    row <= pane3->last_visible.row) {
-					int y = pane3->first_offset.row + height + pane->sliding_dy;
+					int y = pane3->first_offset.y + height + pane->sliding_dy;
 					row = gnm_pane_find_row (pane3, y, NULL);
 					slide_y = FALSE;
 				}
@@ -1637,9 +1617,7 @@ cb_pane_sliding (GnmPane *pane)
 	}
 
 	if (col < 0) {
-		col = gnm_pane_find_col (pane, text_is_rtl
-					 ? -(pane->sliding_x + pane->simple.canvas.scroll_x1 * pane->simple.canvas.pixels_per_unit)
-					 : pane->sliding_x, NULL);
+		col = gnm_pane_find_col (pane, pane->sliding_x, NULL);
 	} else if (row < 0)
 		row = gnm_pane_find_row (pane, pane->sliding_y, NULL);
 
@@ -1663,7 +1641,6 @@ cb_pane_sliding (GnmPane *pane)
  * gnm_pane_handle_motion :
  * @pane	 : The GnmPane managing the scroll
  * @canvas	 : The Canvas the event comes from
- * @event	 : The motion event (in world coords, with rtl inversion)
  * @slide_flags	 :
  * @slide_handler: The handler when sliding
  * @user_data	 : closure data
@@ -1675,50 +1652,22 @@ cb_pane_sliding (GnmPane *pane)
  **/
 gboolean
 gnm_pane_handle_motion (GnmPane *pane,
-			FooCanvas *canvas, GdkEventMotion *event,
+			GocCanvas *canvas, gint64 x, gint64 y,
 			GnmPaneSlideFlags slide_flags,
 			GnmPaneSlideHandler slide_handler,
 			gpointer user_data)
 {
 	GnmPane *pane0, *pane1, *pane3;
-	int pindex, left, top, x, y, width, height;
-	int dx = 0, dy = 0;
-	gboolean text_is_rtl;
+	int pindex, width, height;
+	gint64 dx = 0, dy = 0, left, top;
 
 	g_return_val_if_fail (IS_GNM_PANE (pane), FALSE);
-	g_return_val_if_fail (FOO_IS_CANVAS (canvas), FALSE);
-	g_return_val_if_fail (event != NULL, FALSE);
+	g_return_val_if_fail (GOC_IS_CANVAS (canvas), FALSE);
 	g_return_val_if_fail (slide_handler != NULL, FALSE);
 
-	text_is_rtl = scg_sheet (pane->simple.scg)->text_is_rtl;
-
-	/* NOTE : work around a bug in gtk's use of X.
-	 * When dragging past the right edge of the sheet in rtl mode
-	 * we are operating at the edge of a 32k wide window and the event
-	 * coords get larger than can be held in a signed short.  As a result
-	 * we get world coords of -65535 or so.
-	 *
-	 * KLUDGE KLUDGE KLUDGE
-	 * with our current limit of 256 columns it is unlikely that we'll hit
-	 * -65535 (at appropriate zoom) as a valid coord (it would require all
-	 * cols to be 256 pixels wide.  it is not impossible, but at least
-	 * unlikely.  So we put in a kludge here to catch the screw up and
-	 * remap it.   This is not pretty,  at large zooms this is not far
-	 * fetched.*/
-	if (text_is_rtl &&
-	    event->x < (-64000 / pane->simple.canvas.pixels_per_unit)) {
-/*#if SHEET_MAX_COLS > 700*/ /* a guestimate */
-#warning WARNING We need a better solution to the rtl event kludge with gnm_sheet_get_max_cols (sheet) so large
-/*#endif*/
-		foo_canvas_w2c (canvas, event->x + 65536, event->y, &x, &y);
-	} else
-		foo_canvas_w2c (canvas, event->x, event->y, &x, &y);
-	if (text_is_rtl)
-		x = -(x + pane->simple.canvas.scroll_x1 * pane->simple.canvas.pixels_per_unit);
-
 	pindex = pane->index;
-	left = pane->first_offset.col;
-	top = pane->first_offset.row;
+	left = pane->first_offset.x;
+	top = pane->first_offset.y;
 	width = GTK_WIDGET (pane)->allocation.width;
 	height = GTK_WIDGET (pane)->allocation.height;
 
@@ -1743,7 +1692,7 @@ gnm_pane_handle_motion (GnmPane *pane,
 	if (pane->sliding_adjacent_h) {
 		if (pindex == 0 || pindex == 3) {
 			if (dx < 0) {
-				x = pane1->first_offset.col;
+				x = pane1->first_offset.x;
 				dx += GTK_WIDGET (pane1)->allocation.width;
 				if (dx > 0)
 					x += dx;
@@ -1752,7 +1701,7 @@ gnm_pane_handle_motion (GnmPane *pane,
 				pane->sliding_adjacent_h = FALSE;
 		} else {
 			if (dx > 0) {
-				x = pane0->first_offset.col + dx;
+				x = pane0->first_offset.x + dx;
 				dx -= GTK_WIDGET (pane0)->allocation.width;
 				if (dx < 0)
 					dx = 0;
@@ -1768,7 +1717,7 @@ gnm_pane_handle_motion (GnmPane *pane,
 	if (pane->sliding_adjacent_v) {
 		if (pindex == 0 || pindex == 1) {
 			if (dy < 0) {
-				y = pane3->first_offset.row;
+				y = pane3->first_offset.y;
 				dy += GTK_WIDGET (pane3)->allocation.height;
 				if (dy > 0)
 					y += dy;
@@ -1777,7 +1726,7 @@ gnm_pane_handle_motion (GnmPane *pane,
 				pane->sliding_adjacent_v = FALSE;
 		} else {
 			if (dy > 0) {
-				y = pane0->first_offset.row + dy;
+				y = pane0->first_offset.y + dy;
 				dy -= GTK_WIDGET (pane0)->allocation.height;
 				if (dy < 0)
 					dy = 0;
@@ -1795,9 +1744,7 @@ gnm_pane_handle_motion (GnmPane *pane,
 		if (!(slide_flags & GNM_PANE_SLIDE_EXTERIOR_ONLY)) {
 			GnmPaneSlideInfo info;
 			info.row = gnm_pane_find_row (pane, y, NULL);
-			info.col = gnm_pane_find_col (pane, text_is_rtl
-						      ? -(x + pane->simple.canvas.scroll_x1 * pane->simple.canvas.pixels_per_unit)
-						      : x, NULL);
+			info.col = gnm_pane_find_col (pane, x, NULL);
 			info.user_data = user_data;
 			(*slide_handler) (pane, &info);
 		}
@@ -1842,32 +1789,6 @@ gnm_pane_slide_init (GnmPane *pane)
 		: FALSE;
 }
 
-/*
- * gnm_pane_window_to_coord :
- * @pane : #GnmPane
- * @x :
- * @y :
- * @wx : result
- * @wy : result
- *
- * Map window coords into sheet object coords
- **/
-void
-gnm_pane_window_to_coord (GnmPane *pane,
-			  gint    x,	gint    y,
-			  double *wx, double *wy)
-{
-	double const scale = 1. / FOO_CANVAS (pane)->pixels_per_unit;
-	y += pane->first_offset.row;
-
-	if (scg_sheet (pane->simple.scg)->text_is_rtl)
-		x = x - GTK_WIDGET (pane)->allocation.width - 1 - pane->first_offset.col;
-	else
-		x += pane->first_offset.col;
-	*wx = x * scale;
-	*wy = y * scale;
-}
-
 static gboolean
 cb_obj_autoscroll (GnmPane *pane, GnmPaneSlideInfo const *info)
 {
@@ -1876,11 +1797,11 @@ cb_obj_autoscroll (GnmPane *pane, GnmPaneSlideInfo const *info)
 
 	/* Cheesy hack calculate distance we move the screen, this loses the
 	 * mouse position */
-	double dx = pane->first_offset.col;
-	double dy = pane->first_offset.row;
+	double dx = pane->first_offset.x;
+	double dy = pane->first_offset.y;
 	scg_make_cell_visible (scg, info->col, info->row, FALSE, TRUE);
-	dx = pane->first_offset.col - dx;
-	dy = pane->first_offset.row - dy;
+	dx = pane->first_offset.x - dx;
+	dy = pane->first_offset.y - dy;
 
 #if 0
 	g_warning ("dx = %g, dy = %g", dx, dy);
@@ -1946,7 +1867,7 @@ gnm_pane_object_autoscroll (GnmPane *pane, GdkDragContext *context,
 		cb_pane_sliding (pane);
 }
 
-FooCanvasGroup *
+GocGroup *
 gnm_pane_object_group (GnmPane *pane)
 {
 	return pane->object_views;
@@ -2012,7 +1933,7 @@ gnm_pane_bound_set (GnmPane *pane,
 	g_return_if_fail (pane != NULL);
 
 	range_init (&r, start_col, start_row, end_col, end_row);
-	foo_canvas_item_set (FOO_CANVAS_ITEM (pane->grid),
+	goc_item_set (GOC_ITEM (pane->grid),
 			     "bound", &r,
 			     NULL);
 }
@@ -2023,69 +1944,63 @@ void
 gnm_pane_size_guide_start (GnmPane *pane, gboolean vert, int colrow, int width)
 {
 	SheetControlGUI const *scg;
-	FooCanvasPoints *points;
+	double x0, y0, x1, y1;
 	double zoom;
-	gboolean text_is_rtl;
+	GOStyle *style;
 
 	g_return_if_fail (pane != NULL);
 	g_return_if_fail (pane->size_guide.guide  == NULL);
 	g_return_if_fail (pane->size_guide.start  == NULL);
 	g_return_if_fail (pane->size_guide.points == NULL);
 
+	zoom = GOC_CANVAS (pane)->pixels_per_unit;
 	scg = pane->simple.scg;
-	text_is_rtl = scg_sheet (scg)->text_is_rtl;
-	zoom = FOO_CANVAS (pane)->pixels_per_unit;
 
-	points = pane->size_guide.points = foo_canvas_points_new (2);
 	if (vert) {
-		double x = scg_colrow_distance_get (scg, TRUE,
-					0, colrow) / zoom;
-		if (text_is_rtl)
-			x = -x;
-		points->coords [0] = x;
-		points->coords [1] = scg_colrow_distance_get (scg, FALSE,
+		double x = (scg_colrow_distance_get (scg, TRUE,
+					0, colrow) - .5) / zoom;
+		x0 = x;
+		y0 = scg_colrow_distance_get (scg, FALSE,
 					0, pane->first.row) / zoom;
-		points->coords [2] = x;
-		points->coords [3] = scg_colrow_distance_get (scg, FALSE,
+		x1= x;
+		y1 = scg_colrow_distance_get (scg, FALSE,
 					0, pane->last_visible.row+1) / zoom;
 	} else {
-		double const y = scg_colrow_distance_get (scg, FALSE,
-					0, colrow) / zoom;
-		points->coords [0] = scg_colrow_distance_get (scg, TRUE,
+		double const y = (scg_colrow_distance_get (scg, FALSE,
+					0, colrow) - .5) / zoom;
+		x0 = scg_colrow_distance_get (scg, TRUE,
 					0, pane->first.col) / zoom;
-		points->coords [1] = y;
-		points->coords [2] = scg_colrow_distance_get (scg, TRUE,
+		y0 = y;
+		x1 = scg_colrow_distance_get (scg, TRUE,
 					0, pane->last_visible.col+1) / zoom;
-		points->coords [3] = y;
-
-		if (text_is_rtl) {
-			points->coords [0] *= -1.;
-			points->coords [2] *= -1.;
-		}
+		y1 = y;
 	}
 
 	/* Guideline positioning is done in gnm_pane_size_guide_motion */
-	pane->size_guide.guide = foo_canvas_item_new (pane->action_items,
-		FOO_TYPE_CANVAS_LINE,
-		"fill-color", "black",
-		"width-pixels", width,
+	pane->size_guide.guide = goc_item_new (pane->action_items,
+		GOC_TYPE_LINE,
+		"x0", x0, "y0", y0,
+		"x1", x1, "y1", y1,
 		NULL);
+	style = go_styled_object_get_style (GO_STYLED_OBJECT (pane->size_guide.guide));
+	style->line.width = width;
 
 	/* cheat for now and differentiate between col/row resize and frozen panes
 	 * using the width.  Frozen pane guides do not require a start line */
-	if (width == 1)
-		pane->size_guide.start = foo_canvas_item_new (pane->action_items,
-			FOO_TYPE_CANVAS_LINE,
-			"points", points,
-			"fill-color", "black",
-			"width-pixels", 1,
+	if (width == 1) {
+		style->line.color = RGBA_BLACK;
+		pane->size_guide.start = goc_item_new (pane->action_items,
+			GOC_TYPE_LINE,
+			"x0", x0, "y0", y0,
+			"x1", x1, "y1", y1,
 			NULL);
-	else {
-		static unsigned char const dat [] = { 0x22, 0x88, 0x22, 0x88, 0x22, 0x88, 0x22, 0x88 };
-		GdkBitmap *stipple = gdk_bitmap_create_from_data (
-			GTK_WIDGET (pane)->window, (const gchar *)dat, 8, 8);
-		foo_canvas_item_set (pane->size_guide.guide, "fill-stipple", stipple, NULL);
-		g_object_unref (stipple);
+		style = go_styled_object_get_style (GO_STYLED_OBJECT (pane->size_guide.start));
+		style->line.color = RGBA_BLACK;
+		style->line.width = width;
+	} else {
+		style->line.pattern = GO_PATTERN_GREY25;
+		style->line.color = RGBA_WHITE;
+		style->line.fore = RGBA_BLACK;
 	}
 }
 
@@ -2094,16 +2009,12 @@ gnm_pane_size_guide_stop (GnmPane *pane)
 {
 	g_return_if_fail (pane != NULL);
 
-	if (pane->size_guide.points != NULL) {
-		foo_canvas_points_free (pane->size_guide.points);
-		pane->size_guide.points = NULL;
-	}
 	if (pane->size_guide.start != NULL) {
-		gtk_object_destroy (GTK_OBJECT (pane->size_guide.start));
+		g_object_unref (G_OBJECT (pane->size_guide.start));
 		pane->size_guide.start = NULL;
 	}
 	if (pane->size_guide.guide != NULL) {
-		gtk_object_destroy (GTK_OBJECT (pane->size_guide.guide));
+		g_object_unref (G_OBJECT (pane->size_guide.guide));
 		pane->size_guide.guide = NULL;
 	}
 }
@@ -2119,26 +2030,23 @@ gnm_pane_size_guide_stop (GnmPane *pane)
  *	gnm_pane_size_guide_motion
  **/
 void
-gnm_pane_size_guide_motion (GnmPane *pane, gboolean vert, int guide_pos)
+gnm_pane_size_guide_motion (GnmPane *pane, gboolean vert, gint64 guide_pos)
 {
-	FooCanvasItem *resize_guide = FOO_CANVAS_ITEM (pane->size_guide.guide);
-	FooCanvasPoints *points     = pane->size_guide.points;
+	GocItem *resize_guide = GOC_ITEM (pane->size_guide.guide);
 	double const	 scale	    = 1. / resize_guide->canvas->pixels_per_unit;
+	double x;
 
-	if (vert) {
-		gboolean text_is_rtl = scg_sheet (pane->simple.scg)->text_is_rtl;
-		points->coords [0] = points->coords [2] = scale *
-			(text_is_rtl ? -guide_pos : guide_pos);
-	} else
-		points->coords [1] = points->coords [3] = scale * guide_pos;
-
-	foo_canvas_item_set (resize_guide, "points",  points, NULL);
+	x = scale * (guide_pos - .5);
+	if (vert)
+		goc_item_set (resize_guide, "x0", x, "x1", x, NULL);
+	else
+		goc_item_set (resize_guide, "y0", x, "y1", x, NULL);
 }
 
 /****************************************************************************/
 
 static void
-cb_update_ctrl_pts (SheetObject *so, FooCanvasItem **ctrl_pts, GnmPane *pane)
+cb_update_ctrl_pts (SheetObject *so, GocItem **ctrl_pts, GnmPane *pane)
 {
 	gnm_pane_object_update_bbox (pane, so);
 }
@@ -2181,7 +2089,7 @@ gnm_pane_rangesel_bound_set (GnmPane *pane, GnmRange const *r)
 void
 gnm_pane_rangesel_start (GnmPane *pane, GnmRange const *r)
 {
-	FooCanvasItem *item;
+	GocItem *item;
 	SheetControlGUI *scg = pane->simple.scg;
 	GnmExprEntry *gee = wbcg_get_entry_logical (pane->simple.scg->wbcg);
 
@@ -2193,7 +2101,7 @@ gnm_pane_rangesel_start (GnmPane *pane, GnmRange const *r)
 		item_cursor_set_visibility (pane->cursor.std, FALSE);
 	if (NULL != gee)
 		gnm_expr_entry_disable_highlight (gee);
-	item = foo_canvas_item_new (pane->grid_items,
+	item = goc_item_new (pane->grid_items,
 		item_cursor_get_type (),
 		"SheetControlGUI", scg,
 		"style",	ITEM_CURSOR_ANTED,
@@ -2210,7 +2118,7 @@ gnm_pane_rangesel_stop (GnmPane *pane)
 		gnm_expr_entry_enable_highlight (gee);
 
 	g_return_if_fail (pane->cursor.rangesel != NULL);
-	gtk_object_destroy (GTK_OBJECT (pane->cursor.rangesel));
+	g_object_unref (G_OBJECT (pane->cursor.rangesel));
 	pane->cursor.rangesel = NULL;
 
 	/* Make the primary cursor visible again */
@@ -2230,12 +2138,12 @@ gnm_pane_special_cursor_bound_set (GnmPane *pane, GnmRange const *r)
 void
 gnm_pane_special_cursor_start (GnmPane *pane, int style, int button)
 {
-	FooCanvasItem *item;
-	FooCanvas *canvas = FOO_CANVAS (pane);
+	GocItem *item;
+	GocCanvas *canvas = GOC_CANVAS (pane);
 
 	g_return_if_fail (pane->cursor.special == NULL);
-	item = foo_canvas_item_new (
-		FOO_CANVAS_GROUP (canvas->root),
+	item = goc_item_new (
+		GOC_GROUP (canvas->root),
 		item_cursor_get_type (),
 		"SheetControlGUI", pane->simple.scg,
 		"style",	   style,
@@ -2249,7 +2157,7 @@ gnm_pane_special_cursor_stop (GnmPane *pane)
 {
 	g_return_if_fail (pane->cursor.special != NULL);
 
-	gtk_object_destroy (GTK_OBJECT (pane->cursor.special));
+	g_object_unref (G_OBJECT (pane->cursor.special));
 	pane->cursor.special = NULL;
 }
 
@@ -2268,8 +2176,8 @@ void
 gnm_pane_expr_cursor_bound_set (GnmPane *pane, GnmRange const *r)
 {
 	if (NULL == pane->cursor.expr_range)
-		pane->cursor.expr_range = (ItemCursor *)foo_canvas_item_new (
-			FOO_CANVAS_GROUP (FOO_CANVAS (pane)->root),
+		pane->cursor.expr_range = (ItemCursor *) goc_item_new (
+			GOC_GROUP (GOC_CANVAS (pane)->root),
 			item_cursor_get_type (),
 			"SheetControlGUI",	pane->simple.scg,
 			"style",		ITEM_CURSOR_EXPR_RANGE,
@@ -2283,7 +2191,7 @@ void
 gnm_pane_expr_cursor_stop (GnmPane *pane)
 {
 	if (NULL != pane->cursor.expr_range) {
-		gtk_object_destroy (GTK_OBJECT (pane->cursor.expr_range));
+		g_object_unref (G_OBJECT (pane->cursor.expr_range));
 		pane->cursor.expr_range = NULL;
 	}
 }
@@ -2293,13 +2201,13 @@ gnm_pane_expr_cursor_stop (GnmPane *pane)
 void
 gnm_pane_edit_start (GnmPane *pane)
 {
-	FooCanvas *canvas = FOO_CANVAS (pane);
+	GocCanvas *canvas = GOC_CANVAS (pane);
 
 	g_return_if_fail (pane->editor == NULL);
 
 	/* edit item handles visibility checks */
-	pane->editor = (ItemEdit *)foo_canvas_item_new (
-		FOO_CANVAS_GROUP (canvas->root),
+	pane->editor = (ItemEdit *) goc_item_new (
+		GOC_GROUP (canvas->root),
 		item_edit_get_type (),
 		"SheetControlGUI",	pane->simple.scg,
 		NULL);
@@ -2309,7 +2217,7 @@ void
 gnm_pane_edit_stop (GnmPane *pane)
 {
 	if (pane->editor != NULL) {
-		gtk_object_destroy (GTK_OBJECT (pane->editor));
+		g_object_unref (G_OBJECT (pane->editor));
 		pane->editor = NULL;
 	}
 }
@@ -2323,7 +2231,6 @@ gnm_pane_objects_drag (GnmPane *pane, SheetObject *so,
 	dx = new_x - pane->drag.last_x;
 	dy = new_y - pane->drag.last_y;
 	pane->drag.had_motion = TRUE;
-
 	scg_objects_drag (pane->simple.scg, pane,
 		so, &dx, &dy, drag_type, symmetric, snap_to_grid, TRUE);
 
@@ -2355,17 +2262,14 @@ gnm_pane_object_move (GnmPane *pane, GObject *ctrl_pt,
 static gboolean
 cb_slide_handler (GnmPane *pane, GnmPaneSlideInfo const *info)
 {
-	int x, y;
+	guint64 x, y;
 	SheetControlGUI const *scg = pane->simple.scg;
-	double const scale = 1. / FOO_CANVAS (pane)->pixels_per_unit;
+	double const scale = 1. / GOC_CANVAS (pane)->pixels_per_unit;
 
 	x = scg_colrow_distance_get (scg, TRUE, pane->first.col, info->col);
-	x += pane->first_offset.col;
+	x += pane->first_offset.x;
 	y = scg_colrow_distance_get (scg, FALSE, pane->first.row, info->row);
-	y += pane->first_offset.row;
-
-	if (scg_sheet (scg)->text_is_rtl)
-		x *= -1;
+	y += pane->first_offset.y;
 
 	gnm_pane_object_move (pane, info->user_data,
 		x * scale, y * scale, FALSE, FALSE);
@@ -2374,7 +2278,7 @@ cb_slide_handler (GnmPane *pane, GnmPaneSlideInfo const *info)
 }
 
 static void
-cb_so_menu_activate (GObject *menu, FooCanvasItem *view)
+cb_so_menu_activate (GObject *menu, GocItem *view)
 {
 	SheetObjectAction const *a = g_object_get_data (menu, "action");
 	if (a->func)
@@ -2427,16 +2331,16 @@ cb_ptr_array_free (GPtrArray *actions)
 }
 
 /* event and so can be NULL */
-static void
-display_object_menu (GnmPane *pane, SheetObject *so, GdkEvent *event)
+void
+gnm_pane_display_object_menu (GnmPane *pane, SheetObject *so, GdkEvent *event)
 {
 	SheetControlGUI *scg = pane->simple.scg;
 	GPtrArray *actions = g_ptr_array_new ();
 	GtkWidget *menu;
 	unsigned i = 0;
 
-	if (NULL != so &&
-	    NULL == g_hash_table_lookup (scg->selected_objects, so))
+	if (NULL != so && (!scg->selected_objects ||
+	    NULL == g_hash_table_lookup (scg->selected_objects, so)))
 		scg_object_select (scg, so);
 
 	sheet_object_populate_menu (so, actions);
@@ -2473,7 +2377,7 @@ cb_pane_popup_menu (GnmPane *pane)
 		g_hash_table_foreach (scg->selected_objects,
 			(GHFunc) cb_collect_selected_objs, &accum);
 		if (NULL != accum && NULL == accum->next)
-			display_object_menu (pane, accum->data, NULL);
+			gnm_pane_display_object_menu (pane, accum->data, NULL);
 		g_slist_free (accum);
 	} else {
 		/* the popup-menu signal is a binding. the grid almost always
@@ -2503,7 +2407,7 @@ cb_pane_popup_menu (GnmPane *pane)
 }
 
 static void
-control_point_set_cursor (SheetControlGUI const *scg, FooCanvasItem *ctrl_pt)
+control_point_set_cursor (SheetControlGUI const *scg, GocItem *ctrl_pt)
 {
 	double const *coords = g_hash_table_lookup (scg->selected_objects,
 		g_object_get_data (G_OBJECT (ctrl_pt), "so"));
@@ -2569,7 +2473,7 @@ gnm_pane_drag_begin (GnmPane *pane, SheetObject *so, GdkEvent *event)
 {
 	GdkDragContext *context;
 	GtkTargetList *targets, *im_targets;
-	FooCanvas *canvas    = FOO_CANVAS (pane);
+	GocCanvas *canvas    = GOC_CANVAS (pane);
 	SheetControlGUI *scg = pane->simple.scg;
 	GSList *objects;
 	SheetObject *imageable = NULL, *exportable = NULL;
@@ -2625,15 +2529,17 @@ gnm_pane_drag_begin (GnmPane *pane, SheetObject *so, GdkEvent *event)
 }
 
 void
-gnm_pane_object_start_resize (GnmPane *pane, GdkEventButton *event,
+gnm_pane_object_start_resize (GnmPane *pane, int button, guint64 x, gint64 y,
 			      SheetObject *so, int drag_type, gboolean is_creation)
 {
-	FooCanvasItem **ctrl_pts;
+	GocItem **ctrl_pts;
+	GdkEventButton *event;
 
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 	g_return_if_fail (0 <= drag_type);
 	g_return_if_fail (drag_type < 9);
 
+	event = (GdkEventButton *) goc_canvas_get_cur_event (GOC_CANVAS (pane));
 	ctrl_pts = g_hash_table_lookup (pane->drag.ctrl_pts, so);
 
 	g_return_if_fail (NULL != ctrl_pts);
@@ -2644,121 +2550,230 @@ gnm_pane_object_start_resize (GnmPane *pane, GdkEventButton *event,
 		GDK_BUTTON_RELEASE_MASK,
 		NULL, event->time);
 	pane->drag.created_objects = is_creation;
-	pane->drag.button = event->button;
-	pane->drag.last_x = pane->drag.origin_x = event->x;
-	pane->drag.last_y = pane->drag.origin_y = event->y;
+	pane->drag.button = button;
+	pane->drag.last_x = pane->drag.origin_x = x;
+	pane->drag.last_y = pane->drag.origin_y = y;
 	pane->drag.had_motion = FALSE;
 	gnm_pane_slide_init (pane);
 	gnm_widget_set_cursor_type (GTK_WIDGET (pane), GDK_HAND2);
 }
 
-static int
-cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
+/*
+ ControlCircleItem
+ */
+typedef GocCircle ControlCircle;
+typedef GocCircleClass ControlCircleClass;
+
+#define CONTROL_TYPE_CIRCLE	(control_circle_get_type ())
+#define CONTROL_CIRCLE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), CONTROL_TYPE_CIRCLE, ControlCircle))
+#define CONTROL_IS_CIRCLE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), CONTROL_TYPE_CIRCLE))
+
+GType control_circle_get_type (void);
+
+static gboolean
+control_point_button_pressed (GocItem *item, int button, double x, double y)
 {
-	SheetControlGUI *scg = pane->simple.scg;
+	GnmPane *pane = GNM_PANE (item->canvas);
+	GdkEventButton *event = (GdkEventButton *) goc_canvas_get_cur_event (item->canvas);
 	SheetObject *so;
 	int idx;
 
-	if (wbc_gtk_get_guru (scg_wbcg (scg)) != NULL)
-		return FALSE;
+	if (0 != pane->drag.button)
+		return TRUE;
 
-	so  = g_object_get_data (G_OBJECT (ctrl_pt), "so");
-	idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (ctrl_pt), "index"));
-	switch (event->type) {
-	case GDK_ENTER_NOTIFY:
-		control_point_set_cursor (scg, ctrl_pt);
-
-		if (idx != 8) {
-			foo_canvas_item_set (ctrl_pt,
-				"fill-color",    "green",
-				NULL);
-			gnm_pane_display_obj_size_tip (pane, so);
-		}
+	x *= goc_canvas_get_pixels_per_unit (item->canvas);
+	y *= goc_canvas_get_pixels_per_unit (item->canvas);
+	so  = g_object_get_data (G_OBJECT (item), "so");
+	idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "index"));
+	switch (event->button) {
+	case 1:
+	case 2: gnm_pane_object_start_resize (pane, button, x, y, so,  idx, FALSE);
 		break;
-
-	case GDK_LEAVE_NOTIFY:
-		scg_set_display_cursor (scg);
-		if (idx != 8) {
-			foo_canvas_item_set (ctrl_pt,
-				"fill-color",    "white",
-				NULL);
-			gnm_pane_clear_obj_size_tip (pane);
-		}
+	case 3: gnm_pane_display_object_menu (pane, so, (GdkEvent *) event);
 		break;
-
-	case GDK_2BUTTON_PRESS:
-		if (pane->drag.button == 1)
-			sheet_object_get_editor (so, SHEET_CONTROL (scg));
-		else
-			break;
-
-	case GDK_BUTTON_RELEASE:
-		if (pane->drag.button != (int)event->button.button)
-			break;
-		pane->drag.button = 0;
-		gnm_simple_canvas_ungrab (ctrl_pt, event->button.time);
-		gnm_pane_slide_stop (pane);
-		control_point_set_cursor (scg, ctrl_pt);
-		if (idx == 8)
-			; /* ignore fake event generated by the dnd code */
-		else if (pane->drag.had_motion)
-			scg_objects_drag_commit	(scg, idx,
-				pane->drag.created_objects);
-		else if (pane->drag.created_objects && idx == 7) {
-			double w, h;
-			sheet_object_default_size (so, &w, &h);
-			scg_objects_drag (scg, NULL, NULL, &w, &h, 7, FALSE, FALSE, FALSE);
-			scg_objects_drag_commit	(scg, 7, TRUE);
-		}
-		gnm_pane_clear_obj_size_tip (pane);
-		break;
-
-	case GDK_BUTTON_PRESS:
-		if (0 != pane->drag.button)
-			break;
-		switch (event->button.button) {
-		case 1:
-		case 2: gnm_pane_object_start_resize (pane, &event->button, so,  idx, FALSE);
-			break;
-		case 3: display_object_menu (pane, so, event);
-			break;
-		default: /* Ignore mouse wheel events */
-			return FALSE;
-		}
-		break;
-
-	case GDK_MOTION_NOTIFY :
-		if (0 == pane->drag.button)
-			break;
-
-		/* TODO : motion is still too granular along the internal axis
-		 * when the other axis is external.
-		 * eg  drag from middle of sheet down.  The x axis is still internal
-		 * onlt the y is external, however, since we are autoscrolling
-		 * we are limited to moving with col/row coords, not x,y.
-		 * Possible solution would be to change the EXTERIOR_ONLY flag
-		 * to something like USE_PIXELS_INSTEAD_OF_COLROW and change
-		 * the semantics of the col,row args in the callback.  However,
-		 * that is more work than I want to do right now.
-		 */
-		if (idx == 8)
-			gnm_pane_drag_begin (pane, so, event);
-		else if (gnm_pane_handle_motion (GNM_PANE (ctrl_pt->canvas),
-						   ctrl_pt->canvas, &event->motion,
-						   GNM_PANE_SLIDE_X | GNM_PANE_SLIDE_Y |
-						   GNM_PANE_SLIDE_EXTERIOR_ONLY,
-						   cb_slide_handler, ctrl_pt))
-			gnm_pane_object_move (pane, G_OBJECT (ctrl_pt),
-					      event->motion.x, event->motion.y,
-					      (event->button.state & GDK_CONTROL_MASK) != 0,
-					      (event->button.state & GDK_SHIFT_MASK) != 0);
-		break;
-
-	default:
+	default: /* Ignore mouse wheel events */
 		return FALSE;
 	}
 	return TRUE;
 }
+
+static gboolean
+control_point_button_released (GocItem *item, int button, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
+{
+	GnmPane *pane = GNM_PANE (item->canvas);
+	GdkEventButton *event = (GdkEventButton *) goc_canvas_get_cur_event (item->canvas);
+	SheetControlGUI *scg = pane->simple.scg;
+	SheetObject *so;
+	int idx;
+
+	if (pane->drag.button != button)
+		return TRUE;
+	so  = g_object_get_data (G_OBJECT (item), "so");
+	idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "index"));
+	pane->drag.button = 0;
+	gnm_simple_canvas_ungrab (item, event->time);
+	gnm_pane_slide_stop (pane);
+	control_point_set_cursor (scg, item);
+	if (idx == 8)
+		; /* ignore fake event generated by the dnd code */
+	else if (pane->drag.had_motion)
+		scg_objects_drag_commit	(scg, idx,
+			pane->drag.created_objects);
+	else if (pane->drag.created_objects && idx == 7) {
+		double w, h;
+		sheet_object_default_size (so, &w, &h);
+		scg_objects_drag (scg, NULL, NULL, &w, &h, 7, FALSE, FALSE, FALSE);
+		scg_objects_drag_commit	(scg, 7, TRUE);
+	}
+	gnm_pane_clear_obj_size_tip (pane);
+	return TRUE;
+}
+
+static gboolean
+control_point_motion (GocItem *item, double x, double y)
+{
+	GnmPane *pane = GNM_PANE (item->canvas);
+	GdkEventMotion *event = (GdkEventMotion *) goc_canvas_get_cur_event (item->canvas);
+	SheetObject *so;
+	int idx;
+
+	if (0 == pane->drag.button)
+		return TRUE;
+
+	x *= goc_canvas_get_pixels_per_unit (item->canvas);
+	y *= goc_canvas_get_pixels_per_unit (item->canvas);
+	/* TODO : motion is still too granular along the internal axis
+	 * when the other axis is external.
+	 * eg  drag from middle of sheet down.  The x axis is still internal
+	 * onlt the y is external, however, since we are autoscrolling
+	 * we are limited to moving with col/row coords, not x,y.
+	 * Possible solution would be to change the EXTERIOR_ONLY flag
+	 * to something like USE_PIXELS_INSTEAD_OF_COLROW and change
+	 * the semantics of the col,row args in the callback.  However,
+	 * that is more work than I want to do right now.
+	 */
+	so  = g_object_get_data (G_OBJECT (item), "so");
+	idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "index"));
+	if (idx == 8)
+		gnm_pane_drag_begin (pane, so, (GdkEvent *) event);
+	else if (gnm_pane_handle_motion (pane,
+					   item->canvas, x, y,
+					   GNM_PANE_SLIDE_X | GNM_PANE_SLIDE_Y |
+					   GNM_PANE_SLIDE_EXTERIOR_ONLY,
+					   cb_slide_handler, item))
+		gnm_pane_object_move (pane, G_OBJECT (item),
+				      x, y,
+				      (event->state & GDK_CONTROL_MASK) != 0,
+				      (event->state & GDK_SHIFT_MASK) != 0);
+	return TRUE;
+}
+
+static gboolean
+control_point_button2_pressed (GocItem *item, int button, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
+{
+	GnmPane *pane = GNM_PANE (item->canvas);
+	SheetControlGUI *scg = pane->simple.scg;
+	SheetObject *so;
+
+	so  = g_object_get_data (G_OBJECT (item), "so");
+	if (pane->drag.button == 1)
+		sheet_object_get_editor (so, SHEET_CONTROL (scg));
+	return TRUE;
+}
+
+static gboolean
+control_point_enter_notify (GocItem *item, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
+{
+	GnmPane *pane = GNM_PANE (item->canvas);
+	SheetControlGUI *scg = pane->simple.scg;
+	int idx;
+	SheetObject *so;
+
+	control_point_set_cursor (scg, item);
+
+	so  = g_object_get_data (G_OBJECT (item), "so");
+	idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "index"));
+	if (idx != 8) {
+		GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
+		style->fill.pattern.back = RGBA_GREEN;
+		goc_item_invalidate (item);
+		gnm_pane_display_obj_size_tip (pane, so);
+	}
+	return TRUE;
+}
+
+static gboolean
+control_point_leave_notify (GocItem *item, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
+{
+	GnmPane *pane = GNM_PANE (item->canvas);
+	SheetControlGUI *scg = pane->simple.scg;
+	int idx;
+	SheetObject *so;
+
+	control_point_set_cursor (scg, item);
+
+	so  = g_object_get_data (G_OBJECT (item), "so");
+	idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "index"));
+	if (idx != 8) {
+		GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
+		style->fill.pattern.back = RGBA_WHITE;
+		goc_item_invalidate (item);
+		gnm_pane_clear_obj_size_tip (pane);
+	}
+	return TRUE;
+}
+
+static void control_circle_class_init (GocItemClass *item_klass) {
+	item_klass->button_pressed = control_point_button_pressed;
+	item_klass->button_released = control_point_button_released;
+	item_klass->motion = control_point_motion;
+	item_klass->button2_pressed = control_point_button2_pressed;
+	item_klass->enter_notify = control_point_enter_notify;
+	item_klass->leave_notify = control_point_leave_notify;
+}
+
+GSF_CLASS (ControlCircle, control_circle,
+	   control_circle_class_init, NULL,
+	   GOC_TYPE_CIRCLE)
+
+#define ITEM_ACETATE(obj)          (G_TYPE_CHECK_INSTANCE_CAST((obj), item_acetate_get_type (), ItemAcetate))
+#define IS_ITEM_ACETATE(o)         (G_TYPE_CHECK_INSTANCE_TYPE((o), item_acetate_get_type ()))
+
+#define MARGIN	10
+
+GType item_acetate_get_type (void);
+
+typedef GocRectangle		ItemAcetate;
+typedef GocRectangleClass	ItemAcetateClass;
+
+static double
+item_acetate_distance (GocItem *item, double x, double y,
+		    GocItem **actual_item)
+{
+	if (x < (item->x0 - MARGIN) ||
+	    x > (item->x1 + MARGIN) ||
+	    y < (item->y0 - MARGIN) ||
+		y > (item->y1 + MARGIN))
+		return DBL_MAX;
+	*actual_item = item;
+	return 0.;
+}
+
+static void
+item_acetate_class_init (GocItemClass *item_class)
+{
+	item_class->distance = item_acetate_distance;
+	item_class->button_pressed = control_point_button_pressed;
+	item_class->button_released = control_point_button_released;
+	item_class->motion = control_point_motion;
+	item_class->button2_pressed = control_point_button2_pressed;
+	item_class->enter_notify = control_point_enter_notify;
+	item_class->leave_notify = control_point_leave_notify;
+}
+
+GSF_CLASS (ItemAcetate, item_acetate,
+	   item_acetate_class_init, NULL,
+	   GOC_TYPE_RECTANGLE)
 
 /**
  * new_control_point
@@ -2781,21 +2796,23 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
  *     9 == an optional stippled rectangle for moving/resizing expensive
  *         objects
  **/
-static FooCanvasItem *
-new_control_point (GnmPane *pane, SheetObject *so, int idx, double x, double y)
+static GocItem *
+new_control_point (GnmPane *pane, SheetObject *so, int idx, double x, double y, double radius)
 {
-	FooCanvasItem *item = foo_canvas_item_new (
+	GOStyle *style = go_style_new ();
+	GocItem *item;
+
+	style->outline.width = CTRL_PT_OUTLINE;
+	item = goc_item_new (
 		pane->action_items,
-		FOO_TYPE_CANVAS_ELLIPSE,
-		"outline-color", "black",
-		"fill-color",    "white",
-		"width-pixels",  CTRL_PT_OUTLINE,
+		CONTROL_TYPE_CIRCLE,
+		"x", x,
+		"y", y,
+		"radius", radius,
+		"style", style,
 		NULL);
 
-	g_signal_connect (G_OBJECT (item),
-		"event",
-		G_CALLBACK (cb_control_point_event), pane);
-
+	g_object_unref (style);
 	g_object_set_data (G_OBJECT (item), "index",  GINT_TO_POINTER (idx));
 	g_object_set_data (G_OBJECT (item), "so",  so);
 
@@ -2808,49 +2825,53 @@ new_control_point (GnmPane *pane, SheetObject *so, int idx, double x, double y)
  * creating the control point if necessary.
  **/
 static void
-set_item_x_y (GnmPane *pane, SheetObject *so, FooCanvasItem **ctrl_pts,
+set_item_x_y (GnmPane *pane, SheetObject *so, GocItem **ctrl_pts,
 	      int idx, double x, double y, gboolean visible)
 {
-	double const scale = 1. / FOO_CANVAS (pane)->pixels_per_unit;
+	double scale = GOC_CANVAS (pane)->pixels_per_unit;
 	if (ctrl_pts [idx] == NULL)
-		ctrl_pts [idx] = new_control_point (pane, so, idx, x, y);
-	foo_canvas_item_set (ctrl_pts [idx],
-	       "x1", x - CTRL_PT_SIZE * scale,
-	       "y1", y - CTRL_PT_SIZE * scale,
-	       "x2", x + CTRL_PT_SIZE * scale,
-	       "y2", y + CTRL_PT_SIZE * scale,
-	       NULL);
-	if (visible)
-		foo_canvas_item_show (ctrl_pts [idx]);
+		ctrl_pts [idx] = new_control_point (pane, so, idx, x / scale, y / scale, CTRL_PT_SIZE / scale);
 	else
-		foo_canvas_item_hide (ctrl_pts [idx]);
+		goc_item_set (ctrl_pts [idx], "x", x / scale, "y", y / scale, NULL);
+	if (visible)
+		goc_item_show (ctrl_pts [idx]);
+	else
+		goc_item_hide (ctrl_pts [idx]);
 }
 
 #define normalize_high_low(d1,d2) if (d1<d2) { double tmp=d1; d1=d2; d2=tmp;}
 
 static void
-set_acetate_coords (GnmPane *pane, SheetObject *so, FooCanvasItem **ctrl_pts,
+set_acetate_coords (GnmPane *pane, SheetObject *so, GocItem **ctrl_pts,
 		    double l, double t, double r, double b)
 {
+	double scale = goc_canvas_get_pixels_per_unit (GOC_CANVAS (pane));
 	if (!sheet_object_rubber_band_directly (so)) {
 		if (NULL == ctrl_pts [9]) {
-			static char const dashed [] = { 0x88, 0x44, 0x22, 0x11, 0x88, 0x44, 0x22, 0x11 };
-			GdkBitmap *stipple = gdk_bitmap_create_from_data (
-				GTK_WIDGET (pane)->window, dashed, 8, 8);
-			ctrl_pts [9] = foo_canvas_item_new (pane->action_items,
-				FOO_TYPE_CANVAS_RECT,
-				"fill-color",		NULL,
-				"width-units",		1.,
-				"outline-color",	"black",
-				"outline-stipple",	stipple,
+			GOStyle *style = go_style_new ();
+			style->fill.auto_type = FALSE;
+			style->fill.type  = GO_STYLE_FILL_PATTERN;
+			style->fill.auto_back = FALSE;
+			style->fill.pattern.back = 0;
+			style->fill.auto_fore = FALSE;
+			style->fill.pattern.fore = 0;
+			style->line.pattern = GO_PATTERN_THIN_DIAG;
+			style->line.width = 1.;
+			style->line.auto_color = FALSE;
+			style->line.color = 0;
+			style->line.fore = RGBA_BLACK;
+			ctrl_pts [9] = goc_item_new (pane->action_items,
+				GOC_TYPE_RECTANGLE,
+				"style", style,
 				NULL);
-			g_object_unref (stipple);
-			foo_canvas_item_lower_to_bottom (ctrl_pts [9]);
+			g_object_unref (style);
+			goc_item_lower_to_bottom (ctrl_pts [9]);
 		}
 		normalize_high_low (r, l);
 		normalize_high_low (b, t);
-		foo_canvas_item_set (ctrl_pts [9],
-		       "x1", l, "y1", t, "x2", r, "y2", b,
+		goc_item_set (ctrl_pts [9],
+		       "x", l / scale, "y", t / scale,
+		       "width", (r - l) / scale, "height", (b - t) / scale,
 		       NULL);
 	} else {
 		double coords[4];
@@ -2871,44 +2892,36 @@ set_acetate_coords (GnmPane *pane, SheetObject *so, FooCanvasItem **ctrl_pts,
 	b += (CTRL_PT_SIZE + CTRL_PT_OUTLINE) / 2;
 
 	if (NULL == ctrl_pts [8]) {
-#undef WITH_STIPPLE_BORDER /* not so pretty */
-#ifdef WITH_STIPPLE_BORDER
-		static char const diagonal [] = { 0xcc, 0x66, 0x33, 0x99, 0xcc, 0x66, 0x33, 0x99 };
-		GdkBitmap *stipple = gdk_bitmap_create_from_data (
-			GTK_WIDGET (pane)->window, diagonal, 8, 8);
-#endif
-		FooCanvasItem *item = foo_canvas_item_new (
+		GOStyle *style = go_style_new ();
+		GocItem *item;
+
+		style->fill.auto_type = FALSE;
+		style->fill.type  = GO_STYLE_FILL_PATTERN;
+		style->fill.auto_fore = FALSE;
+		go_pattern_set_solid (&style->fill.pattern, 0);
+		style->outline.auto_dash = FALSE;
+		style->outline.dash_type = GO_LINE_NONE;
+		/* work around the screwup in shapes that adds a large
+		 * border to anything that uses miter (is this required for
+		 * a rectangle in goc-canvas? */
+		style->outline.join = CAIRO_LINE_JOIN_ROUND;
+		item = goc_item_new (
 			pane->action_items,
 			item_acetate_get_type (),
-			"fill-color",		NULL,
-#ifdef WITH_STIPPLE_BORDER
-			"width-units",		(double)(CTRL_PT_SIZE + CTRL_PT_OUTLINE),
-			"outline-color",	"black",
-			"outline-stipple",	stipple,
-#endif
-#if 0
-			/* work around the screwup in canvas-item-shape that adds a large
-			 * border to anything that uses miter (required for gnome-canvas
-			 * not foocanvas */
-			"join-style",		GDK_JOIN_ROUND,
-#endif
-			NULL);
-#ifdef WITH_STIPPLE_BORDER
-		g_object_unref (stipple);
-#endif
-		g_signal_connect (G_OBJECT (item), "event",
-			G_CALLBACK (cb_control_point_event), pane);
+			"style", style,
+		        NULL);
+		g_object_unref (style);
 		g_object_set_data (G_OBJECT (item), "index",
 			GINT_TO_POINTER (8));
 		g_object_set_data (G_OBJECT (item), "so", so);
 
 		ctrl_pts [8] = item;
 	}
-	foo_canvas_item_set (ctrl_pts [8],
-	       "x1", l,
-	       "y1", t,
-	       "x2", r,
-	       "y2", b,
+	goc_item_set (ctrl_pts [8],
+	       "x", l / scale,
+	       "y", t / scale,
+	       "width", (r - l) / scale,
+	       "height", (b - t) / scale,
 	       NULL);
 }
 
@@ -2930,12 +2943,12 @@ gnm_pane_object_unselect (GnmPane *pane, SheetObject *so)
 void
 gnm_pane_object_update_bbox (GnmPane *pane, SheetObject *so)
 {
-	FooCanvasItem **ctrl_pts = g_hash_table_lookup (pane->drag.ctrl_pts, so);
+	GocItem **ctrl_pts = g_hash_table_lookup (pane->drag.ctrl_pts, so);
 	double const *pts = g_hash_table_lookup (
 		pane->simple.scg->selected_objects, so);
 
 	if (ctrl_pts == NULL) {
-		ctrl_pts = g_new0 (FooCanvasItem *, 10);
+		ctrl_pts = g_new0 (GocItem *, 10);
 		g_hash_table_insert (pane->drag.ctrl_pts, so, ctrl_pts);
 	}
 
@@ -2957,80 +2970,8 @@ gnm_pane_object_update_bbox (GnmPane *pane, SheetObject *so)
 	set_item_x_y (pane, so, ctrl_pts, 7, pts[2], pts[3], TRUE);
 }
 
-static int
-cb_sheet_object_canvas_event (FooCanvasItem *view, GdkEvent *event,
-			      SheetObject *so)
-{
-	GnmPane	*pane = GNM_PANE (view->canvas);
-
-	if (scg_wbcg(GNM_SIMPLE_CANVAS (view->canvas)->scg)->new_object) {
-		ItemGrid *grid = GNM_PANE (view->canvas)->grid;
-		return FOO_CANVAS_ITEM_GET_CLASS (grid)->event (FOO_CANVAS_ITEM (grid), event);
-	}
-
-	g_return_val_if_fail (IS_SHEET_OBJECT (so), FALSE);
-
-	switch (event->type) {
-	case GDK_ENTER_NOTIFY:
-		gnm_widget_set_cursor_type (GTK_WIDGET (view->canvas),
-			(so->flags & SHEET_OBJECT_CAN_PRESS) ? GDK_HAND2 : GDK_ARROW);
-		return FALSE;
-
-	case GDK_BUTTON_PRESS:
-		if (event->button.button > 3)
-			return FALSE;
-
-		/* cb_sheet_object_widget_canvas_event calls even if selected */
-		if (NULL == g_hash_table_lookup (pane->drag.ctrl_pts, so)) {
-			SheetObjectClass *soc =
-				G_TYPE_INSTANCE_GET_CLASS (so, SHEET_OBJECT_TYPE, SheetObjectClass);
-
-			if (soc->interactive && event->button.button != 3)
-				return FALSE;
-
-			if (!(event->button.state & GDK_SHIFT_MASK))
-				scg_object_unselect (pane->simple.scg, NULL);
-			scg_object_select (pane->simple.scg, so);
-			if (NULL == g_hash_table_lookup (pane->drag.ctrl_pts, so))
-				return FALSE;	/* protected ? */
-		}
-
-		if (event->button.button < 3)
-			gnm_pane_object_start_resize (pane, &event->button, so, 8, FALSE);
-		else
-			display_object_menu (pane, so, event);
-		break;
-
-	default:
-		return FALSE;
-	}
-	return TRUE;
-}
-
 static void
-cb_sheet_object_view_destroyed (FooCanvasItem *view, SheetObject *so)
-{
-	if (NULL != view->canvas) {
-		GnmPane *pane = GNM_PANE (view->canvas);
-		if (pane != NULL &&
-		    g_hash_table_lookup (pane->drag.ctrl_pts, so) != NULL)
-			scg_object_unselect (GNM_SIMPLE_CANVAS (view->canvas)->scg, so);
-	}
-}
-
-static int
-cb_sheet_object_widget_canvas_event (GtkWidget *widget, GdkEvent *event,
-				     FooCanvasItem *view)
-{
-	if (event->type == GDK_ENTER_NOTIFY ||
-	    (event->type == GDK_BUTTON_PRESS && event->button.button == 3))
-		return cb_sheet_object_canvas_event (view, event,
-			sheet_object_view_get_so (SHEET_OBJECT_VIEW (view)));
-	return FALSE;
-}
-
-static void
-cb_bounds_changed (SheetObject *so, FooCanvasItem *sov)
+cb_bounds_changed (SheetObject *so, GocItem *sov)
 {
 	double coords[4], *cur;
 	SheetControlGUI *scg = GNM_SIMPLE_CANVAS (sov->canvas)->scg;
@@ -3056,14 +2997,8 @@ cb_bounds_changed (SheetObject *so, FooCanvasItem *sov)
  * Setup some standard callbacks for manipulating a view of a sheet object.
  **/
 SheetObjectView *
-gnm_pane_object_register (SheetObject *so, FooCanvasItem *view, gboolean selectable)
+gnm_pane_object_register (SheetObject *so, GocItem *view, gboolean selectable)
 {
-	if (selectable) {
-		g_signal_connect (view, "event",
-			G_CALLBACK (cb_sheet_object_canvas_event), so);
-		g_signal_connect (view, "destroy",
-			G_CALLBACK (cb_sheet_object_view_destroyed), so);
-	}
 	g_signal_connect_object (so, "bounds-changed",
 		G_CALLBACK (cb_bounds_changed), view, 0);
 	return SHEET_OBJECT_VIEW (view);
@@ -3080,15 +3015,20 @@ gnm_pane_object_register (SheetObject *so, FooCanvasItem *view, gboolean selecta
  * objects.
  **/
 void
-gnm_pane_widget_register (SheetObject *so, GtkWidget *w, FooCanvasItem *view)
+gnm_pane_widget_register (SheetObject *so, GtkWidget *w, GocItem *view)
 {
-	g_signal_connect (G_OBJECT (w), "event",
-		G_CALLBACK (cb_sheet_object_widget_canvas_event), view);
-
 	if (GTK_IS_CONTAINER (w)) {
 		GList *ptr, *children = gtk_container_get_children (GTK_CONTAINER (w));
 		for (ptr = children ; ptr != NULL; ptr = ptr->next)
 			gnm_pane_widget_register (so, ptr->data, view);
 		g_list_free (children);
 	}
+}
+
+void
+gnm_pane_set_direction (GnmPane *pane, GocDirection direction)
+{
+	goc_canvas_set_direction (GOC_CANVAS (pane), direction);
+	if (pane->col.canvas != NULL)
+		goc_canvas_set_direction (pane->col.canvas, direction);
 }

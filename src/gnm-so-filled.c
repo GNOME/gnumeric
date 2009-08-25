@@ -58,69 +58,71 @@ typedef struct {
 typedef SheetObjectClass GnmSOFilledClass;
 
 #ifdef GNM_WITH_GTK
-#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
+#include <goffice/goffice.h>
+
+typedef struct {
+	SheetObjectView	base;
+	GocItem *bg, *text;
+} FilledItemView;
+
 static void
 so_filled_view_destroy (SheetObjectView *sov)
 {
-	gtk_object_destroy (GTK_OBJECT (sov));
+	g_object_unref (G_OBJECT (sov));
 }
 static void
 so_filled_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
-	FooCanvasItem  *view = FOO_CANVAS_ITEM (sov);
+	GocItem  *view = GOC_ITEM (sov);
+	FilledItemView *fiv = (FilledItemView *) sov;
+	double scale = goc_canvas_get_pixels_per_unit (view->canvas); 
 
 	if (visible) {
-		FooCanvasGroup	*group = FOO_CANVAS_GROUP (sov);
 		SheetObject	*so = sheet_object_view_get_so (sov);
 		GnmSOFilled	*sof  = GNM_SO_FILLED (so);
-		double w = fabs (coords [2] - coords [0]);
-		double h = fabs (coords [3] - coords [1]);
+		double w = fabs (coords [2] - coords [0]) / scale;
+		double h = fabs (coords [3] - coords [1]) / scale;
 
-		foo_canvas_item_set (FOO_CANVAS_ITEM (group),
-			"x", MIN (coords [0], coords [2]),
-			"y", MIN (coords [1], coords [3]),
+		goc_item_set (view,
+			"x", MIN (coords [0], coords [2]) / scale,
+			"y", MIN (coords [1], coords [3]) / scale,
 			NULL);
 
-		foo_canvas_item_set (FOO_CANVAS_ITEM (group->item_list->data),
-			"x2", w, "y2", h,
+		goc_item_set (GOC_ITEM (fiv->bg),
+			"width", w, "height", h,
 			NULL);
 
-		if (group->item_list->next) {
-			view = FOO_CANVAS_ITEM (group->item_list->next->data);
+
+		if (fiv->text != NULL && GOC_ITEM (fiv->text)) {
 			w -= (sof->margin_pts.left + sof->margin_pts.right)
-				* view->canvas->pixels_per_unit;
+				/ scale;
 			h -= (sof->margin_pts.top + sof->margin_pts.bottom)
-				* view->canvas->pixels_per_unit;
+				/ scale;
 
-			foo_canvas_item_set (view,
-				"clip_height", h,
-				"clip_width",  w,
-				"wrap_width",  w,
-
-				/* cheap hack to force the attributes to regenerate for
-				 * the rare case where the repositioning was caused by
-				 * a change in zoom */
-				"underline_set", FALSE,
+			goc_item_set (GOC_ITEM (fiv->text),
+				"clip-height", h,
+				"clip-width",  w,
+				"wrap-width",  w,
 				NULL);
 		}
 
-		foo_canvas_item_show (view);
+		goc_item_show (view);
 	} else
-		foo_canvas_item_hide (view);
+		goc_item_hide (view);
 }
 
 static void
-so_filled_foo_view_init (SheetObjectViewIface *sov_iface)
+so_filled_item_view_class_init (SheetObjectViewClass *sov_klass)
 {
-	sov_iface->destroy	= so_filled_view_destroy;
-	sov_iface->set_bounds	= so_filled_view_set_bounds;
+	sov_klass->destroy	= so_filled_view_destroy;
+	sov_klass->set_bounds	= so_filled_view_set_bounds;
 }
-typedef FooCanvasGroup		FilledFooView;
-typedef FooCanvasGroupClass	FilledFooViewClass;
-static GSF_CLASS_FULL (FilledFooView, so_filled_foo_view,
-	NULL, NULL, NULL, NULL,
-	NULL, FOO_TYPE_CANVAS_GROUP, 0,
-	GSF_INTERFACE (so_filled_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
+
+typedef SheetObjectViewClass	FilledItemViewClass;
+static GSF_CLASS (FilledItemView, so_filled_item_view,
+	so_filled_item_view_class_init, NULL,
+	SHEET_OBJECT_VIEW_TYPE)
+
 #endif /* GNM_WITH_GTK */
 
 /*****************************************************************************/
@@ -154,9 +156,9 @@ sof_default_style (void)
 #include <dialogs/dialogs.h>
 #include <gnumeric-simple-canvas.h>
 #include <gnm-pane.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-text.h>
+#include <goffice/canvas/goc-rectangle.h>
+#include <goffice/canvas/goc-ellipse.h>
+#include <goffice/canvas/goc-text.h>
 
 static void
 gnm_so_filled_user_config (SheetObject *so, SheetControl *sc)
@@ -169,74 +171,57 @@ gnm_so_filled_user_config (SheetObject *so, SheetControl *sc)
 }
 
 static void
-cb_gnm_so_filled_style_changed (FooCanvasItem *background, GnmSOFilled const *sof)
+cb_gnm_so_filled_style_changed (GocItem *background, GnmSOFilled const *sof)
 {
 	GOStyle const *style = sof->style;
-	GdkColor outline_buf, *outline_gdk = NULL;
-	GdkColor fill_buf, *fill_gdk = NULL;
 
-	if (style->outline.color != 0 &&
-	    style->outline.width >= 0 &&
-	    style->outline.dash_type != GO_LINE_NONE)
-		outline_gdk = go_color_to_gdk (style->outline.color, &outline_buf);
-
-	if (style->fill.type != GO_STYLE_FILL_NONE)
-		fill_gdk = go_color_to_gdk (style->fill.pattern.back, &fill_buf);
-
-	if (style->outline.width > 0.)	/* in pts */
-		foo_canvas_item_set (background,
-			"width-units",		style->outline.width,
-			"outline-color-gdk",	outline_gdk,
-			"fill-color-gdk",	fill_gdk,
-			NULL);
-	else /* hairline 1 pixel that ignores zoom */
-		foo_canvas_item_set (background,
-			"width-pixels",		1,
-			"outline-color-gdk",	outline_gdk,
-			"fill-color-gdk",	fill_gdk,
-			NULL);
+	goc_item_set (background, "style", style, NULL);
 
 }
 static void
 cb_gnm_so_filled_changed (GnmSOFilled const *sof,
 			  G_GNUC_UNUSED GParamSpec *pspec,
-			  FooCanvasGroup *group)
+			  FilledItemView *group)
 {
-	cb_gnm_so_filled_style_changed (group->item_list->data, sof);
+	cb_gnm_so_filled_style_changed (GOC_ITEM (group->bg), sof);
 
-	if (group->item_list->next == NULL)
-		foo_canvas_item_new (group, FOO_TYPE_CANVAS_TEXT,
-				     "anchor",	GTK_ANCHOR_NW,
-				     "clip",		TRUE,
-				     "x",		sof->margin_pts.left,
-				     "y",		sof->margin_pts.top,
-				     "attributes",	sof->markup,
+	if (!sof->is_oval && sof->text != NULL) {
+		if (group->text == NULL)
+			group->text = goc_item_new (GOC_GROUP (group), GOC_TYPE_TEXT,
+				"anchor",	GTK_ANCHOR_NW,
+				"clip",		TRUE,
+				"x",		sof->margin_pts.left,
+				"y",		sof->margin_pts.top,
+				"attributes",	sof->markup,
+				NULL);
+		goc_item_set (group->text,
 				     "text", sof->text,
+				     "attributes",	sof->markup,
 				     NULL);
-	foo_canvas_item_set (FOO_CANVAS_ITEM (group->item_list->next->data),
-			     "text", sof->text,
-			     "attributes",	sof->markup,
-			     NULL);
+	} else if (group->text != NULL) {
+		g_object_unref (group->text);
+		group->text = NULL;
+	}
 }
 
 static SheetObjectView *
 gnm_so_filled_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
 	GnmSOFilled *sof = GNM_SO_FILLED (so);
-	FooCanvasGroup *group = (FooCanvasGroup *) foo_canvas_item_new (
+	FilledItemView *group = (FilledItemView *) goc_item_new (
 		gnm_pane_object_group (GNM_PANE (container)),
-		so_filled_foo_view_get_type (),
+		so_filled_item_view_get_type (),
 		NULL);
 
-	foo_canvas_item_new (group,
-		sof->is_oval ?  FOO_TYPE_CANVAS_ELLIPSE : FOO_TYPE_CANVAS_RECT,
-		"x1", 0., "y1", 0.,
+	group->bg = goc_item_new (GOC_GROUP (group),
+		sof->is_oval ?  GOC_TYPE_ELLIPSE : GOC_TYPE_RECTANGLE,
+		"x", 0., "y", 0.,
 		NULL);
 	cb_gnm_so_filled_changed (sof, NULL, group);
 	g_signal_connect_object (sof,
 		"notify", G_CALLBACK (cb_gnm_so_filled_changed),
 		group, 0);
-	return gnm_pane_object_register (so, FOO_CANVAS_ITEM (group), TRUE);
+	return gnm_pane_object_register (so, GOC_ITEM (group), TRUE);
 }
 
 #endif /* GNM_WITH_GTK */
@@ -384,9 +369,10 @@ gnm_so_filled_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 			g_object_set (G_OBJECT (sof), "text", attrs[1], NULL);
 		else if (attr_eq (attrs[0], "LabelFormat")) {
 			GOFormat * fmt = go_format_new_from_XL (attrs[1]);
-			g_object_set (G_OBJECT (sof),
-				      "markup", go_format_get_markup (fmt),
-				      NULL);
+			if (go_format_is_markup (fmt))
+				g_object_set (G_OBJECT (sof),
+					      "markup", go_format_get_markup (fmt),
+					      NULL);
 			go_format_unref (fmt);
 		} else if (gnm_xml_attr_int     (attrs, "Type", &type))
 			sof->is_oval = (type == 102);
@@ -539,8 +525,6 @@ gnm_so_filled_init (GObject *obj)
 {
 	GnmSOFilled *sof = GNM_SO_FILLED (obj);
 	sof->style = sof_default_style ();
-	sof->text = g_strdup (""); /* If we initialize with NULL, the canvas item */
-	                           /* does not react on changes */
 	sof->markup = NULL;
 	sof->margin_pts.top  = sof->margin_pts.bottom = 3;
 	sof->margin_pts.left = sof->margin_pts.right  = 5;

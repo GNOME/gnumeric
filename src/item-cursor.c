@@ -45,7 +45,7 @@
 #define CLIP_SAFETY_MARGIN      (AUTO_HANDLE_SPACE + 5)
 
 struct _ItemCursor {
-	FooCanvasItem canvas_item;
+	GocItem canvas_item;
 
 	SheetControlGUI *scg;
 	gboolean	 pos_initialized;
@@ -72,12 +72,12 @@ struct _ItemCursor {
 	int   base_x, base_y;
 	GnmRange autofill_src;
 	int   autofill_hsize, autofill_vsize;
-	gint last_x, last_y;
+	gint64 last_x, last_y;
 
 	/* cursor outline in canvas coords, the bounding box (Item::[xy][01])
 	 * is slightly larger ) */
 	struct {
-		int x1, x2, y1, y2;
+		gint64 x1, x2, y1, y2;
 	} outline;
 	int drag_button;
 	guint drag_button_state;
@@ -87,12 +87,12 @@ struct _ItemCursor {
 	gboolean auto_fill_handle_at_top;
 	gboolean auto_fill_handle_at_left;
 
-	GdkPixmap *stipple;
-	GdkColor  color;
+	cairo_pattern_t *stipple;
+	GOColor  color;
 };
-typedef FooCanvasItemClass ItemCursorClass;
+typedef GocItemClass ItemCursorClass;
 
-static FooCanvasItemClass *parent_class;
+static GocItemClass *parent_class;
 
 enum {
 	ITEM_CURSOR_PROP_0,
@@ -105,10 +105,10 @@ enum {
 static int
 cb_item_cursor_animation (ItemCursor *ic)
 {
-	FooCanvasItem *item = FOO_CANVAS_ITEM (ic);
+	GocItem *item = GOC_ITEM (ic);
 
 	ic->state = !ic->state;
-	foo_canvas_item_request_update (item);
+	goc_item_invalidate (item);
 	return TRUE;
 }
 
@@ -126,42 +126,38 @@ item_cursor_dispose (GObject *obj)
 }
 
 static void
-item_cursor_realize (FooCanvasItem *item)
+item_cursor_realize (GocItem *item)
 {
-	ItemCursor *ic;
-	GdkWindow  *window;
+	ItemCursor *ic = ITEM_CURSOR (item);
 
 	if (parent_class->realize)
 		(*parent_class->realize) (item);
 
-	ic = ITEM_CURSOR (item);
-	window = GTK_WIDGET (item->canvas)->window;
-
-	ic->gc = gdk_gc_new (window);
-
 	if (ic->style == ITEM_CURSOR_ANTED) {
 		g_return_if_fail (ic->animation_timer == -1);
 		ic->animation_timer = g_timeout_add (
-			150, (GSourceFunc)cb_item_cursor_animation,
+			150, (GSourceFunc) cb_item_cursor_animation,
 			ic);
 	}
 
 	if (ic->style == ITEM_CURSOR_DRAG || ic->style == ITEM_CURSOR_AUTOFILL) {
-		static unsigned char const stipple_data [] = { 0x55, 0xaa, 0x55, 0xaa, 0x55, 0xaa, 0x55, 0xaa };
-		ic->stipple = gdk_bitmap_create_from_data (window, (const gchar *)stipple_data, 8, 8);
+		GOPattern pat;
+		cairo_t *cr = gdk_cairo_create (gtk_widget_get_window (GTK_WIDGET (item->canvas)));
+		pat.fore = RGBA_BLACK;
+		pat.back = RGBA_WHITE;
+		pat.pattern = GO_PATTERN_GREY50;
+		ic->stipple = go_pattern_create_cairo_pattern (&pat, cr);
+		cairo_destroy (cr);
 	}
 }
 
 static void
-item_cursor_unrealize (FooCanvasItem *item)
+item_cursor_unrealize (GocItem *item)
 {
 	ItemCursor *ic = ITEM_CURSOR (item);
 
-	g_object_unref (G_OBJECT (ic->gc));
-	ic->gc = NULL;
-
 	if (ic->stipple) {
-		g_object_unref (ic->stipple);
+		cairo_pattern_destroy (ic->stipple);
 		ic->stipple = NULL;
 	}
 
@@ -175,63 +171,50 @@ item_cursor_unrealize (FooCanvasItem *item)
 }
 
 static void
-item_cursor_update (FooCanvasItem *item, double i2w_dx, double i2w_dy, int flags)
+item_cursor_update_bounds (GocItem *item)
 {
 	ItemCursor	*ic = ITEM_CURSOR (item);
 	GnmPane		*pane = GNM_PANE (item->canvas);
 	SheetControlGUI const * const scg = ic->scg;
 	int tmp;
+	double scale = item->canvas->pixels_per_unit;
 
 	int const left	 = ic->pos.start.col;
 	int const right	 = ic->pos.end.col;
 	int const top	 = ic->pos.start.row;
 	int const bottom = ic->pos.end.row;
-
-	foo_canvas_item_request_redraw (item); /* Erase the old cursor */
-
-	ic->outline.x1 = pane->first_offset.col +
+	ic->outline.x1 = pane->first_offset.x +
 		scg_colrow_distance_get (scg, TRUE, pane->first.col, left);
 	ic->outline.x2 = ic->outline.x1 +
 		scg_colrow_distance_get (scg, TRUE, left, right+1);
-	ic->outline.y1 = pane->first_offset.row +
+	ic->outline.y1 = pane->first_offset.y +
 		scg_colrow_distance_get (scg, FALSE, pane->first.row, top);
 	ic->outline.y2 = ic->outline.y1 +
 		scg_colrow_distance_get (scg, FALSE,top, bottom+1);
 
-	if (scg_sheet (scg)->text_is_rtl) {
-		tmp = ic->outline.x1;
-		ic->outline.x1 = gnm_foo_canvas_x_w2c (item->canvas, ic->outline.x2);
-		ic->outline.x2 = gnm_foo_canvas_x_w2c (item->canvas, tmp);
-	}
 	/* NOTE : sometimes y1 > y2 || x1 > x2 when we create a cursor in an
 	 * invisible region such as above a frozen pane */
 
-	item->x1 = ic->outline.x1 - 1;
-	item->y1 = ic->outline.y1 - 1;
+	/* jean: I don't know why we now need 2 instead of one in the next two lines */
+	item->x0 = (ic->outline.x1 - 2) / scale;
+	item->y0 = (ic->outline.y1 - 2) / scale;
 
 	/* for the autohandle */
 	tmp = (ic->style == ITEM_CURSOR_SELECTION) ? AUTO_HANDLE_WIDTH : 0;
-	item->x2 = ic->outline.x2 + 3 + tmp;
-	item->y2 = ic->outline.y2 + 3 + tmp;
-
-	foo_canvas_item_request_redraw (item); /* draw the new cursor */
-
-	if (parent_class->update)
-		(*parent_class->update) (item, i2w_dx, i2w_dy, flags);
+	item->x1 = (ic->outline.x2 + 3 + tmp) / scale;
+	item->y1 = (ic->outline.y2 + 3 + tmp) / scale;
 }
 
 static void
-item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
-		  GdkEventExpose *expose)
+item_cursor_draw (GocItem const *item, cairo_t *cr)
 {
-	GdkGCValues values;
 	ItemCursor *ic = ITEM_CURSOR (item);
-	int x0, y0, x1, y1; /* in canvas coordinates */
-	GdkPoint points [5];
-	int draw_thick, draw_handle;
+	int x0, y0, x1, y1; /* in widget coordinates */
+	GocPoint points [5];
+	int draw_thick, draw_handle, i;
 	int premove = 0;
-	GdkColor *fore = NULL, *back = NULL;
-	gboolean draw_stippled, draw_center, draw_external, draw_internal, draw_xor;
+	gboolean draw_stippled, draw_center, draw_external, draw_internal;
+	double scale = item->canvas->pixels_per_unit;
 
 #if 0
 	g_print ("draw[%d] %d,%d %d,%d\n",
@@ -244,10 +227,16 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	if (!ic->visible || !ic->pos_initialized)
 		return;
 
-	x0 = ic->outline.x1;
-	y0 = ic->outline.y1;
-	x1 = ic->outline.x2;
-	y1 = ic->outline.y2;
+	/* we need to use canvas coordinates in goc_canvas_c2w, hence the divisions by scale. */
+	if (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) {
+		goc_canvas_c2w (item->canvas, ic->outline.x2 / scale, ic->outline.y2 / scale, &x0, &y1);
+		goc_canvas_c2w (item->canvas, ic->outline.x1 / scale, ic->outline.y1 / scale, &x1, &y0);
+		x0--; /* because of the +.5, things are not symetric */
+		x1--;
+	} else {
+		goc_canvas_c2w (item->canvas, ic->outline.x1 / scale, ic->outline.y1 / scale, &x0, &y0);
+		goc_canvas_c2w (item->canvas, ic->outline.x2 / scale, ic->outline.y2 / scale, &x1, &y1);
+	}
 
 	/* only mostly in invisible areas (eg on creation of frozen panes) */
 	if (x0 > x1 || y0 > y1)
@@ -259,7 +248,6 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	draw_thick    = 1;
 	draw_center   = FALSE;
 	draw_stippled = FALSE;
-	draw_xor      = TRUE;
 
 	switch (ic->style) {
 	case ITEM_CURSOR_AUTOFILL:
@@ -267,14 +255,11 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 		draw_center   = TRUE;
 		draw_thick    = 3;
 		draw_stippled = TRUE;
-		fore          = &gs_white;
-		back          = &gs_white;
 		break;
 
 	case ITEM_CURSOR_EXPR_RANGE:
 		draw_center   = TRUE;
-		draw_thick    = (item->canvas->current_item == item) ? 3 : 2;
-		draw_xor      = FALSE;
+		draw_thick    = (item->canvas->last_item == item) ? 3 : 2;
 		break;
 
 	case ITEM_CURSOR_SELECTION:
@@ -305,44 +290,23 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	case ITEM_CURSOR_ANTED:
 		draw_center   = TRUE;
 		draw_thick    = 2;
-		if (ic->state) {
-			fore = &gs_light_gray;
-			back = &gs_dark_gray;
-		} else {
-			fore = &gs_dark_gray;
-			back = &gs_light_gray;
-		}
-	}
-
-	if (ic->use_color) {
-		fore = &ic->color;
-		back = &ic->color;
+		break;
+	default:
+		break;
 	}
 
 	ic->auto_fill_handle_at_top = (draw_handle >= 2);
 
-	gdk_gc_set_clip_rectangle (ic->gc, &expose->area);
-
-	/* Avoid guint16 overflow during line drawing.  We can change
-	 * the shape we draw, so long as no lines or parts of
-	 * rectangles are moved from outside to inside the clipping
-	 * region */
-	x0 = MAX (x0, expose->area.x - CLIP_SAFETY_MARGIN);
-	y0 = MAX (y0, expose->area.y - CLIP_SAFETY_MARGIN);
-	x1 = MIN (x1, expose->area.x + expose->area.width + CLIP_SAFETY_MARGIN);
-	y1 = MIN (y1, expose->area.y + expose->area.height + CLIP_SAFETY_MARGIN);
+	/* Do we need to clip? */
 
 	if (x0 >= x1 || y0 >= y1)
 		draw_handle = 0;
-
-	gdk_gc_set_line_attributes (ic->gc, 1,
-		GDK_LINE_SOLID, GDK_CAP_BUTT, GDK_JOIN_MITER);
-	gdk_gc_set_rgb_fg_color (ic->gc, &gs_white);
-	gdk_gc_set_rgb_bg_color (ic->gc, &gs_white);
-	if (draw_xor) {
-		values.function = GDK_XOR;
-		gdk_gc_set_values (ic->gc, &values, GDK_GC_FUNCTION);
-	}
+	cairo_save (cr);
+	cairo_set_dash (cr, NULL, 0, 0.);
+	cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
+	cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
+	cairo_set_source_rgba (cr, 0., 0., 0., 1.);
+	cairo_set_line_width (cr, draw_thick);
 
 	if (draw_external) {
 		switch (draw_handle) {
@@ -353,15 +317,15 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 
 		/* No auto handle */
 		case 0 :
-			points [0].x = x1 + 1;
-			points [0].y = y1 + 1 - premove;
+			points [0].x = x1 + 1.5;
+			points [0].y = y1 + 1.5 - premove;
 			points [1].x = points [0].x;
-			points [1].y = y0 - 1;
-			points [2].x = x0 - 1;
-			points [2].y = y0 - 1;
-			points [3].x = x0 - 1;
-			points [3].y = y1 + 1;
-			points [4].x = x1 + 1 - premove;
+			points [1].y = y0 - .5;
+			points [2].x = x0 - .5;
+			points [2].y = y0 - .5;
+			points [3].x = x0 - .5;
+			points [3].y = y1 + 1.5;
+			points [4].x = x1 + 1.5 - premove;
 			points [4].y = points [3].y;
 			break;
 
@@ -371,22 +335,25 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 
 		/* Auto handle at top of sheet */
 		case 3 :
-			points [0].x = x1 + 1;
-			points [0].y = y0 - 1 + AUTO_HANDLE_SPACE;
+			points [0].x = x1 + 1.5;
+			points [0].y = y0 - .5 + AUTO_HANDLE_SPACE;
 			points [1].x = points [0].x;
-			points [1].y = y1 + 1;
-			points [2].x = x0 - 1;
+			points [1].y = y1 + 1.5;
+			points [2].x = x0 - .5;
 			points [2].y = points [1].y;
 			points [3].x = points [2].x;
-			points [3].y = y0 - 1;
-			points [4].x = x1 + 1 - premove;
+			points [3].y = y0 - .5;
+			points [4].x = x1 + 1.5 - premove;
 			points [4].y = points [3].y;
 			break;
 
 		default :
 			g_assert_not_reached ();
 		}
-		gdk_draw_lines (drawable, ic->gc, points, 5);
+		cairo_move_to (cr, points[0].x, points[0].y);
+		for (i = 1; i < 5; i++)
+			cairo_line_to (cr, points[i].x, points[i].y);
+		cairo_stroke (cr);
 	}
 
 	if (draw_external && draw_internal) {
@@ -409,75 +376,84 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 			points [3].y += 2;
 			points [4].y += 2;
 		}
-		gdk_draw_lines (drawable, ic->gc, points, 5);
+		cairo_move_to (cr, points[0].x, points[0].y);
+		for (i = 1; i < 5; i++)
+			cairo_line_to (cr, points[i].x, points[i].y);
+		cairo_stroke (cr);
 	}
 
 	if (draw_handle == 1 || draw_handle == 2) {
 		int const y_off = (draw_handle == 1) ? y1 - y0 : 0;
-		gdk_draw_rectangle (drawable, ic->gc, TRUE,
+		cairo_rectangle (cr,
 				    x1 - 2,
 				    y0 + y_off - 2,
 				    2, 2);
-		gdk_draw_rectangle (drawable, ic->gc, TRUE,
+		cairo_rectangle (cr,
 				    x1 + 1,
 				    y0 + y_off - 2,
 				    2, 2);
-		gdk_draw_rectangle (drawable, ic->gc, TRUE,
+		cairo_rectangle (cr,
 				    x1 - 2,
 				    y0 + y_off + 1,
 				    2, 2);
-		gdk_draw_rectangle (drawable, ic->gc, TRUE,
+		cairo_rectangle (cr,
 				    x1 + 1,
 				    y0 + y_off + 1,
 				    2, 2);
 	} else if (draw_handle == 3) {
-		gdk_draw_rectangle (drawable, ic->gc, TRUE,
+		cairo_rectangle (cr,
 				    x1 - 2,
 				    y0 + 1,
 				    2, 4);
-		gdk_draw_rectangle (drawable, ic->gc, TRUE,
+		cairo_rectangle (cr,
 				    x1 + 1,
 				    y0 + 1,
 				    2, 4);
 	}
+	cairo_fill (cr);
 
 	if (draw_center) {
-		gdk_gc_set_rgb_fg_color (ic->gc, fore);
-		gdk_gc_set_rgb_bg_color (ic->gc, back);
-
 		if (draw_stippled) {
-			gdk_gc_set_fill (ic->gc, GDK_STIPPLED);
-			gdk_gc_set_stipple (ic->gc, ic->stipple);
-			gdk_gc_set_line_attributes (ic->gc, draw_thick,
-				GDK_LINE_SOLID, GDK_CAP_BUTT, GDK_JOIN_MITER);
-		} else
-			gdk_gc_set_line_attributes (ic->gc, draw_thick,
-				GDK_LINE_DOUBLE_DASH, GDK_CAP_BUTT, GDK_JOIN_MITER);
-
-		/* Stay in the boundary */
+			cairo_set_source (cr, ic->stipple);
+			cairo_set_line_width (cr, draw_thick);
+		} else {
+			double dash_length = 4.;
+			cairo_set_dash (cr, &dash_length, 1, (ic->state? dash_length: 0.));
+		}
 		if ((draw_thick % 2) == 0) {
+		/* Stay in the boundary */
 			x0++;
 			y0++;
+		} else {
+			x0 += 0.5;
+			x1 += 0.5;
+			y0 += 0.5;
+			y1 += 0.5;
 		}
-		gdk_draw_rectangle (drawable, ic->gc, FALSE,
-				    x0, y0,
-				    abs (x1 - x0), abs (y1 - y0));
+		cairo_rectangle (cr, x0, y0, x1 - x0, y1 - y0);
+		cairo_stroke (cr);
 	}
+	cairo_restore (cr);
+	return;
 }
 
 gboolean
 item_cursor_bound_set (ItemCursor *ic, GnmRange const *new_bound)
 {
+	GocItem *item;
 	g_return_val_if_fail (IS_ITEM_CURSOR (ic), FALSE);
 	g_return_val_if_fail (range_is_sane (new_bound), FALSE);
 
 	if (ic->pos_initialized && range_equal (&ic->pos, new_bound))
 		return FALSE;
 
+	item = GOC_ITEM (ic);
+	goc_item_invalidate (item);
 	ic->pos = *new_bound;
 	ic->pos_initialized = TRUE;
 
-	foo_canvas_item_request_update (FOO_CANVAS_ITEM (ic));
+	goc_item_bounds_changed (item);
+	goc_item_invalidate (item);
 
 	return TRUE;
 }
@@ -491,13 +467,13 @@ item_cursor_bound_set (ItemCursor *ic, GnmRange const *new_bound)
 void
 item_cursor_reposition (ItemCursor *ic)
 {
-	g_return_if_fail (ic != NULL);
-	foo_canvas_item_request_update (&ic->canvas_item);
+	g_return_if_fail (GOC_IS_ITEM (ic));
+	goc_item_bounds_changed (GOC_ITEM (ic));
 }
 
 static double
-item_cursor_point (FooCanvasItem *item, double x, double y, int cx, int cy,
-		   FooCanvasItem **actual_item)
+item_cursor_distance (GocItem *item, double x, double y,
+		   GocItem **actual_item)
 {
 	ItemCursor const *ic = ITEM_CURSOR (item);
 
@@ -512,18 +488,17 @@ item_cursor_point (FooCanvasItem *item, double x, double y, int cx, int cy,
 
 	*actual_item = NULL;
 
-	if (cx < item->x1-3)
+	if (x < item->x0-3)
 		return DBL_MAX;
-	if (cx > item->x2+3)
+	if (x > item->x1+3)
 		return DBL_MAX;
-	if (cy < item->y1-3)
+	if (y < item->y0-3)
 		return DBL_MAX;
-	if (cy > item->y2+3)
+	if (y > item->y1+3)
 		return DBL_MAX;
 
-	/* FIXME: the drag handle for ITEM_CURSOR_SELECTION needs work */
-	if ((cx < (item->x1 + 4)) || (cx > (item->x2 - 8)) ||
-	    (cy < (item->y1 + 4)) || (cy > (item->y2 - 8))) {
+	if ((x < (item->x0 + 4)) || (x > (item->x1 - 8)) ||
+	    (y < (item->y0 + 4)) || (y > (item->y1 - 8))) {
 		*actual_item = item;
 		return 0.0;
 	}
@@ -560,17 +535,18 @@ item_cursor_setup_auto_fill (ItemCursor *ic, ItemCursor const *parent, int x, in
 }
 
 static inline gboolean
-item_cursor_in_drag_handle (ItemCursor *ic, int x, int y)
+item_cursor_in_drag_handle (ItemCursor *ic, gint64 x, gint64 y)
 {
-	int const y_test = ic->auto_fill_handle_at_top
-		? ic->canvas_item.y1 + AUTO_HANDLE_WIDTH
-		: ic->canvas_item.y2 - AUTO_HANDLE_WIDTH;
+	double scale = ic->canvas_item.canvas->pixels_per_unit;
+	gint64 const y_test = ic->auto_fill_handle_at_top
+		? ic->canvas_item.y0 * scale + AUTO_HANDLE_WIDTH
+		: ic->canvas_item.y1 * scale - AUTO_HANDLE_WIDTH;
 
 	if ((y_test-AUTO_HANDLE_SPACE) <= y &&
 	    y <= (y_test+AUTO_HANDLE_SPACE)) {
-		int const x_test = ic->auto_fill_handle_at_left
-			? ic->canvas_item.x1 + AUTO_HANDLE_WIDTH
-			: ic->canvas_item.x2 - AUTO_HANDLE_WIDTH;
+		gint64 const x_test = ic->auto_fill_handle_at_left
+			? ic->canvas_item.x0 * scale + AUTO_HANDLE_WIDTH
+			: ic->canvas_item.x1 *scale - AUTO_HANDLE_WIDTH;
 		return (x_test-AUTO_HANDLE_SPACE) <= x &&
 			x <= (x_test+AUTO_HANDLE_SPACE);
 	 }
@@ -578,7 +554,7 @@ item_cursor_in_drag_handle (ItemCursor *ic, int x, int y)
 }
 
 static void
-item_cursor_set_cursor (FooCanvas *canvas, ItemCursor *ic, int x, int y)
+item_cursor_set_cursor (GocCanvas *canvas, ItemCursor *ic, gint64 x, gint64 y)
 {
 	GdkCursorType cursor;
 
@@ -590,312 +566,93 @@ item_cursor_set_cursor (FooCanvas *canvas, ItemCursor *ic, int x, int y)
 	gnm_widget_set_cursor_type (GTK_WIDGET (canvas), cursor);
 }
 
-static gint
-item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
+static gboolean
+item_cursor_selection_motion (GocItem *item, double x_, double y_)
 {
-	FooCanvas  *canvas = item->canvas;
+	GocCanvas  *canvas = item->canvas;
 	GnmPane  *pane = GNM_PANE (canvas);
 	ItemCursor *ic = ITEM_CURSOR (item);
-	int x, y;
+	int style, button;
+	gint64 x = x_ * canvas->pixels_per_unit, y = y_ * canvas->pixels_per_unit;
+	ItemCursor *special_cursor;
+	GdkEventMotion *event = (GdkEventMotion *) goc_canvas_get_cur_event (item->canvas);
 
-	switch (event->type) {
-	case GDK_ENTER_NOTIFY:
-		foo_canvas_w2c (canvas,
-			event->crossing.x, event->crossing.y, &x, &y);
+	if (ic->drag_button < 0) {
 		item_cursor_set_cursor (canvas, ic, x, y);
 		return TRUE;
-
-	case GDK_MOTION_NOTIFY: {
-		int style, button;
-		ItemCursor *special_cursor;
-
-		foo_canvas_w2c (canvas,
-			event->motion.x, event->motion.y, &x, &y);
-
-		if (ic->drag_button < 0) {
-			item_cursor_set_cursor (canvas, ic, x, y);
-			return TRUE;
-		}
-
-		/*
-		 * determine which part of the cursor was clicked:
-		 * the border or the handlebox
-		 */
-		if (item_cursor_in_drag_handle (ic, x, y))
-			style = ITEM_CURSOR_AUTOFILL;
-		else
-			style = ITEM_CURSOR_DRAG;
-
-		button = ic->drag_button;
-		ic->drag_button = -1;
-		gnm_simple_canvas_ungrab (item, event->button.time);
-
-		scg_special_cursor_start (ic->scg, style, button);
-		special_cursor = pane->cursor.special;
-		special_cursor->drag_button_state = ic->drag_button_state;
-		if (style == ITEM_CURSOR_AUTOFILL)
-			item_cursor_setup_auto_fill (
-				special_cursor, ic, x, y);
-
-		if (x < 0)
-			x = 0;
-		if (y < 0)
-			y = 0;
-		/*
-		 * Capture the offset of the current cell relative to
-		 * the upper left corner.  Be careful handling the position
-		 * of the cursor.  it is possible to select the exterior or
-		 * interior of the cursor edge which behaves as if the cursor
-		 * selection was offset by one.
-		 */
-		{
-			int d_col = gnm_pane_find_col (pane, x, NULL) -
-				ic->pos.start.col;
-			int d_row = gnm_pane_find_row (pane, y, NULL) -
-				ic->pos.start.row;
-
-			if (d_col >= 0) {
-				int tmp = ic->pos.end.col - ic->pos.start.col;
-				if (d_col > tmp)
-					d_col = tmp;
-			} else
-				d_col = 0;
-			special_cursor->col_delta = d_col;
-
-			if (d_row >= 0) {
-				int tmp = ic->pos.end.row - ic->pos.start.row;
-				if (d_row > tmp)
-					d_row = tmp;
-			} else
-				d_row = 0;
-			special_cursor->row_delta = d_row;
-		}
-
-		if (scg_special_cursor_bound_set (ic->scg, &ic->pos))
-			foo_canvas_update_now (canvas);
-
-		gnm_simple_canvas_grab (FOO_CANVAS_ITEM (special_cursor),
-			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK,
-			NULL, event->button.time);
-		gnm_pane_slide_init (pane);
-
-		/*
-		 * We flush after the grab to ensure that the new item-cursor
-		 * gets created.  If it is not ready in time double click
-		 * events will be disrupted and it will appear as if we are
-		 * doing an button_press with a missing release.
-		 */
-		gdk_flush ();
-		return TRUE;
 	}
 
-	case GDK_2BUTTON_PRESS: {
-		Sheet *sheet = scg_sheet (ic->scg);
-		int final_col = ic->pos.end.col;
-		int final_row = ic->pos.end.row;
+	/*
+	 * determine which part of the cursor was clicked:
+	 * the border or the handlebox
+	 */
+	if (item_cursor_in_drag_handle (ic, x, y))
+		style = ITEM_CURSOR_AUTOFILL;
+	else
+		style = ITEM_CURSOR_DRAG;
 
-		if (ic->drag_button != (int)event->button.button)
-			return TRUE;
+	button = ic->drag_button;
+	ic->drag_button = -1;
+	gnm_simple_canvas_ungrab (item, event->time);
 
-		ic->drag_button = -1;
-		gnm_simple_canvas_ungrab (item, event->button.time);
+	scg_special_cursor_start (ic->scg, style, button);
+	special_cursor = pane->cursor.special;
+	special_cursor->drag_button_state = ic->drag_button_state;
+	if (style == ITEM_CURSOR_AUTOFILL)
+		item_cursor_setup_auto_fill (
+			special_cursor, ic, x, y);
 
-		if (sheet_is_region_empty (sheet, &ic->pos))
-			return TRUE;
+	if (x < 0)
+		x = 0;
+	if (y < 0)
+		y = 0;
+	/*
+	 * Capture the offset of the current cell relative to
+	 * the upper left corner.  Be careful handling the position
+	 * of the cursor.  it is possible to select the exterior or
+	 * interior of the cursor edge which behaves as if the cursor
+	 * selection was offset by one.
+	 */
+	{
+		int d_col = gnm_pane_find_col (pane, x, NULL) -
+			ic->pos.start.col;
+		int d_row = gnm_pane_find_row (pane, y, NULL) -
+			ic->pos.start.row;
 
-		/* If the cell(s) immediately below the ones in the
-		 * auto-fill template are not blank then over-write
-		 * them.
-		 *
-		 * Otherwise, only go as far as the next non-blank
-		 * cells.
-		 *
-		 * The code below uses find_boundary twice.  a. to
-		 * find the boundary of the column/row that acts as a
-		 * template to define the region to file and b. to
-		 * find the boundary of the region being filled.
-		 */
-
-		if (event->button.state & GDK_MOD1_MASK) {
-			int template_col = ic->pos.end.col + 1;
-			int template_row = ic->pos.start.row - 1;
-			int boundary_col_for_target;
-			int target_row;
-
-			if (template_row < 0 || template_col >= gnm_sheet_get_max_cols (sheet) ||
-			    sheet_is_cell_empty (sheet, template_col,
-						 template_row)) {
-
-				template_row = ic->pos.end.row + 1;
-				if (template_row >= gnm_sheet_get_max_rows (sheet) ||
-				    template_col >= gnm_sheet_get_max_cols (sheet) ||
-				    sheet_is_cell_empty (sheet, template_col,
-							 template_row))
-					return TRUE;
-			}
-
-			if (template_col >= gnm_sheet_get_max_cols (sheet) ||
-			    sheet_is_cell_empty (sheet, template_col,
-						 template_row))
-				return TRUE;
-			final_col = sheet_find_boundary_horizontal (sheet,
-				ic->pos.end.col, template_row,
-				template_row, 1, TRUE);
-			if (final_col <= ic->pos.end.col)
-				return TRUE;
-
-			/*
-			   Find the boundary of the target region.
-			   We don't want to go beyond this boundary.
-			*/
-			for (target_row = ic->pos.start.row; target_row <= ic->pos.end.row; target_row++) {
-				/* find_boundary is designed for Ctrl-arrow movement.  (Ab)using it for
-				 * finding autofill regions works fairly well.  One little gotcha is
-				 * that if the current col is the last row of a block of data Ctrl-arrow
-				 * will take you to then next block.  The workaround for this is to
-				 * start the search at the last col of the selection, rather than
-				 * the first col of the region being filled.
-				 */
-				boundary_col_for_target = sheet_find_boundary_horizontal
-					(sheet,
-					 ic->pos.end.col, target_row,
-					 target_row, 1, TRUE);
-
-				if (sheet_is_cell_empty (sheet, boundary_col_for_target-1, target_row) &&
-				    ! sheet_is_cell_empty (sheet, boundary_col_for_target, target_row)) {
-					/* target region was empty, we are now one col
-					   beyond where it is safe to autofill. */
-					boundary_col_for_target--;
-				}
-				if (boundary_col_for_target < final_col) {
-					final_col = boundary_col_for_target;
-				}
-			}
-		} else {
-			int template_row = ic->pos.end.row + 1;
-			int template_col = ic->pos.start.col - 1;
-			int boundary_row_for_target;
-			int target_col;
-
-			if (template_col < 0 || template_row >= gnm_sheet_get_max_rows (sheet) ||
-			    sheet_is_cell_empty (sheet, template_col,
-						 template_row)) {
-
-				template_col = ic->pos.end.col + 1;
-				if (template_col >= gnm_sheet_get_max_cols (sheet) ||
-				    template_row >= gnm_sheet_get_max_rows (sheet) ||
-				    sheet_is_cell_empty (sheet, template_col,
-							 template_row))
-					return TRUE;
-			}
-
-			if (template_row >= gnm_sheet_get_max_rows (sheet) ||
-			    sheet_is_cell_empty (sheet, template_col,
-						 template_row))
-				return TRUE;
-			final_row = sheet_find_boundary_vertical (sheet,
-				template_col, ic->pos.end.row,
-				template_col, 1, TRUE);
-			if (final_row <= ic->pos.end.row)
-				return TRUE;
-
-			/*
-			   Find the boundary of the target region.
-			   We don't want to go beyond this boundary.
-			*/
-			for (target_col = ic->pos.start.col; target_col <= ic->pos.end.col; target_col++) {
-				/* find_boundary is designed for Ctrl-arrow movement.  (Ab)using it for
-				 * finding autofill regions works fairly well.  One little gotcha is
-				 * that if the current row is the last row of a block of data Ctrl-arrow
-				 * will take you to then next block.  The workaround for this is to
-				 * start the search at the last row of the selection, rather than
-				 * the first row of the region being filled.
-				 */
-				boundary_row_for_target = sheet_find_boundary_vertical
-					(sheet,
-					 target_col, ic->pos.end.row,
-					 target_col, 1, TRUE);
-				if (sheet_is_cell_empty (sheet, target_col, boundary_row_for_target-1) &&
-				    ! sheet_is_cell_empty (sheet, target_col, boundary_row_for_target)) {
-					/* target region was empty, we are now one row
-					   beyond where it is safe to autofill. */
-					boundary_row_for_target--;
-				}
-
-				if (boundary_row_for_target < final_row) {
-					final_row = boundary_row_for_target;
-				}
-			}
-		}
-
-		/* fill the row/column */
-		cmd_autofill (scg_wbc (ic->scg), sheet, FALSE,
-			      ic->pos.start.col, ic->pos.start.row,
-			      ic->pos.end.col - ic->pos.start.col + 1,
-			      ic->pos.end.row - ic->pos.start.row + 1,
-			      final_col, final_row,
-			      FALSE);
-
-		return TRUE;
-	}
-
-	case GDK_BUTTON_PRESS:
-		/* NOTE : this cannot be called while we are editing.  because
-		 * the point routine excludes events.  so we do not need to
-		 * call wbcg_edit_finish.
-		 */
-
-		/* scroll wheel events dont have corresponding release events */
-		if (event->button.button > 3)
-			return FALSE;
-
-		/* If another button is already down ignore this one */
-		if (ic->drag_button >= 0)
-			return TRUE;
-
-		if (event->button.button != 3) {
-			int x, y;
-
-			/* prepare to create fill or drag cursors, but dont until we
-			 * move.  If we did create them here there would be problems
-			 * with race conditions when the new cursors pop into existence
-			 * during a double-click
-			 */
-
-			foo_canvas_w2c (canvas,
-					event->button.x, event->button.y, &x, &y);
-			if (item_cursor_in_drag_handle (ic, x, y))
-				go_cmd_context_progress_message_set (GO_CMD_CONTEXT (scg_wbcg (ic->scg)),
-								     _("Drag to autofill"));
-			else
-				go_cmd_context_progress_message_set (GO_CMD_CONTEXT (scg_wbcg (ic->scg)),
-								     _("Drag to move"));
-
-			ic->drag_button = event->button.button;
-			ic->drag_button_state = event->button.state;
-			gnm_simple_canvas_grab (item,
-				GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK,
-				NULL, event->button.time);
+		if (d_col >= 0) {
+			int tmp = ic->pos.end.col - ic->pos.start.col;
+			if (d_col > tmp)
+				d_col = tmp;
 		} else
-			scg_context_menu (ic->scg, &event->button, FALSE, FALSE);
-		return TRUE;
+			d_col = 0;
+		special_cursor->col_delta = d_col;
 
-	case GDK_BUTTON_RELEASE:
-		if (ic->drag_button != (int)event->button.button)
-			return TRUE;
-
-		/* Double clicks may have already released the drag prep */
-		if (ic->drag_button >= 0) {
-			gnm_simple_canvas_ungrab (item, event->button.time);
-			ic->drag_button = -1;
-		}
-		go_cmd_context_progress_message_set (GO_CMD_CONTEXT (scg_wbcg (ic->scg)),
-						     " ");
-		return TRUE;
-
-	default:
-		return FALSE;
+		if (d_row >= 0) {
+			int tmp = ic->pos.end.row - ic->pos.start.row;
+			if (d_row > tmp)
+				d_row = tmp;
+		} else
+			d_row = 0;
+		special_cursor->row_delta = d_row;
 	}
+
+	scg_special_cursor_bound_set (ic->scg, &ic->pos);
+
+	gnm_simple_canvas_grab (GOC_ITEM (special_cursor),
+		GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK,
+		NULL, event->time);
+	gnm_pane_slide_init (pane);
+
+	goc_item_bounds_changed (GOC_ITEM (ic));
+
+	/*
+	 * We flush after the grab to ensure that the new item-cursor
+	 * gets created.  If it is not ready in time double click
+	 * events will be disrupted and it will appear as if we are
+	 * doing an button_press with a missing release.
+	 */
+	gdk_flush ();
+	return TRUE;
 }
 
 typedef enum {
@@ -1055,22 +812,22 @@ item_cursor_set_visibility (ItemCursor *ic, gboolean visible)
 		return;
 
 	ic->visible = visible;
-	foo_canvas_item_request_update (FOO_CANVAS_ITEM (ic));
+	if (visible)
+		goc_item_show (GOC_ITEM (ic));
+	else
+		goc_item_hide (GOC_ITEM (ic));
 }
 
 static void
 item_cursor_tip_setlabel (ItemCursor *ic, char const *text)
 {
 	if (ic->tip == NULL) {
-		FooCanvas *canvas = FOO_CANVAS_ITEM (ic)->canvas;
-		GtkWidget *cw = GTK_WIDGET (canvas);
-		int wx, wy;
-
-		gnm_canvas_get_position (canvas, &wx, &wy,
-					 ic->last_x, ic->last_y);
+		GtkWidget *cw = GTK_WIDGET (GOC_ITEM (ic)->canvas);
+		int x, y;
 		ic->tip = gnumeric_create_tooltip (cw);
 
-		gnumeric_position_tooltip (ic->tip, wx, wy, TRUE);
+		gnm_canvas_get_position (GOC_CANVAS (cw), &x, &y, ic->last_x, ic->last_y);
+		gnumeric_position_tooltip (ic->tip, x, y, TRUE);
 		gtk_widget_show_all (gtk_widget_get_toplevel (ic->tip));
 	}
 
@@ -1109,47 +866,23 @@ cb_move_cursor (GnmPane *pane, GnmPaneSlideInfo const *info)
 }
 
 static void
-item_cursor_handle_motion (ItemCursor *ic, GdkEvent *event,
+item_cursor_handle_motion (ItemCursor *ic, double x, double y,
 			   GnmPaneSlideHandler slide_handler)
 {
-	FooCanvas *canvas = FOO_CANVAS_ITEM (ic)->canvas;
+	GocCanvas *canvas = GOC_ITEM (ic)->canvas;
 
 	gnm_pane_handle_motion (GNM_PANE (canvas),
-		canvas, &event->motion,
+		canvas, x, y,
 		GNM_PANE_SLIDE_X | GNM_PANE_SLIDE_Y | GNM_PANE_SLIDE_AT_COLROW_BOUND,
 		slide_handler, ic);
+	goc_item_bounds_changed (GOC_ITEM (ic));
 }
 
-static gint
-item_cursor_drag_event (FooCanvasItem *item, GdkEvent *event)
+static gboolean
+item_cursor_drag_motion (ItemCursor *ic, double x, double y)
 {
-	ItemCursor *ic = ITEM_CURSOR (item);
-
-	switch (event->type) {
-	case GDK_BUTTON_RELEASE:
-		/* Note : see comment below, and bug 30507 */
-		if ((int)event->button.button == ic->drag_button) {
-			gnm_pane_slide_stop (GNM_PANE (item->canvas));
-			gnm_simple_canvas_ungrab (item, event->button.time);
-			item_cursor_do_drop (ic, (GdkEventButton *) event);
-		}
-		return TRUE;
-
-	case GDK_BUTTON_PRESS:
-		/* This kind of cursor is created and grabbed.  Then destroyed
-		 * when the button is released.  If we are seeing a press it
-		 * means that someone has pressed another button WHILE THE
-		 * FIRST IS STILL DOWN.  Ignore this event.
-		 */
-		return TRUE;
-
-	case GDK_MOTION_NOTIFY:
-		item_cursor_handle_motion (ic, event, &cb_move_cursor);
-		return TRUE;
-
-	default:
-		return FALSE;
-	}
+	item_cursor_handle_motion (ic, x, y, &cb_move_cursor);
+	return TRUE;
 }
 
 static gboolean
@@ -1234,22 +967,166 @@ cb_autofill_scroll (GnmPane *pane, GnmPaneSlideInfo const *info)
 	return FALSE;
 }
 
-static gint
-item_cursor_autofill_event (FooCanvasItem *item, GdkEvent *event)
+static gboolean
+item_cursor_button_pressed (GocItem *item, int button, double x_, double y_)
 {
 	ItemCursor *ic = ITEM_CURSOR (item);
-	SheetControlGUI *scg = ic->scg;
+	gint64 x = x_ * item->canvas->pixels_per_unit, y = y_ * item->canvas->pixels_per_unit;
+	GdkEventButton *event = (GdkEventButton *) goc_canvas_get_cur_event (item->canvas);
+	if (ic->style == ITEM_CURSOR_EXPR_RANGE)
+		return FALSE;
 
-	switch (event->type) {
-	case GDK_BUTTON_RELEASE: {
+	/* While editing nothing should be draggable */
+	if (wbcg_is_editing (scg_wbcg (ic->scg)))
+		return TRUE;
+
+	switch (ic->style) {
+
+	case ITEM_CURSOR_ANTED:
+		g_warning ("Animated cursors should not receive events, "
+			   "the point method should preclude that");
+		return FALSE;
+
+	case ITEM_CURSOR_SELECTION:
+		/* NOTE : this cannot be called while we are editing.  because
+		 * the point routine excludes events.  so we do not need to
+		 * call wbcg_edit_finish.
+		 */
+
+		/* scroll wheel events dont have corresponding release events */
+		if (button > 3)
+			return FALSE;
+
+		/* If another button is already down ignore this one */
+		if (ic->drag_button >= 0)
+			return TRUE;
+
+		if (button != 3) {
+			/* prepare to create fill or drag cursors, but dont until we
+			 * move.  If we did create them here there would be problems
+			 * with race conditions when the new cursors pop into existence
+			 * during a double-click
+			 */
+
+			if (item_cursor_in_drag_handle (ic, x, y))
+				go_cmd_context_progress_message_set (GO_CMD_CONTEXT (scg_wbcg (ic->scg)),
+								     _("Drag to autofill"));
+			else
+				go_cmd_context_progress_message_set (GO_CMD_CONTEXT (scg_wbcg (ic->scg)),
+								     _("Drag to move"));
+
+			ic->drag_button = button;
+			ic->drag_button_state = event->state;
+			gnm_simple_canvas_grab (item,
+				GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK,
+				NULL, event->time);
+		} else
+			scg_context_menu (ic->scg, event, FALSE, FALSE);
+		return TRUE;
+
+	case ITEM_CURSOR_DRAG:
+		/* This kind of cursor is created and grabbed.  Then destroyed
+		 * when the button is released.  If we are seeing a press it
+		 * means that someone has pressed another button WHILE THE
+		 * FIRST IS STILL DOWN.  Ignore this event.
+		 */
+		return TRUE;
+
+	default:
+		return FALSE;
+	}
+	return TRUE;
+}
+
+static gboolean
+item_cursor_motion (GocItem *item, double x_, double y_)
+{
+	ItemCursor *ic = ITEM_CURSOR (item);
+	gint64 x = x_ * item->canvas->pixels_per_unit, y = y_ * item->canvas->pixels_per_unit;
+	ic->last_x = x;
+	ic->last_y = y;
+	if (ic->drag_button < 0) {
+		item_cursor_set_cursor (item->canvas, ic, x, y);
+		return TRUE;
+	}
+	if (ic->style == ITEM_CURSOR_EXPR_RANGE)
+		return FALSE;
+
+	/* While editing nothing should be draggable */
+	if (wbcg_is_editing (scg_wbcg (ic->scg)))
+		return TRUE;
+	switch (ic->style) {
+
+	case ITEM_CURSOR_ANTED:
+		g_warning ("Animated cursors should not receive events, "
+			   "the point method should preclude that");
+		return FALSE;
+
+	case ITEM_CURSOR_SELECTION:
+		return item_cursor_selection_motion (item, x, y);
+
+	case ITEM_CURSOR_DRAG:
+		return item_cursor_drag_motion (ic, x, y);
+
+	case ITEM_CURSOR_AUTOFILL:
+		item_cursor_handle_motion (ITEM_CURSOR (item), x, y, &cb_autofill_scroll);
+		return TRUE;
+
+	default:
+		return FALSE;
+	}
+}
+
+static gboolean
+item_cursor_button_released (GocItem *item, int button, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
+{
+	ItemCursor *ic = ITEM_CURSOR (item);
+	GdkEventButton *event = (GdkEventButton *) goc_canvas_get_cur_event (item->canvas);
+	if (ic->style == ITEM_CURSOR_EXPR_RANGE)
+		return FALSE;
+
+	/* While editing nothing should be draggable */
+	if (wbcg_is_editing (scg_wbcg (ic->scg)))
+		return TRUE;
+	switch (ic->style) {
+
+	case ITEM_CURSOR_ANTED:
+		g_warning ("Animated cursors should not receive events, "
+			   "the point method should preclude that");
+		return FALSE;
+
+	case ITEM_CURSOR_SELECTION:
+		if (ic->drag_button != button)
+			return TRUE;
+
+		/* Double clicks may have already released the drag prep */
+		if (ic->drag_button >= 0) {
+			gnm_simple_canvas_ungrab (item, event->time);
+			ic->drag_button = -1;
+		}
+		go_cmd_context_progress_message_set (GO_CMD_CONTEXT (scg_wbcg (ic->scg)),
+						     " ");
+		return TRUE;
+
+	case ITEM_CURSOR_DRAG:
+		/* Note : see comment initem_cursor_button_pressed, and bug 30507 */
+		if (button == ic->drag_button) {
+			gnm_pane_slide_stop (GNM_PANE (item->canvas));
+			gnm_simple_canvas_ungrab (item, event->time);
+			item_cursor_do_drop (ic, event);
+		}
+		return TRUE;
+
+	case ITEM_CURSOR_AUTOFILL: {
 		gboolean inverse_autofill =
 			(ic->pos.start.col < ic->autofill_src.start.col ||
 			 ic->pos.start.row < ic->autofill_src.start.row);
 		gboolean default_increment =
 			ic->drag_button_state & GDK_CONTROL_MASK;
+		SheetControlGUI *scg = ic->scg;
 
 		gnm_pane_slide_stop (GNM_PANE (item->canvas));
-		gnm_simple_canvas_ungrab (item, event->button.time);
+		gnm_simple_canvas_ungrab (item, event->time);
 
 		cmd_autofill (scg_wbc (scg), scg_sheet (scg), default_increment,
 			      ic->pos.start.col, ic->pos.start.row,
@@ -1261,90 +1138,37 @@ item_cursor_autofill_event (FooCanvasItem *item, GdkEvent *event)
 		scg_special_cursor_stop	(scg);
 		return TRUE;
 	}
-
-	case GDK_MOTION_NOTIFY:
-		item_cursor_handle_motion (ic, event, &cb_autofill_scroll);
-		return TRUE;
-
 	default:
 		return FALSE;
 	}
 }
 
-static gint
-item_cursor_expr_range_event (FooCanvasItem *item, GdkEvent *event)
+static gboolean
+item_cursor_enter_notify (GocItem *item, double x_, double y_)
 {
-	switch (event->type) {
-	case GDK_ENTER_NOTIFY:
+	ItemCursor *ic = ITEM_CURSOR (item);
+	gint64 x = x_ * item->canvas->pixels_per_unit, y = y_ * item->canvas->pixels_per_unit;
+	if (ic->style == ITEM_CURSOR_EXPR_RANGE)
 		gnm_widget_set_cursor_type (GTK_WIDGET (item->canvas), GDK_ARROW);
-		/* fall through */
-	case GDK_LEAVE_NOTIFY:
-		foo_canvas_item_request_redraw (item); /* Erase the old cursor */
-		break;
-	default :
-		break;
-	}
+	else if (ic->style == ITEM_CURSOR_SELECTION)
+		item_cursor_set_cursor (item->canvas, ic, x, y);
 	return FALSE;
 }
 
-static gint
-item_cursor_event (FooCanvasItem *item, GdkEvent *event)
+static gboolean
+item_cursor_leave_notify (GocItem *item, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
 {
 	ItemCursor *ic = ITEM_CURSOR (item);
-
-#if 0
-	switch (event->type)
-	{
-	case GDK_BUTTON_RELEASE: printf ("release %d\n", ic->style); break;
-	case GDK_BUTTON_PRESS: printf ("press %d\n", ic->style); break;
-	case GDK_2BUTTON_PRESS: printf ("2press %d\n", ic->style); break;
-	default :
-	    break;
-	}
-#endif
-	switch (event->type) {
-	case GDK_MOTION_NOTIFY:
-		ic->last_x = event->motion.x;
-		ic->last_y = event->motion.y;
-		break;
-	default:
-		;
-	}
-
 	if (ic->style == ITEM_CURSOR_EXPR_RANGE)
-		return item_cursor_expr_range_event (item, event);
-
-	/* While editing nothing should be draggable */
-	if (wbcg_is_editing (scg_wbcg (ic->scg)))
-		return TRUE;
-
-	switch (ic->style) {
-	case ITEM_CURSOR_ANTED:
-		g_warning ("Animated cursors should not receive events, "
-			   "the point method should preclude that");
-		return FALSE;
-
-	case ITEM_CURSOR_SELECTION:
-		return item_cursor_selection_event (item, event);
-
-	case ITEM_CURSOR_DRAG:
-		return item_cursor_drag_event (item, event);
-
-	case ITEM_CURSOR_AUTOFILL:
-		return item_cursor_autofill_event (item, event);
-
-	default:
-		return FALSE;
-	}
+		goc_item_invalidate (item);
+	return FALSE;
 }
 
 static void
 item_cursor_set_property (GObject *obj, guint param_id,
 			  GValue const *value, GParamSpec *pspec)
 {
-	FooCanvasItem *item = FOO_CANVAS_ITEM (obj);
 	ItemCursor *ic = ITEM_CURSOR (obj);
-	GdkColor color;
 	char const *color_name;
 
 	switch (param_id) {
@@ -1359,10 +1183,8 @@ item_cursor_set_property (GObject *obj, guint param_id,
 		break;
 	case ITEM_CURSOR_PROP_COLOR:
 		color_name = g_value_get_string (value);
-		if (foo_canvas_get_color (item->canvas, color_name, &color)) {
-			ic->color = color;
+		if (go_color_from_str (color_name, &ic->color))
 			ic->use_color = 1;
-		}
 	}
 }
 
@@ -1372,7 +1194,8 @@ item_cursor_set_property (GObject *obj, guint param_id,
 static void
 item_cursor_class_init (GObjectClass *gobject_klass)
 {
-	FooCanvasItemClass *item_klass = (FooCanvasItemClass *) gobject_klass;
+
+	GocItemClass *item_klass = (GocItemClass *) gobject_klass;
 
 	parent_class = g_type_class_peek_parent (gobject_klass);
 
@@ -1399,24 +1222,21 @@ item_cursor_class_init (GObjectClass *gobject_klass)
 			"black",
                         GSF_PARAM_STATIC |  G_PARAM_WRITABLE));
 
-	item_klass->update      = item_cursor_update;
 	item_klass->realize     = item_cursor_realize;
 	item_klass->unrealize   = item_cursor_unrealize;
-	item_klass->draw        = item_cursor_draw;
-	item_klass->point       = item_cursor_point;
-	item_klass->event       = item_cursor_event;
+	item_klass->draw		= item_cursor_draw;
+	item_klass->update_bounds = item_cursor_update_bounds;
+	item_klass->distance	= item_cursor_distance;
+	item_klass->button_pressed = item_cursor_button_pressed;
+	item_klass->button_released = item_cursor_button_released;
+	item_klass->motion      = item_cursor_motion;
+	item_klass->enter_notify = item_cursor_enter_notify;
+	item_klass->enter_notify = item_cursor_leave_notify;
 }
 
 static void
 item_cursor_init (ItemCursor *ic)
 {
-	FooCanvasItem *item = FOO_CANVAS_ITEM (ic);
-
-	item->x1 = 0;
-	item->y1 = 0;
-	item->x2 = 1;
-	item->y2 = 1;
-
 	ic->pos_initialized = FALSE;
 	ic->pos.start.col = 0;
 	ic->pos.end.col   = 0;
@@ -1434,7 +1254,6 @@ item_cursor_init (ItemCursor *ic)
 	ic->last_y = 0;
 
 	ic->style = ITEM_CURSOR_SELECTION;
-	ic->gc = NULL;
 	ic->state = 0;
 	ic->animation_timer = -1;
 
@@ -1442,8 +1261,9 @@ item_cursor_init (ItemCursor *ic)
 	ic->auto_fill_handle_at_top = FALSE;
 	ic->auto_fill_handle_at_left = FALSE;
 	ic->drag_button = -1;
+	ic->color = RGBA_BLACK;
 }
 
 GSF_CLASS (ItemCursor, item_cursor,
 	   item_cursor_class_init, item_cursor_init,
-	   FOO_TYPE_CANVAS_ITEM)
+	   GOC_TYPE_ITEM)

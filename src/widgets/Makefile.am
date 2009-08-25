@@ -19,15 +19,15 @@ libwidgets_la_SOURCES =				\
 	widget-editable-label.h			\
 	widget-font-selector.c			\
 	widget-font-selector.h			\
-	gnm-cell-combo-foo-view.c		\
-	gnm-cell-combo-foo-view.h		\
-	gnm-cell-combo-foo-view-impl.h		\
-	gnm-filter-combo-foo-view.c		\
-	gnm-filter-combo-foo-view.h		\
-	gnm-validation-combo-foo-view.c		\
-	gnm-validation-combo-foo-view.h		\
-	gnm-sheet-slicer-combo-foo-view.c	\
-	gnm-sheet-slicer-combo-foo-view.h	\
+	gnm-cell-combo-view.c		\
+	gnm-cell-combo-view.h		\
+	gnm-cell-combo-view-impl.h		\
+	gnm-filter-combo-view.c		\
+	gnm-filter-combo-view.h		\
+	gnm-validation-combo-view.c		\
+	gnm-validation-combo-view.h		\
+	gnm-sheet-slicer-combo-view.c	\
+	gnm-sheet-slicer-combo-view.h	\
 	gnumeric-cell-renderer-text.c		\
 	gnumeric-cell-renderer-text.h		\
 	gnumeric-cell-renderer-expr-entry.c	\

@@ -53,8 +53,6 @@ typedef SheetObjectClass GnmSOPolygonClass;
 
 #ifdef GNM_WITH_GTK
 #include "gnm-pane.h"
-#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-polygon.h>
 static void
 so_polygon_view_destroy (SheetObjectView *sov)
 {
@@ -63,55 +61,55 @@ so_polygon_view_destroy (SheetObjectView *sov)
 static void
 so_polygon_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
-	FooCanvasItem *view = FOO_CANVAS_ITEM (sov);
+	GocItem *view = GOC_ITEM (sov->base.children->data);
 
 	if (visible) {
 		SheetObject		*so   = sheet_object_view_get_so (sov);
 		GnmSOPolygon const	*sop  = GNM_SO_POLYGON (so);
-		unsigned		 i;
-		FooCanvasPoints		*pts;
-		double *dst, x_scale, y_scale, x_translate, y_translate;
+		unsigned		 i, n;
+		GocPoints		*pts;
+		double x_scale, y_scale, x_translate, y_translate;
 		double const *src;
 
 		if (sop->points == NULL)
 			return;
 
-		i = sop->points->len / 2;
-		if (i == 0)
+		n = sop->points->len / 2;
+		if (n == 0)
 			return;
 
-		pts = foo_canvas_points_new (i);
+		pts = goc_points_new (n);
 		x_scale = fabs (coords[2] - coords[0]);
 		y_scale = fabs (coords[3] - coords[1]);
 		x_translate = MIN (coords[0], coords[2]),
 		y_translate = MIN (coords[1], coords[3]);
 
 		src = &g_array_index (sop->points, double, 0);
-		dst = pts->coords;
-		for ( ; i-- > 0; dst += 2, src += 2) {
-			dst[0] = x_translate + x_scale * src[0];
-			dst[1] = y_translate + y_scale * src[1];
+		for (i = 0 ; i < n; src += 2, i++) {
+			pts->points[i].x = x_translate + x_scale * src[0];
+			pts->points[i].y = y_translate + y_scale * src[1];
 		}
 
-		foo_canvas_item_set (view, "points", pts, NULL);
-		foo_canvas_points_free (pts);
-		foo_canvas_item_show (view);
+		goc_item_set (view, "points", pts, NULL);
+		goc_points_unref (pts);
+		goc_item_show (GOC_ITEM (view));
 	} else
-		foo_canvas_item_hide (view);
+		goc_item_hide (GOC_ITEM (view));
 }
 
 static void
-so_polygon_foo_view_init (SheetObjectViewIface *sov_iface)
+so_polygon_goc_view_class_init (SheetObjectViewClass *sov_klass)
 {
-	sov_iface->destroy	= so_polygon_view_destroy;
-	sov_iface->set_bounds	= so_polygon_view_set_bounds;
+	sov_klass->destroy	= so_polygon_view_destroy;
+	sov_klass->set_bounds	= so_polygon_view_set_bounds;
 }
-typedef FooCanvasPolygon	PolygonFooView;
-typedef FooCanvasPolygonClass	PolygonFooViewClass;
-static GSF_CLASS_FULL (PolygonFooView, so_polygon_foo_view,
-	NULL, NULL, NULL, NULL, NULL,
-	FOO_TYPE_CANVAS_POLYGON, 0,
-	GSF_INTERFACE (so_polygon_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
+
+typedef SheetObjectView	PolygonGocView;
+typedef SheetObjectViewClass	PolygonGocViewClass;
+static GSF_CLASS (PolygonGocView, so_polygon_goc_view,
+	so_polygon_goc_view_class_init, NULL,
+	SHEET_OBJECT_VIEW_TYPE)
+
 #endif /* GNM_WITH_GTK */
 
 /*****************************************************************************/
@@ -131,6 +129,7 @@ sop_default_style (void)
 	res->outline.width = 0; /* hairline */
 	res->outline.color = RGBA_BLACK;
 	res->outline.dash_type = GO_LINE_SOLID; /* anything but 0 */
+	res->outline.join = CAIRO_LINE_JOIN_ROUND;
 	res->fill.type = GO_STYLE_FILL_PATTERN;
 	go_pattern_set_solid (&res->fill.pattern, RGBA_WHITE);
 	return res;
@@ -141,42 +140,23 @@ sop_default_style (void)
 #include <dialogs/dialogs.h>
 
 static void
-cb_gnm_so_polygon_style_changed (FooCanvasItem *view, GnmSOPolygon const *sop)
+cb_gnm_so_polygon_style_changed (GocItem *view, GnmSOPolygon const *sop)
 {
+	GocItem *item = GOC_ITEM (GOC_GROUP (view)->children->data);
 	GOStyle const *style = sop->style;
-	GdkColor outline_buf, *outline_gdk = NULL;
-	GdkColor fill_buf, *fill_gdk = NULL;
-
-	if (style->outline.color != 0 &&
-	    style->outline.width >= 0 &&
-	    style->outline.dash_type != GO_LINE_NONE)
-		outline_gdk = go_color_to_gdk (style->outline.color, &outline_buf);
-
-	if (style->fill.type != GO_STYLE_FILL_NONE)
-		fill_gdk = go_color_to_gdk (style->fill.pattern.back, &fill_buf);
-
-	if (style->outline.width > 0.)	/* in pts */
-		foo_canvas_item_set (view,
-			"width-units",		style->outline.width,
-			"outline-color-gdk",	outline_gdk,
-			"fill-color-gdk",	fill_gdk,
-			NULL);
-	else /* hairline 1 pixel that ignores zoom */
-		foo_canvas_item_set (view,
-			"width-pixels",		1,
-			"outline-color-gdk",	outline_gdk,
-			"fill-color-gdk",	fill_gdk,
-			NULL);
-
+	goc_item_set (item, "style", style, NULL);
 }
+
 static SheetObjectView *
 gnm_so_polygon_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
 	GnmSOPolygon *sop = GNM_SO_POLYGON (so);
-	FooCanvasItem *item = foo_canvas_item_new (
+	GocItem *item = goc_item_new (
 		gnm_pane_object_group (GNM_PANE (container)),
-		so_polygon_foo_view_get_type (),
-		/* "join_style",	GDK_JOIN_ROUND, */
+		so_polygon_goc_view_get_type (),
+		NULL);
+	goc_item_new (GOC_GROUP (item),
+		GOC_TYPE_POLYGON,
 		NULL);
 	cb_gnm_so_polygon_style_changed (item, sop);
 	g_signal_connect_object (sop,

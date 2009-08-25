@@ -1,7 +1,7 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
- * gnm-filter-combo.c: the autofilter combo box for FooCanvas
+ * gnm-filter-combo.c: the autofilter combo box for the goffice canvas
  *
  * Copyright (C) 2006 Jody Goldberg (jody@gnome.org)
  *
@@ -21,8 +21,8 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnm-filter-combo-foo-view.h"
-#include "gnm-cell-combo-foo-view-impl.h"
+#include "gnm-filter-combo-view.h"
+#include "gnm-cell-combo-view-impl.h"
 
 #include "gui-gnumeric.h"
 #include "sheet-filter.h"
@@ -31,13 +31,13 @@
 #include "value.h"
 #include "cell.h"
 #include "sheet.h"
+#include "sheet-object-impl.h"
 #include "workbook.h"
 #include "style-color.h"
 #include "sheet-control-gui.h"
 #include "../dialogs/dialogs.h"
 
 #include <goffice/goffice.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-widget.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
@@ -313,14 +313,6 @@ fcombo_create_arrow (SheetObject *so)
 	return arrow;
 }
 
-static void
-fcombo_ccombo_init (GnmCComboFooViewIface *ccombo_iface)
-{
-	ccombo_iface->create_list	= fcombo_create_list;
-	ccombo_iface->create_arrow	= fcombo_create_arrow;
-	ccombo_iface->activate		= fcombo_activate;
-}
-
 /*******************************************************************************/
 
 /* Somewhat magic.
@@ -328,13 +320,13 @@ fcombo_ccombo_init (GnmCComboFooViewIface *ccombo_iface)
 static void
 filter_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
-	FooCanvasItem *view = FOO_CANVAS_ITEM (sov);
+	GocGroup *view = GOC_GROUP (sov);
 
 	if (visible) {
 		double h = (coords[3] - coords[1]) + 1.;
 		if (h > 20.)	/* clip vertically */
 			h = 20.;
-		foo_canvas_item_set (view,
+		goc_item_set (GOC_ITEM (view->children->data),
 			/* put it inside the cell */
 			"x",	  ((coords[2] >= 0.) ? (coords[2]-h+1) : coords[0]),
 			"y",	  coords [3] - h + 1.,
@@ -342,28 +334,26 @@ filter_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vis
 			"height", h,
 			NULL);
 
-		foo_canvas_item_show (view);
+		goc_item_show (GOC_ITEM (view));
 	} else
-		foo_canvas_item_hide (view);
+		goc_item_hide (GOC_ITEM (view));
 }
-static void filter_view_destroy (SheetObjectView *sov)
-{
-	gtk_object_destroy (GTK_OBJECT (sov));
-}
+
 static void
-fcombo_sov_init (SheetObjectViewIface *sov_iface)
+gnm_filter_view_class_init (GnmCComboViewClass *ccombo_class)
 {
-	sov_iface->destroy	= filter_view_destroy;
-	sov_iface->set_bounds	= filter_view_set_bounds;
+	SheetObjectViewClass *sov_class = (SheetObjectViewClass *) ccombo_class;
+	ccombo_class->create_list	= fcombo_create_list;
+	ccombo_class->create_arrow	= fcombo_create_arrow;
+	ccombo_class->activate		= fcombo_activate;
+	sov_class->set_bounds		= filter_view_set_bounds;
 }
 
 /****************************************************************************/
 
-typedef FooCanvasWidget		GnmFilterComboFooView;
-typedef FooCanvasWidgetClass	GnmFilterComboFooViewClass;
-GSF_CLASS_FULL (GnmFilterComboFooView, gnm_filter_combo_foo_view,
-	NULL, NULL, NULL, NULL,
-	NULL, FOO_TYPE_CANVAS_WIDGET, 0,
-	GSF_INTERFACE (fcombo_sov_init, SHEET_OBJECT_VIEW_TYPE)
-	GSF_INTERFACE (fcombo_ccombo_init, GNM_CCOMBO_FOO_VIEW_TYPE)
-)
+typedef GnmCComboView		GnmFilterComboView;
+typedef GnmCComboViewClass	GnmFilterComboViewClass;
+GSF_CLASS (GnmFilterComboView, gnm_filter_combo_view,
+	gnm_filter_view_class_init, NULL,
+	GNM_CCOMBO_VIEW_TYPE)
+

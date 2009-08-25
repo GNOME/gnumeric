@@ -86,12 +86,12 @@ void   gnm_style_border_set_gc_dash (GdkGC *gc,
 
 void gnm_style_borders_row_draw (GnmBorder const * const * prev_vert,
 				 GnmStyleRow const *sr,
-				 GdkDrawable *drawable,
+				 cairo_t *cr,
 				 int x, int y1, int y2,
 				 int *colwidths,
 				 gboolean draw_vertical, int dir);
 void gnm_style_border_draw_diag  (GnmStyle const *style,
-				  GdkDrawable *drawable,
+				  cairo_t *cr,
 				  int x1, int y1, int x2, int y2);
 
 void gnm_style_borders_row_print_gtk (GnmBorder const * const * prev_vert,

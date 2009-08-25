@@ -44,7 +44,7 @@ style_color_new_uninterned (gushort red, gushort green, gushort blue,
 	sc->gdk_color.green = green;
 	sc->gdk_color.blue = blue;
 	sc->gdk_color.pixel = gs_white.pixel;
-	sc->go_color = RGBA_TO_UINT (red>>8,green>>8,blue>>8,0);
+	sc->go_color = RGBA_TO_UINT (red>>8,green>>8,blue>>8,0xff);
 	sc->name = NULL;
 	sc->is_auto = is_auto;
 

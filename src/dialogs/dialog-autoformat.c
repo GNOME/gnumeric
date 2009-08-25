@@ -45,7 +45,7 @@
 #include <selection.h>
 #include <ranges.h>
 
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
+#include <goffice/goffice.h>
 #include <glade/glade.h>
 #include <gtk/gtk.h>
 #include <gsf/gsf-impl-utils.h>
@@ -80,10 +80,10 @@ typedef struct {
 	Workbook           *wb;                              /* Workbook we are working on */
 	WBCGtk *wbcg;
 	GladeXML	   *gui;
-	FooCanvasItem	   *grid[NUM_PREVIEWS];              /* Previewgrid's */
-	FooCanvasItem	   *selrect;                         /* Selection rectangle */
+	GocItem		   *grid[NUM_PREVIEWS];              /* Previewgrid's */
+	GocItem		   *selrect;                         /* Selection rectangle */
 	GSList             *templates;                       /* List of GnmFormatTemplate's */
-	GnmFormatTemplate     *selected_template;               /* The currently selected template */
+	GnmFormatTemplate  *selected_template;               /* The currently selected template */
 	GList              *category_groups;                 /* List of groups of categories */
 
 	FormatTemplateCategoryGroup *current_category_group; /* Currently selected category group */
@@ -100,7 +100,7 @@ typedef struct {
 
 	GtkComboBox    *category;
 
-	FooCanvas	 *canvas[NUM_PREVIEWS];
+	GocCanvas	 *canvas[NUM_PREVIEWS];
 	GtkFrame         *frame[NUM_PREVIEWS];
 	GtkVScrollbar    *scroll;
 	GtkCheckMenuItem *gridlines;
@@ -166,11 +166,11 @@ static GSF_CLASS (AutoFormatGrid, auto_format_grid,
 		  auto_format_grid_class_init, NULL,
 		  preview_grid_get_type())
 
-static FooCanvasItem *
+static GocItem *
 auto_format_grid_new (AutoFormatState *state, int i, GnmFormatTemplate *ft)
 {
-	FooCanvasItem *item = foo_canvas_item_new (
-		foo_canvas_root (state->canvas[i]),
+	GocItem *item = goc_item_new (
+		goc_canvas_get_root (state->canvas[i]),
 		auto_format_grid_get_type (),
 		"render-gridlines",	state->gridlines->active,
 		"default-col-width",	DEFAULT_COL_WIDTH,
@@ -326,27 +326,26 @@ previews_load (AutoFormatState *state, int topindex)
 
 			/* Are we selected? Then draw a selection rectangle */
 			if (topindex + i == state->preview_index) {
+				GOStyle *style;
 				g_return_if_fail (state->selrect == NULL);
 
-				state->selrect = foo_canvas_item_new (foo_canvas_root (state->canvas[i]),
-					FOO_TYPE_CANVAS_RECT,
-					"x1", (double)(-INNER_BORDER),
-					"y1", (double)(-INNER_BORDER),
-					"x2", (double)(TOTAL_WIDTH + INNER_BORDER),
-					"y2", (double)(TOTAL_HEIGHT + INNER_BORDER),
-					"width-pixels", (int) 3,
-					"outline-color", "red",
-					"fill-color", NULL,
+				state->selrect = goc_item_new (goc_canvas_get_root (state->canvas[i]),
+					GOC_TYPE_RECTANGLE,
+					"x", (double)(-INNER_BORDER),
+					"y", (double)(-INNER_BORDER),
+					"width", (double)(TOTAL_WIDTH + 2 * INNER_BORDER),
+					"height", (double)(TOTAL_HEIGHT + 2 * INNER_BORDER),
 					NULL);
+				style = go_styled_object_get_style (GO_STYLED_OBJECT (state->selrect));
+				style->outline.width = 3.;
+				style->outline.color = RGBA_RED;
+				style->fill.pattern.back = 0;
+				
 				gtk_frame_set_shadow_type (state->frame[i], GTK_SHADOW_IN);
 			} else
 				gtk_frame_set_shadow_type (state->frame[i], GTK_SHADOW_ETCHED_IN);
 
-			foo_canvas_set_scroll_region (state->canvas[i],
-				-BORDER, -BORDER,
-				TOTAL_WIDTH + BORDER,
-				TOTAL_HEIGHT + BORDER);
-			foo_canvas_scroll_to (state->canvas[i],
+			goc_canvas_scroll_to (state->canvas[i],
 				-BORDER, -BORDER);
 
 			go_widget_set_tooltip_text
@@ -394,7 +393,7 @@ cb_scroll_value_changed (GtkAdjustment *adjustment, AutoFormatState *state)
 }
 
 static gboolean
-cb_canvas_button_press (FooCanvas *canvas,
+cb_canvas_button_press (GocCanvas *canvas,
 			G_GNUC_UNUSED GdkEventButton *event,
 			AutoFormatState *state)
 {
@@ -455,7 +454,7 @@ cb_check_item_toggled (G_GNUC_UNUSED GtkCheckMenuItem *item,
 	}
 
 	for (i = 0; i < NUM_PREVIEWS; i++)
-		foo_canvas_request_redraw (state->canvas [i],
+		goc_canvas_invalidate (state->canvas [i],
 			-2, -2, INT_MAX/2, INT_MAX/2);
 }
 
@@ -512,7 +511,7 @@ cb_canvas_focus (GtkWidget *canvas, GtkDirectionType direction,
 {
 	if (!GTK_WIDGET_HAS_FOCUS (canvas)) {
 		gtk_widget_grab_focus (canvas);
-		cb_canvas_button_press (FOO_CANVAS (canvas), NULL, state);
+		cb_canvas_button_press (GOC_CANVAS (canvas), NULL, state);
 		return TRUE;
 	}
 	return FALSE;
@@ -586,7 +585,7 @@ dialog_autoformat (WBCGtk *wbcg)
 		state->frame[i] = GTK_FRAME (glade_xml_get_widget (gui, name));
 		g_free (name);
 
-		state->canvas[i] = FOO_CANVAS (foo_canvas_new ());
+		state->canvas[i] = GOC_CANVAS (g_object_new (GOC_TYPE_CANVAS, NULL));
 		gtk_widget_set_size_request (GTK_WIDGET (state->canvas[i]),
 			TOTAL_WIDTH + (2 * BORDER),
 			TOTAL_HEIGHT + (2 * BORDER));
