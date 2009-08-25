@@ -37,6 +37,10 @@
 #include <goffice/goffice.h>
 #define GNUMERIC_ITEM "CURSOR"
 
+#ifndef HAVE_GTK_WIDGET_GET_WINDOW
+#define gtk_widget_get_window(w) ((w)->window)
+#endif
+
 #define ITEM_CURSOR_CLASS(k)      (G_TYPE_CHECK_CLASS_CAST ((k), item_cursor_get_type (), ItemCursorClass))
 
 #define AUTO_HANDLE_WIDTH	2
