@@ -209,7 +209,6 @@ src/widgets/gnm-cell-combo-view.c
 src/widgets/gnm-dao.c
 src/widgets/gnm-filter-combo-view.c
 src/widgets/gnm-format-sel.c
-src/widgets/gnm-validation-combo-foo-view.c
 src/widgets/gnumeric-cell-renderer-expr-entry.c
 src/widgets/gnumeric-cell-renderer-text.c
 src/widgets/gnumeric-cell-renderer-toggle.c
