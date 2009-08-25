@@ -1,7 +1,7 @@
 Gnumeric 1.9.11
 
 Andreas:
-	* Add AVERAGEIF, MUNIT, RRI, SEARCHB, REPLACEB.
+	* Add AVERAGEIF, MUNIT, RRI, SEARCHB, REPLACEB, COMBINA, ARABIC.
 	* Improve import of ODF functions
 
 Jean:

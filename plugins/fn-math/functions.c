@@ -1048,9 +1048,12 @@ static GnmFuncHelp const help_combin[] = {
         { GNM_FUNC_HELP_NAME, F_("COMBIN:Binomial coefficient")},
         { GNM_FUNC_HELP_ARG, F_("n:non-negative integer")},
         { GNM_FUNC_HELP_ARG, F_("k:non-negative integer")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("COMBIN returns the binomial coefficient \"@{n} choose @{k}\"")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("COMBIN returns the binomial coefficient \"@{n} choose @{k}\","
+					" the number of @{k}-combinations of an @{n}-element set "
+					"without repetition.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{n} is less than @{k} COMBIN returns #NUM!") },
  	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=COMBIN(8,6)" },
         { GNM_FUNC_HELP_EXAMPLES, "=COMBIN(6,2)" },
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Binomial_coefficient") },
@@ -1070,6 +1073,33 @@ gnumeric_combin (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	return value_new_error_NUM (ei->pos);
 }
 
+/***************************************************************************/
+
+static GnmFuncHelp const help_combina[] = {
+        { GNM_FUNC_HELP_NAME, F_("COMBINA:the number of @{k}-combinations of an @{n}-element set "
+				 "with repetition")},
+        { GNM_FUNC_HELP_ARG, F_("n:non-negative integer")},
+        { GNM_FUNC_HELP_ARG, F_("k:non-negative integer")},
+	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=COMBINA(5,3)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=COMBINA(6,3)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=COMBINA(42,3)" },
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Multiset") },
+        { GNM_FUNC_HELP_END}
+};
+
+
+static GnmValue *
+gnumeric_combina (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float n = gnm_floor (value_get_as_float (argv[0]));
+	gnm_float k = gnm_floor (value_get_as_float (argv[1]));
+
+	if (k >= 0 && n >= 0)
+		return value_new_float (combin (n + k - 1, k));
+
+	return value_new_error_NUM (ei->pos);
+}
 /***************************************************************************/
 
 static GnmFuncHelp const help_floor[] = {
@@ -2044,6 +2074,84 @@ gnumeric_mround (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_arabic[] = {
+        { GNM_FUNC_HELP_NAME, F_("Arabic:The Roman numeral @{roman} as number")},
+        { GNM_FUNC_HELP_ARG, F_("roman:Roman numeral")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("Any Roman symbol to the left of a larger symbol "
+					"(directly or indirectly) reduces the final value "
+					"by the symbol amount, otherwise, it increases the "
+					"final amount by the symbol's amount.") },
+	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.")},	
+        { GNM_FUNC_HELP_EXAMPLES, "=ARABIC(\"I\")"},
+        { GNM_FUNC_HELP_EXAMPLES, "=ARABIC(\"CDLII\")"},
+	{ GNM_FUNC_HELP_EXAMPLES, "=ARABIC(\"MCDXC\")"},
+	{ GNM_FUNC_HELP_EXAMPLES, "=ARABIC(\"MDCCCXCIX\")"},
+	{ GNM_FUNC_HELP_EXAMPLES, "=ARABIC(\"MCMXCIX\")"},
+	{ GNM_FUNC_HELP_EXAMPLES, "=ARABIC(\"mmmcmxcix\")"},
+	{ GNM_FUNC_HELP_EXAMPLES, "=ARABIC(\"MIM\")"},
+	{ GNM_FUNC_HELP_EXAMPLES, "=ARABIC(\"IVM\")"},
+	{ GNM_FUNC_HELP_SEEALSO, "ROMAN"},
+        { GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_arabic (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	const gchar *roman = (const gchar *)value_peek_string (argv[0]);
+	int slen = strlen (roman);
+	int last = 0;
+	int result = 0;
+	gchar *this = (gchar *)(roman + slen);
+
+	while (this > roman) {
+		int this_val = 0;
+		this = g_utf8_prev_char (this);
+		switch (*this) {
+		case 'i':
+		case 'I':
+			this_val = 1;
+			break;
+		case 'v':
+		case 'V':
+			this_val = 5;
+			break;
+		case 'x':
+		case 'X':
+			this_val = 10;
+			break;
+		case 'l':
+		case 'L':
+			this_val = 50;
+			break;
+		case 'c':
+		case 'C':
+			this_val = 100;
+			break;
+		case 'd':
+		case 'D':
+			this_val = 500;
+			break;
+		case 'm':
+		case 'M':
+			this_val = 1000;
+			break;
+		default:
+			break;
+		}
+		if (this_val > 0) {
+			if (this_val < last)
+				result -= this_val;
+			else {
+				result += this_val;
+				last = this_val;
+			}
+		}
+	}
+	return value_new_int (result);
+}
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_roman[] = {
         { GNM_FUNC_HELP_NAME, F_("ROMAN:@{n} as a roman numeral text")},
         { GNM_FUNC_HELP_ARG, F_("n:non-negative integer")},
@@ -2887,6 +2995,9 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "acoth",     "f",     help_acoth,
 	  gnumeric_acoth, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+        { "arabic",       "S",             help_arabic,
+	  gnumeric_arabic, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "asin",    "f",     help_asin,
 	  gnumeric_asin, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
@@ -2961,6 +3072,9 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "combin",  "ff",       help_combin,
 	  gnumeric_combin, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "combina",  "ff",       help_combina,
+	  gnumeric_combina, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "csc",     "f",     help_csc,
 	  gnumeric_csc, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },

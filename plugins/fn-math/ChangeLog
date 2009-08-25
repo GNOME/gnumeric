@@ -1,9 +1,18 @@
 2009-08-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* plugin.xml.in: add COMBINA and ARABIC
+	* functions.c (help_combina): new
+	(gnumeric_combina): new
+	(help_arabic): new	
+	(gnumeric_arabic): new
+	(math_functions): add COMBINA and ARABIC
+
+2009-08-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* plugin.xml.in: add munit
 	* functions.c (help_munit): new
 	(gnumeric_munit): new
-	(math_functions): add RRI
+	(math_functions): add MUNIT
 
 2009-08-20  Morten Welinder  <terra@gnome.org>
 

@@ -16,6 +16,7 @@
 				<function name="acosh"/>
 				<function name="acot"/>
 				<function name="acoth"/>
+				<function name="arabic"/>
 				<function name="asin"/>
 				<function name="asinh"/>
 				<function name="atan"/>
@@ -27,6 +28,7 @@
 				<function name="ceil"/>
 				<function name="ceiling"/>
 				<function name="combin"/>
+				<function name="combina"/>
 				<function name="cos"/>
 				<function name="cosh"/>
 				<function name="cot"/>
