@@ -34,7 +34,6 @@
 #include "wbc-gtk.h"
 #include "gui-util.h"
 #include "widgets/gnumeric-expr-entry.h"
-#include "item-debug.h"
 #define GNUMERIC_ITEM "EDIT"
 
 #include <gtk/gtk.h>

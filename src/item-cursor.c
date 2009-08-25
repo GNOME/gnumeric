@@ -36,7 +36,6 @@
 #include <gtk/gtk.h>
 #include <goffice/goffice.h>
 #define GNUMERIC_ITEM "CURSOR"
-#include "item-debug.h"
 
 #define ITEM_CURSOR_CLASS(k)      (G_TYPE_CHECK_CLASS_CAST ((k), item_cursor_get_type (), ItemCursorClass))
 

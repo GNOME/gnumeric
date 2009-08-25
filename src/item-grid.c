@@ -46,7 +46,6 @@
 #include <math.h>
 #include <string.h>
 #define GNUMERIC_ITEM "GRID"
-#include "item-debug.h"
 
 #if 0
 #define MERGE_DEBUG(range, str) do { range_dump (range, str); } while (0)

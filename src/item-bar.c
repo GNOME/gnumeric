@@ -28,7 +28,6 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtk.h>
 #define GNUMERIC_ITEM "BAR"
-#include "item-debug.h"
 
 #include <string.h>
 
