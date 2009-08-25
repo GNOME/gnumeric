@@ -21,7 +21,7 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnm-sheet-slicer-combo-foo-view.h"
+#include "gnm-sheet-slicer-combo-view.h"
 #include "gnm-cell-combo-view-impl.h"
 
 #include "gnm-sheet-slicer-combo.h"
