@@ -356,6 +356,7 @@ cell_draw (GnmCell const *cell, cairo_t *cr,
 			}
 			pango_context_set_matrix (context, NULL);
 			pango_layout_context_changed (rv->layout);
+			cairo_new_path (cr);
 		} else {
 			cairo_translate (cr, x1 + PANGO_PIXELS (x), y1 + PANGO_PIXELS (y));
 			pango_cairo_show_layout (cr, rv->layout);
