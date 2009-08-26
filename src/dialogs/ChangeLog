@@ -1,3 +1,11 @@
+2009-08-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* Makefile.am: update after goffice migration from Glade to GtkBuilder.
+	* cell-format.glade: ditto.
+	* dialog-search.c: ditto.
+	* search.glade: ditto.
+	* search.ui: ditto.
+
 2009-08-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.10

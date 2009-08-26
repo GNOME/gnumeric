@@ -1,3 +1,7 @@
+2009-08-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/cell-draw.c (cell_draw): fixed text rotation in cells. [#593114]
+
 2009-08-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/cell-draw.c: use GocCanvas ibstead of FooCanvas

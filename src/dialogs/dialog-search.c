@@ -43,7 +43,6 @@
 
 #include <widgets/gnumeric-expr-entry.h>
 #include <widgets/gnumeric-lazy-list.h>
-#include <glade/glade.h>
 #include <gtk/gtk.h>
 #include <string.h>
 
@@ -59,7 +58,7 @@ enum {
 typedef struct {
 	WBCGtk *wbcg;
 
-	GladeXML *gui;
+	GtkBuilder *gui;
 	GtkDialog *dialog;
 	GnmExprEntry *rangetext;
 	GtkEntry *gentry;
@@ -226,15 +225,15 @@ range_focused (G_GNUC_UNUSED GtkWidget *widget,
 	       G_GNUC_UNUSED GdkEventFocus *event,
 	       DialogState *dd)
 {
-	GtkWidget *scope_range = glade_xml_get_widget (dd->gui, "scope_range");
+	GtkWidget *scope_range = go_gtk_builder_get_widget (dd->gui, "scope_range");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (scope_range), TRUE);
 	return FALSE;
 }
 
 static gboolean
-is_checked (GladeXML *gui, const char *name)
+is_checked (GtkBuilder *gui, const char *name)
 {
-	GtkWidget *w = glade_xml_get_widget (gui, name);
+	GtkWidget *w = go_gtk_builder_get_widget (gui, name);
 	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 }
 
@@ -282,7 +281,7 @@ cursor_change (GtkTreeView *tree_view, DialogState *dd)
 static void
 search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 {
-	GladeXML *gui = dd->gui;
+	GtkBuilder *gui = dd->gui;
 	WBCGtk *wbcg = dd->wbcg;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	GnmSearchReplace *sr;
@@ -292,10 +291,10 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	char *text;
 	gboolean is_regexp, is_number;
 
-	i = gnumeric_glade_group_value (gui, scope_group);
+	i = go_gtk_builder_group_value (gui, scope_group);
 	scope = (i == -1) ? GNM_SRS_SHEET : (GnmSearchReplaceScope)i;
 
-	i = gnumeric_glade_group_value (gui, search_type_group);
+	i = go_gtk_builder_group_value (gui, search_type_group);
 	is_regexp = (i == 1);
 	is_number = (i == 2);
 
@@ -315,7 +314,7 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 			   "search-expressions", is_checked (gui, "search_expr"),
 			   "search-expression-results", is_checked (gui, "search_expr_results"),
 			   "search-comments", is_checked (gui, "search_comments"),
-			   "by-row", gnumeric_glade_group_value (gui, direction_group) == 0,
+			   "by-row", go_gtk_builder_group_value (gui, direction_group) == 0,
 			   NULL);
 
 	g_free (text);
@@ -449,10 +448,11 @@ make_matches_table (DialogState *dd)
 void
 dialog_search (WBCGtk *wbcg)
 {
-	GladeXML *gui;
+	GtkBuilder *gui;
 	GtkDialog *dialog;
 	DialogState *dd;
 	GtkTable *table;
+	char *f;
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -462,12 +462,13 @@ dialog_search (WBCGtk *wbcg)
 		return;
 #endif
 
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"search.glade", NULL, NULL);
+	f = g_build_filename (gnm_sys_data_dir (), "ui", "search.ui", NULL);
+	gui = go_gtk_builder_new (f, NULL, GO_CMD_CONTEXT (wbcg));
+	g_free (f);
         if (gui == NULL)
                 return;
 
-	dialog = GTK_DIALOG (glade_xml_get_widget (gui, "search_dialog"));
+	dialog = GTK_DIALOG (gtk_builder_get_object (gui, "search_dialog"));
 
 	dd = g_new (DialogState, 1);
 	dd->wbcg = wbcg;
@@ -475,17 +476,17 @@ dialog_search (WBCGtk *wbcg)
 	dd->dialog = dialog;
 	dd->matches = g_ptr_array_new ();
 
-	dd->prev_button = glade_xml_get_widget (gui, "prev_button");
-	dd->next_button = glade_xml_get_widget (gui, "next_button");
+	dd->prev_button = go_gtk_builder_get_widget (gui, "prev_button");
+	dd->next_button = go_gtk_builder_get_widget (gui, "next_button");
 
-	dd->notebook = GTK_NOTEBOOK (glade_xml_get_widget (gui, "notebook"));
+	dd->notebook = GTK_NOTEBOOK (gtk_builder_get_object (gui, "notebook"));
 	dd->notebook_matches_page =
 		gtk_notebook_page_num (dd->notebook,
-				       glade_xml_get_widget (gui, "matches_tab"));
+				       go_gtk_builder_get_widget (gui, "matches_tab"));
 
 	dd->rangetext = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (dd->rangetext, 0, GNM_EE_MASK);
-	table = GTK_TABLE (glade_xml_get_widget (gui, "page1-table"));
+	table = GTK_TABLE (gtk_builder_get_object (gui, "page1-table"));
 	gtk_table_attach (table, GTK_WIDGET (dd->rangetext),
 			  1, 2, 6, 7,
 			  GTK_EXPAND | GTK_FILL, 0,
@@ -514,7 +515,7 @@ dialog_search (WBCGtk *wbcg)
 			gtk_scrolled_window_new (NULL, NULL);
 		gtk_container_add (GTK_CONTAINER (scrolled_window),
 				   GTK_WIDGET (dd->matches_table));
-		gtk_box_pack_start (GTK_BOX (glade_xml_get_widget (gui, "matches_vbox")),
+		gtk_box_pack_start (GTK_BOX (gtk_builder_get_object (gui, "matches_vbox")),
 				    scrolled_window,
 				    TRUE, TRUE, 0);
 		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
@@ -529,17 +530,17 @@ dialog_search (WBCGtk *wbcg)
 		G_CALLBACK (cursor_change), dd);
 	g_signal_connect (G_OBJECT (dd->matches_table), "select_cursor_row",
 		G_CALLBACK (cb_next), dd);
-	go_glade_signal_connect (gui, "search_button", "clicked",
+	go_gtk_builder_signal_connect (gui, "search_button", "clicked",
 		G_CALLBACK (search_clicked), dd);
 	g_signal_connect (G_OBJECT (dd->prev_button), "clicked",
 		G_CALLBACK (prev_clicked), dd);
 	g_signal_connect (G_OBJECT (dd->next_button), "clicked",
 		G_CALLBACK (next_clicked), dd);
-	go_glade_signal_connect_swapped (gui, "close_button", "clicked",
+	go_gtk_builder_signal_connect_swapped (gui, "close_button", "clicked",
 		G_CALLBACK (gtk_widget_destroy), dd->dialog);
 	g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (dd->rangetext)), "focus-in-event",
 		G_CALLBACK (range_focused), dd);
-	go_glade_signal_connect (gui, "scope_range", "toggled",
+	go_gtk_builder_signal_connect (gui, "scope_range", "toggled",
 		G_CALLBACK (cb_focus_on_entry), dd->rangetext);
 
 #ifdef USE_GURU
@@ -550,7 +551,7 @@ dialog_search (WBCGtk *wbcg)
 	gnm_dialog_setup_destroy_handlers (dialog, wbcg,
 		GNM_DIALOG_DESTROY_SHEET_REMOVED);
 	gnumeric_init_help_button (
-		glade_xml_get_widget (gui, "help_button"),
+		go_gtk_builder_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_SEARCH);
 	gnumeric_restore_window_geometry (GTK_WINDOW (dialog), SEARCH_KEY);
 

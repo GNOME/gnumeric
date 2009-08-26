@@ -650,7 +650,7 @@
                                 <child>
                                   <widget class="Custom" id="underline_combo">
                                     <property name="visible">True</property>
-                                    <property name="creation_function">go_combo_text_glade_new</property>
+                                    <property name="creation_function">go_combo_text_new_default</property>
                                   </widget>
                                   <packing>
                                     <property name="position">1</property>

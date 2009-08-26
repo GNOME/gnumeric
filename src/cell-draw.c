@@ -349,7 +349,7 @@ cell_draw (GnmCell const *cell, cairo_t *cr,
 			     lines;
 			     lines = lines->next, li++) {
 				cairo_save (cr);
-				cairo_translate (cr, x1 + PANGO_PIXELS (x + li->dx), y1 + PANGO_PIXELS (y + li->dy));
+				cairo_move_to (cr, x1 + PANGO_PIXELS (x + li->dx), y1 + PANGO_PIXELS (y + li->dy));
 				cairo_rotate (cr, -rv->rotation * M_PI / 180);
 				pango_cairo_show_layout_line (cr, lines->data);
 				cairo_restore (cr);

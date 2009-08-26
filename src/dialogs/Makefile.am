@@ -145,7 +145,6 @@ glade_DATA = 				\
 	sampling.glade			\
 	scenario-add.glade		\
 	scenario-manager.glade		\
-	search.glade			\
 	search-replace.glade		\
 	sheet-order.glade		\
 	sheet-resize.glade                \
@@ -162,4 +161,8 @@ glade_DATA = 				\
 	workbook-attr.glade		\
 	print.glade
 
-EXTRA_DIST = $(glade_DATA)
+uidir   = $(gnumeric_datadir)/ui
+ui_DATA = 				\
+	search.ui
+
+EXTRA_DIST = $(glade_DATA) $(ui_DATA)

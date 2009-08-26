@@ -13342,18 +13342,16 @@ msgid "Edit the selected cell's comment"
 msgstr "Édite le commentaire de la cellule sélectionnée"
 
 #: ../src/wbc-gtk-actions.c:1921
-#, fuzzy
 msgid "S_earch..."
-msgstr "Rechercher"
+msgstr "Rec_hercher..."
 
 #: ../src/wbc-gtk-actions.c:1922
 msgid "Search for something"
 msgstr "Recherche un texte"
 
 #: ../src/wbc-gtk-actions.c:1924
-#, fuzzy
 msgid "Search _& Replace..."
-msgstr "Rechercher et remplacer"
+msgstr "Rechercher et re_mplacer"
 
 #: ../src/wbc-gtk-actions.c:1925
 msgid "Search for something and replace it with something else"
