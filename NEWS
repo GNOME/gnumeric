@@ -10,6 +10,8 @@ Jean:
 Morten:
 	* Add GAMMA.
 	* Fix Insert-Date+Time.  [#592545]
+	* Fix problem with VLOOKUP and HLOOKUP when both are used on the
+	  same data range.  [#593238]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.10

@@ -1,3 +1,10 @@
+2009-08-26  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (get_linear_lookup_cache,
+	get_bisection_lookup_cache): Take extra "vertical" argument and
+	separate caches for vertical and horizontal cases.  All callers
+	changed.  Fixes #593238.
+
 2009-08-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.10

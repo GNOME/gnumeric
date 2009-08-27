@@ -100,12 +100,18 @@ bisection_compare_float (const void *a_, const void *b_)
 
 static GStringChunk *lookup_string_pool;
 static GOMemChunk *lookup_float_pool;
-static GHashTable *linear_lookup_string_cache;
-static GHashTable *linear_lookup_float_cache;
-static GHashTable *linear_lookup_bool_cache;
-static GHashTable *bisection_lookup_string_cache;
-static GHashTable *bisection_lookup_float_cache;
-static GHashTable *bisection_lookup_bool_cache;
+static GHashTable *linear_hlookup_string_cache;
+static GHashTable *linear_hlookup_float_cache;
+static GHashTable *linear_hlookup_bool_cache;
+static GHashTable *linear_vlookup_string_cache;
+static GHashTable *linear_vlookup_float_cache;
+static GHashTable *linear_vlookup_bool_cache;
+static GHashTable *bisection_hlookup_string_cache;
+static GHashTable *bisection_hlookup_float_cache;
+static GHashTable *bisection_hlookup_bool_cache;
+static GHashTable *bisection_vlookup_string_cache;
+static GHashTable *bisection_vlookup_float_cache;
+static GHashTable *bisection_vlookup_bool_cache;
 static size_t total_cache_size;
 
 static void
@@ -116,23 +122,51 @@ clear_caches (void)
 
 	total_cache_size = 0;
 
-	g_hash_table_destroy (linear_lookup_string_cache);
-	linear_lookup_string_cache = NULL;
+	/* ---------- */
 
-	g_hash_table_destroy (linear_lookup_float_cache);
-	linear_lookup_float_cache = NULL;
+	g_hash_table_destroy (linear_hlookup_string_cache);
+	linear_hlookup_string_cache = NULL;
 
-	g_hash_table_destroy (linear_lookup_bool_cache);
-	linear_lookup_bool_cache = NULL;
+	g_hash_table_destroy (linear_hlookup_float_cache);
+	linear_hlookup_float_cache = NULL;
 
-	g_hash_table_destroy (bisection_lookup_string_cache);
-	bisection_lookup_string_cache = NULL;
+	g_hash_table_destroy (linear_hlookup_bool_cache);
+	linear_hlookup_bool_cache = NULL;
 
-	g_hash_table_destroy (bisection_lookup_float_cache);
-	bisection_lookup_float_cache = NULL;
+	/* ---------- */
 
-	g_hash_table_destroy (bisection_lookup_bool_cache);
-	bisection_lookup_bool_cache = NULL;
+	g_hash_table_destroy (linear_vlookup_string_cache);
+	linear_vlookup_string_cache = NULL;
+
+	g_hash_table_destroy (linear_vlookup_float_cache);
+	linear_vlookup_float_cache = NULL;
+
+	g_hash_table_destroy (linear_vlookup_bool_cache);
+	linear_vlookup_bool_cache = NULL;
+
+	/* ---------- */
+
+	g_hash_table_destroy (bisection_hlookup_string_cache);
+	bisection_hlookup_string_cache = NULL;
+
+	g_hash_table_destroy (bisection_hlookup_float_cache);
+	bisection_hlookup_float_cache = NULL;
+
+	g_hash_table_destroy (bisection_hlookup_bool_cache);
+	bisection_hlookup_bool_cache = NULL;
+
+	/* ---------- */
+
+	g_hash_table_destroy (bisection_vlookup_string_cache);
+	bisection_vlookup_string_cache = NULL;
+
+	g_hash_table_destroy (bisection_vlookup_float_cache);
+	bisection_vlookup_float_cache = NULL;
+
+	g_hash_table_destroy (bisection_vlookup_bool_cache);
+	bisection_vlookup_bool_cache = NULL;
+
+	/* ---------- */
 
 	g_string_chunk_free (lookup_string_pool);
 	lookup_string_pool = NULL;
@@ -156,38 +190,69 @@ create_caches (void)
 				  sizeof (gnm_float),
 				  sizeof (gnm_float) * 1000);
 
-	linear_lookup_string_cache = g_hash_table_new_full
+	linear_hlookup_string_cache = g_hash_table_new_full
 		((GHashFunc)value_hash,
 		 (GEqualFunc)value_equal,
 		 (GDestroyNotify)value_release,
 		 (GDestroyNotify)g_hash_table_destroy);
-	linear_lookup_float_cache = g_hash_table_new_full
+	linear_hlookup_float_cache = g_hash_table_new_full
 		((GHashFunc)value_hash,
 		 (GEqualFunc)value_equal,
 		 (GDestroyNotify)value_release,
 		 (GDestroyNotify)g_hash_table_destroy);
-	linear_lookup_bool_cache = g_hash_table_new_full
+	linear_hlookup_bool_cache = g_hash_table_new_full
 		((GHashFunc)value_hash,
 		 (GEqualFunc)value_equal,
 		 (GDestroyNotify)value_release,
 		 (GDestroyNotify)g_hash_table_destroy);
 
-	bisection_lookup_string_cache = g_hash_table_new_full
+	linear_vlookup_string_cache = g_hash_table_new_full
+		((GHashFunc)value_hash,
+		 (GEqualFunc)value_equal,
+		 (GDestroyNotify)value_release,
+		 (GDestroyNotify)g_hash_table_destroy);
+	linear_vlookup_float_cache = g_hash_table_new_full
+		((GHashFunc)value_hash,
+		 (GEqualFunc)value_equal,
+		 (GDestroyNotify)value_release,
+		 (GDestroyNotify)g_hash_table_destroy);
+	linear_vlookup_bool_cache = g_hash_table_new_full
+		((GHashFunc)value_hash,
+		 (GEqualFunc)value_equal,
+		 (GDestroyNotify)value_release,
+		 (GDestroyNotify)g_hash_table_destroy);
+
+	bisection_hlookup_string_cache = g_hash_table_new_full
 		((GHashFunc)value_hash,
 		 (GEqualFunc)value_equal,
 		 (GDestroyNotify)value_release,
 		 (GDestroyNotify)lookup_bisection_cache_item_free);
-	bisection_lookup_float_cache = g_hash_table_new_full
+	bisection_hlookup_float_cache = g_hash_table_new_full
 		((GHashFunc)value_hash,
 		 (GEqualFunc)value_equal,
 		 (GDestroyNotify)value_release,
 		 (GDestroyNotify)lookup_bisection_cache_item_free);
-	bisection_lookup_bool_cache = g_hash_table_new_full
+	bisection_hlookup_bool_cache = g_hash_table_new_full
 		((GHashFunc)value_hash,
 		 (GEqualFunc)value_equal,
 		 (GDestroyNotify)value_release,
 		 (GDestroyNotify)lookup_bisection_cache_item_free);
 
+	bisection_vlookup_string_cache = g_hash_table_new_full
+		((GHashFunc)value_hash,
+		 (GEqualFunc)value_equal,
+		 (GDestroyNotify)value_release,
+		 (GDestroyNotify)lookup_bisection_cache_item_free);
+	bisection_vlookup_float_cache = g_hash_table_new_full
+		((GHashFunc)value_hash,
+		 (GEqualFunc)value_equal,
+		 (GDestroyNotify)value_release,
+		 (GDestroyNotify)lookup_bisection_cache_item_free);
+	bisection_vlookup_bool_cache = g_hash_table_new_full
+		((GHashFunc)value_hash,
+		 (GEqualFunc)value_equal,
+		 (GDestroyNotify)value_release,
+		 (GDestroyNotify)lookup_bisection_cache_item_free);
 }
 
 static void
@@ -204,7 +269,7 @@ prune_caches (void)
 static GHashTable *
 get_linear_lookup_cache (GnmFuncEvalInfo *ei,
 			 GnmValue const *data, GnmValueType datatype,
-			 gboolean *brand_new)
+			 gboolean vertical, gboolean *brand_new)
 {
 	GnmValue const *key;
 	GnmValue *key_copy = NULL;
@@ -216,9 +281,21 @@ get_linear_lookup_cache (GnmFuncEvalInfo *ei,
 
 	/* The "&" here is for the pruning case.  */
 	switch (datatype) {
-	case VALUE_STRING: cache = &linear_lookup_string_cache; break;
-	case VALUE_FLOAT: cache = &linear_lookup_float_cache; break;
-	case VALUE_BOOLEAN: cache = &linear_lookup_bool_cache; break;
+	case VALUE_STRING:
+		cache = vertical
+			? &linear_vlookup_string_cache
+			: &linear_hlookup_string_cache;
+		break;
+	case VALUE_FLOAT:
+		cache = vertical
+			? &linear_vlookup_float_cache
+			: &linear_hlookup_float_cache;
+		break;
+	case VALUE_BOOLEAN:
+		cache = vertical
+			? &linear_vlookup_bool_cache
+			: &linear_hlookup_bool_cache;
+		break;
 	default:
 		g_assert_not_reached ();
 		return NULL;
@@ -264,7 +341,7 @@ get_linear_lookup_cache (GnmFuncEvalInfo *ei,
 static LookupBisectionCacheItem *
 get_bisection_lookup_cache (GnmFuncEvalInfo *ei,
 			    GnmValue const *data, GnmValueType datatype,
-			    gboolean *brand_new)
+			    gboolean vertical, gboolean *brand_new)
 {
 	GnmValue const *key;
 	GnmValue *key_copy = NULL;
@@ -277,9 +354,21 @@ get_bisection_lookup_cache (GnmFuncEvalInfo *ei,
 
 	/* The "&" here is for the pruning case.  */
 	switch (datatype) {
-	case VALUE_STRING: cache = &bisection_lookup_string_cache; break;
-	case VALUE_FLOAT: cache = &bisection_lookup_float_cache; break;
-	case VALUE_BOOLEAN: cache = &bisection_lookup_bool_cache; break;
+	case VALUE_STRING:
+		cache = vertical
+			? &bisection_vlookup_string_cache
+			: &bisection_hlookup_string_cache;
+		break;
+	case VALUE_FLOAT:
+		cache = vertical
+			? &bisection_vlookup_float_cache
+			: &bisection_hlookup_float_cache;
+		break;
+	case VALUE_BOOLEAN:
+		cache = vertical
+			? &bisection_vlookup_bool_cache
+			: &bisection_hlookup_bool_cache;
+		break;
 	default:
 		g_assert_not_reached ();
 		return NULL;
@@ -377,7 +466,8 @@ find_index_linear_equal_string (GnmFuncEvalInfo *ei,
 	char *sc;
 	gboolean found, brand_new;
 
-	h = get_linear_lookup_cache (ei, data, VALUE_STRING, &brand_new);
+	h = get_linear_lookup_cache (ei, data, VALUE_STRING, vertical,
+				     &brand_new);
 	if (!h)
 		return LOOKUP_DATA_ERROR;
 
@@ -420,7 +510,8 @@ find_index_linear_equal_float (GnmFuncEvalInfo *ei,
 	gboolean found, brand_new;
 
 	/* This handles floats and bools, but with separate caches.  */
-	h = get_linear_lookup_cache (ei, data, find->type, &brand_new);
+	h = get_linear_lookup_cache (ei, data, find->type, vertical,
+				     &brand_new);
 	if (!h)
 		return LOOKUP_DATA_ERROR;
 
@@ -506,7 +597,8 @@ find_index_bisection (GnmFuncEvalInfo *ei,
 	int (*comparer) (const void *,const void *);
 	LookupBisectionCacheItemElem key;
 
-	bc = get_bisection_lookup_cache (ei, data, find->type, &brand_new);
+	bc = get_bisection_lookup_cache (ei, data, find->type, vertical,
+					 &brand_new);
 	if (!bc)
 		return LOOKUP_DATA_ERROR;
 
@@ -821,7 +913,7 @@ static GnmFuncHelp const help_vlookup[] = {
         { GNM_FUNC_HELP_ARG, F_("range:range to search")},
         { GNM_FUNC_HELP_ARG, F_("column:1-based column offset indicating the return values")},
         { GNM_FUNC_HELP_ARG, F_("approximate:if false, an exact match of @{value} "
-				"must be found; defaults to FALSE")},
+				"must be found; defaults to TRUE")},
         { GNM_FUNC_HELP_ARG, F_("as_index:if true, the 0-based row offset is "
 				"returned; defaults to FALSE")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("VLOOKUP function finds the row in @{range} that has a first "
@@ -882,7 +974,7 @@ static GnmFuncHelp const help_hlookup[] = {
         { GNM_FUNC_HELP_ARG, F_("range:range to search")},
         { GNM_FUNC_HELP_ARG, F_("row:1-based column offset indicating the return values ")},
         { GNM_FUNC_HELP_ARG, F_("approximate:if false, an exact match of @{value} "
-				"must be found; defaults to FALSE")},
+				"must be found; defaults to TRUE")},
         { GNM_FUNC_HELP_ARG, F_("as_index:if true, the 0-based row offset is "
 				"returned; defaults to FALSE")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("HLOOKUP function finds the row in @{range} that has a first "
