@@ -51,11 +51,6 @@
 #include <string.h>
 
 static void
-so_graph_view_destroy (SheetObjectView *sov)
-{
-	g_object_unref (G_OBJECT (sov));
-}
-static void
 so_graph_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
 	GocItem *view = GOC_ITEM (GOC_GROUP (sov)->children->data);
@@ -79,7 +74,6 @@ so_graph_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean v
 static void
 so_graph_goc_view_class_init (SheetObjectViewClass *sov_klass)
 {
-	sov_klass->destroy	= so_graph_view_destroy;
 	sov_klass->set_bounds	= so_graph_view_set_bounds;
 }
 

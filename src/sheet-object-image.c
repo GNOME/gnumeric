@@ -44,11 +44,6 @@ attr_eq (const xmlChar *a, const char *s)
 }
 
 static void
-so_image_view_destroy (SheetObjectView *sov)
-{
-	gtk_object_destroy (GTK_OBJECT (sov));
-}
-static void
 so_image_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
 	GocItem *view = GOC_ITEM (GOC_GROUP (sov)->children->data);
@@ -87,7 +82,6 @@ so_image_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean v
 static void
 so_image_goc_view_class_init (SheetObjectViewClass *sov_klass)
 {
-	sov_klass->destroy	= so_image_view_destroy;
 	sov_klass->set_bounds	= so_image_view_set_bounds;
 }
 typedef SheetObjectView	SOImageGocView;

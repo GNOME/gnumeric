@@ -115,7 +115,6 @@ struct _SheetObjectView {
 typedef struct {
 	GocGroupClass base;
 
-	void (*destroy)    (SheetObjectView *sov);
 	void (*active)	   (SheetObjectView *sov, gboolean is_active);
 	void (*set_bounds) (SheetObjectView *sov,
 			    double const *coords, gboolean visible);
@@ -130,7 +129,6 @@ typedef struct {
 
 GType	     sheet_object_view_get_type	  (void);
 SheetObject *sheet_object_view_get_so	  (SheetObjectView *sov);
-void	     sheet_object_view_destroy	  (SheetObjectView *sov);
 void	     sheet_object_view_set_bounds (SheetObjectView *sov,
 					   double const *coords,
 					   gboolean visible);

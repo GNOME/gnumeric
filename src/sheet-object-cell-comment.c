@@ -57,11 +57,6 @@ static GObjectClass *parent_klass;
 #define TRIANGLE_WIDTH 6
 
 static void
-comment_view_destroy (SheetObjectView *sov)
-{
-	gtk_object_destroy (GTK_OBJECT (sov));
-}
-static void
 comment_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
 	GocPoints *points = goc_points_new (3);
@@ -162,7 +157,6 @@ comment_view_class_init (SheetObjectViewClass *sov_klass)
 {
 	GocItemClass *item_klass = (GocItemClass *) sov_klass;
 
-	sov_klass->destroy	= comment_view_destroy;
 	sov_klass->set_bounds	= comment_view_set_bounds;
 
 	item_klass->button_pressed = comment_view_button_pressed;

@@ -311,7 +311,6 @@ static void
 scg_resize (SheetControlGUI *scg, gboolean force_scroll)
 {
 	Sheet const *sheet = scg_sheet (scg);
-	double const scale = 1. / sheet->last_zoom_factor_used;
 	GnmPane *pane = scg_pane (scg, 0);
 	int h, w, btn_h, btn_w, tmp;
 
@@ -1536,7 +1535,7 @@ scg_finalize (GObject *object)
 	/* remove the object view before we disappear */
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next )
 		SCG_FOREACH_PANE (scg, pane,
-			sheet_object_view_destroy (
+			g_object_unref (
 				sheet_object_get_view (ptr->data, (SheetObjectViewContainer *)pane));
 		);
 
@@ -2087,14 +2086,6 @@ scg_object_select (SheetControlGUI *scg, SheetObject *so)
 	g_signal_connect_object (so, "unrealized",
 		G_CALLBACK (scg_mode_edit), scg, G_CONNECT_SWAPPED);
 
-#if 0
-	if (SO_CLASS (so)->set_active != NULL) {
-		SCG_FOREACH_PANE (scg, pane, {
-			SO_CLASS (so)->set_active (so,
-				sheet_object_get_view (so, pane), TRUE);
-		});
-	}
-#endif
 	SCG_FOREACH_PANE (scg, pane,
 		gnm_pane_object_update_bbox (pane, so););
 }
@@ -2105,14 +2096,6 @@ cb_scg_object_unselect (SheetObject *so, double *coords, SheetControlGUI *scg)
 	SCG_FOREACH_PANE (scg, pane, gnm_pane_object_unselect (pane, so););
 	g_signal_handlers_disconnect_by_func (so,
 		scg_mode_edit, scg);
-
-#if 0
-	if (SO_CLASS (old)->set_active != NULL)
-		SCG_FOREACH_PANE (scg, pane, {
-			SO_CLASS (old)->set_active (old,
-				sheet_object_get_view (old, pane), FALSE);
-		});
-#endif
 }
 
 /**

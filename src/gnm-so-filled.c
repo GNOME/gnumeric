@@ -66,11 +66,6 @@ typedef struct {
 } FilledItemView;
 
 static void
-so_filled_view_destroy (SheetObjectView *sov)
-{
-	g_object_unref (G_OBJECT (sov));
-}
-static void
 so_filled_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
 	GocItem  *view = GOC_ITEM (sov);
@@ -114,7 +109,6 @@ so_filled_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean 
 static void
 so_filled_item_view_class_init (SheetObjectViewClass *sov_klass)
 {
-	sov_klass->destroy	= so_filled_view_destroy;
 	sov_klass->set_bounds	= so_filled_view_set_bounds;
 }
 
