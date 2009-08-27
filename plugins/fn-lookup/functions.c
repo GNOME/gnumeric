@@ -923,7 +923,7 @@ static GnmFuncHelp const help_vlookup[] = {
 					"or equal to "
 					"@{value}. If @{as_index} is true the 0-based row offset "
 					"is returned.")},
-	{ GNM_FUNC_HELP_NOTE, F_("If @approximate is true, "
+	{ GNM_FUNC_HELP_NOTE, F_("If @{approximate} is true, "
 				 "then the values must be sorted in order of ascending value.")},
 	{ GNM_FUNC_HELP_NOTE, F_("VLOOKUP returns #REF! if @{row} falls outside @{range}.")},
         { GNM_FUNC_HELP_SEEALSO, "HLOOKUP"},
@@ -981,10 +981,10 @@ static GnmFuncHelp const help_hlookup[] = {
 					"cell similar to @{value}.  If @{approximate} is not true it "
 					"finds the row with an exact equality. If @{approximate} is "
 					"true, it finds the last row with first value less than or "
-					"equal to"
+					"equal to "
 					"@{value}. If @{as_index} is true the 0-based row offset "
 					"is returned.")},
-	{ GNM_FUNC_HELP_NOTE, F_("If @approximate is true, "
+	{ GNM_FUNC_HELP_NOTE, F_("If @{approximate} is true, "
 				 "then the values must be sorted in order of ascending value.")},
 	{ GNM_FUNC_HELP_NOTE, F_("HLOOKUP returns #REF! if @{row} falls outside @{range}.")},
         { GNM_FUNC_HELP_SEEALSO, "VLOOKUP"},

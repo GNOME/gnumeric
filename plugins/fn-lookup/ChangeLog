@@ -1,3 +1,8 @@
+2009-08-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_vlookup): fix formatting
+	(help_hlookup): ditto
+
 2009-08-26  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (get_linear_lookup_cache,
