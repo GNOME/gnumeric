@@ -2284,8 +2284,6 @@ cb_so_menu_activate (GObject *menu, GocItem *view)
 	if (a->func)
 		(a->func) (sheet_object_view_get_so (SHEET_OBJECT_VIEW (view)),
 			   SHEET_CONTROL (GNM_SIMPLE_CANVAS (view->canvas)->scg));
-
-
 }
 
 static GtkWidget *

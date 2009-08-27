@@ -79,11 +79,6 @@ static SheetObjectClass *gnm_so_line_parent_class;
 
 #ifdef GNM_WITH_GTK
 static void
-so_line_view_destroy (SheetObjectView *sov)
-{
-	gtk_object_destroy (GTK_OBJECT (sov));
-}
-static void
 so_line_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
 	GocItem	*view = GOC_ITEM (sov), *item = GOC_ITEM (GOC_GROUP (view)->children->data);
@@ -108,7 +103,6 @@ so_line_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vi
 static void
 so_line_goc_view_class_init (SheetObjectViewClass *sov_klass)
 {
-	sov_klass->destroy	= so_line_view_destroy;
 	sov_klass->set_bounds	= so_line_view_set_bounds;
 }
 typedef SheetObjectView		LineGocView;

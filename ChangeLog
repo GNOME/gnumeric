@@ -1,3 +1,22 @@
+2009-08-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gnm-so-filled.c (so_filled_item_view_class_init): deprecate the
+	detroy method.
+	* src/gnm-so-line.c (so_line_goc_view_class_init): ditto.
+	* src/gnm-so-polygon.c (so_polygon_goc_view_class_init): ditto.
+	* src/sheet-control-gui.c (scg_resize), (scg_finalize),
+	(scg_object_select), (cb_scg_object_unselect): cleaned.
+	* src/sheet-object-cell-comment.c (comment_view_class_init): deprecate the
+	detroy method.
+	* src/sheet-object-graph.c (so_graph_goc_view_class_init): ditto.
+	* src/sheet-object-image.c (so_image_goc_view_class_init): ditto.
+	* src/sheet-object-impl.h: ditto.
+	* src/sheet-object-widget.c (so_widget_view_class_init): ditto.
+	* src/sheet-object.c (sheet_object_clear_sheet),
+	(sheet_object_new_view): ditto and fix a critical.
+	* src/wbc-gtk-edit.c (workbook_edit_complete_notify),
+	(cb_entry_delete_text): cleaned.
+
 2009-08-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/cell-draw.c (cell_draw): do no draw extra lines around rotated text.

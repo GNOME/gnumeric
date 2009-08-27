@@ -406,9 +406,11 @@ sheet_object_clear_sheet (SheetObject *so)
 		g_object_set_data (G_OBJECT (so), "create_view_handler", NULL);
 	}
 
-	/* The views remove themselves from the list */
-	while (so->realized_list != NULL)
-		sheet_object_view_destroy (so->realized_list->data);
+	while (so->realized_list != NULL) {
+		g_object_unref (G_OBJECT (so->realized_list->data));
+		so->realized_list = g_list_remove (so->realized_list, so->realized_list->data);
+		
+	}
 	g_signal_emit (so, signals [UNREALIZED], 0);
 
 	if (SO_CLASS (so)->remove_from_sheet &&
@@ -478,13 +480,6 @@ sheet_object_foreach_dep (SheetObject *so,
 		SO_CLASS (so)->foreach_dep (so, func, user);
 }
 
-
-static void
-cb_sheet_object_view_finalized (SheetObject *so, GObject *view)
-{
-	so->realized_list = g_list_remove (so->realized_list, view);
-}
-
 /**
  * sheet_object_new_view:
  * @so :
@@ -515,8 +510,6 @@ sheet_object_new_view (SheetObject *so, SheetObjectViewContainer *container)
 	/* Store some useful information */
 	g_object_set_qdata (G_OBJECT (view), sov_so_quark, so);
 	g_object_set_qdata (G_OBJECT (view), sov_container_quark, container);
-	g_object_weak_ref (G_OBJECT (view),
-		(GWeakNotify) cb_sheet_object_view_finalized, so);
 	so->realized_list = g_list_prepend (so->realized_list, view);
 	sheet_object_update_bounds (so, NULL);
 
@@ -1152,15 +1145,6 @@ sheet_object_view_button_pressed (GocItem *item, int button, double x, double y)
 	else
 		gnm_pane_display_object_menu (pane, so, goc_canvas_get_cur_event (item->canvas));
 	return TRUE;
-}
-
-void
-sheet_object_view_destroy (SheetObjectView *sov)
-{
-	SheetObjectViewClass *klass = SHEET_OBJECT_VIEW_GET_CLASS (sov);
-	g_return_if_fail (klass != NULL);
-	if (klass->destroy)
-		klass->destroy (sov);
 }
 
 static void
