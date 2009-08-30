@@ -29,10 +29,12 @@
 #include "gnm-pane-impl.h"
 #include "gnm-so-line.h"
 #include "gnm-so-filled.h"
+#include "sheet-control-gui-priv.h"
 #include "sheet-object-cell-comment.h"
 #include "sheet-object-widget.h"
 #include "sheet-object-graph.h"
 #include "sheet-object-image.h"
+#include "wbc-gtk-impl.h"
 #include "graph.h"
 #include <goffice/goffice.h>
 #include "application.h"
@@ -335,7 +337,6 @@ cb_create_views (SheetObject *so)
 	g_object_set_data (G_OBJECT (so), "create_view_handler", NULL);
 	SHEET_FOREACH_CONTROL (so->sheet, view, control,
 		sc_object_create_view (control, so););
-	sheet_object_update_bounds (so, NULL);
 	return FALSE;
 }
 
@@ -1107,7 +1108,14 @@ sheet_object_view_get_so (SheetObjectView *view)
 static gboolean
 sheet_object_view_enter_notify (GocItem *item, double x, double y)
 {
-	SheetObject *so = (SheetObject *) g_object_get_qdata (G_OBJECT (item), sov_so_quark);
+	SheetObject *so;
+
+	if (scg_wbcg (GNM_SIMPLE_CANVAS (item->canvas)->scg)->new_object) {
+		ItemGrid *grid = GNM_PANE (item->canvas)->grid;
+		return GOC_ITEM_GET_CLASS (grid)->enter_notify (GOC_ITEM (grid), x, y);
+	}
+
+	so = (SheetObject *) g_object_get_qdata (G_OBJECT (item), sov_so_quark);
 	gnm_widget_set_cursor_type (GTK_WIDGET (item->canvas),
 		(so->flags & SHEET_OBJECT_CAN_PRESS) ? GDK_HAND2 : GDK_ARROW);
 	return FALSE;
@@ -1118,6 +1126,11 @@ sheet_object_view_button_pressed (GocItem *item, int button, double x, double y)
 {
 	GnmPane *pane;
 	SheetObject *so;
+
+	if (scg_wbcg (GNM_SIMPLE_CANVAS (item->canvas)->scg)->new_object) {
+		ItemGrid *grid = GNM_PANE (item->canvas)->grid;
+		return GOC_ITEM_GET_CLASS (grid)->button_pressed (GOC_ITEM (grid), button, x, y);
+	}
 
 	if (button > 3)
 		return FALSE;

@@ -2973,6 +2973,8 @@ cb_bounds_changed (SheetObject *so, GocItem *sov)
 {
 	double coords[4], *cur;
 	SheetControlGUI *scg = GNM_SIMPLE_CANVAS (sov->canvas)->scg;
+	if (GNM_PANE (sov->canvas)->drag.button != 0)
+		return; /* do not reset bounds during drag */
 
 	scg_object_anchor_to_coords (scg, sheet_object_get_anchor (so), coords);
 	if (NULL != scg->selected_objects &&

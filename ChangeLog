@@ -1,5 +1,12 @@
 2009-08-30  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* src/gnm-pane.c (cb_bounds_changed): do not update while dragging.
+	* src/sheet-object.c (cb_create_views),
+	(sheet_object_view_enter_notify),
+	(sheet_object_view_button_pressed): do not reintroduce #151789.
+
+2009-08-30  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* src/sheet-control-gui.c (scg_object_anchor_to_coords): fixed a
 	rounding error.
 	* src/sheet-object.c (sheet_object_clear_sheet),
