@@ -283,6 +283,7 @@ libspreadsheet_include_HEADERS = 	\
 	sheet-object.h				\
 	sheet-object-impl.h			\
 	sheet-object-cell-comment.h		\
+	sheet-object-widget-impl.h		\
 	gnm-so-filled.h				\
 	gnm-so-line.h				\
 	gnm-so-polygon.h			\
