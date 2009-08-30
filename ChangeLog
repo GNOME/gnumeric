@@ -1,3 +1,14 @@
+2009-08-30  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-control-gui.c (scg_object_anchor_to_coords): fixed a
+	rounding error.
+	* src/sheet-object.c (sheet_object_clear_sheet),
+	(sheet_object_view_finalize), (sheet_object_view_class_init): don't
+	unref a finalized view.
+	* src/style-border.c (gnm_style_border_set_dash),
+	(style_border_set_gtk): rename and export gnm_style_border_set_dash.
+	* src/style-border.h: ditto.
+
 2009-08-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-so-filled.c (so_filled_item_view_class_init): deprecate the
