@@ -18,10 +18,7 @@
 
 
 typedef struct _GnumericDashedCanvasLine GnumericDashedCanvasLine;
-typedef struct {
-	GocLineClass base;
-	void (*real_draw) (GocItem const *item, cairo_t *cr);
-} GnumericDashedCanvasLineClass;
+typedef GocLineClass GnumericDashedCanvasLineClass;
 
 struct _GnumericDashedCanvasLine {
 	GocLine line;

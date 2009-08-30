@@ -81,8 +81,7 @@ gboolean gnm_style_border_visible_in_blank (GnmBorder const *border);
 GnmStyleBorderOrientation gnm_style_border_get_orientation (GnmStyleBorderLocation type);
 
 gint   gnm_style_border_get_width   (GnmStyleBorderType const line_type);
-void   gnm_style_border_set_gc_dash (GdkGC *gc,
-				     GnmStyleBorderType const line_type);
+void gnm_style_border_set_dash (GnmStyleBorderType const i, cairo_t *context);
 
 void gnm_style_borders_row_draw (GnmBorder const * const * prev_vert,
 				 GnmStyleRow const *sr,

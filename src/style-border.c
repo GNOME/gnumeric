@@ -285,62 +285,6 @@ gnm_style_border_get_orientation (GnmStyleBorderLocation type)
 	}
 }
 
-void
-gnm_style_border_set_gc_dash (GdkGC *gc, GnmStyleBorderType const i)
-{
-	GdkLineStyle style = GDK_LINE_SOLID;
-
-	g_return_if_fail (gc != NULL);
-	g_return_if_fail (i >= GNM_STYLE_BORDER_NONE);
-	g_return_if_fail (i < GNM_STYLE_BORDER_MAX);
-
-	if (style_border_data[i].pattern != NULL)
-		style = GDK_LINE_ON_OFF_DASH;
-
-	/* NOTE : Tricky.  We Use CAP_NOT_LAST because with butt lines
-	 * of width > 0 seem to exclude the far point (under Xfree86-4).
-	 * The Docs for X11R6 say that NotLast will give the same behavior for
-	 * lines of width 0.  Strangely the R5 docs say this for 0 AND 1.
-	 */
-	gdk_gc_set_line_attributes (gc, style_border_data[i].width, style,
-				    GDK_CAP_NOT_LAST, GDK_JOIN_MITER);
-
-	if (style_border_data[i].pattern != NULL) {
-		struct LineDotPattern const * const pat =
-			style_border_data[i].pattern;
-
-		gdk_gc_set_dashes (gc, style_border_data[i].offset,
-				   (gint8 *)pat->pattern, pat->elements);
-	}
-
-	/* The background should never be drawn */
-	gdk_gc_set_rgb_bg_color (gc, &gs_white);
-}
-
-static inline GdkGC *
-style_border_get_gc (GnmBorder const *border, GdkDrawable *drawable)
-{
-	GdkScreen *this_screen;
-	if (border == NULL)
-		return NULL;
-
-	this_screen = gdk_drawable_get_screen (drawable);
-	if (border->gc_screen != this_screen) {
-		if (border->gc)
-			g_object_unref (G_OBJECT (border->gc));
-		if (border->gc_screen)
-			g_object_unref (G_OBJECT (border->gc_screen));
-		((GnmBorder *)border)->gc = gdk_gc_new (drawable);
-		((GnmBorder *)border)->gc_screen = this_screen;
-		g_object_ref (this_screen);
-		gnm_style_border_set_gc_dash (border->gc, border->line_type);
-		gdk_gc_set_rgb_fg_color (border->gc, &border->color->gdk_color);
-	}
-
-	return border->gc;
-}
-
-
 GnmBorder *
 gnm_style_border_ref (GnmBorder *border)
 {
@@ -579,8 +523,8 @@ style_border_vmargins (GnmBorder const * const * prev_vert,
 	return FALSE;
 }
 
-static void
-style_border_set_gtk_dash (GnmStyleBorderType const i,
+void
+gnm_style_border_set_dash (GnmStyleBorderType const i,
 			   cairo_t *context)
 {
 	GdkLineStyle style = GDK_LINE_SOLID;
@@ -614,7 +558,7 @@ style_border_set_gtk (GnmBorder const * const border,
 	if (border == NULL)
 		return FALSE;
 
-	style_border_set_gtk_dash (border->line_type, context);
+	gnm_style_border_set_dash (border->line_type, context);
 	cairo_set_source_rgb (context,
 			      border->color->gdk_color.red   / (double) 0xffff,
 			      border->color->gdk_color.green / (double) 0xffff,

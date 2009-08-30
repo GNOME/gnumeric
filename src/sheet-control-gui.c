@@ -2423,14 +2423,15 @@ scg_object_anchor_to_coords (SheetControlGUI const *scg,
 	pixels[1] = scg_colrow_distance_get (scg, FALSE, 0, r->start.row);
 	pixels[3] = pixels[1] + scg_colrow_distance_get (scg, FALSE,
 		r->start.row, r->end.row);
+	/* add .5 to offsets so that the rounding is optimal */
 	pixels[0] += cell_offset_calc_pixel (sheet, r->start.col,
-		TRUE, anchor->offset[0]);
+		TRUE, anchor->offset[0]) + .5;
 	pixels[1] += cell_offset_calc_pixel (sheet, r->start.row,
-		FALSE, anchor->offset[1]);
+		FALSE, anchor->offset[1]) + .5;
 	pixels[2] += cell_offset_calc_pixel (sheet, r->end.col,
-		TRUE, anchor->offset[2]);
+		TRUE, anchor->offset[2]) + .5;
 	pixels[3] += cell_offset_calc_pixel (sheet, r->end.row,
-		FALSE, anchor->offset[3]);
+		FALSE, anchor->offset[3]) + .5;
 
 	direction = anchor->base.direction;
 	if (direction == GOD_ANCHOR_DIR_UNKNOWN)

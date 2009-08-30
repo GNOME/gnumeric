@@ -1,3 +1,11 @@
+2009-08-30  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* gnumeric-dashed-canvas-line.c (line_draw), (double_line_draw),
+	(gnumeric_dashed_canvas_line_draw),
+	(gnumeric_dashed_canvas_line_class_init),
+	(gnumeric_dashed_canvas_line_set_dash_index): fixed dashes rendering.
+	* gnumeric-dashed-canvas-line.h: ditto.
+
 2009-08-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	reviewed by: <delete if not using a buddy>

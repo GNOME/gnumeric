@@ -407,6 +407,7 @@ sheet_object_clear_sheet (SheetObject *so)
 	}
 
 	while (so->realized_list != NULL) {
+		g_object_set_qdata (G_OBJECT (so->realized_list->data), sov_so_quark, NULL);
 		g_object_unref (G_OBJECT (so->realized_list->data));
 		so->realized_list = g_list_remove (so->realized_list, so->realized_list->data);
 		
@@ -1083,6 +1084,8 @@ sheet_object_adjust_stacking (SheetObject *so, gint offset)
 
 /*****************************************************************************/
 
+static GObjectClass *view_parent_class;
+
 void
 sheet_object_view_set_bounds (SheetObjectView *sov,
 			      double const *coords, gboolean visible)
@@ -1148,8 +1151,22 @@ sheet_object_view_button_pressed (GocItem *item, int button, double x, double y)
 }
 
 static void
+sheet_object_view_finalize (GObject *obj)
+{
+	SheetObject *so = (SheetObject *) g_object_get_qdata (obj, sov_so_quark);
+	if (so)
+		so->realized_list = g_list_remove (so->realized_list, obj);
+	view_parent_class->finalize (obj);
+}
+
+static void
 sheet_object_view_class_init (GocItemClass *item_klass)
 {
+	GObjectClass *obj_klass = (GObjectClass *) item_klass;
+	view_parent_class = g_type_class_peek_parent (item_klass);
+
+	obj_klass->finalize = sheet_object_view_finalize;
+
 	item_klass->enter_notify = sheet_object_view_enter_notify;
 	item_klass->button_pressed = sheet_object_view_button_pressed;
 }
