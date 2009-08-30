@@ -4,6 +4,7 @@
  *
  * Author:
  *  Jody Goldberg <jody@gnome.org>
+ *  Morten Welinder <terra@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +27,8 @@
 
 #include <gui-util.h>
 #include <mathfunc.h>
+#include <wbc-gtk.h>
+#include <gnm-format.h>
 #include <goffice/goffice.h>
 #include <gtk/gtk.h>
 
@@ -154,239 +157,449 @@ static struct {
 	{ N_("Alexander Kirillov"),		GNM_DOCUMENTATION, NULL },
 };
 
-static void
-cb_plot_resize (GocCanvas *canvas, GtkAllocation *alloc, GocItem *ctrl)
+typedef struct AboutRenderer_ AboutRenderer;
+typedef struct AboutState_ AboutState;
+
+struct AboutRenderer_ {
+	int start_time, duration;
+
+	gboolean (*renderer) (AboutRenderer *, AboutState *);
+
+	PangoLayout *layout;
+	int natural_width;
+
+	gboolean fade_in, fade_out;
+
+	struct {
+		double x, y;
+	} start, end;
+
+	struct {
+		double rate;
+		int count;
+	} expansion;
+};
+
+struct AboutState_ {
+	GtkWidget *dialog;
+	guint timer;
+
+	GtkWidget *anim_area;
+	GList *active, *waiting;
+
+	int now;
+};
+
+/* ---------------------------------------- */
+
+static GdkColor
+blend_colors (const GdkColor *start, const GdkColor *end, double f)
 {
-	goc_item_set (ctrl,
-		"width", (double)alloc->width,
-		"height", (double)alloc->height,
-		NULL);
+	GdkColor res;
+	res.red   = start->red   * (1 - f) + end->red   * f;
+	res.green = start->green * (1 - f) + end->green * f;
+	res.blue  = start->blue  * (1 - f) + end->blue  * f;
+	return res;
 }
+
+
 static void
-cb_canvas_realized (GtkLayout *canvas, GocItem *ctrl)
+set_fade (AboutRenderer *r, AboutState *state, double f)
 {
-	gdk_window_set_back_pixmap (canvas->bin_window, NULL, FALSE);
-	cb_plot_resize (GOC_CANVAS (canvas),
-		&GTK_WIDGET (canvas)->allocation, ctrl);
+	GtkStyle *style = gtk_widget_get_style (state->anim_area);
+	PangoAttrList *attrlist = pango_layout_get_attributes (r->layout);
+	GdkColor col = blend_colors (style->bg + GTK_STATE_NORMAL,
+				     style->fg + GTK_STATE_NORMAL, f);
+	PangoAttribute *attr = pango_attr_foreground_new
+		(col.red, col.green, col.blue);
+	pango_attr_list_change (attrlist, attr);
+	pango_layout_set_attributes (r->layout, attrlist);
 }
 
-typedef struct {
-        GtkDialog *about;
-	GtkWidget *canvas;
-	GocItem *ctrl;
-	GogObject *graph;
-	GOStyle   *contributor_style;
-	GOData *contribs_data, *individual_data, *contributor_name;
+static void
+free_renderer (AboutRenderer *r)
+{
+	if (r->layout)
+		g_object_unref (r->layout);
+	g_free (r);
+}
 
-	guint	 timer;
+static gboolean
+text_item_renderer (AboutRenderer *r, AboutState *state)
+{
+	PangoLayout *layout = r->layout;
+	int age = state->now - r->start_time;
+	double rage = CLAMP (age / (double)r->duration, 0.0, 1.0);
+	GtkWidget *widget = state->anim_area;
+	GdkDrawable *drawable = widget->window;
+	GdkScreen *screen = gdk_drawable_get_screen (drawable);
+	PangoRenderer *renderer = gdk_pango_renderer_get_default (screen);
+	GdkPangoRenderer *gdk_renderer = GDK_PANGO_RENDERER (renderer);
+	GtkStyle *style;
+	GdkGC *text_gc;
+	const int fade = 500;
+	int x, y, width, height;
 
-	double	 contribs [GNM_ABOUT_NUM_TYPES];
-	double	 individual [GNM_ABOUT_NUM_TYPES];
-	unsigned item_index;
-	int	 fade_state;
-	gboolean dec;
-} GnmAboutState;
+	if (age >= r->duration)
+		return FALSE;
+
+	if (r->fade_in && age < fade)
+		set_fade (r, state, age / (double)fade);
+	else if (r->fade_out && r->duration - age < fade)
+		set_fade (r, state, (r->duration - age) / (double)fade);
+
+	style = gtk_widget_get_style (widget);
+	text_gc = style->text_gc[GTK_STATE_NORMAL];
+
+	x = (int)(PANGO_SCALE * widget->allocation.width *
+		  (r->start.x + rage * (r->end.x - r->start.x)));
+	y = (int)(PANGO_SCALE * widget->allocation.height *
+		  (r->start.y + rage * (r->end.y - r->start.y)));
+
+	if (r->expansion.count) {
+		PangoAttrList *attrlist = pango_layout_get_attributes (layout);
+		const char *p, *text = pango_layout_get_text (layout);
+		PangoRectangle ink, logical;
+
+		memset (&ink, 0, sizeof (ink));
+		logical = ink;
+
+		logical.width = (int)(rage * r->expansion.rate * r->natural_width / r->expansion.count);
+
+		p = text;
+		while (*p) {
+			const char *next = g_utf8_next_char (p);
+			gunichar uc = g_utf8_get_char (p);
+			PangoAttribute *attr;
+
+			if (uc == UNICODE_ZERO_WIDTH_SPACE_C) {
+				attr = pango_attr_shape_new (&ink, &logical);
+				attr->start_index = p - text;
+				attr->end_index = next - text;
+				pango_attr_list_change (attrlist, attr);
+			}
+			p = next;
+		}
+		pango_layout_set_attributes (layout, attrlist);
+	}
+
+	pango_layout_get_size (layout, &width, &height);
+	x -= width / 2;
+	y -= height / 2;
+
+	/*
+	 * This is more or less like gdk_draw_layout, but without the
+	 * implied round-to-pixel which is awful for expanding and
+	 * sliding text.
+	 */
+	gdk_pango_renderer_set_drawable (gdk_renderer, drawable);
+	gdk_pango_renderer_set_gc (gdk_renderer, text_gc);  
+	pango_renderer_draw_layout (renderer, layout, x, y);
+
+	return TRUE;
+}
 
 static void
-gnm_about_state_free (GnmAboutState *state)
+set_text_motion (AboutRenderer *r, double sx, double sy, double ex, double ey)
 {
-	if (state->timer != 0) {
+	r->start.x = sx;
+	r->start.y = sy;
+
+	r->end.x = ex;
+	r->end.y = ey;
+}
+
+static void
+set_text_expansion (AboutRenderer *r, double er)
+{
+	const char *text = pango_layout_get_text (r->layout);
+	GString *str = g_string_new (NULL);
+	char *ntext;
+	const char *p;
+
+	r->expansion.rate = er;
+	r->expansion.count = 0;
+
+	/* Normalize to make sure diacriticals are combined.  */
+	ntext = g_utf8_normalize (text, -1, G_NORMALIZE_DEFAULT_COMPOSE);
+
+	/* Insert inter-letter spaces we can stretch.  */
+	for (p = ntext; *p; p = g_utf8_next_char (p)) {
+		gunichar uc = g_utf8_get_char (p);
+
+		if (uc == UNICODE_ZERO_WIDTH_SPACE_C)
+			continue;
+
+		if (str->len) {
+			g_string_append_unichar (str, UNICODE_ZERO_WIDTH_SPACE_C);
+			r->expansion.count++;
+		}
+		g_string_append_unichar (str, uc);
+	}
+
+	g_free (ntext);
+	pango_layout_set_text (r->layout, str->str, -1);
+	g_string_free (str, TRUE);
+}
+
+static AboutRenderer *
+make_text_item (AboutState *state, const char *text, int duration)
+{
+	AboutRenderer *r = g_new0 (AboutRenderer, 1);
+	PangoAttrList *attrlist;
+	PangoAttribute *attr;
+
+	r->start_time = state->now;
+	r->duration = duration;
+	r->layout = gtk_widget_create_pango_layout (state->anim_area, NULL);
+	r->renderer = text_item_renderer;
+	r->fade_in = r->fade_out = TRUE;
+	set_text_motion (r, 0.5, 0.5, 0.5, 0.5);
+
+	pango_layout_set_text (r->layout, text, -1);
+	pango_layout_get_size (r->layout, &r->natural_width, NULL);
+
+	attrlist = pango_attr_list_new ();
+	attr = pango_attr_weight_new (PANGO_WEIGHT_BOLD);
+	pango_attr_list_change (attrlist, attr);
+	pango_layout_set_attributes (r->layout, attrlist);
+	pango_attr_list_unref (attrlist);
+
+	state->now += duration;
+
+	return r;
+}
+
+/* ---------------------------------------- */
+
+
+#define TIME_SLICE 20 /* ms */
+
+
+static void
+free_state (AboutState *state)
+{
+	if (state->timer) {
 		g_source_remove (state->timer);
 		state->timer = 0;
 	}
-	g_object_unref (state->graph);
+
+	go_list_free_custom (state->active, (GFreeFunc)free_renderer);
+	state->active = NULL;
+
+	go_list_free_custom (state->waiting, (GFreeFunc)free_renderer);
+	state->waiting = NULL;
+
 	g_free (state);
 }
 
-#define FADE_STATES	5
-#define MAX_FADE_STATE	(FADE_STATES*2)
+static gboolean
+about_dialog_timer (gpointer state_)
+{
+	AboutState *state = state_;
+
+	while (state->waiting) {
+		AboutRenderer *r = state->waiting->data;
+		if (r->start_time > state->now)
+			break;
+		state->active = g_list_append (state->active, r);
+		state->waiting = g_list_remove (state->waiting, r);
+	}
+
+	if (state->active)
+		gtk_widget_queue_draw (state->anim_area);
+
+	state->now += TIME_SLICE;
+
+	return TRUE;
+}
 
 static gboolean
-cb_about_animate (GnmAboutState *state)
+about_dialog_anim_expose (GtkWidget *widget,
+                          GdkEventExpose *event,
+                          AboutState *state)
 {
-	int i;
-	float alpha;
+	GList *l;
 
-	if (state->fade_state == MAX_FADE_STATE) {
-		state->fade_state = 0;
-		state->item_index++;
-		if (state->item_index >= G_N_ELEMENTS (contributors)) {
-			state->item_index = 0;
-			state->dec = !state->dec;
+	l = state->active;
+	while (l) {
+		GList *next = l->next;
+		AboutRenderer *r = l->data;
+		gboolean keep = r->renderer (r, state);
+		if (!keep) {
+			free_renderer (r);
+			state->active = g_list_remove_link (state->active, l);
+		}
+		l = next;
+	}
+
+	return FALSE;
+}
+
+static void
+create_animation (AboutState *state)
+{
+	AboutRenderer *r;
+	GList *tail;
+	unsigned ui;
+	unsigned N = G_N_ELEMENTS (contributors);
+	unsigned *permutation;
+
+	state->now += 500;
+
+	r = make_text_item (state, _("Gnumeric is the result of"), 3000);
+	set_text_motion (r, 0.5, 0.9, 0.5, 0.1);
+	tail = state->waiting = g_list_prepend (NULL, r);
+
+	state->now -= 2000;  /* Overlap.  */
+
+	r = make_text_item (state, _("the efforts of many people."), 3000);
+	set_text_motion (r, 0.5, 0.9, 0.5, 0.1);
+	tail->next = g_list_prepend (NULL, r);
+	tail = tail->next;
+
+	state->now -= 2000;  /* Overlap.  */
+
+	r = make_text_item (state, _("Your help is much appreciated!"), 3000);
+	set_text_motion (r, 0.5, 0.9, 0.5, 0.1);
+	tail->next = g_list_prepend (NULL, r);
+	tail = tail->next;
+
+	permutation = g_new (unsigned, N);
+	for (ui = 0; ui < N; ui++)
+		permutation[ui] = ui;
+
+	for (ui = 0; ui < N; ui++) {
+		unsigned pui = (int)(random_01 () * N);
+		unsigned A = permutation[ui];
+		permutation[ui] = permutation[pui];
+		permutation[pui] = A;
+	}
+
+	for (ui = 0; ui < N; ui++) {
+		unsigned pui = permutation[ui];
+		const char *name = contributors[pui].name;
+		int style = ui % 2;
+
+		if (ui != 0)
+			state->now -= 1900;  /* Overlap.  */
+
+		r = make_text_item (state, name, 3000);
+		switch (style) {
+		case 0:
+			set_text_motion (r, 0.5, 0.1, 0.1, 0.9);
+			if (0) set_text_expansion (r, 1);
+			break;
+		case 1:
+			set_text_motion (r, 0.5, 0.1, 0.9, 0.9);
+			if (0) set_text_expansion (r, 1);
+			break;
+#if 0
+		case 2:
+			set_text_motion (r, 0.5, 0.1, 0.5, 0.9);
+			set_text_expansion (r, 3);
+			break;
+#endif
 		}
 
-		for (i = 0 ; i < GNM_ABOUT_NUM_TYPES ; i++)
-			if (contributors [state->item_index].contributions & (1 << i)) {
-				state->contribs [i] += state->dec ? -1 : 1;
-				state->individual [i] = 1;
-			} else
-				state->individual [i] = 0;
-	} else
-		state->fade_state++;
+		tail->next = g_list_prepend (NULL, r);
+		tail = tail->next;
+	}
 
-	/* 1-((x-25)/25)**2 */
-	alpha = (state->fade_state - FADE_STATES) / (double)FADE_STATES;
-	alpha *= alpha;
-	state->contributor_style->font.color = UINT_RGBA_CHANGE_A (
-		state->contributor_style->font.color, (unsigned)(255 * (1. - alpha)));
-	go_data_scalar_str_set_str (GO_DATA_SCALAR_STR (state->contributor_name),
-		_(contributors [state->item_index].name), FALSE);
-	go_data_emit_changed (GO_DATA (state->contribs_data));
-	go_data_emit_changed (GO_DATA (state->individual_data));
-	return TRUE;
+	g_free (permutation);
+
+	state->now += 1000;
+
+	r = make_text_item (state, _("We apologize if anyone was left out."),
+			    3000);
+	set_text_motion (r, 0.5, 0.9, 0.5, 0.1);
+	tail->next = g_list_prepend (NULL, r);
+	tail = tail->next;
+
+	state->now -= 2000;  /* Overlap.  */
+
+	r = make_text_item (state, _("Please contact us to correct mistakes."),
+			    3000);
+	set_text_motion (r, 0.5, 0.9, 0.5, 0.1);
+	tail->next = g_list_prepend (NULL, r);
+	tail = tail->next;
+
+	state->now -= 2000;  /* Overlap.  */
+
+	r = make_text_item (state, _("Report problems at http://bugzilla.gnome.org"), 3000);
+	set_text_motion (r, 0.5, 0.9, 0.5, 0.1);
+	tail->next = g_list_prepend (NULL, r);
+	tail = tail->next;
+
+	r = make_text_item (state, _("We aim to please!"), 3000);
+	r->fade_out = FALSE;
+	tail->next = g_list_prepend (NULL, r);
+	tail = tail->next;
+
+	state->now -= 100;  /* Overlap.  */
+
+	r = make_text_item (state, _("We aim to please!"), 1000);
+	r->fade_in = FALSE;
+	set_text_expansion (r, 4);
+	tail->next = g_list_prepend (NULL, r);
+	tail = tail->next;
+
+	state->now = 0;
 }
 
 void
 dialog_about (WBCGtk *wbcg)
 {
-	GnmAboutState *state;
-	GogObject *chart, *tmp;
-	GogPlot   *plot;
-	GogSeries *series;
-	GOData *labels;
-	int i;
+	GtkWidget *w, *c;
+	GList *children;
 
-	/* Ensure we only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, ABOUT_KEY))
 		return;
 
-	state = g_new0 (GnmAboutState, 1);
-        state->about = (GtkDialog *)gtk_dialog_new_with_buttons (_("About Gnumeric"), NULL,
-		GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_NO_SEPARATOR,
-		GTK_STOCK_OK,		GTK_RESPONSE_OK,
-		NULL);
-	state->fade_state = MAX_FADE_STATE;	/* prime things to start at item 0 */
-	state->item_index = (int) (random_01 () * G_N_ELEMENTS (contributors)) - 1;
-	state->dec = FALSE;
-	for (i = GNM_ABOUT_NUM_TYPES ; i-- > 0 ; )
-		state->contribs[i] = state->individual[i] = 0.;
-	g_object_set_data_full (G_OBJECT (state->about),
-		"state", state, (GDestroyNotify)gnm_about_state_free);
+	AboutState *state = g_new0 (AboutState, 1);
 
-	state->graph = g_object_new (GOG_TYPE_GRAPH, NULL);
-	gog_graph_set_size (GOG_GRAPH (state->graph), 4 * 72.0, 4 * 72.0);
-	GOG_STYLED_OBJECT (state->graph)->style->fill.type = GO_STYLE_FILL_GRADIENT;
-	GOG_STYLED_OBJECT (state->graph)->style->fill.pattern.back = 0xFFFF99FF;
-	GOG_STYLED_OBJECT (state->graph)->style->fill.gradient.dir = GO_GRADIENT_W_TO_E_MIRRORED;
-	GOG_STYLED_OBJECT (state->graph)->style->outline.width = 0; /* hairline */
-	GOG_STYLED_OBJECT (state->graph)->style->outline.color = RGBA_BLACK;
-	go_style_set_fill_brightness (
-		GOG_STYLED_OBJECT (state->graph)->style, 70.);
-#if 0
-	go_style_set_fill_image_filename (GOG_STYLED_OBJECT (state->graph)->style,
-		g_build_filename (gnm_icon_dir (), "gnumeric-about.png", NULL));
-#endif
+	w = g_object_new (GTK_TYPE_ABOUT_DIALOG,
+			  "title", _("About Gnumeric"),
+			  "version", GNM_VERSION_FULL,
+			  "website", "http://www.gnumeric.org/",
+			  "website-label", _("Visit the Gnumeric website"),
+			  "logo-icon-name", "gnumeric",
+			  "copyright", _("Copyright \xc2\xa9 1998-2009"),
+			  "comments", _("Free, Fast, Accurate - Pick Any Three!"),
+			  NULL);
+	state->dialog = w;
 
-	/* A bar plot of the current contributors activities */
-	chart = gog_object_add_by_name (state->graph, "Chart", NULL);
-	GOG_STYLED_OBJECT (chart)->style->outline.dash_type = GO_LINE_NONE;
-	GOG_STYLED_OBJECT (chart)->style->outline.auto_dash = FALSE;
-	GOG_STYLED_OBJECT (chart)->style->fill.type = GO_STYLE_FILL_NONE;
-	plot = gog_plot_new_by_name ("GogBarColPlot");
-	if (!plot) {
-		/* This can happen if plugins are not available.  */
-		gnm_about_state_free (state);
-		return;
+	g_signal_connect (w, "response",
+			  G_CALLBACK (gtk_widget_destroy), NULL);
+	g_signal_connect_swapped (w, "destroy",
+				  G_CALLBACK (free_state), state);
+
+	c = gtk_dialog_get_content_area (GTK_DIALOG (w));
+	children = gtk_container_get_children (GTK_CONTAINER (c));
+
+	if (children && GTK_IS_VBOX (children->data)) {
+		GtkWidget *vbox = children->data;
+		int height;
+		PangoLayout *layout;
+
+		state->anim_area = gtk_drawing_area_new ();
+		layout = gtk_widget_create_pango_layout (state->anim_area, NULL);
+		pango_layout_get_pixel_size (layout, NULL, &height);
+		gtk_widget_set_size_request (state->anim_area, -1, 4 * height);
+		g_object_unref (layout);
+
+		g_signal_connect (state->anim_area, "expose-event",
+				  G_CALLBACK (about_dialog_anim_expose),
+				  state);
+
+		gtk_box_pack_end (GTK_BOX (vbox), state->anim_area, TRUE, TRUE, 0);
+
+		create_animation (state);
+
+		state->timer = g_timeout_add (TIME_SLICE, about_dialog_timer, state);
 	}
-	g_object_set (G_OBJECT (plot),
-		"horizontal",			TRUE,
-		"vary-style-by-element",	TRUE,
-		NULL);
-	gog_object_add_by_name (chart, "Plot", GOG_OBJECT (plot));
-	series = gog_plot_new_series (plot);
-	labels = go_data_vector_str_new ( about_types, G_N_ELEMENTS (about_types), NULL);
-	go_data_vector_str_set_translation_domain (GO_DATA_VECTOR_STR (labels), NULL);
-	g_object_ref (labels); /* set_dim absorbs the ref, add an extra for next plot */
-	gog_series_set_dim (series, 0, labels, NULL);
-	state->individual_data = go_data_vector_val_new (
-		state->individual, G_N_ELEMENTS (state->individual), NULL);
-	gog_series_set_dim (series, 1, state->individual_data, NULL);
-	GOG_STYLED_OBJECT (series)->style->outline.dash_type = GO_LINE_NONE;
-	GOG_STYLED_OBJECT (series)->style->outline.auto_dash = FALSE;
-	GOG_STYLED_OBJECT (series)->style->fill.type = GO_STYLE_FILL_GRADIENT;
-	GOG_STYLED_OBJECT (series)->style->fill.gradient.dir = GO_GRADIENT_N_TO_S_MIRRORED;
-	go_style_set_fill_brightness (
-		GOG_STYLED_OBJECT (series)->style, 70.);
+	g_list_free (children);
 
-	/* hide the X-axis */
-	tmp = gog_object_get_child_by_role (chart,
-		gog_object_find_role_by_name (chart, "X-Axis"));
-	g_object_set (G_OBJECT (tmp),
-		"major-tick-labeled",	FALSE,
-		"major-tick-out",	FALSE,
-		NULL);
-	GOG_STYLED_OBJECT (tmp)->style->line.dash_type = GO_LINE_NONE;
-	GOG_STYLED_OBJECT (tmp)->style->line.auto_dash = FALSE;
-	tmp = gog_object_get_child_by_role (chart,
-		gog_object_find_role_by_name (chart, "Y-Axis"));
-	go_style_set_font_desc (GOG_STYLED_OBJECT (tmp)->style,
-		pango_font_description_from_string ("Sans 10"));
-
-	tmp = gog_object_add_by_name (chart, "Title", NULL);
-	gog_object_set_position_flags (tmp, GOG_POSITION_N | GOG_POSITION_ALIGN_START,
-				       GOG_POSITION_COMPASS | GOG_POSITION_ALIGNMENT);
-	state->contributor_name = go_data_scalar_str_new ("", FALSE);
-	gog_dataset_set_dim (GOG_DATASET (tmp), 0, state->contributor_name, NULL);
-	state->contributor_style = GOG_STYLED_OBJECT (tmp)->style;
-	go_style_set_font_desc (GOG_STYLED_OBJECT (tmp)->style,
-		pango_font_description_from_string ("Sans Bold 10"));
-
-	/* A pie of the cumulative contributions */
-	chart = gog_object_add_by_name (state->graph, "Chart", NULL);
-	GOG_STYLED_OBJECT (chart)->style->outline.dash_type = GO_LINE_NONE;
-	GOG_STYLED_OBJECT (chart)->style->outline.auto_dash = FALSE;
-	GOG_STYLED_OBJECT (chart)->style->fill.type = GO_STYLE_FILL_NONE;
-	gog_chart_set_position  (GOG_CHART (chart), 1, 0, 1, 1);
-	plot = gog_plot_new_by_name ("GogPiePlot");
-	if (!plot) {
-		/* This can happen if plugins are not available.  */
-		gnm_about_state_free (state);
-		return;
-	}
-	gog_object_add_by_name (chart, "Plot", GOG_OBJECT (plot));
-	series = gog_plot_new_series (plot);
-	gog_series_set_dim (series, 0, labels, NULL);
-	state->contribs_data = go_data_vector_val_new (
-		state->contribs, G_N_ELEMENTS (state->contribs), NULL);
-	gog_series_set_dim (series, 1, state->contribs_data, NULL);
-	GOG_STYLED_OBJECT (series)->style->outline.dash_type = GO_LINE_NONE;
-	GOG_STYLED_OBJECT (series)->style->outline.auto_dash = FALSE;
-	GOG_STYLED_OBJECT (series)->style->fill.type = GO_STYLE_FILL_GRADIENT;
-	GOG_STYLED_OBJECT (series)->style->fill.gradient.dir = GO_GRADIENT_NW_TO_SE;
-	go_style_set_fill_brightness (
-		GOG_STYLED_OBJECT (series)->style, 70.);
-
-	tmp = gog_object_add_by_name (state->graph, "Title", NULL);
-	gog_object_set_position_flags (tmp, GOG_POSITION_S | GOG_POSITION_ALIGN_END,
-			    GOG_POSITION_COMPASS | GOG_POSITION_ALIGNMENT);
-	gog_dataset_set_dim (GOG_DATASET (tmp), 0,
-		go_data_scalar_str_new (
-			"Gnumeric " GNM_VERSION_FULL "\n"
-			"Copyright \xc2\xa9 2001-2007 Jody Goldberg\n"
-			"Copyright \xc2\xa9 1998-2000 Miguel de Icaza", FALSE),
-		NULL);
-	go_style_set_font_desc (GOG_STYLED_OBJECT (tmp)->style,
-		pango_font_description_from_string ("Sans Bold 12"));
-
-	state->canvas = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
-	gtk_widget_set_size_request (state->canvas, 400, 350);
-
-	state->ctrl = goc_item_new (goc_canvas_get_root (GOC_CANVAS (state->canvas)),
-			GOC_TYPE_GRAPH,
-			"graph", state->graph,
-			NULL);
-	g_object_connect (state->canvas,
-		"signal::realize",	 G_CALLBACK (cb_canvas_realized), state->ctrl,
-		"signal::size_allocate", G_CALLBACK (cb_plot_resize), state->ctrl,
-		NULL);
-	gtk_box_pack_start (GTK_BOX (state->about->vbox), state->canvas, TRUE, TRUE, 0);
-
-	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->about), ABOUT_KEY);
-	gtk_widget_show_all (GTK_WIDGET (state->about));
-	g_signal_connect (state->about, "response",
-		G_CALLBACK (gtk_widget_destroy), NULL);
-
-	state->timer = g_timeout_add_full (G_PRIORITY_LOW, 300,
-					   (GSourceFunc) cb_about_animate, state,
-					   NULL);
+	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (w), ABOUT_KEY);
+	gtk_widget_show_all (w);
 }

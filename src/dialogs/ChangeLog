@@ -1,3 +1,7 @@
+2009-08-30  Morten Welinder  <terra@gnome.org>
+
+	* dialog-about.c: Rewrite dialog.
+
 2009-08-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* Makefile.am: update after goffice migration from Glade to GtkBuilder.
