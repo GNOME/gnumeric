@@ -1743,6 +1743,15 @@ For metric units any of the following prefixes can be used:
 @SEEALSO=INTRATE
 
 @CATEGORY=Finance
+@FUNCTION=RRI
+@SYNTAX=RRI(p,pv,fv)
+@DESCRIPTION=RRI dtermines an equivalent interest rate for an investment that increases in value. The interest is compounded after each complete period.
+@{p}: number of periods
+@{pv}: present value
+@{fv}: future value
+@SEEALSO=PV,FV,RATE
+
+@CATEGORY=Finance
 @FUNCTION=SLN
 @SYNTAX=SLN(cost,salvage,life)
 @DESCRIPTION=SLN calculates the depreciation of an asset using the straight-line method.
@@ -2095,11 +2104,11 @@ For metric units any of the following prefixes can be used:
 @CATEGORY=Lookup
 @FUNCTION=HLOOKUP
 @SYNTAX=HLOOKUP(value,range,row,approximate,as_index)
-@DESCRIPTION=HLOOKUP function finds the row in @{range} that has a first cell similar to @{value}.  If @{approximate} is not true it finds the row with an exact equality. If @{approximate} is true, it finds the last row with first value less than or equal to@{value}. If @{as_index} is true the 0-based row offset is returned.
+@DESCRIPTION=HLOOKUP function finds the row in @{range} that has a first cell similar to @{value}.  If @{approximate} is not true it finds the row with an exact equality. If @{approximate} is true, it finds the last row with first value less than or equal to @{value}. If @{as_index} is true the 0-based row offset is returned.
 @{value}: search value
 @{range}: range to search
 @{row}: 1-based column offset indicating the return values 
-@{approximate}: if false, an exact match of @{value} must be found; defaults to FALSE
+@{approximate}: if false, an exact match of @{value} must be found; defaults to TRUE
 @{as_index}: if true, the 0-based row offset is returned; defaults to FALSE
 @SEEALSO=VLOOKUP
 
@@ -2174,7 +2183,7 @@ For metric units any of the following prefixes can be used:
 @{value}: search value
 @{range}: range to search
 @{column}: 1-based column offset indicating the return values
-@{approximate}: if false, an exact match of @{value} must be found; defaults to FALSE
+@{approximate}: if false, an exact match of @{value} must be found; defaults to TRUE
 @{as_index}: if true, the 0-based row offset is returned; defaults to FALSE
 @SEEALSO=HLOOKUP
 
@@ -2200,6 +2209,13 @@ For metric units any of the following prefixes can be used:
 @CATEGORY=Mathematics
 @FUNCTION=ACOTH
 @SEEALSO=COTH,TANH
+
+@CATEGORY=Mathematics
+@FUNCTION=Arabic
+@SYNTAX=Arabic(roman)
+@DESCRIPTION=Any Roman symbol to the left of a larger symbol (directly or indirectly) reduces the final value by the symbol amount, otherwise, it increases the final amount by the symbol's amount.
+@{roman}: Roman numeral
+@SEEALSO=ROMAN
 
 @CATEGORY=Mathematics
 @FUNCTION=ASIN
@@ -2238,6 +2254,10 @@ For metric units any of the following prefixes can be used:
 @SEEALSO=ATAN,COS,SIN,DEGREES,RADIANS
 
 @CATEGORY=Mathematics
+@FUNCTION=AVERAGEIF
+@SEEALSO=SUMIF,COUNTIF
+
+@CATEGORY=Mathematics
 @FUNCTION=BETA
 @SYNTAX=BETA(x,y)
 @DESCRIPTION=BETA function returns the value of the Euler beta function extended to all real numbers except 0 and negative integers.
@@ -2271,9 +2291,12 @@ For metric units any of the following prefixes can be used:
 @CATEGORY=Mathematics
 @FUNCTION=COMBIN
 @SYNTAX=COMBIN(n,k)
-@DESCRIPTION=COMBIN returns the binomial coefficient "@{n} choose @{k}"
+@DESCRIPTION=COMBIN returns the binomial coefficient "@{n} choose @{k}", the number of @{k}-combinations of an @{n}-element set without repetition.
 @{n}: non-negative integer
 @{k}: non-negative integer
+
+@CATEGORY=Mathematics
+@FUNCTION=COMBINA
 
 @CATEGORY=Mathematics
 @FUNCTION=COS
@@ -2351,9 +2374,17 @@ For metric units any of the following prefixes can be used:
 @SEEALSO=SUM, COUNT
 
 @CATEGORY=Mathematics
+@FUNCTION=GAMMA
+@SEEALSO=GAMMALN
+
+@CATEGORY=Mathematics
+@FUNCTION=GAMMALN
+@SEEALSO=GAMMA
+
+@CATEGORY=Mathematics
 @FUNCTION=GCD
 @SYNTAX=GCD(n0,n1)
-@DESCRIPTION=GCD calculates the greates common divisor of the given numbers @{n0},@{n1},..., the greatest integer that is a divisor of each argument.
+@DESCRIPTION=GCD calculates the greatest common divisor of the given numbers @{n0},@{n1},..., the greatest integer that is a divisor of each argument.
 @{n0}: positive integer
 @{n1}: positive integer
 @SEEALSO=LCM
@@ -2416,7 +2447,7 @@ For metric units any of the following prefixes can be used:
 @CATEGORY=Mathematics
 @FUNCTION=MOD
 @SYNTAX=MOD(x,n)
-@DESCRIPTION=MOD function returns the remainder when @{x} is divided by @n.
+@DESCRIPTION=MOD function returns the remainder when @{x} is divided by @{n}.
 @{x}: integer
 @{n}: integer
 @SEEALSO=CEIL,CEILING,FLOOR,ABS,INT,ABS
@@ -2428,6 +2459,10 @@ For metric units any of the following prefixes can be used:
 @CATEGORY=Mathematics
 @FUNCTION=MULTINOMIAL
 @SEEALSO=COMBIN,SUM
+
+@CATEGORY=Mathematics
+@FUNCTION=MUNIT
+@SEEALSO=MMULT,MDETERM,MINVERSE
 
 @CATEGORY=Mathematics
 @FUNCTION=ODD
@@ -2984,10 +3019,6 @@ The successive use of the simulation tool also requires that you give to the too
 @SEEALSO=GAMMADIST
 
 @CATEGORY=Statistics
-@FUNCTION=GAMMALN
-@SEEALSO=POISSON
-
-@CATEGORY=Statistics
 @FUNCTION=GEOMDIST
 @SEEALSO=RANDGEOM
 
@@ -3224,6 +3255,10 @@ The successive use of the simulation tool also requires that you give to the too
 @CATEGORY=Statistics
 @FUNCTION=PERMUT
 @SEEALSO=COMBIN
+
+@CATEGORY=Statistics
+@FUNCTION=PERMUTATIONA
+@SEEALSO=POWER
 
 @CATEGORY=Statistics
 @FUNCTION=POISSON
@@ -3978,6 +4013,10 @@ The successive use of the simulation tool also requires that you give to the too
 @SEEALSO=EXACT,LEN,MID,SEARCH
 
 @CATEGORY=String
+@FUNCTION=FINDB
+@SEEALSO=FIND,LEFTB,RIGHTB,LENB,LEFT,MID,RIGHT,LEN
+
+@CATEGORY=String
 @FUNCTION=FIXED
 @SEEALSO=TEXT,VALUE,DOLLAR
 
@@ -4028,6 +4067,16 @@ The successive use of the simulation tool also requires that you give to the too
 @SEEALSO=MID,SEARCH,SUBSTITUTE,TRIM
 
 @CATEGORY=String
+@FUNCTION=REPLACEB
+@SYNTAX=REPLACEB(old,start,num,new)
+@DESCRIPTION=REPLACEB replaces the string of valid unicode characters starting at the byte @{start} and ending at @{start}+@{num}-1 with the string @{new}.
+@{old}: original text
+@{start}: starting byte position
+@{num}: number of bytes to be replaced
+@{new}: replacement string
+@SEEALSO=MID,SEARCH,SUBSTITUTE,TRIM
+
+@CATEGORY=String
 @FUNCTION=REPT
 @SEEALSO=CONCATENATE
 
@@ -4046,7 +4095,16 @@ The successive use of the simulation tool also requires that you give to the too
 @{search}: search string
 @{text}: search field
 @{start}: starting position, defaults to 1
-@SEEALSO=FIND
+@SEEALSO=FIND,SEARCHB
+
+@CATEGORY=String
+@FUNCTION=SEARCHB
+@SYNTAX=SEARCHB(search,text,start)
+@DESCRIPTION=@{search} may contain wildcard characters (*) and question marks (?). A question mark matches any single character, and a wildcard matches any string including the empty string. To search for * or ?, precede the symbol with ~.
+@{search}: search string
+@{text}: search field
+@{start}: starting byte position, defaults to 1
+@SEEALSO=FINDB,SEARCH
 
 @CATEGORY=String
 @FUNCTION=SUBSTITUTE
