@@ -315,6 +315,8 @@ function_dump_defs (char const *filename, int dump_type)
 			gboolean first_arg = TRUE;
 			GString *syntax = g_string_new ("@SYNTAX=");
 			GString *arg_desc = g_string_new (NULL);
+			gboolean seen_desc = FALSE;
+
 			fprintf (output_file, "@CATEGORY=%s\n",
 				 _(fd->fn_group->display_name->str));
 			for (i = 0;
@@ -337,11 +339,29 @@ function_dump_defs (char const *filename, int dump_type)
 						 _(fd->help[i].text));
 					break;
 				case GNM_FUNC_HELP_DESCRIPTION:
-					g_string_append_c (syntax, ')');
-					fprintf (output_file, "%s\n@DESCRIPTION=%s\n%s",
-						 syntax->str,
-						 _(fd->help[i].text),
-						 arg_desc->str);
+					if (!seen_desc) {
+						g_string_append_c (syntax, ')');
+						fprintf (output_file, "%s\n",
+							 syntax->str);
+					}
+					fprintf (output_file, "@DESCRIPTION=%s\n",
+						 _(fd->help[i].text));
+					if (!seen_desc) {
+						fprintf (output_file, "%s\n",
+							 arg_desc->str);
+					}
+					seen_desc = TRUE;
+					break;
+				case GNM_FUNC_HELP_NOTE:
+					if (!seen_desc) {
+						g_string_append_c (syntax, ')');
+						fprintf (output_file, "%s\n@DESCRIPTION=.\n%s",
+							 syntax->str,
+							 arg_desc->str);
+						seen_desc = TRUE;
+					}
+					fprintf (output_file, "@NOTE=%s\n",
+						 _(fd->help[i].text));
 					break;
 				case GNM_FUNC_HELP_ARG: {
 					char *desc;
@@ -366,7 +386,6 @@ function_dump_defs (char const *filename, int dump_type)
 					/* FIXME! */
 				case GNM_FUNC_HELP_EXAMPLES:
 				case GNM_FUNC_HELP_END:
-				case GNM_FUNC_HELP_NOTE:
 				case GNM_FUNC_HELP_EXCEL:
 				case GNM_FUNC_HELP_ODF:
 					break;

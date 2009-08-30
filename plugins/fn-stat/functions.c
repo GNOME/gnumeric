@@ -4436,6 +4436,7 @@ static GnmFuncHelp const help_cronbach[] = {
 	{ GNM_FUNC_HELP_NAME, F_("CRONBACH:Cronbach's alpha")},
 	{ GNM_FUNC_HELP_ARG, F_("ref1:first data set")},
 	{ GNM_FUNC_HELP_ARG, F_("ref2:second data set")},
+	{ GNM_FUNC_HELP_SEEALSO, "VAR" },
 	{ GNM_FUNC_HELP_END }
 };
 

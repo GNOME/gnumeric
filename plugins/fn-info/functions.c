@@ -1536,6 +1536,7 @@ gnumeric_error (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_isblank[] = {
         { GNM_FUNC_HELP_NAME, F_("ISBLANK:TRUE if @{value} is blank.")},
         { GNM_FUNC_HELP_ARG, F_("value:a value")},
+        { GNM_FUNC_HELP_DESCRIPTION, F_("This function checks if a value is blank.  Empty cells are blank, but empty strings are not.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ISBLANK(\"\")" },
         { GNM_FUNC_HELP_END}
@@ -1573,6 +1574,7 @@ gnumeric_iseven (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_islogical[] = {
         { GNM_FUNC_HELP_NAME, F_("ISLOGICAL:TRUE if @{value} is a logical value.")},
         { GNM_FUNC_HELP_ARG, F_("value:a value")},
+        { GNM_FUNC_HELP_DESCRIPTION, F_("This function checks if a value is either TRUE or FALSE.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ISLOGICAL(1)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ISLOGICAL(\"Gnumeric\")" },
@@ -1607,6 +1609,7 @@ gnumeric_isnontext (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_isnumber[] = {
         { GNM_FUNC_HELP_NAME, F_("ISNUMBER:TRUE if @{value} is a number.")},
         { GNM_FUNC_HELP_ARG, F_("value:a value")},
+        { GNM_FUNC_HELP_DESCRIPTION, F_("This function checks if a value is a number.  Neither TRUE nor FALSE are numbers for this purpose.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ISNUMBER(\"Gnumeric\")" },
         { GNM_FUNC_HELP_EXAMPLES, "=ISNUMBER(PI())" },
@@ -1645,6 +1648,7 @@ gnumeric_isodd (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_isref[] = {
         { GNM_FUNC_HELP_NAME, F_("ISREF:TRUE if @{value} is a reference.")},
         { GNM_FUNC_HELP_ARG, F_("value:a value")},
+        { GNM_FUNC_HELP_DESCRIPTION, F_("This function checks if a value is a cell reference.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ISREF(A1)" },
         { GNM_FUNC_HELP_END}

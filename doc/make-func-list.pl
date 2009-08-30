@@ -139,6 +139,17 @@ sub process_description($) {
 	print $ws, "</refsect1>\n";
 }
 
+sub process_note($) {
+	my ($text) = @_;
+	my $ws = "  " x scalar(@tagstack);
+	print $ws, "<refsect1>\n";
+	print $ws, "  <title>Note</title>\n";
+	foreach my $l (split(/\n/, $text)) {
+		print $ws,"    <para>", &markup_stuff($l), "</para>\n";
+	}
+	print $ws, "</refsect1>\n";
+}
+
 sub process_syntax($) {
 	my ($str) = @_;
 	my $ws = "  " x scalar(@tagstack);
@@ -188,7 +199,7 @@ my %processor = (
 	'DESCRIPTION'	=> \&process_description,
 	'SEEALSO'	=> \&process_seealso,
 
-	'NOTE'		=> \&processnotimplemented,
+	'NOTE'		=> \&process_note,
 	'EXCEL'		=> \&processnotimplemented,
 	'ODF'		=> \&processnotimplemented,
 );

@@ -617,6 +617,7 @@ gnumeric_rept (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_clean[] = {
         { GNM_FUNC_HELP_NAME, F_("CLEAN:@{text} with any non-printable characters removed")},
         { GNM_FUNC_HELP_ARG, F_("text:string")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("CLEAN removes non-printable characters from its argument leaving only regular characters and white-space.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=CLEAN(\"Gnumeric\"&char(7))" },
         { GNM_FUNC_HELP_END}

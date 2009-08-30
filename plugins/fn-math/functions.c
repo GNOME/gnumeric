@@ -786,12 +786,12 @@ gnumeric_ceiling (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_cos[] = {
 	{ GNM_FUNC_HELP_NAME, F_("COS:Cosine function")},
 	{ GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
-	{ GNM_FUNC_HELP_SEEALSO, "SIN,TAN,SINH,COSH,TANH,RADIANS,DEGREES" },
-	{ GNM_FUNC_HELP_EXAMPLES, "=COS(0.5)" },
-	{ GNM_FUNC_HELP_EXAMPLES, "=COS(1)" },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:Cosine.html") },
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Trigonometric_functions") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=COS(0.5)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=COS(1)" },
+	{ GNM_FUNC_HELP_SEEALSO, "SIN,TAN,SINH,COSH,TANH,RADIANS,DEGREES" },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -912,8 +912,9 @@ gnumeric_expm1 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_fact[] = {
         { GNM_FUNC_HELP_NAME, F_("FACT:the factorial of @{x}, i.e. @{x}!")},
-        { GNM_FUNC_HELP_ARG, F_("x:non-negative integer")},
+        { GNM_FUNC_HELP_ARG, F_("x:number")},
  	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_NOTE, F_("The domain of this function has been extended using the GAMMA function.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=FACT(3)" },
         { GNM_FUNC_HELP_EXAMPLES, "=FACT(9)" },
         { GNM_FUNC_HELP_END}
@@ -1085,6 +1086,7 @@ static GnmFuncHelp const help_combina[] = {
         { GNM_FUNC_HELP_EXAMPLES, "=COMBINA(6,3)" },
         { GNM_FUNC_HELP_EXAMPLES, "=COMBINA(42,3)" },
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Multiset") },
+	{ GNM_FUNC_HELP_SEEALSO, "COMBIN" },
         { GNM_FUNC_HELP_END}
 };
 
@@ -1764,7 +1766,7 @@ gnumeric_odd (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_factdouble[] = {
         { GNM_FUNC_HELP_NAME, F_("FACTDOUBLE:double factorial")},
-        { GNM_FUNC_HELP_ARG, F_("area0:first cell areax:non-negative integer")},
+        { GNM_FUNC_HELP_ARG, F_("x:non-negative integer")},
         { GNM_FUNC_HELP_DESCRIPTION, F_("FACTDOUBLE function returns the double factorial @{x}!!")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} is not an integer, it is truncated. If @{x} is negative, FACTDOUBLE returns #NUM!") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },

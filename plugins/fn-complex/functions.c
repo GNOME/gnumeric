@@ -309,8 +309,8 @@ gnumeric_imtan (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imsec[] = {
         { GNM_FUNC_HELP_NAME, F_("IMSEC:the secant of the complex number @{z}") },
         { GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
         { GNM_FUNC_HELP_DESCRIPTION, F_("secz = 1/cosz.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
         { GNM_FUNC_HELP_EXAMPLES, "=IMSEC(\"2-j\")" },
         { GNM_FUNC_HELP_SEEALSO, "IMCSC,IMCOT" },
         { GNM_FUNC_HELP_END}
@@ -362,8 +362,8 @@ gnumeric_imcsc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imcot[] = {
         { GNM_FUNC_HELP_NAME, F_("IMCOT:the cotangent of the complex number @{z}") },
         { GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
         { GNM_FUNC_HELP_DESCRIPTION, F_("cotz = cosz/sinz.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
         { GNM_FUNC_HELP_EXAMPLES, "=IMCOT(\"2-j\")" },
         { GNM_FUNC_HELP_SEEALSO, "IMSEC,IMCSC" },
         { GNM_FUNC_HELP_END}

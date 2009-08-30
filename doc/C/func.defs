@@ -4,6 +4,7 @@
 @DESCRIPTION=BITAND returns the bitwise and of the binary representations of its arguments.
 @{a}: non-negative integer
 @{b}: non-negative integer
+
 @SEEALSO=BITOR,BITXOR
 
 @CATEGORY=Bitwise Operations
@@ -12,6 +13,8 @@
 @DESCRIPTION=BITLSHIFT returns the binary representations of @{a} shifted @{n} positions to the left.
 @{a}: non-negative integer
 @{n}: integer
+
+@NOTE=If @{n} is negative, BITLSHIFT shifts the bits to the right by ABS(@{n}) positions.
 @SEEALSO=BITRSHIFT
 
 @CATEGORY=Bitwise Operations
@@ -20,6 +23,7 @@
 @DESCRIPTION=BITOR returns the bitwise or of the binary representations of its arguments.
 @{a}: non-negative integer
 @{b}: non-negative integer
+
 @SEEALSO=BITXOR,BITAND
 
 @CATEGORY=Bitwise Operations
@@ -28,6 +32,8 @@
 @DESCRIPTION=BITRSHIFT returns the binary representations of @{a} shifted @{n} positions to the right.
 @{a}: non-negative integer
 @{n}: integer
+
+@NOTE=If @{n} is negative, BITRSHIFT shifts the bits to the left by ABS(@{n}) positions.
 @SEEALSO=BITLSHIFT
 
 @CATEGORY=Bitwise Operations
@@ -36,17 +42,32 @@
 @DESCRIPTION=BITXOR returns the bitwise exclusive or of the binary representations of its arguments.
 @{a}: non-negative integer
 @{b}: non-negative integer
+
 @SEEALSO=BITOR,BITAND
 
 @CATEGORY=Complex
 @FUNCTION=COMPLEX
+@SYNTAX=COMPLEX(x,y,i)
+@DESCRIPTION=.
+@{x}: real part
+@{y}: imaginary part
+@{i}: the suffix for the complex number, either "i" or "j"; defaults to "i".
+@NOTE=If @{i} is neither "i" nor "j", COMPLEX returns #VALUE!
 
 @CATEGORY=Complex
 @FUNCTION=IMABS
+@SYNTAX=IMABS(z)
+@DESCRIPTION=.
+@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMAGINARY,IMREAL
 
 @CATEGORY=Complex
 @FUNCTION=IMAGINARY
+@SYNTAX=IMAGINARY(z)
+@DESCRIPTION=.
+@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMREAL
 
 @CATEGORY=Complex
@@ -54,6 +75,8 @@
 @SYNTAX=IMARCCOS(z)
 @DESCRIPTION=IMARCCOS returns the complex arccosine of the complex number @{z}. The branch cuts are on the real axis, less than -1 and greater than 1.
 @{z}: a complex number
+
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMARCSIN,IMARCTAN
 
 @CATEGORY=Complex
@@ -61,30 +84,56 @@
 @SYNTAX=IMARCCOSH(z)
 @DESCRIPTION=IMARCCOSH returns the complex hyperbolic arccosine of the complex number @{z}. The branch cut is on the real axis, less than 1.
 @{z}: a complex number
+
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMARCSINH,IMARCTANH
 
 @CATEGORY=Complex
 @FUNCTION=IMARCCOT
+@SYNTAX=IMARCCOT(z)
+@DESCRIPTION=.
+@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMARCSEC,IMARCCSC
 
 @CATEGORY=Complex
 @FUNCTION=IMARCCOTH
+@SYNTAX=IMARCCOTH(z)
+@DESCRIPTION=.
+@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMARCSECH,IMARCCSCH
 
 @CATEGORY=Complex
 @FUNCTION=IMARCCSC
+@SYNTAX=IMARCCSC(z)
+@DESCRIPTION=.
+@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMARCSEC,IMARCCOT
 
 @CATEGORY=Complex
 @FUNCTION=IMARCCSCH
+@SYNTAX=IMARCCSCH(z)
+@DESCRIPTION=.
+@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMARCSECH,IMARCCOTH
 
 @CATEGORY=Complex
 @FUNCTION=IMARCSEC
+@SYNTAX=IMARCSEC(z)
+@DESCRIPTION=.
+@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMARCCSC,IMARCCOT
 
 @CATEGORY=Complex
 @FUNCTION=IMARCSECH
+@SYNTAX=IMARCSECH(z)
+@DESCRIPTION=.
+@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMARCCSCH,IMARCCOTH
 
 @CATEGORY=Complex
@@ -92,6 +141,8 @@
 @SYNTAX=IMARCSIN(z)
 @DESCRIPTION=IMARCSIN returns the complex arcsine of the complex number @{z}. The branch cuts are on the real axis, less than -1 and greater than 1.
 @{z}: a complex number
+
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMARCCOS,IMARCTAN
 
 @CATEGORY=Complex
@@ -99,6 +150,8 @@
 @SYNTAX=IMARCSINH(z)
 @DESCRIPTION=IMARCSINH returns the complex hyperbolic arcsine of the complex number @{z}.  The branch cuts are on the imaginary axis, below -i and above i.
 @{z}: a complex number
+
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMARCCOSH,IMARCTANH
 
 @CATEGORY=Complex
@@ -106,6 +159,8 @@
 @SYNTAX=IMARCTAN(z)
 @DESCRIPTION=IMARCTAN returns the complex arctangent of the complex number @{z}. The branch cuts are on the imaginary axis, below -i and above i.
 @{z}: a complex number
+
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMARCSIN,IMARCCOS
 
 @CATEGORY=Complex
@@ -113,6 +168,8 @@
 @SYNTAX=IMARCTANH(z)
 @DESCRIPTION=IMARCTANH returns the complex hyperbolic arctangent of the complex number @{z}. The branch cuts are on the real axis, less than -1 and greater than 1.
 @{z}: a complex number
+
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMARCSINH,IMARCCOSH
 
 @CATEGORY=Complex
@@ -121,16 +178,30 @@
 @DESCRIPTION=The argument theta of a complex number is its angle in radians from the real axis.
 @{z}: a complex number
 
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
+
 @CATEGORY=Complex
 @FUNCTION=IMCONJUGATE
+@SYNTAX=IMCONJUGATE(z)
+@DESCRIPTION=.
+@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMAGINARY,IMREAL
 
 @CATEGORY=Complex
 @FUNCTION=IMCOS
+@SYNTAX=IMCOS(z)
+@DESCRIPTION=.
+@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMSIN,IMTAN
 
 @CATEGORY=Complex
 @FUNCTION=IMCOSH
+@SYNTAX=IMCOSH(z)
+@DESCRIPTION=.
+@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMSINH,IMTANH
 
 @CATEGORY=Complex
@@ -138,10 +209,16 @@
 @SYNTAX=IMCOT(z)
 @DESCRIPTION=cotz = cosz/sinz.
 @{z}: a complex number
+
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMSEC,IMCSC
 
 @CATEGORY=Complex
 @FUNCTION=IMCOTH
+@SYNTAX=IMCOTH(z)
+@DESCRIPTION=.
+@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMSECH,IMCSCH
 
 @CATEGORY=Complex
@@ -149,22 +226,41 @@
 @SYNTAX=IMCSC(z)
 @DESCRIPTION=cscz = 1/sinz.
 @{z}: a complex number
+
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMSEC,IMCOT
 
 @CATEGORY=Complex
 @FUNCTION=IMCSCH
+@SYNTAX=IMCSCH(z)
+@DESCRIPTION=.
+@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMSECH,IMCOTH
 
 @CATEGORY=Complex
 @FUNCTION=IMDIV
+@SYNTAX=IMDIV(z1,z2)
+@DESCRIPTION=.
+@{z1}: a complex number
+@{z2}: a complex number
+@NOTE=If @{z1} or @{z2} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMPRODUCT
 
 @CATEGORY=Complex
 @FUNCTION=IMEXP
+@SYNTAX=IMEXP(z)
+@DESCRIPTION=.
+@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMLN
 
 @CATEGORY=Complex
 @FUNCTION=IMINV
+@SYNTAX=IMINV(z)
+@DESCRIPTION=.
+@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 
 @CATEGORY=Complex
 @FUNCTION=IMLN
@@ -172,29 +268,57 @@
 @DESCRIPTION=The result will have an imaginary part between -π and +π.
 The natural logarithm is not uniquely defined on complex numbers. You may need to add or subtract an even multiple of π to the imaginary part.
 @{z}: a complex number
+
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMEXP,IMLOG2,IMLOG10
 
 @CATEGORY=Complex
 @FUNCTION=IMLOG10
+@SYNTAX=IMLOG10(z)
+@DESCRIPTION=.
+@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMLN,IMLOG2
 
 @CATEGORY=Complex
 @FUNCTION=IMLOG2
+@SYNTAX=IMLOG2(z)
+@DESCRIPTION=.
+@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMLN,IMLOG10
 
 @CATEGORY=Complex
 @FUNCTION=IMNEG
+@SYNTAX=IMNEG(z)
+@DESCRIPTION=.
+@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 
 @CATEGORY=Complex
 @FUNCTION=IMPOWER
+@SYNTAX=IMPOWER(z1,z2)
+@DESCRIPTION=.
+@{z1}: a complex number
+@{z2}: a complex number
+@NOTE=If @{z1} or @{z2} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMSQRT
 
 @CATEGORY=Complex
 @FUNCTION=IMPRODUCT
+@SYNTAX=IMPRODUCT(z1,z2)
+@DESCRIPTION=.
+@{z1}: a complex number
+@{z2}: a complex number
+@NOTE=If any of @{z1}, @{z2},... is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMDIV
 
 @CATEGORY=Complex
 @FUNCTION=IMREAL
+@SYNTAX=IMREAL(z)
+@DESCRIPTION=.
+@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMAGINARY
 
 @CATEGORY=Complex
@@ -202,38 +326,74 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @SYNTAX=IMSEC(z)
 @DESCRIPTION=secz = 1/cosz.
 @{z}: a complex number
+
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMCSC,IMCOT
 
 @CATEGORY=Complex
 @FUNCTION=IMSECH
+@SYNTAX=IMSECH(z)
+@DESCRIPTION=.
+@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMCSCH,IMCOTH
 
 @CATEGORY=Complex
 @FUNCTION=IMSIN
+@SYNTAX=IMSIN(z)
+@DESCRIPTION=.
+@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMCOS,IMTAN
 
 @CATEGORY=Complex
 @FUNCTION=IMSINH
+@SYNTAX=IMSINH(z)
+@DESCRIPTION=.
+@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMCOSH,IMTANH
 
 @CATEGORY=Complex
 @FUNCTION=IMSQRT
+@SYNTAX=IMSQRT(z)
+@DESCRIPTION=.
+@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMPOWER
 
 @CATEGORY=Complex
 @FUNCTION=IMSUB
+@SYNTAX=IMSUB(z1,z2)
+@DESCRIPTION=.
+@{z1}: a complex number
+@{z2}: a complex number
+@NOTE=If @{z1} or @{z2} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMSUM
 
 @CATEGORY=Complex
 @FUNCTION=IMSUM
+@SYNTAX=IMSUM(z1,z2)
+@DESCRIPTION=.
+@{z1}: a complex number
+@{z2}: a complex number
+@NOTE=If any of @{z1}, @{z2},... is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMSUB
 
 @CATEGORY=Complex
 @FUNCTION=IMTAN
+@SYNTAX=IMTAN(z)
+@DESCRIPTION=.
+@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMSIN,IMCOS
 
 @CATEGORY=Complex
 @FUNCTION=IMTANH
+@SYNTAX=IMTANH(z)
+@DESCRIPTION=.
+@{z}: a complex number
+@NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMSINH,IMCOSH
 
 @CATEGORY=Database
@@ -243,16 +403,9 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{database}: a range in which rows of related information are records and columns of data are fields
 @{field}: a string or integer specifying which field is to be used
 @{criteria}: a range containing conditions
-@SYNTAX=DAVERAGE(database,field,criteria))
+
 @DESCRIPTION=@{field} is a string or integer specifying whichfield is to be used. If @{field} is an integer nthen the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
-@{database}: a range in which rows of related information are records and columns of data are fields
-@{field}: a string or integer specifying which field is to be used
-@{criteria}: a range containing conditions
-@SYNTAX=DAVERAGE(database,field,criteria)))
 @DESCRIPTION=@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as ">3" or "<9". An equality condition can be given by simply specifying a value, e. g. "3" or "Jody". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}.
-@{database}: a range in which rows of related information are records and columns of data are fields
-@{field}: a string or integer specifying which field is to be used
-@{criteria}: a range containing conditions
 @SEEALSO=DCOUNT
 
 @CATEGORY=Database
@@ -262,16 +415,9 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{database}: a range in which rows of related information are records and columns of data are fields
 @{field}: a string or integer specifying which field is to be used
 @{criteria}: a range containing conditions
-@SYNTAX=DCOUNT(database,field,criteria))
+
 @DESCRIPTION=@{field} is a string or integer specifying whichfield is to be used. If @{field} is an integer nthen the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
-@{database}: a range in which rows of related information are records and columns of data are fields
-@{field}: a string or integer specifying which field is to be used
-@{criteria}: a range containing conditions
-@SYNTAX=DCOUNT(database,field,criteria)))
 @DESCRIPTION=@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as ">3" or "<9". An equality condition can be given by simply specifying a value, e. g. "3" or "Jody". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}.
-@{database}: a range in which rows of related information are records and columns of data are fields
-@{field}: a string or integer specifying which field is to be used
-@{criteria}: a range containing conditions
 @SEEALSO=DAVERAGE,DCOUNTA
 
 @CATEGORY=Database
@@ -281,16 +427,9 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{database}: a range in which rows of related information are records and columns of data are fields
 @{field}: a string or integer specifying which field is to be used
 @{criteria}: a range containing conditions
-@SYNTAX=DCOUNTA(database,field,criteria))
+
 @DESCRIPTION=@{field} is a string or integer specifying whichfield is to be used. If @{field} is an integer nthen the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
-@{database}: a range in which rows of related information are records and columns of data are fields
-@{field}: a string or integer specifying which field is to be used
-@{criteria}: a range containing conditions
-@SYNTAX=DCOUNTA(database,field,criteria)))
 @DESCRIPTION=@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as ">3" or "<9". An equality condition can be given by simply specifying a value, e. g. "3" or "Jody". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}.
-@{database}: a range in which rows of related information are records and columns of data are fields
-@{field}: a string or integer specifying which field is to be used
-@{criteria}: a range containing conditions
 @SEEALSO=DCOUNT
 
 @CATEGORY=Database
@@ -300,16 +439,11 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{database}: a range in which rows of related information are records and columns of data are fields
 @{field}: a string or integer specifying which field is to be used
 @{criteria}: a range containing conditions
-@SYNTAX=DGET(database,field,criteria))
+
 @DESCRIPTION=@{field} is a string or integer specifying whichfield is to be used. If @{field} is an integer nthen the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
-@{database}: a range in which rows of related information are records and columns of data are fields
-@{field}: a string or integer specifying which field is to be used
-@{criteria}: a range containing conditions
-@SYNTAX=DGET(database,field,criteria)))
 @DESCRIPTION=@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as ">3" or "<9". An equality condition can be given by simply specifying a value, e. g. "3" or "Jody". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}.
-@{database}: a range in which rows of related information are records and columns of data are fields
-@{field}: a string or integer specifying which field is to be used
-@{criteria}: a range containing conditions
+@NOTE=If none of the records match the conditions, DGET returns #VALUE!
+@NOTE=If more than one record match the conditions, DGET returns #NUM!
 @SEEALSO=DCOUNT
 
 @CATEGORY=Database
@@ -319,16 +453,9 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{database}: a range in which rows of related information are records and columns of data are fields
 @{field}: a string or integer specifying which field is to be used
 @{criteria}: a range containing conditions
-@SYNTAX=DMAX(database,field,criteria))
+
 @DESCRIPTION=@{field} is a string or integer specifying whichfield is to be used. If @{field} is an integer nthen the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
-@{database}: a range in which rows of related information are records and columns of data are fields
-@{field}: a string or integer specifying which field is to be used
-@{criteria}: a range containing conditions
-@SYNTAX=DMAX(database,field,criteria)))
 @DESCRIPTION=@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as ">3" or "<9". An equality condition can be given by simply specifying a value, e. g. "3" or "Jody". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}.
-@{database}: a range in which rows of related information are records and columns of data are fields
-@{field}: a string or integer specifying which field is to be used
-@{criteria}: a range containing conditions
 @SEEALSO=DMIN
 
 @CATEGORY=Database
@@ -338,16 +465,9 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{database}: a range in which rows of related information are records and columns of data are fields
 @{field}: a string or integer specifying which field is to be used
 @{criteria}: a range containing conditions
-@SYNTAX=DMIN(database,field,criteria))
+
 @DESCRIPTION=@{field} is a string or integer specifying whichfield is to be used. If @{field} is an integer nthen the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
-@{database}: a range in which rows of related information are records and columns of data are fields
-@{field}: a string or integer specifying which field is to be used
-@{criteria}: a range containing conditions
-@SYNTAX=DMIN(database,field,criteria)))
 @DESCRIPTION=@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as ">3" or "<9". An equality condition can be given by simply specifying a value, e. g. "3" or "Jody". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}.
-@{database}: a range in which rows of related information are records and columns of data are fields
-@{field}: a string or integer specifying which field is to be used
-@{criteria}: a range containing conditions
 @SEEALSO=DCOUNT
 
 @CATEGORY=Database
@@ -357,16 +477,9 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{database}: a range in which rows of related information are records and columns of data are fields
 @{field}: a string or integer specifying which field is to be used
 @{criteria}: a range containing conditions
-@SYNTAX=DPRODUCT(database,field,criteria))
+
 @DESCRIPTION=@{field} is a string or integer specifying whichfield is to be used. If @{field} is an integer nthen the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
-@{database}: a range in which rows of related information are records and columns of data are fields
-@{field}: a string or integer specifying which field is to be used
-@{criteria}: a range containing conditions
-@SYNTAX=DPRODUCT(database,field,criteria)))
 @DESCRIPTION=@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as ">3" or "<9". An equality condition can be given by simply specifying a value, e. g. "3" or "Jody". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}.
-@{database}: a range in which rows of related information are records and columns of data are fields
-@{field}: a string or integer specifying which field is to be used
-@{criteria}: a range containing conditions
 @SEEALSO=DSUM
 
 @CATEGORY=Database
@@ -376,16 +489,9 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{database}: a range in which rows of related information are records and columns of data are fields
 @{field}: a string or integer specifying which field is to be used
 @{criteria}: a range containing conditions
-@SYNTAX=DSTDEV(database,field,criteria))
+
 @DESCRIPTION=@{field} is a string or integer specifying whichfield is to be used. If @{field} is an integer nthen the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
-@{database}: a range in which rows of related information are records and columns of data are fields
-@{field}: a string or integer specifying which field is to be used
-@{criteria}: a range containing conditions
-@SYNTAX=DSTDEV(database,field,criteria)))
 @DESCRIPTION=@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as ">3" or "<9". An equality condition can be given by simply specifying a value, e. g. "3" or "Jody". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}.
-@{database}: a range in which rows of related information are records and columns of data are fields
-@{field}: a string or integer specifying which field is to be used
-@{criteria}: a range containing conditions
 @SEEALSO=DSTDEVP
 
 @CATEGORY=Database
@@ -395,16 +501,9 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{database}: a range in which rows of related information are records and columns of data are fields
 @{field}: a string or integer specifying which field is to be used
 @{criteria}: a range containing conditions
-@SYNTAX=DSTDEVP(database,field,criteria))
+
 @DESCRIPTION=@{field} is a string or integer specifying whichfield is to be used. If @{field} is an integer nthen the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
-@{database}: a range in which rows of related information are records and columns of data are fields
-@{field}: a string or integer specifying which field is to be used
-@{criteria}: a range containing conditions
-@SYNTAX=DSTDEVP(database,field,criteria)))
 @DESCRIPTION=@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as ">3" or "<9". An equality condition can be given by simply specifying a value, e. g. "3" or "Jody". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}.
-@{database}: a range in which rows of related information are records and columns of data are fields
-@{field}: a string or integer specifying which field is to be used
-@{criteria}: a range containing conditions
 @SEEALSO=DSTDEV
 
 @CATEGORY=Database
@@ -414,16 +513,9 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{database}: a range in which rows of related information are records and columns of data are fields
 @{field}: a string or integer specifying which field is to be used
 @{criteria}: a range containing conditions
-@SYNTAX=DSUM(database,field,criteria))
+
 @DESCRIPTION=@{field} is a string or integer specifying whichfield is to be used. If @{field} is an integer nthen the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
-@{database}: a range in which rows of related information are records and columns of data are fields
-@{field}: a string or integer specifying which field is to be used
-@{criteria}: a range containing conditions
-@SYNTAX=DSUM(database,field,criteria)))
 @DESCRIPTION=@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as ">3" or "<9". An equality condition can be given by simply specifying a value, e. g. "3" or "Jody". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}.
-@{database}: a range in which rows of related information are records and columns of data are fields
-@{field}: a string or integer specifying which field is to be used
-@{criteria}: a range containing conditions
 @SEEALSO=DPRODUCT
 
 @CATEGORY=Database
@@ -433,16 +525,9 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{database}: a range in which rows of related information are records and columns of data are fields
 @{field}: a string or integer specifying which field is to be used
 @{criteria}: a range containing conditions
-@SYNTAX=DVAR(database,field,criteria))
+
 @DESCRIPTION=@{field} is a string or integer specifying whichfield is to be used. If @{field} is an integer nthen the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
-@{database}: a range in which rows of related information are records and columns of data are fields
-@{field}: a string or integer specifying which field is to be used
-@{criteria}: a range containing conditions
-@SYNTAX=DVAR(database,field,criteria)))
 @DESCRIPTION=@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as ">3" or "<9". An equality condition can be given by simply specifying a value, e. g. "3" or "Jody". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}.
-@{database}: a range in which rows of related information are records and columns of data are fields
-@{field}: a string or integer specifying which field is to be used
-@{criteria}: a range containing conditions
 @SEEALSO=DVARP
 
 @CATEGORY=Database
@@ -452,20 +537,18 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{database}: a range in which rows of related information are records and columns of data are fields
 @{field}: a string or integer specifying which field is to be used
 @{criteria}: a range containing conditions
-@SYNTAX=DVARP(database,field,criteria))
+
 @DESCRIPTION=@{field} is a string or integer specifying whichfield is to be used. If @{field} is an integer nthen the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
-@{database}: a range in which rows of related information are records and columns of data are fields
-@{field}: a string or integer specifying which field is to be used
-@{criteria}: a range containing conditions
-@SYNTAX=DVARP(database,field,criteria)))
 @DESCRIPTION=@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as ">3" or "<9". An equality condition can be given by simply specifying a value, e. g. "3" or "Jody". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}.
-@{database}: a range in which rows of related information are records and columns of data are fields
-@{field}: a string or integer specifying which field is to be used
-@{criteria}: a range containing conditions
 @SEEALSO=DVAR
 
 @CATEGORY=Database
 @FUNCTION=GETPIVOTDATA
+@SYNTAX=GETPIVOTDATA(pivot_table,field_name)
+@DESCRIPTION=.
+@{pivot_table}: cell range containing the pivot table
+@{field_name}: name of the field for which the summary data is requested
+@NOTE=If the summary data is unavailable, GETPIVOTDATA returns #REF!
 
 @CATEGORY=Date/Time
 @FUNCTION=DATE
@@ -474,6 +557,9 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{year}: year of date
 @{month}: month of year
 @{day}: day of month
+
+@NOTE=If @{month} or @{day} is less than 1 or too big, then the year and/or month will be adjusted.
+@NOTE=For spreadsheets created with the Mac version of Excel, serial 1 is 1-Jan-1904.
 @SEEALSO=TODAY,YEAR,MONTH,DAY
 
 @CATEGORY=Date/Time
@@ -481,6 +567,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @SYNTAX=DATE2UNIX(d)
 @DESCRIPTION=The DATE2UNIX function translates a date serial values into a Unix timestamp.
 @{d}: date serial value
+
 @SEEALSO=UNIX2DATE,DATE
 
 @CATEGORY=Date/Time
@@ -490,6 +577,10 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{start_date}: starting date serial value
 @{end_date}: ending date serial value
 @{interval}: counting unit
+
+@NOTE=If @{interval} is "y", "m", or "d" then the distance is measured in complete years, months, or days respectively.
+@NOTE=If @{interval} is "ym" or "yd" then the distance is measured in complete months or days, respectively, but excluding any difference in years.
+@NOTE=If @{interval} is "md" then the distance is measured in complete days but excluding any difference in months.
 @SEEALSO=DAYS360
 
 @CATEGORY=Date/Time
@@ -497,6 +588,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @SYNTAX=DATEVALUE(serial)
 @DESCRIPTION=DATEVALUE returns the date serial value part of a date and time serial value.
 @{serial}: date and time serial value
+
 @SEEALSO=TIMEVALUE,DATE
 
 @CATEGORY=Date/Time
@@ -504,6 +596,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @SYNTAX=DAY(date)
 @DESCRIPTION=The DAY function returns the day-of-month part of @{date}.
 @{date}: date serial value
+
 @SEEALSO=DATE,YEAR,MONTH
 
 @CATEGORY=Date/Time
@@ -513,6 +606,10 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{start_date}: starting date serial value
 @{end_date}: ending date serial value
 @{method}: counting method
+
+@NOTE=If @{method} is 0, the default, the MS Excel (tm) US method will be used. This is a somewhat complicated industry standard method where the last day of February is considered to be the 30th day of the month, but only for @{start_date}.
+@NOTE=If @{method} is 1, the European method will be used.  In this case, if the day of the month is 31 it will be considered as 30
+@NOTE=If @{method} is 2, a saner version of the US method is used in which both dates get the same February treatment.
 @SEEALSO=DATEDIF
 
 @CATEGORY=Date/Time
@@ -521,6 +618,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @DESCRIPTION=EDATE returns @{date} moved forward or backward the number of months specified by @{months}.
 @{date}: date serial value
 @{months}: signed number of months
+
 @SEEALSO=DATE
 
 @CATEGORY=Date/Time
@@ -529,6 +627,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @DESCRIPTION=EOMONTH returns the date serial value of the end of the month specified by @{date} adjusted forward or backward the number of months specified by @{months}.
 @{date}: date serial value
 @{months}: signed number of months
+
 @SEEALSO=EDATE
 
 @CATEGORY=Date/Time
@@ -536,6 +635,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @SYNTAX=HOUR(time)
 @DESCRIPTION=The HOUR function computes the hour part of the fractional day given by @{time}.
 @{time}: time of day as fractional day.
+
 @SEEALSO=TIME,MINUTE,SECOND
 
 @CATEGORY=Date/Time
@@ -543,6 +643,8 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @SYNTAX=ISOWEEKNUM(date)
 @DESCRIPTION=ISOWEEKNUM calculates the week number according to the ISE 8601 standard.  Weeks start on Mondays and week 1 contains the first Thursday of the year.
 @{date}: date serial value
+
+@NOTE=January 1 of a year is sometimes in week 52 or 53 of the previous year.  Similarly, December 31 is sometimes in week 1 of the following year.
 @SEEALSO=ISOYEAR,WEEKNUM
 
 @CATEGORY=Date/Time
@@ -550,6 +652,8 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @SYNTAX=ISOYEAR(date)
 @DESCRIPTION=ISOYEAR calculates the year to go with week number according to the ISE 8601 standard.
 @{date}: date serial value
+
+@NOTE=January 1 of a year is sometimes in week 52 or 53 of the previous year.  Similarly, December 31 is sometimes in week 1 of the following year.
 @SEEALSO=ISOWEEKNUM,YEAR
 
 @CATEGORY=Date/Time
@@ -557,6 +661,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @SYNTAX=MINUTE(time)
 @DESCRIPTION=The MINUTE function computes the minute part of the fractional day given by @{time}.
 @{time}: time of day as fractional day.
+
 @SEEALSO=TIME,HOUR,SECOND
 
 @CATEGORY=Date/Time
@@ -564,6 +669,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @SYNTAX=MONTH(date)
 @DESCRIPTION=The MONTH function returns the month part of @{date}.
 @{date}: date serial value
+
 @SEEALSO=DATE,YEAR,DAY
 
 @CATEGORY=Date/Time
@@ -573,12 +679,14 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{start_date}: starting date serial value
 @{end_date}: ending date serial value
 @{holidays}: array of holidays
+
 @SEEALSO=WORKDAY
 
 @CATEGORY=Date/Time
 @FUNCTION=NOW
 @SYNTAX=NOW()
 @DESCRIPTION=The NOW function returns the date and time serial value of the moment it is computed.  Recomputing later will produce a different value.
+
 @SEEALSO=DATE
 
 @CATEGORY=Date/Time
@@ -586,6 +694,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @SYNTAX=SECOND(time)
 @DESCRIPTION=The SECOND function computes the seconds part of the fractional day given by @{time}.
 @{time}: time of day as fractional day.
+
 @SEEALSO=TIME,HOUR,MINUTE
 
 @CATEGORY=Date/Time
@@ -595,6 +704,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{hour}: hour of the day
 @{minute}: minute within the hour
 @{second}: second within the minute
+
 @SEEALSO=HOUR,MINUTE,SECOND
 
 @CATEGORY=Date/Time
@@ -602,12 +712,14 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @SYNTAX=TIMEVALUE(serial)
 @DESCRIPTION=TIMEVALUE returns the time-of-day part of a date and time serial value.
 @{serial}: date and time serial value
+
 @SEEALSO=DATEVALUE,TIME
 
 @CATEGORY=Date/Time
 @FUNCTION=TODAY
 @SYNTAX=TODAY()
 @DESCRIPTION=The TODAY function returns the date serial value of the day it is computed.  Recomputing on a later date will produce a different value.
+
 @SEEALSO=DATE
 
 @CATEGORY=Date/Time
@@ -615,6 +727,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @SYNTAX=UNIX2DATE(t)
 @DESCRIPTION=The UNIT2DATE function translates Unix timestamps into date serial values.  Unix timestamps are number of seconds since Midnight 1-Jan-1900.
 @{t}: Unix time stamp
+
 @SEEALSO=DATE2UNIX,DATE
 
 @CATEGORY=Date/Time
@@ -623,6 +736,10 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @DESCRIPTION=The WEEKDAY function returns the day-of-week of @{date}.  The value of @{method} determines how days are numbered.
 @{date}: date serial value
 @{method}: numbering system
+
+@NOTE=If @{method} is 1, then Sunday is 1, Monday is 2, etc.
+@NOTE=If @{method} is 2, then Monday is 1, Sunday is 2, etc.
+@NOTE=If @{method} is 3, then Monday is 0, Sunday is 1, etc.
 @SEEALSO=DATE,ISOWEEKNUM
 
 @CATEGORY=Date/Time
@@ -631,6 +748,10 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @DESCRIPTION=WEEKNUM calculates the week number according to @{method} which defaults to 1.
 @{date}: date serial value
 @{method}: numbering system
+
+@NOTE=If @{method} is 1, then weeks start on Sundays and days before first Sunday are in week 0.
+@NOTE=If @{method} is 2, then weeks start on Mondays and days before first Monday are in week 0.
+@NOTE=If @{method} is 150, then the ISO 8601 numbering is used.
 @SEEALSO=ISOWEEKNUM
 
 @CATEGORY=Date/Time
@@ -640,6 +761,8 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{date}: date serial value
 @{days}: number of days to add
 @{holidays}: array of holidays
+
+@NOTE=@{days} may be negative.
 @SEEALSO=NETWORKDAYS
 
 @CATEGORY=Date/Time
@@ -647,6 +770,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @SYNTAX=YEAR(date)
 @DESCRIPTION=The YEAR function returns the year part of @{date}.
 @{date}: date serial value
+
 @SEEALSO=DATE,MONTH,DAY
 
 @CATEGORY=Date/Time
@@ -656,6 +780,12 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{start_date}: starting date serial value
 @{end_date}: ending date serial value
 @{basis}: calendar basis
+
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=DATE
 
 @CATEGORY=Engineering
@@ -665,22 +795,43 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{n}: integer
 @{b}: base (2 ≤ @{b} ≤ 36)
 @{length}: minimum length of the resutling string
+
 @SEEALSO=DECIMAL
 
 @CATEGORY=Engineering
 @FUNCTION=BESSELI
+@SYNTAX=BESSELI(X,α)
+@DESCRIPTION=.
+@{X}: number
+@{α}: order (any number)
+@NOTE=If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! is returned.
 @SEEALSO=BESSELJ,BESSELK,BESSELY
 
 @CATEGORY=Engineering
 @FUNCTION=BESSELJ
+@SYNTAX=BESSELJ(X,α)
+@DESCRIPTION=.
+@{X}: number
+@{α}: order (any non-negative integer)
+@NOTE=If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! is returned. If @{α} is not an integer, it is truncated.
 @SEEALSO=BESSELI,BESSELK,BESSELY
 
 @CATEGORY=Engineering
 @FUNCTION=BESSELK
+@SYNTAX=BESSELK(X,α)
+@DESCRIPTION=.
+@{X}: number
+@{α}: order (any number)
+@NOTE=If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! is returned.
 @SEEALSO=BESSELI,BESSELJ,BESSELY
 
 @CATEGORY=Engineering
 @FUNCTION=BESSELY
+@SYNTAX=BESSELY(X,α)
+@DESCRIPTION=.
+@{X}: number
+@{α}: order (any non-negative integer)
+@NOTE=If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! is returned. If @{α} is not an integer, it is truncated.
 @SEEALSO=BESSELI,BESSELJ,BESSELK
 
 @CATEGORY=Engineering
@@ -693,6 +844,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @DESCRIPTION=If @{places} is given, BIN2HEX pads the result with zeros to achieve exactly @{places} digits. If this is not possible, BIN2HEX returns #NUM!
 @{x}: a binary number, either as a string or as a number involving only the digits 0 and 1
 @{places}: number of digits
+
 @SEEALSO=HEX2BIN,BIN2OCT,BIN2DEC
 
 @CATEGORY=Engineering
@@ -701,6 +853,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @DESCRIPTION=If @{places} is given, BIN2OCT pads the result with zeros to achieve exactly @{places} digits. If this is not possible, BIN2OCT returns #NUM!
 @{x}: a binary number, either as a string or as a number involving only the digits 0 and 1
 @{places}: number of digits
+
 @SEEALSO=OCT2BIN,BIN2DEC,BIN2HEX
 
 @CATEGORY=Engineering
@@ -710,7 +863,8 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{x}: number
 @{from}: unit (string)
 @{to}: unit (string)
-@SYNTAX=CONVERT(x,from,to))
+
+@NOTE=If @{from} and @{to} are different types, CONVERT returns #N/A!
 @DESCRIPTION=@{from} and @{to} can be any of the following:
 
 Weight and mass:
@@ -802,9 +956,6 @@ For metric units any of the following prefixes can be used:
 	'a'  	atto  		1E-18
 	'z'  	zepto 		1E-21
 	'y'  	yocto 		1E-24
-@{x}: number
-@{from}: unit (string)
-@{to}: unit (string)
 
 @CATEGORY=Engineering
 @FUNCTION=DEC2BIN
@@ -812,6 +963,7 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=If @{places} is given, DEC2BIN pads the result with zeros to achieve exactly @{places} digits. If this is not possible, DEC2BIN returns #NUM!
 @{x}: integer
 @{places}: number of digits
+
 @SEEALSO=BIN2DEC,DEC2OCT,DEC2HEX
 
 @CATEGORY=Engineering
@@ -820,6 +972,7 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=If @{places} is given, DEC2HEX pads the result with zeros to achieve exactly @{places} digits. If this is not possible, DEC2HEX returns #NUM!
 @{x}: integer
 @{places}: number of digits
+
 @SEEALSO=HEX2DEC,DEC2BIN,DEC2OCT
 
 @CATEGORY=Engineering
@@ -828,6 +981,7 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=If @{places} is given, DEC2OCT pads the result with zeros to achieve exactly @{places} digits. If this is not possible, DEC2OCT returns #NUM!
 @{x}: integer
 @{places}: number of digits
+
 @SEEALSO=OCT2DEC,DEC2BIN,DEC2HEX
 
 @CATEGORY=Engineering
@@ -840,6 +994,8 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=DELTA  returns 1 if  @{x1} = @{x0} and 0 otherwise.
 @{x0}: number
 @{x1}: number, defaults to 0
+
+@NOTE=If either argument is non-numeric, #VALUE! is returned.
 @SEEALSO=EXACT,GESTEP
 
 @CATEGORY=Engineering
@@ -848,6 +1004,7 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=ERF returns 2/sqrt(π)* integral from @{lower} to @{upper} of exp(-t*t) dt
 @{lower}: lower limit of the integral, defaults to 0
 @{upper}: upper limit of the integral
+
 @SEEALSO=ERFC
 
 @CATEGORY=Engineering
@@ -855,6 +1012,7 @@ For metric units any of the following prefixes can be used:
 @SYNTAX=ERFC(x)
 @DESCRIPTION=ERFC returns 2/sqrt(π)* integral from @{x} to ∞ of exp(-t*t) dt
 @{x}: number
+
 @SEEALSO=ERF
 
 @CATEGORY=Engineering
@@ -863,6 +1021,8 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=GESTEP returns 1 if  @{x1} ≤ @{x0} and 0 otherwise.
 @{x0}: number
 @{x1}: number, defaults to 0
+
+@NOTE=If either argument is non-numeric, #VALUE! is returned.
 @SEEALSO=DELTA
 
 @CATEGORY=Engineering
@@ -871,6 +1031,7 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=If @{places} is given, HEX2BIN pads the result with zeros to achieve exactly @{places} digits. If this is not possible, HEX2BIN returns #NUM!
 @{x}: a hexadecimal number, either as a string or as a number if no A to F are needed
 @{places}: number of digits
+
 @SEEALSO=BIN2HEX,HEX2OCT,HEX2DEC
 
 @CATEGORY=Engineering
@@ -883,14 +1044,18 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=If @{places} is given, HEX2OCT pads the result with zeros to achieve exactly @{places} digits. If this is not possible, HEX2OCT returns #NUM!
 @{x}: a hexadecimal number, either as a string or as a number if no A to F are needed
 @{places}: number of digits
+
 @SEEALSO=OCT2HEX,HEX2BIN,HEX2DEC
 
 @CATEGORY=Engineering
 @FUNCTION=INVSUMINV
 @SYNTAX=INVSUMINV(x0,x1)
-@DESCRIPTION=INVSUMINV sum calculates the reciprocal (the inverse) of the sum of reciprovals (inverses) of all its arguments.
+@DESCRIPTION=.
 @{x0}: non-negative number
 @{x1}: non-negative number
+@NOTE=If any of the arguments is negative, #VALUE! is returned.
+If any argument is zero, the result is zero.
+@DESCRIPTION=INVSUMINV sum calculates the reciprocal (the inverse) of the sum of reciprovals (inverses) of all its arguments.
 @SEEALSO=HARMEAN
 
 @CATEGORY=Engineering
@@ -899,6 +1064,7 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=If @{places} is given, OCT2BIN pads the result with zeros to achieve exactly @{places} digits. If this is not possible, OCT2BIN returns #NUM!
 @{x}: a octal number, either as a string or as a number
 @{places}: number of digits
+
 @SEEALSO=BIN2OCT,OCT2DEC,OCT2HEX
 
 @CATEGORY=Engineering
@@ -911,6 +1077,7 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=If @{places} is given, OCT2HEX pads the result with zeros to achieve exactly @{places} digits. If this is not possible, OCT2HEX returns #NUM!
 @{x}: a octal number, either as a string or as a number
 @{places}: number of digits
+
 @SEEALSO=HEX2OCT,OCT2BIN,OCT2DEC
 
 @CATEGORY=Erlang
@@ -919,6 +1086,7 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=DIMCIRC returns the number of circuits required given @{traffic} calls with grade of service @{gos}.
 @{traffic}: number of calls
 @{gos}: grade of service
+
 @SEEALSO=OFFCAP,OFFTRAF,PROBBLOCK
 
 @CATEGORY=Erlang
@@ -927,6 +1095,7 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=OFFCAP returns the traffic capacity given @{circuits} circuits with grade of service @{gos}.
 @{circuits}: number of circuits
 @{gos}: grade of service
+
 @SEEALSO=DIMCIRC,OFFTRAF,PROBBLOCK
 
 @CATEGORY=Erlang
@@ -935,6 +1104,8 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=OFFTRAF returns the predicted number of offered calls given @{traffic} carried calls (taken from measurements) on @{circuits} circuits.
 @{traffic}: number of carried calls
 @{circuits}: number of circuits
+
+@NOTE=@{traffic} cannot exceed @{circuits}.
 @SEEALSO=PROBBLOCK,DIMCIRC,OFFCAP
 
 @CATEGORY=Erlang
@@ -943,6 +1114,8 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=PROBBLOCK returns probability of blocking when @{traffic} calls load into @{ccicuits} circuits.
 @{traffic}: number of calls
 @{circuits}: number of circuits
+
+@NOTE=@{traffic} cannot exceed @{circuits}.
 @SEEALSO=OFFTRAF,DIMCIRC,OFFCAP
 
 @CATEGORY=Finance
@@ -956,6 +1129,13 @@ For metric units any of the following prefixes can be used:
 @{par}: par value
 @{frequency}: number of interest payments per year
 @{basis}: calendar basis
+
+@NOTE=@{frequency} may be 1 (annual), 2 (semi-annual), or 4 (quarterly).
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=ACCRINTM
 
 @CATEGORY=Finance
@@ -967,6 +1147,13 @@ For metric units any of the following prefixes can be used:
 @{rate}: nominal annual interest rate
 @{par}: par value
 @{basis}: calendar basis
+
+@NOTE=@{par} defaults to $1000.
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=ACCRINT
 
 @CATEGORY=Finance
@@ -980,6 +1167,13 @@ For metric units any of the following prefixes can be used:
 @{period}: subject period
 @{rate}: depreciation rate
 @{basis}: calendar basis
+
+@NOTE=Named for AMORtissement DEGRessif Comptabilite.
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=AMORLINC
 
 @CATEGORY=Finance
@@ -993,6 +1187,13 @@ For metric units any of the following prefixes can be used:
 @{period}: subject period
 @{rate}: depreciation rate
 @{basis}: calendar basis
+
+@NOTE=Named for AMORtissement LINeaire Comptabilite.
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=AMORDEGRC
 
 @CATEGORY=Finance
@@ -1004,6 +1205,13 @@ For metric units any of the following prefixes can be used:
 @{frequency}: number of interest payments per year
 @{basis}: calendar basis
 @{eom}: end-of-month flag
+
+@NOTE=@{frequency} may be 1 (annual), 2 (semi-annual), or 4 (quarterly).
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=COUPDAYS
 
 @CATEGORY=Finance
@@ -1015,6 +1223,13 @@ For metric units any of the following prefixes can be used:
 @{frequency}: number of interest payments per year
 @{basis}: calendar basis
 @{eom}: end-of-month flag
+
+@NOTE=@{frequency} may be 1 (annual), 2 (semi-annual), or 4 (quarterly).
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=COUPDAYBS,COUPDAYSNC
 
 @CATEGORY=Finance
@@ -1026,6 +1241,13 @@ For metric units any of the following prefixes can be used:
 @{frequency}: number of interest payments per year
 @{basis}: calendar basis
 @{eom}: end-of-month flag
+
+@NOTE=@{frequency} may be 1 (annual), 2 (semi-annual), or 4 (quarterly).
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=COUPDAYS,COUPDAYBS
 
 @CATEGORY=Finance
@@ -1037,6 +1259,13 @@ For metric units any of the following prefixes can be used:
 @{frequency}: number of interest payments per year
 @{basis}: calendar basis
 @{eom}: end-of-month flag
+
+@NOTE=@{frequency} may be 1 (annual), 2 (semi-annual), or 4 (quarterly).
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=COUPPCD,COUPDAYS,COUPDAYBS
 
 @CATEGORY=Finance
@@ -1048,6 +1277,13 @@ For metric units any of the following prefixes can be used:
 @{frequency}: number of interest payments per year
 @{basis}: calendar basis
 @{eom}: end-of-month flag
+
+@NOTE=@{frequency} may be 1 (annual), 2 (semi-annual), or 4 (quarterly).
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=COUPNCD,COUPPCD
 
 @CATEGORY=Finance
@@ -1059,6 +1295,13 @@ For metric units any of the following prefixes can be used:
 @{frequency}: number of interest payments per year
 @{basis}: calendar basis
 @{eom}: end-of-month flag
+
+@NOTE=@{frequency} may be 1 (annual), 2 (semi-annual), or 4 (quarterly).
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=COUPNCD,COUPDAYS,COUPDAYBS
 
 @CATEGORY=Finance
@@ -1068,6 +1311,7 @@ For metric units any of the following prefixes can be used:
 @{a}: limit for first random variable
 @{b}: limit for second random variable
 @{rho}: correlation of the two random variables
+
 
 @CATEGORY=Finance
 @FUNCTION=CUMIPMT
@@ -1079,6 +1323,8 @@ For metric units any of the following prefixes can be used:
 @{start_period}: first period to accumulate for
 @{end_period}: last period to accumulate for
 @{type}: payment type
+
+@NOTE=If @{type} is 0, the default, payment is at the end of each period.  If @{type} is 1, payment is at the beginning of each period.
 @SEEALSO=IPMT
 
 @CATEGORY=Finance
@@ -1091,6 +1337,8 @@ For metric units any of the following prefixes can be used:
 @{start_period}: first period to accumulate for
 @{end_period}: last period to accumulate for
 @{type}: payment type
+
+@NOTE=If @{type} is 0, the default, payment is at the end of each period.  If @{type} is 1, payment is at the beginning of each period.
 @SEEALSO=PPMT
 
 @CATEGORY=Finance
@@ -1102,6 +1350,7 @@ For metric units any of the following prefixes can be used:
 @{life}: number of periods
 @{period}: subject period
 @{month}: number of months in first year of depreciation
+
 @SEEALSO=DDB,SLN,SYD
 
 @CATEGORY=Finance
@@ -1113,6 +1362,7 @@ For metric units any of the following prefixes can be used:
 @{life}: number of periods
 @{period}: subject period
 @{factor}: factor at which the balance declines
+
 @SEEALSO=DB,SLN,SYD
 
 @CATEGORY=Finance
@@ -1124,6 +1374,13 @@ For metric units any of the following prefixes can be used:
 @{par}: price per $100 face value
 @{redemption}: amount received at maturity
 @{basis}: calendar basis
+
+@NOTE=@{redemption} is the redemption value per $100 face value.
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=PRICEMAT
 
 @CATEGORY=Finance
@@ -1132,6 +1389,7 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=DOLLARDE converts a fractional dollar amount into a decimal amount.  This is the inverse of the DOLLARFR function.
 @{fractional_dollar}: amount to convert
 @{fraction}: denominator
+
 @SEEALSO=DOLLARFR
 
 @CATEGORY=Finance
@@ -1140,6 +1398,7 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=DOLLARFR converts a fractional dollar amount into a fraction which is represented as the digits after the decimal point.  For example, 2/8 would be represented as .2 while 3/16 would be represented as .03.
 @{decimal_dollar}: amount to convert
 @{fraction}: denominator
+
 @SEEALSO=DOLLARDE
 
 @CATEGORY=Finance
@@ -1152,6 +1411,13 @@ For metric units any of the following prefixes can be used:
 @{yield}: annual yield of security
 @{frequency}: number of interest payments per year
 @{basis}: calendar basis
+
+@NOTE=@{frequency} may be 1 (annual), 2 (semi-annual), or 4 (quarterly).
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=MDURATION
 
 @CATEGORY=Finance
@@ -1160,6 +1426,7 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=EFFECT calculates the effective interest rate using the formula (1+@{rate}/@{nper})^@{nper}-1.
 @{rate}: nominal annual interest rate
 @{nper}: number of periods used for compounding
+
 @SEEALSO=NOMINAL
 
 @CATEGORY=Finance
@@ -1167,6 +1434,9 @@ For metric units any of the following prefixes can be used:
 @SYNTAX=EURO(currency)
 @DESCRIPTION=EURO calculates the national currency amount corresponding to 1 EUR for any of the national currencies that were replaced by the Euro on its introduction.
 @{currency}: three-letter currency code
+
+@NOTE=@{currency} must be one of ATS (Austria), BEF (Belgium), DEM (Germany), ESP (Spain), EUR (Euro), FIM (Finland), FRF (France), GRD (Greece), IEP (Ireland), ITL (Italy), LUF (Luxembourg), NLG (The Netherlands), or PTE (Portugal).
+@NOTE=This function is not likely to be useful anymore.
 @SEEALSO=EUROCONVERT
 
 @CATEGORY=Finance
@@ -1176,6 +1446,9 @@ For metric units any of the following prefixes can be used:
 @{n}: amount
 @{source}: three-letter source currency code
 @{target}: three-letter target currency code
+
+@NOTE=@{source} and @{target} must be one of the currencies listed for the EURO function.
+@NOTE=This function is not likely to be useful anymore.
 @SEEALSO=EURO
 
 @CATEGORY=Finance
@@ -1187,6 +1460,8 @@ For metric units any of the following prefixes can be used:
 @{pmt}: payment at each period
 @{pv}: present value
 @{type}: payment type
+
+@NOTE=If @{type} is 0, the default, payment is at the end of each period.  If @{type} is 1, payment is at the beginning of each period.
 @SEEALSO=PV
 
 @CATEGORY=Finance
@@ -1195,6 +1470,7 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=FVSCHEDULE calculates the future value of @{principal} after applying a range of interest rates with compounding.
 @{principal}: intial value
 @{schedule}: range of interest rates
+
 @SEEALSO=FV
 
 @CATEGORY=Finance
@@ -1204,6 +1480,7 @@ For metric units any of the following prefixes can be used:
 @{rate}: effective annual interest rate
 @{pv}: present value
 @{fv}: future value
+
 @SEEALSO=FV,PV
 
 @CATEGORY=Finance
@@ -1215,6 +1492,12 @@ For metric units any of the following prefixes can be used:
 @{investment}: amount paid on settlement
 @{redemption}: amount received at maturity
 @{basis}: calendar basis
+
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=RECEIVED
 
 @CATEGORY=Finance
@@ -1227,6 +1510,8 @@ For metric units any of the following prefixes can be used:
 @{pv}: present value
 @{fv}: future value
 @{type}: payment type
+
+@NOTE=If @{type} is 0, the default, payment is at the end of each period.  If @{type} is 1, payment is at the beginning of each period.
 @SEEALSO=PPMT
 
 @CATEGORY=Finance
@@ -1235,6 +1520,8 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=IRR calculates the internal rate of return of a cash flow with periodic payments.  @{values} lists the payments (negative values) and receipts (positive values) for each period.
 @{values}: cash flow
 @{guess}: an estimate of what the result should be
+
+@NOTE=The optional @{guess} is needed because there can be more than one valid result.  It defaults to 10%.
 @SEEALSO=XIRR
 
 @CATEGORY=Finance
@@ -1245,6 +1532,7 @@ For metric units any of the following prefixes can be used:
 @{per}: period number
 @{nper}: number of periods
 @{pv}: present value
+
 @SEEALSO=PV
 
 @CATEGORY=Finance
@@ -1257,6 +1545,13 @@ For metric units any of the following prefixes can be used:
 @{yield}: annual yield of security
 @{frequency}: number of interest payments per year
 @{basis}: calendar basis
+
+@NOTE=@{frequency} may be 1 (annual), 2 (semi-annual), or 4 (quarterly).
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=DURATION
 
 @CATEGORY=Finance
@@ -1266,6 +1561,7 @@ For metric units any of the following prefixes can be used:
 @{values}: cash flow
 @{finance_rate}: interest rate for financing cost
 @{reinvest_rate}: interest rate for reinvestments
+
 @SEEALSO=IRR,XIRR
 
 @CATEGORY=Finance
@@ -1274,6 +1570,7 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=NOMINAL calculates the nominal interest rate from the effective rate.
 @{rate}: effective annual interest rate
 @{nper}: number of periods used for compounding
+
 @SEEALSO=EFFECT
 
 @CATEGORY=Finance
@@ -1285,6 +1582,8 @@ For metric units any of the following prefixes can be used:
 @{pv}: present value
 @{fv}: future value
 @{type}: payment type
+
+@NOTE=If @{type} is 0, the default, payment is at the end of each period.  If @{type} is 1, payment is at the beginning of each period.
 @SEEALSO=PV,FV
 
 @CATEGORY=Finance
@@ -1294,6 +1593,8 @@ For metric units any of the following prefixes can be used:
 @{rate}: effective interest rate per period
 @{value1}: cash flow for period 1
 @{value2}: cash flow for period 2
+
+@NOTE=If @{type} is 0, the default, payment is at the end of each period.  If @{type} is 1, payment is at the beginning of each period.
 @SEEALSO=PV
 
 @CATEGORY=Finance
@@ -1309,6 +1610,13 @@ For metric units any of the following prefixes can be used:
 @{redemption}: amount received at maturity
 @{frequency}: number of interest payments per year
 @{basis}: calendar basis
+
+@NOTE=@{frequency} may be 1 (annual), 2 (semi-annual), or 4 (quarterly).
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=ODDLPRICE,ODDFYIELD
 
 @CATEGORY=Finance
@@ -1324,6 +1632,13 @@ For metric units any of the following prefixes can be used:
 @{redemption}: amount received at maturity
 @{frequency}: number of interest payments per year
 @{basis}: calendar basis
+
+@NOTE=@{frequency} may be 1 (annual), 2 (semi-annual), or 4 (quarterly).
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=ODDFPRICE,ODDLYIELD
 
 @CATEGORY=Finance
@@ -1338,6 +1653,13 @@ For metric units any of the following prefixes can be used:
 @{redemption}: amount received at maturity
 @{frequency}: number of interest payments per year
 @{basis}: calendar basis
+
+@NOTE=@{frequency} may be 1 (annual), 2 (semi-annual), or 4 (quarterly).
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=YIELD,DURATION
 
 @CATEGORY=Finance
@@ -1352,6 +1674,13 @@ For metric units any of the following prefixes can be used:
 @{redemption}: amount received at maturity
 @{frequency}: number of interest payments per year
 @{basis}: calendar basis
+
+@NOTE=@{frequency} may be 1 (annual), 2 (semi-annual), or 4 (quarterly).
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=YIELD,DURATION
 
 @CATEGORY=Finance
@@ -1370,6 +1699,7 @@ For metric units any of the following prefixes can be used:
 @{volatility1}: annualized volatility in price of the underlying asset of the first option
 @{volatility2}: annualized volatility in price of the underlying asset of the second option
 @{rho}: correlation between the two underlying assets
+
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
@@ -1387,6 +1717,7 @@ For metric units any of the following prefixes can be used:
 @{volatility1}: annualized volatility in price of asset 1
 @{volatility2}: annualized volatility in price of asset 2
 @{rho}: correlation between the prices of the two assets
+
 @SEEALSO=OPT_EURO_EXCHANGE,OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
@@ -1395,6 +1726,18 @@ For metric units any of the following prefixes can be used:
 
 @CATEGORY=Finance
 @FUNCTION=OPT_BINOMIAL
+@SYNTAX=OPT_BINOMIAL(amer_euro_flag,call_put_flag,num_time_steps,spot,strike,time,rate,volatility,cost_of_carry)
+@DESCRIPTION=.
+@{amer_euro_flag}: 'a' for an American style option or 'e' for a European style option
+@{call_put_flag}: 'c' for a call and 'p' for a put
+@{num_time_steps}: number of time steps used in the valuation
+@{spot}: spot price
+@{strike}: strike price
+@{time}: time to maturity in years
+@{rate}: annualized risk-free interest rate
+@{volatility}: annualized volatility of the asset
+@{cost_of_carry}: net cost of holding the underlying asset
+@NOTE=A larger @{num_time_steps} yields greater accuracy but  OPT_BINOMIAL is slower to calculate.
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
@@ -1412,6 +1755,8 @@ For metric units any of the following prefixes can be used:
 @{rate}: risk-free interest rate to the exercise date in percent
 @{volatility}: annualized volatility of the asset in percent for the period through to the exercise date
 @{cost_of_carry}: net cost of holding the underlying asset (for common stocks, the risk free rate less the dividend yield), defaults to 0
+
+@NOTE=The returned value will be expressed in the same units as @{strike} and @{spot}.
 @SEEALSO=OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_VEGA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
@@ -1425,15 +1770,8 @@ For metric units any of the following prefixes can be used:
 @{rate}: risk-free interest rate to the exercise date in percent
 @{volatility}: annualized volatility of the asset in percent for the period through to the exercise date
 @{cost_of_carry}: net cost of holding the underlying asset (for common stocks, the risk free rate less the dividend yield), defaults to 0
-@SYNTAX=OPT_BS_CARRYCOST(call_put_flag,spot,strike,time,rate,volatility,cost_of_carry))
-@DESCRIPTION=
-@{call_put_flag}: 'c' for a call and 'p' for a put
-@{spot}: spot price
-@{strike}: strike price
-@{time}: time to maturity in years
-@{rate}: risk-free interest rate to the exercise date in percent
-@{volatility}: annualized volatility of the asset in percent for the period through to the exercise date
-@{cost_of_carry}: net cost of holding the underlying asset (for common stocks, the risk free rate less the dividend yield), defaults to 0
+
+@NOTE=Elasticity is expressed as the rate of change of the option value, per 100% volatility.
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
@@ -1447,6 +1785,8 @@ For metric units any of the following prefixes can be used:
 @{rate}: risk-free interest rate to the exercise date in percent
 @{volatility}: annualized volatility of the asset in percent for the period through to the exercise date
 @{cost_of_carry}: net cost of holding the underlying asset (for common stocks, the risk free rate less the dividend yield), defaults to 0
+
+@NOTE=The returned value will be expressed in the same units as @{strike} and @{spot}.
 @SEEALSO=OPT_BS,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_VEGA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
@@ -1459,6 +1799,9 @@ For metric units any of the following prefixes can be used:
 @{rate}: risk-free interest rate to the exercise date in percent
 @{volatility}: annualized volatility of the asset in percent for the period through to the exercise date
 @{cost_of_carry}: net cost of holding the underlying asset (for common stocks, the risk free rate less the dividend yield), defaults to 0
+
+@NOTE=Gamma is expressed as the rate of change of delta per unit change in @{spot}.
+@NOTE=Gamma is the same for calls and puts.
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_VEGA
 
 @CATEGORY=Finance
@@ -1472,6 +1815,8 @@ For metric units any of the following prefixes can be used:
 @{rate}: risk-free interest rate to the exercise date in percent
 @{volatility}: annualized volatility of the asset in percent for the period through to the exercise date
 @{cost_of_carry}: net cost of holding the underlying asset (for common stocks, the risk free rate less the dividend yield), defaults to 0
+
+@NOTE=Rho is expressed as the rate of change of the option value, per 100% change in @{rate}.
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_THETA,OPT_BS_VEGA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
@@ -1485,6 +1830,8 @@ For metric units any of the following prefixes can be used:
 @{rate}: risk-free interest rate to the exercise date in percent
 @{volatility}: annualized volatility of the asset in percent for the period through to the exercise date
 @{cost_of_carry}: net cost of holding the underlying asset (for common stocks, the risk free rate less the dividend yield), defaults to 0
+
+@NOTE=Theta is expressed as the negative of the rate of change of the option value, per 365.25 days.
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_VEGA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
@@ -1497,6 +1844,9 @@ For metric units any of the following prefixes can be used:
 @{rate}: risk-free interest rate to the exercise date in percent
 @{volatility}: annualized volatility of the asset in percent for the period through to the exercise date
 @{cost_of_carry}: net cost of holding the underlying asset (for common stocks, the risk free rate less the dividend yield), defaults to 0
+
+@NOTE=Vega is the same for calls and puts.
+@NOTE=Vega is expressed as the rate of change of option value, per 100% volatility.
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
@@ -1518,10 +1868,22 @@ For metric units any of the following prefixes can be used:
 @{volatility1}: annualized volatility in price of asset 1
 @{volatility2}: annualized volatility in price of asset 2
 @{rho}: correlation between the prices of the two assets
+
 @SEEALSO=OPT_AMER_EXCHANGE,OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
 @FUNCTION=OPT_EXEC
+@SYNTAX=OPT_EXEC(call_put_flag,spot,strike,time,rate,volatility,cost_of_carry,lambda)
+@DESCRIPTION=.
+@{call_put_flag}: 'c' for a call and 'p' for a put
+@{spot}: spot price
+@{strike}: strike price
+@{time}: time to maturity in days
+@{rate}: annualized risk-free interest rate
+@{volatility}: annualized volatility of the asset
+@{cost_of_carry}: net cost of holding the underlying asset
+@{lambda}: jump rate for executives
+@NOTE=The model assumes executives forfeit their options if they leave the company.
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
@@ -1537,6 +1899,7 @@ For metric units any of the following prefixes can be used:
 @{rate}: annualized risk-free interest rate
 @{cost_of_carry}: net cost of holding the underlying asset
 @{volatility}: annualized volatility of the asset
+
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
@@ -1552,6 +1915,7 @@ For metric units any of the following prefixes can be used:
 @{rate}: annualized risk-free interest rate
 @{cost_of_carry}: net cost of holding the underlying asset
 @{volatility}: annualized volatility of the asset
+
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
@@ -1566,6 +1930,7 @@ For metric units any of the following prefixes can be used:
 @{rate}: annualized risk-free interest rate
 @{cost_of_carry}: net cost of holding the underlying asset
 @{volatility}: annualized volatility of the asset
+
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
@@ -1584,6 +1949,7 @@ For metric units any of the following prefixes can be used:
 @{rate}: risk-free interest rate to the exercise date in percent
 @{volatility}: annualized volatility of the asset in percent for the period through to the exercise date
 @{cost_of_carry}: net cost of holding the underlying asset (for common stocks, the risk free rate less the dividend yield), defaults to 0
+
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
@@ -1597,6 +1963,7 @@ For metric units any of the following prefixes can be used:
 @{domestic_rate}: domestic risk-free interest rate to the exercise date in percent
 @{foreign_rate}: foreign risk-free interest rate to the exercise date in percent
 @{volatility}: annualized volatility of the asset in percent for the period through to the exercise date
+
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
@@ -1611,6 +1978,7 @@ For metric units any of the following prefixes can be used:
 @{volatility}: annualized volatility of the asset in percent for the period through to the exercise date
 @{lambda}: expected number of 'jumps' per year
 @{gamma}: proportion of volatility explained by the 'jumps'
+
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
@@ -1619,6 +1987,18 @@ For metric units any of the following prefixes can be used:
 
 @CATEGORY=Finance
 @FUNCTION=OPT_ON_OPTIONS
+@SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike2,time1,time2,rate,cost_of_carry,volatility)
+@DESCRIPTION=.
+@{type_flag}: 'cc' for calls on calls, 'cp' for calls on puts, and so on for 'pc', and 'pp'.
+@{spot}: spot price
+@{strike1}: strike price at which the option being valued is struck
+@{strike2}: strike price at which the underlying option is struck
+@{time1}: time in years to maturity of the option
+@{time2}: time in years to the maturity of the underlying option
+@{rate}: annualized risk-free interest rate
+@{cost_of_carry}: net cost of holding the underlying asset of the underlying option (for common stocks, the risk free rate less the dividend yield)
+@{volatility}: annualized volatility in price of the underlying asset of the underlying option
+@NOTE=@{time2} ≥ @{time1}
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
@@ -1647,6 +2027,7 @@ For metric units any of the following prefixes can be used:
 @{rate}: annualized risk-free interest rate
 @{cost_of_carry}: net cost of holding the underlying asset
 @{volatility}: annualized volatility of the asset
+
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
@@ -1658,6 +2039,8 @@ For metric units any of the following prefixes can be used:
 @{pv}: present value
 @{fv}: future value
 @{type}: payment type
+
+@NOTE=If @{type} is 0, the default, payment is at the end of each period.  If @{type} is 1, payment is at the beginning of each period.
 @SEEALSO=PV,FV,RATE,ISPMT
 
 @CATEGORY=Finance
@@ -1670,6 +2053,8 @@ For metric units any of the following prefixes can be used:
 @{pv}: present value
 @{fv}: future value
 @{type}: payment type
+
+@NOTE=If @{type} is 0, the default, payment is at the end of each period.  If @{type} is 1, payment is at the beginning of each period.
 @SEEALSO=IPMT
 
 @CATEGORY=Finance
@@ -1683,6 +2068,13 @@ For metric units any of the following prefixes can be used:
 @{redemption}: amount received at maturity
 @{frequency}: number of interest payments per year
 @{basis}: calendar basis
+
+@NOTE=@{frequency} may be 1 (annual), 2 (semi-annual), or 4 (quarterly).
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=YIELD,DURATION
 
 @CATEGORY=Finance
@@ -1694,6 +2086,12 @@ For metric units any of the following prefixes can be used:
 @{discount}: annual rate at which to discount
 @{redemption}: amount received at maturity
 @{basis}: calendar basis
+
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=PRICEMAT
 
 @CATEGORY=Finance
@@ -1706,6 +2104,12 @@ For metric units any of the following prefixes can be used:
 @{discount}: annual rate at which to discount
 @{yield}: annual yield of security
 @{basis}: calendar basis
+
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=PRICEDISC
 
 @CATEGORY=Finance
@@ -1717,6 +2121,8 @@ For metric units any of the following prefixes can be used:
 @{pmt}: payment at each period
 @{fv}: future value
 @{type}: payment type
+
+@NOTE=If @{type} is 0, the default, payment is at the end of each period.  If @{type} is 1, payment is at the beginning of each period.
 @SEEALSO=FV
 
 @CATEGORY=Finance
@@ -1729,6 +2135,9 @@ For metric units any of the following prefixes can be used:
 @{fv}: future value
 @{type}: payment type
 @{guess}: an estimate of what the result should be
+
+@NOTE=If @{type} is 0, the default, payment is at the end of each period.  If @{type} is 1, payment is at the beginning of each period.
+@NOTE=The optional @{guess} is needed because there can be more than one valid result.  It defaults to 10%.
 @SEEALSO=PV,FV
 
 @CATEGORY=Finance
@@ -1740,6 +2149,12 @@ For metric units any of the following prefixes can be used:
 @{investment}: amount paid on settlement
 @{rate}: nominal annual interest rate
 @{basis}: calendar basis
+
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=INTRATE
 
 @CATEGORY=Finance
@@ -1749,6 +2164,9 @@ For metric units any of the following prefixes can be used:
 @{p}: number of periods
 @{pv}: present value
 @{fv}: future value
+
+@NOTE=If @{type} is 0, the default, payment is at the end of each period.  If @{type} is 1, payment is at the beginning of each period.
+@NOTE=Note that @{p} need not be an integer but for fractional value the calculated rate is only approximate.
 @SEEALSO=PV,FV,RATE
 
 @CATEGORY=Finance
@@ -1758,6 +2176,7 @@ For metric units any of the following prefixes can be used:
 @{cost}: initial cost of asset
 @{salvage}: value after depreciation
 @{life}: number of periods
+
 @SEEALSO=DB,DDB,SYD
 
 @CATEGORY=Finance
@@ -1768,6 +2187,7 @@ For metric units any of the following prefixes can be used:
 @{salvage}: value after depreciation
 @{life}: number of periods
 @{period}: subject period
+
 @SEEALSO=DB,DDB,SLN
 
 @CATEGORY=Finance
@@ -1777,6 +2197,7 @@ For metric units any of the following prefixes can be used:
 @{settlement}: settlement date
 @{maturity}: maturity date
 @{discount}: annual rate at which to discount
+
 @SEEALSO=TBILLPRICE,TBILLYIELD
 
 @CATEGORY=Finance
@@ -1786,6 +2207,7 @@ For metric units any of the following prefixes can be used:
 @{settlement}: settlement date
 @{maturity}: maturity date
 @{discount}: annual rate at which to discount
+
 @SEEALSO=TBILLEQ,TBILLYIELD
 
 @CATEGORY=Finance
@@ -1795,6 +2217,7 @@ For metric units any of the following prefixes can be used:
 @{settlement}: settlement date
 @{maturity}: maturity date
 @{price}: price
+
 @SEEALSO=TBILLEQ,TBILLPRICE
 
 @CATEGORY=Finance
@@ -1808,6 +2231,8 @@ For metric units any of the following prefixes can be used:
 @{end_period}: last period to accumulate for
 @{factor}: factor at which the balance declines
 @{no_switch}: do not switch to straight-line depreciation
+
+@NOTE=If @{no_switch} is FALSE, the calculation switches to straight-line depreciation when depreciation is greater than the declining balance calculation.
 @SEEALSO=DB,DDB
 
 @CATEGORY=Finance
@@ -1817,6 +2242,8 @@ For metric units any of the following prefixes can be used:
 @{values}: cash flow
 @{dates}: dates of cash flow
 @{guess}: an estimate of what the result should be
+
+@NOTE=The optional @{guess} is needed because there can be more than one valid result.  It defaults to 10%.
 @SEEALSO=IRR
 
 @CATEGORY=Finance
@@ -1826,6 +2253,8 @@ For metric units any of the following prefixes can be used:
 @{rate}: effective annual interest rate
 @{values}: cash flow
 @{dates}: dates of cash flow
+
+@NOTE=If @{type} is 0, the default, payment is at the end of each period.  If @{type} is 1, payment is at the beginning of each period.
 @SEEALSO=NPV
 
 @CATEGORY=Finance
@@ -1839,6 +2268,13 @@ For metric units any of the following prefixes can be used:
 @{redemption}: amount received at maturity
 @{frequency}: number of interest payments per year
 @{basis}: calendar basis
+
+@NOTE=@{frequency} may be 1 (annual), 2 (semi-annual), or 4 (quarterly).
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=PRICE,DURATION
 
 @CATEGORY=Finance
@@ -1850,6 +2286,12 @@ For metric units any of the following prefixes can be used:
 @{price}: price of security
 @{redemption}: amount received at maturity
 @{basis}: calendar basis
+
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=PRICE,DURATION
 
 @CATEGORY=Finance
@@ -1862,12 +2304,19 @@ For metric units any of the following prefixes can be used:
 @{rate}: nominal annual interest rate
 @{price}: price of security
 @{basis}: calendar basis
+
+@NOTE=If @{basis} is 0, then the US 30/360 method is used.
+@NOTE=If @{basis} is 1, then actual number of days is used.
+@NOTE=If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.
+@NOTE=If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.
+@NOTE=If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=YIELDDISC,YIELD
 
 @CATEGORY=Gnumeric
 @FUNCTION=GNUMERIC_VERSION
 @SYNTAX=GNUMERIC_VERSION()
 @DESCRIPTION=GNUMERIC_VERSION returns the version of gnumeric as a string.
+
 @SEEALSO=
 
 @CATEGORY=Information
@@ -1901,6 +2350,7 @@ For metric units any of the following prefixes can be used:
   width          		Returns the column width.
 @{type}: string specifying the type of information requested
 @{cell}: cell reference
+
 @SEEALSO=INDIRECT
 
 @CATEGORY=Information
@@ -1923,10 +2373,15 @@ For metric units any of the following prefixes can be used:
 	#NUM!    	6
 	#N/A     		7
 @{error}: an error
+
 @SEEALSO=ISERROR
 
 @CATEGORY=Information
 @FUNCTION=EXPRESSION
+@SYNTAX=EXPRESSION(cell)
+@DESCRIPTION=.
+@{cell}: a cell reference
+@NOTE=If @{cell} contains no expression, EXPRESSION returns empty.
 @SEEALSO=TEXT
 
 @CATEGORY=Information
@@ -1935,6 +2390,11 @@ For metric units any of the following prefixes can be used:
 
 @CATEGORY=Information
 @FUNCTION=GETENV
+@SYNTAX=GETENV(name)
+@DESCRIPTION=.
+@{name}: the name of the environment variable
+@NOTE=If a variable called @{name} does not exist, #N/A! will be returned.
+@NOTE=Variable names are case sensitive.
 
 @CATEGORY=Information
 @FUNCTION=INFO
@@ -1949,10 +2409,15 @@ For metric units any of the following prefixes can be used:
   system       		Returns the name of the environment.
   totmem       		Returns the amount of total memory available.
 @{type}: string giving the type of information requested
+
 @SEEALSO=CELL
 
 @CATEGORY=Information
 @FUNCTION=ISBLANK
+@SYNTAX=ISBLANK(value)
+@DESCRIPTION=This function checks if a value is blank.  Empty cells are blank, but empty strings are not.
+@{value}: a value
+
 
 @CATEGORY=Information
 @FUNCTION=ISERR
@@ -1968,6 +2433,10 @@ For metric units any of the following prefixes can be used:
 
 @CATEGORY=Information
 @FUNCTION=ISLOGICAL
+@SYNTAX=ISLOGICAL(value)
+@DESCRIPTION=This function checks if a value is either TRUE or FALSE.
+@{value}: a value
+
 
 @CATEGORY=Information
 @FUNCTION=ISNA
@@ -1979,6 +2448,10 @@ For metric units any of the following prefixes can be used:
 
 @CATEGORY=Information
 @FUNCTION=ISNUMBER
+@SYNTAX=ISNUMBER(value)
+@DESCRIPTION=This function checks if a value is a number.  Neither TRUE nor FALSE are numbers for this purpose.
+@{value}: a value
+
 
 @CATEGORY=Information
 @FUNCTION=ISODD
@@ -1986,6 +2459,10 @@ For metric units any of the following prefixes can be used:
 
 @CATEGORY=Information
 @FUNCTION=ISREF
+@SYNTAX=ISREF(value)
+@DESCRIPTION=This function checks if a value is a cell reference.
+@{value}: a value
+
 
 @CATEGORY=Information
 @FUNCTION=ISTEXT
@@ -1993,6 +2470,10 @@ For metric units any of the following prefixes can be used:
 
 @CATEGORY=Information
 @FUNCTION=N
+@SYNTAX=N(text)
+@DESCRIPTION=.
+@{text}: string
+@NOTE=If @{text} contains non-numerical text, 0 is returned.
 
 @CATEGORY=Information
 @FUNCTION=NA
@@ -2009,18 +2490,25 @@ For metric units any of the following prefixes can be used:
 64 	= array
 @{value}: a value
 
+
 @CATEGORY=Logic
 @FUNCTION=AND
 @SYNTAX=AND(b0,b1)
 @DESCRIPTION=AND calculates the logical conjunction of its arguments @{b0},@{b1},...
 @{b0}: logical value
 @{b1}: logical value
+
+@NOTE=If an argument is numerical, zero is considered FALSE and anything else TRUE.
+@NOTE=Strings and empty values are ignored.
+@NOTE=If no logical values are provided, then the error #VALUE! is returned.
+@NOTE=This function is strict: if any argument is an error, the result will be the first such error.
 @SEEALSO=OR,NOT,IF
 
 @CATEGORY=Logic
 @FUNCTION=FALSE
 @SYNTAX=FALSE()
 @DESCRIPTION=FALSE returns the value FALSE.
+
 @SEEALSO=TRUE,IF
 
 @CATEGORY=Logic
@@ -2030,6 +2518,7 @@ For metric units any of the following prefixes can be used:
 @{cond}: condition.
 @{trueval}: value to use if condition is true.
 @{falseval}: value to use if condition is false.
+
 @SEEALSO=AND,OR,XOR,NOT,IFERROR
 
 @CATEGORY=Logic
@@ -2038,6 +2527,7 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=This function returns the first value, unless that is an error, in which case it returns the second.
 @{x}: value to test for error.
 @{y}: alternate value.
+
 @SEEALSO=IF,ISERROR
 
 @CATEGORY=Logic
@@ -2045,6 +2535,9 @@ For metric units any of the following prefixes can be used:
 @SYNTAX=NOT(b)
 @DESCRIPTION=NOT calculates the logical negation of its argument.
 @{b}: logical value
+
+@NOTE=If the argument is numerical, zero is considered FALSE and anything else TRUE.
+@NOTE=Strings and empty values are ignored.
 @SEEALSO=AND,OR,IF
 
 @CATEGORY=Logic
@@ -2053,12 +2546,18 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=OR calculates the logical disjunction of its arguments @{b0},@{b1},...
 @{b0}: logical value
 @{b1}: logical value
+
+@NOTE=If an argument is numerical, zero is considered FALSE and anything else TRUE.
+@NOTE=Strings and empty values are ignored.
+@NOTE=If no logical values are provided, then the error #VALUE! is returned.
+@NOTE=This function is strict: if any argument is an error, the result will be the first such error.
 @SEEALSO=AND,XOR,NOT,IF
 
 @CATEGORY=Logic
 @FUNCTION=TRUE
 @SYNTAX=TRUE()
 @DESCRIPTION=TRUE returns the value TRUE.
+
 @SEEALSO=FALSE,IF
 
 @CATEGORY=Logic
@@ -2067,10 +2566,24 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=XOR calculates the logical exclusive disjunction of its arguments @{b0},@{b1},...
 @{b0}: logical value
 @{b1}: logical value
+
+@NOTE=If an argument is numerical, zero is considered FALSE and anything else TRUE.
+@NOTE=Strings and empty values are ignored.
+@NOTE=If no logical values are provided, then the error #VALUE! is returned.
+@NOTE=This function is strict: if any argument is an error, the result will be the first such error.
 @SEEALSO=OR,AND,NOT,IF
 
 @CATEGORY=Lookup
 @FUNCTION=ADDRESS
+@SYNTAX=ADDRESS(row_num,col_num,abs_num,a1,text)
+@DESCRIPTION=.
+@{row_num}: row number
+@{col_num}: column number
+@{abs_num}: 1 for an absolute, 2 for a row absolute and column relative, 3 for a row relative and column absolute, and 4 for a relative reference; defaults to 1
+@{a1}: if TRUE, an A1-style reference is provided, otherwise an R1C1-style reference; defaults to TRUE
+@{text}: name of the worksheet, defaults to no sheet
+@NOTE=If @{row_num} or @{col_num} is less than one, ADDRESS returns #VALUE!
+@NOTE=If @{abs_num} is greater than 4 ADDRESS returns #VALUE!
 @SEEALSO=COLUMNNUMBER
 
 @CATEGORY=Lookup
@@ -2084,6 +2597,8 @@ For metric units any of the following prefixes can be used:
 @{index}: positive number
 @{value1}: first value
 @{value2}: second value
+
+@NOTE=@{index} is truncated to an integer. If @{index} < 1 or the truncated @{index} > number of values, CHOOSE returns #VALUE!
 @SEEALSO=IF
 
 @CATEGORY=Lookup
@@ -2091,14 +2606,24 @@ For metric units any of the following prefixes can be used:
 @SYNTAX=COLUMN(x)
 @DESCRIPTION=COLUMN function returns a Nx1 array containing the sequence of integers from the first column to the last column of @{reference}.
 @{x}: reference, defaults to the position of the current expression
+
+@NOTE=If @{reference} is neither an array nor a reference nor a range, returns #VALUE!
 @SEEALSO=COLUMNS,ROW,ROWS
 
 @CATEGORY=Lookup
 @FUNCTION=COLUMNNUMBER
+@SYNTAX=COLUMNNUMBER(name)
+@DESCRIPTION=.
+@{name}: column name such as "IV"
+@NOTE=If @{name} is invalid, COLUMNNUMBER returns #VALUE!
 @SEEALSO=ADDRESS
 
 @CATEGORY=Lookup
 @FUNCTION=COLUMNS
+@SYNTAX=COLUMNS(reference)
+@DESCRIPTION=.
+@{reference}: array or area
+@NOTE=If @{reference} is neither an array nor a reference nor a range, COLUMNS returns #VALUE!
 @SEEALSO=COLUMN,ROW,ROWS
 
 @CATEGORY=Lookup
@@ -2110,6 +2635,9 @@ For metric units any of the following prefixes can be used:
 @{row}: 1-based column offset indicating the return values 
 @{approximate}: if false, an exact match of @{value} must be found; defaults to TRUE
 @{as_index}: if true, the 0-based row offset is returned; defaults to FALSE
+
+@NOTE=If @{approximate} is true, then the values must be sorted in order of ascending value.
+@NOTE=HLOOKUP returns #REF! if @{row} falls outside @{range}.
 @SEEALSO=VLOOKUP
 
 @CATEGORY=Lookup
@@ -2118,6 +2646,7 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=HYPERLINK function currently returns its 2nd argument, or if that is omitted the 1st argument.
 @{link_location}: string
 @{label}: string, optional
+
 
 @CATEGORY=Lookup
 @FUNCTION=INDEX
@@ -2128,8 +2657,15 @@ For metric units any of the following prefixes can be used:
 @{col}: desired column, defaults to 1
 @{area}: from which area to select a cell, defaults to 1
 
+@NOTE=If the reference falls outside the range of @{array}, INDEX returns #REF!
+
 @CATEGORY=Lookup
 @FUNCTION=INDIRECT
+@SYNTAX=INDIRECT(ref_text,format)
+@DESCRIPTION=.
+@{ref_text}: 
+@{format}: if true, @{ref_text} is given in A1-style, otherwise it is given in R1C1 style; defaults to true
+@NOTE=If @{ref_text} is not a valid reference in the style determined by @{format}, INDIRECT returns #REF!
 @SEEALSO=AREAS,INDEX,CELL
 
 @CATEGORY=Lookup
@@ -2139,6 +2675,11 @@ For metric units any of the following prefixes can be used:
 @{value}: value to look up
 @{vector1}: range to search:
 @{vector2}: range of return values
+
+@NOTE=If LOOKUP can't find @{value} it uses the largest value less than @{value}.
+@NOTE=The data must be sorted.
+@NOTE=If @{value} is smaller than the first value it returns #N/A.
+@NOTE=If the corresponding location does not exist in @{vector2}, it returns #N/A.
 @SEEALSO=VLOOKUP,HLOOKUP
 
 @CATEGORY=Lookup
@@ -2148,6 +2689,10 @@ For metric units any of the following prefixes can be used:
 @{seek}: value to find
 @{vector}: n by 1 or 1 by n range to be searched
 @{type}: +1 to find the largest value ≤ @{seek}, 0 to find the first value = @{seek}, or-1 to find the smallest value ≥ @{seek}
+
+@NOTE= For @{type} = -1 the data must be sorted in descending order; for @{type} = +1 the data must be sorted in ascending order.
+@NOTE=If @{seek} could not be found, #N/A is returned.
+@NOTE=If @{vector} is neither n by 1 nor 1 by n, #N/A is returned.
 @SEEALSO=LOOKUP
 
 @CATEGORY=Lookup
@@ -2159,6 +2704,8 @@ For metric units any of the following prefixes can be used:
 @{col}: number of columns to offset @{range}
 @{height}: height of the offset range, defaults to height of @{range}
 @{width}: width of the offset range, defaults to width of @{range}
+
+@NOTE=If @{range} is neither a reference nor a range, OFFSET returns #VALUE!
 @SEEALSO=COLUMN,COLUMNS,ROWS,INDEX,INDIRECT,ADDRESS
 
 @CATEGORY=Lookup
@@ -2166,10 +2713,16 @@ For metric units any of the following prefixes can be used:
 @SYNTAX=ROW(x)
 @DESCRIPTION=ROW function returns a 1xN array containing the sequence of integers from the first row to the last row of @{reference}.
 @{x}: reference, defaults to the position of the current expression
+
+@NOTE=If @{reference} is neither an array nor a reference nor a range, returns #VALUE!
 @SEEALSO=COLUMN,COLUMNS,ROWS
 
 @CATEGORY=Lookup
 @FUNCTION=ROWS
+@SYNTAX=ROWS(reference)
+@DESCRIPTION=.
+@{reference}: array, reference, or range
+@NOTE=If @{reference} is neither an array nor a reference nor a range, ROWS returns #VALUE!
 @SEEALSO=COLUMN,COLUMNS,ROW
 
 @CATEGORY=Lookup
@@ -2185,6 +2738,9 @@ For metric units any of the following prefixes can be used:
 @{column}: 1-based column offset indicating the return values
 @{approximate}: if false, an exact match of @{value} must be found; defaults to TRUE
 @{as_index}: if true, the 0-based row offset is returned; defaults to FALSE
+
+@NOTE=If @{approximate} is true, then the values must be sorted in order of ascending value.
+@NOTE=VLOOKUP returns #REF! if @{row} falls outside @{range}.
 @SEEALSO=HLOOKUP
 
 @CATEGORY=Mathematics
@@ -2192,6 +2748,7 @@ For metric units any of the following prefixes can be used:
 @SYNTAX=ABS(x)
 @DESCRIPTION=ABS gives the absolute value of @{x}, i.e. the non-negative number of the same magnitude as @{x}.
 @{x}: number
+
 @SEEALSO=CEIL, CEILING, FLOOR, INT, MOD
 
 @CATEGORY=Mathematics
@@ -2215,6 +2772,7 @@ For metric units any of the following prefixes can be used:
 @SYNTAX=Arabic(roman)
 @DESCRIPTION=Any Roman symbol to the left of a larger symbol (directly or indirectly) reduces the final value by the symbol amount, otherwise, it increases the final amount by the symbol's amount.
 @{roman}: Roman numeral
+
 @SEEALSO=ROMAN
 
 @CATEGORY=Mathematics
@@ -2222,6 +2780,8 @@ For metric units any of the following prefixes can be used:
 @SYNTAX=ASIN(x)
 @DESCRIPTION=ASIN calculates the arc sine of @{x}; that is the value whose sine is @{x}.
 @{x}: number
+
+@NOTE=If @{x} falls outside the range -1 to 1, ASIN returns #NUM!
 @SEEALSO=SIN COS,ASINH,DEGREES,RADIANS
 
 @CATEGORY=Mathematics
@@ -2229,6 +2789,7 @@ For metric units any of the following prefixes can be used:
 @SYNTAX=ASINH(x)
 @DESCRIPTION=ASINH calculates the inverse hyperbolic sine of @{x}; that is the value whose hyperbolic sine is @{x}.
 @{x}: number
+
 @SEEALSO=ASIN,ACOSH,SIN,COS,DEGREES,RADIANS
 
 @CATEGORY=Mathematics
@@ -2236,6 +2797,7 @@ For metric units any of the following prefixes can be used:
 @SYNTAX=ATAN(x)
 @DESCRIPTION=ATAN calculates the arc tangent of @{x}; that is the value whose tangent is @{x}.
 @{x}: angle in radians
+
 @SEEALSO=TAN,COS,SIN,DEGREES,RADIANS
 
 @CATEGORY=Mathematics
@@ -2244,6 +2806,7 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=ATAN2 calculates the arc tangent of the ratio @{b1}/@{b2} with the sign according to the quadrant containing (@{b1},@{b2}).
 @{b1}: angle in radians
 @{b2}: angle in radians
+
 @SEEALSO=ATAN,ATANH,COS,SIN,DEGREES,RADIANS
 
 @CATEGORY=Mathematics
@@ -2251,6 +2814,8 @@ For metric units any of the following prefixes can be used:
 @SYNTAX=ATANH(x)
 @DESCRIPTION=ATANH calculates the inverse hyperbolic tangent of @{x}; that is the value whose hyperbolic tangent is @{x}.
 @{x}: angle in radians
+
+@NOTE=If the absolute value of @{x} is greater than 1.0, ATANH returns #NUM!
 @SEEALSO=ATAN,COS,SIN,DEGREES,RADIANS
 
 @CATEGORY=Mathematics
@@ -2263,6 +2828,8 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=BETA function returns the value of the Euler beta function extended to all real numbers except 0 and negative integers.
 @{x}: number
 @{y}: number
+
+@NOTE=If @{x}, @{y}, or (@{x} + @{y}) are non-positive integers, BETA returns #NUM!
 @SEEALSO=BETALN,GAMMALN
 
 @CATEGORY=Mathematics
@@ -2271,6 +2838,8 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=BETALN function returns the natural logarithm of the absolute value of the Euler beta function extended to all real numbers except 0 and negative integers.
 @{x}: number
 @{y}: number
+
+@NOTE=If @{x}, @{y}, or (@{x} + @{y}) are non-positive integers, BETALN returns #NUM!
 @SEEALSO=BETA,GAMMALN
 
 @CATEGORY=Mathematics
@@ -2278,6 +2847,7 @@ For metric units any of the following prefixes can be used:
 @SYNTAX=CEIL(x)
 @DESCRIPTION=CEIL(@{x}) is the smallest integer that is at least as large as @{x}.
 @{x}: number
+
 @SEEALSO=CEILING,FLOOR,ABS,INT,MOD
 
 @CATEGORY=Mathematics
@@ -2286,6 +2856,9 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=CEILING(@{x},@{significance}) is the nearest multiple of @{significance} whose absolute value is at least ABS(@{x}).
 @{x}: number
 @{significance}: base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} <0)
+
+@NOTE=If @{x} or @{significance} is non-numeric, CEILING returns a #VALUE! error.
+@NOTE=If @{x} and @{significance} have different signs, CEILING returns a #NUM! error.
 @SEEALSO=CEIL,FLOOR,ABS,INT,MOD
 
 @CATEGORY=Mathematics
@@ -2295,15 +2868,19 @@ For metric units any of the following prefixes can be used:
 @{n}: non-negative integer
 @{k}: non-negative integer
 
+@NOTE=If @{n} is less than @{k} COMBIN returns #NUM!
+
 @CATEGORY=Mathematics
 @FUNCTION=COMBINA
+@SEEALSO=COMBIN
 
 @CATEGORY=Mathematics
 @FUNCTION=COS
-@SEEALSO=SIN,TAN,SINH,COSH,TANH,RADIANS,DEGREES
 @SYNTAX=COS(x)
 @DESCRIPTION=This function is Excel compatible.
 @{x}: angle in radians
+
+@SEEALSO=SIN,TAN,SINH,COSH,TANH,RADIANS,DEGREES
 
 @CATEGORY=Mathematics
 @FUNCTION=COSH
@@ -2339,20 +2916,34 @@ For metric units any of the following prefixes can be used:
 
 @CATEGORY=Mathematics
 @FUNCTION=EXP
+@SYNTAX=EXP(x)
+@DESCRIPTION=.
+@{x}: number
+@NOTE=e is the base of the natural logarithm.
 @SEEALSO=LOG, LOG2, LOG10
 
 @CATEGORY=Mathematics
 @FUNCTION=EXPM1
+@SYNTAX=EXPM1(x)
+@DESCRIPTION=.
+@{x}: number
+@NOTE=This function has a higher resulting precision than evaluating EXP(@{x})-1.
 @SEEALSO=EXP, LN1P
 
 @CATEGORY=Mathematics
 @FUNCTION=FACT
+@SYNTAX=FACT(x)
+@DESCRIPTION=.
+@{x}: number
+@NOTE=The domain of this function has been extended using the GAMMA function.
 
 @CATEGORY=Mathematics
 @FUNCTION=FACTDOUBLE
-@SYNTAX=FACTDOUBLE(area0)
+@SYNTAX=FACTDOUBLE(x)
 @DESCRIPTION=FACTDOUBLE function returns the double factorial @{x}!!
-@{area0}: first cell areax:non-negative integer
+@{x}: non-negative integer
+
+@NOTE=If @{x} is not an integer, it is truncated. If @{x} is negative, FACTDOUBLE returns #NUM!
 @SEEALSO=FACT
 
 @CATEGORY=Mathematics
@@ -2361,16 +2952,24 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=FIB(@{n}) is the @{n}th Fibonacci number.
 @{n}: positive integer
 
+@NOTE=If @{n} is not an integer, it is truncated. If it is negative or zero FIB returns #NUM!
+
 @CATEGORY=Mathematics
 @FUNCTION=FLOOR
 @SYNTAX=FLOOR(x,significance)
 @DESCRIPTION=FLOOR(@{x},@{significance}) is the nearest multiple of @{significance} whose absolute value is at most ABS(@{x})
 @{x}: number.
 @{significance}: base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} <0)
+
 @SEEALSO=CEIL,CEILING,ABS,INT,MOD
 
 @CATEGORY=Mathematics
 @FUNCTION=G_PRODUCT
+@SYNTAX=G_PRODUCT(x1,x2)
+@DESCRIPTION=.
+@{x1}: number
+@{x2}: number
+@NOTE=Empty cells are ignored and the empty product is 1.
 @SEEALSO=SUM, COUNT
 
 @CATEGORY=Mathematics
@@ -2387,6 +2986,8 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=GCD calculates the greatest common divisor of the given numbers @{n0},@{n1},..., the greatest integer that is a divisor of each argument.
 @{n0}: positive integer
 @{n1}: positive integer
+
+@NOTE=If any of the arguments is not an integer, it is truncated.
 @SEEALSO=LCM
 
 @CATEGORY=Mathematics
@@ -2407,10 +3008,16 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=LCM calculates the least common multiple of the given numbers @{n0},@{n1},..., the smallest integer that is a multiple of each argment.
 @{n0}: positive integer
 @{n1}: positive integer
+
+@NOTE=If any of the arguments is not an integer, it is truncated.
 @SEEALSO=GCD
 
 @CATEGORY=Mathematics
 @FUNCTION=LN
+@SYNTAX=LN(x)
+@DESCRIPTION=.
+@{x}: positive number
+@NOTE=If @{x} ≤ 0, LN returns #NUM! error.
 @SEEALSO=EXP,LOG2,LOG10
 
 @CATEGORY=Mathematics
@@ -2418,18 +3025,34 @@ For metric units any of the following prefixes can be used:
 @SYNTAX=LN1P(x)
 @DESCRIPTION=LN1P calculates LN(1+@{x}) but yielding a higher precision than evaluating LN(1+@{x}).
 @{x}: positive number
+
+@NOTE=If @{x} ≤ -1, LN returns #NUM! error.
 @SEEALSO=EXP,LN,EXPM1
 
 @CATEGORY=Mathematics
 @FUNCTION=LOG
+@SYNTAX=LOG(x,base)
+@DESCRIPTION=.
+@{x}: positive number
+@{base}: base of the logarithm, defaults to 10
+@NOTE=@{base} must be positive and not equal to 1.
+@NOTE=If @{x} ≤ 0, LOG returns #NUM! error.
 @SEEALSO=LN,LOG2,LOG10
 
 @CATEGORY=Mathematics
 @FUNCTION=LOG10
+@SYNTAX=LOG10(x)
+@DESCRIPTION=.
+@{x}: positive number
+@NOTE=If @{x} ≤ 0, LOG10 returns #NUM!
 @SEEALSO=EXP,LOG2,LOG
 
 @CATEGORY=Mathematics
 @FUNCTION=LOG2
+@SYNTAX=LOG2(x)
+@DESCRIPTION=.
+@{x}: positive number
+@NOTE=If @{x} ≤ 0, LOG2 returns #NUM!
 @SEEALSO=EXP,LOG10,LOG
 
 @CATEGORY=Mathematics
@@ -2438,6 +3061,11 @@ For metric units any of the following prefixes can be used:
 
 @CATEGORY=Mathematics
 @FUNCTION=MINVERSE
+@SYNTAX=MINVERSE(matrix)
+@DESCRIPTION=.
+@{matrix}: a square matrix
+@NOTE=If @{matrix} is not invertible, MINVERSE returns #NUM!
+@NOTE=If @{matrix} does not contain an equal number of columns and rows, MINVERSE returns #VALUE!
 @SEEALSO=MMULT, MDETERM
 
 @CATEGORY=Mathematics
@@ -2450,10 +3078,17 @@ For metric units any of the following prefixes can be used:
 @DESCRIPTION=MOD function returns the remainder when @{x} is divided by @{n}.
 @{x}: integer
 @{n}: integer
+
+@NOTE=If @{n} is 0, MOD returns #DIV/0!
 @SEEALSO=CEIL,CEILING,FLOOR,ABS,INT,ABS
 
 @CATEGORY=Mathematics
 @FUNCTION=MROUND
+@SYNTAX=MROUND(x,m)
+@DESCRIPTION=.
+@{x}: number
+@{m}: number
+@NOTE=If @{x} and @{m} have different sign, MROUND returns #NUM!
 @SEEALSO=ROUNDDOWN,ROUND,ROUNDUP
 
 @CATEGORY=Mathematics
@@ -2474,6 +3109,13 @@ For metric units any of the following prefixes can be used:
 
 @CATEGORY=Mathematics
 @FUNCTION=POWER
+@SYNTAX=POWER(x,y)
+@DESCRIPTION=.
+@{x}: number
+@{y}: number
+@NOTE=If both @{x} and @{y} equal 0, POWER returns #NUM!
+@NOTE=If @{x} = 0 and @{y} < 0, POWER returns #DIV/0!
+@NOTE=If @{x} < 0 and @{y} is not an integer, POWER returns #NUM!
 @SEEALSO=EXP
 
 @CATEGORY=Mathematics
@@ -2481,6 +3123,8 @@ For metric units any of the following prefixes can be used:
 @SYNTAX=PRODUCT(values)
 @DESCRIPTION=Product computes the product of all the values and cells referenced in the argument list.
 @{values}: a list of values to multiply
+
+@NOTE=If all cells are empty, the result will be 0.
 @SEEALSO=SUM,COUNT,G_PRODUCT
 
 @CATEGORY=Mathematics
@@ -2490,6 +3134,7 @@ For metric units any of the following prefixes can be used:
 QUOTIENT (@{numerator},@{denominator})⨉@{denominator}+MOD(@{numerator},@{denominator})=@{numerator}
 @{numerator}: integer
 @{denominator}: non-zero integer
+
 @SEEALSO=MOD
 
 @CATEGORY=Mathematics
@@ -2505,6 +3150,7 @@ Type 1 is more concise than classic type, type 2 is more concise than type 1, an
 @{n}: non-negative integer
 @{type}: 0,1,2,3,or 4, defaults to 0
 
+
 @CATEGORY=Mathematics
 @FUNCTION=ROUND
 @SYNTAX=ROUND(x,d)
@@ -2513,6 +3159,7 @@ If @{d} is zero, @{x} is rounded to the next integer.
 If @{d} is less than zero, @{x} is rounded to the left of the decimal point
 @{x}: number
 @{d}: integer, defaults to 0
+
 @SEEALSO=ROUNDDOWN,ROUNDUP
 
 @CATEGORY=Mathematics
@@ -2523,6 +3170,7 @@ If @{d} is zero, @{x} is rounded toward 0 to the next integer.
 If @{d} is less than zero, @{x} is rounded toward 0 to the left of the decimal point
 @{x}: number
 @{d}: integer, defaults to 0
+
 @SEEALSO=ROUND,ROUNDUP
 
 @CATEGORY=Mathematics
@@ -2533,6 +3181,7 @@ If @{d} is zero, @{x} is rounded away from 0 to the next integer.
 If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decimal point
 @{x}: number
 @{d}: integer, defaults to 0
+
 @SEEALSO=ROUND,ROUNDDOWN,INT
 
 @CATEGORY=Mathematics
@@ -2552,6 +3201,7 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @SYNTAX=SIGN(x)
 @DESCRIPTION=SIGN returns 1 if the @{x} is positive and it returns -1 if @{x} is negative.
 @{x}: number
+
 @SEEALSO=ABS
 
 @CATEGORY=Mathematics
@@ -2564,6 +3214,10 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 
 @CATEGORY=Mathematics
 @FUNCTION=SQRT
+@SYNTAX=SQRT(x)
+@DESCRIPTION=.
+@{x}: non-negative number
+@NOTE=If @{x} is negative, SQRT returns #NUM!
 @SEEALSO=POWER
 
 @CATEGORY=Mathematics
@@ -2575,6 +3229,7 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @SYNTAX=Sum(values)
 @DESCRIPTION=SUM computes the sum of all the values and cells referenced in the argument list.
 @{values}: a list of values to add
+
 @SEEALSO=AVERAGE,COUNT
 
 @CATEGORY=Mathematics
@@ -2583,6 +3238,7 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @DESCRIPTION=Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1).
 @{area0}: first cell area
 @{area1}: second cell area
+
 @SEEALSO=AVERAGE,SUM,COUNT
 
 @CATEGORY=Mathematics
@@ -2593,6 +3249,10 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @FUNCTION=SUMPRODUCT
 @SYNTAX=SUMPRODUCT()
 @DESCRIPTION=Multiplies corresponding data entries in the given arrays or ranges, and then returns the sum of those products.
+
+@NOTE=If an entry is not numeric, the value zero is used instead.
+@NOTE=If arrays or range arguments do not have the same dimensions, return #VALUE! error.
+@NOTE=SUMPRODUCTs arguments are arrays or ranges. Attempting to use A1:A5>0 will not work, implicit intersection will kick in. Instead use --(A1:A5>0)
 @SEEALSO=SUM,PRODUCT,G_PRODUCT
 
 @CATEGORY=Mathematics
@@ -2605,6 +3265,7 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @DESCRIPTION=SUMX2MY2 function returns the sum of the difference of squares of corresponding values in two arrays. The equation of SUMX2MY2 is SUM(x^2-y^2).
 @{array0}: first cell area
 @{array1}: second cell area
+
 @SEEALSO=SUMSQ,SUMX2PY2
 
 @CATEGORY=Mathematics
@@ -2613,6 +3274,9 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @DESCRIPTION=SUMX2PY2 function returns the sum of the sum of squares of corresponding values in two arrays. The equation of SUMX2PY2 is SUM(x^2+y^2).
 @{array0}: first cell area
 @{array1}: second cell area
+
+@NOTE=If @{array0} and @{array1} have different number of data points, SUMX2PY2 returns #N/A.
+Strings and empty cells are simply ignored.
 @SEEALSO=SUMSQ,SUMX2MY2
 
 @CATEGORY=Mathematics
@@ -2621,6 +3285,9 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @DESCRIPTION=SUMXMY2 function returns the sum of the squares of the differences of corresponding values in two arrays. The equation of SUMXMY2 is SUM((x-y)^2).
 @{array0}: first cell area
 @{array1}: second cell area
+
+@NOTE=If @{array0} and @{array1} have different number of data points, SUMXMY2 returns #N/A.
+Strings and empty cells are simply ignored.
 @SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2
 
 @CATEGORY=Mathematics
@@ -2633,6 +3300,11 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 
 @CATEGORY=Mathematics
 @FUNCTION=TRUNC
+@SYNTAX=TRUNC(x,x)
+@DESCRIPTION=.
+@{x}: number
+@{x}: non-negative integer, defaults to 0
+@NOTE=If @{d} is omitted or negative then it defaults to zero. If it is not an integer then it is truncated to an integer.
 @SEEALSO=INT
 
 @CATEGORY=Number Theory
@@ -2640,6 +3312,7 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @SYNTAX=ISPRIME(n)
 @DESCRIPTION=ISPRIME returns TRUE if @{n} is prime and FALSE otherwise.
 @{n}: positive integer
+
 @SEEALSO=NT_D, NT_SIGMA
 
 @CATEGORY=Number Theory
@@ -2647,6 +3320,7 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @SYNTAX=ITHPRIME(i)
 @DESCRIPTION=ITHPRIME finds the @{i}th prime.
 @{i}: positive integer
+
 @SEEALSO=NT_D,NT_SIGMA
 
 @CATEGORY=Number Theory
@@ -2654,6 +3328,7 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @SYNTAX=NT_D(n)
 @DESCRIPTION=NT_D calculates the number of divisors of @{n}.
 @{n}: positive integer
+
 @SEEALSO=ITHPRIME,NT_PHI,NT_SIGMA
 
 @CATEGORY=Number Theory
@@ -2661,10 +3336,15 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @SYNTAX=NT_MU(n)
 @DESCRIPTION=NT_MU function (Möbius mu function) returns 0  if @{n} is divisible by the square of a prime. Otherwise, if @{n} has an odd  number of different prime factors, NT_MU returns -1, and if @{n} has an even number of different prime factors, it returns 1. If @{n} = 1, NT_MU returns 1.
 @{n}: positive integer
+
 @SEEALSO=ITHPRIME,NT_PHI,NT_SIGMA,NT_D
 
 @CATEGORY=Number Theory
 @FUNCTION=NT_PHI
+@SYNTAX=NT_PHI(n)
+@DESCRIPTION=.
+@{n}: positive integer
+@NOTE=Euler's totient function gives the number of integers less than or equal to @{n} that are relatively prime (coprime) to @{n}.
 @SEEALSO=NT_D,ITHPRIME,NT_SIGMA
 
 @CATEGORY=Number Theory
@@ -2672,6 +3352,7 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @SYNTAX=NT_PI(n)
 @DESCRIPTION=NT_PI returns the number of primes less than or equal to @{n}.
 @{n}: positive integer
+
 @SEEALSO=ITHPRIME,NT_PHI,NT_D,NT_SIGMA
 
 @CATEGORY=Number Theory
@@ -2679,6 +3360,7 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @SYNTAX=NT_SIGMA(n)
 @DESCRIPTION=NT_SIGMA calculates the sum of the divisors of @{n}.
 @{n}: positive integer
+
 @SEEALSO=NT_D,ITHPRIME,NT_PHI
 
 @CATEGORY=Number Theory
@@ -2686,6 +3368,8 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @SYNTAX=PFACTOR(n)
 @DESCRIPTION=PFACTOR finds the smallest prime factor of its argument.
 @{n}: positive integer
+
+@NOTE=The argument @{n} must be at least 2. Otherwise a #VALUE! error is returned.
 @SEEALSO=ITHPRIME
 
 @CATEGORY=Random Numbers
@@ -2694,6 +3378,10 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDBERNOULLI
+@SYNTAX=RANDBERNOULLI(p)
+@DESCRIPTION=.
+@{p}: probability of success
+@NOTE=If @{p} < 0 or @{p} > 1 RANDBERNOULLI returns #NUM!
 @SEEALSO=RAND,RANDBETWEEN
 
 @CATEGORY=Random Numbers
@@ -2702,14 +3390,29 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDBETWEEN
+@SYNTAX=RANDBETWEEN(bottom,top)
+@DESCRIPTION=.
+@{bottom}: lower limit
+@{top}: upper limit
+@NOTE=If @{bottom} > @{top}, RANDBETWEEN returns #NUM!
 @SEEALSO=RAND,RANDUNIFORM
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDBINOM
+@SYNTAX=RANDBINOM(p,n)
+@DESCRIPTION=.
+@{p}: probability of success in a single trial
+@{n}: number of trials
+@NOTE=If @{p} < 0 or @{p} > 1 RANDBINOM returns #NUM!
+@NOTE=If @{n} < 0 RANDBINOM returns #NUM!
 @SEEALSO=RAND,RANDBETWEEN
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDCAUCHY
+@SYNTAX=RANDCAUCHY(a)
+@DESCRIPTION=.
+@{a}: scale parameter of the distribution
+@NOTE=If @{a} < 0 RANDCAUCHY returns #NUM!
 @SEEALSO=RAND
 
 @CATEGORY=Random Numbers
@@ -2722,6 +3425,10 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @DESCRIPTION=RANDDISCRETE returns one of the values in the @{val_range}. The probabilities for each value are given in the @{prob_range}.
 @{val_range}: possible values of the random variable
 @{prob_range}: probabilities of the corresponding values in @{val_range}, defaults to equal probabilities
+
+@NOTE=If the sum of all values in @{prob_range} is not one, RANDDISCRETE returns #NUM!
+@NOTE=If @{val_range} and @{prob_range} are not the same size, RANDDISCRETE returns #NUM!
+@NOTE=If @{val_range} or @{prob_range} is not a range, RANDDISCRETE returns #VALUE!
 @SEEALSO=RANDBETWEEN,RAND
 
 @CATEGORY=Random Numbers
@@ -2734,10 +3441,8 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @DESCRIPTION=For @{b} = 1 the exponential power distribution reduces to the Laplace distribution.
 @{a}: scale parameter of the exponential power distribution
 @{b}: exponent of the exponential power distribution
-@SYNTAX=RANDEXPPOW(a,b))
+
 @DESCRIPTION=For @{b} = 2 the exponential power distribution reduces to the normal distribution with σ = a/sqrt(2)
-@{a}: scale parameter of the exponential power distribution
-@{b}: exponent of the exponential power distribution
 @SEEALSO=RAND
 
 @CATEGORY=Random Numbers
@@ -2746,14 +3451,29 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDGAMMA
+@SYNTAX=RANDGAMMA(a,b)
+@DESCRIPTION=.
+@{a}: parameter of the Gamma distribution
+@{b}: parameter of the Gamma distribution
+@NOTE=If @{a} ≤ 0, RANDGAMMA returns #NUM!
 @SEEALSO=RAND
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDGEOM
+@SYNTAX=RANDGEOM(p)
+@DESCRIPTION=.
+@{p}: probability of success in a single trial
+@NOTE=If @{p} < 0 or @{p} > 1 RANDGEOM returns #NUM!
 @SEEALSO=RAND
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDGUMBEL
+@SYNTAX=RANDGUMBEL(a,b,type)
+@DESCRIPTION=.
+@{a}: parameter of the Gumbel distribution
+@{b}: parameter of the Gumbel distribution
+@{type}: type of the Gumbel distribution, defaults to 1
+@NOTE=If @{type} is neither 1 nor 2, RANDGUMBEL returns #NUM!
 @SEEALSO=RAND
 
 @CATEGORY=Random Numbers
@@ -2775,15 +3495,18 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @{c}: parameter of the Lévy distribution
 @{α}: parameter of the Lévy distribution
 @{β}: parameter of the Lévy distribution, defaults to 0
-@SYNTAX=RANDLEVY(c,α,β))
+
 @DESCRIPTION=For @{α} = 2, @{β}=0, the Lévy distribution reduces to the normal distribution.
-@{c}: parameter of the Lévy distribution
-@{α}: parameter of the Lévy distribution
-@{β}: parameter of the Lévy distribution, defaults to 0
+@NOTE=If @{α} ≤ 0 or @{α} > 2, RANDLEVY returns #NUM!
+@NOTE=If @{β} < -1 or @{β} > 1, RANDLEVY returns #NUM!
 @SEEALSO=RAND
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDLOG
+@SYNTAX=RANDLOG(p)
+@DESCRIPTION=.
+@{p}: probability
+@NOTE=If @{p} < 0 or @{p} > 1 RANDLOG returns #NUM!
 @SEEALSO=RAND
 
 @CATEGORY=Random Numbers
@@ -2792,18 +3515,39 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDLOGNORM
+@SYNTAX=RANDLOGNORM(ζ,σ)
+@DESCRIPTION=.
+@{ζ}: parameter of the lognormal distribution
+@{σ}: standard deviation of the distribution
+@NOTE=If @{σ} < 0, RANDLOGNORM returns #NUM!
 @SEEALSO=RAND
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDNEGBINOM
+@SYNTAX=RANDNEGBINOM(p,n)
+@DESCRIPTION=.
+@{p}: probability of success in a single trial
+@{n}: number of failures
+@NOTE=If @{p} < 0 or @{p} > 1 RANDNEGBINOM returns #NUM!
+@NOTE=If @{n} < 1 RANDNEGBINOM returns #NUM!
 @SEEALSO=RAND,RANDBETWEEN
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDNORM
+@SYNTAX=RANDNORM(μ,σ)
+@DESCRIPTION=.
+@{μ}: mean of the ditribution
+@{σ}: standard deviation of the distribution
+@NOTE=If @{σ} < 0, RANDNORM returns #NUM!
 @SEEALSO=RAND
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDNORMTAIL
+@SYNTAX=RANDNORMTAIL(a,σ)
+@DESCRIPTION=.
+@{a}: lower limit of the tail
+@{σ}: standard deviation of the normal distribution
+@NOTE=The method is based on Marsaglia's famous rectangle-wedge-tail algorithm (Ann Math Stat 32, 894-899 (1961)), with this aspect explained in Knuth, v2, 3rd ed, p139, 586 (exercise 11).
 @SEEALSO=RAND
 
 @CATEGORY=Random Numbers
@@ -2812,6 +3556,10 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDPOISSON
+@SYNTAX=RANDPOISSON(λ)
+@DESCRIPTION=.
+@{λ}: parameter of the Poisson distribution
+@NOTE=If @{λ} < 0 RANDPOISSON returns #NUM!
 @SEEALSO=RAND,RANDBETWEEN
 
 @CATEGORY=Random Numbers
@@ -2828,6 +3576,11 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDUNIFORM
+@SYNTAX=RANDUNIFORM(a,b)
+@DESCRIPTION=.
+@{a}: lower limit of the uniform distribution
+@{b}: upper limit of the uniform distribution
+@NOTE=If @{a} > @{b} RANDUNIFORM returns #NUM!
 @SEEALSO=RANDBETWEEN,RAND
 
 @CATEGORY=Random Numbers
@@ -2843,6 +3596,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{d1}: first value
 @{d2}: second value
 
+
 @CATEGORY=Statistics
 @FUNCTION=AVEDEV
 @SEEALSO=STDEV
@@ -2857,26 +3611,70 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1). Note that empty cells are not counted.
 @{number1}: first value
 @{number2}: second value
+
 @SEEALSO=AVERAGE
 
 @CATEGORY=Statistics
 @FUNCTION=BERNOULLI
+@SYNTAX=BERNOULLI(k,p)
+@DESCRIPTION=.
+@{k}: 
+@{p}: probability of success
+@NOTE=If @{k} != 0 and @{k} != 1 this function returns a #NUM! error.
+@NOTE=If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.
 @SEEALSO=RANDBERNOULLI
 
 @CATEGORY=Statistics
 @FUNCTION=BETADIST
+@SYNTAX=BETADIST(x,alpha,beta,a,b)
+@DESCRIPTION=.
+@{x}: 
+@{alpha}: scale parameter
+@{beta}: scale parameter
+@{a}: optional lower bound, defaults to 0
+@{b}: optional upper bound, defaults to 1
+@NOTE=If @{x} < @{a} or @{x} > @{b} this function returns a #NUM! error.
+@NOTE=If @{alpha} <= 0 or @{beta} <= 0, this function returns a #NUM! error.
+@NOTE=If @{a} >= @{b} this function returns a #NUM! error.
 @SEEALSO=BETAINV
 
 @CATEGORY=Statistics
 @FUNCTION=BETAINV
+@SYNTAX=BETAINV(p,alpha,beta,a,b)
+@DESCRIPTION=.
+@{p}: probability
+@{alpha}: scale parameter
+@{beta}: scale parameter
+@{a}: optional lower bound, defaults to 0
+@{b}: optional upper bound, defaults to 1
+@NOTE=If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.
+@NOTE=If @{alpha} <= 0 or @{beta} <= 0, this function returns a #NUM! error.
+@NOTE=If @{a} >= @{b} this function returns a #NUM! error.
 @SEEALSO=BETADIST
 
 @CATEGORY=Statistics
 @FUNCTION=BINOMDIST
+@SYNTAX=BINOMDIST(n,trials,p,cumulative)
+@DESCRIPTION=.
+@{n}: number of successes
+@{trials}: number of trials
+@{p}: probability of success in each trial
+@{cumulative}: whether to evaluate the mass function or the cumulative distribution function
+@NOTE=If @{n} or @{trials} are non-integer they are truncated.
+@NOTE=If @{n} < 0 or @{trials} < 0 this function returns a #NUM! error.
+@NOTE=If @{n} > @{trials} this function returns a #NUM! error.
+@NOTE=If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.
 @SEEALSO=POISSON
 
 @CATEGORY=Statistics
 @FUNCTION=CAUCHY
+@SYNTAX=CAUCHY(x,a,cumulative)
+@DESCRIPTION=.
+@{x}: 
+@{a}: scale parameter
+@{cumulative}: whether to evaluate the density function or the cumulative distribution function
+@NOTE=If @{a} < 0 this function returns a #NUM! error.
+@NOTE=If @{cumulative} is neither TRUE nor FALSE this function returns a #VALUE! error.
 @SEEALSO=RANDCAUCHY
 
 @CATEGORY=Statistics
@@ -2885,6 +3683,9 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=The survival function is 1 minus the cumulative distribution function.
 @{x}: 
 @{dof}: number of degrees of freedom
+
+@NOTE=If @{dof} is non-integer it is truncated.
+@NOTE=If @{dof} < 1 this function returns a #NUM! error.
 @SEEALSO=CHIINV,CHITEST
 
 @CATEGORY=Statistics
@@ -2893,14 +3694,30 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=The survival function is 1 minus the cumulative distribution function.
 @{p}: probability
 @{dof}: number of degrees of freedom
+
+@NOTE=If @{p} < 0 or @{p} > 1 or @{dof} < 1 this function returns a #NUM! error.
 @SEEALSO=CHIDIST,CHITEST
 
 @CATEGORY=Statistics
 @FUNCTION=CHITEST
+@SYNTAX=CHITEST(actual_range,theoretical_range)
+@DESCRIPTION=.
+@{actual_range}: observed data
+@{theoretical_range}: expected values
+@NOTE=If the actual range is not an n by 1 or 1 by n range, the returned value appears to have no sensible meaning.
 @SEEALSO=CHIDIST,CHIINV
 
 @CATEGORY=Statistics
 @FUNCTION=CONFIDENCE
+@SYNTAX=CONFIDENCE(alpha,stddev,size)
+@DESCRIPTION=.
+@{alpha}: significance level
+@{stddev}: population standard deviation
+@{size}: sample size
+@NOTE=This function requires the usually unknown population standard deviation.
+@NOTE=If @{size} is non-integer it is truncated.
+@NOTE=If @{size} < 0 this function returns a #NUM! error.
+@NOTE=If @{size} is 0 this function returns a #DIV/0! error.
 @SEEALSO=AVERAGE
 
 @CATEGORY=Statistics
@@ -2909,6 +3726,7 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=Strings and empty cells are simply ignored.
 @{array1}: first data set
 @{array2}: second data set
+
 @SEEALSO=COVAR,FISHER,FISHERINV
 
 @CATEGORY=Statistics
@@ -2925,14 +3743,25 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=Strings and empty cells are simply ignored.
 @{array1}: first data set
 @{array2}: set data set
+
 @SEEALSO=CORREL,FISHER,FISHERINV
 
 @CATEGORY=Statistics
 @FUNCTION=CRITBINOM
+@SYNTAX=CRITBINOM(trials,p,alpha)
+@DESCRIPTION=.
+@{trials}: number of trials
+@{p}: probability of success in each trial
+@{alpha}: significance level (area of the tail)
+@NOTE=If @{trials} is a non-integer it is truncated.
+@NOTE=If @{trials} < 0 this function returns a #NUM! error.
+@NOTE=If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.
+@NOTE=If @{alpha} < 0 or @{alpha} > 1 this function returns a #NUM! error.
 @SEEALSO=BINOMDIST
 
 @CATEGORY=Statistics
 @FUNCTION=CRONBACH
+@SEEALSO=VAR
 
 @CATEGORY=Statistics
 @FUNCTION=DEVSQ
@@ -2940,6 +3769,7 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=Strings and empty cells are simply ignored.
 @{number1}: first value
 @{number2}: second value
+
 @SEEALSO=STDEV
 
 @CATEGORY=Statistics
@@ -2949,6 +3779,8 @@ The successive use of the simulation tool also requires that you give to the too
 @{x}: 
 @{y}: scale parameter
 @{cumulative}: whether to evaluate the density function or the cumulative distribution function
+
+@NOTE=If @{x} < 0 or @{y} <= 0 this will return an error.
 @SEEALSO=POISSON
 
 @CATEGORY=Statistics
@@ -2958,6 +3790,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{x}: 
 @{a}: scale parameter
 @{b}: scale parameter
+
 @SEEALSO=RANDEXPPOW
 
 @CATEGORY=Statistics
@@ -2967,6 +3800,9 @@ The successive use of the simulation tool also requires that you give to the too
 @{x}: 
 @{dof_of_num}: numerator degrees of freedom
 @{dof_of_denom}: denominator degrees of freedom
+
+@NOTE=If @{x} < 0 this function returns a #NUM! error.
+@NOTE=If @{dof_of_num} < 1 or @{dof_of_denom} < 1, this function returns a #NUM! error.
 @SEEALSO=FINV
 
 @CATEGORY=Statistics
@@ -2976,14 +3812,26 @@ The successive use of the simulation tool also requires that you give to the too
 @{p}: probability
 @{dof_of_num}: numerator degrees of freedom
 @{dof_of_denom}: denomiantor degrees of freedom
+
+@NOTE=If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.
+@NOTE=If @{dof_of_num} < 1 or @{dof_of_denom} < 1 this function returns a #NUM! error.
 @SEEALSO=FDIST
 
 @CATEGORY=Statistics
 @FUNCTION=FISHER
+@SYNTAX=FISHER(x)
+@DESCRIPTION=.
+@{x}: 
+@NOTE=If @{x} is not a number, this function returns a #VALUE! error.
+@NOTE=If @{x} <= -1 or @{x} >= 1, this function returns a #NUM! error.
 @SEEALSO=FISHERINV,ATANH
 
 @CATEGORY=Statistics
 @FUNCTION=FISHERINV
+@SYNTAX=FISHERINV(x)
+@DESCRIPTION=.
+@{x}: 
+@NOTE=If @{x} is a non-number this function returns a #VALUE! error.
 @SEEALSO=FISHER,TANH
 
 @CATEGORY=Statistics
@@ -2993,6 +3841,9 @@ The successive use of the simulation tool also requires that you give to the too
 @{x}: x-value whose matching y-value should be forecast
 @{known_y's}: known y-values
 @{known_x's}: known x-values
+
+@NOTE=If @{known_x} or @{known_y} contains no data entries or different number of data entries, this function returns a #N/A error.
+@NOTE=If the variance of the @{known_x} is zero, this function returns a #DIV/0 error.
 @SEEALSO=INTERCEPT,TREND
 
 @CATEGORY=Statistics
@@ -3001,10 +3852,8 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=The results are given as an array.
 @{data_array}: data values
 @{bins_array}: array of cutoff values
-@SYNTAX=FREQUENCY(data_array,bins_array))
+
 @DESCRIPTION=If the @{bin_array} is empty, this function returns the number of data points in @{data_array}.
-@{data_array}: data values
-@{bins_array}: array of cutoff values
 
 @CATEGORY=Statistics
 @FUNCTION=FTEST
@@ -3012,14 +3861,37 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=GAMMADIST
+@SYNTAX=GAMMADIST(x,alpha,beta,cumulative)
+@DESCRIPTION=.
+@{x}: 
+@{alpha}: scale parameter
+@{beta}: scale parameter
+@{cumulative}: whether to evaluate the density function or the cumulative distribution function
+@NOTE=If @{x} < 0 this function returns a #NUM! error.
+@NOTE=If @{alpha} <= 0 or @{beta} <= 0, this function returns a #NUM! error.
 @SEEALSO=GAMMAINV
 
 @CATEGORY=Statistics
 @FUNCTION=GAMMAINV
+@SYNTAX=GAMMAINV(p,alpha,beta)
+@DESCRIPTION=.
+@{p}: probability
+@{alpha}: scale parameter
+@{beta}: scale parameter
+@NOTE=If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.
+@NOTE=If @{alpha} <= 0 or @{beta} <= 0 this function returns a #NUM! error.
 @SEEALSO=GAMMADIST
 
 @CATEGORY=Statistics
 @FUNCTION=GEOMDIST
+@SYNTAX=GEOMDIST(k,p,cumulative)
+@DESCRIPTION=.
+@{k}: number of trials
+@{p}: probability of success in any trial
+@{cumulative}: whether to evaluate the mass function or the cumulative distribution function
+@NOTE=If @{k} < 0 this function returns a #NUM! error.
+@NOTE=If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.
+@NOTE=If @{cumulative} is neither TRUE nor FALSE this function returns a #VALUE! error.
 @SEEALSO=RANDGEOM
 
 @CATEGORY=Statistics
@@ -3028,6 +3900,7 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=The geometric mean is equal to the Nth root of the product of the N values.
 @{number1}: first value
 @{number2}: second value
+
 @SEEALSO=AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN
 
 @CATEGORY=Statistics
@@ -3038,12 +3911,9 @@ The successive use of the simulation tool also requires that you give to the too
 @{known_x's}: known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.
 @{new_x's}: x-values for which you want to estimate the y-values; defaults to @{known_x}'s
 @{const}: if this is false the line will be forced to go through the origin; defaults to TRUE
-@SYNTAX=GROWTH(known_y's,known_x's,new_x's,const))
+
 @DESCRIPTION=GROWTH returns an array having one column and a row for each data point in @{new_x}.
-@{known_y's}: known y-values
-@{known_x's}: known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.
-@{new_x's}: x-values for which you want to estimate the y-values; defaults to @{known_x}'s
-@{const}: if this is false the line will be forced to go through the origin; defaults to TRUE
+@NOTE=If @{known_y}'s and @{known_x}'s have unequal number of data points, this function returns a #NUM! error.
 @SEEALSO=LOGEST,GROWTH,TREND
 
 @CATEGORY=Statistics
@@ -3052,14 +3922,31 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=The harmonic mean of N data points is  N divided by the sum of the reciprocals of the data points).
 @{number1}: first value
 @{number2}: second value
+
 @SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN
 
 @CATEGORY=Statistics
 @FUNCTION=HYPGEOMDIST
+@SYNTAX=HYPGEOMDIST(x,n,M,N,cumulative)
+@DESCRIPTION=.
+@{x}: number of successes
+@{n}: sample size
+@{M}: number of possible successes in the population
+@{N}: population size
+@{cumulative}: whether to evaluate the mass function or the cumulative distribution function
+@NOTE=If @{x},@{n},@{M} or @{N} is a non-integer it is truncated.
+@NOTE=If @{x},@{n},@{M} or @{N} < 0 this function returns a #NUM! error.
+@NOTE=If @{x} > @{M} or @{n} > @{N} this function returns a #NUM! error.
 @SEEALSO=BINOMDIST,POISSON
 
 @CATEGORY=Statistics
 @FUNCTION=INTERCEPT
+@SYNTAX=INTERCEPT(known_y's,known_x's)
+@DESCRIPTION=.
+@{known_y's}: known y-values
+@{known_x's}: known x-values
+@NOTE=If @{known_x} or @{known_y} contains no data entries or different number of data entries, this function returns a #N/A error.
+@NOTE=If the variance of the @{known_x} is zero, this function returns #DIV/0 error.
 @SEEALSO=FORECAST,TREND
 
 @CATEGORY=Statistics
@@ -3068,6 +3955,9 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=Strings and empty cells are simply ignored.
 @{number1}: first value
 @{number2}: second value
+
+@NOTE=This is only meaningful if the underlying distribution really has a fourth moment.  The kurtosis is offset by three such that a normal distribution will have zero kurtosis.
+@NOTE=If fewer than four numbers are given or all of them are equal this function returns a #DIV/0! error.
 @SEEALSO=AVERAGE,VAR,SKEW,KURTP
 
 @CATEGORY=Statistics
@@ -3076,6 +3966,8 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=Strings and empty cells are simply ignored.
 @{number1}: first value
 @{number2}: second value
+
+@NOTE=If fewer than two numbers are given or all of them are equal this function returns a #DIV/0! error.
 @SEEALSO=AVERAGE,VARP,SKEWP,KURT
 
 @CATEGORY=Statistics
@@ -3088,6 +3980,12 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=LARGE
+@SYNTAX=LARGE(data,k)
+@DESCRIPTION=.
+@{data}: data set
+@{k}: which value to find
+@NOTE=If data set is empty this function returns a #NUM! error.
+@NOTE=If @{k} <= 0 or @{k} is greater than the number of data items given this function returns a #NUM! error.
 @SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL
 
 @CATEGORY=Statistics
@@ -3098,18 +3996,10 @@ The successive use of the simulation tool also requires that you give to the too
 @{known_x's}: array of values of independent variables, defaults to a single vector 1,...,n.
 @{affine}: if true, the model contains a constant term, defaults to true.
 @{stats}: if true, some additional statistics are provided, defaults to false
-@SYNTAX=LINEST(known_y's,known_x's,affine,stats))
+
 @DESCRIPTION=If @{stats} is true, the second row contains the corresponding standard errors of the regression coefficients.In this case, the third row contains the R^2 value and the standard error for the predicted value. The fourth row contains the observed F value and its degrees of freedom. Finally, the fifth row contains the regression sum of squares and the residual sum of squares.
-@{known_y's}: vector of values of dependent variable.
-@{known_x's}: array of values of independent variables, defaults to a single vector 1,...,n.
-@{affine}: if true, the model contains a constant term, defaults to true.
-@{stats}: if true, some additional statistics are provided, defaults to false
-@SYNTAX=LINEST(known_y's,known_x's,affine,stats)))
 @DESCRIPTION=If @{affine} is false, R^2 is the uncentered version of the coefficient of determination; that is the proportion of the sum of squares explained by the model.
-@{known_y's}: vector of values of dependent variable.
-@{known_x's}: array of values of independent variables, defaults to a single vector 1,...,n.
-@{affine}: if true, the model contains a constant term, defaults to true.
-@{stats}: if true, some additional statistics are provided, defaults to false
+@NOTE=If the length of @{known_y's} does not match the corresponding length of @{known_x's}, this function returns a #NUM! error.
 @SEEALSO=LOGEST,TREND
 
 @CATEGORY=Statistics
@@ -3120,12 +4010,10 @@ The successive use of the simulation tool also requires that you give to the too
 @{known_x's}: known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.
 @{const}: if this is false the line will be forced to go through (0,1); defaults to TRUE
 @{stat}: If @{stat} is TRUE, extra statistical information will be returned; defaults to FALSE.
-@SYNTAX=LOGEST(known_y's,known_x's,const,stat))
+
 @DESCRIPTION=LOGEST returns an array { m{n},m{n-1}, ...,m{1},b }.
-@{known_y's}: known y-values
-@{known_x's}: known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.
-@{const}: if this is false the line will be forced to go through (0,1); defaults to TRUE
-@{stat}: If @{stat} is TRUE, extra statistical information will be returned; defaults to FALSE.
+@NOTE=Extra statistical information is written below the regression line coefficients in the result array.  Extra statistical information consists of four rows of data.  In the first row the standard error values for the coefficients m1, (m2, ...), b are represented.  The second row contains the square of R and the standard error for the y estimate.  The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares.
+@NOTE=If @{known_y}'s and @{known_x}'s have unequal number of data points, this function returns a #NUM! error.
 @SEEALSO=GROWTH,TREND
 
 @CATEGORY=Statistics
@@ -3134,14 +4022,21 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=LOGFIT function applies the ``least squares'' method to fit the logarithmic equationy = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 to your data. The graph of the equation is a logarithmic curve moved horizontally by c and possibly mirrored across the y-axis (if sign = -1).
 @{known_y's}: known y-values
 @{known_x's}: known x-values
-@SYNTAX=LOGFIT(known_y's,known_x's))
+
 @DESCRIPTION=LOGFIT returns an array having five columns and one row. `Sign' is given in the first column, `a', `b', and `c' are given in columns 2 to 4. Column 5 holds the sum of squared residuals.
-@{known_y's}: known y-values
-@{known_x's}: known x-values
+@NOTE=An error is returned when there are less than 3 different x's or y's, or when the shape of the point cloud is too different from a ``logarithmic'' one.
+@NOTE=You can use the above formula = a + b * ln(sign * (x - c)) or rearrange it to = (exp((y - a) / b)) / sign + c to compute unknown y's or x's, respectively. 
+@NOTE=This is non-linear fitting by trial-and-error. The accuracy of `c' is: width of x-range -> rounded to the next smaller (10^integer), times 0.000001. There might be cases in which the returned fit is not the best possible.
 @SEEALSO=LOGREG,LINEST,LOGEST
 
 @CATEGORY=Statistics
 @FUNCTION=LOGINV
+@SYNTAX=LOGINV(p,mean,stddev)
+@DESCRIPTION=.
+@{p}: probability
+@{mean}: mean
+@{stddev}: standard deviation
+@NOTE=If @{p} < 0 or @{p} > 1 or @{stddev} <= 0 this function returns #NUM! error.
 @SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST
 
 @CATEGORY=Statistics
@@ -3150,6 +4045,13 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=LOGNORMDIST
+@SYNTAX=LOGNORMDIST(x,mean,stddev)
+@DESCRIPTION=.
+@{x}: 
+@{mean}: mean
+@{stddev}: standard deviation
+@NOTE=If @{stddev} = 0 LOGNORMDIST returns a #DIV/0! error.
+@NOTE=If @{x} <= 0, @{mean} < 0 or @{stddev} <= 0 this function returns a #NUM! error.
 @SEEALSO=NORMDIST
 
 @CATEGORY=Statistics
@@ -3160,12 +4062,9 @@ The successive use of the simulation tool also requires that you give to the too
 @{known_x's}: known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.
 @{const}: If this is FALSE, the curve will be forced to go through [1; 0], i.e., b will be zero. The default is TRUE.
 @{stat}: If @{stat} is TRUE, extra statistical information will be returned; defaults to FALSE.
-@SYNTAX=LOGREG(known_y's,known_x's,const,stat))
+
 @DESCRIPTION=Any extra statistical information is written below m and b in the result array.  This extra statistical information consists of four rows of data:  In the first row the standard error values for the coefficients m, b are given.  The second row contains the square of R and the standard error for the y estimate. The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares.The default of @{stat} is FALSE.
-@{known_y's}: known y-values
-@{known_x's}: known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.
-@{const}: If this is FALSE, the curve will be forced to go through [1; 0], i.e., b will be zero. The default is TRUE.
-@{stat}: If @{stat} is TRUE, extra statistical information will be returned; defaults to FALSE.
+@NOTE=If @{known_y}'s and @{known_x}'s have unequal number of data points, this function returns a #NUM! error.
 @SEEALSO=LOGFIT,LINEST,LOGEST
 
 @CATEGORY=Statistics
@@ -3178,6 +4077,7 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1). Note that empty cells are not counted.
 @{number1}: first value
 @{number2}: second value
+
 @SEEALSO=MAX,MINA
 
 @CATEGORY=Statistics
@@ -3186,6 +4086,8 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=Strings and empty cells are simply ignored.
 @{number1}: first value
 @{number2}: second value
+
+@NOTE=If even numbers are given MEDIAN returns the average of the two numbers in the center.
 @SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SSMEDIAN,SUM
 
 @CATEGORY=Statistics
@@ -3198,6 +4100,7 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1). Note that empty cells are not counted.
 @{number1}: first value
 @{number2}: second value
+
 @SEEALSO=MIN,MAXA
 
 @CATEGORY=Statistics
@@ -3206,22 +4109,41 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=Strings and empty cells are simply ignored.
 @{number1}: first value
 @{number2}: second value
-@SYNTAX=MODE(number1,number2))
+
 @DESCRIPTION=If the data set does not contain any duplicates this function returns a #N/A error.
-@{number1}: first value
-@{number2}: second value
 @SEEALSO=AVERAGE,MEDIAN
 
 @CATEGORY=Statistics
 @FUNCTION=NEGBINOMDIST
+@SYNTAX=NEGBINOMDIST(f,t,p)
+@DESCRIPTION=.
+@{f}: number of failures
+@{t}: threshold number of successes
+@{p}: probability of a success
+@NOTE=If @{f} or @{t} is a non-integer it is truncated.
+@NOTE=If (@{f} + @{t} -1) <= 0 this function returns a #NUM! error.
+@NOTE=If @{p} < 0 or @{p} > 1 this functions returns a #NUM! error.
 @SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT
 
 @CATEGORY=Statistics
 @FUNCTION=NORMDIST
+@SYNTAX=NORMDIST(x,mean,stddev,cumulative)
+@DESCRIPTION=.
+@{x}: 
+@{mean}: mean of the distribution
+@{stddev}: standard deviation of the distribution
+@{cumulative}: whether to evaluate the density function or the cumulative distribution function
+@NOTE=If @{stddev} is 0 this function returns a #DIV/0! error.
 @SEEALSO=POISSON
 
 @CATEGORY=Statistics
 @FUNCTION=NORMINV
+@SYNTAX=NORMINV(p,mean,stddev)
+@DESCRIPTION=.
+@{p}: probability
+@{mean}: mean of the distribution
+@{stddev}: standard deviation of the distribution
+@NOTE=If @{p} < 0 or @{p} > 1 or @{stddev} <= 0 this function returns a #NUM! error.
 @SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST
 
 @CATEGORY=Statistics
@@ -3230,6 +4152,10 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=NORMSINV
+@SYNTAX=NORMSINV(p)
+@DESCRIPTION=.
+@{p}: given probability
+@NOTE=If @{p} < 0 or @{p} > 1 this function returns #NUM! error.
 @SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST
 
 @CATEGORY=Statistics
@@ -3242,34 +4168,87 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=Strings and empty cells are simply ignored.
 @{array1}: first component values
 @{array2}: second component values
+
 @SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX
 
 @CATEGORY=Statistics
 @FUNCTION=PERCENTILE
+@SYNTAX=PERCENTILE(array,k)
+@DESCRIPTION=.
+@{array}: data points
+@{k}: which percentile to calculate
+@NOTE=If @{array} is empty, this function returns a #NUM! error.
+@NOTE=If @{k} < 0 or @{k} > 1, this function returns a #NUM! error.
 @SEEALSO=QUARTILE
 
 @CATEGORY=Statistics
 @FUNCTION=PERCENTRANK
+@SYNTAX=PERCENTRANK(array,x,significance)
+@DESCRIPTION=.
+@{array}: range of numeric values
+@{x}: data point to be ranked
+@{significance}: number of significant digits, defaults to 3
+@NOTE=If @{array} contains no data points, this function returns a #NUM! error.
+@NOTE=If @{significance} is less than one, this function returns a #NUM! error.
+@NOTE=If @{x} exceeds the largest value or is less than the smallest value in @{array}, this function returns a #NUM! error.
+@NOTE=If @{x} does not match any of the values in @{array} or @{x} matches more than once, this function interpolates the returned value.
 @SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL
 
 @CATEGORY=Statistics
 @FUNCTION=PERMUT
+@SYNTAX=PERMUT(n,k)
+@DESCRIPTION=.
+@{n}: size of the base set
+@{k}: number of elements in each permutation
+@NOTE=If @{n} = 0 this function returns a #NUM! error.
+@NOTE=If @{n} < @{k} this function returns a #NUM! error.
 @SEEALSO=COMBIN
 
 @CATEGORY=Statistics
 @FUNCTION=PERMUTATIONA
+@SYNTAX=PERMUTATIONA(x,y)
+@DESCRIPTION=.
+@{x}: total number of objects
+@{y}: number of selected objects
+@NOTE=If both @{x} and @{y} equal 0, PERMUTATIONA returns 1.
+@NOTE=If @{x} < 0 or @{y} < 0, PERMUTATIONA returns #NUM!
+@NOTE=If @{x} or @{y} are not integers, they are truncated
 @SEEALSO=POWER
 
 @CATEGORY=Statistics
 @FUNCTION=POISSON
+@SYNTAX=POISSON(x,mean,cumulative)
+@DESCRIPTION=.
+@{x}: number of events
+@{mean}: mean of the distribution
+@{cumulative}: whether to evaluate the mass function or the cumulative distribution function
+@NOTE=If @{x} is a non-integer it is truncated.
+@NOTE=If @{x} < 0 this function returns a #NUM! error.
+@NOTE=If @{mean} <= 0 POISSON returns the #NUM! error.
 @SEEALSO=NORMDIST,WEIBULL
 
 @CATEGORY=Statistics
 @FUNCTION=PROB
+@SYNTAX=PROB(x_range,prob_range,lower_limit,upper_limit)
+@DESCRIPTION=.
+@{x_range}: possible values
+@{prob_range}: probabilities of the corresponding values
+@{lower_limit}: lower interval limit
+@{upper_limit}: upper interval limit, defaults to @{lower_limit}
+@NOTE=If the sum of the probabilities in @{prob_range} is not equal to 1 this function returns a #NUM! error.
+@NOTE=If any value in @{prob_range} is <=0 or > 1, this function returns a #NUM! error.
+@NOTE=If @{x_range} and @{prob_range} contain a different number of data entries, this function returns a #N/A error.
 @SEEALSO=BINOMDIST,CRITBINOM
 
 @CATEGORY=Statistics
 @FUNCTION=QUARTILE
+@SYNTAX=QUARTILE(array,quart)
+@DESCRIPTION=.
+@{array}: data points
+@{quart}: A number from 0 to 4, indicating which quartile to calculate. A value of 0 causes the smallest value of @{array} to be returned.
+@NOTE=If @{array} is empty, this function returns a #NUM! error.
+@NOTE=If @{quart} < 0 or @{quart} > 4, this function returns a #NUM! error.
+@NOTE=If @{quart} is not an integer, it is truncated.
 @SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL
 
 @CATEGORY=Statistics
@@ -3280,6 +4259,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{a}: the first shape parameter of the distribution
 @{b}: the second scale parameter of the distribution
 @{give_log}: if true, log of the result will be returned instead
+
 @SEEALSO=R.PBETA,R.QBETA
 
 @CATEGORY=Statistics
@@ -3290,6 +4270,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{n}: the number of trials
 @{psuc}: the probability of success in each trial
 @{give_log}: if true, log of the result will be returned instead
+
 @SEEALSO=R.PBINOM,R.QBINOM
 
 @CATEGORY=Statistics
@@ -3300,6 +4281,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{location}: the center of the distribution
 @{scale}: the scale parameter of the distribution
 @{give_log}: if true, log of the result will be returned instead
+
 @SEEALSO=R.PCAUCHY,R.QCAUCHY
 
 @CATEGORY=Statistics
@@ -3309,6 +4291,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{x}: observation
 @{df}: the number of degrees of freedom of the distribution
 @{give_log}: if true, log of the result will be returned instead
+
 @SEEALSO=R.PCHISQ,R.QCHISQ
 
 @CATEGORY=Statistics
@@ -3318,6 +4301,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{x}: observation
 @{scale}: the scale parameter of the distribution
 @{give_log}: if true, log of the result will be returned instead
+
 @SEEALSO=R.PEXP,R.QEXP
 
 @CATEGORY=Statistics
@@ -3328,6 +4312,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{n1}: the first number of degrees of freedom of the distribution
 @{n2}: the second number of degrees of freedom of the distribution
 @{give_log}: if true, log of the result will be returned instead
+
 @SEEALSO=R.PF,R.QF
 
 @CATEGORY=Statistics
@@ -3338,6 +4323,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{shape}: the shape parameter of the distribution
 @{scale}: the scale parameter of the distribution
 @{give_log}: if true, log of the result will be returned instead
+
 @SEEALSO=R.PGAMMA,R.QGAMMA
 
 @CATEGORY=Statistics
@@ -3347,6 +4333,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{x}: observation
 @{psuc}: the probability of success in each trial
 @{give_log}: if true, log of the result will be returned instead
+
 @SEEALSO=R.PGEOM,R.QGEOM
 
 @CATEGORY=Statistics
@@ -3358,6 +4345,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{b}: the number of black balls
 @{n}: the number of balls drawn
 @{give_log}: if true, log of the result will be returned instead
+
 @SEEALSO=R.PHYPER,R.QHYPER
 
 @CATEGORY=Statistics
@@ -3368,6 +4356,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{logmean}: mean of the underlying normal distribution
 @{logsd}: standard deviation of the underlying normal distribution
 @{give_log}: if true, log of the result will be returned instead
+
 @SEEALSO=R.PLNORM,R.QLNORM
 
 @CATEGORY=Statistics
@@ -3378,6 +4367,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{n}: the number of trials
 @{psuc}: the probability of success in each trial
 @{give_log}: if true, log of the result will be returned instead
+
 @SEEALSO=R.PNBINOM,R.QNBINOM
 
 @CATEGORY=Statistics
@@ -3388,6 +4378,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{mu}: mean of the distribution
 @{sigma}: standard deviation of the distribution
 @{give_log}: if true, log of the result will be returned instead
+
 @SEEALSO=R.PNORM,R.QNORM
 
 @CATEGORY=Statistics
@@ -3397,6 +4388,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{x}: observation
 @{lambda}: the mean of the distribution
 @{give_log}: if true, log of the result will be returned instead
+
 @SEEALSO=R.PPOIS,R.QPOIS
 
 @CATEGORY=Statistics
@@ -3406,6 +4398,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{x}: observation
 @{n}: the number of degrees of freedom of the distribution
 @{give_log}: if true, log of the result will be returned instead
+
 @SEEALSO=R.PT,R.QT
 
 @CATEGORY=Statistics
@@ -3416,6 +4409,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{shape}: the shape parameter of the distribution
 @{scale}: the scale parameter of the distribution
 @{give_log}: if true, log of the result will be returned instead
+
 @SEEALSO=R.PWEIBULL,R.QWEIBULL
 
 @CATEGORY=Statistics
@@ -3427,6 +4421,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{b}: the second scale parameter of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DBETA,R.QBETA
 
 @CATEGORY=Statistics
@@ -3438,6 +4433,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{psuc}: the probability of success in each trial
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DBINOM,R.QBINOM
 
 @CATEGORY=Statistics
@@ -3449,6 +4445,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{scale}: the scale parameter of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DCAUCHY,R.QCAUCHY
 
 @CATEGORY=Statistics
@@ -3459,6 +4456,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{df}: the number of degrees of freedom of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DCHISQ,R.QCHISQ
 
 @CATEGORY=Statistics
@@ -3469,6 +4467,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{scale}: the scale parameter of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DEXP,R.QEXP
 
 @CATEGORY=Statistics
@@ -3480,6 +4479,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{n2}: the second number of degrees of freedom of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DF,R.QF
 
 @CATEGORY=Statistics
@@ -3491,6 +4491,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{scale}: the scale parameter of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DGAMMA,R.QGAMMA
 
 @CATEGORY=Statistics
@@ -3501,6 +4502,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{psuc}: the probability of success in each trial
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DGEOM,R.QGEOM
 
 @CATEGORY=Statistics
@@ -3513,6 +4515,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{n}: the number of balls drawn
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DHYPER,R.QHYPER
 
 @CATEGORY=Statistics
@@ -3524,6 +4527,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{logsd}: standard deviation of the underlying normal distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DLNORM,R.QLNORM
 
 @CATEGORY=Statistics
@@ -3535,6 +4539,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{psuc}: the probability of success in each trial
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DNBINOM,R.QNBINOM
 
 @CATEGORY=Statistics
@@ -3546,6 +4551,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{sigma}: standard deviation of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DNORM,R.QNORM
 
 @CATEGORY=Statistics
@@ -3556,6 +4562,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{lambda}: the mean of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DPOIS,R.QPOIS
 
 @CATEGORY=Statistics
@@ -3566,6 +4573,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{n}: the number of degrees of freedom of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DT,R.QT
 
 @CATEGORY=Statistics
@@ -3577,6 +4585,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{scale}: the scale parameter of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DWEIBULL,R.QWEIBULL
 
 @CATEGORY=Statistics
@@ -3588,6 +4597,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{b}: the second scale parameter of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DBETA,R.PBETA
 
 @CATEGORY=Statistics
@@ -3599,6 +4609,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{psuc}: the probability of success in each trial
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DBINOM,R.PBINOM
 
 @CATEGORY=Statistics
@@ -3610,6 +4621,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{scale}: the scale parameter of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DCAUCHY,R.PCAUCHY
 
 @CATEGORY=Statistics
@@ -3620,6 +4632,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{df}: the number of degrees of freedom of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DCHISQ,R.PCHISQ
 
 @CATEGORY=Statistics
@@ -3630,6 +4643,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{scale}: the scale parameter of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DEXP,R.PEXP
 
 @CATEGORY=Statistics
@@ -3641,6 +4655,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{n2}: the second number of degrees of freedom of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DF,R.PF
 
 @CATEGORY=Statistics
@@ -3652,6 +4667,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{scale}: the scale parameter of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DGAMMA,R.PGAMMA
 
 @CATEGORY=Statistics
@@ -3662,6 +4678,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{psuc}: the probability of success in each trial
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DGEOM,R.PGEOM
 
 @CATEGORY=Statistics
@@ -3674,6 +4691,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{n}: the number of balls drawn
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DHYPER,R.PHYPER
 
 @CATEGORY=Statistics
@@ -3685,6 +4703,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{logsd}: standard deviation of the underlying normal distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DLNORM,R.PLNORM
 
 @CATEGORY=Statistics
@@ -3696,6 +4715,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{psuc}: the probability of success in each trial
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DNBINOM,R.PNBINOM
 
 @CATEGORY=Statistics
@@ -3707,6 +4727,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{sigma}: standard deviation of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DNORM,R.PNORM
 
 @CATEGORY=Statistics
@@ -3717,6 +4738,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{lambda}: the mean of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DPOIS,R.PPOIS
 
 @CATEGORY=Statistics
@@ -3727,6 +4749,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{n}: the number of degrees of freedom of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DT,R.PT
 
 @CATEGORY=Statistics
@@ -3738,6 +4761,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{scale}: the scale parameter of the distribution
 @{lower_tail}: if true (the default), the lower tail of the distribution is considered
 @{log_p}: if true, log of the probability is used
+
 @SEEALSO=R.DWEIBULL,R.PWEIBULL
 
 @CATEGORY=Statistics
@@ -3758,6 +4782,7 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=Strings and empty cells are simply ignored.
 @{array1}: first component values
 @{array2}: second component values
+
 @SEEALSO=CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND
 
 @CATEGORY=Statistics
@@ -3766,6 +4791,9 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=Strings and empty cells are simply ignored.
 @{number1}: first value
 @{number2}: second value
+
+@NOTE=This is only meaningful if the underlying distribution really has a third moment.  The skewness of a symmetric (e.g., normal) distribution is zero.
+@NOTE=If less than three numbers are given, this function returns a #DIV/0! error.
 @SEEALSO=AVERAGE,VAR,SKEWP,KURT
 
 @CATEGORY=Statistics
@@ -3774,14 +4802,28 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=Strings and empty cells are simply ignored.
 @{number1}: first value
 @{number2}: second value
+
+@NOTE=If less than two numbers are given, SKEWP returns a #DIV/0! error.
 @SEEALSO=AVERAGE,VARP,SKEW,KURTP
 
 @CATEGORY=Statistics
 @FUNCTION=SLOPE
+@SYNTAX=SLOPE(known_y's,known_x's)
+@DESCRIPTION=.
+@{known_y's}: known y-values
+@{known_x's}: known x-values
+@NOTE=If @{known_x} or @{known_y} contains no data entries or different number of data entries, this function returns a #N/A error.
+@NOTE=If the variance of the @{known_x} is zero, this function returns #DIV/0 error.
 @SEEALSO=STDEV,STDEVPA
 
 @CATEGORY=Statistics
 @FUNCTION=SMALL
+@SYNTAX=SMALL(data,k)
+@DESCRIPTION=.
+@{data}: data set
+@{k}: which value to find
+@NOTE=If data set is empty this function returns a #NUM! error.
+@NOTE=If @{k} <= 0 or @{k} is greater than the number of data items given this function returns a #NUM! error.
 @SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE
 
 @CATEGORY=Statistics
@@ -3790,10 +4832,19 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=The data points given in @{array} are assumed to be the result of grouping data into intervals of length @{interval}
 @{array}: data set
 @{interval}: length of each grouping interval, defaults to 1
+
+@NOTE=If @{array} is empty, this function returns a #NUM! error.
+@NOTE=If @{interval} <= 0, this function returns a #NUM! error.SSMEDIAN does not check whether the data points are at least @{interval} apart.
 @SEEALSO=MEDIAN
 
 @CATEGORY=Statistics
 @FUNCTION=STANDARDIZE
+@SYNTAX=STANDARDIZE(x,mean,stddev)
+@DESCRIPTION=.
+@{x}: value
+@{mean}: mean of the original distribution
+@{stddev}: standard deviation of the original distribution
+@NOTE=If @{stddev} is 0 this function returns a #DIV/0! error.
 @SEEALSO=AVERAGE
 
 @CATEGORY=Statistics
@@ -3802,10 +4853,8 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=STDEV is also known as the N-1-standard deviation. Under reasonable conditions, it is the maximum-likelihood estimator for the true population standard deviation.
 @{area1}: first cell area
 @{area2}: second cell area
-@SYNTAX=STDEV(area1,area2))
+
 @DESCRIPTION=To obtain the population standard deviation of a whole population use STDEVP.
-@{area1}: first cell area
-@{area2}: second cell area
 @SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR
 
 @CATEGORY=Statistics
@@ -3814,14 +4863,9 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=STDEVA is also known as the N-1-standard deviation. Under reasonable conditions, it is the maximum-likelihood estimator for the true population standard deviation.
 @{area1}: first cell area
 @{area2}: second cell area
-@SYNTAX=STDEVA(area1,area2))
+
 @DESCRIPTION=To obtain the population standard deviation of a whole population use STDEVPA.
-@{area1}: first cell area
-@{area2}: second cell area
-@SYNTAX=STDEVA(area1,area2)))
 @DESCRIPTION=Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1). Note that empty cells are not counted.
-@{area1}: first cell area
-@{area2}: second cell area
 @SEEALSO=STDEV,STDEVPA
 
 @CATEGORY=Statistics
@@ -3830,6 +4874,7 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=This is also known as the N-standard deviation
 @{area1}: first cell area
 @{area2}: second cell area
+
 @SEEALSO=STDEV,STDEVA,STDEVPA
 
 @CATEGORY=Statistics
@@ -3838,14 +4883,17 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=This is also known as the N-standard deviation
 @{area1}: first cell area
 @{area2}: second cell area
-@SYNTAX=STDEVPA(area1,area2))
+
 @DESCRIPTION=Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1). Note that empty cells are not counted.
-@{area1}: first cell area
-@{area2}: second cell area
 @SEEALSO=STDEVA,STDEVP
 
 @CATEGORY=Statistics
 @FUNCTION=STEYX
+@SYNTAX=STEYX(known_y's,known_x's)
+@DESCRIPTION=.
+@{known_y's}: known y-values
+@{known_x's}: known x-values
+@NOTE=If @{known_y}'s and @{known_x}'s are empty or have a different number of arguments then this function returns a #N/A error.
 @SEEALSO=PEARSON,RSQ,SLOPE
 
 @CATEGORY=Statistics
@@ -3859,11 +4907,11 @@ The successive use of the simulation tool also requires that you give to the too
 @{x}: 
 @{dof}: number of degrees of freedom
 @{tails}: 1 or 2. If this is 2, @{x} is replaced by the absolute value and the returned value is multiplied by 2
-@SYNTAX=TDIST(x,dof,tails))
+
+@NOTE=If @{dof} < 1 this function returns a #NUM! error.
+@NOTE=If @{tails} is neither 1 or 2 this function returns a #NUM! error.
+@NOTE=The parameterization of this function is different from what is used for, e.g., NORMSDIST.  This is a common source of mistakes, but necessary for compatibility.
 @DESCRIPTION=This function is Excel compatible for non-negative @{x}.
-@{x}: 
-@{dof}: number of degrees of freedom
-@{tails}: 1 or 2. If this is 2, @{x} is replaced by the absolute value and the returned value is multiplied by 2
 @SEEALSO=TINV,TTEST
 
 @CATEGORY=Statistics
@@ -3872,10 +4920,20 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=The survival function is 1 minus the cumulative distribution function.
 @{p}: probability
 @{dof}: number of degrees of freedom
+
+@NOTE=If @{p} < 0 or @{p} > 1 or @{dof} < 1 this function returns a #NUM! error.
+@NOTE=The parameterization of this function is different from what is used for, e.g., NORMSINV.  This is a common source of mistakes, but necessary for compatibility.
 @SEEALSO=TDIST,TTEST
 
 @CATEGORY=Statistics
 @FUNCTION=TREND
+@SYNTAX=TREND(known_y's,known_x's,new_x's,const)
+@DESCRIPTION=.
+@{known_y's}: known y-values
+@{known_x's}: known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.
+@{new_x's}:  x-values for which you want to estimate the y-values; defaults to @{known_x}'s
+@{const}: if this is false the line will be forced to go through the origin; defaults to TRUE
+@NOTE=If @{known_y's} and @{known_x's} have unequal number of data points, this function returns a #NUM! error.
 @SEEALSO=LINEST
 
 @CATEGORY=Statistics
@@ -3884,10 +4942,21 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=If @{fraction}=0.2 and the data set contains 40 numbers, 8 numbers are trimmed from the data set (40 x 0.2): the 4 largest and the 4 smallest. To avoid a bias, the number of points to be excluded is always rounded down to the nearest even number.
 @{ref}: list of numbers whose mean you want to calculate
 @{fraction}: fraction of the data set excluded from the mean
+
 @SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE
 
 @CATEGORY=Statistics
 @FUNCTION=TTEST
+@SYNTAX=TTEST(array1,array2,tails,type)
+@DESCRIPTION=.
+@{array1}: sample from the first population
+@{array2}: sample from the second population
+@{tails}: number of tails to consider
+@{type}: Type of test to perform. 1 indicates a test for paired variables, 2 a test of unpaired variables with equal variances, and 3 a test of unpaired variables with unequal variances
+@NOTE=If the data sets contain a different number of data points and the test is paired (@{type} one), TTEST returns the #N/A error.
+@NOTE=@{tails} and @{type} are truncated to integers.
+@NOTE=If @{tails} is not one or two, this function returns a #NUM! error.
+@NOTE=If @{type} is any other than one, two, or three, this function returns a #NUM! error.
 @SEEALSO=FDIST,FINV
 
 @CATEGORY=Statistics
@@ -3896,6 +4965,7 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=VAR is also known as the N-1-variance. Under reasonable conditions, it is the maximum-likelihood estimator for the true variance.
 @{area1}: first cell area
 @{area2}: second cell area
+
 @SEEALSO=VARP,STDEV
 
 @CATEGORY=Statistics
@@ -3904,14 +4974,9 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=VARA is also known as the N-1-variance. Under reasonable conditions, it is the maximum-likelihood estimator for the true variance
 @{area1}: first cell area
 @{area2}: second cell area
-@SYNTAX=VARA(area1,area2))
+
 @DESCRIPTION=To get the true variance of a complete population use VARPA.
-@{area1}: first cell area
-@{area2}: second cell area
-@SYNTAX=VARA(area1,area2)))
 @DESCRIPTION=Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1). Note that empty cells are not counted.
-@{area1}: first cell area
-@{area2}: second cell area
 @SEEALSO=VAR,VARPA
 
 @CATEGORY=Statistics
@@ -3920,6 +4985,7 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=VARP is also known as the N-variance.
 @{area1}: first cell area
 @{area2}: second cell area
+
 @SEEALSO=AVERAGE,DVAR,DVARP,STDEV,VAR
 
 @CATEGORY=Statistics
@@ -3928,10 +4994,8 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=VARPA is also known as the N-variance.
 @{area1}: first cell area
 @{area2}: second cell area
-@SYNTAX=VARPA(area1,area2))
+
 @DESCRIPTION=Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1). Note that empty cells are not counted.
-@{area1}: first cell area
-@{area2}: second cell area
 @SEEALSO=VARA,VARP
 
 @CATEGORY=Statistics
@@ -3942,10 +5006,19 @@ The successive use of the simulation tool also requires that you give to the too
 @{alpha}: scale parameter
 @{beta}: scale parameter
 @{cumulative}: whether to evaluate the density function or the cumulative distribution function
+
+@NOTE=If @{x} < 0 this function returns a #NUM! error.
+@NOTE=If @{alpha} <= 0 or @{beta} <= 0 this function returns a #NUM! error.
 @SEEALSO=POISSON
 
 @CATEGORY=Statistics
 @FUNCTION=ZTEST
+@SYNTAX=ZTEST(ref,x,stddev)
+@DESCRIPTION=.
+@{ref}: data set
+@{x}: mean as given in the null hypothesis
+@{stddev}: population stadard deviation, defaults to the sample standard deviation
+@NOTE=If @{ref} contains less than two data items ZTEST returns #DIV/0! error.
 @SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE
 
 @CATEGORY=String
@@ -3953,9 +5026,9 @@ The successive use of the simulation tool also requires that you give to the too
 @SYNTAX=ASC(text)
 @DESCRIPTION=ASC converts full-width katakana and ASCII characters to half-width equivalent characters, copying all others. 
 @{text}: string
-@SYNTAX=ASC(text))
+
 @DESCRIPTION=The distinction between half-width and full-width characters is described in http://www.unicode.org/reports/tr11/.
-@{text}: string
+@NOTE=While in obsolete encodings ASC used to translate between 2-byte and 1-byte characters, this is not the case in UTF-8.
 @SEEALSO=JIS
 
 @CATEGORY=String
@@ -3963,37 +5036,33 @@ The successive use of the simulation tool also requires that you give to the too
 @SYNTAX=CHAR(x)
 @DESCRIPTION=CHAR(@{x}) returns the CP1252 (Windows-1252) character with code @{x}.
 @{x}: code point
-@SYNTAX=CHAR(x))
+
 @DESCRIPTION=@{x} must be in the range 1 to 255.
-@{x}: code point
-@SYNTAX=CHAR(x)))
 @DESCRIPTION=CP1252 (Windows-1252) is also known as the "ANSI code page", but it is not an ANSI standard.
-@{x}: code point
-@SYNTAX=CHAR(x))))
 @DESCRIPTION=CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, and contains all of its printable characters (but partially at different positions.)
-@{x}: code point
-@SYNTAX=CHAR(x)))))
+@NOTE=In CP1252 (Windows-1252), 129, 141, 143, 144, and 157 do not have matching characters.
+@NOTE=For @{x} from 1 to 255 except 129, 141, 143, 144, and 157 we have CODE(CHAR(@{x}))=@{x}.
 @DESCRIPTION=This function is Excel compatible.
-@{x}: code point
 @SEEALSO=CODE
 
 @CATEGORY=String
 @FUNCTION=CLEAN
+@SYNTAX=CLEAN(text)
+@DESCRIPTION=CLEAN removes non-printable characters from its argument leaving only regular characters and white-space.
+@{text}: string
+
 
 @CATEGORY=String
 @FUNCTION=CODE
 @SYNTAX=CODE(c)
 @DESCRIPTION=@{c} must be a valid CP1252 (Windows-1252) character.
 @{c}: character
-@SYNTAX=CODE(c))
+
 @DESCRIPTION=CP1252 (Windows-1252) is also known as the "ANSI code page", but it is not an ANSI standard.
-@{c}: character
-@SYNTAX=CODE(c)))
 @DESCRIPTION=CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, and contains all of its printable characters (but partially at different positions.)
-@{c}: character
-@SYNTAX=CODE(c))))
+@NOTE=In CP1252 (Windows-1252), 129, 141, 143, 144, and 157 do not have matching characters.
+@NOTE=For @{x} from 1 to 255 except 129, 141, 143, 144, and 157 we have CODE(CHAR(@{x}))=@{x}.
 @DESCRIPTION=This function is Excel compatible.
-@{c}: character
 @SEEALSO=CHAR
 
 @CATEGORY=String
@@ -4010,10 +5079,22 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=String
 @FUNCTION=FIND
+@SYNTAX=FIND(string1,string2,start)
+@DESCRIPTION=.
+@{string1}: search string
+@{string2}: search field
+@{start}: starting position, defaults to 1
+@NOTE=This search is case-sensitive.
 @SEEALSO=EXACT,LEN,MID,SEARCH
 
 @CATEGORY=String
 @FUNCTION=FINDB
+@SYNTAX=FINDB(string1,string2,start)
+@DESCRIPTION=.
+@{string1}: search string
+@{string2}: search field
+@{start}: starting byte position, defaults to 1
+@NOTE=This search is case-sensitive.
 @SEEALSO=FIND,LEFTB,RIGHTB,LENB,LEFT,MID,RIGHT,LEN
 
 @CATEGORY=String
@@ -4025,17 +5106,28 @@ The successive use of the simulation tool also requires that you give to the too
 @SYNTAX=JIS(text)
 @DESCRIPTION=JIS converts half-width katakana and ASCII characters to full-width equivalent characters, copying all others. 
 @{text}: original text
-@SYNTAX=JIS(text))
+
 @DESCRIPTION=The distinction between half-width and full-width characters is described in http://www.unicode.org/reports/tr11/.
-@{text}: original text
+@NOTE=While in obsolete encodings JIS used to translate between 1-byte and 2-byte characters, this is not the case in UTF-8.
 @SEEALSO=ASC
 
 @CATEGORY=String
 @FUNCTION=LEFT
+@SYNTAX=LEFT(s,num_chars)
+@DESCRIPTION=.
+@{s}: the string
+@{num_chars}: the number of characters to return (defaults to 1)
+@NOTE=If the string @{s} is in a right-to-left script, the returned first characters are from the right of the string.
 @SEEALSO=MID,RIGHT,LEN,MIDB,RIGHTB,LENB
 
 @CATEGORY=String
 @FUNCTION=LEFTB
+@SYNTAX=LEFTB(s,num_bytes)
+@DESCRIPTION=.
+@{s}: the string
+@{num_bytes}: the maximum number of bytes to return (defaults to 1)
+@NOTE=The semantics of this function is subject to change as various applications implement it.
+@NOTE=If the string is in a right-to-left script, the returned first characters are from the right of the string.
 @SEEALSO=MIDB,RIGHTB,LENB,LEFT,MID,RIGHT,LEN
 
 @CATEGORY=String
@@ -4056,6 +5148,12 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=String
 @FUNCTION=MIDB
+@SYNTAX=MIDB(s,start_pos,num_bytes)
+@DESCRIPTION=.
+@{s}: the string
+@{start_pos}: the number of the byte with which to start (defaults to 1)
+@{num_bytes}: the maximum number of bytes to return (defaults to 1)
+@NOTE=The semantics of this function is subject to change as various applications implement it.
 @SEEALSO=LEFTB,RIGHTB,LENB,LEFT,MID,RIGHT,LEN
 
 @CATEGORY=String
@@ -4074,6 +5172,8 @@ The successive use of the simulation tool also requires that you give to the too
 @{start}: starting byte position
 @{num}: number of bytes to be replaced
 @{new}: replacement string
+
+@NOTE=The semantics of this function is subject to change as various applications implement it.
 @SEEALSO=MID,SEARCH,SUBSTITUTE,TRIM
 
 @CATEGORY=String
@@ -4082,10 +5182,21 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=String
 @FUNCTION=RIGHT
+@SYNTAX=RIGHT(s,num_chars)
+@DESCRIPTION=.
+@{s}: the string
+@{num_chars}: the number of characters to return (defaults to 1)
+@NOTE=If the string @{s} is in a right-to-left script, the returned last characters are from the left of the string.
 @SEEALSO=LEFT,MID,LEN,LEFTB,MIDB,RIGHTB,LENB
 
 @CATEGORY=String
 @FUNCTION=RIGHTB
+@SYNTAX=RIGHTB(s,num_bytes)
+@DESCRIPTION=.
+@{s}: the string
+@{num_bytes}: the maximum number of bytes to return (defaults to 1)
+@NOTE=The semantics of this function is subject to change as various applications implement it.
+@NOTE=If the string @{s} is in a right-to-left script, the returned last characters are from the left of the string.
 @SEEALSO=LEFTB,MIDB,LENB,LEFT,MID,RIGHT,LEN
 
 @CATEGORY=String
@@ -4095,6 +5206,10 @@ The successive use of the simulation tool also requires that you give to the too
 @{search}: search string
 @{text}: search field
 @{start}: starting position, defaults to 1
+
+@NOTE=This search is not case sensitive.
+@NOTE=If @{search} is not found, SEARCH returns #VALUE!
+@NOTE=If @{start} is less than one or it is greater than the length of @{text}, SEARCH returns #VALUE!
 @SEEALSO=FIND,SEARCHB
 
 @CATEGORY=String
@@ -4104,6 +5219,11 @@ The successive use of the simulation tool also requires that you give to the too
 @{search}: search string
 @{text}: search field
 @{start}: starting byte position, defaults to 1
+
+@NOTE=This search is not case sensitive.
+@NOTE=If @{search} is not found, SEARCH returns #VALUE!
+@NOTE=If @{start} is less than one or it is greater than the byte length of @{text}, SEARCH returns #VALUE!
+@NOTE=The semantics of this function is subject to change as various applications implement it.
 @SEEALSO=FINDB,SEARCH
 
 @CATEGORY=String
@@ -4144,10 +5264,9 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=This array function returns the Fourier or inverse Fourier transform of the given data sequence.
 @{Sequence}:  the data sequence to be transformed
 @{Inverse}: if false, the inverse Fourier transform is calculated. Defaults to false
-@SYNTAX=FOURIER(Sequence,Inverse))
+
 @DESCRIPTION=The output consists always of one column of complex numbers.
-@{Sequence}:  the data sequence to be transformed
-@{Inverse}: if false, the inverse Fourier transform is calculated. Defaults to false
+@NOTE=If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns #NUM!
 
 @CATEGORY=Time Series Analysis
 @FUNCTION=Interpolation
@@ -4157,13 +5276,8 @@ The successive use of the simulation tool also requires that you give to the too
 @{ordinates}: The ordinates of the data to interpolate.
 @{targets}: The abscissas of the interpolated data.
 @{interpolation}: The method of interpolation to be used, defaults to no interpolation
-@SYNTAX=Interpolation(abscissas,ordinates,targets,interpolation))
+
 @DESCRIPTION=The output consists always of one column of numbers.
-@{abscissas}: The abscissas of the data to interpolate.
-@{ordinates}: The ordinates of the data to interpolate.
-@{targets}: The abscissas of the interpolated data.
-@{interpolation}: The method of interpolation to be used, defaults to no interpolation
-@SYNTAX=Interpolation(abscissas,ordinates,targets,interpolation)))
 @DESCRIPTION=Possible interpolation methods are:
 0: linear;
 1: linear with averaging;
@@ -4171,10 +5285,8 @@ The successive use of the simulation tool also requires that you give to the too
 3: staircase with averaging;
 4: natural cubic spline;
 5: natural cubic spline with averaging.
-@{abscissas}: The abscissas of the data to interpolate.
-@{ordinates}: The ordinates of the data to interpolate.
-@{targets}: The abscissas of the interpolated data.
-@{interpolation}: The method of interpolation to be used, defaults to no interpolation
+@NOTE=Strings and empty cells in @{abscissas} and @{ordinates} are ignored.
+@NOTE=If several target data are provided they must be in the same column in consecutive cells.
 @SEEALSO=PERIODOGRAM
 
 @CATEGORY=Time Series Analysis
@@ -4186,14 +5298,8 @@ The successive use of the simulation tool also requires that you give to the too
 @{abscissas}: The abscissas of the data to interpolate, defaults to regularly spaced abscissa.
 @{interpolation}: The method of interpolation to be used, defaults to no interpolation
 @{number}:  Number of interpolated data points to be used.
-@SYNTAX=PERIODOGRAM(ordinates,filter,abscissas,interpolation,number))
+
 @DESCRIPTION=The output consists always of one column of numbers.
-@{ordinates}: The ordinates of the data to interpolate.
-@{filter}: Window function to  be used, defaults to no window function.
-@{abscissas}: The abscissas of the data to interpolate, defaults to regularly spaced abscissa.
-@{interpolation}: The method of interpolation to be used, defaults to no interpolation
-@{number}:  Number of interpolated data points to be used.
-@SYNTAX=PERIODOGRAM(ordinates,filter,abscissas,interpolation,number)))
 @DESCRIPTION=Possible interpolation methods are:
 0: linear;
 1: linear with averaging;
@@ -4201,21 +5307,12 @@ The successive use of the simulation tool also requires that you give to the too
 3: staircase with averaging;
 4: natural cubic spline;
 5: natural cubic spline with averaging.
-@{ordinates}: The ordinates of the data to interpolate.
-@{filter}: Window function to  be used, defaults to no window function.
-@{abscissas}: The abscissas of the data to interpolate, defaults to regularly spaced abscissa.
-@{interpolation}: The method of interpolation to be used, defaults to no interpolation
-@{number}:  Number of interpolated data points to be used.
-@SYNTAX=PERIODOGRAM(ordinates,filter,abscissas,interpolation,number))))
 @DESCRIPTION=Possible window functions are:
 0: no filter (rectangular window)
 1: Bartlett (triangular window)
 2: Hahn (cosine window)
 3: Welch (parabolic window)
-@{ordinates}: The ordinates of the data to interpolate.
-@{filter}: Window function to  be used, defaults to no window function.
-@{abscissas}: The abscissas of the data to interpolate, defaults to regularly spaced abscissa.
-@{interpolation}: The method of interpolation to be used, defaults to no interpolation
-@{number}:  Number of interpolated data points to be used.
+@NOTE=Strings and empty cells in @{abscissas} and @{ordinates} are ignored.
+@NOTE=If several target data are provided they must be in the same column in consecutive cells.
 @SEEALSO=INTERPOLATION
 
