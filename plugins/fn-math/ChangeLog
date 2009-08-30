@@ -1,3 +1,11 @@
+2009-08-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* plugin.xml.in: add CHOLESKY
+	* functions.c (help_cholesky): new
+	(gnm_matrix_cholesky): new
+	(gnumeric_cholesky): new
+	(math_functions): add CHOLESKY
+
 2009-08-30  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.11

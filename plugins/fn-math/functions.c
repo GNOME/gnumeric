@@ -2725,6 +2725,93 @@ gnumeric_minverse (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_cholesky[] = {
+        { GNM_FUNC_HELP_NAME, F_("CHOLESKY:the Cholesky decomposition of the symmetric positiv-definite @{matrix}")},
+        { GNM_FUNC_HELP_ARG, F_("matrix:a symmetric positive definite matrix")},
+	{ GNM_FUNC_HELP_NOTE, F_("If the Cholesky-Banachiewicz algorithm applied to @{matrix} fails, Cholesky returns #NUM!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{matrix} does not contain an equal number of columns and rows, CHOLESKY returns #VALUE!") },
+	{ GNM_FUNC_HELP_SEEALSO, "MINVERSE,MMULT,MDETERM"},
+        { GNM_FUNC_HELP_END}
+};
+
+#define ALLOC_MATRIX(var,dim1,dim2)			\
+  do { int _i, _d1, _d2;				\
+       _d1 = (dim1);					\
+       _d2 = (dim2);					\
+       (var) = g_new (gnm_float *, _d1);		\
+       for (_i = 0; _i < _d1; _i++)			\
+	       (var)[_i] = g_new (gnm_float, _d2);	\
+  } while (0)
+
+static gboolean 
+gnm_matrix_cholesky  (gnm_float **A, gnm_float ***B, int n) 
+{
+	int i, j, k;
+	gnm_float sum;
+
+	ALLOC_MATRIX (*B, n, n);
+
+	for (i = 0; i < n; i++) {       /* row    number */
+		for (j = 0; j < i; j++) { /* column number */ 
+			sum = 0.;
+			for (k = 0; k < j; k++)
+				sum += (*B)[i][k]*(*B)[j][k];
+			(*B)[j][i] = 0;
+			(*B)[i][j] = (A[i][j] - sum )/(*B)[j][j];
+		}
+		sum = 0;
+		for (k = 0; k < i; k++)
+			sum += (*B)[i][k]*(*B)[i][k];
+		(*B)[i][i] = gnm_sqrt (A[i][i] - sum);
+	}
+	return TRUE;
+}	
+
+#undef ALLOC_MATRIX
+
+static GnmValue *
+gnumeric_cholesky (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	GnmEvalPos const * const ep = ei->pos;
+
+	int	r, rows;
+	int	c, cols;
+	GnmValue *res;
+        GnmValue const *values = argv[0];
+	gnm_float **matrix;
+	gnm_float **cholesky = NULL;
+	GnmStdError err;
+
+	if (validate_range_numeric_matrix (ep, values, &rows, &cols, &err))
+		return value_new_error_std (ei->pos, err);
+
+	/* Guarantee shape and non-zero size */
+	if (cols != rows || !rows || !cols)
+		return value_new_error_VALUE (ei->pos);
+
+	matrix = value_to_matrix (values, cols, rows, ep);
+	if (!gnm_matrix_cholesky (matrix, &cholesky, rows)) {
+		free_matrix (matrix, cols, rows);
+		free_matrix (cholesky, cols, rows);
+		return value_new_error_NUM (ei->pos);
+	}
+
+	res = value_new_array_non_init (cols, rows);
+	for (c = 0; c < cols; ++c) {
+		res->v_array.vals[c] = g_new (GnmValue *, rows);
+		for (r = 0; r < rows; ++r) {
+			gnm_float tmp = cholesky[r][c];
+			res->v_array.vals[c][r] = value_new_float (tmp);
+		}
+	}
+	free_matrix (matrix, cols, rows);
+	free_matrix (cholesky, cols, rows);
+
+	return res;
+}
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_munit[] = {
         { GNM_FUNC_HELP_NAME, F_("MUNIT:the @{n} by @{n} identity matrix")},
         { GNM_FUNC_HELP_ARG, F_("n:size of the matrix")},
@@ -3021,6 +3108,9 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "betaln",   "ff",      help_betaln,
 	  gnumeric_betaln, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{ "cholesky","A",      help_cholesky,
+	  gnumeric_cholesky, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "cos",     "f",     help_cos,
 	  gnumeric_cos, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },

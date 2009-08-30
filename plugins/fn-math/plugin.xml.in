@@ -27,6 +27,7 @@
 				<function name="betaln"/>
 				<function name="ceil"/>
 				<function name="ceiling"/>
+				<function name="cholesky"/>
 				<function name="combin"/>
 				<function name="combina"/>
 				<function name="cos"/>
