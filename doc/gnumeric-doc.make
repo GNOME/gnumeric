@@ -85,7 +85,10 @@ if ENABLE_PDF_VIA_DBLATEX
 gnumeric.pdf:
 	dblatex -t tex -Pfo.setup=1 -I . \
 		-P imagedata.default.scale='scale=0.6' \
+		-P latex.encoding=utf-8 \
+		-P latex.output.revhistory=0 \
 		-o gnumeric.tex $(srcdir)/gnumeric.xml
+	sed -i -e 's|\\&\\#x2a09;|\\times{}|g' gnumeric.tex
 	for runs in $$(seq 1 4); do \
 		env TEXINPUTS=$(srcdir): \
 			pdflatex -interaction nonstopmode gnumeric.tex ; \
