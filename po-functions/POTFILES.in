@@ -124,6 +124,7 @@ src/dialogs/dialog-tabulate.c
 src/dialogs/dialog-view.c
 src/dialogs/dialog-workbook-attr.c
 src/dialogs/dialog-zoom.c
+[type: gettext/glade]src/dialogs/search.ui
 src/expr-name.c
 src/expr.c
 src/file-autoft.c

@@ -235,7 +235,7 @@ src/dialogs/sampling.glade
 src/dialogs/scenario-add.glade
 src/dialogs/scenario-manager.glade
 src/dialogs/search-replace.glade
-src/dialogs/search.glade
+[type: gettext/glade]src/dialogs/search.ui
 src/dialogs/sheet-order.glade
 src/dialogs/sheet-resize.glade
 src/dialogs/shuffle.glade
