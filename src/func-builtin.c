@@ -38,7 +38,7 @@
 /***************************************************************************/
 
 static GnmFuncHelp const help_sum[] = {
-	{ GNM_FUNC_HELP_NAME, N_("Sum:sum of the given values")},
+	{ GNM_FUNC_HELP_NAME, N_("SUM:sum of the given values")},
 	{ GNM_FUNC_HELP_ARG, N_("values:a list of values to add")},
 	{ GNM_FUNC_HELP_DESCRIPTION, N_("SUM computes the sum of all the values and cells referenced in the argument list.")},
 	{ GNM_FUNC_HELP_EXCEL, N_("This function is Excel compatible.") },

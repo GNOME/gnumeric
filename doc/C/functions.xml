@@ -8531,7 +8531,8 @@
       </refsect1>
       <refsect1>
         <title>See also</title>
-        <para><link linkend="gnumeric-SINCOS"><function>SINCOS</function></link>,
+        <para><link linkend="gnumeric-SIN"><function>SIN</function></link>,
+        <link linkend="gnumeric-COS"><function>COS</function></link>,
         <link linkend="gnumeric-ASINH"><function>ASINH</function></link>,
         <link linkend="gnumeric-DEGREES"><function>DEGREES</function></link>,
         <link linkend="gnumeric-RADIANS"><function>RADIANS</function></link>.
@@ -10236,24 +10237,24 @@
       </para>
       </refsect1>
     </refentry>
-    <refentry id="gnumeric-Sum">
+    <refentry id="gnumeric-SUM">
       <refmeta>
         <refentrytitle>
-          <function>Sum</function>
+          <function>SUM</function>
         </refentrytitle>
       </refmeta>
       <refnamediv>
         <refname>
-          <function>Sum</function>
+          <function>SUM</function>
         </refname>
         <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>Sum</function>(<parameter>values</parameter>)</synopsis>
+        <synopsis><function>SUM</function>(<parameter>values</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>SUM computes the sum of all the values and cells referenced in the argument list.</para>
+        <para><function>SUM</function> computes the sum of all the values and cells referenced in the argument list.</para>
         <para><parameter>values</parameter>: a list of values to add</para>
       </refsect1>
       <refsect1>
@@ -17089,20 +17090,20 @@
         <para>If <parameter>Sequence</parameter> is neither an n by 1 nor 1 by n array, this function returns #NUM!</para>
       </refsect1>
     </refentry>
-    <refentry id="gnumeric-Interpolation">
+    <refentry id="gnumeric-INTERPOLATION">
       <refmeta>
         <refentrytitle>
-          <function>Interpolation</function>
+          <function>INTERPOLATION</function>
         </refentrytitle>
       </refmeta>
       <refnamediv>
         <refname>
-          <function>Interpolation</function>
+          <function>INTERPOLATION</function>
         </refname>
         <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>Interpolation</function>(<parameter>abscissas</parameter>,<parameter>ordinates</parameter>,<parameter>targets</parameter>,<parameter>interpolation</parameter>)</synopsis>
+        <synopsis><function>INTERPOLATION</function>(<parameter>abscissas</parameter>,<parameter>ordinates</parameter>,<parameter>targets</parameter>,<parameter>interpolation</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>

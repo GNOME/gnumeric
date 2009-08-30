@@ -368,7 +368,7 @@ spline_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 /******************************************************************************/
 
 static GnmFuncHelp const help_interpolation[] = {
-	{ GNM_FUNC_HELP_NAME, F_("Interpolation:interpolated values corresponding to the given abscissa targets.") },
+	{ GNM_FUNC_HELP_NAME, F_("INTERPOLATION:interpolated values corresponding to the given abscissa targets.") },
 	{ GNM_FUNC_HELP_ARG, F_("abscissas:The abscissas of the data to interpolate.") },
 	{ GNM_FUNC_HELP_ARG, F_("ordinates:The ordinates of the data to interpolate.") },
 	{ GNM_FUNC_HELP_ARG, F_("targets:The abscissas of the interpolated data.") },

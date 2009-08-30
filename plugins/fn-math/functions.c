@@ -326,7 +326,7 @@ static GnmFuncHelp const help_asin[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} falls outside the range -1 to 1, ASIN returns #NUM!") },	
         { GNM_FUNC_HELP_EXAMPLES, "=ASIN(0.5)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ASIN(1)" },
-        { GNM_FUNC_HELP_SEEALSO, "SIN COS,ASINH,DEGREES,RADIANS"},
+        { GNM_FUNC_HELP_SEEALSO, "SIN,COS,ASINH,DEGREES,RADIANS"},
         { GNM_FUNC_HELP_END}
 };
 

@@ -2782,7 +2782,7 @@ If any argument is zero, the result is zero.
 @{x}: number
 
 @NOTE=If @{x} falls outside the range -1 to 1, ASIN returns #NUM!
-@SEEALSO=SIN COS,ASINH,DEGREES,RADIANS
+@SEEALSO=SIN,COS,ASINH,DEGREES,RADIANS
 
 @CATEGORY=Mathematics
 @FUNCTION=ASINH
@@ -3225,8 +3225,8 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @SEEALSO=PI
 
 @CATEGORY=Mathematics
-@FUNCTION=Sum
-@SYNTAX=Sum(values)
+@FUNCTION=SUM
+@SYNTAX=SUM(values)
 @DESCRIPTION=SUM computes the sum of all the values and cells referenced in the argument list.
 @{values}: a list of values to add
 
@@ -5269,8 +5269,8 @@ The successive use of the simulation tool also requires that you give to the too
 @NOTE=If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns #NUM!
 
 @CATEGORY=Time Series Analysis
-@FUNCTION=Interpolation
-@SYNTAX=Interpolation(abscissas,ordinates,targets,interpolation)
+@FUNCTION=INTERPOLATION
+@SYNTAX=INTERPOLATION(abscissas,ordinates,targets,interpolation)
 @DESCRIPTION=If an interpolation method is used, the number of returned values is one less than the number of targets and the targets values must be given in increasing order.
 @{abscissas}: The abscissas of the data to interpolate.
 @{ordinates}: The ordinates of the data to interpolate.
