@@ -945,7 +945,7 @@ static GnmFuncHelp const help_gamma[] = {
         { GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=GAMMA(-1.8)" },
         { GNM_FUNC_HELP_EXAMPLES, "=GAMMA(2.4)" },
-	{ GNM_FUNC_HELP_SEEALSO, "LNGAMMA"},
+	{ GNM_FUNC_HELP_SEEALSO, "GAMMALN"},
         { GNM_FUNC_HELP_END}
 };
 
