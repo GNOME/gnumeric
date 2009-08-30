@@ -5407,6 +5407,36 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-RRI">
+      <refmeta>
+        <refentrytitle>
+          <function>RRI</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>RRI</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>RRI</function>(<parameter>p</parameter>,<parameter>pv</parameter>,<parameter>fv</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><function>RRI</function> dtermines an equivalent interest rate for an investment that increases in value. The interest is compounded after each complete period.</para>
+        <para><parameter>p</parameter>: number of periods</para>
+        <para><parameter>pv</parameter>: present value</para>
+        <para><parameter>fv</parameter>: future value</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-PV"><function>PV</function></link>,
+        <link linkend="gnumeric-FV"><function>FV</function></link>,
+        <link linkend="gnumeric-RATE"><function>RATE</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-SLN">
       <refmeta>
         <refentrytitle>
@@ -6596,11 +6626,11 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>HLOOKUP</function> function finds the row in <parameter>range</parameter> that has a first cell similar to <parameter>value</parameter>.  If <parameter>approximate</parameter> is not true it finds the row with an exact equality. If <parameter>approximate</parameter> is true, it finds the last row with first value less than or equal to<parameter>value</parameter>. If <parameter>as_index</parameter> is true the 0-based row offset is returned.</para>
+        <para><function>HLOOKUP</function> function finds the row in <parameter>range</parameter> that has a first cell similar to <parameter>value</parameter>.  If <parameter>approximate</parameter> is not true it finds the row with an exact equality. If <parameter>approximate</parameter> is true, it finds the last row with first value less than or equal to <parameter>value</parameter>. If <parameter>as_index</parameter> is true the 0-based row offset is returned.</para>
         <para><parameter>value</parameter>: search value</para>
         <para><parameter>range</parameter>: range to search</para>
         <para><parameter>row</parameter>: 1-based column offset indicating the return values </para>
-        <para><parameter>approximate</parameter>: if false, an exact match of <parameter>value</parameter> must be found; defaults to FALSE</para>
+        <para><parameter>approximate</parameter>: if false, an exact match of <parameter>value</parameter> must be found; defaults to TRUE</para>
         <para><parameter>as_index</parameter>: if true, the 0-based row offset is returned; defaults to FALSE</para>
       </refsect1>
       <refsect1>
@@ -6854,7 +6884,7 @@
         <para><parameter>value</parameter>: search value</para>
         <para><parameter>range</parameter>: range to search</para>
         <para><parameter>column</parameter>: 1-based column offset indicating the return values</para>
-        <para><parameter>approximate</parameter>: if false, an exact match of <parameter>value</parameter> must be found; defaults to FALSE</para>
+        <para><parameter>approximate</parameter>: if false, an exact match of <parameter>value</parameter> must be found; defaults to TRUE</para>
         <para><parameter>as_index</parameter>: if true, the 0-based row offset is returned; defaults to FALSE</para>
       </refsect1>
       <refsect1>
@@ -6973,6 +7003,32 @@
         <title>See also</title>
         <para><link linkend="gnumeric-COTH"><function>COTH</function></link>,
         <link linkend="gnumeric-TANH"><function>TANH</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-Arabic">
+      <refmeta>
+        <refentrytitle>
+          <function>Arabic</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>Arabic</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>Arabic</function>(<parameter>roman</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Any Roman symbol to the left of a larger symbol (directly or indirectly) reduces the final value by the symbol amount, otherwise, it increases the final amount by the symbol's amount.</para>
+        <para><parameter>roman</parameter>: Roman numeral</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-ROMAN"><function>ROMAN</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -7281,10 +7337,23 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>COMBIN</function> returns the binomial coefficient "<parameter>n</parameter> choose <parameter>k</parameter>"</para>
+        <para><function>COMBIN</function> returns the binomial coefficient "<parameter>n</parameter> choose <parameter>k</parameter>", the number of <parameter>k</parameter>-combinations of an <parameter>n</parameter>-element set without repetition.</para>
         <para><parameter>n</parameter>: non-negative integer</para>
         <para><parameter>k</parameter>: non-negative integer</para>
       </refsect1>
+    </refentry>
+    <refentry id="gnumeric-COMBINA">
+      <refmeta>
+        <refentrytitle>
+          <function>COMBINA</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>COMBINA</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
     </refentry>
     <refentry id="gnumeric-COS">
       <refmeta>
@@ -7652,7 +7721,7 @@
       </refnamediv>
       <refsect1>
         <title>See also</title>
-        <para><link linkend="gnumeric-LNGAMMA"><function>LNGAMMA</function></link>.
+        <para><link linkend="gnumeric-GAMMALN"><function>GAMMALN</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -8021,6 +8090,26 @@
         <title>See also</title>
         <para><link linkend="gnumeric-COMBIN"><function>COMBIN</function></link>,
         <link linkend="gnumeric-SUM"><function>SUM</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-MUNIT">
+      <refmeta>
+        <refentrytitle>
+          <function>MUNIT</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>MUNIT</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-MMULT"><function>MMULT</function></link>,
+        <link linkend="gnumeric-MDETERM"><function>MDETERM</function></link>,
+        <link linkend="gnumeric-MINVERSE"><function>MINVERSE</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -11137,6 +11226,24 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-PERMUTATIONA">
+      <refmeta>
+        <refentrytitle>
+          <function>PERMUTATIONA</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>PERMUTATIONA</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-POWER"><function>POWER</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-POISSON">
       <refmeta>
         <refentrytitle>
@@ -13832,6 +13939,38 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-REPLACEB">
+      <refmeta>
+        <refentrytitle>
+          <function>REPLACEB</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>REPLACEB</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>REPLACEB</function>(<parameter>old</parameter>,<parameter>start</parameter>,<parameter>num</parameter>,<parameter>new</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><function>REPLACEB</function> replaces the string of valid unicode characters starting at the byte <parameter>start</parameter> and ending at <parameter>start</parameter>+<parameter>num</parameter>-1 with the string <parameter>new</parameter>.</para>
+        <para><parameter>old</parameter>: original text</para>
+        <para><parameter>start</parameter>: starting byte position</para>
+        <para><parameter>num</parameter>: number of bytes to be replaced</para>
+        <para><parameter>new</parameter>: replacement string</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-MID"><function>MID</function></link>,
+        <link linkend="gnumeric-SEARCH"><function>SEARCH</function></link>,
+        <link linkend="gnumeric-SUBSTITUTE"><function>SUBSTITUTE</function></link>,
+        <link linkend="gnumeric-TRIM"><function>TRIM</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-REPT">
       <refmeta>
         <refentrytitle>
@@ -13922,7 +14061,37 @@
       </refsect1>
       <refsect1>
         <title>See also</title>
-        <para><link linkend="gnumeric-FIND"><function>FIND</function></link>.
+        <para><link linkend="gnumeric-FIND"><function>FIND</function></link>,
+        <link linkend="gnumeric-SEARCHB"><function>SEARCHB</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-SEARCHB">
+      <refmeta>
+        <refentrytitle>
+          <function>SEARCHB</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>SEARCHB</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>SEARCHB</function>(<parameter>search</parameter>,<parameter>text</parameter>,<parameter>start</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>search</parameter> may contain wildcard characters (*) and question marks (?). A question mark matches any single character, and a wildcard matches any string including the empty string. To search for * or ?, precede the symbol with ~.</para>
+        <para><parameter>search</parameter>: search string</para>
+        <para><parameter>text</parameter>: search field</para>
+        <para><parameter>start</parameter>: starting byte position, defaults to 1</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-FINDB"><function>FINDB</function></link>,
+        <link linkend="gnumeric-SEARCH"><function>SEARCH</function></link>.
       </para>
       </refsect1>
     </refentry>
