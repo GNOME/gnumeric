@@ -3,6 +3,9 @@ Gnumeric 1.9.12
 Andreas:
 	* Add CHOLESKY.
 
+Morten:
+	* Fix menu sensitivity problem.  [#593624]
+
 --------------------------------------------------------------------------
 Gnumeric 1.9.11
 

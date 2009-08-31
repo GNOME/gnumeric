@@ -988,14 +988,14 @@ wbcg_insert_object (WBCGtk *wbcg, SheetObject *so)
 	wbcg->new_object = so;
 
 	npages = wbcg_get_n_scg (wbcg);
-	for (i = 0; i < npages; i++)
+	for (i = 0; i < npages; i++) {
 		if (NULL != (scg = wbcg_get_nth_scg (wbcg, i))) {
 			scg_object_unselect (scg, NULL);
 			scg_cursor_visible (scg, FALSE);
 			scg_set_display_cursor (scg);
 			sc_unant (SHEET_CONTROL (scg));
 		}
-
+	}
 	wb_control_update_action_sensitivity (WORKBOOK_CONTROL (wbcg));
 }
 

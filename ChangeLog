@@ -1,3 +1,8 @@
+2009-08-31  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-control-gui.c (scg_mode_edit): update menu sensitivity
+	here.  Fixes #593624.
+
 2009-08-30  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

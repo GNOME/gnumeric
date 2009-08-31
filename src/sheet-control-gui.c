@@ -1996,10 +1996,13 @@ scg_cursor_visible (SheetControlGUI *scg, gboolean is_visible)
 void
 scg_mode_edit (SheetControlGUI *scg)
 {
+	WBCGtk *wbcg;
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
-	if (scg->wbcg != NULL) /* Can be NULL during destruction */
-		wbcg_insert_object_clear (scg->wbcg);
+	wbcg = scg->wbcg;
+
+	if (wbcg != NULL) /* Can be NULL during destruction */
+		wbcg_insert_object_clear (wbcg);
 
 	scg_object_unselect (scg, NULL);
 
@@ -2012,9 +2015,12 @@ scg_mode_edit (SheetControlGUI *scg)
 		scg_cursor_visible (scg, TRUE);
 	}
 
-	if (scg->wbcg != NULL && wbc_gtk_get_guru (scg->wbcg) != NULL &&
-	    scg == wbcg_cur_scg	(scg->wbcg))
-		wbcg_edit_finish (scg->wbcg, WBC_EDIT_REJECT, NULL);
+	if (wbcg != NULL && wbc_gtk_get_guru (wbcg) != NULL &&
+	    scg == wbcg_cur_scg	(wbcg))
+		wbcg_edit_finish (wbcg, WBC_EDIT_REJECT, NULL);
+
+	if (wbcg)
+		wb_control_update_action_sensitivity (WORKBOOK_CONTROL (wbcg));
 }
 
 static void

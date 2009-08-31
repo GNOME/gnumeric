@@ -95,50 +95,50 @@ gnm_pane_object_key_press (GnmPane *pane, GdkEventKey *ev)
 
 	switch (ev->keyval) {
 	case GDK_Escape:
-	scg_mode_edit (scg);
-	gnm_app_clipboard_unant ();
-	return TRUE;
+		scg_mode_edit (scg);
+		gnm_app_clipboard_unant ();
+		return TRUE;
 
 	case GDK_BackSpace: /* Ick! */
 	case GDK_KP_Delete:
 	case GDK_Delete:
-	if (scg->selected_objects != NULL) {
-		cmd_objects_delete (sc->wbc,
-				    go_hash_keys (scg->selected_objects), NULL);
-		return TRUE;
-	}
-	sc_mode_edit (sc);
-	break;
+		if (scg->selected_objects != NULL) {
+			cmd_objects_delete (sc->wbc,
+					    go_hash_keys (scg->selected_objects), NULL);
+			return TRUE;
+		}
+		sc_mode_edit (sc);
+		break;
 
 	case GDK_Tab:
 	case GDK_ISO_Left_Tab:
 	case GDK_KP_Tab:
-	if (scg->selected_objects != NULL) {
-		Sheet *sheet = sc_sheet (sc);
-		GSList *prev = NULL, *ptr = sheet->sheet_objects;
-		for (; ptr != NULL ; prev = ptr, ptr = ptr->next)
-			if (NULL != g_hash_table_lookup (scg->selected_objects, ptr->data)) {
-				SheetObject *target;
-				if ((ev->state & GDK_SHIFT_MASK)) {
-					if (ptr->next == NULL)
-						target = sheet->sheet_objects->data;
-					else
-						target = ptr->next->data;
-				} else {
-					if (NULL == prev) {
-						GSList *last = g_slist_last (ptr);
-						target = last->data;
-					} else
-						target = prev->data;
+		if (scg->selected_objects != NULL) {
+			Sheet *sheet = sc_sheet (sc);
+			GSList *prev = NULL, *ptr = sheet->sheet_objects;
+			for (; ptr != NULL ; prev = ptr, ptr = ptr->next)
+				if (NULL != g_hash_table_lookup (scg->selected_objects, ptr->data)) {
+					SheetObject *target;
+					if ((ev->state & GDK_SHIFT_MASK)) {
+						if (ptr->next == NULL)
+							target = sheet->sheet_objects->data;
+						else
+							target = ptr->next->data;
+					} else {
+						if (NULL == prev) {
+							GSList *last = g_slist_last (ptr);
+							target = last->data;
+						} else
+							target = prev->data;
+					}
+					if (ptr->data != target) {
+						scg_object_unselect (scg, NULL);
+						scg_object_select (scg, target);
+						return TRUE;
+					}
 				}
-				if (ptr->data != target) {
-					scg_object_unselect (scg, NULL);
-					scg_object_select (scg, target);
-					return TRUE;
-				}
-			}
-	}
-	break;
+		}
+		break;
 
 	case GDK_KP_Left: case GDK_Left:
 		scg_objects_nudge (scg, pane, (alt ? 4 : (control ? 3 : 8)), -delta , 0, symmetric, shift);
