@@ -1,3 +1,12 @@
+2009-08-31  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (lineformat), (ms_excel_chart_read),
+	(style_is_completely_auto), (chart_write_style),
+	(chart_write_DROPBAR): replace GOStyle::outline.
+	* ms-excel-read.c (ms_sheet_realize_obj): ditto.
+	* ms-excel-write.c (extract_gog_object_style): ditto.
+	* xlsx-read.c (xlsx_draw_line_dash): ditto.
+
 2009-08-30  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.11

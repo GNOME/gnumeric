@@ -1,3 +1,10 @@
+2009-08-31  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dialog-autoformat.c (previews_load): replace GOStyle::outline.
+	* dialog-cell-format.c (draw_border_preview): ditto.
+	* dialog-printer-setup.c (margin_preview_page_create),
+	(create_hf_preview_canvas): ditto.
+
 2009-08-31  Morten Welinder  <terra@gnome.org>
 
 	* dialog-about.c (dialog_about): Handle C90 and missing

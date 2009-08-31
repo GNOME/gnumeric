@@ -1,3 +1,16 @@
+2009-08-31  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gnm-pane.c (new_control_point), (set_acetate_coords):
+	replace GOStyle::outline.
+	* src/gnm-so-filled.c (sof_default_style),
+	(gnm_so_filled_draw_cairo), (gnm_so_filled_read_xml_dom),
+	(gnm_so_filled_write_xml_sax), (gnm_so_filled_prep_sax_parser):
+	* src/gnm-so-polygon.c (sop_default_style): ditto.
+	* src/item-edit.c (item_edit_draw): fixed cursor position.
+	* src/sheet-object-cell-comment.c (cell_comment_new_view):
+	replace GOStyle::outline.
+	* src/sheet-object-image.c (gnm_soi_draw_cairo): ditto.
+
 2009-08-31  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-control-gui.c (scg_mode_edit): update menu sensitivity
