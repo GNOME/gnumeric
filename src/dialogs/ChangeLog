@@ -1,3 +1,8 @@
+2009-08-31  Morten Welinder  <terra@gnome.org>
+
+	* dialog-about.c (dialog_about): Handle C90 and missing
+	gtk_dialog_get_content_area.
+
 2009-08-30  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.11

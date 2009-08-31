@@ -552,11 +552,12 @@ dialog_about (WBCGtk *wbcg)
 {
 	GtkWidget *w, *c;
 	GList *children;
+	AboutState *state;
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, ABOUT_KEY))
 		return;
 
-	AboutState *state = g_new0 (AboutState, 1);
+	state = g_new0 (AboutState, 1);
 
 	w = g_object_new (GTK_TYPE_ABOUT_DIALOG,
 			  "title", _("About Gnumeric"),
@@ -574,7 +575,11 @@ dialog_about (WBCGtk *wbcg)
 	g_signal_connect_swapped (w, "destroy",
 				  G_CALLBACK (free_state), state);
 
+#ifdef HAVE_GTK_DIALOG_GET_CONTENT_AREA
 	c = gtk_dialog_get_content_area (GTK_DIALOG (w));
+#else
+	c = GTK_DIALOG (w)->vbox;
+#endif
 	children = gtk_container_get_children (GTK_CONTAINER (c));
 
 	if (children && GTK_IS_VBOX (children->data)) {
