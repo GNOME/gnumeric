@@ -2800,7 +2800,7 @@ new_control_point (GnmPane *pane, SheetObject *so, int idx, double x, double y, 
 	GOStyle *style = go_style_new ();
 	GocItem *item;
 
-	style->outline.width = CTRL_PT_OUTLINE;
+	style->line.width = CTRL_PT_OUTLINE;
 	item = goc_item_new (
 		pane->action_items,
 		CONTROL_TYPE_CIRCLE,
@@ -2897,12 +2897,12 @@ set_acetate_coords (GnmPane *pane, SheetObject *so, GocItem **ctrl_pts,
 		style->fill.type  = GO_STYLE_FILL_PATTERN;
 		style->fill.auto_fore = FALSE;
 		go_pattern_set_solid (&style->fill.pattern, 0);
-		style->outline.auto_dash = FALSE;
-		style->outline.dash_type = GO_LINE_NONE;
+		style->line.auto_dash = FALSE;
+		style->line.dash_type = GO_LINE_NONE;
 		/* work around the screwup in shapes that adds a large
 		 * border to anything that uses miter (is this required for
 		 * a rectangle in goc-canvas? */
-		style->outline.join = CAIRO_LINE_JOIN_ROUND;
+		style->line.join = CAIRO_LINE_JOIN_ROUND;
 		item = goc_item_new (
 			pane->action_items,
 			item_acetate_get_type (),

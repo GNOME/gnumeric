@@ -1365,8 +1365,6 @@ BC_R(lineformat)(XLChartHandler const *handle,
 		s->style->line.auto_color = (fore == 31 + s->series->len);
 	}
 
-	s->style->outline = s->style->line;
-
 	if (s->prev_opcode == BIFF_CHART_chartline) {
 		/* we only support hi-lo lines at the moment */
 		if (s->cur_role == 1)
@@ -3491,8 +3489,8 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 
 		if (NULL != full_page) {
 			GOStyle *style = gog_style_new ();
-			style->outline.width = 0;
-			style->outline.dash_type = GO_LINE_NONE;
+			style->line.width = 0;
+			style->line.dash_type = GO_LINE_NONE;
 			style->fill.type = GO_STYLE_FILL_NONE;
 			g_object_set (G_OBJECT (state.graph), "style", style, NULL);
 			g_object_set (G_OBJECT (state.chart), "style", style, NULL);
@@ -4301,16 +4299,12 @@ store_dim (GogSeries const *series, GogMSDimType t,
 static gboolean
 style_is_completely_auto (GOStyle const *style)
 {
-	if ((style->interesting_fields & GO_STYLE_OUTLINE) &&
-	    (!style->outline.auto_color || !style->outline.auto_dash ||
-		(style->outline.width != 0.)))
-		return FALSE;
 	if ((style->interesting_fields & GO_STYLE_FILL)) {
 		if (style->fill.type != GO_STYLE_FILL_PATTERN ||
 		    !style->fill.auto_back)
 			return FALSE;
 	}
-	if ((style->interesting_fields & GO_STYLE_LINE) &&
+	if ((style->interesting_fields & (GO_STYLE_OUTLINE | GO_STYLE_LINE)) &&
 	    (!style->line.auto_color || !style->line.auto_dash ||
 		(style->line.width != 0.)))
 		return FALSE;
@@ -4332,11 +4326,9 @@ chart_write_style (XLChartWriteState *s, GOStyle const *style,
 	chart_write_BEGIN (s);
 	ms_biff_put_2byte (s->bp, BIFF_CHART_3dbarshape, 0); /* box */
 	if (!style_is_completely_auto (style) || interpolation == GO_LINE_INTERPOLATION_SPLINE) {
-		if ((style->interesting_fields & GO_STYLE_LINE)) {
-			chart_write_LINEFORMAT (s, &style->line, FALSE, FALSE);
+		chart_write_LINEFORMAT (s, &style->line, FALSE, FALSE);
+		if ((style->interesting_fields & GO_STYLE_LINE))
 			chart_write_SERFMT (s, interpolation);
-		} else
-			chart_write_LINEFORMAT (s, &style->outline, FALSE, FALSE);
 		chart_write_AREAFORMAT (s, style, FALSE);
 		chart_write_PIEFORMAT (s, separation);
 		chart_write_MARKERFORMAT (s, style, FALSE);
@@ -5103,17 +5095,17 @@ chart_write_DROPBAR (XLChartWriteState *s)
 	GSF_LE_SET_GUINT16 (data + 0, s->dp_width);
 	ms_biff_put_commit (s->bp);
 	chart_write_BEGIN (s);
-	chart_write_LINEFORMAT (s, &s->dp_style->outline, FALSE, FALSE);
+	chart_write_LINEFORMAT (s, &s->dp_style->line, FALSE, FALSE);
 	chart_write_AREAFORMAT (s, s->dp_style, FALSE);
 	chart_write_END (s);
 	data = ms_biff_put_len_next (s->bp, BIFF_CHART_dropbar, 2);
 	GSF_LE_SET_GUINT16 (data + 0, s->dp_width);
 	ms_biff_put_commit (s->bp);
-	s->dp_style->outline.color = 0xffffff00 ^ s->dp_style->outline.color;
+	s->dp_style->line.color = 0xffffff00 ^ s->dp_style->line.color;
 	s->dp_style->fill.pattern.fore = 0xffffff00 ^ s->dp_style->fill.pattern.fore ;
 	s->dp_style->fill.pattern.back = 0xffffff00 ^ s->dp_style->fill.pattern.back ;
 	chart_write_BEGIN (s);
-	chart_write_LINEFORMAT (s, &s->dp_style->outline, FALSE, FALSE);
+	chart_write_LINEFORMAT (s, &s->dp_style->line, FALSE, FALSE);
 	chart_write_AREAFORMAT (s, s->dp_style, FALSE);
 	chart_write_END (s);
 	g_object_unref (s->dp_style);

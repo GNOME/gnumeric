@@ -533,11 +533,11 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	case 0x06: /* TextBox */
 	case 0x0E: /* Label */
 		style = go_style_new ();
-		style->outline.color = ms_sheet_map_color (esheet, obj,
+		style->line.color = ms_sheet_map_color (esheet, obj,
 			MS_OBJ_ATTR_OUTLINE_COLOR, RGBA_BLACK);
-		style->outline.width = ms_obj_attr_get_uint (obj->attrs,
+		style->line.width = ms_obj_attr_get_uint (obj->attrs,
 			MS_OBJ_ATTR_OUTLINE_WIDTH, 0) / 256.;
-		style->outline.dash_type = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_OUTLINE_HIDE)
+		style->line.dash_type = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_OUTLINE_HIDE)
 			? GO_LINE_NONE : xl_pattern_to_line_type (ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_OUTLINE_STYLE, 1));
 		style->fill.pattern.back = ms_sheet_map_color (esheet, obj,
 			MS_OBJ_ATTR_FILL_COLOR, RGBA_WHITE);

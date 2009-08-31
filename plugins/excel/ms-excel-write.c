@@ -5784,9 +5784,7 @@ extract_gog_object_style (XLExportBase *ewb, GogObject *obj)
 
 	if (GOG_IS_STYLED_OBJECT (obj)) {
 		GOStyle const *style = GOG_STYLED_OBJECT (obj)->style;
-		if (style->interesting_fields & GO_STYLE_OUTLINE)
-			put_color_go_color (ewb, style->outline.color);
-		else if (style->interesting_fields & GO_STYLE_LINE)
+		if (style->interesting_fields & (GO_STYLE_OUTLINE | GO_STYLE_LINE))
 			put_color_go_color (ewb, style->line.color);
 		if (style->interesting_fields & GO_STYLE_FILL)
 			switch (style->fill.type) {

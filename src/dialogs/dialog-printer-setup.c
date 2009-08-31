@@ -433,8 +433,8 @@ margin_preview_page_create (PrinterSetupState *state)
 			"height",	 (double) y2-y1,
 			NULL)));
 	style->fill.pattern.back = RGBA_BLACK;
-	style->outline.color = RGBA_BLACK;
-	style->outline.width = 1.;
+	style->line.color = RGBA_BLACK;
+	style->line.width = 1.;
 
 	style = go_styled_object_get_style (
 		GO_STYLED_OBJECT (goc_item_new (GOC_GROUP (pi->group),
@@ -445,8 +445,8 @@ margin_preview_page_create (PrinterSetupState *state)
 			"height",	 (double) y2-y1,
 			NULL)));
 	style->fill.pattern.back = RGBA_WHITE;
-	style->outline.color = RGBA_BLACK;
-	style->outline.width = 1.;
+	style->line.color = RGBA_BLACK;
+	style->line.width = 1.;
 
 	draw_margins (state, x1, y1, x2, y2);
 }
@@ -1877,8 +1877,8 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 			"height",	height + (header ? -shadow: shadow),
 			NULL)));
 	gostyle->fill.pattern.back = RGBA_BLACK;
-	gostyle->outline.width = 0.;
-	gostyle->outline.color = 0;
+	gostyle->line.width = 0.;
+	gostyle->line.color = 0;
 
 	gostyle = go_styled_object_get_style (
 		GO_STYLED_OBJECT (goc_item_new (goc_canvas_get_root (GOC_CANVAS (pi->canvas)),
@@ -1889,8 +1889,8 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 			"height",	height,
 			NULL)));
 	gostyle->fill.pattern.back = RGBA_WHITE;
-	gostyle->outline.width = 0.;
-	gostyle->outline.color = 0;
+	gostyle->line.width = 0.;
+	gostyle->line.color = 0;
 
 	style = gnm_conf_get_printer_decoration_font ();
 	font_desc = pango_font_description_new ();

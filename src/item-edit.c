@@ -117,12 +117,11 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 	pango_layout_set_text (layout, pango_layout_get_text (ie->layout), -1);
 	pango_layout_set_attributes (layout, pango_layout_get_attributes (ie->layout));
 	pango_cairo_show_layout (cr, layout);
-	g_object_unref (layout);
 	if (ie->cursor_visible) {
 		PangoRectangle pos;
 		char const *text = gtk_entry_get_text (ie->entry);
 		int cursor_pos = gtk_editable_get_position (GTK_EDITABLE (ie->entry));
-		pango_layout_index_to_pos (ie->layout,
+		pango_layout_index_to_pos (layout,
 			g_utf8_offset_to_pointer (text, cursor_pos) - text, &pos);
 		cairo_set_line_width (cr, 1.);
 		cairo_set_dash (cr, NULL, 0, 0.);
@@ -133,6 +132,7 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 		cairo_line_to (cr, left + PANGO_PIXELS (pos.x) + .5, top + PANGO_PIXELS (pos.y + pos.height) - 1);
 		cairo_stroke (cr);
 	}
+	g_object_unref (layout);
 }
 
 static double

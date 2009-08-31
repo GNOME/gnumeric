@@ -1270,7 +1270,7 @@ draw_border_preview (FormatState *state)
 			"width", R-L+20.,	"height", B-T+20.,
 			NULL);
 		style = go_styled_object_get_style (GO_STYLED_OBJECT (state->border.back));
-		style->outline.dash_type = GO_LINE_NONE;
+		style->line.dash_type = GO_LINE_NONE;
 
 		/* Draw the corners */
 		points = goc_points_new (3);

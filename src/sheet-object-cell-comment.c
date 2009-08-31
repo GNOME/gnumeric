@@ -258,7 +258,7 @@ cell_comment_new_view (SheetObject *so, SheetObjectViewContainer *container)
 	GOStyle *style = go_styled_object_get_style (
 		GO_STYLED_OBJECT (goc_item_new (GOC_GROUP (view),
 			GOC_TYPE_POLYGON, NULL)));
-	style->outline.dash_type = GO_LINE_NONE;
+	style->line.dash_type = GO_LINE_NONE;
 	style->fill.pattern.back = RGBA_RED;
 	return gnm_pane_object_register (so, view, FALSE);
 }

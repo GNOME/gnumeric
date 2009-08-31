@@ -574,7 +574,7 @@ gnm_soi_draw_cairo (SheetObject const *so, cairo_t *cr,
 	cairo_matrix_t cr_matrix;
 
 	pixbuf = soi_get_pixbuf (SHEET_OBJECT_IMAGE (so), 1.);
-	if (!pixbuf)
+	if (!pixbuf || width == 0. || height == 0.)
 		return;
 	img = go_image_new_from_pixbuf (pixbuf);
 	cr_pattern = go_image_create_cairo_pattern (img);

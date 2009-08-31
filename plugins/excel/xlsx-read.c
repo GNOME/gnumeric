@@ -1579,8 +1579,6 @@ xlsx_draw_line_dash (GsfXMLIn *xin, xmlChar const **attrs)
 		if (state->sp_type & GO_STYLE_LINE) {
 			state->cur_style->line.auto_dash = FALSE;
 			state->cur_style->line.dash_type = dash;
-			state->cur_style->outline.auto_dash = FALSE;
-			state->cur_style->outline.dash_type = dash;
 		} else {
 			; /* what goes here ?*/
 		}

@@ -136,9 +136,9 @@ sof_default_style (void)
 {
 	GOStyle *res = go_style_new ();
 	res->interesting_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
-	res->outline.width = 0; /* hairline */
-	res->outline.color = RGBA_BLACK;
-	res->outline.dash_type = GO_LINE_SOLID; /* anything but 0 */
+	res->line.width = 0; /* hairline */
+	res->line.color = RGBA_BLACK;
+	res->line.dash_type = GO_LINE_SOLID; /* anything but 0 */
 	res->fill.type = GO_STYLE_FILL_PATTERN;
 	go_pattern_set_solid (&res->fill.pattern, RGBA_WHITE);
 	return res;
@@ -250,12 +250,12 @@ gnm_so_filled_draw_cairo (SheetObject const *so, cairo_t *cr,
 		cairo_pattern_destroy (pat);
 	}
 	/* Draw the line */
-	cairo_set_line_width (cr, (style->outline.width)? style->outline.width: 1.);
+	cairo_set_line_width (cr, (style->line.width)? style->line.width: 1.);
 	cairo_set_source_rgba (cr,
-		UINT_RGBA_R(style->outline.color),
-		UINT_RGBA_B(style->outline.color),
-		UINT_RGBA_G(style->outline.color),
-		UINT_RGBA_A(style->outline.color));
+		UINT_RGBA_R(style->line.color),
+		UINT_RGBA_B(style->line.color),
+		UINT_RGBA_G(style->line.color),
+		UINT_RGBA_A(style->line.color));
 	cairo_stroke (cr);
 	/* Draw the text. */
 	if (*(sof->text) != '\0') {
@@ -298,10 +298,10 @@ gnm_so_filled_read_xml_dom (SheetObject *so, char const *typename,
 		return !go_persist_dom_load (GO_PERSIST (sof->style), child);
 
 	/* Old 1.0 and 1.2 */
-	go_xml_node_get_gocolor (node, "OutlineColor", &sof->style->outline.color);
+	go_xml_node_get_gocolor (node, "OutlineColor", &sof->style->line.color);
 	go_xml_node_get_gocolor (node, "FillColor",    &sof->style->fill.pattern.back);
 	if (go_xml_node_get_double  (node, "Width", &width))
-		sof->style->outline.width = width;
+		sof->style->line.width = width;
 
 	return FALSE;
 }
@@ -314,8 +314,8 @@ gnm_so_filled_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 	gsf_xml_out_add_int	(output, "Type", sof->is_oval ? 102 : 101);
 
 	/* Old 1.0 and 1.2 */
-	gsf_xml_out_add_float   (output, "Width", sof->style->outline.width, 2);
-	gnm_xml_out_add_gocolor (output, "OutlineColor", sof->style->outline.color);
+	gsf_xml_out_add_float   (output, "Width", sof->style->line.width, 2);
+	gnm_xml_out_add_gocolor (output, "OutlineColor", sof->style->line.color);
 	gnm_xml_out_add_gocolor (output, "FillColor",	 sof->style->fill.pattern.back);
 	if (sof->text != NULL && *(sof->text) != '\0') {
 		gsf_xml_out_add_cstr (output, "Label", sof->text);
@@ -373,9 +373,9 @@ gnm_so_filled_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 
 		/* Old 1.0 and 1.2 */
 		else if (gnm_xml_attr_double  (attrs, "Width", &tmp))
-			sof->style->outline.width = tmp;
+			sof->style->line.width = tmp;
 		else if (attr_eq (attrs[0], "OutlineColor"))
-			go_color_from_str (CXML2C (attrs[1]), &sof->style->outline.color);
+			go_color_from_str (CXML2C (attrs[1]), &sof->style->line.color);
 		else if (attr_eq (attrs[0], "FillColor"))
 			go_color_from_str (CXML2C (attrs[1]), &sof->style->fill.pattern.back);
 }
