@@ -13,7 +13,7 @@ G_BEGIN_DECLS
 GType gnm_style_color_get_type (void);
 
 struct _GnmColor {
-	GdkColor gdk_color, gdk_selected_color;
+	GdkColor gdk_color;
 	GOColor	 go_color;
 	char     *name;
 	int      ref_count;

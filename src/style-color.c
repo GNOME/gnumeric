@@ -52,10 +52,6 @@ style_color_new_uninterned (gushort red, gushort green, gushort blue,
 	red   += (gs_lavender.red   - red)/2;
 	green += (gs_lavender.green - green)/2;
 	blue  += (gs_lavender.blue  - blue)/2;
-	sc->gdk_selected_color.red = red;
-	sc->gdk_selected_color.green = green;
-	sc->gdk_selected_color.blue = blue;
-	sc->gdk_selected_color.pixel = gs_white.pixel;
 
 	sc->ref_count = 1;
 
