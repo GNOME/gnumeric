@@ -338,7 +338,7 @@ previews_load (AutoFormatState *state, int topindex)
 					NULL);
 				style = go_styled_object_get_style (GO_STYLED_OBJECT (state->selrect));
 				style->line.width = 3.;
-				style->line.color = RGBA_RED;
+				style->line.color = GO_RGBA_RED;
 				style->fill.pattern.back = 0;
 				
 				gtk_frame_set_shadow_type (state->frame[i], GTK_SHADOW_IN);

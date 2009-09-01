@@ -1,3 +1,19 @@
+2009-09-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gnm-pane.c: renamed GOColor macros.
+	* src/gnm-so-filled.c: ditto.
+	* src/gnm-so-line.c: ditto.
+	* src/gnm-so-polygon.c: ditto.
+	* src/gui-util.c: ditto.
+	* src/item-bar.c: ditto.
+	* src/item-cursor.c: ditto.
+	* src/item-edit.c: ditto.
+	* src/item-grid.c: ditto.
+	* src/print-cell.c: ditto.
+	* src/sheet-object-cell-comment.c: ditto.
+	* src/style-color.c: ditto.
+	* src/wbc-gtk.c: ditto.
+
 2009-08-31  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-pane.c (new_control_point), (set_acetate_coords):

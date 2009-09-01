@@ -1,3 +1,11 @@
+2009-09-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dialog-autoformat.c (previews_load): renamed GOColor macros.
+	* dialog-cell-format.c (setup_color_pickers),
+	(draw_border_preview), (init_border_button), (fmt_dialog_impl): ditto.
+	* dialog-printer-setup.c (margin_preview_page_create),
+	(create_hf_preview_canvas): ditto.
+
 2009-08-31  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* dialog-autoformat.c (previews_load): replace GOStyle::outline.

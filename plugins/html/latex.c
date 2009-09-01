@@ -979,9 +979,9 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 		if (fore == 0)
 			r = g = b = 0;
 		else {
-			r = UINT_RGBA_R (fore);
-			g = UINT_RGBA_G (fore);
-			b = UINT_RGBA_B (fore);
+			r = GO_UINT_RGBA_R (fore);
+			g = GO_UINT_RGBA_G (fore);
+			b = GO_UINT_RGBA_B (fore);
 		}
 		if (r != 0 || g != 0 || b != 0) {
 			char *locale;

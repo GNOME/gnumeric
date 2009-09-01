@@ -411,7 +411,7 @@ gnm_xml_out_add_hex_color (GsfXMLOut *o, char const *id, GnmColor const *c)
 
 /* FIXME! there should be a difference between white and transparent */
 
-	if ((UINT_RGBA_A (c->go_color) == 0) &&
+	if ((GO_UINT_RGBA_A (c->go_color) == 0) &&
 	    c->gdk_color.red/256 == 0xFF &&
 	    c->gdk_color.green/256 == 0xFF &&
 	    c->gdk_color.blue/256 == 0xFF)

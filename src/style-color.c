@@ -44,7 +44,7 @@ style_color_new_uninterned (gushort red, gushort green, gushort blue,
 	sc->gdk_color.green = green;
 	sc->gdk_color.blue = blue;
 	sc->gdk_color.pixel = gs_white.pixel;
-	sc->go_color = RGBA_TO_UINT (red>>8,green>>8,blue>>8,0xff);
+	sc->go_color = GO_RGBA_TO_UINT (red>>8,green>>8,blue>>8,0xff);
 	sc->name = NULL;
 	sc->is_auto = is_auto;
 
@@ -110,7 +110,7 @@ GnmColor *
 style_color_new_go (GOColor c)
 {
 	return style_color_new_i8 (
-		UINT_RGBA_R (c), UINT_RGBA_G (c), UINT_RGBA_B (c));
+		GO_UINT_RGBA_R (c), GO_UINT_RGBA_G (c), GO_UINT_RGBA_B (c));
 }
 
 GnmColor *

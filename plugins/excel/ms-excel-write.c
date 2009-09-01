@@ -141,9 +141,9 @@ static guint
 go_color_to_bgr (GOColor const c)
 {
 	guint32 abgr;
-	abgr  = UINT_RGBA_R(c);
-	abgr |= UINT_RGBA_G(c) << 8;
-	abgr |= UINT_RGBA_B(c) << 16;
+	abgr  = GO_UINT_RGBA_R(c);
+	abgr |= GO_UINT_RGBA_G(c) << 8;
+	abgr |= GO_UINT_RGBA_B(c) << 16;
 	return abgr;
 }
 
@@ -2117,7 +2117,7 @@ excel_font_from_go_font (XLExportBase *ewb, GOFont const *font)
 	efont->underline	= FALSE;
 	efont->strikethrough	= FALSE;
 	efont->script		= 0;
-	efont->color = go_color_to_bgr (RGBA_BLACK);
+	efont->color = go_color_to_bgr (GO_RGBA_BLACK);
 	efont->is_auto = FALSE;
 
 	return put_efont (efont, ewb);

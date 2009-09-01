@@ -243,21 +243,21 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 	case COL_ROW_NO_SELECTION:
 		shadow = GTK_SHADOW_OUT;
 		font   = ib->normal_font;
-		color = GDK_TO_UINT (widget->style->bg[GTK_STATE_ACTIVE]);
+		color = GO_GDK_TO_UINT (widget->style->bg[GTK_STATE_ACTIVE]);
 		ascent = ib->normal_font_ascent;
 		break;
 
 	case COL_ROW_PARTIAL_SELECTION:
 		shadow = GTK_SHADOW_OUT;
 		font   = ib->bold_font;
-		color = GDK_TO_UINT (widget->style->dark[GTK_STATE_PRELIGHT]);
+		color = GO_GDK_TO_UINT (widget->style->dark[GTK_STATE_PRELIGHT]);
 		ascent = ib->bold_font_ascent;
 		break;
 
 	case COL_ROW_FULL_SELECTION:
 		shadow = GTK_SHADOW_IN;
 		font   = ib->bold_font;
-		color = GDK_TO_UINT (widget->style->dark[GTK_STATE_NORMAL]);
+		color = GO_GDK_TO_UINT (widget->style->dark[GTK_STATE_NORMAL]);
 		ascent = ib->bold_font_ascent;
 		break;
 	}
@@ -326,7 +326,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 	int shadow;
 	int first_line_offset = 1;
 	GtkStyle *style = gtk_widget_get_style (canvas);
-	GOColor color = GDK_TO_UINT (style->text[GTK_STATE_NORMAL]);
+	GOColor color = GO_GDK_TO_UINT (style->text[GTK_STATE_NORMAL]);
 	goc_canvas_c2w (item->canvas, x_0, y_0, &x0, &y0);
 	goc_canvas_c2w (item->canvas, x_1, y_1, &x1, &y1);
 

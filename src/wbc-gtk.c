@@ -2798,7 +2798,7 @@ cb_fore_color_changed (GOActionComboColor *a, WBCGtk *wbcg)
 	c = go_action_combo_color_get_color (a, &is_default);
 
 	if (wbcg_is_editing (wbcg)) {
-		GnmColor *color = style_color_new_go (is_default ? RGBA_BLACK : c);
+		GnmColor *color = style_color_new_go (is_default ? GO_RGBA_BLACK : c);
 		wbcg_edit_add_markup (wbcg, pango_attr_foreground_new (
 			color->gdk_color.red, color->gdk_color.green, color->gdk_color.blue));
 		style_color_unref (color);
@@ -2816,7 +2816,7 @@ static void
 wbc_gtk_init_color_fore (WBCGtk *gtk)
 {
 	GnmColor *sc_auto_font = style_color_auto_font ();
-	GOColor   default_color = GDK_TO_UINT(sc_auto_font->gdk_color);
+	GOColor   default_color = GO_GDK_TO_UINT(sc_auto_font->gdk_color);
 	style_color_unref (sc_auto_font);
 
 	gtk->fore_color = go_action_combo_color_new ("ColorFore", "font",

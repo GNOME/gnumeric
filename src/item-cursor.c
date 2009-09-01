@@ -146,8 +146,8 @@ item_cursor_realize (GocItem *item)
 	if (ic->style == ITEM_CURSOR_DRAG || ic->style == ITEM_CURSOR_AUTOFILL) {
 		GOPattern pat;
 		cairo_t *cr = gdk_cairo_create (gtk_widget_get_window (GTK_WIDGET (item->canvas)));
-		pat.fore = RGBA_BLACK;
-		pat.back = RGBA_WHITE;
+		pat.fore = GO_RGBA_BLACK;
+		pat.back = GO_RGBA_WHITE;
 		pat.pattern = GO_PATTERN_GREY50;
 		ic->stipple = go_pattern_create_cairo_pattern (&pat, cr);
 		cairo_destroy (cr);
@@ -1264,7 +1264,7 @@ item_cursor_init (ItemCursor *ic)
 	ic->auto_fill_handle_at_top = FALSE;
 	ic->auto_fill_handle_at_left = FALSE;
 	ic->drag_button = -1;
-	ic->color = RGBA_BLACK;
+	ic->color = GO_RGBA_BLACK;
 }
 
 GSF_CLASS (ItemCursor, item_cursor,

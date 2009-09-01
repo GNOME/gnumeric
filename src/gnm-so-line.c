@@ -51,7 +51,7 @@ typedef struct {
 static void
 go_arrow_init (GOArrow *res, double a, double b, double c)
 {
-	res->color = RGBA_BLACK;
+	res->color = GO_RGBA_BLACK;
 	res->a = a;
 	res->b = b;
 	res->c = c;
@@ -126,7 +126,7 @@ sol_default_style (void)
 	GOStyle *res = go_style_new ();
 	res->interesting_fields = GO_STYLE_LINE;
 	res->line.width   = 0; /* hairline */
-	res->line.color   = RGBA_BLACK;
+	res->line.color   = GO_RGBA_BLACK;
 	res->line.dash_type = GO_LINE_SOLID; /* anything but 0 */
 	return res;
 }
@@ -225,10 +225,10 @@ gnm_so_line_draw_cairo (SheetObject const *so, cairo_t *cr,
 
 	cairo_set_line_width (cr, (style->width)? style->width: 1.);
 	cairo_set_source_rgba (cr,
-		UINT_RGBA_R(style->color),
-		UINT_RGBA_B(style->color),
-		UINT_RGBA_G(style->color),
-		UINT_RGBA_A(style->color));
+		GO_UINT_RGBA_R(style->color),
+		GO_UINT_RGBA_B(style->color),
+		GO_UINT_RGBA_G(style->color),
+		GO_UINT_RGBA_A(style->color));
 
 	if (sol->end_arrow.c > 0.) {
 		double phi;

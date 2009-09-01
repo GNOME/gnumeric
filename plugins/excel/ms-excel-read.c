@@ -356,7 +356,7 @@ ms_sheet_map_color (ExcelReadSheet const *esheet, MSObj const *obj, MSObjAttrID 
 		b = (attr->v.v_uint >> 16) & 0xff;
 	}
 
-	return RGBA_TO_UINT (r,g,b,0xff);
+	return GO_RGBA_TO_UINT (r,g,b,0xff);
 }
 
 /**
@@ -513,7 +513,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	case 0x04: /* Arc */
 		style = go_style_new ();
 		style->line.color = ms_sheet_map_color (esheet, obj,
-			MS_OBJ_ATTR_OUTLINE_COLOR, RGBA_BLACK);
+			MS_OBJ_ATTR_OUTLINE_COLOR, GO_RGBA_BLACK);
 		style->line.width = ms_obj_attr_get_uint (obj->attrs,
 			MS_OBJ_ATTR_OUTLINE_WIDTH, 0) / 256.;
 		style->line.dash_type = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_OUTLINE_HIDE)
@@ -534,15 +534,15 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	case 0x0E: /* Label */
 		style = go_style_new ();
 		style->line.color = ms_sheet_map_color (esheet, obj,
-			MS_OBJ_ATTR_OUTLINE_COLOR, RGBA_BLACK);
+			MS_OBJ_ATTR_OUTLINE_COLOR, GO_RGBA_BLACK);
 		style->line.width = ms_obj_attr_get_uint (obj->attrs,
 			MS_OBJ_ATTR_OUTLINE_WIDTH, 0) / 256.;
 		style->line.dash_type = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_OUTLINE_HIDE)
 			? GO_LINE_NONE : xl_pattern_to_line_type (ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_OUTLINE_STYLE, 1));
 		style->fill.pattern.back = ms_sheet_map_color (esheet, obj,
-			MS_OBJ_ATTR_FILL_COLOR, RGBA_WHITE);
+			MS_OBJ_ATTR_FILL_COLOR, GO_RGBA_WHITE);
 		style->fill.pattern.fore = ms_sheet_map_color (esheet, obj,
-			MS_OBJ_ATTR_FILL_BACKGROUND, RGBA_BLACK);
+			MS_OBJ_ATTR_FILL_BACKGROUND, GO_RGBA_BLACK);
 		style->fill.type = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_UNFILLED)
 			? GO_STYLE_FILL_NONE : GO_STYLE_FILL_PATTERN;
 

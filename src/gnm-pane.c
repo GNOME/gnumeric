@@ -1988,19 +1988,19 @@ gnm_pane_size_guide_start (GnmPane *pane, gboolean vert, int colrow, int width)
 	/* cheat for now and differentiate between col/row resize and frozen panes
 	 * using the width.  Frozen pane guides do not require a start line */
 	if (width == 1) {
-		style->line.color = RGBA_BLACK;
+		style->line.color = GO_RGBA_BLACK;
 		pane->size_guide.start = goc_item_new (pane->action_items,
 			GOC_TYPE_LINE,
 			"x0", x0, "y0", y0,
 			"x1", x1, "y1", y1,
 			NULL);
 		style = go_styled_object_get_style (GO_STYLED_OBJECT (pane->size_guide.start));
-		style->line.color = RGBA_BLACK;
+		style->line.color = GO_RGBA_BLACK;
 		style->line.width = width;
 	} else {
 		style->line.pattern = GO_PATTERN_GREY25;
-		style->line.color = RGBA_WHITE;
-		style->line.fore = RGBA_BLACK;
+		style->line.color = GO_RGBA_WHITE;
+		style->line.fore = GO_RGBA_BLACK;
 	}
 }
 
@@ -2693,7 +2693,7 @@ control_point_enter_notify (GocItem *item, G_GNUC_UNUSED double x, G_GNUC_UNUSED
 	idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "index"));
 	if (idx != 8) {
 		GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-		style->fill.pattern.back = RGBA_GREEN;
+		style->fill.pattern.back = GO_RGBA_GREEN;
 		goc_item_invalidate (item);
 		gnm_pane_display_obj_size_tip (pane, so);
 	}
@@ -2714,7 +2714,7 @@ control_point_leave_notify (GocItem *item, G_GNUC_UNUSED double x, G_GNUC_UNUSED
 	idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "index"));
 	if (idx != 8) {
 		GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-		style->fill.pattern.back = RGBA_WHITE;
+		style->fill.pattern.back = GO_RGBA_WHITE;
 		goc_item_invalidate (item);
 		gnm_pane_clear_obj_size_tip (pane);
 	}
@@ -2857,7 +2857,7 @@ set_acetate_coords (GnmPane *pane, SheetObject *so, GocItem **ctrl_pts,
 			style->line.width = 1.;
 			style->line.auto_color = FALSE;
 			style->line.color = 0;
-			style->line.fore = RGBA_BLACK;
+			style->line.fore = GO_RGBA_BLACK;
 			ctrl_pts [9] = goc_item_new (pane->action_items,
 				GOC_TYPE_RECTANGLE,
 				"style", style,

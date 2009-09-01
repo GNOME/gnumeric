@@ -390,7 +390,7 @@ setup_color_pickers (FormatState *state,
 	cg = go_color_group_fetch (color_group,
 		 wb_control_view (WORKBOOK_CONTROL (state->wbcg)));
 	combo = go_combo_color_new (NULL, default_caption, 
-		def_sc ? GDK_TO_UINT (def_sc->gdk_color) : RGBA_BLACK, cg);
+		def_sc ? GO_GDK_TO_UINT (def_sc->gdk_color) : GO_RGBA_BLACK, cg);
 	go_combo_box_set_title (GO_COMBO_BOX (combo), caption);
 
 	/* Connect to the sample canvas and redraw it */
@@ -1295,7 +1295,7 @@ draw_border_preview (FormatState *state)
 					       goc_polyline_get_type (),
 					       "points",	points,
 					       NULL)));
-			style->line.color = RGBA_TO_UINT (0xa1, 0xa1, 0xa1, 0xff); /* gray63 */
+			style->line.color = GO_RGBA_TO_UINT (0xa1, 0xa1, 0xa1, 0xff); /* gray63 */
 			style->line.width = 0.;
 		}
 		goc_points_unref (points);
@@ -1442,7 +1442,7 @@ init_border_button (FormatState *state, GnmStyleBorderLocation const i,
 		state->border.edge[i].is_selected = TRUE;
 	} else {
 		GnmColor const *c = border->color;
-		state->border.edge[i].rgba = RGBA_TO_UINT(
+		state->border.edge[i].rgba = GO_RGBA_TO_UINT(
 			c->gdk_color.red >> 8,
 			c->gdk_color.green >> 8,
 			c->gdk_color.blue >> 8, 0xff);
@@ -2501,7 +2501,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	state->border.pattern.draw_preview = NULL;
 	state->border.pattern.current_pattern = NULL;
 	state->border.pattern.state = state;
-	state->border.rgba = RGBA_TO_UINT (
+	state->border.rgba = GO_RGBA_TO_UINT (
 		default_border_color->red   >> 8,
 		default_border_color->green >> 8,
 		default_border_color->blue  >> 8, 0xff);

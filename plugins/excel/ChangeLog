@@ -1,3 +1,11 @@
+2009-09-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: renamed GOColor macros.
+	* ms-excel-read.c: ditto.
+	* ms-excel-write.c: ditto.
+	* xlsx-read.c: ditto.
+	* xlsx-write.c: ditto.
+
 2009-08-31  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c (lineformat), (ms_excel_chart_read),
