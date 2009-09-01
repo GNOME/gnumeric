@@ -1,3 +1,7 @@
+2009-09-01  Morten Welinder  <terra@gnome.org>
+
+	* src/style-color.c (style_color_new_uninterned): Cleanup.
+
 2009-09-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/mstyle.c (gnm_style_new_default): use style_color_auto_back

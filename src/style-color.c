@@ -44,14 +44,8 @@ style_color_new_uninterned (gushort red, gushort green, gushort blue,
 	sc->gdk_color.green = green;
 	sc->gdk_color.blue = blue;
 	sc->gdk_color.pixel = gs_white.pixel;
-	sc->go_color = GO_RGBA_TO_UINT (red>>8,green>>8,blue>>8,0xff);
+	sc->go_color = GO_RGBA_TO_UINT (red >> 8, green >> 8, blue >> 8, 0xff);
 	sc->is_auto = is_auto;
-
-	/* Make a contrasting selection color with an alpha of .5 */
-	red   += (gs_lavender.red   - red)/2;
-	green += (gs_lavender.green - green)/2;
-	blue  += (gs_lavender.blue  - blue)/2;
-
 	sc->ref_count = 1;
 
 	return sc;
