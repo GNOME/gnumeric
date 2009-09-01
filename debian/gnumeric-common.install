@@ -3,6 +3,7 @@
 /usr/share/gnumeric/*/autoformat-templates/*/*.xml
 /usr/share/gnumeric/*/autoformat-templates/*/.category
 /usr/share/gnumeric/*/glade/*.glade
+/usr/share/gnumeric/*/ui/*.ui
 # /usr/share/gnumeric/*/glade/*.png
 # /usr/share/gnumeric/*/gnome*/ui/*.xml
 # /usr/share/gnumeric/*/idl/*.idl

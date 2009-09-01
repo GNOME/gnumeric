@@ -1,3 +1,21 @@
+gnumeric (1.9.11-1) unstable; urgency=low
+
+  * New upstream development release.
+  * [debian/rules, debian/control, debian/gnumeric-plugins-extra.install]
+    Reenable GDA plugin now that a sufficiently recent GDA is packaged in
+    sid. (Closes: #522430)
+  * [debian/control] Bumped goffice build dependency as per per configure.in .
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 01 Sep 2009 20:58:18 +0200
+
+gnumeric (1.9.10-2) unstable; urgency=medium
+
+  * [src/dialogs/search-replace.glade] Fix XML by using an entity for the
+    ampersand character. This fixes the search & replace menu. (Closes:
+    542141)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 18 Aug 2009 13:04:30 +0200
+
 gnumeric (1.9.10-1) unstable; urgency=low
 
   * New upstream development release.
