@@ -1,5 +1,9 @@
 2009-09-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (gnm_xml_out_add_hex_color): simplify comparison
+
+2009-09-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (gnm_xml_out_add_hex_color): compare with
 	  automatic background to see whether we have transparency
 

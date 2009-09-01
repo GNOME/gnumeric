@@ -561,7 +561,7 @@ gnm_style_new_default (void)
 	gnm_style_set_conditions (new_style, NULL);
 
 	gnm_style_set_font_color (new_style, style_color_black ());
-	gnm_style_set_back_color (new_style, style_color_white ());
+	gnm_style_set_back_color (new_style, style_color_auto_back ());
 	gnm_style_set_pattern_color (new_style, style_color_black ());
 
 	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; ++i)

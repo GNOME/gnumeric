@@ -410,11 +410,7 @@ gnm_xml_out_add_hex_color (GsfXMLOut *o, char const *id, GnmColor const *c)
 	g_return_if_fail (c != NULL);
 
 	back_colour = style_color_auto_back ();
-/* The background colour of a new sheet is strangely not set as expected */
-/* 	if (style_color_equal (back_colour, c)) */
-	if (c->gdk_color.red   == back_colour->gdk_color.red &&
-	    c->gdk_color.green == back_colour->gdk_color.green &&
-	    c->gdk_color.blue  == back_colour->gdk_color.blue)
+	if (style_color_equal (back_colour, c))
 		gsf_xml_out_add_cstr_unchecked (o, id, "transparent");
 	else {
 		char *color;
