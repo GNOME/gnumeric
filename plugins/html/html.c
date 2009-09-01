@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * html.c
  *
@@ -161,7 +162,14 @@ cb_html_attrs_as_string (GsfOutput *output, PangoAttribute *a, html_version_t ve
 	case PANGO_ATTR_SIZE :
 		break; /* ignored */
 	case PANGO_ATTR_RISE:
-		break; /* ignored */
+		if (((PangoAttrInt *)a)->value > 5) {
+			gsf_output_puts (output, "<sup>");
+			closure = "</sup>";
+		} else if (((PangoAttrInt *)a)->value < -5) {
+			gsf_output_puts (output, "<sub>");
+			closure = "</sub>";
+		} 
+		break;
 	case PANGO_ATTR_STYLE :
 		if (((PangoAttrInt *)a)->value == PANGO_STYLE_ITALIC) {
 			gsf_output_puts (output, "<i>");
@@ -271,6 +279,16 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle const *style
 				gsf_output_puts (output, "<u>");
 			if (font_is_monospaced (style))
 				gsf_output_puts (output, "<tt>");
+			switch (gnm_style_get_font_strike (style)) {
+			case GO_FONT_SCRIPT_SUB:
+				gsf_output_puts (output, "<sub>");
+				break;
+			case GO_FONT_SCRIPT_SUPER:
+				gsf_output_puts (output, "<sup>");
+				break;
+			default:
+				break;
+			}
 		}
 
 		if (hlink_target)
@@ -307,6 +325,16 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle const *style
 		if (hlink_target)
 			gsf_output_puts (output, "</a>");
 		if (style != NULL) {
+			switch (gnm_style_get_font_strike (style)) {
+			case GO_FONT_SCRIPT_SUB:
+				gsf_output_puts (output, "</sub>");
+				break;
+			case GO_FONT_SCRIPT_SUPER:
+				gsf_output_puts (output, "</sup>");
+				break;
+			default:
+				break;
+			}
 			if (font_is_monospaced (style))
 				gsf_output_puts (output, "</tt>");
 			if (gnm_style_get_font_uline (style) != UNDERLINE_NONE)

@@ -1,3 +1,8 @@
+2009-09-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* html.c (cb_html_attrs_as_string): handle PANGO_ATTR_RISE
+	(html_write_cell_content): handle superscript/subscript
+
 2009-09-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* html.c (html_get_text_color): renamed GOColor macros.

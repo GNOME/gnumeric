@@ -3,6 +3,7 @@ Gnumeric 1.9.12
 Andreas:
 	* Add CHOLESKY.
 	* Fix ODF background colour export. [#593816]
+	* Handle super/subscript in html export. [#593851]
 
 Morten:
 	* Fix menu sensitivity problem.  [#593624]
