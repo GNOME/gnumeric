@@ -1,3 +1,8 @@
+2009-09-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/mstyle.c (gnm_style_new_default): use style_color_auto_back
+	  as background color.
+
 2009-09-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-plugin.c (plugin_service_function_group_class_init),
