@@ -242,7 +242,7 @@ plugin_service_function_group_init (PluginServiceFunctionGroup *s)
 static void
 plugin_service_function_group_class_init (GObjectClass *gobject_class)
 {
-	GOPluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
+	GOPluginServiceClass *plugin_service_class = GO_PLUGIN_SERVICE_CLASS (gobject_class);
 
 	gobject_class->finalize		= plugin_service_function_group_finalize;
 	plugin_service_class->read_xml	= plugin_service_function_group_read_xml;
@@ -430,7 +430,7 @@ plugin_service_ui_get_description (GOPluginService *service)
 static void
 plugin_service_ui_class_init (GObjectClass *gobject_class)
 {
-	GOPluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
+	GOPluginServiceClass *plugin_service_class = GO_PLUGIN_SERVICE_CLASS (gobject_class);
 
 	gobject_class->finalize = plugin_service_ui_finalize;
 	plugin_service_class->read_xml = plugin_service_ui_read_xml;
