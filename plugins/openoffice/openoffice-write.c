@@ -406,17 +406,18 @@ odf_add_pt (GsfXMLOut *xml, char const *id, float l)
 static void
 gnm_xml_out_add_hex_color (GsfXMLOut *o, char const *id, GnmColor const *c)
 {
-	char *color;
+	GnmColor *back_colour;
 	g_return_if_fail (c != NULL);
 
-/* FIXME! there should be a difference between white and transparent */
-
-	if ((GO_UINT_RGBA_A (c->go_color) == 0) &&
-	    c->gdk_color.red/256 == 0xFF &&
-	    c->gdk_color.green/256 == 0xFF &&
-	    c->gdk_color.blue/256 == 0xFF)
+	back_colour = style_color_auto_back ();
+/* The background colour of a new sheet is strangely not set as expected */
+/* 	if (style_color_equal (back_colour, c)) */
+	if (c->gdk_color.red   == back_colour->gdk_color.red &&
+	    c->gdk_color.green == back_colour->gdk_color.green &&
+	    c->gdk_color.blue  == back_colour->gdk_color.blue)
 		gsf_xml_out_add_cstr_unchecked (o, id, "transparent");
 	else {
+		char *color;
 		color = g_strdup_printf ("#%.2x%.2x%.2x", 
 					 c->gdk_color.red/256, 
 					 c->gdk_color.green/256, 
@@ -424,6 +425,7 @@ gnm_xml_out_add_hex_color (GsfXMLOut *o, char const *id, GnmColor const *c)
 		gsf_xml_out_add_cstr_unchecked (o, id, color);
 		g_free (color);
 	}
+	style_color_unref (back_colour);
 }
 
 static void

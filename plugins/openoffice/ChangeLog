@@ -1,3 +1,8 @@
+2009-09-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (gnm_xml_out_add_hex_color): compare with
+	  automatic background to see whether we have transparency
+
 2009-09-01  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (oo_parse_color): Don't change color fields we
