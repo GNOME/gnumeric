@@ -1,3 +1,8 @@
+2009-09-01  Morten Welinder  <terra@gnome.org>
+
+	* src/style-color.h (struct _GnmColor): Eliminate
+	gdk_selected_color and name fields.
+
 2009-09-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-pane.c: renamed GOColor macros.

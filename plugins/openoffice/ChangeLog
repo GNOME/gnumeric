@@ -1,3 +1,10 @@
+2009-09-01  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_parse_color): Don't change color fields we
+	do not own.  Fix leak.
+	(go_plugin_init, go_plugin_shutdown): New functions.
+	(oo_style_prop_cell): Fix handling of transparent colours.
+
 2009-09-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* openoffice-write.c (gnm_xml_out_add_hex_color): renamed GOColor macros.

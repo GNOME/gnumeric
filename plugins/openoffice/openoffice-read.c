@@ -376,24 +376,21 @@ oo_attr_float (GsfXMLIn *xin, xmlChar const * const *attrs,
 	return TRUE;
 }
 
+static GnmColor *magic_transparent;
 
 static GnmColor *
 oo_parse_color (GsfXMLIn *xin, xmlChar const *str, char const *name)
 {
 	guint r, g, b;
-	GnmColor *no_color;
 
 	g_return_val_if_fail (str != NULL, NULL);
 
 	if (3 == sscanf (CXML2C (str), "#%2x%2x%2x", &r, &g, &b))
 		return style_color_new_i8 (r, g, b);
 
-	if (0 == strcmp (CXML2C (str), "transparent")) {
-		no_color = style_color_auto_back ();
-		no_color->name = g_new (gchar, 1);
-		no_color->name = g_strdup ("transparent");
-		return no_color;
-	}
+	if (0 == strcmp (CXML2C (str), "transparent"))
+		return style_color_ref (magic_transparent);
+
 	oo_warning (xin, "Invalid attribute '%s', expected color, received '%s'",
 		    name, str);
 	return NULL;
@@ -2390,7 +2387,7 @@ oo_parse_border (GsfXMLIn *xin, GnmStyle *style,
 			border_style = GNM_STYLE_BORDER_DOTTED;
 		else 
 			border_style = GNM_STYLE_BORDER_DOUBLE;
-		
+
 		border = gnm_style_border_fetch (border_style, color,
 						 gnm_style_border_get_orientation (loc));
 		border->width = pts;
@@ -2453,12 +2450,9 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if ((color = oo_attr_color (xin, attrs, OO_NS_FO, "background-color"))) {
 			gnm_style_set_back_color (style, color);
-			if (color->name != NULL){
-				if (!strcmp (color->name, "transparent")) {
-					gnm_style_set_pattern (style, 0);
-					g_free (color->name);
-				}
-			} else
+			if (color == magic_transparent)
+				gnm_style_set_pattern (style, 0);
+			else
 				gnm_style_set_pattern (style, 1);
 		} else if ((color = oo_attr_color (xin, attrs, OO_NS_FO, "color")))
 			gnm_style_set_font_color (style, color);
@@ -5321,4 +5315,17 @@ openoffice_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel
 	g_object_unref (zip);
 
 	return ver != OOO_VER_UNKNOWN;
+}
+
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
+{
+	magic_transparent = style_color_auto_back ();
+}
+
+G_MODULE_EXPORT void
+go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
+{
+	style_color_unref (magic_transparent);
+	magic_transparent = NULL;
 }

@@ -45,7 +45,6 @@ style_color_new_uninterned (gushort red, gushort green, gushort blue,
 	sc->gdk_color.blue = blue;
 	sc->gdk_color.pixel = gs_white.pixel;
 	sc->go_color = GO_RGBA_TO_UINT (red>>8,green>>8,blue>>8,0xff);
-	sc->name = NULL;
 	sc->is_auto = is_auto;
 
 	/* Make a contrasting selection color with an alpha of .5 */
