@@ -1,3 +1,7 @@
+2009-09-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/item-bar.c (item_bar_motion): don't grab the item from there.
+
 2009-09-01  Morten Welinder  <terra@gnome.org>
 
 	* src/style-color.h (GnmColor): Eliminate gdk_color filed.  All

@@ -954,11 +954,6 @@ item_bar_motion (GocItem *item, double x_, double y_)
 			ib->has_resize_guides = TRUE;
 			scg_size_guide_start (ib->pane->simple.scg,
 				ib->is_col_header, ib->colrow_being_resized, 1);
-
-			gnm_simple_canvas_grab (item,
-				GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
-				ib->change_cursor,
-			    ((GdkEventMotion *) goc_canvas_get_cur_event (canvas))->time);
 		}
 
 		cri = sheet_colrow_get_info (sheet,
