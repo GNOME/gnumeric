@@ -132,12 +132,6 @@ excel_style_variant_equal (ExcelStyleVariant const *a,
 }
 
 static guint
-gnm_color_to_bgr (GnmColor const *c)
-{
-	return ((c->gdk_color.blue & 0xff00) << 8) + (c->gdk_color.green & 0xff00) + (c->gdk_color.red >> 8);
-
-}
-static guint
 go_color_to_bgr (GOColor const c)
 {
 	guint32 abgr;
@@ -145,6 +139,12 @@ go_color_to_bgr (GOColor const c)
 	abgr |= GO_UINT_RGBA_G(c) << 8;
 	abgr |= GO_UINT_RGBA_B(c) << 16;
 	return abgr;
+}
+
+static guint
+gnm_color_to_bgr (GnmColor const *c)
+{
+	return go_color_to_bgr (c->go_color);
 }
 
 /**

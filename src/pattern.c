@@ -114,11 +114,13 @@ gnumeric_background_set_gtk (GnmStyle const *mstyle, cairo_t *context)
 #if 0
 			static double const true_grey[] = { 1.0, 1.0, .0625, .125, .25, .50, .75};
 #endif
+			GOColor c = back_col->go_color;
+			double f = grey[pattern];
 
 			cairo_set_source_rgb (context,
-				back_col->gdk_color.red * grey[pattern]    / (double) 0xffff,
-				back_col->gdk_color.green * grey[pattern]  / (double) 0xffff,
-				back_col->gdk_color.blue * grey[pattern]   / (double) 0xffff);
+					      GO_DOUBLE_RGBA_R (c) * f,
+					      GO_DOUBLE_RGBA_G (c) * f,
+					      GO_DOUBLE_RGBA_B (c) * f);
 		}
 
 		/* This is a special case where the user has selected
@@ -127,13 +129,14 @@ gnumeric_background_set_gtk (GnmStyle const *mstyle, cairo_t *context)
 		 */
 		if (pattern == 24) {
 			GnmColor const *pat_col = gnm_style_get_pattern_color (mstyle);
+			GOColor c;
 			g_return_val_if_fail (pat_col != NULL, FALSE);
 
+			c = pat_col->go_color;
 			cairo_set_source_rgb (context,
-				pat_col->gdk_color.red   / (double) 0xffff,
-				pat_col->gdk_color.green / (double) 0xffff,
-				pat_col->gdk_color.blue  / (double) 0xffff);
-
+					      GO_DOUBLE_RGBA_R (c),
+					      GO_DOUBLE_RGBA_G (c),
+					      GO_DOUBLE_RGBA_B (c));
 		}
 #if 0
 		/* FIXME: How to do the other patterns? */

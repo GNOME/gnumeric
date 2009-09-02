@@ -1662,8 +1662,7 @@ gnm_style_get_pango_attrs (GnmStyle const *style,
 	/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
 	if (0) {
 		GnmColor const *fore = style->color.font;
-		add_attr (l, pango_attr_foreground_new (
-			fore->gdk_color.red, fore->gdk_color.green, fore->gdk_color.blue));
+		add_attr (l, go_color_to_pango (fore->go_color, TRUE));
 	}
 
 	/* Handle underlining.  */
@@ -1715,8 +1714,7 @@ gnm_style_generate_attrs_full (GnmStyle const *style)
 		? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL));
 	add_attr (l, pango_attr_weight_new (gnm_style_get_font_bold (style)
 		? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL));
-	add_attr (l, pango_attr_foreground_new (
-		fore->gdk_color.red, fore->gdk_color.green, fore->gdk_color.blue));
+	add_attr (l, go_color_to_pango (fore->go_color, TRUE));
 	add_attr (l, pango_attr_strikethrough_new (gnm_style_get_font_strike (style)));
 	switch (gnm_style_get_font_uline (style)) {
 	case UNDERLINE_SINGLE :
@@ -1807,9 +1805,9 @@ gnm_style_dump_color (GnmColor *color, GnmStyleElement elem)
 {
 	if (color)
 		g_printerr ("\t%s: %hx:%hx:%hx\n", gnm_style_element_name [elem],
-			 color->gdk_color.red,
-			 color->gdk_color.green,
-			 color->gdk_color.blue);
+			    GO_UINT_RGBA_R (color->go_color),
+			    GO_UINT_RGBA_G (color->go_color),
+			    GO_UINT_RGBA_B (color->go_color));
 	else
 		g_printerr ("\t%s: (NULL)\n", gnm_style_element_name [elem]);
 }

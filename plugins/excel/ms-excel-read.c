@@ -346,9 +346,9 @@ ms_sheet_map_color (ExcelReadSheet const *esheet, MSObj const *obj, MSObjAttrID 
 		GnmColor *c = excel_palette_get (esheet->container.importer,
 			(0x7ffffff & attr->v.v_uint));
 
-		r = c->gdk_color.red >> 8;
-		g = c->gdk_color.green >> 8;
-		b = c->gdk_color.blue >> 8;
+		r = GO_UINT_RGBA_R (c->go_color);
+		g = GO_UINT_RGBA_G (c->go_color);
+		b = GO_UINT_RGBA_B (c->go_color);
 		style_color_unref (c);
 	} else {
 		r = (attr->v.v_uint)       & 0xff;
@@ -1712,9 +1712,12 @@ excel_palette_get (GnmXLImporter *importer, gint idx)
 		g_return_val_if_fail (pal->gnm_colors[idx],
 				      style_color_black ());
 		d (5, {
-			GnmColor *c = pal->gnm_colors[idx];
-			fprintf (stderr,"New color in slot %d: RGB= %x,%x,%x\n",
-				idx, c->gdk_color.red, c->gdk_color.green, c->gdk_color.blue);
+			const GnmColor *c = pal->gnm_colors[idx];
+			g_printerr ("New color in slot %d: RGB= %x,%x,%x\n",
+				    idx,
+				    GO_UINT_RGBA_R (c->go_color),
+				    GO_UINT_RGBA_G (c->go_color),
+				    GO_UINT_RGBA_B (c->go_color));
 		});
 	}
 
@@ -1945,10 +1948,16 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 	g_return_val_if_fail (back_color && pattern_color && font_color, NULL);
 
 	d (4, fprintf (stderr,"back = #%02x%02x%02x, pat = #%02x%02x%02x, font = #%02x%02x%02x, pat_style = %d\n",
-		      back_color->gdk_color.red>>8, back_color->gdk_color.green>>8, back_color->gdk_color.blue>>8,
-		      pattern_color->gdk_color.red>>8, pattern_color->gdk_color.green>>8, pattern_color->gdk_color.blue>>8,
-		      font_color->gdk_color.red>>8, font_color->gdk_color.green>>8, font_color->gdk_color.blue>>8,
-		      xf->fill_pattern_idx););
+		       GO_UINT_RGBA_R (back_color->go_color),
+		       GO_UINT_RGBA_G (back_color->go_color),
+		       GO_UINT_RGBA_B (back_color->go_color),
+		       GO_UINT_RGBA_R (pattern_color->go_color),
+		       GO_UINT_RGBA_G (pattern_color->go_color),
+		       GO_UINT_RGBA_B (pattern_color->go_color),
+		       GO_UINT_RGBA_R (font_color->go_color),
+		       GO_UINT_RGBA_G (font_color->go_color),
+		       GO_UINT_RGBA_B (font_color->go_color),
+		       xf->fill_pattern_idx););
 
 	gnm_style_set_font_color (mstyle, font_color);
 	gnm_style_set_back_color (mstyle, back_color);
@@ -2987,8 +2996,7 @@ ms_wb_get_font_markup (MSContainer const *c, unsigned indx)
 
 		color = (fd->color_idx == 127) ? style_color_black ()
 			: excel_palette_get (importer, fd->color_idx);
-		add_attr (attrs, pango_attr_foreground_new (
-			color->gdk_color.red, color->gdk_color.green, color->gdk_color.blue));
+		add_attr (attrs, go_color_to_pango (color->go_color, TRUE));
 		style_color_unref (color);
 
 		((ExcelFont *)fd)->attrs = attrs;
@@ -3843,8 +3851,10 @@ office 12 seems to add 8 bytes
 	 */
 	color_index = GSF_LE_GET_GUINT8 (q->data + 16);
 	color = excel_palette_get (esheet->container.importer, color_index);
-	contrast = color->gdk_color.red + color->gdk_color.green + color->gdk_color.blue;
-	if (contrast >= 0x18000)
+	contrast = GO_UINT_RGBA_R (color->go_color) +
+		GO_UINT_RGBA_G (color->go_color) +
+		GO_UINT_RGBA_B (color->go_color);
+	if (contrast >= 0x180)
 		text_color = style_color_black ();
 	else
 		text_color = style_color_white ();
@@ -3852,9 +3862,9 @@ office 12 seems to add 8 bytes
 		      "tab-foreground", text_color,
 		      "tab-background", color,
 		      NULL);
-	d (1, fprintf (stderr,"%s tab colour = %04hx:%04hx:%04hx\n",
-		      esheet->sheet->name_unquoted,
-		      color->gdk_color.red, color->gdk_color.green, color->gdk_color.blue););
+	d (1, fprintf (stderr,"%s tab colour = %08x\n",
+		       esheet->sheet->name_unquoted,
+		       color->go_color););
 
 	style_color_unref (text_color);
 	style_color_unref (color);
@@ -4774,10 +4784,8 @@ excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 			pattern_color = style_color_new_i8 (r, g, b);
 		}
 		d (2, fprintf (stderr,"auto pattern color "
-			      "0x%x 0x%x 0x%x\n",
-			      pattern_color->gdk_color.red,
-			      pattern_color->gdk_color.green,
-			      pattern_color->gdk_color.blue););
+			       "0x%08x\n",
+			       pattern_color->go_color););
 		sheet_style_set_auto_pattern_color (
 			esheet->sheet, pattern_color);
 	}

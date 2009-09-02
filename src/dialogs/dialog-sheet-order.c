@@ -289,7 +289,8 @@ color_equal (const GdkColor *color_a, const GnmColor *color_gb)
 {
 	if (color_gb == NULL)
 		return color_a == NULL;
-	return color_a && gdk_color_equal (color_a, &color_gb->gdk_color);
+	/* FIXME: What about ->is_auto?  */
+	return color_a && GO_GDK_TO_UINT (*color_a) == color_gb->go_color;
 }
 
 static void
@@ -771,13 +772,13 @@ create_sheet_list (SheetManager *state)
 static void
 set_sheet_info_at_iter (SheetManager *state, GtkTreeIter *iter, Sheet *sheet)
 {
-	GdkColor *color = NULL;
-	GdkColor *text_color = NULL;
+	GdkColor cback, *color = NULL;
+	GdkColor cfore, *text_color = NULL;
 
 	if (sheet->tab_color)
-		color = &sheet->tab_color->gdk_color;
+		color = go_color_to_gdk (sheet->tab_color->go_color, &cback);
 	if (sheet->tab_text_color)
-		text_color = &sheet->tab_text_color->gdk_color;
+		text_color = go_color_to_gdk (sheet->tab_text_color->go_color, &cfore);
 
 	gtk_list_store_set (state->model, iter,
 			    SHEET_LOCKED, sheet->is_protected,

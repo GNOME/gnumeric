@@ -1070,7 +1070,7 @@ ms_chart_map_color (XLChartReadState const *s, guint32 raw, guint32 alpha)
 	if ((~0x7ffffff) & raw) {
 		GnmColor *c = excel_palette_get (s->container.importer,
 			(0x7ffffff & raw));
-		res = GO_GDK_TO_UINT (c->gdk_color);
+		res = c->go_color;
 		style_color_unref (c);
 	} else {
 		guint8 r, g, b;

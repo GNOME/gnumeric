@@ -390,7 +390,7 @@ setup_color_pickers (FormatState *state,
 	cg = go_color_group_fetch (color_group,
 		 wb_control_view (WORKBOOK_CONTROL (state->wbcg)));
 	combo = go_combo_color_new (NULL, default_caption, 
-		def_sc ? GO_GDK_TO_UINT (def_sc->gdk_color) : GO_RGBA_BLACK, cg);
+		def_sc ? def_sc->go_color : GO_RGBA_BLACK, cg);
 	go_combo_box_set_title (GO_COMBO_BOX (combo), caption);
 
 	/* Connect to the sample canvas and redraw it */
@@ -398,8 +398,11 @@ setup_color_pickers (FormatState *state,
 		"color_changed",
 		G_CALLBACK (preview_update), state);
 
-	go_combo_color_set_color_gdk (GO_COMBO_COLOR (combo),
-		(mcolor && !mcolor->is_auto) ? &mcolor->gdk_color : NULL);
+	if (mcolor && !mcolor->is_auto)
+		go_combo_color_set_color (GO_COMBO_COLOR (combo),
+					  mcolor->go_color);
+	else
+		go_combo_color_set_color_to_default (GO_COMBO_COLOR (combo));
 
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
@@ -1442,10 +1445,7 @@ init_border_button (FormatState *state, GnmStyleBorderLocation const i,
 		state->border.edge[i].is_selected = TRUE;
 	} else {
 		GnmColor const *c = border->color;
-		state->border.edge[i].rgba = GO_RGBA_TO_UINT(
-			c->gdk_color.red >> 8,
-			c->gdk_color.green >> 8,
-			c->gdk_color.blue >> 8, 0xff);
+		state->border.edge[i].rgba = c->go_color;
 		state->border.edge[i].is_auto_color = c->is_auto;
 		state->border.edge[i].pattern_index = border->line_type;
 		state->border.edge[i].is_selected = (border->line_type != GNM_STYLE_BORDER_NONE);
@@ -2444,7 +2444,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	int i, selected;
 	char const *name;
 	gboolean has_back;
-	GdkColor *default_border_color;
+	GOColor default_border_color;
 	int default_border_style = GNM_STYLE_BORDER_THIN;
 
 	GtkWidget *tmp, *dialog = glade_xml_get_widget (state->gui, "CellFormat");
@@ -2475,7 +2475,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	fmt_dialog_init_input_msg_page (state);
 	fmt_dialog_init_conditions_page (state);
 
-	default_border_color = &GTK_WIDGET (state->dialog)->style->black;
+	default_border_color = GO_GDK_TO_UINT (GTK_WIDGET (state->dialog)->style->black);
 
 	if (pageno == FD_CURRENT)
 		pageno = fmt_dialog_page;
@@ -2492,7 +2492,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	for (i = MSTYLE_BORDER_TOP; i < MSTYLE_BORDER_DIAGONAL; i++) {
 		GnmBorder const *border = gnm_style_get_border (state->style, i);
 		if (!gnm_style_border_is_blank (border)) {
-			default_border_color = &border->color->gdk_color;
+			default_border_color = border->color->go_color;
 			default_border_style = border->line_type;
 			break;
 		}
@@ -2501,10 +2501,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	state->border.pattern.draw_preview = NULL;
 	state->border.pattern.current_pattern = NULL;
 	state->border.pattern.state = state;
-	state->border.rgba = GO_RGBA_TO_UINT (
-		default_border_color->red   >> 8,
-		default_border_color->green >> 8,
-		default_border_color->blue  >> 8, 0xff);
+	state->border.rgba = default_border_color;
 	for (i = 0; (name = line_pattern_buttons[i].name) != NULL; ++i)
 		setup_pattern_button (gtk_widget_get_screen (GTK_WIDGET (state->dialog)),
 				      state->gui, name, &state->border.pattern,

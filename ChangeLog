@@ -1,5 +1,8 @@
 2009-09-01  Morten Welinder  <terra@gnome.org>
 
+	* src/style-color.h (GnmColor): Eliminate gdk_color filed.  All
+	users changed to use go_color.
+
 	* src/style-color.c (style_color_new_uninterned): Cleanup.
 
 2009-09-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>

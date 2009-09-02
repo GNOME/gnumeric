@@ -239,7 +239,7 @@ xml_sax_attr_color (xmlChar const * const *attrs, char const *name, GnmColor **r
 			   name, attrs[1]);
 		return FALSE;
 	}
-	*res = style_color_new (red, green, blue);
+	*res = style_color_new_i16 (red, green, blue);
 	return TRUE;
 }
 

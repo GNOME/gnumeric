@@ -2823,10 +2823,11 @@ xlsx_sheet_tabcolor (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GnmColor *text_color, *color = elem_color (xin, attrs);
 	if (NULL != color) {
-		int contrast = color->gdk_color.red +
-			color->gdk_color.green +
-			color->gdk_color.blue;
-		if (contrast >= 0x18000)
+		int contrast =
+			GO_UINT_RGBA_R (color->go_color) +
+			GO_UINT_RGBA_G (color->go_color) +
+			GO_UINT_RGBA_B (color->go_color);
+		if (contrast >= 0x180)
 			text_color = style_color_black ();
 		else
 			text_color = style_color_white ();

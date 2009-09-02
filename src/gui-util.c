@@ -611,7 +611,7 @@ go_combo_color_get_style_color (GtkWidget *go_combo_color)
 		r  = GO_UINT_RGBA_R (color); r |= (r << 8);
 		g  = GO_UINT_RGBA_G (color); g |= (g << 8);
 		b  = GO_UINT_RGBA_B (color); b |= (b << 8);
-		sc = style_color_new (r, g, b);
+		sc = style_color_new_i16 (r, g, b);
 	}
 	return sc;
 }

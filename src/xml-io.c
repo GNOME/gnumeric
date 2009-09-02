@@ -150,9 +150,7 @@ gnm_xml_out_add_gocolor (GsfXMLOut *o, char const *id, GOColor c)
 void
 gnm_xml_out_add_color (GsfXMLOut *o, char const *id, GnmColor const *c)
 {
-	g_return_if_fail (c != NULL);
-	gsf_xml_out_add_color (o, id,
-		c->gdk_color.red, c->gdk_color.green, c->gdk_color.blue);
+	gnm_xml_out_add_gocolor (o, id, c->go_color);
 }
 
 void
@@ -206,7 +204,7 @@ xml_node_get_color (xmlNodePtr node, char const *name)
 	if (color == NULL)
 		return NULL;
 	if (sscanf (CXML2C (color), "%X:%X:%X", &red, &green, &blue) == 3)
-		res = style_color_new (red, green, blue);
+		res = style_color_new_i16 (red, green, blue);
 	xmlFree (color);
 	return res;
 }
@@ -214,9 +212,11 @@ xml_node_get_color (xmlNodePtr node, char const *name)
 void
 xml_node_set_color (xmlNodePtr node, char const *name, GnmColor const *val)
 {
-	char str[4 * sizeof (val->gdk_color)];
-	sprintf (str, "%X:%X:%X",
-		 val->gdk_color.red, val->gdk_color.green, val->gdk_color.blue);
+	GdkColor tmp;
+	char str[4 * sizeof (tmp)];
+
+	go_color_to_gdk (val->go_color, &tmp);
+	sprintf (str, "%X:%X:%X", tmp.red, tmp.green, tmp.blue);
 	go_xml_node_set_cstr (node, name, str);
 }
 

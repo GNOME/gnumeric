@@ -1347,6 +1347,7 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 	GtkUpdateType scroll_update_policy;
 	Sheet *sheet;
 	GocDirection direction;
+	GdkColor cfore, cback;
 
 	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
 
@@ -1508,8 +1509,12 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 
 	scg->label = editable_label_new
 		(sheet->name_unquoted,
-		 sheet->tab_color ? &sheet->tab_color->gdk_color : NULL,
-		 sheet->tab_text_color ? &sheet->tab_text_color->gdk_color : NULL);
+		 sheet->tab_color
+		 ? go_color_to_gdk (sheet->tab_color->go_color, &cback)
+		 : NULL,
+		 sheet->tab_text_color
+		 ? go_color_to_gdk (sheet->tab_text_color->go_color, &cfore)
+		 : NULL);
 	g_object_ref (scg->label);
 
 	return scg;

@@ -13,7 +13,6 @@ G_BEGIN_DECLS
 GType gnm_style_color_get_type (void);
 
 struct _GnmColor {
-	GdkColor gdk_color;
 	GOColor	 go_color;
 	int      ref_count;
 	gboolean is_auto;
@@ -27,9 +26,9 @@ GNM_VAR_DECL GdkColor gs_black;
 GNM_VAR_DECL GdkColor gs_lavender;
 GNM_VAR_DECL GdkColor gs_yellow;
 
-GnmColor *style_color_new_go   (GOColor c);
+GnmColor *style_color_new_go    (GOColor c);
 GnmColor *style_color_new_name  (char const *name);
-GnmColor *style_color_new       (gushort red, gushort green, gushort blue);
+GnmColor *style_color_new_i16   (gushort red, gushort green, gushort blue);
 GnmColor *style_color_new_i8    (guint8 red, guint8 green, guint8 blue);
 GnmColor *style_color_new_pango (PangoColor const *c);
 GnmColor *style_color_new_gdk   (GdkColor const *c);

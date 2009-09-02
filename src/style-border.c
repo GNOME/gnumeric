@@ -113,7 +113,7 @@ style_border_equal (gconstpointer v1, gconstpointer v2)
 
 	/*
 	 * ->color is a pointer, but the comparison is safe because
-	 * all colours are cached, see style_color_new.
+	 * all colours are cached, see style_color_new_i16.
 	 */
 	return	(k1->color == k2->color) &&
 		(k1->line_type == k2->line_type);
@@ -128,7 +128,7 @@ style_border_hash (gconstpointer v)
 	 * HACK ALERT!
 	 *
 	 * ->color is a pointer, but the comparison is safe because
-	 * all colours are cached, see style_color_new.
+	 * all colours are cached, see style_color_new_i16.
 	 *
 	 */
 	return (GPOINTER_TO_UINT(b->color) ^ b->line_type);
@@ -181,7 +181,10 @@ gnm_style_border_none_set_color (GnmColor *color)
 	style_color_unref (nc);
 
 	if (none->gc) {
-		gdk_gc_set_rgb_fg_color (none->gc, &none->color->gdk_color);
+		GdkColor c;
+		gdk_gc_set_rgb_fg_color (none->gc,
+					 go_color_to_gdk (none->color->go_color,
+							  &c));
 	}
 }
 
@@ -560,9 +563,9 @@ style_border_set_gtk (GnmBorder const * const border,
 
 	gnm_style_border_set_dash (border->line_type, context);
 	cairo_set_source_rgb (context,
-			      border->color->gdk_color.red   / (double) 0xffff,
-			      border->color->gdk_color.green / (double) 0xffff,
-			      border->color->gdk_color.blue  / (double) 0xffff);
+			      GO_DOUBLE_RGBA_R (border->color->go_color),
+			      GO_DOUBLE_RGBA_G (border->color->go_color),
+			      GO_DOUBLE_RGBA_B (border->color->go_color));
 	return TRUE;
 }
 

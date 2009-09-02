@@ -29,42 +29,58 @@ GnmColor *
 style_color_new_name (char const *name)
 {
 	GdkColor c;
-
 	gdk_color_parse (name, &c);
-	return style_color_new (c.red, c.green, c.blue);
+	return style_color_new_gdk (&c);
 }
 
 static GnmColor *
-style_color_new_uninterned (gushort red, gushort green, gushort blue,
-			    gboolean is_auto)
+style_color_new_uninterned (GOColor c, gboolean is_auto)
 {
 	GnmColor *sc = g_new (GnmColor, 1);
 
-	sc->gdk_color.red = red;
-	sc->gdk_color.green = green;
-	sc->gdk_color.blue = blue;
-	sc->gdk_color.pixel = gs_white.pixel;
-	sc->go_color = GO_RGBA_TO_UINT (red >> 8, green >> 8, blue >> 8, 0xff);
-	sc->is_auto = is_auto;
+	sc->go_color = c;
+	sc->is_auto = !!is_auto;
 	sc->ref_count = 1;
 
 	return sc;
 }
 
 GnmColor *
-style_color_new (gushort red, gushort green, gushort blue)
+style_color_new_i16 (gushort red, gushort green, gushort blue)
+{
+	return style_color_new_i8 (red >> 8, green >> 8, blue >> 8);
+}
+
+GnmColor *
+style_color_new_pango (PangoColor const *c)
+{
+	return style_color_new_i16 (c->red, c->green, c->blue);
+}
+
+GnmColor *
+style_color_new_gdk (GdkColor const *c)
+{
+	return style_color_new_i16 (c->red, c->green, c->blue);
+}
+
+GnmColor *
+style_color_new_i8 (guint8 red, guint8 green, guint8 blue)
+{
+	return style_color_new_go (GO_RGBA_TO_UINT (red, green, blue, 0xff));
+}
+
+GnmColor *
+style_color_new_go (GOColor c)
 {
 	GnmColor *sc;
 	GnmColor key;
 
-	key.gdk_color.red   = red;
-	key.gdk_color.green = green;
-	key.gdk_color.blue  = blue;
+	key.go_color = c;
 	key.is_auto = FALSE;
 
 	sc = g_hash_table_lookup (style_color_hash, &key);
 	if (!sc) {
-		sc = style_color_new_uninterned (red, green, blue, FALSE);
+		sc = style_color_new_uninterned (c, FALSE);
 		g_hash_table_insert (style_color_hash, sc, sc);
 	} else
 		sc->ref_count++;
@@ -73,40 +89,10 @@ style_color_new (gushort red, gushort green, gushort blue)
 }
 
 GnmColor *
-style_color_new_pango (PangoColor const *c)
-{
-	return style_color_new (c->red, c->green, c->blue);
-}
-GnmColor *
-style_color_new_gdk (GdkColor const *c)
-{
-	return style_color_new (c->red, c->green, c->blue);
-}
-
-/* scale 8 bit/color ->  16 bit/color by cloning */
-GnmColor *
-style_color_new_i8 (guint8 red, guint8 green, guint8 blue)
-{
-	gushort red16, green16, blue16;
-
-	red16 =   ((gushort) red) << 8   | red;
-	green16 = ((gushort) green) << 8 | green;
-	blue16 =  ((gushort) blue) << 8  | blue;
-
-	return style_color_new (red16, green16, blue16);
-}
-GnmColor *
-style_color_new_go (GOColor c)
-{
-	return style_color_new_i8 (
-		GO_UINT_RGBA_R (c), GO_UINT_RGBA_G (c), GO_UINT_RGBA_B (c));
-}
-
-GnmColor *
 style_color_black (void)
 {
 	if (!sc_black)
-		sc_black = style_color_new (0, 0, 0);
+		sc_black = style_color_new_i8 (0, 0, 0);
 	return style_color_ref (sc_black);
 }
 
@@ -114,7 +100,7 @@ GnmColor *
 style_color_white (void)
 {
 	if (!sc_white)
-		sc_white = style_color_new (0xffff, 0xffff, 0xffff);
+		sc_white = style_color_new_i8 (0xff, 0xff, 0xff);
 	return style_color_ref (sc_white);
 }
 
@@ -122,7 +108,7 @@ GnmColor *
 style_color_grid (void)
 {
 	if (!sc_grid)
-		sc_grid = style_color_new (0xc7c7, 0xc7c7, 0xc7c7);
+		sc_grid = style_color_new_i8 (0xc7, 0xc7, 0xc7);
 	return style_color_ref (sc_grid);
 }
 
@@ -139,7 +125,7 @@ style_color_auto_font (void)
 	static GnmColor *color = NULL;
 
 	if (!color)
-		color = style_color_new_uninterned (0, 0, 0, TRUE);
+		color = style_color_new_uninterned (GO_RGBA_BLACK, TRUE);
 	return style_color_ref (color);
 }
 
@@ -152,8 +138,7 @@ style_color_auto_back (void)
 	static GnmColor *color = NULL;
 
 	if (!color)
-		color = style_color_new_uninterned (0xffff, 0xffff, 0xffff,
-						    TRUE);
+		color = style_color_new_uninterned (GO_RGBA_WHITE, TRUE);
 	return style_color_ref (color);
 }
 
@@ -166,7 +151,7 @@ style_color_auto_pattern (void)
 	static GnmColor *color = NULL;
 
 	if (!color)
-		color = style_color_new_uninterned (0, 0, 0, TRUE);
+		color = style_color_new_uninterned (GO_RGBA_BLACK, TRUE);
 	return style_color_ref (color);
 }
 
@@ -191,10 +176,6 @@ style_color_unref (GnmColor *sc)
 	if (sc->ref_count != 0)
 		return;
 
-	/*
-	 * There is no need to deallocate colors, as they come from
-	 * the GDK Color Context
-	 */
 	g_hash_table_remove (style_color_hash, sc);
 	g_free (sc);
 }
@@ -202,22 +183,15 @@ style_color_unref (GnmColor *sc)
 gint
 style_color_equal (GnmColor const *k1, GnmColor const *k2)
 {
-	if (k1->gdk_color.red   == k2->gdk_color.red &&
-	    k1->gdk_color.green == k2->gdk_color.green &&
-	    k1->gdk_color.blue  == k2->gdk_color.blue &&
-	    k1->is_auto == k2->is_auto)
-		return 1;
-
-	return 0;
+	return (k1->go_color == k2->go_color &&
+		k1->is_auto == k2->is_auto);
 }
 
 static guint
 color_hash (gconstpointer v)
 {
 	GnmColor const *k = (GnmColor const *)v;
-
-	return (k->gdk_color.red << 16) ^ (k->gdk_color.green << 8) ^ (k->gdk_color.blue << 0) ^
-		(k->is_auto);
+	return k->go_color ^ k->is_auto;
 }
 
 void
@@ -225,12 +199,12 @@ gnm_color_init (void)
 {
 	GdkColor error;
 
-	gdk_color_parse ("cyan", &error);
 	if (gdk_screen_get_default () != NULL) {
 		/*
 		 * Make sure we can see bogus attempt at getting the pixel
 		 * value.  This is, by nature, not multi-head safe.
 		 */
+		gdk_color_parse ("cyan", &error);
 		gdk_rgb_find_color (
 			gdk_screen_get_default_colormap (
 				    gdk_screen_get_default ()),
@@ -240,13 +214,13 @@ gnm_color_init (void)
 
 	gs_black.pixel = error.pixel;
 	gs_white.pixel = error.pixel;
-	gs_yellow.pixel =  error.pixel;
-	gs_lavender.pixel =  error.pixel;
-	gs_dark_gray.pixel =  error.pixel;
-	gs_light_gray.pixel =  error.pixel;
+	gs_yellow.pixel = error.pixel;
+	gs_lavender.pixel = error.pixel;
+	gs_dark_gray.pixel = error.pixel;
+	gs_light_gray.pixel = error.pixel;
 
 	style_color_hash = g_hash_table_new (color_hash,
-					     (GEqualFunc) style_color_equal);
+					     (GEqualFunc)style_color_equal);
 }
 
 static void
@@ -254,11 +228,9 @@ cb_color_leak (gpointer key, gpointer value, gpointer user_data)
 {
 	GnmColor *color = value;
 
-	g_printerr ("Leaking style-color at %p [%04x:%04x:%04x].\n",
+	g_printerr ("Leaking style-color at %p [%08x].\n",
 		    (void *)color,
-		    color->gdk_color.red,
-		    color->gdk_color.green,
-		    color->gdk_color.blue);
+		    color->go_color);
 }
 
 void

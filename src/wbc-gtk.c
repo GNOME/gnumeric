@@ -1090,14 +1090,20 @@ cb_sheet_tab_change (Sheet *sheet,
 		     G_GNUC_UNUSED GParamSpec *pspec,
 		     EditableLabel *el)
 {
+	GdkColor cfore, cback;
 	SheetControlGUI *scg = get_scg (GTK_WIDGET (el));
+
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	/* We're lazy and just set all relevant attributes.  */
 	editable_label_set_text (el, sheet->name_unquoted);
 	editable_label_set_color (el,
-				  sheet->tab_color ? &sheet->tab_color->gdk_color : NULL,
-				  sheet->tab_text_color ? &sheet->tab_text_color->gdk_color : NULL);
+				  sheet->tab_color
+				  ? go_color_to_gdk (sheet->tab_color->go_color, &cback)
+				  : NULL,
+				  sheet->tab_text_color
+				  ? go_color_to_gdk (sheet->tab_text_color->go_color, &cfore)
+				  : NULL);
 
 	signal_paned_repartition (scg->wbcg->tabs_paned);
 }
@@ -2798,10 +2804,8 @@ cb_fore_color_changed (GOActionComboColor *a, WBCGtk *wbcg)
 	c = go_action_combo_color_get_color (a, &is_default);
 
 	if (wbcg_is_editing (wbcg)) {
-		GnmColor *color = style_color_new_go (is_default ? GO_RGBA_BLACK : c);
-		wbcg_edit_add_markup (wbcg, pango_attr_foreground_new (
-			color->gdk_color.red, color->gdk_color.green, color->gdk_color.blue));
-		style_color_unref (color);
+		GOColor c2 = is_default ? GO_RGBA_BLACK : c;
+		wbcg_edit_add_markup (wbcg, go_color_to_pango (c2, TRUE));
 		return;
 	}
 
@@ -2816,7 +2820,7 @@ static void
 wbc_gtk_init_color_fore (WBCGtk *gtk)
 {
 	GnmColor *sc_auto_font = style_color_auto_font ();
-	GOColor   default_color = GO_GDK_TO_UINT(sc_auto_font->gdk_color);
+	GOColor default_color = sc_auto_font->go_color;
 	style_color_unref (sc_auto_font);
 
 	gtk->fore_color = go_action_combo_color_new ("ColorFore", "font",

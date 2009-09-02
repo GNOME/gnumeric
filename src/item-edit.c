@@ -229,15 +229,13 @@ item_edit_update_bounds (GocItem *item)
 		if (entered_text != NULL && entered_text != text) {
 			int const start = strlen (entered_text);
 			GnmColor const *color = gnm_style_get_font_color (ie->style);
-			attr = pango_attr_background_new (
-				color->gdk_color.red, color->gdk_color.green, color->gdk_color.blue);
+			attr = go_color_to_pango (color->go_color, FALSE);
 			attr->start_index = start;
 			attr->end_index = G_MAXINT;
 			pango_attr_list_insert (attrs, attr);
 
 			color = gnm_style_get_back_color (ie->style);
-			attr = pango_attr_foreground_new (
-				color->gdk_color.red, color->gdk_color.green, color->gdk_color.blue);
+			attr = go_color_to_pango (color->go_color, TRUE);
 			attr->start_index = start;
 			attr->end_index = G_MAXINT;
 			pango_attr_list_insert (attrs, attr);
