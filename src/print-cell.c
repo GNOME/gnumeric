@@ -110,10 +110,8 @@ print_cell_gtk (GnmCell const *cell, GnmStyle const *mstyle,
 		}
 #endif
 		/* Set the font colour */
-		cairo_set_source_rgb (context,
-			 GO_UINT_RGBA_R (fore_color) / 255.,
-			 GO_UINT_RGBA_G (fore_color) / 255.,
-			 GO_UINT_RGBA_B (fore_color) / 255.);
+		cairo_set_source_rgba (context,
+				       GO_COLOR_TO_CAIRO (fore_color));
 
 		cairo_translate (context, x1+0.5, y1);
 

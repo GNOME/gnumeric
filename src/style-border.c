@@ -562,10 +562,8 @@ style_border_set_gtk (GnmBorder const * const border,
 		return FALSE;
 
 	gnm_style_border_set_dash (border->line_type, context);
-	cairo_set_source_rgb (context,
-			      GO_DOUBLE_RGBA_R (border->color->go_color),
-			      GO_DOUBLE_RGBA_G (border->color->go_color),
-			      GO_DOUBLE_RGBA_B (border->color->go_color));
+	cairo_set_source_rgba (context,
+			       GO_COLOR_TO_CAIRO (border->color->go_color));
 	return TRUE;
 }
 

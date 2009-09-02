@@ -129,14 +129,10 @@ gnumeric_background_set_gtk (GnmStyle const *mstyle, cairo_t *context)
 		 */
 		if (pattern == 24) {
 			GnmColor const *pat_col = gnm_style_get_pattern_color (mstyle);
-			GOColor c;
 			g_return_val_if_fail (pat_col != NULL, FALSE);
 
-			c = pat_col->go_color;
-			cairo_set_source_rgb (context,
-					      GO_DOUBLE_RGBA_R (c),
-					      GO_DOUBLE_RGBA_G (c),
-					      GO_DOUBLE_RGBA_B (c));
+			cairo_set_source_rgba (context,
+					       GO_COLOR_TO_CAIRO (pat_col->go_color));
 		}
 #if 0
 		/* FIXME: How to do the other patterns? */
