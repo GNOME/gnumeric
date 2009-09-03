@@ -226,7 +226,7 @@ static void
 margin_preview_page_destroy (PrinterSetupState *state)
 {
 	if (state->preview.group) {
-		gtk_object_destroy (GTK_OBJECT (state->preview.group));
+		g_object_unref (G_OBJECT (state->preview.group));
 		state->preview.group = NULL;
 	}
 }
@@ -447,6 +447,8 @@ margin_preview_page_create (PrinterSetupState *state)
 	style->fill.pattern.back = GO_RGBA_WHITE;
 	style->line.color = GO_RGBA_BLACK;
 	style->line.width = 1.;
+
+	goc_item_invalidate (pi->group);
 
 	draw_margins (state, x1, y1, x2, y2);
 }

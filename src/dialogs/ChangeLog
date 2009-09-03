@@ -1,3 +1,8 @@
+2009-09-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dialog-printer-setup.c (margin_preview_page_destroy),
+	(margin_preview_page_create): fixed canvas update.
+
 2009-09-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* dialog-autoformat.c (previews_load): renamed GOColor macros.

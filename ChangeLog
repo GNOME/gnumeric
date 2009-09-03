@@ -1,3 +1,8 @@
+2009-09-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/item-edit.c (item_edit_draw): make item edit use the same font size
+	than the sheet cell.
+
 2009-09-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/item-bar.c (item_bar_motion): don't grab the item from there.

@@ -93,7 +93,6 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 {
 	ItemEdit  const *ie	= ITEM_EDIT (item);
 	int top, left;
-	PangoLayout *layout;
 	GOColor color;
 	int x0, y0, x1, y1; /* in widget coordinates */
 
@@ -113,15 +112,12 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 	color = GO_GDK_TO_UINT (gtk_widget_get_style (GTK_WIDGET (item->canvas))->black);
 	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
 	cairo_move_to (cr, left, top);
-	layout = pango_cairo_create_layout (cr);
-	pango_layout_set_text (layout, pango_layout_get_text (ie->layout), -1);
-	pango_layout_set_attributes (layout, pango_layout_get_attributes (ie->layout));
-	pango_cairo_show_layout (cr, layout);
+	pango_cairo_show_layout (cr, ie->layout);
 	if (ie->cursor_visible) {
 		PangoRectangle pos;
 		char const *text = gtk_entry_get_text (ie->entry);
 		int cursor_pos = gtk_editable_get_position (GTK_EDITABLE (ie->entry));
-		pango_layout_index_to_pos (layout,
+		pango_layout_index_to_pos (ie->layout,
 			g_utf8_offset_to_pointer (text, cursor_pos) - text, &pos);
 		cairo_set_line_width (cr, 1.);
 		cairo_set_dash (cr, NULL, 0, 0.);
@@ -132,7 +128,6 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 		cairo_line_to (cr, left + PANGO_PIXELS (pos.x) + .5, top + PANGO_PIXELS (pos.y + pos.height) - 1);
 		cairo_stroke (cr);
 	}
-	g_object_unref (layout);
 }
 
 static double
