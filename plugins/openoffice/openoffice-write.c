@@ -2115,7 +2115,7 @@ odf_graph_get_series (GnmOOExport *state, GogGraph *sog, GnmParsePos *pp)
 	for (;list != NULL; list = list->next) {
 		GOData *dat = list->data;
 		GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
-		if (gnm_expr_top_is_rangeref (texpr)) {
+		if (texpr != NULL && gnm_expr_top_is_rangeref (texpr)) {
 			char *formula = gnm_expr_top_as_string (texpr, pp, state->conv);
 			g_string_append (str, odf_strip_brackets (formula));
 			g_string_append_c (str, ' ');
@@ -3573,7 +3573,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		  NULL, NULL, odf_write_standard_series, NULL}
 	};
 
-	for (this_plot = &plots[0]; this_plot != NULL; this_plot++)
+	for (this_plot = &plots[0]; this_plot->type != NULL; this_plot++)
 		if (0 == strcmp (plot_type, this_plot->type))
 			break;
 

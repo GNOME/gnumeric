@@ -4,6 +4,7 @@ Andreas:
 	* Add CHOLESKY.
 	* Fix ODF background colour export. [#593816]
 	* Handle super/subscript in html export. [#593851]
+	* Fix carsh on unknown chart type. [#594041]
 
 Morten:
 	* Fix menu sensitivity problem.  [#593624]

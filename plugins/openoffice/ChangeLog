@@ -1,3 +1,8 @@
+2009-09-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_graph_get_series): make sure texpr is non-NULL
+	(odf_write_plot): check the correct end of array marker
+
 2009-09-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (gnm_xml_out_add_hex_color): simplify comparison
