@@ -5,6 +5,8 @@ Andreas:
 	* Fix ODF background colour export. [#593816]
 	* Handle super/subscript in html export. [#593851]
 	* Fix crash on unknown chart type. [#594041]
+	* Handle ODF import/export of surface plots originally created in 
+	  XL [#594041]
 
 Morten:
 	* Fix menu sensitivity problem.  [#593624]

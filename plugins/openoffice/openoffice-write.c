@@ -3375,6 +3375,14 @@ static void
 odf_write_surface_chart_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, G_GNUC_UNUSED GogObject const *plot)
 {
 	odf_add_bool (state->xml, CHART "three-dimensional", TRUE);
+	odf_add_bool (state->xml, GNMSTYLE "multi-series", FALSE);
+}
+
+static void
+odf_write_xl_surface_chart_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, G_GNUC_UNUSED GogObject const *plot)
+{
+	odf_add_bool (state->xml, CHART "three-dimensional", TRUE);
+	odf_add_bool (state->xml, GNMSTYLE "multi-series", TRUE);
 }
 
 static void
@@ -3568,6 +3576,9 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		{ "GogXYColorPlot", "gnm:scatter-color", ODF_SCATTER_COLOUR,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
 		  NULL, NULL, odf_write_bubble_series, NULL},
+		{ "XLSurfacePlot", "chart:surface", ODF_GNM_SURF,
+		  20., "X-Axis", "Y-Axis", "Z-Axis", odf_write_surface_axes_styles,
+		  odf_write_xl_surface_chart_style, NULL, odf_write_standard_series, NULL},
 		{ NULL, NULL, 0,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
 		  NULL, NULL, odf_write_standard_series, NULL}

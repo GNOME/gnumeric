@@ -1,5 +1,13 @@
 2009-09-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_prop_list_has_multi_series): new
+	(oo_style_have_multi_series): new
+	(oo_plot_area): use XLSurfacePlot in case of multiseries
+	* openoffice-write.c (odf_write_xl_surface_chart_style): new
+	(odf_write_plot): handle XLSurfacePlot
+	
+2009-09-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_graph_get_series): make sure texpr is non-NULL
 	(odf_write_plot): check the correct end of array marker
 

@@ -128,6 +128,7 @@ typedef enum {
 	OO_PLOT_SCATTER_COLOUR,
 	OO_PLOT_XYZ_SURFACE,
 	OO_PLOT_SURFACE,
+	OO_PLOT_XL_SURFACE,
 	OO_PLOT_UNKNOWN
 } OOPlotType;
 
@@ -2898,6 +2899,30 @@ oo_style_have_three_dimensional (GSList *styles)
 }
 
 static void
+oo_prop_list_has_multi_series (GSList *props, gboolean *threed)
+{
+	GSList *ptr;
+	for (ptr = props; ptr; ptr = ptr->next) {
+		OOProp *prop = ptr->data;
+		if (0 == strcmp (prop->name, "multi-series") && g_value_get_boolean (&prop->value))
+			*threed = TRUE;
+	}
+}
+
+static gboolean
+oo_style_have_multi_series (GSList *styles)
+{
+	GSList *l;
+	gboolean is_multi_series = FALSE;
+	for (l = styles; l != NULL; l = l->next) { 
+		OOChartStyle *style = l->data;
+		oo_prop_list_has_multi_series (style->other_props, 
+						    &is_multi_series);
+	}
+	return is_multi_series;
+}
+
+static void
 od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -2956,6 +2981,9 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "three-dimensional", &btmp))
 			style->other_props = g_slist_prepend (style->other_props,
 				oo_prop_new_bool ("three-dimensional", btmp));
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "multi-series", &btmp))
+			style->other_props = g_slist_prepend (style->other_props,
+				oo_prop_new_bool ("multi-series", btmp));
 	}
 
 	if (draw_stroke_set && !default_style_has_lines_set)
@@ -3538,7 +3566,10 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	case OO_PLOT_SCATTER:	type = "GogXYPlot";	break;
 	case OO_PLOT_STOCK:	type = "GogMinMaxPlot";	break;  /* This is not quite right! */
 	case OO_PLOT_CONTOUR:
-		if (oo_style_have_three_dimensional (state->chart.these_plot_styles)) {
+		if (oo_style_have_multi_series (state->chart.these_plot_styles)) {
+			type = "XLSurfacePlot";
+			state->chart.plot_type = OO_PLOT_XL_SURFACE;		
+		} else if (oo_style_have_three_dimensional (state->chart.these_plot_styles)) {
 			type = "GogSurfacePlot";
 			state->chart.plot_type = OO_PLOT_SURFACE;
 		} else 
@@ -3557,6 +3588,7 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	case OO_PLOT_XYZ_SURFACE: type = "GogXYZSurfacePlot"; break;
 	case OO_PLOT_SURFACE: type = "GogSurfacePlot"; break;
 	case OO_PLOT_SCATTER_COLOUR: type = "GogXYColorPlot";	break;
+	case OO_PLOT_XL_SURFACE: type = "XLSurfacePlot";	break;
 	default: return;
 	}
 
