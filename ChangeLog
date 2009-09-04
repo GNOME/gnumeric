@@ -1,3 +1,7 @@
+2009-09-03  Morten Welinder  <terra@gnome.org>
+
+	* configure.in (libgoffice): Require 0.7.12 for GPS_* change.
+
 2009-09-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/item-edit.c (item_edit_draw): make item edit use the same font size
