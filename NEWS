@@ -14,6 +14,7 @@ Jean:
 Morten:
 	* Fix menu sensitivity problem.  [#593624]
 	* Simplify GnmColor.
+	* Fix grab problem.  [Debian #544975]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.11

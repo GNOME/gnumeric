@@ -4,6 +4,11 @@
 
 	* configure.in (libgoffice): Require 0.7.12 for GPS_* change.
 
+2009-09-04  Morten Welinder  <terra@gnome.org>
+
+	* src/item-bar.c (item_bar_button_pressed): Don't grab after
+	context menu.  Fixes Debian 544975.
+
 2009-09-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/item-edit.c (item_edit_draw): make item edit use the same font size

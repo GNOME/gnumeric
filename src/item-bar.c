@@ -857,55 +857,56 @@ item_bar_button_pressed (GocItem *item, int button, double x_, double y_)
 	if (button == 3) {
 		if (wbc_gtk_get_guru (wbcg) != NULL)
 			return TRUE;
-			/* If the selection does not contain the current row/col
-			 * then clear the selection and add it.
-			 */
-			if (!sv_is_colrow_selected (sc_view (sc), element, is_cols))
-				scg_colrow_select (scg, is_cols,
-						   element, event->state);
+		/* If the selection does not contain the current row/col
+		 * then clear the selection and add it.
+		 */
+		if (!sv_is_colrow_selected (sc_view (sc), element, is_cols))
+			scg_colrow_select (scg, is_cols,
+					   element, event->state);
 
-			scg_context_menu (scg, event, is_cols, !is_cols);
-		} else if (cri != NULL) {
-			/*
-			 * Record the important bits.
-			 *
-			 * By setting colrow_being_resized to a non -1 value,
-			 * we know that we are being resized (used in the
-			 * other event handlers).
-			 */
-			ib->colrow_being_resized = element;
-			ib->resize_start_pos = (is_cols && sheet->text_is_rtl)
-				? start : (start - cri->size_pixels);
-			ib->colrow_resize_size = cri->size_pixels;
+		scg_context_menu (scg, event, is_cols, !is_cols);
+		return TRUE;
+	} else if (cri != NULL) {
+		/*
+		 * Record the important bits.
+		 *
+		 * By setting colrow_being_resized to a non -1 value,
+		 * we know that we are being resized (used in the
+		 * other event handlers).
+		 */
+		ib->colrow_being_resized = element;
+		ib->resize_start_pos = (is_cols && sheet->text_is_rtl)
+			? start : (start - cri->size_pixels);
+		ib->colrow_resize_size = cri->size_pixels;
 
-			if (ib->tip == NULL) {
-				GtkWidget *cw = GTK_WIDGET (canvas);
-				int wx, wy;
-				ib->tip = gnumeric_create_tooltip (cw);
-				colrow_tip_setlabel (ib, is_cols, ib->colrow_resize_size);
-				/* Position above the current point for both
-				 * col and row headers.  trying to put it
-				 * beside for row headers often ends up pushing
-				 * the tip under the cursor which can have odd
-				 * effects on the event stream.  win32 was
-				 * different from X. */
+		if (ib->tip == NULL) {
+			GtkWidget *cw = GTK_WIDGET (canvas);
+			int wx, wy;
+			ib->tip = gnumeric_create_tooltip (cw);
+			colrow_tip_setlabel (ib, is_cols, ib->colrow_resize_size);
+			/* Position above the current point for both
+			 * col and row headers.  trying to put it
+			 * beside for row headers often ends up pushing
+			 * the tip under the cursor which can have odd
+			 * effects on the event stream.  win32 was
+			 * different from X. */
 
-				gnm_canvas_get_position (canvas, &wx, &wy,x, y);
-				gnumeric_position_tooltip (ib->tip,
-							   wx, wy, TRUE);
-				gtk_widget_show_all (gtk_widget_get_toplevel (ib->tip));
-			}
-		} else {
-			if (wbc_gtk_get_guru (wbcg) != NULL &&
-			    !wbcg_entry_has_logical (wbcg))
-				return TRUE;
+			gnm_canvas_get_position (canvas, &wx, &wy,x, y);
+			gnumeric_position_tooltip (ib->tip,
+						   wx, wy, TRUE);
+			gtk_widget_show_all (gtk_widget_get_toplevel (ib->tip));
+		}
+	} else {
+		if (wbc_gtk_get_guru (wbcg) != NULL &&
+		    !wbcg_entry_has_logical (wbcg))
+			return TRUE;
 
-			/* If we're editing it is possible for this to fail */
-			if (!scg_colrow_select (scg, is_cols, element, event->state))
-				return TRUE;
+		/* If we're editing it is possible for this to fail */
+		if (!scg_colrow_select (scg, is_cols, element, event->state))
+			return TRUE;
 
-			ib->start_selection = element;
-			gnm_pane_slide_init (pane);
+		ib->start_selection = element;
+		gnm_pane_slide_init (pane);
 	}
 	gnm_simple_canvas_grab (item,
 		GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
