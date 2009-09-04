@@ -1,3 +1,9 @@
+2009-09-04  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (axis), (xl_axis_get_elem), (valuerange): use gnm_go_data
+	instead of simple go_data [#594068],
+	(end): don't require x and y values for surfaces.
+
 2009-09-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: renamed GOColor macros.

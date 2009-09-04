@@ -569,12 +569,14 @@ BC_R(axis)(XLChartHandler const *handle,
 				      NULL);
 			s->axis_cross_at_max = FALSE;
 		} else if (!isnan (s->axis_cross_value)) {
+			GnmValue *value = value_new_float (s->axis_cross_value);
+			GnmExprTop const *texpr = gnm_expr_top_new_constant (value);
 			g_object_set (s->axis,
 				      "pos-str", "cross",
 				      "cross-axis-id", gog_object_get_id (GOG_OBJECT (s->xaxis)),
 				      NULL);
 			gog_dataset_set_dim (GOG_DATASET (s->axis), GOG_AXIS_ELEM_CROSS_POINT,
-				go_data_scalar_val_new (s->axis_cross_value), NULL);
+				gnm_go_data_scalar_new_expr (ms_container_sheet (s->container.parent), texpr), NULL);
 			s->axis_cross_value = go_nan;
 		}
 	}
@@ -2293,7 +2295,7 @@ BC_R(units)(XLChartHandler const *handle,
 /****************************************************************************/
 
 static void
-xl_axis_get_elem (GogObject *axis, unsigned dim, gchar const *name,
+xl_axis_get_elem (Sheet *sheet, GogObject *axis, unsigned dim, gchar const *name,
 		  gboolean flag, guint8 const *data, gboolean log_scale)
 {
 	GOData *dat;
@@ -2301,15 +2303,19 @@ xl_axis_get_elem (GogObject *axis, unsigned dim, gchar const *name,
 		dat = NULL;
 		d (1, g_printerr ("%s = Auto\n", name););
 		if (dim == GOG_AXIS_ELEM_CROSS_POINT) {
-		    gog_dataset_set_dim (GOG_DATASET (axis), dim,
-			    go_data_scalar_val_new (0.), NULL);
+			GnmValue *value = value_new_float (0.);
+			GnmExprTop const *texpr = gnm_expr_top_new_constant (value);
+			gog_dataset_set_dim (GOG_DATASET (axis), dim,
+			    gnm_go_data_scalar_new_expr (sheet, texpr), NULL);
 		    g_object_set (axis, "pos-str", "cross", NULL);
 		}
 	} else {
 		double const val = gsf_le_get_double (data);
 		double real_value = (log_scale)? gnm_pow10 (val): val;
+		GnmValue *value = value_new_float (real_value);
+		GnmExprTop const *texpr = gnm_expr_top_new_constant (value);
 		gog_dataset_set_dim (GOG_DATASET (axis), dim,
-			go_data_scalar_val_new (real_value), NULL);
+			gnm_go_data_scalar_new_expr (sheet, texpr), NULL);
 		d (1, g_printerr ("%s = %f\n", name, real_value););
 	}
 }
@@ -2321,16 +2327,17 @@ BC_R(valuerange)(XLChartHandler const *handle,
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+40);
 	gboolean log_scale = flags & 0x20;
 	double cross;
+	Sheet *sheet = ms_container_sheet (s->container.parent);
 
 	if (log_scale) {
 		g_object_set (s->axis, "map-name", "Log", NULL);
 		d (1, g_printerr ("Log scaled;\n"););
 	}
 
-	xl_axis_get_elem (s->axis, GOG_AXIS_ELEM_MIN,	  "Min Value",		flags&0x01, q->data+ 0, log_scale);
-	xl_axis_get_elem (s->axis, GOG_AXIS_ELEM_MAX,	  "Max Value",		flags&0x02, q->data+ 8, log_scale);
-	xl_axis_get_elem (s->axis, GOG_AXIS_ELEM_MAJOR_TICK,  "Major Increment",	flags&0x04, q->data+16, log_scale);
-	xl_axis_get_elem (s->axis, GOG_AXIS_ELEM_MINOR_TICK,  "Minor Increment",	flags&0x08, q->data+24, log_scale);
+	xl_axis_get_elem (sheet, s->axis, GOG_AXIS_ELEM_MIN,	  "Min Value",		flags&0x01, q->data+ 0, log_scale);
+	xl_axis_get_elem (sheet, s->axis, GOG_AXIS_ELEM_MAX,	  "Max Value",		flags&0x02, q->data+ 8, log_scale);
+	xl_axis_get_elem (sheet, s->axis, GOG_AXIS_ELEM_MAJOR_TICK,  "Major Increment",	flags&0x04, q->data+16, log_scale);
+	xl_axis_get_elem (sheet, s->axis, GOG_AXIS_ELEM_MINOR_TICK,  "Minor Increment",	flags&0x08, q->data+24, log_scale);
 	cross = (flags & 0x10)? ((log_scale)? 1.: 0.): ((log_scale)? gnm_pow10 (gsf_le_get_double (q->data + 32)): gsf_le_get_double (q->data + 32));
 
 	if (flags & 0x40) {
@@ -2350,12 +2357,14 @@ BC_R(valuerange)(XLChartHandler const *handle,
 		if (gog_axis_get_atype (GOG_AXIS (s->axis)) == GOG_AXIS_X)
 			s->axis_cross_value = cross;
 		else if (gog_axis_get_atype (GOG_AXIS (s->axis)) == GOG_AXIS_Y && s->xaxis) {
+			GnmValue *value = value_new_float (cross);
+			GnmExprTop const *texpr = gnm_expr_top_new_constant (value);
 			g_object_set (s->xaxis,
 				      "pos-str", "cross",
 				      "cross-axis-id", gog_object_get_id (GOG_OBJECT (s->axis)),
 				      NULL);
 			gog_dataset_set_dim (GOG_DATASET (s->xaxis), GOG_AXIS_ELEM_CROSS_POINT,
-				go_data_scalar_val_new (cross), NULL);
+				gnm_go_data_scalar_new_expr (sheet, texpr), NULL);
 		}
 		d (1, g_printerr ("Cross over point = %f\n", cross););
 	}
@@ -2537,12 +2546,12 @@ BC_R(end)(XLChartHandler const *handle,
 		/* check series now and create 3d plot if necessary */
 		if (s->is_surface) {
 			gboolean is_matrix = TRUE;
-			GnmExprTop const *cat_expr;
+			GnmExprTop const *cat_expr = NULL;
 			GnmValue *value;
 			GnmRange vector;
-			gboolean as_col;
+			gboolean as_col = FALSE; /* makes gcc happy */
 			GOData *cur;
-			int row_start, col_start, row, col, last;
+			int row_start = 0, col_start = 0, row = 0, col = -1, last = 0;
 			GSList *axisY, *axisZ, *l;
 
 			/* exchange axis */
@@ -2572,30 +2581,30 @@ BC_R(end)(XLChartHandler const *handle,
 				goto not_a_matrix;
 			eseries = g_ptr_array_index (s->series, 0);
 			style = eseries->style;
-			if (!GO_IS_DATA_VECTOR (eseries->data [GOG_MS_DIM_CATEGORIES].data))
-				goto not_a_matrix;
-			cat_expr = gnm_go_data_get_expr (eseries->data [GOG_MS_DIM_CATEGORIES].data);
-			if (!gnm_expr_top_is_rangeref (cat_expr))
-				goto not_a_matrix;
-			value = gnm_expr_top_get_range (cat_expr);
-			as_col = value->v_range.cell.a.col == value->v_range.cell.b.col;
-			row = row_start = value->v_range.cell.a.row;
-			col = col_start = value->v_range.cell.a.col;
-			if (as_col) {
-				col++;
-				row_start--;
-				last = value->v_range.cell.b.row;
-			}
-			else {
-				if (value->v_range.cell.a.row != value->v_range.cell.b.row) {
-					value_release (value);
+			if (GO_IS_DATA_VECTOR (eseries->data [GOG_MS_DIM_CATEGORIES].data)) {
+				cat_expr = gnm_go_data_get_expr (eseries->data [GOG_MS_DIM_CATEGORIES].data);
+				if (!gnm_expr_top_is_rangeref (cat_expr))
 					goto not_a_matrix;
+				value = gnm_expr_top_get_range (cat_expr);
+				as_col = value->v_range.cell.a.col == value->v_range.cell.b.col;
+				row = row_start = value->v_range.cell.a.row;
+				col = col_start = value->v_range.cell.a.col;
+				if (as_col) {
+					col++;
+					row_start--;
+					last = value->v_range.cell.b.row;
 				}
-				row++;
-				col_start --;
-				last = value->v_range.cell.b.col;
+				else {
+					if (value->v_range.cell.a.row != value->v_range.cell.b.row) {
+						value_release (value);
+						goto not_a_matrix;
+					}
+					row++;
+					col_start --;
+					last = value->v_range.cell.b.col;
+				}
+				value_release (value);
 			}
-			value_release (value);
 			/* verify that all series are adjacent, have same categories and
 			same lengths */
 			for (i = 0 ; i < s->series->len; i++ ) {
@@ -2604,41 +2613,33 @@ BC_R(end)(XLChartHandler const *handle,
 				eseries = g_ptr_array_index (s->series, i);
 				if (eseries->chart_group != s->plot_counter)
 					continue;
-				cur = eseries->data [GOG_MS_DIM_LABELS].data;
-				if (!cur || !GO_IS_DATA_SCALAR (cur)) {
-					is_matrix = FALSE;
-					break;
-				}
-				texpr = gnm_go_data_get_expr (cur);
-				if (!gnm_expr_top_is_rangeref (texpr))
-					goto not_a_matrix;
-				value = gnm_expr_top_get_range (texpr);
-				if ((as_col && (value->v_range.cell.a.col != col ||
-						value->v_range.cell.a.row != row_start)) ||
-						(! as_col && (value->v_range.cell.a.col != col_start ||
-						value->v_range.cell.a.row != row))) {
-					is_matrix = FALSE;
-					value_release (value);
-					break;
-				}
-				value_release (value);
-				cur = eseries->data [GOG_MS_DIM_CATEGORIES].data;
-				if (!cur ||
-				    !gnm_expr_top_equal (gnm_go_data_get_expr (cur), cat_expr)) {
-					is_matrix = FALSE;
-					break;
-				}
 				cur = eseries->data [GOG_MS_DIM_VALUES].data;
 				if (!cur || !GO_IS_DATA_VECTOR (cur)) {
 					is_matrix = FALSE;
 					break;
 				}
+
 				texpr = gnm_go_data_get_expr (cur);
 				if (!gnm_expr_top_is_rangeref (texpr))
 					goto not_a_matrix;
 
 				value = gnm_expr_top_get_range (texpr);
-				if ((as_col && (value->v_range.cell.a.col != col ||
+				if (col == -1) {
+					as_col = value->v_range.cell.a.col == value->v_range.cell.b.col;
+					row = row_start = value->v_range.cell.a.row;
+					col = col_start = value->v_range.cell.a.col;
+					if (as_col) {
+						last = value->v_range.cell.b.row;
+					}
+					else {
+						if (value->v_range.cell.a.row != value->v_range.cell.b.row) {
+							is_matrix = FALSE;
+							value_release (value);
+							break;
+						}
+						last = value->v_range.cell.b.col;
+					}
+				} else if ((as_col && (value->v_range.cell.a.col != col ||
 						value->v_range.cell.b.col != col ||
 						value->v_range.cell.a.row != row ||
 						value->v_range.cell.b.row != last)) ||
@@ -2651,6 +2652,33 @@ BC_R(end)(XLChartHandler const *handle,
 					break;
 				}
 				value_release (value);
+
+				cur = eseries->data [GOG_MS_DIM_LABELS].data;
+				if (cur) {
+					if(!GO_IS_DATA_SCALAR (cur)) {
+						is_matrix = FALSE;
+						break;
+					}
+					texpr = gnm_go_data_get_expr (cur);
+					if (!gnm_expr_top_is_rangeref (texpr))
+						goto not_a_matrix;
+					value = gnm_expr_top_get_range (texpr);
+					if ((as_col && (value->v_range.cell.a.col != col ||
+							value->v_range.cell.a.row != row_start)) ||
+							(! as_col && (value->v_range.cell.a.col != col_start ||
+							value->v_range.cell.a.row != row))) {
+						is_matrix = FALSE;
+						value_release (value);
+						break;
+					}
+					value_release (value);
+				}
+				cur = eseries->data [GOG_MS_DIM_CATEGORIES].data;
+				if (cur && cat_expr &&
+				    !gnm_expr_top_equal (gnm_go_data_get_expr (cur), cat_expr)) {
+					is_matrix = FALSE;
+					break;
+				}
 				if (as_col)
 					col++;
 				else

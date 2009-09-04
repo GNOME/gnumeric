@@ -8,6 +8,9 @@ Andreas:
 	* Handle ODF import/export of surface plots originally created in 
 	  XL [#594041]
 
+Jean:
+	* Don't use simple GOData when importing xls files. [#594068]
+
 Morten:
 	* Fix menu sensitivity problem.  [#593624]
 	* Simplify GnmColor.
