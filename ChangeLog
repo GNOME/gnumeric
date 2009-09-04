@@ -1,5 +1,7 @@
 2009-09-03  Morten Welinder  <terra@gnome.org>
 
+	* src/style-font.h (GnmFont): Remove unused pango.font.
+
 	* configure.in (libgoffice): Require 0.7.12 for GPS_* change.
 
 2009-09-03  Jean Brefort  <jean.brefort@normalesup.org>

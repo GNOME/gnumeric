@@ -102,6 +102,7 @@ style_font_new_simple (PangoContext *context,
 	font = (GnmFont *) g_hash_table_lookup (style_font_hash, &key);
 	if (font == NULL) {
 		PangoFontDescription *desc;
+		PangoFont *pango_font;
 
 		if (g_hash_table_lookup (style_font_negative_hash, &key))
 			return NULL;
@@ -124,23 +125,26 @@ style_font_new_simple (PangoContext *context,
 			italic ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL);
 		pango_font_description_set_size (desc, size_pts * PANGO_SCALE);
 
-		font->pango.font = pango_context_load_font (context, desc);
-		if (font->pango.font == NULL) {
+		pango_font = pango_context_load_font (context, desc);
+		if (pango_font == NULL) {
 			/* if we fail, try to be smart and map to something similar */
 			char const *sub = get_substitute_font (font_name);
 			if (sub != NULL) {
 				pango_font_description_set_family (desc, font_name);
-				font->pango.font = pango_context_load_font (context,
+				pango_font = pango_context_load_font (context,
 									    desc);
 			}
 
-			if (font->pango.font == NULL) {
+			if (pango_font == NULL) {
 				pango_font_description_free (desc);
 				g_hash_table_insert (style_font_negative_hash,
 						     font, font);
 				return NULL;
 			}
 		}
+
+		if (pango_font)
+			g_object_unref (pango_font);
 
 		font->go.font = go_font_new_by_desc (desc);
 		font->go.metrics = go_font_metrics_new (context, font->go.font);
@@ -232,10 +236,6 @@ gnm_font_unref (GnmFont *sf)
 	if (sf->ref_count != 0)
 		return;
 
-	if (sf->pango.font != NULL) {
-		g_object_unref (G_OBJECT (sf->pango.font));
-		sf->pango.font = NULL;
-	}
 	if (sf->go.font) {
 		go_font_unref (sf->go.font);
 		sf->go.font = NULL;

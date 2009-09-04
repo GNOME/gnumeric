@@ -17,9 +17,6 @@ struct _GnmFont {
 		GOFont const *font;
 		GOFontMetrics *metrics;
 	} go;
-	struct {
-		PangoFont *font;
-	} pango;
 
 	unsigned int is_bold : 1;
 	unsigned int is_italic : 1;
