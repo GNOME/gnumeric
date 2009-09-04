@@ -1,3 +1,14 @@
+gnumeric (1.9.11-2) unstable; urgency=low
+
+  * [ChangeLog, src/item-bar.c] Backported upstream fixes
+    649386d422bbfdd6767d17da8cedfe896db52db4 and
+    897f7be3220347e0adb78108ca21accf2dbb88ea to address a grab issue with
+    the context menu. (Closes: #544975)
+  * [debian/control] Bumped goffice build dependency, as 0.7.10 was somewhat
+    problematic.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 04 Sep 2009 22:03:55 +0200
+
 gnumeric (1.9.11-1) unstable; urgency=low
 
   * New upstream development release.
