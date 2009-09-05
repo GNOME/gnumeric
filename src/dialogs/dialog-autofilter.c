@@ -311,7 +311,7 @@ dialog_auto_filter (WBCGtk *wbcg,
 		is_expr ? GNUMERIC_HELP_LINK_AUTOFILTER_CUSTOM :
 		GNUMERIC_HELP_LINK_AUTOFILTER_TOP_TEN);
 
-	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), 
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog),
 					   state->wbcg,
 					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
 

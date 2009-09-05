@@ -110,7 +110,7 @@ xlsx_write_pivot_cache_records (XLSXWriteState *state, GODataCache const *cache,
 			case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I16 :	/* fallthrough */
 			case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I32 :	/* fallthrough */
 				gsf_xml_out_start_element (xml, "x");
-				gsf_xml_out_add_int (xml, "v", 
+				gsf_xml_out_add_int (xml, "v",
 					go_data_cache_get_index (cache, field, j));
 				gsf_xml_out_end_element (xml);
 				break;

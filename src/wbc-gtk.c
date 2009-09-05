@@ -350,7 +350,7 @@ wbcg_update_action_sensitivity (WorkbookControl *wbc)
 	gtk_widget_set_sensitive (wbcg->func_button, enable_actions);
 
 	if (wbcg->snotebook) {
-		int i, N = wbcg_get_n_scg (wbcg);		
+		int i, N = wbcg_get_n_scg (wbcg);
 		for (i = 0; i < N; i++) {
 			GtkWidget *label =
 				gnm_notebook_get_nth_label (wbcg->bnotebook, i);
@@ -459,7 +459,7 @@ static void cb_sheets_add    (SheetControlGUI *scg) { wbcg_append_sheet (NULL, s
 static void cb_sheets_clone  (SheetControlGUI *scg) { wbcg_clone_sheet  (NULL, scg->wbcg); }
 static void cb_sheets_rename (SheetControlGUI *scg) { editable_label_start_editing (EDITABLE_LABEL(scg->label)); }
 static void cb_sheets_resize (SheetControlGUI *scg) { dialog_sheet_resize (scg->wbcg); }
- 
+
 
 static gint
 cb_by_scg_sheet_name (gconstpointer a_, gconstpointer b_)
@@ -966,7 +966,7 @@ cb_paned_size_allocate (GtkHPaned *hpaned,
 		/*
 		 * We don't have room so make the notebook scrollable.
 		 * We will then not set the size again.
-		 */		   
+		 */
 		g_object_set (G_OBJECT (child1), "scrollable", TRUE, NULL);
 	}
 
@@ -1296,8 +1296,8 @@ wbcg_sheet_focus (WorkbookControl *wbc, Sheet *sheet)
 
 	if (sheet) {
 		wbcg_update_menu_feedback (wbcg, sheet);
-		
-		if (scg) 
+
+		if (scg)
 			wbcg_set_direction (scg);
 
 #if 0
@@ -3767,7 +3767,7 @@ cb_wbcg_window_state_event (GtkWidget           *widget,
 			wbcg->undo_for_fullscreen =
 				go_undo_combine (wbcg->undo_for_fullscreen, u);
 			gtk_toggle_action_set_active (ta, FALSE);
-		}		
+		}
 	} else {
 		if (wbcg->undo_for_fullscreen) {
 			go_undo_undo (wbcg->undo_for_fullscreen);
@@ -4564,7 +4564,7 @@ wbc_gtk_finalize (GObject *obj)
 
 	g_slist_free (wbcg->hide_for_fullscreen);
 	wbcg->hide_for_fullscreen = NULL;
-	
+
 
 #ifdef GNM_USE_HILDON
 	UNREF_OBJ (hildon_prog);
@@ -5219,7 +5219,7 @@ wbcg_get_nth_scg (WBCGtk *wbcg, int i)
 	    NULL != (scg = get_scg (w)) &&
 	    NULL != scg->table &&
 	    NULL != scg_sheet (scg) &&
-	    NULL != scg_view (scg)) 
+	    NULL != scg_view (scg))
 		return scg;
 
 	return NULL;

@@ -262,8 +262,8 @@ gnumeric_goal_seek (GoalSeekState *state)
 static void
 cb_dialog_destroy (GoalSeekState *state)
 {
-	if (!state->cancelled 
-	    && state->old_value != NULL 
+	if (!state->cancelled
+	    && state->old_value != NULL
 	    && state->old_cell != NULL) {
 		cmd_goal_seek (WORKBOOK_CONTROL(state->wbcg),
 			       state->old_cell, state->old_value, NULL);
@@ -453,7 +453,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 		break;
 	}
 	state->cancelled = FALSE;
-	
+
 	gtk_widget_show (state->result_table);
 	return;
 }
@@ -485,8 +485,8 @@ dialog_preload_selection (GoalSeekState *state, GnmExprEntry *entry)
 {
 	GnmRange const *sel;
 
-	sel = selection_first_range 
-		(wb_control_cur_sheet_view 
+	sel = selection_first_range
+		(wb_control_cur_sheet_view
 		 (WORKBOOK_CONTROL (state->wbcg)), NULL, NULL);
 	if (sel)
 		gnm_expr_entry_load_from_range (entry,

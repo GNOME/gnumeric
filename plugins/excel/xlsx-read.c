@@ -2361,17 +2361,17 @@ GSF_XML_IN_NODE_END
 
 /***********************************************************************/
 
-/* RGBMAX, HLSMAX must each fit in a byte. */ 
-/* HLSMAX BEST IF DIVISIBLE BY 6 */ 
-#define  HLSMAX   240 /* H,L, and S vary over 0-HLSMAX */ 
-#define  RGBMAX   255 /* R,G, and B vary over 0-RGBMAX */ 
+/* RGBMAX, HLSMAX must each fit in a byte. */
+/* HLSMAX BEST IF DIVISIBLE BY 6 */
+#define  HLSMAX   240 /* H,L, and S vary over 0-HLSMAX */
+#define  RGBMAX   255 /* R,G, and B vary over 0-RGBMAX */
 
-/* Hue is undefined if Saturation is 0 (grey-scale) */ 
-/* This value determines where the Hue scrollbar is */ 
-/* initially set for achromatic colors */ 
+/* Hue is undefined if Saturation is 0 (grey-scale) */
+/* This value determines where the Hue scrollbar is */
+/* initially set for achromatic colors */
 #define UNDEFINED (HLSMAX*2/3)
 
-/* utility routine for HLStoRGB */ 
+/* utility routine for HLStoRGB */
 static int
 hue_to_color (int m1, int m2, int h)
 {
@@ -2380,7 +2380,7 @@ hue_to_color (int m1, int m2, int h)
 	if (h > HLSMAX)
 		h -= HLSMAX;
 
-	/* return r,g, or b value from this tridrant */ 
+	/* return r,g, or b value from this tridrant */
 	if (h < (HLSMAX/6))
 		return m1 + (((m2 - m1)*h + (HLSMAX/12))/(HLSMAX/6));
 	if (h < (HLSMAX/2))
@@ -2436,7 +2436,7 @@ apply_tint (GOColor orig, float tint)
 	else
 		l = l * (1. - tint) + (HLSMAX - HLSMAX * (1.0 - tint));
 
-	if (s == 0) {            /* achromatic case */ 
+	if (s == 0) {            /* achromatic case */
 		r = (l * RGBMAX) / HLSMAX;
 		return GO_COLOR_FROM_RGBA (r, r, r, a);
 	}
@@ -2453,7 +2453,7 @@ apply_tint (GOColor orig, float tint)
 
 	return GO_COLOR_FROM_RGBA (r,g,b,a);
 }
-				
+
 static GnmColor *
 elem_color (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -4156,7 +4156,7 @@ xlsx_read_external_book (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GsfOpenPkgRel const *rel = gsf_open_pkg_lookup_rel_by_type (
-		gsf_xml_in_get_input (xin), 
+		gsf_xml_in_get_input (xin),
 		"http://schemas.openxmlformats.org/officeDocument/2006/relationships/externalLinkPath");
 	if (NULL != rel && gsf_open_pkg_rel_is_extern (rel))
 		state->external_ref = xlsx_conventions_add_extern_ref (
@@ -4579,7 +4579,7 @@ xlsx_pattern_fg_bg (GsfXMLIn *xin, xmlChar const **attrs)
 	/* MAGIC :
 	 * Looks like pattern background and forground colours are inverted for
 	 * dxfs with solid fills for no apparent reason. */
-	gboolean const invert = state->style_accum_partial 
+	gboolean const invert = state->style_accum_partial
 		&& gnm_style_is_element_set (state->style_accum, MSTYLE_PATTERN)
 		&& (1 == gnm_style_get_pattern (state->style_accum));
 	GnmColor *color = elem_color (xin, attrs);
@@ -4642,7 +4642,7 @@ xlsx_border_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GnmBorder *border;
 	GnmStyleBorderLocation const loc = xin->node->user_data.v_int;
-       
+
 	if (NULL == state->border_color)
 		state->border_color = style_color_black ();
 	border = gnm_style_border_fetch (state->border_style,

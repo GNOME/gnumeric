@@ -13,7 +13,7 @@ typedef struct {
 	gnm_float *minima;
 	gnm_float *maxima;
 	gnm_float *steps;
-	gboolean with_coordinates;	
+	gboolean with_coordinates;
 } GnmTabulateInfo;
 
 GSList *

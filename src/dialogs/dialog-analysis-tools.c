@@ -422,7 +422,7 @@ dialog_tool_init (GenericToolState *state,
 		tchild = (GtkTableChild *)(this_label_widget->data);
 
 		gtk_table_attach (table, GTK_WIDGET (state->input_entry),
-				  tchild->right_attach, tchild->right_attach + 1, 
+				  tchild->right_attach, tchild->right_attach + 1,
 				  tchild->top_attach, tchild->bottom_attach,
 				  GTK_EXPAND | GTK_FILL, 0,
 				  0, 0);
@@ -458,7 +458,7 @@ dialog_tool_init (GenericToolState *state,
 		tchild = (GtkTableChild *)(this_label_widget->data);
 
 		gtk_table_attach (table, GTK_WIDGET (state->input_entry_2),
-				  tchild->right_attach, tchild->right_attach + 1, 
+				  tchild->right_attach, tchild->right_attach + 1,
 				  tchild->top_attach, tchild->bottom_attach,
 				  GTK_EXPAND | GTK_FILL, 0,
 				  0, 0);
@@ -483,7 +483,7 @@ dialog_tool_init (GenericToolState *state,
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog), key);
 
 	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), state->wbcg,
-					   GNM_DIALOG_DESTROY_SHEET_REMOVED | 
+					   GNM_DIALOG_DESTROY_SHEET_REMOVED |
 					   GNM_DIALOG_DESTROY_SHEET_RENAMED);
 
 	return FALSE;
@@ -668,7 +668,7 @@ dialog_correlation_tool (WBCGtk *wbcg, Sheet *sheet)
 	char const * plugins[] = { "Gnumeric_fnstat",
 				   NULL};
 
-	if ((wbcg == NULL) || 
+	if ((wbcg == NULL) ||
 	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
 
@@ -788,7 +788,7 @@ dialog_covariance_tool (WBCGtk *wbcg, Sheet *sheet)
 	char const * plugins[] = { "Gnumeric_fnstat",
 				   NULL};
 
-	if ((wbcg == NULL) || 
+	if ((wbcg == NULL) ||
 	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
 
@@ -880,7 +880,7 @@ dialog_ranking_tool (WBCGtk *wbcg, Sheet *sheet)
 				   "Gnumeric_fnlookup",
 				   NULL};
 
-	if ((wbcg == NULL) || 
+	if ((wbcg == NULL) ||
 	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
 
@@ -973,7 +973,7 @@ dialog_fourier_tool (WBCGtk *wbcg, Sheet *sheet)
 				   "Gnumeric_fncomplex",
 				   NULL};
 
-	if ((wbcg == NULL) || 
+	if ((wbcg == NULL) ||
 	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
 
@@ -1186,7 +1186,7 @@ dialog_descriptive_stat_tool (WBCGtk *wbcg, Sheet *sheet)
 				  "Gnumeric_fnmath",
 				  NULL};
 
-	if ((wbcg == NULL) || 
+	if ((wbcg == NULL) ||
 	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
 
@@ -1555,7 +1555,7 @@ dialog_ttest_tool (WBCGtk *wbcg, Sheet *sheet, ttest_type test)
 				  "Gnumeric_fnlogical",
 				  NULL};
 
-	if ((wbcg == NULL) || 
+	if ((wbcg == NULL) ||
 	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
 
@@ -1749,7 +1749,7 @@ dialog_ftest_tool (WBCGtk *wbcg, Sheet *sheet)
 	char const * plugins[] = { "Gnumeric_fnstat",
 				   NULL};
 
-	if ((wbcg == NULL) || 
+	if ((wbcg == NULL) ||
 	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
 
@@ -1815,8 +1815,8 @@ sampling_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				    _("The input range is invalid."));
 		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
 		return;
-	} else 
-		range_list_destroy (input_range);	
+	} else
+		range_list_destroy (input_range);
 
 	err = entry_to_int (GTK_ENTRY (state->number_entry), &number, FALSE);
 
@@ -1826,8 +1826,8 @@ sampling_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
 		return;
 	}
-	
-        periodic = gtk_toggle_button_get_active 
+
+        periodic = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->periodic_button));
 
 	if (periodic) {
@@ -1906,8 +1906,8 @@ sampling_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	if (data->periodic) {
 		err = entry_to_int (GTK_ENTRY (state->period_entry), &data->period, TRUE);
 		err = entry_to_int (GTK_ENTRY (state->offset_entry), &data->offset, TRUE);
-		data->row_major = gtk_toggle_button_get_active 
-			(GTK_TOGGLE_BUTTON (state->row_major_button));	
+		data->row_major = gtk_toggle_button_get_active
+			(GTK_TOGGLE_BUTTON (state->row_major_button));
 	} else
 		err = entry_to_int (GTK_ENTRY (state->random_entry), &data->size, TRUE);
 
@@ -1995,10 +1995,10 @@ dialog_sampling_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         SamplingState *state;
 	char const * plugins[] = { "Gnumeric_fnlookup",
-				   "Gnumeric_fnrandom",		   				   
+				   "Gnumeric_fnrandom",
 				   NULL};
 
-	if ((wbcg == NULL) || 
+	if ((wbcg == NULL) ||
 	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
 
@@ -2154,7 +2154,7 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		error_in_entry ((GenericToolState *) state,
 				GTK_WIDGET (state->base.input_entry), text);
 		g_free (text);
-		
+
 		if (data->base.range_1)
 			value_release (data->base.range_1);
 		if (data->base.range_2)
@@ -2195,7 +2195,7 @@ regression_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
 		return;
 	}
-	
+
 	y_h = regression_tool_calc_height(input_range_2);
 	y_w = regression_tool_calc_width (input_range_2);
 	value_release (input_range_2);
@@ -2238,7 +2238,7 @@ regression_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
 		return;
 	}
-	
+
 	if ((y_h == 1 && y_w != x_w) || (y_w == 1 && y_h != x_h)) {
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
 				    _("The sizes of the x variable and y variable ranges do not match."));
@@ -2286,7 +2286,7 @@ dialog_regression_tool (WBCGtk *wbcg, Sheet *sheet)
 				   "Gnumeric_fnstring",
 				   NULL};
 
-	if ((wbcg == NULL) || 
+	if ((wbcg == NULL) ||
 	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
 
@@ -2357,21 +2357,21 @@ exp_smoothing_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
         data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	err = entry_to_float (GTK_ENTRY (state->damping_fact_entry), &data->damp_fact, TRUE);
-	err = entry_to_float (GTK_ENTRY (state->g_damping_fact_entry), 
+	err = entry_to_float (GTK_ENTRY (state->g_damping_fact_entry),
 			      &data->g_damp_fact, TRUE);
-	err = entry_to_float (GTK_ENTRY (state->s_damping_fact_entry), 
+	err = entry_to_float (GTK_ENTRY (state->s_damping_fact_entry),
 			      &data->s_damp_fact, TRUE);
-	err = entry_to_int (GTK_ENTRY (state->s_period_entry), 
+	err = entry_to_int (GTK_ENTRY (state->s_period_entry),
 			      &data->s_period, TRUE);
 
-	data->std_error_flag = gtk_toggle_button_get_active 
+	data->std_error_flag = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->show_std_errors));
-	data->show_graph = gtk_toggle_button_get_active 
+	data->show_graph = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->graph_button));
 	data->df = gnumeric_glade_group_value (state->base.gui, n_group);
 
 	data->es_type = gnumeric_glade_group_value (state->base.gui, exp_smoothing_group);
-	
+
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
 			       dao, data, analysis_tool_exponential_smoothing_engine))
 		gtk_widget_destroy (state->base.dialog);
@@ -2409,7 +2409,7 @@ exp_smoothing_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	switch (gnumeric_glade_group_value (state->base.gui, exp_smoothing_group)) {
 	case exp_smoothing_type_mtes:
 	case exp_smoothing_type_ates:
-		err = entry_to_float (GTK_ENTRY (state->s_damping_fact_entry), 
+		err = entry_to_float (GTK_ENTRY (state->s_damping_fact_entry),
 				      &damp_fact, FALSE);
 		if (err!= 0 || damp_fact < 0 || damp_fact > 1)  {
 			gtk_label_set_text (GTK_LABEL (state->base.warning),
@@ -2418,7 +2418,7 @@ exp_smoothing_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
 			return;
 		}
-		err = entry_to_int (GTK_ENTRY (state->s_period_entry), 
+		err = entry_to_int (GTK_ENTRY (state->s_period_entry),
 				      &period, FALSE);
 		if (err!= 0 || period < 2)  {
 			gtk_label_set_text (GTK_LABEL (state->base.warning),
@@ -2429,7 +2429,7 @@ exp_smoothing_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		}
 		/* no break */
 	case exp_smoothing_type_des:
-		err = entry_to_float (GTK_ENTRY (state->g_damping_fact_entry), 
+		err = entry_to_float (GTK_ENTRY (state->g_damping_fact_entry),
 				      &damp_fact, FALSE);
 		if (err!= 0 || damp_fact < 0 || damp_fact > 1)  {
 			gtk_label_set_text (GTK_LABEL (state->base.warning),
@@ -2441,7 +2441,7 @@ exp_smoothing_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		/* no break */
 	case exp_smoothing_type_ses_r:
 	case exp_smoothing_type_ses_h:
-		err = entry_to_float (GTK_ENTRY (state->damping_fact_entry), 
+		err = entry_to_float (GTK_ENTRY (state->damping_fact_entry),
 				      &damp_fact, FALSE);
 		if (err!= 0 || damp_fact < 0 || damp_fact > 1)  {
 			gtk_label_set_text (GTK_LABEL (state->base.warning),
@@ -2483,10 +2483,10 @@ exp_smoothing_ses_h_cb (GtkToggleButton *togglebutton, gpointer user_data)
 	gtk_widget_set_sensitive (state->g_damping_fact_entry, FALSE);
 	gtk_widget_set_sensitive (state->s_damping_fact_entry, FALSE);
 	gtk_widget_set_sensitive (state->s_period_entry, FALSE);
-	
+
 	std_error = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->show_std_errors));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->n_button), TRUE);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->show_std_errors), std_error);	
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->show_std_errors), std_error);
 }
 
 static void
@@ -2501,10 +2501,10 @@ exp_smoothing_ses_r_cb (GtkToggleButton *togglebutton, gpointer user_data)
 	gtk_widget_set_sensitive (state->g_damping_fact_entry, FALSE);
 	gtk_widget_set_sensitive (state->s_damping_fact_entry, FALSE);
 	gtk_widget_set_sensitive (state->s_period_entry, FALSE);
-	
+
 	std_error = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->show_std_errors));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->nm1_button), TRUE);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->show_std_errors), std_error);	
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->show_std_errors), std_error);
 }
 
 static void
@@ -2522,7 +2522,7 @@ exp_smoothing_des_cb (GtkToggleButton *togglebutton, gpointer user_data)
 
 	std_error = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->show_std_errors));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->nm2_button), TRUE);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->show_std_errors), std_error);	
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->show_std_errors), std_error);
 }
 
 static void
@@ -2540,7 +2540,7 @@ exp_smoothing_tes_cb (GtkToggleButton *togglebutton, gpointer user_data)
 
 	std_error = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->show_std_errors));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->nm3_button), TRUE);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->show_std_errors), std_error);	
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->show_std_errors), std_error);
 }
 
 /**
@@ -2561,7 +2561,7 @@ dialog_exp_smoothing_tool (WBCGtk *wbcg, Sheet *sheet)
 				   "Gnumeric_fnlogical",
 				   NULL};
 
-	if ((wbcg == NULL) || 
+	if ((wbcg == NULL) ||
 	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
 
@@ -2597,7 +2597,7 @@ dialog_exp_smoothing_tool (WBCGtk *wbcg, Sheet *sheet)
 	state->s_period_entry = glade_xml_get_widget (state->base.gui,
 							  "s-period-spin");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->s_period_entry), 12.);
-	
+
 
 	state->n_button = glade_xml_get_widget (state->base.gui, "n-button");
 	state->nm1_button = glade_xml_get_widget (state->base.gui, "nm1-button");
@@ -2606,7 +2606,7 @@ dialog_exp_smoothing_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	state->show_std_errors = glade_xml_get_widget (state->base.gui, "std-errors-button");
 	state->graph_button = glade_xml_get_widget (state->base.gui, "graph-check");
-	
+
 	state->ses_h_button = glade_xml_get_widget (state->base.gui, "ses-h-button");
 	state->ses_r_button = glade_xml_get_widget (state->base.gui, "ses-r-button");
 	state->des_button = glade_xml_get_widget (state->base.gui, "des-button");
@@ -2657,7 +2657,7 @@ dialog_exp_smoothing_tool (WBCGtk *wbcg, Sheet *sheet)
 	exp_smoothing_ses_h_cb (GTK_TOGGLE_BUTTON (state->ses_h_button), state);
 	exp_smoothing_tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
-	
+
         return 0;
 }
 
@@ -2706,7 +2706,7 @@ average_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->show_graph = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->graph_button));
 
 	data->df = gnumeric_glade_group_value (state->base.gui, n_group);
-	
+
 	data->ma_type = gnumeric_glade_group_value (state->base.gui, moving_average_group);
 
 	switch (data->ma_type) {
@@ -2753,7 +2753,7 @@ average_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	int interval, err, offset;
         GSList *input_range;
 	moving_average_type_t type;
-	
+
 
         input_range = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
@@ -2768,7 +2768,7 @@ average_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	type = gnumeric_glade_group_value (state->base.gui, moving_average_group);
 
 	if (type == moving_average_type_sma || moving_average_type_wma) {
-		err = entry_to_int (GTK_ENTRY (state->interval_entry), 
+		err = entry_to_int (GTK_ENTRY (state->interval_entry),
 				    &interval, FALSE);
 		if (err!= 0 || interval <= 0)  {
 			gtk_label_set_text (GTK_LABEL (state->base.warning),
@@ -2787,7 +2787,7 @@ average_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 			return;
 		}
 	}
-	
+
 	if (!gnm_dao_is_ready (GNM_DAO (state->base.gdao))) {
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
 				    _("The output specification "
@@ -2824,7 +2824,7 @@ static void
 average_tool_prior_cb (GtkToggleButton *togglebutton, gpointer user_data)
 {
 	AverageToolState *state = (AverageToolState *)user_data;
-	
+
 	if (gtk_toggle_button_get_active (togglebutton))
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->offset_spin), 0.0);
 }
@@ -2834,7 +2834,7 @@ average_tool_interval_cb (G_GNUC_UNUSED GtkWidget *dummy, AverageToolState *stat
 {
 	int interval;
 	int err;
-	
+
 	err = entry_to_int (GTK_ENTRY (state->interval_entry), &interval, TRUE);
 
 	if (err == 0)
@@ -2848,7 +2848,7 @@ static void
 average_tool_offset_cb (GtkToggleButton *togglebutton, gpointer user_data)
 {
 	AverageToolState *state = (AverageToolState *)user_data;
-	
+
 	gtk_widget_set_sensitive (state->offset_spin, gtk_toggle_button_get_active (togglebutton));
 }
 
@@ -2929,7 +2929,7 @@ dialog_average_tool (WBCGtk *wbcg, Sheet *sheet)
 				   "Gnumeric_fnmath",
 				   NULL};
 
-	if ((wbcg == NULL) || 
+	if ((wbcg == NULL) ||
 	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
 
@@ -2966,7 +2966,7 @@ dialog_average_tool (WBCGtk *wbcg, Sheet *sheet)
 	state->cma_button = glade_xml_get_widget (state->base.gui, "cma-button");
 	state->wma_button = glade_xml_get_widget (state->base.gui, "wma-button");
 	state->spencer_button = glade_xml_get_widget (state->base.gui, "spencer-ma-button");
-	
+
 
 	g_signal_connect_after (G_OBJECT (state->n_button),
 		"toggled",
@@ -3000,7 +3000,7 @@ dialog_average_tool (WBCGtk *wbcg, Sheet *sheet)
 	g_signal_connect_after (G_OBJECT (state->spencer_button),
 		"toggled",
 		G_CALLBACK (average_tool_spencer_cb), state);
-	
+
 
 	g_signal_connect_after (G_OBJECT (state->interval_entry),
 		"changed",
@@ -3051,7 +3051,7 @@ histogram_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
 		return;
 	}
-	
+
 	range_list_destroy (input_range);
 
 	predetermined_bins = gtk_toggle_button_get_active (
@@ -3063,16 +3063,16 @@ histogram_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 			gtk_label_set_text (GTK_LABEL (state->base.warning),
 					    _("The cutoff range is not valid."));
 			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
-			return;		
+			return;
 		}
 		value_release (input_range_2);
 	} else if (entry_to_int(state->n_entry, &the_n,FALSE) != 0 || the_n <= 0) {
 			gtk_label_set_text (GTK_LABEL (state->base.warning),
 					    _("The number of to be calculated cutoffs is invalid."));
 			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
-			return;				
+			return;
 	}
-		
+
         if (!gnm_dao_is_ready (GNM_DAO (state->base.gdao))) {
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
 				    _("The output specification "
@@ -3196,7 +3196,7 @@ dialog_histogram_tool (WBCGtk *wbcg, Sheet *sheet)
 				  "Gnumeric_fnlookup",
 				  NULL};
 
-	if ((wbcg == NULL) || 
+	if ((wbcg == NULL) ||
 	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
 
@@ -3373,7 +3373,7 @@ dialog_anova_single_factor_tool (WBCGtk *wbcg, Sheet *sheet)
 	char const * plugins[] = { "Gnumeric_fnstat",
 				   NULL};
 
-	if ((wbcg == NULL) || 
+	if ((wbcg == NULL) ||
 	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
 
@@ -3604,7 +3604,7 @@ dialog_anova_two_factor_tool (WBCGtk *wbcg, Sheet *sheet)
 				   "Gnumeric_fnlogical",
 				   NULL};
 
-	if ((wbcg == NULL) || 
+	if ((wbcg == NULL) ||
 	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
 

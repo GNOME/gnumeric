@@ -249,8 +249,8 @@ gnumeric_lenb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_left[] = {
 	{ GNM_FUNC_HELP_NAME, F_("LEFT:the first @{num_chars} characters of the string @{s}")},
-	{ GNM_FUNC_HELP_ARG, F_("s:the string")},   
-	{ GNM_FUNC_HELP_ARG, F_("num_chars:the number of characters to return (defaults to 1)")},   
+	{ GNM_FUNC_HELP_ARG, F_("s:the string")},
+	{ GNM_FUNC_HELP_ARG, F_("num_chars:the number of characters to return (defaults to 1)")},
 	{ GNM_FUNC_HELP_NOTE, F_("If the string @{s} is in a right-to-left script, the returned first characters are from the right of the string.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.")},
@@ -281,8 +281,8 @@ gnumeric_left (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_leftb[] = {
 	{ GNM_FUNC_HELP_NAME, F_("LEFTB:the first characters  of the string @{s} comprising at most @{num_bytes} bytes")},
-	{ GNM_FUNC_HELP_ARG, F_("s:the string")},   
-	{ GNM_FUNC_HELP_ARG, F_("num_bytes:the maximum number of bytes to return (defaults to 1)")},   
+	{ GNM_FUNC_HELP_ARG, F_("s:the string")},
+	{ GNM_FUNC_HELP_ARG, F_("num_bytes:the maximum number of bytes to return (defaults to 1)")},
 	{ GNM_FUNC_HELP_NOTE, F_("The semantics of this function is subject to change as various applications implement it.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If the string is in a right-to-left script, the returned first characters are from the right of the string.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("While this function is syntactically Excel compatible, the differences in the underlying text encoding will usually yield different results.")},
@@ -306,7 +306,7 @@ gnumeric_leftb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	icount = (int)MIN ((gnm_float)INT_MAX, count);
 	if (icount >= len)
 		return value_new_string (peek);
-       
+
 	newlen = ((const guchar *)g_utf8_find_prev_char (peek, peek + icount + 1)) - peek;
 
 	return value_new_string_nocopy (g_strndup (peek, newlen));
@@ -333,9 +333,9 @@ gnumeric_lower (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_mid[] = {
 	{ GNM_FUNC_HELP_NAME, F_("MID:the substring of the string @{s} starting at position @{position} consisting of @{length} characters")},
-	{ GNM_FUNC_HELP_ARG, F_("s:the string")},   
-	{ GNM_FUNC_HELP_ARG, F_("position:the starting position")},   
-	{ GNM_FUNC_HELP_ARG, F_("length:the number of characters to return")},   
+	{ GNM_FUNC_HELP_ARG, F_("s:the string")},
+	{ GNM_FUNC_HELP_ARG, F_("position:the starting position")},
+	{ GNM_FUNC_HELP_ARG, F_("length:the number of characters to return")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=MID(\"L\xc3\xa9vy\",2,1)" },
@@ -373,9 +373,9 @@ gnumeric_mid (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_midb[] = {
 	{ GNM_FUNC_HELP_NAME, F_("MIDB:the characters following the first @{start_pos} bytes comprising at most @{num_bytes} bytes")},
-	{ GNM_FUNC_HELP_ARG, F_("s:the string")},   
-	{ GNM_FUNC_HELP_ARG, F_("start_pos:the number of the byte with which to start (defaults to 1)")},   
-	{ GNM_FUNC_HELP_ARG, F_("num_bytes:the maximum number of bytes to return (defaults to 1)")},   
+	{ GNM_FUNC_HELP_ARG, F_("s:the string")},
+	{ GNM_FUNC_HELP_ARG, F_("start_pos:the number of the byte with which to start (defaults to 1)")},
+	{ GNM_FUNC_HELP_ARG, F_("num_bytes:the maximum number of bytes to return (defaults to 1)")},
 	{ GNM_FUNC_HELP_NOTE, F_("The semantics of this function is subject to change as various applications implement it.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("While this function is syntactically Excel compatible, "
 				  "the differences in the underlying text encoding will usually yield different results.")},
@@ -400,13 +400,13 @@ gnumeric_midb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		return value_new_error_VALUE (ei->pos);
 	ipos = (int)MIN ((gnm_float)INT_MAX, pos) - 1;
 	ilen = (int)MIN ((gnm_float)INT_MAX, len);
-	if ((ipos >= slen) || 
+	if ((ipos >= slen) ||
 	    ((gunichar)-1 == g_utf8_get_char_validated (peek + ipos, -1)))
 		return value_new_error_VALUE (ei->pos);
 
 	if ((ipos + ilen) >= slen)
 		return value_new_string (peek + ipos);
-       
+
 	newlen = ((const guchar *)g_utf8_find_prev_char (peek + ipos, peek + ipos + ilen + 1))
 		- (peek + ipos);
 
@@ -460,8 +460,8 @@ gnumeric_findb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_right[] = {
 	{ GNM_FUNC_HELP_NAME, F_("RIGHT:the last @{num_chars} characters of the string @{s}")},
-	{ GNM_FUNC_HELP_ARG, F_("s:the string")},   
-	{ GNM_FUNC_HELP_ARG, F_("num_chars:the number of characters to return (defaults to 1)")},   
+	{ GNM_FUNC_HELP_ARG, F_("s:the string")},
+	{ GNM_FUNC_HELP_ARG, F_("num_chars:the number of characters to return (defaults to 1)")},
 	{ GNM_FUNC_HELP_NOTE, F_("If the string @{s} is in a right-to-left script, the returned last characters are from the left of the string.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.")},
@@ -496,8 +496,8 @@ gnumeric_right (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_rightb[] = {
 	{ GNM_FUNC_HELP_NAME, F_("RIGHTB:the last characters of the string @{s} comprising at most @{num_bytes} bytes")},
-	{ GNM_FUNC_HELP_ARG, F_("s:the string")},   
-	{ GNM_FUNC_HELP_ARG, F_("num_bytes:the maximum number of bytes to return (defaults to 1)")},   
+	{ GNM_FUNC_HELP_ARG, F_("s:the string")},
+	{ GNM_FUNC_HELP_ARG, F_("num_bytes:the maximum number of bytes to return (defaults to 1)")},
 	{ GNM_FUNC_HELP_NOTE, F_("The semantics of this function is subject to change as various applications implement it.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If the string @{s} is in a right-to-left script, the returned last characters are from the left of the string.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("While this function is syntactically Excel compatible, the differences in the underlying text encoding will usually yield different results.")},
@@ -870,7 +870,7 @@ gnumeric_replaceb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		return value_new_error_VALUE (ei->pos);
 	ipos = (int)MIN ((gnm_float)INT_MAX, pos) - 1;
 	ilen = (int)MIN ((gnm_float)INT_MAX, len);
-	if ((ipos >= slen) || 
+	if ((ipos >= slen) ||
 	    (ipos + ilen - 1 > slen) ||
 	    ((gunichar)-1 == g_utf8_get_char_validated (old + ipos, -1)) ||
 	    !g_utf8_validate (old + ipos, ilen, NULL))
@@ -1329,8 +1329,8 @@ gnumeric_searchb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_asc[] = {
 	{ GNM_FUNC_HELP_NAME, F_("ASC:text with full-width katakana and ASCII characters converted to half-width.")},
-	{ GNM_FUNC_HELP_ARG, F_("text:string")},   
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("ASC converts full-width katakana and ASCII characters to half-width equivalent characters, copying all others. ")},   
+	{ GNM_FUNC_HELP_ARG, F_("text:string")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("ASC converts full-width katakana and ASCII characters to half-width equivalent characters, copying all others. ")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The distinction between half-width and full-width characters is described in http://www.unicode.org/reports/tr11/.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("For most strings, this function has the same effect as in Excel.")},
 	{ GNM_FUNC_HELP_NOTE, F_("While in obsolete encodings ASC used to translate between 2-byte and 1-byte characters, this is not the case in UTF-8.")},
@@ -1376,7 +1376,7 @@ gnm_asc_half (gunichar c, GString *str)
 		if (c%2 == 1)
 			return ((c - 0x30ab)/2 + 0xff76);
 		else {
-			g_string_append_unichar 
+			g_string_append_unichar
 				(str, (c - 0x30ac)/2 + 0xff76);
 			return 0xff9e;
 		}
@@ -1387,7 +1387,7 @@ gnm_asc_half (gunichar c, GString *str)
 		if (c%2 == 0)
 			return ((c - 0x30c4)/2 + 0xff82);
 		else {
-			g_string_append_unichar 
+			g_string_append_unichar
 				(str, (c - 0x30c5)/2 + 0xff82);
 			return 0xff9e;
 		}
@@ -1399,12 +1399,12 @@ gnm_asc_half (gunichar c, GString *str)
 		case 0:
 			return ((c - 0x30cf)/3 + 0xff8a);
 		case 1:
-			g_string_append_unichar 
+			g_string_append_unichar
 				(str, (c - 0x30d0)/3 + 0xff8a);
 			return 0xff9e;
 		case 2:
 		default:
-			g_string_append_unichar 
+			g_string_append_unichar
 				(str, (c - 0x30d1)/3 + 0xff8a);
 			return 0xff9f;
 		}
@@ -1415,7 +1415,7 @@ gnm_asc_half (gunichar c, GString *str)
 			return ((c - 0x30e4)/2 + 0xff94);
 		else
 			return ((c - 0x30e3)/2 + 0xff6c);
-	}			
+	}
 	if (c <= 0x30ed)
 		return (c - 0x30e9 + 0xff97);
 	if (c == 0x30ef)
@@ -1456,9 +1456,9 @@ gnumeric_asc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_jis[] = {
 	{ GNM_FUNC_HELP_NAME, F_("JIS:text with half-width katakana and ASCII characters converted to full-width.")},
-	{ GNM_FUNC_HELP_ARG, F_("text:original text")},   
+	{ GNM_FUNC_HELP_ARG, F_("text:original text")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("JIS converts half-width katakana and ASCII characters "
-					"to full-width equivalent characters, copying all others. ")},   
+					"to full-width equivalent characters, copying all others. ")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The distinction between half-width and full-width characters "
 					"is described in http://www.unicode.org/reports/tr11/.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("For most strings, this function has the same effect as in Excel.")},

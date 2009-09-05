@@ -194,25 +194,25 @@ name_guru_update_sensitivity (NameGuruState *state, gboolean update_entries)
 		 **/
 
 		sheet_scope = name_guru_scope_is_sheet (state);
-		
+
 		in_list = name_guru_in_list (state, name, TRUE, sheet_scope);
-		
+
 		if (in_list != NULL) {
 			delete = delete && !in_list->is_permanent;
 			clear_selection = FALSE;
 		} else
 			add = TRUE;
-		
+
 		update = !add && in_list->is_editable;
 	}
-	
+
 	if (switchscope) {
 		GnmNamedExpr const *nexpr = state->cur_name;
-		
-		if (nexpr != NULL ) 
-			switchscope = !nexpr->is_permanent && 
-				(NULL == name_guru_in_list (state, expr_name_name (nexpr), 
-						TRUE, (nexpr->pos.sheet == NULL)));   
+
+		if (nexpr != NULL )
+			switchscope = !nexpr->is_permanent &&
+				(NULL == name_guru_in_list (state, expr_name_name (nexpr),
+						TRUE, (nexpr->pos.sheet == NULL)));
 	}
 
 	gtk_widget_set_sensitive (state->delete_button, delete);
@@ -358,7 +358,7 @@ name_guru_switchscope (NameGuruState *state)
 
 	g_return_if_fail (nexpr != NULL);
 	g_return_if_fail (!nexpr->is_permanent);
-	
+
 	expr_name_set_scope (state->cur_name,
 			     (nexpr->pos.sheet == NULL) ?
 			     state->sheet : NULL);

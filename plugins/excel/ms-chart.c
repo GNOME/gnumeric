@@ -308,7 +308,7 @@ BC_R(ai)(XLChartHandler const *handle,
 		if (texpr != NULL) {
 			Sheet *sheet = ms_container_sheet (s->container.parent);
 
-			XL_CHECK_CONDITION_VAL (sheet && 
+			XL_CHECK_CONDITION_VAL (sheet &&
 						s->currentSeries &&
 						purpose < G_N_ELEMENTS (s->currentSeries->reg_dims) &&
 						s->currentSeries->reg_dims[purpose] == NULL,
@@ -2224,7 +2224,7 @@ BC_R(tick)(XLChartHandler const *handle,
 		s->style->text_layout.angle = -90.;
 		break;
 	}
-		
+
 	d (1, {
 	switch (major) {
 	case 0: g_printerr ("no major tick;\n"); break;
@@ -2800,7 +2800,7 @@ not_a_matrix:
 						}
 						g_slist_free (l);
 					}
-					
+
 				}
 				return TRUE;
 			}
@@ -5816,7 +5816,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 								scur = sval->v_range.cell.a.col;
 							}
 						} else {
-							sval = gnm_expr_top_get_constant (stexpr);						
+							sval = gnm_expr_top_get_constant (stexpr);
 							s_as_col = sval->v_array.y > sval->v_array.x;
 						}
 					}

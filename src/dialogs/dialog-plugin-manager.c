@@ -671,7 +671,7 @@ dialog_plugin_manager (WBCGtk *wbcg)
 		GTK_BUTTON (glade_xml_get_widget (gui, "button_activate_all"));
 	/* If we add the following image in glade it does */
         /* not obey gtk-button-images = 0 */
-	image = g_object_ref (gtk_image_new_from_stock (GTK_STOCK_EXECUTE, 
+	image = g_object_ref (gtk_image_new_from_stock (GTK_STOCK_EXECUTE,
 							GTK_ICON_SIZE_BUTTON));
 	gtk_button_set_image (pm_gui->button_activate_all, image);
 

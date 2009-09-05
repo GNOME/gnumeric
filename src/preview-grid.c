@@ -185,7 +185,7 @@ preview_grid_draw_background (cairo_t *cr, PreviewGrid const *pg, GnmStyle const
 #define border_null(b)	((b) == none || (b) == NULL)
 static void
 pg_style_get_row (PreviewGrid *pg, GnmStyleRow *sr)
-{	
+{
 	GnmBorder const *top, *bottom, *none = gnm_style_border_none ();
 	GnmBorder const *left, *right;
 	int const end = sr->end_col, row = sr->row;

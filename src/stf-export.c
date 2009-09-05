@@ -579,7 +579,7 @@ gnm_stf_get_stfe (GObject *obj)
 				     NULL);
 		g_object_set_data_full (obj, "stfe", stfe, g_object_unref);
 	}
-	return stfe;		
+	return stfe;
 }
 
 static void

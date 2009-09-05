@@ -965,10 +965,10 @@ gnumeric_fourier (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (argv[1]) {
 		inverse = 0 != (int) gnm_floor (value_get_as_float (argv[1]));
 	}
-	
+
 	if (missing0) {
 		GArray *gval;
-		
+
 		gval = g_array_new (FALSE, FALSE, sizeof (gnm_float));
 		gval = g_array_append_vals (gval, ord, n0);
 		g_free (ord);
@@ -976,7 +976,7 @@ gnumeric_fourier (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		ord = (gnm_float *) gval->data;
 		n0 = gval->len;
 		g_array_free (gval, FALSE);
-		
+
 		g_slist_free (missing0);
 	}
 
@@ -996,7 +996,7 @@ gnumeric_fourier (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		res = value_new_array_empty (1 , nb);
 		sprintf (f, "%%.%d" GNM_FORMAT_g, GNM_DIG);
 		for (i = 0; i < nb; i++)
-			res->v_array.vals[0][i] = value_new_string_nocopy 
+			res->v_array.vals[0][i] = value_new_string_nocopy
 				(complex_to_string (&(out[i]), f, f, 'i'));
 		g_free (out);
 	} else
@@ -1008,15 +1008,15 @@ gnumeric_fourier (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 const GnmFuncDescriptor TimeSeriesAnalysis_functions[] = {
 
-        { "interpolation",       "AAA|f",   
+        { "interpolation",       "AAA|f",
 	  help_interpolation, gnumeric_interpolation, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-	{ "periodogram",       "A|fAff",   
+	{ "periodogram",       "A|fAff",
 	  help_periodogram, gnumeric_periodogram, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-	{ "fourier",       "A|b",   
+	{ "fourier",       "A|b",
 	  help_fourier, gnumeric_fourier, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 

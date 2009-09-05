@@ -164,7 +164,7 @@ dialog_delete_cells (WBCGtk *wbcg)
 	g_signal_connect (G_OBJECT (w), "clicked",
 		G_CALLBACK (cb_delete_cell_cancel_clicked), state);
 
-	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), 
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog),
 					   state->wbcg,
 					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
 
@@ -172,10 +172,10 @@ dialog_delete_cells (WBCGtk *wbcg)
 		glade_xml_get_widget (state->gui, "helpbutton"),
 		GNUMERIC_HELP_LINK_DELETE_CELLS);
 
-	gtk_toggle_button_set_active 
-		(GTK_TOGGLE_BUTTON (glade_xml_get_widget 
-				    (state->gui, cols < rows 
-				     ? "radio_0" : "radio_1")), 
+	gtk_toggle_button_set_active
+		(GTK_TOGGLE_BUTTON (glade_xml_get_widget
+				    (state->gui, cols < rows
+				     ? "radio_0" : "radio_1")),
 		 TRUE);
 
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);

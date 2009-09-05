@@ -20,7 +20,7 @@ typedef struct {
 	GtkCheckButton  *line_break_unix;
 	GtkCheckButton  *line_break_windows;
 	GtkCheckButton  *line_break_mac;
-     
+
 	/* Page members that are created at run-time */
 	GOCharmapSel	*charmap_selector;
 	RenderData_t    *renderdata;
@@ -51,7 +51,7 @@ typedef struct {
 
 	/* Page members that are created at run-time */
 	RenderData_t  *renderdata;
-	int            context_col, context_dx;  
+	int            context_col, context_dx;
 	int            ruler_x;
 	GdkGC         *ruler_gc;
 } FixedInfo_t;
@@ -62,7 +62,7 @@ typedef struct {
         GtkWidget	  *format_trim;
 	GOFormatSel	  *format_selector;
 	GtkWidget         *column_selection_label;
-     
+
 	/* Page members that are created at run-time */
 	GOLocaleSel	  *locale_selector;
 	RenderData_t      *renderdata;

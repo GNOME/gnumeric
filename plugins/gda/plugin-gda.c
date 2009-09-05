@@ -374,7 +374,7 @@ gnumeric_execSQL (GnmFuncEvalInfo *ei, GnmValue const  * const *args)
 		g_object_unref (stmt);
 		return value_new_error (ei->pos, _("More than one statement in SQL string"));
 	}
-		
+
 	recset = gda_connection_statement_execute_select (cnc, stmt, NULL, &error);
 	g_object_unref (stmt);
 	if (recset) {
@@ -457,7 +457,7 @@ gnumeric_readDBTable (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 	recset = gda_connection_statement_execute_select (cnc, stmt, NULL, &error);
 	g_object_unref (stmt);
-	
+
 	if (recset) {
 		ret = display_recordset (recset, ei);
 		g_object_unref (recset);

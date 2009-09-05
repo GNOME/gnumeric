@@ -1157,7 +1157,7 @@ std_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		g_string_append (target, name);
 		/* FIXME: possibly a space here.  */
 		gnm_expr_list_as_string (func->argc, func->argv, out);
-		return;	
+		return;
 }
 
 static void

@@ -148,7 +148,7 @@ xls_write_pivot_cache_value (ExcelWriteState *ewb, GOVal const *v)
 }
 
 static void
-xls_write_pivot_cache_group (ExcelWriteState *ewb, 
+xls_write_pivot_cache_group (ExcelWriteState *ewb,
 			     GOValArray const *grouped_items,
 			     GOValBucketer *bucketer)
 {

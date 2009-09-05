@@ -167,9 +167,9 @@ cb_name_edited (GtkCellRendererText *cell,
 
 	if (cell != NULL) {
 		path = gtk_tree_path_new_from_string (path_string);
-		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model), 
+		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model),
 					     &iter, path))
-			gtk_list_store_set (state->model, &iter, 
+			gtk_list_store_set (state->model, &iter,
 					    SHEET_NEW_NAME, new_text, -1);
 		else
 			g_warning ("Did not get a valid iterator");
@@ -183,7 +183,7 @@ cb_name_edited (GtkCellRendererText *cell,
 		gtk_label_set_text (GTK_LABEL (state->warning), error);
 	} else {
 		gtk_widget_set_sensitive (state->apply_names_btn, changed);
-		gtk_label_set_markup (GTK_LABEL (state->warning), 
+		gtk_label_set_markup (GTK_LABEL (state->warning),
 				      changed ? _("<b>Note:</b> A sheet name change is pending.") : "");
 	}
 }
@@ -211,17 +211,17 @@ gtmff_asc (GtkTreeModel *model, GtkTreePath *path,
 	Sheet *this_sheet;
 	char *name;
 	gtmff_sort_t *ptr;
-	
+
 
 	ptr = g_new (gtmff_sort_t, 1);
-	gtk_tree_model_get (model, iter, 
+	gtk_tree_model_get (model, iter,
 			    SHEET_POINTER, &this_sheet,
 			    SHEET_NAME, &name,
 			    -1);
 	ptr->i = this_sheet->index_in_wb;
 	ptr->key = g_utf8_collate_key_for_filename (name, -1);
 
-	*l = g_slist_insert_sorted (*l, ptr, (GCompareFunc) gtmff_compare_func); 
+	*l = g_slist_insert_sorted (*l, ptr, (GCompareFunc) gtmff_compare_func);
 
 	return FALSE;
 }
@@ -248,7 +248,7 @@ sort_asc_desc (SheetManager *state, gboolean asc)
 		gtmff_sort_t *ptr = l_tmp->data;
 		GtkTreeIter iter;
 		Sheet *sheet;
-		
+
 		gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
 						&iter, NULL, ptr->i);
 		g_free (ptr->key);
@@ -265,7 +265,7 @@ sort_asc_desc (SheetManager *state, gboolean asc)
 
 	/* Now we change the list store  */
 	dialog_sheet_order_update_sheet_order (state);
-	
+
 	cmd_reorganize_sheets (wbc, old_state, NULL);
 	update_undo (state, wbc);
 
@@ -311,11 +311,11 @@ cb_color_changed_fore (G_GNUC_UNUSED GOComboColor *go_combo_color,
 		WorkbookControl *wbc;
 		Workbook *wb;
 		WorkbookSheetState *old_state;
-	
+
 		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &sel_iter,
 				    SHEET_POINTER, &this_sheet,
 				    -1);
-		
+
 		p_gdk_color = (color == 0) ? NULL : go_color_to_gdk (color, &gdk_color);
 
 		if (color_equal (p_gdk_color, this_sheet->tab_text_color))
@@ -357,11 +357,11 @@ cb_color_changed_back (G_GNUC_UNUSED GOComboColor *go_combo_color,
 		WorkbookControl *wbc;
 		Workbook *wb;
 		WorkbookSheetState *old_state;
-	
+
 		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &sel_iter,
 				    SHEET_POINTER, &this_sheet,
 				    -1);
-		
+
 		p_gdk_color = (color == 0) ? NULL : go_color_to_gdk (color, &gdk_color);
 
 		if (color_equal (p_gdk_color, this_sheet->tab_color))
@@ -468,20 +468,20 @@ cb_toggled_lock (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	Workbook *wb = wb_control_get_workbook (wbc);
 
 	if (gtk_tree_model_get_iter (model, &iter, path)) {
-		gtk_tree_model_get (model, &iter, 
-				    SHEET_LOCKED, &is_locked, 
+		gtk_tree_model_get (model, &iter,
+				    SHEET_LOCKED, &is_locked,
 				    SHEET_POINTER, &this_sheet,
 				    -1);
 
 		if (is_locked) {
-			gtk_list_store_set 
+			gtk_list_store_set
 				(GTK_LIST_STORE (model), &iter, SHEET_LOCKED,
-				 FALSE, SHEET_LOCK_IMAGE, 
+				 FALSE, SHEET_LOCK_IMAGE,
 				 state->image_padlock_no, -1);
 		} else {
-			gtk_list_store_set 
+			gtk_list_store_set
 				(GTK_LIST_STORE (model), &iter, SHEET_LOCKED,
-				 TRUE, SHEET_LOCK_IMAGE, 
+				 TRUE, SHEET_LOCK_IMAGE,
 				 state->image_padlock, -1);
 		}
 	} else {
@@ -512,14 +512,14 @@ cb_toggled_direction (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	Workbook *wb = wb_control_get_workbook (wbc);
 
 	if (gtk_tree_model_get_iter (model, &iter, path)) {
-		gtk_tree_model_get (model, &iter, 
-				    SHEET_DIRECTION, &is_rtl, 
+		gtk_tree_model_get (model, &iter,
+				    SHEET_DIRECTION, &is_rtl,
 				    SHEET_POINTER, &this_sheet,
 				    -1);
-		gtk_list_store_set 
+		gtk_list_store_set
 			(GTK_LIST_STORE (model), &iter,
 			 SHEET_DIRECTION,	!is_rtl,
-			 SHEET_DIRECTION_IMAGE,	
+			 SHEET_DIRECTION_IMAGE,
 			 is_rtl ? state->image_ltr : state->image_rtl,
 			 -1);
 	} else {
@@ -552,8 +552,8 @@ cb_sheet_order_cnt_visible (GtkTreeModel *model,
 	gboolean is_visible;
 	Sheet *this_sheet;
 
-	gtk_tree_model_get (model, iter, 
-			    SHEET_VISIBLE, &is_visible, 
+	gtk_tree_model_get (model, iter,
+			    SHEET_VISIBLE, &is_visible,
 			    SHEET_POINTER, &this_sheet,
 			    -1);
 	if (is_visible != (this_sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE)) {
@@ -565,7 +565,7 @@ cb_sheet_order_cnt_visible (GtkTreeModel *model,
 				    -1);
 		is_visible = (this_sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE);
 	}
-	
+
 	if (is_visible)
 		(svc->i)++;
 
@@ -604,18 +604,18 @@ cb_toggled_visible (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 		return;
 	}
 
-	gtk_tree_model_get (model, &iter, 
-			    SHEET_VISIBLE, &is_visible, 
+	gtk_tree_model_get (model, &iter,
+			    SHEET_VISIBLE, &is_visible,
 			    SHEET_POINTER, &this_sheet,
 			    -1);
-	
+
 	if (is_visible) {
 		cnt = sheet_order_cnt_visible (state);
 		if (cnt <= 1) {
 			/* Note: sheet_order_cnt_visible may have changed whether this sheet is indeed */
 			/* so we should not post a warning message if the sheet has become invisible.  */
-			gtk_tree_model_get (model, &iter, 
-					    SHEET_VISIBLE, &is_visible, 
+			gtk_tree_model_get (model, &iter,
+					    SHEET_VISIBLE, &is_visible,
 					    -1);
 			if (is_visible) {
 				go_gtk_notice_dialog (GTK_WINDOW (state->dialog), GTK_MESSAGE_ERROR,
@@ -628,20 +628,20 @@ cb_toggled_visible (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 				    SHEET_VISIBLE, FALSE,
 				    SHEET_VISIBLE_IMAGE, NULL,
 				    -1);
-		
+
 	} else {
 		gtk_list_store_set (GTK_LIST_STORE (model), &iter,
 				    SHEET_VISIBLE, TRUE,
-				    SHEET_VISIBLE_IMAGE, 
+				    SHEET_VISIBLE_IMAGE,
 				    state->image_visible,
 				    -1);
 	}
 	gtk_tree_path_free (path);
-	
+
 	old_state = workbook_sheet_state_new (wb);
 	g_object_set (this_sheet,
-		      "visibility", 
-		      !is_visible ? GNM_SHEET_VISIBILITY_VISIBLE 
+		      "visibility",
+		      !is_visible ? GNM_SHEET_VISIBILITY_VISIBLE
 		      : GNM_SHEET_VISIBILITY_HIDDEN,
 		      NULL);
 
@@ -761,7 +761,7 @@ create_sheet_list (SheetManager *state)
 	gtk_tree_view_set_reorderable (state->sheet_list, TRUE);
 
 	/* Init the buttons & selection */
-	state->model_selection_changed_listener = 
+	state->model_selection_changed_listener =
 		g_signal_connect (selection,
 				  "changed",
 				  G_CALLBACK (cb_selection_changed), state);
@@ -801,7 +801,7 @@ set_sheet_info_at_iter (SheetManager *state, GtkTreeIter *iter, Sheet *sheet)
 						    ? state->image_rtl
 						    : state->image_ltr),
 			    -1);
-	
+
 
 }
 
@@ -844,7 +844,7 @@ populate_sheet_list (SheetManager *state)
 
 	if (state->model_row_insertion_listener)
 		g_signal_handler_unblock (state->model, state->model_row_insertion_listener);
-	g_signal_handler_unblock (selection, state->model_selection_changed_listener);	
+	g_signal_handler_unblock (selection, state->model_selection_changed_listener);
 
 	/* Init the buttons & selection */
 	cb_selection_changed (NULL, state);
@@ -894,7 +894,7 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	Sheet *sheet, *old_sheet = NULL;
 
 	if (gtk_tree_selection_get_selected (selection, NULL, &sel_iter)) {
-		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &sel_iter, 
+		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &sel_iter,
 				    SHEET_POINTER, &old_sheet,
 				    -1);
 		index = old_sheet->index_in_wb;
@@ -923,7 +923,7 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	g_signal_handler_unblock (state->model, state->model_row_insertion_listener);
 
 	set_sheet_info_at_iter (state, &iter, sheet);
-	
+
 	cb_selection_changed (NULL, state);
 }
 
@@ -949,11 +949,11 @@ cb_append_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	workbook_signals_unblock (state);
 
 	sheet = workbook_sheet_by_index (wb, workbook_sheet_count (wb) - 1);
-	
+
 	g_signal_handler_block (state->model, state->model_row_insertion_listener);
 	gtk_list_store_append (state->model, &iter);
 	g_signal_handler_unblock (state->model, state->model_row_insertion_listener);
-	
+
 	set_sheet_info_at_iter (state, &iter, sheet);
 
 	cb_selection_changed (NULL, state);
@@ -974,8 +974,8 @@ cb_duplicate_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 	if (!gtk_tree_selection_get_selected (selection, NULL, &sel_iter)) {
 		g_warning ("No selection!");
 	}
-	
-	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &sel_iter, 
+
+	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &sel_iter,
 			    SHEET_POINTER, &this_sheet,
 			    -1);
 
@@ -996,7 +996,7 @@ cb_duplicate_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 	g_signal_handler_unblock (state->model, state->model_row_insertion_listener);
 
 	set_sheet_info_at_iter (state, &iter, new_sheet);
-	g_object_unref (new_sheet);	
+	g_object_unref (new_sheet);
 
 	cb_selection_changed (NULL, state);
 }
@@ -1029,14 +1029,14 @@ cb_delete_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 		gtk_list_store_remove (state->model, &sel_iter);
 
 		workbook_signals_block (state);
-		
+
 		old_state = workbook_sheet_state_new (wb);
 		workbook_sheet_delete (sheet);
 		cmd_reorganize_sheets (wbc, old_state, NULL);
 		update_undo (state, wbc);
 
 		workbook_signals_unblock (state);
-		
+
 		cb_selection_changed (NULL, state);
 		cb_name_edited (NULL, NULL, NULL, state);
 	}
@@ -1078,10 +1078,10 @@ verify_validity (SheetManager *state, gboolean *pchanged)
 			g_free (new_name2);
 		} else
 			g_hash_table_insert (names, new_name2, new_name2);
-		
+
 		if (*new_name && strcmp (old_name, new_name))
 				changed = TRUE;
-		
+
 		g_free (old_name);
 		g_free (new_name);
 		n++;
@@ -1125,11 +1125,11 @@ cb_apply_names_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 					    SHEET_NEW_NAME, "",
 					    -1);
 		}
-		
+
 		g_free (new_name);
 		n++;
 	}
-	
+
 	cmd_reorganize_sheets (wbc, old_state, NULL);
 	gtk_label_set_text (GTK_LABEL (state->warning), "");
 	update_undo (state, wbc);
@@ -1289,7 +1289,7 @@ cb_sheet_added (Workbook *wb, SheetManager *state)
 
 
 
-static void                
+static void
 dialog_sheet_order_changed (SheetManager *state)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
@@ -1317,13 +1317,13 @@ dialog_sheet_order_changed (SheetManager *state)
 	if (changes > 0) {
 		cmd_reorganize_sheets (wbc, old_state, NULL);
 		update_undo (state, wbc);
-	} else 
-		workbook_sheet_state_free (old_state);	
+	} else
+		workbook_sheet_state_free (old_state);
 
 	workbook_signals_unblock (state);
 }
 
-static void                
+static void
 cb_dialog_order_changed (G_GNUC_UNUSED GtkListStore *model,
 			 G_GNUC_UNUSED GtkTreePath  *path,
 			 G_GNUC_UNUSED GtkTreeIter  *iter,
@@ -1341,14 +1341,14 @@ dialog_sheet_order_changed_idle_handler (SheetManager *state)
 }
 
 
-static void                
+static void
 cb_dialog_order_changed_by_insertion (G_GNUC_UNUSED GtkListStore *model,
 			 G_GNUC_UNUSED GtkTreePath  *path,
 			 G_GNUC_UNUSED GtkTreeIter  *iter,
 			 SheetManager *state)
 {
-	g_idle_add_full (G_PRIORITY_HIGH_IDLE, 
-			 (GSourceFunc)dialog_sheet_order_changed_idle_handler, 
+	g_idle_add_full (G_PRIORITY_HIGH_IDLE,
+			 (GSourceFunc)dialog_sheet_order_changed_idle_handler,
 			 state, NULL);
 }
 
@@ -1365,10 +1365,10 @@ cb_undo_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 }
 
 static void
-cb_adv_check_toggled (G_GNUC_UNUSED GtkToggleButton *ignored, 
+cb_adv_check_toggled (G_GNUC_UNUSED GtkToggleButton *ignored,
 		      SheetManager *state)
 {
-	gboolean visible = gtk_toggle_button_get_active 
+	gboolean visible = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->advanced_check));
 
 	gtk_tree_view_column_set_visible (state->dir_column, visible);
@@ -1395,7 +1395,7 @@ dialog_sheet_order (WBCGtk *wbcg)
 
 	wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 	if (g_object_get_data (G_OBJECT (wb), SHEET_ORDER_KEY)) {
-		GtkWidget *dialog = gtk_message_dialog_new 
+		GtkWidget *dialog = gtk_message_dialog_new
 			(wbcg_toplevel (wbcg),
 			 GTK_DIALOG_DESTROY_WITH_PARENT,
 			 GTK_MESSAGE_WARNING,
@@ -1403,7 +1403,7 @@ dialog_sheet_order (WBCGtk *wbcg)
 			 _("Another view is already managing sheets"));
 		go_gtk_dialog_run (GTK_DIALOG (dialog), wbcg_toplevel (wbcg));
 		return;
-	} 
+	}
 	g_object_set_data (G_OBJECT (wb), SHEET_ORDER_KEY, (gpointer) gui);
 	state = g_new0 (SheetManager, 1);
 	state->gui = gui;
@@ -1420,7 +1420,7 @@ dialog_sheet_order (WBCGtk *wbcg)
 	state->apply_names_btn  = glade_xml_get_widget (gui, "ok_button");
 	state->sort_asc_btn  = glade_xml_get_widget (gui, "sort-asc-button");
 	state->sort_desc_btn  = glade_xml_get_widget (gui, "sort-desc-button");
-	state->undo_btn  = glade_xml_get_widget (gui, "undo-button");	
+	state->undo_btn  = glade_xml_get_widget (gui, "undo-button");
 	state->cancel_btn  = glade_xml_get_widget (gui, "cancel_button");
 	state->advanced_check  = glade_xml_get_widget (gui, "advanced-check");
 	state->initial_colors_set = FALSE;

@@ -133,7 +133,7 @@ do_tabulation (WorkbookControl *wbc,
 				     gnm_sheet_get_max_rows (old_sheet));
 			g_free (unique_name);
 			workbook_sheet_attach (wb, sheet);
-			sheet_idx = g_slist_prepend (sheet_idx, 
+			sheet_idx = g_slist_prepend (sheet_idx,
 						     GINT_TO_POINTER (sheet->index_in_wb));
 
 			val += data->steps[dim];
@@ -148,7 +148,7 @@ do_tabulation (WorkbookControl *wbc,
 				   gnm_sheet_get_max_rows (old_sheet));
 		g_free (unique_name);
 		workbook_sheet_attach (wb, sheet);
-		sheet_idx = g_slist_prepend (sheet_idx, 
+		sheet_idx = g_slist_prepend (sheet_idx,
 					     GINT_TO_POINTER (sheet->index_in_wb));
 	}
 
@@ -197,7 +197,7 @@ do_tabulation (WorkbookControl *wbc,
 
 				range.start.col = 0;
 				range.start.row = 0;
-				range.end.col   = (data->dims >= 2 ? 
+				range.end.col   = (data->dims >= 2 ?
 						   counts[1] : 1);
 				range.end.row   = 0;
 

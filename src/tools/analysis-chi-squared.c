@@ -56,8 +56,8 @@ analysis_tool_chi_squared_engine_run (data_analysis_output_t *dao,
 	char const *label;
 	char *cc;
 
-	label = (info->independence) 
-		? _("[>=5]\"Test of Independence\";[<5][Red]\"Invalid Test of Independence\"") 
+	label = (info->independence)
+		? _("[>=5]\"Test of Independence\";[<5][Red]\"Invalid Test of Independence\"")
 		: _("[>=5]\"Test of Homogeneity\";[<5][Red]\"Invalid Test of Homogeneity\"");
 
 	fd_mmult = gnm_func_lookup_or_add_placeholder ("MMULT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
@@ -88,7 +88,7 @@ analysis_tool_chi_squared_engine_run (data_analysis_output_t *dao,
 
 	if (info->labels)
 		expr_region = gnm_expr_new_funcall5
-			(fd_offset, 
+			(fd_offset,
 			 gnm_expr_new_constant (value_dup (info->input)),
 			 gnm_expr_new_constant (value_new_int (1)),
 			 gnm_expr_new_constant (value_new_int (1)),
@@ -96,9 +96,9 @@ analysis_tool_chi_squared_engine_run (data_analysis_output_t *dao,
 			 gnm_expr_new_constant (value_new_int (info->n_c)));
 	else
 		expr_region = gnm_expr_new_constant (value_dup (info->input));
-	
+
 	expr_row = gnm_expr_new_funcall1 (fd_row, gnm_expr_copy (expr_region));
-	expr_ones = gnm_expr_new_binary (gnm_expr_copy (expr_row), 
+	expr_ones = gnm_expr_new_binary (gnm_expr_copy (expr_row),
 					 GNM_EXPR_OP_DIV,
 					 expr_row);
 	expr_expect = gnm_expr_new_binary (gnm_expr_new_funcall2
@@ -121,24 +121,24 @@ analysis_tool_chi_squared_engine_run (data_analysis_output_t *dao,
 	dao_set_format (dao, 0, 0, 0, 0, label);
 	dao_set_align (dao, 0, 0, 0, 0, HALIGN_CENTER, VALIGN_BOTTOM);
 
-	expr_statistic = gnm_expr_new_funcall1 (fd_sum, 
-						gnm_expr_new_binary 
-						(gnm_expr_new_binary (gnm_expr_new_binary 
-								      (gnm_expr_copy (expr_region), 
-								       GNM_EXPR_OP_SUB, 
+	expr_statistic = gnm_expr_new_funcall1 (fd_sum,
+						gnm_expr_new_binary
+						(gnm_expr_new_binary (gnm_expr_new_binary
+								      (gnm_expr_copy (expr_region),
+								       GNM_EXPR_OP_SUB,
 								       gnm_expr_copy (expr_expect)),
 								      GNM_EXPR_OP_EXP,
 								      gnm_expr_new_constant (value_new_int (2))),
 						 GNM_EXPR_OP_DIV,
 						 gnm_expr_copy (expr_expect)));
 	dao_set_cell_array_expr (dao, 1, 1, expr_statistic);
-	
+
 	dao_set_cell_int (dao, 1, 2, (info->n_r - 1)*(info->n_c - 1));
 	dao_set_cell_expr(dao, 1, 3, gnm_expr_new_funcall2
 			  (fd_chidist, make_cellref (0,-2),  make_cellref (0,-1)));
 	dao_set_cell_expr(dao, 1, 4, gnm_expr_new_funcall2
-			  (fd_chiinv, 
-			   gnm_expr_new_constant (value_new_float (info->alpha)),  
+			  (fd_chiinv,
+			   gnm_expr_new_constant (value_new_float (info->alpha)),
 			   make_cellref (0,-2)));
 
 	gnm_func_unref (fd_mmult);
@@ -179,9 +179,9 @@ analysis_tool_chi_squared_engine (data_analysis_output_t *dao, gpointer specs,
 
 	switch (selector) {
 	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor 
-			(dao, 
-			 info->independence ? 
+		return (dao_command_descriptor
+			(dao,
+			 info->independence ?
 			 _("Test of Independence (%s)")
 			 : _("Test of Homogeneity (%s)"), result)
 			== NULL);
@@ -193,12 +193,12 @@ analysis_tool_chi_squared_engine (data_analysis_output_t *dao, gpointer specs,
 	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
 		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, info->independence ? 
+		dao_prepare_output (NULL, dao, info->independence ?
 				    _("Test of Independence")
 				    : _("Test of Homogeneity"));
 		return FALSE;
 	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao,  info->independence ? 
+		return dao_format_output (dao,  info->independence ?
 					  _("Test of Independence")
 					  : _("Test of Homogeneity"));
 	case TOOL_ENGINE_PERFORM_CALC:

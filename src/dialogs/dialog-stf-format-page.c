@@ -43,7 +43,7 @@ static void
 format_page_update_column_selection (StfDialogData *pagedata)
 {
 	char *text = NULL;
-	
+
 	if (pagedata->format.col_import_count == pagedata->format.col_import_array_len) {
 		text = g_strdup_printf (_("Importing %i columns and ignoring none."),
 					pagedata->format.col_import_count);
@@ -146,12 +146,12 @@ activate_column (StfDialogData *pagedata, int i)
 	if (colformat) {
 	     g_signal_handler_block(pagedata->format.format_selector,
 				    pagedata->format.format_changed_handler_id);
-	     go_format_sel_set_style_format 
+	     go_format_sel_set_style_format
 		  (pagedata->format.format_selector, colformat);
 	     g_signal_handler_unblock(pagedata->format.format_selector,
 				      pagedata->format.format_changed_handler_id);
 	}
-	
+
 }
 
 static void
@@ -182,10 +182,10 @@ cb_col_check_clicked (GtkToggleButton *togglebutton, gpointer _i)
 			pagedata->format.col_import_count++;
 			format_page_update_column_selection (pagedata);
 		} else {
-			char *msg = g_strdup_printf( 
+			char *msg = g_strdup_printf(
 				ngettext("A maximum of %d column can be imported.",
 					 "A maximum of %d columns can be imported.",
-					 GNM_MAX_COLS), 
+					 GNM_MAX_COLS),
 				GNM_MAX_COLS);
 			gtk_toggle_button_set_active (togglebutton, FALSE);
 			go_gtk_notice_dialog (GTK_WINDOW (pagedata->dialog),
@@ -196,7 +196,7 @@ cb_col_check_clicked (GtkToggleButton *togglebutton, gpointer _i)
 	return;
 }
 
-static void 
+static void
 check_columns_for_import (StfDialogData *pagedata, int from, int to)
 {
 	int i;
@@ -221,21 +221,21 @@ check_columns_for_import (StfDialogData *pagedata, int from, int to)
 	}
 }
 
-static void 
+static void
 uncheck_columns_for_import (StfDialogData *pagedata, int from, int to)
 {
 	int i;
-	
+
 	g_return_if_fail (pagedata != NULL);
 	g_return_if_fail (!(from < 0));
 	g_return_if_fail (to < pagedata->format.renderdata->colcount);
 	g_return_if_fail (to < pagedata->format.col_import_array_len);
-	
+
 	for (i = from; i <= to; i++) {
 		if (pagedata->format.col_import_array[i]) {
 			GtkTreeViewColumn* column = stf_preview_get_column (pagedata->format.renderdata, i);
 			GtkWidget *w = g_object_get_data (G_OBJECT (column), "checkbox");
-			
+
 			gtk_widget_hide (w);
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), FALSE);
 			/* Note this caused a signal to be send that sets the */
@@ -249,7 +249,7 @@ static void
 cb_popup_menu_uncheck_right (GtkWidget *widget, gpointer data)
 {
 	StfDialogData *pagedata = data;
-	
+
 	uncheck_columns_for_import (pagedata, pagedata->format.index + 1,
 				    pagedata->format.renderdata->colcount - 1);
 }
@@ -258,7 +258,7 @@ static void
 cb_popup_menu_check_right (GtkWidget *widget, gpointer data)
 {
 	StfDialogData *pagedata = data;
-	
+
 	check_columns_for_import (pagedata, pagedata->format.index + 1,
 				  pagedata->format.renderdata->colcount - 1);
 }
@@ -267,7 +267,7 @@ static void
 cb_popup_menu_uncheck_left (GtkWidget *widget, gpointer data)
 {
 	StfDialogData *pagedata = data;
-	
+
 	uncheck_columns_for_import (pagedata, 0, pagedata->format.index - 1);
 }
 
@@ -275,7 +275,7 @@ static void
 cb_popup_menu_check_left (GtkWidget *widget, gpointer data)
 {
 	StfDialogData *pagedata = data;
-	
+
 	check_columns_for_import (pagedata, 0, pagedata->format.index - 1);
 }
 
@@ -284,21 +284,21 @@ cb_popup_menu_extend_format (GtkWidget *widget, gpointer data)
 {
 	StfDialogData *pagedata = data;
 	guint index = pagedata->format.index;
-	GOFormat *colformat = g_ptr_array_index 
+	GOFormat *colformat = g_ptr_array_index
 		(pagedata->format.formats, pagedata->format.index);
 
 	for (index++; index < pagedata->format.formats->len; index++) {
-		GOFormat *sf = g_ptr_array_index 
+		GOFormat *sf = g_ptr_array_index
 			(pagedata->format.formats, index);
-		GtkTreeViewColumn* column = 
-			stf_preview_get_column (pagedata->format.renderdata, 
+		GtkTreeViewColumn* column =
+			stf_preview_get_column (pagedata->format.renderdata,
 						index);
-		GtkWidget *w = g_object_get_data (G_OBJECT (column), 
+		GtkWidget *w = g_object_get_data (G_OBJECT (column),
 						  "formatlabel");
 		go_format_unref (sf);
-		g_ptr_array_index (pagedata->format.formats, index) 
-			= go_format_ref (colformat); 
-		gtk_label_set_text (GTK_LABEL (w), 
+		g_ptr_array_index (pagedata->format.formats, index)
+			= go_format_ref (colformat);
+		gtk_label_set_text (GTK_LABEL (w),
 				    go_format_sel_format_classification (colformat));
 	}
 
@@ -328,7 +328,7 @@ format_context_menu (StfDialogData *pagedata,
 		{ N_("Import all columns on left"), &cb_popup_menu_check_left, COLUMN_POPUP_ITEM_NOT_FIRST},
 		{ N_("Copy format to right"), &cb_popup_menu_extend_format, COLUMN_POPUP_ITEM_NOT_LAST}
 	};
-	
+
 	GtkWidget *menu = gtk_menu_new ();
 	unsigned i;
 
@@ -344,7 +344,7 @@ format_context_menu (StfDialogData *pagedata,
 			gtk_widget_set_sensitive (item, col > 0);
 			break;
 		case COLUMN_POPUP_ITEM_NOT_LAST:
-			gtk_widget_set_sensitive 
+			gtk_widget_set_sensitive
 				(item, col < pagedata->format.renderdata->colcount - 1);
 			break;
 		case COLUMN_POPUP_ITEM_ANY:
@@ -493,8 +493,8 @@ format_page_update_preview (StfDialogData *pagedata)
 	col_import_array_len_old = pagedata->format.col_import_array_len;
 	pagedata->format.col_import_array_len = renderdata->colcount;
 
-	pagedata->format.col_import_array = 
-		g_renew(gboolean, pagedata->format.col_import_array, 
+	pagedata->format.col_import_array =
+		g_renew(gboolean, pagedata->format.col_import_array,
 			pagedata->format.col_import_array_len);
 	old_part = (col_import_array_len_old < pagedata->format.col_import_array_len)
 		? col_import_array_len_old
@@ -503,20 +503,20 @@ format_page_update_preview (StfDialogData *pagedata)
 	for (i = 0; i < old_part; i++)
 		if (pagedata->format.col_import_array[i])
 			pagedata->format.col_import_count++;
-	for (i = old_part; 
-	     i < pagedata->format.col_import_array_len; i++) 
+	for (i = old_part;
+	     i < pagedata->format.col_import_array_len; i++)
 		if (pagedata->format.col_import_count < GNM_MAX_COLS) {
 			pagedata->format.col_import_array[i] = TRUE;
 			pagedata->format.col_import_count++;
 		} else {
-			pagedata->format.col_import_array[i] = FALSE;	
+			pagedata->format.col_import_array[i] = FALSE;
 		}
 
 	format_page_update_column_selection (pagedata);
-	
+
 	if (old_part < renderdata->colcount)
-		msg = g_strdup_printf 
-			(_("A maximum of %d columns can be imported."), 
+		msg = g_strdup_printf
+			(_("A maximum of %d columns can be imported."),
 			 GNM_MAX_COLS);
 
 	for (i = old_part; i < renderdata->colcount; i++) {
@@ -527,20 +527,20 @@ format_page_update_preview (StfDialogData *pagedata)
 			GtkWidget *box = gtk_hbox_new (FALSE,5);
 			GtkWidget *vbox = gtk_vbox_new (FALSE,5);
 			GtkWidget *check = gtk_check_button_new ();
-			char * label_text = g_strdup_printf 
+			char * label_text = g_strdup_printf
 				(pagedata->format.col_header, i+1);
 			GtkWidget *label = gtk_label_new (label_text);
 			GOFormat const *gf = go_format_general ();
-			GtkWidget *format_label = gtk_label_new 
+			GtkWidget *format_label = gtk_label_new
 				(go_format_sel_format_classification (gf));
-			
+
 			g_free (label_text);
 			gtk_misc_set_alignment (GTK_MISC (format_label), 0, 0);
 			gtk_misc_set_alignment (GTK_MISC (label), 0, 0);
 
-			g_object_set (G_OBJECT (stf_preview_get_cell_renderer 
-						(pagedata->format.renderdata, i)), 
-				      "strikethrough", 
+			g_object_set (G_OBJECT (stf_preview_get_cell_renderer
+						(pagedata->format.renderdata, i)),
+				      "strikethrough",
 				      !pagedata->format.col_import_array[i], NULL);
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(check),
 						      pagedata->
@@ -556,16 +556,16 @@ format_page_update_preview (StfDialogData *pagedata)
 			gtk_box_pack_start (GTK_BOX(vbox), box, FALSE, FALSE, 0);
 			gtk_box_pack_start (GTK_BOX(vbox), format_label, TRUE, TRUE, 0);
 			gtk_widget_show_all (vbox);
-			
+
 			gtk_tree_view_column_set_widget (column, vbox);
 			g_object_set_data (G_OBJECT (column), "pagedata", pagedata);
 			g_object_set_data (G_OBJECT (column), "checkbox", check);
 			g_object_set_data (G_OBJECT (column), "formatlabel", format_label);
-			g_object_set_data (G_OBJECT (column->button), 
+			g_object_set_data (G_OBJECT (column->button),
 					   "pagedata", pagedata);
-			g_object_set_data (G_OBJECT (column->button), 
+			g_object_set_data (G_OBJECT (column->button),
 					   "checkbox", check);
-			g_object_set_data (G_OBJECT (column->button), 
+			g_object_set_data (G_OBJECT (column->button),
 					   "formatlabel", format_label);
 			g_object_set (G_OBJECT (column), "clickable", TRUE, NULL);
 
@@ -573,9 +573,9 @@ format_page_update_preview (StfDialogData *pagedata)
 					  "toggled",
 					  G_CALLBACK (cb_col_check_clicked),
 					  GINT_TO_POINTER (i));
-			g_signal_connect (G_OBJECT (column->button), 
+			g_signal_connect (G_OBJECT (column->button),
 					  "event",
-					  G_CALLBACK (cb_col_event), 
+					  G_CALLBACK (cb_col_event),
 					  GINT_TO_POINTER (i));
 		}
 	}
@@ -616,18 +616,18 @@ cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget,
 {
 	if (data->format.index >= 0) {
 		GOFormat *sf;
-		GtkTreeViewColumn* column = 
-			stf_preview_get_column (data->format.renderdata, 
+		GtkTreeViewColumn* column =
+			stf_preview_get_column (data->format.renderdata,
 						data->format.index);
-		GtkWidget *w = g_object_get_data (G_OBJECT (column), 
+		GtkWidget *w = g_object_get_data (G_OBJECT (column),
 						  "formatlabel");
 
-		sf = g_ptr_array_index (data->format.formats, 
+		sf = g_ptr_array_index (data->format.formats,
 					data->format.index);
 		go_format_unref (sf);
 
 		sf = go_format_new_from_XL (fmt);
-		gtk_label_set_text (GTK_LABEL (w), 
+		gtk_label_set_text (GTK_LABEL (w),
 				    go_format_sel_format_classification (sf));
 		g_ptr_array_index (data->format.formats, data->format.index) =
 			sf;
@@ -685,7 +685,7 @@ stf_dialog_format_page_cleanup (StfDialogData *pagedata)
 	g_free (pagedata->format.col_import_array);
 	pagedata->format.col_import_array = NULL;
 	pagedata->format.col_import_array_len = 0;
-	pagedata->format.col_import_count = 0;	
+	pagedata->format.col_import_count = 0;
 }
 
 void
@@ -701,7 +701,7 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 	pagedata->format.col_import_array_len = 0;
 	pagedata->format.col_import_count = 0;
 	pagedata->format.col_header = _("Column %d");
-	
+
 	pagedata->format.format_selector      = GO_FORMAT_SEL( go_format_sel_new ());
 
 	pagedata->format.format_data_container = glade_xml_get_widget (gui, "format_data_container");
@@ -742,7 +742,7 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 	format_page_update_column_selection (pagedata);
 
 	/* Connect signals */
-	pagedata->format.format_changed_handler_id = 
+	pagedata->format.format_changed_handler_id =
 	     g_signal_connect (G_OBJECT (pagedata->format.format_selector),
 		    "format_changed",
 		    G_CALLBACK (cb_number_format_changed), pagedata);

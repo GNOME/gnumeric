@@ -70,7 +70,7 @@ so_filled_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean 
 {
 	GocItem  *view = GOC_ITEM (sov);
 	FilledItemView *fiv = (FilledItemView *) sov;
-	double scale = goc_canvas_get_pixels_per_unit (view->canvas); 
+	double scale = goc_canvas_get_pixels_per_unit (view->canvas);
 
 	if (visible) {
 		SheetObject	*so = sheet_object_view_get_so (sov);

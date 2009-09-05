@@ -25,21 +25,21 @@
 #include "gnumeric.h"
 #include <goffice/goffice.h>
 
-void html32_file_save	  (GOFileSaver const *fs, GOIOContext *io_context, 
+void html32_file_save	  (GOFileSaver const *fs, GOIOContext *io_context,
 			   WorkbookView const  *wb_view, GsfOutput *output);
-void html40_file_save	  (GOFileSaver const *fs, GOIOContext *io_context, 
+void html40_file_save	  (GOFileSaver const *fs, GOIOContext *io_context,
 			   WorkbookView const  *wb_view, GsfOutput *output);
-void html40frag_file_save (GOFileSaver const *fs, GOIOContext *io_context, 
+void html40frag_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 			   WorkbookView const  *wb_view, GsfOutput *output);
 void xhtml_file_save	  (GOFileSaver const *fs, GOIOContext *io_context,
 			   WorkbookView const  *wb_view, GsfOutput *output);
 void xhtml_range_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 			    WorkbookView const  *wb_view, GsfOutput *output);
 
-void html_file_open (GOFileOpener const *fo, GOIOContext *io_context, 
+void html_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 		     WorkbookView *wb_view, GsfInput *input);
 
-gboolean html_file_probe (GOFileOpener const *fo, GsfInput *input, 
+gboolean html_file_probe (GOFileOpener const *fo, GsfInput *input,
 			  GOFileProbeLevel pl);
 
 

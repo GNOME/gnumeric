@@ -1061,7 +1061,7 @@ xml_sax_print_hf (GsfXMLIn *xin, xmlChar const **attrs)
 	default:
 		return;
 	}
-	
+
 	g_return_if_fail (hf != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
@@ -2214,7 +2214,7 @@ xml_sax_named_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	g_return_if_fail (state->name.value != NULL);
 
 	/*For the next while we have to ignore Print_areas that look like a whole sheet */
-	if (0 == strcmp (state->name.name, "Print_Area") 
+	if (0 == strcmp (state->name.name, "Print_Area")
 	    && g_str_has_suffix (state->name.value, "$A$1:$IV$65536")) {
 		g_free (state->name.value);
 		state->name.value = NULL;
@@ -2227,7 +2227,7 @@ xml_sax_named_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 				       NULL,
 				       TRUE,
 				       NULL);
-		
+
 		state->delayed_names = g_list_prepend (state->delayed_names, state->sheet);
 		state->delayed_names = g_list_prepend (state->delayed_names, state->name.value);
 		state->name.value = NULL;

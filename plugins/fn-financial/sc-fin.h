@@ -2,10 +2,10 @@
 #ifndef __SC_FIN_H__
 #define __SC_FIN_H__
 
-GnmValue *get_amordegrc (gnm_float fCost, GDate *nDate, GDate *nFirstPer, 
+GnmValue *get_amordegrc (gnm_float fCost, GDate *nDate, GDate *nFirstPer,
 			 gnm_float fRestVal, gint nPer, gnm_float fRate,
 			 gint nBase);
-GnmValue *get_amorlinc  (gnm_float fCost, GDate *nDate, GDate *nFirstPer, 
+GnmValue *get_amorlinc  (gnm_float fCost, GDate *nDate, GDate *nFirstPer,
 			 gnm_float fRestVal, gint nPer, gnm_float fRate,
 			 gint nBase);
 GnmValue *get_yieldmat  (GDate *nSettle, GDate *nMat, GDate *nIssue,

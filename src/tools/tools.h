@@ -30,7 +30,7 @@ typedef enum {
 	TOOL_ENGINE_CLEAN_UP
 } analysis_tool_engine_t;
 
-typedef gboolean (* analysis_tool_engine) (data_analysis_output_t *dao, gpointer specs, 
+typedef gboolean (* analysis_tool_engine) (data_analysis_output_t *dao, gpointer specs,
 					   analysis_tool_engine_t selector, gpointer result);
 
 

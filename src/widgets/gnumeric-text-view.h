@@ -1,10 +1,10 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
- * gnumeric-text-view.c: A textview extension handling formatting 
- * 
- * Copyright (C) 2009  Andreas J. Guelzow 
- 
+ * gnumeric-text-view.c: A textview extension handling formatting
+ *
+ * Copyright (C) 2009  Andreas J. Guelzow
+
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of version 2 or 3 of the GNU General Public License as published
  * by the Free Software Foundation.

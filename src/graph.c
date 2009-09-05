@@ -78,7 +78,7 @@ render_val (GnmValue const *v, int i, int j,
 
 	if (!v)
 		return NULL;
-	
+
 	date_conv = ep->sheet ? workbook_date_conv (ep->sheet->workbook) : NULL;
 
 #if 0

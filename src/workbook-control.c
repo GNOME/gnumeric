@@ -202,7 +202,7 @@ wb_create_name (WorkbookControl *wbc, char const *text, GnmParsePos *pp)
 	GnmRange const *r;
 	GnmCellRef a, b;
 	GnmExpr const *target_range;
-	
+
 	r = selection_first_range (wb_control_cur_sheet_view (wbc),
 		                   GO_CMD_CONTEXT (wbc), _("Define Name"));
 	if (r != NULL) {

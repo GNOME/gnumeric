@@ -128,7 +128,7 @@ dhl_get_target_cur_wb (HyperlinkState *state, gboolean *success)
 			ret = g_strdup (target);
 			value_release (val);
 		} else {
-			go_gtk_notice_dialog (GTK_WINDOW (state->dialog), 
+			go_gtk_notice_dialog (GTK_WINDOW (state->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("Not a range or name"));
 			gnm_expr_entry_grab_focus (gee, TRUE);
@@ -208,8 +208,8 @@ dhl_get_target_email (HyperlinkState *state, gboolean *success)
 		result =  g_strconcat ("mailto:", enc_addr, NULL);
 	} else {
 		enc_subj = go_url_encode (subject, 0);
-		
-		result = g_strconcat ("mailto:", enc_addr, 
+
+		result = g_strconcat ("mailto:", enc_addr,
 				      "?subject=", enc_subj, NULL);
 		g_free (enc_subj);
 	}
@@ -335,12 +335,12 @@ dhl_cb_ok (G_GNUC_UNUSED GtkWidget *button, HyperlinkState *state)
 
 		if (state->is_new) {
 			cmdname = _("Add Hyperlink");
-			cmd_selection_hyperlink (WORKBOOK_CONTROL (state->wbcg), 
+			cmd_selection_hyperlink (WORKBOOK_CONTROL (state->wbcg),
 						 style,
 						 cmdname, target);
 		} else {
 			cmdname = _("Edit Hyperlink");
-			cmd_selection_hyperlink (WORKBOOK_CONTROL (state->wbcg), 
+			cmd_selection_hyperlink (WORKBOOK_CONTROL (state->wbcg),
 						 style,
 						 cmdname, NULL);
 			g_free (target);
@@ -494,10 +494,10 @@ dhl_init (HyperlinkState *state)
 		G_CALLBACK (dhl_cb_menu_changed),
 		state);
 
-	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), 
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog),
 					   state->wbcg,
 					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
-	
+
 	return FALSE;
 }
 

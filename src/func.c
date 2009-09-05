@@ -559,7 +559,7 @@ gnm_func_sanity_check (void)
 	res = cmd_context_stderr_get_status (COMMAND_CONTEXT_STDERR (cc));
 	if (res)
 		goto out;
-	
+
 	ordered = g_ptr_array_new ();
 	g_hash_table_foreach (global_symbol_table->hash,
 			      copy_hash_table_to_ptr_array, ordered);
@@ -704,8 +704,8 @@ function_def_create_arg_names (GnmFunc const *fn_def)
 		     fn_def->help[i].type != GNM_FUNC_HELP_END;
 		     i++) {
 			if (fn_def->help[i].type == GNM_FUNC_HELP_ARG)
-				g_ptr_array_add 
-					(ptr, split_at_colon 
+				g_ptr_array_add
+					(ptr, split_at_colon
 					 (_(fn_def->help[i].text), NULL));
 		}
 	return ptr;
@@ -1155,9 +1155,9 @@ function_def_get_arg_name (GnmFunc const *fn_def, guint arg_idx)
 
 	gnm_func_load_if_stub ((GnmFunc *)fn_def);
 
-	if ((fn_def->arg_names_p != NULL) 
+	if ((fn_def->arg_names_p != NULL)
 	    && (arg_idx < fn_def->arg_names_p->len))
-		return g_strdup (g_ptr_array_index (fn_def->arg_names_p, 
+		return g_strdup (g_ptr_array_index (fn_def->arg_names_p,
 						     arg_idx));
 	return NULL;
 }

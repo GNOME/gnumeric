@@ -1353,7 +1353,7 @@ gnm_page_breaks_get_next_manual_break (GnmPageBreaks *breaks,
 	for (i = 0; i < breaks->details->len; i++) {
 		GnmPageBreak const *pbreak;
 		pbreak = &g_array_index (breaks->details, GnmPageBreak, i);
-		if (pbreak->pos > pos 
+		if (pbreak->pos > pos
 		    && pbreak->type != GNM_PAGE_BREAK_AUTO)
 			return pbreak->pos;
 	}
@@ -1393,7 +1393,7 @@ gnm_page_breaks_set_break (GnmPageBreaks *breaks,
 	/* Do some simple validation */
 	if (pos < 0)
 		return FALSE;
-	
+
 	if (breaks->details->len == 0 && type != GNM_PAGE_BREAK_NONE)
 		return gnm_page_breaks_append_break (breaks, pos, type);
 
@@ -1449,7 +1449,7 @@ gnm_page_break_type_from_str (char const *str)
  *
  **/
 
-void		 
+void
 gnm_page_breaks_clean (GnmPageBreaks *breaks)
 {
 	guint i;
@@ -1458,11 +1458,11 @@ gnm_page_breaks_clean (GnmPageBreaks *breaks)
 		return;
 
 	for (i = 0; i < breaks->details->len; i++) {
-		GnmPageBreak *pbreak = &g_array_index (breaks->details, 
+		GnmPageBreak *pbreak = &g_array_index (breaks->details,
 						       GnmPageBreak, i);
 		if (pbreak->type == GNM_PAGE_BREAK_AUTO) {
 			g_array_remove_index (breaks->details, i);
 			i--;
 		}
-	} 
+	}
 }

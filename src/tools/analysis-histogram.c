@@ -67,9 +67,9 @@ make_hist_expr (analysis_tools_data_histogram_t *info,
 		expr_if_to = gnm_expr_new_constant (value_new_int (1));
 	else
 		expr_if_to = gnm_expr_new_funcall3
-			(fd_if, 
-			 gnm_expr_new_binary 
-			 (gnm_expr_copy (expr_data), 
+			(fd_if,
+			 gnm_expr_new_binary
+			 (gnm_expr_copy (expr_data),
 			  to, make_cellref (- (col-to_col), 0)),
 			 gnm_expr_new_constant (value_new_int (0)),
 			 gnm_expr_new_constant (value_new_int (1)));
@@ -82,9 +82,9 @@ make_hist_expr (analysis_tools_data_histogram_t *info,
 			expr_if_from = one;
 		else
 			expr_if_from = gnm_expr_new_funcall3
-				(fd_if, 
-				 gnm_expr_new_binary 
-				 (gnm_expr_copy (expr_data), 
+				(fd_if,
+				 gnm_expr_new_binary
+				 (gnm_expr_copy (expr_data),
 				  from, make_cellref (- col, 0)),
 				 gnm_expr_new_constant (value_new_int (0)),
 				 one);
@@ -98,8 +98,8 @@ make_hist_expr (analysis_tools_data_histogram_t *info,
 	if (info->percentage)
 		expr = gnm_expr_new_binary (expr,
 					    GNM_EXPR_OP_DIV,
-					    gnm_expr_new_funcall1 
-					    (fd_count, 
+					    gnm_expr_new_funcall1
+					    (fd_count,
 					     expr_data));
 	else
 		gnm_expr_free (expr_data);
@@ -128,9 +128,9 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 
 	if (info->base.labels) {
 		fd_index = gnm_func_lookup_or_add_placeholder ("INDEX", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-		gnm_func_ref (fd_index);		
+		gnm_func_ref (fd_index);
 	}
-	
+
 
 	/* General Info */
 
@@ -145,7 +145,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 	} else {
 		i_limit = info->n;
 	}
-	
+
 	i_end = i_limit;
 	if (info->bin_type & bintype_p_inf_lower)
 		i_end++;
@@ -167,16 +167,16 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 	if (info->predetermined) {
 		expr_bin = gnm_expr_new_constant (info->bin);
 		for (i = 0; i < i_limit; i++)
-			dao_set_cell_expr (dao, to_col, i_start + i, 
+			dao_set_cell_expr (dao, to_col, i_start + i,
 					   gnm_expr_new_funcall2 (fd_small,
 								  gnm_expr_copy (expr_bin),
-								  gnm_expr_new_constant 
+								  gnm_expr_new_constant
 								  (value_new_int (i + 1))));
 	} else {
 		GnmValue *val = value_dup (info->base.input->data);
 		GnmExpr const *expr_min;
 		GnmExpr const *expr_max;
-		
+
 		switch (info->base.group_by) {
 		case GROUPED_BY_ROW:
 			val->v_range.cell.a.col++;
@@ -185,16 +185,16 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 			val->v_range.cell.a.row++;
 			break;
 		}
-		
+
 		if (info->min_given)
 			dao_set_cell_float (dao, to_col, i_start, info->min);
 		else {
 			GnmFunc *fd_min;
-		
+
 			fd_min = gnm_func_lookup_or_add_placeholder ("MIN", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 			gnm_func_ref (fd_min);
 			dao_set_cell_expr (dao, to_col, i_start,
-					   gnm_expr_new_funcall1 
+					   gnm_expr_new_funcall1
 					   (fd_min,
 					    gnm_expr_new_constant (value_dup (val))));
 			gnm_func_unref (fd_min);
@@ -204,42 +204,42 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 			dao_set_cell_float (dao, to_col, i_start + i_limit - 1, info->max);
 		else {
 			GnmFunc *fd_max;
-		
+
 			fd_max = gnm_func_lookup_or_add_placeholder ("MAX", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 			gnm_func_ref (fd_max);
 			dao_set_cell_expr (dao, to_col, i_start + i_limit - 1,
-					   gnm_expr_new_funcall1 
+					   gnm_expr_new_funcall1
 					   (fd_max,
 					    gnm_expr_new_constant (value_dup (val))));
 			gnm_func_unref (fd_max);
 		}
 
 		value_release (val);
-		
+
 		expr_min = dao_get_cellref (dao, to_col, i_start);
 		expr_max = dao_get_cellref (dao, to_col, i_start + i_limit - 1);
 
 		for (i = 1; i < i_limit - 1; i++)
-			dao_set_cell_expr (dao, to_col, i_start + i, 
+			dao_set_cell_expr (dao, to_col, i_start + i,
 					   gnm_expr_new_binary (gnm_expr_copy (expr_min),
 								GNM_EXPR_OP_ADD,
-								gnm_expr_new_binary 
+								gnm_expr_new_binary
 								(gnm_expr_new_constant (value_new_int (i)),
 								 GNM_EXPR_OP_MULT,
-								 gnm_expr_new_binary 
-								 (gnm_expr_new_binary 
-								  (gnm_expr_copy (expr_max), 
-								   GNM_EXPR_OP_SUB, 
-								   gnm_expr_copy (expr_min)), 
+								 gnm_expr_new_binary
+								 (gnm_expr_new_binary
+								  (gnm_expr_copy (expr_max),
+								   GNM_EXPR_OP_SUB,
+								   gnm_expr_copy (expr_min)),
 								  GNM_EXPR_OP_DIV,
 								  gnm_expr_new_constant (value_new_int (info->n - 1))))));
-		
+
 		gnm_expr_free (expr_min);
 		gnm_expr_free (expr_max);
 	}
-	
+
 	if (info->bin_type & bintype_p_inf_lower) {
-		dao_set_format  (dao, to_col, i_end, to_col, i_end, 
+		dao_set_format  (dao, to_col, i_end, to_col, i_end,
 				 _("\"to\" * \"\xe2\x88\x9e\""));
 		dao_set_cell_value (dao, to_col, i_end, value_new_float (GNM_MAX));
 	}
@@ -255,7 +255,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 			_("\"from\" * General") : _("\"above\" * General");
 		dao_set_format  (dao, 0, 2, 0, i_end, format);
 		if (info->bin_type & bintype_m_inf_lower)
-			dao_set_format  (dao, 0, 2, 0, 2, 
+			dao_set_format  (dao, 0, 2, 0, 2,
 					 _("\"from\" * \"\xe2\x88\x92\xe2\x88\x9e\";"
 					   "\"from\" * \"\xe2\x88\x92\xe2\x88\x9e\""));
 		for (i = 2; i <= i_end; i++)
@@ -269,7 +269,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 	for (l = info->base.input, col = to_col + 1; l; col++, l = l->next) {
 		GnmValue *val = l->data;
 		GnmValue *val_c = NULL;
-		
+
 		if (info->base.labels) {
 			val_c = value_dup (val);
 			switch (info->base.group_by) {
@@ -281,11 +281,11 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 				break;
 			}
 			dao_set_cell_expr (dao, col, 1,
-					   gnm_expr_new_funcall1 (fd_index, 
+					   gnm_expr_new_funcall1 (fd_index,
 								  gnm_expr_new_constant (val_c)));
 		} else {
 			char const *format;
-			
+
 			switch (info->base.group_by) {
 			case GROUPED_BY_ROW:
 				format = _("Row %d");
@@ -295,7 +295,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 				break;
 			default:
 				format = _("Area %d");
-				break;				
+				break;
 			}
 			dao_set_cell_printf (dao, col, 1, format, col - to_col);
 		}
@@ -310,7 +310,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 				(info->bin_type & bintype_p_inf_lower);
 			dao_set_cell_array_expr
 				(dao, col, i,
-				 make_hist_expr (info, col, val, 
+				 make_hist_expr (info, col, val,
 						 fromminf, topinf, dao));
 		}
 	}
@@ -334,7 +334,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 		GOData *limits;
 		GOData *values;
 		int ct;
-		
+
 		graph = g_object_new (GOG_TYPE_GRAPH, NULL);
 		chart = GOG_CHART (gog_object_add_by_name (
 						   GOG_OBJECT (graph), "Chart", NULL));
@@ -357,15 +357,15 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 
 		gog_object_add_by_name (GOG_OBJECT (chart),
 					"Plot", GOG_OBJECT (plot));
-		
-		limits = dao_go_data_vector (dao, to_col, limits_start, 
+
+		limits = dao_go_data_vector (dao, to_col, limits_start,
 					     to_col, limits_end);
 
 		for (ct = 1; ct < (col - to_col); ct ++) {
 			g_object_ref (limits);
-			values = dao_go_data_vector (dao, to_col + ct, values_start, 
+			values = dao_go_data_vector (dao, to_col + ct, values_start,
 						     to_col + ct, values_end);
-			
+
 			series = gog_plot_new_series (plot);
 			gog_series_set_dim (series, 0, limits, NULL);
 			gog_series_set_dim (series, 1, values, NULL);
@@ -380,11 +380,11 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 						NULL, NULL);
 		}
 
-		
-		
+
+
 		so = sheet_object_graph_new (graph);
 		g_object_unref (graph);
-		
+
 		dao_set_sheet_object (dao, 0, 1, so);
 	}
 
@@ -400,7 +400,7 @@ calc_length (GnmValue   *bin)
 	g_return_val_if_fail (bin != NULL, 0);
 	g_return_val_if_fail (bin->type == VALUE_CELLRANGE, 0);
 
-	return ((bin->v_range.cell.b.col - bin->v_range.cell.a.col + 1) * 
+	return ((bin->v_range.cell.b.col - bin->v_range.cell.a.col + 1) *
 		(bin->v_range.cell.b.row - bin->v_range.cell.a.row + 1));
 }
 

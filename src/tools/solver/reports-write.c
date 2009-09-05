@@ -542,12 +542,12 @@ solver_performance_report (WorkbookControl *wbc,
 	        dao_set_cell (&dao, 2, 7, _("Infeasible problem"));
 		break;
 	case SolverMaxIterExc:
-	        dao_set_cell (&dao, 2, 7, 
+	        dao_set_cell (&dao, 2, 7,
 			      _("Maximum number of iterations "
 				"exceeded: optimization interrupted"));
 		break;
 	case SolverMaxTimeExc:
-	        dao_set_cell (&dao, 2, 7, 
+	        dao_set_cell (&dao, 2, 7,
 			      _("Maximum time exceeded: optimization "
 				"interrupted"));
 		break;
@@ -582,7 +582,7 @@ solver_performance_report (WorkbookControl *wbc,
 			    value_new_float (res->param->n_constraints));
 
 	/* Set the `Nbr of Int Constraints'. */
-	dao_set_cell_value (&dao, 4, 13, 
+	dao_set_cell_value (&dao, 4, 13,
 			    value_new_float (res->param->n_int_constraints));
 
 	/* Set the `Nbr of Bool Constraints'. */
@@ -633,7 +633,7 @@ solver_performance_report (WorkbookControl *wbc,
 			     res->param->n_variables);
 	value_set_fmt (v, go_format_default_percentage ());
 	dao_set_cell_value (&dao, 4, 20, v);
-			
+
 
 	/*
 	 * Fill in the labels of `Computing Time' section.

@@ -169,7 +169,7 @@ calculate_limits (Sheet *sheet, SolverParameters *param, SolverResults *res)
 					get_target_cell_value (res, cell, n,
 							       x, &y);
 					gnm_cell_eval (cell);
-					res->limits[n].lower_result = 
+					res->limits[n].lower_result =
 					        value_get_as_float (cell->value);
 				}
 				if (x > res->limits[n].upper_limit) {
@@ -261,7 +261,7 @@ solver_prepare_reports_success (SolverProgram *program, SolverResults *res,
 	for (i = 0; i < param->n_variables; i++) {
 	        res->limits[i].lower_limit = res->limits[i].upper_limit =
 		        res->optimal_values[i];
-		res->limits[i].lower_result = 
+		res->limits[i].lower_result =
 		        res->limits[i].upper_result =
 		        value_get_as_float (cell->value);
 	}

@@ -54,7 +54,7 @@ static void
 so_graph_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
 	GocItem *view = GOC_ITEM (GOC_GROUP (sov)->children->data);
-	double scale = goc_canvas_get_pixels_per_unit (view->canvas); 
+	double scale = goc_canvas_get_pixels_per_unit (view->canvas);
 
 	if (visible) {
 		goc_item_set (GOC_ITEM (sov),

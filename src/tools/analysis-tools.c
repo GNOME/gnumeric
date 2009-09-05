@@ -94,7 +94,7 @@ make_rangeref (int dx0, int dy0, int dx1, int dy1)
 }
 
 
-static gboolean 
+static gboolean
 gnm_check_input_range_list_homogeneity (GSList *input_range);
 
 typedef struct {
@@ -516,8 +516,8 @@ int analysis_tool_calc_length (analysis_tools_data_generic_t *info)
 		if (info->group_by == GROUPED_BY_AREA) {
 			given_length = (current->v_range.cell.b.row - current->v_range.cell.a.row + 1) *
 				(current->v_range.cell.b.col - current->v_range.cell.a.col + 1);
-		} else 
-			given_length = (info->group_by == GROUPED_BY_COL) ? 
+		} else
+			given_length = (info->group_by == GROUPED_BY_COL) ?
 				(current->v_range.cell.b.row - current->v_range.cell.a.row + 1) :
 				(current->v_range.cell.b.col - current->v_range.cell.a.col + 1);
 		if (given_length > result)
@@ -1117,11 +1117,11 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 
 	if (info->base.labels || info->periodic) {
 		fd_index = gnm_func_lookup_or_add_placeholder ("INDEX", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-		gnm_func_ref (fd_index);		
+		gnm_func_ref (fd_index);
 	}
 	if (!info->periodic) {
 		fd_randdiscrete = gnm_func_lookup_or_add_placeholder ("RANDDISCRETE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-		gnm_func_ref (fd_randdiscrete);				
+		gnm_func_ref (fd_randdiscrete);
 	}
 
 	for (l = info->base.input, source = 1; l; l = l->next, source++) {
@@ -1146,11 +1146,11 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 				offset++;
 				break;
 			}
-			expr_title = gnm_expr_new_funcall1 (fd_index, 
+			expr_title = gnm_expr_new_funcall1 (fd_index,
 							    gnm_expr_new_constant (val_c));
 			for (ct = 0; ct < info->number; ct++)
 				dao_set_cell_expr (dao, col+ct, 0, gnm_expr_copy (expr_title));
-			gnm_expr_free (expr_title);			
+			gnm_expr_free (expr_title);
 		} else {
 			switch (info->base.group_by) {
 			case GROUPED_BY_ROW:
@@ -1161,15 +1161,15 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 				break;
 			default:
 				format = _("Area %d");
-				break;			
-			}	
+				break;
+			}
 			for (ct = 0; ct < info->number; ct++)
 				dao_set_cell_printf (dao, col+ct, 0, format, source);
 		}
-			
+
 		expr_input = gnm_expr_new_constant (value_dup (val));
-		
-		
+
+
 		if (info->periodic) {
 			guint i;
 			gint height = value_area_get_height (val, NULL);
@@ -1182,70 +1182,70 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 
 				if (info->row_major) {
 					y_offset = (offset - 1)/width + 1;
-					x_offset = offset - (y_offset - 1) * width; 
+					x_offset = offset - (y_offset - 1) * width;
 				} else {
 					x_offset = (offset - 1)/height + 1;
-					y_offset = offset - (x_offset - 1) * height; 
+					y_offset = offset - (x_offset - 1) * height;
 				}
 
-				expr_period = gnm_expr_new_funcall3 
+				expr_period = gnm_expr_new_funcall3
 					(fd_index, gnm_expr_copy (expr_input),
 					 gnm_expr_new_constant (value_new_int (y_offset)),
 					 gnm_expr_new_constant (value_new_int (x_offset)));
 
 				for (ct = 0; ct < info->number; ct += 2)
-					dao_set_cell_expr (dao, col + ct, i + 1, 
+					dao_set_cell_expr (dao, col + ct, i + 1,
 							   gnm_expr_copy (expr_period));
 				gnm_expr_free (expr_period);
 
 				if (info->number > 1) {
 					if (!info->row_major) {
 						y_offset = (offset - 1)/width + 1;
-						x_offset = offset - (y_offset - 1) * width; 
+						x_offset = offset - (y_offset - 1) * width;
 					} else {
 						x_offset = (offset - 1)/height + 1;
-						y_offset = offset - (x_offset - 1) * height; 
+						y_offset = offset - (x_offset - 1) * height;
 					}
-					
-					expr_period = gnm_expr_new_funcall3 
+
+					expr_period = gnm_expr_new_funcall3
 						(fd_index, gnm_expr_copy (expr_input),
 						 gnm_expr_new_constant (value_new_int (y_offset)),
 						 gnm_expr_new_constant (value_new_int (x_offset)));
-					
+
 					for (ct = 1; ct < info->number; ct += 2)
-						dao_set_cell_expr (dao, col + ct, i + 1, 
+						dao_set_cell_expr (dao, col + ct, i + 1,
 								   gnm_expr_copy (expr_period));
 					gnm_expr_free (expr_period);
-					
+
 				}
 			}
 			col += info->number;
 		} else {
 			GnmExpr const *expr_random;
 			guint i;
-			
-			expr_random = gnm_expr_new_funcall1 (fd_randdiscrete, 
+
+			expr_random = gnm_expr_new_funcall1 (fd_randdiscrete,
 							     gnm_expr_copy (expr_input));
-			
+
 			for (ct = 0; ct < info->number; ct++, col++)
 				for (i=0; i < info->size; i++)
-					dao_set_cell_expr (dao, col, i + 1, 
+					dao_set_cell_expr (dao, col, i + 1,
 							   gnm_expr_copy (expr_random));
 			gnm_expr_free (expr_random);
 		}
-		
+
 		value_release (val);
 		gnm_expr_free (expr_input);
-		
+
 	}
-	
+
 	if (fd_index != NULL)
 		gnm_func_unref (fd_index);
 	if (fd_randdiscrete != NULL)
 		gnm_func_unref (fd_randdiscrete);
-	
+
 	dao_redraw_respan (dao);
-	
+
 	return FALSE;
 }
 
@@ -1262,14 +1262,14 @@ analysis_tool_sampling_engine (data_analysis_output_t *dao, gpointer specs,
 	case TOOL_ENGINE_UPDATE_DAO:
 	{
 		GSList *l;
-	
+
 		prepare_input_range (&info->base.input, info->base.group_by);
 
 		if (info->periodic) {
 			info->size = 1;
 			for (l = info->base.input; l; l = l->next) {
 				GnmValue *val = ((GnmValue *)l->data);
-				gint size = (value_area_get_width (val, NULL) *  
+				gint size = (value_area_get_width (val, NULL) *
 					     value_area_get_height (val, NULL));
 				guint usize = (size > 0) ? size : 1;
 
@@ -1281,7 +1281,7 @@ analysis_tool_sampling_engine (data_analysis_output_t *dao, gpointer specs,
 					info->size = usize;
 			}
 		}
-		
+
 		dao_adjust (dao, info->number * g_slist_length (info->base.input),
 			    1 + info->size);
 		return FALSE;
@@ -1575,7 +1575,7 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_isnumber;
 	GnmFunc *fd_if;
 	GnmFunc *fd_sum;
-	
+
 	GnmExpr const *expr_1;
 	GnmExpr const *expr_2;
 	GnmExpr const *expr_diff;
@@ -1678,7 +1678,7 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 							       gnm_expr_copy (expr_1)),
 						       gnm_expr_new_constant (value_new_int (1)),
 						       gnm_expr_new_constant (value_new_int (0))),
-					       GNM_EXPR_OP_MULT, 
+					       GNM_EXPR_OP_MULT,
 					       gnm_expr_new_funcall3 (
 						       fd_if,
 						       gnm_expr_new_funcall1 (
@@ -1708,11 +1708,11 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 	dao_set_cell_array_expr (dao, 1, 8,
 				 gnm_expr_new_binary
 				 (gnm_expr_new_funcall1 (
-					 fd_sum, 
+					 fd_sum,
 					 expr_ifisnumber),
 				  GNM_EXPR_OP_SUB,
 				  gnm_expr_new_constant (value_new_int (1))));
-	
+
 	/* t */
 	/* E24 = (E21-E20)/(E22/(E23+1))^0.5 */
 	{
@@ -2096,7 +2096,7 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 	value_release (val_1);
 	value_release (val_2);
 
-	gnm_func_unref (fd_mean);	
+	gnm_func_unref (fd_mean);
 	gnm_func_unref (fd_var);
 	gnm_func_unref (fd_count);
 	gnm_func_unref (fd_tdist);
@@ -2760,7 +2760,7 @@ calculate_xdim (GnmValue *input, group_by_t  group_by)
 
 		if (group_by == GROUPED_BY_ROW)
 			return range_height (&r);
-		
+
 		return range_width (&r);
 }
 
@@ -2804,7 +2804,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_offset = NULL;
 
 	char const *str = ((info->group_by == GROUPED_BY_ROW) ? "row" : "col");
-	char const *label = ((info->group_by == GROUPED_BY_ROW) ? _("Row") 
+	char const *label = ((info->group_by == GROUPED_BY_ROW) ? _("Row")
 			     : _("Column"));
 
 	fd_linest = gnm_func_lookup_or_add_placeholder ("LINEST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
@@ -2857,23 +2857,23 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	dao_set_cell (dao, 2, 0, _("Response Variable:"));
 
 	if (info->base.labels) {
-		
-		dao_set_cell_expr (dao, 3, 0, 
+
+		dao_set_cell_expr (dao, 3, 0,
 				   gnm_expr_new_funcall1 (fd_index, gnm_expr_new_constant (value_dup (val_2))));
-		
+
 		val_1_cp =  value_dup (val_1);
 		val_2_cp =  value_dup (val_2);
 		if (info->group_by == GROUPED_BY_ROW) {
 			val_1->v_range.cell.a.col++;
 			val_2->v_range.cell.a.col++;
 			val_1_cp->v_range.cell.b.col = val_1_cp->v_range.cell.a.col;
-			dao_set_array_expr (dao, 0, 17, 1, xdim, gnm_expr_new_constant 
+			dao_set_array_expr (dao, 0, 17, 1, xdim, gnm_expr_new_constant
 					    (value_dup (val_1_cp)));
 		} else {
 			val_1->v_range.cell.a.row++;
 			val_2->v_range.cell.a.row++;
 			val_1_cp->v_range.cell.b.row = val_1_cp->v_range.cell.a.row;
-			dao_set_array_expr (dao, 0, 17, 1, xdim, gnm_expr_new_funcall1 
+			dao_set_array_expr (dao, 0, 17, 1, xdim, gnm_expr_new_funcall1
 					    (fd_transpose,
 					     gnm_expr_new_constant (value_dup (val_1_cp))));
 		}
@@ -2881,8 +2881,8 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 		dao_set_cell_expr (dao, 3, 0, gnm_expr_new_funcall3
 				   (fd_concatenate, gnm_expr_new_constant (value_new_string (label)),
 				    gnm_expr_new_constant (value_new_string (" ")),
-				    gnm_expr_new_funcall2 (fd_cell, 
-							   gnm_expr_new_constant (value_new_string (str)), 
+				    gnm_expr_new_funcall2 (fd_cell,
+							   gnm_expr_new_constant (value_new_string (str)),
 							   gnm_expr_new_constant (value_dup (val_2)))));
 	}
 
@@ -2894,7 +2894,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 					 "/Significance of F"));
 
 	dao_set_italic (dao, 1, 15, 6, 15);
-	set_cell_text_row (dao, 1, 15, _("/Coefficients" 
+	set_cell_text_row (dao, 1, 15, _("/Coefficients"
 					 "/Standard Error"
 					 "/t-Statistics"
 					 "/p-Value"));
@@ -2918,36 +2918,36 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 				"but the uncentered version of the\n"
 				"coefficient of determination; that\n"
 				"is, the proportion of the sum of\n"
-				"squares explained by the model."));	
+				"squares explained by the model."));
 
 	expr_x = gnm_expr_new_constant (value_dup (val_1));
 	expr_y = gnm_expr_new_constant (value_dup (val_2));
 
 	expr_intercept = gnm_expr_new_constant (value_new_bool (info->intercept));
-	
+
 	expr_linest = gnm_expr_new_funcall4 (fd_linest,
 					     expr_y,
 					     expr_x,
 					     expr_intercept,
 					     gnm_expr_new_constant (value_new_bool (TRUE)));
-		
+
 
 	/* Multiple R */
 	if (info->intercept) {
 		if (dao_cell_is_visible (dao, 1, 4))
 			dao_set_cell_expr (dao, 1, 3, gnm_expr_new_funcall1 (fd_sqrt, make_cellref (0, 1)));
 		else
-			dao_set_cell_expr (dao, 1, 3, 
-					   gnm_expr_new_funcall1 (fd_sqrt, gnm_expr_new_funcall3 
-								  (fd_index, 
+			dao_set_cell_expr (dao, 1, 3,
+					   gnm_expr_new_funcall1 (fd_sqrt, gnm_expr_new_funcall3
+								  (fd_index,
 								   gnm_expr_copy (expr_linest),
 								   gnm_expr_new_constant (value_new_int (3)),
 								   gnm_expr_new_constant (value_new_int (1)))));
 	} else
-			dao_set_cell_expr (dao, 1, 3, 
-					   gnm_expr_new_funcall1 (fd_sqrt, gnm_expr_new_funcall3 
-								  (fd_index, 
-								   gnm_expr_new_funcall4 
+			dao_set_cell_expr (dao, 1, 3,
+					   gnm_expr_new_funcall1 (fd_sqrt, gnm_expr_new_funcall3
+								  (fd_index,
+								   gnm_expr_new_funcall4
 								   (fd_linest,
 								    gnm_expr_new_constant (value_dup (val_2)),
 								    gnm_expr_new_constant (value_dup (val_1)),
@@ -2955,18 +2955,18 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 								    gnm_expr_new_constant (value_new_bool (TRUE))),
 								   gnm_expr_new_constant (value_new_int (3)),
 								   gnm_expr_new_constant (value_new_int (1)))));
-		
+
 
 	/* R Square */
-	dao_set_cell_array_expr (dao, 1, 4, 
-				 gnm_expr_new_funcall3 (fd_index, 
+	dao_set_cell_array_expr (dao, 1, 4,
+				 gnm_expr_new_funcall3 (fd_index,
 							gnm_expr_copy (expr_linest),
 							gnm_expr_new_constant (value_new_int (3)),
 							gnm_expr_new_constant (value_new_int (1))));
-	
+
 	/* Standard Error */
-	dao_set_cell_array_expr (dao, 1, 5, 
-				 gnm_expr_new_funcall3 (fd_index, 
+	dao_set_cell_array_expr (dao, 1, 5,
+				 gnm_expr_new_funcall3 (fd_index,
 							gnm_expr_copy (expr_linest),
 							gnm_expr_new_constant (value_new_int (3)),
 							gnm_expr_new_constant (value_new_int (2))));
@@ -2977,23 +2977,23 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	else
 		expr_n = gnm_expr_new_funcall3 (fd_sum,
 						gnm_expr_new_constant (value_new_int (xdim)),
-						gnm_expr_new_funcall3 (fd_index, 
+						gnm_expr_new_funcall3 (fd_index,
 								       gnm_expr_copy (expr_linest),
 								       gnm_expr_new_constant (value_new_int (4)),
 								       gnm_expr_new_constant (value_new_int (2))),
 						gnm_expr_new_constant (value_new_int (1)));
-	
+
 	dao_set_cell_expr (dao, 1, 6, gnm_expr_new_binary
 			   (gnm_expr_new_constant (value_new_int (1)),
 			    GNM_EXPR_OP_SUB,
 			    gnm_expr_new_binary
 			    (gnm_expr_new_binary
-			     (gnm_expr_new_binary 
+			     (gnm_expr_new_binary
 			      (gnm_expr_copy (expr_n),
 			       GNM_EXPR_OP_SUB,
 			       gnm_expr_new_constant (value_new_int (1))),
 			      GNM_EXPR_OP_DIV,
-			      gnm_expr_new_binary 
+			      gnm_expr_new_binary
 			      (expr_n,
 			       GNM_EXPR_OP_SUB,
 			       gnm_expr_new_constant (value_new_int (xdim + (info->intercept?1:0))))),
@@ -3005,27 +3005,27 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 
 	/* Observations */
 
-	if (dao_cell_is_visible (dao, 1, 13)) 
-		dao_set_cell_expr (dao, 1, 7, 
+	if (dao_cell_is_visible (dao, 1, 13))
+		dao_set_cell_expr (dao, 1, 7,
 				   gnm_expr_new_funcall2 (fd_sum,
 							  make_cellref (0, 6),
 							  gnm_expr_new_constant (value_new_int (info->intercept?1:0))));
-	else if (dao_cell_is_visible (dao, 1, 12)) 
-		dao_set_cell_expr (dao, 1, 7, 
+	else if (dao_cell_is_visible (dao, 1, 12))
+		dao_set_cell_expr (dao, 1, 7,
 				   gnm_expr_new_funcall3 (fd_sum,
 							  make_cellref (0, 4),
 							  make_cellref (0, 5),
 							  gnm_expr_new_constant (value_new_int (info->intercept?1:0))));
-	else 
-		dao_set_cell_expr (dao, 1, 7, 
+	else
+		dao_set_cell_expr (dao, 1, 7,
 				   gnm_expr_new_funcall3 (fd_sum,
 							  gnm_expr_new_constant (value_new_int (xdim)),
-							  gnm_expr_new_funcall3 (fd_index, 
+							  gnm_expr_new_funcall3 (fd_index,
 										 gnm_expr_copy (expr_linest),
 										 gnm_expr_new_constant (value_new_int (4)),
 										 gnm_expr_new_constant (value_new_int (2))),
 							  gnm_expr_new_constant (value_new_int (info->intercept?1:0))));
-	
+
 
 
 	/* Regression / df */
@@ -3033,8 +3033,8 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	dao_set_cell_int (dao, 1, 11, xdim);
 
 	/* Residual / df */
-	dao_set_cell_array_expr (dao, 1, 12, 
-				 gnm_expr_new_funcall3 (fd_index, 
+	dao_set_cell_array_expr (dao, 1, 12,
+				 gnm_expr_new_funcall3 (fd_index,
 							gnm_expr_copy (expr_linest),
 							gnm_expr_new_constant (value_new_int (4)),
 							gnm_expr_new_constant (value_new_int (2))));
@@ -3047,15 +3047,15 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	dao_set_cell_expr (dao, 1, 13, gnm_expr_copy (expr_sum));
 
 	/* Regression / SS */
-	dao_set_cell_array_expr (dao, 2, 11, 
-				 gnm_expr_new_funcall3 (fd_index, 
+	dao_set_cell_array_expr (dao, 2, 11,
+				 gnm_expr_new_funcall3 (fd_index,
 							gnm_expr_copy (expr_linest),
 							gnm_expr_new_constant (value_new_int (5)),
 							gnm_expr_new_constant (value_new_int (1))));
 
 	/* Residual / SS */
-	dao_set_cell_array_expr (dao, 2, 12, 
-				 gnm_expr_new_funcall3 (fd_index, 
+	dao_set_cell_array_expr (dao, 2, 12,
+				 gnm_expr_new_funcall3 (fd_index,
 							gnm_expr_copy (expr_linest),
 							gnm_expr_new_constant (value_new_int (5)),
 							gnm_expr_new_constant (value_new_int (2))));
@@ -3064,7 +3064,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	/* Total / SS */
 	dao_set_cell_expr (dao, 2, 13, expr_sum);
 
-    
+
 	/* Regression / MS */
 	expr_ms = gnm_expr_new_binary (make_cellref (-1, 0),
 				       GNM_EXPR_OP_DIV,
@@ -3073,11 +3073,11 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 
 	/* Residual / MS */
 	dao_set_cell_expr (dao, 3, 12, expr_ms);
-	
+
 
 	/* F */
-	dao_set_cell_array_expr (dao, 4, 11, 
-				 gnm_expr_new_funcall3 (fd_index, 
+	dao_set_cell_array_expr (dao, 4, 11,
+				 gnm_expr_new_funcall3 (fd_index,
 							gnm_expr_copy (expr_linest),
 							gnm_expr_new_constant (value_new_int (4)),
 							gnm_expr_new_constant (value_new_int (1))));
@@ -3093,12 +3093,12 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 		dao_set_cell_expr (dao, 5, 11, gnm_expr_new_funcall3 (fd_fdist,
 								      make_cellref (-1, 0),
 								      make_cellref (-4, 0),
-								      gnm_expr_new_funcall3 
-								      (fd_index, 
+								      gnm_expr_new_funcall3
+								      (fd_index,
 								       gnm_expr_copy (expr_linest),
 								       gnm_expr_new_constant (value_new_int (4)),
 								       gnm_expr_new_constant (value_new_int (2)))));
-	
+
 
 	/* Intercept */
 
@@ -3114,9 +3114,9 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 				      GNM_EXPR_OP_SUB,
 				      gnm_expr_new_binary (make_cellref (-3, 0),
 							   GNM_EXPR_OP_MULT,
-							   gnm_expr_new_funcall2 
+							   gnm_expr_new_funcall2
 							   (fd_tinv,
-							    gnm_expr_new_binary 
+							    gnm_expr_new_binary
 							    (gnm_expr_new_constant (value_new_float (1.0)),
 							     GNM_EXPR_OP_SUB,
 							     gnm_expr_copy (expr_confidence)),
@@ -3125,9 +3125,9 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 				      GNM_EXPR_OP_ADD,
 				      gnm_expr_new_binary (make_cellref (-4, 0),
 							   GNM_EXPR_OP_MULT,
-							   gnm_expr_new_funcall2 
+							   gnm_expr_new_funcall2
 							   (fd_tinv,
-							    gnm_expr_new_binary 
+							    gnm_expr_new_binary
 							    (gnm_expr_new_constant (value_new_float (1.0)),
 							     GNM_EXPR_OP_SUB,
 							     expr_confidence),
@@ -3141,15 +3141,15 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 		for (i = 2; i <= 6; i++)
 			dao_set_cell_na (dao, i, 16);
 	} else {
-		dao_set_cell_array_expr (dao, 1, 16, 
-					 gnm_expr_new_funcall3 
-					 (fd_index, 
+		dao_set_cell_array_expr (dao, 1, 16,
+					 gnm_expr_new_funcall3
+					 (fd_index,
 					  gnm_expr_copy (expr_linest),
 					  gnm_expr_new_constant (value_new_int (1)),
 					  gnm_expr_new_constant (value_new_int (xdim+1))));
-		dao_set_cell_array_expr (dao, 2, 16, 
-					 gnm_expr_new_funcall3 
-					 (fd_index, 
+		dao_set_cell_array_expr (dao, 2, 16,
+					 gnm_expr_new_funcall3
+					 (fd_index,
 					  gnm_expr_copy (expr_linest),
 					  gnm_expr_new_constant (value_new_int (2)),
 					  gnm_expr_new_constant (value_new_int (xdim+1))));
@@ -3167,7 +3167,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 		if (!info->base.labels) {
 			GnmExpr const *expr_offset;
 
-			if (info->group_by == GROUPED_BY_ROW) 
+			if (info->group_by == GROUPED_BY_ROW)
 				expr_offset = gnm_expr_new_funcall3
 					(fd_offset, gnm_expr_new_constant (value_dup (val_1)),
 					 gnm_expr_new_constant (value_new_int (i)),
@@ -3181,31 +3181,31 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 			dao_set_cell_expr (dao, 0, i, gnm_expr_new_funcall3
 					   (fd_concatenate, gnm_expr_new_constant (value_new_string (label)),
 					    gnm_expr_new_constant (value_new_string (" ")),
-					    gnm_expr_new_funcall2 
+					    gnm_expr_new_funcall2
 					    (fd_cell,
-					     gnm_expr_new_constant (value_new_string (str)), 
+					     gnm_expr_new_constant (value_new_string (str)),
 					     expr_offset)));
 		}
-		
-		dao_set_cell_array_expr (dao, 1, i, 
-					 gnm_expr_new_funcall3 
-					 (fd_index, 
+
+		dao_set_cell_array_expr (dao, 1, i,
+					 gnm_expr_new_funcall3
+					 (fd_index,
 					  gnm_expr_copy (expr_linest),
 					  gnm_expr_new_constant (value_new_int (1)),
 					  gnm_expr_new_constant (value_new_int (xdim - i))));
-		dao_set_cell_array_expr (dao, 2, i, 
-					 gnm_expr_new_funcall3 
-					 (fd_index, 
+		dao_set_cell_array_expr (dao, 2, i,
+					 gnm_expr_new_funcall3
+					 (fd_index,
 					  gnm_expr_copy (expr_linest),
 					  gnm_expr_new_constant (value_new_int (2)),
-					  gnm_expr_new_constant (value_new_int (xdim - i))));		
+					  gnm_expr_new_constant (value_new_int (xdim - i))));
 		dao_set_cell_expr (dao, 3, i, gnm_expr_copy (expr_tstat));
 		dao_set_cell_expr (dao, 4, i, gnm_expr_copy (expr_pvalue));
 		dao_set_cell_expr (dao, 5, i, gnm_expr_copy (expr_lower));
 		dao_set_cell_expr (dao, 6, i, gnm_expr_copy (expr_upper));
 	}
 
-	
+
 	gnm_expr_free (expr_linest);
 	gnm_expr_free (expr_tstat);
 	gnm_expr_free (expr_pvalue);
@@ -3286,24 +3286,24 @@ static GnmExpr const *
 analysis_tool_moving_average_funcall5 (GnmFunc *fd, GnmExpr const *ex, int y, int x, int dy, int dx)
 {
 	GnmExprList *list;
-	list = gnm_expr_list_prepend (NULL, gnm_expr_new_constant (value_new_int (dx))); 
-	list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (dy))); 
-	list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (x))); 
-	list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (y))); 
+	list = gnm_expr_list_prepend (NULL, gnm_expr_new_constant (value_new_int (dx)));
+	list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (dy)));
+	list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (x)));
+	list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (y)));
 	list = gnm_expr_list_prepend (list, gnm_expr_copy (ex));
 
 	return gnm_expr_new_funcall (fd, list);
 }
 
 static GnmExpr const *
-analysis_tool_moving_average_weighted_av (GnmFunc *fd_sum, GnmFunc *fd_in, GnmExpr const *ex, 
+analysis_tool_moving_average_weighted_av (GnmFunc *fd_sum, GnmFunc *fd_in, GnmExpr const *ex,
 					  int y, int x, int dy, int dx, int *w)
 {
 	GnmExprList *list = NULL;
 
 	while (*w != 0) {
-		list = gnm_expr_list_prepend 
-			(list, gnm_expr_new_binary 
+		list = gnm_expr_list_prepend
+			(list, gnm_expr_new_binary
 			 (gnm_expr_new_constant (value_new_int (*w)),
 			  GNM_EXPR_OP_MULT,
 			  gnm_expr_new_funcall3 (fd_in, gnm_expr_copy (ex),
@@ -3335,27 +3335,27 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 
 	if (info->base.labels) {
 		fd_index = gnm_func_lookup_or_add_placeholder ("INDEX", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-		gnm_func_ref (fd_index);		
+		gnm_func_ref (fd_index);
 	}
 	if (info->std_error_flag) {
 		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-		gnm_func_ref (fd_sqrt);		
+		gnm_func_ref (fd_sqrt);
 		fd_sumxmy2 = gnm_func_lookup_or_add_placeholder ("SUMXMY2", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-		gnm_func_ref (fd_sumxmy2);		
+		gnm_func_ref (fd_sumxmy2);
 	}
 	if (moving_average_type_wma == info->ma_type || moving_average_type_spencer_ma == info->ma_type) {
 		fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-		gnm_func_ref (fd_sum);		
+		gnm_func_ref (fd_sum);
 	}
 	fd_average = gnm_func_lookup_or_add_placeholder ("AVERAGE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	gnm_func_ref (fd_average);	
+	gnm_func_ref (fd_average);
 	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_offset);
 
 	if (info->show_graph) {
 		GogGraph     *graph;
 		GogChart     *chart;
-		
+
 		graph = g_object_new (GOG_TYPE_GRAPH, NULL);
 		chart = GOG_CHART (gog_object_add_by_name (GOG_OBJECT (graph), "Chart", NULL));
 		plot = gog_plot_new_by_name ("GogLinePlot");
@@ -3390,7 +3390,7 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 				val->v_range.cell.a.row++;
 				break;
 			}
-			expr_title = gnm_expr_new_funcall1 (fd_index, 
+			expr_title = gnm_expr_new_funcall1 (fd_index,
 							    gnm_expr_new_constant (val_c));
 
 			dao_set_italic (dao, col, 0, col, 0);
@@ -3403,7 +3403,7 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 			default:
 				format = _("Column %d");
 				break;
-			}	
+			}
 			dao_set_cell_printf (dao, col, 0, format, source);
 		}
 
@@ -3418,8 +3418,8 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 			mover = &y;
 			delta_mover = &delta_y;
 			break;
-		}	
-		
+		}
+
 		sheet = val->v_range.cell.a.sheet;
 		expr_input = gnm_expr_new_constant (val);
 
@@ -3427,19 +3427,19 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 			GogSeries    *series;
 
 			series = gog_plot_new_series (plot);
-			gog_series_set_dim (series, 1, 
+			gog_series_set_dim (series, 1,
 					    gnm_go_data_vector_new_expr (sheet,
-									 gnm_expr_top_new (gnm_expr_copy (expr_input))), 
+									 gnm_expr_top_new (gnm_expr_copy (expr_input))),
 					    NULL);
 
 			series = gog_plot_new_series (plot);
-			gog_series_set_dim (series, 1, 
+			gog_series_set_dim (series, 1,
 					    dao_go_data_vector (dao, col, 1, col, height),
 					    NULL);
 		}
 
 		switch (info->ma_type) {
-		case moving_average_type_central_sma: 
+		case moving_average_type_central_sma:
 		{
 			GnmExpr const *expr_offset_last = NULL;
 			GnmExpr const *expr_offset = NULL;
@@ -3448,16 +3448,16 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 			for (row = 1; row <= height; row++, (*mover)++) {
 				expr_offset_last = expr_offset;
 				expr_offset = NULL;
-				if ((*mover >= 0) && (*mover < height - info->interval + 1)) { 
-					expr_offset = gnm_expr_new_funcall1 
-						(fd_average, analysis_tool_moving_average_funcall5 
+				if ((*mover >= 0) && (*mover < height - info->interval + 1)) {
+					expr_offset = gnm_expr_new_funcall1
+						(fd_average, analysis_tool_moving_average_funcall5
 						 (fd_offset,expr_input, y, x, delta_y, delta_x));
-					
+
 					if (expr_offset_last == NULL)
 						dao_set_cell_na (dao, col, row);
 					else
-						dao_set_cell_expr (dao, col, row, 
-								   gnm_expr_new_funcall2 (fd_average, expr_offset_last, 
+						dao_set_cell_expr (dao, col, row,
+								   gnm_expr_new_funcall2 (fd_average, expr_offset_last,
 											  gnm_expr_copy (expr_offset)));
 				} else {
 					if (expr_offset_last != NULL) {
@@ -3475,39 +3475,39 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 				GnmExpr const *expr_offset;
 
 				*delta_mover = row;
-				
-				expr_offset = analysis_tool_moving_average_funcall5 
+
+				expr_offset = analysis_tool_moving_average_funcall5
 					 (fd_offset, expr_input, y, x, delta_y, delta_x);
 
-				dao_set_cell_expr (dao, col, row, 
+				dao_set_cell_expr (dao, col, row,
 						   gnm_expr_new_funcall1 (fd_average, expr_offset));
 			}
 			base = 0;
 			break;
 		case moving_average_type_wma:
 		{
-			GnmExpr const *expr_divisor = gnm_expr_new_constant 
+			GnmExpr const *expr_divisor = gnm_expr_new_constant
 				(value_new_int((info->interval * (info->interval + 1))/2));
 			int *w = g_new (int, (info->interval + 1));
 			int i;
-			
+
 			for (i = 0; i < info->interval; i++)
 				w[i] = i+1;
 			w[info->interval] = 0;
-			
+
 			delta_x = 0;
 			delta_y= 0;
 			(*delta_mover) = 1;
 			(*mover) = 1 - info->interval;
 			for (row = 1; row <= height; row++, (*mover)++) {
-				if ((*mover >= 0) && (*mover < height - info->interval + 1)) { 
+				if ((*mover >= 0) && (*mover < height - info->interval + 1)) {
 					GnmExpr const *expr_sum;
 
-					expr_sum = analysis_tool_moving_average_weighted_av 
+					expr_sum = analysis_tool_moving_average_weighted_av
 						(fd_sum, fd_index, expr_input, y+1, x+1, delta_y, delta_x, w);
-					
-					dao_set_cell_expr (dao, col, row, 
-							   gnm_expr_new_binary 
+
+					dao_set_cell_expr (dao, col, row,
+							   gnm_expr_new_binary
 							   (expr_sum,
 							    GNM_EXPR_OP_DIV,
 							    gnm_expr_copy (expr_divisor)));
@@ -3523,23 +3523,23 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 		break;
 		case moving_average_type_spencer_ma:
 		{
-			GnmExpr const *expr_divisor = gnm_expr_new_constant 
+			GnmExpr const *expr_divisor = gnm_expr_new_constant
 				(value_new_int(-3-6-5+3+21+45+67+74+67+46+21+3-5-6-3));
 			int w[] = {-3, -6, -5, 3, 21, 45, 67, 74, 67, 46, 21, 3, -5, -6, -3, 0};
-			
+
 			delta_x = 0;
 			delta_y= 0;
 			(*delta_mover) = 1;
 			(*mover) = 1 - info->interval + info->offset;
 			for (row = 1; row <= height; row++, (*mover)++) {
-				if ((*mover >= 0) && (*mover < height - info->interval + 1)) { 
+				if ((*mover >= 0) && (*mover < height - info->interval + 1)) {
 					GnmExpr const *expr_sum;
 
-					expr_sum = analysis_tool_moving_average_weighted_av 
+					expr_sum = analysis_tool_moving_average_weighted_av
 						(fd_sum, fd_index, expr_input, y+1, x+1, delta_y, delta_x, w);
-					
-					dao_set_cell_expr (dao, col, row, 
-							   gnm_expr_new_binary 
+
+					dao_set_cell_expr (dao, col, row,
+							   gnm_expr_new_binary
 							   (expr_sum,
 							    GNM_EXPR_OP_DIV,
 							    gnm_expr_copy (expr_divisor)));
@@ -3556,12 +3556,12 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 			(*delta_mover) = info->interval;
 			(*mover) = 1 - info->interval + info->offset;
 			for (row = 1; row <= height; row++, (*mover)++) {
-				if ((*mover >= 0) && (*mover < height - info->interval + 1)) { 
+				if ((*mover >= 0) && (*mover < height - info->interval + 1)) {
 					GnmExpr const *expr_offset;
-					
-					expr_offset = analysis_tool_moving_average_funcall5 
+
+					expr_offset = analysis_tool_moving_average_funcall5
 						(fd_offset, expr_input, y, x, delta_y, delta_x);
-					dao_set_cell_expr (dao, col, row, 
+					dao_set_cell_expr (dao, col, row,
 							   gnm_expr_new_funcall1 (fd_average, expr_offset));
 				} else
 					dao_set_cell_na (dao, col, row);
@@ -3577,32 +3577,32 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 
 			(*mover) = base;
 			for (row = 1; row <= height; row++) {
-				if (row > base && row <= height - info->offset && (row - base - info->df) > 0) { 
+				if (row > base && row <= height - info->offset && (row - base - info->df) > 0) {
 					GnmExpr const *expr_offset;
-					
+
 					if (info->base.group_by == GROUPED_BY_ROW)
 						delta_x = row - base;
 					else
 						delta_y = row - base;
-					
-					expr_offset = analysis_tool_moving_average_funcall5 
+
+					expr_offset = analysis_tool_moving_average_funcall5
 						(fd_offset, expr_input, y, x, delta_y, delta_x);
 					dao_set_cell_expr (dao, col, row,
-							   gnm_expr_new_funcall1 
+							   gnm_expr_new_funcall1
 							   (fd_sqrt,
-							    gnm_expr_new_binary 
+							    gnm_expr_new_binary
 							    (gnm_expr_new_funcall2
 							     (fd_sumxmy2,
 							      expr_offset,
 							      make_rangeref (-1, - row + base + 1, -1, 0)),
 							     GNM_EXPR_OP_DIV,
-							     gnm_expr_new_constant (value_new_int 
+							     gnm_expr_new_constant (value_new_int
 										    (row - base - info->df)))));
 				} else
 					dao_set_cell_na (dao, col, row);
 			}
 		}
-		
+
 		gnm_expr_free (expr_input);
 	}
 
@@ -3709,20 +3709,20 @@ analysis_tool_ranking_engine_run (data_analysis_output_t *dao,
 
 		rows = (val_org->v_range.cell.b.row - val_org->v_range.cell.a.row + 1) *
 			(val_org->v_range.cell.b.col - val_org->v_range.cell.a.col + 1);
-		
-		expr_large = gnm_expr_new_funcall2 
+
+		expr_large = gnm_expr_new_funcall2
 			(fd_large, gnm_expr_new_constant (value_dup (val_org)),
-			 gnm_expr_new_binary (gnm_expr_new_binary 
+			 gnm_expr_new_binary (gnm_expr_new_binary
 					      (gnm_expr_new_funcall (fd_row, NULL),
 					       GNM_EXPR_OP_SUB,
-					       gnm_expr_new_funcall1 
+					       gnm_expr_new_funcall1
 					       (fd_row, dao_get_cellref (dao, 1, 2))),
 					      GNM_EXPR_OP_ADD,
 					      gnm_expr_new_constant (value_new_int (1))));
 		dao_set_array_expr (dao, 1, 2, 1, rows, gnm_expr_copy (expr_large));
 
 		/* If there are ties the following will only give us the first occurrence... */
-		expr_position = gnm_expr_new_funcall3 (fd_match, expr_large,  
+		expr_position = gnm_expr_new_funcall3 (fd_match, expr_large,
 						       gnm_expr_new_constant (value_dup (val_org)),
 						       gnm_expr_new_constant (value_new_int (0)));
 
@@ -3738,12 +3738,12 @@ analysis_tool_ranking_engine_run (data_analysis_output_t *dao,
 			GnmFunc *fd_count;
 			fd_count = gnm_func_lookup_or_add_placeholder ("COUNT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 			gnm_func_ref (fd_count);
-			
-			expr_rows = gnm_expr_new_funcall1 
+
+			expr_rows = gnm_expr_new_funcall1
 				(fd_count, gnm_expr_new_constant (value_dup (val_org)));
 			expr_rows_p_one = gnm_expr_new_binary
-				(expr_rows, 
-				 GNM_EXPR_OP_ADD, 
+				(expr_rows,
+				 GNM_EXPR_OP_ADD,
 				 gnm_expr_new_constant (value_new_int (1)));
 			expr_rank_lower = gnm_expr_new_funcall3
 				(fd_rank,
@@ -3756,7 +3756,7 @@ analysis_tool_ranking_engine_run (data_analysis_output_t *dao,
 				  GNM_EXPR_OP_ADD, expr_rows_p_one),
 				 GNM_EXPR_OP_DIV,
 				 gnm_expr_new_constant (value_new_int (2)));
-			
+
 			gnm_func_unref (fd_count);
 		}
 		expr_percentile = gnm_expr_new_funcall3 (fd_percentrank,
@@ -3770,7 +3770,7 @@ analysis_tool_ranking_engine_run (data_analysis_output_t *dao,
 			dao_set_cell_expr ( dao, 3, i, gnm_expr_copy (expr_percentile));
 		}
 
-		
+
 		dao->offset_col += 4;
 		value_release (val_org);
 		gnm_expr_free (expr_rank);
@@ -4184,7 +4184,7 @@ analysis_tool_fourier_engine_run (data_analysis_output_t *dao,
 
 	dao_set_merge (dao, 0, 0, 1, 0);
 	dao_set_italic (dao, 0, 0, 0, 0);
-	dao_set_cell (dao, 0, 0, info->inverse ? _("Inverse Fourier Transform") 
+	dao_set_cell (dao, 0, 0, info->inverse ? _("Inverse Fourier Transform")
 		      : _("Fourier Transform"));
 
 	for (; data; data = data->next, col++) {
@@ -4209,11 +4209,11 @@ analysis_tool_fourier_engine_run (data_analysis_output_t *dao,
 			 gnm_expr_new_constant (val_org),
 			 gnm_expr_new_constant (value_new_bool (info->inverse)));
 
-		dao_set_array_expr (dao, 0, 3, 1, rows, 
-				    gnm_expr_new_funcall1 (fd_imreal, 
+		dao_set_array_expr (dao, 0, 3, 1, rows,
+				    gnm_expr_new_funcall1 (fd_imreal,
 							   gnm_expr_copy (expr_fourier)));
-		dao_set_array_expr (dao, 1, 3, 1, rows, 
-				    gnm_expr_new_funcall1 (fd_imaginary, 
+		dao_set_array_expr (dao, 1, 3, 1, rows,
+				    gnm_expr_new_funcall1 (fd_imaginary,
 							   expr_fourier));
 		dao->offset_col += 2;
 	}

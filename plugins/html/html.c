@@ -168,7 +168,7 @@ cb_html_attrs_as_string (GsfOutput *output, PangoAttribute *a, html_version_t ve
 		} else if (((PangoAttrInt *)a)->value < -5) {
 			gsf_output_puts (output, "<sub>");
 			closure = "</sub>";
-		} 
+		}
 		break;
 	case PANGO_ATTR_STYLE :
 		if (((PangoAttrInt *)a)->value == PANGO_STYLE_ITALIC) {
@@ -176,7 +176,7 @@ cb_html_attrs_as_string (GsfOutput *output, PangoAttribute *a, html_version_t ve
 			closure = "</i>";
 		}
 		break;
-	case PANGO_ATTR_WEIGHT : 
+	case PANGO_ATTR_WEIGHT :
 		if (((PangoAttrInt *)a)->value > 600){
 			gsf_output_puts (output, "<b>");
 			closure = "</b>";
@@ -188,8 +188,8 @@ cb_html_attrs_as_string (GsfOutput *output, PangoAttribute *a, html_version_t ve
 			closure = "</strike>";
 		}
 		break;
-	case PANGO_ATTR_UNDERLINE : 
-		if ((version != HTML40) && 
+	case PANGO_ATTR_UNDERLINE :
+		if ((version != HTML40) &&
 		    (((PangoAttrInt *)a)->value != PANGO_UNDERLINE_NONE)) {
 			gsf_output_puts (output, "<u>");
 			closure = "</u>";
@@ -210,7 +210,7 @@ cb_html_attrs_as_string (GsfOutput *output, PangoAttribute *a, html_version_t ve
 }
 
 static void
-html_new_markup (GsfOutput *output, const PangoAttrList *markup, char const *text, 
+html_new_markup (GsfOutput *output, const PangoAttrList *markup, char const *text,
 		 html_version_t version)
 {
 	int handled = 0;
@@ -223,7 +223,7 @@ html_new_markup (GsfOutput *output, const PangoAttrList *markup, char const *tex
 
 	do {
 		GSList *list, *l;
-		
+
 		g_string_erase (closure, 0, -1);
 		pango_attr_iterator_range (iter, &from, &to);
 		from = (from > len) ? len : from; /* Since "from" can be really big! */
@@ -303,11 +303,11 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle const *style
 					gsf_output_printf (output, "<font color=\"#%02X%02X%02X\">", r, g, b);
 			}
 
-			if ((cell->value->type == VALUE_STRING) 
+			if ((cell->value->type == VALUE_STRING)
 			    && (VALUE_FMT (cell->value) != NULL)
 			    && go_format_is_markup (VALUE_FMT (cell->value)))
 				markup = go_format_get_markup (VALUE_FMT (cell->value));
-			
+
 			if (markup != NULL) {
 				GString *str = g_string_new ("");
 				value_get_as_gstring (cell->value, str, NULL);

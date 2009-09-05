@@ -411,7 +411,7 @@ sheet_object_clear_sheet (SheetObject *so)
 		g_object_set_qdata (G_OBJECT (so->realized_list->data), sov_so_quark, NULL);
 		g_object_unref (G_OBJECT (so->realized_list->data));
 		so->realized_list = g_list_remove (so->realized_list, so->realized_list->data);
-		
+
 	}
 	g_signal_emit (so, signals [UNREALIZED], 0);
 

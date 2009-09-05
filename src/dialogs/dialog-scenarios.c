@@ -619,7 +619,7 @@ init_scenario_buttons (ScenariosState *state)
 	        return TRUE;
 	g_signal_connect (G_OBJECT (state->scenario_state->summary_button),
 			  "clicked",
-			  G_CALLBACK (scenarios_summary_clicked_cb), 
+			  G_CALLBACK (scenarios_summary_clicked_cb),
 			  state);
 
 	set_selection_state (state, FALSE);

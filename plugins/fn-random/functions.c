@@ -900,7 +900,7 @@ GnmFuncDescriptor const random_functions[] = {
         { "randchisq", "f",    help_randchisq,
 	  gnumeric_randchisq, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "randdiscrete", "r|r", 
+	{ "randdiscrete", "r|r",
 	  help_randdiscrete, gnumeric_randdiscrete, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "randexp", "f",          help_randexp,

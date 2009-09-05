@@ -273,24 +273,24 @@ autocorrect_initial_caps (const char *src)
 				for (l = autocorrect.exceptions.init_caps; l; l = l->next) {
 					const char *except = l->data;
 					if (strncmp (begin, except, strlen (except)) == 0) {
-						exception_found = TRUE;	
+						exception_found = TRUE;
 						break;
 					}
 				}
 
 				if (!exception_found) {
 					const char *q;
-					for (q = g_utf8_next_char (p); 
-					     *q && !g_unichar_isspace (g_utf8_get_char (q)); 
+					for (q = g_utf8_next_char (p);
+					     *q && !g_unichar_isspace (g_utf8_get_char (q));
 					     q = g_utf8_next_char (q)) {
-						if (g_unichar_isupper 
+						if (g_unichar_isupper
 						    (g_utf8_get_char (q))) {
 							exception_found = TRUE;
 							break;
 						}
 					}
 				}
-				
+
 				if (!exception_found) {
 					lotext = g_utf8_strdown (target, 1);
 					newres = replace1 (src, target - src, lotext, p);

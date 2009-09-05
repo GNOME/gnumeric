@@ -9,7 +9,7 @@
  *
  * (C) Copyright 2000, 2001 by Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
  * (C) Copyright 2001, 2002 by Andreas J. Guelzow  <aguelzow@taliesin.ca>
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -54,10 +54,10 @@ typedef struct {
 	WorkbookControl             *wbc;
 	GSList                      *sos;
 	gboolean                    omit_so;
-	gboolean                    use_gfree; 
+	gboolean                    use_gfree;
 } data_analysis_output_t;
 
-data_analysis_output_t *dao_init (data_analysis_output_t *dao, 
+data_analysis_output_t *dao_init (data_analysis_output_t *dao,
 				  data_analysis_output_type_t type);
 data_analysis_output_t *dao_init_new_sheet (data_analysis_output_t *dao);
 data_analysis_output_t *dao_load_from_value (data_analysis_output_t *dao,
@@ -89,7 +89,7 @@ void dao_set_colors (data_analysis_output_t *dao, int col1, int row1,
 void dao_set_align (data_analysis_output_t *dao, int col1, int row1,
 		    int col2, int row2,
 		    GnmHAlign align_h, GnmVAlign align_v);
-void dao_set_border (data_analysis_output_t *dao, int col1, 
+void dao_set_border (data_analysis_output_t *dao, int col1,
 		     int row1, int col2, int row2,
 		     GnmStyleElement elem,GnmStyleBorderType border,
 		     GnmColor *color,
@@ -115,13 +115,13 @@ void dao_set_cell_int         (data_analysis_output_t *dao,
 void dao_set_cell_na          (data_analysis_output_t *dao,
 			       int col, int row);
 void dao_set_cell_float_na    (data_analysis_output_t *dao, int col, int row,
-			       gnm_float v, 
+			       gnm_float v,
 			   gboolean is_valid);
 void dao_set_cell_comment (data_analysis_output_t *dao, int col, int row,
 			   char const *comment);
 void dao_set_sheet_object (data_analysis_output_t *dao, int col, int row, SheetObject* so);
 
-void dao_prepare_output       (WorkbookControl *wbc,  
+void dao_prepare_output       (WorkbookControl *wbc,
 			       data_analysis_output_t *dao, char const *name);
 gboolean dao_format_output    (data_analysis_output_t *dao, char const *cmd);
 char *dao_range_name      (data_analysis_output_t *dao);
@@ -131,7 +131,7 @@ void dao_adjust           (data_analysis_output_t *dao, gint cols, gint rows);
 
 ColRowStateList *dao_get_colrow_state_list (data_analysis_output_t *dao,
 					    gboolean is_cols);
-void dao_set_colrow_state_list (data_analysis_output_t *dao, gboolean is_cols, 
+void dao_set_colrow_state_list (data_analysis_output_t *dao, gboolean is_cols,
 				ColRowStateList *list);
 void dao_write_header (data_analysis_output_t *dao, const gchar *toolname,
 		       const gchar *title, Sheet *sheet);
@@ -150,7 +150,7 @@ GOData *dao_go_data_vector (data_analysis_output_t *dao, int ax, int ay,  int bx
 
 
 /* The following 2 functions are intended solely for undo support */
-/* of sheet objects normally created by the dao. */ 
+/* of sheet objects normally created by the dao. */
 
 GSList *dao_surrender_so (data_analysis_output_t *dao);
 void    dao_set_omit_so (data_analysis_output_t *dao, gboolean omit);

@@ -80,7 +80,7 @@ static GnmFuncHelp const help_complex[] = {
         { GNM_FUNC_HELP_ARG, F_("x:real part") },
         { GNM_FUNC_HELP_ARG, F_("y:imaginary part") },
         { GNM_FUNC_HELP_ARG, F_("i:the suffix for the complex number, either \"i\" or \"j\"; defaults to \"i\".") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{i} is neither \"i\" nor \"j\", COMPLEX returns #VALUE!") },	
+	{ GNM_FUNC_HELP_NOTE, F_("If @{i} is neither \"i\" nor \"j\", COMPLEX returns #VALUE!") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=COMPLEX(1,-1)" },
         { GNM_FUNC_HELP_END}

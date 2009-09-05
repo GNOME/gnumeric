@@ -237,7 +237,7 @@ make_link (GtkTextBuffer *description, const char *name,
 	   GCallback cb, gpointer user)
 {
 	GtkTextTag *link =
-		gtk_text_tag_table_lookup 
+		gtk_text_tag_table_lookup
 		(gtk_text_buffer_get_tag_table (description), name);
 
 	if (!link) {
@@ -326,7 +326,7 @@ make_expr_example (Sheet *sheet, const char *text, gboolean localized)
 
 		gnm_expr_top_unref (texpr);
 		gnm_expr_top_unref (texpr_res);
-		
+
 		res = g_strdup_printf (_("%s evaluates to %s."), etxt, vtxt);
 
 		g_free (etxt);
@@ -347,7 +347,7 @@ make_expr_example (Sheet *sheet, const char *text, gboolean localized)
 #define ADD_LINK_TEXT(text,len) gtk_text_buffer_insert_with_tags (description, &ti, (text), (len), link, NULL)
 #define ADD_TEXT_WITH_ARGS(text) { const char *t = text; while (*t) { const char *at = strstr (t, "@{"); \
 			if (at == NULL) { ADD_TEXT(t); break;} ADD_LTEXT(t, at - t); t = at + 2; at = strchr (t,'}'); \
-			if (at != NULL) { ADD_BOLD_TEXT(t, at - t); t = at + 1; } else {ADD_TEXT (t); break;}}} 
+			if (at != NULL) { ADD_BOLD_TEXT(t, at - t); t = at + 1; } else {ADD_TEXT (t); break;}}}
 
 static void
 describe_new_style (GtkTextBuffer *description, GnmFunc const *func, Sheet *sheet)
@@ -571,7 +571,7 @@ dialog_function_select_find_func (FunctionSelectState *state, char* name)
 
 	if (name == NULL)
 		return;
-	
+
 	fd = gnm_func_lookup (name, state->wb);
 	if (fd != NULL) {
 		dialog_function_select_find_func_t data;
@@ -579,12 +579,12 @@ dialog_function_select_find_func (FunctionSelectState *state, char* name)
 		data.cat = fd->fn_group;
 		data.state = state;
 		data.iter = NULL;
-		
+
 		gtk_tree_model_foreach (GTK_TREE_MODEL (state->model),
 					dialog_function_select_search_cat_func,
 					&data);
 		if (data.iter != NULL) {
-			GtkTreeSelection *selection = gtk_tree_view_get_selection 
+			GtkTreeSelection *selection = gtk_tree_view_get_selection
 				(state->treeview);
 			GtkTreePath *path;
 
@@ -603,9 +603,9 @@ dialog_function_select_find_func (FunctionSelectState *state, char* name)
 					dialog_function_select_search_func,
 					&data);
 			if (data.iter != NULL) {
-				selection = gtk_tree_view_get_selection 
+				selection = gtk_tree_view_get_selection
 					(state->treeview_f);
-				
+
 				gtk_tree_selection_select_iter (selection,
 								data.iter);
 				path = gtk_tree_model_get_path (GTK_TREE_MODEL (state->model_f),
@@ -622,7 +622,7 @@ dialog_function_select_find_func (FunctionSelectState *state, char* name)
 			g_warning ("Category of function %s was not found", name);
 	} else
 		g_warning ("Function %s was not found", name);
-} 
+}
 
 typedef struct {
 	FunctionSelectState *state;
@@ -642,11 +642,11 @@ cb_dialog_function_select_idle_handler (gpointer dt)
 	return FALSE;
 }
 
-static void                
+static void
 cb_description_clicked (GtkTextBuffer *textbuffer,
 			GtkTextIter   *location,
 			GtkTextMark   *mark,
-			FunctionSelectState *state) 
+			FunctionSelectState *state)
 {
 	const char * mark_name;
 	GtkTextTag *link;
@@ -654,11 +654,11 @@ cb_description_clicked (GtkTextBuffer *textbuffer,
 	GtkTextIter   *end;
 	cb_dialog_function_select_idle_handler_t *data;
 
-	if ((mark == NULL) || ((mark_name = gtk_text_mark_get_name (mark)) == NULL) 
+	if ((mark == NULL) || ((mark_name = gtk_text_mark_get_name (mark)) == NULL)
 	    || (strcmp(mark_name, "selection_bound") != 0))
 		return;
 
-	link = gtk_text_tag_table_lookup 
+	link = gtk_text_tag_table_lookup
 		(gtk_text_buffer_get_tag_table (textbuffer), "LINK");
 
 	if ((link == NULL) || !gtk_text_iter_has_tag (location, link))
@@ -762,7 +762,7 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 				gtk_list_store_append (state->model_f, &iter);
 				gtk_list_store_set (state->model_f, &iter,
 						    FUN_NAME, gnm_func_get_name (func),
-						    FUNCTION_CAT, 
+						    FUNCTION_CAT,
 						    cat_specific ? "" : _(func->fn_group->display_name->str),
 						    FUNCTION, func,
 						    -1);
@@ -845,10 +845,10 @@ dialog_function_select_init (FunctionSelectState *state)
 	description = gtk_text_view_get_buffer (state->description_view);
 	gtk_text_buffer_get_start_iter (description, &where);
 	gtk_text_buffer_create_mark (description, "start-mark", &where, TRUE);
-	
+
 	g_signal_connect_after (G_OBJECT (description),
 		"mark-set",
-		G_CALLBACK (cb_description_clicked), state);	
+		G_CALLBACK (cb_description_clicked), state);
 
 	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
 	gtk_widget_set_sensitive (state->ok_button, FALSE);
@@ -859,10 +859,10 @@ dialog_function_select_init (FunctionSelectState *state)
 		"clicked",
 		G_CALLBACK (cb_dialog_function_select_cancel_clicked), state);
 
-	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), 
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog),
 					   state->wbcg,
 					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
-	
+
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_FUNCTION_SELECT);

@@ -3285,7 +3285,7 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 	if (0 == strcmp (name, "Print_Area")) {
 		GnmValue *val = gnm_expr_get_range (texpr->expr);
 		if (val != NULL && val->type == VALUE_CELLRANGE) {
-			GnmEvalPos ep; 
+			GnmEvalPos ep;
 			int height, width;
 			eval_pos_init_sheet (&ep, sheet);
 			height = value_area_get_height (val, &ep);

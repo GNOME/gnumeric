@@ -329,9 +329,9 @@ stf_dialog (WBCGtk *wbcg,
 
 		dialogresult->parseoptions->formats = pagedata.format.formats;
 		pagedata.format.formats = NULL;
-		dialogresult->parseoptions->col_import_array 
+		dialogresult->parseoptions->col_import_array
 			=  pagedata.format.col_import_array;
-		dialogresult->parseoptions->col_import_array_len 
+		dialogresult->parseoptions->col_import_array_len
 			=  pagedata.format.col_import_array_len;
 		pagedata.format.col_import_array = NULL;
 		pagedata.format.col_import_count = 0;
@@ -386,22 +386,22 @@ stf_dialog_result_free (DialogStfResult_t *dialogresult)
  *
  * returns: nothing
  **/
-void    
+void
 stf_dialog_result_attach_formats_to_cr (DialogStfResult_t *dialogresult,
 					GnmCellRegion *cr)
 {
 	unsigned int col, targetcol;
-	
+
 	g_return_if_fail (dialogresult != NULL);
 	g_return_if_fail (cr != NULL);
 
 	targetcol = 0;
 	for (col = 0; col < dialogresult->parseoptions->formats->len; col++) {
 		if (dialogresult->parseoptions->col_import_array[col]) {
-			GOFormat *sf = g_ptr_array_index 
+			GOFormat *sf = g_ptr_array_index
 				(dialogresult->parseoptions->formats, col);
 			GnmStyleRegion *sr = g_new (GnmStyleRegion, 1);
-			
+
 			sr->range.start.col = targetcol;
 			sr->range.start.row = 0;
 			sr->range.end.col   = targetcol;
@@ -409,7 +409,7 @@ stf_dialog_result_attach_formats_to_cr (DialogStfResult_t *dialogresult,
 			sr->style = gnm_style_new_default ();
 			gnm_style_set_format (sr->style, sf);
 			targetcol++;
-			
+
 			cr->styles = g_slist_prepend (cr->styles, sr);
 		}
 	}

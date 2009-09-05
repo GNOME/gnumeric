@@ -293,7 +293,7 @@ text_item_renderer (AboutRenderer *r, AboutState *state)
 	 * sliding text.
 	 */
 	gdk_pango_renderer_set_drawable (gdk_renderer, drawable);
-	gdk_pango_renderer_set_gc (gdk_renderer, text_gc);  
+	gdk_pango_renderer_set_gc (gdk_renderer, text_gc);
 	pango_renderer_draw_layout (renderer, layout, x, y);
 
 	return TRUE;

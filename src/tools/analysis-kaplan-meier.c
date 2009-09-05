@@ -46,7 +46,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 	int rows, row;
 	int std_err_col = info->censored ? 4 : 3;
 	int prob_col = info->censored ? 3 : 2;
-	int repetitions = ((info->group_list == NULL) ? 1 
+	int repetitions = ((info->group_list == NULL) ? 1
 			   : g_slist_length (info->group_list));
 	int colspan = ((info->std_err ? 4 : 3) + (info->censored ? 1 : 0));
 	int i;
@@ -85,7 +85,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 	gnm_func_ref (fd_iserror);
 	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_sum);
-	
+
 	if (info->std_err) {
 		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 		gnm_func_ref (fd_sqrt);
@@ -95,7 +95,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 		gnm_func_ref (fd_min);
 	}
 
-	rows =  info->base.range_1->v_range.cell.b.row 
+	rows =  info->base.range_1->v_range.cell.b.row
 		- info->base.range_1->v_range.cell.a.row + 1;
 
 	dao_set_italic (dao, 0, 0, 0, 0);
@@ -104,7 +104,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 
 	if (info->chart) {
 		GogChart     *chart;
-		
+
 		graph = g_object_new (GOG_TYPE_GRAPH, NULL);
 		chart = GOG_CHART (gog_object_add_by_name (
 						   GOG_OBJECT (graph), "Chart", NULL));
@@ -127,7 +127,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 	if (info->group_list != NULL && info->range_3 != NULL)
 		expr_group_data = gnm_expr_new_constant (value_dup (info->range_3));
 
-	expr_small = gnm_expr_new_funcall2 (fd_small, 
+	expr_small = gnm_expr_new_funcall2 (fd_small,
 					    gnm_expr_new_funcall3
 					    (fd_if,
 					     gnm_expr_new_binary
@@ -138,7 +138,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 					     gnm_expr_new_constant (value_new_string ("N/A"))),
 					    gnm_expr_new_constant (value_new_int (1)));
 	expr_time = gnm_expr_new_funcall3 (fd_if,
-					   gnm_expr_new_funcall1 (fd_iserror, 
+					   gnm_expr_new_funcall1 (fd_iserror,
 								  gnm_expr_copy (expr_small)),
 					   gnm_expr_new_constant (value_new_string ("")),
 					   expr_small);
@@ -146,17 +146,17 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 	dao_set_cell_int (dao, 0, 2, 0);
 	for (row = 1; row < rows; row++)
 		dao_set_cell_array_expr (dao, 0, 2+row, gnm_expr_copy (expr_time));
-	
+
 	gnm_expr_free (expr_time);
 
-	
+
 
 	dao->offset_col++;
 
 	/* Repeated Info start */
 	for (i = 0; i < repetitions; i++) {
 		GnmExpr const *expr_group = NULL;
-		
+
 		if (gl != NULL && gl->data != NULL) {
 			analysis_tools_kaplan_meier_group_t *gd = gl->data;
 			if (gd->name != NULL) {
@@ -164,7 +164,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 				dao_set_cell (dao, 0, 0, gd->name);
 
 				if (gd->group_from == gd->group_to)
-					expr_group = gnm_expr_new_funcall3 
+					expr_group = gnm_expr_new_funcall3
 					(fd_if,
 					 gnm_expr_new_binary
 					 (gnm_expr_copy (expr_group_data),
@@ -173,8 +173,8 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 					 gnm_expr_new_constant (value_new_int (1)),
 					 gnm_expr_new_constant (value_new_int (0)));
 				else
-					expr_group =  gnm_expr_new_binary 
-					(gnm_expr_new_funcall3 
+					expr_group =  gnm_expr_new_binary
+					(gnm_expr_new_funcall3
 					 (fd_if,
 					  gnm_expr_new_binary
 					  (gnm_expr_copy (expr_group_data),
@@ -183,7 +183,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 					  gnm_expr_new_constant (value_new_int (1)),
 					  gnm_expr_new_constant (value_new_int (0))),
 					 GNM_EXPR_OP_MULT,
-					 gnm_expr_new_funcall3 
+					 gnm_expr_new_funcall3
 					 (fd_if,
 					  gnm_expr_new_binary
 					  (gnm_expr_copy (expr_group_data),
@@ -196,25 +196,25 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 
 		if (expr_group == NULL)
 			expr_group = gnm_expr_new_constant (value_new_int (1));
-		
+
 		dao_set_italic (dao, 0, 1, prob_col, 1);
-		if (info->censored) 
-			set_cell_text_row (dao, 0, 1, 
+		if (info->censored)
+			set_cell_text_row (dao, 0, 1,
 					   _("/At Risk"
 					     "/Deaths"
 					     "/Censures"
 					     "/Probability"));
 		else
-			set_cell_text_row (dao, 0, 1, 
+			set_cell_text_row (dao, 0, 1,
 					   _("/At Risk"
 					     "/Deaths"
 					     "/Probability"));
 		if (info->std_err) {
 			dao_set_italic (dao, std_err_col, 1, std_err_col, 1);
-			dao_set_cell (dao, std_err_col, 1, _("Standard Error")); 
+			dao_set_cell (dao, std_err_col, 1, _("Standard Error"));
 		}
-		
-		expr_at_risk = gnm_expr_new_funcall3 
+
+		expr_at_risk = gnm_expr_new_funcall3
 			(fd_if,
 			 gnm_expr_new_binary (make_cellref (-1-i*colspan, 0),
 					      GNM_EXPR_OP_EQUAL,
@@ -222,7 +222,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 			 gnm_expr_new_constant (value_new_string ("")),
 			 gnm_expr_new_funcall1 (fd_sum,
 						gnm_expr_new_binary (
-						gnm_expr_new_funcall3 
+						gnm_expr_new_funcall3
 						(fd_if,
 						 gnm_expr_new_binary
 						 (gnm_expr_copy (expr_data),
@@ -232,12 +232,12 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 						 gnm_expr_new_constant (value_new_int (1))),
 						GNM_EXPR_OP_MULT,
 						gnm_expr_copy (expr_group))));
-		
+
 		if (info->censored) {
 			GnmExpr const *expr_censor;
-			
+
 			if (info->censor_mark == info->censor_mark_to)
-				expr_censor = gnm_expr_new_funcall3 
+				expr_censor = gnm_expr_new_funcall3
 					(fd_if,
 					 gnm_expr_new_binary
 					 (gnm_expr_new_constant (value_dup (info->base.range_2)),
@@ -246,8 +246,8 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 					 gnm_expr_new_constant (value_new_int (1)),
 					 gnm_expr_new_constant (value_new_int (0)));
 			else
-				expr_censor = gnm_expr_new_binary 
-					(gnm_expr_new_funcall3 
+				expr_censor = gnm_expr_new_binary
+					(gnm_expr_new_funcall3
 					 (fd_if,
 					  gnm_expr_new_binary
 					  (gnm_expr_new_constant (value_dup (info->base.range_2)),
@@ -256,7 +256,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 					  gnm_expr_new_constant (value_new_int (1)),
 					  gnm_expr_new_constant (value_new_int (0))),
 					 GNM_EXPR_OP_MULT,
-					 gnm_expr_new_funcall3 
+					 gnm_expr_new_funcall3
 					 (fd_if,
 					  gnm_expr_new_binary
 					  (gnm_expr_new_constant (value_dup (info->base.range_2)),
@@ -264,20 +264,20 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 					   gnm_expr_new_constant (value_new_int (info->censor_mark_to))),
 					  gnm_expr_new_constant (value_new_int (1)),
 					  gnm_expr_new_constant (value_new_int (0))));
-			
-			
-			expr_deaths = gnm_expr_new_funcall3 
+
+
+			expr_deaths = gnm_expr_new_funcall3
 				(fd_if,
 				 gnm_expr_new_binary (make_cellref (-1, 0),
 						      GNM_EXPR_OP_EQUAL,
 						      gnm_expr_new_constant (value_new_string (""))),
 				 gnm_expr_new_constant (value_new_string ("")),
 				 gnm_expr_new_funcall1 (fd_sum,
-							gnm_expr_new_binary 
+							gnm_expr_new_binary
 							(gnm_expr_copy (expr_group),
 							 GNM_EXPR_OP_MULT,
 							 gnm_expr_new_binary
-							 (gnm_expr_new_funcall3 
+							 (gnm_expr_new_funcall3
 							  (fd_if,
 							   gnm_expr_new_binary
 							   (gnm_expr_copy (expr_data),
@@ -286,22 +286,22 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 							   gnm_expr_new_constant (value_new_int (1)),
 							   gnm_expr_new_constant (value_new_int (0))),
 							  GNM_EXPR_OP_MULT,
-							  gnm_expr_new_binary 
+							  gnm_expr_new_binary
 							  (gnm_expr_new_constant (value_new_int (1)),
 							   GNM_EXPR_OP_SUB,
 							   gnm_expr_copy (expr_censor))))));
-			expr_censures =  gnm_expr_new_funcall3 
+			expr_censures =  gnm_expr_new_funcall3
 				(fd_if,
 				 gnm_expr_new_binary (make_cellref (-1, 0),
 						      GNM_EXPR_OP_EQUAL,
 						      gnm_expr_new_constant (value_new_string (""))),
 				 gnm_expr_new_constant (value_new_string ("")),
 				 gnm_expr_new_funcall1 (fd_sum,
-							gnm_expr_new_binary 
+							gnm_expr_new_binary
 							(gnm_expr_copy (expr_group),
 							 GNM_EXPR_OP_MULT,
 							 gnm_expr_new_binary
-							 (gnm_expr_new_funcall3 
+							 (gnm_expr_new_funcall3
 							  (fd_if,
 							   gnm_expr_new_binary
 							   (gnm_expr_copy (expr_data),
@@ -312,17 +312,17 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 							  GNM_EXPR_OP_MULT,
 							  expr_censor))));
 		} else
-			expr_deaths = gnm_expr_new_funcall3 
+			expr_deaths = gnm_expr_new_funcall3
 				(fd_if,
 				 gnm_expr_new_binary (make_cellref (-1, 0),
 						      GNM_EXPR_OP_EQUAL,
 						      gnm_expr_new_constant (value_new_string (""))),
 				 gnm_expr_new_constant (value_new_string ("")),
 				 gnm_expr_new_funcall1 (fd_sum,
-							gnm_expr_new_binary 
+							gnm_expr_new_binary
 							(gnm_expr_copy (expr_group),
 							 GNM_EXPR_OP_MULT,
-							 gnm_expr_new_funcall3 
+							 gnm_expr_new_funcall3
 							 (fd_if,
 							  gnm_expr_new_binary
 							  (gnm_expr_copy (expr_data),
@@ -330,7 +330,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 							   make_cellref (-2-i*colspan, 0)),
 							  gnm_expr_new_constant (value_new_int (1)),
 							  gnm_expr_new_constant (value_new_int (0))))));
-		
+
 		expr_prob_zero = gnm_expr_new_binary (gnm_expr_new_binary (make_cellref ( - prob_col, 0),
 									   GNM_EXPR_OP_SUB,
 									   make_cellref (1 - prob_col, 0)),
@@ -345,7 +345,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 						   gnm_expr_new_binary (gnm_expr_copy (expr_prob_zero),
 									GNM_EXPR_OP_MULT,
 									make_cellref (0, -1)));
-		
+
 		if (info->std_err) {
 			expr_std_err = gnm_expr_new_funcall3 (fd_if,
 							      gnm_expr_new_binary
@@ -357,39 +357,39 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 										   GNM_EXPR_OP_MULT,
 										   gnm_expr_new_funcall1
 										   (fd_sqrt,
-										    gnm_expr_new_binary 
-										    (gnm_expr_new_binary 
-										     (gnm_expr_new_constant 
+										    gnm_expr_new_binary
+										    (gnm_expr_new_binary
+										     (gnm_expr_new_constant
 										      (value_new_int (1)),
 										      GNM_EXPR_OP_SUB,
 										      make_cellref (-1, 0)),
 										     GNM_EXPR_OP_DIV,
-										     make_cellref 
+										     make_cellref
 										     ( - std_err_col, 0)))));
-			
+
 			dao_set_format  (dao, std_err_col, 2, std_err_col, rows + 1, "0.0000");
 			dao_set_cell_expr (dao, std_err_col, 2, gnm_expr_copy (expr_std_err));
 		}
-		
+
 		dao_set_format  (dao, prob_col, 2, prob_col, rows + 1, "0.00%");
-		
+
 		dao_set_cell_array_expr (dao, 0, 2, gnm_expr_copy (expr_at_risk));
 		dao_set_cell_array_expr (dao, 1, 2, gnm_expr_copy (expr_deaths));
 		dao_set_cell_expr (dao, prob_col, 2, expr_prob_zero);
-		
+
 		if (expr_censures != NULL)
 			dao_set_cell_array_expr (dao, 2, 2, gnm_expr_copy (expr_censures));
-		
+
 		for (row = 1; row < rows; row++) {
 			dao_set_cell_array_expr (dao, 0, 2+row, gnm_expr_copy (expr_at_risk));
 			dao_set_cell_array_expr (dao, 1, 2+row, gnm_expr_copy (expr_deaths));
 			if (expr_censures != NULL)
 				dao_set_cell_array_expr (dao, 2, 2+row, gnm_expr_copy (expr_censures));
-			dao_set_cell_array_expr (dao, prob_col, 2+row, gnm_expr_copy (expr_prob)); 
+			dao_set_cell_array_expr (dao, prob_col, 2+row, gnm_expr_copy (expr_prob));
 			if (info->std_err)
 				dao_set_cell_expr (dao, std_err_col, 2+row, gnm_expr_copy (expr_std_err));
 		}
-		
+
 		gnm_expr_free (expr_at_risk);
 		gnm_expr_free (expr_deaths);
 		gnm_expr_free (expr_prob);
@@ -401,43 +401,43 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 			gnm_expr_free (expr_std_err);
 			expr_std_err = NULL;
 		}
-		
+
 		/* Create Chart if requested */
 		if (info->chart) {
 			GogSeries    *series;
 			GOData *probabilities;
 			GOStyle  *style;
-			
+
 			probabilities = dao_go_data_vector (dao, prob_col, 2, prob_col, 1+rows);
-			
+
 			g_object_ref (times);
 			series = gog_plot_new_series (plot);
 			gog_series_set_dim (series, 0, times, NULL);
 			gog_series_set_dim (series, 1, probabilities, NULL);
-			
+
 			style = go_styled_object_get_style (GO_STYLED_OBJECT (series));
 			style->marker.auto_shape = FALSE;
 			go_marker_set_shape (style->marker.mark, GO_MARKER_NONE);
 			go_styled_object_set_style (GO_STYLED_OBJECT (series), style);
-			
+
 			if (info->censored && info->ticks) {
 				GOData *censures;
 				GnmExpr const *expr;
-				
-				expr = gnm_expr_new_binary 
+
+				expr = gnm_expr_new_binary
 					(gnm_expr_new_binary (dao_get_rangeref (dao, prob_col, 2, prob_col, 1+rows),
 							      GNM_EXPR_OP_DIV,
 							      dao_get_rangeref (dao, 2, 2, 2, 1+rows)),
 					 GNM_EXPR_OP_MULT,
 					 dao_get_rangeref (dao, 2, 2, 2, 1+rows));
-				
+
 				censures = gnm_go_data_vector_new_expr (dao->sheet, gnm_expr_top_new (expr));
-				
+
 				series = gog_plot_new_series (plot);
 				g_object_ref (times);
 				gog_series_set_dim (series, 0, times, NULL);
 				gog_series_set_dim (series, 1, censures, NULL);
-				
+
 				style = go_styled_object_get_style (GO_STYLED_OBJECT (series));
 				style->marker.auto_shape = FALSE;
 				go_marker_set_shape (style->marker.mark, GO_MARKER_TRIANGLE_DOWN);
@@ -460,14 +460,14 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 		so = sheet_object_graph_new (graph);
 		g_object_unref (graph);
 		g_object_unref (times);
-		
+
 		dao_set_sheet_object (dao, 0, 1, so);
-	}	
+	}
 
 	if (info->median) {
 		dao_set_italic (dao, 1, 1, 1, 1);
 		dao_set_cell (dao, 1, 1, _("Median:"));
-		
+
 		dao->offset_col += 2;
 		gl = info->group_list;
 
@@ -478,7 +478,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 			GnmExpr const *expr_median;
 
 			dao_set_italic (dao, 0, 0, 0, 0);
-			
+
 			if (gl != NULL && gl->data != NULL) {
 				analysis_tools_kaplan_meier_group_t *gd = gl->data;
 				if (gd->name != NULL) {
@@ -488,7 +488,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 			}
 
 			expr_prob = gnm_expr_new_binary
-				(gnm_expr_new_funcall3 
+				(gnm_expr_new_funcall3
 				 (fd_if,
 				  gnm_expr_new_binary
 				  (make_rangeref(prob_dx, 1, prob_dx, rows),
@@ -498,26 +498,26 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 				  gnm_expr_new_constant (value_new_int (1))),
 				 GNM_EXPR_OP_MULT,
 				 make_rangeref (times_dx, 1, times_dx, rows));
-			
+
 			expr_median =  gnm_expr_new_funcall1
 				(fd_min,
-				 gnm_expr_new_funcall3 
+				 gnm_expr_new_funcall3
 				 (fd_if,
 				  gnm_expr_new_funcall1
 				  (fd_iserror,
 				   gnm_expr_copy (expr_prob)),
 				  gnm_expr_new_constant (value_new_string ("NA")),
 				  expr_prob));
-			
+
 			dao_set_cell_array_expr (dao, 0, 1,expr_median);
-			
+
 			dao->offset_col += 1;
 		}
 		logrank_test_y_offset = 5;
 		dao->offset_col -= (2 + repetitions);
 	}
 
-	if (info->logrank_test) {		
+	if (info->logrank_test) {
 		GnmFunc *fd_chidist;
 		GnmExpr const *expr_statistics = gnm_expr_new_constant (value_new_int (0));
 		GnmExpr const *expr_p;
@@ -528,26 +528,26 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 		gnm_func_ref (fd_chidist);
 
 		dao_set_italic (dao, 1, logrank_test_y_offset, 1, logrank_test_y_offset+3);
-		set_cell_text_col (dao, 1, logrank_test_y_offset, 
+		set_cell_text_col (dao, 1, logrank_test_y_offset,
 				   _("/Log-Rank Test:"
 				     "/Statistics:"
 				     "/Degrees of Freedom:"
 				     "/p-Value:"));
-		
+
 		/* Test Statistics */
 		for (i = 0; i < repetitions; i++) {
 			gint atrisk_dx = - (repetitions - i)* colspan - 2;
-			expr_n_total = gnm_expr_new_binary 
-				(expr_n_total, GNM_EXPR_OP_ADD, 
-				 make_rangeref ( atrisk_dx, 
-						 - logrank_test_y_offset + 1, 
-						 atrisk_dx, 
+			expr_n_total = gnm_expr_new_binary
+				(expr_n_total, GNM_EXPR_OP_ADD,
+				 make_rangeref ( atrisk_dx,
+						 - logrank_test_y_offset + 1,
+						 atrisk_dx,
 						 - logrank_test_y_offset + rows));
-			expr_death_total = gnm_expr_new_binary 
-				(expr_death_total, GNM_EXPR_OP_ADD, 
-				 make_rangeref ( atrisk_dx + 1, 
-						 - logrank_test_y_offset + 1, 
-						 atrisk_dx + 1, 
+			expr_death_total = gnm_expr_new_binary
+				(expr_death_total, GNM_EXPR_OP_ADD,
+				 make_rangeref ( atrisk_dx + 1,
+						 - logrank_test_y_offset + 1,
+						 atrisk_dx + 1,
 						 - logrank_test_y_offset + rows));
 		}
 
@@ -555,17 +555,17 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 			GnmExpr const *expr_expect;
 			gint atrisk_dx = - (repetitions - i)* colspan - 2;
 
-			expr_expect = gnm_expr_new_binary 
-				(gnm_expr_new_binary 
+			expr_expect = gnm_expr_new_binary
+				(gnm_expr_new_binary
 				 (gnm_expr_copy (expr_death_total),
 				  GNM_EXPR_OP_MULT,
-				  make_rangeref (atrisk_dx, 
-						 - logrank_test_y_offset + 1, 
-						 atrisk_dx, 
-						 - logrank_test_y_offset + rows)), 
-				 GNM_EXPR_OP_DIV, 
+				  make_rangeref (atrisk_dx,
+						 - logrank_test_y_offset + 1,
+						 atrisk_dx,
+						 - logrank_test_y_offset + rows)),
+				 GNM_EXPR_OP_DIV,
 				 gnm_expr_copy (expr_n_total));
-			
+
 			expr_expect = gnm_expr_new_funcall3 (
 				fd_if,
 				gnm_expr_new_funcall1 (fd_iserror,
@@ -579,10 +579,10 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 					gnm_expr_new_binary (
 						gnm_expr_new_funcall1 (
 							fd_sum,
-							make_rangeref 
-							(atrisk_dx + 1, 
-							 - logrank_test_y_offset + 1, 
-							 atrisk_dx + 1, 
+							make_rangeref
+							(atrisk_dx + 1,
+							 - logrank_test_y_offset + 1,
+							 atrisk_dx + 1,
 							 - logrank_test_y_offset + rows)),
 						GNM_EXPR_OP_SUB,
 						gnm_expr_copy (expr_expect)),
@@ -593,8 +593,8 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 			expr_statistics =  gnm_expr_new_binary (
 				expr_statistics, GNM_EXPR_OP_ADD, expr_expect);
 		}
-		gnm_expr_free (expr_n_total);					
-		gnm_expr_free (expr_death_total);					
+		gnm_expr_free (expr_n_total);
+		gnm_expr_free (expr_death_total);
 
 		dao_set_cell_array_expr (dao, 2, logrank_test_y_offset + 1, expr_statistics);
 
@@ -606,12 +606,12 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 						make_cellref (0,-2),
 						make_cellref (0,-1));
 		dao_set_cell_expr (dao, 2, logrank_test_y_offset + 3, expr_p);
-		
-		gnm_func_unref (fd_chidist);		
+
+		gnm_func_unref (fd_chidist);
 	}
 
-	
-	
+
+
 
 
 	gnm_expr_free (expr_data);
@@ -653,17 +653,17 @@ analysis_tool_kaplan_meier_engine (data_analysis_output_t *dao, gpointer specs,
 
 	switch (selector) {
 	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor (dao, 
+		return (dao_command_descriptor (dao,
 						_("Kaplan-Meier (%s)"),
-						result) 
+						result)
 			== NULL);
 	case TOOL_ENGINE_UPDATE_DAO:
 		multiple = ((info->group_list == NULL) ? 1 :  g_slist_length (info->group_list));
 		median   = (info->median ? (2 + multiple) : 0);
 		if (median == 0 && info->logrank_test)
 			median = 3;
-		dao_adjust (dao, median + 1 + multiple * ((info->std_err ? 4 : 3) + (info->censored ? 1 : 0)), 
-			    info->base.range_1->v_range.cell.b.row 
+		dao_adjust (dao, median + 1 + multiple * ((info->std_err ? 4 : 3) + (info->censored ? 1 : 0)),
+			    info->base.range_1->v_range.cell.b.row
 			    - info->base.range_1->v_range.cell.a.row + 3);
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:

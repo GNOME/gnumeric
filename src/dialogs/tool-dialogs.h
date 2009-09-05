@@ -49,10 +49,10 @@ struct _GenericToolState {
 
 void     tool_load_selection (GenericToolState *state, gboolean allow_multiple);
 void     dialog_tool_init_buttons (GenericToolState *state,
-				   GCallback ok_function, 
+				   GCallback ok_function,
 				   GCallback close_function);
 void     error_in_entry (GenericToolState *state, GtkWidget *entry, char const *err_str);
-gboolean dialog_tool_init (GenericToolState *state, 
+gboolean dialog_tool_init (GenericToolState *state,
 			   WBCGtk *wbcg,
 			   Sheet *sheet,
 			   char const *help_file,
@@ -60,8 +60,8 @@ gboolean dialog_tool_init (GenericToolState *state,
 			   char const *dialog_name,
 			   char const *error_str,
 			   char const *key,
-			   GCallback ok_function, 
-			   GCallback close_function, 
+			   GCallback ok_function,
+			   GCallback close_function,
 			   GCallback sensitivity_cb,
 			   GnmExprEntryFlags flags);
 

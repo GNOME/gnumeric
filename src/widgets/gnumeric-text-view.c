@@ -1,10 +1,10 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
- * gnumeric-text-view.c: A textview extension handling formatting 
- * 
- * Copyright (C) 2009  Andreas J. Guelzow 
- 
+ * gnumeric-text-view.c: A textview extension handling formatting
+ *
+ * Copyright (C) 2009  Andreas J. Guelzow
+
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of version 2 or 3 of the GNU General Public License as published
  * by the Free Software Foundation.
@@ -35,7 +35,7 @@ struct _GnmTextView {
 
 	GtkTextBuffer *buffer;
 	GtkTextView *view;
-	
+
 	GtkToggleToolButton *italic;
 	GtkToggleToolButton *strikethrough;
 	GtkToolButton *bold;
@@ -76,7 +76,7 @@ gnm_toggle_tool_button_set_active_no_signal (GtkToggleToolButton *button,
 					     gboolean is_active,
 					     GnmTextView *gtv)
 {
-	gulong handler_id = g_signal_handler_find (button, G_SIGNAL_MATCH_DATA, 
+	gulong handler_id = g_signal_handler_find (button, G_SIGNAL_MATCH_DATA,
 						   0, 0, NULL, NULL, gtv);
 
 	g_signal_handler_block (button, handler_id);
@@ -92,25 +92,25 @@ cb_gtv_mark_set (GtkTextBuffer *buffer,
 {
 	GtkTextIter start, end;
 	gtk_text_buffer_get_selection_bounds (gtv->buffer, &start, &end);
-	
+
 	{ /* Handling italic button */
-		GtkTextTag *tag_italic = gtk_text_tag_table_lookup 
-			(gtk_text_buffer_get_tag_table (gtv->buffer), 
+		GtkTextTag *tag_italic = gtk_text_tag_table_lookup
+			(gtk_text_buffer_get_tag_table (gtv->buffer),
 			 "PANGO_STYLE_ITALIC");
 		gnm_toggle_tool_button_set_active_no_signal
-			(gtv->italic, 
-			 (tag_italic != NULL) 
-			 && gtk_text_iter_has_tag (&start, tag_italic), 
+			(gtv->italic,
+			 (tag_italic != NULL)
+			 && gtk_text_iter_has_tag (&start, tag_italic),
 			 gtv);
 	}
 	{ /* Handling strikethrough button */
-		GtkTextTag *tag_strikethrough = gtk_text_tag_table_lookup 
-			(gtk_text_buffer_get_tag_table (gtv->buffer), 
+		GtkTextTag *tag_strikethrough = gtk_text_tag_table_lookup
+			(gtk_text_buffer_get_tag_table (gtv->buffer),
 			 "PANGO_STRIKETHROUGH_TRUE");
 		gnm_toggle_tool_button_set_active_no_signal
-			(gtv->strikethrough, 
-			 (tag_strikethrough != NULL) 
-			 && gtk_text_iter_has_tag (&start, tag_strikethrough), 
+			(gtv->strikethrough,
+			 (tag_strikethrough != NULL)
+			 && gtk_text_iter_has_tag (&start, tag_strikethrough),
 			 gtv);
 	}
 }
@@ -121,22 +121,22 @@ cb_gtv_set_italic (GtkToggleToolButton *toolbutton, GnmTextView *gtv)
 	GtkTextIter start, end;
 
 	if (gtk_text_buffer_get_selection_bounds (gtv->buffer, &start, &end)) {
-		GtkTextTag *tag_italic = gtk_text_tag_table_lookup 
-			(gtk_text_buffer_get_tag_table (gtv->buffer), 
+		GtkTextTag *tag_italic = gtk_text_tag_table_lookup
+			(gtk_text_buffer_get_tag_table (gtv->buffer),
 			 "PANGO_STYLE_ITALIC");
-		GtkTextTag *tag_normal = gtk_text_tag_table_lookup 
-			(gtk_text_buffer_get_tag_table (gtv->buffer), 
+		GtkTextTag *tag_normal = gtk_text_tag_table_lookup
+			(gtk_text_buffer_get_tag_table (gtv->buffer),
 			 "PANGO_STYLE_NORMAL");
-		
+
 		if (gtk_text_iter_has_tag (&start, tag_italic)) {
 			gtk_text_buffer_remove_tag (gtv->buffer, tag_italic,
 						    &start, &end);
-			gtk_text_buffer_apply_tag (gtv->buffer, tag_normal, 
+			gtk_text_buffer_apply_tag (gtv->buffer, tag_normal,
 						   &start, &end);
 		} else {
 			gtk_text_buffer_remove_tag (gtv->buffer, tag_normal,
 						    &start, &end);
-			gtk_text_buffer_apply_tag (gtv->buffer, tag_italic, 
+			gtk_text_buffer_apply_tag (gtv->buffer, tag_italic,
 						   &start, &end);
 		}
 		cb_gtv_emit_changed (NULL, gtv);
@@ -149,22 +149,22 @@ cb_gtv_set_strikethrough (GtkToggleToolButton *toolbutton, GnmTextView *gtv)
 	GtkTextIter start, end;
 
 	if (gtk_text_buffer_get_selection_bounds (gtv->buffer, &start, &end)) {
-		GtkTextTag *tag_no_strikethrough = gtk_text_tag_table_lookup 
-			(gtk_text_buffer_get_tag_table (gtv->buffer), 
+		GtkTextTag *tag_no_strikethrough = gtk_text_tag_table_lookup
+			(gtk_text_buffer_get_tag_table (gtv->buffer),
 			 "PANGO_STRIKETHROUGH_FALSE");
-		GtkTextTag *tag_strikethrough = gtk_text_tag_table_lookup 
-			(gtk_text_buffer_get_tag_table (gtv->buffer), 
+		GtkTextTag *tag_strikethrough = gtk_text_tag_table_lookup
+			(gtk_text_buffer_get_tag_table (gtv->buffer),
 			 "PANGO_STRIKETHROUGH_TRUE");
-		
+
 		if (gtk_text_iter_has_tag (&start, tag_strikethrough)) {
 			gtk_text_buffer_remove_tag (gtv->buffer, tag_strikethrough,
 						    &start, &end);
-			gtk_text_buffer_apply_tag (gtv->buffer, tag_no_strikethrough, 
+			gtk_text_buffer_apply_tag (gtv->buffer, tag_no_strikethrough,
 						   &start, &end);
 		} else {
 			gtk_text_buffer_remove_tag (gtv->buffer, tag_no_strikethrough,
 						    &start, &end);
-			gtk_text_buffer_apply_tag (gtv->buffer, tag_strikethrough, 
+			gtk_text_buffer_apply_tag (gtv->buffer, tag_strikethrough,
 						   &start, &end);
 		}
 		cb_gtv_emit_changed (NULL, gtv);
@@ -172,7 +172,7 @@ cb_gtv_set_strikethrough (GtkToggleToolButton *toolbutton, GnmTextView *gtv)
 }
 
 static GtkToggleToolButton *
-gtv_build_toggle_button (GtkWidget *tb,  GnmTextView *gtv, 
+gtv_build_toggle_button (GtkWidget *tb,  GnmTextView *gtv,
 			 char const *button_name, GCallback cb)
 {
 	GtkToolItem * tb_button;
@@ -214,7 +214,7 @@ gtv_bold_button_activated (GtkMenuItem *menuitem, GnmTextView *gtv)
 	if (val != NULL) {
 		GtkTextIter start, end;
 		if (gtk_text_buffer_get_selection_bounds (gtv->buffer, &start, &end)) {
-			GtkTextTag *tag = gtk_text_tag_table_lookup 
+			GtkTextTag *tag = gtk_text_tag_table_lookup
 				(gtk_text_buffer_get_tag_table (gtv->buffer), val);
 			gtv_remove_weight_tags (gtv->buffer, &start, &end);
 			gtk_text_buffer_apply_tag (gtv->buffer, tag, &start, &end);
@@ -243,7 +243,7 @@ gtv_build_button_bold (GtkWidget *tb, GnmTextView *gtv)
 	GtkWidget *child;
 
 	menu = gtk_menu_new ();
-	
+
 	SETUPBPLDMENUITEM(_("Thin"), "PANGO_WEIGHT_THIN")
 	SETUPBPLDMENUITEM(_("Ultralight"), "PANGO_WEIGHT_ULTRALIGHT")
 	SETUPBPLDMENUITEM(_("Light"), "PANGO_WEIGHT_LIGHT")
@@ -289,14 +289,14 @@ gtv_set_property (GObject      *object,
 	GnmTextView *gtv = GNM_TEXT_VIEW (object);
 	switch (prop_id) {
 	case PROP_TEXT:
-		gtk_text_buffer_set_text (gtv->buffer, 
+		gtk_text_buffer_set_text (gtv->buffer,
 					  g_value_get_string (value), -1);
 		break;
 	case PROP_WRAP:
 		gtk_text_view_set_wrap_mode (gtv->view, g_value_get_int (value));
 		break;
 	case PROP_ATTR:
-		gnm_load_pango_attributes_into_buffer (g_value_get_boxed (value), 
+		gnm_load_pango_attributes_into_buffer (g_value_get_boxed (value),
 						       gtv->buffer);
 	break;
 	default:
@@ -325,7 +325,7 @@ gtv_get_property (GObject      *object,
 	break;
 	case PROP_ATTR:
 	{
-		PangoAttrList *attr = gnm_get_pango_attributes_from_buffer 
+		PangoAttrList *attr = gnm_get_pango_attributes_from_buffer
 			(gtv->buffer);
 		g_value_take_boxed (value, attr);
 	}
@@ -346,11 +346,11 @@ gtv_init (GnmTextView *gtv)
 	gtv->buffer = gtk_text_view_get_buffer (gtv->view);
 	gnm_create_std_tags_for_buffer (gtv->buffer);
 
-	gtv->italic = gtv_build_toggle_button (tb, gtv, GTK_STOCK_ITALIC, 
+	gtv->italic = gtv_build_toggle_button (tb, gtv, GTK_STOCK_ITALIC,
 					       G_CALLBACK (cb_gtv_set_italic));
-	gtv->strikethrough = gtv_build_toggle_button (tb, gtv, 
-						      GTK_STOCK_STRIKETHROUGH, 
-						      G_CALLBACK 
+	gtv->strikethrough = gtv_build_toggle_button (tb, gtv,
+						      GTK_STOCK_STRIKETHROUGH,
+						      G_CALLBACK
 						      (cb_gtv_set_strikethrough));
 	gtk_toolbar_insert(GTK_TOOLBAR(tb), gtk_separator_tool_item_new (), -1);
 	gtv->bold = gtv_build_button_bold (tb, gtv);
@@ -358,9 +358,9 @@ gtv_init (GnmTextView *gtv)
 	gtk_container_set_border_width (GTK_CONTAINER (gtv->view), 5);
 	gtk_text_view_set_wrap_mode (gtv->view, GTK_WRAP_WORD_CHAR);
 
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, 
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
-	
+
 	g_signal_connect (G_OBJECT (gtv->buffer), "changed",
 			  G_CALLBACK (cb_gtv_emit_changed), gtv);
 	g_signal_connect (G_OBJECT (gtv->buffer), "mark_set",
@@ -402,15 +402,15 @@ gtv_class_init (GObjectClass *gobject_class)
 		PROP_WRAP,
 		g_param_spec_int ("wrap", "Wrap",
 				  "The wrapping mode",
-				  GTK_WRAP_NONE, GTK_WRAP_WORD_CHAR, 
+				  GTK_WRAP_NONE, GTK_WRAP_WORD_CHAR,
 				  GTK_WRAP_WORD,
 				  GSF_PARAM_STATIC | G_PARAM_READWRITE));
-	g_object_class_install_property 
+	g_object_class_install_property
 		(gobject_class, PROP_ATTR,
-		 g_param_spec_boxed 
+		 g_param_spec_boxed
 		 ("attributes", "PangoAttrList",
 		  "A PangoAttrList derived from the buffer content.",
-		  PANGO_TYPE_ATTR_LIST,	    
+		  PANGO_TYPE_ATTR_LIST,
 		  GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 

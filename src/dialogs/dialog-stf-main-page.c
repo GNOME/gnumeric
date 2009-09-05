@@ -84,7 +84,7 @@ static void
 main_page_update_preview (StfDialogData *pagedata)
 {
 	RenderData_t *renderdata = pagedata->main.renderdata;
-	GStringChunk *lines_chunk = g_string_chunk_new (100 * 1024);	
+	GStringChunk *lines_chunk = g_string_chunk_new (100 * 1024);
 	GPtrArray *lines = stf_parse_lines (pagedata->parseoptions,
 					    lines_chunk,
 					    pagedata->utf8_data,
@@ -304,7 +304,7 @@ main_page_parseoptions_to_gui (StfDialogData *pagedata)
 	{
 		gboolean lb_unix = FALSE, lb_windows = FALSE, lb_mac = FALSE;
 		GSList *l;
-	
+
 		for (l = po->terminator; l; l = l->next) {
 			const char *term = l->data;
 			if (strcmp (term, "\n") == 0)

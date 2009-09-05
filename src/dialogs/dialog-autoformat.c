@@ -340,7 +340,7 @@ previews_load (AutoFormatState *state, int topindex)
 				style->line.width = 3.;
 				style->line.color = GO_COLOR_RED;
 				style->fill.pattern.back = 0;
-				
+
 				gtk_frame_set_shadow_type (state->frame[i], GTK_SHADOW_IN);
 			} else
 				gtk_frame_set_shadow_type (state->frame[i], GTK_SHADOW_ETCHED_IN);

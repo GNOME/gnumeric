@@ -265,7 +265,7 @@ static GNM_ACTION_DEF (cb_file_print_area_show)
 	GnmRange *r = sheet_get_nominal_printarea (sheet);
 
 	if (r != NULL) {
-		SheetView *sv = sheet_get_view (sheet, 
+		SheetView *sv = sheet_get_view (sheet,
 						wb_control_view (WORKBOOK_CONTROL (wbcg)));
 		wb_control_sheet_focus (WORKBOOK_CONTROL (wbcg), sheet);
 		sv_selection_reset (sv);
@@ -1007,8 +1007,8 @@ static GNM_ACTION_DEF (cb_help_docs)
 #ifndef G_OS_WIN32
 	argv[0] = (char *)"yelp";
 	argv[1] = (char *)"ghelp:gnumeric";
-	g_spawn_async (NULL, argv, NULL, 
-		       G_SPAWN_SEARCH_PATH | G_SPAWN_STDOUT_TO_DEV_NULL 
+	g_spawn_async (NULL, argv, NULL,
+		       G_SPAWN_SEARCH_PATH | G_SPAWN_STDOUT_TO_DEV_NULL
 		       | G_SPAWN_STDERR_TO_DEV_NULL,
 		       NULL, NULL, NULL, &err);
 #else
@@ -1017,16 +1017,16 @@ static GNM_ACTION_DEF (cb_help_docs)
 	argv[0] = (char *)"hh";
 	argv[1] = g_build_filename (gnm_sys_data_dir (), "doc", "C",
 			"gnumeric.chm", NULL);
-	g_spawn_async (NULL, argv, NULL, 
-		       G_SPAWN_SEARCH_PATH | G_SPAWN_STDOUT_TO_DEV_NULL 
+	g_spawn_async (NULL, argv, NULL,
+		       G_SPAWN_SEARCH_PATH | G_SPAWN_STDOUT_TO_DEV_NULL
 		       | G_SPAWN_STDERR_TO_DEV_NULL,
 		       NULL, NULL, NULL, &err);
 	g_free (argv[1]);
 #endif
 	if (NULL != err) {
-		GOErrorInfo *ei = go_error_info_new_printf 
+		GOErrorInfo *ei = go_error_info_new_printf
 			(_("Unable to start the help browser (%s).\n"
-			   "The system error message is: \n\n%s"), 
+			   "The system error message is: \n\n%s"),
 			 argv[0], err->message);
 		go_cmd_context_error_info (GO_CMD_CONTEXT (wbcg), ei);
 		g_error_free (err);
@@ -2106,7 +2106,7 @@ static GtkActionEntry const actions[] = {
 	{ "ToolsHistogram", NULL, N_("_Histogram..."),
 		NULL, N_("Various frequency tables for numeric data"),
 		G_CALLBACK (cb_tools_histogram) },
-	
+
 /* Tools -> Two Means */
 	{ "ToolTTestPaired", NULL, N_("_Paired Samples: T-Test..."),
 		NULL, N_("Comparing two population means for two paired samples: t-test..."),

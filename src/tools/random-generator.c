@@ -177,7 +177,7 @@ tool_random_engine_run_discrete (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_uniform (data_analysis_output_t *dao, 
+tool_random_engine_run_uniform (data_analysis_output_t *dao,
 				tools_data_random_t *info,
 				uniform_random_tool_t *param)
 {
@@ -195,7 +195,7 @@ tool_random_engine_run_uniform (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_uniform_int (data_analysis_output_t *dao, 
+tool_random_engine_run_uniform_int (data_analysis_output_t *dao,
 				    tools_data_random_t *info,
 				    uniform_random_tool_t *param)
 {
@@ -215,7 +215,7 @@ tool_random_engine_run_uniform_int (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_normal (data_analysis_output_t *dao, 
+tool_random_engine_run_normal (data_analysis_output_t *dao,
 			       tools_data_random_t *info,
 			       normal_random_tool_t *param)
 {
@@ -231,7 +231,7 @@ tool_random_engine_run_normal (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_bernoulli (data_analysis_output_t *dao, 
+tool_random_engine_run_bernoulli (data_analysis_output_t *dao,
 				  tools_data_random_t *info,
 				  bernoulli_random_tool_t *param)
 {
@@ -246,7 +246,7 @@ tool_random_engine_run_bernoulli (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_beta (data_analysis_output_t *dao, 
+tool_random_engine_run_beta (data_analysis_output_t *dao,
 			     tools_data_random_t *info,
 			     beta_random_tool_t *param)
 {
@@ -261,7 +261,7 @@ tool_random_engine_run_beta (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_binomial (data_analysis_output_t *dao, 
+tool_random_engine_run_binomial (data_analysis_output_t *dao,
 				 tools_data_random_t *info,
 				 binomial_random_tool_t *param)
 {
@@ -278,7 +278,7 @@ tool_random_engine_run_binomial (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_negbinom (data_analysis_output_t *dao, 
+tool_random_engine_run_negbinom (data_analysis_output_t *dao,
 				 tools_data_random_t *info,
 				 negbinom_random_tool_t *param)
 {
@@ -295,7 +295,7 @@ tool_random_engine_run_negbinom (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_poisson (data_analysis_output_t *dao, 
+tool_random_engine_run_poisson (data_analysis_output_t *dao,
 				tools_data_random_t *info,
 				poisson_random_tool_t *param)
 {
@@ -311,7 +311,7 @@ tool_random_engine_run_poisson (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_exponential (data_analysis_output_t *dao, 
+tool_random_engine_run_exponential (data_analysis_output_t *dao,
 				    tools_data_random_t *info,
 				    exponential_random_tool_t *param)
 {
@@ -327,7 +327,7 @@ tool_random_engine_run_exponential (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_exppow (data_analysis_output_t *dao, 
+tool_random_engine_run_exppow (data_analysis_output_t *dao,
 			       tools_data_random_t *info,
 			       exppow_random_tool_t *param)
 {
@@ -343,7 +343,7 @@ tool_random_engine_run_exppow (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_cauchy (data_analysis_output_t *dao, 
+tool_random_engine_run_cauchy (data_analysis_output_t *dao,
 			       tools_data_random_t *info,
 			       cauchy_random_tool_t *param)
 {
@@ -359,7 +359,7 @@ tool_random_engine_run_cauchy (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_chisq (data_analysis_output_t *dao, 
+tool_random_engine_run_chisq (data_analysis_output_t *dao,
 			      tools_data_random_t *info,
 			      chisq_random_tool_t *param)
 {
@@ -375,7 +375,7 @@ tool_random_engine_run_chisq (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_pareto (data_analysis_output_t *dao, 
+tool_random_engine_run_pareto (data_analysis_output_t *dao,
 			       tools_data_random_t *info,
 			       pareto_random_tool_t *param)
 {
@@ -391,7 +391,7 @@ tool_random_engine_run_pareto (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_rayleigh (data_analysis_output_t *dao, 
+tool_random_engine_run_rayleigh (data_analysis_output_t *dao,
 				 tools_data_random_t *info,
 				 rayleigh_random_tool_t *param)
 {
@@ -407,7 +407,7 @@ tool_random_engine_run_rayleigh (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_rayleigh_tail (data_analysis_output_t *dao, 
+tool_random_engine_run_rayleigh_tail (data_analysis_output_t *dao,
 				      tools_data_random_t *info,
 				      rayleigh_tail_random_tool_t *param)
 {
@@ -423,7 +423,7 @@ tool_random_engine_run_rayleigh_tail (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_levy (data_analysis_output_t *dao, 
+tool_random_engine_run_levy (data_analysis_output_t *dao,
 			     tools_data_random_t *info,
 			     levy_random_tool_t *param)
 {
@@ -439,7 +439,7 @@ tool_random_engine_run_levy (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_fdist (data_analysis_output_t *dao, 
+tool_random_engine_run_fdist (data_analysis_output_t *dao,
 			      tools_data_random_t *info,
 			      fdist_random_tool_t *param)
 {
@@ -455,7 +455,7 @@ tool_random_engine_run_fdist (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_lognormal (data_analysis_output_t *dao, 
+tool_random_engine_run_lognormal (data_analysis_output_t *dao,
 				  tools_data_random_t *info,
 				  lognormal_random_tool_t *param)
 {
@@ -471,7 +471,7 @@ tool_random_engine_run_lognormal (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_logarithmic (data_analysis_output_t *dao, 
+tool_random_engine_run_logarithmic (data_analysis_output_t *dao,
 				    tools_data_random_t *info,
 				    logarithmic_random_tool_t *param)
 {
@@ -487,7 +487,7 @@ tool_random_engine_run_logarithmic (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_logistic (data_analysis_output_t *dao, 
+tool_random_engine_run_logistic (data_analysis_output_t *dao,
 				 tools_data_random_t *info,
 				 logistic_random_tool_t *param)
 {
@@ -503,7 +503,7 @@ tool_random_engine_run_logistic (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_tdist (data_analysis_output_t *dao, 
+tool_random_engine_run_tdist (data_analysis_output_t *dao,
 			      tools_data_random_t *info,
 			      tdist_random_tool_t *param)
 {
@@ -519,7 +519,7 @@ tool_random_engine_run_tdist (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_gamma (data_analysis_output_t *dao, 
+tool_random_engine_run_gamma (data_analysis_output_t *dao,
 			      tools_data_random_t *info,
 			      gamma_random_tool_t *param)
 {
@@ -535,7 +535,7 @@ tool_random_engine_run_gamma (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_geometric (data_analysis_output_t *dao, 
+tool_random_engine_run_geometric (data_analysis_output_t *dao,
 				  tools_data_random_t *info,
 				  geometric_random_tool_t *param)
 {
@@ -551,7 +551,7 @@ tool_random_engine_run_geometric (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_weibull (data_analysis_output_t *dao, 
+tool_random_engine_run_weibull (data_analysis_output_t *dao,
 				tools_data_random_t *info,
 				weibull_random_tool_t *param)
 {
@@ -567,7 +567,7 @@ tool_random_engine_run_weibull (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_laplace (data_analysis_output_t *dao, 
+tool_random_engine_run_laplace (data_analysis_output_t *dao,
 				tools_data_random_t *info,
 				laplace_random_tool_t *param)
 {
@@ -583,7 +583,7 @@ tool_random_engine_run_laplace (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_gaussian_tail (data_analysis_output_t *dao, 
+tool_random_engine_run_gaussian_tail (data_analysis_output_t *dao,
 				      tools_data_random_t *info,
 				      gaussian_tail_random_tool_t *param)
 {
@@ -599,7 +599,7 @@ tool_random_engine_run_gaussian_tail (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_landau (data_analysis_output_t *dao, 
+tool_random_engine_run_landau (data_analysis_output_t *dao,
 			       tools_data_random_t *info)
 {
 	int i, n;
@@ -614,7 +614,7 @@ tool_random_engine_run_landau (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_gumbel1 (data_analysis_output_t *dao, 
+tool_random_engine_run_gumbel1 (data_analysis_output_t *dao,
 				tools_data_random_t *info,
 				gumbel_random_tool_t *param)
 {
@@ -630,7 +630,7 @@ tool_random_engine_run_gumbel1 (data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_gumbel2 (data_analysis_output_t *dao, 
+tool_random_engine_run_gumbel2 (data_analysis_output_t *dao,
 				tools_data_random_t *info,
 				gumbel_random_tool_t *param)
 {
@@ -645,8 +645,8 @@ tool_random_engine_run_gumbel2 (data_analysis_output_t *dao,
 	return FALSE;
 }
 
-gboolean 
-tool_random_engine (data_analysis_output_t *dao, gpointer specs, 
+gboolean
+tool_random_engine (data_analysis_output_t *dao, gpointer specs,
 		    analysis_tool_engine_t selector, gpointer result)
 {
 	tools_data_random_t *info = specs;
@@ -655,11 +655,11 @@ tool_random_engine (data_analysis_output_t *dao, gpointer specs,
 	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
 		return (dao_command_descriptor (dao, _("Random Numbers (%s)"),
 						result) == NULL);
-	case TOOL_ENGINE_UPDATE_DAO: 
+	case TOOL_ENGINE_UPDATE_DAO:
 		dao_adjust (dao, info->n_vars, info->count);
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
-		if (info->distribution == DiscreteDistribution && 
+		if (info->distribution == DiscreteDistribution &&
 		    info->param.discrete.range != NULL) {
 			value_release (info->param.discrete.range);
 			info->param.discrete.range = NULL;
@@ -667,7 +667,7 @@ tool_random_engine (data_analysis_output_t *dao, gpointer specs,
 		return FALSE;
 	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
 		if (info->distribution == DiscreteDistribution)
-			return tool_random_engine_run_discrete_last_check 
+			return tool_random_engine_run_discrete_last_check
 				(dao, specs, &info->param.discrete, result);
 		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
@@ -679,19 +679,19 @@ tool_random_engine (data_analysis_output_t *dao, gpointer specs,
 	default:
 		switch (info->distribution) {
 		case DiscreteDistribution:
-			return tool_random_engine_run_discrete 
+			return tool_random_engine_run_discrete
 				(dao, specs, &info->param.discrete, result);
-		case NormalDistribution: 
+		case NormalDistribution:
 			return tool_random_engine_run_normal
 			        (dao, specs, &info->param.normal);
 		case BernoulliDistribution:
-			return tool_random_engine_run_bernoulli 
+			return tool_random_engine_run_bernoulli
 				(dao, specs, &info->param.bernoulli);
 		case BetaDistribution:
 			return tool_random_engine_run_beta
 				(dao, specs, &info->param.beta);
 		case UniformDistribution:
-			return tool_random_engine_run_uniform 
+			return tool_random_engine_run_uniform
 			        (dao, specs, &info->param.uniform);
 		case UniformIntDistribution:
 			return tool_random_engine_run_uniform_int
@@ -700,13 +700,13 @@ tool_random_engine (data_analysis_output_t *dao, gpointer specs,
 			return tool_random_engine_run_poisson
 			        (dao, specs, &info->param.poisson);
 		case ExponentialDistribution:
-			return tool_random_engine_run_exponential 
+			return tool_random_engine_run_exponential
 				(dao, specs, &info->param.exponential);
 		case ExponentialPowerDistribution:
 			return tool_random_engine_run_exppow
 				(dao, specs, &info->param.exppow);
 		case CauchyDistribution:
-			return tool_random_engine_run_cauchy 
+			return tool_random_engine_run_cauchy
 				(dao, specs, &info->param.cauchy);
 		case ChisqDistribution:
 			return tool_random_engine_run_chisq

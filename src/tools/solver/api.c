@@ -54,7 +54,7 @@
  * Package:    LP Solve
  * Version:    5.5
  * License:    LGPL
- * Homepage:   
+ * Homepage:
  */
 
 typedef struct {
@@ -154,7 +154,7 @@ w_lp_solve_set_int (SolverProgram program, int col)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
 
-	if (lp->assume_non_negative) 
+	if (lp->assume_non_negative)
 	        lp_solve_set_int (lp->p, col + 1, TRUE);
 	else {
 	        lp_solve_set_int (lp->p, 2 * col + 1, TRUE);
@@ -337,9 +337,9 @@ w_glpk_init (const SolverParameters *param)
 
 	lpx_add_cols (lp->p, cols);
 	lpx_add_rows (lp->p, param->n_constraints);
-	lp->a  = g_new (gnm_float, cols * param->n_constraints + 1); 
-	lp->cn = g_new (int, cols * param->n_constraints + 1); 
-	lp->rn = g_new (int, cols * param->n_constraints + 1); 
+	lp->a  = g_new (gnm_float, cols * param->n_constraints + 1);
+	lp->cn = g_new (int, cols * param->n_constraints + 1);
+	lp->rn = g_new (int, cols * param->n_constraints + 1);
 	lp->n  = 1;
 
 	if (lp->assume_non_negative)
@@ -474,7 +474,7 @@ w_glpk_print_lp (SolverProgram program)
 		}
 		g_free (ndx);
 		g_free (a);
-		
+
 		lpx_get_row_bnds (lp->p, i + 1, &typex, &lb, &ub);
 		if (typex == LPX_LO)
 		        printf (">= %8g\n", lb);
@@ -486,7 +486,7 @@ w_glpk_print_lp (SolverProgram program)
 
 	printf ("Type\t\t");
 	for (i = 0; i < cols; i++)
-		if (lpx_get_class (lp->p) == LPX_LP 
+		if (lpx_get_class (lp->p) == LPX_LP
 		    || lpx_get_col_kind (lp->p, i + 1) == LPX_CV)
 			printf ("  Real\t");
 		else
@@ -516,7 +516,7 @@ static SolverStatus
 w_glpk_simplex_solve (SolverProgram program)
 {
         glpk_simplex_t *lp = (glpk_simplex_t *) program;
-	
+
 	if (lp->scaling)
 	        lpx_scale_prob (lp->p);
 

@@ -73,7 +73,7 @@ typedef void (* enum_conf_setter_t) (int value);
 
 static void
 dialog_pref_add_item (PrefState *state, char const *page_name,
-		      char const *icon_name, 
+		      char const *icon_name,
 		      int page, char const* parent_path)
 {
 	GtkTreeIter iter, parent;
@@ -137,7 +137,7 @@ pref_create_label (GOConfNode *node, GtkWidget *table,
 
 	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0);
-	gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row + 1, 
+	gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row + 1,
 		GTK_FILL | GTK_EXPAND,
 		GTK_FILL | GTK_SHRINK, 5, 2);
 
@@ -148,7 +148,7 @@ pref_create_label (GOConfNode *node, GtkWidget *table,
 /*************************************************************************/
 
 static void
-bool_pref_widget_to_conf (GtkToggleButton *button, 
+bool_pref_widget_to_conf (GtkToggleButton *button,
 			  gboolean_conf_setter_t setter)
 {
 	GOConfNode *node = g_object_get_data (G_OBJECT (button), "node");
@@ -170,7 +170,7 @@ bool_pref_conf_to_widget (GOConfNode *node, G_GNUC_UNUSED char const *key,
 
 static void
 bool_pref_create_widget (GOConfNode *node, GtkWidget *table,
-			 gint row, gboolean_conf_setter_t setter, 
+			 gint row, gboolean_conf_setter_t setter,
 			 char const *default_label)
 {
 	char *desc = go_conf_get_short_desc (node, NULL);
@@ -271,7 +271,7 @@ enum_pref_create_widget (GOConfNode *node, GtkWidget *table,
 			1,	enum_class->values + i,
 			-1);
 	}
-	
+
 	g_type_class_unref (enum_class);
 
 	gtk_combo_box_set_model (GTK_COMBO_BOX (combo), GTK_TREE_MODEL (model));
@@ -319,7 +319,7 @@ int_pref_conf_to_widget (GOConfNode *node, G_GNUC_UNUSED char const *key,
 
 static GtkWidget *
 int_pref_create_widget (GOConfNode *node, GtkWidget *table,
-			gint row, gint val, gint from, gint to, gint step, 
+			gint row, gint val, gint from, gint to, gint step,
 			gint_conf_setter_t setter, char const *default_label)
 {
 	GtkAdjustment *adj = GTK_ADJUSTMENT
@@ -394,7 +394,7 @@ double_pref_conf_to_widget (GOConfNode *node, G_GNUC_UNUSED char const *key,
 }
 static void
 double_pref_create_widget (GOConfNode *node, GtkWidget *table,
-			   gint row, gnm_float val, gnm_float from,gnm_float to, 
+			   gint row, gnm_float val, gnm_float from,gnm_float to,
 			   gnm_float step,
 			   gint digits, double_conf_setter_t setter,
 			   char const *default_label)
@@ -550,19 +550,19 @@ pref_undo_page_initializer (PrefState *state,
 	gint row = 0;
 
 	int_pref_create_widget (gnm_conf_get_undo_max_descriptor_width_node (),
-				page, row++, 5, 5, 200, 1, 
+				page, row++, 5, 5, 200, 1,
 				gnm_conf_set_undo_max_descriptor_width,
 				_("Length of Undo Descriptors"));
 	int_pref_create_widget (gnm_conf_get_undo_size_node (),
-				page, row++, 1000, 0, 30000, 100, 
+				page, row++, 1000, 0, 30000, 100,
 				gnm_conf_set_undo_size,
 				_("Maximal Undo Size"));
 	int_pref_create_widget (gnm_conf_get_undo_maxnum_node (),
-				page, row++, 20, 1, 200, 1, 
+				page, row++, 20, 1, 200, 1,
 				gnm_conf_set_undo_maxnum,
 				_("Number of Undo Items"));
 	bool_pref_create_widget (gnm_conf_get_undo_show_sheet_name_node (),
-				 page, row++, 
+				 page, row++,
 				 gnm_conf_set_undo_show_sheet_name,
 				_("Show Sheet Name in Undo List"));
 
@@ -584,19 +584,19 @@ pref_sort_page_initializer (PrefState *state,
 	gint row = 0;
 
 	int_pref_create_widget (gnm_conf_get_core_sort_dialog_max_initial_clauses_node (),
-				page, row++, 10, 0, 50, 1, 
+				page, row++, 10, 0, 50, 1,
 				gnm_conf_set_core_sort_dialog_max_initial_clauses,
 				_("Number of Automatic Clauses"));
 	bool_pref_create_widget (gnm_conf_get_core_sort_default_retain_formats_node (),
-				 page, row++, 
+				 page, row++,
 				 gnm_conf_set_core_sort_default_retain_formats,
 				 _("Sorting Preserves Formats"));
 	bool_pref_create_widget (gnm_conf_get_core_sort_default_by_case_node (),
-				 page, row++, 
+				 page, row++,
 				 gnm_conf_set_core_sort_default_by_case,
 				 _("Sorting is Case-Sensitive"));
 	bool_pref_create_widget (gnm_conf_get_core_sort_default_ascending_node (),
-				 page, row++, 
+				 page, row++,
 				 gnm_conf_set_core_sort_default_ascending,
 				 _("Sort Ascending"));
 
@@ -619,38 +619,38 @@ pref_window_page_initializer (PrefState *state,
 	GtkWidget *w;
 
 	double_pref_create_widget (gnm_conf_get_core_gui_window_y_node (),
-				   page, row++, 0.75, 0.25, 1, 0.05, 2, 
+				   page, row++, 0.75, 0.25, 1, 0.05, 2,
 				   gnm_conf_set_core_gui_window_y,
 				   _("Default Vertical Window Size"));
 	double_pref_create_widget (gnm_conf_get_core_gui_window_x_node (),
-				   page, row++, 0.75, 0.25, 1, 0.05, 2, 
+				   page, row++, 0.75, 0.25, 1, 0.05, 2,
 				   gnm_conf_set_core_gui_window_x,
 				   _("Default Horizontal Window Size"));
 	double_pref_create_widget (gnm_conf_get_core_gui_window_zoom_node (),
-				   page, row++, 1.00, 0.10, 5.00, 0.05, 2, 
+				   page, row++, 1.00, 0.10, 5.00, 0.05, 2,
 				   gnm_conf_set_core_gui_window_zoom,
 				   _("Default Zoom Factor"));
 	int_pref_create_widget (gnm_conf_get_core_workbook_n_sheet_node (),
-				page, row++, 1, 1, 64, 1, 
+				page, row++, 1, 1, 64, 1,
 				gnm_conf_set_core_workbook_n_sheet,
 				_("Default Number of Sheets"));
 
 	w = int_pref_create_widget (gnm_conf_get_core_workbook_n_rows_node (),
 				    page, row++,
-				    GNM_DEFAULT_ROWS, GNM_MIN_ROWS, GNM_MAX_ROWS, 1, 
+				    GNM_DEFAULT_ROWS, GNM_MIN_ROWS, GNM_MAX_ROWS, 1,
 				    gnm_conf_set_core_workbook_n_rows,
 				    _("Default Number of Rows in a Sheet"));
 	power_of_2_handlers (w);
 
 	w = int_pref_create_widget (gnm_conf_get_core_workbook_n_cols_node (),
 				    page, row++,
-				    GNM_DEFAULT_COLS, GNM_MIN_COLS, GNM_MAX_COLS, 1, 
+				    GNM_DEFAULT_COLS, GNM_MIN_COLS, GNM_MAX_COLS, 1,
 				    gnm_conf_set_core_workbook_n_cols,
 				    _("Default Number of Columns in a Sheet"));
 	power_of_2_handlers (w);
 
 	bool_pref_create_widget (gnm_conf_get_core_gui_editing_livescrolling_node (),
-				 page, row++, 
+				 page, row++,
 				 gnm_conf_set_core_gui_editing_livescrolling,
 				 _("Live Scrolling"));
 
@@ -672,25 +672,25 @@ pref_file_page_initializer (PrefState *state,
 	gint row = 0;
 
 	int_pref_create_widget (gnm_conf_get_core_xml_compression_level_node (),
-				page, row++, 9, 0, 9, 1, 
+				page, row++, 9, 0, 9, 1,
 				gnm_conf_set_core_xml_compression_level,
 				_("Default Compression Level For "
 				  "Gnumeric Files"));
 	int_pref_create_widget (gnm_conf_get_core_workbook_autosave_time_node (),
-				page, row++, 0, 0, 365*24*60*60, 60, 
+				page, row++, 0, 0, 365*24*60*60, 60,
 				gnm_conf_set_core_workbook_autosave_time,
 				_("Default autosave frequency in seconds"));
 	bool_pref_create_widget (gnm_conf_get_core_file_save_def_overwrite_node (),
-				 page, row++, 
+				 page, row++,
 				 gnm_conf_set_core_file_save_def_overwrite,
 				 _("Default To Overwriting Files"));
 	bool_pref_create_widget (gnm_conf_get_core_file_save_single_sheet_node (),
-				 page, row++, 
+				 page, row++,
 				 gnm_conf_set_core_file_save_single_sheet,
 				 _("Warn When Exporting Into Single "
 				   "Sheet Format"));
 	bool_pref_create_widget (gnm_conf_get_plugin_latex_use_utf8_node (),
-				 page, row++, 
+				 page, row++,
 				 gnm_conf_set_plugin_latex_use_utf8,
 				 _("Use UTF-8 in LaTeX Export"));
 
@@ -710,13 +710,13 @@ pref_screen_page_initializer (PrefState *state,
 {
 	GtkWidget *page = gtk_table_new (2, 2, FALSE);
 	gint row = 0;
-	
+
 	double_pref_create_widget (gnm_conf_get_core_gui_screen_horizontaldpi_node (),
-				   page, row++, 96, 50, 250, 1, 1, 
+				   page, row++, 96, 50, 250, 1, 1,
 				   gnm_conf_set_core_gui_screen_horizontaldpi,
 				   _("Horizontal DPI"));
 	double_pref_create_widget (gnm_conf_get_core_gui_screen_verticaldpi_node (),
-				   page, row++, 96, 50, 250, 1, 1, 
+				   page, row++, 96, 50, 250, 1, 1,
 				   gnm_conf_set_core_gui_screen_verticaldpi,
 				   _("Vertical DPI"));
 
@@ -738,28 +738,28 @@ pref_tool_page_initializer (PrefState *state,
 	gint row = 0;
 
 	enum_pref_create_widget (gnm_conf_get_core_gui_editing_enter_moves_dir_node (),
-				 page, row++, 
+				 page, row++,
 				 GO_TYPE_DIRECTION,
 				 (enum_conf_setter_t)gnm_conf_set_core_gui_editing_enter_moves_dir,
 				 _("Enter _Moves Selection"));
 	bool_pref_create_widget (gnm_conf_get_core_gui_editing_transitionkeys_node (),
-				 page, row++, 
+				 page, row++,
 				 gnm_conf_set_core_gui_editing_transitionkeys,
 				 _("Transition Keys"));
 	bool_pref_create_widget (gnm_conf_get_core_gui_editing_autocomplete_node (),
-				 page, row++, 
+				 page, row++,
 				 gnm_conf_set_core_gui_editing_autocomplete,
 				_("Autocomplete"));
 	bool_pref_create_widget (gnm_conf_get_dialogs_rs_unfocused_node (),
-				 page, row++, 
+				 page, row++,
 				 gnm_conf_set_dialogs_rs_unfocused,
 				_("Allow Unfocused Range Selections"));
 	int_pref_create_widget (gnm_conf_get_functionselector_num_of_recent_node (),
-				page, row++, 10, 0, 40, 1, 
+				page, row++, 10, 0, 40, 1,
 				gnm_conf_set_functionselector_num_of_recent,
 				_("Maximum Length of Recently "
 				  "Used Functions List"));
-	
+
 	gtk_widget_show_all (page);
 	return page;
 }
@@ -778,10 +778,10 @@ pref_copypaste_page_initializer (PrefState *state,
 	gint row = 0;
 
 	bool_pref_create_widget (gnm_conf_get_cut_and_paste_prefer_clipboard_node (),
-				 page, row++, 
+				 page, row++,
 				 gnm_conf_set_cut_and_paste_prefer_clipboard,
 				 _("Prefer CLIPBOARD Over PRIMARY Selection"));
-	
+
 	gtk_widget_show_all (page);
 	return page;
 }
@@ -820,7 +820,7 @@ dialog_pref_select_page (PrefState *state, char const *page)
 	GtkTreePath *path;
 
 	path = gtk_tree_path_new_from_string (page);
-	
+
 	if (path != NULL) {
 		gtk_tree_selection_select_path (selection, path);
 		gtk_tree_path_free (path);
@@ -935,7 +935,7 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 	g_signal_connect (selection,
 			  "changed",
 			  G_CALLBACK (cb_dialog_pref_selection_changed), state);
-	
+
 	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "close_button")),
 		"clicked",
 		G_CALLBACK (cb_close_clicked), state);

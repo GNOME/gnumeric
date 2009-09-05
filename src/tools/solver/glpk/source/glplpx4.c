@@ -361,7 +361,7 @@ void lpx_scale_prob(LPX *lp)
       int m = lpx_get_num_rows(lp);
       int n = lpx_get_num_cols(lp);
       int sc_ord = 0, sc_max = 20;
-      gnm_float sc_eps = 0.01; 
+      gnm_float sc_eps = 0.01;
       int i, j;
       gnm_float *R, *S;
       /* initialize R := I and S := I */

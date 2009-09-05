@@ -217,7 +217,7 @@ goal_seek_newton_polish (GoalSeekFunction f, GoalSeekFunction df,
 				goto nomore_square;
 
 			x0 = x1;
-#ifdef DEBUG_GOAL_SEEK	
+#ifdef DEBUG_GOAL_SEEK
 			g_print ("polish square: x0=%.20" GNM_FORMAT_g "\n",
 				 x0);
 #endif
@@ -256,7 +256,7 @@ goal_seek_newton_polish (GoalSeekFunction f, GoalSeekFunction df,
 				goto nomore_newton;
 
 			x0 = x1;
-#ifdef DEBUG_GOAL_SEEK	
+#ifdef DEBUG_GOAL_SEEK
 			g_print ("polish Newton: x0=%.20" GNM_FORMAT_g "\n",
 				 x0);
 #endif
@@ -315,7 +315,7 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 		GoalSeekStatus status;
 		gboolean flat;
 
-#ifdef DEBUG_GOAL_SEEK	
+#ifdef DEBUG_GOAL_SEEK
 		g_print ("x0 = %.20" GNM_FORMAT_g "   (i=%d)\n", x0, iterations);
 #endif
 

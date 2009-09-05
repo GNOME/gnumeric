@@ -106,7 +106,7 @@ kaplan_meier_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		GTK_TOGGLE_BUTTON (state->censorship_button));
 	groups = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->groups_check));
-	
+
 	gtk_widget_set_sensitive (state->tick_button, censorship);
 
 	input_range = gnm_expr_entry_parse_as_value
@@ -120,7 +120,7 @@ kaplan_meier_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 
 	height = input_range->v_range.cell.b.row - input_range->v_range.cell.a.row;
 	width  = input_range->v_range.cell.b.col - input_range->v_range.cell.a.col;
-	
+
 	value_release (input_range);
 
 	if (width != 0) {
@@ -146,7 +146,7 @@ kaplan_meier_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
 			value_release (input_range_2);
 			return;
-		} 
+		}
 		if (input_range_2->v_range.cell.b.row - input_range_2->v_range.cell.a.row != height) {
 			gtk_label_set_text (GTK_LABEL (state->base.warning),
 					    _("The censorship and time columns should have the same height."));
@@ -161,7 +161,7 @@ kaplan_meier_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	if (groups) {
 		input_range_2 =  gnm_expr_entry_parse_as_value
 			(GNM_EXPR_ENTRY (state->groups_input), state->base.sheet);
-		
+
 		if (input_range_2 == NULL) {
 			gtk_label_set_text (GTK_LABEL (state->base.warning),
 					    _("The groups column is not valid."));
@@ -174,7 +174,7 @@ kaplan_meier_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
 			value_release (input_range_2);
 			return;
-		} 
+		}
 		if (input_range_2->v_range.cell.b.row - input_range_2->v_range.cell.a.row != height) {
 			gtk_label_set_text (GTK_LABEL (state->base.warning),
 					    _("The groups and time columns should have the same height."));
@@ -185,7 +185,7 @@ kaplan_meier_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 
 		value_release (input_range_2);
 	}
-		
+
         if (!gnm_dao_is_ready (GNM_DAO (state->base.gdao))) {
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
 				    _("The output specification "
@@ -200,17 +200,17 @@ kaplan_meier_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	return;
 }
 
-static gboolean 
+static gboolean
 kaplan_meier_tool_get_groups_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter,
 				 gpointer data)
 {
 	GSList **list = data;
 	analysis_tools_kaplan_meier_group_t *group_item = g_new0 (analysis_tools_kaplan_meier_group_t, 1);
-	
+
 	gtk_tree_model_get (model, iter,
 			    GROUP_NAME, &(group_item->name),
 			    GROUP_FROM, &(group_item->group_from),
-			    GROUP_TO, &(group_item->group_to),	    
+			    GROUP_TO, &(group_item->group_to),
 			    -1);
 	*list = g_slist_prepend (*list, group_item);
 
@@ -221,7 +221,7 @@ static GSList *
 kaplan_meier_tool_get_groups (KaplanMeierToolState *state)
 {
 	GSList *list = NULL;
-	
+
 	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->groups_check)))
 		return NULL;
 
@@ -258,7 +258,7 @@ kaplan_meier_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	data->base.range_1 = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
-	
+
 	data->censored = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->censorship_button));
 
@@ -296,7 +296,7 @@ kaplan_meier_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
 				dao, data, analysis_tool_kaplan_meier_engine))
 		gtk_widget_destroy (state->base.dialog);
-	
+
 	return;
 }
 
@@ -347,10 +347,10 @@ static gboolean
 kaplan_meier_tool_set_censor_from_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				KaplanMeierToolState *state)
 {
-	gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->censor_spin_to), 
+	gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->censor_spin_to),
 				   gtk_spin_button_get_value (GTK_SPIN_BUTTON (state->censor_spin_from)),G_MAXSHORT);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->censorship_button), TRUE);
-	
+
 	return FALSE;
 }
 static gboolean
@@ -358,7 +358,7 @@ kaplan_meier_tool_set_censor_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				KaplanMeierToolState *state)
 {
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->censorship_button), TRUE);
-	
+
 	return FALSE;
 }
 
@@ -373,9 +373,9 @@ cb_group_name_edited (GtkCellRendererText *cell,
 
 	if (cell != NULL) {
 		path = gtk_tree_path_new_from_string (path_string);
-		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (state->groups_list), 
+		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (state->groups_list),
 					     &iter, path))
-			gtk_list_store_set (state->groups_list, &iter, 
+			gtk_list_store_set (state->groups_list, &iter,
 					    GROUP_NAME, new_text, -1);
 		else
 			g_warning ("Did not get a valid iterator");
@@ -395,9 +395,9 @@ cb_change_to (GtkCellRendererText *cell,
 
 	if (cell != NULL) {
 		path = gtk_tree_path_new_from_string (path_string);
-		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (state->groups_list), 
+		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (state->groups_list),
 					     &iter, path))
-			gtk_list_store_set (state->groups_list, &iter, 
+			gtk_list_store_set (state->groups_list, &iter,
 					    GROUP_TO, val, -1);
 		else
 			g_warning ("Did not get a valid iterator");
@@ -417,29 +417,29 @@ cb_change_from (GtkCellRendererText *cell,
 		guint val = (guint) (atoi (new_text));
 		guint old_to;
 		GtkObject *adjustment_to;
-   
+
 
 		path = gtk_tree_path_new_from_string (path_string);
-		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (state->groups_list), 
+		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (state->groups_list),
 					     &iter, path))
-			gtk_list_store_set (state->groups_list, &iter, 
+			gtk_list_store_set (state->groups_list, &iter,
 					    GROUP_FROM, val,
 					    -1);
 		else
 			g_warning ("Did not get a valid iterator");
 		gtk_tree_path_free (path);
 
-		gtk_tree_model_get (GTK_TREE_MODEL (state->groups_list), &iter, 
-				    GROUP_TO, &old_to, 
+		gtk_tree_model_get (GTK_TREE_MODEL (state->groups_list), &iter,
+				    GROUP_TO, &old_to,
 				    GROUP_ADJUSTMENT_TO, &adjustment_to,
 				    -1);
 
 		if (old_to < val)
-			gtk_list_store_set (state->groups_list, &iter, 
+			gtk_list_store_set (state->groups_list, &iter,
 					    GROUP_TO, val,
 					    -1);
 		g_object_set (G_OBJECT (adjustment_to), "lower", (gdouble) val, NULL);
-			
+
 	}
 }
 
@@ -447,7 +447,7 @@ static void
 cb_selection_changed (GtkTreeSelection *selection,
 		      KaplanMeierToolState *state)
 {
-	gtk_widget_set_sensitive (state->remove_group_button, 
+	gtk_widget_set_sensitive (state->remove_group_button,
 				  gtk_tree_selection_get_selected (selection, NULL, NULL));
 }
 
@@ -487,7 +487,7 @@ dialog_kaplan_meier_tool_treeview_add_item  (KaplanMeierToolState *state, guint 
 				    GROUP_ADJUSTMENT_FROM, adjustment_from,
 				    GROUP_ADJUSTMENT_TO, adjustment_to,
 				    -1);
-		g_free (name);	
+		g_free (name);
 }
 
 static void
@@ -501,7 +501,7 @@ dialog_kaplan_meier_tool_setup_treeview (KaplanMeierToolState *state)
 	state->groups_treeview = GTK_TREE_VIEW (glade_xml_get_widget
 						(state->base.gui,
 						 "groups-tree"));
-	state->groups_list = gtk_list_store_new (GROUP_COLUMNS, 
+	state->groups_list = gtk_list_store_new (GROUP_COLUMNS,
 						 G_TYPE_STRING, G_TYPE_UINT, G_TYPE_UINT, G_TYPE_OBJECT, G_TYPE_OBJECT);
 	state->groups_treeview = GTK_TREE_VIEW (gtk_tree_view_new_with_model
 						(GTK_TREE_MODEL (state->groups_list)));
@@ -522,14 +522,14 @@ dialog_kaplan_meier_tool_setup_treeview (KaplanMeierToolState *state)
 	gtk_tree_view_insert_column_with_attributes (state->groups_treeview,
 						     -1, _("Group"),
 						     renderer,
-						     "text", GROUP_NAME, 
+						     "text", GROUP_NAME,
 						     NULL);
 	g_signal_connect (G_OBJECT (renderer), "edited",
 			  G_CALLBACK (cb_group_name_edited), state);
 
 	renderer = gtk_cell_renderer_spin_new ();
 
-	g_object_set (G_OBJECT (renderer), "editable", TRUE, "xalign", 1.0, 
+	g_object_set (G_OBJECT (renderer), "editable", TRUE, "xalign", 1.0,
 		      "digits", 0, NULL);
 	g_signal_connect (G_OBJECT (renderer), "edited",
 			  G_CALLBACK (cb_change_from), state);
@@ -561,7 +561,7 @@ static gboolean
 kaplan_meier_tool_add_group_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				KaplanMeierToolState *state)
 {
-	dialog_kaplan_meier_tool_treeview_add_item 
+	dialog_kaplan_meier_tool_treeview_add_item
 		(state, gtk_tree_model_iter_n_children (GTK_TREE_MODEL (state->groups_list),
                                                         NULL));
 	return FALSE;
@@ -604,7 +604,7 @@ dialog_kaplan_meier_tool (WBCGtk *wbcg, Sheet *sheet)
 				   "Gnumeric_fnlogical",
 				   NULL};
 
-	if ((wbcg == NULL) || 
+	if ((wbcg == NULL) ||
 	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
 
@@ -624,7 +624,7 @@ dialog_kaplan_meier_tool (WBCGtk *wbcg, Sheet *sheet)
 			      0))
 		return 0;
 
-	
+
 
 	state->censorship_button = GTK_WIDGET (glade_xml_get_widget
 						  (state->base.gui,

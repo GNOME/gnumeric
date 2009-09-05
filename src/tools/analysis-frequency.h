@@ -49,7 +49,7 @@ typedef struct {
 	gint       n;
 	gboolean   percentage;
 	gboolean   exact;
-	chart_freq_t   chart;	
+	chart_freq_t   chart;
 } analysis_tools_data_frequency_t;
 
 gboolean analysis_tool_frequency_engine (data_analysis_output_t *dao, gpointer specs,

@@ -115,7 +115,7 @@ calc_min_size (GnmValue *input_range)
 {
 	int row = (input_range->v_range.cell.b.row - input_range->v_range.cell.a.row + 1);
 	int col = (input_range->v_range.cell.b.col - input_range->v_range.cell.a.col + 1);
-	
+
 	return ((row < col) ? row : col);
 }
 
@@ -202,7 +202,7 @@ dialog_chi_square_tool (WBCGtk *wbcg, Sheet *sheet, gboolean independence)
 				   "Gnumeric_fnmath",
 				   NULL};
 
-	if ((wbcg == NULL) || 
+	if ((wbcg == NULL) ||
 	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
 

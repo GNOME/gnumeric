@@ -265,7 +265,7 @@ static GnmFuncHelp const help_acosh[] = {
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ACOSH(0.1)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ACOSH(-0.1)" },
-        { GNM_FUNC_HELP_SEEALSO, "ACOS,ASINH,DEGREES,RADIANS "}, 
+        { GNM_FUNC_HELP_SEEALSO, "ACOS,ASINH,DEGREES,RADIANS "},
         { GNM_FUNC_HELP_END}
 };
 
@@ -323,7 +323,7 @@ static GnmFuncHelp const help_asin[] = {
 	{ GNM_FUNC_HELP_ARG, F_("x:number")},
         { GNM_FUNC_HELP_DESCRIPTION, F_("ASIN calculates the arc sine of @{x}; that is the value whose sine is @{x}.")},
  	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{x} falls outside the range -1 to 1, ASIN returns #NUM!") },	
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} falls outside the range -1 to 1, ASIN returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=ASIN(0.5)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ASIN(1)" },
         { GNM_FUNC_HELP_SEEALSO, "SIN,COS,ASINH,DEGREES,RADIANS"},
@@ -386,7 +386,7 @@ static GnmFuncHelp const help_atanh[] = {
 	{ GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
         { GNM_FUNC_HELP_DESCRIPTION, F_("ATANH calculates the inverse hyperbolic tangent of @{x}; that is the value whose hyperbolic tangent is @{x}.")},
  	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If the absolute value of @{x} is greater than 1.0, ATANH returns #NUM!") },	
+	{ GNM_FUNC_HELP_NOTE, F_("If the absolute value of @{x} is greater than 1.0, ATANH returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=ATANH(0.5)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ATANH(1)" },
         { GNM_FUNC_HELP_SEEALSO, "ATAN,COS,SIN,DEGREES,RADIANS"},
@@ -434,12 +434,12 @@ gnumeric_atan2 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_ceil[] = {
 	{ GNM_FUNC_HELP_NAME, F_("CEIL:smallest integer larger than or equal to @{x}")},
-	{ GNM_FUNC_HELP_ARG, F_("x:number")},	
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("CEIL(@{x}) is the smallest integer that is at least as large as @{x}.")},
 	{ GNM_FUNC_HELP_ODF, F_("This function is the OpenFormula function CEILING(@{x}).")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=CEIL(0.4)" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=CEIL(-1.1)" },
-	{ GNM_FUNC_HELP_EXAMPLES, "=CEIL(-2.9)" },	
+	{ GNM_FUNC_HELP_EXAMPLES, "=CEIL(-2.9)" },
 	{ GNM_FUNC_HELP_SEEALSO, "CEILING,FLOOR,ABS,INT,MOD"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -752,8 +752,8 @@ gnumeric_averageif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_ceiling[] = {
 	{ GNM_FUNC_HELP_NAME, F_("CEILING:nearest multiple of @{significance} whose absolute value is at least ABS(@{x})")},
-	{ GNM_FUNC_HELP_ARG, F_("x:number")},	
-	{ GNM_FUNC_HELP_ARG, F_("significance:base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} <0)")},	
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
+	{ GNM_FUNC_HELP_ARG, F_("significance:base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} <0)")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("CEILING(@{x},@{significance}) is the nearest multiple of @{significance} whose absolute value is at least ABS(@{x}).")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{significance} is non-numeric, CEILING returns a #VALUE! error.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} and @{significance} have different signs, CEILING returns a #NUM! error.")},
@@ -761,7 +761,7 @@ static GnmFuncHelp const help_ceiling[] = {
 	{ GNM_FUNC_HELP_ODF, F_("CEILING(@{x}) is exported to ODF as CEILING(@{x},SIGN(@{x}),1). CEILING(@{x},@{significance}) is the OpenFormula function CEILING(@{x},@{significance},1).")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=CEILING(2.43,1)" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=CEILING(123.123,3)" },
-	{ GNM_FUNC_HELP_EXAMPLES, "=CEILING(-2.43,-1)" },	
+	{ GNM_FUNC_HELP_EXAMPLES, "=CEILING(-2.43,-1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "CEIL,FLOOR,ABS,INT,MOD"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1478,7 +1478,7 @@ static GnmFuncHelp const help_sinh[] = {
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=SINH(0.1)" },
         { GNM_FUNC_HELP_EXAMPLES, "=SINH(-0.1)" },
-        { GNM_FUNC_HELP_SEEALSO, "ACOS,ASINH,DEGREES,RADIANS "}, 
+        { GNM_FUNC_HELP_SEEALSO, "ACOS,ASINH,DEGREES,RADIANS "},
         { GNM_FUNC_HELP_END}
 };
 
@@ -1567,7 +1567,7 @@ static GnmFuncHelp const help_multinomial[] = {
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=MULTINOMIAL(2,3,4)"},
         { GNM_FUNC_HELP_SEEALSO, "COMBIN,SUM"},
-	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Multinomial_theorem") },	
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Multinomial_theorem") },
         { GNM_FUNC_HELP_END}
 };
 
@@ -2083,7 +2083,7 @@ static GnmFuncHelp const help_arabic[] = {
 					"(directly or indirectly) reduces the final value "
 					"by the symbol amount, otherwise, it increases the "
 					"final amount by the symbol's amount.") },
-	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.")},	
+	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.")},
         { GNM_FUNC_HELP_EXAMPLES, "=ARABIC(\"I\")"},
         { GNM_FUNC_HELP_EXAMPLES, "=ARABIC(\"CDLII\")"},
 	{ GNM_FUNC_HELP_EXAMPLES, "=ARABIC(\"MCDXC\")"},
@@ -2743,8 +2743,8 @@ static GnmFuncHelp const help_cholesky[] = {
 	       (var)[_i] = g_new (gnm_float, _d2);	\
   } while (0)
 
-static gboolean 
-gnm_matrix_cholesky  (gnm_float **A, gnm_float ***B, int n) 
+static gboolean
+gnm_matrix_cholesky  (gnm_float **A, gnm_float ***B, int n)
 {
 	int i, j, k;
 	gnm_float sum;
@@ -2752,7 +2752,7 @@ gnm_matrix_cholesky  (gnm_float **A, gnm_float ***B, int n)
 	ALLOC_MATRIX (*B, n, n);
 
 	for (i = 0; i < n; i++) {       /* row    number */
-		for (j = 0; j < i; j++) { /* column number */ 
+		for (j = 0; j < i; j++) { /* column number */
 			sum = 0.;
 			for (k = 0; k < j; k++)
 				sum += (*B)[i][k]*(*B)[j][k];
@@ -2765,7 +2765,7 @@ gnm_matrix_cholesky  (gnm_float **A, gnm_float ***B, int n)
 		(*B)[i][i] = gnm_sqrt (A[i][i] - sum);
 	}
 	return TRUE;
-}	
+}
 
 #undef ALLOC_MATRIX
 
@@ -2815,7 +2815,7 @@ gnumeric_cholesky (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_munit[] = {
         { GNM_FUNC_HELP_NAME, F_("MUNIT:the @{n} by @{n} identity matrix")},
         { GNM_FUNC_HELP_ARG, F_("n:size of the matrix")},
-	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.")},	
+	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.")},
 	{ GNM_FUNC_HELP_SEEALSO, "MMULT,MDETERM,MINVERSE"},
         { GNM_FUNC_HELP_END}
 };
@@ -3180,7 +3180,7 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "gamma",    "f",     help_gamma,
 	  gnumeric_gamma, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "gammaln",      "f",    
+	{ "gammaln",      "f",
 	  help_gammaln, gnumeric_gammaln, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "gcd", NULL,  help_gcd,
@@ -3328,10 +3328,10 @@ GnmFuncDescriptor const math_functions[] = {
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "munit","f",      help_munit,
 	  gnumeric_munit, NULL, NULL, NULL, NULL,
-	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, 
+	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE,
 	  GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 #if 0
-	{ "logmdeterm", "A|si", 
+	{ "logmdeterm", "A|si",
 	  help_logmdeterm, gnumeric_logmdeterm, NULL, NULL, NULL },
 #endif
         {NULL}

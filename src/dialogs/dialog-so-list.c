@@ -72,8 +72,8 @@ init_entry (GnmDialogSOList *state, char const *name,
 		"scg", wbcg_cur_scg (state->wbcg),
 		"with-icon", TRUE,
 		NULL);
-	gnm_expr_entry_set_flags (gee, GNM_EE_FORCE_ABS_REF | 
-				  GNM_EE_SHEET_OPTIONAL | 
+	gnm_expr_entry_set_flags (gee, GNM_EE_FORCE_ABS_REF |
+				  GNM_EE_SHEET_OPTIONAL |
 				  GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
 	gnm_expr_entry_load_from_dep (gee, dep);
 	return gee;
@@ -91,9 +91,9 @@ cb_so_list_response (GtkWidget *dialog, gint response_id, GnmDialogSOList *state
 		GnmExprTop const *content;
 
 		parse_pos_init (&pp, sheet->workbook, sheet, 0, 0);
-		output = gnm_expr_entry_parse (state->link_entry, 
+		output = gnm_expr_entry_parse (state->link_entry,
 					       &pp, NULL, FALSE, GNM_EE_FORCE_ABS_REF);
-		content = gnm_expr_entry_parse (state->content_entry, 
+		content = gnm_expr_entry_parse (state->content_entry,
 						&pp, NULL, FALSE, GNM_EE_FORCE_ABS_REF);
 		cmd_so_set_links (WORKBOOK_CONTROL (state->wbcg), state->so, output, content);
 	}

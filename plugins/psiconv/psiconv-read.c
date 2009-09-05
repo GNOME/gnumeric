@@ -512,7 +512,7 @@ set_row_heights (Sheet *sheet, psiconv_sheet_grid_size_list heights)
 
 	for (i = 0; i < psiconv_list_length(heights); i++) {
 		if ((psi_height = psiconv_list_get (heights, i)))
-			sheet_row_set_size_pts 
+			sheet_row_set_size_pts
 				(sheet, psi_height->line_number,
 				 cm2pts (psi_height->size), TRUE);
 	}
@@ -526,7 +526,7 @@ set_col_widths (Sheet *sheet, psiconv_sheet_grid_size_list widths)
 
 	for (i = 0; i < psiconv_list_length(widths); i++) {
 		if ((psi_width = psiconv_list_get (widths, i)))
-			sheet_col_set_size_pts 
+			sheet_col_set_size_pts
 				(sheet, psi_width->line_number,
 				 cm2pts (psi_width->size), TRUE);
 	}
@@ -558,9 +558,9 @@ add_worksheet(Workbook *wb, psiconv_sheet_worksheet psi_worksheet,int nr,
 	/* TODO: Add show_zeros */
 	grid = psi_worksheet->grid;
 	if (grid) {
-		sheet_row_set_default_size_pts 
+		sheet_row_set_default_size_pts
 			(sheet, cm2pts (grid->default_row_height));
-		sheet_col_set_default_size_pts 
+		sheet_col_set_default_size_pts
 			(sheet, cm2pts (grid->default_column_width));
 		if (grid->row_heights)
 			set_row_heights (sheet, grid->row_heights);

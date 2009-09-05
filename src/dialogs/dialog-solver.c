@@ -417,7 +417,7 @@ cb_dialog_solver_destroy (SolverState *state)
 
 	if (state->ov_cell_stack != NULL &&
 	    !state->cancelled &&
-	    !cmd_solver (WORKBOOK_CONTROL(state->wbcg), state->ov_cell_stack, 
+	    !cmd_solver (WORKBOOK_CONTROL(state->wbcg), state->ov_cell_stack,
 			 state->ov_stack, NULL))
 	{
 		state->ov_cell_stack = NULL;
@@ -975,7 +975,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 		/* WARNING : The dialog may be deleted by the reports
 		 * solver_reporting will return FALSE if state is gone and cleared */
 		if (solver_reporting (state, res, errmsg) &&
-		    res->status == SolverOptimal && 
+		    res->status == SolverOptimal &&
 		    param->options.add_scenario)
 			solver_add_scenario (state, res,
 					     param->options.scenario_name);

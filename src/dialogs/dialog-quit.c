@@ -190,7 +190,7 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 			 _("Save selected documents and then quit"));
 	} else {
 		button = go_gtk_dialog_add_button (dialog,
-						   _("_Discard"), 
+						   _("_Discard"),
 						   GTK_STOCK_DELETE,
 						   GTK_RESPONSE_NO);
 		go_widget_set_tooltip_text (button, _("Discard changes"));
@@ -203,7 +203,7 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 	}
 
 	button = go_gtk_dialog_add_button (dialog,
-					   _("Don't Quit"), 
+					   _("Don't Quit"),
 					   GTK_STOCK_CANCEL,
 					   GTK_RESPONSE_CANCEL);
 	go_widget_set_tooltip_text (button, _("Resume editing"));

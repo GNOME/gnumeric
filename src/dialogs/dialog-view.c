@@ -77,10 +77,10 @@ cb_view_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 			return;  /* Just ignore */
 
 		display = gdk_display_open (name);
-		if (!display) {		
+		if (!display) {
 			char *error_str =
 				g_strdup_printf (_("Display \"%s\" could not be opened."),
-						 name);				
+						 name);
 			gtk_widget_destroy (state->dialog);
 			go_gtk_notice_dialog (wbcg_toplevel (wbcg),
 					 GTK_MESSAGE_ERROR, error_str);
@@ -154,7 +154,7 @@ dialog_new_view (WBCGtk *wbcg)
 			GSList *group =
 				gtk_radio_button_get_group (state->location_elsewhere);
 			GdkScreen *screen = gdk_display_get_screen (this_display, i);
-			char *label = 
+			char *label =
 				screen == this_screen
 				? (n_screens == 1
 				   ? g_strdup (_("This screen"))
@@ -186,7 +186,7 @@ dialog_new_view (WBCGtk *wbcg)
 
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->location_display_name));
-	
+
 	gnumeric_init_help_button (
 		glade_xml_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_VIEW);

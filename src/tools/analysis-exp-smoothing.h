@@ -55,9 +55,9 @@ typedef struct {
 	exponential_smoothing_type_t es_type;
 } analysis_tools_data_exponential_smoothing_t;
 
-gboolean analysis_tool_exponential_smoothing_engine (data_analysis_output_t *dao, 
+gboolean analysis_tool_exponential_smoothing_engine (data_analysis_output_t *dao,
 						     gpointer specs,
-						     analysis_tool_engine_t selector, 
+						     analysis_tool_engine_t selector,
 						     gpointer result);
 
 

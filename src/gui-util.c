@@ -1372,14 +1372,14 @@ gnm_canvas_get_position (GocCanvas *canvas, int *x, int *y, gint64 px, gint64 py
 }
 
 
-gboolean 
+gboolean
 gnm_check_for_plugins_missing (char const **ids, GtkWindow *parent)
 {
 	for (; *ids != NULL; ids++) {
 		GOPlugin *pi = go_plugins_get_plugin_by_id (*ids);
 		if (pi == NULL) {
 			GOErrorInfo *error;
-			error = go_error_info_new_printf 
+			error = go_error_info_new_printf
 				(_("The plugin with id %s is required "
 				   "but cannot be found."), *ids);
 			gnumeric_go_error_info_dialog_show (parent,
@@ -1387,13 +1387,13 @@ gnm_check_for_plugins_missing (char const **ids, GtkWindow *parent)
 			return TRUE;
 		} else if (!go_plugin_is_active (pi)) {
 			GOErrorInfo *error;
-			error = go_error_info_new_printf 
+			error = go_error_info_new_printf
 				(_("The %s plugin is required "
-				   "but is not loaded."), 
+				   "but is not loaded."),
 				 go_plugin_get_name (pi));
 			gnumeric_go_error_info_dialog_show (parent,
 							 error);
-			return TRUE;			
+			return TRUE;
 		}
 	}
 	return FALSE;

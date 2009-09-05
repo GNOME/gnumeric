@@ -49,7 +49,7 @@ scenario_t *
 scenario_by_name (GList *scenarios, gchar const *name, gboolean *all_deleted)
 {
 	scenario_t *res = NULL;
- 
+
 	if (all_deleted)
 		*all_deleted = TRUE;
 
@@ -215,7 +215,7 @@ static GnmValue *
 copy_cb (int col, int row, GnmValue *v, copy_cb_t *p)
 {
 	p->dest->changing_cells [col - p->col_offset +
-				 (row - p->row_offset) * p->cols] = 
+				 (row - p->row_offset) * p->cols] =
 		value_dup (v);
 
 	return v;
@@ -228,7 +228,7 @@ scenario_copy (scenario_t *s, Sheet *new_sheet)
 	copy_cb_t  cb;
 
 	p = g_new (scenario_t, 1);
-	
+
 	p->name         = g_strdup (s->name);
 	p->comment      = g_strdup (s->comment);
 	/* FIXME: Sheet name change */
@@ -378,7 +378,7 @@ scenario_show (WorkbookControl        *wbc,
 /* Scenario: Insert columns(s)/row(s) *************************************/
 
 static void
-insert_cols (scenario_t *s, int col, int count) 
+insert_cols (scenario_t *s, int col, int count)
 {
 	if (s->range.start.col >= col) {
 		s->range.start.col += count;
@@ -403,7 +403,7 @@ scenarios_insert_cols (GList *list, int col, int count)
 }
 
 static void
-insert_rows (scenario_t *s, int row, int count) 
+insert_rows (scenario_t *s, int row, int count)
 {
 	if (s->range.start.row >= row) {
 		s->range.start.row += count;
@@ -430,7 +430,7 @@ scenarios_insert_rows (GList *list, int row, int count)
 /* Scenario: Delete columns(s)/row(s) *************************************/
 
 static void
-delete_cols (scenario_t *s, int col, int count) 
+delete_cols (scenario_t *s, int col, int count)
 {
 	if (s->range.start.col >= col) {
 		s->range.start.col -= count;
@@ -455,7 +455,7 @@ scenarios_delete_cols (GList *list, int col, int count)
 }
 
 static void
-delete_rows (scenario_t *s, int row, int count) 
+delete_rows (scenario_t *s, int row, int count)
 {
 	if (s->range.start.row >= row) {
 		s->range.start.row -= count;
@@ -564,7 +564,7 @@ summary_cb (int col, int row, GnmValue *v, summary_cb_t *p)
 	 * cell. If so, it's row will be put into *index. */
 	index = g_hash_table_lookup (p->names, tmp);
 	if (index != NULL) {
-		dao_set_cell_value (&p->dao, 2 + p->col, 3 + *index, 
+		dao_set_cell_value (&p->dao, 2 + p->col, 3 + *index,
 				    value_dup (v));
 
 		/* Set the colors. */
@@ -572,19 +572,19 @@ summary_cb (int col, int row, GnmValue *v, summary_cb_t *p)
 				2 + p->col, 3 + *index,
 				style_color_new_go (GO_COLOR_BLACK),
 				style_color_new_gdk (&gs_light_gray));
-	
+
 	} else {
 		/* New cell. */
 		GnmCell *cell;
 		int  *r;
-		
+
 		/* Changing cell name. */
 		dao_set_cell (&p->dao, 0, 3 + p->row, tmp);
-		
+
 		/* GnmValue of the cell in this scenario. */
-		dao_set_cell_value (&p->dao, 2 + p->col, 3 + p->row, 
+		dao_set_cell_value (&p->dao, 2 + p->col, 3 + p->row,
 				    value_dup (v));
-		
+
 		/* Current value of the cell. */
 		cell = sheet_cell_fetch (p->sheet, col, row);
 		dao_set_cell_value (&p->dao, 1, 3 + p->row,
@@ -595,12 +595,12 @@ summary_cb (int col, int row, GnmValue *v, summary_cb_t *p)
 				2 + p->col, 3 + p->row,
 				style_color_new_go (GO_COLOR_BLACK),
 				style_color_new_gdk (&gs_light_gray));
-	
+
 		/* Insert row number into the hash table. */
 		r  = g_new (int, 1);
 		*r = p->row;
 		g_hash_table_insert (p->names, tmp, r);
-		
+
 		/* Increment the nbr of rows. */
 		p->row++;
 	}
@@ -628,30 +628,30 @@ scenario_summary_res_cells (WorkbookControl *wbc, GSList *results,
 				scenario_t *ov = NULL;
 				GnmCell    *cell;
 				GList      *cur;
-			
+
 				cell = sheet_cell_fetch (cb->sheet, i, j);
-			
+
 				/* Names of the result cells. */
 				dao_set_cell (&cb->dao, 0, 3 + cb->row,
 					      cell_name (cell));
-			
+
 				/* Current value. */
 				dao_set_cell_value
 					(&cb->dao, 1, 3 + cb->row,
 					 value_dup (cell->value));
-			
+
 				/* Evaluate and write the value of the cell
 				 * with all different scenario values. */
 				col = 2;
 				for (cur = cb->sheet->scenarios; cur != NULL;
 				     cur = cur->next) {
 					scenario_t *s = cur->data;
-					
+
 					ov = scenario_show (wbc, s, ov, &dao);
-					
+
 					cell = sheet_cell_fetch (cb->sheet,
 								 i, j);
-					
+
 					cell_queue_recalc (cell);
 					gnm_cell_eval (cell);
 					dao_set_cell_value (&cb->dao, col++,
@@ -660,7 +660,7 @@ scenario_summary_res_cells (WorkbookControl *wbc, GSList *results,
 							    (cell->value));
 				}
 				cb->row++;
-				
+
 				/* Use show to clean up 'ov'. */
 				scenario_show (wbc, NULL, ov, &dao);
 				ov = NULL;
@@ -707,7 +707,7 @@ scenario_summary (WorkbookControl *wbc,
 	}
 
 	/* Set the alignment of names of the changing cells to be right. */
-	dao_set_align (&cb.dao, 0, 3, 0, 2 + cb.row, HALIGN_RIGHT, 
+	dao_set_align (&cb.dao, 0, 3, 0, 2 + cb.row, HALIGN_RIGHT,
 		       VALIGN_BOTTOM);
 
 	/* Result cells. */
@@ -730,7 +730,7 @@ scenario_summary (WorkbookControl *wbc,
 			style_color_new_go (GO_COLOR_BLACK),
 			style_color_new_gdk (&gs_light_gray));
 
-	dao_set_align (&cb.dao, 1, 1, cb.col + 1, 1, HALIGN_RIGHT, 
+	dao_set_align (&cb.dao, 1, 1, cb.col + 1, 1, HALIGN_RIGHT,
 		       VALIGN_BOTTOM);
 
 	*new_sheet = cb.dao.sheet;

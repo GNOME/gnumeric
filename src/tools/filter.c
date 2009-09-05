@@ -151,7 +151,7 @@ advanced_filter (WorkbookControl        *wbc,
 	return OK;
 }
 
-static gboolean 
+static gboolean
 cb_show_all (GnmColRowIter const *iter, Sheet *sheet)
 {
 	if (iter->cri->in_filter && !iter->cri->visible)

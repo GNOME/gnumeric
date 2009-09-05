@@ -101,7 +101,7 @@ frequency_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
 		return;
 	}
-	
+
 	range_list_destroy (input_range);
 
 	predetermined_bins = gtk_toggle_button_get_active (
@@ -113,16 +113,16 @@ frequency_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 			gtk_label_set_text (GTK_LABEL (state->base.warning),
 					    _("The categories range is not valid."));
 			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
-			return;		
+			return;
 		}
 		value_release (input_range_2);
 	} else if (entry_to_int(state->n_entry, &the_n,FALSE) != 0 || the_n <= 0) {
 			gtk_label_set_text (GTK_LABEL (state->base.warning),
 					    _("The number of categories is invalid."));
 			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
-			return;				
+			return;
 	}
-		
+
         if (!gnm_dao_is_ready (GNM_DAO (state->base.gdao))) {
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
 				    _("The output specification "
@@ -242,7 +242,7 @@ dialog_frequency_tool (WBCGtk *wbcg, Sheet *sheet)
 				   "Gnumeric_fnlogical",
 				   NULL};
 
-	if ((wbcg == NULL) || 
+	if ((wbcg == NULL) ||
 	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
 

@@ -71,7 +71,7 @@ struct _GnmApp {
 #ifdef HAVE_GTK_RECENT_MANAGER_GET_DEFAULT
 	GtkRecentManager *recent;
 	gulong           recent_sig;
-#endif	
+#endif
 };
 
 typedef struct {
@@ -518,7 +518,7 @@ gnm_app_create_opener_filter (void)
 				} else
 					g_string_append_unichar (pattern, uc);
 			}
-			
+
 			gtk_file_filter_add_pattern (filter, pattern->str);
 			if (0)
 				g_print ("%s: Adding %s\n", go_file_opener_get_description (opener), pattern->str);

@@ -41,7 +41,7 @@ typedef enum {
 	bintype_p_inf_lower  = 1 << 1,
 	bintype_p_inf_upper  = bintype_no_inf_upper | bintype_p_inf_lower,
 	bintype_m_inf_lower  = 1 << 2,
-	bintype_m_inf_upper  = bintype_m_inf_lower | bintype_no_inf_upper, 
+	bintype_m_inf_upper  = bintype_m_inf_lower | bintype_no_inf_upper,
 	bintype_pm_inf_lower = bintype_m_inf_lower | bintype_p_inf_lower,
 	bintype_pm_inf_upper = bintype_m_inf_lower | bintype_p_inf_lower | bintype_no_inf_upper
 } analysis_histogram_bin_type_t;
@@ -66,7 +66,7 @@ typedef struct {
 	gint       n;
 	gboolean   percentage;
 	gboolean   cumulative;
-	chart_t   chart;	
+	chart_t   chart;
 } analysis_tools_data_histogram_t;
 
 gboolean analysis_tool_histogram_engine (data_analysis_output_t *dao, gpointer specs,

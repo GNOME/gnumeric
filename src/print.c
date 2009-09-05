@@ -641,7 +641,7 @@ paginate (GSList **paginationInfo,
 	  gint start, gint end,
 	  gdouble usable, gboolean repeat, gint repeat_start, gint repeat_end,
 	  double (sheet_get_distance_pts) (Sheet const *sheet, int from, int to),
-	  ColRowInfo const *(get_info)(Sheet const *sheet, int const p), 
+	  ColRowInfo const *(get_info)(Sheet const *sheet, int const p),
 	  GnmPageBreaks *pb, gboolean store_breaks)
 {
 	GSList *list = NULL;
@@ -666,21 +666,21 @@ paginate (GSList **paginationInfo,
 		while (rc <= n_end) {
 			int count;
 			PaginationInfo *item;
-			
+
 			gdouble repeating_used = 0.;
 			gint n_rep_used = 0, first_rep_used = 0;
-			
+
 			adjust_repetition (sheet, rc,
 					   first_rep, n_rep,
 					   repeating,
 					   &first_rep_used, &n_rep_used,
 					   &repeating_used,
 					   sheet_get_distance_pts);
-			
+
 			count = compute_group (sheet, rc, n_end,
 					       usable - repeating_used,
 					       get_info);
-			
+
 			if (paginationInfo) {
 				item = g_new (PaginationInfo,1);
 				item->rc = rc;
@@ -691,7 +691,7 @@ paginate (GSList **paginationInfo,
 				list = g_slist_prepend (list, item);
 			}
 			page_count++;
-			
+
 			rc += count;
 			if (store_breaks && (rc < n_end))
 				gnm_page_breaks_set_break (pb, rc, GNM_PAGE_BREAK_AUTO);
@@ -953,12 +953,12 @@ compute_sheet_pages (GtkPrintContext   *context,
 
 	if (!pi->ignore_pb) {
 		if (pinfo->page_breaks.h == NULL)
-		        print_info_set_breaks (pinfo, 
+		        print_info_set_breaks (pinfo,
 					       gnm_page_breaks_new (FALSE));
 		else
 			gnm_page_breaks_clean (pinfo->page_breaks.h);
 		if (pinfo->page_breaks.v == NULL)
-		        print_info_set_breaks (pinfo, 
+		        print_info_set_breaks (pinfo,
 					       gnm_page_breaks_new (TRUE));
 		else
 			gnm_page_breaks_clean (pinfo->page_breaks.v);
@@ -976,7 +976,7 @@ compute_sheet_pages (GtkPrintContext   *context,
 					    pinfo->scaling.dim.rows, 1.,
 					    col_header_height,
 					    repeat_top_use,
-					    repeat_top_start, repeat_top_end,  
+					    repeat_top_start, repeat_top_end,
 					    pi->ignore_pb ? NULL : pinfo->page_breaks.v);
 		pxy = compute_scale_fit_to (sheet, r.start.col, r.end.col,
 					    page_width, sheet_col_get_info,
@@ -984,7 +984,7 @@ compute_sheet_pages (GtkPrintContext   *context,
 					    pinfo->scaling.dim.cols, pxy,
 					    row_header_width,
 					    repeat_left_use,
-					    repeat_left_start, repeat_left_end,  
+					    repeat_left_start, repeat_left_end,
 					    pi->ignore_pb ? NULL : pinfo->page_breaks.h);
 
 		pinfo->scaling.percentage.x = pxy * 100.;
@@ -1005,12 +1005,12 @@ compute_sheet_pages (GtkPrintContext   *context,
 	paginate (&column_pagination, sheet, r.start.col, r.end.col,
 		  usable_x - row_header_width,
 		  repeat_left_use, repeat_left_start, repeat_left_end,
-		  sheet_col_get_distance_pts, sheet_col_get_info, 
+		  sheet_col_get_distance_pts, sheet_col_get_info,
 		  pi->ignore_pb ? NULL : pinfo->page_breaks.h, !pi->ignore_pb);
 	paginate (&row_pagination, sheet, r.start.row, r.end.row,
 		  usable_y - col_header_height,
 		  repeat_top_use, repeat_top_start, repeat_top_end,
-		  sheet_row_get_distance_pts, sheet_row_get_info, 
+		  sheet_row_get_distance_pts, sheet_row_get_info,
 		  pi->ignore_pb ? NULL : pinfo->page_breaks.v, !pi->ignore_pb);
 
 	if (sheet->print_info->print_across_then_down)
@@ -1444,7 +1444,7 @@ gnm_create_widget_cb (GtkPrintOperation *operation, gpointer user_data)
 					   gtk_print_settings_get_int_with_default
 					   (settings, GNUMERIC_PRINT_SETTING_PRINT_TO_SHEET_KEY,
 					    n_sheets));
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_ignore_page_breaks), 
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_ignore_page_breaks),
 					      0 != gtk_print_settings_get_int_with_default
 					      (settings, GNUMERIC_PRINT_SETTING_IGNORE_PAGE_BREAKS_KEY,
 					       1));

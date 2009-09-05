@@ -372,7 +372,7 @@ save_original_values (SolverResults          *res,
 		      const SolverParameters *param,
 		      Sheet                  *sheet)
 {
-  
+
 	GSList   *inputs = param->input_cells;
 	GnmCell  *cell;
 	int      i = 0;
@@ -548,7 +548,7 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 
 		x = rx - lx;
 		alg->set_constr_fn (program, ind, c->type, x);
-		res->rhs[i] = x; 
+		res->rhs[i] = x;
 		ind++;
 
 		/* Check that max time has not elapsed. */
@@ -559,7 +559,7 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 			solver_results_free (res);
 			return NULL;
 		}
-		
+
 	}
 
 	/* Set up the problem type. */
@@ -649,7 +649,7 @@ check_program_definition_failures (Sheet            *sheet,
 				    "input range.");
 			return TRUE;
 		}
-		
+
 	        param->n_variables += 1;
 	}
 	input_cells_array = g_new (GnmCell *, param->n_variables);
@@ -746,7 +746,7 @@ solver_run (WorkbookControl *wbc, Sheet *sheet,
 			      start.tv_usec / (gnm_float) G_USEC_PER_SEC);
 	save_original_values (res, param, sheet);
 
-	program              = lp_qp_solver_init (sheet, param, res, alg, 
+	program              = lp_qp_solver_init (sheet, param, res, alg,
 						  -res->time_real, start,
 						  errmsg);
 	if (program == NULL)

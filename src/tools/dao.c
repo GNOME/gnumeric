@@ -220,7 +220,7 @@ dao_adjust (data_analysis_output_t *dao, gint cols, gint rows)
 		/* new sheet and/or workbook                       */
 		Sheet *old_sheet = wb_control_cur_sheet (dao->wbc);
 		max_rows = gnm_sheet_get_max_rows (old_sheet) - dao->start_row;
-		max_cols = gnm_sheet_get_max_cols (old_sheet) - dao->start_col;		
+		max_cols = gnm_sheet_get_max_cols (old_sheet) - dao->start_col;
 	}
 
 	if (dao->cols > max_cols)
@@ -338,7 +338,7 @@ adjust_range (data_analysis_output_t *dao, GnmRange *r)
 	}
 
 	range_ensure_sanity (r, dao->sheet);
-	
+
 	return ((r->start.col <= r->end.col) && (r->start.row <= r->end.row));
 
 }
@@ -365,7 +365,7 @@ dao_cell_is_visible (data_analysis_output_t *dao, int col, int row)
  * dao_set_cell_array_expr absorbs the reference for the expr.
  *
  */
-void 
+void
 dao_set_array_expr (data_analysis_output_t *dao,
 		    int col, int row, int cols, int rows,
 		    GnmExpr const *expr)
@@ -381,8 +381,8 @@ dao_set_array_expr (data_analysis_output_t *dao,
 	}
 
 	texpr = gnm_expr_top_new (expr);
-	gnm_cell_set_array_formula (dao->sheet, 
-				    r.start.col, r.start.row, 
+	gnm_cell_set_array_formula (dao->sheet,
+				    r.start.col, r.start.row,
 				    r.end.col, r.end.row,
 				    texpr);
 }
@@ -390,7 +390,7 @@ dao_set_array_expr (data_analysis_output_t *dao,
  * dao_set_cell_array_expr absorbs the reference for the expr.
  *
  */
-void 
+void
 dao_set_cell_array_expr (data_analysis_output_t *dao, int col, int row,
 			 GnmExpr const *expr)
 {
@@ -907,9 +907,9 @@ dao_set_border (data_analysis_output_t *dao, int col1, int row1,
 	GnmStyle *mstyle;
 
 	mstyle = gnm_style_new ();
-	gnm_style_set_border (mstyle, elem, 
+	gnm_style_set_border (mstyle, elem,
 			      gnm_style_border_fetch (border,
-						      color, 
+						      color,
 						      orientation));
 	dao_set_style (dao, col1, row1, col2, row2, mstyle);
 }
@@ -1151,7 +1151,7 @@ dao_get_rangeref (data_analysis_output_t *dao, int ax, int ay,  int bx, int by)
 }
 
 
-void 
+void
 dao_set_sheet_object (data_analysis_output_t *dao, int col, int row, SheetObject* so)
 {
 	SheetObjectAnchor anchor;
@@ -1163,7 +1163,7 @@ dao_set_sheet_object (data_analysis_output_t *dao, int col, int row, SheetObject
 		g_object_unref (so);
 		return;
 	}
-		
+
 	range_init (&anchor_r, dao->start_col + col, dao->start_row + row,
 		    dao->start_col + ((dao->cols < 5) ? dao->cols : 5),
 		    dao->start_row + ((dao->rows < 20) ? dao->rows : 20));
@@ -1187,10 +1187,10 @@ dao_surrender_so (data_analysis_output_t *dao)
 	GSList *l = dao->sos;
 	dao->sos = NULL;
 
-	return l; 
+	return l;
 }
 
-void    
+void
 dao_set_omit_so (data_analysis_output_t *dao, gboolean omit)
 {
 	dao->omit_so = omit;
@@ -1198,7 +1198,7 @@ dao_set_omit_so (data_analysis_output_t *dao, gboolean omit)
 
 
 
-void 
+void
 dao_set_merge (data_analysis_output_t *dao, int col1, int row1,
 	       int col2, int row2)
 {

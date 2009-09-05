@@ -117,7 +117,7 @@ gnumeric_cell_renderer_text_render (GtkCellRenderer     *cell,
 
 	g_object_unref (G_OBJECT (gc));
 
-	
+
 	if (celltext->foreground_set) {
 		GTK_CELL_RENDERER_CLASS (parent_class)->render
 			(cell, window, widget, background_area,

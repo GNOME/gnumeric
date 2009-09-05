@@ -623,7 +623,7 @@ cb_dialog_formula_guru_clear_clicked (G_GNUC_UNUSED GtkWidget *button,
 static gboolean
 dialog_formula_guru_is_array (FormulaGuruState *state)
 {
-	return gtk_toggle_button_get_active 
+	return gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->array_button));
 }
 
@@ -642,7 +642,7 @@ cb_dialog_formula_guru_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 		gnumeric_cell_renderer_expr_entry_editing_done (
 			GTK_CELL_EDITABLE (state->cellrenderer->entry),
 			state->cellrenderer);
-	wbcg_edit_finish (state->wbcg, 
+	wbcg_edit_finish (state->wbcg,
 			  dialog_formula_guru_is_array (state)
 			  ? WBC_EDIT_ACCEPT_ARRAY
 			  : WBC_EDIT_ACCEPT, NULL);
@@ -694,10 +694,10 @@ cb_dialog_formula_guru_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 
 	path = gtk_tree_path_new_from_string (path_string);
 
-	have_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model), 
+	have_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model),
 					     &iter, path);
 	gtk_tree_path_free (path);
-	if (!have_iter) 
+	if (!have_iter)
 		return;
 	gtk_tree_store_set (state->model, &iter, FUN_ARG_ENTRY, new_text, -1);
 
@@ -855,7 +855,7 @@ dialog_formula_guru_init (FormulaGuruState *state)
 
 	/* Finished set-up of treeview */
 
-	state->array_button = glade_xml_get_widget (state->gui, 
+	state->array_button = glade_xml_get_widget (state->gui,
 						    "array_button");
 	gtk_widget_set_sensitive (state->array_button, TRUE);
 

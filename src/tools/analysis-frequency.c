@@ -60,7 +60,7 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 	gnm_func_ref (fd_index);
 	fd_isblank = gnm_func_lookup_or_add_placeholder ("ISBLANK", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_isblank);
-	
+
 	if (info->exact) {
 		fd_exact = gnm_func_lookup_or_add_placeholder ("EXACT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 		gnm_func_ref (fd_exact);
@@ -83,7 +83,7 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 		int row = 2, i, j, i_h_limit, i_w_limit;
 		GnmExpr const *expr_bin;
 		GnmRange range;
-		
+
 		range_init_value (&range, info->bin);
 		i_h_limit = range_height (&range);
 		i_w_limit = range_width (&range);
@@ -100,7 +100,7 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 					 gnm_expr_copy (expr_bin),
 					 gnm_expr_new_constant (value_new_int (i)),
 					 gnm_expr_new_constant (value_new_int (j)));
-				
+
 				dao_set_cell_expr (dao, 0, row++,
 						   gnm_expr_new_funcall3
 						   (fd_if,
@@ -114,7 +114,7 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 	} else {
 		i_limit = info->n;
 	}
-	
+
 	for (l = info->base.input, col = 1; l; col++, l = l->next) {
 		GnmValue *val = value_dup ((GnmValue *)l->data);
 		GnmValue *val_c = NULL;
@@ -123,7 +123,7 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 		GnmExpr const *expr_if;
 		int i, row = 2;
 
-		
+
 		if (info->base.labels) {
 			val_c = value_dup (val);
 			switch (info->base.group_by) {
@@ -139,7 +139,7 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 								  gnm_expr_new_constant (val_c)));
 		} else {
 			char const *format;
-			
+
 			switch (info->base.group_by) {
 			case GROUPED_BY_ROW:
 				format = _("Row %d");
@@ -155,17 +155,17 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 		}
 
 		expr_data = gnm_expr_new_constant (val);
-		
+
 		if (info->exact)
-			expr_if = gnm_expr_new_funcall2 
-				(fd_exact, gnm_expr_copy (expr_data), 
+			expr_if = gnm_expr_new_funcall2
+				(fd_exact, gnm_expr_copy (expr_data),
 				 make_cellref (- col, 0));
 		else
 			expr_if = gnm_expr_new_binary
 				(gnm_expr_copy (expr_data),
 				 GNM_EXPR_OP_EQUAL, make_cellref (- col, 0));
 
-		expr_count = gnm_expr_new_funcall1 (fd_sum,  
+		expr_count = gnm_expr_new_funcall1 (fd_sum,
 						    gnm_expr_new_funcall3
 						    (fd_if, expr_if,
 						     gnm_expr_new_constant (value_new_int (1)),
@@ -175,7 +175,7 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 			dao_set_format  (dao, col, 2, col, i_limit + 2, "0.0%");
 			expr_count = gnm_expr_new_binary (expr_count,
 							  GNM_EXPR_OP_DIV,
-							  gnm_expr_new_binary 
+							  gnm_expr_new_binary
 							  (gnm_expr_new_funcall1
 							   (fd_rows, gnm_expr_copy (expr_data)),
 							   GNM_EXPR_OP_MULT,
@@ -186,7 +186,7 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 
 		for (i = 0; i < i_limit; i++, row++)
 			dao_set_cell_array_expr (dao, col, row, gnm_expr_copy (expr_count));
-		
+
 		gnm_expr_free (expr_count);
 	}
 
@@ -211,7 +211,7 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 		GOData *cats;
 		GOData *values;
 		int ct;
-		
+
 		graph = g_object_new (GOG_TYPE_GRAPH, NULL);
 		chart = GOG_CHART (gog_object_add_by_name (
 						   GOG_OBJECT (graph), "Chart", NULL));
@@ -220,7 +220,7 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 			go_object_toggle (plot, "horizontal");
 		gog_object_add_by_name (GOG_OBJECT (chart),
 					"Plot", GOG_OBJECT (plot));
-		
+
 		cats = dao_go_data_vector (dao, 0, 2,
 					     0, 2 + i_limit);
 
@@ -228,7 +228,7 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 			g_object_ref (cats);
 			values = dao_go_data_vector (dao, ct, 2,
 						     ct, 2 + i_limit);
-			
+
 			series = gog_plot_new_series (plot);
 			gog_series_set_dim (series, 0, cats, NULL);
 			gog_series_set_dim (series, 1, values, NULL);
@@ -237,7 +237,7 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 
 		so = sheet_object_graph_new (graph);
 		g_object_unref (graph);
-		
+
 		dao_set_sheet_object (dao, 0, 1, so);
 	}
 

@@ -63,9 +63,9 @@ typedef struct {
 } analysis_tools_kaplan_meier_group_t;
 
 
-gboolean analysis_tool_kaplan_meier_engine (data_analysis_output_t *dao, 
+gboolean analysis_tool_kaplan_meier_engine (data_analysis_output_t *dao,
 					    gpointer specs,
-					   analysis_tool_engine_t selector, 
+					   analysis_tool_engine_t selector,
 					    gpointer result);
 
 #endif

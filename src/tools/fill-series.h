@@ -10,7 +10,7 @@ typedef enum {
 } fill_series_type_t;
 
 typedef enum {
-        FillSeriesUnitDay, FillSeriesUnitWeekday, FillSeriesUnitMonth, 
+        FillSeriesUnitDay, FillSeriesUnitWeekday, FillSeriesUnitMonth,
 	FillSeriesUnitYear
 } fill_series_date_unit_t;
 
@@ -27,7 +27,7 @@ typedef struct {
 	gint                    n;
 } fill_series_t;
 
-gboolean fill_series_engine (data_analysis_output_t *dao, gpointer specs, 
+gboolean fill_series_engine (data_analysis_output_t *dao, gpointer specs,
 			     analysis_tool_engine_t selector, gpointer result);
 
 #endif

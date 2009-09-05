@@ -55,7 +55,7 @@ analysis_tool_anova_two_factor_prepare_input_range (
 		info->err = analysis_tools_replication_invalid;
 		return TRUE;
 	}
-	
+
 	/* Check that at least two columns of data are given */
 	if (info->n_c < 2) {
 			info->err = analysis_tools_too_few_cols;
@@ -66,7 +66,7 @@ analysis_tool_anova_two_factor_prepare_input_range (
 		info->err = analysis_tools_too_few_rows;
 			return TRUE;
 	}
-	
+
 	return FALSE;
 }
 
@@ -84,7 +84,7 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 	int        i, r;
 	GnmExpr const *expr_check;
 	GnmExpr const *expr_region;
-	
+
 	GnmFunc *fd_index;
 	GnmFunc *fd_offset;
 	GnmFunc *fd_count;
@@ -125,7 +125,7 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 					"/Count"
 					"/Sum"
 					"/Average"
-					"/Variance"));	
+					"/Variance"));
 	r = 3;
 
 	for (i = 1; i <= info->n_r; i++, r++) {
@@ -133,7 +133,7 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 		dao_set_italic (dao, 0, r, 0, r);
 		if (info->labels) {
 			GnmExpr const *expr_label;
-			expr_label = gnm_expr_new_funcall3 
+			expr_label = gnm_expr_new_funcall3
 				(fd_index,
 				 gnm_expr_new_constant (value_dup (info->input)),
 				 gnm_expr_new_constant (value_new_int (i+1)),
@@ -155,16 +155,16 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 				 gnm_expr_new_constant (value_new_int (0)),
 				 gnm_expr_new_constant (value_new_int (1)));
 		}
-		dao_set_cell_expr (dao, 1, r, gnm_expr_new_funcall1 
+		dao_set_cell_expr (dao, 1, r, gnm_expr_new_funcall1
 				   (fd_count, gnm_expr_copy (expr_source)));
-		dao_set_cell_expr (dao, 2, r, gnm_expr_new_funcall1 
+		dao_set_cell_expr (dao, 2, r, gnm_expr_new_funcall1
 				   (fd_sum, gnm_expr_copy (expr_source)));
-		dao_set_cell_expr (dao, 3, r, gnm_expr_new_funcall1 
+		dao_set_cell_expr (dao, 3, r, gnm_expr_new_funcall1
 				   (fd_average, gnm_expr_copy (expr_source)));
-		dao_set_cell_expr (dao, 4, r, gnm_expr_new_funcall1 
+		dao_set_cell_expr (dao, 4, r, gnm_expr_new_funcall1
 				   (fd_var, expr_source));
 	}
-	
+
 	r++;
 
 	for (i = 1; i <= info->n_c; i++, r++) {
@@ -172,7 +172,7 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 		dao_set_italic (dao, 0, r, 0, r);
 		if (info->labels) {
 			GnmExpr const *expr_label;
-			expr_label = gnm_expr_new_funcall3 
+			expr_label = gnm_expr_new_funcall3
 				(fd_index,
 				 gnm_expr_new_constant (value_dup (info->input)),
 				 gnm_expr_new_constant (value_new_int (1)),
@@ -195,13 +195,13 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 				 gnm_expr_new_constant (value_new_int (info->n_r)),
 				 gnm_expr_new_constant (value_new_int (1)));
 		}
-		dao_set_cell_expr (dao, 1, r, gnm_expr_new_funcall1 
+		dao_set_cell_expr (dao, 1, r, gnm_expr_new_funcall1
 				   (fd_count, gnm_expr_copy (expr_source)));
-		dao_set_cell_expr (dao, 2, r, gnm_expr_new_funcall1 
+		dao_set_cell_expr (dao, 2, r, gnm_expr_new_funcall1
 				   (fd_sum, gnm_expr_copy (expr_source)));
-		dao_set_cell_expr (dao, 3, r, gnm_expr_new_funcall1 
+		dao_set_cell_expr (dao, 3, r, gnm_expr_new_funcall1
 				   (fd_average, gnm_expr_copy (expr_source)));
-		dao_set_cell_expr (dao, 4, r, gnm_expr_new_funcall1 
+		dao_set_cell_expr (dao, 4, r, gnm_expr_new_funcall1
 				   (fd_var, expr_source));
 	}
 
@@ -209,10 +209,10 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 
 	dao_set_merge (dao, 0, r, 6, r);
 	dao_set_italic (dao, 0, r, 6, r);
-	
+
 	if (info->labels)
 		expr_region = gnm_expr_new_funcall5
-			(fd_offset, 
+			(fd_offset,
 			 gnm_expr_new_constant (value_dup (info->input)),
 			 gnm_expr_new_constant (value_new_int (1)),
 			 gnm_expr_new_constant (value_new_int (1)),
@@ -221,20 +221,20 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 	else
 		expr_region = gnm_expr_new_constant (value_dup (info->input));
 
-	expr_check = gnm_expr_new_funcall3 
-		(fd_if, 
+	expr_check = gnm_expr_new_funcall3
+		(fd_if,
 		 gnm_expr_new_binary
-		 (gnm_expr_new_funcall1 
+		 (gnm_expr_new_funcall1
 		  (fd_count, gnm_expr_copy (expr_region)),
 		  GNM_EXPR_OP_EQUAL,
 		  gnm_expr_new_constant (value_new_int (info->n_r*info->n_c))),
 		 gnm_expr_new_constant (value_new_int (1)),
 		 gnm_expr_new_constant (value_new_int (-1)));
 	dao_set_cell_expr (dao, 0, r, expr_check);
-	dao_set_format (dao, 0, r, 0, r, 
+	dao_set_format (dao, 0, r, 0, r,
 			_("\"ANOVA\";[Red]\"Invalid ANOVA: Missing Observations\""));
 	dao_set_align (dao, 0, r, 0, r, HALIGN_LEFT, VALIGN_BOTTOM);
-		
+
 	r++;
 	dao_set_italic (dao, 0, r, 0, r + 4);
 	set_cell_text_col (dao, 0, r, _("/Source of Variation"
@@ -243,9 +243,9 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 					"/Error"
 					"/Total"));
 	dao_set_italic (dao, 1, r, 6, r);
-	dao_set_border (dao, 0, r, 6, r, MSTYLE_BORDER_BOTTOM, GNM_STYLE_BORDER_THICK, 
+	dao_set_border (dao, 0, r, 6, r, MSTYLE_BORDER_BOTTOM, GNM_STYLE_BORDER_THICK,
 			style_color_black (), GNM_STYLE_BORDER_HORIZ);
-	dao_set_border (dao, 0, r+3, 6, r+3, MSTYLE_BORDER_BOTTOM, GNM_STYLE_BORDER_THICK, 
+	dao_set_border (dao, 0, r+3, 6, r+3, MSTYLE_BORDER_BOTTOM, GNM_STYLE_BORDER_THICK,
 			style_color_black (), GNM_STYLE_BORDER_HORIZ);
 	set_cell_text_row (dao, 1, r, _("/SS"
 					"/df"
@@ -268,88 +268,88 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 		GnmExpr const *expr_t;
 		GnmExpr const *expr_cf;
 
-		expr_t = gnm_expr_new_funcall1 (fd_sumsq, gnm_expr_copy (expr_region)); 
-		expr_cf = gnm_expr_new_binary 
-			(gnm_expr_new_binary 
-			 (gnm_expr_new_funcall1 (fd_sum, gnm_expr_copy (expr_region)), 
+		expr_t = gnm_expr_new_funcall1 (fd_sumsq, gnm_expr_copy (expr_region));
+		expr_cf = gnm_expr_new_binary
+			(gnm_expr_new_binary
+			 (gnm_expr_new_funcall1 (fd_sum, gnm_expr_copy (expr_region)),
 			  GNM_EXPR_OP_EXP,
-			  gnm_expr_new_constant (value_new_int (2))), 
+			  gnm_expr_new_constant (value_new_int (2))),
 			 GNM_EXPR_OP_DIV,
 			 gnm_expr_new_funcall1 (fd_count, gnm_expr_copy (expr_region)));
-		
+
 		args = NULL;
 		for (i = 1; i <= info->n_r; i++) {
 			GnmExpr const *expr;
-			expr = gnm_expr_new_funcall1 
+			expr = gnm_expr_new_funcall1
 				(fd_sum,
 				 gnm_expr_new_funcall5
-				 (fd_offset, 
+				 (fd_offset,
 				  gnm_expr_new_constant (value_dup (info->input)),
-				  gnm_expr_new_constant (value_new_int 
+				  gnm_expr_new_constant (value_new_int
 							 ((info->labels)?i:(i-1))),
-				  gnm_expr_new_constant (value_new_int 
+				  gnm_expr_new_constant (value_new_int
 							 ((info->labels)?1:0)),
 				  gnm_expr_new_constant (value_new_int (1)),
 				  gnm_expr_new_constant (value_new_int (info->n_c))));
 			args = gnm_expr_list_prepend (args, expr);
 		}
-		expr_a =  gnm_expr_new_binary 
+		expr_a =  gnm_expr_new_binary
 			(gnm_expr_new_funcall (fd_sumsq, args), GNM_EXPR_OP_DIV,
 			 gnm_expr_new_constant (value_new_int (info->n_c)));
 
 		args = NULL;
 		for (i = 1; i <= info->n_c; i++) {
 			GnmExpr const *expr;
-			expr = gnm_expr_new_funcall1 
+			expr = gnm_expr_new_funcall1
 				(fd_sum,
 				 gnm_expr_new_funcall5
-				 (fd_offset, 
+				 (fd_offset,
 				  gnm_expr_new_constant (value_dup (info->input)),
-				  gnm_expr_new_constant (value_new_int 
+				  gnm_expr_new_constant (value_new_int
 							 ((info->labels)?1:0)),
-				  gnm_expr_new_constant (value_new_int 
+				  gnm_expr_new_constant (value_new_int
 							 ((info->labels)?i:(i-1))),
 				  gnm_expr_new_constant (value_new_int (info->n_r)),
 				  gnm_expr_new_constant (value_new_int (1))));
 			args = gnm_expr_list_prepend (args, expr);
 		}
-		expr_b =  gnm_expr_new_binary 
+		expr_b =  gnm_expr_new_binary
 			(gnm_expr_new_funcall (fd_sumsq, args), GNM_EXPR_OP_DIV,
 			 gnm_expr_new_constant (value_new_int (info->n_r)));
-		
-		dao_set_cell_expr (dao, 0, 0, gnm_expr_new_binary 
-				   (gnm_expr_copy (expr_a), GNM_EXPR_OP_SUB, 
+
+		dao_set_cell_expr (dao, 0, 0, gnm_expr_new_binary
+				   (gnm_expr_copy (expr_a), GNM_EXPR_OP_SUB,
 				    gnm_expr_copy (expr_cf)));
-		dao_set_cell_expr (dao, 0, 1, gnm_expr_new_binary 
-				   (gnm_expr_copy (expr_b), GNM_EXPR_OP_SUB, 
+		dao_set_cell_expr (dao, 0, 1, gnm_expr_new_binary
+				   (gnm_expr_copy (expr_b), GNM_EXPR_OP_SUB,
 				    gnm_expr_copy (expr_cf)));
 		dao_set_cell_expr (dao, 0, 2, gnm_expr_new_binary
-				   (gnm_expr_new_binary 
+				   (gnm_expr_new_binary
 				   (expr_t, GNM_EXPR_OP_ADD, expr_cf),
 				   GNM_EXPR_OP_SUB ,
-				    gnm_expr_new_binary 
+				    gnm_expr_new_binary
 				   (expr_a, GNM_EXPR_OP_ADD, expr_b)));
-		expr_total = gnm_expr_new_funcall1 
+		expr_total = gnm_expr_new_funcall1
 			(fd_sum,  make_rangeref (0, -3, 0, -1));
 		dao_set_cell_expr (dao, 0, 3, gnm_expr_copy (expr_total));
 		dao_set_cell_int (dao, 1, 0, info->n_r - 1);
 		dao_set_cell_int (dao, 1, 1, info->n_c - 1);
 		dao_set_cell_expr (dao, 1, 2, gnm_expr_new_binary
-				   (make_cellref (0,-1), GNM_EXPR_OP_MULT, 
+				   (make_cellref (0,-1), GNM_EXPR_OP_MULT,
 				    make_cellref (0,-2)));
 		dao_set_cell_expr (dao, 1, 3, expr_total);
 
-		expr_ms = gnm_expr_new_binary (make_cellref (-2,0), GNM_EXPR_OP_DIV, 
+		expr_ms = gnm_expr_new_binary (make_cellref (-2,0), GNM_EXPR_OP_DIV,
 					       make_cellref (-1,0));
 		dao_set_cell_expr (dao, 2, 0, gnm_expr_copy (expr_ms));
 		dao_set_cell_expr (dao, 2, 1, gnm_expr_copy (expr_ms));
 		dao_set_cell_expr (dao, 2, 2, expr_ms);
 
-		dao_set_cell_expr (dao, 3, 0,  gnm_expr_new_binary 
-				   (make_cellref (-1,0), GNM_EXPR_OP_DIV, 
+		dao_set_cell_expr (dao, 3, 0,  gnm_expr_new_binary
+				   (make_cellref (-1,0), GNM_EXPR_OP_DIV,
 				    make_cellref (-1,2)));
-		dao_set_cell_expr (dao, 3, 1,  gnm_expr_new_binary 
-				   (make_cellref (-1,0), GNM_EXPR_OP_DIV, 
+		dao_set_cell_expr (dao, 3, 1,  gnm_expr_new_binary
+				   (make_cellref (-1,0), GNM_EXPR_OP_DIV,
 				    make_cellref (-1,1)));
 		dao_set_cell_expr
 			(dao, 4, 0,
@@ -422,7 +422,7 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 	GnmExpr const *expr_check;
 	GnmExpr const *expr_source;
 	GnmExpr const *expr_total_count;
-	
+
 	GnmFunc *fd_index;
 	GnmFunc *fd_offset;
 	GnmFunc *fd_count;
@@ -464,7 +464,7 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 	for (k = 1; k <= info->n_c; k++) {
 		if (info->labels) {
 			GnmExpr const *expr_label;
-			expr_label = gnm_expr_new_funcall3 
+			expr_label = gnm_expr_new_funcall3
 				(fd_index,
 				 gnm_expr_new_constant (value_dup (info->input)),
 				 gnm_expr_new_constant (value_new_int (1)),
@@ -473,7 +473,7 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 		} else
 		/*xgettext: this is a label for the first, second,... level of factor B in an ANOVA*/
 			dao_set_cell_printf (dao, k, 2, _("B, Level %i"), k);
-	} 
+	}
 	dao_set_cell (dao, info->n_c + 1, 2, _("Subtotal"));
 
 	r = 3;
@@ -483,7 +483,7 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 		dao_set_italic (dao, 0, r, 0, r+4);
 		if (info->labels) {
 			GnmExpr const *expr_label;
-			expr_label = gnm_expr_new_funcall3 
+			expr_label = gnm_expr_new_funcall3
 				(fd_index,
 				 gnm_expr_new_constant (value_dup (info->input)),
 				 gnm_expr_new_constant (value_new_int (level_start + 1)),
@@ -504,15 +504,15 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 				 gnm_expr_new_constant (value_new_int ((info->labels) ? k : (k - 1))),
 				 gnm_expr_new_constant (value_new_int (info->replication)),
 				 gnm_expr_new_constant (value_new_int (1)));
-			dao_set_cell_expr (dao, k, r + 1, gnm_expr_new_funcall1 
+			dao_set_cell_expr (dao, k, r + 1, gnm_expr_new_funcall1
 					   (fd_count, gnm_expr_copy (expr_source)));
-			dao_set_cell_expr (dao, k, r + 2, gnm_expr_new_funcall1 
+			dao_set_cell_expr (dao, k, r + 2, gnm_expr_new_funcall1
 					   (fd_sum, gnm_expr_copy (expr_source)));
-			dao_set_cell_expr (dao, k, r + 3, gnm_expr_new_funcall1 
+			dao_set_cell_expr (dao, k, r + 3, gnm_expr_new_funcall1
 					   (fd_average, gnm_expr_copy (expr_source)));
-			dao_set_cell_expr (dao, k, r + 4, gnm_expr_new_funcall1 
+			dao_set_cell_expr (dao, k, r + 4, gnm_expr_new_funcall1
 					   (fd_var, expr_source));
-		} 
+		}
 
 		expr_source =  gnm_expr_new_funcall5
 			(fd_offset,
@@ -521,13 +521,13 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 			 gnm_expr_new_constant (value_new_int ((info->labels) ? 1 : 0)),
 			 gnm_expr_new_constant (value_new_int (info->replication)),
 			 gnm_expr_new_constant (value_new_int (info->n_c)));
-		dao_set_cell_expr (dao, k, r + 1, gnm_expr_new_funcall1 
+		dao_set_cell_expr (dao, k, r + 1, gnm_expr_new_funcall1
 				   (fd_count, gnm_expr_copy (expr_source)));
-		dao_set_cell_expr (dao, k, r + 2, gnm_expr_new_funcall1 
+		dao_set_cell_expr (dao, k, r + 2, gnm_expr_new_funcall1
 				   (fd_sum, gnm_expr_copy (expr_source)));
-		dao_set_cell_expr (dao, k, r + 3, gnm_expr_new_funcall1 
+		dao_set_cell_expr (dao, k, r + 3, gnm_expr_new_funcall1
 				   (fd_average, gnm_expr_copy (expr_source)));
-		dao_set_cell_expr (dao, k, r + 4, gnm_expr_new_funcall1 
+		dao_set_cell_expr (dao, k, r + 4, gnm_expr_new_funcall1
 				   (fd_var, expr_source));
 	}
 
@@ -546,19 +546,19 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 			 gnm_expr_new_constant (value_new_int ((info->labels) ? k : (k - 1))),
 			 gnm_expr_new_constant (value_new_int (info->replication * info->n_r)),
 			 gnm_expr_new_constant (value_new_int (1)));
-		dao_set_cell_expr (dao, k, r + 1, gnm_expr_new_funcall1 
+		dao_set_cell_expr (dao, k, r + 1, gnm_expr_new_funcall1
 				   (fd_count, gnm_expr_copy (expr_source)));
-		dao_set_cell_expr (dao, k, r + 2, gnm_expr_new_funcall1 
+		dao_set_cell_expr (dao, k, r + 2, gnm_expr_new_funcall1
 				   (fd_sum, gnm_expr_copy (expr_source)));
-		dao_set_cell_expr (dao, k, r + 3, gnm_expr_new_funcall1 
+		dao_set_cell_expr (dao, k, r + 3, gnm_expr_new_funcall1
 				   (fd_average, gnm_expr_copy (expr_source)));
-		dao_set_cell_expr (dao, k, r + 4, gnm_expr_new_funcall1 
+		dao_set_cell_expr (dao, k, r + 4, gnm_expr_new_funcall1
 				   (fd_var, expr_source));
-	} 
-	
+	}
+
 	dao_set_italic (dao, info->n_c + 1, r, info->n_c + 1, r);
 	dao_set_cell (dao, info->n_c + 1, r, _("Total"));
-	
+
 	expr_source =  gnm_expr_new_funcall5
 		(fd_offset,
 		 gnm_expr_new_constant (value_dup (info->input)),
@@ -568,20 +568,20 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 		 gnm_expr_new_constant (value_new_int (info->n_c)));
 	expr_total_count = gnm_expr_new_funcall1 (fd_count, gnm_expr_copy (expr_source));
 	dao_set_cell_expr (dao, info->n_c + 1, r + 1,  gnm_expr_copy (expr_total_count));
-	dao_set_cell_expr (dao, info->n_c + 1, r + 2, gnm_expr_new_funcall1 
+	dao_set_cell_expr (dao, info->n_c + 1, r + 2, gnm_expr_new_funcall1
 			   (fd_sum, gnm_expr_copy (expr_source)));
-	dao_set_cell_expr (dao, info->n_c + 1, r + 3, gnm_expr_new_funcall1 
+	dao_set_cell_expr (dao, info->n_c + 1, r + 3, gnm_expr_new_funcall1
 			   (fd_average, gnm_expr_copy (expr_source)));
-	dao_set_cell_expr (dao, info->n_c + 1, r + 4, gnm_expr_new_funcall1 
+	dao_set_cell_expr (dao, info->n_c + 1, r + 4, gnm_expr_new_funcall1
 			   (fd_var, gnm_expr_copy (expr_source)));
 
 	r += 7;
 
 	dao_set_merge (dao, 0, r, 6, r);
 	dao_set_italic (dao, 0, r, 6, r);
-	
-	expr_check = gnm_expr_new_funcall3 
-		(fd_if, 
+
+	expr_check = gnm_expr_new_funcall3
+		(fd_if,
 		 gnm_expr_new_binary
 		 (gnm_expr_copy (expr_total_count),
 		  GNM_EXPR_OP_EQUAL,
@@ -589,10 +589,10 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 		 gnm_expr_new_constant (value_new_int (1)),
 		 gnm_expr_new_constant (value_new_int (-1)));
 	dao_set_cell_expr (dao, 0, r, expr_check);
-	dao_set_format (dao, 0, r, 0, r, 
+	dao_set_format (dao, 0, r, 0, r,
 			_("\"ANOVA\";[Red]\"Invalid ANOVA: Missing Observations\""));
 	dao_set_align (dao, 0, r, 0, r, HALIGN_LEFT, VALIGN_BOTTOM);
-		
+
 	r++;
 	dao_set_italic (dao, 0, r, 0, r + 5);
 	set_cell_text_col (dao, 0, r, _("/Source of Variation"
@@ -602,9 +602,9 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 					"/Error"
 					"/Total"));
 	dao_set_italic (dao, 1, r, 6, r);
-	dao_set_border (dao, 0, r, 6, r, MSTYLE_BORDER_BOTTOM, GNM_STYLE_BORDER_THICK, 
+	dao_set_border (dao, 0, r, 6, r, MSTYLE_BORDER_BOTTOM, GNM_STYLE_BORDER_THICK,
 			style_color_black (), GNM_STYLE_BORDER_HORIZ);
-	dao_set_border (dao, 0, r+4, 6, r+4, MSTYLE_BORDER_BOTTOM, GNM_STYLE_BORDER_THICK, 
+	dao_set_border (dao, 0, r+4, 6, r+4, MSTYLE_BORDER_BOTTOM, GNM_STYLE_BORDER_THICK,
 			style_color_black (), GNM_STYLE_BORDER_HORIZ);
 	set_cell_text_row (dao, 1, r, _("/SS"
 					"/df"
@@ -636,12 +636,12 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 			  gnm_expr_new_constant (value_new_int (2))),
 			 GNM_EXPR_OP_DIV,
 			 gnm_expr_copy (expr_total_count));
-		
+
 		args = NULL;
 		for (i = 1; i <= info->n_r; i++) {
 			GnmExpr const *expr;
 			int level_start =  (i-1)*info->replication + 1;
-			
+
 			expr = gnm_expr_new_funcall1
 				(fd_sum,
 				 gnm_expr_new_funcall5
@@ -689,7 +689,7 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 					 gnm_expr_new_funcall5
 					 (fd_offset,
 					  gnm_expr_new_constant (value_dup (info->input)),
-					  gnm_expr_new_constant 
+					  gnm_expr_new_constant
 					  (value_new_int ((info->labels)?level_start:level_start-1)),
 					  gnm_expr_new_constant (value_new_int
 								 ((info->labels)?k:(k-1))),
@@ -701,7 +701,7 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 		expr_s =  gnm_expr_new_binary
 			(gnm_expr_new_funcall (fd_sumsq, args), GNM_EXPR_OP_DIV,
 			 gnm_expr_new_constant (value_new_int (info->replication)));
-		
+
 		dao_set_cell_expr (dao, 0, 0, gnm_expr_new_binary
 				   (gnm_expr_copy (expr_a), GNM_EXPR_OP_SUB,
 				    gnm_expr_copy (expr_cf)));

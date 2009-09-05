@@ -71,7 +71,7 @@ cb_dialog_so_styled_response (GtkWidget *dialog,
 		return;
 	if (response_id == GTK_RESPONSE_OK) {
 		cmd_object_format (WORKBOOK_CONTROL (pref->wbcg),
-				   SHEET_OBJECT (pref->so), pref->orig_style, 
+				   SHEET_OBJECT (pref->so), pref->orig_style,
 				   pref->orig_text, pref->orig_attributes);
 		g_object_unref (pref->orig_style);
 		pref->orig_style = NULL;
@@ -93,7 +93,7 @@ cb_dialog_so_styled_text_widget_changed (GnmTextView *gtv, DialogSOStyled *state
 	g_object_set (state->so, "text", text, NULL);
 	g_free (text);
 
-	g_object_get (gtv, "attributes", &attr, NULL);	
+	g_object_get (gtv, "attributes", &attr, NULL);
 	g_object_set (state->so, "markup", attr, NULL);
 	pango_attr_list_unref (attr);
 }
@@ -169,7 +169,7 @@ dialog_so_styled (WBCGtk *wbcg,
 						  gtk_label_new (_("Content")));
 		else
 			gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-					    text_w, TRUE, TRUE, TRUE);	
+					    text_w, TRUE, TRUE, TRUE);
 	}
 
 	g_signal_connect (G_OBJECT (dialog), "response",

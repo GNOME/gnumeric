@@ -69,12 +69,12 @@ cb_cell_comment_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	PangoAttrList *attr;
 	char const *author;
 
-	author = gtk_entry_get_text 
-		(GTK_ENTRY (glade_xml_get_widget 
+	author = gtk_entry_get_text
+		(GTK_ENTRY (glade_xml_get_widget
 			    (state->gui, "new-author-entry")));
-	g_object_get (G_OBJECT (state->gtv), "text", &text, 
+	g_object_get (G_OBJECT (state->gtv), "text", &text,
 		      "attributes", &attr, NULL);
-	if (!cmd_set_comment (WORKBOOK_CONTROL (state->wbcg), 
+	if (!cmd_set_comment (WORKBOOK_CONTROL (state->wbcg),
 			      state->sheet, state->pos, text, attr, author))
 		gtk_widget_destroy (state->dialog);
 	g_free (text);
@@ -85,7 +85,7 @@ static void
 cb_wrap_toggled (GtkToggleButton *button, GObject *gtv)
 {
 	g_object_set (gtv, "wrap",
-		      gtk_toggle_button_get_active (button) ? GTK_WRAP_WORD : GTK_WRAP_NONE, 
+		      gtk_toggle_button_get_active (button) ? GTK_WRAP_WORD : GTK_WRAP_NONE,
 		      NULL);
 }
 
@@ -126,9 +126,9 @@ dialog_cell_comment (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 	g_return_if_fail (box != NULL);
 	state->gtv = gnm_text_view_new ();
 	gtk_widget_show_all (GTK_WIDGET (state->gtv));
-	gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (state->gtv), 
+	gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (state->gtv),
 			    TRUE, TRUE, TRUE);
-	g_object_set (state->gtv, "wrap", GTK_WRAP_WORD, NULL); 
+	g_object_set (state->gtv, "wrap", GTK_WRAP_WORD, NULL);
 
 	gnm_cellref_init (&ref, sheet, pos->col, pos->row, FALSE);
 	out.accum = g_string_new (NULL);
@@ -151,8 +151,8 @@ dialog_cell_comment (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 	if (comment) {
 		char const *text;
 		PangoAttrList *attr;
-		g_object_get (G_OBJECT (comment), "text", &text, 
-			      "markup", &attr, NULL); 
+		g_object_get (G_OBJECT (comment), "text", &text,
+			      "markup", &attr, NULL);
 		g_object_set (state->gtv, "text", text,
 			      "attributes", attr, NULL);
 		if (attr != NULL)
@@ -162,13 +162,13 @@ dialog_cell_comment (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 		if (text != NULL)
 			gtk_label_set_text (GTK_LABEL (old_author),
 					    text);
-		title = g_strdup_printf (_("Edit Cell Comment (%s)"), 
+		title = g_strdup_printf (_("Edit Cell Comment (%s)"),
 					 cell_name);
 	} else {
-		title = g_strdup_printf (_("New Cell Comment (%s)"), 
+		title = g_strdup_printf (_("New Cell Comment (%s)"),
 					 cell_name);
 		gtk_widget_hide (old_author);
-		gtk_widget_hide (glade_xml_get_widget (state->gui, 
+		gtk_widget_hide (glade_xml_get_widget (state->gui,
 						       "old-author-label"));
 	}
 	gtk_window_set_title (GTK_WINDOW (state->dialog), title);

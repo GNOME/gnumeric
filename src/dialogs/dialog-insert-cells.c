@@ -171,10 +171,10 @@ dialog_insert_cells (WBCGtk *wbcg)
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "helpbutton"),
 		GNUMERIC_HELP_LINK_INSERT_CELS);
-	gtk_toggle_button_set_active 
-		(GTK_TOGGLE_BUTTON (glade_xml_get_widget 
-				    (state->gui, cols < rows 
-				     ? "radio_0" : "radio_1")), 
+	gtk_toggle_button_set_active
+		(GTK_TOGGLE_BUTTON (glade_xml_get_widget
+				    (state->gui, cols < rows
+				     ? "radio_0" : "radio_1")),
 		 TRUE);
 
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);

@@ -331,7 +331,7 @@ cb_item_edit_cursor_blink (ItemEdit *ie)
 	GocItem *item = GOC_ITEM (ie);
 
 	ie->cursor_visible = !ie->cursor_visible;
-	
+
 	goc_item_invalidate (item);
 	return TRUE;
 }

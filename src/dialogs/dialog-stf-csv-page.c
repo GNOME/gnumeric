@@ -88,7 +88,7 @@ csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
 	lines_chunk = g_string_chunk_new (100 * 1024);
 
 	/* Don't trim on this page.  */
-	trim = parseoptions->trim_spaces;	
+	trim = parseoptions->trim_spaces;
 	stf_parse_options_set_trim_spaces (parseoptions, TRIM_TYPE_NEVER);
 	lines = stf_parse_general (parseoptions, lines_chunk,
 				   pagedata->cur, pagedata->cur_end);

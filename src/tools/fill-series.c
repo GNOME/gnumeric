@@ -53,7 +53,7 @@ do_row_filling_wday (data_analysis_output_t *dao, fill_series_t *info)
 	GODateConventions const *conv =
 		workbook_date_conv (dao->sheet->workbook);
 
-	
+
 	for (i = 0; i < info->n; i++) {
 		int steps = (i * info->step_value) + 0.5;
 		int days = (steps / 5) * 7 + steps % 5;
@@ -64,8 +64,8 @@ do_row_filling_wday (data_analysis_output_t *dao, fill_series_t *info)
 		if (wd + (steps % 5) > G_DATE_FRIDAY)
 				days += 2;
 		gnm_date_add_days (&date, days);
-		
-		dao_set_cell_float (dao, i, 0, 
+
+		dao_set_cell_float (dao, i, 0,
 				    go_date_g_to_serial (&date, conv));
 	}
 
@@ -80,7 +80,7 @@ do_column_filling_wday (data_analysis_output_t *dao, fill_series_t *info)
 	GODateConventions const *conv =
 		workbook_date_conv (dao->sheet->workbook);
 
-	
+
 	for (i = 0; i < info->n; i++) {
 		int steps = (i * info->step_value) + 0.5;
 		int days = (steps / 5) * 7 + steps % 5;
@@ -91,8 +91,8 @@ do_column_filling_wday (data_analysis_output_t *dao, fill_series_t *info)
 		if (wd + (steps % 5) > G_DATE_FRIDAY)
 				days += 2;
 		gnm_date_add_days (&date, days);
-		
-		dao_set_cell_float (dao, 0,i, 
+
+		dao_set_cell_float (dao, 0,i,
 				    go_date_g_to_serial (&date, conv));
 	}
 
@@ -108,12 +108,12 @@ do_row_filling_month (data_analysis_output_t *dao, fill_series_t *info)
 	GODateConventions const *conv =
 		workbook_date_conv (dao->sheet->workbook);
 
-	
+
 	for (i = 0; i < info->n; i++) {
 		go_date_serial_to_g (&date, start, conv);
 		gnm_date_add_months (&date, i * info->step_value);
-		
-		dao_set_cell_float (dao, i, 0, 
+
+		dao_set_cell_float (dao, i, 0,
 				    go_date_g_to_serial (&date, conv));
 	}
 }
@@ -127,12 +127,12 @@ do_column_filling_month (data_analysis_output_t *dao, fill_series_t *info)
 	GODateConventions const *conv =
 		workbook_date_conv (dao->sheet->workbook);
 
-	
+
 	for (i = 0; i < info->n; i++) {
 		go_date_serial_to_g (&date, start, conv);
 		gnm_date_add_months (&date, i * info->step_value);
-		
-		dao_set_cell_float (dao, 0, i, 
+
+		dao_set_cell_float (dao, 0, i,
 				    go_date_g_to_serial (&date, conv));
 	}
 }
@@ -146,12 +146,12 @@ do_row_filling_year (data_analysis_output_t *dao, fill_series_t *info)
 	GODateConventions const *conv =
 		workbook_date_conv (dao->sheet->workbook);
 
-	
+
 	for (i = 0; i < info->n; i++) {
 		go_date_serial_to_g (&date, start, conv);
 		gnm_date_add_years (&date, i * info->step_value);
-		
-		dao_set_cell_float (dao, i, 0, 
+
+		dao_set_cell_float (dao, i, 0,
 				    go_date_g_to_serial (&date, conv));
 	}
 }
@@ -165,12 +165,12 @@ do_column_filling_year (data_analysis_output_t *dao, fill_series_t *info)
 	GODateConventions const *conv =
 		workbook_date_conv (dao->sheet->workbook);
 
-	
+
 	for (i = 0; i < info->n; i++) {
 		go_date_serial_to_g (&date, start, conv);
 		gnm_date_add_years (&date, i * info->step_value);
-		
-		dao_set_cell_float (dao, 0, i, 
+
+		dao_set_cell_float (dao, 0, i,
 				    go_date_g_to_serial (&date, conv));
 	}
 }
@@ -231,10 +231,10 @@ static void
 fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 {
 	int length_of_series = -1;
-	int length_of_space = info->series_in_rows 
+	int length_of_space = info->series_in_rows
 		? dao->cols : dao->rows;
-	
-	if (info->type == FillSeriesTypeDate && 
+
+	if (info->type == FillSeriesTypeDate &&
 	    info->date_unit != FillSeriesUnitDay) {
 		if (info->is_step_set)
 			info->step_value = gnm_floor (info->step_value + 0.5);
@@ -246,14 +246,14 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 				workbook_date_conv (dao->sheet->workbook);
 
 			if (info->step_value < 0) {
-				go_date_serial_to_g (&from_date, 
+				go_date_serial_to_g (&from_date,
 						      info->stop_value, conv);
-				go_date_serial_to_g (&to_date, 
+				go_date_serial_to_g (&to_date,
 						      info->start_value, conv);
 			} else {
-				go_date_serial_to_g (&from_date, 
+				go_date_serial_to_g (&from_date,
 						      info->start_value, conv);
-				go_date_serial_to_g (&to_date, 
+				go_date_serial_to_g (&to_date,
 						      info->stop_value, conv);
 			}
 			switch (info->date_unit) {
@@ -263,15 +263,15 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 			case FillSeriesUnitWeekday:
 			{
 				int days;
-				days = g_date_days_between 
+				days = g_date_days_between
 					(&from_date, &to_date);
-				length_of_series = (days / 7) * 5 + 1 
+				length_of_series = (days / 7) * 5 + 1
 					+ (days % 7);
 				if (length_of_series < 1)
 					length_of_series = 1;
 			}
 			break;
-			case FillSeriesUnitMonth: 
+			case FillSeriesUnitMonth:
 			{
 				GDateYear    from_year, to_year;
 				GDateMonth    from_month, to_month;
@@ -282,14 +282,14 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 				from_month = g_date_get_month(&from_date);
 				to_month = g_date_get_month(&to_date);
 				g_date_set_year (&to_date, from_year);
-				
+
 				if (g_date_compare (&from_date, &to_date) > 0)
 					months = (to_year - from_year) * 12 +
 						(to_month - from_month);
 				else
 					months = (to_year - from_year) * 12 +
 						(to_month - from_month) + 1;
-				length_of_series = months 
+				length_of_series = months
 					/ (int)(info->step_value + 0.5);
 				if (length_of_series < 1)
 					length_of_series = 1;
@@ -307,26 +307,26 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 					years = to_year - from_year;
 				else
 					years = to_year - from_year + 1;
-				length_of_series = years 
+				length_of_series = years
 					/ (int)(info->step_value + 0.5);
 				if (length_of_series < 1)
 					length_of_series = 1;
 			}
 			break;
 			}
-			
+
 		}
 	} else {
 		if (!info->is_step_set) {
 			switch (info->type) {
 			case FillSeriesTypeDate:
 			case FillSeriesTypeLinear:
-				info->step_value = 
+				info->step_value =
 					(info->stop_value - info->start_value)/
 					(length_of_space - 1);
 				break;
 			case FillSeriesTypeGrowth:
-				info->step_value = 
+				info->step_value =
 					gnm_exp((gnm_log(info->stop_value
 							 /info->start_value))/
 						(length_of_space - 1));
@@ -337,16 +337,16 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 			switch (info->type) {
 			case FillSeriesTypeDate:
 			case FillSeriesTypeLinear:
-				length_of_series 
+				length_of_series
 					= gnm_floor(GNM_EPSILON + 1 +
-						    (info->stop_value 
+						    (info->stop_value
 						     - info->start_value)/
 						    info->step_value);
 				if (length_of_series < 1)
 					length_of_series = 1;
 				break;
 			case FillSeriesTypeGrowth:
-				length_of_series 
+				length_of_series
 					= gnm_floor(GNM_EPSILON + 1 +
 						    (gnm_log(info->stop_value
 							     /info->start_value))/
@@ -368,7 +368,7 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 		info->n = length_of_series;
 }
 
-gboolean fill_series_engine (data_analysis_output_t *dao, gpointer specs, 
+gboolean fill_series_engine (data_analysis_output_t *dao, gpointer specs,
 			     analysis_tool_engine_t selector, gpointer result)
 {
 	fill_series_t *info = specs;
@@ -377,7 +377,7 @@ gboolean fill_series_engine (data_analysis_output_t *dao, gpointer specs,
 	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
 		return (dao_command_descriptor (dao, _("Fill Series (%s)"),
 						result) == NULL);
-	case TOOL_ENGINE_UPDATE_DAO: 
+	case TOOL_ENGINE_UPDATE_DAO:
 		fill_series_adjust_variables (dao, info);
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
@@ -418,7 +418,7 @@ gboolean fill_series_engine (data_analysis_output_t *dao, gpointer specs,
 				else
 					do_column_filling_wday (dao, info);
 				break;
-			case FillSeriesUnitMonth: 
+			case FillSeriesUnitMonth:
 				if (info->series_in_rows)
 					do_row_filling_month (dao, info);
 				else
@@ -431,7 +431,7 @@ gboolean fill_series_engine (data_analysis_output_t *dao, gpointer specs,
 					do_column_filling_year (dao, info);
 				break;
 			}
-			dao_set_date (dao, 0, 0, 
+			dao_set_date (dao, 0, 0,
 				      dao->cols - 1, dao->rows -1);
 			break;
 		}

@@ -1,7 +1,7 @@
 /* vim: set sw=8: */
 
 /*
- * excel-xml-read.c : Read MS Excel 2003 SpreadsheetML 
+ * excel-xml-read.c : Read MS Excel 2003 SpreadsheetML
  *
  * Copyright (C) 2003-2008 Jody Goldberg (jody@gnome.org)
  *

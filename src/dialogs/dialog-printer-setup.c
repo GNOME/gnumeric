@@ -136,7 +136,7 @@ struct _PrinterSetupState {
 	double height, width;
 
 	GtkWidget * check_center_v;
-	GtkWidget * check_center_h;	
+	GtkWidget * check_center_h;
 
 	GtkWidget *icon_rd;
 	GtkWidget *icon_dr;
@@ -182,7 +182,7 @@ struct _HFCustomizeState {
 
 typedef enum {
 	HF_FIELD_UNKNOWN,
-	HF_FIELD_FILE, 
+	HF_FIELD_FILE,
 	HF_FIELD_PATH,
 	HF_FIELD_DATE,
 	HF_FIELD_TIME,
@@ -331,9 +331,9 @@ draw_margin_header (UnitInfo *uinfo)
 	x2 = uinfo->bound_x2;
 
 	if (inside < 1.0)
-		inside = 1.0; 
+		inside = 1.0;
 	y1 += outside + inside ;
-	
+
 	move_line (uinfo->line, x1, y1, x2, y1);
 }
 
@@ -344,13 +344,13 @@ draw_margin_footer (UnitInfo *uinfo)
 	double outside = uinfo->pi->scale *
 		uinfo->state->margins.bottom.value;
 	double inside = uinfo->pi->scale * uinfo->value;
-	
+
 	x1 = uinfo->bound_x1;
 	x2 = uinfo->bound_x2;
 	y2 = uinfo->bound_y2;
 
 	if (inside < 1.0)
-		inside = 1.0; 
+		inside = 1.0;
 	y2 -= outside + inside ;
 	move_line (uinfo->line, x1, y2, x2, y2);
 }
@@ -635,7 +635,7 @@ cb_unit_selector_changed (GtkComboBox *widget, PrinterSetupState *state)
 {
 	GtkTreeIter iter;
 	GtkUnit unit;
-	
+
 	g_return_if_fail (state != NULL);
 
 	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (state->unit_selector), &iter)) {
@@ -657,7 +657,7 @@ unit_sort_func (GtkTreeModel *model,
 
 	gtk_tree_model_get (model, a, 0, &str_a, -1);
 	gtk_tree_model_get (model, b, 0, &str_b, -1);
-	
+
 	result = g_utf8_collate (str_a, str_b);
 
 	g_free (str_a);
@@ -676,7 +676,7 @@ unit_sort_func (GtkTreeModel *model,
 static void
 do_setup_margin (PrinterSetupState *state)
 {
-	GtkWidget *table; 
+	GtkWidget *table;
 	GtkBox *container;
 
 	g_return_if_fail (state && state->pi);
@@ -690,7 +690,7 @@ do_setup_margin (PrinterSetupState *state)
 		GtkTreeIter iter;
 		GtkTreeIter current;
 		GtkCellRenderer *text_renderer;
-  
+
 		list_store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);
 
 		gtk_list_store_append (list_store, &iter);
@@ -717,19 +717,19 @@ do_setup_margin (PrinterSetupState *state)
 		state->unit_selector = gtk_combo_box_new_with_model (GTK_TREE_MODEL (list_store));
 		state->unit_model    = GTK_TREE_MODEL (list_store);
 		text_renderer = gtk_cell_renderer_text_new ();
-		gtk_cell_layout_pack_start (GTK_CELL_LAYOUT(state->unit_selector), 
+		gtk_cell_layout_pack_start (GTK_CELL_LAYOUT(state->unit_selector),
 					    text_renderer, TRUE);
 		gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT(state->unit_selector),
-					       text_renderer, "text", 0);  
- 
+					       text_renderer, "text", 0);
+
 		gtk_combo_box_set_active_iter (GTK_COMBO_BOX (state->unit_selector), &current);
 	}
 	table = glade_xml_get_widget (state->gui, "table-paper-selector");
 	gtk_table_attach (GTK_TABLE (table), state->unit_selector, 3, 4, 8, 9,
 					GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
-	g_signal_connect (G_OBJECT (state->unit_selector), "changed", 
-			  G_CALLBACK (cb_unit_selector_changed), state); 
+	g_signal_connect (G_OBJECT (state->unit_selector), "changed",
+			  G_CALLBACK (cb_unit_selector_changed), state);
 	gtk_widget_show (state->unit_selector);
 
 	margin_spin_configure  (&state->margins.header, state, "spin-header",
@@ -830,7 +830,7 @@ header_changed (GtkComboBox *menu, PrinterSetupState *state)
 		print_hf_free (state->header);
 		state->header = print_hf_copy (format);
 	}
-	
+
 		display_hf_preview (state, TRUE);
 }
 
@@ -858,7 +858,7 @@ create_hf_name (char const *left, char const *middle, char const *right)
 
 		res = g_strdup_printf ("%s%s%s%s%s",
 				       left," \xe2\x90\xa3 ", middle, " \xe2\x90\xa3 ", right);
-		
+
 		this = res;
 		while (*this) {
 			if (*this == '\n') {
@@ -931,10 +931,10 @@ fill_hf (PrinterSetupState *state, GtkComboBox *om, GCallback callback, gboolean
 
 	if (idx < 0)
 		g_critical ("Current format is not registered!");
-		
+
 	gtk_combo_box_set_active (om, idx);
 	g_signal_connect (G_OBJECT (om), "changed", callback, state);
-	
+
 	hf_render_info_destroy (hfi);
 }
 
@@ -979,13 +979,13 @@ hf_delete_tag_cb (HFCustomizeState *hf_state)
 		tag = gtk_text_tag_table_lookup (gtk_text_buffer_get_tag_table (textbuffer),
 						 HF_TAG_NAME);
 		gtk_text_buffer_get_selection_bounds (textbuffer, &start, &end);
-		
+
 		if (gtk_text_iter_has_tag (&start, tag) && !gtk_text_iter_begins_tag (&start, tag))
 			gtk_text_iter_backward_to_tag_toggle (&start, tag);
 		if (gtk_text_iter_has_tag (&end, tag) && !gtk_text_iter_toggles_tag (&end, tag))
 			gtk_text_iter_forward_to_tag_toggle (&end, tag);
-		
-		
+
+
 		gtk_text_buffer_delete (textbuffer, &start, &end);
 	}
 }
@@ -999,8 +999,8 @@ hf_insert_hf_stock_tag (HFCustomizeState *hf_state, GtkTextBuffer *buffer, HFFie
 	GdkPixbuf* pix;
 	GtkTextMark *new_mark;
 	HFMarkInfo *mark_info;
-		
-	
+
+
 	switch (type) {
 	case HF_FIELD_FILE:
 		stock_id = GTK_STOCK_FILE;
@@ -1029,15 +1029,15 @@ hf_insert_hf_stock_tag (HFCustomizeState *hf_state, GtkTextBuffer *buffer, HFFie
 	default:
 		return;
 	}
-	
+
 	hf_delete_tag_cb (hf_state);
 
-	if (gtk_text_buffer_insert_interactive_at_cursor 
+	if (gtk_text_buffer_insert_interactive_at_cursor
 	    (buffer, "", -1, TRUE)) {
-		gtk_text_buffer_get_iter_at_mark 
+		gtk_text_buffer_get_iter_at_mark
 			(buffer, &iter, gtk_text_buffer_get_insert (buffer));
-		
-		pix = gtk_widget_render_icon (GTK_WIDGET (hf_state->dialog), 
+
+		pix = gtk_widget_render_icon (GTK_WIDGET (hf_state->dialog),
 					      stock_id,
 					      GTK_ICON_SIZE_MENU, NULL);
 		gtk_text_buffer_insert_pixbuf (buffer, &iter, pix);
@@ -1062,7 +1062,7 @@ hf_insert_hf_tag (HFCustomizeState *hf_state, HFFieldType type, char *options)
 	focus = gtk_window_get_focus (GTK_WINDOW (hf_state->dialog));
 
 	if (GTK_IS_TEXT_VIEW (focus)) {
-		GtkTextBuffer *buffer = 
+		GtkTextBuffer *buffer =
 			gtk_text_view_get_buffer (GTK_TEXT_VIEW (focus));
 		hf_insert_hf_stock_tag (hf_state, buffer, type, options);
 	}
@@ -1073,7 +1073,7 @@ hf_insert_hf_tag (HFCustomizeState *hf_state, HFFieldType type, char *options)
 static void
 hf_insert_date_cb (GtkWidget *widget, HFCustomizeState *hf_state)
 {
-	
+
 	hf_insert_hf_tag (hf_state, HF_FIELD_DATE, g_object_get_data (G_OBJECT (widget), "options"));
 }
 
@@ -1147,7 +1147,7 @@ hf_insert_path_cb (HFCustomizeState *hf_state)
 	hf_insert_hf_tag (hf_state, HF_FIELD_PATH, NULL);
 }
 
-static void 
+static void
 buffer_delete_range_cb (GtkTextBuffer *textbuffer,
 			GtkTextIter   *start,
 			GtkTextIter   *end,
@@ -1156,7 +1156,7 @@ buffer_delete_range_cb (GtkTextBuffer *textbuffer,
 	GtkTextTag    *tag;
 	GtkTextIter   iter;
 	GList *l = hf_state->marks;
-	
+
 	tag = gtk_text_tag_table_lookup (gtk_text_buffer_get_tag_table (textbuffer),
 					 HF_TAG_NAME);
 	gtk_text_iter_order (start, end);
@@ -1169,7 +1169,7 @@ buffer_delete_range_cb (GtkTextBuffer *textbuffer,
 	/* Deleting all of our marks from this range */
 	while (l) {
 		HFMarkInfo *info = l->data;
-		
+
 		if (gtk_text_mark_get_buffer (info->mark) == textbuffer) {
 			gtk_text_buffer_get_iter_at_mark (textbuffer, &iter, info->mark);
 			if (gtk_text_iter_in_range (&iter, start, end))
@@ -1249,13 +1249,13 @@ text_get (HFCustomizeState *hf_state, GtkTextBuffer *buffer)
 	while (l) {
 		HFMarkInfo *m = l->data;
 		if (gtk_text_mark_get_buffer (m->mark) == buffer)
-			sorted_marks = g_list_insert_sorted 
+			sorted_marks = g_list_insert_sorted
 				(sorted_marks, m, (GCompareFunc) mark_info_compare);
 		l = l->next;
 	}
 
 	gtk_text_buffer_get_bounds (buffer, &start, &end);
-	
+
 	l = sorted_marks;
 	while (l) {
 		HFMarkInfo *m = l->data;
@@ -1269,7 +1269,7 @@ text_get (HFCustomizeState *hf_state, GtkTextBuffer *buffer)
 		start = mark_position;
 		l = l->next;
 	}
-	g_list_free (sorted_marks);	
+	g_list_free (sorted_marks);
 	text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
 	g_string_append (string, text);
 	g_free (text);
@@ -1375,19 +1375,19 @@ is_known_tag (HFCustomizeState* hf_state, GtkTextBuffer *buffer, char const *tag
 
 	if (check_hf_tag (tag, "FILE", &options, length))
 		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_FILE, options);
-	else if (check_hf_tag (tag, "PATH", &options, length)) 
+	else if (check_hf_tag (tag, "PATH", &options, length))
 		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_PATH, options);
-	else if (check_hf_tag (tag, "PAGES", &options, length)) 
+	else if (check_hf_tag (tag, "PAGES", &options, length))
 		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_PAGES, options);
-	else if (check_hf_tag (tag, "PAGE", &options, length)) 
+	else if (check_hf_tag (tag, "PAGE", &options, length))
 		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_PAGE, options);
-	else if (check_hf_tag (tag, "TAB", &options, length)) 
+	else if (check_hf_tag (tag, "TAB", &options, length))
 		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_SHEET, options);
-	else if (check_hf_tag (tag, "DATE", &options, length)) 
+	else if (check_hf_tag (tag, "DATE", &options, length))
 		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_DATE, options);
-	else if (check_hf_tag (tag, "TIME", &options, length)) 
+	else if (check_hf_tag (tag, "TIME", &options, length))
 		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_TIME, options);
-	else if (check_hf_tag (tag, "CELL", &options, length)) 
+	else if (check_hf_tag (tag, "CELL", &options, length))
 		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_CELL, options);
 	else return FALSE;
 	return TRUE;
@@ -1402,7 +1402,7 @@ add_text_to_buffer (HFCustomizeState* hf_state, GtkTextBuffer *buffer, char cons
 	GtkTextIter iter;
 
 	g_return_if_fail (here != NULL);
-	
+
 	while (*here) {
 		if (here[0] == '&' && here[1] == '[') {
 			end = g_utf8_strchr (here, -1, closing);
@@ -1413,7 +1413,7 @@ add_text_to_buffer (HFCustomizeState* hf_state, GtkTextBuffer *buffer, char cons
 				if (!is_known_tag ( hf_state, buffer, here, end - here + 1)) {
 					gtk_text_buffer_get_end_iter (buffer, &iter);
 					gtk_text_buffer_insert_with_tags_by_name
-						(buffer, &iter, here, end - here + 1, 
+						(buffer, &iter, here, end - here + 1,
 						 HF_TAG_NAME, NULL);
 				}
 				here = end + 1;
@@ -1431,7 +1431,7 @@ add_text_to_buffer (HFCustomizeState* hf_state, GtkTextBuffer *buffer, char cons
 			}
 		}
 	}
-	
+
 	gtk_text_buffer_set_modified (buffer, FALSE);
 }
 
@@ -1459,7 +1459,7 @@ hf_attach_insert_date_menu (GtkMenuToolButton *button, HFCustomizeState* hf_stat
 	GtkWidget *menu = NULL;
 	GtkWidget *item = NULL;
 
-	g_signal_connect 
+	g_signal_connect
 		(G_OBJECT (button),
 		 "clicked", G_CALLBACK (hf_insert_date_cb), hf_state);
 
@@ -1481,7 +1481,7 @@ hf_attach_insert_date_menu (GtkMenuToolButton *button, HFCustomizeState* hf_stat
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
 	item = gtk_menu_item_new_with_label (("YYYY/MM/DD"));
-	g_signal_connect 
+	g_signal_connect
 		(G_OBJECT (item),
 		 "activate", G_CALLBACK (hf_insert_date_cb), hf_state);
 	g_object_set_data_full (G_OBJECT (item), "options", g_strdup("YYYY/MM/DD"), g_free);
@@ -1497,7 +1497,7 @@ hf_attach_insert_time_menu (GtkMenuToolButton *button, HFCustomizeState* hf_stat
 	GtkWidget *menu = NULL;
 	GtkWidget *item = NULL;
 
-	g_signal_connect 
+	g_signal_connect
 		(G_OBJECT (button),
 		 "clicked", G_CALLBACK (hf_insert_time_cb), hf_state);
 
@@ -1519,7 +1519,7 @@ hf_attach_insert_time_menu (GtkMenuToolButton *button, HFCustomizeState* hf_stat
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
 	item = gtk_menu_item_new_with_label (("HH:MM:SS"));
-	g_signal_connect 
+	g_signal_connect
 		(G_OBJECT (item),
 		 "activate", G_CALLBACK (hf_insert_time_cb), hf_state);
 	g_object_set_data_full (G_OBJECT (item), "options", g_strdup("HH:MM:SS"), g_free);
@@ -1535,14 +1535,14 @@ hf_attach_insert_cell_menu (GtkMenuToolButton *button, HFCustomizeState* hf_stat
 	GtkWidget *menu = NULL;
 	GtkWidget *item = NULL;
 
-	g_signal_connect 
+	g_signal_connect
 		(G_OBJECT (button),
 		 "clicked", G_CALLBACK (hf_insert_cell_cb), hf_state);
 
 	menu = gtk_menu_new ();
 
 	item = gtk_menu_item_new_with_label (("A1 (first cell of the page area)"));
-	g_signal_connect 
+	g_signal_connect
 		(G_OBJECT (item),
 		 "activate", G_CALLBACK (hf_insert_cell_cb), hf_state);
 	g_object_set_data_full (G_OBJECT (item), "options", g_strdup("A1"), g_free);
@@ -1556,7 +1556,7 @@ hf_attach_insert_cell_menu (GtkMenuToolButton *button, HFCustomizeState* hf_stat
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
 	item = gtk_menu_item_new_with_label (("First Printed Cell Of The Page)"));
-	g_signal_connect 
+	g_signal_connect
 		(G_OBJECT (item),
 		 "activate", G_CALLBACK (hf_insert_cell_cb), hf_state);
 	g_object_set_data_full (G_OBJECT (item), "options", g_strdup("rep|A1"), g_free);
@@ -1576,7 +1576,7 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	GladeXML *gui;
 	GtkTextView *left, *middle, *right;
 	GtkTextBuffer *left_buffer, *middle_buffer, *right_buffer;
-	
+
 	GtkWidget *dialog;
 	HFCustomizeState* hf_state;
 	GtkToolButton *button;
@@ -1620,7 +1620,7 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 		state->customize_footer = dialog;
 		gtk_window_set_title (GTK_WINDOW (dialog), _("Custom footer configuration"));
 	}
-	
+
 	hf_state->left_buffer = left_buffer = gtk_text_view_get_buffer (left);
 	hf_state->middle_buffer = middle_buffer = gtk_text_view_get_buffer (middle);
 	hf_state->right_buffer = right_buffer = gtk_text_view_get_buffer (right);
@@ -1633,18 +1633,18 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	add_text_to_buffer (hf_state, middle_buffer, (*(hf_state->hf))->middle_format);
 	add_text_to_buffer (hf_state, right_buffer, (*(hf_state->hf))->right_format);
 
-	g_signal_connect (G_OBJECT (left_buffer), "delete-range",  
+	g_signal_connect (G_OBJECT (left_buffer), "delete-range",
 			  G_CALLBACK (buffer_delete_range_cb), hf_state);
-	g_signal_connect (G_OBJECT (middle_buffer), "delete-range",  
+	g_signal_connect (G_OBJECT (middle_buffer), "delete-range",
 			  G_CALLBACK (buffer_delete_range_cb), hf_state);
-	g_signal_connect (G_OBJECT (right_buffer), "delete-range",  
+	g_signal_connect (G_OBJECT (right_buffer), "delete-range",
 			  G_CALLBACK (buffer_delete_range_cb), hf_state);
 
 	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "apply_button")),
 		"clicked", G_CALLBACK (hf_customize_apply), hf_state);
 	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "ok_button")),
 		"clicked", G_CALLBACK (hf_customize_ok), hf_state);
-	g_signal_connect_swapped 
+	g_signal_connect_swapped
 		(G_OBJECT (glade_xml_get_widget (gui, "cancel_button")),
 		 "clicked", G_CALLBACK (gtk_widget_destroy), dialog);
 	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "apply_button"), FALSE);
@@ -1652,11 +1652,11 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 
 	if (header)
 		g_signal_connect (G_OBJECT (dialog), "destroy",
-				  G_CALLBACK (gtk_widget_destroyed), 
+				  G_CALLBACK (gtk_widget_destroyed),
 				  &state->customize_header);
 	else
 		g_signal_connect (G_OBJECT (dialog), "destroy",
-				  G_CALLBACK (gtk_widget_destroyed), 
+				  G_CALLBACK (gtk_widget_destroyed),
 				  &state->customize_footer);
 
 
@@ -1675,7 +1675,7 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 		header  ? GNUMERIC_HELP_LINK_PRINTER_SETUP_HEADER_CUSTOMIZATION
 			: GNUMERIC_HELP_LINK_PRINTER_SETUP_FOOTER_CUSTOMIZATION);
 
-	g_signal_connect_swapped 
+	g_signal_connect_swapped
 		(G_OBJECT (glade_xml_get_widget (gui, "delete-button")),
 		 "clicked", G_CALLBACK (hf_delete_tag_cb), hf_state);
 
@@ -1685,19 +1685,19 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 
 	button = GTK_TOOL_BUTTON (glade_xml_get_widget (gui, "insert-page-button"));
 	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Page");
-	g_signal_connect_swapped 
+	g_signal_connect_swapped
 		(G_OBJECT (button),
 		 "clicked", G_CALLBACK (hf_insert_page_cb), hf_state);
 
 	button = GTK_TOOL_BUTTON (glade_xml_get_widget (gui, "insert-pages-button"));
 	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Pages");
-	g_signal_connect_swapped 
+	g_signal_connect_swapped
 		(G_OBJECT (button),
 		 "clicked", G_CALLBACK (hf_insert_pages_cb), hf_state);
 
 	button = GTK_TOOL_BUTTON (glade_xml_get_widget (gui, "insert-sheet-button"));
 	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Sheet");
-	g_signal_connect_swapped 
+	g_signal_connect_swapped
 		(G_OBJECT (button),
 		 "clicked", G_CALLBACK (hf_insert_sheet_cb), hf_state);
 
@@ -1705,24 +1705,24 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Time");
 	hf_attach_insert_time_menu (GTK_MENU_TOOL_BUTTON (button), hf_state);
 
-	g_signal_connect_swapped 
+	g_signal_connect_swapped
 		(G_OBJECT (glade_xml_get_widget (gui, "insert-file-button")),
 		 "clicked", G_CALLBACK (hf_insert_file_cb), hf_state);
 
-	g_signal_connect_swapped 
+	g_signal_connect_swapped
 		(G_OBJECT (glade_xml_get_widget (gui, "insert-path-button")),
 		 "clicked", G_CALLBACK (hf_insert_path_cb), hf_state);
 
 	button = GTK_TOOL_BUTTON (glade_xml_get_widget (gui, "insert-cell-button"));
 	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Cell");
 	hf_attach_insert_cell_menu (GTK_MENU_TOOL_BUTTON (button), hf_state);
-	
+
 
 	/* Let them begin typing into the first entry widget. */
 	gtk_widget_grab_focus (GTK_WIDGET (left));
 
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), 
-				      GTK_WINDOW (state->dialog)); 
+	gtk_window_set_transient_for (GTK_WINDOW (dialog),
+				      GTK_WINDOW (state->dialog));
 
 	/* The following would cause the dialog to be below the page setup dialog: */
 /*	go_gtk_window_set_transient (GTK_WINDOW (dialog), GTK_WINDOW (state->dialog)); */
@@ -1747,7 +1747,7 @@ static char *
 do_hf_dt_format_customize (gboolean date, HFCustomizeState *hf_state)
 {
 	GladeXML *gui;
-	
+
 	GtkWidget *dialog, *format_sel, *table;
 	HFDTFormatState* hf_dt_state;
 	gint result;
@@ -1771,7 +1771,7 @@ do_hf_dt_format_customize (gboolean date, HFCustomizeState *hf_state)
 	} else {
 		gtk_window_set_title (GTK_WINDOW (dialog), _("Time format selection"));
 	}
-	
+
 	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "ok_button")),
 		"clicked", G_CALLBACK (hf_dt_customize_ok), hf_dt_state);
 
@@ -1787,8 +1787,8 @@ do_hf_dt_format_customize (gboolean date, HFCustomizeState *hf_state)
 		return NULL;
 	}
 	hf_dt_state->format_sel = format_sel = go_format_sel_new ();
-	go_format_sel_set_style_format 
-		(GO_FORMAT_SEL (format_sel), 
+	go_format_sel_set_style_format
+		(GO_FORMAT_SEL (format_sel),
 		 date ? go_format_default_date () : go_format_default_time ());
 
 	gtk_widget_show_all (dialog);
@@ -1826,7 +1826,7 @@ header_preview_event (G_GNUC_UNUSED GocCanvas *canvas,
 	    event->type != GDK_2BUTTON_PRESS ||
 	    event->button.button != 1)
 		return FALSE;
-	do_hf_customize (TRUE, state); 
+	do_hf_customize (TRUE, state);
 	return TRUE;
 }
 
@@ -1838,7 +1838,7 @@ footer_preview_event (G_GNUC_UNUSED GocCanvas *canvas,
 	    event->type != GDK_2BUTTON_PRESS ||
 	    event->button.button != 1)
 		return FALSE;
-	do_hf_customize (FALSE, state); 
+	do_hf_customize (FALSE, state);
 	return TRUE;
 }
 
@@ -1897,8 +1897,8 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 	style = gnm_conf_get_printer_decoration_font ();
 	font_desc = pango_font_description_new ();
 	pango_font_description_set_family (font_desc, gnm_style_get_font_name (style));
-	pango_font_description_set_style 
-		(font_desc, gnm_style_get_font_italic (style) ? 
+	pango_font_description_set_style
+		(font_desc, gnm_style_get_font_italic (style) ?
 		 PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL);
 	pango_font_description_set_variant (font_desc, PANGO_VARIANT_NORMAL);
 	pango_font_description_set_weight (font_desc, PANGO_WEIGHT_NORMAL);
@@ -1914,7 +1914,7 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		"text",		"Left",
 		NULL);
 	gostyle = go_styled_object_get_style (GO_STYLED_OBJECT (pi->left));
-	go_style_set_font_desc (gostyle, pango_font_description_copy (font_desc)); 
+	go_style_set_font_desc (gostyle, pango_font_description_copy (font_desc));
 
 	pi->middle = goc_item_new (
 		goc_canvas_get_root (GOC_CANVAS (pi->canvas)),
@@ -1925,7 +1925,7 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		"text",		"Center",
 		NULL);
 	gostyle = go_styled_object_get_style (GO_STYLED_OBJECT (pi->left));
-	go_style_set_font_desc (gostyle, pango_font_description_copy (font_desc)); 
+	go_style_set_font_desc (gostyle, pango_font_description_copy (font_desc));
 
 	pi->right =  goc_item_new (
 		goc_canvas_get_root (GOC_CANVAS (pi->canvas)),
@@ -1936,7 +1936,7 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		"text",		"Right",
 		NULL);
 	gostyle = go_styled_object_get_style (GO_STYLED_OBJECT (pi->left));
-	go_style_set_font_desc (gostyle, pango_font_description_copy (font_desc)); 
+	go_style_set_font_desc (gostyle, pango_font_description_copy (font_desc));
 
 	pango_font_description_free (font_desc);
 
@@ -2033,7 +2033,7 @@ static void
 load_print_area (PrinterSetupState *state)
 {
 	GnmRange *print_area;
-	
+
 	print_area = sheet_get_nominal_printarea
 		(wb_control_cur_sheet
 		 (WORKBOOK_CONTROL (state->wbcg)));
@@ -2108,15 +2108,15 @@ do_setup_page_info (PrinterSetupState *state)
 
 	g_signal_connect (G_OBJECT (order_rd), "toggled", G_CALLBACK (display_order_icon), state);
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gridlines), 
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gridlines),
 				      state->pi->print_grid_lines);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (onlystyles), 
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (onlystyles),
 				      state->pi->print_even_if_only_styles);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (bw), 
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (bw),
 				      state->pi->print_black_and_white);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (titles), 
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (titles),
 				      state->pi->print_titles);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (do_not_print), 
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (do_not_print),
 				      state->pi->do_not_print);
 
 	order = state->pi->print_across_then_down ? order_rd : order_dr;
@@ -2238,19 +2238,19 @@ do_update_page (PrinterSetupState *state)
 
 	switch (print_info_get_paper_orientation (state->pi)) {
 	case GTK_PAGE_ORIENTATION_PORTRAIT:
-		gtk_toggle_button_set_active 
+		gtk_toggle_button_set_active
 			(GTK_TOGGLE_BUTTON (state->portrait_radio), TRUE);
 		break;
 	case GTK_PAGE_ORIENTATION_REVERSE_PORTRAIT:
-		gtk_toggle_button_set_active 
+		gtk_toggle_button_set_active
 			(GTK_TOGGLE_BUTTON (state->rev_portrait_radio), TRUE);
 		break;
 	case GTK_PAGE_ORIENTATION_LANDSCAPE:
-		gtk_toggle_button_set_active 
+		gtk_toggle_button_set_active
 			(GTK_TOGGLE_BUTTON (state->landscape_radio), TRUE);
 		break;
 	default:
-		gtk_toggle_button_set_active 
+		gtk_toggle_button_set_active
 			(GTK_TOGGLE_BUTTON (state->rev_landscape_radio), TRUE);
 		break;
 	}
@@ -2260,13 +2260,13 @@ do_update_page (PrinterSetupState *state)
 static void
 orientation_changed_cb (PrinterSetupState *state)
 {
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->portrait_radio))) 
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->portrait_radio)))
 		print_info_set_paper_orientation (state->pi, GTK_PAGE_ORIENTATION_PORTRAIT);
-	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->rev_portrait_radio))) 
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->rev_portrait_radio)))
 		print_info_set_paper_orientation (state->pi, GTK_PAGE_ORIENTATION_REVERSE_PORTRAIT);
-	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->landscape_radio))) 
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->landscape_radio)))
 		print_info_set_paper_orientation (state->pi, GTK_PAGE_ORIENTATION_LANDSCAPE);
-	else 
+	else
 		print_info_set_paper_orientation (state->pi, GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE);
 	do_update_page (state);
 }
@@ -2278,9 +2278,9 @@ do_setup_page (PrinterSetupState *state)
 
 	gui = state->gui;
 
-	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "paper-button")), 
-		"clicked", 
-		G_CALLBACK (dialog_gtk_printer_setup_cb), state); 
+	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "paper-button")),
+		"clicked",
+		G_CALLBACK (dialog_gtk_printer_setup_cb), state);
 
 	state->portrait_radio = glade_xml_get_widget (gui, "portrait-button");
 	state->landscape_radio = glade_xml_get_widget (gui, "landscape-button");
@@ -2295,9 +2295,9 @@ do_setup_page (PrinterSetupState *state)
 				  G_CALLBACK (orientation_changed_cb), state);
 
 	do_setup_margin (state);
-	
+
 	do_update_page (state);
-	
+
 }
 
 
@@ -2314,11 +2314,11 @@ static void
 scaling_fit_to_h_changed (GtkToggleButton *toggle, PrinterSetupState *state)
 {
 	gboolean scale_fit_to_h   = gtk_toggle_button_get_active (toggle);
-	gtk_widget_set_sensitive 
-		(GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-h-spin")), 
+	gtk_widget_set_sensitive
+		(GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-h-spin")),
 		 scale_fit_to_h);
-	gtk_widget_set_sensitive 
-		(GTK_WIDGET (glade_xml_get_widget (state->gui, "fit-h-check-label")), 
+	gtk_widget_set_sensitive
+		(GTK_WIDGET (glade_xml_get_widget (state->gui, "fit-h-check-label")),
 		 scale_fit_to_h);
 }
 
@@ -2332,7 +2332,7 @@ scaling_fit_to_v_changed (GtkToggleButton *toggle, PrinterSetupState *state)
         gtk_widget_set_sensitive
                 (GTK_WIDGET (glade_xml_get_widget (state->gui, "fit-v-check-label")),
                  scale_fit_to_v);
-}                           
+}
 
 static void
 scaling_fit_to_changed (GtkToggleButton *toggle, PrinterSetupState *state)
@@ -2340,7 +2340,7 @@ scaling_fit_to_changed (GtkToggleButton *toggle, PrinterSetupState *state)
 	gboolean scale_fit_to  = gtk_toggle_button_get_active (toggle);
 
 	if (scale_fit_to) {
-		scaling_fit_to_h_changed (GTK_TOGGLE_BUTTON 
+		scaling_fit_to_h_changed (GTK_TOGGLE_BUTTON
 					  (glade_xml_get_widget (state->gui, "fit-h-check")), state);
 		scaling_fit_to_v_changed (GTK_TOGGLE_BUTTON
 					  (glade_xml_get_widget (state->gui, "fit-v-check")), state);
@@ -2384,20 +2384,20 @@ do_setup_scale (PrinterSetupState *state)
 
 	scaling_percent_changed (GTK_TOGGLE_BUTTON (state->scale_percent_radio), state);
 	scaling_fit_to_changed (GTK_TOGGLE_BUTTON (state->scale_fit_to_radio), state);
-	
 
-	if (pi->scaling.type == PRINT_SCALE_PERCENTAGE) { 
+
+	if (pi->scaling.type == PRINT_SCALE_PERCENTAGE) {
 		if (pi->scaling.percentage.x  == 100.)
 			gtk_toggle_button_set_active
 				(GTK_TOGGLE_BUTTON (state->scale_no_radio), TRUE);
 		else
 			gtk_toggle_button_set_active
 				(GTK_TOGGLE_BUTTON (state->scale_percent_radio), TRUE);
-	} else { 
-		gtk_toggle_button_set_active  
-			(GTK_TOGGLE_BUTTON (state->scale_fit_to_radio), TRUE); 
-	} 
-	
+	} else {
+		gtk_toggle_button_set_active
+			(GTK_TOGGLE_BUTTON (state->scale_fit_to_radio), TRUE);
+	}
+
 	scale_percent_spin = glade_xml_get_widget (gui, "scale-percent-spin");
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (scale_percent_spin), pi->scaling.percentage.x);
@@ -2464,7 +2464,7 @@ cb_do_print_ok (PrinterSetupState *state)
 	fetch_settings (state);
 	if (gtk_toggle_button_get_active (
 		    GTK_TOGGLE_BUTTON (
-			    glade_xml_get_widget (state->gui, 
+			    glade_xml_get_widget (state->gui,
 						  "is_default_check")))) {
 		print_info_save (state->pi);
 	}
@@ -2486,11 +2486,11 @@ cb_do_print (PrinterSetupState *state)
 static void
 cb_do_print_destroy (PrinterSetupState *state)
 {
-	if (state->customize_header) 
-		gtk_widget_destroy (state->customize_header); 
+	if (state->customize_header)
+		gtk_widget_destroy (state->customize_header);
 
-	if (state->customize_footer) 
-		gtk_widget_destroy (state->customize_footer); 
+	if (state->customize_footer)
+		gtk_widget_destroy (state->customize_footer);
 
 	g_object_unref (state->gui);
 
@@ -2560,13 +2560,13 @@ do_setup_main_dialog (PrinterSetupState *state)
 
 	state->dialog = glade_xml_get_widget (state->gui, "print-setup");
 
-	w = glade_xml_get_widget (state->gui, "ok"); 
-	g_signal_connect_swapped (G_OBJECT (w), 
-		"clicked", 
-		G_CALLBACK (cb_do_print_ok), state); 
-	w = glade_xml_get_widget (state->gui, "print"); 
-	g_signal_connect_swapped (G_OBJECT (w), 
-		"clicked", 
+	w = glade_xml_get_widget (state->gui, "ok");
+	g_signal_connect_swapped (G_OBJECT (w),
+		"clicked",
+		G_CALLBACK (cb_do_print_ok), state);
+	w = glade_xml_get_widget (state->gui, "print");
+	g_signal_connect_swapped (G_OBJECT (w),
+		"clicked",
 		G_CALLBACK (cb_do_print), state);
 	w = glade_xml_get_widget (state->gui, "preview");
 	g_signal_connect_swapped (G_OBJECT (w),
@@ -2576,10 +2576,10 @@ do_setup_main_dialog (PrinterSetupState *state)
 	g_signal_connect_swapped (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (cb_do_print_cancel), state);
-	
+
 	w = glade_xml_get_widget (state->gui, "print-setup-notebook");
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (w), 0);
-	
+
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_do_print_destroy);
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);
@@ -2602,12 +2602,12 @@ printer_setup_state_new (WBCGtk *wbcg, Sheet *sheet)
 	state->gui   = gui;
 	state->pi    = print_info_dup (sheet->print_info);
 	state->display_unit = state->pi->desired_display.top;
-	state->customize_header = NULL; 
-	state->customize_footer = NULL; 
+	state->customize_header = NULL;
+	state->customize_footer = NULL;
 
 	do_setup_main_dialog (state);
 	do_setup_sheet_selector (state);
-	do_setup_hf (state); 
+	do_setup_hf (state);
 	do_setup_page_info (state);
 	do_setup_page (state);
 	do_setup_scale (state);
@@ -2663,7 +2663,7 @@ do_fetch_scale (PrinterSetupState *state)
 		state->pi->scaling.dim.cols =
 			gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (w));
 	}
-	
+
 	w = glade_xml_get_widget (gui, "fit-v-check");
 	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)))
 		state->pi->scaling.dim.rows = 0;
@@ -2722,13 +2722,13 @@ do_fetch_page_info (PrinterSetupState *state)
 {
 	PrintInformation *pi = state->pi;
 
-	pi->print_grid_lines = gtk_toggle_button_get_active 
+	pi->print_grid_lines = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "check-grid-lines")));
-	pi->print_even_if_only_styles = gtk_toggle_button_get_active 
+	pi->print_even_if_only_styles = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "check-only-styles")));
-	pi->print_black_and_white = gtk_toggle_button_get_active 
+	pi->print_black_and_white = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "check-black-white")));
-	pi->print_titles = gtk_toggle_button_get_active 
+	pi->print_titles = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "check-print-titles")));
 	pi->print_across_then_down = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "radio-order-right")));
@@ -2770,7 +2770,7 @@ static void
 dialog_gtk_printer_setup_cb (PrinterSetupState *state)
 {
 	GtkPageSetup *page_setup = print_info_get_page_setup (state->pi);
-	
+
 	gtk_print_run_page_setup_dialog_async
 		(GTK_WINDOW (state->dialog),
 		 page_setup,
@@ -2801,7 +2801,7 @@ dialog_printer_setup (WBCGtk *wbcg, Sheet *sheet)
 	if (!state)
 		return;
 
-	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), 
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog),
 					   state->wbcg,
 					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
 

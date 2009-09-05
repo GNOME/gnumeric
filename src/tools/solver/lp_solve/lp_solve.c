@@ -711,13 +711,13 @@ typedef struct _MATrec
   int       mat_alloc;          /* The allocated size for matrix sized structures */
 
   /* Sparse problem matrix storage */
-#if MatrixColAccess==CAM_Record  
+#if MatrixColAccess==CAM_Record
   MATitem   *col_mat;           /* mat_alloc : The sparse data storage */
 #else /*MatrixColAccess==CAM_Vector*/
   int       *col_mat_colnr;
   int       *col_mat_rownr;
   gnm_float      *col_mat_value;
-#endif  
+#endif
   int       *col_end;           /* columns_alloc+1 : col_end[i] is the index of the
                                    first element after column i; column[i] is stored
                                    in elements col_end[i-1] to col_end[i]-1 */
@@ -815,7 +815,7 @@ STATIC void btran(lprec *lp, gnm_float *rhsvector, int *nzidx, gnm_float roundze
 /* Combined equation solution and matrix product for simplex operations */
 STATIC gboolean fsolve(lprec *lp, int varin, gnm_float *pcol, int *nzidx, gnm_float roundzero, gnm_float ofscalar, gboolean prepareupdate);
 STATIC gboolean bsolve(lprec *lp, int row_nr, gnm_float *rhsvector, int *nzidx, gnm_float roundzero, gnm_float ofscalar);
-STATIC void bsolve_xA2(lprec *lp, int* coltarget, 
+STATIC void bsolve_xA2(lprec *lp, int* coltarget,
                                   int row_nr1, gnm_float *vector1, gnm_float roundzero1, int *nzvector1,
                                   int row_nr2, gnm_float *vector2, gnm_float roundzero2, int *nzvector2, int roundmode);
 
@@ -932,7 +932,7 @@ static gboolean SOS_set_marked(SOSgroup *group, int sosindex, int column, gboole
 static gboolean SOS_unmark(SOSgroup *group, int sosindex, int column);
 static int SOS_fix_unmarked(SOSgroup *group, int sosindex, int variable, gnm_float *bound, gnm_float value,
                      gboolean isupper, int *diffcount, DeltaVrec *changelog);
-static int SOS_fix_list(SOSgroup *group, int sosindex, int variable, gnm_float *bound, 
+static int SOS_fix_list(SOSgroup *group, int sosindex, int variable, gnm_float *bound,
                   int *varlist, gboolean isleft, DeltaVrec *changelog);
 static int SOS_is_satisfied(SOSgroup *group, int sosindex, gnm_float *solution);
 static gboolean SOS_is_feasible(SOSgroup *group, int sosindex, gnm_float *solution);
@@ -3806,7 +3806,7 @@ static int getMDO(lprec *lp, gboolean *usedpos, int *colorder, int *size, gboole
 /* If mode = 3,4,5,6, v and w must not be the same arrays.
    If lu1fac has just been used to factorize a symmetric matrix A
    (which must be definite or quasi-definite), the factors A = L U
-   may be regarded as A = LDL', where D = diag(U).  In such cases, 
+   may be regarded as A = LDL', where D = diag(U).  In such cases,
    the following (faster) lp_solve_solve codes may be used:                  */
 #define LUSOL_SOLVE_Av_v             7  /* v  solves   A v = L D L'v = v(input). w  is not touched. */
 #define LUSOL_SOLVE_LDLtv_v          8  /* v  solves       L |D| L'v = v(input). w  is not touched. */
@@ -3871,14 +3871,14 @@ typedef struct _LUSOLrec {
 
   /* Extra arrays of length n for TCP and keepLU == FALSE */
   gnm_float   *Ha, *diagU;
-  int    *Hj, *Hk; 
+  int    *Hj, *Hk;
 
   /* Extra arrays of length m for TRP*/
   gnm_float   *amaxr;
 
   /* Extra array for L0 stored by row for faster btran */
   LUSOLmat *L0;
-  
+
   /* Miscellaneous data */
   int    expanded_a;
   int    replaced_c;
@@ -3889,7 +3889,7 @@ typedef struct _LUSOLrec {
 
 static LUSOLrec *LUSOL_create(FILE *outstream, int msgfil, int pivotmodel, int updatelimit);
 static gboolean LUSOL_sizeto(LUSOLrec *LUSOL, int init_r, int init_c, int init_a);
-static gboolean LUSOL_assign(LUSOLrec *LUSOL, int iA[], int jA[], gnm_float Aij[], 
+static gboolean LUSOL_assign(LUSOLrec *LUSOL, int iA[], int jA[], gnm_float Aij[],
                                      int nzcount, gboolean istriplet);
 static void LUSOL_clear(LUSOLrec *LUSOL, gboolean nzonly);
 static void LUSOL_free(LUSOLrec *LUSOL);
@@ -3914,8 +3914,8 @@ static int LUSOL_btran(LUSOLrec *LUSOL, gnm_float b[], int NZidx[]);
 static void LU1FAC(LUSOLrec *LUSOL, int *INFORM);
 static gboolean LU1L0(LUSOLrec *LUSOL, LUSOLmat **mat, int *inform);
 static void LU6SOL(LUSOLrec *LUSOL, int MODE, gnm_float V[], gnm_float W[], int NZidx[], int *INFORM);
-static void LU8RPC(LUSOLrec *LUSOL, int MODE1, int MODE2, 
-            int JREP, gnm_float V[], gnm_float W[], 
+static void LU8RPC(LUSOLrec *LUSOL, int MODE1, int MODE2,
+            int JREP, gnm_float V[], gnm_float W[],
             int *INFORM, gnm_float *DIAG, gnm_float *VNORM);
 
 
@@ -4008,7 +4008,7 @@ extern "C" {
 #define BFP_STAT_REFACT_DENSE    2
 
 
- 
+
 
 /* Routines with UNIQUE implementations for each inversion engine                     */
 /* ---------------------------------------------------------------------------------- */
@@ -4167,7 +4167,7 @@ static gnm_float my_dnormi( int *n, gnm_float *x );
 /*                   modifying the max_Bsize to include slack variables. KE.          */
 /* 16 June 2004      Make the symbolic minimum degree ordering routine available      */
 /*                   to BFPs as a routine internal to the library. KE                 */
-/* 1  July 2004      Change due to change in MDO naming.                              */ 
+/* 1  July 2004      Change due to change in MDO naming.                              */
 /* ---------------------------------------------------------------------------------- */
 
 
@@ -4175,11 +4175,11 @@ static gnm_float my_dnormi( int *n, gnm_float *x );
 static gboolean bfp_compatible(lprec *lp, int bfpversion, int lpversion, int sizeofvar)
 {
   gboolean status = FALSE;
-  
+
   if((lp != NULL) && (bfpversion == BFPVERSION) && (sizeof(gnm_float) == sizeofvar)) {
-#if 0  
+#if 0
     if(lpversion == MAJORVERSION)  /* Forces BFP renewal at lp_solve major version changes */
-#endif    
+#endif
       status = TRUE;
   }
   return( status );
@@ -4280,17 +4280,17 @@ static gboolean bfp_mustrefactorize(lprec *lp)
       if((lu->timed_refact == AUTOMATIC) &&
          (lu->num_pivots < 0.4*lp->bfp_pivotmax(lp)))
         lu->time_refactnext = f;
-      /* ... otherwise set flag for the optimal time-based refactorization */  
+      /* ... otherwise set flag for the optimal time-based refactorization */
       else
         lp->set_action(&lp->spx_action, ACTION_TIMEDREINVERT);
     }
-    
+
     /* Otherwise simply update the optimal time metric */
     else
       lu->time_refactnext = f;
 #if 0
-    if(lu->num_pivots % 10 == 0)  
-      lp->report(lp, NORMAL, "bfp pivot %d - start %f - timestat %f", 
+    if(lu->num_pivots % 10 == 0)
+      lp->report(lp, NORMAL, "bfp pivot %d - start %f - timestat %f",
                              lu->num_pivots, lu->time_refactstart, f);
 #endif
   }
@@ -4342,7 +4342,7 @@ static gboolean bfp_init(lprec *lp, int size, int delta, char *options)
 
   lp->invB = g_new0 (INVrec , 1);
   lu = lp->invB;
-  if((lu == NULL) || 
+  if((lu == NULL) ||
      !lp->bfp_resize(lp, size) ||
      !lp->bfp_restart(lp))
     return( FALSE );
@@ -6129,7 +6129,7 @@ static gboolean LU1L0(LUSOLrec *LUSOL, LUSOLmat **mat, int *inform)
 
   /* Check if we should apply "smarts" before proceeding to the row matrix creation */
   if((LUSOL->luparm[LUSOL_IP_USEROWL0] == LUSOL_AUTOORDER) &&
-     ((gnm_float) LUSOL->luparm[LUSOL_IP_ROWCOUNT_L0] / 
+     ((gnm_float) LUSOL->luparm[LUSOL_IP_ROWCOUNT_L0] /
 #if 0
              LUSOL->luparm[LUSOL_IP_COLCOUNT_L0]
 #else
@@ -6533,12 +6533,12 @@ static void LU6CHK(LUSOLrec *LUSOL, int MODE, int LENA2, int *INFORM)
        Negate w(j) if the corresponding diagonal of U is
        too small in absolute terms or relative to the other elements
        in the same column of  U.
-      
+
        23 Apr 2004: TRP ensures that diags are NOT small relative to
                     other elements in their own column.
                     Much better, we can compare all diags to DUmax.
       -------------------------------------------------------------- */
-  if((MODE == 1) && TRP) 
+  if((MODE == 1) && TRP)
     UTOL1 = MAX( UTOL1, UTOL2*DUMAX );
 
   if(KEEPLU) {
@@ -6782,7 +6782,7 @@ static void LU6LT(LUSOLrec *LUSOL, int *INFORM, gnm_float V[], int NZidx[])
   *INFORM = LUSOL_INFORM_LUSUCCESS;
   L1 = (LUSOL->lena-LENL)+1;
   L2 = LUSOL->lena-LENL0;
-  
+
 /*     ***** This loop could be coded specially. */
 #if (defined LUSOLFastSolve) && !(defined DoTraceL0)
   for(L = L1, aptr = LUSOL->a+L1, iptr = LUSOL->indr+L1, jptr = LUSOL->indc+L1;
@@ -6811,7 +6811,7 @@ static void LU6LT(LUSOLrec *LUSOL, int *INFORM, gnm_float V[], int NZidx[])
 #endif
 
   /* Do row-based L0 version, if available */
-  if((LUSOL->L0 != NULL) || 
+  if((LUSOL->L0 != NULL) ||
      ((LUSOL->luparm[LUSOL_IP_BTRANCOUNT] == 0) && LU1L0(LUSOL, &(LUSOL->L0), INFORM))) {
     LU6L0T_v(LUSOL, LUSOL->L0, V, NZidx, INFORM);
   }
@@ -8584,7 +8584,7 @@ static void LU1FUL(LUSOLrec *LUSOL, int LEND, int LU1, gboolean TPP,
   MEMCLEAR((D+1), LEND);
 #else
 /*   dload(LEND, ZERO, D, 1); */
-  for(J = 1; J <= LEND; J++) 
+  for(J = 1; J <= LEND; J++)
     D[J] = ZERO;
 #endif
 
@@ -9566,7 +9566,7 @@ x300:
     /* Check if we need to allocate more memory, and allocate if necessary */
 #if 0  /* Proposal by Michael A. Saunders (logic based on Markowitz' rule) */
     L = NROWD*NCOLD;
-    
+
     /* Try to avoid future expansions by anticipating further updates - KE extension */
     if(LUSOL->luparm[LUSOL_IP_UPDATELIMIT] > 0)
 #if 1
@@ -9581,7 +9581,7 @@ x300:
     L = MAX(L, NROWD*NCOLD);
 #endif
 
-    /* Do the memory expansion */  
+    /* Do the memory expansion */
     if((L > LFREE-LCOL) && LUSOL_expand_a(LUSOL, &L, &LFREE)) {
       LL1   += L;
       LU1   += L;
@@ -9592,7 +9592,7 @@ x300:
 #ifdef ClassicHamaxR
       HA    += L;
       HJ    += L;
-      HK    += L; 
+      HK    += L;
       AMAXR += L;
 #endif
     }
@@ -10335,7 +10335,7 @@ static void LU1FAC(LUSOLrec *LUSOL, int *INFORM)
   if(LPRINT>=LUSOL_MSG_STATISTICS) {
     DENSTY = (100*DELEM)/(DM*DN);
     LUSOL_report(LUSOL, 0, "m:%6d %c n:%6d  nzcount:%9d  Amax:%g  Density:%g\n",
-                           LUSOL->m, relationChar(LUSOL->m, LUSOL->n), LUSOL->n, 
+                           LUSOL->m, relationChar(LUSOL->m, LUSOL->n), LUSOL->n,
                            LUSOL->nelem, AMAX, DENSTY);
   }
   if(*INFORM!=LUSOL_INFORM_LUSUCCESS)
@@ -10379,7 +10379,7 @@ static void LU1FAC(LUSOLrec *LUSOL, int *INFORM)
     LOCH  = LENA2+1;               /* Start of Ha, Hj, Hk in a, indc, indr */
     LMAXR = 1;                     /* Dummy                                */
   }
-  LU1FAD(LUSOL, 
+  LU1FAD(LUSOL,
          LENA2,LENH,
          LUSOL->a+LOCH-LUSOL_ARRAYOFFSET,
          LUSOL->indc+LOCH-LUSOL_ARRAYOFFSET,
@@ -10596,7 +10596,7 @@ x990:
   LUSOL->luparm[LUSOL_IP_INFORM]          = *INFORM;
   if(*INFORM == LUSOL_INFORM_NOMEMLEFT)
     LUSOL_report(LUSOL, 0, "lu1fac  error...\ninsufficient memory available\n");
-  
+
 /*      ------------------------------------------------------------------
         Print statistics for the LU factors.
         ------------------------------------------------------------------ */
@@ -10800,7 +10800,7 @@ static void LU7ELM(LUSOLrec *LUSOL, int JELM, gnm_float V[], int *LENL,
   NFREE = LUSOL->lena-(*LENL)-(*LROW);
   if(NFREE<MINFRE)
     goto x970;
-    
+
 /*      Pack the subdiagonals of  v  into  L,  and find the largest. */
 x100:
   VMAX = ZERO;
@@ -11436,7 +11436,7 @@ x10:
     else if(V==NULL)
 /* Otherwise, the V vector is taken to satisfy this already, or stored earlier. */
       V=LUSOL->vLU6L;
-      
+
 
 /*         Insert into  U  any nonzeros in the top of  v.
            row  ip(klast)  will contain the last nonzero in pivotal order.
@@ -11913,7 +11913,7 @@ static int symamd				/* return (1) if OK, (0) otherwise */
 	floating point operations than A.  Symamd constructs a matrix M such
 	that M'M has the same nonzero pattern of A, and then orders the columns
 	of M using colmmd.  The column ordering of M is then returned as the
-	row and column ordering P of A. 
+	row and column ordering P of A.
 
     Authors:
 
@@ -12001,7 +12001,7 @@ static int symamd				/* return (1) if OK, (0) otherwise */
 
 	* TRUE and FALSE are predefined on some systems, so they are defined
 		here only if not already defined.
-	
+
 	* web site changed
 
 	* UNIX Makefile modified, to handle the case if "." is not in your path.
@@ -12064,7 +12064,7 @@ static int symamd				/* return (1) if OK, (0) otherwise */
 		Colamd: rows with more than (knobs [COLAMD_DENSE_ROW] * n_col)
 		entries are removed prior to ordering.  Columns with more than
 		(knobs [COLAMD_DENSE_COL] * n_row) entries are removed prior to
-		ordering, and placed last in the output column ordering. 
+		ordering, and placed last in the output column ordering.
 
 		Symamd: uses only knobs [COLAMD_DENSE_ROW], which is knobs [0].
 		Rows and columns with more than (knobs [COLAMD_DENSE_ROW] * n)
@@ -12096,7 +12096,7 @@ static int symamd				/* return (1) if OK, (0) otherwise */
 	    (AQ)'AQ=LL' have less fill-in and require fewer floating point
 	    operations than factorizing the unpermuted matrix A or A'A,
 	    respectively.
-	    
+
 	Returns:
 
 	    TRUE (1) if successful, FALSE (0) otherwise.
@@ -12126,8 +12126,8 @@ static int symamd				/* return (1) if OK, (0) otherwise */
 		We do, however, guarantee that
 
 			Alen >= colamd_recommended (nnz, n_row, n_col)
-		
-		or equivalently as a C preprocessor macro: 
+
+		or equivalently as a C preprocessor macro:
 
 			Alen >= COLAMD_RECOMMENDED (nnz, n_row, n_col)
 
@@ -12265,7 +12265,7 @@ static int symamd				/* return (1) if OK, (0) otherwise */
 		Future versions may return more statistics in the stats array.
 
 	Example:
-	
+
 	    See http://www.cise.ufl.edu/research/sparse/colamd/example.c
 	    for a complete example.
 
@@ -12324,12 +12324,12 @@ static int symamd				/* return (1) if OK, (0) otherwise */
 	    int A [nnz] ;	Input argument.
 
 	    	A is an integer array of size nnz, where nnz = p [n].
-		
+
 		The row indices of the entries in column c of the matrix are
 		held in A [(p [c]) ... (p [c+1]-1)].  The row indices in a
 		given column c need not be in ascending order, and duplicate
 		row indices may be present.  However, symamd will run faster
-		if the columns are in sorted order with no duplicate entries. 
+		if the columns are in sorted order with no duplicate entries.
 
 		The matrix is 0-based.  That is, rows are in the range 0 to
 		n-1, and columns are in the range 0 to n-1.  Symamd
@@ -12371,7 +12371,7 @@ static int symamd				/* return (1) if OK, (0) otherwise */
 		Symamd returns FALSE if stats is not present.
 
 		stats [0]:  number of dense or empty row and columns ignored
-				(and ordered last in the output permutation 
+				(and ordered last in the output permutation
 				perm).  Note that a row/column can become
 				"empty" if it contains only "dense" and/or
 				"empty" columns/rows.
@@ -12567,7 +12567,7 @@ static int symamd				/* return (1) if OK, (0) otherwise */
 #define ONES_COMPLEMENT(r) (-(r)-1)
 
 /* -------------------------------------------------------------------------- */
-/* Change for version 2.1:  define TRUE and FALSE only if not yet defined */  
+/* Change for version 2.1:  define TRUE and FALSE only if not yet defined */
 /* -------------------------------------------------------------------------- */
 
 #ifndef TRUE
@@ -12822,7 +12822,7 @@ static int colamd_recommended	/* returns recommended value of Alen. */
     int n_col			/* number of columns in A */
 )
 {
-    return (COLAMD_RECOMMENDED (nnz, n_row, n_col)) ; 
+    return (COLAMD_RECOMMENDED (nnz, n_row, n_col)) ;
 }
 
 
@@ -12903,7 +12903,7 @@ static int symamd			/* return TRUE if OK, FALSE otherwise */
     int nnz ;			/* number of entries in A */
     int i ;			/* row index of A */
     int j ;			/* column index of A */
-    int k ;			/* row index of M */ 
+    int k ;			/* row index of M */
     int mnz ;			/* number of nonzeros in M */
     int pp ;			/* index into a column of A */
     int last_row ;		/* last row seen in the current column */
@@ -13370,7 +13370,7 @@ static int colamd		/* returns TRUE if successful, FALSE otherwise*/
     stats [COLAMD_DENSE_ROW] = n_row - n_row2 ;
     stats [COLAMD_DENSE_COL] = n_col - n_col2 ;
     stats [COLAMD_DEFRAG_COUNT] = ngarbage ;
-    DEBUG0 (("colamd: done.\n")) ; 
+    DEBUG0 (("colamd: done.\n")) ;
     return (TRUE) ;
 }
 
@@ -13418,7 +13418,7 @@ static int init_rows_cols	/* returns TRUE if OK, or FALSE otherwise */
     Colamd_Col Col [],		/* of size n_col+1 */
     int A [],			/* row indices of A, of size Alen */
     int p [],			/* pointers to columns in A, of size n_col+1 */
-    int stats [COLAMD_STATS]	/* colamd statistics */ 
+    int stats [COLAMD_STATS]	/* colamd statistics */
 )
 {
     /* === Local variables ================================================== */
@@ -15373,7 +15373,7 @@ static int mod(int n, int d)
 }
 
 
-/* Return the greatest common divisor of a and b, or -1 if it is 
+/* Return the greatest common divisor of a and b, or -1 if it is
    not defined. Return through the pointer arguments the integers
    such that mygcd(a,b) = c*a + b*d. */
 static int mygcd(gint64 a, gint64 b, int *c, int *d)
@@ -15381,7 +15381,7 @@ static int mygcd(gint64 a, gint64 b, int *c, int *d)
   gint64 q,r,t;
   int   cret,dret,C,D,rval, sgn_a = 1,sgn_b = 1, swap = 0;
 
-  if((a == 0) || (b == 0)) 
+  if((a == 0) || (b == 0))
     return( -1 );
 
   /* Use local multiplier instances, if necessary */
@@ -15534,8 +15534,8 @@ static int compareREAL(const void *current, const void *candidate)
     return( 0 );
 }
 
-/* Heap sort function (procedurally based on the Numerical Recipes version, 
-   but expanded and generalized to hande any object with the use of 
+/* Heap sort function (procedurally based on the Numerical Recipes version,
+   but expanded and generalized to hande any object with the use of
    qsort-style comparison operator).  An expanded version is also implemented,
    where interchanges are reflected in a caller-initialized integer "tags" list. */
 static void hpsort(void *attributes, int count, int offset, int recsize, gboolean descending, findCompare_func findCompare)
@@ -15554,7 +15554,7 @@ static void hpsort(void *attributes, int count, int offset, int recsize, gboolea
     order = -1;
   else
     order = 1;
-  
+
   k = (count >> 1) + 1;
   ir = count;
 
@@ -15590,7 +15590,7 @@ static void hpsort(void *attributes, int count, int offset, int recsize, gboolea
     }
     MEMCOPY(CMP_ATTRIBUTES(i), save, recsize);
   }
-  
+
   FREE(save);
 }
 static void hpsortex(void *attributes, int count, int offset, int recsize, gboolean descending, findCompare_func findCompare, int *tags)
@@ -15606,7 +15606,7 @@ static void hpsortex(void *attributes, int count, int offset, int recsize, gbool
     register char *hold, *base;
     char          *save;
     int           savetag;
-  
+
     offset -= 1;
     attributes = CMP_ATTRIBUTES(offset);
     tags += offset;
@@ -15616,7 +15616,7 @@ static void hpsortex(void *attributes, int count, int offset, int recsize, gbool
       order = -1;
     else
       order = 1;
-  
+
     k = (count >> 1) + 1;
     ir = count;
 
@@ -15658,17 +15658,17 @@ static void hpsortex(void *attributes, int count, int offset, int recsize, gbool
       MEMCOPY(CMP_ATTRIBUTES(i), save, recsize);
       tags[i] = savetag;
     }
-  
+
     FREE(save);
   }
 }
 
 
-/* This is a "specialized generic" version of C.A.R Hoare's Quick Sort algorithm. 
-   It will handle arrays that are already sorted, and arrays with duplicate keys. 
+/* This is a "specialized generic" version of C.A.R Hoare's Quick Sort algorithm.
+   It will handle arrays that are already sorted, and arrays with duplicate keys.
    The implementation here requires the user to pass a comparison operator and
    assumes that the array passed has the QSORTrec format, which i.a. includes
-   the ability for to do linked list sorting. If the passed comparison operator 
+   the ability for to do linked list sorting. If the passed comparison operator
    is NULL, the comparison is assumed to be for integers. */
 #define QS_IS_switch 4    /* Threshold for switching to insertion sort */
 static int QS_addfirst(QSORTrec a[], void *mydata)
@@ -15722,10 +15722,10 @@ static int QS_sort(QSORTrec a[], int l, int r, findCompare_func findCompare)
 
     /* Tri-Median Method */
     if(findCompare((char *) &a[l], (char *) &a[i]) > 0)
-      { nmove++; QS_swap(a,l,i); } 
-    if(findCompare((char *) &a[l], (char *) &a[r]) > 0) 
+      { nmove++; QS_swap(a,l,i); }
+    if(findCompare((char *) &a[l], (char *) &a[r]) > 0)
       { nmove++; QS_swap(a,l,r); }
-    if(findCompare((char *) &a[i], (char *) &a[r]) > 0) 
+    if(findCompare((char *) &a[i], (char *) &a[r]) > 0)
       { nmove++; QS_swap(a,i,r); }
 
     j = r-1;
@@ -15803,7 +15803,7 @@ Finish:
   return( TRUE );
 }
 
- 
+
 
 /* Simple specialized bubble/insertion sort functions */
 static int sortByREAL(int *item, gnm_float *weight, int size, int offset, gboolean unique)
@@ -16102,10 +16102,10 @@ static gboolean load_BLAS(char *libname)
       BLAS_dswap  = (BLAS_dswap_func *)  GetProcAddress(hBLAS, BLAS_prec "swap");
       BLAS_ddot   = (BLAS_ddot_func *)   GetProcAddress(hBLAS, BLAS_prec "dot");
       BLAS_idamax = (BLAS_idamax_func *) GetProcAddress(hBLAS, "i" BLAS_prec "amax");
-#if 0      
+#if 0
       BLAS_dload  = (BLAS_dload_func *)  GetProcAddress(hBLAS, BLAS_prec "load");
       BLAS_dnormi = (BLAS_dnormi_func *) GetProcAddress(hBLAS, BLAS_prec "normi");
-#endif      
+#endif
     }
   #else
    /* First standardize UNIX .SO library name format. */
@@ -16135,10 +16135,10 @@ static gboolean load_BLAS(char *libname)
       BLAS_dswap  = (BLAS_dswap_func *)  dlsym(hBLAS, BLAS_prec "swap");
       BLAS_ddot   = (BLAS_ddot_func *)   dlsym(hBLAS, BLAS_prec "dot");
       BLAS_idamax = (BLAS_idamax_func *) dlsym(hBLAS, "i" BLAS_prec "amax");
-#if 0      
+#if 0
       BLAS_dload  = (BLAS_dload_func *)  dlsym(hBLAS, BLAS_prec "load");
       BLAS_dnormi = (BLAS_dnormi_func *) dlsym(hBLAS, BLAS_prec "normi");
-#endif      
+#endif
     }
   #endif
 #endif
@@ -16209,7 +16209,7 @@ static void my_daxpy( int *_n, gnm_float *_da, gnm_float *dx, int *_incx, gnm_fl
       (*yptr) += rda*(*xptr);
     return;
   }
-#else  
+#else
 
   if (incx==1 && incy==1) goto x20;
 
@@ -16353,8 +16353,8 @@ static void my_dscal (int *_n, gnm_float *_da, gnm_float *dx, int *_incx)
 
   if (n <= 0)
     return;
-  rda = da;  
-  
+  rda = da;
+
   dx--;
 
 /* Optionally do fast pointer arithmetic */
@@ -16506,7 +16506,7 @@ static void my_dswap( int *_n, gnm_float *dx, int *_incx, gnm_float *dy, int *_i
     }
     return;
   }
-#else  
+#else
 
   if (incx == incy) {
     if (incx <= 0) goto x5;
@@ -16670,7 +16670,7 @@ static int my_idamax( int *_n, gnm_float *x, int *_is )
 		  imax = i;
     }
   }
-#endif  
+#endif
   return(imax);
 }
 
@@ -16726,11 +16726,11 @@ int  subvec( int item)
 
 
 /*
-   ---------------------------------------------------------------------------------- 
+   ----------------------------------------------------------------------------------
    Crash management routines in lp_solve v5.0+
    ----------------------------------------------------------------------------------
     Author:        Kjell Eikland
-    Contact:       kjell.eikland@broadpark.no 
+    Contact:       kjell.eikland@broadpark.no
     License terms: LGPL.
 
     Requires:      lp_lib.h, lp_utils.h, lp_matrix.h
@@ -16774,7 +16774,7 @@ gboolean crash_basis(lprec *lp)
     gnm_float    wx, tx, *rowMAX = NULL, *colMAX = NULL;
     int     *rowNZ = NULL, *colNZ = NULL, *rowWT = NULL, *colWT = NULL;
     gnm_float    *value;
-    int     *rownr, *colnr; 
+    int     *rownr, *colnr;
 
     report(lp, NORMAL, "crash_basis: 'Most feasible' basis crashing selected\n");
 
@@ -16790,7 +16790,7 @@ gboolean crash_basis(lprec *lp)
     rownr = &COL_MAT_ROWNR(0);
     colnr = &COL_MAT_COLNR(0);
     value = &COL_MAT_VALUE(0);
-    for(i = 0; i < nz; 
+    for(i = 0; i < nz;
         i++, rownr += matRowColStep, colnr += matRowColStep, value += matValueStep) {
       rx = *rownr;
       cx = *colnr;
@@ -16812,7 +16812,7 @@ gboolean crash_basis(lprec *lp)
     rownr = &COL_MAT_ROWNR(0);
     colnr = &COL_MAT_COLNR(0);
     value = &COL_MAT_VALUE(0);
-    for(i = 0; i < nz; 
+    for(i = 0; i < nz;
         i++, rownr += matRowColStep, colnr += matRowColStep, value += matValueStep) {
       rx = *rownr;
       cx = *colnr;
@@ -16911,7 +16911,7 @@ gboolean crash_basis(lprec *lp)
           wx = tx;
         }
       }
-      if(cx == 0) 
+      if(cx == 0)
         break;
       removeLink(colLL, cx);
 
@@ -16919,7 +16919,7 @@ gboolean crash_basis(lprec *lp)
       ii = mat->col_end[cx-1];
       rownr = &COL_MAT_ROWNR(ii);
       value = &COL_MAT_VALUE(ii);
-      for(; ii < mat->col_end[cx]; 
+      for(; ii < mat->col_end[cx];
           ii++, rownr += matRowColStep, value += matValueStep) {
         wx = fabs(*value);
         ix = *rownr;
@@ -16953,7 +16953,7 @@ Finish:
     LLrec   *rowLL = NULL, *colLL = NULL;
     int     ii, rx, cx, ix, nz, *merit = NULL;
     gnm_float    *value, wx, hold, *rhs = NULL, *eta = NULL;
-    int     *rownr, *colnr; 
+    int     *rownr, *colnr;
 
     report(lp, NORMAL, "crash_basis: 'Least degenerate' basis crashing selected\n");
 
@@ -16981,7 +16981,7 @@ Finish:
       colnr = &COL_MAT_COLNR(0);
       ii = 0;
       MEMCLEAR(merit, lp->columns + 1);
-      for(i = 0; i < nz; 
+      for(i = 0; i < nz;
           i++, rownr += matRowColStep, colnr += matRowColStep) {
         rx = *rownr;
         cx = *colnr;
@@ -17011,7 +17011,7 @@ Finish:
       rx = 0;
       wx = 0;
       MEMCLEAR(eta, lp->rows + 1);
-      for(; i < nz; 
+      for(; i < nz;
           i++, rownr += matRowColStep, value += matValueStep) {
         ix = *rownr;
         hold = *value;
@@ -17254,7 +17254,7 @@ STATIC int find_row(lprec *lp, char *name, gboolean Unconstrained_rows_found)
       hp = findhash(name, lp->rowname_hashtab);
   else
       hp = NULL;
- 
+
   if (hp == NULL) {
     if(Unconstrained_rows_found) { /* just ignore them in this case */
          return(-1);
@@ -17274,7 +17274,7 @@ STATIC int find_var(lprec *lp, char *name, gboolean verbose)
       hp = findhash(name, lp->colname_hashtab);
   else
       hp = NULL;
- 
+
   if (hp == NULL) {
     if(verbose)
       report(lp, SEVERE, "find_var: Unknown variable name '%s'\n", name);
@@ -29451,21 +29451,21 @@ STATIC void bsolve_xA2(lprec *lp, int* coltarget,
 /*
     Minimum matrix inverse fill-in modules - interface for lp_solve v5.0+
    ----------------------------------------------------------------------------------
-    Author:        Kjell Eikland 
-    Contact:       kjell.eikland@broadpark.no 
+    Author:        Kjell Eikland
+    Contact:       kjell.eikland@broadpark.no
     License terms: LGPL.
-    
+
     Requires:      string.h, colamd.h, lp_lib.h
 
     Release notes:
-    v1.0    1 September 2003    Preprocessing routines for minimum fill-in column 
-                                ordering for inverse factorization using the open 
+    v1.0    1 September 2003    Preprocessing routines for minimum fill-in column
+                                ordering for inverse factorization using the open
                                 source COLAMD library.  Suitable for the dense parts
-                                of both the product form and LU factorization inverse 
+                                of both the product form and LU factorization inverse
                                 methods.
-    v1.1    1 July 2004         Renamed from lp_colamdMDO to lp_MDO.                                
+    v1.1    1 July 2004         Renamed from lp_colamdMDO to lp_MDO.
 
-   ---------------------------------------------------------------------------------- 
+   ----------------------------------------------------------------------------------
 */
 
 
@@ -29482,7 +29482,7 @@ STATIC gboolean includeMDO(gboolean *usedpos, int item)
   /* Handle case where we are processing all columns */
   if(usedpos == NULL)
     return( TRUE );
-    
+
   else {
   /* Otherwise do the selective case */
     gboolean test = usedpos[item];
@@ -29497,8 +29497,8 @@ STATIC gboolean includeMDO(gboolean *usedpos, int item)
 
 STATIC int prepareMDO(lprec *lp, gboolean *usedpos, int *colorder, int *data, int *rowmap)
 /* This routine prepares data structures for colamd().  It is called twice, the first
-   time to count applicable non-zero elements by column, and the second time to fill in 
-   the row indexes of the non-zero values from the first call.  Note that the colamd() 
+   time to count applicable non-zero elements by column, and the second time to fill in
+   the row indexes of the non-zero values from the first call.  Note that the colamd()
    row index base is 0 (which suits lp_solve fine). */
 {
   int     i, ii, j, k, kk;
@@ -29547,14 +29547,14 @@ STATIC int prepareMDO(lprec *lp, gboolean *usedpos, int *colorder, int *data, in
         Bnz++;
       }
       /* Loop over all NZ-variables */
-      for(; i < ii; 
+      for(; i < ii;
           i++, value += matValueStep, rownr += matRowColStep) {
         if(!includeMDO(usedpos, *rownr))
           continue;
         /* See if we need to change phase 1 OF value */
         if(*rownr == 0) {
           hold = *value;
-          if(!modifyOF1(lp, kk, &hold, 1.0)) 
+          if(!modifyOF1(lp, kk, &hold, 1.0))
             continue;
         }
         /* Tally uneliminated constraint row values */
@@ -29590,14 +29590,14 @@ static int getMDO(lprec *lp, gboolean *usedpos, int *colorder, int *size, gboole
   int    stats[COLAMD_STATS];
   double knobs[COLAMD_KNOBS];
 
- /* Tally the non-zero counts of the unused columns/rows of the 
+ /* Tally the non-zero counts of the unused columns/rows of the
     basis matrix and store corresponding "net" starting positions */
   allocINT(lp, &col_end, ncols+1, FALSE);
   n = prepareMDO(lp, usedpos, colorder, col_end, NULL);
   Bnz = col_end[ncols];
 
- /* Check that we have unused basic columns, otherwise skip analysis */  
-  if(ncols == 0 || Bnz == 0) 
+ /* Check that we have unused basic columns, otherwise skip analysis */
+  if(ncols == 0 || Bnz == 0)
     goto Transfer;
 
  /* Get net number of rows and fill mapper */
@@ -29606,7 +29606,7 @@ static int getMDO(lprec *lp, gboolean *usedpos, int *colorder, int *size, gboole
   for(i = 0; i <= lp->rows; i++) {
     row_map[i] = i-nrows;
    /* Increment eliminated row counter if necessary */
-    if(!includeMDO(usedpos, i)) 
+    if(!includeMDO(usedpos, i))
       nrows++;
   }
   nrows = lp->rows+1 - nrows;
@@ -29623,7 +29623,7 @@ static int getMDO(lprec *lp, gboolean *usedpos, int *colorder, int *size, gboole
 #if 1
   colamd_set_defaults(knobs);
   knobs [COLAMD_DENSE_ROW] = 0.2+0.2 ;    /* default changed for UMFPACK */
-  knobs [COLAMD_DENSE_COL] = knobs [COLAMD_DENSE_ROW];    
+  knobs [COLAMD_DENSE_COL] = knobs [COLAMD_DENSE_ROW];
   if(symmetric && (nrows == ncols)) {
     MEMCOPY(colorder, Brows, ncols + 1);
     error = !symamd(nrows, colorder, col_end, Brows, knobs, stats, mdo_calloc, mdo_free);
@@ -29641,7 +29641,7 @@ static int getMDO(lprec *lp, gboolean *usedpos, int *colorder, int *size, gboole
 
  /* Transfer the estimated optimal ordering, adjusting for index offsets */
 Transfer:
-  if(error) 
+  if(error)
     error = stats[COLAMD_STATUS];
   else {
     MEMCOPY(Brows, colorder, ncols + 1);
@@ -41994,11 +41994,11 @@ STATIC int clean_SOSgroup(SOSgroup *group)
 {
   int    i, n, k;
   SOSrec *SOS;
-  
+
   if(group == NULL)
     return( 0 );
-    
-  /* Delete any SOS without members or trivial member count */  
+
+  /* Delete any SOS without members or trivial member count */
   n = 0;
   if(group->sos_alloc > 0) {
     group->maxorder = 0;
@@ -42166,7 +42166,7 @@ static int SOS_usecount(SOSgroup *group, int varnr)
   }
   else
     /* Return the SOS usage count for a particular variable */
-    n = counts[varnr]; 
+    n = counts[varnr];
   FREE(counts);
 
   return( n );
@@ -42369,7 +42369,7 @@ STATIC gboolean SOS_shift_col(SOSgroup *group, int sosindex, int column, int del
       changed = 0;
       if(usedmap != NULL) {
         int *newidx = NULL;
-        /* Defer creation of index mapper until we are sure that a 
+        /* Defer creation of index mapper until we are sure that a
            member of this SOS is actually targeted for deletion */
         if(newidx == NULL) {
           allocINT(group->lp, &newidx, group->lp->columns+1, TRUE);
@@ -42614,7 +42614,7 @@ static gboolean SOS_is_member_of_type(SOSgroup *group, int column, int sostype)
   if(group != NULL)
   for(i = 1; i <= group->sos_count; i++) {
     n = SOS_get_type(group, i);
-    if(((n == sostype) || 
+    if(((n == sostype) ||
         ((sostype == SOSn) && (n > 2))) && SOS_is_member(group, i, column))
       return(TRUE);
   }
@@ -43019,7 +43019,7 @@ static gboolean SOS_unmark(SOSgroup *group, int sosindex, int column)
 }
 
 
-static int SOS_fix_unmarked(SOSgroup *group, int sosindex, int variable, gnm_float *bound, gnm_float value, gboolean isupper, 
+static int SOS_fix_unmarked(SOSgroup *group, int sosindex, int variable, gnm_float *bound, gnm_float value, gboolean isupper,
                      int *diffcount, DeltaVrec *changelog)
 {
   int    i, ii, count, n, nn, nLeft, nRight, *list;
@@ -43091,7 +43091,7 @@ static int SOS_fix_unmarked(SOSgroup *group, int sosindex, int variable, gnm_flo
             bound[ii] = value;
           else
             modifyUndoLadder(changelog, ii, bound, value);
-            
+
         }
         if((diffcount != NULL) && (lp->solution[ii] != value))
           (*diffcount)++;
@@ -43101,7 +43101,7 @@ static int SOS_fix_unmarked(SOSgroup *group, int sosindex, int variable, gnm_flo
   return(count);
 }
 
-static int *SOS_get_candidates(SOSgroup *group, int sosindex, int column, gboolean excludetarget, 
+static int *SOS_get_candidates(SOSgroup *group, int sosindex, int column, gboolean excludetarget,
                         gnm_float *upbound, gnm_float *lobound)
 {
   int    i, ii, j, n, nn = 0, *list, *candidates = NULL;
@@ -43117,7 +43117,7 @@ static int *SOS_get_candidates(SOSgroup *group, int sosindex, int column, gboole
   }
 #endif
 
-  /* Determine SOS target(s); note that if "sosindex" is negative, only 
+  /* Determine SOS target(s); note that if "sosindex" is negative, only
      the first non-empty SOS where "column" is a member is processed */
   if(sosindex <= 0) {
     i = 0;
@@ -43172,7 +43172,7 @@ Finish:
 
 }
 
-static int SOS_fix_list(SOSgroup *group, int sosindex, int variable, gnm_float *bound, 
+static int SOS_fix_list(SOSgroup *group, int sosindex, int variable, gnm_float *bound,
                  int *varlist, gboolean isleft, DeltaVrec *changelog)
 {
   int    i, ii, jj, count = 0;

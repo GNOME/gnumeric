@@ -603,11 +603,11 @@ range_is_full (GnmRange const *r, Sheet const *sheet, gboolean horiz)
  * @sheet : the sheet in which @range lives
  *
  * Clip the range to the area of the sheet with content.
- * if the range reaches the edge 
+ * if the range reaches the edge
  *
  * The idea here is that users may select a whole column or ow when they
  * really are only concerned with the extent of the sheet.
- * On the otehr hand, if users select any smaller region they probably 
+ * On the otehr hand, if users select any smaller region they probably
  * intend to selec tjust that.
  *
  * WARNING THIS IS EXPENSIVE!

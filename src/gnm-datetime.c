@@ -48,7 +48,7 @@ gnm_datetime_allow_negative (void)
 		char *text = format_value (fmt, v, NULL, -1, conv);
 
 		allow = (strcmp (text, "1899-11-19") == 0);
-		
+
 		value_release (v);
 		go_format_unref (fmt);
 		g_free (text);

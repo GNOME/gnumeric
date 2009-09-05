@@ -251,7 +251,7 @@ gnumeric_phi (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 static GnmFuncHelp const help_nt_mu[] = {
  	{ GNM_FUNC_HELP_NAME, F_("NT_MU:Möbius mu function")},
 	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
-	{ GNM_FUNC_HELP_DESCRIPTION, 
+	{ GNM_FUNC_HELP_DESCRIPTION,
 	  F_("NT_MU function (Möbius mu function) returns 0  if @{n} is "
 	     "divisible by the square of a prime. Otherwise, if @{n} has"
 	     " an odd  number of different prime factors, NT_MU returns "

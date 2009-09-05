@@ -63,14 +63,14 @@ typedef struct {
 	GtkTreeModel      *source_areas;
 	GnumericCellRendererExprEntry *cellrenderer;
 	GdkPixbuf         *pixmap;
-	
+
 	GtkButton         *clear;
 	GtkButton         *delete;
-	
+
 	GtkCheckButton    *labels_row;
 	GtkCheckButton    *labels_col;
 	GtkCheckButton    *labels_copy;
-	
+
 	int                        areas_index;     /* Select index in sources clist */
 	char                      *construct_error; /* If set an error occurred in construct_consolidate */
 } ConsolidateState;
@@ -80,7 +80,7 @@ static void dialog_set_button_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 
 /**
  * adjust_source_areas
- * 
+ *
  * ensures that we have exactly 2 empty rows
  *
  *
@@ -91,20 +91,20 @@ adjust_source_areas (ConsolidateState *state)
 	int i = 0;
 	int cnt_empty = 2;
 	GtkTreeIter      iter;
-	
-	if (gtk_tree_model_get_iter_first 
+
+	if (gtk_tree_model_get_iter_first
 	    (state->source_areas, &iter)) {
 		do {
 			char *source;
 
-			gtk_tree_model_get (state->source_areas, 
+			gtk_tree_model_get (state->source_areas,
 					    &iter,
 					    SOURCE_COLUMN, &source,
 					    -1);
 			if (strlen(source) == 0)
 				cnt_empty--;
 			g_free (source);
-		} while (gtk_tree_model_iter_next 
+		} while (gtk_tree_model_iter_next
 			 (state->source_areas,&iter));
 	} else {
 		g_warning ("Did not get a valid iterator");
@@ -174,19 +174,19 @@ construct_consolidate (ConsolidateState *state, data_analysis_output_t  *dao)
 			      (state->source_areas,
 			       NULL)> 2, NULL);
 
-	has_iter = gtk_tree_model_get_iter_first (state->source_areas, 
+	has_iter = gtk_tree_model_get_iter_first (state->source_areas,
 						  &iter);
 	g_return_val_if_fail (has_iter, NULL);
 	do {
 		char *source;
 
-		gtk_tree_model_get (state->source_areas, 
+		gtk_tree_model_get (state->source_areas,
 				    &iter,
 				    SOURCE_COLUMN, &source,
 				    -1);
 		if (strlen(source) != 0) {
 			range_value = value_new_cellrange_str (state->base.sheet, source);
-			
+
 			if (range_value == NULL) {
 				state->construct_error = g_strdup_printf (
 					_("Specification %s "
@@ -207,7 +207,7 @@ construct_consolidate (ConsolidateState *state, data_analysis_output_t  *dao)
 			}
 		}
 		g_free (source);
-	} while (gtk_tree_model_iter_next 
+	} while (gtk_tree_model_iter_next
 		 (state->source_areas,&iter));
 
 	return cs;
@@ -241,7 +241,7 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 	GtkTreeIter  iter;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->source_view);
 
-	gtk_widget_set_sensitive (GTK_WIDGET(state->delete), 
+	gtk_widget_set_sensitive (GTK_WIDGET(state->delete),
 				  gtk_tree_selection_get_selected (selection, NULL, &iter));
 }
 
@@ -258,7 +258,7 @@ cb_source_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 	path = gtk_tree_path_new_from_string (path_string);
 
 	if (gtk_tree_model_get_iter (state->source_areas, &iter, path))
-		gtk_list_store_set (GTK_LIST_STORE(state->source_areas), 
+		gtk_list_store_set (GTK_LIST_STORE(state->source_areas),
 				    &iter, SOURCE_COLUMN, new_text, -1);
 	else
 		g_warning ("Did not get a valid iterator");
@@ -291,10 +291,10 @@ cb_consolidate_ok_clicked (GtkWidget *button, ConsolidateState *state)
 
 	if (state->base.warning_dialog != NULL)
 		gtk_widget_destroy (state->base.warning_dialog);
-	
+
 	dao  = parse_output ((GenericToolState *)state, NULL);
 	cs = construct_consolidate (state, dao);
-	
+
 	/*
 	 * If something went wrong consolidate_construct
 	 * return NULL and sets the state->construct_error to
@@ -308,10 +308,10 @@ cb_consolidate_ok_clicked (GtkWidget *button, ConsolidateState *state)
 		g_free (state->construct_error);
 		g_free (dao);
 		state->construct_error = NULL;
-		
+
 		return;
 	}
-	
+
 	if (consolidate_check_destination (cs, dao)) {
 		if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg),
 					state->base.sheet,
@@ -349,7 +349,7 @@ cb_clear_clicked (G_GNUC_UNUSED GtkButton *button,
 			state->cellrenderer);
 
 	gtk_list_store_clear (GTK_LIST_STORE(state->source_areas));
-	adjust_source_areas (state);	
+	adjust_source_areas (state);
 
 	dialog_set_button_sensitivity (NULL, state);
 }
@@ -359,7 +359,7 @@ cb_delete_clicked (G_GNUC_UNUSED GtkButton *button,
 		   ConsolidateState *state)
 {
 	GtkTreeIter sel_iter;
-	GtkTreeSelection  *selection = 
+	GtkTreeSelection  *selection =
 		gtk_tree_view_get_selection (state->source_view);
 
 	if (state->cellrenderer->entry)
@@ -409,23 +409,23 @@ setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 	gtk_combo_box_set_active (state->function, 0);
 
 /* Begin: Source Areas View*/
-	state->source_view = GTK_TREE_VIEW (glade_xml_get_widget 
-						(glade_gui, 
+	state->source_view = GTK_TREE_VIEW (glade_xml_get_widget
+						(glade_gui,
 						 "source_treeview"));
-	state->source_areas = GTK_TREE_MODEL(gtk_list_store_new 
-						 (NUM_COLMNS, 
-						  G_TYPE_STRING, 
+	state->source_areas = GTK_TREE_MODEL(gtk_list_store_new
+						 (NUM_COLMNS,
+						  G_TYPE_STRING,
 						  GDK_TYPE_PIXBUF,
 						  G_TYPE_INT));
-	gtk_tree_view_set_model (state->source_view, 
+	gtk_tree_view_set_model (state->source_view,
 				 state->source_areas);
-	
-	selection = gtk_tree_view_get_selection 
+
+	selection = gtk_tree_view_get_selection
 			(state->source_view );
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
-	
+
 	renderer = gnumeric_cell_renderer_expr_entry_new (state->base.wbcg);
-	state->cellrenderer = 
+	state->cellrenderer =
 		GNUMERIC_CELL_RENDERER_EXPR_ENTRY (renderer);
 	column = gtk_tree_view_column_new_with_attributes
 		("", renderer,
@@ -436,8 +436,8 @@ setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 			  G_CALLBACK (cb_source_edited), state);
 		gtk_tree_view_column_set_expand (column, TRUE);
 	gtk_tree_view_append_column (state->source_view, column);
-	column = gtk_tree_view_column_new_with_attributes 
-		("", gtk_cell_renderer_pixbuf_new (), 
+	column = gtk_tree_view_column_new_with_attributes
+		("", gtk_cell_renderer_pixbuf_new (),
 		 "pixbuf", PIXMAP_COLUMN, NULL);
 	gtk_tree_view_append_column (state->source_view, column);
 /* End: Source Areas View*/
@@ -472,7 +472,7 @@ add_source_area (SheetView *sv, GnmRange const *r, gpointer closure)
 	ConsolidateState *state = closure;
 	char *range_name = global_range_name (sv_sheet (sv), r);
 	GtkTreeIter      iter;
-	
+
 	gtk_list_store_prepend (GTK_LIST_STORE(state->source_areas),
 				&iter);
 	gtk_list_store_set (GTK_LIST_STORE(state->source_areas),
@@ -501,7 +501,7 @@ dialog_consolidate_tool_init (ConsolidateState *state)
 	state->areas_index = -1;
 
 	setup_widgets (state, state->base.gui);
-	state->pixmap =  gtk_widget_render_icon 
+	state->pixmap =  gtk_widget_render_icon
 		(GTK_WIDGET(state->base.dialog),
 		 "Gnumeric_ExprEntry",
 		 GTK_ICON_SIZE_LARGE_TOOLBAR,
@@ -515,7 +515,7 @@ dialog_consolidate_tool_init (ConsolidateState *state)
 	 * When there are non-singleton selections add them all to the
 	 * source range list for convenience
 	 */
-	if ((r = selection_first_range (state->base.sv, NULL, NULL)) != NULL 
+	if ((r = selection_first_range (state->base.sv, NULL, NULL)) != NULL
 	    && !range_is_singleton (r))
 		sv_selection_foreach (state->base.sv, &add_source_area, state);
 
@@ -548,13 +548,13 @@ dialog_consolidate (WBCGtk *wbcg)
 			      "consolidate.glade", "Consolidate",
 			      _("Could not create the Consolidate dialog."),
 			      CONSOLIDATE_KEY,
-			      G_CALLBACK (cb_consolidate_ok_clicked), 
+			      G_CALLBACK (cb_consolidate_ok_clicked),
 			      NULL,
 			      G_CALLBACK (dialog_set_button_sensitivity),
 			      0))
 		return;
 
-	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);	
+	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	dialog_consolidate_tool_init (state);
 	gtk_widget_show (GTK_WIDGET (state->base.dialog));
 }

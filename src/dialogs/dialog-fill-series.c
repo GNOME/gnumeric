@@ -74,14 +74,14 @@ cb_fill_series_update_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 	stop = !entry_to_float (GTK_ENTRY (state->stop_entry),
 				&a_float,FALSE);
 
-	ready = gnm_dao_is_ready (GNM_DAO (state->base.gdao)) && 
+	ready = gnm_dao_is_ready (GNM_DAO (state->base.gdao)) &&
 		!entry_to_float (GTK_ENTRY (state->start_entry),
 				 &a_float,
-				 FALSE) && 
-		((gnm_dao_is_finite (GNM_DAO (state->base.gdao)) 
-		  && (step || stop)) || 
+				 FALSE) &&
+		((gnm_dao_is_finite (GNM_DAO (state->base.gdao))
+		  && (step || stop)) ||
 		 (step && stop));
-	
+
 	gtk_widget_set_sensitive (state->base.ok_button, ready);
 }
 
@@ -111,13 +111,13 @@ cb_fill_series_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	fs->date_unit = gtk_radio_group_get_selected
 	        (GTK_RADIO_BUTTON (radio)->group);
 
-	fs->is_step_set = ! entry_to_float (GTK_ENTRY (state->step_entry), 
+	fs->is_step_set = ! entry_to_float (GTK_ENTRY (state->step_entry),
 					    &fs->step_value, TRUE);
-	fs->is_stop_set = ! entry_to_float (GTK_ENTRY (state->stop_entry), 
+	fs->is_stop_set = ! entry_to_float (GTK_ENTRY (state->stop_entry),
 					    &fs->stop_value, TRUE);
-	entry_to_float (GTK_ENTRY (state->start_entry), 
+	entry_to_float (GTK_ENTRY (state->start_entry),
 			&fs->start_value, TRUE);
-	
+
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg),
 				state->base.sheet,
 				dao, fs, fill_series_engine))
@@ -160,11 +160,11 @@ dialog_fill_series_tool_init (FillSeriesState *state)
 	sel = selection_first_range (state->base.sv, NULL, NULL);
 
 	/* Set the sensitivity of Unit day. */
-	radio = glade_xml_get_widget (state->base.gui, 
+	radio = glade_xml_get_widget (state->base.gui,
 				      "type_date");
 	g_signal_connect (G_OBJECT (radio), "clicked",
 			  G_CALLBACK (cb_type_button_clicked), state);
-	
+
 	state->stop_entry = glade_xml_get_widget (state->base.gui, "stop_entry");
 	g_signal_connect_after (G_OBJECT (state->stop_entry),
 		"changed",
@@ -179,12 +179,12 @@ dialog_fill_series_tool_init (FillSeriesState *state)
 		G_CALLBACK (cb_fill_series_update_sensitivity), state);
 
 
-	state->date_steps_type  = glade_xml_get_widget (state->base.gui, 
+	state->date_steps_type  = glade_xml_get_widget (state->base.gui,
 							"table_date_unit");
 	gtk_widget_set_sensitive (state->date_steps_type, FALSE);
 
 	button = (sel == NULL ||
-		  (prefer_rows = 
+		  (prefer_rows =
 		   (range_width (sel) >= range_height (sel))))
 		? "series_in_rows"
 		: "series_in_cols";
@@ -197,7 +197,7 @@ dialog_fill_series_tool_init (FillSeriesState *state)
 
 		dialog_tool_preset_to_range (&state->base);
 
-		cell_start = sheet_cell_get (state->base.sheet, 
+		cell_start = sheet_cell_get (state->base.sheet,
 				       sel->start.col, sel->start.row);
 		if (cell_start) {
 			char *content = gnm_cell_get_rendered_text (cell_start);
@@ -208,9 +208,9 @@ dialog_fill_series_tool_init (FillSeriesState *state)
 			}
 		}
 		cell_end = prefer_rows ?
-			sheet_cell_get (state->base.sheet, 
+			sheet_cell_get (state->base.sheet,
 					sel->end.col, sel->start.row) :
-			sheet_cell_get (state->base.sheet, 
+			sheet_cell_get (state->base.sheet,
 					sel->start.col, sel->end.row);
 		if (cell_end) {
 			char *content = gnm_cell_get_rendered_text (cell_end);
@@ -221,10 +221,10 @@ dialog_fill_series_tool_init (FillSeriesState *state)
 			}
 		}
 		if (cell_start && cell_end) {
-			float_to_entry (GTK_ENTRY(state->step_entry), 
+			float_to_entry (GTK_ENTRY(state->step_entry),
 					(value_get_as_float(cell_end->value) -
 					 value_get_as_float(cell_start->value))
-					/ (prefer_rows ? 
+					/ (prefer_rows ?
 					   (sel->end.col-sel->start.col) :
 					   (sel->end.row-sel->start.row)));
 		}
@@ -258,7 +258,7 @@ dialog_fill_series (WBCGtk *wbcg)
 			      G_CALLBACK (cb_fill_series_update_sensitivity),
 			      0))
 		return;
-	
+
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), FALSE, FALSE);
 	dialog_fill_series_tool_init (state);
 	gtk_widget_show (state->base.dialog);

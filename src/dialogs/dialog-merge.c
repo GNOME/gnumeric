@@ -1,7 +1,7 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * dialog-merge.c: Dialog to merge a list of data into a given range
- * 
+ *
  *
  * Author:
  *	Andreas J. Guelzow <aguelzow@taliesin.ca>
@@ -433,7 +433,7 @@ dialog_merge (WBCGtk *wbcg)
 		"clicked",
 		G_CALLBACK (cb_merge_cancel_clicked), state);
 
-	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), 
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog),
 					   state->wbcg,
 					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
 

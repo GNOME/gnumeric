@@ -867,8 +867,8 @@ oo_append_page_break (OOParseState *state, int pos, gboolean is_vert, gboolean i
 		if (NULL == (breaks = state->page_breaks.h))
 			breaks = state->page_breaks.h = gnm_page_breaks_new (FALSE);
 	}
-	
-	gnm_page_breaks_append_break (breaks, pos, 
+
+	gnm_page_breaks_append_break (breaks, pos,
 				      is_manual ? GNM_PAGE_BREAK_MANUAL : GNM_PAGE_BREAK_NONE);
 }
 
@@ -876,7 +876,7 @@ static void
 oo_set_page_break (OOParseState *state, int pos, gboolean is_vert, gboolean is_manual)
 {
 	GnmPageBreaks *breaks = (is_vert) ? state->page_breaks.v : state->page_breaks.h;
-	
+
 	switch (gnm_page_breaks_get_break (breaks, pos)) {
 	case GNM_PAGE_BREAK_NONE:
 		oo_append_page_break (state, pos, is_vert, is_manual);
@@ -895,9 +895,9 @@ static void
 oo_col_row_style_apply_breaks (OOParseState *state, OOColRowStyle *cr_style,
 			       int pos, gboolean is_vert)
 {
-	
+
 	if (cr_style->break_before != OO_PAGE_BREAK_NONE)
-		oo_set_page_break (state, pos, is_vert, 
+		oo_set_page_break (state, pos, is_vert,
 				      cr_style->break_before == OO_PAGE_BREAK_MANUAL);
 	if (cr_style->break_after  != OO_PAGE_BREAK_NONE)
 		oo_append_page_break (state, pos+1, is_vert,
@@ -926,7 +926,7 @@ oo_extent_sheet_cols (Sheet *sheet, int cols)
 {
 	GOUndo   * goundo;
 	int new_cols, new_rows;
-	
+
 	new_cols = cols;
 	new_rows = gnm_sheet_get_max_rows (sheet);
 	gnm_sheet_suggest_size (&new_cols, &new_rows);
@@ -961,13 +961,13 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 			hidden = !attr_eq (attrs[1], "visible");
 
 	if (state->pos.eval.col + repeat_count > max_cols) {
-		max_cols = oo_extent_sheet_cols (state->pos.sheet, state->pos.eval.col 
+		max_cols = oo_extent_sheet_cols (state->pos.sheet, state->pos.eval.col
 						 + repeat_count);
 		if (state->pos.eval.col + repeat_count > max_cols) {
 			g_warning ("Ignoring column information beyond"
 				   " the range we can handle.");
 			repeat_count = max_cols - state->pos.eval.col - 1;
-		}		
+		}
 	}
 
 	if (hidden)
@@ -994,13 +994,13 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 							state->default_style.columns->size_pts);
 			if (col_info->break_before != OO_PAGE_BREAK_NONE)
 				for (i = state->pos.eval.row ; i < last; i++ )
-					oo_set_page_break (state, i, TRUE, 
-							   col_info->break_before 
+					oo_set_page_break (state, i, TRUE,
+							   col_info->break_before
 							   == OO_PAGE_BREAK_MANUAL);
 			if (col_info->break_after!= OO_PAGE_BREAK_NONE)
 				for (i = state->pos.eval.col ; i < last; i++ )
 					oo_append_page_break (state, i+1, FALSE,
-							      col_info->break_after  
+							      col_info->break_after
 							      == OO_PAGE_BREAK_MANUAL);
 		} else {
 			int last = state->pos.eval.col + repeat_count;
@@ -1024,7 +1024,7 @@ oo_extent_sheet_rows (Sheet *sheet, int rows)
 {
 	GOUndo   * goundo;
 	int new_cols, new_rows;
-	
+
 	new_cols = gnm_sheet_get_max_cols (sheet);
 	new_rows = rows;
 	gnm_sheet_suggest_size (&new_cols, &new_rows);
@@ -1057,7 +1057,7 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 			return;
 		}
 	}
-	
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))
 			row_info = g_hash_table_lookup (state->styles.row, attrs[1]);
@@ -1068,8 +1068,8 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 
 	if (state->pos.eval.row + repeat_count > max_rows) {
-		max_rows = oo_extent_sheet_rows 
-			(state->pos.sheet, 
+		max_rows = oo_extent_sheet_rows
+			(state->pos.sheet,
 			 state->pos.eval.row + repeat_count);
 		if (state->pos.eval.row + repeat_count >= max_rows)
         	/* There are probably lots of empty lines at the end. */
@@ -1101,13 +1101,13 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 							state->default_style.rows->size_pts);
 			if (row_info->break_before != OO_PAGE_BREAK_NONE)
 				for (i = state->pos.eval.row ; i < last; i++ )
-					oo_set_page_break (state, i, FALSE, 
-							   row_info->break_before 
+					oo_set_page_break (state, i, FALSE,
+							   row_info->break_before
 							   == OO_PAGE_BREAK_MANUAL);
 			if (row_info->break_after!= OO_PAGE_BREAK_NONE)
 				for (i = state->pos.eval.row ; i < last; i++ )
 					oo_append_page_break (state, i+1, FALSE,
-							      row_info->break_after  
+							      row_info->break_after
 							      == OO_PAGE_BREAK_MANUAL);
 		} else {
 			int const last = state->pos.eval.row + repeat_count;
@@ -1120,7 +1120,7 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 			row_info->count += repeat_count;
 		}
 	}
-	
+
 	state->row_inc = repeat_count;
 }
 
@@ -1138,7 +1138,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GnmExprTop const *texpr = NULL;
 	GnmValue	*val = NULL;
-	gboolean  has_date = FALSE, has_datetime = FALSE, has_time = FALSE; 
+	gboolean  has_date = FALSE, has_datetime = FALSE, has_time = FALSE;
 	gboolean	 bool_val;
 	gnm_float	 float_val = 0;
 	int array_cols = -1, array_rows = -1;
@@ -1278,7 +1278,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		} else {
 			format = go_format_default_time ();
 		}
-		
+
 		if (style == NULL) {
 			style = gnm_style_new_default ();
 /* 			gnm_style_ref(style); */
@@ -1681,19 +1681,19 @@ oo_date_hours (GsfXMLIn *xin, xmlChar const **attrs)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "style"))
 			is_short = attr_eq (attrs[1], "short");
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT,
-				       "truncate-on-overflow", 
+				       "truncate-on-overflow",
 				       &truncate_hour_on_overflow))
 			truncate_hour_on_overflow_set = TRUE;
 
 	if (truncate_hour_on_overflow_set) {
-		if (truncate_hour_on_overflow) 
+		if (truncate_hour_on_overflow)
 			g_string_append (state->cur_format.accum, is_short ? "h" : "hh");
 		else {
 			g_string_append (state->cur_format.accum, is_short ? "[h]" : "[hh]");
 			state->cur_format.elapsed_set |= ODF_ELAPSED_SET_HOURS;
 		}
 	} else {
-		if (state->cur_format.truncate_hour_on_overflow) 
+		if (state->cur_format.truncate_hour_on_overflow)
 			g_string_append (state->cur_format.accum, is_short ? "h" : "hh");
 		else {
 			g_string_append (state->cur_format.accum, is_short ? "[h]" : "[hh]");
@@ -1717,13 +1717,13 @@ oo_date_minutes (GsfXMLIn *xin, xmlChar const **attrs)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "style"))
 			is_short = attr_eq (attrs[1], "short");
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT,
-				       "truncate-on-overflow", 
+				       "truncate-on-overflow",
 				       &truncate_hour_on_overflow))
 			truncate_hour_on_overflow_set = TRUE;
 	state->cur_format.pos_minutes = state->cur_format.accum->len;
-			
+
 	if (truncate_hour_on_overflow_set) {
-		if (truncate_hour_on_overflow) 
+		if (truncate_hour_on_overflow)
 			g_string_append (state->cur_format.accum, is_short ? "m" : "mm");
 		else {
 			g_string_append (state->cur_format.accum, is_short ? "[m]" : "[mm]");
@@ -1731,7 +1731,7 @@ oo_date_minutes (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 	} else {
 		if (state->cur_format.truncate_hour_on_overflow ||
-		    0 != (state->cur_format.elapsed_set & ODF_ELAPSED_SET_HOURS)) 
+		    0 != (state->cur_format.elapsed_set & ODF_ELAPSED_SET_HOURS))
 			g_string_append (state->cur_format.accum, is_short ? "m" : "mm");
 		else {
 			g_string_append (state->cur_format.accum, is_short ? "[m]" : "[mm]");
@@ -1768,16 +1768,16 @@ oo_date_seconds (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "style"))
 			is_short = attr_eq (attrs[1], "short");
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, 
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,
 					     "decimal-places"))
 			digits = atoi (attrs[1]);
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT,
-				       "truncate-on-overflow", 
+				       "truncate-on-overflow",
 				       &truncate_hour_on_overflow))
 			truncate_hour_on_overflow_set = TRUE;
 
 	state->cur_format.pos_seconds = state->cur_format.accum->len;
-			
+
 	if (truncate_hour_on_overflow_set) {
 		if (truncate_hour_on_overflow) {
 			OO_DATE_SECONDS_PRINT_SECONDS;
@@ -1789,7 +1789,7 @@ oo_date_seconds (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 	} else {
 		if (state->cur_format.truncate_hour_on_overflow ||
-		    0 != (state->cur_format.elapsed_set & 
+		    0 != (state->cur_format.elapsed_set &
 			  (ODF_ELAPSED_SET_HOURS | ODF_ELAPSED_SET_MINUTES))) {
 			OO_DATE_SECONDS_PRINT_SECONDS;
 		} else {
@@ -1818,7 +1818,7 @@ oo_date_text_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	if (state->cur_format.accum == NULL)
 		return;
-	
+
 	if (xin->content->len == 1 && NULL != strchr (" /-(),",*xin->content->str))
 		g_string_append (state->cur_format.accum, xin->content->str);
 	else if (xin->content->len >0) {
@@ -1843,7 +1843,7 @@ oo_date_style (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "family") &&
 			 !attr_eq (attrs[1], "data-style"))
 			return;
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, 
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT,
 					     "format-magic"))
 			magic = atoi (attrs[1]);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "format-source"))
@@ -1855,7 +1855,7 @@ oo_date_style (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (name != NULL);
 
 	/* We always save a magic number with source language, so if that is gone somebody may have changed formats */
-	state->cur_format.magic = format_source_is_language ? magic : GO_FORMAT_MAGIC_NONE; 
+	state->cur_format.magic = format_source_is_language ? magic : GO_FORMAT_MAGIC_NONE;
 	state->cur_format.accum = (state->cur_format.magic == GO_FORMAT_MAGIC_NONE) ?  g_string_new (NULL) : NULL;
 	state->cur_format.name = g_strdup (name);
 	state->cur_format.truncate_hour_on_overflow = truncate_hour_on_overflow;
@@ -1865,7 +1865,7 @@ oo_date_style (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-oo_date_style_end_rm_elapsed (GString *str, guint pos) 
+oo_date_style_end_rm_elapsed (GString *str, guint pos)
 {
 	guint end;
 	g_return_if_fail (str->len > pos && str->str[pos] == '[');
@@ -1881,30 +1881,30 @@ oo_date_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	int elapsed = state->cur_format.elapsed_set;
 
-	if (state->cur_format.magic != GO_FORMAT_MAGIC_NONE) 
+	if (state->cur_format.magic != GO_FORMAT_MAGIC_NONE)
 		g_hash_table_insert (state->formats, state->cur_format.name,
 				     go_format_new_magic (state->cur_format.magic));
 	else {
 		g_return_if_fail (state->cur_format.accum != NULL);
-		
-		while (elapsed != 0 && elapsed != ODF_ELAPSED_SET_SECONDS 
+
+		while (elapsed != 0 && elapsed != ODF_ELAPSED_SET_SECONDS
 		       && elapsed != ODF_ELAPSED_SET_MINUTES
 		       && elapsed != ODF_ELAPSED_SET_HOURS) {
 			/*We need to fix the format string since several times are set as "elapsed". */
 			if (0 != (elapsed & ODF_ELAPSED_SET_SECONDS)) {
-				oo_date_style_end_rm_elapsed (state->cur_format.accum, 
+				oo_date_style_end_rm_elapsed (state->cur_format.accum,
 							      state->cur_format.pos_seconds);
 				if (state->cur_format.pos_seconds < state->cur_format.pos_minutes)
 					state->cur_format.pos_minutes -= 2;
 				elapsed -= ODF_ELAPSED_SET_SECONDS;
 			} else {
-				oo_date_style_end_rm_elapsed (state->cur_format.accum, 
+				oo_date_style_end_rm_elapsed (state->cur_format.accum,
 							      state->cur_format.pos_minutes);
 				elapsed -= ODF_ELAPSED_SET_MINUTES;
 				break;
 			}
 		}
-	
+
 		g_hash_table_insert (state->formats, state->cur_format.name,
 				     go_format_new_from_XL (state->cur_format.accum->str));
 		g_string_free (state->cur_format.accum, TRUE);
@@ -1927,7 +1927,7 @@ odf_fraction (GsfXMLIn *xin, xmlChar const **attrs)
 	int max_d_digits = 3;
 	int min_i_digits = 0;
 	int min_n_digits = 0;
-	
+
 
 	if (state->cur_format.accum == NULL)
 		return;
@@ -1937,17 +1937,17 @@ odf_fraction (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "denominator-value")) {
 			denominator_fixed = TRUE;
 			denominator = atoi (CXML2C (attrs[1]));
-		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, 
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,
 					       "min-denominator-digits"))
 			min_d_digits = atoi (CXML2C (attrs[1]));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT,
 					       "max-denominator-digits"))
 			max_d_digits = atoi (CXML2C (attrs[1]));
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, 
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,
 					       "min-integer-digits"))
 			min_i_digits = atoi (CXML2C (attrs[1]));
 		else if  (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "no-integer-part", &no_int_part)) {}
-		else if  (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, 
+		else if  (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,
 					       "min-numerator-digits"))
 			min_n_digits = atoi (CXML2C (attrs[1]));
 
@@ -2004,7 +2004,7 @@ odf_number (GsfXMLIn *xin, xmlChar const **attrs)
 		} /* else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,  */
 /* 					       "display-factor")) */
 /* 			display_factor = atof (CXML2C (attrs[1])); */
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, 
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,
 					       "min-integer-digits"))
 			min_i_digits = atoi (CXML2C (attrs[1]));
 
@@ -2038,7 +2038,7 @@ odf_scientific (GsfXMLIn *xin, xmlChar const **attrs)
 /* 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,  */
 /* 					     "min-exponent-digits")) */
 /* 			min_exp_digits = atoi (CXML2C (attrs[1])); */
-		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "engineering", 
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "engineering",
 				       &engineering));
 	if (engineering)
 		details.exponent_step = 3;
@@ -2080,11 +2080,11 @@ odf_map (GsfXMLIn *xin, xmlChar const **attrs)
 		while (*condition == ' ') condition++;
 		if (*condition == '>' || *condition == '<' || *condition == '=') {
 			state->conditions = g_slist_prepend (state->conditions, g_strdup (condition));
-			state->cond_formats = g_slist_prepend (state->cond_formats, 
+			state->cond_formats = g_slist_prepend (state->cond_formats,
 							       g_strdup (style_name));
 			return;
 		}
-	} 
+	}
 }
 
 static inline gboolean
@@ -2145,7 +2145,7 @@ static void
 odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	
+
 	g_return_if_fail (state->cur_format.accum != NULL);
 
 	if (state->conditions != NULL) {
@@ -2169,10 +2169,10 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 				char *val = cond + strcspn (cond, "0123456789.");
 				float value = atof (val);
 				if (value != 0. || (*(cond+1) != '='))
-					g_string_append_printf 
-						(state->cur_format.accum, 
+					g_string_append_printf
+						(state->cur_format.accum,
 						 (*(cond+1) == '=') ? "[>=%.2f]" : "[>%.2f]", value);
-				g_string_append (state->cur_format.accum, go_format_as_XL 
+				g_string_append (state->cur_format.accum, go_format_as_XL
 					 (g_hash_table_lookup (state->formats, lf->data)));
 				parts++;
 				g_free (lc->data);
@@ -2192,7 +2192,7 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 					char *val = cond + strcspn (cond, "0123456789.");
 					float value = atof (val);
 					g_string_append_printf (state->cur_format.accum, "[=%.2f]", value);
-					g_string_append (state->cur_format.accum, go_format_as_XL 
+					g_string_append (state->cur_format.accum, go_format_as_XL
 							 (g_hash_table_lookup (state->formats, lf->data)));
 					parts++;
 					g_free (lc->data);
@@ -2213,7 +2213,7 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 					char *val = cond + strcspn (cond, "0123456789.");
 					float value = atof (val);
 					g_string_append_printf (state->cur_format.accum, "[<>%.2f]", value);
-					g_string_append (state->cur_format.accum, go_format_as_XL 
+					g_string_append (state->cur_format.accum, go_format_as_XL
 							 (g_hash_table_lookup (state->formats, lf->data)));
 					parts++;
 					g_free (lc->data);
@@ -2229,7 +2229,7 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			g_string_append (state->cur_format.accum, accum);
 			parts++;
 		}
-			
+
 		lc = state->conditions;
 		lf = state->cond_formats;
 		while (lc && lf) {
@@ -2240,10 +2240,10 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 				if (parts > 0)
 					g_string_append_c (state->cur_format.accum, ';');
 				if (value != 0. || (*(cond+1) != '='))
-					g_string_append_printf 
-						(state->cur_format.accum, 
+					g_string_append_printf
+						(state->cur_format.accum,
 						 (*(cond+1) == '=') ? "[<=%.2f]" : "[<%.2f]", value);
-				g_string_append (state->cur_format.accum, go_format_as_XL 
+				g_string_append (state->cur_format.accum, go_format_as_XL
 					 (g_hash_table_lookup (state->formats, lf->data)));
 				parts++;
 			}
@@ -2262,7 +2262,7 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 					if (parts > 0)
 						g_string_append_c (state->cur_format.accum, ';');
 					g_string_append_printf (state->cur_format.accum, "[=%.2f]", value);
-					g_string_append (state->cur_format.accum, go_format_as_XL 
+					g_string_append (state->cur_format.accum, go_format_as_XL
 							 (g_hash_table_lookup (state->formats, lf->data)));
 					parts++;
 					break;
@@ -2283,7 +2283,7 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 					if (parts > 0)
 						g_string_append_c (state->cur_format.accum, ';');
 					g_string_append_printf (state->cur_format.accum, "[<>%.2f]", value);
-					g_string_append (state->cur_format.accum, go_format_as_XL 
+					g_string_append (state->cur_format.accum, go_format_as_XL
 							 (g_hash_table_lookup (state->formats, lf->data)));
 					parts++;
 					break;
@@ -2386,7 +2386,7 @@ oo_parse_border (GsfXMLIn *xin, GnmStyle *style,
 			border_style = GNM_STYLE_BORDER_DASHED;
 		else if (g_str_has_prefix (border_type, "dotted"))
 			border_style = GNM_STYLE_BORDER_DOTTED;
-		else 
+		else
 			border_style = GNM_STYLE_BORDER_DOUBLE;
 
 		border = gnm_style_border_fetch (border_style, color,
@@ -2403,8 +2403,8 @@ odf_style_set_align_h (GnmStyle *style, gboolean h_align_is_valid, gboolean repe
 {
 	int alignment = HALIGN_GENERAL;
 	if (h_align_is_valid)
-		alignment = repeat_content ? HALIGN_FILL 
-			: ((text_align < 0) ? ((gnm_halign > -1) ? gnm_halign : HALIGN_LEFT) 
+		alignment = repeat_content ? HALIGN_FILL
+			: ((text_align < 0) ? ((gnm_halign > -1) ? gnm_halign : HALIGN_LEFT)
 			   : text_align);
 
 	gnm_style_set_align_h (style, alignment);
@@ -2477,7 +2477,7 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 					       state->text_align, state->gnm_halign);
 		else if (oo_attr_int (xin,attrs, OO_GNUM_NS_EXT, "GnmHAlign", &(state->gnm_halign)))
 			odf_style_set_align_h (style, state->h_align_is_valid, state->repeat_content,
-					       state->text_align, state->gnm_halign);			
+					       state->text_align, state->gnm_halign);
 		else if (oo_attr_enum (xin, attrs,
 				       (state->ver >= OOO_VER_OPENDOC) ? OO_NS_STYLE : OO_NS_FO,
 				       "vertical-align", v_alignments, &tmp)) {
@@ -2486,7 +2486,7 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 				v_alignment_is_fixed = TRUE;
 			} else if (!v_alignment_is_fixed)
                                 /* This should depend on the rotation */
-				gnm_style_set_align_v (style, VALIGN_BOTTOM); 
+				gnm_style_set_align_v (style, VALIGN_BOTTOM);
 		} else if (oo_attr_int (xin,attrs, OO_GNUM_NS_EXT, "GnmVAlign", &tmp)) {
 			if (!v_alignment_is_fixed) {
 				gnm_style_set_align_v (style, tmp);
@@ -2647,17 +2647,17 @@ odf_style_map_load_two_values (GsfXMLIn *xin, char *condition, GnmStyleCond *con
 		char *end = condition + len - 1;
 		if (*end == ')') {
 			GnmParsePos   pp;
-			
+
 			parse_pos_init (&pp, state->pos.wb, NULL, 0, 0);
 			len -= 1;
 			*end = '\0';
 			while (1) {
 				gchar * try = g_strrstr_len (condition, len, ",");
 				GnmExprTop const *texpr;
-				
+
 				if (try == NULL || try == condition) return FALSE;
-				
-				texpr = oo_expr_parse_str 
+
+				texpr = oo_expr_parse_str
 					(xin, try + 1, &pp,
 					 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
 					 FORMULA_OPENFORMULA);
@@ -2668,7 +2668,7 @@ odf_style_map_load_two_values (GsfXMLIn *xin, char *condition, GnmStyleCond *con
 				}
 				len = try - condition - 1;
 			}
-			cond->texpr[0] = oo_expr_parse_str 
+			cond->texpr[0] = oo_expr_parse_str
 				(xin, condition, &pp,
 				 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
 				 FORMULA_OPENFORMULA);
@@ -2685,7 +2685,7 @@ odf_style_map_load_one_value (GsfXMLIn *xin, char *condition, GnmStyleCond *cond
 	GnmParsePos   pp;
 
 	parse_pos_init (&pp, state->pos.wb, NULL, 0, 0);
-	cond->texpr[0] = oo_expr_parse_str 
+	cond->texpr[0] = oo_expr_parse_str
 		(xin, condition, &pp,
 		 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
 		 FORMULA_OPENFORMULA);
@@ -2718,7 +2718,7 @@ oo_style_map (GsfXMLIn *xin, xmlChar const **attrs)
 
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (state->cur_style.cells != NULL);
-	
+
 	full_condition = condition;
 	cond.texpr[0] = NULL;
 	cond.texpr[1] = NULL;
@@ -2786,7 +2786,7 @@ oo_style_map (GsfXMLIn *xin, xmlChar const **attrs)
 		success = odf_style_map_load_one_value (xin, text, &cond);
 		g_free (text);
 	}
-	
+
 	if (!success)
 	{
 		if (cond.texpr[0] != NULL)
@@ -2794,7 +2794,7 @@ oo_style_map (GsfXMLIn *xin, xmlChar const **attrs)
 		if (cond.texpr[1] != NULL)
 			gnm_expr_top_unref (cond.texpr[1]);
 		oo_warning (xin,
-			    _("Unknown condition '%s' encountered, ignoring."), 
+			    _("Unknown condition '%s' encountered, ignoring."),
 			    full_condition);
 		return;
 	}
@@ -2890,9 +2890,9 @@ oo_style_have_three_dimensional (GSList *styles)
 {
 	GSList *l;
 	gboolean is_three_dimensional = FALSE;
-	for (l = styles; l != NULL; l = l->next) { 
+	for (l = styles; l != NULL; l = l->next) {
 		OOChartStyle *style = l->data;
-		oo_prop_list_has_three_dimensional (style->other_props, 
+		oo_prop_list_has_three_dimensional (style->other_props,
 						    &is_three_dimensional);
 	}
 	return is_three_dimensional;
@@ -2914,9 +2914,9 @@ oo_style_have_multi_series (GSList *styles)
 {
 	GSList *l;
 	gboolean is_multi_series = FALSE;
-	for (l = styles; l != NULL; l = l->next) { 
+	for (l = styles; l != NULL; l = l->next) {
 		OOChartStyle *style = l->data;
-		oo_prop_list_has_multi_series (style->other_props, 
+		oo_prop_list_has_multi_series (style->other_props,
 						    &is_multi_series);
 	}
 	return is_multi_series;
@@ -2964,15 +2964,15 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_int ("gap-percentage", tmp));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "symbol-type"))
-			style->plot_props = g_slist_prepend 
+			style->plot_props = g_slist_prepend
 				(style->plot_props,
-				 oo_prop_new_bool ("default-style-has-markers", 
+				 oo_prop_new_bool ("default-style-has-markers",
 						   !attr_eq (attrs[1], "none")));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "stroke")) {
 			draw_stroke = !attr_eq (attrs[1], "none");
 			draw_stroke_set = TRUE;
 		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "lines", &btmp)) {
-			style->plot_props = g_slist_prepend 
+			style->plot_props = g_slist_prepend
 				(style->plot_props,
 				 oo_prop_new_bool ("default-style-has-lines", btmp));
 			default_style_has_lines_set = TRUE;
@@ -2987,7 +2987,7 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 
 	if (draw_stroke_set && !default_style_has_lines_set)
-		style->plot_props = g_slist_prepend 
+		style->plot_props = g_slist_prepend
 			(style->plot_props,
 			 oo_prop_new_bool ("default-style-has-lines", draw_stroke));
 }
@@ -3212,7 +3212,7 @@ od_draw_frame (GsfXMLIn *xin, xmlChar const **attrs)
 			char *end_str = g_strconcat ("[", CXML2C (attrs[1]), "]", NULL);
 			parse_pos_init (&pp, state->pos.wb, NULL, 0, 0);
 			texpr = oo_expr_parse_str (xin, end_str, &pp,
-						   GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES, 
+						   GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
 						   FORMULA_OPENFORMULA);
 			g_free (end_str);
 		}
@@ -3383,7 +3383,7 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 		g_slist_free (axes);
 	}
 
-	for (l = state->chart.these_plot_styles; l != NULL; l = l->next) { 
+	for (l = state->chart.these_plot_styles; l != NULL; l = l->next) {
 		style = l->data;
 		oo_prop_list_apply (style->axis_props, G_OBJECT (state->chart.axis));
 	}
@@ -3443,7 +3443,7 @@ oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, int dim_type, char cons
 		dim = - (1 + dim_type);
 	else if (dim_name == NULL)
 		dim = gog_series_map_dim (state->chart.series, dim_type);
-	else 
+	else
 		dim = gog_series_map_dim_by_name (state->chart.series, dim_name);
 	if (dim < -1)
 		return;
@@ -3507,11 +3507,11 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	GSList *l;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					OO_NS_CHART, "style-name"))
-			state->chart.these_plot_styles = g_slist_append 
+			state->chart.these_plot_styles = g_slist_append
 				(state->chart.these_plot_styles,
-				 g_hash_table_lookup 
+				 g_hash_table_lookup
 				 (state->chart.graph_styles, CXML2C (attrs[1])));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "cell-range-address"))
 			source_range_str = attrs[1];
@@ -3541,7 +3541,7 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 			if (label_flags & 2)
 				state->chart.src_range.start.col++;
 
-			for (l = state->chart.these_plot_styles; l != NULL; l = l->next) { 
+			for (l = state->chart.these_plot_styles; l != NULL; l = l->next) {
 				style = l->data;
 				state->chart.src_in_rows = style->src_in_rows;
 			}
@@ -3568,22 +3568,22 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	case OO_PLOT_CONTOUR:
 		if (oo_style_have_multi_series (state->chart.these_plot_styles)) {
 			type = "XLSurfacePlot";
-			state->chart.plot_type = OO_PLOT_XL_SURFACE;		
+			state->chart.plot_type = OO_PLOT_XL_SURFACE;
 		} else if (oo_style_have_three_dimensional (state->chart.these_plot_styles)) {
 			type = "GogSurfacePlot";
 			state->chart.plot_type = OO_PLOT_SURFACE;
-		} else 
-			type = "GogContourPlot"; 
+		} else
+			type = "GogContourPlot";
 		break;
 	case OO_PLOT_BUBBLE:	type = "GogBubblePlot"; break;
 	case OO_PLOT_GANTT:	type = "GogDropBarPlot"; break;
 	case OO_PLOT_POLAR:	type = "GogPolarPlot"; break;
-	case OO_PLOT_XYZ_CONTOUR: 
+	case OO_PLOT_XYZ_CONTOUR:
 		if (oo_style_have_three_dimensional (state->chart.these_plot_styles)) {
 			type = "GogXYZSurfacePlot";
 			state->chart.plot_type = OO_PLOT_XYZ_SURFACE;
-		} else 
-			type = "GogXYZContourPlot"; 
+		} else
+			type = "GogXYZContourPlot";
 		break;
 	case OO_PLOT_XYZ_SURFACE: type = "GogXYZSurfacePlot"; break;
 	case OO_PLOT_SURFACE: type = "GogSurfacePlot"; break;
@@ -3595,12 +3595,12 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	state->chart.plot = gog_plot_new_by_name (type);
 	gog_object_add_by_name (GOG_OBJECT (state->chart.chart),
 		"Plot", GOG_OBJECT (state->chart.plot));
-	for (l = state->chart.these_plot_styles; l != NULL; l = l->next) { 
+	for (l = state->chart.these_plot_styles; l != NULL; l = l->next) {
 		style = l->data;
 		oo_prop_list_apply (style->plot_props, G_OBJECT (state->chart.plot));
 	}
 	if (state->chart.plot_type == OO_PLOT_GANTT) {
-		GogObject *yaxis = gog_object_get_child_by_name (GOG_OBJECT (state->chart.chart), 
+		GogObject *yaxis = gog_object_get_child_by_name (GOG_OBJECT (state->chart.chart),
 								 "Y-Axis");
 		if (yaxis != NULL) {
 			GValue *val = g_value_init (g_new0 (GValue, 1), G_TYPE_BOOLEAN);
@@ -3644,7 +3644,7 @@ oo_plot_area_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		state->chart.stock_series = NULL;
 	} else if (state->chart.series != NULL) {
 		oo_plot_assign_dim (xin, NULL, GOG_MS_DIM_VALUES, NULL);
-		state->chart.series = NULL;		
+		state->chart.series = NULL;
 	}
 	state->chart.plot = NULL;
 	g_slist_free (state->chart.these_plot_styles);
@@ -3660,14 +3660,14 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 #ifdef OO_DEBUG_OBJS
 	g_print ("<<<<< Start\n");
 #endif
-	state->chart.series_count++; 
+	state->chart.series_count++;
 	state->chart.domain_count = 0;
 
 	switch (state->chart.plot_type) {
 	case OO_PLOT_STOCK:
 		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 			if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "values-cell-range-address"))
-				state->chart.stock_series = g_slist_append (state->chart.stock_series, 
+				state->chart.stock_series = g_slist_append (state->chart.stock_series,
 									    g_strdup (attrs[1]));
 		break;
 	case OO_PLOT_SURFACE:
@@ -3720,7 +3720,7 @@ static void
 oo_plot_series_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	
+
 	switch (state->chart.plot_type) {
 	case OO_PLOT_STOCK:
 	case OO_PLOT_CONTOUR:
@@ -3809,11 +3809,11 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_enum (xin, attrs, OO_NS_CHART, "class", types, &tmp))
 			type = tmp;
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					     OO_NS_CHART, "style-name"))
-			state->chart.these_plot_styles = g_slist_append 
+			state->chart.these_plot_styles = g_slist_append
 				(state->chart.these_plot_styles,
-				 g_hash_table_lookup 
+				 g_hash_table_lookup
 				 (state->chart.graph_styles, CXML2C (attrs[1])));
 	state->chart.plot_type = type;
 	state->chart.chart = GOG_CHART (gog_object_add_by_name (
@@ -3889,7 +3889,7 @@ oo_chart_wall (GsfXMLIn *xin, xmlChar const **attrs)
 /* 	GogObject *backplane; */
 
 	/* backplane =  */gog_object_add_by_name (GOG_OBJECT (state->chart.chart), "Backplane", NULL);
-	
+
 /* 	g_object_get (G_OBJECT (backplane), "style", &style, NULL); */
 }
 
@@ -4336,10 +4336,10 @@ odf_func_address_handler (GnmConventions const *convs, Workbook *scope, GnmExprL
 	guint argc = gnm_expr_list_length (args);
 
 	if (argc == 4 && convs->sheet_name_sep == '!') {
-		/* Openoffice was missing the A1 parameter */ 
+		/* Openoffice was missing the A1 parameter */
 		GnmExprList *new_args;
 		GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("ADDRESS", scope, FALSE);
-		
+
 		new_args = g_slist_insert ((GSList *) args,
 					   (gpointer) gnm_expr_new_constant (value_new_int (1)),
 					   3);
@@ -4352,16 +4352,16 @@ static GnmExpr const *
 odf_func_phi_handler (GnmConventions const *convs, Workbook *scope, GnmExprList *args)
 {
 	GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("NORMDIST", scope, FALSE);
-	
+
 	args = g_slist_append (args,
 			       (gpointer) gnm_expr_new_constant (value_new_int (0)));
 	args = g_slist_append (args,
 			       (gpointer) gnm_expr_new_constant (value_new_int (1)));
 
 	args = g_slist_append (args,
-			       (gpointer) gnm_expr_new_funcall 
+			       (gpointer) gnm_expr_new_funcall
 			       (gnm_func_lookup_or_add_placeholder ("FALSE", scope, FALSE), NULL));
-	
+
 	return gnm_expr_new_funcall (f, args);
 }
 
@@ -4376,11 +4376,11 @@ odf_func_gauss_handler (GnmConventions const *convs, Workbook *scope, GnmExprLis
 	if (argc != 1)
 		return NULL;
 
-	expr = gnm_expr_new_binary (gnm_expr_new_funcall1 
+	expr = gnm_expr_new_binary (gnm_expr_new_funcall1
 				    (f, gnm_expr_new_binary ((gnm_expr_copy ((GnmExpr const *)(args->data))),
 							     GNM_EXPR_OP_DIV,
 									     gnm_expr_new_funcall1 (fs,
-												    gnm_expr_new_constant 
+												    gnm_expr_new_constant
 												    (value_new_int (2))))),
 				    GNM_EXPR_OP_DIV,
 				    gnm_expr_new_constant (value_new_int (2)));
@@ -4419,15 +4419,15 @@ odf_func_floor_handler (GnmConventions const *convs, Workbook *scope, GnmExprLis
 
 	expr_mode_zero = gnm_expr_new_funcall3
 		(fd_if,
-		 gnm_expr_new_binary 
+		 gnm_expr_new_binary
 		 (gnm_expr_copy (expr_x),
 		  GNM_EXPR_OP_LT,
 		  gnm_expr_new_constant (value_new_int (0))),
-		 gnm_expr_new_funcall2 
+		 gnm_expr_new_funcall2
 		 (fd_ceiling,
 		  gnm_expr_copy (expr_x),
 		  gnm_expr_copy (expr_sig)),
-		 gnm_expr_new_funcall2 
+		 gnm_expr_new_funcall2
 		 (fd_floor,
 		  gnm_expr_copy (expr_x),
 		  gnm_expr_copy (expr_sig)));
@@ -4437,8 +4437,8 @@ odf_func_floor_handler (GnmConventions const *convs, Workbook *scope, GnmExprLis
 		return expr_mode_zero;
 	}
 
-	expr_mode_one = 
-		gnm_expr_new_funcall2 
+	expr_mode_one =
+		gnm_expr_new_funcall2
 		(fd_floor,
 		 gnm_expr_copy (expr_x),
 		 gnm_expr_copy (expr_sig));
@@ -4461,9 +4461,9 @@ odf_func_floor_handler (GnmConventions const *convs, Workbook *scope, GnmExprLis
 			}
 		}
 	}
-	expr_if = gnm_expr_new_funcall3 
+	expr_if = gnm_expr_new_funcall3
 		(fd_if,
-		 gnm_expr_new_binary 
+		 gnm_expr_new_binary
 		 (gnm_expr_new_constant (value_new_int (0)),
 		  GNM_EXPR_OP_EQUAL,
 		  gnm_expr_copy (expr_mode)),
@@ -4491,22 +4491,22 @@ odf_func_ceiling_handler (GnmConventions const *convs, Workbook *scope, GnmExprL
 		GnmExpr const *expr_mode;
 		GnmExpr const *expr_x = g_slist_nth_data ((GSList *) args, 0);
 		GnmExpr const *expr_sig = g_slist_nth_data ((GSList *) args, 1);
-		
+
 		GnmFunc  *fd_ceiling = gnm_func_lookup_or_add_placeholder ("CEILING", scope, FALSE);
 		GnmFunc  *fd_floor = gnm_func_lookup_or_add_placeholder ("FLOOR", scope, FALSE);
 		GnmFunc  *fd_if = gnm_func_lookup_or_add_placeholder ("IF", scope, FALSE);
-		
+
 		expr_mode_zero = gnm_expr_new_funcall3
 			(fd_if,
-			 gnm_expr_new_binary 
+			 gnm_expr_new_binary
 			 (gnm_expr_copy (expr_x),
 			  GNM_EXPR_OP_LT,
 			  gnm_expr_new_constant (value_new_int (0))),
-			 gnm_expr_new_funcall2 
+			 gnm_expr_new_funcall2
 			 (fd_floor,
 			  gnm_expr_copy (expr_x),
 			  gnm_expr_copy (expr_sig)),
-			 gnm_expr_new_funcall2 
+			 gnm_expr_new_funcall2
 			 (fd_ceiling,
 			  gnm_expr_copy (expr_x),
 			  gnm_expr_copy (expr_sig)));
@@ -4515,8 +4515,8 @@ odf_func_ceiling_handler (GnmConventions const *convs, Workbook *scope, GnmExprL
 			return expr_mode_zero;
 		}
 
-		expr_mode_one = 
-			gnm_expr_new_funcall2 
+		expr_mode_one =
+			gnm_expr_new_funcall2
 			(fd_ceiling,
 			 gnm_expr_copy (expr_x),
 			 gnm_expr_copy (expr_sig));
@@ -4537,9 +4537,9 @@ odf_func_ceiling_handler (GnmConventions const *convs, Workbook *scope, GnmExprL
 				}
 			}
 		}
-		expr_if = gnm_expr_new_funcall3 
+		expr_if = gnm_expr_new_funcall3
 			(fd_if,
-			 gnm_expr_new_binary 
+			 gnm_expr_new_binary
 			 (gnm_expr_new_constant (value_new_int (0)),
 			  GNM_EXPR_OP_EQUAL,
 			  gnm_expr_copy (expr_mode)),
@@ -4570,10 +4570,10 @@ odf_func_chisqdist_handler (GnmConventions const *convs, Workbook *scope, GnmExp
 		GnmFunc  *fd_dchisq;
 		GnmExpr  const *expr_pchisq;
 		GnmExpr  const *expr_dchisq;
-		
+
 		args = (GnmExprList *) g_slist_remove_link ((GSList *) args, link);
 		g_slist_free (link);
-		
+
 		if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_FUNCALL) {
 			if (go_ascii_strcase_equal (expr->func.func->name, "TRUE")) {
 				fd_pchisq = gnm_func_lookup_or_add_placeholder ("R.PCHISQ", scope, FALSE);
@@ -4618,7 +4618,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{"GAUSS", odf_func_gauss_handler},
 		{NULL, NULL}
 	};
-	
+
 	static struct {
 		char const *oo_name;
 		char const *gnm_name;
@@ -4793,7 +4793,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 /* { "FINDB","FINDB" }, */
 /* { "FINV","FINV" }, */
 /* { "FISHER","FISHER" }, */
-/* { "FISHERINV","FISHERINV" }, */        
+/* { "FISHERINV","FISHERINV" }, */
 /* { "FIXED","FIXED" }, */
 /* { "FORECAST","FORECAST" }, */
 /* { "FREQUENCY","FREQUENCY" }, */

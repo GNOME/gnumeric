@@ -83,7 +83,7 @@ typedef struct {
 
 	GtkCheckButton		*group_read;
 	GtkCheckButton		*group_write;
-	
+
 	GtkCheckButton		*others_read;
 	GtkCheckButton		*others_write;
 
@@ -106,7 +106,7 @@ typedef struct {
 	GtkListStore		*ppt_name_store;
 	GtkEntry		*ppt_value;
 	GtkEntry		*ppt_link;
-	
+
 	GtkButton		*add_button;
 	GtkButton		*remove_button;
 	GtkButton		*apply_button;
@@ -118,7 +118,7 @@ typedef struct {
 } DialogDocMetaData;
 
 /******************************************************************************
- * G_VALUE TRANSFORM FUNCTIONS 
+ * G_VALUE TRANSFORM FUNCTIONS
  ******************************************************************************/
 
 /*
@@ -204,7 +204,7 @@ cb_dialog_doc_metadata_change_permission (GtkCheckButton    *bt,
 		state->file_permissions->others_write = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (bt));
 	else
 		return;
-	
+
 	state->permissions_changed = TRUE;
 }
 
@@ -229,7 +229,7 @@ dialog_doc_metadata_set_up_permissions (DialogDocMetaData *state)
 		/* Group */
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->group_read),
 						state->file_permissions->group_read);
-		
+
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->group_write),
 					      state->file_permissions->group_write);
 
@@ -240,7 +240,7 @@ dialog_doc_metadata_set_up_permissions (DialogDocMetaData *state)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->others_write),
 					      state->file_permissions->others_write);
 	}
-	
+
 	/* At this moment we don't let user change file permissions */
 	gtk_widget_set_sensitive (GTK_WIDGET (state->owner_read), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->owner_write), FALSE);
@@ -259,7 +259,7 @@ time2str (time_t t)
 
 	if (t == -1)
 		return NULL;
-	
+
 	len = strftime (buffer, sizeof (buffer), format, localtime (&t));
 	if (len == 0)
 		return NULL;
@@ -268,7 +268,7 @@ time2str (time_t t)
 }
 
  /* @auto_fill : if TRUE and the text is NULL, try to set the label text with an automatic value. */
-static void 
+static void
 dialog_doc_metadata_set_label (DialogDocMetaData *state,
 			       GtkLabel          *label,
 			       char        const *text,
@@ -322,7 +322,7 @@ dialog_doc_metadata_set_label (DialogDocMetaData *state,
 		else if (label == state->sheets) {
 			str_value = g_strdup_printf ("%d",  workbook_sheet_count (wb));
 		}
-		
+
 		/* Number of cells */
 		else if (label == state->cells) {
 			/* Nothing to do ATM */
@@ -377,7 +377,7 @@ dialog_doc_metadata_init_file_page (DialogDocMetaData *state)
 			  "toggled",
 			  G_CALLBACK (cb_dialog_doc_metadata_change_permission),
 			  state);
-	
+
 	g_signal_connect (G_OBJECT (state->group_write),
 			  "toggled",
 			  G_CALLBACK (cb_dialog_doc_metadata_change_permission),
@@ -388,7 +388,7 @@ dialog_doc_metadata_init_file_page (DialogDocMetaData *state)
 			  "toggled",
 			  G_CALLBACK (cb_dialog_doc_metadata_change_permission),
 			  state);
-	
+
 	g_signal_connect (G_OBJECT (state->others_write),
 			  "toggled",
 			  G_CALLBACK (cb_dialog_doc_metadata_change_permission),
@@ -405,7 +405,7 @@ dialog_doc_metadata_init_file_page (DialogDocMetaData *state)
 }
 
 /******************************************************************************
- * FUNCTIONS RELATED TO 'DESCRIPTION' PAGE 
+ * FUNCTIONS RELATED TO 'DESCRIPTION' PAGE
  ******************************************************************************/
 
 /* @activate_property : if TRUE, sets the tree view row which was added active. */
@@ -427,7 +427,7 @@ dialog_doc_metadata_add_prop (DialogDocMetaData *state,
 
 	/* Append new values in tree view */
 	gtk_tree_store_append (state->properties_store, &tree_iter, NULL);
-	gtk_tree_store_set (state->properties_store, 
+	gtk_tree_store_set (state->properties_store,
 			    &tree_iter,
 			    0, name,
 			    1, value,
@@ -436,7 +436,7 @@ dialog_doc_metadata_add_prop (DialogDocMetaData *state,
 
 	/* Append new values in combo box */
 	gtk_list_store_append (state->ppt_name_store, &list_iter);
-	gtk_list_store_set (state->ppt_name_store, 
+	gtk_list_store_set (state->ppt_name_store,
 			    &list_iter,
 			    0, name,
 			    -1);
@@ -459,7 +459,7 @@ dialog_doc_metadata_get_gsf_prop_val_type (DialogDocMetaData *state,
 	/* First we try the clean way */
 	prop = gsf_doc_meta_data_lookup (state->metadata, name);
 
-	if (prop != NULL) 
+	if (prop != NULL)
 		value = (GValue *) gsf_doc_prop_get_val (prop);
 
 	if (value != NULL) {
@@ -472,7 +472,7 @@ dialog_doc_metadata_get_gsf_prop_val_type (DialogDocMetaData *state,
 				/* Just leave it as is */
 				break;
 
-			case G_TYPE_BOXED: 
+			case G_TYPE_BOXED:
 				{
 				/* Check if it is really a GsfTimeStamp */
 					GsfTimestamp *timestamp;
@@ -504,11 +504,11 @@ dialog_doc_metadata_get_gsf_prop_val_type (DialogDocMetaData *state,
 				/* Anything else is invalid */
 				{
 					val_type = G_TYPE_INVALID;
-					
+
 					break;
 				}
 		}
-	} 
+	}
 	else {
 		/* FIXME: At this moment, we will assume a G_TYPE_STRING */
 		val_type = G_TYPE_STRING;
@@ -573,9 +573,9 @@ dialog_doc_metadata_set_gsf_prop (DialogDocMetaData *state,
 	if (existing_prop != NULL) {
 		gboolean    link_changed;
 		gboolean    value_changed = TRUE;
-		
+
 		link_changed = ((link != NULL && *link != 0) && !(existing_link != NULL && *existing_link != 0))
-			|| (!(link != NULL && *link != 0) && (existing_link != NULL && *existing_link != 0)) 
+			|| (!(link != NULL && *link != 0) && (existing_link != NULL && *existing_link != 0))
 			|| !((link == NULL && existing_link == NULL) || (0 == strcmp (link, existing_link)));
 		if (existing_value == NULL)
 			value_changed = ((value != NULL) && (*value != 0));
@@ -585,14 +585,14 @@ dialog_doc_metadata_set_gsf_prop (DialogDocMetaData *state,
 					 !(value == NULL || *value == 0)) ||
 				(!(existing_val_str == NULL || *existing_val_str == 0) &&
 				 (value == NULL || *value == 0)) ||
-				!((existing_val_str == NULL && value == NULL) || 
+				!((existing_val_str == NULL && value == NULL) ||
 				  0 == strcmp (existing_val_str, value));
 			if (!link_changed && !value_changed)
 				return;
 		}
 	}
 
-	
+
 	/* Create a new GsfDocProp */
 	doc_prop = gsf_doc_prop_new (g_strdup (name));
 
@@ -610,7 +610,7 @@ dialog_doc_metadata_set_gsf_prop (DialogDocMetaData *state,
 	if (link != NULL)
 		gsf_doc_prop_set_link (doc_prop, g_strdup (link));
 
-	cmd_change_meta_data (WORKBOOK_CONTROL (state->wbcg), 
+	cmd_change_meta_data (WORKBOOK_CONTROL (state->wbcg),
 			      g_slist_prepend (NULL, doc_prop), NULL);
 }
 
@@ -628,7 +628,7 @@ dialog_doc_metadata_set_gsf_prop (DialogDocMetaData *state,
 static void
 dialog_doc_metadata_set_prop (DialogDocMetaData *state,
 			      const gchar       *prop_name,
-			      const gchar       *prop_value, 
+			      const gchar       *prop_value,
 			      const gchar       *link_value)
 {
 	GtkTreeIter tree_iter;
@@ -636,7 +636,7 @@ dialog_doc_metadata_set_prop (DialogDocMetaData *state,
 	GValue      *value;
 	gboolean    ret;
 	gboolean    found;
-	
+
 	g_return_if_fail (state->metadata != NULL);
 
 	found = FALSE;
@@ -648,7 +648,7 @@ dialog_doc_metadata_set_prop (DialogDocMetaData *state,
 					     &tree_iter);
 
 	while (ret == TRUE) {
-		
+
 		gtk_tree_model_get_value (GTK_TREE_MODEL (state->properties_store),
 					  &tree_iter,
 					  0,
@@ -656,13 +656,13 @@ dialog_doc_metadata_set_prop (DialogDocMetaData *state,
 
 		if (strcmp (prop_name, g_value_get_string (value)) == 0) {
 			/* Set new value */
-			gtk_tree_store_set (state->properties_store, 
+			gtk_tree_store_set (state->properties_store,
 					    &tree_iter,
 					    1, prop_value,
 					    -1);
 
 			if (link_value != NULL)
-				gtk_tree_store_set (state->properties_store, 
+				gtk_tree_store_set (state->properties_store,
 						    &tree_iter,
 						    2, link_value,
 						    -1);
@@ -709,7 +709,7 @@ dialog_doc_metadata_set_prop (DialogDocMetaData *state,
 }
 
 /**
- * CALLBACKS for 'Description' page entries 
+ * CALLBACKS for 'Description' page entries
  **/
 static gboolean
 cb_dialog_doc_metadata_title_changed (GtkEntry          *entry,
@@ -881,7 +881,7 @@ dialog_doc_metadata_init_description_page (DialogDocMetaData *state)
 /**
  * cb_dialog_doc_metadata_add_clicked
  *
- * @w     : widget 
+ * @w     : widget
  * @state : dialog main struct
  *
  * Adds a new "empty" property to the tree view.
@@ -977,7 +977,7 @@ dialog_doc_metadata_update_prop (DialogDocMetaData *state,
 	}
 
 	else if (strcmp (prop_name, GSF_META_NAME_DESCRIPTION) == 0) {
-		gtk_text_buffer_set_text (gtk_text_view_get_buffer (state->comments), 
+		gtk_text_buffer_set_text (gtk_text_view_get_buffer (state->comments),
 					  prop_value,
 					  -1);
 	}
@@ -986,7 +986,7 @@ dialog_doc_metadata_update_prop (DialogDocMetaData *state,
 /**
  * cb_dialog_doc_metadata_remove_clicked
  *
- * @remove_bt : widget 
+ * @remove_bt : widget
  * @state     : dialog main struct
  *
  * Removes a property from the tree view and updates all the dialog and
@@ -1013,7 +1013,7 @@ cb_dialog_doc_metadata_remove_clicked (GtkWidget         *remove_bt,
 	path = gtk_tree_model_get_path (GTK_TREE_MODEL (state->ppt_name_store),
 					&list_iter);
 
-	has_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (state->properties_store), 
+	has_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (state->properties_store),
 					    &tree_iter, path);
 	gtk_tree_path_free (path);
 	g_return_if_fail (has_iter);
@@ -1026,14 +1026,14 @@ cb_dialog_doc_metadata_remove_clicked (GtkWidget         *remove_bt,
 				  prop_name);
 
 	/* Update other pages */
-	dialog_doc_metadata_update_prop (state, 
+	dialog_doc_metadata_update_prop (state,
 					 g_value_get_string (prop_name),
 					 NULL);
 
 	/* Remove property from GsfMetadata */
-	cmd_change_meta_data (WORKBOOK_CONTROL (state->wbcg), NULL, 
+	cmd_change_meta_data (WORKBOOK_CONTROL (state->wbcg), NULL,
 			      g_slist_prepend (NULL, g_value_dup_string (prop_name)));
-	
+
 	/* Remove from Tree View */
 	gtk_tree_store_remove (state->properties_store,
 			       &tree_iter);
@@ -1067,7 +1067,7 @@ cb_dialog_doc_metadata_apply_clicked (GtkWidget         *w,
 /**
  * cb_dialog_doc_metadata_combo_prop_selected
  *
- * @combo_box : widget 
+ * @combo_box : widget
  * @state     : dialog main struct
  *
  * Update the highlited item in the tree view and the 'Properties' page entry values.
@@ -1087,32 +1087,32 @@ cb_dialog_doc_metadata_combo_prop_selected (GtkComboBox       *combo_box,
 
 	/* Get list store path */
 	if (gtk_combo_box_get_active_iter (combo_box, &list_iter)) {
-		path = gtk_tree_model_get_path 
+		path = gtk_tree_model_get_path
 			(GTK_TREE_MODEL (state->ppt_name_store), &list_iter);
 
-		if (gtk_tree_model_get_iter 
-		    (GTK_TREE_MODEL (state->properties_store), 
+		if (gtk_tree_model_get_iter
+		    (GTK_TREE_MODEL (state->properties_store),
 		     &tree_iter, path)) {
 
 			/* Get value on the second column */
 			value = g_new0 (GValue, 1);
-			gtk_tree_model_get_value 
+			gtk_tree_model_get_value
 				(GTK_TREE_MODEL (state->properties_store),
 				 &tree_iter, 1, value);
 
-			gtk_entry_set_text (state->ppt_value, 
+			gtk_entry_set_text (state->ppt_value,
 					    g_value_get_string (value));
 
 			/* Get link value on the 3rd column */
 			g_value_unset (value);
-			gtk_tree_model_get_value 
+			gtk_tree_model_get_value
 				(GTK_TREE_MODEL (state->properties_store),
 				 &tree_iter, 2, value);
 
 			link_value = (gchar *) g_value_get_string (value);
 
 			if (link_value != NULL)
-				gtk_entry_set_text (state->ppt_link, 
+				gtk_entry_set_text (state->ppt_link,
 						    (const gchar *) link_value);
 
 			/* Update tree view cursor */
@@ -1136,13 +1136,13 @@ cb_dialog_doc_metadata_combo_prop_selected (GtkComboBox       *combo_box,
 /**
  * cb_dialog_doc_metadata_tree_prop_selected
  *
- * @combo_box : widget 
+ * @combo_box : widget
  * @state     : dialog main struct
  *
  * Update the highlited item in the 'Properties' page combo box.
  *
  **/
-static void 
+static void
 cb_dialog_doc_metadata_tree_prop_selected (GtkTreeView       *tree_view,
 					   DialogDocMetaData *state)
 {
@@ -1161,7 +1161,7 @@ cb_dialog_doc_metadata_tree_prop_selected (GtkTreeView       *tree_view,
 					       &list_iter);
 
 		/* Set remove button sensitive */
-		gtk_widget_set_sensitive (GTK_WIDGET (state->remove_button), 
+		gtk_widget_set_sensitive (GTK_WIDGET (state->remove_button),
 					  TRUE);
 	} else {
 		g_warning ("Did not get a valid iterator");
@@ -1172,13 +1172,13 @@ cb_dialog_doc_metadata_tree_prop_selected (GtkTreeView       *tree_view,
 /**
  * dialog_doc_metadata_get_prop_val
  *
- * @prop_name  : property name 
- * @prop_value : property value 
+ * @prop_name  : property name
+ * @prop_value : property value
  *
  * Retrieves an arbitrary property value always as string.
  *
  **/
-static gchar * 
+static gchar *
 dialog_doc_metadata_get_prop_val (char const *prop_name,
 				  GValue     *prop_value)
 {
@@ -1202,11 +1202,11 @@ dialog_doc_metadata_get_prop_val (char const *prop_name,
 /**
  * dialog_doc_metadata_populate_tree_view
  *
- * @name  : property name 
- * @prop  : property stored in GsfDocMetaData 
+ * @name  : property name
+ * @prop  : property stored in GsfDocMetaData
  * @state : dialog main struct
  *
- * Populates the tree view in 'Properties' page. 
+ * Populates the tree view in 'Properties' page.
  *
  **/
 static void
@@ -1253,13 +1253,13 @@ dialog_doc_metadata_init_properties_page (DialogDocMetaData *state)
 	gtk_widget_set_sensitive (GTK_WIDGET (state->add_button), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->remove_button), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->apply_button), FALSE);
-	
+
 	/* Intialize Combo Box */
 	state->ppt_name_store = gtk_list_store_new (1, G_TYPE_STRING);
-	
+
 	gtk_combo_box_set_model (GTK_COMBO_BOX (state->ppt_name),
 				 GTK_TREE_MODEL (state->ppt_name_store));
-	
+
 	gtk_combo_box_entry_set_text_column (state->ppt_name, 0);
 
 	/* Populate Treeview */
@@ -1267,24 +1267,24 @@ dialog_doc_metadata_init_properties_page (DialogDocMetaData *state)
 						      G_TYPE_STRING,
 						      G_TYPE_STRING,
 						      G_TYPE_STRING);
-	
-	gtk_tree_view_set_model (state->properties, 
+
+	gtk_tree_view_set_model (state->properties,
 				 GTK_TREE_MODEL (state->properties_store));
-	
+
 	/* Append Columns */
-	gtk_tree_view_insert_column_with_attributes (state->properties, 
+	gtk_tree_view_insert_column_with_attributes (state->properties,
 						     0, _("Name"),
 						     gtk_cell_renderer_text_new(),
 						     "text", 0,
 						     NULL);
-						     
-	gtk_tree_view_insert_column_with_attributes (state->properties, 
+
+	gtk_tree_view_insert_column_with_attributes (state->properties,
 						     1, _("Value"),
 						     gtk_cell_renderer_text_new(),
 						     "text", 1,
 						     NULL);
 
-	gtk_tree_view_insert_column_with_attributes (state->properties, 
+	gtk_tree_view_insert_column_with_attributes (state->properties,
 						     2, _("Linked To"),
 						     gtk_cell_renderer_text_new(),
 					     "text", 2,
@@ -1309,18 +1309,18 @@ dialog_doc_metadata_init_properties_page (DialogDocMetaData *state)
 			  state);
 
 	/* Entries */
-	
+
 	/* 'Add', 'Remove' and 'Apply' Button Signals */
 	g_signal_connect (G_OBJECT (state->add_button),
 			  "clicked",
 			  G_CALLBACK (cb_dialog_doc_metadata_add_clicked),
 			  state);
-	
+
 	g_signal_connect (G_OBJECT (state->remove_button),
 			  "clicked",
 			  G_CALLBACK (cb_dialog_doc_metadata_remove_clicked),
 			  state);
-	
+
 	g_signal_connect (G_OBJECT (state->apply_button),
 			  "clicked",
 			  G_CALLBACK (cb_dialog_doc_metadata_apply_clicked),
@@ -1365,14 +1365,14 @@ dialog_doc_metadata_init_statistics_page (DialogDocMetaData *state)
 static void
 dialog_doc_metadata_set_file_permissions (DialogDocMetaData *state)
 {
-	if (state->file_permissions != NULL && 
+	if (state->file_permissions != NULL &&
 	    state->permissions_changed == TRUE)
 		go_set_file_permissions (go_doc_get_uri (state->doc),
 					 state->file_permissions);
 }
 
 static void
-dialog_doc_metadata_free (DialogDocMetaData *state) 
+dialog_doc_metadata_free (DialogDocMetaData *state)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 
@@ -1395,8 +1395,8 @@ dialog_doc_metadata_free (DialogDocMetaData *state)
 	g_free (state);
 }
 
-static void 
-dialog_doc_metadata_init_widgets (DialogDocMetaData *state) 
+static void
+dialog_doc_metadata_init_widgets (DialogDocMetaData *state)
 {
 	state->dialog = glade_xml_get_widget (state->gui, "GOMetadataDialog");
 
@@ -1412,7 +1412,7 @@ dialog_doc_metadata_init_widgets (DialogDocMetaData *state)
 	state->accessed  = GTK_LABEL (glade_xml_get_widget (state->gui, "accessed"));
 	state->owner     = GTK_LABEL (glade_xml_get_widget (state->gui, "owner"));
 	state->group     = GTK_LABEL (glade_xml_get_widget (state->gui, "group"));
-	
+
 	state->owner_read  = GTK_CHECK_BUTTON (glade_xml_get_widget (state->gui, "owner_read"));
 	state->owner_write = GTK_CHECK_BUTTON (glade_xml_get_widget (state->gui, "owner_write"));
 
@@ -1462,8 +1462,8 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 	g_return_val_if_fail (state->metadata  != NULL, TRUE);
 
 	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-					"doc-meta-data.glade", 
-					NULL, 
+					"doc-meta-data.glade",
+					NULL,
 					NULL);
 
         if (state->gui == NULL)
@@ -1520,7 +1520,7 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 /**
  * dialog_doc_metadata_new
  *
- * @wbcg  : WBCGtk 
+ * @wbcg  : WBCGtk
  *
  * Creates a new instance of the dialog.
  *

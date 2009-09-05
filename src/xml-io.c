@@ -366,7 +366,7 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 
 
 		/*For the next while we have to ignore Print_areas that look like a whole sheet */
-		if (0 == strcmp (CXML2C (name_str), "Print_Area") 
+		if (0 == strcmp (CXML2C (name_str), "Print_Area")
 		    && g_str_has_suffix (CXML2C (expr_str), "$A$1:$IV$65536")) {
 			xmlFree (name_str);
 			xmlFree (expr_str);
