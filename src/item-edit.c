@@ -109,7 +109,7 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 	cairo_set_source_rgba (cr, 1., 1., 0.878431373, 1.);
 	cairo_fill (cr);
 
-	color = GO_GDK_TO_UINT (gtk_widget_get_style (GTK_WIDGET (item->canvas))->black);
+	color = GO_COLOR_FROM_GDK (gtk_widget_get_style (GTK_WIDGET (item->canvas))->black);
 	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
 	cairo_move_to (cr, left, top);
 	pango_cairo_show_layout (cr, ie->layout);

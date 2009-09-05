@@ -2804,7 +2804,7 @@ cb_fore_color_changed (GOActionComboColor *a, WBCGtk *wbcg)
 	c = go_action_combo_color_get_color (a, &is_default);
 
 	if (wbcg_is_editing (wbcg)) {
-		GOColor c2 = is_default ? GO_RGBA_BLACK : c;
+		GOColor c2 = is_default ? GO_COLOR_BLACK : c;
 		wbcg_edit_add_markup (wbcg, go_color_to_pango (c2, TRUE));
 		return;
 	}

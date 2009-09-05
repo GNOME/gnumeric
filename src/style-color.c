@@ -66,7 +66,7 @@ style_color_new_gdk (GdkColor const *c)
 GnmColor *
 style_color_new_i8 (guint8 red, guint8 green, guint8 blue)
 {
-	return style_color_new_go (GO_RGBA_TO_UINT (red, green, blue, 0xff));
+	return style_color_new_go (GO_COLOR_FROM_RGBA (red, green, blue, 0xff));
 }
 
 GnmColor *
@@ -125,7 +125,7 @@ style_color_auto_font (void)
 	static GnmColor *color = NULL;
 
 	if (!color)
-		color = style_color_new_uninterned (GO_RGBA_BLACK, TRUE);
+		color = style_color_new_uninterned (GO_COLOR_BLACK, TRUE);
 	return style_color_ref (color);
 }
 
@@ -138,7 +138,7 @@ style_color_auto_back (void)
 	static GnmColor *color = NULL;
 
 	if (!color)
-		color = style_color_new_uninterned (GO_RGBA_WHITE, TRUE);
+		color = style_color_new_uninterned (GO_COLOR_WHITE, TRUE);
 	return style_color_ref (color);
 }
 
@@ -151,7 +151,7 @@ style_color_auto_pattern (void)
 	static GnmColor *color = NULL;
 
 	if (!color)
-		color = style_color_new_uninterned (GO_RGBA_BLACK, TRUE);
+		color = style_color_new_uninterned (GO_COLOR_BLACK, TRUE);
 	return style_color_ref (color);
 }
 

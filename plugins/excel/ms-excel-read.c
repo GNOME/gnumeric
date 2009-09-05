@@ -346,9 +346,9 @@ ms_sheet_map_color (ExcelReadSheet const *esheet, MSObj const *obj, MSObjAttrID 
 		GnmColor *c = excel_palette_get (esheet->container.importer,
 			(0x7ffffff & attr->v.v_uint));
 
-		r = GO_UINT_RGBA_R (c->go_color);
-		g = GO_UINT_RGBA_G (c->go_color);
-		b = GO_UINT_RGBA_B (c->go_color);
+		r = GO_COLOR_UINT_R (c->go_color);
+		g = GO_COLOR_UINT_G (c->go_color);
+		b = GO_COLOR_UINT_B (c->go_color);
 		style_color_unref (c);
 	} else {
 		r = (attr->v.v_uint)       & 0xff;
@@ -356,7 +356,7 @@ ms_sheet_map_color (ExcelReadSheet const *esheet, MSObj const *obj, MSObjAttrID 
 		b = (attr->v.v_uint >> 16) & 0xff;
 	}
 
-	return GO_RGBA_TO_UINT (r,g,b,0xff);
+	return GO_COLOR_FROM_RGBA (r,g,b,0xff);
 }
 
 /**
@@ -513,7 +513,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	case 0x04: /* Arc */
 		style = go_style_new ();
 		style->line.color = ms_sheet_map_color (esheet, obj,
-			MS_OBJ_ATTR_OUTLINE_COLOR, GO_RGBA_BLACK);
+			MS_OBJ_ATTR_OUTLINE_COLOR, GO_COLOR_BLACK);
 		style->line.width = ms_obj_attr_get_uint (obj->attrs,
 			MS_OBJ_ATTR_OUTLINE_WIDTH, 0) / 256.;
 		style->line.dash_type = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_OUTLINE_HIDE)
@@ -534,15 +534,15 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	case 0x0E: /* Label */
 		style = go_style_new ();
 		style->line.color = ms_sheet_map_color (esheet, obj,
-			MS_OBJ_ATTR_OUTLINE_COLOR, GO_RGBA_BLACK);
+			MS_OBJ_ATTR_OUTLINE_COLOR, GO_COLOR_BLACK);
 		style->line.width = ms_obj_attr_get_uint (obj->attrs,
 			MS_OBJ_ATTR_OUTLINE_WIDTH, 0) / 256.;
 		style->line.dash_type = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_OUTLINE_HIDE)
 			? GO_LINE_NONE : xl_pattern_to_line_type (ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_OUTLINE_STYLE, 1));
 		style->fill.pattern.back = ms_sheet_map_color (esheet, obj,
-			MS_OBJ_ATTR_FILL_COLOR, GO_RGBA_WHITE);
+			MS_OBJ_ATTR_FILL_COLOR, GO_COLOR_WHITE);
 		style->fill.pattern.fore = ms_sheet_map_color (esheet, obj,
-			MS_OBJ_ATTR_FILL_BACKGROUND, GO_RGBA_BLACK);
+			MS_OBJ_ATTR_FILL_BACKGROUND, GO_COLOR_BLACK);
 		style->fill.type = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_UNFILLED)
 			? GO_STYLE_FILL_NONE : GO_STYLE_FILL_PATTERN;
 

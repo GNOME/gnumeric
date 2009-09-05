@@ -390,7 +390,7 @@ setup_color_pickers (FormatState *state,
 	cg = go_color_group_fetch (color_group,
 		 wb_control_view (WORKBOOK_CONTROL (state->wbcg)));
 	combo = go_combo_color_new (NULL, default_caption, 
-		def_sc ? def_sc->go_color : GO_RGBA_BLACK, cg);
+		def_sc ? def_sc->go_color : GO_COLOR_BLACK, cg);
 	go_combo_box_set_title (GO_COMBO_BOX (combo), caption);
 
 	/* Connect to the sample canvas and redraw it */
@@ -1298,7 +1298,7 @@ draw_border_preview (FormatState *state)
 					       goc_polyline_get_type (),
 					       "points",	points,
 					       NULL)));
-			style->line.color = GO_RGBA_TO_UINT (0xa1, 0xa1, 0xa1, 0xff); /* gray63 */
+			style->line.color = GO_COLOR_FROM_RGBA (0xa1, 0xa1, 0xa1, 0xff); /* gray63 */
 			style->line.width = 0.;
 		}
 		goc_points_unref (points);
@@ -2475,7 +2475,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	fmt_dialog_init_input_msg_page (state);
 	fmt_dialog_init_conditions_page (state);
 
-	default_border_color = GO_GDK_TO_UINT (GTK_WIDGET (state->dialog)->style->black);
+	default_border_color = GO_COLOR_FROM_GDK (GTK_WIDGET (state->dialog)->style->black);
 
 	if (pageno == FD_CURRENT)
 		pageno = fmt_dialog_page;

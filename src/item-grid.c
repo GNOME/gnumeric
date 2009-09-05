@@ -417,7 +417,7 @@ item_grid_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0,
 	/* Fill entire region with default background (even past far edge) */
 	cairo_save (cr);
 	/* FIXME: we previously used gs_white */
-	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (GO_RGBA_WHITE));
+	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (GO_COLOR_WHITE));
 	cairo_rectangle (cr, x0, y0, width, height);
 	cairo_fill (cr);
 	cairo_restore (cr);

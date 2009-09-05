@@ -137,10 +137,10 @@ sof_default_style (void)
 	GOStyle *res = go_style_new ();
 	res->interesting_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
 	res->line.width = 0; /* hairline */
-	res->line.color = GO_RGBA_BLACK;
+	res->line.color = GO_COLOR_BLACK;
 	res->line.dash_type = GO_LINE_SOLID; /* anything but 0 */
 	res->fill.type = GO_STYLE_FILL_PATTERN;
-	go_pattern_set_solid (&res->fill.pattern, GO_RGBA_WHITE);
+	go_pattern_set_solid (&res->fill.pattern, GO_COLOR_WHITE);
 	return res;
 }
 
@@ -252,10 +252,10 @@ gnm_so_filled_draw_cairo (SheetObject const *so, cairo_t *cr,
 	/* Draw the line */
 	cairo_set_line_width (cr, (style->line.width)? style->line.width: 1.);
 	cairo_set_source_rgba (cr,
-		GO_UINT_RGBA_R(style->line.color),
-		GO_UINT_RGBA_B(style->line.color),
-		GO_UINT_RGBA_G(style->line.color),
-		GO_UINT_RGBA_A(style->line.color));
+		GO_COLOR_UINT_R(style->line.color),
+		GO_COLOR_UINT_B(style->line.color),
+		GO_COLOR_UINT_G(style->line.color),
+		GO_COLOR_UINT_A(style->line.color));
 	cairo_stroke (cr);
 	/* Draw the text. */
 	if (*(sof->text) != '\0') {

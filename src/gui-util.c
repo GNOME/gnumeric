@@ -607,10 +607,10 @@ go_combo_color_get_style_color (GtkWidget *go_combo_color)
 	GnmColor *sc = NULL;
 	guint16   r, g, b;
 	GOColor color = go_combo_color_get_color (GO_COMBO_COLOR (go_combo_color), NULL);
-	if (GO_UINT_RGBA_A (color) >= 0x80) {
-		r  = GO_UINT_RGBA_R (color); r |= (r << 8);
-		g  = GO_UINT_RGBA_G (color); g |= (g << 8);
-		b  = GO_UINT_RGBA_B (color); b |= (b << 8);
+	if (GO_COLOR_UINT_A (color) >= 0x80) {
+		r  = GO_COLOR_UINT_R (color); r |= (r << 8);
+		g  = GO_COLOR_UINT_G (color); g |= (g << 8);
+		b  = GO_COLOR_UINT_B (color); b |= (b << 8);
 		sc = style_color_new_i16 (r, g, b);
 	}
 	return sc;

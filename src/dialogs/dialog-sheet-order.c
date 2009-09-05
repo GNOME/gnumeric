@@ -290,7 +290,7 @@ color_equal (const GdkColor *color_a, const GnmColor *color_gb)
 	if (color_gb == NULL)
 		return color_a == NULL;
 	/* FIXME: What about ->is_auto?  */
-	return color_a && GO_GDK_TO_UINT (*color_a) == color_gb->go_color;
+	return color_a && GO_COLOR_FROM_GDK (*color_a) == color_gb->go_color;
 }
 
 static void

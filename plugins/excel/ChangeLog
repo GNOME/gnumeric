@@ -1,5 +1,9 @@
 2009-09-05  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* all files: renamed go-color.h macros.
+
+2009-09-05  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* ms-chart.c (end): don't use z values as x or y when there are no
 	labels or categories. [See #593937]
 

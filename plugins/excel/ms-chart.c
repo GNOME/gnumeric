@@ -200,7 +200,7 @@ BC_R(color) (guint8 const *data, char const *type)
 	guint16 const b = (bgr >> 16) & 0xff;
 
 	d (1, g_printerr ("%s %02x:%02x:%02x;\n", type, r, g, b););
-	return GO_RGBA_TO_UINT (r, g, b, 0xff);
+	return GO_COLOR_FROM_RGB (r, g, b);
 }
 
 /****************************************************************************/
@@ -1079,7 +1079,7 @@ ms_chart_map_color (XLChartReadState const *s, guint32 raw, guint32 alpha)
 		r = (raw)       & 0xff;
 		g = (raw >> 8)  & 0xff;
 		b = (raw >> 16) & 0xff;
-		res = GO_RGBA_TO_UINT (r, g, b, 0xff);
+		res = GO_COLOR_FROM_RGB (r, g, b);
 	}
 	return res;
 }
@@ -3883,9 +3883,9 @@ static unsigned
 chart_write_color (XLChartWriteState *s, guint8 *data, GOColor c)
 {
 	guint32 abgr;
-	abgr  = GO_UINT_RGBA_R(c);
-	abgr |= GO_UINT_RGBA_G(c) << 8;
-	abgr |= GO_UINT_RGBA_B(c) << 16;
+	abgr  = GO_COLOR_UINT_R(c);
+	abgr |= GO_COLOR_UINT_G(c) << 8;
+	abgr |= GO_COLOR_UINT_B(c) << 16;
 	GSF_LE_SET_GUINT32 (data, abgr);
 
 	return palette_get_index (&s->ewb->base, abgr & 0xffffff);
@@ -3907,8 +3907,8 @@ chart_write_AREAFORMAT (XLChartWriteState *s, GOStyle const *style, gboolean dis
 #warning export images
 		case GO_STYLE_FILL_NONE:
 			pat = 0;
-			fore = GO_RGBA_WHITE;
-			back = GO_RGBA_WHITE;
+			fore = GO_COLOR_WHITE;
+			back = GO_COLOR_WHITE;
 			break;
 		case GO_STYLE_FILL_PATTERN: {
 			pat = style->fill.pattern.pattern + 1;
@@ -4902,7 +4902,7 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 		tick_color_index = chart_write_color (s, data+4, style->font.color); /* tick label color */
 		memset (data+8, 0, 16);
 		/* if font is black, set the auto color flag, otherwise, don't set */
-		flags = (style->font.color == GO_RGBA_BLACK)? 0x03: 0x02;
+		flags = (style->font.color == GO_COLOR_BLACK)? 0x03: 0x02;
 		if (style->text_layout.auto_angle)
 			flags |= 0x20;
 		else if (style->text_layout.angle < -45)

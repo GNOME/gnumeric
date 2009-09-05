@@ -104,8 +104,8 @@ xlsx_add_rgb (GsfXMLOut *xml, char const *id, GOColor c)
 {
 	char buf [3 * 4 * sizeof (unsigned int) + 1];
 	sprintf (buf, "%02X%02X%02X%02X",
-		 GO_UINT_RGBA_A (c), GO_UINT_RGBA_R (c),
-		 GO_UINT_RGBA_G (c), GO_UINT_RGBA_B (c));
+		 GO_COLOR_UINT_A (c), GO_COLOR_UINT_R (c),
+		 GO_COLOR_UINT_G (c), GO_COLOR_UINT_B (c));
 	gsf_xml_out_add_cstr_unchecked (xml, id, buf);
 }
 static void

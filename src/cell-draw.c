@@ -315,16 +315,6 @@ cell_draw (GnmCell const *cell, cairo_t *cr,
 				 width, height);
 
 		cairo_save (cr);
-#if 0
-		gdk_gc_set_clip_rectangle (gc, &rect);
-		if (cell->pos.col == 3 && cell->pos.row == 10) {
-			GdkColor col = { 0, 0, 0xffff, 0 };
-			gdk_gc_set_rgb_fg_color (gc, &col);
-			gdk_draw_rectangle (drawable, gc, TRUE,
-					    rect.x, rect.y,
-					    rect.width, rect.height);
-		}
-#endif
 
 		/*
 		 * HACK -- do not clip rotated cells.  This gives an
