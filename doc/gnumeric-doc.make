@@ -76,9 +76,10 @@ gnumeric.pdf:
 	env TEXINPUTS=$(srcdir):.: dbcontext -t tex -Pfo.setup=1 -I . \
 		-P imagedata.default.scale='scale=600' \
 		-o gnumeric.tex $(srcdir)/gnumeric.xml
+	sed -i -e 's/\xE2\xA8\x89/\\times{}/' gnumeric.tex
 	env TEXMFCNF=$(srcdir): \
 		TEXINPUTS=$(srcdir):/usr/share/texmf/tex/context/dbcontext/style: \
-		texexec --pdf --mode=A4 --batch gnumeric.tex
+		texexec --pdf --mode=A4 --verbose gnumeric.tex
 endif
 
 if ENABLE_PDF_VIA_DBLATEX
@@ -88,7 +89,7 @@ gnumeric.pdf:
 		-P latex.encoding=utf-8 \
 		-P latex.output.revhistory=0 \
 		-o gnumeric.tex $(srcdir)/gnumeric.xml
-	sed -i -e 's|\\&\\#x2a09;|\\times{}|g' gnumeric.tex
+	sed -i -e 's/\xE2\xA8\x89/\\times{}/' gnumeric.tex
 	for runs in $$(seq 1 4); do \
 		env TEXINPUTS=$(srcdir): \
 			pdflatex -interaction nonstopmode gnumeric.tex ; \
