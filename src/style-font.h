@@ -12,11 +12,11 @@ struct _GnmFont {
 	int	 ref_count;
 	char	*font_name;
 	double	 size_pts;
-	double	 scale;
 	struct {
 		GOFont const *font;
 		GOFontMetrics *metrics;
 	} go;
+	PangoContext *context;
 
 	unsigned int is_bold : 1;
 	unsigned int is_italic : 1;
@@ -24,8 +24,7 @@ struct _GnmFont {
 
 GnmFont *gnm_font_new   (PangoContext *context,
 			 char const *font_name,
-			 double size_pts, double scale,
-			 gboolean bold, gboolean italic);
+			 double size_pts, gboolean bold, gboolean italic);
 void     gnm_font_ref   (GnmFont *gfont);
 void     gnm_font_unref (GnmFont *gfont);
 guint    gnm_font_hash  (gconstpointer v);

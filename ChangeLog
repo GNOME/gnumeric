@@ -1,3 +1,23 @@
+2009-09-04  Morten Welinder  <terra@gnome.org>
+
+	* src/rendered-value.c (calc_indent): Drop zoom argument.  All
+	callers changed.
+
+	* src/style.c (style_font_new_simple): Put context into hash key
+	as the font metrics depends on that.  Drop scale argument.  Caller
+	changed.
+	(delete_neg_font, gnm_font_unref): Unref ->context.
+	(gnm_font_hash): Take context, is_bold, and is_italic into
+	account.
+
+	* src/mstyle.c (gnm_style_clear_font): Clear font_context here.
+	(gnm_style_dup): Copy font_context here.
+	(gnm_style_get_font): Check font_context, not font_zoom here.
+	Drop zoom argument.  All callers changed.
+
+	* src/gnm-style-impl.h (GnmStyle): Drop font_zoom, but add
+	font_context.
+
 2009-09-03  Morten Welinder  <terra@gnome.org>
 
 	* src/style-font.h (GnmFont): Remove unused pango.font.

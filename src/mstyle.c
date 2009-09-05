@@ -491,6 +491,10 @@ gnm_style_clear_font (GnmStyle *style)
 		gnm_font_unref (style->font);
 		style->font = NULL;
 	}
+	if (style->font_context) {
+		g_object_unref (style->font_context);
+		style->font_context = NULL;
+	}
 }
 
 /**
@@ -593,7 +597,7 @@ gnm_style_dup (GnmStyle const *src)
 
 	if ((new_style->font = src->font)) {
 		gnm_font_ref (new_style->font);
-		new_style->font_zoom = src->font_zoom;
+		new_style->font_context = g_object_ref (src->font_context);
 	}
 
 	d(("dup %p\n", new_style));
@@ -1114,14 +1118,14 @@ gnm_style_get_pattern (GnmStyle const *style)
 }
 
 GnmFont *
-gnm_style_get_font (GnmStyle const *style, PangoContext *context, float zoom)
+gnm_style_get_font (GnmStyle const *style, PangoContext *context)
 {
 	g_return_val_if_fail (style != NULL, NULL);
 
-	if (!style->font || style->font_zoom != zoom) {
+	if (!style->font || style->font_context != context) {
 		char const *name;
 		gboolean bold, italic;
-		float size;
+		double size;
 
 		gnm_style_clear_font ((GnmStyle *)style);
 
@@ -1146,9 +1150,8 @@ gnm_style_get_font (GnmStyle const *style, PangoContext *context, float zoom)
 			size = DEFAULT_SIZE;
 
 		((GnmStyle *)style)->font =
-			gnm_font_new (context, name, size,
-				      zoom, bold, italic);
-		((GnmStyle *)style)->font_zoom = zoom;
+			gnm_font_new (context, name, size, bold, italic);
+		((GnmStyle *)style)->font_context = g_object_ref (context);
 	}
 
 	return style->font;
@@ -1693,7 +1696,7 @@ gnm_style_get_pango_attrs (GnmStyle const *style,
 	}
 
 	{
-		GnmFont *font = gnm_style_get_font (style, context, zoom);
+		GnmFont *font = gnm_style_get_font (style, context);
 		add_attr (l, pango_attr_font_desc_new (font->go.font->desc));
 	}
 

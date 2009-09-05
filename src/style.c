@@ -77,7 +77,7 @@ get_substitute_font (gchar const *fontname)
 
 static GnmFont *
 style_font_new_simple (PangoContext *context,
-		       char const *font_name, double size_pts, double scale,
+		       char const *font_name, double size_pts,
 		       gboolean bold, gboolean italic)
 {
 	GnmFont *font;
@@ -97,7 +97,7 @@ style_font_new_simple (PangoContext *context,
 	key.size_pts  = size_pts;
 	key.is_bold   = bold;
 	key.is_italic = italic;
-	key.scale     = scale;
+	key.context   = context;
 
 	font = (GnmFont *) g_hash_table_lookup (style_font_hash, &key);
 	if (font == NULL) {
@@ -110,13 +110,13 @@ style_font_new_simple (PangoContext *context,
 		font = g_new0 (GnmFont, 1);
 		font->font_name = g_strdup (font_name);
 		font->size_pts  = size_pts;
-		font->scale     = scale;
 		font->is_bold   = bold;
 		font->is_italic = italic;
+		font->context = g_object_ref (context);
 		/* One reference for the cache, one for the caller. */
 		font->ref_count = 2;
 
-		desc = pango_font_description_copy (pango_context_get_font_description (context));
+		desc = pango_font_description_new ();
 
 		pango_font_description_set_family (desc, font_name);
 		pango_font_description_set_weight (desc,
@@ -132,7 +132,7 @@ style_font_new_simple (PangoContext *context,
 			if (sub != NULL) {
 				pango_font_description_set_family (desc, font_name);
 				pango_font = pango_context_load_font (context,
-									    desc);
+								      desc);
 			}
 
 			if (pango_font == NULL) {
@@ -164,7 +164,7 @@ style_font_new_simple (PangoContext *context,
 
 GnmFont *
 gnm_font_new (PangoContext *context,
-	      char const *font_name, double size_pts, double scale,
+	      char const *font_name, double size_pts,
 	      gboolean bold, gboolean italic)
 {
 	GnmFont *font;
@@ -173,27 +173,27 @@ gnm_font_new (PangoContext *context,
 	g_return_val_if_fail (size_pts > 0, NULL);
 
 	font = style_font_new_simple (context, font_name, size_pts,
-				      scale, bold, italic);
+				      bold, italic);
 	if (font) return font;
 
 	font_name = gnumeric_default_font_name;
 	font = style_font_new_simple (context, font_name, size_pts,
-				      scale, bold, italic);
+				      bold, italic);
 	if (font) return font;
 
 	size_pts = gnumeric_default_font_size;
 	font = style_font_new_simple (context, font_name, size_pts,
-				      scale, bold, italic);
+				      bold, italic);
 	if (font) return font;
 
 	bold = FALSE;
 	font = style_font_new_simple (context, font_name, size_pts,
-				      scale, bold, italic);
+				      bold, italic);
 	if (font) return font;
 
 	italic = FALSE;
 	font = style_font_new_simple (context, font_name, size_pts,
-				      scale, bold, italic);
+				      bold, italic);
 	if (font) return font;
 
 	/*
@@ -236,16 +236,25 @@ gnm_font_unref (GnmFont *sf)
 	if (sf->ref_count != 0)
 		return;
 
+	g_hash_table_remove (style_font_hash, sf);
+	/* hash-changing operations after above line.  */
+
 	if (sf->go.font) {
 		go_font_unref (sf->go.font);
 		sf->go.font = NULL;
 	}
+
 	if (sf->go.metrics) {
 		go_font_metrics_free (sf->go.metrics);
 		sf->go.metrics = NULL;
 	}
-	g_hash_table_remove (style_font_hash, sf);
+
+	g_object_unref (sf->context);
+	sf->context = NULL;
+
 	g_free (sf->font_name);
+	sf->font_name = NULL;
+
 	g_free (sf);
 }
 
@@ -255,24 +264,22 @@ gnm_font_equal (gconstpointer v, gconstpointer v2)
 	GnmFont const *k1 = (GnmFont const *) v;
 	GnmFont const *k2 = (GnmFont const *) v2;
 
-	if (k1->size_pts != k2->size_pts)
-		return 0;
-
-	if (k1->is_bold != k2->is_bold)
-		return 0;
-	if (k1->is_italic != k2->is_italic)
-		return 0;
-	if (k1->scale != k2->scale)
-		return 0;
-
-	return !strcmp (k1->font_name, k2->font_name);
+	return (k1->size_pts == k2->size_pts &&
+		k1->is_bold == k2->is_bold &&
+		k1->is_italic == k2->is_italic &&
+		k1->context == k2->context &&
+		strcmp (k1->font_name, k2->font_name) == 0);
 }
+
 guint
 gnm_font_hash (gconstpointer v)
 {
 	GnmFont const *k = (GnmFont const *) v;
-
-	return k->size_pts + g_str_hash (k->font_name);
+	return (guint)k->size_pts ^
+		g_str_hash (k->font_name) ^
+		(k->is_bold ? 0x33333333 : 0) ^
+		(k->is_italic ? 0xcccccccc : 0) ^
+		GPOINTER_TO_UINT (k->context);
 }
 
 static PangoFontMap *fontmap;
@@ -325,12 +332,12 @@ gnm_font_init (void)
 	if (gnumeric_default_font_name && gnumeric_default_font_size >= 1)
 		gnumeric_default_font = style_font_new_simple (context,
 			gnumeric_default_font_name, gnumeric_default_font_size,
-			1., FALSE, FALSE);
+			FALSE, FALSE);
 	if (gnumeric_default_font == NULL) {
 		g_warning ("Configured default font '%s %f' not available, trying fallback...",
 			   gnumeric_default_font_name, gnumeric_default_font_size);
 		gnumeric_default_font = style_font_new_simple (context,
-			DEFAULT_FONT, DEFAULT_SIZE, 1., FALSE, FALSE);
+			DEFAULT_FONT, DEFAULT_SIZE, FALSE, FALSE);
 		if (gnumeric_default_font != NULL) {
 			g_free (gnumeric_default_font_name);
 			gnumeric_default_font_name = g_strdup (DEFAULT_FONT);
@@ -339,7 +346,7 @@ gnm_font_init (void)
 			g_warning ("Fallback font '%s %f' not available, trying 'fixed'...",
 				   DEFAULT_FONT, DEFAULT_SIZE);
 			gnumeric_default_font = style_font_new_simple (context,
-				"fixed", 10, 1., FALSE, FALSE);
+				"fixed", 10, FALSE, FALSE);
 			if (gnumeric_default_font != NULL) {
 				g_free (gnumeric_default_font_name);
 				gnumeric_default_font_name = g_strdup ("fixed");
@@ -361,6 +368,7 @@ gnm_font_init (void)
 static void
 delete_neg_font (GnmFont *sf, gpointer value, gpointer user_data)
 {
+	g_object_unref (sf->context);
 	g_free (sf->font_name);
 	g_free (sf);
 }

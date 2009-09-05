@@ -71,13 +71,13 @@ static int rv_allocations;
 
 
 static guint16
-calc_indent (PangoContext *context, const GnmStyle *mstyle, double zoom)
+calc_indent (PangoContext *context, const GnmStyle *mstyle)
 {
 	int indent = 0;
 	if (gnm_style_is_element_set (mstyle, MSTYLE_INDENT)) {
 		int n = gnm_style_get_indent (mstyle);
 		if (n) {
-			GnmFont *style_font = gnm_style_get_font (mstyle, context, zoom);
+			GnmFont *style_font = gnm_style_get_font (mstyle, context);
 			indent = PANGO_PIXELS (n * style_font->go.metrics->avg_digit_width);
 		}
 	}
@@ -298,7 +298,7 @@ gnm_rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	res->indent_left = res->indent_right = 0;
 	switch (res->effective_halign) {
 	case HALIGN_LEFT:
-		res->indent_left = calc_indent (context, mstyle, zoom);
+		res->indent_left = calc_indent (context, mstyle);
 		pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
 		break;
 
@@ -322,7 +322,7 @@ gnm_rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		break;
 
 	case HALIGN_RIGHT:
-		res->indent_right = calc_indent (context, mstyle, zoom);
+		res->indent_right = calc_indent (context, mstyle);
 		pango_layout_set_alignment (layout, PANGO_ALIGN_RIGHT);
 		break;
 
@@ -367,7 +367,7 @@ gnm_rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		GODateConventions const *date_conv = sheet->workbook
 			? workbook_date_conv (sheet->workbook)
 			: NULL;
-		GnmFont *font = gnm_style_get_font (mstyle, context, zoom);
+		GnmFont *font = gnm_style_get_font (mstyle, context);
 		gboolean is_rotated = (rotation != 0);
 		gboolean variable;
 		GOFormatNumberError err;

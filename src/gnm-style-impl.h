@@ -24,7 +24,9 @@ struct _GnmStyle {
 	PangoAttrList *pango_attrs;
 	float          pango_attrs_zoom;
 	int            pango_attrs_height;
+
 	GnmFont       *font;
+	PangoContext  *font_context;
 
 /* public */
 	struct {
@@ -45,7 +47,6 @@ struct _GnmStyle {
 		GOFontScript	script;
 		float		size;
 	} font_detail;
-	float            font_zoom;
 
 	GOFormat *format;
 	GnmHAlign	 h_align;

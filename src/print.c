@@ -311,7 +311,7 @@ print_page_row_headers (GtkPrintContext   *context, PrintingInstance * pi,
 }
 
 static PangoLayout *
-ensure_decoration_layout (GtkPrintContext   *context)
+ensure_decoration_layout (GtkPrintContext *context)
 {
 	GnmStyle *style;
 	GnmFont *font;
@@ -320,9 +320,7 @@ ensure_decoration_layout (GtkPrintContext   *context)
 	layout = gtk_print_context_create_pango_layout (context);
 	style = gnm_conf_get_printer_decoration_font ();
 	font = gnm_style_get_font
-		(style,
-		 pango_layout_get_context (layout),
-		 1.);
+		(style, pango_layout_get_context (layout));
 	pango_layout_set_font_description (layout, font->go.font->desc);
 	gnm_style_unref (style);
 
