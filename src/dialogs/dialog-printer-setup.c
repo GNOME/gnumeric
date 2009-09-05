@@ -54,7 +54,7 @@
 #define PAGE_Y (PREVIEW_Y - PREVIEW_MARGIN_Y)
 
 #define MARGIN_COLOR_DEFAULT 0xa9a9a9ff /* dark gray */
-#define MARGIN_COLOR_ACTIVE GO_RGBA_RED
+#define MARGIN_COLOR_ACTIVE GO_COLOR_RED
 
 #define HF_PREVIEW_X 350
 #define HF_PREVIEW_Y 75
@@ -432,8 +432,8 @@ margin_preview_page_create (PrinterSetupState *state)
 			"width",	 (double) x2-x1,
 			"height",	 (double) y2-y1,
 			NULL)));
-	style->fill.pattern.back = GO_RGBA_BLACK;
-	style->line.color = GO_RGBA_BLACK;
+	style->fill.pattern.back = GO_COLOR_BLACK;
+	style->line.color = GO_COLOR_BLACK;
 	style->line.width = 1.;
 
 	style = go_styled_object_get_style (
@@ -444,8 +444,8 @@ margin_preview_page_create (PrinterSetupState *state)
 			"width",	 (double) x2-x1,
 			"height",	 (double) y2-y1,
 			NULL)));
-	style->fill.pattern.back = GO_RGBA_WHITE;
-	style->line.color = GO_RGBA_BLACK;
+	style->fill.pattern.back = GO_COLOR_WHITE;
+	style->line.color = GO_COLOR_BLACK;
 	style->line.width = 1.;
 
 	goc_item_invalidate (pi->group);
@@ -1878,7 +1878,7 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 			"width",	width,
 			"height",	height + (header ? -shadow: shadow),
 			NULL)));
-	gostyle->fill.pattern.back = GO_RGBA_BLACK;
+	gostyle->fill.pattern.back = GO_COLOR_BLACK;
 	gostyle->line.width = 0.;
 	gostyle->line.color = 0;
 
@@ -1890,7 +1890,7 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 			"width",	width,
 			"height",	height,
 			NULL)));
-	gostyle->fill.pattern.back = GO_RGBA_WHITE;
+	gostyle->fill.pattern.back = GO_COLOR_WHITE;
 	gostyle->line.width = 0.;
 	gostyle->line.color = 0;
 

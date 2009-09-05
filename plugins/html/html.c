@@ -121,18 +121,18 @@ html_get_text_color (GnmCell *cell, GnmStyle const *style, guint *r, guint *g, g
 	if (fore == 0)
 		*r = *g = *b = 0;
 	else {
-		*r = GO_UINT_RGBA_R (fore);
-		*g = GO_UINT_RGBA_G (fore);
-		*b = GO_UINT_RGBA_B (fore);
+		*r = GO_COLOR_UINT_R (fore);
+		*g = GO_COLOR_UINT_G (fore);
+		*b = GO_COLOR_UINT_B (fore);
 	}
 }
 static void
 html_get_back_color (GnmStyle const *style, guint *r, guint *g, guint *b)
 {
 	GnmColor const *color = gnm_style_get_back_color (style);
-	*r = GO_UINT_RGBA_R (color->go_color);
-	*g = GO_UINT_RGBA_G (color->go_color);
-	*b = GO_UINT_RGBA_B (color->go_color);
+	*r = GO_COLOR_UINT_R (color->go_color);
+	*g = GO_COLOR_UINT_G (color->go_color);
+	*b = GO_COLOR_UINT_B (color->go_color);
 }
 
 /*****************************************************************************/
@@ -399,9 +399,9 @@ html_get_border_style (GnmBorder *border)
 
 	if (border->color) {
 		guint r, g, b;
-		r = GO_UINT_RGBA_R (border->color->go_color);
-		g = GO_UINT_RGBA_G (border->color->go_color);
-		b = GO_UINT_RGBA_B (border->color->go_color);
+		r = GO_COLOR_UINT_R (border->color->go_color);
+		g = GO_COLOR_UINT_G (border->color->go_color);
+		b = GO_COLOR_UINT_B (border->color->go_color);
 		g_string_append_printf (text, " #%02X%02X%02X", r, g, b);
 	}
 

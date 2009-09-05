@@ -118,9 +118,9 @@ gnumeric_background_set_gtk (GnmStyle const *mstyle, cairo_t *context)
 			double f = grey[pattern];
 
 			cairo_set_source_rgb (context,
-					      GO_DOUBLE_RGBA_R (c) * f,
-					      GO_DOUBLE_RGBA_G (c) * f,
-					      GO_DOUBLE_RGBA_B (c) * f);
+					      GO_COLOR_DOUBLE_R (c) * f,
+					      GO_COLOR_DOUBLE_G (c) * f,
+					      GO_COLOR_DOUBLE_B (c) * f);
 		}
 
 		/* This is a special case where the user has selected

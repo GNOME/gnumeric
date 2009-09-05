@@ -570,7 +570,7 @@ summary_cb (int col, int row, GnmValue *v, summary_cb_t *p)
 		/* Set the colors. */
 		dao_set_colors (&p->dao, 2 + p->col, 3 + *index,
 				2 + p->col, 3 + *index,
-				style_color_new_go (GO_RGBA_BLACK),
+				style_color_new_go (GO_COLOR_BLACK),
 				style_color_new_gdk (&gs_light_gray));
 	
 	} else {
@@ -593,7 +593,7 @@ summary_cb (int col, int row, GnmValue *v, summary_cb_t *p)
 		/* Set the colors. */
 		dao_set_colors (&p->dao, 2 + p->col, 3 + p->row,
 				2 + p->col, 3 + p->row,
-				style_color_new_go (GO_RGBA_BLACK),
+				style_color_new_go (GO_COLOR_BLACK),
 				style_color_new_gdk (&gs_light_gray));
 	
 		/* Insert row number into the hash table. */
@@ -724,10 +724,10 @@ scenario_summary (WorkbookControl *wbc,
 	dao_set_cell (&cb.dao, 0, 0, _("Scenario Summary"));
 
 	dao_set_colors (&cb.dao, 0, 0, cb.col + 1, 1,
-			style_color_new_go (GO_RGBA_WHITE),
+			style_color_new_go (GO_COLOR_WHITE),
 			style_color_new_gdk (&gs_dark_gray));
 	dao_set_colors (&cb.dao, 0, 2, 0, 2 + cb.row,
-			style_color_new_go (GO_RGBA_BLACK),
+			style_color_new_go (GO_COLOR_BLACK),
 			style_color_new_gdk (&gs_light_gray));
 
 	dao_set_align (&cb.dao, 1, 1, cb.col + 1, 1, HALIGN_RIGHT, 

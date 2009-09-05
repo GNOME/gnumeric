@@ -121,11 +121,11 @@ sop_default_style (void)
 	GOStyle *res = go_style_new ();
 	res->interesting_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
 	res->line.width = 0; /* hairline */
-	res->line.color = GO_RGBA_BLACK;
+	res->line.color = GO_COLOR_BLACK;
 	res->line.dash_type = GO_LINE_SOLID; /* anything but 0 */
 	res->line.join = CAIRO_LINE_JOIN_ROUND;
 	res->fill.type = GO_STYLE_FILL_PATTERN;
-	go_pattern_set_solid (&res->fill.pattern, GO_RGBA_WHITE);
+	go_pattern_set_solid (&res->fill.pattern, GO_COLOR_WHITE);
 	return res;
 }
 

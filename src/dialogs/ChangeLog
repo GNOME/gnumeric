@@ -1,3 +1,7 @@
+2009-09-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* all files: renamed go-color.h macros.
+
 2009-09-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* dialog-printer-setup.c (margin_preview_page_destroy),

@@ -1,3 +1,11 @@
+2009-09-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* html.c (html_get_text_color), (html_get_back_color),
+	(html_get_border_style): renamed go-color.h macros.
+	* latex.c (latex2e_write_multicolumn_cell): ditto.
+
 2009-09-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* html.c (cb_html_attrs_as_string): handle PANGO_ATTR_RISE

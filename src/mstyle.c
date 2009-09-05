@@ -1808,9 +1808,9 @@ gnm_style_dump_color (GnmColor *color, GnmStyleElement elem)
 {
 	if (color)
 		g_printerr ("\t%s: %hx:%hx:%hx\n", gnm_style_element_name [elem],
-			    GO_UINT_RGBA_R (color->go_color),
-			    GO_UINT_RGBA_G (color->go_color),
-			    GO_UINT_RGBA_B (color->go_color));
+			    GO_COLOR_UINT_R (color->go_color),
+			    GO_COLOR_UINT_G (color->go_color),
+			    GO_COLOR_UINT_B (color->go_color));
 	else
 		g_printerr ("\t%s: (NULL)\n", gnm_style_element_name [elem]);
 }

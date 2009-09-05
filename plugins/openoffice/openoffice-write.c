@@ -415,9 +415,9 @@ gnm_xml_out_add_hex_color (GsfXMLOut *o, char const *id, GnmColor const *c)
 	else {
 		char *color;
 		color = g_strdup_printf ("#%.2x%.2x%.2x", 
-					 GO_UINT_RGBA_R (c->go_color),
-					 GO_UINT_RGBA_G (c->go_color),
-					 GO_UINT_RGBA_B (c->go_color));
+					 GO_COLOR_UINT_R (c->go_color),
+					 GO_COLOR_UINT_G (c->go_color),
+					 GO_COLOR_UINT_B (c->go_color));
 		gsf_xml_out_add_cstr_unchecked (o, id, color);
 		g_free (color);
 	}
@@ -597,9 +597,9 @@ odf_get_border_format (GnmBorder   *border)
 	g_string_append_printf (str, "%.3fcm ", w);
 	g_string_append (str, border_type);
 	g_string_append_printf (str, " #%.2x%.2x%.2x",  
-				GO_UINT_RGBA_R (color->go_color),
-				GO_UINT_RGBA_G (color->go_color),
-				GO_UINT_RGBA_B (color->go_color));
+				GO_COLOR_UINT_R (color->go_color),
+				GO_COLOR_UINT_G (color->go_color),
+				GO_COLOR_UINT_B (color->go_color));
 	return g_string_free (str, FALSE);
 }
 

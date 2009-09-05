@@ -444,7 +444,7 @@ attr_gocolor (GsfXMLIn *xin, xmlChar const **attrs,
 		guint8 const r = (rgb >> 16) & 0xff;
 		guint8 const g = (rgb >>  8) & 0xff;
 		guint8 const b = (rgb >>  0) & 0xff;
-		*res = GO_RGBA_TO_UINT(r, g, b, 0xff);
+		*res = GO_COLOR_FROM_RGB (r, g, b);
 	}
 
 	return TRUE;
@@ -646,27 +646,27 @@ indexed_color (XLSXReadState *state, gint idx)
 	 */
 
 	if (idx == 1 || idx == 65)
-		return GO_RGBA_WHITE;
+		return GO_COLOR_WHITE;
 	switch (idx) {
 	case 0:   /* black */
 	case 64 : /* system text ? */
 	case 81 : /* tooltip text */
 	case 0x7fff : /* system text ? */
-		return GO_RGBA_BLACK;
+		return GO_COLOR_BLACK;
 
 	case 1 :  /* white */
 	case 65 : /* system back ? */
-		return GO_RGBA_WHITE;
+		return GO_COLOR_WHITE;
 
 	case 80 : /* tooltip background */
-		return GO_RGBA_YELLOW;
+		return GO_COLOR_YELLOW;
 
-	case 2 : return GO_RGBA_RED;
-	case 3 : return GO_RGBA_GREEN;
-	case 4 : return GO_RGBA_BLUE;
-	case 5 : return GO_RGBA_YELLOW;
-	case 6 : return GO_RGBA_VIOLET;
-	case 7 : return GO_RGBA_CYAN;
+	case 2 : return GO_COLOR_RED;
+	case 3 : return GO_COLOR_GREEN;
+	case 4 : return GO_COLOR_BLUE;
+	case 5 : return GO_COLOR_YELLOW;
+	case 6 : return GO_COLOR_VIOLET;
+	case 7 : return GO_COLOR_CYAN;
 
 	default :
 		 break;
@@ -676,13 +676,13 @@ indexed_color (XLSXReadState *state, gint idx)
 	if (idx < 0 || (int) G_N_ELEMENTS (excel_default_palette_v8) <= idx) {
 		g_warning ("EXCEL: color index (%d) is out of range (8..%d). Defaulting to black",
 			   idx + 8, (int)G_N_ELEMENTS (excel_default_palette_v8) + 8);
-		return GO_RGBA_BLACK;
+		return GO_COLOR_BLACK;
 	}
 
 	/* TODO cache and ref */
-	return GO_RGBA_TO_UINT (excel_default_palette_v8[idx].r,
+	return GO_COLOR_FROM_RGB (excel_default_palette_v8[idx].r,
 			     excel_default_palette_v8[idx].g,
-			     excel_default_palette_v8[idx].b, 0xff);
+			     excel_default_palette_v8[idx].b);
 }
 static GOColor
 themed_color (GsfXMLIn *xin, gint idx)
@@ -716,7 +716,7 @@ themed_color (GsfXMLIn *xin, gint idx)
 			      idx, (int) G_N_ELEMENTS (theme_elements));
 	}
 
-	return GO_RGBA_BLACK;
+	return GO_COLOR_BLACK;
 }
 
 static GOFormat *
@@ -1527,7 +1527,7 @@ xlsx_draw_color_alpha (GsfXMLIn *xin, xmlChar const **attrs)
 	int val;
 	if (simple_int (xin, attrs, &val)) {
 		int level = 255 * val / 100000;
-		state->gocolor = GO_UINT_RGBA_CHANGE_A (state->gocolor, level);
+		state->gocolor = GO_COLOR_CHANGE_A (state->gocolor, level);
 	}
 }
 
@@ -2394,10 +2394,10 @@ hue_to_color (int m1, int m2, int h)
 static GOColor
 apply_tint (GOColor orig, float tint)
 {
-	int r = GO_UINT_RGBA_R (orig);
-	int g = GO_UINT_RGBA_G (orig);
-	int b = GO_UINT_RGBA_B (orig);
-	int a = GO_UINT_RGBA_A (orig);
+	int r = GO_COLOR_UINT_R (orig);
+	int g = GO_COLOR_UINT_G (orig);
+	int b = GO_COLOR_UINT_B (orig);
+	int a = GO_COLOR_UINT_A (orig);
 	int maxC = b, minC = b, delta, sum, h, l, s, m1, m2;
 
 	if (fabs (tint) < .005)
@@ -2438,7 +2438,7 @@ apply_tint (GOColor orig, float tint)
 
 	if (s == 0) {            /* achromatic case */ 
 		r = (l * RGBMAX) / HLSMAX;
-		return GO_RGBA_TO_UINT(r, r, r, a);
+		return GO_COLOR_FROM_RGBA (r, r, r, a);
 	}
 
 	if (l <= (HLSMAX/2))
@@ -2451,7 +2451,7 @@ apply_tint (GOColor orig, float tint)
 	g = (hue_to_color (m1, m2, h             )*RGBMAX + (HLSMAX/2)) / HLSMAX;
 	b = (hue_to_color (m1, m2, h - (HLSMAX/3))*RGBMAX + (HLSMAX/2)) / HLSMAX;
 
-	return GO_RGBA_TO_UINT(r,g,b,a);
+	return GO_COLOR_FROM_RGBA (r,g,b,a);
 }
 				
 static GnmColor *
@@ -2473,7 +2473,7 @@ elem_color (GsfXMLIn *xin, xmlChar const **attrs)
 				return NULL;
 			}
 			has_color = TRUE;
-			c = GO_RGBA_TO_UINT(r,g,b,a);
+			c = GO_COLOR_FROM_RGBA (r,g,b,a);
 		} else if (attr_int (xin, attrs, "indexed", &indx)) {
 			has_color = TRUE;
 			c = indexed_color (state, indx);
@@ -2824,9 +2824,9 @@ xlsx_sheet_tabcolor (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmColor *text_color, *color = elem_color (xin, attrs);
 	if (NULL != color) {
 		int contrast =
-			GO_UINT_RGBA_R (color->go_color) +
-			GO_UINT_RGBA_G (color->go_color) +
-			GO_UINT_RGBA_B (color->go_color);
+			GO_COLOR_UINT_R (color->go_color) +
+			GO_COLOR_UINT_G (color->go_color) +
+			GO_COLOR_UINT_B (color->go_color);
 		if (contrast >= 0x180)
 			text_color = style_color_black ();
 		else
