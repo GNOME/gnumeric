@@ -2862,6 +2862,15 @@ If any argument is zero, the result is zero.
 @SEEALSO=CEIL,FLOOR,ABS,INT,MOD
 
 @CATEGORY=Mathematics
+@FUNCTION=CHOLESKY
+@SYNTAX=CHOLESKY(matrix)
+@DESCRIPTION=.
+@{matrix}: a symmetric positive definite matrix
+@NOTE=If the Cholesky-Banachiewicz algorithm applied to @{matrix} fails, Cholesky returns #NUM!
+@NOTE=If @{matrix} does not contain an equal number of columns and rows, CHOLESKY returns #VALUE!
+@SEEALSO=MINVERSE,MMULT,MDETERM
+
+@CATEGORY=Mathematics
 @FUNCTION=COMBIN
 @SYNTAX=COMBIN(n,k)
 @DESCRIPTION=COMBIN returns the binomial coefficient "@{n} choose @{k}", the number of @{k}-combinations of an @{n}-element set without repetition.

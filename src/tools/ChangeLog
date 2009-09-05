@@ -1,3 +1,7 @@
+2009-09-05  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.12
+
 2009-09-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* scenarios.c (summary_cb), (scenario_summary): renamed go-color.h macros.

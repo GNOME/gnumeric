@@ -8818,6 +8818,42 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-CHOLESKY">
+      <refmeta>
+        <refentrytitle>
+          <function>CHOLESKY</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>CHOLESKY</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>CHOLESKY</function>(<parameter>matrix</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>.</para>
+        <para><parameter>matrix</parameter>: a symmetric positive definite matrix</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If the Cholesky-Banachiewicz algorithm applied to <parameter>matrix</parameter> fails, Cholesky returns #NUM!</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If <parameter>matrix</parameter> does not contain an equal number of columns and rows, <function>CHOLESKY</function> returns #VALUE!</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-MINVERSE"><function>MINVERSE</function></link>,
+        <link linkend="gnumeric-MMULT"><function>MMULT</function></link>,
+        <link linkend="gnumeric-MDETERM"><function>MDETERM</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-COMBIN">
       <refmeta>
         <refentrytitle>
