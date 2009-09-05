@@ -2542,11 +2542,11 @@ BC_R(end)(XLChartHandler const *handle,
 		GogSeries     *series;
 		GOStyle      *style;
 		gboolean	   plot_has_lines = FALSE, plot_has_marks = FALSE;
+		GnmExprTop const *cat_expr = NULL;
 
 		/* check series now and create 3d plot if necessary */
 		if (s->is_surface) {
-			gboolean is_matrix = TRUE;
-			GnmExprTop const *cat_expr = NULL;
+			gboolean is_matrix = TRUE, has_labels = FALSE;
 			GnmValue *value;
 			GnmRange vector;
 			gboolean as_col = FALSE; /* makes gcc happy */
@@ -2672,6 +2672,7 @@ BC_R(end)(XLChartHandler const *handle,
 						break;
 					}
 					value_release (value);
+					has_labels = TRUE;
 				}
 				cur = eseries->data [GOG_MS_DIM_CATEGORIES].data;
 				if (cur && cat_expr &&
@@ -2700,23 +2701,27 @@ BC_R(end)(XLChartHandler const *handle,
 						"transposed", TRUE,
 						NULL);
 					col --;
-					vector.start.row = row;
-					vector.start.col = vector.end.col = col_start;
-					vector.end.row = last;
-					gog_series_set_dim (series, 1,
-						gnm_go_data_vector_new_expr (sheet,
-							gnm_expr_top_new_constant (
-								value_new_cellrange_r (sheet, &vector))), NULL);
-					col_start++;
-					vector.start.col = col_start;
-					vector.start.row = vector.end.row = row_start;
-					vector.end.col = col;
-					gog_series_set_dim (series, 0,
-						gnm_go_data_vector_new_expr (sheet,
-							gnm_expr_top_new_constant (
-								value_new_cellrange_r (sheet, &vector))), NULL);
+					if (cat_expr != NULL) {
+						vector.start.row = row;
+						vector.start.col = vector.end.col = col_start;
+						vector.end.row = last;
+						gog_series_set_dim (series, 1,
+							gnm_go_data_vector_new_expr (sheet,
+								gnm_expr_top_new_constant (
+									value_new_cellrange_r (sheet, &vector))), NULL);
+						col_start++;
+					}
+					if (has_labels) {
+						vector.start.col = col_start;
+						vector.start.row = vector.end.row = row_start;
+						vector.end.col = col;
+						gog_series_set_dim (series, 0,
+							gnm_go_data_vector_new_expr (sheet,
+								gnm_expr_top_new_constant (
+									value_new_cellrange_r (sheet, &vector))), NULL);
 
-					row_start++;
+						row_start++;
+					}
 					vector.start.row = row_start;
 					vector.end.row = last;
 					gog_series_set_dim (series, 2,
@@ -2725,22 +2730,26 @@ BC_R(end)(XLChartHandler const *handle,
 								value_new_cellrange_r (sheet, &vector))), NULL);
 				} else {
 					row--;
-					vector.start.col = col;
-					vector.start.row = vector.end.row = row_start;
-					vector.end.col = last;
-					gog_series_set_dim (series, 0,
-						gnm_go_data_vector_new_expr (sheet,
-							gnm_expr_top_new_constant (
-								value_new_cellrange_r (sheet, &vector))), NULL);
-					row_start++;
-					vector.start.row = row_start;
-					vector.start.col = vector.end.col = col_start;
-					vector.end.row = row;
-					gog_series_set_dim (series, 1,
-						gnm_go_data_vector_new_expr (sheet,
-							gnm_expr_top_new_constant (
-								value_new_cellrange_r (sheet, &vector))), NULL);
-					col_start++;
+					if (cat_expr != NULL) {
+						vector.start.col = col;
+						vector.start.row = vector.end.row = row_start;
+						vector.end.col = last;
+						gog_series_set_dim (series, 0,
+							gnm_go_data_vector_new_expr (sheet,
+								gnm_expr_top_new_constant (
+									value_new_cellrange_r (sheet, &vector))), NULL);
+						row_start++;
+					}
+					if (has_labels) {
+						vector.start.row = row_start;
+						vector.start.col = vector.end.col = col_start;
+						vector.end.row = row;
+						gog_series_set_dim (series, 1,
+							gnm_go_data_vector_new_expr (sheet,
+								gnm_expr_top_new_constant (
+									value_new_cellrange_r (sheet, &vector))), NULL);
+						col_start++;
+					}
 					vector.start.col = col_start;
 					vector.end.col = last;
 					gog_series_set_dim (series, 2,

@@ -1,3 +1,8 @@
+2009-09-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (end): don't use z values as x or y when there are no
+	labels or categories. [See #593937]
+
 2009-09-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c (axis), (xl_axis_get_elem), (valuerange): use gnm_go_data
