@@ -1715,9 +1715,9 @@ excel_palette_get (GnmXLImporter *importer, gint idx)
 			const GnmColor *c = pal->gnm_colors[idx];
 			g_printerr ("New color in slot %d: RGB= %x,%x,%x\n",
 				    idx,
-				    GO_UINT_RGBA_R (c->go_color),
-				    GO_UINT_RGBA_G (c->go_color),
-				    GO_UINT_RGBA_B (c->go_color));
+				    GO_COLOR_UINT_R (c->go_color),
+				    GO_COLOR_UINT_G (c->go_color),
+				    GO_COLOR_UINT_B (c->go_color));
 		});
 	}
 
@@ -1948,15 +1948,15 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 	g_return_val_if_fail (back_color && pattern_color && font_color, NULL);
 
 	d (4, fprintf (stderr,"back = #%02x%02x%02x, pat = #%02x%02x%02x, font = #%02x%02x%02x, pat_style = %d\n",
-		       GO_UINT_RGBA_R (back_color->go_color),
-		       GO_UINT_RGBA_G (back_color->go_color),
-		       GO_UINT_RGBA_B (back_color->go_color),
-		       GO_UINT_RGBA_R (pattern_color->go_color),
-		       GO_UINT_RGBA_G (pattern_color->go_color),
-		       GO_UINT_RGBA_B (pattern_color->go_color),
-		       GO_UINT_RGBA_R (font_color->go_color),
-		       GO_UINT_RGBA_G (font_color->go_color),
-		       GO_UINT_RGBA_B (font_color->go_color),
+		       GO_COLOR_UINT_R (back_color->go_color),
+		       GO_COLOR_UINT_G (back_color->go_color),
+		       GO_COLOR_UINT_B (back_color->go_color),
+		       GO_COLOR_UINT_R (pattern_color->go_color),
+		       GO_COLOR_UINT_G (pattern_color->go_color),
+		       GO_COLOR_UINT_B (pattern_color->go_color),
+		       GO_COLOR_UINT_R (font_color->go_color),
+		       GO_COLOR_UINT_G (font_color->go_color),
+		       GO_COLOR_UINT_B (font_color->go_color),
 		       xf->fill_pattern_idx););
 
 	gnm_style_set_font_color (mstyle, font_color);
@@ -3851,9 +3851,9 @@ office 12 seems to add 8 bytes
 	 */
 	color_index = GSF_LE_GET_GUINT8 (q->data + 16);
 	color = excel_palette_get (esheet->container.importer, color_index);
-	contrast = GO_UINT_RGBA_R (color->go_color) +
-		GO_UINT_RGBA_G (color->go_color) +
-		GO_UINT_RGBA_B (color->go_color);
+	contrast = GO_COLOR_UINT_R (color->go_color) +
+		GO_COLOR_UINT_G (color->go_color) +
+		GO_COLOR_UINT_B (color->go_color);
 	if (contrast >= 0x180)
 		text_color = style_color_black ();
 	else
