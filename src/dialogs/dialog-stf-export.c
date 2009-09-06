@@ -88,15 +88,31 @@ static void
 sheet_page_separator_menu_changed (TextExportState *state)
 {
 	unsigned active = gtk_combo_box_get_active (state->format.separator);
-	if (active < G_N_ELEMENTS (format_seps) && !format_seps[active]) {
-		gtk_widget_set_sensitive (state->format.custom, TRUE);
+	if (active >= G_N_ELEMENTS (format_seps))
+		active = 0;
+
+	if (!format_seps[active]) {
 		gtk_widget_grab_focus (state->format.custom);
 		gtk_editable_select_region (GTK_EDITABLE (state->format.custom), 0, -1);
 	} else {
-		gtk_widget_set_sensitive (state->format.custom, FALSE);
-		/* If we don't use this the selection will remain blue */
-		gtk_editable_select_region (GTK_EDITABLE (state->format.custom), 0, 0);
+		gtk_entry_set_text (GTK_ENTRY (state->format.custom),
+				    format_seps[active]);
 	}
+}
+
+static void
+cb_custom_separator_changed (TextExportState *state)
+{
+	const char *text = gtk_entry_get_text (GTK_ENTRY (state->format.custom));
+	unsigned active = gtk_combo_box_get_active (state->format.separator);
+	unsigned ui;
+
+	for (ui = 0; format_seps[ui]; ui++)
+		if (strcmp (text, format_seps[ui]) == 0)
+			break;
+
+	if (ui != active)
+		gtk_combo_box_set_active (state->format.separator, ui);
 }
 
 static void
@@ -243,6 +259,11 @@ stf_export_dialog_format_page_init (TextExportState *state)
 	g_signal_connect_swapped (state->format.separator,
 		"changed",
 		G_CALLBACK (sheet_page_separator_menu_changed), state);
+	g_signal_connect_swapped (state->format.custom,
+		"changed",
+		G_CALLBACK (cb_custom_separator_changed), state);
+
+	sheet_page_separator_menu_changed (state);
 }
 
 static gboolean

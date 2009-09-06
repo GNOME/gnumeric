@@ -1,3 +1,14 @@
+2009-09-05  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-export.c (sheet_page_separator_menu_changed): Don't
+	make custom format insensitive.  Set format custom's text to match
+	item chosen.
+	(cb_custom_separator_changed): New function.
+	(stf_export_dialog_format_page_init): Hook up
+	cb_custom_separator_changed.  Call
+	sheet_page_separator_menu_changed to boot strap.
+	Fixes #594155.
+
 2009-09-05  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.12
