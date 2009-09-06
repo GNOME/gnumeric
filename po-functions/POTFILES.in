@@ -101,6 +101,7 @@ src/dialogs/dialog-preferences.c
 src/dialogs/dialog-printer-setup.c
 src/dialogs/dialog-quit.c
 src/dialogs/dialog-random-generator.c
+src/dialogs/dialog-random-generator-cor.c
 src/dialogs/dialog-recent.c
 src/dialogs/dialog-row-height.c
 src/dialogs/dialog-scenarios.c
@@ -194,6 +195,7 @@ src/tools/data-shuffling.c
 src/tools/fill-series.c
 src/tools/filter.c
 src/tools/random-generator.c
+src/tools/random-generator-cor.c
 src/tools/scenarios.c
 src/tools/simulation.c
 src/tools/solver/reports-write.c

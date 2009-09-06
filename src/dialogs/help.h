@@ -164,6 +164,9 @@
 /* dialog-random-generator.c */
 #define GNUMERIC_HELP_LINK_RANDOM_GENERATOR "sect-dataentryadv"
 
+/* dialog-random-generator-cor.c */
+#define GNUMERIC_HELP_LINK_RANDOM_GENERATOR_COR "sect-dataentryadv"
+
 /* dialog-scenarios.c */
 #define GNUMERIC_HELP_LINK_SCENARIOS_ADD "sect-advanced-analysis-scenarios"
 #define GNUMERIC_HELP_LINK_SCENARIOS_VIEW "sect-advanced-analysis-scenarios"

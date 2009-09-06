@@ -866,7 +866,8 @@ static GNM_ACTION_DEF (cb_tools_ttest_equal_var) { dialog_ttest_tool (wbcg, wbcg
 static GNM_ACTION_DEF (cb_tools_ttest_unequal_var) { dialog_ttest_tool (wbcg, wbcg_cur_sheet (wbcg), TTEST_UNPAIRED_UNEQUALVARIANCES); }
 static GNM_ACTION_DEF (cb_tools_ztest)		{ dialog_ttest_tool (wbcg, wbcg_cur_sheet (wbcg), TTEST_ZTEST); }
 static GNM_ACTION_DEF (cb_tools_ftest)		{ dialog_ftest_tool (wbcg, wbcg_cur_sheet (wbcg)); }
-static GNM_ACTION_DEF (cb_tools_random_generator) { dialog_random_tool (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_random_generator_uncorrelated) { dialog_random_tool (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_random_generator_correlated) { dialog_random_cor_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_data_sort)		{ dialog_cell_sort (wbcg); }
 static GNM_ACTION_DEF (cb_data_shuffle)		{ dialog_shuffle (wbcg); }
 static GNM_ACTION_DEF (cb_data_import_text)	{ gui_file_open (wbcg, "Gnumeric_stf:stf_assistant"); }
@@ -1690,7 +1691,6 @@ static GtkActionEntry const permanent_actions[] = {
 		{ "MenuEditDelete",	GTK_STOCK_DELETE, N_("_Delete") },
 		{ "MenuEditSheet",	NULL, N_("S_heet") },
 		{ "MenuEditSelect",	NULL, N_("_Select") },
-		{ "MenuEditFill",	NULL, N_("F_ill") },
 	{ "MenuView",		NULL, N_("_View") },
 		{ "MenuViewWindows",		NULL, N_("_Windows") },
 		{ "MenuViewToolbars",		NULL, N_("_Toolbars") },
@@ -1711,6 +1711,8 @@ static GtkActionEntry const permanent_actions[] = {
 		{ "MenuToolTTest",	NULL,	N_("Two _Means") },
 	{ "MenuData",		NULL, N_("_Data") },
 		{ "MenuFilter",		NULL,	N_("_Filter") },
+		{ "MenuEditFill",	NULL, N_("F_ill") },
+	                { "MenuRandomGenerator",	NULL, N_("_Random Generators") },
 		{ "MenuOutline",	NULL,	N_("_Group and Outline") },
 		{ "MenuExternalData",	NULL,	N_("Get External _Data") },
 		{ "MenuSlicer",		NULL,	N_("Data S_licer") },
@@ -2186,9 +2188,12 @@ static GtkActionEntry const actions[] = {
 	{ "EditFillSeries", NULL, N_("_Series..."),
 		NULL, N_("Fill according to a linear or exponential series"),
 		G_CALLBACK (cb_edit_fill_series) },
-	{ "RandomGenerator", NULL, N_("_Random Generator..."),
+	{ "RandomGeneratorUncorrelated", NULL, N_("_Uncorrelated..."),
 		NULL, N_("Generate random numbers of a selection of distributions"),
-		G_CALLBACK (cb_tools_random_generator) },
+		G_CALLBACK (cb_tools_random_generator_uncorrelated) },
+	{ "RandomGeneratorCorrelated", NULL, N_("_Correlated..."),
+		NULL, N_("Generate varaites for correlated normal distributed random variables"),
+		G_CALLBACK (cb_tools_random_generator_correlated) },
 
 
 /* Data -> Outline */

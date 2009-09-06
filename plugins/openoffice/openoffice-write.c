@@ -3375,14 +3375,14 @@ static void
 odf_write_surface_chart_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, G_GNUC_UNUSED GogObject const *plot)
 {
 	odf_add_bool (state->xml, CHART "three-dimensional", TRUE);
-	odf_add_bool (state->xml, GNMSTYLE "multi-series", FALSE);
 }
 
 static void
 odf_write_xl_surface_chart_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, G_GNUC_UNUSED GogObject const *plot)
 {
 	odf_add_bool (state->xml, CHART "three-dimensional", TRUE);
-	odf_add_bool (state->xml, GNMSTYLE "multi-series", TRUE);
+	if (state->with_extension)
+		odf_add_bool (state->xml, GNMSTYLE "multi-series", TRUE);
 }
 
 static void

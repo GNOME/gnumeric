@@ -35,6 +35,8 @@ libtools_la_SOURCES =					\
 	analysis-tools.h				\
 	random-generator.c				\
 	random-generator.h				\
+	random-generator-cor.c				\
+	random-generator-cor.h				\
 	dao.c						\
 	dao.h						\
 	data-shuffling.c				\

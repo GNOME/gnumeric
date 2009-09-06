@@ -36,7 +36,10 @@
         <menuitem action="ToolsMerge"/>
         <menuitem action="ToolsTabulate"/>
         <menuitem action="EditFillSeries"/>
-        <menuitem action="RandomGenerator"/>
+        <menu name="RandomGenerator" action="MenuRandomGenerator">
+          <menuitem action="RandomGeneratorUncorrelated"/>
+          <menuitem action="RandomGeneratorCorrelated"/>
+        </menu>
       </menu>
       <menu name="Clear" action="MenuEditClear">
         <menuitem action="EditClearAll"/>

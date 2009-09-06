@@ -112,6 +112,7 @@ src/dialogs/plugin-manager.glade
 src/dialogs/preferences.glade
 src/dialogs/print.glade
 src/dialogs/random-generation.glade
+src/dialogs/random-generation-cor.glade
 src/dialogs/rank.glade
 src/dialogs/regression.glade
 src/dialogs/row-height.glade

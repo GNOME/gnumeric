@@ -82,6 +82,7 @@ int dialog_sampling_tool	 (WBCGtk *wbcg, Sheet *sheet);
 int dialog_ftest_tool		 (WBCGtk *wbcg, Sheet *sheet);
 int dialog_regression_tool	 (WBCGtk *wbcg, Sheet *sheet);
 int dialog_random_tool		 (WBCGtk *wbcg, Sheet *sheet);
+int dialog_random_cor_tool	 (WBCGtk *wbcg, Sheet *sheet);
 int dialog_average_tool		 (WBCGtk *wbcg, Sheet *sheet);
 int dialog_exp_smoothing_tool	 (WBCGtk *wbcg, Sheet *sheet);
 int dialog_fourier_tool		 (WBCGtk *wbcg, Sheet *sheet);

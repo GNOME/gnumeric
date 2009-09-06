@@ -57,6 +57,7 @@ base_files =					\
 	dialog-plugin-manager.c 		\
 	dialog-preferences.c			\
 	dialog-random-generator.c		\
+	dialog-random-generator-cor.c		\
 	dialog-recent.c				\
 	dialog-row-height.c			\
 	dialog-quit.c				\
@@ -140,6 +141,7 @@ glade_DATA = 				\
 	preferences.glade 		\
 	rank.glade			\
 	random-generation.glade		\
+	random-generation-cor.glade	\
 	regression.glade		\
 	row-height.glade		\
 	sampling.glade			\

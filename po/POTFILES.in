@@ -178,6 +178,7 @@ src/dialogs/dialog-preferences.c
 src/dialogs/dialog-printer-setup.c
 src/dialogs/dialog-quit.c
 src/dialogs/dialog-random-generator.c
+src/dialogs/dialog-random-generator-cor.c
 src/dialogs/dialog-recent.c
 src/dialogs/dialog-row-height.c
 src/dialogs/dialog-scenarios.c
@@ -228,6 +229,7 @@ src/dialogs/plugin-manager.glade
 src/dialogs/preferences.glade
 src/dialogs/print.glade
 src/dialogs/random-generation.glade
+src/dialogs/random-generation-cor.glade
 src/dialogs/rank.glade
 src/dialogs/regression.glade
 src/dialogs/row-height.glade
@@ -318,6 +320,7 @@ src/tools/data-shuffling.c
 src/tools/fill-series.c
 src/tools/filter.c
 src/tools/random-generator.c
+src/tools/random-generator-cor.c
 src/tools/scenarios.c
 src/tools/simulation.c
 src/tools/solver/reports-write.c
