@@ -53,6 +53,8 @@ AH_BOTTOM([/* Don't include gnumeric-features.h, it's a subset of gnumeric-confi
 
 AM_MAINTAINER_MODE
 
+m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
+
 # Make --disable-static the default
 AC_DISABLE_STATIC
 

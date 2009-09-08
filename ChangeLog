@@ -1,3 +1,9 @@
+2009-09-08  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Use automake 1.11 SILENT_RULES when present, for cleaner build
+	output. You can disable it by passing --disable-silent-rules to
+	configure or V=1 to make.
+
 2009-09-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* component/Gnumeric-embed.xml.in: split random generator menu item
