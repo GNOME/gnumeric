@@ -1,3 +1,8 @@
+2009-09-08  Morten Welinder  <terra@gnome.org>
+
+	* src/item-cursor.c (item_cursor_button_released): Clear status
+	message in drag and autofill cases too.  Fixes #594469.
+
 2009-09-08  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Use automake 1.11 SILENT_RULES when present, for cleaner build

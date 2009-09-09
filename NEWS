@@ -2,6 +2,7 @@ Gnumeric 1.9.13
 
 Morten:
 	* Fixes text export GUI issue.  [#594155]
+	* Fix minor status line issue.  [#594469]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.12
