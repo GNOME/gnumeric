@@ -1,3 +1,8 @@
+2009-09-09  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk-edit.c (wbcg_edit_start): Make "inside_editing" a
+	member variable instead of a static.
+
 2009-09-08  Morten Welinder  <terra@gnome.org>
 
 	* src/item-cursor.c (item_cursor_button_released): Clear status

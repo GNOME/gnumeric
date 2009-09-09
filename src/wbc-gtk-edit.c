@@ -683,10 +683,6 @@ gboolean
 wbcg_edit_start (WBCGtk *wbcg,
 		 gboolean blankp, gboolean cursorp)
 {
-	/*
-	 * FIXME!  static?  At worst this should sit in wbcg.
-	 */
-	static gboolean inside_editing = FALSE;
 	/* We could save this, but the situation is rare, if confusing.  */
 	static gboolean warn_on_text_format = TRUE;
 	SheetView *sv;
@@ -703,9 +699,9 @@ wbcg_edit_start (WBCGtk *wbcg,
 		return TRUE;
 
 	/* Avoid recursion, and do not begin editing if a guru is up */
-	if (inside_editing || wbc_gtk_get_guru (wbcg) != NULL)
+	if (wbcg->inside_editing || wbc_gtk_get_guru (wbcg) != NULL)
 		return TRUE;
-	inside_editing = TRUE;
+	wbcg->inside_editing = TRUE;
 
 	wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
 	sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
@@ -727,7 +723,7 @@ wbcg_edit_start (WBCGtk *wbcg,
 			wb_view_is_protected (wbv, FALSE)
 			 ? _("Unprotect the workbook to enable editing.")
 			 : _("Unprotect the sheet to enable editing."));
-		inside_editing = FALSE;
+		wbcg->inside_editing = FALSE;
 		g_free (pos);
 		return FALSE;
 	}
@@ -776,7 +772,7 @@ wbcg_edit_start (WBCGtk *wbcg,
 		}
 		default:
 		case GTK_RESPONSE_CANCEL:
-			inside_editing = FALSE;
+			wbcg->inside_editing = FALSE;
 			return FALSE;
 		case GTK_RESPONSE_OK:
 			break;
@@ -958,7 +954,7 @@ wbcg_edit_start (WBCGtk *wbcg,
 	g_free (text);
 	wb_control_update_action_sensitivity (WORKBOOK_CONTROL (wbcg));
 
-	inside_editing = FALSE;
+	wbcg->inside_editing = FALSE;
 
 	gtk_editable_set_position (GTK_EDITABLE (wbcg_get_entry (wbcg)), cursor_pos);
 

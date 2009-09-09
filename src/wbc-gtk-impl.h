@@ -58,6 +58,7 @@ struct _WBCGtk {
 	GtkWidget *func_button;
 
 	gboolean    updating_ui;
+	gboolean    inside_editing;
 
 	/* Auto completion */
 	GObject		*auto_complete;         /* GType is (Complete *) */
