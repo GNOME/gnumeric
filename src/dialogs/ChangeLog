@@ -1,3 +1,7 @@
+2009-09-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* frequency.glade: fix dialog title
+
 2009-09-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* random-generation-cor.glade: new

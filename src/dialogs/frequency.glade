@@ -4,7 +4,7 @@
 <glade-interface>
   <widget class="GtkDialog" id="Frequency">
     <property name="border_width">6</property>
-    <property name="title" translatable="yes">Histogram</property>
+    <property name="title" translatable="yes">Frequency Tables</property>
     <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
