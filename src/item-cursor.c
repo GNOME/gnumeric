@@ -1085,14 +1085,16 @@ item_cursor_button_released (GocItem *item, int button, G_GNUC_UNUSED double x, 
 {
 	ItemCursor *ic = ITEM_CURSOR (item);
 	GdkEventButton *event = (GdkEventButton *) goc_canvas_get_cur_event (item->canvas);
+	WBCGtk *wbcg = scg_wbcg (ic->scg);
+
 	if (ic->style == ITEM_CURSOR_EXPR_RANGE)
 		return FALSE;
 
 	/* While editing nothing should be draggable */
-	if (wbcg_is_editing (scg_wbcg (ic->scg)))
+	if (wbcg_is_editing (wbcg))
 		return TRUE;
-	switch (ic->style) {
 
+	switch (ic->style) {
 	case ITEM_CURSOR_ANTED:
 		g_warning ("Animated cursors should not receive events, "
 			   "the point method should preclude that");
@@ -1107,17 +1109,20 @@ item_cursor_button_released (GocItem *item, int button, G_GNUC_UNUSED double x, 
 			gnm_simple_canvas_ungrab (item, event->time);
 			ic->drag_button = -1;
 		}
-		go_cmd_context_progress_message_set (GO_CMD_CONTEXT (scg_wbcg (ic->scg)),
-						     " ");
+		go_cmd_context_progress_message_set (GO_CMD_CONTEXT (wbcg),
+						     NULL);
 		return TRUE;
 
 	case ITEM_CURSOR_DRAG:
-		/* Note : see comment initem_cursor_button_pressed, and bug 30507 */
-		if (button == ic->drag_button) {
-			gnm_pane_slide_stop (GNM_PANE (item->canvas));
-			gnm_simple_canvas_ungrab (item, event->time);
-			item_cursor_do_drop (ic, event);
-		}
+		if (ic->drag_button != button)
+			return TRUE;
+
+		gnm_pane_slide_stop (GNM_PANE (item->canvas));
+		gnm_simple_canvas_ungrab (item, event->time);
+		item_cursor_do_drop (ic, event);
+
+		go_cmd_context_progress_message_set (GO_CMD_CONTEXT (wbcg),
+						     NULL);
 		return TRUE;
 
 	case ITEM_CURSOR_AUTOFILL: {
@@ -1139,6 +1144,9 @@ item_cursor_button_released (GocItem *item, int button, G_GNUC_UNUSED double x, 
 			      inverse_autofill);
 
 		scg_special_cursor_stop	(scg);
+
+		go_cmd_context_progress_message_set (GO_CMD_CONTEXT (wbcg),
+						     NULL);
 		return TRUE;
 	}
 	default:
