@@ -24,6 +24,7 @@
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include <string.h>
 
 #include <gui-util.h>
 #include <mathfunc.h>
