@@ -51,7 +51,9 @@ struct _Sheet {
 
 	GnmNamedExprCollection *names;
 
+	/* This should eventually be moved to the views.  */
 	double      last_zoom_factor_used;
+	PangoContext *context;
 
 	GSList      *sheet_objects;	/* List of objects in this sheet */
 	GnmCellPos   max_object_extent;
@@ -107,9 +109,6 @@ struct _Sheet {
 	GnmColor	 *tab_color;
 	GnmColor	 *tab_text_color;
 	GnmSheetType	  sheet_type;
-
-	/* This needs to move elsewhere and get shared.  */
-	PangoContext *context;
 
 	GnmSheetSize size;
 

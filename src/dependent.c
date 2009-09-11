@@ -1516,10 +1516,7 @@ iterate :
 				value_release (cell->value);
 			cell->value = v;
 
-			if (cell->rendered_value) {
-				gnm_rendered_value_destroy (cell->rendered_value);
-				cell->rendered_value = NULL;
-			}
+			gnm_cell_unrender (cell);
 		}
 	}
 

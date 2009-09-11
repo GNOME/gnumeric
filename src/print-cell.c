@@ -57,7 +57,7 @@ print_cell_gtk (GnmCell const *cell, GnmStyle const *mstyle,
 	    cairo_t *context,
 	    double x1, double y1, double width, double height, double h_center)
 {
-	GnmRenderedValue *rv = cell->rendered_value, *rv100 = NULL;
+	GnmRenderedValue *rv, *rv100 = NULL;
 	GOColor fore_color;
 	gint x, y;
 	Sheet *sheet = cell->base.sheet;
@@ -69,10 +69,7 @@ print_cell_gtk (GnmCell const *cell, GnmStyle const *mstyle,
 	height -= GNM_ROW_MARGIN + GNM_ROW_MARGIN + 1;
 	width  -= GNM_COL_MARGIN + GNM_COL_MARGIN + 1;
 
-	if (rv == NULL) {
-		gnm_cell_render_value ((GnmCell *)cell, TRUE);
-		rv = cell->rendered_value;
-	}
+	rv = gnm_cell_fetch_rendered_value (cell, TRUE);
 
 	/* Create a rendered value for printing */
 	if (sheet->last_zoom_factor_used != 1) {

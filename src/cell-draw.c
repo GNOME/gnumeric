@@ -237,31 +237,26 @@ cell_finish_layout (GnmCell *cell, GnmRenderedValue *rv,
 	int dummy_h_center = -1;  /* Affects position only.  */
 	int dummy_height = 1;  /* Unhandled.  */
 	gboolean might_overflow;
+	GnmRenderedValue *cell_rv;
+
+	cell_rv = gnm_cell_get_rendered_value (cell);
 
 	if (!rv)
-		rv = cell->rendered_value;
+		rv = cell_rv;
 
 	if (rv->drawn)
 		return;
 
-	if (rv->variable_width && rv == cell->rendered_value) {
-		GnmStyle const *mstyle = gnm_cell_get_style (cell);
-		GOFormat const *fmt = gnm_cell_get_format (cell);
-		if (!go_format_is_general (fmt)) {
-			/*
-			 * We get here when entering a new value in a cell
-			 * with a format that has a filler, for example
-			 * one of the standard accounting formats.  We need
-			 * to rerender such that the filler gets a chance
-			 * to expand.
-			 */
-			cell->rendered_value =
-				gnm_rendered_value_new (cell, mstyle, TRUE,
-							pango_layout_get_context (rv->layout),
-							cell->base.sheet->last_zoom_factor_used);
-			gnm_rendered_value_destroy (rv);
-			rv = cell->rendered_value;
-		}
+	if (rv->variable_width && rv == cell_rv &&
+	    !go_format_is_general (gnm_cell_get_format (cell))) {
+		/*
+		 * We get here when entering a new value in a cell
+		 * with a format that has a filler, for example
+		 * one of the standard accounting formats.  We need
+		 * to rerender such that the filler gets a chance
+		 * to expand.
+		 */
+		rv = gnm_cell_render_value (cell, TRUE);
 	}
 
 	might_overflow = rv->might_overflow;

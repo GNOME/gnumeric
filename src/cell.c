@@ -62,10 +62,9 @@ gnm_cell_cleanout (GnmCell *cell)
 		value_release (cell->value);
 		cell->value = NULL;
 	}
-	if (cell->rendered_value != NULL) {
-		gnm_rendered_value_destroy (cell->rendered_value);
-		cell->rendered_value = NULL;
-	}
+
+	gnm_cell_unrender (cell);
+
 	if (cell->row_info != NULL)
 		cell->row_info->needs_respan = TRUE;
 }
@@ -454,33 +453,60 @@ gnm_cell_is_nonsingleton_array (GnmCell const *cell)
 
 /***************************************************************************/
 
+GnmRenderedValue *
+gnm_cell_get_rendered_value (GnmCell const *cell)
+{
+	g_return_val_if_fail (cell != NULL, NULL);
+
+	return cell->rendered_value;
+}
+
+GnmRenderedValue *
+gnm_cell_fetch_rendered_value (GnmCell const *cell,
+			       gboolean allow_variable_width)
+{
+	GnmRenderedValue *rv;
+
+	g_return_val_if_fail (cell != NULL, NULL);
+
+	rv = gnm_cell_get_rendered_value (cell);
+	if (rv)
+		return rv;
+
+	return gnm_cell_render_value (cell, allow_variable_width);
+}
+
+void
+gnm_cell_unrender (GnmCell const *cell)
+{
+	if (cell->rendered_value) {
+		gnm_rendered_value_destroy (cell->rendered_value);
+		((GnmCell *)cell)->rendered_value = NULL;
+	}
+}
+
 /**
  * gnm_cell_render_value :
  * @cell: The cell whose value needs to be rendered
  * @allow_variable_width : Allow format to depend on column width.
- *
- * TODO :
- * The reason the rendered values are stored separately from the GnmCell is
- * that in the future only visible cells will be rendered.  The render
- * will be SheetControl specific to allow for multiple zooms and different
- * display resolutions.
  */
-void
-gnm_cell_render_value (GnmCell *cell, gboolean allow_variable_width)
+GnmRenderedValue *
+gnm_cell_render_value (GnmCell const *cell, gboolean allow_variable_width)
 {
 	GnmRenderedValue *rv;
 	Sheet *sheet;
 
-	g_return_if_fail (cell != NULL);
+	g_return_val_if_fail (cell != NULL, NULL);
 
 	sheet = cell->base.sheet;
 	rv = gnm_rendered_value_new (cell, gnm_cell_get_style (cell),
 				     allow_variable_width,
 				     sheet->context,
 				     sheet->last_zoom_factor_used);
-	if (cell->rendered_value)
-		gnm_rendered_value_destroy (cell->rendered_value);
-	cell->rendered_value = rv;
+	gnm_cell_unrender (cell);
+	((GnmCell*)cell)->rendered_value = rv;
+
+	return rv;
 }
 
 /*
@@ -491,15 +517,15 @@ gnm_cell_render_value (GnmCell *cell, gboolean allow_variable_width)
  * then that is what you get.
  */
 char *
-gnm_cell_get_rendered_text  (GnmCell *cell)
+gnm_cell_get_rendered_text (GnmCell *cell)
 {
+	GnmRenderedValue *rv;
+
 	g_return_val_if_fail (cell != NULL, g_strdup ("ERROR"));
 
-	/* A precursor to just in time rendering Ick! */
-	if (cell->rendered_value == NULL)
-		gnm_cell_render_value (cell, TRUE);
+	rv = gnm_cell_fetch_rendered_value (cell, TRUE);
 
-	return g_strdup (gnm_rendered_value_get_text (cell->rendered_value));
+	return g_strdup (gnm_rendered_value_get_text (rv));
 }
 
 /**
@@ -512,13 +538,13 @@ gnm_cell_get_rendered_text  (GnmCell *cell)
 GOColor
 gnm_cell_get_render_color (GnmCell const *cell)
 {
-	g_return_val_if_fail (cell != NULL, 0);
+	GnmRenderedValue *rv;
 
-	/* A precursor to just in time rendering Ick! */
-	if (cell->rendered_value == NULL)
-		gnm_cell_render_value ((GnmCell *)cell, TRUE);
+	g_return_val_if_fail (cell != NULL, GO_COLOR_BLACK);
 
-	return cell->rendered_value->go_fore_color;
+	rv = gnm_cell_fetch_rendered_value (cell, TRUE);
+
+	return rv->go_fore_color;
 }
 
 /**
@@ -593,11 +619,10 @@ gnm_cell_rendered_height (GnmCell const *cell)
 
 	g_return_val_if_fail (cell != NULL, 0);
 
-	rv = cell->rendered_value;
-	if (!rv)
-		return 0;
-
-	return PANGO_PIXELS (cell->rendered_value->layout_natural_height);
+	rv = gnm_cell_get_rendered_value (cell);
+	return rv
+		? PANGO_PIXELS (rv->layout_natural_height)
+		: 0;
 }
 
 /*
@@ -610,21 +635,23 @@ gnm_cell_rendered_width (GnmCell const *cell)
 
 	g_return_val_if_fail (cell != NULL, 0);
 
-	rv = cell->rendered_value;
-	if (!rv)
-		return 0;
-
-	return PANGO_PIXELS (cell->rendered_value->layout_natural_width);
+	rv = gnm_cell_get_rendered_value (cell);
+	return rv
+		? PANGO_PIXELS (rv->layout_natural_width)
+		: 0;
 }
 
 int
 gnm_cell_rendered_offset (GnmCell const * cell)
 {
-	if (!cell || !cell->rendered_value)
-		return 0;
+	const GnmRenderedValue *rv;
 
-	return (cell->rendered_value->indent_left +
-		cell->rendered_value->indent_right);
+	g_return_val_if_fail (cell != NULL, 0);
+
+	rv = gnm_cell_get_rendered_value (cell);
+	return rv
+		? rv->indent_left + rv->indent_right
+		: 0;
 }
 
 GnmStyle const *

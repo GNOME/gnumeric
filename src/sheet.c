@@ -163,10 +163,7 @@ cb_re_render_formulas (G_GNUC_UNUSED gpointer unused,
 		       G_GNUC_UNUSED gpointer user)
 {
 	if (gnm_cell_has_expr (cell)) {
-		if (cell->rendered_value != NULL) {
-			gnm_rendered_value_destroy (cell->rendered_value);
-			cell->rendered_value = NULL;
-		}
+		gnm_cell_unrender (cell);
 		if (cell->row_info != NULL)
 			cell->row_info->needs_respan = TRUE;
 	}
@@ -203,8 +200,8 @@ cb_sheet_set_hide_zeros (G_GNUC_UNUSED gpointer unused,
 			 GnmCell *cell,
 			 G_GNUC_UNUSED gpointer user)
 {
-	if (cell->rendered_value && gnm_cell_is_zero (cell))
-		gnm_cell_render_value (cell, TRUE);
+	if (gnm_cell_is_zero (cell))
+		gnm_cell_unrender (cell);
 }
 
 static void
@@ -317,10 +314,9 @@ cb_colrow_compute_pixels_from_pts (GnmColRowIter const *iter,
 static void
 cb_clear_rendered_cells (gpointer ignored, GnmCell *cell)
 {
-	if (cell->rendered_value != NULL) {
+	if (gnm_cell_get_rendered_value (cell) != NULL) {
 		cell->row_info->needs_respan = TRUE;
-		gnm_rendered_value_destroy (cell->rendered_value);
-		cell->rendered_value = NULL;
+		gnm_cell_unrender (cell);
 	}
 }
 
@@ -786,6 +782,7 @@ gnm_sheet_init (Sheet *sheet)
 	/* FIXME: probably not here.  */
 	/* See also gtk_widget_create_pango_context ().  */
 	sheet->context = gnm_pango_context_get ();
+	sheet->last_zoom_factor_used = -1;  /* Overridden later */
 
 	/* Init menu states */
 	sheet->priv->enable_showhide_detail = TRUE;
@@ -794,12 +791,6 @@ gnm_sheet_init (Sheet *sheet)
 	sheet->style_data = NULL;
 
 	sheet->index_in_wb = -1;
-
-	/*
-	 * "zoom-factor" is a construction parameter and will thus
-	 * override this.
-	 */
-	sheet->last_zoom_factor_used = -1;
 }
 
 static void
@@ -1348,10 +1339,7 @@ sheet_redraw_all (Sheet const *sheet, gboolean headers)
 static GnmValue *
 cb_clear_rendered_values (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
 {
-	if (iter->cell->rendered_value != NULL) {
-		gnm_rendered_value_destroy (iter->cell->rendered_value);
-		iter->cell->rendered_value = NULL;
-	}
+	gnm_cell_unrender (iter->cell);
 	return NULL;
 }
 
@@ -1395,24 +1383,22 @@ sheet_cell_calc_span (GnmCell *cell, GnmSpanCalcFlags flags)
 	CellSpanInfo const * span;
 	int left, right;
 	int min_col, max_col;
-	gboolean render = (flags & GNM_SPANCALC_RE_RENDER);
-	gboolean const resize = (flags & GNM_SPANCALC_RESIZE);
+	gboolean render = (flags & GNM_SPANCALC_RE_RENDER) != 0;
+	gboolean const resize = (flags & GNM_SPANCALC_RESIZE) != 0;
 	gboolean existing = FALSE;
 	GnmRange const *merged;
 
 	g_return_if_fail (cell != NULL);
 
 	/* Render & Size any unrendered cells */
-	if ((flags & GNM_SPANCALC_RENDER) && cell->rendered_value == NULL)
+	if ((flags & GNM_SPANCALC_RENDER) && gnm_cell_get_rendered_value (cell) == NULL)
 		render = TRUE;
 
 	if (render) {
 		if (!gnm_cell_has_expr (cell))
 			gnm_cell_render_value ((GnmCell *)cell, TRUE);
-		else if (cell->rendered_value) {
-			gnm_rendered_value_destroy (cell->rendered_value);
-			cell->rendered_value = NULL;
-		}
+		else
+			gnm_cell_unrender (cell);
 	} else if (resize) {
 		/* FIXME: what was wanted here?  */
 		/* rendered_value_calc_size (cell); */
@@ -2136,6 +2122,7 @@ cb_max_cell_width (GnmCellIter const *iter, struct cb_fit *data)
 {
 	int width;
 	GnmCell *cell = iter->cell;
+	GnmRenderedValue *rv;
 
 	if (gnm_cell_is_merged (cell))
 		return NULL;
@@ -2152,8 +2139,8 @@ cb_max_cell_width (GnmCellIter const *iter, struct cb_fit *data)
 		return NULL;
 
 	/* Variable width cell must be re-rendered */
-	if (cell->rendered_value == NULL ||
-	    cell->rendered_value->variable_width)
+	rv = gnm_cell_get_rendered_value (cell);
+	if (rv == NULL || rv->variable_width)
 		gnm_cell_render_value (cell, FALSE);
 
 	/* Make sure things are as-if drawn.  */
@@ -2232,12 +2219,12 @@ cb_max_cell_height (GnmCellIter const *iter, struct cb_fit *data)
 		 * that they are all the same height, more or less.
 		 */
 		Sheet const *sheet = cell->base.sheet;
-		height = gnm_style_get_pango_height (gnm_cell_get_style (cell),
-						     sheet->context,
-						     sheet->last_zoom_factor_used);
+		height = sheet->last_zoom_factor_used *
+			gnm_style_get_pango_height (gnm_cell_get_style (cell),
+						    sheet->context,
+						    sheet->last_zoom_factor_used);
 	} else {
-		if (cell->rendered_value == NULL)
-			gnm_cell_render_value (cell, TRUE);
+		(void)gnm_cell_fetch_rendered_value (cell, TRUE);
 
 		/* Make sure things are as-if drawn.  Inhibit #####s.  */
 		cell_finish_layout (cell, NULL, iter->ci->size_pixels, FALSE);
@@ -3590,10 +3577,7 @@ sheet_cell_add_to_hash (Sheet *sheet, GnmCell *cell)
 	(void) sheet_col_fetch (sheet, cell->pos.col);
 	cell->row_info   = sheet_row_fetch (sheet, cell->pos.row);
 
-	if (cell->rendered_value) {
-		gnm_rendered_value_destroy (cell->rendered_value);
-		cell->rendered_value = NULL;
-	}
+	gnm_cell_unrender (cell);
 
 	g_hash_table_insert (sheet->cell_hash, &cell->pos, cell);
 

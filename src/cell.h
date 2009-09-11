@@ -54,7 +54,7 @@ gboolean    gnm_cell_array_bound	  (GnmCell const *cell, GnmRange *res);
 	do {											     \
 		if (gnm_cell_needs_recalc (cell)) {						     \
 			gnm_cell_eval_content (cell);						     \
-			cell->base.flags &= ~(DEPENDENT_NEEDS_RECALC | (int)GNM_CELL_HAS_NEW_EXPR ); \
+			(cell)->base.flags &= ~(DEPENDENT_NEEDS_RECALC | (int)GNM_CELL_HAS_NEW_EXPR ); \
 		}										     \
 	} while (0)
 
@@ -82,7 +82,13 @@ GnmStyle const *gnm_cell_get_style	(GnmCell const *cell);
 GOFormat const *gnm_cell_get_format	(GnmCell const *cell);
 void	gnm_cell_set_format		(GnmCell *cell, char const *format);
 
-void	gnm_cell_render_value		(GnmCell *cell, gboolean allow_variable_width);
+GnmRenderedValue *gnm_cell_get_rendered_value (GnmCell const *cell);
+GnmRenderedValue *gnm_cell_fetch_rendered_value (GnmCell const *cell,
+						 gboolean allow_variable_width);
+GnmRenderedValue *gnm_cell_render_value (GnmCell const *cell,
+					 gboolean allow_variable_width);
+void    gnm_cell_unrender (GnmCell const *cell);
+
 int	gnm_cell_rendered_height	(GnmCell const * cell);
 int	gnm_cell_rendered_width		(GnmCell const * cell);	/* excludes offset */
 int	gnm_cell_rendered_offset	(GnmCell const * cell);

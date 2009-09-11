@@ -181,7 +181,7 @@ gnm_rendered_value_remeasure (GnmRenderedValue *rv)
  * Return value: a new GnmRenderedValue
  **/
 GnmRenderedValue *
-gnm_rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
+gnm_rendered_value_new (GnmCell const *cell, GnmStyle const *mstyle,
 			gboolean allow_variable_width,
 			PangoContext *context,
 			double zoom)
@@ -207,7 +207,7 @@ gnm_rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	 * If a cell has a new expression and something tries to display it we
 	 * need to recalc the value */
 	if (cell->base.flags & GNM_CELL_HAS_NEW_EXPR) {
-		gnm_cell_eval (cell);
+		gnm_cell_eval ((GnmCell *)cell);
 	}
 
 	/* Must come after above gnm_cell_eval.  */

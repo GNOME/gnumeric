@@ -407,8 +407,7 @@ row_calc_spans (ColRowInfo *ri, int row, Sheet const *sheet)
 		}
 
 		/* render as necessary */
-		if (cell->rendered_value == NULL)
-			gnm_cell_render_value ((GnmCell *)cell, TRUE);
+		(void)gnm_cell_fetch_rendered_value (cell, TRUE);
 
 		if (gnm_cell_is_merged (cell)) {
 			merged = gnm_sheet_merge_is_corner (sheet, &cell->pos);

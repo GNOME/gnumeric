@@ -1,5 +1,8 @@
 2009-09-11  Morten Welinder  <terra@gnome.org>
 
+	* src/cell.c (gnm_cell_unrender, gnm_cell_get_rendered_value,
+	gnm_cell_fetch_rendered_value): New functions.
+
 	* src/gnm-so-filled.c (gnm_so_filled_draw_cairo): NULL-check
 	->text like elsewhere.  Fixes 594862.
 

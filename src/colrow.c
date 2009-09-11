@@ -394,12 +394,10 @@ static GnmValue *
 cb_clear_variable_width_content (GnmCellIter const *iter,
 				 G_GNUC_UNUSED gpointer user)
 {
-	GnmRenderedValue *rv;
-	if (NULL != (rv = iter->cell->rendered_value) &&
-	    rv->variable_width) {
+	GnmRenderedValue *rv = gnm_cell_get_rendered_value (iter->cell);
+	if (rv && rv->variable_width) {
 		iter->ri->needs_respan = TRUE;
-		gnm_rendered_value_destroy (rv);
-		iter->cell->rendered_value = NULL;
+		gnm_cell_unrender (iter->cell);
 	}
 	return NULL;
 }

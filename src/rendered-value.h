@@ -43,7 +43,7 @@ struct _GnmRenderedRotatedValue {
 	} *lines;
 };
 
-GnmRenderedValue *gnm_rendered_value_new       (GnmCell *cell,
+GnmRenderedValue *gnm_rendered_value_new       (GnmCell const *cell,
 						GnmStyle const *mstyle,
 						gboolean variable_width,
 						PangoContext *context,
