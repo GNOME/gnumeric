@@ -1700,7 +1700,9 @@ gnm_style_get_pango_attrs (GnmStyle const *style,
 		add_attr (l, pango_attr_font_desc_new (font->go.font->desc));
 	}
 
-	add_attr (l, pango_attr_scale_new (zoom));
+	if (zoom != 1)
+		add_attr (l, pango_attr_scale_new (zoom));
+
 	pango_attr_list_ref (l);
 	return l;
 }

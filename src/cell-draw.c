@@ -292,11 +292,7 @@ cell_draw (GnmCell const *cell, cairo_t *cr,
 	height -= GNM_ROW_MARGIN + GNM_ROW_MARGIN + 1;
 	width  -= GNM_COL_MARGIN + GNM_COL_MARGIN + 1;
 
-	/* render as necessary */
-	if (cell->rendered_value == NULL)
-		gnm_cell_render_value ((GnmCell *)cell, TRUE);
-
-	rv = cell->rendered_value;
+	rv = gnm_cell_fetch_rendered_value (cell, TRUE);
 
 	if (cell_calc_layout (cell, rv, +1,
 			      width * PANGO_SCALE,
