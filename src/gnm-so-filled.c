@@ -258,7 +258,7 @@ gnm_so_filled_draw_cairo (SheetObject const *so, cairo_t *cr,
 		GO_COLOR_UINT_A(style->line.color));
 	cairo_stroke (cr);
 	/* Draw the text. */
-	if (*(sof->text) != '\0') {
+	if (sof->text != NULL && *(sof->text) != '\0') {
 		PangoLayout *pl = pango_cairo_create_layout (cr);
 		double pl_height = (height - sof->margin_pts.top
 				    - sof->margin_pts.bottom) * PANGO_SCALE;
