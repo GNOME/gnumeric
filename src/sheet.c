@@ -783,6 +783,7 @@ gnm_sheet_init (Sheet *sheet)
 	/* See also gtk_widget_create_pango_context ().  */
 	sheet->context = gnm_pango_context_get ();
 	sheet->last_zoom_factor_used = -1;  /* Overridden later */
+	sheet->rendered_values = gnm_rvc_new (sheet->context, 5000);
 
 	/* Init menu states */
 	sheet->priv->enable_showhide_detail = TRUE;
@@ -3981,6 +3982,8 @@ gnm_sheet_finalize (GObject *obj)
 	g_free (sheet->name_case_insensitive);
 	g_free (sheet->priv);
 	g_ptr_array_free (sheet->sheet_views, TRUE);
+
+	gnm_rvc_free (sheet->rendered_values);
 
 	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }

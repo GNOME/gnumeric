@@ -28,7 +28,6 @@ struct _GnmCell {
 	ColRowInfo    *row_info;
 
 	GnmValue      *value;	/* computed or entered (Must be non NULL) */
-	GnmRenderedValue *rendered_value;
 };
 
 /**

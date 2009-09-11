@@ -7,9 +7,6 @@
 
 G_BEGIN_DECLS
 
-/**
- * GnmRenderedValue:
- */
 struct _GnmRenderedValue {
 	PangoLayout *layout;
 
@@ -56,6 +53,28 @@ void              gnm_rendered_value_remeasure (GnmRenderedValue *rv);
 
 /* Return the value as a single string without format infomation.  */
 char const *gnm_rendered_value_get_text (GnmRenderedValue const * rv);
+
+/* ------------------------------------------------------------------------- */
+
+struct _GnmRenderedValueCollection {
+	PangoContext *context;
+
+	gsize size;
+	GHashTable *values;
+};
+
+GnmRenderedValueCollection *gnm_rvc_new (PangoContext *context,
+					 gsize size);
+void gnm_rvc_free (GnmRenderedValueCollection *rvc);
+GnmRenderedValue *gnm_rvc_query (GnmRenderedValueCollection *rvc,
+				 GnmCell const *cell);
+void gnm_rvc_store (GnmRenderedValueCollection *rvc,
+		    GnmCell const *cell,
+		    GnmRenderedValue *rv);
+void gnm_rvc_remove (GnmRenderedValueCollection *rvc,
+		     GnmCell const *cell);
+
+/* ------------------------------------------------------------------------- */
 
 void gnm_rendered_value_init (void);
 void gnm_rendered_value_shutdown (void);

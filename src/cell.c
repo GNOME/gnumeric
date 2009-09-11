@@ -458,7 +458,7 @@ gnm_cell_get_rendered_value (GnmCell const *cell)
 {
 	g_return_val_if_fail (cell != NULL, NULL);
 
-	return cell->rendered_value;
+	return gnm_rvc_query (cell->base.sheet->rendered_values, cell);
 }
 
 GnmRenderedValue *
@@ -479,10 +479,7 @@ gnm_cell_fetch_rendered_value (GnmCell const *cell,
 void
 gnm_cell_unrender (GnmCell const *cell)
 {
-	if (cell->rendered_value) {
-		gnm_rendered_value_destroy (cell->rendered_value);
-		((GnmCell *)cell)->rendered_value = NULL;
-	}
+	gnm_rvc_remove (cell->base.sheet->rendered_values, cell);
 }
 
 /**
@@ -503,8 +500,8 @@ gnm_cell_render_value (GnmCell const *cell, gboolean allow_variable_width)
 				     allow_variable_width,
 				     sheet->context,
 				     sheet->last_zoom_factor_used);
-	gnm_cell_unrender (cell);
-	((GnmCell*)cell)->rendered_value = rv;
+
+	gnm_rvc_store (sheet->rendered_values, cell, rv);
 
 	return rv;
 }

@@ -71,6 +71,7 @@ typedef enum {
 
 typedef struct _GnmRenderedValue	GnmRenderedValue;
 typedef struct _GnmRenderedRotatedValue	GnmRenderedRotatedValue;
+typedef struct _GnmRenderedValueCollection GnmRenderedValueCollection;
 
 typedef GSList				GnmExprList;
 typedef union  _GnmExpr			GnmExpr;

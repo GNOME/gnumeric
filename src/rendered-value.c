@@ -38,6 +38,7 @@
 #include "value.h"
 #include "parse-util.h"
 #include "workbook.h"
+#include "gutils.h"
 
 #include <string.h>
 #include <goffice/goffice.h>
@@ -515,6 +516,85 @@ gnm_rendered_value_get_text (GnmRenderedValue const *rv)
 	g_return_val_if_fail (rv != NULL, "ERROR");
 	return pango_layout_get_text (rv->layout);
 }
+
+/* ------------------------------------------------------------------------- */
+
+static gboolean
+debug_rvc (void)
+{
+	static int res = -1;
+	if (res == -1) {
+		res = gnm_debug_flag ("rvc");
+	}
+	return res > 0;
+}
+
+GnmRenderedValueCollection *
+gnm_rvc_new (PangoContext *context, gsize size)
+{
+	GnmRenderedValueCollection *res = g_new0 (GnmRenderedValueCollection, 1);
+
+	res->context = g_object_ref (context);
+
+	res->size = size;
+	res->values = g_hash_table_new_full
+		(g_direct_hash, g_direct_equal,
+		 NULL,
+		 (GDestroyNotify)gnm_rendered_value_destroy);
+
+	if (debug_rvc ())
+		g_printerr ("Created rendered value cache %p of size %u\n",
+			    res, (unsigned)size);
+
+	return res;
+}
+
+void
+gnm_rvc_free (GnmRenderedValueCollection *rvc)
+{
+	g_return_if_fail (rvc != NULL);
+
+	if (debug_rvc ())
+		g_printerr ("Destroying rendered value cache %p\n", rvc);
+
+	g_object_unref (rvc->context);
+	g_hash_table_destroy (rvc->values);
+	g_free (rvc);
+}
+
+GnmRenderedValue *
+gnm_rvc_query (GnmRenderedValueCollection *rvc, GnmCell const *cell)
+{
+	g_return_val_if_fail (rvc != NULL, NULL);
+
+	return g_hash_table_lookup (rvc->values, cell);
+}
+
+void
+gnm_rvc_store (GnmRenderedValueCollection *rvc,
+	       GnmCell const *cell,
+	       GnmRenderedValue *rv)
+{
+	g_return_if_fail (rvc != NULL);
+
+	/* Crude cache management:  */
+	if (g_hash_table_size (rvc->values) >= rvc->size) {
+		if (debug_rvc ())
+			g_printerr ("Clearing rendered value cache %p\n", rvc);
+		g_hash_table_remove_all (rvc->values);
+	}
+
+	g_hash_table_insert (rvc->values, (gpointer)cell, rv);
+}
+
+void
+gnm_rvc_remove (GnmRenderedValueCollection *rvc, GnmCell const *cell)
+{
+	g_return_if_fail (rvc != NULL);
+	g_hash_table_remove (rvc->values, (gpointer)cell);
+}
+
+/* ------------------------------------------------------------------------- */
 
 void
 gnm_rendered_value_init (void)

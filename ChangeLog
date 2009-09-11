@@ -1,5 +1,13 @@
 2009-09-11  Morten Welinder  <terra@gnome.org>
 
+	* src/rendered-value.c (gnm_rvc_new, gnm_rvc_free, gnm_rvc_query,
+	gnm_rvc_store, gnm_rvc_remove): New functions.
+
+	* src/cell.c (gnm_cell_unrender, gnm_cell_get_rendered_value,
+	gnm_cell_fetch_rendered_value): Hook into above.
+
+2009-09-11  Morten Welinder  <terra@gnome.org>
+
 	* src/mstyle.c (gnm_style_get_pango_attrs): Don't scale if zoom is
 	1.
 

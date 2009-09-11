@@ -77,8 +77,9 @@ pg_fetch_cell (PreviewGrid *pg, int col, int row, PangoContext *context,
 	       GnmStyle const *style)
 {
 	PreviewGridClass *klass = PREVIEW_GRID_GET_CLASS (pg);
-	GnmCell  *cell;
+	GnmCell *cell;
 	GnmValue *v = NULL;
+	GnmRenderedValue *rv;
 
 	g_return_val_if_fail (klass != NULL, NULL);
 	g_return_val_if_fail (pg != NULL, NULL);
@@ -92,8 +93,10 @@ pg_fetch_cell (PreviewGrid *pg, int col, int row, PangoContext *context,
 
 	cell = sheet_cell_fetch (pg->sheet, col, row);
 	gnm_cell_set_value (cell, v);
-	cell->rendered_value = gnm_rendered_value_new (cell, style,
-		TRUE, context, pg->sheet->last_zoom_factor_used);
+
+	rv = gnm_rendered_value_new (cell, style, TRUE, context,
+				     pg->sheet->last_zoom_factor_used);
+	gnm_rvc_store (pg->sheet->rendered_values, cell, rv);
 
 	return cell;
 }
