@@ -1,3 +1,7 @@
+2009-09-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dialog-autoformat.c (previews_free): fixed leaks.
+
 2009-09-11  Morten Welinder  <terra@gnome.org>
 
 	* dialog-autoformat.c (previews_free): Adapt to new canvas.

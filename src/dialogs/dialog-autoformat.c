@@ -274,14 +274,14 @@ previews_free (AutoFormatState *state)
 		return;
 
 	if (state->selrect) {
-		goc_group_remove_child (state->selrect->parent, state->selrect);
+		g_object_unref (state->selrect);
 		state->selrect = NULL;
 	}
 
 	for (i = 0; i < NUM_PREVIEWS; i++) {
 		GocItem *item = state->grid[i];
 		if (item) {
-			goc_group_remove_child (item->parent, item);
+			g_object_unref (state->grid[i]);
 			state->grid[i] = NULL;
 		}
 	}
