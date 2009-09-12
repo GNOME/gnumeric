@@ -1,3 +1,7 @@
+2009-09-11  Morten Welinder  <terra@gnome.org>
+
+	* dialog-autoformat.c (previews_free): Adapt to new canvas.
+
 2009-09-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* frequency.glade: fix dialog title

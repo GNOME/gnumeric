@@ -273,13 +273,15 @@ previews_free (AutoFormatState *state)
 	if (state->previews_locked)
 		return;
 
-	if (state->selrect)
-		gtk_object_destroy (GTK_OBJECT (state->selrect));
-	state->selrect = NULL;
+	if (state->selrect) {
+		goc_group_remove_child (state->selrect->parent, state->selrect);
+		state->selrect = NULL;
+	}
 
 	for (i = 0; i < NUM_PREVIEWS; i++) {
-		if (state->grid[i]) {
-			gtk_object_destroy (GTK_OBJECT (state->grid[i]));
+		GocItem *item = state->grid[i];
+		if (item) {
+			goc_group_remove_child (item->parent, item);
 			state->grid[i] = NULL;
 		}
 	}
