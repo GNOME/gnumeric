@@ -496,9 +496,8 @@ gnm_cell_render_value (GnmCell const *cell, gboolean allow_variable_width)
 	g_return_val_if_fail (cell != NULL, NULL);
 
 	sheet = cell->base.sheet;
-	rv = gnm_rendered_value_new (cell, gnm_cell_get_style (cell),
+	rv = gnm_rendered_value_new (cell,
 				     allow_variable_width,
-				     sheet->context,
 				     sheet->last_zoom_factor_used);
 
 	gnm_rvc_store (sheet->rendered_values, cell, rv);

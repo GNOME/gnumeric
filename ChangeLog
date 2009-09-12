@@ -1,5 +1,11 @@
 2009-09-12  Morten Welinder  <terra@gnome.org>
 
+	* src/rendered-value.c (gnm_rendered_value_new): Drop mstyle and
+	context arguments.  All callers changed.
+
+	* src/print-cell.c (print_cell_gtk): Drop unused style argument.
+	All callers changed.
+
 	* src/preview-grid.c (pg_style_get_row): Greatly simplify by using
 	the sheet.
 	(pg_fetch_cell): Ditto.

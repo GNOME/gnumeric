@@ -173,18 +173,15 @@ gnm_rendered_value_remeasure (GnmRenderedValue *rv)
 /**
  * gnm_rendered_value_new:
  * @cell:   The cell
- * @mstyle: The mstyle associated with the cell
  * @allow_variable_width : Allow format to depend on column width.
- * @context: A pango context for layout.
  *
  * Formats the value of the cell according to the format style given in @mstyle
  *
  * Return value: a new GnmRenderedValue
  **/
 GnmRenderedValue *
-gnm_rendered_value_new (GnmCell const *cell, GnmStyle const *mstyle,
+gnm_rendered_value_new (GnmCell const *cell,
 			gboolean allow_variable_width,
-			PangoContext *context,
 			double zoom)
 {
 	GnmRenderedValue	*res;
@@ -194,12 +191,14 @@ gnm_rendered_value_new (GnmCell const *cell, GnmStyle const *mstyle,
 	int              rotation;
 	Sheet const     *sheet;
 	gboolean         displayed_formula;
+	PangoContext *context;
+	GnmStyle const *mstyle;
 
 	g_return_val_if_fail (cell != NULL, NULL);
-	g_return_val_if_fail (context != NULL, NULL);
 
 	/* sheet->workbook can be NULL when called from preview-grid.c  */
 	sheet = cell->base.sheet;
+	context = sheet->context;
 
 	displayed_formula =
 		gnm_cell_has_expr (cell) && sheet->display_formulas;
@@ -214,6 +213,7 @@ gnm_rendered_value_new (GnmCell const *cell, GnmStyle const *mstyle,
 	/* Must come after above gnm_cell_eval.  */
 	g_return_val_if_fail (cell->value != NULL, NULL);
 
+	mstyle = gnm_cell_get_style (cell);
 	rotation = gnm_style_get_rotation (mstyle);
 	if (rotation) {
 		static PangoMatrix const id = PANGO_MATRIX_INIT;

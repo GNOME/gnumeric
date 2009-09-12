@@ -53,9 +53,10 @@
  */
 
 static void
-print_cell_gtk (GnmCell const *cell, GnmStyle const *mstyle,
-	    cairo_t *context,
-	    double x1, double y1, double width, double height, double h_center)
+print_cell_gtk (GnmCell const *cell,
+		cairo_t *context,
+		double x1, double y1,
+		double width, double height, double h_center)
 {
 	GnmRenderedValue *rv, *rv100 = NULL;
 	GOColor fore_color;
@@ -77,9 +78,8 @@ print_cell_gtk (GnmCell const *cell, GnmStyle const *mstyle,
 		 * We're zoomed and we don't want printing to reflect that.
 		 */
 
-		rv100 = gnm_rendered_value_new ((GnmCell *)cell, mstyle,
+		rv100 = gnm_rendered_value_new ((GnmCell *)cell,
 						rv->variable_width,
-						pango_layout_get_context (rv->layout),
 						1.0);
 		rv = rv100;
 	}
@@ -236,10 +236,10 @@ print_merged_range_gtk (cairo_t *context,
 			row_calc_spans ((ColRowInfo *)ri, cell->pos.row, sheet);
 
 		if (sheet->text_is_rtl)
-			print_cell_gtk (cell, style, context,
+			print_cell_gtk (cell, context,
 				r, t, l - r, b - t, -1.);
 		else
-			print_cell_gtk (cell, style, context,
+			print_cell_gtk (cell, context,
 				l, t, r - l, b - t, -1.);
 	}
 	gnm_style_border_print_diag_gtk (style, context, l, t, r, b);
@@ -481,7 +481,7 @@ gnm_gtk_print_cell_range (cairo_t *context,
 				/* no need to draw blanks */
 				GnmCell const *cell = sheet_cell_get (sheet, col, row);
 				if (!gnm_cell_is_empty (cell))
-					print_cell_gtk (cell, style, context, x, y,
+					print_cell_gtk (cell, context, x, y,
 							ci->size_pts * hscale,
 							ri->size_pts, -1.);
 
@@ -527,7 +527,7 @@ gnm_gtk_print_cell_range (cairo_t *context,
 						real_x -= offset;
 				}
 
-				print_cell_gtk (cell, style, context,
+				print_cell_gtk (cell, context,
 						real_x, y, tmp_width, ri->size_pts,
 						center_offset);
 			} else if (col != span->left)
