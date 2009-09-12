@@ -192,22 +192,39 @@ category_list_free (GList *categories)
 	g_list_free (categories);
 }
 
+static void
+add_dir (GSList **pl, const char *dir, const char *base_dir)
+{
+	char *dirc = NULL;
+	if (g_path_is_absolute (dir))
+		dirc = g_strdup (dir);
+	else
+		dirc = g_build_filename (base_dir, dir, NULL);
+	*pl = g_slist_prepend (*pl, dirc);
+}
+
 GList *
 category_group_list_get (void)
 {
 	GList *category_groups = NULL;
-	GSList *dir_list;
+	GSList *dir_list = NULL, *sl;
 	GList *categories, *l;
 	FormatTemplateCategoryGroup *current_group;
 
-	dir_list = go_slist_create ((char *)gnm_conf_get_autoformat_sys_dir (),
-				    (char *)gnm_conf_get_autoformat_usr_dir (),
-				    NULL);
-	dir_list = g_slist_concat
-		(dir_list,
-		 g_slist_copy (gnm_conf_get_autoformat_extra_dirs ()));
+	add_dir (&dir_list,
+		 gnm_conf_get_autoformat_sys_dir (),
+		 gnm_sys_data_dir ());
+	add_dir (&dir_list,
+		 gnm_conf_get_autoformat_usr_dir (),
+		 gnm_usr_dir ());
+
+	for (sl = gnm_conf_get_autoformat_extra_dirs (); sl; sl = sl->next) {
+		const char *dir = sl->data;
+		add_dir (&dir_list, dir, g_get_home_dir ());
+	}
+	dir_list = g_slist_reverse (dir_list);
 	categories = category_list_get_from_dir_list (dir_list);
-	g_slist_free (dir_list); /* we do not own the strings here */
+	go_slist_free_custom (dir_list, g_free);
 
 	categories = g_list_sort (categories, category_compare_name_and_dir);
 

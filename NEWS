@@ -5,6 +5,7 @@ Morten:
 	* Fix minor status line issue.  [#594469]
 	* Fix print crash for sheet object.  [#594862]
 	* Limit memory usage for rendered values.
+	* Fix auto-format.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.12

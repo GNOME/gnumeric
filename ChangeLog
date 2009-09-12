@@ -1,5 +1,8 @@
 2009-09-11  Morten Welinder  <terra@gnome.org>
 
+	* src/file-autoft.c (category_group_list_get): Make this work
+	again after config changes a few versions back.
+
 	* src/rendered-value.c (gnm_rvc_new, gnm_rvc_free, gnm_rvc_query,
 	gnm_rvc_store, gnm_rvc_remove): New functions.
 
