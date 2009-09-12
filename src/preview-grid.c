@@ -63,8 +63,8 @@ pg_get_style (PreviewGrid *pg, int col, int row)
 	g_return_val_if_fail (row >= 0 && row < gnm_sheet_get_max_rows (pg->sheet), NULL);
 	g_return_val_if_fail (klass != NULL, NULL);
 
-	if (klass->get_cell_style != NULL) {
-		style = (klass->get_cell_style) (pg, col, row);
+	if (klass->get_cell_style) {
+		style = klass->get_cell_style (pg, col, row);
 		if (style != NULL)
 			return style;
 	}
@@ -73,13 +73,11 @@ pg_get_style (PreviewGrid *pg, int col, int row)
 }
 
 static GnmCell *
-pg_fetch_cell (PreviewGrid *pg, int col, int row, PangoContext *context,
-	       GnmStyle const *style)
+pg_fetch_cell (PreviewGrid *pg, int col, int row)
 {
 	PreviewGridClass *klass = PREVIEW_GRID_GET_CLASS (pg);
 	GnmCell *cell;
 	GnmValue *v = NULL;
-	GnmRenderedValue *rv;
 
 	g_return_val_if_fail (klass != NULL, NULL);
 	g_return_val_if_fail (pg != NULL, NULL);
@@ -94,9 +92,7 @@ pg_fetch_cell (PreviewGrid *pg, int col, int row, PangoContext *context,
 	cell = sheet_cell_fetch (pg->sheet, col, row);
 	gnm_cell_set_value (cell, v);
 
-	rv = gnm_rendered_value_new (cell, style, TRUE, context,
-				     pg->sheet->last_zoom_factor_used);
-	gnm_rvc_store (pg->sheet->rendered_values, cell, rv);
+	gnm_cell_render_value (cell, TRUE);
 
 	return cell;
 }
@@ -185,45 +181,19 @@ preview_grid_draw_background (cairo_t *cr, PreviewGrid const *pg, GnmStyle const
 	gnm_style_border_draw_diag (mstyle, cr, x, y, x+w, y+h);
 }
 
-#define border_null(b)	((b) == none || (b) == NULL)
 static void
 pg_style_get_row (PreviewGrid *pg, GnmStyleRow *sr)
 {
-	GnmBorder const *top, *bottom, *none = gnm_style_border_none ();
-	GnmBorder const *left, *right;
-	int const end = sr->end_col, row = sr->row;
-	int col = sr->start_col;
+	int const row = sr->row;
+	int col;
 
-	sr->vertical [col] = none;
-	while (col <= end) {
-		GnmStyle const * style = pg_get_style (pg, col, row);
-
-		sr->styles [col] = style;
-
-		top = gnm_style_get_border (style, MSTYLE_BORDER_TOP);
-		bottom = gnm_style_get_border (style, MSTYLE_BORDER_BOTTOM);
-		left = gnm_style_get_border (style, MSTYLE_BORDER_LEFT);
-		right = gnm_style_get_border (style, MSTYLE_BORDER_RIGHT);
-
-		/* Cancel grids if there is a background */
-		if (sr->hide_grid || gnm_style_get_pattern (style) > 0) {
-			if (top == none)
-				top = NULL;
-			if (bottom == none)
-				bottom = NULL;
-			if (left == none)
-				left = NULL;
-			if (right == none)
-				right = NULL;
-		}
-		if (top != none && border_null (sr->top [col]))
-			sr->top [col] = top;
-		sr->bottom [col] = bottom;
-
-		if (left != none && border_null (sr->vertical [col]))
-			sr->vertical [col] = left;
-		sr->vertical [++col] = right;
+	for (col = sr->start_col; col <= sr->end_col; col++) {
+		GnmStyle const *style = pg_get_style (pg, col, row);
+		sheet_style_set_pos (pg->sheet, col, row,
+				     gnm_style_dup (style));
 	}
+
+	sheet_style_get_row (pg->sheet, sr);
 }
 
 /* no spans or merges */
@@ -238,8 +208,6 @@ preview_grid_draw_region (GocItem const *item, cairo_t *cr,
 	gint height = expose->area.height;
 #endif
 	PreviewGrid *pg = PREVIEW_GRID (item);
-	PangoContext *context = gtk_widget_get_pango_context
-		(gtk_widget_get_toplevel (GTK_WIDGET (item->canvas)));
 
 	/* To ensure that far and near borders get drawn we pretend to draw +-2
 	 * pixels around the target area which would include the surrounding
@@ -250,7 +218,7 @@ preview_grid_draw_region (GocItem const *item, cairo_t *cr,
 	 */
 	int x, y, col, row, n;
 	int const start_col = pg_get_col_offset (pg, x0 - 2, &x);
-	int end_col         = pg_get_col_offset (pg, x1+ 2, NULL);
+	int end_col         = pg_get_col_offset (pg, x1 + 2, NULL);
 	int diff_x    = x;
 	int start_row       = pg_get_row_offset (pg, y0 - 2, &y);
 	int end_row         = pg_get_row_offset (pg, y1 + 2, NULL);
@@ -293,30 +261,30 @@ preview_grid_draw_region (GocItem const *item, cairo_t *cr,
 	for (y = diff_y; row <= end_row; row = sr.row = next_sr.row) {
 		if (++next_sr.row > end_row) {
 			for (col = start_col ; col <= end_col; ++col)
-				next_sr.vertical [col] =
-				next_sr.bottom [col] = none;
+				next_sr.vertical[col] =
+				next_sr.bottom[col] = none;
 		} else
 			pg_style_get_row (pg, &next_sr);
 
 		for (col = start_col, x = diff_x; col <= end_col; col++) {
-			GnmStyle const *style = sr.styles [col];
-			GnmCell const  *cell  = pg_fetch_cell (pg,
-				col, row, context, style);
+			GnmStyle const *style = sr.styles[col];
+			GnmCell const *cell = pg_fetch_cell (pg, col, row);
 
 			preview_grid_draw_background (cr, pg,
 						      style, col, row, x, y,
-						      colwidths [col], row_height);
+						      colwidths[col], row_height);
 
 			if (!gnm_cell_is_empty (cell))
 				cell_draw (cell, cr,
-					   x, y, colwidths [col], row_height, -1);
+					   x, y, colwidths[col], row_height, -1);
 
-			x += colwidths [col];
+			x += colwidths[col];
 		}
 
-		gnm_style_borders_row_draw (prev_vert, &sr, cr,
-					diff_x, y, y+row_height,
-					colwidths, TRUE, 1 /* cheat dir == 1 for now */);
+		gnm_style_borders_row_draw
+			(prev_vert, &sr, cr,
+			 diff_x, y, y + row_height,
+			 colwidths, TRUE, 1 /* cheat dir == 1 for now */);
 
 		/* roll the pointers */
 		borders = prev_vert; prev_vert = sr.vertical;
@@ -332,7 +300,7 @@ preview_grid_draw_region (GocItem const *item, cairo_t *cr,
 
 static double
 preview_grid_distance (GocItem *item, double cx, double cy,
-		    GocItem **actual_item)
+		       GocItem **actual_item)
 {
 	*actual_item = item;
 	return 0.0;

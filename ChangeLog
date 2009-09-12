@@ -1,3 +1,9 @@
+2009-09-12  Morten Welinder  <terra@gnome.org>
+
+	* src/preview-grid.c (pg_style_get_row): Greatly simplify by using
+	the sheet.
+	(pg_fetch_cell): Ditto.
+
 2009-09-11  Morten Welinder  <terra@gnome.org>
 
 	* src/file-autoft.c (category_group_list_get): Make this work
