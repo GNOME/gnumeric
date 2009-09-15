@@ -1,3 +1,9 @@
+2009-09-15  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gnm-pane.c (cb_pane_drag_end): correctly ungrab the item. Fixes
+	debian bug #546559.
+	* src/gnumeric-simple-canvas.c: typo.
+
 2009-09-12  Morten Welinder  <terra@gnome.org>
 
 	* src/rendered-value.c (gnm_rendered_value_new): Drop mstyle and

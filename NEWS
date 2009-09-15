@@ -1,5 +1,8 @@
 Gnumeric 1.9.13
 
+Jean:
+	* Fix grab issue after dragging an object. [debian bug #549559]
+
 Morten:
 	* Fixes text export GUI issue.  [#594155]
 	* Fix minor status line issue.  [#594469]

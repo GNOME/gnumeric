@@ -60,7 +60,7 @@ gnm_simple_canvas_ungrab (GocItem *item, guint32 etime)
 	goc_item_ungrab (item);
 }
 
-/* FIXME this funtion has been simplfied a lot, if it really works like that
+/* FIXME this funtion has been simplified a lot, if it really works like that
  we should remove unused args and not return anything except void */
 int
 gnm_simple_canvas_grab (GocItem *item, unsigned int event_mask,

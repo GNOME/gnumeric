@@ -1079,7 +1079,7 @@ cb_pane_drag_end (GtkWidget *widget, GdkDragContext *context,
 	/* ungrab any grabbed item */
 	GocItem *item = goc_canvas_get_grabbed_item (GOC_CANVAS (source_pane));
 	if (item)
-		goc_item_ungrab (item);
+		gnm_simple_canvas_ungrab (item, gtk_get_current_event_time ());
 	/* sync the ctrl-pts with the object in case the drag was canceled. */
 	gnm_pane_objects_drag (source_pane, NULL,
 		source_pane->drag.origin_x,
