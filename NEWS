@@ -2,6 +2,7 @@ Gnumeric 1.9.13
 
 Jean:
 	* Fix grab issue after dragging an object. [debian bug #546559]
+	* reimplement double click in item-cursor. [debian bug #546690]
 
 Morten:
 	* Fixes text export GUI issue.  [#594155]

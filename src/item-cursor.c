@@ -1042,6 +1042,174 @@ item_cursor_button_pressed (GocItem *item, int button, double x_, double y_)
 }
 
 static gboolean
+item_cursor_button2_pressed (GocItem *item, int button, double x_, double y_)
+{
+	ItemCursor *ic = ITEM_CURSOR (item);
+//	gint64 x = x_ * item->canvas->pixels_per_unit, y = y_ * item->canvas->pixels_per_unit;
+	GdkEventButton *event = (GdkEventButton *) goc_canvas_get_cur_event (item->canvas);
+
+	switch (ic->style) {
+
+	case ITEM_CURSOR_SELECTION: {
+		Sheet *sheet = scg_sheet (ic->scg);
+		int final_col = ic->pos.end.col;
+		int final_row = ic->pos.end.row;
+
+		if (ic->drag_button != button)
+			return TRUE;
+
+		ic->drag_button = -1;
+		gnm_simple_canvas_ungrab (item, event->time);
+
+		if (sheet_is_region_empty (sheet, &ic->pos))
+			return TRUE;
+
+		/* If the cell(s) immediately below the ones in the
+		 * auto-fill template are not blank then over-write
+		 * them.
+		 *
+		 * Otherwise, only go as far as the next non-blank
+		 * cells.
+		 *
+		 * The code below uses find_boundary twice.  a. to
+		 * find the boundary of the column/row that acts as a
+		 * template to define the region to file and b. to
+		 * find the boundary of the region being filled.
+		 */
+
+		if (event->state & GDK_MOD1_MASK) {
+			int template_col = ic->pos.end.col + 1;
+			int template_row = ic->pos.start.row - 1;
+			int boundary_col_for_target;
+			int target_row;
+
+			if (template_row < 0 || template_col >= gnm_sheet_get_max_cols (sheet) ||
+			    sheet_is_cell_empty (sheet, template_col,
+						 template_row)) {
+
+				template_row = ic->pos.end.row + 1;
+				if (template_row >= gnm_sheet_get_max_rows (sheet) ||
+				    template_col >= gnm_sheet_get_max_cols (sheet) ||
+				    sheet_is_cell_empty (sheet, template_col,
+							 template_row))
+					return TRUE;
+			}
+
+			if (template_col >= gnm_sheet_get_max_cols (sheet) ||
+			    sheet_is_cell_empty (sheet, template_col,
+						 template_row))
+				return TRUE;
+			final_col = sheet_find_boundary_horizontal (sheet,
+				ic->pos.end.col, template_row,
+				template_row, 1, TRUE);
+			if (final_col <= ic->pos.end.col)
+				return TRUE;
+
+			/*
+			   Find the boundary of the target region.
+			   We don't want to go beyond this boundary.
+			*/
+			for (target_row = ic->pos.start.row; target_row <= ic->pos.end.row; target_row++) {
+				/* find_boundary is designed for Ctrl-arrow movement.  (Ab)using it for
+				 * finding autofill regions works fairly well.  One little gotcha is
+				 * that if the current col is the last row of a block of data Ctrl-arrow
+				 * will take you to then next block.  The workaround for this is to
+				 * start the search at the last col of the selection, rather than
+				 * the first col of the region being filled.
+				 */
+				boundary_col_for_target = sheet_find_boundary_horizontal
+					(sheet,
+					 ic->pos.end.col, target_row,
+					 target_row, 1, TRUE);
+
+				if (sheet_is_cell_empty (sheet, boundary_col_for_target-1, target_row) &&
+				    ! sheet_is_cell_empty (sheet, boundary_col_for_target, target_row)) {
+					/* target region was empty, we are now one col
+					   beyond where it is safe to autofill. */
+					boundary_col_for_target--;
+				}
+				if (boundary_col_for_target < final_col) {
+					final_col = boundary_col_for_target;
+				}
+			}
+		} else {
+			int template_row = ic->pos.end.row + 1;
+			int template_col = ic->pos.start.col - 1;
+			int boundary_row_for_target;
+			int target_col;
+
+			if (template_col < 0 || template_row >= gnm_sheet_get_max_rows (sheet) ||
+			    sheet_is_cell_empty (sheet, template_col,
+						 template_row)) {
+
+				template_col = ic->pos.end.col + 1;
+				if (template_col >= gnm_sheet_get_max_cols (sheet) ||
+				    template_row >= gnm_sheet_get_max_rows (sheet) ||
+				    sheet_is_cell_empty (sheet, template_col,
+							 template_row))
+					return TRUE;
+			}
+
+			if (template_row >= gnm_sheet_get_max_rows (sheet) ||
+			    sheet_is_cell_empty (sheet, template_col,
+						 template_row))
+				return TRUE;
+			final_row = sheet_find_boundary_vertical (sheet,
+				template_col, ic->pos.end.row,
+				template_col, 1, TRUE);
+			if (final_row <= ic->pos.end.row)
+				return TRUE;
+
+			/*
+			   Find the boundary of the target region.
+			   We don't want to go beyond this boundary.
+			*/
+			for (target_col = ic->pos.start.col; target_col <= ic->pos.end.col; target_col++) {
+				/* find_boundary is designed for Ctrl-arrow movement.  (Ab)using it for
+				 * finding autofill regions works fairly well.  One little gotcha is
+				 * that if the current row is the last row of a block of data Ctrl-arrow
+				 * will take you to then next block.  The workaround for this is to
+				 * start the search at the last row of the selection, rather than
+				 * the first row of the region being filled.
+				 */
+				boundary_row_for_target = sheet_find_boundary_vertical
+					(sheet,
+					 target_col, ic->pos.end.row,
+					 target_col, 1, TRUE);
+				if (sheet_is_cell_empty (sheet, target_col, boundary_row_for_target-1) &&
+				    ! sheet_is_cell_empty (sheet, target_col, boundary_row_for_target)) {
+					/* target region was empty, we are now one row
+					   beyond where it is safe to autofill. */
+					boundary_row_for_target--;
+				}
+
+				if (boundary_row_for_target < final_row) {
+					final_row = boundary_row_for_target;
+				}
+			}
+		}
+
+		/* fill the row/column */
+		cmd_autofill (scg_wbc (ic->scg), sheet, FALSE,
+			      ic->pos.start.col, ic->pos.start.row,
+			      ic->pos.end.col - ic->pos.start.col + 1,
+			      ic->pos.end.row - ic->pos.start.row + 1,
+			      final_col, final_row,
+			      FALSE);
+
+		return TRUE;
+	}
+
+	case ITEM_CURSOR_DRAG:
+		return TRUE;
+
+	default:
+		return FALSE;
+	}
+	return TRUE;
+}
+
+static gboolean
 item_cursor_motion (GocItem *item, double x_, double y_)
 {
 	ItemCursor *ic = ITEM_CURSOR (item);
@@ -1239,6 +1407,7 @@ item_cursor_class_init (GObjectClass *gobject_klass)
 	item_klass->update_bounds = item_cursor_update_bounds;
 	item_klass->distance	= item_cursor_distance;
 	item_klass->button_pressed = item_cursor_button_pressed;
+	item_klass->button2_pressed = item_cursor_button2_pressed;
 	item_klass->button_released = item_cursor_button_released;
 	item_klass->motion      = item_cursor_motion;
 	item_klass->enter_notify = item_cursor_enter_notify;

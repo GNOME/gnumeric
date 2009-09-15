@@ -1,5 +1,11 @@
 2009-09-15  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* src/item-cursor.c (item_cursor_button2_pressed),
+	(item_cursor_class_init): reimplement double click in item-cursor.
+	[debian bug #546690]
+
+2009-09-15  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* src/gnm-pane.c (cb_pane_drag_end): correctly ungrab the item. Fixes
 	debian bug #546559.
 	* src/gnumeric-simple-canvas.c: typo.
