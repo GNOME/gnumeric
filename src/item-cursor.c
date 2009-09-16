@@ -1045,7 +1045,6 @@ static gboolean
 item_cursor_button2_pressed (GocItem *item, int button, double x_, double y_)
 {
 	ItemCursor *ic = ITEM_CURSOR (item);
-//	gint64 x = x_ * item->canvas->pixels_per_unit, y = y_ * item->canvas->pixels_per_unit;
 	GdkEventButton *event = (GdkEventButton *) goc_canvas_get_cur_event (item->canvas);
 
 	switch (ic->style) {
