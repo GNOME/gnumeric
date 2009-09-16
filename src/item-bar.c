@@ -334,7 +334,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 		int const inc = item_bar_group_size (ib, sheet->cols.max_outline_level);
 		int const base_pos = .2 * inc;
 		int const len = (inc > 4) ? 4 : inc;
-		int end, total, col = pane->first.col;// = 0;
+		int end, total, col = pane->first.col;
 		gboolean const char_label = !sheet->convs->r1c1_addresses;
 
 		/* shadow type selection must be keep in sync with code in ib_draw_cell */

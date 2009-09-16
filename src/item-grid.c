@@ -164,7 +164,7 @@ item_grid_realize (GocItem *item)
 	ItemGrid   *ig;
 
 	if (parent_class->realize)
-		(*parent_class->realize) (item);
+		parent_class->realize (item);
 
 	ig = ITEM_GRID (item);
 
@@ -174,6 +174,25 @@ item_grid_realize (GocItem *item)
 			gtk_icon_theme_load_icon (gtk_icon_theme_get_default (), "cursor_cross", 32, 0, NULL),
 			17, 17);
 	cb_cursor_motion (ig);
+}
+
+static void
+item_grid_unrealize (GocItem *item)
+{
+	ItemGrid *ig = ITEM_GRID (item);
+
+	if (ig->cursor_link) {
+		gdk_cursor_unref (ig->cursor_link);
+		ig->cursor_link = NULL;
+	}
+
+	if (ig->cursor_cross) {
+		gdk_cursor_unref (ig->cursor_cross);
+		ig->cursor_cross = NULL;
+	}
+
+	if (parent_class->unrealize)
+		parent_class->unrealize (item);
 }
 
 static void
@@ -1135,6 +1154,7 @@ item_grid_class_init (GObjectClass *gobject_klass)
 			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 
 	item_klass->realize     = item_grid_realize;
+	item_klass->unrealize     = item_grid_unrealize;
 	item_klass->draw_region     = item_grid_draw_region;
 	item_klass->update_bounds   = item_grid_update_bounds;
 	item_klass->button_pressed  = item_grid_button_pressed;

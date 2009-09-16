@@ -1,3 +1,8 @@
+2009-09-16  Morten Welinder  <terra@gnome.org>
+
+	* src/item-grid.c (item_grid_unrealize): New function to plug
+	leak.
+
 2009-09-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/item-cursor.c (item_cursor_button2_pressed),
