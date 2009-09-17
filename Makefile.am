@@ -43,7 +43,7 @@ gnumeric.desktop: gnumeric.desktop.in Makefile $(INTLTOOL_MERGE) $(POFILES_FULL)
 	sed -e 's/BUGZILLAVERSION/@VERSION@/' <$@.tmp2 >$@
 	rm -f $@.tmp $@.tmp2
 
-configexecincludedir = $(gnumeric_libdir)/include
+configexecincludedir = $(includedir)/libspreadsheet-@GNUMERIC_API_VER@/spreadsheet
 install-exec-local: gnumeric-features.h
 	$(mkinstalldirs) $(DESTDIR)$(configexecincludedir)
 	file=$(DESTDIR)$(configexecincludedir)/$< ; \

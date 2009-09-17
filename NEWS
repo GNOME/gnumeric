@@ -1,8 +1,8 @@
 Gnumeric 1.9.13
 
 Jean:
-	* Fix grab issue after dragging an object. [debian bug #546559]
-	* reimplement double click in item-cursor. [debian bug #546690]
+	* Fix grab issue after dragging an object. [Debian bug #546559]
+	* Reimplement double-click in item-cursor. [Debian bug #546690]
 
 Morten:
 	* Fixes text export GUI issue.  [#594155]
@@ -10,6 +10,7 @@ Morten:
 	* Fix print crash for sheet object.  [#594862]
 	* Limit memory usage for rendered values.
 	* Fix auto-format.
+	* Fix API installation problem.  [#595317]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.12

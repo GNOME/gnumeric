@@ -1,5 +1,10 @@
 2009-09-16  Morten Welinder  <terra@gnome.org>
 
+	* Makefile.am (install-exec-local): Install gnumeric-features.h in
+	the right spot.  Fixes #595317.
+
+	* gnumeric-features.h.in: Trim a lot of fat.
+
 	* src/item-grid.c (item_grid_unrealize): New function to plug
 	leak.
 
