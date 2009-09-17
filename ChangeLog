@@ -1,3 +1,11 @@
+2009-09-17  Morten Welinder  <terra@gnome.org>
+
+	* src/item-edit.c (item_edit_class_init): Don't set ::dispose.
+	(item_edit_unrealize): Merge item_edit_dispose into here.
+	(item_edit_dispose): Remove.
+	(item_edit_realize): Merge most of item_edit_set_property into
+	here.
+
 2009-09-16  Morten Welinder  <terra@gnome.org>
 
 	* Makefile.am (install-exec-local): Install gnumeric-features.h in

@@ -298,29 +298,22 @@ item_edit_update_bounds (GocItem *item)
 	}
 }
 
-static void
-item_edit_realize (GocItem *item)
+static int
+cb_entry_key_press (GocItem *item)
 {
-	ItemEdit *ie = ITEM_EDIT (item);
-	if (parent_class->realize)
-		(parent_class->realize) (item);
-
-	ie->layout = gtk_widget_create_pango_layout (GTK_WIDGET (item->canvas), NULL);
-	if (ie->scg)
-		pango_layout_set_alignment (ie->layout,
-			scg_sheet (ie->scg)->text_is_rtl ? PANGO_ALIGN_RIGHT : PANGO_ALIGN_LEFT);
+	goc_item_bounds_changed (item);
+	return TRUE;
 }
 
-static void
-item_edit_unrealize (GocItem *item)
+static int
+cb_entry_cursor_event (GocItem *item)
 {
-	ItemEdit *ie = ITEM_EDIT (item);
+	/* ensure we draw a cursor when moving quickly no matter what the
+	 * current state is */
+	ITEM_EDIT (item)->cursor_visible = TRUE;
+	goc_item_invalidate (item);
 
-	g_object_unref (G_OBJECT (ie->layout));
-	ie->layout = NULL;
-
-	if (parent_class->unrealize)
-		(parent_class->unrealize) (item);
+	return TRUE;
 }
 
 static int
@@ -360,6 +353,100 @@ item_edit_cursor_blink_start (ItemEdit *ie)
 }
 
 static void
+item_edit_realize (GocItem *item)
+{
+	ItemEdit *ie = ITEM_EDIT (item);
+	Sheet const *sheet;
+	GnmPane	*pane;
+	double scale;
+
+	parent_class->realize (item);
+
+	sheet = scg_sheet (ie->scg);
+
+	g_signal_connect_object (G_OBJECT (scg_wbcg (ie->scg)),
+		"markup-changed",
+		G_CALLBACK (goc_item_invalidate), G_OBJECT (ie),
+		G_CONNECT_SWAPPED);
+
+	g_signal_connect_object (G_OBJECT (gtk_widget_get_parent (GTK_WIDGET (ie->entry))),
+		"changed",
+		G_CALLBACK (goc_item_bounds_changed), G_OBJECT (ie),
+		G_CONNECT_SWAPPED);
+
+	g_signal_connect_object (G_OBJECT (ie->entry),
+		"key-press-event",
+		G_CALLBACK (cb_entry_key_press), G_OBJECT (ie),
+		G_CONNECT_AFTER|G_CONNECT_SWAPPED);
+
+	g_signal_connect_object (G_OBJECT (ie->entry),
+		"notify::cursor-position",
+		G_CALLBACK (cb_entry_cursor_event), G_OBJECT (ie),
+		G_CONNECT_AFTER|G_CONNECT_SWAPPED);
+
+	pane = GNM_PANE (item->canvas);
+	scale = item->canvas->pixels_per_unit;
+	ie->style = gnm_style_dup
+		(sheet_style_get (sheet, ie->pos.col, ie->pos.row));
+	ie->gfont = gnm_style_get_font (ie->style, sheet->context);
+	gnm_font_ref (ie->gfont);
+
+	if (gnm_style_get_align_h (ie->style) == HALIGN_GENERAL)
+		gnm_style_set_align_h (ie->style, HALIGN_LEFT);
+
+	/* move inwards 1 pixel from the grid line */
+	item->y0 = (1 + pane->first_offset.y +
+		    scg_colrow_distance_get (ie->scg, FALSE,
+					     pane->first.row,
+					     ie->pos.row)) / scale;
+	item->x0 = (1 + pane->first_offset.x +
+		    scg_colrow_distance_get (ie->scg, TRUE,
+					     pane->first.col,
+					     ie->pos.col)) / scale;
+
+	item->x1 = item->x0 + 1 / scale;
+	item->y1 = item->y0 + 1 / scale;
+
+	ie->layout = gtk_widget_create_pango_layout (GTK_WIDGET (item->canvas),
+						     NULL);
+
+	pango_layout_set_alignment (ie->layout,
+				    sheet->text_is_rtl
+				    ? PANGO_ALIGN_RIGHT
+				    : PANGO_ALIGN_LEFT);
+
+	item_edit_cursor_blink_start (ie);
+}
+
+static void
+item_edit_unrealize (GocItem *item)
+{
+	ItemEdit *ie = ITEM_EDIT (item);
+
+	item_edit_cursor_blink_stop (ie);
+
+	/* to destroy the feedback ranges */
+	SCG_FOREACH_PANE (ie->scg, pane,
+		gnm_pane_expr_cursor_stop (pane););
+
+	if (ie->layout) {
+		g_object_unref (G_OBJECT (ie->layout));
+		ie->layout = NULL;
+	}
+
+	if (ie->gfont != NULL) {
+		gnm_font_unref (ie->gfont);
+		ie->gfont = NULL;
+	}
+	if (ie->style != NULL) {
+		gnm_style_unref (ie->style);
+		ie->style= NULL;
+	}
+
+	parent_class->unrealize (item);
+}
+
+static void
 item_edit_init (ItemEdit *ie)
 {
 	ie->scg = NULL;
@@ -371,107 +458,25 @@ item_edit_init (ItemEdit *ie)
 }
 
 static void
-item_edit_dispose (GObject *gobject)
-{
-	ItemEdit *ie = ITEM_EDIT (gobject);
-
-	item_edit_cursor_blink_stop (ie);
-
-	/* to destroy the feedback ranges */
-	SCG_FOREACH_PANE (ie->scg, pane,
-		gnm_pane_expr_cursor_stop (pane););
-
-	if (ie->gfont != NULL) {
-		gnm_font_unref (ie->gfont);
-		ie->gfont = NULL;
-	}
-	if (ie->style != NULL) {
-		gnm_style_unref (ie->style);
-		ie->style= NULL;
-	}
-
-	G_OBJECT_CLASS (parent_class)->dispose (gobject);
-}
-
-static int
-cb_entry_key_press (GocItem *item)
-{
-	goc_item_bounds_changed (item);
-	return TRUE;
-}
-
-static int
-cb_entry_cursor_event (GocItem *item)
-{
-	/* ensure we draw a cursor when moving quickly no matter what the
-	 * current state is */
-	ITEM_EDIT (item)->cursor_visible = TRUE;
-	goc_item_invalidate (item);
-
-	return TRUE;
-}
-
-static void
 item_edit_set_property (GObject *gobject, guint param_id,
 			GValue const *value, GParamSpec *pspec)
 {
-	GocItem *item      = GOC_ITEM (gobject);
-	ItemEdit        *ie = ITEM_EDIT (gobject);
-	GnmPane		*pane = GNM_PANE (item->canvas);
-	SheetView const	*sv;
-	double scale = item->canvas->pixels_per_unit;
+	ItemEdit *ie = ITEM_EDIT (gobject);
 
-	/* We can only set the sheet-control-gui once */
-	g_return_if_fail (param_id == ARG_SHEET_CONTROL_GUI);
-	g_return_if_fail (ie->scg == NULL);
+	switch (param_id) {
+	case ARG_SHEET_CONTROL_GUI: {
+		/* We can only set the sheet-control-gui once */
+		g_return_if_fail (ie->scg == NULL);
 
-	ie->scg = SHEET_CONTROL_GUI (g_value_get_object (value));
-
-	sv = scg_view (ie->scg);
-	ie->pos = sv->edit_pos;
-	ie->entry = wbcg_get_entry (scg_wbcg (ie->scg));
-	g_signal_connect_object (G_OBJECT (scg_wbcg (ie->scg)),
-		"markup-changed",
-		G_CALLBACK (goc_item_invalidate), G_OBJECT (ie), G_CONNECT_SWAPPED);
-	g_signal_connect_object (G_OBJECT (gtk_widget_get_parent (GTK_WIDGET (ie->entry))),
-		"changed",
-		G_CALLBACK (goc_item_bounds_changed), G_OBJECT (ie), G_CONNECT_SWAPPED);
-	g_signal_connect_object (G_OBJECT (ie->entry),
-		"key-press-event",
-		G_CALLBACK (cb_entry_key_press), G_OBJECT (ie), G_CONNECT_AFTER|G_CONNECT_SWAPPED);
-	g_signal_connect_object (G_OBJECT (ie->entry),
-		"notify::cursor-position",
-		G_CALLBACK (cb_entry_cursor_event), G_OBJECT (ie), G_CONNECT_AFTER|G_CONNECT_SWAPPED);
-
-	/* set the font and the upper left corner if this is the first pass */
-	if (ie->gfont == NULL) {
-		Sheet const *sheet = sv->sheet;
-		ie->style = gnm_style_dup (
-			sheet_style_get (sheet, ie->pos.col, ie->pos.row));
-		ie->gfont = gnm_style_get_font (ie->style,
-						sheet->context);
-		gnm_font_ref (ie->gfont);
-
-		if (gnm_style_get_align_h (ie->style) == HALIGN_GENERAL)
-			gnm_style_set_align_h (ie->style, HALIGN_LEFT);
-
-		/* move inwards 1 pixel from the grid line */
-		item->y0 = (1 + pane->first_offset.y +
-			scg_colrow_distance_get (ie->scg, FALSE,
-				pane->first.row, ie->pos.row)) / scale;
-		item->x0 = (1 + pane->first_offset.x +
-			scg_colrow_distance_get (ie->scg, TRUE,
-				pane->first.col, ie->pos.col)) / scale;
-
-		item->x1 = item->x0 + 1 / scale;
-		item->y1 = item->y0 + 1 / scale;
+		ie->scg = SHEET_CONTROL_GUI (g_value_get_object (value));
+		ie->pos = scg_view (ie->scg)->edit_pos;
+		ie->entry = wbcg_get_entry (scg_wbcg (ie->scg));
+		break;
 	}
 
-	if (ie->layout)
-		pango_layout_set_alignment (ie->layout,
-			scg_sheet (ie->scg)->text_is_rtl ? PANGO_ALIGN_RIGHT : PANGO_ALIGN_LEFT);
-
-	item_edit_cursor_blink_start (ie);
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
+		return; /* NOTE : RETURN */
+	}
 }
 
 static void
@@ -482,7 +487,6 @@ item_edit_class_init (GObjectClass *gobject_class)
 	parent_class = g_type_class_peek_parent (gobject_class);
 
 	gobject_class->set_property = item_edit_set_property;
-	gobject_class->dispose	   = item_edit_dispose;
 
 	g_object_class_install_property (gobject_class, ARG_SHEET_CONTROL_GUI,
 		g_param_spec_object ("SheetControlGUI", "SheetControlGUI",
