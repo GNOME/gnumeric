@@ -1,3 +1,10 @@
+2009-09-18  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk-impl.h (struct _WBCGtk): Rename zoom to zoom_haction
+	and add zoom_vaction.
+
+	* src/wbc-gtk.c (wbc_gtk_init_zoom): Setup zoom_vaction.
+
 2009-09-17  Morten Welinder  <terra@gnome.org>
 
 	* src/item-edit.c (item_edit_class_init): Don't set ::dispose.

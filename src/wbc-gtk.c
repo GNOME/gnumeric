@@ -814,7 +814,7 @@ cb_zoom_change (Sheet *sheet,
 	if (wbcg_ui_update_begin (wbcg)) {
 		int pct = sheet->last_zoom_factor_used * 100 + .5;
 		char *label = g_strdup_printf ("%d%%", pct);
-		go_action_combo_text_set_entry (wbcg->zoom, label,
+		go_action_combo_text_set_entry (wbcg->zoom_haction, label,
 			GO_ACTION_COMBO_SEARCH_CURRENT);
 		g_free (label);
 		wbcg_ui_update_end (wbcg);
@@ -2487,11 +2487,27 @@ wbcg_view_changed (WBCGtk *wbcg,
 
 /*****************************************************************************/
 
+static void
+cb_chain_sensitivity (GtkAction *src, G_GNUC_UNUSED GParamSpec *pspec,
+		      GtkAction *action)
+{
+	gboolean old_val = gtk_action_get_sensitive (action);
+	gboolean new_val = gtk_action_get_sensitive (src);
+	if ((new_val != 0) == (old_val != 0))
+		return;
+	if (new_val)
+		gtk_action_connect_accelerator (action);
+	else
+		gtk_action_disconnect_accelerator (action);
+	g_object_set (action, "sensitive", new_val, NULL);
+}
+
+
 static GNM_ACTION_DEF (cb_zoom_activated)
 {
 	WorkbookControl *wbc = (WorkbookControl *)wbcg;
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	char const *new_zoom = go_action_combo_text_get_entry (wbcg->zoom);
+	char const *new_zoom = go_action_combo_text_get_entry (wbcg->zoom_haction);
 	int factor;
 	char *end;
 
@@ -2506,6 +2522,11 @@ static GNM_ACTION_DEF (cb_zoom_activated)
 		 * display consistent
 		 */
 		cmd_zoom (wbc, g_slist_append (NULL, sheet), factor / 100.);
+}
+
+static GNM_ACTION_DEF (cb_vzoom_activated)
+{
+	dialog_zoom (wbcg, wbcg_cur_sheet (wbcg));
 }
 
 static void
@@ -2523,28 +2544,50 @@ wbc_gtk_init_zoom (WBCGtk *wbcg)
 	};
 	int i;
 
-	wbcg->zoom = g_object_new (go_action_combo_text_get_type (),
-				  "name", "Zoom",
-				  "label", _("_Zoom"),
-				  "visible-vertical", FALSE,
-				  "tooltip", _("Zoom"),
-				  "stock-id", GTK_STOCK_ZOOM_IN,
-				  NULL);
-#ifdef GNM_USE_HILDON
-	go_action_combo_text_set_width (wbcg->zoom,  "100000000%");
-#else
-	go_action_combo_text_set_width (wbcg->zoom,  "10000%");
-#endif
-	for (i = 0; preset_zoom[i] != NULL ; ++i)
-		go_action_combo_text_add_item (wbcg->zoom, preset_zoom[i]);
+	/* ----- horizontal ----- */
 
-#if 0
-	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Foreground"));
+	wbcg->zoom_haction =
+		g_object_new (go_action_combo_text_get_type (),
+			      "name", "Zoom",
+			      "label", _("_Zoom"),
+			      "visible-vertical", FALSE,
+			      "tooltip", _("Zoom"),
+			      "stock-id", GTK_STOCK_ZOOM_IN,
+			      NULL);
+	go_action_combo_text_set_width (wbcg->zoom_haction,
+#ifdef GNM_USE_HILDON
+					"100000000%"
+#else
+					"10000%"
 #endif
-	g_signal_connect (G_OBJECT (wbcg->zoom),
+					);
+	for (i = 0; preset_zoom[i] != NULL ; ++i)
+		go_action_combo_text_add_item (wbcg->zoom_haction,
+					       preset_zoom[i]);
+
+	g_signal_connect (G_OBJECT (wbcg->zoom_haction),
 		"activate",
 		G_CALLBACK (cb_zoom_activated), wbcg);
-	gtk_action_group_add_action (wbcg->actions, GTK_ACTION (wbcg->zoom));
+	gtk_action_group_add_action (wbcg->actions,
+				     GTK_ACTION (wbcg->zoom_haction));
+
+	/* ----- vertical ----- */
+
+	wbcg->zoom_vaction = gtk_action_new ("VZoom", NULL, _("Zoom"),
+					     GTK_STOCK_ZOOM_IN);
+	g_object_set (G_OBJECT (wbcg->zoom_vaction),
+		      "visible-horizontal", FALSE,
+		      NULL);
+	g_signal_connect (G_OBJECT (wbcg->zoom_vaction),
+			  "activate",
+			  G_CALLBACK (cb_vzoom_activated), wbcg);
+	gtk_action_group_add_action (wbcg->actions,
+				     GTK_ACTION (wbcg->zoom_vaction));
+
+	/* ----- chain ----- */
+
+	g_signal_connect (G_OBJECT (wbcg->zoom_haction), "notify::sensitive",
+		G_CALLBACK (cb_chain_sensitivity), wbcg->zoom_vaction);
 }
 
 /****************************************************************************/
@@ -2698,21 +2741,6 @@ wbc_gtk_undo_redo_push (WorkbookControl *wbc, gboolean is_undo,
 			char const *text, gpointer key)
 {
 	go_action_combo_stack_push (ur_stack (wbc, is_undo), text, key);
-}
-
-static void
-cb_chain_sensitivity (GtkAction *src, G_GNUC_UNUSED GParamSpec *pspec,
-		      GtkAction *action)
-{
-	gboolean old_val = gtk_action_get_sensitive (action);
-	gboolean new_val = gtk_action_get_sensitive (src);
-	if ((new_val != 0) == (old_val != 0))
-		return;
-	if (new_val)
-		gtk_action_connect_accelerator (action);
-	else
-		gtk_action_disconnect_accelerator (action);
-	g_object_set (action, "sensitive", new_val, NULL);
 }
 
 static void
@@ -4512,7 +4540,8 @@ wbc_gtk_finalize (GObject *obj)
 
 	g_hash_table_destroy (wbcg->custom_uis);
 
-	UNREF_OBJ (zoom);
+	UNREF_OBJ (zoom_vaction);
+	UNREF_OBJ (zoom_haction);
 	UNREF_OBJ (borders);
 	UNREF_OBJ (fore_color);
 	UNREF_OBJ (back_color);

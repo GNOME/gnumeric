@@ -11,6 +11,7 @@ Morten:
 	* Limit memory usage for rendered values.
 	* Fix auto-format.
 	* Fix API installation problem.  [#595317]
+	* Put zoom action on vertical toolbars too.  [#590889]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.12
