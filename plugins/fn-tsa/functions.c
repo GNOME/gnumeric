@@ -91,13 +91,13 @@ enum {
 #	define gnm_cspline_get_integrals go_cspline_get_integrals
 #endif
 
-#define INTERPOLATIONMETHODS { GNM_FUNC_HELP_DESCRIPTION, F_("Possible interpolation methods are:\n"\
-	   "0: linear;\n"\
-	   "1: linear with averaging;\n"\
-	   "2: staircase;\n"\
-	   "3: staircase with averaging;\n"\
-	   "4: natural cubic spline;\n"\
-	   "5: natural cubic spline with averaging.") }
+#define INTERPOLATIONMETHODS { GNM_FUNC_HELP_DESCRIPTION, F_("Possible interpolation methods are:\n" \
+							     "0: linear;\n" \
+							     "1: linear with averaging;\n" \
+							     "2: staircase;\n" \
+							     "3: staircase with averaging;\n" \
+							     "4: natural cubic spline;\n" \
+							     "5: natural cubic spline with averaging.") }
 
 /**************************************************************************/
 /**************************************************************************/
@@ -200,7 +200,7 @@ linear_interpolation (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 
 static gnm_float*
 linear_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
-		      const gnm_float *targets, int nb_targets)
+		  const gnm_float *targets, int nb_targets)
 {
 	int i, j, k, jmax = nb_knots - 1;
 	gnm_float slope, *res, x0, x1;
@@ -217,14 +217,14 @@ linear_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 			x0 = targets[i - 1] - absc[k];
 			x1 = targets[i] - absc[k];
 			res[i - 1] = (x1 * (slope * x1 + ord[k])
-				- x0 * (slope * x0 + ord[k]))
+				      - x0 * (slope * x0 + ord[k]))
 				/ (x1 - x0);
 			continue;
 		}
 		x0 = targets[i - 1] - absc[k];
 		x1 = absc[j] - absc[k];
 		res[i - 1] = (x1 * (slope * x1 + ord[k])
-			- x0 * (slope * x0 + ord[k]));
+			      - x0 * (slope * x0 + ord[k]));
 		while (j < jmax && targets[i] > absc[++j]) {
 			k++;
 			x0 = absc[j] - absc[k];
@@ -232,8 +232,8 @@ linear_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 			res[i - 1] += x0 * (slope * x0 + ord[k]);
 		}
 		if (j > k - 1) {
-		    k = j - 1;
-		    slope = (ord[j] - ord[k]) / (absc[j] - absc[k]) / 2.;
+			k = j - 1;
+			slope = (ord[j] - ord[k]) / (absc[j] - absc[k]) / 2.;
 		}
 		x0 = targets[i] - absc[k];
 		res[i - 1] += x0 * (slope * x0 + ord[k]);
@@ -246,7 +246,7 @@ linear_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 
 static gnm_float*
 staircase_interpolation (const gnm_float *absc, const gnm_float *ord, int nb_knots,
-		      const gnm_float *targets, int nb_targets)
+			 const gnm_float *targets, int nb_targets)
 {
 	int i, j, jmax = nb_knots - 1;
 	gnm_float *res;
@@ -286,7 +286,7 @@ staircase_interpolation (const gnm_float *absc, const gnm_float *ord, int nb_kno
 
 static gnm_float*
 staircase_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
-		      const gnm_float *targets, int nb_targets)
+		     const gnm_float *targets, int nb_targets)
 {
 	int i, j, jmax = nb_knots - 1;
 	gnm_float *res;
@@ -320,8 +320,8 @@ spline_interpolation (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 {
 	gnm_float *res;
 	int i;
-	struct GnmCSpline *sp = gnm_cspline_init (absc, ord, nb_knots,
-				   GO_CSPLINE_NATURAL, 0., 0.);
+	GnmCSpline *sp = gnm_cspline_init (absc, ord, nb_knots,
+					   GO_CSPLINE_NATURAL, 0., 0.);
 	if (!sp)
 		return NULL;
 	if (go_range_increasing (targets, nb_targets))
@@ -337,17 +337,17 @@ spline_interpolation (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 
 /*******SPLINE AVERAGING*******/
 
-static gnm_float*
+static gnm_float *
 spline_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
-		      const gnm_float *targets, int nb_targets)
+		  const gnm_float *targets, int nb_targets)
 {
 	gnm_float *res;
 	int i, imax;
-	struct GnmCSpline *sp;
+	GnmCSpline *sp;
 	if (!go_range_increasing (targets, nb_targets))
 		return NULL;
 	sp = gnm_cspline_init (absc, ord, nb_knots,
-				   GO_CSPLINE_NATURAL, 0., 0.);
+			       GO_CSPLINE_NATURAL, 0., 0.);
 	if (!sp)
 		return NULL;
 	res = gnm_cspline_get_integrals (sp, targets, nb_targets);
@@ -361,7 +361,7 @@ spline_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 /*******Interpolation procedure********/
 
 #define INTERPPROC(x) gnm_float* (*x) (const gnm_float*, const gnm_float*, \
-					int, const gnm_float*, int)
+				       int, const gnm_float*, int)
 
 /******************************************************************************/
 /*                    INTERPOLATION FUNCTION                               */
@@ -404,27 +404,27 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
 		cl->count++;
 		return NULL;
 	} else switch (value->type) {
-	case VALUE_EMPTY:
-		cl->count++;
-		return NULL;
+		case VALUE_EMPTY:
+			cl->count++;
+			return NULL;
 
-	case VALUE_ERROR:
-		val = value_dup (value);
-		break;
+		case VALUE_ERROR:
+			val = value_dup (value);
+			break;
 
-	case VALUE_FLOAT:
-		x = value_get_as_float (value);
-		if (cl->data_count == cl->alloc_count) {
-			cl->alloc_count *= 2;
-			cl->data = g_realloc (cl->data, cl->alloc_count * sizeof (gnm_float));
+		case VALUE_FLOAT:
+			x = value_get_as_float (value);
+			if (cl->data_count == cl->alloc_count) {
+				cl->alloc_count *= 2;
+				cl->data = g_realloc (cl->data, cl->alloc_count * sizeof (gnm_float));
+			}
+
+			cl->data[cl->data_count++] = x;
+			break;
+
+		default:
+			val = value_new_error_VALUE (ep);
 		}
-
-		cl->data[cl->data_count++] = x;
-		break;
-
-	default:
-		val = value_new_error_VALUE (ep);
-	}
 
 	while (cl->count >= cl->values_allocated) {
 		cl->values_allocated *= 2;
@@ -440,7 +440,7 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
 
 static gnm_float *
 _collect_floats (int argc, GnmExprConstPtr const *argv,
-		GnmEvalPos const *ep, int *n, int *max, GnmValue ***values)
+		 GnmEvalPos const *ep, int *n, int *max, GnmValue ***values)
 {
 	collect_floats_t cl;
 	CellIterFlags iter_flags = CELL_ITER_ALL;
@@ -588,12 +588,12 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 			if (n0 != n1) {
 				g_warning ("This should not happen. n0=%d n1=%d\n",
-							n0, n1);
+					   n0, n1);
 			}
 		}
 
 		/* here we test if there is abscissas are always increasing, if not,
-		an error is returned */
+		   an error is returned */
 		if (!go_range_increasing (vals0, n0) || n2==0) {
 			res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
 			for (i = 0; i < nb; i++)
@@ -652,10 +652,10 @@ static GnmFuncHelp const help_periodogram[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The output consists always of one column of numbers.") },
 	INTERPOLATIONMETHODS,
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("Possible window functions are:\n"
-	"0: no filter (rectangular window)\n"
-	"1: Bartlett (triangular window)\n"
-	"2: Hahn (cosine window)\n"
-	"3: Welch (parabolic window)") },
+					"0: no filter (rectangular window)\n"
+					"1: Bartlett (triangular window)\n"
+					"2: Hahn (cosine window)\n"
+					"3: Welch (parabolic window)") },
 	{ GNM_FUNC_HELP_NOTE, F_("Strings and empty cells in @{abscissas} and @{ordinates} are ignored.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If several target data are provided they must be in the same column in consecutive cells.") },
 	{ GNM_FUNC_HELP_SEEALSO, "INTERPOLATION" },
@@ -697,7 +697,7 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	flags=COLLECT_IGNORE_BLANKS | COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS;
 
 	ord = collect_floats_value_with_info (argv[0], ei->pos, flags,
-				      &n0, &missing0, &error);
+					      &n0, &missing0, &error);
 	if (error) {
 		g_slist_free (missing0);
 		return error;
@@ -723,7 +723,7 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		gnm_float *interpolated, start, incr;
 		INTERPPROC(interpproc) = NULL;
 		absc = collect_floats_value_with_info (argv[2], ei->pos, flags,
-						&n1, &missing1, &error);
+						       &n1, &missing1, &error);
 		if (error) {
 			g_slist_free (missing0);
 			g_slist_free (missing1);
@@ -774,10 +774,10 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 			if (n0 != n1)
 				g_warning ("This should not happen. n0=%d n1=%d\n",
-							n0, n1);
+					   n0, n1);
 		}
 		/* here we test if there is abscissas are always increasing, if not,
-		an error is returned */
+		   an error is returned */
 		if (!go_range_increasing (absc, n0) || n0 == 0) {
 			g_free (absc);
 			g_free (ord);
@@ -889,7 +889,7 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	/* Transform and return the result */
 	in = g_new0 (complex_t, nb);
 	for (i = 0; i < n0; i++)
-	     in[i].re = ord[i];
+		in[i].re = ord[i];
 	g_free (ord);
 	gnm_fourier_fft (in, nb, 1, &out, FALSE);
 	g_free (in);
@@ -900,8 +900,8 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		for (i = 0; i < nb; i++)
 			res->v_array.vals[0][i] =
 				value_new_float (gnm_sqrt (
-					out[i].re * out[i].re +
-					out[i].im * out[i].im));
+							 out[i].re * out[i].re +
+							 out[i].im * out[i].im));
 		g_free (out);
 	} else
 		res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
@@ -951,7 +951,7 @@ gnumeric_fourier (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	flags=COLLECT_IGNORE_BLANKS | COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS;
 
 	ord = collect_floats_value_with_info (argv[0], ei->pos, flags,
-				      &n0, &missing0, &error);
+					      &n0, &missing0, &error);
 	if (error) {
 		g_slist_free (missing0);
 		return error;
@@ -987,7 +987,7 @@ gnumeric_fourier (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	/* Transform and return the result */
 	in = g_new0 (complex_t, nb);
 	for (i = 0; i < n0; i++)
-	     in[i].re = ord[i];
+		in[i].re = ord[i];
 	g_free (ord);
 	gnm_fourier_fft (in, nb, 1, &out, inverse);
 	g_free (in);
