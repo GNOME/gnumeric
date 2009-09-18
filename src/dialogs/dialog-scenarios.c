@@ -362,7 +362,7 @@ update_scenarios_treeview (GtkWidget *view, GList *scenarios)
 				       &iter, path)) {
 		  ;		/* Do something */
 	  }  else {
-		  g_warning ("Did not get a valid iterator");
+		  /* No scenarios */
 	  }
 	  gtk_tree_path_free (path);
 
