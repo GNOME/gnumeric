@@ -118,6 +118,17 @@ so_clear_sheet (SheetObject *so)
 	return FALSE;
 }
 
+static GocWidget *
+get_goc_widget (SheetObjectView *view)
+{
+	GocGroup *group = GOC_GROUP (view);
+
+	if (group == NULL || group->children == NULL)
+		return NULL;
+
+	return GOC_WIDGET (group->children->data);
+}
+
 static void
 so_widget_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
@@ -134,8 +145,8 @@ so_widget_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean 
 
 	if (visible) {
 		/* NOTE : far point is EXCLUDED so we add 1 */
-		goc_widget_set_bounds (GOC_WIDGET (GOC_GROUP (view)->children->data),
-			left, top, width, height);
+		goc_widget_set_bounds (get_goc_widget (sov),
+				       left, top, width, height);
 		goc_item_show (view);
 	} else
 		goc_item_hide (view);
@@ -456,7 +467,8 @@ sheet_widget_frame_set_label (SheetObject *so, char const* str)
 	swf->label = g_strdup (str);
 
 	for (ptr = swf->sow.realized_list; ptr != NULL; ptr = ptr->next) {
-		GocWidget *item = GOC_WIDGET (GOC_GROUP (ptr->data)->children->data);
+		SheetObjectView *view = ptr->data;
+		GocWidget *item = get_goc_widget (view);
 		gtk_frame_set_label (GTK_FRAME (item->widget), str);
 	}
 }
@@ -666,7 +678,8 @@ sheet_widget_button_set_label (SheetObject *so, char const *str)
 	swb->label = new_label;
 
 	for (ptr = swb->sow.realized_list; ptr != NULL; ptr = ptr->next) {
-		GocWidget *item = GOC_WIDGET (GOC_GROUP (ptr->data)->children->data);
+		SheetObjectView *view = ptr->data;
+		GocWidget *item = get_goc_widget (view);
 		gtk_button_set_label (GTK_BUTTON (item->widget), swb->label);
 	}
 }
@@ -685,7 +698,8 @@ sheet_widget_button_set_markup (SheetObject *so, PangoAttrList *markup)
 	if (markup) pango_attr_list_ref (markup);
 
 	for (ptr = swb->sow.realized_list; ptr != NULL; ptr = ptr->next) {
-		GocWidget *item = GOC_WIDGET (GOC_GROUP (ptr->data)->children->data);
+		SheetObjectView *view = ptr->data;
+		GocWidget *item = get_goc_widget (view);
 		gtk_label_set_attributes (GTK_LABEL (GTK_BIN (item->widget)->child),
 					  swb->markup);
 	}
@@ -890,11 +904,12 @@ sheet_widget_adjustment_set_horizontal (SheetWidgetAdjustment *swa,
 
 	/* Change direction for all realized widgets.  */
 	for (ptr = swa->sow.realized_list; ptr != NULL; ptr = ptr->next) {
-		GocGroup *group = GOC_GROUP (ptr->data);
+		SheetObjectView *view = ptr->data;
+		GocWidget *item = get_goc_widget (view);
 		GtkWidget *neww =
 			SOW_CLASS (swa)->create_widget (SHEET_OBJECT (swa));
 		gtk_widget_show (neww);
-		goc_item_set (GOC_ITEM (group->children->data), "widget", neww, NULL);
+		goc_item_set (GOC_ITEM (item), "widget", neww, NULL);
 	}
 }
 
@@ -1570,9 +1585,9 @@ sheet_widget_checkbox_set_active (SheetWidgetCheckbox *swc)
 
 	swc->being_updated = TRUE;
 
-	ptr = swc->sow.realized_list;
-	for (; ptr != NULL ; ptr = ptr->next) {
-		GocWidget *item = GOC_WIDGET (GOC_GROUP (ptr->data)->children->data);
+	for (ptr = swc->sow.realized_list; ptr != NULL ; ptr = ptr->next) {
+		SheetObjectView *view = ptr->data;
+		GocWidget *item = get_goc_widget (view);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (item->widget),
 					      swc->value);
 	}
@@ -1962,9 +1977,9 @@ sheet_widget_checkbox_set_label	(SheetObject *so, char const *str)
 	g_free (swc->label);
 	swc->label = new_label;
 
-	list = swc->sow.realized_list;
-	for (; list != NULL; list = list->next) {
-		GocWidget *item = GOC_WIDGET (GOC_GROUP (list->data)->children->data);
+	for (list = swc->sow.realized_list; list != NULL; list = list->next) {
+		SheetObjectView *view = list->data;
+		GocWidget *item = get_goc_widget (view);
 		gtk_button_set_label (GTK_BUTTON (item->widget), swc->label);
 	}
 }
@@ -2141,9 +2156,9 @@ sheet_widget_radio_button_set_label (SheetObject *so, char const *str)
 	g_free (swrb->label);
 	swrb->label = new_label;
 
-	list = swrb->sow.realized_list;
-	for (; list != NULL; list = list->next) {
-		GocWidget *item = GOC_WIDGET (GOC_GROUP (list->data)->children->data);
+	for (list = swrb->sow.realized_list; list != NULL; list = list->next) {
+		SheetObjectView *view = list->data;
+		GocWidget *item = get_goc_widget (view);
 		gtk_button_set_label (GTK_BUTTON (item->widget), swrb->label);
 	}
 }
