@@ -1,5 +1,11 @@
 2009-09-19  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* src/sheet-object-widget.c
+	(sheet_widget_adjustment_set_horizontal): same as previous. This time,
+	fixes #595648.
+
+2009-09-19  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* src/sheet-object-widget.c (sheet_widget_frame_set_label),
 	(sheet_widget_button_set_label), (sheet_widget_button_set_markup),
 	(sheet_widget_checkbox_set_label),

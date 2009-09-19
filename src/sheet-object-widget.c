@@ -890,11 +890,11 @@ sheet_widget_adjustment_set_horizontal (SheetWidgetAdjustment *swa,
 
 	/* Change direction for all realized widgets.  */
 	for (ptr = swa->sow.realized_list; ptr != NULL; ptr = ptr->next) {
-		GocItem *item = GOC_ITEM (ptr->data);
+		GocGroup *group = GOC_GROUP (ptr->data);
 		GtkWidget *neww =
 			SOW_CLASS (swa)->create_widget (SHEET_OBJECT (swa));
 		gtk_widget_show (neww);
-		goc_item_set (item, "widget", neww, NULL);
+		goc_item_set (GOC_ITEM (group->children->data), "widget", neww, NULL);
 	}
 }
 
