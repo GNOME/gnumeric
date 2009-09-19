@@ -1,3 +1,11 @@
+2009-09-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-widget.c (sheet_widget_frame_set_label),
+	(sheet_widget_button_set_label), (sheet_widget_button_set_markup),
+	(sheet_widget_checkbox_set_label),
+	(sheet_widget_radio_button_set_label): use child as GocWidget instead of
+	parent. [#595627]
+
 2009-09-18  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk-impl.h (struct _WBCGtk): Rename zoom to zoom_haction

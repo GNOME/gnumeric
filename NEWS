@@ -3,6 +3,7 @@ Gnumeric 1.9.13
 Jean:
 	* Fix grab issue after dragging an object. [Debian bug #546559]
 	* Reimplement double-click in item-cursor. [Debian bug #546690]
+	* Fix access to GocWidget in sheet widgets. [#595627]
 
 Morten:
 	* Fixes text export GUI issue.  [#594155]

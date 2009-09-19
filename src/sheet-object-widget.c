@@ -456,7 +456,7 @@ sheet_widget_frame_set_label (SheetObject *so, char const* str)
 	swf->label = g_strdup (str);
 
 	for (ptr = swf->sow.realized_list; ptr != NULL; ptr = ptr->next) {
-		GocWidget *item = GOC_WIDGET (ptr->data);
+		GocWidget *item = GOC_WIDGET (GOC_GROUP (ptr->data)->children->data);
 		gtk_frame_set_label (GTK_FRAME (item->widget), str);
 	}
 }
@@ -666,7 +666,7 @@ sheet_widget_button_set_label (SheetObject *so, char const *str)
 	swb->label = new_label;
 
 	for (ptr = swb->sow.realized_list; ptr != NULL; ptr = ptr->next) {
-		GocWidget *item = GOC_WIDGET (ptr->data);
+		GocWidget *item = GOC_WIDGET (GOC_GROUP (ptr->data)->children->data);
 		gtk_button_set_label (GTK_BUTTON (item->widget), swb->label);
 	}
 }
@@ -685,7 +685,7 @@ sheet_widget_button_set_markup (SheetObject *so, PangoAttrList *markup)
 	if (markup) pango_attr_list_ref (markup);
 
 	for (ptr = swb->sow.realized_list; ptr != NULL; ptr = ptr->next) {
-		GocWidget *item = GOC_WIDGET (ptr->data);
+		GocWidget *item = GOC_WIDGET (GOC_GROUP (ptr->data)->children->data);
 		gtk_label_set_attributes (GTK_LABEL (GTK_BIN (item->widget)->child),
 					  swb->markup);
 	}
@@ -1964,7 +1964,7 @@ sheet_widget_checkbox_set_label	(SheetObject *so, char const *str)
 
 	list = swc->sow.realized_list;
 	for (; list != NULL; list = list->next) {
-		GocWidget *item = GOC_WIDGET (list->data);
+		GocWidget *item = GOC_WIDGET (GOC_GROUP (list->data)->children->data);
 		gtk_button_set_label (GTK_BUTTON (item->widget), swc->label);
 	}
 }
@@ -2143,7 +2143,7 @@ sheet_widget_radio_button_set_label (SheetObject *so, char const *str)
 
 	list = swrb->sow.realized_list;
 	for (; list != NULL; list = list->next) {
-		GocWidget *item = GOC_WIDGET (list->data);
+		GocWidget *item = GOC_WIDGET (GOC_GROUP (list->data)->children->data);
 		gtk_button_set_label (GTK_BUTTON (item->widget), swrb->label);
 	}
 }
