@@ -794,7 +794,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @DESCRIPTION=BASE converts @{n} to its string representation in base @{b}. Leading zeroes will be added to reach the minimum length given by @{length}.
 @{n}: integer
 @{b}: base (2 ≤ @{b} ≤ 36)
-@{length}: minimum length of the resutling string
+@{length}: minimum length of the resulting string
 
 @SEEALSO=DECIMAL
 
@@ -1111,7 +1111,7 @@ If any argument is zero, the result is zero.
 @CATEGORY=Erlang
 @FUNCTION=PROBBLOCK
 @SYNTAX=PROBBLOCK(traffic,circuits)
-@DESCRIPTION=PROBBLOCK returns probability of blocking when @{traffic} calls load into @{ccicuits} circuits.
+@DESCRIPTION=PROBBLOCK returns probability of blocking when @{traffic} calls load into @{circuits} circuits.
 @{traffic}: number of calls
 @{circuits}: number of circuits
 
@@ -1468,7 +1468,7 @@ If any argument is zero, the result is zero.
 @FUNCTION=FVSCHEDULE
 @SYNTAX=FVSCHEDULE(principal,schedule)
 @DESCRIPTION=FVSCHEDULE calculates the future value of @{principal} after applying a range of interest rates with compounding.
-@{principal}: intial value
+@{principal}: initial value
 @{schedule}: range of interest rates
 
 @SEEALSO=FV
@@ -2160,7 +2160,7 @@ If any argument is zero, the result is zero.
 @CATEGORY=Finance
 @FUNCTION=RRI
 @SYNTAX=RRI(p,pv,fv)
-@DESCRIPTION=RRI dtermines an equivalent interest rate for an investment that increases in value. The interest is compounded after each complete period.
+@DESCRIPTION=RRI determines an equivalent interest rate for an investment that increases in value. The interest is compounded after each complete period.
 @{p}: number of periods
 @{pv}: present value
 @{fv}: future value
@@ -3014,7 +3014,7 @@ If any argument is zero, the result is zero.
 @CATEGORY=Mathematics
 @FUNCTION=LCM
 @SYNTAX=LCM(n0,n1)
-@DESCRIPTION=LCM calculates the least common multiple of the given numbers @{n0},@{n1},..., the smallest integer that is a multiple of each argment.
+@DESCRIPTION=LCM calculates the least common multiple of the given numbers @{n0},@{n1},..., the smallest integer that is a multiple of each argument.
 @{n0}: positive integer
 @{n1}: positive integer
 
@@ -3545,7 +3545,7 @@ Strings and empty cells are simply ignored.
 @FUNCTION=RANDNORM
 @SYNTAX=RANDNORM(μ,σ)
 @DESCRIPTION=.
-@{μ}: mean of the ditribution
+@{μ}: mean of the distribution
 @{σ}: standard deviation of the distribution
 @NOTE=If @{σ} < 0, RANDNORM returns #NUM!
 @SEEALSO=RAND
@@ -3820,7 +3820,7 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=The survival function is 1 minus the cumulative distribution function.
 @{p}: probability
 @{dof_of_num}: numerator degrees of freedom
-@{dof_of_denom}: denomiantor degrees of freedom
+@{dof_of_denom}: denominator degrees of freedom
 
 @NOTE=If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.
 @NOTE=If @{dof_of_num} < 1 or @{dof_of_denom} < 1 this function returns a #NUM! error.
@@ -5026,7 +5026,7 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=.
 @{ref}: data set
 @{x}: mean as given in the null hypothesis
-@{stddev}: population stadard deviation, defaults to the sample standard deviation
+@{stddev}: population standard deviation, defaults to the sample standard deviation
 @NOTE=If @{ref} contains less than two data items ZTEST returns #DIV/0! error.
 @SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE
 
