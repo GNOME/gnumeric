@@ -1,3 +1,11 @@
+gnumeric (1.9.13-1) unstable; urgency=medium
+
+  * New upstream development release. Urgency medium as testing's gnumeric
+    is currently broken.
+  * [debian/control] Bumped goffice build dependency as per per configure.in .
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 20 Sep 2009 21:47:45 +0200
+
 gnumeric (1.9.12-2) unstable; urgency=high
 
   * [ChangeLog, src/gnm-pane.c] Backported upstream fix
