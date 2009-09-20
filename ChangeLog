@@ -1,3 +1,7 @@
+2009-09-20  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.13
+
 2009-09-19  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object-widget.c (get_goc_widget): New function.

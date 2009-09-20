@@ -1,3 +1,7 @@
+2009-09-20  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.13
+
 2009-09-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* POTFILES.in: add src/dialogs/dialog-random-generator-cor.c,
