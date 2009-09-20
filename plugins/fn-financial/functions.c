@@ -1280,7 +1280,7 @@ static GnmFuncHelp const help_rri[] = {
         { GNM_FUNC_HELP_ARG, F_("p:number of periods")},
         { GNM_FUNC_HELP_ARG, F_("pv:present value")},
         { GNM_FUNC_HELP_ARG, F_("fv:future value")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("RRI dtermines an equivalent interest rate for an investment that increases in value. The interest is compounded after each complete period.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("RRI determines an equivalent interest rate for an investment that increases in value. The interest is compounded after each complete period.") },
 	TYPE_HELP,
 	{ GNM_FUNC_HELP_NOTE, F_("Note that @{p} need not be an integer but for fractional value the calculated rate is only approximate.") },
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
@@ -1939,7 +1939,7 @@ gnumeric_g_duration (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_fvschedule[] = {
         { GNM_FUNC_HELP_NAME, F_("FVSCHEDULE:future value")},
-        { GNM_FUNC_HELP_ARG, F_("principal:intial value")},
+        { GNM_FUNC_HELP_ARG, F_("principal:initial value")},
         { GNM_FUNC_HELP_ARG, F_("schedule:range of interest rates")},
         { GNM_FUNC_HELP_DESCRIPTION, F_("FVSCHEDULE calculates the future value of @{principal} after applying a range of interest rates with compounding.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=FVSCHEDULE(1000,{0.1;0.02;0.1})" },

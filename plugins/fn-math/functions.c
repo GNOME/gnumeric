@@ -118,7 +118,7 @@ static GnmFuncHelp const help_lcm[] = {
         { GNM_FUNC_HELP_NAME, F_("LCM:the least common multiple")},
         { GNM_FUNC_HELP_ARG, F_("n0:positive integer")},
         { GNM_FUNC_HELP_ARG, F_("n1:positive integer")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("LCM calculates the least common multiple of the given numbers @{n0},@{n1},..., the smallest integer that is a multiple of each argment.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("LCM calculates the least common multiple of the given numbers @{n0},@{n1},..., the smallest integer that is a multiple of each argument.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If any of the arguments is not an integer, it is truncated.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=LCM(2,13)" },

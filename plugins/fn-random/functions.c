@@ -321,7 +321,7 @@ gnumeric_randbernoulli (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_randnorm[] = {
         { GNM_FUNC_HELP_NAME, F_("RANDNORM:random variate from a normal distribution") },
-        { GNM_FUNC_HELP_ARG, F_("\xce\xbc:mean of the ditribution") },
+        { GNM_FUNC_HELP_ARG, F_("\xce\xbc:mean of the distribution") },
         { GNM_FUNC_HELP_ARG, F_("\xcf\x83:standard deviation of the distribution") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{\xcf\x83} < 0, RANDNORM returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDNORM(0,1)" },

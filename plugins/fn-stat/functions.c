@@ -1366,7 +1366,7 @@ static GnmFuncHelp const help_finv[] = {
 	{ GNM_FUNC_HELP_NAME, F_("FINV:inverse of the survival function of the F distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("p:probability")},
 	{ GNM_FUNC_HELP_ARG, F_("dof_of_num:numerator degrees of freedom")},
-	{ GNM_FUNC_HELP_ARG, F_("dof_of_denom:denomiantor degrees of freedom")},
+	{ GNM_FUNC_HELP_ARG, F_("dof_of_denom:denominator degrees of freedom")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The survival function is 1 minus the cumulative distribution function.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{dof_of_num} < 1 or @{dof_of_denom} < 1 this function returns a #NUM! error.")},
@@ -2387,7 +2387,7 @@ static GnmFuncHelp const help_ztest[] = {
 	{ GNM_FUNC_HELP_NAME, F_("ZTEST:p-value of a 2-tailed z-test for a population mean")},
 	{ GNM_FUNC_HELP_ARG, F_("ref:data set")},
 	{ GNM_FUNC_HELP_ARG, F_("x:mean as given in the null hypothesis")},
-	{ GNM_FUNC_HELP_ARG, F_("stddev:population stadard deviation, defaults to the sample standard deviation")},
+	{ GNM_FUNC_HELP_ARG, F_("stddev:population standard deviation, defaults to the sample standard deviation")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{ref} contains less than two data items ZTEST "
 				 "returns #DIV/0! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },

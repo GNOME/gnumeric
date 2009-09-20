@@ -106,7 +106,7 @@ static GnmFuncHelp const help_probblock[] = {
 	{ GNM_FUNC_HELP_ARG, F_("traffic:number of calls")},
 	{ GNM_FUNC_HELP_ARG, F_("circuits:number of circuits")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("PROBBLOCK returns probability of blocking when @{traffic}"
-					" calls load into @{ccicuits} circuits.")},
+					" calls load into @{circuits} circuits.")},
 	{ GNM_FUNC_HELP_NOTE, F_("@{traffic} cannot exceed @{circuits}.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=PROBBLOCK(24,30)" },
 	{ GNM_FUNC_HELP_SEEALSO, "OFFTRAF,DIMCIRC,OFFCAP"},
