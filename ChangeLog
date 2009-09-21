@@ -1,5 +1,10 @@
 2009-09-21  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* src/gnm-plugin.c (plugin_service_ui_read_xml): use translated labels.
+	[#159806]
+
+2009-09-21  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* src/gnm-so-filled.c (so_filled_view_set_bounds),
 	(cb_gnm_so_filled_changed): reimplement text in ellipses.[#595710]
 

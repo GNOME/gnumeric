@@ -336,8 +336,9 @@ plugin_service_ui_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo
 	}
 	verbs_node = go_xml_get_child_by_name (tree, "actions");
 	if (verbs_node != NULL) {
-		xmlNode *ptr;
-		xmlChar *name, *label, *icon;
+		xmlNode *ptr, *label_node;
+		xmlChar *name, *icon;
+		gchar *label;
 		gboolean always_available;
 		GnmAction *action;
 
@@ -346,14 +347,39 @@ plugin_service_ui_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo
 			    strcmp (CXML2C (ptr->name), "action"))
 				continue;
 			name  = go_xml_node_get_cstr (ptr, "name");
-			label = go_xml_node_get_cstr (ptr, "label");
+//			label = go_xml_node_get_cstr (ptr, "label");
+/*****************************************************************************************/
+			label_node = go_xml_get_child_by_name_no_lang (ptr, "label");
+			if (label_node != NULL) {
+				xmlChar *val = xmlNodeGetContent (label_node);
+				label = g_strdup (CXML2C (val));
+				xmlFree (val);
+			} else {
+				label = NULL;
+			}
+			label_node = go_xml_get_child_by_name_by_lang (ptr, "label");
+			if (label_node != NULL) {
+				gchar *lang;
+
+				lang = go_xml_node_get_cstr (label_node, "lang");
+				if (lang != NULL) {
+					xmlChar *val;
+
+					val = xmlNodeGetContent (label_node);
+					g_free (label);
+					label = g_strdup (CXML2C (val));
+					xmlFree (val);
+					g_free (lang);
+				}
+			}
+/*****************************************************************************************/
 			icon  = go_xml_node_get_cstr (ptr, "icon");
 			if (!go_xml_node_get_bool (ptr, "always_available", &always_available))
 				always_available = FALSE;
 			action = gnm_action_new (name, label, icon, always_available,
 				(GnmActionHandler) cb_ui_service_activate);
 			if (NULL != name) xmlFree (name);
-			if (NULL != name) xmlFree (label);
+			g_free (label);
 			if (NULL != name) xmlFree (icon);
 			if (NULL != action)
 				GO_SLIST_PREPEND (actions, action);

@@ -1,5 +1,8 @@
 Gnumeric 1.9.14
 
+Jean:
+	* Make plugins GUI labels translatable. [#159806]
+
 --------------------------------------------------------------------------
 Gnumeric 1.9.13
 

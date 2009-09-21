@@ -10,7 +10,9 @@
 	<services>
 		<service type="ui" id="gnome_db" file="ui.xml">
 			<actions>
-				<action name="ViewDataSources" label="Data Bases..." />
+				<action name="ViewDataSources">
+					<_label>Data Bases...</_label>
+				</action>
 			</actions>
 		</service>
 	</services>

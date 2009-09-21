@@ -1,3 +1,7 @@
+2009-09-21  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* fr.po: fixed a warning and translate plugin ui entries.
+
 2009-09-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.13
@@ -15,12 +19,6 @@
 2009-08-30  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.11
-
-2009-08-26  Jean Brefort  <jean.brefort@normalesup.org>
-
-	reviewed by: <delete if not using a buddy>
-
-	* fr.po:
 
 2009-08-15  Morten Welinder <terra@gnome.org>
 

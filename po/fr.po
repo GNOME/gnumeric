@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-14 20:22-0400\n"
+"POT-Creation-Date: 2009-09-19 11:09+0200\n"
 "PO-Revision-Date: 2009-03-14 17:01+0100\n"
 "Last-Translator: Stéphane Raimbault <stephane.raimbault@gmail.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -90,22 +90,8 @@ msgstr "Interface CORBA"
 msgid "Provides a CORBA scripting interface"
 msgstr "Fournit une interface de script pour CORBA"
 
-#: ../plugins/derivatives/plugin.xml.in.h:1
-#: ../plugins/fn-financial/plugin.xml.in.h:1
-#: ../plugins/sample_datasource/plugin.xml.in.h:2
-msgid "Finance"
-msgstr "Financier"
-
-#: ../plugins/derivatives/plugin.xml.in.h:2
-msgid "Financial Derivatives"
-msgstr "Instruments financiers"
-
-#: ../plugins/derivatives/plugin.xml.in.h:3
-msgid "Functions related to financial derivatives"
-msgstr "Fonctions relatives aux produits financiers"
-
-#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6660
-#: ../plugins/mps/mps.c:540 ../plugins/openoffice/openoffice-read.c:5168
+#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6668
+#: ../plugins/mps/mps.c:540 ../plugins/openoffice/openoffice-read.c:5225
 #: ../src/xml-io.c:2669 ../src/xml-sax-read.c:2726
 msgid "Reading file..."
 msgstr "Lecture du fichier..."
@@ -204,7 +190,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Attribut inattendu %s::%s == '%s'."
 
 #: ../plugins/excel/excel-xml-read.c:1069
-#: ../plugins/openoffice/openoffice-read.c:5235 ../src/xml-sax-read.c:2744
+#: ../plugins/openoffice/openoffice-read.c:5292 ../src/xml-sax-read.c:2744
 msgid "XML document not well formed!"
 msgstr "Document XML non valide !"
 
@@ -233,17 +219,17 @@ msgstr "Graphique%d"
 msgid "Module%d"
 msgstr "Module%d"
 
-#: ../plugins/excel/ms-excel-read.c:3263
+#: ../plugins/excel/ms-excel-read.c:3271
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Impossible d'analyser le nom « %s »"
 
-#: ../plugins/excel/ms-excel-read.c:3382
+#: ../plugins/excel/ms-excel-read.c:3390
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
 msgstr "Expression incorrecte pour le nom « %s » : le contenu sera perdu.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3387
+#: ../plugins/excel/ms-excel-read.c:3395
 #, c-format
 msgid ""
 "DDE links are not supported yet.\n"
@@ -252,7 +238,7 @@ msgstr ""
 "Les liens DDE ne sont pas encore pris en charge.\n"
 "Le nom « %s » sera perdu.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3391
+#: ../plugins/excel/ms-excel-read.c:3399
 #, c-format
 msgid ""
 "OLE links are not supported yet.\n"
@@ -261,11 +247,11 @@ msgstr ""
 "Les liens OLE ne sont pas encore pris en charge.\n"
 "Le nom « %s » sera perdu.\n"
 
-#: ../plugins/excel/ms-excel-read.c:5806
+#: ../plugins/excel/ms-excel-read.c:5814
 msgid "external references"
 msgstr "références externes"
 
-#: ../plugins/excel/ms-excel-read.c:5845
+#: ../plugins/excel/ms-excel-read.c:5853
 msgid "No password supplied"
 msgstr "Aucun mot de passe fourni"
 
@@ -416,76 +402,76 @@ msgstr "L'identifiant « %s » de mise en forme de nombre est non défini"
 msgid "Unknown color '%s'"
 msgstr "Couleur « %s » inconnue"
 
-#: ../plugins/excel/xlsx-read.c:2168
+#: ../plugins/excel/xlsx-read.c:2166
 msgid "Dropping missing object"
 msgstr "Abandon de l'objet manquant"
 
-#: ../plugins/excel/xlsx-read.c:2186
+#: ../plugins/excel/xlsx-read.c:2184
 #, c-format
 msgid "Dropping object with incomplete anchor %2x"
 msgstr "Abandon de l'objet avec une ancre incomplète %2x"
 
-#: ../plugins/excel/xlsx-read.c:2473
+#: ../plugins/excel/xlsx-read.c:2471
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Couleur « %s » non valide pour l'attribut RVB"
 
-#: ../plugins/excel/xlsx-read.c:2501 ../plugins/excel/xlsx-read.c:2510
+#: ../plugins/excel/xlsx-read.c:2499 ../plugins/excel/xlsx-read.c:2508
 #, c-format
 msgid "Undefined style record '%d'"
 msgstr "Le style d'enregistrement « %d » est non défini"
 
-#: ../plugins/excel/xlsx-read.c:2519
+#: ../plugins/excel/xlsx-read.c:2517
 #, c-format
 msgid "Undefined partial style record '%d'"
 msgstr "Le style d'enregistrement partiel « %d » est non défini"
 
-#: ../plugins/excel/xlsx-read.c:2548
+#: ../plugins/excel/xlsx-read.c:2546
 #, c-format
 msgid "Invalid sst ref '%s'"
 msgstr "Réf sst « %s » non valide"
 
-#: ../plugins/excel/xlsx-read.c:2669
+#: ../plugins/excel/xlsx-read.c:2667
 #, c-format
 msgid "Invalid cell %s"
 msgstr "Cellule %s non valide"
 
-#: ../plugins/excel/xlsx-read.c:2770
+#: ../plugins/excel/xlsx-read.c:2768
 msgid "Ignoring column information that does not specify first or last."
 msgstr ""
 "Les informations de colonnes qui n'indiquent pas la première ou la dernière "
 "sont ignorées."
 
-#: ../plugins/excel/xlsx-read.c:3061
+#: ../plugins/excel/xlsx-read.c:3060
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Données de validation invalides ignorées ; la cause est : %s"
 
-#: ../plugins/excel/xlsx-read.c:3486
+#: ../plugins/excel/xlsx-read.c:3485
 msgid "Undefined"
 msgstr "Non défini"
 
-#: ../plugins/excel/xlsx-read.c:3529
+#: ../plugins/excel/xlsx-read.c:3528
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr ""
 "La mise en forme conditionnelle non prise en charge de type « %s » est ignorée"
 
-#: ../plugins/excel/xlsx-read.c:3910
+#: ../plugins/excel/xlsx-read.c:3909
 msgid "Unknown type of hyperlink"
 msgstr "Type d'hyperlien inconnu"
 
-#: ../plugins/excel/xlsx-read.c:4139
+#: ../plugins/excel/xlsx-read.c:4138
 msgid "Ignoring a sheet without a name"
 msgstr "La feuille sans nom est ignorée"
 
-#: ../plugins/excel/xlsx-read.c:4227
+#: ../plugins/excel/xlsx-read.c:4226
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr ""
 "L'identifiant de composant (« part-id ») de la feuille « %s » est manquant"
 
-#: ../plugins/excel/xlsx-read.c:5160
+#: ../plugins/excel/xlsx-read.c:5159
 msgid "No workbook stream found."
 msgstr "Aucun flux de classeur n'a été trouvé."
 
@@ -529,6 +515,20 @@ msgstr "Date/Heure"
 #: ../plugins/fn-date/plugin.xml.in.h:3
 msgid "Functions manipulating dates and time"
 msgstr "Fonctions manipulant la date et l'heure"
+
+#: ../plugins/fn-derivatives/plugin.xml.in.h:1
+#: ../plugins/fn-financial/plugin.xml.in.h:1
+#: ../plugins/sample_datasource/plugin.xml.in.h:2
+msgid "Finance"
+msgstr "Financier"
+
+#: ../plugins/fn-derivatives/plugin.xml.in.h:2
+msgid "Financial Derivatives"
+msgstr "Instruments financiers"
+
+#: ../plugins/fn-derivatives/plugin.xml.in.h:3
+msgid "Functions related to financial derivatives"
+msgstr "Fonctions relatives aux produits financiers"
 
 #: ../plugins/fn-eng/plugin.xml.in.h:1
 msgid "Engineering"
@@ -582,9 +582,9 @@ msgid "%s version %s"
 msgstr "%s version %s"
 
 #: ../plugins/fn-info/functions.c:1375
-#: ../src/dialogs/dialog-cell-format.c:2515
-#: ../src/dialogs/dialog-cell-format.c:2519
-#: ../src/dialogs/dialog-cell-format.c:2527 ../src/wbc-gtk.c:2823
+#: ../src/dialogs/dialog-cell-format.c:2514
+#: ../src/dialogs/dialog-cell-format.c:2518
+#: ../src/dialogs/dialog-cell-format.c:2526 ../src/wbc-gtk.c:2855
 msgid "Automatic"
 msgstr "Automatique"
 
@@ -600,7 +600,7 @@ msgstr "Système inconnu"
 msgid "Unknown info_type"
 msgstr "info_type inconnu"
 
-#: ../plugins/fn-info/functions.c:1658
+#: ../plugins/fn-info/functions.c:1662
 msgid "Invalid number of arguments"
 msgstr "Nombre de paramètres non valide"
 
@@ -624,7 +624,7 @@ msgstr "Types incompatibles"
 msgid "Functions for manipulating truth values"
 msgstr "Fonctions sur les valeurs booléennes"
 
-#: ../plugins/fn-logical/plugin.xml.in.h:2 ../src/func-builtin.c:391
+#: ../plugins/fn-logical/plugin.xml.in.h:2 ../src/func-builtin.c:392
 msgid "Logic"
 msgstr "Logique"
 
@@ -652,9 +652,25 @@ msgstr "Fonctions math"
 msgid "Mathematical Functions"
 msgstr "Fonctions mathématiques"
 
-#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:381
+#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:382
 msgid "Mathematics"
 msgstr "Mathématiques"
+
+#: ../plugins/fn-numtheory/plugin.xml.in.h:1
+msgid "Bitwise Operations"
+msgstr "Opérations bit à bit"
+
+#: ../plugins/fn-numtheory/plugin.xml.in.h:2
+msgid "Number Theory"
+msgstr "Théorie des nombres"
+
+#: ../plugins/fn-numtheory/plugin.xml.in.h:3
+msgid ""
+"Several basic utilities for prime numbers, pi, phi, sigma. It also holds "
+"some simple bitwise operations."
+msgstr ""
+"Nombreux utilitaires de base pour les nombres premiers, pi, phi, sigma. Il y "
+"a aussi quelques opérations simples bit à bit."
 
 #: ../plugins/fn-r/plugin.xml.in.h:1 ../plugins/fn-stat/plugin.xml.in.h:1
 msgid "Statistical Functions"
@@ -687,7 +703,7 @@ msgstr "Génération de nombres aléatoires"
 msgid "Random Numbers"
 msgstr "Nombres aléatoires"
 
-#: ../plugins/fn-stat/functions.c:2326 ../plugins/fn-stat/functions.c:2356
+#: ../plugins/fn-stat/functions.c:2296 ../plugins/fn-stat/functions.c:2326
 msgid "Array version not implemented!"
 msgstr "Version tableau non implémentée !"
 
@@ -695,8 +711,8 @@ msgstr "Version tableau non implémentée !"
 msgid "Functions for manipulating strings"
 msgstr "Fonctions de manipulation de chaînes"
 
-#: ../plugins/fn-string/plugin.xml.in.h:2 ../src/dialogs/dialog-search.c:151
-#: ../src/func.c:1070
+#: ../plugins/fn-string/plugin.xml.in.h:2 ../src/dialogs/dialog-search.c:150
+#: ../src/func.c:1123
 msgid "String"
 msgstr "Chaîne"
 
@@ -871,7 +887,7 @@ msgstr "Contraintes :"
 #: ../src/dialogs/dialog-paste-names.c:93
 #: ../src/dialogs/dialog-scenarios.c:374
 #: ../src/dialogs/dialog-simulation.c:217 ../src/dialogs/dialog-zoom.c:191
-#: ../src/format-template.c:250 ../src/sheet.c:832
+#: ../src/format-template.c:250 ../src/sheet.c:824
 #: ../src/tools/solver/reports-write.c:79
 #: ../src/tools/solver/reports-write.c:101
 #: ../src/tools/solver/reports-write.c:128
@@ -896,7 +912,7 @@ msgstr "Valeur"
 #. * Fill in the labels of `General Info' section.
 #.
 #: ../plugins/mps/mps.c:269 ../src/dialogs/dialog-formula-guru.c:831
-#: ../src/dialogs/dialog-search.c:414 ../src/tools/solver/reports-write.c:515
+#: ../src/dialogs/dialog-search.c:413 ../src/tools/solver/reports-write.c:515
 msgid "Type"
 msgstr "Type"
 
@@ -948,22 +964,6 @@ msgstr "Module de format MPS de programmation linéaire (*.mps)"
 msgid "Reads LP programs stored in the MPS format (*.mps)"
 msgstr "Lit les programmes LP stockés au format MPS (*.mps)"
 
-#: ../plugins/numtheory/plugin.xml.in.h:1
-msgid "Bitwise Operations"
-msgstr "Opérations bit à bit"
-
-#: ../plugins/numtheory/plugin.xml.in.h:2
-msgid "Number Theory"
-msgstr "Théorie des nombres"
-
-#: ../plugins/numtheory/plugin.xml.in.h:3
-msgid ""
-"Several basic utilities for prime numbers, pi, phi, sigma. It also holds "
-"some simple bitwise operations."
-msgstr ""
-"Nombreux utilitaires de base pour les nombres premiers, pi, phi, sigma. Il y "
-"a aussi quelques opérations simples bit à bit."
-
 #: ../plugins/oleo/plugin.xml.in.h:1
 msgid "GNU Oleo"
 msgstr "GNU Oleo"
@@ -976,7 +976,7 @@ msgstr "GNU Oleo (*.oleo)"
 msgid "Imports GNU Oleo documents"
 msgstr "Importe les documents GNU Oleo"
 
-#: ../plugins/openoffice/openoffice-read.c:689
+#: ../plugins/openoffice/openoffice-read.c:687
 #, c-format
 msgid ""
 "Unable to parse\n"
@@ -987,76 +987,76 @@ msgstr ""
 "\t« %s »\n"
 "à cause de « %s »"
 
-#: ../plugins/openoffice/openoffice-read.c:1057
+#: ../plugins/openoffice/openoffice-read.c:1055
 #, fuzzy, c-format
 msgid "Content past the maximum number of rows (%i) supported."
 msgstr ""
 "Le contenu dépasse le nombre maximum de lignes pris en charge par cette "
 "compilation (%u). Veuillez recompiler avec des limites plus importantes."
 
-#: ../plugins/openoffice/openoffice-read.c:1165
+#: ../plugins/openoffice/openoffice-read.c:1163
 msgid "Missing expression"
 msgstr "Expression manquante"
 
-#: ../plugins/openoffice/openoffice-read.c:1184
+#: ../plugins/openoffice/openoffice-read.c:1182
 #, c-format
 msgid "Missing or unknown expression namespace: %s"
 msgstr "L'espace de nom de l'expression est manquant ou inconnu : %s"
 
-#: ../plugins/openoffice/openoffice-read.c:1192
+#: ../plugins/openoffice/openoffice-read.c:1190
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "L'expression « %s » ne commence pas par un caractère reconnu"
 
-#: ../plugins/openoffice/openoffice-read.c:1320
+#: ../plugins/openoffice/openoffice-read.c:1318
 msgid "Invalid array expression does not specify number of columns."
 msgstr "L'expression de tableau ne spécifie pas le nombre de colonnes."
 
-#: ../plugins/openoffice/openoffice-read.c:1323
+#: ../plugins/openoffice/openoffice-read.c:1321
 msgid "Invalid array expression does not specify number of rows."
 msgstr "L'expression de tableau ne spécifie pas le nombre de lignes."
 
-#: ../plugins/openoffice/openoffice-read.c:1525
+#: ../plugins/openoffice/openoffice-read.c:1523
 msgid "Duplicate default column style encountered."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1540
+#: ../plugins/openoffice/openoffice-read.c:1538
 msgid "Duplicate default row style encountered."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:2582
+#: ../plugins/openoffice/openoffice-read.c:2577
 #, fuzzy, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr "Type de saut « %s » inconnu remplacé par Manuel"
 
-#: ../plugins/openoffice/openoffice-read.c:2802
+#: ../plugins/openoffice/openoffice-read.c:2797
 #, fuzzy, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
 msgstr "Le type de valeur « %s » est inconnu à la ligne %d, ignoré."
 
-#: ../plugins/openoffice/openoffice-read.c:3021
+#: ../plugins/openoffice/openoffice-read.c:3043
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "l'expression « %s » @ « %s » n'est pas une référence de cellule"
 
-#: ../plugins/openoffice/openoffice-read.c:3058
+#: ../plugins/openoffice/openoffice-read.c:3080
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Plage de BD non valide : « %s »"
 
-#: ../plugins/openoffice/openoffice-read.c:5101
+#: ../plugins/openoffice/openoffice-read.c:5158
 msgid "Unknown mimetype for openoffice file."
 msgstr "Type MIME inconnu pour le fichier OpenOffice."
 
-#: ../plugins/openoffice/openoffice-read.c:5109
+#: ../plugins/openoffice/openoffice-read.c:5166
 msgid "No stream named content.xml found."
 msgstr "Aucun flux nommé content.xml n'a été trouvé."
 
-#: ../plugins/openoffice/openoffice-read.c:5117
+#: ../plugins/openoffice/openoffice-read.c:5174
 msgid "No stream named styles.xml found."
 msgstr "Aucun flux nommé styles.xml n'a été trouvé."
 
-#: ../plugins/openoffice/openoffice-read.c:5178
+#: ../plugins/openoffice/openoffice-read.c:5235
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Les métadonnées « %s » sont non valides"
@@ -1338,10 +1338,14 @@ msgid "Could not find %s"
 msgstr "%s introuvable"
 
 #: ../plugins/python-loader/plugin.xml.in.h:1
+msgid "Python console"
+msgstr "Console Python"
+
+#: ../plugins/python-loader/plugin.xml.in.h:2
 msgid "Python plugin loader"
 msgstr "Chargeur de greffon Python"
 
-#: ../plugins/python-loader/plugin.xml.in.h:2
+#: ../plugins/python-loader/plugin.xml.in.h:3
 msgid "This plugin provides support for Python plugins"
 msgstr "Ce greffon fournit une prise en charge pour les greffons en Python"
 
@@ -2323,7 +2327,7 @@ msgstr ""
 "sauvegardée."
 
 #: ../schemas/gnumeric-general.schemas.in.h:36
-#: ../src/dialogs/dialog-preferences.c:601 ../src/wbc-gtk-actions.c:2249
+#: ../src/dialogs/dialog-preferences.c:601 ../src/wbc-gtk-actions.c:2248
 msgid "Sort Ascending"
 msgstr "Tri croissant"
 
@@ -2814,7 +2818,7 @@ msgid "Deleting row %s"
 msgstr "Suppression de la ligne %s"
 
 #. Check for locked cells
-#: ../src/commands.c:1501 ../src/commands.c:1505 ../src/sheet.c:4061
+#: ../src/commands.c:1501 ../src/commands.c:1505 ../src/sheet.c:4048
 msgid "Clear"
 msgstr "Vider"
 
@@ -3026,7 +3030,7 @@ msgstr "Collage dans %s"
 
 #. Check arrays or merged regions in src or target regions
 #: ../src/commands.c:3023 ../src/commands.c:3178 ../src/commands.c:3179
-#: ../src/item-cursor.c:1204 ../src/wbc-gtk-actions.c:551
+#: ../src/item-cursor.c:940 ../src/wbc-gtk-actions.c:551
 msgid "Autofill"
 msgstr "Remplissage auto"
 
@@ -3246,7 +3250,7 @@ msgstr "Crée un titre"
 msgid "Configure Checkbox"
 msgstr "Configurer"
 
-#: ../src/commands.c:7400 ../src/sheet-object-widget.c:1209
+#: ../src/commands.c:7400 ../src/sheet-object-widget.c:1198
 #, fuzzy
 msgid "Configure Adjustment"
 msgstr "Configurer"
@@ -3273,8 +3277,9 @@ msgstr "Filtre avancé"
 #: ../src/dialogs/descriptive-stats.glade.h:7
 #: ../src/dialogs/exp-smoothing.glade.h:9
 #: ../src/dialogs/fourier-analysis.glade.h:3
-#: ../src/dialogs/moving-averages.glade.h:8 ../src/dialogs/rank.glade.h:2
-#: ../src/dialogs/variance-tests.glade.h:3
+#: ../src/dialogs/moving-averages.glade.h:8
+#: ../src/dialogs/random-generation-cor.glade.h:5
+#: ../src/dialogs/rank.glade.h:2 ../src/dialogs/variance-tests.glade.h:3
 msgid "Input"
 msgstr "Entrée"
 
@@ -3287,8 +3292,9 @@ msgstr "Entrée"
 #: ../src/dialogs/fill-series.glade.h:6
 #: ../src/dialogs/fourier-analysis.glade.h:5
 #: ../src/dialogs/moving-averages.glade.h:12
-#: ../src/dialogs/random-generation.glade.h:4 ../src/dialogs/rank.glade.h:4
-#: ../src/dialogs/simulation.glade.h:15
+#: ../src/dialogs/random-generation.glade.h:4
+#: ../src/dialogs/random-generation-cor.glade.h:8
+#: ../src/dialogs/rank.glade.h:4 ../src/dialogs/simulation.glade.h:15
 #: ../src/dialogs/variance-tests.glade.h:4
 msgid "Output"
 msgstr "Sortie"
@@ -3314,7 +3320,7 @@ msgstr "ANOVA : Facteur unique"
 #: ../src/dialogs/descriptive-stats.glade.h:6
 #: ../src/dialogs/exp-smoothing.glade.h:5
 #: ../src/dialogs/fourier-analysis.glade.h:2
-#: ../src/dialogs/frequency.glade.h:6 ../src/dialogs/histogram.glade.h:13
+#: ../src/dialogs/frequency.glade.h:7 ../src/dialogs/histogram.glade.h:13
 #: ../src/dialogs/moving-averages.glade.h:6 ../src/dialogs/rank.glade.h:1
 #: ../src/dialogs/sampling.glade.h:4
 msgid "Grouped by:"
@@ -3326,8 +3332,9 @@ msgstr "Groupé par :"
 #: ../src/dialogs/fill-series.glade.h:5
 #: ../src/dialogs/fourier-analysis.glade.h:4
 #: ../src/dialogs/moving-averages.glade.h:10
-#: ../src/dialogs/random-generation.glade.h:3 ../src/dialogs/rank.glade.h:3
-#: ../src/dialogs/scenario-manager.glade.h:9
+#: ../src/dialogs/random-generation.glade.h:3
+#: ../src/dialogs/random-generation-cor.glade.h:7
+#: ../src/dialogs/rank.glade.h:3 ../src/dialogs/scenario-manager.glade.h:9
 #: ../src/dialogs/simulation.glade.h:14 ../src/dialogs/solver.glade.h:10
 #: ../src/tools/solver/reports-write.c:751
 msgid "Options"
@@ -3354,8 +3361,8 @@ msgstr "_Zones"
 #: ../src/dialogs/fourier-analysis.glade.h:6
 #: ../src/dialogs/frequency.glade.h:12 ../src/dialogs/histogram.glade.h:24
 #: ../src/dialogs/rank.glade.h:9 ../src/dialogs/sampling.glade.h:15
-#: ../src/dialogs/shuffle.glade.h:5 ../src/wbc-gtk-actions.c:1837
-#: ../src/wbc-gtk-actions.c:1961
+#: ../src/dialogs/shuffle.glade.h:5 ../src/wbc-gtk-actions.c:1833
+#: ../src/wbc-gtk-actions.c:1957
 msgid "_Columns"
 msgstr "_Colonnes"
 
@@ -3392,7 +3399,7 @@ msgstr "_Titres"
 #: ../src/dialogs/frequency.glade.h:20 ../src/dialogs/histogram.glade.h:32
 #: ../src/dialogs/moving-averages.glade.h:20 ../src/dialogs/rank.glade.h:12
 #: ../src/dialogs/sampling.glade.h:22 ../src/dialogs/shuffle.glade.h:6
-#: ../src/wbc-gtk-actions.c:1834 ../src/wbc-gtk-actions.c:1964
+#: ../src/wbc-gtk-actions.c:1830 ../src/wbc-gtk-actions.c:1960
 msgid "_Rows"
 msgstr "_Lignes"
 
@@ -3404,6 +3411,7 @@ msgstr "_Lignes"
 #: ../src/dialogs/goalseek.glade.h:3 ../src/dialogs/hyperlink.glade.h:1
 #: ../src/dialogs/mean-tests.glade.h:1
 #: ../src/dialogs/random-generation.glade.h:1
+#: ../src/dialogs/random-generation-cor.glade.h:1
 #: ../src/dialogs/scenario-add.glade.h:1
 #: ../src/dialogs/scenario-manager.glade.h:2
 #: ../src/dialogs/so-checkbox.glade.h:1 ../src/dialogs/so-frame.glade.h:1
@@ -3464,7 +3472,7 @@ msgstr "Ne _pas corriger :"
 msgid "First Letter"
 msgstr "Première lettre"
 
-#: ../src/dialogs/autocorrect.glade.h:8 ../src/wbc-gtk-actions.c:2308
+#: ../src/dialogs/autocorrect.glade.h:8 ../src/wbc-gtk-actions.c:2307
 msgid "General"
 msgstr "Général"
 
@@ -3785,17 +3793,17 @@ msgstr ""
 "Personnalisé"
 
 #: ../src/dialogs/cell-format.glade.h:33
-#: ../src/dialogs/dialog-cell-format.c:2523 ../src/wbc-gtk.c:2876
-#: ../src/wbc-gtk.c:2877 ../src/wbc-gtk.c:2886
+#: ../src/dialogs/dialog-cell-format.c:2522 ../src/wbc-gtk.c:2908
+#: ../src/wbc-gtk.c:2909 ../src/wbc-gtk.c:2918
 msgid "Background"
 msgstr "Arrière-plan"
 
 #: ../src/dialogs/cell-format.glade.h:34
-#: ../src/dialogs/dialog-cell-format.c:2515
+#: ../src/dialogs/dialog-cell-format.c:2514
 msgid "Border"
 msgstr "Bordure"
 
-#: ../src/dialogs/cell-format.glade.h:35 ../src/wbc-gtk.c:2555
+#: ../src/dialogs/cell-format.glade.h:35 ../src/wbc-gtk.c:2604
 msgid "Bottom"
 msgstr "Bas"
 
@@ -3850,7 +3858,7 @@ msgid "E_xpand"
 msgstr "Déployer les lignes"
 
 #: ../src/dialogs/cell-format.glade.h:48
-#: ../src/dialogs/dialog-preferences.c:803 ../src/wbc-gtk.c:2927
+#: ../src/dialogs/dialog-preferences.c:803 ../src/wbc-gtk.c:2959
 msgid "Font"
 msgstr "Police"
 
@@ -3859,7 +3867,7 @@ msgid "Foreground Solid"
 msgstr "Premier plan uni"
 
 #: ../src/dialogs/cell-format.glade.h:50
-#: ../src/dialogs/dialog-cell-format.c:2451
+#: ../src/dialogs/dialog-cell-format.c:2453
 msgid "Format Cells"
 msgstr "Formater les cellules"
 
@@ -3904,8 +3912,8 @@ msgid "Large Circles"
 msgstr "Grand cercles"
 
 #. start sub menu
-#: ../src/dialogs/cell-format.glade.h:61 ../src/sheet-control-gui.c:1888
-#: ../src/wbc-gtk.c:2547
+#: ../src/dialogs/cell-format.glade.h:61 ../src/sheet-control-gui.c:1861
+#: ../src/wbc-gtk.c:2596
 msgid "Left"
 msgstr "Gauche"
 
@@ -3916,7 +3924,7 @@ msgstr ""
 "feuilles de calcul protégées."
 
 #: ../src/dialogs/cell-format.glade.h:63
-#: ../src/dialogs/dialog-cell-format.c:72
+#: ../src/dialogs/dialog-cell-format.c:73
 #: ../src/tools/solver/reports-write.c:718
 msgid "None"
 msgstr "Aucun"
@@ -3938,8 +3946,8 @@ msgstr "Diagonales inversées"
 msgid "Reverse Diagonal Stripe"
 msgstr "Rayures diagonales inversées"
 
-#: ../src/dialogs/cell-format.glade.h:68 ../src/sheet-control-gui.c:1891
-#: ../src/wbc-gtk.c:2549
+#: ../src/dialogs/cell-format.glade.h:68 ../src/sheet-control-gui.c:1864
+#: ../src/wbc-gtk.c:2598
 msgid "Right"
 msgstr "Droite"
 
@@ -4278,7 +4286,7 @@ msgid "Correlation"
 msgstr "Corrélation"
 
 #: ../src/dialogs/covariance.glade.h:1 ../src/tools/analysis-tools.c:694
-#: ../src/tools/analysis-tools.c:697 ../src/wbc-gtk-actions.c:2138
+#: ../src/tools/analysis-tools.c:697 ../src/wbc-gtk-actions.c:2134
 msgid "Covariance"
 msgstr "Covariance"
 
@@ -4361,7 +4369,7 @@ msgstr "_Formats"
 msgid "_Layout"
 msgstr "À _propos"
 
-#: ../src/dialogs/data-slicer.glade.h:8 ../src/wbc-gtk-actions.c:1899
+#: ../src/dialogs/data-slicer.glade.h:8 ../src/wbc-gtk-actions.c:1895
 msgid "_Remove"
 msgstr "_Enlever"
 
@@ -4488,391 +4496,438 @@ msgstr "_K :"
 msgid "_Use ssmedian"
 msgstr "_Utiliser « ssmedian »"
 
-#: ../src/dialogs/dialog-about.c:50
+#: ../src/dialogs/dialog-about.c:54
 msgid "Core"
 msgstr "Cœur"
 
-#: ../src/dialogs/dialog-about.c:51
+#: ../src/dialogs/dialog-about.c:55
 msgid "Features"
 msgstr "Fonctionnalités"
 
-#: ../src/dialogs/dialog-about.c:52
+#: ../src/dialogs/dialog-about.c:56
 msgid "Analytics"
 msgstr "Analytique"
 
-#: ../src/dialogs/dialog-about.c:53
+#: ../src/dialogs/dialog-about.c:57
 msgid "Import Export"
 msgstr "Import Export"
 
-#: ../src/dialogs/dialog-about.c:54
+#: ../src/dialogs/dialog-about.c:58
 msgid "Scripting"
 msgstr "Scripts"
 
-#: ../src/dialogs/dialog-about.c:55
+#: ../src/dialogs/dialog-about.c:59
 msgid "UI"
 msgstr "Interface utilisateur"
 
-#: ../src/dialogs/dialog-about.c:56
+#: ../src/dialogs/dialog-about.c:60
 msgid "Usability"
 msgstr "Accessibilité"
 
-#: ../src/dialogs/dialog-about.c:57
+#: ../src/dialogs/dialog-about.c:61
 msgid "Documentation"
 msgstr "Documentation"
 
-#: ../src/dialogs/dialog-about.c:58
+#: ../src/dialogs/dialog-about.c:62
 msgid "Translation"
 msgstr "Traduction"
 
-#: ../src/dialogs/dialog-about.c:59
+#: ../src/dialogs/dialog-about.c:63
 msgid "QA"
 msgstr "Qualité"
 
-#: ../src/dialogs/dialog-about.c:60
+#: ../src/dialogs/dialog-about.c:64
 msgid "Art"
 msgstr "Art"
 
-#: ../src/dialogs/dialog-about.c:61
+#: ../src/dialogs/dialog-about.c:65
 msgid "Packaging"
 msgstr "Empaquetage"
 
-#: ../src/dialogs/dialog-about.c:69
+#: ../src/dialogs/dialog-about.c:73
 msgid "Harald Ashburner"
 msgstr "Harald Ashburner"
 
-#: ../src/dialogs/dialog-about.c:70
+#: ../src/dialogs/dialog-about.c:74
 msgid "Options pricers"
 msgstr "Options"
 
-#: ../src/dialogs/dialog-about.c:71
+#: ../src/dialogs/dialog-about.c:75
 msgid "Sean Atkinson"
 msgstr "Sean Atkinson"
 
-#: ../src/dialogs/dialog-about.c:72
+#: ../src/dialogs/dialog-about.c:76
 msgid "Functions and X-Base importing."
 msgstr "Fonctions et importation X-base."
 
-#: ../src/dialogs/dialog-about.c:73
+#: ../src/dialogs/dialog-about.c:77
 msgid "Michel Berkelaar"
 msgstr "Michel Berkelaar"
 
-#: ../src/dialogs/dialog-about.c:74 ../src/dialogs/dialog-about.c:88
+#: ../src/dialogs/dialog-about.c:78 ../src/dialogs/dialog-about.c:92
 msgid "Simplex algorithm for Solver (LP Solve)."
 msgstr "Algorithme Simplex pour le solveur (LP Solve)."
 
-#: ../src/dialogs/dialog-about.c:75
+#: ../src/dialogs/dialog-about.c:79
 msgid "Jean Brefort"
 msgstr "Jean Brefort"
 
-#: ../src/dialogs/dialog-about.c:76
+#: ../src/dialogs/dialog-about.c:80
 msgid "Core charting engine."
 msgstr "Cœur du moteur de dessin."
 
-#: ../src/dialogs/dialog-about.c:77
+#: ../src/dialogs/dialog-about.c:81
 msgid "Grandma Chema Celorio"
 msgstr "Grandma Chema Celorio"
 
-#: ../src/dialogs/dialog-about.c:78
+#: ../src/dialogs/dialog-about.c:82
 msgid "Quality Assurance and sheet copy."
 msgstr "Assurance-qualité et copie de feuilles."
 
-#: ../src/dialogs/dialog-about.c:79
+#: ../src/dialogs/dialog-about.c:83
 msgid "Frank Chiulli"
 msgstr "Frank Chiulli"
 
-#: ../src/dialogs/dialog-about.c:80
+#: ../src/dialogs/dialog-about.c:84
 msgid "OLE2 support."
 msgstr "Prise en charge OLE2."
 
-#: ../src/dialogs/dialog-about.c:81
+#: ../src/dialogs/dialog-about.c:85
 msgid "Kenneth Christiansen"
 msgstr "Kenneth Christiansen"
 
-#: ../src/dialogs/dialog-about.c:82
+#: ../src/dialogs/dialog-about.c:86
 msgid "Localization."
 msgstr "Localisation."
 
-#: ../src/dialogs/dialog-about.c:83
+#: ../src/dialogs/dialog-about.c:87
 msgid "Zbigniew Chyla"
 msgstr "Zbigniew Chyla"
 
-#: ../src/dialogs/dialog-about.c:84
+#: ../src/dialogs/dialog-about.c:88
 msgid "Plugin system, localization."
 msgstr "Système de greffons, localisation."
 
-#: ../src/dialogs/dialog-about.c:85
+#: ../src/dialogs/dialog-about.c:89
 msgid "J.H.M. Dassen (Ray)"
 msgstr "J.H.M. Dassen (Ray)"
 
-#: ../src/dialogs/dialog-about.c:86
+#: ../src/dialogs/dialog-about.c:90
 msgid "Debian packaging."
 msgstr "Empaquetage pour Debian."
 
-#: ../src/dialogs/dialog-about.c:87
+#: ../src/dialogs/dialog-about.c:91
 msgid "Jeroen Dirks"
 msgstr "Jeroen Dirks"
 
-#: ../src/dialogs/dialog-about.c:89
+#: ../src/dialogs/dialog-about.c:93
 msgid "Tom Dyas"
 msgstr "Tom Dyas"
 
-#: ../src/dialogs/dialog-about.c:90
+#: ../src/dialogs/dialog-about.c:94
 msgid "Original plugin engine."
 msgstr "Moteur de greffons original."
 
-#: ../src/dialogs/dialog-about.c:91
+#: ../src/dialogs/dialog-about.c:95
 msgid "Kjell Eikland"
 msgstr "Kjell Eikland"
 
-#: ../src/dialogs/dialog-about.c:92 ../src/dialogs/dialog-about.c:118
+#: ../src/dialogs/dialog-about.c:96 ../src/dialogs/dialog-about.c:122
 msgid "LP-solve"
 msgstr "LP-solve"
 
-#: ../src/dialogs/dialog-about.c:93
+#: ../src/dialogs/dialog-about.c:97
 msgid "Gergo Erdi"
 msgstr "Gergo Erdi"
 
-#: ../src/dialogs/dialog-about.c:94
+#: ../src/dialogs/dialog-about.c:98
 msgid "Custom UI tools"
 msgstr "Outils de personnalisation de l'interface"
 
-#: ../src/dialogs/dialog-about.c:95
+#: ../src/dialogs/dialog-about.c:99
 msgid "John Gotts"
 msgstr "John Gotts"
 
-#: ../src/dialogs/dialog-about.c:96
+#: ../src/dialogs/dialog-about.c:100
 msgid "RPM packaging"
 msgstr "Empaquetage RPM"
 
-#: ../src/dialogs/dialog-about.c:97
+#: ../src/dialogs/dialog-about.c:101
 msgid "Andreas J. Gülzow"
 msgstr "Andreas J. Gülzow"
 
-#: ../src/dialogs/dialog-about.c:98
+#: ../src/dialogs/dialog-about.c:102
 msgid "Statistics and GUI master"
 msgstr "Maître des statistiques et de l'interface utilisateur"
 
-#: ../src/dialogs/dialog-about.c:99
+#: ../src/dialogs/dialog-about.c:103
 msgid "Jon Kåre Hellan"
 msgstr "Jon Kåre Hellan"
 
-#: ../src/dialogs/dialog-about.c:100
+#: ../src/dialogs/dialog-about.c:104
 msgid "UI polish and all round bug fixer"
 msgstr "Polissage de l'interface et correction de bogues divers"
 
-#: ../src/dialogs/dialog-about.c:101
+#: ../src/dialogs/dialog-about.c:105
 msgid "Ross Ihaka"
 msgstr "Ross Ihaka"
 
-#: ../src/dialogs/dialog-about.c:102
+#: ../src/dialogs/dialog-about.c:106
 msgid "Special functions"
 msgstr "Fonctions spéciales"
 
-#: ../src/dialogs/dialog-about.c:103
+#: ../src/dialogs/dialog-about.c:107
 msgid "Jukka-Pekka Iivonen"
 msgstr "Jukka-Pekka Iivonen"
 
-#: ../src/dialogs/dialog-about.c:104
+#: ../src/dialogs/dialog-about.c:108
 msgid "Solver, lots of worksheet functions, and general trailblazer"
 msgstr "Le solveur et de nombreuses fonctions liées aux classeurs"
 
-#: ../src/dialogs/dialog-about.c:105
+#: ../src/dialogs/dialog-about.c:109
 msgid "Jakub Jelínek"
 msgstr "Jakub Jelínek"
 
-#: ../src/dialogs/dialog-about.c:106
+#: ../src/dialogs/dialog-about.c:110
 msgid "One of the original core contributors"
 msgstr "Un des contributeurs au cœur de l'application"
 
-#: ../src/dialogs/dialog-about.c:107
+#: ../src/dialogs/dialog-about.c:111
 msgid "Chris Lahey"
 msgstr "Chris Lahey"
 
-#: ../src/dialogs/dialog-about.c:108
+#: ../src/dialogs/dialog-about.c:112
 msgid "The original value format engine and libgoffice work"
 msgstr ""
 "Le moteur de formatage des nombres d'origine et travail sur la bibliothèque "
 "libgoffice"
 
-#: ../src/dialogs/dialog-about.c:109
+#: ../src/dialogs/dialog-about.c:113
 msgid "Takashi Matsuda"
 msgstr "Takashi Matsuda"
 
-#: ../src/dialogs/dialog-about.c:110
+#: ../src/dialogs/dialog-about.c:114
 msgid "The original text plugin"
 msgstr "Greffon original pour le texte"
 
-#: ../src/dialogs/dialog-about.c:111
+#: ../src/dialogs/dialog-about.c:115
 msgid "Michael Meeks"
 msgstr "Michael Meeks"
 
-#: ../src/dialogs/dialog-about.c:112
+#: ../src/dialogs/dialog-about.c:116
 msgid "Started the MS Excel import/export engine, and 'GnmStyle'"
 msgstr "Commencement du moteur d'import/export MS Excel, et « GnmStyle »"
 
-#: ../src/dialogs/dialog-about.c:113
+#: ../src/dialogs/dialog-about.c:117
 msgid "Lutz Muller"
 msgstr "Lutz Muller"
 
-#: ../src/dialogs/dialog-about.c:114
+#: ../src/dialogs/dialog-about.c:118
 msgid "SheetObject improvement"
 msgstr "Améliorations du SheetObject"
 
-#: ../src/dialogs/dialog-about.c:115
+#: ../src/dialogs/dialog-about.c:119
 msgid "Yukihiro Nakai"
 msgstr "Yukihiro Nakai"
 
-#: ../src/dialogs/dialog-about.c:116
+#: ../src/dialogs/dialog-about.c:120
 msgid "Support for non-Latin languages"
 msgstr "Prise en charge des langues non latines"
 
-#: ../src/dialogs/dialog-about.c:117
+#: ../src/dialogs/dialog-about.c:121
 msgid "Peter Notebaert"
 msgstr "Peter Notebaert"
 
-#: ../src/dialogs/dialog-about.c:119
+#: ../src/dialogs/dialog-about.c:123
 msgid "Emmanuel Pacaud"
 msgstr "Emmanuel Pacaud"
 
-#: ../src/dialogs/dialog-about.c:120
+#: ../src/dialogs/dialog-about.c:124
 msgid "Many plot types for charting engine."
 msgstr "Plusieurs type de dessin pour le moteur de dessin."
 
-#: ../src/dialogs/dialog-about.c:121
+#: ../src/dialogs/dialog-about.c:125
 msgid "Federico M. Quintero"
 msgstr "Federico M. Quintero"
 
-#: ../src/dialogs/dialog-about.c:122
+#: ../src/dialogs/dialog-about.c:126
 msgid "canvas support"
 msgstr "Prise en charge du canevas"
 
-#: ../src/dialogs/dialog-about.c:123
+#: ../src/dialogs/dialog-about.c:127
 msgid "Mark Probst"
 msgstr "Mark Probst"
 
-#: ../src/dialogs/dialog-about.c:124 ../src/dialogs/dialog-about.c:130
+#: ../src/dialogs/dialog-about.c:128 ../src/dialogs/dialog-about.c:134
 msgid "Guile support"
 msgstr "Prise en charge de Guile"
 
-#: ../src/dialogs/dialog-about.c:125
+#: ../src/dialogs/dialog-about.c:129
 msgid "Rasca"
 msgstr "Rasca"
 
-#: ../src/dialogs/dialog-about.c:126
+#: ../src/dialogs/dialog-about.c:130
 msgid "HTML, troff, LaTeX exporters"
 msgstr "HTML, troff, exportations LaTeX"
 
-#: ../src/dialogs/dialog-about.c:127
+#: ../src/dialogs/dialog-about.c:131
 msgid "Vincent Renardias"
 msgstr "Vincent Renardias"
 
-#: ../src/dialogs/dialog-about.c:128
+#: ../src/dialogs/dialog-about.c:132
 msgid "original CSV support, French localization"
 msgstr "Prise en charge CSV et traduction française originale"
 
-#: ../src/dialogs/dialog-about.c:129
+#: ../src/dialogs/dialog-about.c:133
 msgid "Ariel Rios"
 msgstr "Ariel Rios"
 
-#: ../src/dialogs/dialog-about.c:131
+#: ../src/dialogs/dialog-about.c:135
 msgid "Jakub Steiner"
 msgstr "Jakub Steiner"
 
-#: ../src/dialogs/dialog-about.c:132
+#: ../src/dialogs/dialog-about.c:136
 msgid "Icons and Images"
 msgstr "Icônes et images"
 
-#: ../src/dialogs/dialog-about.c:133
+#: ../src/dialogs/dialog-about.c:137
 msgid "Uwe Steinmann"
 msgstr "Uwe Steinmann"
 
-#: ../src/dialogs/dialog-about.c:134
+#: ../src/dialogs/dialog-about.c:138
 msgid "Paradox Importer"
 msgstr "Import du format Paradox"
 
-#: ../src/dialogs/dialog-about.c:135
+#: ../src/dialogs/dialog-about.c:139
 msgid "Arturo Tena"
 msgstr "Arturo Tena"
 
-#: ../src/dialogs/dialog-about.c:136
+#: ../src/dialogs/dialog-about.c:140
 msgid "Initial work on OLE2 for libgsf"
 msgstr "Premiers travail sur OLE2 pour libgsf"
 
-#: ../src/dialogs/dialog-about.c:137
+#: ../src/dialogs/dialog-about.c:141
 msgid "Almer S. Tigelaar"
 msgstr "Almer S. Tigelaar"
 
-#: ../src/dialogs/dialog-about.c:138
+#: ../src/dialogs/dialog-about.c:142
 msgid "Consolidation and Structured Text importer"
 msgstr "Importateur de texte consolidé et structuré (CST)"
 
-#: ../src/dialogs/dialog-about.c:139
+#: ../src/dialogs/dialog-about.c:143
 msgid "Bruno Unna"
 msgstr "Bruno Unna"
 
-#: ../src/dialogs/dialog-about.c:140
+#: ../src/dialogs/dialog-about.c:144
 msgid "Pieces of MS Excel import"
 msgstr "Parties de l'import du format MS Excel"
 
-#: ../src/dialogs/dialog-about.c:141
+#: ../src/dialogs/dialog-about.c:145
 msgid "Arief Mulya Utama"
 msgstr "Arief Mulya Utama"
 
-#: ../src/dialogs/dialog-about.c:142
+#: ../src/dialogs/dialog-about.c:146
 msgid "Telecommunications functions"
 msgstr "Fonctions sur la télécommunication"
 
-#: ../src/dialogs/dialog-about.c:143
+#: ../src/dialogs/dialog-about.c:147
 msgid "Daniel Veillard"
 msgstr "Daniel Veillard"
 
-#: ../src/dialogs/dialog-about.c:144
+#: ../src/dialogs/dialog-about.c:148
 msgid "Initial XML support"
 msgstr "Prise en charge XML initiale"
 
-#: ../src/dialogs/dialog-about.c:145
+#: ../src/dialogs/dialog-about.c:149
 msgid "Vladimir Vuksan"
 msgstr "Vladimir Vuksan"
 
-#: ../src/dialogs/dialog-about.c:146
+#: ../src/dialogs/dialog-about.c:150
 msgid "Some financial functions"
 msgstr "Plusieurs fonctions financières"
 
-#: ../src/dialogs/dialog-about.c:147
+#: ../src/dialogs/dialog-about.c:151
 msgid "Morten Welinder"
 msgstr "Morten Welinder"
 
-#: ../src/dialogs/dialog-about.c:148
+#: ../src/dialogs/dialog-about.c:152
 msgid "All round powerhouse"
 msgstr "Toute la quincaillerie"
 
-#: ../src/dialogs/dialog-about.c:149
+#: ../src/dialogs/dialog-about.c:153
 msgid "Kevin Breit"
 msgstr "Kevin Breit"
 
-#: ../src/dialogs/dialog-about.c:150
+#: ../src/dialogs/dialog-about.c:154
 msgid "Thomas Canty"
 msgstr "Thomas Canty"
 
-#: ../src/dialogs/dialog-about.c:151
+#: ../src/dialogs/dialog-about.c:155
 msgid "Adrian Custer"
 msgstr "Adrian Custer"
 
-#: ../src/dialogs/dialog-about.c:152
+#: ../src/dialogs/dialog-about.c:156
 msgid "Adrian Likins"
 msgstr "Adrian Likins"
 
-#: ../src/dialogs/dialog-about.c:153
+#: ../src/dialogs/dialog-about.c:157
 msgid "Aaron Weber"
 msgstr "Aaron Weber"
 
-#: ../src/dialogs/dialog-about.c:154
+#: ../src/dialogs/dialog-about.c:158
 msgid "Alexander Kirillov"
 msgstr "Alexander Kirillov"
 
-#: ../src/dialogs/dialog-about.c:254
+#: ../src/dialogs/dialog-about.c:451
+#, fuzzy
+msgid "Gnumeric is the result of"
+msgstr "Page Web de _Gnumeric"
+
+#. Overlap.
+#: ../src/dialogs/dialog-about.c:457
+msgid "the efforts of many people."
+msgstr ""
+
+#. Overlap.
+#: ../src/dialogs/dialog-about.c:464
+msgid "Your help is much appreciated!"
+msgstr ""
+
+#: ../src/dialogs/dialog-about.c:514
+msgid "We apologize if anyone was left out."
+msgstr ""
+
+#. Overlap.
+#: ../src/dialogs/dialog-about.c:522
+msgid "Please contact us to correct mistakes."
+msgstr ""
+
+#. Overlap.
+#: ../src/dialogs/dialog-about.c:530
+msgid "Report problems at http://bugzilla.gnome.org"
+msgstr ""
+
+#. Overlap.
+#: ../src/dialogs/dialog-about.c:535 ../src/dialogs/dialog-about.c:542
+msgid "We aim to please!"
+msgstr ""
+
+#: ../src/dialogs/dialog-about.c:564
 msgid "About Gnumeric"
 msgstr "À propos de Gnumeric"
+
+#: ../src/dialogs/dialog-about.c:567
+#, fuzzy
+msgid "Visit the Gnumeric website"
+msgstr "Navigue vers la page Web de Gnumeric"
+
+#: ../src/dialogs/dialog-about.c:569
+msgid "Copyright © 1998-2009"
+msgstr ""
+
+#: ../src/dialogs/dialog-about.c:570
+msgid "Free, Fast, Accurate - Pick Any Three!"
+msgstr ""
 
 #: ../src/dialogs/dialog-advanced-filter.c:70
 msgid "The list range is invalid."
@@ -4945,6 +5000,7 @@ msgstr "La valeur d'alpha doit être un nombre compris entre 0 et 1."
 #: ../src/dialogs/dialog-analysis-tools.c:3078
 #: ../src/dialogs/dialog-analysis-tools.c:3349
 #: ../src/dialogs/dialog-analysis-tools.c:3576
+#: ../src/dialogs/dialog-random-generator-cor.c:117
 msgid "The output specification is invalid."
 msgstr "La spécification de sortie n'est pas valide."
 
@@ -5003,7 +5059,7 @@ msgid "Group %d"
 msgstr "Groupe %d"
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:523
-#: ../src/wbc-gtk-actions.c:981
+#: ../src/wbc-gtk-actions.c:976
 msgid "Group"
 msgstr "Grouper"
 
@@ -5350,7 +5406,7 @@ msgstr "37"
 msgid "81"
 msgstr "81"
 
-#: ../src/dialogs/dialog-autoformat.c:627
+#: ../src/dialogs/dialog-autoformat.c:628
 msgid "An error occurred while reading the category list"
 msgstr "Une erreur est apparue durant la lecture de la liste de catégories"
 
@@ -5373,161 +5429,161 @@ msgstr "Commentaire de cellule"
 msgid "New Cell Comment (%s)"
 msgstr "Commentaire de cellule"
 
-#: ../src/dialogs/dialog-cell-format.c:73
+#: ../src/dialogs/dialog-cell-format.c:74
 msgid "Single"
 msgstr "Simple"
 
-#: ../src/dialogs/dialog-cell-format.c:74
+#: ../src/dialogs/dialog-cell-format.c:75
 msgid "Double"
 msgstr "Double"
 
-#: ../src/dialogs/dialog-cell-format.c:479 ../src/dialogs/dialog-search.c:153
-#: ../src/func.c:1068 ../src/wbc-gtk-actions.c:2311
+#: ../src/dialogs/dialog-cell-format.c:483 ../src/dialogs/dialog-search.c:152
+#: ../src/func.c:1121 ../src/wbc-gtk-actions.c:2310
 msgid "Number"
 msgstr "Nombre"
 
-#: ../src/dialogs/dialog-cell-format.c:1654
+#: ../src/dialogs/dialog-cell-format.c:1656
 msgid "Source"
 msgstr "Source"
 
-#: ../src/dialogs/dialog-cell-format.c:1655
+#: ../src/dialogs/dialog-cell-format.c:1657
 msgid "Criteria"
 msgstr "Critères"
 
-#: ../src/dialogs/dialog-cell-format.c:1670
-#: ../src/dialogs/dialog-cell-format.c:1679
+#: ../src/dialogs/dialog-cell-format.c:1672
+#: ../src/dialogs/dialog-cell-format.c:1681
 #: ../src/dialogs/so-scrollbar.glade.h:5
 msgid "Min:"
 msgstr "Min :"
 
-#: ../src/dialogs/dialog-cell-format.c:1671
-#: ../src/dialogs/dialog-cell-format.c:1683
+#: ../src/dialogs/dialog-cell-format.c:1673
+#: ../src/dialogs/dialog-cell-format.c:1685
 #: ../src/dialogs/so-scrollbar.glade.h:4
 msgid "Max:"
 msgstr "Max :"
 
-#: ../src/dialogs/dialog-cell-format.c:1675
+#: ../src/dialogs/dialog-cell-format.c:1677
 msgid "Value:"
 msgstr "Valeur :"
 
-#: ../src/dialogs/dialog-cell-format.c:1766
+#: ../src/dialogs/dialog-cell-format.c:1768
 msgid "None          (silently accept invalid input)"
 msgstr "Aucun     (accepte silencieusement des saisies non valides)"
 
-#: ../src/dialogs/dialog-cell-format.c:1774
+#: ../src/dialogs/dialog-cell-format.c:1776
 msgid "Stop            (never allow invalid input)"
 msgstr "Arrêt     (interdit toute saisie non valide)"
 
-#: ../src/dialogs/dialog-cell-format.c:1782
+#: ../src/dialogs/dialog-cell-format.c:1784
 msgid "Warning     (accept/discard invalid input)"
 msgstr "Avertissement (propose d'accepter ou de refuser une saisie non valide)"
 
-#: ../src/dialogs/dialog-cell-format.c:1790
+#: ../src/dialogs/dialog-cell-format.c:1792
 msgid "Information (allow invalid input)"
 msgstr "Information (saisie non valide autorisée)"
 
-#: ../src/dialogs/dialog-cell-format.c:1989
+#: ../src/dialogs/dialog-cell-format.c:1991
 msgid ""
 "If the cell content is between these two values, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format.c:1996
+#: ../src/dialogs/dialog-cell-format.c:1998
 msgid ""
 "If the cell content is not between these two values, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format.c:2003
+#: ../src/dialogs/dialog-cell-format.c:2005
 msgid "If the cell content is equal to this value, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format.c:2010
+#: ../src/dialogs/dialog-cell-format.c:2012
 msgid ""
 "If the cell content is not equal to this value, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format.c:2017
+#: ../src/dialogs/dialog-cell-format.c:2019
 msgid "If the cell content is > this value, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format.c:2024
+#: ../src/dialogs/dialog-cell-format.c:2026
 msgid "If the cell content is < this value, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format.c:2031
+#: ../src/dialogs/dialog-cell-format.c:2033
 msgid "If the cell content is ≧ this value, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format.c:2039
+#: ../src/dialogs/dialog-cell-format.c:2041
 msgid "If the cell content is ≦ this value, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format.c:2047
+#: ../src/dialogs/dialog-cell-format.c:2049
 msgid "If this formula evaluates to TRUE, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format.c:2053
+#: ../src/dialogs/dialog-cell-format.c:2055
 msgid "If the cell content contains this string, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format.c:2060
+#: ../src/dialogs/dialog-cell-format.c:2062
 msgid ""
 "If the cell content does not contain this string, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format.c:2067
+#: ../src/dialogs/dialog-cell-format.c:2069
 msgid "If the cell content begins with this string, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format.c:2074
+#: ../src/dialogs/dialog-cell-format.c:2076
 msgid ""
 "If the cell content does not begin with this string, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format.c:2081
+#: ../src/dialogs/dialog-cell-format.c:2083
 msgid "If the cell content ends with this string, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format.c:2088
+#: ../src/dialogs/dialog-cell-format.c:2090
 msgid ""
 "If the cell content does not end  with this string, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format.c:2095
+#: ../src/dialogs/dialog-cell-format.c:2097
 msgid "If the cell contains an error value, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format.c:2101
+#: ../src/dialogs/dialog-cell-format.c:2103
 msgid "If the cell does not contain an error value, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format.c:2107
+#: ../src/dialogs/dialog-cell-format.c:2109
 msgid "If the cell content is ≦ this contains blanks, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format.c:2113
+#: ../src/dialogs/dialog-cell-format.c:2115
 msgid "If the cell content does not contain blanks, a special style is used."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format.c:2119
+#: ../src/dialogs/dialog-cell-format.c:2121
 msgid "This is an unknown condition type."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format.c:2273
+#: ../src/dialogs/dialog-cell-format.c:2275
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr ""
 "Les critères de validation sont inutilisables. Désactiver la validation ?"
 
-#: ../src/dialogs/dialog-cell-format.c:2519 ../src/wbc-gtk.c:2536
-#: ../src/wbc-gtk.c:2660 ../src/wbc-gtk.c:2825 ../src/wbc-gtk.c:2826
-#: ../src/wbc-gtk.c:2837 ../src/wbc-gtk.c:2943 ../src/wbc-gtk.c:3007
+#: ../src/dialogs/dialog-cell-format.c:2518 ../src/wbc-gtk.c:2709
+#: ../src/wbc-gtk.c:2857 ../src/wbc-gtk.c:2858 ../src/wbc-gtk.c:2869
+#: ../src/wbc-gtk.c:2975 ../src/wbc-gtk.c:3039
 msgid "Foreground"
 msgstr "Premier plan"
 
-#: ../src/dialogs/dialog-cell-format.c:2523 ../src/wbc-gtk.c:2874
+#: ../src/dialogs/dialog-cell-format.c:2522 ../src/wbc-gtk.c:2906
 msgid "Clear Background"
 msgstr "Effacer l'arrière-plan"
 
-#: ../src/dialogs/dialog-cell-format.c:2527
+#: ../src/dialogs/dialog-cell-format.c:2526
 msgid "Pattern"
 msgstr "Motif"
 
@@ -5794,8 +5850,8 @@ msgstr "Impossible de créer la boîte de dialogue Outil de recherche de but."
 msgid "Workbook Level"
 msgstr "Niveau du classeur"
 
-#: ../src/dialogs/dialog-goto-cell.c:289 ../src/dialogs/dialog-search.c:412
-#: ../src/dialogs/dialog-stf-export.c:561 ../src/dialogs/hf-config.glade.h:18
+#: ../src/dialogs/dialog-goto-cell.c:289 ../src/dialogs/dialog-search.c:411
+#: ../src/dialogs/dialog-stf-export.c:582 ../src/dialogs/hf-config.glade.h:18
 #: ../src/dialogs/print.glade.h:37 ../src/print-info.c:492 ../src/search.c:767
 #: ../src/workbook.c:886 ../src/xml-io.c:2292
 msgid "Sheet"
@@ -5810,7 +5866,7 @@ msgstr "Feuille"
 #.
 #. * Fill in the labels of `Constraints' section.
 #.
-#: ../src/dialogs/dialog-goto-cell.c:295 ../src/dialogs/dialog-search.c:413
+#: ../src/dialogs/dialog-goto-cell.c:295 ../src/dialogs/dialog-search.c:412
 #: ../src/dialogs/hf-config.glade.h:1 ../src/dialogs/tabulate.glade.h:2
 #: ../src/tools/solver/reports-write.c:78
 #: ../src/tools/solver/reports-write.c:100
@@ -5870,7 +5926,7 @@ msgstr "Ajouter un hyperlien"
 msgid "Edit Hyperlink"
 msgstr "Éditer l'hyperlien"
 
-#: ../src/dialogs/dialog-hyperlink.c:351 ../src/sheet-control-gui.c:1799
+#: ../src/dialogs/dialog-hyperlink.c:351 ../src/sheet-control-gui.c:1772
 msgid "Remove Hyperlink"
 msgstr "Supprimer l'hyperlien"
 
@@ -5941,8 +5997,8 @@ msgstr "Mot de passe :"
 #. *	with the rest of the key movement and rangeselection.
 #. *	Otherwise input methods would steal them
 #. A duplicate that should not go into the menus, used only for the accelerator
-#: ../src/dialogs/dialog-paste-special.c:60 ../src/wbc-gtk-actions.c:1820
-#: ../src/wbc-gtk-actions.c:1855 ../src/wbc-gtk-actions.c:1859
+#: ../src/dialogs/dialog-paste-special.c:60 ../src/wbc-gtk-actions.c:1816
+#: ../src/wbc-gtk-actions.c:1851 ../src/wbc-gtk-actions.c:1855
 msgid "_All"
 msgstr "_Tout"
 
@@ -5954,11 +6010,11 @@ msgstr "Cont_enu"
 msgid "As _Value"
 msgstr "Comme _valeur"
 
-#: ../src/dialogs/dialog-paste-special.c:63 ../src/wbc-gtk-actions.c:1823
+#: ../src/dialogs/dialog-paste-special.c:63 ../src/wbc-gtk-actions.c:1819
 msgid "_Formats"
 msgstr "_Formats"
 
-#: ../src/dialogs/dialog-paste-special.c:64 ../src/wbc-gtk-actions.c:1826
+#: ../src/dialogs/dialog-paste-special.c:64 ../src/wbc-gtk-actions.c:1822
 msgid "Co_mments"
 msgstr "Co_mmentaires"
 
@@ -6142,75 +6198,75 @@ msgstr "En-tête/Pied de page"
 msgid "Screen"
 msgstr "Écran"
 
-#: ../src/dialogs/dialog-printer-setup.c:698
+#: ../src/dialogs/dialog-printer-setup.c:697
 msgid "points"
 msgstr "points"
 
-#: ../src/dialogs/dialog-printer-setup.c:702
+#: ../src/dialogs/dialog-printer-setup.c:701
 msgid "inches"
 msgstr "pouces"
 
-#: ../src/dialogs/dialog-printer-setup.c:706
+#: ../src/dialogs/dialog-printer-setup.c:705
 msgid "mm"
 msgstr "mm"
 
-#: ../src/dialogs/dialog-printer-setup.c:1469
+#: ../src/dialogs/dialog-printer-setup.c:1468
 msgid "Default date format"
 msgstr "Format de date par défaut"
 
-#: ../src/dialogs/dialog-printer-setup.c:1475
+#: ../src/dialogs/dialog-printer-setup.c:1474
 msgid "Custom date format"
 msgstr "Format de date personnalisé"
 
-#: ../src/dialogs/dialog-printer-setup.c:1507
+#: ../src/dialogs/dialog-printer-setup.c:1506
 msgid "Default time format"
 msgstr "Format d'heure par défaut"
 
-#: ../src/dialogs/dialog-printer-setup.c:1513
+#: ../src/dialogs/dialog-printer-setup.c:1512
 msgid "Custom time format"
 msgstr "Format d'heure personnalisé"
 
-#: ../src/dialogs/dialog-printer-setup.c:1552
+#: ../src/dialogs/dialog-printer-setup.c:1551
 msgid "$A$1 (first cell of this worksheet)"
 msgstr "$A$1 (première cellule de ce classeur)"
 
-#: ../src/dialogs/dialog-printer-setup.c:1617
+#: ../src/dialogs/dialog-printer-setup.c:1616
 msgid "Custom header configuration"
 msgstr "Configuration personnalisée de l'en-tête"
 
-#: ../src/dialogs/dialog-printer-setup.c:1622
+#: ../src/dialogs/dialog-printer-setup.c:1621
 msgid "Custom footer configuration"
 msgstr "Configuration personnalisée du pied de page"
 
-#: ../src/dialogs/dialog-printer-setup.c:1771
+#: ../src/dialogs/dialog-printer-setup.c:1770
 msgid "Date format selection"
 msgstr "Sélection de la mise en forme des dates"
 
-#: ../src/dialogs/dialog-printer-setup.c:1773
+#: ../src/dialogs/dialog-printer-setup.c:1772
 msgid "Time format selection"
 msgstr "Sélection de la mise en forme des heures"
 
-#: ../src/dialogs/dialog-printer-setup.c:2192
+#: ../src/dialogs/dialog-printer-setup.c:2189
 #, c-format
 msgid "%.0f pixels wide by %.0f pixels tall"
 msgstr "%.0f pixels de large par %.0f pixels de haut"
 
-#: ../src/dialogs/dialog-printer-setup.c:2195
+#: ../src/dialogs/dialog-printer-setup.c:2192
 #, c-format
 msgid "%.0f points wide by %.0f points tall"
 msgstr "%.0f points de large par %.0f points de haut"
 
-#: ../src/dialogs/dialog-printer-setup.c:2198
+#: ../src/dialogs/dialog-printer-setup.c:2195
 #, c-format
 msgid "%.1f in wide by %.1f in tall"
 msgstr "%.1f pouces de large par %.1f pouces de haut"
 
-#: ../src/dialogs/dialog-printer-setup.c:2201
+#: ../src/dialogs/dialog-printer-setup.c:2198
 #, c-format
 msgid "%.0f mm wide by %.0f mm tall"
 msgstr "%.0f mm de large par %.0f mm de haut"
 
-#: ../src/dialogs/dialog-printer-setup.c:2204
+#: ../src/dialogs/dialog-printer-setup.c:2201
 #, c-format
 msgid "%.1f wide by %.1f tall"
 msgstr "%.1f de large par %.1f de haut"
@@ -6252,8 +6308,8 @@ msgstr "_Enregistrer les documents sélectionnés"
 msgid "Save selected documents and then quit"
 msgstr "Enregistre les documents sélectionnés puis quitte"
 
-#: ../src/dialogs/dialog-quit.c:193 ../src/wbc-gtk.c:2339
-#: ../src/wbc-gtk.c:2344
+#: ../src/dialogs/dialog-quit.c:193 ../src/wbc-gtk.c:2345
+#: ../src/wbc-gtk.c:2350
 msgid "_Discard"
 msgstr "_Ignorer"
 
@@ -6304,9 +6360,9 @@ msgid "Uniform Integer"
 msgstr "Entier uniforme"
 
 #: ../src/dialogs/dialog-random-generator.c:111
-#: ../src/dialogs/search-replace.glade.h:17 ../src/dialogs/search.glade.h:13
+#: ../src/dialogs/search-replace.glade.h:17 ../src/dialogs/search.ui.h:13
 #: ../src/widgets/gnumeric-text-view.c:250
-#: ../src/widgets/widget-font-selector.c:195
+#: ../src/widgets/widget-font-selector.c:197
 msgid "Normal"
 msgstr "Normal"
 
@@ -6520,6 +6576,26 @@ msgid "Could not create the Random Tool dialog."
 msgstr ""
 "Impossible de créer la boîte de dialogue Outil de génération aléatoire."
 
+#: ../src/dialogs/dialog-random-generator-cor.c:99
+#, fuzzy
+msgid "The matrix range is not valid."
+msgstr "L'intervalle des catégories n'est pas valide."
+
+#: ../src/dialogs/dialog-random-generator-cor.c:110
+#, fuzzy
+msgid "The matrix must be symmetric positive-definite."
+msgstr "K doit être un entier positif."
+
+#: ../src/dialogs/dialog-random-generator-cor.c:126
+#, fuzzy
+msgid "The number of random numbers requested is invalid."
+msgstr "Le nombre de catégories n'est pas valide."
+
+#: ../src/dialogs/dialog-random-generator-cor.c:222
+#, fuzzy
+msgid "Could not create the Correlated Random Tool dialog."
+msgstr "Impossible de créer la boîte de dialogue Outil de corrélation."
+
 #: ../src/dialogs/dialog-recent.c:70
 msgid "Recently Used Files"
 msgstr "Fichiers récemment utilisés"
@@ -6589,34 +6665,34 @@ msgid "Could not create the Scenarios dialog."
 msgstr "Impossible de créer la boîte de dialogue Scénarios."
 
 #: ../src/dialogs/dialog-search-replace.c:151
-#: ../src/dialogs/dialog-search.c:336
+#: ../src/dialogs/dialog-search.c:335
 msgid "You must select some cell types to search."
 msgstr ""
 "Vous devez sélectionner un type de cellules dans lesquelles rechercher."
 
-#: ../src/dialogs/dialog-search.c:134
+#: ../src/dialogs/dialog-search.c:133
 msgid "Comment"
 msgstr "Commentaires"
 
-#: ../src/dialogs/dialog-search.c:137 ../src/tools/solver/reports-write.c:406
+#: ../src/dialogs/dialog-search.c:136 ../src/tools/solver/reports-write.c:406
 #: ../src/tools/solver/reports-write.c:411
 msgid "Result"
 msgstr "Résultat"
 
-#: ../src/dialogs/dialog-search.c:147 ../src/dialogs/dialog-search.c:173
-#: ../src/dialogs/dialog-search.c:179 ../src/dialogs/dialog-search.c:185
+#: ../src/dialogs/dialog-search.c:146 ../src/dialogs/dialog-search.c:172
+#: ../src/dialogs/dialog-search.c:178 ../src/dialogs/dialog-search.c:184
 msgid "Deleted"
 msgstr "Supprimé"
 
-#: ../src/dialogs/dialog-search.c:149
+#: ../src/dialogs/dialog-search.c:148
 msgid "Expression"
 msgstr "Expression"
 
-#: ../src/dialogs/dialog-search.c:155
+#: ../src/dialogs/dialog-search.c:154
 msgid "Other value"
 msgstr "Autre valeur"
 
-#: ../src/dialogs/dialog-search.c:415 ../src/dialogs/dialog-so-styled.c:169
+#: ../src/dialogs/dialog-search.c:414 ../src/dialogs/dialog-so-styled.c:169
 msgid "Content"
 msgstr "Contenu"
 
@@ -6624,56 +6700,56 @@ msgstr "Contenu"
 msgid "<b>Note:</b> A sheet name change is pending."
 msgstr "<b>Note :</b> un changement de nom de feuille est en cours."
 
-#: ../src/dialogs/dialog-sheet-order.c:621
-#: ../src/dialogs/dialog-sheet-order.c:1024
+#: ../src/dialogs/dialog-sheet-order.c:622
+#: ../src/dialogs/dialog-sheet-order.c:1025
 msgid "At least one sheet must remain visible!"
 msgstr "Au moins une feuille doit rester visible."
 
 #. xgettext : "Lock" is short for locked.  Keep this short.
-#: ../src/dialogs/dialog-sheet-order.c:684
+#: ../src/dialogs/dialog-sheet-order.c:685
 msgid "Lock"
 msgstr "Verr."
 
 #. xgettext : "Viz" is short for visibility.  Keep this short.
-#: ../src/dialogs/dialog-sheet-order.c:697
+#: ../src/dialogs/dialog-sheet-order.c:698
 msgid "Viz"
 msgstr "Vis."
 
 #. xgettext : "Dir" is short for direction.  Keep this short.
-#: ../src/dialogs/dialog-sheet-order.c:709
+#: ../src/dialogs/dialog-sheet-order.c:710
 msgid "Dir"
 msgstr "Dir."
 
-#: ../src/dialogs/dialog-sheet-order.c:719
-#: ../src/dialogs/sheet-resize.glade.h:5 ../src/sheet-object-graph.c:669
-#: ../src/sheet.c:1008
+#: ../src/dialogs/dialog-sheet-order.c:720
+#: ../src/dialogs/sheet-resize.glade.h:5 ../src/sheet-object-graph.c:667
+#: ../src/sheet.c:1000
 msgid "Rows"
 msgstr "Lignes"
 
-#: ../src/dialogs/dialog-sheet-order.c:729
+#: ../src/dialogs/dialog-sheet-order.c:730
 #, fuzzy
 msgid "Cols"
 msgstr "Coût"
 
-#: ../src/dialogs/dialog-sheet-order.c:737
+#: ../src/dialogs/dialog-sheet-order.c:738
 msgid "Current Name"
 msgstr "Nom actuel"
 
-#: ../src/dialogs/dialog-sheet-order.c:750
+#: ../src/dialogs/dialog-sheet-order.c:751
 msgid "New Name"
 msgstr "Nouveau nom"
 
-#: ../src/dialogs/dialog-sheet-order.c:1075
+#: ../src/dialogs/dialog-sheet-order.c:1076
 #, c-format
 msgid "You may not call more than one sheet \"%s\"."
 msgstr "Il ne peut y avoir plusieurs feuilles nommées « %s »."
 
-#: ../src/dialogs/dialog-sheet-order.c:1402
+#: ../src/dialogs/dialog-sheet-order.c:1403
 msgid "Another view is already managing sheets"
 msgstr "Une autre vue gère déjà les feuilles"
 
-#: ../src/dialogs/dialog-sheet-order.c:1462
-#: ../src/dialogs/dialog-sheet-order.c:1472
+#: ../src/dialogs/dialog-sheet-order.c:1463
+#: ../src/dialogs/dialog-sheet-order.c:1473
 msgid "Default"
 msgstr "Défaut"
 
@@ -6718,16 +6794,16 @@ msgid "Variable"
 msgstr "Variable"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:246
-#: ../src/wbc-gtk.c:4076
+#: ../src/wbc-gtk.c:4108
 msgid "Min"
 msgstr "Min"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4078
+#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4110
 msgid "Average"
 msgstr "Moyenne"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:248
-#: ../src/wbc-gtk.c:4077
+#: ../src/wbc-gtk.c:4109
 msgid "Max"
 msgstr "Max"
 
@@ -6844,11 +6920,11 @@ msgstr "Soumis aux contraintes :"
 msgid "Could not create the Solver dialog."
 msgstr "Impossible de créer la boîte de dialogue Solveur."
 
-#: ../src/dialogs/dialog-stf-export.c:555
+#: ../src/dialogs/dialog-stf-export.c:576
 msgid "Export"
 msgstr "Exporter"
 
-#: ../src/dialogs/dialog-stf-export.c:697
+#: ../src/dialogs/dialog-stf-export.c:718
 msgid "This workbook does not contain any exportable content."
 msgstr "Ce classeur n'a pas de contenu exportable."
 
@@ -7106,7 +7182,7 @@ msgstr ""
 "Les données ne sont pas valides dans le codage %s. Choisissez un autre "
 "codage."
 
-#: ../src/dialogs/dialog-stf-main-page.c:388 ../src/wbc-gtk-actions.c:2281
+#: ../src/dialogs/dialog-stf-main-page.c:388 ../src/wbc-gtk-actions.c:2280
 msgid "Line"
 msgstr "Ligne"
 
@@ -7183,7 +7259,7 @@ msgid "Column selection"
 msgstr "Sélection de colonne"
 
 #: ../src/dialogs/dialog-stf.glade.h:15 ../src/dialogs/sheet-resize.glade.h:3
-#: ../src/sheet-object-graph.c:668 ../src/sheet.c:1001
+#: ../src/sheet-object-graph.c:666 ../src/sheet.c:993
 msgid "Columns"
 msgstr "Colonnes"
 
@@ -7456,7 +7532,9 @@ msgstr "Zoom"
 msgid "Sheets"
 msgstr "Feuilles"
 
-#: ../src/dialogs/dialog-zoom.glade.h:5 ../src/wbc-gtk.c:2524
+#. ----- vertical -----
+#: ../src/dialogs/dialog-zoom.glade.h:5 ../src/wbc-gtk.c:2554
+#: ../src/wbc-gtk.c:2576
 msgid "Zoom"
 msgstr "Zoom"
 
@@ -7724,7 +7802,7 @@ msgstr "Valeur d'_arrêt :"
 msgid "Type:"
 msgstr "Type :"
 
-#: ../src/dialogs/fill-series.glade.h:12 ../src/wbc-gtk-actions.c:1862
+#: ../src/dialogs/fill-series.glade.h:12 ../src/wbc-gtk-actions.c:1858
 msgid "_Column"
 msgstr "_Colonne"
 
@@ -7744,8 +7822,8 @@ msgstr "_Linéaire"
 msgid "_Month"
 msgstr "_Mois"
 
-#: ../src/dialogs/fill-series.glade.h:17 ../src/wbc-gtk-actions.c:1708
-#: ../src/wbc-gtk-actions.c:1865
+#: ../src/dialogs/fill-series.glade.h:17 ../src/wbc-gtk-actions.c:1702
+#: ../src/wbc-gtk-actions.c:1861
 msgid "_Row"
 msgstr "_Ligne"
 
@@ -7781,7 +7859,7 @@ msgstr "Insérer en temps que fonction matricielle"
 msgid "Formula Guru"
 msgstr "Gourou formule"
 
-#: ../src/dialogs/fourier-analysis.glade.h:1 ../src/wbc-gtk-actions.c:2144
+#: ../src/dialogs/fourier-analysis.glade.h:1 ../src/wbc-gtk-actions.c:2140
 msgid "Fourier Analysis"
 msgstr "Analyse de Fourier"
 
@@ -7809,11 +7887,10 @@ msgstr "Intervalle de la _catégorie :"
 msgid "Column chart"
 msgstr "Diagramme en colonnes"
 
-#: ../src/dialogs/frequency.glade.h:7 ../src/dialogs/histogram.glade.h:14
-#: ../src/dialogs/kaplan-meier.glade.h:5 ../src/tools/analysis-histogram.c:138
-#: ../src/tools/analysis-histogram.c:440 ../src/tools/analysis-histogram.c:443
-msgid "Histogram"
-msgstr "Histogramme"
+#: ../src/dialogs/frequency.glade.h:6
+#, fuzzy
+msgid "Frequency Tables"
+msgstr "Table des fré_quences"
 
 #: ../src/dialogs/frequency.glade.h:9 ../src/dialogs/histogram.glade.h:19
 msgid "No chart"
@@ -7855,7 +7932,7 @@ msgstr "Catégories _prédéterminées\t"
 msgid "Category"
 msgstr "Catégorie"
 
-#: ../src/dialogs/function-select.glade.h:3 ../src/wbc-gtk-actions.c:2245
+#: ../src/dialogs/function-select.glade.h:3 ../src/wbc-gtk-actions.c:2244
 msgid "Function"
 msgstr "Fonction"
 
@@ -7915,7 +7992,7 @@ msgstr "À la _valeur :"
 msgid "Go To..."
 msgstr "Aller à..."
 
-#: ../src/dialogs/hf-config.glade.h:2 ../src/wbc-gtk-actions.c:2326
+#: ../src/dialogs/hf-config.glade.h:2 ../src/wbc-gtk-actions.c:2325
 msgid "Date"
 msgstr "Date"
 
@@ -7978,7 +8055,7 @@ msgstr "Chemin"
 #: ../src/dialogs/hf-config.glade.h:19
 #: ../src/tools/analysis-exp-smoothing.c:725
 #: ../src/tools/analysis-exp-smoothing.c:1044
-#: ../src/tools/analysis-kaplan-meier.c:123 ../src/wbc-gtk-actions.c:2329
+#: ../src/tools/analysis-kaplan-meier.c:123 ../src/wbc-gtk-actions.c:2328
 msgid "Time"
 msgstr "Heure"
 
@@ -8037,6 +8114,12 @@ msgstr "L_imites"
 #: ../src/dialogs/histogram.glade.h:12
 msgid "Cutoff _range:"
 msgstr "_Intervalle de la limite :"
+
+#: ../src/dialogs/histogram.glade.h:14 ../src/dialogs/kaplan-meier.glade.h:5
+#: ../src/tools/analysis-histogram.c:138 ../src/tools/analysis-histogram.c:440
+#: ../src/tools/analysis-histogram.c:443
+msgid "Histogram"
+msgstr "Histogramme"
 
 #: ../src/dialogs/histogram.glade.h:15
 msgid "Histogram chart"
@@ -8183,7 +8266,7 @@ msgstr "_Groupes"
 msgid "_Time column:"
 msgstr "Colonne de _temps :"
 
-#: ../src/dialogs/kaplan-meier.glade.h:17 ../src/print.c:1374
+#: ../src/dialogs/kaplan-meier.glade.h:17 ../src/print.c:1372
 msgid "to:"
 msgstr "à :"
 
@@ -8585,6 +8668,30 @@ msgstr "_Nombre de variables :"
 msgid "_Size of sample:"
 msgstr "_Taille de l'échantillon :"
 
+#: ../src/dialogs/random-generation-cor.glade.h:2
+msgid "Cholesky _Decomposition of the Covariance Matrix"
+msgstr ""
+
+#: ../src/dialogs/random-generation-cor.glade.h:3
+#, fuzzy
+msgid "Co_variance Matrix"
+msgstr "Covariance"
+
+#: ../src/dialogs/random-generation-cor.glade.h:4
+#, fuzzy
+msgid "Correlated Random Number Generator"
+msgstr "Génération de nombres aléatoires"
+
+#: ../src/dialogs/random-generation-cor.glade.h:6
+#, fuzzy
+msgid "Number of _random numbers:"
+msgstr "Nombre de manipulations annulables"
+
+#: ../src/dialogs/random-generation-cor.glade.h:9
+#, fuzzy
+msgid "_Matrix:"
+msgstr "Matrice"
+
 #: ../src/dialogs/rank.glade.h:5
 msgid "Rank and Percentile"
 msgstr "Rang et pourcentage"
@@ -8751,7 +8858,7 @@ msgstr "<span weight=\"bold\">Divers</span>"
 msgid "<span weight=\"bold\">Search Text Type</span>"
 msgstr "<span weight=\"bold\">Type de texte recherché</span>"
 
-#: ../src/dialogs/search-replace.glade.h:4 ../src/dialogs/search.glade.h:1
+#: ../src/dialogs/search-replace.glade.h:4 ../src/dialogs/search.ui.h:1
 #: ../templates/autoformat/autoformat.General.advanced.xml.in.h:1
 msgid "Advanced"
 msgstr "Avancée"
@@ -8772,7 +8879,7 @@ msgstr "Par"
 msgid "Create =ERROR(\"...\")"
 msgstr "Créer une valeur d'erreur : =ERROR(\"...\")"
 
-#: ../src/dialogs/search-replace.glade.h:9 ../src/dialogs/search.glade.h:4
+#: ../src/dialogs/search-replace.glade.h:9 ../src/dialogs/search.ui.h:4
 msgid "Do not consider matches in the middle of words"
 msgstr "Ignore les correspondances en milieu des mots"
 
@@ -8836,7 +8943,7 @@ msgstr "Demander avant de remplacer"
 msgid "Ra_nge"
 msgstr "I_ntervalle"
 
-#: ../src/dialogs/search-replace.glade.h:26 ../src/dialogs/search.glade.h:14
+#: ../src/dialogs/search-replace.glade.h:26 ../src/dialogs/search.ui.h:14
 msgid "Re_gular expression"
 msgstr "Expression ra_tionnelle"
 
@@ -8848,7 +8955,7 @@ msgstr "Remplacement"
 msgid "Scope"
 msgstr "Étendue"
 
-#: ../src/dialogs/search-replace.glade.h:29 ../src/dialogs/search.glade.h:15
+#: ../src/dialogs/search-replace.glade.h:29 ../src/dialogs/search.ui.h:15
 msgid "Search"
 msgstr "Rechercher"
 
@@ -8873,11 +8980,11 @@ msgstr "Ne rechercher et remplacer que dans la feuille active"
 msgid "Search and replace in specified range only"
 msgstr "Ne rechercher et remplacer que dans l'intervalle sélectionné"
 
-#: ../src/dialogs/search-replace.glade.h:36 ../src/dialogs/search.glade.h:17
+#: ../src/dialogs/search-replace.glade.h:36 ../src/dialogs/search.ui.h:17
 msgid "Search column by column"
 msgstr "Rechercher colonne par colonne"
 
-#: ../src/dialogs/search-replace.glade.h:37 ../src/dialogs/search.glade.h:21
+#: ../src/dialogs/search-replace.glade.h:37 ../src/dialogs/search.ui.h:21
 msgid "Search line by line"
 msgstr "Rechercher ligne par ligne"
 
@@ -8885,11 +8992,11 @@ msgstr "Rechercher ligne par ligne"
 msgid "Skip cells that that would result in errors"
 msgstr "Ignorer les cellules qui produiraient une erreur"
 
-#: ../src/dialogs/search-replace.glade.h:39 ../src/dialogs/search.glade.h:26
+#: ../src/dialogs/search-replace.glade.h:39 ../src/dialogs/search.ui.h:26
 msgid "The search text is a regular expression"
 msgstr "Le texte à rechercher est une expression rationnelle"
 
-#: ../src/dialogs/search-replace.glade.h:40 ../src/dialogs/search.glade.h:27
+#: ../src/dialogs/search-replace.glade.h:40 ../src/dialogs/search.ui.h:27
 msgid "The search text is taken literally."
 msgstr "Le texte à rechercher ne doit pas être interprété."
 
@@ -8897,7 +9004,7 @@ msgstr "Le texte à rechercher ne doit pas être interprété."
 msgid "Turn unparsable entries into string values"
 msgstr "Transformer les entrées incompréhensibles en chaînes"
 
-#: ../src/dialogs/search-replace.glade.h:42 ../src/dialogs/search.glade.h:28
+#: ../src/dialogs/search-replace.glade.h:42 ../src/dialogs/search.ui.h:28
 msgid "When set, do not distinguish between upper and lower case letters"
 msgstr "Ne pas faire la différence entre minuscules et majuscules"
 
@@ -8914,11 +9021,11 @@ msgstr ""
 msgid "_Column major"
 msgstr "_Colonne principale"
 
-#: ../src/dialogs/search-replace.glade.h:45 ../src/dialogs/search.glade.h:29
+#: ../src/dialogs/search-replace.glade.h:45 ../src/dialogs/search.ui.h:29
 msgid "_Comments"
 msgstr "_Commentaires"
 
-#: ../src/dialogs/search-replace.glade.h:46 ../src/dialogs/search.glade.h:30
+#: ../src/dialogs/search-replace.glade.h:46 ../src/dialogs/search.ui.h:30
 msgid "_Current sheet"
 msgstr "Feuille a_ctive"
 
@@ -8926,11 +9033,11 @@ msgstr "Feuille a_ctive"
 msgid "_Don't change"
 msgstr "Ne pas _changer"
 
-#: ../src/dialogs/search-replace.glade.h:48 ../src/dialogs/search.glade.h:31
+#: ../src/dialogs/search-replace.glade.h:48 ../src/dialogs/search.ui.h:31
 msgid "_Entire workbook"
 msgstr "Le classeur _entier"
 
-#: ../src/dialogs/search-replace.glade.h:49 ../src/dialogs/search.glade.h:32
+#: ../src/dialogs/search-replace.glade.h:49 ../src/dialogs/search.ui.h:32
 msgid "_Expressions"
 msgstr "_Expressions"
 
@@ -8938,7 +9045,7 @@ msgstr "_Expressions"
 msgid "_Fail"
 msgstr "É_chouer"
 
-#: ../src/dialogs/search-replace.glade.h:51 ../src/dialogs/search.glade.h:33
+#: ../src/dialogs/search-replace.glade.h:51 ../src/dialogs/search.ui.h:33
 msgid "_Ignore case"
 msgstr "_Ignorer la casse"
 
@@ -8946,11 +9053,11 @@ msgstr "_Ignorer la casse"
 msgid "_Keep strings as strings"
 msgstr "_Conserver les chaînes sous forme de chaînes"
 
-#: ../src/dialogs/search-replace.glade.h:53 ../src/dialogs/search.glade.h:35
+#: ../src/dialogs/search-replace.glade.h:53 ../src/dialogs/search.ui.h:35
 msgid "_Other values"
 msgstr "_Autres valeurs"
 
-#: ../src/dialogs/search-replace.glade.h:54 ../src/dialogs/search.glade.h:36
+#: ../src/dialogs/search-replace.glade.h:54 ../src/dialogs/search.ui.h:36
 msgid "_Plain text"
 msgstr "Texte _pur"
 
@@ -8966,7 +9073,7 @@ msgstr "_Interroger"
 msgid "_Replace by"
 msgstr "_Remplacer par"
 
-#: ../src/dialogs/search-replace.glade.h:58 ../src/dialogs/search.glade.h:39
+#: ../src/dialogs/search-replace.glade.h:58 ../src/dialogs/search.ui.h:39
 msgid "_Row major"
 msgstr "_Ligne principale"
 
@@ -8974,96 +9081,96 @@ msgstr "_Ligne principale"
 msgid "_Search for"
 msgstr "_Rechercher"
 
-#: ../src/dialogs/search-replace.glade.h:60 ../src/dialogs/search.glade.h:41
+#: ../src/dialogs/search-replace.glade.h:60 ../src/dialogs/search.ui.h:41
 msgid "_Strings"
 msgstr "_Chaînes"
 
-#: ../src/dialogs/search.glade.h:2
+#: ../src/dialogs/search.ui.h:2
 msgid "C_olumn major"
 msgstr "C_olonne principale"
 
-#: ../src/dialogs/search.glade.h:3
+#: ../src/dialogs/search.ui.h:3
 msgid "Dismiss search center"
 msgstr "Effacer le point de recherche"
 
-#: ../src/dialogs/search.glade.h:5
+#: ../src/dialogs/search.ui.h:5
 msgid "Find text within cell comments"
 msgstr "Rechercher le texte dans les commentaires des cellules"
 
-#: ../src/dialogs/search.glade.h:6
+#: ../src/dialogs/search.ui.h:6
 msgid "Find text within expressions"
 msgstr "Rechercher le texte dans les expressions"
 
-#: ../src/dialogs/search.glade.h:7
+#: ../src/dialogs/search.ui.h:7
 msgid "Find text within non-string values"
 msgstr "Rechercher le texte dans les valeurs non textuelles"
 
-#: ../src/dialogs/search.glade.h:8
+#: ../src/dialogs/search.ui.h:8
 msgid "Find text within string values"
 msgstr "Rechercher le texte dans les valeurs textuelles"
 
-#: ../src/dialogs/search.glade.h:9
+#: ../src/dialogs/search.ui.h:9
 msgid "Find text within the calculated values of expressions"
 msgstr "Rechercher le texte dans les valeurs calculées des expressions"
 
-#: ../src/dialogs/search.glade.h:10
+#: ../src/dialogs/search.ui.h:10
 msgid "Match _whole words only"
 msgstr "Mot _complet seulement"
 
-#: ../src/dialogs/search.glade.h:11
+#: ../src/dialogs/search.ui.h:11
 msgid "Matches"
 msgstr "Occurrences"
 
-#: ../src/dialogs/search.glade.h:12
+#: ../src/dialogs/search.ui.h:12
 msgid "Miscellaneous"
 msgstr "Divers"
 
-#: ../src/dialogs/search.glade.h:16
+#: ../src/dialogs/search.ui.h:16
 msgid "Search cells containing"
 msgstr "Rechercher les cellules contenant"
 
-#: ../src/dialogs/search.glade.h:18
+#: ../src/dialogs/search.ui.h:18
 msgid "Search in all cells in the workbook"
 msgstr "Rechercher dans toutes les cellules du classeur"
 
-#: ../src/dialogs/search.glade.h:19
+#: ../src/dialogs/search.ui.h:19
 msgid "Search in current sheet only"
 msgstr "Ne rechercher que dans la feuille active"
 
-#: ../src/dialogs/search.glade.h:20
+#: ../src/dialogs/search.ui.h:20
 msgid "Search in specified range only"
 msgstr "Ne rechercher que dans l'intervalle sélectionné"
 
-#: ../src/dialogs/search.glade.h:22
+#: ../src/dialogs/search.ui.h:22
 msgid "Search text is"
 msgstr "Le texte recherché est "
 
-#: ../src/dialogs/search.glade.h:23
+#: ../src/dialogs/search.ui.h:23
 msgid "Show next match"
 msgstr "Afficher l'occurrence suivante"
 
-#: ../src/dialogs/search.glade.h:24
+#: ../src/dialogs/search.ui.h:24
 msgid "Show previous match"
 msgstr "Afficher l'occurrence précédente"
 
-#: ../src/dialogs/search.glade.h:25
+#: ../src/dialogs/search.ui.h:25
 msgid "Start search"
 msgstr "Lancer la recherche"
 
-#: ../src/dialogs/search.glade.h:34
+#: ../src/dialogs/search.ui.h:34
 #, fuzzy
 msgid "_Number"
 msgstr "Nombre"
 
-#: ../src/dialogs/search.glade.h:37
+#: ../src/dialogs/search.ui.h:37
 msgid "_Range"
 msgstr "Inte_rvalle"
 
-#: ../src/dialogs/search.glade.h:38
+#: ../src/dialogs/search.ui.h:38
 msgid "_Results"
 msgstr "_Résultats"
 
-#: ../src/dialogs/search.glade.h:40
+#: ../src/dialogs/search.ui.h:40
 msgid "_Search for:"
 msgstr "_Rechercher :"
 
@@ -9235,7 +9342,7 @@ msgstr "Incrément :"
 msgid "Page:"
 msgstr "Page :"
 
-#: ../src/dialogs/so-scrollbar.glade.h:7 ../src/sheet-object-widget.c:1397
+#: ../src/dialogs/so-scrollbar.glade.h:7 ../src/sheet-object-widget.c:1386
 msgid "Scrollbar Properties"
 msgstr "Propriétés de la barre de défilement"
 
@@ -9588,7 +9695,7 @@ msgstr ""
 "La région cible est trop petite. Elle devrait contenir au moins %d lignes"
 
 #: ../src/func-builtin.c:41
-msgid "Sum:sum of the given values"
+msgid "SUM:sum of the given values"
 msgstr ""
 
 #: ../src/func-builtin.c:42
@@ -9661,7 +9768,7 @@ msgstr ""
 "il sera évalué et retournera le second argument. Dans le cas contraire, il "
 "évaluera et retournera le dernier argument."
 
-#: ../src/func-builtin.c:386
+#: ../src/func-builtin.c:387
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
@@ -9670,36 +9777,36 @@ msgstr "Gnumeric"
 msgid "Cannot create file %s\n"
 msgstr "Impossible de créer le fichier %s\n"
 
-#: ../src/func.c:665
+#: ../src/func.c:684
 msgid "Function implementation not available."
 msgstr "Implémentation de la fonction indisponible."
 
-#: ../src/func.c:890
+#: ../src/func.c:943
 msgid "Unknown Function"
 msgstr "Fonction inconnue"
 
-#: ../src/func.c:1072
+#: ../src/func.c:1125
 msgid "Boolean"
 msgstr "Booléen"
 
-#: ../src/func.c:1074
+#: ../src/func.c:1127
 msgid "Cell Range"
 msgstr "Intervalle de cellule"
 
-#: ../src/func.c:1076
+#: ../src/func.c:1129
 msgid "Area"
 msgstr "Zone"
 
-#: ../src/func.c:1078
+#: ../src/func.c:1131
 msgid "Scalar, Blank, or Error"
 msgstr "Scalaire, blanc ou erreur"
 
-#: ../src/func.c:1080
+#: ../src/func.c:1133
 msgid "Scalar"
 msgstr "Scalaire"
 
 #. Missing values will be NULL.
-#: ../src/func.c:1083
+#: ../src/func.c:1136
 msgid "Any"
 msgstr "Tous"
 
@@ -9744,7 +9851,7 @@ msgstr "300 %"
 msgid "500%"
 msgstr "500 %"
 
-#: ../src/gnm-pane.c:1996
+#: ../src/gnm-pane.c:1917
 #, c-format
 msgid ""
 "%.1f x %.1f pts\n"
@@ -9799,15 +9906,15 @@ msgstr "Le format du fichier module « %s » n'est pas valide."
 msgid "File doesn't contain \"%s\" array."
 msgstr "Le fichier ne contient pas le tableau « %s »."
 
-#: ../src/gnm-so-filled.c:167
+#: ../src/gnm-so-filled.c:163
 msgid "Filled Object Properties"
 msgstr "Propriétés de remplissage de l'objet"
 
-#: ../src/gnm-so-line.c:155
+#: ../src/gnm-so-line.c:145
 msgid "Line/Arrow Properties"
 msgstr "Propriétés du trait et de la flèche"
 
-#: ../src/gnm-so-polygon.c:193
+#: ../src/gnm-so-polygon.c:167
 msgid "Polygon Properties"
 msgstr "Propriétés du polygone"
 
@@ -9907,59 +10014,59 @@ msgstr "Ne peut accéder à l'URL « %s »"
 msgid "Unable to open '%s'"
 msgstr "Impossible d'ouvrir « %s »"
 
-#: ../src/item-bar.c:780
+#: ../src/item-bar.c:766
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Largeur : %.2f pts (%d pixels)"
 
-#: ../src/item-bar.c:783
+#: ../src/item-bar.c:769
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Hauteur : %.2f pts (%d pixels)"
 
-#: ../src/item-cursor.c:869
-msgid "Drag to autofill"
-msgstr "Glisser pour remplir automatiquement"
-
-#: ../src/item-cursor.c:872
-msgid "Drag to move"
-msgstr "Glisser pour déplacer"
-
-#: ../src/item-cursor.c:993
+#: ../src/item-cursor.c:753
 msgid "_Move"
 msgstr "_Déplacer"
 
-#: ../src/item-cursor.c:996 ../src/sheet-control-gui.c:1841
+#: ../src/item-cursor.c:756 ../src/sheet-control-gui.c:1814
 msgid "_Copy"
 msgstr "_Copier"
 
-#: ../src/item-cursor.c:999
+#: ../src/item-cursor.c:759
 msgid "Copy _Formats"
 msgstr "Copier les _formats"
 
-#: ../src/item-cursor.c:1001
+#: ../src/item-cursor.c:761
 msgid "Copy _Values"
 msgstr "Copier les _valeurs"
 
-#: ../src/item-cursor.c:1006
+#: ../src/item-cursor.c:766
 msgid "Shift _Down and Copy"
 msgstr "Décaler vers le _bas et copier"
 
-#: ../src/item-cursor.c:1008
+#: ../src/item-cursor.c:768
 msgid "Shift _Right and Copy"
 msgstr "Décaler vers la _droite et copier"
 
-#: ../src/item-cursor.c:1010
+#: ../src/item-cursor.c:770
 msgid "Shift Dow_n and Move"
 msgstr "Décaler vers le b_as et déplacer"
 
-#: ../src/item-cursor.c:1012
+#: ../src/item-cursor.c:772
 msgid "Shift Righ_t and Move"
 msgstr "Décaler vers la d_roite et déplacer"
 
-#: ../src/item-cursor.c:1017
+#: ../src/item-cursor.c:777
 msgid "C_ancel"
 msgstr "A_nnuler"
+
+#: ../src/item-cursor.c:1016
+msgid "Drag to autofill"
+msgstr "Glisser pour remplir automatiquement"
+
+#: ../src/item-cursor.c:1019
+msgid "Drag to move"
+msgstr "Glisser pour déplacer"
 
 #: ../src/libgnumeric.c:79
 msgid "Display Gnumeric's version"
@@ -10258,43 +10365,43 @@ msgstr "Option non valide pour l'exportation PDF"
 msgid "PDF export"
 msgstr "Exportation PDF"
 
-#: ../src/print.c:607
+#: ../src/print.c:605
 msgid "Even one cell is too large for this page."
 msgstr "Même une cellule est trop grande pour cette page."
 
-#: ../src/print.c:929
+#: ../src/print.c:927
 msgid "Print Selection"
 msgstr "Imprimer la sélection"
 
-#: ../src/print.c:1337
+#: ../src/print.c:1335
 msgid "_All workbook sheets"
 msgstr "_Toutes les feuilles du classeur"
 
-#: ../src/print.c:1342
+#: ../src/print.c:1340
 msgid "Also print _hidden sheets"
 msgstr "Imprimer aussi les feuilles _masquées"
 
-#: ../src/print.c:1347
+#: ../src/print.c:1345
 msgid "A_ctive workbook sheet"
 msgstr "Feuille act_ive du classeur"
 
-#: ../src/print.c:1352
+#: ../src/print.c:1350
 msgid "_Workbook sheets:"
 msgstr "Feuilles du _classeur :"
 
-#: ../src/print.c:1357
+#: ../src/print.c:1355
 msgid "Current _selection only"
 msgstr "Sélection _actuelle uniquement"
 
-#: ../src/print.c:1362
+#: ../src/print.c:1360
 msgid "_Ignore defined print area"
 msgstr "_Ignorer la zone d'impression définie"
 
-#: ../src/print.c:1366
+#: ../src/print.c:1364
 msgid "from:"
 msgstr "de :"
 
-#: ../src/print.c:1603
+#: ../src/print.c:1601
 msgid "Gnumeric Print Range"
 msgstr "Plage d'impression Gnumeric"
 
@@ -10473,15 +10580,15 @@ msgstr "%dL"
 msgid "(empty)"
 msgstr "(vide)"
 
-#: ../src/sheet-control-gui.c:1839
+#: ../src/sheet-control-gui.c:1812
 msgid "Cu_t"
 msgstr "Co_uper"
 
-#: ../src/sheet-control-gui.c:1843
+#: ../src/sheet-control-gui.c:1816
 msgid "_Paste"
 msgstr "C_oller"
 
-#: ../src/sheet-control-gui.c:1845
+#: ../src/sheet-control-gui.c:1818
 msgid "Paste _Special"
 msgstr "Collage _spécial"
 
@@ -10492,118 +10599,118 @@ msgstr "Collage _spécial"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: ../src/sheet-control-gui.c:1857
+#: ../src/sheet-control-gui.c:1830
 msgid "_Insert Cells..."
 msgstr "_Insérer cellules..."
 
-#: ../src/sheet-control-gui.c:1859
+#: ../src/sheet-control-gui.c:1832
 msgid "_Delete Cells..."
 msgstr "_Supprimer les cellules..."
 
-#: ../src/sheet-control-gui.c:1861
+#: ../src/sheet-control-gui.c:1834
 msgid "_Insert Column(s)"
 msgstr "_Insérer colonne(s)"
 
-#: ../src/sheet-control-gui.c:1863
+#: ../src/sheet-control-gui.c:1836
 msgid "_Delete Column(s)"
 msgstr "_Supprimer colonne(s)"
 
-#: ../src/sheet-control-gui.c:1865
+#: ../src/sheet-control-gui.c:1838
 msgid "_Insert Row(s)"
 msgstr "_Insérer ligne(s)"
 
-#: ../src/sheet-control-gui.c:1867
+#: ../src/sheet-control-gui.c:1840
 msgid "_Delete Row(s)"
 msgstr "_Supprimer ligne(s)"
 
-#: ../src/sheet-control-gui.c:1870
+#: ../src/sheet-control-gui.c:1843
 msgid "Clear Co_ntents"
 msgstr "Effacer le co_ntenu"
 
-#: ../src/sheet-control-gui.c:1872
+#: ../src/sheet-control-gui.c:1845
 msgid "Edit Co_mment..."
 msgstr "Modifier les co_mmentaires..."
 
-#: ../src/sheet-control-gui.c:1878
+#: ../src/sheet-control-gui.c:1851
 #, fuzzy
 msgid "_Edit DataSlicer"
 msgstr "_Extraire des données..."
 
-#: ../src/sheet-control-gui.c:1881
+#: ../src/sheet-control-gui.c:1854
 #, fuzzy
 msgid "_Refresh DataSlicer"
 msgstr "Crée un extrait de données"
 
-#: ../src/sheet-control-gui.c:1885
+#: ../src/sheet-control-gui.c:1858
 msgid "DataSlicer Field _Order "
 msgstr ""
 
-#: ../src/sheet-control-gui.c:1894
+#: ../src/sheet-control-gui.c:1867
 #, fuzzy
 msgid "Up"
 msgstr "p"
 
-#: ../src/sheet-control-gui.c:1897
+#: ../src/sheet-control-gui.c:1870
 #, fuzzy
 msgid "Down"
 msgstr "_Connu"
 
 #. end sub menu
-#: ../src/sheet-control-gui.c:1904
+#: ../src/sheet-control-gui.c:1877
 msgid "_Format Cells..."
 msgstr "_Format des cellules..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: ../src/sheet-control-gui.c:1908
+#: ../src/sheet-control-gui.c:1881
 msgid "Column _Width..."
 msgstr "Largeur de _colonne..."
 
-#: ../src/sheet-control-gui.c:1910 ../src/sheet-control-gui.c:1918
-#: ../src/wbc-gtk-actions.c:2028 ../src/wbc-gtk-actions.c:2045
+#: ../src/sheet-control-gui.c:1883 ../src/sheet-control-gui.c:1891
+#: ../src/wbc-gtk-actions.c:2024 ../src/wbc-gtk-actions.c:2041
 msgid "_Hide"
 msgstr "_Masquer"
 
-#: ../src/sheet-control-gui.c:1912 ../src/sheet-control-gui.c:1920
-#: ../src/wbc-gtk-actions.c:2031 ../src/wbc-gtk-actions.c:2048
+#: ../src/sheet-control-gui.c:1885 ../src/sheet-control-gui.c:1893
+#: ../src/wbc-gtk-actions.c:2027 ../src/wbc-gtk-actions.c:2044
 msgid "_Unhide"
 msgstr "A_fficher"
 
 #. Row specific (Note some labels duplicate col labels)
-#: ../src/sheet-control-gui.c:1916
+#: ../src/sheet-control-gui.c:1889
 msgid "_Row Height..."
 msgstr "_Hauteur de ligne..."
 
-#: ../src/sheet-control-gui.c:1923
+#: ../src/sheet-control-gui.c:1896
 msgid "_Hyperlink"
 msgstr "_Hyperlien"
 
-#: ../src/sheet-control-gui.c:1926
+#: ../src/sheet-control-gui.c:1899
 msgid "Edit _Hyperlink"
 msgstr "Éditer l'_hyperlien"
 
-#: ../src/sheet-control-gui.c:1929
+#: ../src/sheet-control-gui.c:1902
 msgid "_Remove Hyperlink"
 msgstr "_Supprimer l'hyperlien"
 
 #. This is somewhat cheesy and should use ngettext
-#: ../src/sheet-control-gui.c:2401
+#: ../src/sheet-control-gui.c:2357
 msgid "Duplicate Object"
 msgstr "Dupliquer l'objet"
 
-#: ../src/sheet-control-gui.c:2401
+#: ../src/sheet-control-gui.c:2357
 msgid "Insert Object"
 msgstr "Insérer l'objet"
 
-#: ../src/sheet-control-gui.c:2402
+#: ../src/sheet-control-gui.c:2358
 msgid "Move Object"
 msgstr "Déplacer l'objet"
 
-#: ../src/sheet-control-gui.c:2402
+#: ../src/sheet-control-gui.c:2358
 msgid "Resize Object"
 msgstr "Redimensionner l'objet"
 
 #. Format toolbar
-#: ../src/sheet-merge.c:74 ../src/wbc-gtk-actions.c:2301
+#: ../src/sheet-merge.c:74 ../src/wbc-gtk-actions.c:2300
 msgid "Merge"
 msgstr "Fusionner"
 
@@ -10616,122 +10723,122 @@ msgstr ""
 "Il y a déjà une région fusionnée qui recouvre \n"
 "%s!%s"
 
-#: ../src/sheet-object-graph.c:232 ../src/sheet-object-image.c:407
+#: ../src/sheet-object-graph.c:230 ../src/sheet-object-image.c:399
 #, c-format
 msgid "Unknown failure while saving image"
 msgstr "Erreur inconnu lors de l'enregistrement de l'image"
 
-#: ../src/sheet-object-graph.c:317
+#: ../src/sheet-object-graph.c:315
 msgid "_Save as Image"
 msgstr "_Enregistrer en tant qu'image"
 
-#: ../src/sheet-object-graph.c:318
+#: ../src/sheet-object-graph.c:316
 msgid "Open in _New Window"
 msgstr "Ouvrir dans une _nouvelle fenêtre"
 
-#: ../src/sheet-object-graph.c:663
+#: ../src/sheet-object-graph.c:661
 msgid "Series as:"
 msgstr "Suite telle que :"
 
-#: ../src/sheet-object-graph.c:667
+#: ../src/sheet-object-graph.c:665
 msgid "Auto"
 msgstr "Auto"
 
-#: ../src/sheet-object-graph.c:673
+#: ../src/sheet-object-graph.c:671
 msgid "Use first series as shared abscissa"
 msgstr "Utiliser la première série comme abscisse partagée"
 
-#: ../src/sheet-object-image.c:460
+#: ../src/sheet-object-image.c:452
 msgid "_Save as image"
 msgstr "_Enregistrer en tant qu'image"
 
-#: ../src/sheet-object-widget.c:347 ../src/wbc-gtk-actions.c:2260
+#: ../src/sheet-object-widget.c:336 ../src/wbc-gtk-actions.c:2259
 msgid "Frame"
 msgstr "Bordure"
 
-#: ../src/sheet-object-widget.c:588 ../src/wbc-gtk-actions.c:2293
+#: ../src/sheet-object-widget.c:577 ../src/wbc-gtk-actions.c:2292
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "Button"
 msgstr "Bouton"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:884
+#: ../src/sheet-object-widget.c:873
 msgid "Change widget"
 msgstr "Évènement widget"
 
-#: ../src/sheet-object-widget.c:1210
+#: ../src/sheet-object-widget.c:1199
 #, fuzzy
 msgid "Adjustment Properties"
 msgstr "Propriétés de la liste"
 
-#: ../src/sheet-object-widget.c:1396
+#: ../src/sheet-object-widget.c:1385
 #, fuzzy
 msgid "Configure Scrollbar"
 msgstr "Crée une barre de défilement"
 
-#: ../src/sheet-object-widget.c:1443
+#: ../src/sheet-object-widget.c:1432
 #, fuzzy
 msgid "Configure Spinbutton"
 msgstr "Crée un bouton tournant"
 
-#: ../src/sheet-object-widget.c:1444
+#: ../src/sheet-object-widget.c:1433
 #, fuzzy
 msgid "Spinbutton Properties"
 msgstr "Propriétés de la liste"
 
-#: ../src/sheet-object-widget.c:1494
+#: ../src/sheet-object-widget.c:1483
 #, fuzzy
 msgid "Configure Slider"
 msgstr "Configurer"
 
-#: ../src/sheet-object-widget.c:1495
+#: ../src/sheet-object-widget.c:1484
 #, fuzzy
 msgid "Slider Properties"
 msgstr "Propriétés de la barre de défilement"
 
-#: ../src/sheet-object-widget.c:1629
+#: ../src/sheet-object-widget.c:1618
 #, c-format
 msgid "CheckBox %d"
 msgstr "Case à cocher %d"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:1674
+#: ../src/sheet-object-widget.c:1663
 msgid "Clicking checkbox"
 msgstr "Clic sur une case à cocher"
 
-#: ../src/sheet-object-widget.c:2078 ../src/wbc-gtk-actions.c:2296
+#: ../src/sheet-object-widget.c:2067 ../src/wbc-gtk-actions.c:2295
 msgid "RadioButton"
 msgstr "Bouton radio"
 
-#: ../src/sheet-object-widget.c:2281
+#: ../src/sheet-object-widget.c:2270
 msgid "Clicking in list"
 msgstr "Clic dans une liste"
 
-#: ../src/sheet-object.c:67
+#: ../src/sheet-object.c:71
 msgid "Snap object to grid"
 msgstr "Aligner l'objet sur la grille"
 
-#: ../src/sheet-object.c:123
+#: ../src/sheet-object.c:127
 msgid "_Snap to Grid"
 msgstr "_Aligner sur la grille"
 
-#: ../src/sheet-object.c:124
+#: ../src/sheet-object.c:128
 msgid "_Order"
 msgstr "_Trier"
 
-#: ../src/sheet-object.c:125
+#: ../src/sheet-object.c:129
 msgid "Pul_l to Front"
 msgstr "Mettre en _avant plan"
 
-#: ../src/sheet-object.c:126
+#: ../src/sheet-object.c:130
 msgid "Pull _Forward"
 msgstr "_Remonter"
 
-#: ../src/sheet-object.c:127
+#: ../src/sheet-object.c:131
 msgid "Push _Backward"
 msgstr "_Descendre"
 
-#: ../src/sheet-object.c:128
+#: ../src/sheet-object.c:132
 msgid "Pus_h to Back"
 msgstr "Mettre à l'a_rrière plan"
 
@@ -10744,7 +10851,7 @@ msgid "Cut"
 msgstr "Couper"
 
 #. Oh, yeah?
-#: ../src/sheet.c:653
+#: ../src/sheet.c:649
 msgid ""
 "This is a special version of Gnumeric.  It has been compiled\n"
 "with support for a very large number of columns.  Access to the\n"
@@ -10756,325 +10863,325 @@ msgstr ""
 "L'accès à une colonne nommée VRAI peut créer un conflit avec\n"
 "la constante de même nom. Des anomalies sont probables."
 
-#: ../src/sheet.c:816
+#: ../src/sheet.c:808
 #, fuzzy
 msgid "Sheet Type"
 msgstr "Feuille"
 
-#: ../src/sheet.c:817
+#: ../src/sheet.c:809
 #, fuzzy
 msgid "How type of sheet this is."
 msgstr "Comment la feuille est visible."
 
-#: ../src/sheet.c:825
+#: ../src/sheet.c:817
 #, fuzzy
 msgid "Parent workbook"
 msgstr "_Protéger le classeur"
 
-#: ../src/sheet.c:826
+#: ../src/sheet.c:818
 msgid "The workbook in which this sheet lives"
 msgstr ""
 
-#: ../src/sheet.c:833
+#: ../src/sheet.c:825
 msgid "The name of the sheet."
 msgstr "Le nom de la feuille."
 
-#: ../src/sheet.c:838
+#: ../src/sheet.c:830
 msgid "text-is-rtl"
 msgstr "Texte de droite à gauche"
 
-#: ../src/sheet.c:839
+#: ../src/sheet.c:831
 msgid "Text goes from right to left."
 msgstr "Le texte est écrit de droite à gauche."
 
-#: ../src/sheet.c:844
+#: ../src/sheet.c:836
 msgid "Visibility"
 msgstr "Visibilité"
 
-#: ../src/sheet.c:845
+#: ../src/sheet.c:837
 msgid "How visible the sheet is."
 msgstr "Comment la feuille est visible."
 
-#: ../src/sheet.c:851
+#: ../src/sheet.c:843
 msgid "Display Formulas"
 msgstr "Afficher les formules"
 
-#: ../src/sheet.c:852
+#: ../src/sheet.c:844
 msgid "Control whether formulas are shown instead of values."
 msgstr "Détermine si les formules sont affichées plutôt que les valeurs."
 
-#: ../src/sheet.c:857
+#: ../src/sheet.c:849
 msgid "Display Zeros"
 msgstr "Afficher les zéros"
 
-#: ../src/sheet.c:858
+#: ../src/sheet.c:850
 msgid "Control whether zeros are shown are blanked out."
 msgstr "Détermine si les zéros sont affichés ou masqués."
 
-#: ../src/sheet.c:863
+#: ../src/sheet.c:855
 msgid "Display Grid"
 msgstr "Afficher la grille"
 
-#: ../src/sheet.c:864
+#: ../src/sheet.c:856
 msgid "Control whether the grid is shown."
 msgstr "Détermine si la grille est affichée."
 
-#: ../src/sheet.c:869
+#: ../src/sheet.c:861
 msgid "Display Column Headers"
 msgstr "Afficher les en-têtes de colonnes"
 
-#: ../src/sheet.c:870
+#: ../src/sheet.c:862
 msgid "Control whether column headers are shown."
 msgstr "Détermine si les en-têtes de colonnes sont affichées."
 
-#: ../src/sheet.c:875
+#: ../src/sheet.c:867
 msgid "Display Row Headers"
 msgstr "Afficher les en-têtes de lignes"
 
-#: ../src/sheet.c:876
+#: ../src/sheet.c:868
 msgid "Control whether row headers are shown."
 msgstr "Détermine si les en-têtes de lignes sont affichées."
 
-#: ../src/sheet.c:881
+#: ../src/sheet.c:873
 msgid "Display Outlines"
 msgstr "Afficher les contours"
 
-#: ../src/sheet.c:882
+#: ../src/sheet.c:874
 msgid "Control whether outlines are shown."
 msgstr "Détermine si les contours sont affichés."
 
-#: ../src/sheet.c:887
+#: ../src/sheet.c:879
 msgid "Display Outlines Below"
 msgstr "Afficher les contours en bas"
 
-#: ../src/sheet.c:888
+#: ../src/sheet.c:880
 msgid "Control whether outline symbols are shown below."
 msgstr "Détermine si les symboles de contour sont affichés en bas."
 
-#: ../src/sheet.c:893
+#: ../src/sheet.c:885
 msgid "Display Outlines Right"
 msgstr "Afficher les contours à droite"
 
-#: ../src/sheet.c:894
+#: ../src/sheet.c:886
 msgid "Control whether outline symbols are shown to the right."
 msgstr "Détermine si les symboles de contour sont affichés à droite."
 
-#: ../src/sheet.c:900 ../src/workbook-view.c:883
+#: ../src/sheet.c:892 ../src/workbook-view.c:883
 msgid "Protected"
 msgstr "Protégée"
 
-#: ../src/sheet.c:901
+#: ../src/sheet.c:893
 msgid "Sheet is protected."
 msgstr "La feuille est protégée."
 
-#: ../src/sheet.c:904
+#: ../src/sheet.c:896
 msgid "Protected Allow Edit objects"
 msgstr "La protection permet l'édition d'objets"
 
-#: ../src/sheet.c:905
+#: ../src/sheet.c:897
 msgid "Allow objects to be edited while a sheet is protected"
 msgstr "Permet la modification d'objets même si la feuille est protégée"
 
-#: ../src/sheet.c:908
+#: ../src/sheet.c:900
 msgid "Protected allow edit scenarios"
 msgstr "La protection permet l'édition de scénarios"
 
-#: ../src/sheet.c:909
+#: ../src/sheet.c:901
 msgid "Allow scenarios to be edited while a sheet is protected"
 msgstr "Permet la modification de scénarios même si la feuille est protégée"
 
-#: ../src/sheet.c:912
+#: ../src/sheet.c:904
 msgid "Protected allow cell formatting"
 msgstr "La protection permet la mise en forme de cellules"
 
-#: ../src/sheet.c:913
+#: ../src/sheet.c:905
 msgid "Allow cell format changes while a sheet is protected"
 msgstr ""
 "Permet la modification de la mise en forme des cellules même si la feuille "
 "est protégée"
 
-#: ../src/sheet.c:916
+#: ../src/sheet.c:908
 msgid "Protected allow column formatting"
 msgstr "La protection permet la mise en forme de colonnes"
 
-#: ../src/sheet.c:917
+#: ../src/sheet.c:909
 msgid "Allow column formatting while a sheet is protected"
 msgstr "Permet la mise en forme des colonnes même si la feuille est protégée"
 
-#: ../src/sheet.c:920
+#: ../src/sheet.c:912
 msgid "Protected allow row formatting"
 msgstr "La protection permet la mise en forme de lignes"
 
-#: ../src/sheet.c:921
+#: ../src/sheet.c:913
 msgid "Allow row formatting while a sheet is protected"
 msgstr "Permet la mise en forme des lignes même si la feuille est protégée"
 
-#: ../src/sheet.c:924
+#: ../src/sheet.c:916
 msgid "Protected allow insert columns"
 msgstr "La protection permet l'insertion de colonnes"
 
-#: ../src/sheet.c:925
+#: ../src/sheet.c:917
 msgid "Allow columns to be inserted while a sheet is protected"
 msgstr "Permet l'insertion de colonnes même si la feuille est protégée"
 
-#: ../src/sheet.c:928
+#: ../src/sheet.c:920
 msgid "Protected allow insert rows"
 msgstr "La protection permet l'insertion de lignes"
 
-#: ../src/sheet.c:929
+#: ../src/sheet.c:921
 msgid "Allow rows to be inserted while a sheet is protected"
 msgstr "Permet l'insertion de lignes même si la feuille est protégée"
 
-#: ../src/sheet.c:932
+#: ../src/sheet.c:924
 msgid "Protected allow insert hyperlinks"
 msgstr "La protection permet l'insertion d'hyperliens"
 
-#: ../src/sheet.c:933
+#: ../src/sheet.c:925
 msgid "Allow hyperlinks to be inserted while a sheet is protected"
 msgstr "Permet l'insertion d'hyperliens même si la feuille est protégée"
 
-#: ../src/sheet.c:936
+#: ../src/sheet.c:928
 msgid "Protected allow delete columns"
 msgstr "La protection permet la suppression de colonnes"
 
-#: ../src/sheet.c:937
+#: ../src/sheet.c:929
 msgid "Allow columns to be deleted while a sheet is protected"
 msgstr "Permet la suppression de colonnes même si la feuille est protégée"
 
-#: ../src/sheet.c:940
+#: ../src/sheet.c:932
 msgid "Protected allow delete rows"
 msgstr "La protection permet la suppression de lignes"
 
-#: ../src/sheet.c:941
+#: ../src/sheet.c:933
 msgid "Allow rows to be deleted while a sheet is protected"
 msgstr "Permettre la suppression de lignes même si la feuille est protégée"
 
-#: ../src/sheet.c:944
+#: ../src/sheet.c:936
 msgid "Protected allow select locked cells"
 msgstr "La protection permet la sélection de cellules verrouillées"
 
-#: ../src/sheet.c:945
+#: ../src/sheet.c:937
 msgid "Allow the user to select locked cells while a sheet is protected"
 msgstr ""
 "Permet à l'utilisateur de sélectionner des cellules verrouillées même si la "
 "feuille est protégée"
 
-#: ../src/sheet.c:948
+#: ../src/sheet.c:940
 msgid "Protected allow sort ranges"
 msgstr "La protection permet le tri des plages"
 
-#: ../src/sheet.c:949
+#: ../src/sheet.c:941
 msgid "Allow ranges to be sorted while a sheet is protected"
 msgstr "Permet le tri de plages même si la feuille est protégée"
 
-#: ../src/sheet.c:952
+#: ../src/sheet.c:944
 msgid "Protected allow edit auto filters"
 msgstr "La protection permet l'édition des filtres automatiques"
 
-#: ../src/sheet.c:953
+#: ../src/sheet.c:945
 msgid "Allow auto filters to be edited while a sheet is protected"
 msgstr ""
 "Permet la modification de filtres automatiques même si la feuille est "
 "protégée"
 
-#: ../src/sheet.c:956
+#: ../src/sheet.c:948
 msgid "Protected allow edit pivottable"
 msgstr "La protection permet l'édition de tables de pivot"
 
-#: ../src/sheet.c:957
+#: ../src/sheet.c:949
 msgid "Allow pivottable to be edited while a sheet is protected"
 msgstr ""
 "Permet la modification de la table pivot même si la feuille est protégée"
 
-#: ../src/sheet.c:960
+#: ../src/sheet.c:952
 msgid "Protected allow select unlocked cells"
 msgstr "La protection permet la sélection de cellules non verrouillées"
 
-#: ../src/sheet.c:961
+#: ../src/sheet.c:953
 msgid "Allow the user to select unlocked cells while a sheet is protected"
 msgstr ""
 "Permet à l'utilisateur de sélectionner des cellules non verrouillées même si "
 "la feuille est protégée"
 
-#: ../src/sheet.c:965
+#: ../src/sheet.c:957
 msgid "Display convention for expressions (default Gnumeric A1)"
 msgstr "Convention d'affichage pour les expressions (par défaut : A1)"
 
-#: ../src/sheet.c:966
+#: ../src/sheet.c:958
 msgid "How to format displayed expressions, (A1 vs R1C1, function names, ...)"
 msgstr ""
 "Manière d'afficher les expressions (A1 ou R1C1, noms de fonctions, ...)"
 
 #. convenience wrapper to CONVENTIONS
-#: ../src/sheet.c:970
+#: ../src/sheet.c:962
 msgid "Display convention for expressions as XLS_R1C1 vs default"
 msgstr ""
 "Convention d'affichage des expressions comme XLS_R1C1 au lieu de la valeur "
 "par défaut"
 
-#: ../src/sheet.c:971
+#: ../src/sheet.c:963
 msgid "How to format displayed expressions, (a convenience api)"
 msgstr "Manière d'afficher les expressions (une interface de commodité)"
 
-#: ../src/sheet.c:977
+#: ../src/sheet.c:969
 msgid "Tab Foreground"
 msgstr "Premier plan de l'onglet"
 
-#: ../src/sheet.c:978
+#: ../src/sheet.c:970
 msgid "The foreground color of the tab."
 msgstr "La couleur de premier plan de l'onglet."
 
-#: ../src/sheet.c:983
+#: ../src/sheet.c:975
 msgid "Tab Background"
 msgstr "Arrière-plan de l'onglet"
 
-#: ../src/sheet.c:984
+#: ../src/sheet.c:976
 msgid "The background color of the tab."
 msgstr "La couleur d'arrière-plan de l'onglet."
 
-#: ../src/sheet.c:991
+#: ../src/sheet.c:983
 msgid "Zoom Factor"
 msgstr "Facteur de zoom"
 
-#: ../src/sheet.c:992
+#: ../src/sheet.c:984
 msgid "The level of zoom used for this sheet."
 msgstr "Le niveau de zoom utilisé pour cette feuille."
 
-#: ../src/sheet.c:1002
+#: ../src/sheet.c:994
 #, fuzzy
 msgid "Columns number in the sheet"
 msgstr "Le nom de la feuille."
 
-#: ../src/sheet.c:1009
+#: ../src/sheet.c:1001
 #, fuzzy
 msgid "Rows number in the sheet"
 msgstr "Le nom de la feuille."
 
-#: ../src/sheet.c:3122
+#: ../src/sheet.c:3110
 msgid "Target region contains merged cells"
 msgstr "La région de destination contient des cellules fusionnées"
 
-#: ../src/sheet.c:3183
+#: ../src/sheet.c:3171
 msgid "cannot operate on merged cells"
 msgstr "Impossible d'effectuer l'opération sur des cellules fusionnées"
 
-#: ../src/sheet.c:3193
+#: ../src/sheet.c:3181
 msgid "cannot operate on array formulae"
 msgstr "Impossible d'effectuer l'opération sur des formules de tableaux"
 
-#: ../src/sheet.c:4419
+#: ../src/sheet.c:4406
 msgid "Insert Columns"
 msgstr "Insérer colonnes"
 
-#: ../src/sheet.c:4512
+#: ../src/sheet.c:4499
 msgid "Delete Columns"
 msgstr "Supprimer colonnes"
 
-#: ../src/sheet.c:4595
+#: ../src/sheet.c:4582
 msgid "Insert Rows"
 msgstr "Insérer lignes"
 
-#: ../src/sheet.c:4688
+#: ../src/sheet.c:4675
 msgid "Delete Rows"
 msgstr "Supprimer lignes"
 
@@ -12096,6 +12203,29 @@ msgstr "Les probabilités ne peuvent pas être toutes nulles."
 msgid "Random Numbers (%s)"
 msgstr "Nombres aléatoires (%s)"
 
+#: ../src/tools/random-generator-cor.c:64
+msgid "Cholesky Decomposition of the Covariance Matrix"
+msgstr ""
+
+#: ../src/tools/random-generator-cor.c:76
+msgid "Uncorrelated Random Variables"
+msgstr ""
+
+#: ../src/tools/random-generator-cor.c:101
+msgid "Correlated Random Variables"
+msgstr ""
+
+#: ../src/tools/random-generator-cor.c:144
+#, fuzzy, c-format
+msgid "Correlated Random Numbers (%s)"
+msgstr "Nombres aléatoires (%s)"
+
+#: ../src/tools/random-generator-cor.c:155
+#: ../src/tools/random-generator-cor.c:158
+#, fuzzy
+msgid "Correlated Random Numbers"
+msgstr "Nombres aléatoires"
+
 #: ../src/tools/scenarios.c:688 ../src/tools/scenarios.c:724
 msgid "Scenario Summary"
 msgstr "Résumé du scénario"
@@ -12162,20 +12292,23 @@ msgstr "Kurtosis"
 msgid "Range"
 msgstr "Intervalle"
 
-#: ../src/tools/simulation.c:256 ../src/wbc-gtk.c:4079
+#: ../src/tools/simulation.c:256 ../src/wbc-gtk.c:4111
 msgid "Count"
 msgstr "Compte"
 
 #: ../src/tools/simulation.c:257
-msgid "Confidence (95 %)"
+#, fuzzy
+msgid "Confidence (95%)"
 msgstr "Confiance (95 %)"
 
 #: ../src/tools/simulation.c:258
-msgid "Lower Limit (95 %)"
+#, fuzzy
+msgid "Lower Limit (95%)"
 msgstr "Limite inférieure (95%)"
 
 #: ../src/tools/simulation.c:259
-msgid "Upper Limit (95 %)"
+#, fuzzy
+msgid "Upper Limit (95%)"
 msgstr "Limite supérieure (95%)"
 
 #: ../src/tools/simulation.c:327
@@ -12741,7 +12874,7 @@ msgid "Default file saver is not available."
 msgstr "L'enregistreur de fichier par défaut n'est pas accessible."
 
 #. File->PrintArea
-#: ../src/wbc-gtk-actions.c:236 ../src/wbc-gtk-actions.c:1809
+#: ../src/wbc-gtk-actions.c:236 ../src/wbc-gtk-actions.c:1805
 msgid "Set Print Area"
 msgstr "Définir la zone d'impression"
 
@@ -12750,7 +12883,7 @@ msgstr "Définir la zone d'impression"
 msgid "Set Print Area to %s"
 msgstr "Définir la zone d'impression à %s"
 
-#: ../src/wbc-gtk-actions.c:259 ../src/wbc-gtk-actions.c:1812
+#: ../src/wbc-gtk-actions.c:259 ../src/wbc-gtk-actions.c:1808
 msgid "Clear Print Area"
 msgstr "Effacer la zone d'impression"
 
@@ -12782,43 +12915,43 @@ msgstr "Commentaire dans la cellule %s!%s"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: ../src/wbc-gtk-actions.c:791
+#: ../src/wbc-gtk-actions.c:785
 msgid "Insert rows"
 msgstr "Insérer lignes"
 
-#: ../src/wbc-gtk-actions.c:808
+#: ../src/wbc-gtk-actions.c:802
 msgid "Insert columns"
 msgstr "Insérer colonnes"
 
-#: ../src/wbc-gtk-actions.c:890
+#: ../src/wbc-gtk-actions.c:885
 msgid "Add Filter"
 msgstr "Ajouter un filtre"
 
-#: ../src/wbc-gtk-actions.c:902
+#: ../src/wbc-gtk-actions.c:897
 msgid "AutoFilter"
 msgstr "Filtre automatique"
 
-#: ../src/wbc-gtk-actions.c:902
+#: ../src/wbc-gtk-actions.c:897
 msgid "Requires more than 1 row"
 msgstr "Nécessite plus d'une ligne"
 
-#: ../src/wbc-gtk-actions.c:933 ../src/wbc-gtk-actions.c:953
+#: ../src/wbc-gtk-actions.c:928 ../src/wbc-gtk-actions.c:948
 msgid "Show Detail"
 msgstr "Afficher le détail"
 
-#: ../src/wbc-gtk-actions.c:933 ../src/wbc-gtk-actions.c:953
+#: ../src/wbc-gtk-actions.c:928 ../src/wbc-gtk-actions.c:948
 msgid "Hide Detail"
 msgstr "Masquer le détail"
 
-#: ../src/wbc-gtk-actions.c:940
+#: ../src/wbc-gtk-actions.c:935
 msgid "can only be performed on an existing group"
 msgstr "ne peut être réalisée que sur un groupe existant"
 
-#: ../src/wbc-gtk-actions.c:981
+#: ../src/wbc-gtk-actions.c:976
 msgid "Ungroup"
 msgstr "Dégrouper"
 
-#: ../src/wbc-gtk-actions.c:1034
+#: ../src/wbc-gtk-actions.c:1029
 #, c-format
 msgid ""
 "Unable to start the help browser (%s).\n"
@@ -12827,829 +12960,833 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:1138
+#: ../src/wbc-gtk-actions.c:1133
 msgid "Sort"
 msgstr "Trier"
 
-#: ../src/wbc-gtk-actions.c:1252
+#: ../src/wbc-gtk-actions.c:1247
 msgid "Set Horizontal Alignment"
 msgstr "Définir l'alignement horizontal"
 
-#: ../src/wbc-gtk-actions.c:1286
+#: ../src/wbc-gtk-actions.c:1281
 msgid "Set Vertical Alignment"
 msgstr "Définir l'alignement vertical"
 
-#: ../src/wbc-gtk-actions.c:1386
+#: ../src/wbc-gtk-actions.c:1381
 msgid "Set Font Style"
 msgstr "Définir le style de la police"
 
-#: ../src/wbc-gtk-actions.c:1418
+#: ../src/wbc-gtk-actions.c:1413
 msgid "Format as General"
 msgstr "Appliquer le format général"
 
-#: ../src/wbc-gtk-actions.c:1424
+#: ../src/wbc-gtk-actions.c:1419
 msgid "Format as Number"
 msgstr "Appliquer le format numérique"
 
-#: ../src/wbc-gtk-actions.c:1440
+#: ../src/wbc-gtk-actions.c:1435
 msgid "Format as Currency"
 msgstr "Appliquer le format financier"
 
-#: ../src/wbc-gtk-actions.c:1448
+#: ../src/wbc-gtk-actions.c:1443
 msgid "Format as Accounting"
 msgstr "Appliquer le format comptable"
 
-#: ../src/wbc-gtk-actions.c:1454 ../src/wbc-gtk-actions.c:1461
+#: ../src/wbc-gtk-actions.c:1449 ../src/wbc-gtk-actions.c:1456
 msgid "Format as Percentage"
 msgstr "Appliquer le format pourcentage"
 
-#: ../src/wbc-gtk-actions.c:1469
+#: ../src/wbc-gtk-actions.c:1464
 msgid "Format as Time"
 msgstr "Appliquer le format heure"
 
-#: ../src/wbc-gtk-actions.c:1476
+#: ../src/wbc-gtk-actions.c:1471
 msgid "Format as Date"
 msgstr "Appliquer le format date"
 
-#: ../src/wbc-gtk-actions.c:1500
+#: ../src/wbc-gtk-actions.c:1495
 msgid "Add Borders"
 msgstr "Ajouter des bordures"
 
-#: ../src/wbc-gtk-actions.c:1500
+#: ../src/wbc-gtk-actions.c:1495
 msgid "Remove borders"
 msgstr "Enlever les bordures"
 
-#: ../src/wbc-gtk-actions.c:1616
+#: ../src/wbc-gtk-actions.c:1611
 msgid "Increase precision"
 msgstr "Augmenter la précision"
 
-#: ../src/wbc-gtk-actions.c:1619
+#: ../src/wbc-gtk-actions.c:1614
 msgid "Decrease precision"
 msgstr "Diminuer la précision"
 
-#: ../src/wbc-gtk-actions.c:1621
+#: ../src/wbc-gtk-actions.c:1616
 msgid "Toggle thousands separator"
 msgstr "Utiliser ou non le séparateur des milliers"
 
-#: ../src/wbc-gtk-actions.c:1629
+#: ../src/wbc-gtk-actions.c:1624
 msgid "Copy down"
 msgstr "Copier en bas"
 
-#: ../src/wbc-gtk-actions.c:1635
+#: ../src/wbc-gtk-actions.c:1630
 msgid "Copy right"
 msgstr "Copier à droite"
 
-#: ../src/wbc-gtk-actions.c:1691
+#: ../src/wbc-gtk-actions.c:1686
 msgid "_File"
 msgstr "_Fichier"
 
-#: ../src/wbc-gtk-actions.c:1692
+#: ../src/wbc-gtk-actions.c:1687
 #, fuzzy
 msgid "New From Template"
 msgstr "Nom du modèle"
 
-#: ../src/wbc-gtk-actions.c:1693
+#: ../src/wbc-gtk-actions.c:1688
 msgid "Print Area"
 msgstr "Zone d'impression"
 
-#: ../src/wbc-gtk-actions.c:1694
+#: ../src/wbc-gtk-actions.c:1689
 msgid "_Edit"
 msgstr "É_dition"
 
-#: ../src/wbc-gtk-actions.c:1695
+#: ../src/wbc-gtk-actions.c:1690
 msgid "C_lear"
 msgstr "_Effacer"
 
-#: ../src/wbc-gtk-actions.c:1696
+#: ../src/wbc-gtk-actions.c:1691
 msgid "_Delete"
 msgstr "Su_pprimer"
 
-#: ../src/wbc-gtk-actions.c:1697
+#: ../src/wbc-gtk-actions.c:1692
 msgid "S_heet"
 msgstr "_Feuille"
 
-#: ../src/wbc-gtk-actions.c:1698
+#: ../src/wbc-gtk-actions.c:1693
 msgid "_Select"
 msgstr "_Sélectionner"
 
-#: ../src/wbc-gtk-actions.c:1699
-msgid "F_ill"
-msgstr "Rempl_ir"
-
-#: ../src/wbc-gtk-actions.c:1700
+#: ../src/wbc-gtk-actions.c:1694
 msgid "_View"
 msgstr "Afficha_ge"
 
-#: ../src/wbc-gtk-actions.c:1701
+#: ../src/wbc-gtk-actions.c:1695
 msgid "_Windows"
 msgstr "Fenêt_res"
 
-#: ../src/wbc-gtk-actions.c:1702
+#: ../src/wbc-gtk-actions.c:1696
 msgid "_Toolbars"
 msgstr "Barres d'_outils"
 
-#: ../src/wbc-gtk-actions.c:1703 ../src/wbc-gtk-actions.c:1886
+#: ../src/wbc-gtk-actions.c:1697 ../src/wbc-gtk-actions.c:1882
 msgid "_Insert"
 msgstr "_Insertion"
 
-#: ../src/wbc-gtk-actions.c:1704
+#: ../src/wbc-gtk-actions.c:1698
 msgid "_Names"
 msgstr "_Noms"
 
-#: ../src/wbc-gtk-actions.c:1705
+#: ../src/wbc-gtk-actions.c:1699
 msgid "S_pecial"
 msgstr "S_pécial"
 
-#: ../src/wbc-gtk-actions.c:1706
+#: ../src/wbc-gtk-actions.c:1700
 msgid "F_ormat"
 msgstr "For_mat"
 
-#: ../src/wbc-gtk-actions.c:1707
+#: ../src/wbc-gtk-actions.c:1701
 msgid "C_olumn"
 msgstr "C_olonne"
 
 #. ICK A DUPLICATE : we have no way to override a label on one proxy
-#: ../src/wbc-gtk-actions.c:1709 ../src/wbc-gtk-actions.c:1890
+#: ../src/wbc-gtk-actions.c:1703 ../src/wbc-gtk-actions.c:1886
 msgid "_Sheet"
 msgstr "_Feuille"
 
-#: ../src/wbc-gtk-actions.c:1710
+#: ../src/wbc-gtk-actions.c:1704
 msgid "_Tools"
 msgstr "_Outils"
 
-#: ../src/wbc-gtk-actions.c:1711
+#: ../src/wbc-gtk-actions.c:1705
 msgid "Sce_narios"
 msgstr "Scé_narios"
 
-#: ../src/wbc-gtk-actions.c:1712
+#: ../src/wbc-gtk-actions.c:1706
 msgid "Statistical Anal_ysis"
 msgstr "Anal_yse statistique"
 
-#: ../src/wbc-gtk-actions.c:1713
+#: ../src/wbc-gtk-actions.c:1707
 msgid "_ANOVA"
 msgstr "_ANOVA"
 
-#: ../src/wbc-gtk-actions.c:1714
+#: ../src/wbc-gtk-actions.c:1708
 #, fuzzy
 msgid "Contin_gency Table"
 msgstr "Table des fré_quences"
 
-#: ../src/wbc-gtk-actions.c:1715
+#: ../src/wbc-gtk-actions.c:1709
 msgid "F_orecast"
 msgstr "Prévisi_on"
 
-#: ../src/wbc-gtk-actions.c:1716
+#: ../src/wbc-gtk-actions.c:1710
 msgid "Fre_quency Tables"
 msgstr "Table des fré_quences"
 
-#: ../src/wbc-gtk-actions.c:1717
+#: ../src/wbc-gtk-actions.c:1711
 msgid "Two _Means"
 msgstr "Deux _Moyennes"
 
-#: ../src/wbc-gtk-actions.c:1718
+#: ../src/wbc-gtk-actions.c:1712
 msgid "_Data"
 msgstr "Do_nnées"
 
-#: ../src/wbc-gtk-actions.c:1719
+#: ../src/wbc-gtk-actions.c:1713
 msgid "_Filter"
 msgstr "_Filtrer"
 
-#: ../src/wbc-gtk-actions.c:1720
+#: ../src/wbc-gtk-actions.c:1714
+msgid "F_ill"
+msgstr "Rempl_ir"
+
+#: ../src/wbc-gtk-actions.c:1715
+msgid "_Random Generators"
+msgstr "_Générateurs aléatoires"
+
+#: ../src/wbc-gtk-actions.c:1716
 msgid "_Group and Outline"
 msgstr "_Groupe et contour"
 
-#: ../src/wbc-gtk-actions.c:1721
+#: ../src/wbc-gtk-actions.c:1717
 msgid "Get External _Data"
 msgstr "Obtention de données e_xternes"
 
-#: ../src/wbc-gtk-actions.c:1722
+#: ../src/wbc-gtk-actions.c:1718
 #, fuzzy
 msgid "Data S_licer"
 msgstr "_Extraire des données..."
 
-#: ../src/wbc-gtk-actions.c:1723
+#: ../src/wbc-gtk-actions.c:1719
 msgid "_Help"
 msgstr "_Aide"
 
-#: ../src/wbc-gtk-actions.c:1726
+#: ../src/wbc-gtk-actions.c:1722
 msgid "Save the current workbook"
 msgstr "Enregistre le classeur actuel"
 
-#: ../src/wbc-gtk-actions.c:1729
+#: ../src/wbc-gtk-actions.c:1725
 msgid "Save the current workbook with a different name"
 msgstr "Enregistre le classeur actuel sous un nouveau nom"
 
-#: ../src/wbc-gtk-actions.c:1732
+#: ../src/wbc-gtk-actions.c:1728
 msgid "Close the current file"
 msgstr "Ferme le fichier actuel"
 
-#: ../src/wbc-gtk-actions.c:1735
+#: ../src/wbc-gtk-actions.c:1731
 msgid "Quit the application"
 msgstr "Quitter l'application"
 
-#: ../src/wbc-gtk-actions.c:1739
+#: ../src/wbc-gtk-actions.c:1735
 msgid "Cut the selection"
 msgstr "Couper la sélection"
 
-#: ../src/wbc-gtk-actions.c:1742
+#: ../src/wbc-gtk-actions.c:1738
 msgid "Copy the selection"
 msgstr "Copier la sélection"
 
-#: ../src/wbc-gtk-actions.c:1745
+#: ../src/wbc-gtk-actions.c:1741
 msgid "Paste the clipboard"
 msgstr "Colle le contenu du presse-papiers"
 
-#: ../src/wbc-gtk-actions.c:1747 ../src/wbc-gtk.c:1534
+#: ../src/wbc-gtk-actions.c:1743 ../src/wbc-gtk.c:1540
 msgid "_Undo"
 msgstr "A_nnuler"
 
-#: ../src/wbc-gtk-actions.c:1748 ../src/wbc-gtk.c:2775
+#: ../src/wbc-gtk-actions.c:1744 ../src/wbc-gtk.c:2809
 msgid "Undo the last action"
 msgstr "Annuler la dernière action"
 
-#: ../src/wbc-gtk-actions.c:1750 ../src/wbc-gtk.c:1533
+#: ../src/wbc-gtk-actions.c:1746 ../src/wbc-gtk.c:1539
 msgid "_Redo"
 msgstr "_Refaire"
 
-#: ../src/wbc-gtk-actions.c:1751 ../src/wbc-gtk.c:2770
+#: ../src/wbc-gtk-actions.c:1747 ../src/wbc-gtk.c:2804
 msgid "Redo the undone action"
 msgstr "Rétablir une action annulée"
 
-#: ../src/wbc-gtk-actions.c:1754 ../src/wbc-gtk-actions.c:1829
+#: ../src/wbc-gtk-actions.c:1750 ../src/wbc-gtk-actions.c:1825
 msgid "_Contents"
 msgstr "_Contenu"
 
-#: ../src/wbc-gtk-actions.c:1755
+#: ../src/wbc-gtk-actions.c:1751
 msgid "Open a viewer for Gnumeric's documentation"
 msgstr "Affiche la documentation de Gnumeric"
 
-#: ../src/wbc-gtk-actions.c:1757
+#: ../src/wbc-gtk-actions.c:1753
 msgid "Gnumeric on the _Web"
 msgstr "Page Web de _Gnumeric"
 
-#: ../src/wbc-gtk-actions.c:1758
+#: ../src/wbc-gtk-actions.c:1754
 msgid "Browse to Gnumeric's website"
 msgstr "Navigue vers la page Web de Gnumeric"
 
-#: ../src/wbc-gtk-actions.c:1760
+#: ../src/wbc-gtk-actions.c:1756
 msgid "_Live Assistance"
 msgstr "_Assistance"
 
-#: ../src/wbc-gtk-actions.c:1761
+#: ../src/wbc-gtk-actions.c:1757
 msgid "See if anyone is available to answer questions"
 msgstr "Voir si quelqu'un est disponible pour réponde aux questions"
 
-#: ../src/wbc-gtk-actions.c:1763
+#: ../src/wbc-gtk-actions.c:1759
 msgid "Report a _Problem"
 msgstr "_Signaler un problème"
 
-#: ../src/wbc-gtk-actions.c:1764
+#: ../src/wbc-gtk-actions.c:1760
 msgid "Report problem"
 msgstr "Signale un problème"
 
-#: ../src/wbc-gtk-actions.c:1766
+#: ../src/wbc-gtk-actions.c:1762
 msgid "_About"
 msgstr "À _propos"
 
-#: ../src/wbc-gtk-actions.c:1767
+#: ../src/wbc-gtk-actions.c:1763
 msgid "About this application"
 msgstr "À propos de cette application"
 
-#: ../src/wbc-gtk-actions.c:1784
+#: ../src/wbc-gtk-actions.c:1780
 msgid "Create a new workbook"
 msgstr "Créer un nouveau classeur"
 
-#: ../src/wbc-gtk-actions.c:1787
+#: ../src/wbc-gtk-actions.c:1783
 msgid "Open a file"
 msgstr "Ouvrir un fichier"
 
-#: ../src/wbc-gtk-actions.c:1789
+#: ../src/wbc-gtk-actions.c:1785
 msgid "Sen_d To..."
 msgstr "En_voyer à..."
 
-#: ../src/wbc-gtk-actions.c:1790
+#: ../src/wbc-gtk-actions.c:1786
 msgid "Send the current file via email"
 msgstr "Envoie le fichier actuel par courriel"
 
-#: ../src/wbc-gtk-actions.c:1792
+#: ../src/wbc-gtk-actions.c:1788
 msgid "Page Set_up..."
 msgstr "_Configuration de l'impression..."
 
-#: ../src/wbc-gtk-actions.c:1793
+#: ../src/wbc-gtk-actions.c:1789
 msgid "Setup the page settings for your current printer"
 msgstr "Configure la mise en page pour votre imprimante"
 
-#: ../src/wbc-gtk-actions.c:1796
+#: ../src/wbc-gtk-actions.c:1792
 msgid "Print preview"
 msgstr "Aperçu avant impression"
 
-#: ../src/wbc-gtk-actions.c:1799
+#: ../src/wbc-gtk-actions.c:1795
 msgid "Print the current file"
 msgstr "Imprime le fichier actuel"
 
-#: ../src/wbc-gtk-actions.c:1801
+#: ../src/wbc-gtk-actions.c:1797
 msgid "Proper_ties..."
 msgstr "P_ropriétés..."
 
-#: ../src/wbc-gtk-actions.c:1802
+#: ../src/wbc-gtk-actions.c:1798
 msgid "Edit descriptive information"
 msgstr "Édite les informations supplémentaires"
 
-#: ../src/wbc-gtk-actions.c:1804
+#: ../src/wbc-gtk-actions.c:1800
 msgid "Full _History..."
 msgstr "_Historique complet..."
 
-#: ../src/wbc-gtk-actions.c:1805
+#: ../src/wbc-gtk-actions.c:1801
 msgid "Access previously used file"
 msgstr "Accède au fichier précédemment utilisé"
 
-#: ../src/wbc-gtk-actions.c:1810
+#: ../src/wbc-gtk-actions.c:1806
 msgid "Use the current selection as print area"
 msgstr "Utilise la sélection actuelle comme zone d'impression"
 
-#: ../src/wbc-gtk-actions.c:1813
+#: ../src/wbc-gtk-actions.c:1809
 msgid "Undefine the print area"
 msgstr "Annule la zone d'impression"
 
-#: ../src/wbc-gtk-actions.c:1815
+#: ../src/wbc-gtk-actions.c:1811
 msgid "Show Print Area"
 msgstr "Afficher la zone d'impression"
 
-#: ../src/wbc-gtk-actions.c:1816
+#: ../src/wbc-gtk-actions.c:1812
 msgid "Select the print area"
 msgstr "Sélectionne la zone d'impression"
 
-#: ../src/wbc-gtk-actions.c:1821
+#: ../src/wbc-gtk-actions.c:1817
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Efface les cellules sélectionnées : formats, commentaires et contenu"
 
-#: ../src/wbc-gtk-actions.c:1824
+#: ../src/wbc-gtk-actions.c:1820
 msgid "Clear the selected cells' formats"
 msgstr "Efface les formats des cellules sélectionnées"
 
-#: ../src/wbc-gtk-actions.c:1827
+#: ../src/wbc-gtk-actions.c:1823
 msgid "Clear the selected cells' comments"
 msgstr "Efface les commentaires des cellules sélectionnées"
 
-#: ../src/wbc-gtk-actions.c:1830
+#: ../src/wbc-gtk-actions.c:1826
 msgid "Clear the selected cells' contents"
 msgstr "Efface le contenu des cellules sélectionnées"
 
-#: ../src/wbc-gtk-actions.c:1835
+#: ../src/wbc-gtk-actions.c:1831
 msgid "Delete the row(s) containing the selected cells"
 msgstr "Supprime les lignes contenant les cellules sélectionnées"
 
-#: ../src/wbc-gtk-actions.c:1838
+#: ../src/wbc-gtk-actions.c:1834
 msgid "Delete the column(s) containing the selected cells"
 msgstr "Supprime les colonnes contenant les cellules sélectionnées"
 
 #. A duplicate that should not go into the menus, used only for the accelerator
 #. Insert
 #. A duplicate that should not go into the menus, used only for the accelerator
-#: ../src/wbc-gtk-actions.c:1840 ../src/wbc-gtk-actions.c:1844
-#: ../src/wbc-gtk-actions.c:1954 ../src/wbc-gtk-actions.c:1958
+#: ../src/wbc-gtk-actions.c:1836 ../src/wbc-gtk-actions.c:1840
+#: ../src/wbc-gtk-actions.c:1950 ../src/wbc-gtk-actions.c:1954
 msgid "C_ells..."
 msgstr "C_ellules..."
 
-#: ../src/wbc-gtk-actions.c:1841 ../src/wbc-gtk-actions.c:1845
+#: ../src/wbc-gtk-actions.c:1837 ../src/wbc-gtk-actions.c:1841
 msgid "Delete the selected cells, shifting others into their place"
 msgstr ""
 "Supprime les cellules sélectionnées en déplaçant les cellules adjacentes"
 
-#: ../src/wbc-gtk-actions.c:1856 ../src/wbc-gtk-actions.c:1860
+#: ../src/wbc-gtk-actions.c:1852 ../src/wbc-gtk-actions.c:1856
 msgid "Select all cells in the spreadsheet"
 msgstr "Sélectionne toutes les cellules dans la feuille"
 
-#: ../src/wbc-gtk-actions.c:1863
+#: ../src/wbc-gtk-actions.c:1859
 msgid "Select an entire column"
 msgstr "Sélectionne une colonne entière"
 
-#: ../src/wbc-gtk-actions.c:1866
+#: ../src/wbc-gtk-actions.c:1862
 msgid "Select an entire row"
 msgstr "Sélectionne une ligne entière"
 
-#: ../src/wbc-gtk-actions.c:1869
+#: ../src/wbc-gtk-actions.c:1865
 #, fuzzy
 msgid "Arra_y"
 msgstr "tableau"
 
-#: ../src/wbc-gtk-actions.c:1870
+#: ../src/wbc-gtk-actions.c:1866
 msgid "Select an array of cells"
 msgstr "Sélectionne un tableau de cellules"
 
-#: ../src/wbc-gtk-actions.c:1872
+#: ../src/wbc-gtk-actions.c:1868
 #, fuzzy
 msgid "_Depends"
 msgstr "Sélectionner les _dépendances"
 
-#: ../src/wbc-gtk-actions.c:1873
+#: ../src/wbc-gtk-actions.c:1869
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "Sélectionner toutes les cellules qui dépendent de la cellule active"
 
-#: ../src/wbc-gtk-actions.c:1875
+#: ../src/wbc-gtk-actions.c:1871
 #, fuzzy
 msgid "_Inputs"
 msgstr "_Entrée"
 
-#: ../src/wbc-gtk-actions.c:1876
+#: ../src/wbc-gtk-actions.c:1872
 msgid "Select all the cells are used by the current edit cell"
 msgstr ""
 "Sélectionne toutes les cellules qui sont utilisées par la cellule d'édition "
 "actuelle"
 
-#: ../src/wbc-gtk-actions.c:1878
+#: ../src/wbc-gtk-actions.c:1874
 msgid "_Goto cell..."
 msgstr "Aller à la cell_ule..."
 
-#: ../src/wbc-gtk-actions.c:1879
+#: ../src/wbc-gtk-actions.c:1875
 msgid "Jump to a specified cell"
 msgstr "Va à une cellule spécifique"
 
 #. Edit -> Sheet
-#: ../src/wbc-gtk-actions.c:1883
+#: ../src/wbc-gtk-actions.c:1879
 msgid "_Manage Sheets..."
 msgstr "_Gérer les feuilles..."
 
-#: ../src/wbc-gtk-actions.c:1884
+#: ../src/wbc-gtk-actions.c:1880
 msgid "Manage the sheets in this workbook"
 msgstr "Gère les feuilles dans le classeur"
 
-#: ../src/wbc-gtk-actions.c:1887 ../src/wbc-gtk-actions.c:1891
+#: ../src/wbc-gtk-actions.c:1883 ../src/wbc-gtk-actions.c:1887
 msgid "Insert a new sheet"
 msgstr "Insère une nouvelle feuille de calcul"
 
-#: ../src/wbc-gtk-actions.c:1893
+#: ../src/wbc-gtk-actions.c:1889
 msgid "_Append"
 msgstr "A_jouter"
 
-#: ../src/wbc-gtk-actions.c:1894
+#: ../src/wbc-gtk-actions.c:1890
 msgid "Append a new sheet"
 msgstr "Insère une nouvelle feuille de calcul après celle-ci"
 
-#: ../src/wbc-gtk-actions.c:1896
+#: ../src/wbc-gtk-actions.c:1892
 msgid "_Duplicate"
 msgstr "_Dupliquer"
 
-#: ../src/wbc-gtk-actions.c:1897
+#: ../src/wbc-gtk-actions.c:1893
 msgid "Make a copy of the current sheet"
 msgstr "Effectue une copie de la feuille active"
 
-#: ../src/wbc-gtk-actions.c:1900
+#: ../src/wbc-gtk-actions.c:1896
 msgid "Irrevocably remove an entire sheet"
 msgstr "Détruit irrémédiablement une feuille entière"
 
-#: ../src/wbc-gtk-actions.c:1902
+#: ../src/wbc-gtk-actions.c:1898
 msgid "Re_name"
 msgstr "Re_nommer"
 
-#: ../src/wbc-gtk-actions.c:1903
+#: ../src/wbc-gtk-actions.c:1899
 msgid "Rename the current sheet"
 msgstr "Renomme la feuille active"
 
-#: ../src/wbc-gtk-actions.c:1905 ../src/wbc-gtk.c:492
+#: ../src/wbc-gtk-actions.c:1901 ../src/wbc-gtk.c:492
 #, fuzzy
 msgid "Resize..."
 msgstr "_Séries..."
 
-#: ../src/wbc-gtk-actions.c:1906
+#: ../src/wbc-gtk-actions.c:1902
 #, fuzzy
 msgid "Change the size of the current sheet"
 msgstr "Insère le nom de la feuille actuelle"
 
 #. Edit
-#: ../src/wbc-gtk-actions.c:1910
+#: ../src/wbc-gtk-actions.c:1906
 msgid "Repeat"
 msgstr "Répéter"
 
-#: ../src/wbc-gtk-actions.c:1911
+#: ../src/wbc-gtk-actions.c:1907
 msgid "Repeat the previous action"
 msgstr "Répète l'action précédente"
 
-#: ../src/wbc-gtk-actions.c:1913
+#: ../src/wbc-gtk-actions.c:1909
 msgid "P_aste special..."
 msgstr "Coll_age spécial..."
 
-#: ../src/wbc-gtk-actions.c:1914
+#: ../src/wbc-gtk-actions.c:1910
 msgid "Paste with optional filters and transformations"
 msgstr "Colle avec des filtres et des transformations optionnels"
 
-#: ../src/wbc-gtk-actions.c:1917
+#: ../src/wbc-gtk-actions.c:1913
 msgid "Co_mment..."
 msgstr "Co_mmentaires..."
 
-#: ../src/wbc-gtk-actions.c:1918
+#: ../src/wbc-gtk-actions.c:1914
 msgid "Edit the selected cell's comment"
 msgstr "Édite le commentaire de la cellule sélectionnée"
 
-#: ../src/wbc-gtk-actions.c:1921
+#: ../src/wbc-gtk-actions.c:1917
 msgid "S_earch..."
 msgstr "Rec_hercher..."
 
-#: ../src/wbc-gtk-actions.c:1922
+#: ../src/wbc-gtk-actions.c:1918
 msgid "Search for something"
 msgstr "Recherche un texte"
 
-#: ../src/wbc-gtk-actions.c:1924
+#: ../src/wbc-gtk-actions.c:1920
 msgid "Search _& Replace..."
 msgstr "Rechercher et re_mplacer"
 
-#: ../src/wbc-gtk-actions.c:1925
+#: ../src/wbc-gtk-actions.c:1921
 msgid "Search for something and replace it with something else"
 msgstr "Recherche un texte et le remplace par un autre"
 
-#: ../src/wbc-gtk-actions.c:1928
+#: ../src/wbc-gtk-actions.c:1924
 msgid "Recalculate"
 msgstr "Recalculer"
 
-#: ../src/wbc-gtk-actions.c:1929
+#: ../src/wbc-gtk-actions.c:1925
 msgid "Recalculate the spreadsheet"
 msgstr "Recalcule la feuille"
 
-#: ../src/wbc-gtk-actions.c:1932
+#: ../src/wbc-gtk-actions.c:1928
 #, fuzzy
 msgid "Preferences..."
 msgstr "_Préférences..."
 
-#: ../src/wbc-gtk-actions.c:1933
+#: ../src/wbc-gtk-actions.c:1929
 msgid "Change Gnumeric Preferences"
 msgstr "Modifie les préférences de Gnumeric"
 
 #. View
-#: ../src/wbc-gtk-actions.c:1937
+#: ../src/wbc-gtk-actions.c:1933
 msgid "_New View..."
 msgstr "_Nouvelle vue..."
 
-#: ../src/wbc-gtk-actions.c:1938
+#: ../src/wbc-gtk-actions.c:1934
 msgid "Create a new view of the workbook"
 msgstr "Crée une nouvelle vue du classeur"
 
-#: ../src/wbc-gtk-actions.c:1940 ../src/wbc-gtk.c:1495
+#: ../src/wbc-gtk-actions.c:1936 ../src/wbc-gtk.c:1501
 msgid "_Freeze Panes"
 msgstr "_Figer les volets"
 
-#: ../src/wbc-gtk-actions.c:1941 ../src/wbc-gtk.c:1498
+#: ../src/wbc-gtk-actions.c:1937 ../src/wbc-gtk.c:1504
 msgid "Freeze the top left of the sheet"
 msgstr "Figer le coin en haut à gauche de la feuille"
 
-#: ../src/wbc-gtk-actions.c:1943
+#: ../src/wbc-gtk-actions.c:1939
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
-#: ../src/wbc-gtk-actions.c:1944
+#: ../src/wbc-gtk-actions.c:1940
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zoom avant ou arrière dans la feuille"
 
-#: ../src/wbc-gtk-actions.c:1946
+#: ../src/wbc-gtk-actions.c:1942
 msgid "Zoom _In"
 msgstr "Zoom _avant"
 
-#: ../src/wbc-gtk-actions.c:1947
+#: ../src/wbc-gtk-actions.c:1943
 msgid "Increase the zoom to make things larger"
 msgstr "Augmente le zoom pour agrandir l'affichage"
 
-#: ../src/wbc-gtk-actions.c:1949
+#: ../src/wbc-gtk-actions.c:1945
 msgid "Zoom _Out"
 msgstr "Zoom a_rrière"
 
-#: ../src/wbc-gtk-actions.c:1950
+#: ../src/wbc-gtk-actions.c:1946
 msgid "Decrease the zoom to make things smaller"
 msgstr "Diminue le zoom pour réduire l'affichage"
 
-#: ../src/wbc-gtk-actions.c:1955 ../src/wbc-gtk-actions.c:1959
+#: ../src/wbc-gtk-actions.c:1951 ../src/wbc-gtk-actions.c:1955
 msgid "Insert new cells"
 msgstr "Insère des nouvelles cellules"
 
-#: ../src/wbc-gtk-actions.c:1962
+#: ../src/wbc-gtk-actions.c:1958
 msgid "Insert new columns"
 msgstr "Insère des nouvelles colonnes"
 
-#: ../src/wbc-gtk-actions.c:1965
+#: ../src/wbc-gtk-actions.c:1961
 msgid "Insert new rows"
 msgstr "Insère des nouvelles lignes"
 
-#: ../src/wbc-gtk-actions.c:1968
+#: ../src/wbc-gtk-actions.c:1964
 msgid "C_hart..."
 msgstr "_Diagramme..."
 
-#: ../src/wbc-gtk-actions.c:1969
+#: ../src/wbc-gtk-actions.c:1965
 msgid "Insert a Chart"
 msgstr "Insère un diagramme"
 
-#: ../src/wbc-gtk-actions.c:1971
+#: ../src/wbc-gtk-actions.c:1967
 msgid "_Image..."
 msgstr "_Image..."
 
-#: ../src/wbc-gtk-actions.c:1972
+#: ../src/wbc-gtk-actions.c:1968
 msgid "Insert an image"
 msgstr "Insère une image"
 
-#: ../src/wbc-gtk-actions.c:1975
+#: ../src/wbc-gtk-actions.c:1971
 msgid "Hyper_link..."
 msgstr "_Hyperlien..."
 
-#: ../src/wbc-gtk-actions.c:1976
+#: ../src/wbc-gtk-actions.c:1972
 msgid "Insert a Hyperlink"
 msgstr "Insère un hyperlien"
 
 #. Insert -> Special
-#: ../src/wbc-gtk-actions.c:1979
+#: ../src/wbc-gtk-actions.c:1975
 msgid "Current _date"
 msgstr "_Date actuelle"
 
-#: ../src/wbc-gtk-actions.c:1980
+#: ../src/wbc-gtk-actions.c:1976
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Insère la date actuelle dans la(les) cellule(s) sélectionnée(s)"
 
-#: ../src/wbc-gtk-actions.c:1983
+#: ../src/wbc-gtk-actions.c:1979
 msgid "Current _time"
 msgstr "_Heure actuelle"
 
-#: ../src/wbc-gtk-actions.c:1984
+#: ../src/wbc-gtk-actions.c:1980
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Insère l'heure courante dans la(les) cellule(s) sélectionnée(s)"
 
-#: ../src/wbc-gtk-actions.c:1987
+#: ../src/wbc-gtk-actions.c:1983
 msgid "Current d_ate and time"
 msgstr "Heure et da_te actuelles"
 
-#: ../src/wbc-gtk-actions.c:1988
+#: ../src/wbc-gtk-actions.c:1984
 msgid "Insert the current date and time into the selected cell(s)"
 msgstr ""
 "Insère l'heure et la date actuelles dans la(les) cellule(s) sélectionnée(s)"
 
 #. Insert -> Name
-#: ../src/wbc-gtk-actions.c:1992
+#: ../src/wbc-gtk-actions.c:1988
 msgid "_Define..."
 msgstr "_Définir..."
 
-#: ../src/wbc-gtk-actions.c:1993
+#: ../src/wbc-gtk-actions.c:1989
 msgid "Edit sheet and workbook names"
 msgstr "Édite les noms des feuilles et des classeurs"
 
-#: ../src/wbc-gtk-actions.c:1996
+#: ../src/wbc-gtk-actions.c:1992
 msgid "Paste the definition of a name or names"
 msgstr "Colle la définition d'un ou plusieurs noms"
 
-#: ../src/wbc-gtk-actions.c:1999
+#: ../src/wbc-gtk-actions.c:1995
 msgid "_Auto generate names..."
 msgstr "Générer autom_atiquement les noms..."
 
-#: ../src/wbc-gtk-actions.c:2000
+#: ../src/wbc-gtk-actions.c:1996
 msgid "Use the current selection to create names"
 msgstr "Utilise la sélection actuelle pour créer les noms"
 
 #. Format
-#: ../src/wbc-gtk-actions.c:2005
+#: ../src/wbc-gtk-actions.c:2001
 msgid "_Cells..."
 msgstr "_Cellules..."
 
-#: ../src/wbc-gtk-actions.c:2006
+#: ../src/wbc-gtk-actions.c:2002
 msgid "Modify the formatting of the selected cells"
 msgstr "Modifie le formatage des cellules sélectionnées"
 
-#: ../src/wbc-gtk-actions.c:2008
+#: ../src/wbc-gtk-actions.c:2004
 msgid "_Workbook..."
 msgstr "Cla_sseur..."
 
-#: ../src/wbc-gtk-actions.c:2009
+#: ../src/wbc-gtk-actions.c:2005
 msgid "Modify the workbook attributes"
 msgstr "Modifie les attributs du classeur"
 
-#: ../src/wbc-gtk-actions.c:2011
+#: ../src/wbc-gtk-actions.c:2007
 msgid "_Gnumeric..."
 msgstr "_Gnumeric..."
 
-#: ../src/wbc-gtk-actions.c:2012
+#: ../src/wbc-gtk-actions.c:2008
 msgid "Edit the Gnumeric Preferences"
 msgstr "Modifie les préférences de Gnumeric"
 
-#: ../src/wbc-gtk-actions.c:2014
+#: ../src/wbc-gtk-actions.c:2010
 msgid "_Autoformat..."
 msgstr "Formatage _automatique..."
 
-#: ../src/wbc-gtk-actions.c:2015
+#: ../src/wbc-gtk-actions.c:2011
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Met en forme une région de cellules d'après un modèle prédéfini"
 
-#: ../src/wbc-gtk-actions.c:2017
+#: ../src/wbc-gtk-actions.c:2013
 msgid "Direction"
 msgstr "Direction"
 
-#: ../src/wbc-gtk-actions.c:2018
+#: ../src/wbc-gtk-actions.c:2014
 msgid "Toggle sheet direction, left-to-right vs right-to-left"
 msgstr ""
 "Bascule le sens de la feuille, de gauche à droite ou de droite à gauche"
 
 #. Format -> Col
-#: ../src/wbc-gtk-actions.c:2022
+#: ../src/wbc-gtk-actions.c:2018
 msgid "_Width..."
 msgstr "_Largeur..."
 
-#: ../src/wbc-gtk-actions.c:2023
+#: ../src/wbc-gtk-actions.c:2019
 msgid "Change width of the selected columns"
 msgstr "Change la largeur des colonnes sélectionnés"
 
-#: ../src/wbc-gtk-actions.c:2025 ../src/wbc-gtk-actions.c:2042
+#: ../src/wbc-gtk-actions.c:2021 ../src/wbc-gtk-actions.c:2038
 msgid "_Auto fit selection"
 msgstr "Largeur _automatique"
 
-#: ../src/wbc-gtk-actions.c:2026
+#: ../src/wbc-gtk-actions.c:2022
 msgid "Ensure columns are just wide enough to display content"
 msgstr "Ajuste précisément la largeur des colonnes à celle de leur contenu"
 
-#: ../src/wbc-gtk-actions.c:2029
+#: ../src/wbc-gtk-actions.c:2025
 msgid "Hide the selected columns"
 msgstr "Masquer les colonnes sélectionnées"
 
-#: ../src/wbc-gtk-actions.c:2032
+#: ../src/wbc-gtk-actions.c:2028
 msgid "Make any hidden columns in the selection visible"
 msgstr "Rend visibles toutes les colonnes masquées de la sélection"
 
-#: ../src/wbc-gtk-actions.c:2034
+#: ../src/wbc-gtk-actions.c:2030
 msgid "_Standard Width"
 msgstr "Largeur _standard"
 
-#: ../src/wbc-gtk-actions.c:2035
+#: ../src/wbc-gtk-actions.c:2031
 msgid "Change the default column width"
 msgstr "Change la largeur par défaut de la colonne"
 
 #. Format -> Row
-#: ../src/wbc-gtk-actions.c:2039
+#: ../src/wbc-gtk-actions.c:2035
 msgid "H_eight..."
 msgstr "_Hauteur..."
 
-#: ../src/wbc-gtk-actions.c:2040
+#: ../src/wbc-gtk-actions.c:2036
 msgid "Change height of the selected rows"
 msgstr "Change la hauteur des lignes sélectionnées"
 
-#: ../src/wbc-gtk-actions.c:2043
+#: ../src/wbc-gtk-actions.c:2039
 msgid "Ensure rows are just tall enough to display content"
 msgstr "Ajuste précisément la hauteur des lignes à celle de leur contenu"
 
-#: ../src/wbc-gtk-actions.c:2046
+#: ../src/wbc-gtk-actions.c:2042
 msgid "Hide the selected rows"
 msgstr "Masque les lignes sélectionnées"
 
-#: ../src/wbc-gtk-actions.c:2049
+#: ../src/wbc-gtk-actions.c:2045
 msgid "Make any hidden rows in the selection visible"
 msgstr "Rend visibles toutes les lignes masquées de la sélection"
 
-#: ../src/wbc-gtk-actions.c:2051
+#: ../src/wbc-gtk-actions.c:2047
 msgid "_Standard Height"
 msgstr "Hauteur _standard"
 
-#: ../src/wbc-gtk-actions.c:2052
+#: ../src/wbc-gtk-actions.c:2048
 msgid "Change the default row height"
 msgstr "Change la hauteur par défaut de la ligne"
 
 #. Tools
-#: ../src/wbc-gtk-actions.c:2056
+#: ../src/wbc-gtk-actions.c:2052
 msgid "_Plug-ins..."
 msgstr "_Greffons..."
 
-#: ../src/wbc-gtk-actions.c:2057
+#: ../src/wbc-gtk-actions.c:2053
 msgid "Manage available plugin modules"
 msgstr "Gère les greffons disponibles"
 
-#: ../src/wbc-gtk-actions.c:2059
+#: ../src/wbc-gtk-actions.c:2055
 msgid "Auto _Correct..."
 msgstr "_Correction automatique..."
 
-#: ../src/wbc-gtk-actions.c:2060
+#: ../src/wbc-gtk-actions.c:2056
 msgid "Automatically perform simple spell checking"
 msgstr "Réalise automatiquement une vérification orthographique simple"
 
-#: ../src/wbc-gtk-actions.c:2062
+#: ../src/wbc-gtk-actions.c:2058
 msgid "_Auto Save..."
 msgstr "Enregistrement _automatique..."
 
-#: ../src/wbc-gtk-actions.c:2063
+#: ../src/wbc-gtk-actions.c:2059
 msgid "Automatically save the current document at regular intervals"
 msgstr "Enregistre automatiquement le document à intervalles réguliers"
 
-#: ../src/wbc-gtk-actions.c:2065
+#: ../src/wbc-gtk-actions.c:2061
 msgid "_Goal Seek..."
 msgstr "_Résolveur..."
 
-#: ../src/wbc-gtk-actions.c:2066
+#: ../src/wbc-gtk-actions.c:2062
 msgid "Iteratively recalculate to find a target value"
 msgstr "Recalcule de façon itérative pour obtenir une valeur cible"
 
-#: ../src/wbc-gtk-actions.c:2068
+#: ../src/wbc-gtk-actions.c:2064
 msgid "_Solver..."
 msgstr "_Solveur..."
 
-#: ../src/wbc-gtk-actions.c:2069
+#: ../src/wbc-gtk-actions.c:2065
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 "Recalcule de façon itérative et avec des contraintes, pour obtenir une "
 "valeur approchée"
 
-#: ../src/wbc-gtk-actions.c:2071
+#: ../src/wbc-gtk-actions.c:2067
 msgid "Si_mulation..."
 msgstr "Si_mulation..."
 
-#: ../src/wbc-gtk-actions.c:2072
+#: ../src/wbc-gtk-actions.c:2068
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
@@ -13658,106 +13795,106 @@ msgstr ""
 "obtenir des résultats probables et les risques s'y rapportant"
 
 #. Tools -> Scenarios
-#: ../src/wbc-gtk-actions.c:2077
+#: ../src/wbc-gtk-actions.c:2073
 msgid "_View..."
 msgstr "_Vue..."
 
-#: ../src/wbc-gtk-actions.c:2078
+#: ../src/wbc-gtk-actions.c:2074
 msgid "View, delete and report different scenarios"
 msgstr "Affiche, supprime ou rapporte différents scénarios"
 
-#: ../src/wbc-gtk-actions.c:2080
+#: ../src/wbc-gtk-actions.c:2076
 msgid "_Add..."
 msgstr "A_jouter..."
 
-#: ../src/wbc-gtk-actions.c:2081
+#: ../src/wbc-gtk-actions.c:2077
 msgid "Add a new scenario"
 msgstr "Ajoute un nouveau scénario"
 
 #. Tools -> ANOVA
-#: ../src/wbc-gtk-actions.c:2085
+#: ../src/wbc-gtk-actions.c:2081
 msgid "_One Factor..."
 msgstr "Facteur _unique..."
 
-#: ../src/wbc-gtk-actions.c:2086
+#: ../src/wbc-gtk-actions.c:2082
 msgid "One Factor Analysis of Variance..."
 msgstr "Analyse de variance à un facteur..."
 
-#: ../src/wbc-gtk-actions.c:2088
+#: ../src/wbc-gtk-actions.c:2084
 msgid "_Two Factor..."
 msgstr "_Deux facteurs..."
 
-#: ../src/wbc-gtk-actions.c:2089
+#: ../src/wbc-gtk-actions.c:2085
 msgid "Two Factor Analysis of Variance..."
 msgstr "Analyse de la variance à deux facteurs..."
 
 #. Tools -> Chi Square Tests
-#: ../src/wbc-gtk-actions.c:2093
+#: ../src/wbc-gtk-actions.c:2089
 msgid "Test of _Homogeneity..."
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:2094
+#: ../src/wbc-gtk-actions.c:2090
 msgid "Chi Squared Test of Homogeneity..."
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:2096
+#: ../src/wbc-gtk-actions.c:2092
 msgid "Test of _Independence..."
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:2097
+#: ../src/wbc-gtk-actions.c:2093
 msgid "Chi Squared Test of Independence..."
 msgstr ""
 
 #. Tools -> Forecasting
-#: ../src/wbc-gtk-actions.c:2101
+#: ../src/wbc-gtk-actions.c:2097
 msgid "_Exponential Smoothing..."
 msgstr "Lissage _exponentiel..."
 
-#: ../src/wbc-gtk-actions.c:2102
+#: ../src/wbc-gtk-actions.c:2098
 msgid "Exponential smoothing..."
 msgstr "Lissage exponentiel..."
 
-#: ../src/wbc-gtk-actions.c:2104
+#: ../src/wbc-gtk-actions.c:2100
 msgid "_Moving Average..."
 msgstr "_Moyenne glissante..."
 
-#: ../src/wbc-gtk-actions.c:2105
+#: ../src/wbc-gtk-actions.c:2101
 msgid "Moving average..."
 msgstr "Moyenne glissante..."
 
 #. Tools -> Frequency Tables
-#: ../src/wbc-gtk-actions.c:2109
+#: ../src/wbc-gtk-actions.c:2105
 msgid "Fre_quency Tables..."
 msgstr "Tables de fré_quences..."
 
-#: ../src/wbc-gtk-actions.c:2110
+#: ../src/wbc-gtk-actions.c:2106
 msgid "Frequency tables for non-numeric data"
 msgstr "Tables de fréquances pour les données non numériques."
 
-#: ../src/wbc-gtk-actions.c:2112
+#: ../src/wbc-gtk-actions.c:2108
 msgid "_Histogram..."
 msgstr "_Histogramme..."
 
-#: ../src/wbc-gtk-actions.c:2113
+#: ../src/wbc-gtk-actions.c:2109
 msgid "Various frequency tables for numeric data"
 msgstr "Diverses tables de fréquences pour les données numériques"
 
 #. Tools -> Two Means
-#: ../src/wbc-gtk-actions.c:2117
+#: ../src/wbc-gtk-actions.c:2113
 msgid "_Paired Samples: T-Test..."
 msgstr "Échantillons a_ppariés : Test T..."
 
-#: ../src/wbc-gtk-actions.c:2118
+#: ../src/wbc-gtk-actions.c:2114
 msgid "Comparing two population means for two paired samples: t-test..."
 msgstr ""
 "Comparaison de la moyenne de 2 populations pour des échantillons appariés : "
 "test T..."
 
-#: ../src/wbc-gtk-actions.c:2121
+#: ../src/wbc-gtk-actions.c:2117
 msgid "Unpaired Samples, _Equal Variances: T-Test..."
 msgstr "Échantillons non appariés, var. é_gales : test T..."
 
-#: ../src/wbc-gtk-actions.c:2122
+#: ../src/wbc-gtk-actions.c:2118
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances: t-test..."
@@ -13765,11 +13902,11 @@ msgstr ""
 "Comparaison de la moyenne de 2 populations pour des échantillons non "
 "appariés de population d'égale variance : test T..."
 
-#: ../src/wbc-gtk-actions.c:2125
+#: ../src/wbc-gtk-actions.c:2121
 msgid "Unpaired Samples, _Unequal Variances: T-Test..."
 msgstr "Échantillons non appariés, var. _différentes : test T..."
 
-#: ../src/wbc-gtk-actions.c:2126
+#: ../src/wbc-gtk-actions.c:2122
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances: t-test..."
@@ -13777,11 +13914,11 @@ msgstr ""
 "Comparaison de la moyenne de 2 populations pour des échantillons non "
 "appariés de populations d'inégale variance : test T..."
 
-#: ../src/wbc-gtk-actions.c:2129
+#: ../src/wbc-gtk-actions.c:2125
 msgid "_Known Variances: Z-Test..."
 msgstr "_Variances connue: Test Z..."
 
-#: ../src/wbc-gtk-actions.c:2130
+#: ../src/wbc-gtk-actions.c:2126
 msgid ""
 "Comparing two population means from populations with known variances: z-"
 "test..."
@@ -13790,278 +13927,288 @@ msgstr ""
 "variance connue : test Z..."
 
 #. Tools -> Analysis
-#: ../src/wbc-gtk-actions.c:2134
+#: ../src/wbc-gtk-actions.c:2130
 msgid "_Correlation..."
 msgstr "_Corrélation..."
 
-#: ../src/wbc-gtk-actions.c:2135
+#: ../src/wbc-gtk-actions.c:2131
 msgid "Pearson Correlation"
 msgstr "Corrélation Pearson"
 
-#: ../src/wbc-gtk-actions.c:2137
+#: ../src/wbc-gtk-actions.c:2133
 msgid "Co_variance..."
 msgstr "Co_variance..."
 
-#: ../src/wbc-gtk-actions.c:2140
+#: ../src/wbc-gtk-actions.c:2136
 msgid "_Descriptive Statistics..."
 msgstr "Statistiques d_escriptives..."
 
-#: ../src/wbc-gtk-actions.c:2141
+#: ../src/wbc-gtk-actions.c:2137
 msgid "Various summary statistics"
 msgstr "Diverses statistiques résumées"
 
-#: ../src/wbc-gtk-actions.c:2143
+#: ../src/wbc-gtk-actions.c:2139
 msgid "_Fourier Analysis..."
 msgstr "Analyse de _Fourier..."
 
-#: ../src/wbc-gtk-actions.c:2146
+#: ../src/wbc-gtk-actions.c:2142
 msgid "Ranks And _Percentiles..."
 msgstr "Ordres et _Pourcentages..."
 
-#: ../src/wbc-gtk-actions.c:2147
+#: ../src/wbc-gtk-actions.c:2143
 msgid "Ranks, placements and percentiles"
 msgstr "Ordre, classements et pourcentages"
 
-#: ../src/wbc-gtk-actions.c:2149
+#: ../src/wbc-gtk-actions.c:2145
 msgid "_Regression..."
 msgstr "_Régression..."
 
-#: ../src/wbc-gtk-actions.c:2150
+#: ../src/wbc-gtk-actions.c:2146
 msgid "Regression Analysis"
 msgstr "Analyse par régression"
 
-#: ../src/wbc-gtk-actions.c:2152
+#: ../src/wbc-gtk-actions.c:2148
 msgid "_Sampling..."
 msgstr "Écha_ntillonnage..."
 
-#: ../src/wbc-gtk-actions.c:2153
+#: ../src/wbc-gtk-actions.c:2149
 msgid "Periodic and random samples"
 msgstr "Échantillons périodiques et aléatoires"
 
-#: ../src/wbc-gtk-actions.c:2155
+#: ../src/wbc-gtk-actions.c:2151
 msgid "_Two Variances: FTest..."
 msgstr "_Deux variances : FTest..."
 
-#: ../src/wbc-gtk-actions.c:2156
+#: ../src/wbc-gtk-actions.c:2152
 msgid "Comparing two population variances"
 msgstr "Comparaison de la variance de deux populations"
 
-#: ../src/wbc-gtk-actions.c:2158
+#: ../src/wbc-gtk-actions.c:2154
 msgid "_Kaplan-Meier Estimates..."
 msgstr "Estimations de _Kaplan-Meier..."
 
-#: ../src/wbc-gtk-actions.c:2159
+#: ../src/wbc-gtk-actions.c:2155
 msgid "Creation of Kaplan-Meier Survival Curves"
 msgstr "Création de courbes de survies de Kaplan-Meier"
 
 #. Data
-#: ../src/wbc-gtk-actions.c:2163
+#: ../src/wbc-gtk-actions.c:2159
 msgid "_Sort..."
 msgstr "T_rier..."
 
-#: ../src/wbc-gtk-actions.c:2164
+#: ../src/wbc-gtk-actions.c:2160
 msgid "Sort the selected region"
 msgstr "Trie la région sélectionnée"
 
-#: ../src/wbc-gtk-actions.c:2166
+#: ../src/wbc-gtk-actions.c:2162
 msgid "Sh_uffle..."
 msgstr "_Réarranger..."
 
-#: ../src/wbc-gtk-actions.c:2167
+#: ../src/wbc-gtk-actions.c:2163
 msgid "Shuffle cells, rows or columns"
 msgstr "Réarrange des cellules, des lignes ou des colonnes"
 
-#: ../src/wbc-gtk-actions.c:2169
+#: ../src/wbc-gtk-actions.c:2165
 msgid "_Validate..."
 msgstr "_Valider..."
 
-#: ../src/wbc-gtk-actions.c:2170
+#: ../src/wbc-gtk-actions.c:2166
 msgid "Validate input with preset criteria"
 msgstr "Valide les saisies avec des critères prédéfinis"
 
-#: ../src/wbc-gtk-actions.c:2172
+#: ../src/wbc-gtk-actions.c:2168
 msgid "T_ext to Columns..."
 msgstr "T_exte vers colonnes..."
 
-#: ../src/wbc-gtk-actions.c:2173
+#: ../src/wbc-gtk-actions.c:2169
 msgid "Parse the text in the selection into data"
 msgstr "Crée des données à partir du texte contenu dans la sélection"
 
-#: ../src/wbc-gtk-actions.c:2175
+#: ../src/wbc-gtk-actions.c:2171
 msgid "_Consolidate..."
 msgstr "_Consolider..."
 
-#: ../src/wbc-gtk-actions.c:2176
+#: ../src/wbc-gtk-actions.c:2172
 msgid "Consolidate regions using a function"
 msgstr "Consolide des régions grâce à une fonction"
 
-#: ../src/wbc-gtk-actions.c:2178
+#: ../src/wbc-gtk-actions.c:2174
 msgid "_Table..."
 msgstr "_Tableau..."
 
-#: ../src/wbc-gtk-actions.c:2179
+#: ../src/wbc-gtk-actions.c:2175
 msgid "Create a Data Table to evaluate a function with multiple inputs"
 msgstr ""
 "Crée un tableau de données pour évaluer une fonction avec des entrées "
 "multiples"
 
 #. Data -> Fill
-#: ../src/wbc-gtk-actions.c:2183
+#: ../src/wbc-gtk-actions.c:2179
 msgid "Auto_fill"
 msgstr "_Remplissage auto"
 
-#: ../src/wbc-gtk-actions.c:2184
+#: ../src/wbc-gtk-actions.c:2180
 msgid "Automatically fill the current selection"
 msgstr "Remplit automatiquement la sélection actuelle"
 
-#: ../src/wbc-gtk-actions.c:2186
+#: ../src/wbc-gtk-actions.c:2182
 msgid "_Merge..."
 msgstr "_Fusionner..."
 
-#: ../src/wbc-gtk-actions.c:2187
+#: ../src/wbc-gtk-actions.c:2183
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 "Fusionne les données en colonne dans une feuille, en dupliquant les feuilles "
 "pour chaque ligne"
 
-#: ../src/wbc-gtk-actions.c:2189
+#: ../src/wbc-gtk-actions.c:2185
 msgid "_Tabulate Dependency..."
 msgstr "_Table de dépendances..."
 
-#: ../src/wbc-gtk-actions.c:2190
+#: ../src/wbc-gtk-actions.c:2186
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr ""
 "Génère une table de la valeur d'une cellule en fonction d'autres cellules"
 
-#: ../src/wbc-gtk-actions.c:2192
+#: ../src/wbc-gtk-actions.c:2188
 msgid "_Series..."
 msgstr "_Séries..."
 
-#: ../src/wbc-gtk-actions.c:2193
+#: ../src/wbc-gtk-actions.c:2189
 msgid "Fill according to a linear or exponential series"
 msgstr "Remplit selon une suite linéaire ou exponentielle"
 
-#: ../src/wbc-gtk-actions.c:2195
-msgid "_Random Generator..."
-msgstr "_Générateur de nombres aléatoires..."
+#: ../src/wbc-gtk-actions.c:2191
+#, fuzzy
+msgid "_Uncorrelated..."
+msgstr "_Corrélation..."
 
-#: ../src/wbc-gtk-actions.c:2196
+#: ../src/wbc-gtk-actions.c:2192
 msgid "Generate random numbers of a selection of distributions"
 msgstr "Génère des nombres aléatoires à partir d'un choix de distributions"
 
+#: ../src/wbc-gtk-actions.c:2194
+#, fuzzy
+msgid "_Correlated..."
+msgstr "_Corrélation..."
+
+#: ../src/wbc-gtk-actions.c:2195
+msgid "Generate varaites for correlated normal distributed random variables"
+msgstr ""
+
 #. Data -> Outline
-#: ../src/wbc-gtk-actions.c:2201
+#: ../src/wbc-gtk-actions.c:2200
 msgid "_Hide Detail"
 msgstr "_Masquer les détails"
 
-#: ../src/wbc-gtk-actions.c:2202
+#: ../src/wbc-gtk-actions.c:2201
 msgid "Collapse an outline group"
 msgstr "Comprime un groupe"
 
-#: ../src/wbc-gtk-actions.c:2204
+#: ../src/wbc-gtk-actions.c:2203
 msgid "_Show Detail"
 msgstr "_Afficher les détails"
 
-#: ../src/wbc-gtk-actions.c:2205
+#: ../src/wbc-gtk-actions.c:2204
 msgid "Uncollapse an outline group"
 msgstr "Déploie un groupe"
 
-#: ../src/wbc-gtk-actions.c:2207
+#: ../src/wbc-gtk-actions.c:2206
 msgid "_Group..."
 msgstr "_Grouper..."
 
-#: ../src/wbc-gtk-actions.c:2208
+#: ../src/wbc-gtk-actions.c:2207
 msgid "Add an outline group"
 msgstr "Ajoute un groupe"
 
-#: ../src/wbc-gtk-actions.c:2210
+#: ../src/wbc-gtk-actions.c:2209
 msgid "_Ungroup..."
 msgstr "_Dégrouper..."
 
-#: ../src/wbc-gtk-actions.c:2211
+#: ../src/wbc-gtk-actions.c:2210
 msgid "Remove an outline group"
 msgstr "Supprime un groupe"
 
 #. Data -> Filter
-#: ../src/wbc-gtk-actions.c:2215 ../src/wbc-gtk.c:1506
+#: ../src/wbc-gtk-actions.c:2214 ../src/wbc-gtk.c:1512
 msgid "Add _Auto Filter"
 msgstr "Ajouter un filtre _avancé"
 
-#: ../src/wbc-gtk-actions.c:2216
+#: ../src/wbc-gtk-actions.c:2215
 msgid "Add or remove a filter"
 msgstr "Ajoute ou supprime un filtre"
 
-#: ../src/wbc-gtk-actions.c:2218
+#: ../src/wbc-gtk-actions.c:2217
 msgid "_Show All"
 msgstr "_Tout afficher"
 
-#: ../src/wbc-gtk-actions.c:2219
+#: ../src/wbc-gtk-actions.c:2218
 msgid "Show all filtered and hidden rows"
 msgstr "Affiche toutes les lignes filtrées ou masquées"
 
-#: ../src/wbc-gtk-actions.c:2221
+#: ../src/wbc-gtk-actions.c:2220
 msgid "Advanced _Filter..."
 msgstr "_Filtre avancé..."
 
-#: ../src/wbc-gtk-actions.c:2222
+#: ../src/wbc-gtk-actions.c:2221
 msgid "Filter data with given criteria"
 msgstr "Filtre les données avec les critères indiqués"
 
 #. Data -> External
-#: ../src/wbc-gtk-actions.c:2225
+#: ../src/wbc-gtk-actions.c:2224
 msgid "Import _Text File..."
 msgstr "Importer un fichier _texte..."
 
-#: ../src/wbc-gtk-actions.c:2226
+#: ../src/wbc-gtk-actions.c:2225
 msgid "Import the text from a file"
 msgstr "Importe le texte à partir d'un fichier"
 
 #. Data -> Data Slicer
 #. label and tip are context dependent, see wbcg_menu_state_update
-#: ../src/wbc-gtk-actions.c:2231
+#: ../src/wbc-gtk-actions.c:2230
 #, fuzzy
 msgid "Add _Data Slicer"
 msgstr "_Extraire des données..."
 
-#: ../src/wbc-gtk-actions.c:2232
+#: ../src/wbc-gtk-actions.c:2231
 #, fuzzy
 msgid "Create a data slicer"
 msgstr "Crée un extrait de données"
 
-#: ../src/wbc-gtk-actions.c:2234
+#: ../src/wbc-gtk-actions.c:2233
 msgid "_Refresh"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:2235
+#: ../src/wbc-gtk-actions.c:2234
 msgid "Regenerate a data slicer from the source data"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:2237
+#: ../src/wbc-gtk-actions.c:2236
 #, fuzzy
 msgid "_Edit Data Slicer..."
 msgstr "_Extraire des données..."
 
-#: ../src/wbc-gtk-actions.c:2238
+#: ../src/wbc-gtk-actions.c:2237
 #, fuzzy
 msgid "Adjust a data slicer"
 msgstr "Fixe le répertoire de base pour les données"
 
 #. Standard Toolbar
-#: ../src/wbc-gtk-actions.c:2242 ../src/wbc-gtk.c:4075
+#: ../src/wbc-gtk-actions.c:2241 ../src/wbc-gtk.c:4107
 #: ../src/workbook-view.c:943
 msgid "Sum"
 msgstr "Somme"
 
-#: ../src/wbc-gtk-actions.c:2243
+#: ../src/wbc-gtk-actions.c:2242
 msgid "Sum into the current cell"
 msgstr "Effectue la somme dans la cellule active"
 
-#: ../src/wbc-gtk-actions.c:2246
+#: ../src/wbc-gtk-actions.c:2245
 msgid "Edit a function in the current cell"
 msgstr "Édite une fonction dans la cellule active"
 
-#: ../src/wbc-gtk-actions.c:2250
+#: ../src/wbc-gtk-actions.c:2249
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
@@ -14069,11 +14216,11 @@ msgstr ""
 "Trie la région sélectionnée par ordre ascendant, avec la première colonne "
 "sélectionnée comme clé de tri"
 
-#: ../src/wbc-gtk-actions.c:2252
+#: ../src/wbc-gtk-actions.c:2251
 msgid "Sort Descending"
 msgstr "Tri décroissant"
 
-#: ../src/wbc-gtk-actions.c:2253
+#: ../src/wbc-gtk-actions.c:2252
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
@@ -14082,472 +14229,472 @@ msgstr ""
 "sélectionnée comme clé de tri"
 
 #. Object Toolbar
-#: ../src/wbc-gtk-actions.c:2257
+#: ../src/wbc-gtk-actions.c:2256
 msgid "Label"
 msgstr "Titre"
 
-#: ../src/wbc-gtk-actions.c:2258
+#: ../src/wbc-gtk-actions.c:2257
 msgid "Create a label"
 msgstr "Crée un titre"
 
-#: ../src/wbc-gtk-actions.c:2261
+#: ../src/wbc-gtk-actions.c:2260
 msgid "Create a frame"
 msgstr "Crée un cadre"
 
-#: ../src/wbc-gtk-actions.c:2263
+#: ../src/wbc-gtk-actions.c:2262
 msgid "Checkbox"
 msgstr "Case à cocher"
 
-#: ../src/wbc-gtk-actions.c:2264
+#: ../src/wbc-gtk-actions.c:2263
 msgid "Create a checkbox"
 msgstr "Crée une case à cocher"
 
-#: ../src/wbc-gtk-actions.c:2266
+#: ../src/wbc-gtk-actions.c:2265
 msgid "Scrollbar"
 msgstr "Barre de défilement"
 
-#: ../src/wbc-gtk-actions.c:2267
+#: ../src/wbc-gtk-actions.c:2266
 msgid "Create a scrollbar"
 msgstr "Crée une barre de défilement"
 
-#: ../src/wbc-gtk-actions.c:2269
+#: ../src/wbc-gtk-actions.c:2268
 msgid "Slider"
 msgstr "Ascenseur"
 
-#: ../src/wbc-gtk-actions.c:2270
+#: ../src/wbc-gtk-actions.c:2269
 msgid "Create a slider"
 msgstr "Crée un ascenseur"
 
-#: ../src/wbc-gtk-actions.c:2272
+#: ../src/wbc-gtk-actions.c:2271
 msgid "SpinButton"
 msgstr "Bouton tournant"
 
-#: ../src/wbc-gtk-actions.c:2273
+#: ../src/wbc-gtk-actions.c:2272
 msgid "Create a spin button"
 msgstr "Crée un bouton tournant"
 
-#: ../src/wbc-gtk-actions.c:2275
+#: ../src/wbc-gtk-actions.c:2274
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:3
 msgid "List"
 msgstr "Liste"
 
-#: ../src/wbc-gtk-actions.c:2276
+#: ../src/wbc-gtk-actions.c:2275
 msgid "Create a list"
 msgstr "Crée une liste"
 
-#: ../src/wbc-gtk-actions.c:2278
+#: ../src/wbc-gtk-actions.c:2277
 msgid "Combo Box"
 msgstr "Liste déroulante"
 
-#: ../src/wbc-gtk-actions.c:2279
+#: ../src/wbc-gtk-actions.c:2278
 msgid "Create a combo box"
 msgstr "Crée une liste déroulante"
 
-#: ../src/wbc-gtk-actions.c:2282
+#: ../src/wbc-gtk-actions.c:2281
 msgid "Create a line object"
 msgstr "Crée un objet ligne"
 
-#: ../src/wbc-gtk-actions.c:2284
+#: ../src/wbc-gtk-actions.c:2283
 msgid "Arrow"
 msgstr "Flèche"
 
-#: ../src/wbc-gtk-actions.c:2285
+#: ../src/wbc-gtk-actions.c:2284
 msgid "Create an arrow object"
 msgstr "Crée un objet flèche"
 
-#: ../src/wbc-gtk-actions.c:2287
+#: ../src/wbc-gtk-actions.c:2286
 msgid "Rectangle"
 msgstr "Rectangle"
 
-#: ../src/wbc-gtk-actions.c:2288
+#: ../src/wbc-gtk-actions.c:2287
 msgid "Create a rectangle object"
 msgstr "Crée un objet rectangle"
 
-#: ../src/wbc-gtk-actions.c:2290
+#: ../src/wbc-gtk-actions.c:2289
 msgid "Ellipse"
 msgstr "Ellipse"
 
-#: ../src/wbc-gtk-actions.c:2291
+#: ../src/wbc-gtk-actions.c:2290
 msgid "Create an ellipse object"
 msgstr "Crée un objet ellipse"
 
-#: ../src/wbc-gtk-actions.c:2294
+#: ../src/wbc-gtk-actions.c:2293
 msgid "Create a button"
 msgstr "Crée un bouton"
 
-#: ../src/wbc-gtk-actions.c:2297
+#: ../src/wbc-gtk-actions.c:2296
 msgid "Create a radio button"
 msgstr "Créer un bouton radio"
 
-#: ../src/wbc-gtk-actions.c:2302
+#: ../src/wbc-gtk-actions.c:2301
 msgid "Merge a range of cells"
 msgstr "Fusionne un tableau de cellules"
 
-#: ../src/wbc-gtk-actions.c:2304
+#: ../src/wbc-gtk-actions.c:2303
 msgid "Split"
 msgstr "Séparer"
 
-#: ../src/wbc-gtk-actions.c:2305
+#: ../src/wbc-gtk-actions.c:2304
 msgid "Split merged ranges of cells"
 msgstr "Sépare des ensembles de cellules fusionnées"
 
-#: ../src/wbc-gtk-actions.c:2309
+#: ../src/wbc-gtk-actions.c:2308
 msgid "Format the selection as General"
 msgstr "Applique le format général à la sélection"
 
-#: ../src/wbc-gtk-actions.c:2312
+#: ../src/wbc-gtk-actions.c:2311
 msgid "Format the selection as numbers"
 msgstr "Applique le format numérique à la sélection"
 
-#: ../src/wbc-gtk-actions.c:2314
+#: ../src/wbc-gtk-actions.c:2313
 msgid "Currency"
 msgstr "Devise"
 
-#: ../src/wbc-gtk-actions.c:2315
+#: ../src/wbc-gtk-actions.c:2314
 msgid "Format the selection as currency"
 msgstr "Applique le format financier à la sélection"
 
-#: ../src/wbc-gtk-actions.c:2317
+#: ../src/wbc-gtk-actions.c:2316
 msgid "Accounting"
 msgstr "Comptabilité"
 
-#: ../src/wbc-gtk-actions.c:2318
+#: ../src/wbc-gtk-actions.c:2317
 msgid "Format the selection as accounting"
 msgstr "Applique le format comptable à la sélection"
 
-#: ../src/wbc-gtk-actions.c:2320
+#: ../src/wbc-gtk-actions.c:2319
 msgid "Percentage"
 msgstr "Pourcentage"
 
-#: ../src/wbc-gtk-actions.c:2321
+#: ../src/wbc-gtk-actions.c:2320
 msgid "Format the selection as percentage"
 msgstr "Applique le format pourcentage à la sélection"
 
-#: ../src/wbc-gtk-actions.c:2323
+#: ../src/wbc-gtk-actions.c:2322
 msgid "Scientific"
 msgstr "Scientifique"
 
-#: ../src/wbc-gtk-actions.c:2324
+#: ../src/wbc-gtk-actions.c:2323
 msgid "Format the selection as scientific"
 msgstr "Applique le format scientifique à la sélection"
 
-#: ../src/wbc-gtk-actions.c:2327
+#: ../src/wbc-gtk-actions.c:2326
 msgid "Format the selection as date"
 msgstr "Applique le format date à la sélection"
 
-#: ../src/wbc-gtk-actions.c:2330
+#: ../src/wbc-gtk-actions.c:2329
 msgid "Format the selection as time"
 msgstr "Applique le format heure à la sélection"
 
-#: ../src/wbc-gtk-actions.c:2332
+#: ../src/wbc-gtk-actions.c:2331
 msgid "AddBorders"
 msgstr "Ajouter des bordures"
 
-#: ../src/wbc-gtk-actions.c:2333
+#: ../src/wbc-gtk-actions.c:2332
 msgid "Add a border around the selection"
 msgstr "Ajoute une bordure autour de la sélection"
 
-#: ../src/wbc-gtk-actions.c:2335
+#: ../src/wbc-gtk-actions.c:2334
 msgid "ClearBorders"
 msgstr "Effacer les bordures"
 
-#: ../src/wbc-gtk-actions.c:2336
+#: ../src/wbc-gtk-actions.c:2335
 msgid "Clear the border around the selection"
 msgstr "Efface la bordure autour de la sélection"
 
-#: ../src/wbc-gtk-actions.c:2339
+#: ../src/wbc-gtk-actions.c:2338
 msgid "Thousands Separator"
 msgstr "Séparateur des milliers"
 
-#: ../src/wbc-gtk-actions.c:2340
+#: ../src/wbc-gtk-actions.c:2339
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr ""
 "Définit le format des cellules sélectionnées pour inclure un séparateur des "
 "milliers"
 
-#: ../src/wbc-gtk-actions.c:2342
+#: ../src/wbc-gtk-actions.c:2341
 msgid "Increase Precision"
 msgstr "Augmenter la précision"
 
-#: ../src/wbc-gtk-actions.c:2343
+#: ../src/wbc-gtk-actions.c:2342
 msgid "Increase the number of decimals displayed"
 msgstr "Augmente le nombre de décimales affichées"
 
-#: ../src/wbc-gtk-actions.c:2345
+#: ../src/wbc-gtk-actions.c:2344
 msgid "Decrease Precision"
 msgstr "Diminuer la précision"
 
-#: ../src/wbc-gtk-actions.c:2346
+#: ../src/wbc-gtk-actions.c:2345
 msgid "Decrease the number of decimals displayed"
 msgstr "Diminue le nombre de décimales affichées"
 
-#: ../src/wbc-gtk-actions.c:2352
+#: ../src/wbc-gtk-actions.c:2351
 msgid "Decrease the indent, and align the contents to the left"
 msgstr "Diminue l'indentation et aligne le contenu sur la gauche"
 
-#: ../src/wbc-gtk-actions.c:2355
+#: ../src/wbc-gtk-actions.c:2354
 msgid "Increase the indent, and align the contents to the left"
 msgstr "Augmente l'indentation et aligne le contenu sur la gauche"
 
-#: ../src/wbc-gtk-actions.c:2386
+#: ../src/wbc-gtk-actions.c:2385
 msgid "Display _Outlines"
 msgstr "Afficher les _contours de groupes"
 
-#: ../src/wbc-gtk-actions.c:2387
+#: ../src/wbc-gtk-actions.c:2386
 msgid "Toggle whether or not to display outline groups"
 msgstr "Bascule l'affichage des contours de groupes"
 
-#: ../src/wbc-gtk-actions.c:2389
+#: ../src/wbc-gtk-actions.c:2388
 msgid "Outlines _Below"
 msgstr "Contours _en-dessous"
 
-#: ../src/wbc-gtk-actions.c:2390
+#: ../src/wbc-gtk-actions.c:2389
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Bascule l'affichage des groupes de lignes en haut ou en bas"
 
-#: ../src/wbc-gtk-actions.c:2392
+#: ../src/wbc-gtk-actions.c:2391
 msgid "Outlines _Right"
 msgstr "Contours à d_roite"
 
-#: ../src/wbc-gtk-actions.c:2393
+#: ../src/wbc-gtk-actions.c:2392
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Bascule l'affichage des groupes de colonnes à gauche ou à droite"
 
-#: ../src/wbc-gtk-actions.c:2395
+#: ../src/wbc-gtk-actions.c:2394
 msgid "Display _Formulas"
 msgstr "Afficher les _formules"
 
-#: ../src/wbc-gtk-actions.c:2396
+#: ../src/wbc-gtk-actions.c:2395
 msgid "Display the value of a formula or the formula itself"
 msgstr "Affiche la valeur d'une formule ou la formule elle-même"
 
-#: ../src/wbc-gtk-actions.c:2398
+#: ../src/wbc-gtk-actions.c:2397
 msgid "Hide _Zeros"
 msgstr "Masquer les _zéros"
 
-#: ../src/wbc-gtk-actions.c:2399
+#: ../src/wbc-gtk-actions.c:2398
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Bascule l'affichage des zéros comme des cellules vides"
 
-#: ../src/wbc-gtk-actions.c:2401
+#: ../src/wbc-gtk-actions.c:2400
 msgid "Hide _Gridlines"
 msgstr "Masquer les lignes de g_rille"
 
-#: ../src/wbc-gtk-actions.c:2402
+#: ../src/wbc-gtk-actions.c:2401
 msgid "Toggle whether or not to display gridlines"
 msgstr "Bascule l'affichage du quadrillage"
 
-#: ../src/wbc-gtk-actions.c:2404
+#: ../src/wbc-gtk-actions.c:2403
 msgid "Hide _Column Headers"
 msgstr "Masquer l'en-tête des _colonnes"
 
-#: ../src/wbc-gtk-actions.c:2405
+#: ../src/wbc-gtk-actions.c:2404
 msgid "Toggle whether or not to display column headers"
 msgstr "Bascule l'affichage des en-têtes de colonnes"
 
-#: ../src/wbc-gtk-actions.c:2407
+#: ../src/wbc-gtk-actions.c:2406
 msgid "Hide _Row Headers"
 msgstr "Masquer l'en-tête des _lignes"
 
-#: ../src/wbc-gtk-actions.c:2408
+#: ../src/wbc-gtk-actions.c:2407
 msgid "Toggle whether or not to display row headers"
 msgstr "Bascule l'affichage des en-têtes de lignes"
 
 #. TODO : Make this a sub menu when we have more convention types
-#: ../src/wbc-gtk-actions.c:2412
+#: ../src/wbc-gtk-actions.c:2411
 msgid "Use R1C1 N_otation "
 msgstr "Utiliser la n_otation R1C1 "
 
-#: ../src/wbc-gtk-actions.c:2413
+#: ../src/wbc-gtk-actions.c:2412
 msgid "Display addresses as R1C1 or A1"
 msgstr "Affiche les adresses comme R1C1 ou A1"
 
-#: ../src/wbc-gtk-actions.c:2417
+#: ../src/wbc-gtk-actions.c:2416
 msgid "_Left Align"
 msgstr "Aligner à _gauche"
 
-#: ../src/wbc-gtk-actions.c:2418 ../src/wbc-gtk-actions.c:2485
+#: ../src/wbc-gtk-actions.c:2417 ../src/wbc-gtk-actions.c:2484
 msgid "Align left"
 msgstr "Aligne à gauche"
 
-#: ../src/wbc-gtk-actions.c:2420
+#: ../src/wbc-gtk-actions.c:2419
 msgid "_Center"
 msgstr "_Centrer"
 
-#: ../src/wbc-gtk-actions.c:2421 ../src/wbc-gtk-actions.c:2486
+#: ../src/wbc-gtk-actions.c:2420 ../src/wbc-gtk-actions.c:2485
 msgid "Center horizontally"
 msgstr "Centre horizontalement"
 
-#: ../src/wbc-gtk-actions.c:2423
+#: ../src/wbc-gtk-actions.c:2422
 msgid "_Right Align"
 msgstr "Aligner à _droite"
 
-#: ../src/wbc-gtk-actions.c:2424 ../src/wbc-gtk-actions.c:2487
+#: ../src/wbc-gtk-actions.c:2423 ../src/wbc-gtk-actions.c:2486
 msgid "Align right"
 msgstr "Aligne à droite"
 
-#: ../src/wbc-gtk-actions.c:2426
+#: ../src/wbc-gtk-actions.c:2425
 msgid "_Center Across Selection"
 msgstr "_Centrer au milieu de la sélection"
 
-#: ../src/wbc-gtk-actions.c:2427 ../src/wbc-gtk-actions.c:2490
+#: ../src/wbc-gtk-actions.c:2426 ../src/wbc-gtk-actions.c:2489
 msgid "Center horizontally across the selection"
 msgstr "Centre horizontalement au milieu de la sélection"
 
-#: ../src/wbc-gtk-actions.c:2430
+#: ../src/wbc-gtk-actions.c:2429
 msgid "_Merge and Center"
 msgstr "_Fusionner et centrer"
 
-#: ../src/wbc-gtk-actions.c:2431
+#: ../src/wbc-gtk-actions.c:2430
 msgid "Merge the selection into 1 cell, and center horizontaly."
 msgstr "Fusionne la sélection dans une cellule, et centre horizontalement."
 
-#: ../src/wbc-gtk-actions.c:2438
+#: ../src/wbc-gtk-actions.c:2437
 msgid "Align _Top"
 msgstr "Aligner en _haut"
 
-#: ../src/wbc-gtk-actions.c:2439 ../src/wbc-gtk-actions.c:2497
+#: ../src/wbc-gtk-actions.c:2438 ../src/wbc-gtk-actions.c:2496
 msgid "Align Top"
 msgstr "Aligne en haut"
 
-#: ../src/wbc-gtk-actions.c:2441
+#: ../src/wbc-gtk-actions.c:2440
 msgid "_Vertically Center"
 msgstr "Centrer _verticalement"
 
-#: ../src/wbc-gtk-actions.c:2442
+#: ../src/wbc-gtk-actions.c:2441
 msgid "Vertically Center"
 msgstr "Centre verticalement"
 
-#: ../src/wbc-gtk-actions.c:2444
+#: ../src/wbc-gtk-actions.c:2443
 msgid "Align _Bottom"
 msgstr "Aligner en _bas"
 
-#: ../src/wbc-gtk-actions.c:2445 ../src/wbc-gtk-actions.c:2499
+#: ../src/wbc-gtk-actions.c:2444 ../src/wbc-gtk-actions.c:2498
 msgid "Align Bottom"
 msgstr "Aligne en bas"
 
-#: ../src/wbc-gtk-actions.c:2448
+#: ../src/wbc-gtk-actions.c:2447
 msgid "View _Statusbar"
 msgstr "Barre d'é_tat"
 
-#: ../src/wbc-gtk-actions.c:2449
+#: ../src/wbc-gtk-actions.c:2448
 msgid "Toggle visibility of statusbar"
 msgstr "Bascule l'affichage de la barre d'état"
 
-#: ../src/wbc-gtk-actions.c:2453
+#: ../src/wbc-gtk-actions.c:2452
 msgid "F_ull Screen"
 msgstr "_Plein écran"
 
-#: ../src/wbc-gtk-actions.c:2454
+#: ../src/wbc-gtk-actions.c:2453
 msgid "Switch to or from full screen mode"
 msgstr "Bascule l'affichage du mode plein écran"
 
-#: ../src/wbc-gtk-actions.c:2460
+#: ../src/wbc-gtk-actions.c:2459
 msgid "_Bold"
 msgstr "_Gras"
 
 #. ALSO "<control>2"
-#: ../src/wbc-gtk-actions.c:2461 ../src/widgets/gnumeric-text-view.c:253
-#: ../src/widgets/widget-font-selector.c:196
+#: ../src/wbc-gtk-actions.c:2460 ../src/widgets/gnumeric-text-view.c:253
+#: ../src/widgets/widget-font-selector.c:198
 msgid "Bold"
 msgstr "Gras"
 
-#: ../src/wbc-gtk-actions.c:2463
+#: ../src/wbc-gtk-actions.c:2462
 msgid "_Italic"
 msgstr "_Italique"
 
 #. ALSO "<control>3"
-#: ../src/wbc-gtk-actions.c:2464 ../src/widgets/widget-font-selector.c:198
+#: ../src/wbc-gtk-actions.c:2463 ../src/widgets/widget-font-selector.c:200
 msgid "Italic"
 msgstr "Italique"
 
-#: ../src/wbc-gtk-actions.c:2466
+#: ../src/wbc-gtk-actions.c:2465
 msgid "_Underline"
 msgstr "_Souligné"
 
 #. ALSO "<control>4"
-#: ../src/wbc-gtk-actions.c:2467
+#: ../src/wbc-gtk-actions.c:2466
 msgid "Underline"
 msgstr "Souligné"
 
-#: ../src/wbc-gtk-actions.c:2469
+#: ../src/wbc-gtk-actions.c:2468
 msgid "_Strike Through"
 msgstr "_Barré"
 
-#: ../src/wbc-gtk-actions.c:2470
+#: ../src/wbc-gtk-actions.c:2469
 msgid "Strike Through"
 msgstr "Barré"
 
 #. from icon theme
-#: ../src/wbc-gtk-actions.c:2472
+#: ../src/wbc-gtk-actions.c:2471
 msgid "_Double Underline"
 msgstr "_Souligné deux fois"
 
-#: ../src/wbc-gtk-actions.c:2473
+#: ../src/wbc-gtk-actions.c:2472
 msgid "Double Underline"
 msgstr "Souligné deux fois"
 
 #. from icon theme
-#: ../src/wbc-gtk-actions.c:2475
+#: ../src/wbc-gtk-actions.c:2474
 msgid "Su_perscript"
 msgstr "_Exposant"
 
-#: ../src/wbc-gtk-actions.c:2476
+#: ../src/wbc-gtk-actions.c:2475
 msgid "Superscript"
 msgstr "Exposant"
 
 #. from icon theme
-#: ../src/wbc-gtk-actions.c:2478
+#: ../src/wbc-gtk-actions.c:2477
 msgid "Subscrip_t"
 msgstr "_Indice"
 
-#: ../src/wbc-gtk-actions.c:2479
+#: ../src/wbc-gtk-actions.c:2478
 msgid "Subscript"
 msgstr "Indice"
 
-#: ../src/wbc-gtk-actions.c:2488
+#: ../src/wbc-gtk-actions.c:2487
 msgid "Fill Horizontally"
 msgstr "Remplir horizontalement"
 
-#: ../src/wbc-gtk-actions.c:2489
+#: ../src/wbc-gtk-actions.c:2488
 msgid "Justify Horizontally"
 msgstr "Justifier horizontalement"
 
-#: ../src/wbc-gtk-actions.c:2492
+#: ../src/wbc-gtk-actions.c:2491
 msgid "Align numbers right, and text left"
 msgstr "Aligner les nombres à droite et les textes à gauche"
 
-#: ../src/wbc-gtk-actions.c:2498
+#: ../src/wbc-gtk-actions.c:2497
 msgid "Center Vertically"
 msgstr "Centrer verticalement"
 
-#: ../src/wbc-gtk-actions.c:2522 ../src/wbc-gtk-actions.c:2523
-#: ../src/wbc-gtk-actions.c:2526 ../src/wbc-gtk-actions.c:2541
+#: ../src/wbc-gtk-actions.c:2521 ../src/wbc-gtk-actions.c:2522
+#: ../src/wbc-gtk-actions.c:2525 ../src/wbc-gtk-actions.c:2540
 msgid "Horizontal Alignment"
 msgstr "Alignement horizontal"
 
-#: ../src/wbc-gtk-actions.c:2537 ../src/wbc-gtk-actions.c:2538
+#: ../src/wbc-gtk-actions.c:2536 ../src/wbc-gtk-actions.c:2537
 msgid "Vertical Alignment"
 msgstr "Alignement horizontal"
 
-#: ../src/wbc-gtk-edit.c:735
+#: ../src/wbc-gtk-edit.c:720
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s est verrouillé"
 
-#: ../src/wbc-gtk-edit.c:739
+#: ../src/wbc-gtk-edit.c:724
 msgid "Unprotect the workbook to enable editing."
 msgstr "Retirez la protection du classeur pour permettre la modification."
 
-#: ../src/wbc-gtk-edit.c:740
+#: ../src/wbc-gtk-edit.c:725
 msgid "Unprotect the sheet to enable editing."
 msgstr "Retirez la protection de la feuille pour permettre la modification."
 
-#: ../src/wbc-gtk-edit.c:759
+#: ../src/wbc-gtk-edit.c:744
 msgid "You are about to edit a cell with \"text\" format."
 msgstr "Vous êtes sur le point d'éditer une cellule au format « texte »."
 
-#: ../src/wbc-gtk-edit.c:760
+#: ../src/wbc-gtk-edit.c:745
 msgid ""
 "The cell does not currently contain text, though, so if you go on editing "
 "then the contents will be turned into text."
@@ -14555,11 +14702,11 @@ msgstr ""
 "La cellule ne contient actuellement aucun texte, cependant, si vous "
 "poursuivez l'édition, le contenu sera transformé en texte."
 
-#: ../src/wbc-gtk-edit.c:765
+#: ../src/wbc-gtk-edit.c:750
 msgid "Remove format"
 msgstr "Supprimer le format"
 
-#: ../src/wbc-gtk-edit.c:770
+#: ../src/wbc-gtk-edit.c:755
 msgid "Show this dialog next time."
 msgstr "Afficher cette boîte de dialogue la prochaine fois."
 
@@ -14593,175 +14740,175 @@ msgstr "_Sélectionner"
 msgid "Select (sorted)"
 msgstr "Tout _désélectionner"
 
-#: ../src/wbc-gtk.c:1357
+#: ../src/wbc-gtk.c:1363
 msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
-#: ../src/wbc-gtk.c:1494
+#: ../src/wbc-gtk.c:1500
 msgid "Un_freeze Panes"
 msgstr "Dé_figer les volets"
 
-#: ../src/wbc-gtk.c:1497
+#: ../src/wbc-gtk.c:1503
 msgid "Unfreeze the top left of the sheet"
 msgstr "Défige le coin en haut à gauche de la feuille"
 
-#: ../src/wbc-gtk.c:1505
+#: ../src/wbc-gtk.c:1511
 msgid "Remove _Auto Filter"
 msgstr "Enlever les filtres _automatiques"
 
-#: ../src/wbc-gtk.c:1508
+#: ../src/wbc-gtk.c:1514
 msgid "Remove a filter"
 msgstr "Enlève un filtre"
 
-#: ../src/wbc-gtk.c:1509
+#: ../src/wbc-gtk.c:1515
 msgid "Add a filter"
 msgstr "Ajoute un filtre"
 
-#: ../src/wbc-gtk.c:1516
+#: ../src/wbc-gtk.c:1522
 #, fuzzy
 msgid "Remove _Data Slicer"
 msgstr "Enlève un filtre"
 
-#: ../src/wbc-gtk.c:1517
+#: ../src/wbc-gtk.c:1523
 #, fuzzy
 msgid "Create _Data Slicer"
 msgstr "Crée un extrait de données"
 
-#: ../src/wbc-gtk.c:1519
+#: ../src/wbc-gtk.c:1525
 #, fuzzy
 msgid "Remove a Data Slicer"
 msgstr "Crée un extrait de données"
 
-#: ../src/wbc-gtk.c:1520
+#: ../src/wbc-gtk.c:1526
 #, fuzzy
 msgid "Create a Data Slicer"
 msgstr "Crée un extrait de données"
 
-#: ../src/wbc-gtk.c:1563
+#: ../src/wbc-gtk.c:1569
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "Enregistrer les changements du classeur « %s » avant de fermer ?"
 
-#: ../src/wbc-gtk.c:1568
+#: ../src/wbc-gtk.c:1574
 msgid "Save changes to workbook before closing?"
 msgstr "Enregistrer les changements du classeur avant de fermer ?"
 
-#: ../src/wbc-gtk.c:1575
+#: ../src/wbc-gtk.c:1581
 msgid "If you close without saving, changes will be discarded."
 msgstr "Si vous fermez sans sauvegarder, vos changements seront ignorés."
 
-#: ../src/wbc-gtk.c:1581
+#: ../src/wbc-gtk.c:1587
 msgid "Discard all"
 msgstr "Ignorer tout"
 
-#: ../src/wbc-gtk.c:1583 ../src/wbc-gtk.c:1590 ../src/wbc-gtk.c:1596
+#: ../src/wbc-gtk.c:1589 ../src/wbc-gtk.c:1596 ../src/wbc-gtk.c:1602
 msgid "Discard"
 msgstr "Ignorer"
 
-#: ../src/wbc-gtk.c:1585
+#: ../src/wbc-gtk.c:1591
 msgid "Save all"
 msgstr "Tout enregistrer"
 
-#: ../src/wbc-gtk.c:1587 ../src/wbc-gtk.c:1592
+#: ../src/wbc-gtk.c:1593 ../src/wbc-gtk.c:1598
 msgid "Don't quit"
 msgstr "Ne pas quitter"
 
-#: ../src/wbc-gtk.c:1598
+#: ../src/wbc-gtk.c:1604
 msgid "Don't close"
 msgstr "Ne pas fermer"
 
-#: ../src/wbc-gtk.c:2015
+#: ../src/wbc-gtk.c:2021
 msgid "END"
 msgstr "FIN"
 
-#: ../src/wbc-gtk.c:2280
+#: ../src/wbc-gtk.c:2286
 msgid "Cancel change"
 msgstr "Annuler le changement"
 
-#: ../src/wbc-gtk.c:2284
+#: ../src/wbc-gtk.c:2290
 msgid "Accept change"
 msgstr "Accepter le changement"
 
-#: ../src/wbc-gtk.c:2288
+#: ../src/wbc-gtk.c:2294
 msgid "Enter formula..."
 msgstr "Saisir une formule..."
 
-#: ../src/wbc-gtk.c:2338 ../src/wbc-gtk.c:2353
+#: ../src/wbc-gtk.c:2344 ../src/wbc-gtk.c:2359
 msgid "_Re-Edit"
 msgstr "É_diter à nouveau"
 
-#: ../src/wbc-gtk.c:2343 ../src/wbc-gtk.c:2354
+#: ../src/wbc-gtk.c:2349 ../src/wbc-gtk.c:2360
 msgid "_Accept"
 msgstr "_Accepter"
 
-#: ../src/wbc-gtk.c:2522
+#: ../src/wbc-gtk.c:2552
 msgid "_Zoom"
 msgstr "_Zoom"
 
-#: ../src/wbc-gtk.c:2548
+#: ../src/wbc-gtk.c:2597
 msgid "Clear Borders"
 msgstr "Effacer les bordures"
 
-#: ../src/wbc-gtk.c:2551
+#: ../src/wbc-gtk.c:2600
 msgid "All Borders"
 msgstr "Toutes les bordures"
 
-#: ../src/wbc-gtk.c:2552
+#: ../src/wbc-gtk.c:2601
 msgid "Outside Borders"
 msgstr "Bordures extérieures"
 
-#: ../src/wbc-gtk.c:2553
+#: ../src/wbc-gtk.c:2602
 msgid "Thick Outside Borders"
 msgstr "Bordures extérieures épaisses"
 
-#: ../src/wbc-gtk.c:2556
+#: ../src/wbc-gtk.c:2605
 msgid "Double Bottom"
 msgstr "Double bas"
 
-#: ../src/wbc-gtk.c:2557
+#: ../src/wbc-gtk.c:2606
 msgid "Thick Bottom"
 msgstr "Bas épais"
 
-#: ../src/wbc-gtk.c:2559
+#: ../src/wbc-gtk.c:2608
 msgid "Top and Bottom"
 msgstr "Haut et bas"
 
-#: ../src/wbc-gtk.c:2560
+#: ../src/wbc-gtk.c:2609
 msgid "Top and Double Bottom"
 msgstr "Haut et bas double"
 
-#: ../src/wbc-gtk.c:2561
+#: ../src/wbc-gtk.c:2610
 msgid "Top and Thick Bottom"
 msgstr "Haut et bas épais"
 
-#: ../src/wbc-gtk.c:2646
+#: ../src/wbc-gtk.c:2695
 msgid "Set Borders"
 msgstr "Définir des bordures"
 
-#: ../src/wbc-gtk.c:2654 ../src/wbc-gtk.c:2655
+#: ../src/wbc-gtk.c:2703 ../src/wbc-gtk.c:2704
 msgid "Borders"
 msgstr "Bordures"
 
-#: ../src/wbc-gtk.c:2812
+#: ../src/wbc-gtk.c:2844
 msgid "Set Foreground Color"
 msgstr "Définir la couleur du premier plan"
 
 #. Set background to NONE
-#: ../src/wbc-gtk.c:2867
+#: ../src/wbc-gtk.c:2899
 msgid "Set Background Color"
 msgstr "Définir la couleur d'arrière-plan"
 
-#: ../src/wbc-gtk.c:2906
+#: ../src/wbc-gtk.c:2938
 #, c-format
 msgid "Font Name %s"
 msgstr "Nom de la police %s"
 
-#: ../src/wbc-gtk.c:2966
+#: ../src/wbc-gtk.c:2998
 #, c-format
 msgid "Font Size %f"
 msgstr "Taille de police %f"
 
-#: ../src/wbc-gtk.c:2984 ../src/wbc-gtk.c:2985
+#: ../src/wbc-gtk.c:3016 ../src/wbc-gtk.c:3017
 msgid "Font Size"
 msgstr "Taille de police"
 
@@ -14771,80 +14918,80 @@ msgstr "Taille de police"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:3193
+#: ../src/wbc-gtk.c:3225
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr ""
 "Dans le menu « %s », la touche « %s » est utilisée à la fois par « %s » et « %"
 "s »."
 
-#: ../src/wbc-gtk.c:3494
+#: ../src/wbc-gtk.c:3526
 msgid "Display above sheets"
 msgstr "Afficher au-dessus des feuilles"
 
-#: ../src/wbc-gtk.c:3495
+#: ../src/wbc-gtk.c:3527
 msgid "Display to the left of sheets"
 msgstr "Afficher à gauche des feuilles"
 
-#: ../src/wbc-gtk.c:3496
+#: ../src/wbc-gtk.c:3528
 msgid "Display to the right of sheets"
 msgstr "Afficher à droite des feuilles"
 
-#: ../src/wbc-gtk.c:3500
+#: ../src/wbc-gtk.c:3532
 msgid "Reattach to main window"
 msgstr "Réattacher à la fenêtre principale"
 
-#: ../src/wbc-gtk.c:3532
+#: ../src/wbc-gtk.c:3564
 msgid "Hide"
 msgstr "Masquer"
 
-#: ../src/wbc-gtk.c:3600
+#: ../src/wbc-gtk.c:3632
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Affiche/Masque la barre d'outils %s"
 
-#: ../src/wbc-gtk.c:4131
+#: ../src/wbc-gtk.c:4163
 msgid "Use maximum precision"
 msgstr "Utiliser la précision maximale"
 
-#: ../src/wbc-gtk.c:4244
+#: ../src/wbc-gtk.c:4276
 #, c-format
 msgid "Open %s"
 msgstr "Ouvrir %s"
 
-#: ../src/wbc-gtk.c:4862
+#: ../src/wbc-gtk.c:4895
 msgid "Autosave prompt"
 msgstr "Invite d'enregistrement automatique"
 
-#: ../src/wbc-gtk.c:4863
+#: ../src/wbc-gtk.c:4896
 msgid "Ask about autosave?"
 msgstr "Confirmer les enregistrements automatiques ?"
 
-#: ../src/wbc-gtk.c:4869
+#: ../src/wbc-gtk.c:4902
 msgid "Autosave time in seconds"
 msgstr "Durée des enregistrements automatiques, en secondes"
 
-#: ../src/wbc-gtk.c:4870
+#: ../src/wbc-gtk.c:4903
 msgid "Seconds before autosave"
 msgstr "Secondes avant un enregistrement automatique"
 
-#: ../src/widgets/gnm-filter-combo-foo-view.c:165
+#: ../src/widgets/gnm-filter-combo-view.c:165
 msgid "(All)"
 msgstr "(Tous)"
 
-#: ../src/widgets/gnm-filter-combo-foo-view.c:170
+#: ../src/widgets/gnm-filter-combo-view.c:170
 msgid "(Top 10...)"
 msgstr "(10 premiers...)"
 
-#: ../src/widgets/gnm-filter-combo-foo-view.c:177
+#: ../src/widgets/gnm-filter-combo-view.c:177
 msgid "(Custom...)"
 msgstr "(Personnalisé...)"
 
-#: ../src/widgets/gnm-filter-combo-foo-view.c:256
+#: ../src/widgets/gnm-filter-combo-view.c:256
 msgid "(Blanks...)"
 msgstr "(Vides...)"
 
-#: ../src/widgets/gnm-filter-combo-foo-view.c:262
+#: ../src/widgets/gnm-filter-combo-view.c:262
 msgid "(Non Blanks...)"
 msgstr "(Non vides...)"
 
@@ -14936,7 +15083,7 @@ msgstr ""
 msgid "Ultraheavy"
 msgstr ""
 
-#: ../src/widgets/widget-font-selector.c:197
+#: ../src/widgets/widget-font-selector.c:199
 msgid "Bold italic"
 msgstr "Gras italique"
 

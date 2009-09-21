@@ -11,8 +11,13 @@
 	<services>
 		<service type="ui" id="hello" file="hello.xml">
 			<actions>
-				<action name="HelloWorld" label="Testing Testing 123" icon="gtk-add" />
-				<action name="HelloMenu" label="Make a Menu" />
+				<action name="HelloWorld" icon="gtk-add">
+					<label>Testing Testing 123</label>
+				</action>
+				<action name="HelloMenu">
+					<label>Make a Menu</label>
+				</action>
+
 			</actions>
 		</service>
 	</services>
