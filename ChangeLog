@@ -1,7 +1,8 @@
 2009-09-21  Morten Welinder  <terra@gnome.org>
 
-	* src/xml-sax-write.c (gnm_xml_out_add_color): Move from xml-io.c
-	and make static.
+	* src/xml-sax-write.c (gnm_xml_out_add_color,
+	gnm_xml_out_add_cellpos): Move from xml-io.c and make static.
+	(gnm_xml_out_add_gocolor): Ditto, except keep public.
 
 2009-09-21  Jean Brefort  <jean.brefort@normalesup.org>
 

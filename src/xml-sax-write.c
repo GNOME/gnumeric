@@ -79,10 +79,25 @@ typedef struct {
 /* Precision to use when saving point measures. */
 #define POINT_SIZE_PRECISION 4
 
+void
+gnm_xml_out_add_gocolor (GsfXMLOut *o, char const *id, GOColor c)
+{
+	GdkColor tmp;
+	go_color_to_gdk (c, &tmp);
+	gsf_xml_out_add_color (o, id, tmp.red, tmp.green, tmp.blue);
+}
+
 static void
 gnm_xml_out_add_color (GsfXMLOut *o, char const *id, GnmColor const *c)
 {
 	gnm_xml_out_add_gocolor (o, id, c->go_color);
+}
+
+static void
+gnm_xml_out_add_cellpos (GsfXMLOut *o, char const *id, GnmCellPos const *p)
+{
+	g_return_if_fail (p != NULL);
+	gsf_xml_out_add_cstr_unchecked (o, id, cellpos_as_string (p));
 }
 
 static void

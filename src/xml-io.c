@@ -140,21 +140,6 @@ xml_parse_ctx_destroy (XmlParseContext *ctxt)
 
 /* ------------------------------------------------------------------------- */
 
-void
-gnm_xml_out_add_gocolor (GsfXMLOut *o, char const *id, GOColor c)
-{
-	GdkColor tmp;
-	go_color_to_gdk (c, &tmp);
-	gsf_xml_out_add_color (o, id, tmp.red, tmp.green, tmp.blue);
-}
-
-void
-gnm_xml_out_add_cellpos (GsfXMLOut *o, char const *id, GnmCellPos const *p)
-{
-	g_return_if_fail (p != NULL);
-	gsf_xml_out_add_cstr_unchecked (o, id, cellpos_as_string (p));
-}
-
 /*****************************************************************************/
 /*
  * Reads a value which is stored using a format '%d:%s' where %d is the
