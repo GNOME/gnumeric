@@ -1,3 +1,8 @@
+2009-09-21  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-write.c (gnm_xml_out_add_color): Move from xml-io.c
+	and make static.
+
 2009-09-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-plugin.c (plugin_service_ui_read_xml): use translated labels.

@@ -50,7 +50,6 @@ GnmStyle      *xml_read_style     (XmlParseContext *ctxt, xmlNodePtr tree,
 
 void      xml_init (void);
 /* Gnumeric specific SAX utilities */
-void gnm_xml_out_add_color   (GsfXMLOut *o, char const *id, GnmColor const *c);
 void gnm_xml_out_add_gocolor (GsfXMLOut *o, char const *id, GOColor c);
 void gnm_xml_out_add_cellpos (GsfXMLOut *o, char const *id, GnmCellPos const *p);
 

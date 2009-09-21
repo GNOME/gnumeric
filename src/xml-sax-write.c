@@ -80,6 +80,12 @@ typedef struct {
 #define POINT_SIZE_PRECISION 4
 
 static void
+gnm_xml_out_add_color (GsfXMLOut *o, char const *id, GnmColor const *c)
+{
+	gnm_xml_out_add_gocolor (o, id, c->go_color);
+}
+
+static void
 xml_out_add_range (GsfXMLOut *xml, GnmRange const *r)
 {
 	g_return_if_fail (range_is_sane (r));

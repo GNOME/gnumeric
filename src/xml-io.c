@@ -147,11 +147,6 @@ gnm_xml_out_add_gocolor (GsfXMLOut *o, char const *id, GOColor c)
 	go_color_to_gdk (c, &tmp);
 	gsf_xml_out_add_color (o, id, tmp.red, tmp.green, tmp.blue);
 }
-void
-gnm_xml_out_add_color (GsfXMLOut *o, char const *id, GnmColor const *c)
-{
-	gnm_xml_out_add_gocolor (o, id, c->go_color);
-}
 
 void
 gnm_xml_out_add_cellpos (GsfXMLOut *o, char const *id, GnmCellPos const *p)
