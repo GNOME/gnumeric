@@ -48,20 +48,7 @@ void       xml_node_set_color	(xmlNodePtr node, char const *name, GnmColor const
 GnmStyle      *xml_read_style     (XmlParseContext *ctxt, xmlNodePtr tree,
 				   gboolean leave_empty);
 
-void      xml_init (void);
-/* Gnumeric specific SAX utilities */
-void gnm_xml_out_add_gocolor (GsfXMLOut *o, char const *id, GOColor c);
-
-/* Gnumeric specific SAX import */
-gboolean gnm_xml_attr_int     (xmlChar const * const *attrs,
-			       char const *name, int * res);
-gboolean gnm_xml_attr_double  (xmlChar const * const *attrs,
-			       char const *name, double * res);
-gboolean gnm_xml_attr_bool    (xmlChar const * const *attrs,
-			       char const *name, gboolean *res);
-
-SheetObject *gnm_xml_in_cur_obj   (GsfXMLIn const *xin);
-Sheet	    *gnm_xml_in_cur_sheet (GsfXMLIn const *xin);
+void      xml_dom_init (void);
 
 GnmConventions *gnm_xml_io_conventions (void);
 

@@ -2580,7 +2580,6 @@ xml_dom_read_error (gpointer state, char const *fmt, ...)
 	else
 		go_io_error_info_set (io_context, ei);
 }
-
 /**************************************************************************/
 
 static gboolean
@@ -2619,8 +2618,8 @@ xml_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 	/* probe by content */
 	return gsf_xml_probe (input, &gnm_xml_probe_element);
 }
-/**************************************************************************/
 
+/**************************************************************************/
 /*
  * Open an XML file and read a Workbook
  * One parse the XML file, getting a tree, then analyze the tree to build
@@ -2709,32 +2708,16 @@ gnumeric_xml_read_workbook (GOFileOpener const *fo,
 	xmlFreeDoc (res);
 }
 
+
+#warning "REMOVE for 2.0"
 void
-xml_init (void)
+xml_dom_init (void)
 {
-	GOFileSaver *saver;
 	GSList *suffixes = go_slist_create (g_strdup ("gnumeric"), g_strdup ("xml"), NULL);
 	GSList *mimes = go_slist_create (g_strdup ("application/x-gnumeric"), NULL);
-#warning REMOVE for 2.0
 	go_file_opener_register (go_file_opener_new (
 		"Gnumeric_XmlIO:dom",
 		_("Gnumeric XML (*.gnumeric) Old slow importer"),
 		suffixes, mimes,
 		xml_probe, gnumeric_xml_read_workbook), 40);
-
-	go_file_opener_register (go_file_opener_new (
-		"Gnumeric_XmlIO:sax",
-		_("Gnumeric XML (*.gnumeric)"),
-		suffixes, mimes,
-		xml_probe, gnm_xml_file_open), 50);
-
-	saver = go_file_saver_new ("Gnumeric_XmlIO:sax",
-				   "gnumeric",
-				   _("Gnumeric XML (*.gnumeric)"),
-				   GO_FILE_FL_AUTO, gnm_xml_file_save);
-	g_object_set (G_OBJECT (saver),
-		      "mime-type", "application/x-gnumeric",
-		      NULL);
-
-	go_file_saver_register_as_default (saver, 50);
 }

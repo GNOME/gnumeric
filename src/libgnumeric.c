@@ -45,6 +45,7 @@
 #include "sheet-autofill.h"
 #include "sheet-private.h"
 #include "xml-io.h"
+#include "xml-sax.h"
 #include "clipboard.h"
 #include "value.h"
 #include "expr.h"
@@ -283,8 +284,10 @@ gnm_init (void)
 	gnm_hlink_external_get_type ();
 
 	/* The statically linked in file formats */
-	xml_init ();
+	gnm_xml_sax_read_init ();
+	gnm_xml_sax_write_init ();
 	stf_init ();
+	xml_dom_init ();
 
 	glade_init ();
 }

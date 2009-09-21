@@ -25,6 +25,7 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
+#include <glib/gi18n-lib.h>
 #include <xml-sax.h>
 #include <workbook-view.h>
 #include <gnm-format.h>
@@ -1287,7 +1288,7 @@ gnm_xml_io_conventions (void)
 	return res;
 }
 
-void
+static void
 gnm_xml_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		   gconstpointer wb_view, GsfOutput *output)
 {
@@ -1482,4 +1483,20 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 	gsf_output_close (buf);
 
 	return GSF_OUTPUT_MEMORY (buf);
+}
+
+
+void
+gnm_xml_sax_write_init (void)
+{
+	GOFileSaver *saver = go_file_saver_new
+		("Gnumeric_XmlIO:sax",
+		 "gnumeric",
+		 _("Gnumeric XML (*.gnumeric)"),
+		 GO_FILE_FL_AUTO, gnm_xml_file_save);
+	g_object_set (G_OBJECT (saver),
+		      "mime-type", "application/x-gnumeric",
+		      NULL);
+
+	go_file_saver_register_as_default (saver, 50);
 }

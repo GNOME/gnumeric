@@ -18,6 +18,7 @@
 #include "gui-file.h"
 #include "application.h"
 #include "xml-io.h"
+#include "xml-sax.h"
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>

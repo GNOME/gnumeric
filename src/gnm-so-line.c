@@ -25,6 +25,7 @@
 #include "gnm-so-line.h"
 #include "sheet-object-impl.h"
 #include "xml-io.h"
+#include "xml-sax.h"
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>

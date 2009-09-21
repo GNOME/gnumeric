@@ -45,6 +45,7 @@
 #include "dialogs.h"
 #include "dialogs/help.h"
 #include "xml-io.h"
+#include "xml-sax.h"
 #include "commands.h"
 #include "gnm-format.h"
 

@@ -43,6 +43,7 @@
 #include "gutils.h"
 #include <goffice/goffice.h>
 #include "xml-io.h"
+#include "xml-sax.h"
 
 #include <math.h>
 #include <string.h>

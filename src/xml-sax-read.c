@@ -67,6 +67,7 @@
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-input-gzip.h>
 #include <gsf/gsf-opendoc-utils.h>
+#include <gsf/gsf-utils.h>
 #include <glib/gi18n-lib.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
@@ -2670,7 +2671,7 @@ maybe_convert (GsfInput *input, gboolean quiet)
 	}
 }
 
-void
+static void
 gnm_xml_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 		   gpointer wb_view, GsfInput *input)
 {
@@ -2751,4 +2752,58 @@ gnm_xml_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	gnm_conventions_free (state.convs);
 
 	gsf_xml_in_doc_free (doc);
+}
+
+static gboolean
+gnm_xml_probe_element (const xmlChar *name,
+		       G_GNUC_UNUSED const xmlChar *prefix,
+		       const xmlChar *URI,
+		       G_GNUC_UNUSED int nb_namespaces,
+		       G_GNUC_UNUSED const xmlChar **namespaces,
+		       G_GNUC_UNUSED int nb_attributes,
+		       G_GNUC_UNUSED int nb_defaulted,
+		       G_GNUC_UNUSED const xmlChar **attributes)
+{
+	return 0 == strcmp (name, "Workbook") &&
+		NULL != URI && NULL != strstr (URI, "gnumeric");
+}
+
+static gboolean
+xml_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
+{
+	if (pl == GO_FILE_PROBE_FILE_NAME) {
+		char const *name = gsf_input_name (input);
+		int len;
+
+		if (name == NULL)
+			return FALSE;
+
+		len = strlen (name);
+		if (len >= 7 && !g_ascii_strcasecmp (name+len-7, ".xml.gz"))
+			return TRUE;
+
+		name = gsf_extension_pointer (name);
+
+		return (name != NULL &&
+			(g_ascii_strcasecmp (name, "gnumeric") == 0 ||
+			 g_ascii_strcasecmp (name, "xml") == 0));
+	}
+	/* probe by content */
+	return gsf_xml_probe (input, &gnm_xml_probe_element);
+}
+
+void
+gnm_xml_sax_read_init (void)
+{
+	GSList *suffixes = go_slist_create (g_strdup ("gnumeric"),
+					    g_strdup ("xml"),
+					    NULL);
+	GSList *mimes = go_slist_create (g_strdup ("application/x-gnumeric"),
+					 NULL);
+
+	go_file_opener_register (go_file_opener_new (
+		"Gnumeric_XmlIO:sax",
+		_("Gnumeric XML (*.gnumeric)"),
+		suffixes, mimes,
+		xml_probe, gnm_xml_file_open), 50);
 }
