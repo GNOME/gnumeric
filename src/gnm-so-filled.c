@@ -93,6 +93,11 @@ so_filled_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean 
 				/ scale;
 			h -= (sof->margin_pts.top + sof->margin_pts.bottom)
 				/ scale;
+			if (sof->is_oval)
+				goc_item_set (GOC_ITEM (fiv->text),
+				              "x", w / 2.,
+				              "y", h / 2.,
+				              NULL);
 
 			goc_item_set (GOC_ITEM (fiv->text),
 				"clip-height", h,
@@ -179,10 +184,10 @@ cb_gnm_so_filled_changed (GnmSOFilled const *sof,
 {
 	cb_gnm_so_filled_style_changed (GOC_ITEM (group->bg), sof);
 
-	if (!sof->is_oval && sof->text != NULL) {
+	if (sof->text != NULL) {
 		if (group->text == NULL)
 			group->text = goc_item_new (GOC_GROUP (group), GOC_TYPE_TEXT,
-				"anchor",	GTK_ANCHOR_NW,
+				"anchor",	sof->is_oval? GTK_ANCHOR_CENTER: GTK_ANCHOR_NW,
 				"clip",		TRUE,
 				"x",		sof->margin_pts.left,
 				"y",		sof->margin_pts.top,

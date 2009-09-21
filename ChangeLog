@@ -1,3 +1,8 @@
+2009-09-21  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gnm-so-filled.c (so_filled_view_set_bounds),
+	(cb_gnm_so_filled_changed): reimplement text in ellipses.[#595710]
+
 2009-09-20  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: Post-release bump.
