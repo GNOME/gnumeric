@@ -54,8 +54,8 @@ GNM_PLUGIN_MODULE_HEADER;
 							       "columns of data are fields. " \
 							       "The first row of a database " \
 							       "contains labels for each column.") }
-#define GNM_HELP_DESC_FIELD { GNM_FUNC_HELP_DESCRIPTION, F_("@{field} is a string or integer specifying which" \
-							    "field is to be used. If @{field} is an integer n" \
+#define GNM_HELP_DESC_FIELD { GNM_FUNC_HELP_DESCRIPTION, F_("@{field} is a string or integer specifying which " \
+							    "field is to be used. If @{field} is an integer n " \
 							    "then the nth column will be used. If @{field} " \
 							    "is a string, then the column with the matching " \
 							    "label will be used.") }

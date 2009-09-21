@@ -2944,7 +2944,7 @@ static GnmFuncHelp const help_couppcd[] = {
         { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
         { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
         { GNM_FUNC_HELP_ARG, F_("eom:end-of-month flag")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("COUPPCD calculates the coupon date preceeding settlement.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("COUPPCD calculates the coupon date preceding settlement.") },
 	FREQ_HELP,
 	GNM_DATE_BASIS_HELP
 	{ GNM_FUNC_HELP_EXAMPLES, "=COUPPCD(DATE(2002,11,29),DATE(2004,2,29),4,0)" },

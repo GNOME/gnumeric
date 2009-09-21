@@ -1463,7 +1463,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><parameter>field</parameter> is a string or integer specifying whichfield is to be used. If <parameter>field</parameter> is an integer nthen the nth column will be used. If <parameter>field</parameter> is a string, then the column with the matching label will be used.</para>
+        <para><parameter>field</parameter> is a string or integer specifying which field is to be used. If <parameter>field</parameter> is an integer n then the nth column will be used. If <parameter>field</parameter> is a string, then the column with the matching label will be used.</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -1499,7 +1499,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><parameter>field</parameter> is a string or integer specifying whichfield is to be used. If <parameter>field</parameter> is an integer nthen the nth column will be used. If <parameter>field</parameter> is a string, then the column with the matching label will be used.</para>
+        <para><parameter>field</parameter> is a string or integer specifying which field is to be used. If <parameter>field</parameter> is an integer n then the nth column will be used. If <parameter>field</parameter> is a string, then the column with the matching label will be used.</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -1536,7 +1536,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><parameter>field</parameter> is a string or integer specifying whichfield is to be used. If <parameter>field</parameter> is an integer nthen the nth column will be used. If <parameter>field</parameter> is a string, then the column with the matching label will be used.</para>
+        <para><parameter>field</parameter> is a string or integer specifying which field is to be used. If <parameter>field</parameter> is an integer n then the nth column will be used. If <parameter>field</parameter> is a string, then the column with the matching label will be used.</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -1572,7 +1572,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><parameter>field</parameter> is a string or integer specifying whichfield is to be used. If <parameter>field</parameter> is an integer nthen the nth column will be used. If <parameter>field</parameter> is a string, then the column with the matching label will be used.</para>
+        <para><parameter>field</parameter> is a string or integer specifying which field is to be used. If <parameter>field</parameter> is an integer n then the nth column will be used. If <parameter>field</parameter> is a string, then the column with the matching label will be used.</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -1616,7 +1616,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><parameter>field</parameter> is a string or integer specifying whichfield is to be used. If <parameter>field</parameter> is an integer nthen the nth column will be used. If <parameter>field</parameter> is a string, then the column with the matching label will be used.</para>
+        <para><parameter>field</parameter> is a string or integer specifying which field is to be used. If <parameter>field</parameter> is an integer n then the nth column will be used. If <parameter>field</parameter> is a string, then the column with the matching label will be used.</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -1652,7 +1652,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><parameter>field</parameter> is a string or integer specifying whichfield is to be used. If <parameter>field</parameter> is an integer nthen the nth column will be used. If <parameter>field</parameter> is a string, then the column with the matching label will be used.</para>
+        <para><parameter>field</parameter> is a string or integer specifying which field is to be used. If <parameter>field</parameter> is an integer n then the nth column will be used. If <parameter>field</parameter> is a string, then the column with the matching label will be used.</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -1688,7 +1688,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><parameter>field</parameter> is a string or integer specifying whichfield is to be used. If <parameter>field</parameter> is an integer nthen the nth column will be used. If <parameter>field</parameter> is a string, then the column with the matching label will be used.</para>
+        <para><parameter>field</parameter> is a string or integer specifying which field is to be used. If <parameter>field</parameter> is an integer n then the nth column will be used. If <parameter>field</parameter> is a string, then the column with the matching label will be used.</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -1724,7 +1724,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><parameter>field</parameter> is a string or integer specifying whichfield is to be used. If <parameter>field</parameter> is an integer nthen the nth column will be used. If <parameter>field</parameter> is a string, then the column with the matching label will be used.</para>
+        <para><parameter>field</parameter> is a string or integer specifying which field is to be used. If <parameter>field</parameter> is an integer n then the nth column will be used. If <parameter>field</parameter> is a string, then the column with the matching label will be used.</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -1760,7 +1760,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><parameter>field</parameter> is a string or integer specifying whichfield is to be used. If <parameter>field</parameter> is an integer nthen the nth column will be used. If <parameter>field</parameter> is a string, then the column with the matching label will be used.</para>
+        <para><parameter>field</parameter> is a string or integer specifying which field is to be used. If <parameter>field</parameter> is an integer n then the nth column will be used. If <parameter>field</parameter> is a string, then the column with the matching label will be used.</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -1796,7 +1796,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><parameter>field</parameter> is a string or integer specifying whichfield is to be used. If <parameter>field</parameter> is an integer nthen the nth column will be used. If <parameter>field</parameter> is a string, then the column with the matching label will be used.</para>
+        <para><parameter>field</parameter> is a string or integer specifying which field is to be used. If <parameter>field</parameter> is an integer n then the nth column will be used. If <parameter>field</parameter> is a string, then the column with the matching label will be used.</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -1832,7 +1832,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><parameter>field</parameter> is a string or integer specifying whichfield is to be used. If <parameter>field</parameter> is an integer nthen the nth column will be used. If <parameter>field</parameter> is a string, then the column with the matching label will be used.</para>
+        <para><parameter>field</parameter> is a string or integer specifying which field is to be used. If <parameter>field</parameter> is an integer n then the nth column will be used. If <parameter>field</parameter> is a string, then the column with the matching label will be used.</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -1868,7 +1868,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><parameter>field</parameter> is a string or integer specifying whichfield is to be used. If <parameter>field</parameter> is an integer nthen the nth column will be used. If <parameter>field</parameter> is a string, then the column with the matching label will be used.</para>
+        <para><parameter>field</parameter> is a string or integer specifying which field is to be used. If <parameter>field</parameter> is an integer n then the nth column will be used. If <parameter>field</parameter> is a string, then the column with the matching label will be used.</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -3376,7 +3376,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><function>INVSUMINV</function> sum calculates the reciprocal (the inverse) of the sum of reciprovals (inverses) of all its arguments.</para>
+        <para><function>INVSUMINV</function> sum calculates the reciprocal (the inverse) of the sum of reciprocals (inverses) of all its arguments.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -4106,7 +4106,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>COUPPCD</function> calculates the coupon date preceeding settlement.</para>
+        <para><function>COUPPCD</function> calculates the coupon date preceding settlement.</para>
         <para><parameter>settlement</parameter>: settlement date</para>
         <para><parameter>maturity</parameter>: maturity date</para>
         <para><parameter>frequency</parameter>: number of interest payments per year</para>
@@ -13071,7 +13071,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>LOGFIT</function> function applies the ``least squares'' method to fit the logarithmic equationy = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 to your data. The graph of the equation is a logarithmic curve moved horizontally by c and possibly mirrored across the y-axis (if sign = -1).</para>
+        <para><function>LOGFIT</function> function applies the ``least squares'' method to fit the logarithmic equation y = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 to your data. The graph of the equation is a logarithmic curve moved horizontally by c and possibly mirrored across the y-axis (if sign = -1).</para>
         <para>@{known_y's}: known y-values</para>
         <para>@{known_x's}: known x-values</para>
       </refsect1>

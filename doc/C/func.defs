@@ -404,7 +404,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{field}: a string or integer specifying which field is to be used
 @{criteria}: a range containing conditions
 
-@DESCRIPTION=@{field} is a string or integer specifying whichfield is to be used. If @{field} is an integer nthen the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
+@DESCRIPTION=@{field} is a string or integer specifying which field is to be used. If @{field} is an integer n then the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
 @DESCRIPTION=@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as ">3" or "<9". An equality condition can be given by simply specifying a value, e. g. "3" or "Jody". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}.
 @SEEALSO=DCOUNT
 
@@ -416,7 +416,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{field}: a string or integer specifying which field is to be used
 @{criteria}: a range containing conditions
 
-@DESCRIPTION=@{field} is a string or integer specifying whichfield is to be used. If @{field} is an integer nthen the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
+@DESCRIPTION=@{field} is a string or integer specifying which field is to be used. If @{field} is an integer n then the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
 @DESCRIPTION=@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as ">3" or "<9". An equality condition can be given by simply specifying a value, e. g. "3" or "Jody". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}.
 @SEEALSO=DAVERAGE,DCOUNTA
 
@@ -428,7 +428,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{field}: a string or integer specifying which field is to be used
 @{criteria}: a range containing conditions
 
-@DESCRIPTION=@{field} is a string or integer specifying whichfield is to be used. If @{field} is an integer nthen the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
+@DESCRIPTION=@{field} is a string or integer specifying which field is to be used. If @{field} is an integer n then the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
 @DESCRIPTION=@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as ">3" or "<9". An equality condition can be given by simply specifying a value, e. g. "3" or "Jody". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}.
 @SEEALSO=DCOUNT
 
@@ -440,7 +440,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{field}: a string or integer specifying which field is to be used
 @{criteria}: a range containing conditions
 
-@DESCRIPTION=@{field} is a string or integer specifying whichfield is to be used. If @{field} is an integer nthen the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
+@DESCRIPTION=@{field} is a string or integer specifying which field is to be used. If @{field} is an integer n then the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
 @DESCRIPTION=@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as ">3" or "<9". An equality condition can be given by simply specifying a value, e. g. "3" or "Jody". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}.
 @NOTE=If none of the records match the conditions, DGET returns #VALUE!
 @NOTE=If more than one record match the conditions, DGET returns #NUM!
@@ -454,7 +454,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{field}: a string or integer specifying which field is to be used
 @{criteria}: a range containing conditions
 
-@DESCRIPTION=@{field} is a string or integer specifying whichfield is to be used. If @{field} is an integer nthen the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
+@DESCRIPTION=@{field} is a string or integer specifying which field is to be used. If @{field} is an integer n then the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
 @DESCRIPTION=@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as ">3" or "<9". An equality condition can be given by simply specifying a value, e. g. "3" or "Jody". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}.
 @SEEALSO=DMIN
 
@@ -466,7 +466,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{field}: a string or integer specifying which field is to be used
 @{criteria}: a range containing conditions
 
-@DESCRIPTION=@{field} is a string or integer specifying whichfield is to be used. If @{field} is an integer nthen the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
+@DESCRIPTION=@{field} is a string or integer specifying which field is to be used. If @{field} is an integer n then the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
 @DESCRIPTION=@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as ">3" or "<9". An equality condition can be given by simply specifying a value, e. g. "3" or "Jody". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}.
 @SEEALSO=DCOUNT
 
@@ -478,7 +478,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{field}: a string or integer specifying which field is to be used
 @{criteria}: a range containing conditions
 
-@DESCRIPTION=@{field} is a string or integer specifying whichfield is to be used. If @{field} is an integer nthen the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
+@DESCRIPTION=@{field} is a string or integer specifying which field is to be used. If @{field} is an integer n then the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
 @DESCRIPTION=@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as ">3" or "<9". An equality condition can be given by simply specifying a value, e. g. "3" or "Jody". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}.
 @SEEALSO=DSUM
 
@@ -490,7 +490,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{field}: a string or integer specifying which field is to be used
 @{criteria}: a range containing conditions
 
-@DESCRIPTION=@{field} is a string or integer specifying whichfield is to be used. If @{field} is an integer nthen the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
+@DESCRIPTION=@{field} is a string or integer specifying which field is to be used. If @{field} is an integer n then the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
 @DESCRIPTION=@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as ">3" or "<9". An equality condition can be given by simply specifying a value, e. g. "3" or "Jody". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}.
 @SEEALSO=DSTDEVP
 
@@ -502,7 +502,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{field}: a string or integer specifying which field is to be used
 @{criteria}: a range containing conditions
 
-@DESCRIPTION=@{field} is a string or integer specifying whichfield is to be used. If @{field} is an integer nthen the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
+@DESCRIPTION=@{field} is a string or integer specifying which field is to be used. If @{field} is an integer n then the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
 @DESCRIPTION=@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as ">3" or "<9". An equality condition can be given by simply specifying a value, e. g. "3" or "Jody". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}.
 @SEEALSO=DSTDEV
 
@@ -514,7 +514,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{field}: a string or integer specifying which field is to be used
 @{criteria}: a range containing conditions
 
-@DESCRIPTION=@{field} is a string or integer specifying whichfield is to be used. If @{field} is an integer nthen the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
+@DESCRIPTION=@{field} is a string or integer specifying which field is to be used. If @{field} is an integer n then the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
 @DESCRIPTION=@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as ">3" or "<9". An equality condition can be given by simply specifying a value, e. g. "3" or "Jody". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}.
 @SEEALSO=DPRODUCT
 
@@ -526,7 +526,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{field}: a string or integer specifying which field is to be used
 @{criteria}: a range containing conditions
 
-@DESCRIPTION=@{field} is a string or integer specifying whichfield is to be used. If @{field} is an integer nthen the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
+@DESCRIPTION=@{field} is a string or integer specifying which field is to be used. If @{field} is an integer n then the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
 @DESCRIPTION=@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as ">3" or "<9". An equality condition can be given by simply specifying a value, e. g. "3" or "Jody". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}.
 @SEEALSO=DVARP
 
@@ -538,7 +538,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{field}: a string or integer specifying which field is to be used
 @{criteria}: a range containing conditions
 
-@DESCRIPTION=@{field} is a string or integer specifying whichfield is to be used. If @{field} is an integer nthen the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
+@DESCRIPTION=@{field} is a string or integer specifying which field is to be used. If @{field} is an integer n then the nth column will be used. If @{field} is a string, then the column with the matching label will be used.
 @DESCRIPTION=@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as ">3" or "<9". An equality condition can be given by simply specifying a value, e. g. "3" or "Jody". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}.
 @SEEALSO=DVAR
 
@@ -1055,7 +1055,7 @@ For metric units any of the following prefixes can be used:
 @{x1}: non-negative number
 @NOTE=If any of the arguments is negative, #VALUE! is returned.
 If any argument is zero, the result is zero.
-@DESCRIPTION=INVSUMINV sum calculates the reciprocal (the inverse) of the sum of reciprovals (inverses) of all its arguments.
+@DESCRIPTION=INVSUMINV sum calculates the reciprocal (the inverse) of the sum of reciprocals (inverses) of all its arguments.
 @SEEALSO=HARMEAN
 
 @CATEGORY=Engineering
@@ -1289,7 +1289,7 @@ If any argument is zero, the result is zero.
 @CATEGORY=Finance
 @FUNCTION=COUPPCD
 @SYNTAX=COUPPCD(settlement,maturity,frequency,basis,eom)
-@DESCRIPTION=COUPPCD calculates the coupon date preceeding settlement.
+@DESCRIPTION=COUPPCD calculates the coupon date preceding settlement.
 @{settlement}: settlement date
 @{maturity}: maturity date
 @{frequency}: number of interest payments per year
@@ -4028,7 +4028,7 @@ The successive use of the simulation tool also requires that you give to the too
 @CATEGORY=Statistics
 @FUNCTION=LOGFIT
 @SYNTAX=LOGFIT(known_y's,known_x's)
-@DESCRIPTION=LOGFIT function applies the ``least squares'' method to fit the logarithmic equationy = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 to your data. The graph of the equation is a logarithmic curve moved horizontally by c and possibly mirrored across the y-axis (if sign = -1).
+@DESCRIPTION=LOGFIT function applies the ``least squares'' method to fit the logarithmic equation y = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 to your data. The graph of the equation is a logarithmic curve moved horizontally by c and possibly mirrored across the y-axis (if sign = -1).
 @{known_y's}: known y-values
 @{known_x's}: known x-values
 

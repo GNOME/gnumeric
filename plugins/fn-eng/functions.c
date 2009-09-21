@@ -1167,7 +1167,7 @@ static GnmFuncHelp const help_invsuminv[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If any of the arguments is negative, #VALUE! is returned.\n"
 				 "If any argument is zero, the result is zero.") },
         { GNM_FUNC_HELP_DESCRIPTION, F_("INVSUMINV sum calculates the reciprocal (the inverse) "
-					"of the sum of reciprovals (inverses) of all its arguments.") },
+					"of the sum of reciprocals (inverses) of all its arguments.") },
         { GNM_FUNC_HELP_EXAMPLES, "=INVSUMINV(2000,2000)" },
         { GNM_FUNC_HELP_SEEALSO, "HARMEAN" },
         { GNM_FUNC_HELP_END}

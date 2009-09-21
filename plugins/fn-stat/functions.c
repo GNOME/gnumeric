@@ -3634,7 +3634,7 @@ static GnmFuncHelp const help_logfit[] = {
 	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_(
 	   "LOGFIT function applies the ``least squares'' method to fit "
-	   "the logarithmic equation"
+	   "the logarithmic equation "
 	   "y = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 "
 	   "to your data. The graph of the equation is a logarithmic curve "
 	   "moved horizontally by c and possibly mirrored across the y-axis "
