@@ -6,16 +6,15 @@ sub func_perl_adder {
 }
 
 sub help_perl_adder {
-  return<<'EOS';
-@FUNCTION=PERL_ADDER
-@SYNTAX=PERL_ADDER(a,b)
-@DESCRIPTION=
-Adds two numbers. It is just an example function.
-EOS
+  return ($GNM_FUNC_HELP_NAME, "PERL_ADDER:adds two numbers",
+	  $GNM_FUNC_HELP_ARG, "a:number",
+	  $GNM_FUNC_HELP_ARG, "b:number",
+	  $GNM_FUNC_HELP_DESCRIPTION, "Adds two numbers. It is just an example function.",
+	  $GNM_FUNC_HELP_EXAMPLES, "=PERL_ADDER(17,22)");
 }
 
 sub desc_perl_adder {
-  return ("ff", "a,b,c");
+  return "ff";
 }
 
 sub func_perl_date {
@@ -24,16 +23,13 @@ sub func_perl_date {
 }
 
 sub help_perl_date {
-  return<<'EOS';
-@FUNCTION=PERL_DATE
-@SYNTAX=PERL_DATE()
-@DESCRIPTION=
-Return today's date as string.
-EOS
+  return ($GNM_FUNC_HELP_NAME, "PERL_DATE:today's date",
+	  $GNM_FUNC_HELP_DESCRIPTION, "Return today's date as string.",
+	  $GNM_FUNC_HELP_EXAMPLES, "=PERL_DATE()");
 }
 
 sub desc_perl_date {
-  return ("", "");
+  return "";
 }
 
 sub func_perl_sed {
@@ -47,14 +43,16 @@ sub func_perl_sed {
 }
 
 sub help_perl_sed {
-  return<<'EOS';
-@FUNCTION=PERL_SED
-@SYNTAX=PERL_SED(a,b,c)
-@DESCRIPTION=
-Substite string with matching pattern. Same as $a =~ s/$b/$c/g .
+  return ($GNM_FUNC_HELP_NAME, "PERL_SED:string substitution",
+	  $GNM_FUNC_HELP_ARG, "a:string",
+	  $GNM_FUNC_HELP_ARG, "b:string",
+	  $GNM_FUNC_HELP_ARG, "c:string",
+	  $GNM_FUNC_HELP_DESCRIPTION, <<'EOS',
+Substitute string with matching pattern. Same as $@{a} =~ s/$@{b}/$@{c}/g.
 EOS
+	  $GNM_FUNC_HELP_EXAMPLES, "=PERL_SED(\"abc\",\"b\",\"d\")");
 }
 
 sub desc_perl_sed {
-  return ("sss", "a,b,c");
+  return "sss";
 }

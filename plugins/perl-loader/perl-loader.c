@@ -43,19 +43,6 @@ typedef struct {
 } GnmPerlPluginLoader;
 typedef GObjectClass GnmPerlPluginLoaderClass;
 
-static const char help_template_text[] =
-	N_("@FUNCTION=PERL_FUNCTION_TEMPLATE\n"
-	   "@SYNTAX=PERL_FUNCTION_TEMPLATE(value1, value2, ...)\n"
-	   "@DESCRIPTION="
-	   "This is the perl function template. \n");
-
-static GnmFuncHelp help_template[] = {
-#if 0
-	{ GNM_FUNC_HELP_OLD, help_template_text },
-#endif
-	{ GNM_FUNC_HELP_END }
-};
-
 static GnmValue*
 call_perl_function_args (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
@@ -104,6 +91,111 @@ call_perl_function_args (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	return result;
 }
 
+static void
+init_help_consts (void)
+{
+	/* Export our constants as global variables.  */
+	const struct {
+		const char *name;
+		int value;
+	} consts[] = {
+		{ "GNM_FUNC_HELP_NAME", GNM_FUNC_HELP_NAME },
+		{ "GNM_FUNC_HELP_ARG", GNM_FUNC_HELP_ARG },
+		{ "GNM_FUNC_HELP_DESCRIPTION", GNM_FUNC_HELP_DESCRIPTION },
+		{ "GNM_FUNC_HELP_NOTE", GNM_FUNC_HELP_NOTE },
+		{ "GNM_FUNC_HELP_EXAMPLES", GNM_FUNC_HELP_EXAMPLES },
+		{ "GNM_FUNC_HELP_SEEALSO", GNM_FUNC_HELP_SEEALSO },
+		{ "GNM_FUNC_HELP_EXTREF", GNM_FUNC_HELP_EXTREF },
+		{ "GNM_FUNC_HELP_EXCEL", GNM_FUNC_HELP_EXCEL },
+		{ "GNM_FUNC_HELP_ODF", GNM_FUNC_HELP_ODF }
+	};
+	unsigned ui;
+
+	for (ui = 0; ui < G_N_ELEMENTS (consts); ui++) {
+		SV* x = get_sv (consts[ui].name, TRUE);
+		sv_setiv (x, consts[ui].value);
+	}
+}
+
+static const char help_template_text[] =
+  "This Perl function hasn't been documented.";
+
+static const GnmFuncHelp help_template[] = {
+	{ GNM_FUNC_HELP_NAME, NULL },
+	{ GNM_FUNC_HELP_DESCRIPTION, NULL },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmFuncHelp *default_gnm_help(const char *name)
+{
+	GnmFuncHelp *help = g_new (GnmFuncHelp, 3);
+	if (help) {
+		int i;
+		for (i = 0; i < 3; i++)
+			help[i] = help_template[i];
+		help[0].text = g_strdup_printf ("%s:", name);
+		help[1].text = g_strdup (help_template_text);
+	}
+	return help;
+}
+
+static GnmFuncHelp *
+make_gnm_help (const char *name, int count, SV **SP)
+{
+	gchar *help_perl_func = g_strconcat ("help_", name, NULL);
+	GnmFuncHelp *help = NULL;
+	/* We assume that the description is a Perl array of the form
+	   (key, text, key, text, ...). */
+	int n = count / 2, m = 0, k, type = GNM_FUNC_HELP_END;
+	GnmFuncHelp *helptmp = g_new (GnmFuncHelp, n + 1);
+	if (count % 2) POPs, count--;
+	for (k = n; k-- > 0; ) {
+		SV *sv = POPs;
+		if (SvPOK(sv)) {
+			STRLEN size;
+			gchar *tmp;
+			tmp = SvPV(sv, size);
+			helptmp[k].text = g_strndup (tmp, size);
+		} else {
+			helptmp[k].text = NULL;
+		}
+		sv = POPs;
+		if (SvIOK(sv)) type = SvIV(sv);
+		if (helptmp[k].text &&
+		    type >= GNM_FUNC_HELP_NAME && GNM_FUNC_HELP_ODF) {
+			helptmp[k].type = type; m++;
+		} else {
+			helptmp[k].type = GNM_FUNC_HELP_END;
+			if (helptmp[k].text)
+				g_free ((char*)helptmp[k].text);
+			helptmp[k].text = NULL;
+		}
+	}
+	if (m == 0) {
+		/* No valid entries. */
+		g_free (helptmp);
+	} else {
+		/* Collect all valid entries in a new array. */
+		if (n == m)
+			help = helptmp;
+		else {
+			int i;
+			help = g_new (GnmFuncHelp, m+1);
+			for (i = 0, k = 0; k < n; k++)
+				if (helptmp[k].type != GNM_FUNC_HELP_END &&
+				    helptmp[k].text)
+					help[i++] = helptmp[k];
+			g_free(helptmp);
+		}
+		help[m].type = GNM_FUNC_HELP_END;
+		help[m].text = NULL;
+	}
+	if (!help) /* Provide a reasonable default. */
+		help = default_gnm_help (name);
+
+	return help;
+}
+
 static gboolean
 gplp_func_desc_load (GOPluginService *service,
 		     char const *name,
@@ -112,24 +204,24 @@ gplp_func_desc_load (GOPluginService *service,
 	char *args[] = { NULL };
 	gchar *help_perl_func = g_strconcat ("help_", name, NULL);
 	gchar *desc_perl_func = g_strconcat ("desc_", name, NULL);
-	gchar *help_text = NULL;
+	GnmFuncHelp *help = NULL;
 	gchar *arg_spec = NULL;
-	gchar *arg_names = NULL;
+	int count;
 
 	dSP;
 	ENTER;
 	SAVETMPS;
 	PUSHMARK(SP);
 	PUTBACK;
-	call_argv (help_perl_func, G_EVAL | G_SCALAR | G_NOARGS, args);
+	count = call_argv (help_perl_func, G_EVAL | G_ARRAY | G_NOARGS, args);
 	SPAGAIN;
 
 	if (SvTRUE(ERRSV)) { /* Error handling */
 		STRLEN n_a;
 		g_print ( _("Perl error: %s\n"), SvPV (ERRSV, n_a));
-		POPs;
+		while (count-- > 0) POPs;
 	} else {
-		help_text = g_strdup (POPp);
+	  help = make_gnm_help(name, count, SP);
 	}
 
 	PUTBACK;
@@ -148,7 +240,6 @@ gplp_func_desc_load (GOPluginService *service,
 		g_print ( _("Perl error: %s\n"), SvPV (ERRSV, n_a));
 		POPs;
 	} else {
-		arg_names = g_strdup (POPp);
 		arg_spec = g_strdup (POPp);
 	}
 
@@ -162,11 +253,7 @@ gplp_func_desc_load (GOPluginService *service,
 	res->name = g_strdup(name);
 	res->arg_spec = arg_spec;
 
-#if 0
-	help_template[0].text = help_text ? help_text : help_template_text;
-#endif
-
-	res->help = g_slice_dup (GnmFuncHelp, help_template);
+	res->help = help;
 	res->fn_args = NULL;
 	res->fn_args = &call_perl_function_args;
 	res->fn_nodes = NULL;
@@ -208,11 +295,12 @@ gplp_load_base (GOPluginLoader *loader, GOErrorInfo **ret_error)
 	argc = 2;
 
 	if (g_file_test (argv[2], G_FILE_TEST_EXISTS)) {
-		PERL_SYS_INIT3(&argc, &argv, NULL);
+		PERL_SYS_INIT3 (&argc, &argv, NULL);
 		gnm_perl_interp = perl_alloc ();
 		perl_construct (gnm_perl_interp);
 		perl_parse (gnm_perl_interp, xs_init, 3, argv, NULL);
 		my_perl = gnm_perl_interp;
+		init_help_consts ();
 #ifdef PERL_EXIT_DESTRUCT_END
 		PL_exit_flags |= PERL_EXIT_DESTRUCT_END;
 #endif

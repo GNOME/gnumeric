@@ -1,3 +1,8 @@
+2009-09-21  Morten Welinder  <terra@gnome.org>
+
+	* perl-loader.c (gplp_load_base): Adapt help texts to new
+	method.  (Patch from Albert Gr\"af.)
+
 2009-09-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.13
