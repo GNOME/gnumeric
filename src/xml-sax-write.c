@@ -1454,6 +1454,7 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 				range_as_string (ptr->data));
 			gsf_xml_out_end_element (state.state.output); /* </Merge> */
 		}
+		gsf_xml_out_end_element (state.state.output); /* </gnm:MergedRegions> */
 	}
 
 	/* NOTE SNEAKY : ensure that sheet names have explicit workbooks */

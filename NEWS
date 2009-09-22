@@ -7,6 +7,9 @@ Andreas:
 Jean:
 	* Make plugins GUI labels translatable. [#159806]
 
+Morten:
+	* Fix inter-process pasting of merged regions.
+
 --------------------------------------------------------------------------
 Gnumeric 1.9.13
 
