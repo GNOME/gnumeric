@@ -695,7 +695,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 	gchar *target_name = gdk_atom_name (selection_data->target);
 
 	if (debug_clipboard ())
-		g_message ("clipboard target=%s", target_name);
+		g_printerr ("clipboard target=%s\n", target_name);
 
 	/*
 	 * There are 4 cases. What variables are valid depends on case:
@@ -723,7 +723,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 		if (output) {
 			gsf_off_t size = gsf_output_size (GSF_OUTPUT (output));
 			if (debug_clipboard ())
-				g_message ("clipboard .gnumeric of %d bytes",
+				g_printerr ("clipboard .gnumeric of %d bytes\n",
 					   (int)size);
 			gtk_selection_data_set
 				(selection_data, selection_data->target, 8,

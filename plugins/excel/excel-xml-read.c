@@ -41,7 +41,6 @@
 #include "command-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
-#include "xml-io.h"
 #include <goffice/goffice.h>
 
 #include <gsf/gsf-libxml.h>
