@@ -70,7 +70,7 @@ analysis_tool_anova_two_factor_prepare_input_range (
 	return FALSE;
 }
 
-/************* Anova: Two-Factor Without Replication Tool ****************
+/************* ANOVA: Two-Factor Without Replication Tool ****************
  *
  * The results are given in a table which can be printed out in a new
  * sheet, in a new workbook, or simply into an existing sheet.
@@ -119,7 +119,7 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 
 	dao_set_merge (dao, 0, 0, 4, 0);
 	dao_set_italic (dao, 0, 0, 0, 0);
-	dao_set_cell (dao, 0, 0, _("Anova: Two-Factor Without Replication"));
+	dao_set_cell (dao, 0, 0, _("ANOVA: Two-Factor Without Replication"));
 	dao_set_italic (dao, 0, 2, 4, 2);
 	set_cell_text_row (dao, 0, 2, _("/Summary"
 					"/Count"
@@ -405,7 +405,7 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 }
 
 
-/************* Anova: Two-Factor With Replication Tool *******************
+/************* ANOVA: Two-Factor With Replication Tool *******************
  *
  * The results are given in a table which can be printed out in a new
  * sheet, in a new workbook, or simply into an existing sheet.
@@ -457,7 +457,7 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 
 	dao_set_merge (dao, 0, 0, 4, 0);
 	dao_set_italic (dao, 0, 0, 0, 0);
-	dao_set_cell (dao, 0, 0, _("Anova: Two-Factor Fixed Effects With Replication"));
+	dao_set_cell (dao, 0, 0, _("ANOVA: Two-Factor Fixed Effects With Replication"));
 	dao_set_italic (dao, 0, 2, info->n_c + 1, 2);
 	dao_set_cell (dao, 0, 2, _("Summary"));
 
@@ -478,7 +478,7 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 
 	r = 3;
 	for (i = 1; i <= info->n_r; i++, r += 6) {
-		int level_start =  (i-1)*info->replication + (info->labels) ? 1 : 0;
+		int level_start =  (i-1)*info->replication + ((info->labels) ? 1 : 0);
 
 		dao_set_italic (dao, 0, r, 0, r+4);
 		if (info->labels) {
@@ -850,7 +850,7 @@ analysis_tool_anova_two_factor_engine (data_analysis_output_t *dao, gpointer spe
 	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
 		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("Anova"));
+		dao_prepare_output (NULL, dao, _("ANOVA"));
 		return FALSE;
 	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
 		return dao_format_output (dao, _("Two Factor ANOVA"));
