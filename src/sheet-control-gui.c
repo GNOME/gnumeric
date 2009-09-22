@@ -3304,8 +3304,12 @@ scg_drag_receive_cellregion (SheetControlGUI *scg, double x, double y,
 			     const char *data, unsigned len)
 {
 	GnmCellRegion *content;
+	GOIOContext *io_context =
+		go_io_context_new (GO_CMD_CONTEXT (scg->wbcg));
 
-	content = xml_cellregion_read (scg_wbc (scg), scg_sheet (scg), data, len);
+	content = xml_cellregion_read (scg_wbc (scg), io_context,
+				       scg_sheet (scg), data, len);
+	g_object_unref (io_context);
 	if (content != NULL) {
 		scg_paste_cellregion (scg, x, y, content);
 		cellregion_unref (content);

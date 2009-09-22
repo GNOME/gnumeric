@@ -9,6 +9,7 @@ Jean:
 
 Morten:
 	* Fix inter-process pasting of merged regions.
+	* Make inter-process pasting use the sax parser.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.13

@@ -49,6 +49,7 @@
 #include "selection.h"
 #include "command-context.h"
 #include "workbook-view.h"
+#include "workbook-control.h"
 #include "workbook.h"
 #include "sheet-object-impl.h"
 #include "sheet-object-cell-comment.h"
@@ -59,6 +60,7 @@
 #include "application.h"
 #include "xml-io.h"
 #include "gutils.h"
+#include "clipboard.h"
 
 #include <goffice/goffice.h>
 
@@ -277,6 +279,7 @@ typedef struct {
 	GnumericXMLVersion version;
 	gsf_off_t last_progress_update;
 	GnmConventions *convs;
+	gboolean do_progress;
 
 	Sheet *sheet;
 	double sheet_zoom;
@@ -343,6 +346,8 @@ typedef struct {
 	int sheet_rows, sheet_cols;
 
 	GnmPageBreaks *page_breaks;
+
+	GnmCellRegion *clipboard;
 } XMLSaxParseState;
 
 static void
@@ -352,7 +357,7 @@ maybe_update_progress (GsfXMLIn *xin)
 	GsfInput *input = gsf_xml_in_get_input (xin);
 	gsf_off_t pos = gsf_input_tell (input);
 
-	if (pos >= state->last_progress_update + 10000) {
+	if (state->do_progress && pos >= state->last_progress_update + 10000) {
 		go_io_value_progress_update (state->context, pos);
 		state->last_progress_update = pos;
 	}
@@ -375,8 +380,15 @@ static void
 gnm_xml_finish_obj (GsfXMLIn *xin)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-	sheet_object_set_sheet (state->so, state->sheet);
-	g_object_unref (state->so);
+	GnmCellRegion *cr = state->clipboard;
+
+	if (cr) {
+		cr->objects = g_slist_prepend (cr->objects, state->so);
+	} else {
+		sheet_object_set_sheet (state->so, state->sheet);
+		g_object_unref (state->so);
+	}
+
 	state->so = NULL;
 }
 
@@ -1294,7 +1306,15 @@ xml_sax_style_region_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	g_return_if_fail (state->style != NULL);
 	g_return_if_fail (state->sheet != NULL);
 
-	if (state->version >= GNM_XML_V6 || state->version <= GNM_XML_V2)
+	if (state->clipboard) {
+		GnmCellRegion *cr = state->clipboard;
+		GnmStyleRegion *sr = g_new (GnmStyleRegion, 1);
+
+		sr->range = state->style_range;
+		sr->style = state->style;
+
+		cr->styles = g_slist_prepend (cr->styles, sr);
+	} else if (state->version >= GNM_XML_V6 || state->version <= GNM_XML_V2)
 		sheet_style_set_range (state->sheet, &state->style_range,
 				       state->style);
 	else
@@ -1760,7 +1780,7 @@ xml_sax_cell (GsfXMLIn *xin, xmlChar const **attrs)
  */
 static void
 xml_cell_set_array_expr (XMLSaxParseState *state,
-			 GnmCell *cell, char const *text,
+			 GnmCell *cell, GnmCellCopy *cc, char const *text,
 			 int const cols, int const rows)
 {
 	GnmParsePos pp;
@@ -1772,10 +1792,15 @@ xml_cell_set_array_expr (XMLSaxParseState *state,
 				    NULL);
 
 	g_return_if_fail (texpr != NULL);
-	gnm_cell_set_array_formula (cell->base.sheet,
-				    cell->pos.col, cell->pos.row,
-				    cell->pos.col + cols-1, cell->pos.row + rows-1,
-				    texpr);
+
+	if (cell)
+		gnm_cell_set_array_formula (cell->base.sheet,
+					    cell->pos.col, cell->pos.row,
+					    cell->pos.col + cols - 1,
+					    cell->pos.row + rows - 1,
+					    texpr);
+	else
+		cc->texpr = texpr;
 }
 
 /**
@@ -1786,7 +1811,8 @@ xml_cell_set_array_expr (XMLSaxParseState *state,
  *     If it is not a member of an array return TRUE.
  */
 static gboolean
-xml_not_used_old_array_spec (XMLSaxParseState *state, GnmCell *cell,
+xml_not_used_old_array_spec (XMLSaxParseState *state,
+			     GnmCell *cell, GnmCellCopy *cc,
 			     char const *content)
 {
 	long rows, cols, row, col;
@@ -1820,7 +1846,8 @@ xml_not_used_old_array_spec (XMLSaxParseState *state, GnmCell *cell,
 
 	if (row == 0 && col == 0) {
 		*expr_end = '\0';
-		xml_cell_set_array_expr (state, cell, content+2, rows, cols);
+		xml_cell_set_array_expr (state, cell, cc,
+					 content + 2, rows, cols);
 	}
 
 	return FALSE;
@@ -1831,8 +1858,12 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
-	gboolean is_new_cell, is_post_52_array = FALSE;
-	GnmCell *cell;
+	gboolean is_new_cell = FALSE, is_post_52_array = FALSE;
+
+	GnmParsePos pos;
+	GnmCell *cell = NULL; /* Regular case */
+	GnmCellCopy *cc = NULL; /* Clipboard case */
+	GnmCellRegion *cr = state->clipboard;
 
 	int const col = state->cell.col;
 	int const row = state->cell.row;
@@ -1859,12 +1890,21 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	maybe_update_progress (xin);
 
-	cell = sheet_cell_get (state->sheet, col, row);
-	if ((is_new_cell = (cell == NULL)))
-		cell = sheet_cell_create (state->sheet, col, row);
-
-	if (cell == NULL)
-		return;
+	if (cr) {
+		cc = gnm_cell_copy_new (cr,
+					col - cr->base.col,
+					row - cr->base.row);
+		parse_pos_init (&pos, NULL, state->sheet, col, row);
+	} else {
+		cell = sheet_cell_get (state->sheet, col, row);
+		is_new_cell = (cell == NULL);
+		if (is_new_cell) {
+			cell = sheet_cell_create (state->sheet, col, row);
+			if (cell == NULL)
+				return;
+		}
+		parse_pos_init_cell (&pos, cell);
+	}
 
 	is_post_52_array = (array_cols > 0) && (array_rows > 0);
 
@@ -1874,43 +1914,49 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		if (is_post_52_array) {
 			g_return_if_fail (content[0] == '=');
 
-			xml_cell_set_array_expr (state, cell, content+1,
+			xml_cell_set_array_expr (state, cell, cc, content+1,
 						 array_cols, array_rows);
 		} else if (state->version >= GNM_XML_V3 ||
-			   xml_not_used_old_array_spec (state, cell, content)) {
+			   xml_not_used_old_array_spec (state, cell, cc, content)) {
 			if (value_type > 0) {
 				GnmValue *v = value_new_from_string (value_type, content, value_fmt, FALSE);
 				if (v == NULL) {
 					g_warning ("Unable to parse \"%s\" as type %d.",
 						   content, value_type);
-					gnm_cell_set_text (cell, content);
-				} else
+					v = value_new_string (content);
+				}
+				if (cell)
 					gnm_cell_set_value (cell, v);
+				else
+					cc->val = v;
 			} else {
 				const char *expr_start = gnm_expr_char_start_p (content);
 				if (expr_start && *expr_start) {
 					GnmParseError perr;
-					GnmParsePos pos;
 					GnmExprTop const *texpr;
 
 					parse_error_init (&perr);
 					texpr = gnm_expr_parse_str (expr_start,
-								    parse_pos_init_cell (&pos, cell),
+								    &pos,
 								    GNM_EXPR_PARSE_DEFAULT,
 								    state->convs,
 								    &perr);
-					if (texpr) {
+					if (texpr && cell) {
 						gnm_cell_set_expr (cell, texpr);
 						gnm_expr_top_unref (texpr);
-					} else {
+					} else if (texpr)
+						cc->texpr = texpr;
+					else {
 						g_warning ("Unparsable expression for %s: %s\n",
 							   cell_name (cell),
 							   content);
 						gnm_cell_set_value (cell, value_new_string (content));
 					}
 					parse_error_free (&perr);
-				} else
+				} else if (cell)
 					gnm_cell_set_text (cell, content);
+				else
+					cc->val = value_new_string (content);
 			}
 		}
 
@@ -1919,15 +1965,18 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			GnmExprTop const *texpr =
 				g_hash_table_lookup (state->expr_map, id);
 			if (texpr == NULL) {
-				if (gnm_cell_has_expr (cell)) {
-					GnmExprTop const *texpr =
-						cell->base.texpr;
+				if (cc)
+					texpr = cc->texpr;
+				else if (gnm_cell_has_expr (cell)) {
+					texpr = cell->base.texpr;
+				} else
+					g_warning ("XML-IO : Shared expression with no expression ??");
+				if (texpr) {
 					gnm_expr_top_ref (texpr);
 					g_hash_table_insert (state->expr_map,
 							     id,
 							     (gpointer)texpr);
-				} else
-					g_warning ("XML-IO : Shared expression with no expression ??");
+				}
 			} else if (!is_post_52_array)
 				g_warning ("XML-IO : Duplicate shared expression");
 		}
@@ -1935,10 +1984,17 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		GnmExprTop const *texpr = g_hash_table_lookup (state->expr_map,
 			GINT_TO_POINTER (expr_id));
 
-		if (texpr != NULL)
-			gnm_cell_set_expr (cell, texpr);
-		else
+		if (!texpr) {
+			texpr = gnm_expr_top_new_constant (value_new_int (0));
 			g_warning ("XML-IO : Missing shared expression");
+		}
+
+		if (cell)
+			gnm_cell_set_expr (cell, texpr);
+		else {
+			cc->texpr = texpr;
+			gnm_expr_top_ref (texpr);
+		}
 	} else if (is_new_cell)
 		/*
 		 * Only set to empty if this is a new cell.
@@ -1954,13 +2010,21 @@ static void
 xml_sax_merge (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-
+	GnmCellRegion *cr = state->clipboard;
+	Sheet *sheet = state->sheet;
 	GnmRange r;
+
 	g_return_if_fail (xin->content->len > 0);
 
-	if (range_parse (&r, xin->content->str, gnm_sheet_get_size (state->sheet)))
-		gnm_sheet_merge_add (state->sheet, &r, FALSE,
-			GO_CMD_CONTEXT (state->context));
+	if (range_parse (&r, xin->content->str, gnm_sheet_get_size (sheet))) {
+		if (cr) {
+			cr->merged = g_slist_prepend (cr->merged,
+						      gnm_range_dup (&r));
+		} else {
+			gnm_sheet_merge_add (sheet, &r, FALSE,
+					     GO_CMD_CONTEXT (state->context));
+		}
+	}
 }
 
 static void
@@ -2555,8 +2619,87 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, TRUE
   GSF_XML_IN_NODE (WB, WB_DATE, GNM, "DateConvention", GSF_XML_CONTENT, NULL, &xml_sax_old_dateconvention),
   GSF_XML_IN_NODE (WB, GODOC, -1, "GODoc", GSF_XML_NO_CONTENT, &xml_sax_go_doc, NULL),
     GSF_XML_IN_NODE (WB, DOCUMENTMETA, OO_NS_OFFICE, "document-meta", GSF_XML_NO_CONTENT, &xml_sax_document_meta, NULL),
-  { NULL }
+  GSF_XML_IN_NODE_END
 };
+
+static void
+xml_sax_clipboardrange_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	int cols = -1, rows = -1, base_col = -1, base_row = -1;
+	GnmCellRegion *cr;
+
+	cr = state->clipboard = cellregion_new (state->sheet);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (gnm_xml_attr_int (attrs, "Cols", &cols) ||
+		    gnm_xml_attr_int (attrs, "Rows", &rows) ||
+		    gnm_xml_attr_int (attrs, "BaseCol", &base_col) ||
+		    gnm_xml_attr_int (attrs, "BaseRow", &base_row) ||
+		    gnm_xml_attr_bool (attrs, "NotAsContent", &cr->not_as_contents))
+			; /* Nothing */
+		else if (attr_eq (attrs[0], "DateConvention")) {
+			GODateConventions const *date_conv =
+				go_date_conv_from_str (CXML2C (attrs[1]));
+			if (date_conv)
+				cr->date_conv = date_conv;
+			else
+				g_printerr ("Ignoring invalid date conventions.\n");
+		}
+	}
+
+	if (cols <= 0 || rows <= 0 || base_col < 0 || base_row < 0) {
+		g_printerr ("Invalid clipboard contents.\n");
+	} else {
+		cr->cols = cols;
+		cr->rows = rows;
+		cr->base.col = base_col;
+		cr->base.row = base_row;
+	}
+}
+
+static GsfXMLInNode clipboard_dtd[] = {
+	GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
+	GSF_XML_IN_NODE_FULL (START, CLIPBOARDRANGE, GNM, "ClipboardRange", GSF_XML_NO_CONTENT, TRUE, TRUE, xml_sax_clipboardrange_start, NULL, 0),
+	  /* We insert "Styles" (etc) */
+	GSF_XML_IN_NODE_END
+};
+
+static void
+gnm_xml_in_doc_add_subset (GsfXMLInDoc *doc, GsfXMLInNode *dtd,
+			   const char *id, const char *new_parent)
+{
+	GHashTable *parents = g_hash_table_new (g_str_hash, g_str_equal);
+	GsfXMLInNode end_node = GSF_XML_IN_NODE_END;
+	GArray *new_dtd = g_array_new (FALSE, FALSE, sizeof (GsfXMLInNode));
+
+	for (; dtd->id; dtd++) {
+		GsfXMLInNode node = *dtd;
+
+		if (g_str_equal (id, dtd->id)) {
+			g_hash_table_insert (parents,
+					     (gpointer)id,
+					     (gpointer)id);
+			if (new_parent)
+				node.parent_id = new_parent;
+		} else if (g_hash_table_lookup (parents, dtd->parent_id))
+			g_hash_table_insert (parents,
+					     (gpointer)dtd->id,
+					     (gpointer)dtd->id);
+		else
+			continue;
+
+		g_array_append_val (new_dtd, node);
+	}
+
+	g_array_append_val (new_dtd, end_node);
+
+	gsf_xml_in_doc_add_nodes (doc, (GsfXMLInNode*)(new_dtd->data));
+
+	g_array_free (new_dtd, TRUE);
+	g_hash_table_destroy (parents);
+}
+
 
 static gboolean
 xml_sax_unknown (GsfXMLIn *xin, xmlChar const *elem, xmlChar const **attrs)
@@ -2575,6 +2718,124 @@ xml_sax_unknown (GsfXMLIn *xin, xmlChar const *elem, xmlChar const **attrs)
 	}
 	return FALSE;
 }
+
+typedef enum {
+	READ_FULL_FILE,
+	READ_CLIPBOARD
+} ReadFileWhat;
+
+static gboolean
+read_file_common (ReadFileWhat what, XMLSaxParseState *state,
+		  GOIOContext *io_context,
+		  WorkbookView *wb_view, Sheet *sheet,
+		  GsfInput *input)
+{
+	GsfXMLInDoc     *doc;
+	GnmLocale       *locale;
+	gboolean         ok;
+
+	g_return_val_if_fail (IS_WORKBOOK_VIEW (wb_view), FALSE);
+	g_return_val_if_fail (GSF_IS_INPUT (input), FALSE);
+
+	/* init */
+	state->context = io_context;
+	state->wb_view = wb_view;
+	state->wb = sheet ? sheet->workbook : wb_view_get_workbook (wb_view);
+	state->sheet = sheet;
+	state->version = GNM_XML_UNKNOWN;
+	state->last_progress_update = 0;
+	state->convs = gnm_xml_io_conventions ();
+	state->attribute.name = state->attribute.value = NULL;
+	state->name.name = state->name.value = state->name.position = NULL;
+	state->style_range_init = FALSE;
+	state->style = NULL;
+	state->cell.row = state->cell.col = -1;
+	state->seen_cell_contents = FALSE;
+	state->array_rows = state->array_cols = -1;
+	state->expr_id = -1;
+	state->value_type = -1;
+	state->value_fmt = NULL;
+	state->filter = NULL;
+	state->validation.title = state->validation.msg = NULL;
+	state->validation.texpr[0] = state->validation.texpr[1] = NULL;
+	state->cond.texpr[0] = state->cond.texpr[1] = NULL;
+	state->cond_save_style = NULL;
+	state->expr_map = g_hash_table_new_full
+		(g_direct_hash, g_direct_equal,
+		 NULL, (GFreeFunc)gnm_expr_top_unref);
+	state->delayed_names = NULL;
+	state->so = NULL;
+	state->page_breaks = NULL;
+	state->clipboard = NULL;
+
+	switch (what) {
+	case READ_FULL_FILE:
+		state->do_progress = TRUE;
+		doc = gsf_xml_in_doc_new (gnumeric_1_0_dtd, content_ns);
+		break;
+	case READ_CLIPBOARD:
+		state->do_progress = FALSE;
+		doc = gsf_xml_in_doc_new (clipboard_dtd, content_ns);
+		if (!doc)
+			break;
+		gnm_xml_in_doc_add_subset (doc, gnumeric_1_0_dtd,
+					   "SHEET_STYLES",
+					   "CLIPBOARDRANGE");
+		gnm_xml_in_doc_add_subset (doc, gnumeric_1_0_dtd,
+					   "SHEET_CELLS",
+					   "CLIPBOARDRANGE");
+		gnm_xml_in_doc_add_subset (doc, gnumeric_1_0_dtd,
+					   "SHEET_MERGED_REGIONS",
+					   "CLIPBOARDRANGE");
+		gnm_xml_in_doc_add_subset (doc, gnumeric_1_0_dtd,
+					   "SHEET_OBJECTS",
+					   "CLIPBOARDRANGE");
+		break;
+	default:
+		g_assert_not_reached ();
+		return FALSE;
+	}
+
+	if (doc == NULL)
+		return FALSE;
+
+	gsf_xml_in_doc_set_unknown_handler (doc, &xml_sax_unknown);
+
+	go_doc_init_read (GO_DOC (state->wb), input);
+	gsf_input_seek (input, 0, G_SEEK_SET);
+
+	if (state->do_progress) {
+		go_io_progress_message (state->context,
+					_("Reading file..."));
+		go_io_value_progress_set (state->context,
+					  gsf_input_size (input), 0);
+	}
+
+	locale = gnm_push_C_locale ();
+	ok = gsf_xml_in_doc_parse (doc, input, state);
+	handle_delayed_names (state);
+	gnm_pop_C_locale (locale);
+
+	go_doc_end_read (GO_DOC (state->wb));
+
+	if (state->do_progress)
+		go_io_progress_unset (state->context);
+
+	if (!ok) {
+		go_io_error_string (state->context,
+				    _("XML document not well formed!"));
+	}
+
+	/* cleanup */
+	g_hash_table_destroy (state->expr_map);
+	gnm_conventions_free (state->convs);
+
+	gsf_xml_in_doc_free (doc);
+
+	return ok;
+}
+
+/* ------------------------------------------------------------------------- */
 
 static GsfInput *
 maybe_gunzip (GsfInput *input)
@@ -2676,83 +2937,51 @@ gnm_xml_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 		   gpointer wb_view, GsfInput *input)
 {
 	XMLSaxParseState state;
-	GsfXMLInDoc     *doc;
-	GnmLocale       *locale;
-	gboolean         ok;
-
-	g_return_if_fail (IS_WORKBOOK_VIEW (wb_view));
-	g_return_if_fail (GSF_IS_INPUT (input));
-
-	doc = gsf_xml_in_doc_new (gnumeric_1_0_dtd, content_ns);
-	if (doc == NULL)
-		return;
-	gsf_xml_in_doc_set_unknown_handler (doc, &xml_sax_unknown);
-
-	/* init */
-	state.context = io_context;
-	state.wb_view = wb_view;
-	state.wb = wb_view_get_workbook (wb_view);
-	state.sheet = NULL;
-	state.version = GNM_XML_UNKNOWN;
-	state.last_progress_update = 0;
-	state.convs = gnm_xml_io_conventions ();
-	state.attribute.name = state.attribute.value = NULL;
-	state.name.name = state.name.value = state.name.position = NULL;
-	state.style_range_init = FALSE;
-	state.style = NULL;
-	state.cell.row = state.cell.col = -1;
-	state.seen_cell_contents = FALSE;
-	state.array_rows = state.array_cols = -1;
-	state.expr_id = -1;
-	state.value_type = -1;
-	state.value_fmt = NULL;
-	state.filter = NULL;
-	state.validation.title = state.validation.msg = NULL;
-	state.validation.texpr[0] = state.validation.texpr[1] = NULL;
-	state.cond.texpr[0] = state.cond.texpr[1] = NULL;
-	state.cond_save_style = NULL;
-	state.expr_map = g_hash_table_new_full
-		(g_direct_hash, g_direct_equal,
-		 NULL, (GFreeFunc)gnm_expr_top_unref);
-	state.delayed_names = NULL;
-	state.so = NULL;
-	state.page_breaks = NULL;
+	gboolean ok;
 
 	g_object_ref (input);
 	input = maybe_gunzip (input);
 	input = maybe_convert (input, FALSE);
-	go_doc_init_read (GO_DOC (state.wb), input);
-	gsf_input_seek (input, 0, G_SEEK_SET);
 
-	go_io_progress_message (state.context, _("Reading file..."));
-	go_io_value_progress_set (state.context, gsf_input_size (input), 0);
+	ok = read_file_common (READ_FULL_FILE, &state,
+			       io_context, wb_view, NULL,
+			       input);
 
-	locale = gnm_push_C_locale ();
-	ok = gsf_xml_in_doc_parse (doc, input, &state);
-	handle_delayed_names (&state);
-	gnm_pop_C_locale (locale);
-	go_doc_end_read (GO_DOC (state.wb));
-
-	go_io_progress_unset (state.context);
+	g_object_unref (input);
 
 	if (ok) {
 		workbook_queue_all_recalc (state.wb);
+
 		workbook_set_saveinfo
 			(state.wb,
 			 GO_FILE_FL_AUTO,
 			 go_file_saver_for_id ("Gnumeric_XmlIO:sax"));
-	} else {
-		go_io_error_string (io_context, _("XML document not well formed!"));
 	}
+}
 
+/* ------------------------------------------------------------------------- */
+
+GnmCellRegion *
+xml_cellregion_read (WorkbookControl *wbc, GOIOContext *io_context,
+		     Sheet *sheet,
+		     const char *buffer, int length)
+{
+	WorkbookView *wb_view;
+	GsfInput *input;
+	XMLSaxParseState state;
+	gboolean ok;
+
+	wb_view = wb_control_view (wbc);
+	input = gsf_input_memory_new (buffer, length, FALSE);
+	ok = read_file_common (READ_CLIPBOARD, &state,
+			       io_context, wb_view, sheet,
+			       input);
 	g_object_unref (input);
 
-	/* cleanup */
-	g_hash_table_destroy (state.expr_map);
-	gnm_conventions_free (state.convs);
-
-	gsf_xml_in_doc_free (doc);
+	return state.clipboard;
 }
+
+/* ------------------------------------------------------------------------- */
 
 static gboolean
 gnm_xml_probe_element (const xmlChar *name,

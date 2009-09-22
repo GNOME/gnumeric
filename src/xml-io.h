@@ -39,8 +39,8 @@ XmlParseContext *xml_parse_ctx_new     (xmlDoc		*doc,
 void		 xml_parse_ctx_destroy (XmlParseContext *ctxt);
 
 
-GnmCellRegion *xml_cellregion_read  (WorkbookControl *context, Sheet *sheet,
-				     const char *buffer, int length);
+GnmCellRegion *xml_cellregion_read_dom  (WorkbookControl *context, Sheet *sheet,
+					 const char *buffer, int length);
 
 GnmStyle      *xml_read_style     (XmlParseContext *ctxt, xmlNodePtr tree,
 				   gboolean leave_empty);

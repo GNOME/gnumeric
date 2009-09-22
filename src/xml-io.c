@@ -2097,7 +2097,7 @@ xml_read_clipboard_cell (XmlParseContext *ctxt, xmlNodePtr tree,
 }
 
 /**
- * xml_clipboard_read :
+ * xml_cellregion_read_dom :
  * @wbc : where to report errors.
  * @buffer : the buffer to parse.
  * @length : the size of the buffer.
@@ -2108,7 +2108,7 @@ xml_read_clipboard_cell (XmlParseContext *ctxt, xmlNodePtr tree,
  * returns a GnmCellRegion on success or NULL on failure.
  */
 GnmCellRegion *
-xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, const char *buffer, int length)
+xml_cellregion_read_dom (WorkbookControl *wbc, Sheet *sheet, const char *buffer, int length)
 {
 	XmlParseContext *ctxt;
 	xmlNode		*l, *clipboard;

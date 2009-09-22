@@ -347,8 +347,13 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 	} else if (sel->target == gdk_atom_intern (GNUMERIC_ATOM_NAME,
 						   FALSE)) {
 		/* The data is the gnumeric specific XML interchange format */
-		content = xml_cellregion_read (wbc, pt->sheet,
-					       (const char *)sel->data, sel->length);
+		GOIOContext *io_context =
+			go_io_context_new (GO_CMD_CONTEXT (wbcg));
+		content = xml_cellregion_read
+			(wbc, io_context,
+			 pt->sheet,
+			 (const char *)sel->data, sel->length);
+		g_object_unref (io_context);
 	} else if (sel->target == gdk_atom_intern (OOO_ATOM_NAME, FALSE) ||
 		   sel->target == gdk_atom_intern (OOO_ATOM_NAME_WINDOWS, FALSE) ||
 		   sel->target == gdk_atom_intern (OOO11_ATOM_NAME, FALSE)) {
