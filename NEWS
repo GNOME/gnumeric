@@ -2,6 +2,7 @@ Gnumeric 1.9.14
 
 Andreas:
 	* Add more ODF elements on ODF read. [#595750]
+	* Fix 2-factor ANOVA with replication
 
 Jean:
 	* Make plugins GUI labels translatable. [#159806]
