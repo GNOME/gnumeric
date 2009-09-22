@@ -327,8 +327,6 @@
     <toolitem action="FormatIncreaseIndent"/>
   </toolbar>
   <toolbar _name="ObjectToolbar">
-<!-- Functionally Equivalent to CreateRectangle
-     <toolitem action="CreateLabel"/> -->
     <toolitem action="CreateFrame"/>
 <!-- Not useful until we have scripts
     <toolitem action="CreateButton"/> -->

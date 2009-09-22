@@ -1,3 +1,10 @@
+2009-09-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/GNOME_Gnumeric-gtk.xml.in: remove CreateLabel
+	* src/HILDON_Gnumeric-gtk.xml.in: ditto
+	* src/wbc-gtk-actions.c: remove CreateLabel
+	* src/wbc-gtk.c: attach label image to Gnumeric_ObjectRectangle
+
 2009-09-21  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-write.c (gnm_xml_out_add_color,

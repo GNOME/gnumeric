@@ -1196,8 +1196,6 @@ create_object (WBCGtk *wbcg, GType t,
 	va_end (args);
 }
 
-static GNM_ACTION_DEF (cmd_create_label)
-	{ create_object (wbcg, GNM_SO_FILLED_TYPE, "text", "", NULL); }
 static GNM_ACTION_DEF (cmd_create_frame)
 	{ create_object (wbcg, sheet_widget_frame_get_type(), NULL); }
 static GNM_ACTION_DEF (cmd_create_button)
@@ -2253,9 +2251,6 @@ static GtkActionEntry const actions[] = {
 		G_CALLBACK (cb_sort_descending) },
 
 /* Object Toolbar */
-	{ "CreateLabel", "Gnumeric_ObjectLabel", N_("Label"),
-		NULL, N_("Create a label"),
-		G_CALLBACK (cmd_create_label) },
 	{ "CreateFrame", "Gnumeric_ObjectFrame", N_("Frame"),
 		NULL, N_("Create a frame"),
 		G_CALLBACK (cmd_create_frame) },

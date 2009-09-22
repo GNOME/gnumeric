@@ -3979,10 +3979,9 @@ wbc_gtk_setup_icons (void)
 		{ gnm_object_arrow_24,			NULL,				"Gnumeric_ObjectArrow" },
 		{ gnm_object_ellipse_24,		NULL,				"Gnumeric_ObjectEllipse" },
 		{ gnm_object_line_24,			NULL,				"Gnumeric_ObjectLine" },
-		{ gnm_object_rectangle_24,		NULL,				"Gnumeric_ObjectRectangle" },
+		{ gnm_object_label_24,		        NULL,				"Gnumeric_ObjectRectangle" },
 
 		{ gnm_object_frame_24,			NULL,				"Gnumeric_ObjectFrame" },
-		{ gnm_object_label_24,			NULL,				"Gnumeric_ObjectLabel" },
 		{ gnm_object_button_24,			NULL,				"Gnumeric_ObjectButton" },
 		{ gnm_object_checkbox_24,		NULL,				"Gnumeric_ObjectCheckbox" },
 		{ gnm_object_radiobutton_24,		NULL,				"Gnumeric_ObjectRadioButton" },

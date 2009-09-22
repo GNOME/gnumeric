@@ -292,7 +292,6 @@
     <toolitem action="ColorFore"/>
   </toolbar>
   <toolbar _name="ObjectToolbar">
-    <toolitem action="CreateLabel"/>
     <toolitem action="CreateFrame"/>
 <!-- Not useful until we have scripts
     <toolitem action="CreateButton"/> -->
