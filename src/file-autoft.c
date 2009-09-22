@@ -27,7 +27,6 @@
 
 #include "gutils.h"
 #include "workbook-control.h"
-#include "xml-io.h"
 #include "format-template.h"
 #include "gnumeric-gconf.h"
 
