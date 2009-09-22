@@ -42,9 +42,6 @@ void		 xml_parse_ctx_destroy (XmlParseContext *ctxt);
 GnmCellRegion *xml_cellregion_read  (WorkbookControl *context, Sheet *sheet,
 				     const char *buffer, int length);
 
-GnmColor  *xml_node_get_color	(xmlNodePtr node, char const *name);
-void       xml_node_set_color	(xmlNodePtr node, char const *name, GnmColor const *color);
-
 GnmStyle      *xml_read_style     (XmlParseContext *ctxt, xmlNodePtr tree,
 				   gboolean leave_empty);
 

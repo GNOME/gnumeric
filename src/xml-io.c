@@ -173,7 +173,7 @@ xml_node_get_value (xmlNodePtr node, char const *name)
 	return value;
 }
 
-GnmColor *
+static GnmColor *
 xml_node_get_color (xmlNodePtr node, char const *name)
 {
 	GnmColor *res = NULL;
@@ -187,17 +187,6 @@ xml_node_get_color (xmlNodePtr node, char const *name)
 		res = style_color_new_i16 (red, green, blue);
 	xmlFree (color);
 	return res;
-}
-
-void
-xml_node_set_color (xmlNodePtr node, char const *name, GnmColor const *val)
-{
-	GdkColor tmp;
-	char str[4 * sizeof (tmp)];
-
-	go_color_to_gdk (val->go_color, &tmp);
-	sprintf (str, "%X:%X:%X", tmp.red, tmp.green, tmp.blue);
-	go_xml_node_set_cstr (node, name, str);
 }
 
 static gboolean
