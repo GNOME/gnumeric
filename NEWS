@@ -1,5 +1,8 @@
 Gnumeric 1.9.14
 
+Andreas:
+	* Add more ODF elements on ODF read. [#595750]
+
 Jean:
 	* Make plugins GUI labels translatable. [#159806]
 
