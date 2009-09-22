@@ -147,7 +147,7 @@ Architecture Changes
 2) Font handling (move to GOFont)
 
 3) Function docs
-    4.1) Use multiple tagged paragraphs
+    4.1) Use multiple tagged paragraphs (DONE)
 
 4) AutoFilter [share functionality with slicers]
     4.19) Change value entries in expr dialog into combos
