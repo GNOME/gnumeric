@@ -2,24 +2,32 @@
 <ui>
   <menubar>
     <menu name="File" action="MenuFile">
- <!--     <menuitem action="FileNew"/>
+      <menuitem action="FileNew"/>
+      <menu name="Templates" action="FileNewFromTemplate">
+      </menu>
       <menuitem action="FileOpen"/>
-      <separator name="file-sep1"/>-->
+      <separator name="file-sep1"/>
+<!--      <menuitem action="FileSave"/> -->
       <menuitem action="FileSaveEmbed"/>
- <!--     <menuitem action="FileSaveAs"/>
+      <menuitem action="FileSaveAs"/>
       <separator name="file-sep2"/>
       <menuitem action="FilePageSetup"/>
+      <menu name="Print Area" action="FilePrintArea">
+        <menuitem action="FilePrintAreaSet"/>
+        <menuitem action="FilePrintAreaClear"/>
+        <menuitem action="FilePrintAreaShow"/>
+      </menu>
       <menuitem action="FilePrintPreview"/>
       <menuitem action="FilePrint"/>
       <separator name="file-sep3"/>
       <menuitem action="FileSend"/>
       <menuitem action="FileMetaData"/>
-      <menuitem action="FilePreferences"/>
       <separator name="file-sep4"/>
       <placeholder name="FileHistory" />
-      <separator name="file-sep5"/>-->
+      <menuitem action="FileHistoryFull"/>
+      <separator name="file-sep5"/>
       <menuitem action="FileClose"/>
- <!--     <menuitem action="FileQuit"/>-->
+ <!--      <menuitem action="FileQuit"/> -->
     </menu>
     <menu name="Edit" action="MenuEdit">
       <menuitem action="Undo"/>
@@ -31,16 +39,6 @@
       <menuitem action="EditPasteSpecial"/>
 <!--TODO  menuitem action="EditPasteLink" -->
       <separator name="edit-sep2"/>
-      <menu name="Fill" action="MenuEditFill">
-        <menuitem action="EditFillAutofill"/>
-        <menuitem action="ToolsMerge"/>
-        <menuitem action="ToolsTabulate"/>
-        <menuitem action="EditFillSeries"/>
-        <menu name="RandomGenerator" action="MenuRandomGenerator">
-          <menuitem action="RandomGeneratorUncorrelated"/>
-          <menuitem action="RandomGeneratorCorrelated"/>
-        </menu>
-      </menu>
       <menu name="Clear" action="MenuEditClear">
         <menuitem action="EditClearAll"/>
         <menuitem action="EditClearFormats"/>
@@ -55,7 +53,6 @@
       <separator name="edit-sep3"/>
       <menuitem action="EditFind"/>
       <menuitem action="EditReplace"/>
-      <menuitem action="EditGoto"/>
       <separator name="edit-sep4"/>
       <menu name="EditSheet" action="MenuEditSheet">
         <menuitem action="SheetReorder"/>
@@ -65,6 +62,7 @@
         <menuitem action="EditDuplicateSheet"/>
         <menuitem action="SheetRemove"/>
         <menuitem action="SheetChangeName"/>
+        <menuitem action="SheetResize"/>
       </menu>
       <menu name="Select" action="MenuEditSelect">
         <menuitem action="EditSelectAll"/>
@@ -73,9 +71,13 @@
         <menuitem action="EditSelectArray"/>
         <menuitem action="EditSelectDepends"/>
         <menuitem action="EditSelectInputs"/>
+        <separator name="edit-sep5"/>
+	<menuitem action="EditGoto"/>
       </menu>
       <menuitem action="EditRecalc"/>
       <placeholder name="ops"/>
+      <separator name="edit-sep6"/>
+      <menuitem action="EditPreferences"/>
     </menu>
     <menu name="View" action="MenuView">
       <menuitem action="ViewNew"/>
@@ -140,17 +142,15 @@
         <menuitem action="SheetHideGridlines"/>
         <menuitem action="SheetHideColHeader"/>
         <menuitem action="SheetHideRowHeader"/>
+	<menuitem action="SheetDirection"/>
       </menu>
       <menuitem action="FormatWorkbook"/>
-      <menuitem action="FilePreferences"/>
       <menuitem action="FormatAuto"/>
     </menu>
     <menu name="Tools" action="MenuTools">
-      <menuitem action="ToolsPlugins"/>
-      <separator name="tools-sep1"/>
       <menuitem action="ToolsAutoCorrect"/>
       <menuitem action="ToolsAutoSave"/>
-      <separator name="tools-sep2"/>
+      <separator/>
       <menuitem action="ToolsGoalSeek"/>
       <menuitem action="ToolsSolver"/>
       <menu name="Scenarios" action="MenuToolsScenarios">
@@ -158,11 +158,14 @@
         <menuitem action="ToolsScenarioAdd"/>
       </menu>
       <menuitem action="ToolsSimulation"/>
-      <separator/>
       <menu name="ToolStatisticalAnalysis" action="MenuToolStatisticalAnalysis">
         <menu name="ANOVA" action="MenuANOVA">
           <menuitem action="ToolsANOVAoneFactor"/>
           <menuitem action="ToolsANOVAtwoFactor"/>
+        </menu>
+        <menu name="ChiSquareTests" action="MenuContingencyTests">
+          <menuitem action="ToolsHomogeneity"/>
+          <menuitem action="ToolsIndependence"/>
         </menu>
         <menuitem action="ToolsCorrelation"/>
         <menuitem action="ToolsCovariance"/>
@@ -175,7 +178,7 @@
         <menu name="ToolFrequencies" action="MenuToolFrequencies">
           <menuitem action="ToolsFrequency"/>
           <menuitem action="ToolsHistogram"/>
-	</menu>
+        </menu>
         <menuitem action="ToolsKaplanMeier"/>
         <menuitem action="ToolsRanking"/>
         <menuitem action="ToolsRegression"/>
@@ -188,18 +191,29 @@
         </menu>
         <menuitem action="ToolsFTest"/>
       </menu>
+      <separator/>
+      <menuitem action="ToolsPlugins"/>
     </menu>
     <menu name="Data" action="MenuData">
       <menuitem action="DataSort"/>
+      <menu name="Fill" action="MenuEditFill">
+        <menuitem action="EditFillAutofill"/>
+        <menuitem action="ToolsMerge"/>
+        <menuitem action="ToolsTabulate"/>
+        <menuitem action="EditFillSeries"/>
+        <menu name="RandomGenerator" action="MenuRandomGenerator">
+          <menuitem action="RandomGeneratorUncorrelated"/>
+          <menuitem action="RandomGeneratorCorrelated"/>
+        </menu>
+      </menu>
       <menu name="Filter" action="MenuFilter">
         <menuitem action="DataAutoFilter"/>
         <menuitem action="DataFilterShowAll"/>
         <menuitem action="DataFilterAdvancedfilter"/>
       </menu>
       <menuitem action="DataValidate"/>
-      <separator/>
-      <menuitem action="DataTextToColumns"/>
       <menuitem action="DataConsolidate"/>
+      <menuitem action="DataTable"/>
       <menu name="Outline" action="MenuOutline">
         <menuitem action="DataOutlineHideDetail"/>
         <menuitem action="DataOutlineShowDetail"/>
@@ -210,9 +224,13 @@
         <menuitem action="SheetOutlineBelow"/>
         <menuitem action="SheetOutlineRight"/>
       </menu>
-<!--
-	    <menuitem action="PivotTable" />
-	    -->
+      <menu name="Slicer" action="MenuSlicer">
+        <menuitem action="DataSlicer"/>
+        <menuitem action="DataSlicerRefresh"/>
+        <menuitem action="DataSlicerEdit"/>
+      </menu>
+      <separator/>
+      <menuitem action="DataTextToColumns"/>
       <menu name="ExternalData" action="MenuExternalData">
         <menuitem action="DataImportText"/>
       </menu>
@@ -227,19 +245,21 @@
     </menu>
   </menubar>
   <toolbar _name="StandardToolbar">
-<!--    <toolitem action="FileNew"/>
-    <toolitem action="FileOpen"/> -->
-    <toolitem action="FileSaveEmbed"/>
+    <toolitem action="FileNew"/>
+    <toolitem action="FileOpen"/>
+    <toolitem action="FileSave"/>
     <separator name="std-sep1"/>
-<!--    <toolitem action="FilePrint"/>
+    <toolitem action="FilePrint"/>
     <toolitem action="FilePrintPreview"/>
-    <separator name="std-sep2"/> -->
+    <separator name="std-sep2"/>
     <toolitem action="EditCut"/>
     <toolitem action="EditCopy"/>
     <toolitem action="EditPaste"/>
     <separator name="std-sep3"/>
     <toolitem action="Undo"/>
+    <toolitem action="VUndo"/>
     <toolitem action="Redo"/>
+    <toolitem action="VRedo"/>
     <separator name="std-sep4"/>
     <toolitem action="InsertHyperlink"/>
     <toolitem action="AutoSum"/>
@@ -249,7 +269,7 @@
     <separator name="std-sep5"/>
     <toolitem action="ChartGuru" />
     <toolitem action="Zoom"/>
-    <toolitem action="Direction"/>
+    <toolitem action="VZoom"/>
   </toolbar>
   <toolbar _name="FormatToolbar">
     <toolitem action="FontName"/>
@@ -278,8 +298,36 @@
     <toolitem action="ColorBack"/>
     <toolitem action="ColorFore"/>
   </toolbar>
+  <toolbar _name="LongFormatToolbar">
+    <toolitem action="FontName"/>
+    <toolitem action="FontSize"/>
+    <toolitem action="FontSuperscript"/>
+    <toolitem action="FontSubscript"/>
+    <toolitem action="FontBold"/>
+    <toolitem action="FontItalic"/>
+    <toolitem action="FontUnderline"/>
+    <separator name="fmt-sep1"/>
+    <toolitem action="BorderSelector"/>
+    <toolitem action="ColorBack"/>
+    <toolitem action="ColorFore"/>
+    <separator name="fmt-sep2"/>
+    <toolitem action="AlignLeft"/>
+    <toolitem action="AlignCenter"/>
+    <toolitem action="AlignRight"/>
+    <toolitem action="CenterAcrossSelection"/>
+    <toolitem action="FormatMergeCells"/>
+    <toolitem action="FormatUnmergeCells"/>
+    <separator name="fmt-sep3"/>
+    <toolitem action="FormatAsAccounting"/>
+    <toolitem action="FormatAsPercentage"/>
+    <toolitem action="FormatWithThousands"/>
+    <toolitem action="FormatIncreasePrecision"/>
+    <toolitem action="FormatDecreasePrecision"/>
+    <separator name="fmt-sep4"/>
+    <toolitem action="FormatDecreaseIndent"/>
+    <toolitem action="FormatIncreaseIndent"/>
+  </toolbar>
   <toolbar _name="ObjectToolbar">
-    <toolitem action="CreateLabel"/>
     <toolitem action="CreateFrame"/>
 <!-- Not useful until we have scripts
     <toolitem action="CreateButton"/> -->
@@ -316,4 +364,7 @@
   <accelerator name="FormatAddBorders"	 action="FormatAddBorders"/>
   <accelerator name="FormatClearBorders" action="FormatClearBorders"/>
   <accelerator name="Repeat"		 action="Repeat"/>
+  <accelerator name="EditSelectAllXL"	 action="EditSelectAllXL"/>
+  <accelerator name="EditDeleteCellsXL"	 action="EditDeleteCellsXL"/>
+  <accelerator name="InsertCellsXL"	 action="InsertCellsXL"/>
 </ui>

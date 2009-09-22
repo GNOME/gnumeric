@@ -1,3 +1,8 @@
+2009-09-22  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* component/Gnumeric-embed.xml.in: synchronize with latest
+	GNOME_Gnumeric-gtk.xml.in.
+
 2009-09-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/GNOME_Gnumeric-gtk.xml.in: remove CreateLabel
