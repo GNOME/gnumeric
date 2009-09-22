@@ -46,7 +46,7 @@
 #include <print-info.h>
 #include <command-context.h>
 #include <gutils.h>
-#include <xml-io.h>
+#include <xml-sax.h>
 #include <sheet-object-cell-comment.h>
 #include <style-conditions.h>
 

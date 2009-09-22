@@ -47,8 +47,6 @@ GnmStyle      *xml_read_style     (XmlParseContext *ctxt, xmlNodePtr tree,
 
 void      xml_dom_init (void);
 
-GnmConventions *gnm_xml_io_conventions (void);
-
 G_END_DECLS
 
 #endif /* _GNM_XML_IO_H_ */

@@ -60,7 +60,6 @@
 #include <parse-util.h>
 #include <tools/scenarios.h>
 #include <gutils.h>
-#include <xml-io.h>
 #include <style-conditions.h>
 
 #include <sheet-object.h>
@@ -3918,5 +3917,3 @@ odf_file_save (GOFileSaver const *fs, GOIOContext *ioc,
 {
 	openoffice_file_save_real (fs, ioc, wbv, output, TRUE);
 }
-
-

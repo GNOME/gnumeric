@@ -27,6 +27,8 @@ GsfOutputMemory *
 void      gnm_xml_sax_read_init (void);
 void      gnm_xml_sax_write_init (void);
 
+GnmConventions *gnm_xml_io_conventions (void);
+
 G_END_DECLS
 
 #endif /* _GNM_XML_SAX_H_ */
