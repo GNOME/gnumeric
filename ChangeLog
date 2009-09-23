@@ -1,3 +1,12 @@
+2009-09-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	modified patches from Albert Gräf <Dr.Graef@t-online.de>
+
+	* src/GNOME_Gnumeric-gtk.xml.in: add button and radiobutton buttons
+	* src/HILDON_Gnumeric-gtk.xml.in: ditto
+	* component/Gnumeric-embed.xml.in: ditto
+	* src/pixmaps/object_button_24.png: add transparency
+	* src/pixmaps/object_radiobutton_24.png: ditto
+
 2009-09-22  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object*.[ch]: drop dom parsing code.

@@ -329,16 +329,14 @@
   </toolbar>
   <toolbar _name="ObjectToolbar">
     <toolitem action="CreateFrame"/>
-<!-- Not useful until we have scripts
-    <toolitem action="CreateButton"/> -->
-<!-- think about how to handle groups
-    <toolitem action="CreateRadioButton"/> -->
     <toolitem action="CreateCheckbox"/>
     <toolitem action="CreateScrollbar"/>
     <toolitem action="CreateSpinButton"/>
     <toolitem action="CreateSlider"/>
     <toolitem action="CreateList"/>
     <toolitem action="CreateCombo"/>
+    <toolitem action="CreateButton"/>
+    <toolitem action="CreateRadioButton"/>
     <toolitem action="CreateLine"/>
     <toolitem action="CreateArrow"/>
     <toolitem action="CreateRectangle"/>
