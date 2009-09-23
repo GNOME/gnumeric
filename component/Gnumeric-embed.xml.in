@@ -247,7 +247,8 @@
   <toolbar _name="StandardToolbar">
     <toolitem action="FileNew"/>
     <toolitem action="FileOpen"/>
-    <toolitem action="FileSave"/>
+<!--    <toolitem action="FileSave"/> -->
+    <toolitem action="FileSaveEmbed"/>
     <separator name="std-sep1"/>
     <toolitem action="FilePrint"/>
     <toolitem action="FilePrintPreview"/>
