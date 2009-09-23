@@ -7215,6 +7215,80 @@ cmd_so_set_frame_label (WorkbookControl *wbc,
 }
 
 /******************************************************************/
+#define CMD_SO_SET_BUTTON_TYPE (cmd_so_set_button_get_type ())
+#define CMD_SO_SET_BUTTON(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SO_SET_BUTTON_TYPE, CmdSOSetButton))
+
+typedef struct {
+	GnmCommand cmd;
+	SheetObject *so;
+	GnmExprTop const *new_link;
+	GnmExprTop const *old_link;
+	char *old_label;
+	char *new_label;
+} CmdSOSetButton;
+
+MAKE_GNM_COMMAND (CmdSOSetButton, cmd_so_set_button, NULL)
+
+static gboolean
+cmd_so_set_button_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
+{
+	CmdSOSetButton *me = CMD_SO_SET_BUTTON (cmd);
+
+	sheet_widget_button_set_link (me->so, me->new_link);
+	sheet_widget_button_set_label (me->so, me->new_label);
+
+	return FALSE;
+}
+
+static gboolean
+cmd_so_set_button_undo (GnmCommand *cmd, G_GNUC_UNUSED  WorkbookControl *wbc)
+{
+	CmdSOSetButton *me = CMD_SO_SET_BUTTON (cmd);
+
+	sheet_widget_button_set_link (me->so, me->old_link);
+	sheet_widget_button_set_label (me->so, me->old_label);
+
+	return FALSE;
+}
+
+static void
+cmd_so_set_button_finalize (GObject *cmd)
+{
+	CmdSOSetButton *me = CMD_SO_SET_BUTTON (cmd);
+
+	if (me->new_link)
+		gnm_expr_top_unref (me->new_link);
+	if (me->old_link)
+		gnm_expr_top_unref (me->old_link);
+	g_free (me->old_label);
+	g_free (me->new_label);
+	gnm_command_finalize (cmd);
+}
+
+gboolean
+cmd_so_set_button (WorkbookControl *wbc,
+		   SheetObject *so, GnmExprTop const *link,
+		   char *old_label, char *new_label)
+{
+	CmdSOSetButton *me;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+
+	me = g_object_new (CMD_SO_SET_BUTTON_TYPE, NULL);
+	me->cmd.sheet = sheet_object_get_sheet (so);
+	me->cmd.size = 1;
+	me->cmd.cmd_descriptor = g_strdup (_("Configure Button"));
+	me->so = so;
+	me->new_link = link;
+	me->old_label = old_label;
+	me->new_label = new_label;
+
+	me->old_link = sheet_widget_button_get_link (so);
+
+	return gnm_command_push_undo (wbc, G_OBJECT (me));
+}
+
+/******************************************************************/
 #define CMD_SO_SET_CHECKBOX_TYPE (cmd_so_set_checkbox_get_type ())
 #define CMD_SO_SET_CHECKBOX(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SO_SET_CHECKBOX_TYPE, CmdSOSetCheckbox))
 

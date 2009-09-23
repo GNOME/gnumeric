@@ -1,3 +1,33 @@
+2009-09-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	slightly modified patches from Albert Gräf <Dr.Graef@t-online.de>
+
+	* src/commands.c (cmd_so_set_button): new
+	(CmdSOSetButton): new
+	(cmd_so_set_button_redo): new
+	(cmd_so_set_button_undo): new
+	(cmd_so_set_button_finalize): new
+	* src/commands.h (cmd_so_set_button): new
+	* src/sheet-object-widget.c (sheet_widget_button_set_link): new
+	(sheet_widget_button_get_link): new
+	(button_eval): new
+	(button_debug_name): new
+	(sheet_widget_button_init_full): handle new fields
+	(sheet_widget_button_init_full): add argument and change all callers
+	(cb_button_pressed): new
+	(cb_button_released): new
+	(sheet_widget_button_create_widget): handle signals
+	(cb_button_set_focus): new
+	(sheet_widget_button_copy): handle new fields
+	(cb_button_config_destroy): new
+	(cb_button_config_ok_clicked): new
+	(sheet_widget_button_user_config): new
+	(sheet_widget_button_set_sheet): new
+	(sheet_widget_button_foreach_dep): new
+	(sheet_widget_button_write_xml_sax): handle new fields
+	(sheet_widget_button_prep_sax_parser): ditto
+	* src/sheet-object-widget.h (sheet_widget_button_set_link): new
+	(sheet_widget_button_get_link): new
+
 2009-09-23  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* component/gnumeric.c (cb_gognm_save), (go_gnm_component_edit): allow

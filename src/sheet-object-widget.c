@@ -525,27 +525,112 @@ SOW_MAKE_TYPE (frame, Frame,
 /****************************************************************************/
 #define SHEET_WIDGET_BUTTON_TYPE     (sheet_widget_button_get_type ())
 #define SHEET_WIDGET_BUTTON(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_BUTTON_TYPE, SheetWidgetButton))
+#define DEP_TO_BUTTON(d_ptr)		(SheetWidgetButton *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetButton, dep))
 typedef struct {
 	SheetObjectWidget	sow;
+
+	GnmDependent	 dep;
 	char *label;
 	PangoAttrList *markup;
+	gboolean	 value;
 } SheetWidgetButton;
 typedef SheetObjectWidgetClass SheetWidgetButtonClass;
 
+enum {
+	SOB_PROP_0 = 0,
+	SOB_PROP_TEXT,
+	SOB_PROP_MARKUP
+};
+
+static void
+sheet_widget_button_get_property (GObject *obj, guint param_id,
+				    GValue  *value, GParamSpec *pspec)
+{
+	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (obj);
+
+	switch (param_id) {
+	case SOB_PROP_TEXT:
+		g_value_set_string (value, swb->label);
+		break;
+	case SOB_PROP_MARKUP:
+		g_value_set_boxed (value, NULL); /* swb->markup */
+		break;
+	default :
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		break;
+	}
+}
+
+static void
+sheet_widget_button_set_property (GObject *obj, guint param_id,
+				    GValue const *value, GParamSpec *pspec)
+{
+	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (obj);
+
+	switch (param_id) {
+	case SOB_PROP_TEXT:
+		sheet_widget_button_set_label (SHEET_OBJECT (swb),
+						 g_value_get_string (value));
+		break;
+	case SOB_PROP_MARKUP:
+#if 0
+		sheet_widget_button_set_markup (SHEET_OBJECT (swb),
+						g_value_peek_pointer (value));
+#endif
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		return;
+	}
+}
+
+static void
+button_eval (GnmDependent *dep)
+{
+	GnmValue *v;
+	GnmEvalPos pos;
+	gboolean err, result;
+
+	v = gnm_expr_top_eval (dep->texpr, eval_pos_init_dep (&pos, dep),
+			       GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+	result = value_get_as_bool (v, &err);
+	value_release (v);
+	if (!err) {
+		SheetWidgetButton *swb = DEP_TO_BUTTON(dep);
+
+		swb->value = result;
+	}
+}
+
+static void
+button_debug_name (GnmDependent const *dep, GString *target)
+{
+	g_string_append_printf (target, "Button%p", (void *)dep);
+}
+
+static DEPENDENT_MAKE_TYPE (button, NULL)
+
 static void
 sheet_widget_button_init_full (SheetWidgetButton *swb,
+			       GnmCellRef const *ref,
 			       char const *text,
 			       PangoAttrList *markup)
 {
 	swb->label = g_strdup (text);
 	swb->markup = markup;
+	swb->value = FALSE;
+	swb->dep.sheet = NULL;
+	swb->dep.flags = button_get_dep_type ();
+	swb->dep.texpr = (ref != NULL)
+		? gnm_expr_top_new (gnm_expr_new_cellref (ref))
+		: NULL;
 	if (markup) pango_attr_list_ref (markup);
 }
 
 static void
 sheet_widget_button_init (SheetWidgetButton *swb)
 {
-	sheet_widget_button_init_full (swb, _("Button"), NULL);
+	sheet_widget_button_init_full (swb, NULL, _("Button"), NULL);
 }
 
 static void
@@ -561,7 +646,39 @@ sheet_widget_button_finalize (GObject *obj)
 		swb->markup = NULL;
 	}
 
+	dependent_set_expr (&swb->dep, NULL);
+
 	(*sheet_object_widget_class->finalize)(obj);
+}
+
+static void
+cb_button_pressed (GtkToggleButton *button, SheetWidgetButton *swb)
+{
+	GnmCellRef ref;
+
+	swb->value = TRUE;
+
+	if (so_get_ref (SHEET_OBJECT (swb), &ref, TRUE) != NULL) {
+		cmd_so_set_value (widget_wbc (GTK_WIDGET (button)),
+				  _("Pressed Button"),
+				  &ref, value_new_bool (TRUE),
+				  sheet_object_get_sheet (SHEET_OBJECT (swb)));
+	}
+}
+
+static void
+cb_button_released (GtkToggleButton *button, SheetWidgetButton *swb)
+{
+	GnmCellRef ref;
+
+	swb->value = TRUE;
+
+	if (so_get_ref (SHEET_OBJECT (swb), &ref, TRUE) != NULL) {
+		cmd_so_set_value (widget_wbc (GTK_WIDGET (button)),
+				  _("Released Button"),
+				  &ref, value_new_bool (FALSE),
+				  sheet_object_get_sheet (SHEET_OBJECT (swb)));
+	}
 }
 
 static GtkWidget *
@@ -569,17 +686,207 @@ sheet_widget_button_create_widget (SheetObjectWidget *sow)
 {
 	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (sow);
 	GtkWidget *w = gtk_button_new_with_label (swb->label);
+	GTK_WIDGET_UNSET_FLAGS (w, GTK_CAN_FOCUS);
 	gtk_label_set_attributes (GTK_LABEL (GTK_BIN (w)->child),
 				  swb->markup);
+	g_signal_connect (G_OBJECT (w),
+			  "pressed",
+			  G_CALLBACK (cb_button_pressed), swb);
+	g_signal_connect (G_OBJECT (w),
+			  "released",
+			  G_CALLBACK (cb_button_released), swb);
 	return w;
 }
 
 static void
-sheet_widget_button_copy (SheetObject *dst, SheetObject const *src_swb)
+sheet_widget_button_copy (SheetObject *dst, SheetObject const *src)
 {
-	sheet_widget_button_init_full (SHEET_WIDGET_BUTTON (dst),
-				       SHEET_WIDGET_BUTTON (src_swb)->label,
-				       SHEET_WIDGET_BUTTON (src_swb)->markup);
+	SheetWidgetButton const *src_swb = SHEET_WIDGET_BUTTON (src);
+	SheetWidgetButton       *dst_swb = SHEET_WIDGET_BUTTON (dst);
+	GnmCellRef ref;
+	sheet_widget_button_init_full (dst_swb,
+				       so_get_ref (src, &ref, FALSE),
+				       src_swb->label,
+				       src_swb->markup);
+	dst_swb->value = src_swb->value;
+}
+
+typedef struct {
+	GladeXML           *gui;
+	GtkWidget *dialog;
+	GnmExprEntry *expression;
+	GtkWidget *label;
+
+	char *old_label;
+	GtkWidget *old_focus;
+
+	WBCGtk  *wbcg;
+	SheetWidgetButton *swb;
+	Sheet		    *sheet;
+} ButtonConfigState;
+
+static void
+cb_button_set_focus (GtkWidget *window, GtkWidget *focus_widget,
+		       ButtonConfigState *state)
+{
+	/* Note:  half of the set-focus action is handle by the default
+	 *        callback installed by wbc_gtk_attach_guru */
+
+	/* Force an update of the content in case it needs tweaking (eg make it
+	 * absolute) */
+	if (state->old_focus != NULL &&
+	    IS_GNM_EXPR_ENTRY (state->old_focus->parent)) {
+		GnmParsePos  pp;
+		GnmExprTop const *texpr = gnm_expr_entry_parse (
+			GNM_EXPR_ENTRY (state->old_focus->parent),
+			parse_pos_init_sheet (&pp, state->sheet),
+			NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
+		if (texpr != NULL)
+			gnm_expr_top_unref (texpr);
+	}
+	state->old_focus = focus_widget;
+}
+
+static void
+cb_button_config_destroy (ButtonConfigState *state)
+{
+	g_return_if_fail (state != NULL);
+
+	if (state->gui != NULL) {
+		g_object_unref (G_OBJECT (state->gui));
+		state->gui = NULL;
+	}
+
+	g_free (state->old_label);
+	state->old_label = NULL;
+	state->dialog = NULL;
+	g_free (state);
+}
+
+static void
+cb_button_config_ok_clicked (GtkWidget *button, ButtonConfigState *state)
+{
+	SheetObject *so = SHEET_OBJECT (state->swb);
+	GnmParsePos  pp;
+	GnmExprTop const *texpr = gnm_expr_entry_parse (state->expression,
+		parse_pos_init_sheet (&pp, so->sheet),
+		NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
+	gchar const *text = gtk_entry_get_text(GTK_ENTRY(state->label));
+
+	cmd_so_set_button (WORKBOOK_CONTROL (state->wbcg), so,
+			     texpr, g_strdup (state->old_label), g_strdup (text));
+
+	gtk_widget_destroy (state->dialog);
+}
+
+static void
+cb_button_config_cancel_clicked (GtkWidget *button, ButtonConfigState *state)
+{
+	sheet_widget_button_set_label	(SHEET_OBJECT (state->swb),
+					 state->old_label);
+	gtk_widget_destroy (state->dialog);
+}
+
+static void
+cb_button_label_changed (GtkEntry *entry, ButtonConfigState *state)
+{
+	sheet_widget_button_set_label	(SHEET_OBJECT (state->swb),
+					 gtk_entry_get_text (entry));
+}
+
+static void
+sheet_widget_button_user_config (SheetObject *so, SheetControl *sc)
+{
+	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
+	WBCGtk  *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
+	ButtonConfigState *state;
+	GtkWidget *table;
+
+	g_return_if_fail (swb != NULL);
+
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
+		return;
+
+	state = g_new (ButtonConfigState, 1);
+	state->swb = swb;
+	state->wbcg = wbcg;
+	state->sheet = sc_sheet	(sc);
+	state->old_focus = NULL;
+	state->old_label = g_strdup (swb->label);
+	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
+		"so-button.glade", NULL, NULL);
+	state->dialog = glade_xml_get_widget (state->gui, "SO-Button");
+
+	table = glade_xml_get_widget (state->gui, "table");
+
+	state->expression = gnm_expr_entry_new (wbcg, TRUE);
+	gnm_expr_entry_set_flags (state->expression,
+		GNM_EE_FORCE_ABS_REF | GNM_EE_SHEET_OPTIONAL | GNM_EE_SINGLE_RANGE,
+		GNM_EE_MASK);
+	gnm_expr_entry_load_from_dep (state->expression, &swb->dep);
+	go_atk_setup_label (glade_xml_get_widget (state->gui, "label_linkto"),
+			     GTK_WIDGET (state->expression));
+	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (state->expression),
+			  1, 2, 0, 1,
+			  GTK_EXPAND | GTK_FILL, 0,
+			  0, 0);
+	gtk_widget_show (GTK_WIDGET (state->expression));
+
+	state->label = glade_xml_get_widget (state->gui, "label_entry");
+	gtk_entry_set_text (GTK_ENTRY (state->label), swb->label);
+	gtk_editable_select_region (GTK_EDITABLE(state->label), 0, -1);
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (state->expression));
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (state->label));
+
+	g_signal_connect (G_OBJECT (state->label),
+		"changed",
+		G_CALLBACK (cb_button_label_changed), state);
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "ok_button")),
+		"clicked",
+		G_CALLBACK (cb_button_config_ok_clicked), state);
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "cancel_button")),
+		"clicked",
+		G_CALLBACK (cb_button_config_cancel_clicked), state);
+
+	gnumeric_init_help_button (
+		glade_xml_get_widget (state->gui, "help_button"),
+		GNUMERIC_HELP_LINK_SO_BUTTON);
+
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       SHEET_OBJECT_CONFIG_KEY);
+
+	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_button_config_destroy);
+
+	/* Note:  half of the set-focus action is handle by the default */
+	/*        callback installed by wbc_gtk_attach_guru */
+	g_signal_connect (G_OBJECT (state->dialog), "set-focus",
+		G_CALLBACK (cb_button_set_focus), state);
+
+	gtk_widget_show (state->dialog);
+}
+
+static gboolean
+sheet_widget_button_set_sheet (SheetObject *so, Sheet *sheet)
+{
+	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
+
+	dependent_set_sheet (&swb->dep, sheet);
+
+	return FALSE;
+}
+
+static void
+sheet_widget_button_foreach_dep (SheetObject *so,
+				   SheetObjectForeachDepFunc func,
+				   gpointer user)
+{
+	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
+	func (&swb->dep, so, user);
 }
 
 static void
@@ -589,6 +896,8 @@ sheet_widget_button_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 	/* FIXME: markup */
 	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
 	gsf_xml_out_add_cstr (output, "Label", swb->label);
+	gsf_xml_out_add_int (output, "Value", swb->value);
+	sax_write_dep (output, &swb->dep, "Input", convs);
 }
 
 static void
@@ -600,7 +909,33 @@ sheet_widget_button_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_eq (attrs[0], "Label"))
 			g_object_set (G_OBJECT (swb), "text", attrs[1], NULL);
+		else if (gnm_xml_attr_int (attrs, "Value", &swb->value))
+			;
+		else if (sax_read_dep (attrs, "Input", &swb->dep, xin, convs))
+			;
 }
+
+void
+sheet_widget_button_set_link (SheetObject *so, GnmExprTop const *texpr)
+{
+ 	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
+ 	dependent_set_expr (&swb->dep, texpr);
+ 	if (NULL != texpr)
+ 		dependent_link (&swb->dep);
+}
+
+GnmExprTop const *
+sheet_widget_button_get_link	 (SheetObject *so)
+{
+ 	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
+ 	GnmExprTop const *texpr = swb->dep.texpr;
+	
+ 	if (texpr)
+ 		gnm_expr_top_ref (texpr);
+	
+ 	return texpr;
+}
+
 
 void
 sheet_widget_button_set_label (SheetObject *so, char const *str)
@@ -644,57 +979,11 @@ sheet_widget_button_set_markup (SheetObject *so, PangoAttrList *markup)
 	}
 }
 
-enum {
-	SOB_PROP_0 = 0,
-	SOB_PROP_TEXT,
-	SOB_PROP_MARKUP
-};
-
-static void
-sheet_widget_button_get_property (GObject *obj, guint param_id,
-				  GValue  *value, GParamSpec *pspec)
-{
-	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (obj);
-
-	switch (param_id) {
-	case SOB_PROP_TEXT:
-		g_value_set_string (value, swb->label);
-		break;
-	case SOB_PROP_MARKUP:
-		g_value_set_boxed (value, swb->markup);
-		break;
-	default :
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
-		break;
-	}
-}
-
-static void
-sheet_widget_button_set_property (GObject *obj, guint param_id,
-				  GValue const *value, GParamSpec *pspec)
-{
-	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (obj);
-
-	switch (param_id) {
-	case SOB_PROP_TEXT:
-		sheet_widget_button_set_label (SHEET_OBJECT (swb),
-					       g_value_get_string (value));
-		break;
-	case SOB_PROP_MARKUP:
-		sheet_widget_button_set_markup (SHEET_OBJECT (swb),
-						g_value_peek_pointer (value));
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
-		return;
-	}
-}
-
 SOW_MAKE_TYPE (button, Button,
-	       NULL,
-	       NULL,
-	       NULL,
-	       NULL,
+	       sheet_widget_button_user_config,
+	       sheet_widget_button_set_sheet,
+	       so_clear_sheet,
+	       sheet_widget_button_foreach_dep,
 	       sheet_widget_button_copy,
 	       sheet_widget_button_write_xml_sax,
 	       sheet_widget_button_prep_sax_parser,

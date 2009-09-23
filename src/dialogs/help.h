@@ -20,6 +20,7 @@
 /* ../sheet-object-widget.c    */
 #define GNUMERIC_HELP_LINK_SO_FRAME	 "sect-graphics-drawings"
 #define GNUMERIC_HELP_LINK_SO_ADJUSTMENT "sect-graphics-drawings"
+#define GNUMERIC_HELP_LINK_SO_BUTTON	 "sect-graphics-drawings"
 #define GNUMERIC_HELP_LINK_SO_CHECKBOX	 "sect-graphics-drawings"
 #define GNUMERIC_HELP_LINK_SO_LIST	 "sect-graphics-drawings"
 

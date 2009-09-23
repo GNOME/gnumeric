@@ -102,7 +102,7 @@ glade_DATA = 				\
 	cell-comment.glade		\
 	cell-format.glade		\
 	cell-sort.glade			\
-	chi-squared.glade			\
+	chi-squared.glade		\
 	col-width.glade			\
 	colrow.glade			\
 	consolidate.glade		\
@@ -149,8 +149,9 @@ glade_DATA = 				\
 	scenario-manager.glade		\
 	search-replace.glade		\
 	sheet-order.glade		\
-	sheet-resize.glade                \
+	sheet-resize.glade              \
 	shuffle.glade			\
+	so-button.glade			\
 	so-checkbox.glade		\
 	so-frame.glade			\
 	so-list.glade			\

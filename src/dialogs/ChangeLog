@@ -1,3 +1,10 @@
+2009-09-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	slightly modified patches from Albert Gräf <Dr.Graef@t-online.de>
+
+	* so-button.glade: new
+	* Makefile.am: add so-button.glade
+	* help.h: add GNUMERIC_HELP_LINK_SO_BUTTON
+	
 2009-09-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.13
