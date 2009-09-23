@@ -34,7 +34,6 @@
 #include "wbc-gtk.h"
 #include "commands.h"
 #include "application.h"
-#include "xml-io.h"
 #include "sheet.h"
 #include <graph.h>
 
@@ -325,21 +324,6 @@ gnm_sog_populate_menu (SheetObject *so, GPtrArray *actions)
 
 }
 
-static gboolean
-gnm_sog_read_xml_dom (SheetObject *so, char const *typename,
-				 XmlParseContext const *ctxt, xmlNodePtr tree)
-{
-	xmlNodePtr child = go_xml_get_child_by_name (tree, "GogObject");
-
-	if (child != NULL) {
-		GogObject *graph = gog_object_new_from_xml
-			(NULL, child, (gpointer)gnm_conventions_default);
-		sheet_object_graph_set_gog (so, GOG_GRAPH (graph));
-		g_object_unref (graph);
-	}
-	return FALSE;
-}
-
 static void
 gnm_sog_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 		       GnmConventions const *convs)
@@ -490,7 +474,6 @@ gnm_sog_class_init (GObjectClass *klass)
 	so_class->new_view		= gnm_sog_new_view;
 	so_class->bounds_changed	= gnm_sog_bounds_changed;
 	so_class->populate_menu		= gnm_sog_populate_menu;
-	so_class->read_xml_dom		= gnm_sog_read_xml_dom;
 	so_class->write_xml_sax		= gnm_sog_write_xml_sax;
 	so_class->prep_sax_parser	= gnm_sog_prep_sax_parser;
 	so_class->copy			= gnm_sog_copy;

@@ -53,7 +53,6 @@
 #include "sheet-merge.h"
 #include "ranges.h"
 #include "xml-sax.h"
-#include "xml-io.h"
 #include "style-color.h"
 #include "gnumeric-gconf.h"
 

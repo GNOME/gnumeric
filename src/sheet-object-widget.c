@@ -44,7 +44,6 @@
 #include "gnumeric-expr-entry.h"
 #include "dialogs.h"
 #include "dialogs/help.h"
-#include "xml-io.h"
 #include "xml-sax.h"
 #include "commands.h"
 #include "gnm-format.h"
@@ -174,7 +173,7 @@ static GSF_CLASS (SOWidgetView, so_widget_view,
 #define SOW_CLASS(so)		     (SHEET_OBJECT_WIDGET_CLASS (G_OBJECT_GET_CLASS(so)))
 
 #define SOW_MAKE_TYPE(n1, n2, fn_config, fn_set_sheet, fn_clear_sheet, fn_foreach_dep,	\
-		      fn_copy, fn_read_dom, fn_write_sax, fn_prep_sax_parser,		\
+		      fn_copy, fn_write_sax, fn_prep_sax_parser,		\
 		      fn_get_property, fn_set_property, class_init_code)		\
 static void										\
 sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)				\
@@ -190,7 +189,6 @@ sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)				\
 	so_class->remove_from_sheet	= fn_clear_sheet;				\
 	so_class->foreach_dep		= fn_foreach_dep;				\
 	so_class->copy			= fn_copy;					\
-	so_class->read_xml_dom		= fn_read_dom;					\
 	so_class->write_xml_sax		= fn_write_sax;					\
 	so_class->prep_sax_parser	= fn_prep_sax_parser;				\
 	sow_class->create_widget	= &sheet_widget_ ## n1 ## _create_widget;	\
@@ -251,25 +249,6 @@ sax_read_dep (xmlChar const * const *attrs, char const *name,
 		dep->texpr = NULL;
 
 	return TRUE;
-}
-
-static void
-read_dep (GnmDependent *dep, char const *name,
-	  xmlNodePtr tree, XmlParseContext const *context)
-{
-	xmlChar *txt = xmlGetProp (tree, CC2XML (name));
-
-	dep->sheet = NULL;
-	dep->texpr = NULL;
-	if (txt != NULL && *txt != '\0') {
-		GnmParsePos pos;
-
-		parse_pos_init_sheet (&pos, context->sheet);
-		dep->texpr = gnm_expr_parse_str
-			(CC2XML (txt), &pos, GNM_EXPR_PARSE_DEFAULT,
-			 sheet_get_conventions (pos.sheet), NULL);
-		xmlFree (txt);
-	}
 }
 
 static SheetObjectView *
@@ -391,26 +370,6 @@ sheet_widget_frame_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 			g_free (swf->label);
 			swf->label = g_strdup (CXML2C (attrs[1]));
 		}
-}
-
-static gboolean
-sheet_widget_frame_read_xml_dom (SheetObject *so, char const *typename,
-				 XmlParseContext const *context,
-				 xmlNodePtr tree)
-{
-	SheetWidgetFrame *swf = SHEET_WIDGET_FRAME (so);
-	xmlChar *label = xmlGetProp (tree, CC2XML ("Label"));
-
-	if (!label) {
-		g_warning ("Could not read a SheetWidgetFrame because it lacks a label property.");
-		return TRUE;
-	}
-
-	g_free (swf->label);
-	swf->label = g_strdup (CC2XML (label));
-	xmlFree (label);
-
-	return FALSE;
 }
 
 typedef struct {
@@ -557,7 +516,6 @@ SOW_MAKE_TYPE (frame, Frame,
 	       NULL,
 	       NULL,
 	       &sheet_widget_frame_copy,
-	       &sheet_widget_frame_read_xml_dom,
 	       &sheet_widget_frame_write_xml_sax,
 	       &sheet_widget_frame_prep_sax_parser,
 	       NULL,
@@ -642,26 +600,6 @@ sheet_widget_button_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_eq (attrs[0], "Label"))
 			g_object_set (G_OBJECT (swb), "text", attrs[1], NULL);
-}
-
-static gboolean
-sheet_widget_button_read_xml_dom (SheetObject *so, char const *typename,
-				  XmlParseContext const *context,
-				  xmlNodePtr tree)
-{
-	/* FIXME: markup */
-	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
-	xmlChar *label = xmlGetProp (tree, CC2XML ("Label"));
-
-	if (!label) {
-		g_warning ("Could not read a SheetWidgetButton because it lacks a label property.");
-		return TRUE;
-	}
-
-	swb->label = g_strdup (CC2XML (label));
-	xmlFree (label);
-
-	return FALSE;
 }
 
 void
@@ -758,7 +696,6 @@ SOW_MAKE_TYPE (button, Button,
 	       NULL,
 	       NULL,
 	       sheet_widget_button_copy,
-	       sheet_widget_button_read_xml_dom,
 	       sheet_widget_button_write_xml_sax,
 	       sheet_widget_button_prep_sax_parser,
 	       sheet_widget_button_get_property,
@@ -1288,41 +1225,6 @@ sheet_widget_adjustment_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 	gtk_adjustment_changed	(swa->adjustment);
 }
 
-static gboolean
-sheet_widget_adjustment_read_xml_dom (SheetObject *so, char const *typename,
-				      XmlParseContext const *context,
-				      xmlNodePtr tree)
-{
-	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
-	SheetWidgetAdjustmentClass *swa_class = SWA_CLASS (so);
-	double tmp;
-	gboolean b;
-
-	swa->horizontal = (swa_class->vtype == G_TYPE_NONE);
-
-	read_dep (&swa->dep, "Input", tree, context);
-	swa->dep.flags = adjustment_get_dep_type ();
-
-	if (go_xml_node_get_double (tree, "Min", &tmp))
-		swa->adjustment->lower = tmp;
-	if (go_xml_node_get_double (tree, "Max", &tmp))
-		swa->adjustment->upper = tmp;  /* allow scrolling to max */
-	if (go_xml_node_get_double (tree, "Inc", &tmp))
-		swa->adjustment->step_increment = tmp;
-	if (go_xml_node_get_double (tree, "Page", &tmp))
-		swa->adjustment->page_increment = tmp;
-	if (go_xml_node_get_double  (tree, "Value", &tmp))
-		swa->adjustment->value = tmp;
-	if (swa_class->htype != G_TYPE_NONE &&
-	    swa_class->vtype != G_TYPE_NONE &&
-	    go_xml_node_get_bool (tree, "Horizontal", &b))
-		swa->horizontal = b;
-
-	gtk_adjustment_changed	(swa->adjustment);
-
-	return FALSE;
-}
-
 void
 sheet_widget_adjustment_set_details (SheetObject *so, GnmExprTop const *tlink,
 				     int value, int min, int max,
@@ -1355,7 +1257,6 @@ SOW_MAKE_TYPE (adjustment, Adjustment,
 	       so_clear_sheet,
 	       sheet_widget_adjustment_foreach_dep,
 	       sheet_widget_adjustment_copy,
-	       sheet_widget_adjustment_read_xml_dom,
 	       sheet_widget_adjustment_write_xml_sax,
 	       sheet_widget_adjustment_prep_sax_parser,
 	       sheet_widget_adjustment_get_property,
@@ -1919,29 +1820,6 @@ sheet_widget_checkbox_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 			; /* ??? */
 }
 
-static gboolean
-sheet_widget_checkbox_read_xml_dom (SheetObject *so, char const *typename,
-				    XmlParseContext const *context,
-				    xmlNodePtr tree)
-{
-	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
-	xmlChar *label = xmlGetProp (tree, CC2XML ("Label"));
-
-	if (!label) {
-		g_warning ("Could not read a CheckBoxWidget object because it lacks a label property");
-		return TRUE;
-	}
-
-	swc->label = g_strdup (CC2XML (label));
-	xmlFree (label);
-
-	read_dep (&swc->dep, "Input", tree, context);
-	swc->dep.flags = checkbox_get_dep_type ();
-	go_xml_node_get_int (tree, "Value", &swc->value);
-
-	return FALSE;
-}
-
 void
 sheet_widget_checkbox_set_link (SheetObject *so, GnmExprTop const *texpr)
 {
@@ -1991,7 +1869,6 @@ SOW_MAKE_TYPE (checkbox, Checkbox,
 	       so_clear_sheet,
 	       sheet_widget_checkbox_foreach_dep,
 	       sheet_widget_checkbox_copy,
-	       sheet_widget_checkbox_read_xml_dom,
 	       sheet_widget_checkbox_write_xml_sax,
 	       sheet_widget_checkbox_prep_sax_parser,
 	       sheet_widget_checkbox_get_property,
@@ -2220,7 +2097,6 @@ SOW_MAKE_TYPE (radio_button, RadioButton,
 	       NULL,
 	       NULL,
 	       NULL,
-	       NULL,
 	       sheet_widget_radio_button_get_property,
 	       sheet_widget_radio_button_set_property,
 	       {
@@ -2446,21 +2322,6 @@ sheet_widget_list_base_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 		else if (sax_read_dep (attrs, "Output", &swl->output_dep, xin, convs)) ;
 }
 
-static gboolean
-sheet_widget_list_base_read_xml_dom (SheetObject *so, char const *typename,
-				     XmlParseContext const *context,
-				     xmlNodePtr tree)
-{
-	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);
-
-	read_dep (&swl->content_dep, "Content", tree, context);
-	swl->content_dep.flags = list_content_get_dep_type ();
-	read_dep (&swl->output_dep, "Output", tree, context);
-	swl->output_dep.flags  = list_output_get_dep_type ();
-
-	return FALSE;
-}
-
 static GtkWidget *
 sheet_widget_list_base_create_widget (SheetObjectWidget *sow)
 {
@@ -2474,7 +2335,6 @@ SOW_MAKE_TYPE (list_base, ListBase,
 	       so_clear_sheet,
 	       sheet_widget_list_base_foreach_dep,
 	       NULL,
-	       sheet_widget_list_base_read_xml_dom,
 	       sheet_widget_list_base_write_xml_sax,
 	       sheet_widget_list_base_prep_sax_parser,
 	       NULL,

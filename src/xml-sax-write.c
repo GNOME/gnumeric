@@ -51,7 +51,6 @@
 #include <sheet-filter.h>
 #include <sheet-object-impl.h>
 #include <print-info.h>
-#include <xml-io.h>
 #include <gutils.h>
 #include <clipboard.h>
 #include <tools/scenarios.h>

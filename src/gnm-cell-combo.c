@@ -114,7 +114,6 @@ gnm_cell_combo_class_init (GObjectClass *gobject_class)
 	gobject_class->finalize		= gnm_cell_combo_finalize;
 	gobject_class->get_property	= gnm_cell_combo_get_property;
 	gobject_class->set_property	= gnm_cell_combo_set_property;
-	so_class->read_xml_dom		= NULL;
 	so_class->write_xml_sax		= NULL;
 	so_class->prep_sax_parser	= NULL;
 	so_class->copy			= NULL;

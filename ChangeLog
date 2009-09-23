@@ -1,5 +1,7 @@
 2009-09-22  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-object*.[ch]: drop dom parsing code.
+
 	* src/xml-sax-read.c (xml_cellregion_read): Re-implement in SaX
 	land.  Callers changed to supply extra io_context argument needed.
 	(gnm_xml_in_doc_add_subset): New function.

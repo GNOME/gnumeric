@@ -58,7 +58,6 @@
 #include "gnm-format.h"
 #include "sheet-object-graph.h"
 #include "application.h"
-#include "xml-io.h"
 #include "gutils.h"
 #include "clipboard.h"
 

@@ -57,10 +57,6 @@ typedef struct {
 				      GPtrArray		*actions);
 	void	      (*user_config) (SheetObject	*sheet_object,
 				      SheetControl	*s_control);
-	gboolean     (*read_xml_dom) (SheetObject	*so,
-				      char const *type_name,	/* for versioning */
-				      XmlParseContext const *ctxt,
-				      xmlNodePtr	tree);
 	void      (*prep_sax_parser) (SheetObject *so,
 				      GsfXMLIn *xin, xmlChar const **attrs,
 				      GnmConventions const *convs);

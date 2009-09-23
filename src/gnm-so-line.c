@@ -24,7 +24,6 @@
 #include "gnumeric.h"
 #include "gnm-so-line.h"
 #include "sheet-object-impl.h"
-#include "xml-io.h"
 #include "xml-sax.h"
 
 #include <goffice/goffice.h>
@@ -262,30 +261,6 @@ gnm_so_line_draw_cairo (SheetObject const *so, cairo_t *cr,
 	cairo_stroke (cr);
 }
 
-static gboolean
-gnm_so_line_read_xml_dom (SheetObject *so, char const *typename,
-			  XmlParseContext const *ctxt,
-			  xmlNodePtr node)
-{
-	GnmSOLine *sol = GNM_SO_LINE (so);
-	double width, a, b, c;
-	xmlNode *child;
-
-	if (go_xml_node_get_double (node, "ArrowShapeA", &a) &&
-	    go_xml_node_get_double (node, "ArrowShapeB", &b) &&
-	    go_xml_node_get_double (node, "ArrowShapeC", &c))
-		go_arrow_init (&sol->end_arrow, a, b, c);
-
-	if (NULL != (child = go_xml_get_child_by_name (node, "Style"))) /* new version */
-		return !go_persist_dom_load (GO_PERSIST (sol->style), child);
-	/* Old 1.0 and 1.2 */
-	go_xml_node_get_gocolor (node, "FillColor", &sol->style->line.color);
-	if (go_xml_node_get_double  (node, "Width", &width))
-		sol->style->line.width = width;
-
-	return FALSE;
-}
-
 static void
 gnm_so_line_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 			   GnmConventions const *convs)
@@ -434,7 +409,6 @@ gnm_so_line_class_init (GObjectClass *gobject_class)
 	gobject_class->finalize		= gnm_so_line_finalize;
 	gobject_class->set_property	= gnm_so_line_set_property;
 	gobject_class->get_property	= gnm_so_line_get_property;
-	so_class->read_xml_dom		= gnm_so_line_read_xml_dom;
 	so_class->write_xml_sax		= gnm_so_line_write_xml_sax;
 	so_class->prep_sax_parser	= gnm_so_line_prep_sax_parser;
 	so_class->copy			= gnm_so_line_copy;

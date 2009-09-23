@@ -34,7 +34,6 @@
 #include "gnm-format.h"
 #include "gnumeric-gconf.h"
 #include "xml-sax.h"
-#include "xml-io.h"
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-input-memory.h>

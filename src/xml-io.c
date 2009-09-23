@@ -1675,11 +1675,13 @@ xml_read_sheet_object (XmlParseContext const *ctxt, xmlNodePtr tree,
 
 	klass = SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS(so));
 
+#if 0
 	if (klass->read_xml_dom &&
 	    (klass->read_xml_dom) (so, tree->name, ctxt, tree)) {
 		g_object_unref (G_OBJECT (so));
 		return NULL;
 	}
+#endif
 
 	tmp = (char *) xmlGetProp (tree, (xmlChar *)"ObjectBound");
 	if (tmp != NULL) {

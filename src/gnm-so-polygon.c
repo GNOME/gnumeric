@@ -24,7 +24,6 @@
 #include "gnumeric.h"
 #include "gnm-so-polygon.h"
 #include "sheet-object-impl.h"
-#include "xml-io.h"
 #include "parse-util.h"
 
 #include <goffice/goffice.h>
@@ -175,26 +174,6 @@ gnm_so_polygon_draw_cairo (SheetObject const *so, cairo_t *cr,
 {
 }
 
-static gboolean
-gnm_so_polygon_read_xml_dom (SheetObject *so, char const *typename,
-			     XmlParseContext const *ctxt, xmlNodePtr node)
-{
-	GnmSOPolygon *sop = GNM_SO_POLYGON (so);
-	xmlNodePtr ptr;
-	double vals[2];
-
-	g_array_set_size (sop->points, 0);
-	for (ptr = node->xmlChildrenNode; ptr != NULL ; ptr = ptr->next)
-		if (!xmlIsBlankNode (ptr) && ptr->name &&
-		    attr_eq (ptr->name, "Point") &&
-		    go_xml_node_get_double	(ptr, "x", vals + 0) &&
-		    go_xml_node_get_double	(ptr, "y", vals + 1))
-			g_array_append_vals (sop->points, vals, 2);
-
-	return gnm_so_polygon_parent_class->
-		read_xml_dom (so, typename, ctxt, node);
-}
-
 static void
 gnm_so_polygon_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 			      GnmConventions const *convs)
@@ -305,7 +284,6 @@ gnm_so_polygon_class_init (GObjectClass *gobject_class)
 	gobject_class->finalize		= gnm_so_polygon_finalize;
 	gobject_class->set_property	= gnm_so_polygon_set_property;
 	gobject_class->get_property	= gnm_so_polygon_get_property;
-	so_class->read_xml_dom		= gnm_so_polygon_read_xml_dom;
 	so_class->write_xml_sax		= gnm_so_polygon_write_xml_sax;
 	so_class->copy			= gnm_so_polygon_copy;
 	so_class->rubber_band_directly	= FALSE;

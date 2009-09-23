@@ -17,7 +17,6 @@
 #include "sheet-control-gui.h"
 #include "gui-file.h"
 #include "application.h"
-#include "xml-io.h"
 #include "xml-sax.h"
 
 #include <goffice/goffice.h>
@@ -455,32 +454,6 @@ gnm_soi_populate_menu (SheetObject *so, GPtrArray *actions)
 	go_ptr_array_insert (actions, (gpointer) &soi_action, 1);
 }
 
-static gboolean
-gnm_soi_read_xml_dom (SheetObject *so, char const *typename,
-				 XmlParseContext const *ctxt, xmlNodePtr tree)
-{
-	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
-	xmlNodePtr child;
-	xmlChar    *type, *content;
-
-	child = go_xml_get_child_by_name (tree, "Content");
-	type  = xmlGetProp (child, CC2XML ("image-type"));
-	if (type == NULL)
-		return FALSE;
-	content = xmlNodeGetContent (child);
-	if (content == NULL) {
-		xmlFree (type);
-		return FALSE;
-	}
-	soi->type       = g_strdup (CXML2C (type));
-	soi->bytes.len  = gsf_base64_decode_simple (content, strlen (CXML2C (content)));
-	soi->bytes.data = g_memdup (content, soi->bytes.len);
-	xmlFree (type);
-	xmlFree (content);
-
-	return FALSE;
-}
-
 static void
 content_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -659,7 +632,6 @@ gnm_soi_class_init (GObjectClass *object_class)
 	so_class = SHEET_OBJECT_CLASS (object_class);
 	so_class->new_view		= gnm_soi_new_view;
 	so_class->populate_menu		= gnm_soi_populate_menu;
-	so_class->read_xml_dom		= gnm_soi_read_xml_dom;
 	so_class->write_xml_sax		= gnm_soi_write_xml_sax;
 	so_class->prep_sax_parser	= gnm_soi_prep_sax_parser;
 	so_class->copy			= gnm_soi_copy;

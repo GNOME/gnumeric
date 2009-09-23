@@ -24,7 +24,6 @@
 #include "gnumeric.h"
 #include "gnm-so-filled.h"
 #include "sheet-object-impl.h"
-#include "xml-io.h"
 #include "xml-sax.h"
 
 #include <goffice/goffice.h>
@@ -281,37 +280,6 @@ gnm_so_filled_draw_cairo (SheetObject const *so, cairo_t *cr,
 	}
 }
 
-static gboolean
-gnm_so_filled_read_xml_dom (SheetObject *so, char const *typename,
-			    XmlParseContext const *ctxt,
-			    xmlNodePtr node)
-{
-	GnmSOFilled *sof = GNM_SO_FILLED (so);
-	double	 width;
-	xmlChar	*label;
-	int	 type;
-	xmlNode	*child;
-
-	if (NULL != (label = xmlGetProp (node, (xmlChar *)"Label"))) {
-		g_object_set (G_OBJECT (sof), "text", label, NULL);
-		xmlFree (label);
-	}
-
-	if (go_xml_node_get_int (node, "Type", &type))
-		sof->is_oval = (type == 102);
-
-	if (NULL != (child = go_xml_get_child_by_name (node, "Style"))) /* new version */
-		return !go_persist_dom_load (GO_PERSIST (sof->style), child);
-
-	/* Old 1.0 and 1.2 */
-	go_xml_node_get_gocolor (node, "OutlineColor", &sof->style->line.color);
-	go_xml_node_get_gocolor (node, "FillColor",    &sof->style->fill.pattern.back);
-	if (go_xml_node_get_double  (node, "Width", &width))
-		sof->style->line.width = width;
-
-	return FALSE;
-}
-
 static void
 gnm_so_filled_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 			     GnmConventions const *convs)
@@ -492,7 +460,6 @@ gnm_so_filled_class_init (GObjectClass *gobject_class)
 	gobject_class->finalize		= gnm_so_filled_finalize;
 	gobject_class->set_property	= gnm_so_filled_set_property;
 	gobject_class->get_property	= gnm_so_filled_get_property;
-	so_class->read_xml_dom		= gnm_so_filled_read_xml_dom;
 	so_class->write_xml_sax		= gnm_so_filled_write_xml_sax;
 	so_class->prep_sax_parser	= gnm_so_filled_prep_sax_parser;
 	so_class->copy			= gnm_so_filled_copy;
