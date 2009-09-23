@@ -170,7 +170,7 @@ void	 wbc_gtk_markup_changer	(WBCGtk *wbcg);
 gboolean wbc_gtk_load_templates (WBCGtk *gtk);
 
 #ifndef HILDON
-	G_MODULE_EXPORT void set_uifilename (char const *name);
+	G_MODULE_EXPORT void set_uifilename (char const *name, GtkActionEntry const *actions, int nb);
 #endif
 
 G_END_DECLS

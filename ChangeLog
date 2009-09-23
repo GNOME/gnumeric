@@ -1,3 +1,13 @@
+2009-09-23  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* component/gnumeric.c (cb_gognm_save), (go_gnm_component_edit): allow
+	edition of not embedded workbooks as well.
+	* src/GNOME_Gnumeric-gtk.xml.in: fixed Save button action.
+	* src/gnm-so-filled.c (cb_gnm_so_filled_changed),
+	(gnm_so_filled_draw_cairo): printf with the same font as screen display.
+	* src/wbc-gtk-impl.h:  fixed menus for the component.
+	* src/wbc-gtk.c (set_uifilename), (wbc_gtk_init): ditto.
+
 2009-09-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	modified patches from Albert Gräf <Dr.Graef@t-online.de>
 

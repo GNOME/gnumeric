@@ -22,6 +22,7 @@
 
 #include <gnumeric-config.h>
 #include "gnumeric.h"
+#include "application.h"
 #include "gnm-so-filled.h"
 #include "sheet-object-impl.h"
 #include "xml-sax.h"
@@ -185,14 +186,31 @@ cb_gnm_so_filled_changed (GnmSOFilled const *sof,
 	cb_gnm_so_filled_style_changed (GOC_ITEM (group->bg), sof);
 
 	if (sof->text != NULL) {
-		if (group->text == NULL)
-			group->text = goc_item_new (GOC_GROUP (group), GOC_TYPE_TEXT,
-				"anchor",	sof->is_oval? GTK_ANCHOR_CENTER: GTK_ANCHOR_NW,
-				"clip",		TRUE,
-				"x",		sof->margin_pts.left,
-				"y",		sof->margin_pts.top,
-				"attributes",	sof->markup,
-				NULL);
+		/* set a font, a very bad solution, but will do until we move to GOString */
+		PangoFontDescription *desc = pango_font_description_from_string ("Sans 10");
+		GOStyle *style;
+		if (group->text == NULL) {
+			if (sof->is_oval) {
+				double w, h;
+				g_object_get (group->bg, "width", &w, "height", &h, NULL);
+				group->text = goc_item_new (GOC_GROUP (group), GOC_TYPE_TEXT,
+					"anchor",	GTK_ANCHOR_CENTER,
+					"clip",		TRUE,
+					"x",		w / 2.,
+					"y",		h / 2.,
+					"attributes",	sof->markup,
+					NULL);
+			} else
+				group->text = goc_item_new (GOC_GROUP (group), GOC_TYPE_TEXT,
+					"anchor",	GTK_ANCHOR_NW,
+					"clip",		TRUE,
+					"x",		sof->margin_pts.left,
+					"y",		sof->margin_pts.top,
+					"attributes",	sof->markup,
+					NULL);
+		}
+		style = go_styled_object_get_style (GO_STYLED_OBJECT (group->text));
+		go_style_set_font_desc (style, desc);
 		goc_item_set (group->text,
 				     "text", sof->text,
 				     "attributes",	sof->markup,
@@ -269,13 +287,29 @@ gnm_so_filled_draw_cairo (SheetObject const *so, cairo_t *cr,
 				    - sof->margin_pts.bottom) * PANGO_SCALE;
 		double pl_width = (width - sof->margin_pts.left
 				   - sof->margin_pts.right) * PANGO_SCALE;
-		cairo_move_to (cr, sof->margin_pts.left,
-			       sof->margin_pts.top);
+		/* set a font, a very bad solution, but will do until we move to GOString */
+		PangoFontDescription *desc = pango_font_description_from_string ("Sans 10");
+		double const scale_h = 72. / gnm_app_display_dpi_get (TRUE);
+		double const scale_v = 72. / gnm_app_display_dpi_get (FALSE);
+		pango_layout_set_font_description (pl, desc);
 		pango_layout_set_text (pl, sof->text, -1);
 		pango_layout_set_attributes (pl, sof->markup);
 		pango_layout_set_width (pl, pl_width);
 		pango_layout_set_height (pl, pl_height);
+		cairo_save (cr);
+		if (sof->is_oval) {
+			PangoRectangle r;
+			pango_layout_get_extents (pl, NULL, &r);
+			cairo_move_to (cr,
+			               (width - r.width / PANGO_SCALE * scale_h) / 2., 
+			               (height - r.height / PANGO_SCALE * scale_v) / 2.); 
+		} else
+			cairo_move_to (cr, sof->margin_pts.left,
+				       sof->margin_pts.top);
+		cairo_scale (cr, scale_h, scale_v);
 		pango_cairo_show_layout (cr, pl);
+		cairo_new_path (cr);
+		cairo_restore (cr);
 		g_object_unref(G_OBJECT (pl));
 	}
 }

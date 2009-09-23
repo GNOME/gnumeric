@@ -3,7 +3,7 @@
  * Gnumeric GOffice component
  * gnumeric.c
  *
- * Copyright (C) 2006-2008
+ * Copyright (C) 2006-2009
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -27,6 +27,7 @@
 #include <gnumeric.h>
 #include <gnm-plugin.h>
 #include <gnumeric-gconf.h>
+#include <gui-file.h>
 #include <gutils.h>
 #include <print-cell.h>
 #include <print.h>
@@ -157,8 +158,12 @@ go_gnm_component_render (GOComponent *component, cairo_t *cr, double width_pixel
 static void
 cb_gognm_save (GtkAction *a, WBCGtk *wbcg)
 {
-	GOComponent *component = GO_COMPONENT (g_object_get_data (G_OBJECT (wbcg), "component"));
-	go_component_emit_changed (component);
+	gpointer data = g_object_get_data (G_OBJECT (wbcg), "component");
+	if (GO_IS_COMPONENT (data)) {
+		GOComponent *component = GO_COMPONENT (data);
+		go_component_emit_changed (component);
+	} else
+		gui_file_save (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)));		
 }
 
 static GtkActionEntry const actions[] = {
@@ -197,10 +202,8 @@ go_gnm_component_edit (GOComponent *component)
 		wv = wb_view_new_from_input (input, NULL, io_context, NULL);
 		g_object_unref (io_context);
 	}
-	set_uifilename ("Gnumeric-embed.xml");
+	set_uifilename ("Gnumeric-embed.xml", actions, G_N_ELEMENTS (actions));
 	gognm->edited = wbc_gtk_new (wv, NULL, NULL, NULL);
-	gtk_action_group_add_actions (gognm->edited->actions,
-		actions, G_N_ELEMENTS (actions), gognm->edited);
 
 	g_object_set_data (G_OBJECT (gognm->edited), "component", gognm);
 	g_signal_connect_swapped (gognm->edited->toplevel, "destroy",

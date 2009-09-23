@@ -92,6 +92,8 @@ enum {
 
 #ifndef HILDON
 char const *uifilename = NULL;
+GtkActionEntry const *extra_actions = NULL;
+int extra_actions_nb;
 #endif
 static guint wbc_gtk_signals[WBC_GTK_LAST_SIGNAL];
 static GObjectClass *parent_class = NULL;
@@ -100,9 +102,11 @@ static GObjectClass *parent_class = NULL;
 
 #ifndef HILDON
 G_MODULE_EXPORT void
-set_uifilename (char const *name)
+set_uifilename (char const *name, GtkActionEntry const *actions, int nb)
 {
 	uifilename = name;
+	extra_actions = actions;
+	extra_actions_nb = nb;
 }
 #endif
 
@@ -5056,6 +5060,10 @@ wbc_gtk_init (GObject *obj)
 #ifdef GNM_USE_HILDON
 	uifile = g_build_filename (gnm_sys_data_dir (), "HILDON_Gnumeric-gtk.xml", NULL);
 #else
+	if (extra_actions)
+		gtk_action_group_add_actions (wbcg->actions, extra_actions,
+			                      extra_actions_nb, wbcg);
+		
 	uifile = g_build_filename (gnm_sys_data_dir (),
 		(uifilename? uifilename: "GNOME_Gnumeric-gtk.xml"), NULL);
 #endif
