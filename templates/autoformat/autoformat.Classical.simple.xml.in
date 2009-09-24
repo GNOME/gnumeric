@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<gmr:FormatTemplate xmlns:gmr="http://www.gnome.org/gnumeric/format-template/v1">
+<gmr:FormatTemplate xmlns:gmr="http://www.gnome.org/gnumeric/format-template/v1" xmlns:gnm="http://www.gnumeric.org/v10.dtd">
   <gmr:Information _author="Gnumeric Team" _name="Simple" _description="A simple template with classical look and feel" category="Classical"/>
   <gmr:Members>
     <gmr:Member>
@@ -12,17 +12,17 @@
         <gmr:Dimensions size="1"/>
       </gmr:Col>
       <gmr:Frequency direction="0" repeat="0" skip="0" edge="0"/>
-      <gmr:Style HAlign="1" VAlign="2" Fit="0" Rotation="0" Shade="0" Fore="0:0:0" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
-        <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Arial</gmr:Font>
-        <gmr:StyleBorder>
-          <gmr:Top Style="2" Color="0:0:0"/>
-          <gmr:Bottom Style="1" Color="0:0:0"/>
-          <gmr:Left Style="0"/>
-          <gmr:Right Style="1" Color="0:0:0"/>
-          <gmr:Diagonal Style="0"/>
-          <gmr:Rev-Diagonal Style="0"/>
-        </gmr:StyleBorder>
-      </gmr:Style>
+      <gnm:Style HAlign="1" VAlign="2" Fit="0" Rotation="0" Shade="0" Fore="0:0:0" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
+        <gnm:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Arial</gnm:Font>
+        <gnm:StyleBorder>
+          <gnm:Top Style="2" Color="0:0:0"/>
+          <gnm:Bottom Style="1" Color="0:0:0"/>
+          <gnm:Left Style="0"/>
+          <gnm:Right Style="1" Color="0:0:0"/>
+          <gnm:Diagonal Style="0"/>
+          <gnm:Rev-Diagonal Style="0"/>
+        </gnm:StyleBorder>
+      </gnm:Style>
     </gmr:Member>
     <gmr:Member>
       <gmr:Row>
@@ -34,17 +34,17 @@
         <gmr:Dimensions size="-1"/>
       </gmr:Col>
       <gmr:Frequency direction="0" repeat="0" skip="0" edge="0"/>
-      <gmr:Style HAlign="8" VAlign="2" Fit="0" Rotation="0" Shade="0" Fore="0:0:0" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
-        <gmr:Font Unit="9" Bold="0" Italic="1" Underline="0" StrikeThrough="0">Arial</gmr:Font>
-        <gmr:StyleBorder>
-          <gmr:Top Style="2" Color="0:0:0"/>
-          <gmr:Bottom Style="1" Color="0:0:0"/>
-          <gmr:Left Style="0"/>
-          <gmr:Right Style="0"/>
-          <gmr:Diagonal Style="0"/>
-          <gmr:Rev-Diagonal Style="0"/>
-        </gmr:StyleBorder>
-      </gmr:Style>
+      <gnm:Style HAlign="8" VAlign="2" Fit="0" Rotation="0" Shade="0" Fore="0:0:0" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
+        <gnm:Font Unit="9" Bold="0" Italic="1" Underline="0" StrikeThrough="0">Arial</gnm:Font>
+        <gnm:StyleBorder>
+          <gnm:Top Style="2" Color="0:0:0"/>
+          <gnm:Bottom Style="1" Color="0:0:0"/>
+          <gnm:Left Style="0"/>
+          <gnm:Right Style="0"/>
+          <gnm:Diagonal Style="0"/>
+          <gnm:Rev-Diagonal Style="0"/>
+        </gnm:StyleBorder>
+      </gnm:Style>
     </gmr:Member>
     <gmr:Member>
       <gmr:Row>
@@ -56,17 +56,17 @@
         <gmr:Dimensions size="1"/>
       </gmr:Col>
       <gmr:Frequency direction="0" repeat="0" skip="0" edge="0"/>
-      <gmr:Style HAlign="8" VAlign="2" Fit="0" Rotation="0" Shade="0" Fore="0:0:0" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
-        <gmr:Font Unit="9" Bold="1" Italic="1" Underline="0" StrikeThrough="0">Arial</gmr:Font>
-        <gmr:StyleBorder>
-          <gmr:Top Style="2" Color="0:0:0"/>
-          <gmr:Bottom Style="1" Color="0:0:0"/>
-          <gmr:Left Style="0"/>
-          <gmr:Right Style="0"/>
-          <gmr:Diagonal Style="0"/>
-          <gmr:Rev-Diagonal Style="0"/>
-        </gmr:StyleBorder>
-      </gmr:Style>
+      <gnm:Style HAlign="8" VAlign="2" Fit="0" Rotation="0" Shade="0" Fore="0:0:0" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
+        <gnm:Font Unit="9" Bold="1" Italic="1" Underline="0" StrikeThrough="0">Arial</gnm:Font>
+        <gnm:StyleBorder>
+          <gnm:Top Style="2" Color="0:0:0"/>
+          <gnm:Bottom Style="1" Color="0:0:0"/>
+          <gnm:Left Style="0"/>
+          <gnm:Right Style="0"/>
+          <gnm:Diagonal Style="0"/>
+          <gnm:Rev-Diagonal Style="0"/>
+        </gnm:StyleBorder>
+      </gnm:Style>
     </gmr:Member>
     <gmr:Member>
       <gmr:Row>
@@ -78,17 +78,17 @@
         <gmr:Dimensions size="1"/>
       </gmr:Col>
       <gmr:Frequency direction="0" repeat="0" skip="0" edge="0"/>
-      <gmr:Style HAlign="1" VAlign="2" Fit="0" Rotation="0" Shade="0" Fore="0:0:0" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
-        <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Arial</gmr:Font>
-        <gmr:StyleBorder>
-          <gmr:Top Style="0"/>
-          <gmr:Bottom Style="0"/>
-          <gmr:Left Style="0"/>
-          <gmr:Right Style="1" Color="0:0:0"/>
-          <gmr:Diagonal Style="0"/>
-          <gmr:Rev-Diagonal Style="0"/>
-        </gmr:StyleBorder>
-      </gmr:Style>
+      <gnm:Style HAlign="1" VAlign="2" Fit="0" Rotation="0" Shade="0" Fore="0:0:0" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
+        <gnm:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Arial</gnm:Font>
+        <gnm:StyleBorder>
+          <gnm:Top Style="0"/>
+          <gnm:Bottom Style="0"/>
+          <gnm:Left Style="0"/>
+          <gnm:Right Style="1" Color="0:0:0"/>
+          <gnm:Diagonal Style="0"/>
+          <gnm:Rev-Diagonal Style="0"/>
+        </gnm:StyleBorder>
+      </gnm:Style>
     </gmr:Member>
     <gmr:Member>
       <gmr:Row>
@@ -100,17 +100,17 @@
         <gmr:Dimensions size="1"/>
       </gmr:Col>
       <gmr:Frequency direction="0" repeat="0" skip="0" edge="0"/>
-      <gmr:Style HAlign="1" VAlign="2" Fit="0" Rotation="0" Shade="0" Fore="0:0:0" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
-        <gmr:Font Unit="9" Bold="1" Italic="0" Underline="0" StrikeThrough="0">Arial</gmr:Font>
-        <gmr:StyleBorder>
-          <gmr:Top Style="1" Color="0:0:0"/>
-          <gmr:Bottom Style="2" Color="0:0:0"/>
-          <gmr:Left Style="0"/>
-          <gmr:Right Style="1" Color="0:0:0"/>
-          <gmr:Diagonal Style="0"/>
-          <gmr:Rev-Diagonal Style="0"/>
-        </gmr:StyleBorder>
-      </gmr:Style>
+      <gnm:Style HAlign="1" VAlign="2" Fit="0" Rotation="0" Shade="0" Fore="0:0:0" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
+        <gnm:Font Unit="9" Bold="1" Italic="0" Underline="0" StrikeThrough="0">Arial</gnm:Font>
+        <gnm:StyleBorder>
+          <gnm:Top Style="1" Color="0:0:0"/>
+          <gnm:Bottom Style="2" Color="0:0:0"/>
+          <gnm:Left Style="0"/>
+          <gnm:Right Style="1" Color="0:0:0"/>
+          <gnm:Diagonal Style="0"/>
+          <gnm:Rev-Diagonal Style="0"/>
+        </gnm:StyleBorder>
+      </gnm:Style>
     </gmr:Member>
     <gmr:Member>
       <gmr:Row>
@@ -122,17 +122,17 @@
         <gmr:Dimensions size="0"/>
       </gmr:Col>
       <gmr:Frequency direction="0" repeat="0" skip="0" edge="0"/>
-      <gmr:Style HAlign="1" VAlign="2" Fit="0" Rotation="0" Shade="0" Fore="0:0:0" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
-        <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Arial</gmr:Font>
-        <gmr:StyleBorder>
-          <gmr:Top Style="1" Color="0:0:0"/>
-          <gmr:Bottom Style="2" Color="0:0:0"/>
-          <gmr:Left Style="0"/>
-          <gmr:Right Style="0"/>
-          <gmr:Diagonal Style="0"/>
-          <gmr:Rev-Diagonal Style="0"/>
-        </gmr:StyleBorder>
-      </gmr:Style>
+      <gnm:Style HAlign="1" VAlign="2" Fit="0" Rotation="0" Shade="0" Fore="0:0:0" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
+        <gnm:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Arial</gnm:Font>
+        <gnm:StyleBorder>
+          <gnm:Top Style="1" Color="0:0:0"/>
+          <gnm:Bottom Style="2" Color="0:0:0"/>
+          <gnm:Left Style="0"/>
+          <gnm:Right Style="0"/>
+          <gnm:Diagonal Style="0"/>
+          <gnm:Rev-Diagonal Style="0"/>
+        </gnm:StyleBorder>
+      </gnm:Style>
     </gmr:Member>
   </gmr:Members>
 </gmr:FormatTemplate>

@@ -44,7 +44,6 @@
 #include "dependent.h"
 #include "sheet-autofill.h"
 #include "sheet-private.h"
-#include "xml-io.h"
 #include "xml-sax.h"
 #include "clipboard.h"
 #include "value.h"
@@ -287,7 +286,6 @@ gnm_init (void)
 	gnm_xml_sax_read_init ();
 	gnm_xml_sax_write_init ();
 	stf_init ();
-	xml_dom_init ();
 
 	glade_init ();
 }

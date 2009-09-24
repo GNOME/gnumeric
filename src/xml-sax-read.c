@@ -347,6 +347,10 @@ typedef struct {
 	GnmPageBreaks *page_breaks;
 
 	GnmCellRegion *clipboard;
+
+	GnmXmlStyleHandler style_handler;
+	gpointer style_handler_user;
+	GsfXMLInDoc *style_handler_doc;
 } XMLSaxParseState;
 
 static void
@@ -2718,28 +2722,16 @@ xml_sax_unknown (GsfXMLIn *xin, xmlChar const *elem, xmlChar const **attrs)
 	return FALSE;
 }
 
-typedef enum {
-	READ_FULL_FILE,
-	READ_CLIPBOARD
-} ReadFileWhat;
-
-static gboolean
-read_file_common (ReadFileWhat what, XMLSaxParseState *state,
-		  GOIOContext *io_context,
-		  WorkbookView *wb_view, Sheet *sheet,
-		  GsfInput *input)
+static void
+read_file_init_state (XMLSaxParseState *state,
+		      GOIOContext *io_context,
+		      WorkbookView *wb_view, Sheet *sheet)
 {
-	GsfXMLInDoc     *doc;
-	GnmLocale       *locale;
-	gboolean         ok;
-
-	g_return_val_if_fail (IS_WORKBOOK_VIEW (wb_view), FALSE);
-	g_return_val_if_fail (GSF_IS_INPUT (input), FALSE);
-
-	/* init */
 	state->context = io_context;
 	state->wb_view = wb_view;
-	state->wb = sheet ? sheet->workbook : wb_view_get_workbook (wb_view);
+	state->wb = sheet
+		? sheet->workbook
+		: (wb_view ? wb_view_get_workbook (wb_view) : NULL);
 	state->sheet = sheet;
 	state->version = GNM_XML_UNKNOWN;
 	state->last_progress_update = 0;
@@ -2766,6 +2758,47 @@ read_file_common (ReadFileWhat what, XMLSaxParseState *state,
 	state->so = NULL;
 	state->page_breaks = NULL;
 	state->clipboard = NULL;
+	state->style_handler = NULL;
+	state->style_handler_user = NULL;
+	state->style_handler_doc = NULL;
+}
+
+static void
+read_file_free_state (XMLSaxParseState *state, gboolean self)
+{
+	g_hash_table_destroy (state->expr_map);
+
+	gnm_conventions_free (state->convs);
+
+	if (state->style)
+		gnm_style_unref (state->style);
+
+	if (state->style_handler_doc)
+		gsf_xml_in_doc_free (state->style_handler_doc);
+
+	if (self)
+		g_free (state);
+}
+
+typedef enum {
+	READ_FULL_FILE,
+	READ_CLIPBOARD
+} ReadFileWhat;
+
+static gboolean
+read_file_common (ReadFileWhat what, XMLSaxParseState *state,
+		  GOIOContext *io_context,
+		  WorkbookView *wb_view, Sheet *sheet,
+		  GsfInput *input)
+{
+	GsfXMLInDoc     *doc;
+	GnmLocale       *locale;
+	gboolean         ok;
+
+	g_return_val_if_fail (IS_WORKBOOK_VIEW (wb_view), FALSE);
+	g_return_val_if_fail (GSF_IS_INPUT (input), FALSE);
+
+	read_file_init_state (state, io_context, wb_view, sheet);
 
 	switch (what) {
 	case READ_FULL_FILE:
@@ -2824,10 +2857,6 @@ read_file_common (ReadFileWhat what, XMLSaxParseState *state,
 		go_io_error_string (state->context,
 				    _("XML document not well formed!"));
 	}
-
-	/* cleanup */
-	g_hash_table_destroy (state->expr_map);
-	gnm_conventions_free (state->convs);
 
 	gsf_xml_in_doc_free (doc);
 
@@ -2956,6 +2985,8 @@ gnm_xml_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 			 GO_FILE_FL_AUTO,
 			 go_file_saver_for_id ("Gnumeric_XmlIO:sax"));
 	}
+
+	read_file_free_state (&state, FALSE);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -2969,6 +3000,7 @@ xml_cellregion_read (WorkbookControl *wbc, GOIOContext *io_context,
 	GsfInput *input;
 	XMLSaxParseState state;
 	gboolean ok;
+	GnmCellRegion *result;
 
 	wb_view = wb_control_view (wbc);
 	input = gsf_input_memory_new (buffer, length, FALSE);
@@ -2977,7 +3009,54 @@ xml_cellregion_read (WorkbookControl *wbc, GOIOContext *io_context,
 			       input);
 	g_object_unref (input);
 
-	return state.clipboard;
+	result = state.clipboard;
+	state.clipboard = NULL;
+
+	read_file_free_state (&state, FALSE);
+
+	return result;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static void
+style_parser_done (GsfXMLIn *xin, XMLSaxParseState *old_state)
+{
+	GnmStyle *style = old_state->style;
+	old_state->style_handler (xin, style, old_state->style_handler_user);
+	read_file_free_state (old_state, TRUE);
+}
+
+void
+gnm_xml_prep_style_parser (GsfXMLIn *xin,
+			   xmlChar const **attrs,
+			   GnmXmlStyleHandler handler,
+			   gpointer user)
+{
+	static GsfXMLInNode dtd[] = {
+		GSF_XML_IN_NODE (STYLE_STYLE, STYLE_STYLE, GNM, "Style", GSF_XML_NO_CONTENT, &xml_sax_style_start, NULL),
+		/* Nodes added below.  */
+		GSF_XML_IN_NODE_END
+	};
+	GsfXMLInDoc *doc = gsf_xml_in_doc_new (dtd, NULL);
+	XMLSaxParseState *state = g_new0 (XMLSaxParseState, 1);
+
+	read_file_init_state (state, NULL, NULL, NULL);
+	state->style_handler = handler;
+	state->style_handler_user = user;
+	state->style_handler_doc = doc;
+	state->style = gnm_style_new_default ();
+
+	/* Not a full style, just those parts that do not require a sheet.  */
+	gnm_xml_in_doc_add_subset (doc, gnumeric_1_0_dtd,
+				   "STYLE_FONT",
+				   "STYLE_STYLE");
+	gnm_xml_in_doc_add_subset (doc, gnumeric_1_0_dtd,
+				   "STYLE_BORDER",
+				   "STYLE_STYLE");
+
+	gsf_xml_in_push_state (xin, doc, state,
+			       (GsfXMLInExtDtor)style_parser_done, attrs);
 }
 
 /* ------------------------------------------------------------------------- */

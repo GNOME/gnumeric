@@ -21,12 +21,20 @@ SheetObject *gnm_xml_in_cur_obj   (GsfXMLIn const *xin);
 Sheet	    *gnm_xml_in_cur_sheet (GsfXMLIn const *xin);
 
 
-GsfOutputMemory *gnm_cellregion_to_xml	(GnmCellRegion const *cr);
+GsfOutputMemory *gnm_cellregion_to_xml (GnmCellRegion const *cr);
 
 GnmCellRegion *xml_cellregion_read (WorkbookControl *wbc,
 				    GOIOContext *io_context,
 				    Sheet *sheet,
 				    const char *buffer, int length);
+
+typedef void (*GnmXmlStyleHandler) (GsfXMLIn *xin,
+				    GnmStyle *style,
+				    gpointer user);
+void      gnm_xml_prep_style_parser (GsfXMLIn *xin,
+				     xmlChar const **attrs,
+				     GnmXmlStyleHandler handler,
+				     gpointer user);
 
 void      gnm_xml_sax_read_init (void);
 void      gnm_xml_sax_write_init (void);

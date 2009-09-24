@@ -31,10 +31,11 @@
 #include "style-border.h"
 #include "command-context.h"
 #include "ranges.h"
-#include "xml-io.h"
+#include "xml-sax.h"
 #include <goffice/goffice.h>
 #include <string.h>
 #include <libxml/parser.h>
+#include <gsf/gsf-input-stdio.h>
 
 #define CC2XML(s) ((xmlChar const *)(s))
 #define CXML2C(s) ((char const *)(s))
@@ -245,7 +246,7 @@ format_template_new (void)
 
 	ft = g_new0 (GnmFormatTemplate, 1);
 
-	ft->filename    = g_strdup ("");
+	ft->filename    = NULL;
 	ft->author      = g_strdup (go_get_real_name ());
 	ft->name        = g_strdup (N_("Name"));
 	ft->description = g_strdup ("");
@@ -332,12 +333,7 @@ format_template_clone (GnmFormatTemplate const *ft)
 	clone->font      = ft->font;
 	clone->patterns  = ft->patterns;
 	clone->alignment = ft->alignment;
-
-	clone->edges.left   = ft->edges.left;
-	clone->edges.right  = ft->edges.right;
-	clone->edges.top    = ft->edges.top;
-	clone->edges.bottom = ft->edges.bottom;
-
+	clone->edges     = ft->edges;
 	clone->dimension = ft->dimension;
 
 	clone->invalidate_hash = TRUE;
@@ -345,106 +341,166 @@ format_template_clone (GnmFormatTemplate const *ft)
 	return clone;
 }
 
+#define GNM 100
+#define GMR 200
+
+static GsfXMLInNS const template_ns[] = {
+	GSF_XML_IN_NS (GMR, "http://www.gnome.org/gnumeric/format-template/v1"),
+	GSF_XML_IN_NS (GNM, "http://www.gnumeric.org/v10.dtd"),
+	GSF_XML_IN_NS_END
+};
+
 static void
-xml_read_format_col_row_info (FormatColRowInfo *info, xmlNodePtr parent)
+sax_information (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	xmlNode *child;
-	int found = 0;
+	GnmFormatTemplate *ft = (GnmFormatTemplate *)xin->user_state;
 
-	for (child = parent->xmlChildrenNode; child != NULL ; child = child->next) {
-		if (xmlIsBlankNode (child) || child->name == NULL)
-			continue;
-		if (attr_eq (child->name, "Placement")) {
-			g_return_if_fail (!(found & 1));
-			go_xml_node_get_int  (child, "offset", &info->offset);
-			go_xml_node_get_int  (child, "offset_gravity", &info->offset_gravity);
-			found |= 1;
-		} else if (attr_eq (child->name, "Dimensions")) {
-			g_return_if_fail (!(found & 2));
-			go_xml_node_get_int (child, "size", &info->size);
-			found |= 2;
-		}
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (attr_eq (attrs[0], "author"))
+			format_template_set_author (ft, CXML2C (attrs[1]));
+		else if (attr_eq (attrs[0], "name"))
+			format_template_set_name (ft, CXML2C (attrs[1]));
+		else if (attr_eq (attrs[0], "description"))
+			format_template_set_description (ft, CXML2C (attrs[1]));
 	}
-	g_return_if_fail (found == 3);
+}
+
+static void
+sax_members_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	GnmFormatTemplate *ft = (GnmFormatTemplate *)xin->user_state;
+	ft->members = g_slist_reverse (ft->members);
+}
+
+static void
+sax_member (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	GnmFormatTemplate *ft = (GnmFormatTemplate *)xin->user_state;
+	TemplateMember *member = format_template_member_new ();
+
+	/* Order reversed in sax_members_end.  */
+	ft->members = g_slist_prepend (ft->members, member);
+}
+
+static void
+sax_placement (FormatColRowInfo *info, xmlChar const **attrs)
+{
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (gnm_xml_attr_int (attrs, "offset", &info->offset) ||
+		    gnm_xml_attr_int (attrs, "offset_gravity", &info->offset_gravity))
+			; /* Nothing */
+	}
+}
+
+static void
+sax_row_placement (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	GnmFormatTemplate *ft = (GnmFormatTemplate *)xin->user_state;
+	TemplateMember *member = ft->members->data;
+	sax_placement (&member->row, attrs);
+}
+
+static void
+sax_col_placement (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	GnmFormatTemplate *ft = (GnmFormatTemplate *)xin->user_state;
+	TemplateMember *member = ft->members->data;
+	sax_placement (&member->col, attrs);
+}
+
+static void
+sax_dimensions (FormatColRowInfo *info, xmlChar const **attrs)
+{
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (gnm_xml_attr_int (attrs, "size", &info->size))
+			; /* Nothing */
+	}
+}
+
+static void
+sax_row_dimensions (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	GnmFormatTemplate *ft = (GnmFormatTemplate *)xin->user_state;
+	TemplateMember *member = ft->members->data;
+	sax_dimensions (&member->row, attrs);
+}
+
+static void
+sax_col_dimensions (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	GnmFormatTemplate *ft = (GnmFormatTemplate *)xin->user_state;
+	TemplateMember *member = ft->members->data;
+	sax_dimensions (&member->col, attrs);
+}
+
+static void
+sax_frequency (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	GnmFormatTemplate *ft = (GnmFormatTemplate *)xin->user_state;
+	TemplateMember *member = ft->members->data;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		int i;
+
+		if (gnm_xml_attr_int (attrs, "direction", &i))
+			format_template_member_set_direction (member, i);
+		else if (gnm_xml_attr_int (attrs, "repeat", &i))
+			format_template_member_set_repeat (member, i);
+		else if (gnm_xml_attr_int (attrs, "skip", &i))
+			format_template_member_set_skip (member, i);
+		else if (gnm_xml_attr_int (attrs, "edge", &i))
+			format_template_member_set_edge (member, i);
+	}
+}
+
+static void
+sax_style_handler (GsfXMLIn *xin, GnmStyle *style, gpointer user)
+{
+	GnmFormatTemplate *ft = (GnmFormatTemplate *)xin->user_state;
+	TemplateMember *member = ft->members->data;
+	gnm_style_ref (style);
+	member->mstyle = style;
 }
 
 static gboolean
-xml_read_format_template_member (XmlParseContext *ctxt, GnmFormatTemplate *ft, xmlNodePtr tree)
+template_sax_unknown (GsfXMLIn *xin, xmlChar const *elem, xmlChar const **attrs)
 {
-	xmlNodePtr child;
-	TemplateMember *member;
-	int tmp, found = 0;
+	g_return_val_if_fail (xin != NULL, FALSE);
+	g_return_val_if_fail (xin->doc != NULL, FALSE);
+	g_return_val_if_fail (xin->node != NULL, FALSE);
 
-	g_return_val_if_fail (attr_eq (tree->name, "Member"), FALSE);
-	member = format_template_member_new ();
+#if 0
+	g_printerr ("YYY: %s %d\n", elem, xin->node->ns_id);
+#endif
 
-	for (child = tree->xmlChildrenNode; child != NULL ; child = child->next) {
-		if (xmlIsBlankNode (child) || child->name == NULL)
-			continue;
-		if (attr_eq (child->name, "Col"))
-			xml_read_format_col_row_info (&member->col, child);
-		else if (attr_eq (child->name, "Row"))
-			xml_read_format_col_row_info (&member->row, child);
-		else if (attr_eq (child->name, "Frequency")) {
-			if (found & 1) { g_warning ("Multiple Frequency specs"); }
-			if (go_xml_node_get_int (child, "direction", &tmp))
-				format_template_member_set_direction (member, tmp);
-			if (go_xml_node_get_int (child, "repeat", &tmp))
-				format_template_member_set_repeat (member, tmp);
-			if (go_xml_node_get_int (child, "skip", &tmp))
-				format_template_member_set_skip (member, tmp);
-			if (go_xml_node_get_int (child, "edge", &tmp))
-				format_template_member_set_edge (member, tmp);
-			found |= 1;
-		} else if (attr_eq (child->name, "Style")) {
-			if (found & 2) { g_warning ("Multiple Styles"); }
-			member->mstyle = xml_read_style (ctxt, child, FALSE);
-			found |= 2;
+	if (GMR == xin->node->ns_id &&
+	    0 == strcmp (xin->node->id, "MEMBERS_MEMBER")) {
+		char const *type_name = gsf_xml_in_check_ns (xin, CXML2C (elem), GNM);
+		if (type_name && strcmp (type_name, "Style") == 0) {
+			gnm_xml_prep_style_parser (xin, attrs,
+						   sax_style_handler,
+						   NULL);
+			return TRUE;
 		}
 	}
-	if (found != 3) {
-		g_warning ("Invalid Member, missing %s", (found & 1) ? "Style" : "Frequency");
-		format_template_member_free (member);
-		return FALSE;
-	}
-
-	format_template_attach_member (ft, member);
-	return TRUE;
+	return FALSE;
 }
 
-static gboolean
-xml_read_format_template_members (XmlParseContext *ctxt, GnmFormatTemplate *ft, xmlNodePtr tree)
-{
-	xmlNode *child;
-
-	g_return_val_if_fail (attr_eq (tree->name, "FormatTemplate"), FALSE);
-
-	child = go_xml_get_child_by_name_by_lang (tree, "Information");
-	if (child) {
-		xmlChar *author = go_xml_node_get_cstr (child, "author");
-		xmlChar *name   = go_xml_node_get_cstr (child, "name");
-		xmlChar *descr  = go_xml_node_get_cstr (child, "description");
-
-		format_template_set_author (ft, _(CXML2C (author)));
-		format_template_set_name (ft,  _(CXML2C (name)));
-		format_template_set_description (ft,  _(CXML2C (descr)));
-
-		xmlFree (author);
-		xmlFree (name);
-		xmlFree (descr);
-	} else
-		return FALSE;
-
-	child = go_xml_get_child_by_name (tree, "Members");
-	if (child == NULL)
-		return FALSE;
-	for (child = child->xmlChildrenNode; child != NULL ; child = child->next)
-		if (!xmlIsBlankNode (child) &&
-		    !xml_read_format_template_member (ctxt, ft, child))
-			return FALSE;
-
-	return TRUE;
-}
+static GsfXMLInNode template_dtd[] = {
+GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
+GSF_XML_IN_NODE (START, TEMPLATE, GMR, "FormatTemplate", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (TEMPLATE, TEMPLATE_INFORMATION, GMR, "Information", GSF_XML_NO_CONTENT, sax_information, NULL),
+  GSF_XML_IN_NODE (TEMPLATE, TEMPLATE_MEMBERS, GMR, "Members", GSF_XML_NO_CONTENT, NULL, sax_members_end),
+    GSF_XML_IN_NODE (TEMPLATE_MEMBERS, MEMBERS_MEMBER, GMR, "Member", GSF_XML_NO_CONTENT, sax_member, NULL),
+      GSF_XML_IN_NODE (MEMBERS_MEMBER, MEMBER_ROW, GMR, "Row", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (MEMBER_ROW, ROW_PLACEMENT, GMR, "Placement", GSF_XML_NO_CONTENT, sax_row_placement, NULL),
+        GSF_XML_IN_NODE (MEMBER_ROW, ROW_DIMENSIONS, GMR, "Dimensions", GSF_XML_NO_CONTENT, sax_row_dimensions, NULL),
+      GSF_XML_IN_NODE (MEMBERS_MEMBER, MEMBER_COL, GMR, "Col", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (MEMBER_COL, COL_PLACEMENT, GMR, "Placement", GSF_XML_NO_CONTENT, sax_col_placement, NULL),
+        GSF_XML_IN_NODE (MEMBER_COL, COL_DIMENSIONS, GMR, "Dimensions", GSF_XML_NO_CONTENT, sax_col_dimensions, NULL),
+      GSF_XML_IN_NODE (MEMBERS_MEMBER, MEMBER_FREQUENCY, GMR, "Frequency", GSF_XML_NO_CONTENT, sax_frequency, NULL),
+  GSF_XML_IN_NODE_END
+};
 
 /**
  * format_template_new_from_file:
@@ -459,46 +515,43 @@ xml_read_format_template_members (XmlParseContext *ctxt, GnmFormatTemplate *ft, 
 GnmFormatTemplate *
 format_template_new_from_file (char const *filename, GOCmdContext *cc)
 {
-	GnmFormatTemplate	*ft = NULL;
-	xmlDoc		*doc;
+	GnmFormatTemplate *ft = NULL;
+	GsfXMLInDoc *doc = NULL;
+	GnmLocale *locale;
+	gboolean ok = FALSE;
+	GsfInput *input = NULL;
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
-	if (!g_file_test (filename, G_FILE_TEST_EXISTS))
-		return NULL;
-
-	doc = xmlParseFile (filename);
-	if (doc == NULL) {
-		go_cmd_context_error_import (cc,
-			_("Error while trying to load autoformat template"));
-		return NULL;
+	input = gsf_input_stdio_new (filename, NULL);
+	if (!input) {
+		go_cmd_context_error_import
+			(cc,
+			 _("Error while opening autoformat template"));
+		goto done;
 	}
-	if (doc->xmlRootNode != NULL) {
-		xmlNs *ns = xmlSearchNsByHref (doc, doc->xmlRootNode,
-			CC2XML ("http://www.gnome.org/gnumeric/format-template/v1"));
-		if (ns != NULL && attr_eq (doc->xmlRootNode->name, "FormatTemplate")) {
-			XmlParseContext *ctxt = xml_parse_ctx_new (doc, ns, NULL);
 
-			ft = format_template_new ();
-			if (xml_read_format_template_members (ctxt, ft, doc->xmlRootNode)) {
-				g_free (ft->filename);
-				ft->filename = g_strdup (filename);
-			} else {
-				format_template_free (ft);
-				ft = NULL;
-				go_cmd_context_error_import (cc,
-					_("Error while trying to build tree from autoformat template file"));
-			}
+	doc = gsf_xml_in_doc_new (template_dtd, template_ns);
+	if (doc == NULL)
+		goto done;
+	gsf_xml_in_doc_set_unknown_handler (doc, &template_sax_unknown);
 
-			xml_parse_ctx_destroy (ctxt);
-		} else
-			go_cmd_context_error_import (cc,
-				_("Is not an autoformat template file"));
-	} else
-		go_cmd_context_error_import (cc,
-			_("Invalid xml file. Tree is empty?"));
+	ft = format_template_new ();
+	ft->filename = g_strdup (filename);
 
-	xmlFreeDoc (doc);
+	locale = gnm_push_C_locale ();
+	ok = gsf_xml_in_doc_parse (doc, input, ft);
+	gnm_pop_C_locale (locale);
+
+ done:
+	if (input) g_object_unref (input);
+	if (doc) gsf_xml_in_doc_free (doc);
+
+	if (ft && !ok) {
+		format_template_free (ft);
+		ft = NULL;
+	}
+
 	return ft;
 }
 
