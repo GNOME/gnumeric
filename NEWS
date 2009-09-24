@@ -6,6 +6,7 @@ Albert Gräf:
 Andreas:
 	* Add more ODF elements on ODF read. [#595750]
 	* Fix 2-factor ANOVA with replication
+	* Fix diagonal borders in ODF export/import
 
 Jean:
 	* Make plugins GUI labels translatable. [#159806]

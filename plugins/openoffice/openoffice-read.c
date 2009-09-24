@@ -2508,9 +2508,9 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_RIGHT);
 			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_TOP);
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "diagonal-bl-tr"))
-			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_REV_DIAGONAL);
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "diagonal-tl-br"))
 			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_DIAGONAL);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "diagonal-tl-br"))
+			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_REV_DIAGONAL);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "border-line-style-bottom"))
 			oo_set_gnm_border (xin, style, attrs[1], MSTYLE_BORDER_BOTTOM);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "border-line-style-top"))
@@ -2520,9 +2520,9 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "border-line-style-right"))
 			oo_set_gnm_border (xin, style, attrs[1], MSTYLE_BORDER_RIGHT);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "diagonal-bl-tr-line-style"))
-			oo_set_gnm_border (xin, style, attrs[1], MSTYLE_BORDER_REV_DIAGONAL);
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "diagonal-tl-br-line-style"))
 			oo_set_gnm_border (xin, style, attrs[1], MSTYLE_BORDER_DIAGONAL);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "diagonal-tl-br-line-style"))
+			oo_set_gnm_border (xin, style, attrs[1], MSTYLE_BORDER_REV_DIAGONAL);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "font-name"))
 			gnm_style_set_font_name (style, CXML2C (attrs[1]));
 		else if (oo_attr_bool (xin, attrs, OO_NS_STYLE, "shrink-to-fit", &btmp))
