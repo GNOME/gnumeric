@@ -123,7 +123,7 @@ typedef struct {
 /*
  * Functions for GnmFormatTemplate
  */
-void            format_template_free              (GnmFormatTemplate *ft);
+void               format_template_free           (GnmFormatTemplate *ft);
 GnmFormatTemplate *format_template_clone          (GnmFormatTemplate const *ft);
 GnmFormatTemplate *format_template_new            (void);
 GnmFormatTemplate *format_template_new_from_file  (char const *filename,
@@ -131,8 +131,6 @@ GnmFormatTemplate *format_template_new_from_file  (char const *filename,
 
 gint                  format_template_compare_name             (gconstpointer a, gconstpointer b);
 
-void                  format_template_attach_member            (GnmFormatTemplate *ft, TemplateMember *member);
-void                  format_template_detach_member            (GnmFormatTemplate *ft, TemplateMember *member);
 GnmStyle               *format_template_get_style                (GnmFormatTemplate *ft, int row, int col);
 void                  format_template_apply_to_sheet_regions   (GnmFormatTemplate *ft, Sheet *sheet, GSList *regions);
 gboolean	      format_template_check_valid	       (GnmFormatTemplate *ft, GSList *regions,

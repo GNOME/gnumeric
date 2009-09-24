@@ -27,14 +27,11 @@
 #include "mstyle.h"
 #include "gutils.h"
 #include "sheet.h"
-#include "sheet-style.h"
-#include "style-border.h"
 #include "command-context.h"
 #include "ranges.h"
 #include "xml-sax.h"
 #include <goffice/goffice.h>
 #include <string.h>
-#include <libxml/parser.h>
 #include <gsf/gsf-input-stdio.h>
 
 #define CC2XML(s) ((xmlChar const *)(s))
@@ -45,8 +42,6 @@ attr_eq (const xmlChar *a, const char *s)
 {
 	return !strcmp (CXML2C (a), s);
 }
-
-#define ROW_COL_KEY(row,col) GINT_TO_POINTER ((guint)row * (guint)GNM_MAX_COLS + (guint)col)
 
 /******************************************************************************
  * FormatTemplateMember - Getters/setters and creation
@@ -88,9 +83,7 @@ format_template_member_new (void)
 TemplateMember *
 format_template_member_clone (TemplateMember *member)
 {
-	TemplateMember *clone;
-
-	clone = format_template_member_new ();
+	TemplateMember *clone = format_template_member_new ();
 
 	clone->row = member->row;
 	clone->col = member->col;
@@ -188,44 +181,18 @@ format_template_member_get_rect (TemplateMember const *member, GnmRange const *r
 	return res;
 }
 
-/******************************************************************************
- * Getters and setters for FormatTemplateMember
- *
- * NOTE : GnmStyle are taken care of internally, there is no
- *        need to unref or ref mstyle's manually.
- */
+/****************************************************************************/
 
-static void
-format_template_member_set_direction (TemplateMember *member, FreqDirection direction)
+static gboolean
+format_template_member_valid (TemplateMember const *member)
 {
-	g_return_if_fail (direction == FREQ_DIRECTION_NONE || direction == FREQ_DIRECTION_HORIZONTAL ||
-			  direction == FREQ_DIRECTION_VERTICAL);
-
-	member->direction = direction;
-}
-
-static void
-format_template_member_set_repeat (TemplateMember *member, int repeat)
-{
-	g_return_if_fail (repeat >= -1);
-
-	member->repeat = repeat;
-}
-
-static void
-format_template_member_set_skip (TemplateMember *member, int skip)
-{
-	g_return_if_fail (skip >= 0);
-
-	member->skip = skip;
-}
-
-static void
-format_template_member_set_edge (TemplateMember *member, int edge)
-{
-	g_return_if_fail (edge >= 0);
-
-	member->edge = edge;
+	return (member &&
+		member->mstyle &&
+		member->direction >= FREQ_DIRECTION_NONE &&
+		member->direction <= FREQ_DIRECTION_VERTICAL &&
+		member->repeat >= -1 &&
+		member->skip >= 0 &&
+		member->edge >= 0);
 }
 
 /******************************************************************************
@@ -282,19 +249,13 @@ format_template_new (void)
 void
 format_template_free (GnmFormatTemplate *ft)
 {
-	GSList *ptr;
-
 	g_return_if_fail (ft != NULL);
 
 	g_free (ft->filename);
 	g_free (ft->author);
 	g_free (ft->name);
 	g_free (ft->description);
-
-	for (ptr = ft->members; ptr != NULL ; ptr = ptr->next)
-		format_template_member_free (ptr->data);
-	g_slist_free (ft->members);
-
+	go_slist_free_custom (ft->members, (GFreeFunc)format_template_member_free);
 	g_hash_table_destroy (ft->table);
 
 	g_free (ft);
@@ -312,7 +273,6 @@ GnmFormatTemplate *
 format_template_clone (GnmFormatTemplate const *ft)
 {
 	GnmFormatTemplate *clone;
-	GSList *ptr = NULL;
 
 	g_return_val_if_fail (ft != NULL, NULL);
 
@@ -324,9 +284,8 @@ format_template_clone (GnmFormatTemplate const *ft)
 
 	clone->category    = ft->category;
 
-	for (ptr = ft->members; ptr != NULL ; ptr = ptr->next)
-		format_template_attach_member (clone,
-			format_template_member_clone (ptr->data));
+	clone->members = go_slist_map (ft->members,
+				       (GOMapFunc)format_template_member_clone);
 
 	clone->number    = ft->number;
 	clone->border    = ft->border;
@@ -380,6 +339,19 @@ sax_member (GsfXMLIn *xin, xmlChar const **attrs)
 
 	/* Order reversed in sax_members_end.  */
 	ft->members = g_slist_prepend (ft->members, member);
+}
+
+static void
+sax_member_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	GnmFormatTemplate *ft = (GnmFormatTemplate *)xin->user_state;
+	TemplateMember *member = ft->members->data;
+
+	if (!format_template_member_valid (member)) {
+		g_warning ("Invalid template member in %s\n", ft->filename);
+		ft->members = g_slist_remove (ft->members, member);
+		format_template_member_free (member);
+	}
 }
 
 static void
@@ -443,13 +415,11 @@ sax_frequency (GsfXMLIn *xin, xmlChar const **attrs)
 		int i;
 
 		if (gnm_xml_attr_int (attrs, "direction", &i))
-			format_template_member_set_direction (member, i);
-		else if (gnm_xml_attr_int (attrs, "repeat", &i))
-			format_template_member_set_repeat (member, i);
-		else if (gnm_xml_attr_int (attrs, "skip", &i))
-			format_template_member_set_skip (member, i);
-		else if (gnm_xml_attr_int (attrs, "edge", &i))
-			format_template_member_set_edge (member, i);
+			member->direction = i;
+		else if (gnm_xml_attr_int (attrs, "repeat", &member->repeat) ||
+			 gnm_xml_attr_int (attrs, "skip", &member->skip) ||
+			 gnm_xml_attr_int (attrs, "edge", &member->edge))
+			; /* Nothing */
 	}
 }
 
@@ -469,10 +439,6 @@ template_sax_unknown (GsfXMLIn *xin, xmlChar const *elem, xmlChar const **attrs)
 	g_return_val_if_fail (xin->doc != NULL, FALSE);
 	g_return_val_if_fail (xin->node != NULL, FALSE);
 
-#if 0
-	g_printerr ("YYY: %s %d\n", elem, xin->node->ns_id);
-#endif
-
 	if (GMR == xin->node->ns_id &&
 	    0 == strcmp (xin->node->id, "MEMBERS_MEMBER")) {
 		char const *type_name = gsf_xml_in_check_ns (xin, CXML2C (elem), GNM);
@@ -491,7 +457,7 @@ GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, N
 GSF_XML_IN_NODE (START, TEMPLATE, GMR, "FormatTemplate", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (TEMPLATE, TEMPLATE_INFORMATION, GMR, "Information", GSF_XML_NO_CONTENT, sax_information, NULL),
   GSF_XML_IN_NODE (TEMPLATE, TEMPLATE_MEMBERS, GMR, "Members", GSF_XML_NO_CONTENT, NULL, sax_members_end),
-    GSF_XML_IN_NODE (TEMPLATE_MEMBERS, MEMBERS_MEMBER, GMR, "Member", GSF_XML_NO_CONTENT, sax_member, NULL),
+    GSF_XML_IN_NODE (TEMPLATE_MEMBERS, MEMBERS_MEMBER, GMR, "Member", GSF_XML_NO_CONTENT, sax_member, sax_member_end),
       GSF_XML_IN_NODE (MEMBERS_MEMBER, MEMBER_ROW, GMR, "Row", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (MEMBER_ROW, ROW_PLACEMENT, GMR, "Placement", GSF_XML_NO_CONTENT, sax_row_placement, NULL),
         GSF_XML_IN_NODE (MEMBER_ROW, ROW_DIMENSIONS, GMR, "Dimensions", GSF_XML_NO_CONTENT, sax_row_dimensions, NULL),
@@ -555,43 +521,6 @@ format_template_new_from_file (char const *filename, GOCmdContext *cc)
 	return ft;
 }
 
-
-/**
- * format_template_attach_member:
- * @ft: GnmFormatTemplate
- * @member: the new member to attach
- *
- * Attaches @member to template @ft
- **/
-void
-format_template_attach_member (GnmFormatTemplate *ft, TemplateMember *member)
-{
-	g_return_if_fail (ft != NULL);
-	g_return_if_fail (member != NULL);
-
-	/*
-	 * NOTE : Append is slower, but that's not really an issue
-	 *        here, because a GnmFormatTemplate will most likely
-	 *        not have 'that many' members anyway
-	 */
-	ft->members = g_slist_append (ft->members, member);
-}
-
-/**
- * format_template_detach_member:
- * @ft: GnmFormatTemplate
- * @member: a TemplateMember
- *
- * Detaches @member from template @ft
- **/
-void
-format_template_detach_member (GnmFormatTemplate *ft, TemplateMember *member)
-{
-	g_return_if_fail (ft != NULL);
-	g_return_if_fail (member != NULL);
-
-	ft->members = g_slist_remove (ft->members, member);
-}
 
 /**
  * format_template_compare_name:

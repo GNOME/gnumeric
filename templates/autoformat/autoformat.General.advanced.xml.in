@@ -19,8 +19,8 @@
           <gnm:Bottom Style="2" Color="0:0:0"/>
           <gnm:Left Style="0"/>
           <gnm:Right Style="0"/>
-          <gnm:Diagonal Style="0"/>
-          <gnm:Rev-Diagonal Style="2" Color="0:0:0"/>
+          <gnm:Diagonal Style="2" Color="0:0:0"/>
+          <gnm:Rev-Diagonal Style="0"/>
         </gnm:StyleBorder>
       </gnm:Style>
     </gmr:Member>
