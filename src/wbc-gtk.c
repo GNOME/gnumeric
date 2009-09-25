@@ -3472,6 +3472,10 @@ set_toolbar_position (GtkToolbar *tb, GtkPositionType pos, WBCGtk *gtk)
 	GtkContainer *zone = GTK_CONTAINER (GTK_WIDGET (box)->parent);
 	GtkContainer *new_zone = GTK_CONTAINER (gtk->toolbar_zones[pos]);
 	char const *name = g_object_get_data (G_OBJECT (box), "name");
+	const char *key = "toolbar-order";
+	int n = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (box), key));
+	GList *children, *l;
+	int cpos = 0;
 
 	if (zone == new_zone)
 		return;
@@ -3480,7 +3484,18 @@ set_toolbar_position (GtkToolbar *tb, GtkPositionType pos, WBCGtk *gtk)
 	if (zone)
 		gtk_container_remove (zone, box);
 	set_toolbar_style_for_position (tb, pos);
+
+	children = gtk_container_get_children (new_zone);
+	for (l = children; l; l = l->next) {
+		GObject *child = l->data;
+		int nc = GPOINTER_TO_INT (g_object_get_data (child, key));
+		if (nc < n) cpos++;
+	}
+	g_list_free (children);
+
 	gtk_container_add (new_zone, box);
+	gtk_container_child_set (new_zone, box, "position", cpos, NULL);
+
 	g_object_unref (box);
 
 	if (zone)
@@ -3635,13 +3650,14 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		char *toggle_name = g_strconcat ("ViewMenuToolbar", name, NULL);
 		char *tooltip = g_strdup_printf (_("Show/Hide toolbar %s"), _(name));
 		gboolean visible = gnm_conf_get_toolbar_visible (name);
+		int n = g_hash_table_size (wbcg->visibility_widgets);
+		GtkWidget *vw;
 
 #ifdef GNM_USE_HILDON
 		hildon_window_add_toolbar (HILDON_WINDOW (wbcg_toplevel (wbcg)), GTK_TOOLBAR (w));
 
 		gtk_widget_show_all (w);
-		g_hash_table_insert (wbcg->visibility_widgets,
-			g_strdup (toggle_name), g_object_ref (w));
+		vw = w;
 #else
 		GtkWidget *box;
 		GtkPositionType pos = gnm_conf_get_toolbar_position (name);
@@ -3667,6 +3683,8 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		gtk_widget_show_all (box);
 		if (!visible)
 			gtk_widget_hide (box);
+		g_object_set_data (G_OBJECT (box), "toolbar-order",
+				   GINT_TO_POINTER (n));
 		set_toolbar_position (GTK_TOOLBAR (w), pos, gtk);
 
 		g_signal_connect (box,
@@ -3677,9 +3695,12 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 					g_strdup (name),
 					(GDestroyNotify)g_free);
 
-		g_hash_table_insert (wbcg->visibility_widgets,
-			g_strdup (toggle_name), g_object_ref (box));
+		vw = box;
 #endif
+		g_hash_table_insert (wbcg->visibility_widgets,
+				     g_strdup (toggle_name),
+				     g_object_ref (vw));
+
 		gtk_toolbar_set_show_arrow (GTK_TOOLBAR (w), TRUE);
 		gtk_toolbar_set_style (GTK_TOOLBAR (w), GTK_TOOLBAR_ICONS);
 

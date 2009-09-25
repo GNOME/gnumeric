@@ -15,6 +15,7 @@ Morten:
 	* Fix inter-process pasting of merged regions.
 	* Make inter-process pasting use the sax parser.
 	* Make auto-format templates use the sax parser.
+	* Improve consistency when moving toolbars around.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.13
