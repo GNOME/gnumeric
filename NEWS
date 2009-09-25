@@ -10,6 +10,7 @@ Andreas:
 
 Jean:
 	* Make plugins GUI labels translatable. [#159806]
+	* Fix more canvas issues.
 
 Morten:
 	* Fix inter-process pasting of merged regions.

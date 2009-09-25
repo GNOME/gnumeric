@@ -196,13 +196,8 @@ scg_redraw_headers (SheetControl *sc,
 									 r->start.col, r->end.col+1);
 				}
 			}
-			if (col_canvas->scroll_x1) {
-				goc_canvas_invalidate (col_canvas,
-					right / scale, 0,
-					left / scale, G_MAXINT64);
-			} else
-				goc_canvas_invalidate (col_canvas,
-					left / scale, 0, right / scale, G_MAXINT64);
+			goc_canvas_invalidate (col_canvas,
+				left / scale, 0, right / scale, G_MAXINT64);
 		}
 
 		if (row && pane->row.canvas != NULL) {
