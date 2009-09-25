@@ -1,7 +1,13 @@
+2009-09-25  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-so-line.c (gnm_so_line_draw_cairo,
+	gnm_so_filled_draw_cairo): Fix setting of colour.
+	(gnm_so_line_draw_cairo): Fix setting of line width.
+
 2009-09-25  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* src/sheet-control-gui.c (scg_redraw_headers): fixed column headers update
-	when scrolled.
+	* src/sheet-control-gui.c (scg_redraw_headers): fixed column
+	headers update when scrolled.
 
 2009-09-24  Morten Welinder  <terra@gnome.org>
 

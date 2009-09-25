@@ -18,6 +18,8 @@ Morten:
 	* Make auto-format templates use the sax parser.
 	* Improve consistency when moving toolbars around.
 	* Fix translation problem with toolbar menu.  [#587250]
+	* Fix printing of coloured sheet objects.
+	* Fix printing of lines and arrows.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.13

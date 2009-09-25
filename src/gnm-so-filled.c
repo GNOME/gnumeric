@@ -274,11 +274,7 @@ gnm_so_filled_draw_cairo (SheetObject const *so, cairo_t *cr,
 	}
 	/* Draw the line */
 	cairo_set_line_width (cr, (style->line.width)? style->line.width: 1.);
-	cairo_set_source_rgba (cr,
-		GO_COLOR_UINT_R(style->line.color),
-		GO_COLOR_UINT_B(style->line.color),
-		GO_COLOR_UINT_G(style->line.color),
-		GO_COLOR_UINT_A(style->line.color));
+	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->line.color));
 	cairo_stroke (cr);
 	/* Draw the text. */
 	if (sof->text != NULL && *(sof->text) != '\0') {

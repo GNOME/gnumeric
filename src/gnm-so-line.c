@@ -223,12 +223,7 @@ gnm_so_line_draw_cairo (SheetObject const *so, cairo_t *cr,
 		return;
 	}
 
-	cairo_set_line_width (cr, (style->width)? style->width: 1.);
-	cairo_set_source_rgba (cr,
-		GO_COLOR_UINT_R(style->color),
-		GO_COLOR_UINT_B(style->color),
-		GO_COLOR_UINT_G(style->color),
-		GO_COLOR_UINT_A(style->color));
+	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->color));
 
 	if (sol->end_arrow.c > 0.) {
 		double phi;
@@ -254,7 +249,7 @@ gnm_so_line_draw_cairo (SheetObject const *so, cairo_t *cr,
 		y2 -= sol->end_arrow.a * cos (phi);
 	}
 
-	cairo_set_line_width (cr, style->width);
+	cairo_set_line_width (cr, (style->width)? style->width: 1.);
 	cairo_new_path (cr);
 	cairo_move_to (cr, x1, y1);
 	cairo_line_to (cr, x2, y2);
