@@ -3639,6 +3639,19 @@ cb_toolbar_box_visible (GtkWidget *box, G_GNUC_UNUSED GParamSpec *pspec,
 	}
 }
 
+static struct ToolbarInfo {
+	const char *name;
+	const char *menu_text;
+	const char *accel;
+} toolbar_info[] = {
+	{ "StandardToolbar", N_("Standard Toolbar"), "<control>7" },
+	{ "FormatToolbar", N_("Format Toolbar"), NULL },
+	{ "LongFormatToolbar", N_("Long Format Toolbar"), NULL },
+	{ "ObjectToolbar", N_("Object Toolbar"), NULL },
+	{ NULL }
+};
+
+
 static void
 cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		       GtkWidget *w, WBCGtk *gtk)
@@ -3652,6 +3665,7 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		gboolean visible = gnm_conf_get_toolbar_visible (name);
 		int n = g_hash_table_size (wbcg->visibility_widgets);
 		GtkWidget *vw;
+		const struct ToolbarInfo *ti;
 
 #ifdef GNM_USE_HILDON
 		hildon_window_add_toolbar (HILDON_WINDOW (wbcg_toplevel (wbcg)), GTK_TOOLBAR (w));
@@ -3706,11 +3720,20 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 
 		entry.name = toggle_name;
 		entry.stock_id = NULL;
-		entry.label = _(name);
-		entry.accelerator = (0 == strcmp (name, "StandardToolbar")) ? "<control>7" : NULL;
+		entry.label = name;
+		entry.accelerator = NULL;
 		entry.tooltip = tooltip;
 		entry.callback = G_CALLBACK (cb_toolbar_activate);
 		entry.is_active = visible;
+
+		for (ti = toolbar_info; ti->name; ti++) {
+			if (strcmp (name, ti->name) == 0) {
+				entry.label = _(ti->menu_text);
+				entry.accelerator = ti->accel;
+				break;
+			}
+		}
+
 		gtk_action_group_add_toggle_actions (gtk->toolbar.actions,
 			&entry, 1, wbcg);
 		g_object_set_data (G_OBJECT (box), "toggle_action",

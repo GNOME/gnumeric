@@ -16,6 +16,7 @@ Morten:
 	* Make inter-process pasting use the sax parser.
 	* Make auto-format templates use the sax parser.
 	* Improve consistency when moving toolbars around.
+	* Fix translation problem with toolbar menu.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.13

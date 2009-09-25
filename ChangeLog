@@ -2,6 +2,8 @@
 
 	* src/wbc-gtk.c (set_toolbar_position): When moving to a new
 	position, preserve the original order.
+	(cb_add_menus_toolbars): Arrange for proper translation of entries
+	in the toolbar menu.
 
 2009-09-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
