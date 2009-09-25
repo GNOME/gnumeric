@@ -185,10 +185,10 @@ gnm_so_line_draw_cairo (SheetObject const *so, cairo_t *cr,
 			double width, double height)
 {
 	GnmSOLine *sol = GNM_SO_LINE (so);
-	GOStyleLine const *style = &sol->style->line;
+	GOStyle const *style = sol->style;
 	double x1, y1, x2, y2;
 
-	if (style->color == 0 || style->width < 0 || style->dash_type == GO_LINE_NONE)
+	if (style->line.color == 0 || style->line.width < 0 || style->line.dash_type == GO_LINE_NONE)
 		return;
 
 	switch (so->anchor.base.direction) {
@@ -223,8 +223,8 @@ gnm_so_line_draw_cairo (SheetObject const *so, cairo_t *cr,
 		return;
 	}
 
-	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->color));
-
+	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->line.color));
+	
 	if (sol->end_arrow.c > 0.) {
 		double phi;
 
@@ -249,11 +249,12 @@ gnm_so_line_draw_cairo (SheetObject const *so, cairo_t *cr,
 		y2 -= sol->end_arrow.a * cos (phi);
 	}
 
-	cairo_set_line_width (cr, (style->width)? style->width: 1.);
-	cairo_new_path (cr);
 	cairo_move_to (cr, x1, y1);
 	cairo_line_to (cr, x2, y2);
-	cairo_stroke (cr);
+	if (go_style_set_cairo_line (style, cr))
+		cairo_stroke (cr);
+	else
+		cairo_new_path (cr);
 }
 
 static void

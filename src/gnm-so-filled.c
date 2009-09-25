@@ -273,9 +273,10 @@ gnm_so_filled_draw_cairo (SheetObject const *so, cairo_t *cr,
 		cairo_pattern_destroy (pat);
 	}
 	/* Draw the line */
-	cairo_set_line_width (cr, (style->line.width)? style->line.width: 1.);
-	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->line.color));
-	cairo_stroke (cr);
+	if (go_style_set_cairo_line (style, cr))
+		cairo_stroke (cr);
+	else
+		cairo_new_path (cr);
 	/* Draw the text. */
 	if (sof->text != NULL && *(sof->text) != '\0') {
 		PangoLayout *pl = pango_cairo_create_layout (cr);
@@ -303,6 +304,7 @@ gnm_so_filled_draw_cairo (SheetObject const *so, cairo_t *cr,
 			cairo_move_to (cr, sof->margin_pts.left,
 				       sof->margin_pts.top);
 		cairo_scale (cr, scale_h, scale_v);
+		cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->font.color));
 		pango_cairo_show_layout (cr, pl);
 		cairo_new_path (cr);
 		cairo_restore (cr);

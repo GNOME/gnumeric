@@ -1,3 +1,8 @@
+2009-09-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gnm-so-filled.c (gnm_so_filled_draw_cairo): fixed line setting.
+	* src/gnm-so-line.c (gnm_so_line_draw_cairo): ditto.
+
 2009-09-25  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-so-line.c (gnm_so_line_draw_cairo,
