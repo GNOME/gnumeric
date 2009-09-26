@@ -2,7 +2,7 @@ Gnumeric 1.9.14
 
 Albert Gräf:
         * Add button sheet object.
-        * Add radiobutton sheet object.
+        * Add radiobutton sheet object.  [#595670]
 
 Andreas:
 	* Add more ODF elements on ODF read. [#595750]
@@ -17,6 +17,7 @@ Morten:
 	* Fix inter-process pasting of merged regions.
 	* Make inter-process pasting use the sax parser.
 	* Make auto-format templates use the sax parser.
+	* Fix loading of diagonal border styles.
 	* Improve consistency when moving toolbars around.
 	* Fix translation problem with toolbar menu.  [#587250]
 	* Fix printing of coloured sheet objects.
