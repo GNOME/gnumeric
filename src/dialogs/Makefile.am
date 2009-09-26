@@ -152,6 +152,7 @@ glade_DATA = 				\
 	sheet-resize.glade              \
 	shuffle.glade			\
 	so-button.glade			\
+ 	so-radiobutton.glade		\
 	so-checkbox.glade		\
 	so-frame.glade			\
 	so-list.glade			\

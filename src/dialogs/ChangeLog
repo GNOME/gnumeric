@@ -1,3 +1,10 @@
+2009-09-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	for Albert Gräf <Dr.Graef@t-online.de>
+
+	* so-radiobutton.glade: new
+	* Makefile.am: add so-radiobutton.glade
+	* help.h: add GNUMERIC_HELP_LINK_SO_RADIO_BUTTON
+
 2009-09-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	slightly modified patches from Albert Gräf <Dr.Graef@t-online.de>
 

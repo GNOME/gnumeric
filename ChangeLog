@@ -1,3 +1,58 @@
+2009-09-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	for Albert Graef  <Dr.Graef@t-online.de>
+
+	* src/commands.c (cmd_so_set_radio_button, CmdSOSetRadioButton)
+	(cmd_so_set_radio_button_redo, cmd_so_set_radio_button_undo)
+	(cmd_so_set_radio_button_finalize): new set radio button command
+	* src/commands.h: added cmd_so_set_radio_button
+	* src/sheet-object-widget.c (dep_hash, dep_equal, dep_destroy)
+	(get_group, set_group): new functions to manage radio button
+	  groups
+	(parse_value, match_value): new functions to parse and match radio
+	  button values
+	(SheetWidgetRadioButton): added value and active fields
+	(sheet_widget_radio_button_set_value)
+	(sheet_widget_radio_button_set_active)
+	(sheet_widget_radio_button_set_group): new callbacks
+	(radio_button_eval): modified to set radio button activation state
+	  according to linked cell value
+	(sheet_widget_radio_button_init, sheet_widget_radio_button_init_full): 
+	  split to support initialization from existing data, added initialization 
+	  of new fields in SheetWidgetRadioButton struct
+	(sheet_widget_radio_button_finalize): added finalization of new
+	  fields in SheetWidgetRadioButton struct
+	(sheet_widget_radio_button_toggled): modified to handle clicks on
+	  radio buttons
+	(sheet_widget_radio_button_changed): new callback to handle moving
+	  a radio button to a new group
+	(sheet_widget_radio_button_create_widget): modified to initialize
+	  button group and connect signal to change group callback
+	(sheet_widget_radio_button_copy): new callback to allow radio
+	  buttons to be copied
+	(sheet_widget_radio_button_write_xml_sax)
+	(sheet_widget_radio_button_prep_sax_parser): new callback for reading
+	  and writing radio buttons
+	(sheet_widget_radio_button_set_link)
+	(sheet_widget_radio_button_get_link): new callbacks to set and get
+	  the linked cell
+	(RadioButtonConfigState, cb_radio_button_set_focus)
+	(cb_radio_button_config_destroy)
+	(cb_radio_button_config_ok_clicked)
+	(cb_radio_button_config_cancel_clicked)
+	(cb_radio_button_label_changed, cb_radio_button_value_changed)
+	(sheet_widget_radio_button_user_config): added config dialog
+	(SOW_MAKE_TYPE(radio_button)): added new callbacks
+	* src/sheet-object-widget.h: added
+	  sheet_widget_radio_button_get_link,
+	  sheet_widget_radio_button_set_link,
+	  sheet_widget_radio_button_set_label,
+	  sheet_widget_radio_button_set_value
+
+2009-09-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gnm-pane.c (set_acetate_coords): revert my previous change (with the newer
+	  version of goffice this is not needed.)
+	
 2009-09-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-so-filled.c (gnm_so_filled_draw_cairo): fixed line setting.

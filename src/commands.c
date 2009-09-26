@@ -7289,6 +7289,89 @@ cmd_so_set_button (WorkbookControl *wbc,
 }
 
 /******************************************************************/
+#define CMD_SO_SET_RADIO_BUTTON_TYPE (cmd_so_set_radio_button_get_type ())
+#define CMD_SO_SET_RADIO_BUTTON(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SO_SET_RADIO_BUTTON_TYPE, CmdSOSetRadioButton))
+
+typedef struct {
+	GnmCommand cmd;
+	SheetObject *so;
+	GnmExprTop const *new_link;
+	GnmExprTop const *old_link;
+	char *old_label;
+	char *new_label;
+	char *old_value;
+	char *new_value;
+} CmdSOSetRadioButton;
+
+MAKE_GNM_COMMAND (CmdSOSetRadioButton, cmd_so_set_radio_button, NULL)
+
+static gboolean
+cmd_so_set_radio_button_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
+{
+	CmdSOSetRadioButton *me = CMD_SO_SET_RADIO_BUTTON (cmd);
+
+	sheet_widget_radio_button_set_link (me->so, me->new_link);
+	sheet_widget_radio_button_set_label (me->so, me->new_label);
+	sheet_widget_radio_button_set_value (me->so, me->new_value);
+
+	return FALSE;
+}
+
+static gboolean
+cmd_so_set_radio_button_undo (GnmCommand *cmd, G_GNUC_UNUSED  WorkbookControl *wbc)
+{
+	CmdSOSetRadioButton *me = CMD_SO_SET_RADIO_BUTTON (cmd);
+
+	sheet_widget_radio_button_set_link (me->so, me->old_link);
+	sheet_widget_radio_button_set_label (me->so, me->old_label);
+	sheet_widget_radio_button_set_value (me->so, me->old_value);
+
+	return FALSE;
+}
+
+static void
+cmd_so_set_radio_button_finalize (GObject *cmd)
+{
+	CmdSOSetRadioButton *me = CMD_SO_SET_RADIO_BUTTON (cmd);
+
+	if (me->new_link)
+		gnm_expr_top_unref (me->new_link);
+	if (me->old_link)
+		gnm_expr_top_unref (me->old_link);
+	g_free (me->old_label);
+	g_free (me->new_label);
+	g_free (me->old_value);
+	g_free (me->new_value);
+	gnm_command_finalize (cmd);
+}
+
+gboolean
+cmd_so_set_radio_button (WorkbookControl *wbc,
+		   SheetObject *so, GnmExprTop const *link,
+		   char *old_label, char *new_label,
+		   char *old_value, char *new_value)
+{
+	CmdSOSetRadioButton *me;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+
+	me = g_object_new (CMD_SO_SET_RADIO_BUTTON_TYPE, NULL);
+	me->cmd.sheet = sheet_object_get_sheet (so);
+	me->cmd.size = 1;
+	me->cmd.cmd_descriptor = g_strdup (_("Configure Radio Button"));
+	me->so = so;
+	me->new_link = link;
+	me->old_label = old_label;
+	me->new_label = new_label;
+	me->old_value = old_value;
+	me->new_value = new_value;
+
+	me->old_link = sheet_widget_radio_button_get_link (so);
+
+	return gnm_command_push_undo (wbc, G_OBJECT (me));
+}
+
+/******************************************************************/
 #define CMD_SO_SET_CHECKBOX_TYPE (cmd_so_set_checkbox_get_type ())
 #define CMD_SO_SET_CHECKBOX(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SO_SET_CHECKBOX_TYPE, CmdSOSetCheckbox))
 

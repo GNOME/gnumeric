@@ -2204,131 +2204,149 @@ GSF_CLASS (SheetWidgetToggleButton, sheet_widget_toggle_button,
 #define SHEET_WIDGET_RADIO_BUTTON(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_RADIO_BUTTON_TYPE, SheetWidgetRadioButton))
 #define DEP_TO_RADIO_BUTTON(d_ptr)	(SheetWidgetRadioButton *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetRadioButton, dep))
 
+#include "expr-impl.h"
+
+/* Keep track of GnmDepenmdent -> radio button group mapping. We have to go to
+   some lengths here because the cell reference expressions in the dependents
+   are not forced to have explicit sheet references. Thus, when hashing or
+   comparing the dependents, we check for cell references with a NULL sheet in
+   which case we assume the sheet of the dependent instead. */
+
+static GHashTable *groups = NULL;
+
+static guint
+dep_cellref_hash(GnmDependent const *k)
+{
+	const GnmCellRef *ref = &k->texpr->expr->cellref.ref;
+	GnmCellRef r;
+	if (!ref->sheet) {
+		r = *ref;
+		r.sheet = k->sheet;
+		ref = &r;
+	}
+	return gnm_cellref_hash(ref);
+}
+
+static guint
+dep_hash(GnmDependent const *k)
+{
+	if (!k || !k->texpr)
+		return 0;
+	else if (GNM_EXPR_GET_OPER (k->texpr->expr) == GNM_EXPR_OP_CELLREF)
+		return dep_cellref_hash(k);
+	else
+		/* shouldn't happen */
+		return gnm_expr_top_hash(k->texpr);
+}
+
+static gint
+dep_cellref_equal(GnmDependent const *k1, GnmDependent const *k2)
+{
+	const GnmCellRef *ref1 = &k1->texpr->expr->cellref.ref;
+	const GnmCellRef *ref2 = &k2->texpr->expr->cellref.ref;
+	GnmCellRef r1, r2;
+	if (!ref1->sheet) {
+		r1 = *ref1;
+		r1.sheet = k1->sheet;
+		ref1 = &r1;
+	}
+	if (!ref2->sheet) {
+		r2 = *ref2;
+		r2.sheet = k2->sheet;
+		ref2 = &r2;
+	}
+	return gnm_cellref_equal(ref1, ref2);
+}
+
+static gint
+dep_equal(GnmDependent const *k1, GnmDependent const *k2)
+{
+	if (k1 && k2)
+		if (k1->texpr == k2->texpr)
+			return 1;
+		else if (!k1->texpr || !k2->texpr)
+			return 0;
+		else if (GNM_EXPR_GET_OPER (k1->texpr->expr) == GNM_EXPR_OP_CELLREF &&
+			 GNM_EXPR_GET_OPER (k2->texpr->expr) == GNM_EXPR_OP_CELLREF)
+			return dep_cellref_equal(k1, k2);
+		else
+			/* shouldn't happen */
+			return gnm_expr_top_equal(k1->texpr, k2->texpr);
+	else
+		return k1==k2;
+}
+
+static void
+dep_destroy(GnmDependent *k)
+{
+	if (k) {
+		if (k->texpr) gnm_expr_top_unref(k->texpr);
+		g_free(k);
+	}
+}
+
+static GSList *get_group(const GnmDependent *dep)
+{
+	if (!groups)
+		groups = g_hash_table_new_full ((GHashFunc)dep_hash,
+						(GEqualFunc)dep_equal,
+						(GDestroyNotify)dep_destroy,
+						NULL);
+	return g_hash_table_lookup (groups, dep);
+}
+
+static void set_group(const GnmDependent *d, GSList *g)
+{
+	if (g) {
+		GnmDependent *dep;
+		g_return_if_fail (groups != NULL);
+		if (d) {
+			dep = g_new(GnmDependent, 1);
+			*dep = *d;
+			if (dep->texpr) gnm_expr_top_ref(dep->texpr);
+		} else
+			dep = NULL;
+		g_hash_table_insert (groups, dep, g);
+	} else
+		g_hash_table_remove (groups, d);
+}
+
+/* Radiobutton values are stored internally as simple strings and are parsed
+   on the fly when needed. At present we recognize booleans, numbers and
+   strings. A string value looking like a boolean or a number may be escaped
+   with a leading single quote. */
+
+static GnmValue *parse_value(const char *val)
+{
+	g_return_val_if_fail (val != NULL, NULL);
+	if (*val == '\'')
+		val++;
+	else {
+		GnmValue *res = value_new_from_string (VALUE_BOOLEAN, val, NULL, FALSE);
+		if (res) return res;
+		res = value_new_from_string (VALUE_FLOAT, val, NULL, FALSE);
+		if (res) return res;
+	}
+	return value_new_string (val);
+}
+
+static gboolean match_value(const char *val, const GnmValue *res)
+{
+	GnmValue *v = parse_value(val);
+	gboolean ret = value_equal(v, res);
+	value_release(v);
+	return ret;
+}
+
 typedef struct {
 	SheetObjectWidget	sow;
 
 	gboolean	 being_updated;
-	char		*label;
+	char		*label, *value;
+	gboolean	 active;
 	GnmDependent	 dep;
 } SheetWidgetRadioButton;
 typedef SheetObjectWidgetClass SheetWidgetRadioButtonClass;
-
-static void
-radio_button_eval (GnmDependent *dep)
-{
-	GnmValue *v;
-	GnmEvalPos pos;
-	gnm_float result;
-
-	v = gnm_expr_top_eval (dep->texpr, eval_pos_init_dep (&pos, dep),
-			       GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-	result = value_get_as_float (v);
-	value_release (v);
-#if 0
-	if (!err) {
-		/* FIXME : finish this when I have a better idea of a group */
-		/* SheetWidgetRadioButton *swrb = DEP_TO_RADIO_BUTTON (dep); */
-	}
-#endif
-}
-
-static void
-radio_button_debug_name (GnmDependent const *dep, GString *target)
-{
-	g_string_append_printf (target, "RadioButton%p", (void *)dep);
-}
-
-static DEPENDENT_MAKE_TYPE (radio_button, NULL)
-
-static void
-sheet_widget_radio_button_init (SheetObjectWidget *sow)
-{
-	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (sow);
-
-	swrb->being_updated = FALSE;
-	swrb->label = g_strdup (_("RadioButton"));
-
-	swrb->dep.sheet = NULL;
-	swrb->dep.flags = radio_button_get_dep_type ();
-	swrb->dep.texpr = NULL;
-}
-
-static void
-sheet_widget_radio_button_finalize (GObject *obj)
-{
-	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (obj);
-
-	g_free (swrb->label);
-	swrb->label = NULL;
-
-	dependent_set_expr (&swrb->dep, NULL);
-	(*sheet_object_widget_class->finalize) (obj);
-}
-
-static void
-sheet_widget_radio_button_toggled (GtkToggleButton *button,
-				   SheetWidgetRadioButton *swrb)
-{
-	if (swrb->being_updated || !gtk_toggle_button_get_active (button))
-		return;
-#if 0
-	swrb->value = gtk_toggle_button_get_active (button);
-	sheet_widget_checkbox_set_active (swrb);
-#endif
-}
-
-static GtkWidget *
-sheet_widget_radio_button_create_widget (SheetObjectWidget *sow)
-{
-	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (sow);
-	/* FIXME: NULL group?  */
-	GtkWidget *w = gtk_radio_button_new_with_label (NULL,
-							swrb->label);
-	g_signal_connect (G_OBJECT (w),
-			  "toggled",
-			  G_CALLBACK (sheet_widget_radio_button_toggled), sow);
-	return w;
-}
-
-static gboolean
-sheet_widget_radio_button_set_sheet (SheetObject *so, Sheet *sheet)
-{
-	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (so);
-
-	dependent_set_sheet (&swrb->dep, sheet);
-
-	return FALSE;
-}
-
-static void
-sheet_widget_radio_button_foreach_dep (SheetObject *so,
-				       SheetObjectForeachDepFunc func,
-				       gpointer user)
-{
-	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (so);
-	func (&swrb->dep, so, user);
-}
-
-void
-sheet_widget_radio_button_set_label (SheetObject *so, char const *str)
-{
-	GList *list;
-	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (so);
-	char *new_label;
-
-	if (go_str_compare (str, swrb->label) == 0)
-		return;
-
-	new_label = g_strdup (str);
-	g_free (swrb->label);
-	swrb->label = new_label;
-
-	for (list = swrb->sow.realized_list; list != NULL; list = list->next) {
-		SheetObjectView *view = list->data;
-		GocWidget *item = get_goc_widget (view);
-		gtk_button_set_label (GTK_BUTTON (item->widget), swrb->label);
-	}
-}
 
 enum {
 	SOR_PROP_0 = 0,
@@ -2378,16 +2396,505 @@ sheet_widget_radio_button_set_property (GObject *obj, guint param_id,
 	}
 }
 
+void
+sheet_widget_radio_button_set_value (SheetObject *so, char const *str)
+{
+	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (so);
+	char *new_value;
+
+	if (go_str_compare (str, swrb->value) == 0)
+		return;
+
+	new_value = g_strdup (str);
+	g_free (swrb->value);
+	swrb->value = new_value;
+}
+
+static void
+sheet_widget_radio_button_set_active (SheetWidgetRadioButton *swrb)
+{
+	GList *ptr;
+
+	if (!swrb->active) return;
+
+	swrb->being_updated = TRUE;
+
+	for (ptr = swrb->sow.realized_list; ptr != NULL ; ptr = ptr->next) {
+		SheetObjectView *view = ptr->data;
+		GocWidget *item = get_goc_widget (view);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (item->widget),
+					      TRUE);
+	}
+
+	swrb->being_updated = FALSE;
+}
+
+static void
+sheet_widget_radio_button_set_group (SheetWidgetRadioButton *swrb, GSList *grp)
+{
+	GList *ptr;
+
+	swrb->being_updated = TRUE;
+	swrb->active = FALSE;
+
+	for (ptr = swrb->sow.realized_list; ptr != NULL ; ptr = ptr->next) {
+		SheetObjectView *view = ptr->data;
+		GocWidget *item = get_goc_widget (view);
+		GtkRadioButton *w = GTK_RADIO_BUTTON(item->widget);
+		GSList *old_grp = gtk_radio_button_get_group (w);
+		/* Move widget from old_grp to new_grp. */
+		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w))) {
+			/* Activate some other widget in the same group. */
+			for (; old_grp; old_grp = old_grp->next) {
+				GtkRadioButton *v = GTK_RADIO_BUTTON(old_grp->data);
+				if (v != w) {
+					gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (v), TRUE);
+					break;
+				}
+			}
+		}
+		gtk_radio_button_set_group (w, grp);
+	}
+
+	swrb->being_updated = FALSE;
+}
+
+static void
+radio_button_eval (GnmDependent *dep)
+{
+	GnmValue *v;
+	GnmEvalPos pos;
+
+	v = gnm_expr_top_eval (dep->texpr, eval_pos_init_dep (&pos, dep),
+			       GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+	if (v) {
+		SheetWidgetRadioButton *swrb = DEP_TO_RADIO_BUTTON(dep);
+		swrb->active = match_value (swrb->value, v);
+		sheet_widget_radio_button_set_active (swrb);
+	}
+	value_release (v);
+}
+
+static void
+radio_button_debug_name (GnmDependent const *dep, GString *target)
+{
+	g_string_append_printf (target, "RadioButton%p", (void *)dep);
+}
+
+static DEPENDENT_MAKE_TYPE (radio_button, NULL)
+
+static guint rb_counter = 0;
+
+static void
+sheet_widget_radio_button_init_full (SheetObjectWidget *sow,
+				     GnmCellRef const *ref,
+				     char const *label,
+				     char const *value)
+{
+	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (sow);
+
+	g_return_if_fail (swrb != NULL);
+
+	swrb->being_updated = FALSE;
+	swrb->label = g_strdup (label?label:_("RadioButton"));
+	swrb->value = g_strdup (value?value:"");
+	swrb->active = FALSE;
+
+	swrb->being_updated = FALSE;
+	swrb->dep.sheet = NULL;
+	swrb->dep.flags = radio_button_get_dep_type ();
+	swrb->dep.texpr = (ref != NULL)
+		? gnm_expr_top_new (gnm_expr_new_cellref (ref))
+		: NULL;
+	rb_counter++;
+}
+
+static void
+sheet_widget_radio_button_init (SheetWidgetRadioButton *swrb)
+{
+	sheet_widget_radio_button_init_full (SHEET_OBJECT (swrb), NULL, NULL, NULL);
+}
+
+static void
+sheet_widget_radio_button_finalize (GObject *obj)
+{
+	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (obj);
+	GSList *grp;
+
+	g_return_if_fail (swrb != NULL);
+
+	g_free (swrb->label);
+	swrb->label = NULL;
+	g_free (swrb->value);
+	swrb->value = NULL;
+
+	if ((grp = get_group(&swrb->dep)) && grp->next == NULL)
+		/* Removing the last button from the group. */
+		set_group(&swrb->dep, NULL);
+	dependent_set_expr (&swrb->dep, NULL);
+	(*sheet_object_widget_class->finalize) (obj);
+
+	if (--rb_counter == 0) {
+		g_hash_table_destroy(groups);
+		groups = NULL;
+	}
+}
+
+static void
+sheet_widget_radio_button_toggled (GtkToggleButton *button,
+				   SheetWidgetRadioButton *swrb)
+{
+	GnmCellRef ref;
+	if (swrb->being_updated || !gtk_toggle_button_get_active (button))
+		return;
+	swrb->active = TRUE;
+	sheet_widget_radio_button_set_active (swrb);
+
+	if (so_get_ref (SHEET_OBJECT (swrb), &ref, TRUE) != NULL) {
+		cmd_so_set_value (widget_wbc (GTK_WIDGET (button)),
+				  /* FIXME: This text sucks:  */
+				  _("Clicking radiobutton"),
+				  &ref, parse_value (swrb->value),
+				  sheet_object_get_sheet (SHEET_OBJECT (swrb)));
+	}
+}
+
+static void
+sheet_widget_radio_button_changed (GtkRadioButton *button,
+				   SheetWidgetRadioButton *swrb)
+{
+	GSList *old_grp = get_group (&swrb->dep),
+	       *new_grp = gtk_radio_button_get_group (button);
+	if (old_grp != new_grp)
+		set_group(&swrb->dep, new_grp);
+}
+
+static GtkWidget *
+sheet_widget_radio_button_create_widget (SheetObjectWidget *sow)
+{
+	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (sow);
+	GSList* grp =  get_group(&swrb->dep);
+	GtkWidget *w = gtk_radio_button_new_with_label (grp, swrb->label);
+	if (!grp) {
+		grp = gtk_radio_button_get_group (GTK_RADIO_BUTTON(w));
+		set_group (&swrb->dep, grp);
+	}
+	GTK_WIDGET_UNSET_FLAGS (w, GTK_CAN_FOCUS);
+	if (swrb->active)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
+	g_signal_connect (G_OBJECT (w),
+			  "toggled",
+			  G_CALLBACK (sheet_widget_radio_button_toggled), sow);
+	g_signal_connect (G_OBJECT (w),
+			  "group-changed",
+			  G_CALLBACK (sheet_widget_radio_button_changed), sow);
+	return w;
+}
+
+static void
+sheet_widget_radio_button_copy (SheetObject *dst, SheetObject const *src)
+{
+	SheetWidgetRadioButton const *src_swrb = SHEET_WIDGET_RADIO_BUTTON (src);
+	SheetWidgetRadioButton       *dst_swrb = SHEET_WIDGET_RADIO_BUTTON (dst);
+	GnmCellRef ref;
+	sheet_widget_radio_button_init_full (SHEET_OBJECT (dst_swrb),
+					     so_get_ref (src, &ref, FALSE),
+					     src_swrb->label,
+					     src_swrb->value);
+}
+
+static gboolean
+sheet_widget_radio_button_set_sheet (SheetObject *so, Sheet *sheet)
+{
+	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (so);
+
+	dependent_set_sheet (&swrb->dep, sheet);
+	sheet_widget_radio_button_set_active (swrb);
+
+	return FALSE;
+}
+
+static void
+sheet_widget_radio_button_foreach_dep (SheetObject *so,
+				       SheetObjectForeachDepFunc func,
+				       gpointer user)
+{
+	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (so);
+	func (&swrb->dep, so, user);
+}
+
+static void
+sheet_widget_radio_button_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
+				     GnmConventions const *convs)
+{
+	SheetWidgetRadioButton const *swrb = SHEET_WIDGET_RADIO_BUTTON (so);
+
+	gsf_xml_out_add_cstr (output, "Label", swrb->label);
+	gsf_xml_out_add_cstr (output, "Value", swrb->value);
+	gsf_xml_out_add_int (output, "Active", swrb->active);
+	sax_write_dep (output, &swrb->dep, "Input", convs);
+}
+
+static void
+sheet_widget_radio_button_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
+				       xmlChar const **attrs,
+				       GnmConventions const *convs)
+{
+	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (so);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_eq (attrs[0], "Label")) {
+			g_free (swrb->label);
+			swrb->label = g_strdup (CXML2C (attrs[1]));
+		} else if (attr_eq (attrs[0], "Value")) {
+			g_free (swrb->value);
+			swrb->value = g_strdup (CXML2C (attrs[1]));
+		} else if (gnm_xml_attr_int (attrs, "Active", &swrb->active))
+			; /* ??? */
+		else if (sax_read_dep (attrs, "Input", &swrb->dep, xin, convs))
+			; /* ??? */
+}
+
+void
+sheet_widget_radio_button_set_link (SheetObject *so, GnmExprTop const *texpr)
+{
+	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (so);
+	GSList *old_grp =  get_group(&swrb->dep), *new_grp;
+	if (old_grp && old_grp->next == NULL)
+		/* Removing the last button from the group. */
+		set_group(&swrb->dep, NULL);
+	dependent_set_expr (&swrb->dep, texpr);
+	if (NULL != texpr)
+		dependent_link (&swrb->dep);
+	new_grp = get_group(&swrb->dep);
+	if (old_grp != new_grp)
+		sheet_widget_radio_button_set_group(swrb, new_grp);
+}
+
+GnmExprTop const *
+sheet_widget_radio_button_get_link	 (SheetObject *so)
+{
+	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (so);
+	GnmExprTop const *texpr = swrb->dep.texpr;
+
+	if (texpr)
+		gnm_expr_top_ref (texpr);
+
+	return texpr;
+}
+
+void
+sheet_widget_radio_button_set_label (SheetObject *so, char const *str)
+{
+	GList *list;
+	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (so);
+	char *new_label;
+
+	if (go_str_compare (str, swrb->label) == 0)
+		return;
+
+	new_label = g_strdup (str);
+	g_free (swrb->label);
+	swrb->label = new_label;
+
+	for (list = swrb->sow.realized_list; list != NULL; list = list->next) {
+		SheetObjectView *view = list->data;
+		GocWidget *item = get_goc_widget (view);
+		gtk_button_set_label (GTK_BUTTON (item->widget), swrb->label);
+	}
+}
+
+
+typedef struct {
+ 	GladeXML           *gui;
+ 	GtkWidget *dialog;
+ 	GnmExprEntry *expression;
+ 	GtkWidget *label, *value;
+	
+ 	char *old_label, *old_value;
+ 	GtkWidget *old_focus;
+	
+ 	WBCGtk  *wbcg;
+ 	SheetWidgetRadioButton *swrb;
+ 	Sheet		    *sheet;
+} RadioButtonConfigState;
+
+static void
+cb_radio_button_set_focus (GtkWidget *window, GtkWidget *focus_widget,
+ 			   RadioButtonConfigState *state)
+{
+ 	/* Note:  half of the set-focus action is handle by the default
+ 	 *        callback installed by wbc_gtk_attach_guru */
+	
+ 	/* Force an update of the content in case it needs tweaking (eg make it
+ 	 * absolute) */
+ 	if (state->old_focus != NULL &&
+ 	    IS_GNM_EXPR_ENTRY (state->old_focus->parent)) {
+ 		GnmParsePos  pp;
+ 		GnmExprTop const *texpr = gnm_expr_entry_parse (
+ 			GNM_EXPR_ENTRY (state->old_focus->parent),
+ 			parse_pos_init_sheet (&pp, state->sheet),
+ 			NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
+ 		if (texpr != NULL)
+ 			gnm_expr_top_unref (texpr);
+  	}
+ 	state->old_focus = focus_widget;
+}
+
+static void
+cb_radio_button_config_destroy (RadioButtonConfigState *state)
+{
+ 	g_return_if_fail (state != NULL);
+	
+ 	if (state->gui != NULL) {
+ 		g_object_unref (G_OBJECT (state->gui));
+ 		state->gui = NULL;
+  	}
+	
+ 	g_free (state->old_label);
+ 	g_free (state->old_value);
+ 	state->old_label = NULL;
+ 	state->old_value = NULL;
+ 	state->dialog = NULL;
+ 	g_free (state);
+}
+
+static void
+cb_radio_button_config_ok_clicked (GtkWidget *button, RadioButtonConfigState *state)
+{
+	SheetObject *so = SHEET_OBJECT (state->swrb);
+	GnmParsePos  pp;
+ 	GnmExprTop const *texpr = gnm_expr_entry_parse (state->expression,
+							parse_pos_init_sheet (&pp, so->sheet),
+							NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
+ 	gchar const *text = gtk_entry_get_text(GTK_ENTRY(state->label));
+ 	gchar const *val = gtk_entry_get_text(GTK_ENTRY(state->value));
+	
+ 	cmd_so_set_radio_button (WORKBOOK_CONTROL (state->wbcg), so,
+ 				 texpr, g_strdup (state->old_label), 
+				 g_strdup (text), g_strdup (state->old_value), g_strdup (val));
+	
+ 	gtk_widget_destroy (state->dialog);
+}
+
+static void
+cb_radio_button_config_cancel_clicked (GtkWidget *button, RadioButtonConfigState *state)
+{
+ 	sheet_widget_radio_button_set_label (SHEET_OBJECT (state->swrb),
+ 					     state->old_label);
+ 	sheet_widget_radio_button_set_value (SHEET_OBJECT (state->swrb),
+ 					     state->old_value);
+ 	gtk_widget_destroy (state->dialog);
+}
+
+static void
+cb_radio_button_label_changed (GtkEntry *entry, RadioButtonConfigState *state)
+{
+ 	sheet_widget_radio_button_set_label (SHEET_OBJECT (state->swrb),
+ 					     gtk_entry_get_text (entry));
+}
+
+static void
+cb_radio_button_value_changed (GtkEntry *entry, RadioButtonConfigState *state)
+{
+ 	sheet_widget_radio_button_set_value (SHEET_OBJECT (state->swrb),
+ 					     gtk_entry_get_text (entry));
+}
+
+static void
+sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
+{
+ 	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (so);
+ 	WBCGtk  *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
+ 	RadioButtonConfigState *state;
+ 	GtkWidget *table;
+ 
+ 	g_return_if_fail (swrb != NULL);
+ 
+	/* Only pop up one copy per workbook */
+ 	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
+ 		return;
+ 
+ 	state = g_new (RadioButtonConfigState, 1);
+ 	state->swrb = swrb;
+ 	state->wbcg = wbcg;
+ 	state->sheet = sc_sheet	(sc);
+ 	state->old_focus = NULL;
+	state->old_label = g_strdup (swrb->label);
+ 	state->old_value = g_strdup (swrb->value);
+ 	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
+					"so-radiobutton.glade", NULL, NULL);
+ 	state->dialog = glade_xml_get_widget (state->gui, "SO-Radiobutton");
+ 
+ 	table = glade_xml_get_widget (state->gui, "table");
+ 
+ 	state->expression = gnm_expr_entry_new (wbcg, TRUE);
+ 	gnm_expr_entry_set_flags (state->expression,
+				  GNM_EE_FORCE_ABS_REF | GNM_EE_SHEET_OPTIONAL | GNM_EE_SINGLE_RANGE,
+				  GNM_EE_MASK);
+ 	gnm_expr_entry_load_from_dep (state->expression, &swrb->dep);
+ 	go_atk_setup_label (glade_xml_get_widget (state->gui, "label_linkto"),
+			    GTK_WIDGET (state->expression));
+ 	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (state->expression),
+ 			  1, 2, 0, 1,
+ 			  GTK_EXPAND | GTK_FILL, 0,
+ 			  0, 0);
+ 	gtk_widget_show (GTK_WIDGET (state->expression));
+ 
+ 	state->label = glade_xml_get_widget (state->gui, "label_entry");
+ 	gtk_entry_set_text (GTK_ENTRY (state->label), swrb->label);
+ 	gtk_editable_select_region (GTK_EDITABLE(state->label), 0, -1);
+ 	state->value = glade_xml_get_widget (state->gui, "value_entry");
+ 	gtk_entry_set_text (GTK_ENTRY (state->value), swrb->value);
+  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+ 				  GTK_WIDGET (state->expression));
+ 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+ 				  GTK_WIDGET (state->label));
+ 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+ 				  GTK_WIDGET (state->value));
+ 
+ 	g_signal_connect (G_OBJECT (state->label),
+			  "changed",
+			  G_CALLBACK (cb_radio_button_label_changed), state);
+ 	g_signal_connect (G_OBJECT (state->value),
+			  "changed",
+			  G_CALLBACK (cb_radio_button_value_changed), state);
+ 	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "ok_button")),
+			  "clicked",
+			  G_CALLBACK (cb_radio_button_config_ok_clicked), state);
+ 	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "cancel_button")),
+			  "clicked",
+			  G_CALLBACK (cb_radio_button_config_cancel_clicked), state);
+ 
+ 	gnumeric_init_help_button (
+ 		glade_xml_get_widget (state->gui, "help_button"),
+ 		GNUMERIC_HELP_LINK_SO_RADIO_BUTTON);
+ 
+ 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+ 			       SHEET_OBJECT_CONFIG_KEY);
+ 
+ 	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+ 	g_object_set_data_full (G_OBJECT (state->dialog),
+				"state", state, (GDestroyNotify) cb_radio_button_config_destroy);
+ 
+	/* Note:  half of the set-focus action is handle by the default */
+ 	/*        callback installed by wbc_gtk_attach_guru */
+ 	g_signal_connect (G_OBJECT (state->dialog), "set-focus",
+			  G_CALLBACK (cb_radio_button_set_focus), state);
+ 
+ 	gtk_widget_show (state->dialog);
+}
+
 SOW_MAKE_TYPE (radio_button, RadioButton,
-	       NULL,
-	       sheet_widget_radio_button_set_sheet,
-	       so_clear_sheet,
-	       sheet_widget_radio_button_foreach_dep,
-	       NULL,
-	       NULL,
-	       NULL,
-	       sheet_widget_radio_button_get_property,
-	       sheet_widget_radio_button_set_property,
+ 	       sheet_widget_radio_button_user_config,
+  	       sheet_widget_radio_button_set_sheet,
+  	       so_clear_sheet,
+  	       sheet_widget_radio_button_foreach_dep,
+ 	       sheet_widget_radio_button_copy,
+ 	       sheet_widget_radio_button_write_xml_sax,
+ 	       sheet_widget_radio_button_prep_sax_parser,
+  	       sheet_widget_radio_button_get_property,
+  	       sheet_widget_radio_button_set_property,
 	       {
 		       g_object_class_install_property
 			       (object_class, SOR_PROP_TEXT,

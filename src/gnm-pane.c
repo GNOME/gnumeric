@@ -2895,7 +2895,6 @@ set_acetate_coords (GnmPane *pane, SheetObject *so, GocItem **ctrl_pts,
 
 		style->fill.auto_type = FALSE;
 		style->fill.type  = GO_STYLE_FILL_PATTERN;
-		style->fill.auto_fore = FALSE;
 		style->fill.auto_back = FALSE;
 		go_pattern_set_solid (&style->fill.pattern, 0);
 		style->line.auto_dash = FALSE;

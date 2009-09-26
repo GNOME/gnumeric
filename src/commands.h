@@ -184,6 +184,11 @@ gboolean cmd_so_set_button (WorkbookControl *wbc, SheetObject *so,
 			    GnmExprTop const *link,
 			    char *old_label, char *new_label);
 
+gboolean cmd_so_set_radio_button (WorkbookControl *wbc, SheetObject *so,
+				  GnmExprTop const *link,
+				  char *old_label, char *new_label,
+				  char *old_value, char *new_value);
+
 gboolean cmd_so_set_checkbox (WorkbookControl *wbc, SheetObject *so,
 			      GnmExprTop const *link,
 			      char *old_label, char *new_label);
