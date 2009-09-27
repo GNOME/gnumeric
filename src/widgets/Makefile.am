@@ -15,6 +15,8 @@ libwidgets_la_SOURCES =				\
 	gnm-format-sel.h			\
 	gnm-notebook.c				\
 	gnm-notebook.h				\
+	gnm-radiobutton.c			\
+	gnm-radiobutton.h			\
 	widget-editable-label.c			\
 	widget-editable-label.h			\
 	widget-font-selector.c			\

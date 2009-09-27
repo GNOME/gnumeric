@@ -1,3 +1,7 @@
+2009-09-27  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-widget.c: Simplify radio button stuff.
+
 2009-09-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/wbc-gtk-actions.c (cb_view_freeze_panes): special handling if the

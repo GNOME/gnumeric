@@ -1,3 +1,7 @@
+2009-09-27  Morten Welinder  <terra@gnome.org>
+
+	* gnm-radiobutton.[ch]: New files.
+
 2009-09-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.13
