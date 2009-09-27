@@ -2,6 +2,7 @@
 
 	* src/sheet-object-widget.c: Simplify radio button stuff.
 	(sheet_widget_radio_button_init_full): Add "active" argument too.
+	(SheetWidgetRadioButton): Store value as a GnmValue.
 
 2009-09-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

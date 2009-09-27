@@ -7299,8 +7299,8 @@ typedef struct {
 	GnmExprTop const *old_link;
 	char *old_label;
 	char *new_label;
-	char *old_value;
-	char *new_value;
+	GnmValue *old_value;
+	GnmValue *new_value;
 } CmdSOSetRadioButton;
 
 MAKE_GNM_COMMAND (CmdSOSetRadioButton, cmd_so_set_radio_button, NULL)
@@ -7340,16 +7340,16 @@ cmd_so_set_radio_button_finalize (GObject *cmd)
 		gnm_expr_top_unref (me->old_link);
 	g_free (me->old_label);
 	g_free (me->new_label);
-	g_free (me->old_value);
-	g_free (me->new_value);
+	value_release (me->old_value);
+	value_release (me->new_value);
 	gnm_command_finalize (cmd);
 }
 
 gboolean
 cmd_so_set_radio_button (WorkbookControl *wbc,
-		   SheetObject *so, GnmExprTop const *link,
-		   char *old_label, char *new_label,
-		   char *old_value, char *new_value)
+			 SheetObject *so, GnmExprTop const *link,
+			 char *old_label, char *new_label,
+			 GnmValue *old_value, GnmValue *new_value)
 {
 	CmdSOSetRadioButton *me;
 

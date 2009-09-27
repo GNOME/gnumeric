@@ -47,6 +47,7 @@
 #include "xml-sax.h"
 #include "commands.h"
 #include "gnm-format.h"
+#include "number-match.h"
 
 #include <goffice/goffice.h>
 
@@ -2204,40 +2205,19 @@ GSF_CLASS (SheetWidgetToggleButton, sheet_widget_toggle_button,
 #define SHEET_WIDGET_RADIO_BUTTON(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_RADIO_BUTTON_TYPE, SheetWidgetRadioButton))
 #define DEP_TO_RADIO_BUTTON(d_ptr)	(SheetWidgetRadioButton *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetRadioButton, dep))
 
-/* Radiobutton values are stored internally as simple strings and are parsed
-   on the fly when needed. At present we recognize booleans, numbers and
-   strings. A string value looking like a boolean or a number may be escaped
-   with a leading single quote. */
-
 static GnmValue *
-parse_value(const char *val)
+so_parse_value (SheetObject *so, const char *s)
 {
-	g_return_val_if_fail (val != NULL, NULL);
-	if (*val == '\'')
-		val++;
-	else {
-		GnmValue *res = value_new_from_string (VALUE_BOOLEAN, val, NULL, FALSE);
-		if (res) return res;
-		res = value_new_from_string (VALUE_FLOAT, val, NULL, FALSE);
-		if (res) return res;
-	}
-	return value_new_string (val);
-}
-
-static gboolean
-match_value(const char *val, const GnmValue *res)
-{
-	GnmValue *v = parse_value(val);
-	gboolean ret = value_equal(v, res);
-	value_release(v);
-	return ret;
+	Sheet *sheet = so->sheet;
+	return format_match (s, NULL, workbook_date_conv (sheet->workbook));
 }
 
 typedef struct {
 	SheetObjectWidget sow;
 
 	gboolean	 being_updated;
-	char		*label, *value;
+	char		*label;
+	GnmValue        *value;
 	gboolean	 active;
 	GnmDependent	 dep;
 } SheetWidgetRadioButton;
@@ -2292,17 +2272,12 @@ sheet_widget_radio_button_set_property (GObject *obj, guint param_id,
 }
 
 void
-sheet_widget_radio_button_set_value (SheetObject *so, char const *str)
+sheet_widget_radio_button_set_value (SheetObject *so, GnmValue const *val)
 {
 	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (so);
-	char *new_value;
 
-	if (go_str_compare (str, swrb->value) == 0)
-		return;
-
-	new_value = g_strdup (str);
-	g_free (swrb->value);
-	swrb->value = new_value;
+	value_release (swrb->value);
+	swrb->value = value_dup (val);
 }
 
 static void
@@ -2332,12 +2307,12 @@ radio_button_eval (GnmDependent *dep)
 {
 	GnmValue *v;
 	GnmEvalPos pos;
+	SheetWidgetRadioButton *swrb = DEP_TO_RADIO_BUTTON (dep);
 
 	v = gnm_expr_top_eval (dep->texpr, eval_pos_init_dep (&pos, dep),
 			       GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-	if (v) {
-		SheetWidgetRadioButton *swrb = DEP_TO_RADIO_BUTTON(dep);
-		gboolean active = match_value (swrb->value, v);
+	if (v && swrb->value) {
+		gboolean active = value_equal (swrb->value, v);
 		sheet_widget_radio_button_set_active (swrb, active);
 	}
 	value_release (v);
@@ -2355,7 +2330,7 @@ static void
 sheet_widget_radio_button_init_full (SheetObjectWidget *sow,
 				     GnmCellRef const *ref,
 				     char const *label,
-				     char const *value,
+				     GnmValue const *value,
 				     gboolean active)
 {
 	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (sow);
@@ -2364,7 +2339,7 @@ sheet_widget_radio_button_init_full (SheetObjectWidget *sow,
 
 	swrb->being_updated = FALSE;
 	swrb->label = g_strdup (label ? label : _("RadioButton"));
-	swrb->value = g_strdup (value ? value : "");
+	swrb->value = value ? value_dup (value) : value_new_empty ();
 	swrb->active = active;
 
 	swrb->dep.sheet = NULL;
@@ -2391,7 +2366,7 @@ sheet_widget_radio_button_finalize (GObject *obj)
 
 	g_free (swrb->label);
 	swrb->label = NULL;
-	g_free (swrb->value);
+	value_release (swrb->value);
 	swrb->value = NULL;
 
 	dependent_set_expr (&swrb->dep, NULL);
@@ -2412,7 +2387,7 @@ sheet_widget_radio_button_toggled (GtkToggleButton *button,
 		cmd_so_set_value (widget_wbc (GTK_WIDGET (button)),
 				  /* FIXME: This text sucks:  */
 				  _("Clicking radiobutton"),
-				  &ref, parse_value (swrb->value),
+				  &ref, value_dup (swrb->value),
 				  sheet_object_get_sheet (SHEET_OBJECT (swrb)));
 	}
 }
@@ -2474,11 +2449,17 @@ sheet_widget_radio_button_write_xml_sax (SheetObject const *so,
 					 GnmConventions const *convs)
 {
 	SheetWidgetRadioButton const *swrb = SHEET_WIDGET_RADIO_BUTTON (so);
+	GString *valstr = g_string_new (NULL);
+
+	value_get_as_gstring (swrb->value, valstr, convs);
 
 	gsf_xml_out_add_cstr (output, "Label", swrb->label);
-	gsf_xml_out_add_cstr (output, "Value", swrb->value);
+	gsf_xml_out_add_cstr (output, "Value", valstr->str);
+	gsf_xml_out_add_int (output, "ValueType", swrb->value->type);
 	gsf_xml_out_add_int (output, "Active", swrb->active);
 	sax_write_dep (output, &swrb->dep, "Input", convs);
+
+	g_string_free (valstr, TRUE);
 }
 
 static void
@@ -2487,18 +2468,30 @@ sheet_widget_radio_button_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 					   GnmConventions const *convs)
 {
 	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (so);
+	const char *valstr = NULL;
+	int value_type = 0;
 
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_eq (attrs[0], "Label")) {
 			g_free (swrb->label);
 			swrb->label = g_strdup (CXML2C (attrs[1]));
 		} else if (attr_eq (attrs[0], "Value")) {
-			g_free (swrb->value);
-			swrb->value = g_strdup (CXML2C (attrs[1]));
-		} else if (gnm_xml_attr_bool (attrs, "Active", &swrb->active))
+			valstr = CXML2C (attrs[1]);
+		} else if (gnm_xml_attr_bool (attrs, "Active", &swrb->active) ||
+			   gnm_xml_attr_int (attrs, "ValueType", &value_type) ||
+			   sax_read_dep (attrs, "Input", &swrb->dep, xin, convs))
 			; /* Nothing */
-		else if (sax_read_dep (attrs, "Input", &swrb->dep, xin, convs))
-			; /* ??? */
+	}
+
+	value_release (swrb->value);
+	swrb->value = NULL;
+	if (valstr) {
+		swrb->value = value_type
+			? value_new_from_string (value_type, valstr, NULL, FALSE)
+			: format_match (valstr, NULL, NULL);
+	}
+	if (!swrb->value)
+		swrb->value = value_new_empty ();
 }
 
 void
@@ -2550,7 +2543,8 @@ typedef struct {
  	GnmExprEntry *expression;
  	GtkWidget *label, *value;
 	
- 	char *old_label, *old_value;
+ 	char *old_label;
+	GnmValue *old_value;
  	GtkWidget *old_focus;
 	
  	WBCGtk  *wbcg;
@@ -2591,10 +2585,13 @@ cb_radio_button_config_destroy (RadioButtonConfigState *state)
   	}
 	
  	g_free (state->old_label);
- 	g_free (state->old_value);
  	state->old_label = NULL;
+
+ 	value_release (state->old_value);
  	state->old_value = NULL;
+
  	state->dialog = NULL;
+
  	g_free (state);
 }
 
@@ -2603,16 +2600,19 @@ cb_radio_button_config_ok_clicked (GtkWidget *button, RadioButtonConfigState *st
 {
 	SheetObject *so = SHEET_OBJECT (state->swrb);
 	GnmParsePos  pp;
- 	GnmExprTop const *texpr = gnm_expr_entry_parse (state->expression,
-							parse_pos_init_sheet (&pp, so->sheet),
-							NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
- 	gchar const *text = gtk_entry_get_text(GTK_ENTRY(state->label));
- 	gchar const *val = gtk_entry_get_text(GTK_ENTRY(state->value));
-	
+ 	GnmExprTop const *texpr = gnm_expr_entry_parse
+		(state->expression,
+		 parse_pos_init_sheet (&pp, so->sheet),
+		 NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
+ 	gchar const *text = gtk_entry_get_text (GTK_ENTRY (state->label));
+ 	gchar const *val = gtk_entry_get_text (GTK_ENTRY (state->value));
+	GnmValue *new_val = so_parse_value (so, val);
+
  	cmd_so_set_radio_button (WORKBOOK_CONTROL (state->wbcg), so,
- 				 texpr, g_strdup (state->old_label), 
-				 g_strdup (text), g_strdup (state->old_value), g_strdup (val));
-	
+ 				 texpr,
+				 g_strdup (state->old_label), g_strdup (text),
+				 value_dup (state->old_value), new_val);
+
  	gtk_widget_destroy (state->dialog);
 }
 
@@ -2636,8 +2636,12 @@ cb_radio_button_label_changed (GtkEntry *entry, RadioButtonConfigState *state)
 static void
 cb_radio_button_value_changed (GtkEntry *entry, RadioButtonConfigState *state)
 {
- 	sheet_widget_radio_button_set_value (SHEET_OBJECT (state->swrb),
- 					     gtk_entry_get_text (entry));
+	const char *text = gtk_entry_get_text (entry);
+	SheetObject *so = SHEET_OBJECT (state->swrb);
+	GnmValue *val = so_parse_value (so, text);
+
+ 	sheet_widget_radio_button_set_value (so, val);
+	value_release (val);
 }
 
 static void
@@ -2647,6 +2651,7 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
  	WBCGtk  *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
  	RadioButtonConfigState *state;
  	GtkWidget *table;
+	GString *valstr;
  
  	g_return_if_fail (swrb != NULL);
  
@@ -2660,7 +2665,7 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
  	state->sheet = sc_sheet	(sc);
  	state->old_focus = NULL;
 	state->old_label = g_strdup (swrb->label);
- 	state->old_value = g_strdup (swrb->value);
+ 	state->old_value = value_dup (swrb->value);
  	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 					"so-radiobutton.glade", NULL, NULL);
  	state->dialog = glade_xml_get_widget (state->gui, "SO-Radiobutton");
@@ -2684,7 +2689,12 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
  	gtk_entry_set_text (GTK_ENTRY (state->label), swrb->label);
  	gtk_editable_select_region (GTK_EDITABLE(state->label), 0, -1);
  	state->value = glade_xml_get_widget (state->gui, "value_entry");
- 	gtk_entry_set_text (GTK_ENTRY (state->value), swrb->value);
+
+	valstr = g_string_new (NULL);
+	value_get_as_gstring (swrb->value, valstr, so->sheet->convs);
+ 	gtk_entry_set_text (GTK_ENTRY (state->value), valstr->str);
+	g_string_free (valstr, TRUE);
+
   	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
  				  GTK_WIDGET (state->expression));
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
