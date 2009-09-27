@@ -327,19 +327,19 @@
     <toolitem action="FormatIncreaseIndent"/>
   </toolbar>
   <toolbar _name="ObjectToolbar">
+    <toolitem action="CreateRectangle"/>
+    <toolitem action="CreateEllipse"/>
     <toolitem action="CreateFrame"/>
+    <toolitem action="CreateLine"/>
+    <toolitem action="CreateArrow"/>
     <toolitem action="CreateCheckbox"/>
+    <toolitem action="CreateRadioButton"/>
+    <toolitem action="CreateButton"/>
     <toolitem action="CreateScrollbar"/>
     <toolitem action="CreateSpinButton"/>
     <toolitem action="CreateSlider"/>
     <toolitem action="CreateList"/>
     <toolitem action="CreateCombo"/>
-    <toolitem action="CreateButton"/>
-    <toolitem action="CreateRadioButton"/>
-     <toolitem action="CreateLine"/>
-    <toolitem action="CreateArrow"/>
-    <toolitem action="CreateRectangle"/>
-    <toolitem action="CreateEllipse"/>
   </toolbar>
 
   <accelerator name="CopyRight"		 action="CopyRight"/>

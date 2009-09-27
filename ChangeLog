@@ -1,4 +1,11 @@
 2009-09-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/GNOME_Gnumeric-gtk.xml.in: sort objects by type
+	* src/HILDON_Gnumeric-gtk.xml.in: ditto
+	* component/Gnumeric-embed.xml.in: ditto
+	* src/pixmaps/object_label_24.png: show rectangle 
+
+2009-09-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	for Albert Graef  <Dr.Graef@t-online.de>
 
 	* src/commands.c (cmd_so_set_radio_button, CmdSOSetRadioButton)
