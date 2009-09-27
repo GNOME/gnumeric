@@ -670,13 +670,32 @@ static GNM_ACTION_DEF (cb_view_freeze_panes)
 		frozen_tl = pane->first;
 		unfrozen_tl = sv->edit_pos;
 
-		/* If edit pos is out of visible range */
+		if (unfrozen_tl.row == 0 && unfrozen_tl.col == 0) {
+			GnmRange const *first = selection_first_range (sv, NULL, NULL);
+			Sheet *sheet = sv_sheet (sv);
+			gboolean full_rows = range_is_full (first, sheet, TRUE);
+			gboolean full_cols = range_is_full (first, sheet, FALSE);
+			if (!full_rows || !full_cols) {
+				if (!full_rows && !full_cols) {
+					unfrozen_tl.row = first->end.row + 1;
+					unfrozen_tl.col = first->end.col + 1;
+				} else if (full_rows) {
+					unfrozen_tl.row = first->end.row + 1;
+					unfrozen_tl.col = 0;
+				} else {
+					unfrozen_tl.row = 0;
+					unfrozen_tl.col = first->end.col + 1;
+				}
+			}
+		} 
+			
+                /* If edit pos is out of visible range */
 		if (unfrozen_tl.col < pane->first.col ||
 		    unfrozen_tl.col > pane->last_visible.col ||
 		    unfrozen_tl.row < pane->first.row ||
 		    unfrozen_tl.row > pane->last_visible.row)
 			center = TRUE;
-
+		
 		if (unfrozen_tl.col == pane->first.col) {
 			/* or edit pos is in top left visible cell */
 			if (unfrozen_tl.row == pane->first.row)
@@ -685,15 +704,17 @@ static GNM_ACTION_DEF (cb_view_freeze_panes)
 				unfrozen_tl.col = frozen_tl.col = 0;
 		} else if (unfrozen_tl.row == pane->first.row)
 			unfrozen_tl.row = frozen_tl.row = 0;
-
+		
 		if (center) {
-			unfrozen_tl.col = (pane->first.col + pane->last_visible.col) / 2;
-			unfrozen_tl.row = (pane->first.row + pane->last_visible.row) / 2;
+			unfrozen_tl.col = (pane->first.col + 
+					   pane->last_visible.col) / 2;
+			unfrozen_tl.row = (pane->first.row + 
+					   pane->last_visible.row) / 2;
 		}
-
+		
 		g_return_if_fail (unfrozen_tl.col > frozen_tl.col ||
 				  unfrozen_tl.row > frozen_tl.row);
-
+		
 		sv_freeze_panes (sv, &frozen_tl, &unfrozen_tl);
 	} else
 		sv_freeze_panes (sv, NULL, NULL);
