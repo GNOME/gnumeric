@@ -2351,35 +2351,35 @@ radio_button_debug_name (GnmDependent const *dep, GString *target)
 
 static DEPENDENT_MAKE_TYPE (radio_button, NULL)
 
-static guint rb_counter = 0;
-
 static void
 sheet_widget_radio_button_init_full (SheetObjectWidget *sow,
 				     GnmCellRef const *ref,
 				     char const *label,
-				     char const *value)
+				     char const *value,
+				     gboolean active)
 {
 	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (sow);
 
 	g_return_if_fail (swrb != NULL);
 
 	swrb->being_updated = FALSE;
-	swrb->label = g_strdup (label?label:_("RadioButton"));
-	swrb->value = g_strdup (value?value:"");
-	swrb->active = TRUE;
+	swrb->label = g_strdup (label ? label : _("RadioButton"));
+	swrb->value = g_strdup (value ? value : "");
+	swrb->active = active;
 
 	swrb->dep.sheet = NULL;
 	swrb->dep.flags = radio_button_get_dep_type ();
 	swrb->dep.texpr = (ref != NULL)
 		? gnm_expr_top_new (gnm_expr_new_cellref (ref))
 		: NULL;
-	rb_counter++;
 }
 
 static void
 sheet_widget_radio_button_init (SheetWidgetRadioButton *swrb)
 {
-	sheet_widget_radio_button_init_full (SHEET_OBJECT (swrb), NULL, NULL, NULL);
+	sheet_widget_radio_button_init_full (SHEET_OBJECT (swrb),
+					     NULL, NULL, NULL,
+					     TRUE);
 }
 
 static void
@@ -2445,8 +2445,8 @@ sheet_widget_radio_button_copy (SheetObject *dst, SheetObject const *src)
 	sheet_widget_radio_button_init_full (SHEET_OBJECT (dst_swrb),
 					     so_get_ref (src, &ref, FALSE),
 					     src_swrb->label,
-					     src_swrb->value);
-	sheet_widget_radio_button_set_active (dst_swrb, dst_swrb->active); 
+					     src_swrb->value,
+					     src_swrb->active);
 }
 
 static gboolean
