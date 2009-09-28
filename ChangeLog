@@ -1,3 +1,12 @@
+2009-09-28  Morten Welinder  <terra@gnome.org>
+
+	* src/position.c (parse_pos_init_dep): Don't crash when dep's
+	sheet is NULL.  Whether callers expect such a GnmParsePos is a
+	different matter.
+
+	* src/sheet-object-widget.c (sax_write_dep): Use
+	parse_pos_init_dep, not parse_pos_init_sheet.  Fixes #596509.
+
 2009-09-27  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object-widget.c: Simplify radio button stuff.

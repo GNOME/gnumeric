@@ -23,6 +23,7 @@ Morten:
 	* Fix translation problem with toolbar menu.  [#587250]
 	* Fix printing of coloured sheet objects.
 	* Fix printing of lines and arrows.
+	* Fix sheet object/clipboard related critical on exit.  [#596509]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.13

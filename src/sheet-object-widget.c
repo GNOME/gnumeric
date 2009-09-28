@@ -218,10 +218,10 @@ sax_write_dep (GsfXMLOut *output, GnmDependent const *dep, char const *id,
 {
 	if (dep->texpr != NULL) {
 		GnmParsePos pos;
-		char *val = gnm_expr_top_as_string
-			(dep->texpr,
-			 parse_pos_init_sheet (&pos, dep->sheet),
-			 convs);
+		char *val;
+
+		parse_pos_init_dep (&pos, dep);
+		val = gnm_expr_top_as_string (dep->texpr, &pos, convs);
 		gsf_xml_out_add_cstr (output, id, val);
 		g_free (val);
 	}

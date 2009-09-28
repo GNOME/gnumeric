@@ -182,7 +182,7 @@ parse_pos_init_dep (GnmParsePos *pp, GnmDependent const *dep)
 	g_return_val_if_fail (pp != NULL, NULL);
 
 	pp->sheet = dep->sheet;
-	pp->wb = dep->sheet->workbook;
+	pp->wb = dep->sheet ? dep->sheet->workbook : NULL;
 	if (dependent_is_cell (dep))
 		pp->eval = GNM_DEP_TO_CELL (dep)->pos;
 	else
