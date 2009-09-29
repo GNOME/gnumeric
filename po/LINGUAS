@@ -4,10 +4,6 @@
 # po/ and po-functions/ have .po files that correspond to your language.
 # If you only add one to po/, the build will break in po-functions/.
 #
-# "id" can go back when there is a po-function translation too.
-# "zh_HK" can go back when there is a po-function translation too.
-# "gu" can go back when there is a po-function translation too.
-#
 am
 ar
 az
@@ -31,7 +27,7 @@ gu
 he
 hr
 hu
-id
+# "id" can go back when there is a po-function translation too.
 it
 ja
 ko
@@ -61,4 +57,5 @@ tr
 uk
 vi
 zh_CN
+# "zh_HK" can go back when there is a po-function translation too.
 zh_TW

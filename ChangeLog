@@ -1,3 +1,7 @@
+2009-09-29  Morten Welinder  <terra@gnome.org>
+
+	* po/LINGUAS: Back out the addition of "id".
+
 2009-09-28  Morten Welinder  <terra@gnome.org>
 
 	* src/position.c (parse_pos_init_dep): Don't crash when dep's
