@@ -49,8 +49,8 @@ typedef struct {
 	guint16		*col_xf;
 	GnmStyle	**col_style;
 	GnmStyleList	*conditions, *hlinks, *validations;
-	GSList          *blips, *textboxes;
-	GHashTable	*comments;
+	GSList          *blips, *textboxes, *graphs, *comments;
+	GHashTable	*commentshash;
 	unsigned	 cur_obj, num_objs;
 } ExcelWriteSheet;
 

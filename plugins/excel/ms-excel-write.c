@@ -3335,15 +3335,12 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell cons
 static void
 excel_write_comments_biff7 (BiffPut *bp, ExcelWriteSheet *esheet)
 {
-	guint8 data[6];
-	GSList *l, *comments;
+	GSList *l;
 
-	comments = sheet_objects_get (esheet->gnum_sheet, NULL,
-				      CELL_COMMENT_TYPE);
-
-	for (l = comments; l; l = l->next) {
+	for (l = esheet->comments; l; l = l->next) {
 		GnmComment const *cc = l->data;
-		GnmRange const *pos     = sheet_object_get_range (SHEET_OBJECT (cc));
+		guint8 data[6];
+		GnmRange const *pos = sheet_object_get_range (SHEET_OBJECT (cc));
 		char const  *in = cell_comment_text_get (cc);
 		size_t in_bytes, out_bytes;
 		unsigned len = excel_strlen (in, &in_bytes);
@@ -3377,7 +3374,6 @@ repeat:
 			ms_biff_put_commit (bp);
 		}
 	}
-	g_slist_free (comments);
 }
 
 static void
@@ -4261,9 +4257,8 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 			GOD_ANCHOR_DIR_DOWN_RIGHT);
 		type = 0x19;
 		flags = 0x4011; /* not autofilled */
-		if (NULL == esheet->comments)
-			esheet->comments = g_hash_table_new (g_direct_hash, g_direct_equal);
-		g_hash_table_insert (esheet->comments, so, GINT_TO_POINTER (esheet->cur_obj));
+		g_hash_table_insert (esheet->commentshash,
+				     so, GINT_TO_POINTER (esheet->cur_obj));
 	} else {
 		anchor = *real_anchor;
 		type = 6;
@@ -4823,8 +4818,7 @@ static void
 excel_write_objs_v8 (ExcelWriteSheet *esheet)
 {
 	BiffPut *bp = esheet->ewb->bp;
-	GSList  *ptr, *charts = sheet_objects_get (esheet->gnum_sheet,
-		NULL, SHEET_OBJECT_GRAPH_TYPE);
+	GSList  *ptr;
 	int	 len;
 
 	if (esheet->num_objs == 0)
@@ -4843,7 +4837,7 @@ excel_write_objs_v8 (ExcelWriteSheet *esheet)
 		};
 		guint8 buf [sizeof header_obj_v8];
 		unsigned last_id, num_filters = 0;
-		unsigned num_charts = g_slist_length (charts);
+		unsigned num_charts = g_slist_length (esheet->graphs);
 		unsigned num_blips = g_slist_length (esheet->blips);
 		unsigned num_texts = g_slist_length (esheet->textboxes);
 
@@ -4872,10 +4866,9 @@ excel_write_objs_v8 (ExcelWriteSheet *esheet)
 		ms_biff_put_var_write (bp, buf, sizeof header_obj_v8);
 	}
 
-#warning handle multiple charts in a graph by creating multiple objects
-	for (ptr = charts; ptr != NULL ; ptr = ptr->next)
+#warning "handle multiple charts in a graph by creating multiple objects"
+	for (ptr = esheet->graphs; ptr != NULL ; ptr = ptr->next)
 		excel_write_chart_v8 (esheet, ptr->data);
-	g_slist_free (charts);
 
 	for (ptr = esheet->blips; ptr != NULL ; ptr = ptr->next)
 		excel_write_image_v8 (esheet, ptr->data);
@@ -4885,11 +4878,8 @@ excel_write_objs_v8 (ExcelWriteSheet *esheet)
 
 	excel_write_autofilter_objs (esheet);
 
-	if (NULL != esheet->comments) {
-		g_hash_table_foreach (esheet->comments,
-			(GHFunc) cb_NOTE_v8, bp);
-		g_hash_table_destroy (esheet->comments);
-	}
+	g_hash_table_foreach (esheet->commentshash,
+			      (GHFunc) cb_NOTE_v8, bp);
 }
 
 static void
@@ -4917,11 +4907,8 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 	}
 	esheet->streamPos = excel_write_BOF (ewb->bp, type);
 	if (esheet->gnum_sheet->sheet_type == GNM_SHEET_OBJECT) {
-		GSList *objs = sheet_objects_get (esheet->gnum_sheet,
-			NULL, SHEET_OBJECT_GRAPH_TYPE);
-		g_return_if_fail (objs != NULL);
-		ms_excel_chart_write (ewb, objs->data);
-		g_slist_free (objs);
+		g_return_if_fail (esheet->graphs != NULL);
+		ms_excel_chart_write (ewb, esheet->graphs->data);
 		return;
 	}
 
@@ -5034,63 +5021,61 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 		esheet->validations = sheet_style_collect_validations (sheet, NULL);
 	}
 
-	/* we only export charts & images for now */
 	esheet->cur_obj = esheet->num_objs = 0;
 
-	objs = sheet_objects_get (sheet, NULL, SHEET_OBJECT_GRAPH_TYPE);
-	esheet->num_objs += g_slist_length (objs);
-	g_slist_free (objs);
-
-	esheet->blips = NULL;
-	objs = sheet_objects_get (sheet, NULL, SHEET_OBJECT_IMAGE_TYPE);
-	for (l = objs ; l; l = l->next) {
-		SheetObjectImage *soi = SHEET_OBJECT_IMAGE (l->data);
-		BlipInf *bi = blipinf_new (soi);
-
-		/* Images we can't export have a NULL BlipInf */
-		if (!bi)
-			continue;
-
-		esheet->blips = g_slist_prepend (esheet->blips, bi);
-	}
-	esheet->blips = g_slist_reverse (esheet->blips);
-	esheet->num_objs += g_slist_length (esheet->blips);
-	g_slist_free (objs);
-
-	/* ---------------------------------------- */
-
-	/* Text boxes & comments */
-	esheet->textboxes = NULL;
-	objs = sheet_objects_get (sheet, NULL, CELL_COMMENT_TYPE);
+	objs = sheet_objects_get (sheet, NULL, G_TYPE_NONE);
 	for (l = objs; l; l = l->next) {
-		GnmComment *obj = l->data;
-		esheet->textboxes = g_slist_prepend (esheet->textboxes, obj);
-	}
-	g_slist_free (objs);
+		SheetObject *so = SHEET_OBJECT (l->data);
+		gboolean handled = FALSE;
 
-	objs = sheet_objects_get (sheet, NULL, GNM_SO_FILLED_TYPE);
-	for (l = objs; l; l = l->next) {
-		SheetObject *obj = l->data;
-		char *label = NULL;
+		if (IS_SHEET_OBJECT_GRAPH (so)) {
+			/* No derivation for now.  */
+			esheet->graphs = g_slist_prepend (esheet->graphs, so);
+			handled = TRUE;
+		} else if (IS_SHEET_OBJECT_IMAGE (so)) {
+			SheetObjectImage *soi = SHEET_OBJECT_IMAGE (l->data);
+			BlipInf *bi = blipinf_new (soi);
 
-		g_object_get (G_OBJECT (obj), "text", &label, NULL);
-		if (!label) {
-			g_printerr ("Dropping object of type %s\n",
-				    g_type_name (G_OBJECT_TYPE (obj)));
-			continue;
+			/* Images we can't export have a NULL BlipInf */
+			if (!bi)
+				goto unhandled;
+
+			esheet->blips = g_slist_prepend (esheet->blips, bi);
+			handled = TRUE;
+		} else if (IS_CELL_COMMENT (so)) {
+			esheet->comments = g_slist_prepend (esheet->comments,
+							    so);
+			/* Also a textbox.  Is that right for v7?  */
+			esheet->textboxes = g_slist_prepend (esheet->textboxes,
+							     so);
+			handled = TRUE;
+		} else if (IS_GNM_SO_FILLED (so)) {
+			char *label = NULL;
+
+			g_object_get (G_OBJECT (so), "text", &label, NULL);
+			if (!label)
+				goto unhandled;
+
+			g_free (label);
+			esheet->textboxes =
+				g_slist_prepend (esheet->textboxes, so);
+			handled = TRUE;
 		}
-		g_free (label);
 
-		esheet->textboxes = g_slist_prepend (esheet->textboxes, obj);
+		if (handled) {
+			esheet->num_objs++;
+		} else {
+		unhandled:
+			g_warning ("Not exporting object of type %s",
+				   g_type_name_from_instance ((GTypeInstance*)so));
+		}
 	}
 	g_slist_free (objs);
 
+	esheet->blips = g_slist_reverse (esheet->blips);
 	esheet->textboxes = g_slist_reverse (esheet->textboxes);
-	esheet->num_objs += g_slist_length (esheet->textboxes);
-
-	/* ---------------------------------------- */
-
-	esheet->comments = NULL; /* gets populated with obj_ids later */
+	esheet->comments = g_slist_reverse (esheet->comments);
+	esheet->graphs = g_slist_reverse (esheet->graphs);
 
 	/* ---------------------------------------- */
 
@@ -5100,6 +5085,11 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 		esheet->num_objs += filter->fields->len;
 	}
 
+	/* ---------------------------------------- */
+
+	/* Gets populated with obj_ids later */
+	esheet->commentshash = g_hash_table_new (g_direct_hash, g_direct_equal);
+
 	return esheet;
 }
 
@@ -5107,6 +5097,9 @@ static void
 excel_sheet_free (ExcelWriteSheet *esheet)
 {
 	g_slist_free (esheet->textboxes);
+	g_slist_free (esheet->comments);
+	g_slist_free (esheet->graphs);
+	g_hash_table_destroy (esheet->commentshash);
 	go_slist_free_custom (esheet->blips, (GFreeFunc) blipinf_free);
 	style_list_free (esheet->conditions);
 	style_list_free (esheet->hlinks);
@@ -5899,7 +5892,6 @@ excel_write_state_new (GOIOContext *context, WorkbookView const *wb_view,
 	ExcelWriteState *ewb = g_new (ExcelWriteState, 1);
 	ExcelWriteSheet *esheet;
 	Sheet		*sheet;
-	GSList		*objs, *ptr;
 	int i;
 
 	g_return_val_if_fail (ewb != NULL, NULL);
@@ -5938,6 +5930,8 @@ excel_write_state_new (GOIOContext *context, WorkbookView const *wb_view,
 	excel_foreach_name (ewb, (GHFunc) cb_check_names);	/* names */
 
 	for (i = 0 ; i < workbook_sheet_count (ewb->base.wb) ; i++) {
+		GSList *ptr;
+
 		sheet = workbook_sheet_by_index (ewb->base.wb, i);
 		esheet = excel_sheet_new (ewb, sheet, biff7, biff8);
 		if (esheet != NULL)
@@ -5952,12 +5946,9 @@ excel_write_state_new (GOIOContext *context, WorkbookView const *wb_view,
 			excel_write_prep_validations (esheet);
 		if (sheet->filters != NULL)
 			excel_write_prep_sheet (ewb, sheet);
-		objs = sheet_objects_get (sheet,
-			NULL, SHEET_OBJECT_GRAPH_TYPE);
-		for (ptr = objs ; ptr != NULL ; ptr = ptr->next)
+		for (ptr = esheet->graphs ; ptr != NULL ; ptr = ptr->next)
 			extract_gog_object_style (&ewb->base,
 				(GogObject *)sheet_object_graph_get_gog (ptr->data));
-		g_slist_free (objs);
 		for (ptr = esheet->textboxes ; ptr != NULL ; ptr = ptr->next)
 			extract_txomarkup (ewb, ptr->data);
 	}
