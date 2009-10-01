@@ -4174,7 +4174,8 @@ excel_write_ClientTextbox (ExcelWriteState *ewb, SheetObject *so)
 	GSF_LE_SET_GUINT16 (buf, 0x212); /* end */
 	g_object_get (G_OBJECT (so), "text", &label, NULL);
 	if (!label) {
-		g_warning ("Not sure why label is NULL here.");
+		g_warning ("Not sure why label is NULL here for %s at %p.",
+			   g_type_name (G_OBJECT_TYPE (so)), so);
 		label = g_strdup ("");
 	}
 	char_len = excel_strlen (label, NULL);
@@ -5003,7 +5004,7 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 				 gnm_sheet_get_max_cols (sheet));
 	ExcelWriteSheet *esheet = g_new0 (ExcelWriteSheet, 1);
 	GnmRange extent;
-	GSList *objs, *img;
+	GSList *objs, *l;
 
 	g_return_val_if_fail (sheet, NULL);
 	g_return_val_if_fail (ewb, NULL);
@@ -5042,24 +5043,56 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 
 	esheet->blips = NULL;
 	objs = sheet_objects_get (sheet, NULL, SHEET_OBJECT_IMAGE_TYPE);
-	for (img = objs ; img != NULL ; img = img->next) {
-		SheetObjectImage *soi = SHEET_OBJECT_IMAGE (img->data);
+	for (l = objs ; l; l = l->next) {
+		SheetObjectImage *soi = SHEET_OBJECT_IMAGE (l->data);
 		BlipInf *bi = blipinf_new (soi);
 
 		/* Images we can't export have a NULL BlipInf */
-		if (NULL!= bi)
+		if (!bi)
+			continue;
+
 		esheet->blips = g_slist_prepend (esheet->blips, bi);
 	}
 	esheet->blips = g_slist_reverse (esheet->blips);
 	esheet->num_objs += g_slist_length (esheet->blips);
 	g_slist_free (objs);
 
+	/* ---------------------------------------- */
+
 	/* Text boxes & comments */
+	esheet->textboxes = NULL;
 	objs = sheet_objects_get (sheet, NULL, CELL_COMMENT_TYPE);
-	esheet->textboxes = g_slist_concat (objs,
-		sheet_objects_get (sheet, NULL, GNM_SO_FILLED_TYPE));
-	esheet->comments = NULL; /* gets populated with obj_ids later */
+	for (l = objs; l; l = l->next) {
+		GnmComment *obj = l->data;
+		esheet->textboxes = g_slist_prepend (esheet->textboxes, obj);
+	}
+	g_slist_free (objs);
+
+	objs = sheet_objects_get (sheet, NULL, GNM_SO_FILLED_TYPE);
+	for (l = objs; l; l = l->next) {
+		SheetObject *obj = l->data;
+		char *label = NULL;
+
+		g_object_get (G_OBJECT (obj), "text", &label, NULL);
+		if (!label) {
+			g_printerr ("Dropping object of type %s\n",
+				    g_type_name (G_OBJECT_TYPE (obj)));
+			continue;
+		}
+		g_free (label);
+
+		esheet->textboxes = g_slist_prepend (esheet->textboxes, obj);
+	}
+	g_slist_free (objs);
+
+	esheet->textboxes = g_slist_reverse (esheet->textboxes);
 	esheet->num_objs += g_slist_length (esheet->textboxes);
+
+	/* ---------------------------------------- */
+
+	esheet->comments = NULL; /* gets populated with obj_ids later */
+
+	/* ---------------------------------------- */
 
 	/* And the autofilters (only 1 per sheet in XL)  */
 	if (sheet->filters != NULL) {

@@ -2044,11 +2044,13 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 			g_free ((void *)data);
 
 		/*
-		 * Lets double check that the data we just read makes sense.
-		 * If problems arise in the next tests it probably indicates that
-		 * the PRECEDING record length was invalid.  Check that it included the header */
+		 * Let's double check that the data we just read makes sense.
+		 * If problems arise in the next tests it probably indicates
+		 * that the PRECEDING record length was invalid.  Check that
+		 * it included the header.
+		 */
 		if ((h.fbt & (~0x1ff)) != 0xf000) {
-			printf ("EXCEL : Invalid fbt = 0x%x\n", h.fbt);
+			g_warning ("Invalid fbt = 0x%x\n", h.fbt);
 			ms_escher_header_release (&h);
 			return TRUE;
 		}

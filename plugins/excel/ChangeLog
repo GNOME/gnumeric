@@ -1,3 +1,8 @@
+2009-10-01  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_sheet_new): Exclude GNM_SO_FILLED_TYPE
+	objects with no text as we do not export them right.  [#596886]
+
 2009-09-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.13

@@ -24,6 +24,7 @@ Morten:
 	* Fix printing of coloured sheet objects.
 	* Fix printing of lines and arrows.
 	* Fix sheet object/clipboard related critical on exit.  [#596509]
+	* Fix Excel-crashing export problem with objects.  [#596886]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.13
