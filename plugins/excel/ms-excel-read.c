@@ -451,7 +451,6 @@ static gboolean
 ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 {
 	float offsets[4];
-	gpointer label;
 	PangoAttrList *markup;
 	GnmRange range;
 	ExcelReadSheet *esheet;
@@ -498,8 +497,17 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	}
 	sheet_object_set_sheet (so, esheet->sheet);
 
-	if (ms_obj_attr_get_ptr (obj->attrs, MS_OBJ_ATTR_TEXT, &label, FALSE))
-		g_object_set (G_OBJECT (so), "text", label, NULL);
+	{
+		gpointer label;
+		if (ms_obj_attr_get_ptr (obj->attrs, MS_OBJ_ATTR_TEXT, &label, FALSE))
+			g_object_set (G_OBJECT (so), "text", label, NULL);
+	}
+
+	{
+		gpointer name;
+		if (ms_obj_attr_get_ptr (obj->attrs, MS_OBJ_ATTR_OBJ_NAME, &name, FALSE))
+			g_object_set (G_OBJECT (so), "name", name, NULL);
+	}
 
 	markup = ms_obj_attr_get_markup (obj->attrs, MS_OBJ_ATTR_MARKUP, NULL, FALSE);
 	if (markup != NULL)

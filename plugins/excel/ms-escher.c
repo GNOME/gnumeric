@@ -1907,8 +1907,10 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 				g_free (name);
 			});
 			if (id & MS_OBJ_ATTR_IS_PTR_MASK) {
+				char *s = g_utf16_to_utf8 ((gunichar2*)extra, val / 2,
+							   NULL, NULL, NULL);
 				ms_escher_header_add_attr (h,
-					ms_obj_attr_new_ptr (id, g_strndup (extra, val)));
+					ms_obj_attr_new_ptr (id, s));
 				id = MS_OBJ_ATTR_NONE;
 			}
 			extra += val;

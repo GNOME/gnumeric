@@ -1,5 +1,11 @@
 2009-10-02  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-read.c (ms_sheet_realize_obj): Set object name if we
+	have it.
+
+	* ms-escher.c (ms_escher_read_OPT): Assume pointers are UTF-16
+	strings, not UTF-8.  Fits objs.xls
+
 	* ms-excel-write.c (excel_sheet_new): Don't complain over filter
 	combos.  They are handled, but differently.
 
