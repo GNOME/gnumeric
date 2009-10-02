@@ -32,6 +32,7 @@
 #include "ms-chart.h"
 #include "formula-types.h"
 
+#include <sheet-filter-combo.h>
 #include <gnm-format.h>
 #include <position.h>
 #include <style-color.h>
@@ -5060,6 +5061,9 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 			esheet->textboxes =
 				g_slist_prepend (esheet->textboxes, so);
 			handled = TRUE;
+		} else if (IS_GNM_FILTER_COMBO (so)) {
+			/* Handled outside loop.  */
+			continue;
 		}
 
 		if (handled) {

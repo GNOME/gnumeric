@@ -1,3 +1,8 @@
+2009-10-02  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_sheet_new): Don't complain over filter
+	combos.  They are handled, but differently.
+
 2009-10-01  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_sheet_new): Exclude GNM_SO_FILLED_TYPE
