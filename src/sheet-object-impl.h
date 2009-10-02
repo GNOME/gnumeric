@@ -28,6 +28,7 @@ struct _SheetObject {
 	GList             *realized_list;
 	SheetObjectAnchor  anchor;
 	SheetObjectFlags   flags;
+	char              *name;
 };
 
 typedef void (*SheetObjectActionFunc) (SheetObject *so, SheetControl *sc);

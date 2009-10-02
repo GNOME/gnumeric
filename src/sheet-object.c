@@ -49,6 +49,11 @@
 #define SO_CLASS(so) SHEET_OBJECT_CLASS(G_OBJECT_GET_CLASS(so))
 
 enum {
+	SO_PROP_0 = 0,
+	SO_PROP_NAME
+};
+
+enum {
 	BOUNDS_CHANGED,
 	UNREALIZED,
 	LAST_SIGNAL
@@ -187,12 +192,58 @@ sheet_objects_max_extent (Sheet *sheet)
 	}
 }
 
+void
+sheet_object_set_name (SheetObject *so, const char *name)
+{
+	if (name == so->name)
+		return;
+
+	g_free (so->name);
+	so->name = g_strdup (name);
+
+	g_object_notify (G_OBJECT (so), "name");
+}
+
+static void
+sheet_object_get_property (GObject *obj, guint param_id,
+			   GValue  *value, GParamSpec *pspec)
+{
+	SheetObject *so = SHEET_OBJECT (obj);
+
+	switch (param_id) {
+	case SO_PROP_NAME:
+		g_value_set_string (value, so->name);
+		break;
+	default :
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		break;
+	}
+}
+
+static void
+sheet_object_set_property (GObject *obj, guint param_id,
+			   GValue const *value, GParamSpec *pspec)
+{
+	SheetObject *so = SHEET_OBJECT (obj);
+
+	switch (param_id) {
+	case SO_PROP_NAME:
+		sheet_object_set_name (so, g_value_get_string (value));
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		return;
+	}
+}
+
+
 static void
 sheet_object_finalize (GObject *object)
 {
 	SheetObject *so = SHEET_OBJECT (object);
 	if (so->sheet != NULL)
 		sheet_object_clear_sheet (so);
+	g_free (so->name);
 	parent_klass->finalize (object);
 }
 
@@ -229,7 +280,11 @@ sheet_object_class_init (GObjectClass *klass)
 	SheetObjectClass *sheet_object_class = SHEET_OBJECT_CLASS (klass);
 
 	parent_klass = g_type_class_peek_parent (klass);
+
 	klass->finalize = sheet_object_finalize;
+	klass->get_property = sheet_object_get_property;
+	klass->set_property = sheet_object_set_property;
+
 	sheet_object_class->populate_menu        = sheet_object_populate_menu_real;
 	sheet_object_class->user_config          = NULL;
 	sheet_object_class->rubber_band_directly = FALSE;
@@ -237,6 +292,11 @@ sheet_object_class_init (GObjectClass *klass)
 	sheet_object_class->default_size	 = so_default_size;
 	sheet_object_class->xml_export_name	 = NULL;
 	sheet_object_class->foreach_dep          = NULL;
+
+	g_object_class_install_property
+		(klass, SO_PROP_NAME,
+		 g_param_spec_string ("name", NULL, NULL, NULL,
+				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	signals [BOUNDS_CHANGED] = g_signal_new ("bounds-changed",
 		SHEET_OBJECT_TYPE,

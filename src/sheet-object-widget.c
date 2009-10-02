@@ -173,41 +173,44 @@ static GSF_CLASS (SOWidgetView, so_widget_view,
 #define IS_SHEET_WIDGET_OBJECT(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_WIDGET_TYPE))
 #define SOW_CLASS(so)		     (SHEET_OBJECT_WIDGET_CLASS (G_OBJECT_GET_CLASS(so)))
 
-#define SOW_MAKE_TYPE(n1, n2, fn_config, fn_set_sheet, fn_clear_sheet, fn_foreach_dep,	\
-		      fn_copy, fn_write_sax, fn_prep_sax_parser,		\
-		      fn_get_property, fn_set_property, class_init_code)		\
-static void										\
-sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)				\
-{											\
-	SheetObjectWidgetClass *sow_class = SHEET_OBJECT_WIDGET_CLASS (object_class);	\
-	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (object_class);			\
-	object_class->finalize		= &sheet_widget_ ## n1 ## _finalize;		\
-	object_class->set_property	= fn_set_property;				\
-	object_class->get_property	= fn_get_property;				\
-	so_class->user_config		= fn_config;					\
-        so_class->interactive           = TRUE;						\
-	so_class->assign_to_sheet	= fn_set_sheet;					\
-	so_class->remove_from_sheet	= fn_clear_sheet;				\
-	so_class->foreach_dep		= fn_foreach_dep;				\
-	so_class->copy			= fn_copy;					\
-	so_class->write_xml_sax		= fn_write_sax;					\
-	so_class->prep_sax_parser	= fn_prep_sax_parser;				\
-	sow_class->create_widget	= &sheet_widget_ ## n1 ## _create_widget;	\
-        { class_init_code; }								\
-}											\
-											\
-GSF_CLASS (SheetWidget ## n2, sheet_widget_ ## n1,					\
-	   &sheet_widget_ ## n1 ## _class_init,						\
-	   &sheet_widget_ ## n1 ## _init,						\
+#define SOW_MAKE_TYPE(n1, n2, fn_config, fn_set_sheet, fn_clear_sheet, fn_foreach_dep, \
+		      fn_copy, fn_write_sax, fn_prep_sax_parser,	\
+		      fn_get_property, fn_set_property, class_init_code) \
+									\
+static void								\
+sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)		\
+{									\
+	SheetObjectWidgetClass *sow_class = SHEET_OBJECT_WIDGET_CLASS (object_class); \
+	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (object_class);	\
+	object_class->finalize		= &sheet_widget_ ## n1 ## _finalize; \
+	object_class->set_property	= fn_set_property;		\
+	object_class->get_property	= fn_get_property;		\
+	so_class->user_config		= fn_config;			\
+        so_class->interactive           = TRUE;				\
+	so_class->assign_to_sheet	= fn_set_sheet;			\
+	so_class->remove_from_sheet	= fn_clear_sheet;		\
+	so_class->foreach_dep		= fn_foreach_dep;		\
+	so_class->copy			= fn_copy;			\
+	so_class->write_xml_sax		= fn_write_sax;			\
+	so_class->prep_sax_parser	= fn_prep_sax_parser;		\
+	sow_class->create_widget	= &sheet_widget_ ## n1 ## _create_widget; \
+        { class_init_code; }						\
+}									\
+									\
+GSF_CLASS (SheetWidget ## n2, sheet_widget_ ## n1,			\
+	   &sheet_widget_ ## n1 ## _class_init,				\
+	   &sheet_widget_ ## n1 ## _init,				\
 	   SHEET_OBJECT_WIDGET_TYPE)
 
-typedef SheetObject SheetObjectWidget;
+typedef struct {
+	SheetObject so;
+} SheetObjectWidget;
+
 typedef struct {
 	SheetObjectClass parent_class;
 	GtkWidget *(*create_widget)(SheetObjectWidget *);
 } SheetObjectWidgetClass;
 
-static SheetObjectClass *sheet_object_widget_parent_class = NULL;
 static GObjectClass *sheet_object_widget_class = NULL;
 
 static GType sheet_object_widget_get_type	(void);
@@ -273,13 +276,12 @@ sheet_object_widget_new_view (SheetObject *so, SheetObjectViewContainer *contain
 }
 
 static void
-sheet_object_widget_class_init (GtkObjectClass *object_class)
+sheet_object_widget_class_init (GObjectClass *object_class)
 {
 	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (object_class);
 	SheetObjectWidgetClass *sow_class = SHEET_OBJECT_WIDGET_CLASS (object_class);
 
 	sheet_object_widget_class = G_OBJECT_CLASS (object_class);
-	sheet_object_widget_parent_class = g_type_class_peek_parent (object_class);
 
 	/* SheetObject class method overrides */
 	so_class->new_view		= sheet_object_widget_new_view;
@@ -427,7 +429,7 @@ sheet_widget_frame_set_label (SheetObject *so, char const* str)
 	g_free (swf->label);
 	swf->label = g_strdup (str);
 
-	for (ptr = swf->sow.realized_list; ptr != NULL; ptr = ptr->next) {
+	for (ptr = swf->sow.so.realized_list; ptr != NULL; ptr = ptr->next) {
 		SheetObjectView *view = ptr->data;
 		GocWidget *item = get_goc_widget (view);
 		gtk_frame_set_label (GTK_FRAME (item->widget), str);
@@ -545,7 +547,7 @@ enum {
 
 static void
 sheet_widget_button_get_property (GObject *obj, guint param_id,
-				    GValue  *value, GParamSpec *pspec)
+				  GValue *value, GParamSpec *pspec)
 {
 	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (obj);
 
@@ -571,7 +573,7 @@ sheet_widget_button_set_property (GObject *obj, guint param_id,
 	switch (param_id) {
 	case SOB_PROP_TEXT:
 		sheet_widget_button_set_label (SHEET_OBJECT (swb),
-						 g_value_get_string (value));
+					       g_value_get_string (value));
 		break;
 	case SOB_PROP_MARKUP:
 #if 0
@@ -952,7 +954,7 @@ sheet_widget_button_set_label (SheetObject *so, char const *str)
 	g_free (swb->label);
 	swb->label = new_label;
 
-	for (ptr = swb->sow.realized_list; ptr != NULL; ptr = ptr->next) {
+	for (ptr = swb->sow.so.realized_list; ptr != NULL; ptr = ptr->next) {
 		SheetObjectView *view = ptr->data;
 		GocWidget *item = get_goc_widget (view);
 		gtk_button_set_label (GTK_BUTTON (item->widget), swb->label);
@@ -972,7 +974,7 @@ sheet_widget_button_set_markup (SheetObject *so, PangoAttrList *markup)
 	swb->markup = markup;
 	if (markup) pango_attr_list_ref (markup);
 
-	for (ptr = swb->sow.realized_list; ptr != NULL; ptr = ptr->next) {
+	for (ptr = swb->sow.so.realized_list; ptr != NULL; ptr = ptr->next) {
 		SheetObjectView *view = ptr->data;
 		GocWidget *item = get_goc_widget (view);
 		gtk_label_set_attributes (GTK_LABEL (GTK_BIN (item->widget)->child),
@@ -1002,6 +1004,7 @@ SOW_MAKE_TYPE (button, Button,
 	       })
 
 /****************************************************************************/
+
 #define SHEET_WIDGET_ADJUSTMENT_TYPE	(sheet_widget_adjustment_get_type())
 #define SHEET_WIDGET_ADJUSTMENT(obj)	(G_TYPE_CHECK_INSTANCE_CAST ((obj), SHEET_WIDGET_ADJUSTMENT_TYPE, SheetWidgetAdjustment))
 #define DEP_TO_ADJUSTMENT(d_ptr)	(SheetWidgetAdjustment *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetAdjustment, dep))
@@ -1131,11 +1134,11 @@ sheet_widget_adjustment_set_horizontal (SheetWidgetAdjustment *swa,
 	swa->horizontal = horizontal;
 
 	/* Change direction for all realized widgets.  */
-	for (ptr = swa->sow.realized_list; ptr != NULL; ptr = ptr->next) {
+	for (ptr = swa->sow.so.realized_list; ptr != NULL; ptr = ptr->next) {
 		SheetObjectView *view = ptr->data;
 		GocWidget *item = get_goc_widget (view);
 		GtkWidget *neww =
-			SOW_CLASS (swa)->create_widget (SHEET_OBJECT (swa));
+			SOW_CLASS (swa)->create_widget (SHEET_OBJECT_WIDGET (swa));
 		gtk_widget_show (neww);
 		goc_item_set (GOC_ITEM (item), "widget", neww, NULL);
 	}
@@ -1144,7 +1147,7 @@ sheet_widget_adjustment_set_horizontal (SheetWidgetAdjustment *swa,
 
 static void
 sheet_widget_adjustment_get_property (GObject *obj, guint param_id,
-				      GValue  *value, GParamSpec *pspec)
+				      GValue *value, GParamSpec *pspec)
 {
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (obj);
 
@@ -1560,6 +1563,7 @@ SOW_MAKE_TYPE (adjustment, Adjustment,
 	       })
 
 /****************************************************************************/
+
 #define SHEET_WIDGET_SCROLLBAR_TYPE	(sheet_widget_scrollbar_get_type ())
 #define SHEET_WIDGET_SCROLLBAR(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_SCROLLBAR_TYPE, SheetWidgetScrollbar))
 #define DEP_TO_SCROLLBAR(d_ptr)		(SheetWidgetScrollbar *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetScrollbar, dep))
@@ -1609,6 +1613,7 @@ GSF_CLASS (SheetWidgetScrollbar, sheet_widget_scrollbar,
 	   SHEET_WIDGET_ADJUSTMENT_TYPE)
 
 /****************************************************************************/
+
 #define SHEET_WIDGET_SPINBUTTON_TYPE	(sheet_widget_spinbutton_get_type ())
 #define SHEET_WIDGET_SPINBUTTON(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_SPINBUTTON_TYPE, SheetWidgetSpinbutton))
 #define DEP_TO_SPINBUTTON(d_ptr)		(SheetWidgetSpinbutton *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetSpinbutton, dep))
@@ -1657,6 +1662,7 @@ GSF_CLASS (SheetWidgetSpinbutton, sheet_widget_spinbutton,
 	   SHEET_WIDGET_ADJUSTMENT_TYPE)
 
 /****************************************************************************/
+
 #define SHEET_WIDGET_SLIDER_TYPE	(sheet_widget_slider_get_type ())
 #define SHEET_WIDGET_SLIDER(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_SLIDER_TYPE, SheetWidgetSlider))
 #define DEP_TO_SLIDER(d_ptr)		(SheetWidgetSlider *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetSlider, dep))
@@ -1708,6 +1714,7 @@ GSF_CLASS (SheetWidgetSlider, sheet_widget_slider,
 	   SHEET_WIDGET_ADJUSTMENT_TYPE)
 
 /****************************************************************************/
+
 #define SHEET_WIDGET_CHECKBOX_TYPE	(sheet_widget_checkbox_get_type ())
 #define SHEET_WIDGET_CHECKBOX(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_CHECKBOX_TYPE, SheetWidgetCheckbox))
 #define DEP_TO_CHECKBOX(d_ptr)		(SheetWidgetCheckbox *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetCheckbox, dep))
@@ -1730,7 +1737,7 @@ enum {
 
 static void
 sheet_widget_checkbox_get_property (GObject *obj, guint param_id,
-				    GValue  *value, GParamSpec *pspec)
+				    GValue *value, GParamSpec *pspec)
 {
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (obj);
 
@@ -1777,7 +1784,7 @@ sheet_widget_checkbox_set_active (SheetWidgetCheckbox *swc)
 
 	swc->being_updated = TRUE;
 
-	for (ptr = swc->sow.realized_list; ptr != NULL ; ptr = ptr->next) {
+	for (ptr = swc->sow.so.realized_list; ptr != NULL ; ptr = ptr->next) {
 		SheetObjectView *view = ptr->data;
 		GocWidget *item = get_goc_widget (view);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (item->widget),
@@ -2087,7 +2094,6 @@ sheet_widget_checkbox_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 				     GnmConventions const *convs)
 {
 	SheetWidgetCheckbox const *swc = SHEET_WIDGET_CHECKBOX (so);
-
 	gsf_xml_out_add_cstr (output, "Label", swc->label);
 	gsf_xml_out_add_int (output, "Value", swc->value);
 	sax_write_dep (output, &swc->dep, "Input", convs);
@@ -2146,7 +2152,7 @@ sheet_widget_checkbox_set_label	(SheetObject *so, char const *str)
 	g_free (swc->label);
 	swc->label = new_label;
 
-	for (list = swc->sow.realized_list; list != NULL; list = list->next) {
+	for (list = swc->sow.so.realized_list; list; list = list->next) {
 		SheetObjectView *view = list->data;
 		GocWidget *item = get_goc_widget (view);
 		gtk_button_set_label (GTK_BUTTON (item->widget), swc->label);
@@ -2205,13 +2211,6 @@ GSF_CLASS (SheetWidgetToggleButton, sheet_widget_toggle_button,
 #define SHEET_WIDGET_RADIO_BUTTON(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_RADIO_BUTTON_TYPE, SheetWidgetRadioButton))
 #define DEP_TO_RADIO_BUTTON(d_ptr)	(SheetWidgetRadioButton *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetRadioButton, dep))
 
-static GnmValue *
-so_parse_value (SheetObject *so, const char *s)
-{
-	Sheet *sheet = so->sheet;
-	return format_match (s, NULL, workbook_date_conv (sheet->workbook));
-}
-
 typedef struct {
 	SheetObjectWidget sow;
 
@@ -2229,9 +2228,16 @@ enum {
 	SOR_PROP_MARKUP
 };
 
+static GnmValue *
+so_parse_value (SheetObject *so, const char *s)
+{
+	Sheet *sheet = so->sheet;
+	return format_match (s, NULL, workbook_date_conv (sheet->workbook));
+}
+
 static void
 sheet_widget_radio_button_get_property (GObject *obj, guint param_id,
-					GValue  *value, GParamSpec *pspec)
+					GValue *value, GParamSpec *pspec)
 {
 	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (obj);
 
@@ -2292,7 +2298,7 @@ sheet_widget_radio_button_set_active (SheetWidgetRadioButton *swrb,
 
 	swrb->being_updated = TRUE;
 
-	for (ptr = swrb->sow.realized_list; ptr != NULL ; ptr = ptr->next) {
+	for (ptr = swrb->sow.so.realized_list; ptr != NULL ; ptr = ptr->next) {
 		SheetObjectView *view = ptr->data;
 		GocWidget *item = get_goc_widget (view);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (item->widget),
@@ -2327,14 +2333,12 @@ radio_button_debug_name (GnmDependent const *dep, GString *target)
 static DEPENDENT_MAKE_TYPE (radio_button, NULL)
 
 static void
-sheet_widget_radio_button_init_full (SheetObjectWidget *sow,
+sheet_widget_radio_button_init_full (SheetWidgetRadioButton *swrb,
 				     GnmCellRef const *ref,
 				     char const *label,
 				     GnmValue const *value,
 				     gboolean active)
 {
-	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (sow);
-
 	g_return_if_fail (swrb != NULL);
 
 	swrb->being_updated = FALSE;
@@ -2352,9 +2356,7 @@ sheet_widget_radio_button_init_full (SheetObjectWidget *sow,
 static void
 sheet_widget_radio_button_init (SheetWidgetRadioButton *swrb)
 {
-	sheet_widget_radio_button_init_full (SHEET_OBJECT (swrb),
-					     NULL, NULL, NULL,
-					     TRUE);
+	sheet_widget_radio_button_init_full (swrb, NULL, NULL, NULL, TRUE);
 }
 
 static void
@@ -2417,7 +2419,7 @@ sheet_widget_radio_button_copy (SheetObject *dst, SheetObject const *src)
 	SheetWidgetRadioButton       *dst_swrb = SHEET_WIDGET_RADIO_BUTTON (dst);
 	GnmCellRef ref;
 
-	sheet_widget_radio_button_init_full (SHEET_OBJECT (dst_swrb),
+	sheet_widget_radio_button_init_full (dst_swrb,
 					     so_get_ref (src, &ref, FALSE),
 					     src_swrb->label,
 					     src_swrb->value,
@@ -2529,7 +2531,7 @@ sheet_widget_radio_button_set_label (SheetObject *so, char const *str)
 	g_free (swrb->label);
 	swrb->label = new_label;
 
-	for (list = swrb->sow.realized_list; list != NULL; list = list->next) {
+	for (list = swrb->sow.so.realized_list; list; list = list->next) {
 		SheetObjectView *view = list->data;
 		GocWidget *item = get_goc_widget (view);
 		gtk_button_set_label (GTK_BUTTON (item->widget), swrb->label);
@@ -2756,6 +2758,7 @@ SOW_MAKE_TYPE (radio_button, RadioButton,
 	       })
 
 /****************************************************************************/
+
 #define SHEET_WIDGET_LIST_BASE_TYPE     (sheet_widget_list_base_get_type ())
 #define SHEET_WIDGET_LIST_BASE(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_LIST_BASE_TYPE, SheetWidgetListBase))
 #define DEP_TO_LIST_BASE_CONTENT(d_ptr)	(SheetWidgetListBase *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetListBase, content_dep))
@@ -3031,6 +3034,7 @@ sheet_widget_list_base_get_content_dep (SheetObject const *so)
 }
 
 /****************************************************************************/
+
 #define SHEET_WIDGET_LIST_TYPE	(sheet_widget_list_get_type ())
 #define SHEET_WIDGET_LIST(o)	(G_TYPE_CHECK_INSTANCE_CAST((o), SHEET_WIDGET_LIST_TYPE, SheetWidgetList))
 
@@ -3117,6 +3121,7 @@ GSF_CLASS (SheetWidgetList, sheet_widget_list,
 	   SHEET_WIDGET_LIST_BASE_TYPE)
 
 /****************************************************************************/
+
 #define SHEET_WIDGET_COMBO_TYPE	(sheet_widget_combo_get_type ())
 #define SHEET_WIDGET_COMBO(o)	(G_TYPE_CHECK_INSTANCE_CAST((o), SHEET_WIDGET_COMBO_TYPE, SheetWidgetCombo))
 

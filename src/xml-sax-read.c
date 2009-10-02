@@ -2203,7 +2203,9 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 	anchor_r = sheet_object_get_anchor (so)->cell_bound;
 
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i + 1] ; i += 2) {
-		if (attr_eq (attrs[i], "ObjectBound"))
+		if (attr_eq (attrs[i], "Name"))
+			sheet_object_set_name (so, CXML2C (attrs[i + 1]));
+		else if (attr_eq (attrs[i], "ObjectBound"))
 			range_parse (&anchor_r, CXML2C (attrs[i + 1]), gnm_sheet_get_size (state->sheet));
 		else if (attr_eq (attrs[i], "ObjectOffset") &&
 			4 == sscanf (CXML2C (attrs[i + 1]), "%g %g %g %g",

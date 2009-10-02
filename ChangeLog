@@ -1,3 +1,16 @@
+2009-10-02  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object.c (sheet_object_get_property,
+	sheet_object_set_property, sheet_object_set_name): New functions.
+	(sheet_object_finalize): Clear name.
+	(sheet_object_class_init): Install new name property.
+
+	* src/sheet-object-impl.h (struct _SheetObject): Add name element.
+
+	* src/xml-sax-write.c (xml_write_objects): Save object name.
+
+	* src/xml-sax-read.c (xml_sax_read_obj): Read object name.
+
 2009-09-29  Morten Welinder  <terra@gnome.org>
 
 	* po/LINGUAS: Back out the addition of "id".

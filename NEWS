@@ -25,6 +25,7 @@ Morten:
 	* Fix printing of lines and arrows.
 	* Fix sheet object/clipboard related critical on exit.  [#596509]
 	* Fix Excel-crashing export problem with objects.  [#596886]
+	* Add name property to sheet objects.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.13

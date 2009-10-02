@@ -1110,6 +1110,8 @@ xml_write_objects (GnmOutputXML *state, GSList *objects)
 
 		tmp = g_strconcat (GNM, type_name, NULL);
 		gsf_xml_out_start_element (state->output, tmp);
+		if (so->name)
+			gsf_xml_out_add_cstr (state->output, "Name", so->name);
 		gsf_xml_out_add_cstr (state->output, "ObjectBound", range_as_string (&so->anchor.cell_bound));
 		snprintf (buffer, sizeof (buffer), "%.3g %.3g %.3g %.3g",
 			  so->anchor.offset [0], so->anchor.offset [1],

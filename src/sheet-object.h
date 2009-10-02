@@ -65,6 +65,8 @@ gboolean      sheet_object_set_sheet	 (SheetObject *so, Sheet *sheet);
 Sheet	     *sheet_object_get_sheet	 (SheetObject const *so);
 void	      sheet_object_clear_sheet	 (SheetObject *so);
 
+void          sheet_object_set_name      (SheetObject *so, const char *name);
+
 SheetObject  *sheet_object_dup		 (SheetObject const *so);
 gboolean      sheet_object_can_print	 (SheetObject const *so);
 
