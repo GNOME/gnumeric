@@ -5069,9 +5069,13 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 		if (handled) {
 			esheet->num_objs++;
 		} else {
+			char *name;
 		unhandled:
-			g_warning ("Not exporting object of type %s",
-				   g_type_name_from_instance ((GTypeInstance*)so));
+			g_object_get (so, "name", &name, NULL);
+			g_warning ("Not exporting object %s of type %s",
+				   (name ? name : "?"),
+				   g_type_name (G_OBJECT_TYPE (so)));
+			g_free (name);
 		}
 	}
 	g_slist_free (objs);

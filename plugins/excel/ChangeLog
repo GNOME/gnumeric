@@ -1,5 +1,8 @@
 2009-10-02  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-write.c (excel_sheet_new): Display name of sheet
+	objects we cannot export.
+
 	* ms-excel-read.c (ms_sheet_realize_obj): Set object name if we
 	have it.
 
