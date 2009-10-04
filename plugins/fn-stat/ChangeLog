@@ -1,3 +1,8 @@
+2009-10-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (gnumeric_linest): return an error in the presence of 
+	  blank cells [#551234]
+
 2009-09-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.13

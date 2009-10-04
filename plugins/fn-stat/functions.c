@@ -3162,7 +3162,7 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float       **xss = NULL, *ys = NULL;
 	GnmValue         *result = NULL;
-	int               nx, ny, dim, i;
+	int               nx, ny, dim, i, ny_exp = 0;
 	int               xarg = 1;
 	gnm_float        *linres = NULL;
 	gboolean          affine, stat, err;
@@ -3183,16 +3183,19 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	if (argv[0]->type == VALUE_ARRAY)
 		ytype = ARRAY;
-	else if (argv[0]->v_range.cell.a.col == argv[0]->v_range.cell.b.col)
+	else if (argv[0]->v_range.cell.a.col == argv[0]->v_range.cell.b.col) {
+		ny_exp = argv[0]->v_range.cell.b.row - argv[0]->v_range.cell.a.row + 1;
 		ytype = SINGLE_COL;
-	else if (argv[0]->v_range.cell.a.row == argv[0]->v_range.cell.b.row)
+	} else if (argv[0]->v_range.cell.a.row == argv[0]->v_range.cell.b.row) {
 		ytype = SINGLE_ROW;
-	else ytype = OTHER;
+		ny_exp = argv[0]->v_range.cell.b.col - argv[0]->v_range.cell.a.col + 1;
+	} else ytype = OTHER;
 
 	if (argv[0]->type == VALUE_CELLRANGE)
 		ys = collect_floats_value (argv[0], ei->pos,
 					   COLLECT_IGNORE_STRINGS |
-					   COLLECT_IGNORE_BOOLS,
+					   COLLECT_IGNORE_BOOLS |
+					   COLLECT_IGNORE_BLANKS,
 					   &ny, &result);
 	else if (argv[0]->type == VALUE_ARRAY){
 		ny = 0;
@@ -3203,6 +3206,11 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	if (result || ny < 1)
 		goto out;
+
+	if (ny != ny_exp) {
+		result = value_new_error_NUM (ei->pos);
+		goto out;
+	}
 
 	/* TODO Better error-checking in next statement */
 
@@ -3233,9 +3241,10 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			copy->v_range.cell.a.col = i;
 			copy->v_range.cell.b.col = i;
 			xss[i - firstcol] = collect_floats_value (copy, ei->pos,
-						       COLLECT_IGNORE_STRINGS |
-						       COLLECT_IGNORE_BOOLS,
-						       &nx, &result);
+								  COLLECT_IGNORE_STRINGS |
+								  COLLECT_IGNORE_BOOLS |
+								  COLLECT_IGNORE_BLANKS,
+								  &nx, &result);
 			if (result){
 				value_release (copy);
 				dim = i - firstcol; /* How many got allocated before failure*/
@@ -3265,9 +3274,10 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			copy->v_range.cell.a.row = i;
 			copy->v_range.cell.b.row = i;
 			xss[i - firstrow] = collect_floats_value (copy, ei->pos,
-						       COLLECT_IGNORE_STRINGS |
-						       COLLECT_IGNORE_BOOLS,
-						       &nx, &result);
+								  COLLECT_IGNORE_STRINGS |
+								  COLLECT_IGNORE_BOOLS |
+								  COLLECT_IGNORE_BLANKS,
+								  &nx, &result);
 			if (result){
 				value_release (copy);
 				dim = i - firstrow; /*How many got allocated before failure*/
@@ -3286,7 +3296,8 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		xss = g_new (gnm_float *, dim);
 		xss[0] = collect_floats_value (argv[1], ei->pos,
 					       COLLECT_IGNORE_STRINGS |
-					       COLLECT_IGNORE_BOOLS,
+					       COLLECT_IGNORE_BOOLS |
+					       COLLECT_IGNORE_BLANKS,
 					       &nx, &result);
 		if (result){
 			dim = 0;

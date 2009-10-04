@@ -6,9 +6,10 @@ Albert Gräf:
 
 Andreas:
 	* Add more ODF elements on ODF read. [#595750]
-	* Fix 2-factor ANOVA with replication
-	* Fix diagonal borders in ODF export/import
-	* For freezing of panes consider edit cell A1 special [#594875]
+	* Fix 2-factor ANOVA with replication.
+	* Fix diagonal borders in ODF export/import.
+	* For freezing of panes consider edit cell A1 special. [#594875]
+	* Don't convert blank cells to 0 in LINEST. [#551234]
 
 Jean:
 	* Make plugins GUI labels translatable. [#159806]
