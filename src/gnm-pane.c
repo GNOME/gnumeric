@@ -1153,6 +1153,7 @@ gnm_pane_new (SheetControlGUI *scg,
 	pane->index      = index;
 	pane->simple.scg = scg;
 
+	goc_canvas_set_document (GOC_CANVAS (pane), wb_control_get_doc (scg_wbc (scg)));
 	if (NULL != (sheet = scg_sheet (scg)) &&
 	    fabs (1. - sheet->last_zoom_factor_used) > 1e-6)
 		goc_canvas_set_pixels_per_unit (GOC_CANVAS (pane),
