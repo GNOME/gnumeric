@@ -34,6 +34,7 @@
 
 #include <sheet-filter-combo.h>
 #include <gnm-format.h>
+#include <gutils.h>
 #include <position.h>
 #include <style-color.h>
 #include <cell.h>
@@ -4214,36 +4215,16 @@ excel_write_ClientTextbox (ExcelWriteState *ewb, SheetObject *so)
 static void
 excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 {
-	static guint8 const obj_v8[] = {
-/* SpContainer */   0xf,   0,   4, 0xf0,    0x6c, 0, 0, 0,
-/* Sp */	   0xa2,  0xc, 0xa, 0xf0,      8, 0, 0, 0,
-			0,   0, 0, 0,	/* fill in spid */
-			0, 0xa, 0, 0,
-
-/* OPT */	   0x73,   0, 0xb, 0xf0,   0x2a, 0, 0, 0,
-                        0x80,    0, 0xa0,    0, 0xc6, 0, /* Txid */
-                        0x85,    0,    1,    0,    0, 0, /* wrap_text_at_margin */
-
-                        0xbf,    0,    8,    0,  0xa, 0, /* fFitTextToShape */
-                        0x81,    1, 0x41,    0,    0, 8, /* fillColor */
-                        0xbf,    1,    0,    0,    1, 0, /* fNoFillHitTest */
-                        0xc0,    1, 0x40,    0,    0, 8, /* lineColor */
-                        0xbf,    3,    0,    0,    8, 0, /* fPrint */
-
-/* ClientAnchor */    0, 0, 0x10, 0xf0,   0x12, 0, 0, 0, 0,0,
-			0,0,  0,0,	0,0,  0,0,	0,0,  0,0,	0,0,  0,0,
-/* ClientData */      0, 0, 0x11, 0xf0,  0, 0, 0, 0
-	};
-
-	guint8 buf [sizeof obj_v8];
-
+	GString *escher = g_string_new (NULL);
 	ExcelWriteState *ewb = esheet->ewb;
 	BiffPut *bp = ewb->bp;
 	guint32 id = excel_write_start_drawing (esheet);
-	guint16 flags;
-	int type;
 	SheetObjectAnchor anchor;
 	SheetObjectAnchor const *real_anchor = sheet_object_get_anchor (so);
+	guint8 zero[4] = { 0, 0, 0, 0 };
+	gsize spmark, optmark;
+	guint16 flags;
+	int type;
 
 	if (IS_CELL_COMMENT (so)) {
 		static float const offset [4] = { .5, .5, .5, .5 };
@@ -4255,7 +4236,7 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 		r.end.col = r.start.col + 2;
 		r.end.row = r.start.row + 4;
 		sheet_object_anchor_init (&anchor, &r, offset,
-			GOD_ANCHOR_DIR_DOWN_RIGHT);
+					  GOD_ANCHOR_DIR_DOWN_RIGHT);
 		type = 0x19;
 		flags = 0x4011; /* not autofilled */
 		g_hash_table_insert (esheet->commentshash,
@@ -4266,23 +4247,48 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 		flags = 0x6011; /* autofilled */
 	}
 
-	memcpy (buf, obj_v8, sizeof obj_v8);
-	GSF_LE_SET_GUINT32 (buf + 16, id);
-	GSF_LE_SET_GUINT32 (buf + 4, sizeof obj_v8);
-	excel_write_anchor (buf + 0x54, &anchor);
-	ms_biff_put_var_write (bp, buf, sizeof obj_v8);
+	spmark = ms_escher_spcontainer_start (escher);
+
+	ms_escher_sp (escher, id, 0x00000a00);  /* fHaveAnchor+fHaveSpt */
+	
+	optmark = ms_escher_opt_start (escher);
+	ms_escher_opt_add_simple (escher, optmark,
+				  0x0080, 0x00c600a0); /* Txid */
+	ms_escher_opt_add_simple (escher, optmark,
+				  0x0085, 1); /* wrap_text_at_margin */
+	ms_escher_opt_add_simple (escher, optmark,
+				  0x00bf, 0x000a0008); /* wrap_text_at_margin */
+	ms_escher_opt_add_simple (escher, optmark,
+				  0x0181, 0x08000041); /* fillColor */
+	ms_escher_opt_add_simple (escher, optmark,
+				  0x01bf, 0x00010000); /* fNoFillHitTest */
+	ms_escher_opt_add_simple (escher, optmark,
+				  0x01c0, 0x08000040); /* lineColor */
+	ms_escher_opt_add_simple (escher, optmark,
+				  0x03bf, 0x00080000); /* fPrint */
+	ms_escher_opt_end (escher, optmark);
+
+	ms_escher_clientanchor (escher, &anchor);
+
+	ms_escher_clientdata (escher, NULL, 0);
+
+	ms_escher_spcontainer_end (escher, spmark);
+
+	ms_biff_put_var_write (bp, escher->str, escher->len);
+	gsf_mem_dump (escher->str, escher->len);
 	ms_biff_put_commit (bp);
+
+	g_string_free (escher, TRUE);
 
 	ms_biff_put_var_next (bp, BIFF_OBJ);
 	ms_objv8_write_common (bp, esheet->cur_obj, type, flags);
 	if (IS_CELL_COMMENT (so))
 		ms_objv8_write_note (bp);
-	GSF_LE_SET_GUINT32 (buf, 0); /* end */
-	ms_biff_put_var_write (bp, buf, 4);
+	ms_biff_put_var_write (bp, zero, 4);
 
 	ms_biff_put_commit (bp);
 
-	excel_write_ClientTextbox(ewb, so);
+	excel_write_ClientTextbox (ewb, so);
 }
 
 static void

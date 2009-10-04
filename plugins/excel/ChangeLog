@@ -1,3 +1,14 @@
+2009-10-04  Morten Welinder  <terra@gnome.org>
+
+	* ms-escher.c (ms_escher_get_inst, ms_escher_set_inst,
+	ms_escher_spcontainer_start, ms_escher_spcontainer_end,
+	ms_escher_sp, ms_escher_opt_start, ms_escher_opt_end,
+	ms_escher_opt_add_simple, ms_escher_clientanchor,
+	ms_escher_clientdata): New functions.
+
+	* ms-excel-write.c (excel_write_textbox_v8): Use new Escher output
+	utilities.
+
 2009-10-02  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_sheet_new): Display name of sheet

@@ -651,7 +651,7 @@ ms_biff_max_record_len (BiffPut const *bp)
 }
 
 void
-ms_biff_put_var_write  (BiffPut *bp, guint8 const *data, guint32 len)
+ms_biff_put_var_write (BiffPut *bp, guint8 const *data, guint32 len)
 {
 	g_return_if_fail (bp != NULL);
 	g_return_if_fail (data != NULL);
@@ -693,7 +693,7 @@ ms_biff_put_var_seekto (BiffPut *bp, int pos)
 static void
 ms_biff_put_var_commit (BiffPut *bp)
 {
-	guint8   tmp [4];
+	guint8 tmp [4];
 	int endpos;
 
 	g_return_if_fail (bp != NULL);
@@ -713,10 +713,11 @@ ms_biff_put_var_commit (BiffPut *bp)
 	bp->streamPos  = endpos;
 	bp->curpos     = 0;
 }
+
 static void
 ms_biff_put_len_commit (BiffPut *bp)
 {
-	guint8  tmp[4];
+	guint8 tmp[4];
 
 	g_return_if_fail (bp != NULL);
 	g_return_if_fail (bp->output != NULL);

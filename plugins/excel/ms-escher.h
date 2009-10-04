@@ -15,6 +15,7 @@
 #include "ms-excel-read.h"
 #include "ms-container.h"
 #include "ms-obj.h"
+#include <sheet-object.h>
 
 struct _MSEscherBlip {
 	char const   *type;
@@ -30,16 +31,23 @@ void ms_escher_blip_free (MSEscherBlip *blip);
 
 /******************************************************/
 
-typedef struct _MSEscherSp MSEscherSp;
-MSEscherSp *ms_escher_sp_new        (void);
-void	    ms_escher_sp_free	    (MSEscherSp *sp);
-guint32	    ms_escher_sp_len        (MSEscherSp const *sp);
-void	    ms_escher_sp_add_OPT    (MSEscherSp *sp, guint16 id, guint32 val,
-				     gpointer complex_val);
-void	    ms_escher_sp_set_anchor (MSEscherSp *sp,
-				     SheetObjectAnchor const *anchor,
-				     guint16 anchor_flags);
-void	    ms_escher_sp_write      (MSEscherSp *sp, BiffPut *bp,
-				     guint16 shape, guint32 spid);
+guint ms_escher_get_inst (GString *buf, gsize marker);
+void ms_escher_set_inst (GString *buf, gsize marker, guint inst);
+
+gsize ms_escher_spcontainer_start (GString *buf);
+void ms_escher_spcontainer_end (GString *buf, gsize marker);
+
+void ms_escher_sp (GString *buf, guint32 spid, guint32 flags);
+
+gsize ms_escher_opt_start (GString *buf);
+void ms_escher_opt_add_simple (GString *buf, gsize marker,
+			       guint16 pid, gint32 val);
+void ms_escher_opt_end (GString *buf, gsize marker);
+
+void ms_escher_clientanchor (GString *buf, SheetObjectAnchor const *anchor);
+
+void ms_escher_clientdata (GString *buf, gpointer data, gsize len);
+
+/******************************************************/
 
 #endif /* GNM_MS_OFFICE_ESCHER_H */
