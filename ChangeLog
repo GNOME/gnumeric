@@ -1,3 +1,7 @@
+2009-10-04  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-so-filled.c (gnm_so_filled_init): Make is-oval readable.
+
 2009-10-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-pane.c (gnm_pane_new): set the document for the canvas.

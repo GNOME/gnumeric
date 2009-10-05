@@ -510,7 +510,7 @@ gnm_so_filled_class_init (GObjectClass *gobject_class)
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
         g_object_class_install_property (gobject_class, SOF_PROP_IS_OVAL,
                  g_param_spec_boolean ("is-oval", NULL, NULL, FALSE,
-			GSF_PARAM_STATIC | G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
         g_object_class_install_property (gobject_class, SOF_PROP_TEXT,
                  g_param_spec_string ("text", NULL, NULL, NULL,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
