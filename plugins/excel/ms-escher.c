@@ -664,7 +664,7 @@ ms_escher_read_Sp (MSEscherState *state, MSEscherHeader *h)
 
 	spid  = GSF_LE_GET_GUINT32 (data+0);
 	flags = GSF_LE_GET_GUINT32 (data+4);
-	d (0, printf ("SPID %d, Type %d,%s%s%s%s%s%s%s%s%s%s%s;\n",
+	d (0, printf ("SPID %d, Type %d,%s%s%s%s%s%s%s%s%s%s%s%s;\n",
 		      spid, h->instance,
 			(flags&0x01) ? " Group": "",
 			(flags&0x02) ? " Child": "",
@@ -676,7 +676,8 @@ ms_escher_read_Sp (MSEscherState *state, MSEscherHeader *h)
 			(flags&0x80) ? " FlipV": "",
 			(flags&0x100) ? " Connector":"",
 			(flags&0x200) ? " HasAnchor": "",
-			(flags&0x400) ? " TypeProp": ""
+			(flags&0x400) ? " HasBackground": "",
+			(flags&0x800) ? " HasSpt": ""
 		       ););
 
 	if (flags & 0x40)
@@ -2214,8 +2215,9 @@ ms_escher_spcontainer_end (GString *buf, gsize marker)
 }
 
 void
-ms_escher_sp (GString *buf, guint32 spid, guint32 flags)
+ms_escher_sp (GString *buf, guint32 spid, guint16 shape, guint32 flags)
 {
+	gsize marker = buf->len;
 	guint8 tmp[16] = {
 		0xa2,  0xc, 0xa, 0xf0, 0xde, 0xad, 0xbe, 0xef,
 		0, 0, 0, 0, 0, 0, 0, 0
@@ -2224,6 +2226,7 @@ ms_escher_sp (GString *buf, guint32 spid, guint32 flags)
 	GSF_LE_SET_GUINT32 (tmp + 8, spid);
 	GSF_LE_SET_GUINT32 (tmp + 12, flags);
 	g_string_append_len (buf, tmp, sizeof tmp);
+	ms_escher_set_inst (buf, marker, shape);
 }
 
 gsize

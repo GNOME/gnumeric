@@ -37,7 +37,7 @@ void ms_escher_set_inst (GString *buf, gsize marker, guint inst);
 gsize ms_escher_spcontainer_start (GString *buf);
 void ms_escher_spcontainer_end (GString *buf, gsize marker);
 
-void ms_escher_sp (GString *buf, guint32 spid, guint32 flags);
+void ms_escher_sp (GString *buf, guint32 spid, guint16 shape, guint32 flags);
 
 gsize ms_escher_opt_start (GString *buf);
 void ms_escher_opt_add_simple (GString *buf, gsize marker,

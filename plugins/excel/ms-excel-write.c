@@ -4174,7 +4174,7 @@ excel_write_ClientTextbox (ExcelWriteState *ewb, SheetObject *so)
 	if (!label) {
 		g_warning ("Not sure why label is NULL here for %s at %p.",
 			   g_type_name (G_OBJECT_TYPE (so)), so);
-		label = g_strdup ("");
+		label = g_strdup ("?");
 	}
 	char_len = excel_strlen (label, NULL);
 	GSF_LE_SET_GUINT16 (buf + 10, char_len);
@@ -4225,6 +4225,8 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	gsize spmark, optmark;
 	guint16 flags;
 	int type;
+	guint16 shape = 0xca;  /* Textbox */
+	gboolean do_textbox;
 
 	if (IS_CELL_COMMENT (so)) {
 		static float const offset [4] = { .5, .5, .5, .5 };
@@ -4239,17 +4241,39 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 					  GOD_ANCHOR_DIR_DOWN_RIGHT);
 		type = 0x19;
 		flags = 0x4011; /* not autofilled */
+		do_textbox = TRUE;
 		g_hash_table_insert (esheet->commentshash,
 				     so, GINT_TO_POINTER (esheet->cur_obj));
-	} else {
+	} else if (IS_GNM_SO_FILLED (so)) {
+		gboolean is_oval;
+		char *label;
+
 		anchor = *real_anchor;
 		type = 6;
 		flags = 0x6011; /* autofilled */
+		
+		g_object_get (so,
+			      "is-oval", &is_oval,
+			      "text", &label,
+			      NULL);
+		do_textbox = (label != NULL);
+		if (is_oval) {
+			shape = 3;
+			type = 3;
+		} else if (!do_textbox) {
+			shape = 1;
+			type = 2;
+		}
+
+		g_free (label);
+	} else {
+		g_assert_not_reached ();
+		return;
 	}
 
 	spmark = ms_escher_spcontainer_start (escher);
 
-	ms_escher_sp (escher, id, 0x00000a00);  /* fHaveAnchor+fHaveSpt */
+	ms_escher_sp (escher, id, shape, 0x00000a00);  /* fHaveAnchor+fHaveSpt */
 	
 	optmark = ms_escher_opt_start (escher);
 	ms_escher_opt_add_simple (escher, optmark,
@@ -4275,7 +4299,6 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	ms_escher_spcontainer_end (escher, spmark);
 
 	ms_biff_put_var_write (bp, escher->str, escher->len);
-	gsf_mem_dump (escher->str, escher->len);
 	ms_biff_put_commit (bp);
 
 	g_string_free (escher, TRUE);
@@ -4288,7 +4311,8 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 
 	ms_biff_put_commit (bp);
 
-	excel_write_ClientTextbox (ewb, so);
+	if (do_textbox)
+		excel_write_ClientTextbox (ewb, so);
 }
 
 static void
@@ -5057,13 +5081,6 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 							     so);
 			handled = TRUE;
 		} else if (IS_GNM_SO_FILLED (so)) {
-			char *label = NULL;
-
-			g_object_get (G_OBJECT (so), "text", &label, NULL);
-			if (!label)
-				goto unhandled;
-
-			g_free (label);
 			esheet->textboxes =
 				g_slist_prepend (esheet->textboxes, so);
 			handled = TRUE;
