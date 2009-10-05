@@ -1,3 +1,8 @@
+2009-10-05  Morten Welinder  <terra@gnome.org>
+
+	* ms-biff.c (ms_biff_put_len_next): Make sure we don't mix _var_
+	and _len_ calls.  Make sure we commit.
+
 2009-10-04  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_write_textbox_v8): Attempt to handle

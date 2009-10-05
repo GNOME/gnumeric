@@ -554,7 +554,7 @@ ms_biff_put_new (GsfOutput *output, MsBiffVersion version, int codepage)
 	bp->streamPos     = gsf_output_tell (output);
 	bp->data_malloced = FALSE;
 	bp->data          = NULL;
-	bp->len_fixed     = 0;
+	bp->len_fixed     = -1;
 	bp->output        = output;
 	bp->version       = version;
 
@@ -600,6 +600,7 @@ ms_biff_put_len_next (BiffPut *bp, guint16 opcode, guint32 len)
 	g_return_val_if_fail (bp, NULL);
 	g_return_val_if_fail (bp->output, NULL);
 	g_return_val_if_fail (bp->data == NULL, NULL);
+	g_return_val_if_fail (bp->len_fixed == -1, NULL);
 
 	if (bp->version >= MS_BIFF_V8)
 		XL_CHECK_CONDITION_VAL (len < MAX_BIFF8_RECORD_SIZE, NULL);
@@ -610,7 +611,7 @@ ms_biff_put_len_next (BiffPut *bp, guint16 opcode, guint32 len)
 	printf ("Biff put len 0x%x\n", opcode);
 #endif
 
-	bp->len_fixed  = 1;
+	bp->len_fixed  = +1;
 	bp->opcode     = opcode;
 	bp->length     = len;
 	bp->streamPos  = gsf_output_tell (bp->output);
@@ -621,12 +622,14 @@ ms_biff_put_len_next (BiffPut *bp, guint16 opcode, guint32 len)
 
 	return bp->data;
 }
+
 void
 ms_biff_put_var_next (BiffPut *bp, guint16 opcode)
 {
 	guint8 data[4];
 	g_return_if_fail (bp != NULL);
 	g_return_if_fail (bp->output != NULL);
+	g_return_if_fail (bp->len_fixed == -1);
 
 #if BIFF_DEBUG > 0
 	printf ("Biff put var 0x%x\n", opcode);
@@ -658,7 +661,7 @@ ms_biff_put_var_write (BiffPut *bp, guint8 const *data, guint32 len)
 	g_return_if_fail (bp->output != NULL);
 
 	g_return_if_fail (!bp->data);
-	g_return_if_fail (!bp->len_fixed);
+	g_return_if_fail (bp->len_fixed == 0);
 
 	/* Temporary */
 	XL_CHECK_CONDITION (bp->length + len < 0xf000);
@@ -683,7 +686,7 @@ ms_biff_put_var_seekto (BiffPut *bp, int pos)
 	g_return_if_fail (bp != NULL);
 	g_return_if_fail (bp->output != NULL);
 
-	g_return_if_fail (!bp->len_fixed);
+	g_return_if_fail (bp->len_fixed == 0);
 	g_return_if_fail (!bp->data);
 
 	bp->curpos = pos;
@@ -699,7 +702,7 @@ ms_biff_put_var_commit (BiffPut *bp)
 	g_return_if_fail (bp != NULL);
 	g_return_if_fail (bp->output != NULL);
 
-	g_return_if_fail (!bp->len_fixed);
+	g_return_if_fail (bp->len_fixed == 0);
 	g_return_if_fail (!bp->data);
 
 	endpos = bp->streamPos + bp->length + 4;
@@ -721,7 +724,7 @@ ms_biff_put_len_commit (BiffPut *bp)
 
 	g_return_if_fail (bp != NULL);
 	g_return_if_fail (bp->output != NULL);
-	g_return_if_fail (bp->len_fixed);
+	g_return_if_fail (bp->len_fixed == 1);
 	g_return_if_fail (bp->length == 0 || bp->data);
 	if (bp->version >= MS_BIFF_V8)
 		XL_CHECK_CONDITION (bp->length < MAX_BIFF8_RECORD_SIZE);
@@ -746,10 +749,17 @@ ms_biff_put_len_commit (BiffPut *bp)
 void
 ms_biff_put_commit (BiffPut *bp)
 {
-	if (bp->len_fixed)
-		ms_biff_put_len_commit (bp);
-	else
+	switch (bp->len_fixed) {
+	case 0:
 		ms_biff_put_var_commit (bp);
+		break;
+	case 1:
+		ms_biff_put_len_commit (bp);
+		break;
+	default:
+		g_warning ("Spurious commit");
+	}
+	bp->len_fixed = -1;
 }
 
 void
