@@ -6593,7 +6593,8 @@ excel_read_BOF (BiffQuery	 *q,
 		ExcelReadSheet *esheet;
 		if (bs == NULL) {
 			if (ver->version > MS_BIFF_V4) /* be anal */
-				g_printerr ("Sheet offset in stream of 0x%x not found in list\n", q->streamPos);
+				g_printerr ("Sheet offset in stream of 0x%lx not found in list\n",
+					    (long)q->streamPos);
 			if (*current_sheet >= importer->excel_sheets->len) {
 				esheet = excel_sheet_new (importer, "Worksheet", GNM_SHEET_DATA);
 				/* Top level worksheets existed up to & including 4.x */

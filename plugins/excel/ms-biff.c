@@ -760,6 +760,15 @@ ms_biff_put_commit (BiffPut *bp)
 		g_warning ("Spurious commit");
 	}
 	bp->len_fixed = -1;
+
+	if (0) {
+		/*
+		 * This is useful to figure out who writes uninitialized
+		 * memory to files.  It causes layers below to flush.
+		 */
+		gsf_output_seek (bp->output, -1, G_SEEK_CUR);
+		gsf_output_seek (bp->output, +1, G_SEEK_CUR);
+	}
 }
 
 void
@@ -775,4 +784,13 @@ ms_biff_put_2byte (BiffPut *bp, guint16 opcode, guint16 content)
 	guint8 *data = ms_biff_put_len_next (bp, opcode, 2);
 	GSF_LE_SET_GUINT16 (data, content);
 	ms_biff_put_commit (bp);
+}
+
+void
+ms_biff_put_abs_write (BiffPut *bp, gsf_off_t pos, gconstpointer buf, gsize size)
+{
+	gsf_off_t old = gsf_output_tell (bp->output);
+	gsf_output_seek (bp->output, pos, G_SEEK_SET);
+	gsf_output_write (bp->output, size, buf);
+	gsf_output_seek (bp->output, old, G_SEEK_SET);
 }

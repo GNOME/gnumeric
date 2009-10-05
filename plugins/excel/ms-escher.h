@@ -42,6 +42,8 @@ void ms_escher_sp (GString *buf, guint32 spid, guint16 shape, guint32 flags);
 gsize ms_escher_opt_start (GString *buf);
 void ms_escher_opt_add_simple (GString *buf, gsize marker,
 			       guint16 pid, gint32 val);
+void ms_escher_opt_add_str_wchar (GString *buf, gsize marker, GString *extra,
+				  guint16 pid, const char *str);
 void ms_escher_opt_end (GString *buf, gsize marker);
 
 void ms_escher_clientanchor (GString *buf, SheetObjectAnchor const *anchor);

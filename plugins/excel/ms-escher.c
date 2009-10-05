@@ -165,7 +165,7 @@ ms_escher_get_data (MSEscherState *state,
 		    q->opcode != BIFF_MS_O_DRAWING_SELECTION &&
 		    q->opcode != BIFF_CHART_gelframe &&
 		    q->opcode != BIFF_CONTINUE) {
-			g_warning ("Unexpected record type 0x%x len=0x%x @ 0x%x;", q->opcode, q->length, q->streamPos);
+		  g_warning ("Unexpected record type 0x%x len=0x%x @ 0x%lx;", q->opcode, q->length, (long)q->streamPos);
 			return NULL;
 		}
 
@@ -214,7 +214,7 @@ ms_escher_get_data (MSEscherState *state,
 			    q->opcode != BIFF_MS_O_DRAWING_SELECTION &&
 			    q->opcode != BIFF_CHART_gelframe &&
 			    q->opcode != BIFF_CONTINUE) {
-				g_warning ("Unexpected record type 0x%x @ 0x%x;", q->opcode, q->streamPos);
+			  g_warning ("Unexpected record type 0x%x @ 0x%lx;", q->opcode, (long)q->streamPos);
 				return NULL;
 			}
 
@@ -2258,6 +2258,26 @@ ms_escher_opt_add_simple (GString *buf, gsize marker, guint16 pid, gint32 val)
 	ms_escher_set_inst (buf, marker,
 			    ms_escher_get_inst (buf, marker) + 1);
 }
+
+void
+ms_escher_opt_add_str_wchar (GString *buf, gsize marker, GString *extra,
+			     guint16 pid, const char *str)
+{
+	gsize ic;
+	gunichar2 *str16 = g_utf8_to_utf16 (str, -1, NULL, &ic, NULL);
+	guint8 tmp[6];
+
+	GSF_LE_SET_GUINT16 (tmp, pid | 0x8000);
+	GSF_LE_SET_GUINT32 (tmp + 2, ic * 2 + 2);
+	g_string_append_len (buf, tmp, sizeof tmp);
+	g_string_append_len (extra, (gpointer)str16, ic * 2 + 2);
+
+	g_free (str16);
+
+	ms_escher_set_inst (buf, marker,
+			    ms_escher_get_inst (buf, marker) + 1);
+}
+
 
 void
 ms_escher_clientanchor (GString *buf, SheetObjectAnchor const *anchor)

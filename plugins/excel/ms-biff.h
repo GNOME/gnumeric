@@ -78,7 +78,7 @@ typedef struct _BiffPut {
 	guint16		 opcode;
 	guint32		 length; /* NB. can be extended by a continue opcode */
 	guint8		*data;
-	int		 streamPos;
+	gsf_off_t	 streamPos;
 	unsigned	 curpos; /* Curpos is offset from beginning of header */
 	gboolean	 data_malloced;
 	int		 len_fixed;
@@ -116,5 +116,7 @@ void     ms_biff_put_empty   (BiffPut *bp, guint16 opcode);
 void     ms_biff_put_2byte   (BiffPut *bp, guint16 opcode, guint16 data);
 
 unsigned ms_biff_max_record_len (BiffPut const *bp);
+
+void ms_biff_put_abs_write (BiffPut *bp, gsf_off_t pos, gconstpointer buf, gsize size);
 
 #endif /* GNM_BIFF_H */

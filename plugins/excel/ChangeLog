@@ -1,5 +1,7 @@
 2009-10-05  Morten Welinder  <terra@gnome.org>
 
+	* ms-biff.h (_BiffPut): Change type of streamPos to gsf_off_t.
+
 	* ms-chart.c (chart_write_axis): Don't dump uninitialized memory
 	into file.
 

@@ -452,7 +452,8 @@ ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 			*markup = ms_container_read_markup (c, q->data, q->length,
 							    text);
 		} else {
-			g_warning ("Unusual, TXO text with no formatting has 0x%x @ 0x%x", op, q->streamPos);
+			g_warning ("Unusual, TXO text with no formatting has 0x%x @ 0x%lx",
+				   op, (long)q->streamPos);
 		}
 	} else {
 		g_warning ("TXO len of %d but no continue", text_len);
