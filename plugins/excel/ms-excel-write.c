@@ -92,7 +92,7 @@
 #define N_CELLS_BETWEEN_UPDATES   100
 
 typedef struct {
-	char const    *type;
+	char         *type;
 	GByteArray    bytes;
 	gint32        uncomp_len;
 	gint32        header_len;
@@ -1828,7 +1828,7 @@ gather_palette (XLExportBase *xle)
 
 	/* For each color in each style, get color index from hash. If
            none, it is not there yet, and we enter it. */
-	g_hash_table_foreach (xle->xf.two_way_table->unique_keys,
+	g_hash_table_foreach (twt->unique_keys,
 			      (GHFunc) put_colors, xle);
 
 	twt = xle->pal.two_way_table;
@@ -2339,6 +2339,17 @@ excel_write_FORMATs (ExcelWriteState *ewb)
 		excel_write_FORMAT (ewb, i);
 }
 
+static void
+after_put_esv (ExcelStyleVariant *esv, gboolean was_added, gint index,
+	       gpointer user)
+{
+	if (was_added) {
+		;
+	} else {
+		g_free (esv);
+	}
+}
+
 /**
  * Initialize XF/GnmStyle table.
  *
@@ -2375,7 +2386,8 @@ xf_init (XLExportBase *xle)
 	esv = g_new (ExcelStyleVariant, 1);
 	esv->style = xle->xf.default_style;
 	esv->variant = 0;
-	two_way_table_put (xle->xf.two_way_table, esv, TRUE, NULL, NULL);
+	two_way_table_put (xle->xf.two_way_table, esv, TRUE,
+			   (AfterPutFunc)after_put_esv, NULL);
 	put_style_font (esv, NULL, xle);
 	put_format (esv, NULL, xle);
 
@@ -2515,7 +2527,8 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 			esv->variant = 1;
 			esv->style = style;
 			xf = two_way_table_put (ewb->base.xf.two_way_table,
-						esv, FALSE, NULL, NULL);
+						esv, FALSE,
+						(AfterPutFunc)after_put_esv, NULL);
 			g_hash_table_insert (ewb->base.xf.cell_style_variant,
 					     (gpointer)cell,
 					     GINT_TO_POINTER (1));
@@ -2529,7 +2542,8 @@ cb_accum_styles (GnmStyle const *st, gconstpointer dummy, XLExportBase *xle)
 	ExcelStyleVariant *esv = g_new (ExcelStyleVariant, 1);
 	esv->style = st;
 	esv->variant = 0;
-	two_way_table_put (xle->xf.two_way_table, esv, TRUE, NULL, NULL);
+	two_way_table_put (xle->xf.two_way_table, esv, TRUE,
+			   (AfterPutFunc)after_put_esv, NULL);
 }
 
 static void
@@ -4090,7 +4104,8 @@ blipinf_new (SheetObjectImage *soi)
 		}
 
 		if (buffer) {
-			blip->type = "png";
+			g_free (blip->type);
+			blip->type = g_strdup ("png");
 			blip->bytes.data = buffer;
 			blip->needs_free = TRUE;
 			blip->header_len = BSE_HDR_LEN + RASTER_BLIP_HDR_LEN;
@@ -4110,7 +4125,7 @@ static void
 blipinf_free (BlipInf *blip)
 {
 	if (blip) {		/* It is not a bug if blip == NULL */
-		blip->type = NULL;
+		g_free (blip->type);
 		if (blip->needs_free) {
 			g_free (blip->bytes.data);
 			blip->needs_free = FALSE;
@@ -4226,6 +4241,8 @@ excel_write_ClientTextbox (ExcelWriteState *ewb, SheetObject *so)
 	GSF_LE_SET_GUINT16 (buf, char_len);
 	ms_biff_put_var_write (bp, buf, 8);
 	ms_biff_put_commit (bp);
+
+	g_free (label);
 
 	return draw_len;
 }
@@ -5956,6 +5973,7 @@ extract_txomarkup (ExcelWriteState *ewb, SheetObject *so)
 	/* It isn't a cell, but that doesn't matter here */
 	g_hash_table_insert (ewb->cell_markup, (gpointer)so, txo);
 
+	pango_attr_list_unref (markup);
 }
 
 static void

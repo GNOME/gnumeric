@@ -4959,17 +4959,21 @@ static guint16
 map_1_5d_type (XLChartWriteState *s, GogPlot const *plot,
 	       guint16 stacked, guint16 percentage, guint16 flag_3d)
 {
-	char const *type;
+	char *type;
 	gboolean in_3d = FALSE;
 	guint16 res;
 
 	g_object_get (G_OBJECT (plot), "type", &type, "in-3d", &in_3d, NULL);
 
 	res = (s->bp->version >= MS_BIFF_V8 && in_3d) ? flag_3d : 0;
+
 	if (0 == strcmp (type, "stacked"))
-		return res | stacked;
-	if (0 == strcmp (type, "as_percentage"))
-		return res | percentage | stacked;
+		res |= stacked;
+	else if (0 == strcmp (type, "as_percentage"))
+		res |= (percentage | stacked);
+
+	g_free (type);
+
 	return res;
 }
 

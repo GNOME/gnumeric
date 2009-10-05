@@ -28,6 +28,7 @@ Morten:
 	* Fix Excel-crashing export problem with objects.  [#596886]
 	* Add name property to sheet objects.
 	* Start cleaning up xls sheet object writing.
+	* Plug xls export leaks.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.13
