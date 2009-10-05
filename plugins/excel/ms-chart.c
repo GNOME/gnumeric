@@ -4841,7 +4841,10 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 			log_scale = !strcmp (scale, "Log");
 			g_free (scale);
 		}
+
 		data = ms_biff_put_len_next (s->bp, BIFF_CHART_valuerange, 42);
+		memset (data, 0, 42);
+
 		if (log_scale)
 			flags |= 0x20;
 		if (inverted)
