@@ -212,19 +212,19 @@ gnm_so_polygon_copy (SheetObject *dst, SheetObject const *src)
 
 static void
 gnm_so_polygon_set_property (GObject *obj, guint param_id,
-			    GValue const *value, GParamSpec *pspec)
+			     GValue const *value, GParamSpec *pspec)
 {
 	GnmSOPolygon *sop = GNM_SO_POLYGON (obj);
 	GArray *points;
-	GOStyle *style;
 
 	switch (param_id) {
-	case SOP_PROP_STYLE:
-		style = sop->style;
-		sop->style = g_object_ref (g_value_get_object (value));
-		sop->style->interesting_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
-		g_object_unref (style);
+	case SOP_PROP_STYLE: {
+		GOStyle *style = go_style_dup (g_value_get_object (value));
+		style->interesting_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
+		g_object_unref (sop->style);
+		sop->style = style;
 		break;
+	}
 	case SOP_PROP_POINTS:
 		points = g_value_get_pointer (value);
 		if (!points)

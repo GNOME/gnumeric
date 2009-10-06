@@ -413,12 +413,13 @@ gnm_so_filled_set_property (GObject *obj, guint param_id,
 	char const * str;
 
 	switch (param_id) {
-	case SOF_PROP_STYLE:
-		style = sof->style;
-		sof->style = g_object_ref (g_value_get_object (value));
-		sof->style->interesting_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
-		g_object_unref (style);
+	case SOF_PROP_STYLE:  {
+		GOStyle *style = go_style_dup (g_value_get_object (value));
+		style->interesting_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
+		g_object_unref (sof->style);
+		sof->style = style;
 		break;
+	}
 	case SOF_PROP_IS_OVAL:
 		sof->is_oval = g_value_get_boolean (value);
 		break;

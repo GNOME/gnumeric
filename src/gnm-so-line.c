@@ -338,11 +338,13 @@ gnm_so_line_set_property (GObject *obj, guint param_id,
 {
 	GnmSOLine *sol = GNM_SO_LINE (obj);
 	switch (param_id) {
-	case SOL_PROP_STYLE:
+	case SOL_PROP_STYLE: {
+		GOStyle *style = go_style_dup (g_value_get_object (value));
+		style->interesting_fields = GO_STYLE_LINE;
 		g_object_unref (sol->style);
-		sol->style = g_object_ref (g_value_get_object (value));
-		sol->style->interesting_fields = GO_STYLE_LINE;
+		sol->style = style;
 		break;
+	}
 	case SOL_PROP_START_ARROW:
 		go_arrow_copy (&sol->start_arrow, g_value_get_pointer (value));
 		break;

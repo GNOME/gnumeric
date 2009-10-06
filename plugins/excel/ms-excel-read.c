@@ -334,13 +334,16 @@ ms_sheet_get_fmt (MSContainer const *container, unsigned indx)
 }
 
 static GOColor
-ms_sheet_map_color (ExcelReadSheet const *esheet, MSObj const *obj, MSObjAttrID id, GOColor default_val)
+ms_sheet_map_color (ExcelReadSheet const *esheet, MSObj const *obj, MSObjAttrID id,
+		    GOColor default_val, gboolean *pauto)
 {
 	gushort r, g, b;
 	MSObjAttr *attr = ms_obj_attr_bag_lookup (obj->attrs, id);
 
-	if (attr == NULL)
+	if (attr == NULL) {
+		if (pauto) *pauto = TRUE;
 		return default_val;
+	}
 
 	if ((~0x7ffffff) & attr->v.v_uint) {
 		GnmColor *c = excel_palette_get (esheet->container.importer,
@@ -355,6 +358,8 @@ ms_sheet_map_color (ExcelReadSheet const *esheet, MSObj const *obj, MSObjAttrID 
 		g = (attr->v.v_uint >> 8)  & 0xff;
 		b = (attr->v.v_uint >> 16) & 0xff;
 	}
+
+	if (pauto) *pauto = FALSE;
 
 	return GO_COLOR_FROM_RGBA (r,g,b,0xff);
 }
@@ -520,12 +525,14 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	case 0x01: /* Line */
 	case 0x04: /* Arc */
 		style = go_style_new ();
-		style->line.color = ms_sheet_map_color (esheet, obj,
-			MS_OBJ_ATTR_OUTLINE_COLOR, GO_COLOR_BLACK);
+		style->line.color = ms_sheet_map_color
+			(esheet, obj, MS_OBJ_ATTR_OUTLINE_COLOR,
+			 GO_COLOR_BLACK, &style->line.auto_color);
 		style->line.width = ms_obj_attr_get_uint (obj->attrs,
 			MS_OBJ_ATTR_OUTLINE_WIDTH, 0) / 256.;
 		style->line.dash_type = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_OUTLINE_HIDE)
-			? GO_LINE_NONE : xl_pattern_to_line_type (ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_OUTLINE_STYLE, 1));
+			? GO_LINE_NONE
+			: xl_pattern_to_line_type (ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_OUTLINE_STYLE, 1));
 		g_object_set (G_OBJECT (so), "style", style, NULL);
 		g_object_unref (style);
 		break;
@@ -541,16 +548,19 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	case 0x06: /* TextBox */
 	case 0x0E: /* Label */
 		style = go_style_new ();
-		style->line.color = ms_sheet_map_color (esheet, obj,
-			MS_OBJ_ATTR_OUTLINE_COLOR, GO_COLOR_BLACK);
+		style->line.color = ms_sheet_map_color
+			(esheet, obj, MS_OBJ_ATTR_OUTLINE_COLOR,
+			 GO_COLOR_BLACK, &style->line.auto_color);
 		style->line.width = ms_obj_attr_get_uint (obj->attrs,
 			MS_OBJ_ATTR_OUTLINE_WIDTH, 0) / 256.;
 		style->line.dash_type = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_OUTLINE_HIDE)
 			? GO_LINE_NONE : xl_pattern_to_line_type (ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_OUTLINE_STYLE, 1));
-		style->fill.pattern.back = ms_sheet_map_color (esheet, obj,
-			MS_OBJ_ATTR_FILL_COLOR, GO_COLOR_WHITE);
-		style->fill.pattern.fore = ms_sheet_map_color (esheet, obj,
-			MS_OBJ_ATTR_FILL_BACKGROUND, GO_COLOR_BLACK);
+		style->fill.pattern.back = ms_sheet_map_color
+			(esheet, obj, MS_OBJ_ATTR_FILL_COLOR,
+			 GO_COLOR_WHITE, &style->fill.auto_back);
+		style->fill.pattern.fore = ms_sheet_map_color
+			(esheet, obj, MS_OBJ_ATTR_FILL_BACKGROUND,
+			 GO_COLOR_BLACK, &style->fill.auto_fore);
 		style->fill.type = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_UNFILLED)
 			? GO_STYLE_FILL_NONE : GO_STYLE_FILL_PATTERN;
 
@@ -660,7 +670,6 @@ static SheetObject *
 ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 {
 	SheetObject *so = NULL;
-	gpointer label;
 
 	if (obj == NULL)
 		return NULL;
@@ -683,8 +692,6 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 		so = g_object_new (GNM_SO_FILLED_TYPE,
 			"is-oval", obj->excel_type == 3,
 			NULL);
-		if (ms_obj_attr_get_ptr (obj->attrs, MS_OBJ_ATTR_TEXT, &label, FALSE))
-			g_object_set (G_OBJECT (so), "text", label, NULL);
 		break;
 
 	case 0x05: /* Chart */
@@ -692,21 +699,29 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 		break;
 
 	/* Button */
-	case 0x07: so = g_object_new (sheet_widget_button_get_type (), NULL);
+	case 0x07:
+		so = g_object_new (sheet_widget_button_get_type (), NULL);
 		break;
-	case 0x08: so = g_object_new (SHEET_OBJECT_IMAGE_TYPE, NULL); /* Picture */
+	case 0x08:
+		so = g_object_new (SHEET_OBJECT_IMAGE_TYPE, NULL); /* Picture */
 		break;
-	case 0x09: so = g_object_new (GNM_SO_POLYGON_TYPE, NULL);
+	case 0x09:
+		so = g_object_new (GNM_SO_POLYGON_TYPE, NULL);
 		break;
-	case 0x0B: so = g_object_new (sheet_widget_checkbox_get_type (), NULL);
+	case 0x0B:
+		so = g_object_new (sheet_widget_checkbox_get_type (), NULL);
 		break;
-	case 0x0C: so = g_object_new (sheet_widget_radio_button_get_type (), NULL);
+	case 0x0C:
+		so = g_object_new (sheet_widget_radio_button_get_type (), NULL);
 		break;
-	case 0x10: so = g_object_new (sheet_widget_spinbutton_get_type (), NULL);
+	case 0x10:
+		so = g_object_new (sheet_widget_spinbutton_get_type (), NULL);
 		break;
-	case 0x11: so = g_object_new (sheet_widget_scrollbar_get_type (), NULL);
+	case 0x11:
+		so = g_object_new (sheet_widget_scrollbar_get_type (), NULL);
 		break;
-	case 0x12: so = g_object_new (sheet_widget_list_get_type (), NULL);
+	case 0x12:
+		so = g_object_new (sheet_widget_list_get_type (), NULL);
 		break;
 
 	/* ignore combos associateed with filters */
@@ -722,11 +737,13 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	}
 	break;
 
-	case 0x19: so = g_object_new (cell_comment_get_type (), NULL);
+	case 0x19:
+		so = g_object_new (cell_comment_get_type (), NULL);
 		break;
 
 	/* Gnumeric specific addition to handle toggle button controls */
-	case 0x70: so = g_object_new (sheet_widget_toggle_button_get_type (), NULL);
+	case 0x70:
+		so = g_object_new (sheet_widget_toggle_button_get_type (), NULL);
 		break;
 
 	default:
