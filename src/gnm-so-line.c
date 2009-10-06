@@ -428,7 +428,7 @@ gnm_so_line_class_init (GObjectClass *gobject_class)
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
         g_object_class_install_property (gobject_class, SOL_PROP_IS_ARROW,
                  g_param_spec_boolean ("is-arrow", NULL, NULL, FALSE,
-			GSF_PARAM_STATIC | G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
 }
 
 static void

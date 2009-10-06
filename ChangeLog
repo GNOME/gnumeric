@@ -1,3 +1,8 @@
+2009-10-05  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-so-line.c (gnm_so_line_class_init): Make is-arrow
+	readable.
+
 2009-10-04  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-so-filled.c (gnm_so_filled_init): Make is-oval readable.
