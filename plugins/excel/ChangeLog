@@ -1,19 +1,19 @@
 2009-10-05  Morten Welinder  <terra@gnome.org>
 
-	* plugins/excel/ms-excel-write.c (excel_write_textbox_v8): Export
+	* ms-excel-write.c (excel_write_textbox_v8): Export
 	object name.
 	(excel_sheet_new): Prepare for handling lines.
 	(blipinf_new): Plug leak.
 	(extract_txomarkup): Plug leak.
 	(xf_init, cb_cell_pre_pass, cb_accum_styles,
 	excel_write_ClientTextbox): Plug leak.
-
-	* ms-chart.c (map_1_5d_type): Plug leak.
+	(excel_write_line_v8): Export lines and arrows.
 
 	* ms-biff.h (_BiffPut): Change type of streamPos to gsf_off_t.
 
 	* ms-chart.c (chart_write_axis): Don't dump uninitialized memory
 	into file.
+	(map_1_5d_type): Plug leak.
 
 	* ms-biff.c (ms_biff_put_len_next): Make sure we don't mix _var_
 	and _len_ calls.  Make sure we commit.

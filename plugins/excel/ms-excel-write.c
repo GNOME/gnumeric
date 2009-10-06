@@ -4368,7 +4368,77 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 static gsize
 excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 {
-	return 0;
+	gboolean is_arrow;
+	GString *escher = g_string_new (NULL);
+	GString *extra;
+	ExcelWriteState *ewb = esheet->ewb;
+	BiffPut *bp = ewb->bp;
+	guint32 id = excel_write_start_drawing (esheet);
+	SheetObjectAnchor const *anchor = sheet_object_get_anchor (so);
+	gsize draw_len = 0;
+	int type = 1;
+	int shape = 0x14;
+	int flags = 0x6011; /* autofilled */
+	gsize spmark, optmark;
+	char *name;
+	guint8 zero[4] = { 0, 0, 0, 0 };
+
+	g_object_get (so, "is-arrow", &is_arrow, NULL);
+
+	spmark = ms_escher_spcontainer_start (escher);
+
+	ms_escher_sp (escher, id, shape, 0x00000a00); /* fHaveAnchor+fHaveSpt */
+
+	optmark = ms_escher_opt_start (escher);
+	extra = g_string_new (NULL);
+	ms_escher_opt_add_simple (escher, optmark,
+				  0x00bf, 0x00080008);
+	ms_escher_opt_add_simple (escher, optmark,
+				  0x0144, 4); /* shapePath */
+	ms_escher_opt_add_simple (escher, optmark,
+				  0x017f, 0x00010000);
+	ms_escher_opt_add_simple (escher, optmark,
+				  0x01bf, 0x00110001);
+	ms_escher_opt_add_simple (escher, optmark,
+				  0x01c0, 0x0800000a); /* lineColor */
+	ms_escher_opt_add_simple (escher, optmark,
+				  0x01cb, 19050); /* lineWidth */
+	if (is_arrow)
+		ms_escher_opt_add_simple (escher, optmark,
+					  0x01d1, 1);  /* lineEndArrowhead */
+	ms_escher_opt_add_simple (escher, optmark,
+				  0x1ff, 0x00180018);
+	g_object_get (so, "name", &name, NULL);
+	if (name) {
+		ms_escher_opt_add_str_wchar (escher, optmark, extra,
+					     0x0380, name);
+		g_free (name);
+	}
+	ms_escher_opt_add_simple (escher, optmark,
+				  0x03bf, 0x00080008); /* fPrint */
+	go_string_append_gstring (escher, extra);
+	ms_escher_opt_end (escher, optmark);
+	g_string_free (extra, TRUE);
+
+	ms_escher_clientanchor (escher, anchor);
+
+	ms_escher_clientdata (escher, NULL, 0);
+
+	ms_escher_spcontainer_end (escher, spmark);
+
+	ms_biff_put_var_write (bp, escher->str, escher->len);
+	ms_biff_put_commit (bp);
+	draw_len += escher->len;
+
+	g_string_free (escher, TRUE);
+
+	ms_biff_put_var_next (bp, BIFF_OBJ);
+	ms_objv8_write_common (bp, esheet->cur_obj, type, flags);
+	ms_biff_put_var_write (bp, zero, 4);
+
+	ms_biff_put_commit (bp);
+
+	return draw_len;
 }
 
 static void
@@ -5149,8 +5219,6 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 				g_slist_prepend (esheet->textboxes, so);
 			handled = TRUE;
 		} else if (IS_GNM_SO_LINE (so)) {
-			if (1)
-				goto unhandled;
 			esheet->lines =
 				g_slist_prepend (esheet->lines, so);
 			handled = TRUE;

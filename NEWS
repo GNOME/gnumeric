@@ -29,6 +29,7 @@ Morten:
 	* Add name property to sheet objects.
 	* Start cleaning up xls sheet object writing.
 	* Plug xls export leaks.
+	* Implement export of lines and arrows to xls.  [Part of #597035]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.13
