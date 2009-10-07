@@ -1,3 +1,7 @@
+2009-10-07  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-widget.h: Define the usual type macros.
+
 2009-10-07  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-so-filled.c (gnm_so_filled_set_property),

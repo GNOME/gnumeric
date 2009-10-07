@@ -7,27 +7,55 @@
 
 G_BEGIN_DECLS
 
+/* ------------------------------------------------------------------------ */
+
 void sheet_object_widget_register (void);
 
-GType sheet_widget_frame_get_type	 (void); /* convert to non-widget item */
+#define IS_GNM_SO_FILLED(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SO_FILLED_TYPE))
+
+GType sheet_widget_frame_get_type	 (void); /* convert to non-widget */
+#define GNM_SOW_FRAME (sheet_widget_frame_get_type ())
+#define GNM_IS_SOW_FRAME(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_FRAME))
+
 GType sheet_widget_button_get_type	 (void);
+#define GNM_SOW_BUTTON (sheet_widget_button_get_type ())
+#define GNM_IS_SOW_BUTTON(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_BUTTON))
+
 GType sheet_widget_checkbox_get_type	 (void);
+#define GNM_SOW_CHECKBOX (sheet_widget_checkbox_get_type ())
+#define GNM_IS_SOW_CHECKBOX(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_CHECKBOX))
+
 GType sheet_widget_toggle_button_get_type(void);
+#define GNM_SOW_TOGGLE_BUTTON (sheet_widget_toggle_button_get_type ())
+#define GNM_IS_SOW_TOGGLE_BUTTON(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_TOGGLE_BUTTON))
+
 GType sheet_widget_radio_button_get_type (void);
+#define GNM_SOW_RADIO_BUTTON (sheet_widget_radio_button_get_type ())
+#define GNM_IS_SOW_RADIO_BUTTON(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_RADIO_BUTTON))
 
 /*Descendents of the list_base sheet widget object*/
 GType sheet_widget_list_get_type	 (void);
+#define GNM_SOW_LIST (sheet_widget_list_get_type ())
+#define GNM_IS_SOW_LIST(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_LIST))
+
 GType sheet_widget_combo_get_type	 (void);
-void  sheet_widget_list_base_set_links	 (SheetObject *so,
-					  GnmExprTop const *result_link,
-					  GnmExprTop const *content);
-GnmDependent const *sheet_widget_list_base_get_result_dep  (SheetObject const *so);
-GnmDependent const *sheet_widget_list_base_get_content_dep (SheetObject const *so);
+#define GNM_SOW_COMBO (sheet_widget_combo_get_type ())
+#define GNM_IS_SOW_COMBO(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_COMBO))
 
 /*Descendents of the adjustment sheet widget object*/
 GType sheet_widget_scrollbar_get_type	 (void);
+#define GNM_SOW_SCROLLBAR (sheet_widget_scrollbar_get_type ())
+#define GNM_IS_SOW_SCROLLBAR(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_SCROLLBAR))
+
 GType sheet_widget_slider_get_type       (void);
+#define GNM_SOW_SLIDER (sheet_widget_slider_get_type ())
+#define GNM_IS_SOW_SLIDER(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_SLIDER))
+
 GType sheet_widget_spinbutton_get_type   (void);
+#define GNM_SOW_SPINBUTTON (sheet_widget_spinbutton_get_type ())
+#define GNM_IS_SOW_SPINBUTTON(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_SPINBUTTON))
+
+/* ------------------------------------------------------------------------ */
 
 void sheet_widget_adjustment_set_details (SheetObject *so,
 					  GnmExprTop const *result_link,
@@ -52,6 +80,12 @@ void sheet_widget_button_set_link	 (SheetObject *so,
 void sheet_widget_button_set_label	 (SheetObject *so, char const *str);
 void sheet_widget_button_set_markup      (SheetObject *so, PangoAttrList *markup);
 void sheet_widget_frame_set_label        (SheetObject *so, char const *str);
+
+void  sheet_widget_list_base_set_links	 (SheetObject *so,
+					  GnmExprTop const *result_link,
+					  GnmExprTop const *content);
+GnmDependent const *sheet_widget_list_base_get_result_dep  (SheetObject const *so);
+GnmDependent const *sheet_widget_list_base_get_content_dep (SheetObject const *so);
 
 G_END_DECLS
 
