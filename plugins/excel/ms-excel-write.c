@@ -4258,6 +4258,8 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	SheetObjectAnchor anchor;
 	SheetObjectAnchor const *real_anchor = sheet_object_get_anchor (so);
 	guint8 zero[4] = { 0, 0, 0, 0 };
+	gsf_off_t sppos;
+	guint32 splen;
 	gsize spmark, optmark;
 	guint16 flags;
 	int type;
@@ -4312,7 +4314,7 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	spmark = ms_escher_spcontainer_start (escher);
 
 	ms_escher_sp (escher, id, shape, 0x00000a00);  /* fHaveAnchor+fHaveSpt */
-	
+
 	optmark = ms_escher_opt_start (escher);
 	extra = g_string_new (NULL);
 	ms_escher_opt_add_simple (escher, optmark,
@@ -4343,11 +4345,17 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 
 	ms_escher_clientdata (escher, NULL, 0);
 
+	/* At this point we're still missing the textbox below.  */
+
 	ms_escher_spcontainer_end (escher, spmark);
+
+	sppos = bp->streamPos + 4;
+	splen = GSF_LE_GET_GUINT32 (escher->str + spmark + 4);
+
+	draw_len += escher->len;
 
 	ms_biff_put_var_write (bp, escher->str, escher->len);
 	ms_biff_put_commit (bp);
-	draw_len += escher->len;
 
 	g_string_free (escher, TRUE);
 
@@ -4359,8 +4367,12 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 
 	ms_biff_put_commit (bp);
 
-	if (1 || do_textbox)
-		draw_len += excel_write_ClientTextbox (ewb, so);
+	if (1 || do_textbox) {
+		gsize this_len = excel_write_ClientTextbox (ewb, so);
+		draw_len += this_len;
+		splen += this_len;
+		ms_biff_put_abs_write (bp, sppos + 4, &splen, 4);
+	}
 
 	return draw_len;
 }

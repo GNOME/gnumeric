@@ -2209,8 +2209,8 @@ ms_escher_spcontainer_start (GString *buf)
 void
 ms_escher_spcontainer_end (GString *buf, gsize marker)
 {
-	/* Length includes header.  */
-	gsize len = buf->len - marker;
+	/* Length does not include header.  */
+	gsize len = buf->len - marker - 8;
 	GSF_LE_SET_GUINT32 (buf->str + marker + 4, len);
 }
 
@@ -2263,7 +2263,7 @@ void
 ms_escher_opt_add_str_wchar (GString *buf, gsize marker, GString *extra,
 			     guint16 pid, const char *str)
 {
-	gsize ic;
+	glong ic;
 	gunichar2 *str16 = g_utf8_to_utf16 (str, -1, NULL, &ic, NULL);
 	guint8 tmp[6];
 

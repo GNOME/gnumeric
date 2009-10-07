@@ -1,3 +1,12 @@
+2009-10-07  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_write_textbox_v8): Make sure the textbox
+	gets to be part of the container.
+
+	* ms-escher.c (ms_escher_opt_end): Docs were wrong.  Do not
+	include own header in length.
+	(ms_escher_opt_add_str_wchar): Fix type error.
+
 2009-10-06  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (ms_sheet_realize_obj): Restore colour reading.
