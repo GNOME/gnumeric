@@ -4339,6 +4339,10 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 				 style == NULL || style->line.auto_color
 				 ? GO_COLOR_BLACK
 				 : style->line.color);
+	if (style && style->line.width > 0) {
+		guint16 w = CLAMP (12700 * style->line.width, 0, 65535);
+		ms_escher_opt_add_simple (escher, optmark, MSEP_LINEWIDTH, w);
+	}
 	if (name)
 		ms_escher_opt_add_str_wchar (escher, optmark, extra,
 					     0x0380, name);
@@ -4430,8 +4434,10 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 				 style->line.auto_color
 				 ? GO_COLOR_BLACK
 				 : style->line.color);
-	ms_escher_opt_add_simple (escher, optmark,
-				  0x01cb, 19050); /* lineWidth */
+	if (style->line.width > 0) {
+		guint16 w = CLAMP (12700 * style->line.width, 0, 65535);
+		ms_escher_opt_add_simple (escher, optmark, MSEP_LINEWIDTH, w);
+	}
 	if (is_arrow)
 		ms_escher_opt_add_simple (escher, optmark,
 					  0x01d1, 1);  /* lineEndArrowhead */
