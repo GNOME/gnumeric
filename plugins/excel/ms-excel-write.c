@@ -4182,7 +4182,7 @@ excel_write_image_v8 (ExcelWriteSheet *esheet, BlipInf *bi)
 static gsize
 excel_write_ClientTextbox (ExcelWriteState *ewb, SheetObject *so)
 {
-	guint8 buf [18];
+	guint8 buf[18];
 	int txo_len = 18;
 	int draw_len = 0;
 	int char_len;
@@ -4206,6 +4206,10 @@ excel_write_ClientTextbox (ExcelWriteState *ewb, SheetObject *so)
 		g_warning ("Not sure why label is NULL here for %s at %p.",
 			   g_type_name (G_OBJECT_TYPE (so)), so);
 		label = g_strdup ("?");
+	} else if (label[0] == 0) {
+		g_free (label);
+		/* XL gets very unhappy with empty strings.  */
+		label = g_strdup (" ");
 	}
 	char_len = excel_strlen (label, NULL);
 	GSF_LE_SET_GUINT16 (buf + 10, char_len);
@@ -4295,14 +4299,14 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 		anchor = *real_anchor;
 		type = 6;
 		flags = 0x6011; /* autofilled */
-		
+
 		g_object_get (so,
 			      "is-oval", &is_oval,
 			      "text", &label,
 			      "name", &name,
 			      "style", &style,
 			      NULL);
-		do_textbox = (label != NULL);
+		do_textbox = (label != NULL && label[0] != 0);
 		if (is_oval) {
 			shape = 3;
 			type = 3;
@@ -4378,7 +4382,7 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 
 	ms_biff_put_commit (bp);
 
-	if (1 || do_textbox) {
+	if (do_textbox) {
 		gsize this_len = excel_write_ClientTextbox (ewb, so);
 		draw_len += this_len;
 		splen += this_len;
