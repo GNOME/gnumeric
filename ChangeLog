@@ -1,3 +1,11 @@
+2009-10-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gnm-so-filled.c (gnm_so_filled_set_property),
+	(gnm_so_filled_get_property), (gnm_so_filled_class_init): allow
+	image filling.
+	* src/gnm-so-polygon.c (gnm_so_polygon_get_property),
+	(gnm_so_polygon_class_init): ditto.
+
 2009-10-06  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-so-filled.c (gnm_so_line_set_property,

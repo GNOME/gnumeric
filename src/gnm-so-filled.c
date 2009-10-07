@@ -25,6 +25,7 @@
 #include "application.h"
 #include "gnm-so-filled.h"
 #include "sheet-object-impl.h"
+#include "sheet.h"
 #include "xml-sax.h"
 
 #include <goffice/goffice.h>
@@ -134,7 +135,8 @@ enum {
 	SOF_PROP_STYLE,
 	SOF_PROP_IS_OVAL,
 	SOF_PROP_TEXT,
-	SOF_PROP_MARKUP
+	SOF_PROP_MARKUP,
+	SOF_PROP_DOCUMENT
 };
 
 static GOStyle *
@@ -409,7 +411,6 @@ gnm_so_filled_set_property (GObject *obj, guint param_id,
 			    GValue const *value, GParamSpec *pspec)
 {
 	GnmSOFilled *sof = GNM_SO_FILLED (obj);
-	GOStyle *style;
 	char const * str;
 
 	switch (param_id) {
@@ -460,6 +461,9 @@ gnm_so_filled_get_property (GObject *obj, guint param_id,
 	case SOF_PROP_MARKUP :
 		g_value_set_boxed (value, sof->markup);
 		break;
+	case SOF_PROP_DOCUMENT:
+		g_value_set_object (value, sheet_object_get_sheet (SHEET_OBJECT (obj))->workbook);
+		break;
 	default :
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		break;
@@ -506,8 +510,8 @@ gnm_so_filled_class_init (GObjectClass *gobject_class)
 
 	so_class->draw_cairo	= gnm_so_filled_draw_cairo;
 
-        g_object_class_install_property (gobject_class, SOF_PROP_STYLE,
-                 g_param_spec_object ("style", NULL, NULL, GO_TYPE_STYLE,
+	g_object_class_install_property (gobject_class, SOF_PROP_STYLE,
+		g_param_spec_object ("style", NULL, NULL, GO_TYPE_STYLE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
         g_object_class_install_property (gobject_class, SOF_PROP_IS_OVAL,
                  g_param_spec_boolean ("is-oval", NULL, NULL, FALSE,
@@ -518,6 +522,9 @@ gnm_so_filled_class_init (GObjectClass *gobject_class)
         g_object_class_install_property (gobject_class, SOF_PROP_MARKUP,
                  g_param_spec_boxed ("markup", NULL, NULL, PANGO_TYPE_ATTR_LIST,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class, SOF_PROP_DOCUMENT,
+		g_param_spec_object ("document", NULL, NULL, GO_TYPE_DOC,
+			GSF_PARAM_STATIC | G_PARAM_READABLE));
 }
 
 static void

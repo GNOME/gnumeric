@@ -24,6 +24,7 @@
 #include "gnumeric.h"
 #include "gnm-so-polygon.h"
 #include "sheet-object-impl.h"
+#include "sheet.h"
 #include "parse-util.h"
 
 #include <goffice/goffice.h>
@@ -111,7 +112,8 @@ static SheetObjectClass *gnm_so_polygon_parent_class;
 enum {
 	SOP_PROP_0,
 	SOP_PROP_STYLE,
-	SOP_PROP_POINTS
+	SOP_PROP_POINTS,
+	SOP_PROP_DOCUMENT
 };
 
 static GOStyle *
@@ -254,6 +256,9 @@ gnm_so_polygon_get_property (GObject *obj, guint param_id,
 	case SOP_PROP_POINTS:
 		g_value_set_pointer (value, sop->points);
 		break;
+	case SOP_PROP_DOCUMENT:
+		g_value_set_object (value, sheet_object_get_sheet (SHEET_OBJECT (obj))->workbook);
+		break;
 	default :
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		break;
@@ -301,6 +306,9 @@ gnm_so_polygon_class_init (GObjectClass *gobject_class)
         g_object_class_install_property (gobject_class, SOP_PROP_POINTS,
                  g_param_spec_pointer ("points", NULL, NULL,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class, SOP_PROP_DOCUMENT,
+		g_param_spec_object ("document", NULL, NULL, GO_TYPE_DOC,
+			GSF_PARAM_STATIC | G_PARAM_READABLE));
 }
 
 static void
