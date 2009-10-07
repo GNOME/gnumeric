@@ -17,6 +17,13 @@
 #include "ms-obj.h"
 #include <sheet-object.h>
 
+enum {
+	MSEP_FILLCOLOR = 0x0181,
+	MSEP_LINECOLOR = 0x01c0
+};
+
+
+
 struct _MSEscherBlip {
 	char const   *type;
 	guint8       *data;
@@ -42,6 +49,8 @@ void ms_escher_sp (GString *buf, guint32 spid, guint16 shape, guint32 flags);
 gsize ms_escher_opt_start (GString *buf);
 void ms_escher_opt_add_simple (GString *buf, gsize marker,
 			       guint16 pid, gint32 val);
+void ms_escher_opt_add_color (GString *buf, gsize marker,
+			      guint16 pid, GOColor c);
 void ms_escher_opt_add_str_wchar (GString *buf, gsize marker, GString *extra,
 				  guint16 pid, const char *str);
 void ms_escher_opt_end (GString *buf, gsize marker);

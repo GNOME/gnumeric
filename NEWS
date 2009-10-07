@@ -31,6 +31,7 @@ Morten:
 	* Plug xls export leaks.
 	* Implement export of lines and arrows to xls.  [Part of #597035]
 	* Fix xls reading of sheet object colours.
+	* Export line and textbox colouring.  [Part of #597035]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.13

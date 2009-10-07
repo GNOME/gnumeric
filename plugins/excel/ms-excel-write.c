@@ -4267,6 +4267,7 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	gboolean do_textbox;
 	gsize draw_len = 0;
 	char *name;
+	GOStyle *style;
 
 	if (IS_CELL_COMMENT (so)) {
 		static float const offset [4] = { .5, .5, .5, .5 };
@@ -4284,6 +4285,9 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 		do_textbox = TRUE;
 		g_hash_table_insert (esheet->commentshash,
 				     so, GINT_TO_POINTER (esheet->cur_obj));
+
+		g_object_get (so, "name", &name, NULL);
+		style = NULL;
 	} else if (IS_GNM_SO_FILLED (so)) {
 		gboolean is_oval;
 		char *label;
@@ -4295,6 +4299,8 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 		g_object_get (so,
 			      "is-oval", &is_oval,
 			      "text", &label,
+			      "name", &name,
+			      "style", &style,
 			      NULL);
 		do_textbox = (label != NULL);
 		if (is_oval) {
@@ -4323,18 +4329,19 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 				  0x0085, 1); /* wrap_text_at_margin */
 	ms_escher_opt_add_simple (escher, optmark,
 				  0x00bf, 0x000a0008); /* wrap_text_at_margin */
-	ms_escher_opt_add_simple (escher, optmark,
-				  0x0181, 0x08000041); /* fillColor */
+	ms_escher_opt_add_color (escher, optmark, MSEP_FILLCOLOR,
+				 style == NULL || style->fill.auto_back
+				 ? GO_COLOR_WHITE
+				 : style->fill.pattern.back);
 	ms_escher_opt_add_simple (escher, optmark,
 				  0x01bf, 0x00010000); /* fNoFillHitTest */
-	ms_escher_opt_add_simple (escher, optmark,
-				  0x01c0, 0x08000040); /* lineColor */
-	g_object_get (so, "name", &name, NULL);
-	if (name) {
+	ms_escher_opt_add_color (escher, optmark, MSEP_LINECOLOR,
+				 style == NULL || style->line.auto_color
+				 ? GO_COLOR_BLACK
+				 : style->line.color);
+	if (name)
 		ms_escher_opt_add_str_wchar (escher, optmark, extra,
 					     0x0380, name);
-		g_free (name);
-	}
 	ms_escher_opt_add_simple (escher, optmark,
 				  0x03bf, 0x00080000); /* fPrint */
 	go_string_append_gstring (escher, extra);
@@ -4374,6 +4381,9 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 		ms_biff_put_abs_write (bp, sppos + 4, &splen, 4);
 	}
 
+	g_free (name);
+	if (style) g_object_unref (style);
+
 	return draw_len;
 }
 
@@ -4394,8 +4404,13 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	gsize spmark, optmark;
 	char *name;
 	guint8 zero[4] = { 0, 0, 0, 0 };
+	GOStyle *style;
 
-	g_object_get (so, "is-arrow", &is_arrow, NULL);
+	g_object_get (so,
+		      "is-arrow", &is_arrow,
+		      "name", &name,
+		      "style", &style,
+		      NULL);
 
 	spmark = ms_escher_spcontainer_start (escher);
 
@@ -4411,8 +4426,10 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 				  0x017f, 0x00010000);
 	ms_escher_opt_add_simple (escher, optmark,
 				  0x01bf, 0x00110001);
-	ms_escher_opt_add_simple (escher, optmark,
-				  0x01c0, 0x0800000a); /* lineColor */
+	ms_escher_opt_add_color (escher, optmark, MSEP_LINECOLOR,
+				 style->line.auto_color
+				 ? GO_COLOR_BLACK
+				 : style->line.color);
 	ms_escher_opt_add_simple (escher, optmark,
 				  0x01cb, 19050); /* lineWidth */
 	if (is_arrow)
@@ -4420,12 +4437,9 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 					  0x01d1, 1);  /* lineEndArrowhead */
 	ms_escher_opt_add_simple (escher, optmark,
 				  0x1ff, 0x00180018);
-	g_object_get (so, "name", &name, NULL);
-	if (name) {
+	if (name)
 		ms_escher_opt_add_str_wchar (escher, optmark, extra,
 					     0x0380, name);
-		g_free (name);
-	}
 	ms_escher_opt_add_simple (escher, optmark,
 				  0x03bf, 0x00080008); /* fPrint */
 	go_string_append_gstring (escher, extra);
@@ -4449,6 +4463,9 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	ms_biff_put_var_write (bp, zero, 4);
 
 	ms_biff_put_commit (bp);
+
+	g_free (name);
+	g_object_unref (style);
 
 	return draw_len;
 }
