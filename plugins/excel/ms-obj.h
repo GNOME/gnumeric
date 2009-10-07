@@ -13,6 +13,7 @@
  **/
 
 #include "ms-excel-read.h"
+#include "ms-excel-write.h"
 
 #define MS_ANCHOR_SIZE	18
 
@@ -150,5 +151,10 @@ void ms_objv8_write_common	(BiffPut *bp, int id, int type, guint16 flags);
 void ms_objv8_write_scrollbar	(BiffPut *bp);
 void ms_objv8_write_listbox	(BiffPut *bp, gboolean filtered);
 void ms_objv8_write_note	(BiffPut *bp);
+
+void ms_objv8_write_checkbox_data (BiffPut *bp, gboolean active);
+void ms_objv8_write_checkbox_fmla (BiffPut *bp,
+				   ExcelWriteSheet *esheet,
+				   GnmExprTop const *texpr);
 
 #endif /* GNM_MS_OBJ_H */

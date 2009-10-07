@@ -1,7 +1,10 @@
 2009-10-07  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_write_textbox_v8): Export
-	checkbox/radiobutton link.
+	checkbox/radiobutton link and current value.
+
+	* ms-obj.c (ms_objv8_write_checkbox_fmla,
+	ms_objv8_write_checkbox_data): New functions.
 
 	* ms-escher.c (ms_escher_opt_add_color): New function.
 

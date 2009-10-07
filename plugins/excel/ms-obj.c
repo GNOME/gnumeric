@@ -35,6 +35,7 @@
 #include "ms-chart.h"
 #include "ms-escher.h"
 #include "ms-excel-util.h"
+#include "ms-formula-write.h"
 
 #include <expr.h>
 #include <parse-util.h>
@@ -1382,4 +1383,46 @@ ms_objv8_write_note (BiffPut *bp)
 	guint8 buf[sizeof data];
 	memcpy (buf, data, sizeof data);
 	ms_biff_put_var_write (bp, buf, sizeof data);
+}
+
+void
+ms_objv8_write_checkbox_data (BiffPut *bp, gboolean active)
+{
+	char cboxdata[12];
+
+	GSF_LE_SET_GUINT16 (cboxdata, GR_CHECKBOX_DATA);
+	GSF_LE_SET_GUINT16 (cboxdata + 2, sizeof (cboxdata) - 4);
+	GSF_LE_SET_GUINT16 (cboxdata + 4, active);
+	GSF_LE_SET_GUINT16 (cboxdata + 6, 0);
+	GSF_LE_SET_GUINT16 (cboxdata + 8, 0);
+	GSF_LE_SET_GUINT16 (cboxdata + 10, 2);  /* ??? */
+	ms_biff_put_var_write (bp, cboxdata, sizeof cboxdata);
+}
+
+void
+ms_objv8_write_checkbox_fmla (BiffPut *bp,
+			      ExcelWriteSheet *esheet,
+			      GnmExprTop const *texpr)
+{
+	char hfmla[10];
+	unsigned pos, end_pos;
+	guint16 fmla_len;
+
+	pos = bp->curpos;
+	GSF_LE_SET_GUINT16 (hfmla, 20);
+	GSF_LE_SET_GUINT16 (hfmla + 2, 0);  /* record len */
+	GSF_LE_SET_GUINT16 (hfmla + 4, 0);  /* formula len */
+	GSF_LE_SET_GUINT32 (hfmla + 6, 0);  /* calcid? */
+	ms_biff_put_var_write (bp, hfmla, sizeof hfmla);
+	fmla_len = excel_write_formula (esheet->ewb,
+					texpr,
+					esheet->gnum_sheet, 0, 0,
+					/* eh?  */
+					EXCEL_CALLED_FROM_VALIDATION);
+	end_pos = bp->curpos;
+	ms_biff_put_var_seekto (bp, pos);
+	GSF_LE_SET_GUINT16 (hfmla + 2, fmla_len + 6);
+	GSF_LE_SET_GUINT16 (hfmla + 4, fmla_len);
+	ms_biff_put_var_write (bp, hfmla, sizeof hfmla);
+	ms_biff_put_var_seekto (bp, end_pos);
 }

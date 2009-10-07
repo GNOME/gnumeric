@@ -4270,6 +4270,8 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	char *name, *label;
 	GOStyle *style = NULL;
 	GnmExprTop const *checkbox_texpr = NULL;
+	gboolean checkbox_active = FALSE;
+	gboolean is_button = FALSE;
 
 	g_object_get (so,
 		      "name", &name,
@@ -4316,11 +4318,15 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 		type = 11;
 		flags = 0x0011;
 		checkbox_texpr = sheet_widget_checkbox_get_link (so);
+		g_object_get (so, "active", &checkbox_active, NULL);
+		is_button = TRUE;
 	} else if (GNM_IS_SOW_RADIO_BUTTON (so)) {
 		shape = 0xc9;
 		type = 12;
 		flags = 0x0011;
 		checkbox_texpr = sheet_widget_radio_button_get_link (so);
+		g_object_get (so, "active", &checkbox_active, NULL);
+		is_button = TRUE;
 	} else {
 		g_assert_not_reached ();
 		return 0;
@@ -4356,7 +4362,8 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 		ms_escher_opt_add_str_wchar (escher, optmark, extra,
 					     MSEP_NAME, name);
 	ms_escher_opt_add_simple (escher, optmark,
-				  0x03bf, 0x00080000); /* fPrint */
+				  0x03bf,
+				  is_button ? 0x00080008 : 0x00080000);
 	go_string_append_gstring (escher, extra);
 	ms_escher_opt_end (escher, optmark);
 	g_string_free (extra, TRUE);
@@ -4385,30 +4392,8 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 		ms_objv8_write_note (bp);
 
 	if (checkbox_texpr) {
-		char data[10];
-		unsigned pos, end_pos;
-		guint16 fmla_len;
-
-		pos = bp->curpos;
-		GSF_LE_SET_GUINT16 (data, 20);
-		GSF_LE_SET_GUINT16 (data + 2, 0);  /* record len */
-		GSF_LE_SET_GUINT16 (data + 4, 0);  /* formula len */
-		GSF_LE_SET_GUINT32 (data + 6, 0);  /* calcid? */
-		ms_biff_put_var_write (bp, data, sizeof data);
-
-		fmla_len = excel_write_formula (esheet->ewb,
-						checkbox_texpr,
-						esheet->gnum_sheet, 0, 0,
-						/* eh?  */
-						EXCEL_CALLED_FROM_VALIDATION);
-		end_pos = bp->curpos;
-
-		ms_biff_put_var_seekto (bp, pos);
-		GSF_LE_SET_GUINT16 (data + 2, fmla_len + 6);
-		GSF_LE_SET_GUINT16 (data + 4, fmla_len);
-		ms_biff_put_var_write (bp, data, sizeof data);
-
-		ms_biff_put_var_seekto (bp, end_pos);
+		ms_objv8_write_checkbox_fmla (bp, esheet, checkbox_texpr);
+		ms_objv8_write_checkbox_data (bp, checkbox_active);
 	}
 
 	ms_biff_put_var_write (bp, zero, 4);
