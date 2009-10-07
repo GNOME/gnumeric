@@ -4268,7 +4268,8 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	gboolean do_textbox;
 	gsize draw_len = 0;
 	char *name, *label;
-	GOStyle *style;
+	GOStyle *style = NULL;
+	GnmExprTop const *checkbox_texpr = NULL;
 
 	g_object_get (so,
 		      "name", &name,
@@ -4293,7 +4294,6 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 		g_hash_table_insert (esheet->commentshash,
 				     so, GINT_TO_POINTER (esheet->cur_obj));
 
-		style = NULL;
 	} else if (IS_GNM_SO_FILLED (so)) {
 		gboolean is_oval;
 
@@ -4315,12 +4315,12 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 		shape = 0xc9;
 		type = 11;
 		flags = 0x0011;
-		style = NULL;
+		checkbox_texpr = sheet_widget_checkbox_get_link (so);
 	} else if (GNM_IS_SOW_RADIO_BUTTON (so)) {
 		shape = 0xc9;
 		type = 12;
 		flags = 0x0011;
-		style = NULL;
+		checkbox_texpr = sheet_widget_radio_button_get_link (so);
 	} else {
 		g_assert_not_reached ();
 		return 0;
@@ -4328,7 +4328,7 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 
 	spmark = ms_escher_spcontainer_start (escher);
 
-	ms_escher_sp (escher, id, shape, 0x00000a00);  /* fHaveAnchor+fHaveSpt */
+	ms_escher_sp (escher, id, shape, 0x0a00); /* fHaveAnchor+fHaveSpt */
 
 	optmark = ms_escher_opt_start (escher);
 	extra = g_string_new (NULL);
@@ -4349,7 +4349,7 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 				 ? GO_COLOR_BLACK
 				 : style->line.color);
 	if (style && style->line.width > 0) {
-		guint16 w = CLAMP (12700 * style->line.width, 0, 65535);
+		gint32 w = CLAMP (12700 * style->line.width, 0, G_MAXINT32);
 		ms_escher_opt_add_simple (escher, optmark, MSEP_LINEWIDTH, w);
 	}
 	if (name)
@@ -4383,6 +4383,34 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	ms_objv8_write_common (bp, esheet->cur_obj, type, flags);
 	if (IS_CELL_COMMENT (so))
 		ms_objv8_write_note (bp);
+
+	if (checkbox_texpr) {
+		char data[10];
+		unsigned pos, end_pos;
+		guint16 fmla_len;
+
+		pos = bp->curpos;
+		GSF_LE_SET_GUINT16 (data, 20);
+		GSF_LE_SET_GUINT16 (data + 2, 0);  /* record len */
+		GSF_LE_SET_GUINT16 (data + 4, 0);  /* formula len */
+		GSF_LE_SET_GUINT32 (data + 6, 0);  /* calcid? */
+		ms_biff_put_var_write (bp, data, sizeof data);
+
+		fmla_len = excel_write_formula (esheet->ewb,
+						checkbox_texpr,
+						esheet->gnum_sheet, 0, 0,
+						/* eh?  */
+						EXCEL_CALLED_FROM_VALIDATION);
+		end_pos = bp->curpos;
+
+		ms_biff_put_var_seekto (bp, pos);
+		GSF_LE_SET_GUINT16 (data + 2, fmla_len + 6);
+		GSF_LE_SET_GUINT16 (data + 4, fmla_len);
+		ms_biff_put_var_write (bp, data, sizeof data);
+
+		ms_biff_put_var_seekto (bp, end_pos);
+	}
+
 	ms_biff_put_var_write (bp, zero, 4);
 
 	ms_biff_put_commit (bp);
@@ -4397,6 +4425,7 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	g_free (name);
 	g_free (label);
 	if (style) g_object_unref (style);
+	if (checkbox_texpr) gnm_expr_top_unref (checkbox_texpr);
 
 	return draw_len;
 }

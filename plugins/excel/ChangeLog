@@ -1,5 +1,8 @@
 2009-10-07  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-write.c (excel_write_textbox_v8): Export
+	checkbox/radiobutton link.
+
 	* ms-escher.c (ms_escher_opt_add_color): New function.
 
 	* ms-excel-write.c (excel_write_textbox_v8): Make sure the textbox
