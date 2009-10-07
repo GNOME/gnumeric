@@ -45,6 +45,7 @@
 #include <sheet-object-cell-comment.h>
 #include <sheet-object-graph.h>
 #include <sheet-object-image.h>
+#include <sheet-object-widget.h>
 #include <gnm-so-filled.h>
 #include <gnm-so-line.h>
 #include <application.h>
@@ -4180,13 +4181,13 @@ excel_write_image_v8 (ExcelWriteSheet *esheet, BlipInf *bi)
 }
 
 static gsize
-excel_write_ClientTextbox (ExcelWriteState *ewb, SheetObject *so)
+excel_write_ClientTextbox (ExcelWriteState *ewb, SheetObject *so,
+			   const char *label)
 {
 	guint8 buf[18];
 	int txo_len = 18;
 	int draw_len = 0;
 	int char_len;
-	char *label;
 	int markuplen;
 	BiffPut *bp = ewb->bp;
 	GArray *markup = g_hash_table_lookup (ewb->cell_markup, so);
@@ -4201,15 +4202,13 @@ excel_write_ClientTextbox (ExcelWriteState *ewb, SheetObject *so)
 	ms_biff_put_var_next (bp, BIFF_TXO);
 	memset (buf, 0, txo_len);
 	GSF_LE_SET_GUINT16 (buf, 0x212); /* end */
-	g_object_get (G_OBJECT (so), "text", &label, NULL);
 	if (!label) {
 		g_warning ("Not sure why label is NULL here for %s at %p.",
 			   g_type_name (G_OBJECT_TYPE (so)), so);
-		label = g_strdup ("?");
+		label = "?";
 	} else if (label[0] == 0) {
-		g_free (label);
 		/* XL gets very unhappy with empty strings.  */
-		label = g_strdup (" ");
+		label = " ";
 	}
 	char_len = excel_strlen (label, NULL);
 	GSF_LE_SET_GUINT16 (buf + 10, char_len);
@@ -4246,8 +4245,6 @@ excel_write_ClientTextbox (ExcelWriteState *ewb, SheetObject *so)
 	ms_biff_put_var_write (bp, buf, 8);
 	ms_biff_put_commit (bp);
 
-	g_free (label);
-
 	return draw_len;
 }
 
@@ -4259,8 +4256,8 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	ExcelWriteState *ewb = esheet->ewb;
 	BiffPut *bp = ewb->bp;
 	guint32 id = excel_write_start_drawing (esheet);
-	SheetObjectAnchor anchor;
 	SheetObjectAnchor const *real_anchor = sheet_object_get_anchor (so);
+	SheetObjectAnchor anchor = *real_anchor;
 	guint8 zero[4] = { 0, 0, 0, 0 };
 	gsf_off_t sppos;
 	guint32 splen;
@@ -4270,8 +4267,14 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	guint16 shape = 0xca;  /* Textbox */
 	gboolean do_textbox;
 	gsize draw_len = 0;
-	char *name;
+	char *name, *label;
 	GOStyle *style;
+
+	g_object_get (so,
+		      "name", &name,
+		      "text", &label,
+		      NULL);
+	do_textbox = (label != NULL && label[0] != 0);
 
 	if (IS_CELL_COMMENT (so)) {
 		static float const offset [4] = { .5, .5, .5, .5 };
@@ -4290,23 +4293,17 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 		g_hash_table_insert (esheet->commentshash,
 				     so, GINT_TO_POINTER (esheet->cur_obj));
 
-		g_object_get (so, "name", &name, NULL);
 		style = NULL;
 	} else if (IS_GNM_SO_FILLED (so)) {
 		gboolean is_oval;
-		char *label;
 
-		anchor = *real_anchor;
 		type = 6;
 		flags = 0x6011; /* autofilled */
 
 		g_object_get (so,
 			      "is-oval", &is_oval,
-			      "text", &label,
-			      "name", &name,
 			      "style", &style,
 			      NULL);
-		do_textbox = (label != NULL && label[0] != 0);
 		if (is_oval) {
 			shape = 3;
 			type = 3;
@@ -4314,8 +4311,16 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 			shape = 1;
 			type = 2;
 		}
-
-		g_free (label);
+	} else if (GNM_IS_SOW_CHECKBOX (so)) {
+		shape = 0xc9;
+		type = 11;
+		flags = 0x0011;
+		style = NULL;
+	} else if (GNM_IS_SOW_RADIO_BUTTON (so)) {
+		shape = 0xc9;
+		type = 12;
+		flags = 0x0011;
+		style = NULL;
 	} else {
 		g_assert_not_reached ();
 		return 0;
@@ -4349,7 +4354,7 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	}
 	if (name)
 		ms_escher_opt_add_str_wchar (escher, optmark, extra,
-					     0x0380, name);
+					     MSEP_NAME, name);
 	ms_escher_opt_add_simple (escher, optmark,
 				  0x03bf, 0x00080000); /* fPrint */
 	go_string_append_gstring (escher, extra);
@@ -4383,13 +4388,14 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	ms_biff_put_commit (bp);
 
 	if (do_textbox) {
-		gsize this_len = excel_write_ClientTextbox (ewb, so);
+		gsize this_len = excel_write_ClientTextbox (ewb, so, label);
 		draw_len += this_len;
 		splen += this_len;
 		ms_biff_put_abs_write (bp, sppos + 4, &splen, 4);
 	}
 
 	g_free (name);
+	g_free (label);
 	if (style) g_object_unref (style);
 
 	return draw_len;
@@ -4429,7 +4435,7 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	ms_escher_opt_add_simple (escher, optmark,
 				  0x00bf, 0x00080008);
 	ms_escher_opt_add_simple (escher, optmark,
-				  0x0144, 4); /* shapePath */
+				  MSEP_SHAPEPATH, 4); /* shapePath */
 	ms_escher_opt_add_simple (escher, optmark,
 				  0x017f, 0x00010000);
 	ms_escher_opt_add_simple (escher, optmark,
@@ -4444,12 +4450,12 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	}
 	if (is_arrow)
 		ms_escher_opt_add_simple (escher, optmark,
-					  0x01d1, 1);  /* lineEndArrowhead */
+					  MSEP_LINEENDARROWHEAD, 1);  /* lineEndArrowhead */
 	ms_escher_opt_add_simple (escher, optmark,
 				  0x1ff, 0x00180018);
 	if (name)
 		ms_escher_opt_add_str_wchar (escher, optmark, extra,
-					     0x0380, name);
+					     MSEP_NAME, name);
 	ms_escher_opt_add_simple (escher, optmark,
 				  0x03bf, 0x00080008); /* fPrint */
 	go_string_append_gstring (escher, extra);
@@ -5254,6 +5260,11 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 							     so);
 			handled = TRUE;
 		} else if (IS_GNM_SO_FILLED (so)) {
+			esheet->textboxes =
+				g_slist_prepend (esheet->textboxes, so);
+			handled = TRUE;
+		} else if (GNM_IS_SOW_CHECKBOX (so) ||
+			   GNM_IS_SOW_RADIO_BUTTON (so)) {
 			esheet->textboxes =
 				g_slist_prepend (esheet->textboxes, so);
 			handled = TRUE;

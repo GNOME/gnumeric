@@ -18,9 +18,12 @@
 #include <sheet-object.h>
 
 enum {
-	MSEP_FILLCOLOR = 0x0181,
-	MSEP_LINECOLOR = 0x01c0,
-	MSEP_LINEWIDTH = 0x01cb
+	MSEP_SHAPEPATH           = 0x0144,
+	MSEP_FILLCOLOR           = 0x0181,
+	MSEP_LINECOLOR           = 0x01c0,
+	MSEP_LINEWIDTH           = 0x01cb,
+	MSEP_LINEENDARROWHEAD    = 0x01d1,
+	MSEP_NAME                = 0x0380
 };
 
 
