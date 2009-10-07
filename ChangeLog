@@ -1,5 +1,8 @@
 2009-10-07  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-object-widget.c (sheet_widget_checkbox_get_property,
+	sheet_widget_radio_button_get_property): Add "active" property.
+
 	* src/sheet-object-widget.h: Define the usual type macros.
 
 2009-10-07  Jean Brefort  <jean.brefort@normalesup.org>

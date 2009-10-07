@@ -1731,6 +1731,7 @@ typedef SheetObjectWidgetClass SheetWidgetCheckboxClass;
 
 enum {
 	SOC_PROP_0 = 0,
+	SOC_PROP_ACTIVE,
 	SOC_PROP_TEXT,
 	SOC_PROP_MARKUP
 };
@@ -1742,6 +1743,9 @@ sheet_widget_checkbox_get_property (GObject *obj, guint param_id,
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (obj);
 
 	switch (param_id) {
+	case SOC_PROP_ACTIVE:
+		g_value_set_boolean (value, swc->value);
+		break;
 	case SOC_PROP_TEXT:
 		g_value_set_string (value, swc->label);
 		break;
@@ -1761,6 +1765,9 @@ sheet_widget_checkbox_set_property (GObject *obj, guint param_id,
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (obj);
 
 	switch (param_id) {
+	case SOC_PROP_ACTIVE:
+		g_assert_not_reached ();
+		break;
 	case SOC_PROP_TEXT:
 		sheet_widget_checkbox_set_label (SHEET_OBJECT (swc),
 						 g_value_get_string (value));
@@ -1790,6 +1797,8 @@ sheet_widget_checkbox_set_active (SheetWidgetCheckbox *swc)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (item->widget),
 					      swc->value);
 	}
+
+	g_object_notify (G_OBJECT (swc), "active");
 
 	swc->being_updated = FALSE;
 }
@@ -2171,6 +2180,11 @@ SOW_MAKE_TYPE (checkbox, Checkbox,
 	       sheet_widget_checkbox_set_property,
 	       {
 		       g_object_class_install_property
+			       (object_class, SOC_PROP_ACTIVE,
+				g_param_spec_boolean ("active", NULL, NULL,
+						      FALSE,
+						      GSF_PARAM_STATIC | G_PARAM_READABLE));
+		       g_object_class_install_property
 			       (object_class, SOC_PROP_TEXT,
 				g_param_spec_string ("text", NULL, NULL, NULL,
 						     GSF_PARAM_STATIC | G_PARAM_READWRITE));
@@ -2224,6 +2238,7 @@ typedef SheetObjectWidgetClass SheetWidgetRadioButtonClass;
 
 enum {
 	SOR_PROP_0 = 0,
+	SOR_PROP_ACTIVE,
 	SOR_PROP_TEXT,
 	SOR_PROP_MARKUP
 };
@@ -2242,6 +2257,9 @@ sheet_widget_radio_button_get_property (GObject *obj, guint param_id,
 	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (obj);
 
 	switch (param_id) {
+	case SOR_PROP_ACTIVE:
+		g_value_set_boolean (value, swrb->active);
+		break;
 	case SOR_PROP_TEXT:
 		g_value_set_string (value, swrb->label);
 		break;
@@ -2261,6 +2279,9 @@ sheet_widget_radio_button_set_property (GObject *obj, guint param_id,
 	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (obj);
 
 	switch (param_id) {
+	case SOR_PROP_ACTIVE:
+		g_assert_not_reached ();
+		break;
 	case SOR_PROP_TEXT:
 		sheet_widget_radio_button_set_label (SHEET_OBJECT (swrb),
 						     g_value_get_string (value));
@@ -2304,6 +2325,8 @@ sheet_widget_radio_button_set_active (SheetWidgetRadioButton *swrb,
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (item->widget),
 					      active);
 	}
+
+	g_object_notify (G_OBJECT (swrb), "active");
 
 	swrb->being_updated = FALSE;
 }
@@ -2747,6 +2770,11 @@ SOW_MAKE_TYPE (radio_button, RadioButton,
   	       sheet_widget_radio_button_get_property,
   	       sheet_widget_radio_button_set_property,
 	       {
+		       g_object_class_install_property
+			       (object_class, SOR_PROP_ACTIVE,
+				g_param_spec_boolean ("active", NULL, NULL,
+						      FALSE,
+						      GSF_PARAM_STATIC | G_PARAM_READABLE));
 		       g_object_class_install_property
 			       (object_class, SOR_PROP_TEXT,
 				g_param_spec_string ("text", NULL, NULL, NULL,
