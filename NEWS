@@ -10,6 +10,7 @@ Andreas:
 	* Fix diagonal borders in ODF export/import.
 	* For freezing of panes consider edit cell A1 special. [#594875]
 	* Don't convert blank cells to 0 in LINEST. [#551234]
+	* Fix histogram tool.
 
 Jean:
 	* Make plugins GUI labels translatable. [#159806]
