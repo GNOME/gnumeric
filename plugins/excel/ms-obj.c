@@ -1406,7 +1406,7 @@ ms_objv8_write_checkbox_link (BiffPut *bp)
 
 	GSF_LE_SET_GUINT16 (data, GR_CHECKBOX_LINK);
 	GSF_LE_SET_GUINT16 (data + 2, sizeof (data) - 4);
-	GSF_LE_SET_GUINT32 (data + 4, 0); /* ? */
+	GSF_LE_SET_GUINT32 (data + 4, 1); /* ? */
 	GSF_LE_SET_GUINT32 (data + 8, 0); /* ? */
 	GSF_LE_SET_GUINT32 (data + 12, 0); /* ? */
 	ms_biff_put_var_write (bp, data, sizeof data);
@@ -1446,7 +1446,7 @@ ms_objv8_write_radiobutton (BiffPut *bp)
 	char rb[10];
 
 	GSF_LE_SET_GUINT16 (rb, GR_RADIO_BUTTON);
-	GSF_LE_SET_GUINT16 (rb + 2, 6);  /* docs: must be 6 */
+	GSF_LE_SET_GUINT16 (rb + 2, sizeof (rb) - 4);
 	GSF_LE_SET_GUINT32 (rb + 4, 0);  /* ignore */
 	GSF_LE_SET_GUINT16 (rb + 8, 0);  /* ignore */
 	ms_biff_put_var_write (bp, rb, sizeof rb);
