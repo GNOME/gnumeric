@@ -634,6 +634,8 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		break;
 
 	case 0x0C:
+		sheet_widget_radio_button_set_link (obj->gnum_obj,
+			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_LINKED_TO_CELL, NULL, FALSE));
 		break;
 
 	case 0x10:

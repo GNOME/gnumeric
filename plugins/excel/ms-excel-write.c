@@ -4391,8 +4391,13 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	if (IS_CELL_COMMENT (so))
 		ms_objv8_write_note (bp);
 
-	if (checkbox_texpr) {
-		ms_objv8_write_checkbox_fmla (bp, esheet, checkbox_texpr);
+	if (type == 11 || type == 12) {
+		ms_objv8_write_checkbox_link (bp);
+		if (type == 12)
+			ms_objv8_write_radiobutton (bp);
+		if (checkbox_texpr)
+			ms_objv8_write_checkbox_fmla (bp, esheet,
+						      checkbox_texpr);
 		ms_objv8_write_checkbox_data (bp, checkbox_active);
 	}
 

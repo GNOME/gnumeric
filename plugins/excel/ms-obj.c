@@ -1393,10 +1393,23 @@ ms_objv8_write_checkbox_data (BiffPut *bp, gboolean active)
 	GSF_LE_SET_GUINT16 (cboxdata, GR_CHECKBOX_DATA);
 	GSF_LE_SET_GUINT16 (cboxdata + 2, sizeof (cboxdata) - 4);
 	GSF_LE_SET_GUINT16 (cboxdata + 4, active);
-	GSF_LE_SET_GUINT16 (cboxdata + 6, 0);
-	GSF_LE_SET_GUINT16 (cboxdata + 8, 0);
-	GSF_LE_SET_GUINT16 (cboxdata + 10, 2);  /* ??? */
+	GSF_LE_SET_GUINT16 (cboxdata + 6, 0); /* accel */
+	GSF_LE_SET_GUINT16 (cboxdata + 8, 0); /* reserved */
+	GSF_LE_SET_GUINT16 (cboxdata + 10, 2);  /* 3d display.  */
 	ms_biff_put_var_write (bp, cboxdata, sizeof cboxdata);
+}
+
+void
+ms_objv8_write_checkbox_link (BiffPut *bp)
+{
+	char data[16];
+
+	GSF_LE_SET_GUINT16 (data, GR_CHECKBOX_LINK);
+	GSF_LE_SET_GUINT16 (data + 2, sizeof (data) - 4);
+	GSF_LE_SET_GUINT32 (data + 4, 0); /* ? */
+	GSF_LE_SET_GUINT32 (data + 8, 0); /* ? */
+	GSF_LE_SET_GUINT32 (data + 12, 0); /* ? */
+	ms_biff_put_var_write (bp, data, sizeof data);
 }
 
 void
@@ -1409,7 +1422,7 @@ ms_objv8_write_checkbox_fmla (BiffPut *bp,
 	guint16 fmla_len;
 
 	pos = bp->curpos;
-	GSF_LE_SET_GUINT16 (hfmla, 20);
+	GSF_LE_SET_GUINT16 (hfmla, GR_CHECKBOX_FORMULA);
 	GSF_LE_SET_GUINT16 (hfmla + 2, 0);  /* record len */
 	GSF_LE_SET_GUINT16 (hfmla + 4, 0);  /* formula len */
 	GSF_LE_SET_GUINT32 (hfmla + 6, 0);  /* calcid? */
@@ -1425,4 +1438,16 @@ ms_objv8_write_checkbox_fmla (BiffPut *bp,
 	GSF_LE_SET_GUINT16 (hfmla + 4, fmla_len);
 	ms_biff_put_var_write (bp, hfmla, sizeof hfmla);
 	ms_biff_put_var_seekto (bp, end_pos);
+}
+
+void
+ms_objv8_write_radiobutton (BiffPut *bp)
+{
+	char rb[10];
+
+	GSF_LE_SET_GUINT16 (rb, GR_RADIO_BUTTON);
+	GSF_LE_SET_GUINT16 (rb + 2, 6);  /* docs: must be 6 */
+	GSF_LE_SET_GUINT32 (rb + 4, 0);  /* ignore */
+	GSF_LE_SET_GUINT16 (rb + 8, 0);  /* ignore */
+	ms_biff_put_var_write (bp, rb, sizeof rb);
 }
