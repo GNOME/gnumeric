@@ -1,4 +1,4 @@
-*** m4/python.m4.orig	2009-05-04 20:36:02.000000000 -0400
+*** m4/python.m4	2009-05-04 20:36:02.000000000 -0400
 --- m4/python.m4	2009-05-04 20:40:46.000000000 -0400
 ***************
 *** 43,58 ****
@@ -36,3 +36,69 @@
   AC_SUBST(PYTHON_INCLUDES)
   dnl check if the headers exist:
   save_CPPFLAGS="$CPPFLAGS"
+***************
+*** 235,250 ****
+  [AC_REQUIRE([AM_PATH_PYTHON])
+  AC_MSG_CHECKING(for headers required to compile python extensions)
+  dnl deduce PYTHON_INCLUDES
+! py_prefix=`$PYTHON -c "import sys; sys.stdout.write(sys.prefix)"`
+! py_exec_prefix=`$PYTHON -c "import sys; sys.stdout.write(sys.exec_prefix)"`
+! if test -x "$PYTHON-config"; then
+! PYTHON_INCLUDES=`$PYTHON-config --includes 2>/dev/null`
+! else
+! PYTHON_INCLUDES="-I${py_prefix}/include/python${PYTHON_VERSION}"
+! if test "$py_prefix" != "$py_exec_prefix"; then
+!   PYTHON_INCLUDES="$PYTHON_INCLUDES -I${py_exec_prefix}/include/python${PYTHON_VERSION}"
+! fi
+! fi
+  AC_SUBST(PYTHON_INCLUDES)
+  dnl check if the headers exist:
+  save_CPPFLAGS="$CPPFLAGS"
+--- 235,251 ----
+  [AC_REQUIRE([AM_PATH_PYTHON])
+  AC_MSG_CHECKING(for headers required to compile python extensions)
+  dnl deduce PYTHON_INCLUDES
+! dnl py_prefix=`$PYTHON -c "import sys; sys.stdout.write(sys.prefix)"`
+! dnl py_exec_prefix=`$PYTHON -c "import sys; sys.stdout.write(sys.exec_prefix)"`
+! dnl if test -x "$PYTHON-config"; then
+! dnl PYTHON_INCLUDES=`$PYTHON-config --includes 2>/dev/null`
+! dnl else
+! dnl PYTHON_INCLUDES="-I${py_prefix}/include/python${PYTHON_VERSION}"
+! dnl if test "$py_prefix" != "$py_exec_prefix"; then
+! dnl   PYTHON_INCLUDES="$PYTHON_INCLUDES -I${py_exec_prefix}/include/python${PYTHON_VERSION}"
+! dnl fi
+! dnl fi
+! PYTHON_INCLUDES="-I${PY_INCLUDE_DIR}"
+  AC_SUBST(PYTHON_INCLUDES)
+  dnl check if the headers exist:
+  save_CPPFLAGS="$CPPFLAGS"
+*** configure.ac	Sun May 24 16:37:19 2009
+--- configure.ac	Wed Jul  1 09:21:25 2009
+***************
+*** 76,87 ****
+  JD_CHECK_PYTHON_HEADERS(,[AC_MSG_ERROR(could not find Python headers)])
+  
+  AC_MSG_CHECKING([for PySignal_SetWakeupFd in Python.h])
+! py_prefix=`$PYTHON -c "import sys; sys.stdout.write(sys.prefix)"`
+! if test -x "$PYTHON-config"; then
+! PYTHON_INCLUDES=`$PYTHON-config --includes 2>/dev/null`
+! else
+! PYTHON_INCLUDES="-I${py_prefix}/include/python${PYTHON_VERSION}"
+! fi
+  old_CPPFLAGS=$CPPFLAGS
+  CPPFLAGS="-Wall -Werror $PYTHON_INCLUDES"
+  AC_TRY_COMPILE([#include <Python.h>],
+--- 76,88 ----
+  JD_CHECK_PYTHON_HEADERS(,[AC_MSG_ERROR(could not find Python headers)])
+  
+  AC_MSG_CHECKING([for PySignal_SetWakeupFd in Python.h])
+! dnl py_prefix=`$PYTHON -c "import sys; sys.stdout.write(sys.prefix)"`
+! dnl if test -x "$PYTHON-config"; then
+! dnl PYTHON_INCLUDES=`$PYTHON-config --includes 2>/dev/null`
+! dnl else
+! dnl PYTHON_INCLUDES="-I${py_prefix}/include/python${PYTHON_VERSION}"
+! dnl fi
+! PYTHON_INCLUDES="-I${PY_INCLUDE_DIR}"
+  old_CPPFLAGS=$CPPFLAGS
+  CPPFLAGS="-Wall -Werror $PYTHON_INCLUDES"
+  AC_TRY_COMPILE([#include <Python.h>],

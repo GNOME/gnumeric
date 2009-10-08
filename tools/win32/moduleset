@@ -32,25 +32,22 @@
 	<dependencies/>
     </tarball>
 
-    <tarball id="pcre" version="7.8">
-	<source href="http://downloads.sourceforge.net/pcre/pcre-7.8.tar.bz2"/>
+    <tarball id="pcre" version="7.9">
+	<source href="http://downloads.sourceforge.net/pcre/pcre-7.9.tar.bz2"/>
     </tarball>
     <autotools id="gtk-doc">
 	<branch module="gtk-doc" checkoutdir="gtk-doc"/>
-	<dependencies>
-	    <dep package="glib"/>
-	</dependencies>
     </autotools>
 
     <autotools id="glib">
-	<branch repo="gnome.org" module="sources/glib/2.20/glib-2.20.4.tar.bz2" version="2.20.4">
+	<branch repo="gnome.org" module="sources/glib/2.22/glib-2.22.2.tar.bz2" version="2.22.2">
 	    <patch file="&patch_dir;glib-win32-cachefile.patch.gz"/>
 	    <patch file="&patch_dir;glib-goption-disable-localization.patch"/>
 	</branch>
 	<dependencies>
 	    <dep package="gettext"/>
 	    <dep package="iconv"/>
-<!--	    <dep package="gtk-doc"/> -->
+	    <dep package="gtk-doc"/>
 	</dependencies>
     </autotools>
 
@@ -73,14 +70,13 @@
 
 <!-- Image formats  -->
     <tarball id="jpeg" version="6b" checkoutdir="jpeg-6b">
-	<source href="http://www.ijg.org/files/jpegsrc.v6b.tar.gz"
-		md5sum="dbd5f3b47ed13132f04c685d608a7547"/>
+	<source href="http://www.ijg.org/files/jpegsrc.v7.tar.gz"/>
 	<patches>
 	    <patch file="http://gnome.org/~aruiz/gtk+/patches/jpeg_mingwport.patch" strip="1"/>
 	</patches>
     </tarball>
-    <tarball id="png" version="1.2.37">
-	<source href="ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng-1.2.37.tar.bz2"/>
+    <tarball id="png" version="1.2.40">
+	<source href="ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng-1.2.40.tar.bz2"/>
 	<dependencies>
 	    <dep package="zlib"/>
 	</dependencies>
@@ -131,8 +127,8 @@
     </autotools>
     <autotools id="libthai">
 	<branch repo="debian"
-		module="libt/libthai/libthai_0.1.11.orig.tar.gz"
-		version="0.1.11" checkoutdir="libthai-0.1.11">
+		module="libt/libthai/libthai_0.1.12.orig.tar.gz"
+		version="0.1.12" checkoutdir="libthai-0.1.12">
 	    <patch file="&patch_dir;libthai.patch"/>
 	</branch>
 	<dependencies>
@@ -186,15 +182,15 @@
     </autotools>
 
     <autotools id="atk">
-	<branch repo="gnome.org" module="sources/atk/2.26/atk-1.26.0.tar.bz2" version="1.26.0"/>
+	<branch repo="gnome.org" module="sources/atk/1.28/atk-1.28.0.tar.bz2" version="1.28.0"/>
 	<dependencies>
 	    <dep package="glib"/>
 	</dependencies>
     </autotools>
 
     <autotools id="gtk+">
-	<branch repo="gnome.org" module="sources/gtk+/2.16/gtk+-2.16.2.tar.bz2"
-		version="2.16.2">
+	<branch repo="gnome.org" module="sources/gtk+/2.18/gtk+-2.18.2.tar.bz2"
+		version="2.18.2">
 	    <patch file="&patch_dir;gtk-disable-demo.patch"/>
 	</branch>
 	<dependencies>
@@ -223,8 +219,8 @@
 <!-- python stack -->
     <autotools id="pygobject" 
 	autogen-sh="autoreconf" skip-autogen="never">
-	<branch repo="gnome.org" module="sources/pygobject/2.16/pygobject-2.16.1.tar.bz2"
-		version="2.16.1">
+	<branch repo="gnome.org" module="sources/pygobject/2.20/pygobject-2.20.0.tar.bz2"
+		version="2.20.0">
 	    <patch file="&patch_dir;pygobject.patch"/>
 	</branch>
 
@@ -234,8 +230,8 @@
     </autotools>
 
     <autotools id="libgda">
-	<branch repo="gnome.org" module="sources/libgda/4.1/libgda-4.1.0.tar.bz2"
-		version="4.1.0">
+	<branch repo="gnome.org" module="sources/libgda/4.1/libgda-4.1.2.tar.bz2"
+		version="4.1.2">
 	</branch>
 	<dependencies>
 	    <dep package="glib"/>
@@ -257,19 +253,22 @@
     <tarball id="pxlib" version="0.6.3">
 	<source href="http://superb-east.dl.sourceforge.net/sourceforge/pxlib/pxlib-0.6.3.tar.gz"
 		md5sum="0742020854496fa757d7acbe6a895224"/>
+	<patches>
+	    <patch file="&patch_dir;pxlib.patch"/>
+	</patches>
     </tarball>
 
     <autotools id="psiconv">
 	<branch repo="debian"
-		module="p/psiconv/psiconv_0.9.8.orig.gz"
+		module="p/psiconv/psiconv_0.9.8.orig.tar.gz"
 		version="0.9.8" checkoutdir="psiconv-0.9.8">
 	    <patch file="&patch_dir;psiconv.patch"/>
 	</branch>
     </autotools>
 
 <!-- print preview -->
-  <tarball id="poppler" version="0.10.5">
-    <source href="http://poppler.freedesktop.org/poppler-0.10.5.tar.gz"/>
+  <tarball id="poppler" version="0.12.0">
+    <source href="http://poppler.freedesktop.org/poppler-0.12.0.tar.gz"/>
     <dependencies>
       <dep package="cairo"/>
       <dep package="glib"/>
@@ -282,6 +281,9 @@
     <after>
       <dep package="gtk+"/>
     </after>
+    <patches>
+	<patch file="&patch_dir;poppler-is-same-color.patch"/>
+    </patches>
   </tarball>
   <autotools id="evince">
     <branch/>
@@ -324,7 +326,6 @@
 	    <dep package="pcre"/>
 	    <dep package="libxml2"/>
 	    <dep package="pango"/>
-	    <dep package="libglade"/>
 	    <dep package="lasem"/>
 	</dependencies>
     </autotools>
@@ -332,9 +333,10 @@
 	<branch/>
 	<dependencies>
 	    <dep package="goffice"/>
+	    <dep package="libglade"/>
 	</dependencies>
 	<suggests>
-	    <dep package="libgnomedb"/>
+<!--	    <dep package="libgnomedb"/> -->
 	    <dep package="pxlib"/>
 	    <dep package="psiconv"/>
 	    <dep package="pygobject"/>

@@ -56,10 +56,12 @@ validate :
 # http://frogleg.mvps.org/helptechnologies/htmlhelp/hhtutorials.html
 # --param htmlhelp.force.map.and.alias 1
 chm :
-	-rm -rf chm
-	mkdir -p chm && cd chm && xsltproc -o . 	\
+	-rm -rf chm output
+	mkdir -p chm
+	cd $(srcdir) ; ../add_dbhh.pl --out-dir=$(abs_builddir)/output --map-file=$(abs_builddir)/chm/gnumeric.hhmap
+	cd chm && xsltproc -o . 	\
 	    $(srcdir)/../gnumeric-docbook-2-htmlhelp.xsl\
-	    $(srcdir)/../gnumeric.xml
+	    ../output/gnumeric.xml
 	xmllint --valid --noout --html chm/*.html
 	for f in chm/*.html; do				\
 	    xmllint --format --html "$$f" > chm/.$$$$;	\

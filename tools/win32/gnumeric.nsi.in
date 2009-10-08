@@ -17,8 +17,8 @@ SetCompressor /SOLID lzma
 
 !define GOFFICE_VERSION		"@GOFFICE_VERSION@"
 
-!define GTK_VERSION		"2.16"
-!define GTK_VENDORRC		"1"
+!define GTK_VERSION		"2.18"
+!define GTK_VENDORRC		"2"
 !define GTK_VENDORVERSION	"${GTK_VERSION}.${GTK_VENDORRC}"
 
 ; MUI 1.67 compatible ------
@@ -131,10 +131,11 @@ Section "Gnumeric (required)" SEC01
     ;ExecWait "${GNM_ROOT}\gtk-update-icon-cache.exe ${GNM_ROOT}\share\icons\gnome"
     ;ExecWait "${GNM_ROOT}\gtk-update-icon-cache.exe ${GNM_ROOT}\share\icons\hicolor"
 
-    WriteRegStr HKCR "GNOME.Gnumeric"			"" "Gnumeric Spreadsheet"
-    WriteRegStr HKCR "GNOME.Gnumeric\shell"		"" "Open"
-    WriteRegStr HKCR "GNOME.Gnumeric\DefaultIcon"		"" "${GNM_ROOT}\bin\gnumeric.exe,0"
-    WriteRegStr HKCR "GNOME.Gnumeric\shell\Open\command"	"" '"${GNM_ROOT}\bin\gnumeric.exe" "%1"'
+    WriteRegStr HKCR "GNOME.Gnumeric"					"" "Gnumeric Spreadsheet"
+    WriteRegStr HKCR "GNOME.Gnumeric\shell"				"" "Open"
+    WriteRegStr HKCR "GNOME.Gnumeric\DefaultIcon"			"" "${GNM_ROOT}\bin\gnumeric.exe,0"
+    WriteRegStr HKCR "GNOME.Gnumeric\shell\Open\command"		"" '"${GNM_ROOT}\bin\gnumeric.exe" "%1"'
+    WriteRegStr HKCR "Applications\gnumeric.exe\shell\Open\command"	"" '"${GNM_ROOT}\bin\gnumeric.exe" "%1"'
 SectionEnd
 
 #############################################################################

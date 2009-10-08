@@ -117,7 +117,7 @@ module_autogenargs['libxml2']	= autogenargs + """ --disable-scrollkeeper --witho
 autogenargs += """ --disable-scrollkeeper --disable-gtk-doc"""
 
 module_autogenargs['atk']	= autogenargs + """ --disable-glibtest"""
-module_autogenargs['gtk+']	= autogenargs + """ --disable-glibtest --without-libjasper"""
+module_autogenargs['gtk+']	= autogenargs + """ --disable-glibtest --without-libjasper  --without-libtiff --without-libjpeg"""
 
 module_autogenargs['libgda']	= autogenargs + """ --without-odbc --without-lda --without-java"""
 module_autogenargs['pxlib']	= autogenargs + """ --with-gsf=""" + prefix

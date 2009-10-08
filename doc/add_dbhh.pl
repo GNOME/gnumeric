@@ -10,12 +10,14 @@ use Getopt::Long;
 
 my $indent = 2;
 my $out_dir = 'output';
+my $map_file = 'hhmap';
 
 binmode(STDOUT, ":utf8");
 
 GetOptions(
     'indent=s'  => \$indent,
     'out-dir=s' => \$out_dir,
+    'map-file=s' => \$map_file,
 );
 
 my @list;
@@ -37,6 +39,7 @@ sub start {
 my $id = 10;
 
 mkdir $out_dir;
+open MAP, '>:utf8', "$map_file";
 
 foreach my $file (<*.xml>) {
     open FH, "<:utf8", $file;
@@ -61,6 +64,7 @@ foreach my $file (<*.xml>) {
         my ($offset, $column, $name) = @$sect;
         print FH substr($xml, $last, ($offset - $last));
         print FH "\n" . (' ' x ($column + $indent)) . "<?dbhh topicname=\"$name\" topicid=\"$id\"?>\n";
+        print MAP "$id\t$name\n";
         $last = $offset;
         ++$id;
     }
@@ -69,5 +73,6 @@ foreach my $file (<*.xml>) {
 
     close FH;
 }
+close MAP;
 
 # vi: set autoindent shiftwidth=4 tabstop=8 softtabstop=4 expandtab:
