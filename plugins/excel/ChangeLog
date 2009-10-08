@@ -1,3 +1,10 @@
+2009-10-08  Morten Welinder  <terra@gnome.org>
+
+	* ms-escher.c (ms_escher_opt_add_bool): New function.
+
+	* ms-excel-write.c (excel_write_line_v8): Simplify using
+	ms_escher_opt_add_bool.
+
 2009-10-07  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_write_textbox_v8): Export

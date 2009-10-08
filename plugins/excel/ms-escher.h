@@ -18,12 +18,18 @@
 #include <sheet-object.h>
 
 enum {
+	MESP_AUTOTEXTMARGIN      = 0x00bc,
 	MSEP_SHAPEPATH           = 0x0144,
+	MSEP_FILLOK              = 0x017f,
 	MSEP_FILLCOLOR           = 0x0181,
+	MSEP_FILLED              = 0x01bb,
+	MSEP_NOFILLHITTEST       = 0x01bf,
 	MSEP_LINECOLOR           = 0x01c0,
 	MSEP_LINEWIDTH           = 0x01cb,
 	MSEP_LINEENDARROWHEAD    = 0x01d1,
-	MSEP_NAME                = 0x0380
+	MSEP_ARROWHEADSOK        = 0x01fb,
+	MSEP_NAME                = 0x0380,
+	MSEP_ISBUTTON            = 0x03bc
 };
 
 
@@ -53,6 +59,8 @@ void ms_escher_sp (GString *buf, guint32 spid, guint16 shape, guint32 flags);
 gsize ms_escher_opt_start (GString *buf);
 void ms_escher_opt_add_simple (GString *buf, gsize marker,
 			       guint16 pid, gint32 val);
+void ms_escher_opt_add_bool (GString *buf, gsize marker,
+			     guint16 pid, gboolean b);
 void ms_escher_opt_add_color (GString *buf, gsize marker,
 			      guint16 pid, GOColor c);
 void ms_escher_opt_add_str_wchar (GString *buf, gsize marker, GString *extra,

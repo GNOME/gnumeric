@@ -4429,7 +4429,6 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	ExcelWriteState *ewb = esheet->ewb;
 	BiffPut *bp = ewb->bp;
 	guint32 id = excel_write_start_drawing (esheet);
-	SheetObjectAnchor const *anchor = sheet_object_get_anchor (so);
 	gsize draw_len = 0;
 	int type = 1;
 	int shape = 0x14;
@@ -4451,37 +4450,32 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 
 	optmark = ms_escher_opt_start (escher);
 	extra = g_string_new (NULL);
-	ms_escher_opt_add_simple (escher, optmark,
-				  0x00bf, 0x00080008);
-	ms_escher_opt_add_simple (escher, optmark,
-				  MSEP_SHAPEPATH, 4); /* shapePath */
-	ms_escher_opt_add_simple (escher, optmark,
-				  0x017f, 0x00010000);
-	ms_escher_opt_add_simple (escher, optmark,
-				  0x01bf, 0x00110001);
+	ms_escher_opt_add_bool (escher, optmark, MESP_AUTOTEXTMARGIN, TRUE);
+	ms_escher_opt_add_simple (escher, optmark, MSEP_SHAPEPATH, 4);
+	ms_escher_opt_add_bool (escher, optmark, MSEP_FILLOK, FALSE);
+	ms_escher_opt_add_bool (escher, optmark, MSEP_NOFILLHITTEST, TRUE);
+	ms_escher_opt_add_bool (escher, optmark, MSEP_FILLED, FALSE);
 	ms_escher_opt_add_color (escher, optmark, MSEP_LINECOLOR,
 				 style->line.auto_color
 				 ? GO_COLOR_BLACK
 				 : style->line.color);
 	if (style->line.width > 0) {
-		guint16 w = CLAMP (12700 * style->line.width, 0, 65535);
+		gint32 w = CLAMP (12700 * style->line.width, 0, G_MAXINT32);
 		ms_escher_opt_add_simple (escher, optmark, MSEP_LINEWIDTH, w);
 	}
 	if (is_arrow)
 		ms_escher_opt_add_simple (escher, optmark,
-					  MSEP_LINEENDARROWHEAD, 1);  /* lineEndArrowhead */
-	ms_escher_opt_add_simple (escher, optmark,
-				  0x1ff, 0x00180018);
+					  MSEP_LINEENDARROWHEAD, 1);
+	ms_escher_opt_add_bool (escher, optmark, MSEP_ARROWHEADSOK, is_arrow);
 	if (name)
 		ms_escher_opt_add_str_wchar (escher, optmark, extra,
 					     MSEP_NAME, name);
-	ms_escher_opt_add_simple (escher, optmark,
-				  0x03bf, 0x00080008); /* fPrint */
+	ms_escher_opt_add_bool (escher, optmark, MSEP_ISBUTTON, TRUE);
 	go_string_append_gstring (escher, extra);
 	ms_escher_opt_end (escher, optmark);
 	g_string_free (extra, TRUE);
 
-	ms_escher_clientanchor (escher, anchor);
+	ms_escher_clientanchor (escher, sheet_object_get_anchor (so));
 
 	ms_escher_clientdata (escher, NULL, 0);
 
