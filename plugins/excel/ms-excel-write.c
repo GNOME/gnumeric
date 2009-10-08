@@ -4339,11 +4339,12 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	optmark = ms_escher_opt_start (escher);
 	extra = g_string_new (NULL);
 	ms_escher_opt_add_simple (escher, optmark,
-				  0x0080, 0x00c600a0); /* Txid */
+				  MSEP_TXID, 0x00c600a0); /* Txid */
 	ms_escher_opt_add_simple (escher, optmark,
-				  0x0085, 1); /* wrap_text_at_margin */
-	ms_escher_opt_add_simple (escher, optmark,
-				  0x00bf, 0x000a0008); /* wrap_text_at_margin */
+				  MSEP_WRAPTEXT, 1); /* wrap_text_at_margin */
+	ms_escher_opt_add_bool (escher, optmark, MSEP_SELECTTEXT, TRUE);
+	if (is_button)
+		ms_escher_opt_add_bool (escher, optmark, MSEP_AUTOTEXTMARGIN, FALSE);
 	ms_escher_opt_add_color (escher, optmark, MSEP_FILLCOLOR,
 				 style == NULL || style->fill.auto_back
 				 ? GO_COLOR_WHITE
@@ -4361,9 +4362,7 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	if (name)
 		ms_escher_opt_add_str_wchar (escher, optmark, extra,
 					     MSEP_NAME, name);
-	ms_escher_opt_add_simple (escher, optmark,
-				  0x03bf,
-				  is_button ? 0x00080008 : 0x00080000);
+	ms_escher_opt_add_bool (escher, optmark, MSEP_ISBUTTON, TRUE);
 	go_string_append_gstring (escher, extra);
 	ms_escher_opt_end (escher, optmark);
 	g_string_free (extra, TRUE);
@@ -4450,7 +4449,7 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 
 	optmark = ms_escher_opt_start (escher);
 	extra = g_string_new (NULL);
-	ms_escher_opt_add_bool (escher, optmark, MESP_AUTOTEXTMARGIN, TRUE);
+	ms_escher_opt_add_bool (escher, optmark, MSEP_AUTOTEXTMARGIN, TRUE);
 	ms_escher_opt_add_simple (escher, optmark, MSEP_SHAPEPATH, 4);
 	ms_escher_opt_add_bool (escher, optmark, MSEP_FILLOK, FALSE);
 	ms_escher_opt_add_bool (escher, optmark, MSEP_NOFILLHITTEST, TRUE);

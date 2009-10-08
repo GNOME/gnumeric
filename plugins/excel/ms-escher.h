@@ -18,7 +18,10 @@
 #include <sheet-object.h>
 
 enum {
-	MESP_AUTOTEXTMARGIN      = 0x00bc,
+	MSEP_TXID                = 0x0080,
+	MSEP_WRAPTEXT            = 0x0085,
+	MSEP_SELECTTEXT          = 0x00bb,
+	MSEP_AUTOTEXTMARGIN      = 0x00bc,
 	MSEP_SHAPEPATH           = 0x0144,
 	MSEP_FILLOK              = 0x017f,
 	MSEP_FILLCOLOR           = 0x0181,

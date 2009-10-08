@@ -1267,24 +1267,26 @@ ms_escher_read_OPT_bools (MSEscherHeader *h,
 	g_return_if_fail (n_bools > 0);
 	g_return_if_fail (bools[n_bools-1].pid == pid);
 
-	d (2, printf ("Set of Bools %s(%d) = 0x%08x;\n{\n",
-		      bools[n_bools-1].name, bools[n_bools-1].pid, val););
+	d (2, printf ("Set of Bools %d-%d = 0x%08x;\n{\n",
+		      bools[0].pid, bools[n_bools-1].pid, val););
 
 	for (; i-- > 0 ; mask <<= 1, bit <<= 1) {
+		gboolean set_val = ((val & bit) == bit);
+		gboolean def_val = bools[i].default_val;
+		const MSObjAttrID aid = bools[i].id;
+
 		if (!(val & mask))	/* the value is set */
 			continue;
-		/* If the value is not the default */
-		if ((((val & bit) == bit) ^ bools[i].default_val)) {
-			d (0, printf ("bool %s = %s; /* gnm attr id = %d */\n",
-				      bools[i].name,
-				      /* only exported if they != default_val */
-				      bools[i].default_val ? "false" : "true",
-				      bools[i].id););
 
-			if (bools[i].id != 0)
-			ms_escher_header_add_attr (h,
-				ms_obj_attr_new_flag (bools[i].id));
-		}
+		d (0, printf ("bool %s = %s; /* def: %s; gnm: %d */\n",
+			      bools[i].name,
+			      set_val ? "true" : "false",
+			      def_val ? "true" : "false",
+			      aid););
+
+		if (set_val != def_val && aid != 0)
+			ms_escher_header_add_attr
+				(h, ms_obj_attr_new_flag (aid));
 	}
 	d (2, printf ("};\n"););
 }
@@ -1349,7 +1351,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* 1/20" :  */
 		case 132 : name = "long dyTextBottom"; break;
 		/* Square */
-		case 133 : name = "WrapMode wrap_test_at_margin"; break;
+		case 133 : name = "WrapMode wrap_text_at_margin"; break;
 		/* 0 : Text zoom/scale (used if fFitTextToShape) */
 		case 134 : name = "long scaleText"; break;
 		/* anchor_Top : How to anchor the text */
