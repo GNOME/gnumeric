@@ -18,11 +18,15 @@
 #include <sheet-object.h>
 
 enum {
+	MSEP_LOCKROTATION        = 0x0077,
 	MSEP_TXID                = 0x0080,
 	MSEP_WRAPTEXT            = 0x0085,
+	MSEP_TXDIR               = 0x008b,
 	MSEP_SELECTTEXT          = 0x00bb,
 	MSEP_AUTOTEXTMARGIN      = 0x00bc,
 	MSEP_SHAPEPATH           = 0x0144,
+	MSEP_SHADOWOK            = 0x017a,
+	MSEP_LINEOK              = 0x017c,
 	MSEP_FILLOK              = 0x017f,
 	MSEP_FILLCOLOR           = 0x0181,
 	MSEP_FILLED              = 0x01bb,
@@ -31,6 +35,7 @@ enum {
 	MSEP_LINEWIDTH           = 0x01cb,
 	MSEP_LINEENDARROWHEAD    = 0x01d1,
 	MSEP_ARROWHEADSOK        = 0x01fb,
+	MSEP_LINE                = 0x01fc,
 	MSEP_NAME                = 0x0380,
 	MSEP_ISBUTTON            = 0x03bc
 };

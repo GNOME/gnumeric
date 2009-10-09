@@ -4338,19 +4338,29 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 
 	optmark = ms_escher_opt_start (escher);
 	extra = g_string_new (NULL);
-	ms_escher_opt_add_simple (escher, optmark,
-				  MSEP_TXID, 0x00c600a0); /* Txid */
-	ms_escher_opt_add_simple (escher, optmark,
-				  MSEP_WRAPTEXT, 1); /* wrap_text_at_margin */
-	ms_escher_opt_add_bool (escher, optmark, MSEP_SELECTTEXT, TRUE);
 	if (is_button)
+		ms_escher_opt_add_bool (escher, optmark,
+					MSEP_LOCKROTATION, TRUE);
+	ms_escher_opt_add_simple (escher, optmark,
+				  MSEP_TXID, 0x00c600a0);
+	ms_escher_opt_add_simple (escher, optmark,
+				  MSEP_WRAPTEXT, 1);
+	ms_escher_opt_add_simple (escher, optmark,
+				  MSEP_TXDIR, 2);
+	ms_escher_opt_add_bool (escher, optmark, MSEP_SELECTTEXT, TRUE);
+	if (is_button) {
 		ms_escher_opt_add_bool (escher, optmark, MSEP_AUTOTEXTMARGIN, FALSE);
+		ms_escher_opt_add_bool (escher, optmark, MSEP_SHADOWOK, TRUE);
+		ms_escher_opt_add_bool (escher, optmark, MSEP_LINEOK, TRUE);
+		ms_escher_opt_add_bool (escher, optmark, MSEP_FILLOK, TRUE);
+	}
 	ms_escher_opt_add_color (escher, optmark, MSEP_FILLCOLOR,
 				 style == NULL || style->fill.auto_back
 				 ? GO_COLOR_WHITE
 				 : style->fill.pattern.back);
-	ms_escher_opt_add_simple (escher, optmark,
-				  0x01bf, 0x00010000); /* fNoFillHitTest */
+	if (is_button)
+		ms_escher_opt_add_bool (escher, optmark, MSEP_FILLED, FALSE);
+	ms_escher_opt_add_bool (escher, optmark, MSEP_NOFILLHITTEST, TRUE);
 	ms_escher_opt_add_color (escher, optmark, MSEP_LINECOLOR,
 				 style == NULL || style->line.auto_color
 				 ? GO_COLOR_BLACK
@@ -4359,6 +4369,8 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 		gint32 w = CLAMP (12700 * style->line.width, 0, G_MAXINT32);
 		ms_escher_opt_add_simple (escher, optmark, MSEP_LINEWIDTH, w);
 	}
+	if (is_button)
+		ms_escher_opt_add_bool (escher, optmark, MSEP_LINE, FALSE);
 	if (name)
 		ms_escher_opt_add_str_wchar (escher, optmark, extra,
 					     MSEP_NAME, name);
