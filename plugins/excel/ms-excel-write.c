@@ -3841,20 +3841,18 @@ static void
 excel_write_autofilter_names (ExcelWriteState *ewb)
 {
 	unsigned i;
-	Sheet	*sheet;
-	ExcelWriteSheet const *esheet;
-	GnmFilter const *filter;
 	GnmNamedExpr nexpr;
 
 	nexpr.name = go_string_new ("_FilterDatabase");
 	nexpr.is_hidden = TRUE;
 	nexpr.is_placeholder = FALSE;
 	for (i = 0; i < ewb->esheets->len; i++) {
-		esheet = g_ptr_array_index (ewb->esheets, i);
-		sheet = esheet->gnum_sheet;
+		ExcelWriteSheet const *esheet =
+			g_ptr_array_index (ewb->esheets, i);
+		Sheet *sheet = esheet->gnum_sheet;
 		if (sheet->filters != NULL) {
-			filter = sheet->filters->data;
-			nexpr.pos.sheet = sheet;
+			GnmFilter const *filter = sheet->filters->data;
+			parse_pos_init_sheet (&nexpr.pos, sheet);
 			nexpr.texpr = gnm_expr_top_new_constant
 				(value_new_cellrange_r (sheet, &filter->r));
 			excel_write_NAME (NULL, &nexpr, ewb);

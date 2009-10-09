@@ -3108,7 +3108,6 @@ gnm_xl_importer_free (GnmXLImporter *importer)
 	unsigned i, j;
 	GSList *real_order = NULL;
 	Sheet *sheet;
-	GnmNamedExpr *nexpr;
 
 	for (i = importer->boundsheet_sheet_by_index->len; i-- > 0 ; ) {
 		sheet = g_ptr_array_index (importer->boundsheet_sheet_by_index, i);
@@ -3164,9 +3163,11 @@ gnm_xl_importer_free (GnmXLImporter *importer)
 	for (i = 0; i < importer->v8.supbook->len; i++ ) {
 		ExcelSupBook *sup = &(g_array_index (importer->v8.supbook,
 						     ExcelSupBook, i));
-		for (j = 0; j < sup->externname->len; j++ )
-			if (NULL != (nexpr = g_ptr_array_index (sup->externname, j)))
+		for (j = 0; j < sup->externname->len; j++ ) {
+			GnmNamedExpr *nexpr = g_ptr_array_index (sup->externname, j); 
+			if (nexpr)
 				expr_name_unref (nexpr);
+		}
 		g_ptr_array_free (sup->externname, TRUE);
 	}
 	g_array_free (importer->v8.supbook, TRUE);
@@ -3186,14 +3187,19 @@ gnm_xl_importer_free (GnmXLImporter *importer)
 		g_free (importer->sst);
 	}
 
-	for (i = importer->names->len; i-- > 0 ; )
-		if (NULL != (nexpr = g_ptr_array_index (importer->names, i))) {
-			/* NAME placeholders need removal, EXTERNNAME
-			 * placeholders will no be active */
-			if (nexpr->active && nexpr->is_placeholder && nexpr->ref_count == 2)
-				expr_name_remove (nexpr);
-			expr_name_unref (nexpr);
+	for (i = importer->names->len; i-- > 0 ; ) {
+		GnmNamedExpr *nexpr = g_ptr_array_index (importer->names, i);
+		if (!nexpr)
+			continue;
+
+		/* NAME placeholders need removal, EXTERNNAME
+		 * placeholders will no be active */
+		if (nexpr->active && nexpr->is_placeholder && nexpr->ref_count == 2) {
+			d (1, g_printerr ("Removing name %s\n", expr_name_name (nexpr)););
+			expr_name_remove (nexpr);
 		}
+		expr_name_unref (nexpr);
+	}
 	g_ptr_array_free (importer->names, TRUE);
 	importer->names = NULL;
 
@@ -3287,9 +3293,10 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 
 	g_return_val_if_fail (name != NULL, NULL);
 
+	parse_pos_init (&pp, importer->wb, sheet, 0, 0);
+
 	/* expr_len == 0 seems to indicate a placeholder for an unknown name */
 	if (expr_len != 0) {
-
 		texpr = excel_parse_formula (&importer->container, NULL, 0, 0,
 					     expr_data, expr_len, 0 /* FIXME? */,
 					     TRUE, NULL);
@@ -3298,13 +3305,9 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 			go_io_warning (importer->context, _("Failure parsing name '%s'"), name);
 			texpr = gnm_expr_top_new_constant (value_new_error_REF (NULL));
 		} else d (2, {
-			char *tmp;
-			GnmParsePos pp;
-
-			tmp = gnm_expr_top_as_string (texpr,
-						      parse_pos_init (&pp, importer->wb, NULL, 0, 0),
-						      gnm_conventions_default);
-			g_printerr ( "%s\n", tmp);
+			char *tmp = gnm_expr_top_as_string
+				(texpr, &pp, gnm_conventions_default);
+			g_printerr ("Expression: %s\n", tmp);
 			g_free (tmp);
 		});
 	}
@@ -3325,7 +3328,6 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 		}
 	}
 
-	parse_pos_init (&pp, importer->wb, sheet, 0, 0);
 	nexpr = expr_name_add (&pp, name,
 			       texpr,
 			       &err, link_to_container, stub);
@@ -3557,7 +3559,8 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 
 	if (name != NULL) {
 		Sheet *sheet = NULL;
-		d (1, fprintf (stderr, "NAME : %s, sheet_index = %hu ", name, sheet_index););
+		d (1, g_printerr ("NAME=%s, sheet_index=%d  flags=0x%x\n",
+				  name, sheet_index, flags););
 		if (sheet_index > 0) {
 			/* NOTE : the docs lie the index for biff7 is
 			 * indeed a reference to the externsheet

@@ -14,6 +14,9 @@
 
 2009-10-09  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-write.c (excel_write_autofilter_names): Initialize
+	nexpr.pos completely.
+
 	* ms-excel-read.c (excel_read_NAME): Fix FMR in debug code.
 
 	* ms-obj.c (ms_obj_read_biff8_obj): Read the macro reference too.
