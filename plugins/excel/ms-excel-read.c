@@ -3557,7 +3557,7 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 
 	if (name != NULL) {
 		Sheet *sheet = NULL;
-		d (1, fprintf (stderr, "NAME : %s, sheet_index = %hu", name, sheet_index););
+		d (1, fprintf (stderr, "NAME : %s, sheet_index = %hu ", name, sheet_index););
 		if (sheet_index > 0) {
 			/* NOTE : the docs lie the index for biff7 is
 			 * indeed a reference to the externsheet
@@ -3631,7 +3631,7 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 		status_txt = excel_get_text_fixme (importer, data, status_txt_len, NULL);
 
 		g_printerr ("Name record: '%s', '%s', '%s', '%s', '%s'\n",
-			name ? name : "(null)",
+			nexpr ? expr_name_name (nexpr) : "(null)",
 			menu_txt ? menu_txt : "(null)",
 			descr_txt ? descr_txt : "(null)",
 			help_txt ? help_txt : "(null)",

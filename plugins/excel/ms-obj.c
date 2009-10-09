@@ -992,6 +992,8 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			break;
 
 		case GR_MACRO :
+			ms_obj_read_expr (obj, MS_OBJ_ATTR_MACRO_EXPR, c,
+				data+4, data + 4 + len);
 			ms_obj_dump (data, len, data_len_left, "MacroObject");
 			break;
 

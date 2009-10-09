@@ -1,3 +1,9 @@
+2009-10-09  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_NAME): Fix FMR in debug code.
+
+	* ms-obj.c (ms_obj_read_biff8_obj): Read the macro reference too.
+
 2009-10-08  Morten Welinder  <terra@gnome.org>
 
 	* ms-escher.c (ms_escher_opt_add_bool): New function.
