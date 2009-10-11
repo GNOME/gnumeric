@@ -689,7 +689,8 @@ expr_name_downgrade_to_placeholder (GnmNamedExpr *nexpr)
 	g_return_if_fail (!nexpr->is_placeholder);
 
 	scope = (nexpr->pos.sheet != NULL)
-		? nexpr->pos.sheet->names : nexpr->pos.wb->names;
+		? nexpr->pos.sheet->names
+		: nexpr->pos.wb->names;
 
 	g_return_if_fail (scope != NULL);
 
