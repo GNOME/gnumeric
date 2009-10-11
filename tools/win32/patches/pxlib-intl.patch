@@ -1,19 +1,13 @@
-*** Makefile.am	Sun Oct  4 12:31:57 2009
---- Makefile.am	Sun Oct  4 12:32:29 2009
-***************
-*** 33,39 ****
-  		px_crypt.c \
-  		gregor.c
-  
-! libpx_la_LIBADD = @RECODE_LIBS@ @GSF_LIBS@
-  
-  BUILD_LIBS = -lm
-  
---- 33,39 ----
-  		px_crypt.c \
-  		gregor.c
-  
-! libpx_la_LIBADD = @RECODE_LIBS@ @GSF_LIBS@ -lintl -liconv
-  
-  BUILD_LIBS = -lm
-  
+Patch the Makefile.in because we are just running configure, which is not using
+Makefile.am
+--- src/Makefile.in	2007-10-01 03:26:59.000000000 -0400
++++ src/Makefile.in	2009-10-10 06:44:06.000000000 -0400
+@@ -273,7 +273,7 @@
+ 		px_crypt.c \
+ 		gregor.c
+ 
+-libpx_la_LIBADD = @RECODE_LIBS@ @GSF_LIBS@
++libpx_la_LIBADD = @RECODE_LIBS@ @GSF_LIBS@ -lintl -liconv
+ BUILD_LIBS = -lm
+ all: all-am
+ 

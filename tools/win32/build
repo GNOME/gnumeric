@@ -1,0 +1,62 @@
+#!/bin/sh
+
+# configurable settings
+py_ver=26
+py_pkg_ver=2.6.3
+
+###################################################
+builddir="$1"
+srcdir="$2"
+target="$3"
+
+export WINEPREFIX="${builddir}/wine"
+WINEDIR="${WINEPREFIX}/drive_c"
+archive_dir="${builddir}/archive"
+export JH_PREFIX="${builddir}/${target}"
+export JH_MODULE_SET="${srcdir}/moduleset"
+
+build_mkdir() {
+     if [ ! -d "$1" ]; then
+	    echo mkdir -p "$1"
+	    mkdir -p "$1"
+	fi
+}
+build_ls_s() {
+    if [ ! -L "$2" ]; then
+       echo ln -s "$1" "$2"
+       ln -s "$1" "$2"
+    fi
+}
+
+# Setup up the JH_PREFIX/deploy
+    build_mkdir "${JH_PREFIX}/deploy" ; cd "${JH_PREFIX}/deploy"
+    build_mkdir "bin"
+    build_mkdir "lib"
+    build_mkdir "etc/gtk-2.0"
+    install -C "${srcdir}/gtkrc" "etc/gtk-2.0"
+
+# Setup Python
+    py_pkg="${archive_dir}/python-${py_pkg_ver}.msi"
+    build_mkdir "${archive_dir}"
+
+    if [ ! -f "$py_pkg" ]; then
+	echo wget "http://www.python.org/ftp/python/${py_pkg_ver}/python-${py_pkg_ver}.msi"
+	( cd archive ; wget "http://www.python.org/ftp/python/${py_pkg_ver}/python-${py_pkg_ver}.msi" )
+    fi
+    if [ ! -d "${WINEDIR}/Python${py_ver}" ]; then
+	echo wine msiexec /i ${py_pkg}
+	wine msiexec /i ${py_pkg}
+    fi
+    build_ls_s "${WINEDIR}/Python${py_ver}"			 	"Python${py_ver}" 
+    build_ls_s "${WINEDIR}/windows/system32/python${py_ver}.dll" 	"bin/libpython${py_ver}.dll"
+    build_ls_s "${WINEDIR}/Python${py_ver}/libs/python${py_ver}.lib"	"lib/libpython${py_ver}.dll.a"
+
+# prep jhbuild files
+    ${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc"
+
+################################################################
+# TODO
+#    - pangorc
+#    - better sharing between -debug and -release
+#    - doc generation and deployment
+#    - packaging

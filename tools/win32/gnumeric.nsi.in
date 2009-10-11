@@ -37,7 +37,7 @@ SetCompressor /SOLID lzma
 !define MUI_WELCOMEPAGE_TITLE_3LINES
 !define MUI_WELCOMEPAGE_TEXT "You can always get the newest version from:\r\n\r\nhttp://www.gnumeric.org/\r\n\r\nThis wizard will guide you through the installation of $(^NameDA).\r\n\r\nIt is recommended that you close all other applications before starting Setup. This will make it possible to update relevant system files without having to reboot your computer.\r\n\r\n$_CLICK"
 !insertmacro MUI_PAGE_WELCOME
-!insertmacro MUI_PAGE_LICENSE "gpl.txt"
+!insertmacro MUI_PAGE_LICENSE "COPYING"
 
 Page custom CustomPageShortcut
 !insertmacro MUI_PAGE_COMPONENTS

@@ -1,7 +1,6 @@
 <?xml version="1.0" ?>
 <!DOCTYPE doc [
-      <!ENTITY patch_dir "/gnome/src/gnumeric/tools/win32/patches/">
-      <!-- <!ENTITY patch_dir "http://svn.gnome.org/svn/gnumeric/trunk/tools/win32/patches/"> -->
+      <!ENTITY patch_dir "@abs_srcdir@/patches/">
 ]>
 <moduleset>
     <repository type="git" name="git.gnome.org" default="yes"
@@ -35,14 +34,18 @@
     <tarball id="pcre" version="7.9">
 	<source href="http://downloads.sourceforge.net/pcre/pcre-7.9.tar.bz2"/>
     </tarball>
-    <autotools id="gtk-doc">
-	<branch module="gtk-doc" checkoutdir="gtk-doc"/>
+    <autotools id="gtk-doc"
+	autogen-sh="autoreconf"  skip-autogen="never">
+	<branch repo="gnome.org" module="sources/gtk-doc/1.11/gtk-doc-1.11.tar.bz2" version="1.11">
+	    <patch file="&patch_dir;gtk-doc-disable-python.patch"/>
+	</branch>
     </autotools>
 
     <autotools id="glib">
 	<branch repo="gnome.org" module="sources/glib/2.22/glib-2.22.2.tar.bz2" version="2.22.2">
 	    <patch file="&patch_dir;glib-win32-cachefile.patch.gz"/>
 	    <patch file="&patch_dir;glib-goption-disable-localization.patch"/>
+	    <patch file="&patch_dir;glib-disable-python.patch" strip="1"/>
 	</branch>
 	<dependencies>
 	    <dep package="gettext"/>
@@ -156,6 +159,7 @@
 	</branch>
 	<dependencies>
 	    <dep package="freetype"/>
+	    <dep package="libxml2"/>
 	</dependencies>
     </autotools>
 
@@ -192,6 +196,8 @@
 	<branch repo="gnome.org" module="sources/gtk+/2.18/gtk+-2.18.2.tar.bz2"
 		version="2.18.2">
 	    <patch file="&patch_dir;gtk-disable-demo.patch"/>
+	    <patch file="&patch_dir;gtk-pending-2.18.3.patch" strip="1"/>
+	    <patch file="&patch_dir;gtk-use-wine-to-cross-compile.patch" strip="1"/>
 	</branch>
 	<dependencies>
 	    <dep package="glib"/>
@@ -254,7 +260,7 @@
 	<source href="http://superb-east.dl.sourceforge.net/sourceforge/pxlib/pxlib-0.6.3.tar.gz"
 		md5sum="0742020854496fa757d7acbe6a895224"/>
 	<patches>
-	    <patch file="&patch_dir;pxlib.patch"/>
+	    <patch file="&patch_dir;pxlib-intl.patch"/>
 	</patches>
     </tarball>
 
@@ -305,6 +311,7 @@
 	<branch/>
 	<dependencies>
 	    <dep package="glib"/>
+	    <dep package="gtk+"/> <!-- make sure gdkpixbuf does not pick up external gtk -->
 	    <dep package="libxml2"/>
 	    <dep package="zlib"/>
 	    <dep package="libbz2"/>

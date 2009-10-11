@@ -23,8 +23,8 @@ os.environ['HOST']	= 'i686-pc-linux-gnuaout'
 os.environ['TARGET']	= 'i586-pc-mingw32msvc'
 os.environ['PKG_CONFIG']= '/usr/bin/pkg-config'
 
-addpath('PKG_CONFIG_PATH', os.path.join(os.sep, 'usr', 'lib', 'pkgconfig'))
-addpath('PKG_CONFIG_PATH', os.path.join(os.sep, 'usr', 'share', 'pkgconfig'))
+addpath('PKG_CONFIG_PATH', os.path.join(os.sep, prefix, 'lib', 'pkgconfig'))
+addpath('PKG_CONFIG_PATH', os.path.join(os.sep, prefix, 'share', 'pkgconfig'))
 
 #Prefix for all the tools
 mingw_tool_prefix = '/usr/bin/i586-mingw32msvc-'
@@ -57,7 +57,7 @@ os.environ['ACLOCAL_AMFLAGS'] = ' -I '+prefix+'/share/aclocal'	# for libgnomedb
 os.environ['WINEDEBUG']	 = '-all'
 #os.environ['MAKE']	 = 'colormake'
 
-py_prefix = prefix+'/Python25'
+py_prefix = prefix+'/Python26'
 os.environ['PYTHON']	 = py_prefix+'/python.exe'
 os.environ['PY_PREFIX']  = py_prefix
 os.environ['PY_INCLUDE_DIR'] = py_prefix+'/include'
@@ -100,6 +100,7 @@ module_autogenargs['pango']	= autogenargs + """ --disable-gtk-doc \
                                                   --with-included-modules"""
 #						  --disable-ft
 module_autogenargs['pixman']	= autogenargs + """ --enable-explicit-deps=no \
+                                                  --enable-gtk=no \
                                                   --enable-xlib=no \
                                                   --enable-xlib-xrender=no \
                                                   --enable-win32-font=yes"""
@@ -111,20 +112,20 @@ module_autogenargs['cairo']	= autogenargs + """ --enable-explicit-deps=no \
 						  --disable-static \
 						  --enable-shared"""
 #						  --enable-ft=no
+module_autogenargs['psiconv']	= autogenargs + """ --disable-xhtml-docs \
+						    --disable-html4-docs \
+						    --disable-ascii-docs \
+						    --without-imagemagick"""
 
 module_autogenargs['libxml2']	= autogenargs + """ --disable-scrollkeeper --without-iconv"""
 
 autogenargs += """ --disable-scrollkeeper --disable-gtk-doc"""
 
 module_autogenargs['atk']	= autogenargs + """ --disable-glibtest"""
-module_autogenargs['gtk+']	= autogenargs + """ --disable-glibtest --without-libjasper  --without-libtiff --without-libjpeg"""
+module_autogenargs['gtk+']	= autogenargs + """ --disable-glibtest --enable-gdiplus --without-libjasper  --without-libtiff --without-libjpeg"""
 
 module_autogenargs['libgda']	= autogenargs + """ --without-odbc --without-lda --without-java"""
 module_autogenargs['pxlib']	= autogenargs + """ --with-gsf=""" + prefix
-module_autogenargs['psiconv']	= autogenargs + """ --disable-xhtml-docs \
-						    --disable-html4-docs \
-						    --disable-ascii-docs \
-						    --without-imagemagick"""
 module_autogenargs['libglade']	= autogenargs
 module_autogenargs['pygobject']	= autogenargs
 module_autogenargs['libgsf']	= autogenargs + """ --without-gnome-vfs --without-bonobo"""

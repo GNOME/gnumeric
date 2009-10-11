@@ -5,6 +5,12 @@
 	* src/mathfunc.h (random_skew_normal): new
 	(random_skew_tdist): new
 
+2009-10-10  Jody Goldberg <jody@gnome.org>
+
+	* src/main-application.c (gnumeric_arg_parse) : honour
+	  HAVE_G_OPTION_CONTEXT_SET_DELOCALIZE for people trying to build on
+	  win32 with stock gtk+.
+
 2009-10-11  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

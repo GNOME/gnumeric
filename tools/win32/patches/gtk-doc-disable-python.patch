@@ -1,0 +1,11 @@
+--- configure.in	2008-10-16 14:50:35.000000000 -0400
++++ configure.in	2009-10-10 07:20:59.000000000 -0400
+@@ -45,7 +45,7 @@
+ dnl
+ dnl Check for Python.
+ dnl
+-AM_PATH_PYTHON([2.3],,)
++dnl AM_PATH_PYTHON([2.3],,)
+ AM_CONDITIONAL([HAVE_PYTHON], [test -n "$PYTHON"])
+ 
+ dnl

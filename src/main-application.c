@@ -181,7 +181,7 @@ gnumeric_arg_parse (int argc, char **argv)
 	g_option_context_add_main_entries (ocontext, gnumeric_options, GETTEXT_PACKAGE);
 	g_option_context_add_group	  (ocontext, gnm_get_option_group ());
 
-#ifdef G_OS_WIN32
+#if defined(G_OS_WIN32) && defined(HAVE_G_OPTION_CONTEXT_SET_DELOCALIZE)
 	/* we have already translated to utf8, do not do it again.
 	 * http://bugzilla.gnome.org/show_bug.cgi?id=361321 */
 	g_option_context_set_delocalize   (ocontext, FALSE);

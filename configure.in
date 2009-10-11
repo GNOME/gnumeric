@@ -1090,8 +1090,9 @@ templates/english/Makefile
 templates/autoformat/Makefile
 test/Makefile
 tools/Makefile
-tools/win32/gnumeric.nsi
 tools/win32/Makefile
+tools/win32/moduleset
+tools/win32/gnumeric.nsi
 component/Makefile
 ])
 

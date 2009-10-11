@@ -3,6 +3,9 @@ Gnumeric 1.9.15
 Andreas:
 	* Add RANDSNORM and RANDSTDIST. [#144717]
 
+Jody:
+	* First steps towards a turnkey win32 build.
+
 --------------------------------------------------------------------------
 Gnumeric 1.9.14
 
