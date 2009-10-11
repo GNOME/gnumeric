@@ -1,8 +1,16 @@
+gnumeric (1.9.14-1) experimental; urgency=low
+
+  * New upstream development release. Uploading to experimental so as not to
+    interfere with gnumeric 0.7.13's migration to testing.
+  * [debian/control] Bumped goffice build dependency as per configure.in .
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 11 Oct 2009 18:37:13 +0200
+
 gnumeric (1.9.13-1) unstable; urgency=medium
 
   * New upstream development release. Urgency medium as testing's gnumeric
     is currently broken.
-  * [debian/control] Bumped goffice build dependency as per per configure.in .
+  * [debian/control] Bumped goffice build dependency as per configure.in .
 
  -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 20 Sep 2009 21:47:45 +0200
 
