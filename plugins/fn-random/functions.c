@@ -669,8 +669,8 @@ gnumeric_randchisq (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_randtdist[] = {
         { GNM_FUNC_HELP_NAME, F_("RANDTDIST:random variate from a Student t distribution") },
         { GNM_FUNC_HELP_ARG, F_("df:degrees of freedom") },
-        { GNM_FUNC_HELP_EXAMPLES, "=RANDTDIST(0.5)" },
-        { GNM_FUNC_HELP_EXAMPLES, "=RANDTDIST(0.5)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDTDIST(5)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDTDIST(5)" },
         { GNM_FUNC_HELP_SEEALSO, "RAND" },
         { GNM_FUNC_HELP_END}
 };
@@ -878,6 +878,67 @@ gnumeric_simtable (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_randsnorm[] = {
+        { GNM_FUNC_HELP_NAME, F_("RANDNORM:random variate from a skew normal distribution") },
+        { GNM_FUNC_HELP_ARG, F_("a: amount of skew, defaults to 0") },
+        { GNM_FUNC_HELP_ARG, F_("\xce\xbc:mean of the underlying normal distribution, defaults to 0") },
+        { GNM_FUNC_HELP_ARG, F_("\xcf\x83:standard deviation of the underlying normal distribution, defaults to 1") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{\xcf\x83} < 0, RANDSNORM returns #NUM!") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDSNORM(-3,0,1)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDSNORM(-3,0,1)" },
+        { GNM_FUNC_HELP_SEEALSO, "RANDNORM" },
+        { GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_randsnorm (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float alpha  = 0.;
+	gnm_float mean  = 0.;
+	gnm_float stdev = 1.;
+	gnm_float result;
+	
+	if (argv[0]) {
+		alpha  = value_get_as_float (argv[0]);
+		if (argv[1]) {
+			mean  = value_get_as_float (argv[1]);
+			if (argv[2])
+				stdev = value_get_as_float (argv[2]);	
+		}
+	}
+
+       	if (stdev < 0)
+		return value_new_error_NUM (ei->pos);
+
+	result = ((alpha == 0.) ? random_normal () : random_skew_normal (alpha));
+
+        return value_new_float (stdev * result + mean);
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_randstdist[] = {
+        { GNM_FUNC_HELP_NAME, F_("RANDSTDIST:random variate from a skew t distribution") },
+        { GNM_FUNC_HELP_ARG, F_("df:degrees of freedom") },
+        { GNM_FUNC_HELP_ARG, F_("a: amount of skew, defaults to 0") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDSTDIST(5,-2)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDSTDIST(5,2)" },
+        { GNM_FUNC_HELP_SEEALSO, "RANDTDIST" },
+        { GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_randstdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float nu = value_get_as_float (argv[0]);
+	gnm_float alpha = argv[1] ? value_get_as_float (argv[1]) : 0.;
+
+	return ((alpha == 0.) ? value_new_float (random_tdist (nu)) 
+		: value_new_float (random_skew_tdist (nu, alpha)));;
+}
+
+/***************************************************************************/
+
 GnmFuncDescriptor const random_functions[] = {
 	{ "rand",    "", help_rand,
 	  gnumeric_rand, NULL, NULL, NULL, NULL,
@@ -962,6 +1023,12 @@ GnmFuncDescriptor const random_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
         { "randrayleightail", "ff",  help_randrayleightail,
 	  gnumeric_randrayleightail, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+        { "randsnorm", "|fff",  help_randsnorm,
+	  gnumeric_randsnorm, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+        { "randstdist", "ff",  help_randstdist,
+	  gnumeric_randstdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
         { "randtdist", "f",  help_randtdist,
 	  gnumeric_randtdist, NULL, NULL, NULL, NULL,

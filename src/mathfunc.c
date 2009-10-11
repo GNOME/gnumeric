@@ -7617,6 +7617,54 @@ random_landau (void)
 
 /* ------------------------------------------------------------------------ */
 
+/*
+ * Generate a skew-normal distributed random number. 
+ * 
+ * based on the information provided at
+ * http://azzalini.stat.unipd.it/SN/faq.html
+ *
+ */
+
+gnm_float 
+random_skew_normal (gnm_float a)
+{
+	gnm_float result;
+	gnm_float asq = a * a;
+	gnm_float delta = gnm_sqrt (asq / (1 + asq));
+	gnm_float u = random_normal ();
+	gnm_float v = random_normal ();
+	
+	if (a < 0.)
+		delta *= -1.;
+	result = delta * u + gnm_sqrt (1-delta*delta) * v;
+	
+	return ((u < 0.) ? -result : result);
+}
+
+
+/* ------------------------------------------------------------------------ */
+
+/*
+ * Generate a skew-t distributed random number. 
+ * 
+ * based on the information provided at
+ * http://azzalini.stat.unipd.it/SN/faq.html
+ *
+ */
+
+gnm_float 
+random_skew_tdist (gnm_float nu, gnm_float a)
+{
+	gnm_float chi = random_chisq (nu);
+	gnm_float z = random_skew_normal (a);;
+
+	return (z / gnm_sqrt(chi/nu));
+}
+
+
+/* ------------------------------------------------------------------------ */
+
+
 
 gnm_float
 combin (gnm_float n, gnm_float k)

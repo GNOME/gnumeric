@@ -1,3 +1,14 @@
+2009-10-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* plugin.xml.in: add randsnorm and randstdist
+	* functions.c (help_randtdist): use a more reasonable degrees
+	  of freedom
+	(help_randsnorm): new
+	(gnumeric_randsnorm): new
+	(help_randstdist): new
+	(gnumeric_randstdist): new
+	(random_functions): add randsnorm and randstdist
+
 2009-10-11  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.14

@@ -155,6 +155,8 @@ gnm_float random_levy_skew      (gnm_float c, gnm_float alpha,
 gnm_float random_exppow         (gnm_float a, gnm_float b);
 gnm_float random_landau         (void);
 gnm_float random_gaussian_tail  (gnm_float a, gnm_float sigma);
+gnm_float random_skew_normal    (gnm_float a);
+gnm_float random_skew_tdist     (gnm_float nu, gnm_float a);
 
 /* The probability density functions. */
 gnm_float random_exppow_pdf     (gnm_float x, gnm_float a, gnm_float b);

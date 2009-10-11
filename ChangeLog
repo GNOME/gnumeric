@@ -1,3 +1,10 @@
+2009-10-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/mathfunc.c (random_skew_normal): new
+	(random_skew_tdist): new
+	* src/mathfunc.h (random_skew_normal): new
+	(random_skew_tdist): new
+
 2009-10-11  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
