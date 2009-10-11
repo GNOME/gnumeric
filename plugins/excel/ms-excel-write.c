@@ -5229,40 +5229,14 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 	g_array_free (dbcells, TRUE);
 }
 
-static GnmExprTop const *
-make_ref_global (GnmExprTop const *texpr, Sheet *sheet)
-{
-	GnmValue *vr;
-	GnmRangeRef rr;
-
-	if (!texpr) return texpr;
-
-	vr = gnm_expr_top_get_range (texpr);
-	if (!vr) return texpr;
-	rr = *value_get_rangeref (vr);
-
-	value_release (vr);
-	gnm_expr_top_unref (texpr);
-
-	if (!rr.a.sheet)
-		rr.a.sheet = sheet;
-	if (!rr.b.sheet)
-		rr.b.sheet = sheet;
-
-	vr = value_new_cellrange_unsafe (&rr.a, &rr.b);
-	return gnm_expr_top_new_constant (vr);
-}
-
 static GnmNamedExpr *
-create_macroname (SheetObject *so, GnmExprTop const *texpr)
+create_macroname (SheetObject *so)
 {
 	Sheet *sheet = sheet_object_get_sheet (so);
 	GnmNamedExpr *nexpr;
 	char *basename, *objname, *name;
 	unsigned ui;
 	GnmParsePos pp;
-
-	texpr = make_ref_global (texpr, sheet);
 
 	parse_pos_init_sheet (&pp, sheet);
 
@@ -5282,7 +5256,9 @@ create_macroname (SheetObject *so, GnmExprTop const *texpr)
 	pp.sheet = NULL;
 	g_printerr ("Name = %s\n", name);
 
-	nexpr = expr_name_add (&pp, name, texpr, NULL, TRUE, NULL);
+	nexpr = expr_name_add (&pp, name, NULL, NULL, TRUE, NULL);
+	expr_name_set_expr (nexpr, NULL);
+
 	g_free (name);
 	g_free (basename);
 
@@ -5365,27 +5341,13 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 			esheet->textboxes =
 				g_slist_prepend (esheet->textboxes, so);
 			handled = TRUE;
-		} else if (GNM_IS_SOW_CHECKBOX (so)) {
-			GnmExprTop const *texpr =
-				sheet_widget_checkbox_get_link (so);
-			GnmNamedExpr *nexpr;
+		} else if (GNM_IS_SOW_CHECKBOX (so) ||
+			   GNM_IS_SOW_RADIO_BUTTON (so)) {
 			esheet->textboxes =
 				g_slist_prepend (esheet->textboxes, so);
-			nexpr = create_macroname (so, texpr);
 			g_hash_table_insert (esheet->widget_macroname,
 					     so,
-					     nexpr);
-			handled = TRUE;
-		} else if (GNM_IS_SOW_RADIO_BUTTON (so)) {
-			GnmExprTop const *texpr =
-				sheet_widget_radio_button_get_link (so);
-			GnmNamedExpr *nexpr;
-			esheet->textboxes =
-				g_slist_prepend (esheet->textboxes, so);
-			nexpr = create_macroname (so, texpr);
-			g_hash_table_insert (esheet->widget_macroname,
-					     so,
-					     nexpr);
+					     create_macroname (so));
 			handled = TRUE;
 		} else if (IS_GNM_SO_LINE (so)) {
 			esheet->lines =
