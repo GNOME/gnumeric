@@ -1,3 +1,7 @@
+2009-10-11  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.14
+
 2009-09-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugin.xml.in: translate ui labels. [#159806]
