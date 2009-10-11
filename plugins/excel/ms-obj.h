@@ -158,6 +158,9 @@ void ms_objv8_write_checkbox_link (BiffPut *bp);
 void ms_objv8_write_checkbox_fmla (BiffPut *bp,
 				   ExcelWriteSheet *esheet,
 				   GnmExprTop const *texpr);
+void ms_objv8_write_macro_fmla    (BiffPut *bp,
+				   ExcelWriteSheet *esheet,
+				   GnmExprTop const *texpr);
 void ms_objv8_write_radiobutton (BiffPut *bp);
 
 #endif /* GNM_MS_OBJ_H */

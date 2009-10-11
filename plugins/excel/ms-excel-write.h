@@ -51,6 +51,7 @@ typedef struct {
 	GnmStyleList	*conditions, *hlinks, *validations;
 	GSList          *blips, *textboxes, *lines, *graphs, *comments;
 	GHashTable	*commentshash;
+	GHashTable      *widget_macroname;
 	unsigned	 cur_obj, num_objs;
 } ExcelWriteSheet;
 

@@ -4272,6 +4272,7 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	GnmExprTop const *checkbox_texpr = NULL;
 	gboolean checkbox_active = FALSE;
 	gboolean is_button = FALSE;
+	GnmNamedExpr *macro_nexpr = NULL;
 
 	g_object_get (so,
 		      "name", &name,
@@ -4320,6 +4321,8 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 		checkbox_texpr = sheet_widget_checkbox_get_link (so);
 		g_object_get (so, "active", &checkbox_active, NULL);
 		is_button = TRUE;
+
+		macro_nexpr = g_hash_table_lookup (esheet->widget_macroname, so);
 	} else if (GNM_IS_SOW_RADIO_BUTTON (so)) {
 		shape = 0xc9;
 		type = 12;
@@ -4327,6 +4330,8 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 		checkbox_texpr = sheet_widget_radio_button_get_link (so);
 		g_object_get (so, "active", &checkbox_active, NULL);
 		is_button = TRUE;
+
+		macro_nexpr = g_hash_table_lookup (esheet->widget_macroname, so);
 	} else {
 		g_assert_not_reached ();
 		return 0;
@@ -4409,6 +4414,15 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 		if (checkbox_texpr)
 			ms_objv8_write_checkbox_fmla (bp, esheet,
 						      checkbox_texpr);
+		if (macro_nexpr) {
+			GnmExprTop const *texpr =
+				gnm_expr_top_new
+				(gnm_expr_new_name (macro_nexpr,
+						    esheet->gnum_sheet,
+						    NULL));
+			ms_objv8_write_macro_fmla (bp, esheet, texpr);
+			gnm_expr_top_unref (texpr);
+		}
 		ms_objv8_write_checkbox_data (bp, checkbox_active);
 	}
 
@@ -5215,6 +5229,66 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 	g_array_free (dbcells, TRUE);
 }
 
+static GnmExprTop const *
+make_ref_global (GnmExprTop const *texpr, Sheet *sheet)
+{
+	GnmValue *vr;
+	GnmRangeRef rr;
+
+	if (!texpr) return texpr;
+
+	vr = gnm_expr_top_get_range (texpr);
+	if (!vr) return texpr;
+	rr = *value_get_rangeref (vr);
+
+	value_release (vr);
+	gnm_expr_top_unref (texpr);
+
+	if (!rr.a.sheet)
+		rr.a.sheet = sheet;
+	if (!rr.b.sheet)
+		rr.b.sheet = sheet;
+
+	vr = value_new_cellrange_unsafe (&rr.a, &rr.b);
+	return gnm_expr_top_new_constant (vr);
+}
+
+static GnmNamedExpr *
+create_macroname (SheetObject *so, GnmExprTop const *texpr)
+{
+	Sheet *sheet = sheet_object_get_sheet (so);
+	GnmNamedExpr *nexpr;
+	char *basename, *objname, *name;
+	unsigned ui;
+	GnmParsePos pp;
+
+	texpr = make_ref_global (texpr, sheet);
+
+	parse_pos_init_sheet (&pp, sheet);
+
+	g_object_get (so, "name", &objname, NULL);
+	if (objname) {
+		basename = g_strconcat (objname, "_Click", NULL);
+		g_free (objname);
+	} else
+		basename = g_strdup ("Click");
+
+	name = g_strdup (basename);
+	for (ui = 1; expr_name_lookup (&pp, name) != NULL; ui++) {
+		g_free (name);
+		name = g_strdup_printf ("%s_%d", basename, ui);
+	}
+
+	pp.sheet = NULL;
+	g_printerr ("Name = %s\n", name);
+
+	nexpr = expr_name_add (&pp, name, texpr, NULL, TRUE, NULL);
+	g_free (name);
+	g_free (basename);
+
+	return nexpr;
+}
+
 static ExcelWriteSheet *
 excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 		 gboolean biff7, gboolean biff8)
@@ -5257,6 +5331,10 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 
 	esheet->cur_obj = esheet->num_objs = 0;
 
+	esheet->widget_macroname =
+		g_hash_table_new_full (g_direct_hash, g_direct_equal,
+				       NULL, (GDestroyNotify)expr_name_remove);
+
 	objs = sheet_objects_get (sheet, NULL, G_TYPE_NONE);
 	for (l = objs; l; l = l->next) {
 		SheetObject *so = SHEET_OBJECT (l->data);
@@ -5287,10 +5365,27 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 			esheet->textboxes =
 				g_slist_prepend (esheet->textboxes, so);
 			handled = TRUE;
-		} else if (GNM_IS_SOW_CHECKBOX (so) ||
-			   GNM_IS_SOW_RADIO_BUTTON (so)) {
+		} else if (GNM_IS_SOW_CHECKBOX (so)) {
+			GnmExprTop const *texpr =
+				sheet_widget_checkbox_get_link (so);
+			GnmNamedExpr *nexpr;
 			esheet->textboxes =
 				g_slist_prepend (esheet->textboxes, so);
+			nexpr = create_macroname (so, texpr);
+			g_hash_table_insert (esheet->widget_macroname,
+					     so,
+					     nexpr);
+			handled = TRUE;
+		} else if (GNM_IS_SOW_RADIO_BUTTON (so)) {
+			GnmExprTop const *texpr =
+				sheet_widget_radio_button_get_link (so);
+			GnmNamedExpr *nexpr;
+			esheet->textboxes =
+				g_slist_prepend (esheet->textboxes, so);
+			nexpr = create_macroname (so, texpr);
+			g_hash_table_insert (esheet->widget_macroname,
+					     so,
+					     nexpr);
 			handled = TRUE;
 		} else if (IS_GNM_SO_LINE (so)) {
 			esheet->lines =
@@ -5345,6 +5440,7 @@ excel_sheet_free (ExcelWriteSheet *esheet)
 	g_slist_free (esheet->comments);
 	g_slist_free (esheet->graphs);
 	g_hash_table_destroy (esheet->commentshash);
+	g_hash_table_destroy (esheet->widget_macroname);
 	go_slist_free_custom (esheet->blips, (GFreeFunc) blipinf_free);
 	style_list_free (esheet->conditions);
 	style_list_free (esheet->hlinks);
@@ -6180,8 +6276,10 @@ excel_write_state_new (GOIOContext *context, WorkbookView const *wb_view,
 
 		sheet = workbook_sheet_by_index (ewb->base.wb, i);
 		esheet = excel_sheet_new (ewb, sheet, biff7, biff8);
-		if (esheet != NULL)
-			g_ptr_array_add (ewb->esheets, esheet);
+		if (esheet == NULL)
+			continue;
+
+		g_ptr_array_add (ewb->esheets, esheet);
 
 		if (sheet->sheet_type != GNM_SHEET_DATA)
 			continue;
@@ -6229,8 +6327,8 @@ excel_write_state_free (ExcelWriteState *ewb)
 
 	for (i = 0; i < ewb->esheets->len; i++)
 		excel_sheet_free (g_ptr_array_index (ewb->esheets, i));
-
 	g_ptr_array_free (ewb->esheets, TRUE);
+
 	g_hash_table_destroy (ewb->names);
 	g_ptr_array_free (ewb->externnames, TRUE);
 	g_hash_table_destroy (ewb->function_map);
