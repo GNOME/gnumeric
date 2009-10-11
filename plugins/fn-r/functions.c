@@ -1194,7 +1194,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dnorm",
 		"fff|b",
-
 		help_r_dnorm,
 		gnumeric_r_dnorm, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1202,7 +1201,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.pnorm",
 		"fff|bb",
-
 		help_r_pnorm,
 		gnumeric_r_pnorm, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1210,7 +1208,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qnorm",
 		"fff|bb",
-
 		help_r_qnorm,
 		gnumeric_r_qnorm, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1218,7 +1215,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dlnorm",
 		"fff|b",
-
 		help_r_dlnorm,
 		gnumeric_r_dlnorm, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1226,7 +1222,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.plnorm",
 		"fff|bb",
-
 		help_r_plnorm,
 		gnumeric_r_plnorm, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1234,7 +1229,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qlnorm",
 		"fff|bb",
-
 		help_r_qlnorm,
 		gnumeric_r_qlnorm, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1242,7 +1236,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dgamma",
 		"fff|b",
-
 		help_r_dgamma,
 		gnumeric_r_dgamma, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1250,7 +1243,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.pgamma",
 		"fff|bb",
-
 		help_r_pgamma,
 		gnumeric_r_pgamma, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1258,7 +1250,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qgamma",
 		"fff|bb",
-
 		help_r_qgamma,
 		gnumeric_r_qgamma, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1266,7 +1257,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dbeta",
 		"fff|b",
-
 		help_r_dbeta,
 		gnumeric_r_dbeta, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1274,7 +1264,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.pbeta",
 		"fff|bb",
-
 		help_r_pbeta,
 		gnumeric_r_pbeta, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1282,7 +1271,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qbeta",
 		"fff|bb",
-
 		help_r_qbeta,
 		gnumeric_r_qbeta, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1290,7 +1278,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dt",
 		"ff|b",
-
 		help_r_dt,
 		gnumeric_r_dt, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1298,7 +1285,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.pt",
 		"ff|bb",
-
 		help_r_pt,
 		gnumeric_r_pt, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1306,7 +1292,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qt",
 		"ff|bb",
-
 		help_r_qt,
 		gnumeric_r_qt, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1314,7 +1299,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.df",
 		"fff|b",
-
 		help_r_df,
 		gnumeric_r_df, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1322,7 +1306,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.pf",
 		"fff|bb",
-
 		help_r_pf,
 		gnumeric_r_pf, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1330,7 +1313,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qf",
 		"fff|bb",
-
 		help_r_qf,
 		gnumeric_r_qf, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1338,7 +1320,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dchisq",
 		"ff|b",
-
 		help_r_dchisq,
 		gnumeric_r_dchisq, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1346,7 +1327,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.pchisq",
 		"ff|bb",
-
 		help_r_pchisq,
 		gnumeric_r_pchisq, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1354,7 +1334,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qchisq",
 		"ff|bb",
-
 		help_r_qchisq,
 		gnumeric_r_qchisq, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1362,7 +1341,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dweibull",
 		"fff|b",
-
 		help_r_dweibull,
 		gnumeric_r_dweibull, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1370,7 +1348,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.pweibull",
 		"fff|bb",
-
 		help_r_pweibull,
 		gnumeric_r_pweibull, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1378,7 +1355,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qweibull",
 		"fff|bb",
-
 		help_r_qweibull,
 		gnumeric_r_qweibull, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1386,7 +1362,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dpois",
 		"ff|b",
-
 		help_r_dpois,
 		gnumeric_r_dpois, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1394,7 +1369,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.ppois",
 		"ff|bb",
-
 		help_r_ppois,
 		gnumeric_r_ppois, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1402,7 +1376,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qpois",
 		"ff|bb",
-
 		help_r_qpois,
 		gnumeric_r_qpois, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1410,7 +1383,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dexp",
 		"ff|b",
-
 		help_r_dexp,
 		gnumeric_r_dexp, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1418,7 +1390,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.pexp",
 		"ff|bb",
-
 		help_r_pexp,
 		gnumeric_r_pexp, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1426,7 +1397,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qexp",
 		"ff|bb",
-
 		help_r_qexp,
 		gnumeric_r_qexp, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1434,7 +1404,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dbinom",
 		"fff|b",
-
 		help_r_dbinom,
 		gnumeric_r_dbinom, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1442,7 +1411,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.pbinom",
 		"fff|bb",
-
 		help_r_pbinom,
 		gnumeric_r_pbinom, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1450,7 +1418,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qbinom",
 		"fff|bb",
-
 		help_r_qbinom,
 		gnumeric_r_qbinom, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1458,7 +1425,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dnbinom",
 		"fff|b",
-
 		help_r_dnbinom,
 		gnumeric_r_dnbinom, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1466,7 +1432,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.pnbinom",
 		"fff|bb",
-
 		help_r_pnbinom,
 		gnumeric_r_pnbinom, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1474,7 +1439,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qnbinom",
 		"fff|bb",
-
 		help_r_qnbinom,
 		gnumeric_r_qnbinom, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1482,7 +1446,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dhyper",
 		"ffff|b",
-
 		help_r_dhyper,
 		gnumeric_r_dhyper, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1490,7 +1453,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.phyper",
 		"ffff|bb",
-
 		help_r_phyper,
 		gnumeric_r_phyper, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1498,7 +1460,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qhyper",
 		"ffff|bb",
-
 		help_r_qhyper,
 		gnumeric_r_qhyper, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1506,7 +1467,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dgeom",
 		"ff|b",
-
 		help_r_dgeom,
 		gnumeric_r_dgeom, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1514,7 +1474,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.pgeom",
 		"ff|bb",
-
 		help_r_pgeom,
 		gnumeric_r_pgeom, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1522,7 +1481,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qgeom",
 		"ff|bb",
-
 		help_r_qgeom,
 		gnumeric_r_qgeom, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1530,7 +1488,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dcauchy",
 		"fff|b",
-
 		help_r_dcauchy,
 		gnumeric_r_dcauchy, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1538,7 +1495,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.pcauchy",
 		"fff|bb",
-
 		help_r_pcauchy,
 		gnumeric_r_pcauchy, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1546,7 +1502,6 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qcauchy",
 		"fff|bb",
-
 		help_r_qcauchy,
 		gnumeric_r_qcauchy, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
