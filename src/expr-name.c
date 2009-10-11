@@ -829,7 +829,8 @@ expr_name_is_placeholder (GnmNamedExpr const *nexpr)
 {
 	g_return_val_if_fail (nexpr != NULL, FALSE);
 
-	return gnm_expr_top_is_err (nexpr->texpr, GNM_ERROR_NAME);
+	return (nexpr->texpr &&
+		gnm_expr_top_is_err (nexpr->texpr, GNM_ERROR_NAME));
 }
 
 int

@@ -1571,7 +1571,7 @@ excel_write_NAME (G_GNUC_UNUSED gpointer key,
 		excel_write_string (ewb->bp, STR_NO_LENGTH, name);
 	}
 
-	if (expr_name_is_placeholder (nexpr))
+	if (!nexpr->texpr || expr_name_is_placeholder (nexpr))
 		expr_len = 0;
 	else
 		expr_len = excel_write_formula (ewb, nexpr->texpr,
@@ -5254,7 +5254,6 @@ create_macroname (SheetObject *so)
 	}
 
 	pp.sheet = NULL;
-	g_printerr ("Name = %s\n", name);
 
 	nexpr = expr_name_add (&pp, name, NULL, NULL, TRUE, NULL);
 	expr_name_set_expr (nexpr, NULL);
