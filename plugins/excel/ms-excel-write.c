@@ -4386,7 +4386,7 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 
 	ms_escher_clientanchor (escher, &anchor);
 
-	ms_escher_clientdata (escher, NULL, 0);
+	ms_escher_clientdata (escher);
 
 	/* At this point we're still missing the textbox below.  */
 
@@ -4424,6 +4424,8 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 			gnm_expr_top_unref (texpr);
 		}
 		ms_objv8_write_checkbox_data (bp, checkbox_active);
+		if (type == 12)
+			ms_objv8_write_radiobutton_data (bp, 0, TRUE);
 	}
 
 	ms_biff_put_var_write (bp, zero, 4);
@@ -4502,7 +4504,7 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 
 	ms_escher_clientanchor (escher, sheet_object_get_anchor (so));
 
-	ms_escher_clientdata (escher, NULL, 0);
+	ms_escher_clientdata (escher);
 
 	ms_escher_spcontainer_end (escher, spmark);
 

@@ -77,7 +77,7 @@ void ms_escher_opt_end (GString *buf, gsize marker);
 
 void ms_escher_clientanchor (GString *buf, SheetObjectAnchor const *anchor);
 
-void ms_escher_clientdata (GString *buf, gpointer data, gsize len);
+void ms_escher_clientdata (GString *buf);
 
 /******************************************************/
 

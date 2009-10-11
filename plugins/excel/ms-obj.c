@@ -1481,3 +1481,15 @@ ms_objv8_write_radiobutton (BiffPut *bp)
 	GSF_LE_SET_GUINT16 (rb + 8, 0);  /* ignore */
 	ms_biff_put_var_write (bp, rb, sizeof rb);
 }
+
+void
+ms_objv8_write_radiobutton_data (BiffPut *bp, guint16 nobj, gboolean first)
+{
+	char rb[8];
+
+	GSF_LE_SET_GUINT16 (rb, GR_RADIO_BUTTON_DATA);
+	GSF_LE_SET_GUINT16 (rb + 2, sizeof (rb) - 4);
+	GSF_LE_SET_GUINT16 (rb + 4, nobj);
+	GSF_LE_SET_GUINT16 (rb + 6, !!first);
+	ms_biff_put_var_write (bp, rb, sizeof rb);
+}

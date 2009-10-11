@@ -162,5 +162,7 @@ void ms_objv8_write_macro_fmla    (BiffPut *bp,
 				   ExcelWriteSheet *esheet,
 				   GnmExprTop const *texpr);
 void ms_objv8_write_radiobutton (BiffPut *bp);
+void ms_objv8_write_radiobutton_data (BiffPut *bp,
+				      guint16 nobj, gboolean first);
 
 #endif /* GNM_MS_OBJ_H */

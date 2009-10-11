@@ -1,3 +1,13 @@
+2009-10-11  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_write_textbox_v8): Call
+	ms_objv8_write_radiobutton_data when appropriate.
+
+	* ms-obj.c (ms_objv8_write_radiobutton_data): New function.
+
+	* ms-escher.c (ms_escher_clientdata): Drop argument that turned
+	out to be not useful.
+
 2009-10-11  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.14
