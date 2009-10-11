@@ -222,6 +222,5 @@ src/workbook-cmd-format.c
 src/workbook-control.c
 src/workbook-view.c
 src/workbook.c
-src/xml-io.c
 src/xml-sax-read.c
 src/xml-sax-write.c
