@@ -242,9 +242,11 @@ src/dialogs/sheet-order.glade
 src/dialogs/sheet-resize.glade
 src/dialogs/shuffle.glade
 src/dialogs/simulation.glade
+src/dialogs/so-button.glade
 src/dialogs/so-checkbox.glade
 src/dialogs/so-frame.glade
 src/dialogs/so-list.glade
+src/dialogs/so-radiobutton.glade
 src/dialogs/so-scrollbar.glade
 src/dialogs/solver.glade
 src/dialogs/tabulate.glade
