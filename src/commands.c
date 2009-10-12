@@ -4794,8 +4794,16 @@ cmd_resize_sheets_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	for (l = me->sheets; l; l = l->next) {
 		Sheet *sheet = l->data;
-		GOUndo *u = gnm_sheet_resize (sheet, me->cols, me->rows, cc);
+		gboolean err;
+		GOUndo *u = gnm_sheet_resize (sheet, me->cols, me->rows,
+					      cc, &err);
 		me->undo = go_undo_combine (me->undo, u);
+
+		if (err) {
+			if (me->undo)
+				go_undo_undo_with_data (me->undo, cc);
+			return TRUE;
+		}
 	}
 
 	return FALSE;

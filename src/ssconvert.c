@@ -351,6 +351,7 @@ merge_single (Workbook *wb, Workbook *wb2,
 		int loc = workbook_sheet_count (wb);
 		GOUndo *undo;
 		char *sheet_name;
+		gboolean err;
 
 		g_object_ref (sheet);
 		workbook_sheet_delete (sheet);
@@ -359,7 +360,7 @@ merge_single (Workbook *wb, Workbook *wb2,
 		/* Fix names that reference the old workbook */
 		gnm_sheet_foreach_name (sheet, (GHFunc)cb_fixup_name_wb, wb);
 
-		undo = gnm_sheet_resize (sheet, cmax, rmax, cc);
+		undo = gnm_sheet_resize (sheet, cmax, rmax, cc, &err);
 		if (undo)
 			g_object_unref (undo);
 

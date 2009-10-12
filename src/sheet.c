@@ -1119,7 +1119,6 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 		       GOCmdContext *cc, GOUndo **pundo)
 {
 	int old_cols, old_rows;
-	static gboolean warned = FALSE;
 
 	if (pundo) *pundo = NULL;
 
@@ -1127,11 +1126,6 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 	old_rows = gnm_sheet_get_max_rows (sheet);
 	if (old_cols == cols && old_rows == rows)
 		return;
-
-	if (!warned) {
-		g_warning ("Changing sheet size is experimental.");
-		warned = TRUE;
-	}
 
 	/* ---------------------------------------- */
 	/* Remove the columns and rows that will disappear.  */
@@ -1231,7 +1225,10 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 	/* Actually change the properties.  */
 
 	sheet->size.max_cols = cols;
+	sheet->cols.max_used = MIN (sheet->cols.max_used, cols - 1);
 	sheet->size.max_rows = rows;
+	sheet->rows.max_used = MIN (sheet->rows.max_used, rows - 1);
+
 	if (old_cols != cols)
 		g_object_notify (G_OBJECT (sheet), "columns");
 	if (old_rows != rows)
@@ -1266,15 +1263,41 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 }
 
 GOUndo *
-gnm_sheet_resize (Sheet *sheet, int cols, int rows, GOCmdContext *cc)
+gnm_sheet_resize (Sheet *sheet, int cols, int rows,
+		  GOCmdContext *cc, gboolean *perr)
 {
 	GOUndo *undo = NULL;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (gnm_sheet_valid_size (cols, rows), NULL);
 
+	if (cols < sheet->size.max_cols || rows < sheet->size.max_rows) {
+		GSList *overlap, *l;
+		gboolean bad = FALSE;
+		GnmRange r;
+
+		r.start.col = r.start.row = 0;
+		r.end.col = MIN (cols, sheet->size.max_cols) - 1;
+		r.end.row = MIN (rows, sheet->size.max_rows) - 1;
+
+		overlap = gnm_sheet_merge_get_overlap (sheet, &r);
+		for (l = overlap; l && !bad; l = l->next) {
+			GnmRange const *m = l->data;
+			if (!range_contained (m, &r)) {
+				bad = TRUE;
+				gnm_cmd_context_error_splits_merge (cc, m);
+			}
+		}
+		g_slist_free (overlap);
+		if (bad) {
+			*perr = TRUE;
+			return NULL;
+		}
+	}
+
 	gnm_sheet_resize_main (sheet, cols, rows, cc, &undo);
 
+	*perr = FALSE;
 	return undo;
 }
 

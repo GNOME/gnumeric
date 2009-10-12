@@ -926,12 +926,13 @@ oo_extent_sheet_cols (Sheet *sheet, int cols)
 {
 	GOUndo   * goundo;
 	int new_cols, new_rows;
+	gboolean err;
 
 	new_cols = cols;
 	new_rows = gnm_sheet_get_max_rows (sheet);
 	gnm_sheet_suggest_size (&new_cols, &new_rows);
 
-	goundo = gnm_sheet_resize (sheet, new_cols, new_rows, NULL);
+	goundo = gnm_sheet_resize (sheet, new_cols, new_rows, NULL, &err);
 	g_object_unref (G_OBJECT (goundo));
 
 	return gnm_sheet_get_max_cols (sheet);
@@ -1024,12 +1025,13 @@ oo_extent_sheet_rows (Sheet *sheet, int rows)
 {
 	GOUndo   * goundo;
 	int new_cols, new_rows;
+	gboolean err;
 
 	new_cols = gnm_sheet_get_max_cols (sheet);
 	new_rows = rows;
 	gnm_sheet_suggest_size (&new_cols, &new_rows);
 
-	goundo = gnm_sheet_resize (sheet, new_cols, new_rows, NULL);
+	goundo = gnm_sheet_resize (sheet, new_cols, new_rows, NULL, &err);
 	g_object_unref (G_OBJECT (goundo));
 
 	return gnm_sheet_get_max_rows (sheet);
