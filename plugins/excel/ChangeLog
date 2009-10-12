@@ -1,5 +1,11 @@
 2009-10-12  Morten Welinder  <terra@gnome.org>
 
+	* ms-formula-write.c (excel_write_formula): Handle new
+	EXCEL_CALLED_FROM_OBJ.
+	(CTXT_NAME_OBJ): Rename from CTXT_NAME.
+
+	* ms-obj.c (ms_objv8_write_macro_fmla): Use EXCEL_CALLED_FROM_OBJ.
+
 	* ms-excel-write.c (excel_write_textbox_v8): Don't write macro
 	records yet.
 

@@ -1435,8 +1435,7 @@ ms_objv8_write_checkbox_fmla (BiffPut *bp,
 	fmla_len = excel_write_formula (esheet->ewb,
 					texpr,
 					esheet->gnum_sheet, 0, 0,
-					/* eh?  */
-					EXCEL_CALLED_FROM_NAME);
+					EXCEL_CALLED_FROM_OBJ);
 	if (fmla_len & 1)
 		ms_biff_put_var_write (bp, "", 1);
 	end_pos = bp->curpos;
@@ -1465,8 +1464,7 @@ ms_objv8_write_macro_fmla (BiffPut *bp,
 	fmla_len = excel_write_formula (esheet->ewb,
 					texpr,
 					esheet->gnum_sheet, 0, 0,
-					/* eh?  */
-					EXCEL_CALLED_FROM_NAME);
+					EXCEL_CALLED_FROM_OBJ);
 	if (fmla_len & 1)
 		ms_biff_put_var_write (bp, "", 1);
 	end_pos = bp->curpos;

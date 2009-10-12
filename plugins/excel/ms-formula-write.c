@@ -198,9 +198,9 @@ typedef enum {
 	NUM_XL_TYPES	= 3
 } XLOpType;
 typedef enum {
-	CTXT_CELL  = 0,
+	CTXT_CELL = 0,
 	CTXT_ARRAY = 1,
-	CTXT_NAME  = 2,
+	CTXT_NAME_OBJ = 2,
 	NUM_CTXTS
 } XLContextType;
 
@@ -209,6 +209,7 @@ typedef struct {
 	Sheet		*sheet;
 	int		 col, row;
 	gboolean	 use_name_variant;
+	gboolean         allow_sheetless_ref;
 	XLContextType	 context;
 
 	/* Accumulator for storing arrays after the expression */
@@ -366,7 +367,7 @@ excel_formula_write_CELLREF (PolishData *pd, GnmCellRef const *ref,
 
 		g_return_if_fail (sheet_b == NULL);
 
-		if (pd->context == CTXT_NAME) {
+		if (!pd->allow_sheetless_ref) {
 			g_warning ("XL does not support unqualified references in global names");
 		}
 
@@ -419,7 +420,7 @@ excel_formula_write_AREA (PolishData *pd, GnmCellRef const *a, GnmCellRef const 
 
 	if (a->sheet == NULL && b->sheet == NULL) {
 
-		if (pd->context == CTXT_NAME) {
+		if (pd->context == CTXT_NAME_OBJ) {
 			g_warning ("XL does not support unqualified references in global names");
 		}
 
@@ -950,6 +951,8 @@ excel_write_formula (ExcelWriteState *ewb, GnmExprTop const *texpr,
 	pd.sheet   = sheet;
 	pd.ewb     = ewb;
 	pd.arrays  = NULL;
+	pd.allow_sheetless_ref = TRUE;
+
 	switch (context) {
 	case EXCEL_CALLED_FROM_CELL:
 		pd.context = CTXT_CELL;
@@ -960,7 +963,12 @@ excel_write_formula (ExcelWriteState *ewb, GnmExprTop const *texpr,
 		pd.use_name_variant = TRUE;
 		break;
 	case EXCEL_CALLED_FROM_NAME:
-		pd.context = CTXT_NAME;
+		pd.context = CTXT_NAME_OBJ;
+		pd.use_name_variant = TRUE;
+		pd.allow_sheetless_ref = FALSE;
+		break;
+	case EXCEL_CALLED_FROM_OBJ:
+		pd.context = CTXT_NAME_OBJ;
 		pd.use_name_variant = TRUE;
 		break;
 	case EXCEL_CALLED_FROM_CONDITION:
