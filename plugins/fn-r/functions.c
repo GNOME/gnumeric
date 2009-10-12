@@ -1178,6 +1178,62 @@ gnumeric_r_qcauchy (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 /* ------------------------------------------------------------------------- */
 
+
+static GnmFuncHelp const help_r_dsnorm[] = {
+	{ GNM_FUNC_HELP_NAME, F_("R.DSNORM:probability density function of the skew-normal distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation") },
+	{ GNM_FUNC_HELP_ARG, F_("shape:the shape parameter of the distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("location:the location parameter of the distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("scale:the scale parameter of the distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the skew-normal distribution.") },
+	{ GNM_FUNC_HELP_SEEALSO, "R.PSNORM" },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_r_dsnorm (GnmFuncEvalInfo *ei, GnmValue const * const *args)
+{
+	gnm_float x = value_get_as_float (args[0]);
+	gnm_float shape = value_get_as_float (args[1]);
+	gnm_float location = value_get_as_float (args[2]);
+	gnm_float scale = value_get_as_float (args[3]);
+	gboolean give_log = args[4] ? value_get_as_checked_bool (args[4]) : FALSE;
+
+	return value_new_float (dsnorm (x, shape, location, scale, give_log));
+}
+
+/* ------------------------------------------------------------------------- */
+
+
+static GnmFuncHelp const help_r_psnorm[] = {
+	{ GNM_FUNC_HELP_NAME, F_("R.PSNORM:cumulative distribution function of the skew-normal distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation") },
+	{ GNM_FUNC_HELP_ARG, F_("shape:the shape parameter of the distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("location:the location parameter of the distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("scale:the scale parameter of the distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
+	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, log of the probability is used") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the skew-normal distribution.") },
+	{ GNM_FUNC_HELP_SEEALSO, "R.DSNORM" },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_r_psnorm (GnmFuncEvalInfo *ei, GnmValue const * const *args)
+{
+	gnm_float x = value_get_as_float (args[0]);
+	gnm_float shape = value_get_as_float (args[1]);
+	gnm_float location = value_get_as_float (args[2]);
+	gnm_float scale = value_get_as_float (args[3]);
+	gboolean lower_tail = args[4] ? value_get_as_checked_bool (args[4]) : TRUE;
+	gboolean log_p = args[5] ? value_get_as_checked_bool (args[5]) : FALSE;
+
+	return value_new_float (psnorm (x, shape, location, scale, lower_tail, log_p));
+}
+
+/* ------------------------------------------------------------------------- */
+
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
@@ -1504,6 +1560,20 @@ GnmFuncDescriptor const stat_functions[] = {
 		"fff|bb",
 		help_r_qcauchy,
 		gnumeric_r_qcauchy, NULL, NULL, NULL, NULL,
+		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
+	},
+	{
+		"r.dsnorm",
+		"ffff|b",
+		help_r_dsnorm,
+		gnumeric_r_dsnorm, NULL, NULL, NULL, NULL,
+		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
+	},
+	{
+		"r.psnorm",
+		"ffff|bb",
+		help_r_psnorm,
+		gnumeric_r_psnorm, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
 	},
 	{ NULL }

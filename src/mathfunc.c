@@ -7629,13 +7629,10 @@ gnm_float
 random_skew_normal (gnm_float a)
 {
 	gnm_float result;
-	gnm_float asq = a * a;
-	gnm_float delta = gnm_sqrt (asq / (1 + asq));
+	gnm_float delta = a / gnm_sqrt(1 + a * a);
 	gnm_float u = random_normal ();
 	gnm_float v = random_normal ();
 	
-	if (a < 0.)
-		delta *= -1.;
 	result = delta * u + gnm_sqrt (1-delta*delta) * v;
 	
 	return ((u < 0.) ? -result : result);
@@ -7658,7 +7655,7 @@ random_skew_tdist (gnm_float nu, gnm_float a)
 	gnm_float chi = random_chisq (nu);
 	gnm_float z = random_skew_normal (a);;
 
-	return (z / gnm_sqrt(chi/nu));
+	return (z * gnm_sqrt(nu/chi));
 }
 
 

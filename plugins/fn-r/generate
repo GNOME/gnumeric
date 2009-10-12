@@ -138,7 +138,21 @@ my %argoverride = ();
 	    @common })];
     $argoverride{"dgeom:p"} = $argoverride{"pgeom:p"} = $argoverride{"qgeom:prob"} =
 	"psuc";
+
+    $funcs{'dsnorm'} =  $funcs{'psnorm'} =  
+#$funcs{'qsnorm'} =
+	[\&distribution,
+	 'skew-normal',
+	 ({ 'location' => "the location parameter $of",
+	    @common })];
+
+#    $funcs{'dst'} = $funcs{'pst'} = $funcs{'qst'} =
+#	[\&distribution,
+#	 'skew-t',
+#	 ({ 'n' => "the number of degrees of freedom $of",
+#	    @common })];
 }
+
 
 my %odf_note =
     ('qchisq' => 'A two argument invocation R.QCHISQ(@{p},@{df}) is exported to OpenFormula as CHISQINV(@{p},@{df}).',

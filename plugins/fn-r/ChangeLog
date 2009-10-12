@@ -1,3 +1,22 @@
+2009-10-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* generate: handle *snorm and *st
+	* extra.h (dsnorm): new
+	(psnorm): new	
+	(qsnorm): new
+	(dst): new
+	(pst): new
+	(qst): new
+	* extra.c (dsnorm): new
+	(gnm_owent): new
+	(psnorm): new	
+	(qsnorm): new stub
+	(dst): new stub
+	(pst): new stub
+	(qst): new stub
+	(plugin.xml.in): updated due to changes in generate
+	(functions.c): ditto
+
 2009-10-11  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.14

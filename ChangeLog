@@ -1,10 +1,15 @@
+2009-10-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/mathfunc.c (random_skew_normal): simplify
+	(random_skew_tdist): simplify
+
 2009-10-11  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (gnm_sheet_resize_main): Reduce ->cols.max_used and
 	->rows.max_used as appropriate.
 	(gnm_sheet_resize): Check for merges.  Add new perr argument.  All
 	callers changed.
-
+	
 2009-10-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/mathfunc.c (random_skew_normal): new

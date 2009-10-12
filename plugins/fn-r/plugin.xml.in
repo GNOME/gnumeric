@@ -24,6 +24,7 @@
 				<function name="r.dnbinom"/>
 				<function name="r.dnorm"/>
 				<function name="r.dpois"/>
+				<function name="r.dsnorm"/>
 				<function name="r.dt"/>
 				<function name="r.dweibull"/>
 				<function name="r.pbeta"/>
@@ -39,6 +40,7 @@
 				<function name="r.pnbinom"/>
 				<function name="r.pnorm"/>
 				<function name="r.ppois"/>
+				<function name="r.psnorm"/>
 				<function name="r.pt"/>
 				<function name="r.pweibull"/>
 				<function name="r.qbeta"/>
