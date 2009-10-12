@@ -3164,7 +3164,7 @@ gnm_xl_importer_free (GnmXLImporter *importer)
 		ExcelSupBook *sup = &(g_array_index (importer->v8.supbook,
 						     ExcelSupBook, i));
 		for (j = 0; j < sup->externname->len; j++ ) {
-			GnmNamedExpr *nexpr = g_ptr_array_index (sup->externname, j); 
+			GnmNamedExpr *nexpr = g_ptr_array_index (sup->externname, j);
 			if (nexpr)
 				expr_name_unref (nexpr);
 		}
