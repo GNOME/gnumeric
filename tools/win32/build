@@ -41,7 +41,7 @@ build_ls_s() {
 
     if [ ! -f "$py_pkg" ]; then
 	echo wget "http://www.python.org/ftp/python/${py_pkg_ver}/python-${py_pkg_ver}.msi"
-	( cd archive ; wget "http://www.python.org/ftp/python/${py_pkg_ver}/python-${py_pkg_ver}.msi" )
+	( cd ${archive_dir} && wget "http://www.python.org/ftp/python/${py_pkg_ver}/python-${py_pkg_ver}.msi" )
     fi
     if [ ! -d "${WINEDIR}/Python${py_ver}" ]; then
 	echo wine msiexec /i ${py_pkg}
