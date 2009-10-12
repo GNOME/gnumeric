@@ -1402,15 +1402,18 @@ ms_objv8_write_checkbox_data (BiffPut *bp, gboolean active)
 }
 
 void
-ms_objv8_write_checkbox_link (BiffPut *bp)
+ms_objv8_write_checkbox_link (BiffPut *bp, gboolean active)
 {
 	char data[16];
 
 	GSF_LE_SET_GUINT16 (data, GR_CHECKBOX_LINK);
 	GSF_LE_SET_GUINT16 (data + 2, sizeof (data) - 4);
-	GSF_LE_SET_GUINT32 (data + 4, 1); /* ? */
-	GSF_LE_SET_GUINT32 (data + 8, 0); /* ? */
-	GSF_LE_SET_GUINT32 (data + 12, 0); /* ? */
+	GSF_LE_SET_GUINT16 (data + 4, active); /* ? */
+	GSF_LE_SET_GUINT16 (data + 6, 0x12b0); /* ? */
+	GSF_LE_SET_GUINT16 (data + 8, 0x01ce); /* ? */
+	GSF_LE_SET_GUINT16 (data + 10, 0);
+	GSF_LE_SET_GUINT16 (data + 12, 0);
+	GSF_LE_SET_GUINT16 (data + 14, 2); /* style? */
 	ms_biff_put_var_write (bp, data, sizeof data);
 }
 
@@ -1433,10 +1436,12 @@ ms_objv8_write_checkbox_fmla (BiffPut *bp,
 					texpr,
 					esheet->gnum_sheet, 0, 0,
 					/* eh?  */
-					EXCEL_CALLED_FROM_VALIDATION);
+					EXCEL_CALLED_FROM_NAME);
+	if (fmla_len & 1)
+		ms_biff_put_var_write (bp, "", 1);
 	end_pos = bp->curpos;
 	ms_biff_put_var_seekto (bp, pos);
-	GSF_LE_SET_GUINT16 (hfmla + 2, fmla_len + 6);
+	GSF_LE_SET_GUINT16 (hfmla + 2, (fmla_len + 7) & ~1);
 	GSF_LE_SET_GUINT16 (hfmla + 4, fmla_len);
 	ms_biff_put_var_write (bp, hfmla, sizeof hfmla);
 	ms_biff_put_var_seekto (bp, end_pos);
@@ -1461,10 +1466,12 @@ ms_objv8_write_macro_fmla (BiffPut *bp,
 					texpr,
 					esheet->gnum_sheet, 0, 0,
 					/* eh?  */
-					EXCEL_CALLED_FROM_VALIDATION);
+					EXCEL_CALLED_FROM_NAME);
+	if (fmla_len & 1)
+		ms_biff_put_var_write (bp, "", 1);
 	end_pos = bp->curpos;
 	ms_biff_put_var_seekto (bp, pos);
-	GSF_LE_SET_GUINT16 (hfmla + 2, fmla_len + 6);
+	GSF_LE_SET_GUINT16 (hfmla + 2, (fmla_len + 7) & ~1);
 	GSF_LE_SET_GUINT16 (hfmla + 4, fmla_len);
 	ms_biff_put_var_write (bp, hfmla, sizeof hfmla);
 	ms_biff_put_var_seekto (bp, end_pos);

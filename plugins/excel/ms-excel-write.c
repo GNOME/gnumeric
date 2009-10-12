@@ -4406,13 +4406,13 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 		ms_objv8_write_note (bp);
 
 	if (type == 11 || type == 12) {
-		ms_objv8_write_checkbox_link (bp);
+		ms_objv8_write_checkbox_link (bp, checkbox_active);
 		if (type == 12)
 			ms_objv8_write_radiobutton (bp);
 		if (checkbox_texpr)
 			ms_objv8_write_checkbox_fmla (bp, esheet,
 						      checkbox_texpr);
-		if (macro_nexpr) {
+		if (0 && macro_nexpr) {
 			GnmExprTop const *texpr =
 				gnm_expr_top_new
 				(gnm_expr_new_name (macro_nexpr,

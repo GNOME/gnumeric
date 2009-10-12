@@ -1,3 +1,13 @@
+2009-10-12  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_write_textbox_v8): Don't write macro
+	records yet.
+
+	* ms-obj.c (ms_objv8_write_checkbox_fmla,
+	ms_objv8_write_macro_fmla): Pad length; use NAME context.
+	(ms_objv8_write_checkbox_link): Take extra "active" argument.  All
+	callers changed.
+
 2009-10-11  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_write_textbox_v8): Call

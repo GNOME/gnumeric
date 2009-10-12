@@ -8,6 +8,7 @@ Jody:
 
 Morten:
 	* Fix sheet-resize vs. merges issue.  [#582030]
+	* Fix xls export if check boxes and radio buttons.  [#597035]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.14

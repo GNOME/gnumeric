@@ -154,7 +154,7 @@ void ms_objv8_write_listbox	(BiffPut *bp, gboolean filtered);
 void ms_objv8_write_note	(BiffPut *bp);
 
 void ms_objv8_write_checkbox_data (BiffPut *bp, gboolean active);
-void ms_objv8_write_checkbox_link (BiffPut *bp);
+void ms_objv8_write_checkbox_link (BiffPut *bp, gboolean active);
 void ms_objv8_write_checkbox_fmla (BiffPut *bp,
 				   ExcelWriteSheet *esheet,
 				   GnmExprTop const *texpr);
