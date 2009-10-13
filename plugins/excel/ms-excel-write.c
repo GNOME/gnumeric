@@ -4344,6 +4344,14 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 		shape = 0xc9;
 		type = 0x12;
 		flags = 0x2011;
+	} else if (GNM_IS_SOW_BUTTON (so)) {
+		shape = 0xc9;
+		type = 0x07;
+		flags = 0x0011;
+	} else if (GNM_IS_SOW_COMBO (so)) {
+		shape = 0xc9;
+		type = 0x14;
+		flags = 0x2011;
 	} else {
 		g_assert_not_reached ();
 		return 0;
@@ -4420,6 +4428,10 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 	ms_objv8_write_common (bp, esheet->cur_obj, type, flags);
 
 	switch (type) {
+	case 0x07: {
+		ms_objv8_write_button (bp, esheet, macro_nexpr);
+		break;
+	}
 	case 0x0b: {
 		GnmExprTop const *link = sheet_widget_checkbox_get_link (so);
 		ms_objv8_write_checkbox (bp,
@@ -4466,7 +4478,8 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 		if (link) gnm_expr_top_unref (link);
 		break;
 	}
-	case 0x12: {
+	case 0x12:
+	case 0x14: {
 		GnmExprTop const *res_link =
 			sheet_widget_list_base_get_result_link (so);
 		GnmExprTop const *data_link =
@@ -5431,7 +5444,9 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 			   GNM_IS_SOW_RADIO_BUTTON (so) ||
 			   GNM_IS_SOW_SPINBUTTON (so) ||
 			   GNM_IS_SOW_SCROLLBAR (so) ||
-			   GNM_IS_SOW_LIST (so)) {
+			   GNM_IS_SOW_LIST (so) ||
+			   GNM_IS_SOW_BUTTON (so) ||
+			   GNM_IS_SOW_COMBO (so)) {
 			esheet->widgets =
 				g_slist_prepend (esheet->widgets, so);
 			g_hash_table_insert (esheet->widget_macroname,

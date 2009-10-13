@@ -1676,3 +1676,12 @@ ms_objv8_write_list (BiffPut *bp,
 				  (guint16)adj->upper - 1,
 				  (guint16)adj->value);
 }
+
+void
+ms_objv8_write_button (BiffPut *bp,
+		       ExcelWriteSheet *esheet,
+		       GnmNamedExpr *macro_nexpr)
+{
+	if (0 && macro_nexpr)
+		ms_objv8_write_macro_ref (bp, esheet, macro_nexpr);
+}

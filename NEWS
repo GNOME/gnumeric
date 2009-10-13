@@ -13,6 +13,8 @@ Morten:
 	* Add xls export of spin buttons.  [Part of #597035]
 	* Add xls export of scroll bars.  [Part of #597035]
 	* Add xls export of list widgets.  [Part of #597035]
+	* Add xls export of combo widgets.  [Part of #597035]
+	* Add xls export of button widgets.  [Part of #597035]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.14

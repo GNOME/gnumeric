@@ -180,6 +180,9 @@ void ms_objv8_write_list (BiffPut *bp,
 			  GnmExprTop const *res_texpr,
 			  GnmExprTop const *data_texpr,
 			  GnmNamedExpr *macro_nexpr);
+void ms_objv8_write_button (BiffPut *bp,
+			    ExcelWriteSheet *esheet,
+			    GnmNamedExpr *macro_nexpr);
 
 
 #endif /* GNM_MS_OBJ_H */
