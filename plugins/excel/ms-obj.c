@@ -1100,6 +1100,8 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			hit_end = TRUE;
 			len = data_len_left - 4;
 
+#warning "We should import selection too, see ms_objv8_write_list_data"
+
 			ms_obj_dump (data, len, data_len_left, "ListBoxData");
 			break;
 
