@@ -1095,7 +1095,8 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 
 			/* UNDOCUMENTED :
 			 * It seems as if list box data does not conform to
-			 * the docs.  It acts like an end and has no size.  */
+			 * the docs.  It acts like an end and has no size.
+			 */
 			hit_end = TRUE;
 			len = data_len_left - 4;
 
@@ -1475,6 +1476,20 @@ ms_objv8_write_macro_fmla (BiffPut *bp,
 	ms_biff_put_var_seekto (bp, end_pos);
 }
 
+static void
+ms_objv8_write_macro_ref (BiffPut *bp,
+			  ExcelWriteSheet *esheet,
+			  GnmNamedExpr *macro_nexpr)
+{
+	GnmExprTop const *texpr =
+		gnm_expr_top_new
+		(gnm_expr_new_name (macro_nexpr,
+				    esheet->gnum_sheet,
+				    NULL));
+	ms_objv8_write_macro_fmla (bp, esheet, texpr);
+	gnm_expr_top_unref (texpr);
+}
+
 void
 ms_objv8_write_checkbox (BiffPut *bp,
 			 gboolean active,
@@ -1486,15 +1501,8 @@ ms_objv8_write_checkbox (BiffPut *bp,
 	if (link_texpr)
 		ms_objv8_write_link_fmla (bp, GR_CHECKBOX_FORMULA,
 					  esheet, link_texpr);
-	if (0 && macro_nexpr) {
-		GnmExprTop const *texpr =
-			gnm_expr_top_new
-			(gnm_expr_new_name (macro_nexpr,
-					    esheet->gnum_sheet,
-					    NULL));
-		ms_objv8_write_macro_fmla (bp, esheet, texpr);
-		gnm_expr_top_unref (texpr);
-	}
+	if (0 && macro_nexpr)
+		ms_objv8_write_macro_ref (bp, esheet, macro_nexpr);
 	ms_objv8_write_checkbox_data (bp, active);
 }
 
@@ -1534,15 +1542,8 @@ ms_objv8_write_radiobutton (BiffPut *bp,
 	if (link_texpr)
 		ms_objv8_write_link_fmla (bp, GR_CHECKBOX_FORMULA,
 					  esheet, link_texpr);
-	if (0 && macro_nexpr) {
-		GnmExprTop const *texpr =
-			gnm_expr_top_new
-			(gnm_expr_new_name (macro_nexpr,
-					    esheet->gnum_sheet,
-					    NULL));
-		ms_objv8_write_macro_fmla (bp, esheet, texpr);
-		gnm_expr_top_unref (texpr);
-	}
+	if (0 && macro_nexpr)
+		ms_objv8_write_macro_ref (bp, esheet, macro_nexpr);
 	ms_objv8_write_checkbox_data (bp, active);
 	ms_objv8_write_radiobutton_data (bp, 0, TRUE);
 }
@@ -1581,15 +1582,8 @@ ms_objv8_write_spinbutton (BiffPut *bp,
 	if (link_texpr)
 		ms_objv8_write_link_fmla (bp, GR_SCROLLBAR_FORMULA,
 					  esheet, link_texpr);
-	if (0 && macro_nexpr) {
-		GnmExprTop const *texpr =
-			gnm_expr_top_new
-			(gnm_expr_new_name (macro_nexpr,
-					    esheet->gnum_sheet,
-					    NULL));
-		ms_objv8_write_macro_fmla (bp, esheet, texpr);
-		gnm_expr_top_unref (texpr);
-	}
+	if (0 && macro_nexpr)
+		ms_objv8_write_macro_ref (bp, esheet, macro_nexpr);
 }
 
 void
@@ -1603,13 +1597,80 @@ ms_objv8_write_scrollbar (BiffPut *bp,
 	if (link_texpr)
 		ms_objv8_write_link_fmla (bp, GR_SCROLLBAR_FORMULA,
 					  esheet, link_texpr);
-	if (0 && macro_nexpr) {
-		GnmExprTop const *texpr =
-			gnm_expr_top_new
-			(gnm_expr_new_name (macro_nexpr,
-					    esheet->gnum_sheet,
-					    NULL));
-		ms_objv8_write_macro_fmla (bp, esheet, texpr);
-		gnm_expr_top_unref (texpr);
+	if (0 && macro_nexpr)
+		ms_objv8_write_macro_ref (bp, esheet, macro_nexpr);
+}
+
+static void
+ms_objv8_write_list_data (BiffPut *bp,
+			  ExcelWriteSheet *esheet,
+			  GnmExprTop const *texpr,
+			  guint16 N, guint16 selected)
+{
+	char hfmla[12];
+	char data[8];
+	unsigned pos, end_pos;
+	guint16 fmla_len;
+	guint16 ui;
+	guint16 style = 0;
+	guint8 *selection;
+
+	pos = bp->curpos;
+	GSF_LE_SET_GUINT16 (hfmla, GR_LISTBOX_DATA);
+	GSF_LE_SET_GUINT16 (hfmla + 2, 0x1fcc);  /* ??? */
+	GSF_LE_SET_GUINT16 (hfmla + 4, 0);  /* record len */
+	GSF_LE_SET_GUINT16 (hfmla + 6, 0);  /* formula len */
+	GSF_LE_SET_GUINT32 (hfmla + 8, 0);  /* calcid? */
+	ms_biff_put_var_write (bp, hfmla, sizeof hfmla);
+	if (texpr) {
+		fmla_len = excel_write_formula (esheet->ewb,
+						texpr,
+						esheet->gnum_sheet, 0, 0,
+						EXCEL_CALLED_FROM_OBJ);
+		if (fmla_len & 1)
+			ms_biff_put_var_write (bp, "", 1);
+		GSF_LE_SET_GUINT16 (hfmla + 6, fmla_len);
+	} else {
+		/* Needs testing.  */
+		ms_biff_put_var_write (bp, "\0", 2);
+		fmla_len = 0;
 	}
+
+	end_pos = bp->curpos;
+	ms_biff_put_var_seekto (bp, pos);
+	GSF_LE_SET_GUINT16 (hfmla + 4, (fmla_len + 7) & ~1);
+	ms_biff_put_var_write (bp, hfmla, sizeof hfmla);
+	ms_biff_put_var_seekto (bp, end_pos);
+
+	selection = g_new0 (char, N);
+	for (ui = 0; ui < N; ui++)
+		selection[ui] = (ui + 1 == selected);
+
+	GSF_LE_SET_GUINT16 (data, N);
+	GSF_LE_SET_GUINT16 (data + 2, selected);  /* iSel */
+	GSF_LE_SET_GUINT16 (data + 4, style);
+	GSF_LE_SET_GUINT16 (data + 6, 0);  /* edit object id */
+	ms_biff_put_var_write (bp, data, sizeof data);
+	ms_biff_put_var_write (bp, selection, N);
+
+	g_free (selection);
+}
+
+void
+ms_objv8_write_list (BiffPut *bp,
+		     ExcelWriteSheet *esheet,
+		     GtkAdjustment *adj,
+		     GnmExprTop const *res_texpr,
+		     GnmExprTop const *data_texpr,
+		     GnmNamedExpr *macro_nexpr)
+{
+	ms_objv8_write_adjustment (bp, adj, FALSE);
+	if (res_texpr)
+		ms_objv8_write_link_fmla (bp, GR_SCROLLBAR_FORMULA,
+					  esheet, res_texpr);
+	if (0 && macro_nexpr)
+		ms_objv8_write_macro_ref (bp, esheet, macro_nexpr);
+	ms_objv8_write_list_data (bp, esheet, data_texpr,
+				  (guint16)adj->upper - 1,
+				  (guint16)adj->value);
 }

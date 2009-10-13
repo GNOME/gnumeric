@@ -12,6 +12,7 @@ Morten:
 	* Fix xls export of check boxes and radio buttons.  [Part of #597035]
 	* Add xls export of spin buttons.  [Part of #597035]
 	* Add xls export of scroll bars.  [Part of #597035]
+	* Add xls export of list widgets.  [Part of #597035]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.14

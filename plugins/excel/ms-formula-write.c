@@ -420,7 +420,7 @@ excel_formula_write_AREA (PolishData *pd, GnmCellRef const *a, GnmCellRef const 
 
 	if (a->sheet == NULL && b->sheet == NULL) {
 
-		if (pd->context == CTXT_NAME_OBJ) {
+		if (!pd->allow_sheetless_ref) {
 			g_warning ("XL does not support unqualified references in global names");
 		}
 

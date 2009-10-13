@@ -174,6 +174,12 @@ void ms_objv8_write_scrollbar (BiffPut *bp,
 			       GtkAdjustment *adj, gboolean horiz,
 			       GnmExprTop const *link_texpr,
 			       GnmNamedExpr *macro_nexpr);
+void ms_objv8_write_list (BiffPut *bp,
+			  ExcelWriteSheet *esheet,
+			  GtkAdjustment *adj,
+			  GnmExprTop const *res_texpr,
+			  GnmExprTop const *data_texpr,
+			  GnmNamedExpr *macro_nexpr);
 
 
 #endif /* GNM_MS_OBJ_H */

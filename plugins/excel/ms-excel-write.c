@@ -4271,7 +4271,7 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 	GOStyle *style = NULL;
 	gboolean checkbox_active = FALSE;
 	GnmNamedExpr *macro_nexpr;
-	guint8 zero[4] = { 0, 0, 0, 0 };
+	gboolean terminate_obj = TRUE;
 
 	if (has_text_prop) {
 		g_object_get (so,
@@ -4340,6 +4340,10 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 		shape = 0xc9;
 		type = 0x11;
 		flags = 0x6011;
+	} else if (GNM_IS_SOW_LIST (so)) {
+		shape = 0xc9;
+		type = 0x12;
+		flags = 0x2011;
 	} else {
 		g_assert_not_reached ();
 		return 0;
@@ -4462,6 +4466,23 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 		if (link) gnm_expr_top_unref (link);
 		break;
 	}
+	case 0x12: {
+		GnmExprTop const *res_link =
+			sheet_widget_list_base_get_result_link (so);
+		GnmExprTop const *data_link =
+			sheet_widget_list_base_get_content_link (so);
+		GtkAdjustment *adj =
+			sheet_widget_list_base_get_adjustment (so);
+		ms_objv8_write_list (bp,
+				     esheet,
+				     adj, res_link, data_link,
+				     macro_nexpr);
+		if (res_link) gnm_expr_top_unref (res_link);
+		if (data_link) gnm_expr_top_unref (data_link);
+		g_object_unref (adj);
+		terminate_obj = FALSE;  /* GR_LISTBOX_DATA is strange */
+		break;
+	}
 	case 0x19:
 		/* Cell comment. */
 		ms_objv8_write_note (bp);
@@ -4471,7 +4492,10 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 		break;
 	}
 
-	ms_biff_put_var_write (bp, zero, 4);
+	if (terminate_obj) {
+		guint8 zero[4] = { 0, 0, 0, 0 };
+		ms_biff_put_var_write (bp, zero, 4);
+	}
 	ms_biff_put_commit (bp);
 
 	/* ---------------------------------------- */
@@ -5406,7 +5430,8 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 		} else if (GNM_IS_SOW_CHECKBOX (so) ||
 			   GNM_IS_SOW_RADIO_BUTTON (so) ||
 			   GNM_IS_SOW_SPINBUTTON (so) ||
-			   GNM_IS_SOW_SCROLLBAR (so)) {
+			   GNM_IS_SOW_SCROLLBAR (so) ||
+			   GNM_IS_SOW_LIST (so)) {
 			esheet->widgets =
 				g_slist_prepend (esheet->widgets, so);
 			g_hash_table_insert (esheet->widget_macroname,
