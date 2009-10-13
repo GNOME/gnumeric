@@ -4256,7 +4256,6 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	guint32 id = excel_write_start_drawing (esheet);
 	SheetObjectAnchor const *real_anchor = sheet_object_get_anchor (so);
 	SheetObjectAnchor anchor = *real_anchor;
-	guint8 zero[4] = { 0, 0, 0, 0 };
 	gsf_off_t sppos;
 	guint32 splen;
 	gsize spmark, optmark;
@@ -4269,8 +4268,9 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	GOStyle *style = NULL;
 	GnmExprTop const *checkbox_texpr = NULL;
 	gboolean checkbox_active = FALSE;
-	gboolean is_button = FALSE;
+	gboolean is_widget = FALSE;
 	GnmNamedExpr *macro_nexpr = NULL;
+	guint8 zero[4] = { 0, 0, 0, 0 };
 
 	g_object_get (so,
 		      "name", &name,
@@ -4314,20 +4314,20 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 		}
 	} else if (GNM_IS_SOW_CHECKBOX (so)) {
 		shape = 0xc9;
-		type = 11;
+		type = 0x0b;
 		flags = 0x0011;
 		checkbox_texpr = sheet_widget_checkbox_get_link (so);
 		g_object_get (so, "active", &checkbox_active, NULL);
-		is_button = TRUE;
+		is_widget = TRUE;
 
 		macro_nexpr = g_hash_table_lookup (esheet->widget_macroname, so);
 	} else if (GNM_IS_SOW_RADIO_BUTTON (so)) {
 		shape = 0xc9;
-		type = 12;
+		type = 0x0c;
 		flags = 0x0011;
 		checkbox_texpr = sheet_widget_radio_button_get_link (so);
 		g_object_get (so, "active", &checkbox_active, NULL);
-		is_button = TRUE;
+		is_widget = TRUE;
 
 		macro_nexpr = g_hash_table_lookup (esheet->widget_macroname, so);
 	} else {
@@ -4341,7 +4341,7 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 
 	optmark = ms_escher_opt_start (escher);
 	extra = g_string_new (NULL);
-	if (is_button)
+	if (is_widget)
 		ms_escher_opt_add_bool (escher, optmark,
 					MSEP_LOCKROTATION, TRUE);
 	ms_escher_opt_add_simple (escher, optmark,
@@ -4351,7 +4351,7 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	ms_escher_opt_add_simple (escher, optmark,
 				  MSEP_TXDIR, 2);
 	ms_escher_opt_add_bool (escher, optmark, MSEP_SELECTTEXT, TRUE);
-	if (is_button) {
+	if (is_widget) {
 		ms_escher_opt_add_bool (escher, optmark, MSEP_AUTOTEXTMARGIN, FALSE);
 		ms_escher_opt_add_bool (escher, optmark, MSEP_SHADOWOK, TRUE);
 		ms_escher_opt_add_bool (escher, optmark, MSEP_LINEOK, TRUE);
@@ -4361,7 +4361,7 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 				 style == NULL || style->fill.auto_back
 				 ? GO_COLOR_WHITE
 				 : style->fill.pattern.back);
-	if (is_button)
+	if (is_widget)
 		ms_escher_opt_add_bool (escher, optmark, MSEP_FILLED, FALSE);
 	ms_escher_opt_add_bool (escher, optmark, MSEP_NOFILLHITTEST, TRUE);
 	ms_escher_opt_add_color (escher, optmark, MSEP_LINECOLOR,
@@ -4372,7 +4372,7 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 		gint32 w = CLAMP (12700 * style->line.width, 0, G_MAXINT32);
 		ms_escher_opt_add_simple (escher, optmark, MSEP_LINEWIDTH, w);
 	}
-	if (is_button)
+	if (is_widget)
 		ms_escher_opt_add_bool (escher, optmark, MSEP_LINE, FALSE);
 	if (name)
 		ms_escher_opt_add_str_wchar (escher, optmark, extra,
@@ -4400,35 +4400,39 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 
 	g_string_free (escher, TRUE);
 
+	/* ---------------------------------------- */
+
 	ms_biff_put_var_next (bp, BIFF_OBJ);
 	ms_objv8_write_common (bp, esheet->cur_obj, type, flags);
-	if (IS_CELL_COMMENT (so))
-		ms_objv8_write_note (bp);
 
-	if (type == 11 || type == 12) {
-		ms_objv8_write_checkbox_link (bp, checkbox_active);
-		if (type == 12)
-			ms_objv8_write_radiobutton (bp);
-		if (checkbox_texpr)
-			ms_objv8_write_checkbox_fmla (bp, esheet,
-						      checkbox_texpr);
-		if (0 && macro_nexpr) {
-			GnmExprTop const *texpr =
-				gnm_expr_top_new
-				(gnm_expr_new_name (macro_nexpr,
-						    esheet->gnum_sheet,
-						    NULL));
-			ms_objv8_write_macro_fmla (bp, esheet, texpr);
-			gnm_expr_top_unref (texpr);
-		}
-		ms_objv8_write_checkbox_data (bp, checkbox_active);
-		if (type == 12)
-			ms_objv8_write_radiobutton_data (bp, 0, TRUE);
+	switch (type) {
+	case 0x0b:
+		ms_objv8_write_checkbox (bp,
+					 checkbox_active,
+					 esheet,
+					 checkbox_texpr,
+					 macro_nexpr);
+		break;
+	case 0x0c:
+		ms_objv8_write_radiobutton (bp,
+					    checkbox_active,
+					    esheet,
+					    checkbox_texpr,
+					    macro_nexpr);
+		break;
+	case 0x19:
+		/* Cell comment. */
+		ms_objv8_write_note (bp);
+		break;
+	default:
+		/* Nothing */
+		break;
 	}
 
 	ms_biff_put_var_write (bp, zero, 4);
-
 	ms_biff_put_commit (bp);
+
+	/* ---------------------------------------- */
 
 	if (do_textbox) {
 		gsize this_len = excel_write_ClientTextbox (ewb, so, label);

@@ -1381,13 +1381,13 @@ ms_objv8_write_note (BiffPut *bp)
 #endif
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 	};
-
 	guint8 buf[sizeof data];
+
 	memcpy (buf, data, sizeof data);
 	ms_biff_put_var_write (bp, buf, sizeof data);
 }
 
-void
+static void
 ms_objv8_write_checkbox_data (BiffPut *bp, gboolean active)
 {
 	char cboxdata[12];
@@ -1401,7 +1401,7 @@ ms_objv8_write_checkbox_data (BiffPut *bp, gboolean active)
 	ms_biff_put_var_write (bp, cboxdata, sizeof cboxdata);
 }
 
-void
+static void
 ms_objv8_write_checkbox_link (BiffPut *bp, gboolean active)
 {
 	char data[16];
@@ -1417,7 +1417,7 @@ ms_objv8_write_checkbox_link (BiffPut *bp, gboolean active)
 	ms_biff_put_var_write (bp, data, sizeof data);
 }
 
-void
+static void
 ms_objv8_write_checkbox_fmla (BiffPut *bp,
 			      ExcelWriteSheet *esheet,
 			      GnmExprTop const *texpr)
@@ -1446,7 +1446,7 @@ ms_objv8_write_checkbox_fmla (BiffPut *bp,
 	ms_biff_put_var_seekto (bp, end_pos);
 }
 
-void
+static void
 ms_objv8_write_macro_fmla (BiffPut *bp,
 			   ExcelWriteSheet *esheet,
 			   GnmExprTop const *texpr)
@@ -1476,7 +1476,30 @@ ms_objv8_write_macro_fmla (BiffPut *bp,
 }
 
 void
-ms_objv8_write_radiobutton (BiffPut *bp)
+ms_objv8_write_checkbox (BiffPut *bp,
+			 gboolean active,
+			 ExcelWriteSheet *esheet,
+			 GnmExprTop const *link_texpr,
+			 GnmNamedExpr *macro_nexpr)
+{
+	ms_objv8_write_checkbox_link (bp, active);
+	if (link_texpr)
+		ms_objv8_write_checkbox_fmla (bp, esheet,
+					      link_texpr);
+	if (0 && macro_nexpr) {
+		GnmExprTop const *texpr =
+			gnm_expr_top_new
+			(gnm_expr_new_name (macro_nexpr,
+					    esheet->gnum_sheet,
+					    NULL));
+		ms_objv8_write_macro_fmla (bp, esheet, texpr);
+		gnm_expr_top_unref (texpr);
+	}
+	ms_objv8_write_checkbox_data (bp, active);
+}
+
+static void
+ms_objv8_write_radiobutton_rec (BiffPut *bp)
 {
 	char rb[10];
 
@@ -1487,7 +1510,7 @@ ms_objv8_write_radiobutton (BiffPut *bp)
 	ms_biff_put_var_write (bp, rb, sizeof rb);
 }
 
-void
+static void
 ms_objv8_write_radiobutton_data (BiffPut *bp, guint16 nobj, gboolean first)
 {
 	char rb[8];
@@ -1497,4 +1520,29 @@ ms_objv8_write_radiobutton_data (BiffPut *bp, guint16 nobj, gboolean first)
 	GSF_LE_SET_GUINT16 (rb + 4, nobj);
 	GSF_LE_SET_GUINT16 (rb + 6, !!first);
 	ms_biff_put_var_write (bp, rb, sizeof rb);
+}
+
+void
+ms_objv8_write_radiobutton (BiffPut *bp,
+			    gboolean active,
+			    ExcelWriteSheet *esheet,
+			    GnmExprTop const *link_texpr,
+			    GnmNamedExpr *macro_nexpr)
+{
+	ms_objv8_write_checkbox_link (bp, active);
+	ms_objv8_write_radiobutton_rec (bp);
+	if (link_texpr)
+		ms_objv8_write_checkbox_fmla (bp, esheet,
+					      link_texpr);
+	if (0 && macro_nexpr) {
+		GnmExprTop const *texpr =
+			gnm_expr_top_new
+			(gnm_expr_new_name (macro_nexpr,
+					    esheet->gnum_sheet,
+					    NULL));
+		ms_objv8_write_macro_fmla (bp, esheet, texpr);
+		gnm_expr_top_unref (texpr);
+	}
+	ms_objv8_write_checkbox_data (bp, active);
+	ms_objv8_write_radiobutton_data (bp, 0, TRUE);
 }

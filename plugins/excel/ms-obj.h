@@ -151,18 +151,18 @@ char  *ms_read_TXO   (BiffQuery *q, MSContainer *c, PangoAttrList **markup);
 void ms_objv8_write_common	(BiffPut *bp, int id, int type, guint16 flags);
 void ms_objv8_write_scrollbar	(BiffPut *bp);
 void ms_objv8_write_listbox	(BiffPut *bp, gboolean filtered);
+
 void ms_objv8_write_note	(BiffPut *bp);
 
-void ms_objv8_write_checkbox_data (BiffPut *bp, gboolean active);
-void ms_objv8_write_checkbox_link (BiffPut *bp, gboolean active);
-void ms_objv8_write_checkbox_fmla (BiffPut *bp,
-				   ExcelWriteSheet *esheet,
-				   GnmExprTop const *texpr);
-void ms_objv8_write_macro_fmla    (BiffPut *bp,
-				   ExcelWriteSheet *esheet,
-				   GnmExprTop const *texpr);
-void ms_objv8_write_radiobutton (BiffPut *bp);
-void ms_objv8_write_radiobutton_data (BiffPut *bp,
-				      guint16 nobj, gboolean first);
+void ms_objv8_write_checkbox (BiffPut *bp,
+			      gboolean active,
+			      ExcelWriteSheet *esheet,
+			      GnmExprTop const *link_texpr,
+			      GnmNamedExpr *macro_nexpr);
+void ms_objv8_write_radiobutton (BiffPut *bp,
+				 gboolean active,
+				 ExcelWriteSheet *esheet,
+				 GnmExprTop const *link_texpr,
+				 GnmNamedExpr *macro_nexpr);
 
 #endif /* GNM_MS_OBJ_H */
