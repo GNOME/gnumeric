@@ -65,6 +65,8 @@ GnmExprTop const *sheet_widget_adjustment_get_link (SheetObject *so);
 void sheet_widget_adjustment_set_link	 (SheetObject *so,
 					  GnmExprTop const *result_link);
 GtkAdjustment *sheet_widget_adjustment_get_adjustment (SheetObject *so);
+gboolean sheet_widget_adjustment_get_horizontal (SheetObject *so);
+
 void sheet_widget_checkbox_set_link	 (SheetObject *so,
 					  GnmExprTop const *result_link);
 GnmExprTop const *sheet_widget_checkbox_get_link (SheetObject *so);

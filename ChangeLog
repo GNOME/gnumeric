@@ -1,3 +1,8 @@
+2009-10-13  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-widget.c (sheet_widget_adjustment_get_horizontal):
+	New function.
+
 2009-10-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/mathfunc.c (random_skew_normal): simplify

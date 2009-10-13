@@ -1051,6 +1051,12 @@ sheet_widget_adjustment_get_adjustment (SheetObject *so)
 	return (SHEET_WIDGET_ADJUSTMENT (so)->adjustment);
 }
 
+gboolean
+sheet_widget_adjustment_get_horizontal (SheetObject *so)
+{
+	return (SHEET_WIDGET_ADJUSTMENT (so)->horizontal);
+}
+
 void
 sheet_widget_adjustment_set_link (SheetObject *so, GnmExprTop const *texpr)
 {
