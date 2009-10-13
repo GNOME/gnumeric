@@ -1,3 +1,11 @@
+2009-10-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* generate: enable dst
+	* extra.c (dst): implement
+	(gnm_owent): add GNM_const
+	* plugin.xml.in: updated due to changes in generate
+	* functions.c: ditto
+
 2009-10-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* generate: handle *snorm and *st
@@ -14,8 +22,8 @@
 	(dst): new stub
 	(pst): new stub
 	(qst): new stub
-	(plugin.xml.in): updated due to changes in generate
-	(functions.c): ditto
+	* plugin.xml.in: updated due to changes in generate
+	* functions.c: ditto
 
 2009-10-11  Morten Welinder <terra@gnome.org>
 

@@ -1234,6 +1234,31 @@ gnumeric_r_psnorm (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 /* ------------------------------------------------------------------------- */
 
+
+static GnmFuncHelp const help_r_dst[] = {
+	{ GNM_FUNC_HELP_NAME, F_("R.DST:probability density function of the skew-t distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation") },
+	{ GNM_FUNC_HELP_ARG, F_("n:the number of degrees of freedom of the distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("shape:the shape parameter of the distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the skew-t distribution.") },
+	{ GNM_FUNC_HELP_SEEALSO, "" },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_r_dst (GnmFuncEvalInfo *ei, GnmValue const * const *args)
+{
+	gnm_float x = value_get_as_float (args[0]);
+	gnm_float n = value_get_as_float (args[1]);
+	gnm_float shape = value_get_as_float (args[2]);
+	gboolean give_log = args[3] ? value_get_as_checked_bool (args[3]) : FALSE;
+
+	return value_new_float (dst (x, n, shape, give_log));
+}
+
+/* ------------------------------------------------------------------------- */
+
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
@@ -1574,6 +1599,13 @@ GnmFuncDescriptor const stat_functions[] = {
 		"ffff|bb",
 		help_r_psnorm,
 		gnumeric_r_psnorm, NULL, NULL, NULL, NULL,
+		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
+	},
+	{
+		"r.dst",
+		"fff|b",
+		help_r_dst,
+		gnumeric_r_dst, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
 	},
 	{ NULL }

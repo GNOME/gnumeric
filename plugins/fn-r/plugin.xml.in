@@ -25,6 +25,7 @@
 				<function name="r.dnorm"/>
 				<function name="r.dpois"/>
 				<function name="r.dsnorm"/>
+				<function name="r.dst"/>
 				<function name="r.dt"/>
 				<function name="r.dweibull"/>
 				<function name="r.pbeta"/>

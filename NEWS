@@ -2,7 +2,7 @@ Gnumeric 1.9.15
 
 Andreas:
 	* Add RANDSNORM and RANDSTDIST. [#144717]
-	* Add R.PSNORM and R.DSNORM.
+	* Add R.PSNORM, R.DSNORM and R.DST.
 
 Jody:
 	* First steps towards a turnkey win32 build.

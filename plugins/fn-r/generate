@@ -146,11 +146,12 @@ my %argoverride = ();
 	 ({ 'location' => "the location parameter $of",
 	    @common })];
 
-#    $funcs{'dst'} = $funcs{'pst'} = $funcs{'qst'} =
-#	[\&distribution,
-#	 'skew-t',
-#	 ({ 'n' => "the number of degrees of freedom $of",
-#	    @common })];
+    $funcs{'dst'} = 
+#$funcs{'pst'} = $funcs{'qst'} =
+	[\&distribution,
+	 'skew-t',
+	 ({ 'n' => "the number of degrees of freedom $of",
+	    @common })];
 }
 
 
