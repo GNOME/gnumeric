@@ -11,8 +11,6 @@ G_BEGIN_DECLS
 
 void sheet_object_widget_register (void);
 
-#define IS_GNM_SO_FILLED(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SO_FILLED_TYPE))
-
 GType sheet_widget_frame_get_type	 (void); /* convert to non-widget */
 #define GNM_SOW_FRAME (sheet_widget_frame_get_type ())
 #define GNM_IS_SOW_FRAME(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_FRAME))
