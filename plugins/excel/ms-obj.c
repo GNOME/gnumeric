@@ -1418,16 +1418,16 @@ ms_objv8_write_checkbox_link (BiffPut *bp, gboolean active)
 }
 
 static void
-ms_objv8_write_checkbox_fmla (BiffPut *bp,
-			      ExcelWriteSheet *esheet,
-			      GnmExprTop const *texpr)
+ms_objv8_write_link_fmla (BiffPut *bp, guint16 typ,
+			  ExcelWriteSheet *esheet,
+			  GnmExprTop const *texpr)
 {
 	char hfmla[10];
 	unsigned pos, end_pos;
 	guint16 fmla_len;
 
 	pos = bp->curpos;
-	GSF_LE_SET_GUINT16 (hfmla, GR_CHECKBOX_FORMULA);
+	GSF_LE_SET_GUINT16 (hfmla, typ);
 	GSF_LE_SET_GUINT16 (hfmla + 2, 0);  /* record len */
 	GSF_LE_SET_GUINT16 (hfmla + 4, 0);  /* formula len */
 	GSF_LE_SET_GUINT32 (hfmla + 6, 0);  /* calcid? */
@@ -1484,8 +1484,8 @@ ms_objv8_write_checkbox (BiffPut *bp,
 {
 	ms_objv8_write_checkbox_link (bp, active);
 	if (link_texpr)
-		ms_objv8_write_checkbox_fmla (bp, esheet,
-					      link_texpr);
+		ms_objv8_write_link_fmla (bp, GR_CHECKBOX_FORMULA,
+					  esheet, link_texpr);
 	if (0 && macro_nexpr) {
 		GnmExprTop const *texpr =
 			gnm_expr_top_new
@@ -1532,8 +1532,8 @@ ms_objv8_write_radiobutton (BiffPut *bp,
 	ms_objv8_write_checkbox_link (bp, active);
 	ms_objv8_write_radiobutton_rec (bp);
 	if (link_texpr)
-		ms_objv8_write_checkbox_fmla (bp, esheet,
-					      link_texpr);
+		ms_objv8_write_link_fmla (bp, GR_CHECKBOX_FORMULA,
+					  esheet, link_texpr);
 	if (0 && macro_nexpr) {
 		GnmExprTop const *texpr =
 			gnm_expr_top_new
@@ -1545,4 +1545,49 @@ ms_objv8_write_radiobutton (BiffPut *bp,
 	}
 	ms_objv8_write_checkbox_data (bp, active);
 	ms_objv8_write_radiobutton_data (bp, 0, TRUE);
+}
+
+static void
+ms_objv8_write_adjustment (BiffPut *bp,
+			   GtkAdjustment *adj, gboolean horiz)
+{
+	char data[24];
+
+	GSF_LE_SET_GUINT16 (data, GR_SCROLLBAR);
+	GSF_LE_SET_GUINT16 (data + 2, sizeof (data) - 4);
+	GSF_LE_SET_GUINT32 (data + 4, 0); /* Unused */
+#define SQUEEZE(f) ((guint16)CLAMP(f, -32768, 32767))
+	GSF_LE_SET_GUINT16 (data +  8, SQUEEZE (adj->value));
+	GSF_LE_SET_GINT16  (data + 10, SQUEEZE (adj->lower));
+	GSF_LE_SET_GINT16  (data + 12, SQUEEZE (adj->upper + adj->step_increment));
+	GSF_LE_SET_GINT16  (data + 14, SQUEEZE (adj->step_increment));
+	GSF_LE_SET_GINT16  (data + 16, SQUEEZE (adj->page_increment));
+#undef SQUEEZE
+	GSF_LE_SET_GINT16  (data + 18, !!horiz);
+	GSF_LE_SET_GINT16  (data + 20, 42);  /* widget in pixels */
+	GSF_LE_SET_GINT16  (data + 22, 0x0001);  /* draw */
+
+	ms_biff_put_var_write (bp, data, sizeof data);
+}
+
+void
+ms_objv8_write_spinbutton (BiffPut *bp,
+			   ExcelWriteSheet *esheet,
+			   GtkAdjustment *adj, gboolean horiz,
+			   GnmExprTop const *link_texpr,
+			   GnmNamedExpr *macro_nexpr)
+{
+	ms_objv8_write_adjustment (bp, adj, horiz);
+	if (link_texpr)
+		ms_objv8_write_link_fmla (bp, GR_SCROLLBAR_FORMULA,
+					  esheet, link_texpr);
+	if (0 && macro_nexpr) {
+		GnmExprTop const *texpr =
+			gnm_expr_top_new
+			(gnm_expr_new_name (macro_nexpr,
+					    esheet->gnum_sheet,
+					    NULL));
+		ms_objv8_write_macro_fmla (bp, esheet, texpr);
+		gnm_expr_top_unref (texpr);
+	}
 }

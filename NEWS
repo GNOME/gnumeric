@@ -9,7 +9,8 @@ Jody:
 
 Morten:
 	* Fix sheet-resize vs. merges issue.  [#582030]
-	* Fix xls export if check boxes and radio buttons.  [#597035]
+	* Fix xls export of check boxes and radio buttons.  [#597035]
+	* Add xls export of spin buttons.  [#597035]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.14

@@ -49,7 +49,7 @@ typedef struct {
 	guint16		*col_xf;
 	GnmStyle	**col_style;
 	GnmStyleList	*conditions, *hlinks, *validations;
-	GSList          *blips, *textboxes, *lines, *graphs, *comments;
+	GSList          *blips, *textboxes, *widgets, *lines, *graphs, *comments;
 	GHashTable	*commentshash;
 	GHashTable      *widget_macroname;
 	unsigned	 cur_obj, num_objs;

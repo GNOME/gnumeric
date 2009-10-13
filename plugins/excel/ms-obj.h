@@ -164,5 +164,11 @@ void ms_objv8_write_radiobutton (BiffPut *bp,
 				 ExcelWriteSheet *esheet,
 				 GnmExprTop const *link_texpr,
 				 GnmNamedExpr *macro_nexpr);
+void ms_objv8_write_spinbutton (BiffPut *bp,
+				ExcelWriteSheet *esheet,
+				GtkAdjustment *adj, gboolean horiz,
+				GnmExprTop const *link_texpr,
+				GnmNamedExpr *macro_nexpr);
+
 
 #endif /* GNM_MS_OBJ_H */

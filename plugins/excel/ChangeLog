@@ -1,3 +1,8 @@
+2009-10-13  Morten Welinder  <terra@gnome.org>
+
+	* ms-obj.c (ms_objv8_write_spinbutton, ms_objv8_write_adjustment):
+	New functions.
+
 2009-10-12  Morten Welinder  <terra@gnome.org>
 
 	* ms-formula-write.c (excel_write_formula): Handle new

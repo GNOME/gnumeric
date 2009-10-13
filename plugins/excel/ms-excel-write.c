@@ -4247,7 +4247,10 @@ excel_write_ClientTextbox (ExcelWriteState *ewb, SheetObject *so,
 }
 
 static gsize
-excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
+excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
+				  SheetObject *so,
+				  gboolean has_text_prop,
+				  gboolean is_widget)
 {
 	GString *escher = g_string_new (NULL);
 	GString *extra;
@@ -4266,16 +4269,19 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	gsize draw_len = 0;
 	char *name, *label;
 	GOStyle *style = NULL;
-	GnmExprTop const *checkbox_texpr = NULL;
 	gboolean checkbox_active = FALSE;
-	gboolean is_widget = FALSE;
 	GnmNamedExpr *macro_nexpr = NULL;
 	guint8 zero[4] = { 0, 0, 0, 0 };
 
-	g_object_get (so,
-		      "name", &name,
-		      "text", &label,
-		      NULL);
+	if (has_text_prop) {
+		g_object_get (so,
+			      "name", &name,
+			      "text", &label,
+			      NULL);
+	} else {
+		label = NULL;
+		g_object_get (so, "name", &name, NULL);
+	}
 	do_textbox = (label != NULL && label[0] != 0);
 
 	if (IS_CELL_COMMENT (so)) {
@@ -4316,19 +4322,18 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 		shape = 0xc9;
 		type = 0x0b;
 		flags = 0x0011;
-		checkbox_texpr = sheet_widget_checkbox_get_link (so);
 		g_object_get (so, "active", &checkbox_active, NULL);
-		is_widget = TRUE;
-
 		macro_nexpr = g_hash_table_lookup (esheet->widget_macroname, so);
 	} else if (GNM_IS_SOW_RADIO_BUTTON (so)) {
 		shape = 0xc9;
 		type = 0x0c;
 		flags = 0x0011;
-		checkbox_texpr = sheet_widget_radio_button_get_link (so);
 		g_object_get (so, "active", &checkbox_active, NULL);
-		is_widget = TRUE;
-
+		macro_nexpr = g_hash_table_lookup (esheet->widget_macroname, so);
+	} else if (GNM_IS_SOW_SPINBUTTON (so)) {
+		shape = 0xc9;
+		type = 0x10;
+		flags = 0x0011;
 		macro_nexpr = g_hash_table_lookup (esheet->widget_macroname, so);
 	} else {
 		g_assert_not_reached ();
@@ -4406,20 +4411,39 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	ms_objv8_write_common (bp, esheet->cur_obj, type, flags);
 
 	switch (type) {
-	case 0x0b:
+	case 0x0b: {
+		GnmExprTop const *link = sheet_widget_checkbox_get_link (so);
 		ms_objv8_write_checkbox (bp,
 					 checkbox_active,
 					 esheet,
-					 checkbox_texpr,
+					 link,
 					 macro_nexpr);
+		if (link) gnm_expr_top_unref (link);
 		break;
-	case 0x0c:
+	}
+	case 0x0c: {
+		GnmExprTop const *link = sheet_widget_radio_button_get_link (so);
 		ms_objv8_write_radiobutton (bp,
 					    checkbox_active,
 					    esheet,
-					    checkbox_texpr,
+					    link,
 					    macro_nexpr);
+		if (link) gnm_expr_top_unref (link);
 		break;
+	}
+	case 0x10: {
+		GnmExprTop const *link = sheet_widget_adjustment_get_link (so);
+		GtkAdjustment *adj =
+			sheet_widget_adjustment_get_adjustment (so);
+		gboolean horiz = sheet_widget_adjustment_get_horizontal (so);
+		ms_objv8_write_spinbutton (bp,
+					   esheet,
+					   adj, horiz,
+					   link,
+					   macro_nexpr);
+		if (link) gnm_expr_top_unref (link);
+		break;
+	}
 	case 0x19:
 		/* Cell comment. */
 		ms_objv8_write_note (bp);
@@ -4444,9 +4468,23 @@ excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	g_free (name);
 	g_free (label);
 	if (style) g_object_unref (style);
-	if (checkbox_texpr) gnm_expr_top_unref (checkbox_texpr);
 
 	return draw_len;
+}
+
+static gsize
+excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
+{
+	return excel_write_textbox_or_widget_v8 (esheet, so, TRUE, FALSE);
+}
+
+static gsize
+excel_write_widget_v8 (ExcelWriteSheet *esheet, SheetObject *so)
+{
+	GParamSpec *pspec = g_object_class_find_property
+		(G_OBJECT_GET_CLASS (so), "text");
+	return excel_write_textbox_or_widget_v8 (esheet, so,
+						 pspec != NULL, TRUE);
 }
 
 static gsize
@@ -5109,6 +5147,9 @@ excel_write_objs_v8 (ExcelWriteSheet *esheet)
 	for (ptr = esheet->textboxes; ptr != NULL ; ptr = ptr->next)
 		len += excel_write_textbox_v8 (esheet, ptr->data);
 
+	for (ptr = esheet->widgets; ptr != NULL ; ptr = ptr->next)
+		len += excel_write_widget_v8 (esheet, ptr->data);
+
 	for (ptr = esheet->lines; ptr != NULL ; ptr = ptr->next)
 		len += excel_write_line_v8 (esheet, ptr->data);
 
@@ -5345,9 +5386,10 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 				g_slist_prepend (esheet->textboxes, so);
 			handled = TRUE;
 		} else if (GNM_IS_SOW_CHECKBOX (so) ||
-			   GNM_IS_SOW_RADIO_BUTTON (so)) {
-			esheet->textboxes =
-				g_slist_prepend (esheet->textboxes, so);
+			   GNM_IS_SOW_RADIO_BUTTON (so) ||
+			   GNM_IS_SOW_SPINBUTTON (so)) {
+			esheet->widgets =
+				g_slist_prepend (esheet->widgets, so);
 			g_hash_table_insert (esheet->widget_macroname,
 					     so,
 					     create_macroname (so));
@@ -5377,6 +5419,7 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 
 	esheet->blips = g_slist_reverse (esheet->blips);
 	esheet->textboxes = g_slist_reverse (esheet->textboxes);
+	esheet->widgets = g_slist_reverse (esheet->widgets);
 	esheet->lines = g_slist_reverse (esheet->lines);
 	esheet->comments = g_slist_reverse (esheet->comments);
 	esheet->graphs = g_slist_reverse (esheet->graphs);
@@ -5401,6 +5444,7 @@ static void
 excel_sheet_free (ExcelWriteSheet *esheet)
 {
 	g_slist_free (esheet->textboxes);
+	g_slist_free (esheet->widgets);
 	g_slist_free (esheet->lines);
 	g_slist_free (esheet->comments);
 	g_slist_free (esheet->graphs);
@@ -6258,8 +6302,18 @@ excel_write_state_new (GOIOContext *context, WorkbookView const *wb_view,
 		for (ptr = esheet->graphs ; ptr != NULL ; ptr = ptr->next)
 			extract_gog_object_style (&ewb->base,
 				(GogObject *)sheet_object_graph_get_gog (ptr->data));
-		for (ptr = esheet->textboxes ; ptr != NULL ; ptr = ptr->next)
-			extract_txomarkup (ewb, ptr->data);
+		for (ptr = esheet->textboxes ; ptr != NULL ; ptr = ptr->next) {
+			SheetObject *so = ptr->data;
+			extract_txomarkup (ewb, so);
+		}
+
+		for (ptr = esheet->widgets ; ptr != NULL ; ptr = ptr->next) {
+			SheetObject *so = ptr->data;
+			GParamSpec *pspec = g_object_class_find_property
+				(G_OBJECT_GET_CLASS (so), "text");
+			if (pspec)
+				extract_txomarkup (ewb, so);
+		}
 	}
 
 	if (biff8) {
