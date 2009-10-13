@@ -88,6 +88,7 @@ void  sheet_widget_list_base_set_links	 (SheetObject *so,
 					  GnmExprTop const *content);
 GnmExprTop const *sheet_widget_list_base_get_result_link (SheetObject const *so);
 GnmExprTop const *sheet_widget_list_base_get_content_link (SheetObject const *so);
+GtkAdjustment *sheet_widget_list_base_get_adjustment (SheetObject *so);
 
 G_END_DECLS
 

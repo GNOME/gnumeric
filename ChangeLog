@@ -8,6 +8,7 @@
 	(sheet_widget_list_base_get_result_link): Rename from
 	sheet_widget_list_base_get_result_dep.  Return ref'd GnmExprTop.
 	All callers changed.
+	(sheet_widget_list_base_get_adjustment): New function.
 
 2009-10-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

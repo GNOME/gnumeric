@@ -3077,6 +3077,24 @@ sheet_widget_list_base_get_content_link (SheetObject const *so)
  	return texpr;
 }
 
+/* Note: allocates a new adjustment.  */
+GtkAdjustment *
+sheet_widget_list_base_get_adjustment (SheetObject *so)
+{
+	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);
+
+	GtkAdjustment *adj = (GtkAdjustment*)gtk_adjustment_new
+		(swl->selection,
+		 1,
+		 1 + gtk_tree_model_iter_n_children (swl->model, NULL),
+		 1,
+		 5,
+		 5);
+	g_object_ref_sink (adj);
+
+	return adj;
+}
+
 /****************************************************************************/
 
 #define SHEET_WIDGET_LIST_TYPE	(sheet_widget_list_get_type ())
