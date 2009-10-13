@@ -651,7 +651,7 @@ sheet_widget_button_finalize (GObject *obj)
 
 	dependent_set_expr (&swb->dep, NULL);
 
-	(*sheet_object_widget_class->finalize)(obj);
+	sheet_object_widget_class->finalize (obj);
 }
 
 static void
@@ -1224,7 +1224,7 @@ sheet_widget_adjustment_finalize (GObject *obj)
 		swa->adjustment = NULL;
 	}
 
-	(*sheet_object_widget_class->finalize)(obj);
+	sheet_object_widget_class->finalize (obj);
 }
 
 static void
@@ -2950,7 +2950,7 @@ sheet_widget_list_base_finalize (GObject *obj)
 	dependent_set_expr (&swl->output_dep, NULL);
 	if (swl->model != NULL)
 		g_object_unref (G_OBJECT (swl->model)), swl->model = NULL;
-	(*sheet_object_widget_class->finalize) (obj);
+	sheet_object_widget_class->finalize (obj);
 }
 
 static void
