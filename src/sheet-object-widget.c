@@ -3057,10 +3057,10 @@ GnmExprTop const *
 sheet_widget_list_base_get_result_link  (SheetObject const *so)
 {
 	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);
- 	GnmExprTop const *texpr = swl->output_dep.texpr;
+	GnmExprTop const *texpr = swl->output_dep.texpr;
 
  	if (texpr)
- 		gnm_expr_top_ref (texpr);
+		gnm_expr_top_ref (texpr);
 
  	return texpr;
 }
@@ -3069,10 +3069,10 @@ GnmExprTop const *
 sheet_widget_list_base_get_content_link (SheetObject const *so)
 {
 	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);
- 	GnmExprTop const *texpr = swl->content_dep.texpr;
+	GnmExprTop const *texpr = swl->content_dep.texpr;
 
  	if (texpr)
- 		gnm_expr_top_ref (texpr);
+		gnm_expr_top_ref (texpr);
 
  	return texpr;
 }
