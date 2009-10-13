@@ -60,10 +60,12 @@ cb_so_list_destroy (GnmDialogSOList *state)
 
 static GnmExprEntry *
 init_entry (GnmDialogSOList *state, char const *name,
-	    GnmDependent const *dep)
+	    GnmExprTop const *texpr)
 {
 	GnmExprEntry *gee;
 	GtkWidget *w = glade_xml_get_widget (state->gui, name);
+	Sheet *sheet = sheet_object_get_sheet (state->so);
+	GnmParsePos pp;
 
 	g_return_val_if_fail (w != NULL, NULL);
 
@@ -75,7 +77,9 @@ init_entry (GnmDialogSOList *state, char const *name,
 	gnm_expr_entry_set_flags (gee, GNM_EE_FORCE_ABS_REF |
 				  GNM_EE_SHEET_OPTIONAL |
 				  GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
-	gnm_expr_entry_load_from_dep (gee, dep);
+
+	parse_pos_init_sheet (&pp, sheet);
+	gnm_expr_entry_load_from_expr (gee, texpr, &pp);
 	return gee;
 }
 
@@ -105,6 +109,7 @@ static gboolean
 so_list_init (GnmDialogSOList *state, WBCGtk *wbcg, SheetObject *so)
 {
 	GtkTable *table;
+	GnmExprTop const *texpr;
 
 	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"so-list.glade", NULL, NULL);
@@ -116,10 +121,13 @@ so_list_init (GnmDialogSOList *state, WBCGtk *wbcg, SheetObject *so)
 	state->dialog = glade_xml_get_widget (state->gui, "SOList");
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "table"));
 
-	state->content_entry = init_entry (state, "content-entry",
-					   sheet_widget_list_base_get_content_dep (so));
-	state->link_entry = init_entry (state, "link-entry",
-					sheet_widget_list_base_get_result_dep (so));
+	texpr = sheet_widget_list_base_get_content_link (so);
+	state->content_entry = init_entry (state, "content-entry", texpr);
+	if (texpr) gnm_expr_top_unref (texpr);
+
+	texpr = sheet_widget_list_base_get_result_link (so);
+	state->link_entry = init_entry (state, "link-entry", texpr);
+	if (texpr) gnm_expr_top_unref (texpr);
 
 	g_signal_connect (G_OBJECT (state->dialog), "response",
 		G_CALLBACK (cb_so_list_response), state);

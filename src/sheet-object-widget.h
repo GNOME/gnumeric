@@ -86,8 +86,8 @@ void sheet_widget_frame_set_label        (SheetObject *so, char const *str);
 void  sheet_widget_list_base_set_links	 (SheetObject *so,
 					  GnmExprTop const *result_link,
 					  GnmExprTop const *content);
-GnmDependent const *sheet_widget_list_base_get_result_dep  (SheetObject const *so);
-GnmDependent const *sheet_widget_list_base_get_content_dep (SheetObject const *so);
+GnmExprTop const *sheet_widget_list_base_get_result_link (SheetObject const *so);
+GnmExprTop const *sheet_widget_list_base_get_content_link (SheetObject const *so);
 
 G_END_DECLS
 

@@ -932,10 +932,10 @@ sheet_widget_button_get_link	 (SheetObject *so)
 {
  	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
  	GnmExprTop const *texpr = swb->dep.texpr;
-	
+
  	if (texpr)
  		gnm_expr_top_ref (texpr);
-	
+
  	return texpr;
 }
 
@@ -2573,11 +2573,11 @@ typedef struct {
  	GtkWidget *dialog;
  	GnmExprEntry *expression;
  	GtkWidget *label, *value;
-	
+
  	char *old_label;
 	GnmValue *old_value;
  	GtkWidget *old_focus;
-	
+
  	WBCGtk  *wbcg;
  	SheetWidgetRadioButton *swrb;
  	Sheet		    *sheet;
@@ -2589,7 +2589,7 @@ cb_radio_button_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 {
  	/* Note:  half of the set-focus action is handle by the default
  	 *        callback installed by wbc_gtk_attach_guru */
-	
+
  	/* Force an update of the content in case it needs tweaking (eg make it
  	 * absolute) */
  	if (state->old_focus != NULL &&
@@ -2609,12 +2609,12 @@ static void
 cb_radio_button_config_destroy (RadioButtonConfigState *state)
 {
  	g_return_if_fail (state != NULL);
-	
+
  	if (state->gui != NULL) {
  		g_object_unref (G_OBJECT (state->gui));
  		state->gui = NULL;
   	}
-	
+
  	g_free (state->old_label);
  	state->old_label = NULL;
 
@@ -2683,13 +2683,13 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
  	RadioButtonConfigState *state;
  	GtkWidget *table;
 	GString *valstr;
- 
+
  	g_return_if_fail (swrb != NULL);
- 
+
 	/* Only pop up one copy per workbook */
  	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
  		return;
- 
+
  	state = g_new (RadioButtonConfigState, 1);
  	state->swrb = swrb;
  	state->wbcg = wbcg;
@@ -2700,9 +2700,9 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
  	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 					"so-radiobutton.glade", NULL, NULL);
  	state->dialog = glade_xml_get_widget (state->gui, "SO-Radiobutton");
- 
+
  	table = glade_xml_get_widget (state->gui, "table");
- 
+
  	state->expression = gnm_expr_entry_new (wbcg, TRUE);
  	gnm_expr_entry_set_flags (state->expression,
 				  GNM_EE_FORCE_ABS_REF | GNM_EE_SHEET_OPTIONAL | GNM_EE_SINGLE_RANGE,
@@ -2715,7 +2715,7 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
  			  GTK_EXPAND | GTK_FILL, 0,
  			  0, 0);
  	gtk_widget_show (GTK_WIDGET (state->expression));
- 
+
  	state->label = glade_xml_get_widget (state->gui, "label_entry");
  	gtk_entry_set_text (GTK_ENTRY (state->label), swrb->label);
  	gtk_editable_select_region (GTK_EDITABLE(state->label), 0, -1);
@@ -2732,7 +2732,7 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
  				  GTK_WIDGET (state->label));
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
  				  GTK_WIDGET (state->value));
- 
+
  	g_signal_connect (G_OBJECT (state->label),
 			  "changed",
 			  G_CALLBACK (cb_radio_button_label_changed), state);
@@ -2745,23 +2745,23 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
  	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "cancel_button")),
 			  "clicked",
 			  G_CALLBACK (cb_radio_button_config_cancel_clicked), state);
- 
+
  	gnumeric_init_help_button (
  		glade_xml_get_widget (state->gui, "help_button"),
  		GNUMERIC_HELP_LINK_SO_RADIO_BUTTON);
- 
+
  	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
  			       SHEET_OBJECT_CONFIG_KEY);
- 
+
  	wbc_gtk_attach_guru (state->wbcg, state->dialog);
  	g_object_set_data_full (G_OBJECT (state->dialog),
 				"state", state, (GDestroyNotify) cb_radio_button_config_destroy);
- 
+
 	/* Note:  half of the set-focus action is handle by the default */
  	/*        callback installed by wbc_gtk_attach_guru */
  	g_signal_connect (G_OBJECT (state->dialog), "set-focus",
 			  G_CALLBACK (cb_radio_button_set_focus), state);
- 
+
  	gtk_widget_show (state->dialog);
 }
 
@@ -3053,18 +3053,28 @@ sheet_widget_list_base_set_links (SheetObject *so,
 	list_content_eval (&swl->content_dep); /* populate the list */
 }
 
-GnmDependent const *
-sheet_widget_list_base_get_result_dep  (SheetObject const *so)
+GnmExprTop const *
+sheet_widget_list_base_get_result_link  (SheetObject const *so)
 {
 	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);
-	return &swl->output_dep;
+ 	GnmExprTop const *texpr = swl->output_dep.texpr;
+
+ 	if (texpr)
+ 		gnm_expr_top_ref (texpr);
+
+ 	return texpr;
 }
 
-GnmDependent const *
-sheet_widget_list_base_get_content_dep (SheetObject const *so)
+GnmExprTop const *
+sheet_widget_list_base_get_content_link (SheetObject const *so)
 {
 	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);
-	return &swl->content_dep;
+ 	GnmExprTop const *texpr = swl->content_dep.texpr;
+
+ 	if (texpr)
+ 		gnm_expr_top_ref (texpr);
+
+ 	return texpr;
 }
 
 /****************************************************************************/

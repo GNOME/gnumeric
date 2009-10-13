@@ -2,6 +2,12 @@
 
 	* src/sheet-object-widget.c (sheet_widget_adjustment_get_horizontal):
 	New function.
+	(sheet_widget_list_base_get_content_link): Rename from
+	sheet_widget_list_base_get_content_dep.  Return ref'd GnmExprTop.
+	All callers changed.
+	(sheet_widget_list_base_get_result_link): Rename from
+	sheet_widget_list_base_get_result_dep.  Return ref'd GnmExprTop.
+	All callers changed.
 
 2009-10-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

@@ -7094,12 +7094,8 @@ cmd_so_set_links_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
 	GnmExprTop const *old_output;
 	GnmExprTop const *old_content;
 
-	old_content = sheet_widget_list_base_get_content_dep (me->so)->texpr;
-	if (old_content)
-		gnm_expr_top_ref (old_content);
-	old_output = sheet_widget_list_base_get_result_dep (me->so)->texpr;
-	if (old_output)
-		gnm_expr_top_ref (old_output);
+	old_content = sheet_widget_list_base_get_content_link (me->so);
+	old_output = sheet_widget_list_base_get_result_link (me->so);
 
 	sheet_widget_list_base_set_links
 		(me->so, me->output, me->content);
