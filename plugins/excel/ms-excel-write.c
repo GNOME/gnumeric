@@ -3969,7 +3969,7 @@ excel_write_autofilter_objs (ExcelWriteSheet *esheet)
 			 * this. not the user*/
 			ms_objv8_write_common (bp,
 				esheet->cur_obj, 0x14, 0x2101);
-			ms_objv8_write_scrollbar (bp);
+			ms_objv8_write_scrollbar_old (bp);
 			ms_objv8_write_listbox (bp, cond != NULL); /* acts as an end */
 		} else {
 			data = ms_biff_put_len_next (bp, BIFF_OBJ, sizeof std_obj_v7);
@@ -4270,7 +4270,7 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 	char *name, *label;
 	GOStyle *style = NULL;
 	gboolean checkbox_active = FALSE;
-	GnmNamedExpr *macro_nexpr = NULL;
+	GnmNamedExpr *macro_nexpr;
 	guint8 zero[4] = { 0, 0, 0, 0 };
 
 	if (has_text_prop) {
@@ -4283,6 +4283,10 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 		g_object_get (so, "name", &name, NULL);
 	}
 	do_textbox = (label != NULL && label[0] != 0);
+
+	macro_nexpr = is_widget
+		? g_hash_table_lookup (esheet->widget_macroname, so)
+		: NULL;
 
 	if (IS_CELL_COMMENT (so)) {
 		static float const offset [4] = { .5, .5, .5, .5 };
@@ -4323,18 +4327,19 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 		type = 0x0b;
 		flags = 0x0011;
 		g_object_get (so, "active", &checkbox_active, NULL);
-		macro_nexpr = g_hash_table_lookup (esheet->widget_macroname, so);
 	} else if (GNM_IS_SOW_RADIO_BUTTON (so)) {
 		shape = 0xc9;
 		type = 0x0c;
 		flags = 0x0011;
 		g_object_get (so, "active", &checkbox_active, NULL);
-		macro_nexpr = g_hash_table_lookup (esheet->widget_macroname, so);
 	} else if (GNM_IS_SOW_SPINBUTTON (so)) {
 		shape = 0xc9;
 		type = 0x10;
 		flags = 0x0011;
-		macro_nexpr = g_hash_table_lookup (esheet->widget_macroname, so);
+	} else if (GNM_IS_SOW_SCROLLBAR (so)) {
+		shape = 0xc9;
+		type = 0x11;
+		flags = 0x6011;
 	} else {
 		g_assert_not_reached ();
 		return 0;
@@ -4441,6 +4446,19 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 					   adj, horiz,
 					   link,
 					   macro_nexpr);
+		if (link) gnm_expr_top_unref (link);
+		break;
+	}
+	case 0x11: {
+		GnmExprTop const *link = sheet_widget_adjustment_get_link (so);
+		GtkAdjustment *adj =
+			sheet_widget_adjustment_get_adjustment (so);
+		gboolean horiz = sheet_widget_adjustment_get_horizontal (so);
+		ms_objv8_write_scrollbar (bp,
+					  esheet,
+					  adj, horiz,
+					  link,
+					  macro_nexpr);
 		if (link) gnm_expr_top_unref (link);
 		break;
 	}
@@ -5387,7 +5405,8 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 			handled = TRUE;
 		} else if (GNM_IS_SOW_CHECKBOX (so) ||
 			   GNM_IS_SOW_RADIO_BUTTON (so) ||
-			   GNM_IS_SOW_SPINBUTTON (so)) {
+			   GNM_IS_SOW_SPINBUTTON (so) ||
+			   GNM_IS_SOW_SCROLLBAR (so)) {
 			esheet->widgets =
 				g_slist_prepend (esheet->widgets, so);
 			g_hash_table_insert (esheet->widget_macroname,

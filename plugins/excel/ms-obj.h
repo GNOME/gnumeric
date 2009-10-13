@@ -149,7 +149,7 @@ char  *ms_read_TXO   (BiffQuery *q, MSContainer *c, PangoAttrList **markup);
 /********************************************************/
 
 void ms_objv8_write_common	(BiffPut *bp, int id, int type, guint16 flags);
-void ms_objv8_write_scrollbar	(BiffPut *bp);
+void ms_objv8_write_scrollbar_old (BiffPut *bp);
 void ms_objv8_write_listbox	(BiffPut *bp, gboolean filtered);
 
 void ms_objv8_write_note	(BiffPut *bp);
@@ -169,6 +169,11 @@ void ms_objv8_write_spinbutton (BiffPut *bp,
 				GtkAdjustment *adj, gboolean horiz,
 				GnmExprTop const *link_texpr,
 				GnmNamedExpr *macro_nexpr);
+void ms_objv8_write_scrollbar (BiffPut *bp,
+			       ExcelWriteSheet *esheet,
+			       GtkAdjustment *adj, gboolean horiz,
+			       GnmExprTop const *link_texpr,
+			       GnmNamedExpr *macro_nexpr);
 
 
 #endif /* GNM_MS_OBJ_H */

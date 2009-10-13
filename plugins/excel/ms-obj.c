@@ -1332,7 +1332,7 @@ ms_objv8_write_common (BiffPut *bp, int id, int type, guint16 flags)
 }
 
 void
-ms_objv8_write_scrollbar (BiffPut *bp)
+ms_objv8_write_scrollbar_old (BiffPut *bp)
 {
 	/* no docs, but some guesses.  See above */
 	static guint8 const data[] = {
@@ -1564,7 +1564,7 @@ ms_objv8_write_adjustment (BiffPut *bp,
 	GSF_LE_SET_GINT16  (data + 16, SQUEEZE (adj->page_increment));
 #undef SQUEEZE
 	GSF_LE_SET_GINT16  (data + 18, !!horiz);
-	GSF_LE_SET_GINT16  (data + 20, 42);  /* widget in pixels */
+	GSF_LE_SET_GINT16  (data + 20, 15);  /* widget in pixels */
 	GSF_LE_SET_GINT16  (data + 22, 0x0001);  /* draw */
 
 	ms_biff_put_var_write (bp, data, sizeof data);
@@ -1576,6 +1576,28 @@ ms_objv8_write_spinbutton (BiffPut *bp,
 			   GtkAdjustment *adj, gboolean horiz,
 			   GnmExprTop const *link_texpr,
 			   GnmNamedExpr *macro_nexpr)
+{
+	ms_objv8_write_adjustment (bp, adj, horiz);
+	if (link_texpr)
+		ms_objv8_write_link_fmla (bp, GR_SCROLLBAR_FORMULA,
+					  esheet, link_texpr);
+	if (0 && macro_nexpr) {
+		GnmExprTop const *texpr =
+			gnm_expr_top_new
+			(gnm_expr_new_name (macro_nexpr,
+					    esheet->gnum_sheet,
+					    NULL));
+		ms_objv8_write_macro_fmla (bp, esheet, texpr);
+		gnm_expr_top_unref (texpr);
+	}
+}
+
+void
+ms_objv8_write_scrollbar (BiffPut *bp,
+			  ExcelWriteSheet *esheet,
+			  GtkAdjustment *adj, gboolean horiz,
+			  GnmExprTop const *link_texpr,
+			  GnmNamedExpr *macro_nexpr)
 {
 	ms_objv8_write_adjustment (bp, adj, horiz);
 	if (link_texpr)
