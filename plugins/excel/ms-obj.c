@@ -922,7 +922,7 @@ ms_obj_map_forms_obj (MSObj *obj, MSContainer *c,
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_object_debug > 0) {
-		g_print ("'%s' = %d\n", type, len);
+		g_printerr ("'%s' = %d\n", type, len);
 		if (ms_excel_object_debug > 4)
 			gsf_mem_dump (data, last-data);
 	}

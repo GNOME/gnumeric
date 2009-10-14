@@ -454,7 +454,7 @@ excel_write_BOF (BiffPut *bp, MsBiffFileType type)
 		break;
 
 	default:
-		fprintf (stderr, "FIXME: I need some magic numbers\n");
+		g_printerr ("FIXME: I need some magic numbers\n");
 		GSF_LE_SET_GUINT16 (data+4, 0x0);
 		GSF_LE_SET_GUINT16 (data+6, 0x0);
 		break;
@@ -1662,7 +1662,7 @@ palette_color_to_int (ExcelPaletteEntry const *c)
 static void
 log_put_color (guint c, gboolean was_added, gint index, char const *tmpl)
 {
-	d(2, if (was_added) fprintf (stderr, tmpl, index, c););
+	d(2, if (was_added) g_printerr (tmpl, index, c););
 }
 
 static void
@@ -1922,9 +1922,9 @@ static void
 excel_font_free (ExcelWriteFont *efont)
 {
 	/* FONT_SKIP has value == NULL */
-	d (3, fprintf (stderr, "free %p", efont););
+	d (3, g_printerr ("free %p", efont););
 	if (efont != NULL) {
-		d (3, fprintf (stderr, "freeing %s", excel_font_to_string (efont)););
+		d (3, g_printerr ("freeing %s", excel_font_to_string (efont)););
 		g_free (efont->font_name_copy);
 		g_free (efont);
 	}
@@ -2072,7 +2072,7 @@ static void
 after_put_font (ExcelWriteFont *f, gboolean was_added, gint index, gconstpointer dummy)
 {
 	if (was_added) {
-		d (1, fprintf (stderr, "Found unique font %d - %s\n",
+		d (1, g_printerr ("Found unique font %d - %s\n",
 			      index, excel_font_to_string (f)););
 	} else
 		excel_font_free (f);
@@ -2092,7 +2092,7 @@ put_efont (ExcelWriteFont *efont, XLExportBase *xle)
 {
 	TwoWayTable *twt = xle->fonts.two_way_table;
 
-	d (2, fprintf (stderr, "adding %s\n", excel_font_to_string (efont)););
+	d (2, g_printerr ("adding %s\n", excel_font_to_string (efont)););
 
 	/* Occupy index FONT_SKIP with junk - Excel skips it */
 	if (twt->idx_to_key->len == FONT_SKIP)
@@ -2156,7 +2156,7 @@ excel_write_FONT (ExcelWriteState *ewb, ExcelWriteFont const *f)
 	color = f->is_auto
 		? PALETTE_AUTO_FONT
 		: palette_get_index (&ewb->base, f->color);
-	d (1, fprintf (stderr, "Writing font %s, color idx %u\n",
+	d (1, g_printerr ("Writing font %s, color idx %u\n",
 		      excel_font_to_string (f), color););
 
 	if (f->is_bold) {
@@ -2234,7 +2234,7 @@ after_put_format (GOFormat *format, gboolean was_added, gint index,
 		  char const *tmpl)
 {
 	if (was_added) {
-		d (2, fprintf (stderr, tmpl, index, format););
+		d (2, g_printerr (tmpl, index, format););
 	} else {
 		go_format_unref (format);
 	}
@@ -2301,7 +2301,7 @@ excel_write_FORMAT (ExcelWriteState *ewb, int fidx)
 
 	const char *format = go_format_as_XL (sf);
 
-	d (1, fprintf (stderr, "Writing format 0x%x: %s\n", fidx, format););
+	d (1, g_printerr ("Writing format 0x%x: %s\n", fidx, format););
 
 	if (ewb->bp->version >= MS_BIFF_V7)
 		ms_biff_put_var_next (ewb->bp, BIFF_FORMAT_v4);
@@ -3133,7 +3133,7 @@ excel_write_value (ExcelWriteState *ewb, GnmValue *v, guint32 col, guint32 row, 
 				   val <= INT_MAX / 4 &&
 				   val == (int)val);
 
-		d (3, fprintf (stderr, "Writing %g is (%g %g) is int ? %d\n",
+		d (3, g_printerr ("Writing %g is (%g %g) is int ? %d\n",
 			      (double)val,
 			      (double)(1.0 * (int)val),
 			      (double)(1.0 * (val - (int)val)),
@@ -3200,7 +3200,7 @@ excel_write_value (ExcelWriteState *ewb, GnmValue *v, guint32 col, guint32 row, 
 		break;
 
 	default:
-		fprintf (stderr, "Unhandled value type %d\n", v->type);
+		g_printerr ("Unhandled value type %d\n", v->type);
 		break;
 	}
 }
@@ -3445,7 +3445,7 @@ excel_write_cell (ExcelWriteState *ewb, ExcelWriteSheet *esheet,
 
 	d (2, {
 		GnmParsePos tmp;
-		fprintf (stderr, "Writing cell at %s '%s' = '%s', xf = 0x%x\n",
+		g_printerr ("Writing cell at %s '%s' = '%s', xf = 0x%x\n",
 			cell_name (cell),
 			(gnm_cell_has_expr (cell)
 			 ?  gnm_expr_top_as_string (cell->base.texpr,
@@ -3492,7 +3492,7 @@ write_mulblank (BiffPut *bp, ExcelWriteSheet *esheet, guint32 end_col, guint32 r
 		guint8 *data;
 
 		xf = xf_list [0];
-		d (2, fprintf (stderr, "Writing blank at %s, xf = 0x%x\n",
+		d (2, g_printerr ("Writing blank at %s, xf = 0x%x\n",
 			      cell_coord_name (end_col, row), xf););
 
 		data = ms_biff_put_len_next (bp, BIFF_BLANK_v2, 6);
@@ -3508,9 +3508,9 @@ write_mulblank (BiffPut *bp, ExcelWriteSheet *esheet, guint32 end_col, guint32 r
 			/* Strange looking code because the second
 			 * cell_coord_name call overwrites the result of the
 			 * first */
-			fprintf (stderr, "Writing multiple blanks %s",
+			g_printerr ("Writing multiple blanks %s",
 				cell_coord_name (end_col + 1 - run, row));
-			fprintf (stderr, ":%s\n", cell_coord_name (end_col, row));
+			g_printerr (":%s\n", cell_coord_name (end_col, row));
 		});
 
 		data = ms_biff_put_len_next (bp, BIFF_MULBLANK, len);
@@ -3521,14 +3521,14 @@ write_mulblank (BiffPut *bp, ExcelWriteSheet *esheet, guint32 end_col, guint32 r
 		ptr = data + 4;
 		for (i = 0 ; i < run ; i++) {
 			xf = xf_list [i];
-			d (3, fprintf (stderr, " xf(%s) = 0x%x\n",
+			d (3, g_printerr (" xf(%s) = 0x%x\n",
 				      cell_coord_name (end_col + 1 - i, row),
 				      xf););
 			GSF_LE_SET_GUINT16 (ptr, xf);
 			ptr += 2;
 		}
 
-		d (3, fprintf (stderr, "\n"););
+		d (3, g_printerr ("\n"););
 	}
 
 	ms_biff_put_commit (bp);
@@ -3575,7 +3575,7 @@ excel_write_DEFAULT_ROW_HEIGHT (BiffPut *bp, ExcelWriteSheet *esheet)
 
 	def_height = sheet_row_get_default_size_pts (esheet->gnum_sheet);
 	height = (guint16) (20. * def_height);
-	d (1, fprintf (stderr, "Default row height 0x%x;\n", height););
+	d (1, g_printerr ("Default row height 0x%x;\n", height););
 	data = ms_biff_put_len_next (bp, BIFF_DEFAULTROWHEIGHT_v2, 4);
 	GSF_LE_SET_GUINT16 (data + 0, options);
 	GSF_LE_SET_GUINT16 (data + 2, height);
@@ -3613,7 +3613,7 @@ excel_write_DEFCOLWIDTH (BiffPut *bp, ExcelWriteSheet *esheet)
 
 	charwidths = (guint16)((width / (scale * spec->defcol_unit)) + .5);
 
-	d (1, fprintf (stderr, "Default column width %hu characters (%f XL pixels)\n", charwidths, width););
+	d (1, g_printerr ("Default column width %hu characters (%f XL pixels)\n", charwidths, width););
 
 	ms_biff_put_2byte (bp, BIFF_DEFCOLWIDTH, charwidths);
 }
@@ -3664,11 +3664,11 @@ excel_write_COLINFO (BiffPut *bp, ExcelWriteSheet *esheet, ColRowInfo const *ci,
 	charwidths = (guint16)((width - 8. * spec->defcol_unit) * spec->colinfo_step +
 			       spec->colinfo_baseline + .5);
 	d (1, {
-		fprintf (stderr, "Column Formatting %s!%s of width "
+		g_printerr ("Column Formatting %s!%s of width "
 			 "%hu/256 characters\n",
 			 esheet->gnum_sheet->name_quoted,
 			 cols_name (first_col, last_col), charwidths);
-		fprintf (stderr, "Options %hd, default style %hd\n", options, xf_index);
+		g_printerr ("Options %hd, default style %hd\n", options, xf_index);
 	});
 
 	/* NOTE : Docs are wrong, length is 12 not 11 */
@@ -4811,7 +4811,7 @@ excel_write_SCL (BiffPut *bp, double zoom, gboolean force)
 
 	go_stern_brocot (fractional, 1000, &num, &denom);
 	num += whole * denom;
-	d (2, fprintf (stderr, "Zoom %g == %d/%d\n", zoom, num, denom););
+	d (2, g_printerr ("Zoom %g == %d/%d\n", zoom, num, denom););
 
 	if (num == denom && !force)
 		return;
@@ -4911,7 +4911,7 @@ excel_write_ROWINFO (BiffPut *bp, ExcelWriteSheet *esheet, guint32 row, guint32 
 	if (ri->hard_size)
 		options |= 0x40;
 
-	d (1, fprintf (stderr, "Row %d height 0x%x;\n", row+1, height););
+	d (1, g_printerr ("Row %d height 0x%x;\n", row+1, height););
 
 	data = ms_biff_put_len_next (bp, BIFF_ROW_v2, 16);
 	pos = bp->streamPos;
@@ -4941,7 +4941,7 @@ excel_sheet_write_INDEX (ExcelWriteSheet *esheet, gsf_off_t fpos,
 	for (i = 0; i < dbcells->len; i++) {
 		unsigned pos = g_array_index (dbcells, unsigned, i);
 		GSF_LE_SET_GUINT32 (data + i, pos - esheet->ewb->streamPos);
-		d (2, fprintf (stderr, "Writing index record"
+		d (2, g_printerr ("Writing index record"
 			      " 0x%4.4x - 0x%4.4x = 0x%4.4x\n",
 			      pos, esheet->ewb->streamPos,
 			      pos - esheet->ewb->streamPos););
@@ -5281,7 +5281,7 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 
 	write_sheet_head (ewb->bp, esheet);
 
-	d (1, fprintf (stderr, "Saving esheet '%s' geom (%d, %d)\n",
+	d (1, g_printerr ("Saving esheet '%s' geom (%d, %d)\n",
 		      esheet->gnum_sheet->name_unquoted,
 		      esheet->max_col, esheet->max_row););
 	dbcells = g_array_new (FALSE, FALSE, sizeof (unsigned));
