@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-08-14 20:22-0400\n"
-"PO-Revision-Date: 2008-03-04 18:39+0100\n"
+"PO-Revision-Date: 2009-10-14 15:14-0400\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
@@ -7057,7 +7057,7 @@ msgstr ""
 
 #: ../src/dialogs/doc-meta-data.glade.h:6
 msgid "<b>Location:</b>"
-msgstr "<b>Emplaçament :/b>"
+msgstr "<b>Emplaçament :</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:7
 msgid "<b>Name:</b>"
