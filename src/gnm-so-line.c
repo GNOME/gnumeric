@@ -128,11 +128,9 @@ cb_gnm_so_line_changed (GnmSOLine const *sol,
 {
 	item = GOC_ITEM (GOC_GROUP (item)->children->data);
 	goc_item_set (item,
-	        "style",		sol->style,
-		"arrow-shape-a",	sol->end_arrow.a,
-		"arrow-shape-b",	sol->end_arrow.b,
-		"arrow-shape-c",	sol->end_arrow.c,
-		NULL);
+		      "start-arrow", &sol->start_arrow,
+		      "end-arrow", &sol->end_arrow,
+		      NULL);
 }
 
 static SheetObjectView *
@@ -143,10 +141,7 @@ gnm_so_line_new_view (SheetObject *so, SheetObjectViewContainer *container)
 		gnm_pane_object_group (GNM_PANE (container)),
 		so_line_goc_view_get_type (),
 		NULL);
-	goc_item_new (GOC_GROUP (item),
-		GOC_TYPE_LINE,
-		"arrowhead",	(sol->end_arrow.a != 0.),
-		NULL);
+	goc_item_new (GOC_GROUP (item), GOC_TYPE_LINE, NULL);
 	cb_gnm_so_line_changed (sol, NULL, item);
 	g_signal_connect_object (G_OBJECT (sol),
 		"notify", G_CALLBACK (cb_gnm_so_line_changed),
