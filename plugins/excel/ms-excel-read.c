@@ -444,21 +444,17 @@ handle_arrow_head (SheetObject *so, const char *prop_name,
 		   MSObjAttrBag *attrs, MSObjAttrID typid)
 {
 	GOArrow arrow;
-	gpointer parrow;
 	GOColor col = GO_COLOR_BLACK;
 
 	int typ = ms_obj_attr_get_int (attrs, typid, 0);
-
-	g_object_get (so, prop_name, &parrow, NULL);
-	arrow = *((GOArrow*)parrow);
-
 	switch (typ) {
 	case 0:
 		go_arrow_clear (&arrow);
 		break;
 	default:
 	case 1:
-		go_arrow_init (&arrow, GO_ARROW_TRIANGLE, col, 8., 10., 3.);
+		go_arrow_init (&arrow, GO_ARROW_TRIANGLE, col,
+			       8., 10., 3.);
 		break;
 	}
 

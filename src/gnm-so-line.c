@@ -325,10 +325,10 @@ gnm_so_line_set_property (GObject *obj, guint param_id,
 		break;
 	}
 	case SOL_PROP_START_ARROW:
-		sol->start_arrow = *((GOArrow *)g_value_get_pointer (value));
+		sol->start_arrow = *((GOArrow *)g_value_peek_pointer (value));
 		break;
 	case SOL_PROP_END_ARROW:
-		sol->end_arrow = *((GOArrow* )g_value_get_pointer (value));
+		sol->end_arrow = *((GOArrow* )g_value_peek_pointer (value));
 		break;
 	case SOL_PROP_IS_ARROW:
 		if (g_value_get_boolean (value))
@@ -355,10 +355,10 @@ gnm_so_line_get_property (GObject *obj, guint param_id,
 		g_value_set_object (value, sol->style);
 		break;
 	case SOL_PROP_START_ARROW:
-		g_value_set_pointer (value, &sol->start_arrow);
+		g_value_set_boxed (value, &sol->start_arrow);
 		break;
 	case SOL_PROP_END_ARROW:
-		g_value_set_pointer (value, &sol->end_arrow);
+		g_value_set_boxed (value, &sol->end_arrow);
 		break;
 	case SOL_PROP_IS_ARROW:
 		g_value_set_boolean (value, sol->end_arrow.c > 0);
@@ -404,11 +404,13 @@ gnm_so_line_class_init (GObjectClass *gobject_class)
                  g_param_spec_object ("style", NULL, NULL, GO_TYPE_STYLE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
         g_object_class_install_property (gobject_class, SOL_PROP_START_ARROW,
-                 g_param_spec_pointer ("start-arrow", NULL, NULL,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+                 g_param_spec_boxed ("start-arrow", NULL, NULL,
+				     GO_ARROW_TYPE,
+				     GSF_PARAM_STATIC | G_PARAM_READWRITE));
         g_object_class_install_property (gobject_class, SOL_PROP_END_ARROW,
-                 g_param_spec_pointer ("end-arrow", NULL, NULL,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+                 g_param_spec_boxed ("end-arrow", NULL, NULL,
+				     GO_ARROW_TYPE,
+				     GSF_PARAM_STATIC | G_PARAM_READWRITE));
         g_object_class_install_property (gobject_class, SOL_PROP_IS_ARROW,
                  g_param_spec_boolean ("is-arrow", NULL, NULL, FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
