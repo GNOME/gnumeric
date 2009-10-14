@@ -454,7 +454,7 @@ handle_arrow_head (SheetObject *so, const char *prop_name,
 
 	switch (typ) {
 	case 0:
-		go_arrow_init (&arrow, GO_ARROW_NONE, col, 0, 0, 0);
+		go_arrow_clear (&arrow);
 		break;
 	default:
 	case 1:

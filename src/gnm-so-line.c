@@ -44,13 +44,6 @@ attr_eq (const xmlChar *a, const char *s)
 
 /*****************************************************************************/
 
-static void
-go_arrow_copy (GOArrow *dst, GOArrow const *src)
-{
-	*dst = *src;
-}
-
-/*****************************************************************************/
 typedef struct {
 	SheetObject base;
 
@@ -314,8 +307,8 @@ gnm_so_line_copy (SheetObject *dst, SheetObject const *src)
 
 	g_object_unref (new_sol->style);
 	new_sol->style = go_style_dup (sol->style);
-	go_arrow_copy (&new_sol->start_arrow, &sol->start_arrow);
-	go_arrow_copy (&new_sol->end_arrow, &sol->end_arrow);
+	new_sol->start_arrow = sol->start_arrow;
+	new_sol->end_arrow = sol->end_arrow;
 }
 
 static void
@@ -332,10 +325,10 @@ gnm_so_line_set_property (GObject *obj, guint param_id,
 		break;
 	}
 	case SOL_PROP_START_ARROW:
-		go_arrow_copy (&sol->start_arrow, g_value_get_pointer (value));
+		sol->start_arrow = *((GOArrow *)g_value_get_pointer (value));
 		break;
 	case SOL_PROP_END_ARROW:
-		go_arrow_copy (&sol->end_arrow, g_value_get_pointer (value));
+		sol->end_arrow = *((GOArrow* )g_value_get_pointer (value));
 		break;
 	case SOL_PROP_IS_ARROW:
 		if (g_value_get_boolean (value))
@@ -343,9 +336,7 @@ gnm_so_line_set_property (GObject *obj, guint param_id,
 				       GO_ARROW_TRIANGLE, GO_COLOR_BLACK,
 				       8., 10., 3.);
 		else
-			go_arrow_init (&sol->end_arrow,
-				       GO_ARROW_NONE, GO_COLOR_BLACK,
-				       0., 0., 0.);
+			go_arrow_clear (&sol->end_arrow);
 		break;
 
 	default:
@@ -428,7 +419,8 @@ gnm_so_line_init (GObject *obj)
 {
 	GnmSOLine *sol  = GNM_SO_LINE (obj);
 	sol->style = sol_default_style ();
-
+	go_arrow_clear (&sol->start_arrow);
+	go_arrow_clear (&sol->end_arrow);
 	SHEET_OBJECT (obj)->anchor.base.direction = GOD_ANCHOR_DIR_NONE_MASK;
 }
 
