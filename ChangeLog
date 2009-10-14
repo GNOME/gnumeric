@@ -1,3 +1,10 @@
+2009-10-14  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-so-line.c: Move GOArrow to goffice.
+
+	* configure.in (libspreadsheet_reqs): Require goffice 0.7.15 for
+	GOArrow.
+
 2009-10-13  Morten Welinder  <terra@gnome.org>
 
 	* src/libgnumeric.c (gnm_shutdown): Call gnm_xml_sax_read_shutdown

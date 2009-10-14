@@ -439,7 +439,34 @@ ms_sheet_obj_anchor_to_pos (Sheet const * sheet, MsBiffVersion const ver,
 	return FALSE;
 }
 
-unsigned xl_pattern_to_line_type (guint16 pattern)
+static void
+handle_arrow_head (SheetObject *so, const char *prop_name,
+		   MSObjAttrBag *attrs, MSObjAttrID typid)
+{
+	GOArrow arrow;
+	gpointer parrow;
+	GOColor col = GO_COLOR_BLACK;
+
+	int typ = ms_obj_attr_get_int (attrs, typid, 0);
+
+	g_object_get (so, prop_name, &parrow, NULL);
+	arrow = *((GOArrow*)parrow);
+
+	switch (typ) {
+	case 0:
+		go_arrow_init (&arrow, GO_ARROW_NONE, col, 0, 0, 0);
+		break;
+	default:
+	case 1:
+		go_arrow_init (&arrow, GO_ARROW_TRIANGLE, col, 8., 10., 3.);
+		break;
+	}
+
+	g_object_set (so, prop_name, &arrow, NULL);
+}
+
+unsigned
+xl_pattern_to_line_type (guint16 pattern)
 {
 	static GOLineDashType const dash_map []= {
 		GO_LINE_SOLID,
@@ -522,8 +549,10 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	case 0x00:
 		break;
 
-	case MSOT_LINE: /* Line */
-	case MSOT_ARC: /* Arc */
+	case MSOT_LINE:
+	case MSOT_ARC: {
+		gboolean is_arrow;
+
 		style = go_style_new ();
 		style->line.color = ms_sheet_map_color
 			(esheet, obj, MS_OBJ_ATTR_OUTLINE_COLOR,
@@ -535,7 +564,18 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 			: xl_pattern_to_line_type (ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_OUTLINE_STYLE, 1));
 		g_object_set (G_OBJECT (so), "style", style, NULL);
 		g_object_unref (style);
+
+		g_object_get (so, "is-arrow", &is_arrow, NULL);
+		if (is_arrow) {
+			handle_arrow_head (so, "start-arrow",
+					   obj->attrs,
+					   MS_OBJ_ATTR_ARROW_START);
+			handle_arrow_head (so, "end-arrow",
+					   obj->attrs,
+					   MS_OBJ_ATTR_ARROW_END);
+		}
 		break;
+	}
 
 	case MSOT_POLYGON:
 		g_object_set (G_OBJECT (so), "points",
@@ -649,8 +689,8 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_SCROLLBAR_PAGE, 10));
 		break;
 
-	case MSOT_LIST: /* List */
-	case MSOT_COMBO: /* Combo  */
+	case MSOT_LIST:
+	case MSOT_COMBO:
 		sheet_widget_list_base_set_links (obj->gnum_obj,
 			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_LINKED_TO_CELL, NULL, FALSE),
 			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_INPUT_FROM, NULL, FALSE));
@@ -679,55 +719,60 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	g_return_val_if_fail (container != NULL, NULL);
 
 	switch (obj->excel_type) {
-	case 0x01: /* Line */
-	case 0x04: /* Arc */
+	case MSOT_LINE:
+	case MSOT_ARC: {
+		int arrow_end =
+			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_ARROW_END, 0);
+		int arrow_start =
+			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_ARROW_START, 0);
 		so = g_object_new (GNM_SO_LINE_TYPE,
-			"is-arrow", 0 != ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_ARROW_END, 0),
-			NULL);
+				   "is-arrow", arrow_end || arrow_start,
+				   NULL);
 		break;
+	}
 
 	case 0x00: /* draw the group border */
-	case 0x02: /* Box */
-	case 0x03: /* Oval */
-	case 0x06: /* TextBox */
-	case 0x0E: /* Label */
+	case MSOT_RECTANGLE:
+	case MSOT_OVAL:
+	case MSOT_TEXTBOX:
+	case MSOT_LABEL:
 		so = g_object_new (GNM_SO_FILLED_TYPE,
 			"is-oval", obj->excel_type == 3,
 			NULL);
 		break;
 
-	case 0x05: /* Chart */
+	case MSOT_CHART:
 		so = sheet_object_graph_new (NULL);
 		break;
 
 	/* Button */
-	case 0x07:
+	case MSOT_BUTTON:
 		so = g_object_new (sheet_widget_button_get_type (), NULL);
 		break;
-	case 0x08:
+	case MSOT_PICTURE:
 		so = g_object_new (SHEET_OBJECT_IMAGE_TYPE, NULL); /* Picture */
 		break;
-	case 0x09:
+	case MSOT_POLYGON:
 		so = g_object_new (GNM_SO_POLYGON_TYPE, NULL);
 		break;
-	case 0x0B:
+	case MSOT_CHECKBOX:
 		so = g_object_new (sheet_widget_checkbox_get_type (), NULL);
 		break;
-	case 0x0C:
+	case MSOT_OPTION:
 		so = g_object_new (sheet_widget_radio_button_get_type (), NULL);
 		break;
-	case 0x10:
+	case MSOT_SPINNER:
 		so = g_object_new (sheet_widget_spinbutton_get_type (), NULL);
 		break;
-	case 0x11:
+	case MSOT_SCROLLBAR:
 		so = g_object_new (sheet_widget_scrollbar_get_type (), NULL);
 		break;
-	case 0x12:
+	case MSOT_LIST:
 		so = g_object_new (sheet_widget_list_get_type (), NULL);
 		break;
 
 	/* ignore combos associateed with filters */
-	case 0x14: {
+	case MSOT_COMBO: {
 		ExcelReadSheet *esheet = (ExcelReadSheet *)container;
 
 		if (!obj->combo_in_autofilter)
@@ -739,12 +784,12 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	}
 	break;
 
-	case 0x19:
+	case MSOT_COMMENT:
 		so = g_object_new (cell_comment_get_type (), NULL);
 		break;
 
 	/* Gnumeric specific addition to handle toggle button controls */
-	case 0x70:
+	case MSOT_TOGGLE:
 		so = g_object_new (sheet_widget_toggle_button_get_type (), NULL);
 		break;
 

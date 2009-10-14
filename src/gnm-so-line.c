@@ -43,27 +43,11 @@ attr_eq (const xmlChar *a, const char *s)
 #define GNM_SO_LINE_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k),   GNM_SO_LINE_TYPE, GnmSOLineClass))
 
 /*****************************************************************************/
-typedef struct {
-	GOColor	color;
-	double  a, b, c;
-} GOArrow;
-
-static void
-go_arrow_init (GOArrow *res, double a, double b, double c)
-{
-	res->color = GO_COLOR_BLACK;
-	res->a = a;
-	res->b = b;
-	res->c = c;
-}
 
 static void
 go_arrow_copy (GOArrow *dst, GOArrow const *src)
 {
-	dst->color = src->color;
-	dst->a = src->a;
-	dst->b = src->b;
-	dst->c = src->c;
+	*dst = *src;
 }
 
 /*****************************************************************************/
@@ -317,7 +301,9 @@ gnm_so_line_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 
 	/* 2 == arrow */
 	if (type == 2 && arrow_a >= 0. && arrow_b >= 0. && arrow_c >= 0.)
-		go_arrow_init (&sol->end_arrow, arrow_a, arrow_b, arrow_c);
+		go_arrow_init (&sol->end_arrow,
+			       GO_ARROW_TRIANGLE, GO_COLOR_BLACK,
+			       arrow_a, arrow_b, arrow_c);
 }
 
 static void
@@ -353,9 +339,13 @@ gnm_so_line_set_property (GObject *obj, guint param_id,
 		break;
 	case SOL_PROP_IS_ARROW:
 		if (g_value_get_boolean (value))
-			go_arrow_init (&sol->end_arrow, 8., 10., 3.);
+			go_arrow_init (&sol->end_arrow,
+				       GO_ARROW_TRIANGLE, GO_COLOR_BLACK,
+				       8., 10., 3.);
 		else
-			go_arrow_init (&sol->end_arrow, 0., 0., 0.);
+			go_arrow_init (&sol->end_arrow,
+				       GO_ARROW_NONE, GO_COLOR_BLACK,
+				       0., 0., 0.);
 		break;
 
 	default:
@@ -438,8 +428,6 @@ gnm_so_line_init (GObject *obj)
 {
 	GnmSOLine *sol  = GNM_SO_LINE (obj);
 	sol->style = sol_default_style ();
-	go_arrow_init (&sol->start_arrow, 0., 0., 0.);
-	go_arrow_init (&sol->end_arrow,   0., 0., 0.);
 
 	SHEET_OBJECT (obj)->anchor.base.direction = GOD_ANCHOR_DIR_NONE_MASK;
 }
