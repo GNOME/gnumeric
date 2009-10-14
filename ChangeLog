@@ -2,6 +2,7 @@
 
 	* src/gnm-so-line.c: Move GOArrow to goffice.
 	(gnm_so_line_set_property): Eliminate is-arrow property.
+	(gnm_so_line_draw_cairo): Draw both arrows.
 
 	* configure.in (libspreadsheet_reqs): Require goffice 0.7.15 for
 	GOArrow.

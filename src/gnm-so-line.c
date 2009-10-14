@@ -130,6 +130,7 @@ cb_gnm_so_line_changed (GnmSOLine const *sol,
 	goc_item_set (item,
 		      "start-arrow", &sol->start_arrow,
 		      "end-arrow", &sol->end_arrow,
+		      "style", sol->style,
 		      NULL);
 }
 
@@ -152,14 +153,46 @@ gnm_so_line_new_view (SheetObject *so, SheetObjectViewContainer *container)
 #endif /* GNM_WITH_GTK */
 
 static void
+draw_arrow (GOArrow *arrow, cairo_t *cr,
+	    double *x, double *y, double phi)
+{
+	switch (arrow->typ) {
+	case GO_ARROW_NONE:
+		return;
+
+	case GO_ARROW_TRIANGLE:
+		cairo_save (cr);
+		cairo_translate (cr, *x, *y);
+		cairo_rotate (cr, phi);
+		cairo_set_line_width (cr, 1.0);
+		cairo_new_path (cr);
+		cairo_move_to (cr, 0.0, 0.0);
+		cairo_line_to (cr, -arrow->c, -arrow->b);
+		cairo_line_to (cr, 0.0, -arrow->a);
+		cairo_line_to (cr, arrow->c, -arrow->b);
+		cairo_close_path (cr);
+		cairo_fill (cr);
+		cairo_restore (cr);
+
+		/* Make the line shorter so that the arrow won't be
+		 * on top of a (perhaps quite fat) line.  */
+		(*x) += arrow->a * sin (phi);
+		(*y) -= arrow->a * cos (phi);
+	}
+}
+
+static void
 gnm_so_line_draw_cairo (SheetObject const *so, cairo_t *cr,
 			double width, double height)
 {
 	GnmSOLine *sol = GNM_SO_LINE (so);
 	GOStyle const *style = sol->style;
 	double x1, y1, x2, y2;
+	double phi;
 
-	if (style->line.color == 0 || style->line.width < 0 || style->line.dash_type == GO_LINE_NONE)
+	if (style->line.color == 0 ||
+	    style->line.width < 0 ||
+	    style->line.dash_type == GO_LINE_NONE)
 		return;
 
 	switch (so->anchor.base.direction) {
@@ -195,30 +228,10 @@ gnm_so_line_draw_cairo (SheetObject const *so, cairo_t *cr,
 	}
 
 	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->line.color));
-	
-	if (sol->end_arrow.c > 0.) {
-		double phi;
 
-		phi = atan2 (y2 - y1, x2 - x1) - M_PI_2;
-
-		cairo_save (cr);
-		cairo_translate (cr, x2, y2);
-		cairo_rotate (cr, phi);
-		cairo_set_line_width (cr, 1.0);
-		cairo_new_path (cr);
-		cairo_move_to (cr, 0.0, 0.0);
-		cairo_line_to (cr, -sol->end_arrow.c, -sol->end_arrow.b);
-		cairo_line_to (cr, 0.0, -sol->end_arrow.a);
-		cairo_line_to (cr, sol->end_arrow.c, -sol->end_arrow.b);
-		cairo_close_path (cr);
-		cairo_fill (cr);
-		cairo_restore (cr);
-
-		/* Make the line shorter so that the arrow won't be
-		 * on top of a (perhaps quite fat) line.  */
-		x2 += sol->end_arrow.a * sin (phi);
-		y2 -= sol->end_arrow.a * cos (phi);
-	}
+	phi = atan2 (y2 - y1, x2 - x1) - M_PI_2;
+	draw_arrow (&sol->start_arrow, cr, &x1, &y1, phi + M_PI);
+	draw_arrow (&sol->end_arrow, cr, &x2, &y2, phi);
 
 	cairo_move_to (cr, x1, y1);
 	cairo_line_to (cr, x2, y2);
