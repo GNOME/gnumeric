@@ -1,5 +1,8 @@
 2009-10-13  Morten Welinder  <terra@gnome.org>
 
+	* ms-formula-write.c (excel_write_array_formula): Set
+	allow_sheetless_ref to avoid t8001 failure.
+
 	* ms-obj.c (ms_objv8_write_spinbutton, ms_objv8_write_adjustment):
 	New functions.
 

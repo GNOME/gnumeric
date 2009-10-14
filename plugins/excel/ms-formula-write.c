@@ -920,6 +920,7 @@ excel_write_array_formula (ExcelWriteState *ewb,
 	pd.arrays  = NULL;
 	pd.context = CTXT_ARRAY;
 	pd.use_name_variant = FALSE;
+	pd.allow_sheetless_ref = TRUE;
 
 	start = ewb->bp->length;
 	write_node (&pd, array->expr, 0, XL_ROOT);
