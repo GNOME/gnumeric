@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-08-14 20:22-0400\n"
-"PO-Revision-Date: 2007-09-06 15:03-0400\n"
+"PO-Revision-Date: 2009-10-14 15:11-0400\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team:  <gnome-cyr@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -7471,7 +7471,7 @@ msgstr "<b>Дата последнего доступа:</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:5
 msgid "<b>Last Modified:</b>"
-msgstr "<b>Дата последнего изменения:<b>"
+msgstr "<b>Дата последнего изменения:</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:6
 msgid "<b>Location:</b>"
