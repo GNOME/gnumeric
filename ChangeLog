@@ -1,5 +1,14 @@
 2009-10-13  Morten Welinder  <terra@gnome.org>
 
+	* src/libgnumeric.c (gnm_shutdown): Call gnm_xml_sax_read_shutdown
+	and gnm_xml_sax_write_shutdown.
+
+	* src/xml-sax-read.c (gnm_xml_sax_read_init): Plug leak.
+	(gnm_xml_sax_read_shutdown): New function.
+
+	* src/xml-sax-write.c (gnm_xml_sax_write_init): Plug leak.
+	(gnm_xml_sax_write_shutdown): New function.
+
 	* src/sheet-object-widget.c (sheet_widget_adjustment_get_horizontal):
 	New function.
 	(sheet_widget_list_base_get_content_link): Rename from

@@ -321,6 +321,8 @@ gnm_shutdown (void)
 	}
 
 	stf_shutdown ();
+	gnm_xml_sax_write_shutdown ();
+	gnm_xml_sax_read_shutdown ();
 
 	gnm_autofill_shutdown ();
 	print_shutdown ();

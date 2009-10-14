@@ -3101,18 +3101,30 @@ xml_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 	return gsf_xml_probe (input, &gnm_xml_probe_element);
 }
 
+#define XML_SAX_ID "Gnumeric_XmlIO:sax"
+
 void
 gnm_xml_sax_read_init (void)
 {
+	GOFileOpener *opener;
 	GSList *suffixes = go_slist_create (g_strdup ("gnumeric"),
 					    g_strdup ("xml"),
 					    NULL);
 	GSList *mimes = go_slist_create (g_strdup ("application/x-gnumeric"),
 					 NULL);
 
-	go_file_opener_register (go_file_opener_new (
-		"Gnumeric_XmlIO:sax",
-		_("Gnumeric XML (*.gnumeric)"),
-		suffixes, mimes,
-		xml_probe, gnm_xml_file_open), 50);
+	opener = go_file_opener_new
+		(XML_SAX_ID,
+		 _("Gnumeric XML (*.gnumeric)"),
+		 suffixes, mimes,
+		 xml_probe, gnm_xml_file_open);
+	go_file_opener_register (opener, 50);
+	g_object_unref (opener);
+}
+
+void
+gnm_xml_sax_read_shutdown (void)
+{
+	go_file_opener_unregister
+		(go_file_opener_for_id (XML_SAX_ID));
 }

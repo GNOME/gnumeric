@@ -37,7 +37,10 @@ void      gnm_xml_prep_style_parser (GsfXMLIn *xin,
 				     gpointer user);
 
 void      gnm_xml_sax_read_init (void);
+void      gnm_xml_sax_read_shutdown (void);
+
 void      gnm_xml_sax_write_init (void);
+void      gnm_xml_sax_write_shutdown (void);
 
 GnmConventions *gnm_xml_io_conventions (void);
 

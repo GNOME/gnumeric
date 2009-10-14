@@ -1487,12 +1487,13 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 	return GSF_OUTPUT_MEMORY (buf);
 }
 
+#define XML_SAX_ID "Gnumeric_XmlIO:sax"
 
 void
 gnm_xml_sax_write_init (void)
 {
 	GOFileSaver *saver = go_file_saver_new
-		("Gnumeric_XmlIO:sax",
+		(XML_SAX_ID,
 		 "gnumeric",
 		 _("Gnumeric XML (*.gnumeric)"),
 		 GO_FILE_FL_AUTO, gnm_xml_file_save);
@@ -1501,4 +1502,12 @@ gnm_xml_sax_write_init (void)
 		      NULL);
 
 	go_file_saver_register_as_default (saver, 50);
+	g_object_unref (saver);
+}
+
+void
+gnm_xml_sax_write_shutdown (void)
+{
+	go_file_saver_unregister
+		(go_file_saver_for_id (XML_SAX_ID));
 }
