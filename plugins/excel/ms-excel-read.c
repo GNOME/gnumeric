@@ -522,8 +522,8 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	case 0x00:
 		break;
 
-	case 0x01: /* Line */
-	case 0x04: /* Arc */
+	case MSOT_LINE: /* Line */
+	case MSOT_ARC: /* Arc */
 		style = go_style_new ();
 		style->line.color = ms_sheet_map_color
 			(esheet, obj, MS_OBJ_ATTR_OUTLINE_COLOR,
@@ -537,16 +537,16 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		g_object_unref (style);
 		break;
 
-	case 0x09:
+	case MSOT_POLYGON:
 		g_object_set (G_OBJECT (so), "points",
 			ms_obj_attr_get_array (obj->attrs, MS_OBJ_ATTR_POLYGON_COORDS, NULL, TRUE),
 			NULL);
 		   /* fallthrough */
 
-	case 0x02: /* rectangle */
-	case 0x03: /* oval */
-	case 0x06: /* TextBox */
-	case 0x0E: /* Label */
+	case MSOT_RECTANGLE:
+	case MSOT_OVAL:
+	case MSOT_TEXTBOX:
+	case MSOT_LABEL:
 		style = go_style_new ();
 		style->line.color = ms_sheet_map_color
 			(esheet, obj, MS_OBJ_ATTR_OUTLINE_COLOR,
@@ -568,14 +568,14 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		g_object_unref (style);
 		break;
 
-	case 0x05: /* Chart */
+	case MSOT_CHART:
 		/* NOTE : We should not need to do anything for charts */
 		break;
 
-	case 0x07:	/* Button */
+	case MSOT_BUTTON:
 		break;
 
-	case 0x08: { /* Picture */
+	case MSOT_PICTURE: {
 		double crop_left = 0.0;
 		double crop_top  = 0.0;
 		double crop_right = 0.0;
@@ -627,19 +627,19 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		break;
 	}
 
-	case 0x0B:
-	case 0x70:
+	case MSOT_CHECKBOX:
+	case MSOT_TOGGLE:
 		sheet_widget_checkbox_set_link (obj->gnum_obj,
 			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_LINKED_TO_CELL, NULL, FALSE));
 		break;
 
-	case 0x0C:
+	case MSOT_OPTION:
 		sheet_widget_radio_button_set_link (obj->gnum_obj,
 			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_LINKED_TO_CELL, NULL, FALSE));
 		break;
 
-	case 0x10:
-	case 0x11:
+	case MSOT_SPINNER:
+	case MSOT_SCROLLBAR:
 		sheet_widget_adjustment_set_details (obj->gnum_obj,
 			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_LINKED_TO_CELL, NULL, FALSE),
 			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_SCROLLBAR_VALUE, 0),
@@ -649,14 +649,14 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_SCROLLBAR_PAGE, 10));
 		break;
 
-	case 0x12: /* List */
-	case 0x14: /* Combo  */
+	case MSOT_LIST: /* List */
+	case MSOT_COMBO: /* Combo  */
 		sheet_widget_list_base_set_links (obj->gnum_obj,
 			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_LINKED_TO_CELL, NULL, FALSE),
 			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_INPUT_FROM, NULL, FALSE));
 		break;
 
-	case 0x19: /* cell comment text box */
+	case MSOT_COMMENT: /* cell comment text box */
 		break;
 
 	default:

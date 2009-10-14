@@ -466,11 +466,11 @@ ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 		char const *h_msg =  (1 <= halign && halign <= 4) ? haligns[halign-1] : "unknown h-align";
 		char const *v_msg =  (1 <= valign && valign <= 4) ? valigns[valign-1] : "unknown v-align";
 
-		printf ("{ TextObject\n");
-		printf ("Text '%s'\n", text);
-		printf ("is %s(%d), %s(%d) & %s(%d);\n",
+		g_printerr ("{ TextObject\n");
+		g_printerr ("Text '%s'\n", text);
+		g_printerr ("is %s(%d), %s(%d) & %s(%d);\n",
 			o_msg, orient, h_msg, halign, v_msg, valign);
-		printf ("}; /* TextObject */\n");
+		g_printerr ("}; /* TextObject */\n");
 	}
 #endif
 	return text;
@@ -483,15 +483,15 @@ ms_obj_dump (guint8 const *data, int len, int data_left, char const *name)
 	if (ms_excel_object_debug < 2)
 		return;
 
-	printf ("{ %s \n", name);
+	g_printerr ("{ %s \n", name);
 	if (len+4 > data_left) {
-		printf ("/* invalid length %d (0x%x) > %d(0x%x)*/\n",
+		g_printerr ("/* invalid length %d (0x%x) > %d(0x%x)*/\n",
 			len+4, len+4, data_left, data_left);
 		len = data_left - 4;
 	}
 	if (ms_excel_object_debug > 2)
 		gsf_mem_dump (data, len+4);
-	printf ("}; /* %s */\n", name);
+	g_printerr ("}; /* %s */\n", name);
 }
 #else
 #define ms_obj_dump (data, len, data_left, name) do { } while (0)
@@ -889,22 +889,22 @@ ms_obj_map_forms_obj (MSObj *obj, MSContainer *c,
 		      guint8 const *data, guint8 const *last)
 {
 	static struct {
-		char const	*key;
-		unsigned	 excel_type;
-		gboolean	 has_result_link;
-		gboolean	 has_source_link; /* requires has_result_link */
+		char const *key;
+		unsigned    excel_type;
+		gboolean    has_result_link;
+		gboolean    has_source_link; /* requires has_result_link */
 	} const map_forms [] = {
-		{ "ScrollBar.1",	0x11, TRUE,	FALSE },
-		{ "CheckBox.1",		0x0B, TRUE,	FALSE },
-		{ "TextBox.1",		0x06, FALSE,	FALSE },
-		{ "CommandButton.1",	0x07, FALSE,	FALSE },
-		{ "OptionButton.1",	0x0C, TRUE,	FALSE },
-		{ "ListBox.1",		0x12, TRUE,	TRUE },
-		{ "ComboBox.1",		0x14, TRUE,	TRUE },
-		{ "ToggleButton.1",	0x70, TRUE,	FALSE },
-		{ "SpinButton.1",	0x10, TRUE,	FALSE },
-		{ "Label.1",		0x0E, FALSE,	FALSE },
-		{ "Image.1",		0x08, FALSE,	FALSE }
+		{ "ScrollBar.1",	MSOT_SCROLLBAR, TRUE,	FALSE },
+		{ "CheckBox.1",		MSOT_CHECKBOX,  TRUE,	FALSE },
+		{ "TextBox.1",		MSOT_TEXTBOX,   FALSE,	FALSE },
+		{ "CommandButton.1",	MSOT_BUTTON,    FALSE,	FALSE },
+		{ "OptionButton.1",	MSOT_OPTION,    TRUE,	FALSE },
+		{ "ListBox.1",		MSOT_LIST,      TRUE,	TRUE },
+		{ "ComboBox.1",		MSOT_COMBO,     TRUE,	TRUE },
+		{ "ToggleButton.1",	MSOT_TOGGLE,    TRUE,	FALSE },
+		{ "SpinButton.1",	MSOT_SPINNER,   TRUE,	FALSE },
+		{ "Label.1",		MSOT_LABEL,     FALSE,	FALSE },
+		{ "Image.1",		MSOT_PICTURE,   FALSE,	FALSE }
 	};
 	int i;
 	char *type;
@@ -937,7 +937,7 @@ ms_obj_map_forms_obj (MSObj *obj, MSContainer *c,
 	obj->excel_type = map_forms [i].excel_type;
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_object_debug > 0)
-		printf ("found = %s\n", map_forms[i].key);
+		g_printerr ("found = %s\n", map_forms[i].key);
 #endif
 
 	if (map_forms [i].has_result_link) {
@@ -1016,9 +1016,9 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 				obj->is_linked = (opt & 0x2) ? TRUE : FALSE;
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_object_debug >= 1) {
-					printf ("{ /* PictOpt */\n");
-					printf ("value = %x;\n", opt);
-					printf ("}; /* PictOpt */\n");
+					g_printerr ("{ /* PictOpt */\n");
+					g_printerr ("value = %x;\n", opt);
+					g_printerr ("}; /* PictOpt */\n");
 				}
 #endif
 			} else {
@@ -1131,15 +1131,15 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			if (ms_excel_object_debug == 0)
 				break;
 
-			printf ("OBJECT TYPE = %d, id = %d;\n", obj->excel_type, obj->id);
+			g_printerr ("OBJECT TYPE = %d, id = %d;\n", obj->excel_type, obj->id);
 			if (options&0x0001)
-				printf ("Locked;\n");
+				g_printerr ("Locked;\n");
 			if (options&0x0010)
-				printf ("Printable;\n");
+				g_printerr ("Printable;\n");
 			if (options&0x2000)
-				printf ("AutoFilled;\n");
+				g_printerr ("AutoFilled;\n");
 			if (options&0x4000)
-				printf ("AutoLines;\n");
+				g_printerr ("AutoLines;\n");
 
 			if (ms_excel_object_debug > 4) {
 				/* According to the docs this should not fail
@@ -1147,7 +1147,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 				 * scrollbars and 0x100 for combos associated
 				 * with filters.  */
 				if ((options & 0x9eee) != 0)
-					printf ("Unknown option flag : %x;\n",
+					g_printerr ("Unknown option flag : %x;\n",
 						options & 0x9eee);
 			}
 #endif
@@ -1155,18 +1155,18 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 		break;
 
 		default:
-			printf ("ERROR : Unknown Obj record 0x%x len 0x%x dll %d;\n",
+			g_printerr ("ERROR : Unknown Obj record 0x%x len 0x%x dll %d;\n",
 				record_type, len, data_len_left);
 		}
 
 		if (data_len_left < len+4)
-			printf ("record len %d (0x%x) > %d\n", len+4, len+4, data_len_left);
+			g_printerr ("record len %d (0x%x) > %d\n", len+4, len+4, data_len_left);
 
 		/* FIXME : We need a structure akin to the escher code to do this properly */
 		for (data_len_left -= len+4; data_len_left < 0; ) {
 			guint16 peek_op;
 
-			printf ("deficit of %d\n", data_len_left);
+			g_printerr ("deficit of %d\n", data_len_left);
 
 			/* FIXME : what do we expect here ??
 			 * I've seen what seem to be embedded drawings
@@ -1177,20 +1177,20 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			     peek_op != BIFF_MS_O_DRAWING &&
 			     peek_op != BIFF_TXO &&
 			     peek_op != BIFF_OBJ)) {
-				printf ("0x%x vs 0x%x\n", q->opcode, peek_op);
+				g_printerr ("0x%x vs 0x%x\n", q->opcode, peek_op);
 				return TRUE;
 			}
 
 			ms_biff_query_next (q);
 			data_len_left += q->length;
-			printf ("merged in 0x%x with len %d\n", q->opcode, q->length);
+			g_printerr ("merged in 0x%x with len %d\n", q->opcode, q->length);
 		}
 		data = q->data + q->length - data_len_left;
 	}
 
 	/* The ftEnd record should have been the last */
 	if (data_len_left > 0) {
-		printf("OBJ : unexpected extra data after Object End record;\n");
+		g_printerr("OBJ : unexpected extra data after Object End record;\n");
 		gsf_mem_dump (data, data_len_left);
 		return TRUE;
 	}
@@ -1267,7 +1267,7 @@ ms_read_OBJ (BiffQuery *q, MSContainer *c, MSObjAttrBag *attrs)
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_object_debug > 0)
-		printf ("{ /* OBJ start */\n");
+		g_printerr ("{ /* OBJ start */\n");
 #endif
 	obj = ms_obj_new (attrs);
 	/* When called from escher (@attrs != NULL) use the biff8 variant.
@@ -1280,7 +1280,7 @@ ms_read_OBJ (BiffQuery *q, MSContainer *c, MSObjAttrBag *attrs)
 	if (errors) {
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_object_debug > 0)
-			printf ("}; /* OBJ error 1 */\n");
+			g_printerr ("}; /* OBJ error 1 */\n");
 #endif
 		ms_obj_delete (obj);
 		return TRUE;
@@ -1294,8 +1294,8 @@ ms_read_OBJ (BiffQuery *q, MSContainer *c, MSObjAttrBag *attrs)
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_object_debug > 0) {
-		printf ("Object (%d) is a '%s'\n", obj->id, obj->excel_type_name);
-		printf ("}; /* OBJ end */\n");
+		g_printerr ("Object (%d) is a '%s'\n", obj->id, obj->excel_type_name);
+		g_printerr ("}; /* OBJ end */\n");
 	}
 #endif
 

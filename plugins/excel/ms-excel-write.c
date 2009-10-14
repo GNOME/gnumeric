@@ -3968,7 +3968,7 @@ excel_write_autofilter_objs (ExcelWriteSheet *esheet)
 			 * I am guessing is tied to the fact that XL created
 			 * this. not the user*/
 			ms_objv8_write_common (bp,
-				esheet->cur_obj, 0x14, 0x2101);
+				esheet->cur_obj, MSOT_COMBO, 0x2101);
 			ms_objv8_write_scrollbar_old (bp);
 			ms_objv8_write_listbox (bp, cond != NULL); /* acts as an end */
 		} else {
@@ -4027,7 +4027,7 @@ excel_write_chart_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	ms_biff_put_commit (bp);
 
 	ms_biff_put_var_next (bp, BIFF_OBJ);
-	ms_objv8_write_common (bp, esheet->cur_obj, 5, 0x6011);
+	ms_objv8_write_common (bp, esheet->cur_obj, MSOT_CHART, 0x6011);
 	GSF_LE_SET_GUINT32 (buf, 0); /* end */
 	ms_biff_put_var_write (bp, buf, 4);
 
@@ -4168,7 +4168,7 @@ excel_write_image_v8 (ExcelWriteSheet *esheet, BlipInf *bi)
 	ms_biff_put_commit (bp);
 
 	ms_biff_put_var_next (bp, BIFF_OBJ);
-	ms_objv8_write_common (bp, esheet->cur_obj, 8, 0x6011);
+	ms_objv8_write_common (bp, esheet->cur_obj, MSOT_PICTURE, 0x6011);
 	GSF_LE_SET_GUINT32 (buf, 0); /* end */
 	ms_biff_put_var_write (bp, buf, 4);
 
@@ -4289,7 +4289,7 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 		: NULL;
 
 	if (IS_CELL_COMMENT (so)) {
-		static float const offset [4] = { .5, .5, .5, .5 };
+		static float const offset[4] = { .5, .5, .5, .5 };
 		GnmRange r;
 
 		r.start = real_anchor->cell_bound.start;
@@ -4299,7 +4299,7 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 		r.end.row = r.start.row + 4;
 		sheet_object_anchor_init (&anchor, &r, offset,
 					  GOD_ANCHOR_DIR_DOWN_RIGHT);
-		type = 0x19;
+		type = MSOT_COMMENT;
 		flags = 0x4011; /* not autofilled */
 		do_textbox = TRUE;
 		g_hash_table_insert (esheet->commentshash,
@@ -4308,7 +4308,7 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 	} else if (IS_GNM_SO_FILLED (so)) {
 		gboolean is_oval;
 
-		type = 6;
+		type = MSOT_TEXTBOX;
 		flags = 0x6011; /* autofilled */
 
 		g_object_get (so,
@@ -4317,40 +4317,40 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 			      NULL);
 		if (is_oval) {
 			shape = 3;
-			type = 3;
+			type = MSOT_OVAL;
 		} else if (!do_textbox) {
 			shape = 1;
-			type = 2;
+			type = MSOT_RECTANGLE;
 		}
 	} else if (GNM_IS_SOW_CHECKBOX (so)) {
 		shape = 0xc9;
-		type = 0x0b;
+		type = MSOT_CHECKBOX;
 		flags = 0x0011;
 		g_object_get (so, "active", &checkbox_active, NULL);
 	} else if (GNM_IS_SOW_RADIO_BUTTON (so)) {
 		shape = 0xc9;
-		type = 0x0c;
+		type = MSOT_OPTION;
 		flags = 0x0011;
 		g_object_get (so, "active", &checkbox_active, NULL);
 	} else if (GNM_IS_SOW_SPINBUTTON (so)) {
 		shape = 0xc9;
-		type = 0x10;
+		type = MSOT_SPINNER;
 		flags = 0x0011;
 	} else if (GNM_IS_SOW_SCROLLBAR (so)) {
 		shape = 0xc9;
-		type = 0x11;
+		type = MSOT_SCROLLBAR;
 		flags = 0x6011;
 	} else if (GNM_IS_SOW_LIST (so)) {
 		shape = 0xc9;
-		type = 0x12;
+		type = MSOT_LIST;
 		flags = 0x2011;
 	} else if (GNM_IS_SOW_BUTTON (so)) {
 		shape = 0xc9;
-		type = 0x07;
+		type = MSOT_BUTTON;
 		flags = 0x0011;
 	} else if (GNM_IS_SOW_COMBO (so)) {
 		shape = 0xc9;
-		type = 0x14;
+		type = MSOT_COMBO;
 		flags = 0x2011;
 	} else {
 		g_assert_not_reached ();
@@ -4428,11 +4428,11 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 	ms_objv8_write_common (bp, esheet->cur_obj, type, flags);
 
 	switch (type) {
-	case 0x07: {
+	case MSOT_BUTTON: {
 		ms_objv8_write_button (bp, esheet, macro_nexpr);
 		break;
 	}
-	case 0x0b: {
+	case MSOT_CHECKBOX: {
 		GnmExprTop const *link = sheet_widget_checkbox_get_link (so);
 		ms_objv8_write_checkbox (bp,
 					 checkbox_active,
@@ -4442,7 +4442,7 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 		if (link) gnm_expr_top_unref (link);
 		break;
 	}
-	case 0x0c: {
+	case MSOT_OPTION: {
 		GnmExprTop const *link = sheet_widget_radio_button_get_link (so);
 		ms_objv8_write_radiobutton (bp,
 					    checkbox_active,
@@ -4452,7 +4452,7 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 		if (link) gnm_expr_top_unref (link);
 		break;
 	}
-	case 0x10: {
+	case MSOT_SPINNER: {
 		GnmExprTop const *link = sheet_widget_adjustment_get_link (so);
 		GtkAdjustment *adj =
 			sheet_widget_adjustment_get_adjustment (so);
@@ -4465,7 +4465,7 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 		if (link) gnm_expr_top_unref (link);
 		break;
 	}
-	case 0x11: {
+	case MSOT_SCROLLBAR: {
 		GnmExprTop const *link = sheet_widget_adjustment_get_link (so);
 		GtkAdjustment *adj =
 			sheet_widget_adjustment_get_adjustment (so);
@@ -4478,8 +4478,8 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 		if (link) gnm_expr_top_unref (link);
 		break;
 	}
-	case 0x12:
-	case 0x14: {
+	case MSOT_LIST:
+	case MSOT_COMBO: {
 		GnmExprTop const *res_link =
 			sheet_widget_list_base_get_result_link (so);
 		GnmExprTop const *data_link =
@@ -4496,7 +4496,7 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 		terminate_obj = FALSE;  /* GR_LISTBOX_DATA is strange */
 		break;
 	}
-	case 0x19:
+	case MSOT_COMMENT:
 		/* Cell comment. */
 		ms_objv8_write_note (bp);
 		break;
@@ -4552,7 +4552,7 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	BiffPut *bp = ewb->bp;
 	guint32 id = excel_write_start_drawing (esheet);
 	gsize draw_len = 0;
-	int type = 1;
+	int type = MSOT_LINE;
 	int shape = 0x14;
 	int flags = 0x6011; /* autofilled */
 	gsize spmark, optmark;

@@ -17,6 +17,33 @@
 
 #define MS_ANCHOR_SIZE	18
 
+enum {
+	MSOT_GROUP00		= 0x00,  /* ??? */
+	MSOT_LINE		= 0x01,
+	MSOT_RECTANGLE		= 0x02,
+	MSOT_OVAL		= 0x03,
+	MSOT_ARC		= 0x04,
+	MSOT_CHART		= 0x05,
+	MSOT_TEXTBOX		= 0x06,
+	MSOT_BUTTON		= 0x07,
+	MSOT_PICTURE		= 0x08,
+	MSOT_POLYGON		= 0x09,
+	MSOT_CHECKBOX		= 0x0b,
+	MSOT_OPTION		= 0x0c,
+	MSOT_EDIT		= 0x0d,
+	MSOT_LABEL		= 0x0e,
+	MSOT_DIALOG		= 0x0f,
+	MSOT_SPINNER		= 0x10,
+	MSOT_SCROLLBAR		= 0x11,
+	MSOT_LIST		= 0x12,
+	MSOT_GROUP		= 0x13,
+	MSOT_COMBO		= 0x14,
+	MSOT_COMMENT		= 0x19,
+	MSOT_DRAWING		= 0x1e,
+	MSOT_TOGGLE             = 0x70
+};
+
+
 typedef enum {
 	MS_OBJ_ATTR_NONE = 0,
 
