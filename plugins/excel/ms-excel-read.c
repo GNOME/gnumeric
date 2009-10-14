@@ -546,9 +546,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		break;
 
 	case MSOT_LINE:
-	case MSOT_ARC: {
-		gboolean is_arrow;
-
+	case MSOT_ARC:
 		style = go_style_new ();
 		style->line.color = ms_sheet_map_color
 			(esheet, obj, MS_OBJ_ATTR_OUTLINE_COLOR,
@@ -561,17 +559,13 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		g_object_set (G_OBJECT (so), "style", style, NULL);
 		g_object_unref (style);
 
-		g_object_get (so, "is-arrow", &is_arrow, NULL);
-		if (is_arrow) {
-			handle_arrow_head (so, "start-arrow",
-					   obj->attrs,
-					   MS_OBJ_ATTR_ARROW_START);
-			handle_arrow_head (so, "end-arrow",
-					   obj->attrs,
-					   MS_OBJ_ATTR_ARROW_END);
-		}
+		handle_arrow_head (so, "start-arrow",
+				   obj->attrs,
+				   MS_OBJ_ATTR_ARROW_START);
+		handle_arrow_head (so, "end-arrow",
+				   obj->attrs,
+				   MS_OBJ_ATTR_ARROW_END);
 		break;
-	}
 
 	case MSOT_POLYGON:
 		g_object_set (G_OBJECT (so), "points",
@@ -716,16 +710,9 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 
 	switch (obj->excel_type) {
 	case MSOT_LINE:
-	case MSOT_ARC: {
-		int arrow_end =
-			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_ARROW_END, 0);
-		int arrow_start =
-			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_ARROW_START, 0);
-		so = g_object_new (GNM_SO_LINE_TYPE,
-				   "is-arrow", arrow_end || arrow_start,
-				   NULL);
+	case MSOT_ARC:
+		so = g_object_new (GNM_SO_LINE_TYPE, NULL);
 		break;
-	}
 
 	case 0x00: /* draw the group border */
 	case MSOT_RECTANGLE:

@@ -1,6 +1,7 @@
 2009-10-14  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-so-line.c: Move GOArrow to goffice.
+	(gnm_so_line_set_property): Eliminate is-arrow property.
 
 	* configure.in (libspreadsheet_reqs): Require goffice 0.7.15 for
 	GOArrow.

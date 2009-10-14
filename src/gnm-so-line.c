@@ -93,8 +93,7 @@ enum {
 	SOL_PROP_0,
 	SOL_PROP_STYLE,
 	SOL_PROP_START_ARROW,
-	SOL_PROP_END_ARROW,
-        SOL_PROP_IS_ARROW
+	SOL_PROP_END_ARROW
 };
 
 static GOStyle *
@@ -330,15 +329,6 @@ gnm_so_line_set_property (GObject *obj, guint param_id,
 	case SOL_PROP_END_ARROW:
 		sol->end_arrow = *((GOArrow* )g_value_peek_pointer (value));
 		break;
-	case SOL_PROP_IS_ARROW:
-		if (g_value_get_boolean (value))
-			go_arrow_init (&sol->end_arrow,
-				       GO_ARROW_TRIANGLE, GO_COLOR_BLACK,
-				       8., 10., 3.);
-		else
-			go_arrow_clear (&sol->end_arrow);
-		break;
-
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		return;
@@ -359,9 +349,6 @@ gnm_so_line_get_property (GObject *obj, guint param_id,
 		break;
 	case SOL_PROP_END_ARROW:
 		g_value_set_boxed (value, &sol->end_arrow);
-		break;
-	case SOL_PROP_IS_ARROW:
-		g_value_set_boolean (value, sol->end_arrow.c > 0);
 		break;
 	default :
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -411,9 +398,6 @@ gnm_so_line_class_init (GObjectClass *gobject_class)
                  g_param_spec_boxed ("end-arrow", NULL, NULL,
 				     GO_ARROW_TYPE,
 				     GSF_PARAM_STATIC | G_PARAM_READWRITE));
-        g_object_class_install_property (gobject_class, SOL_PROP_IS_ARROW,
-                 g_param_spec_boolean ("is-arrow", NULL, NULL, FALSE,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
 }
 
 static void

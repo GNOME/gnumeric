@@ -4545,7 +4545,6 @@ excel_write_widget_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 static gsize
 excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 {
-	gboolean is_arrow;
 	GString *escher = g_string_new (NULL);
 	GString *extra;
 	ExcelWriteState *ewb = esheet->ewb;
@@ -4559,9 +4558,11 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	char *name;
 	guint8 zero[4] = { 0, 0, 0, 0 };
 	GOStyle *style;
+	GOArrow *start_arrow, *end_arrow;
 
 	g_object_get (so,
-		      "is-arrow", &is_arrow,
+		      "start-arrow", &start_arrow,
+		      "end-arrow", &end_arrow,
 		      "name", &name,
 		      "style", &style,
 		      NULL);
@@ -4585,10 +4586,17 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 		gint32 w = CLAMP (12700 * style->line.width, 0, G_MAXINT32);
 		ms_escher_opt_add_simple (escher, optmark, MSEP_LINEWIDTH, w);
 	}
-	if (is_arrow)
+	if (start_arrow->typ) {
 		ms_escher_opt_add_simple (escher, optmark,
-					  MSEP_LINEENDARROWHEAD, 1);
-	ms_escher_opt_add_bool (escher, optmark, MSEP_ARROWHEADSOK, is_arrow);
+					  MSEP_LINEENDARROWHEAD,
+					  start_arrow->typ);
+	}
+	if (end_arrow->typ) {
+		ms_escher_opt_add_simple (escher, optmark,
+					  MSEP_LINEENDARROWHEAD,
+					  end_arrow->typ);
+	}
+	ms_escher_opt_add_bool (escher, optmark, MSEP_ARROWHEADSOK, TRUE);
 	if (name)
 		ms_escher_opt_add_str_wchar (escher, optmark, extra,
 					     MSEP_NAME, name);
@@ -4617,6 +4625,8 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 
 	g_free (name);
 	g_object_unref (style);
+	g_free (start_arrow);
+	g_free (end_arrow);
 
 	return draw_len;
 }

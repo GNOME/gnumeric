@@ -2156,9 +2156,15 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 	else if (!strcmp (type_name, "Ellipse"))
 		so = g_object_new (GNM_SO_FILLED_TYPE, "is-oval", TRUE, NULL);
 	else if (!strcmp (type_name, "Line"))
-		so = g_object_new (GNM_SO_LINE_TYPE, "is-arrow", TRUE, NULL);
-	else if (!strcmp (type_name, "Arrow"))
 		so = g_object_new (GNM_SO_LINE_TYPE, NULL);
+	else if (!strcmp (type_name, "Arrow")) {
+		GOArrow arrow;
+		go_arrow_init (&arrow, GO_ARROW_TRIANGLE, GO_COLOR_BLACK,
+			       8., 10., 3.);
+		so = g_object_new (GNM_SO_LINE_TYPE,
+				   "end-arrow", &arrow,
+				   NULL);
+	}
 
 	/* Class renamed between 1.0.x and 1.2.x */
 	else if (!strcmp (type_name, "GnmGraph"))

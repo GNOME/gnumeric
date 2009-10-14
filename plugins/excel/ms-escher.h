@@ -33,6 +33,7 @@ enum {
 	MSEP_NOFILLHITTEST       = 0x01bf,
 	MSEP_LINECOLOR           = 0x01c0,
 	MSEP_LINEWIDTH           = 0x01cb,
+	MSEP_LINESTARTARROWHEAD  = 0x01d0,
 	MSEP_LINEENDARROWHEAD    = 0x01d1,
 	MSEP_ARROWHEADSOK        = 0x01fb,
 	MSEP_LINE                = 0x01fc,
