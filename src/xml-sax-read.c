@@ -2159,8 +2159,7 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 		so = g_object_new (GNM_SO_LINE_TYPE, NULL);
 	else if (!strcmp (type_name, "Arrow")) {
 		GOArrow arrow;
-		go_arrow_init (&arrow, GO_ARROW_TRIANGLE, GO_COLOR_BLACK,
-			       8., 10., 3.);
+		go_arrow_init_kite (&arrow, 8., 10., 3.);
 		so = g_object_new (GNM_SO_LINE_TYPE,
 				   "end-arrow", &arrow,
 				   NULL);

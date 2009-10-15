@@ -4555,7 +4555,7 @@ write_arrow (GOArrow const *arrow, GString *escher, gsize optmark,
 	case GO_ARROW_NONE:
 		typ = 0;
 		break;
-	case GO_ARROW_TRIANGLE:
+	case GO_ARROW_KITE:
 		if (fabs (arrow->a - arrow->b) < 0.01) {
 			typ = 1;
 			l = (int)CLAMP ((arrow->a / 3.5) - 1, 0.0, 2.0);

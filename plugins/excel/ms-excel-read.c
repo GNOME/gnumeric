@@ -445,7 +445,6 @@ handle_arrow_head (SheetObject *so, const char *prop_name,
 		   MSObjAttrID wid, MSObjAttrID lid)
 {
 	GOArrow arrow;
-	GOColor col = GO_COLOR_BLACK;
 	int w = ms_obj_attr_get_int (attrs, wid, 1);
 	int l = ms_obj_attr_get_int (attrs, lid, 1);
 
@@ -458,32 +457,31 @@ handle_arrow_head (SheetObject *so, const char *prop_name,
 		break;
 	default:
 	case 1: /* Regular */
-		go_arrow_init (&arrow, GO_ARROW_TRIANGLE, col,
-			       3.5 * (l + 1),
-			       3.5 * (l + 1),
-			       2.5 * (w + 1));
+		go_arrow_init_kite (&arrow,
+				    3.5 * (l + 1),
+				    3.5 * (l + 1),
+				    2.5 * (w + 1));
 		break;
 	case 2: /* Stealth */
-		go_arrow_init (&arrow, GO_ARROW_TRIANGLE, col,
-			       2.5 * (l + 1),
-			       4.0 * (l + 1),
-			       2.0 * (w + 1));
+		go_arrow_init_kite (&arrow,
+				    2.5 * (l + 1),
+				    4.0 * (l + 1),
+				    2.0 * (w + 1));
 		break;
 	case 3: /* Diamond */
-		go_arrow_init (&arrow, GO_ARROW_TRIANGLE, col,
-			       5 * (l + 1),
-			       2.5 * (l + 1),
-			       2.5 * (w + 1));
+		go_arrow_init_kite (&arrow,
+				    5 * (l + 1),
+				    2.5 * (l + 1),
+				    2.5 * (w + 1));
 		break;
 	case 4: /* Oval */
-		go_arrow_init (&arrow, GO_ARROW_OVAL, col,
-			       (l + 1) * 2.5, (w + 1) * 2.5, 0);
+		go_arrow_init_oval (&arrow, (l + 1) * 2.5, (w + 1) * 2.5);
 		break;
 	case 5: /* Open -- Approximation! */
-		go_arrow_init (&arrow, GO_ARROW_TRIANGLE, col,
-			       1.0 * (l + 1),
-			       2.5 * (l + 1),
-			       1.5 * (w + 1));
+		go_arrow_init_kite (&arrow,
+				    1.0 * (l + 1),
+				    2.5 * (l + 1),
+				    1.5 * (w + 1));
 		break;
 	}
 

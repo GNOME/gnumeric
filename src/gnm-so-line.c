@@ -160,7 +160,7 @@ draw_arrow (GOArrow *arrow, cairo_t *cr,
 	case GO_ARROW_NONE:
 		return;
 
-	case GO_ARROW_TRIANGLE:
+	case GO_ARROW_KITE:
 		cairo_save (cr);
 		cairo_translate (cr, *x, *y);
 		cairo_rotate (cr, phi);
@@ -301,9 +301,8 @@ gnm_so_line_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 
 	/* 2 == arrow */
 	if (type == 2 && arrow_a >= 0. && arrow_b >= 0. && arrow_c >= 0.)
-		go_arrow_init (&sol->end_arrow,
-			       GO_ARROW_TRIANGLE, GO_COLOR_BLACK,
-			       arrow_a, arrow_b, arrow_c);
+		go_arrow_init_kite (&sol->end_arrow,
+				    arrow_a, arrow_b, arrow_c);
 }
 
 static void

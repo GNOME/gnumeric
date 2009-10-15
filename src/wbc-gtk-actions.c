@@ -1239,8 +1239,7 @@ static GNM_ACTION_DEF (cmd_create_line)
 	{ create_object (wbcg, GNM_SO_LINE_TYPE, NULL); }
 static GNM_ACTION_DEF (cmd_create_arrow) {
 	GOArrow arrow;
-	go_arrow_init (&arrow, GO_ARROW_TRIANGLE, GO_COLOR_BLACK,
-		       8., 10., 3.);
+	go_arrow_init_kite (&arrow, 8., 10., 3.);
 	create_object (wbcg, GNM_SO_LINE_TYPE, "end-arrow", &arrow, NULL);
 }
 static GNM_ACTION_DEF (cmd_create_rectangle)
