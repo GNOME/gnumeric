@@ -1,5 +1,12 @@
 2009-10-14  Morten Welinder  <terra@gnome.org>
 
+	* ms-escher.c (ms_escher_read_OPT): Don't arbitrarily add 1 to
+	MS_OBJ_ATTR_OUTLINE_STYLE's value.
+
+	* ms-excel-read.c (ms_sheet_realize_obj): Read dash style
+	correctly.
+	(xl_pattern_to_line_type): Fix mapping.
+
 	* ms-excel-write.c (excel_write_line_v8): Export line start arrow
 	head too.
 

@@ -1620,7 +1620,6 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* Solid : Can be overridden by: */
 		case 462 : id = MS_OBJ_ATTR_OUTLINE_STYLE;
 			   name = "DashedLineStyle lineDashing";
-			   val++;
 			   break;
 		/* NULL : As Win32 ExtCreatePen */
 		case 463 : name = "IMsoArray lineDashStyle"; break;

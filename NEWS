@@ -15,6 +15,7 @@ Morten:
 	* Add xls export of list widgets.  [Part of #597035]
 	* Add xls export of combo widgets.  [Part of #597035]
 	* Add xls export of button widgets.  [Part of #597035]
+	* Fix xls import of line styles.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.14
