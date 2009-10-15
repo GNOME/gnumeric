@@ -449,6 +449,8 @@ handle_arrow_head (SheetObject *so, const char *prop_name,
 	int w = ms_obj_attr_get_int (attrs, wid, 1);
 	int l = ms_obj_attr_get_int (attrs, lid, 1);
 
+	/* NOTE: This mess should match code in ms-excel-write.c  */
+
 	int typ = ms_obj_attr_get_int (attrs, typid, 0);
 	switch (typ) {
 	case 0:

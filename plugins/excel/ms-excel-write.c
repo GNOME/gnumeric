@@ -4542,6 +4542,68 @@ excel_write_widget_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 						 pspec != NULL, TRUE);
 }
 
+static void
+write_arrow (GOArrow const *arrow, GString *escher, gsize optmark,
+	     MSObjAttrID id)
+{
+	int typ = 0;
+	int l = 0, w = 0;
+
+	/* NOTE: This mess should match code in ms-excel-read.c  */
+
+	switch (arrow->typ) {
+	case GO_ARROW_NONE:
+		typ = 0;
+		break;
+	case GO_ARROW_TRIANGLE:
+		if (fabs (arrow->a - arrow->b) < 0.01) {
+			typ = 1;
+			l = (int)CLAMP ((arrow->a / 3.5) - 1, 0.0, 2.0);
+			w = (int)CLAMP ((arrow->c / 2.5) - 1, 0.0, 2.0);
+		} else if (arrow->a > arrow->b) {
+			typ = 3;
+			l = (int)CLAMP ((arrow->a / 5.0) - 1, 0.0, 2.0);
+			w = (int)CLAMP ((arrow->c / 2.5) - 1, 0.0, 2.0);
+		} else if (arrow->a < 0.5 * arrow->b) {
+			typ = 5;
+			l = (int)CLAMP ((arrow->a / 1.0) - 1, 0.0, 2.0);
+			w = (int)CLAMP ((arrow->c / 1.5) - 1, 0.0, 2.0);
+		} else {
+			typ = 2;
+			l = (int)CLAMP ((arrow->b / 4.0) - 1, 0.0, 2.0);
+			w = (int)CLAMP ((arrow->c / 2.0) - 1, 0.0, 2.0);
+		}
+		break;
+	case GO_ARROW_OVAL:
+		typ = 4;
+		l = (int)CLAMP ((arrow->a / 2.5) - 1, 0.0, 2.0);
+		w = (int)CLAMP ((arrow->b / 2.5) - 1, 0.0, 2.0);
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+
+	switch (id) {
+	case MSEP_LINESTARTARROWHEAD:
+	case MSEP_LINEENDARROWHEAD:
+		ms_escher_opt_add_simple (escher, optmark, id, typ);
+		break;
+	case MSEP_LINESTARTARROWWIDTH:
+	case MSEP_LINEENDARROWWIDTH:
+		if (typ && w != 1)
+			ms_escher_opt_add_simple (escher, optmark, id, w);
+		break;
+	case MSEP_LINESTARTARROWLENGTH:
+	case MSEP_LINEENDARROWLENGTH:
+		if (typ && l != 1)
+			ms_escher_opt_add_simple (escher, optmark, id, l);
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+
 static gsize
 excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 {
@@ -4593,17 +4655,16 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 		gint32 w = CLAMP (12700 * style->line.width, 0, G_MAXINT32);
 		ms_escher_opt_add_simple (escher, optmark, MSEP_LINEWIDTH, w);
 	}
-	if (start_arrow->typ) {
-		ms_escher_opt_add_simple (escher, optmark,
-					  MSEP_LINESTARTARROWHEAD,
-					  start_arrow->typ);
-	}
-	if (end_arrow->typ) {
-		ms_escher_opt_add_simple (escher, optmark,
-					  MSEP_LINEENDARROWHEAD,
-					  end_arrow->typ);
-	}
+
+	/* The two arrows' attributes are interleaved.  */
+	write_arrow (start_arrow, escher, optmark, MSEP_LINESTARTARROWHEAD);
+	write_arrow (end_arrow, escher, optmark, MSEP_LINEENDARROWHEAD);
+	write_arrow (start_arrow, escher, optmark, MSEP_LINESTARTARROWWIDTH);
+	write_arrow (start_arrow, escher, optmark, MSEP_LINESTARTARROWLENGTH);
+	write_arrow (end_arrow, escher, optmark, MSEP_LINEENDARROWWIDTH);
+	write_arrow (end_arrow, escher, optmark, MSEP_LINEENDARROWLENGTH);
 	ms_escher_opt_add_bool (escher, optmark, MSEP_ARROWHEADSOK, TRUE);
+
 	if (name)
 		ms_escher_opt_add_str_wchar (escher, optmark, extra,
 					     MSEP_NAME, name);
