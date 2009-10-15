@@ -4559,6 +4559,8 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	guint8 zero[4] = { 0, 0, 0, 0 };
 	GOStyle *style;
 	GOArrow *start_arrow, *end_arrow;
+	SheetObjectAnchor const *anchor = sheet_object_get_anchor (so);
+	guint32 spflags;
 
 	g_object_get (so,
 		      "start-arrow", &start_arrow,
@@ -4569,7 +4571,12 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 
 	spmark = ms_escher_spcontainer_start (escher);
 
-	ms_escher_sp (escher, id, shape, 0x00000a00); /* fHaveAnchor+fHaveSpt */
+	spflags = 0x00000a00; /* fHaveAnchor+fHaveSpt */
+	if ((anchor->base.direction & GOD_ANCHOR_DIR_H_MASK) == 0)
+		spflags |= 0x40;
+	if ((anchor->base.direction & GOD_ANCHOR_DIR_V_MASK) == 0)
+		spflags |= 0x80;
+	ms_escher_sp (escher, id, shape, spflags);
 
 	optmark = ms_escher_opt_start (escher);
 	extra = g_string_new (NULL);
@@ -4605,7 +4612,7 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	ms_escher_opt_end (escher, optmark);
 	g_string_free (extra, TRUE);
 
-	ms_escher_clientanchor (escher, sheet_object_get_anchor (so));
+	ms_escher_clientanchor (escher, anchor);
 
 	ms_escher_clientdata (escher);
 

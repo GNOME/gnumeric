@@ -1,3 +1,8 @@
+2009-10-15  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_write_line_v8): Fix handling of
+	direction.
+
 2009-10-14  Morten Welinder  <terra@gnome.org>
 
 	* ms-escher.c (ms_escher_read_OPT): Don't arbitrarily add 1 to
