@@ -4588,7 +4588,7 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	}
 	if (start_arrow->typ) {
 		ms_escher_opt_add_simple (escher, optmark,
-					  MSEP_LINEENDARROWHEAD,
+					  MSEP_LINESTARTARROWHEAD,
 					  start_arrow->typ);
 	}
 	if (end_arrow->typ) {
