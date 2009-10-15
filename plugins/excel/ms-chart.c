@@ -1357,7 +1357,7 @@ BC_R(lineformat)(XLChartHandler const *handle,
 	d (0, g_printerr ("Lines have a %s pattern.\n",
 		       ms_line_pattern [pattern]););
 
-	s->style->line.dash_type = xl_pattern_to_line_type (pattern);
+	s->style->line.dash_type = ms_escher_xl_to_line_type (pattern);
 
 	if (BC_R(ver)(s) >= MS_BIFF_V8 && s->currentSeries != NULL) {
 		guint16 const fore = GSF_LE_GET_GUINT16 (q->data + 10);

@@ -488,26 +488,6 @@ handle_arrow_head (SheetObject *so, const char *prop_name,
 	g_object_set (so, prop_name, &arrow, NULL);
 }
 
-unsigned
-xl_pattern_to_line_type (guint16 pattern)
-{
-	static GOLineDashType const dash_map []= {
-		GO_LINE_SOLID,
-		GO_LINE_DASH,
-		GO_LINE_DOT,
-		GO_LINE_DASH_DOT,
-		GO_LINE_DASH_DOT_DOT,
-		GO_LINE_DOT, /* ? */
-		GO_LINE_DASH,
-		GO_LINE_DASH, /* Long dash */
-		GO_LINE_DASH_DOT,
-		GO_LINE_DASH_DOT, /* Long dash dot */
-		GO_LINE_DASH_DOT_DOT  /* Long dash dot dot */
-	};
-
-	return (pattern >= G_N_ELEMENTS (dash_map))? GO_LINE_SOLID: dash_map[pattern];
-}
-
 static gboolean
 ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 {
@@ -590,7 +570,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 			(ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_OUTLINE_HIDE) != NULL);
 		style->line.dash_type = style->line.auto_dash
 			? GO_LINE_NONE
-			: xl_pattern_to_line_type (ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_OUTLINE_STYLE, 0));
+			: ms_escher_xl_to_line_type (ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_OUTLINE_STYLE, 0));
 
 		g_object_set (G_OBJECT (so), "style", style, NULL);
 		g_object_unref (style);
@@ -627,7 +607,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 			(ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_OUTLINE_HIDE) != NULL);
 		style->line.dash_type = style->line.auto_dash
 			? GO_LINE_NONE
-			: xl_pattern_to_line_type (ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_OUTLINE_STYLE, 0));
+			: ms_escher_xl_to_line_type (ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_OUTLINE_STYLE, 0));
 		style->fill.pattern.back = ms_sheet_map_color
 			(esheet, obj, MS_OBJ_ATTR_FILL_COLOR,
 			 GO_COLOR_WHITE, &style->fill.auto_back);

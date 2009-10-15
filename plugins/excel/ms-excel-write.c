@@ -4394,6 +4394,12 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 		gint32 w = CLAMP (12700 * style->line.width, 0, G_MAXINT32);
 		ms_escher_opt_add_simple (escher, optmark, MSEP_LINEWIDTH, w);
 	}
+	if (style && !style->line.auto_dash) {
+		int d = ms_escher_line_type_to_xl (style->line.dash_type);
+		if (d >= 0)
+			ms_escher_opt_add_simple (escher, optmark,
+						  MSEP_LINEDASHING, d);
+	}
 	if (is_widget)
 		ms_escher_opt_add_bool (escher, optmark, MSEP_LINE, FALSE);
 	if (name)
@@ -4654,6 +4660,12 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	if (style->line.width > 0) {
 		gint32 w = CLAMP (12700 * style->line.width, 0, G_MAXINT32);
 		ms_escher_opt_add_simple (escher, optmark, MSEP_LINEWIDTH, w);
+	}
+	if (!style->line.auto_dash) {
+		int d = ms_escher_line_type_to_xl (style->line.dash_type);
+		if (d >= 0)
+			ms_escher_opt_add_simple (escher, optmark,
+						  MSEP_LINEDASHING, d);
 	}
 
 	/* The two arrows' attributes are interleaved.  */

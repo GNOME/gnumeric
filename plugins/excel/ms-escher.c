@@ -51,6 +51,49 @@
 #define d(level, code)
 #endif
 
+GOLineDashType
+ms_escher_xl_to_line_type (guint16 pattern)
+{
+	static GOLineDashType const dash_map []= {
+		GO_LINE_SOLID,
+		GO_LINE_DASH,
+		GO_LINE_DOT,
+		GO_LINE_DASH_DOT,
+		GO_LINE_DASH_DOT_DOT,
+		GO_LINE_DOT, /* ? */
+		GO_LINE_DASH,
+		GO_LINE_DASH, /* Long dash */
+		GO_LINE_DASH_DOT,
+		GO_LINE_DASH_DOT, /* Long dash dot */
+		GO_LINE_DASH_DOT_DOT  /* Long dash dot dot */
+	};
+
+	return (pattern >= G_N_ELEMENTS (dash_map))
+		? GO_LINE_SOLID
+		: dash_map[pattern];
+}
+
+int
+ms_escher_line_type_to_xl (GOLineDashType ld)
+{
+	switch (ld) {
+	default:
+	case GO_LINE_NONE:		return -1;
+	case GO_LINE_SOLID:		return 0;
+	case GO_LINE_S_DOT:		return 2;
+	case GO_LINE_S_DASH_DOT:	return 3;
+	case GO_LINE_S_DASH_DOT_DOT:	return 4;
+	case GO_LINE_DASH_DOT_DOT_DOT:	return 4;
+	case GO_LINE_DOT:		return 5;
+	case GO_LINE_S_DASH:		return 6;
+	case GO_LINE_DASH:		return 7;
+	case GO_LINE_LONG_DASH:		return 8;
+	case GO_LINE_DASH_DOT:		return 9;
+	case GO_LINE_DASH_DOT_DOT:	return 10;
+	}
+}
+
+
 /* A storage accumulator for common state information */
 typedef struct {
 	MSContainer	*container;

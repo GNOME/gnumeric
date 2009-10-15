@@ -33,6 +33,7 @@ enum {
 	MSEP_NOFILLHITTEST        = 0x01bf,
 	MSEP_LINECOLOR            = 0x01c0,
 	MSEP_LINEWIDTH            = 0x01cb,
+	MSEP_LINEDASHING          = 0x01ce,
 	MSEP_LINESTARTARROWHEAD   = 0x01d0,
 	MSEP_LINEENDARROWHEAD     = 0x01d1,
 	MSEP_LINESTARTARROWWIDTH  = 0x01d2,
@@ -45,6 +46,8 @@ enum {
 	MSEP_ISBUTTON             = 0x03bc
 };
 
+GOLineDashType ms_escher_xl_to_line_type (guint16 pattern);
+int ms_escher_line_type_to_xl (GOLineDashType ld);
 
 
 struct _MSEscherBlip {
