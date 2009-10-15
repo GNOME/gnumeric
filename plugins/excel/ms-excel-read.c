@@ -441,10 +441,13 @@ ms_sheet_obj_anchor_to_pos (Sheet const * sheet, MsBiffVersion const ver,
 
 static void
 handle_arrow_head (SheetObject *so, const char *prop_name,
-		   MSObjAttrBag *attrs, MSObjAttrID typid)
+		   MSObjAttrBag *attrs, MSObjAttrID typid,
+		   MSObjAttrID wid, MSObjAttrID lid)
 {
 	GOArrow arrow;
 	GOColor col = GO_COLOR_BLACK;
+	int w = ms_obj_attr_get_int (attrs, wid, 1);
+	int l = ms_obj_attr_get_int (attrs, lid, 1);
 
 	int typ = ms_obj_attr_get_int (attrs, typid, 0);
 	switch (typ) {
@@ -452,9 +455,33 @@ handle_arrow_head (SheetObject *so, const char *prop_name,
 		go_arrow_clear (&arrow);
 		break;
 	default:
-	case 1:
+	case 1: /* Regular */
 		go_arrow_init (&arrow, GO_ARROW_TRIANGLE, col,
-			       8., 10., 3.);
+			       3.5 * (l + 1),
+			       3.5 * (l + 1),
+			       2.5 * (w + 1));
+		break;
+	case 2: /* Stealth */
+		go_arrow_init (&arrow, GO_ARROW_TRIANGLE, col,
+			       2.5 * (l + 1),
+			       4.0 * (l + 1),
+			       2.0 * (w + 1));
+		break;
+	case 3: /* Diamond */
+		go_arrow_init (&arrow, GO_ARROW_TRIANGLE, col,
+			       5 * (l + 1),
+			       2.5 * (l + 1),
+			       2.5 * (w + 1));
+		break;
+	case 4: /* Oval */
+		go_arrow_init (&arrow, GO_ARROW_OVAL, col,
+			       (l + 1) * 2.5, (w + 1) * 2.5, 0);
+		break;
+	case 5: /* Open -- Approximation! */
+		go_arrow_init (&arrow, GO_ARROW_TRIANGLE, col,
+			       1.0 * (l + 1),
+			       2.5 * (l + 1),
+			       1.5 * (w + 1));
 		break;
 	}
 
@@ -570,10 +597,14 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 
 		handle_arrow_head (so, "start-arrow",
 				   obj->attrs,
-				   MS_OBJ_ATTR_ARROW_START);
+				   MS_OBJ_ATTR_ARROW_START,
+				   MS_OBJ_ATTR_ARROW_START_WIDTH,
+				   MS_OBJ_ATTR_ARROW_START_LENGTH);
 		handle_arrow_head (so, "end-arrow",
 				   obj->attrs,
-				   MS_OBJ_ATTR_ARROW_END);
+				   MS_OBJ_ATTR_ARROW_END,
+				   MS_OBJ_ATTR_ARROW_END_WIDTH,
+				   MS_OBJ_ATTR_ARROW_END_LENGTH);
 		break;
 
 	case MSOT_POLYGON:

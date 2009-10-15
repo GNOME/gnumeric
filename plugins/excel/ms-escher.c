@@ -1632,13 +1632,17 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 			   name = "LineEndStyle lineEndArrowhead";
 			   break;
 		/* MediumWidthArrow : Arrow at start */
-		case 466 : name = "ArrowWidth lineStartArrowWidth"; break;
+		case 466 : id = MS_OBJ_ATTR_ARROW_START_WIDTH;
+			   name = "ArrowWidth lineStartArrowWidth"; break;
 		/* MediumLenArrow : Arrow at end */
-		case 467 : name = "ArrowLength lineStartArrowLength"; break;
+		case 467 : id = MS_OBJ_ATTR_ARROW_START_LENGTH;
+			   name = "ArrowLength lineStartArrowLength"; break;
 		/* MediumWidthArrow : Arrow at start */
-		case 468 : name = "ArrowWidth lineEndArrowWidth"; break;
+		case 468 : id = MS_OBJ_ATTR_ARROW_END_WIDTH;
+			   name = "ArrowWidth lineEndArrowWidth"; break;
 		/* MediumLenArrow : Arrow at end */
-		case 469 : name = "ArrowLength lineEndArrowLength"; break;
+		case 469 : id = MS_OBJ_ATTR_ARROW_END_LENGTH;
+			   name = "ArrowLength lineEndArrowLength"; break;
 		/* JoinRound : How to join lines */
 		case 470 : name = "LineJoin lineJoinStyle"; break;
 		/* EndCapFlat : How to end lines */
