@@ -70,8 +70,14 @@ typedef struct {
 #define GNUMERIC_ATOM_INFO 2001
 #define GOFFICE_GRAPH_ATOM_NAME "application/x-goffice-graph"
 
+/*
+ * Emacs hack:
+ * (x-get-selection-internal 'CLIPBOARD 'TARGETS)
+ */
+
 /* From MS Excel */
 #define BIFF8_ATOM_NAME	"Biff8"
+#define BIFF8_ATOM_NAME_CITRIX "_CITRIX_Biff8"
 #define BIFF5_ATOM_NAME	"Biff5"
 #define BIFF4_ATOM_NAME	"Biff4"
 #define BIFF3_ATOM_NAME	"Biff3"
@@ -365,6 +371,7 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 						 pt, sel->data,
 						 sel->length);
 	} else if ((sel->target == gdk_atom_intern ( BIFF8_ATOM_NAME, FALSE)) ||
+		   (sel->target == gdk_atom_intern ( BIFF8_ATOM_NAME_CITRIX, FALSE)) ||
 		   (sel->target == gdk_atom_intern ( BIFF5_ATOM_NAME, FALSE)) ||
 		   (sel->target == gdk_atom_intern ( BIFF4_ATOM_NAME, FALSE)) ||
 		   (sel->target == gdk_atom_intern ( BIFF3_ATOM_NAME, FALSE)) ||
@@ -421,6 +428,7 @@ x_targets_received (GtkClipboard *clipboard, GdkAtom *targets,
 		GNUMERIC_ATOM_NAME,
 
 		BIFF8_ATOM_NAME,
+		BIFF8_ATOM_NAME_CITRIX,
 		BIFF5_ATOM_NAME,
 		BIFF4_ATOM_NAME,
 		BIFF3_ATOM_NAME,

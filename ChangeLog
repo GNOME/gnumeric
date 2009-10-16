@@ -1,5 +1,8 @@
 2009-10-16  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-clipboard.c: Support Biff8 via Citrix which yields a
+	different target name.
+
 	* src/gnm-so-line.c (gnm_so_line_prep_sax_parser): Read new
 	format.
 	(gnm_so_line_write_xml_sax): Write both arrow ends.
