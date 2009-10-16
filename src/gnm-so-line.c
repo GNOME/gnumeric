@@ -178,6 +178,17 @@ draw_arrow (GOArrow *arrow, cairo_t *cr,
 		 * on top of a (perhaps quite fat) line.  */
 		(*x) += arrow->a * sin (phi);
 		(*y) -= arrow->a * cos (phi);
+		break;
+
+	case GO_ARROW_OVAL:
+		cairo_save (cr);
+		cairo_translate (cr, *x, *y);
+		cairo_rotate (cr, phi);
+		cairo_scale (cr, arrow->a, arrow->b);
+		cairo_arc (cr, 0., 0., 1., 0., 2 * M_PI);
+		cairo_fill (cr);
+		cairo_restore (cr);
+		break;
 	}
 }
 
@@ -242,20 +253,41 @@ gnm_so_line_draw_cairo (SheetObject const *so, cairo_t *cr,
 }
 
 static void
+write_xml_sax_arrow (GOArrow const *arrow, const char *prefix,
+		     GsfXMLOut *output)
+{
+	const char *typename = go_arrow_type_as_str (arrow->typ);
+	char *attr;
+
+	if (!typename || arrow->typ == GO_ARROW_NONE)
+		return;
+
+	attr = g_strconcat (prefix, "ArrowType", NULL);
+	gsf_xml_out_add_cstr (output, attr, typename);
+	g_free (attr);
+
+	attr = g_strconcat (prefix, "ArrowShapeA", NULL);
+	gsf_xml_out_add_float (output, attr, arrow->a, -1);
+	g_free (attr);
+
+	attr = g_strconcat (prefix, "ArrowShapeB", NULL);
+	gsf_xml_out_add_float (output, attr, arrow->b, -1);
+	g_free (attr);
+
+	attr = g_strconcat (prefix, "ArrowShapeC", NULL);
+	gsf_xml_out_add_float (output, attr, arrow->c, -1);
+	g_free (attr);
+}
+
+static void
 gnm_so_line_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 			   GnmConventions const *convs)
 {
 	GnmSOLine const *sol = GNM_SO_LINE (so);
 
-	gnm_xml_out_add_gocolor (output, "FillColor", sol->style->line.color);
-	gsf_xml_out_add_float (output, "Width", sol->style->line.width, -1);
-	if (sol->end_arrow.c > 0.) {
-		gsf_xml_out_add_int (output, "Type", 2);
-		gsf_xml_out_add_float (output, "ArrowShapeA", sol->end_arrow.a, -1);
-		gsf_xml_out_add_float (output, "ArrowShapeB", sol->end_arrow.b, -1);
-		gsf_xml_out_add_float (output, "ArrowShapeC", sol->end_arrow.c, -1);
-	} else
-		gsf_xml_out_add_int (output, "Type", 1);
+	gsf_xml_out_add_int (output, "Type", 1);
+	write_xml_sax_arrow (&sol->start_arrow, "Start", output);
+	write_xml_sax_arrow (&sol->end_arrow, "End", output);
 
 	gsf_xml_out_start_element (output, "Style");
 	go_persist_sax_save (GO_PERSIST (sol->style), output);
@@ -270,6 +302,33 @@ sol_sax_style (GsfXMLIn *xin, xmlChar const **attrs)
 	go_persist_prep_sax (GO_PERSIST (sol->style), xin, attrs);
 }
 
+
+static gboolean
+read_xml_sax_arrow (xmlChar const **attrs, const char *prefix,
+		    GOArrow *arrow)
+{
+	size_t plen = strlen (prefix);
+	const char *attr = CXML2C (attrs[0]);
+	const char *val = CXML2C (attrs[1]);
+
+	if (strncmp (attr, prefix, plen) != 0)
+		return FALSE;
+	attr += plen;
+
+	if (strcmp (attr, "ArrowType") == 0) {
+		arrow->typ = go_arrow_type_from_str (val);
+	} else if (strcmp (attr, "ArrowShapeA") == 0) {
+		arrow->a = go_strtod (val, NULL);
+	} else if (strcmp (attr, "ArrowShapeB") == 0) {
+		arrow->b = go_strtod (val, NULL);
+	} else if (strcmp (attr, "ArrowShapeC") == 0) {
+		arrow->c = go_strtod (val, NULL);
+	} else
+		return FALSE;
+
+	return TRUE;
+}
+
 static void
 gnm_so_line_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 			     xmlChar const **attrs,
@@ -281,6 +340,7 @@ gnm_so_line_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 	};
 	static GsfXMLInDoc *doc = NULL;
 	GnmSOLine *sol = GNM_SO_LINE (so);
+	gboolean old_format = FALSE;
 	double tmp, arrow_a = -1., arrow_b = -1., arrow_c = -1.;
 	int type = 0;
 
@@ -288,19 +348,31 @@ gnm_so_line_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 		doc = gsf_xml_in_doc_new (dtd, NULL);
 	gsf_xml_in_push_state (xin, doc, NULL, NULL, attrs);
 
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+	go_arrow_clear (&sol->start_arrow);
+	go_arrow_clear (&sol->end_arrow);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		/* Old 1.0 and 1.2 */
-		if (gnm_xml_attr_double (attrs, "Width", &tmp))
+		if (gnm_xml_attr_double (attrs, "Width", &tmp)) {
+			old_format = TRUE;
 			sol->style->line.width = tmp;
-		else if (attr_eq (attrs[0], "FillColor"))
+		} else if (attr_eq (attrs[0], "FillColor")) {
 			go_color_from_str (CXML2C (attrs[1]), &sol->style->line.color);
-		else if (gnm_xml_attr_int (attrs, "Type", &type)) ;
-		else if (gnm_xml_attr_double (attrs, "ArrowShapeA", &arrow_a)) ;
-		else if (gnm_xml_attr_double (attrs, "ArrowShapeB", &arrow_b)) ;
-		else if (gnm_xml_attr_double (attrs, "ArrowShapeC", &arrow_c)) ;
+			old_format = TRUE;
+		} else if (gnm_xml_attr_int (attrs, "Type", &type)) {
+		} else if (gnm_xml_attr_double (attrs, "ArrowShapeA", &arrow_a) ||
+			   gnm_xml_attr_double (attrs, "ArrowShapeB", &arrow_b) ||
+			   gnm_xml_attr_double (attrs, "ArrowShapeC", &arrow_c))
+			old_format = TRUE;
+		else if (read_xml_sax_arrow (attrs, "Start", &sol->start_arrow) ||
+			 read_xml_sax_arrow (attrs, "End", &sol->end_arrow))
+			; /* Nothing */
+	}
 
 	/* 2 == arrow */
-	if (type == 2 && arrow_a >= 0. && arrow_b >= 0. && arrow_c >= 0.)
+	if (old_format &&
+	    type == 2 &&
+	    arrow_a >= 0. && arrow_b >= 0. && arrow_c >= 0.)
 		go_arrow_init_kite (&sol->end_arrow,
 				    arrow_a, arrow_b, arrow_c);
 }

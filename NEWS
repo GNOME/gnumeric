@@ -18,6 +18,7 @@ Morten:
 	* Make it possible for arrows to have arrow heads in both ends.
 	* Implement round arrow heads.
 	* Fix xls import and export of line styles.
+	* Save and read new arrow attributes in xml format.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.14

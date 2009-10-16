@@ -1,3 +1,9 @@
+2009-10-16  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-so-line.c (gnm_so_line_prep_sax_parser): Read new
+	format.
+	(gnm_so_line_write_xml_sax): Write both arrow ends.
+
 2009-10-14  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-so-line.c: Move GOArrow to goffice.
