@@ -19,6 +19,7 @@ Morten:
 	* Implement round arrow heads.
 	* Fix xls import and export of line styles.
 	* Save and read new arrow attributes in xml format.
+	* Fix Excel-to-Gnumeric paste problem.  [#381732, #388531].
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.14

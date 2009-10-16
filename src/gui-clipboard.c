@@ -288,11 +288,16 @@ table_cellregion_read (WorkbookControl *wbc, char const *reader_id,
 	if (sheets) {
 		GnmRange r;
 		Sheet *tmpsheet = sheets->data;
-
-		r.start.col = 0;
-		r.start.row = 0;
-		r.end.col = tmpsheet->cols.max_used;
-		r.end.row = tmpsheet->rows.max_used;
+		GnmRange *rp = g_object_get_data (G_OBJECT (tmpsheet),
+						  "DIMENSION");
+		if (rp) {
+			r = *rp;
+		} else {
+			r.start.col = 0;
+			r.start.row = 0;
+			r.end.col = tmpsheet->cols.max_used;
+			r.end.row = tmpsheet->rows.max_used;
+		}
 		ret = clipboard_copy_range (tmpsheet, &r);
 	}
 	g_slist_free (sheets);

@@ -2,6 +2,8 @@
 
 	* src/gui-clipboard.c: Support Biff8 via Citrix which yields a
 	different target name.
+	(table_cellregion_read): Use original area (from Excel) for paste.
+	Fixes #381732, #388531.
 
 	* src/gnm-so-line.c (gnm_so_line_prep_sax_parser): Read new
 	format.

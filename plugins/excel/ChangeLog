@@ -1,3 +1,8 @@
+2009-10-16  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_DIMENSIONS): Store dimensions for
+	clipboard use.
+
 2009-10-15  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_write_line_v8): Fix handling of
