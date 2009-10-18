@@ -1,3 +1,8 @@
+2009-10-18  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-pane.c (gnm_pane_key_mode_sheet): Ignore event->state
+	bits related to caps lock, etc.  Fixes #597295.
+
 2009-10-16  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-clipboard.c: Support Biff8 via Citrix which yields a

@@ -20,6 +20,7 @@ Morten:
 	* Fix xls import and export of line styles.
 	* Save and read new arrow attributes in xml format.
 	* Fix Excel-to-Gnumeric paste problem.  [#381732, #388531].
+	* Fix Alt-Enter problems.  [#597295]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.14

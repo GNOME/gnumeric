@@ -240,7 +240,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 
 	case GDK_KP_Down:
 	case GDK_Down:
-		if ((event->state == GDK_MOD1_MASK)) {
+		if (gnumeric_filter_modifiers (event->state) == GDK_MOD1_MASK) {
 			/* 1) Any in cell combos ? */
 			SheetObject *so = sv_wbv (sv)->in_cell_combo;
 
@@ -381,7 +381,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 		if (wbcg_is_editing (wbcg) &&
 		    (state == GDK_CONTROL_MASK ||
 		     state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK) ||
-		     event->state == GDK_MOD1_MASK))
+		     gnumeric_filter_modifiers (event->state) == GDK_MOD1_MASK))
 			/* Forward the keystroke to the input line */
 			return gtk_widget_event (
 				wbcg_get_entry_underlying (wbcg), (GdkEvent *) event);
