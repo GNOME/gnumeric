@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_fnhebdate">
+	<information>
+		<_name>Hebrew Date Functions</_name>
+		<_description>Functions manipulating Hebrew dates</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="plugin"/>
+	</loader>
+	<services>
+		<service type="function_group" id="datetime">
+			<_category>Date/Time</_category>
+			<functions textdomain="gnumeric-functions">
+				<function name="hdate"/>
+				<function name="hdate_heb"/>
+				<function name="hdate_month"/>
+				<function name="hdate_day"/>
+				<function name="hdate_year"/>
+				<function name="hdate_julian"/>
+			</functions>
+		</service>
+	</services>
+</plugin>

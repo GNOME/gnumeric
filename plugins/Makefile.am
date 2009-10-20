@@ -12,8 +12,8 @@ if WITH_PARADOX
 endif
 
 SUBDIRS_FUNCTIONS = fn-numtheory fn-database fn-date fn-eng fn-erlang \
-	fn-financial fn-info fn-logical fn-complex fn-lookup fn-math \
-	fn-r fn-stat fn-string fn-random fn-tsa fn-derivatives
+	fn-financial fn-hebrew-date fn-info fn-logical fn-complex fn-lookup \
+	fn-math fn-r fn-stat fn-string fn-random fn-tsa fn-derivatives
 
 if WITH_GDA
   SUBDIRS_FUNCTIONS += gda

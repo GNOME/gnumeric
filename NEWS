@@ -22,6 +22,9 @@ Morten:
 	* Fix Excel-to-Gnumeric paste problem.  [#381732, #388531].
 	* Fix Alt-Enter problems.  [#597295]
 
+Yaacov Zamir:
+       * Hebrew Calendar functions.  [#153738]
+
 --------------------------------------------------------------------------
 Gnumeric 1.9.14
 

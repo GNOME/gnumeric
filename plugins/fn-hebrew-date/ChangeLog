@@ -1,0 +1,8 @@
+2009-10-20  Morten Welinder  <terra@gnome.org>
+
+	* *.[ch]: Remove unused code; bring the rest up to current API.
+	Avoid fixed-length buffers.
+
+2005-01-14  Yaacov Zamir <kzamir@walla.co.il>
+
+	* Release 0.0.1
