@@ -223,11 +223,12 @@
         <menuitem action="SheetOutlineBelow"/>
         <menuitem action="SheetOutlineRight"/>
       </menu>
+<!-- Disabled for now
       <menu name="Slicer" action="MenuSlicer">
         <menuitem action="DataSlicer"/>
         <menuitem action="DataSlicerRefresh"/>
         <menuitem action="DataSlicerEdit"/>
-      </menu>
+      </menu> -->
       <separator/>
       <menuitem action="DataTextToColumns"/>
       <menu name="ExternalData" action="MenuExternalData">

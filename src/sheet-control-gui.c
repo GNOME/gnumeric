@@ -1937,7 +1937,9 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 			has_link = TRUE;
 	}
 
-	if (NULL != (slicer = sv_editpos_in_slicer (scg_view (scg)))) {
+	slicer = sv_editpos_in_slicer (scg_view (scg));
+	/* FIXME: disabled for now */
+	if (0 && slicer) {
 		GODataSlicerField *dsf = gnm_sheet_slicer_field_header_at_pos (slicer, &sv->edit_pos);
 		if (NULL != dsf) {
 			if (go_data_slicer_field_get_field_type_pos (dsf, GDS_FIELD_TYPE_COL) >= 0)
