@@ -1,3 +1,8 @@
+2009-10-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-cell-sort.c (cb_sort_header_check): call 
+	  set_ok_button_sensitivity
+
 2009-10-11  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.14

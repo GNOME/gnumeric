@@ -402,6 +402,7 @@ cb_sort_header_check(SortFlowState *state)
 		GTK_TOGGLE_BUTTON (state->cell_sort_header_check));
 
 	gtk_tree_view_column_set_visible (state->header_column, state->header);
+	set_ok_button_sensitivity (state);
 }
 
 static void
