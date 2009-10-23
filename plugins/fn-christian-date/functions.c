@@ -164,7 +164,7 @@ static GnmFuncHelp const help_ashwednesday[] = {
 static GnmValue *
 gnumeric_ashwednesday (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 {
-	int year;
+	int year = 0;
 	GDate date;
 	GODateConventions const *conv = DATE_CONV (ei->pos);
 
