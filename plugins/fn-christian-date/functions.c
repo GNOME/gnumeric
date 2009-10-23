@@ -92,16 +92,20 @@ eastersunday_calc_no_year (GDate *date, GODateConventions const *conv, int diff)
 }
 
 static int
-adjust_year (int year)
+adjust_year (int year, GODateConventions const *conv)
 {
-		if (year < 0 || year >= 9956)
-			return 0;
-		if (year < 31)
-			year += 2000;
-		else if (year < 100) {
-			year += 1900;
-		} else if (year < 1700)
-			return 0;
+	if (year < 0)
+		return -1;
+	else if (year <= 29)
+		return 2000 + year;
+	else if (year <= 99)
+		return 1900 + year;
+	else if (year < (gnm_datetime_allow_negative () ? 1582 
+			 : go_date_convention_base (conv)))
+		return -1;
+	else if (year > 9956)
+		return -1;
+	else
 		return year;
 }
 
@@ -110,12 +114,12 @@ adjust_year (int year)
 static GnmFuncHelp const help_eastersunday[] = {
 	{ GNM_FUNC_HELP_NAME, F_("EASTERSUNDAY:Easter Sunday in the Gregorian calendar "
 				 "according to the Roman rite of the Christian Church") },
-        { GNM_FUNC_HELP_ARG, F_("year:year between 1700 and 9956, defaults to the year of the next Easter Sunday")},
-        { GNM_FUNC_HELP_NOTE, F_("If a year between 0 and 30 is given, the year is adjusted through addition of 2000; if a year between 31 and 99 is given, the year is adjusted through addition of 1900.")},
+        { GNM_FUNC_HELP_ARG, F_("year:year between 1582 and 9956, defaults to the year of the next Easter Sunday")},
+        { GNM_FUNC_HELP_NOTE, F_("Two digit years are adjusted as elsewhere in Gnumeric. Dates before 1904 may also be prohibited.")},
         { GNM_FUNC_HELP_EXAMPLES, "=EASTERSUNDAY(2001)" },
         { GNM_FUNC_HELP_EXAMPLES, "=EASTERSUNDAY()" },
 	{ GNM_FUNC_HELP_ODF, F_("The 1-argument version of EASTERSUNDAY is compatible with OpenOffice "
-				"for years ater 1700. "
+				"for years after 1904. "
 				"This function is not specified in ODF/OpenFormula.")},
         { GNM_FUNC_HELP_SEEALSO, "ASHWEDNESDAY"},
 	{ GNM_FUNC_HELP_END }
@@ -131,9 +135,9 @@ gnumeric_eastersunday (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 	g_date_clear (&date, 1);
 		
 	if (argv [0]) {
-		year  = adjust_year (value_get_as_int (argv [0]));
+		year  = adjust_year (value_get_as_int (argv [0]), conv);
 		
-		if (year == 0)
+		if (year < 0)
 			return value_new_error_NUM (ei->pos);
 		
 		eastersunday_calc (year, &date);
@@ -149,8 +153,8 @@ gnumeric_eastersunday (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_ashwednesday[] = {
 	{ GNM_FUNC_HELP_NAME, F_("ASHWEDNESDAY:Ash Wednesday in the Gregorian calendar "
 				 "according to the Roman rite of the Christian Church") },
-        { GNM_FUNC_HELP_ARG, F_("year:year between 1700 and 9956, defaults to the year of the next Ash Wednesday")},
-        { GNM_FUNC_HELP_NOTE, F_("If a year between 0 and 30 is given, the year is adjusted through addition of 2000; if a year between 31 and 99 is given, the year is adjusted through addition of 1900.")},
+        { GNM_FUNC_HELP_ARG, F_("year:year between 1582 and 9956, defaults to the year of the next Ash Wednesday")},
+        { GNM_FUNC_HELP_NOTE, F_("Two digit years are adjusted as elsewhere in Gnumeric. Dates before 1904 may also be prohibited.")},
         { GNM_FUNC_HELP_EXAMPLES, "=ASHWEDNESDAY(2001)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ASHWEDNESDAY()" },
         { GNM_FUNC_HELP_SEEALSO, "EASTERSUNDAY"},
@@ -167,9 +171,9 @@ gnumeric_ashwednesday (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 	g_date_clear (&date, 1);
 		
 	if (argv [0]) {
-		year  = adjust_year (value_get_as_int (argv [0]));
+		year  = adjust_year (value_get_as_int (argv [0]), conv);
 		
-		if (year == 0)
+		if (year < 0)
 			return value_new_error_NUM (ei->pos);
 		
 		eastersunday_calc (year, &date);
@@ -185,8 +189,8 @@ gnumeric_ashwednesday (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_pentecostsunday[] = {
 	{ GNM_FUNC_HELP_NAME, F_("PENTECOSTSUNDAY:Pentecost Sunday in the Gregorian calendar "
 				 "according to the Roman rite of the Christian Church") },
-        { GNM_FUNC_HELP_ARG, F_("year:year between 1700 and 9956, defaults to the year of the next Pentecost Sunday")},
-        { GNM_FUNC_HELP_NOTE, F_("If a year between 0 and 30 is given, the year is adjusted through addition of 2000; if a year between 31 and 99 is given, the year is adjusted through addition of 1900.")},
+        { GNM_FUNC_HELP_ARG, F_("year:year between 1582 and 9956, defaults to the year of the next Pentecost Sunday")},
+        { GNM_FUNC_HELP_NOTE, F_("Two digit years are adjusted as elsewhere in Gnumeric. Dates before 1904 may also be prohibited.")},
         { GNM_FUNC_HELP_EXAMPLES, "=PENTECOSTSUNDAY(2001)" },
         { GNM_FUNC_HELP_EXAMPLES, "=PENTECOSTSUNDAY()" },
         { GNM_FUNC_HELP_SEEALSO, "EASTERSUNDAY"},
@@ -203,9 +207,9 @@ gnumeric_pentecostsunday (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 	g_date_clear (&date, 1);
 		
 	if (argv [0]) {
-		year  = adjust_year (value_get_as_int (argv [0]));
+		year  = adjust_year (value_get_as_int (argv [0]), conv);
 		
-		if (year == 0)
+		if (year < 0)
 			return value_new_error_NUM (ei->pos);
 		
 		eastersunday_calc (year, &date);
@@ -219,8 +223,8 @@ gnumeric_pentecostsunday (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_goodfriday[] = {
 	{ GNM_FUNC_HELP_NAME, F_("GOODFRIDAY:Good Friday in the Gregorian calendar "
 				 "according to the Roman rite of the Christian Church") },
-        { GNM_FUNC_HELP_ARG, F_("year:year between 1700 and 9956, defaults to the year of the next Good Friday")},
-        { GNM_FUNC_HELP_NOTE, F_("If a year between 0 and 30 is given, the year is adjusted through addition of 2000; if a year between 31 and 99 is given, the year is adjusted through addition of 1900.")},
+        { GNM_FUNC_HELP_ARG, F_("year:year between 1582 and 9956, defaults to the year of the next Good Friday")},
+        { GNM_FUNC_HELP_NOTE, F_("Two digit years are adjusted as elsewhere in Gnumeric. Dates before 1904 may also be prohibited.")},
         { GNM_FUNC_HELP_EXAMPLES, "=GOODFRIDAY(2001)" },
         { GNM_FUNC_HELP_EXAMPLES, "=GOODFRIDAY()" },
         { GNM_FUNC_HELP_SEEALSO, "EASTERSUNDAY"},
@@ -237,9 +241,9 @@ gnumeric_goodfriday (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 	g_date_clear (&date, 1);
 		
 	if (argv [0]) {
-		year  = adjust_year (value_get_as_int (argv [0]));
+		year  = adjust_year (value_get_as_int (argv [0]), conv);
 		
-		if (year == 0)
+		if (year < 0)
 			return value_new_error_NUM (ei->pos);
 		
 		eastersunday_calc (year, &date);
@@ -253,8 +257,8 @@ gnumeric_goodfriday (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_ascensionthursday[] = {
 	{ GNM_FUNC_HELP_NAME, F_("ASCENSIONTHURSDAY:Ascension Thursday in the Gregorian calendar "
 				 "according to the Roman rite of the Christian Church") },
-        { GNM_FUNC_HELP_ARG, F_("year:year between 1700 and 9956, defaults to the year of the next Ascension Thursday")},
-        { GNM_FUNC_HELP_NOTE, F_("If a year between 0 and 30 is given, the year is adjusted through addition of 2000; if a year between 31 and 99 is given, the year is adjusted through addition of 1900.")},
+        { GNM_FUNC_HELP_ARG, F_("year:year between 1582 and 9956, defaults to the year of the next Ascension Thursday")},
+        { GNM_FUNC_HELP_NOTE, F_("Two digit years are adjusted as elsewhere in Gnumeric. Dates before 1904 may also be prohibited.")},
         { GNM_FUNC_HELP_EXAMPLES, "=ASCENSIONTHURSDAY(2001)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ASCENSIONTHURSDAY()" },
         { GNM_FUNC_HELP_SEEALSO, "EASTERSUNDAY"},
@@ -271,9 +275,9 @@ gnumeric_ascensionthursday (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 	g_date_clear (&date, 1);
 		
 	if (argv [0]) {
-		year  = adjust_year (value_get_as_int (argv [0]));
+		year  = adjust_year (value_get_as_int (argv [0]), conv);
 		
-		if (year == 0)
+		if (year < 0)
 			return value_new_error_NUM (ei->pos);
 		
 		eastersunday_calc (year, &date);
