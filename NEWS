@@ -23,6 +23,7 @@ Morten:
 	* Save and read new arrow attributes in xml format.
 	* Fix Excel-to-Gnumeric paste problem.  [#381732, #388531].
 	* Fix Alt-Enter problems.  [#597295]
+	* Make DATE work for pre-1900 dates.  [#599365]
 
 Yaacov Zamir:
        * Hebrew Calendar functions.  [#153738]
