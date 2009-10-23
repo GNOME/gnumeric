@@ -25,6 +25,7 @@
 #include "value.h"
 #include "mathfunc.h"
 #include "numbers.h"
+#include "gnm-datetime.h"
 #include <goffice/goffice.h>
 
 #include <stdio.h>
@@ -386,7 +387,7 @@ handle_year (char const *text, GORegmatch const *pm)
 		return 2000 + y;
 	else if (y <= 99)
 		return 1900 + y;
-	else if (y <= 1899)
+	else if (y < (gnm_datetime_allow_negative () ? 1582 : 1900))
 		return -1;
 	else
 		return y;
