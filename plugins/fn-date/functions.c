@@ -97,8 +97,10 @@ gnumeric_date (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	if (year < 0 || year >= 10000)
 		goto error;
-	if (year < 1000) /* Excel uses 1900 -- ick!  */
-		year += 1900;
+	if (!gnm_datetime_allow_negative () && year < 1900)
+		year += 1900; /* Excel compatibility.  */
+	else if (year < 1000)
+		year += 1900; /* Somewhat more sane.  */
 
 	/* This uses floor and not trunc on purpose.  */
 	month = gnm_floor (month);
@@ -117,7 +119,9 @@ gnumeric_date (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_date_add_days (&date, (int)day - 1);
 
 	if (!g_date_valid (&date) ||
-	    g_date_get_year (&date) < 1582 ||
+	    g_date_get_year (&date) < (gnm_datetime_allow_negative ()
+				       ? 1582
+				       : go_date_convention_base (conv)) ||
 	    g_date_get_year (&date) >= 11900)
 		goto error;
 
