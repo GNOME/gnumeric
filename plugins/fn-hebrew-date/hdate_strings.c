@@ -99,10 +99,14 @@ const char *
 hdate_get_hebrew_month_name (int month)
 {
 	static const char *heb_months[] = {
-		N_("Tishre"), N_("Heshvan"), N_("Kislev"),
-		N_("Tevet"), N_("Shvat"), N_("Adar"),
-		N_("Nisan"), N_("Eyar"), N_("Sivan"), ("Tamuz"),
-		N_("Av"), N_("Elul"), N_("Adar I"), N_("Adar II")
+		/* We are using the spellings as included in the */
+		/* Merriam-Webster dictionary */
+		/* xgettext: Tishri to Adar II are transliterations of the */
+		/* xgettext: hebrew months' names using Latin characters.  */
+		N_("Tishri"), N_("Heshwan"), N_("Kislev"),
+		N_("Tebet"), N_("Shebat"), N_("Adar"),
+		N_("Nisan"), N_("Iyar"), N_("Sivan"), ("Tammuz"),
+		N_("Ab"), N_("Elul"), N_("Adar I"), N_("Adar II")
 	};
 
 	if (month < 0 || month > 13)
@@ -121,10 +125,9 @@ const char *
 hdate_get_hebrew_month_name_heb (int month)
 {
 	static const char *h_heb_months[] = {
-		N_("תשרי"), N_("חשון"), N_("כסלו"),
-		N_("טבת"), N_("שבט"), N_("אדר"),
-		N_("ניסן"), N_("איר"), N_("סיון"), N_("תמוז"),
-		N_("אב"), N_("אלול"), N_("אדר א"), N_("אדר ב")
+		"תשרי", "חשון", "כסלו", "טבת", "שבט", "אדר",
+		"ניסן", "איר", "סיון", "תמוז", "אב", "אלול", 
+		"אדר א", "אדר ב"
 	};
 
 	if (month < 0 || month > 13)

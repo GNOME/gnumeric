@@ -1,3 +1,7 @@
+2009-10-22  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+
+	* hdate_strings.c: fix soome translation issues.
+
 2009-10-20  Morten Welinder  <terra@gnome.org>
 
 	* *.[ch]: Remove unused code; bring the rest up to current API.
