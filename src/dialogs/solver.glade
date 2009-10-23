@@ -202,6 +202,21 @@
                   </packing>
                 </child>
                 <child>
+                  <widget class="GtkRadioButton" id="lp_model_button">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="label" translatable="yes">_Linear Model (LP/MILP)</property>
+                    <property name="use_underline">True</property>
+                    <property name="response_id">0</property>
+                    <property name="active">True</property>
+                    <property name="draw_indicator">True</property>
+                  </widget>
+                  <packing>
+                    <property name="x_options">GTK_FILL</property>
+                    <property name="y_options"></property>
+                  </packing>
+                </child>
+                <child>
                   <widget class="GtkRadioButton" id="qp_model_button">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -214,21 +229,6 @@
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkRadioButton" id="lp_model_button">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="label" translatable="yes">_Linear Model (LP/MILP)</property>
-                    <property name="use_underline">True</property>
-                    <property name="response_id">0</property>
-                    <property name="active">True</property>
-                    <property name="draw_indicator">True</property>
-                  </widget>
-                  <packing>
                     <property name="x_options">GTK_FILL</property>
                     <property name="y_options"></property>
                   </packing>

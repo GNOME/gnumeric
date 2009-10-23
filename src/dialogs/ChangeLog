@@ -1,3 +1,7 @@
+2009-10-23  Morten Welinder  <terra@gnome.org>
+
+	* solver.glade: fix radiobutton group problem.
+
 2009-10-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-cell-sort.c (cb_sort_header_check): call 
