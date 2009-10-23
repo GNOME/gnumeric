@@ -1040,6 +1040,7 @@ doc/C/figures/Makefile
 doc/C/figures/icons/Makefile
 doc/developer/Makefile
 plugins/Makefile
+plugins/fn-christian-date/Makefile
 plugins/fn-complex/Makefile
 plugins/fn-database/Makefile
 plugins/fn-date/Makefile

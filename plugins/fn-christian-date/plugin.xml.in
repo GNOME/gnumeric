@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_fnchristiandate">
+	<information>
+		<_name>Christian Date Functions</_name>
+		<_description>Functions manipulating dates of the Christian liturgical calendar</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="plugin"/>
+	</loader>
+	<services>
+		<service type="function_group" id="datetime">
+			<_category>Date/Time</_category>
+			<functions textdomain="gnumeric-functions">
+				<function name="eastersunday"/>
+				<function name="ascensionthursday"/>
+				<function name="ashwednesday"/>
+				<function name="pentecostsunday"/>
+				<function name="goodfriday"/>
+			</functions>
+		</service>
+	</services>
+</plugin>

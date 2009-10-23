@@ -10,6 +10,7 @@ plugins/excel/ms-formula-read.c
 plugins/excel/ms-formula-write.c
 plugins/excel/xlsx-read.c
 plugins/excel/xlsx-read-pivot.c
+plugins/fn-christian-date/functions.c
 plugins/fn-complex/functions.c
 plugins/fn-database/functions.c
 plugins/fn-date/functions.c

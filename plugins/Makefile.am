@@ -11,7 +11,8 @@ if WITH_PARADOX
   SUBDIRS_FILE_FORMATS += paradox
 endif
 
-SUBDIRS_FUNCTIONS = fn-numtheory fn-database fn-date fn-eng fn-erlang \
+SUBDIRS_FUNCTIONS = fn-numtheory fn-christian-date fn-database fn-date \
+	fn-eng fn-erlang \
 	fn-financial fn-hebrew-date fn-info fn-logical fn-complex fn-lookup \
 	fn-math fn-r fn-stat fn-string fn-random fn-tsa fn-derivatives
 

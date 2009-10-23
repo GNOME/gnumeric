@@ -1,3 +1,8 @@
+2009-10-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* configure.in: add fn-christian-date plugin
+	* plugins/Makefile.am: ditto
+
 2009-10-20  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-control-gui.c (scg_context_menu): Disable slicer stuff

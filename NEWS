@@ -4,6 +4,7 @@ Andreas:
 	* Add RANDSNORM and RANDSTDIST. [#144717]
 	* Add R.PSNORM, R.DSNORM and R.DST.
 	* Fix small sort dialog problem. [#599091]
+	* A few functions from the christian liturgical calendar.
 
 Jody:
 	* First steps towards a turnkey win32 build.
