@@ -1212,7 +1212,7 @@ static GnmFuncHelp const help_get_formula[] = {
 	{ GNM_FUNC_HELP_EXAMPLES, F_("If A1 is empty and A2 contains =B1+B2, then\n"
 				     "GET.FORMULA(A2) yields '=B1+B2' and\n"
 				     "GET.FORMULA(A1) yields ''.") },
-	{ GNM_FUNC_HELP_SEEALSO, "EXPRESSION"},
+	{ GNM_FUNC_HELP_SEEALSO, "EXPRESSION,ISFORMULA"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1243,6 +1243,36 @@ gnumeric_get_formula (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	}
 
 	return value_new_empty ();
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_isformula[] = {
+	{ GNM_FUNC_HELP_NAME, F_("ISFORMULA:TRUE if @{cell} contains a formula.")},
+	{ GNM_FUNC_HELP_ARG, F_("cell:the referenced cell")},
+	{ GNM_FUNC_HELP_ODF, F_("ISFORMULA is OpenFormula compatible.") },
+	{ GNM_FUNC_HELP_SEEALSO, "GET_FORMULA"},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_isformula (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	GnmValue const * const v = argv[0];
+	if (v->type == VALUE_CELLRANGE) {
+		GnmCell *cell;
+		GnmCellRef const * a = &v->v_range.cell.a;
+		GnmCellRef const * b = &v->v_range.cell.b;
+
+		if (a->col != b->col || a->row != b->row || a->sheet !=b->sheet)
+			return value_new_error_REF (ei->pos);
+
+		cell = sheet_cell_get (eval_sheet (a->sheet, ei->pos->sheet),
+				       a->col, a->row);
+		return value_new_bool (cell && gnm_cell_has_expr (cell));
+	}
+
+	return value_new_error_REF (ei->pos);
 }
 
 
@@ -1849,11 +1879,12 @@ GnmFuncDescriptor const info_functions[] = {
 	{ "get.formula", "r",    help_get_formula,
 	  gnumeric_get_formula, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-
+	{ "isformula", "r",    help_isformula,
+	  gnumeric_isformula, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
 	{ "getenv",	"s",  help_getenv,
 	  gnumeric_getenv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-
 
         {NULL}
 };

@@ -1773,7 +1773,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "ISERR","ISERR" },
 		{ "ISERROR","ISERROR" },
 		{ "ISEVEN","ISEVEN" },
-		/* { "ISFORMULA","ISFORMULA" },  not implemented */
+		{ "ISFORMULA","ISFORMULA" },
 		{ "ISLOGICAL","ISLOGICAL" },
 		{ "ISNA","ISNA" },
 		{ "ISNONTEXT","ISNONTEXT" },

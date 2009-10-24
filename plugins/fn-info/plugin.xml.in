@@ -22,6 +22,7 @@
 				<function name="iserr"/>
 				<function name="iserror"/>
 				<function name="iseven"/>
+				<function name="isformula"/>
 				<function name="islogical"/>
 				<function name="isna"/>
 				<function name="isnontext"/>
