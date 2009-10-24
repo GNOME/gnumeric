@@ -1589,7 +1589,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "AMORDEGRC","AMORDEGRC" },
 		{ "AMORLINC","AMORLINC" },
 		{ "AND","AND" },
-		/* { "ODF.ARABIC","ARABIC" },  not implemented */
+		{ "ARABIC","ARABIC" },
 		{ "AREAS","AREAS" },
 		{ "ASC","ASC" },
 		{ "ASIN","ASIN" },
@@ -1631,7 +1631,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "COLUMN","COLUMN" },
 		{ "COLUMNS","COLUMNS" },
 		{ "COMBIN","COMBIN" },
-		/* { "COMBINA","COMBINA" },  not implemented */
+		{ "COMBINA","COMBINA" },
 		{ "COMPLEX","COMPLEX" },
 		{ "CONCATENATE","CONCATENATE" },
 		{ "CONFIDENCE","CONFIDENCE" },
