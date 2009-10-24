@@ -1737,7 +1737,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "HYPGEOMDIST","HYPGEOMDIST" },
 		{ "IF","IF" },
 		{ "IFERROR","IFERROR" },
-		/* { "IFNA","IFNA" },  not implemented */
+		{ "IFNA","IFNA" },
 		{ "IMABS","IMABS" },
 		{ "IMAGINARY","IMAGINARY" },
 		{ "IMARGUMENT","IMARGUMENT" },

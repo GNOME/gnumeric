@@ -244,6 +244,25 @@ gnumeric_iferror (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_ifna[] = {
+	{ GNM_FUNC_HELP_NAME, F_("IFNA:Test for #NA! error.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:value to test for #NA! error.") },
+	{ GNM_FUNC_HELP_ARG, F_("y:alternate value.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the first value, unless that is #NA!, in which case it returns the second.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=IFNA(12,14)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=IFNA(1/0,14)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=IFNA(NA(),14)" },
+	{ GNM_FUNC_HELP_SEEALSO, "IF,ISERROR" },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_ifna (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	return value_dup ((value_error_classify (argv[0]) == GNM_ERROR_NA) ? argv[1] : argv[0]);
+}
+
+/***************************************************************************/
 static GnmFuncHelp const help_true[] = {
 	{ GNM_FUNC_HELP_NAME, F_("TRUE:the value TRUE.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("TRUE returns the value TRUE.") },
@@ -296,6 +315,10 @@ GnmFuncDescriptor const logical_functions[] = {
 	{ "iferror", "EE",  help_iferror,
 	  gnumeric_iferror, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{ "ifna", "EE",  help_ifna,
+	  gnumeric_ifna, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE,  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, 
+	  GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
 	{ "true", "", help_true, gnumeric_true,
 	  NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,

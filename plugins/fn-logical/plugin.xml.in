@@ -16,6 +16,7 @@
 				<function name="xor"/>
 				<function name="not"/>
 				<function name="iferror"/>
+				<function name="ifna"/>
 				<function name="true"/>
 				<function name="false"/>
 			</functions>
