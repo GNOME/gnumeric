@@ -1533,6 +1533,21 @@ odf_func_sech_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 }
 
 
+static gboolean
+odf_func_eastersunday_handler (GnmConventionsOut *out, GnmExprFunction const *func)
+{
+	if (func->argc == 1) {
+		GString *target = out->accum;
+		GnmExprConstPtr const *ptr = func->argv;
+/* OOo incorrectly stores this without an ORG.OPENOFFICE. prefix. */
+		g_string_append (target, "EASTERSUNDAY(");
+		gnm_expr_as_gstring (ptr[0], out);
+		g_string_append (out->accum, ")");
+		return TRUE;
+	}
+	return FALSE;
+}
+
 static void
 odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 {
@@ -1547,6 +1562,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 			{"R.PCHISQ", odf_func_r_pchisq_handler},
 			{"SEC",      odf_func_sec_handler},
 			{"SECH",      odf_func_sech_handler},
+			{"EASTERSUNDAY", odf_func_eastersunday_handler},
 			{NULL, NULL}
 	};
 
@@ -1647,7 +1663,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "DATEVALUE","DATEVALUE" },
 		{ "DAVERAGE","DAVERAGE" },
 		{ "DAY","DAY" },
-		/* { "DAYS","DAYS" },  not implemented */
+		{ "DAYS","DAYS" },
 		{ "DAYS360","DAYS360" },
 		{ "DB","DB" },
 		{ "DCOUNT","DCOUNT" },

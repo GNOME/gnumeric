@@ -4649,6 +4649,8 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "INDIRECT_XL",	"INDIRECT" },
 		{ "ADDRESS_XL",		"ADDRESS" },
 		{ "ERRORTYPE",		"ERROR.TYPE" },
+		{ "EASTERSUNDAY",	"EASTERSUNDAY" }, /* OOo stores this without prefix! */
+		{ "ORG.OPENOFFICE.EASTERSUNDAY",	"EASTERSUNDAY" },
 
 /* The following is a list of the functions defined in ODF OpenFormula draft 20090508 */
 /* where we do not have a function with the same name                                 */
@@ -4658,7 +4660,6 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "B","ODF.B" },
 		{ "COMBINA","ODF.COMBINA" },
 		{ "COUNTIFS","ODF.COUNTIFS" },
-		{ "DAYS","ODF.DAYS" },
 		{ "DDE","ODF.DDE" },
 		{ "IFNA","ODF.IFNA" },
 		{ "ISFORMULA","ODF.ISFORMULA" },
@@ -5099,9 +5100,9 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 			return res;
 	}
 
-	if (0 == strncmp (name, GnumericPrefix, sizeof (GnumericPrefix)-1)) {
+	if (0 == g_ascii_strncasecmp (name, GnumericPrefix, sizeof (GnumericPrefix)-1)) {
 		f = gnm_func_lookup_or_add_placeholder (name+sizeof (GnumericPrefix)-1, scope, TRUE);
-	} else if (0 != strncmp (name, OOoAnalysisPrefix, sizeof (OOoAnalysisPrefix)-1)) {
+	} else if (0 != g_ascii_strncasecmp (name, OOoAnalysisPrefix, sizeof (OOoAnalysisPrefix)-1)) {
 		if (NULL != namemap &&
 		    NULL != (new_name = g_hash_table_lookup (namemap, name)))
 			name = new_name;

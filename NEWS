@@ -5,6 +5,8 @@ Andreas:
 	* Add R.PSNORM, R.DSNORM and R.DST.
 	* Fix small sort dialog problem. [#599091]
 	* A few functions from the christian liturgical calendar.
+	* Add ODF compatibility function DAYS.
+	* Work around OpenOffice.org saving function names in lowercase.
 
 Jody:
 	* First steps towards a turnkey win32 build.

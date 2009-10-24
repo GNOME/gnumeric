@@ -1,3 +1,9 @@
+2009-10-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (gnumeric_days): new
+	(help_days): new
+	* plugin.xml.in: add DAYS
+
 2009-10-23  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_date): Improve support for pre-1900 dates

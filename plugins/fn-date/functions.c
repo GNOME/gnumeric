@@ -1133,6 +1133,38 @@ gnumeric_yearfrac (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_days[] = {
+        { GNM_FUNC_HELP_NAME, F_("DAYS:difference between dates in days") },
+        { GNM_FUNC_HELP_ARG, F_("start_date:starting date serial value")},
+        { GNM_FUNC_HELP_ARG, F_("end_date:ending date serial value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("DAYS returns the positive or negative number of days from @{start_date} to @{end_date}.") },
+	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=DAYS(DATE(2003,2,3),DATE(2007,4,2))" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=DAYS(DATE(2007,4,2),DATE(2003,2,3))" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=DAYS(DATE(1900,2,28),DATE(1900,3,1))" },
+        { GNM_FUNC_HELP_SEEALSO, "DATEDIF"},
+	{ GNM_FUNC_HELP_END }
+};
+
+
+static GnmValue *
+gnumeric_days (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	int date1, date2;
+	GDate d1, d2;
+	GODateConventions const *conv = DATE_CONV (ei->pos);
+
+	date1 = gnm_floor (value_get_as_float (argv [0]));
+	date2 = gnm_floor (value_get_as_float (argv [1]));
+
+	go_date_serial_to_g (&d1, date1, conv);
+	go_date_serial_to_g (&d2, date2, conv);	
+
+	return value_new_int (g_date_days_between (&d1, &d2));
+}
+
+/***************************************************************************/
+
 GnmFuncDescriptor const datetime_functions[] = {
 	{ "date",        "fff",   help_date,
 	  gnumeric_date, NULL, NULL, NULL, NULL,
@@ -1233,6 +1265,10 @@ GnmFuncDescriptor const datetime_functions[] = {
 	  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "isoyear",     "f",     help_isoyear,
 	  gnumeric_isoyear, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
+	  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{ "days", "ff",
+	  help_days, gnumeric_days, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
         {NULL}

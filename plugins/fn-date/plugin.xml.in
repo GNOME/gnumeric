@@ -17,6 +17,7 @@
 				<function name="datevalue"/>
 				<function name="datedif"/>
 				<function name="day"/>
+				<function name="days"/>
 				<function name="days360"/>
 				<function name="edate"/>
 				<function name="eomonth"/>
