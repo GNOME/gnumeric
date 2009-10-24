@@ -7,6 +7,7 @@ Andreas:
 	* A few functions from the christian liturgical calendar.
 	* Add ODF compatibility functions DAYS, ISFORMULA and NUMBERVALUE.
 	* Work around OpenOffice.org saving function names in lowercase.
+	* Add BINOM.DIST.RANGE (equivalent to the ODF function B).
 
 Jody:
 	* First steps towards a turnkey win32 build.

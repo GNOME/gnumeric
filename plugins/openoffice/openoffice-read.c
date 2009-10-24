@@ -4656,7 +4656,6 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 /* where we do not have a function with the same name                                 */
 
 		{ "AVERAGEIFS","ODF.AVERAGEIFS" },
-		{ "B","ODF.B" },
 		{ "COUNTIFS","ODF.COUNTIFS" },
 		{ "DDE","ODF.DDE" },
 		{ "IFNA","ODF.IFNA" },
@@ -4668,6 +4667,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 /* The following is a complete list of the functions defined in ODF OpenFormula draft 20090508 */
 /* We should determine whether any mapping is needed. */
 
+		{ "B","BINOM.DIST.RANGE" },
 		{ "CEILING","ODF.CEILING" },          /* see handler */
 		{ "CHISQINV","R.QCHISQ" },
 		{ "CHISQDIST","ODF.CHISQDIST" },      /* see handler */
@@ -4709,7 +4709,6 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 /* { "AVERAGEA","AVERAGEA" }, */
 /* { "AVERAGEIF","AVERAGEIF" }, */
 /* { "AVERAGEIFS","AVERAGEIFS" }, */
-/* { "B","B" }, */
 /* { "BASE","BASE" }, */
 /* { "BESSELI","BESSELI" }, */
 /* { "BESSELJ","BESSELJ" }, */

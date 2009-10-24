@@ -1602,7 +1602,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "AVERAGEA","AVERAGEA" },
 		{ "AVERAGEIF","AVERAGEIF" },
 		/* { "ODF.AVERAGEIFS","AVERAGEIFS" },  not implemented */
-		/* { "ODF.B","B" },  not implemented */
+		{ "BINOM.DIST.RANGE","B" },
 		{ "BASE","BASE" },
 		{ "BESSELI","BESSELI" },
 		{ "BESSELJ","BESSELJ" },

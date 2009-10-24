@@ -1427,6 +1427,52 @@ gnumeric_binomdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_binom_dist_range[] = {
+	{ GNM_FUNC_HELP_NAME, F_("BINOM.DIST.RANGE:probability of the binomial distribution over an interval")},
+	{ GNM_FUNC_HELP_ARG, F_("n:number of successes")},
+	{ GNM_FUNC_HELP_ARG, F_("trials:number of trials")},
+	{ GNM_FUNC_HELP_ARG, F_("p:probability of success in each trial")},
+	{ GNM_FUNC_HELP_ARG, F_("start:start of the interval")},
+	{ GNM_FUNC_HELP_ARG, F_("end:start of the interval, defaults to @{start}")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{start}, @{end} or @{trials} are non-integer they are truncated.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{trials} < 0 this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{start} > @{end} this function returns 0.")},
+	{ GNM_FUNC_HELP_ODF, F_("This function is the OpenFormula function B") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=BINOM.DIST.RANGE(5,0.8,3,4)" },
+	{ GNM_FUNC_HELP_SEEALSO, "BINOMDIST,R.PBINOM"},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_binom_dist_range (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	int trials = value_get_as_int (argv[0]);
+	gnm_float p = value_get_as_float (argv[1]);
+	int start = value_get_as_int (argv[2]);
+	int end = argv[3] ? value_get_as_int (argv[3]) : start;
+
+	if (trials < 0 || p < 0 || p > 1)
+		return value_new_error_NUM (ei->pos);
+
+	if (start > trials || end < 0 || start > end)
+		return value_new_float (0.);
+
+	if (start == 0 && end == trials)
+		return value_new_float (1.);
+
+	if (start != end) {
+		if (start == 0)
+			return value_new_float (pbinom (end, trials, p, TRUE, FALSE));
+		else if (end == trials)
+			return value_new_float (pbinom (start, trials, p, FALSE, FALSE));
+		else
+			return value_new_float (pbinom (end, trials, p, TRUE, FALSE) - pbinom (start - 1, trials, p, TRUE, FALSE));
+	} else
+		return value_new_float (dbinom (start, trials, p, FALSE));
+}
+
+/***************************************************************************/
 static GnmFuncHelp const help_cauchy[] = {
 	{ GNM_FUNC_HELP_NAME, F_("CAUCHY:(cumulative) probability density function of the Cauchy, "
 				 "Lorentz or Breit-Wigner distribution")},
@@ -4842,6 +4888,9 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "binomdist",    "fffb",
 	  help_binomdist, gnumeric_binomdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "binom.dist.range",    "fff|f",
+	  help_binom_dist_range, gnumeric_binom_dist_range, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
         { "cauchy", "ffb",    help_cauchy,
 	  gnumeric_cauchy, NULL, NULL, NULL, NULL,

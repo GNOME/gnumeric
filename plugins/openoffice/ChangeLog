@@ -1,5 +1,11 @@
 2009-10-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_func_map_in): we now have BINOM.DIST.RANGE
+	  (equivalent to the ODF function B)
+	* openoffice-write.c (odf_expr_func_handler): ditto
+
+2009-10-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_func_map_in): we now have NUMBERVALUE
 	* openoffice-write.c (odf_expr_func_handler): ditto
 

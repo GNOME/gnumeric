@@ -17,6 +17,7 @@
 				<function name="bernoulli"/>
 				<function name="betadist"/>
 				<function name="betainv"/>
+				<function name="binom.dist.range"/>
 				<function name="binomdist"/>
 				<function name="cauchy"/>
 				<function name="chidist"/>
