@@ -29,6 +29,7 @@
 				<function name="lower"/>
 				<function name="mid"/>
 				<function name="midb"/>
+				<function name="numbervalue"/>
 				<function name="proper"/>
 				<function name="replace"/>
 				<function name="replaceb"/>

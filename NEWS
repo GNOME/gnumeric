@@ -5,7 +5,7 @@ Andreas:
 	* Add R.PSNORM, R.DSNORM and R.DST.
 	* Fix small sort dialog problem. [#599091]
 	* A few functions from the christian liturgical calendar.
-	* Add ODF compatibility functions DAYS and ISFORMULA.
+	* Add ODF compatibility functions DAYS, ISFORMULA and NUMBERVALUE.
 	* Work around OpenOffice.org saving function names in lowercase.
 
 Jody:

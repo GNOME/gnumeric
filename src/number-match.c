@@ -855,8 +855,10 @@ format_match_fraction (char const *text, int *denlen)
 }
 
 
-static GnmValue *
-format_match_decimal_number (char const *text, GOFormatFamily *family)
+GnmValue *
+format_match_decimal_number_with_locale (char const *text, GOFormatFamily *family, 
+					 GString const *curr, GString const *thousand,
+					 GString const *decimal)
 {
 	gboolean par_open = FALSE;
 	gboolean par_close = FALSE;
@@ -864,11 +866,11 @@ format_match_decimal_number (char const *text, GOFormatFamily *family)
 	gboolean has_percent = FALSE;
 	char sign = 0;
 	GString *numstr = g_string_sized_new (20);
-	GString const *curr = go_locale_get_currency (NULL, NULL);
-	GString const *thousand = go_locale_get_thousand ();
-	GString const *decimal = go_locale_get_decimal ();
 	gboolean last_was_digit = FALSE;
-	gboolean allow1000 = (thousand->len != 0);
+	gboolean allow1000 = (thousand != NULL) && (thousand->len != 0);
+
+	g_return_val_if_fail (curr != NULL, NULL);
+	g_return_val_if_fail (decimal != NULL, NULL);
 
 	while (*text) {
 		gunichar uc = g_utf8_get_char (text);
@@ -917,7 +919,8 @@ format_match_decimal_number (char const *text, GOFormatFamily *family)
 		}
 
 		if (strncmp (decimal->str, text, decimal->len) == 0) {
-			g_string_append_len (numstr, text, decimal->len);
+			GString const *local_decimal = go_locale_get_decimal ();
+			g_string_append_len (numstr, local_decimal->str, local_decimal->len);
 			text += decimal->len;
 			allow1000 = FALSE;
 			continue;
@@ -1027,6 +1030,16 @@ format_match_decimal_number (char const *text, GOFormatFamily *family)
 
 		return value_new_float (f);
 	}
+}
+
+static GnmValue *
+format_match_decimal_number (char const *text, GOFormatFamily *family)
+{
+	GString const *curr = go_locale_get_currency (NULL, NULL);
+	GString const *thousand = go_locale_get_thousand ();
+	GString const *decimal = go_locale_get_decimal ();
+
+	return format_match_decimal_number_with_locale (text, family, curr, thousand, decimal);
 }
 
 #undef DO_SIGN

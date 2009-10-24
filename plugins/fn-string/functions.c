@@ -1044,6 +1044,65 @@ gnumeric_value (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_numbervalue[] = {
+        { GNM_FUNC_HELP_NAME, F_("VALUE:numeric value of @{text}")},
+        { GNM_FUNC_HELP_ARG, F_("text:string")},
+        { GNM_FUNC_HELP_ARG, F_("separator:decimal separator")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{text} does not look like a decimal number, "
+				 "NUMBERVALUE returns the value VALUE would "
+				 "return (ignoring the given @{separator}).")},
+ 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=NUMBERVALUE(\"$1,000\",\",\")" },
+        { GNM_FUNC_HELP_SEEALSO, "VALUE"},
+        { GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_numbervalue (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	char const *sep = value_peek_string (argv[1]);
+	if (strlen(sep) != 1 || (*sep != '.' && *sep != ',')) {
+		return value_new_error_VALUE (ei->pos);
+	}
+	
+	if (VALUE_IS_EMPTY (argv[0]) || VALUE_IS_NUMBER (argv[0]))
+		return value_dup (argv[0]);
+	else {
+		GnmValue *v;
+		char const *p = value_peek_string (argv[0]);
+		GString *curr;
+		GString *thousand;
+		GString *decimal;
+		GOFormatFamily family = GO_FORMAT_GENERAL;
+
+		decimal = g_string_new (sep);
+		thousand = g_string_new ((*sep == '.') ? ",":".");
+		curr = g_string_new ("$");
+
+		/* Skip leading spaces */
+		while (*p && g_unichar_isspace (g_utf8_get_char (p)))
+		       p = g_utf8_next_char (p);
+
+		v = format_match_decimal_number_with_locale 
+			(p, &family, curr, thousand, decimal);
+
+		g_string_free (decimal, TRUE);
+		g_string_free (thousand, TRUE);
+		g_string_free (curr, TRUE);
+
+		if (v == NULL)
+			v = format_match_number 
+				(p, NULL,
+				 workbook_date_conv (ei->pos->sheet->workbook));
+
+		if (v != NULL)
+			return v;
+		return value_new_error_VALUE (ei->pos);
+	}
+}
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_substitute[] = {
         { GNM_FUNC_HELP_NAME, F_("SUBSTITUTE:@{text} with all occurrences of @{old} replaced by @{new}")},
         { GNM_FUNC_HELP_ARG, F_("text:original text")},
@@ -1628,6 +1687,9 @@ GnmFuncDescriptor const string_functions[] = {
         { "midb",        "Sff",               help_midb,
 	  gnumeric_midb, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+        { "numbervalue",      "SS",          help_numbervalue,
+	  gnumeric_numbervalue, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
         { "proper",     "S",                         help_proper,
 	  gnumeric_proper, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

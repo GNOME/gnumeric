@@ -1,3 +1,9 @@
+2009-10-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/number-match.c (format_match_decimal_number): split into
+	  format_match_decimal_number and format_match_decimal_number_with_locale
+	* src/number-match.h (format_match_decimal_number_with_locale): new
+
 2009-10-23  Morten Welinder  <terra@gnome.org>
 
 	* src/number-match.c (handle_year): Handle pre-1900 dates.

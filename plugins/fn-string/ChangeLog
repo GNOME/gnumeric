@@ -1,3 +1,10 @@
+2009-10-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_numbervalue): new
+	(gnumeric_numbervalue): new
+	(string_functions): add NUMBERVALUE
+	* plugin.xml.in: add NUMBERVALUE
+
 2009-10-11  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.14

@@ -11,6 +11,10 @@ GnmValue   *format_match        (char const *s, GOFormat const *cur_fmt,
 				 GODateConventions const *date_conv);
 GnmValue   *format_match_number (char const *s, GOFormat const *cur_fmt,
 				 GODateConventions const *date_conv);
+GnmValue   *format_match_decimal_number_with_locale 
+                                (char const *text, GOFormatFamily *family, 
+				 GString const *curr, GString const *thousand,
+				 GString const *decimal);
 
 G_END_DECLS
 

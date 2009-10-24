@@ -1839,7 +1839,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "NOW","NOW" },
 		{ "NPER","NPER" },
 		{ "NPV","NPV" },
-		/* { "NUMBERVALUE","NUMBERVALUE" },  not implemented */
+		{ "NUMBERVALUE","NUMBERVALUE" },
 		{ "OCT2BIN","OCT2BIN" },
 		{ "OCT2DEC","OCT2DEC" },
 		{ "OCT2HEX","OCT2HEX" },
