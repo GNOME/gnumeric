@@ -1,3 +1,14 @@
+2009-10-23  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (eastersunday_calc_for_year): Renamed from
+	eastersunday_calc.  Init date here.
+	(eastersunday_calc_no_year): Simplify.
+	(eastersunday_calc): New function.  Fix a 1904-mode issue.
+	(gnumeric_eastersunday, gnumeric_ashwednesday,
+	gnumeric_ascensionthursday, gnumeric_goodfriday,
+	gnumeric_pentecostsunday): Just call eastersunday_calc with the
+	right offset.
+
 2009-10-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (gnumeric_ashwednesday): initialize year

@@ -51,7 +51,7 @@ make_date (GnmValue *res)
 }
 
 static void
-eastersunday_calc (int year, GDate *date)
+eastersunday_calc_for_year (int year, GDate *date)
 {
 	int month;
 	int day;
@@ -69,9 +69,8 @@ eastersunday_calc (int year, GDate *date)
 	month = 3 + (l + 40) / 44;
 	day = l + 28 - 31 * (month / 4);
 
-	g_date_set_dmy (date, 1, 1, (int)year);
-	gnm_date_add_months (date, (int)month - 1);
-	gnm_date_add_days (date, (int)day - 1);
+	g_date_clear (date, 1);
+	g_date_set_dmy (date, day, month, year);
 }
 
 static void
@@ -82,13 +81,10 @@ eastersunday_calc_no_year (GDate *date, GODateConventions const *conv, int diff)
 
 	go_date_serial_to_g (date, today, conv);
 	year = g_date_get_year (date);
-	g_date_clear (date, 1);
-	eastersunday_calc (year, date);
+	eastersunday_calc_for_year (year, date);
 	serial = go_date_g_to_serial (date, conv) + diff;
-	if (serial < today) {
-		g_date_clear (date, 1);
-		eastersunday_calc (year + 1, date);
-	}
+	if (serial < today)
+		eastersunday_calc_for_year (year + 1, date);
 }
 
 static int
@@ -107,6 +103,35 @@ adjust_year (int year, GODateConventions const *conv)
 		return -1;
 	else
 		return year;
+}
+
+static GnmValue *
+eastersunday_calc (GnmValue const *val, GnmFuncEvalInfo *ei, int diff)
+{
+	GODateConventions const *conv = DATE_CONV (ei->pos);
+	GDate date;
+	int serial;
+
+	if (val) {
+		int year = adjust_year (value_get_as_int (val), conv);
+
+		if (year < 0)
+			return value_new_error_NUM (ei->pos);
+
+		eastersunday_calc_for_year (year, &date);
+	} else
+		eastersunday_calc_no_year (&date, conv, diff);
+
+	serial = go_date_g_to_serial (&date, conv) + diff;
+
+	if (diff < 0 &&
+	    serial > 0 && serial <= 60 &&
+	    go_date_convention_base (conv) == 1900) {
+		/* We crossed the 29-Feb-1900 hole in the 1900 method.  */
+		serial--;
+	}
+
+	return make_date (value_new_int (serial));
 }
 
 /***************************************************************************/
@@ -128,23 +153,7 @@ static GnmFuncHelp const help_eastersunday[] = {
 static GnmValue *
 gnumeric_eastersunday (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 {
-	int year;
-	GDate date;
-	GODateConventions const *conv = DATE_CONV (ei->pos);
-
-	g_date_clear (&date, 1);
-		
-	if (argv [0]) {
-		year  = adjust_year (value_get_as_int (argv [0]), conv);
-		
-		if (year < 0)
-			return value_new_error_NUM (ei->pos);
-		
-		eastersunday_calc (year, &date);
-	} else
-		eastersunday_calc_no_year (&date, conv, 0);
-	
-	return make_date (value_new_int (go_date_g_to_serial (&date, conv)));
+	return eastersunday_calc (argv[0], ei, 0);
 }
 
 
@@ -164,23 +173,7 @@ static GnmFuncHelp const help_ashwednesday[] = {
 static GnmValue *
 gnumeric_ashwednesday (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 {
-	int year = 0;
-	GDate date;
-	GODateConventions const *conv = DATE_CONV (ei->pos);
-
-	g_date_clear (&date, 1);
-		
-	if (argv [0]) {
-		year  = adjust_year (value_get_as_int (argv [0]), conv);
-		
-		if (year < 0)
-			return value_new_error_NUM (ei->pos);
-		
-		eastersunday_calc (year, &date);
-	} else
-		eastersunday_calc_no_year (&date, conv, -46);
-	return make_date (value_new_int (go_date_g_to_serial (&date, conv) - 46 
-					 - ((year == 1900)? 1 : 0)));
+	return eastersunday_calc (argv[0], ei, -46);
 }
 
 
@@ -200,22 +193,7 @@ static GnmFuncHelp const help_pentecostsunday[] = {
 static GnmValue *
 gnumeric_pentecostsunday (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 {
-	int year;
-	GDate date;
-	GODateConventions const *conv = DATE_CONV (ei->pos);
-
-	g_date_clear (&date, 1);
-		
-	if (argv [0]) {
-		year  = adjust_year (value_get_as_int (argv [0]), conv);
-		
-		if (year < 0)
-			return value_new_error_NUM (ei->pos);
-		
-		eastersunday_calc (year, &date);
-	} else
-		eastersunday_calc_no_year (&date, conv, 49);
-	return make_date (value_new_int (go_date_g_to_serial (&date, conv) + 49));
+	return eastersunday_calc (argv[0], ei, +49);
 }
 
 /***************************************************************************/
@@ -234,22 +212,7 @@ static GnmFuncHelp const help_goodfriday[] = {
 static GnmValue *
 gnumeric_goodfriday (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 {
-	int year;
-	GDate date;
-	GODateConventions const *conv = DATE_CONV (ei->pos);
-
-	g_date_clear (&date, 1);
-		
-	if (argv [0]) {
-		year  = adjust_year (value_get_as_int (argv [0]), conv);
-		
-		if (year < 0)
-			return value_new_error_NUM (ei->pos);
-		
-		eastersunday_calc (year, &date);
-	} else
-		eastersunday_calc_no_year (&date, conv, -2);
-	return make_date (value_new_int (go_date_g_to_serial (&date, conv) - 2));
+	return eastersunday_calc (argv[0], ei, -2);
 }
 
 /***************************************************************************/
@@ -268,22 +231,7 @@ static GnmFuncHelp const help_ascensionthursday[] = {
 static GnmValue *
 gnumeric_ascensionthursday (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 {
-	int year;
-	GDate date;
-	GODateConventions const *conv = DATE_CONV (ei->pos);
-
-	g_date_clear (&date, 1);
-		
-	if (argv [0]) {
-		year  = adjust_year (value_get_as_int (argv [0]), conv);
-		
-		if (year < 0)
-			return value_new_error_NUM (ei->pos);
-		
-		eastersunday_calc (year, &date);
-	} else
-		eastersunday_calc_no_year (&date, conv, 39);
-	return make_date (value_new_int (go_date_g_to_serial (&date, conv) + 39));
+	return eastersunday_calc (argv[0], ei, +39);
 }
 
 /***************************************************************************/
