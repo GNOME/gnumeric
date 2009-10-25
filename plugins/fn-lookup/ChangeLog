@@ -1,3 +1,10 @@
+2009-10-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_sheets): new
+	(gnumeric_sheets): new
+	(stat_functions): add SHEETS
+	* plugin.xml.in: add SHEETS
+
 2009-10-11  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.14

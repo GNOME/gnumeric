@@ -39,6 +39,8 @@
 #include <expr-name.h>
 #include <mathfunc.h>
 #include <gutils.h>
+#include <workbook.h>
+#include <sheet.h>
 #include <parse-util.h>
 #include <gnm-i18n.h>
 
@@ -1533,6 +1535,46 @@ gnumeric_rows (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_sheets[] = {
+	{ GNM_FUNC_HELP_NAME, F_("SHEETS:number of sheets in @{reference}")},
+        { GNM_FUNC_HELP_ARG, F_("reference:array, reference, or range, defaults to the maximum range")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{reference} is neither an array nor a reference nor a range, "
+				 "SHEETS returns #VALUE!")},
+        { GNM_FUNC_HELP_EXAMPLES, "=SHEETS(Sheet1!H7:Sheet2!I13)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=SHEETS()" },
+        { GNM_FUNC_HELP_SEEALSO, "COLUMNS,ROWS"},
+        { GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_sheets (GnmFuncEvalInfo *ei, GnmValue const * const *args)
+{
+	Workbook const *wb = ei->pos->sheet->workbook;
+	GnmValue const *v = args[0];
+
+	if(v) {
+		if (v->type == VALUE_CELLRANGE) {
+			GnmRangeRef const *r = &v->v_range.cell;
+			int ans_min, ans_max, a, b;
+
+			a = g_slist_index (workbook_sheets (wb), r->a.sheet);
+			b = g_slist_index (workbook_sheets (wb), r->b.sheet);
+			
+			ans_min = (a < b) ? a : b;
+			ans_max = (a < b) ? b : a;
+
+			if (ans_min == -1)
+				return value_new_int (1);
+
+			return value_new_int (ans_max - ans_min + 1);
+		} else 
+			return value_new_int (1);
+	} else
+		return value_new_int (workbook_sheet_count (wb));
+}
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_hyperlink[] = {
 	{ GNM_FUNC_HELP_NAME, F_("HYPERLINK:second or first arguments")},
         { GNM_FUNC_HELP_ARG, F_("link_location:string")},
@@ -1639,6 +1681,9 @@ GnmFuncDescriptor const lookup_functions[] = {
 	{ "rows",      "A",
 	  help_rows,     gnumeric_rows, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "sheets",      "|A",
+	  help_sheets,     gnumeric_sheets, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "transpose", "A",
 	  help_transpose, gnumeric_transpose, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
