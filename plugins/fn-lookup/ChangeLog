@@ -2,14 +2,14 @@
 
 	* functions.c (help_sheet): new
 	(gnumeric_sheet): new
-	(stat_functions): add SHEET
+	(lookup_functions): add SHEET
 	* plugin.xml.in: add SHEET
 
 2009-10-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_sheets): new
 	(gnumeric_sheets): new
-	(stat_functions): add SHEETS
+	(lookup_functions): add SHEETS
 	* plugin.xml.in: add SHEETS
 
 2009-10-11  Morten Welinder <terra@gnome.org>

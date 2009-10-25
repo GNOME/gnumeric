@@ -2,7 +2,7 @@
 
 	* functions.c (help_ifna): new
 	(gnumeric_ifna): new
-	(stat_functions): add IFNA
+	(logical_functions): add IFNA
 	* plugin.xml.in: add IFNA
 
 2009-10-11  Morten Welinder <terra@gnome.org>
