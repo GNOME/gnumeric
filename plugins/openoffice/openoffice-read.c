@@ -4659,7 +4659,6 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "COUNTIFS","ODF.COUNTIFS" },
 		{ "DDE","ODF.DDE" },
 		{ "MULTIPLE.OPERATIONS","ODF.MULTIPLE.OPERATIONS" },
-		{ "SHEET","ODF.SHEET" },
 		{ "SUMIFS","ODF.SUMIFS" },
 
 /* The following is a complete list of the functions defined in ODF OpenFormula draft 20090508 */

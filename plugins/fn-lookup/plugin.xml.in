@@ -26,6 +26,7 @@
 				<function name="offset"/>
 				<function name="row"/>
 				<function name="rows"/>
+				<function name="sheet"/>
 				<function name="sheets"/>
 				<function name="transpose"/>
 				<function name="vlookup"/>

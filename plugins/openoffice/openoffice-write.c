@@ -1896,7 +1896,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "SECH","SECH" },
 		{ "SECOND","SECOND" },
 		{ "SERIESSUM","SERIESSUM" },
-		/* { "SHEET","SHEET" }, not implemented  */
+		{ "SHEET","SHEET" }, 
 		{ "SHEETS","SHEETS" },  
 		{ "SIGN","SIGN" },
 		{ "SIN","SIN" },

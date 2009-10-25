@@ -1574,6 +1574,57 @@ gnumeric_sheets (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 }
 
 /***************************************************************************/
+static GnmFuncHelp const help_sheet[] = {
+	{ GNM_FUNC_HELP_NAME, F_("SHEET:sheet number of @{reference}")},
+        { GNM_FUNC_HELP_ARG, F_("reference:reference or literal sheet name, defaults to the current sheet")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{reference} is neither a reference nor a literal sheet name, "
+				 "SHEETS returns #VALUE!")},
+        { GNM_FUNC_HELP_EXAMPLES, "=SHEET(Sheet2!H7)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=SHEET(Sheet2!H7:Z8)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=SHEET()" },
+        { GNM_FUNC_HELP_EXAMPLES, "=SHEET(\"Sheet1\")" },
+        { GNM_FUNC_HELP_SEEALSO, "SHEETS,ROW,COLUMNNUMBER"},
+        { GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_sheet (GnmFuncEvalInfo *ei, GnmValue const * const *args)
+{
+	Workbook const *wb = ei->pos->sheet->workbook;
+	GnmValue const *v = args[0];
+
+	if(v) {
+		if (v->type == VALUE_CELLRANGE) {
+			GnmRangeRef const *r = &v->v_range.cell;
+			int a, b;
+
+			a = g_slist_index (workbook_sheets (wb), r->a.sheet);
+			b = g_slist_index (workbook_sheets (wb), r->b.sheet);
+
+			if (a == -1 && b == -1)
+				return value_new_int (1 + g_slist_index 
+						      (workbook_sheets (wb), 
+						       ei->pos->sheet));
+			else if (a == b || (a * b) < 0)
+				return value_new_int (1 + ((a < b) ? b : a));
+			else
+				return value_new_error_NUM (ei->pos);
+		} else if (v->type == VALUE_STRING) {
+			Sheet *sheet = workbook_sheet_by_name 
+				(wb, value_peek_string (v));
+			if (sheet == NULL)
+				return value_new_error_NUM (ei->pos);
+			else
+				return value_new_int 
+					(1 + g_slist_index (workbook_sheets (wb), 
+							    sheet));
+		} else
+			return value_new_error_VALUE (ei->pos);	
+	} else
+		return value_new_int (1 + g_slist_index (workbook_sheets (wb), 
+							 ei->pos->sheet));
+}
+/***************************************************************************/
 
 static GnmFuncHelp const help_hyperlink[] = {
 	{ GNM_FUNC_HELP_NAME, F_("HYPERLINK:second or first arguments")},
@@ -1683,6 +1734,9 @@ GnmFuncDescriptor const lookup_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "sheets",      "|A",
 	  help_sheets,     gnumeric_sheets, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{ "sheet",      "|?",
+	  help_sheet,     gnumeric_sheet, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "transpose", "A",
 	  help_transpose, gnumeric_transpose, NULL, NULL, NULL, NULL,
