@@ -296,11 +296,9 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 		ecol = CONSTRAINT_COL + MAX_COL - 1;
 	for (i = 0; i < ctxt->n_cols; i++) {
 		int col = VARIABLE_COL + i % MAX_COL;
-		mps_set_cell_float (sh, col,
-				    VARIABLE_ROW + (i / MAX_COL), 0.0);
-		mps_set_cell_float (sh, col,
-				    VARIABLE_ROW + n_rows_per_fn
-				    + (i / MAX_COL) + 1,
+		int row = VARIABLE_ROW + i / MAX_COL;
+		mps_set_cell_float (sh, col, row, 0.0);
+		mps_set_cell_float (sh, col, row + (n_rows_per_fn + 1),
 				    ctxt->objective_row
 				    ? ctxt->matrix[ctxt->objective_row->index][i]
 				    : 0);
@@ -316,10 +314,9 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 
 	/* Initialize var_range to contain the range name of the
 	 * objective function variables. */
-	i = 0;
-	range_init (&v_range, VARIABLE_COL,
-		    VARIABLE_ROW + n_rows_per_fn - 1,
-		    (ctxt->n_cols % MAX_COL),
+	range_init (&v_range,
+		    VARIABLE_COL, VARIABLE_ROW,
+		    VARIABLE_COL + MIN (MAX_COL, ctxt->n_cols) - 1,
 		    VARIABLE_ROW + n_rows_per_fn - 1);
 
 	i = 0;
@@ -367,7 +364,11 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 
 
 		  /* Add LHS field using SUMPRODUCT function. */
-		  range_init (&range, col, r, ctxt->n_cols, r);
+		  range_init (&range,
+			      col, r,
+			      col + MIN (MAX_COL, ctxt->n_cols) - 1,
+			      r + (n_rows_per_fn - 1));
+
 		  cell = sheet_cell_fetch (sh, ecol + 1, r);
 		  texpr = gnm_expr_top_new
 			  (gnm_expr_new_funcall2
@@ -426,10 +427,10 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 	}
 
 	/* Write the objective fn. */
-	range_init (&range, VARIABLE_COL,
-		    VARIABLE_ROW + 1 + n_rows_per_fn,
-		    ctxt->n_cols,
-		    VARIABLE_ROW + 1 + n_rows_per_fn);
+	range_init (&range,
+		    VARIABLE_COL, VARIABLE_ROW + (1 + n_rows_per_fn),
+		    VARIABLE_COL + MIN (MAX_COL, ctxt->n_cols) - 1,
+		    VARIABLE_ROW + 2 * n_rows_per_fn);
 	texpr = gnm_expr_top_new
 		(gnm_expr_new_funcall2
 		 (gnm_func_lookup ("SUMPRODUCT", NULL),
@@ -443,9 +444,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 	cell_queue_recalc (cell);
 
 	/* Store the input cell range for the Solver dialog. */
-	range_init (&range, VARIABLE_COL, VARIABLE_ROW,
-		    MAX_COL, VARIABLE_ROW + n_rows_per_fn - 1);
-	param->input_entry_str = g_strdup (range_as_string (&range));
+	param->input_entry_str = g_strdup (range_as_string (&v_range));
 }
 
 /* Creates the spreadsheet model. */
