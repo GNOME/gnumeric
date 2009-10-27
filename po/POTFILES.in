@@ -69,6 +69,8 @@ plugins/html/roff.c
 plugins/lotus-123/boot.c
 plugins/lotus-123/lotus.c
 plugins/lotus-123/plugin.xml.in
+plugins/lpsolve/lpsolve-write.c
+plugins/lpsolve/plugin.xml.in
 plugins/mps/mps.c
 plugins/mps/parser.c
 plugins/mps/plugin.xml.in

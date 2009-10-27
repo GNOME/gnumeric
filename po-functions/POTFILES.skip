@@ -41,6 +41,7 @@ plugins/gnome-db/ui.xml.in
 plugins/gnome-glossary/plugin.xml.in
 plugins/html/plugin.xml.in
 plugins/lotus-123/plugin.xml.in
+plugins/lpsolve/plugin.xml.in
 plugins/mps/plugin.xml.in
 plugins/oleo/plugin.xml.in
 plugins/openoffice/plugin.xml.in
