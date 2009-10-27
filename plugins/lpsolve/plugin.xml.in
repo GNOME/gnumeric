@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin id="Gnumeric_html">
+<plugin id="Gnumeric_lpsolve">
 	<information>
 		<_name>LPSolve</_name>
 		<_description>Export to LPSolve</_description>
@@ -8,7 +8,11 @@
 		<attribute name="module_file" value="lpsolve"/>
 	</loader>
 	<services>
-		<service type="file_saver" id="lpsolve" file_extension="lp" format_level="write_only">
+		<service type="file_saver"
+			 id="lpsolve"
+			 file_extension="lp"
+			 mime_type="application/lpsolve"
+			 format_level="write_only">
 			<information>
 				<_description>LPSolve</_description>
 			</information>
