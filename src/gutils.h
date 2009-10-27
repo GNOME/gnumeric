@@ -4,6 +4,7 @@
 
 #include "gnumeric.h"
 #include <goffice/goffice.h>
+#include <numbers.h>
 
 G_BEGIN_DECLS
 
@@ -28,6 +29,8 @@ GnmLocale *gnm_push_C_locale (void);
 void	   gnm_pop_C_locale  (GnmLocale *locale);
 
 gboolean   gnm_debug_flag (const char *flag);
+
+void       gnm_string_add_number (GString *buf, gnm_float d);
 
 G_END_DECLS
 

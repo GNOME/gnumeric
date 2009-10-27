@@ -17,7 +17,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <gnumeric.h>
+#include <boot.h>
 #include <numbers.h>
 #include <workbook-view.h>
 #include <sheet.h>
@@ -27,10 +27,10 @@
 #include <solver.h>
 #include <ranges.h>
 #include <parse-util.h>
+#include <gutils.h>
 #include <goffice/goffice.h>
 #include <glib/gi18n-lib.h>
 
-#include <gsf/gsf-output.h>
 #include <string.h>
 
 
@@ -85,30 +85,6 @@ lpsolve_var_name (GnmCell const *cell)
 	return cell_name (cell);
 }
 
-static double
-force_round (double d)
-{
-	volatile double *pd = &d;
-	return *pd;
-}
-
-static void
-lpsolve_add_number (GString *buf, double d)
-{
-	char tmp[G_ASCII_DTOSTR_BUF_SIZE + 1];
-	double d1 = force_round (d);
-	double d2;
-
-	g_ascii_formatd (tmp, G_ASCII_DTOSTR_BUF_SIZE, "%.15g", d1);
-
-	d2 = force_round (g_ascii_strtod (tmp, NULL));
-	if (d1 != d2) {
-		g_ascii_formatd (tmp, G_ASCII_DTOSTR_BUF_SIZE, "%.16g", d1);
-	}
-
-	g_string_append (buf, tmp);
-}
-
 static gboolean
 lpsolve_affine_func (GString *dst, GnmCell *target,
 		     GSList *input_cells, GError **err)
@@ -140,7 +116,7 @@ lpsolve_affine_func (GString *dst, GnmCell *target,
 		x = gnm_abs (x);
 
 		if (x != 1) {
-			lpsolve_add_number (dst, x);
+			gnm_string_add_number (dst, x);
 			g_string_append_c (dst, ' ');
 		}
 
@@ -150,7 +126,7 @@ lpsolve_affine_func (GString *dst, GnmCell *target,
 	}
 
 	if (!any || y)
-		lpsolve_add_number (dst, y);
+		gnm_string_add_number (dst, y);
 
 	return TRUE;
 }
@@ -171,18 +147,21 @@ cb_grab_cells (GnmCellIter const *iter, gpointer user)
 static GString *
 lpsolve_create_program (Sheet *sheet, GError **err)
 {
-	SolverParameters const *sp = sheet->solver_parameters;
+	SolverParameters *sp = sheet->solver_parameters;
 	GString *prg = NULL;
 	GString *constraints = g_string_new (NULL);
 	GString *declarations = g_string_new (NULL);
 	GString *objfunc = g_string_new (NULL);
-	GSList *l, *input_cells = NULL;
+	GSList *l;
 
 	/* This is insane -- why do we keep a string?  */
 	{
 		GnmEvalPos ep;
 		GnmRange r;
 		GnmValue *vr;
+
+		g_slist_free (sp->input_cells);
+		sp->input_cells = NULL;
 
 		if (!range_parse (&r, sp->input_entry_str,
 				  gnm_sheet_get_size (sheet)))
@@ -191,7 +170,8 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 		vr = value_new_cellrange_r (sheet, &r);
 		eval_pos_init_sheet (&ep, sheet);
 		workbook_foreach_cell_in_range (&ep, vr, CELL_ITER_ALL,
-						cb_grab_cells, &input_cells);
+						cb_grab_cells,
+						&sp->input_cells);
 		value_release (vr);
 	}
 
@@ -200,7 +180,7 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 	switch (sp->problem_type) {
 	case SolverEqualTo:
 		if (!lpsolve_affine_func (constraints, sp->target_cell,
-					  input_cells, err))
+					  sp->input_cells, err))
 			goto fail;
 		/* FIXME -- what value goes here?  */
 		g_string_append (constraints, " = 42;\n");
@@ -216,7 +196,7 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 	}
 
 	if (!lpsolve_affine_func (objfunc, sp->target_cell,
-				  input_cells, err))
+				  sp->input_cells, err))
 		goto fail;
 	g_string_append (objfunc, ";\n");
 
@@ -224,7 +204,7 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 
 	if (sp->options.assume_non_negative) {
 		GSList *l;
-		for (l = input_cells; l; l = l->next) {
+		for (l = sp->input_cells; l; l = l->next) {
 			GnmCell *cell = l->data;
 			g_string_append (constraints,
 					 lpsolve_var_name (cell));
@@ -234,7 +214,7 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 
 	if (sp->options.assume_discrete) {
 		GSList *l;
-		for (l = input_cells; l; l = l->next) {
+		for (l = sp->input_cells; l; l = l->next) {
 			GnmCell *cell = l->data;
 			g_string_append (declarations, "int ");
 			g_string_append (declarations,
@@ -294,7 +274,7 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 					gboolean ok;
 
 					ok = lpsolve_affine_func
-						(constraints, lhs, input_cells, err);
+						(constraints, lhs, sp->input_cells, err);
 					if (!ok)
 						goto fail;
 
@@ -303,7 +283,7 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 					g_string_append_c (constraints, ' ');
 
 					ok = lpsolve_affine_func
-						(constraints, rhs, input_cells, err);
+						(constraints, rhs, sp->input_cells, err);
 					if (!ok)
 						goto fail;
 
@@ -325,7 +305,7 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 	go_string_append_gstring (prg, constraints);
 	g_string_append (prg, "\n/* Declarations */\n");
 	go_string_append_gstring (prg, declarations);
-	g_string_append (prg, "\n\n/* The End */\n");
+	g_string_append (prg, "\n/* The End */\n");
 
 fail:
 	g_string_free (objfunc, TRUE);
@@ -337,19 +317,19 @@ fail:
 
 void
 lpsolve_file_save (GOFileSaver const *fs, GOIOContext *io_context,
-		   WorkbookView const *wb_view, GsfOutput *output);
-
-void
-lpsolve_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		   WorkbookView const *wb_view, GsfOutput *output)
 {
 	Sheet *sheet = wb_view_cur_sheet (wb_view);
 	GError *err = NULL;
 	GString *prg;
+	GnmLocale *locale;
 
 	workbook_recalc (sheet->workbook);
 
+	locale = gnm_push_C_locale ();
 	prg = lpsolve_create_program (sheet, &err);
+	gnm_pop_C_locale (locale);
+
 	if (!prg) {
 		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
 					     err->message);
