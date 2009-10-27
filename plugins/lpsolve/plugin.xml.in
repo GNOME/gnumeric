@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_html">
+	<information>
+		<_name>LPSolve</_name>
+		<_description>Export to LPSolve</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="lpsolve"/>
+	</loader>
+	<services>
+		<service type="file_saver" id="lpsolve" file_extension="lp" format_level="write_only">
+			<information>
+				<_description>LPSolve</_description>
+			</information>
+		</service>
+	</services>
+</plugin>
