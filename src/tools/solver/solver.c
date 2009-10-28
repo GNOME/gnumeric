@@ -887,6 +887,7 @@ solver_insert_rows (Sheet *sheet, int row, int count)
 		        range.end.col   = input_range->v_range.cell.b.col;
 		        range.end.row   = input_range->v_range.cell.b.row +
 			        count;
+			g_free (param->input_entry_str);
 			param->input_entry_str =
 			        g_strdup (global_range_name (sheet, &range));
 		}
@@ -928,6 +929,7 @@ solver_insert_cols (Sheet *sheet, int col, int count)
 		range.start.row = input_range->v_range.cell.a.row;
 		range.end.col   = input_range->v_range.cell.b.col + count;
 		range.end.row   = input_range->v_range.cell.b.row;
+		g_free (param->input_entry_str);
 		param->input_entry_str = g_strdup (
 			global_range_name (sheet, &range));
 	}
@@ -968,6 +970,7 @@ solver_delete_rows (Sheet *sheet, int row, int count)
 		range.start.row = input_range->v_range.cell.a.row - count;
 		range.end.col   = input_range->v_range.cell.b.col;
 		range.end.row   = input_range->v_range.cell.b.row - count;
+		g_free (param->input_entry_str);
 		if (range.start.row < row || range.end.row < row)
 			param->input_entry_str = g_strdup ("");
 		else
@@ -1013,6 +1016,7 @@ solver_delete_cols (Sheet *sheet, int col, int count)
 		        range.end.col   = input_range->v_range.cell.b.col -
 			        count;
 		        range.end.row   = input_range->v_range.cell.b.row;
+			g_free (param->input_entry_str);
 			if (range.start.col < col || range.end.col < col)
 			        param->input_entry_str = g_strdup ("");
 			else

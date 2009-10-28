@@ -29,6 +29,7 @@ Morten:
 	* Fix Alt-Enter problems.  [#597295]
 	* Make DATE work for pre-1900 dates.  [#599365]
 	* Add lpsolve output format.
+	* Plug solver leaks.
 
 Yaacov Zamir:
        * Hebrew Calendar functions.  [#153738]

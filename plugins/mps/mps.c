@@ -444,6 +444,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 	cell_queue_recalc (cell);
 
 	/* Store the input cell range for the Solver dialog. */
+	g_free (param->input_entry_str);
 	param->input_entry_str = g_strdup (range_as_string (&v_range));
 }
 
@@ -565,6 +566,7 @@ static void
 mps_input_context_destroy (MpsInputContext *ctxt)
 {
         GSList *current;
+	int i;
 
 	go_io_progress_unset (ctxt->io_context);
 
@@ -610,6 +612,8 @@ mps_input_context_destroy (MpsInputContext *ctxt)
 	g_free (ctxt->col_name_tbl);
 	ctxt->col_name_tbl = NULL;
 
+	for (i = 0; i < ctxt->n_rows + ctxt->n_bounds; i++)
+		g_free (ctxt->matrix[i]);
 	g_free (ctxt->matrix);
 	ctxt->matrix = NULL;
 
