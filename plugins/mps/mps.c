@@ -612,10 +612,12 @@ mps_input_context_destroy (MpsInputContext *ctxt)
 	g_free (ctxt->col_name_tbl);
 	ctxt->col_name_tbl = NULL;
 
-	for (i = 0; i < ctxt->n_rows + ctxt->n_bounds; i++)
-		g_free (ctxt->matrix[i]);
-	g_free (ctxt->matrix);
-	ctxt->matrix = NULL;
+	if (ctxt->matrix) {
+		for (i = 0; i < ctxt->n_rows + ctxt->n_bounds; i++)
+			g_free (ctxt->matrix[i]);
+		g_free (ctxt->matrix);
+		ctxt->matrix = NULL;
+	}
 
 	g_free (ctxt->name);
 	g_object_unref (G_OBJECT (ctxt->input)); ctxt->input = NULL;
