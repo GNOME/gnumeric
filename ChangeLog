@@ -1,5 +1,8 @@
 2009-10-27  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (wbcg_error_error): Don't xml-escape the text.
+	Fixes #599816.
+
 	* src/gutils.c (gnm_string_add_number): New function.
 
 2009-10-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
