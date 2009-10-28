@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin id="Gnumeric_lpsolve">
 	<information>
-		<_name>LPSolve</_name>
-		<_description>Export to LPSolve</_description>
+		<_name>LPSolve Linear Program Solver Interface</_name>
+		<_description>Specialized Export of Solver Data to LPSolve</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="lpsolve"/>
@@ -10,11 +10,12 @@
 	<services>
 		<service type="file_saver"
 			 id="lpsolve"
+			 save_scope="sheet"
 			 file_extension="lp"
 			 mime_type="application/lpsolve"
 			 format_level="write_only">
 			<information>
-				<_description>LPSolve</_description>
+				<_description>LPSolve Linear Program Solver</_description>
 			</information>
 		</service>
 	</services>
