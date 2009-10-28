@@ -893,44 +893,7 @@ static GNM_ACTION_DEF (cb_data_sort)		{ dialog_cell_sort (wbcg); }
 static GNM_ACTION_DEF (cb_data_shuffle)		{ dialog_shuffle (wbcg); }
 static GNM_ACTION_DEF (cb_data_import_text)	{ gui_file_open (wbcg, "Gnumeric_stf:stf_assistant"); }
 
-static GNM_ACTION_DEF (cb_auto_filter)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	SheetView *sv = wb_control_cur_sheet_view (wbc);
-	GnmFilter *filter = sv_editpos_in_filter (sv);
-
-#warning Add undo/redo
-	if (filter == NULL) {
-		GnmRange region;
-		GnmRange const *src = selection_first_range (sv,
-			GO_CMD_CONTEXT (wbcg), _("Add Filter"));
-
-		if (src == NULL)
-			return;
-
-		/* only one row selected -- assume that the user wants to
-		 * filter the region below this row. */
-		region = *src;
-		if (src->start.row == src->end.row)
-			gnm_sheet_guess_region  (sv->sheet, &region);
-		if (region.start.row == region.end.row) {
-			go_cmd_context_error_invalid	(GO_CMD_CONTEXT (wbcg),
-				 _("AutoFilter"), _("Requires more than 1 row"));
-			return;
-		}
-		gnm_filter_new (sv->sheet, &region);
-	} else {
-		/* keep distinct to simplify undo/redo later */
-		gnm_filter_remove (filter);
-		gnm_filter_unref (filter);
-	}
-	/* ensure that the colour changes on the filtered row headers */
-	sheet_redraw_all (sv->sheet, TRUE);
-
-	sheet_mark_dirty (sv->sheet);
-	sheet_update (sv->sheet);
-}
-
+static GNM_ACTION_DEF (cb_auto_filter)          { cmd_autofilter_add_remove (WORKBOOK_CONTROL (wbcg)); }
 static GNM_ACTION_DEF (cb_show_all)		{ filter_show_all (wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_data_filter)		{ dialog_advanced_filter (wbcg); }
 static GNM_ACTION_DEF (cb_data_validate)	{ dialog_cell_format (wbcg, FD_VALIDATION); }

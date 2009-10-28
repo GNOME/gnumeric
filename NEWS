@@ -9,6 +9,7 @@ Andreas:
 	  SHEET and NUMBERVALUE.
 	* Work around OpenOffice.org saving function names in lowercase.
 	* Add BINOM.DIST.RANGE (equivalent to the ODF function B).
+	* Make Autofilter addition & removal undoable [#478152]
 
 Jody:
 	* First steps towards a turnkey win32 build.

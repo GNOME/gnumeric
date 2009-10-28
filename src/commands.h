@@ -138,6 +138,8 @@ gboolean cmd_tabulate (WorkbookControl *wbc, gpointer data);
 
 gboolean cmd_toggle_rtl (WorkbookControl *wbc, Sheet *sheet);
 
+gboolean cmd_autofilter_add_remove (WorkbookControl *wbc);
+
 /**************************  Sheet Objects **************************************/
 
 gboolean cmd_objects_delete	(WorkbookControl *wbc, GSList *objects,
@@ -199,8 +201,6 @@ gboolean cmd_so_set_adjustment (WorkbookControl *wbc, SheetObject *so,
 				int lower, int upper,
 				int step, int page,
 				char const *undo_label);
-
-
 
 
 /********************************************************************************/

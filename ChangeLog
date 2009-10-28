@@ -1,3 +1,21 @@
+2009-10-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.h (cmd_autofilter_add_remove): new
+	* src/commands.c (cmd_autofilter_add_remove): new
+	(cmd_autofilter_add_remove_impl): new
+	(cmd_autofilter_add_remove_undo): new
+	(cmd_autofilter_add_remove_redo): new
+	(cmd_autofilter_add_remove_finalize): new
+	fixes # 478152
+	* src/sheet-filter.h (gnm_filter_attach): publish
+	* src/sheet-filter.c (gnm_filter_attach): publish
+	  create field selectors here rather than in 
+	(gnm_filter_new)
+	(gnm_filter_remove): delete field selectors here rather than in
+	(gnm_filter_unref)
+	* src/wbc-gtk-actions.c (cb_auto_filter): just call 
+	  cmd_autofilter_add_remove
+
 2009-10-27  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbcg_error_error): Don't xml-escape the text.

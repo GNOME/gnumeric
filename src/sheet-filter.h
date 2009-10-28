@@ -75,6 +75,7 @@ GnmFilter		 *gnm_filter_dup	    (GnmFilter const *src,
 GnmFilter *               gnm_filter_ref            (GnmFilter *filter);
 void			  gnm_filter_unref	    (GnmFilter *filter);
 void			  gnm_filter_remove	    (GnmFilter *filter);
+void			  gnm_filter_attach	    (GnmFilter *filter, Sheet *sheet);
 GnmFilterCondition const *gnm_filter_get_condition  (GnmFilter const *filter, unsigned i);
 void			  gnm_filter_set_condition  (GnmFilter *filter, unsigned i,
 						     GnmFilterCondition *cond,

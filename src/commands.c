@@ -64,7 +64,9 @@
 #include "sheet-object.h"
 #include "sheet-object-graph.h"
 #include "sheet-control.h"
+#include "sheet-utils.h"
 #include "style-color.h"
+#include "sheet-filter.h"
 #include "auto-format.h"
 #include "tools/dao.h"
 #include "gnumeric-gconf.h"
@@ -7568,6 +7570,113 @@ cmd_so_set_adjustment (WorkbookControl *wbc,
 	me->old_horizontal = horizontal;
 
 	me->old_link = sheet_widget_adjustment_get_link (so);
+
+	return gnm_command_push_undo (wbc, G_OBJECT (me));
+}
+
+/******************************************************************/
+
+#define CMD_AUTOFILTER_ADD_REMOVE_TYPE        (cmd_autofilter_add_remove_get_type ())
+#define CMD_AUTOFILTER_ADD_REMOVE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_AUTOFILTER_ADD_REMOVE_TYPE, CmdAutofilterAddRemove))
+
+typedef struct {
+	GnmCommand cmd;
+	
+	GnmFilter *filter;
+	gboolean   add;
+} CmdAutofilterAddRemove;
+
+MAKE_GNM_COMMAND (CmdAutofilterAddRemove, cmd_autofilter_add_remove, NULL)
+
+static gboolean
+cmd_autofilter_add_remove_impl (CmdAutofilterAddRemove *me, gboolean add)
+{
+	if (add)
+		gnm_filter_attach (me->filter, me->cmd.sheet);
+	else
+		gnm_filter_remove (me->filter);	
+
+	return FALSE;
+}
+
+
+static gboolean
+cmd_autofilter_add_remove_undo (GnmCommand *cmd, WorkbookControl *wbc)
+{
+	CmdAutofilterAddRemove *me = CMD_AUTOFILTER_ADD_REMOVE (cmd);
+
+	return cmd_autofilter_add_remove_impl (me, !me->add);
+}
+
+static gboolean
+cmd_autofilter_add_remove_redo (GnmCommand *cmd, WorkbookControl *wbc)
+{
+	CmdAutofilterAddRemove *me = CMD_AUTOFILTER_ADD_REMOVE (cmd);
+
+	return cmd_autofilter_add_remove_impl (me, me->add);
+}
+
+static void
+cmd_autofilter_add_remove_finalize (GObject *cmd)
+{
+	CmdAutofilterAddRemove *me = CMD_AUTOFILTER_ADD_REMOVE (cmd);
+
+	gnm_filter_unref (me->filter);
+	gnm_command_finalize (cmd);
+}
+
+gboolean
+cmd_autofilter_add_remove (WorkbookControl *wbc)
+{
+	CmdAutofilterAddRemove *me;
+	SheetView *sv = wb_control_cur_sheet_view (wbc);
+	GnmFilter *f = sv_editpos_in_filter (sv);
+	gboolean add = FALSE;
+
+	if (f == NULL) {
+		GnmRange region;
+		GnmRange const *src = selection_first_range (sv,
+			GO_CMD_CONTEXT (wbc), _("Add Filter"));
+
+		if (src == NULL)
+			return TRUE;
+
+		/* only one row selected -- assume that the user wants to
+		 * filter the region below this row. */
+		region = *src;
+		if (src->start.row == src->end.row)
+			gnm_sheet_guess_region  (sv->sheet, &region);
+		if (region.start.row == region.end.row) {
+			go_cmd_context_error_invalid	(GO_CMD_CONTEXT (wbc),
+				 _("AutoFilter"), _("Requires more than 1 row"));
+			return TRUE;
+		}
+		f = gnm_filter_new (sv->sheet, &region);
+		if (f == NULL) {
+			go_cmd_context_error_invalid	(GO_CMD_CONTEXT (wbc),
+				 _("AutoFilter"), _("Unable to create Autofilter"));
+			return TRUE;
+		}
+		gnm_filter_remove (f);
+		add = TRUE;
+	} else 
+		gnm_filter_remove (f);
+	
+	me = g_object_new (CMD_AUTOFILTER_ADD_REMOVE_TYPE, NULL);
+
+	me->cmd.sheet = sv->sheet;
+	me->cmd.size = 1;
+
+	me->filter = f;
+	me->add = add;
+
+	me->cmd.cmd_descriptor = add ? g_strdup_printf (_("Add Autofilter to %s"), range_as_string (&(f->r))) 
+		: g_strdup_printf (_("Remove Autofilter from %s"), range_as_string (&(f->r)));
+
+	sheet_redraw_all (sv->sheet, TRUE);
+
+	sheet_mark_dirty (sv->sheet);
+	sheet_update (sv->sheet);
 
 	return gnm_command_push_undo (wbc, G_OBJECT (me));
 }

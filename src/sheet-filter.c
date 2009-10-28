@@ -570,9 +570,11 @@ gnm_filter_add_field (GnmFilter *filter, int i)
 	/* We hold a reference to fcombo */
 }
 
-static void
+void
 gnm_filter_attach (GnmFilter *filter, Sheet *sheet)
 {
+	int i;
+
 	g_return_if_fail (filter != NULL);
 	g_return_if_fail (filter->sheet == NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -582,6 +584,10 @@ gnm_filter_attach (GnmFilter *filter, Sheet *sheet)
 	filter->sheet = sheet;
 	sheet->filters = g_slist_prepend (sheet->filters, filter);
 	sheet->priv->filters_changed = TRUE;
+
+	for (i = 0 ; i < range_width (&(filter->r)); i++)
+		gnm_filter_add_field (filter, i);
+
 }
 
 
@@ -596,7 +602,6 @@ GnmFilter *
 gnm_filter_new (Sheet *sheet, GnmRange const *r)
 {
 	GnmFilter	*filter;
-	int i;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (r != NULL, NULL);
@@ -609,9 +614,6 @@ gnm_filter_new (Sheet *sheet, GnmRange const *r)
 
 	/* This creates the initial ref.  */
 	gnm_filter_attach (filter, sheet);
-
-	for (i = 0 ; i < range_width (r); i++)
-		gnm_filter_add_field (filter, i);
 
 	return filter;
 }
@@ -671,14 +673,7 @@ gnm_filter_unref (GnmFilter *filter)
 	if (filter->ref_count > 0)
 		return;
 
-	for (i = 0 ; i < filter->fields->len ; i++) {
-		SheetObject *so = g_ptr_array_index (filter->fields, i);
-		sheet_object_clear_sheet (so);
-		g_object_unref (so);
-	}
 	g_ptr_array_free (filter->fields, TRUE);
-
-	filter->fields = NULL;
 	g_free (filter);
 }
 
@@ -702,6 +697,13 @@ gnm_filter_remove (GnmFilter *filter)
 		}
 	}
 	filter->sheet = NULL;
+
+	for (i = 0 ; i < filter->fields->len ; i++) {
+		SheetObject *so = g_ptr_array_index (filter->fields, i);
+		sheet_object_clear_sheet (so);
+		g_object_unref (so);
+	}
+	g_ptr_array_set_size (filter->fields, 0);
 }
 
 /**
