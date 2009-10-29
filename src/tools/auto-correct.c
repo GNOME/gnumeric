@@ -110,7 +110,7 @@ autocorrect_store_config (void)
 	gnm_conf_set_autocorrect_init_caps_list (autocorrect.exceptions.init_caps);
 
 	gnm_conf_set_autocorrect_first_letter (autocorrect.first_letter);
-	gnm_conf_set_autocorrect_first_letter_list (autocorrect.exceptions.init_caps);
+	gnm_conf_set_autocorrect_first_letter_list (autocorrect.exceptions.first_letter);
 
 	gnm_conf_set_autocorrect_names_of_days (autocorrect.names_of_days);
 
