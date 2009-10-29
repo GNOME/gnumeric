@@ -52,7 +52,7 @@
 #include <sys/times.h>
 #endif
 
-#define GNM 0
+#define GNM 100
 #define CXML2C(s) ((char const *)(s))
 
 /* ------------------------------------------------------------------------- */
