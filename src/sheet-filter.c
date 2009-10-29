@@ -665,8 +665,6 @@ gnm_filter_ref (GnmFilter *filter)
 void
 gnm_filter_unref (GnmFilter *filter)
 {
-	unsigned i;
-
 	g_return_if_fail (filter != NULL);
 
 	filter->ref_count--;
@@ -698,7 +696,7 @@ gnm_filter_remove (GnmFilter *filter)
 	}
 	filter->sheet = NULL;
 
-	for (i = 0 ; i < filter->fields->len ; i++) {
+	for (i = 0 ; i < (int)filter->fields->len ; i++) {
 		SheetObject *so = g_ptr_array_index (filter->fields, i);
 		sheet_object_clear_sheet (so);
 		g_object_unref (so);
