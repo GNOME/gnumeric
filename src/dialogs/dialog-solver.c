@@ -938,7 +938,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	conv.c_listing = state->constraint_list;
 	convert_constraint_format (&conv);
 	go_slist_free_custom (param->constraints,
-			      (GFreeFunc)solver_constraint_destroy);
+			      (GFreeFunc)gnm_solver_constraint_free);
 	param->constraints = conv.c_list;
 	if (param->constraints == NULL) {
 		go_gtk_notice_nonmodal_dialog

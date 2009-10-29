@@ -76,6 +76,7 @@ typedef struct {
 #ifdef GNM_ENABLE_SOLVER
 
 char *gnm_solver_constraint_as_str (SolverConstraint const *c);
+void gnm_solver_constraint_free (SolverConstraint *c);
 
 typedef enum {
 	SolverRunning, SolverOptimal, SolverUnbounded, SolverInfeasible,
@@ -236,7 +237,6 @@ GnmCell		*solver_get_input_var (SolverResults *res, int n);
 
 /* Returns a pointer to a constraint. */
 SolverConstraint* solver_get_constraint (SolverResults *res, int n);
-void              solver_constraint_destroy (SolverConstraint *c);
 
 void              solver_insert_cols    (Sheet *sheet, int col, int count);
 void              solver_insert_rows    (Sheet *sheet, int row, int count);
@@ -254,7 +254,7 @@ void              solver_param_read_sax (GsfXMLIn *xin, xmlChar const **attrs);
 #define solver_insert_rows(sheet, row, count)	do {} while(0)
 #define solver_delete_cols(sheet, col, count)	do {} while(0)
 #define solver_delete_rows(sheet, row, count)	do {} while(0)
-#define solver_constraint_destroy(c) do {} while(0)
+#define gnm_solver_constraint_free(c) do {} while(0)
 #define solver_param_read_sax (void)
 
 #endif

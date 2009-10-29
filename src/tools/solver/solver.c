@@ -81,7 +81,7 @@ void
 solver_param_destroy (SolverParameters *sp)
 {
 	go_slist_free_custom (sp->constraints,
-			      (GFreeFunc)solver_constraint_destroy);
+			      (GFreeFunc)gnm_solver_constraint_free);
 	g_slist_free (sp->input_cells);
 	g_free (sp->input_entry_str);
 	g_free (sp->options.scenario_name);
@@ -261,7 +261,7 @@ solver_get_constraint (SolverResults *res, int n)
 }
 
 void
-solver_constraint_destroy (SolverConstraint *c)
+gnm_solver_constraint_free (SolverConstraint *c)
 {
 	g_free (c);
 }
