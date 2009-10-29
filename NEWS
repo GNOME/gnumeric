@@ -11,6 +11,9 @@ Andreas:
 	* Add BINOM.DIST.RANGE (equivalent to the ODF function B).
 	* Make Autofilter addition & removal undoable [#478152]
 
+Jean:
+	* Fixed graph size issues. [#599887]
+
 Jody:
 	* First steps towards a turnkey win32 build.
 

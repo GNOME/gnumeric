@@ -54,6 +54,7 @@ static GocCanvasClass *parent_klass;
 
 static void cb_pane_popup_menu (GnmPane *pane);
 static void gnm_pane_clear_obj_size_tip (GnmPane *pane);
+static void gnm_pane_display_obj_size_tip (GnmPane *pane);
 
 /**
  * For now, application/x-gnumeric is disabled. It handles neither
@@ -142,15 +143,23 @@ gnm_pane_object_key_press (GnmPane *pane, GdkEventKey *ev)
 
 	case GDK_KP_Left: case GDK_Left:
 		scg_objects_nudge (scg, pane, (alt ? 4 : (control ? 3 : 8)), -delta , 0, symmetric, shift);
+		if (pane->cur_object)
+			gnm_pane_display_obj_size_tip (pane);
 		return TRUE;
 	case GDK_KP_Right: case GDK_Right:
 		scg_objects_nudge (scg, pane, (alt ? 4 : (control ? 3 : 8)), delta, 0, symmetric, shift);
+		if (pane->cur_object)
+			gnm_pane_display_obj_size_tip (pane);
 		return TRUE;
 	case GDK_KP_Up: case GDK_Up:
 		scg_objects_nudge (scg, pane, (alt ? 6 : (control ? 1 : 8)), 0, -delta, symmetric, shift);
+		if (pane->cur_object)
+			gnm_pane_display_obj_size_tip (pane);
 		return TRUE;
 	case GDK_KP_Down: case GDK_Down:
 		scg_objects_nudge (scg, pane, (alt ? 6 : (control ? 1 : 8)), 0, delta, symmetric, shift);
+		if (pane->cur_object)
+			gnm_pane_display_obj_size_tip (pane);
 		return TRUE;
 
 	default:
@@ -644,6 +653,7 @@ gnm_pane_focus_in (GtkWidget *widget, GdkEventFocus *event)
 static gint
 gnm_pane_focus_out (GtkWidget *widget, GdkEventFocus *event)
 {
+	gnm_pane_clear_obj_size_tip (GNM_PANE (widget));
 	gtk_im_context_focus_out (GNM_PANE (widget)->im_context);
 	return (*GTK_WIDGET_CLASS (parent_klass)->focus_out_event) (widget, event);
 }
@@ -1884,15 +1894,15 @@ gnm_pane_clear_obj_size_tip (GnmPane *pane)
 }
 
 static void
-gnm_pane_display_obj_size_tip (GnmPane *pane, SheetObject const *so)
+gnm_pane_display_obj_size_tip (GnmPane *pane)
 {
 	SheetControlGUI *scg = pane->simple.scg;
-	double const *coords = g_hash_table_lookup (scg->selected_objects, so);
+	double const *coords = g_hash_table_lookup (scg->selected_objects, pane->cur_object);
 	double pts[4];
 	char *msg;
 	SheetObjectAnchor anchor;
 
-	g_return_if_fail (so != NULL);
+	g_return_if_fail (pane->cur_object != NULL);
 
 	if (pane->size_tip == NULL) {
 		GtkWidget *cw = GTK_WIDGET (pane);
@@ -1912,7 +1922,7 @@ gnm_pane_display_obj_size_tip (GnmPane *pane, SheetObject const *so)
 
 	g_return_if_fail (pane->size_tip != NULL);
 
-	anchor = *sheet_object_get_anchor (so);
+	anchor = *sheet_object_get_anchor (pane->cur_object);
 	scg_object_coords_to_anchor (scg, coords, &anchor);
 	sheet_object_anchor_to_pts (&anchor, scg_sheet (scg), pts);
 	msg = g_strdup_printf (_("%.1f x %.1f pts\n%d x %d pixels"),
@@ -2252,12 +2262,12 @@ gnm_pane_object_move (GnmPane *pane, GObject *ctrl_pt,
 		      gboolean snap_to_grid)
 {
 	int const idx = GPOINTER_TO_INT (g_object_get_data (ctrl_pt, "index"));
-	SheetObject *so  = g_object_get_data (G_OBJECT (ctrl_pt), "so");
+	pane->cur_object  = g_object_get_data (G_OBJECT (ctrl_pt), "so");
 
-	gnm_pane_objects_drag (pane, so, new_x, new_y, idx,
+	gnm_pane_objects_drag (pane, pane->cur_object, new_x, new_y, idx,
 			       symmetric, snap_to_grid);
 	if (idx != 8)
-		gnm_pane_display_obj_size_tip (pane, so);
+		gnm_pane_display_obj_size_tip (pane);
 }
 
 static gboolean
@@ -2686,17 +2696,16 @@ control_point_enter_notify (GocItem *item, G_GNUC_UNUSED double x, G_GNUC_UNUSED
 	GnmPane *pane = GNM_PANE (item->canvas);
 	SheetControlGUI *scg = pane->simple.scg;
 	int idx;
-	SheetObject *so;
 
 	control_point_set_cursor (scg, item);
 
-	so  = g_object_get_data (G_OBJECT (item), "so");
+	pane->cur_object  = g_object_get_data (G_OBJECT (item), "so");
 	idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "index"));
 	if (idx != 8) {
 		GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 		style->fill.pattern.back = GO_COLOR_GREEN;
 		goc_item_invalidate (item);
-		gnm_pane_display_obj_size_tip (pane, so);
+		gnm_pane_display_obj_size_tip (pane);
 	}
 	return TRUE;
 }
@@ -2719,6 +2728,7 @@ control_point_leave_notify (GocItem *item, G_GNUC_UNUSED double x, G_GNUC_UNUSED
 		goc_item_invalidate (item);
 		gnm_pane_clear_obj_size_tip (pane);
 	}
+	pane->cur_object = NULL;
 	return TRUE;
 }
 

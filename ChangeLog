@@ -1,3 +1,10 @@
+2009-10-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gnm-pane-impl.h: fixed graph object size issues. [#599887]
+	* src/gnm-pane.c (gnm_pane_object_key_press), (gnm_pane_focus_out),
+	(gnm_pane_display_obj_size_tip), (gnm_pane_object_move),
+	(control_point_enter_notify), (control_point_leave_notify): ditto.
+
 2009-10-28  Morten Welinder  <terra@gnome.org>
 
 	* src/solver.h (SolverConstraint): Remove redundant str member.

@@ -76,6 +76,7 @@ struct _GnmPane {
 
 	GdkCursor	*mouse_cursor;
 	GtkWidget       *size_tip;
+	SheetObject     *cur_object;
 };
 
 G_END_DECLS
