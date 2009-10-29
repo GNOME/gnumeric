@@ -26,7 +26,6 @@
 #include <cell.h>
 #include <solver.h>
 #include <ranges.h>
-#include <expr.h>
 #include <parse-util.h>
 #include <gutils.h>
 #include <goffice/goffice.h>
@@ -157,25 +156,12 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 
 	/* This is insane -- why do we keep a string?  */
 	{
+		GnmValue *vr =
+			value_new_cellrange_str (sheet, sp->input_entry_str);
 		GnmEvalPos ep;
-		GnmParsePos pp;
-		GnmValue *vr = NULL;
-		GnmExprTop const *texpr;
-		GnmExprParseFlags flags =
-			GNM_EXPR_PARSE_FORCE_ABSOLUTE_REFERENCES |
-			GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_INVALID;
 
 		g_slist_free (sp->input_cells);
 		sp->input_cells = NULL;
-
-		parse_pos_init_sheet (&pp, sheet);
-		texpr = gnm_expr_parse_str (sp->input_entry_str, &pp,
-					    flags, sheet->convs,
-					    NULL);
-		if (texpr) {
-			vr = gnm_expr_top_get_range (texpr);
-			gnm_expr_top_unref (texpr);
-		}
 
 		if (!vr) {
 			g_set_error (err,
@@ -346,6 +332,8 @@ lpsolve_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 	locale = gnm_push_C_locale ();
 	prg = lpsolve_create_program (sheet, &err);
 	gnm_pop_C_locale (locale);
+
+	workbook_recalc (sheet->workbook);
 
 	if (!prg) {
 		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
