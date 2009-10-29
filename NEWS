@@ -35,6 +35,7 @@ Morten:
 	* Add lpsolve output format.
 	* Plug solver leaks.
 	* Some solver cleanups.
+	* Fix reading of solver constraints.
 
 Yaacov Zamir:
        * Hebrew Calendar functions.  [#153738]

@@ -1,3 +1,7 @@
+2009-10-29  Morten Welinder  <terra@gnome.org>
+
+	* solver.c (solver_run): Avoid UMRs on Win32.
+
 2009-10-28  Morten Welinder  <terra@gnome.org>
 
 	* solver.c (gnm_solver_constraint_as_str): New function.

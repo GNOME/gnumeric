@@ -707,7 +707,7 @@ solver_run (WorkbookControl *wbc, Sheet *sheet,
 	SolverProgram     program;
 	SolverResults     *res;
 	GTimeVal          start, end;
-#ifdef HAVE_TIMES
+#if defined(HAVE_TIMES) && defined(HAVE_SYSCONF)
 	struct tms        buf;
 
 	times (&buf);
@@ -718,10 +718,12 @@ solver_run (WorkbookControl *wbc, Sheet *sheet,
 	if (check_program_definition_failures (sheet, param, &res, errmsg))
 	        return NULL;
 
-#ifdef HAVE_SYSCONF
+#if defined(HAVE_TIMES) && defined(HAVE_SYSCONF)
 	res->time_user   = - buf.tms_utime / (gnm_float) sysconf (_SC_CLK_TCK);
 	res->time_system = - buf.tms_stime / (gnm_float) sysconf (_SC_CLK_TCK);
 #else
+	res->time_user = 0;
+	res->time_system = 0;
 #warning TODO
 #endif
 	res->time_real   = - (start.tv_sec +
@@ -736,15 +738,12 @@ solver_run (WorkbookControl *wbc, Sheet *sheet,
 
         res->status = alg->solve_fn (program);
 	g_get_current_time (&end);
-#ifdef HAVE_TIMES
+#if defined(HAVE_TIMES) && defined(HAVE_SYSCONF)
 	times (&buf);
-#ifdef HAVE_SYSCONF
 	res->time_user   += buf.tms_utime / (gnm_float) sysconf (_SC_CLK_TCK);
 	res->time_system += buf.tms_stime / (gnm_float) sysconf (_SC_CLK_TCK);
 #else
 #warning TODO
-#endif
-#else
 	res->time_user   = 0;
 	res->time_system = 0;
 #endif
