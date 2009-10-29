@@ -806,7 +806,7 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 
         g_object_class_install_property (gobject_class, PROP_SHEET_TYPE,
 		 g_param_spec_enum ("sheet-type", _("Sheet Type"),
-				    _("How type of sheet this is."),
+				    _("Which type of sheet this is."),
 				    GNM_SHEET_TYPE_TYPE,
 				    GNM_SHEET_DATA,
 				    GSF_PARAM_STATIC |

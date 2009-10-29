@@ -1,3 +1,7 @@
+2009-10-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet.c (gnm_sheet_class_init): correct English grammar
+
 2009-10-29  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-pane-impl.h: fixed graph object size issues. [#599887]
