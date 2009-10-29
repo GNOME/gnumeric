@@ -1,3 +1,7 @@
+2009-10-28  Morten Welinder  <terra@gnome.org>
+
+	* solver.c (gnm_solver_constraint_as_str): New function.
+
 2009-10-27  Morten Welinder  <terra@gnome.org>
 
 	* solver.c (solver_insert_rows, solver_insert_cols,

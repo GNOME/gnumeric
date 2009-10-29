@@ -405,10 +405,6 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 		  c->type    = type_map[row->type];  /* const_cast */
 		  c->cols    = 1;
 		  c->rows    = 1;
-		  c->str     = write_constraint_str (c->lhs.col, c->lhs.row,
-						     c->rhs.col, c->rhs.row,
-						     c->type, c->cols,
-						     c->rows);
 
 		  param->constraints = g_slist_append (param->constraints, c);
 		  i++;

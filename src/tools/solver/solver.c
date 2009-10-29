@@ -119,11 +119,6 @@ solver_constr_start (GsfXMLIn *xin, xmlChar const **attrs)
 	default: c->type = SolverLE; break;
 	}
 
-#ifdef GNM_ENABLE_SOLVER
-	c->str = write_constraint_str (c->lhs.col, c->lhs.row,
-				       c->rhs.col, c->rhs.row,
-				       c->type, c->cols, c->rows);
-#endif
 	sp->constraints = g_slist_append (sp->constraints, c);
 }
 
@@ -268,7 +263,6 @@ solver_get_constraint (SolverResults *res, int n)
 void
 solver_constraint_destroy (SolverConstraint *c)
 {
-	g_free (c->str);
 	g_free (c);
 }
 
@@ -288,48 +282,36 @@ create_solver_constraint (int lhs_col, int lhs_row, int rhs_col, int rhs_row,
 	c->rows    = 1;
 	c->cols    = 1;
 	c->type    = type;
-	c->str     = write_constraint_str (lhs_col, lhs_row, rhs_col,
-					   rhs_row, type, 1, 1);
 
 	return c;
 }
 
 char *
-write_constraint_str (int lhs_col, int lhs_row, int rhs_col,
-		      int rhs_row, SolverConstraintType type,
-		      int cols, int rows)
+gnm_solver_constraint_as_str (SolverConstraint const *c)
 {
-	GString    *buf = g_string_new (NULL);
+	GString *buf = g_string_new (NULL);
 	const char *type_str[] = { "\xe2\x89\xa4" /* "<=" */,
 				   "\xe2\x89\xa5" /* ">=" */,
 				   "=", "Int", "Bool" };
 
-	if (cols == 1 && rows == 1)
-		g_string_append_printf (buf, "%s %s ",
-			cell_coord_name (lhs_col, lhs_row),
-			type_str[type]);
-	else {
-	        g_string_append (buf, cell_coord_name (lhs_col, lhs_row));
+	g_string_append (buf, cell_coord_name (c->lhs.col, c->lhs.row));
+	if (c->cols > 1 || c->rows > 1) {
 		g_string_append_c (buf, ':');
 		g_string_append (buf,
-				 cell_coord_name (lhs_col + cols - 1,
-						  lhs_row + rows - 1));
-		g_string_append_c (buf, ' ');
-		g_string_append (buf, type_str[type]);
-		g_string_append_c (buf, ' ');
+				 cell_coord_name (c->lhs.col + c->cols - 1,
+						  c->lhs.row + c->rows - 1));
 	}
+	g_string_append_c (buf, ' ');
+	g_string_append (buf, type_str[c->type]);
+	g_string_append_c (buf, ' ');
 
-	if (type != SolverINT && type != SolverBOOL) {
-	        if (cols == 1 && rows == 1)
-		        g_string_append (buf, cell_coord_name (rhs_col,
-							       rhs_row));
-		else {
-		        g_string_append (buf, cell_coord_name (rhs_col,
-							       rhs_row));
+	if (c->type != SolverINT && c->type != SolverBOOL) {
+		g_string_append (buf, cell_coord_name (c->rhs.col, c->rhs.row));
+		if (c->cols > 1 || c->rows > 1) {
 			g_string_append_c (buf, ':');
 		        g_string_append (buf,
-					 cell_coord_name (rhs_col + cols - 1,
-							  rhs_row + rows - 1));
+					 cell_coord_name (c->rhs.col + c->cols - 1,
+							  c->rhs.row + c->rows - 1));
 		}
 	}
 
@@ -834,11 +816,7 @@ solver_lp_copy (const SolverParameters *src_param, Sheet *new_sheet)
 	for (constraints = src_param->constraints; constraints;
 	     constraints = constraints->next) {
 		SolverConstraint *old = constraints->data;
-		SolverConstraint *new;
-
-		new = g_new (SolverConstraint, 1);
-		*new = *old;
-		new->str = g_strdup (old->str);
+		SolverConstraint *new = g_memdup (old, sizeof (*old));
 
 		dst_param->constraints =
 		        g_slist_prepend (dst_param->constraints, new);
@@ -902,10 +880,6 @@ solver_insert_rows (Sheet *sheet, int row, int count)
 		        c->lhs.row += count;
 		if (c->rhs.row >= row)
 		        c->rhs.row += count;
-		g_free (c->str);
-		c->str = write_constraint_str (c->lhs.col, c->lhs.row,
-					       c->rhs.col, c->rhs.row,
-					       c->type, c->cols, c->rows);
 	}
 }
 
@@ -943,10 +917,6 @@ solver_insert_cols (Sheet *sheet, int col, int count)
 		        c->lhs.col += count;
 		if (c->rhs.col >= col)
 		        c->rhs.col += count;
-		g_free (c->str);
-		c->str = write_constraint_str (c->lhs.col, c->lhs.row,
-					       c->rhs.col, c->rhs.row,
-					       c->type, c->cols, c->rows);
 	}
 }
 
@@ -987,10 +957,6 @@ solver_delete_rows (Sheet *sheet, int row, int count)
 		        c->lhs.row -= count;
 		if (c->rhs.row >= row)
 		        c->rhs.row -= count;
-		g_free (c->str);
-		c->str = write_constraint_str (c->lhs.col, c->lhs.row,
-					       c->rhs.col, c->rhs.row,
-					       c->type, c->cols, c->rows);
 	}
 }
 
@@ -1035,9 +1001,5 @@ solver_delete_cols (Sheet *sheet, int col, int count)
 		        c->lhs.col -= count;
 		if (c->rhs.col >= col)
 		        c->rhs.col -= count;
-		g_free (c->str);
-		c->str = write_constraint_str (c->lhs.col, c->lhs.row,
-					       c->rhs.col, c->rhs.row,
-					       c->type, c->cols, c->rows);
 	}
 }

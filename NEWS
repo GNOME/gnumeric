@@ -31,6 +31,7 @@ Morten:
 	* Make DATE work for pre-1900 dates.  [#599365]
 	* Add lpsolve output format.
 	* Plug solver leaks.
+	* Some solver cleanups.
 
 Yaacov Zamir:
        * Hebrew Calendar functions.  [#153738]

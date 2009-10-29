@@ -71,10 +71,11 @@ typedef struct {
 	gint                 rows;              /* number of rows */
 	gint                 cols;              /* number of columns */
 	SolverConstraintType type;	        /* <=, =, >=, int, bool */
-	char                 *str;		/* the same in string form */
 } SolverConstraint;
 
 #ifdef GNM_ENABLE_SOLVER
+
+char *gnm_solver_constraint_as_str (SolverConstraint const *c);
 
 typedef enum {
 	SolverRunning, SolverOptimal, SolverUnbounded, SolverInfeasible,
@@ -210,11 +211,6 @@ gchar *          solver_reports        (WorkbookControl *wbc, Sheet *sheet,
 					gboolean answer, gboolean sensitivity,
 					gboolean limits, gboolean performance,
 					gboolean program, gboolean dual);
-
-char             *write_constraint_str (int lhs_col, int lhs_row,
-					int rhs_col, int rhs_row,
-					SolverConstraintType type,
-					int cols, int rows);
 
 /* Initializes the Solver's data structure containing the parameters.
  * Each sheet can currently have one copy of this data structure. */

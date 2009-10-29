@@ -133,7 +133,8 @@ solver_answer_report (WorkbookControl *wbc,
 	dao_set_bold (&dao, 0, 15 + vars, 6, 15 + vars);
 
 	for (i = 0; i < res->param->n_total_constraints; i++) {
-	        SolverConstraint *c = res->constraints_array[i];
+	        SolverConstraint const *c = res->constraints_array[i];
+		char *str = gnm_solver_constraint_as_str (c);
 
 		/* Set `Cell' column */
 		dao_set_cell (&dao, 1, 16 + vars + i,
@@ -147,7 +148,7 @@ solver_answer_report (WorkbookControl *wbc,
 		dao_set_cell_float (&dao, 3, 16 + vars + i, res->lhs[i]);
 
 	        /* Set `Formula' column */
-	        dao_set_cell (&dao, 4, 16 + vars + i, c->str);
+	        dao_set_cell (&dao, 4, 16 + vars + i, str);
 
 		if (c->type == SolverINT || c->type == SolverBOOL) {
 		        dao_set_cell (&dao, 5, 16 + vars + i, _("Binding"));
@@ -162,6 +163,8 @@ solver_answer_report (WorkbookControl *wbc,
 
 		/* Set `Slack' column */
 		dao_set_cell_float (&dao, 6, 16 + vars + i, res->slack [i]);
+
+		g_free (str);
 	}
 
 	/*
