@@ -230,8 +230,10 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 		SolverConstraint *c = l->data;
 		const char *op = NULL;
 		const char *type = NULL;
-		int dx, dy;
 		gboolean right_small = TRUE;
+		int i;
+		gnm_float cl, cr;
+		GnmCell *lhs, *rhs;
 
 		switch (c->type) {
 		case SolverLE:
@@ -254,44 +256,34 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 			g_assert_not_reached ();
 		}
 
-		for (dy = 0; dy < c->rows; dy++) {
-			for (dx = 0; dx < c->cols; dx++) {
-				GnmCell *lhs =
-					sheet_cell_get (sheet,
-							c->lhs.col + dx,
-							c->lhs.row + dy);
-				GnmCell *rhs =
-					sheet_cell_get (sheet,
-							c->rhs.col + dx,
-							c->rhs.row + dy);
+		for (i = 0;
+		     gnm_solver_constraint_get_part (c, sheet, i,
+						     &lhs, &cl,
+						     &rhs, &cr);
+		     i++) {
+			if (type) {
+				g_string_append (declarations, type);
+				g_string_append_c (declarations, ' ');
+				g_string_append (declarations, lpsolve_var_name (lhs));
+				g_string_append (declarations, ";\n");
+			} else {
+				gboolean ok;
 
-				if (!lhs || (op && !rhs))
-					continue;
+				ok = lpsolve_affine_func
+					(constraints, lhs, sp->input_cells, err);
+				if (!ok)
+					goto fail;
 
-				if (type) {
-					g_string_append (declarations, type);
-					g_string_append_c (declarations, ' ');
-					g_string_append (declarations, lpsolve_var_name (lhs));
-					g_string_append (declarations, ";\n");
-				} else {
-					gboolean ok;
+				g_string_append_c (constraints, ' ');
+				g_string_append (constraints, op);
+				g_string_append_c (constraints, ' ');
 
-					ok = lpsolve_affine_func
-						(constraints, lhs, sp->input_cells, err);
-					if (!ok)
-						goto fail;
+				ok = lpsolve_affine_func
+					(constraints, rhs, sp->input_cells, err);
+				if (!ok)
+					goto fail;
 
-					g_string_append_c (constraints, ' ');
-					g_string_append (constraints, op);
-					g_string_append_c (constraints, ' ');
-
-					ok = lpsolve_affine_func
-						(constraints, rhs, sp->input_cells, err);
-					if (!ok)
-						goto fail;
-
-					g_string_append (constraints, ";\n");
-				}
+				g_string_append (constraints, ";\n");
 			}
 		}
 	}

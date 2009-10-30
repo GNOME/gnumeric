@@ -91,22 +91,26 @@ solver_param_destroy (SolverParameters *sp)
 static void
 solver_constr_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	int type;
+	int type = 0;
 	SolverConstraint *c;
 	int i;
 	Sheet *sheet = gnm_xml_in_cur_sheet (xin);
 	SolverParameters *sp = sheet->solver_parameters;
+	int lhs_col = 0, lhs_row = 0, rhs_col = 0, rhs_row = 0;
+	int cols = 1, rows = 1;
+	gboolean old = FALSE;
 
 	c = g_new0 (SolverConstraint, 1);
 
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i + 1] ; i += 2) {
-		if (gnm_xml_attr_int (attrs+i, "Lcol", &c->lhs.col) ||
-		    gnm_xml_attr_int (attrs+i, "Lrow", &c->lhs.row) ||
-		    gnm_xml_attr_int (attrs+i, "Rcol", &c->rhs.col) ||
-		    gnm_xml_attr_int (attrs+i, "Rrow", &c->rhs.row) ||
-		    gnm_xml_attr_int (attrs+i, "Cols", &c->cols) ||
-		    gnm_xml_attr_int (attrs+i, "Rows", &c->rows) ||
-		    gnm_xml_attr_int (attrs+i, "Type", &type))
+		if (gnm_xml_attr_int (attrs+i, "Lcol", &lhs_col) ||
+		    gnm_xml_attr_int (attrs+i, "Lrow", &lhs_row) ||
+		    gnm_xml_attr_int (attrs+i, "Rcol", &rhs_col) ||
+		    gnm_xml_attr_int (attrs+i, "Rrow", &rhs_row) ||
+		    gnm_xml_attr_int (attrs+i, "Cols", &cols) ||
+		    gnm_xml_attr_int (attrs+i, "Rows", &rows))
+			old = TRUE;
+		else if (gnm_xml_attr_int (attrs+i, "Type", &type))
 			; /* Nothing */
 	}
 
@@ -118,6 +122,12 @@ solver_constr_start (GsfXMLIn *xin, xmlChar const **attrs)
 	case 16: c->type = SolverBOOL; break;
 	default: c->type = SolverLE; break;
 	}
+
+	if (old)
+		gnm_solver_constraint_set_old (c, c->type,
+					       lhs_col, lhs_row,
+					       rhs_col, rhs_row,
+					       cols, rows);
 
 	sp->constraints = g_slist_append (sp->constraints, c);
 }
@@ -264,6 +274,92 @@ void
 gnm_solver_constraint_free (SolverConstraint *c)
 {
 	g_free (c);
+}
+
+SolverConstraint *
+gnm_solver_constraint_dup (SolverConstraint *c)
+{
+	SolverConstraint *res = g_new (SolverConstraint, 1);
+	*res = *c;
+	return res;
+}
+
+
+gboolean
+gnm_solver_constraint_has_rhs (SolverConstraint const *c)
+{
+	g_return_val_if_fail (c != NULL, FALSE);
+
+	switch (c->type) {
+	case SolverLE:
+	case SolverGE:
+	case SolverEQ:
+		return TRUE;
+	case SolverINT:
+	case SolverBOOL:
+	default:
+		return FALSE;
+	}
+}
+
+gboolean
+gnm_solver_constraint_valid (SolverConstraint const *c)
+{
+	g_return_val_if_fail (c != NULL, FALSE);
+
+	return TRUE;
+}
+
+gboolean
+gnm_solver_constraint_get_part (SolverConstraint *c, Sheet *sheet, int i,
+				GnmCell **lhs, gnm_float *cl,
+				GnmCell **rhs, gnm_float *cr)
+{
+	GnmRange r;
+	int h, w, dx, dy;
+
+	range_init_cellpos (&r, &c->lhs);
+	w = c->cols;
+	h = c->rows;
+
+	dy = i / w;
+	dx = i % w;
+	if (dy >= h)
+		return FALSE;
+
+	*lhs = sheet_cell_get (sheet, r.start.col + dx, r.start.row + dy);
+	*cl = 0;
+
+	if (!gnm_solver_constraint_has_rhs (c)) {
+		*rhs = NULL;
+		*cr = 0;
+	} else if (0) {
+		*rhs = NULL;
+		*cr = 0;
+	} else {
+		range_init_cellpos (&r, &c->rhs);
+		*rhs = sheet_cell_get (sheet,
+				       r.start.col + dx, r.start.row + dy);
+		*cl = 0;
+	}
+
+	return TRUE;
+}
+
+void
+gnm_solver_constraint_set_old (SolverConstraint *c,
+			       SolverConstraintType type,
+			       int lhs_col, int lhs_row,
+			       int rhs_col, int rhs_row,
+			       int cols, int rows)
+{
+	c->type = type;
+	c->lhs.col = lhs_col;
+	c->lhs.row = lhs_row;
+	c->rhs.col = rhs_col;
+	c->rhs.row = rhs_row;
+	c->cols = cols;
+	c->rows = rows;
 }
 
 /* ------------------------------------------------------------------------- */

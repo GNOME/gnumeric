@@ -397,14 +397,11 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 		  cell_queue_recalc (cell);
 
 		  /* Add Solver constraint */
-		  c          = g_new (SolverConstraint, 1);
-		  c->lhs.col = ecol + 1;
-		  c->lhs.row = r;
-		  c->rhs.col = ecol + 3;
-		  c->rhs.row = r;
-		  c->type    = type_map[row->type];  /* const_cast */
-		  c->cols    = 1;
-		  c->rows    = 1;
+		  c = g_new0 (SolverConstraint, 1);
+		  gnm_solver_constraint_set_old (c, type_map[row->type],
+						 ecol + 1, r,
+						 ecol + 3, r,
+						 1, 1);
 
 		  param->constraints = g_slist_append (param->constraints, c);
 		  i++;
