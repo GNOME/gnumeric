@@ -35,6 +35,7 @@
 #include <value.h>
 #include <cell.h>
 #include <sheet.h>
+#include <expr.h>
 #include <wbc-gtk.h>
 #include <workbook.h>
 #include <parse-util.h>
@@ -158,11 +159,11 @@ dialog_set_sec_button_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 
 static void
 constraint_select_click (GtkTreeSelection *Selection,
-			 SolverState    *state)
+			 SolverState * state)
 {
 	GtkTreeModel *store;
 	GtkTreeIter iter;
-	GnmRange range;
+	SolverConstraint const *c;
 
 	if (gtk_tree_selection_get_selected (Selection, &store, &iter))
 		gtk_tree_model_get (store, &iter, 1, &state->constr, -1);
@@ -172,18 +173,35 @@ constraint_select_click (GtkTreeSelection *Selection,
 
 	if (state->constr == NULL)
 		return; /* Fail? */
+	c = state->constr;
 
-	range_init_value (&range, state->constr->lhs);
-	gnm_expr_entry_load_from_range (state->lhs.entry, state->sheet,&range);
+	if (c->lhs) {
+		GnmExprTop const *texpr =
+			gnm_expr_top_new_constant (value_dup (c->lhs));
+		GnmParsePos pp;
 
-	if (gnm_solver_constraint_has_rhs (state->constr)) {
-		range_init_value (&range, state->constr->rhs);
-		gnm_expr_entry_load_from_range (state->rhs.entry,
-						state->sheet, &range);
+		gnm_expr_entry_load_from_expr
+			(state->lhs.entry,
+			 texpr,
+			 parse_pos_init_sheet (&pp, state->sheet));
+		gnm_expr_top_unref (texpr);
+	} else
+		gnm_expr_entry_load_from_text (state->lhs.entry, "");
+
+	if (c->rhs && gnm_solver_constraint_has_rhs (c)) {
+		GnmExprTop const *texpr =
+			gnm_expr_top_new_constant (value_dup (c->rhs));
+		GnmParsePos pp;
+
+		gnm_expr_entry_load_from_expr
+			(state->rhs.entry,
+			 texpr,
+			 parse_pos_init_sheet (&pp, state->sheet));
+		gnm_expr_top_unref (texpr);
 	} else
 		gnm_expr_entry_load_from_text (state->rhs.entry, "");
 
-	gtk_combo_box_set_active (state->type_combo, state->constr->type);
+	gtk_combo_box_set_active (state->type_combo, c->type);
 }
 
 /**

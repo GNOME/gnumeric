@@ -1,3 +1,8 @@
+2009-10-30  Morten Welinder  <terra@gnome.org>
+
+	* dialog-solver.c (constraint_select_click): Fix criticals on
+	invalid constraints.
+
 2009-10-23  Morten Welinder  <terra@gnome.org>
 
 	* solver.glade: fix radiobutton group problem.
