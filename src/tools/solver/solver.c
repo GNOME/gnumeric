@@ -335,7 +335,7 @@ gnm_solver_constraint_valid (SolverConstraint const *c)
 	return TRUE;
 }
 
-int
+static int
 gnm_solver_constraint_get_size (SolverConstraint const *c)
 {
 	GnmRange r;
@@ -997,7 +997,7 @@ solver_lp_copy (const SolverParameters *src_param, Sheet *new_sheet)
 	for (constraints = src_param->constraints; constraints;
 	     constraints = constraints->next) {
 		SolverConstraint *old = constraints->data;
-		SolverConstraint *new = g_memdup (old, sizeof (*old));
+		SolverConstraint *new = gnm_solver_constraint_dup (old);
 
 		dst_param->constraints =
 		        g_slist_prepend (dst_param->constraints, new);

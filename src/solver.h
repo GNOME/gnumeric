@@ -93,8 +93,6 @@ gboolean gnm_solver_constraint_get_part (SolverConstraint const *c,
 					 GnmCell **lhs, gnm_float *cl,
 					 GnmCell **rhs, gnm_float *cr);
 
-int gnm_solver_constraint_get_size (SolverConstraint const *c);
-
 GnmValue *gnm_solver_constraint_get_lhs (SolverConstraint const *c,
 					 Sheet *sheet);
 GnmValue *gnm_solver_constraint_get_rhs (SolverConstraint const *c,
