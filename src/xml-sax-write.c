@@ -966,8 +966,6 @@ static void
 xml_write_solver (GnmOutputXML *state)
 {
         SolverParameters *param = state->sheet->solver_parameters;
-	SolverConstraint const *c;
-	int type;
 	GSList *ptr;
 
 	if (param == NULL)
@@ -1009,16 +1007,11 @@ xml_write_solver (GnmOutputXML *state)
 		param->options.program_report);
 
 	for (ptr = param->constraints; ptr != NULL ; ptr = ptr->next) {
-		c = ptr->data;
+		SolverConstraint const *c = ptr->data;
+		int type;
+		GString *str = g_string_new (NULL);
 
-		gsf_xml_out_start_element (state->output, GNM "Constr");
-		gsf_xml_out_add_int (state->output, "Lcol", c->lhs.col);
-		gsf_xml_out_add_int (state->output, "Lrow", c->lhs.row);
-		gsf_xml_out_add_int (state->output, "Rcol", c->rhs.col);
-		gsf_xml_out_add_int (state->output, "Rrow", c->rhs.row);
-		gsf_xml_out_add_int (state->output, "Cols", c->cols);
-		gsf_xml_out_add_int (state->output, "Rows", c->rows);
-
+		/* Historical values.  Not a bit field.  */
 		switch (c->type) {
 		default:	 type = 0;	break;
 		case SolverLE:   type = 1;	break;
@@ -1027,8 +1020,22 @@ xml_write_solver (GnmOutputXML *state)
 		case SolverINT:  type = 8;	break;
 		case SolverBOOL: type = 16;	break;
 		}
+
+		gsf_xml_out_start_element (state->output, GNM "Constr");
 		gsf_xml_out_add_int (state->output, "Type", type);
+
+		value_get_as_gstring (c->lhs, str, state->convs);
+		gsf_xml_out_add_cstr (state->output, "lhs", str->str);
+
+		if (gnm_solver_constraint_has_rhs (c)) {
+			g_string_truncate (str, 0);
+			value_get_as_gstring (c->rhs, str, state->convs);
+			gsf_xml_out_add_cstr (state->output, "rhs", str->str);
+		}
+
 		gsf_xml_out_end_element (state->output); /* </gnm:Constr> */
+
+		g_string_free (str, TRUE);
 	}
 
 	gsf_xml_out_end_element (state->output); /* </gnm:Solver> */

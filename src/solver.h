@@ -66,11 +66,13 @@ typedef enum {
 } SolverConstraintType;
 
 typedef struct {
-	SolverConstraintType type;	        /* <=, =, >=, int, bool */
-	GnmCellPos           lhs;		/* left hand side */
-	GnmCellPos           rhs;		/* right hand side */
-	gint                 rows;              /* number of rows */
-	gint                 cols;              /* number of columns */
+	SolverConstraintType type;
+
+	/* Must be a range.  */
+	GnmValue *lhs;
+
+	/* Must be a constant or a range.  */
+	GnmValue *rhs;
 } SolverConstraint;
 
 #ifdef GNM_ENABLE_SOLVER
@@ -90,6 +92,8 @@ gboolean gnm_solver_constraint_get_part (SolverConstraint const *c,
 					 Sheet *sheet, int i,
 					 GnmCell **lhs, gnm_float *cl,
 					 GnmCell **rhs, gnm_float *cr);
+
+int gnm_solver_constraint_get_size (SolverConstraint const *c);
 
 GnmValue *gnm_solver_constraint_get_lhs (SolverConstraint const *c,
 					 Sheet *sheet);

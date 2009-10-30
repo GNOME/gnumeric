@@ -135,12 +135,11 @@ solver_answer_report (WorkbookControl *wbc,
 	for (i = 0; i < res->param->n_total_constraints; i++) {
 	        SolverConstraint const *c = res->constraints_array[i];
 		char *str = gnm_solver_constraint_as_str (c);
-		gnm_float cl, cr;
 		GnmCell *lhs, *rhs;
 
 		gnm_solver_constraint_get_part (c, sheet, 0,
-						&lhs, &cl,
-						&rhs, &cr);
+						&lhs, NULL,
+						&rhs, NULL);
 
 		/* Set `Cell' column */
 		dao_set_cell (&dao, 1, 16 + vars + i,
@@ -297,12 +296,11 @@ solver_sensitivity_report (WorkbookControl *wbc,
 
 	for (i = 0; i < res->param->n_total_constraints; i++) {
 	        SolverConstraint *c = res->constraints_array[i];
-		gnm_float cl, cr;
 		GnmCell *lhs, *rhs;
 
 		gnm_solver_constraint_get_part (c, sheet, 0,
-						&lhs, &cl,
-						&rhs, &cr);
+						&lhs, NULL,
+						&rhs, NULL);
 
 		/* Set `Cell' column */
 		dao_set_cell (&dao, 1, 12 + vars + i,
