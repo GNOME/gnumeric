@@ -1,3 +1,7 @@
+2009-10-30  Morten Welinder <terra@gnome.org>
+
+	* t5904-mps.pl: New test.
+
 2009-10-11  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.14
