@@ -310,8 +310,25 @@ gnm_solver_constraint_valid (SolverConstraint const *c)
 	return TRUE;
 }
 
+GnmValue *
+gnm_solver_constraint_get_lhs (SolverConstraint const *c, Sheet *sheet)
+{
+	GnmRange r;
+	range_init_cellpos_size (&r, &c->lhs, c->cols, c->rows);
+	return value_new_cellrange_r (sheet, &r);
+}
+
+GnmValue *
+gnm_solver_constraint_get_rhs (SolverConstraint const *c, Sheet *sheet)
+{
+	GnmRange r;
+	range_init_cellpos_size (&r, &c->rhs, c->cols, c->rows);
+	return value_new_cellrange_r (sheet, &r);
+}
+
+
 gboolean
-gnm_solver_constraint_get_part (SolverConstraint *c, Sheet *sheet, int i,
+gnm_solver_constraint_get_part (SolverConstraint const *c, Sheet *sheet, int i,
 				GnmCell **lhs, gnm_float *cl,
 				GnmCell **rhs, gnm_float *cr)
 {

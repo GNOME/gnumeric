@@ -70,8 +70,16 @@ get_constraint_names (SolverResults *res, Sheet *sheet)
 
 	for (i = 0; i < res->param->n_total_constraints; i++) {
 	        SolverConstraint *c = solver_get_constraint (res, i);
-		res->constraint_names[i] = dao_find_name (sheet, c->lhs.col,
-							  c->lhs.row);
+		GnmCell *lhs, *rhs;
+		gnm_float cl, cr;
+
+		gnm_solver_constraint_get_part (c, sheet, 0,
+						&lhs, &cl, &rhs, &cr);
+
+		res->constraint_names[i] = lhs
+			? dao_find_name (sheet,
+					 lhs->pos.row, lhs->pos.row)
+			: g_strdup ("?");
 	}
 }
 
@@ -95,18 +103,21 @@ is_still_feasible (Sheet *sheet, SolverResults *res, int col, gnm_float value)
 {
         gnm_float c_value, rhs, old_value = res->optimal_values [col];
 	int        i, n;
-	GnmCell       *cell;
 	gboolean   status = FALSE;
 
 	res->optimal_values[col] = value;
 	for (i = 0; i < res->param->n_total_constraints; i++) {
 	        SolverConstraint *c = solver_get_constraint (res, i);
+		GnmCell *cell, *lcell;
+		gnm_float cl, cr;
+
+		gnm_solver_constraint_get_part (c, sheet, 0,
+						&lcell, &cl, &cell, &cr);
 
 		c_value = 0;
 		for (n = 0; n < res->param->n_variables; n++)
 		        c_value += res->constr_coeff[i][n]
 			  * res->optimal_values[n];
-		cell = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
 		rhs  = value_get_as_float (cell->value);
 
 		switch (c->type) {
@@ -140,24 +151,27 @@ static void
 calculate_limits (Sheet *sheet, SolverParameters *param, SolverResults *res)
 {
         int i, n;
+	GnmCell *tcell = solver_get_target_cell (sheet);
 
 	for (i = 0; i < param->n_total_constraints; i++) {
 	        gnm_float       slack, lhs, rhs, x, y, old_val;
 		SolverConstraint *c = res->constraints_array[i];
-		GnmCell             *cell;
+		GnmCell             *lcell, *rcell;
+		gnm_float cl, cr;
 
-		cell  = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
-		rhs   = value_get_as_float (cell->value);
-		cell  = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
-		lhs   = value_get_as_float (cell->value);
+		gnm_solver_constraint_get_part (c, sheet, 0,
+						&lcell, &cl, &rcell, &cr);
+		rhs   = value_get_as_float (rcell->value);
+		lhs   = value_get_as_float (lcell->value);
+
 		slack = gnm_abs (rhs - lhs);
 		for (n = 0; n < param->n_variables; n++) {
-		        x = get_target_cell_value (res, cell, n, 0, &old_val);
+		        x = get_target_cell_value (res, lcell, n, 0, &old_val);
 			x = rhs - x;
 			if (res->constr_coeff[i][n] != 0) {
 			        x = x / res->constr_coeff[i][n];
 				if (! is_still_feasible (sheet, res, n, x)) {
-				        get_target_cell_value (res, cell, n,
+				        get_target_cell_value (res, lcell, n,
 							       old_val, &y);
 				        continue;
 				}
@@ -165,25 +179,23 @@ calculate_limits (Sheet *sheet, SolverParameters *param, SolverResults *res)
 				    && (x >= 0 ||
 					!param->options.assume_non_negative)) {
 				        res->limits[n].lower_limit = x;
-					cell = solver_get_target_cell (sheet);
-					get_target_cell_value (res, cell, n,
+					get_target_cell_value (res, tcell, n,
 							       x, &y);
-					gnm_cell_eval (cell);
+					gnm_cell_eval (tcell);
 					res->limits[n].lower_result =
-					        value_get_as_float (cell->value);
+					        value_get_as_float (tcell->value);
 				}
 				if (x > res->limits[n].upper_limit) {
 				        res->limits[n].upper_limit = x;
-					cell = solver_get_target_cell (sheet);
-					get_target_cell_value (res, cell, n,
+					get_target_cell_value (res, tcell, n,
 							       x, &y);
-					gnm_cell_eval (cell);
+					gnm_cell_eval (tcell);
 					res->limits[n].upper_result =
-					        value_get_as_float (cell->value);
+					        value_get_as_float (tcell->value);
 				}
 			} else
 				; /* FIXME */
-			get_target_cell_value (res, cell, n, old_val, &y);
+			get_target_cell_value (res, lcell, n, old_val, &y);
 		}
 	}
 }
@@ -271,11 +283,16 @@ solver_prepare_reports_success (SolverProgram *program, SolverResults *res,
 	 */
 	for (i = 0; i < param->n_constraints; i++) {
 	        SolverConstraint const *c = solver_get_constraint (res, i);
+		gnm_float cl, cr;
+		GnmCell *lhs, *rhs;
+
+		gnm_solver_constraint_get_part (c, sheet, 0,
+						&lhs, &cl,
+						&rhs, &cr);
 
 		res->shadow_prizes[i] = alg->get_shadow_prize_fn (program, i);
 
-		cell = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
-		res->lhs[i] = value_get_as_float (cell->value);
+		res->lhs[i] = value_get_as_float (lhs->value);
 
 		res->slack[i] = gnm_abs (res->rhs[i] - res->lhs[i]);
 	}

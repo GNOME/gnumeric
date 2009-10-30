@@ -270,29 +270,32 @@ constraint_fill_row (SolverState *state, GtkListStore *store, GtkTreeIter *iter)
 	char         *text;
 	constraint_t *the_constraint = g_new (constraint_t, 1);
 	SolverConstraint c;
-	GnmCellRef a, b;
+	GnmCellRef a, b, ra;
+	gboolean has_rhs;
+
+	the_constraint->type = gtk_combo_box_get_active
+		(state->type_combo);
+	has_rhs = (the_constraint->type != SolverINT &&
+		   the_constraint->type != SolverBOOL);
 
 	the_constraint->lhs_value = gnm_expr_entry_parse_as_value
 		(state->lhs.entry, state->sheet);
-	the_constraint->type = gtk_combo_box_get_active
-		(state->type_combo);
 	a = the_constraint->lhs_value->v_range.cell.a;
 	b = the_constraint->lhs_value->v_range.cell.b;
-	c.type = the_constraint->type;
-	c.lhs.col = a.col;
-	c.lhs.row = a.row;
-	c.rows = b.row - c.lhs.row + 1;
-	c.cols = b.col - c.lhs.col + 1;
-	if (c.type != SolverINT && c.type != SolverBOOL) {
+
+	if (has_rhs) {
 		the_constraint->rhs_value = gnm_expr_entry_parse_as_value
 			(state->rhs.entry, state->sheet);
-		a = the_constraint->rhs_value->v_range.cell.a;
-		c.rhs.col = a.col;
-		c.rhs.row = a.row;
+		ra = the_constraint->rhs_value->v_range.cell.a;
 	} else {
-		the_constraint->rhs_value = NULL;
-		c.rhs.col = c.rhs.row = 0;
+		ra.col = ra.row = 0;
 	}
+
+	gnm_solver_constraint_set_old (&c, the_constraint->type,
+				       a.col, a.row,
+				       ra.col, ra.row,
+				       b.col - a.col + 1,
+				       b.row - a.row + 1);
 /* FIXME: We are dropping cross sheet references!! */
 	text = gnm_solver_constraint_as_str (&c);
 	gtk_list_store_set (store, iter, 0, text, 1, the_constraint, -1);
@@ -561,32 +564,27 @@ convert_constraint_format (constraint_conversion_t *conv)
 	store = gtk_tree_view_get_model (conv->c_listing);
 	if (gtk_tree_model_get_iter_first (store, &iter))
 		do {
+			gboolean has_rhs;
+
 			gtk_tree_model_get (store, &iter, 1, &a_constraint, -1);
 			if (a_constraint == NULL)
 				break;
 
 			engine_constraint = g_new (SolverConstraint, 1);
-			engine_constraint->lhs.col =
-				a_constraint->lhs_value->v_range.cell.a.col;
-			engine_constraint->lhs.row =
-				a_constraint->lhs_value->v_range.cell.a.row;
-			engine_constraint->rows  =
-				a_constraint->lhs_value->v_range.cell.b.row
-				- a_constraint->lhs_value->v_range.cell.a.row +1;
-			engine_constraint->cols  =
-				a_constraint->lhs_value->v_range.cell.b.col
-				- a_constraint->lhs_value->v_range.cell.a.col +1;
-			engine_constraint->type = a_constraint->type;
-			if ((a_constraint->type == SolverINT)
-				|| (a_constraint->type == SolverBOOL)) {
-				engine_constraint->rhs.col  = 0;
-				engine_constraint->rhs.row  = 0;
-			} else {
-				engine_constraint->rhs.col  =
-					a_constraint->rhs_value->v_range.cell.a.col;
-				engine_constraint->rhs.row  =
-					a_constraint->rhs_value->v_range.cell.a.row;
-			}
+
+			has_rhs = (a_constraint->type != SolverINT &&
+				   a_constraint->type != SolverBOOL);
+
+			gnm_solver_constraint_set_old
+				(engine_constraint, a_constraint->type,
+				 a_constraint->lhs_value->v_range.cell.a.col,
+				 a_constraint->lhs_value->v_range.cell.a.row,
+				 has_rhs ? a_constraint->rhs_value->v_range.cell.a.col : 0,
+				 has_rhs ? a_constraint->rhs_value->v_range.cell.a.row : 0,
+				 (a_constraint->lhs_value->v_range.cell.b.col -
+				  a_constraint->lhs_value->v_range.cell.a.col + 1),
+				 (a_constraint->lhs_value->v_range.cell.b.row -
+				  a_constraint->lhs_value->v_range.cell.a.row + 1));
 			conv->c_list = g_slist_append (conv->c_list, engine_constraint);
 		} while (gtk_tree_model_iter_next (store, &iter));
 }
@@ -608,23 +606,15 @@ revert_constraint_format (constraint_conversion_t * conv)
 	while (engine_constraint_list != NULL) {
 		SolverConstraint const *engine_constraint =
 			engine_constraint_list->data;
-		GnmRange r;
 		constraint_t *a_constraint = g_new (constraint_t, 1);
 		char *str;
 
-		r.start.col = engine_constraint->lhs.col;
-		r.start.row = engine_constraint->lhs.row;
-		r.end.col = r.start.col + engine_constraint->cols - 1;
-		r.end.row = r.start.row + engine_constraint->rows - 1;
-		a_constraint->lhs_value = value_new_cellrange_r (conv->sheet,
-								 &r);
-
-		r.start.col = engine_constraint->rhs.col;
-		r.start.row = engine_constraint->rhs.row;
-		r.end.col = r.start.col + engine_constraint->cols - 1;
-		r.end.row = r.start.row + engine_constraint->rows - 1;
-		a_constraint->rhs_value = value_new_cellrange_r (conv->sheet,
-								 &r);
+		a_constraint->lhs_value =
+			gnm_solver_constraint_get_lhs (engine_constraint,
+						       conv->sheet);
+		a_constraint->rhs_value =
+			gnm_solver_constraint_get_rhs (engine_constraint,
+						       conv->sheet);
 
 		a_constraint->type = engine_constraint->type;
 		gtk_list_store_append (store, &iter);

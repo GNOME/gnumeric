@@ -135,10 +135,16 @@ solver_answer_report (WorkbookControl *wbc,
 	for (i = 0; i < res->param->n_total_constraints; i++) {
 	        SolverConstraint const *c = res->constraints_array[i];
 		char *str = gnm_solver_constraint_as_str (c);
+		gnm_float cl, cr;
+		GnmCell *lhs, *rhs;
+
+		gnm_solver_constraint_get_part (c, sheet, 0,
+						&lhs, &cl,
+						&rhs, &cr);
 
 		/* Set `Cell' column */
 		dao_set_cell (&dao, 1, 16 + vars + i,
-			  cell_coord_name (c->lhs.col, c->lhs.row));
+			      cell_name (lhs));
 
 		/* Set `Name' column */
 		dao_set_cell (&dao, 2, 16 + vars + i,
@@ -291,19 +297,24 @@ solver_sensitivity_report (WorkbookControl *wbc,
 
 	for (i = 0; i < res->param->n_total_constraints; i++) {
 	        SolverConstraint *c = res->constraints_array[i];
+		gnm_float cl, cr;
+		GnmCell *lhs, *rhs;
+
+		gnm_solver_constraint_get_part (c, sheet, 0,
+						&lhs, &cl,
+						&rhs, &cr);
 
 		/* Set `Cell' column */
 		dao_set_cell (&dao, 1, 12 + vars + i,
-			  cell_coord_name (c->lhs.col, c->lhs.row));
+			      cell_name (lhs));
 
 		/* Set `Name' column */
 		dao_set_cell (&dao, 2, 12 + vars + i,
 			      res->constraint_names [i]);
 
 		/* Set `Final Value' column */
-		cell = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
 		dao_set_cell_value (&dao, 3, 12 + vars + i,
-				    value_dup (cell->value));
+				    value_dup (lhs->value));
 
 		/* Set `Shadow Price' */
 		dao_set_cell_value (&dao, 4, 12 + vars + i,
