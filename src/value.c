@@ -381,14 +381,18 @@ GnmValue *
 value_new_cellrange_parsepos_str (GnmParsePos *pp, char const *str)
 {
 	GnmExprTop const *texpr;
+	GnmExprParseFlags flags = GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS;
+	GnmConventions const *convs = NULL;
 
 	g_return_val_if_fail (pp != NULL, NULL);
 	g_return_val_if_fail (str != NULL, NULL);
 
-	texpr = gnm_expr_parse_str (str, pp,
-		GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES |
-		GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
-		NULL, NULL);
+	if (pp->sheet) {
+		flags |= GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES;
+		convs = pp->sheet->convs;
+	}
+
+	texpr = gnm_expr_parse_str (str, pp, flags, convs, NULL);
 
 	if (texpr != NULL)  {
 		GnmValue *value = gnm_expr_top_get_range (texpr);

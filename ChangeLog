@@ -1,3 +1,8 @@
+2009-10-31  Morten Welinder  <terra@gnome.org>
+
+	* src/value.c (value_new_cellrange_parsepos_str): Use the right
+	convensions.
+
 2009-10-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/wbc-gtk-actions.c (cb_format_preferences): delete

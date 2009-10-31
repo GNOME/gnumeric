@@ -56,6 +56,12 @@
 #define GNM 100
 #define CXML2C(s) ((char const *)(s))
 
+static inline gboolean
+attr_eq (const xmlChar *a, const char *s)
+{
+	return !strcmp (CXML2C (a), s);
+}
+
 /* ------------------------------------------------------------------------- */
 
 
@@ -94,25 +100,36 @@ solver_constr_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	int type = 0;
 	SolverConstraint *c;
-	int i;
 	Sheet *sheet = gnm_xml_in_cur_sheet (xin);
 	SolverParameters *sp = sheet->solver_parameters;
 	int lhs_col = 0, lhs_row = 0, rhs_col = 0, rhs_row = 0;
 	int cols = 1, rows = 1;
 	gboolean old = FALSE;
+	GnmParsePos pp;
 
 	c = gnm_solver_constraint_new (sheet);
 
-	for (i = 0; attrs != NULL && attrs[i] && attrs[i + 1] ; i += 2) {
-		if (gnm_xml_attr_int (attrs+i, "Lcol", &lhs_col) ||
-		    gnm_xml_attr_int (attrs+i, "Lrow", &lhs_row) ||
-		    gnm_xml_attr_int (attrs+i, "Rcol", &rhs_col) ||
-		    gnm_xml_attr_int (attrs+i, "Rrow", &rhs_row) ||
-		    gnm_xml_attr_int (attrs+i, "Cols", &cols) ||
-		    gnm_xml_attr_int (attrs+i, "Rows", &rows))
+	parse_pos_init (&pp, sheet->workbook, NULL, 0, 0);
+
+	for (; attrs && attrs[0] && attrs[1] ; attrs += 2) {
+		if (gnm_xml_attr_int (attrs, "Lcol", &lhs_col) ||
+		    gnm_xml_attr_int (attrs, "Lrow", &lhs_row) ||
+		    gnm_xml_attr_int (attrs, "Rcol", &rhs_col) ||
+		    gnm_xml_attr_int (attrs, "Rrow", &rhs_row) ||
+		    gnm_xml_attr_int (attrs, "Cols", &cols) ||
+		    gnm_xml_attr_int (attrs, "Rows", &rows))
 			old = TRUE;
-		else if (gnm_xml_attr_int (attrs+i, "Type", &type))
+		else if (gnm_xml_attr_int (attrs, "Type", &type))
 			; /* Nothing */
+		else if (attr_eq (attrs[0], "lhs")) {
+			GnmValue *v = value_new_cellrange_parsepos_str
+				(&pp, CXML2C (attrs[1]));
+			gnm_solver_constraint_set_lhs (c, v);
+		} else if (attr_eq (attrs[0], "rhs")) {
+			GnmValue *v = value_new_cellrange_parsepos_str
+				(&pp, CXML2C (attrs[1]));
+			gnm_solver_constraint_set_rhs (c, v);
+		}
 	}
 
 	switch (type) {

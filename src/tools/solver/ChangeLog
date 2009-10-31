@@ -1,3 +1,7 @@
+2009-10-31  Morten Welinder  <terra@gnome.org>
+
+	* solver.c (solver_constr_start): Read the new format.
+
 2009-10-29  Morten Welinder  <terra@gnome.org>
 
 	* solver.c (solver_run): Avoid UMRs on Win32.
