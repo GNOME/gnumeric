@@ -121,17 +121,19 @@ static GList *qp_alg_name_list = NULL;
 static void
 constraint_fill (SolverConstraint *c, SolverState *state)
 {
+	Sheet *sheet = state->sheet;
+
 	c->type = gtk_combo_box_get_active (state->type_combo);
 
-	value_release (c->lhs);
-	c->lhs = gnm_expr_entry_parse_as_value (state->lhs.entry,
-						state->sheet);
+	gnm_solver_constraint_set_lhs
+		(c,
+		 gnm_expr_entry_parse_as_value (state->lhs.entry, sheet));
 
-	value_release (c->rhs);
-	c->rhs = gnm_solver_constraint_has_rhs (c)
-		?  gnm_expr_entry_parse_as_value (state->rhs.entry,
-						  state->sheet)
-		: NULL;
+	gnm_solver_constraint_set_rhs
+		(c,
+		 gnm_solver_constraint_has_rhs (c)
+		 ? gnm_expr_entry_parse_as_value (state->rhs.entry, sheet)
+		 : NULL);
 }
 
 static gboolean
@@ -139,7 +141,7 @@ dialog_set_sec_button_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 				   SolverState *state)
 {
 	gboolean select_ready = (state->constr != NULL);
-	SolverConstraint *test = g_new0 (SolverConstraint, 1);
+	SolverConstraint *test = gnm_solver_constraint_new (NULL);
 	gboolean ready, has_rhs;
 
 	constraint_fill (test, state);
@@ -164,6 +166,7 @@ constraint_select_click (GtkTreeSelection *Selection,
 	GtkTreeModel *store;
 	GtkTreeIter iter;
 	SolverConstraint const *c;
+	GnmValue const *lhs, *rhs;
 
 	if (gtk_tree_selection_get_selected (Selection, &store, &iter))
 		gtk_tree_model_get (store, &iter, 1, &state->constr, -1);
@@ -175,9 +178,10 @@ constraint_select_click (GtkTreeSelection *Selection,
 		return; /* Fail? */
 	c = state->constr;
 
-	if (c->lhs) {
+	lhs = gnm_solver_constraint_get_lhs (c);
+	if (lhs) {
 		GnmExprTop const *texpr =
-			gnm_expr_top_new_constant (value_dup (c->lhs));
+			gnm_expr_top_new_constant (value_dup (lhs));
 		GnmParsePos pp;
 
 		gnm_expr_entry_load_from_expr
@@ -188,9 +192,10 @@ constraint_select_click (GtkTreeSelection *Selection,
 	} else
 		gnm_expr_entry_load_from_text (state->lhs.entry, "");
 
-	if (c->rhs && gnm_solver_constraint_has_rhs (c)) {
+	rhs = gnm_solver_constraint_get_rhs (c);
+	if (rhs && gnm_solver_constraint_has_rhs (c)) {
 		GnmExprTop const *texpr =
-			gnm_expr_top_new_constant (value_dup (c->rhs));
+			gnm_expr_top_new_constant (value_dup (rhs));
 		GnmParsePos pp;
 
 		gnm_expr_entry_load_from_expr
@@ -239,7 +244,7 @@ constraint_fill_row (SolverState *state, GtkListStore *store, GtkTreeIter *iter)
 
 	constraint_fill (c, state);
 
-	text = gnm_solver_constraint_as_str (c);
+	text = gnm_solver_constraint_as_str (c, state->sheet);
 	gtk_list_store_set (store, iter, 0, text, 1, c, -1);
 	g_free (text);
 	gtk_tree_selection_select_iter (gtk_tree_view_get_selection (state->constraint_list), iter);
@@ -254,7 +259,7 @@ cb_dialog_add_clicked (SolverState *state)
 		SolverParameters *param = state->sheet->solver_parameters;
 
 		gtk_list_store_append (store, &iter);
-		state->constr = g_new0 (SolverConstraint, 1);
+		state->constr = gnm_solver_constraint_new (state->sheet);
 		constraint_fill_row (state, store, &iter);
 		param->constraints =
 			g_slist_append (param->constraints, state->constr);
@@ -452,10 +457,12 @@ check_int_constraints (GnmValue *input_range, SolverState *state)
 				continue;
 			}
 
+#if 0
 			if (!global_range_contained (state->sheet,
 						     a_constraint->lhs,
 						     input_range))
 				return text;
+#endif
 
 			g_free (text);
 		} while (gtk_tree_model_iter_next (store, &iter));
@@ -1023,6 +1030,23 @@ dialog_init (SolverState *state)
 	gtk_tree_view_column_set_expand (column, TRUE);
 	gtk_tree_view_append_column (state->constraint_list, column);
 
+	{
+		GtkWidget *w = GTK_WIDGET (state->constraint_list);
+		int width, height, vsep;
+		PangoLayout *layout =
+			gtk_widget_create_pango_layout (w, "Mg19");
+
+		gtk_widget_style_get (w,
+				      "vertical_separator", &vsep,
+				      NULL);
+
+		pango_layout_get_pixel_size (layout, &width, &height);
+		gtk_widget_set_size_request (w,
+					     -1,
+					     (2 * height + vsep) * (4 + 1));
+		g_object_unref (layout);
+	}
+
 /* Loading the old solver specs... from param  */
 
 	for (cl = param->constraints; cl; cl = cl->next) {
@@ -1031,7 +1055,7 @@ dialog_init (SolverState *state)
 		char *str;
 
 		gtk_list_store_append (store, &iter);
-		str = gnm_solver_constraint_as_str (c);
+		str = gnm_solver_constraint_as_str (c, state->sheet);
 		gtk_list_store_set (store, &iter, 0, str, 1, c, -1);
 		g_free (str);
 	}

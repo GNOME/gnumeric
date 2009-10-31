@@ -29,6 +29,7 @@ typedef enum {
 	DEPENDENT_CELL		   = 0x00000001,	/* builtin type */
 	DEPENDENT_DYNAMIC_DEP	   = 0x00000002,	/* builtin type */
 	DEPENDENT_NAME		   = 0x00000003,	/* builtin pseudo type */
+	DEPENDENT_MANAGED	   = 0x00000004,	/* builtin type */
 	DEPENDENT_TYPE_MASK	   = 0x00000fff,
 
 	/* Linked into the workbook wide expression list */
@@ -111,6 +112,14 @@ void		 gnm_dep_container_dump	(GnmDepContainer const *deps,
 					 Sheet *sheet);
 void             gnm_dep_container_sanity_check (GnmDepContainer const *deps);
 void             gnm_dep_container_resize (GnmDepContainer *deps, int rows);
+
+typedef struct {
+	GnmDependent base;
+} GnmManagedDependent;
+
+void     dependent_managed_init (GnmManagedDependent *dep, Sheet *sheet);
+void     dependent_managed_set_expr (GnmManagedDependent *dep,
+				     GnmExprTop const *texpr);
 
 #define DEPENDENT_CONTAINER_FOREACH_DEPENDENT(dc, dep, code)	\
   do {								\

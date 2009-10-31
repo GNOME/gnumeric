@@ -134,7 +134,7 @@ solver_answer_report (WorkbookControl *wbc,
 
 	for (i = 0; i < res->param->n_total_constraints; i++) {
 	        SolverConstraint const *c = res->constraints_array[i];
-		char *str = gnm_solver_constraint_as_str (c);
+		char *str = gnm_solver_constraint_as_str (c, sheet);
 		GnmCell *lhs, *rhs;
 
 		gnm_solver_constraint_get_part (c, sheet, 0,

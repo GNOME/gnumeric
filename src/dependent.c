@@ -244,6 +244,8 @@ static void dynamic_dep_eval	   (GnmDependent *dep);
 static void dynamic_dep_debug_name (GnmDependent const *dep, GString *target);
 static void name_dep_eval	   (GnmDependent *dep);
 static void name_dep_debug_name	   (GnmDependent const *dep, GString *target);
+static void managed_dep_eval	   (GnmDependent *dep);
+static void managed_dep_debug_name (GnmDependent const *dep, GString *target);
 
 static GnmCellPos const dummy = { 0, 0 };
 static GPtrArray *dep_classes = NULL;
@@ -256,6 +258,11 @@ static GnmDependentClass name_dep_class = {
 	name_dep_eval,
 	NULL,
 	name_dep_debug_name,
+};
+static GnmDependentClass managed_dep_class = {
+	managed_dep_eval,
+	NULL,
+	managed_dep_debug_name,
 };
 typedef struct {
 	GnmDependent  base;
@@ -275,6 +282,7 @@ dependent_types_init (void)
 	g_ptr_array_add	(dep_classes, NULL); /* Cell */
 	g_ptr_array_add	(dep_classes, &dynamic_dep_class);
 	g_ptr_array_add	(dep_classes, &name_dep_class);
+	g_ptr_array_add	(dep_classes, &managed_dep_class);
 
 #if USE_POOLS
 	micro_few_pool =
@@ -1233,6 +1241,36 @@ workbook_unlink_3d_dep (GnmDependent *dep)
 
 /*****************************************************************************/
 
+void
+dependent_managed_init (GnmManagedDependent *dep, Sheet *sheet)
+{
+	memset (dep, 0, sizeof (dep));
+	dep->base.flags = DEPENDENT_MANAGED;
+	dep->base.sheet = sheet;
+}
+
+void
+dependent_managed_set_expr (GnmManagedDependent *dep,
+			    GnmExprTop const *texpr)
+{
+	dependent_set_expr (&dep->base, texpr);
+	if (texpr && dep->base.sheet)
+		dependent_link (&dep->base);
+}
+
+static void
+managed_dep_eval (G_GNUC_UNUSED GnmDependent *dep)
+{
+}
+
+static void
+managed_dep_debug_name (GnmDependent const *dep, GString *target)
+{
+	g_string_append_printf (target, "Managed%p", (void *)dep);
+}
+
+/*****************************************************************************/
+
 static void
 name_dep_eval (G_GNUC_UNUSED GnmDependent *dep)
 {
@@ -1243,6 +1281,8 @@ name_dep_debug_name (GnmDependent const *dep, GString *target)
 {
 	g_string_append_printf (target, "Name%p", (void *)dep);
 }
+
+/*****************************************************************************/
 
 static void
 dynamic_dep_eval (G_GNUC_UNUSED GnmDependent *dep)

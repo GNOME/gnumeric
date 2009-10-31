@@ -4,6 +4,7 @@
 
 #include "gnumeric.h"
 #include "numbers.h"
+#include "dependent.h"
 #include <gsf/gsf-libxml.h>
 
 
@@ -69,16 +70,16 @@ typedef struct {
 	SolverConstraintType type;
 
 	/* Must be a range.  */
-	GnmValue *lhs;
+	GnmManagedDependent lhs;
 
 	/* Must be a constant or a range.  */
-	GnmValue *rhs;
+	GnmManagedDependent rhs;
 } SolverConstraint;
 
 #ifdef GNM_ENABLE_SOLVER
 
+SolverConstraint *gnm_solver_constraint_new (Sheet *sheet);
 void gnm_solver_constraint_free (SolverConstraint *c);
-SolverConstraint *gnm_solver_constraint_dup (SolverConstraint *c);
 
 void gnm_solver_constraint_set_old (SolverConstraint *c,
 				    SolverConstraintType type,
@@ -93,12 +94,16 @@ gboolean gnm_solver_constraint_get_part (SolverConstraint const *c,
 					 GnmCell **lhs, gnm_float *cl,
 					 GnmCell **rhs, gnm_float *cr);
 
-GnmValue *gnm_solver_constraint_get_lhs (SolverConstraint const *c,
-					 Sheet *sheet);
-GnmValue *gnm_solver_constraint_get_rhs (SolverConstraint const *c,
-					 Sheet *sheet);
+GnmValue const *gnm_solver_constraint_get_lhs (SolverConstraint const *c);
+GnmValue const *gnm_solver_constraint_get_rhs (SolverConstraint const *c);
 
-char *gnm_solver_constraint_as_str (SolverConstraint const *c);
+void gnm_solver_constraint_set_lhs (SolverConstraint *c, GnmValue *v);
+void gnm_solver_constraint_set_rhs (SolverConstraint *c, GnmValue *v);
+
+void gnm_solver_constraint_side_as_str (SolverConstraint const *c,
+					Sheet const *sheet,
+					GString *buf, gboolean lhs);
+char *gnm_solver_constraint_as_str (SolverConstraint const *c, Sheet *sheet);
 
 typedef enum {
 	SolverRunning, SolverOptimal, SolverUnbounded, SolverInfeasible,

@@ -1024,12 +1024,13 @@ xml_write_solver (GnmOutputXML *state)
 		gsf_xml_out_start_element (state->output, GNM "Constr");
 		gsf_xml_out_add_int (state->output, "Type", type);
 
-		value_get_as_gstring (c->lhs, str, state->convs);
+		gnm_solver_constraint_side_as_str (c, state->sheet, str, TRUE);
 		gsf_xml_out_add_cstr (state->output, "lhs", str->str);
 
 		if (gnm_solver_constraint_has_rhs (c)) {
 			g_string_truncate (str, 0);
-			value_get_as_gstring (c->rhs, str, state->convs);
+			gnm_solver_constraint_side_as_str (c, state->sheet,
+							   str, FALSE);
 			gsf_xml_out_add_cstr (state->output, "rhs", str->str);
 		}
 
