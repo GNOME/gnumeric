@@ -1240,22 +1240,30 @@ workbook_unlink_3d_dep (GnmDependent *dep)
 }
 
 /*****************************************************************************/
+/*
+ * "Managed" dependent handling.
+ *
+ * A managed dependent is simply an expression set up to be maintained by
+ * the dependency system so it follows row/column insert/delete nicely.
+ *
+ * The expression being managed is typically a cell range, but can be any
+ * expression.  Everything is interpreted relative to A1 in the sheet.
+ */
 
 void
-dependent_managed_init (GnmManagedDependent *dep, Sheet *sheet)
+dependent_managed_init (GnmDependent *dep, Sheet *sheet)
 {
 	memset (dep, 0, sizeof (dep));
-	dep->base.flags = DEPENDENT_MANAGED;
-	dep->base.sheet = sheet;
+	dep->flags = DEPENDENT_MANAGED;
+	dep->sheet = sheet;
 }
 
 void
-dependent_managed_set_expr (GnmManagedDependent *dep,
-			    GnmExprTop const *texpr)
+dependent_managed_set_expr (GnmDependent *dep, GnmExprTop const *texpr)
 {
-	dependent_set_expr (&dep->base, texpr);
-	if (texpr && dep->base.sheet)
-		dependent_link (&dep->base);
+	dependent_set_expr (dep, texpr);
+	if (texpr && dep->sheet)
+		dependent_link (dep);
 }
 
 static void

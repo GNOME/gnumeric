@@ -70,10 +70,10 @@ typedef struct {
 	SolverConstraintType type;
 
 	/* Must be a range.  */
-	GnmManagedDependent lhs;
+	GnmDependent lhs;
 
 	/* Must be a constant or a range.  */
-	GnmManagedDependent rhs;
+	GnmDependent rhs;
 } SolverConstraint;
 
 #ifdef GNM_ENABLE_SOLVER

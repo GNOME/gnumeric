@@ -113,13 +113,8 @@ void		 gnm_dep_container_dump	(GnmDepContainer const *deps,
 void             gnm_dep_container_sanity_check (GnmDepContainer const *deps);
 void             gnm_dep_container_resize (GnmDepContainer *deps, int rows);
 
-typedef struct {
-	GnmDependent base;
-} GnmManagedDependent;
-
-void     dependent_managed_init (GnmManagedDependent *dep, Sheet *sheet);
-void     dependent_managed_set_expr (GnmManagedDependent *dep,
-				     GnmExprTop const *texpr);
+void dependent_managed_init (GnmDependent *dep, Sheet *sheet);
+void dependent_managed_set_expr (GnmDependent *dep, GnmExprTop const *texpr);
 
 #define DEPENDENT_CONTAINER_FOREACH_DEPENDENT(dc, dep, code)	\
   do {								\

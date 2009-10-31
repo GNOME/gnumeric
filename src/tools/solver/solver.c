@@ -311,8 +311,8 @@ gnm_solver_constraint_dup (SolverConstraint *c, Sheet *sheet)
 {
 	SolverConstraint *res = gnm_solver_constraint_new (sheet);
 	res->type = c->type;
-	dependent_managed_set_expr (&res->lhs, res->lhs.base.texpr);
-	dependent_managed_set_expr (&res->rhs, res->lhs.base.texpr);
+	dependent_managed_set_expr (&res->lhs, res->lhs.texpr);
+	dependent_managed_set_expr (&res->rhs, res->lhs.texpr);
 	return res;
 }
 
@@ -389,7 +389,7 @@ gnm_solver_constraint_get_size (SolverConstraint const *c)
 GnmValue const *
 gnm_solver_constraint_get_lhs (SolverConstraint const *c)
 {
-	GnmExprTop const *texpr = c->lhs.base.texpr;
+	GnmExprTop const *texpr = c->lhs.texpr;
 	return texpr ? gnm_expr_top_get_constant (texpr) : NULL;
 }
 
@@ -405,7 +405,7 @@ gnm_solver_constraint_set_lhs (SolverConstraint *c, GnmValue *v)
 GnmValue const *
 gnm_solver_constraint_get_rhs (SolverConstraint const *c)
 {
-	GnmExprTop const *texpr = c->rhs.base.texpr;
+	GnmExprTop const *texpr = c->rhs.texpr;
 	return texpr ? gnm_expr_top_get_constant (texpr) : NULL;
 }
 
@@ -548,7 +548,7 @@ gnm_solver_constraint_side_as_str (SolverConstraint const *c,
 {
 	GnmExprTop const *texpr;
 
-	texpr = lhs ? c->lhs.base.texpr : c->rhs.base.texpr;
+	texpr = lhs ? c->lhs.texpr : c->rhs.texpr;
 	if (texpr) {
 		GnmConventionsOut out;
 		GnmParsePos pp;

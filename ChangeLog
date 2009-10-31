@@ -1,5 +1,8 @@
 2009-10-31  Morten Welinder  <terra@gnome.org>
 
+	* src/dependent.c (dependent_managed_init,
+	dependent_managed_set_expr): New functions.
+
 	* src/value.c (value_new_cellrange_parsepos_str): Use the right
 	convensions.  Add flags argument for finer control.  All callers
 	changed.
