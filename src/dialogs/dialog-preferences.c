@@ -70,6 +70,7 @@ typedef void (* double_conf_setter_t) (gnm_float value);
 typedef void (* gint_conf_setter_t) (gint value);
 typedef void (* gboolean_conf_setter_t) (gboolean value);
 typedef void (* enum_conf_setter_t) (int value);
+typedef void (* wordlist_conf_setter_t) (GSList *value);
 
 static void
 dialog_pref_add_item (PrefState *state, char const *page_name,
@@ -77,9 +78,12 @@ dialog_pref_add_item (PrefState *state, char const *page_name,
 		      int page, char const* parent_path)
 {
 	GtkTreeIter iter, parent;
-	GdkPixbuf * icon = gtk_widget_render_icon (state->dialog, icon_name,
-						   GTK_ICON_SIZE_MENU,
-						   "Gnumeric-Preference-Dialog");
+	GdkPixbuf * icon = NULL;
+
+	if (icon_name != NULL)
+		icon = gtk_widget_render_icon (state->dialog, icon_name,
+					       GTK_ICON_SIZE_MENU,
+					       "Gnumeric-Preference-Dialog");
 	if ((parent_path != NULL) && gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL (state->store),
 									  &parent, parent_path))
 		gtk_tree_store_append (state->store, &iter, &parent);
@@ -91,7 +95,8 @@ dialog_pref_add_item (PrefState *state, char const *page_name,
 			    ITEM_NAME, _(page_name),
 			    PAGE_NUMBER, page,
 			    -1);
-	g_object_unref (icon);
+	if (icon != NULL)
+		g_object_unref (icon);
 }
 
 static void
@@ -416,6 +421,145 @@ double_pref_create_widget (GOConfNode *node, GtkWidget *table,
 
 	pref_create_label (node, table, row, default_label, w);
 	set_tip (node, w);
+}
+
+
+/*************************************************************************/
+
+
+
+static void
+wordlist_pref_conf_to_widget (GOConfNode *node, G_GNUC_UNUSED char const *key,
+			 GtkListStore *store)
+{
+	GSList *l, *list = go_conf_get_str_list (node, NULL);
+	GtkTreeIter  iter;
+
+	gtk_list_store_clear (store);
+
+	for (l = list; l != NULL; l = l->next) {
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter,
+				    0, l->data,
+				    -1);
+		g_free (l->data);
+	}
+	g_slist_free (list);
+}
+
+static void                
+wordlist_pref_remove (GtkButton *button, GOConfNode *node) {
+	GtkTreeView *tree = g_object_get_data (G_OBJECT (button), "treeview");
+	GtkTreeSelection *select = gtk_tree_view_get_selection (tree);
+	GtkTreeIter iter;
+	GtkTreeModel *model;
+
+	if (gtk_tree_selection_get_selected (select, &model, &iter)) {
+		char *text;
+		GSList *l, *list = go_conf_get_str_list (node, NULL);
+
+		gtk_tree_model_get (model, &iter,
+				    0, &text,
+				    -1);
+		l = g_slist_find_custom (list, text, (GCompareFunc)strcmp);
+		if (l != NULL) {
+			g_free (l->data);
+			list = g_slist_delete_link (list, l);
+			go_conf_set_str_list (node, NULL, list);
+		}
+		g_free (text);
+		go_slist_free_custom (list, g_free);
+	}
+}
+
+static void                
+wordlist_pref_add (GtkButton *button, GOConfNode *node) {
+	GtkEntry *entry = g_object_get_data (G_OBJECT (button), "entry");
+
+	if (gtk_entry_get_text_length > 0) {
+		const gchar *text = gtk_entry_get_text (entry);
+		GSList *l, *list = go_conf_get_str_list (node, NULL);
+		l = g_slist_find_custom (list, text, (GCompareFunc)strcmp);
+		if (l == NULL) {
+			list = g_slist_append (list, g_strdup (text));
+			go_conf_set_str_list (node, NULL, list);
+		}
+		go_slist_free_custom (list, g_free);
+	}
+}
+
+static void
+wordlist_pref_update_remove_button (GtkTreeSelection *selection, GtkButton *button)
+{
+	gtk_widget_set_sensitive (GTK_WIDGET (button),
+				  gtk_tree_selection_get_selected (selection, NULL, NULL));
+}
+
+static GtkWidget *
+wordlist_pref_create_widget (GOConfNode *node, GtkWidget *table,
+			     gint row, 
+			     char const *default_label) 
+{
+	GtkWidget *w= gtk_table_new (5, 2, FALSE);
+	GtkWidget *sw= gtk_scrolled_window_new (NULL, NULL);
+	GtkWidget *tv= gtk_tree_view_new ();
+	GtkWidget *entry = gtk_entry_new ();
+	GtkWidget *add_button = gtk_button_new_from_stock (GTK_STOCK_ADD);
+	GtkWidget *remove_button = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+	GtkListStore	*model = gtk_list_store_new (1, G_TYPE_STRING);
+	GtkTreeSelection *selection;
+
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), 
+					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
+					     GTK_SHADOW_ETCHED_IN);
+	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (tv), FALSE);
+	gtk_container_add (GTK_CONTAINER (sw), tv);
+	
+	gtk_table_attach (GTK_TABLE (table), w,
+		0, 2, row, row + 1,
+		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 5, 2);
+	gtk_table_attach (GTK_TABLE (w), sw,
+		0, 1, 1, 4,
+		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 5, 2);
+	gtk_table_attach (GTK_TABLE (w), entry,
+		0, 1, 4, 5,
+		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_SHRINK, 5, 2);
+	gtk_table_attach (GTK_TABLE (w), remove_button,
+		1, 2, 3, 4,
+		GTK_FILL | GTK_SHRINK, GTK_SHRINK, 0, 2);
+	gtk_table_attach (GTK_TABLE (w), add_button,
+		1, 2, 4, 5,
+		GTK_FILL | GTK_SHRINK, GTK_SHRINK, 0, 2);
+
+	gtk_tree_view_set_model (GTK_TREE_VIEW (tv),
+				 GTK_TREE_MODEL (model));
+	gtk_tree_view_append_column (GTK_TREE_VIEW (tv),
+				     gtk_tree_view_column_new_with_attributes 
+				     (NULL,
+				      gtk_cell_renderer_text_new (),
+				      "text", 0,
+				      NULL));
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tv));
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
+	wordlist_pref_conf_to_widget (node, "", model);
+
+	g_object_set_data (G_OBJECT (remove_button), "treeview", tv);
+	g_object_set_data (G_OBJECT (add_button), "entry", entry);
+	g_signal_connect (G_OBJECT (remove_button), "clicked",
+		G_CALLBACK (wordlist_pref_remove), node);
+	g_signal_connect (G_OBJECT (add_button), "clicked",
+		G_CALLBACK (wordlist_pref_add), node);
+	g_signal_connect (G_OBJECT (selection), "changed",
+		G_CALLBACK (wordlist_pref_update_remove_button), remove_button);
+	wordlist_pref_update_remove_button (selection, remove_button);
+
+	connect_notification (node, (GOConfMonitorFunc)wordlist_pref_conf_to_widget,
+			      model, table);
+
+	pref_create_label (node, w, 0, default_label, tv);
+	set_tip (node, tv);
+	return w;
 }
 
 /*******************************************************************************************/
@@ -787,6 +931,78 @@ pref_copypaste_page_initializer (PrefState *state,
 }
 
 /*******************************************************************************************/
+/*                     AutoCorrect Preferences Page (General)                                              */
+/*******************************************************************************************/
+
+static GtkWidget *
+pref_autocorrect_general_page_initializer (PrefState *state,
+				 G_GNUC_UNUSED gpointer data,
+				 G_GNUC_UNUSED GtkNotebook *notebook,
+				 G_GNUC_UNUSED gint page_num)
+{
+	GtkWidget *page = gtk_table_new (2, 2, FALSE);
+	gint row = 0;
+
+	bool_pref_create_widget (gnm_conf_get_autocorrect_names_of_days_node (),
+				 page, row++,
+				 gnm_conf_set_autocorrect_names_of_days,
+				 _("Capitalize _names of days"));
+
+	gtk_widget_show_all (page);
+	return page;
+}
+
+/*******************************************************************************************/
+/*                     AutoCorrect Preferences Page (InitialCaps)                                              */
+/*******************************************************************************************/
+
+static GtkWidget *
+pref_autocorrect_initialcaps_page_initializer (PrefState *state,
+				 G_GNUC_UNUSED gpointer data,
+				 G_GNUC_UNUSED GtkNotebook *notebook,
+				 G_GNUC_UNUSED gint page_num)
+{
+	GtkWidget *page = gtk_table_new (2, 2, FALSE);
+	gint row = 0;
+
+	bool_pref_create_widget (gnm_conf_get_autocorrect_init_caps_node (),
+				 page, row++,
+				 gnm_conf_set_autocorrect_init_caps,
+				 _("Correct _TWo INitial CApitals"));
+	wordlist_pref_create_widget (gnm_conf_get_autocorrect_init_caps_list_node (), page,
+				     row++, "Do _not correct:");
+
+	gtk_widget_show_all (page);
+	return page;
+}
+
+/*******************************************************************************************/
+/*                     AutoCorrect Preferences Page (InitialCaps)                                              */
+/*******************************************************************************************/
+
+static GtkWidget *
+pref_autocorrect_firstletter_page_initializer (PrefState *state,
+				 G_GNUC_UNUSED gpointer data,
+				 G_GNUC_UNUSED GtkNotebook *notebook,
+				 G_GNUC_UNUSED gint page_num)
+{
+	GtkWidget *page = gtk_table_new (2, 2, FALSE);
+	gint row = 0;
+
+	bool_pref_create_widget (gnm_conf_get_autocorrect_first_letter_node (),
+				 page, row++,
+				 gnm_conf_set_autocorrect_first_letter,
+				 _("Capitalize _first letter of sentence"));
+	wordlist_pref_create_widget (gnm_conf_get_autocorrect_first_letter_list_node (), page,
+				     row++, "Do _not capitalize after:");
+
+	gtk_widget_show_all (page);
+	return page;
+}
+
+
+
+/*******************************************************************************************/
 /*               General Preference Dialog Routines                                        */
 /*******************************************************************************************/
 
@@ -800,15 +1016,18 @@ typedef struct {
 } page_info_t;
 
 static page_info_t const page_info[] = {
+	{N_("Auto Correct"),  GTK_STOCK_DIALOG_ERROR,	 NULL, &pref_autocorrect_general_page_initializer,	NULL},
 	{N_("Font"),          GTK_STOCK_ITALIC,		 NULL, &pref_font_initializer,		NULL},
 	{N_("Copy and Paste"),GTK_STOCK_PASTE,		 NULL, &pref_copypaste_page_initializer,NULL},
 	{N_("Files"),         GTK_STOCK_FLOPPY,		 NULL, &pref_file_page_initializer,	NULL},
 	{N_("Tools"),       GTK_STOCK_EXECUTE,           NULL, &pref_tool_page_initializer,	NULL},
 	{N_("Undo"),          GTK_STOCK_UNDO,		 NULL, &pref_undo_page_initializer,	NULL},
 	{N_("Windows"),       "Gnumeric_ObjectCombo",	 NULL, &pref_window_page_initializer,	NULL},
-	{N_("Header/Footer"), GTK_STOCK_ITALIC,		 "0",  &pref_font_hf_initializer,	NULL},
-	{N_("Sorting"),       GTK_STOCK_SORT_ASCENDING,  "3", &pref_sort_page_initializer,	NULL},
-	{N_("Screen"),        GTK_STOCK_PREFERENCES,     "5", &pref_screen_page_initializer,	NULL},
+	{N_("Header/Footer"), GTK_STOCK_ITALIC,		 "1",  &pref_font_hf_initializer,	NULL},
+	{N_("Sorting"),       GTK_STOCK_SORT_ASCENDING,  "4", &pref_sort_page_initializer,	NULL},
+	{N_("Screen"),        GTK_STOCK_PREFERENCES,     "6", &pref_screen_page_initializer,	NULL},
+	{N_("INitial CApitals"), NULL, "0", &pref_autocorrect_initialcaps_page_initializer,	NULL},
+	{N_("First Letter"), NULL, "0", &pref_autocorrect_firstletter_page_initializer,	NULL},
 	{NULL, NULL, NULL, NULL, NULL },
 };
 
@@ -823,6 +1042,7 @@ dialog_pref_select_page (PrefState *state, char const *page)
 
 	if (path != NULL) {
 		gtk_tree_selection_select_path (selection, path);
+		gtk_tree_view_expand_row (state->view, path, TRUE);
 		gtk_tree_path_free (path);
 	} else if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (state->store),
 						  &iter)) {
@@ -881,8 +1101,8 @@ cb_workbook_removed (PrefState *state)
 
 
 /* Note: The first page listed below is opened through File/Preferences, */
-/*       and the second through Format/Workbook */
-static char const * const startup_pages[] = {"1", "0"};
+/*       and the second through  Tools/Autocorrect */
+static char const * const startup_pages[] = {"2", "0"};
 
 void
 dialog_preferences (WBCGtk *wbcg, gint page)
@@ -973,8 +1193,8 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 		dialog_pref_add_item (state, this_page->page_name, this_page->icon_name, i, this_page->parent_path);
 	}
 
-	if (page != 0 && page != 1) {
-		g_warning ("Selected page is %i but should be 0 or 1", page);
+	if (page <0 ||  page > sizeof (startup_pages)) {
+		g_warning ("Selected startup page %i is invalid.", page);
 		page = 0;
 	}
 

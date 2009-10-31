@@ -1,3 +1,18 @@
+2009-10-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-preferences.c (dialog_pref_add_item): check for NULL icon
+	(wordlist_pref_conf_to_widget): new
+	(wordlist_pref_remove): new
+	(wordlist_pref_add): new
+	(wordlist_pref_update_remove_button): new
+	(wordlist_pref_create_widget): new
+	(pref_autocorrect_general_page_initializer): new
+	(pref_autocorrect_initialcaps_page_initializer): new
+	(pref_autocorrect_firstletter_page_initializer): new
+	(page_info): new items
+	(dialog_pref_select_page): expand initial row
+	(dialog_preferences): make startup pages check fit the array
+
 2009-10-30  Morten Welinder  <terra@gnome.org>
 
 	* dialog-solver.c (constraint_select_click): Fix criticals on

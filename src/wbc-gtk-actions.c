@@ -848,9 +848,8 @@ static GNM_ACTION_DEF (cb_sheet_resize)		{ dialog_sheet_resize (wbcg); }
 static GNM_ACTION_DEF (cb_format_cells)		{ dialog_cell_format (wbcg, FD_CURRENT); }
 static GNM_ACTION_DEF (cb_autoformat)		{ dialog_autoformat (wbcg); }
 static GNM_ACTION_DEF (cb_workbook_attr)	{ dialog_workbook_attr (wbcg); }
-static GNM_ACTION_DEF (cb_format_preferences)	{ dialog_preferences (wbcg, 1); }
 static GNM_ACTION_DEF (cb_tools_plugins)	{ dialog_plugin_manager (wbcg); }
-static GNM_ACTION_DEF (cb_tools_autocorrect)	{ dialog_autocorrect (wbcg); }
+static GNM_ACTION_DEF (cb_tools_autocorrect)	{ dialog_preferences (wbcg, 1); }
 static GNM_ACTION_DEF (cb_tools_auto_save)	{ dialog_autosave (wbcg); }
 static GNM_ACTION_DEF (cb_tools_goal_seek)	{ dialog_goal_seek (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_tabulate)	{ dialog_tabulate (wbcg, wbcg_cur_sheet (wbcg)); }
@@ -1989,9 +1988,6 @@ static GtkActionEntry const actions[] = {
 	{ "FormatWorkbook", NULL, N_("_Workbook..."),
 		NULL, N_("Modify the workbook attributes"),
 		G_CALLBACK (cb_workbook_attr) },
-	{ "FormatGnumeric", GTK_STOCK_PREFERENCES, N_("_Gnumeric..."),
-		NULL, N_("Edit the Gnumeric Preferences"),
-		G_CALLBACK (cb_format_preferences) },
 	{ "FormatAuto", NULL, N_("_Autoformat..."),
 		NULL, N_("Format a region of cells according to a pre-defined template"),
 		G_CALLBACK (cb_autoformat) },

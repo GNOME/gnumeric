@@ -11,6 +11,7 @@ Andreas:
 	* Add BINOM.DIST.RANGE (equivalent to the ODF function B).
 	* Make Autofilter addition & removal undoable. [#478152]
 	* Fix autocorrection exception lists. [#600055]
+	* Move autocorrection setup into preferences.
 
 Jean:
 	* Fixed graph size issues. [#599887]
