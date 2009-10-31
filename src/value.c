@@ -359,12 +359,14 @@ GnmValue *
 value_new_cellrange_str (Sheet *sheet, char const *str)
 {
 	GnmParsePos pp;
+	GnmExprParseFlags flags = GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS |
+		GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (str != NULL, NULL);
 
 	parse_pos_init_sheet (&pp, sheet);
-	return value_new_cellrange_parsepos_str (&pp, str);
+	return value_new_cellrange_parsepos_str (&pp, str, flags);
 }
 
 /**
@@ -378,19 +380,17 @@ value_new_cellrange_str (Sheet *sheet, char const *str)
  * succesfully parsed or NULL on failure.
  */
 GnmValue *
-value_new_cellrange_parsepos_str (GnmParsePos *pp, char const *str)
+value_new_cellrange_parsepos_str (GnmParsePos *pp, char const *str,
+				  GnmExprParseFlags flags)
 {
 	GnmExprTop const *texpr;
-	GnmExprParseFlags flags = GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS;
 	GnmConventions const *convs = NULL;
 
 	g_return_val_if_fail (pp != NULL, NULL);
 	g_return_val_if_fail (str != NULL, NULL);
 
-	if (pp->sheet) {
-		flags |= GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES;
+	if (pp->sheet)
 		convs = pp->sheet->convs;
-	}
 
 	texpr = gnm_expr_parse_str (str, pp, flags, convs, NULL);
 

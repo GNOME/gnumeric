@@ -276,7 +276,8 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 
 	sv = wb_control_cur_sheet_view (wbc);
 	parse_pos_init_editpos (&pp, sv);
-	target = value_new_cellrange_parsepos_str (&pp, text);
+	target = value_new_cellrange_parsepos_str (&pp, text,
+						   GNM_EXPR_PARSE_DEFAULT);
 	if (target == NULL) {
 		/* Not an address; is it a name? */
 		GnmParsePos pp;

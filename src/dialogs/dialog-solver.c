@@ -890,6 +890,7 @@ dialog_init (SolverState *state)
 	state->target_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->target_entry,
 		GNM_EE_SINGLE_RANGE |
+		GNM_EE_FORCE_ABS_REF |
 		GNM_EE_SHEET_OPTIONAL, GNM_EE_MASK);
 	gtk_table_attach (table, GTK_WIDGET (state->target_entry),
 			  1, 2, 0, 1,
@@ -907,6 +908,7 @@ dialog_init (SolverState *state)
 	state->change_cell_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->change_cell_entry,
 		GNM_EE_SINGLE_RANGE |
+		GNM_EE_FORCE_ABS_REF |
 		GNM_EE_SHEET_OPTIONAL, GNM_EE_MASK);
 	gtk_table_attach (table, GTK_WIDGET (state->change_cell_entry),
 			  1, 2, 2, 3,
@@ -969,6 +971,7 @@ dialog_init (SolverState *state)
 	state->lhs.entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->lhs.entry,
 		GNM_EE_SINGLE_RANGE |
+		GNM_EE_FORCE_ABS_REF |
 		GNM_EE_SHEET_OPTIONAL, GNM_EE_MASK);
 	gtk_table_attach (table, GTK_WIDGET (state->lhs.entry),
 			  0, 1, 1, 2,
@@ -990,6 +993,7 @@ dialog_init (SolverState *state)
 	state->rhs.entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->rhs.entry,
 		GNM_EE_SINGLE_RANGE |
+		GNM_EE_FORCE_ABS_REF |
 		GNM_EE_SHEET_OPTIONAL, GNM_EE_MASK);
 	gtk_table_attach (table, GTK_WIDGET (state->rhs.entry),
 			  2, 3, 1, 2,

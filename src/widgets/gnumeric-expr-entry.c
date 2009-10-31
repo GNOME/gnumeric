@@ -1747,8 +1747,7 @@ gnm_expr_entry_get_text	(GnmExprEntry const *gee)
  * gnm_expr_entry_parse_as_value :
  *
  * @gee: GnmExprEntry
- * @sheet: the sheet where the cell range is evaluated. This really only needed if
- *         the range given does not include a sheet specification.
+ * @sheet: the sheet where the cell range is evaluated.
  *
  * Returns a (GnmValue *) of type VALUE_CELLRANGE if the @range was
  *	succesfully parsed or NULL on failure.
@@ -1756,10 +1755,22 @@ gnm_expr_entry_get_text	(GnmExprEntry const *gee)
 GnmValue *
 gnm_expr_entry_parse_as_value (GnmExprEntry *gee, Sheet *sheet)
 {
+	GnmParsePos pp;
+	GnmExprParseFlags flags = GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS;
+
 	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), NULL);
 
-	return value_new_cellrange_str (sheet,
-		gtk_entry_get_text (gnm_expr_entry_get_entry (gee)));
+	if ((gee->flags & GNM_EE_FORCE_ABS_REF))
+		flags |= GNM_EXPR_PARSE_FORCE_ABSOLUTE_REFERENCES;
+	else if ((gee->flags & GNM_EE_FORCE_REL_REF))
+		flags |= GNM_EXPR_PARSE_FORCE_RELATIVE_REFERENCES;
+	if (!(gee->flags & GNM_EE_SHEET_OPTIONAL))
+		flags |= GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES;
+
+	return value_new_cellrange_parsepos_str
+		(parse_pos_init_sheet (&pp, sheet),
+		 gtk_entry_get_text (gnm_expr_entry_get_entry (gee)),
+		 flags);
 }
 
 /**

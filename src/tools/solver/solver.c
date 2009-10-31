@@ -106,10 +106,11 @@ solver_constr_start (GsfXMLIn *xin, xmlChar const **attrs)
 	int cols = 1, rows = 1;
 	gboolean old = FALSE;
 	GnmParsePos pp;
+	GnmExprParseFlags flags = GNM_EXPR_PARSE_DEFAULT;
 
 	c = gnm_solver_constraint_new (sheet);
 
-	parse_pos_init (&pp, sheet->workbook, NULL, 0, 0);
+	parse_pos_init_sheet (&pp, sheet);
 
 	for (; attrs && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gnm_xml_attr_int (attrs, "Lcol", &lhs_col) ||
@@ -123,11 +124,11 @@ solver_constr_start (GsfXMLIn *xin, xmlChar const **attrs)
 			; /* Nothing */
 		else if (attr_eq (attrs[0], "lhs")) {
 			GnmValue *v = value_new_cellrange_parsepos_str
-				(&pp, CXML2C (attrs[1]));
+				(&pp, CXML2C (attrs[1]), flags);
 			gnm_solver_constraint_set_lhs (c, v);
 		} else if (attr_eq (attrs[0], "rhs")) {
 			GnmValue *v = value_new_cellrange_parsepos_str
-				(&pp, CXML2C (attrs[1]));
+				(&pp, CXML2C (attrs[1]), flags);
 			gnm_solver_constraint_set_rhs (c, v);
 		}
 	}
