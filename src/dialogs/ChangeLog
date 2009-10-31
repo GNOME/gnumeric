@@ -1,5 +1,15 @@
 2009-10-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* autocorrect.glade: deleted
+	* dialog-autocorrect.c: deleted
+	* Makefile.am: remove dialog-autocorrect.c and autocorrect.glade
+	* dialog-preferences.c (wordlist_pref_create_widget): quieten type
+	  warning
+	(dialog_preferences): ditto
+	* help.h: rm dialog-autocorrect.c ref
+
+2009-10-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-preferences.c (dialog_pref_add_item): check for NULL icon
 	(wordlist_pref_conf_to_widget): new
 	(wordlist_pref_remove): new

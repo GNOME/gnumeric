@@ -1,3 +1,7 @@
+2009-10-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* POTFILES.in: remove autocorrect.glade and dialog-autocorrect.c
+
 2009-10-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* POTFILES.in: add plugins/fn-christian-date/functions.c and

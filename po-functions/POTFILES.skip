@@ -68,7 +68,6 @@ src/HILDON_Gnumeric-gtk.xml.in
 src/dialogs/advanced-filter.glade
 src/dialogs/anova-one.glade
 src/dialogs/anova-two.glade
-src/dialogs/autocorrect.glade
 src/dialogs/autofilter-expression.glade
 src/dialogs/autofilter-top10.glade
 src/dialogs/autoformat.glade

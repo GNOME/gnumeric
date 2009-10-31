@@ -75,7 +75,6 @@ src/dialogs/dialog-analysis-tool-chi-squared.c
 src/dialogs/dialog-analysis-tool-frequency.c
 src/dialogs/dialog-analysis-tool-kaplan-meier.c
 src/dialogs/dialog-analysis-tools.c
-src/dialogs/dialog-autocorrect.c
 src/dialogs/dialog-autofilter.c
 src/dialogs/dialog-autoformat.c
 src/dialogs/dialog-autosave.c

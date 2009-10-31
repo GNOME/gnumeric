@@ -29,7 +29,6 @@ base_files =					\
 	dialog-analysis-tool-chi-squared.c	\
 	dialog-analysis-tool-frequency.c	\
 	dialog-analysis-tool-kaplan-meier.c	\
-	dialog-autocorrect.c			\
 	dialog-autofilter.c			\
 	dialog-autoformat.c			\
 	dialog-autosave.c			\
@@ -94,7 +93,6 @@ glade_DATA = 				\
 	advanced-filter.glade		\
 	anova-one.glade			\
 	anova-two.glade			\
-	autocorrect.glade		\
 	autofilter-expression.glade	\
 	autofilter-top10.glade       	\
 	autoformat.glade		\

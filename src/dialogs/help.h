@@ -25,9 +25,6 @@
 #define GNUMERIC_HELP_LINK_SO_CHECKBOX	 "sect-graphics-drawings"
 #define GNUMERIC_HELP_LINK_SO_LIST	 "sect-graphics-drawings"
 
-/* dialog-autocorrect.c        */
-#define GNUMERIC_HELP_LINK_AUTOCORRECT "sect-data-entry"
-
 /* dialog-autofilter.c         */
 #define GNUMERIC_HELP_LINK_AUTOFILTER_TOP_TEN "sect-data-modify"
 #define GNUMERIC_HELP_LINK_AUTOFILTER_CUSTOM "sect-data-modify"
@@ -93,6 +90,7 @@
 
 /* dialog-preferences.c       */
 #define GNUMERIC_HELP_LINK_PREFERENCES "sect-configuration-preferences"
+#define GNUMERIC_HELP_LINK_AUTOCORRECT "sect-data-entry"
 
 /* dialog-printer-setup.c     */
 #define GNUMERIC_HELP_LINK_PRINTER_SETUP_HEADER_CUSTOMIZATION "sect-printing-setup"

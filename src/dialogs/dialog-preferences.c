@@ -552,7 +552,8 @@ wordlist_pref_create_widget (GOConfNode *node, GtkWidget *table,
 		G_CALLBACK (wordlist_pref_add), node);
 	g_signal_connect (G_OBJECT (selection), "changed",
 		G_CALLBACK (wordlist_pref_update_remove_button), remove_button);
-	wordlist_pref_update_remove_button (selection, remove_button);
+	wordlist_pref_update_remove_button (selection, 
+					    GTK_BUTTON (remove_button));
 
 	connect_notification (node, (GOConfMonitorFunc)wordlist_pref_conf_to_widget,
 			      model, table);
@@ -1193,7 +1194,7 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 		dialog_pref_add_item (state, this_page->page_name, this_page->icon_name, i, this_page->parent_path);
 	}
 
-	if (page <0 ||  page > sizeof (startup_pages)) {
+	if (page <0 ||  page > (gint) sizeof (startup_pages)) {
 		g_warning ("Selected startup page %i is invalid.", page);
 		page = 0;
 	}
