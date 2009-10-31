@@ -1,3 +1,9 @@
+2009-10-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* html.c (html_write_cell_content): handle strikethrough 
+	  (and fix handling of superscript/suscript)
+	(cb_html_attrs_as_string): write valid HTML4 strict.
+
 2009-10-11  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.14

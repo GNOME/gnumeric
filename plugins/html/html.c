@@ -184,8 +184,16 @@ cb_html_attrs_as_string (GsfOutput *output, PangoAttribute *a, html_version_t ve
 		break;
 	case PANGO_ATTR_STRIKETHROUGH :
 		if (((PangoAttrInt *)a)->value == 1) {
-			gsf_output_puts (output, "<strike>");
-			closure = "</strike>";
+			if (version == HTML32) {
+				gsf_output_puts (output, "<strike>");
+				closure = "</strike>";
+			} else {
+				gsf_output_puts 
+					(output, 
+					 "<span style=\"text-decoration: "
+					 "line-through;\">");
+				closure = "</span>";
+			}
 		}
 		break;
 	case PANGO_ATTR_UNDERLINE :
@@ -279,7 +287,13 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle const *style
 				gsf_output_puts (output, "<u>");
 			if (font_is_monospaced (style))
 				gsf_output_puts (output, "<tt>");
-			switch (gnm_style_get_font_strike (style)) {
+			if (gnm_style_get_font_strike (style))
+				if (version == HTML32)
+					gsf_output_puts (output, "<strike>");
+				else
+					gsf_output_puts (output, 
+							 "<span style=\"text-decoration: line-through;\">");
+			switch (gnm_style_get_font_script (style)) {
 			case GO_FONT_SCRIPT_SUB:
 				gsf_output_puts (output, "<sub>");
 				break;
@@ -325,7 +339,12 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle const *style
 		if (hlink_target)
 			gsf_output_puts (output, "</a>");
 		if (style != NULL) {
-			switch (gnm_style_get_font_strike (style)) {
+			if (gnm_style_get_font_strike (style))
+				if (version == HTML32)
+					gsf_output_puts (output, "</strike>");
+				else
+					gsf_output_puts (output, "</span>");
+			switch (gnm_style_get_font_script (style)) {
 			case GO_FONT_SCRIPT_SUB:
 				gsf_output_puts (output, "</sub>");
 				break;

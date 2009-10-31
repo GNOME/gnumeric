@@ -12,6 +12,7 @@ Andreas:
 	* Make Autofilter addition & removal undoable. [#478152]
 	* Fix autocorrection exception lists. [#600055]
 	* Move autocorrection setup into preferences.
+	* Fix HTML export of strikethrough and subscript/superscript. [#600163]
 
 Jean:
 	* Fixed graph size issues. [#599887]
