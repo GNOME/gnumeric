@@ -1251,7 +1251,7 @@ static GnmFuncHelp const help_isformula[] = {
 	{ GNM_FUNC_HELP_NAME, F_("ISFORMULA:TRUE if @{cell} contains a formula.")},
 	{ GNM_FUNC_HELP_ARG, F_("cell:the referenced cell")},
 	{ GNM_FUNC_HELP_ODF, F_("ISFORMULA is OpenFormula compatible.") },
-	{ GNM_FUNC_HELP_SEEALSO, "GET_FORMULA"},
+	{ GNM_FUNC_HELP_SEEALSO, "GET.FORMULA"},
 	{ GNM_FUNC_HELP_END }
 };
 
