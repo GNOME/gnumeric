@@ -118,7 +118,15 @@ gnm_solver_param_set_input (SolverParameters *sp, GnmValue *v)
 void
 gnm_solver_param_set_target (SolverParameters *sp, GnmCellRef const *cr)
 {
-	GnmExprTop const *texpr = gnm_expr_top_new (gnm_expr_new_cellref (cr));
+	GnmCellRef cr2 = *cr;
+	GnmExprTop const *texpr;
+
+	/* Make reference absolute to avoid tracking problems on row/col
+	   insert.  */
+	cr2.row_relative = FALSE;
+	cr2.col_relative = FALSE;
+
+	texpr = gnm_expr_top_new (gnm_expr_new_cellref (&cr2));
 	dependent_managed_set_expr (&sp->target, texpr);
 	gnm_expr_top_unref (texpr);
 }
