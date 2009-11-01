@@ -755,7 +755,7 @@ gnm_sheet_init (Sheet *sheet)
 	sheet->sheet_objects = NULL;
 	sheet->max_object_extent.col = sheet->max_object_extent.row = 0;
 
-	sheet->solver_parameters = solver_param_new ();
+	sheet->solver_parameters = solver_param_new (sheet);
 
 	sheet->cols.max_used = -1;
 	sheet->cols.info = g_ptr_array_new ();
@@ -4452,7 +4452,6 @@ sheet_insert_cols (Sheet *sheet, int col, int count,
 		colrow_move (sheet, i, 0, i, gnm_sheet_get_last_row (sheet),
 			     &sheet->cols, i, i + count);
 
-	solver_insert_cols (sheet, col, count);
 	scenarios_insert_cols (sheet->scenarios, col, count);
 	sheet_colrow_insert_finish (&reloc_info, TRUE, col, count, pundo);
 
@@ -4551,7 +4550,6 @@ sheet_delete_cols (Sheet *sheet, int col, int count,
 		colrow_move (sheet, i, 0, i, gnm_sheet_get_last_row (sheet),
 			     &sheet->cols, i, i - count);
 
-	solver_delete_cols (sheet, col, count);
 	scenarios_delete_cols (sheet->scenarios, col, count);
 	sheet_colrow_delete_finish (&reloc_info, TRUE, col, count, pundo);
 
@@ -4628,7 +4626,6 @@ sheet_insert_rows (Sheet *sheet, int row, int count,
 		colrow_move (sheet, 0, i, gnm_sheet_get_last_col (sheet), i,
 			     &sheet->rows, i, i + count);
 
-	solver_insert_rows (sheet, row, count);
 	scenarios_insert_rows (sheet->scenarios, row, count);
 	sheet_colrow_insert_finish (&reloc_info, FALSE, row, count, pundo);
 
@@ -4727,7 +4724,6 @@ sheet_delete_rows (Sheet *sheet, int row, int count,
 		colrow_move (sheet, 0, i, gnm_sheet_get_last_col (sheet), i,
 			     &sheet->rows, i, i - count);
 
-	solver_delete_rows (sheet, row, count);
 	scenarios_delete_rows (sheet->scenarios, row, count);
 	sheet_colrow_delete_finish (&reloc_info, FALSE, row, count, pundo);
 

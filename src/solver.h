@@ -46,10 +46,11 @@ typedef enum {
 
 struct _SolverParameters {
 	SolverProblemType  problem_type;
-	GnmCell            *target_cell;
+	Sheet             *sheet;
+	GnmDependent       target;
+	GnmDependent       input;
 	GSList		   *input_cells;
 	GSList             *constraints;
-	char               *input_entry_str;
 	int                n_constraints;
 	int                n_variables;
 	int                n_int_constraints;
@@ -242,7 +243,14 @@ gchar *          solver_reports        (WorkbookControl *wbc, Sheet *sheet,
 
 /* Initializes the Solver's data structure containing the parameters.
  * Each sheet can currently have one copy of this data structure. */
-SolverParameters *solver_param_new     (void);
+SolverParameters *solver_param_new     (Sheet *sheet);
+
+GnmValue const *gnm_solver_param_get_input (SolverParameters const *sp);
+void gnm_solver_param_set_input (SolverParameters *sp, GnmValue *v);
+
+const GnmCellRef *gnm_solver_param_get_target (SolverParameters const *sp);
+void gnm_solver_param_set_target (SolverParameters *sp, GnmCellRef const *cr);
+GnmCell *gnm_solver_param_get_target_cell (SolverParameters const *sp);
 
 /* Frees the memory resources in the solver parameter structure. */
 void             solver_param_destroy  (SolverParameters *sp);
@@ -255,20 +263,11 @@ SolverParameters *solver_lp_copy       (SolverParameters const *src_param,
 /* Frees the data structure allocated for the results. */
 void             solver_results_free   (SolverResults *res);
 
-/* Returns a pointer to the target cell of the model attached to the
- * given sheet. */
-GnmCell		*solver_get_target_cell (Sheet *sheet);
-
 /* Returns a pointer to a input variable cell. */
 GnmCell		*solver_get_input_var (SolverResults *res, int n);
 
 /* Returns a pointer to a constraint. */
 SolverConstraint* solver_get_constraint (SolverResults *res, int n);
-
-void              solver_insert_cols    (Sheet *sheet, int col, int count);
-void              solver_insert_rows    (Sheet *sheet, int row, int count);
-void              solver_delete_rows    (Sheet *sheet, int row, int count);
-void              solver_delete_cols    (Sheet *sheet, int col, int count);
 
 void              solver_param_read_sax (GsfXMLIn *xin, xmlChar const **attrs);
 

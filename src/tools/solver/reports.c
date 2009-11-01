@@ -149,7 +149,7 @@ static void
 calculate_limits (Sheet *sheet, SolverParameters *param, SolverResults *res)
 {
         int i, n;
-	GnmCell *tcell = solver_get_target_cell (sheet);
+	GnmCell *tcell = gnm_solver_param_get_target_cell (param);
 
 	for (i = 0; i < param->n_total_constraints; i++) {
 	        gnm_float       slack, lhs, rhs, x, y, old_val;
@@ -222,15 +222,14 @@ solver_prepare_reports (SolverProgram *program, SolverResults *res,
 {
 	SolverParameters *param = res->param;
 	const SolverLPAlgorithm *alg;
+	GnmCell const *target_cell;
 
 	if (res->param->options.model_type == SolverLPModel)
 	        alg = &lp_algorithm[param->options.algorithm];
 	else
 	        alg = &qp_algorithm[param->options.algorithm];
 
-        res->target_name = dao_find_name (sheet,
-					  res->param->target_cell->pos.col,
-					  res->param->target_cell->pos.row);
+	target_cell = gnm_solver_param_get_target_cell (res->param);
         get_input_variable_names (res, sheet);
         get_constraint_names (res, sheet);
 
@@ -261,7 +260,7 @@ solver_prepare_reports_success (SolverProgram *program, SolverResults *res,
 	 * Fetch the target cell value from the sheet since it's
 	 * formula may have a constant increment or decrement.
 	 */
-	cell = solver_get_target_cell (sheet);
+	cell = gnm_solver_param_get_target_cell (param);
 	res->value_of_obj_fn = value_get_as_float (cell->value);
 
 	/*

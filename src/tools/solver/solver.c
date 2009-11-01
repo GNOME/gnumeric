@@ -66,18 +66,20 @@ attr_eq (const xmlChar *a, const char *s)
 
 
 SolverParameters *
-solver_param_new (void)
+solver_param_new (Sheet *sheet)
 {
 	SolverParameters *res = g_new0 (SolverParameters, 1);
 
+	dependent_managed_init (&res->target, sheet);
+	dependent_managed_init (&res->input, sheet);
+
 	res->options.model_type          = SolverLPModel;
+	res->sheet                       = sheet;
 	res->options.assume_non_negative = TRUE;
 	res->options.algorithm           = GLPKSimplex;
 	res->options.scenario_name       = g_strdup ("Optimal");
-	res->input_entry_str             = g_strdup ("");
 	res->problem_type                = SolverMaximize;
 	res->constraints                 = NULL;
-	res->target_cell                 = NULL;
 	res->input_cells		 = NULL;
 	res->constraints		 = NULL;
 
@@ -87,12 +89,57 @@ solver_param_new (void)
 void
 solver_param_destroy (SolverParameters *sp)
 {
+	dependent_managed_set_expr (&sp->target, NULL);
+	dependent_managed_set_expr (&sp->input, NULL);
 	go_slist_free_custom (sp->constraints,
 			      (GFreeFunc)gnm_solver_constraint_free);
 	g_slist_free (sp->input_cells);
-	g_free (sp->input_entry_str);
 	g_free (sp->options.scenario_name);
 	g_free (sp);
+}
+
+GnmValue const *
+gnm_solver_param_get_input (SolverParameters const *sp)
+{
+	return sp->input.texpr
+		? gnm_expr_top_get_constant (sp->input.texpr)
+		: NULL;
+}
+
+void
+gnm_solver_param_set_input (SolverParameters *sp, GnmValue *v)
+{
+	/* Takes ownership.  */
+	GnmExprTop const *texpr = v ? gnm_expr_top_new_constant (v) : NULL;
+	dependent_managed_set_expr (&sp->input, texpr);
+	if (texpr) gnm_expr_top_unref (texpr);
+}
+
+void
+gnm_solver_param_set_target (SolverParameters *sp, GnmCellRef const *cr)
+{
+	GnmExprTop const *texpr = gnm_expr_top_new (gnm_expr_new_cellref (cr));
+	dependent_managed_set_expr (&sp->target, texpr);
+	gnm_expr_top_unref (texpr);
+}
+
+const GnmCellRef *
+gnm_solver_param_get_target (SolverParameters const *sp)
+{
+	return sp->target.texpr
+		? gnm_expr_top_get_cellref (sp->target.texpr)
+		: NULL;
+}
+      
+GnmCell *
+gnm_solver_param_get_target_cell (SolverParameters const *sp)
+{
+	const GnmCellRef *cr = gnm_solver_param_get_target (sp);
+	if (!cr)
+		return NULL;
+
+        return sheet_cell_get (eval_sheet (cr->sheet, sp->sheet),
+			       cr->col, cr->row);
 }
 
 static void
@@ -156,9 +203,9 @@ solver_param_read_sax (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	Sheet *sheet = gnm_xml_in_cur_sheet (xin);
 	SolverParameters *sp = sheet->solver_parameters;
-	int i;
 	int col = -1, row = -1;
 	int ptype;
+	GnmParsePos pp;
 
 	static GsfXMLInNode const dtd[] = {
 	  GSF_XML_IN_NODE (SHEET_SOLVER_CONSTR, SHEET_SOLVER_CONSTR, GNM, "Constr", GSF_XML_NO_CONTENT, &solver_constr_start, NULL),
@@ -166,31 +213,39 @@ solver_param_read_sax (GsfXMLIn *xin, xmlChar const **attrs)
 	};
 	static GsfXMLInDoc *doc;
 
-	for (i = 0; attrs != NULL && attrs[i] && attrs[i + 1] ; i += 2) {
-		if (gnm_xml_attr_int (attrs+i, "ProblemType", &ptype))
+	parse_pos_init_sheet (&pp, sheet);
+
+	for (; attrs && attrs[0] && attrs[1] ; attrs += 2) {
+		if (gnm_xml_attr_int (attrs, "ProblemType", &ptype))
 			sp->problem_type = (SolverProblemType)ptype;
-		else 		if (strcmp (CXML2C (attrs[i]), "Inputs") == 0) {
-			g_free (sp->input_entry_str);
-			sp->input_entry_str = g_strdup (CXML2C (attrs[i+1]));
-		} else if (gnm_xml_attr_int (attrs+i, "TargetCol", &col) ||
-			   gnm_xml_attr_int (attrs+i, "TargetRow", &row) ||
-			   gnm_xml_attr_int (attrs+i, "MaxTime", &(sp->options.max_time_sec)) ||
-			   gnm_xml_attr_int (attrs+i, "MaxIter", &(sp->options.max_iter)) ||
-			   gnm_xml_attr_bool (attrs+i, "NonNeg", &(sp->options.assume_non_negative)) ||
-			   gnm_xml_attr_bool (attrs+i, "Discr", &(sp->options.assume_discrete)) ||
-			   gnm_xml_attr_bool (attrs+i, "AutoScale", &(sp->options.automatic_scaling)) ||
-			   gnm_xml_attr_bool (attrs+i, "ShowIter", &(sp->options.show_iter_results)) ||
-			   gnm_xml_attr_bool (attrs+i, "AnswerR", &(sp->options.answer_report)) ||
-			   gnm_xml_attr_bool (attrs+i, "SensitivityR", &(sp->options.sensitivity_report)) ||
-			   gnm_xml_attr_bool (attrs+i, "LimitsR", &(sp->options.limits_report)) ||
-			   gnm_xml_attr_bool (attrs+i, "PerformR", &(sp->options.performance_report)) ||
-			   gnm_xml_attr_bool (attrs+i, "ProgramR", &(sp->options.program_report)))
+		else if (strcmp (CXML2C (attrs[0]), "Inputs") == 0) {
+			GnmValue *v = value_new_cellrange_parsepos_str
+				(&pp,
+				 CXML2C (attrs[1]),
+				 GNM_EXPR_PARSE_DEFAULT);
+			gnm_solver_param_set_input (sp, v);
+		} else if (gnm_xml_attr_int (attrs, "TargetCol", &col) ||
+			   gnm_xml_attr_int (attrs, "TargetRow", &row) ||
+			   gnm_xml_attr_int (attrs, "MaxTime", &(sp->options.max_time_sec)) ||
+			   gnm_xml_attr_int (attrs, "MaxIter", &(sp->options.max_iter)) ||
+			   gnm_xml_attr_bool (attrs, "NonNeg", &(sp->options.assume_non_negative)) ||
+			   gnm_xml_attr_bool (attrs, "Discr", &(sp->options.assume_discrete)) ||
+			   gnm_xml_attr_bool (attrs, "AutoScale", &(sp->options.automatic_scaling)) ||
+			   gnm_xml_attr_bool (attrs, "ShowIter", &(sp->options.show_iter_results)) ||
+			   gnm_xml_attr_bool (attrs, "AnswerR", &(sp->options.answer_report)) ||
+			   gnm_xml_attr_bool (attrs, "SensitivityR", &(sp->options.sensitivity_report)) ||
+			   gnm_xml_attr_bool (attrs, "LimitsR", &(sp->options.limits_report)) ||
+			   gnm_xml_attr_bool (attrs, "PerformR", &(sp->options.performance_report)) ||
+			   gnm_xml_attr_bool (attrs, "ProgramR", &(sp->options.program_report)))
 			; /* Nothing */
 	}
 
 	if (col >= 0 && col < gnm_sheet_get_max_cols (sheet) &&
-	    row >= 0 && row < gnm_sheet_get_max_rows (sheet))
-		sp->target_cell = sheet_cell_fetch (sheet, col, row);
+	    row >= 0 && row < gnm_sheet_get_max_rows (sheet)) {
+		GnmCellRef cr;
+		gnm_cellref_init (&cr, NULL, col, row, TRUE);
+		gnm_solver_param_set_target (sp, &cr);
+	}
 
 	if (!doc)
 		doc = gsf_xml_in_doc_new (dtd, NULL);
@@ -252,6 +307,9 @@ solver_results_free (SolverResults *res)
 	g_free (res->constraint_names);
 	g_free (res->shadow_prizes);
 	g_free (res->input_cells_array);
+	if (res->constraints_array)
+	        for (i = 0; i < res->n_constraints; i++)
+		        gnm_solver_constraint_free (res->constraints_array[i]);
 	g_free (res->constraints_array);
 	g_free (res->obj_coeff);
 	if (res->constr_coeff != NULL)
@@ -268,14 +326,6 @@ solver_results_free (SolverResults *res)
 }
 
 /* ------------------------------------------------------------------------- */
-
-GnmCell *
-solver_get_target_cell (Sheet *sheet)
-{
-        return sheet_cell_get (sheet,
-			       sheet->solver_parameters->target_cell->pos.col,
-			       sheet->solver_parameters->target_cell->pos.row);
-}
 
 GnmCell *
 solver_get_input_var (SolverResults *res, int n)
@@ -377,7 +427,7 @@ gnm_solver_constraint_get_size (SolverConstraint const *c)
 	if (lhs) {
 		if (VALUE_IS_FLOAT (lhs))
 			return 1;
-		if (lhs->type != VALUE_CELLRANGE) {
+		if (lhs->type == VALUE_CELLRANGE) {
 			range_init_value (&r, lhs);
 			return range_width (&r) * range_height (&r);
 		}
@@ -433,7 +483,7 @@ gnm_solver_constraint_get_part (SolverConstraint const *c, Sheet *sheet, int i,
 	if (lhs) *lhs = NULL;
 	if (rhs) *rhs = NULL;
 
-	if (gnm_solver_constraint_valid (c))
+	if (!gnm_solver_constraint_valid (c))
 		return FALSE;
 
 	vl = gnm_solver_constraint_get_lhs (c);
@@ -479,6 +529,9 @@ gnm_solver_constraint_get_part_val (SolverConstraint const *c,
 
 	if (lhs) *lhs = NULL;
 	if (rhs) *rhs = NULL;
+
+	if (!gnm_solver_constraint_valid (c))
+		return FALSE;
 
 	vl = gnm_solver_constraint_get_lhs (c);
 	vr = gnm_solver_constraint_get_rhs (c);
@@ -637,7 +690,7 @@ save_original_values (SolverResults          *res,
 		++i;
 	}
 
-	cell = solver_get_target_cell (sheet);
+	cell = gnm_solver_param_get_target_cell (param);
 	res->original_value_of_obj_fn = value_get_as_float (cell->value);
 }
 
@@ -702,7 +755,7 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 	program = alg->init_fn (param);
 
 	/* Set up the objective function coefficients. */
-	target = solver_get_target_cell (sheet);
+	target = gnm_solver_param_get_target_cell (param);
 	clear_input_vars (param->n_variables, res);
 
 	gnm_cell_eval (target);
@@ -932,13 +985,13 @@ check_program_definition_failures (Sheet            *sheet,
 	i = 0;
  	for (c = param->constraints; c ; c = c->next) {
 	        SolverConstraint *sc = c->data;
-		int i;
+		int j;
 		GnmValue *lhs, *rhs;
 
-		for (i = 0;
-		     gnm_solver_constraint_get_part_val (sc, sheet, i,
+		for (j = 0;
+		     gnm_solver_constraint_get_part_val (sc, sheet, j,
 							 &lhs, &rhs);
-		     i++) {
+		     j++) {
 			SolverConstraint *nc =
 				gnm_solver_constraint_new (sheet);
 			nc->type = sc->type;
@@ -1057,19 +1110,15 @@ solver (WorkbookControl *wbc, Sheet *sheet, const gchar **errmsg)
 SolverParameters *
 solver_lp_copy (const SolverParameters *src_param, Sheet *new_sheet)
 {
-	SolverParameters *dst_param = solver_param_new ();
+	SolverParameters *dst_param = solver_param_new (new_sheet);
 	GSList           *constraints;
 	GSList           *inputs;
 
-	if (src_param->target_cell != NULL)
-	        dst_param->target_cell =
-		        sheet_cell_fetch (new_sheet,
-					  src_param->target_cell->pos.col,
-					  src_param->target_cell->pos.row);
-
 	dst_param->problem_type = src_param->problem_type;
-	g_free (dst_param->input_entry_str);
-	dst_param->input_entry_str = g_strdup (src_param->input_entry_str);
+	dependent_managed_set_expr (&dst_param->target,
+				    src_param->target.texpr);
+	dependent_managed_set_expr (&dst_param->input,
+				    src_param->input.texpr);
 
 	g_free (dst_param->options.scenario_name);
 	dst_param->options = src_param->options;
@@ -1105,121 +1154,4 @@ solver_lp_copy (const SolverParameters *src_param, Sheet *new_sheet)
 	dst_param->n_total_constraints = src_param->n_total_constraints;
 
 	return dst_param;
-}
-
-/*
- * Adjusts the row indices in the Solver's data structures when rows
- * are inserted.
- */
-void
-solver_insert_rows (Sheet *sheet, int row, int count)
-{
-	SolverParameters *param = sheet->solver_parameters;
-        GnmValue *input_range;
-	GnmRange	  range;
-
-	/* Adjust the input range. */
-	input_range = value_new_cellrange_str (sheet, param->input_entry_str);
-	if (input_range != NULL) {
-	        if (input_range->v_range.cell.a.row >= row) {
-		        range.start.col = input_range->v_range.cell.a.col;
-		        range.start.row = input_range->v_range.cell.a.row +
-			        count;
-		        range.end.col   = input_range->v_range.cell.b.col;
-		        range.end.row   = input_range->v_range.cell.b.row +
-			        count;
-			g_free (param->input_entry_str);
-			param->input_entry_str =
-			        g_strdup (global_range_name (sheet, &range));
-		}
-		value_release (input_range);
-	}
-}
-
-/*
- * Adjusts the column indices in the Solver's data structures when columns
- * are inserted.
- */
-void
-solver_insert_cols (Sheet *sheet, int col, int count)
-{
-	SolverParameters *param = sheet->solver_parameters;
-        GnmValue *input_range;
-	GnmRange	  range;
-
-	/* Adjust the input range. */
-	input_range = value_new_cellrange_str (sheet, param->input_entry_str);
-	if (input_range != NULL &&
-	    input_range->v_range.cell.a.col >= col) {
-		range.start.col = input_range->v_range.cell.a.col + count;
-		range.start.row = input_range->v_range.cell.a.row;
-		range.end.col   = input_range->v_range.cell.b.col + count;
-		range.end.row   = input_range->v_range.cell.b.row;
-		g_free (param->input_entry_str);
-		param->input_entry_str = g_strdup (
-			global_range_name (sheet, &range));
-		value_release (input_range);
-	}
-}
-
-/*
- * Adjusts the row indices in the Solver's data structures when rows
- * are deleted.
- */
-void
-solver_delete_rows (Sheet *sheet, int row, int count)
-{
-	SolverParameters *param = sheet->solver_parameters;
-        GnmValue *input_range;
-	GnmRange	  range;
-
-	/* Adjust the input range. */
-	input_range = value_new_cellrange_str (sheet, param->input_entry_str);
-	if (input_range != NULL &&
-	    input_range->v_range.cell.a.row >= row) {
-		range.start.col = input_range->v_range.cell.a.col;
-		range.start.row = input_range->v_range.cell.a.row - count;
-		range.end.col   = input_range->v_range.cell.b.col;
-		range.end.row   = input_range->v_range.cell.b.row - count;
-		g_free (param->input_entry_str);
-		if (range.start.row < row || range.end.row < row)
-			param->input_entry_str = g_strdup ("");
-		else
-			param->input_entry_str = g_strdup (
-				global_range_name (sheet, &range));
-		value_release (input_range);
-	}
-}
-
-/*
- * Adjusts the column indices in the Solver's data structures when columns
- * are deleted.
- */
-void
-solver_delete_cols (Sheet *sheet, int col, int count)
-{
-	SolverParameters *param = sheet->solver_parameters;
-        GnmValue *input_range;
-	GnmRange	  range;
-
-	/* Adjust the input range. */
-	input_range = value_new_cellrange_str (sheet, param->input_entry_str);
-	if (input_range != NULL) {
-	        if (input_range->v_range.cell.a.col >= col) {
-		        range.start.col = input_range->v_range.cell.a.col -
-			        count;
-		        range.start.row = input_range->v_range.cell.a.row;
-		        range.end.col   = input_range->v_range.cell.b.col -
-			        count;
-		        range.end.row   = input_range->v_range.cell.b.row;
-			g_free (param->input_entry_str);
-			if (range.start.col < col || range.end.col < col)
-			        param->input_entry_str = g_strdup ("");
-			else
-			        param->input_entry_str =
-				         g_strdup (global_range_name (sheet,
-								      &range));
-		}
-		value_release (input_range);
-	}
 }

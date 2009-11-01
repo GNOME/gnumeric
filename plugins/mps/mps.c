@@ -437,8 +437,8 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 	cell_queue_recalc (cell);
 
 	/* Store the input cell range for the Solver dialog. */
-	g_free (param->input_entry_str);
-	param->input_entry_str = g_strdup (range_as_string (&v_range));
+	gnm_solver_param_set_input (param,
+				    value_new_cellrange_r (NULL, &v_range));
 }
 
 /* Creates the spreadsheet model. */
@@ -453,6 +453,7 @@ mps_create_sheet (MpsInputContext *ctxt, WorkbookView *wbv)
 		ctxt->objective_row
 		? ctxt->objective_row->name
 		: "-";
+	GnmCellRef cr;
 
 	n_rows_per_fn = (ctxt->n_cols + MAX_COL - 1) / MAX_COL;
 	mps_prepare (wbv, ctxt);
@@ -477,8 +478,8 @@ mps_create_sheet (MpsInputContext *ctxt, WorkbookView *wbv)
 		}
 	}
 
-	param->target_cell = sheet_cell_fetch (sh, OBJECTIVE_VALUE_COL,
-					       MAIN_INFO_ROW);
+	gnm_cellref_init (&cr, NULL, OBJECTIVE_VALUE_COL, MAIN_INFO_ROW, TRUE);
+	gnm_solver_param_set_target (param, &cr);
 	param->problem_type = SolverMinimize;
 
 	/* Write the name of the program. */

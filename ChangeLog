@@ -1,3 +1,10 @@
+2009-11-01  Morten Welinder  <terra@gnome.org>
+
+	* src/solver.h (struct _SolverParameters): Keep target and input
+	as deps so they get maintained.
+
+	* src/expr.c (gnm_expr_top_get_cellref): New function.
+
 2009-10-31  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (dependent_managed_init,

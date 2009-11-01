@@ -82,7 +82,8 @@ solver_answer_report (WorkbookControl *wbc,
 	dao_set_bold (&dao, 0, 6, 4, 6);
 
 	/* Set `Cell' field (cell reference to the target cell). */
-	dao_set_cell (&dao, 1, 7, cell_name (res->param->target_cell));
+	cell = gnm_solver_param_get_target_cell (res->param);
+	dao_set_cell (&dao, 1, 7, cell_name (cell));
 
 	/* Set `Name' field */
 	dao_set_cell (&dao, 2, 7, res->target_name);
@@ -431,14 +432,13 @@ solver_limits_report (WorkbookControl *wbc,
 	 */
 
 	/* Set `Target Cell' field (cell reference to the target cell). */
-	dao_set_cell (&dao, 1, 7, cell_name (res->param->target_cell));
+        cell = gnm_solver_param_get_target_cell (res->param);
+	dao_set_cell (&dao, 1, 7, cell_name (cell));
 
 	/* Set `Target Name' field */
 	dao_set_cell (&dao, 2, 7, res->target_name);
 
 	/* Set `Target Value' field */
-        cell = sheet_cell_get (sheet, res->param->target_cell->pos.col,
-                               res->param->target_cell->pos.row);
         dao_set_cell_float (&dao, 3, 7, res->value_of_obj_fn);
 
 

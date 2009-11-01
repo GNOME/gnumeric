@@ -153,11 +153,12 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 	GString *declarations = g_string_new (NULL);
 	GString *objfunc = g_string_new (NULL);
 	GSList *l;
+	GnmCell *target_cell = gnm_solver_param_get_target_cell (sp);
 
-	/* This is insane -- why do we keep a string?  */
+	/* This is insane  */
 	{
-		GnmValue *vr =
-			value_new_cellrange_str (sheet, sp->input_entry_str);
+		GnmValue const *vr =
+			gnm_expr_top_get_constant (sheet, sp->input.texpr);
 		GnmEvalPos ep;
 
 		g_slist_free (sp->input_cells);
@@ -175,14 +176,13 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 		workbook_foreach_cell_in_range (&ep, vr, CELL_ITER_ALL,
 						cb_grab_cells,
 						&sp->input_cells);
-		value_release (vr);
 	}
 
 	/* ---------------------------------------- */
 
 	switch (sp->problem_type) {
 	case SolverEqualTo:
-		if (!lpsolve_affine_func (constraints, sp->target_cell,
+		if (!lpsolve_affine_func (constraints, target_cell,
 					  sp->input_cells, err))
 			goto fail;
 		/* FIXME -- what value goes here?  */
@@ -198,7 +198,7 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 		g_assert_not_reached ();
 	}
 
-	if (!lpsolve_affine_func (objfunc, sp->target_cell,
+	if (!lpsolve_affine_func (objfunc, target_cell,
 				  sp->input_cells, err))
 		goto fail;
 	g_string_append (objfunc, ";\n");

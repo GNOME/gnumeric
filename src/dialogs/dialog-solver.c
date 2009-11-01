@@ -616,7 +616,8 @@ solver_add_scenario (SolverState *state, SolverResults *res, gchar const *name)
 	input_range = gnm_expr_entry_parse_as_value (state->change_cell_entry,
 						     state->sheet);
 
-	scenario_add_new (name, input_range, param->input_entry_str,
+	scenario_add_new (name, input_range,
+			  value_peek_string (gnm_solver_param_get_input (param)),
 			  comment, state->sheet, &scenario);
 	scenario_add (state->sheet, scenario);
 	if (input_range != NULL)
@@ -647,6 +648,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	SolverParameters        *param;
 	GtkTreeIter iter;
 	gchar const *name;
+	GnmCell *target_cell;
 
 	param = state->sheet->solver_parameters;
 
@@ -667,16 +669,14 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 		return;
 	}
 
-	g_free (param->input_entry_str);
-	param->input_entry_str = value_get_as_string (input_range);
+	gnm_solver_param_set_input (param, value_dup (input_range));
 
-	param->target_cell =
-		sheet_cell_fetch (state->sheet,
-				  target_range->v_range.cell.a.col,
-				  target_range->v_range.cell.a.row );
+	gnm_solver_param_set_target (param,
+				     &target_range->v_range.cell.a);
+	target_cell = gnm_solver_param_get_target_cell (param);
 
 	/* Check that the target cell type is number. */
-	if (! gnm_cell_is_number (param->target_cell)) {
+	if (!target_cell || !gnm_cell_is_number (target_cell)) {
 		go_gtk_notice_nonmodal_dialog
 			((GtkWindow *) state->dialog,
 			 &(state->warning_dialog),
@@ -767,7 +767,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 		goto out;
 	}
 
-	state->ov_target     = value_get_as_float (param->target_cell->value);
+	state->ov_target     = value_get_as_float (target_cell->value);
 	state->ov            = save_original_values (input_cells);
 	state->ov_stack      = g_slist_prepend (state->ov_stack, state->ov);
 	state->ov_cell_stack = g_slist_prepend (state->ov_cell_stack,
@@ -820,6 +820,8 @@ dialog_init (SolverState *state)
 	GtkTreeViewColumn *column;
 	GList *l = NULL;
 	GSList *cl;
+	GnmCell *target_cell;
+	GnmValue const *input;
 
 	param = state->sheet->solver_parameters;
 
@@ -1087,12 +1089,14 @@ dialog_init (SolverState *state)
 		glade_xml_get_widget(state->gui, "program")),
 			param->options.program_report);
 
-	if (param->input_entry_str != NULL)
+	input = gnm_solver_param_get_input (param);
+	if (input != NULL)
 		gnm_expr_entry_load_from_text (state->change_cell_entry,
-					       param->input_entry_str);
-	if (param->target_cell != NULL)
+					       value_peek_string (input));
+	target_cell = gnm_solver_param_get_target_cell (param);
+	if (target_cell)
 		gnm_expr_entry_load_from_text (state->target_entry,
-				    cell_name(param->target_cell));
+					       cell_name (target_cell));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "max_button")),
 			param->problem_type == SolverMaximize);

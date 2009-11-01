@@ -967,22 +967,28 @@ xml_write_solver (GnmOutputXML *state)
 {
         SolverParameters *param = state->sheet->solver_parameters;
 	GSList *ptr;
+	GnmCellRef const *target;
+	GnmValue const *input;
 
 	if (param == NULL)
 		return;
 
 	gsf_xml_out_start_element (state->output, GNM "Solver");
 
-	if (param->target_cell != NULL) {
+	target = gnm_solver_param_get_target (param);
+	if (target != NULL) {
+		/* FIXME: This drops sheet */
 		gsf_xml_out_add_int (state->output, "TargetCol",
-			param->target_cell->pos.col);
+				     target->col);
 		gsf_xml_out_add_int (state->output, "TargetRow",
-			param->target_cell->pos.row);
+				     target->row);
 	}
 
 	gsf_xml_out_add_int (state->output, "ProblemType", param->problem_type);
-	gsf_xml_out_add_cstr (state->output, "Inputs",
-		param->input_entry_str);
+	input = gnm_solver_param_get_input (param);
+	if (input)
+		gsf_xml_out_add_cstr (state->output, "Inputs",
+				      value_peek_string (input));
 	gsf_xml_out_add_int (state->output, "MaxTime",
 		param->options.max_time_sec);
 	gsf_xml_out_add_int (state->output, "MaxIter",
