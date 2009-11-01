@@ -24,6 +24,7 @@
 #include <workbook.h>
 #include <value.h>
 #include <cell.h>
+#include <expr.h>
 #include <solver.h>
 #include <ranges.h>
 #include <parse-util.h>
@@ -158,7 +159,7 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 	/* This is insane  */
 	{
 		GnmValue const *vr =
-			gnm_expr_top_get_constant (sheet, sp->input.texpr);
+			gnm_expr_top_get_constant (sp->input.texpr);
 		GnmEvalPos ep;
 
 		g_slist_free (sp->input_cells);
