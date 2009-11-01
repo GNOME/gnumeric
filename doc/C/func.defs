@@ -2506,7 +2506,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=ISFORMULA
-@SEEALSO=GET_FORMULA
+@SEEALSO=GET.FORMULA
 
 @CATEGORY=Information
 @FUNCTION=ISLOGICAL

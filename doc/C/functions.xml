@@ -7623,7 +7623,7 @@
       </refnamediv>
       <refsect1>
         <title>See also</title>
-        <para><link linkend="gnumeric-GET_FORMULA"><function>GET_FORMULA</function></link>.
+        <para><link linkend="gnumeric-GET.FORMULA"><function>GET.FORMULA</function></link>.
       </para>
       </refsect1>
     </refentry>
