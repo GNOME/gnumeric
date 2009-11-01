@@ -1045,7 +1045,7 @@ gnumeric_value (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_numbervalue[] = {
-        { GNM_FUNC_HELP_NAME, F_("VALUE:numeric value of @{text}")},
+        { GNM_FUNC_HELP_NAME, F_("NUMBERVALUE:numeric value of @{text}")},
         { GNM_FUNC_HELP_ARG, F_("text:string")},
         { GNM_FUNC_HELP_ARG, F_("separator:decimal separator")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{text} does not look like a decimal number, "

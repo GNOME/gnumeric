@@ -879,7 +879,7 @@ gnumeric_simtable (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randsnorm[] = {
-        { GNM_FUNC_HELP_NAME, F_("RANDNORM:random variate from a skew normal distribution") },
+        { GNM_FUNC_HELP_NAME, F_("RANDSNORM:random variate from a skew normal distribution") },
         { GNM_FUNC_HELP_ARG, F_("a: amount of skew, defaults to 0") },
         { GNM_FUNC_HELP_ARG, F_("\xce\xbc:mean of the underlying normal distribution, defaults to 0") },
         { GNM_FUNC_HELP_ARG, F_("\xcf\x83:standard deviation of the underlying normal distribution, defaults to 1") },
@@ -897,13 +897,13 @@ gnumeric_randsnorm (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float mean  = 0.;
 	gnm_float stdev = 1.;
 	gnm_float result;
-	
+
 	if (argv[0]) {
 		alpha  = value_get_as_float (argv[0]);
 		if (argv[1]) {
 			mean  = value_get_as_float (argv[1]);
 			if (argv[2])
-				stdev = value_get_as_float (argv[2]);	
+				stdev = value_get_as_float (argv[2]);
 		}
 	}
 
@@ -933,7 +933,7 @@ gnumeric_randstdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float nu = value_get_as_float (argv[0]);
 	gnm_float alpha = argv[1] ? value_get_as_float (argv[1]) : 0.;
 
-	return ((alpha == 0.) ? value_new_float (random_tdist (nu)) 
+	return ((alpha == 0.) ? value_new_float (random_tdist (nu))
 		: value_new_float (random_skew_tdist (nu, alpha)));;
 }
 

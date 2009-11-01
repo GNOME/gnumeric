@@ -1429,7 +1429,6 @@ gnumeric_binomdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_binom_dist_range[] = {
 	{ GNM_FUNC_HELP_NAME, F_("BINOM.DIST.RANGE:probability of the binomial distribution over an interval")},
-	{ GNM_FUNC_HELP_ARG, F_("n:number of successes")},
 	{ GNM_FUNC_HELP_ARG, F_("trials:number of trials")},
 	{ GNM_FUNC_HELP_ARG, F_("p:probability of success in each trial")},
 	{ GNM_FUNC_HELP_ARG, F_("start:start of the interval")},

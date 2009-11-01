@@ -1909,6 +1909,66 @@
   </sect1>
   <sect1 id="CATEGORY_DateTime">
     <title>Date/Time</title>
+    <refentry id="gnumeric-ASCENSIONTHURSDAY">
+      <refmeta>
+        <refentrytitle>
+          <function>ASCENSIONTHURSDAY</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>ASCENSIONTHURSDAY</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>ASCENSIONTHURSDAY</function>(<parameter>year</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>.</para>
+        <para><parameter>year</parameter>: year between 1582 and 9956, defaults to the year of the next Ascension Thursday</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>Two digit years are adjusted as elsewhere in Gnumeric. Dates before 1904 may also be prohibited.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-EASTERSUNDAY"><function>EASTERSUNDAY</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-ASHWEDNESDAY">
+      <refmeta>
+        <refentrytitle>
+          <function>ASHWEDNESDAY</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>ASHWEDNESDAY</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>ASHWEDNESDAY</function>(<parameter>year</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>.</para>
+        <para><parameter>year</parameter>: year between 1582 and 9956, defaults to the year of the next Ash Wednesday</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>Two digit years are adjusted as elsewhere in Gnumeric. Dates before 1904 may also be prohibited.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-EASTERSUNDAY"><function>EASTERSUNDAY</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-DATE">
       <refmeta>
         <refentrytitle>
@@ -2070,6 +2130,33 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-DAYS">
+      <refmeta>
+        <refentrytitle>
+          <function>DAYS</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>DAYS</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>DAYS</function>(<parameter>start_date</parameter>,<parameter>end_date</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><function>DAYS</function> returns the positive or negative number of days from <parameter>start_date</parameter> to <parameter>end_date</parameter>.</para>
+        <para><parameter>start_date</parameter>: starting date serial value</para>
+        <para><parameter>end_date</parameter>: ending date serial value</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-DATEDIF"><function>DATEDIF</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-DAYS360">
       <refmeta>
         <refentrytitle>
@@ -2107,6 +2194,36 @@
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-DATEDIF"><function>DATEDIF</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-EASTERSUNDAY">
+      <refmeta>
+        <refentrytitle>
+          <function>EASTERSUNDAY</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>EASTERSUNDAY</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>EASTERSUNDAY</function>(<parameter>year</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>.</para>
+        <para><parameter>year</parameter>: year between 1582 and 9956, defaults to the year of the next Easter Sunday</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>Two digit years are adjusted as elsewhere in Gnumeric. Dates before 1904 may also be prohibited.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-ASHWEDNESDAY"><function>ASHWEDNESDAY</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -2161,6 +2278,146 @@
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-EDATE"><function>EDATE</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-GOODFRIDAY">
+      <refmeta>
+        <refentrytitle>
+          <function>GOODFRIDAY</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>GOODFRIDAY</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>GOODFRIDAY</function>(<parameter>year</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>.</para>
+        <para><parameter>year</parameter>: year between 1582 and 9956, defaults to the year of the next Good Friday</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>Two digit years are adjusted as elsewhere in Gnumeric. Dates before 1904 may also be prohibited.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-EASTERSUNDAY"><function>EASTERSUNDAY</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-HDATE">
+      <refmeta>
+        <refentrytitle>
+          <function>HDATE</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>HDATE</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-HDATE_HEB"><function>HDATE_HEB</function></link>,
+        <link linkend="gnumeric-DATE"><function>DATE</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-HDATE_DAY">
+      <refmeta>
+        <refentrytitle>
+          <function>HDATE_DAY</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>HDATE_DAY</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-HDATE_JULIAN"><function>HDATE_JULIAN</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-HDATE_HEB">
+      <refmeta>
+        <refentrytitle>
+          <function>HDATE_HEB</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>HDATE_HEB</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-HDATE"><function>HDATE</function></link>,
+        <link linkend="gnumeric-DATE"><function>DATE</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-HDATE_JULIAN">
+      <refmeta>
+        <refentrytitle>
+          <function>HDATE_JULIAN</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>HDATE_JULIAN</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-HDATE"><function>HDATE</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-HDATE_MONTH">
+      <refmeta>
+        <refentrytitle>
+          <function>HDATE_MONTH</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>HDATE_MONTH</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-HDATE_JULIAN"><function>HDATE_JULIAN</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-HDATE_YEAR">
+      <refmeta>
+        <refentrytitle>
+          <function>HDATE_YEAR</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>HDATE_YEAR</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-HDATE_JULIAN"><function>HDATE_JULIAN</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -2360,6 +2617,36 @@
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-DATE"><function>DATE</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-PENTECOSTSUNDAY">
+      <refmeta>
+        <refentrytitle>
+          <function>PENTECOSTSUNDAY</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>PENTECOSTSUNDAY</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>PENTECOSTSUNDAY</function>(<parameter>year</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>.</para>
+        <para><parameter>year</parameter>: year between 1582 and 9956, defaults to the year of the next Pentecost Sunday</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>Two digit years are adjusted as elsewhere in Gnumeric. Dates before 1904 may also be prohibited.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-EASTERSUNDAY"><function>EASTERSUNDAY</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -7178,7 +7465,8 @@
       </refnamediv>
       <refsect1>
         <title>See also</title>
-        <para><link linkend="gnumeric-EXPRESSION"><function>EXPRESSION</function></link>.
+        <para><link linkend="gnumeric-EXPRESSION"><function>EXPRESSION</function></link>,
+        <link linkend="gnumeric-ISFORMULA"><function>ISFORMULA</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -7318,6 +7606,24 @@
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-ISODD"><function>ISODD</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-ISFORMULA">
+      <refmeta>
+        <refentrytitle>
+          <function>ISFORMULA</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>ISFORMULA</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-GET_FORMULA"><function>GET_FORMULA</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -7650,6 +7956,34 @@
         <title>Description</title>
         <para>This function returns the first value, unless that is an error, in which case it returns the second.</para>
         <para><parameter>x</parameter>: value to test for error.</para>
+        <para><parameter>y</parameter>: alternate value.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-IF"><function>IF</function></link>,
+        <link linkend="gnumeric-ISERROR"><function>ISERROR</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-IFNA">
+      <refmeta>
+        <refentrytitle>
+          <function>IFNA</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>IFNA</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>IFNA</function>(<parameter>x</parameter>,<parameter>y</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>This function returns the first value, unless that is #NA!, in which case it returns the second.</para>
+        <para><parameter>x</parameter>: value to test for #NA! error.</para>
         <para><parameter>y</parameter>: alternate value.</para>
       </refsect1>
       <refsect1>
@@ -8307,6 +8641,69 @@
         <para><link linkend="gnumeric-COLUMN"><function>COLUMN</function></link>,
         <link linkend="gnumeric-COLUMNS"><function>COLUMNS</function></link>,
         <link linkend="gnumeric-ROW"><function>ROW</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-SHEET">
+      <refmeta>
+        <refentrytitle>
+          <function>SHEET</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>SHEET</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>SHEET</function>(<parameter>reference</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>.</para>
+        <para><parameter>reference</parameter>: reference or literal sheet name, defaults to the current sheet</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If <parameter>reference</parameter> is neither a reference nor a literal sheet name, SHEETS returns #VALUE!</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-SHEETS"><function>SHEETS</function></link>,
+        <link linkend="gnumeric-ROW"><function>ROW</function></link>,
+        <link linkend="gnumeric-COLUMNNUMBER"><function>COLUMNNUMBER</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-SHEETS">
+      <refmeta>
+        <refentrytitle>
+          <function>SHEETS</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>SHEETS</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>SHEETS</function>(<parameter>reference</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>.</para>
+        <para><parameter>reference</parameter>: array, reference, or range, defaults to the maximum range</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If <parameter>reference</parameter> is neither an array nor a reference nor a range, <function>SHEETS</function> returns #VALUE!</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-COLUMNS"><function>COLUMNS</function></link>,
+        <link linkend="gnumeric-ROWS"><function>ROWS</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -11560,6 +11957,56 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-RANDSNORM">
+      <refmeta>
+        <refentrytitle>
+          <function>RANDSNORM</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>RANDSNORM</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>RANDSNORM</function>(<parameter>a</parameter>,<parameter/>μ,<parameter/>σ)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>.</para>
+        <para><parameter>a</parameter>:  amount of skew, defaults to 0</para>
+        <para>@{μ}: mean of the underlying normal distribution, defaults to 0</para>
+        <para>@{σ}: standard deviation of the underlying normal distribution, defaults to 1</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If @{σ} &lt; 0, <function>RANDSNORM</function> returns #NUM!</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-RANDNORM"><function>RANDNORM</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-RANDSTDIST">
+      <refmeta>
+        <refentrytitle>
+          <function>RANDSTDIST</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>RANDSTDIST</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-RANDTDIST"><function>RANDTDIST</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-RANDTDIST">
       <refmeta>
         <refentrytitle>
@@ -11835,6 +12282,52 @@
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-BETADIST"><function>BETADIST</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-BINOM.DIST.RANGE">
+      <refmeta>
+        <refentrytitle>
+          <function>BINOM.DIST.RANGE</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>BINOM.DIST.RANGE</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>BINOM.DIST.RANGE</function>(<parameter>trials</parameter>,<parameter>p</parameter>,<parameter>start</parameter>,<parameter>end</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>.</para>
+        <para><parameter>trials</parameter>: number of trials</para>
+        <para><parameter>p</parameter>: probability of success in each trial</para>
+        <para><parameter>start</parameter>: start of the interval</para>
+        <para><parameter>end</parameter>: start of the interval, defaults to <parameter>start</parameter></para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If <parameter>start</parameter>, <parameter>end</parameter> or <parameter>trials</parameter> are non-integer they are truncated.</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If <parameter>trials</parameter> &lt; 0 this function returns a #NUM! error.</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If <parameter>p</parameter> &lt; 0 or <parameter>p</parameter> &gt; 1 this function returns a #NUM! error.</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If <parameter>start</parameter> &gt; <parameter>end</parameter> this function returns 0.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-BINOMDIST"><function>BINOMDIST</function></link>,
+        <link linkend="gnumeric-R.PBINOM"><function>R.PBINOM</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -14278,6 +14771,65 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-R.DSNORM">
+      <refmeta>
+        <refentrytitle>
+          <function>R.DSNORM</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>R.DSNORM</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>R.DSNORM</function>(<parameter>x</parameter>,<parameter>shape</parameter>,<parameter>location</parameter>,<parameter>scale</parameter>,<parameter>give_log</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>This function returns the probability density function of the skew-normal distribution.</para>
+        <para><parameter>x</parameter>: observation</para>
+        <para><parameter>shape</parameter>: the shape parameter of the distribution</para>
+        <para><parameter>location</parameter>: the location parameter of the distribution</para>
+        <para><parameter>scale</parameter>: the scale parameter of the distribution</para>
+        <para><parameter>give_log</parameter>: if true, log of the result will be returned instead</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-R.PSNORM"><function>R.PSNORM</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-R.DST">
+      <refmeta>
+        <refentrytitle>
+          <function>R.DST</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>R.DST</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>R.DST</function>(<parameter>x</parameter>,<parameter>n</parameter>,<parameter>shape</parameter>,<parameter>give_log</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>This function returns the probability density function of the skew-t distribution.</para>
+        <para><parameter>x</parameter>: observation</para>
+        <para><parameter>n</parameter>: the number of degrees of freedom of the distribution</para>
+        <para><parameter>shape</parameter>: the shape parameter of the distribution</para>
+        <para><parameter>give_log</parameter>: if true, log of the result will be returned instead</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para>
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-R.DT">
       <refmeta>
         <refentrytitle>
@@ -14734,6 +15286,37 @@
         <title>See also</title>
         <para><link linkend="gnumeric-R.DPOIS"><function>R.DPOIS</function></link>,
         <link linkend="gnumeric-R.QPOIS"><function>R.QPOIS</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-R.PSNORM">
+      <refmeta>
+        <refentrytitle>
+          <function>R.PSNORM</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>R.PSNORM</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>R.PSNORM</function>(<parameter>x</parameter>,<parameter>shape</parameter>,<parameter>location</parameter>,<parameter>scale</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>This function returns the cumulative distribution function of the skew-normal distribution.</para>
+        <para><parameter>x</parameter>: observation</para>
+        <para><parameter>shape</parameter>: the shape parameter of the distribution</para>
+        <para><parameter>location</parameter>: the location parameter of the distribution</para>
+        <para><parameter>scale</parameter>: the scale parameter of the distribution</para>
+        <para><parameter>lower_tail</parameter>: if true (the default), the lower tail of the distribution is considered</para>
+        <para><parameter>log_p</parameter>: if true, log of the probability is used</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-R.DSNORM"><function>R.DSNORM</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -16674,6 +17257,37 @@
         <link linkend="gnumeric-MID"><function>MID</function></link>,
         <link linkend="gnumeric-RIGHT"><function>RIGHT</function></link>,
         <link linkend="gnumeric-LEN"><function>LEN</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-NUMBERVALUE">
+      <refmeta>
+        <refentrytitle>
+          <function>NUMBERVALUE</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>NUMBERVALUE</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>NUMBERVALUE</function>(<parameter>text</parameter>,<parameter>separator</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>.</para>
+        <para><parameter>text</parameter>: string</para>
+        <para><parameter>separator</parameter>: decimal separator</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If <parameter>text</parameter> does not look like a decimal number, <function>NUMBERVALUE</function> returns the value VALUE would return (ignoring the given <parameter>separator</parameter>).</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-VALUE"><function>VALUE</function></link>.
       </para>
       </refsect1>
     </refentry>

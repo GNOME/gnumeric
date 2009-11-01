@@ -551,6 +551,22 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @NOTE=If the summary data is unavailable, GETPIVOTDATA returns #REF!
 
 @CATEGORY=Date/Time
+@FUNCTION=ASCENSIONTHURSDAY
+@SYNTAX=ASCENSIONTHURSDAY(year)
+@DESCRIPTION=.
+@{year}: year between 1582 and 9956, defaults to the year of the next Ascension Thursday
+@NOTE=Two digit years are adjusted as elsewhere in Gnumeric. Dates before 1904 may also be prohibited.
+@SEEALSO=EASTERSUNDAY
+
+@CATEGORY=Date/Time
+@FUNCTION=ASHWEDNESDAY
+@SYNTAX=ASHWEDNESDAY(year)
+@DESCRIPTION=.
+@{year}: year between 1582 and 9956, defaults to the year of the next Ash Wednesday
+@NOTE=Two digit years are adjusted as elsewhere in Gnumeric. Dates before 1904 may also be prohibited.
+@SEEALSO=EASTERSUNDAY
+
+@CATEGORY=Date/Time
 @FUNCTION=DATE
 @SYNTAX=DATE(year,month,day)
 @DESCRIPTION=The DATE function creates date serial values.  1-Jan-1900 is serial value 1, 2-Jan-1900 is serial value 2, and so on.  For compatibility reasons, a serial value is reserved for the non-existing date 29-Feb-1900.
@@ -600,6 +616,15 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @SEEALSO=DATE,YEAR,MONTH
 
 @CATEGORY=Date/Time
+@FUNCTION=DAYS
+@SYNTAX=DAYS(start_date,end_date)
+@DESCRIPTION=DAYS returns the positive or negative number of days from @{start_date} to @{end_date}.
+@{start_date}: starting date serial value
+@{end_date}: ending date serial value
+
+@SEEALSO=DATEDIF
+
+@CATEGORY=Date/Time
 @FUNCTION=DAYS360
 @SYNTAX=DAYS360(start_date,end_date,method)
 @DESCRIPTION=DAYS360 returns the number of days from @{start_date} to @{end_date}.
@@ -611,6 +636,14 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @NOTE=If @{method} is 1, the European method will be used.  In this case, if the day of the month is 31 it will be considered as 30
 @NOTE=If @{method} is 2, a saner version of the US method is used in which both dates get the same February treatment.
 @SEEALSO=DATEDIF
+
+@CATEGORY=Date/Time
+@FUNCTION=EASTERSUNDAY
+@SYNTAX=EASTERSUNDAY(year)
+@DESCRIPTION=.
+@{year}: year between 1582 and 9956, defaults to the year of the next Easter Sunday
+@NOTE=Two digit years are adjusted as elsewhere in Gnumeric. Dates before 1904 may also be prohibited.
+@SEEALSO=ASHWEDNESDAY
 
 @CATEGORY=Date/Time
 @FUNCTION=EDATE
@@ -629,6 +662,38 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @{months}: signed number of months
 
 @SEEALSO=EDATE
+
+@CATEGORY=Date/Time
+@FUNCTION=GOODFRIDAY
+@SYNTAX=GOODFRIDAY(year)
+@DESCRIPTION=.
+@{year}: year between 1582 and 9956, defaults to the year of the next Good Friday
+@NOTE=Two digit years are adjusted as elsewhere in Gnumeric. Dates before 1904 may also be prohibited.
+@SEEALSO=EASTERSUNDAY
+
+@CATEGORY=Date/Time
+@FUNCTION=HDATE
+@SEEALSO=HDATE_HEB,DATE
+
+@CATEGORY=Date/Time
+@FUNCTION=HDATE_DAY
+@SEEALSO=HDATE_JULIAN
+
+@CATEGORY=Date/Time
+@FUNCTION=HDATE_HEB
+@SEEALSO=HDATE,DATE
+
+@CATEGORY=Date/Time
+@FUNCTION=HDATE_JULIAN
+@SEEALSO=HDATE
+
+@CATEGORY=Date/Time
+@FUNCTION=HDATE_MONTH
+@SEEALSO=HDATE_JULIAN
+
+@CATEGORY=Date/Time
+@FUNCTION=HDATE_YEAR
+@SEEALSO=HDATE_JULIAN
 
 @CATEGORY=Date/Time
 @FUNCTION=HOUR
@@ -688,6 +753,14 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @DESCRIPTION=The NOW function returns the date and time serial value of the moment it is computed.  Recomputing later will produce a different value.
 
 @SEEALSO=DATE
+
+@CATEGORY=Date/Time
+@FUNCTION=PENTECOSTSUNDAY
+@SYNTAX=PENTECOSTSUNDAY(year)
+@DESCRIPTION=.
+@{year}: year between 1582 and 9956, defaults to the year of the next Pentecost Sunday
+@NOTE=Two digit years are adjusted as elsewhere in Gnumeric. Dates before 1904 may also be prohibited.
+@SEEALSO=EASTERSUNDAY
 
 @CATEGORY=Date/Time
 @FUNCTION=SECOND
@@ -2386,7 +2459,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=GET.FORMULA
-@SEEALSO=EXPRESSION
+@SEEALSO=EXPRESSION,ISFORMULA
 
 @CATEGORY=Information
 @FUNCTION=GETENV
@@ -2430,6 +2503,10 @@ If any argument is zero, the result is zero.
 @CATEGORY=Information
 @FUNCTION=ISEVEN
 @SEEALSO=ISODD
+
+@CATEGORY=Information
+@FUNCTION=ISFORMULA
+@SEEALSO=GET_FORMULA
 
 @CATEGORY=Information
 @FUNCTION=ISLOGICAL
@@ -2526,6 +2603,15 @@ If any argument is zero, the result is zero.
 @SYNTAX=IFERROR(x,y)
 @DESCRIPTION=This function returns the first value, unless that is an error, in which case it returns the second.
 @{x}: value to test for error.
+@{y}: alternate value.
+
+@SEEALSO=IF,ISERROR
+
+@CATEGORY=Logic
+@FUNCTION=IFNA
+@SYNTAX=IFNA(x,y)
+@DESCRIPTION=This function returns the first value, unless that is #NA!, in which case it returns the second.
+@{x}: value to test for #NA! error.
 @{y}: alternate value.
 
 @SEEALSO=IF,ISERROR
@@ -2724,6 +2810,22 @@ If any argument is zero, the result is zero.
 @{reference}: array, reference, or range
 @NOTE=If @{reference} is neither an array nor a reference nor a range, ROWS returns #VALUE!
 @SEEALSO=COLUMN,COLUMNS,ROW
+
+@CATEGORY=Lookup
+@FUNCTION=SHEET
+@SYNTAX=SHEET(reference)
+@DESCRIPTION=.
+@{reference}: reference or literal sheet name, defaults to the current sheet
+@NOTE=If @{reference} is neither a reference nor a literal sheet name, SHEETS returns #VALUE!
+@SEEALSO=SHEETS,ROW,COLUMNNUMBER
+
+@CATEGORY=Lookup
+@FUNCTION=SHEETS
+@SYNTAX=SHEETS(reference)
+@DESCRIPTION=.
+@{reference}: array, reference, or range, defaults to the maximum range
+@NOTE=If @{reference} is neither an array nor a reference nor a range, SHEETS returns #VALUE!
+@SEEALSO=COLUMNS,ROWS
 
 @CATEGORY=Lookup
 @FUNCTION=TRANSPOSE
@@ -3580,6 +3682,20 @@ Strings and empty cells are simply ignored.
 @SEEALSO=RAND,RANDRAYLEIGH
 
 @CATEGORY=Random Numbers
+@FUNCTION=RANDSNORM
+@SYNTAX=RANDSNORM(a,μ,σ)
+@DESCRIPTION=.
+@{a}:  amount of skew, defaults to 0
+@{μ}: mean of the underlying normal distribution, defaults to 0
+@{σ}: standard deviation of the underlying normal distribution, defaults to 1
+@NOTE=If @{σ} < 0, RANDSNORM returns #NUM!
+@SEEALSO=RANDNORM
+
+@CATEGORY=Random Numbers
+@FUNCTION=RANDSTDIST
+@SEEALSO=RANDTDIST
+
+@CATEGORY=Random Numbers
 @FUNCTION=RANDTDIST
 @SEEALSO=RAND
 
@@ -3660,6 +3776,20 @@ The successive use of the simulation tool also requires that you give to the too
 @NOTE=If @{alpha} <= 0 or @{beta} <= 0, this function returns a #NUM! error.
 @NOTE=If @{a} >= @{b} this function returns a #NUM! error.
 @SEEALSO=BETADIST
+
+@CATEGORY=Statistics
+@FUNCTION=BINOM.DIST.RANGE
+@SYNTAX=BINOM.DIST.RANGE(trials,p,start,end)
+@DESCRIPTION=.
+@{trials}: number of trials
+@{p}: probability of success in each trial
+@{start}: start of the interval
+@{end}: start of the interval, defaults to @{start}
+@NOTE=If @{start}, @{end} or @{trials} are non-integer they are truncated.
+@NOTE=If @{trials} < 0 this function returns a #NUM! error.
+@NOTE=If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.
+@NOTE=If @{start} > @{end} this function returns 0.
+@SEEALSO=BINOMDIST,R.PBINOM
 
 @CATEGORY=Statistics
 @FUNCTION=BINOMDIST
@@ -4401,6 +4531,29 @@ The successive use of the simulation tool also requires that you give to the too
 @SEEALSO=R.PPOIS,R.QPOIS
 
 @CATEGORY=Statistics
+@FUNCTION=R.DSNORM
+@SYNTAX=R.DSNORM(x,shape,location,scale,give_log)
+@DESCRIPTION=This function returns the probability density function of the skew-normal distribution.
+@{x}: observation
+@{shape}: the shape parameter of the distribution
+@{location}: the location parameter of the distribution
+@{scale}: the scale parameter of the distribution
+@{give_log}: if true, log of the result will be returned instead
+
+@SEEALSO=R.PSNORM
+
+@CATEGORY=Statistics
+@FUNCTION=R.DST
+@SYNTAX=R.DST(x,n,shape,give_log)
+@DESCRIPTION=This function returns the probability density function of the skew-t distribution.
+@{x}: observation
+@{n}: the number of degrees of freedom of the distribution
+@{shape}: the shape parameter of the distribution
+@{give_log}: if true, log of the result will be returned instead
+
+@SEEALSO=
+
+@CATEGORY=Statistics
 @FUNCTION=R.DT
 @SYNTAX=R.DT(x,n,give_log)
 @DESCRIPTION=This function returns the probability density function of the Student t distribution.
@@ -4573,6 +4726,19 @@ The successive use of the simulation tool also requires that you give to the too
 @{log_p}: if true, log of the probability is used
 
 @SEEALSO=R.DPOIS,R.QPOIS
+
+@CATEGORY=Statistics
+@FUNCTION=R.PSNORM
+@SYNTAX=R.PSNORM(x,shape,location,scale,lower_tail,log_p)
+@DESCRIPTION=This function returns the cumulative distribution function of the skew-normal distribution.
+@{x}: observation
+@{shape}: the shape parameter of the distribution
+@{location}: the location parameter of the distribution
+@{scale}: the scale parameter of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered
+@{log_p}: if true, log of the probability is used
+
+@SEEALSO=R.DSNORM
 
 @CATEGORY=Statistics
 @FUNCTION=R.PT
@@ -5164,6 +5330,15 @@ The successive use of the simulation tool also requires that you give to the too
 @{num_bytes}: the maximum number of bytes to return (defaults to 1)
 @NOTE=The semantics of this function is subject to change as various applications implement it.
 @SEEALSO=LEFTB,RIGHTB,LENB,LEFT,MID,RIGHT,LEN
+
+@CATEGORY=String
+@FUNCTION=NUMBERVALUE
+@SYNTAX=NUMBERVALUE(text,separator)
+@DESCRIPTION=.
+@{text}: string
+@{separator}: decimal separator
+@NOTE=If @{text} does not look like a decimal number, NUMBERVALUE returns the value VALUE would return (ignoring the given @{separator}).
+@SEEALSO=VALUE
 
 @CATEGORY=String
 @FUNCTION=PROPER
