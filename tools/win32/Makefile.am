@@ -15,5 +15,5 @@ release_shell::
 clean:
 	rm -rf debug release
 
-EXTRA_DIST = gnumeric.nsi.in build gtkrc moduleset.in jhbuildrc-debug jhbuildrc-release
+EXTRA_DIST = gnumeric.nsi.in build gtkrc moduleset.in jhbuildrc-release
 .PHONY : debug release debug_shell release_shell
