@@ -485,7 +485,7 @@ save_original_values (GSList *input_cells)
 /* Returns FALSE if the reports deleted the current sheet
  * and forced the dialog to die */
 static gboolean
-solver_reporting (SolverState *state, SolverResults *res, gchar const *errmsg)
+solver_reporting (SolverState *state, SolverResults *res)
 {
 	SolverOptions *opt = &res->param->options;
 	gchar         *err = NULL;
@@ -579,7 +579,8 @@ solver_reporting (SolverState *state, SolverResults *res, gchar const *errmsg)
 		go_gtk_notice_nonmodal_dialog
 			((GtkWindow *) state->dialog,
 			 &(state->warning_dialog),
-			 GTK_MESSAGE_ERROR, errmsg);
+			 GTK_MESSAGE_ERROR,
+			 _("Unknown error."));
 		break;
 	}
 	if (NULL != state)
@@ -629,7 +630,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	gint                    i;
 	gboolean                answer, sensitivity, limits, performance;
 	gboolean                program, dual_program;
-	gchar const             *errmsg = _("Unknown error.");
+	GError *err = NULL;
 	SolverParameters        *param;
 	GtkTreeIter iter;
 	gchar const *name;
@@ -755,7 +756,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 						input_cells);
 
 
-	res = solver (WORKBOOK_CONTROL (state->wbcg), state->sheet, &errmsg);
+	res = solver (WORKBOOK_CONTROL (state->wbcg), state->sheet, &err);
 	workbook_recalc (state->sheet->workbook);
 
 	if (res != NULL) {
@@ -763,7 +764,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 		/* WARNING : The dialog may be deleted by the reports
 		 * solver_reporting will return FALSE if state is gone and cleared */
-		if (solver_reporting (state, res, errmsg) &&
+		if (solver_reporting (state, res) &&
 		    res->status == SolverOptimal &&
 		    param->options.add_scenario)
 			solver_add_scenario (state, res,
@@ -771,9 +772,12 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 		solver_results_free (res);
 	} else
-		go_gtk_notice_nonmodal_dialog (GTK_WINDOW (state->dialog),
-					  &(state->warning_dialog),
-					  GTK_MESSAGE_ERROR, errmsg);
+		go_gtk_notice_nonmodal_dialog
+			(GTK_WINDOW (state->dialog),
+			 &(state->warning_dialog),
+			 GTK_MESSAGE_ERROR,
+			 err ? err->message : _("Unknown error."));
+
 out:
 	if (target_range != NULL)
 		value_release (target_range);

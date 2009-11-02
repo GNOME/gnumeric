@@ -179,6 +179,71 @@ gnm_solver_param_get_target_cell (SolverParameters const *sp)
 			       cr->col, cr->row);
 }
 
+gboolean
+gnm_solver_param_valid (SolverParameters const *sp, GError **err)
+{
+	GSList *l;
+	int i;
+	GnmCell *target_cell;
+	GSList *input_cells;
+
+	target_cell = gnm_solver_param_get_target_cell (sp);
+	if (!target_cell) {
+		g_set_error (err,
+			     go_error_invalid (),
+			     0,
+			     _("Invalid solver target"));
+		return FALSE;
+	}
+
+	if (!gnm_cell_has_expr (target_cell)) {
+		g_set_error (err,
+			     go_error_invalid (),
+			     0,
+			     _("Target cell, %s, must contain a formula"),
+			     cell_name (target_cell));
+		return FALSE;
+	}
+
+	if (!gnm_solver_param_get_input (sp)) {
+		g_set_error (err,
+			     go_error_invalid (),
+			     0,
+			     _("Invalid solver input range"));
+		return FALSE;
+	}
+	input_cells = gnm_solver_param_get_input_cells (sp);
+	for (l = input_cells; l; l = l->next) {
+		GnmCell *cell = l->data;
+		if (gnm_cell_has_expr (cell)) {
+			g_set_error (err,
+				     go_error_invalid (),
+				     0,
+				     _("Input cell %s contains a formula"),
+				     cell_name (cell));
+			g_slist_free (input_cells);
+			return FALSE;
+		}
+	}
+	g_slist_free (input_cells);
+
+	for (i = 1, l = sp->constraints; l; i++, l = l->next) {
+		SolverConstraint *c = l->data;
+		if (!gnm_solver_constraint_valid (c)) {
+			g_set_error (err,
+				     go_error_invalid (),
+				     0,
+				     _("Solver constraint #%d is invalid"),
+				     i);
+			return FALSE;
+		}
+	}
+
+	return TRUE;
+}
+
+/* ------------------------------------------------------------------------- */
+
 static void
 solver_constr_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -787,7 +852,7 @@ clear_input_vars (int n_variables, SolverResults *res)
 static SolverProgram
 lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 		   SolverResults *res, const SolverLPAlgorithm *alg,
-		   gnm_float start_time, GTimeVal start, const gchar **errmsg)
+		   gnm_float start_time, GTimeVal start, GError **err)
 {
         SolverProgram     program;
 	GnmCell          *target;
@@ -813,12 +878,6 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 				res->obj_coeff[i] = x;
 			}
 		}
-		/* Check that the target cell contains a formula. */
-		if (! res->n_nonzeros_in_obj) {
-		        *errmsg = _("Target cell should contain a formula.");
-			solver_results_free (res);
-			return NULL;
-		}
 	} else {
 	        /* FIXME: Init qp */
 	}
@@ -842,9 +901,10 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 
 		/* Check that LHS is a number type. */
 		if (lval == NULL || !VALUE_IS_NUMBER (lval)) {
-			*errmsg = _("The LHS cells should contain formulas "
-				    "that yield proper numerical values.  "
-				    "Specify valid LHS entries.");
+			g_set_error (err, go_error_invalid (), 0,
+				     _("The LHS cells should contain formulas "
+				       "that yield proper numerical values.  "
+				       "Specify valid LHS entries."));
 			solver_results_free (res);
 			return NULL;
 		}
@@ -887,9 +947,10 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 
 		/* Check that RHS is a number type. */
 		if (rval == NULL || !VALUE_IS_NUMBER (rval)) {
-			*errmsg = _("The RHS cells should contain proper "
-				    "numerical values only.  Specify valid "
-				    "RHS entries.");
+			g_set_error (err, go_error_invalid (), 0,
+				     _("The RHS cells should contain proper "
+				       "numerical values only.  Specify valid "
+				       "RHS entries."));
 			solver_results_free (res);
 			return NULL;
 		}
@@ -904,7 +965,8 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 		g_get_current_time (&cur_time);
 		if (cur_time.tv_sec - start.tv_sec >
 		    param->options.max_time_sec) {
-			*errmsg = SOLVER_MAX_TIME_ERR;
+			g_set_error (err, go_error_invalid (), 0,
+				     SOLVER_MAX_TIME_ERR);
 			solver_results_free (res);
 			return NULL;
 		}
@@ -920,7 +982,9 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 	        alg->maxim_fn (program);
 	        break;
 	case SolverEqualTo:
-		*errmsg = _("EqualTo models are not supported yet.  Please use Min or Max");
+		g_set_error (err, go_error_invalid (), 0,
+			     _("EqualTo models are not supported yet.  "
+			       "Please use Min or Max"));
 		solver_results_free (res);
 	        return NULL; /* FIXME: Equal to feature not yet implemented. */
 	default:
@@ -933,19 +997,22 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 	if (alg->set_option_fn (program, SolverOptAutomaticScaling,
 				&(param->options.automatic_scaling),
 				NULL, NULL)) {
-		*errmsg = _("Failure setting automatic scaling with this solver, try a different algorithm.");
+		g_set_error (err, go_error_invalid (), 0,
+			     _("Failure setting automatic scaling with this solver, try a different algorithm."));
 		solver_results_free (res);
 	        return NULL;
 	}
 	if (alg->set_option_fn (program, SolverOptMaxIter, NULL, NULL,
 				&(param->options.max_iter))) {
-		*errmsg = _("Failure setting the maximum number of iterations with this solver, try a different algorithm.");
+		g_set_error (err, go_error_invalid (), 0,
+			     _("Failure setting the maximum number of iterations with this solver, try a different algorithm."));
 		solver_results_free (res);
 	        return NULL;
 	}
 	if (alg->set_option_fn (program, SolverOptMaxTimeSec, NULL, &start_time,
 				&(param->options.max_time_sec))) {
-		*errmsg = _("Failure setting the maximum solving time with this solver, try a different algorithm.");
+		g_set_error (err, go_error_invalid (), 0,
+			     _("Failure setting the maximum solving time with this solver, try a different algorithm."));
 		solver_results_free (res);
 	        return NULL;
 	}
@@ -970,7 +1037,7 @@ static gboolean
 check_program_definition_failures (Sheet            *sheet,
 				   SolverParameters *param,
 				   SolverResults    **res,
-				   const gchar      **errmsg)
+				   GError **err)
 {
 	GSList           *inputs;
 	GSList           *c;
@@ -993,9 +1060,10 @@ check_program_definition_failures (Sheet            *sheet,
 		/* Check that the cell contains a number or is empty. */
 		if (! (cell->value == NULL || VALUE_IS_EMPTY (cell->value)
 		       || VALUE_IS_NUMBER (cell->value))) {
-		        *errmsg = _("Some of the input cells contain "
-				    "non-numeric values.  Specify a valid "
-				    "input range.");
+			g_set_error (err, go_error_invalid (), 0,
+				     _("Some of the input cells contain "
+				       "non-numeric values.  Specify a valid "
+				       "input range."));
 			g_slist_free (input_cells);
 			return TRUE;
 		}
@@ -1064,7 +1132,7 @@ check_program_definition_failures (Sheet            *sheet,
 
 static SolverResults *
 solver_run (WorkbookControl *wbc, Sheet *sheet,
-	    const SolverLPAlgorithm *alg, const gchar **errmsg)
+	    const SolverLPAlgorithm *alg, GError **err)
 {
 	SolverParameters  *param = sheet->solver_parameters;
 	SolverProgram     program;
@@ -1078,7 +1146,11 @@ solver_run (WorkbookControl *wbc, Sheet *sheet,
 #endif
 
 	g_get_current_time (&start);
-	if (check_program_definition_failures (sheet, param, &res, errmsg))
+
+	if (!gnm_solver_param_valid (param, err))
+		return NULL;
+
+	if (check_program_definition_failures (sheet, param, &res, err))
 	        return NULL;
 
 #if defined(HAVE_TIMES) && defined(HAVE_SYSCONF)
@@ -1095,7 +1167,7 @@ solver_run (WorkbookControl *wbc, Sheet *sheet,
 
 	program              = lp_qp_solver_init (sheet, param, res, alg,
 						  -res->time_real, start,
-						  errmsg);
+						  err);
 	if (program == NULL)
 	        return NULL;
 
@@ -1129,7 +1201,7 @@ solver_run (WorkbookControl *wbc, Sheet *sheet,
 }
 
 SolverResults *
-solver (WorkbookControl *wbc, Sheet *sheet, const gchar **errmsg)
+solver (WorkbookControl *wbc, Sheet *sheet, GError **err)
 {
 	const SolverLPAlgorithm *alg = NULL;
 	SolverParameters  *param = sheet->solver_parameters;
@@ -1148,7 +1220,7 @@ solver (WorkbookControl *wbc, Sheet *sheet, const gchar **errmsg)
 		g_assert_not_reached ();
 	}
 
-	return solver_run (wbc, sheet, alg, errmsg);
+	return solver_run (wbc, sheet, alg, err);
 }
 
 

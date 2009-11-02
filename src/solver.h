@@ -12,6 +12,7 @@ G_BEGIN_DECLS
 
 #define SOLVER_MAX_TIME_ERR _("The maximum time exceeded. The optimal value could not be found in given time.")
 
+/* -------------------------------------------------------------------------- */
 
 typedef enum {
 	SolverLPModel, SolverQPModel, SolverNLPModel
@@ -40,6 +41,8 @@ typedef struct {
 	SolverAlgorithmType algorithm;
 } SolverOptions;
 
+/* -------------------------------------------------------------------------- */
+
 typedef enum {
         SolverMinimize, SolverMaximize, SolverEqualTo
 } SolverProblemType;
@@ -57,6 +60,26 @@ struct _SolverParameters {
 	int                n_total_constraints;
 	SolverOptions      options;
 };
+
+/* Creates a new SolverParameters object. */
+SolverParameters *gnm_solver_param_new (Sheet *sheet);
+
+/* Duplicate a SolverParameters object. */
+SolverParameters *gnm_solver_param_dup (SolverParameters const *src_param,
+					Sheet *new_sheet);
+
+/* Frees the memory resources in the solver parameter structure. */
+void gnm_solver_param_free (SolverParameters *sp);
+
+GnmValue const *gnm_solver_param_get_input (SolverParameters const *sp);
+void gnm_solver_param_set_input (SolverParameters *sp, GnmValue *v);
+GSList *gnm_solver_param_get_input_cells (SolverParameters const *sp);
+
+const GnmCellRef *gnm_solver_param_get_target (SolverParameters const *sp);
+void gnm_solver_param_set_target (SolverParameters *sp, GnmCellRef const *cr);
+GnmCell *gnm_solver_param_get_target_cell (SolverParameters const *sp);
+
+gboolean gnm_solver_param_valid (SolverParameters const *sp, GError **err);
 
 /* -------------------------------------------------------------------------- */
 
@@ -239,7 +262,7 @@ typedef struct {
  * the results of the run.  Note that it should be freed when no longer
  * needed (by calling solver_results_free). */
 SolverResults    *solver               (WorkbookControl *wbc, Sheet *sheet,
-					const gchar **errmsg);
+					GError **err);
 
 /* Creates the Solver's reports. */
 gchar *          solver_reports        (WorkbookControl *wbc, Sheet *sheet,
@@ -247,25 +270,6 @@ gchar *          solver_reports        (WorkbookControl *wbc, Sheet *sheet,
 					gboolean answer, gboolean sensitivity,
 					gboolean limits, gboolean performance,
 					gboolean program, gboolean dual);
-
-/* Creates a new SolverParameters object. */
-SolverParameters *gnm_solver_param_new (Sheet *sheet);
-
-GnmValue const *gnm_solver_param_get_input (SolverParameters const *sp);
-void gnm_solver_param_set_input (SolverParameters *sp, GnmValue *v);
-GSList *gnm_solver_param_get_input_cells (SolverParameters const *sp);
-
-const GnmCellRef *gnm_solver_param_get_target (SolverParameters const *sp);
-void gnm_solver_param_set_target (SolverParameters *sp, GnmCellRef const *cr);
-GnmCell *gnm_solver_param_get_target_cell (SolverParameters const *sp);
-
-/* Frees the memory resources in the solver parameter structure. */
-void gnm_solver_param_free (SolverParameters *sp);
-
-/* Creates a copy of the Solver's data structures when a sheet is
- * duplicated. */
-SolverParameters *gnm_solver_param_dup (SolverParameters const *src_param,
-					Sheet *new_sheet);
 
 /* Frees the data structure allocated for the results. */
 void             solver_results_free   (SolverResults *res);
