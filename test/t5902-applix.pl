@@ -9,4 +9,4 @@ use GnumericTest;
 my $mode = ((shift @ARGV) || "check");
 
 &message ("Check the applix importer.");
-&test_importer ("$samples/applix/sample.as", "64b0f2006ebeb78bdce3b0fc17c019726bc00f61", $mode);
+&test_importer ("$samples/applix/sample.as", "cbc205426138d277a5f548994ec038c6d8bb0ba4", $mode);
