@@ -779,10 +779,10 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 			 err ? err->message : _("Unknown error."));
 
 out:
-	if (target_range != NULL)
-		value_release (target_range);
-	if (input_range != NULL)
-		value_release (input_range);
+	value_release (target_range);
+	value_release (input_range);
+	if (err)
+		g_error_free (err);
 }
 
 
