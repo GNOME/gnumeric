@@ -193,6 +193,20 @@ test_insdel_rowcol_names (void)
 	mark_test_end (test_name);
 }
 
+static void
+test_func_help (void)
+{
+	const char *test_name = "test_insdel_rowcol_names";
+	int res;
+
+	mark_test_start (test_name);
+
+	res = gnm_func_sanity_check ();
+	g_printerr ("Result = %d\n", res);
+
+	mark_test_end (test_name);
+}
+
 #define MAYBE_DO(name) if (strcmp (testname, "all") != 0 && strcmp (testname, (name)) != 0) { } else
 
 int
@@ -243,6 +257,7 @@ main (int argc, char const **argv)
 	/* ---------------------------------------- */
 
 	MAYBE_DO ("test_insdel_rowcol_names") test_insdel_rowcol_names ();
+	MAYBE_DO ("test_func_help") test_func_help ();
 
 	/* ---------------------------------------- */
 

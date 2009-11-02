@@ -46,6 +46,7 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
+static gboolean debug;
 static int    atl_fd = -1;
 static char * atl_filename = NULL;
 static FILE  *atl_file = NULL;
@@ -145,7 +146,10 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	GIOChannel *channel = NULL;
 	char *filename;
 
-	g_printerr (">>>>>>>>>>>>>>>>>>>>>>>>>>>> LOAD ATL\n");
+	debug = gnm_debug_flag ("datasource");
+
+	if (debug)
+		g_printerr (">>>>>>>>>>>>>>>>>>>>>>>>>>>> LOAD ATL\n");
 	g_return_if_fail (atl_fd < 0);
 
 	filename = g_build_filename (g_get_home_dir (), "atl", NULL);
@@ -182,7 +186,8 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 G_MODULE_EXPORT void
 go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
-	g_printerr ("UNLOAD ATL >>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
+	if (debug)
+		g_printerr ("UNLOAD ATL >>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
 
 	if (atl_source) {
 		g_source_remove (atl_source);
@@ -247,7 +252,8 @@ atl_last (GnmFuncEvalInfo *ei, GnmValue const * const argv[])
 static DependentFlags
 atl_last_link (GnmFuncEvalInfo *ei)
 {
-	g_printerr ("link atl_last\n");
+	if (debug)
+		g_printerr ("link atl_last\n");
 	return DEPENDENT_ALWAYS_UNLINK;
 }
 static void
@@ -263,7 +269,8 @@ atl_last_unlink (GnmFuncEvalInfo *ei)
 			g_hash_table_remove (w->value->deps, w);
 		g_free (w);
 	}
-	g_printerr ("unlink atl_last\n");
+	if (debug)
+		g_printerr ("unlink atl_last\n");
 }
 
 static GnmFuncHelp const help_atl_last[] = {

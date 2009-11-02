@@ -550,15 +550,9 @@ gnm_func_sanity_check1 (GnmFunc const *fd)
 int
 gnm_func_sanity_check (void)
 {
-	int res;
-	GOCmdContext *cc = cmd_context_stderr_new ();
+	int res = 0;
 	GPtrArray *ordered;
 	unsigned ui;
-
-	gnm_plugins_init (cc);
-	res = cmd_context_stderr_get_status (COMMAND_CONTEXT_STDERR (cc));
-	if (res)
-		goto out;
 
 	ordered = g_ptr_array_new ();
 	g_hash_table_foreach (global_symbol_table->hash,
@@ -568,7 +562,6 @@ gnm_func_sanity_check (void)
 		       ordered->len, sizeof (gpointer),
 		       func_def_cmp);
 
-	g_printerr ("Checking %d help texts...\n", (int)ordered->len);
 	for (ui = 0; ui < ordered->len; ui++) {
 		GnmFunc const *fd = g_ptr_array_index (ordered, ui);
 		if (gnm_func_sanity_check1 (fd))
@@ -577,7 +570,6 @@ gnm_func_sanity_check (void)
 
 	g_ptr_array_free (ordered, TRUE);
 
- out:
 	return res;
 }
 
