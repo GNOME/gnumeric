@@ -1,3 +1,7 @@
+2009-11-01  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.15
+
 2009-10-16  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_read_DIMENSIONS): Store dimensions for

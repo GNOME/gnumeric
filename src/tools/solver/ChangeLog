@@ -1,3 +1,7 @@
+2009-11-01  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.15
+
 2009-11-01  Morten Welinder  <terra@gnome.org>
 
 	* solver.c (gnm_solver_param_get_input,

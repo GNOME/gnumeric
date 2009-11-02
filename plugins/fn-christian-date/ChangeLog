@@ -1,3 +1,7 @@
+2009-11-01  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.15
+
 2009-10-23  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (eastersunday_calc_for_year): Renamed from

@@ -1,3 +1,7 @@
+2009-11-01  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.15
+
 2009-10-22  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
 	* hdate_strings.c: fix soome translation issues.
