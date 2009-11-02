@@ -996,10 +996,9 @@ gnm_cell_copy_free (GnmCellCopy *cc)
 		gnm_expr_top_unref (cc->texpr);
 		cc->texpr = NULL;
 	}
-	if (cc->val) {
-		value_release (cc->val);
-		cc->val = NULL;
-	}
+	value_release (cc->val);
+	cc->val = NULL;
+
 	CHUNK_FREE (cell_copy_pool, cc);
 }
 

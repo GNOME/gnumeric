@@ -524,10 +524,8 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			g_slist_free (missing1);
 			g_free (vals0);
 			g_free (vals1);
-			for (i = 0; i < nb; i++) {
-				if (values[i])
-					value_release (values[i]);
-			}
+			for (i = 0; i < nb; i++)
+				value_release (values[i]);
 			return value_new_error_VALUE (ei->pos);
 		}
 	} else
@@ -560,8 +558,7 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (n0 != n1 || n0 == 0 || n2 <= 0) {
 		res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
 		for (i = 0; i < nb; i++)
-			if (values[i])
-				value_release (values[i]);
+			value_release (values[i]);
 	} else {
 		if (missing0 || missing1) {
 			GSList *missing ;
@@ -597,8 +594,7 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		if (!go_range_increasing (vals0, n0) || n2==0) {
 			res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
 			for (i = 0; i < nb; i++)
-				if (values[i])
-					value_release (values[i]);
+				value_release (values[i]);
 			g_free (values);
 			g_free (vals0);
 			g_free (vals1);
@@ -624,8 +620,7 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			for( r = 0 ; r < nb; ++r)
 				res->v_array.vals[0][r] = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
 			for (i = 0; i < nb; i++)
-				if (values[i])
-					value_release (values[i]);
+				value_release (values[i]);
 		}
 	}
 	g_free (values);

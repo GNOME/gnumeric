@@ -41,8 +41,7 @@ static void
 single_floats_cache_entry_free (SingleFloatsCacheEntry *entry)
 {
 	value_release (entry->value);
-	if (entry->error)
-		value_release (entry->error);
+	value_release (entry->error);
 	g_free (entry->data);
 	g_free (entry);
 }
@@ -419,7 +418,7 @@ collect_floats (int argc, GnmExprConstPtr const *argv,
 		ce->value = key;
 		ce->flags = keyflags;
 		ce->n = *n;
-		ce->error = *error ? value_dup (*error) : NULL;
+		ce->error = value_dup (*error);
 		if (cl.data == NULL)
 			ce->data = NULL;
 		else if (constp) {

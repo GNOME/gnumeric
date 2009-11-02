@@ -96,8 +96,7 @@ val_to_base (GnmFuncEvalInfo *ei,
 				(value_peek_string (value), NULL,
 				 workbook_date_conv (ei->pos->sheet->workbook));
 			if (!vstring || !VALUE_IS_FLOAT (vstring)) {
-				if (vstring)
-					value_release (vstring);
+				value_release (vstring);
 				return value_new_error_VALUE (ei->pos);
 			}
 		} else {
@@ -142,8 +141,7 @@ val_to_base (GnmFuncEvalInfo *ei,
 		char buf[GNM_MANT_DIG + 10];
 		char *err;
 
-		if (vstring)
-			value_release (vstring);
+		value_release (vstring);
 
 		if (val < min_value || val > max_value)
 			return value_new_error_NUM (ei->pos);

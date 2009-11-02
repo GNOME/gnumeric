@@ -117,10 +117,8 @@ gnm_filter_condition_free (GnmFilterCondition *cond)
 	if (cond == NULL)
 		return;
 
-	if (cond->value[0] != NULL)
-		value_release (cond->value[0]);
-	if (cond->value[1] != NULL)
-		value_release (cond->value[1]);
+	value_release (cond->value[0]);
+	value_release (cond->value[1]);
 	g_free (cond);
 }
 
@@ -163,10 +161,10 @@ filter_expr_init (FilterExpr *fexpr, unsigned i,
 static void
 filter_expr_release (FilterExpr *fexpr, unsigned i)
 {
-	if (fexpr->val[i] != NULL)
-		value_release (fexpr->val[i]);
-	else
+	if (fexpr->val[i] == NULL)
 		go_regfree (fexpr->regexp + i);
+	else
+		value_release (fexpr->val[i]);
 }
 
 static gboolean

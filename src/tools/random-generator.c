@@ -67,8 +67,7 @@ tool_random_engine_run_discrete_clear_continuity (discrete_random_tool_local_t *
 	gint i;
 
 	for (i = 0; i < data->n; i++)
-		if (data->values[i])
-			value_release (data->values[i]);
+		value_release (data->values[i]);
 	g_free (data->cumul_p);
 	g_free (data->values);
 	g_free (data);

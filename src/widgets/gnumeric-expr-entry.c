@@ -828,7 +828,7 @@ gee_data_editor_set_format (GogDataEditor *deditor, GOFormat const *fmt)
 		g_free (txt);
 	}
 
-	if (v) value_release (v);
+	value_release (v);
 }
 
 static void

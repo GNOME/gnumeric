@@ -570,10 +570,8 @@ value_release (GnmValue *value)
 		int x, y;
 
 		for (x = 0; x < v->x; x++) {
-			for (y = 0; y < v->y; y++) {
-				if (v->vals[x][y])
-					value_release (v->vals[x][y]);
-			}
+			for (y = 0; y < v->y; y++)
+				value_release (v->vals[x][y]);
 			g_free (v->vals[x]);
 		}
 
@@ -1126,8 +1124,7 @@ value_array_set (GnmValue *array, int col, int row, GnmValue *v)
 	g_return_if_fail (array->v_array.y > row);
 	g_return_if_fail (array->v_array.x > col);
 
-	if (array->v_array.vals[col][row] != NULL)
-		value_release (array->v_array.vals[col][row]);
+	value_release (array->v_array.vals[col][row]);
 	array->v_array.vals[col][row] = v;
 }
 

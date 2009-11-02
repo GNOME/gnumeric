@@ -138,10 +138,10 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 
 		GnmValue *value = format_match (txt, fmt,
 						workbook_date_conv (sheet->workbook));
-		if (value != NULL)
-			value_release (value);
-		else
+		if (value == NULL)
 			expr_txt = gnm_expr_char_start_p (txt);
+		else
+			value_release (value);
 
 		/* NOTE : do not modify gnm_expr_char_start_p to exclude "-"
 		 * it _can_ start an expression, which is required for rangesel

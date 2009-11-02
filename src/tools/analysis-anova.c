@@ -817,8 +817,7 @@ analysis_tool_anova_two_factor_engine_clean (G_GNUC_UNUSED data_analysis_output_
 {
 	analysis_tools_data_anova_two_factor_t *info = specs;
 
-	if (info->input)
-		value_release (info->input);
+	value_release (info->input);
 	info->input = NULL;
 
 	return FALSE;

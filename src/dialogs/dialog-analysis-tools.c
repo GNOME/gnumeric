@@ -1405,8 +1405,8 @@ ttest_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	input_2_ready = ((state->base.input_entry_2 == NULL) || (input_range_2 != NULL));
 	output_ready =  gnm_dao_is_ready (GNM_DAO (state->base.gdao));
 
-        if (input_range != NULL) value_release (input_range);
-        if (input_range_2 != NULL) value_release (input_range_2);
+        value_release (input_range);
+	value_release (input_range_2);
 
 	ready = input_1_ready && input_2_ready && output_ready && alpha_ready && mean_diff_ready;
 	gtk_widget_set_sensitive (state->base.ok_button, ready);
@@ -1725,8 +1725,8 @@ ftest_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	input_2_ready = ((state->base.input_entry_2 == NULL) || (input_range_2 != NULL));
 	output_ready = gnm_dao_is_ready (GNM_DAO (state->base.gdao));
 
-        if (input_range != NULL) value_release (input_range);
-        if (input_range_2 != NULL) value_release (input_range_2);
+        value_release (input_range);
+        value_release (input_range_2);
 
 	ready = input_1_ready && input_2_ready && output_ready && alpha_ready;
 	gtk_widget_set_sensitive (state->base.ok_button, ready);
@@ -2155,10 +2155,8 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 				GTK_WIDGET (state->base.input_entry), text);
 		g_free (text);
 
-		if (data->base.range_1)
-			value_release (data->base.range_1);
-		if (data->base.range_2)
-			value_release (data->base.range_2);
+		value_release (data->base.range_1);
+		value_release (data->base.range_2);
 		g_free (dao);
 		g_free (data);
 	} else
@@ -3508,8 +3506,7 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			g_free (text);
 			break;
 		}
-		if (data->input)
-			value_release (data->input);
+		value_release (data->input);
 		g_free (dao);
 		g_free (data);
 	} else

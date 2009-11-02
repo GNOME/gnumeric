@@ -58,10 +58,8 @@ gnm_cell_cleanout (GnmCell *cell)
 		cell->base.texpr = NULL;
 	}
 
-	if (cell->value != NULL) {
-		value_release (cell->value);
-		cell->value = NULL;
-	}
+	value_release (cell->value);
+	cell->value = NULL;
 
 	gnm_cell_unrender (cell);
 
@@ -130,8 +128,7 @@ gnm_cell_assign_value (GnmCell *cell, GnmValue *v)
 	g_return_if_fail (cell);
 	g_return_if_fail (v);
 
-	if (cell->value != NULL)
-		value_release (cell->value);
+	value_release (cell->value);
 	cell->value = v;
 }
 

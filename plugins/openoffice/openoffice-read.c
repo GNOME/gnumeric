@@ -1260,8 +1260,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	    state->pos.eval.row >= max_rows) {
 		if (texpr)
 			gnm_expr_top_unref (texpr);
-		if (val)
-			value_release (val);
+		value_release (val);
 		if (style)
 			gnm_style_unref (style);
 		return;
@@ -3174,8 +3173,7 @@ oo_filter_cond (GsfXMLIn *xin, xmlChar const **attrs)
 					v->v_float.val);
 			break;
 		}
-		if (NULL != v)
-			value_release (v);
+		value_release (v);
 		if (NULL != cond)
 			gnm_filter_set_condition  (state->filter, field_num, cond, FALSE);
 	}

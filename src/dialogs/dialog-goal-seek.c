@@ -270,8 +270,7 @@ cb_dialog_destroy (GoalSeekState *state)
 		state->old_value = NULL;
 	}
 
-	if (state->old_value != NULL)
-		value_release (state->old_value);
+	value_release (state->old_value);
 	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
 
@@ -403,8 +402,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 		state->old_value = NULL;
 	}
 	state->old_cell = state->change_cell;
-	state->old_value = state->change_cell->value ?
-		value_dup (state->change_cell->value) : NULL;
+	state->old_value = value_dup (state->change_cell->value);
 
 	status = gnumeric_goal_seek (state);
 
@@ -613,9 +611,7 @@ dialog_goal_seek_test (Sheet *sheet, const GnmRange *range)
 
 	state.set_cell = sheet_cell_fetch (sheet, c + 0, r);
 	state.change_cell = sheet_cell_fetch (sheet, c + 1, r);
-	state.old_value = state.change_cell->value
-		? value_dup (state.change_cell->value)
-		: NULL;
+	state.old_value = value_dup (state.change_cell->value);
 
 	cell = sheet_cell_fetch (sheet, c + 2, r);
 	state.target_value = value_get_as_float (cell->value);
@@ -638,8 +634,7 @@ dialog_goal_seek_test (Sheet *sheet, const GnmRange *range)
 				      value_new_error_VALUE (NULL));
 	}
 
-	if (state.old_value)
-		value_release (state.old_value);
+	value_release (state.old_value);
 }
 
 /**

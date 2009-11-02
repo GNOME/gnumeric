@@ -608,8 +608,7 @@ solver_add_scenario (SolverState *state, SolverResults *res, gchar const *name)
 			  value_peek_string (gnm_solver_param_get_input (param)),
 			  comment, state->sheet, &scenario);
 	scenario_add (state->sheet, scenario);
-	if (input_range != NULL)
-		value_release (input_range);
+	value_release (input_range);
 }
 
 /**

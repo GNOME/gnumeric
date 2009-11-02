@@ -630,8 +630,7 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 								   gnm_conventions_default,
 								   NULL);
 					if (texpr == NULL) {
-						if (v != NULL)
-							value_release (v);
+						value_release (v);
 						v = value_new_string_nocopy (expr_txt);
 					} else
 						g_free (expr_txt);

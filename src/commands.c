@@ -3955,7 +3955,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 		 */
 		err = val && gnm_expr_char_start_p (cell_res.new_text);
 
-		if (val) value_release (val);
+		value_release (val);
 		if (texpr) gnm_expr_top_unref (texpr);
 
 		if (err) {

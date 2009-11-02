@@ -124,8 +124,7 @@ tool_random_cor_clean (gpointer specs)
 {
 	tools_data_random_cor_t *info = specs;
 
-	if (info->matrix)
-		value_release (info->matrix);
+	value_release (info->matrix);
 	info->matrix = NULL;
 
 	return FALSE;

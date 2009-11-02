@@ -334,7 +334,7 @@ get_linear_lookup_cache (GnmFuncEvalInfo *ei,
 					      (GEqualFunc)gnm_float_equal);
 		if (!key_copy) key_copy = value_dup (key);
 		g_hash_table_insert (*cache, key_copy, h);
-	} else if (key_copy)
+	} else
 		value_release (key_copy);
 
 	return h;
@@ -403,7 +403,7 @@ get_bisection_lookup_cache (GnmFuncEvalInfo *ei,
 		h = g_new0 (LookupBisectionCacheItem, 1);
 		if (!key_copy) key_copy = value_dup (key);
 		g_hash_table_insert (*cache, key_copy, h);
-	} else if (key_copy)
+	} else
 		value_release (key_copy);
 
 	return h;
@@ -1124,8 +1124,7 @@ gnumeric_lookup (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	} else
 		result = value_new_error_NA (ei->pos);
 
-	if (xlookup)
-		value_release (xlookup);
+	value_release (xlookup);
 
 	return result;
 }

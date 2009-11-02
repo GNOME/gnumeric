@@ -389,8 +389,7 @@ translate_range (GnmValue *range, SortFlowState *state)
 	state->header = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->cell_sort_header_check));
 
-	if (state->sel != NULL)
-		value_release (state->sel);
+	value_release (state->sel);
 	state->sel = range;
 	load_model_data(state);
 }
@@ -431,10 +430,8 @@ cb_update_sensitivity (SortFlowState *state)
 static void
 cb_dialog_destroy (SortFlowState  *state)
 {
-	if (state->sel) {
-		value_release (state->sel);
-		state->sel = NULL;
-	}
+	value_release (state->sel);
+	state->sel = NULL;
 
 	if (state->model != NULL)
 		g_object_unref (G_OBJECT (state->model));

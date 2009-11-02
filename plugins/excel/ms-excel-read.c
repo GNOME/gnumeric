@@ -5690,7 +5690,7 @@ excel_read_AUTOFILTER (BiffQuery *q, ExcelReadSheet *esheet)
 
 		if (op1 == GNM_FILTER_UNUSED) {
 			cond = gnm_filter_condition_new_single (op0, v0);
-			if (v1 != NULL) value_release (v1); /* paranoia */
+			value_release (v1); /* paranoia */
 		} else {
 			/* NOTE : Docs are backwards */
 			cond = gnm_filter_condition_new_double (

@@ -3214,10 +3214,8 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 
 	value_release (val_1);
 	value_release (val_2);
-	if (val_1_cp)
-		value_release (val_1_cp);
-	if (val_2_cp)
-		value_release (val_2_cp);
+	value_release (val_1_cp);
+	value_release (val_2_cp);
 
 	gnm_func_unref (fd_linest);
 	gnm_func_unref (fd_index);

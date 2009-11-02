@@ -326,8 +326,7 @@ gnumeric_if2 (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	res = gnumeric_if (ei, (GnmValue const * const *)args);
 
 	for (i = 0; i <= 2; i++)
-		if (args[i])
-			value_release (args[i]);
+		value_release (args[i]);
 
 	return res;
 }

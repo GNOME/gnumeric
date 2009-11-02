@@ -492,8 +492,7 @@ gnm_expr_free (GnmExpr const *expr)
 		break;
 
 	case GNM_EXPR_OP_ARRAY_CORNER:
-		if (expr->array_corner.value)
-			value_release (expr->array_corner.value);
+		value_release (expr->array_corner.value);
 		gnm_expr_free (expr->array_corner.expr);
 		CHUNK_FREE (expression_pool_big, (gpointer)expr);
 		break;
@@ -1008,8 +1007,7 @@ bin_array_iter_a (GnmEvalPos const *ep,
 	}
 
 	value_release (a);
-	if (b != NULL)
-		value_release (b);
+	value_release (b);
 	return iter_info.res;
 }
 
@@ -1041,8 +1039,7 @@ bin_array_iter_b (GnmEvalPos const *ep,
 		value_area_get_height (b, ep));
 	value_area_foreach (b, ep, CELL_ITER_ALL,
 		(GnmValueIterFunc) cb_implicit_iter_b_to_scalar_a, &iter_info);
-	if (a != NULL)
-		value_release (a);
+	value_release (a);
 	value_release (b);
 
 	return iter_info.res;
@@ -1114,8 +1111,7 @@ cb_iter_percentage (GnmValueIter const *v_iter, GnmValue *res)
 		} else
 			tmp = value_new_error_VALUE (v_iter->ep);
 
-		if (conv != NULL)
-			value_release (conv);
+		value_release (conv);
 	}
 
 	res->v_array.vals[v_iter->x][v_iter->y] = tmp;
@@ -1212,8 +1208,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		b = gnm_expr_eval (expr->binary.value_b, pos, flags);
 		if (b != NULL) {
 			if (VALUE_IS_ERROR (b)) {
-				if (a != NULL)
-					value_release (a);
+				value_release (a);
 				return b;
 			}
 			if (b->type == VALUE_CELLRANGE || b->type == VALUE_ARRAY)
@@ -1223,10 +1218,8 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		}
 
 		res = bin_cmp (GNM_EXPR_GET_OPER (expr), value_compare (a, b, FALSE), pos);
-		if (a != NULL)
-			value_release (a);
-		if (b != NULL)
-			value_release (b);
+		value_release (a);
+		value_release (b);
 		return res;
 
 	case GNM_EXPR_OP_ADD:
@@ -1372,8 +1365,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		b = gnm_expr_eval (expr->binary.value_b, pos, flags);
 		if (b != NULL) {
 			if (VALUE_IS_ERROR (b)) {
-				if (a != NULL)
-					value_release (a);
+				value_release (a);
 				return b;
 			}
 			if (b->type == VALUE_CELLRANGE || b->type == VALUE_ARRAY)
@@ -1468,8 +1460,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		a = gnm_expr_eval (expr->array_corner.expr, &range_pos,
 			flags | GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 
-		if (expr->array_corner.value)
-			value_release (expr->array_corner.value);
+		value_release (expr->array_corner.value);
 
 		/* Store real result (cast away const)*/
 		((GnmExpr*)expr)->array_corner.value = a;

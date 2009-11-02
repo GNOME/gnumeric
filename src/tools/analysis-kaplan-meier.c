@@ -667,10 +667,8 @@ analysis_tool_kaplan_meier_engine (data_analysis_output_t *dao, gpointer specs,
 			    - info->base.range_1->v_range.cell.a.row + 3);
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
-		if (info->range_3) {
-			value_release (info->range_3);
-			info->range_3 = NULL;
-		}
+		value_release (info->range_3);
+		info->range_3 = NULL;
 		g_slist_foreach (info->group_list, analysis_tool_kaplan_meier_clear_gl_cb, NULL);
 		g_slist_free (info->group_list);
 		info->group_list = NULL;

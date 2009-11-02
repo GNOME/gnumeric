@@ -163,8 +163,7 @@ analysis_tool_chi_squared_clean (gpointer specs)
 {
 	analysis_tools_data_chi_squared_t *info = specs;
 
-	if (info->input)
-		value_release (info->input);
+	value_release (info->input);
 	info->input = NULL;
 
 	return FALSE;

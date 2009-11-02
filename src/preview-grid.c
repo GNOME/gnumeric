@@ -355,10 +355,8 @@ preview_grid_dispose (GObject *obj)
 		gnm_style_unref (pg->defaults.style);
 		pg->defaults.style = NULL;
 	}
-	if (pg->defaults.value != NULL) {
-		value_release (pg->defaults.value);
-		pg->defaults.value = NULL;
-	}
+	value_release (pg->defaults.value);
+	pg->defaults.value = NULL;
 
 	if (pg->sheet) {
 		g_object_unref (pg->sheet);

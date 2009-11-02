@@ -2666,8 +2666,7 @@ xlsx_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (NULL == cell) {
 		xlsx_warning (xin, _("Invalid cell %s"),
 			cellpos_as_string (&state->pos));
-		if (NULL != state->val)
-			value_release (state->val);
+		value_release (state->val);
 		if (NULL != state->texpr)
 			gnm_expr_top_unref (state->texpr);
 	} else if (NULL != state->texpr) {
@@ -5168,8 +5167,7 @@ xlsx_file_open (GOFileOpener const *fo, GOIOContext *context,
 		while (i-- > 0) {
 			entry = &g_array_index (state.sst, XLSXStr, i);
 			go_string_unref (entry->str);
-			if (NULL != entry->markup)
-				go_format_unref (entry->markup);
+			go_format_unref (entry->markup);
 		}
 		g_array_free (state.sst, TRUE);
 	}

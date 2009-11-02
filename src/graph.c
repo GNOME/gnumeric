@@ -334,10 +334,8 @@ gnm_go_data_scalar_eval (GnmDependent *dep)
 {
 	GnmGODataScalar *scalar = DEP_TO_SCALAR (dep);
 
-	if (scalar->val != NULL) {
-		value_release (scalar->val);
-		scalar->val = NULL;
-	}
+	value_release (scalar->val);
+	scalar->val = NULL;
 	g_free (scalar->val_str);
 	scalar->val_str = NULL;
 	go_data_emit_changed (GO_DATA (scalar));
@@ -349,10 +347,8 @@ gnm_go_data_scalar_finalize (GObject *obj)
 	GnmGODataScalar *scalar = (GnmGODataScalar *)obj;
 
 	dependent_set_expr (&scalar->dep, NULL);
-	if (scalar->val != NULL) {
-		value_release (scalar->val);
-		scalar->val = NULL;
-	}
+	value_release (scalar->val);
+	scalar->val = NULL;
 	g_free (scalar->val_str);
 	scalar->val_str = NULL;
 
@@ -446,10 +442,8 @@ gnm_go_data_vector_eval (GnmDependent *dep)
 {
 	GnmGODataVector *vec = DEP_TO_VECTOR (dep);
 
-	if (vec->val != NULL) {
-		value_release (vec->val);
-		vec->val = NULL;
-	}
+	value_release (vec->val);
+	vec->val = NULL;
 	go_data_emit_changed (GO_DATA (vec));
 }
 
@@ -459,10 +453,8 @@ gnm_go_data_vector_finalize (GObject *obj)
 	GnmGODataVector *vec = (GnmGODataVector *)obj;
 
 	dependent_set_expr (&vec->dep, NULL);
-	if (vec->val != NULL) {
-		value_release (vec->val);
-		vec->val = NULL;
-	}
+	value_release (vec->val);
+	vec->val = NULL;
 
 	g_free (vec->base.values);
 	vec->base.values = NULL;
@@ -801,10 +793,8 @@ gnm_go_data_matrix_eval (GnmDependent *dep)
 {
 	GnmGODataMatrix *mat = DEP_TO_MATRIX (dep);
 
-	if (mat->val != NULL) {
-		value_release (mat->val);
-		mat->val = NULL;
-	}
+	value_release (mat->val);
+	mat->val = NULL;
 	go_data_emit_changed (GO_DATA (mat));
 }
 
@@ -814,10 +804,8 @@ gnm_go_data_matrix_finalize (GObject *obj)
 	GnmGODataMatrix *mat = (GnmGODataMatrix *)obj;
 
 	dependent_set_expr (&mat->dep, NULL);
-	if (mat->val != NULL) {
-		value_release (mat->val);
-		mat->val = NULL;
-	}
+	value_release (mat->val);
+	mat->val = NULL;
 
 	g_free (mat->base.values);
 	mat->base.values = NULL;

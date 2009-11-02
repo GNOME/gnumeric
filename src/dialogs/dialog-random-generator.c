@@ -398,7 +398,7 @@ random_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		disc_prob_range = gnm_expr_entry_parse_as_value
 			(GNM_EXPR_ENTRY (state->par1_expr_entry), state->base.sheet);
 		ready = ready && disc_prob_range != NULL;
-		if (disc_prob_range != NULL) value_release (disc_prob_range);
+		value_release (disc_prob_range);
 		break;
 	case UniformIntDistribution:
 		ready = ready &&

@@ -2460,9 +2460,8 @@ sheet_range_set_text (GnmParsePos const *pos, GnmRange const *r, char const *str
 
 	sheet_region_queue_recalc (pos->sheet, r);
 
-	if (closure.val)
-		value_release (closure.val);
-	else
+	value_release (closure.val);
+	if (closure.texpr)
 		gnm_expr_top_unref (closure.texpr);
 
 	sheet_flag_status_update_range (pos->sheet, r);

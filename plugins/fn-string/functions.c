@@ -956,8 +956,7 @@ gnumeric_text (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		res = value_new_error_VALUE (ei->pos);
 	}
 
-	if (match != NULL)
-		value_release (match);
+	value_release (match);
 
 	return res;
 }
