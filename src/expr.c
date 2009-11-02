@@ -3044,7 +3044,7 @@ gnm_expr_top_get_constant (GnmExprTop const *texpr)
 	return texpr->expr->constant.value;
 }
 
-GnmCellRef *
+GnmCellRef const *
 gnm_expr_top_get_cellref (GnmExprTop const *texpr)
 {
 	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);

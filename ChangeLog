@@ -1,3 +1,7 @@
+2009-11-02  Morten Welinder  <terra@gnome.org>
+
+	* src/expr.c (gnm_expr_top_get_cellref): Constify.
+
 2009-10-11  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

@@ -140,7 +140,7 @@ gboolean	gnm_expr_top_is_array		(GnmExprTop const *texpr);
 GnmValue       *gnm_expr_top_get_range		(GnmExprTop const *texpr);
 GSList	       *gnm_expr_top_get_ranges		(GnmExprTop const *texpr);
 GnmValue const *gnm_expr_top_get_constant	(GnmExprTop const *texpr);
-GnmCellRef     *gnm_expr_top_get_cellref	(GnmExprTop const *texpr);
+GnmCellRef const*gnm_expr_top_get_cellref	(GnmExprTop const *texpr);
 void		gnm_expr_top_get_boundingbox	(GnmExprTop const *texpr,
 						 Sheet const *sheet,
 						 GnmRange *bound);
