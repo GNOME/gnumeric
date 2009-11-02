@@ -38,7 +38,6 @@ void	 dialog_goal_seek	(WBCGtk *wbcg, Sheet *sheet);
 void	 dialog_solver		(WBCGtk *wbcg, Sheet *sheet);
 void     dialog_simulation	(WBCGtk *wbcg, Sheet *sheet);
 void	 dialog_printer_setup	(WBCGtk *wbcg, Sheet *sheet);
-void     dialog_autocorrect	(WBCGtk *wbcg);
 void	 dialog_advanced_filter	(WBCGtk *wbcg);
 void	 dialog_shuffle	        (WBCGtk *wbcg);
 void     dialog_scenario_add    (WBCGtk *wbcg);

@@ -1,3 +1,7 @@
+2009-11-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialogs.h: remove dialog_autocorrect
+
 2009-11-02  Morten Welinder  <terra@gnome.org>
 
 	* dialog-preferences.c (wordlist_pref_add): Don't use gtk+ 2.16
