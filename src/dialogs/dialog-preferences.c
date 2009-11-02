@@ -473,11 +473,12 @@ wordlist_pref_remove (GtkButton *button, GOConfNode *node) {
 }
 
 static void                
-wordlist_pref_add (GtkButton *button, GOConfNode *node) {
+wordlist_pref_add (GtkButton *button, GOConfNode *node)
+{
 	GtkEntry *entry = g_object_get_data (G_OBJECT (button), "entry");
+	const gchar *text = gtk_entry_get_text (entry);
 
-	if (gtk_entry_get_text_length > 0) {
-		const gchar *text = gtk_entry_get_text (entry);
+	if (text[0]) {
 		GSList *l, *list = go_conf_get_str_list (node, NULL);
 		l = g_slist_find_custom (list, text, (GCompareFunc)strcmp);
 		if (l == NULL) {

@@ -1,3 +1,8 @@
+2009-11-02  Morten Welinder  <terra@gnome.org>
+
+	* dialog-preferences.c (wordlist_pref_add): Don't use gtk+ 2.16
+	function.
+
 2009-11-01  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.15
