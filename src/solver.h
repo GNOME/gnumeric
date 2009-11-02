@@ -49,7 +49,6 @@ struct _SolverParameters {
 	Sheet             *sheet;
 	GnmDependent       target;
 	GnmDependent       input;
-	GSList		   *input_cells;
 	GSList             *constraints;
 	int                n_constraints;
 	int                n_variables;
@@ -247,6 +246,7 @@ SolverParameters *solver_param_new     (Sheet *sheet);
 
 GnmValue const *gnm_solver_param_get_input (SolverParameters const *sp);
 void gnm_solver_param_set_input (SolverParameters *sp, GnmValue *v);
+GSList *gnm_solver_param_get_input_cells (SolverParameters const *sp);
 
 const GnmCellRef *gnm_solver_param_get_target (SolverParameters const *sp);
 void gnm_solver_param_set_target (SolverParameters *sp, GnmCellRef const *cr);

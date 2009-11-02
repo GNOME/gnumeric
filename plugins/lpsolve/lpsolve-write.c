@@ -132,19 +132,6 @@ lpsolve_affine_func (GString *dst, GnmCell *target,
 	return TRUE;
 }
 
-static GnmValue *
-cb_grab_cells (GnmCellIter const *iter, gpointer user)
-{
-	GList **the_list = user;
-	GnmCell *cell;
-
-	if (NULL == (cell = iter->cell))
-		cell = sheet_cell_create (iter->pp.sheet,
-			iter->pp.eval.col, iter->pp.eval.row);
-	*the_list = g_list_append (*the_list, cell);
-	return NULL;
-}
-
 static GString *
 lpsolve_create_program (Sheet *sheet, GError **err)
 {
@@ -155,36 +142,14 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 	GString *objfunc = g_string_new (NULL);
 	GSList *l;
 	GnmCell *target_cell = gnm_solver_param_get_target_cell (sp);
-
-	/* This is insane  */
-	{
-		GnmValue const *vr =
-			gnm_expr_top_get_constant (sp->input.texpr);
-		GnmEvalPos ep;
-
-		g_slist_free (sp->input_cells);
-		sp->input_cells = NULL;
-
-		if (!vr) {
-			g_set_error (err,
-				     go_error_invalid (),
-				     0,
-				     _("Invalid solver input range."));
-			goto fail;
-		}
-
-		eval_pos_init_sheet (&ep, sheet);
-		workbook_foreach_cell_in_range (&ep, vr, CELL_ITER_ALL,
-						cb_grab_cells,
-						&sp->input_cells);
-	}
+	GSList *input_cells = gnm_solver_param_get_input_cells (sp);
 
 	/* ---------------------------------------- */
 
 	switch (sp->problem_type) {
 	case SolverEqualTo:
 		if (!lpsolve_affine_func (constraints, target_cell,
-					  sp->input_cells, err))
+					  input_cells, err))
 			goto fail;
 		/* FIXME -- what value goes here?  */
 		g_string_append (constraints, " = 42;\n");
@@ -199,8 +164,7 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 		g_assert_not_reached ();
 	}
 
-	if (!lpsolve_affine_func (objfunc, target_cell,
-				  sp->input_cells, err))
+	if (!lpsolve_affine_func (objfunc, target_cell, input_cells, err))
 		goto fail;
 	g_string_append (objfunc, ";\n");
 
@@ -208,7 +172,7 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 
 	if (sp->options.assume_non_negative) {
 		GSList *l;
-		for (l = sp->input_cells; l; l = l->next) {
+		for (l = input_cells; l; l = l->next) {
 			GnmCell *cell = l->data;
 			g_string_append (constraints,
 					 lpsolve_var_name (cell));
@@ -218,7 +182,7 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 
 	if (sp->options.assume_discrete) {
 		GSList *l;
-		for (l = sp->input_cells; l; l = l->next) {
+		for (l = input_cells; l; l = l->next) {
 			GnmCell *cell = l->data;
 			g_string_append (declarations, "int ");
 			g_string_append (declarations,
@@ -271,7 +235,7 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 				gboolean ok;
 
 				ok = lpsolve_affine_func
-					(constraints, lhs, sp->input_cells, err);
+					(constraints, lhs, input_cells, err);
 				if (!ok)
 					goto fail;
 
@@ -280,7 +244,7 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 				g_string_append_c (constraints, ' ');
 
 				ok = lpsolve_affine_func
-					(constraints, rhs, sp->input_cells, err);
+					(constraints, rhs, input_cells, err);
 				if (!ok)
 					goto fail;
 
@@ -307,6 +271,7 @@ fail:
 	g_string_free (objfunc, TRUE);
 	g_string_free (constraints, TRUE);
 	g_string_free (declarations, TRUE);
+	g_slist_free (input_cells);
 
 	return prg;
 }

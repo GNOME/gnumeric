@@ -420,19 +420,6 @@ cb_dialog_close_clicked (G_GNUC_UNUSED GtkWidget *button,
 	gtk_widget_destroy (state->dialog);
 }
 
-static GnmValue *
-cb_grab_cells (GnmCellIter const *iter, gpointer user)
-{
-	GList **the_list = user;
-	GnmCell *cell;
-
-	if (NULL == (cell = iter->cell))
-		cell = sheet_cell_create (iter->pp.sheet,
-			iter->pp.eval.col, iter->pp.eval.row);
-	*the_list = g_list_append (*the_list, cell);
-	return NULL;
-}
-
 static gchar const *
 check_int_constraints (GnmValue *input_range, SolverState *state)
 {
@@ -638,9 +625,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	SolverResults           *res;
 	GnmValue                   *target_range;
 	GnmValue                   *input_range;
-        GSList			*input_cells = NULL;
-	GnmValue                   *result;
-	GnmEvalPos                 pos;
+        GSList			*input_cells;
 	gint                    i;
 	gboolean                answer, sensitivity, limits, performance;
 	gboolean                program, dual_program;
@@ -685,11 +670,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 		return;
 	}
 
-	result = workbook_foreach_cell_in_range (
-		eval_pos_init_sheet (&pos, state->sheet),
-		input_range, CELL_ITER_ALL, cb_grab_cells, &input_cells);
-
-	param->input_cells = input_cells;
+	input_cells = gnm_solver_param_get_input_cells (param);
 
 	param->problem_type =
 		gnumeric_glade_group_value (state->gui, problem_type_group);
