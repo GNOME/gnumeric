@@ -58,6 +58,8 @@ struct _SolverParameters {
 	SolverOptions      options;
 };
 
+/* -------------------------------------------------------------------------- */
+
 typedef enum {
         SolverLE,
 	SolverGE,
@@ -104,6 +106,12 @@ void gnm_solver_constraint_side_as_str (SolverConstraint const *c,
 					Sheet const *sheet,
 					GString *buf, gboolean lhs);
 char *gnm_solver_constraint_as_str (SolverConstraint const *c, Sheet *sheet);
+
+#endif
+
+/* -------------------------------------------------------------------------- */
+
+#ifdef GNM_ENABLE_SOLVER
 
 typedef enum {
 	SolverRunning, SolverOptimal, SolverUnbounded, SolverInfeasible,
@@ -240,9 +248,8 @@ gchar *          solver_reports        (WorkbookControl *wbc, Sheet *sheet,
 					gboolean limits, gboolean performance,
 					gboolean program, gboolean dual);
 
-/* Initializes the Solver's data structure containing the parameters.
- * Each sheet can currently have one copy of this data structure. */
-SolverParameters *solver_param_new     (Sheet *sheet);
+/* Creates a new SolverParameters object. */
+SolverParameters *gnm_solver_param_new (Sheet *sheet);
 
 GnmValue const *gnm_solver_param_get_input (SolverParameters const *sp);
 void gnm_solver_param_set_input (SolverParameters *sp, GnmValue *v);
@@ -253,11 +260,11 @@ void gnm_solver_param_set_target (SolverParameters *sp, GnmCellRef const *cr);
 GnmCell *gnm_solver_param_get_target_cell (SolverParameters const *sp);
 
 /* Frees the memory resources in the solver parameter structure. */
-void             solver_param_destroy  (SolverParameters *sp);
+void gnm_solver_param_free (SolverParameters *sp);
 
 /* Creates a copy of the Solver's data structures when a sheet is
  * duplicated. */
-SolverParameters *solver_lp_copy       (SolverParameters const *src_param,
+SolverParameters *gnm_solver_param_dup (SolverParameters const *src_param,
 					Sheet *new_sheet);
 
 /* Frees the data structure allocated for the results. */
@@ -273,9 +280,9 @@ void              solver_param_read_sax (GsfXMLIn *xin, xmlChar const **attrs);
 
 #else /* !GNM_ENABLE_SOLVER */
 
-#define solver_param_new() NULL
-#define solver_lp_copy(src_param, new_sheet) NULL
-#define solver_param_destroy(param)		do {} while(0)
+#define gnm_solver_param_new() NULL
+#define gnm_solver_param_dup(src_param, new_sheet) NULL
+#define gnm_solver_param_free(param)		do {} while(0)
 #define solver_insert_cols(sheet, col, count)	do {} while(0)
 #define solver_insert_rows(sheet, row, count)	do {} while(0)
 #define solver_delete_cols(sheet, col, count)	do {} while(0)

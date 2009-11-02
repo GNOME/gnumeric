@@ -755,7 +755,7 @@ gnm_sheet_init (Sheet *sheet)
 	sheet->sheet_objects = NULL;
 	sheet->max_object_extent.col = sheet->max_object_extent.row = 0;
 
-	sheet->solver_parameters = solver_param_new (sheet);
+	sheet->solver_parameters = gnm_solver_param_new (sheet);
 
 	sheet->cols.max_used = -1;
 	sheet->cols.info = g_ptr_array_new ();
@@ -3967,7 +3967,7 @@ gnm_sheet_finalize (GObject *obj)
 
 	sheet_destroy (sheet);
 
-	solver_param_destroy (sheet->solver_parameters);
+	gnm_solver_param_free (sheet->solver_parameters);
 	scenarios_free (sheet->scenarios);
 
 	dependents_invalidate_sheet (sheet, TRUE);
@@ -5509,8 +5509,8 @@ sheet_dup (Sheet const *src)
 #warning selection is in view
 #warning freeze/thaw is in view
 
-	solver_param_destroy (dst->solver_parameters);
-	dst->solver_parameters = solver_lp_copy (src->solver_parameters, dst);
+	gnm_solver_param_free (dst->solver_parameters);
+	dst->solver_parameters = gnm_solver_param_dup (src->solver_parameters, dst);
 
 	dst->scenarios = scenarios_dup (src->scenarios, dst);
 

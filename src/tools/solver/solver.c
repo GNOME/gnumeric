@@ -67,7 +67,7 @@ attr_eq (const xmlChar *a, const char *s)
 
 
 SolverParameters *
-solver_param_new (Sheet *sheet)
+gnm_solver_param_new (Sheet *sheet)
 {
 	SolverParameters *res = g_new0 (SolverParameters, 1);
 
@@ -87,7 +87,7 @@ solver_param_new (Sheet *sheet)
 }
 
 void
-solver_param_destroy (SolverParameters *sp)
+gnm_solver_param_free (SolverParameters *sp)
 {
 	dependent_managed_set_expr (&sp->target, NULL);
 	dependent_managed_set_expr (&sp->input, NULL);
@@ -1153,9 +1153,9 @@ solver (WorkbookControl *wbc, Sheet *sheet, const gchar **errmsg)
 
 
 SolverParameters *
-solver_lp_copy (const SolverParameters *src_param, Sheet *new_sheet)
+gnm_solver_param_dup (const SolverParameters *src_param, Sheet *new_sheet)
 {
-	SolverParameters *dst_param = solver_param_new (new_sheet);
+	SolverParameters *dst_param = gnm_solver_param_new (new_sheet);
 	GSList           *constraints;
 
 	dst_param->problem_type = src_param->problem_type;
