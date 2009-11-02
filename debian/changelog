@@ -1,3 +1,11 @@
+gnumeric (1.9.15-1) unstable; urgency=low
+
+  * New upstream development release.
+  * [debian/gnumeric.mime] Added entry for application/x-lpsolve .
+  * [debian/control] Bumped goffice build dependency as per configure.in .
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 02 Nov 2009 08:44:28 +0100
+
 gnumeric (1.9.14-2) unstable; urgency=low
 
   * Uploading to unstable now that 1.9.13 has migrated to testing.

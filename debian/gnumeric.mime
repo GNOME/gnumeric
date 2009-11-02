@@ -21,3 +21,4 @@ application/x-quattropro; gnumeric '%s'; edit=gnumeric '%s'; description="Quattr
 application/x-sc; gnumeric '%s'; edit=gnumeric '%s'; description="SC/XSpread spreadsheet"; test=test -n "$DISPLAY"; nametemplate=%s.sc
 application/x-sylk; gnumeric '%s'; edit=gnumeric '%s'; description="Multiplan SYLK spreadsheet"; test=test -n "$DISPLAY"; nametemplate=%s.slk
 application/x-xbase; gnumeric '%s'; edit=gnumeric '%s'; description="Xbase spreadsheet"; test=test -n "$DISPLAY"; nametemplate=%s.dbf
+application/x-lpsolve; gnumeric '%s'; edit=gnumeric '%s'; description="LPSolve Linear Program Solver"; test=test -n "$DISPLAY"; nametemplate=%s.lp
