@@ -6,6 +6,7 @@
  *  Jukka-Pekka Iivonen <iivonen@iki.fi>
  *
  * (C) Copyright 2000, 2002 by Jukka-Pekka Iivonen <iivonen@iki.fi>
+ * (C) Copyright 2009 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -67,15 +68,14 @@ typedef struct {
 	GtkWidget           *model_button;
 	GtkWidget           *scenario_name_entry;
 	struct {
-		GnmExprEntry	*entry;
-		GtkWidget	*label;
+		GnmExprEntry*entry;
+		GtkWidget   *label;
 	} lhs, rhs;
-	GtkComboBox       *type_combo;
-	GtkComboBox       *algorithm_combo;
-	GtkTreeView            *constraint_list;
-	SolverConstraint              *constr;
-	gnm_float          ov_target;
-	GSList              *ov;
+	GtkComboBox         *type_combo;
+	GtkComboBox         *algorithm_combo;
+	GtkTreeView         *constraint_list;
+	SolverConstraint    *constr;
+	gnm_float            ov_target;
 	GSList              *ov_stack;
 	GSList              *ov_cell_stack;
 	GtkWidget           *warning_dialog;
@@ -83,18 +83,17 @@ typedef struct {
 	gboolean             cancelled;
 
 	Sheet		    *sheet;
-	Workbook            *wb;
-	WBCGtk  *wbcg;
+	WBCGtk              *wbcg;
 } SolverState;
 
 
 typedef struct {
-	char const          *name;
+	char const *name;
 	SolverAlgorithmType alg;
-	SolverModelType     type;
+	SolverModelType type;
 } algorithm_def_t;
 
-static algorithm_def_t const algorithm_defs [] = {
+static algorithm_def_t const algorithm_defs[] = {
 	{ N_("Simplex (LP Solve)"), LPSolve, SolverLPModel },
 	{ N_("Revised Simplex (GLPK 4.9)"), GLPKSimplex, SolverLPModel },
 	{ N_("< Not available >"), QPDummy, SolverQPModel },
@@ -680,11 +679,11 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 	gtk_combo_box_get_active_iter (state->algorithm_combo, &iter);
 	gtk_tree_model_get (gtk_combo_box_get_model (state->algorithm_combo), &iter, 0, &name, -1);
-	for (i = 0; algorithm_defs [i].name; i++) {
-		if (param->options.model_type == algorithm_defs [i].type)
-			if (strcmp (algorithm_defs [i].name, name) == 0) {
+	for (i = 0; algorithm_defs[i].name; i++) {
+		if (param->options.model_type == algorithm_defs[i].type)
+			if (strcmp (algorithm_defs[i].name, name) == 0) {
 				param->options.algorithm =
-					algorithm_defs [i].alg;
+					algorithm_defs[i].alg;
 				break;
 			}
 	}
@@ -750,8 +749,8 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	}
 
 	state->ov_target     = value_get_as_float (target_cell->value);
-	state->ov            = save_original_values (input_cells);
-	state->ov_stack      = g_slist_prepend (state->ov_stack, state->ov);
+	state->ov_stack      = g_slist_prepend (state->ov_stack,
+						save_original_values (input_cells));
 	state->ov_cell_stack = g_slist_prepend (state->ov_cell_stack,
 						input_cells);
 
@@ -811,17 +810,17 @@ dialog_init (SolverState *state)
 	param = state->sheet->solver_parameters;
 
 	if (lp_alg_name_list == NULL) {
-		for (i = 0; algorithm_defs [i].name; i++)
-			switch (algorithm_defs [i].type) {
+		for (i = 0; algorithm_defs[i].name; i++)
+			switch (algorithm_defs[i].type) {
 			case SolverLPModel:
 				lp_alg_name_list = g_list_append
 					(lp_alg_name_list,
-					 (gpointer) algorithm_defs [i].name);
+					 (gpointer) algorithm_defs[i].name);
 				break;
 			case SolverQPModel:
 				qp_alg_name_list = g_list_append
 					(qp_alg_name_list,
-					 (gpointer) algorithm_defs [i].name);
+					 (gpointer) algorithm_defs[i].name);
 				break;
 			default:
 				break;
@@ -929,8 +928,8 @@ dialog_init (SolverState *state)
 	while (l) {
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter,
-					0, l->data,
-					-1);
+				    0, l->data,
+				    -1);
 		l = l->next;
 	}
 	gtk_combo_box_set_active (state->algorithm_combo, 0);
@@ -1145,9 +1144,7 @@ dialog_solver (WBCGtk *wbcg, Sheet *sheet)
 
 	state                 = g_new (SolverState, 1);
 	state->wbcg           = wbcg;
-	state->wb             = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet          = sheet;
-	state->ov             = NULL;
 	state->ov_stack       = NULL;
 	state->ov_cell_stack  = NULL;
 	state->warning_dialog = NULL;
