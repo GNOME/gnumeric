@@ -360,7 +360,8 @@ cb_dialog_solver_destroy (SolverState *state)
 		go_slist_free_custom (state->ov_stack,
 				      (GFreeFunc)free_original_values);
 		state->ov_stack = NULL;
-		g_slist_free (state->ov_cell_stack);
+		go_slist_free_custom (state->ov_cell_stack,
+				      (GFreeFunc)g_slist_free);
 		state->ov_cell_stack = NULL;
 	}
 

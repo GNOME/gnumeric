@@ -140,7 +140,7 @@ gnm_solver_param_get_input_cells (SolverParameters const *sp)
 	eval_pos_init_sheet (&ep, sp->sheet);
 	workbook_foreach_cell_in_range (&ep, vr, CELL_ITER_ALL,
 					cb_grab_cells,
-					input_cells);
+					&input_cells);
 	return input_cells;
 }
 
