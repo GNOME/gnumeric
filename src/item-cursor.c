@@ -90,8 +90,8 @@ struct _ItemCursor {
 	gboolean auto_fill_handle_at_top;
 	gboolean auto_fill_handle_at_left;
 
-	cairo_pattern_t *stipple;
-	GOColor  color;
+	GdkPixmap *stipple;
+	GdkColor  color;
 };
 typedef GocItemClass ItemCursorClass;
 
@@ -132,6 +132,9 @@ static void
 item_cursor_realize (GocItem *item)
 {
 	ItemCursor *ic = ITEM_CURSOR (item);
+	GdkWindow  *window = GTK_WIDGET (item->canvas)->window;
+
+	ic->gc = gdk_gc_new (window);
 
 	if (parent_class->realize)
 		(*parent_class->realize) (item);
@@ -144,13 +147,8 @@ item_cursor_realize (GocItem *item)
 	}
 
 	if (ic->style == ITEM_CURSOR_DRAG || ic->style == ITEM_CURSOR_AUTOFILL) {
-		GOPattern pat;
-		cairo_t *cr = gdk_cairo_create (gtk_widget_get_window (GTK_WIDGET (item->canvas)));
-		pat.fore = GO_COLOR_BLACK;
-		pat.back = GO_COLOR_WHITE;
-		pat.pattern = GO_PATTERN_GREY50;
-		ic->stipple = go_pattern_create_cairo_pattern (&pat, cr);
-		cairo_destroy (cr);
+		static unsigned char const stipple_data [] = { 0x55, 0xaa, 0x55, 0xaa, 0x55, 0xaa, 0x55, 0xaa };
+		ic->stipple = gdk_bitmap_create_from_data (window, (const gchar *)stipple_data, 8, 8);
 	}
 }
 
@@ -159,8 +157,11 @@ item_cursor_unrealize (GocItem *item)
 {
 	ItemCursor *ic = ITEM_CURSOR (item);
 
+	g_object_unref (G_OBJECT (ic->gc));
+	ic->gc = NULL;
+
 	if (ic->stipple) {
-		cairo_pattern_destroy (ic->stipple);
+		g_object_unref (ic->stipple);
 		ic->stipple = NULL;
 	}
 
@@ -211,13 +212,17 @@ item_cursor_update_bounds (GocItem *item)
 static void
 item_cursor_draw (GocItem const *item, cairo_t *cr)
 {
+	GdkGCValues values;
 	ItemCursor *ic = ITEM_CURSOR (item);
 	int x0, y0, x1, y1; /* in widget coordinates */
-	GocPoint points [5];
-	int draw_thick, draw_handle, i;
+	GdkPoint points [5];
+	int draw_thick, draw_handle;
 	int premove = 0;
-	gboolean draw_stippled, draw_center, draw_external, draw_internal;
+	gboolean draw_stippled, draw_center, draw_external, draw_internal, draw_xor;
 	double scale = item->canvas->pixels_per_unit;
+	GdkEventExpose *expose = (GdkEventExpose *) goc_canvas_get_cur_event (item->canvas);
+	GdkDrawable *drawable = GDK_DRAWABLE (expose->window);
+	GdkColor *fore = NULL, *back = NULL;
 
 #if 0
 	g_print ("draw[%d] %d,%d %d,%d\n",
@@ -251,6 +256,7 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 	draw_thick    = 1;
 	draw_center   = FALSE;
 	draw_stippled = FALSE;
+	draw_xor      = TRUE;
 
 	switch (ic->style) {
 	case ITEM_CURSOR_AUTOFILL:
@@ -258,11 +264,14 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 		draw_center   = TRUE;
 		draw_thick    = 3;
 		draw_stippled = TRUE;
+		fore          = &gs_white;
+		back          = &gs_white;
 		break;
 
 	case ITEM_CURSOR_EXPR_RANGE:
 		draw_center   = TRUE;
 		draw_thick    = (item->canvas->last_item == item) ? 3 : 2;
+		draw_xor      = FALSE;
 		break;
 
 	case ITEM_CURSOR_SELECTION:
@@ -293,23 +302,44 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 	case ITEM_CURSOR_ANTED:
 		draw_center   = TRUE;
 		draw_thick    = 2;
-		break;
-	default:
-		break;
+		if (ic->state) {
+			fore = &gs_light_gray;
+			back = &gs_dark_gray;
+		} else {
+			fore = &gs_dark_gray;
+			back = &gs_light_gray;
+		}
+	}
+
+	if (ic->use_color) {
+		fore = &ic->color;
+		back = &ic->color;
 	}
 
 	ic->auto_fill_handle_at_top = (draw_handle >= 2);
 
-	/* Do we need to clip? */
+	gdk_gc_set_clip_rectangle (ic->gc, &expose->area);
+
+	/* Avoid guint16 overflow during line drawing.  We can change
+	 * the shape we draw, so long as no lines or parts of
+	 * rectangles are moved from outside to inside the clipping
+	 * region */
+	x0 = MAX (x0, expose->area.x - CLIP_SAFETY_MARGIN);
+	y0 = MAX (y0, expose->area.y - CLIP_SAFETY_MARGIN);
+	x1 = MIN (x1, expose->area.x + expose->area.width + CLIP_SAFETY_MARGIN);
+	y1 = MIN (y1, expose->area.y + expose->area.height + CLIP_SAFETY_MARGIN);
 
 	if (x0 >= x1 || y0 >= y1)
 		draw_handle = 0;
-	cairo_save (cr);
-	cairo_set_dash (cr, NULL, 0, 0.);
-	cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
-	cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
-	cairo_set_source_rgba (cr, 0., 0., 0., 1.);
-	cairo_set_line_width (cr, draw_thick);
+
+	gdk_gc_set_line_attributes (ic->gc, 1,
+		GDK_LINE_SOLID, GDK_CAP_BUTT, GDK_JOIN_MITER);
+	gdk_gc_set_rgb_fg_color (ic->gc, &gs_white);
+	gdk_gc_set_rgb_bg_color (ic->gc, &gs_white);
+	if (draw_xor) {
+		values.function = GDK_XOR;
+		gdk_gc_set_values (ic->gc, &values, GDK_GC_FUNCTION);
+	}
 
 	if (draw_external) {
 		switch (draw_handle) {
@@ -320,15 +350,15 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 
 		/* No auto handle */
 		case 0 :
-			points [0].x = x1 + 1.5;
-			points [0].y = y1 + 1.5 - premove;
+			points [0].x = x1 + 1;
+			points [0].y = y1 + 1 - premove;
 			points [1].x = points [0].x;
-			points [1].y = y0 - .5;
-			points [2].x = x0 - .5;
-			points [2].y = y0 - .5;
-			points [3].x = x0 - .5;
-			points [3].y = y1 + 1.5;
-			points [4].x = x1 + 1.5 - premove;
+			points [1].y = y0 - 1;
+			points [2].x = x0 - 1;
+			points [2].y = y0 - 1;
+			points [3].x = x0 - 1;
+			points [3].y = y1 + 1;
+			points [4].x = x1 + 1 - premove;
 			points [4].y = points [3].y;
 			break;
 
@@ -338,25 +368,22 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 
 		/* Auto handle at top of sheet */
 		case 3 :
-			points [0].x = x1 + 1.5;
-			points [0].y = y0 - .5 + AUTO_HANDLE_SPACE;
+			points [0].x = x1 + 1;
+			points [0].y = y0 - 1 + AUTO_HANDLE_SPACE;
 			points [1].x = points [0].x;
-			points [1].y = y1 + 1.5;
-			points [2].x = x0 - .5;
+			points [1].y = y1 + 1;
+			points [2].x = x0 - 1;
 			points [2].y = points [1].y;
 			points [3].x = points [2].x;
-			points [3].y = y0 - .5;
-			points [4].x = x1 + 1.5 - premove;
+			points [3].y = y0 - 1;
+			points [4].x = x1 + 1 - premove;
 			points [4].y = points [3].y;
 			break;
 
 		default :
 			g_assert_not_reached ();
 		}
-		cairo_move_to (cr, points[0].x, points[0].y);
-		for (i = 1; i < 5; i++)
-			cairo_line_to (cr, points[i].x, points[i].y);
-		cairo_stroke (cr);
+		gdk_draw_lines (drawable, ic->gc, points, 5);
 	}
 
 	if (draw_external && draw_internal) {
@@ -379,65 +406,60 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 			points [3].y += 2;
 			points [4].y += 2;
 		}
-		cairo_move_to (cr, points[0].x, points[0].y);
-		for (i = 1; i < 5; i++)
-			cairo_line_to (cr, points[i].x, points[i].y);
-		cairo_stroke (cr);
+		gdk_draw_lines (drawable, ic->gc, points, 5);
 	}
 
 	if (draw_handle == 1 || draw_handle == 2) {
 		int const y_off = (draw_handle == 1) ? y1 - y0 : 0;
-		cairo_rectangle (cr,
+		gdk_draw_rectangle (drawable, ic->gc, TRUE,
 				    x1 - 2,
 				    y0 + y_off - 2,
 				    2, 2);
-		cairo_rectangle (cr,
+		gdk_draw_rectangle (drawable, ic->gc, TRUE,
 				    x1 + 1,
 				    y0 + y_off - 2,
 				    2, 2);
-		cairo_rectangle (cr,
+		gdk_draw_rectangle (drawable, ic->gc, TRUE,
 				    x1 - 2,
 				    y0 + y_off + 1,
 				    2, 2);
-		cairo_rectangle (cr,
+		gdk_draw_rectangle (drawable, ic->gc, TRUE,
 				    x1 + 1,
 				    y0 + y_off + 1,
 				    2, 2);
 	} else if (draw_handle == 3) {
-		cairo_rectangle (cr,
+		gdk_draw_rectangle (drawable, ic->gc, TRUE,
 				    x1 - 2,
 				    y0 + 1,
 				    2, 4);
-		cairo_rectangle (cr,
+		gdk_draw_rectangle (drawable, ic->gc, TRUE,
 				    x1 + 1,
 				    y0 + 1,
 				    2, 4);
 	}
-	cairo_fill (cr);
 
 	if (draw_center) {
+		gdk_gc_set_rgb_fg_color (ic->gc, fore);
+		gdk_gc_set_rgb_bg_color (ic->gc, back);
+
 		if (draw_stippled) {
-			cairo_set_source (cr, ic->stipple);
-			cairo_set_line_width (cr, draw_thick);
-		} else {
-			double dash_length = 4.;
-			cairo_set_dash (cr, &dash_length, 1, (ic->state? dash_length: 0.));
-		}
-		if ((draw_thick % 2) == 0) {
+			gdk_gc_set_fill (ic->gc, GDK_STIPPLED);
+			gdk_gc_set_stipple (ic->gc, ic->stipple);
+			gdk_gc_set_line_attributes (ic->gc, draw_thick,
+				GDK_LINE_SOLID, GDK_CAP_BUTT, GDK_JOIN_MITER);
+		} else
+			gdk_gc_set_line_attributes (ic->gc, draw_thick,
+				GDK_LINE_DOUBLE_DASH, GDK_CAP_BUTT, GDK_JOIN_MITER);
+
 		/* Stay in the boundary */
+		if ((draw_thick % 2) == 0) {
 			x0++;
 			y0++;
-		} else {
-			x0 += 0.5;
-			x1 += 0.5;
-			y0 += 0.5;
-			y1 += 0.5;
 		}
-		cairo_rectangle (cr, x0, y0, x1 - x0, y1 - y0);
-		cairo_stroke (cr);
+		gdk_draw_rectangle (drawable, ic->gc, FALSE,
+				    x0, y0,
+				    abs (x1 - x0), abs (y1 - y0));
 	}
-	cairo_restore (cr);
-	return;
 }
 
 gboolean
@@ -1359,10 +1381,14 @@ item_cursor_set_property (GObject *obj, guint param_id,
 	case ITEM_CURSOR_PROP_BUTTON :
 		ic->drag_button = g_value_get_int (value);
 		break;
-	case ITEM_CURSOR_PROP_COLOR:
+	case ITEM_CURSOR_PROP_COLOR: {
+		GOColor color;
 		color_name = g_value_get_string (value);
-		if (go_color_from_str (color_name, &ic->color))
+		if (go_color_from_str (color_name, &color)) {
+			go_color_to_gdk (color, &ic->color);
 			ic->use_color = 1;
+		}
+	}
 	}
 }
 
@@ -1440,7 +1466,6 @@ item_cursor_init (ItemCursor *ic)
 	ic->auto_fill_handle_at_top = FALSE;
 	ic->auto_fill_handle_at_left = FALSE;
 	ic->drag_button = -1;
-	ic->color = GO_COLOR_BLACK;
 }
 
 GSF_CLASS (ItemCursor, item_cursor,

@@ -106,7 +106,8 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 	}
 
 	cairo_rectangle (cr, x0, y0, x1 - x0, y1 - y0);
-	cairo_set_source_rgba (cr, 1., 1., 0.878431373, 1.);
+	if (!gnumeric_background_set (ie->style, cr, FALSE))
+		cairo_set_source_rgba (cr, 1., 1., 0.878431373, 1.);
 	cairo_fill (cr);
 
 	color = GO_COLOR_FROM_GDK (gtk_widget_get_style (GTK_WIDGET (item->canvas))->black);
@@ -123,7 +124,7 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 		cairo_set_dash (cr, NULL, 0, 0.);
 		cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
 		cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
-		cairo_set_source_rgba (cr, 0., 0., 0., 1.);
+		cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (gnm_style_get_back_color (ie->style)->go_color ^ 0xffffff00));
 		cairo_move_to (cr, left + PANGO_PIXELS (pos.x) + .5, top + PANGO_PIXELS (pos.y));
 		cairo_line_to (cr, left + PANGO_PIXELS (pos.x) + .5, top + PANGO_PIXELS (pos.y + pos.height) - 1);
 		cairo_stroke (cr);

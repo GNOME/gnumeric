@@ -1,3 +1,11 @@
+2009-11-04  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/item-cursor.c (item_cursor_realize), (item_cursor_unrealize),
+	(item_cursor_draw), (item_cursor_set_property), (item_cursor_init): back
+	to rendering using gdk. [#600646]
+	* src/item-edit.c (item_edit_draw): do not change the background when
+	editing and make the cursor visible on dark backgrounds.
+
 2009-11-02  Morten Welinder  <terra@gnome.org>
 
 	* src/expr.c (gnm_expr_top_get_cellref): Constify.

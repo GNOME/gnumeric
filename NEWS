@@ -1,5 +1,7 @@
 Gnumeric 1.9.16
 
+Jean:
+	* Fix cursor and cell edition on dark backgrounds. [#600646]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.15
