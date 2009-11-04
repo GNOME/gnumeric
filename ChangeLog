@@ -2,7 +2,7 @@
 
 	* src/item-cursor.c (item_cursor_realize), (item_cursor_unrealize),
 	(item_cursor_draw), (item_cursor_set_property), (item_cursor_init): back
-	to rendering using gdk. [#600646]
+	to rendering using gdk. [#600656]
 	* src/item-edit.c (item_edit_draw): do not change the background when
 	editing and make the cursor visible on dark backgrounds.
 
