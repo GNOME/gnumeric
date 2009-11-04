@@ -9,11 +9,17 @@ builddir="$1"
 srcdir="$2"
 target="$3"
 
+if [ -z "${builddir}" -o -z "${srcdir}" -o -z "${target}" ]; then
+    echo "usage  : $0 <builddir> <srcdir> <target>"
+    exit 1
+fi
+
 export WINEPREFIX="${builddir}/wine"
 WINEDIR="${WINEPREFIX}/drive_c"
 archive_dir="${builddir}/archive"
 export JH_PREFIX="${builddir}/${target}"
 export JH_MODULE_SET="${srcdir}/moduleset"
+export JH_TARGET="${target}"
 
 build_mkdir() {
      if [ ! -d "$1" ]; then
@@ -33,7 +39,7 @@ build_ls_s() {
     build_mkdir "bin"
     build_mkdir "lib"
     build_mkdir "etc/gtk-2.0"
-    install -C "${srcdir}/gtkrc" "etc/gtk-2.0"
+    install "${srcdir}/gtkrc" "etc/gtk-2.0"
 
 # Setup Python
     py_pkg="${archive_dir}/python-${py_pkg_ver}.msi"
@@ -41,7 +47,7 @@ build_ls_s() {
 
     if [ ! -f "$py_pkg" ]; then
 	echo wget "http://www.python.org/ftp/python/${py_pkg_ver}/python-${py_pkg_ver}.msi"
-	( cd ${archive_dir} && wget "http://www.python.org/ftp/python/${py_pkg_ver}/python-${py_pkg_ver}.msi" )
+	( cd "${archive_dir}" ; wget "http://www.python.org/ftp/python/${py_pkg_ver}/python-${py_pkg_ver}.msi" )
     fi
     if [ ! -d "${WINEDIR}/Python${py_ver}" ]; then
 	echo wine msiexec /i ${py_pkg}
@@ -52,7 +58,7 @@ build_ls_s() {
     build_ls_s "${WINEDIR}/Python${py_ver}/libs/python${py_ver}.lib"	"lib/libpython${py_ver}.dll.a"
 
 # prep jhbuild files
-    ${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc"
+    ${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc.py" # "-${target}"
 
 ################################################################
 # TODO

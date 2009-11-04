@@ -1,19 +1,20 @@
 # -*- mode: python -*-
 # This code is licensed under the GPLv2 License
 # Derived work from the original freedesktop.org example.jhbuildrc
+# Derived work from Alberto Ruiz <aruiz@gnome.org>
 #
-# This jhbuildrc file is created for the purpose of cross compile Gtk+
+# This jhbuildrc file is created for the purpose of cross compile Gnumeric
 # with Mingw32 under Linux.
 #
-# Author: Alberto Ruiz <aruiz@gnome.org>
+# Author: Jody Goldberg <jody@gnome.org>
 
-moduleset = '/gnome/src/gnumeric/tools/win32/moduleset'
+moduleset = os.getenv('JH_MODULE_SET')
 modules = ['gnumeric', 'evince']
 
 # checkoutroot: path to download packages elsewhere
 # prefix:       target path to install the compiled binaries
-checkoutroot = os.path.expanduser('~/win32/release/src/')
-prefix	     = os.path.expanduser("~/win32/release/build")
+checkoutroot = os.path.join(os.sep, os.getenv('JH_PREFIX'), "src")
+prefix	     = os.path.join(os.sep, os.getenv('JH_PREFIX'), "deploy")
 os.environ['prefix']	= prefix	# for use in zlib kludge
 
 #The host value is obtained with the result of executing
@@ -45,11 +46,19 @@ for tool in mingw_tools.keys():
 	fullpath_tool = mingw_tool_prefix + mingw_tools[tool]
 	os.environ[tool] = fullpath_tool
 
+if os.getenv('JH_TARGET') == "debug":
+    optim = ' -O0 -gstabs'
+elif os.getenv('JH_TARGET') == "release":
+    optim = ' -O2'
+else:
+    print "Best to invoke this via make"
+    sys.exit (0)
+
 #Exporting tool flags enviroment variables
 os.environ['LDFLAGS']	 = ' -mno-cygwin -L'+prefix+'/lib  -no-undefined'
-os.environ['CFLAGS']	 = ' -O2 -I'+prefix+'/include -mno-cygwin -mms-bitfields -march=i686 ' 
-os.environ['CPPFLAGS']	 = ' -O2 -I'+prefix+'/include -mno-cygwin -mms-bitfields -march=i686'
-os.environ['CXXFLAGS']	 = ' -O2 -I'+prefix+'/include -mno-cygwin -mms-bitfields -march=i686 '
+os.environ['CFLAGS']	 = ' -O0 -gstabs -I'+prefix+'/include -mno-cygwin -mms-bitfields -march=i686 ' 
+os.environ['CPPFLAGS']	 = ' -O0 -gstabs -I'+prefix+'/include -mno-cygwin -mms-bitfields -march=i686'
+os.environ['CXXFLAGS']	 = ' -O0 -gstabs -I'+prefix+'/include -mno-cygwin -mms-bitfields -march=i686 '
 os.environ['ARFLAGS']	 = 'rcs'
 os.environ['INSTALL']	 = os.path.expanduser('~/bin/install-check')
 os.environ['ACLOCAL_AMFLAGS'] = ' -I '+prefix+'/share/aclocal'	# for libgnomedb
@@ -122,7 +131,7 @@ module_autogenargs['libxml2']	= autogenargs + """ --disable-scrollkeeper --witho
 autogenargs += """ --disable-scrollkeeper --disable-gtk-doc"""
 
 module_autogenargs['atk']	= autogenargs + """ --disable-glibtest"""
-module_autogenargs['gtk+']	= autogenargs + """ --disable-glibtest --enable-gdiplus --without-libjasper  --without-libtiff --without-libjpeg"""
+module_autogenargs['gtk+']	= autogenargs + """ --disable-glibtest --enable-gdiplus --without-libjasper  --without-libtiff --without-libjpeg --enable-cups=no"""
 
 module_autogenargs['libgda']	= autogenargs + """ --without-odbc --without-lda --without-java"""
 module_autogenargs['pxlib']	= autogenargs + """ --with-gsf=""" + prefix

@@ -15,5 +15,12 @@
 				<function name="readDBTable"/>
 			</functions>
 		</service>
+		<service type="ui" id="gdaif" file="ui.xml">
+			<actions>
+				<action name="ViewDataSources">
+					<_label>Data Bases...</_label>
+				</action>
+			</actions>
+		</service>
 	</services>
 </plugin>

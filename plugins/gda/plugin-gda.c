@@ -22,12 +22,9 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include <libgda/libgda.h>
+#include <libgda/control-center/gdaui-login-dialog.h>
 #include <sql-parser/gda-sql-parser.h>
 #include <string.h>
-#ifdef HAVE_LIBGNOMEDB
-#include <libgnomedb/gnome-db-login-dialog.h>
-#include <libgnomedb/gnome-db-login.h>
-#endif
 
 #include "func.h"
 #include "expr.h"
@@ -258,32 +255,20 @@ open_connection (const gchar *dsn, const gchar *user, const gchar *password, Gda
 		CncKey *key;
 		gchar *auth, *tmp1, *tmp2;
 
-#ifdef HAVE_LIBGNOMEDB
-		GtkWidget    *dialog =
-			gnome_db_login_dialog_new (_("Database Connection"), NULL); /* FIXME: pass a pointer to parent window */
-		GnomeDbLogin *login =
-			gnome_db_login_dialog_get_login_widget (GNOME_DB_LOGIN_DIALOG (dialog));
-
+		GtkWidget    *dialog = gdaui_login_dialog_new (_("Database Connection"), NULL); /* FIXME: pass a pointer to parent window */
+		GnomeDbLogin *login  = gdaui_login_dialog_get_login_widget (GDAUI_LOGIN_DIALOG (dialog));
 		gnome_db_login_set_dsn (login, dsn);
 		gnome_db_login_set_username (login, user);
 		gnome_db_login_set_password (login, password);
-
-		if (gnome_db_login_dialog_run (GNOME_DB_LOGIN_DIALOG (dialog))) {
-			real_dsn = g_strdup (gnome_db_login_get_dsn (login));
-			real_user = g_strdup (gnome_db_login_get_username (login));
-			real_password = g_strdup (gnome_db_login_get_password (login));
-
+		if (gdaui_login_dialog_run (GDAUI_LOGIN_DIALOG (dialog))) {
+			real_dsn = g_strdup (gdauilogin_get_dsn (login));
+			real_user = g_strdup (gdauilogin_get_username (login));
+			real_password = g_strdup (gdauilogin_get_password (login));
 			gtk_widget_destroy (dialog);
 		} else {
 			gtk_widget_destroy (dialog);
 			return NULL;
 		}
-#else
-		real_dsn = g_strdup (dsn);
-		real_user = g_strdup (user);
-		real_password = g_strdup (password);
-#endif
-
 		tmp1 = gda_rfc1738_encode (real_user);
 		tmp2 = gda_rfc1738_encode (real_password);
 		auth = g_strdup_printf ("USERNAME=%s;PASSWORD=%s", tmp1, tmp2);
@@ -472,6 +457,24 @@ gnumeric_readDBTable (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	return ret;
 }
 
+static void
+view_data_sources (GnmAction const *action, WorkbookControl *wbc)
+{
+	char *argv[2];
+
+	argv[0] = gda_get_application_exec_path ("gda-control-center");
+	argv[1] = NULL;
+	if (!g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, NULL)) {
+		char *msg = g_strdup_printf (
+			_("Could not run GNOME database configuration tool ('%s')"),
+			argv[0]);
+		go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (wbc)),
+			GTK_MESSAGE_INFO,  msg);
+		g_free (msg);
+	}
+	g_free (argv[0]);
+}
+
 G_MODULE_EXPORT void
 go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
@@ -479,6 +482,11 @@ go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 	g_hash_table_destroy (cnc_hash);
 	cnc_hash = NULL;
 }
+
+ModulePluginUIActions const gdaif_ui_actions[] = {
+	{"ViewDataSources", view_data_sources},
+	{NULL}
+};
 
 GnmFuncDescriptor gdaif_functions[] = {
 	{

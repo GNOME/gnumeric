@@ -12,7 +12,7 @@ gdaif_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
 gdaif_la_SOURCES = plugin-gda.c
 gdaif_la_LIBADD = $(GDA_LIBS) $(GNOMEDB_LIBS)
 
-xml_in_files = plugin.xml.in
+xml_in_files = plugin.xml.in ui.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
 
 @INTLTOOL_XML_RULE@

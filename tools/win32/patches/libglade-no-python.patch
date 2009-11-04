@@ -1,0 +1,53 @@
+*** configure.in	Tue Mar 17 10:19:01 2009
+--- configure.in	Wed Nov  4 17:08:14 2009
+***************
+*** 123,146 ****
+  AH_BOTTOM(
+  [#endif /* GLADE_CONFIG_H */])
+  
+! # check for a copy of python >= 2.0 with the xml.parsers.expat module.
+! AM_PATH_PYTHON(2.0, [have_python=true], [have_python=false])
+! if $have_python; then
+!   jh_python_check='
+! import sys
+! try:
+!     import xml.parsers.expat
+! except ImportError:
+!     sys.exit(1)
+! '
+!   AC_MSG_CHECKING([for the Python module xml.parsers.expat])
+!   if AC_RUN_LOG([$PYTHON -c "$jh_python_check"]); then
+!     AC_MSG_RESULT([yes])
+!   else
+!     AC_MSG_RESULT([no])
+!     have_python=false
+!   fi
+! fi
+  AM_CONDITIONAL(HAVE_PYTHON, $have_python)
+  
+  # check for XML catalog
+--- 123,129 ----
+  AH_BOTTOM(
+  [#endif /* GLADE_CONFIG_H */])
+  
+! have_python=false
+  AM_CONDITIONAL(HAVE_PYTHON, $have_python)
+  
+  # check for XML catalog
+--- gtk-doc.make	2009-03-17 10:25:30.000000000 -0400
++++ gtk-doc.make	2009-11-04 17:46:23.000000000 -0500
+@@ -156,7 +156,6 @@
+ 	    mv -f $${installdir}/$(DOC_MODULE).devhelp \
+ 	      $${installdir}/$(DOC_MODULE)-$(DOC_MODULE_VERSION).devhelp; \
+ 	  fi; \
+-	  $(GTKDOC_REBASE) --relative --dest-dir=$(DESTDIR) --html-dir=$${installdir}; \
+ 	fi
+ 
+ uninstall-local:
+@@ -188,6 +187,5 @@
+ 	-cp $(srcdir)/$(DOC_MODULE).types $(distdir)/
+ 	-cp $(srcdir)/$(DOC_MODULE)-sections.txt $(distdir)/
+ 	cd $(distdir) && rm -f $(DISTCLEANFILES)
+-	$(GTKDOC_REBASE) --online --relative --html-dir=$(distdir)/html
+ 
+ .PHONY : dist-hook-local docs

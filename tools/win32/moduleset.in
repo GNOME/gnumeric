@@ -214,13 +214,17 @@
 	    <dep package="zlib"/>
 	</dependencies>
     </tarball>
-    <tarball id="libglade" version="2.6.4">
-	<source href="http://ftp.gnome.org/pub/gnome/sources/libglade/2.6/libglade-2.6.4.tar.bz2"/>
+    <autotools id="libglade"
+	autogen-sh="autoreconf" skip-autogen="never">
+	<branch repo="gnome.org" module="sources/libglade/2.6/libglade-2.6.4.tar.bz2"
+		version="2.6.4">
+	    <patch file="&patch_dir;libglade-no-python.patch"/>
+	</branch>
 	<dependencies>
 	    <dep package="gtk+"/>
 	    <dep package="libxml2"/>
 	</dependencies>
-    </tarball>
+    </autotools>
 
 <!-- python stack -->
     <autotools id="pygobject" 
