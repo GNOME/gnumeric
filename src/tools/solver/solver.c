@@ -39,6 +39,8 @@
 #include "value.h"
 #include "ranges.h"
 #include "expr.h"
+#include "clipboard.h"
+#include "commands.h"
 #include "mathfunc.h"
 #include "analysis-tools.h"
 #include "api.h"
@@ -514,6 +516,8 @@ gnm_solver_constraint_valid (SolverConstraint const *c)
 			return FALSE;
 	}
 
+#warning "We need to check that int/bool constraints refer to input cells."
+
 	return TRUE;
 }
 
@@ -794,23 +798,6 @@ save_original_values (SolverResults          *res,
 
 	cell = gnm_solver_param_get_target_cell (param);
 	res->original_value_of_obj_fn = value_get_as_float (cell->value);
-}
-
-static void
-restore_original_values (SolverResults *res)
-{
-	GSList *input_cells = gnm_solver_param_get_input_cells (res->param);
-	GSList *l;
-	int i;
-
-	for (i = 0, l = input_cells; l; i++, l = l->next) {
-	        GnmCell *cell = l->data;
-		sheet_cell_set_value
-			(cell,
-			 value_new_float (res->original_values[i]));
-	}
-
-	g_slist_free (input_cells);
 }
 
 /************************************************************************
@@ -1137,6 +1124,9 @@ solver_run (WorkbookControl *wbc, Sheet *sheet,
 	SolverParameters  *param = sheet->solver_parameters;
 	SolverProgram     program;
 	SolverResults     *res;
+	GnmValue const *  vinput = gnm_solver_param_get_input (param);
+	GnmSheetRange sr;
+	GOUndo *undo;
 	GTimeVal          start, end;
 #if defined(HAVE_TIMES) && defined(HAVE_SYSCONF)
 	struct tms        buf;
@@ -1163,13 +1153,18 @@ solver_run (WorkbookControl *wbc, Sheet *sheet,
 #endif
 	res->time_real   = - (start.tv_sec +
 			      start.tv_usec / (gnm_float) G_USEC_PER_SEC);
+
+	gnm_sheet_range_from_value (&sr, vinput);
+	if (!sr.sheet) sr.sheet = sheet;
+	undo = clipboard_copy_range_undo (sr.sheet, &sr.range);
+
 	save_original_values (res, param, sheet);
 
 	program              = lp_qp_solver_init (sheet, param, res, alg,
 						  -res->time_real, start,
 						  err);
 	if (program == NULL)
-	        return NULL;
+		goto fail;
 
         res->status = alg->solve_fn (program);
 	g_get_current_time (&end);
@@ -1188,16 +1183,29 @@ solver_run (WorkbookControl *wbc, Sheet *sheet,
 
 	solver_prepare_reports (program, res, sheet);
 	if (res->status == SolverOptimal) {
+		GOUndo *redo;
 	        if (solver_prepare_reports_success (program, res, sheet)) {
 		        alg->remove_fn (program);
-			return NULL;
+			goto fail;
 		}
-	} else
-	        restore_original_values (res);
+		redo = clipboard_copy_range_undo (sr.sheet, &sr.range);
+		cmd_solver (wbc, undo, redo);
+	} else {
+		go_undo_undo (undo);
+		g_object_unref (undo);
+		undo = NULL;
+	}
 
 	alg->remove_fn (program);
 
 	return res;
+
+ fail:
+	if (res)
+		solver_results_free (res);
+	if (undo)
+		g_object_unref (undo);
+	return NULL;
 }
 
 SolverResults *

@@ -6288,57 +6288,25 @@ cmd_text_to_columns (WorkbookControl *wbc,
 typedef struct {
 	GnmCommand cmd;
 
-	GSList	  *cells;
-	GSList	  *ov;
-	GSList	  *nv;
+	GOUndo *undo, *redo;
 } CmdSolver;
 
 MAKE_GNM_COMMAND (CmdSolver, cmd_solver, NULL)
 
 static gboolean
-cmd_solver_impl (GSList *cell_stack, GSList *value_stack)
-{
-	while (cell_stack != NULL &&  value_stack != NULL) {
-		GSList *values = value_stack->data;
-		GSList *cells  = cell_stack->data;
-
-		while (values != NULL) {
-			char const *str = values->data;
-			GnmCell *cell = cells->data;
-
-			if (cell != NULL) {
-				sheet_cell_set_text (cell, str, NULL);
-				cells = cells->next;
-			}
-			values = values->next;
-		}
-		value_stack = value_stack->next;
-		cell_stack = cell_stack->next;
-	}
-	return FALSE;
-}
-
-
-static gboolean
 cmd_solver_undo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdSolver *me = CMD_SOLVER (cmd);
-
-	return cmd_solver_impl (me->cells, me->ov);;
+	go_undo_undo_with_data (me->undo, GO_CMD_CONTEXT (wbc));
+	return FALSE;
 }
 
 static gboolean
 cmd_solver_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdSolver *me = CMD_SOLVER (cmd);
-
-	return cmd_solver_impl (me->cells, me->nv);;
-}
-
-static void
-cmd_solver_free_values (GSList *v, G_GNUC_UNUSED gpointer user_data)
-{
-	go_slist_free_custom (v, g_free);
+	go_undo_undo_with_data (me->redo, GO_CMD_CONTEXT (wbc));
+	return FALSE;
 }
 
 static void
@@ -6346,66 +6314,28 @@ cmd_solver_finalize (GObject *cmd)
 {
 	CmdSolver *me = CMD_SOLVER (cmd);
 
-	g_slist_free (me->cells);
-	me->cells = NULL;
-	go_slist_free_custom (me->ov, (GFreeFunc)cmd_solver_free_values);
-	me->ov = NULL;
-	go_slist_free_custom (me->nv, (GFreeFunc)cmd_solver_free_values);
-	me->nv = NULL;
+	g_object_unref (me->undo);
+	g_object_unref (me->redo);
 
 	gnm_command_finalize (cmd);
 }
 
-static GSList *
-cmd_solver_get_cell_values (GSList *cell_stack)
-{
-	GSList *value_stack = NULL;
-
-	while (cell_stack != NULL) {
-		GSList *cells  = cell_stack->data;
-		GSList *values = NULL;
-		while (cells != NULL) {
-			GnmCell *the_Cell = (GnmCell *)(cells->data);
-			if (the_Cell != NULL)
-				values = g_slist_append
-					(values,
-					 value_get_as_string
-					 (the_Cell->value));
-			else
-				values = g_slist_append
-					(values, NULL);
-			cells = cells->next;
-		}
-		value_stack = g_slist_append (value_stack,
-					       values);
-		cell_stack = cell_stack->next;
-	}
-
-	return value_stack;
-}
-
 gboolean
-cmd_solver (WorkbookControl *wbc, GSList *cells, GSList *ov, GSList *nv)
+cmd_solver (WorkbookControl *wbc, GOUndo *undo, GOUndo *redo)
 {
 	CmdSolver *me;
 
-	g_return_val_if_fail (cells != NULL, TRUE);
-	g_return_val_if_fail (ov != NULL || nv != NULL, TRUE);
+	g_return_val_if_fail (GO_IS_UNDO (undo), TRUE);
+	g_return_val_if_fail (GO_IS_UNDO (redo), TRUE);
 
 	me = g_object_new (CMD_SOLVER_TYPE, NULL);
 
 	me->cmd.sheet = NULL;
-	me->cmd.size = g_slist_length (cells);
+	me->cmd.size = 1;
 	me->cmd.cmd_descriptor = g_strdup_printf (_("Solver"));
 
-	me->cells = cells;
-	me->ov = ov;
-	me->nv = nv;
-
-	if (me->ov == NULL)
-		me->ov = cmd_solver_get_cell_values (cells);
-	if (me->nv == NULL)
-		me->nv = cmd_solver_get_cell_values (cells);
+	me->undo = undo;
+	me->redo = redo;
 
 	return gnm_command_push_undo (wbc, G_OBJECT (me));
 }

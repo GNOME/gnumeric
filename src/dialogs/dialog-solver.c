@@ -60,7 +60,6 @@ typedef struct {
 	GtkWidget           *max_iter_entry;
 	GtkWidget           *max_time_entry;
 	GtkWidget           *solve_button;
-	GtkWidget           *cancel_button;
 	GtkWidget           *close_button;
 	GtkWidget           *add_button;
 	GtkWidget           *change_button;
@@ -75,9 +74,6 @@ typedef struct {
 	GtkComboBox         *algorithm_combo;
 	GtkTreeView         *constraint_list;
 	SolverConstraint    *constr;
-	gnm_float            ov_target;
-	GSList              *ov_stack;
-	GSList              *ov_cell_stack;
 	GtkWidget           *warning_dialog;
 
 	gboolean             cancelled;
@@ -336,33 +332,9 @@ cb_dialog_model_type_clicked (G_GNUC_UNUSED GtkWidget *button,
 }
 
 static void
-free_original_values (GSList *ov)
-{
-	go_slist_free_custom (ov, g_free);
-}
-
-static void
 cb_dialog_solver_destroy (SolverState *state)
 {
 	g_return_if_fail (state != NULL);
-
-	if (state->ov_cell_stack != NULL &&
-	    !state->cancelled &&
-	    !cmd_solver (WORKBOOK_CONTROL(state->wbcg), state->ov_cell_stack,
-			 state->ov_stack, NULL))
-	{
-		state->ov_cell_stack = NULL;
-		state->ov_stack = NULL;
-	}
-
-	if (state->ov_stack != NULL) {
-		go_slist_free_custom (state->ov_stack,
-				      (GFreeFunc)free_original_values);
-		state->ov_stack = NULL;
-		go_slist_free_custom (state->ov_cell_stack,
-				      (GFreeFunc)g_slist_free);
-		state->ov_cell_stack = NULL;
-	}
 
 	if (state->gui != NULL) {
 		g_object_unref (G_OBJECT (state->gui));
@@ -376,111 +348,12 @@ cb_dialog_solver_destroy (SolverState *state)
 }
 
 static void
-restore_original_values (GSList *input_cells, GSList *ov)
-{
-        while (ov != NULL) {
-		char const *str = ov->data;
-		GnmCell *cell = input_cells->data;
-
-		sheet_cell_set_text (cell, str, NULL);
-		ov = ov->next;
-		input_cells = input_cells->next;
-	}
-}
-
-static void
-cb_dialog_cancel_clicked (G_GNUC_UNUSED GtkWidget *button, SolverState *state)
-{
-	if (state->ov_stack != NULL) {
-		GSList *cells = state->ov_cell_stack;
-		GSList *ov = state->ov_stack;
-		while (cells != NULL && ov != NULL) {
-			restore_original_values (cells->data,
-						 ov->data);
-			cells = cells->next;
-			ov = ov ->next;
-		}
-		go_slist_free_custom (state->ov_stack,
-				      (GFreeFunc)free_original_values);
-		state->ov_stack = NULL;
-		g_slist_free (state->ov_cell_stack);
-		state->ov_cell_stack = NULL;
-		workbook_recalc (state->sheet->workbook);
-	}
-	state->cancelled = TRUE;
-
-	gtk_widget_destroy (state->dialog);
-}
-
-static void
 cb_dialog_close_clicked (G_GNUC_UNUSED GtkWidget *button,
 			 SolverState *state)
 {
 	state->cancelled = FALSE;
 	gtk_widget_destroy (state->dialog);
 }
-
-static gchar const *
-check_int_constraints (GnmValue *input_range, SolverState *state)
-{
-	GtkTreeModel *store;
-	GtkTreeIter iter;
-
-	store = gtk_tree_view_get_model (state->constraint_list);
-	if (gtk_tree_model_get_iter_first (store, &iter))
-		do {
-			SolverConstraint const *a_constraint;
-			gchar *text;
-
-			gtk_tree_model_get (store, &iter, 0, &text, 1, &a_constraint, -1);
-			if (a_constraint == NULL) {
-				g_free (text);
-				break;
-			}
-
-			if ((a_constraint->type != SolverINT) &&
-			    (a_constraint->type != SolverBOOL)) {
-				g_free (text);
-				continue;
-			}
-
-#if 0
-			if (!global_range_contained (state->sheet,
-						     a_constraint->lhs,
-						     input_range))
-				return text;
-#endif
-
-			g_free (text);
-		} while (gtk_tree_model_iter_next (store, &iter));
-	return NULL;
-}
-
-/**
- * save_original_values:
- * @input_cells:
- *
- *
- *
- **/
-static GSList *
-save_original_values (GSList *input_cells)
-{
-        GSList *ov = NULL;
-
-	while (input_cells != NULL) {
-		GnmCell *cell = input_cells->data;
-		char *str;
-
-		str = value_get_as_string (cell->value);
-		ov = g_slist_append (ov, str);
-
-		input_cells = input_cells->next;
-	}
-
-	return ov;
-}
-
 
 /* Returns FALSE if the reports deleted the current sheet
  * and forced the dialog to die */
@@ -625,7 +498,6 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	SolverResults           *res;
 	GnmValue                   *target_range;
 	GnmValue                   *input_range;
-        GSList			*input_cells;
 	gint                    i;
 	gboolean                answer, sensitivity, limits, performance;
 	gboolean                program, dual_program;
@@ -645,32 +517,13 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	input_range = gnm_expr_entry_parse_as_value (state->change_cell_entry,
 						     state->sheet);
 
-	if (target_range == NULL || input_range == NULL) {
-		go_gtk_notice_nonmodal_dialog
-			((GtkWindow *) state->dialog,
-			  &(state->warning_dialog),
-			  GTK_MESSAGE_ERROR, _("You have not specified "
-					       "a problem to be solved"));
-		return;
-	}
-
 	gnm_solver_param_set_input (param, value_dup (input_range));
 
 	gnm_solver_param_set_target (param,
-				     &target_range->v_range.cell.a);
+				     target_range
+				     ? &target_range->v_range.cell.a
+				     : NULL);
 	target_cell = gnm_solver_param_get_target_cell (param);
-
-	/* Check that the target cell type is number. */
-	if (!target_cell || !gnm_cell_is_number (target_cell)) {
-		go_gtk_notice_nonmodal_dialog
-			((GtkWindow *) state->dialog,
-			 &(state->warning_dialog),
-			 GTK_MESSAGE_ERROR, _("Target cell should contain "
-					      "a formula."));
-		return;
-	}
-
-	input_cells = gnm_solver_param_get_input_cells (param);
 
 	param->problem_type =
 		gnumeric_glade_group_value (state->gui, problem_type_group);
@@ -734,26 +587,12 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	dual_program = FALSE;
 	param->options.dual_program_report = dual_program;
 
-	name = check_int_constraints (input_range, state);
-	if (name != NULL) {
-		char *str;
-
-		str = g_strdup_printf
-			(_("Constraint `%s' is for a cell that "
-			   "is not an input cell."), name);
-		go_gtk_notice_nonmodal_dialog ((GtkWindow *) state->dialog,
-					  &(state->warning_dialog),
-					  GTK_MESSAGE_ERROR, str);
-		g_free (str);
+	if (!gnm_solver_param_valid (param, &err)) {
+		GtkWidget *top = gtk_widget_get_toplevel (state->dialog);
+		go_gtk_notice_dialog (GTK_WINDOW (top), GTK_MESSAGE_ERROR,
+				      "%s", err->message);
 		goto out;
 	}
-
-	state->ov_target     = value_get_as_float (target_cell->value);
-	state->ov_stack      = g_slist_prepend (state->ov_stack,
-						save_original_values (input_cells));
-	state->ov_cell_stack = g_slist_prepend (state->ov_cell_stack,
-						input_cells);
-
 
 	res = solver (WORKBOOK_CONTROL (state->wbcg), state->sheet, &err);
 	workbook_recalc (state->sheet->workbook);
@@ -777,7 +616,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 			 GTK_MESSAGE_ERROR,
 			 err ? err->message : _("Unknown error."));
 
-out:
+ out:
 	value_release (target_range);
 	value_release (input_range);
 	if (err)
@@ -844,11 +683,6 @@ dialog_init (SolverState *state)
 	state->close_button  = glade_xml_get_widget (state->gui, "closebutton");
 	g_signal_connect (G_OBJECT (state->close_button), "clicked",
 			  G_CALLBACK (cb_dialog_close_clicked), state);
-
-	state->cancel_button  = glade_xml_get_widget (state->gui,
-						      "cancelbutton");
-	g_signal_connect (G_OBJECT (state->cancel_button), "clicked",
-			  G_CALLBACK (cb_dialog_cancel_clicked), state);
 
 	gnumeric_init_help_button (glade_xml_get_widget (state->gui,
 							 "helpbutton"),
@@ -1145,8 +979,6 @@ dialog_solver (WBCGtk *wbcg, Sheet *sheet)
 	state                 = g_new (SolverState, 1);
 	state->wbcg           = wbcg;
 	state->sheet          = sheet;
-	state->ov_stack       = NULL;
-	state->ov_cell_stack  = NULL;
 	state->warning_dialog = NULL;
 	state->cancelled      = TRUE;
 

@@ -734,19 +734,6 @@ Bool
               </widget>
             </child>
             <child>
-              <widget class="GtkButton" id="cancelbutton">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="can_default">True</property>
-                <property name="label">gtk-cancel</property>
-                <property name="use_stock">True</property>
-                <property name="response_id">0</property>
-              </widget>
-              <packing>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
               <widget class="GtkButton" id="closebutton">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
