@@ -1,0 +1,13 @@
+There are two special kind of strings in the translation files for Gnumeric-Functions:
+
+"CUM_BIV_NORM_DIST:cumulative bivariate normal distribution"
+and
+"time:time to maturity in years"
+
+In both cases the first (ASCII) colon is used as a separator without any surrounding white space and must remain in the translation.
+
+If the text preceding the colon is in all upper case (as in the first example) then that string is the function name and, at this time, must remain exactly as it is given in the original string. (At some later date we we support translated function names but currently the name needs to remain as it is. The same all-uppercase names may appear elsewhere in strings in this file and they must, at this time, also remain eactly as given.
+
+If the text preceding the colon is in all lower or mixed case (as inthe second example) then it is an argument name and should be translated. Argument names that appear in other strings are surrounded by @{} and you must translate the content of @{} exactly like you translated the argument name when it preceded the colon separator.
+
+Note that some argument names are the names of greek letters. If the original, gives the name you may want to retain the nae (rather than using the symbol). We are typically using the name if we believe that it is more common in the discipline for which the function is intended. At other times we may have used the symbol for the corresponding reason. 
