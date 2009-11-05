@@ -11,3 +11,10 @@ If the text preceding the colon is in all upper case (as in the first example) t
 If the text preceding the colon is in all lower or mixed case (as inthe second example) then it is an argument name and should be translated. Argument names that appear in other strings are surrounded by @{} and you must translate the content of @{} exactly like you translated the argument name when it preceded the colon separator.
 
 Note that some argument names are the names of greek letters. If the original, gives the name you may want to retain the nae (rather than using the symbol). We are typically using the name if we believe that it is more common in the discipline for which the function is intended. At other times we may have used the symbol for the corresponding reason. 
+
+
+Two more special kinds of strings look like "wiki:en:M%C3%B6bius_function" and "wolfram:Sine.html".
+
+These strings flag links to off-site web pages. "wiki:en:M%C3%B6bius_function" would be a link to the english Wikipedia page called "M%C3%B6bius_function". For example in German this would be translated to "wiki:de:M%C3%B6biusfunktion". Note that the language indicator and the page name changed. Similarly wolfram:Sine.html is a link to Wolfram's Mathworld page called "Sine.html".
+
+
