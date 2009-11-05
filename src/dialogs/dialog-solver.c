@@ -502,7 +502,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	GError *err = NULL;
 	SolverParameters        *param;
 	GtkTreeIter iter;
-	gchar const *name;
+	gchar *name;
 	GnmCell *target_cell;
 
 	param = state->sheet->solver_parameters;
@@ -529,7 +529,8 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 		gnumeric_glade_group_value (state->gui, model_type_group);
 
 	gtk_combo_box_get_active_iter (state->algorithm_combo, &iter);
-	gtk_tree_model_get (gtk_combo_box_get_model (state->algorithm_combo), &iter, 0, &name, -1);
+	gtk_tree_model_get (gtk_combo_box_get_model (state->algorithm_combo),
+			    &iter, 0, &name, -1);
 	for (i = 0; algorithm_defs[i].name; i++) {
 		if (param->options.model_type == algorithm_defs[i].type)
 			if (strcmp (algorithm_defs[i].name, name) == 0) {
@@ -538,6 +539,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 				break;
 			}
 	}
+	g_free (name);
 
 	param->options.assume_non_negative = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui,

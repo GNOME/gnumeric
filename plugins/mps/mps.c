@@ -566,36 +566,35 @@ mps_input_context_destroy (MpsInputContext *ctxt)
 
 	/* Free ROWS */
 	for (current = ctxt->rows; current != NULL; current = current->next) {
-	           MpsRow *row = (MpsRow *) current->data;
+	           MpsRow *row = current->data;
 		   g_free (row->name);
-		   g_free (current->data);
+		   g_free (row);
 	}
+	g_slist_free (ctxt->rows);
 
 	/* Free COLUMNS */
 	for (current = ctxt->cols; current != NULL; current = current->next) {
-	           MpsCol *col = (MpsCol *) current->data;
+	           MpsCol *col = current->data;
 		   g_free (col->name);
-		   g_free (current->data);
+		   g_free (col);
 	}
-
+	g_slist_free (ctxt->cols);
 	ctxt->cols = NULL;
+
 	/* Free RHSs */
 	for (current = ctxt->rhs; current != NULL; current = current->next) {
-	           MpsRhs *rhs = (MpsRhs *) current->data;
+	           MpsRhs *rhs = current->data;
 		   g_free (rhs->name);
-		   g_free (current->data);
+		   g_free (rhs);
 	}
+	g_slist_free (ctxt->rhs);
 
 	/* Free BOUNDS */
 	for (current = ctxt->bounds; current!=NULL; current = current->next) {
-	           MpsBound *bound = (MpsBound *) current->data;
+	           MpsBound *bound = current->data;
 		   g_free (bound->name);
-		   g_free (current->data);
+		   g_free (bound);
 	}
-
-	g_slist_free (ctxt->rows);
-	g_slist_free (ctxt->cols);
-	g_slist_free (ctxt->rhs);
 	g_slist_free (ctxt->bounds);
 
 	g_hash_table_foreach_remove (ctxt->row_hash, (GHRFunc) rh_rm_cb, NULL);

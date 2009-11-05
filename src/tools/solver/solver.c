@@ -426,6 +426,8 @@ solver_results_free (SolverResults *res)
 	g_free (res->slack);
 	g_free (res->lhs);
 	g_free (res->rhs);
+
+	memset (res, 0xff, sizeof (*res));
 	g_free (res);
 }
 
@@ -916,7 +918,6 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 				     _("The LHS cells should contain formulas "
 				       "that yield proper numerical values.  "
 				       "Specify valid LHS entries."));
-			solver_results_free (res);
 			return NULL;
 		}
 		lx = value_get_as_float (lval);
@@ -962,7 +963,6 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 				     _("The RHS cells should contain proper "
 				       "numerical values only.  Specify valid "
 				       "RHS entries."));
-			solver_results_free (res);
 			return NULL;
 		}
 		rx = value_get_as_float (rval);
@@ -978,7 +978,6 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 		    param->options.max_time_sec) {
 			g_set_error (err, go_error_invalid (), 0,
 				     SOLVER_MAX_TIME_ERR);
-			solver_results_free (res);
 			return NULL;
 		}
 
@@ -996,11 +995,9 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 		g_set_error (err, go_error_invalid (), 0,
 			     _("EqualTo models are not supported yet.  "
 			       "Please use Min or Max"));
-		solver_results_free (res);
 	        return NULL; /* FIXME: Equal to feature not yet implemented. */
 	default:
 		g_warning ("unknown problem type %d", param->problem_type);
-		solver_results_free (res);
 	        return NULL;
 	}
 
@@ -1010,21 +1007,18 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 				NULL, NULL)) {
 		g_set_error (err, go_error_invalid (), 0,
 			     _("Failure setting automatic scaling with this solver, try a different algorithm."));
-		solver_results_free (res);
 	        return NULL;
 	}
 	if (alg->set_option_fn (program, SolverOptMaxIter, NULL, NULL,
 				&(param->options.max_iter))) {
 		g_set_error (err, go_error_invalid (), 0,
 			     _("Failure setting the maximum number of iterations with this solver, try a different algorithm."));
-		solver_results_free (res);
 	        return NULL;
 	}
 	if (alg->set_option_fn (program, SolverOptMaxTimeSec, NULL, &start_time,
 				&(param->options.max_time_sec))) {
 		g_set_error (err, go_error_invalid (), 0,
 			     _("Failure setting the maximum solving time with this solver, try a different algorithm."));
-		solver_results_free (res);
 	        return NULL;
 	}
 

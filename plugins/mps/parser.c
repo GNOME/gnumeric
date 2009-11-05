@@ -226,8 +226,10 @@ mps_add_row (MpsInputContext *ctxt, MpsRowType type, gchar *txt)
 	row = g_new (MpsRow, 1);
 	len = strlen(txt);
 
-	if (len == 0)
-	          return FALSE;
+	if (len == 0) {
+		g_free (row);
+		return FALSE;
+	}
 
 	row->name = g_strdup (txt);
 	row->type = type;
