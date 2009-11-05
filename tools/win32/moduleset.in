@@ -97,13 +97,13 @@
 <!-- Gtk stack -->
     <autotools id="pixman">
 	<branch repo="cairographics"
-		module="pixman-0.14.0.tar.gz"
-		version="0.14.0"/>
+		module="pixman-0.16.2.tar.gz"
+		version="0.16.2"/>
     </autotools>
     <autotools id="cairo">
 	<branch repo="cairographics"
-		module="cairo-1.8.2.tar.gz"
-		version="1.8.2">
+		module="cairo-1.8.8.tar.gz"
+		version="1.8.8">
 	</branch>
 	<dependencies>
 	    <dep package="zlib"/>

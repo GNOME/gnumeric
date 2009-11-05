@@ -63,6 +63,6 @@ build_ls_s() {
 ################################################################
 # TODO
 #    - pangorc
-#    - better sharing between -debug and -release
+#    - better auto location of jbuild (not always in HOME)
 #    - doc generation and deployment
 #    - packaging

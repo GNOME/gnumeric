@@ -25,6 +25,7 @@ os.environ['TARGET']	= 'i586-pc-mingw32msvc'
 os.environ['PKG_CONFIG']= '/usr/bin/pkg-config'
 
 addpath('PKG_CONFIG_PATH', os.path.join(os.sep, prefix, 'lib', 'pkgconfig'))
+addpath('PKG_CONFIG_PATH', os.path.join(os.sep, prefix, 'lib64', 'pkgconfig'))
 addpath('PKG_CONFIG_PATH', os.path.join(os.sep, prefix, 'share', 'pkgconfig'))
 
 #Prefix for all the tools
@@ -51,14 +52,16 @@ if os.getenv('JH_TARGET') == "debug":
 elif os.getenv('JH_TARGET') == "release":
     optim = ' -O2'
 else:
-    print "Best to invoke this via make"
+    print "Best to invoke this via build script from make"
     sys.exit (0)
 
 #Exporting tool flags enviroment variables
-os.environ['LDFLAGS']	 = ' -mno-cygwin -L'+prefix+'/lib  -no-undefined'
-os.environ['CFLAGS']	 = ' -O0 -gstabs -I'+prefix+'/include -mno-cygwin -mms-bitfields -march=i686 ' 
-os.environ['CPPFLAGS']	 = ' -O0 -gstabs -I'+prefix+'/include -mno-cygwin -mms-bitfields -march=i686'
-os.environ['CXXFLAGS']	 = ' -O0 -gstabs -I'+prefix+'/include -mno-cygwin -mms-bitfields -march=i686 '
+os.environ['LDFLAGS']	 = ' -mno-cygwin -no-undefined' + \
+    ' -L' + os.path.join(os.sep, prefix, 'lib') + \
+    ' -L' + os.path.join(os.sep, prefix, 'lib64')
+os.environ['CFLAGS']	 = optim + ' -mno-cygwin -mms-bitfields -march=i686 ' + ' -I' + os.path.join(os.sep, prefix, 'include')
+os.environ['CPPLAGS']	 = optim + ' -mno-cygwin -mms-bitfields -march=i686 ' + ' -I' + os.path.join(os.sep, prefix, 'include')
+os.environ['CXXLAGS']	 = optim + ' -mno-cygwin -mms-bitfields -march=i686 ' + ' -I' + os.path.join(os.sep, prefix, 'include')
 os.environ['ARFLAGS']	 = 'rcs'
 os.environ['INSTALL']	 = os.path.expanduser('~/bin/install-check')
 os.environ['ACLOCAL_AMFLAGS'] = ' -I '+prefix+'/share/aclocal'	# for libgnomedb
