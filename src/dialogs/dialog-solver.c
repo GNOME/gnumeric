@@ -76,8 +76,6 @@ typedef struct {
 	SolverConstraint    *constr;
 	GtkWidget           *warning_dialog;
 
-	gboolean             cancelled;
-
 	Sheet		    *sheet;
 	WBCGtk              *wbcg;
 } SolverState;
@@ -138,9 +136,10 @@ dialog_set_sec_button_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 	gboolean select_ready = (state->constr != NULL);
 	SolverConstraint *test = gnm_solver_constraint_new (NULL);
 	gboolean ready, has_rhs;
+	SolverParameters const *param = state->sheet->solver_parameters;
 
 	constraint_fill (test, state);
-	ready = gnm_solver_constraint_valid (test);
+	ready = gnm_solver_constraint_valid (test, param);
 	has_rhs = gnm_solver_constraint_has_rhs (test);
 	gnm_solver_constraint_free (test);
 
@@ -351,7 +350,6 @@ static void
 cb_dialog_close_clicked (G_GNUC_UNUSED GtkWidget *button,
 			 SolverState *state)
 {
-	state->cancelled = FALSE;
 	gtk_widget_destroy (state->dialog);
 }
 
@@ -598,8 +596,6 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	workbook_recalc (state->sheet->workbook);
 
 	if (res != NULL) {
-		state->cancelled = FALSE;
-
 		/* WARNING : The dialog may be deleted by the reports
 		 * solver_reporting will return FALSE if state is gone and cleared */
 		if (solver_reporting (state, res) &&
@@ -968,10 +964,6 @@ dialog_solver (WBCGtk *wbcg, Sheet *sheet)
 {
         SolverState *state;
 
-	if (wbcg == NULL) {
-		return;
-	}
-
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, SOLVER_KEY))
 		return;
@@ -980,7 +972,6 @@ dialog_solver (WBCGtk *wbcg, Sheet *sheet)
 	state->wbcg           = wbcg;
 	state->sheet          = sheet;
 	state->warning_dialog = NULL;
-	state->cancelled      = TRUE;
 
 	if (dialog_init (state)) {
 		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,

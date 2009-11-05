@@ -113,9 +113,10 @@ void gnm_solver_constraint_set_old (SolverConstraint *c,
 				    int cols, int rows);
 
 gboolean gnm_solver_constraint_has_rhs (SolverConstraint const *c);
-gboolean gnm_solver_constraint_valid (SolverConstraint const *c);
+gboolean gnm_solver_constraint_valid (SolverConstraint const *c,
+				      SolverParameters const *sp);
 gboolean gnm_solver_constraint_get_part (SolverConstraint const *c,
-					 Sheet *sheet, int i,
+					 SolverParameters const *sp, int i,
 					 GnmCell **lhs, gnm_float *cl,
 					 GnmCell **rhs, gnm_float *cr);
 

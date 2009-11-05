@@ -138,7 +138,7 @@ solver_answer_report (WorkbookControl *wbc,
 		char *str = gnm_solver_constraint_as_str (c, sheet);
 		GnmCell *lhs, *rhs;
 
-		gnm_solver_constraint_get_part (c, sheet, 0,
+		gnm_solver_constraint_get_part (c, res->param, 0,
 						&lhs, NULL,
 						&rhs, NULL);
 
@@ -299,7 +299,7 @@ solver_sensitivity_report (WorkbookControl *wbc,
 	        SolverConstraint *c = res->constraints_array[i];
 		GnmCell *lhs, *rhs;
 
-		gnm_solver_constraint_get_part (c, sheet, 0,
+		gnm_solver_constraint_get_part (c, res->param, 0,
 						&lhs, NULL,
 						&rhs, NULL);
 

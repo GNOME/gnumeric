@@ -169,7 +169,7 @@ gnm_solver_param_get_target (SolverParameters const *sp)
 		? gnm_expr_top_get_cellref (sp->target.texpr)
 		: NULL;
 }
-      
+
 GnmCell *
 gnm_solver_param_get_target_cell (SolverParameters const *sp)
 {
@@ -231,7 +231,7 @@ gnm_solver_param_valid (SolverParameters const *sp, GError **err)
 
 	for (i = 1, l = sp->constraints; l; i++, l = l->next) {
 		SolverConstraint *c = l->data;
-		if (!gnm_solver_constraint_valid (c)) {
+		if (!gnm_solver_constraint_valid (c, sp)) {
 			g_set_error (err,
 				     go_error_invalid (),
 				     0,
@@ -488,9 +488,11 @@ gnm_solver_constraint_has_rhs (SolverConstraint const *c)
 }
 
 gboolean
-gnm_solver_constraint_valid (SolverConstraint const *c)
+gnm_solver_constraint_valid (SolverConstraint const *c,
+			     SolverParameters const *sp)
 {
 	GnmValue const *lhs;
+
 	g_return_val_if_fail (c != NULL, FALSE);
 
 	lhs = gnm_solver_constraint_get_lhs (c);
@@ -516,7 +518,28 @@ gnm_solver_constraint_valid (SolverConstraint const *c)
 			return FALSE;
 	}
 
-#warning "We need to check that int/bool constraints refer to input cells."
+	switch (c->type) {
+	case SolverINT:
+	case SolverBOOL: {
+		GnmValue const *vinput = gnm_solver_param_get_input (sp);
+		GnmSheetRange sr_input, sr_c;
+
+		if (!vinput)
+			break; /* No need to blame contraint.  */
+
+		gnm_sheet_range_from_value (&sr_input, vinput);
+		gnm_sheet_range_from_value (&sr_c, lhs);
+
+		if (eval_sheet (sr_input.sheet, sp->sheet) !=
+		    eval_sheet (sr_c.sheet, sp->sheet) ||
+		    !range_contained (&sr_c.range, &sr_input.range))
+			return FALSE;
+		break;
+	}
+
+	default:
+		break;
+	}
 
 	return TRUE;
 }
@@ -576,7 +599,8 @@ gnm_solver_constraint_set_rhs (SolverConstraint *c, GnmValue *v)
 
 
 gboolean
-gnm_solver_constraint_get_part (SolverConstraint const *c, Sheet *sheet, int i,
+gnm_solver_constraint_get_part (SolverConstraint const *c,
+				SolverParameters const *sp, int i,
 				GnmCell **lhs, gnm_float *cl,
 				GnmCell **rhs, gnm_float *cr)
 {
@@ -589,7 +613,7 @@ gnm_solver_constraint_get_part (SolverConstraint const *c, Sheet *sheet, int i,
 	if (lhs) *lhs = NULL;
 	if (rhs) *rhs = NULL;
 
-	if (!gnm_solver_constraint_valid (c))
+	if (!gnm_solver_constraint_valid (c, sp))
 		return FALSE;
 
 	vl = gnm_solver_constraint_get_lhs (c);
@@ -605,7 +629,7 @@ gnm_solver_constraint_get_part (SolverConstraint const *c, Sheet *sheet, int i,
 		return FALSE;
 
 	if (lhs)
-		*lhs = sheet_cell_get (sheet,
+		*lhs = sheet_cell_get (sp->sheet,
 				       r.start.col + dx, r.start.row + dy);
 
 	if (gnm_solver_constraint_has_rhs (c)) {
@@ -615,7 +639,7 @@ gnm_solver_constraint_get_part (SolverConstraint const *c, Sheet *sheet, int i,
 		} else {
 			range_init_value (&r, vr);
 			if (rhs)
-				*rhs = sheet_cell_get (sheet,
+				*rhs = sheet_cell_get (sp->sheet,
 						       r.start.col + dx,
 						       r.start.row + dy);
 		}
@@ -626,7 +650,7 @@ gnm_solver_constraint_get_part (SolverConstraint const *c, Sheet *sheet, int i,
 
 static gboolean
 gnm_solver_constraint_get_part_val (SolverConstraint const *c,
-				    Sheet *sheet, int i,
+				    SolverParameters const *sp, int i,
 				    GnmValue **lhs, GnmValue **rhs)
 {
 	GnmRange r;
@@ -636,7 +660,7 @@ gnm_solver_constraint_get_part_val (SolverConstraint const *c,
 	if (lhs) *lhs = NULL;
 	if (rhs) *rhs = NULL;
 
-	if (!gnm_solver_constraint_valid (c))
+	if (!gnm_solver_constraint_valid (c, sp))
 		return FALSE;
 
 	vl = gnm_solver_constraint_get_lhs (c);
@@ -654,7 +678,7 @@ gnm_solver_constraint_get_part_val (SolverConstraint const *c,
 	r.start.col += dx;
 	r.start.row += dy;
 	r.end = r.start;
-	if (lhs) *lhs = value_new_cellrange_r (sheet, &r);
+	if (lhs) *lhs = value_new_cellrange_r (sp->sheet, &r);
 
 	if (rhs && gnm_solver_constraint_has_rhs (c)) {
 		if (VALUE_IS_FLOAT (vr)) {
@@ -664,7 +688,7 @@ gnm_solver_constraint_get_part_val (SolverConstraint const *c,
 			r.start.col += dx;
 			r.start.row += dy;
 			r.end = r.start;
-			*rhs = value_new_cellrange_r (sheet, &r);
+			*rhs = value_new_cellrange_r (sp->sheet, &r);
 		}
 	}
 
@@ -877,7 +901,7 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 		const GnmValue *rval;
 		gnm_float lx, rx;
 
-		gnm_solver_constraint_get_part (c, sheet, 0,
+		gnm_solver_constraint_get_part (c, param, 0,
 						&target, NULL,
 						NULL, NULL);
 		if (target) {
@@ -924,7 +948,7 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 			}
 		}
 
-		gnm_solver_constraint_get_part (c, sheet, 0,
+		gnm_solver_constraint_get_part (c, param, 0,
 						NULL, NULL, &target, NULL);
 		if (target) {
 			gnm_cell_eval (target);
@@ -1072,7 +1096,7 @@ check_program_definition_failures (Sheet            *sheet,
 		int N = gnm_solver_constraint_get_size (sc);
 
 		if (sc->type == SolverINT)
-		        param->n_int_constraints += N;			        
+		        param->n_int_constraints += N;
 		else if (sc->type == SolverBOOL)
 		        param->n_bool_constraints += N;
 		else
@@ -1089,7 +1113,7 @@ check_program_definition_failures (Sheet            *sheet,
 		GnmValue *lhs, *rhs;
 
 		for (j = 0;
-		     gnm_solver_constraint_get_part_val (sc, sheet, j,
+		     gnm_solver_constraint_get_part_val (sc, param, j,
 							 &lhs, &rhs);
 		     j++) {
 			SolverConstraint *nc =

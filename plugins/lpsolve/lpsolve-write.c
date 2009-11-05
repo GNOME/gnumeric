@@ -222,7 +222,7 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 		}
 
 		for (i = 0;
-		     gnm_solver_constraint_get_part (c, sheet, i,
+		     gnm_solver_constraint_get_part (c, sp, i,
 						     &lhs, &cl,
 						     &rhs, &cr);
 		     i++) {

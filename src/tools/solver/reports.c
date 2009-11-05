@@ -72,7 +72,7 @@ get_constraint_names (SolverResults *res, Sheet *sheet)
 	        SolverConstraint *c = solver_get_constraint (res, i);
 		GnmCell *lhs;
 
-		gnm_solver_constraint_get_part (c, sheet, 0,
+		gnm_solver_constraint_get_part (c, res->param, 0,
 						&lhs, NULL, NULL, NULL);
 
 		res->constraint_names[i] = lhs
@@ -109,7 +109,7 @@ is_still_feasible (Sheet *sheet, SolverResults *res, int col, gnm_float value)
 	        SolverConstraint *c = solver_get_constraint (res, i);
 		GnmCell *cell;
 
-		gnm_solver_constraint_get_part (c, sheet, 0,
+		gnm_solver_constraint_get_part (c, res->param, 0,
 						NULL, NULL, &cell, NULL);
 
 		c_value = 0;
@@ -156,7 +156,7 @@ calculate_limits (Sheet *sheet, SolverParameters *param, SolverResults *res)
 		SolverConstraint *c = res->constraints_array[i];
 		GnmCell             *lcell, *rcell;
 
-		gnm_solver_constraint_get_part (c, sheet, 0,
+		gnm_solver_constraint_get_part (c, res->param, 0,
 						&lcell, NULL, &rcell, NULL);
 		rhs   = value_get_as_float (rcell->value);
 		lhs   = value_get_as_float (lcell->value);
@@ -281,7 +281,7 @@ solver_prepare_reports_success (SolverProgram *program, SolverResults *res,
 	        SolverConstraint const *c = solver_get_constraint (res, i);
 		GnmCell *lhs;
 
-		gnm_solver_constraint_get_part (c, sheet, 0,
+		gnm_solver_constraint_get_part (c, param, 0,
 						&lhs, NULL,
 						NULL, NULL);
 

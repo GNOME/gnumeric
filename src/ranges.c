@@ -1124,7 +1124,7 @@ global_range_list_foreach (GSList *gr_list, GnmEvalPos const *ep,
  * @a:
  * @b:
  *
- * return true if a is containde in b
+ * return true if a is contained in b
  * we do not handle 3d ranges
  **/
 gboolean
