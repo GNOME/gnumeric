@@ -1,0 +1,52 @@
+--- configure.in	2007-09-24 16:44:00.000000000 +0200
++++ configure.in.new	2009-11-06 13:49:35.674397027 +0100
+@@ -108,41 +108,32 @@
+ 	AC_MSG_RESULT([not needed, using iconv])
+ fi
+ 
+ PX_HAVE_GSF=0
+ 
+-AC_ARG_WITH(gsf, [  --with-gsf=DIR           Path to gsf library (/usr)],
++AC_ARG_WITH(gsf, [  --with-gsf=DIR           Path to gsf library (/usr)], [
+ if test "x$withval" = xno; then
+ 	AC_MSG_RESULT("disable by user")
+ 	PX_HAVE_GSF=0
+ else
+-	if test -r ${withval}/include/libgsf-1/gsf/gsf-input.h ; then
+-		GSF_LIBDIR=-L${withval}/lib
+-		GSF_INCLUDEDIR="-I${withval}/include/libgsf-1 -I${withval}/include/glib-2.0 -I${withval}/lib/glib-2.0/include"
+-		try_gsf=true
+-	else
+-		if test -r /usr/include/libgsf-1/gsf/gsf-input.h ; then
+-			GSF_LIBDIR=-L/usr
+-			GSF_INCLUDEDIR="-I/usr/include/libgsf-1 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include"
+-			try_gsf=true
+-		else
+-			try_gsf=false
+-		fi
++	if test "x$withval" != xyes; then
++		PKG_CONFIG_PATH="$withval:$PKG_CONFIG_PATH"
+ 	fi
+-
++	PKG_CHECK_MODULES([GSF], ["libgsf-1"], [try_gsf=true], [try_gsf=false])
+ 	if test "$try_gsf" = "true"; then
++		GSF_LIBDIR="`pkg-config --libs libgsf-1`"
++		GSF_INCLUDEDIR="`pkg-config --cflags libgsf-1`"
+ 		AC_CHECK_LIB(gsf-1, gsf_input_read,
+-			GSF_LIBDIR="$GSF_LIBDIR -lgsf-1",
++			[],
+ 			AC_MSG_RESULT([libgsf-1 not found]),
+ 			"$GSF_LIBDIR")
+ 
+-		GSF_LIBS=-lgsf-1
+ 		AC_DEFINE(HAVE_GSF, 1, [Define if you have the gsf library.])
+ 		PX_HAVE_GSF=1
+ 	fi
+ fi
+-)
++])
+ 
+ AC_CHECK_PROG(DOC_TO_MAN, docbook-to-man, docbook-to-man)
+ if test ! "$DOC_TO_MAN" ; then
+ 	DOCDIR=
+ 	AC_MSG_RESULT([docbook-to-man could not be found. I will not build man pages!])
