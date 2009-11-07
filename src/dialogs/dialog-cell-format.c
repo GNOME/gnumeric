@@ -2106,7 +2106,7 @@ fmt_dialog_conditions_page_load_cond (FormatState *state, GnmStyleCond const *co
 	case GNM_STYLE_COND_CONTAINS_BLANKS:
 		gtk_tree_store_set (state->conditions.model, &iter1, CONDITIONS_RANGE, NULL,
 				    CONDITIONS_COND,
-				    _("If the cell content is \xe2\x89\xa6 this "
+				    _("If the cell content "
 				      "contains blanks, a special style is used."), -1);
 		break;
 	case GNM_STYLE_COND_NOT_CONTAINS_BLANKS:

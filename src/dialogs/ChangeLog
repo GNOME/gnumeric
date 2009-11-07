@@ -1,3 +1,8 @@
+2009-11-07  Morten Welinder  <terra@gnome.org>
+
+	* dialog-cell-format.c (fmt_dialog_conditions_page_load_cond): Fix
+	strange string.  #601076.
+
 2009-11-02  Morten Welinder  <terra@gnome.org>
 
 	* dialog-solver.c (cb_dialog_solver_destroy): Plug leak.
