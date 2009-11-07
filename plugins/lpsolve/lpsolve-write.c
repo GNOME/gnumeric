@@ -133,7 +133,7 @@ lpsolve_affine_func (GString *dst, GnmCell *target,
 }
 
 static GString *
-lpsolve_create_program (Sheet *sheet, GError **err)
+lpsolve_create_program (Sheet *sheet, GOIOContext *io_context, GError **err)
 {
 	SolverParameters *sp = sheet->solver_parameters;
 	GString *prg = NULL;
@@ -143,6 +143,16 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 	GSList *l;
 	GnmCell *target_cell = gnm_solver_param_get_target_cell (sp);
 	GSList *input_cells = gnm_solver_param_get_input_cells (sp);
+	gsize progress;
+
+	/* ---------------------------------------- */
+
+	progress = 2;
+	if (sp->options.assume_non_negative) progress++;
+	if (sp->options.assume_discrete) progress++;
+	progress += g_slist_length (sp->constraints);
+
+	go_io_count_progress_set (io_context, progress, 1);
 
 	/* ---------------------------------------- */
 
@@ -163,10 +173,12 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 	default:
 		g_assert_not_reached ();
 	}
+	go_io_count_progress_update (io_context, 1);
 
 	if (!lpsolve_affine_func (objfunc, target_cell, input_cells, err))
 		goto fail;
 	g_string_append (objfunc, ";\n");
+	go_io_count_progress_update (io_context, 1);
 
 	/* ---------------------------------------- */
 
@@ -178,6 +190,7 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 					 lpsolve_var_name (cell));
 			g_string_append (constraints, " >= 0;\n");
 		}
+		go_io_count_progress_update (io_context, 1);
 	}
 
 	if (sp->options.assume_discrete) {
@@ -189,6 +202,7 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 					 lpsolve_var_name (cell));
 			g_string_append (declarations, ";\n");
 		}
+		go_io_count_progress_update (io_context, 1);
 	}
 
  	for (l = sp->constraints; l; l = l->next) {
@@ -251,6 +265,8 @@ lpsolve_create_program (Sheet *sheet, GError **err)
 				g_string_append (constraints, ";\n");
 			}
 		}
+
+		go_io_count_progress_update (io_context, 1);
 	}
 
 	/* ---------------------------------------- */
@@ -285,10 +301,11 @@ lpsolve_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 	GString *prg;
 	GnmLocale *locale;
 
-	workbook_recalc (sheet->workbook);
+	go_io_progress_message (io_context,
+				_("Writing lpsolve file..."));
 
 	locale = gnm_push_C_locale ();
-	prg = lpsolve_create_program (sheet, &err);
+	prg = lpsolve_create_program (sheet, io_context, &err);
 	gnm_pop_C_locale (locale);
 
 	workbook_recalc (sheet->workbook);
@@ -296,10 +313,14 @@ lpsolve_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 	if (!prg) {
 		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
 					     err ? err->message : "?");
-		g_error_free (err);
-		return;
+		goto fail;
 	}
 
 	gsf_output_write (output, prg->len, prg->str);
 	g_string_free (prg, TRUE);
+
+fail:
+	go_io_progress_unset (io_context);
+	if (err)
+		g_error_free (err);
 }

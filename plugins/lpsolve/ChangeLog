@@ -1,3 +1,7 @@
+2009-11-06  Morten Welinder  <terra@gnome.org>
+
+	* lpsolve-write.c (lpsolve_file_save): Add progress reporting.
+
 2009-11-01  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.15
