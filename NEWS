@@ -3,6 +3,10 @@ Gnumeric 1.9.16
 Jean:
 	* Fix cursor and cell edition on dark backgrounds. [#600656]
 
+Jody:
+	* turnkey win32 build on 32bit host.
+	* update desktop file to follow new guidelines.
+
 --------------------------------------------------------------------------
 Gnumeric 1.9.15
 

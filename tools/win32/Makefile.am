@@ -7,10 +7,10 @@ release:: moduleset
 	$(abs_srcdir)/build $(abs_builddir) $(abs_srcdir) release
 
 debug_shell:: moduleset
-	$(abs_srcdir)/build $(abs_builddir) $(abs_srcdir) debug_shell
+	$(abs_srcdir)/build $(abs_builddir) $(abs_srcdir) debug shell
 
 release_shell:: moduleset
-	$(abs_srcdir)/build $(abs_builddir) $(abs_srcdir) debug_shell
+	$(abs_srcdir)/build $(abs_builddir) $(abs_srcdir) release shell
 
 clean:
 	rm -rf debug release

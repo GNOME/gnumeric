@@ -1,7 +1,8 @@
 [Desktop Entry]
 Version=1.0
-_Name=Gnumeric Spreadsheet
+_Name=Gnumeric
 _GenericName=Spreadsheet
+_X-GNOME-FullName=Gnumeric Spreadsheet
 _Comment=Calculation, Analysis, and Visualization of Information
 Exec=gnumeric %F_OR_U
 Icon=gnumeric

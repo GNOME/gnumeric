@@ -8,6 +8,7 @@ py_pkg_ver=2.6.3
 builddir="$1"
 srcdir="$2"
 target="$3"
+is_shell="$4"
 
 if [ -z "${builddir}" -o -z "${srcdir}" -o -z "${target}" ]; then
     echo "usage  : $0 <builddir> <srcdir> <target>"
@@ -58,7 +59,7 @@ build_ls_s() {
     build_ls_s "${WINEDIR}/Python${py_ver}/libs/python${py_ver}.lib"	"lib/libpython${py_ver}.dll.a"
 
 # prep jhbuild files
-    ${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc.py" # "-${target}"
+    ${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc.py" "${is_shell}"
 
 ################################################################
 # TODO
