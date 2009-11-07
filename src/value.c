@@ -918,7 +918,11 @@ value_get_as_gstring (GnmValue const *v, GString *target,
 					g_string_append_unichar (target, col_sep);
 
 				/* quote strings */
-				if (VALUE_IS_STRING (val))
+				if (!val) {
+					/* This is not supposed to happen, but
+					   let's not crash anyway.  */
+					g_string_append (target, "?");
+				} else if (VALUE_IS_STRING (val))
 					go_strescape (target, val->v_str.val->str);
 				else
 					value_get_as_gstring (val, target, conv);
