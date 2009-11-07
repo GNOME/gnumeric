@@ -25,7 +25,7 @@ double lgamma (double x);
 double lgamma_r (double x, int *signp);
 #endif
 
-#ifdef WITH_LONG_DOUBLE
+#ifdef GNM_WITH_LONG_DOUBLE
 
 #ifdef HAVE_SUNMATH_H
 #include <sunmath.h>
@@ -118,7 +118,7 @@ gnm_float gnm_yn (int n, gnm_float x);
 #define GNM_EPSILON	LDBL_EPSILON
 #define GNM_const(_c)	_c ## L
 
-#else /* !WITH_LONG_DOUBLE */
+#else /* !GNM_WITH_LONG_DOUBLE */
 
 typedef double gnm_float;
 

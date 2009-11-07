@@ -222,7 +222,7 @@ gnm_format_specialize (GOFormat const *fmt, GnmValue const *value)
 		type = VALUE_IS_ERROR (value) ? 'E' : 'S';
 	}
 
-#ifdef WITH_LONG_DOUBLE
+#ifdef GNM_WITH_LONG_DOUBLE
 	return go_format_specializel (fmt, val, type, NULL);
 #else
 	return go_format_specialize (fmt, val, type, NULL);

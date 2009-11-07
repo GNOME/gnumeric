@@ -7,7 +7,7 @@
 
 G_BEGIN_DECLS
 
-#ifdef WITH_LONG_DOUBLE
+#ifdef GNM_WITH_LONG_DOUBLE
 #	define gnm_range_sum go_range_suml
 #	define gnm_range_sumsq go_range_sumsql
 #	define gnm_range_average go_range_averagel

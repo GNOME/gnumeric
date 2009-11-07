@@ -1,3 +1,7 @@
+2009-11-07  Morten Welinder  <terra@gnome.org>
+
+	* src/numbers.h: Resurrect long double support.
+
 2009-11-06  Morten Welinder  <terra@gnome.org>
 
 	* src/value.c (value_get_as_gstring): Handle partial arrays.

@@ -75,7 +75,7 @@ enum {
 	INTERPOLATION_SPLINE_AVG,
 };
 
-#ifdef WITH_LONG_DOUBLE
+#ifdef GNM_WITH_LONG_DOUBLE
 #	define GnmCSpline GOCSplinel
 #	define gnm_cspline_init go_cspline_initl
 #	define gnm_cspline_destroy go_cspline_destroyl

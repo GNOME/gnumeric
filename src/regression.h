@@ -7,7 +7,7 @@
 
 G_BEGIN_DECLS
 
-#ifdef WITH_LONG_DOUBLE
+#ifdef GNM_WITH_LONG_DOUBLE
 #	define gnm_regression_stat_t go_regression_stat_tl
 #	define gnm_regression_stat_new go_regression_stat_newl
 #	define gnm_regression_stat_destroy go_regression_stat_destroyl
