@@ -119,13 +119,13 @@ gnm_solver_param_set_input (SolverParameters *sp, GnmValue *v)
 static GnmValue *
 cb_grab_cells (GnmCellIter const *iter, gpointer user)
 {
-	GList **the_list = user;
+	GSList **the_list = user;
 	GnmCell *cell;
 
 	if (NULL == (cell = iter->cell))
 		cell = sheet_cell_create (iter->pp.sheet,
 			iter->pp.eval.col, iter->pp.eval.row);
-	*the_list = g_list_append (*the_list, cell);
+	*the_list = g_slist_append (*the_list, cell);
 	return NULL;
 }
 

@@ -1,3 +1,7 @@
+2009-11-08  Morten Welinder  <terra@gnome.org>
+
+	* solver.c (cb_grab_cells): Fix GList vs. GSList confusion.
+
 2009-11-02  Morten Welinder  <terra@gnome.org>
 
 	* solver.c (gnm_solver_param_get_input_cells): Fix crash.
