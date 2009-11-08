@@ -1,3 +1,7 @@
+2009-11-08  Morten Welinder  <terra@gnome.org>
+
+	* mps.c (mps_input_context_destroy): Plug leak.
+
 2009-11-01  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.15

@@ -555,6 +555,15 @@ ch_rm_cb (gpointer key, gpointer value, gpointer user_data)
         return TRUE;
 }
 
+static void
+free_row (MpsRow *row)
+{
+	if (row) {
+		g_free (row->name);
+		g_free (row);
+	}
+}
+
 /* Free the allocated memory. */
 static void
 mps_input_context_destroy (MpsInputContext *ctxt)
@@ -564,13 +573,16 @@ mps_input_context_destroy (MpsInputContext *ctxt)
 
 	go_io_progress_unset (ctxt->io_context);
 
+	free_row (ctxt->objective_row);
+	ctxt->objective_row = NULL;
+
 	/* Free ROWS */
 	for (current = ctxt->rows; current != NULL; current = current->next) {
 	           MpsRow *row = current->data;
-		   g_free (row->name);
-		   g_free (row);
+		   free_row (row);
 	}
 	g_slist_free (ctxt->rows);
+	ctxt->rows = NULL;
 
 	/* Free COLUMNS */
 	for (current = ctxt->cols; current != NULL; current = current->next) {

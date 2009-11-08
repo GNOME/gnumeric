@@ -10,6 +10,7 @@ Jody:
 Morten:
 	* Resurrect long-double support.
 	* More solver fixes.
+	* Plug another mps leak.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.15
