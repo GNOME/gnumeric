@@ -977,11 +977,15 @@ xml_write_solver (GnmOutputXML *state)
 
 	target = gnm_solver_param_get_target (param);
 	if (target != NULL) {
-		/* FIXME: This drops sheet */
-		gsf_xml_out_add_int (state->output, "TargetCol",
-				     target->col);
-		gsf_xml_out_add_int (state->output, "TargetRow",
-				     target->row);
+		GnmExpr const *expr = gnm_expr_new_cellref (target);
+		GnmParsePos pp;
+		char *txt = gnm_expr_as_string
+			(expr,
+			 parse_pos_init_sheet (&pp, state->sheet),
+			 state->convs);
+		gsf_xml_out_add_cstr (state->output, "Target", txt);
+		g_free (txt);
+		gnm_expr_free (expr);
 	}
 
 	gsf_xml_out_add_int (state->output, "ProblemType", param->problem_type);

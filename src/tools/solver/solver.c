@@ -310,6 +310,7 @@ solver_param_read_sax (GsfXMLIn *xin, xmlChar const **attrs)
 	int col = -1, row = -1;
 	int ptype;
 	GnmParsePos pp;
+	gboolean old = FALSE;
 
 	static GsfXMLInNode const dtd[] = {
 	  GSF_XML_IN_NODE (SHEET_SOLVER_CONSTR, SHEET_SOLVER_CONSTR, GNM, "Constr", GSF_XML_NO_CONTENT, &solver_constr_start, NULL),
@@ -320,17 +321,34 @@ solver_param_read_sax (GsfXMLIn *xin, xmlChar const **attrs)
 	parse_pos_init_sheet (&pp, sheet);
 
 	for (; attrs && attrs[0] && attrs[1] ; attrs += 2) {
-		if (gnm_xml_attr_int (attrs, "ProblemType", &ptype))
+		if (gnm_xml_attr_int (attrs, "ProblemType", &ptype)) {
 			sp->problem_type = (SolverProblemType)ptype;
-		else if (strcmp (CXML2C (attrs[0]), "Inputs") == 0) {
+		} else if (attr_eq (attrs[0], "Inputs")) {
 			GnmValue *v = value_new_cellrange_parsepos_str
 				(&pp,
 				 CXML2C (attrs[1]),
 				 GNM_EXPR_PARSE_DEFAULT);
 			gnm_solver_param_set_input (sp, v);
 		} else if (gnm_xml_attr_int (attrs, "TargetCol", &col) ||
-			   gnm_xml_attr_int (attrs, "TargetRow", &row) ||
-			   gnm_xml_attr_int (attrs, "MaxTime", &(sp->options.max_time_sec)) ||
+			   gnm_xml_attr_int (attrs, "TargetRow", &row)) {
+			old = TRUE;
+		} else if (attr_eq (attrs[0], "Target")) {
+			GnmValue *v = value_new_cellrange_parsepos_str
+				(&pp,
+				 CXML2C (attrs[1]),
+				 GNM_EXPR_PARSE_DEFAULT);
+			GnmSheetRange sr;
+			GnmCellRef cr;
+
+			if (!v ||
+			    (gnm_sheet_range_from_value (&sr, v), !range_is_singleton (&sr.range)))
+				continue;
+			gnm_cellref_init (&cr, sr.sheet,
+					  sr.range.start.col,
+					  sr.range.start.row,
+					  TRUE);
+			gnm_solver_param_set_target (sp, &cr);
+		} else if (gnm_xml_attr_int (attrs, "MaxTime", &(sp->options.max_time_sec)) ||
 			   gnm_xml_attr_int (attrs, "MaxIter", &(sp->options.max_iter)) ||
 			   gnm_xml_attr_bool (attrs, "NonNeg", &(sp->options.assume_non_negative)) ||
 			   gnm_xml_attr_bool (attrs, "Discr", &(sp->options.assume_discrete)) ||
@@ -344,7 +362,8 @@ solver_param_read_sax (GsfXMLIn *xin, xmlChar const **attrs)
 			; /* Nothing */
 	}
 
-	if (col >= 0 && col < gnm_sheet_get_max_cols (sheet) &&
+	if (old &&
+	    col >= 0 && col < gnm_sheet_get_max_cols (sheet) &&
 	    row >= 0 && row < gnm_sheet_get_max_rows (sheet)) {
 		GnmCellRef cr;
 		gnm_cellref_init (&cr, NULL, col, row, TRUE);

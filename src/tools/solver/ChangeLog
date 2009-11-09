@@ -1,6 +1,7 @@
 2009-11-08  Morten Welinder  <terra@gnome.org>
 
 	* solver.c (cb_grab_cells): Fix GList vs. GSList confusion.
+	(solver_param_read_sax): Read new target format.
 
 2009-11-02  Morten Welinder  <terra@gnome.org>
 
