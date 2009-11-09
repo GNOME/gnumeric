@@ -19,6 +19,7 @@
 # 8xxx: Runs with valgrind and similar tools.
 # 80xx:   Valgrind
 # 81xx:   Stuff from tools/
+# 82xx:   G_SLICE debug and similar
 #
 # 90xx: Misc stuff.
 

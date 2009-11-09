@@ -14,4 +14,4 @@ my $src = "$samples/regress.gnumeric";
 my $tmp = "regress.xls";
 &GnumericTest::junkfile ($tmp);
 
-&test_command ("$ssconvert $src $tmp", sub { 1 } );
+&test_command ("$ssconvert --recalc $src $tmp", sub { 1 } );

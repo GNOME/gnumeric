@@ -14,4 +14,4 @@ my $src = "$samples/excel/statfuns.xls";
 my $tmp = "statfuns2.xls";
 &GnumericTest::junkfile ($tmp);
 
-&test_command ("$ssconvert $src $tmp", sub { 1 } );
+&test_command ("$ssconvert --recalc $src $tmp", sub { 1 } );
