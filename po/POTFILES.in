@@ -59,9 +59,9 @@ plugins/fn-tsa/functions.c
 plugins/fn-tsa/plugin.xml.in
 plugins/gda/plugin-gda.c
 plugins/gda/plugin.xml.in
+plugins/gda/ui.xml.in
 plugins/gnome-db/plugin-gnomedb.c
 plugins/gnome-db/plugin.xml.in
-plugins/gnome-db/ui.xml.in
 plugins/gnome-glossary/plugin.xml.in
 plugins/html/html_read.c
 plugins/html/plugin.xml.in
