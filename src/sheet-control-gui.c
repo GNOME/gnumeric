@@ -3258,7 +3258,7 @@ scg_drag_receive_spreadsheet (SheetControlGUI *scg, const gchar *uri)
 	if (input != NULL) {
 		WorkbookView *wbv;
 
-		wbv = wb_view_new_from_input (input, NULL, ioc, NULL);
+		wbv = wb_view_new_from_input (input, uri, NULL, ioc, NULL);
 		if (wbv != NULL)
 			gui_wb_view_show (scg->wbcg,
 					  wbv);

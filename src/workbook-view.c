@@ -1113,10 +1113,11 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 }
 
 WorkbookView *
-wb_view_new_from_input  (GsfInput *input,
-			 GOFileOpener const *optional_fmt,
-			 GOIOContext *io_context,
-			 char const *optional_enc)
+wb_view_new_from_input (GsfInput *input,
+			const char *optional_uri,
+			GOFileOpener const *optional_fmt,
+			GOIOContext *io_context,
+			char const *optional_enc)
 {
 	WorkbookView *new_wbv = NULL;
 
@@ -1168,11 +1169,8 @@ wb_view_new_from_input  (GsfInput *input,
 
 		new_wbv = workbook_view_new (NULL);
 		new_wb = wb_view_get_workbook (new_wbv);
-		if (NULL != (input_name = gsf_input_name (input))) {
-			char *uri = go_shell_arg_to_uri (input_name);
-			go_doc_set_uri (GO_DOC (new_wb), uri);
-			g_free (uri);
-		}
+		if (optional_uri)
+			go_doc_set_uri (GO_DOC (new_wb), optional_uri);
 
 		/* disable recursive dirtying while loading */
 		old = workbook_enable_recursive_dirty (new_wb, FALSE);
@@ -1231,7 +1229,7 @@ wb_view_new_from_uri (char const *uri,
 #if 0
 		g_printerr ("Reading %s\n", uri);
 #endif
-		res = wb_view_new_from_input (input,
+		res = wb_view_new_from_input (input, uri,
 					      optional_fmt, io_context,
 					      optional_enc);
 		g_object_unref (G_OBJECT (input));

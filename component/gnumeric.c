@@ -119,7 +119,7 @@ go_gnm_component_set_data (GOComponent *component)
 	g_object_set (G_OBJECT (io_context), "exec-main-loop", FALSE, NULL);
 	if (gognm->wv != NULL)
 		g_object_unref (gognm->wv);
-	gognm->wv = wb_view_new_from_input (input, NULL, io_context, NULL);
+	gognm->wv = wb_view_new_from_input (input, NULL, NULL, io_context, NULL);
 	g_object_unref (io_context);
 	gognm->sheet = wb_view_cur_sheet (gognm->wv);
 	sv = sheet_get_view (gognm->sheet, gognm->wv);
@@ -199,7 +199,7 @@ go_gnm_component_edit (GOComponent *component)
 		GsfInput *input = gsf_input_memory_new (component->data, component->length, FALSE);
 
 		g_object_set (G_OBJECT (io_context), "exec-main-loop", FALSE, NULL);
-		wv = wb_view_new_from_input (input, NULL, io_context, NULL);
+		wv = wb_view_new_from_input (input, NULL, NULL, io_context, NULL);
 		g_object_unref (io_context);
 	}
 	set_uifilename ("Gnumeric-embed.xml", actions, G_N_ELEMENTS (actions));

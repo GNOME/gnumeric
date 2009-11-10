@@ -1,3 +1,8 @@
+2009-11-09  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-view.c (wb_view_new_from_input): Add extra uri
+	argument.  All callers changes.  Fixes #601274.
+
 2009-11-08  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-write.c (xml_write_solver): Write target cell as

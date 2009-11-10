@@ -11,6 +11,7 @@ Morten:
 	* Resurrect long-double support.
 	* More solver fixes.
 	* Plug another mps leak.
+	* Fix problem with remote uris.  [#601274]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.15

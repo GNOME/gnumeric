@@ -90,10 +90,11 @@ void	 wbv_save_to_output (WorkbookView *wbv, GOFileSaver const *fs,
 void     wb_view_save_to_uri (WorkbookView *wbv, GOFileSaver const *fs,
 			      char const *uri, GOIOContext *io_context);
 
-WorkbookView *wb_view_new_from_input  (GsfInput *input,
-				       GOFileOpener const *optional_format,
-				       GOIOContext *io_context,
-				       gchar const *optional_encoding);
+WorkbookView *wb_view_new_from_input (GsfInput *input,
+				      const char *optional_uri,
+				      GOFileOpener const *optional_format,
+				      GOIOContext *io_context,
+				      gchar const *optional_encoding);
 WorkbookView *wb_view_new_from_uri  (char const *uri,
 				     GOFileOpener const *optional_format,
 				     GOIOContext *io_context,

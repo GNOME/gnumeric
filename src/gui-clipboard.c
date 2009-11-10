@@ -277,7 +277,7 @@ table_cellregion_read (WorkbookControl *wbc, char const *reader_id,
 
 	ioc = go_io_context_new (GO_CMD_CONTEXT (wbc));
 	input = gsf_input_memory_new (buffer, length, FALSE);
-	wb_view = wb_view_new_from_input  (input, reader, ioc, NULL);
+	wb_view = wb_view_new_from_input  (input, NULL, reader, ioc, NULL);
 	if (go_io_error_occurred (ioc) || wb_view == NULL) {
 		go_io_error_display (ioc);
 		goto out;
