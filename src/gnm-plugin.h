@@ -5,6 +5,7 @@
 #include <gnumeric.h>
 #include <goffice/goffice.h>
 #include <goffice/app/module-plugin-defs.h>
+#include <tools/gnm-solver.h>
 #include <gmodule.h>
 #include <libxml/tree.h>
 #include <gsf/gsf.h>
@@ -46,6 +47,16 @@ typedef struct {
 	char const *name;
 	void (*handler) (GnmAction const *action, WorkbookControl *wbc);
 } ModulePluginUIActions;
+
+#define GNM_PLUGIN_SERVICE_SOLVER_TYPE  (plugin_service_solver_get_type ())
+#define GNM_PLUGIN_SERVICE_SOLVER(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_SOLVER_TYPE, PluginServiceSolver))
+#define IS_GNM_PLUGIN_SERVICE_SOLVER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_SOLVER_TYPE))
+
+GType plugin_service_solver_get_type (void);
+typedef struct _PluginServiceSolver PluginServiceSolver;
+typedef struct {
+	GnmSolverCreator creator;
+} PluginServiceSolverCallbacks;
 
 /**************************************************************************/
 #define GNM_PLUGIN_MODULE_HEADER					\

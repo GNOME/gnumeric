@@ -18,5 +18,12 @@
 				<_description>LPSolve Linear Program Solver</_description>
 			</information>
 		</service>
+		<service type="solver"
+			 id="lpsolve"
+			 problem_type="mip">
+			<information>
+			  <_description>LPSolve</_description>
+			</information>
+		</service>
 	</services>
 </plugin>

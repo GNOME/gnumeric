@@ -47,6 +47,8 @@ libtools_la_SOURCES =					\
 	fill-series.h					\
 	filter.h					\
 	filter.c					\
+	gnm-solver.c					\
+	gnm-solver.h					\
 	goal-seek.c					\
 	goal-seek.h					\
 	scenarios.c					\

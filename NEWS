@@ -16,6 +16,7 @@ Morten:
 	* More solver fixes.
 	* Plug another mps leak.
 	* Fix problem with remote uris.  [#601274]
+	* Use external solver program.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.15

@@ -8,6 +8,7 @@
 
 #include <gnumeric-config.h>
 #include "gutils.h"
+#include <tools/gnm-solver.h>
 #include "func.h"
 #include "gnm-plugin.h"
 #include "gnumeric-gconf.h"
@@ -19,6 +20,7 @@
 #include <string.h>
 
 #define CXML2C(s) ((char const *)(s))
+#define CC2XML(s) ((xmlChar const *)(s))
 
 typedef GOPluginServiceSimpleClass	PluginServiceFunctionGroupClass;
 struct _PluginServiceFunctionGroup {
@@ -260,9 +262,9 @@ GSF_CLASS (PluginServiceFunctionGroup, plugin_service_function_group,
 /*
  * PluginServiceUI
  */
-typedef GOPluginServiceClass PluginServiceUIClass;
+typedef GOPluginServiceSimpleClass PluginServiceUIClass;
 struct _PluginServiceUI {
-	GOPluginServiceSimple	base;
+	GOPluginServiceSimple base;
 
 	char *file_name;
 	GSList *actions;
@@ -467,6 +469,157 @@ plugin_service_ui_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (PluginServiceUI, plugin_service_ui,
            plugin_service_ui_class_init, plugin_service_ui_init,
+           GO_TYPE_PLUGIN_SERVICE_SIMPLE)
+
+/****************************************************************************/
+
+/*
+ * PluginServiceSolver
+ */
+typedef GOPluginServiceClass PluginServiceSolverClass;
+struct _PluginServiceSolver {
+	GOPluginService base;
+
+	GnmSolverFactory *factory;
+
+	PluginServiceSolverCallbacks cbs;
+};
+
+static GnmSolver *
+cb_load_and_create (GnmSolverFactory *factory, SolverParameters *param)
+{
+	PluginServiceSolver *ssol =
+		g_object_get_data (G_OBJECT (factory), "ssol");
+	GOErrorInfo *ignored_error = NULL;
+
+	go_plugin_service_load (GO_PLUGIN_SERVICE (ssol), &ignored_error);
+	if (ignored_error != NULL) {
+		go_error_info_print (ignored_error);
+		go_error_info_free (ignored_error);
+		return NULL;
+	}
+
+	return ssol->cbs.creator (factory, param);
+}
+
+static void
+plugin_service_solver_init (PluginServiceSolver *ssol)
+{
+	GO_PLUGIN_SERVICE (ssol)->cbs_ptr = &ssol->cbs;
+	ssol->factory = NULL;
+	ssol->cbs.creator = NULL;
+}
+
+static void
+plugin_service_solver_finalize (GObject *obj)
+{
+	PluginServiceSolver *ssol = GNM_PLUGIN_SERVICE_SOLVER (obj);
+	GObjectClass *parent_class;
+
+	if (ssol->factory)
+		g_object_unref (ssol->factory);
+
+	parent_class = g_type_class_peek (GO_TYPE_PLUGIN_SERVICE);
+	parent_class->finalize (obj);
+}
+
+static void
+plugin_service_solver_read_xml (GOPluginService *service, xmlNode *tree,
+				GOErrorInfo **ret_error)
+{
+	PluginServiceSolver *ssol = GNM_PLUGIN_SERVICE_SOLVER (service);
+	xmlChar *s_id, *s_name, *s_type;
+	SolverProblemType type = SolverLPModel;
+	xmlNode *information_node;
+
+	GO_INIT_RET_ERROR_INFO (ret_error);
+
+	s_type = go_xml_node_get_cstr (tree, "problem_type");
+	if (s_type && strcmp (CXML2C (s_type), "mip") == 0)
+		type = SolverLPModel;
+	else {
+		*ret_error = go_error_info_new_str (_("Invalid solver problem type."));
+		return;
+	}
+	xmlFree (s_type);
+
+	s_id = go_xml_node_get_cstr (tree, "id");
+
+	s_name = NULL;
+	information_node = go_xml_get_child_by_name (tree, "information");
+	if (information_node != NULL) {
+		xmlNode *node =
+			go_xml_get_child_by_name_by_lang (information_node,
+							  "description");
+		if (node != NULL) {
+			s_name = xmlNodeGetContent (node);
+		}
+	}
+
+	if (!s_id || !s_name) {
+		*ret_error = go_error_info_new_str (_("Missing fields in plugin file"));
+	} else {
+		ssol->factory = gnm_solver_factory_new (CXML2C (s_id),
+							CXML2C (s_name),
+							type,
+							cb_load_and_create);
+		g_object_set_data (G_OBJECT (ssol->factory), "ssol", ssol);
+	}
+	xmlFree (s_id);
+	xmlFree (s_name);
+	if (*ret_error)
+		return;
+
+	/* More? */
+}
+
+static void
+plugin_service_solver_activate (GOPluginService *service, GOErrorInfo **ret_error)
+{
+	PluginServiceSolver *ssol = GNM_PLUGIN_SERVICE_SOLVER (service);
+	char const *textdomain;
+
+	GO_INIT_RET_ERROR_INFO (ret_error);
+
+	textdomain = go_plugin_get_textdomain (service->plugin);
+
+	gnm_solver_db_register (ssol->factory);
+
+	service->is_active = TRUE;
+}
+
+static void
+plugin_service_solver_deactivate (GOPluginService *service, GOErrorInfo **ret_error)
+{
+	PluginServiceSolver *ssol = GNM_PLUGIN_SERVICE_SOLVER (service);
+
+	GO_INIT_RET_ERROR_INFO (ret_error);
+	gnm_solver_db_unregister (ssol->factory);
+	service->is_active = FALSE;
+}
+
+static char *
+plugin_service_solver_get_description (GOPluginService *service)
+{
+	PluginServiceSolver *ssol = GNM_PLUGIN_SERVICE_SOLVER (service);
+	return g_strdup_printf (_("Solver Algorithm %s"),
+				ssol->factory->name);
+}
+
+static void
+plugin_service_solver_class_init (GObjectClass *gobject_class)
+{
+	GOPluginServiceClass *plugin_service_class = GO_PLUGIN_SERVICE_CLASS (gobject_class);
+
+	gobject_class->finalize = plugin_service_solver_finalize;
+	plugin_service_class->read_xml = plugin_service_solver_read_xml;
+	plugin_service_class->activate = plugin_service_solver_activate;
+	plugin_service_class->deactivate = plugin_service_solver_deactivate;
+	plugin_service_class->get_description = plugin_service_solver_get_description;
+}
+
+GSF_CLASS (PluginServiceSolver, plugin_service_solver,
+           plugin_service_solver_class_init, plugin_service_solver_init,
            GO_TYPE_PLUGIN_SERVICE)
 
 /****************************************************************************/
@@ -642,6 +795,38 @@ gnm_plugin_loader_module_load_service_ui (GOPluginLoader *loader,
 		"loader_data", loader_data, ui_loader_data_free);
 }
 
+static void
+gnm_plugin_loader_module_load_service_solver (GOPluginLoader *loader,
+					      GOPluginService *service,
+					      GOErrorInfo **ret_error)
+{
+	GnmPluginLoaderModule *loader_module =
+		GNM_PLUGIN_LOADER_MODULE (loader);
+	PluginServiceSolverCallbacks *cbs;
+	char *symname;
+	GnmSolverCreator creator;
+
+	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_SOLVER (service));
+
+	GO_INIT_RET_ERROR_INFO (ret_error);
+
+	symname = g_strconcat (go_plugin_service_get_id (service),
+			       "_solver_factory",
+			       NULL);
+	g_module_symbol (loader_module->handle, symname, (gpointer)&creator);
+	g_free (symname);
+
+	if (!creator) {
+		*ret_error = go_error_info_new_printf (
+			_("Module file \"%s\" has invalid format."),
+			loader_module->module_file_name);
+		return;
+	}
+
+	cbs = go_plugin_service_get_cbs (service);
+	cbs->creator = creator;
+}
+
 static gboolean
 gplm_service_load (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 {
@@ -649,6 +834,8 @@ gplm_service_load (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 		gnm_plugin_loader_module_load_service_function_group (l, s, err);
 	else if (IS_GNM_PLUGIN_SERVICE_UI (s))
 		gnm_plugin_loader_module_load_service_ui (l, s, err);
+	else if (IS_GNM_PLUGIN_SERVICE_SOLVER (s))
+		gnm_plugin_loader_module_load_service_solver (l, s, err);
 	else
 		return FALSE;
 	return TRUE;
@@ -663,6 +850,10 @@ gplm_service_unload (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 	} else if (IS_GNM_PLUGIN_SERVICE_UI (s)) {
 		PluginServiceUICallbacks *cbs = go_plugin_service_get_cbs (s);
 		cbs->plugin_func_exec_action = NULL;
+	} else if (IS_GNM_PLUGIN_SERVICE_SOLVER (s)) {
+		PluginServiceSolverCallbacks *cbs =
+			go_plugin_service_get_cbs (s);
+		cbs->creator = NULL;
 	} else
 		return FALSE;
 	return TRUE;

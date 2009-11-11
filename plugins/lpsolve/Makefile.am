@@ -8,8 +8,9 @@ xmldir = $(gnumeric_plugin_lpsolvedir)
 gnumeric_plugin_lpsolve_LTLIBRARIES = lpsolve.la
 lpsolve_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
 lpsolve_la_SOURCES = \
-    boot.h boot.c \
-    lpsolve-write.c
+	boot.h boot.c \
+	gnm-lpsolve.c \
+	lpsolve-write.c
 
 xml_in_files = plugin.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)

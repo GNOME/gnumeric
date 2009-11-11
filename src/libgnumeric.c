@@ -254,6 +254,8 @@ gnm_init (void)
 		&plugin_service_function_group_get_type);
 	go_plugin_service_define ("ui",
 		&plugin_service_ui_get_type);
+	go_plugin_service_define ("solver",
+		&plugin_service_solver_get_type);
 	go_plugin_loader_module_register_version ("gnumeric", GNM_VERSION_FULL);
 
 	g_object_new (GNM_APP_TYPE, NULL);
