@@ -198,11 +198,13 @@ gnm_solver_param_valid (SolverParameters const *sp, GError **err)
 		return FALSE;
 	}
 
-	if (!gnm_cell_has_expr (target_cell)) {
+	if (!gnm_cell_has_expr (target_cell) ||
+	    target_cell->value == NULL ||
+	    !VALUE_IS_FLOAT (target_cell->value)) {
 		g_set_error (err,
 			     go_error_invalid (),
 			     0,
-			     _("Target cell, %s, must contain a formula"),
+			     _("Target cell, %s, must contain a formula that evaluates to a number"),
 			     cell_name (target_cell));
 		return FALSE;
 	}
