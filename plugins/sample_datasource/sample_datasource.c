@@ -27,6 +27,7 @@
 #include "value.h"
 #include "workbook.h"
 #include "sheet.h"
+#include "gutils.h"
 #include "gnm-i18n.h"
 #include <goffice/goffice.h>
 #include <gnm-plugin.h>
