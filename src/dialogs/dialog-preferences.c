@@ -1016,33 +1016,60 @@ typedef struct {
 					 GtkNotebook *notebook, gint page_num);
 } page_info_t;
 
+/* Note that the first two items must remain here in that order */
 static page_info_t const page_info[] = {
+	{N_("Copy and Paste"),GTK_STOCK_PASTE,		 NULL, &pref_copypaste_page_initializer},
 	{N_("Auto Correct"),  GTK_STOCK_DIALOG_ERROR,	 NULL, &pref_autocorrect_general_page_initializer},
 	{N_("Font"),          GTK_STOCK_ITALIC,		 NULL, &pref_font_initializer	       },
-	{N_("Copy and Paste"),GTK_STOCK_PASTE,		 NULL, &pref_copypaste_page_initializer},
 	{N_("Files"),         GTK_STOCK_FLOPPY,		 NULL, &pref_file_page_initializer     },
 	{N_("Tools"),       GTK_STOCK_EXECUTE,           NULL, &pref_tool_page_initializer     },
 	{N_("Undo"),          GTK_STOCK_UNDO,		 NULL, &pref_undo_page_initializer     },
 	{N_("Windows"),       "Gnumeric_ObjectCombo",	 NULL, &pref_window_page_initializer   },
-	{N_("Header/Footer"), GTK_STOCK_ITALIC,		 "1",  &pref_font_hf_initializer       },
+	{N_("Header/Footer"), GTK_STOCK_ITALIC,		 "2",  &pref_font_hf_initializer       },
 	{N_("Sorting"),       GTK_STOCK_SORT_ASCENDING,  "4", &pref_sort_page_initializer      },
 	{N_("Screen"),        GTK_STOCK_PREFERENCES,     "6", &pref_screen_page_initializer    },
-	{N_("INitial CApitals"), NULL, "0", &pref_autocorrect_initialcaps_page_initializer     },
-	{N_("First Letter"), NULL, "0", &pref_autocorrect_firstletter_page_initializer         },
+	{N_("INitial CApitals"), NULL, "1", &pref_autocorrect_initialcaps_page_initializer     },
+	{N_("First Letter"), NULL, "1", &pref_autocorrect_firstletter_page_initializer         },
 	{NULL, NULL, NULL, NULL },
 };
 
-static void
-dialog_pref_select_page (PrefState *state, char const *page)
-{
-	GtkTreePath *path = gtk_tree_path_new_from_string (page);
-	if (path == NULL)
-		path = gtk_tree_path_new_from_string ("0");
+typedef struct {
+	int  const page;
+	GtkTreePath *path;
+} page_search_t;
 
-	if (path != NULL) {
-		gtk_tree_view_set_cursor (state->view, path, NULL, FALSE);
-		gtk_tree_view_expand_row (state->view, path, TRUE);
-		gtk_tree_path_free (path);
+static gboolean   
+dialog_pref_select_page_search (GtkTreeModel *model,
+					GtkTreePath *path,
+					GtkTreeIter *iter,
+					page_search_t *pst)
+{
+	int page;
+	gtk_tree_model_get (model, iter, PAGE_NUMBER, &page, -1);
+	if (page == pst->page) {
+		pst->path = gtk_tree_path_copy (path);
+		return TRUE;
+	} else
+		return FALSE;
+}
+
+static void
+dialog_pref_select_page (PrefState *state, int page)
+{
+	page_search_t pst = {page, NULL};
+
+	if (page >= 0)
+		gtk_tree_model_foreach (GTK_TREE_MODEL (state->store),
+					(GtkTreeModelForeachFunc) dialog_pref_select_page_search,
+					&pst);
+	
+	if (pst.path == NULL)
+		pst.path = gtk_tree_path_new_from_string ("0");
+
+	if (pst.path != NULL) {
+		gtk_tree_view_set_cursor (state->view, pst.path, NULL, FALSE);
+		gtk_tree_view_expand_row (state->view, pst.path, TRUE);
+		gtk_tree_path_free (pst.path);
 	}
 }
 
@@ -1095,10 +1122,6 @@ cb_workbook_removed (PrefState *state)
 		cb_close_clicked (state);
 }
 
-
-/* Note: The first page listed below is opened through File/Preferences, */
-/*       and the second through  Tools/Autocorrect */
-static char const * const startup_pages[] = {"2", "0"};
 
 void
 dialog_preferences (WBCGtk *wbcg, gint page)
@@ -1179,16 +1202,16 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 			this_page->page_initializer (state, NULL,
 						     state->notebook, i);
 		gtk_notebook_append_page (state->notebook, page_widget, NULL);
-		dialog_pref_add_item (state, this_page->page_name, this_page->icon_name, i, this_page->parent_path);
+		dialog_pref_add_item (state, this_page->page_name, 
+				      this_page->icon_name, i, 
+				      this_page->parent_path);
 	}
-
-	if (page <0 ||  page > (gint) sizeof (startup_pages)) {
-		g_warning ("Selected startup page %i is invalid.", page);
-		page = 0;
-	}
+	
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (state->store),
+					      ITEM_NAME, GTK_SORT_ASCENDING);
 
 	wbcg_set_transient (wbcg, GTK_WINDOW (state->dialog));
 	gtk_widget_show (GTK_WIDGET (state->dialog));
 
-	dialog_pref_select_page (state, startup_pages[page]);
+	dialog_pref_select_page (state, page);
 }

@@ -1,5 +1,14 @@
 2009-11-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-doc-metadata.c: use more appropriate icon for statistics
+	* dialog-preferences.c (page_info): change the order of items to 
+	  index the required page directly
+	(dialog_pref_select_page_search): new
+	(dialog_pref_select_page): use the page number rather than the path
+	(dialog_preferences): sort the pages by the translated descriptor
+
+2009-11-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-workbook-attr.c: remove the calculation related part of
 	  the dialog. That is now correctly part of the Document Properties.
 	* workbook-attr.glade: ditto
