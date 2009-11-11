@@ -119,7 +119,7 @@ void	dialog_so_styled (WBCGtk *wbcg, GObject *so,
 			  char const *title, so_styled_t extent);
 void	dialog_so_list	 (WBCGtk *wbcg, GObject *so);
 
-void	dialog_doc_metadata_new  (WBCGtk *wbcg);
+void	dialog_doc_metadata_new  (WBCGtk *wbcg, int page);
 
 void    dialog_quit (WBCGtk *wbcg);
 

@@ -27,6 +27,7 @@
 #include <workbook-control.h>
 #include <wbc-gtk.h>
 #include <workbook-view.h>
+#include <workbook-priv.h>
 #include <gui-util.h>
 #include <parse-util.h>
 #include <value.h>
@@ -50,6 +51,13 @@
 
 #define DOC_METADATA_KEY "dialog-doc-metadata"
 
+enum {
+	ITEM_ICON,
+	ITEM_NAME,
+	PAGE_NUMBER,
+	NUM_COLUMNS
+};
+
 typedef struct {
 	GladeXML		*gui;
 	GtkWidget		*dialog;
@@ -63,6 +71,9 @@ typedef struct {
 	WBCGtk	*wbcg;
 	Workbook                *wb;
 	GODoc			*doc;
+
+	GtkTreeStore            *store;
+	GtkTreeView             *view;
 
 	/* Dialog Widgets */
 	GtkNotebook		*notebook;
@@ -115,6 +126,15 @@ typedef struct {
 	GtkLabel		*sheets;
 	GtkLabel		*cells;
 	GtkLabel		*pages;
+
+	/* Calculation Page */
+	GtkCheckButton		*recalc_auto;
+	GtkCheckButton		*recalc_manual;
+	GtkCheckButton		*recalc_iteration;
+	GtkEntry		*recalc_max;
+	GtkEntry		*recalc_tolerance;
+	GtkWidget               *recalc_iteration_table;
+
 } DialogDocMetaData;
 
 /******************************************************************************
@@ -394,14 +414,6 @@ dialog_doc_metadata_init_file_page (DialogDocMetaData *state)
 			  G_CALLBACK (cb_dialog_doc_metadata_change_permission),
 			  state);
 
-	/* Help and Close buttons */
-	gnumeric_init_help_button (GTK_WIDGET (state->help_button),
-				   GNUMERIC_HELP_LINK_METADATA);
-
-	g_signal_connect_swapped (G_OBJECT (state->close_button),
-				  "clicked",
-				  G_CALLBACK (gtk_widget_destroy),
-				  state->dialog);
 }
 
 /******************************************************************************
@@ -1351,6 +1363,93 @@ dialog_doc_metadata_init_statistics_page (DialogDocMetaData *state)
 }
 
 /******************************************************************************
+ * FUNCTIONS RELATED TO 'CALCULATIONS' PAGE
+ ******************************************************************************/
+
+static gboolean
+cb_dialog_doc_metadata_recalc_max_changed (GtkEntry          *entry,
+					   G_GNUC_UNUSED GdkEventFocus *event,
+					   DialogDocMetaData *state)
+{
+	int val;
+	if (!entry_to_int (entry, &val, TRUE))
+		/* FIXME: make undoable */
+		workbook_iteration_max_number (state->wb, val);
+	return FALSE;
+}
+
+static gboolean
+cb_dialog_doc_metadata_recalc_tolerance_changed (GtkEntry          *entry,
+					   G_GNUC_UNUSED GdkEventFocus *event,
+					   DialogDocMetaData *state)
+{
+	gnm_float val;
+	if (!entry_to_float (entry, &val, TRUE))
+		/* FIXME: make undoable */
+		workbook_iteration_tolerance (state->wb, val);
+	return FALSE;
+}
+
+static void
+cb_dialog_doc_metadata_recalc_auto_changed (GtkWidget *widget, DialogDocMetaData *state)
+{
+	/* FIXME: make undoable */
+	workbook_set_recalcmode	(state->wb, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)));
+}
+
+static void
+cb_dialog_doc_metadata_recalc_iteration_changed (G_GNUC_UNUSED GtkWidget *widget, DialogDocMetaData *state)
+{
+	/* FIXME: make undoable */
+	workbook_iteration_enabled (state->wb, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)));	
+	gtk_widget_set_sensitive (state->recalc_iteration_table, state->wb->iteration.enabled);
+}
+
+/**
+ * dialog_doc_metadata_init_calculations_page
+ *
+ * @state : dialog main struct
+ *
+ * Initializes the widgets and signals for the 'Calculations' page.
+ *
+ **/
+static void
+dialog_doc_metadata_init_calculations_page (DialogDocMetaData *state)
+{
+	char *buf;
+
+	gtk_toggle_button_set_active 
+		(GTK_TOGGLE_BUTTON ( workbook_get_recalcmode (state->wb) ? state->recalc_auto : state->recalc_manual),
+		 TRUE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->recalc_iteration),
+				      state->wb->iteration.enabled);
+	gtk_widget_set_sensitive (state->recalc_iteration_table, state->wb->iteration.enabled);
+
+	buf = g_strdup_printf ("%d", state->wb->iteration.max_number);
+	gtk_entry_set_text (state->recalc_max, buf);
+	g_free (buf);
+	buf = g_strdup_printf ("%g", state->wb->iteration.tolerance);
+	gtk_entry_set_text (state->recalc_tolerance, buf);
+	g_free (buf);
+
+	g_signal_connect (G_OBJECT (state->recalc_auto),
+			  "toggled",
+			  G_CALLBACK (cb_dialog_doc_metadata_recalc_auto_changed), state);
+	g_signal_connect (G_OBJECT (state->recalc_iteration),
+			  "toggled",
+			  G_CALLBACK (cb_dialog_doc_metadata_recalc_iteration_changed), state);
+	g_signal_connect (G_OBJECT (state->recalc_max),
+			  "focus-out-event",
+			  G_CALLBACK (cb_dialog_doc_metadata_recalc_max_changed),
+			  state);
+	g_signal_connect (G_OBJECT (state->recalc_tolerance),
+			  "focus-out-event",
+			  G_CALLBACK (cb_dialog_doc_metadata_recalc_tolerance_changed),
+			  state);
+
+}
+
+/******************************************************************************
  * DIALOG INITIALIZE/FINALIZE FUNCTIONS
  ******************************************************************************/
 
@@ -1448,12 +1547,126 @@ dialog_doc_metadata_init_widgets (DialogDocMetaData *state)
 	state->sheets = GTK_LABEL (glade_xml_get_widget (state->gui, "sheets"));
 	state->cells  = GTK_LABEL (glade_xml_get_widget (state->gui, "cells"));
 	state->pages  = GTK_LABEL (glade_xml_get_widget (state->gui, "pages"));
+
+	/* Calculations Page */
+	state->recalc_auto = GTK_CHECK_BUTTON (glade_xml_get_widget (state->gui, "recalc_auto"));
+	state->recalc_manual = GTK_CHECK_BUTTON (glade_xml_get_widget (state->gui, "recalc_manual"));
+	state->recalc_iteration = GTK_CHECK_BUTTON (glade_xml_get_widget (state->gui, "iteration_enabled"));
+	state->recalc_max  = GTK_ENTRY (glade_xml_get_widget (state->gui, "max_iterations"));
+	state->recalc_tolerance  = GTK_ENTRY (glade_xml_get_widget (state->gui, "iteration_tolerance"));
+	state->recalc_iteration_table = glade_xml_get_widget (state->gui, "iteration_table");
+}
+
+static void
+dialog_doc_meta_data_add_item (DialogDocMetaData *state, char const *page_name,
+			       char const *icon_name,
+			       int page, char const* parent_path)
+{
+	GtkTreeIter iter, parent;
+	GdkPixbuf * icon = NULL;
+
+	if (icon_name != NULL)
+		icon = gtk_widget_render_icon (state->dialog, icon_name,
+					       GTK_ICON_SIZE_MENU,
+					       "Gnumeric-Preference-Dialog");
+	if ((parent_path != NULL) && gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL (state->store),
+									  &parent, parent_path))
+		gtk_tree_store_append (state->store, &iter, &parent);
+	else
+		gtk_tree_store_append (state->store, &iter, NULL);
+
+	gtk_tree_store_set (state->store, &iter,
+			    ITEM_ICON, icon,
+			    ITEM_NAME, _(page_name),
+			    PAGE_NUMBER, page,
+			    -1);
+	if (icon != NULL)
+		g_object_unref (icon);
+}
+
+typedef struct {
+	char const *page_name;
+	char const *icon_name;
+	char const *parent_path;
+	int  const page;
+	void (*page_initializer) (DialogDocMetaData *state);
+} page_info_t;
+
+static page_info_t const page_info[] = {
+	/* IMPORTANT: OBEY THE ORDER 0 - 3 - 2 - 1 */
+	{N_("File"),         GTK_STOCK_FILE,   	         NULL, 0, &dialog_doc_metadata_init_file_page          },
+	{N_("Statistics"),   GTK_STOCK_DIALOG_WARNING,	 NULL, 3 ,&dialog_doc_metadata_init_statistics_page    },
+	{N_("Properties"),   GTK_STOCK_PROPERTIES,	 NULL, 2, &dialog_doc_metadata_init_properties_page    },
+	{N_("Description"),  GTK_STOCK_ABOUT,		 NULL, 1, &dialog_doc_metadata_init_description_page   },
+	{N_("Calculation"),  GTK_STOCK_EXECUTE,          NULL, 4, &dialog_doc_metadata_init_calculations_page  },
+	{NULL, NULL, NULL, -1, NULL},
+};
+
+typedef struct {
+	int  const page;
+	GtkTreePath *path;
+} page_search_t;
+
+static gboolean   
+dialog_doc_metadata_select_page_search (GtkTreeModel *model,
+					GtkTreePath *path,
+					GtkTreeIter *iter,
+					page_search_t *pst)
+{
+	int page;
+	gtk_tree_model_get (model, iter, PAGE_NUMBER, &page, -1);
+	if (page == pst->page) {
+		pst->path = gtk_tree_path_copy (path);
+		return TRUE;
+	} else
+		return FALSE;
+}
+
+static void
+dialog_doc_metadata_select_page (DialogDocMetaData *state, int page)
+{
+	page_search_t pst = {page, NULL};
+
+	if (page >= 0)
+		gtk_tree_model_foreach (GTK_TREE_MODEL (state->store),
+					(GtkTreeModelForeachFunc) dialog_doc_metadata_select_page_search,
+					&pst);
+	
+	if (pst.path == NULL)
+		pst.path = gtk_tree_path_new_from_string ("0");
+
+	if (pst.path != NULL) {
+		gtk_tree_view_set_cursor (state->view, pst.path, NULL, FALSE);
+		gtk_tree_view_expand_row (state->view, pst.path, TRUE);
+		gtk_tree_path_free (pst.path);
+	}
+}
+
+static void
+cb_dialog_doc_metadata_selection_changed (GtkTreeSelection *selection,
+					  DialogDocMetaData *state)
+{
+	GtkTreeIter iter;
+	int page;
+
+	if (gtk_tree_selection_get_selected (selection, NULL, &iter)) {
+		gtk_tree_model_get (GTK_TREE_MODEL (state->store), &iter,
+				    PAGE_NUMBER, &page,
+				    -1);
+		gtk_notebook_set_current_page (state->notebook, page);
+	} else {
+		dialog_doc_metadata_select_page (state, 0);
+	}
 }
 
 static gboolean
 dialog_doc_metadata_init (DialogDocMetaData *state,
 			  WBCGtk *wbcg)
 {
+	GtkTreeViewColumn *column;
+	GtkTreeSelection  *selection;
+	int i;
+
 	state->wbcg     = wbcg;
 	state->wb       = wb_control_get_workbook (WORKBOOK_CONTROL(wbcg));
 	state->doc      = GO_DOC (state->wb);
@@ -1470,6 +1683,31 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
                 return TRUE;
 
 	dialog_doc_metadata_init_widgets (state);
+
+	state->view = GTK_TREE_VIEW(glade_xml_get_widget (state->gui, "itemlist"));
+	state->store = gtk_tree_store_new (NUM_COLUMNS,
+					   GDK_TYPE_PIXBUF,
+					   G_TYPE_STRING,
+					   G_TYPE_INT);
+	gtk_tree_view_set_model (state->view, GTK_TREE_MODEL(state->store));
+	selection = gtk_tree_view_get_selection (state->view);
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
+	column = gtk_tree_view_column_new_with_attributes ("",
+							   gtk_cell_renderer_pixbuf_new (),
+							   "pixbuf", ITEM_ICON,
+							   NULL);
+	gtk_tree_view_append_column (state->view, column);
+	column = gtk_tree_view_column_new_with_attributes ("",
+							   gtk_cell_renderer_text_new (),
+							   "text", ITEM_NAME,
+							   NULL);
+	gtk_tree_view_append_column (state->view, column);
+	gtk_tree_view_set_expander_column (state->view, column);
+
+	g_signal_connect (selection,
+			  "changed",
+			  G_CALLBACK (cb_dialog_doc_metadata_selection_changed), state);
+	
 
 	/* Register g_value_transform functions */
 	g_value_register_transform_func (G_TYPE_STRING,
@@ -1488,12 +1726,15 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 					 G_TYPE_STRING,
 					 dialog_doc_metadata_transform_docprop_vect_to_str);
 
-	/* Populate the signal handlers and initial values. */
-	/* IMPORTANT: OBEY THE ORDER 1 - 4 - 3 - 2 */
-	dialog_doc_metadata_init_file_page (state);
-	dialog_doc_metadata_init_statistics_page (state);
-	dialog_doc_metadata_init_properties_page (state);
-	dialog_doc_metadata_init_description_page (state);
+	
+	for (i = 0; page_info[i].page > -1; i++) {
+		const page_info_t *this_page =  &page_info[i];
+		this_page->page_initializer (state);
+		dialog_doc_meta_data_add_item (state, this_page->page_name, this_page->icon_name, 
+					       this_page->page, this_page->parent_path);
+	}
+
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (state->store), ITEM_NAME, GTK_SORT_ASCENDING);
 
 	/* A candidate for merging into attach guru */
 	gnumeric_keyed_dialog (state->wbcg,
@@ -1507,6 +1748,15 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog), "state",
 		state, (GDestroyNotify) dialog_doc_metadata_free);
+
+	/* Help and Close buttons */
+	gnumeric_init_help_button (GTK_WIDGET (state->help_button),
+				   GNUMERIC_HELP_LINK_METADATA);
+
+	g_signal_connect_swapped (G_OBJECT (state->close_button),
+				  "clicked",
+				  G_CALLBACK (gtk_widget_destroy),
+				  state->dialog);
 
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));
 
@@ -1526,7 +1776,7 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
  *
  **/
 void
-dialog_doc_metadata_new (WBCGtk *wbcg)
+dialog_doc_metadata_new (WBCGtk *wbcg, int page)
 {
 	DialogDocMetaData *state;
 
@@ -1550,4 +1800,6 @@ dialog_doc_metadata_new (WBCGtk *wbcg)
 		g_free (state);
 		return;
 	}
+
+	dialog_doc_metadata_select_page (state, page);
 }

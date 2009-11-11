@@ -287,7 +287,7 @@ static GNM_ACTION_DEF (cb_file_print_preview)
 		wbcg_cur_sheet (wbcg), TRUE, PRINT_ACTIVE_SHEET, NULL);
 }
 
-static GNM_ACTION_DEF (cb_doc_meta_data)	{ dialog_doc_metadata_new (wbcg); }
+static GNM_ACTION_DEF (cb_doc_meta_data)	{ dialog_doc_metadata_new (wbcg, 0); }
 static GNM_ACTION_DEF (cb_file_preferences)	{ dialog_preferences (wbcg, 0); }
 static GNM_ACTION_DEF (cb_file_history_full)    { dialog_recent_used (wbcg); }
 static GNM_ACTION_DEF (cb_file_close)		{ wbc_gtk_close (wbcg); }

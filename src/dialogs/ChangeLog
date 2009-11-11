@@ -1,3 +1,25 @@
+2009-11-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-doc-metadata.c (dialog_doc_metadata_new): add page argument
+	(dialog_doc_metadata_init_file_page): move general configuration
+	  from here to dialog_doc_metadata_init
+	(cb_dialog_doc_metadata_recalc_max_changed): new
+	(cb_dialog_doc_metadata_recalc_tolerance_changed): new
+	(cb_dialog_doc_metadata_recalc_auto_changed): new
+	(cb_dialog_doc_metadata_recalc_iteration_changed): new
+	(dialog_doc_metadata_init_calculations_page): new
+	(dialog_doc_meta_data_add_item): new
+	(dialog_doc_metadata_select_page_search): new
+	(dialog_doc_metadata_select_page): new
+	(cb_dialog_doc_metadata_selection_changed): new
+	(dialog_doc_metadata_init): configure treeview
+	* dialog-preferences.c (page_info_t): drop unneeded item
+	(dialog_pref_select_page): use gtk_tree_view_set_curcsor 
+	(dialog_preferences): drop unneeded item from page_info_t and delete
+	  superfluous code
+	* dialogs.h (dialog_doc_metadata_new): add page argument
+	* doc-meta-data.glade: add new page and itemlist
+
 2009-11-07  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-format.c (fmt_dialog_conditions_page_load_cond): Fix
