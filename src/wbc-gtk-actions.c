@@ -2372,7 +2372,7 @@ static GtkToggleActionEntry const toggle_actions[] = {
 	{ "SheetDisplayFormulas", NULL, N_("Display _Formulas"),
 		"<control>quoteleft", N_("Display the value of a formula or the formula itself"),
 		G_CALLBACK (cb_sheet_pref_display_formulas) },
-	{ "SheetHideZeros", NULL, N_("Hide _Zeros"),
+	{ "SheetHideZeros", NULL, N_("_Hide Zeros"),
 		NULL, N_("Toggle whether or not to display zeros as blanks"),
 		G_CALLBACK (cb_sheet_pref_hide_zero) },
 	{ "SheetHideGridlines", NULL, N_("Hide _Gridlines"),

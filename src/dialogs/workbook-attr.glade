@@ -9,149 +9,25 @@
         <property name="visible">True</property>
         <property name="spacing">6</property>
         <child>
-          <widget class="GtkNotebook" id="notebook">
+          <widget class="GtkHBox" id="hbox1">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
             <property name="border_width">5</property>
+            <property name="spacing">12</property>
             <child>
-              <widget class="GtkTable" id="table1">
+              <widget class="GtkScrolledWindow" id="scrolledwindow1">
+                <property name="width_request">160</property>
                 <property name="visible">True</property>
-                <property name="border_width">12</property>
-                <property name="n_rows">3</property>
-                <property name="n_columns">2</property>
-                <property name="column_spacing">12</property>
-                <property name="row_spacing">6</property>
+                <property name="can_focus">True</property>
+                <property name="hscrollbar_policy">never</property>
+                <property name="vscrollbar_policy">automatic</property>
+                <property name="shadow_type">in</property>
                 <child>
-                  <widget class="GtkCheckButton" id="WorkbookView::do_auto_completion">
-                    <property name="label" translatable="yes">A_uto Complete Text in Cells</property>
+                  <widget class="GtkTreeView" id="itemlist">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_underline">True</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="headers_visible">False</property>
+                    <property name="headers_clickable">False</property>
                   </widget>
-                  <packing>
-                    <property name="right_attach">2</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkCheckButton" id="WorkbookView::show_notebook_tabs">
-                    <property name="label" translatable="yes">Notebook _Tabs for Sheets</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_underline">True</property>
-                    <property name="draw_indicator">True</property>
-                  </widget>
-                  <packing>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">1</property>
-                    <property name="bottom_attach">2</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkCheckButton" id="WorkbookView::show_horizontal_scrollbar">
-                    <property name="label" translatable="yes">_Horizontal Scrollbar</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="has_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_underline">True</property>
-                    <property name="draw_indicator">True</property>
-                  </widget>
-                  <packing>
-                    <property name="top_attach">2</property>
-                    <property name="bottom_attach">3</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkCheckButton" id="WorkbookView::show_vertical_scrollbar">
-                    <property name="label" translatable="yes">_Vertical Scrollbar</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_underline">True</property>
-                    <property name="draw_indicator">True</property>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">2</property>
-                    <property name="bottom_attach">3</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-              </widget>
-            </child>
-            <child>
-              <widget class="GtkLabel" id="label1">
-                <property name="visible">True</property>
-                <property name="label" translatable="yes">View</property>
-                <property name="justify">center</property>
-              </widget>
-              <packing>
-                <property name="tab_fill">False</property>
-                <property name="type">tab</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkTable" id="table2">
-                <property name="visible">True</property>
-                <property name="border_width">12</property>
-                <property name="n_rows">2</property>
-                <property name="n_columns">2</property>
-                <property name="column_spacing">12</property>
-                <property name="row_spacing">6</property>
-                <child>
-                  <widget class="GtkCheckButton" id="WorkbookView::workbook_protected">
-                    <property name="label" translatable="yes">_Protect Workbook</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_underline">True</property>
-                    <property name="draw_indicator">True</property>
-                  </widget>
-                  <packing>
-                    <property name="right_attach">2</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkEntry" id="password_entry">
-                    <property name="visible">True</property>
-                    <property name="sensitive">False</property>
-                    <property name="tooltip" translatable="yes">Unimplementented</property>
-                    <property name="visibility">False</property>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">1</property>
-                    <property name="bottom_attach">2</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkLabel" id="label7">
-                    <property name="visible">True</property>
-                    <property name="sensitive">False</property>
-                    <property name="yalign">0</property>
-                    <property name="label" translatable="yes">Pa_ssword:</property>
-                    <property name="use_underline">True</property>
-                    <property name="mnemonic_widget">password_entry</property>
-                  </widget>
-                  <packing>
-                    <property name="top_attach">1</property>
-                    <property name="bottom_attach">2</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
-                  </packing>
                 </child>
               </widget>
               <packing>
@@ -159,19 +35,183 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label2">
+              <widget class="GtkNotebook" id="notebook">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">Protection</property>
-                <property name="justify">center</property>
+                <property name="can_focus">True</property>
+                <property name="show_tabs">False</property>
+                <property name="show_border">False</property>
+                <child>
+                  <widget class="GtkVBox" id="vbox2">
+                    <property name="visible">True</property>
+                    <child>
+                      <widget class="GtkCheckButton" id="WorkbookView::show_notebook_tabs">
+                        <property name="label" translatable="yes">Notebook _Tabs for Sheets</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_underline">True</property>
+                        <property name="draw_indicator">True</property>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkCheckButton" id="WorkbookView::show_horizontal_scrollbar">
+                        <property name="label" translatable="yes">_Horizontal Scrollbar</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_underline">True</property>
+                        <property name="draw_indicator">True</property>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkCheckButton" id="WorkbookView::show_vertical_scrollbar">
+                        <property name="label" translatable="yes">_Vertical Scrollbar</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_underline">True</property>
+                        <property name="draw_indicator">True</property>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
+                  </widget>
+                </child>
+                <child>
+                  <widget class="GtkLabel" id="label1">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">View</property>
+                    <property name="justify">center</property>
+                  </widget>
+                  <packing>
+                    <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkTable" id="table2">
+                    <property name="visible">True</property>
+                    <property name="n_rows">2</property>
+                    <property name="n_columns">2</property>
+                    <property name="column_spacing">12</property>
+                    <property name="row_spacing">6</property>
+                    <child>
+                      <widget class="GtkCheckButton" id="WorkbookView::workbook_protected">
+                        <property name="label" translatable="yes">_Protect Workbook</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_underline">True</property>
+                        <property name="draw_indicator">True</property>
+                      </widget>
+                      <packing>
+                        <property name="right_attach">2</property>
+                        <property name="x_options">GTK_FILL</property>
+                        <property name="y_options"></property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkEntry" id="password_entry">
+                        <property name="visible">True</property>
+                        <property name="sensitive">False</property>
+                        <property name="can_focus">True</property>
+                        <property name="tooltip" translatable="yes">Unimplementented</property>
+                        <property name="visibility">False</property>
+                        <property name="invisible_char">&#x2022;</property>
+                      </widget>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">2</property>
+                        <property name="top_attach">1</property>
+                        <property name="bottom_attach">2</property>
+                        <property name="y_options"></property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkLabel" id="label7">
+                        <property name="visible">True</property>
+                        <property name="sensitive">False</property>
+                        <property name="yalign">0</property>
+                        <property name="label" translatable="yes">Pa_ssword:</property>
+                        <property name="use_underline">True</property>
+                        <property name="mnemonic_widget">password_entry</property>
+                      </widget>
+                      <packing>
+                        <property name="top_attach">1</property>
+                        <property name="bottom_attach">2</property>
+                        <property name="x_options">GTK_FILL</property>
+                        <property name="y_options"></property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkLabel" id="label2">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Protection</property>
+                    <property name="justify">center</property>
+                  </widget>
+                  <packing>
+                    <property name="position">1</property>
+                    <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkVBox" id="vbox1">
+                    <property name="visible">True</property>
+                    <child>
+                      <widget class="GtkCheckButton" id="WorkbookView::do_auto_completion">
+                        <property name="label" translatable="yes">A_uto Complete Text in Cells</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_underline">True</property>
+                        <property name="draw_indicator">True</property>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkLabel" id="label3">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">page 3</property>
+                  </widget>
+                  <packing>
+                    <property name="position">2</property>
+                    <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
+                  </packing>
+                </child>
               </widget>
               <packing>
-                <property name="position">1</property>
-                <property name="tab_fill">False</property>
-                <property name="type">tab</property>
+                <property name="pack_type">end</property>
+                <property name="position">0</property>
               </packing>
             </child>
           </widget>
           <packing>
+            <property name="padding">1</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -194,22 +234,7 @@
                 <property name="position">0</property>
               </packing>
             </child>
-            <child>
-              <widget class="GtkButton" id="apply_button">
-                <property name="label">gtk-apply</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="can_default">True</property>
-                <property name="receives_default">False</property>
-                <property name="use_stock">True</property>
-              </widget>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
+           <child>
               <widget class="GtkButton" id="close_button">
                 <property name="label">gtk-close</property>
                 <property name="visible">True</property>
@@ -222,22 +247,6 @@
                 <property name="expand">False</property>
                 <property name="fill">False</property>
                 <property name="position">2</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkButton" id="ok_button">
-                <property name="label">gtk-ok</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="can_default">True</property>
-                <property name="has_default">True</property>
-                <property name="receives_default">False</property>
-                <property name="use_stock">True</property>
-              </widget>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">3</property>
               </packing>
             </child>
           </widget>

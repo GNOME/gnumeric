@@ -20,6 +20,7 @@
 	<widget class="GtkHBox" id="hbox1">
 	  <property name="visible">True</property>
 	  <property name="spacing">12</property>
+          <property name="border_width">5</property>
 	  <child>
 	    <widget class="GtkScrolledWindow" id="scrolledwindow1">
 	      <property name="visible">True</property>

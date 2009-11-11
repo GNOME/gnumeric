@@ -1,5 +1,26 @@
 2009-11-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-doc-metadata.c (dialog_doc_meta_data_add_item): fix wrong
+	  key
+	* dialog-workbook-attr.c (AttrState): remove unneeded fields and 
+	  add 2 new fields
+	(cb_page_select): deleted
+	(cb_widget_changed ): rewritten into instant-apply
+	(cb_attr_dialog_dialog_apply): deleted
+	(cb_attr_dialog_dialog_ok): deleted
+	(attr_dialog_init_toggle): rewritten
+	(attr_dialog_init_widget_page): new
+	(attr_dialog_init_autocompletion_page): new
+	(attr_dialog_init_protection_page): new
+	(attr_dialog_init_view_page): deleted
+	(attr_dialog_add_item): new
+	(attr_dialog_select_page_search): new
+	(attr_dialog_impl): set up page selector
+	* preferences.glade: minor border adjstment
+	* workbook-attr.glade: major adjustments
+	
+2009-11-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-doc-metadata.c: use more appropriate icon for statistics
 	* dialog-preferences.c (page_info): change the order of items to 
 	  index the required page directly
