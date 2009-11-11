@@ -40,8 +40,11 @@ gnm_solver_get_lp_coeff (GnmCell *target, GnmCell *cell,
 			 gnm_float *x, GError **err)
 {
         gnm_float x0, x1;
-	GnmValue *old = value_dup (cell->value);
 	gboolean res = FALSE;
+
+	if (!VALUE_IS_NUMBER (target->value))
+		goto fail;
+	x0 = value_get_as_float (target->value);
 
 	gnm_cell_set_value (cell, value_new_float (1));
 	cell_queue_recalc (cell);
@@ -49,13 +52,6 @@ gnm_solver_get_lp_coeff (GnmCell *target, GnmCell *cell,
 	if (!VALUE_IS_NUMBER (target->value))
 		goto fail;
 	x1 = value_get_as_float (target->value);
-
-	gnm_cell_set_value (cell, value_new_float (0));
-	cell_queue_recalc (cell);
-	gnm_cell_eval (target);
-	if (!VALUE_IS_NUMBER (target->value))
-		goto fail;
-	x0 = value_get_as_float (target->value);
 
 	*x = x1 - x0;
 	res = TRUE;
@@ -69,7 +65,7 @@ fail:
 	*x = 0;
 
 out:
-	gnm_cell_set_value (cell, old);
+	gnm_cell_set_value (cell, value_new_int (0));
 	cell_queue_recalc (cell);
 	gnm_cell_eval (target);
 
@@ -90,20 +86,32 @@ static gboolean
 lpsolve_affine_func (GString *dst, GnmCell *target,
 		     GSList *input_cells, GError **err)
 {
-	GSList *l;
+	GSList *l, *ol;
 	gboolean any = FALSE;
-	gnm_float y = value_get_as_float (target->value);
+	gnm_float y;
+	GSList *old_values = NULL;
+	gboolean ok = TRUE;
+
+ 	for (l = input_cells; l; l = l->next) {
+	        GnmCell *cell = l->data;
+		old_values = g_slist_prepend (old_values,
+					      value_dup (cell->value));
+		gnm_cell_set_value (cell, value_new_int (0));
+		cell_queue_recalc (cell);
+	}
+	old_values = g_slist_reverse (old_values);
+
+	gnm_cell_eval (target);
+	y = value_get_as_float (target->value);
 
  	for (l = input_cells; l; l = l->next) {
 	        GnmCell *cell = l->data;
 		gnm_float x;
-		gboolean ok = gnm_solver_get_lp_coeff (target, cell, &x, err);
+		ok = gnm_solver_get_lp_coeff (target, cell, &x, err);
 		if (!ok)
-			return FALSE;
+			goto fail;
 		if (x == 0)
 			continue;
-
-		y -= x * value_get_as_float (cell->value);
 
 		if (any) {
 			if (x < 0)
@@ -129,7 +137,18 @@ lpsolve_affine_func (GString *dst, GnmCell *target,
 	if (!any || y)
 		gnm_string_add_number (dst, y);
 
-	return TRUE;
+fail:
+ 	for (l = input_cells, ol = old_values;
+	     l;
+	     l = l->next, ol = ol->next) {
+	        GnmCell *cell = l->data;
+		GnmValue *old = ol->data;
+		gnm_cell_set_value (cell, old);
+		cell_queue_recalc (cell);
+	}
+	g_slist_free (old_values);
+
+	return ok;
 }
 
 static GString *

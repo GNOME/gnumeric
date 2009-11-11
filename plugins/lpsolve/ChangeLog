@@ -1,3 +1,8 @@
+2009-11-11  Morten Welinder  <terra@gnome.org>
+
+	* lpsolve-write.c (lpsolve_affine_func): Zero all input cells
+	initially to ensure consistent results.
+
 2009-11-06  Morten Welinder  <terra@gnome.org>
 
 	* lpsolve-write.c (lpsolve_file_save): Add progress reporting.
