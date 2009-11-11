@@ -1,5 +1,11 @@
 2009-11-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-workbook-attr.c: remove the calculation related part of
+	  the dialog. That is now correctly part of the Document Properties.
+	* workbook-attr.glade: ditto
+
+2009-11-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-doc-metadata.c (dialog_doc_metadata_new): add page argument
 	(dialog_doc_metadata_init_file_page): move general configuration
 	  from here to dialog_doc_metadata_init

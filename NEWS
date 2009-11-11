@@ -1,5 +1,8 @@
 Gnumeric 1.9.16
 
+Andreas:
+	* Clarify distinction between Document and View Properties.
+
 Jean:
 	* Fix cursor and cell edition on dark backgrounds. [#600656]
 

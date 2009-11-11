@@ -40,7 +40,6 @@ typedef struct {
 	GtkWidget	*notebook;
 	GtkWidget	*ok_button;
 	GtkWidget	*apply_button;
-	GtkWidget	*iteration_table;
 	gboolean         destroying;
 
 	Workbook	 *wb;
@@ -53,10 +52,6 @@ typedef struct {
 		GtkToggleButton	*show_tabs;
 		GtkToggleButton	*autocomplete;
 		GtkToggleButton	*is_protected;
-		GtkToggleButton	*recalc_auto;
-		GtkToggleButton *iteration_enabled;
-		GtkEntry	*max_iterations;
-		GtkEntry	*iteration_tolerance;
 	} view;
 	struct {
 		gboolean	show_hsb;
@@ -64,10 +59,6 @@ typedef struct {
 		gboolean	show_tabs;
 		gboolean	autocomplete;
 		gboolean	is_protected;
-		gboolean	recalc_auto;
-		gboolean	iteration_enabled;
-		int		max_iterations;
-		gnm_float	iteration_tolerance;
 	} old;
 } AttrState;
 
@@ -94,38 +85,18 @@ cb_page_select (G_GNUC_UNUSED GtkNotebook *notebook,
 /*****************************************************************************/
 
 static void
-get_entry_values (AttrState *state, int *max_iterations, gnm_float *iteration_tolerance)
-{
-	if (!entry_to_int (state->view.max_iterations, max_iterations, TRUE))
-		*max_iterations = state->old.max_iterations;
-	if (!entry_to_float (state->view.iteration_tolerance, iteration_tolerance, TRUE))
-		*iteration_tolerance = state->old.iteration_tolerance;
-}
-
-static void
 cb_widget_changed (G_GNUC_UNUSED GtkWidget *widget, AttrState *state)
 {
 	gboolean changed;
-	int max_iterations;
-	gnm_float iteration_tolerance;
-
-	get_entry_values (state, &max_iterations, &iteration_tolerance);
 	changed =
 		!((gtk_toggle_button_get_active (state->view.show_hsb) == state->old.show_hsb) &&
 		  (gtk_toggle_button_get_active (state->view.show_vsb) == state->old.show_vsb) &&
 		  (gtk_toggle_button_get_active (state->view.show_tabs) == state->old.show_tabs) &&
 		  (gtk_toggle_button_get_active (state->view.autocomplete) == state->old.autocomplete) &&
-		  (gtk_toggle_button_get_active (state->view.is_protected) == state->old.is_protected) &&
-		  (gtk_toggle_button_get_active (state->view.recalc_auto) == state->old.recalc_auto) &&
-		  (gtk_toggle_button_get_active (state->view.iteration_enabled) == state->old.iteration_enabled) &&
-		  (max_iterations == state->old.max_iterations) &&
-		  (iteration_tolerance == state->old.iteration_tolerance));
+		  (gtk_toggle_button_get_active (state->view.is_protected) == state->old.is_protected));
 
 	gtk_widget_set_sensitive (state->ok_button, changed);
 	gtk_widget_set_sensitive (state->apply_button, changed);
-
-	gtk_widget_set_sensitive (state->iteration_table,
-		gtk_toggle_button_get_active (state->view.iteration_enabled));
 }
 
 /* Handler for the apply button */
@@ -146,18 +117,6 @@ cb_attr_dialog_dialog_apply (G_GNUC_UNUSED GtkWidget *button,
 		      "do-auto-completion", state->old.autocomplete,
 		      "protected", state->old.is_protected,
 		      NULL);
-
-	state->old.recalc_auto =
-		gtk_toggle_button_get_active (state->view.recalc_auto);
-	state->old.iteration_enabled =
-		gtk_toggle_button_get_active (state->view.iteration_enabled);
-
-	get_entry_values (state, &state->old.max_iterations,
-			  &state->old.iteration_tolerance);
-	workbook_set_recalcmode	(state->wb, state->old.recalc_auto);
-	workbook_iteration_enabled (state->wb, state->old.iteration_enabled);
-	workbook_iteration_max_number (state->wb, state->old.max_iterations);
-	workbook_iteration_tolerance (state->wb, state->old.iteration_tolerance);
 
 	cb_widget_changed (NULL, state);
 }
@@ -220,8 +179,6 @@ attr_dialog_init_entry (AttrState *state, char const *name, char const *val)
 static void
 attr_dialog_init_view_page (AttrState *state)
 {
-	char *buf;
-
 	state->view.show_hsb     = attr_dialog_init_toggle (state,
 		"WorkbookView::show_horizontal_scrollbar",
 		state->wbv->show_horizontal_scrollbar,
@@ -242,30 +199,6 @@ attr_dialog_init_view_page (AttrState *state)
 		"WorkbookView::workbook_protected",
 		state->wbv->is_protected,
 		&state->old.is_protected);
-	if (!workbook_get_recalcmode (state->wb)) {
-		GtkWidget *w = glade_xml_get_widget (state->gui, "recalc_manual");
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
-	}
-	state->view.recalc_auto = attr_dialog_init_toggle (state,
-		"recalc_auto",
-		workbook_get_recalcmode (state->wb),
-		&state->old.recalc_auto);
-	state->view.iteration_enabled = attr_dialog_init_toggle (state,
-		"iteration_enabled",
-		state->wb->iteration.enabled,
-		&state->old.iteration_enabled);
-
-	buf = g_strdup_printf ("%d", state->wb->iteration.max_number);
-	state->old.max_iterations = state->wb->iteration.max_number;
-	state->view.max_iterations =
-		attr_dialog_init_entry (state, "max_iterations", buf);
-	g_free (buf);
-
-	buf = g_strdup_printf ("%g", state->wb->iteration.tolerance);
-	state->old.iteration_tolerance = state->wb->iteration.tolerance;
-	state->view.iteration_tolerance =
-		attr_dialog_init_entry (state, "iteration_tolerance", buf);
-	g_free (buf);
 }
 
 /*****************************************************************************/
@@ -292,7 +225,6 @@ attr_dialog_impl (AttrState *state)
 		"switch_page",
 		G_CALLBACK (cb_page_select), state);
 
-	state->iteration_table = glade_xml_get_widget (state->gui, "iteration_table");
 	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
 	g_signal_connect (G_OBJECT (state->ok_button),
 			  "clicked",
