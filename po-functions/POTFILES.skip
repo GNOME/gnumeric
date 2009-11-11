@@ -36,8 +36,8 @@ plugins/fn-stat/plugin.xml.in
 plugins/fn-string/plugin.xml.in
 plugins/fn-tsa/plugin.xml.in
 plugins/gda/plugin.xml.in
+plugins/gda/ui.xml.in
 plugins/gnome-db/plugin.xml.in
-plugins/gnome-db/ui.xml.in
 plugins/gnome-glossary/plugin.xml.in
 plugins/html/plugin.xml.in
 plugins/lotus-123/plugin.xml.in
