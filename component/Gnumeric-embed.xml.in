@@ -90,6 +90,7 @@
       <menuitem action="ViewStatusbar"/>
       <menuitem action="ViewFullScreen"/>
       <menuitem action="ViewZoom"/>
+      <menuitem action="FormatWorkbook"/>
     </menu>
     <menu name="Insert" action="MenuInsert">
       <menuitem action="InsertCells"/>
@@ -144,7 +145,6 @@
         <menuitem action="SheetHideRowHeader"/>
 	<menuitem action="SheetDirection"/>
       </menu>
-      <menuitem action="FormatWorkbook"/>
       <menuitem action="FormatAuto"/>
     </menu>
     <menu name="Tools" action="MenuTools">

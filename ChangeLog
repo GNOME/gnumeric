@@ -1,3 +1,12 @@
+2009-11-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* component/Gnumeric-embed.xml.in: move FormatWorkbook to View menu
+	* src/GNOME_Gnumeric-gtk.xml.in: ditto
+	* src/HILDON_Gnumeric-gtk.xml.in: ditto and rename FilePreferences
+	  action to EditPreferences
+	* src/wbc-gtk-actions.c: adjust names and description of FileMetaData
+	and FormatWorkbook actions
+
 2009-11-09  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-view.c (wb_view_new_from_input): Add extra uri

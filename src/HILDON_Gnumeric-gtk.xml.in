@@ -21,7 +21,6 @@
       -->
       <menuitem action="FileSend"/>
       <menuitem action="FileMetaData"/>
-      <menuitem action="FilePreferences"/>
       <separator name="file-sep4"/>
       <placeholder name="FileHistory" />
       <separator name="file-sep5"/>
@@ -83,6 +82,7 @@
       </menu>
       <menuitem action="EditRecalc"/>
       <placeholder name="ops"/>
+      <menuitem action="EditPreferences"/>
     </menu>
     <menu name="View" action="MenuView">
       <menuitem action="ViewNew"/>
@@ -97,7 +97,8 @@
       <menuitem action="ViewZoom"/>
       <menuitem action="ViewZoomIn"/>
       <menuitem action="ViewZoomOut"/>
-    </menu>
+      <menuitem action="FormatWorkbook"/>
+     </menu>
     <menu name="Insert" action="MenuInsert">
       <menuitem action="InsertCells"/>
       <menuitem action="InsertColumns"/>
@@ -150,8 +151,6 @@
         <menuitem action="SheetHideColHeader"/>
         <menuitem action="SheetHideRowHeader"/>
       </menu>
-      <menuitem action="FormatWorkbook"/>
-      <menuitem action="FilePreferences"/>
       <menuitem action="FormatAuto"/>
     </menu>
     <menu name="Tools" action="MenuTools">
