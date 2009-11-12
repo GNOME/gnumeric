@@ -70,10 +70,4 @@ solver_get_input_var (SolverResults *res, int n)
         return res->input_cells_array[n];
 }
 
-GnmSolverConstraint*
-solver_get_constraint (SolverResults *res, int n)
-{
-        return res->constraints_array[n];
-}
-
 /* ------------------------------------------------------------------------- */

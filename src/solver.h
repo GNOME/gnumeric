@@ -4,7 +4,6 @@
 
 #include "gnumeric.h"
 #include "numbers.h"
-#include "dependent.h"
 #include <gsf/gsf-libxml.h>
 
 
@@ -13,8 +12,6 @@ G_BEGIN_DECLS
 #define SOLVER_MAX_TIME_ERR _("The maximum time exceeded. The optimal value could not be found in given time.")
 
 /* -------------------------------------------------------------------------- */
-
-#ifdef GNM_ENABLE_SOLVER
 
 typedef enum {
 	SolverRunning, SolverOptimal, SolverUnbounded, SolverInfeasible,
@@ -84,25 +81,6 @@ gchar *          solver_reports        (WorkbookControl *wbc, Sheet *sheet,
 
 /* Returns a pointer to a input variable cell. */
 GnmCell		*solver_get_input_var (SolverResults *res, int n);
-
-/* Returns a pointer to a constraint. */
-GnmSolverConstraint* solver_get_constraint (SolverResults *res, int n);
-
-void              solver_param_read_sax (GsfXMLIn *xin, xmlChar const **attrs);
-
-#else /* !GNM_ENABLE_SOLVER */
-
-#define gnm_solver_param_new() NULL
-#define gnm_solver_param_dup(src_param, new_sheet) NULL
-#define gnm_solver_param_free(param)		do {} while(0)
-#define solver_insert_cols(sheet, col, count)	do {} while(0)
-#define solver_insert_rows(sheet, row, count)	do {} while(0)
-#define solver_delete_cols(sheet, col, count)	do {} while(0)
-#define solver_delete_rows(sheet, row, count)	do {} while(0)
-#define gnm_solver_constraint_free(c) do {} while(0)
-#define solver_param_read_sax (void)
-
-#endif
 
 G_END_DECLS
 
