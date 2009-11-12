@@ -146,8 +146,6 @@ void gnm_sub_solver_flush (GnmSubSolver *subsol);
 #define GNM_SOLVER_FACTORY(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_SOLVER_FACTORY_TYPE, GnmSolverFactory))
 #define GNM_IS_SOLVER_FACTORY(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_SOLVER_FACTORY_TYPE))
 
-typedef struct GnmSolverFactory_ GnmSolverFactory;
-
 typedef GnmSolver * (*GnmSolverCreator) (GnmSolverFactory *,
 					 SolverParameters *);
 

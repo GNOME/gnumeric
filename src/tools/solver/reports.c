@@ -225,9 +225,9 @@ solver_prepare_reports (SolverProgram *program, SolverResults *res,
 	GnmCell const *target_cell;
 
 	if (res->param->options.model_type == SolverLPModel)
-	        alg = &lp_algorithm[param->options.algorithm];
+	        alg = &lp_algorithm[0 /* param->options.algorithm */];
 	else
-	        alg = &qp_algorithm[param->options.algorithm];
+	        alg = &qp_algorithm[0 /* param->options.algorithm */];
 
 	target_cell = gnm_solver_param_get_target_cell (res->param);
         get_input_variable_names (res, sheet);
@@ -245,9 +245,9 @@ solver_prepare_reports_success (SolverProgram *program, SolverResults *res,
 	const SolverLPAlgorithm *alg;
 
 	if (res->param->options.model_type == SolverLPModel)
-	        alg = &lp_algorithm[param->options.algorithm];
+	        alg = &lp_algorithm[0 /* param->options.algorithm */];
 	else
-	        alg = &qp_algorithm[param->options.algorithm];
+	        alg = &qp_algorithm[0 /* param->options.algorithm */];
 
 
 	/*

@@ -95,19 +95,6 @@ typedef struct {
 } SolverState;
 
 
-typedef struct {
-	char const *name;
-	SolverAlgorithmType alg;
-	SolverModelType type;
-} algorithm_def_t;
-
-static algorithm_def_t const algorithm_defs[] = {
-	{ N_("Simplex (LP Solve)"), LPSolve, SolverLPModel },
-	{ N_("Revised Simplex (GLPK 4.9)"), GLPKSimplex, SolverLPModel },
-	{ N_("< Not available >"), QPDummy, SolverQPModel },
-	{ NULL, 0, 0 }
-};
-
 static char const * const problem_type_group[] = {
 	"min_button",
 	"max_button",
@@ -121,9 +108,6 @@ static char const * const model_type_group[] = {
 	"nlp_model_button",
 	NULL
 };
-
-static GList *lp_alg_name_list = NULL;
-static GList *qp_alg_name_list = NULL;
 
 static void
 constraint_fill (SolverConstraint *c, SolverState *state)
@@ -301,47 +285,65 @@ dialog_set_main_button_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 	gtk_widget_set_sensitive (state->solve_button, ready);
 }
 
+static gboolean
+fill_algorithm_combo (SolverState *state, SolverModelType type)
+{
+	GtkListStore *store =
+		gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
+	GSList *solvers, *l;
+
+	gtk_combo_box_set_model (state->algorithm_combo, GTK_TREE_MODEL (store));
+
+	l = NULL;
+	for (solvers = gnm_solver_db_get (); solvers; solvers = solvers->next) {
+		GnmSolverFactory *entry = solvers->data;
+		if (type != entry->type)
+			continue;
+		l = g_slist_prepend (l, entry);
+	}
+	solvers = l;
+
+	gtk_widget_set_sensitive (GTK_WIDGET (state->solve_button),
+				  solvers != NULL);
+	if (!solvers)
+		return FALSE;
+
+	for (l = solvers; l; l = l->next) {
+		GnmSolverFactory *factory = l->data;
+		GtkTreeIter iter;
+
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter,
+				    0, factory->name,
+				    1, factory,
+				    -1);
+	}
+	g_slist_free (solvers);
+
+	gtk_combo_box_set_active (state->algorithm_combo, 0);
+
+	return TRUE;
+}
+
 static void
 cb_dialog_model_type_clicked (G_GNUC_UNUSED GtkWidget *button,
 			      SolverState *state)
 {
 	SolverModelType type;
-	GtkListStore *store;
-	GtkTreeIter iter;
-	GList *l = NULL;
+	gboolean any;
 
 	type = gnumeric_glade_group_value (state->gui, model_type_group);
-	store = gtk_list_store_new (1, G_TYPE_STRING);
-	gtk_combo_box_set_model (state->algorithm_combo, GTK_TREE_MODEL (store));
-	switch (type) {
-	case SolverLPModel:
-		l = lp_alg_name_list;
-		gtk_widget_set_sensitive (GTK_WIDGET (state->solve_button),
-					  TRUE);
-		break;
-	case SolverQPModel:
-		l = qp_alg_name_list;
-		gtk_widget_set_sensitive (GTK_WIDGET (state->solve_button),
-					  FALSE);
-		go_gtk_notice_nonmodal_dialog ((GtkWindow *) state->dialog,
-					  &(state->warning_dialog),
-					  GTK_MESSAGE_INFO,
-					  _("Looking for a subject for your "
-					    "thesis? Maybe you would like to "
-					    "write a QP solver for "
-					    "Gnumeric?"));
-		break;
-	default:
-		break;
+	any = fill_algorithm_combo (state, type);
+
+	if (!any) {
+		go_gtk_notice_nonmodal_dialog
+			(GTK_WINDOW (state->dialog),
+			 &(state->warning_dialog),
+			 GTK_MESSAGE_INFO,
+			 _("Looking for a subject for your thesis? "
+			   "Maybe you would like to write a solver for "
+			   "Gnumeric?"));
 	}
-	while (l) {
-		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter,
-					0, l->data,
-					-1);
-		l = l->next;
-	}
-	gtk_combo_box_set_active (state->algorithm_combo ,0);
 }
 
 static void
@@ -607,18 +609,11 @@ run_solver (SolverState *state, SolverParameters *param)
 	GnmSolver *sol = NULL;
 	GnmValue const *vinput;
 	GtkWindow *top = GTK_WINDOW (gtk_widget_get_toplevel (state->dialog));
-	GSList *solvers;
 	GnmSolverResult *res = NULL;
 
-	for (solvers = gnm_solver_db_get (); solvers; solvers = solvers->next) {
-		GnmSolverFactory *entry = solvers->data;
-		if (param->problem_type != entry->type)
-			continue;
-		g_printerr ("Trying solver %s...\n", entry->id);
-		sol = gnm_solver_factory_create (entry, param);
-		if (sol)
-			break;
-	}
+	sol = param->options.algorithm
+		? gnm_solver_factory_create (param->options.algorithm, param)
+		: NULL;
 	if (!sol) {
 		go_gtk_notice_dialog (top, GTK_MESSAGE_ERROR,
 				      _("No suitable solver available."));
@@ -779,14 +774,13 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	GnmSolverResult           *res;
 	GnmValue                   *target_range;
 	GnmValue                   *input_range;
-	gint                    i;
 	gboolean                answer, sensitivity, limits, performance;
 	gboolean                program, dual_program;
 	GError *err = NULL;
 	SolverParameters        *param;
 	GtkTreeIter iter;
-	gchar *name;
 	GnmCell *target_cell;
+	GnmSolverFactory *factory = NULL;
 
 	param = state->sheet->solver_parameters;
 
@@ -813,16 +807,8 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 	gtk_combo_box_get_active_iter (state->algorithm_combo, &iter);
 	gtk_tree_model_get (gtk_combo_box_get_model (state->algorithm_combo),
-			    &iter, 0, &name, -1);
-	for (i = 0; algorithm_defs[i].name; i++) {
-		if (param->options.model_type == algorithm_defs[i].type)
-			if (strcmp (algorithm_defs[i].name, name) == 0) {
-				param->options.algorithm =
-					algorithm_defs[i].alg;
-				break;
-			}
-	}
-	g_free (name);
+			    &iter, 1, &factory, -1);
+	param->options.algorithm = factory;
 
 	param->options.assume_non_negative = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui,
@@ -924,35 +910,14 @@ dialog_init (SolverState *state)
 {
 	GtkTable                *table;
 	SolverParameters        *param;
-	int                     i;
 	GtkCellRenderer *renderer;
 	GtkListStore *store;
-	GtkTreeIter iter;
 	GtkTreeViewColumn *column;
-	GList *l = NULL;
 	GSList *cl;
 	GnmCell *target_cell;
 	GnmValue const *input;
 
 	param = state->sheet->solver_parameters;
-
-	if (lp_alg_name_list == NULL) {
-		for (i = 0; algorithm_defs[i].name; i++)
-			switch (algorithm_defs[i].type) {
-			case SolverLPModel:
-				lp_alg_name_list = g_list_append
-					(lp_alg_name_list,
-					 (gpointer) algorithm_defs[i].name);
-				break;
-			case SolverQPModel:
-				qp_alg_name_list = g_list_append
-					(qp_alg_name_list,
-					 (gpointer) algorithm_defs[i].name);
-				break;
-			default:
-				break;
-			}
-	}
 
 	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (state->wbcg),
 		"solver.glade", NULL, NULL);
@@ -1032,29 +997,10 @@ dialog_init (SolverState *state)
 		(glade_xml_get_widget (state->gui, "algorithm_combo"));
 	renderer = (GtkCellRenderer*) gtk_cell_renderer_text_new();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (state->algorithm_combo), renderer, TRUE);
-    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (state->algorithm_combo), renderer,
-                                        "text", 0,
-                                        NULL);
-	store = gtk_list_store_new (1, G_TYPE_STRING);
-	gtk_combo_box_set_model (state->algorithm_combo, GTK_TREE_MODEL (store));
-	switch (param->options.model_type) {
-	case SolverLPModel:
-		l = lp_alg_name_list;
-		break;
-	case SolverQPModel:
-		l = qp_alg_name_list;
-		break;
-	default:
-		break;
-	}
-	while (l) {
-		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter,
-				    0, l->data,
-				    -1);
-		l = l->next;
-	}
-	gtk_combo_box_set_active (state->algorithm_combo, 0);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (state->algorithm_combo), renderer,
+					"text", 0,
+					NULL);
+	fill_algorithm_combo (state, param->options.model_type);
 
 	state->model_button =
 		glade_xml_get_widget(state->gui, "lp_model_button");

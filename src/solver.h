@@ -25,6 +25,7 @@ typedef enum {
 typedef struct {
 	int                 max_time_sec;
 	int                 max_iter;
+	GnmSolverFactory   *algorithm;
 	SolverModelType     model_type;
 	gboolean            assume_non_negative;
 	gboolean            assume_discrete;
@@ -38,7 +39,6 @@ typedef struct {
 	gboolean            dual_program_report;
 	gboolean            add_scenario;
 	gchar               *scenario_name;
-	SolverAlgorithmType algorithm;
 } SolverOptions;
 
 /* -------------------------------------------------------------------------- */

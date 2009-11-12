@@ -182,7 +182,9 @@ typedef struct _GnmInputMsg		GnmInputMsg;
 typedef struct _GnmSheetSlicer		GnmSheetSlicer;
 
 typedef struct _PrintInformation        PrintInformation;
+
 typedef struct _SolverParameters	SolverParameters;
+typedef struct GnmSolverFactory_        GnmSolverFactory;
 
 G_END_DECLS
 

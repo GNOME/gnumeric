@@ -79,7 +79,7 @@ gnm_solver_param_new (Sheet *sheet)
 	res->options.model_type          = SolverLPModel;
 	res->sheet                       = sheet;
 	res->options.assume_non_negative = TRUE;
-	res->options.algorithm           = GLPKSimplex;
+	res->options.algorithm           = NULL;
 	res->options.scenario_name       = g_strdup ("Optimal");
 	res->problem_type                = SolverMaximize;
 	res->constraints                 = NULL;
@@ -1255,10 +1255,10 @@ solver (WorkbookControl *wbc, Sheet *sheet, GError **err)
 
         switch (sheet->solver_parameters->options.model_type) {
 	case SolverLPModel:
-	        alg = &lp_algorithm [param->options.algorithm];
+	        alg = &lp_algorithm [0 /* param->options.algorithm */];
 		break;
 	case SolverQPModel:
-	        alg = &qp_algorithm [param->options.algorithm];
+	        alg = &qp_algorithm [0 /* param->options.algorithm */];
 		break;
 	case SolverNLPModel:
 	        return NULL;
