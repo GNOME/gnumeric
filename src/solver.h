@@ -83,58 +83,6 @@ gboolean gnm_solver_param_valid (SolverParameters const *sp, GError **err);
 
 /* -------------------------------------------------------------------------- */
 
-typedef enum {
-        SolverLE,
-	SolverGE,
-	SolverEQ,
-	SolverINT,
-	SolverBOOL
-} SolverConstraintType;
-
-typedef struct {
-	SolverConstraintType type;
-
-	/* Must be a range.  */
-	GnmDependent lhs;
-
-	/* Must be a constant or a range.  */
-	GnmDependent rhs;
-} SolverConstraint;
-
-#ifdef GNM_ENABLE_SOLVER
-
-SolverConstraint *gnm_solver_constraint_new (Sheet *sheet);
-void gnm_solver_constraint_free (SolverConstraint *c);
-
-void gnm_solver_constraint_set_old (SolverConstraint *c,
-				    SolverConstraintType type,
-				    int lhs_col, int lhs_row,
-				    int rhs_col, int rhs_row,
-				    int cols, int rows);
-
-gboolean gnm_solver_constraint_has_rhs (SolverConstraint const *c);
-gboolean gnm_solver_constraint_valid (SolverConstraint const *c,
-				      SolverParameters const *sp);
-gboolean gnm_solver_constraint_get_part (SolverConstraint const *c,
-					 SolverParameters const *sp, int i,
-					 GnmCell **lhs, gnm_float *cl,
-					 GnmCell **rhs, gnm_float *cr);
-
-GnmValue const *gnm_solver_constraint_get_lhs (SolverConstraint const *c);
-GnmValue const *gnm_solver_constraint_get_rhs (SolverConstraint const *c);
-
-void gnm_solver_constraint_set_lhs (SolverConstraint *c, GnmValue *v);
-void gnm_solver_constraint_set_rhs (SolverConstraint *c, GnmValue *v);
-
-void gnm_solver_constraint_side_as_str (SolverConstraint const *c,
-					Sheet const *sheet,
-					GString *buf, gboolean lhs);
-char *gnm_solver_constraint_as_str (SolverConstraint const *c, Sheet *sheet);
-
-#endif
-
-/* -------------------------------------------------------------------------- */
-
 #ifdef GNM_ENABLE_SOLVER
 
 typedef enum {
@@ -148,69 +96,6 @@ typedef enum {
 }  SolverOptionType;
 
 typedef gpointer SolverProgram;
-
-
-/*
- * Solver's API for LP solving algorithms
- */
-typedef SolverProgram
-        (solver_init_fn)                (SolverParameters const *param);
-typedef void
-        (solver_remove_fn)              (SolverProgram p);
-typedef void
-        (solver_lp_set_obj_fn)          (SolverProgram p, int col, gnm_float v);
-typedef void
-        (solver_lp_set_constr_mat_fn)   (SolverProgram p, int col, int row,
-					 gnm_float v);
-typedef void
-        (solver_lp_set_constr_fn)       (SolverProgram p, int row,
-					 SolverConstraintType t, gnm_float rhs);
-typedef void
-        (solver_lp_set_maxim_fn)        (SolverProgram p);
-typedef void
-        (solver_lp_set_minim_fn)        (SolverProgram p);
-typedef void
-        (solver_lp_set_int_fn)          (SolverProgram p, int col);
-typedef void
-        (solver_lp_set_bool_fn)         (SolverProgram p, int col);
-typedef SolverStatus
-        (solver_lp_solve_fn)            (SolverProgram p);
-typedef gnm_float
-        (solver_lp_get_obj_fn_value_fn) (SolverProgram p);
-typedef gnm_float
-        (solver_lp_get_obj_fn_var_fn)   (SolverProgram p, int col);
-typedef gnm_float
-        (solver_lp_get_shadow_prize_fn) (SolverProgram p, int row);
-typedef gboolean
-        (solver_lp_set_option_fn)       (SolverProgram p, SolverOptionType option,
-					 const gboolean *b_value,
-					 const gnm_float *f_value,
-					 const int *i_value);
-typedef void
-        (solver_lp_print_fn)            (SolverProgram p);
-typedef int
-        (solver_lp_get_iterations_fn)   (SolverProgram p);
-
-
-typedef struct {
-        char const                    *name;
-        solver_init_fn                *init_fn;
-        solver_remove_fn              *remove_fn;
-        solver_lp_set_obj_fn          *set_obj_fn;
-        solver_lp_set_constr_mat_fn   *set_constr_mat_fn;
-        solver_lp_set_constr_fn       *set_constr_fn;
-        solver_lp_set_maxim_fn        *maxim_fn;
-        solver_lp_set_minim_fn        *minim_fn;
-        solver_lp_set_int_fn          *set_int_fn;
-        solver_lp_set_bool_fn         *set_bool_fn;
-        solver_lp_solve_fn            *solve_fn;
-        solver_lp_get_obj_fn_value_fn *get_obj_fn_value_fn;
-        solver_lp_get_obj_fn_var_fn   *get_obj_fn_var_fn;
-        solver_lp_get_shadow_prize_fn *get_shadow_prize_fn;
-	solver_lp_get_iterations_fn   *get_iterations_fn;
-        solver_lp_set_option_fn       *set_option_fn;
-        solver_lp_print_fn            *print_fn;
-} SolverLPAlgorithm;
 
 typedef struct {
         gnm_float lower_limit;
@@ -246,7 +131,7 @@ typedef struct {
 				      * constraints.  Some reports cannot
 				      * be created if there are any. */
         GnmCell          **input_cells_array;
-        SolverConstraint **constraints_array;
+        GnmSolverConstraint **constraints_array;
         gnm_float       *obj_coeff;
         gnm_float       **constr_coeff;
         SolverLimits     *limits;
@@ -273,7 +158,7 @@ void             solver_results_free   (SolverResults *res);
 GnmCell		*solver_get_input_var (SolverResults *res, int n);
 
 /* Returns a pointer to a constraint. */
-SolverConstraint* solver_get_constraint (SolverResults *res, int n);
+GnmSolverConstraint* solver_get_constraint (SolverResults *res, int n);
 
 void              solver_param_read_sax (GsfXMLIn *xin, xmlChar const **attrs);
 

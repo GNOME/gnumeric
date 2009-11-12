@@ -32,7 +32,7 @@
 #include "sheet-filter.h"
 #include "sheet.h"
 #include "ranges.h"
-#include "solver.h"
+#include <tools/gnm-solver.h>
 #include "style.h"
 #include "style-border.h"
 #include "style-color.h"

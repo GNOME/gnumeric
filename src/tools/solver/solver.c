@@ -232,7 +232,7 @@ gnm_solver_param_valid (SolverParameters const *sp, GError **err)
 	g_slist_free (input_cells);
 
 	for (i = 1, l = sp->constraints; l; i++, l = l->next) {
-		SolverConstraint *c = l->data;
+		GnmSolverConstraint *c = l->data;
 		if (!gnm_solver_constraint_valid (c, sp)) {
 			g_set_error (err,
 				     go_error_invalid (),
@@ -252,7 +252,7 @@ static void
 solver_constr_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	int type = 0;
-	SolverConstraint *c;
+	GnmSolverConstraint *c;
 	Sheet *sheet = gnm_xml_in_cur_sheet (xin);
 	SolverParameters *sp = sheet->solver_parameters;
 	int lhs_col = 0, lhs_row = 0, rhs_col = 0, rhs_row = 0;
@@ -287,12 +287,12 @@ solver_constr_start (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 
 	switch (type) {
-	case 1: c->type = SolverLE; break;
-	case 2: c->type = SolverGE; break;
-	case 4: c->type = SolverEQ; break;
-	case 8: c->type = SolverINT; break;
-	case 16: c->type = SolverBOOL; break;
-	default: c->type = SolverLE; break;
+	case 1: c->type = GNM_SOLVER_LE; break;
+	case 2: c->type = GNM_SOLVER_GE; break;
+	case 4: c->type = GNM_SOLVER_EQ; break;
+	case 8: c->type = GNM_SOLVER_INTEGER; break;
+	case 16: c->type = GNM_SOLVER_BOOLEAN; break;
+	default: c->type = GNM_SOLVER_LE; break;
 	}
 
 	if (old)
@@ -424,33 +424,33 @@ solver_get_input_var (SolverResults *res, int n)
         return res->input_cells_array[n];
 }
 
-SolverConstraint*
+GnmSolverConstraint*
 solver_get_constraint (SolverResults *res, int n)
 {
         return res->constraints_array[n];
 }
 
-SolverConstraint *
+GnmSolverConstraint *
 gnm_solver_constraint_new (Sheet *sheet)
 {
-	SolverConstraint *res = g_new0 (SolverConstraint, 1);
+	GnmSolverConstraint *res = g_new0 (GnmSolverConstraint, 1);
 	dependent_managed_init (&res->lhs, sheet);
 	dependent_managed_init (&res->rhs, sheet);
 	return res;
 }
 
 void
-gnm_solver_constraint_free (SolverConstraint *c)
+gnm_solver_constraint_free (GnmSolverConstraint *c)
 {
 	gnm_solver_constraint_set_lhs (c, NULL);
 	gnm_solver_constraint_set_rhs (c, NULL);
 	g_free (c);
 }
 
-static SolverConstraint *
-gnm_solver_constraint_dup (SolverConstraint *c, Sheet *sheet)
+static GnmSolverConstraint *
+gnm_solver_constraint_dup (GnmSolverConstraint *c, Sheet *sheet)
 {
-	SolverConstraint *res = gnm_solver_constraint_new (sheet);
+	GnmSolverConstraint *res = gnm_solver_constraint_new (sheet);
 	res->type = c->type;
 	dependent_managed_set_expr (&res->lhs, res->lhs.texpr);
 	dependent_managed_set_expr (&res->rhs, res->lhs.texpr);
@@ -458,24 +458,24 @@ gnm_solver_constraint_dup (SolverConstraint *c, Sheet *sheet)
 }
 
 gboolean
-gnm_solver_constraint_has_rhs (SolverConstraint const *c)
+gnm_solver_constraint_has_rhs (GnmSolverConstraint const *c)
 {
 	g_return_val_if_fail (c != NULL, FALSE);
 
 	switch (c->type) {
-	case SolverLE:
-	case SolverGE:
-	case SolverEQ:
+	case GNM_SOLVER_LE:
+	case GNM_SOLVER_GE:
+	case GNM_SOLVER_EQ:
 		return TRUE;
-	case SolverINT:
-	case SolverBOOL:
+	case GNM_SOLVER_INTEGER:
+	case GNM_SOLVER_BOOLEAN:
 	default:
 		return FALSE;
 	}
 }
 
 gboolean
-gnm_solver_constraint_valid (SolverConstraint const *c,
+gnm_solver_constraint_valid (GnmSolverConstraint const *c,
 			     SolverParameters const *sp)
 {
 	GnmValue const *lhs;
@@ -506,8 +506,8 @@ gnm_solver_constraint_valid (SolverConstraint const *c,
 	}
 
 	switch (c->type) {
-	case SolverINT:
-	case SolverBOOL: {
+	case GNM_SOLVER_INTEGER:
+	case GNM_SOLVER_BOOLEAN: {
 		GnmValue const *vinput = gnm_solver_param_get_input (sp);
 		GnmSheetRange sr_input, sr_c;
 
@@ -532,14 +532,14 @@ gnm_solver_constraint_valid (SolverConstraint const *c,
 }
 
 GnmValue const *
-gnm_solver_constraint_get_lhs (SolverConstraint const *c)
+gnm_solver_constraint_get_lhs (GnmSolverConstraint const *c)
 {
 	GnmExprTop const *texpr = c->lhs.texpr;
 	return texpr ? gnm_expr_top_get_constant (texpr) : NULL;
 }
 
 void
-gnm_solver_constraint_set_lhs (SolverConstraint *c, GnmValue *v)
+gnm_solver_constraint_set_lhs (GnmSolverConstraint *c, GnmValue *v)
 {
 	/* Takes ownership.  */
 	GnmExprTop const *texpr = v ? gnm_expr_top_new_constant (v) : NULL;
@@ -548,14 +548,14 @@ gnm_solver_constraint_set_lhs (SolverConstraint *c, GnmValue *v)
 }
 
 GnmValue const *
-gnm_solver_constraint_get_rhs (SolverConstraint const *c)
+gnm_solver_constraint_get_rhs (GnmSolverConstraint const *c)
 {
 	GnmExprTop const *texpr = c->rhs.texpr;
 	return texpr ? gnm_expr_top_get_constant (texpr) : NULL;
 }
 
 void
-gnm_solver_constraint_set_rhs (SolverConstraint *c, GnmValue *v)
+gnm_solver_constraint_set_rhs (GnmSolverConstraint *c, GnmValue *v)
 {
 	/* Takes ownership.  */
 	GnmExprTop const *texpr = v ? gnm_expr_top_new_constant (v) : NULL;
@@ -565,7 +565,7 @@ gnm_solver_constraint_set_rhs (SolverConstraint *c, GnmValue *v)
 
 
 gboolean
-gnm_solver_constraint_get_part (SolverConstraint const *c,
+gnm_solver_constraint_get_part (GnmSolverConstraint const *c,
 				SolverParameters const *sp, int i,
 				GnmCell **lhs, gnm_float *cl,
 				GnmCell **rhs, gnm_float *cr)
@@ -615,8 +615,8 @@ gnm_solver_constraint_get_part (SolverConstraint const *c,
 }
 
 void
-gnm_solver_constraint_set_old (SolverConstraint *c,
-			       SolverConstraintType type,
+gnm_solver_constraint_set_old (GnmSolverConstraint *c,
+			       GnmSolverConstraintType type,
 			       int lhs_col, int lhs_row,
 			       int rhs_col, int rhs_row,
 			       int cols, int rows)
@@ -644,7 +644,7 @@ gnm_solver_constraint_set_old (SolverConstraint *c,
 /* ------------------------------------------------------------------------- */
 
 void
-gnm_solver_constraint_side_as_str (SolverConstraint const *c,
+gnm_solver_constraint_side_as_str (GnmSolverConstraint const *c,
 				   Sheet const *sheet,
 				   GString *buf, gboolean lhs)
 {
@@ -666,7 +666,7 @@ gnm_solver_constraint_side_as_str (SolverConstraint const *c,
 }
 
 char *
-gnm_solver_constraint_as_str (SolverConstraint const *c, Sheet *sheet)
+gnm_solver_constraint_as_str (GnmSolverConstraint const *c, Sheet *sheet)
 {
 	const char * const type_str[] =	{
 		"\xe2\x89\xa4" /* "<=" */,
@@ -708,8 +708,8 @@ gnm_solver_param_dup (const SolverParameters *src_param, Sheet *new_sheet)
 	/* Copy the constraints */
 	for (constraints = src_param->constraints; constraints;
 	     constraints = constraints->next) {
-		SolverConstraint *old = constraints->data;
-		SolverConstraint *new = gnm_solver_constraint_dup (old, new_sheet);
+		GnmSolverConstraint *old = constraints->data;
+		GnmSolverConstraint *new = gnm_solver_constraint_dup (old, new_sheet);
 
 		dst_param->constraints =
 		        g_slist_prepend (dst_param->constraints, new);

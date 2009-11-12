@@ -98,7 +98,7 @@ w_qp_dummy_set_constr_mat (SolverProgram program, int col, int row,
 
 static void
 w_qp_dummy_set_constr (SolverProgram program, int row,
-		       SolverConstraintType type,
+		       GnmSolverConstraintType type,
 		       gnm_float value)
 {
         printf ("w_qp_dummy_set_constr %d, %d, %" GNM_FORMAT_g "\n",

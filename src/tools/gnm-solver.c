@@ -5,6 +5,7 @@
 #include "sheet.h"
 #include "workbook.h"
 #include "ranges.h"
+#include "gutils.h"
 #include "gnm-solver.h"
 #include "workbook-view.h"
 #include "workbook-control.h"
@@ -649,7 +650,8 @@ gnm_solver_factory_create (GnmSolverFactory *factory,
 void
 gnm_solver_db_register (GnmSolverFactory *factory)
 {
-	g_printerr ("Registering %s\n", factory->id);
+	if (gnm_debug_flag ("solver"))
+		g_printerr ("Registering %s\n", factory->id);
 	g_object_ref (factory);
 	solvers = g_slist_prepend (solvers, factory);
 }
@@ -657,7 +659,8 @@ gnm_solver_db_register (GnmSolverFactory *factory)
 void
 gnm_solver_db_unregister (GnmSolverFactory *factory)
 {
-	g_printerr ("Unregistering %s\n", factory->id);
+	if (gnm_debug_flag ("solver"))
+		g_printerr ("Unregistering %s\n", factory->id);
 	solvers = g_slist_remove (solvers, factory);
 	g_object_unref (factory);
 }

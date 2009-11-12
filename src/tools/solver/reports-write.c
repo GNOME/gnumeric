@@ -42,6 +42,7 @@
 #include "value.h"
 #include "mathfunc.h"
 #include "analysis-tools.h"
+#include <tools/gnm-solver.h>
 
 #ifdef HAVE_UNAME
 #include <sys/utsname.h>
@@ -134,7 +135,7 @@ solver_answer_report (WorkbookControl *wbc,
 	dao_set_bold (&dao, 0, 15 + vars, 6, 15 + vars);
 
 	for (i = 0; i < res->param->n_total_constraints; i++) {
-	        SolverConstraint const *c = res->constraints_array[i];
+	        GnmSolverConstraint const *c = res->constraints_array[i];
 		char *str = gnm_solver_constraint_as_str (c, sheet);
 		GnmCell *lhs, *rhs;
 
@@ -156,7 +157,7 @@ solver_answer_report (WorkbookControl *wbc,
 	        /* Set `Formula' column */
 	        dao_set_cell (&dao, 4, 16 + vars + i, str);
 
-		if (c->type == SolverINT || c->type == SolverBOOL) {
+		if (c->type == GNM_SOLVER_INTEGER || c->type == GNM_SOLVER_BOOLEAN) {
 		        dao_set_cell (&dao, 5, 16 + vars + i, _("Binding"));
 		        continue;
 		}
@@ -296,7 +297,7 @@ solver_sensitivity_report (WorkbookControl *wbc,
 	dao_set_bold (&dao, 0, 10 + vars, 7, 11 + vars);
 
 	for (i = 0; i < res->param->n_total_constraints; i++) {
-	        SolverConstraint *c = res->constraints_array[i];
+	        GnmSolverConstraint *c = res->constraints_array[i];
 		GnmCell *lhs, *rhs;
 
 		gnm_solver_constraint_get_part (c, res->param, 0,
@@ -329,19 +330,19 @@ solver_sensitivity_report (WorkbookControl *wbc,
 		        /* FIXME */
 		} else {
 		        switch (c->type) {
-		        case SolverLE:
+		        case GNM_SOLVER_LE:
 			        dao_set_cell (&dao, 6, 12 + vars + i,
 					      _("Infinity"));
 			        dao_set_cell_float (&dao, 7, 12 + vars + i,
 						    res->slack[i]);
 				break;
-			case SolverGE:
+			case GNM_SOLVER_GE:
 			        dao_set_cell_float (&dao, 6, 12 + vars + i,
 						    res->slack[i]);
 			        dao_set_cell (&dao, 7, 12 + vars + i,
 					      _("Infinity"));
 				break;
-			case SolverEQ:
+			case GNM_SOLVER_EQ:
 			        dao_set_cell_float (&dao, 6, 12 + vars + i, 0);
 			        dao_set_cell_float (&dao, 7, 12 + vars + i, 0);
 				break;
@@ -824,15 +825,15 @@ solver_program_report (WorkbookControl *wbc,
 	/* Print the constraints. */
 	row = 10;
 	for (i = 0; i < res->param->n_total_constraints; i++, row++) {
-	        SolverConstraint const *c = res->constraints_array[i];
+	        GnmSolverConstraint const *c = res->constraints_array[i];
 
 		/* Print the constraint function. */
 		col = 0;
-		if (c->type == SolverINT) {
+		if (c->type == GNM_SOLVER_INTEGER) {
 		        dao_set_cell (&dao, col*3 + 1, row, "integer");
 		        continue;
 		}
-		if (c->type == SolverBOOL) {
+		if (c->type == GNM_SOLVER_BOOLEAN) {
 		        dao_set_cell (&dao, col*3 + 1, row, "bool");
 		        continue;
 		}
@@ -864,15 +865,15 @@ solver_program_report (WorkbookControl *wbc,
 
 		/* Print the type. */
 		switch (c->type) {
-		case SolverLE:
+		case GNM_SOLVER_LE:
 			/* "<=" character.  */
 		        dao_set_cell (&dao, col*3 + 1, row, "\xe2\x89\xa4");
 			break;
-		case SolverGE:
+		case GNM_SOLVER_GE:
 			/* ">=" character.  */
 		        dao_set_cell (&dao, col*3 + 1, row, "\xe2\x89\xa5");
 			break;
-		case SolverEQ:
+		case GNM_SOLVER_EQ:
 		        dao_set_cell (&dao, col*3 + 1, row, "=");
 		        break;
 		default :

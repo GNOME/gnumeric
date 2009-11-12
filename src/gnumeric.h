@@ -184,6 +184,7 @@ typedef struct _GnmSheetSlicer		GnmSheetSlicer;
 typedef struct _PrintInformation        PrintInformation;
 
 typedef struct _SolverParameters	SolverParameters;
+typedef struct GnmSolverConstraint_     GnmSolverConstraint;
 typedef struct GnmSolverFactory_        GnmSolverFactory;
 
 G_END_DECLS

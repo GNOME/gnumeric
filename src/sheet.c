@@ -55,7 +55,7 @@
 #include "gnumeric-gconf.h"
 #include "sheet-object-impl.h"
 #include "sheet-object-cell-comment.h"
-#include "solver.h"
+#include <tools/gnm-solver.h>
 #include "hlink.h"
 #include "sheet-filter.h"
 #include "sheet-filter-combo.h"

@@ -31,7 +31,6 @@
 
 #include <gui-util.h>
 #include <func.h>
-#include <solver.h>
 #include <tool-dialogs.h>
 #include <value.h>
 #include <cell.h>
@@ -75,7 +74,7 @@ typedef struct {
 	GtkComboBox         *type_combo;
 	GtkComboBox         *algorithm_combo;
 	GtkTreeView         *constraint_list;
-	SolverConstraint    *constr;
+	GnmSolverConstraint    *constr;
 	GtkWidget           *warning_dialog;
 
 	struct {
@@ -110,7 +109,7 @@ static char const * const model_type_group[] = {
 };
 
 static void
-constraint_fill (SolverConstraint *c, SolverState *state)
+constraint_fill (GnmSolverConstraint *c, SolverState *state)
 {
 	Sheet *sheet = state->sheet;
 
@@ -132,7 +131,7 @@ dialog_set_sec_button_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 				   SolverState *state)
 {
 	gboolean select_ready = (state->constr != NULL);
-	SolverConstraint *test = gnm_solver_constraint_new (NULL);
+	GnmSolverConstraint *test = gnm_solver_constraint_new (NULL);
 	gboolean ready, has_rhs;
 	SolverParameters const *param = state->sheet->solver_parameters;
 
@@ -157,7 +156,7 @@ constraint_select_click (GtkTreeSelection *Selection,
 {
 	GtkTreeModel *store;
 	GtkTreeIter iter;
-	SolverConstraint const *c;
+	GnmSolverConstraint const *c;
 	GnmValue const *lhs, *rhs;
 
 	if (gtk_tree_selection_get_selected (Selection, &store, &iter))
@@ -232,7 +231,7 @@ static void
 constraint_fill_row (SolverState *state, GtkListStore *store, GtkTreeIter *iter)
 {
 	char         *text;
-	SolverConstraint *c = state->constr;
+	GnmSolverConstraint *c = state->constr;
 
 	constraint_fill (c, state);
 
@@ -1112,7 +1111,7 @@ dialog_init (SolverState *state)
 /* Loading the old solver specs... from param  */
 
 	for (cl = param->constraints; cl; cl = cl->next) {
-		SolverConstraint const *c = cl->data;
+		GnmSolverConstraint const *c = cl->data;
 		GtkTreeIter iter;
 		char *str;
 

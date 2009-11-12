@@ -42,7 +42,7 @@
 #include "ranges.h"
 #include "style.h"
 #include "value.h"
-#include "solver.h"
+#include <tools/gnm-solver.h>
 #include "sheet-style.h"
 #include "parse-util.h"
 #include "func.h"
@@ -321,7 +321,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 
 	i = 0;
 	for (current = ctxt->rows; current != NULL; current = current->next) {
-	          SolverConstraint   *c;
+	          GnmSolverConstraint   *c;
 		  MpsRow             *row = current->data;
 		  int                col, r;
 		  const GnmExprTop   *texpr;
@@ -330,8 +330,8 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 		  static const gchar *const type_str[] = {
 			  "=", "<=", ">="
 		  };
-		  static const SolverConstraintType type_map[] = {
-			  SolverEQ, SolverLE, SolverGE
+		  static const GnmSolverConstraintType type_map[] = {
+			  GNM_SOLVER_EQ, GNM_SOLVER_LE, GNM_SOLVER_GE
 		  };
 
 		  if (row->type == ObjectiveRow)

@@ -69,7 +69,7 @@ get_constraint_names (SolverResults *res, Sheet *sheet)
 	int  i;
 
 	for (i = 0; i < res->param->n_total_constraints; i++) {
-	        SolverConstraint *c = solver_get_constraint (res, i);
+	        GnmSolverConstraint *c = solver_get_constraint (res, i);
 		GnmCell *lhs;
 
 		gnm_solver_constraint_get_part (c, res->param, 0,
@@ -106,7 +106,7 @@ is_still_feasible (Sheet *sheet, SolverResults *res, int col, gnm_float value)
 
 	res->optimal_values[col] = value;
 	for (i = 0; i < res->param->n_total_constraints; i++) {
-	        SolverConstraint *c = solver_get_constraint (res, i);
+	        GnmSolverConstraint *c = solver_get_constraint (res, i);
 		GnmCell *cell;
 
 		gnm_solver_constraint_get_part (c, res->param, 0,
@@ -119,20 +119,20 @@ is_still_feasible (Sheet *sheet, SolverResults *res, int col, gnm_float value)
 		rhs  = value_get_as_float (cell->value);
 
 		switch (c->type) {
-		case SolverLE:
+		case GNM_SOLVER_LE:
 		        if (c_value - 0.000001 /* FIXME */ > rhs)
 			        goto out;
 			break;
-		case SolverGE:
+		case GNM_SOLVER_GE:
 		        if (c_value + 0.000001 /* FIXME */ < rhs)
 			        goto out;
 			break;
-		case SolverEQ:
+		case GNM_SOLVER_EQ:
 		        if (gnm_abs (c_value - rhs) < 0.000001 /* FIXME */)
 			        goto out;
 			break;
-		case SolverINT:
-		case SolverBOOL:
+		case GNM_SOLVER_INTEGER:
+		case GNM_SOLVER_BOOLEAN:
 		        break;
 		}
 	}
@@ -153,7 +153,7 @@ calculate_limits (Sheet *sheet, SolverParameters *param, SolverResults *res)
 
 	for (i = 0; i < param->n_total_constraints; i++) {
 	        gnm_float       slack, lhs, rhs, x, y, old_val;
-		SolverConstraint *c = res->constraints_array[i];
+		GnmSolverConstraint *c = res->constraints_array[i];
 		GnmCell             *lcell, *rcell;
 
 		gnm_solver_constraint_get_part (c, res->param, 0,
@@ -278,7 +278,7 @@ solver_prepare_reports_success (SolverProgram *program, SolverResults *res,
 	 * Go through the constraints; save LHS, RHS, slack
 	 */
 	for (i = 0; i < param->n_constraints; i++) {
-	        SolverConstraint const *c = solver_get_constraint (res, i);
+	        GnmSolverConstraint const *c = solver_get_constraint (res, i);
 		GnmCell *lhs;
 
 		gnm_solver_constraint_get_part (c, param, 0,
@@ -299,9 +299,9 @@ solver_prepare_reports_success (SolverProgram *program, SolverResults *res,
 	if (param->options.sensitivity_report && ! res->ilp_flag) {
 		/* gnm_float *store = g_new (gnm_float, param->n_variables);*/
 	        for (i = 0; i < param->n_total_constraints; i++) {
-			SolverConstraint *c = res->constraints_array[i];
+			GnmSolverConstraint *c = res->constraints_array[i];
 
-			if (c->type == SolverINT || c->type == SolverBOOL)
+			if (c->type == GNM_SOLVER_INTEGER || c->type == GNM_SOLVER_BOOLEAN)
 			        continue;
 
 			if (res->slack[i] < 0.0001 /* FIXME */) {

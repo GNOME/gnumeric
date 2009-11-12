@@ -54,7 +54,6 @@
 #include <style-border.h>
 #include <validation.h>
 #include <hlink.h>
-#include <solver.h>
 #include <sheet-filter.h>
 #include <print-info.h>
 #include <parse-util.h>

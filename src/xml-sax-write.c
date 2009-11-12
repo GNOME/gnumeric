@@ -47,7 +47,7 @@
 #include <validation.h>
 #include <hlink.h>
 #include <input-msg.h>
-#include <solver.h>
+#include <tools/gnm-solver.h>
 #include <sheet-filter.h>
 #include <sheet-object-impl.h>
 #include <print-info.h>
@@ -1017,18 +1017,18 @@ xml_write_solver (GnmOutputXML *state)
 		param->options.program_report);
 
 	for (ptr = param->constraints; ptr != NULL ; ptr = ptr->next) {
-		SolverConstraint const *c = ptr->data;
+		GnmSolverConstraint const *c = ptr->data;
 		int type;
 		GString *str = g_string_new (NULL);
 
 		/* Historical values.  Not a bit field.  */
 		switch (c->type) {
 		default:	 type = 0;	break;
-		case SolverLE:   type = 1;	break;
-		case SolverGE:   type = 2;	break;
-		case SolverEQ:   type = 4;	break;
-		case SolverINT:  type = 8;	break;
-		case SolverBOOL: type = 16;	break;
+		case GNM_SOLVER_LE:   type = 1;	break;
+		case GNM_SOLVER_GE:   type = 2;	break;
+		case GNM_SOLVER_EQ:   type = 4;	break;
+		case GNM_SOLVER_INTEGER:  type = 8;	break;
+		case GNM_SOLVER_BOOLEAN: type = 16;	break;
 		}
 
 		gsf_xml_out_start_element (state->output, GNM "Constr");

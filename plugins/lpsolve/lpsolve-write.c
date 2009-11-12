@@ -25,7 +25,7 @@
 #include <value.h>
 #include <cell.h>
 #include <expr.h>
-#include <solver.h>
+#include <tools/gnm-solver.h>
 #include <ranges.h>
 #include <parse-util.h>
 #include <gutils.h>
@@ -225,7 +225,7 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context, GError **err)
 	}
 
  	for (l = sp->constraints; l; l = l->next) {
-		SolverConstraint *c = l->data;
+		GnmSolverConstraint *c = l->data;
 		const char *op = NULL;
 		const char *type = NULL;
 		gboolean right_small = TRUE;
@@ -234,20 +234,20 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context, GError **err)
 		GnmCell *lhs, *rhs;
 
 		switch (c->type) {
-		case SolverLE:
+		case GNM_SOLVER_LE:
 			op = "<=";
 			right_small = FALSE;
 			break;
-		case SolverGE:
+		case GNM_SOLVER_GE:
 			op = ">=";
 			break;
-		case SolverEQ:
+		case GNM_SOLVER_EQ:
 			op = "=";
 			break;
-		case SolverINT:
+		case GNM_SOLVER_INTEGER:
 			type = "int";
 			break;
-		case SolverBOOL:
+		case GNM_SOLVER_BOOLEAN:
 			type = "binary";
 			break;
 		default:

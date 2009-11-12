@@ -35,7 +35,7 @@
 #include "ranges.h"
 #include "style.h"
 #include "value.h"
-#include "solver.h"
+#include <tools/gnm-solver.h>
 #include "sheet-style.h"
 #include "parse-util.h"
 #include <glib/gi18n-lib.h>

@@ -31,6 +31,54 @@ typedef enum {
 	GNM_SOLVER_STATUS_CANCELLED
 } GnmSolverStatus;
 
+typedef enum {
+        GNM_SOLVER_LE,
+	GNM_SOLVER_GE,
+	GNM_SOLVER_EQ,
+	GNM_SOLVER_INTEGER,
+	GNM_SOLVER_BOOLEAN
+} GnmSolverConstraintType;
+
+/* -------------------------------------------------------------------------- */
+
+struct GnmSolverConstraint_ {
+	GnmSolverConstraintType type;
+
+	/* Must be a range.  */
+	GnmDependent lhs;
+
+	/* Must be a constant or a range.  */
+	GnmDependent rhs;
+};
+
+GnmSolverConstraint *gnm_solver_constraint_new (Sheet *sheet);
+void gnm_solver_constraint_free (GnmSolverConstraint *c);
+
+void gnm_solver_constraint_set_old (GnmSolverConstraint *c,
+				    GnmSolverConstraintType type,
+				    int lhs_col, int lhs_row,
+				    int rhs_col, int rhs_row,
+				    int cols, int rows);
+
+gboolean gnm_solver_constraint_has_rhs (GnmSolverConstraint const *c);
+gboolean gnm_solver_constraint_valid (GnmSolverConstraint const *c,
+				      SolverParameters const *sp);
+gboolean gnm_solver_constraint_get_part (GnmSolverConstraint const *c,
+					 SolverParameters const *sp, int i,
+					 GnmCell **lhs, gnm_float *cl,
+					 GnmCell **rhs, gnm_float *cr);
+
+GnmValue const *gnm_solver_constraint_get_lhs (GnmSolverConstraint const *c);
+GnmValue const *gnm_solver_constraint_get_rhs (GnmSolverConstraint const *c);
+
+void gnm_solver_constraint_set_lhs (GnmSolverConstraint *c, GnmValue *v);
+void gnm_solver_constraint_set_rhs (GnmSolverConstraint *c, GnmValue *v);
+
+void gnm_solver_constraint_side_as_str (GnmSolverConstraint const *c,
+					Sheet const *sheet,
+					GString *buf, gboolean lhs);
+char *gnm_solver_constraint_as_str (GnmSolverConstraint const *c, Sheet *sheet);
+
 /* ------------------------------------------------------------------------- */
 
 #define GNM_SOLVER_RESULT_TYPE   (gnm_solver_result_get_type ())
