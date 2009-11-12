@@ -557,20 +557,28 @@ cb_notify_result (SolverState *state)
 		txt = g_strdup ("");
 		break;
 
-	case GNM_SOLVER_RESULT_FEASIBLE:
-		txt = g_strdup_printf ("Feasible: %.15g", (double)r->value);
+	case GNM_SOLVER_RESULT_FEASIBLE: {
+		char *valtxt = go_format_value (go_format_general (),
+						r->value);
+		txt = g_strdup_printf (_("Feasible: %s"), valtxt);
+		g_free (valtxt);
 		break;
+	}
 
-	case GNM_SOLVER_RESULT_OPTIMAL:
-		txt = g_strdup_printf ("Optimal: %.15g", (double)r->value);
+	case GNM_SOLVER_RESULT_OPTIMAL: {
+		char *valtxt = go_format_value (go_format_general (),
+						r->value);
+		txt = g_strdup_printf (_("Optimal: %s"), valtxt);
+		g_free (valtxt);
 		break;
+	}
 
 	case GNM_SOLVER_RESULT_INFEASIBLE:
-		txt = g_strdup ("Infeasible");
+		txt = g_strdup (_("Infeasible"));
 		break;
 
 	case GNM_SOLVER_RESULT_UNBOUNDED:
-		txt = g_strdup ("Unbounded");
+		txt = g_strdup (_("Unbounded"));
 		break;
 	}
 

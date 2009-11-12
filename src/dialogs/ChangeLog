@@ -1,3 +1,7 @@
+2009-11-11  Morten Welinder  <terra@gnome.org>
+
+	* dialog-solver.c (cb_notify_result): i18n issues.
+
 2009-11-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-doc-metadata.c (dialog_doc_meta_data_add_item): fix wrong
