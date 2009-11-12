@@ -486,7 +486,7 @@ struct _PluginServiceSolver {
 };
 
 static GnmSolver *
-cb_load_and_create (GnmSolverFactory *factory, SolverParameters *param)
+cb_load_and_create (GnmSolverFactory *factory, GnmSolverParameters *param)
 {
 	PluginServiceSolver *ssol =
 		g_object_get_data (G_OBJECT (factory), "ssol");
@@ -539,14 +539,14 @@ plugin_service_solver_read_xml (GOPluginService *service, xmlNode *tree,
 {
 	PluginServiceSolver *ssol = GNM_PLUGIN_SERVICE_SOLVER (service);
 	xmlChar *s_id, *s_name, *s_type;
-	SolverProblemType type = SolverLPModel;
+	GnmSolverProblemType type = GNM_SOLVER_LP;
 	xmlNode *information_node;
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 
 	s_type = go_xml_node_get_cstr (tree, "problem_type");
 	if (s_type && strcmp (CXML2C (s_type), "mip") == 0)
-		type = SolverLPModel;
+		type = GNM_SOLVER_LP;
 	else {
 		*ret_error = go_error_info_new_str (_("Invalid solver problem type."));
 		return;

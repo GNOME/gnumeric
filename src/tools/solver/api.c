@@ -58,7 +58,7 @@
  */
 
 static SolverProgram
-w_qp_dummy_init (const SolverParameters *param)
+w_qp_dummy_init (const GnmSolverParameters *param)
 {
         printf ("w_qp_dummy_init\n");
 	return NULL;

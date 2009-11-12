@@ -274,7 +274,7 @@ mps_write_sheet_labels (MpsInputContext *ctxt, Sheet *sh)
 
 static void
 mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
-			SolverParameters *param)
+			GnmSolverParameters *param)
 {
 	GSList  *current;
 	int     i, n, r, ecol, inc2;
@@ -448,7 +448,7 @@ mps_create_sheet (MpsInputContext *ctxt, WorkbookView *wbv)
         Sheet            *sh = wbv->current_sheet;
 	gint             i;
 	int              n_rows_per_fn;
-	SolverParameters *param = sh->solver_parameters;
+	GnmSolverParameters *param = sh->solver_parameters;
 	const char *row_name =
 		ctxt->objective_row
 		? ctxt->objective_row->name
@@ -480,7 +480,7 @@ mps_create_sheet (MpsInputContext *ctxt, WorkbookView *wbv)
 
 	gnm_cellref_init (&cr, NULL, OBJECTIVE_VALUE_COL, MAIN_INFO_ROW, TRUE);
 	gnm_solver_param_set_target (param, &cr);
-	param->problem_type = SolverMinimize;
+	param->problem_type = GNM_SOLVER_MINIMIZE;
 
 	/* Write the name of the program. */
 	if (ctxt->name != NULL)

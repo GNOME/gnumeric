@@ -194,7 +194,7 @@ solver_answer_report (WorkbookControl *wbc,
 	 */
 
 	/* Fill in the column A labels into the answer report sheet. */
-	if (res->param->problem_type == SolverMaximize)
+	if (res->param->problem_type == GNM_SOLVER_MAXIMIZE)
 	        dao_set_cell (&dao, 0, 5, _("Target Cell (Maximize)"));
 	else
 	        dao_set_cell (&dao, 0, 5, _("Target Cell (Minimize)"));
@@ -532,14 +532,11 @@ solver_performance_report (WorkbookControl *wbc,
 
 	/* Print the problem type. */
 	switch (res->param->problem_type) {
-	case SolverMinimize:
+	case GNM_SOLVER_MINIMIZE:
 	        dao_set_cell (&dao, 2, 6, _("Minimization"));
 		break;
-	case SolverMaximize:
+	case GNM_SOLVER_MAXIMIZE:
 	        dao_set_cell (&dao, 2, 6, _("Maximization"));
-		break;
-	case SolverEqualTo:
-	        dao_set_cell (&dao, 2, 6, _("Target value search"));
 		break;
 	}
 
@@ -790,7 +787,7 @@ solver_program_report (WorkbookControl *wbc,
 
 	/* Print the objective function. */
 	max_col = 0;
-	if (res->param->options.model_type == SolverLPModel) {
+	if (res->param->options.model_type == GNM_SOLVER_LP) {
 	        /* This is for linear models. */
 	        col = 0;
 		for (i = 0; i < vars; i++) {
@@ -818,7 +815,7 @@ solver_program_report (WorkbookControl *wbc,
 			}
 		}
 	} else {
-	        /* This is for quadratic models. (SolverQPModel) */
+	        /* This is for quadratic models. (GNM_SOLVER_QP) */
 	}
 
 
@@ -921,14 +918,11 @@ solver_program_report (WorkbookControl *wbc,
 
 	/* Print the type of the program. */
 	switch (res->param->problem_type) {
-	case SolverMinimize:
+	case GNM_SOLVER_MINIMIZE:
 	        dao_set_cell (&dao, 0, 5, _("Minimize"));
 		break;
-	case SolverMaximize:
+	case GNM_SOLVER_MAXIMIZE:
 	        dao_set_cell (&dao, 0, 5, _("Maximize"));
-		break;
-	case SolverEqualTo:
-	        dao_set_cell (&dao, 0, 5, _("Equal to"));
 		break;
 	}
 	dao_set_bold (&dao, 0, 5, 0, 5);

@@ -33,7 +33,7 @@
  * Solver's API for LP solving algorithms
  */
 typedef SolverProgram
-        (solver_init_fn)                (SolverParameters const *param);
+        (solver_init_fn)                (GnmSolverParameters const *param);
 typedef void
         (solver_remove_fn)              (SolverProgram p);
 typedef void

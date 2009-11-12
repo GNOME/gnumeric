@@ -2,6 +2,7 @@
 #include "gnumeric.h"
 #include "value.h"
 #include "cell.h"
+#include "expr.h"
 #include "sheet.h"
 #include "workbook.h"
 #include "ranges.h"
@@ -59,6 +60,478 @@ gnm_solver_status_get_type (void)
 		etype = g_enum_register_static ("GnmStatus", values);
 	}
 	return etype;
+}
+
+/* ------------------------------------------------------------------------- */
+
+GnmSolverConstraint *
+gnm_solver_constraint_new (Sheet *sheet)
+{
+	GnmSolverConstraint *res = g_new0 (GnmSolverConstraint, 1);
+	dependent_managed_init (&res->lhs, sheet);
+	dependent_managed_init (&res->rhs, sheet);
+	return res;
+}
+
+void
+gnm_solver_constraint_free (GnmSolverConstraint *c)
+{
+	gnm_solver_constraint_set_lhs (c, NULL);
+	gnm_solver_constraint_set_rhs (c, NULL);
+	g_free (c);
+}
+
+GnmSolverConstraint *
+gnm_solver_constraint_dup (GnmSolverConstraint *c, Sheet *sheet)
+{
+	GnmSolverConstraint *res = gnm_solver_constraint_new (sheet);
+	res->type = c->type;
+	dependent_managed_set_expr (&res->lhs, res->lhs.texpr);
+	dependent_managed_set_expr (&res->rhs, res->lhs.texpr);
+	return res;
+}
+
+gboolean
+gnm_solver_constraint_has_rhs (GnmSolverConstraint const *c)
+{
+	g_return_val_if_fail (c != NULL, FALSE);
+
+	switch (c->type) {
+	case GNM_SOLVER_LE:
+	case GNM_SOLVER_GE:
+	case GNM_SOLVER_EQ:
+		return TRUE;
+	case GNM_SOLVER_INTEGER:
+	case GNM_SOLVER_BOOLEAN:
+	default:
+		return FALSE;
+	}
+}
+
+gboolean
+gnm_solver_constraint_valid (GnmSolverConstraint const *c,
+			     GnmSolverParameters const *sp)
+{
+	GnmValue const *lhs;
+
+	g_return_val_if_fail (c != NULL, FALSE);
+
+	lhs = gnm_solver_constraint_get_lhs (c);
+	if (lhs == NULL || lhs->type != VALUE_CELLRANGE)
+		return FALSE;
+
+	if (gnm_solver_constraint_has_rhs (c)) {
+		GnmValue const *rhs = gnm_solver_constraint_get_lhs (c);
+		if (rhs == NULL)
+			return FALSE;
+		if (rhs->type == VALUE_CELLRANGE) {
+			GnmRange rl, rr;
+
+			range_init_value (&rl, lhs);
+			range_init_value (&rr, rhs);
+
+			if (range_width (&rl) != range_width (&rr) ||
+			    range_height (&rl) != range_height (&rr))
+				return FALSE;
+		} else if (VALUE_IS_FLOAT (rhs)) {
+			/* Nothing */
+		} else
+			return FALSE;
+	}
+
+	switch (c->type) {
+	case GNM_SOLVER_INTEGER:
+	case GNM_SOLVER_BOOLEAN: {
+		GnmValue const *vinput = gnm_solver_param_get_input (sp);
+		GnmSheetRange sr_input, sr_c;
+
+		if (!vinput)
+			break; /* No need to blame contraint.  */
+
+		gnm_sheet_range_from_value (&sr_input, vinput);
+		gnm_sheet_range_from_value (&sr_c, lhs);
+
+		if (eval_sheet (sr_input.sheet, sp->sheet) !=
+		    eval_sheet (sr_c.sheet, sp->sheet) ||
+		    !range_contained (&sr_c.range, &sr_input.range))
+			return FALSE;
+		break;
+	}
+
+	default:
+		break;
+	}
+
+	return TRUE;
+}
+
+GnmValue const *
+gnm_solver_constraint_get_lhs (GnmSolverConstraint const *c)
+{
+	GnmExprTop const *texpr = c->lhs.texpr;
+	return texpr ? gnm_expr_top_get_constant (texpr) : NULL;
+}
+
+void
+gnm_solver_constraint_set_lhs (GnmSolverConstraint *c, GnmValue *v)
+{
+	/* Takes ownership.  */
+	GnmExprTop const *texpr = v ? gnm_expr_top_new_constant (v) : NULL;
+	dependent_managed_set_expr (&c->lhs, texpr);
+	if (texpr) gnm_expr_top_unref (texpr);
+}
+
+GnmValue const *
+gnm_solver_constraint_get_rhs (GnmSolverConstraint const *c)
+{
+	GnmExprTop const *texpr = c->rhs.texpr;
+	return texpr ? gnm_expr_top_get_constant (texpr) : NULL;
+}
+
+void
+gnm_solver_constraint_set_rhs (GnmSolverConstraint *c, GnmValue *v)
+{
+	/* Takes ownership.  */
+	GnmExprTop const *texpr = v ? gnm_expr_top_new_constant (v) : NULL;
+	dependent_managed_set_expr (&c->rhs, texpr);
+	if (texpr) gnm_expr_top_unref (texpr);
+}
+
+gboolean
+gnm_solver_constraint_get_part (GnmSolverConstraint const *c,
+				GnmSolverParameters const *sp, int i,
+				GnmCell **lhs, gnm_float *cl,
+				GnmCell **rhs, gnm_float *cr)
+{
+	GnmRange r;
+	int h, w, dx, dy;
+	GnmValue const *vl, *vr;
+
+	if (cl)	*cl = 0;
+	if (cr)	*cr = 0;
+	if (lhs) *lhs = NULL;
+	if (rhs) *rhs = NULL;
+
+	if (!gnm_solver_constraint_valid (c, sp))
+		return FALSE;
+
+	vl = gnm_solver_constraint_get_lhs (c);
+	vr = gnm_solver_constraint_get_rhs (c);
+
+	range_init_value (&r, vl);
+	w = range_width (&r);
+	h = range_height (&r);
+
+	dy = i / w;
+	dx = i % w;
+	if (dy >= h)
+		return FALSE;
+
+	if (lhs)
+		*lhs = sheet_cell_get (sp->sheet,
+				       r.start.col + dx, r.start.row + dy);
+
+	if (gnm_solver_constraint_has_rhs (c)) {
+		if (VALUE_IS_FLOAT (vr)) {
+			if (cr)
+				*cr = value_get_as_float (vr);
+		} else {
+			range_init_value (&r, vr);
+			if (rhs)
+				*rhs = sheet_cell_get (sp->sheet,
+						       r.start.col + dx,
+						       r.start.row + dy);
+		}
+	}
+
+	return TRUE;
+}
+
+void
+gnm_solver_constraint_set_old (GnmSolverConstraint *c,
+			       GnmSolverConstraintType type,
+			       int lhs_col, int lhs_row,
+			       int rhs_col, int rhs_row,
+			       int cols, int rows)
+{
+	GnmRange r;
+
+	c->type = type;
+
+	range_init (&r,
+		    lhs_col, lhs_row,
+		    lhs_col + (cols - 1), lhs_row + (rows - 1));
+	gnm_solver_constraint_set_lhs
+		(c, value_new_cellrange_r (NULL, &r));
+
+	if (gnm_solver_constraint_has_rhs (c)) {
+		range_init (&r,
+			    rhs_col, rhs_row,
+			    rhs_col + (cols - 1), rhs_row + (rows - 1));
+		gnm_solver_constraint_set_rhs
+			(c, value_new_cellrange_r (NULL, &r));
+	} else
+		gnm_solver_constraint_set_rhs (c, NULL);
+}
+
+void
+gnm_solver_constraint_side_as_str (GnmSolverConstraint const *c,
+				   Sheet const *sheet,
+				   GString *buf, gboolean lhs)
+{
+	GnmExprTop const *texpr;
+
+	texpr = lhs ? c->lhs.texpr : c->rhs.texpr;
+	if (texpr) {
+		GnmConventionsOut out;
+		GnmParsePos pp;
+
+		out.accum = buf;
+		out.pp = parse_pos_init_sheet (&pp, sheet);
+		out.convs = sheet->convs;
+		gnm_expr_top_as_gstring (texpr, &out);
+	} else
+		g_string_append (buf,
+				 value_error_name (GNM_ERROR_REF,
+						   sheet->convs->output.translated));
+}
+
+char *
+gnm_solver_constraint_as_str (GnmSolverConstraint const *c, Sheet *sheet)
+{
+	const char * const type_str[] =	{
+		"\xe2\x89\xa4" /* "<=" */,
+		"\xe2\x89\xa5" /* ">=" */,
+		"=", "Int", "Bool"
+	};
+	GString *buf = g_string_new (NULL);
+
+	gnm_solver_constraint_side_as_str (c, sheet, buf, TRUE);
+	g_string_append_c (buf, ' ');
+	g_string_append (buf, type_str[c->type]);
+	if (gnm_solver_constraint_has_rhs (c)) {
+		g_string_append_c (buf, ' ');
+		gnm_solver_constraint_side_as_str (c, sheet, buf, FALSE);
+	}
+
+	return g_string_free (buf, FALSE);
+}
+
+/* ------------------------------------------------------------------------- */
+
+GnmSolverParameters *
+gnm_solver_param_new (Sheet *sheet)
+{
+	GnmSolverParameters *res = g_new0 (GnmSolverParameters, 1);
+
+	dependent_managed_init (&res->target, sheet);
+	dependent_managed_init (&res->input, sheet);
+
+	res->options.model_type          = GNM_SOLVER_LP;
+	res->sheet                       = sheet;
+	res->options.assume_non_negative = TRUE;
+	res->options.algorithm           = NULL;
+	res->options.scenario_name       = g_strdup ("Optimal");
+	res->problem_type                = GNM_SOLVER_MAXIMIZE;
+	res->constraints                 = NULL;
+	res->constraints		 = NULL;
+
+	return res;
+}
+
+void
+gnm_solver_param_free (GnmSolverParameters *sp)
+{
+	dependent_managed_set_expr (&sp->target, NULL);
+	dependent_managed_set_expr (&sp->input, NULL);
+	go_slist_free_custom (sp->constraints,
+			      (GFreeFunc)gnm_solver_constraint_free);
+	g_free (sp->options.scenario_name);
+	g_free (sp);
+}
+
+GnmSolverParameters *
+gnm_solver_param_dup (const GnmSolverParameters *src_param, Sheet *new_sheet)
+{
+	GnmSolverParameters *dst_param = gnm_solver_param_new (new_sheet);
+	GSList           *constraints;
+
+	dst_param->problem_type = src_param->problem_type;
+	dependent_managed_set_expr (&dst_param->target,
+				    src_param->target.texpr);
+	dependent_managed_set_expr (&dst_param->input,
+				    src_param->input.texpr);
+
+	g_free (dst_param->options.scenario_name);
+	dst_param->options = src_param->options;
+	dst_param->options.scenario_name = g_strdup (src_param->options.scenario_name);
+	/* Had there been any non-scalar options, we'd copy them here.  */
+
+	/* Copy the constraints */
+	for (constraints = src_param->constraints; constraints;
+	     constraints = constraints->next) {
+		GnmSolverConstraint *old = constraints->data;
+		GnmSolverConstraint *new = gnm_solver_constraint_dup (old, new_sheet);
+
+		dst_param->constraints =
+		        g_slist_prepend (dst_param->constraints, new);
+	}
+	dst_param->constraints = g_slist_reverse (dst_param->constraints);
+
+	dst_param->n_constraints       = src_param->n_constraints;
+	dst_param->n_variables         = src_param->n_variables;
+	dst_param->n_int_constraints   = src_param->n_int_constraints;
+	dst_param->n_bool_constraints  = src_param->n_bool_constraints;
+	dst_param->n_total_constraints = src_param->n_total_constraints;
+
+	return dst_param;
+}
+
+GnmValue const *
+gnm_solver_param_get_input (GnmSolverParameters const *sp)
+{
+	return sp->input.texpr
+		? gnm_expr_top_get_constant (sp->input.texpr)
+		: NULL;
+}
+
+void
+gnm_solver_param_set_input (GnmSolverParameters *sp, GnmValue *v)
+{
+	/* Takes ownership.  */
+	GnmExprTop const *texpr = v ? gnm_expr_top_new_constant (v) : NULL;
+	dependent_managed_set_expr (&sp->input, texpr);
+	if (texpr) gnm_expr_top_unref (texpr);
+}
+
+static GnmValue *
+cb_grab_cells (GnmCellIter const *iter, gpointer user)
+{
+	GSList **the_list = user;
+	GnmCell *cell;
+
+	if (NULL == (cell = iter->cell))
+		cell = sheet_cell_create (iter->pp.sheet,
+			iter->pp.eval.col, iter->pp.eval.row);
+	*the_list = g_slist_append (*the_list, cell);
+	return NULL;
+}
+
+GSList *
+gnm_solver_param_get_input_cells (GnmSolverParameters const *sp)
+{
+	GnmValue const *vr = gnm_solver_param_get_input (sp);
+	GSList *input_cells = NULL;
+	GnmEvalPos ep;
+
+	if (!vr)
+		return NULL;
+
+	eval_pos_init_sheet (&ep, sp->sheet);
+	workbook_foreach_cell_in_range (&ep, vr, CELL_ITER_ALL,
+					cb_grab_cells,
+					&input_cells);
+	return input_cells;
+}
+
+void
+gnm_solver_param_set_target (GnmSolverParameters *sp, GnmCellRef const *cr)
+{
+	GnmCellRef cr2 = *cr;
+	GnmExprTop const *texpr;
+
+	/* Make reference absolute to avoid tracking problems on row/col
+	   insert.  */
+	cr2.row_relative = FALSE;
+	cr2.col_relative = FALSE;
+
+	texpr = gnm_expr_top_new (gnm_expr_new_cellref (&cr2));
+	dependent_managed_set_expr (&sp->target, texpr);
+	gnm_expr_top_unref (texpr);
+}
+
+const GnmCellRef *
+gnm_solver_param_get_target (GnmSolverParameters const *sp)
+{
+	return sp->target.texpr
+		? gnm_expr_top_get_cellref (sp->target.texpr)
+		: NULL;
+}
+
+GnmCell *
+gnm_solver_param_get_target_cell (GnmSolverParameters const *sp)
+{
+	const GnmCellRef *cr = gnm_solver_param_get_target (sp);
+	if (!cr)
+		return NULL;
+
+        return sheet_cell_get (eval_sheet (cr->sheet, sp->sheet),
+			       cr->col, cr->row);
+}
+
+gboolean
+gnm_solver_param_valid (GnmSolverParameters const *sp, GError **err)
+{
+	GSList *l;
+	int i;
+	GnmCell *target_cell;
+	GSList *input_cells;
+
+	target_cell = gnm_solver_param_get_target_cell (sp);
+	if (!target_cell) {
+		g_set_error (err,
+			     go_error_invalid (),
+			     0,
+			     _("Invalid solver target"));
+		return FALSE;
+	}
+
+	if (!gnm_cell_has_expr (target_cell) ||
+	    target_cell->value == NULL ||
+	    !VALUE_IS_FLOAT (target_cell->value)) {
+		g_set_error (err,
+			     go_error_invalid (),
+			     0,
+			     _("Target cell, %s, must contain a formula that evaluates to a number"),
+			     cell_name (target_cell));
+		return FALSE;
+	}
+
+	if (!gnm_solver_param_get_input (sp)) {
+		g_set_error (err,
+			     go_error_invalid (),
+			     0,
+			     _("Invalid solver input range"));
+		return FALSE;
+	}
+	input_cells = gnm_solver_param_get_input_cells (sp);
+	for (l = input_cells; l; l = l->next) {
+		GnmCell *cell = l->data;
+		if (gnm_cell_has_expr (cell)) {
+			g_set_error (err,
+				     go_error_invalid (),
+				     0,
+				     _("Input cell %s contains a formula"),
+				     cell_name (cell));
+			g_slist_free (input_cells);
+			return FALSE;
+		}
+	}
+	g_slist_free (input_cells);
+
+	for (i = 1, l = sp->constraints; l; i++, l = l->next) {
+		GnmSolverConstraint *c = l->data;
+		if (!gnm_solver_constraint_valid (c, sp)) {
+			g_set_error (err,
+				     go_error_invalid (),
+				     0,
+				     _("Solver constraint #%d is invalid"),
+				     i);
+			return FALSE;
+		}
+	}
+
+	return TRUE;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -622,7 +1095,7 @@ gnm_solver_db_get (void)
 GnmSolverFactory *
 gnm_solver_factory_new (const char *id,
 			const char *name,
-			SolverModelType type,
+			GnmSolverModelType type,
 			GnmSolverCreator creator)
 {
 	GnmSolverFactory *res;
@@ -641,7 +1114,7 @@ gnm_solver_factory_new (const char *id,
 
 GnmSolver *
 gnm_solver_factory_create (GnmSolverFactory *factory,
-			   SolverParameters *param)
+			   GnmSolverParameters *param)
 {
 	g_return_val_if_fail (GNM_IS_SOLVER_FACTORY (factory), NULL);
 	return factory->creator (factory, param);

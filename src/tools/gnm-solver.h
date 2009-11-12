@@ -31,6 +31,7 @@ typedef enum {
 	GNM_SOLVER_STATUS_CANCELLED
 } GnmSolverStatus;
 
+
 typedef enum {
         GNM_SOLVER_LE,
 	GNM_SOLVER_GE,
@@ -38,6 +39,17 @@ typedef enum {
 	GNM_SOLVER_INTEGER,
 	GNM_SOLVER_BOOLEAN
 } GnmSolverConstraintType;
+
+
+typedef enum {
+	GNM_SOLVER_LP, GNM_SOLVER_QP
+} GnmSolverModelType;
+
+
+typedef enum {
+        GNM_SOLVER_MINIMIZE, GNM_SOLVER_MAXIMIZE
+} GnmSolverProblemType;
+
 
 /* -------------------------------------------------------------------------- */
 
@@ -53,6 +65,8 @@ struct GnmSolverConstraint_ {
 
 GnmSolverConstraint *gnm_solver_constraint_new (Sheet *sheet);
 void gnm_solver_constraint_free (GnmSolverConstraint *c);
+GnmSolverConstraint *gnm_solver_constraint_dup (GnmSolverConstraint *c,
+						Sheet *sheet);
 
 void gnm_solver_constraint_set_old (GnmSolverConstraint *c,
 				    GnmSolverConstraintType type,
@@ -62,9 +76,9 @@ void gnm_solver_constraint_set_old (GnmSolverConstraint *c,
 
 gboolean gnm_solver_constraint_has_rhs (GnmSolverConstraint const *c);
 gboolean gnm_solver_constraint_valid (GnmSolverConstraint const *c,
-				      SolverParameters const *sp);
+				      GnmSolverParameters const *sp);
 gboolean gnm_solver_constraint_get_part (GnmSolverConstraint const *c,
-					 SolverParameters const *sp, int i,
+					 GnmSolverParameters const *sp, int i,
 					 GnmCell **lhs, gnm_float *cl,
 					 GnmCell **rhs, gnm_float *cr);
 
@@ -81,6 +95,62 @@ char *gnm_solver_constraint_as_str (GnmSolverConstraint const *c, Sheet *sheet);
 
 /* ------------------------------------------------------------------------- */
 
+typedef struct {
+	int                 max_time_sec;
+	int                 max_iter;
+	GnmSolverFactory   *algorithm;
+	GnmSolverModelType  model_type;
+	gboolean            assume_non_negative;
+	gboolean            assume_discrete;
+	gboolean            automatic_scaling;
+	gboolean            show_iter_results;
+	gboolean            answer_report;
+	gboolean            sensitivity_report;
+	gboolean            limits_report;
+	gboolean            performance_report;
+	gboolean            program_report;
+	gboolean            dual_program_report;
+	gboolean            add_scenario;
+	gchar               *scenario_name;
+} GnmSolverOptions;
+
+struct GnmSolverParameters_ {
+	GnmSolverProblemType  problem_type;
+	Sheet                *sheet;
+	GnmDependent          target;
+	GnmDependent          input;
+	GSList                *constraints;
+	int                   n_constraints;
+	int                   n_variables;
+	int                   n_int_constraints;
+	int                   n_bool_constraints;
+	int                   n_total_constraints;
+	GnmSolverOptions         options;
+};
+
+/* Creates a new GnmSolverParameters object. */
+GnmSolverParameters *gnm_solver_param_new (Sheet *sheet);
+
+/* Duplicate a GnmSolverParameters object. */
+GnmSolverParameters *gnm_solver_param_dup (GnmSolverParameters const *src_param,
+					   Sheet *new_sheet);
+
+/* Frees the memory resources in the solver parameter structure. */
+void gnm_solver_param_free (GnmSolverParameters *sp);
+
+GnmValue const *gnm_solver_param_get_input (GnmSolverParameters const *sp);
+void gnm_solver_param_set_input (GnmSolverParameters *sp, GnmValue *v);
+GSList *gnm_solver_param_get_input_cells (GnmSolverParameters const *sp);
+
+const GnmCellRef *gnm_solver_param_get_target (GnmSolverParameters const *sp);
+void gnm_solver_param_set_target (GnmSolverParameters *sp,
+				  GnmCellRef const *cr);
+GnmCell *gnm_solver_param_get_target_cell (GnmSolverParameters const *sp);
+
+gboolean gnm_solver_param_valid (GnmSolverParameters const *sp, GError **err);
+
+/* -------------------------------------------------------------------------- */
+
 #define GNM_SOLVER_RESULT_TYPE   (gnm_solver_result_get_type ())
 #define GNM_SOLVER_RESULT(o)     (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_SOLVER_RESULT_TYPE, GnmSolverResult))
 
@@ -88,7 +158,11 @@ typedef struct {
 	GObject parent;
 
 	GnmSolverResultQuality quality;
+
+	/* Objective value, if any */
 	gnm_float value;
+
+	/* Array value of solution, if any */
 	GnmValue *solution;
 } GnmSolverResult;
 
@@ -110,7 +184,7 @@ typedef struct {
 	GObject parent;
 
 	GnmSolverStatus status;
-	SolverParameters *params;
+	GnmSolverParameters *params;
 	GnmSolverResult *result;
 } GnmSolver;
 
@@ -195,14 +269,14 @@ void gnm_sub_solver_flush (GnmSubSolver *subsol);
 #define GNM_IS_SOLVER_FACTORY(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_SOLVER_FACTORY_TYPE))
 
 typedef GnmSolver * (*GnmSolverCreator) (GnmSolverFactory *,
-					 SolverParameters *);
+					 GnmSolverParameters *);
 
 struct GnmSolverFactory_ {
 	GObject parent;
 
 	char *id;
 	char *name; /* Already translated */
-	SolverModelType type;
+	GnmSolverModelType type;
 	GnmSolverCreator creator;
 };
 
@@ -214,10 +288,10 @@ GType gnm_solver_factory_get_type (void);
 
 GnmSolverFactory *gnm_solver_factory_new (const char *id,
 					  const char *name,
-					  SolverModelType type,
+					  GnmSolverModelType type,
 					  GnmSolverCreator creator);
 GnmSolver *gnm_solver_factory_create (GnmSolverFactory *factory,
-				      SolverParameters *param);
+				      GnmSolverParameters *param);
 
 GSList *gnm_solver_db_get (void);
 void gnm_solver_db_register (GnmSolverFactory *factory);

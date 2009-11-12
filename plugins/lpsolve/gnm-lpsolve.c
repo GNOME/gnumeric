@@ -266,10 +266,10 @@ gnm_lpsolve_stop (GnmSolver *sol, GError *err, GnmLPSolve *lp)
 }
 
 GnmSolver *
-lpsolve_solver_factory (GnmSolverFactory *factory, SolverParameters *params);
+lpsolve_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params);
 
 GnmSolver *
-lpsolve_solver_factory (GnmSolverFactory *factory, SolverParameters *params)
+lpsolve_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params)
 {
 	GnmSolver *res = g_object_new (GNM_SUB_SOLVER_TYPE,
 					  "params", params,

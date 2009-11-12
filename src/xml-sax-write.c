@@ -965,7 +965,7 @@ xml_write_sheet_filters (GnmOutputXML *state)
 static void
 xml_write_solver (GnmOutputXML *state)
 {
-        SolverParameters *param = state->sheet->solver_parameters;
+        GnmSolverParameters *param = state->sheet->solver_parameters;
 	GSList *ptr;
 	GnmCellRef const *target;
 	GnmValue const *input;

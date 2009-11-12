@@ -154,7 +154,7 @@ fail:
 static GString *
 lpsolve_create_program (Sheet *sheet, GOIOContext *io_context, GError **err)
 {
-	SolverParameters *sp = sheet->solver_parameters;
+	GnmSolverParameters *sp = sheet->solver_parameters;
 	GString *prg = NULL;
 	GString *constraints = g_string_new (NULL);
 	GString *declarations = g_string_new (NULL);
@@ -176,17 +176,10 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context, GError **err)
 	/* ---------------------------------------- */
 
 	switch (sp->problem_type) {
-	case SolverEqualTo:
-		if (!lpsolve_affine_func (constraints, target_cell,
-					  input_cells, err))
-			goto fail;
-		/* FIXME -- what value goes here?  */
-		g_string_append (constraints, " = 42;\n");
-		/* Fall through */
-	case SolverMinimize:
+	case GNM_SOLVER_MINIMIZE:
 		g_string_append (objfunc, "min: ");
 		break;
-	case SolverMaximize:
+	case GNM_SOLVER_MAXIMIZE:
 		g_string_append (objfunc, "max: ");
 		break;
 	default:

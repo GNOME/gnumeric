@@ -133,7 +133,7 @@ dialog_set_sec_button_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 	gboolean select_ready = (state->constr != NULL);
 	GnmSolverConstraint *test = gnm_solver_constraint_new (NULL);
 	gboolean ready, has_rhs;
-	SolverParameters const *param = state->sheet->solver_parameters;
+	GnmSolverParameters const *param = state->sheet->solver_parameters;
 
 	constraint_fill (test, state);
 	ready = gnm_solver_constraint_valid (test, param);
@@ -213,7 +213,7 @@ cb_dialog_delete_clicked (G_GNUC_UNUSED GtkWidget *button, SolverState *state)
 	if (state->constr != NULL) {
 		GtkTreeIter iter;
 		GtkTreeModel *store;
-		SolverParameters *param = state->sheet->solver_parameters;
+		GnmSolverParameters *param = state->sheet->solver_parameters;
 
 		param->constraints =
 			g_slist_remove (param->constraints, state->constr);
@@ -247,7 +247,7 @@ cb_dialog_add_clicked (SolverState *state)
 	if (dialog_set_sec_button_sensitivity (NULL, state)) {
 		GtkTreeIter   iter;
 		GtkListStore *store = GTK_LIST_STORE (gtk_tree_view_get_model (state->constraint_list));
-		SolverParameters *param = state->sheet->solver_parameters;
+		GnmSolverParameters *param = state->sheet->solver_parameters;
 
 		gtk_list_store_append (store, &iter);
 		state->constr = gnm_solver_constraint_new (state->sheet);
@@ -285,7 +285,7 @@ dialog_set_main_button_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 }
 
 static gboolean
-fill_algorithm_combo (SolverState *state, SolverModelType type)
+fill_algorithm_combo (SolverState *state, GnmSolverModelType type)
 {
 	GtkListStore *store =
 		gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
@@ -328,7 +328,7 @@ static void
 cb_dialog_model_type_clicked (G_GNUC_UNUSED GtkWidget *button,
 			      SolverState *state)
 {
-	SolverModelType type;
+	GnmSolverModelType type;
 	gboolean any;
 
 	type = gnumeric_glade_group_value (state->gui, model_type_group);
@@ -366,117 +366,6 @@ cb_dialog_close_clicked (G_GNUC_UNUSED GtkWidget *button,
 			 SolverState *state)
 {
 	gtk_widget_destroy (state->dialog);
-}
-
-/* Returns FALSE if the reports deleted the current sheet
- * and forced the dialog to die */
-static gboolean
-solver_reporting (SolverState *state, SolverResults *res)
-{
-	SolverOptions *opt = &res->param->options;
-	gchar         *err = NULL;
-
-	g_object_add_weak_pointer (G_OBJECT (state->dialog), (gpointer)&state);
-	switch (res->status) {
-	case SolverOptimal :
-		go_gtk_notice_nonmodal_dialog
-			((GtkWindow *) state->dialog,
-			 &(state->warning_dialog),
-			 GTK_MESSAGE_INFO,
-			 _("Solver found an optimal solution.  All "
-			   "constraints and optimality conditions are "
-			   "satisfied.\n"));
-		if ((opt->sensitivity_report || opt->limits_report)
-		    && res->ilp_flag)
-			go_gtk_notice_nonmodal_dialog
-				((GtkWindow *) state->dialog,
-				 &(state->warning_dialog),
-				 GTK_MESSAGE_INFO,
-				 _("Neither sensitivity nor limits report are "
-				   "meaningful if the program has "
-				   "integer constraints.  These reports "
-				   "will not be created."));
-		err = solver_reports (WORKBOOK_CONTROL(state->wbcg),
-				      state->sheet, res,
-				      opt->answer_report,
-				      opt->sensitivity_report,
-				      opt->limits_report,
-				      opt->performance_report,
-				      opt->program_report,
-				      opt->dual_program_report);
-		break;
-	case SolverUnbounded :
-		go_gtk_notice_nonmodal_dialog
-			((GtkWindow *) state->dialog,
-			 &(state->warning_dialog),
-			 GTK_MESSAGE_WARNING,
-			 _("The Target Cell value specified does not "
-			   "converge!  The program is unbounded."));
-		err = solver_reports (WORKBOOK_CONTROL(state->wbcg),
-				      state->sheet, res,
-				      FALSE, FALSE, FALSE,
-				      opt->performance_report,
-				      opt->program_report,
-				      opt->dual_program_report);
-		break;
-	case SolverInfeasible :
-		go_gtk_notice_nonmodal_dialog
-			((GtkWindow *) state->dialog,
-			 &(state->warning_dialog),
-			 GTK_MESSAGE_WARNING,
-			 _("A feasible solution could not be found.  "
-			   "All specified constraints cannot be met "
-			   "simultaneously. "));
-		err = solver_reports (WORKBOOK_CONTROL(state->wbcg),
-				      state->sheet, res,
-				      FALSE, FALSE, FALSE,
-				      opt->performance_report,
-				      opt->program_report,
-				      opt->dual_program_report);
-		break;
-	case SolverMaxIterExc :
-		go_gtk_notice_nonmodal_dialog
-			((GtkWindow *) state->dialog,
-			 &(state->warning_dialog),
-			 GTK_MESSAGE_ERROR,
-			 _("The maximum number of iterations exceeded. "
-			   "The optimal value could not be found."));
-		err = solver_reports (WORKBOOK_CONTROL(state->wbcg),
-				      state->sheet, res,
-				      FALSE, FALSE, FALSE,
-				      opt->performance_report,
-				      opt->program_report,
-				      opt->dual_program_report);
-		break;
-	case SolverMaxTimeExc :
-		go_gtk_notice_nonmodal_dialog
-			((GtkWindow *) state->dialog,
-			 &(state->warning_dialog),
-			 GTK_MESSAGE_ERROR,
-			 SOLVER_MAX_TIME_ERR);
-		err = solver_reports (WORKBOOK_CONTROL(state->wbcg),
-				      state->sheet, res,
-				      FALSE, FALSE, FALSE,
-				      opt->performance_report,
-				      opt->program_report,
-				      opt->dual_program_report);
-		break;
-	default:
-		go_gtk_notice_nonmodal_dialog
-			((GtkWindow *) state->dialog,
-			 &(state->warning_dialog),
-			 GTK_MESSAGE_ERROR,
-			 _("Unknown error."));
-		break;
-	}
-	if (NULL != state)
-		g_object_remove_weak_pointer (G_OBJECT (state->dialog), (gpointer)&state);
-
-	if (err)
-		go_gtk_notice_nonmodal_dialog (state ? ((GtkWindow *) state->dialog) : NULL,
-			 &(state->warning_dialog), GTK_MESSAGE_ERROR, err);
-
-	return state != NULL;
 }
 
 static void
@@ -604,7 +493,7 @@ cb_timer_tick (SolverState *state)
 }
 
 static GnmSolverResult *
-run_solver (SolverState *state, SolverParameters *param)
+run_solver (SolverState *state, GnmSolverParameters *param)
 {
 	GtkDialog *dialog;
 	GtkWidget *hbox;
@@ -752,7 +641,7 @@ fail:
 static void
 solver_add_scenario (SolverState *state, SolverResults *res, gchar const *name)
 {
-	SolverParameters *param = res->param;
+	GnmSolverParameters *param = res->param;
 	GnmValue         *input_range;
 	gchar const      *comment = _("Optimal solution created by solver.\n");
 	scenario_t       *scenario;
@@ -784,7 +673,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	gboolean                answer, sensitivity, limits, performance;
 	gboolean                program, dual_program;
 	GError *err = NULL;
-	SolverParameters        *param;
+	GnmSolverParameters        *param;
 	GtkTreeIter iter;
 	GnmCell *target_cell;
 	GnmSolverFactory *factory = NULL;
@@ -875,12 +764,11 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	workbook_recalc (state->sheet->workbook);
 
 	if (res != NULL) {
-		SolverResults *oldres;
+		SolverResults *oldres = NULL;
 		/* WARNING : The dialog may be deleted by the reports
 		 * solver_reporting will return FALSE if state is gone and cleared */
 		if (0 &&
-		    solver_reporting (state, oldres) &&
-		    oldres->status == SolverOptimal &&
+		    res->quality == GNM_SOLVER_RESULT_OPTIMAL &&
 		    param->options.add_scenario)
 			solver_add_scenario (state, oldres,
 					     param->options.scenario_name);
@@ -912,7 +800,7 @@ static gboolean
 dialog_init (SolverState *state)
 {
 	GtkTable                *table;
-	SolverParameters        *param;
+	GnmSolverParameters        *param;
 	GtkCellRenderer *renderer;
 	GtkListStore *store;
 	GtkTreeViewColumn *column;
@@ -1154,16 +1042,16 @@ dialog_init (SolverState *state)
 					       cell_name (target_cell));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "max_button")),
-			param->problem_type == SolverMaximize);
+			param->problem_type == GNM_SOLVER_MAXIMIZE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "min_button")),
-			param->problem_type == SolverMinimize);
+			param->problem_type == GNM_SOLVER_MINIMIZE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "lp_model_button")),
-			param->options.model_type == SolverLPModel);
+			param->options.model_type == GNM_SOLVER_LP);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "qp_model_button")),
-			param->options.model_type == SolverQPModel);
+			param->options.model_type == GNM_SOLVER_QP);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "no_scenario")),
 			! param->options.add_scenario);

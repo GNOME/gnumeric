@@ -14,75 +14,6 @@ G_BEGIN_DECLS
 
 /* -------------------------------------------------------------------------- */
 
-typedef enum {
-	SolverLPModel, SolverQPModel, SolverNLPModel
-} SolverModelType;
-
-typedef enum {
-	LPSolve = 0, GLPKSimplex, QPDummy
-} SolverAlgorithmType;
-
-typedef struct {
-	int                 max_time_sec;
-	int                 max_iter;
-	GnmSolverFactory   *algorithm;
-	SolverModelType     model_type;
-	gboolean            assume_non_negative;
-	gboolean            assume_discrete;
-	gboolean            automatic_scaling;
-	gboolean            show_iter_results;
-	gboolean            answer_report;
-	gboolean            sensitivity_report;
-	gboolean            limits_report;
-	gboolean            performance_report;
-	gboolean            program_report;
-	gboolean            dual_program_report;
-	gboolean            add_scenario;
-	gchar               *scenario_name;
-} SolverOptions;
-
-/* -------------------------------------------------------------------------- */
-
-typedef enum {
-        SolverMinimize, SolverMaximize, SolverEqualTo
-} SolverProblemType;
-
-struct _SolverParameters {
-	SolverProblemType  problem_type;
-	Sheet             *sheet;
-	GnmDependent       target;
-	GnmDependent       input;
-	GSList             *constraints;
-	int                n_constraints;
-	int                n_variables;
-	int                n_int_constraints;
-	int                n_bool_constraints;
-	int                n_total_constraints;
-	SolverOptions      options;
-};
-
-/* Creates a new SolverParameters object. */
-SolverParameters *gnm_solver_param_new (Sheet *sheet);
-
-/* Duplicate a SolverParameters object. */
-SolverParameters *gnm_solver_param_dup (SolverParameters const *src_param,
-					Sheet *new_sheet);
-
-/* Frees the memory resources in the solver parameter structure. */
-void gnm_solver_param_free (SolverParameters *sp);
-
-GnmValue const *gnm_solver_param_get_input (SolverParameters const *sp);
-void gnm_solver_param_set_input (SolverParameters *sp, GnmValue *v);
-GSList *gnm_solver_param_get_input_cells (SolverParameters const *sp);
-
-const GnmCellRef *gnm_solver_param_get_target (SolverParameters const *sp);
-void gnm_solver_param_set_target (SolverParameters *sp, GnmCellRef const *cr);
-GnmCell *gnm_solver_param_get_target_cell (SolverParameters const *sp);
-
-gboolean gnm_solver_param_valid (SolverParameters const *sp, GError **err);
-
-/* -------------------------------------------------------------------------- */
-
 #ifdef GNM_ENABLE_SOLVER
 
 typedef enum {
@@ -135,7 +66,7 @@ typedef struct {
         gnm_float       *obj_coeff;
         gnm_float       **constr_coeff;
         SolverLimits     *limits;
-        SolverParameters *param;
+        GnmSolverParameters *param;
 } SolverResults;
 
 
