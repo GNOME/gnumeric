@@ -1163,7 +1163,6 @@ wb_view_new_from_input (GsfInput *input,
 	}
 
 	if (optional_fmt != NULL) {
-		char const *input_name;
 		Workbook *new_wb;
 		gboolean old;
 
