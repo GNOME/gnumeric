@@ -2273,9 +2273,127 @@ xml_sax_object_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
+xml_sax_solver_constr_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	int type = 0;
+	GnmSolverConstraint *c;
+	Sheet *sheet = gnm_xml_in_cur_sheet (xin);
+	GnmSolverParameters *sp = sheet->solver_parameters;
+	int lhs_col = 0, lhs_row = 0, rhs_col = 0, rhs_row = 0;
+	int cols = 1, rows = 1;
+	gboolean old = FALSE;
+	GnmParsePos pp;
+	GnmExprParseFlags flags = GNM_EXPR_PARSE_DEFAULT;
+
+	c = gnm_solver_constraint_new (sheet);
+
+	parse_pos_init_sheet (&pp, sheet);
+
+	for (; attrs && attrs[0] && attrs[1] ; attrs += 2) {
+		if (gnm_xml_attr_int (attrs, "Lcol", &lhs_col) ||
+		    gnm_xml_attr_int (attrs, "Lrow", &lhs_row) ||
+		    gnm_xml_attr_int (attrs, "Rcol", &rhs_col) ||
+		    gnm_xml_attr_int (attrs, "Rrow", &rhs_row) ||
+		    gnm_xml_attr_int (attrs, "Cols", &cols) ||
+		    gnm_xml_attr_int (attrs, "Rows", &rows))
+			old = TRUE;
+		else if (gnm_xml_attr_int (attrs, "Type", &type))
+			; /* Nothing */
+		else if (attr_eq (attrs[0], "lhs")) {
+			GnmValue *v = value_new_cellrange_parsepos_str
+				(&pp, CXML2C (attrs[1]), flags);
+			gnm_solver_constraint_set_lhs (c, v);
+		} else if (attr_eq (attrs[0], "rhs")) {
+			GnmValue *v = value_new_cellrange_parsepos_str
+				(&pp, CXML2C (attrs[1]), flags);
+			gnm_solver_constraint_set_rhs (c, v);
+		}
+	}
+
+	switch (type) {
+	default:
+	case 1: c->type = GNM_SOLVER_LE; break;
+	case 2: c->type = GNM_SOLVER_GE; break;
+	case 4: c->type = GNM_SOLVER_EQ; break;
+	case 8: c->type = GNM_SOLVER_INTEGER; break;
+	case 16: c->type = GNM_SOLVER_BOOLEAN; break;
+	}
+
+	if (old)
+		gnm_solver_constraint_set_old (c, c->type,
+					       lhs_col, lhs_row,
+					       rhs_col, rhs_row,
+					       cols, rows);
+
+	sp->constraints = g_slist_append (sp->constraints, c);
+}
+
+static void
 xml_sax_solver_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	solver_param_read_sax (xin, attrs);
+	Sheet *sheet = gnm_xml_in_cur_sheet (xin);
+	GnmSolverParameters *sp = sheet->solver_parameters;
+	int col = -1, row = -1;
+	int ptype;
+	GnmParsePos pp;
+	gboolean old = FALSE;
+
+	parse_pos_init_sheet (&pp, sheet);
+
+	for (; attrs && attrs[0] && attrs[1] ; attrs += 2) {
+		if (gnm_xml_attr_int (attrs, "ProblemType", &ptype)) {
+			sp->problem_type = (GnmSolverProblemType)ptype;
+		} else if (attr_eq (attrs[0], "Inputs")) {
+			GnmValue *v = value_new_cellrange_parsepos_str
+				(&pp,
+				 CXML2C (attrs[1]),
+				 GNM_EXPR_PARSE_DEFAULT);
+			gnm_solver_param_set_input (sp, v);
+		} else if (gnm_xml_attr_int (attrs, "TargetCol", &col) ||
+			   gnm_xml_attr_int (attrs, "TargetRow", &row)) {
+			old = TRUE;
+		} else if (attr_eq (attrs[0], "Target")) {
+			GnmValue *v = value_new_cellrange_parsepos_str
+				(&pp,
+				 CXML2C (attrs[1]),
+				 GNM_EXPR_PARSE_DEFAULT);
+			GnmSheetRange sr;
+			GnmCellRef cr;
+			gboolean  bad;
+
+			bad = (!v ||
+			       (gnm_sheet_range_from_value (&sr, v), !range_is_singleton (&sr.range)));
+			value_release (v);
+			if (bad) {
+				continue;
+			}
+
+			gnm_cellref_init (&cr, sr.sheet,
+					  sr.range.start.col,
+					  sr.range.start.row,
+					  TRUE);
+			gnm_solver_param_set_target (sp, &cr);
+		} else if (gnm_xml_attr_int (attrs, "MaxTime", &(sp->options.max_time_sec)) ||
+			   gnm_xml_attr_int (attrs, "MaxIter", &(sp->options.max_iter)) ||
+			   gnm_xml_attr_bool (attrs, "NonNeg", &(sp->options.assume_non_negative)) ||
+			   gnm_xml_attr_bool (attrs, "Discr", &(sp->options.assume_discrete)) ||
+			   gnm_xml_attr_bool (attrs, "AutoScale", &(sp->options.automatic_scaling)) ||
+			   gnm_xml_attr_bool (attrs, "ShowIter", &(sp->options.show_iter_results)) ||
+			   gnm_xml_attr_bool (attrs, "AnswerR", &(sp->options.answer_report)) ||
+			   gnm_xml_attr_bool (attrs, "SensitivityR", &(sp->options.sensitivity_report)) ||
+			   gnm_xml_attr_bool (attrs, "LimitsR", &(sp->options.limits_report)) ||
+			   gnm_xml_attr_bool (attrs, "PerformR", &(sp->options.performance_report)) ||
+			   gnm_xml_attr_bool (attrs, "ProgramR", &(sp->options.program_report)))
+			; /* Nothing */
+	}
+
+	if (old &&
+	    col >= 0 && col < gnm_sheet_get_max_cols (sheet) &&
+	    row >= 0 && row < gnm_sheet_get_max_rows (sheet)) {
+		GnmCellRef cr;
+		gnm_cellref_init (&cr, NULL, col, row, TRUE);
+		gnm_solver_param_set_target (sp, &cr);
+	}
 }
 
 static void
@@ -2603,6 +2721,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, TRUE
 	GSF_XML_IN_NODE (SHEET_LAYOUT, SHEET_FREEZEPANES, GNM, "FreezePanes", GSF_XML_NO_CONTENT, &xml_sax_sheet_freezepanes, NULL),
 
       GSF_XML_IN_NODE (SHEET, SHEET_SOLVER, GNM, "Solver", GSF_XML_NO_CONTENT, xml_sax_solver_start, NULL),
+	GSF_XML_IN_NODE (SHEET_SOLVER, SOLVER_CONSTR, GNM, "Constr", GSF_XML_NO_CONTENT, xml_sax_solver_constr_start, NULL),
       GSF_XML_IN_NODE (SHEET, SHEET_SCENARIOS, GNM, "Scenarios", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (SHEET_SCENARIOS, SHEET_SCENARIO, GNM, "Scenario", GSF_XML_NO_CONTENT, NULL, NULL),
 

@@ -82,9 +82,6 @@ gchar *          solver_reports        (WorkbookControl *wbc, Sheet *sheet,
 					gboolean limits, gboolean performance,
 					gboolean program, gboolean dual);
 
-/* Frees the data structure allocated for the results. */
-void             solver_results_free   (SolverResults *res);
-
 /* Returns a pointer to a input variable cell. */
 GnmCell		*solver_get_input_var (SolverResults *res, int n);
 
