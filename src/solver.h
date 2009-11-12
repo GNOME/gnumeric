@@ -259,12 +259,6 @@ typedef struct {
  * The API functions to the Solver tool.
  */
 
-/* Runs the solver.  Returs a pointer to a data structure containing
- * the results of the run.  Note that it should be freed when no longer
- * needed (by calling solver_results_free). */
-SolverResults    *solver               (WorkbookControl *wbc, Sheet *sheet,
-					GError **err);
-
 /* Creates the Solver's reports. */
 gchar *          solver_reports        (WorkbookControl *wbc, Sheet *sheet,
 					SolverResults *res,

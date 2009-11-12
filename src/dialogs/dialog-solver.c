@@ -871,11 +871,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 		goto out;
 	}
 
-#if 0
-	res = solver (WORKBOOK_CONTROL (state->wbcg), state->sheet, &err);
-#else
 	res = run_solver (state, param);
-#endif
 
 	workbook_recalc (state->sheet->workbook);
 

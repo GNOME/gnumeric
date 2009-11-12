@@ -1,4 +1,4 @@
-SUBDIRS = glpk lp_solve
+SUBDIRS =
 
 AM_CPPFLAGS = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
@@ -7,7 +7,6 @@ AM_CPPFLAGS = 						\
 	-I$(top_srcdir)/src/dialogs			\
 	-I$(top_srcdir)/src/tools			\
 	-I$(top_srcdir)/src/tools/solver		\
-	-I$(top_srcdir)/src/tools/solver/glpk/include	\
 	-DGNUMERIC_INTERNAL				\
 	$(GNUMERIC_CFLAGS)
 
