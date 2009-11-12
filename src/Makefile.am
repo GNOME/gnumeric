@@ -405,9 +405,7 @@ gnumeric_app_libs =				\
 
 if ENABLE_SOLVER
 gnumeric_app_libs +=				\
-	tools/solver/libsolver.la		\
-	tools/solver/glpk/source/libglpk.la	\
-	tools/solver/lp_solve/liblp_solve.la
+	tools/solver/libsolver.la
 endif
 
 
