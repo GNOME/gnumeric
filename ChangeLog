@@ -1,3 +1,7 @@
+2009-11-12  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-plugin.c (cb_load_and_create): Keep track of plugin usage.
+
 2009-11-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* component/Gnumeric-embed.xml.in: move FormatWorkbook to View menu

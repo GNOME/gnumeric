@@ -490,16 +490,26 @@ cb_load_and_create (GnmSolverFactory *factory, SolverParameters *param)
 {
 	PluginServiceSolver *ssol =
 		g_object_get_data (G_OBJECT (factory), "ssol");
+	GOPluginService *service = GO_PLUGIN_SERVICE (ssol);
 	GOErrorInfo *ignored_error = NULL;
+	GnmSolver *res;
 
-	go_plugin_service_load (GO_PLUGIN_SERVICE (ssol), &ignored_error);
+	go_plugin_service_load (service, &ignored_error);
 	if (ignored_error != NULL) {
 		go_error_info_print (ignored_error);
 		go_error_info_free (ignored_error);
 		return NULL;
 	}
 
-	return ssol->cbs.creator (factory, param);
+	res = ssol->cbs.creator (factory, param);
+	if (res) {
+		go_plugin_use_ref (service->plugin);
+		g_object_set_data_full (G_OBJECT (res),
+					"plugin-use", service->plugin,
+					(GDestroyNotify)go_plugin_use_unref);
+	}
+
+	return res;
 }
 
 static void
