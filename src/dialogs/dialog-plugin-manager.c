@@ -600,9 +600,10 @@ cb_active_toggled (G_GNUC_UNUSED GtkCellRendererToggle *celltoggle,
 			);
 			g_string_append (s, _("\nDo you want to activate this plugin together with its dependencies?"));
 			if (n_inactive_deps > 0) {
-				want_activate = go_gtk_query_yes_no (GTK_WINDOW (pm_gui->dialog_pm),
-								     TRUE,
-								     s->str);
+				want_activate = go_gtk_query_yes_no
+					(GTK_WINDOW (pm_gui->dialog_pm),
+					 TRUE,
+					 "%s", s->str);
 			}
 			g_string_free (s, TRUE);
 		}

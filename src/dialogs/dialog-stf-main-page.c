@@ -188,7 +188,8 @@ encodings_changed_cb (GOCharmapSel *cs, char const *new_charmap,
 			   "please select another encoding."),
 			 name ? name : new_charmap);
 		go_gtk_notice_dialog (GTK_WINDOW (pagedata->dialog),
-				 GTK_MESSAGE_ERROR, msg);
+				      GTK_MESSAGE_ERROR,
+				      "%s", msg);
 		g_free (msg);
 
 		go_charmap_sel_set_encoding (pagedata->main.charmap_selector,

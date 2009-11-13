@@ -694,7 +694,8 @@ dialog_scenarios (WBCGtk *wbcg)
         return;
 
  error_out:
-	go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR, error_str);
+	go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
+			      "%s", error_str);
 	g_free (state->scenario_state);
 	g_free (state);
 

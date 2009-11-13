@@ -302,9 +302,9 @@ cb_consolidate_ok_clicked (GtkWidget *button, ConsolidateState *state)
 	 */
 	if (cs == NULL) {
 		go_gtk_notice_nonmodal_dialog (GTK_WINDOW (state->base.dialog),
-					  &state->base.warning_dialog,
-					  GTK_MESSAGE_ERROR,
-					  state->construct_error);
+					       &state->base.warning_dialog,
+					       GTK_MESSAGE_ERROR,
+					       "%s", state->construct_error);
 		g_free (state->construct_error);
 		g_free (dao);
 		state->construct_error = NULL;

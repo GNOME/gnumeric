@@ -780,7 +780,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 			(GTK_WINDOW (state->dialog),
 			 &(state->warning_dialog),
 			 GTK_MESSAGE_ERROR,
-			 err->message);
+			 "%s", err->message);
 	}
 
  out:

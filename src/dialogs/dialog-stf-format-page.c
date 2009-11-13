@@ -189,7 +189,8 @@ cb_col_check_clicked (GtkToggleButton *togglebutton, gpointer _i)
 				GNM_MAX_COLS);
 			gtk_toggle_button_set_active (togglebutton, FALSE);
 			go_gtk_notice_dialog (GTK_WINDOW (pagedata->dialog),
-					 GTK_MESSAGE_WARNING, msg);
+					      GTK_MESSAGE_WARNING,
+					      "%s", msg);
 			g_free (msg);
 		}
 	}

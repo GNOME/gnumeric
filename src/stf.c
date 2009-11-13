@@ -420,7 +420,7 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 				go_gtk_notice_dialog
 					(wbcg_toplevel (WBC_GTK (context->impl)),
 					 GTK_MESSAGE_WARNING,
-					 msg);
+					 "%s", msg);
 			else
 				g_warning ("%s", msg);
 #if 0

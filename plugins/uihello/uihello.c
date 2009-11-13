@@ -31,7 +31,8 @@ hello_message (GnmAction const *action, WorkbookControl *wbc)
 	char *msg = g_strdup_printf (
 		_("This is message from the \"%s\" plugin."),
 		go_plugin_get_name (uihello_plugin));
-	go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (wbc)), GTK_MESSAGE_INFO, msg);
+	go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (wbc)), GTK_MESSAGE_INFO,
+			      "%s", msg);
 	g_free (msg);
 }
 

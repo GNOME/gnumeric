@@ -415,7 +415,8 @@ name_guru_add (NameGuruState *state)
 			return TRUE;
 
 		go_gtk_notice_dialog (GTK_WINDOW (state->dialog),
-				 GTK_MESSAGE_ERROR, perr.err->message);
+				      GTK_MESSAGE_ERROR,
+				      "%s", perr.err->message);
 		gtk_widget_grab_focus (GTK_WIDGET (state->expr_entry));
 		parse_error_free (&perr);
 		return FALSE;

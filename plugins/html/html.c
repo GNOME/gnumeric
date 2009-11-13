@@ -287,12 +287,13 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle const *style
 				gsf_output_puts (output, "<u>");
 			if (font_is_monospaced (style))
 				gsf_output_puts (output, "<tt>");
-			if (gnm_style_get_font_strike (style))
+			if (gnm_style_get_font_strike (style)) {
 				if (version == HTML32)
 					gsf_output_puts (output, "<strike>");
 				else
 					gsf_output_puts (output, 
 							 "<span style=\"text-decoration: line-through;\">");
+			}
 			switch (gnm_style_get_font_script (style)) {
 			case GO_FONT_SCRIPT_SUB:
 				gsf_output_puts (output, "<sub>");
@@ -339,11 +340,12 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle const *style
 		if (hlink_target)
 			gsf_output_puts (output, "</a>");
 		if (style != NULL) {
-			if (gnm_style_get_font_strike (style))
+			if (gnm_style_get_font_strike (style)) {
 				if (version == HTML32)
 					gsf_output_puts (output, "</strike>");
 				else
 					gsf_output_puts (output, "</span>");
+			}
 			switch (gnm_style_get_font_script (style)) {
 			case GO_FONT_SCRIPT_SUB:
 				gsf_output_puts (output, "</sub>");

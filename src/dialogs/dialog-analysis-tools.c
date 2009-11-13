@@ -272,8 +272,9 @@ void
 error_in_entry (GenericToolState *state, GtkWidget *entry, char const *err_str)
 {
         go_gtk_notice_nonmodal_dialog ((GtkWindow *) state->dialog,
-				  &(state->warning_dialog),
-				  GTK_MESSAGE_ERROR, err_str);
+				       &(state->warning_dialog),
+				       GTK_MESSAGE_ERROR,
+				       "%s", err_str);
 
 	if (IS_GNM_EXPR_ENTRY (entry))
 		gnm_expr_entry_grab_focus (GNM_EXPR_ENTRY (entry), TRUE);
@@ -482,14 +483,17 @@ dialog_tool_init (GenericToolState *state,
 
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog), key);
 
-	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), state->wbcg,
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog),
+					   state->wbcg,
 					   GNM_DIALOG_DESTROY_SHEET_REMOVED |
 					   GNM_DIALOG_DESTROY_SHEET_RENAMED);
 
 	return FALSE;
 
  dialog_tool_init_error:
-	go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR, error_str);
+	go_gtk_notice_dialog (wbcg_toplevel (wbcg),
+			      GTK_MESSAGE_ERROR,
+			      "%s", error_str);
 	g_free (state);
 	return TRUE;
 }

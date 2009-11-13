@@ -1040,9 +1040,9 @@ typedef struct {
 
 static gboolean   
 dialog_pref_select_page_search (GtkTreeModel *model,
-					GtkTreePath *path,
-					GtkTreeIter *iter,
-					page_search_t *pst)
+				GtkTreePath *path,
+				GtkTreeIter *iter,
+				page_search_t *pst)
 {
 	int page;
 	gtk_tree_model_get (model, iter, PAGE_NUMBER, &page, -1);
@@ -1086,7 +1086,7 @@ cb_dialog_pref_selection_changed (GtkTreeSelection *selection,
 				    -1);
 		gtk_notebook_set_current_page (state->notebook, page);
 	} else {
-		dialog_pref_select_page (state, "0");
+		dialog_pref_select_page (state, 0);
 	}
 }
 

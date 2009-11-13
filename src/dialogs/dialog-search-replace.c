@@ -138,7 +138,8 @@ ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 
 	err = gnm_search_replace_verify (sr, TRUE);
 	if (err) {
-		go_gtk_notice_dialog (GTK_WINDOW (dialog), GTK_MESSAGE_ERROR, err);
+		go_gtk_notice_dialog (GTK_WINDOW (dialog), GTK_MESSAGE_ERROR,
+				      "%s", err);
 		g_free (err);
 		g_object_unref (sr);
 		return;

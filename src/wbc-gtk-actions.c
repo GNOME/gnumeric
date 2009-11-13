@@ -479,7 +479,8 @@ cb_edit_search_replace_query (GnmSearchReplaceQuery q, GnmSearchReplace *sr, ...
 			 old_text,
 			 new_text);
 
-		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR, err);
+		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
+				      "%s", err);
 		g_free (err);
 		res = GTK_RESPONSE_NO;
 		break;

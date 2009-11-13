@@ -260,9 +260,9 @@ cb_merge_merge_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 			text = g_strdup_printf (_("%i fields are not part of the merge zone!"),
 						field_problems);
 		go_gtk_notice_nonmodal_dialog ((GtkWindow *) state->dialog,
-					  &(state->warning_dialog),
-					  GTK_MESSAGE_ERROR,
-					  text);
+					       &(state->warning_dialog),
+					       GTK_MESSAGE_ERROR,
+					       "%s", text);
 		g_free (text);
 		value_release (v_zone);
 		range_list_destroy (data_list);
@@ -279,8 +279,8 @@ cb_merge_merge_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 						"%i and proceed?"), min_length, max_length,
 					      min_length);
 
-		if (go_gtk_query_yes_no (
-			    GTK_WINDOW (state->dialog), TRUE, text)) {
+		if (go_gtk_query_yes_no (GTK_WINDOW (state->dialog), TRUE,
+					 "%s", text)) {
 			g_slist_foreach (data_list, cb_merge_trim_data, &min_length);
 			g_free (text);
 		} else {

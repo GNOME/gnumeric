@@ -83,7 +83,8 @@ cb_view_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 						 name);
 			gtk_widget_destroy (state->dialog);
 			go_gtk_notice_dialog (wbcg_toplevel (wbcg),
-					 GTK_MESSAGE_ERROR, error_str);
+					      GTK_MESSAGE_ERROR,
+					      "%s", error_str);
 			g_free (error_str);
 			return;
 		}
