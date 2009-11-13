@@ -1,3 +1,8 @@
+2009-11-12  Morten Welinder  <terra@gnome.org>
+
+	* dialog-solver.c (dialog_init): Set GNM_EE_CONSTANT_ALLOWED for
+	rhs.
+
 2009-11-11  Morten Welinder  <terra@gnome.org>
 
 	* dialog-solver.c (cb_notify_result): i18n issues.

@@ -1757,6 +1757,8 @@ gnm_expr_entry_parse_as_value (GnmExprEntry *gee, Sheet *sheet)
 {
 	GnmParsePos pp;
 	GnmExprParseFlags flags = GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS;
+	GnmValue *v;
+	const char *txt;
 
 	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), NULL);
 
@@ -1767,10 +1769,18 @@ gnm_expr_entry_parse_as_value (GnmExprEntry *gee, Sheet *sheet)
 	if (!(gee->flags & GNM_EE_SHEET_OPTIONAL))
 		flags |= GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES;
 
-	return value_new_cellrange_parsepos_str
-		(parse_pos_init_sheet (&pp, sheet),
-		 gtk_entry_get_text (gnm_expr_entry_get_entry (gee)),
-		 flags);
+	txt = gtk_entry_get_text (gnm_expr_entry_get_entry (gee));
+
+	parse_pos_init_sheet (&pp, sheet);
+	v = value_new_cellrange_parsepos_str (&pp, txt, flags);
+
+	if (!v && (gee->flags & GNM_EE_CONSTANT_ALLOWED)) {
+		GODateConventions const *date_conv =
+			sheet ? workbook_date_conv (sheet->workbook) : NULL;
+		v = format_match_number (txt, NULL, date_conv);
+	}
+
+	return v;
 }
 
 /**

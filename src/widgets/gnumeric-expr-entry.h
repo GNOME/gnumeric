@@ -20,7 +20,8 @@ typedef enum {
 	GNM_EE_FULL_ROW        = 1 << 5,
 	GNM_EE_SHEET_OPTIONAL  = 1 << 6,
 	GNM_EE_FORMULA_ONLY    = 1 << 7,
-	GNM_EE_MASK            = 0xFF
+	GNM_EE_CONSTANT_ALLOWED= 1 << 8,
+	GNM_EE_MASK            = 0x1FF
 } GnmExprEntryFlags;
 
 GType gnm_expr_entry_get_type (void);

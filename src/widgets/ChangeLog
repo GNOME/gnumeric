@@ -1,3 +1,9 @@
+2009-11-12  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric-expr-entry.c (gnm_expr_entry_parse_as_value): If new
+	flag GNM_EE_CONSTANT_ALLOWED is set, also allow a numeric
+	constant.
+
 2009-11-01  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.15

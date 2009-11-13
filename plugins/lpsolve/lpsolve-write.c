@@ -83,7 +83,7 @@ lpsolve_var_name (GnmCell const *cell)
 }
 
 static gboolean
-lpsolve_affine_func (GString *dst, GnmCell *target,
+lpsolve_affine_func (GString *dst, GnmCell *target, gnm_float cst,
 		     GSList *input_cells, GError **err)
 {
 	GSList *l, *ol;
@@ -91,6 +91,11 @@ lpsolve_affine_func (GString *dst, GnmCell *target,
 	gnm_float y;
 	GSList *old_values = NULL;
 	gboolean ok = TRUE;
+
+	if (!target) {
+		gnm_string_add_number (dst, cst);
+		return TRUE;
+	}
 
  	for (l = input_cells; l; l = l->next) {
 	        GnmCell *cell = l->data;
@@ -102,7 +107,7 @@ lpsolve_affine_func (GString *dst, GnmCell *target,
 	old_values = g_slist_reverse (old_values);
 
 	gnm_cell_eval (target);
-	y = value_get_as_float (target->value);
+	y = cst + value_get_as_float (target->value);
 
  	for (l = input_cells; l; l = l->next) {
 	        GnmCell *cell = l->data;
@@ -187,7 +192,7 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context, GError **err)
 	}
 	go_io_count_progress_update (io_context, 1);
 
-	if (!lpsolve_affine_func (objfunc, target_cell, input_cells, err))
+	if (!lpsolve_affine_func (objfunc, target_cell, 0, input_cells, err))
 		goto fail;
 	g_string_append (objfunc, ";\n");
 	go_io_count_progress_update (io_context, 1);
@@ -261,7 +266,8 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context, GError **err)
 				gboolean ok;
 
 				ok = lpsolve_affine_func
-					(constraints, lhs, input_cells, err);
+					(constraints, lhs, cl,
+					 input_cells, err);
 				if (!ok)
 					goto fail;
 
@@ -270,7 +276,8 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context, GError **err)
 				g_string_append_c (constraints, ' ');
 
 				ok = lpsolve_affine_func
-					(constraints, rhs, input_cells, err);
+					(constraints, rhs, cr,
+					 input_cells, err);
 				if (!ok)
 					goto fail;
 

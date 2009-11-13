@@ -1,3 +1,8 @@
+2009-11-12  Morten Welinder  <terra@gnome.org>
+
+	* lpsolve-write.c (lpsolve_affine_func): Add cst argument and
+	handle the no-cell case.  All callers changed.
+
 2009-11-11  Morten Welinder  <terra@gnome.org>
 
 	* lpsolve-write.c (lpsolve_affine_func): Zero all input cells
