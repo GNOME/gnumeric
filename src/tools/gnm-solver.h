@@ -47,10 +47,12 @@ typedef enum {
 } GnmSolverModelType;
 
 
+GType gnm_solver_problem_type_get_type (void);
+#define GNM_SOLVER_PROBLEM_TYPE_TYPE (gnm_solver_problem_type_get_type ())
+
 typedef enum {
         GNM_SOLVER_MINIMIZE, GNM_SOLVER_MAXIMIZE
 } GnmSolverProblemType;
-
 
 /* -------------------------------------------------------------------------- */
 
@@ -115,29 +117,41 @@ typedef struct {
 	gchar               *scenario_name;
 } GnmSolverOptions;
 
+#define GNM_SOLVER_PARAMETERS_TYPE   (gnm_solver_param_get_type ())
+#define GNM_SOLVER_PARAMETERS(o)     (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_SOLVER_PARAMETERS_TYPE, GnmSolverParameters))
+
 struct GnmSolverParameters_ {
-	GnmSolverProblemType  problem_type;
-	Sheet                *sheet;
-	GnmDependent          target;
-	GnmDependent          input;
-	GSList                *constraints;
+	GObject parent;
+
+	/* Default parsing sheet.  No ref held.  */
+	Sheet *sheet;
+
+	GnmSolverProblemType problem_type;
+	GnmDependent target;
+	GnmDependent input;
+	GSList *constraints;
+	GnmSolverOptions options;
+
+	/* These will not survive long.  */
 	int                   n_constraints;
 	int                   n_variables;
 	int                   n_int_constraints;
 	int                   n_bool_constraints;
 	int                   n_total_constraints;
-	GnmSolverOptions         options;
 };
+
+typedef struct {
+	GObjectClass parent_class;
+} GnmSolverParametersClass;
+
+GType gnm_solver_param_get_type (void);
 
 /* Creates a new GnmSolverParameters object. */
 GnmSolverParameters *gnm_solver_param_new (Sheet *sheet);
 
 /* Duplicate a GnmSolverParameters object. */
-GnmSolverParameters *gnm_solver_param_dup (GnmSolverParameters const *src_param,
+GnmSolverParameters *gnm_solver_param_dup (GnmSolverParameters *src_param,
 					   Sheet *new_sheet);
-
-/* Frees the memory resources in the solver parameter structure. */
-void gnm_solver_param_free (GnmSolverParameters *sp);
 
 GnmValue const *gnm_solver_param_get_input (GnmSolverParameters const *sp);
 void gnm_solver_param_set_input (GnmSolverParameters *sp, GnmValue *v);
@@ -171,7 +185,7 @@ typedef struct {
 	GObjectClass parent_class;
 } GnmSolverResultClass;
 
-GType gnm_solver_result_get_type  (void);
+GType gnm_solver_result_get_type (void);
 
 /* ------------------------------------------------------------------------- */
 /* Generic Solver class. */

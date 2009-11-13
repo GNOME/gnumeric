@@ -3966,7 +3966,7 @@ gnm_sheet_finalize (GObject *obj)
 
 	sheet_destroy (sheet);
 
-	gnm_solver_param_free (sheet->solver_parameters);
+	g_object_unref (sheet->solver_parameters);
 	scenarios_free (sheet->scenarios);
 
 	dependents_invalidate_sheet (sheet, TRUE);
@@ -5508,7 +5508,7 @@ sheet_dup (Sheet const *src)
 #warning selection is in view
 #warning freeze/thaw is in view
 
-	gnm_solver_param_free (dst->solver_parameters);
+	g_object_unref (dst->solver_parameters);
 	dst->solver_parameters = gnm_solver_param_dup (src->solver_parameters, dst);
 
 	dst->scenarios = scenarios_dup (src->scenarios, dst);

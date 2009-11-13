@@ -57,12 +57,35 @@ gnm_solver_status_get_type (void)
 			},
 			{ 0, NULL, NULL }
 		};
-		etype = g_enum_register_static ("GnmStatus", values);
+		etype = g_enum_register_static ("GnmSolverStatus", values);
+	}
+	return etype;
+}
+
+GType
+gnm_solver_problem_type_get_type (void)
+{
+	static GType etype = 0;
+	if (etype == 0) {
+		static GEnumValue const values[] = {
+			{ GNM_SOLVER_MINIMIZE,
+			  (char *)"GNM_SOLVER_MINIMIZE",
+			  (char *)"minimize"
+			},
+			{ GNM_SOLVER_MAXIMIZE,
+			  (char *)"GNM_SOLVER_MAXIMIZE",
+			  (char *)"maximize"
+			},
+			{ 0, NULL, NULL }
+		};
+		etype = g_enum_register_static ("GnmSolverProblemType", values);
 	}
 	return etype;
 }
 
 /* ------------------------------------------------------------------------- */
+
+static GObjectClass *gnm_solver_parent_class;
 
 GnmSolverConstraint *
 gnm_solver_constraint_new (Sheet *sheet)
@@ -319,72 +342,54 @@ gnm_solver_constraint_as_str (GnmSolverConstraint const *c, Sheet *sheet)
 
 /* ------------------------------------------------------------------------- */
 
+enum {
+	SOLP_PROP_0,
+	SOLP_PROP_SHEET,
+	SOLP_PROP_PROBLEM_TYPE
+};
+
+static GObjectClass *gnm_solver_param_parent_class;
+
 GnmSolverParameters *
 gnm_solver_param_new (Sheet *sheet)
 {
-	GnmSolverParameters *res = g_new0 (GnmSolverParameters, 1);
-
-	dependent_managed_init (&res->target, sheet);
-	dependent_managed_init (&res->input, sheet);
-
-	res->options.model_type          = GNM_SOLVER_LP;
-	res->sheet                       = sheet;
-	res->options.assume_non_negative = TRUE;
-	res->options.algorithm           = NULL;
-	res->options.scenario_name       = g_strdup ("Optimal");
-	res->problem_type                = GNM_SOLVER_MAXIMIZE;
-	res->constraints                 = NULL;
-	res->constraints		 = NULL;
-
-	return res;
-}
-
-void
-gnm_solver_param_free (GnmSolverParameters *sp)
-{
-	dependent_managed_set_expr (&sp->target, NULL);
-	dependent_managed_set_expr (&sp->input, NULL);
-	go_slist_free_custom (sp->constraints,
-			      (GFreeFunc)gnm_solver_constraint_free);
-	g_free (sp->options.scenario_name);
-	g_free (sp);
+	return g_object_new (GNM_SOLVER_PARAMETERS_TYPE,
+			     "sheet", sheet,
+			     NULL);
 }
 
 GnmSolverParameters *
-gnm_solver_param_dup (const GnmSolverParameters *src_param, Sheet *new_sheet)
+gnm_solver_param_dup (GnmSolverParameters *src, Sheet *new_sheet)
 {
-	GnmSolverParameters *dst_param = gnm_solver_param_new (new_sheet);
-	GSList           *constraints;
+	GnmSolverParameters *dst = gnm_solver_param_new (new_sheet);
+	GSList *l;
 
-	dst_param->problem_type = src_param->problem_type;
-	dependent_managed_set_expr (&dst_param->target,
-				    src_param->target.texpr);
-	dependent_managed_set_expr (&dst_param->input,
-				    src_param->input.texpr);
+	dst->problem_type = src->problem_type;
+	dependent_managed_set_expr (&dst->target, src->target.texpr);
+	dependent_managed_set_expr (&dst->input, src->input.texpr);
 
-	g_free (dst_param->options.scenario_name);
-	dst_param->options = src_param->options;
-	dst_param->options.scenario_name = g_strdup (src_param->options.scenario_name);
+	g_free (dst->options.scenario_name);
+	dst->options = src->options;
+	dst->options.scenario_name = g_strdup (src->options.scenario_name);
 	/* Had there been any non-scalar options, we'd copy them here.  */
 
 	/* Copy the constraints */
-	for (constraints = src_param->constraints; constraints;
-	     constraints = constraints->next) {
-		GnmSolverConstraint *old = constraints->data;
-		GnmSolverConstraint *new = gnm_solver_constraint_dup (old, new_sheet);
+	for (l = src->constraints; l; l = l->next) {
+		GnmSolverConstraint *old = l->data;
+		GnmSolverConstraint *new =
+			gnm_solver_constraint_dup (old, new_sheet);
 
-		dst_param->constraints =
-		        g_slist_prepend (dst_param->constraints, new);
+		dst->constraints = g_slist_prepend (dst->constraints, new);
 	}
-	dst_param->constraints = g_slist_reverse (dst_param->constraints);
+	dst->constraints = g_slist_reverse (dst->constraints);
 
-	dst_param->n_constraints       = src_param->n_constraints;
-	dst_param->n_variables         = src_param->n_variables;
-	dst_param->n_int_constraints   = src_param->n_int_constraints;
-	dst_param->n_bool_constraints  = src_param->n_bool_constraints;
-	dst_param->n_total_constraints = src_param->n_total_constraints;
+	dst->n_constraints       = src->n_constraints;
+	dst->n_variables         = src->n_variables;
+	dst->n_int_constraints   = src->n_int_constraints;
+	dst->n_bool_constraints  = src->n_bool_constraints;
+	dst->n_total_constraints = src->n_total_constraints;
 
-	return dst_param;
+	return dst;
 }
 
 GnmValue const *
@@ -534,6 +539,115 @@ gnm_solver_param_valid (GnmSolverParameters const *sp, GError **err)
 	return TRUE;
 }
 
+static GObject *
+gnm_solver_param_constructor (GType type,
+			      guint n_construct_properties,
+			      GObjectConstructParam *construct_params)
+{
+	GObject *obj;
+	GnmSolverParameters *sp;
+
+	obj = gnm_solver_param_parent_class->constructor
+		(type, n_construct_properties, construct_params);
+	sp = GNM_SOLVER_PARAMETERS (obj);
+
+	dependent_managed_init (&sp->target, sp->sheet);
+	dependent_managed_init (&sp->input, sp->sheet);
+
+	sp->options.model_type          = GNM_SOLVER_LP;
+	sp->options.assume_non_negative = TRUE;
+	sp->options.scenario_name = g_strdup ("Optimal");
+
+	return obj;
+}
+
+static void
+gnm_solver_param_finalize (GObject *obj)
+{
+	GnmSolverParameters *sp = GNM_SOLVER_PARAMETERS (obj);
+
+	dependent_managed_set_expr (&sp->target, NULL);
+	dependent_managed_set_expr (&sp->input, NULL);
+	go_slist_free_custom (sp->constraints,
+			      (GFreeFunc)gnm_solver_constraint_free);
+	g_free (sp->options.scenario_name);
+
+	gnm_solver_param_parent_class->finalize (obj);
+}
+
+static void
+gnm_solver_param_get_property (GObject *object, guint property_id,
+			       GValue *value, GParamSpec *pspec)
+{
+	GnmSolverParameters *sp = (GnmSolverParameters *)object;
+
+	switch (property_id) {
+	case SOLP_PROP_SHEET:
+		g_value_set_object (value, sp->sheet);
+		break;
+
+	case SOLP_PROP_PROBLEM_TYPE:
+		g_value_set_enum (value, sp->problem_type);
+		break;
+
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_solver_param_set_property (GObject *object, guint property_id,
+			       GValue const *value, GParamSpec *pspec)
+{
+	GnmSolverParameters *sp = (GnmSolverParameters *)object;
+
+	switch (property_id) {
+	case SOLP_PROP_SHEET:
+		/* We hold no ref.  */
+		sp->sheet = g_value_get_object (value);
+		break;
+
+	case SOLP_PROP_PROBLEM_TYPE:
+		sp->problem_type = g_value_get_enum (value);
+		break;
+
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_solver_param_class_init (GObjectClass *object_class)
+{
+	gnm_solver_param_parent_class = g_type_class_peek_parent (object_class);
+
+	object_class->constructor = gnm_solver_param_constructor;
+	object_class->dispose = gnm_solver_param_finalize;
+	object_class->set_property = gnm_solver_param_set_property;
+	object_class->get_property = gnm_solver_param_get_property;
+
+	g_object_class_install_property (object_class, SOLP_PROP_SHEET,
+		 g_param_spec_object ("sheet", _("Sheet"),
+				      _("Sheet"),
+				      GNM_SHEET_TYPE,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_CONSTRUCT_ONLY |
+				      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, SOLP_PROP_PROBLEM_TYPE,
+		 g_param_spec_enum ("problem-type", _("Problem Type"),
+				    _("Problem Type"),
+				    GNM_SOLVER_PROBLEM_TYPE_TYPE,
+				    GNM_SOLVER_MAXIMIZE,
+				    GSF_PARAM_STATIC |
+				    G_PARAM_READWRITE));
+}
+
+GSF_CLASS (GnmSolverParameters, gnm_solver_param,
+	   gnm_solver_param_class_init, NULL, G_TYPE_OBJECT)
+
 /* ------------------------------------------------------------------------- */
 
 enum {
@@ -571,6 +685,11 @@ gnm_solver_dispose (GObject *obj)
 		sol->result = NULL;
 	}
 
+	if (sol->params) {
+		g_object_unref (sol->params);
+		sol->params = NULL;
+	}
+
 	gnm_solver_parent_class->dispose (obj);
 }
 
@@ -586,7 +705,7 @@ gnm_solver_get_property (GObject *object, guint property_id,
 		break;
 
 	case SOL_PROP_PARAMS:
-		g_value_set_pointer (value, sol->params);
+		g_value_set_object (value, sol->params);
 		break;
 
 	case SOL_PROP_RESULT:
@@ -611,7 +730,8 @@ gnm_solver_set_property (GObject *object, guint property_id,
 		break;
 
 	case SOL_PROP_PARAMS:
-		sol->params = g_value_peek_pointer (value);
+		if (sol->params) g_object_unref (sol->params);
+		sol->params = g_value_dup_object (value);
 		break;
 
 	case SOL_PROP_RESULT:
@@ -810,11 +930,12 @@ gnm_solver_class_init (GObjectClass *object_class)
 				    G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, SOL_PROP_PARAMS,
-		 g_param_spec_pointer ("params", _("Parameters"),
-				       _("Solver parameters"),
-				       GSF_PARAM_STATIC |
-				       G_PARAM_CONSTRUCT_ONLY |
-				       G_PARAM_READWRITE));
+		 g_param_spec_object ("params", _("Parameters"),
+				      _("Solver parameters"),
+				      GNM_SOLVER_PARAMETERS_TYPE,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_CONSTRUCT_ONLY |
+				      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, SOL_PROP_RESULT,
 		 g_param_spec_object ("result", _("Result"),
