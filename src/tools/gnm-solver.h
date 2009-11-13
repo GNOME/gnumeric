@@ -3,7 +3,8 @@
 
 #include <glib-object.h>
 #include <gnumeric.h>
-#include <solver.h>
+#include <dependent.h>
+#include <numbers.h>
 
 G_BEGIN_DECLS
 

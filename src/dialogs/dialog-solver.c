@@ -43,6 +43,7 @@
 #include <commands.h>
 #include <clipboard.h>
 #include <tools/gnm-solver.h>
+#include <solver.h>
 #include <widgets/gnumeric-expr-entry.h>
 
 #include <glade/glade.h>
