@@ -1,3 +1,7 @@
+2009-11-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/func-builtin.c: add some translator comments
+
 2009-11-12  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-plugin.c (cb_load_and_create): Keep track of plugin usage.

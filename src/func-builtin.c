@@ -38,7 +38,9 @@
 /***************************************************************************/
 
 static GnmFuncHelp const help_sum[] = {
+	/* xgettext : see po-functions/README.translators */
 	{ GNM_FUNC_HELP_NAME, N_("SUM:sum of the given values")},
+	/* xgettext : see po-functions/README.translators */
 	{ GNM_FUNC_HELP_ARG, N_("values:a list of values to add")},
 	{ GNM_FUNC_HELP_DESCRIPTION, N_("SUM computes the sum of all the values and cells referenced in the argument list.")},
 	{ GNM_FUNC_HELP_EXCEL, N_("This function is Excel compatible.") },
@@ -62,7 +64,9 @@ gnumeric_sum (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_product[] = {
+	/* xgettext : see po-functions/README.translators */
 	{ GNM_FUNC_HELP_NAME, N_("PRODUCT:product  of the given values")},
+	/* xgettext : see po-functions/README.translators */
 	{ GNM_FUNC_HELP_ARG, N_("values:a list of values to multiply")},
 	{ GNM_FUNC_HELP_DESCRIPTION, N_("Product computes the product of all the values and cells referenced in the argument list.")},
 	{ GNM_FUNC_HELP_NOTE, N_("If all cells are empty, the result will be 0.") },
@@ -97,6 +101,7 @@ gnumeric_product (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_gnumeric_version[] = {
+	/* xgettext : see po-functions/README.translators */
  	{ GNM_FUNC_HELP_NAME, N_("GNUMERIC_VERSION:the current version of GNumeric")},
 	{ GNM_FUNC_HELP_DESCRIPTION, N_("GNUMERIC_VERSION returns the version of gnumeric as a string.")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=GNUMERIC_VERSION()" },
@@ -255,9 +260,13 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_if[] = {
+	/* xgettext : see po-functions/README.translators */
 	{ GNM_FUNC_HELP_NAME, N_("IF:conditional expression.") },
+	/* xgettext : see po-functions/README.translators */
 	{ GNM_FUNC_HELP_ARG, N_("cond:condition.") },
+	/* xgettext : see po-functions/README.translators */
 	{ GNM_FUNC_HELP_ARG, N_("trueval:value to use if condition is true.") },
+	/* xgettext : see po-functions/README.translators */
 	{ GNM_FUNC_HELP_ARG, N_("falseval:value to use if condition is false.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, N_("This function first evaluates the condition.  If the result is true, it will then evaluate and return the second argument.  Otherwise, it will evaluate and return the last argument.") },
         { GNM_FUNC_HELP_EXAMPLES, "=IF(1+2=3,\"x\",\"y\")" },
