@@ -1,5 +1,13 @@
 2009-11-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-cell-sort.c (cb_update_sensitivity): rename to
+	cb_update_to_new_range and change all callers
+	(dialog_cell_sort_load_sort_setup): implement
+	(dialog_load_selection): move another line of code from
+	  dialog_init to here
+
+2009-11-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-cell-sort.c (set_ok_button_sensitivity): check whether 
 	  state->sel is NULL
 	(cb_dialog_ok_clicked): store a copy of the setup.

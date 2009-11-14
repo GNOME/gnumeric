@@ -4,6 +4,7 @@ Andreas:
 	* Clarify distinction between Document and View Properties.
 	* Sort the translated labels in the preference dialog.
 	* Turn view properties dialog into instant-apply dialog.
+	* Temporarily remember the sort setups. [#100541]
 
 Jean:
 	* Fix cursor and cell edition on dark backgrounds. [#600656]

@@ -411,7 +411,7 @@ cb_sort_header_check(SortFlowState *state)
 }
 
 static void
-cb_update_sensitivity (SortFlowState *state)
+cb_update_to_new_range (SortFlowState *state)
 {
         GnmValue *range;
 
@@ -483,7 +483,7 @@ cb_dialog_ok_clicked (SortFlowState *state)
 				    -1);
 		item++;
 		this_array_item->offset = number - base;
-		this_array_item->asc = descending ? TRUE : FALSE;
+		this_array_item->asc = !!descending;
 		this_array_item->cs = case_sensitive;
 		this_array_item->val = sort_by_value;
 		this_array_item++;
@@ -529,22 +529,57 @@ cb_dialog_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 static void
 dialog_cell_sort_load_sort_setup (SortFlowState *state, GnmSortData const *data)
 {
-/* 	int i; */
-/* 	GnmSortClause *this = data->clauses; */
+	int i;
+	GnmSortClause *this = data->clauses;
+	gint base, max, index;
+	Sheet *sheet = state->sel->v_range.cell.a.sheet;
 
-/* 	g_print ("Found a matching sort setup!\n"); */
-/* 	go_locale_sel_set_locale (state->locale_selector, data->locale); */
-/* 	gtk_toggle_button_set_active ( */
-/* 		GTK_TOGGLE_BUTTON (state->retain_format_check), data->retain_formats); */
+	if (sheet == NULL)
+		sheet = state->sheet;
+	
+	go_locale_sel_set_locale (state->locale_selector, data->locale);
+	
+	gtk_toggle_button_set_active (
+		GTK_TOGGLE_BUTTON (state->retain_format_check), data->retain_formats);
+	
+	gtk_toggle_button_set_active (
+		GTK_TOGGLE_BUTTON (state->cell_sort_row_rb), !data->top);
+	state->is_cols = data->top;
 
-/* 	for (i = 0; i < data->num_clause; i++) { */
-		
+	index = (data->top ? state->sel->v_range.cell.a.row : state->sel->v_range.cell.a.col);
+	base = (data->top ? state->sel->v_range.cell.a.col : state->sel->v_range.cell.a.row);
+	max = (data->top ? state->sel->v_range.cell.b.col : state->sel->v_range.cell.b.row);
+	gtk_list_store_clear (state->model);
+	state->sort_items = 0;
+	for (i = 0; i < data->num_clause; i++) {		
+		if (data->clauses[i].offset <= max ) {
+			GtkTreeIter iter;
+			gchar *str, *header;
+			int id = data->clauses[i].offset + base;
 
+			header = state->is_cols
+				? header_name (sheet, id, index)
+				: header_name (sheet, index, id);
+			str = col_row_name (sheet, id, id, FALSE, state->is_cols);
 
-
-
-/* 		this++; */
-/* 	} */
+			gtk_list_store_append (state->model, &iter);
+			gtk_list_store_set (state->model, &iter,
+					    ITEM_HEADER,  header,
+					    ITEM_NAME,  str,
+					    ITEM_DESCENDING, data->clauses[i].asc,
+					    ITEM_DESCENDING_IMAGE, 
+					    !data->clauses[i].asc
+					    ? state->image_ascending
+					    : state->image_descending,
+					    ITEM_CASE_SENSITIVE, data->clauses[i].cs,
+					    ITEM_SORT_BY_VALUE, data->clauses[i].val,
+					    ITEM_MOVE_FORMAT, TRUE,
+					    ITEM_NUMBER, id,
+					    -1);
+			state->sort_items++;
+		}
+		this++;
+	}
 }
 
 static GnmRange const *
@@ -575,6 +610,8 @@ dialog_load_selection (SortFlowState *state, gboolean *col_rb)
 					  gnm_expr_entry_get_text (state->range_entry));
 	if (data != NULL)
 		dialog_cell_sort_load_sort_setup (state, data);
+	else
+		cb_update_to_new_range (state);
 	
 	return first;
 }
@@ -939,7 +976,7 @@ dialog_init (SortFlowState *state)
 	gtk_widget_show (GTK_WIDGET (state->range_entry));
 	g_signal_connect_swapped (G_OBJECT (state->range_entry),
 				  "changed",
-				  G_CALLBACK (cb_update_sensitivity), state);
+				  G_CALLBACK (cb_update_to_new_range), state);
 
 	state->locale_selector = GO_LOCALE_SEL (go_locale_sel_new ());
 	gtk_widget_show_all (GTK_WIDGET (state->locale_selector));
@@ -1038,7 +1075,7 @@ dialog_init (SortFlowState *state)
 	state->cell_sort_col_rb = glade_xml_get_widget (state->gui, "cell_sort_col_rb");
 	g_signal_connect_swapped (G_OBJECT (state->cell_sort_row_rb),
 				  "toggled",
-				  G_CALLBACK (cb_update_sensitivity), state);
+				  G_CALLBACK (cb_update_to_new_range), state);
 
 	state->cell_sort_header_check = glade_xml_get_widget (state->gui,
 							      "cell_sort_header_check");
@@ -1107,8 +1144,6 @@ dialog_init (SortFlowState *state)
 	cb_sort_selection_changed (state);
 
 	range = dialog_load_selection (state, &col_rb);
-
-	cb_update_sensitivity (state);
 
 	gnm_expr_entry_grab_focus(GNM_EXPR_ENTRY (state->add_entry), TRUE);
 }
