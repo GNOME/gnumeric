@@ -331,8 +331,6 @@ src/tools/random-generator-cor.c
 src/tools/scenarios.c
 src/tools/simulation.c
 src/tools/solver/reports-write.c
-src/tools/solver/reports.c
-src/tools/solver/solver.c
 src/tools/tabulate.c
 src/validation.c
 src/value-sheet.c
