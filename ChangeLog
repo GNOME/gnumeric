@@ -1,3 +1,16 @@
+2009-11-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet.h (gnm_sheet_get_sort_setups): new
+	(gnm_sheet_add_sort_setup): new
+	(gnm_sheet_find_sort_setup): new
+	* src/sheet.c (gnm_sheet_add_sort_setup): new
+	(gnm_sheet_get_sort_setups): new
+	(gnm_sheet_find_sort_setup): new
+	(gnm_sheet_init): initialize new field sort_setups
+	(gnm_sheet_finalize): and free them
+	* src/sort.c (gnm_sort_data_copy): new
+	* src/sort.h (gnm_sort_data_copy): new
+
 2009-11-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/func-builtin.c: add some translator comments

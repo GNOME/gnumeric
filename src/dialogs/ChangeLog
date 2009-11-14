@@ -1,3 +1,12 @@
+2009-11-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-cell-sort.c (set_ok_button_sensitivity): check whether 
+	  state->sel is NULL
+	(cb_dialog_ok_clicked): store a copy of the setup.
+	(dialog_cell_sort_load_sort_setup): new stub
+	(dialog_load_selection): do more
+	(dialog_init): move some code into dialog_load_selection
+
 2009-11-12  Morten Welinder  <terra@gnome.org>
 
 	* dialog-solver.c (dialog_init): Set GNM_EE_CONSTANT_ALLOWED for

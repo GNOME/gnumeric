@@ -62,6 +62,7 @@
 #include "gnm-sheet-slicer.h"
 #include "scenarios.h"
 #include "cell-draw.h"
+#include "sort.h"
 #include <goffice/goffice.h>
 
 #include <glib/gi18n-lib.h>
@@ -769,6 +770,7 @@ gnm_sheet_init (Sheet *sheet)
 
 	sheet->filters = NULL;
 	sheet->scenarios = NULL;
+	sheet->sort_setups = NULL;
 	sheet->list_merged = NULL;
 	sheet->hash_merged = g_hash_table_new ((GHashFunc)&gnm_cellpos_hash,
 					       (GCompareFunc)&gnm_cellpos_equal);
@@ -3968,6 +3970,8 @@ gnm_sheet_finalize (GObject *obj)
 
 	g_object_unref (sheet->solver_parameters);
 	scenarios_free (sheet->scenarios);
+	if (sheet->sort_setups != NULL)
+		g_hash_table_unref (sheet->sort_setups);
 
 	dependents_invalidate_sheet (sheet, TRUE);
 
@@ -5762,4 +5766,35 @@ gnm_sheet_get_size2 (Sheet const *sheet, Workbook const *wb)
 	return sheet
 		? gnm_sheet_get_size (sheet)
 		: workbook_get_sheet_size (wb);
+}
+
+
+GHashTable *
+gnm_sheet_get_sort_setups (Sheet *sheet)
+{
+	GHashTable *hash = sheet->sort_setups;
+
+	if (hash == NULL)
+		hash = sheet->sort_setups =
+			g_hash_table_new_full 
+			(g_str_hash, g_str_equal, 
+			 g_free, (GDestroyNotify)gnm_sort_data_destroy);
+	
+	return hash;
+}
+
+void 
+gnm_sheet_add_sort_setup (Sheet *sheet, char *key, gpointer setup)
+{
+	GHashTable *hash = gnm_sheet_get_sort_setups (sheet);
+	
+	g_hash_table_insert (hash, key, setup);
+}
+
+gconstpointer 
+gnm_sheet_find_sort_setup (Sheet *sheet, char const *key)
+{
+	if (sheet->sort_setups == NULL)
+		return NULL;
+	return g_hash_table_lookup (sheet->sort_setups, key);
 }

@@ -212,6 +212,12 @@ static void
 set_ok_button_sensitivity(SortFlowState *state)
 {
 	int items;
+
+	if (state->sel == NULL) {
+		gtk_widget_set_sensitive (state->ok_button, FALSE);
+		return;
+	}
+
 	items = state->is_cols ? (state->sel->v_range.cell.b.row -
 				  state->sel->v_range.cell.a.row + 1) :
 		(state->sel->v_range.cell.b.col -
@@ -453,13 +459,14 @@ cb_dialog_destroy (SortFlowState  *state)
 static void
 cb_dialog_ok_clicked (SortFlowState *state)
 {
-	GnmSortData *data;
+	GnmSortData *data, *data_copy;
 	GnmSortClause *array, *this_array_item;
 	int item = 0;
 	GtkTreeIter iter;
 	gboolean descending, case_sensitive, sort_by_value, move_format;
 	gint number;
 	gint base;
+	char const *text;
 
 	array = g_new (GnmSortClause, state->sort_items);
 	this_array_item = array;
@@ -498,7 +505,14 @@ cb_dialog_ok_clicked (SortFlowState *state)
 	data->retain_formats = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->retain_format_check));
 	data->locale = go_locale_sel_get_locale (state->locale_selector);
-
+	
+	data_copy = gnm_sort_data_copy (data);
+	text = gnm_expr_entry_get_text (state->range_entry);
+	gnm_sheet_add_sort_setup
+		(data->sheet, 
+		 g_strdup((text != NULL && text[0] != '\0') ? text : "Other"), 
+		 data_copy);
+	
 	cmd_sort (WORKBOOK_CONTROL (state->wbcg), data);
 
 	gtk_widget_destroy (state->dialog);
@@ -512,10 +526,32 @@ cb_dialog_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 	gtk_widget_destroy (state->dialog);
 }
 
+static void
+dialog_cell_sort_load_sort_setup (SortFlowState *state, GnmSortData const *data)
+{
+/* 	int i; */
+/* 	GnmSortClause *this = data->clauses; */
+
+/* 	g_print ("Found a matching sort setup!\n"); */
+/* 	go_locale_sel_set_locale (state->locale_selector, data->locale); */
+/* 	gtk_toggle_button_set_active ( */
+/* 		GTK_TOGGLE_BUTTON (state->retain_format_check), data->retain_formats); */
+
+/* 	for (i = 0; i < data->num_clause; i++) { */
+		
+
+
+
+
+/* 		this++; */
+/* 	} */
+}
+
 static GnmRange const *
 dialog_load_selection (SortFlowState *state, gboolean *col_rb)
 {
 	GnmRange const *first;
+	GnmSortData const *data;
 
 	first = selection_first_range (state->sv, NULL, NULL);
 
@@ -529,6 +565,17 @@ dialog_load_selection (SortFlowState *state, gboolean *col_rb)
 		gtk_toggle_button_set_active (
 			GTK_TOGGLE_BUTTON (state->cell_sort_col_rb),
 			(*col_rb = TRUE));
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->cell_sort_header_check),
+				      sheet_range_has_heading 
+				      (state->sheet, first, *col_rb, FALSE));
+	cb_sort_header_check (state);
+	
+	data = gnm_sheet_find_sort_setup (state->sheet, 
+					  gnm_expr_entry_get_text (state->range_entry));
+	if (data != NULL)
+		dialog_cell_sort_load_sort_setup (state, data);
+	
 	return first;
 }
 
@@ -1060,9 +1107,7 @@ dialog_init (SortFlowState *state)
 	cb_sort_selection_changed (state);
 
 	range = dialog_load_selection (state, &col_rb);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->cell_sort_header_check),
-				      sheet_range_has_heading (state->sheet, range, col_rb, FALSE));
-	cb_sort_header_check (state);
+
 	cb_update_sensitivity (state);
 
 	gnm_expr_entry_grab_focus(GNM_EXPR_ENTRY (state->add_entry), TRUE);

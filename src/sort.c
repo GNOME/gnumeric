@@ -324,3 +324,20 @@ gnm_sort_contents (GnmSortData *data, GOCmdContext *cc)
 
 	return iperm;
 }
+
+
+GnmSortData *
+gnm_sort_data_copy   (GnmSortData *data)
+{
+	GnmSortData *result;
+	
+	g_return_val_if_fail (data != NULL, NULL);
+	
+	result = g_memdup (data, sizeof (GnmSortData));
+	result->range = g_memdup (result->range, sizeof (GnmRange));
+	result->clauses = g_memdup (result->clauses, 
+				    result->num_clause * sizeof (GnmSortClause));
+	result->locale = g_strdup (result->locale);
+
+	return result;
+}

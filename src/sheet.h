@@ -96,6 +96,7 @@ struct _Sheet {
 
         GnmSolverParameters *solver_parameters;
 	GList            *scenarios;
+	GHashTable       *sort_setups;
 
 	gint simulation_round;
 
@@ -278,6 +279,9 @@ gboolean sheet_range_has_heading     (Sheet const *sheet, GnmRange const *src,
 
 void gnm_sheet_foreach_name (Sheet const *sheet, GHFunc func, gpointer data);
 
+GHashTable *gnm_sheet_get_sort_setups (Sheet *sheet);
+void gnm_sheet_add_sort_setup (Sheet *sheet, char *key, gpointer setup);
+gconstpointer gnm_sheet_find_sort_setup (Sheet *sheet, char const *key);
 
 /* Redraw */
 #define sheet_is_visible(_sheet) ((_sheet)->visibility == GNM_SHEET_VISIBILITY_VISIBLE)
