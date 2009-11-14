@@ -13,6 +13,7 @@ AM_CPPFLAGS = 						\
 	-I$(top_srcdir)/src/tools			\
 	-I$(top_srcdir)/src/dialogs			\
 	-I$(srcdir)/solver				\
+	-I$(top_builddir)/src				\
 	-DGNUMERIC_INTERNAL				\
 	$(GNUMERIC_CFLAGS)
 
