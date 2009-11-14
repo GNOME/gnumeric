@@ -590,6 +590,8 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 			       &err);
 	if (ok) {
 		dialog_res = go_gtk_dialog_run (dialog, top);
+		if (dialog_res == GTK_RESPONSE_YES && !sol->result)
+			dialog_res = GTK_RESPONSE_DELETE_EVENT;
 	} else {
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 		go_gtk_notice_dialog (top, GTK_MESSAGE_ERROR,

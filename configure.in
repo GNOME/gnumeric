@@ -1065,6 +1065,7 @@ plugins/gnome-glossary/Makefile
 plugins/html/Makefile
 plugins/lotus-123/Makefile
 plugins/lpsolve/Makefile
+plugins/glpk/Makefile
 plugins/mps/Makefile
 plugins/oleo/Makefile
 plugins/openoffice/Makefile

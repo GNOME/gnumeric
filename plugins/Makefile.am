@@ -1,5 +1,5 @@
 SUBDIRS_FILE_FORMATS = excel lotus-123 oleo sc sylk xbase html dif qpro \
-	plan-perfect applix openoffice lpsolve
+	plan-perfect applix openoffice lpsolve glpk
 
 if ENABLE_SOLVER
   SUBDIRS_FILE_FORMATS += mps

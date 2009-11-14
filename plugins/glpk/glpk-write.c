@@ -77,14 +77,17 @@ out:
  * sheet are involved.
  */
 static const char *
-lpsolve_var_name (GnmCell const *cell)
+glpk_var_name (GnmSubSolver *ssol, GnmCell const *cell)
 {
+	if (ssol)
+		return gnm_sub_solver_get_cell_name (ssol, cell);
 	return cell_name (cell);
 }
 
 static gboolean
-lpsolve_affine_func (GString *dst, GnmCell *target, gnm_float cst,
-		     GSList *input_cells, GError **err)
+glpk_affine_func (GString *dst, GnmCell *target, GnmSubSolver *ssol,
+		  gboolean zero_too,
+		  gnm_float cst, GSList *input_cells, GError **err)
 {
 	GSList *l, *ol;
 	gboolean any = FALSE;
@@ -115,7 +118,7 @@ lpsolve_affine_func (GString *dst, GnmCell *target, gnm_float cst,
 		ok = gnm_solver_get_lp_coeff (target, cell, &x, err);
 		if (!ok)
 			goto fail;
-		if (x == 0)
+		if (x == 0 && !zero_too)
 			continue;
 
 		if (any) {
@@ -134,7 +137,7 @@ lpsolve_affine_func (GString *dst, GnmCell *target, gnm_float cst,
 			g_string_append_c (dst, ' ');
 		}
 
-		g_string_append (dst, lpsolve_var_name (cell));
+		g_string_append (dst, glpk_var_name (ssol, cell));
 
 		any = TRUE;
 	}
@@ -157,18 +160,33 @@ fail:
 }
 
 static GString *
-lpsolve_create_program (Sheet *sheet, GOIOContext *io_context,
-			GnmSubSolver *ssol, GError **err)
+glpk_create_program (Sheet *sheet, GOIOContext *io_context,
+		     GnmSubSolver *ssol, GError **err)
 {
 	GnmSolverParameters *sp = sheet->solver_parameters;
 	GString *prg = NULL;
 	GString *constraints = g_string_new (NULL);
-	GString *declarations = g_string_new (NULL);
+	GString *binaries = g_string_new (NULL);
+	GString *integers = g_string_new (NULL);
 	GString *objfunc = g_string_new (NULL);
 	GSList *l;
 	GnmCell *target_cell = gnm_solver_param_get_target_cell (sp);
 	GSList *input_cells = gnm_solver_param_get_input_cells (sp);
 	gsize progress;
+
+	/* ---------------------------------------- */
+
+	if (ssol) {
+		unsigned ui;
+		GSList *l;
+
+		for (ui = 1, l = input_cells; l; ui++, l = l->next) {
+			GnmCell *cell = l->data;
+			char *name = g_strdup_printf ("X_%u", ui);
+			gnm_sub_solver_name_cell (ssol, cell, name);
+			g_free (name);
+		}
+	}
 
 	/* ---------------------------------------- */
 
@@ -183,19 +201,21 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context,
 
 	switch (sp->problem_type) {
 	case GNM_SOLVER_MINIMIZE:
-		g_string_append (objfunc, "min: ");
+		g_string_append (objfunc, "Minimize\n");
 		break;
 	case GNM_SOLVER_MAXIMIZE:
-		g_string_append (objfunc, "max: ");
+		g_string_append (objfunc, "Maximize\n");
 		break;
 	default:
 		g_assert_not_reached ();
 	}
 	go_io_count_progress_update (io_context, 1);
 
-	if (!lpsolve_affine_func (objfunc, target_cell, 0, input_cells, err))
+	g_string_append (objfunc, " obj: ");
+	if (!glpk_affine_func (objfunc, target_cell, ssol,
+			       TRUE, 0, input_cells, err))
 		goto fail;
-	g_string_append (objfunc, ";\n");
+	g_string_append (objfunc, "\n");
 	go_io_count_progress_update (io_context, 1);
 
 	/* ---------------------------------------- */
@@ -204,9 +224,8 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context,
 		GSList *l;
 		for (l = input_cells; l; l = l->next) {
 			GnmCell *cell = l->data;
-			g_string_append (constraints,
-					 lpsolve_var_name (cell));
-			g_string_append (constraints, " >= 0;\n");
+			g_string_append_printf (constraints, " %s >= 0\n",
+						glpk_var_name (ssol, cell));
 		}
 		go_io_count_progress_update (io_context, 1);
 	}
@@ -215,10 +234,8 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context,
 		GSList *l;
 		for (l = input_cells; l; l = l->next) {
 			GnmCell *cell = l->data;
-			g_string_append (declarations, "int ");
-			g_string_append (declarations,
-					 lpsolve_var_name (cell));
-			g_string_append (declarations, ";\n");
+			g_string_append_printf (integers, " %s\n",
+						glpk_var_name (ssol, cell));
 		}
 		go_io_count_progress_update (io_context, 1);
 	}
@@ -226,11 +243,11 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context,
  	for (l = sp->constraints; l; l = l->next) {
 		GnmSolverConstraint *c = l->data;
 		const char *op = NULL;
-		const char *type = NULL;
 		gboolean right_small = TRUE;
 		int i;
 		gnm_float cl, cr;
 		GnmCell *lhs, *rhs;
+		GString *type = NULL;
 
 		switch (c->type) {
 		case GNM_SOLVER_LE:
@@ -244,10 +261,10 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context,
 			op = "=";
 			break;
 		case GNM_SOLVER_INTEGER:
-			type = "int";
+			type = integers;
 			break;
 		case GNM_SOLVER_BOOLEAN:
-			type = "binary";
+			type = binaries;
 			break;
 		default:
 			g_assert_not_reached ();
@@ -259,16 +276,17 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context,
 						     &rhs, &cr);
 		     i++) {
 			if (type) {
-				g_string_append (declarations, type);
-				g_string_append_c (declarations, ' ');
-				g_string_append (declarations, lpsolve_var_name (lhs));
-				g_string_append (declarations, ";\n");
+				g_string_append_printf
+					(type, " %s\n",
+					 glpk_var_name (ssol, lhs));
 			} else {
 				gboolean ok;
 
-				ok = lpsolve_affine_func
-					(constraints, lhs, cl,
-					 input_cells, err);
+				g_string_append_c (constraints, ' ');
+
+				ok = glpk_affine_func
+					(constraints, lhs, ssol,
+					 FALSE, cl, input_cells, err);
 				if (!ok)
 					goto fail;
 
@@ -276,13 +294,13 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context,
 				g_string_append (constraints, op);
 				g_string_append_c (constraints, ' ');
 
-				ok = lpsolve_affine_func
-					(constraints, rhs, cr,
-					 input_cells, err);
+				ok = glpk_affine_func
+					(constraints, rhs, ssol,
+					 FALSE, cr, input_cells, err);
 				if (!ok)
 					goto fail;
 
-				g_string_append (constraints, ";\n");
+				g_string_append (constraints, "\n");
 			}
 		}
 
@@ -293,28 +311,34 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context,
 
 	prg = g_string_new (NULL);
 	g_string_append_printf (prg,
-				"/* Created by Gnumeric %s */\n",
+				"\\ Created by Gnumeric %s\n\n",
 				GNM_VERSION_FULL);
-	g_string_append (prg, "\n/* Object function */\n");
 	go_string_append_gstring (prg, objfunc);
-	g_string_append (prg, "\n/* Constraints */\n");
+	g_string_append (prg, "\nSubject to\n");
 	go_string_append_gstring (prg, constraints);
-	g_string_append (prg, "\n/* Declarations */\n");
-	go_string_append_gstring (prg, declarations);
-	g_string_append (prg, "\n/* The End */\n");
+	if (integers->len > 0) {
+		g_string_append (prg, "\nGeneral\n");
+		go_string_append_gstring (prg, integers);
+	}
+	if (binaries->len > 0) {
+		g_string_append (prg, "\nBinary\n");
+		go_string_append_gstring (prg, binaries);
+	}
+	g_string_append (prg, "\nEnd\n");
 
 fail:
 	g_string_free (objfunc, TRUE);
 	g_string_free (constraints, TRUE);
-	g_string_free (declarations, TRUE);
+	g_string_free (integers, TRUE);
+	g_string_free (binaries, TRUE);
 	g_slist_free (input_cells);
 
 	return prg;
 }
 
 void
-lpsolve_file_save (GOFileSaver const *fs, GOIOContext *io_context,
-		   WorkbookView const *wb_view, GsfOutput *output)
+glpk_file_save (GOFileSaver const *fs, GOIOContext *io_context,
+		WorkbookView const *wb_view, GsfOutput *output)
 {
 	Sheet *sheet = wb_view_cur_sheet (wb_view);
 	GError *err = NULL;
@@ -323,10 +347,10 @@ lpsolve_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 	GnmSubSolver *ssol = g_object_get_data (G_OBJECT (fs), "solver");
 
 	go_io_progress_message (io_context,
-				_("Writing lpsolve file..."));
+				_("Writing glpk file..."));
 
 	locale = gnm_push_C_locale ();
-	prg = lpsolve_create_program (sheet, io_context, ssol, &err);
+	prg = glpk_create_program (sheet, io_context, ssol, &err);
 	gnm_pop_C_locale (locale);
 
 	workbook_recalc (sheet->workbook);

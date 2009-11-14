@@ -31,11 +31,14 @@ plugins/fn-stat/functions.c
 plugins/fn-string/functions.c
 plugins/fn-tsa/functions.c
 plugins/gda/plugin-gda.c
+plugins/glpk/glpk-write.c
+plugins/glpk/gnm-glpk.c
 plugins/gnome-db/plugin-gnomedb.c
 plugins/html/html_read.c
 plugins/html/roff.c
 plugins/lotus-123/boot.c
 plugins/lotus-123/lotus.c
+plugins/lpsolve/gnm-lpsolve.c
 plugins/lpsolve/lpsolve-write.c
 plugins/mps/mps.c
 plugins/mps/parser.c
@@ -197,6 +200,7 @@ src/tools/dao.c
 src/tools/data-shuffling.c
 src/tools/fill-series.c
 src/tools/filter.c
+src/tools/gnm-solver.c
 src/tools/random-generator.c
 src/tools/random-generator-cor.c
 src/tools/scenarios.c

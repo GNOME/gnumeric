@@ -2,7 +2,7 @@
 <plugin id="Gnumeric_lpsolve">
 	<information>
 		<_name>LPSolve Linear Program Solver Interface</_name>
-		<_description>Specialized Export of Solver Data to LPSolve</_description>
+		<_description>Solver Interface to LPSolve</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="lpsolve"/>

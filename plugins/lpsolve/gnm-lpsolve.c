@@ -30,6 +30,13 @@ gnm_lpsolve_cleanup (GnmLPSolve *lp)
 	}
 }
 
+static void
+gnm_lpsolve_final (GnmLPSolve *lp)
+{
+	gnm_lpsolve_cleanup (lp);
+	g_free (lp);
+}
+
 static gboolean
 write_program (GnmSolver *sol, WorkbookControl *wbc, GError **err)
 {
@@ -184,6 +191,9 @@ cb_child_exit (GPid pid, gint status, GnmLPSolve *lp)
 			new_status = GNM_SOLVER_STATUS_ERROR;
 			break;
 		}
+	} else {
+		/* Something bad.  */
+		new_status = GNM_SOLVER_STATUS_ERROR;
 	}
 
 	gnm_solver_set_status (sol, new_status);
@@ -286,7 +296,7 @@ lpsolve_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params)
 	g_signal_connect (res, "stop", G_CALLBACK (gnm_lpsolve_stop), lp);
 
 	g_object_set_data_full (G_OBJECT (res), PRIVATE_KEY, lp,
-				(GDestroyNotify)g_free);
+				(GDestroyNotify)gnm_lpsolve_final);
 
 	return res;
 }

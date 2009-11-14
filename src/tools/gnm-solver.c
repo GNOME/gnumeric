@@ -21,6 +21,17 @@
 
 /* ------------------------------------------------------------------------- */
 
+static gboolean
+debug_solver (void)
+{
+	static int debug = -1;
+	if (debug == -1)
+		debug = gnm_debug_flag ("solver");
+	return debug;
+}
+
+/* ------------------------------------------------------------------------- */
+
 GType
 gnm_solver_status_get_type (void)
 {
@@ -896,12 +907,19 @@ gnm_solver_saveas (GnmSolver *solver, WorkbookControl *wbc,
 		return FALSE;
 	}
 
+	/* Give the saver a way to talk to the solver.  */
+	g_object_set_data_full (G_OBJECT (fs),
+				"solver", g_object_ref (solver),
+				(GDestroyNotify)g_object_unref);
+
 	output = gsf_output_stdio_new_FILE (*filename, file, TRUE);
 	io_context = go_io_context_new (GO_CMD_CONTEXT (wbc));
 	wbv_save_to_output (wbv, fs, output, io_context);
 	ok = !go_io_error_occurred (io_context);
 	g_object_unref (io_context);
 	g_object_unref (output);
+
+	g_object_set_data (G_OBJECT (fs), "solver", NULL);
 
 	if (!ok) {
 		g_set_error (err, G_FILE_ERROR, 0,
@@ -1046,6 +1064,9 @@ gnm_sub_solver_clear (GnmSubSolver *subsol)
 		g_free (subsol->program_filename);
 		subsol->program_filename = NULL;
 	}
+
+	g_hash_table_remove_all (subsol->cell_from_name);
+	g_hash_table_remove_all (subsol->name_from_cell);
 }
 
 static void
@@ -1065,11 +1086,20 @@ gnm_sub_solver_init (GnmSubSolver *subsol)
 
 	for (i = 0; i <= 2; i++)
 		subsol->fd[i] = -1;
+
+	subsol->cell_from_name =
+		g_hash_table_new_full (g_str_hash, g_str_equal,
+				       g_free, NULL);
+	subsol->name_from_cell =
+		g_hash_table_new (g_direct_hash, g_direct_equal);
 }
 
 static void
 cb_child_exit (GPid pid, gint status, GnmSubSolver *subsol)
 {
+	if (debug_solver ())
+		g_printerr ("Solver process exited.\n");
+
 	subsol->child_watch = 0;
 	if (subsol->child_exit)
 		subsol->child_exit (pid, status, subsol->exit_data);
@@ -1095,6 +1125,12 @@ gnm_sub_solver_spawn (GnmSubSolver *subsol,
 	if (!g_path_is_absolute (argv[0]))
 		spflags |= G_SPAWN_SEARCH_PATH;
 
+	if (io_stdout == NULL)
+		spflags |= G_SPAWN_STDOUT_TO_DEV_NULL;
+
+	if (debug_solver ())
+		g_printerr ("Spawning %s\n", argv[0]);
+
 	ok = g_spawn_async_with_pipes
 		(g_get_home_dir (),  /* PWD */
 		 argv,
@@ -1103,8 +1139,8 @@ gnm_sub_solver_spawn (GnmSubSolver *subsol,
 		 child_setup, setup_data,
 		 &subsol->child_pid,
 		 NULL,			/* stdin */
-		 &subsol->fd[1],	/* stdout */
-		 &subsol->fd[2],	/* stderr */
+		 io_stdout ? &subsol->fd[1] : NULL,	/* stdout */
+		 io_stdout ? &subsol->fd[2] : NULL,	/* stderr */
 		 err);
 	if (!ok)
 		goto fail;
@@ -1149,6 +1185,35 @@ fail:
 	gnm_sub_solver_clear (subsol);
 	gnm_solver_set_status (sol, GNM_SOLVER_STATUS_ERROR);
 	return FALSE;
+}
+
+const char *
+gnm_sub_solver_name_cell (GnmSubSolver *subsol, GnmCell const *cell,
+			  const char *name)
+{
+	char *name_copy = g_strdup (name);
+
+	g_hash_table_insert (subsol->cell_from_name,
+			     name_copy,
+			     (gpointer)cell);
+	g_hash_table_insert (subsol->name_from_cell,
+			     (gpointer)cell,
+			     name_copy);
+
+	return name_copy;
+}
+
+GnmCell *
+gnm_sub_solver_find_cell (GnmSubSolver *subsol, const char *name)
+{
+	return g_hash_table_lookup (subsol->cell_from_name, name);
+}
+
+const char *
+gnm_sub_solver_get_cell_name (GnmSubSolver *subsol,
+			      GnmCell const *cell)
+{
+	return g_hash_table_lookup (subsol->name_from_cell, (gpointer)cell);
 }
 
 void
@@ -1244,7 +1309,7 @@ gnm_solver_factory_create (GnmSolverFactory *factory,
 void
 gnm_solver_db_register (GnmSolverFactory *factory)
 {
-	if (gnm_debug_flag ("solver"))
+	if (debug_solver ())
 		g_printerr ("Registering %s\n", factory->id);
 	g_object_ref (factory);
 	solvers = g_slist_prepend (solvers, factory);
@@ -1253,7 +1318,7 @@ gnm_solver_db_register (GnmSolverFactory *factory)
 void
 gnm_solver_db_unregister (GnmSolverFactory *factory)
 {
-	if (gnm_debug_flag ("solver"))
+	if (debug_solver ())
 		g_printerr ("Unregistering %s\n", factory->id);
 	solvers = g_slist_remove (solvers, factory);
 	g_object_unref (factory);

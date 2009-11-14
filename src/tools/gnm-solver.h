@@ -245,6 +245,10 @@ typedef struct {
 
 	char *program_filename;
 
+	/* Hashes between char* and cell*.  */
+	GHashTable *cell_from_name;
+	GHashTable *name_from_cell;
+
 	GPid child_pid;
 	guint child_watch;
 
@@ -276,6 +280,13 @@ gboolean gnm_sub_solver_spawn
 		 GError **err);
 
 void gnm_sub_solver_flush (GnmSubSolver *subsol);
+
+const char *gnm_sub_solver_name_cell (GnmSubSolver *subsol,
+				      GnmCell const *cell,
+				      const char *name);
+GnmCell *gnm_sub_solver_find_cell (GnmSubSolver *subsol, const char *name);
+const char *gnm_sub_solver_get_cell_name (GnmSubSolver *subsol,
+					  GnmCell const *cell);
 
 /* ------------------------------------------------------------------------- */
 
