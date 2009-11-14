@@ -1,3 +1,8 @@
+2009-11-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (gee_rangesel_update_text): work around gtk 
+	  bug #601922
+
 2009-11-12  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_parse_as_value): If new

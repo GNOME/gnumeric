@@ -1,5 +1,11 @@
 2009-11-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* configure.in: check for gtk_entry_get_buffer (We need to use it to
+	  work around a gtk bug that only occurs when this is in fact 
+	  available.)
+
+2009-11-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/sheet.h (gnm_sheet_get_sort_setups): new
 	(gnm_sheet_add_sort_setup): new
 	(gnm_sheet_find_sort_setup): new

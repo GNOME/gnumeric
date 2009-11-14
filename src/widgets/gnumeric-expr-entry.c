@@ -1045,6 +1045,12 @@ gee_rangesel_update_text (GnmExprEntry *gee)
 	if (text != NULL) {
 		/* Set the cursor at the end.  It looks nicer */
 		len = strlen (text);
+
+#ifdef HAVE_GTK_ENTRY_GET_BUFFER
+		/* We need to work around gtk bug #601922 */
+		gtk_entry_get_buffer (GTK_ENTRY (gee->entry));
+#endif
+
 		gtk_editable_insert_text (editable, text, len, &rs->text_end);
 		gtk_editable_set_position (editable, rs->text_end);
 		g_free (text);
