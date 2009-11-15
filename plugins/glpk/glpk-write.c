@@ -72,10 +72,6 @@ out:
 	return res;
 }
 
-/*
- * FIXME: we need to handle the situation where cells from more than one
- * sheet are involved.
- */
 static const char *
 glpk_var_name (GnmSubSolver *ssol, GnmCell const *cell)
 {

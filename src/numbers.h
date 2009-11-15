@@ -78,6 +78,7 @@ gnm_float gnm_yn (int n, gnm_float x);
 #define gnm_finite finitel
 #define gnm_floor floorl
 #define gnm_fmod fmodl
+#define gnm_format_value go_format_valuel
 #define gnm_format_value_gstring go_format_value_gstringl
 #define gnm_frexp frexpl
 #define gnm_hypot hypotl
@@ -109,6 +110,7 @@ gnm_float gnm_yn (int n, gnm_float x);
 #define GNM_FORMAT_f	"Lf"
 #define GNM_FORMAT_g	"Lg"
 #define GNM_FORMAT_G	"LG"
+#define GNM_SCANF_g	"Lg"
 #define GNM_DIG		LDBL_DIG
 #define GNM_MANT_DIG	LDBL_MANT_DIG
 #define GNM_MIN_EXP	LDBL_MIN_EXP
@@ -145,6 +147,7 @@ typedef double gnm_float;
 #define gnm_finite go_finite
 #define gnm_floor floor
 #define gnm_fmod fmod
+#define gnm_format_value go_format_value
 #define gnm_format_value_gstring go_format_value_gstring
 #define gnm_frexp frexp
 #define gnm_hypot hypot
@@ -177,6 +180,7 @@ typedef double gnm_float;
 #define GNM_FORMAT_f	"f"
 #define GNM_FORMAT_g	"g"
 #define GNM_FORMAT_G	"G"
+#define GNM_SCANF_g	"lg"
 #define GNM_DIG		DBL_DIG
 #define GNM_MANT_DIG	DBL_MANT_DIG
 #define GNM_MIN_EXP	DBL_MIN_EXP

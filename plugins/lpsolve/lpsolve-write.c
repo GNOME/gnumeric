@@ -72,19 +72,21 @@ out:
 	return res;
 }
 
-/*
- * FIXME: we need to handle the situation where cells from more than one
- * sheet are involved.
- */
 static const char *
-lpsolve_var_name (GnmCell const *cell)
+lpsolve_var_name (GnmSubSolver *ssol, GnmCell const *cell)
 {
+	if (ssol) {
+		const char *old = gnm_sub_solver_get_cell_name (ssol, cell);
+		if (old)
+			return old;
+		return gnm_sub_solver_name_cell (ssol, cell, cell_name (cell));
+	}
 	return cell_name (cell);
 }
 
 static gboolean
-lpsolve_affine_func (GString *dst, GnmCell *target, gnm_float cst,
-		     GSList *input_cells, GError **err)
+lpsolve_affine_func (GString *dst, GnmCell *target, GnmSubSolver *ssol,
+		     gnm_float cst, GSList *input_cells, GError **err)
 {
 	GSList *l, *ol;
 	gboolean any = FALSE;
@@ -134,7 +136,7 @@ lpsolve_affine_func (GString *dst, GnmCell *target, gnm_float cst,
 			g_string_append_c (dst, ' ');
 		}
 
-		g_string_append (dst, lpsolve_var_name (cell));
+		g_string_append (dst, lpsolve_var_name (ssol, cell));
 
 		any = TRUE;
 	}
@@ -193,7 +195,8 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context,
 	}
 	go_io_count_progress_update (io_context, 1);
 
-	if (!lpsolve_affine_func (objfunc, target_cell, 0, input_cells, err))
+	if (!lpsolve_affine_func (objfunc, target_cell, ssol,
+				  0, input_cells, err))
 		goto fail;
 	g_string_append (objfunc, ";\n");
 	go_io_count_progress_update (io_context, 1);
@@ -205,7 +208,7 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context,
 		for (l = input_cells; l; l = l->next) {
 			GnmCell *cell = l->data;
 			g_string_append (constraints,
-					 lpsolve_var_name (cell));
+					 lpsolve_var_name (ssol, cell));
 			g_string_append (constraints, " >= 0;\n");
 		}
 		go_io_count_progress_update (io_context, 1);
@@ -217,7 +220,7 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context,
 			GnmCell *cell = l->data;
 			g_string_append (declarations, "int ");
 			g_string_append (declarations,
-					 lpsolve_var_name (cell));
+					 lpsolve_var_name (ssol, cell));
 			g_string_append (declarations, ";\n");
 		}
 		go_io_count_progress_update (io_context, 1);
@@ -261,14 +264,14 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context,
 			if (type) {
 				g_string_append (declarations, type);
 				g_string_append_c (declarations, ' ');
-				g_string_append (declarations, lpsolve_var_name (lhs));
+				g_string_append (declarations, lpsolve_var_name (ssol, lhs));
 				g_string_append (declarations, ";\n");
 			} else {
 				gboolean ok;
 
 				ok = lpsolve_affine_func
-					(constraints, lhs, cl,
-					 input_cells, err);
+					(constraints, lhs, ssol,
+					 cl, input_cells, err);
 				if (!ok)
 					goto fail;
 
@@ -277,8 +280,8 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context,
 				g_string_append_c (constraints, ' ');
 
 				ok = lpsolve_affine_func
-					(constraints, rhs, cr,
-					 input_cells, err);
+					(constraints, rhs, ssol,
+					 cr, input_cells, err);
 				if (!ok)
 					goto fail;
 

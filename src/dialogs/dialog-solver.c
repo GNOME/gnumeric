@@ -447,16 +447,16 @@ cb_notify_result (SolverState *state)
 		break;
 
 	case GNM_SOLVER_RESULT_FEASIBLE: {
-		char *valtxt = go_format_value (go_format_general (),
-						r->value);
+		char *valtxt = gnm_format_value (go_format_general (),
+						 r->value);
 		txt = g_strdup_printf (_("Feasible: %s"), valtxt);
 		g_free (valtxt);
 		break;
 	}
 
 	case GNM_SOLVER_RESULT_OPTIMAL: {
-		char *valtxt = go_format_value (go_format_general (),
-						r->value);
+		char *valtxt = gnm_format_value (go_format_general (),
+						 r->value);
 		txt = g_strdup_printf (_("Optimal: %s"), valtxt);
 		g_free (valtxt);
 		break;

@@ -70,7 +70,7 @@ gnm_glpk_read_solution (GnmGlpk *lp)
 	const char *line;
 	unsigned rows, cols, c, r;
 	int pstat, dstat;
-	double val;
+	gnm_float val;
 	GnmSolverResult *result;
 	int width, height;
 
@@ -94,7 +94,7 @@ gnm_glpk_read_solution (GnmGlpk *lp)
 
 	line = gsf_input_textline_utf8_gets (tl);
 	if (line == NULL ||
-	    sscanf (line, "%d %d %lg", &pstat, &dstat, &val) != 3)
+	    sscanf (line, "%d %d %" GNM_SCANF_g, &pstat, &dstat, &val) != 3)
 		goto fail;
 	result->value = val;
 	switch (pstat) {
@@ -120,13 +120,14 @@ gnm_glpk_read_solution (GnmGlpk *lp)
 	}
 
 	for (c = 1; c <= cols; c++) {
-		double pval, dval;
+		gnm_float pval, dval;
 		unsigned cstat;
 		int x, y;
 
 		line = gsf_input_textline_utf8_gets (tl);
 		if (line == NULL ||
-		    sscanf (line, "%u %lg %lg", &cstat, &pval, &dval) != 3)
+		    sscanf (line, "%u %" GNM_SCANF_g " %" GNM_SCANF_g,
+			    &cstat, &pval, &dval) != 3)
 			goto fail;
 
 		x = (c - 1) % width;

@@ -83,7 +83,6 @@ gnm_lpsolve_flush_solution (GnmLPSolve *lp)
 static gboolean
 cb_read_stdout (GIOChannel *channel, GIOCondition cond, GnmLPSolve *lp)
 {
-	GnmSolver *sol = GNM_SOLVER (lp->parent);
 	const char obj_line_prefix[] = "Value of objective function:";
 	size_t obj_line_len = sizeof (obj_line_prefix) - 1;
 	const char val_header_line[] = "Actual values of the variables:";
@@ -116,19 +115,27 @@ cb_read_stdout (GIOChannel *channel, GIOCondition cond, GnmLPSolve *lp)
 			lp->section = SEC_VALUES;
 		} else if (lp->section == SEC_VALUES && lp->result) {
 			GnmSolverResult *r = lp->result;
-			Sheet *sheet = sol->params->sheet;
-			GnmCellPos pos;
 			int x, y;
 			double v;
-			const char *after =
-				cellpos_parse (line, &sheet->size, &pos, FALSE);
-			if (!after || *after != ' ') {
+			char *space = strchr (line, ' ');
+			GnmCell *cell;
+
+			if (!space) {
 				lp->section = SEC_UNKNOWN;
 				continue;
 			}
-			v = g_ascii_strtod (after, NULL);
-			x = pos.col - lp->srinput.range.start.col;
-			y = pos.row - lp->srinput.range.start.row;
+			*space = 0;
+			cell = gnm_sub_solver_find_cell (lp->parent, line);
+			if (!cell) {
+				g_printerr ("Strange cell %s in output\n",
+					    line);
+				lp->section = SEC_UNKNOWN;
+				continue;
+			}
+
+			v = g_ascii_strtod (space + 1, NULL);
+			x = cell->pos.col - lp->srinput.range.start.col;
+			y = cell->pos.row - lp->srinput.range.start.row;
 			if (x >= 0 &&
 			    x < value_area_get_width (r->solution, NULL) &&
 			    y >= 0 &&
