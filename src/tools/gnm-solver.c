@@ -120,9 +120,19 @@ gnm_solver_constraint_dup (GnmSolverConstraint *c, Sheet *sheet)
 {
 	GnmSolverConstraint *res = gnm_solver_constraint_new (sheet);
 	res->type = c->type;
-	dependent_managed_set_expr (&res->lhs, res->lhs.texpr);
-	dependent_managed_set_expr (&res->rhs, res->lhs.texpr);
+	dependent_managed_set_expr (&res->lhs, c->lhs.texpr);
+	dependent_managed_set_expr (&res->rhs, c->rhs.texpr);
 	return res;
+}
+
+gboolean
+gnm_solver_constraint_equal (GnmSolverConstraint const *a,
+			     GnmSolverConstraint const *b)
+{
+	return (a->type == b->type &&
+		gnm_expr_top_equal (a->lhs.texpr, b->lhs.texpr) &&
+		(!gnm_solver_constraint_has_rhs (a) ||
+		 gnm_expr_top_equal (a->rhs.texpr, b->rhs.texpr)));
 }
 
 gboolean
@@ -403,6 +413,45 @@ gnm_solver_param_dup (GnmSolverParameters *src, Sheet *new_sheet)
 	return dst;
 }
 
+gboolean
+gnm_solver_param_equal (GnmSolverParameters const *a,
+			GnmSolverParameters const *b)
+{
+	GSList *la, *lb;
+
+	if (a->sheet != b->sheet ||
+	    a->problem_type != b->problem_type ||
+	    !gnm_expr_top_equal (a->target.texpr, b->target.texpr) ||
+	    !gnm_expr_top_equal (a->input.texpr, b->input.texpr) ||
+	    a->options.max_time_sec != b->options.max_time_sec ||
+	    a->options.max_iter != b->options.max_iter ||
+	    a->options.algorithm != b->options.algorithm ||
+	    a->options.model_type != b->options.model_type ||
+            a->options.assume_non_negative != b->options.assume_non_negative ||
+            a->options.assume_discrete != b->options.assume_discrete ||
+            a->options.automatic_scaling != b->options.automatic_scaling ||
+            a->options.show_iter_results != b->options.show_iter_results ||
+            a->options.answer_report != b->options.answer_report ||
+            a->options.sensitivity_report != b->options.sensitivity_report ||
+            a->options.limits_report != b->options.limits_report ||
+            a->options.performance_report != b->options.performance_report ||
+            a->options.program_report != b->options.program_report ||
+            a->options.dual_program_report != b->options.dual_program_report ||
+            a->options.add_scenario != b->options.add_scenario ||
+	    strcmp (a->options.scenario_name, b->options.scenario_name))
+		return FALSE;
+
+	for (la = a->constraints, lb = b->constraints;
+	     la && lb;
+	     la = la->next, lb = lb->next) {
+		GnmSolverConstraint *ca = la->data;
+		GnmSolverConstraint *cb = lb->data;
+		if (!gnm_solver_constraint_equal (ca, cb))
+			return FALSE;
+	}
+	return la == lb;
+}
+
 GnmValue const *
 gnm_solver_param_get_input (GnmSolverParameters const *sp)
 {
@@ -453,17 +502,19 @@ gnm_solver_param_get_input_cells (GnmSolverParameters const *sp)
 void
 gnm_solver_param_set_target (GnmSolverParameters *sp, GnmCellRef const *cr)
 {
-	GnmCellRef cr2 = *cr;
-	GnmExprTop const *texpr;
+	if (cr) {
+		GnmExprTop const *texpr;
+		GnmCellRef cr2 = *cr;
+		/* Make reference absolute to avoid tracking problems on row/col
+		   insert.  */
+		cr2.row_relative = FALSE;
+		cr2.col_relative = FALSE;
 
-	/* Make reference absolute to avoid tracking problems on row/col
-	   insert.  */
-	cr2.row_relative = FALSE;
-	cr2.col_relative = FALSE;
-
-	texpr = gnm_expr_top_new (gnm_expr_new_cellref (&cr2));
-	dependent_managed_set_expr (&sp->target, texpr);
-	gnm_expr_top_unref (texpr);
+		texpr = gnm_expr_top_new (gnm_expr_new_cellref (&cr2));
+		dependent_managed_set_expr (&sp->target, texpr);
+		gnm_expr_top_unref (texpr);
+	} else
+		dependent_managed_set_expr (&sp->target, NULL);
 }
 
 const GnmCellRef *
@@ -565,9 +616,12 @@ gnm_solver_param_constructor (GType type,
 	dependent_managed_init (&sp->target, sp->sheet);
 	dependent_managed_init (&sp->input, sp->sheet);
 
-	sp->options.model_type          = GNM_SOLVER_LP;
+	sp->options.model_type = GNM_SOLVER_LP;
+	sp->options.max_iter = 100;
+	sp->options.max_time_sec = 30;
 	sp->options.assume_non_negative = TRUE;
 	sp->options.scenario_name = g_strdup ("Optimal");
+	sp->options.algorithm = g_slist_nth_data (gnm_solver_db_get (), 0);
 
 	return obj;
 }
@@ -1128,8 +1182,16 @@ gnm_sub_solver_spawn (GnmSubSolver *subsol,
 	if (io_stdout == NULL)
 		spflags |= G_SPAWN_STDOUT_TO_DEV_NULL;
 
-	if (debug_solver ())
-		g_printerr ("Spawning %s\n", argv[0]);
+	if (debug_solver ()) {
+		GString *msg = g_string_new ("Spawning");
+		int i;
+		for (i = 0; argv[i]; i++) {
+			g_string_append_c (msg, ' ');
+			g_string_append (msg, argv[i]);
+		}
+		g_printerr ("%s\n", msg->str);
+		g_string_free (msg, TRUE);
+	}
 
 	ok = g_spawn_async_with_pipes
 		(g_get_home_dir (),  /* PWD */
@@ -1306,13 +1368,20 @@ gnm_solver_factory_create (GnmSolverFactory *factory,
 	return factory->creator (factory, param);
 }
 
+static int
+cb_compare_factories (GnmSolverFactory *a, GnmSolverFactory *b)
+{
+	return go_utf8_collate_casefold (a->name, b->name);
+}
+
 void
 gnm_solver_db_register (GnmSolverFactory *factory)
 {
 	if (debug_solver ())
 		g_printerr ("Registering %s\n", factory->id);
 	g_object_ref (factory);
-	solvers = g_slist_prepend (solvers, factory);
+	solvers = g_slist_insert_sorted (solvers, factory,
+					 (GCompareFunc)cb_compare_factories);
 }
 
 void

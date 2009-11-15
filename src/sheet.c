@@ -5768,6 +5768,16 @@ gnm_sheet_get_size2 (Sheet const *sheet, Workbook const *wb)
 		: workbook_get_sheet_size (wb);
 }
 
+void
+gnm_sheet_set_solver_params (Sheet *sheet, GnmSolverParameters *param)
+{
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (GNM_IS_SOLVER_PARAMETERS (param));
+
+	g_object_ref (param);
+	g_object_unref (sheet->solver_parameters);
+	sheet->solver_parameters = param;
+}
 
 GHashTable *
 gnm_sheet_get_sort_setups (Sheet *sheet)

@@ -6321,7 +6321,7 @@ cmd_solver_finalize (GObject *cmd)
 }
 
 gboolean
-cmd_solver (WorkbookControl *wbc, GOUndo *undo, GOUndo *redo)
+cmd_solver (WorkbookControl *wbc, const char *txt, GOUndo *undo, GOUndo *redo)
 {
 	CmdSolver *me;
 
@@ -6332,7 +6332,7 @@ cmd_solver (WorkbookControl *wbc, GOUndo *undo, GOUndo *redo)
 
 	me->cmd.sheet = NULL;
 	me->cmd.size = 1;
-	me->cmd.cmd_descriptor = g_strdup_printf (_("Solver"));
+	me->cmd.cmd_descriptor = g_strdup (txt);
 
 	me->undo = undo;
 	me->redo = redo;

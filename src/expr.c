@@ -2889,6 +2889,8 @@ gnm_expr_top_equal (GnmExprTop const *te1, GnmExprTop const *te2)
 {
 	if (te1 == te2)
 		return TRUE;
+	if (te1 == NULL || te2 == NULL)
+		return FALSE;
 
 	g_return_val_if_fail (IS_GNM_EXPR_TOP (te1), FALSE);
 	g_return_val_if_fail (IS_GNM_EXPR_TOP (te2), FALSE);

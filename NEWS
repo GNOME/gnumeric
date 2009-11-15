@@ -22,6 +22,8 @@ Morten:
 	* Use external solver program.
 	* Allow constants on solver constraints' rhs.  [#369728]
 	* Fix extreme case for R.PGAMMA.
+	* Fix solver undo/redo.
+	* Make solver parameter changes always persist.  [#440664]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.15

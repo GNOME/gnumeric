@@ -70,6 +70,8 @@ GnmSolverConstraint *gnm_solver_constraint_new (Sheet *sheet);
 void gnm_solver_constraint_free (GnmSolverConstraint *c);
 GnmSolverConstraint *gnm_solver_constraint_dup (GnmSolverConstraint *c,
 						Sheet *sheet);
+gboolean gnm_solver_constraint_equal (GnmSolverConstraint const *a,
+				      GnmSolverConstraint const *b);
 
 void gnm_solver_constraint_set_old (GnmSolverConstraint *c,
 				    GnmSolverConstraintType type,
@@ -119,6 +121,7 @@ typedef struct {
 
 #define GNM_SOLVER_PARAMETERS_TYPE   (gnm_solver_param_get_type ())
 #define GNM_SOLVER_PARAMETERS(o)     (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_SOLVER_PARAMETERS_TYPE, GnmSolverParameters))
+#define GNM_IS_SOLVER_PARAMETERS(o)  (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_SOLVER_PARAMETERS_TYPE))
 
 struct GnmSolverParameters_ {
 	GObject parent;
@@ -153,6 +156,9 @@ GnmSolverParameters *gnm_solver_param_new (Sheet *sheet);
 GnmSolverParameters *gnm_solver_param_dup (GnmSolverParameters *src_param,
 					   Sheet *new_sheet);
 
+gboolean gnm_solver_param_equal (GnmSolverParameters const *a,
+				 GnmSolverParameters const *b);
+				 
 GnmValue const *gnm_solver_param_get_input (GnmSolverParameters const *sp);
 void gnm_solver_param_set_input (GnmSolverParameters *sp, GnmValue *v);
 GSList *gnm_solver_param_get_input_cells (GnmSolverParameters const *sp);

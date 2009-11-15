@@ -128,7 +128,8 @@ gboolean cmd_text_to_columns (WorkbookControl *wbc,
 			      GnmRange const *target, Sheet *target_sheet,
 			      GnmCellRegion *content);
 
-gboolean cmd_solver (WorkbookControl *wbc, GOUndo *undo, GOUndo *redo);
+gboolean cmd_solver (WorkbookControl *wbc, const char *text,
+		     GOUndo *undo, GOUndo *redo);
 
 gboolean cmd_goal_seek (WorkbookControl *wbc,
 			GnmCell *cell, GnmValue *ov, GnmValue *nv);

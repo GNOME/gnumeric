@@ -75,7 +75,7 @@ typedef struct {
 	GtkComboBox         *type_combo;
 	GtkComboBox         *algorithm_combo;
 	GtkTreeView         *constraint_list;
-	GnmSolverConstraint    *constr;
+	GnmSolverConstraint *constr;
 	GtkWidget           *warning_dialog;
 
 	struct {
@@ -92,6 +92,8 @@ typedef struct {
 
 	Sheet		    *sheet;
 	WBCGtk              *wbcg;
+
+	GnmSolverParameters *orig_params;
 } SolverState;
 
 
@@ -291,6 +293,8 @@ fill_algorithm_combo (SolverState *state, GnmSolverModelType type)
 	GtkListStore *store =
 		gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
 	GSList *solvers, *l;
+	int sel = 0, i;
+	GnmSolverParameters *param =state->sheet->solver_parameters;
 
 	gtk_combo_box_set_model (state->algorithm_combo, GTK_TREE_MODEL (store));
 
@@ -301,16 +305,19 @@ fill_algorithm_combo (SolverState *state, GnmSolverModelType type)
 			continue;
 		l = g_slist_prepend (l, entry);
 	}
-	solvers = l;
+	solvers = g_slist_reverse (l);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (state->solve_button),
 				  solvers != NULL);
 	if (!solvers)
 		return FALSE;
 
-	for (l = solvers; l; l = l->next) {
+	for (l = solvers, i = 0; l; l = l->next, i++) {
 		GnmSolverFactory *factory = l->data;
 		GtkTreeIter iter;
+
+		if (param->options.algorithm == factory)
+			sel = i;
 
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter,
@@ -320,7 +327,7 @@ fill_algorithm_combo (SolverState *state, GnmSolverModelType type)
 	}
 	g_slist_free (solvers);
 
-	gtk_combo_box_set_active (state->algorithm_combo, 0);
+	gtk_combo_box_set_active (state->algorithm_combo, sel);
 
 	return TRUE;
 }
@@ -347,9 +354,121 @@ cb_dialog_model_type_clicked (G_GNUC_UNUSED GtkWidget *button,
 }
 
 static void
+free_state (SolverState *state)
+{
+	if (state->orig_params)
+		g_object_unref (state->orig_params);
+	g_free (state);
+}
+
+static GOUndo *
+set_params (Sheet *sheet, GnmSolverParameters *params)
+{
+	return go_undo_binary_new
+		(sheet, g_object_ref (params),
+		 (GOUndoBinaryFunc)gnm_sheet_set_solver_params,
+		 NULL, g_object_unref);
+}
+
+#define GET_BOOL_ENTRY(name_, field_)					\
+do {									\
+	GtkWidget *w_ = glade_xml_get_widget (state->gui, (name_));	\
+	param->field_ = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w_)); \
+} while (0)
+
+static void
+extract_settings (SolverState *state)
+{
+	GnmSolverParameters *param = state->sheet->solver_parameters;
+	GtkTreeIter iter;
+	GnmCell *target_cell;
+	GnmValue *target_range;
+	GnmValue *input_range;
+	GnmSolverFactory *factory = NULL;
+	gboolean dual_program;
+
+	target_range = gnm_expr_entry_parse_as_value (state->target_entry,
+						      state->sheet);
+	input_range = gnm_expr_entry_parse_as_value (state->change_cell_entry,
+						     state->sheet);
+
+	gnm_solver_param_set_input (param, input_range);
+
+	gnm_solver_param_set_target (param,
+				     target_range
+				     ? &target_range->v_range.cell.a
+				     : NULL);
+	target_cell = gnm_solver_param_get_target_cell (param);
+
+	param->problem_type =
+		gnumeric_glade_group_value (state->gui, problem_type_group);
+	param->options.model_type =
+		gnumeric_glade_group_value (state->gui, model_type_group);
+
+	gtk_combo_box_get_active_iter (state->algorithm_combo, &iter);
+	gtk_tree_model_get (gtk_combo_box_get_model (state->algorithm_combo),
+			    &iter, 1, &factory, -1);
+	param->options.algorithm = factory;
+
+	param->options.automatic_scaling = gtk_toggle_button_get_active
+		(GTK_TOGGLE_BUTTON (glade_xml_get_widget
+				    (state->gui, "autoscale_button")));
+
+	param->options.max_iter = gtk_spin_button_get_value
+		(GTK_SPIN_BUTTON (state->max_iter_entry));
+	param->options.max_time_sec = gtk_spin_button_get_value
+		(GTK_SPIN_BUTTON (state->max_time_entry));
+
+	GET_BOOL_ENTRY ("non_neg_button", options.assume_non_negative);
+	GET_BOOL_ENTRY ("all_int_button", options.assume_discrete);
+	GET_BOOL_ENTRY ("answer", options.answer_report);
+	GET_BOOL_ENTRY ("sensitivity", options.sensitivity_report);
+	GET_BOOL_ENTRY ("limits", options.limits_report);
+	GET_BOOL_ENTRY ("performance", options.performance_report);
+	GET_BOOL_ENTRY ("program", options.program_report);
+
+	g_free (param->options.scenario_name);
+	param->options.scenario_name = g_strdup
+		(gtk_entry_get_text (GTK_ENTRY (state->scenario_name_entry)));
+
+	GET_BOOL_ENTRY ("optimal_scenario", options.add_scenario);
+
+	dual_program = FALSE;
+	param->options.dual_program_report = dual_program;
+
+	value_release (target_range);
+}
+
+#undef GET_BOOL_ENTRY
+
+static void
+check_for_changed_options (SolverState *state)
+{
+	Sheet *sheet = state->sheet;
+
+	if (!gnm_solver_param_equal (sheet->solver_parameters,
+				     state->orig_params)) {
+		GOUndo *undo = set_params (sheet, state->orig_params);
+		GOUndo *redo = set_params (sheet, sheet->solver_parameters);
+		cmd_solver (WORKBOOK_CONTROL (state->wbcg),
+			    _("Changing solver parameters"),
+			    undo, redo);
+
+		g_object_unref (state->orig_params);
+		state->orig_params =
+			gnm_solver_param_dup (sheet->solver_parameters,
+					      sheet);
+	}
+}
+
+static void
 cb_dialog_solver_destroy (SolverState *state)
 {
 	g_return_if_fail (state != NULL);
+
+	extract_settings (state);
+
+	check_for_changed_options (state);
 
 	if (state->gui != NULL) {
 		g_object_unref (G_OBJECT (state->gui));
@@ -359,7 +478,6 @@ cb_dialog_solver_destroy (SolverState *state)
 	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
 
 	state->dialog = NULL;
-	g_free (state);
 }
 
 static void
@@ -621,7 +739,9 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 
 		gnm_solver_store_result (sol);
 		redo = clipboard_copy_range_undo (sr.sheet, &sr.range);
-		cmd_solver (WORKBOOK_CONTROL (state->wbcg), undo, redo);
+		cmd_solver (WORKBOOK_CONTROL (state->wbcg),
+			    _("Running solver"),
+			    undo, redo);
 		res = g_object_ref (sol->result);
 		undo = redo = NULL;
 		break;
@@ -670,90 +790,16 @@ static void
 cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 			 SolverState *state)
 {
-	GnmSolverResult           *res;
-	GnmValue                   *target_range;
-	GnmValue                   *input_range;
-	gboolean                answer, sensitivity, limits, performance;
-	gboolean                program, dual_program;
+	GnmSolverResult *res;
+	GnmSolverParameters *param = state->sheet->solver_parameters;
 	GError *err = NULL;
-	GnmSolverParameters        *param;
-	GtkTreeIter iter;
-	GnmCell *target_cell;
-	GnmSolverFactory *factory = NULL;
 
-	param = state->sheet->solver_parameters;
-
-	if (state->warning_dialog != NULL)
+	if (state->warning_dialog != NULL) {
 		gtk_widget_destroy (state->warning_dialog);
+		state->warning_dialog = NULL;
+	}
 
-	target_range = gnm_expr_entry_parse_as_value (state->target_entry,
-						      state->sheet);
-	input_range = gnm_expr_entry_parse_as_value (state->change_cell_entry,
-						     state->sheet);
-
-	gnm_solver_param_set_input (param, input_range);
-
-	gnm_solver_param_set_target (param,
-				     target_range
-				     ? &target_range->v_range.cell.a
-				     : NULL);
-	target_cell = gnm_solver_param_get_target_cell (param);
-
-	param->problem_type =
-		gnumeric_glade_group_value (state->gui, problem_type_group);
-	param->options.model_type =
-		gnumeric_glade_group_value (state->gui, model_type_group);
-
-	gtk_combo_box_get_active_iter (state->algorithm_combo, &iter);
-	gtk_tree_model_get (gtk_combo_box_get_model (state->algorithm_combo),
-			    &iter, 1, &factory, -1);
-	param->options.algorithm = factory;
-
-	param->options.assume_non_negative = gtk_toggle_button_get_active
-		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui,
-							  "non_neg_button")));
-	param->options.assume_discrete = gtk_toggle_button_get_active
-		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui,
-							  "all_int_button")));
-	param->options.automatic_scaling = gtk_toggle_button_get_active
-		(GTK_TOGGLE_BUTTON (glade_xml_get_widget
-				    (state->gui, "autoscale_button")));
-
-	param->options.max_iter = gtk_spin_button_get_value
-		(GTK_SPIN_BUTTON (state->max_iter_entry));
-	param->options.max_time_sec = gtk_spin_button_get_value
-		(GTK_SPIN_BUTTON (state->max_time_entry));
-
-	answer = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
-		glade_xml_get_widget (state->gui, "answer")));
-	param->options.answer_report = answer;
-
-	sensitivity = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
-		glade_xml_get_widget (state->gui, "sensitivity")));
-	param->options.sensitivity_report = sensitivity;
-
-	limits = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
-		glade_xml_get_widget (state->gui, "limits")));
-	param->options.limits_report = limits;
-
-	performance = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
-		glade_xml_get_widget (state->gui, "performance")));
-	param->options.performance_report = performance;
-
-	program = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
-		glade_xml_get_widget (state->gui, "program")));
-	param->options.program_report = program;
-
-	g_free (param->options.scenario_name);
-	param->options.scenario_name = g_strdup
-		(gtk_entry_get_text (GTK_ENTRY (state->scenario_name_entry)));
-
-	param->options.add_scenario = gtk_toggle_button_get_active
-		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui,
-							  "optimal_scenario")));
-
-	dual_program = FALSE;
-	param->options.dual_program_report = dual_program;
+	extract_settings (state);
 
 	if (!gnm_solver_param_valid (param, &err)) {
 		GtkWidget *top = gtk_widget_get_toplevel (state->dialog);
@@ -761,6 +807,8 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 				      "%s", err->message);
 		goto out;
 	}
+
+	check_for_changed_options (state);
 
 	res = run_solver (state, param);
 
@@ -786,10 +834,27 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	}
 
  out:
-	value_release (target_range);
 	if (err)
 		g_error_free (err);
 }
+
+static void
+bool_entry_changed (GtkToggleButton *tb, SolverState *state)
+{
+	GnmSolverParameters *param = state->sheet->solver_parameters;
+	gulong offset =
+		GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (tb), "offset"));
+	gboolean *pb =
+		(gboolean *)((char *)param + offset);
+	*pb = gtk_toggle_button_get_active (tb);
+}
+
+#define INIT_BOOL_ENTRY(name_, field_)					\
+do {									\
+	GtkWidget *w_ = glade_xml_get_widget (state->gui, (name_));	\
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w_),		\
+				      param->field_);			\
+} while (0)
 
 
 /**
@@ -802,8 +867,8 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 static gboolean
 dialog_init (SolverState *state)
 {
-	GtkTable                *table;
-	GnmSolverParameters        *param;
+	GtkTable *table;
+	GnmSolverParameters *param;
 	GtkCellRenderer *renderer;
 	GtkListStore *store;
 	GtkTreeViewColumn *column;
@@ -904,15 +969,19 @@ dialog_init (SolverState *state)
 	/* Options */
 	state->max_iter_entry = glade_xml_get_widget (state->gui,
 						      "max_iter_entry");
-	if (state->max_iter_entry == NULL)
-		return TRUE;
-	gtk_entry_set_text (GTK_ENTRY (state->max_iter_entry), "200");
+	{
+		char *txt = g_strdup_printf ("%d", param->options.max_iter);
+		gtk_entry_set_text (GTK_ENTRY (state->max_iter_entry), txt);
+		g_free (txt);
+	}
 
 	state->max_time_entry = glade_xml_get_widget (state->gui,
 						      "max_time_entry");
-	if (state->max_time_entry == NULL)
-		return TRUE;
-	gtk_entry_set_text (GTK_ENTRY (state->max_time_entry), "30");
+	{
+		char *txt = g_strdup_printf ("%d", param->options.max_time_sec);
+		gtk_entry_set_text (GTK_ENTRY (state->max_time_entry), txt);
+		g_free (txt);
+	}
 
 /* lhs_entry */
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "edit-table"));
@@ -1014,28 +1083,13 @@ dialog_init (SolverState *state)
 		g_free (str);
 	}
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
-		glade_xml_get_widget(state->gui, "non_neg_button")),
-			param->options.assume_non_negative);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
-		glade_xml_get_widget(state->gui, "all_int_button")),
-			param->options.assume_discrete);
-
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
-		glade_xml_get_widget(state->gui, "answer")),
-			param->options.answer_report);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
-		glade_xml_get_widget(state->gui, "sensitivity")),
-			param->options.sensitivity_report);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
-		glade_xml_get_widget(state->gui, "limits")),
-			param->options.limits_report);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
-		glade_xml_get_widget(state->gui, "performance")),
-			param->options.performance_report);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
-		glade_xml_get_widget(state->gui, "program")),
-			param->options.program_report);
+	INIT_BOOL_ENTRY ("non_neg_button", options.assume_non_negative);
+	INIT_BOOL_ENTRY ("all_int_button", options.assume_discrete);
+	INIT_BOOL_ENTRY ("answer", options.answer_report);
+	INIT_BOOL_ENTRY ("sensitivity", options.sensitivity_report);
+	INIT_BOOL_ENTRY ("limits", options.limits_report);
+	INIT_BOOL_ENTRY ("performance", options.performance_report);
+	INIT_BOOL_ENTRY ("program", options.program_report);
 
 	input = gnm_solver_param_get_input (param);
 	if (input != NULL)
@@ -1045,6 +1099,7 @@ dialog_init (SolverState *state)
 	if (target_cell)
 		gnm_expr_entry_load_from_text (state->target_entry,
 					       cell_name (target_cell));
+
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "max_button")),
 			param->problem_type == GNM_SOLVER_MAXIMIZE);
@@ -1066,8 +1121,6 @@ dialog_init (SolverState *state)
 
 	state->scenario_name_entry = glade_xml_get_widget
 		(state->gui, "scenario_name_entry");
-	if (state->scenario_name_entry == NULL)
-		return TRUE;
 	gtk_entry_set_text (GTK_ENTRY (state->scenario_name_entry),
 			    param->options.scenario_name);
 
@@ -1079,8 +1132,14 @@ dialog_init (SolverState *state)
 
 /* dialog */
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+
+	g_signal_connect_swapped (G_OBJECT (state->dialog),
+				  "destroy",
+				  G_CALLBACK (cb_dialog_solver_destroy),
+				  state);
 	g_object_set_data_full (G_OBJECT (state->dialog),
-		"state", state, (GDestroyNotify) cb_dialog_solver_destroy);
+				"state", state,
+				(GDestroyNotify)free_state);
 
 	return FALSE;
 }
@@ -1106,11 +1165,13 @@ dialog_solver (WBCGtk *wbcg, Sheet *sheet)
 	state->wbcg           = wbcg;
 	state->sheet          = sheet;
 	state->warning_dialog = NULL;
+	state->orig_params = gnm_solver_param_dup (sheet->solver_parameters,
+						   sheet);
 
 	if (dialog_init (state)) {
 		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
 				 _("Could not create the Solver dialog."));
-		g_free (state);
+		free_state (state);
 		return;
 	}
 
