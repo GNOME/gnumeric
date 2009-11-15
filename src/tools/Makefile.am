@@ -2,17 +2,12 @@
 # Gnumeric's Tools Makefile.
 # Author: Jukka-Pekka Iivonen (jiivonen@hutcs.cs.hut.fi)
 
-if ENABLE_SOLVER
-  SUBDIRS = solver
-endif
-
 AM_CPPFLAGS = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/src				\
 	-I$(top_srcdir)/src/tools			\
 	-I$(top_srcdir)/src/dialogs			\
-	-I$(srcdir)/solver				\
 	-I$(top_builddir)/src				\
 	-DGNUMERIC_INTERNAL				\
 	$(GNUMERIC_CFLAGS)

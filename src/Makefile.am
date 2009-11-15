@@ -291,7 +291,6 @@ libspreadsheet_include_HEADERS = 	\
 	sheet-object-widget.h			\
 	sheet-style.h				\
 	gnm-plugin.h				\
-	solver.h				\
 	sort.h					\
 	stf.h					\
 	stf-export.h				\
@@ -402,12 +401,6 @@ gnumeric_app_libs =				\
 	dialogs/libdialogs.la			\
 	tools/libtools.la			\
 	widgets/libwidgets.la
-
-if ENABLE_SOLVER
-gnumeric_app_libs +=				\
-	tools/solver/libsolver.la
-endif
-
 
 # Rules for the marshalers code:
 GENMARSHAL_COMMAND = $(GLIB_GENMARSHAL) --prefix=gnm_

@@ -1028,7 +1028,6 @@ src/dialogs/Makefile
 src/pixmaps/Makefile
 src/widgets/Makefile
 src/tools/Makefile
-src/tools/solver/Makefile
 src/cut-n-paste-code/Makefile
 doc/Makefile
 doc/C/Makefile

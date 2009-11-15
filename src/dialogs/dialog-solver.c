@@ -43,7 +43,6 @@
 #include <commands.h>
 #include <clipboard.h>
 #include <tools/gnm-solver.h>
-#include <solver.h>
 #include <widgets/gnumeric-expr-entry.h>
 
 #include <glade/glade.h>
@@ -762,9 +761,9 @@ fail:
 
 
 static void
-solver_add_scenario (SolverState *state, SolverResults *res, gchar const *name)
+solver_add_scenario (SolverState *state, GnmSolverResult *res, gchar const *name)
 {
-	GnmSolverParameters *param = res->param;
+	GnmSolverParameters *param = state->sheet->solver_parameters;
 	GnmValue         *input_range;
 	gchar const      *comment = _("Optimal solution created by solver.\n");
 	scenario_t       *scenario;
@@ -815,13 +814,9 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	workbook_recalc (state->sheet->workbook);
 
 	if (res != NULL) {
-		SolverResults *oldres = NULL;
-		/* WARNING : The dialog may be deleted by the reports
-		 * solver_reporting will return FALSE if state is gone and cleared */
-		if (0 &&
-		    res->quality == GNM_SOLVER_RESULT_OPTIMAL &&
+		if (res->quality == GNM_SOLVER_RESULT_OPTIMAL &&
 		    param->options.add_scenario)
-			solver_add_scenario (state, oldres,
+			solver_add_scenario (state, res,
 					     param->options.scenario_name);
 
 		g_object_unref (res);
@@ -836,17 +831,6 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
  out:
 	if (err)
 		g_error_free (err);
-}
-
-static void
-bool_entry_changed (GtkToggleButton *tb, SolverState *state)
-{
-	GnmSolverParameters *param = state->sheet->solver_parameters;
-	gulong offset =
-		GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (tb), "offset"));
-	gboolean *pb =
-		(gboolean *)((char *)param + offset);
-	*pb = gtk_toggle_button_get_active (tb);
 }
 
 #define INIT_BOOL_ENTRY(name_, field_)					\
