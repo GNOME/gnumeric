@@ -1,3 +1,9 @@
+2009-11-14  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (pd_lower_cf): Fix convergence test.  Test case is
+	R.PGAMMA(X,1e-20,1,FALSE) with visible discontinuity at X=1.
+	Reported by the R team.
+
 2009-11-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* configure.in: check for gtk_entry_get_buffer (We need to use it to

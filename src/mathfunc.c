@@ -1536,7 +1536,7 @@ pd_upper_series (gnm_float x, gnm_float y, gboolean log_p)
 static gnm_float
 pd_lower_cf (gnm_float i, gnm_float d)
 {
-    gnm_float f = 0, of;
+    gnm_float f = -42, of, rf = i / d;
 
     gnm_float c1 = 0, c2, c3, c4;
     gnm_float a1 = 0, b1 = 1;
@@ -1585,7 +1585,7 @@ pd_lower_cf (gnm_float i, gnm_float d)
 	    of = f;
 	    f = a2 / b2;
 	    /* convergence check: relative; absolute for small f : */
-	    if (gnm_abs (f - of) <= GNM_EPSILON * fmax2(1., gnm_abs(f)))
+	    if (gnm_abs (f - of) <= GNM_EPSILON * fmax2(rf, gnm_abs(f)))
 		return f;
 	}
     }

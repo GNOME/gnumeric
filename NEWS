@@ -21,6 +21,7 @@ Morten:
 	* Fix problem with remote uris.  [#601274]
 	* Use external solver program.
 	* Allow constants on solver constraints' rhs.  [#369728]
+	* Fix extreme case for R.PGAMMA.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.15
