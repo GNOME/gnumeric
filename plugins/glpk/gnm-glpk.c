@@ -73,6 +73,19 @@ gnm_glpk_read_solution (GnmGlpk *lp)
 	gnm_float val;
 	GnmSolverResult *result;
 	int width, height;
+	gboolean has_integer;
+	GSList *l;
+
+	/*
+	 * glpsol's output format is different if there are any integer
+	 * constraint.  Go figure.
+	 */
+	has_integer = sol->params->options.assume_discrete;
+	for (l = sol->params->constraints; !has_integer && l; l = l->next) {
+		GnmSolverConstraint *c = l->data;
+		has_integer = (c->type == GNM_SOLVER_INTEGER ||
+			       c->type == GNM_SOLVER_BOOLEAN);
+	}
 
 	input = gsf_input_stdio_new (lp->result_filename, NULL);
 	if (!input)
@@ -86,16 +99,20 @@ gnm_glpk_read_solution (GnmGlpk *lp)
 	result = g_object_new (GNM_SOLVER_RESULT_TYPE, NULL);
 	result->solution = value_new_array_empty (width, height);
 
-	line = gsf_input_textline_utf8_gets (tl);
-	if (line == NULL ||
-	    sscanf (line, "%u %u", &rows, &cols) != 2 ||
+	if ((line = gsf_input_textline_utf8_gets (tl)) == NULL)
+		goto fail;
+	if (sscanf (line, "%u %u", &rows, &cols) != 2 ||
 	    cols != g_hash_table_size (subsol->cell_from_name))
 		goto fail;
 
-	line = gsf_input_textline_utf8_gets (tl);
-	if (line == NULL ||
-	    sscanf (line, "%d %d %" GNM_SCANF_g, &pstat, &dstat, &val) != 3)
+	if ((line = gsf_input_textline_utf8_gets (tl)) == NULL)
 		goto fail;
+
+	if (has_integer
+	    ? sscanf (line, "%d %" GNM_SCANF_g, &pstat, &val) != 2
+	    : sscanf (line, "%d %d %" GNM_SCANF_g, &pstat, &dstat, &val) != 3)
+		goto fail;
+
 	result->value = val;
 	switch (pstat) {
 	case 2:
@@ -114,24 +131,27 @@ gnm_glpk_read_solution (GnmGlpk *lp)
 	}
 
 	for (r = 1; r <= rows; r++) {
-		line = gsf_input_textline_utf8_gets (tl);
-		if (!line)
+		if ((line = gsf_input_textline_utf8_gets (tl)) == NULL)
 			goto fail;
+		/* Ignore the line */
 	}
 
-	for (c = 1; c <= cols; c++) {
+	for (c = 0; c < cols; c++) {
 		gnm_float pval, dval;
 		unsigned cstat;
 		int x, y;
 
-		line = gsf_input_textline_utf8_gets (tl);
-		if (line == NULL ||
-		    sscanf (line, "%u %" GNM_SCANF_g " %" GNM_SCANF_g,
-			    &cstat, &pval, &dval) != 3)
+		if ((line = gsf_input_textline_utf8_gets (tl)) == NULL)
 			goto fail;
 
-		x = (c - 1) % width;
-		y = (c - 1) / width;
+		if (has_integer
+		    ? sscanf (line, "%" GNM_SCANF_g, &pval) != 1
+		    : sscanf (line, "%u %" GNM_SCANF_g " %" GNM_SCANF_g,
+			      &cstat, &pval, &dval) != 3)
+			goto fail;
+
+		x = c % width;
+		y = c / width;
 		value_array_set (result->solution, x, y,
 				 value_new_float (pval));
 	}

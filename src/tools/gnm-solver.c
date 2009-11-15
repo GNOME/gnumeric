@@ -18,11 +18,12 @@
 #include <unistd.h>
 #include <signal.h>
 #include <string.h>
+#include <sys/wait.h>
 
 /* ------------------------------------------------------------------------- */
 
-static gboolean
-debug_solver (void)
+gboolean
+gnm_solver_debug (void)
 {
 	static int debug = -1;
 	if (debug == -1)
@@ -1151,8 +1152,17 @@ gnm_sub_solver_init (GnmSubSolver *subsol)
 static void
 cb_child_exit (GPid pid, gint status, GnmSubSolver *subsol)
 {
-	if (debug_solver ())
-		g_printerr ("Solver process exited.\n");
+	if (gnm_solver_debug ()) {
+		if (WIFEXITED (status))
+			g_printerr ("Solver process exited with code %d\n",
+				    WEXITSTATUS (status));
+		else if (WIFSIGNALED (status)) 
+			g_printerr ("Solver process received signal %d\n",
+				    WTERMSIG (status));
+		else
+			g_printerr ("Solver process exited with status 0x%x\n",
+				    status);
+	}
 
 	subsol->child_watch = 0;
 	if (subsol->child_exit)
@@ -1179,10 +1189,10 @@ gnm_sub_solver_spawn (GnmSubSolver *subsol,
 	if (!g_path_is_absolute (argv[0]))
 		spflags |= G_SPAWN_SEARCH_PATH;
 
-	if (io_stdout == NULL)
+	if (io_stdout == NULL && !gnm_solver_debug ())
 		spflags |= G_SPAWN_STDOUT_TO_DEV_NULL;
 
-	if (debug_solver ()) {
+	if (gnm_solver_debug ()) {
 		GString *msg = g_string_new ("Spawning");
 		int i;
 		for (i = 0; argv[i]; i++) {
@@ -1377,7 +1387,7 @@ cb_compare_factories (GnmSolverFactory *a, GnmSolverFactory *b)
 void
 gnm_solver_db_register (GnmSolverFactory *factory)
 {
-	if (debug_solver ())
+	if (gnm_solver_debug ())
 		g_printerr ("Registering %s\n", factory->id);
 	g_object_ref (factory);
 	solvers = g_slist_insert_sorted (solvers, factory,
@@ -1387,7 +1397,7 @@ gnm_solver_db_register (GnmSolverFactory *factory)
 void
 gnm_solver_db_unregister (GnmSolverFactory *factory)
 {
-	if (debug_solver ())
+	if (gnm_solver_debug ())
 		g_printerr ("Unregistering %s\n", factory->id);
 	solvers = g_slist_remove (solvers, factory);
 	g_object_unref (factory);

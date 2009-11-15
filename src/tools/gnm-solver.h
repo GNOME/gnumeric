@@ -238,6 +238,8 @@ gboolean gnm_solver_saveas (GnmSolver *solver, WorkbookControl *wbc,
 			    const char *template, char **filename,
 			    GError **err);
 
+gboolean gnm_solver_debug (void);
+
 /* ------------------------------------------------------------------------- */
 /* Solver subclass for subprocesses. */
 
