@@ -273,7 +273,7 @@ gnm_lpsolve_start (GnmSolver *sol, WorkbookControl *wbc, GError **err,
 static gboolean
 gnm_lpsolve_stop (GnmSolver *sol, GError *err, GnmLPSolve *lp)
 {
-	g_return_val_if_fail (sol->status != GNM_SOLVER_STATUS_RUNNING, FALSE);
+	g_return_val_if_fail (sol->status == GNM_SOLVER_STATUS_RUNNING, FALSE);
 
 	gnm_lpsolve_cleanup (lp);
 
