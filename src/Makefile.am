@@ -376,7 +376,7 @@ local.def: stamp-local.def
 	@true
 
 stamp-local.def: $(libspreadsheet_include_HEADERS) Makefile $(top_srcdir)/tools/dumpdef.pl
-	hdrs='$(libspreadsheet_include_HEADERS) dialogs/dialogs.h dialogs/tool-dialogs.h tools/goal-seek.h tools/analysis-tools.h'; \
+	hdrs='$(libspreadsheet_include_HEADERS) dialogs/dialogs.h dialogs/tool-dialogs.h tools/goal-seek.h tools/analysis-tools.h tools/gnm-solver.h'; \
 	hdrs_list=''; \
 	for hdr in $$hdrs; do \
 	  if test -f $(srcdir)/$$hdr; then \
