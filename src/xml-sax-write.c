@@ -1003,16 +1003,6 @@ xml_write_solver (GnmOutputXML *state)
 		param->options.assume_discrete);
 	gsf_xml_out_add_bool (state->output, "AutoScale",
 		param->options.automatic_scaling);
-	gsf_xml_out_add_bool (state->output, "ShowIter",
-		param->options.show_iter_results);
-	gsf_xml_out_add_bool (state->output, "AnswerR",
-		param->options.answer_report);
-	gsf_xml_out_add_bool (state->output, "SensitivityR",
-		param->options.sensitivity_report);
-	gsf_xml_out_add_bool (state->output, "LimitsR",
-		param->options.limits_report);
-	gsf_xml_out_add_bool (state->output, "PerformR",
-		param->options.performance_report);
 	gsf_xml_out_add_bool (state->output, "ProgramR",
 		param->options.program_report);
 

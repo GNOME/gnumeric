@@ -1,3 +1,7 @@
+2009-11-16  Morten Welinder  <terra@gnome.org>
+
+	* gnm-lpsolve.c (gnm_lpsolve_start): Handle automatic scaling.
+
 2009-11-15  Morten Welinder  <terra@gnome.org>
 
 	* gnm-lpsolve.c (gnm_lpsolve_stop): Fix precondition.

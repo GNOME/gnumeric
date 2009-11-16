@@ -2378,11 +2378,6 @@ xml_sax_solver_start (GsfXMLIn *xin, xmlChar const **attrs)
 			   gnm_xml_attr_bool (attrs, "NonNeg", &(sp->options.assume_non_negative)) ||
 			   gnm_xml_attr_bool (attrs, "Discr", &(sp->options.assume_discrete)) ||
 			   gnm_xml_attr_bool (attrs, "AutoScale", &(sp->options.automatic_scaling)) ||
-			   gnm_xml_attr_bool (attrs, "ShowIter", &(sp->options.show_iter_results)) ||
-			   gnm_xml_attr_bool (attrs, "AnswerR", &(sp->options.answer_report)) ||
-			   gnm_xml_attr_bool (attrs, "SensitivityR", &(sp->options.sensitivity_report)) ||
-			   gnm_xml_attr_bool (attrs, "LimitsR", &(sp->options.limits_report)) ||
-			   gnm_xml_attr_bool (attrs, "PerformR", &(sp->options.performance_report)) ||
 			   gnm_xml_attr_bool (attrs, "ProgramR", &(sp->options.program_report)))
 			; /* Nothing */
 	}

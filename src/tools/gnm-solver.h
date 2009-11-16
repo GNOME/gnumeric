@@ -108,13 +108,7 @@ typedef struct {
 	gboolean            assume_non_negative;
 	gboolean            assume_discrete;
 	gboolean            automatic_scaling;
-	gboolean            show_iter_results;
-	gboolean            answer_report;
-	gboolean            sensitivity_report;
-	gboolean            limits_report;
-	gboolean            performance_report;
 	gboolean            program_report;
-	gboolean            dual_program_report;
 	gboolean            add_scenario;
 	gchar               *scenario_name;
 } GnmSolverOptions;
@@ -134,13 +128,6 @@ struct GnmSolverParameters_ {
 	GnmDependent input;
 	GSList *constraints;
 	GnmSolverOptions options;
-
-	/* These will not survive long.  */
-	int                   n_constraints;
-	int                   n_variables;
-	int                   n_int_constraints;
-	int                   n_bool_constraints;
-	int                   n_total_constraints;
 };
 
 typedef struct {
@@ -167,6 +154,9 @@ const GnmCellRef *gnm_solver_param_get_target (GnmSolverParameters const *sp);
 void gnm_solver_param_set_target (GnmSolverParameters *sp,
 				  GnmCellRef const *cr);
 GnmCell *gnm_solver_param_get_target_cell (GnmSolverParameters const *sp);
+
+void gnm_solver_param_set_algorithm (GnmSolverParameters *sp,
+				     GnmSolverFactory *algo);
 
 gboolean gnm_solver_param_valid (GnmSolverParameters const *sp, GError **err);
 

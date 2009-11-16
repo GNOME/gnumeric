@@ -87,6 +87,7 @@ typedef struct {
 		GtkWidget   *result_widget;
 		GtkWidget   *stop_button;
 		GtkWidget   *ok_button;
+		gulong       sig_notify_result, sig_notify_status;
 	} run;
 
 	Sheet		    *sheet;
@@ -384,7 +385,6 @@ extract_settings (SolverState *state)
 	GnmValue *target_range;
 	GnmValue *input_range;
 	GnmSolverFactory *factory = NULL;
-	gboolean dual_program;
 
 	target_range = gnm_expr_entry_parse_as_value (state->target_entry,
 						      state->sheet);
@@ -404,26 +404,21 @@ extract_settings (SolverState *state)
 	param->options.model_type =
 		gnumeric_glade_group_value (state->gui, model_type_group);
 
-	gtk_combo_box_get_active_iter (state->algorithm_combo, &iter);
-	gtk_tree_model_get (gtk_combo_box_get_model (state->algorithm_combo),
-			    &iter, 1, &factory, -1);
-	param->options.algorithm = factory;
-
-	param->options.automatic_scaling = gtk_toggle_button_get_active
-		(GTK_TOGGLE_BUTTON (glade_xml_get_widget
-				    (state->gui, "autoscale_button")));
+	if (gtk_combo_box_get_active_iter (state->algorithm_combo, &iter)) {
+		gtk_tree_model_get (gtk_combo_box_get_model (state->algorithm_combo),
+				    &iter, 1, &factory, -1);
+		gnm_solver_param_set_algorithm (param, factory);
+	} else
+		gnm_solver_param_set_algorithm (param, NULL);
 
 	param->options.max_iter = gtk_spin_button_get_value
 		(GTK_SPIN_BUTTON (state->max_iter_entry));
 	param->options.max_time_sec = gtk_spin_button_get_value
 		(GTK_SPIN_BUTTON (state->max_time_entry));
 
+	GET_BOOL_ENTRY ("autoscale_button", options.automatic_scaling);
 	GET_BOOL_ENTRY ("non_neg_button", options.assume_non_negative);
 	GET_BOOL_ENTRY ("all_int_button", options.assume_discrete);
-	GET_BOOL_ENTRY ("answer", options.answer_report);
-	GET_BOOL_ENTRY ("sensitivity", options.sensitivity_report);
-	GET_BOOL_ENTRY ("limits", options.limits_report);
-	GET_BOOL_ENTRY ("performance", options.performance_report);
 	GET_BOOL_ENTRY ("program", options.program_report);
 
 	g_free (param->options.scenario_name);
@@ -431,9 +426,6 @@ extract_settings (SolverState *state)
 		(gtk_entry_get_text (GTK_ENTRY (state->scenario_name_entry)));
 
 	GET_BOOL_ENTRY ("optimal_scenario", options.add_scenario);
-
-	dual_program = FALSE;
-	param->options.dual_program_report = dual_program;
 
 	value_release (target_range);
 }
@@ -497,6 +489,7 @@ cb_stop_solver (SolverState *state)
 		if (!ok) {
 			g_warning ("Failed to stop solver!");
 		}
+		g_object_set (sol, "result", NULL, NULL);
 		break;
 	}
 
@@ -511,6 +504,7 @@ cb_notify_status (SolverState *state)
 	GnmSolver *sol = state->run.solver;
 	const char *text;
 	gboolean finished = gnm_solver_finished (sol);
+	gboolean ok_ok = finished;
 
 	switch (sol->status) {
 	case GNM_SOLVER_STATUS_READY:
@@ -524,6 +518,12 @@ cb_notify_status (SolverState *state)
 		break;
 	case GNM_SOLVER_STATUS_RUNNING:
 		text = _("Running");
+		if (sol->result) {
+			GnmSolverResultQuality q = sol->result->quality;
+			if (q == GNM_SOLVER_RESULT_FEASIBLE ||
+			    q == GNM_SOLVER_RESULT_OPTIMAL)
+				ok_ok = TRUE;
+		}
 		break;
 	case GNM_SOLVER_STATUS_DONE:
 		text = _("Done");
@@ -547,16 +547,19 @@ cb_notify_status (SolverState *state)
 	}
 
 	gtk_widget_set_sensitive (state->run.stop_button, !finished);
-	gtk_widget_set_sensitive (state->run.ok_button, finished);
+	gtk_widget_set_sensitive (state->run.ok_button, ok_ok);
 }
 
 static void
 cb_notify_result (SolverState *state)
 {
 	GnmSolver *sol = state->run.solver;
-	GnmSolverResult *r = sol->result;
+	GnmSolverResult *r;
 	char *txt;
 
+	cb_notify_status (state);
+
+	r = sol->result;
 	switch (r ? r->quality : GNM_SOLVER_RESULT_NONE) {
 	default:
 	case GNM_SOLVER_RESULT_NONE:
@@ -680,16 +683,18 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 	gtk_box_pack_start (GTK_BOX (dialog->vbox), hbox, TRUE, TRUE, 0);
 	gtk_widget_show_all (GTK_WIDGET (dialog));
 
-	g_signal_connect_swapped (G_OBJECT (sol),
-				  "notify::status",
-				  G_CALLBACK (cb_notify_status),
-				  state);
+	state->run.sig_notify_result =
+		g_signal_connect_swapped (G_OBJECT (sol),
+					  "notify::status",
+					  G_CALLBACK (cb_notify_status),
+					  state);
 	cb_notify_status (state);
 
-	g_signal_connect_swapped (G_OBJECT (sol),
-				  "notify::result",
-				  G_CALLBACK (cb_notify_result),
-				  state);
+	state->run.sig_notify_status =
+		g_signal_connect_swapped (G_OBJECT (sol),
+					  "notify::result",
+					  G_CALLBACK (cb_notify_result),
+					  state);
 	cb_notify_result (state);
 
 	state->run.dialog = g_object_ref (dialog);
@@ -715,6 +720,14 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 				      "%s", err->message);
 		dialog_res = GTK_RESPONSE_DELETE_EVENT;
 	}
+
+	g_signal_handler_disconnect (G_OBJECT (sol),
+				     state->run.sig_notify_result);
+	g_signal_handler_disconnect (G_OBJECT (sol),
+				     state->run.sig_notify_status);
+
+	if (sol->status == GNM_SOLVER_STATUS_RUNNING)
+		gnm_solver_stop (sol, NULL);
 
 	/* ---------------------------------------- */
 
@@ -1067,12 +1080,9 @@ dialog_init (SolverState *state)
 		g_free (str);
 	}
 
+	INIT_BOOL_ENTRY ("autoscale_button", options.automatic_scaling);
 	INIT_BOOL_ENTRY ("non_neg_button", options.assume_non_negative);
 	INIT_BOOL_ENTRY ("all_int_button", options.assume_discrete);
-	INIT_BOOL_ENTRY ("answer", options.answer_report);
-	INIT_BOOL_ENTRY ("sensitivity", options.sensitivity_report);
-	INIT_BOOL_ENTRY ("limits", options.limits_report);
-	INIT_BOOL_ENTRY ("performance", options.performance_report);
 	INIT_BOOL_ENTRY ("program", options.program_report);
 
 	input = gnm_solver_param_get_input (param);

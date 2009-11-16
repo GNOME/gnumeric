@@ -392,10 +392,19 @@ gnm_solver_param_dup (GnmSolverParameters *src, Sheet *new_sheet)
 	dependent_managed_set_expr (&dst->target, src->target.texpr);
 	dependent_managed_set_expr (&dst->input, src->input.texpr);
 
+	dst->options.max_time_sec = src->options.max_time_sec;
+	dst->options.max_iter = src->options.max_iter;
+	dst->options.model_type = src->options.model_type;
+	dst->options.assume_non_negative = src->options.assume_non_negative;
+	dst->options.assume_discrete = src->options.assume_discrete;
+	dst->options.automatic_scaling = src->options.automatic_scaling;
+	dst->options.program_report = src->options.program_report;
+	dst->options.add_scenario = src->options.add_scenario;
+
 	g_free (dst->options.scenario_name);
-	dst->options = src->options;
-	dst->options.scenario_name = g_strdup (src->options.scenario_name);
-	/* Had there been any non-scalar options, we'd copy them here.  */
+	dst->options.scenario_name = g_strdup (src->options.scenario_name);	
+
+	gnm_solver_param_set_algorithm (dst, src->options.algorithm);
 
 	/* Copy the constraints */
 	for (l = src->constraints; l; l = l->next) {
@@ -406,12 +415,6 @@ gnm_solver_param_dup (GnmSolverParameters *src, Sheet *new_sheet)
 		dst->constraints = g_slist_prepend (dst->constraints, new);
 	}
 	dst->constraints = g_slist_reverse (dst->constraints);
-
-	dst->n_constraints       = src->n_constraints;
-	dst->n_variables         = src->n_variables;
-	dst->n_int_constraints   = src->n_int_constraints;
-	dst->n_bool_constraints  = src->n_bool_constraints;
-	dst->n_total_constraints = src->n_total_constraints;
 
 	return dst;
 }
@@ -433,13 +436,7 @@ gnm_solver_param_equal (GnmSolverParameters const *a,
             a->options.assume_non_negative != b->options.assume_non_negative ||
             a->options.assume_discrete != b->options.assume_discrete ||
             a->options.automatic_scaling != b->options.automatic_scaling ||
-            a->options.show_iter_results != b->options.show_iter_results ||
-            a->options.answer_report != b->options.answer_report ||
-            a->options.sensitivity_report != b->options.sensitivity_report ||
-            a->options.limits_report != b->options.limits_report ||
-            a->options.performance_report != b->options.performance_report ||
             a->options.program_report != b->options.program_report ||
-            a->options.dual_program_report != b->options.dual_program_report ||
             a->options.add_scenario != b->options.add_scenario ||
 	    strcmp (a->options.scenario_name, b->options.scenario_name))
 		return FALSE;
@@ -539,6 +536,13 @@ gnm_solver_param_get_target_cell (GnmSolverParameters const *sp)
 			       cr->col, cr->row);
 }
 
+void
+gnm_solver_param_set_algorithm (GnmSolverParameters *sp,
+				GnmSolverFactory *algo)
+{
+	sp->options.algorithm = algo;
+}
+
 gboolean
 gnm_solver_param_valid (GnmSolverParameters const *sp, GError **err)
 {
@@ -624,7 +628,8 @@ gnm_solver_param_constructor (GType type,
 	sp->options.max_time_sec = 30;
 	sp->options.assume_non_negative = TRUE;
 	sp->options.scenario_name = g_strdup ("Optimal");
-	sp->options.algorithm = g_slist_nth_data (gnm_solver_db_get (), 0);
+	gnm_solver_param_set_algorithm
+		(sp, g_slist_nth_data (gnm_solver_db_get (), 0));
 
 	return obj;
 }

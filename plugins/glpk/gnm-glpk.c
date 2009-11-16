@@ -257,15 +257,18 @@ gnm_glpk_start (GnmSolver *sol, WorkbookControl *wbc, GError **err,
 	GnmSubSolver *subsol = GNM_SUB_SOLVER (sol);
 	gboolean ok;
 	gchar *argv[6];
+	int argc = 0;
 
 	g_return_val_if_fail (sol->status == GNM_SOLVER_STATUS_PREPARED, FALSE);
 
-	argv[0] = (gchar *)"glpsol";
-	argv[1] = (gchar *)"--write";
-	argv[2] = lp->result_filename;
-	argv[3] = (gchar *)"--cpxlp";
-	argv[4] = subsol->program_filename;
-	argv[5] = NULL;
+	argv[argc++] = (gchar *)"glpsol";
+	// FIXME: Handle automatic scaling.
+	argv[argc++] = (gchar *)"--write";
+	argv[argc++] = lp->result_filename;
+	argv[argc++] = (gchar *)"--cpxlp";
+	argv[argc++] = subsol->program_filename;
+	argv[argc] = NULL;
+	g_assert (argc < (int)G_N_ELEMENTS (argv));
 
 	ok = gnm_sub_solver_spawn (subsol, argv,
 				   cb_child_setup, NULL,

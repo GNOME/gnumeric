@@ -253,14 +253,20 @@ gnm_lpsolve_start (GnmSolver *sol, WorkbookControl *wbc, GError **err,
 {
 	GnmSubSolver *subsol = GNM_SUB_SOLVER (sol);
 	gboolean ok;
-	gchar *argv[4];
+	gchar *argv[5];
+	int argc = 0;
+	GnmSolverParameters *param = sol->params;
 
 	g_return_val_if_fail (sol->status == GNM_SOLVER_STATUS_PREPARED, FALSE);
 
-	argv[0] = (gchar *)"lp_solve";
-	argv[1] = (gchar *)"-i";
-	argv[2] = subsol->program_filename;
-	argv[3] = NULL;
+	argv[argc++] = (gchar *)"lp_solve";
+	argv[argc++] = (gchar *)"-i";
+	argv[argc++] = (gchar *)(param->options.automatic_scaling
+				 ? "-s1"
+				 : "-s0");
+	argv[argc++] = subsol->program_filename;
+	argv[argc] = NULL;
+	g_assert (argc < (int)G_N_ELEMENTS (argv));
 
 	ok = gnm_sub_solver_spawn (subsol, argv,
 				   cb_child_setup, NULL,
