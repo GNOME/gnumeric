@@ -1,3 +1,10 @@
+2009-11-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* Makefile.am: fixed external plugins compilation.
+	* gnm-solver.c (gnm_solver_saveas): don't use a c++ reserved
+	name as variable name.
+	* gnm-solver.h: ditto.
+
 2009-11-01  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.15

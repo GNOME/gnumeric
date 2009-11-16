@@ -235,7 +235,7 @@ gboolean gnm_solver_finished (GnmSolver *solver);
 
 gboolean gnm_solver_saveas (GnmSolver *solver, WorkbookControl *wbc,
 			    GOFileSaver *fs,
-			    const char *template, char **filename,
+			    const char *templ, char **filename,
 			    GError **err);
 
 gboolean gnm_solver_debug (void);

@@ -936,7 +936,7 @@ gnm_solver_set_status (GnmSolver *solver, GnmSolverStatus status)
 gboolean
 gnm_solver_saveas (GnmSolver *solver, WorkbookControl *wbc,
 		   GOFileSaver *fs,
-		   const char *template, char **filename,
+		   const char *templ, char **filename,
 		   GError **err)
 {
 	int fd;
@@ -946,7 +946,7 @@ gnm_solver_saveas (GnmSolver *solver, WorkbookControl *wbc,
 	gboolean ok;
 	WorkbookView *wbv = wb_control_view (wbc);
 
-	fd = g_file_open_tmp (template, filename, err);
+	fd = g_file_open_tmp (templ, filename, err);
 	if (fd == -1) {
 		g_set_error (err, G_FILE_ERROR, 0,
 			     _("Failed to create file for linear program"));

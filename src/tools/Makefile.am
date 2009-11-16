@@ -44,7 +44,6 @@ libtools_la_SOURCES =					\
 	filter.h					\
 	filter.c					\
 	gnm-solver.c					\
-	gnm-solver.h					\
 	goal-seek.c					\
 	goal-seek.h					\
 	scenarios.c					\
@@ -54,4 +53,8 @@ libtools_la_SOURCES =					\
 	tabulate.c					\
 	tabulate.h					\
 	tools.h
+
+libtools_la_includedir = $(includedir)/libspreadsheet-@GNUMERIC_API_VER@/spreadsheet/tools
+libtools_la_include_HEADERS = 	\
+	gnm-solver.h
 
