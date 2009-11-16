@@ -9,6 +9,6 @@ use GnumericTest;
 my $mode = ((shift @ARGV) || "check");
 
 &message ("Check the sylk importer.");
-&test_importer ("$samples/sylk/test.sylk", "775eb901ddaa1168ebb25a4099c8c7c5ea371dac", $mode);
-&test_importer ("$samples/sylk/encoding.sylk", "4071951eda0d3bde3620a9d54269f5d2fe4c69e4", $mode);
-&test_importer ("$samples/sylk/app_b2.sylk", "0137280615937e429bfadb064d620c4cf56d9d1e", $mode);
+&test_importer ("$samples/sylk/test.sylk", "be8e6e71cc155c1d5c98e18e5f148cb38e653dcc", $mode);
+&test_importer ("$samples/sylk/encoding.sylk", "70cc94638fffb58e73888eb48c50de3de5e4b8f7", $mode);
+&test_importer ("$samples/sylk/app_b2.sylk", "3717990b16e22312ddbfbd961eb482b54ebafc1e", $mode);
