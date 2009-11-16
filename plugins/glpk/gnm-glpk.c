@@ -12,8 +12,10 @@
 #include <glib/gi18n-lib.h>
 #include <glib/gstdio.h>
 #include <string.h>
-#include <sys/wait.h>
 #include <unistd.h>
+#ifdef HAVE_SYS_WAIT_H
+#include <sys/wait.h>
+#endif
 
 #define PRIVATE_KEY "::glpk::"
 
