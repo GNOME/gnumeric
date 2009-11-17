@@ -31,7 +31,7 @@ ifs_save="$IFS"; IFS=":"
 for dir in $PATH ; do
   IFS="$ifs_save"
   test -z "$dir" && dir=.
-  if test -f $dir/gnome-autogen.sh ; then
+  if test -f "$dir/gnome-autogen.sh" ; then
     gnome_autogen="$dir/gnome-autogen.sh"
     gnome_datadir=`echo $dir | sed -e 's,/bin$,/share,'`
     break
