@@ -331,7 +331,7 @@ mps_add_column (MpsInputContext *ctxt, gchar *row_name, gchar *col_name,
 	col        = g_new (MpsCol, 1);
 	col->row   = row;
 	col->name  = g_strdup (col_name);
-	col->value = atof (value_str);
+	col->value = gnm_strto (value_str, NULL);
 	ctxt->cols = g_slist_prepend (ctxt->cols, col);
 
 	i = (MpsColInfo *) g_hash_table_lookup (ctxt->col_hash, col_name);
@@ -399,7 +399,7 @@ mps_add_rhs (MpsInputContext *ctxt, gchar *rhs_name, gchar *row_name,
 	rhs->row  = (MpsRow *) g_hash_table_lookup (ctxt->row_hash, row_name);
 	if (rhs->row == NULL)
 	          return FALSE;
-	rhs->value = atof (value_str);
+	rhs->value = gnm_strto (value_str, NULL);
 	ctxt->rhs  = g_slist_prepend (ctxt->rhs, rhs);
 
 	return TRUE;
@@ -458,11 +458,11 @@ mps_add_bound (MpsInputContext *ctxt, MpsBoundType type, gchar *bound_name,
 	        return FALSE;  /* Column is not defined */
 
 	bound       = g_new (MpsBound, 1);
-	bound->name = g_new (gchar,
-			     4 * sizeof (gint) + strlen (bound_name) + 11);
-	sprintf(bound->name, "Bound #%d: %s", ctxt->n_bounds + 1, bound_name);
+	bound->name = g_strdup_printf ("Bound #%d: %s",
+				       ctxt->n_bounds + 1,
+				       bound_name);
 	bound->col_index = info->index;
-	bound->value     = atof (value_str);
+	bound->value     = gnm_strto (value_str, NULL);
 	bound->type      = type;
 	ctxt->bounds     = g_slist_prepend (ctxt->bounds, bound);
 	(ctxt->n_bounds)++;
