@@ -3170,7 +3170,7 @@ oo_filter_cond (GsfXMLIn *xin, xmlChar const **attrs)
 				cond = gnm_filter_condition_new_bucket (
 					0 == (op & GNM_FILTER_OP_BOTTOM_MASK),
 					0 == (op & GNM_FILTER_OP_PERCENT_MASK),
-					v->v_float.val);
+					value_get_as_float (v));
 			break;
 		}
 		value_release (v);

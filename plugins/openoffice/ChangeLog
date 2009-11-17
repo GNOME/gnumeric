@@ -1,3 +1,7 @@
+2009-11-17  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_filter_cond): Don't look inside GnmValue.
+
 2009-11-01  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.15
