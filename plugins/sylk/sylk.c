@@ -361,7 +361,7 @@ sylk_rtd_p_parse (SylkReader *state, char *str)
 			if (sylk_parse_int (str+1, &font_size) &&
 			    font_size > 0) {
 				if (NULL == font) font = gnm_style_new ();
-				gnm_style_set_font_size	(font, (float)font_size / 20.);
+				gnm_style_set_font_size	(font, font_size / 20.0);
 			}
 			break;
 
@@ -413,8 +413,8 @@ sylk_rtd_o_parse (SylkReader *state, char *str)
 		case 'A' :   /* ;A<count> <tolerance>	iteration enabled */
 		case 'G' : { /* ;G<count> <tolerance>	iteration disabled */
 			int   count;
-			float tolerance;
-			if (2 == sscanf (str+1, "%d %f", &count, &tolerance)) {
+			double tolerance;
+			if (2 == sscanf (str+1, "%d %lf", &count, &tolerance)) {
 				workbook_iteration_tolerance (state->pp.wb, tolerance);
 				workbook_iteration_max_number (state->pp.wb, count);
 				workbook_iteration_enabled (state->pp.wb, *str == 'A');
@@ -642,13 +642,13 @@ sylk_rtd_f_parse (SylkReader *state, char *str)
 			sheet_style_apply_col (state->pp.sheet, full_col, style);
 		if (size > 0)
 			sheet_col_set_size_pts (state->pp.sheet,
-				full_col, (float) size / 20., FALSE);
+						full_col, size / 20.0, FALSE);
 	} else if (full_row >= 0) {
 		if (NULL != style)
 			sheet_style_apply_row (state->pp.sheet, full_row, style);
 		if (size > 0)
 			sheet_row_set_size_pts (state->pp.sheet,
-				full_row, (float) size / 20., FALSE);
+						full_row, size / 20.0, FALSE);
 	} else if (NULL != style) {
 		if (is_default_style) {
 			GnmRange r;
