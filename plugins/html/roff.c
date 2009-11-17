@@ -172,7 +172,7 @@ roff_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 				}
 			}
 			gsf_output_printf (output, ".\n");
-			gsf_output_printf (output, ".vs %.2fp\n", 2.5 + (float)v_size);
+			gsf_output_printf (output, ".vs %.2fp\n", 2.5 + v_size);
 			for (col = r.start.col; col <= r.end.col;  col++) {
 				if (col > r.start.col)
 					gsf_output_printf (output, "\t");
