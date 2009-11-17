@@ -207,6 +207,7 @@ typedef struct {
 	gboolean (*start) (GnmSolver *solver,
 			   WorkbookControl *wbc, GError **err);
 	gboolean (*stop) (GnmSolver *solver, GError **err);
+	gboolean (*child_exit) (GnmSolver *solver, gboolean normal, int code);
 } GnmSolverClass;
 
 GType gnm_solver_get_type  (void);
@@ -250,9 +251,6 @@ typedef struct {
 	GPid child_pid;
 	guint child_watch;
 
-	GChildWatchFunc child_exit;
-	gpointer exit_data;
-
 	gint fd[3];
 	GIOChannel *channels[3];
 	guint channel_watches[3];
@@ -272,7 +270,6 @@ gboolean gnm_sub_solver_spawn
 		(GnmSubSolver *subsol,
 		 char **argv,
 		 GSpawnChildSetupFunc child_setup, gpointer setup_data,
-		 GChildWatchFunc child_exit, gpointer exit_data,
 		 GIOFunc io_stdout, gpointer stdout_data,
 		 GIOFunc io_stderr, gpointer stderr_data,
 		 GError **err);

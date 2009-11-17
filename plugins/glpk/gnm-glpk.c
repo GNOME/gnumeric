@@ -13,9 +13,6 @@
 #include <glib/gstdio.h>
 #include <string.h>
 #include <unistd.h>
-#ifdef HAVE_SYS_WAIT_H
-#include <sys/wait.h>
-#endif
 
 #define PRIVATE_KEY "::glpk::"
 
@@ -173,16 +170,16 @@ fail:
 
 
 static void
-cb_child_exit (GPid pid, gint status, GnmGlpk *lp)
+gnm_glpk_child_exit (GnmSubSolver *subsol, gboolean normal, int code,
+		     GnmGlpk *lp)
 {
-	GnmSubSolver *subsol = lp->parent;
 	GnmSolver *sol = GNM_SOLVER (subsol);
 
 	if (sol->status != GNM_SOLVER_STATUS_RUNNING)
 		return;
 
-	if (WIFEXITED (status)) {
-		switch (WEXITSTATUS (status)) {
+	if (normal) {
+		switch (code) {
 		case 0: {
 			GnmLocale *locale = gnm_push_C_locale ();
 			gnm_glpk_read_solution (lp);
@@ -256,13 +253,16 @@ gnm_glpk_start (GnmSolver *sol, WorkbookControl *wbc, GError **err,
 {
 	GnmSubSolver *subsol = GNM_SUB_SOLVER (sol);
 	gboolean ok;
-	gchar *argv[6];
+	gchar *argv[7];
 	int argc = 0;
+	GnmSolverParameters *param = sol->params;
 
 	g_return_val_if_fail (sol->status == GNM_SOLVER_STATUS_PREPARED, FALSE);
 
 	argv[argc++] = (gchar *)"glpsol";
-	// FIXME: Handle automatic scaling.
+	argv[argc++] = (gchar *)(param->options.automatic_scaling
+				 ? "--scale"
+				 : "--noscale");
 	argv[argc++] = (gchar *)"--write";
 	argv[argc++] = lp->result_filename;
 	argv[argc++] = (gchar *)"--cpxlp";
@@ -272,7 +272,6 @@ gnm_glpk_start (GnmSolver *sol, WorkbookControl *wbc, GError **err,
 
 	ok = gnm_sub_solver_spawn (subsol, argv,
 				   cb_child_setup, NULL,
-				   (GChildWatchFunc)cb_child_exit, lp,
 				   NULL, NULL,
 				   NULL, NULL,
 				   err);
@@ -311,6 +310,7 @@ glpk_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params)
 	g_signal_connect (res, "prepare", G_CALLBACK (gnm_glpk_prepare), lp);
 	g_signal_connect (res, "start", G_CALLBACK (gnm_glpk_start), lp);
 	g_signal_connect (res, "stop", G_CALLBACK (gnm_glpk_stop), lp);
+	g_signal_connect (res, "child-exit", G_CALLBACK (gnm_glpk_child_exit), lp);
 
 	g_object_set_data_full (G_OBJECT (res), PRIVATE_KEY, lp,
 				(GDestroyNotify)gnm_glpk_final);

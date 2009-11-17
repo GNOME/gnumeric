@@ -22,6 +22,16 @@
 #include <sys/wait.h>
 #endif
 
+#ifdef G_OS_WIN32
+#include <windows.h>
+#ifndef WIFEXITED
+#define WIFEXITED(x) ((x) != STILL_ACTIVE)
+#endif
+#ifndef WEXITSTATUS
+#define WEXITSTATUS(x) (x)
+#endif
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 gboolean
@@ -727,6 +737,7 @@ enum {
 	SOL_SIG_PREPARE,
 	SOL_SIG_START,
 	SOL_SIG_STOP,
+	SOL_SIG_CHILD_EXIT,
 	SOL_SIG_LAST
 };
 
@@ -1055,6 +1066,16 @@ gnm_solver_class_init (GObjectClass *object_class)
 			      gnm__BOOLEAN__POINTER,
 			      G_TYPE_BOOLEAN, 1,
 			      G_TYPE_POINTER);
+
+	solver_signals[SOL_SIG_CHILD_EXIT] =
+		g_signal_new ("child-exit",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GnmSolverClass, child_exit),
+			      NULL, NULL,
+			      gnm__VOID__BOOLEAN_INT,
+			      G_TYPE_NONE, 2,
+			      G_TYPE_BOOLEAN, G_TYPE_INT);
 }
 
 GSF_CLASS (GnmSolver, gnm_solver,
@@ -1096,12 +1117,14 @@ gnm_sub_solver_clear (GnmSubSolver *subsol)
 	if (subsol->child_watch) {
 		g_source_remove (subsol->child_watch);
 		subsol->child_watch = 0;
-		subsol->child_exit = NULL;
-		subsol->exit_data = NULL;
 	}
 
 	if (subsol->child_pid) {
+#ifdef G_OS_WIN32
+		TerminateProcess (subsol->child_pid, 127);
+#else
 		kill (subsol->child_pid, SIGKILL);
+#endif
 		g_spawn_close_pid (subsol->child_pid);
 		subsol->child_pid = (GPid)0;
 	}
@@ -1159,28 +1182,37 @@ gnm_sub_solver_init (GnmSubSolver *subsol)
 static void
 cb_child_exit (GPid pid, gint status, GnmSubSolver *subsol)
 {
-	if (gnm_solver_debug ()) {
-		if (WIFEXITED (status))
-			g_printerr ("Solver process exited with code %d\n",
-				    WEXITSTATUS (status));
-		else if (WIFSIGNALED (status)) 
-			g_printerr ("Solver process received signal %d\n",
-				    WTERMSIG (status));
-		else
-			g_printerr ("Solver process exited with status 0x%x\n",
-				    status);
-	}
+	gboolean normal = WIFEXITED (status);
+	int code;
 
 	subsol->child_watch = 0;
-	if (subsol->child_exit)
-		subsol->child_exit (pid, status, subsol->exit_data);
+
+	if (normal) {
+		code = WEXITSTATUS (status);
+		if (gnm_solver_debug ())
+			g_printerr ("Solver process exited with code %d\n",
+				    code);
+#ifndef G_OS_WIN32
+	} else if (WIFSIGNALED (status)) {
+		code = WTERMSIG (status);
+		if (gnm_solver_debug ())
+			g_printerr ("Solver process received signal %d\n",
+				    code);
+#endif
+	} else {
+		code = -1;
+		g_printerr ("Solver process exited with status 0x%x\n",
+			    status);
+	}
+
+	g_signal_emit (subsol, solver_signals[SOL_SIG_CHILD_EXIT], 0,
+		       normal, code);
 }
 
 gboolean
 gnm_sub_solver_spawn (GnmSubSolver *subsol,
 		      char **argv,
 		      GSpawnChildSetupFunc child_setup, gpointer setup_data,
-		      GChildWatchFunc child_exit, gpointer exit_data,
 		      GIOFunc io_stdout, gpointer stdout_data,
 		      GIOFunc io_stderr, gpointer stderr_data,
 		      GError **err)
@@ -1224,8 +1256,6 @@ gnm_sub_solver_spawn (GnmSubSolver *subsol,
 	if (!ok)
 		goto fail;
 
-	subsol->child_exit = child_exit;
-	subsol->exit_data = exit_data;
 	subsol->child_watch =
 		g_child_watch_add (subsol->child_pid,
 				   (GChildWatchFunc)cb_child_exit, subsol);

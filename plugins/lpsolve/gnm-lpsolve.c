@@ -8,9 +8,6 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
-#ifdef HAVE_SYS_WAIT_H
-#include <sys/wait.h>
-#endif
 
 #define PRIVATE_KEY "::lpsolve::"
 
@@ -153,19 +150,19 @@ cb_read_stdout (GIOChannel *channel, GIOCondition cond, GnmLPSolve *lp)
 
 
 static void
-cb_child_exit (GPid pid, gint status, GnmLPSolve *lp)
+gnm_lpsolve_child_exit (GnmSubSolver *subsol, gboolean normal, int code,
+			GnmLPSolve *lp)
 {
-	GnmSubSolver *subsol = lp->parent;
 	GnmSolver *sol = GNM_SOLVER (subsol);
 	GnmSolverStatus new_status = GNM_SOLVER_STATUS_DONE;
 
 	if (sol->status != GNM_SOLVER_STATUS_RUNNING)
 		return;
 
-	if (WIFEXITED (status)) {
+	if (normal) {
 		GnmSolverResult *r;
 
-		switch (WEXITSTATUS (status)) {
+		switch (code) {
 		case 0: /* Optimal */
 			gnm_sub_solver_flush (subsol);
 			if (lp->result)
@@ -270,7 +267,6 @@ gnm_lpsolve_start (GnmSolver *sol, WorkbookControl *wbc, GError **err,
 
 	ok = gnm_sub_solver_spawn (subsol, argv,
 				   cb_child_setup, NULL,
-				   (GChildWatchFunc)cb_child_exit, lp,
 				   (GIOFunc)cb_read_stdout, lp,
 				   NULL, NULL,
 				   err);
@@ -309,6 +305,7 @@ lpsolve_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params)
 	g_signal_connect (res, "prepare", G_CALLBACK (gnm_lpsolve_prepare), lp);
 	g_signal_connect (res, "start", G_CALLBACK (gnm_lpsolve_start), lp);
 	g_signal_connect (res, "stop", G_CALLBACK (gnm_lpsolve_stop), lp);
+	g_signal_connect (res, "child-exit", G_CALLBACK (gnm_lpsolve_child_exit), lp);
 
 	g_object_set_data_full (G_OBJECT (res), PRIVATE_KEY, lp,
 				(GDestroyNotify)gnm_lpsolve_final);
