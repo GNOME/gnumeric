@@ -1,3 +1,7 @@
+2009-11-17  Morten Welinder  <terra@gnome.org>
+
+	* gnm-solver.c (cb_child_exit): When child exits, close the GPid.
+
 2009-11-16  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* Makefile.am: fixed external plugins compilation.

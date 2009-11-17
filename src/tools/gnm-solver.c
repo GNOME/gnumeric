@@ -1207,6 +1207,11 @@ cb_child_exit (GPid pid, gint status, GnmSubSolver *subsol)
 
 	g_signal_emit (subsol, solver_signals[SOL_SIG_CHILD_EXIT], 0,
 		       normal, code);
+
+	if (subsol->child_pid) {
+		g_spawn_close_pid (subsol->child_pid);
+		subsol->child_pid = (GPid)0;
+	}
 }
 
 gboolean
