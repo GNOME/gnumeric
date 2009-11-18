@@ -1,4 +1,4 @@
-2009-11-17  Morten Welinder  <terra@gnome.org>
+2009-11-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c: don't use float or atof throughout.
 	(odf_number_style_end): no need to translate strings into 
