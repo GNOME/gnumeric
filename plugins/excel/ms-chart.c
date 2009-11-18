@@ -1123,7 +1123,7 @@ BC_R(gelframe) (XLChartHandler const *handle,
 		s->style->fill.pattern.back = ms_chart_map_color (s,
 			fill_back_color, fill_back_alpha);
 	} else {
-		float brightness;
+		double brightness;
 		unsigned frac = (fill_back_color >> 16) & 0xff;
 
 		/**
@@ -4062,7 +4062,7 @@ chart_write_MARKERFORMAT (XLChartWriteState *s, GOStyle const *style,
 	ms_biff_put_commit (s->bp);
 }
 static void
-chart_write_PIEFORMAT (XLChartWriteState *s, float separation)
+chart_write_PIEFORMAT (XLChartWriteState *s, double separation)
 {
 	gint tmp = separation * 100;
 	if (tmp < 0)
@@ -4356,7 +4356,7 @@ style_is_completely_auto (GOStyle const *style)
 
 static void
 chart_write_style (XLChartWriteState *s, GOStyle const *style,
-		   guint16 indx, unsigned n, unsigned v, float separation,
+		   guint16 indx, unsigned n, unsigned v, double separation,
 		   GOLineInterpolation interpolation)
 {
 	chart_write_DATAFORMAT (s, indx, n, v);
@@ -4731,7 +4731,7 @@ chart_write_series (XLChartWriteState *s, GogSeries const *series, unsigned n)
 }
 
 static void
-chart_write_dummy_style (XLChartWriteState *s, float default_separation,
+chart_write_dummy_style (XLChartWriteState *s, double default_separation,
 			 gboolean clear_marks, gboolean clear_lines,
 			 GOLineInterpolation interpolation)
 {

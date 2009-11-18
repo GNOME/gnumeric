@@ -96,12 +96,13 @@ void gnm_style_border_draw_diag  (GnmStyle const *style,
 void gnm_style_borders_row_print_gtk (GnmBorder const * const * prev_vert,
 				      GnmStyleRow const *sr,
 				      cairo_t *context,
-				      float x, float y1, float y2,
+				      double x, double y1, double y2,
 				      Sheet const *sheet,
 				      gboolean draw_vertical, int dir);
 void gnm_style_border_print_diag_gtk (GnmStyle const *style,
 				      cairo_t *context,
-				      float x1, float y1, float x2, float y2);
+				      double x1, double y1,
+				      double x2, double y2);
 
 G_END_DECLS
 

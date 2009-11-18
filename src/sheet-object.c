@@ -678,8 +678,7 @@ sheet_object_anchor_dup	(SheetObjectAnchor const *src)
 }
 
 static double
-cell_offset_calc_pt (Sheet const *sheet, int i, gboolean is_col,
-		     float offset)
+cell_offset_calc_pt (Sheet const *sheet, int i, gboolean is_col, double offset)
 {
 	ColRowInfo const *cri = sheet_colrow_get_info (sheet, i, is_col);
 	return offset * cri->size_pts;

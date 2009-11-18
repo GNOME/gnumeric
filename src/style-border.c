@@ -569,7 +569,7 @@ style_border_set_gtk (GnmBorder const * const border,
 
 static inline void
 print_hline_gtk (cairo_t *context,
-		 float x1, float x2, float y, int width)
+		 double x1, double x2, double y, int width)
 {
 	if (width == 0 || width % 2)
 		y += .5;
@@ -582,7 +582,7 @@ print_hline_gtk (cairo_t *context,
 
 static inline void
 print_vline_gtk (cairo_t *context,
-		 float x, float y1, float y2, int width, int dir)
+		 double x, double y1, double y2, int width, int dir)
 {
 	if (width == 0 || width % 2)
 		x += .5*dir;
@@ -622,7 +622,7 @@ gnm_style_borders_row_draw (GnmBorder const * const * prev_vert,
 		border = sr->top [col];
 
 		if (style_border_set_gtk (border, cr)) {
-			float y = y1;
+			double y = y1;
 			if (style_border_hmargins (prev_vert, sr, col, o, dir)) {
 				print_hline_gtk (cr, x + o[1][0],
 						 next_x + o[1][1] + dir, y1-1.,
@@ -641,7 +641,7 @@ gnm_style_borders_row_draw (GnmBorder const * const * prev_vert,
 
 		border = sr->vertical [col];
 		if (style_border_set_gtk (border, cr)) {
-			float x1 = x;
+			double x1 = x;
 			if (style_border_vmargins (prev_vert, sr, col, o)) {
 				print_vline_gtk (cr, x-dir, y1 + o[1][0],
 						 y2 + o[1][1] + 1., border->width, dir);
@@ -655,7 +655,7 @@ gnm_style_borders_row_draw (GnmBorder const * const * prev_vert,
 	if (draw_vertical) {
 		border = sr->vertical [col];
 		if (style_border_set_gtk (border, cr)) {
-			float x1 = x;
+			double x1 = x;
 			if (style_border_vmargins (prev_vert, sr, col, o)) {
 				print_vline_gtk (cr, x-dir, y1 + o[1][0] + 1.,
 						 y2 + o[1][1], border->width, dir);
@@ -718,12 +718,12 @@ void
 gnm_style_borders_row_print_gtk (GnmBorder const * const * prev_vert,
 				 GnmStyleRow const *sr,
 				 cairo_t *context,
-				 float x, float y1, float y2,
+				 double x, double y1, double y2,
 				 Sheet const *sheet,
 				 gboolean draw_vertical, int dir)
 {
 	int o[2][2], col;
-	float next_x = x;
+	double next_x = x;
 	GnmBorder const *border;
 
 	cairo_save (context);
@@ -740,7 +740,7 @@ gnm_style_borders_row_print_gtk (GnmBorder const * const * prev_vert,
 		border = sr->top [col];
 
 		if (style_border_set_gtk (border, context)) {
-			float y = y1;
+			double y = y1;
 			if (style_border_hmargins (prev_vert, sr, col, o, dir)) {
 				print_hline_gtk (context, x + o[1][0],
 						 next_x + o[1][1] + dir, y1-1.,
@@ -758,7 +758,7 @@ gnm_style_borders_row_print_gtk (GnmBorder const * const * prev_vert,
 
 		border = sr->vertical [col];
 		if (style_border_set_gtk (border, context)) {
-			float x1 = x;
+			double x1 = x;
 			if (style_border_vmargins (prev_vert, sr, col, o)) {
 				print_vline_gtk (context, x-dir, y1 + o[1][0],
 						 y2 + o[1][1] + 1., border->width, dir);
@@ -771,7 +771,7 @@ gnm_style_borders_row_print_gtk (GnmBorder const * const * prev_vert,
 	if (draw_vertical) {
 		border = sr->vertical [col];
 		if (style_border_set_gtk (border, context)) {
-			float x1 = x;
+			double x1 = x;
 			if (style_border_vmargins (prev_vert, sr, col, o)) {
 				print_vline_gtk (context, x-dir, y1 + o[1][0] + 1.,
 						 y2 + o[1][1], border->width, dir);
@@ -788,8 +788,8 @@ gnm_style_borders_row_print_gtk (GnmBorder const * const * prev_vert,
 
 void
 gnm_style_border_print_diag_gtk (GnmStyle const *style,
-			     cairo_t *context,
-			     float x1, float y1, float x2, float y2)
+				 cairo_t *context,
+				 double x1, double y1, double x2, double y2)
 {
 	GnmBorder const *diag;
 

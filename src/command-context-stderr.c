@@ -78,7 +78,7 @@ ccs_set_sensitive (G_GNUC_UNUSED GOCmdContext *cc,
 }
 
 static void
-ccs_progress_set (GOCmdContext *cc, gfloat val)
+ccs_progress_set (GOCmdContext *cc, double val)
 {
 }
 

@@ -49,7 +49,7 @@ struct _GnmFilterCondition {
 	GnmFilterOp  op[2];
 	GnmValue    *value[2];
 	gboolean is_and;
-	float	 count;
+	double	 count;
 };
 
 struct _GnmFilter {
@@ -67,7 +67,7 @@ GnmFilterCondition *gnm_filter_condition_new_double (GnmFilterOp op1, GnmValue *
 						     GnmFilterOp op2, GnmValue *v2);
 GnmFilterCondition *gnm_filter_condition_new_bucket (gboolean top,
 						     gboolean absolute,
-						     float n);
+						     double n);
 
 GnmFilter		 *gnm_filter_new	    (Sheet *sheet, GnmRange const *r);
 GnmFilter		 *gnm_filter_dup	    (GnmFilter const *src,

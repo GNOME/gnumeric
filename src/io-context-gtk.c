@@ -223,7 +223,7 @@ icg_get_password (GOCmdContext *cc, char const *filename)
 }
 
 static void
-icg_progress_set (GOCmdContext *cc, gfloat val)
+icg_progress_set (GOCmdContext *cc, double val)
 {
 	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
 

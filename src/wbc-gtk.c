@@ -4872,7 +4872,7 @@ wbcg_error_error_info (GOCmdContext *cc, GOErrorInfo *error)
 		wbcg_toplevel (WBC_GTK (cc)), error);
 }
 static void
-wbcg_progress_set (GOCmdContext *cc, gfloat val)
+wbcg_progress_set (GOCmdContext *cc, double val)
 {
 	WBCGtk *wbcg = WBC_GTK (cc);
 	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (wbcg->progress_bar), val);
