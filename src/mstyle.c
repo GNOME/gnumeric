@@ -1282,7 +1282,7 @@ gnm_style_get_font_script (GnmStyle const *style)
 }
 
 void
-gnm_style_set_font_size (GnmStyle *style, float size)
+gnm_style_set_font_size (GnmStyle *style, double size)
 {
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (size >= 1.);
@@ -1293,7 +1293,7 @@ gnm_style_set_font_size (GnmStyle *style, float size)
 	gnm_style_clear_pango (style);
 }
 
-float
+double
 gnm_style_get_font_size (GnmStyle const *style)
 {
 	g_return_val_if_fail (style != NULL, 12.0);
@@ -1645,7 +1645,7 @@ add_attr (PangoAttrList *attrs, PangoAttribute *attr)
 PangoAttrList *
 gnm_style_get_pango_attrs (GnmStyle const *style,
 			   PangoContext *context,
-			   float zoom)
+			   double zoom)
 {
 	PangoAttrList *l;
 
@@ -1739,7 +1739,7 @@ gnm_style_generate_attrs_full (GnmStyle const *style)
 int
 gnm_style_get_pango_height (GnmStyle const *style,
 			    PangoContext *context,
-			    float zoom)
+			    double zoom)
 {
 	PangoAttrList *attrs = gnm_style_get_pango_attrs (style, context, zoom);
 
@@ -1767,7 +1767,7 @@ gnm_style_set_from_pango_attribute (GnmStyle *style, PangoAttribute const *attr)
 		break;
 	case PANGO_ATTR_SIZE :
 		gnm_style_set_font_size (style,
-			(float )(((PangoAttrInt *)attr)->value) / PANGO_SCALE);
+					 ((PangoAttrInt *)attr)->value / (double)PANGO_SCALE);
 		break;
 	case PANGO_ATTR_STYLE :
 		gnm_style_set_font_italic (style,

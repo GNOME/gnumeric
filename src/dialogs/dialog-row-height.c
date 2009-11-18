@@ -196,7 +196,7 @@ cb_dialog_row_height_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 		(GTK_TOGGLE_BUTTON (state->default_check));
 
 	if (state->set_default_value) {
-		float points = value * 72./gnm_app_display_dpi_get (TRUE);
+		double points = value * 72./gnm_app_display_dpi_get (TRUE);
 		cmd_colrow_std_size (WORKBOOK_CONTROL (state->wbcg),
 				     state->sheet, FALSE, points);
 		dialog_row_height_load_value (state);

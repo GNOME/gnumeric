@@ -8,7 +8,7 @@ G_BEGIN_DECLS
 
 struct _ColRowInfo {
 	/* Size including margins, and right grid line */
-	float	 size_pts;
+	double	 size_pts;
 	int      size_pixels;
 
 	unsigned  is_default	: 1;
@@ -47,11 +47,11 @@ struct _ColRowCollection {
 
 struct _ColRowSegment {
 	ColRowInfo *info [COLROW_SEGMENT_SIZE];
-	float	size_pts;
+	double	size_pts;
 	int	size_pixels;
 };
 typedef struct _ColRowState {
-	float     size_pts;
+	double    size_pts;
 	unsigned  is_default	: 1;
 	unsigned  outline_level : 4;
 	unsigned  is_collapsed  : 1;	/* Does this terminate an outline ? */

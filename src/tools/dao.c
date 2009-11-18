@@ -514,7 +514,7 @@ dao_set_cell_printf (data_analysis_output_t *dao, int col, int row,
  * @row:
  * @v:
  *
- * set cell to a float
+ * set cell to a gnm_float
  *
  *
  **/
@@ -567,7 +567,7 @@ dao_set_cell_na (data_analysis_output_t *dao, int col, int row)
  * @v:
  * @is_valid:
  *
- * set cell to a float or NA as appropraite
+ * set cell to a gnm_float or NA as appropraite
  *
  *
  **/

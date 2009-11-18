@@ -198,7 +198,7 @@ cb_dialog_col_width_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 		(GTK_TOGGLE_BUTTON (state->default_check));
 
 	if (state->set_default_value) {
-		float points = value * 72./gnm_app_display_dpi_get (FALSE);
+		double points = value * 72./gnm_app_display_dpi_get (FALSE);
 		cmd_colrow_std_size (WORKBOOK_CONTROL (state->wbcg),
 				     state->sheet, TRUE, points);
 		dialog_col_width_load_value (state);

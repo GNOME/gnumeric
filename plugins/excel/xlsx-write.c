@@ -661,7 +661,7 @@ static gboolean
 xlsx_write_col (XLSXWriteState *state, GsfXMLOut *xml,
 		ColRowInfo const *ci, int first, int last, gboolean has_child)
 {
-	float const def_width = state->sheet->cols.default_style.size_pts;
+	double const def_width = state->sheet->cols.default_style.size_pts;
 
 	if (NULL == ci)
 		return has_child;

@@ -659,8 +659,8 @@ static void
 excel_write_WINDOW1 (BiffPut *bp, WorkbookView const *wb_view)
 {
 	guint8 *data = ms_biff_put_len_next (bp, BIFF_WINDOW1, 18);
-	float hdpi = gnm_app_display_dpi_get (TRUE) / (72. * 20.);
-	float vdpi = gnm_app_display_dpi_get (FALSE) / (72. * 20.);
+	double hdpi = gnm_app_display_dpi_get (TRUE) / (72. * 20.);
+	double vdpi = gnm_app_display_dpi_get (FALSE) / (72. * 20.);
 	guint16 width = .5 + wb_view->preferred_width / hdpi;
 	guint16 height = .5 + wb_view->preferred_height / vdpi;
 	guint16 options = 0;
@@ -3592,7 +3592,7 @@ excel_write_margin (BiffPut *bp, guint16 op, double points)
 }
 
 static XL_font_width const *
-xl_find_fontspec (ExcelWriteSheet *esheet, float *scale)
+xl_find_fontspec (ExcelWriteSheet *esheet, double *scale)
 {
 	/* Use the 'Normal' Style which is by definition the 0th */
 	GnmStyle const *def_style = esheet->ewb->base.xf.default_style;
@@ -3604,7 +3604,7 @@ static void
 excel_write_DEFCOLWIDTH (BiffPut *bp, ExcelWriteSheet *esheet)
 {
 	guint16 charwidths;
-	float  width, scale;
+	double width, scale;
 	XL_font_width const *spec = xl_find_fontspec (esheet, &scale);
 
 	/* pts to avoid problems when zooming */
@@ -3635,8 +3635,8 @@ excel_write_COLINFO (BiffPut *bp, ExcelWriteSheet *esheet, ColRowInfo const *ci,
 {
 	guint8 *data;
 	guint16 charwidths, options = 0;
-	float   width, scale;
-	float const def_width = esheet->gnum_sheet->cols.default_style.size_pts;
+	double  width, scale;
+	double def_width = esheet->gnum_sheet->cols.default_style.size_pts;
 	XL_font_width const *spec;
 
 	if (NULL != ci) {

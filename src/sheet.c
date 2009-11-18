@@ -5118,8 +5118,8 @@ sheet_row_get_distance_pts (Sheet const *sheet, int from, int to)
 {
 	ColRowSegment const *segment;
 	ColRowInfo const *ri;
-	float const default_size = sheet->rows.default_style.size_pts;
-	float pts = 0., sign = 1.;
+	double const default_size = sheet->rows.default_style.size_pts;
+	double pts = 0., sign = 1.;
 	int i;
 
 	g_return_val_if_fail (IS_SHEET (sheet), 1.);

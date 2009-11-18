@@ -111,8 +111,8 @@ void         gnm_style_set_font_strike	   (GnmStyle *style, gboolean strike);
 gboolean     gnm_style_get_font_strike	   (GnmStyle const *style);
 void         gnm_style_set_font_script	   (GnmStyle *style, GOFontScript script);
 GOFontScript gnm_style_get_font_script	   (GnmStyle const *style);
-void         gnm_style_set_font_size	   (GnmStyle *style, float size);
-float        gnm_style_get_font_size	   (GnmStyle const *style);
+void         gnm_style_set_font_size	   (GnmStyle *style, double size);
+double       gnm_style_get_font_size	   (GnmStyle const *style);
 
 GnmFont     *gnm_style_get_font		   (GnmStyle const *style,
 					    PangoContext *context);
@@ -161,10 +161,10 @@ gboolean	 gnm_style_visible_in_blank (GnmStyle const *style);
 PangoAttrList	*gnm_style_generate_attrs_full (GnmStyle const *style);
 PangoAttrList	*gnm_style_get_pango_attrs     (GnmStyle const *style,
 						PangoContext *context,
-						float zoom);
+						double zoom);
 int              gnm_style_get_pango_height    (GnmStyle const *style,
 						PangoContext *context,
-						float zoom);
+						double zoom);
 void	    gnm_style_set_from_pango_attribute (GnmStyle *style,
 						PangoAttribute const *attr);
 

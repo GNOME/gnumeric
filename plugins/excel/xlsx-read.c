@@ -508,8 +508,6 @@ attr_range (GsfXMLIn *xin, xmlChar const **attrs,
 		XLSX_MaxCol, XLSX_MaxRow
 	};
 
-	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
@@ -529,7 +527,7 @@ attr_datetime (GsfXMLIn *xin, xmlChar const **attrs,
 {
 	unsigned y, m, d, h, mi, n;
 	GnmValue *res = NULL;
-	float s;
+	gnm_float s;
 
 	g_return_val_if_fail (attrs != NULL, NULL);
 	g_return_val_if_fail (attrs[0] != NULL, NULL);
@@ -538,7 +536,7 @@ attr_datetime (GsfXMLIn *xin, xmlChar const **attrs,
 	if (strcmp (attrs[0], target))
 		return NULL;
 
-	n = sscanf (attrs[1], "%u-%u-%uT%u:%u:%g",
+	n = sscanf (attrs[1], "%u-%u-%uT%u:%u:%" GNM_SCANF_g,
 		    &y, &m, &d, &h, &mi, &s);
 
 	if (n >= 3) {
@@ -549,7 +547,7 @@ attr_datetime (GsfXMLIn *xin, xmlChar const **attrs,
 			unsigned d_serial = go_date_g_to_serial (&date,
 				workbook_date_conv (state->wb));
 			if (n >= 6) {
-				double time_frac = h + ((double)mi / 60.) + ((double)s / 3600.);
+				double time_frac = h + (gnm_float)mi / 60 + s / 3600;
 				res = value_new_float (d_serial + time_frac / 24.);
 				value_set_fmt (res, state->date_fmt);
 			} else {
@@ -2392,7 +2390,7 @@ hue_to_color (int m1, int m2, int h)
 }
 
 static GOColor
-apply_tint (GOColor orig, float tint)
+apply_tint (GOColor orig, double tint)
 {
 	int r = GO_COLOR_UINT_R (orig);
 	int g = GO_COLOR_UINT_G (orig);

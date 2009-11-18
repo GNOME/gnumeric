@@ -156,7 +156,7 @@ print_rectangle_gtk (cairo_t *context,
 static void
 print_cell_background_gtk (cairo_t *context,
 		       GnmStyle const *style, int col, int row,
-		       float x, float y, float w, float h)
+		       double x, double y, double w, double h)
 {
 	if (gnumeric_background_set_gtk (style, context))
 		print_rectangle_gtk (context, x, y, w, h);
@@ -177,7 +177,7 @@ print_merged_range_gtk (cairo_t *context,
 		    double start_x, double start_y,
 		    GnmRange const *view, GnmRange const *range)
 {
-	float l, r, t, b;
+	double l, r, t, b;
 	int last;
 	GnmCell  const *cell  = sheet_cell_get (sheet, range->start.col, range->start.row);
 	int const dir = sheet->text_is_rtl ? -1 : 1;
@@ -260,7 +260,7 @@ gnm_gtk_print_cell_range (cairo_t *context,
 {
 	ColRowInfo const *ri = NULL, *next_ri = NULL;
 	int const dir = sheet->text_is_rtl ? -1 : 1;
-	float const hscale = sheet->display_formulas ? 2 : 1;
+	double const hscale = sheet->display_formulas ? 2 : 1;
 	int start_row, start_col, end_col, end_row;
 
 	GnmStyleRow sr, next_sr;

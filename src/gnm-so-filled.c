@@ -54,7 +54,7 @@ typedef struct {
 	char *text;
 	PangoAttrList  *markup;
 	struct {
-		float top, bottom, left, right;
+		double top, bottom, left, right;
 	} margin_pts;
 } GnmSOFilled;
 typedef SheetObjectClass GnmSOFilledClass;

@@ -392,7 +392,7 @@ odf_add_percent (GsfXMLOut *xml, char const *id, double val)
 
 
 static void
-odf_add_pt (GsfXMLOut *xml, char const *id, float l)
+odf_add_pt (GsfXMLOut *xml, char const *id, double l)
 {
 	GString *str = g_string_new (NULL);
 
@@ -538,7 +538,7 @@ static char *
 odf_get_border_format (GnmBorder   *border)
 {
 	GString *str = g_string_new (NULL);
-	float w = gnm_style_border_get_width (border->line_type);
+	double w = gnm_style_border_get_width (border->line_type);
 	GnmColor *color = border->color;
 	char const *border_type;
 

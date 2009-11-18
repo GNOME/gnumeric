@@ -42,7 +42,7 @@ struct _GOIOContextGtk {
 	guint files_total;
 	guint files_done;
 
-	gfloat progress;
+	double progress;
 	char *progress_msg;
 	gdouble latency;
 
@@ -146,8 +146,9 @@ icg_show_gui (IOContextGtk *icg)
 		gtk_progress_bar_set_orientation (
 			icg->file_bar, GTK_PROGRESS_LEFT_TO_RIGHT);
 		gtk_progress_bar_set_text (icg->file_bar, "Files");
-		gtk_progress_bar_set_fraction (icg->file_bar,
-			(float) icg->files_done / (float) icg->files_total);
+		gtk_progress_bar_set_fraction
+			(icg->file_bar,
+			 icg->files_done / (double)icg->files_total);
 		gtk_box_pack_start (box, GTK_WIDGET (icg->file_bar),
 			FALSE, FALSE, 0);
 	}
@@ -188,8 +189,8 @@ static gboolean
 icg_user_is_impatient (IOContextGtk *icg)
 {
 	gdouble t = g_timer_elapsed (icg->timer, NULL);
-	gfloat progress = icg->progress;
-	gfloat forecast_delay = ICG_POPUP_DELAY / 3.0;
+	double progress = icg->progress;
+	double forecast_delay = ICG_POPUP_DELAY / 3.0;
 	gboolean ret = FALSE;
 
 	if (icg->progress == 0. && icg->files_done == 0)
@@ -204,7 +205,7 @@ icg_user_is_impatient (IOContextGtk *icg)
 			/* We're likely to be back shortly.  */
 			ret = (t > ICG_POPUP_DELAY * 0.8);
 		} else {
-			gfloat forecast = icg->latency;
+			double forecast = icg->latency;
 			forecast += (t - icg->latency) / progress;
 			ret = (forecast > ICG_POPUP_DELAY);
 		}
@@ -288,8 +289,9 @@ icg_processing_file (GOIOContext *ioc, char const *file)
 		int maxlen = 40;
 
 		if (icg->files_total > 0)
-			gtk_progress_bar_set_fraction (icg->file_bar,
-				 (float) icg->files_done / (float) icg->files_total);
+			gtk_progress_bar_set_fraction
+				(icg->file_bar,
+				 icg->files_done / (double)icg->files_total);
 
 		gtk_progress_bar_set_fraction (icg->work_bar, 0.0);
 

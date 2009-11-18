@@ -200,7 +200,7 @@ print_page_cells (GtkPrintContext   *context, PrintingInstance * pi,
 
 static void
 print_header_gtk (GtkPrintContext   *context, cairo_t *cr,
-		  float x, float y, float w, float h,
+		  double x, double y, double w, double h,
 		  char const *name,
 		  PangoFontDescription *desc)
 {

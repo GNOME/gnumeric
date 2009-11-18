@@ -22,7 +22,7 @@ struct _GnmStyle {
 	Sheet	       *linked_sheet;
 
 	PangoAttrList *pango_attrs;
-	float          pango_attrs_zoom;
+	double         pango_attrs_zoom;
 	int            pango_attrs_height;
 
 	GnmFont       *font;
@@ -45,7 +45,7 @@ struct _GnmStyle {
 		GnmUnderline	underline;
 		gboolean	strikethrough;
 		GOFontScript	script;
-		float		size;
+		double		size;
 	} font_detail;
 
 	GOFormat *format;

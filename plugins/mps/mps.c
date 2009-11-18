@@ -69,7 +69,7 @@ mps_set_cell (Sheet *sheet, int col, int row, const gchar *str)
 	gnm_cell_set_value (cell, value_new_string (str));
 }
 
-/* Writes a float into a cell. */
+/* Writes a gnm_float into a cell. */
 static void
 mps_set_cell_float (Sheet *sheet, int col, int row, const gnm_float f)
 {

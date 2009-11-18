@@ -2048,7 +2048,7 @@ calc_obj_place (GnmPane *pane, gint64 canvas_coord, gboolean is_col,
 	}
 
 	/* TODO : handle other anchor types */
-	*offset = ((float) (canvas_coord - origin))/ ((float) cri->size_pixels);
+	*offset = (canvas_coord - origin) / (double)cri->size_pixels;
 	return colrow;
 }
 
@@ -2404,7 +2404,8 @@ scg_object_coords_to_anchor (SheetControlGUI const *scg,
 }
 
 static double
-cell_offset_calc_pixel (Sheet const *sheet, int i, gboolean is_col, float offset)
+cell_offset_calc_pixel (Sheet const *sheet, int i, gboolean is_col,
+			double offset)
 {
 	ColRowInfo const *cri = sheet_colrow_get_info (sheet, i, is_col);
 	return offset * cri->size_pixels;

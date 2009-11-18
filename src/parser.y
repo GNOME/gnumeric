@@ -469,7 +469,7 @@ build_set (GnmExprList *list)
  * parse_string_as_value :
  *
  * Try to parse the entered text as a basic value (empty, bool, int,
- * float, err) if this succeeds, we store this as a GnmValue otherwise, we
+ * gnm_float, err) if this succeeds, we store this as a GnmValue otherwise, we
  * return a string.
  */
 static GnmExpr *
@@ -1241,7 +1241,7 @@ yylex (void)
 		GnmValue *v = NULL;
 
 		if (c == state->decimal_point || c == 'e' || c == 'E') {
-			/* This is float */
+			/* This is a floating point number */
 			char *end;
 			gnm_float d;
 

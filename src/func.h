@@ -48,7 +48,7 @@ GnmFuncGroup *gnm_func_group_fetch (char const *name,
  *  Argument tokens passed in 'args'
  *
  * With intersection and iteration support
- *	f : float		(no errors, string conversion attempted)
+ *	f : floating point	(no errors, string conversion attempted)
  *	b : boolean		(identical to f, Do we need this ?)
  *	s : string		(no errors)
  *	S : 'scalar': any non-error value
