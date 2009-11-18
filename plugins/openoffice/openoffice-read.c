@@ -189,7 +189,7 @@ typedef enum {
 	OO_PAGE_BREAK_MANUAL
 } OOPageBreakType;
 typedef struct {
-	float	 size_pts;
+	gnm_float	 size_pts;
 	int	 count;
 	gboolean manual;
 	OOPageBreakType break_before, break_after;
@@ -1207,8 +1207,8 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			(state->ver == OOO_VER_OPENDOC) ? OO_NS_OFFICE : OO_NS_TABLE,
 			"date-value")) {
 			unsigned y, m, d, h, mi;
-			float s;
-			unsigned n = sscanf (CXML2C (attrs[1]), "%u-%u-%uT%u:%u:%g",
+			gnm_float s;
+			unsigned n = sscanf (CXML2C (attrs[1]), "%u-%u-%uT%u:%u:%" GNM_SCANF_g,
 					     &y, &m, &d, &h, &mi, &s);
 
 			if (n >= 3) {
@@ -1989,7 +1989,7 @@ odf_number (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean grouping = FALSE;
 	int decimal_places = 0;
 	gboolean decimal_places_specified = FALSE;
-/* 	float display_factor = 1.; */
+/* 	gnm_float display_factor = 1.; */
 	int min_i_digits = 1;
 
 	if (state->cur_format.accum == NULL)
@@ -2004,7 +2004,7 @@ odf_number (GsfXMLIn *xin, xmlChar const **attrs)
 			decimal_places_specified = TRUE;
 		} /* else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,  */
 /* 					       "display-factor")) */
-/* 			display_factor = atof (CXML2C (attrs[1])); */
+/* 			display_factor = gnm_strto (CXML2C (attrs[1]), NULL); */
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,
 					       "min-integer-digits"))
 			min_i_digits = atoi (CXML2C (attrs[1]));
@@ -2168,11 +2168,10 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			char *cond = lc->data;
 			if (cond != NULL && *cond == '>') {
 				char *val = cond + strcspn (cond, "0123456789.");
-				float value = atof (val);
-				if (value != 0. || (*(cond+1) != '='))
+				if ((*(cond+1) != '=') || (strtod (val, NULL) != 0.))
 					g_string_append_printf
 						(state->cur_format.accum,
-						 (*(cond+1) == '=') ? "[>=%.2f]" : "[>%.2f]", value);
+						 (*(cond+1) == '=') ? "[>=%s]" : "[>%s]", val);
 				g_string_append (state->cur_format.accum, go_format_as_XL
 					 (g_hash_table_lookup (state->formats, lf->data)));
 				parts++;
@@ -2191,8 +2190,7 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 				char *cond = lc->data;
 				if (cond != NULL && *cond == '=') {
 					char *val = cond + strcspn (cond, "0123456789.");
-					float value = atof (val);
-					g_string_append_printf (state->cur_format.accum, "[=%.2f]", value);
+					g_string_append_printf (state->cur_format.accum, "[=%s]", val);
 					g_string_append (state->cur_format.accum, go_format_as_XL
 							 (g_hash_table_lookup (state->formats, lf->data)));
 					parts++;
@@ -2212,8 +2210,7 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 				char *cond = lc->data;
 				if (cond != NULL && *cond == '<' && *(cond + 1) == '>') {
 					char *val = cond + strcspn (cond, "0123456789.");
-					float value = atof (val);
-					g_string_append_printf (state->cur_format.accum, "[<>%.2f]", value);
+					g_string_append_printf (state->cur_format.accum, "[<>%s]", val);
 					g_string_append (state->cur_format.accum, go_format_as_XL
 							 (g_hash_table_lookup (state->formats, lf->data)));
 					parts++;
@@ -2237,13 +2234,12 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			char *cond = lc->data;
 			if (cond != NULL && *cond == '<' && *(cond + 1) != '>') {
 				char *val = cond + strcspn (cond, "0123456789.");
-				float value = atof (val);
 				if (parts > 0)
 					g_string_append_c (state->cur_format.accum, ';');
-				if (value != 0. || (*(cond+1) != '='))
+				if ((*(cond+1) != '=') || (strtod (val, NULL) != 0.))
 					g_string_append_printf
 						(state->cur_format.accum,
-						 (*(cond+1) == '=') ? "[<=%.2f]" : "[<%.2f]", value);
+						 (*(cond+1) == '=') ? "[<=%s]" : "[<%s]", val);
 				g_string_append (state->cur_format.accum, go_format_as_XL
 					 (g_hash_table_lookup (state->formats, lf->data)));
 				parts++;
@@ -2259,10 +2255,9 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 				char *cond = lc->data;
 				if (cond != NULL && *cond == '=') {
 					char *val = cond + strcspn (cond, "0123456789.");
-					float value = atof (val);
 					if (parts > 0)
 						g_string_append_c (state->cur_format.accum, ';');
-					g_string_append_printf (state->cur_format.accum, "[=%.2f]", value);
+					g_string_append_printf (state->cur_format.accum, "[=%s]", val);
 					g_string_append (state->cur_format.accum, go_format_as_XL
 							 (g_hash_table_lookup (state->formats, lf->data)));
 					parts++;
@@ -2280,10 +2275,9 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 				char *cond = lc->data;
 				if (cond != NULL && *cond == '<' && *(cond + 1) == '>') {
 					char *val = cond + strcspn (cond, "0123456789.");
-					float value = atof (val);
 					if (parts > 0)
 						g_string_append_c (state->cur_format.accum, ';');
-					g_string_append_printf (state->cur_format.accum, "[<>%.2f]", value);
+					g_string_append_printf (state->cur_format.accum, "[<>%s]", val);
 					g_string_append (state->cur_format.accum, go_format_as_XL
 							 (g_hash_table_lookup (state->formats, lf->data)));
 					parts++;
@@ -2533,8 +2527,8 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_int (xin, attrs, OO_NS_STYLE, "rotation-angle", &tmp))
 			gnm_style_set_rotation	(style, tmp);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "font-size")) {
-			float size;
-			if (1 == sscanf (CXML2C (attrs[1]), "%fpt", &size))
+			gnm_float size;
+			if (1 == sscanf (CXML2C (attrs[1]), "%" GNM_SCANF_g "pt", &size))
 				gnm_style_set_font_size (style, size);
 
 		/* TODO : get specs on how these relate */
