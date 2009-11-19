@@ -416,6 +416,9 @@ if test "$try_gda" = true; then
 	PKG_CHECK_MODULES(GDA, [libgda-4.0 >= 4.1.1],
 		[gda_msg=yes],
 		[gda_msg="NO.  libgda problem"])
+	AC_CHECK_HEADER(libgda/control-center/gdaui-login-dialog.h,
+			[],
+			[gda_msg="NO.  libgda problem"])
 	if test "$gda_msg" = yes; then
 		PKG_CHECK_MODULES(GNOMEDB, [libgnomedb-4.0 >= 3.99.6],
 			[gnomedb_msg="yes"],
