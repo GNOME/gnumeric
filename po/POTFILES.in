@@ -76,7 +76,6 @@ plugins/lpsolve/gnm-lpsolve.c
 plugins/lpsolve/lpsolve-write.c
 plugins/lpsolve/plugin.xml.in
 plugins/mps/mps.c
-plugins/mps/parser.c
 plugins/mps/plugin.xml.in
 plugins/oleo/oleo.c
 plugins/oleo/plugin.xml.in
