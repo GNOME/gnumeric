@@ -174,6 +174,9 @@ mps_mark_error (MpsState *state, const char *fmt, ...)
 	GOErrorInfo *error;
 	va_list args;
 
+	if (go_io_error_occurred (state->io_context))
+		return;
+
 	va_start (args, fmt);
 	error = go_error_info_new_vprintf (GO_ERROR, fmt, args);
 	va_end (args);
@@ -348,13 +351,8 @@ mps_parse_rhs (MpsState *state)
 		GPtrArray *split = state->split;
 		unsigned ui;
 
-		if (split->len % 2 == 1) {
-			mps_mark_error (state,
-					_("Invalid rhs line"));
-			continue;
-		}
-
-		for (ui = 0; ui < split->len; ui += 2) {
+		/* The name column is optional.  */
+		for (ui = split->len % 2; ui < split->len; ui += 2) {
 			const char *rowname = g_ptr_array_index (split, ui);
 			const char *valtxt = g_ptr_array_index (split, ui + 1);
 			MpsRow *row = g_hash_table_lookup (state->row_hash,
