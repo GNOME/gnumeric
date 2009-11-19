@@ -1,19 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * mps.c: MPS file importer.
- *
- * Authors:
- *   Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
- *
- *      MPS importer module.  MPS format is a de facto standard ASCII format
- *      among most of the commercial LP solvers.
- *
- *      This implementation does not yet support ranges and all types
- *      of bounds but is already quite suitable for testing the
- *      solving algorithms.  See, for example, the Netlib collection
- *      of LP problems in MPS format (ftp://netlib2.cs.utk.edu/lp/data).
- *
- *      Supported bound types are: UP and LO.
+ * Copyright (C) 2009 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,631 +16,577 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
+
 #include <gnumeric-config.h>
-#include <gnumeric.h>
-#include "mps.h"
-#include "cell.h"
-#include "sheet.h"
-#include "value.h"
 #include <goffice/goffice.h>
-#include "workbook-view.h"
-#include "workbook.h"
-#include <gnm-plugin.h>
-#include "ranges.h"
-#include "style.h"
-#include "value.h"
-#include <tools/gnm-solver.h>
-#include "sheet-style.h"
-#include "parse-util.h"
-#include "func.h"
-#include "expr.h"
 #include <glib/gi18n-lib.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <stdlib.h>
+#include <gsf/gsf-input-textline.h>
+
+#include <gnm-plugin.h>
+#include <gutils.h>
+#include <workbook-view.h>
+#include <workbook.h>
+#include <sheet.h>
+#include <value.h>
+#include <mstyle.h>
+#include <sheet-style.h>
+#include <cell.h>
+#include <ranges.h>
+#include <expr.h>
+#include <tools/gnm-solver.h>
+
 #include <string.h>
 
 GNM_PLUGIN_MODULE_HEADER;
 
-
-/*************************************************************************
- *
- * Sheet creation.
- */
+typedef struct {
+	char *name;
+	GnmSolverConstraintType type;
+	GnmExpr const *expr;
+	gnm_float rhs;
+} MpsRow;
 
-/* Writes a string into a cell. */
+typedef struct {
+	GOIOContext *io_context;
+
+	GsfInputTextline *input;
+	char *line;
+	GPtrArray *split;
+
+	GPtrArray *rows;
+	GHashTable *row_hash;
+
+	GHashTable *col_hash;
+
+	Workbook *wb;
+	Sheet *sheet;
+	GnmSolverParameters *param;
+} MpsState;
+
+/* ------------------------------------------------------------------------- */
+
+/* Vertical */
+enum { CONSTR_BASE_COL = 3 };
+enum { CONSTR_BASE_ROW = 8 };
+
+/* Vertical */
+enum { VAR_BASE_COL = 0 };
+enum { VAR_BASE_ROW = 8 };
+
+/* Horizontal */
+enum { OBJ_BASE_COL = 0 };
+enum { OBJ_BASE_ROW = 4 };
+
+
 static void
-mps_set_cell (Sheet *sheet, int col, int row, const gchar *str)
+mps_set_cell (MpsState *state, int col, int row, const gchar *str)
 {
-	GnmCell *cell = sheet_cell_fetch (sheet, col, row);
+	GnmCell *cell = sheet_cell_fetch (state->sheet, col, row);
 	gnm_cell_set_value (cell, value_new_string (str));
 }
 
-/* Writes a gnm_float into a cell. */
 static void
-mps_set_cell_float (Sheet *sheet, int col, int row, const gnm_float f)
+mps_set_expr (MpsState *state, int col, int row, GnmExpr const *expr)
 {
-	GnmCell *cell = sheet_cell_fetch (sheet, col, row);
+	GnmCell *cell = sheet_cell_fetch (state->sheet, col, row);
+	GnmExprTop const *texpr = gnm_expr_top_new (expr);
+	gnm_cell_set_expr (cell, texpr);
+	gnm_expr_top_unref (texpr);
+}
+
+static void
+mps_set_cell_float (MpsState *state, int col, int row, const gnm_float f)
+{
+	GnmCell *cell = sheet_cell_fetch (state->sheet, col, row);
         gnm_cell_set_value (cell, value_new_float (f));
 }
 
 static void
-mps_set_style (Sheet *sh, int c1, int r1, int c2, int r2,
+mps_set_style (MpsState *state, int c1, int r1, int c2, int r2,
 	       gboolean italic, gboolean bold, gboolean ulined)
 {
-        GnmStyle *mstyle;
-	GnmRange  range;
+        GnmStyle *mstyle = gnm_style_new ();
+	GnmRange range;
 
-	mstyle = gnm_style_new ();
 	range_init (&range, c1, r1, c2, r2);
 	gnm_style_set_font_italic (mstyle, italic);
-	gnm_style_set_font_bold   (mstyle, bold);
-	gnm_style_set_font_uline  (mstyle, ulined);
-	sheet_style_apply_range (sh, &range, mstyle);
+	gnm_style_set_font_bold (mstyle, bold);
+	gnm_style_set_font_uline (mstyle, ulined);
+	sheet_style_apply_range (state->sheet, &range, mstyle);
 }
 
-/* Callback for the hash table mapping. */
-static void
-put_into_index (gpointer key, gpointer value, gpointer user_data)
-{
-        MpsInputContext *ctxt = (MpsInputContext *) user_data;
-	MpsColInfo *info = (MpsColInfo *) value;
+/* ------------------------------------------------------------------------- */
 
-	ctxt->col_name_tbl[info->index] = info->name;
+static gboolean
+readline (MpsState *state)
+{
+	do {
+		char *line = state->line =
+			gsf_input_textline_utf8_gets (state->input);
+
+		if (!line)
+			return FALSE;
+		if (line[0] == '*' || line[0] == 0)
+			continue;
+
+		return g_ascii_isspace (line[0]);
+	} while (1);
 }
 
-/* Make the constraint coefficient matrix and other preparations. */
-static void
-mps_prepare (WorkbookView *wbv, MpsInputContext *ctxt)
+static gboolean
+splitline (MpsState *state)
 {
-        gint i, n, col;
-        GSList *current, *tmp;
+	char *s;
 
-        ctxt->rows = g_slist_reverse (ctxt->rows);
-	ctxt->cols = g_slist_reverse (ctxt->cols);
+	if (!readline (state))
+		return FALSE;
 
-	ctxt->col_name_tbl = g_new (gchar *, ctxt->n_cols);
-	g_hash_table_foreach (ctxt->col_hash, put_into_index, (gpointer) ctxt);
+	g_ptr_array_set_size (state->split, 0);
+	s = state->line;
+	do {
+		while (g_ascii_isspace (*s))
+			s++;
+		if (!*s)
+			break;
+		g_ptr_array_add (state->split, s);
+		while (*s && !g_ascii_isspace (*s))
+			s++;
+		if (!*s)
+			break;
+		*s++ = 0;
+	} while (1);
 
-	ctxt->matrix = g_new (gnm_float *, ctxt->n_rows + ctxt->n_bounds);
-	for (i = 0; i < ctxt->n_rows + ctxt->n_bounds; i++) {
-	          ctxt->matrix[i] = g_new (gnm_float, ctxt->n_cols);
-		  for (n = 0; n < ctxt->n_cols; n++)
-		            ctxt->matrix[i][n] = 0.0;
-	}
-
-	current = ctxt->cols;
-	while (current != NULL) {
-	          MpsCol     *col = (MpsCol *) current->data;
-		  MpsColInfo *info;
-
-		  info = (MpsColInfo *) g_hash_table_lookup (ctxt->col_hash,
-							     col->name);
-		  ctxt->matrix[col->row->index][info->index] = col->value;
-		  current = current->next;
-	}
-
-	if ((ctxt->n_cols + MAX_COL - 1) / MAX_COL == 1)
-		col = CONSTRAINT_COL + ctxt->n_cols - 1;
-	else
-		col = CONSTRAINT_COL + MAX_COL - 1;
-
-	current    = ctxt->bounds;
-	tmp        = ctxt->rows;
-	ctxt->rows = NULL;
-	i          = ctxt->n_rows + ctxt->n_bounds - 2;
-	while (current != NULL) {
-	        MpsBound *bound = (MpsBound *) current->data;
-		static const MpsRowType type_map[] = {
-		        LessOrEqualRow, GreaterOrEqualRow, EqualityRow
-		};
-
-		ctxt->matrix[ctxt->n_rows][bound->col_index] = 1.0;
-
-		mps_set_cell_float (wbv->current_sheet, col + 3,
-				    i-- + CONSTRAINT_ROW,
-				    bound->value);
-
-		mps_add_row (ctxt, type_map[(gint) bound->type], bound->name);
-
-		current = current->next;
-	}
-	ctxt->rows = g_slist_concat (tmp, ctxt->rows);
+	return TRUE;
 }
 
-
 static void
-mps_write_sheet_labels (MpsInputContext *ctxt, Sheet *sh)
+ignore_section (MpsState *state)
 {
-	int i, row, col, inc;
-	int n_rows_per_fn;
+	while (readline (state))
+		; /* Nothing */
+}
 
-	/*
-	 * Sheet header titles.
-	 */
+/* ------------------------------------------------------------------------- */
 
-	/* Print 'Program Name'. */
-	n_rows_per_fn = (ctxt->n_cols + MAX_COL - 1) / MAX_COL;
-	mps_set_cell (sh, MAIN_INFO_COL, MAIN_INFO_ROW - 1, _("Program Name"));
-	mps_set_style (sh, MAIN_INFO_COL, MAIN_INFO_ROW - 1,
-		       MAIN_INFO_COL + 5, MAIN_INFO_ROW - 1,
+static void
+mps_mark_error (MpsState *state, const char *fmt, ...)
+{
+	GOErrorInfo *error;
+	va_list args;
+
+	va_start (args, fmt);
+	error = go_error_info_new_vprintf (GO_ERROR, fmt, args);
+	va_end (args);
+
+	go_io_error_info_set (state->io_context, error);
+}
+
+static void
+mps_parse_name (MpsState *state)
+{
+	const char *s;
+
+	mps_set_cell (state, 0, 0, _("Program Name"));
+	mps_set_style (state, 0, 0, 0, 0, FALSE, TRUE, FALSE);
+
+	s = state->line + 4;
+	while (g_ascii_isspace (*s))
+		s++;
+	if (*s) {
+		mps_set_cell (state, 0, 1, s);
+	}
+
+	ignore_section (state);
+}
+
+static void
+mps_parse_rows (MpsState *state)
+{
+	gboolean seen_objfunc = FALSE;
+
+	g_ptr_array_add (state->rows, NULL);
+
+	while (splitline (state)) {
+		GPtrArray *split = state->split;
+		const char *type;
+		const char *name;
+		MpsRow *row;
+		gboolean is_objfunc = FALSE;
+
+		if (split->len < 2) {
+			mps_mark_error (state,
+					_("Invalid line in ROWS section"));
+			ignore_section (state);
+			return;
+		}
+		type = g_ptr_array_index (split, 0);
+		name = g_ptr_array_index (split, 1);
+
+		if (g_hash_table_lookup (state->row_hash, name)) {
+			mps_mark_error (state,
+					_("Duplicate rows name %s"),
+					name);
+			ignore_section (state);
+			return;
+		}
+
+		if (strcmp (type, "E") == 0) {
+			row = g_new0 (MpsRow, 1);
+			row->type = GNM_SOLVER_EQ;
+		} else if (strcmp (type, "L") == 0) {
+			row = g_new0 (MpsRow, 1);
+			row->type = GNM_SOLVER_LE;
+		} else if (strcmp (type, "G") == 0) {
+			row = g_new0 (MpsRow, 1);
+			row->type = GNM_SOLVER_GE;
+		} else if (strcmp (type, "N") == 0) {
+			if (seen_objfunc) {
+				mps_mark_error (state,
+						_("Duplicate objective row"));
+				ignore_section (state);
+				return;
+			}
+			row = g_new0 (MpsRow, 1);
+			is_objfunc = TRUE;
+			seen_objfunc = TRUE;
+			g_ptr_array_index (state->rows, 0) = row;
+		}
+
+		row->name = g_strdup (name);
+		g_hash_table_insert (state->row_hash, row->name, row);
+		if (!is_objfunc)
+			g_ptr_array_add (state->rows, row);
+	}
+
+	if (!seen_objfunc) {
+		mps_mark_error (state,
+				_("Missing objective row"));
+		return;
+	}
+}
+
+static void
+mps_parse_columns (MpsState *state)
+{
+	while (splitline (state)) {
+		GPtrArray *split = state->split;
+		const char *colname;
+		unsigned ui;
+		GnmCell *cell;
+
+		if (split->len % 2 != 1) {
+			mps_mark_error (state,
+					_("Invalid column line"));
+			continue;
+		}
+
+		colname = g_ptr_array_index (split, 0);
+		cell = g_hash_table_lookup (state->col_hash, colname);
+		if (!cell) {
+			int x = VAR_BASE_COL;
+			int y = VAR_BASE_ROW + 1 + g_hash_table_size (state->col_hash);
+			cell = sheet_cell_fetch (state->sheet, x + 1, y);
+			g_hash_table_insert (state->col_hash,
+					     g_strdup (colname),
+					     cell);
+			mps_set_cell (state, x, y, colname);
+		}
+
+		for (ui = 1; ui < split->len; ui += 2) {
+			const char *rowname = g_ptr_array_index (split, ui);
+			const char *valtxt = g_ptr_array_index (split, ui + 1);
+			gnm_float val = gnm_strto (valtxt, NULL);
+			gboolean neg = (val < 0);
+			MpsRow *row = g_hash_table_lookup (state->row_hash,
+							   rowname);
+			GnmCellRef cr;
+			GnmExpr const *expr;
+
+			if (!row) {
+				mps_mark_error (state,
+						_("Invalid row name, %s, in columns"),
+						rowname);
+				continue;
+			}
+			if (val == 0)
+				continue;
+
+			if (row->expr) {
+				val = gnm_abs (val);
+			}
+
+			gnm_cellref_init (&cr, NULL,
+					  cell->pos.col, cell->pos.row,
+					  FALSE);
+			expr = gnm_expr_new_cellref (&cr);
+			if (gnm_abs (val) != 1) {
+				expr = gnm_expr_new_binary
+					(gnm_expr_new_constant (value_new_float (val)),
+					 GNM_EXPR_OP_MULT,
+					 expr);
+			} else if (neg && row->expr == NULL)
+				expr = gnm_expr_new_unary
+					(GNM_EXPR_OP_UNARY_NEG,
+					 expr);
+
+			if (row->expr) {
+				expr = gnm_expr_new_binary
+					(row->expr,
+					 neg ? GNM_EXPR_OP_SUB : GNM_EXPR_OP_ADD,
+					 expr);
+			}
+
+			row->expr = expr;
+		}
+	}
+}
+
+static void
+mps_parse_rhs (MpsState *state)
+{
+	while (splitline (state)) {
+		GPtrArray *split = state->split;
+		unsigned ui;
+
+		if (split->len % 2 == 1) {
+			mps_mark_error (state,
+					_("Invalid rhs line"));
+			continue;
+		}
+
+		for (ui = 0; ui < split->len; ui += 2) {
+			const char *rowname = g_ptr_array_index (split, ui);
+			const char *valtxt = g_ptr_array_index (split, ui + 1);
+			MpsRow *row = g_hash_table_lookup (state->row_hash,
+							   rowname);
+
+			if (!row) {
+				mps_mark_error (state,
+						_("Invalid row name, %s, in rhs"),
+						rowname);
+				continue;
+			}
+			row->rhs += gnm_strto (valtxt, NULL);			
+		}
+	}
+}
+
+static void
+mps_parse_file (MpsState *state)
+{
+	gboolean done = FALSE;
+	readline (state);
+
+	while (!done) {
+		char *line = state->line;
+		char *section;
+		unsigned ui;
+
+		if (!line) {
+			/* Ignore missing end marker.  */
+			break;
+		}
+
+		ui = 0;
+		while (g_ascii_isalnum (line[ui]))
+			ui++;
+		section = g_strndup (line, ui);
+
+		if (strcmp (section, "ENDATA") == 0)
+			done = TRUE;
+		else if (strcmp (section, "NAME") == 0)
+			mps_parse_name (state);
+		else if (strcmp (section, "ROWS") == 0)
+			mps_parse_rows (state);
+		else if (strcmp (section, "COLUMNS") == 0)
+			mps_parse_columns (state);
+		else if (strcmp (section, "RHS") == 0)
+			mps_parse_rhs (state);
+		else {
+			g_warning ("Invalid section %s\n", section);
+			ignore_section (state);
+		}
+		g_free (section);
+	}
+}
+
+/* ------------------------------------------------------------------------- */
+
+static void
+mps_fill_sheet (MpsState *state)
+{
+	unsigned ui;
+	GnmSolverParameters *param = state->param;
+
+	/* ---------------------------------------- */
+
+	mps_set_cell (state, CONSTR_BASE_COL, CONSTR_BASE_ROW,
+		      _("Constraint"));
+	mps_set_cell (state, CONSTR_BASE_COL + 1, CONSTR_BASE_ROW,
+		      _("Value"));
+	mps_set_cell (state, CONSTR_BASE_COL + 2, CONSTR_BASE_ROW,
+		      _("Type"));
+	mps_set_cell (state, CONSTR_BASE_COL + 3, CONSTR_BASE_ROW,
+		      _("Limit"));
+	mps_set_style (state, CONSTR_BASE_COL, CONSTR_BASE_ROW,
+		       CONSTR_BASE_COL + 3, CONSTR_BASE_ROW,
 		       FALSE, TRUE, FALSE);
 
-	/* Print 'Status'. */
-	mps_set_cell (sh, MAIN_INFO_COL + 3, MAIN_INFO_ROW - 1, _("Feasible"));
+	/* Zeroth row is objective function.  */
+	for (ui = 1; ui < state->rows->len; ui++) {
+		int x = CONSTR_BASE_COL;
+		int y = CONSTR_BASE_ROW + ui;
+		MpsRow *row = g_ptr_array_index (state->rows, ui);
+		const char *typetxt;
+		GnmSolverConstraint *c = gnm_solver_constraint_new
+			(state->sheet);
+		GnmRange r;
 
-	/* Names of the variables. */
-	row = VARIABLE_ROW - 1;
-	if (n_rows_per_fn == 1) {
-		for (i = 0; i < ctxt->n_cols; i++)
-			mps_set_cell (sh, VARIABLE_COL + i, row,
-				      ctxt->col_name_tbl[i]);
-	} else {
-		GString *buf;
-		for (i = 0; i < MAX_COL; i++) {
-			buf = g_string_new (NULL);
-			g_string_append_printf (buf, "C[%d]", i + 1);
-			mps_set_cell (sh, VARIABLE_COL + i, row, buf->str);
-			g_string_free (buf, TRUE);
+		mps_set_cell (state, x, y, row->name);
+		if (row->expr) {
+			mps_set_expr (state, x + 1, y, row->expr);
+			row->expr = NULL;
+		} else
+			mps_set_cell_float (state, x + 1, y, 0);
+		range_init (&r, x + 1, y, x + 1, y);
+		gnm_solver_constraint_set_lhs
+			(c,
+			 value_new_cellrange_r (NULL, &r));
+
+		c->type = row->type;
+		switch (row->type) {
+		case GNM_SOLVER_LE:
+			typetxt = "\xe2\x89\xa4";
+			break;
+		case GNM_SOLVER_GE:
+			typetxt = "\xe2\x89\xa5";
+			break;
+		case GNM_SOLVER_EQ:
+			typetxt = "=";
+			break;
+		case GNM_SOLVER_INTEGER:
+			typetxt = "Integer";
+			break;
+		case GNM_SOLVER_BOOLEAN:
+			typetxt = "Boolean";
+			break;
+		default:
+			g_assert_not_reached ();
 		}
 
-		for (i = 0; i < n_rows_per_fn; i++) {
-			buf = g_string_new (NULL);
-			g_string_append_printf (buf, "R[%d]", i + 1);
-			mps_set_cell (sh, VARIABLE_COL - 1, row + i + 1,
-				      buf->str);
-			g_string_free (buf, TRUE);
+		mps_set_cell (state, x + 2, y, typetxt);
+
+		if (gnm_solver_constraint_has_rhs (c)) {
+			mps_set_cell_float (state, x + 3, y, row->rhs);
+			range_init (&r, x + 3, y, x + 3, y);
+			gnm_solver_constraint_set_rhs
+				(c,
+				 value_new_cellrange_r (NULL, &r));
 		}
-		mps_set_style (sh, VARIABLE_COL - 1, row,
-			       VARIABLE_COL - 1, row + n_rows_per_fn,
+
+		param->constraints = g_slist_append (param->constraints, c);
+	}
+
+	/* ---------------------------------------- */
+
+	{
+		GnmRange r;
+		GnmValue *vinput;
+
+		mps_set_cell (state, VAR_BASE_COL, VAR_BASE_ROW,
+			      _("Variable"));
+		mps_set_cell (state, VAR_BASE_COL + 1, VAR_BASE_ROW,
+			      _("Value"));
+		mps_set_style (state, VAR_BASE_COL, VAR_BASE_ROW,
+			       VAR_BASE_COL + 1, VAR_BASE_ROW,
 			       FALSE, TRUE, FALSE);
-	}
-	mps_set_style (sh, VARIABLE_COL, row, VARIABLE_COL + MAX_COL,
-		       row, FALSE, TRUE, FALSE);
 
-
-	/* Print 'Objective value'. */
-	mps_set_cell (sh, MAIN_INFO_COL + 1, MAIN_INFO_ROW - 1,
-		      _("Objective Value"));
-
-	inc = n_rows_per_fn * 2;
-
-	/* Print 'Objective function:' */
-	mps_set_cell (sh, VARIABLE_COL, VARIABLE_ROW - 2,
-		      _("Objective function:"));
-	mps_set_style (sh, VARIABLE_COL, VARIABLE_ROW - 2,
-		       VARIABLE_COL, VARIABLE_ROW - 2,
-		       FALSE, TRUE, TRUE);
-
-	/* Print 'Constraints:'. */
-	mps_set_cell (sh, CONSTRAINT_COL, CONSTRAINT_ROW - 2 + inc,
-		      _("Constraints:"));
-	mps_set_style (sh, CONSTRAINT_COL, CONSTRAINT_ROW - 2 + inc,
-		       CONSTRAINT_COL, CONSTRAINT_ROW - 2 + inc,
-		       FALSE, TRUE, TRUE);
-
-	/*
-	 * Print constraint titles.
-	 */
-
-	/* Name field. */
-	row = CONSTRAINT_ROW - 1 + inc;
-	mps_set_cell (sh, CONSTRAINT_COL - 1, row, _("Name"));
-
-	/* Names of the variables. */
-	if (n_rows_per_fn == 1) {
-		for (i = 0; i < ctxt->n_cols; i++)
-			mps_set_cell (sh, CONSTRAINT_COL + i, row,
-				      ctxt->col_name_tbl[i]);
-	} else {
-		GString *buf;
-		for (i = 0; i < MAX_COL; i++) {
-			buf = g_string_new (NULL);
-			g_string_append_printf (buf, "C[%d]", i + 1);
-			mps_set_cell (sh, CONSTRAINT_COL + i, row, buf->str);
-			g_string_free (buf, TRUE);
-		}
-	}
-	mps_set_style (sh, CONSTRAINT_COL - 1, row,
-		       CONSTRAINT_COL + MAX_COL + 5,
-		       row, FALSE, TRUE, FALSE);
-
-
-	/* Value, Type, RHS, Slack, and Status titles. */
-	if (n_rows_per_fn == 1)
-		col = CONSTRAINT_COL + ctxt->n_cols - 1;
-	else
-		col = CONSTRAINT_COL + MAX_COL - 1;
-
-	mps_set_cell (sh, col + 1, row, _("Value"));
-	mps_set_cell (sh, col + 2, row, _("Type"));
-	mps_set_cell (sh, col + 3, row, _("RHS"));
-	mps_set_cell (sh, col + 4, row, _("Slack"));
-}
-
-
-static void
-mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
-			GnmSolverParameters *param)
-{
-	GSList  *current;
-	int     i, n, r, ecol, inc2;
-	int     n_rows_per_fn;
-	GnmRange   range, v_range;
-	GnmCell    *cell;
-	const GnmExprTop *texpr;
-
-	/*
-	 * Add objective function stuff into the sheet.
-	 */
-
-	/* Print the column names, initialize the variables to 0, and
-	 * print the coefficients of the objective function. */
-	n_rows_per_fn = (ctxt->n_cols + MAX_COL - 1) / MAX_COL;
-	if (n_rows_per_fn == 1)
-		ecol = CONSTRAINT_COL + ctxt->n_cols - 1;
-	else
-		ecol = CONSTRAINT_COL + MAX_COL - 1;
-	for (i = 0; i < ctxt->n_cols; i++) {
-		int col = VARIABLE_COL + i % MAX_COL;
-		int row = VARIABLE_ROW + i / MAX_COL;
-		mps_set_cell_float (sh, col, row, 0.0);
-		mps_set_cell_float (sh, col, row + (n_rows_per_fn + 1),
-				    ctxt->objective_row
-				    ? ctxt->matrix[ctxt->objective_row->index][i]
-				    : 0);
+		range_init (&r,
+			    VAR_BASE_COL + 1, VAR_BASE_ROW + 1,
+			    VAR_BASE_COL + 1, VAR_BASE_ROW + g_hash_table_size (state->col_hash));
+		vinput = value_new_cellrange_r (NULL, &r);
+		gnm_solver_param_set_input (param, vinput);
 	}
 
-	/*
-	 * Add constraints into the sheet.
-	 */
+	/* ---------------------------------------- */
 
-	/* Print constraints. */
-	inc2               = 2 * n_rows_per_fn;
-	param->constraints = NULL;
+	{
+		int x = OBJ_BASE_COL;
+		int y = OBJ_BASE_ROW;
+		MpsRow *row = g_ptr_array_index (state->rows, 0);
+		GnmCellRef cr;
 
-	/* Initialize var_range to contain the range name of the
-	 * objective function variables. */
-	range_init (&v_range,
-		    VARIABLE_COL, VARIABLE_ROW,
-		    VARIABLE_COL + MIN (MAX_COL, ctxt->n_cols) - 1,
-		    VARIABLE_ROW + n_rows_per_fn - 1);
+		mps_set_cell (state, x, y, _("Objective function"));
+		mps_set_style (state, x, y, x, y,  FALSE, TRUE, FALSE);
 
-	i = 0;
-	for (current = ctxt->rows; current != NULL; current = current->next) {
-	          GnmSolverConstraint   *c;
-		  MpsRow             *row = current->data;
-		  int                col, r;
-		  const GnmExprTop   *texpr;
-		  GnmCellRef          ref1, ref2;
+		if (row->expr) {
+			mps_set_expr (state, x + 1, y, row->expr);
+			row->expr = NULL;
+		} else
+			mps_set_cell_float (state, x + 1, y, 0);
 
-		  static const gchar *const type_str[] = {
-			  "=", "<=", ">="
-		  };
-		  static const GnmSolverConstraintType type_map[] = {
-			  GNM_SOLVER_EQ, GNM_SOLVER_LE, GNM_SOLVER_GE
-		  };
+		param->problem_type = GNM_SOLVER_MINIMIZE;
 
-		  if (row->type == ObjectiveRow)
-		          continue;
-		  col = CONSTRAINT_COL;
-		  r   = CONSTRAINT_ROW  +  i * n_rows_per_fn  +  inc2;
-
-		  /* Add row name. */
-		  mps_set_cell (sh, col - 1, r, row->name);
-
-		  /* Coefficients. */
-		  for (n = 0; n < ctxt->n_cols; n++)
-			  /* Write only non-zero coefficents in order to save
-			   * memory, and, in addition, to speed up the loading.
-			   */
-#ifndef MPS_WRITE_ZERO_COEFFICIENTS
-			  if (ctxt->matrix[row->index][n] != 0)
-#endif
-				  mps_set_cell_float
-					  (sh, col + n % MAX_COL,
-					   r + n / MAX_COL,
-					   ctxt->matrix[row->index][n]);
-
-		  /* Add Type field. */
-		  mps_set_cell (sh, ecol + 2, r, type_str[(int) row->type]);
-
-
-		  /* Add RHS field (zero). */
-		  mps_set_cell_float (sh, ecol + 3, r, 0);
-
-
-		  /* Add LHS field using SUMPRODUCT function. */
-		  range_init (&range,
-			      col, r,
-			      col + MIN (MAX_COL, ctxt->n_cols) - 1,
-			      r + (n_rows_per_fn - 1));
-
-		  cell = sheet_cell_fetch (sh, ecol + 1, r);
-		  texpr = gnm_expr_top_new
-			  (gnm_expr_new_funcall2
-			   (gnm_func_lookup ("SUMPRODUCT", NULL),
-			    gnm_expr_new_constant
-			    (value_new_cellrange_r (NULL, &v_range)),
-			    gnm_expr_new_constant
-			    (value_new_cellrange_r (NULL, &range))));
-		  gnm_cell_set_expr (cell, texpr);
-		  gnm_expr_top_unref (texpr);
-		  cell_queue_recalc (cell);
-
-		  /* Add Slack calculation */
-		  gnm_cellref_init (&ref1, sh, ecol + 1, r, FALSE);
-		  gnm_cellref_init (&ref2, sh, ecol + 3, r, FALSE);
-		  cell = sheet_cell_fetch (sh, ecol + 4, r);
-		  texpr = gnm_expr_top_new
-			  (gnm_expr_new_funcall1
-			   (gnm_func_lookup ("ABS", NULL),
-			    gnm_expr_new_binary
-			    (gnm_expr_new_cellref (&ref1),
-			     GNM_EXPR_OP_SUB,
-			     gnm_expr_new_cellref (&ref2))));
-		  gnm_cell_set_expr (cell, texpr);
-		  gnm_expr_top_unref (texpr);
-		  cell_queue_recalc (cell);
-
-		  /* Add Solver constraint */
-		  c = gnm_solver_constraint_new (sh);
-		  gnm_solver_constraint_set_old (c, type_map[row->type],
-						 ecol + 1, r,
-						 ecol + 3, r,
-						 1, 1);
-
-		  param->constraints = g_slist_append (param->constraints, c);
-		  i++;
-	}
-
-	/* Write RHSes. */
-	current = ctxt->rhs;
-	r   = CONSTRAINT_ROW  +  inc2;
-	while (current != NULL) {
-	          MpsRhs *rhs = current->data;
-
-		  mps_set_cell_float (sh, ecol + 3,
-				      r + rhs->row->index * n_rows_per_fn,
-				      rhs->value);
-		  current = current->next;
-	}
-
-	/* Write the objective fn. */
-	range_init (&range,
-		    VARIABLE_COL, VARIABLE_ROW + (1 + n_rows_per_fn),
-		    VARIABLE_COL + MIN (MAX_COL, ctxt->n_cols) - 1,
-		    VARIABLE_ROW + 2 * n_rows_per_fn);
-	texpr = gnm_expr_top_new
-		(gnm_expr_new_funcall2
-		 (gnm_func_lookup ("SUMPRODUCT", NULL),
-		  gnm_expr_new_constant
-		  (value_new_cellrange_r (NULL, &v_range)),
-		  gnm_expr_new_constant
-		  (value_new_cellrange_r (NULL, &range))));
-	cell = sheet_cell_fetch (sh, OBJECTIVE_VALUE_COL, MAIN_INFO_ROW);
-	gnm_cell_set_expr (cell, texpr);
-	gnm_expr_top_unref (texpr);
-	cell_queue_recalc (cell);
-
-	/* Store the input cell range for the Solver dialog. */
-	gnm_solver_param_set_input (param,
-				    value_new_cellrange_r (NULL, &v_range));
-}
-
-/* Creates the spreadsheet model. */
-static void
-mps_create_sheet (MpsInputContext *ctxt, WorkbookView *wbv)
-{
-        Sheet            *sh = wbv->current_sheet;
-	gint             i;
-	int              n_rows_per_fn;
-	GnmSolverParameters *param = sh->solver_parameters;
-	const char *row_name =
-		ctxt->objective_row
-		? ctxt->objective_row->name
-		: "-";
-	GnmCellRef cr;
-
-	n_rows_per_fn = (ctxt->n_cols + MAX_COL - 1) / MAX_COL;
-	mps_prepare (wbv, ctxt);
-
-	mps_write_sheet_labels (ctxt, sh);
-	mps_write_coefficients (ctxt, sh, param);
-
-	/* Print the name of the objective function */
-	if (ctxt->n_cols < MAX_COL)
-		mps_set_cell (sh, VARIABLE_COL - 1,
-			      VARIABLE_ROW + 1 + n_rows_per_fn,
-			      row_name);
-	else {
-		for (i = 0; i < n_rows_per_fn; i++) {
-			GString *buf = g_string_new (NULL);
-			g_string_append_printf (buf, "%s (R[%d])",
-						row_name, i + 1);
-			mps_set_cell (sh, VARIABLE_COL - 1,
-				      VARIABLE_ROW + 1 + i + n_rows_per_fn,
-				      buf->str);
-			g_string_free (buf, TRUE);
-		}
-	}
-
-	gnm_cellref_init (&cr, NULL, OBJECTIVE_VALUE_COL, MAIN_INFO_ROW, TRUE);
-	gnm_solver_param_set_target (param, &cr);
-	param->problem_type = GNM_SOLVER_MINIMIZE;
-
-	/* Write the name of the program. */
-	if (ctxt->name != NULL)
-		mps_set_cell (sh, MAIN_INFO_COL, MAIN_INFO_ROW, ctxt->name);
-
-
-	/* Autofit column A */
-	i = sheet_col_size_fit_pixels (sh, 0, 0, gnm_sheet_get_last_row (ctxt->sheet), FALSE);
-	if (i == 0)
-	          return;
-	sheet_col_set_size_pixels (sh, 0, i, TRUE);
-	sheet_recompute_spans_for_col (sh, 0);
-	workbook_recalc (sh->workbook);
-}
-
-
-/************************************************************************
- *
- * Data structure initializations and releasing.
- */
-
-/* Make the initializations. */
-static MpsInputContext *
-mps_input_context_new (GOIOContext *io_context, Workbook *wb, GsfInput *input)
-{
-        MpsInputContext *ctxt = NULL;
-
-	ctxt = g_new (MpsInputContext, 1);
-	ctxt->io_context     = io_context;
-
-	ctxt->input	     = (GsfInputTextline *)gsf_input_textline_new (input);
-	ctxt->line_no        = 1;
-	ctxt->line           = NULL;
-	ctxt->sheet          = workbook_sheet_add (wb, -1, GNM_DEFAULT_COLS, GNM_DEFAULT_ROWS);
-
-	ctxt->name           = NULL;
-	ctxt->rows           = NULL;
-	ctxt->cols           = NULL;
-	ctxt->rhs            = NULL;
-	ctxt->bounds         = NULL;
-        ctxt->row_hash	     = g_hash_table_new (g_str_hash, g_str_equal);
-        ctxt->col_hash	     = g_hash_table_new (g_str_hash, g_str_equal);
-        ctxt->col_name_tbl   = NULL;
-	ctxt->objective_row  = NULL;
-        ctxt->matrix	     = NULL;
-
-	ctxt->n_rows = ctxt->n_cols = ctxt->n_bounds = 0;
-
-	g_slist_free (ctxt->rows);
-
-	go_io_progress_message (io_context, _("Reading file..."));
-
-	return ctxt;
-}
-
-/* Call-back for mps_input_context_destroy. */
-static gboolean
-rh_rm_cb (gpointer key, gpointer value, gpointer user_data)
-{
-        return TRUE;
-}
-
-/* Call-back for mps_input_context_destroy. */
-static gboolean
-ch_rm_cb (gpointer key, gpointer value, gpointer user_data)
-{
-        MpsColInfo *info = (MpsColInfo *) value;
-
-	g_free (info->name);
-	g_free (info);
-
-        return TRUE;
-}
-
-static void
-free_row (MpsRow *row)
-{
-	if (row) {
-		g_free (row->name);
-		g_free (row);
+		gnm_cellref_init (&cr, NULL, x + 1, y, FALSE);
+		gnm_solver_param_set_target (param, &cr);
 	}
 }
 
-/* Free the allocated memory. */
-static void
-mps_input_context_destroy (MpsInputContext *ctxt)
-{
-        GSList *current;
-	int i;
+/* ------------------------------------------------------------------------- */
 
-	go_io_progress_unset (ctxt->io_context);
-
-	free_row (ctxt->objective_row);
-	ctxt->objective_row = NULL;
-
-	/* Free ROWS */
-	for (current = ctxt->rows; current != NULL; current = current->next) {
-	           MpsRow *row = current->data;
-		   free_row (row);
-	}
-	g_slist_free (ctxt->rows);
-	ctxt->rows = NULL;
-
-	/* Free COLUMNS */
-	for (current = ctxt->cols; current != NULL; current = current->next) {
-	           MpsCol *col = current->data;
-		   g_free (col->name);
-		   g_free (col);
-	}
-	g_slist_free (ctxt->cols);
-	ctxt->cols = NULL;
-
-	/* Free RHSs */
-	for (current = ctxt->rhs; current != NULL; current = current->next) {
-	           MpsRhs *rhs = current->data;
-		   g_free (rhs->name);
-		   g_free (rhs);
-	}
-	g_slist_free (ctxt->rhs);
-
-	/* Free BOUNDS */
-	for (current = ctxt->bounds; current!=NULL; current = current->next) {
-	           MpsBound *bound = current->data;
-		   g_free (bound->name);
-		   g_free (bound);
-	}
-	g_slist_free (ctxt->bounds);
-
-	g_hash_table_foreach_remove (ctxt->row_hash, (GHRFunc) rh_rm_cb, NULL);
-	g_hash_table_foreach_remove (ctxt->col_hash, (GHRFunc) ch_rm_cb, NULL);
-	g_hash_table_destroy (ctxt->row_hash);
-	g_hash_table_destroy (ctxt->col_hash);
-
-	g_free (ctxt->col_name_tbl);
-	ctxt->col_name_tbl = NULL;
-
-	if (ctxt->matrix) {
-		for (i = 0; i < ctxt->n_rows + ctxt->n_bounds; i++)
-			g_free (ctxt->matrix[i]);
-		g_free (ctxt->matrix);
-		ctxt->matrix = NULL;
-	}
-
-	g_free (ctxt->name);
-	g_object_unref (G_OBJECT (ctxt->input)); ctxt->input = NULL;
-	g_free (ctxt);
-}
-
-
-
-/*---------------------------------------------------------------------*/
-
-/*
- * The public plug-in API.
- */
+void
+mps_file_open  (GOFileOpener const *fo, GOIOContext *io_context,
+		WorkbookView *wbv, GsfInput *input);
 
 void
 mps_file_open (GOFileOpener const *fo, GOIOContext *io_context,
                WorkbookView *wbv, GsfInput *input)
 {
-        MpsInputContext *ctxt;
+	MpsState state;
+	GnmLocale *locale;
+	unsigned ui;
 
-	ctxt = mps_input_context_new (io_context, wb_view_get_workbook (wbv),
-				      input);
-	if (ctxt != NULL) {
-	        mps_parse_file (ctxt);
-		if (go_io_error_occurred (io_context)) {
-		        go_io_error_push (io_context, go_error_info_new_str
-						(_("Error while reading MPS "
-						   "file.")));
-		} else
-			mps_create_sheet (ctxt, wbv);
-		mps_input_context_destroy (ctxt);
-	} else if (!go_io_error_occurred (io_context))
-		go_io_error_unknown (io_context);
+	memset (&state, 0, sizeof (state));
+	state.io_context = io_context;
+	state.wb = wb_view_get_workbook (wbv);
+	state.input = GSF_INPUT_TEXTLINE (gsf_input_textline_new (input));
+	state.sheet = workbook_sheet_add (state.wb, -1,
+					  GNM_DEFAULT_COLS, GNM_DEFAULT_ROWS);
+	state.param = state.sheet->solver_parameters;
+	state.split = g_ptr_array_new ();
+	state.rows = g_ptr_array_new ();
+	state.row_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	state.col_hash = g_hash_table_new_full (g_str_hash, g_str_equal,
+						g_free, NULL);
+
+	locale = gnm_push_C_locale ();
+	mps_parse_file (&state);
+	gnm_pop_C_locale (locale);
+
+	if (go_io_error_occurred (io_context)) {
+		go_io_error_push (io_context, go_error_info_new_str
+				  (_("Error while reading MPS file.")));
+	} else {
+		mps_fill_sheet (&state);
+
+		workbook_queue_all_recalc (state.wb);
+		workbook_recalc (state.wb);
+	}
+
+	g_hash_table_destroy (state.row_hash);
+	for (ui = 0; ui < state.rows->len; ui++) {
+		MpsRow *row = g_ptr_array_index (state.rows, ui);
+		if (!row)
+			continue;
+		g_free (row->name);
+		if (row->expr)
+			gnm_expr_free (row->expr);
+		g_free (row);
+	}
+	g_ptr_array_free (state.rows, TRUE);
+
+	g_hash_table_destroy (state.col_hash);
+
+	g_ptr_array_free (state.split, TRUE);
+	g_object_unref (state.input);
 }

@@ -1,3 +1,7 @@
+2009-11-19  Morten Welinder  <terra@gnome.org>
+
+	* mps.c: Re-implement.
+
 2009-11-17  Morten Welinder  <terra@gnome.org>
 
 	* parser.c (mps_add_column, mps_add_rhs, mps_add_bound): Use

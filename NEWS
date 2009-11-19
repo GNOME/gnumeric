@@ -24,6 +24,7 @@ Morten:
 	* Fix extreme case for R.PGAMMA.
 	* Fix solver undo/redo.
 	* Make solver parameter changes always persist.  [#440664]
+	* Re-implement MPS importer.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.15
