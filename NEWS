@@ -6,6 +6,7 @@ Andreas:
 	* Turn view properties dialog into instant-apply dialog.
 	* Temporarily remember the sort setups. [#100541]
 	* Work around GTK bug #601922.
+	* Add ADTEST (Anderson-Darling Test for Normality).
 
 Jean:
 	* Fix cursor and cell edition on dark backgrounds. [#600656]

@@ -1,10 +1,17 @@
+2009-11-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* plugin.xml.in: add ADTEST
+	* functions.c (help_adtest): new
+	(gnumeric_adtest): new
+	(stat_functions): add ADTEST
+
 2009-11-01  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.15
 
 2009-10-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* functions.c (help_binom_dist-range): new
+	* functions.c (help_binom_dist_range): new
 	(gnumeric_binom_dist_range): new
 	(stat_functions): add BINOM.DIST.RANGE
 	* plugin.xml.in: add BINOM.DIST.RANGE

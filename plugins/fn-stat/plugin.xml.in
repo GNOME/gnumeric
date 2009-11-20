@@ -11,6 +11,7 @@
 		<service type="function_group" id="stat">
 			<_category>Statistics</_category>
 			<functions textdomain="gnumeric-functions">
+				<function name="adtest"/>
 				<function name="avedev"/>
 				<function name="average"/>
 				<function name="averagea"/>

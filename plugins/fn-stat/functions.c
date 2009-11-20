@@ -4860,7 +4860,92 @@ gnumeric_permutationa (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_adtest[] = {
+	{ GNM_FUNC_HELP_NAME, F_("ADTEST:Anderson-Darling Test of Normality") },
+	{ GNM_FUNC_HELP_ARG, F_("x:array of sample values") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns an array with the first row giving the p-value of the Anderson-Darling Test,"
+					" the second row the test statistic of the test, and the third the number of observations in the sample.")},
+	{ GNM_FUNC_HELP_NOTE, "If there are less than 8 sample values, ADTEST returns #VALUE!" },
+	{ GNM_FUNC_HELP_SEEALSO, "CHITEST" },
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Anderson–Darling_test") },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_adtest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float *xs;
+	int n;
+	GnmValue *result = NULL;
+	gnm_float mu = 0.;
+	gnm_float sigma = 1.;
+
+	xs = collect_floats_value (argv[0], ei->pos,
+				   COLLECT_IGNORE_STRINGS |
+				   COLLECT_IGNORE_BOOLS |
+				   COLLECT_IGNORE_BLANKS |
+				   COLLECT_ORDER_IRRELEVANT,
+				   &n, &result);
+
+	if (result)
+		goto out;
+
+	result = value_new_array (1, 3);
+	value_array_set (result, 0, 2,
+			 value_new_int (n));
+
+	if ((n < 8) || gnm_range_average (xs, n, &mu) 
+	    || gnm_range_stddev_est (xs, n, &sigma)) {
+		value_array_set (result, 0, 0,
+				 value_new_error_VALUE (ei->pos));
+		value_array_set (result, 0, 1,
+				 value_new_error_VALUE (ei->pos));
+	} else {
+		int i;
+		gnm_float total = 0.;
+		gnm_float p;
+		gnm_float *ys;
+
+		ys = range_sort (xs, n);
+
+		for (i = 0; i < n; i++) {
+			gnm_float val = (pnorm (ys[i], mu, sigma, TRUE, TRUE) + pnorm (ys[n - i - 1], mu, sigma, FALSE, TRUE));
+			total += ((2*i+1)* val);
+		}
+
+		total = - n - total/n;
+		value_array_set (result, 0, 1,
+				 value_new_float (total));
+
+		g_free (ys);
+	
+		total *= (1 + 0.75 / n + 2.25 / (n * n));
+		if (total < 0.2)
+			p = 1. - gnm_exp (-13.436 + 101.14 * total - 223.73 * total * total);
+		else if (total < 0.34)	
+			p = 1. - gnm_exp (-8.318 + 42.796 * total - 59.938 * total * total);
+		else if (total < 0.6)
+			p = gnm_exp (0.9177 - 4.279  * total - 1.38 * total * total);
+		else
+			p = gnm_exp (1.2937 - 5.709 * total + 0.0186 * total * total);
+
+		value_array_set (result, 0, 0,
+				 value_new_float (p));
+	}
+	
+ out:
+	g_free (xs);
+
+	return result;
+}
+
+/***************************************************************************/
+
 GnmFuncDescriptor const stat_functions[] = {
+	{ "adtest",       "A",
+	  help_adtest, gnumeric_adtest, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, 
+	  GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
         { "avedev", NULL,
 	  help_avedev, NULL, gnumeric_avedev, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
