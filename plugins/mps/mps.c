@@ -44,6 +44,7 @@ typedef struct {
 	GnmSolverConstraintType type;
 	GnmExpr const *expr;
 	gnm_float rhs;
+	gnm_float range;
 } MpsRow;
 
 typedef struct {
@@ -271,31 +272,55 @@ mps_parse_rows (MpsState *state)
 static void
 mps_parse_columns (MpsState *state)
 {
+	gboolean integer = FALSE;
+	GnmCell *cell = NULL;
+
 	while (splitline (state)) {
 		GPtrArray *split = state->split;
 		const char *colname;
 		unsigned ui;
-		GnmCell *cell;
 
-		if (split->len % 2 != 1) {
-			mps_mark_error (state,
-					_("Invalid column line"));
+		if (split->len == 3 &&
+		    strcmp (g_ptr_array_index (split, 1), "'MARKER'") == 0) {
+			const char *marker = g_ptr_array_index (split, 2);
+			if (strcmp (marker, "'INTORG'") == 0)
+				integer = TRUE;
+			else if (strcmp (marker, "'INTEND'") == 0)
+				integer = FALSE;
+			else {
+				mps_mark_error (state,
+						_("Invalid marker"));
+			}
 			continue;
 		}
 
-		colname = g_ptr_array_index (split, 0);
-		cell = g_hash_table_lookup (state->col_hash, colname);
+		if (split->len % 2 == 0) {
+			colname = NULL;
+			/* Re-use cell */
+		} else {
+			colname = g_ptr_array_index (split, 0);
+			cell = g_hash_table_lookup (state->col_hash, colname);
+		}
+
 		if (!cell) {
 			int x = VAR_BASE_COL;
 			int y = VAR_BASE_ROW + 1 + g_hash_table_size (state->col_hash);
 			cell = sheet_cell_fetch (state->sheet, x + 1, y);
-			g_hash_table_insert (state->col_hash,
-					     g_strdup (colname),
-					     cell);
-			mps_set_cell (state, x, y, colname);
+			if (colname) {
+				g_hash_table_insert (state->col_hash,
+						     g_strdup (colname),
+						     cell);
+				mps_set_cell (state, x, y, colname);
+			}
+
+			if (integer) {
+				MpsRow *row = g_new0 (MpsRow, 1);
+				row->type = GNM_SOLVER_INTEGER;
+				g_ptr_array_add (state->rows, row);
+			}
 		}
 
-		for (ui = 1; ui < split->len; ui += 2) {
+		for (ui = split->len % 2; ui < split->len; ui += 2) {
 			const char *rowname = g_ptr_array_index (split, ui);
 			const char *valtxt = g_ptr_array_index (split, ui + 1);
 			gnm_float val = gnm_strto (valtxt, NULL);
@@ -345,7 +370,79 @@ mps_parse_columns (MpsState *state)
 }
 
 static void
-mps_parse_rhs (MpsState *state)
+mps_parse_bounds (MpsState *state)
+{
+	while (splitline (state)) {
+		GPtrArray *split = state->split;
+		const char *bt = split->len
+			? g_ptr_array_index (split, 0)
+			: "?";
+		GnmSolverConstraintType type;
+		gboolean integer = FALSE;
+		unsigned ui;
+
+		if (strcmp (bt, "UP") == 0 || strcmp (bt, "UI") == 0) {
+			type = GNM_SOLVER_LE;
+			integer = (bt[1] == 'I');
+		} else if (strcmp (bt, "LO") == 0 ||
+			   strcmp (bt, "LI") == 0) {
+			type = GNM_SOLVER_GE;
+			integer = (bt[1] == 'I');
+		} else if (strcmp (bt, "FX") == 0)
+			type = GNM_SOLVER_EQ;
+		else if (strcmp (bt, "FR") == 0 ||
+			 strcmp (bt, "PL") == 0 ||
+			 strcmp (bt, "MI") == 0)
+			continue;
+		else if (strcmp (bt, "BV") == 0)
+			integer = TRUE;
+		else {
+			mps_mark_error (state,
+					_("Invalid bounds type %s"),
+					type);
+			continue;
+		}
+
+		for (ui = 2 - split->len % 2; ui < split->len; ui += 2) {
+			const char *colname = g_ptr_array_index (split, ui);
+			MpsRow *row;
+			GnmCell *cell = g_hash_table_lookup (state->col_hash,
+							     colname);
+			const char *valtxt = g_ptr_array_index (split, ui + 1);
+			gnm_float val = gnm_strto (valtxt, NULL);
+			GnmCellRef cr;
+
+			if (!cell) {
+				mps_mark_error (state,
+						_("Invalid column name, %s, in bounds"),
+						colname);
+				continue;
+			}
+
+			gnm_cellref_init (&cr, NULL,
+					  cell->pos.col, cell->pos.row,
+					  FALSE);
+
+			row = g_new0 (MpsRow, 1);
+			row->name = g_strdup (colname);
+			row->type = type;
+			row->rhs = val;
+			row->expr = gnm_expr_new_cellref (&cr);
+			g_ptr_array_add (state->rows, row);
+
+			if (integer) {
+				row = g_new0 (MpsRow, 1);
+				row->name = g_strdup (colname);
+				row->type = GNM_SOLVER_INTEGER;
+				row->expr = gnm_expr_new_cellref (&cr);
+				g_ptr_array_add (state->rows, row);
+			}
+		}
+	}
+}
+
+static void
+mps_parse_rhs (MpsState *state, gboolean is_rhs)
 {
 	while (splitline (state)) {
 		GPtrArray *split = state->split;
@@ -355,16 +452,21 @@ mps_parse_rhs (MpsState *state)
 		for (ui = split->len % 2; ui < split->len; ui += 2) {
 			const char *rowname = g_ptr_array_index (split, ui);
 			const char *valtxt = g_ptr_array_index (split, ui + 1);
+			gnm_float val = gnm_strto (valtxt, NULL);
 			MpsRow *row = g_hash_table_lookup (state->row_hash,
 							   rowname);
 
 			if (!row) {
 				mps_mark_error (state,
-						_("Invalid row name, %s, in rhs"),
+						_("Invalid row name, %s, in rhs/ranges section"),
 						rowname);
 				continue;
 			}
-			row->rhs += gnm_strto (valtxt, NULL);			
+
+			if (is_rhs)
+				row->rhs += val;
+			else
+				row->range += val;
 		}
 	}
 }
@@ -398,8 +500,12 @@ mps_parse_file (MpsState *state)
 			mps_parse_rows (state);
 		else if (strcmp (section, "COLUMNS") == 0)
 			mps_parse_columns (state);
+		else if (strcmp (section, "BOUNDS") == 0)
+			mps_parse_bounds (state);
 		else if (strcmp (section, "RHS") == 0)
-			mps_parse_rhs (state);
+			mps_parse_rhs (state, TRUE);
+		else if (strcmp (section, "RANGES") == 0)
+			mps_parse_rhs (state, FALSE);
 		else {
 			g_warning ("Invalid section %s\n", section);
 			ignore_section (state);
@@ -411,78 +517,111 @@ mps_parse_file (MpsState *state)
 /* ------------------------------------------------------------------------- */
 
 static void
+make_constraint (MpsState *state, int x, int y, MpsRow *row,
+		 GnmSolverConstraintType type, gnm_float rhs)
+{
+	GnmSolverParameters *param = state->param;
+	GnmSolverConstraint *c = gnm_solver_constraint_new (state->sheet);
+	GnmRange r;
+	const char * const type_str[] =	{
+		"\xe2\x89\xa4" /* "<=" */,
+		"\xe2\x89\xa5" /* ">=" */,
+		"=", "Int", "Bool"
+	};
+
+	if (row->name)
+		mps_set_cell (state, x, y, row->name);
+	if (row->expr) {
+		GnmCellRef cr;
+		mps_set_expr (state, x + 1, y, row->expr);
+		gnm_cellref_init (&cr, NULL, 0, -1, TRUE);
+		row->expr = gnm_expr_new_cellref (&cr);
+	} else
+		mps_set_cell_float (state, x + 1, y, 0);
+	range_init (&r, x + 1, y, x + 1, y);
+	gnm_solver_constraint_set_lhs
+		(c,
+		 value_new_cellrange_r (NULL, &r));
+
+	c->type = type;
+
+	mps_set_cell (state, x + 2, y, type_str[type]);
+
+	if (gnm_solver_constraint_has_rhs (c)) {
+		mps_set_cell_float (state, x + 3, y, rhs);
+		range_init (&r, x + 3, y, x + 3, y);
+		gnm_solver_constraint_set_rhs
+			(c,
+			 value_new_cellrange_r (NULL, &r));
+	}
+
+	param->constraints = g_slist_append (param->constraints, c);
+}
+		 
+
+
+static void
 mps_fill_sheet (MpsState *state)
 {
 	unsigned ui;
 	GnmSolverParameters *param = state->param;
+	int x = CONSTR_BASE_COL;
+	int y = CONSTR_BASE_ROW;
 
 	/* ---------------------------------------- */
 
-	mps_set_cell (state, CONSTR_BASE_COL, CONSTR_BASE_ROW,
-		      _("Constraint"));
-	mps_set_cell (state, CONSTR_BASE_COL + 1, CONSTR_BASE_ROW,
-		      _("Value"));
-	mps_set_cell (state, CONSTR_BASE_COL + 2, CONSTR_BASE_ROW,
-		      _("Type"));
-	mps_set_cell (state, CONSTR_BASE_COL + 3, CONSTR_BASE_ROW,
-		      _("Limit"));
-	mps_set_style (state, CONSTR_BASE_COL, CONSTR_BASE_ROW,
-		       CONSTR_BASE_COL + 3, CONSTR_BASE_ROW,
-		       FALSE, TRUE, FALSE);
+	mps_set_cell (state, x, y,  _("Constraint"));
+	mps_set_cell (state, x + 1, y, _("Value"));
+	mps_set_cell (state, x + 2, y, _("Type"));
+	mps_set_cell (state, x + 3, y, _("Limit"));
+	mps_set_style (state, x, y, x + 3, y, FALSE, TRUE, FALSE);
 
 	/* Zeroth row is objective function.  */
 	for (ui = 1; ui < state->rows->len; ui++) {
-		int x = CONSTR_BASE_COL;
-		int y = CONSTR_BASE_ROW + ui;
 		MpsRow *row = g_ptr_array_index (state->rows, ui);
-		const char *typetxt;
-		GnmSolverConstraint *c = gnm_solver_constraint_new
-			(state->sheet);
-		GnmRange r;
 
-		mps_set_cell (state, x, y, row->name);
-		if (row->expr) {
-			mps_set_expr (state, x + 1, y, row->expr);
-			row->expr = NULL;
-		} else
-			mps_set_cell_float (state, x + 1, y, 0);
-		range_init (&r, x + 1, y, x + 1, y);
-		gnm_solver_constraint_set_lhs
-			(c,
-			 value_new_cellrange_r (NULL, &r));
+		y++;
 
-		c->type = row->type;
 		switch (row->type) {
 		case GNM_SOLVER_LE:
-			typetxt = "\xe2\x89\xa4";
+			if (row->range != 0)
+				make_constraint (state, x, y++, row,
+						 GNM_SOLVER_GE,
+						 row->rhs - gnm_abs (row->range));
+			make_constraint (state, x, y, row, row->type, row->rhs);
 			break;
 		case GNM_SOLVER_GE:
-			typetxt = "\xe2\x89\xa5";
+			make_constraint (state, x, y, row, row->type, row->rhs);
+			if (row->range != 0)
+				make_constraint (state, x, ++y, row,
+						 GNM_SOLVER_LE,
+						 row->rhs + gnm_abs (row->range));
 			break;
 		case GNM_SOLVER_EQ:
-			typetxt = "=";
+			if (row->range == 0)
+				make_constraint (state, x, y, row,
+						 row->type, row->rhs);
+			else if (row->range > 0) {
+				make_constraint (state, x, y, row,
+						 GNM_SOLVER_GE, row->rhs);
+				make_constraint (state, x, y, row,
+						 GNM_SOLVER_LE,
+						 row->rhs + gnm_abs (row->range));
+			} else {
+				make_constraint (state, x, y, row,
+						 GNM_SOLVER_GE,
+						 row->rhs - gnm_abs (row->range));
+				make_constraint (state, x, y, row,
+						 GNM_SOLVER_LE, row->rhs);
+			}
 			break;
 		case GNM_SOLVER_INTEGER:
-			typetxt = "Integer";
-			break;
 		case GNM_SOLVER_BOOLEAN:
-			typetxt = "Boolean";
+			make_constraint (state, x, y, row, row->type, 0);
 			break;
 		default:
 			g_assert_not_reached ();
 		}
-
-		mps_set_cell (state, x + 2, y, typetxt);
-
-		if (gnm_solver_constraint_has_rhs (c)) {
-			mps_set_cell_float (state, x + 3, y, row->rhs);
-			range_init (&r, x + 3, y, x + 3, y);
-			gnm_solver_constraint_set_rhs
-				(c,
-				 value_new_cellrange_r (NULL, &r));
-		}
-
-		param->constraints = g_slist_append (param->constraints, c);
 	}
 
 	/* ---------------------------------------- */
