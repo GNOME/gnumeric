@@ -315,7 +315,14 @@ mps_parse_columns (MpsState *state)
 
 			if (integer) {
 				MpsRow *row = g_new0 (MpsRow, 1);
+				GnmCellRef cr;
+
+				gnm_cellref_init (&cr, NULL,
+						  cell->pos.col, cell->pos.row,
+						  FALSE);
+				row->name = g_strdup (colname);
 				row->type = GNM_SOLVER_INTEGER;
+				row->expr = gnm_expr_new_cellref (&cr);
 				g_ptr_array_add (state->rows, row);
 			}
 		}
@@ -529,6 +536,25 @@ make_constraint (MpsState *state, int x, int y, MpsRow *row,
 		"=", "Int", "Bool"
 	};
 
+	c->type = type;
+	if (gnm_solver_constraint_has_rhs (c)) {
+		range_init (&r, x + 1, y, x + 1, y);
+		gnm_solver_constraint_set_lhs
+			(c,
+			 value_new_cellrange_r (NULL, &r));
+		range_init (&r, x + 3, y, x + 3, y);
+		gnm_solver_constraint_set_rhs
+			(c,
+			 value_new_cellrange_r (NULL, &r));
+
+		mps_set_cell_float (state, x + 3, y, rhs);
+	} else {
+		/* Refer directly to the variable.  */
+		gnm_solver_constraint_set_lhs
+			(c,
+			 gnm_expr_get_range (row->expr));
+	}
+
 	if (row->name)
 		mps_set_cell (state, x, y, row->name);
 	if (row->expr) {
@@ -538,22 +564,8 @@ make_constraint (MpsState *state, int x, int y, MpsRow *row,
 		row->expr = gnm_expr_new_cellref (&cr);
 	} else
 		mps_set_cell_float (state, x + 1, y, 0);
-	range_init (&r, x + 1, y, x + 1, y);
-	gnm_solver_constraint_set_lhs
-		(c,
-		 value_new_cellrange_r (NULL, &r));
-
-	c->type = type;
 
 	mps_set_cell (state, x + 2, y, type_str[type]);
-
-	if (gnm_solver_constraint_has_rhs (c)) {
-		mps_set_cell_float (state, x + 3, y, rhs);
-		range_init (&r, x + 3, y, x + 3, y);
-		gnm_solver_constraint_set_rhs
-			(c,
-			 value_new_cellrange_r (NULL, &r));
-	}
 
 	param->constraints = g_slist_append (param->constraints, c);
 }
