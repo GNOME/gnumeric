@@ -156,6 +156,7 @@ src/dialogs/dialog-advanced-filter.c
 src/dialogs/dialog-analysis-tool-chi-squared.c
 src/dialogs/dialog-analysis-tool-frequency.c
 src/dialogs/dialog-analysis-tool-kaplan-meier.c
+src/dialogs/dialog-analysis-tool-normality.c
 src/dialogs/dialog-analysis-tools.c
 src/dialogs/dialog-autofilter.c
 src/dialogs/dialog-autoformat.c
@@ -324,6 +325,7 @@ src/tools/analysis-exp-smoothing.c
 src/tools/analysis-frequency.c
 src/tools/analysis-histogram.c
 src/tools/analysis-kaplan-meier.c
+src/tools/analysis-normality.c
 src/tools/analysis-tools.c
 src/tools/dao.c
 src/tools/data-shuffling.c

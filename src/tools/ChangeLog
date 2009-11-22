@@ -1,3 +1,12 @@
+2009-11-21 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-normality.c: new
+	* analysis-normality.h: new
+	* Makefile.am: add analysis-normality.[ch]
+	* analysis-exp-smoothing.c: fix comment
+	* analysis-tools.h (analysis_tools_write_label): new
+	* analysis-tools.c (analysis_tools_write_label): make non-static
+
 2009-11-17  Morten Welinder  <terra@gnome.org>
 
 	* gnm-solver.c (cb_child_exit): When child exits, close the GPid.

@@ -209,7 +209,9 @@ gboolean analysis_tool_generic_clean (gpointer specs);
 gboolean analysis_tool_generic_b_clean (gpointer specs);
 
 int analysis_tool_calc_length (analysis_tools_data_generic_t *info);
-
+void analysis_tools_write_label (GnmValue *val, data_analysis_output_t *dao,
+				 analysis_tools_data_generic_t *info,
+				 int x, int y, int i);
 void prepare_input_range (GSList **input_range, group_by_t group_by);
 
 const GnmExpr *make_cellref (int dx, int dy);

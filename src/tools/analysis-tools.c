@@ -166,7 +166,7 @@ analysis_tools_remove_label (GnmValue *val,
  *
  */
 
-static void
+void
 analysis_tools_write_label (GnmValue *val, data_analysis_output_t *dao,
 			    analysis_tools_data_generic_t *info,
 			    int x, int y, int i)

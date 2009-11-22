@@ -1,3 +1,12 @@
+2009-11-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* normality-tests.glade: new
+	* dialog-analysis-tool-normality.c: new
+	* Makefile.am: add dialog-analysis-tool-normality.c and
+	  normality-tests.glade
+	* dialogs.h (dialog_normality_tool): new
+	* help.h: add GNUMERIC_HELP_LINK_NORMALITY
+
 2009-11-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-cell-sort.c (cb_update_sensitivity): rename to

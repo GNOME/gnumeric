@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * analysis-histogram.c:
+ * analysis-exp-smoothing.c:
  *
   * This is a complete reimplementation of the exponential smoothing tool in tool in 2008
  *

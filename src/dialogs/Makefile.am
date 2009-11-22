@@ -29,6 +29,7 @@ base_files =					\
 	dialog-analysis-tool-chi-squared.c	\
 	dialog-analysis-tool-frequency.c	\
 	dialog-analysis-tool-kaplan-meier.c	\
+	dialog-analysis-tool-normality.c	\
 	dialog-autofilter.c			\
 	dialog-autoformat.c			\
 	dialog-autosave.c			\
@@ -134,6 +135,7 @@ glade_DATA = 				\
 	mean-tests.glade		\
 	merge.glade			\
 	moving-averages.glade		\
+	normality-tests.glade		\
 	paste-names.glade		\
 	plugin-manager.glade		\
 	preferences.glade 		\

@@ -879,6 +879,7 @@ static GNM_ACTION_DEF (cb_tools_fourier)	{ dialog_fourier_tool (wbcg, wbcg_cur_s
 static GNM_ACTION_DEF (cb_tools_frequency)	{ dialog_frequency_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_histogram)	{ dialog_histogram_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_kaplan_meier)	{ dialog_kaplan_meier_tool (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_normality_tests){ dialog_normality_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_ranking)	{ dialog_ranking_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_regression)	{ dialog_regression_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_sampling)	{ dialog_sampling_tool (wbcg, wbcg_cur_sheet (wbcg)); }
@@ -2136,6 +2137,9 @@ static GtkActionEntry const actions[] = {
 	{ "ToolsKaplanMeier", NULL, N_("_Kaplan-Meier Estimates..."),
 		NULL, N_("Creation of Kaplan-Meier Survival Curves"),
 		G_CALLBACK (cb_tools_kaplan_meier) },
+	{ "ToolsNormalityTests", NULL, N_("_Normality Tests..."),
+		NULL, N_("Testing a sample for normality"),
+		G_CALLBACK (cb_tools_normality_tests) },
 
 /* Data */
 	{ "DataSort", GTK_STOCK_SORT_ASCENDING, N_("_Sort..."),

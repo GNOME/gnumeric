@@ -155,6 +155,9 @@
 /* dialog-analysis-tool-kaplan-meier.c */
 #define GNUMERIC_HELP_LINK_KAPLAN_MEIER "sect-analysis-statistical"
 
+/* dialog-analysis-tool-normality.c */
+#define GNUMERIC_HELP_LINK_NORMALITY "sect-analysis-statistical"
+
 /* dialog-consolidate.c     */
 #define GNUMERIC_HELP_LINK_CONSOLIDATE ""
 
