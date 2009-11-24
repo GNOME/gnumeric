@@ -787,7 +787,7 @@ solver_add_scenario (SolverState *state, GnmSolverResult *res, gchar const *name
 	scenario_add_new (name, input_range,
 			  value_peek_string (gnm_solver_param_get_input (param)),
 			  comment, state->sheet, &scenario);
-	scenario_add (state->sheet, scenario);
+	gnm_sheet_scenario_add (scenario->sheet, scenario);
 	value_release (input_range);
 }
 

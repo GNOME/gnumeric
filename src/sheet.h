@@ -281,7 +281,10 @@ void gnm_sheet_foreach_name (Sheet const *sheet, GHFunc func, gpointer data);
 
 void gnm_sheet_set_solver_params (Sheet *sheet, GnmSolverParameters *param);
 
-GnmScenario *gnm_sheet_get_scenario (Sheet *sheet, const char *name);
+GnmScenario *gnm_sheet_scenario_new (Sheet *sheet, const char *name);
+GnmScenario *gnm_sheet_scenario_find (Sheet *sheet, const char *name);
+void gnm_sheet_scenario_add (Sheet *sheet, GnmScenario *sc);
+void gnm_sheet_scenario_remove (Sheet *sheet, GnmScenario *sc);
 
 GHashTable *gnm_sheet_get_sort_setups (Sheet *sheet);
 void gnm_sheet_add_sort_setup (Sheet *sheet, char *key, gpointer setup);

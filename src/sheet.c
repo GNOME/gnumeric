@@ -5778,8 +5778,59 @@ gnm_sheet_set_solver_params (Sheet *sheet, GnmSolverParameters *param)
 	sheet->solver_parameters = param;
 }
 
+/* ------------------------------------------------------------------------- */
+
 GnmScenario *
-gnm_sheet_get_scenario (Sheet *sheet, const char *name)
+gnm_sheet_scenario_new (Sheet *sheet, const char *name)
+{
+	GnmScenario *sc;
+	char *actual_name;
+
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (name != NULL, NULL);
+
+	/* Check if a scenario having the same name already exists. */
+	if (gnm_sheet_scenario_find (sheet, name)) {
+		GString *str = g_string_new (NULL);
+		gchar   *tmp;
+		int     i, j, len;
+
+		len = strlen (name);
+		if (len > 1 && name [len - 1] == ']') {
+			for (i = len - 2; i > 0; i--) {
+				if (! g_ascii_isdigit (name [i]))
+					break;
+			}
+
+			tmp = g_strdup (name);
+			if (i > 0 && name [i] == '[')
+				tmp [i] = '\0';
+		} else
+			tmp = g_strdup (name);
+
+		for (j = 1; ; j++) {
+			g_string_printf (str, "%s [%d]", tmp, j);
+			if (!gnm_sheet_scenario_find (sheet, name)) {
+				actual_name = g_string_free (str, FALSE);
+				str = NULL;
+				break;
+			}
+		}
+		if (str)
+			g_string_free (str, TRUE);
+		g_free (tmp);
+	} else
+		actual_name = g_strdup (name);
+
+	sc = gnm_scenario_new (actual_name, NULL, sheet);
+
+	g_free (actual_name);
+
+	return sc;
+}
+
+GnmScenario *
+gnm_sheet_scenario_find (Sheet *sheet, const char *name)
 {
 	GList *l;
 
@@ -5794,6 +5845,28 @@ gnm_sheet_get_scenario (Sheet *sheet, const char *name)
 
 	return NULL;
 }
+
+void
+gnm_sheet_scenario_add (Sheet *sheet, GnmScenario *sc)
+{
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (GNM_IS_SCENARIO (sc));
+
+	/* We take ownership of the ref.  */
+	sheet->scenarios = g_list_append (sheet->scenarios, sc);
+}
+
+void
+gnm_sheet_scenario_remove (Sheet *sheet, GnmScenario *sc)
+{
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (GNM_IS_SCENARIO (sc));
+
+	sheet->scenarios = g_list_remove (sheet->scenarios, sc);
+	g_object_unref (sc);
+}
+
+/* ------------------------------------------------------------------------- */
 
 GHashTable *
 gnm_sheet_get_sort_setups (Sheet *sheet)
