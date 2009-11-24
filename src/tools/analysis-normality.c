@@ -54,13 +54,33 @@ analysis_tool_normality_engine_run (data_analysis_output_t *dao,
 	char const *n_comment;
 
 	switch (info->type) {
-	case 'a':
-	default:
+	case normality_test_type_andersondarling:
 		fdname = "ADTEST";
 		testname = N_("Anderson-Darling Test");
 		n_comment = N_("For the Anderson-Darling Test\n"
-			       "the size the sample must be at\n"
+			       "the sample size must be at\n"
 			       "least 8.");
+		break;
+	case normality_test_type_cramervonmises:
+		fdname = "CVMTEST";
+		testname = N_("Cram\xc3\xa9r-von Mises Test");
+		n_comment = N_("For the Cram\xc3\xa9r-von Mises Test\n"
+			       "the sample size must be at\n"
+			       "least 8.");
+		break;
+	case normality_test_type_lilliefors:
+		fdname = "LKSTEST";
+		testname = N_("Lilliefors (Kolmogorov-Smirnov) Test");
+		n_comment = N_("For the Lilliefors (Kolmogorov-Smirnov) Test\n"
+			       "the sample size must be at least 5.");
+		break;
+	case normality_test_type_shapirofrancia:
+		fdname = "SFTEST";
+		testname = N_("Shapiro-Francia Test");
+		n_comment = N_("For the Shapiro-Francia Test\n"
+			       "the sample size must be at\n"
+			       "least 5 and at most 5000.");
+		break;		
 	}
 
 	fd = gnm_func_lookup_or_add_placeholder 

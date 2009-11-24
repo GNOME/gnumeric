@@ -1,3 +1,10 @@
+2009-11-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-normality.h (analysis_tools_data_normality_t):
+	  modify fields
+	* analysis-normality.c (analysis_tool_normality_engine_run):
+	  handle additional tests.
+	
 2009-11-24  Morten Welinder  <terra@gnome.org>
 
 	* scenarios.c (scenarios_insert_rows, scenarios_insert_cols,

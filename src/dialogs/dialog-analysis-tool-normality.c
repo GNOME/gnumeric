@@ -69,6 +69,14 @@ static char const * const grouped_by_group[] = {
 	NULL
 };
 
+static char const * const test_group[] = {
+	"andersondarling",
+	"cramervonmises",
+	"lilliefors",
+	"shapirofrancia",
+	NULL
+};
+
 /**
  * normality_tool_update_sensitivity_cb:
  * @dummy:
@@ -149,7 +157,10 @@ normality_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->alpha = gtk_spin_button_get_value
 		(GTK_SPIN_BUTTON (state->alpha_entry));
 
-	data->type = 'A';
+	data->type = gnumeric_glade_group_value (state->base.gui, test_group);
+
+	w = glade_xml_get_widget (state->base.gui, "normalprobabilityplot");
+	data->graph = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
 				dao, data, analysis_tool_normality_engine))

@@ -35,10 +35,18 @@
 
 /****************  Normality  Tests ***************/
 
+typedef enum {
+	normality_test_type_andersondarling = 0,
+	normality_test_type_cramervonmises,
+	normality_test_type_lilliefors,
+	normality_test_type_shapirofrancia
+} normality_test_type_t;
+
 typedef struct {
 	analysis_tools_data_generic_t base;
 	gnm_float alpha;
-	char type; /* 'A'= Anderson-Darling */
+	normality_test_type_t type;
+	gboolean graph;
 } analysis_tools_data_normality_t;
 
 gboolean analysis_tool_normality_engine (data_analysis_output_t *dao, gpointer specs,

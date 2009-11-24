@@ -5063,9 +5063,9 @@ gnumeric_sftest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_cvmtest[] = {
-	{ GNM_FUNC_HELP_NAME, F_("CVMTEST: Cramér-von Mises Test of Normality") },
+	{ GNM_FUNC_HELP_NAME, F_("CVMTEST: Cram\xc3\xa9r-von Mises Test of Normality") },
 	{ GNM_FUNC_HELP_ARG, F_("x:array of sample values") },
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns an array with the first row giving the p-value of the Cramér-von Mises Test,"
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns an array with the first row giving the p-value of the Cram\xc3\xa9r-von Mises Test,"
 					" the second row the test statistic of the test, and the third the number of observations in the sample.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If there are less than 8 sample values, CVMTEST returns #VALUE!") },
 	{ GNM_FUNC_HELP_SEEALSO, "CHITEST,ADTEST,LKSTEST,SFTEST" },
