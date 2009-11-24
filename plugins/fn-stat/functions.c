@@ -41,6 +41,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include <tools/analysis-tools.h>
 
 GNM_PLUGIN_MODULE_HEADER;
 
@@ -4860,13 +4861,299 @@ gnumeric_permutationa (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_lkstest[] = {
+	{ GNM_FUNC_HELP_NAME, F_("LKSTEST:Lilliefors (Kolmogorov-Smirnov) Test of Normality") },
+	{ GNM_FUNC_HELP_ARG, F_("x:array of sample values") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns an array with the first row giving the p-value of the Lilliefors (Kolmogorov-Smirnov) Test,"
+					" the second row the test statistic of the test, and the third the number of observations in the sample.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If there are less than 5 sample values, LKSTEST returns #VALUE!") },
+	{ GNM_FUNC_HELP_SEEALSO, "CHITEST,ADTEST,SFTEST,CVMTEST" },
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Lilliefors_test") },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_lkstest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float *xs;
+	int n;
+	GnmValue *result = NULL;
+	gnm_float mu = 0.;
+	gnm_float sigma = 1.;
+
+	xs = collect_floats_value (argv[0], ei->pos,
+				   COLLECT_IGNORE_STRINGS |
+				   COLLECT_IGNORE_BOOLS |
+				   COLLECT_IGNORE_BLANKS |
+				   COLLECT_ORDER_IRRELEVANT,
+				   &n, &result);
+
+	if (result)
+		goto out;
+
+	result = value_new_array (1, 3);
+	value_array_set (result, 0, 2,
+			 value_new_int (n));
+
+	if ((n < 5) || gnm_range_average (xs, n, &mu) 
+	    || gnm_range_stddev_est (xs, n, &sigma)) {
+		value_array_set (result, 0, 0,
+				 value_new_error_VALUE (ei->pos));
+		value_array_set (result, 0, 1,
+				 value_new_error_VALUE (ei->pos));
+	} else {
+		int i;
+		gnm_float dplus, dminus;
+		gnm_float p, nd;
+		gnm_float *ys;
+		gnm_float val;
+		gnm_float stat;
+
+		ys = range_sort (xs, n);
+
+		val = pnorm (ys[0], mu, sigma, TRUE, FALSE);
+		dplus = 1./(gnm_float)n - val;
+		dminus = val;
+
+		for (i = 1; i < n; i++) {
+			gnm_float one_dplus, one_dminus;
+			val = pnorm (ys[i], mu, sigma, TRUE, FALSE);
+			one_dplus = (i + 1)/(gnm_float)n - val;
+			one_dminus = val - i/(gnm_float)n;
+
+			if (one_dplus > dplus)
+				dplus = one_dplus;
+			if (one_dminus > dminus)
+				dminus = one_dminus;
+		}
+
+		stat = ((dplus < dminus) ? dminus : dplus);
+
+		value_array_set (result, 0, 1,
+				 value_new_float (stat));
+
+		g_free (ys);
+
+		if (n > 100) {
+			stat = stat * gnm_pow (n/100., 0.49);
+			nd = 100.;
+		} else
+			nd = n;
+
+		p = gnm_exp (-7.01256 * stat * stat * (nd + 2.78019) + 2.99587 * stat * gnm_sqrt (nd + 2.78019) 
+			     - 0.122119 + 0.974598/gnm_sqrt(nd) + 1.67997/nd);
+
+		if (p > 0.1) {
+			stat = (gnm_sqrt (nd) - 0.01 + 0.85/gnm_sqrt (nd)) * stat;
+			if (stat <= 0.302)
+				p = 1.;
+			else if (stat <= 0.5)
+				p = 2.76773 - 19.828315 * stat
+					+ 80.709644 * stat * stat
+					- 138.55152 * stat * stat * stat
+					+ 81.218052 * stat * stat * stat * stat;
+			else if (stat <= 0.9)
+				p = -4.901232 + 40.662806 * stat
+					- 97.490286 * stat * stat
+					+ 94.029866 * stat * stat * stat
+					- 32.355711 * stat * stat * stat * stat;
+			else if (stat <= 1.31)
+				p = 6.198765 - 19.558097 * stat
+					+ 23.186922 * stat * stat
+					- 12.234627 * stat * stat * stat
+					+ 2.423045 * stat * stat * stat * stat;
+			else
+				p = 0.;
+		}
+
+		value_array_set (result, 0, 0,
+				 value_new_float (p));
+	}
+	
+ out:
+	g_free (xs);
+
+	return result;
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_sftest[] = {
+	{ GNM_FUNC_HELP_NAME, F_("SFTEST:Shapiro-Francia Test of Normality") },
+	{ GNM_FUNC_HELP_ARG, F_("x:array of sample values") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns an array with the first row giving the p-value of the Shapiro-Francia Test,"
+					" the second row the test statistic of the test, and the third the number of observations in the sample.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If there are less than 5 or more than 5000 sample values, SFTEST returns #VALUE!") },
+	{ GNM_FUNC_HELP_SEEALSO, "CHITEST,ADTEST,LKSTEST,CVMTEST" },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_sftest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float *xs;
+	int n;
+	GnmValue *result = NULL;
+
+	xs = collect_floats_value (argv[0], ei->pos,
+				   COLLECT_IGNORE_STRINGS |
+				   COLLECT_IGNORE_BOOLS |
+				   COLLECT_IGNORE_BLANKS |
+				   COLLECT_ORDER_IRRELEVANT,
+				   &n, &result);
+
+	if (result)
+		goto out;
+
+	result = value_new_array (1, 3);
+	value_array_set (result, 0, 2,
+			 value_new_int (n));
+
+	if ((n < 5) || (n > 5000)) {
+		value_array_set (result, 0, 0,
+				 value_new_error_VALUE (ei->pos));
+		value_array_set (result, 0, 1,
+				 value_new_error_VALUE (ei->pos));
+	} else {
+		int i;
+		gnm_float stat;
+		gnm_float *ys;
+		gnm_float *zs;
+
+		ys = range_sort (xs, n);
+		zs = g_new (gnm_float, n);
+
+		for (i = 0; i < n; i++)
+			zs[i] = qnorm ((((gnm_float)(i+1))-3./8.)/(n+0.25), 0., 1., TRUE, FALSE);
+
+		if (gnm_range_correl_pop (ys, zs, n, &stat)) {
+			value_array_set (result, 0, 0,
+					 value_new_error_VALUE (ei->pos));
+			value_array_set (result, 0, 1,
+					 value_new_error_VALUE (ei->pos));
+		} else {
+			gnm_float p;
+			gnm_float u, v, mu, sig;
+			
+			stat = stat * stat;
+			
+			value_array_set (result, 0, 1,
+					 value_new_float (stat));
+			
+			u = gnm_log (n);
+			v = gnm_log (u);
+			mu = -1.2725 + 1.0521 * (v - u);
+			sig = 1.0308 - 0.26758 * (v + 2./u);
+
+			p = pnorm (gnm_log (1. - stat), mu, sig, FALSE, FALSE); 
+			
+			value_array_set (result, 0, 0,
+					 value_new_float (p));
+		}
+		g_free (ys);
+		g_free (zs);
+	}
+	
+ out:
+	g_free (xs);
+
+	return result;
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_cvmtest[] = {
+	{ GNM_FUNC_HELP_NAME, F_("CVMTEST: Cramér-von Mises Test of Normality") },
+	{ GNM_FUNC_HELP_ARG, F_("x:array of sample values") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns an array with the first row giving the p-value of the Cramér-von Mises Test,"
+					" the second row the test statistic of the test, and the third the number of observations in the sample.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If there are less than 8 sample values, CVMTEST returns #VALUE!") },
+	{ GNM_FUNC_HELP_SEEALSO, "CHITEST,ADTEST,LKSTEST,SFTEST" },
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Cramér–von-Mises_criterion") },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_cvmtest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float *xs;
+	int n;
+	GnmValue *result = NULL;
+	gnm_float mu = 0.;
+	gnm_float sigma = 1.;
+
+	xs = collect_floats_value (argv[0], ei->pos,
+				   COLLECT_IGNORE_STRINGS |
+				   COLLECT_IGNORE_BOOLS |
+				   COLLECT_IGNORE_BLANKS |
+				   COLLECT_ORDER_IRRELEVANT,
+				   &n, &result);
+
+	if (result)
+		goto out;
+
+	result = value_new_array (1, 3);
+	value_array_set (result, 0, 2,
+			 value_new_int (n));
+
+	if ((n < 8) || gnm_range_average (xs, n, &mu) 
+	    || gnm_range_stddev_est (xs, n, &sigma)) {
+		value_array_set (result, 0, 0,
+				 value_new_error_VALUE (ei->pos));
+		value_array_set (result, 0, 1,
+				 value_new_error_VALUE (ei->pos));
+	} else {
+		int i;
+		gnm_float total = 0.;
+		gnm_float p;
+		gnm_float *ys;
+
+		ys = range_sort (xs, n);
+
+		for (i = 0; i < n; i++) {
+			gnm_float val = pnorm (ys[i], mu, sigma, TRUE, FALSE);
+			gnm_float delta;
+			delta = val - (2*i+1)/(2. * n);
+			total += (delta * delta);
+		}
+
+		total += (1 / (12 * (float)n));
+		value_array_set (result, 0, 1,
+				 value_new_float (total));
+
+		g_free (ys);
+	
+		total *= (1 + 0.5 / n);
+		if (total < 0.0275)
+			p = 1. - gnm_exp (-13.953 + 775.5 * total - 12542.61 * total * total);
+		else if (total < 0.051)	
+			p = 1. - gnm_exp (-5.903 + 179.546 * total - 1515.29 * total * total);
+		else if (total < 0.092)
+			p = gnm_exp (0.886 - 31.62  * total - 10.897 * total * total);
+		else if (total < 1.)
+			p = gnm_exp (1.111 - 34.242 * total + 12.832 * total * total);
+		else
+			p = 0.;
+
+		value_array_set (result, 0, 0,
+				 value_new_float (p));
+	}
+	
+ out:
+	g_free (xs);
+
+	return result;
+}
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_adtest[] = {
 	{ GNM_FUNC_HELP_NAME, F_("ADTEST:Anderson-Darling Test of Normality") },
 	{ GNM_FUNC_HELP_ARG, F_("x:array of sample values") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns an array with the first row giving the p-value of the Anderson-Darling Test,"
 					" the second row the test statistic of the test, and the third the number of observations in the sample.")},
-	{ GNM_FUNC_HELP_NOTE, "If there are less than 8 sample values, ADTEST returns #VALUE!" },
-	{ GNM_FUNC_HELP_SEEALSO, "CHITEST" },
+	{ GNM_FUNC_HELP_NOTE,  F_("If there are less than 8 sample values, ADTEST returns #VALUE!") },
+	{ GNM_FUNC_HELP_SEEALSO, "CHITEST,CVMTEST,LKSTEST,SFTEST" },
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Anderson–Darling_test") },
 	{ GNM_FUNC_HELP_END }
 };
@@ -4944,6 +5231,18 @@ gnumeric_adtest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 GnmFuncDescriptor const stat_functions[] = {
 	{ "adtest",       "A",
 	  help_adtest, gnumeric_adtest, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, 
+	  GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
+	{ "sftest",       "A",
+	  help_sftest, gnumeric_sftest, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, 
+	  GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
+	{ "cvmtest",       "A",
+	  help_cvmtest, gnumeric_cvmtest, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, 
+	  GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
+	{ "lkstest",       "A",
+	  help_lkstest, gnumeric_lkstest, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, 
 	  GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
         { "avedev", NULL,

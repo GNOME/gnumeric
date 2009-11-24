@@ -1,3 +1,13 @@
+2009-11-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	* plugin.xml.in: add CVMTEST, SFTEST, LKSTEST
+	* functions.c (help_cvmtest): new
+	(gnumeric_sftest): new
+	(help_sftest): new
+	(gnumeric_lkstest): new
+	(help_lkstest): new
+	(gnumeric_cvmtest): new
+	(stat_functions): add CVMTEST, SFTEST, LKSTEST
+
 2009-11-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* plugin.xml.in: add ADTEST

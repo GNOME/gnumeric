@@ -7,7 +7,10 @@ Andreas:
 	* Temporarily remember the sort setups. [#100541]
 	* Work around GTK bug #601922.
 	* Add ADTEST (Anderson-Darling Test for Normality).
-	* Add normality test tools.
+	* Add normality test tool.
+	* Add LKSTEST (Lilliefors (Kolmogorov-Smirnov) Test of Normality).
+	* Add SFTEST (Shapiro-Francia Test of Normality).
+	* Add CVMTEST (Cramér-von Mises Test of Normality).
 
 Jean:
 	* Fix cursor and cell edition on dark backgrounds. [#600656]

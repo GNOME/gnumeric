@@ -31,6 +31,7 @@
 				<function name="cronbach"/>
 				<function name="correl"/>
 				<function name="covar"/>
+				<function name="cvmtest"/>
 				<function name="devsq"/>
 				<function name="exppowdist"/>
 				<function name="permut"/>
@@ -58,6 +59,7 @@
 				<function name="laplace"/>
 				<function name="large"/>
 				<function name="linest"/>
+				<function name="lkstest"/>
 				<function name="logest"/>
 				<function name="logfit"/>
 				<function name="loginv"/>
@@ -85,6 +87,7 @@
 				<function name="rayleigh"/>
 				<function name="rayleightail"/>
 				<function name="rsq"/>
+				<function name="sftest"/>
 				<function name="skew"/>
 				<function name="skewp"/>
 				<function name="slope"/>
