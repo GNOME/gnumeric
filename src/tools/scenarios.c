@@ -45,16 +45,16 @@
 
 /* Generic stuff **********************************************************/
 
-scenario_t *
+GnmScenario *
 scenario_by_name (GList *scenarios, gchar const *name, gboolean *all_deleted)
 {
-	scenario_t *res = NULL;
+	GnmScenario *res = NULL;
 
 	if (all_deleted)
 		*all_deleted = TRUE;
 
 	while (scenarios != NULL) {
-		scenario_t *s = scenarios->data;
+		GnmScenario *s = scenarios->data;
 
 		if (strcmp (s->name, name) == 0)
 			res = s;
@@ -70,7 +70,7 @@ scenario_by_name (GList *scenarios, gchar const *name, gboolean *all_deleted)
 typedef GnmValue * (*ScenarioValueCB) (int col, int row, GnmValue *v, gpointer data);
 
 static void
-scenario_for_each_value (scenario_t *s, ScenarioValueCB fn, gpointer data)
+scenario_for_each_value (GnmScenario *s, ScenarioValueCB fn, gpointer data)
 {
 	int        i, j, cols, pos;
 
@@ -87,13 +87,13 @@ scenario_for_each_value (scenario_t *s, ScenarioValueCB fn, gpointer data)
 
 /* Scenario: Add ***********************************************************/
 
-static scenario_t *
+static GnmScenario *
 scenario_new (Sheet *sheet, gchar const *name, gchar const *comment)
 {
-	scenario_t *s;
+	GnmScenario *s;
 	GList      *scenarios = sheet->scenarios;
 
-	s = g_new (scenario_t, 1);
+	s = g_new (GnmScenario, 1);
 	s->sheet = sheet;
 
 	/* Check if a scenario having the same name already exists. */
@@ -158,7 +158,7 @@ collect_cb (int col, int row, GnmValue *v, collect_cb_t *p)
  * expression return TRUE so that the user can be warned about it.
  */
 static gboolean
-collect_values (Sheet *sheet, scenario_t *s, GnmValueRange *range)
+collect_values (Sheet *sheet, GnmScenario *s, GnmValueRange *range)
 {
 	int          cols, rows;
 	collect_cb_t cb;
@@ -183,9 +183,9 @@ scenario_add_new (gchar const *name,
 		  gchar const *cell_sel_str,
 		  gchar const *comment,
 		  Sheet *sheet,
-		  scenario_t **new_scenario)
+		  GnmScenario **new_scenario)
 {
-	scenario_t *scenario = scenario_new (sheet, name, comment);
+	GnmScenario *scenario = scenario_new (sheet, name, comment);
 	gboolean    res = collect_values (sheet, scenario, (GnmValueRange *) changing_cells);
 
 	scenario->cell_sel_str = g_strdup (cell_sel_str);
@@ -196,7 +196,7 @@ scenario_add_new (gchar const *name,
 }
 
 void
-scenario_add (Sheet *sheet, scenario_t *scenario)
+scenario_add (Sheet *sheet, GnmScenario *scenario)
 {
 	sheet->scenarios = g_list_append (sheet->scenarios, scenario);
 }
@@ -208,7 +208,7 @@ typedef struct {
 	int        cols;
 	int        col_offset;
 	int        row_offset;
-	scenario_t *dest;
+	GnmScenario *dest;
 } copy_cb_t;
 
 static GnmValue *
@@ -221,13 +221,13 @@ copy_cb (int col, int row, GnmValue *v, copy_cb_t *p)
 	return v;
 }
 
-scenario_t *
-scenario_copy (scenario_t *s, Sheet *new_sheet)
+GnmScenario *
+scenario_copy (GnmScenario *s, Sheet *new_sheet)
 {
-	scenario_t *p;
+	GnmScenario *p;
 	copy_cb_t  cb;
 
-	p = g_new (scenario_t, 1);
+	p = g_new (GnmScenario, 1);
 
 	p->name         = g_strdup (s->name);
 	p->comment      = g_strdup (s->comment);
@@ -272,7 +272,7 @@ cb_value_free (int col, int row, GnmValue *v, gpointer data)
 }
 
 void
-scenario_free (scenario_t *s)
+scenario_free (GnmScenario *s)
 {
 	if (s == NULL)
 		return;
@@ -302,7 +302,7 @@ scenarios_free (GList *list)
 gboolean
 scenario_mark_deleted (GList *scenarios, gchar *name)
 {
-	scenario_t *s;
+	GnmScenario *s;
 	gboolean   all_deleted;
 
 	s = scenario_by_name (scenarios, name, &all_deleted);
@@ -314,7 +314,7 @@ scenario_mark_deleted (GList *scenarios, gchar *name)
 GList *
 scenario_delete (GList *scenarios, gchar *name)
 {
-	scenario_t *s;
+	GnmScenario *s;
 	GList      *list;
 
 	s = scenario_by_name (scenarios, name, NULL);
@@ -335,13 +335,13 @@ show_cb (int col, int row, GnmValue *v, data_analysis_output_t *dao)
 	return v;
 }
 
-scenario_t *
+GnmScenario *
 scenario_show (WorkbookControl        *wbc,
-	       scenario_t             *s,
-	       scenario_t             *old_values,
+	       GnmScenario             *s,
+	       GnmScenario             *old_values,
 	       data_analysis_output_t *dao)
 {
-	scenario_t   *stored_values;
+	GnmScenario   *stored_values;
 	int           rows, cols;
 	collect_cb_t  cb;
 
@@ -374,132 +374,6 @@ scenario_show (WorkbookControl        *wbc,
 	return stored_values;
 }
 
-
-/* Scenario: Insert columns(s)/row(s) *************************************/
-
-static void
-insert_cols (scenario_t *s, int col, int count)
-{
-	if (s->range.start.col >= col) {
-		s->range.start.col += count;
-		s->range.end.col += count;
-
-		/* Scenarios do not allow cross sheet references. */
-
-		/* FIXME: What if we fell off the end?  */
-
-		g_free (s->cell_sel_str);
-		s->cell_sel_str = g_strdup (range_as_string (&s->range));
-	}
-}
-
-void
-scenarios_insert_cols (GList *list, int col, int count)
-{
-	while (list != NULL) {
-		insert_cols (list->data, col, count);
-		list = list->next;
-	}
-}
-
-static void
-insert_rows (scenario_t *s, int row, int count)
-{
-	if (s->range.start.row >= row) {
-		s->range.start.row += count;
-		s->range.end.row += count;
-
-		/* Scenarios do not allow cross sheet references. */
-
-		/* FIXME: What if we fell off the end?  */
-
-		g_free (s->cell_sel_str);
-		s->cell_sel_str = g_strdup (range_as_string (&s->range));
-	}
-}
-
-void
-scenarios_insert_rows (GList *list, int row, int count)
-{
-	while (list != NULL) {
-		insert_rows (list->data, row, count);
-		list = list->next;
-	}
-}
-
-/* Scenario: Delete columns(s)/row(s) *************************************/
-
-static void
-delete_cols (scenario_t *s, int col, int count)
-{
-	if (s->range.start.col >= col) {
-		s->range.start.col -= count;
-		s->range.end.col -= count;
-
-		/* Scenarios do not allow cross sheet references. */
-
-		/* FIXME: What if we fell off the end?  */
-
-		g_free (s->cell_sel_str);
-		s->cell_sel_str = g_strdup (range_as_string (&s->range));
-	}
-}
-
-void
-scenarios_delete_cols (GList *list, int col, int count)
-{
-	while (list != NULL) {
-		delete_cols (list->data, col, count);
-		list = list->next;
-	}
-}
-
-static void
-delete_rows (scenario_t *s, int row, int count)
-{
-	if (s->range.start.row >= row) {
-		s->range.start.row -= count;
-		s->range.end.row -= count;
-
-		/* Scenarios do not allow cross sheet references. */
-
-		/* FIXME: What if we fell off the end?  */
-
-		g_free (s->cell_sel_str);
-		s->cell_sel_str = g_strdup (range_as_string (&s->range));
-	}
-}
-
-void
-scenarios_delete_rows (GList *list, int row, int count)
-{
-	while (list != NULL) {
-		delete_rows (list->data, row, count);
-		list = list->next;
-	}
-}
-
-static void
-move_range (scenario_t *s, Sheet const *sheet, GnmRange const *origin,
-	    int col_offset, int row_offset)
-{
-	/* FIXME when multiple ranges are supported. */
-	if (range_equal (&s->range, origin)) {
-		range_translate (&s->range, sheet, col_offset, row_offset);
-		/* FIXME: What if we fell off the end?  */
-		g_free (s->cell_sel_str);
-		s->cell_sel_str = g_strdup (range_as_string (&s->range));
-	}
-}
-
-void
-scenarios_move_range (GList *list, Sheet const *sheet, const GnmRange *origin,
-		      int col_offset, int row_offset)
-{
-	for ( ; list != NULL ; list = list->next)
-		move_range (list->data, sheet, origin, col_offset, row_offset);
-}
-
 /* Scenario Manager: Ok/Cancel buttons************************************/
 
 /* Ok button pressed. */
@@ -511,7 +385,7 @@ scenario_manager_ok (Sheet *sheet)
 
 	/* Update scenarios (free the deleted ones). */
 	for (cur = scenarios; cur != NULL; cur = cur->next) {
-		scenario_t *s = cur->data;
+		GnmScenario *s = cur->data;
 
 		if (s->marked_deleted)
 			scenario_free (s);
@@ -529,7 +403,7 @@ void
 scenario_recover_all (GList *scenarios)
 {
 	while (scenarios) {
-		scenario_t *s = scenarios->data;
+		GnmScenario *s = scenarios->data;
 
 		s->marked_deleted = FALSE;
 		scenarios = scenarios->next;
@@ -625,7 +499,7 @@ scenario_summary_res_cells (WorkbookControl *wbc, GSList *results,
 		range_init_value (&r, (GnmValue *) results->data);
 		for (i = r.start.col; i <= r.end.col; i++)
 			for (j = r.start.row; j <= r.end.row; j++) {
-				scenario_t *ov = NULL;
+				GnmScenario *ov = NULL;
 				GnmCell    *cell;
 				GList      *cur;
 
@@ -645,7 +519,7 @@ scenario_summary_res_cells (WorkbookControl *wbc, GSList *results,
 				col = 2;
 				for (cur = cb->sheet->scenarios; cur != NULL;
 				     cur = cur->next) {
-					scenario_t *s = cur->data;
+					GnmScenario *s = cur->data;
 
 					ov = scenario_show (wbc, s, ov, &dao);
 
@@ -698,7 +572,7 @@ scenario_summary (WorkbookControl *wbc,
 	cb.results = results;
 	for (cb.col = 0, cur = scenarios; cur != NULL; cb.col++,
 		     cur = cur->next) {
-		scenario_t *s = cur->data;
+		GnmScenario *s = cur->data;
 
 		/* Scenario name. */
 		dao_set_cell (&cb.dao, 2 + cb.col, 1, s->name);

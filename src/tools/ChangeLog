@@ -1,3 +1,9 @@
+2009-11-24  Morten Welinder  <terra@gnome.org>
+
+	* scenarios.c (scenarios_insert_rows, scenarios_insert_cols,
+	scenarios_delete_rows, scenarios_delete_cols,
+	scenarios_move_range): Remove.
+
 2009-11-21 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-normality.c: new

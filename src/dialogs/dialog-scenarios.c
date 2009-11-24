@@ -59,8 +59,8 @@ struct _scenario_state {
         GtkWidget  *scenarios_treeview;
 	GSList     *new_report_sheets;
 
-	scenario_t *old_values;
-	scenario_t *current;
+	GnmScenario *old_values;
+	GnmScenario *current;
 };
 
 
@@ -70,7 +70,7 @@ static gboolean
 scenario_name_used (const GList *scenarios, const gchar *name)
 {
 	while (scenarios != NULL) {
-		const scenario_t *s = scenarios->data;
+		const GnmScenario *s = scenarios->data;
 
 		if (strcmp (s->name, name) == 0)
 			return TRUE;
@@ -115,7 +115,7 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	GtkTextIter             start, end;
 	GnmRangeRef const      *rr = NULL;
 	gboolean                res;
-	scenario_t              *scenario;
+	GnmScenario              *scenario;
 
 	cell_range = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
@@ -291,7 +291,7 @@ find_scenario_strs (GList *scenarios, gchar *name,
 	static gchar *buf1 = NULL, *buf2 = NULL;
 
 	while (scenarios) {
-		const scenario_t *scenario = scenarios->data;
+		const GnmScenario *scenario = scenarios->data;
 
 		if (strcmp (scenario->name, name) == 0) {
 			g_free (buf1);
@@ -351,7 +351,7 @@ update_scenarios_treeview (GtkWidget *view, GList *scenarios)
 	  store = gtk_list_store_new (1, G_TYPE_STRING);
 
 	  while (scenarios != NULL) {
-	          scenario_t *s = scenarios->data;
+	          GnmScenario *s = scenarios->data;
 
 	          gtk_list_store_append (store, &iter);
 	          gtk_list_store_set (store, &iter, 0, s->name, -1);
@@ -445,7 +445,7 @@ restore_old_values (ScenariosState *state)
 	dao_init_new_sheet (&dao);
 	dao.sheet = state->base.sheet;
 	scenario_show (wbc, NULL,
-		       (scenario_t *) state->scenario_state->old_values,
+		       (GnmScenario *) state->scenario_state->old_values,
 		       &dao);
 	state->scenario_state->current    = NULL;
 	state->scenario_state->old_values = NULL;

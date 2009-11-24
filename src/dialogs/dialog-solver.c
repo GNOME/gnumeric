@@ -779,7 +779,7 @@ solver_add_scenario (SolverState *state, GnmSolverResult *res, gchar const *name
 	GnmSolverParameters *param = state->sheet->solver_parameters;
 	GnmValue         *input_range;
 	gchar const      *comment = _("Optimal solution created by solver.\n");
-	scenario_t       *scenario;
+	GnmScenario       *scenario;
 
 	input_range = gnm_expr_entry_parse_as_value (state->change_cell_entry,
 						     state->sheet);

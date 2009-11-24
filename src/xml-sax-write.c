@@ -1053,7 +1053,7 @@ xml_write_scenarios (GnmOutputXML *state)
 	gsf_xml_out_start_element (state->output, GNM "Scenarios");
 
 	for (ptr = state->sheet->scenarios ; ptr != NULL ; ptr = ptr->next) {
-		scenario_t const *s = (scenario_t const *)ptr->data;
+		GnmScenario const *s = (GnmScenario const *)ptr->data;
 #if 0
 		int       i, cols, rows;
 #endif

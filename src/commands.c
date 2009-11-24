@@ -5967,7 +5967,7 @@ cmd_remove_name (WorkbookControl *wbc, GnmNamedExpr *nexpr)
 
 typedef struct {
 	GnmCommand cmd;
-	scenario_t     *scenario;
+	GnmScenario     *scenario;
 } CmdScenarioAdd;
 
 MAKE_GNM_COMMAND (CmdScenarioAdd, cmd_scenario_add, NULL)
@@ -6005,7 +6005,7 @@ cmd_scenario_add_finalize (GObject *cmd)
 }
 
 gboolean
-cmd_scenario_add (WorkbookControl *wbc, scenario_t *s, Sheet *sheet)
+cmd_scenario_add (WorkbookControl *wbc, GnmScenario *s, Sheet *sheet)
 {
 	CmdScenarioAdd *me;
 
@@ -6053,7 +6053,7 @@ cmd_scenario_mngr_undo (GnmCommand *cmd,
 			G_GNUC_UNUSED WorkbookControl *wbc)
 {
 	CmdScenarioMngr *me = CMD_SCENARIO_MNGR (cmd);
-	scenario_t      *tmp;
+	GnmScenario      *tmp;
 	data_analysis_output_t dao;
 
 	dao_init_new_sheet (&dao);

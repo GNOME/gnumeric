@@ -4455,7 +4455,6 @@ sheet_insert_cols (Sheet *sheet, int col, int count,
 		colrow_move (sheet, i, 0, i, gnm_sheet_get_last_row (sheet),
 			     &sheet->cols, i, i + count);
 
-	scenarios_insert_cols (sheet->scenarios, col, count);
 	sheet_colrow_insert_finish (&reloc_info, TRUE, col, count, pundo);
 
 	add_undo_op (pundo, TRUE, sheet_delete_cols,
@@ -4553,7 +4552,6 @@ sheet_delete_cols (Sheet *sheet, int col, int count,
 		colrow_move (sheet, i, 0, i, gnm_sheet_get_last_row (sheet),
 			     &sheet->cols, i, i - count);
 
-	scenarios_delete_cols (sheet->scenarios, col, count);
 	sheet_colrow_delete_finish (&reloc_info, TRUE, col, count, pundo);
 
 	add_undo_op (pundo, TRUE, sheet_insert_cols,
@@ -4629,7 +4627,6 @@ sheet_insert_rows (Sheet *sheet, int row, int count,
 		colrow_move (sheet, 0, i, gnm_sheet_get_last_col (sheet), i,
 			     &sheet->rows, i, i + count);
 
-	scenarios_insert_rows (sheet->scenarios, row, count);
 	sheet_colrow_insert_finish (&reloc_info, FALSE, row, count, pundo);
 
 	add_undo_op (pundo, FALSE, sheet_delete_rows,
@@ -4727,7 +4724,6 @@ sheet_delete_rows (Sheet *sheet, int row, int count,
 		colrow_move (sheet, 0, i, gnm_sheet_get_last_col (sheet), i,
 			     &sheet->rows, i, i - count);
 
-	scenarios_delete_rows (sheet->scenarios, row, count);
 	sheet_colrow_delete_finish (&reloc_info, FALSE, row, count, pundo);
 
 	add_undo_op (pundo, FALSE, sheet_insert_rows,
@@ -4889,13 +4885,6 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 	/* 8. Notify sheet of pending update */
 	sheet_flag_recompute_spans (rinfo->origin_sheet);
 	sheet_flag_status_update_range (rinfo->origin_sheet, &rinfo->origin);
-
-	/* 9. Update the data structures of the tools */
-	if (rinfo->origin_sheet == rinfo->target_sheet)
-		scenarios_move_range (rinfo->origin_sheet->scenarios,
-				      rinfo->origin_sheet,
-				      &rinfo->origin, rinfo->col_offset,
-				      rinfo->row_offset);
 }
 
 static void
