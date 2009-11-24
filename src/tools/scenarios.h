@@ -17,6 +17,7 @@ void gnm_scenario_item_set_range (GnmScenarioItem *sci,
 				  const GnmSheetRange *sr);
 void gnm_scenario_item_set_value (GnmScenarioItem *sci,
 				  const GnmValue *v);
+gboolean gnm_scenario_item_valid (const GnmScenarioItem *sci);
 
 /* ------------------------------------------------------------------------- */
 

@@ -77,6 +77,14 @@ gnm_scenario_item_set_value (GnmScenarioItem *sci, const GnmValue *v)
 	sci->value = value_dup (v);
 }
 
+gboolean
+gnm_scenario_item_valid (const GnmScenarioItem *sci)
+{
+	GnmExprTop const *texpr = sci ? sci->dep.texpr : NULL;
+	GnmValue const *vr = texpr ? gnm_expr_top_get_constant (texpr) : NULL;
+	return vr && vr->type == VALUE_CELLRANGE;
+}
+
 /* ------------------------------------------------------------------------- */
 
 typedef GnmValue * (*ScenarioValueCB) (int col, int row, GnmValue *v, gpointer data);

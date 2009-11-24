@@ -1043,9 +1043,63 @@ xml_write_solver (GnmOutputXML *state)
 }
 
 static void
+xml_write_scenario (GnmOutputXML *state, GnmScenario const *sc)
+{
+	GSList *l;
+	GnmParsePos pp;
+
+	parse_pos_init_sheet (&pp, sc->sheet);
+
+	gsf_xml_out_start_element (state->output, GNM "Scenario");
+
+	gsf_xml_out_add_cstr (state->output, "Name", sc->name);
+	if (sc->comment)
+		gsf_xml_out_add_cstr (state->output, "Comment", sc->comment);
+
+	for (l = sc->items; l; l = l->next) {
+		GnmScenarioItem const *sci = l->data;
+		GnmValue const *val = sci->value;
+		GString *str;
+		GnmConventionsOut out;
+
+		if (!gnm_scenario_item_valid (sci))
+			continue;
+
+		str = g_string_new (NULL);
+		gsf_xml_out_start_element (state->output, GNM "Item");
+
+		out.accum = str;
+		out.pp    = &pp;
+		out.convs = state->convs;
+
+		gnm_expr_top_as_gstring (sci->dep.texpr, &out);
+		gsf_xml_out_add_cstr (state->output, "Range", str->str);
+
+		if (val) {
+			gsf_xml_out_add_int (state->output,
+					     "ValueType",
+					     val->type);
+			if (VALUE_FMT (val) != NULL) {
+				const char *fmt = go_format_as_XL (VALUE_FMT (val));
+				gsf_xml_out_add_cstr (state->output, "ValueFormat", fmt);
+			}
+			g_string_truncate (str, 0);
+			value_get_as_gstring (val, str, state->convs);
+			gsf_xml_out_add_cstr (state->output, NULL, str->str);
+		}
+
+		gsf_xml_out_end_element (state->output); /* </gnm:Item> */
+		g_string_free (str, TRUE);
+	}
+
+	gsf_xml_out_end_element (state->output); /* </gnm:Scenario> */
+}
+
+
+static void
 xml_write_scenarios (GnmOutputXML *state)
 {
-	GList   *ptr;
+	GList *ptr;
 
 	if (state->sheet->scenarios == NULL)
 		return;
@@ -1053,34 +1107,8 @@ xml_write_scenarios (GnmOutputXML *state)
 	gsf_xml_out_start_element (state->output, GNM "Scenarios");
 
 	for (ptr = state->sheet->scenarios ; ptr != NULL ; ptr = ptr->next) {
-		GnmScenario const *s = (GnmScenario const *)ptr->data;
-#if 0
-		int       i, cols, rows;
-#endif
-
-		gsf_xml_out_start_element (state->output, GNM "Scenario");
-		gsf_xml_out_add_cstr (state->output, "Name", s->name);
-		gsf_xml_out_add_cstr (state->output, "Comment", s->comment);
-
-		/* Scenario: changing cells in a string form.  In a string
-		 * form so that we can in the future allow it to contain
-		 * multiple ranges without modifing the file format.*/
-		gsf_xml_out_add_cstr (state->output, "CellsStr", s->cell_sel_str);
-
-#if 0 /* CRACK CRACK CRACK need something cleaner */
-		/* Scenario: values. */
-		rows = range_height (&s->range);
-		cols = range_width (&s->range);
-		for (i = 0; i < cols * rows; i++) {
-			GString  *name = g_string_new (NULL);
-			g_string_append_printf (name, "V%d", i);
-			xml_node_set_value (scen, name->str,
-					    s->changing_cells [i]);
-			g_string_free (name, TRUE);
-		}
-#endif
-
-		gsf_xml_out_end_element (state->output); /* </gnm:Scenario> */
+		GnmScenario const *sc = ptr->data;
+		xml_write_scenario (state, sc);
 	}
 
 	gsf_xml_out_end_element (state->output); /* </gnm:Scenarios> */
