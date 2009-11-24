@@ -5978,7 +5978,7 @@ cmd_scenario_add_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	CmdScenarioAdd *me = CMD_SCENARIO_ADD (cmd);
 
 	scenario_add (me->cmd.sheet,
-		      scenario_copy (me->scenario, me->cmd.sheet));
+		      gnm_scenario_dup (me->scenario, me->cmd.sheet));
 
 	return FALSE;
 }
@@ -5989,8 +5989,7 @@ cmd_scenario_add_undo (GnmCommand *cmd,
 {
 	CmdScenarioAdd *me = CMD_SCENARIO_ADD (cmd);
 
-	me->cmd.sheet->scenarios = scenario_delete (me->cmd.sheet->scenarios,
-						    me->scenario->name);
+	scenario_delete (me->cmd.sheet, me->scenario->name);
 
 	return FALSE;
 }
@@ -6000,7 +5999,7 @@ cmd_scenario_add_finalize (GObject *cmd)
 {
 	CmdScenarioAdd *me = CMD_SCENARIO_ADD (cmd);
 
-	scenario_free (me->scenario);
+	g_object_unref (me->scenario);
 	gnm_command_finalize (cmd);
 }
 
@@ -6042,7 +6041,7 @@ cmd_scenario_mngr_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	dao_init_new_sheet (&dao);
 	dao.sheet = me->cmd.sheet;
-	scenario_free (me->sc->undo);
+	g_object_unref (me->sc->undo);
 	me->sc->undo = scenario_show (wbc, me->sc->redo, NULL, &dao);
 
 	return FALSE;
@@ -6058,7 +6057,7 @@ cmd_scenario_mngr_undo (GnmCommand *cmd,
 
 	dao_init_new_sheet (&dao);
 	dao.sheet = me->cmd.sheet;
-	tmp = scenario_copy (me->sc->undo, dao.sheet);
+	tmp = gnm_scenario_dup (me->sc->undo, dao.sheet);
 	scenario_show (wbc, NULL, tmp, &dao);
 
 	return FALSE;
@@ -6069,8 +6068,8 @@ cmd_scenario_mngr_finalize (GObject *cmd)
 {
 	CmdScenarioMngr *me = CMD_SCENARIO_MNGR (cmd);
 
-	scenario_free (me->sc->undo);
-	scenario_free (me->sc->redo);
+	g_object_unref (me->sc->undo);
+	g_object_unref (me->sc->redo);
 	g_free (me->sc);
 
 	gnm_command_finalize (cmd);

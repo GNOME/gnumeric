@@ -281,6 +281,8 @@ void gnm_sheet_foreach_name (Sheet const *sheet, GHFunc func, gpointer data);
 
 void gnm_sheet_set_solver_params (Sheet *sheet, GnmSolverParameters *param);
 
+GnmScenario *gnm_sheet_get_scenario (Sheet *sheet, const char *name);
+
 GHashTable *gnm_sheet_get_sort_setups (Sheet *sheet);
 void gnm_sheet_add_sort_setup (Sheet *sheet, char *key, gpointer setup);
 gconstpointer gnm_sheet_find_sort_setup (Sheet *sheet, char const *key);

@@ -513,7 +513,7 @@ scenarios_show_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	wbc = WORKBOOK_CONTROL (state->base.wbcg);
 	state->scenario_state->current =
-		scenario_by_name (state->base.sheet->scenarios, value, NULL),
+		gnm_sheet_get_scenario (state->base.sheet, value);
 	state->scenario_state->old_values =
 		scenario_show (wbc,
 			       state->scenario_state->current,
@@ -531,6 +531,8 @@ scenarios_delete_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	GtkTreeModel            *model;
 	gchar                   *value;
 	gboolean                all_deleted;
+	GnmScenario             *sc;
+	GList                   *l;
 
 	restore_old_values (state);
 
@@ -546,12 +548,21 @@ scenarios_delete_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 0, &value, -1);
 
 	gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
-	all_deleted = scenario_mark_deleted (state->base.sheet->scenarios, value);
+
+	sc = gnm_sheet_get_scenario (state->base.sheet, value);
+	if (sc)
+		sc->marked_deleted = TRUE;
+
 	set_selection_state (state, FALSE);
 
-	if (all_deleted)
-		gtk_widget_set_sensitive
-			(state->scenario_state->summary_button, FALSE);
+	all_deleted = TRUE;
+	for (l = state->base.sheet->scenarios; l && all_deleted; l = l->next) {
+		GnmScenario *sc = l->data;
+		all_deleted = sc->marked_deleted;
+	}
+
+	gtk_widget_set_sensitive
+		(state->scenario_state->summary_button, !all_deleted);
 }
 
 static void

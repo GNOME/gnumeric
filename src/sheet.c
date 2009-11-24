@@ -3969,7 +3969,11 @@ gnm_sheet_finalize (GObject *obj)
 	sheet_destroy (sheet);
 
 	g_object_unref (sheet->solver_parameters);
-	scenarios_free (sheet->scenarios);
+	sheet->solver_parameters = NULL;
+
+	go_list_free_custom (sheet->scenarios, g_object_unref);
+	sheet->scenarios = NULL;
+
 	if (sheet->sort_setups != NULL)
 		g_hash_table_unref (sheet->sort_setups);
 
@@ -5457,6 +5461,7 @@ sheet_dup (Sheet const *src)
 	Workbook *wb;
 	Sheet *dst;
 	char *name;
+	GList *l;
 
 	g_return_val_if_fail (IS_SHEET (src), NULL);
 	g_return_val_if_fail (src->workbook != NULL, NULL);
@@ -5504,7 +5509,12 @@ sheet_dup (Sheet const *src)
 	g_object_unref (dst->solver_parameters);
 	dst->solver_parameters = gnm_solver_param_dup (src->solver_parameters, dst);
 
-	dst->scenarios = scenarios_dup (src->scenarios, dst);
+	for (l = src->scenarios; l; l = l->next) {
+		GnmScenario *src_sc = l->data;
+		GnmScenario *dst_sc = gnm_scenario_dup (src_sc, dst);
+		dst->scenarios = g_list_prepend (dst->scenarios, dst_sc);
+	}
+	dst->scenarios = g_list_reverse (dst->scenarios);
 
 	sheet_mark_dirty (dst);
 	sheet_redraw_all (dst, TRUE);
@@ -5766,6 +5776,23 @@ gnm_sheet_set_solver_params (Sheet *sheet, GnmSolverParameters *param)
 	g_object_ref (param);
 	g_object_unref (sheet->solver_parameters);
 	sheet->solver_parameters = param;
+}
+
+GnmScenario *
+gnm_sheet_get_scenario (Sheet *sheet, const char *name)
+{
+	GList *l;
+
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (name != NULL, NULL);
+
+	for (l = sheet->scenarios; l; l = l->next) {
+		GnmScenario *sc = l->data;
+		if (strcmp (name, sc->name) == 0)
+			return sc;
+	}
+
+	return NULL;
 }
 
 GHashTable *

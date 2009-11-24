@@ -4,18 +4,42 @@
 #include <gnumeric.h>
 #include <tools/dao.h>
 
-typedef struct GnmScenario_ {
+/* ------------------------------------------------------------------------- */
+
+#define GNM_SCENARIO_TYPE        (gnm_scenario_get_type ())
+#define GNM_SCENARIO(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_SCENARIO_TYPE, GnmScenario))
+#define GNM_SCENARIO_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GNM_SCENARIO_TYPE, GnmScenarioClass))
+#define GNM_IS_SCENARIO(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_SCENARIO_TYPE))
+
+struct GnmScenario_ {
+	GObject parent;
+
         Sheet *sheet;
-        gchar *name;
+        char *name;
+        char *comment;
 
         GnmValue **changing_cells;
         GnmRange  range;
 
-        gchar *comment;
         gchar *cell_sel_str;
 
         gboolean marked_deleted;
-} GnmScenario;
+};
+
+typedef struct {
+	GObjectClass parent_class;
+} GnmScenarioClass;
+
+GType gnm_scenario_get_type (void);
+
+GnmScenario *gnm_scenario_new (char const *name, char const *comment,
+			       Sheet *sheet);
+
+GnmScenario *gnm_scenario_dup (GnmScenario *s, Sheet *new_sheet);
+
+/* ------------------------------------------------------------------------- */
+
+
 
 typedef struct _scenario_cmd_t {
         GnmScenario *redo;
@@ -24,10 +48,6 @@ typedef struct _scenario_cmd_t {
 
 GnmScenario *scenario_by_name      (GList *scenarios, const gchar *name,
 				   gboolean *all_deleted);
-void        scenario_free         (GnmScenario *s);
-
-GList      *scenarios_dup	  (GList *list, Sheet *dst);
-void        scenarios_free	  (GList *list);
 
 void        scenario_manager_ok   (Sheet *sheet);
 GnmScenario *scenario_show         (WorkbookControl        *wbc,
@@ -40,9 +60,7 @@ gboolean    scenario_add_new      (gchar const *name,
 				   gchar const *comment,
 				   Sheet *sheet, GnmScenario **new_scenario);
 void        scenario_add          (Sheet *sheet, GnmScenario *scenario);
-gboolean    scenario_mark_deleted (GList *scenarios, gchar *name);
-GList      *scenario_delete       (GList *scenarios, gchar *name);
-GnmScenario *scenario_copy         (GnmScenario *s, Sheet *new_sheet);
+void	    scenario_delete       (Sheet *sheet, gchar *name);
 void        scenario_summary      (WorkbookControl        *wbc,
 				   Sheet                  *sheet,
 				   GSList                 *results,

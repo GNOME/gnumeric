@@ -187,6 +187,8 @@ typedef struct GnmSolverParameters_	GnmSolverParameters;
 typedef struct GnmSolverConstraint_     GnmSolverConstraint;
 typedef struct GnmSolverFactory_        GnmSolverFactory;
 
+typedef struct GnmScenario_             GnmScenario;
+
 G_END_DECLS
 
 #endif /* _GNM_GNUMERIC_H_ */

@@ -6,6 +6,7 @@
  *        Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
  *
  * (C) Copyright 2003 by Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
+ * (C) Copyright 2009 by Morten Welinder <terra@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,6 +26,7 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
+#include <gsf/gsf-impl-utils.h>
 
 #include <sheet.h>
 #include <sheet-filter.h>
@@ -43,29 +45,7 @@
 
 #include <string.h>
 
-/* Generic stuff **********************************************************/
-
-GnmScenario *
-scenario_by_name (GList *scenarios, gchar const *name, gboolean *all_deleted)
-{
-	GnmScenario *res = NULL;
-
-	if (all_deleted)
-		*all_deleted = TRUE;
-
-	while (scenarios != NULL) {
-		GnmScenario *s = scenarios->data;
-
-		if (strcmp (s->name, name) == 0)
-			res = s;
-		else if (all_deleted && !s->marked_deleted)
-			*all_deleted = FALSE;
-
-		scenarios = scenarios->next;
-	}
-
-	return res;
-}
+/* ------------------------------------------------------------------------- */
 
 typedef GnmValue * (*ScenarioValueCB) (int col, int row, GnmValue *v, gpointer data);
 
@@ -85,19 +65,68 @@ scenario_for_each_value (GnmScenario *s, ScenarioValueCB fn, gpointer data)
 		}
 }
 
-/* Scenario: Add ***********************************************************/
+static GnmValue *
+cb_value_free (int col, int row, GnmValue *v, gpointer data)
+{
+	value_release (v);
+
+	return NULL;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static GObjectClass *gnm_scenario_parent_class;
+
+static void
+gnm_scenario_finalize (GObject *obj)
+{
+	GnmScenario *sc = GNM_SCENARIO (obj);
+
+	g_free (sc->name);
+	g_free (sc->comment);
+
+	g_free (sc->cell_sel_str);
+
+	scenario_for_each_value (sc, cb_value_free, NULL);
+
+	g_free (sc->changing_cells);
+
+	gnm_scenario_parent_class->finalize (obj);
+}
+
+GnmScenario *
+gnm_scenario_new (char const *name, char const *comment, Sheet *sheet)
+{
+	GnmScenario *sc = g_object_new (GNM_SCENARIO_TYPE, NULL);
+
+	sc->sheet = sheet;
+	sc->name = g_strdup (name);
+	sc->comment = g_strdup (comment);
+
+	return sc;
+}
+
+static void
+gnm_scenario_class_init (GObjectClass *object_class)
+{
+	gnm_scenario_parent_class = g_type_class_peek_parent (object_class);
+
+	object_class->finalize = gnm_scenario_finalize;
+}
+
+GSF_CLASS (GnmScenario, gnm_scenario,
+	   &gnm_scenario_class_init, NULL, G_TYPE_OBJECT)
+
+/* ------------------------------------------------------------------------- */
 
 static GnmScenario *
 scenario_new (Sheet *sheet, gchar const *name, gchar const *comment)
 {
-	GnmScenario *s;
-	GList      *scenarios = sheet->scenarios;
-
-	s = g_new (GnmScenario, 1);
-	s->sheet = sheet;
+	GnmScenario *sc;
+	char *actual_name = g_strdup (name);
 
 	/* Check if a scenario having the same name already exists. */
-	if (scenario_by_name (scenarios, name, NULL)) {
+	if (gnm_sheet_get_scenario (sheet, name)) {
 		GString *str = g_string_new (NULL);
 		gchar   *tmp;
 		int     i, j, len;
@@ -117,8 +146,8 @@ scenario_new (Sheet *sheet, gchar const *name, gchar const *comment)
 
 		for (j = 1; j < 10000; j++) {
 			g_string_printf (str, "%s [%d]", tmp, j);
-			if (!scenario_by_name (scenarios, str->str, NULL)) {
-				s->name = g_string_free (str, FALSE);
+			if (!gnm_sheet_get_scenario (sheet, name)) {
+				actual_name = g_string_free (str, FALSE);
 				str = NULL;
 				break;
 			}
@@ -126,15 +155,16 @@ scenario_new (Sheet *sheet, gchar const *name, gchar const *comment)
 		if (str)
 			g_string_free (str, TRUE);
 		g_free (tmp);
-	} else
-		s->name           = g_strdup (name);
+	}
 
-	s->comment        = g_strdup (comment);
-	s->changing_cells = NULL;
-	s->cell_sel_str   = NULL;
-	s->marked_deleted = FALSE;
+	sc = gnm_scenario_new (actual_name, comment, sheet);
+	g_free (actual_name);
 
-	return s;
+	sc->changing_cells = NULL;
+	sc->cell_sel_str   = NULL;
+	sc->marked_deleted = FALSE;
+
+	return sc;
 }
 
 
@@ -222,106 +252,39 @@ copy_cb (int col, int row, GnmValue *v, copy_cb_t *p)
 }
 
 GnmScenario *
-scenario_copy (GnmScenario *s, Sheet *new_sheet)
+gnm_scenario_dup (GnmScenario *src, Sheet *new_sheet)
 {
-	GnmScenario *p;
+	GnmScenario *dst;
 	copy_cb_t  cb;
 
-	p = g_new (GnmScenario, 1);
+	dst = gnm_scenario_new (src->name, src->comment, new_sheet);
+	dst->cell_sel_str = g_strdup (src->cell_sel_str);
+	dst->range = src->range;
 
-	p->name         = g_strdup (s->name);
-	p->comment      = g_strdup (s->comment);
-	/* FIXME: Sheet name change */
-	p->cell_sel_str = g_strdup (s->cell_sel_str);
-	range_init (&p->range, s->range.start.col, s->range.start.row,
-		    s->range.end.col, s->range.end.row);
+	cb.rows       = src->range.end.row - src->range.start.row + 1;
+	cb.cols       = src->range.end.col - src->range.start.col + 1;
+	cb.col_offset = src->range.start.col;
+	cb.row_offset = src->range.start.row;
+	cb.dest       = dst;
 
-	cb.rows       = s->range.end.row - s->range.start.row + 1;
-	cb.cols       = s->range.end.col - s->range.start.col + 1;
-	cb.col_offset = s->range.start.col;
-	cb.row_offset = s->range.start.row;
-	cb.dest       = p;
+	dst->changing_cells = g_new (GnmValue *, cb.rows * cb.cols);
+	scenario_for_each_value (src, (ScenarioValueCB) copy_cb, &cb);
 
-	p->changing_cells = g_new (GnmValue *, cb.rows * cb.cols);
-	scenario_for_each_value (s, (ScenarioValueCB) copy_cb, &cb);
-
-	return p;
-}
-
-GList *
-scenarios_dup (GList *list, Sheet *ns)
-{
-	GList *cpy = NULL;
-
-	while (list != NULL) {
-		cpy = g_list_prepend (cpy, scenario_copy (list->data, ns));
-		list = list->next;
-	}
-
-	return g_list_reverse (cpy);
+	return dst;
 }
 
 /* Scenario: Remove sheet *************************************************/
 
-static GnmValue *
-cb_value_free (int col, int row, GnmValue *v, gpointer data)
-{
-	value_release (v);
-
-	return NULL;
-}
-
 void
-scenario_free (GnmScenario *s)
+scenario_delete (Sheet *sheet, gchar *name)
 {
-	if (s == NULL)
-		return;
+	GnmScenario *sc;
 
-	g_free (s->name);
-	g_free (s->comment);
-	g_free (s->cell_sel_str);
-
-	scenario_for_each_value (s, cb_value_free, NULL);
-
-	g_free (s->changing_cells);
-	g_free (s);
-}
-
-/**
- * scenarios_free :
- * @list : #GList
- *
- * Free all scenarios in the collection.
- **/
-void
-scenarios_free (GList *list)
-{
-	go_list_free_custom (list, (GFreeFunc)scenario_free);
-}
-
-gboolean
-scenario_mark_deleted (GList *scenarios, gchar *name)
-{
-	GnmScenario *s;
-	gboolean   all_deleted;
-
-	s = scenario_by_name (scenarios, name, &all_deleted);
-	s->marked_deleted = TRUE;
-
-	return all_deleted;
-}
-
-GList *
-scenario_delete (GList *scenarios, gchar *name)
-{
-	GnmScenario *s;
-	GList      *list;
-
-	s = scenario_by_name (scenarios, name, NULL);
-	list = g_list_remove (scenarios, s);
-	scenario_free (s);
-
-	return list;
+	sc = gnm_sheet_get_scenario (sheet, name);
+	if (sc) {
+		sheet->scenarios = g_list_remove (sheet->scenarios, sc);
+		g_object_unref (sc);
+	}
 }
 
 /* Scenario: Show **********************************************************/
@@ -349,7 +312,7 @@ scenario_show (WorkbookControl        *wbc,
 	if (old_values) {
 		scenario_for_each_value (old_values, (ScenarioValueCB) show_cb,
 					 dao);
-		scenario_free (old_values);
+		g_object_unref (old_values);
 	}
 
 	if (s == NULL)
@@ -388,7 +351,7 @@ scenario_manager_ok (Sheet *sheet)
 		GnmScenario *s = cur->data;
 
 		if (s->marked_deleted)
-			scenario_free (s);
+			g_object_unref (s);
 		else
 			list = g_list_append (list, s);
 	}
