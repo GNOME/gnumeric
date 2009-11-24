@@ -5822,7 +5822,7 @@ gnm_sheet_scenario_new (Sheet *sheet, const char *name)
 	} else
 		actual_name = g_strdup (name);
 
-	sc = gnm_scenario_new (actual_name, NULL, sheet);
+	sc = gnm_scenario_new (actual_name, sheet);
 
 	g_free (actual_name);
 

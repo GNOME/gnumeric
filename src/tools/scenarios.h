@@ -6,6 +6,20 @@
 
 /* ------------------------------------------------------------------------- */
 
+typedef struct {
+	GnmDependent dep;
+	GnmValue *value;
+} GnmScenarioItem;
+
+GnmScenarioItem *gnm_scenario_item_new (Sheet *sheet);
+void gnm_scenario_item_free (GnmScenarioItem *sci);
+void gnm_scenario_item_set_range (GnmScenarioItem *sci,
+				  const GnmSheetRange *sr);
+void gnm_scenario_item_set_value (GnmScenarioItem *sci,
+				  const GnmValue *v);
+
+/* ------------------------------------------------------------------------- */
+
 #define GNM_SCENARIO_TYPE        (gnm_scenario_get_type ())
 #define GNM_SCENARIO(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_SCENARIO_TYPE, GnmScenario))
 #define GNM_SCENARIO_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GNM_SCENARIO_TYPE, GnmScenarioClass))
@@ -17,6 +31,8 @@ struct GnmScenario_ {
         Sheet *sheet;
         char *name;
         char *comment;
+
+	GSList *items;
 
         GnmValue **changing_cells;
         GnmRange  range;
@@ -30,22 +46,21 @@ typedef struct {
 
 GType gnm_scenario_get_type (void);
 
-GnmScenario *gnm_scenario_new (char const *name, char const *comment,
-			       Sheet *sheet);
+GnmScenario *gnm_scenario_new (char const *name, Sheet *sheet);
 
 GnmScenario *gnm_scenario_dup (GnmScenario *s, Sheet *new_sheet);
 
+void gnm_scenario_set_comment (GnmScenario *sc, const char *comment);
+
+void gnm_scenario_add_area (GnmScenario *sc, const GnmSheetRange *sr,
+			    gboolean add_content);
+
 /* ------------------------------------------------------------------------- */
-
-
 
 typedef struct _scenario_cmd_t {
         GnmScenario *redo;
         GnmScenario *undo;
 } scenario_cmd_t;
-
-GnmScenario *scenario_by_name      (GList *scenarios, const gchar *name,
-				   gboolean *all_deleted);
 
 GnmScenario *scenario_show         (GnmScenario             *scenario,
 				    GnmScenario             *old_values,
