@@ -778,7 +778,6 @@ solver_add_scenario (SolverState *state, GnmSolverResult *res, gchar const *name
 {
 	GnmSolverParameters *param = state->sheet->solver_parameters;
 	GnmValue const *vinput;
-	char const *comment = _("Optimal solution created by solver.\n");
 	GnmScenario *sc;
 	GnmSheetRange sr;
 
@@ -786,7 +785,18 @@ solver_add_scenario (SolverState *state, GnmSolverResult *res, gchar const *name
 	gnm_sheet_range_from_value (&sr, vinput);
 
 	sc = gnm_sheet_scenario_new (param->sheet, name);
-	gnm_scenario_set_comment (sc, comment);
+	switch (res->quality) {
+	case GNM_SOLVER_RESULT_OPTIMAL:
+		gnm_scenario_set_comment
+			(sc, _("Optimal solution created by solver.\n"));
+		break;
+	case GNM_SOLVER_RESULT_FEASIBLE:
+		gnm_scenario_set_comment
+			(sc, _("Feasible solution created by solver.\n"));
+		break;
+	default:
+		break;
+	}
 	gnm_scenario_add_area (sc, &sr, TRUE);
 
 	gnm_sheet_scenario_add (sc->sheet, sc);
@@ -828,7 +838,8 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	workbook_recalc (state->sheet->workbook);
 
 	if (res != NULL) {
-		if (res->quality == GNM_SOLVER_RESULT_OPTIMAL &&
+		if ((res->quality == GNM_SOLVER_RESULT_OPTIMAL ||
+		     res->quality == GNM_SOLVER_RESULT_FEASIBLE) &&
 		    param->options.add_scenario)
 			solver_add_scenario (state, res,
 					     param->options.scenario_name);
