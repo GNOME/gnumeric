@@ -17,7 +17,8 @@ void gnm_scenario_item_set_range (GnmScenarioItem *sci,
 				  const GnmSheetRange *sr);
 void gnm_scenario_item_set_value (GnmScenarioItem *sci,
 				  const GnmValue *v);
-gboolean gnm_scenario_item_valid (const GnmScenarioItem *sci);
+gboolean gnm_scenario_item_valid (const GnmScenarioItem *sci,
+				  GnmSheetRange *sr);
 
 /* ------------------------------------------------------------------------- */
 
@@ -53,15 +54,11 @@ GnmScenario *gnm_scenario_dup (GnmScenario *s, Sheet *new_sheet);
 
 void gnm_scenario_set_comment (GnmScenario *sc, const char *comment);
 
-void gnm_scenario_add_area (GnmScenario *sc, const GnmSheetRange *sr,
-			    gboolean add_content);
+void gnm_scenario_add_area (GnmScenario *sc, const GnmSheetRange *sr);
+
+GOUndo *gnm_scenario_apply (GnmScenario *sc);
 
 /* ------------------------------------------------------------------------- */
-
-typedef struct _scenario_cmd_t {
-        GnmScenario *redo;
-        GnmScenario *undo;
-} scenario_cmd_t;
 
 GnmScenario *scenario_show         (GnmScenario             *scenario,
 				    GnmScenario             *old_values,

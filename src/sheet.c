@@ -5810,7 +5810,7 @@ gnm_sheet_scenario_new (Sheet *sheet, const char *name)
 
 		for (j = 1; ; j++) {
 			g_string_printf (str, "%s [%d]", tmp, j);
-			if (!gnm_sheet_scenario_find (sheet, name)) {
+			if (!gnm_sheet_scenario_find (sheet, str->str)) {
 				actual_name = g_string_free (str, FALSE);
 				str = NULL;
 				break;

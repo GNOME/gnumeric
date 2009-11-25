@@ -798,7 +798,7 @@ solver_add_scenario (SolverState *state, GnmSolverResult *res, gchar const *name
 	default:
 		break;
 	}
-	gnm_scenario_add_area (sc, &sr, TRUE);
+	gnm_scenario_add_area (sc, &sr);
 
 	cmd_scenario_add (wbc, sc, sc->sheet);
 }

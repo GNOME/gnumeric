@@ -417,7 +417,7 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	sc = gnm_sheet_scenario_new (state->base.sheet, name);
 	if (comment && comment[0])
 		gnm_scenario_set_comment (sc, comment);
-	gnm_scenario_add_area (sc, &sr, TRUE);
+	gnm_scenario_add_area (sc, &sr);
 
 	cmd_scenario_add (wbc, sc, state->base.sheet);
 
@@ -647,19 +647,9 @@ static void
 scenarios_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			 ScenariosState *state)
 {
-	data_analysis_output_t dao;
-	WorkbookControl        *wbc;
-	scenario_cmd_t         *cmd = g_new (scenario_cmd_t, 1);
-
 	if (state->scenario_state->current) {
-		dao_init_new_sheet (&dao);
-		dao.sheet = state->base.sheet;
-		wbc = WORKBOOK_CONTROL (state->base.wbcg);
-
-		cmd->redo = state->scenario_state->current;
-		cmd->undo = state->scenario_state->old_values;
-
-		cmd_scenario_mngr (wbc, cmd, state->base.sheet);
+		WorkbookControl *wbc = WORKBOOK_CONTROL (state->base.wbcg);
+		cmd_scenario_mngr (wbc, state->scenario_state->current);
 	}
 
 	scenario_manager_ok (state->base.sheet);

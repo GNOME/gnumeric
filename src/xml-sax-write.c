@@ -1062,7 +1062,7 @@ xml_write_scenario (GnmOutputXML *state, GnmScenario const *sc)
 		GString *str;
 		GnmConventionsOut out;
 
-		if (!gnm_scenario_item_valid (sci))
+		if (!gnm_scenario_item_valid (sci, NULL))
 			continue;
 
 		str = g_string_new (NULL);

@@ -6031,7 +6031,8 @@ cmd_scenario_add (WorkbookControl *wbc, GnmScenario *s, Sheet *sheet)
 
 typedef struct {
 	GnmCommand cmd;
-	scenario_cmd_t  *sc;
+	GnmScenario *sc;
+	GOUndo *undo;
 } CmdScenarioMngr;
 
 MAKE_GNM_COMMAND (CmdScenarioMngr, cmd_scenario_mngr, NULL)
@@ -6040,13 +6041,7 @@ static gboolean
 cmd_scenario_mngr_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdScenarioMngr *me = CMD_SCENARIO_MNGR (cmd);
-	data_analysis_output_t dao;
-
-	dao_init_new_sheet (&dao);
-	dao.sheet = me->cmd.sheet;
-	g_object_unref (me->sc->undo);
-	me->sc->undo = scenario_show (me->sc->redo, NULL, &dao);
-
+	me->undo = gnm_scenario_apply (me->sc);
 	return FALSE;
 }
 
@@ -6055,14 +6050,9 @@ cmd_scenario_mngr_undo (GnmCommand *cmd,
 			G_GNUC_UNUSED WorkbookControl *wbc)
 {
 	CmdScenarioMngr *me = CMD_SCENARIO_MNGR (cmd);
-	GnmScenario      *tmp;
-	data_analysis_output_t dao;
-
-	dao_init_new_sheet (&dao);
-	dao.sheet = me->cmd.sheet;
-	tmp = gnm_scenario_dup (me->sc->undo, dao.sheet);
-	scenario_show (NULL, tmp, &dao);
-
+	go_undo_undo_with_data (me->undo, GO_CMD_CONTEXT (wbc));
+	g_object_unref (me->undo);
+	me->undo = NULL;
 	return FALSE;
 }
 
@@ -6071,32 +6061,27 @@ cmd_scenario_mngr_finalize (GObject *cmd)
 {
 	CmdScenarioMngr *me = CMD_SCENARIO_MNGR (cmd);
 
-	g_object_unref (me->sc->undo);
-	g_object_unref (me->sc->redo);
-	g_free (me->sc);
+	g_object_unref (me->sc);
+	if (me->undo)
+		g_object_unref (me->undo);
 
 	gnm_command_finalize (cmd);
 }
 
 gboolean
-cmd_scenario_mngr (WorkbookControl *wbc, scenario_cmd_t *sc, Sheet *sheet)
+cmd_scenario_mngr (WorkbookControl *wbc, GnmScenario *sc)
 {
 	CmdScenarioMngr *me;
-	data_analysis_output_t dao;
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
-	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+	g_return_val_if_fail (GNM_IS_SCENARIO (wbc), TRUE);
 
 	me = g_object_new (CMD_SCENARIO_MNGR_TYPE, NULL);
 
-	me->sc = sc;
-	me->cmd.sheet = sheet;
+	me->sc = g_object_ref (sc);
+	me->cmd.sheet = sc->sheet;
 	me->cmd.size  = 1;
 	me->cmd.cmd_descriptor = g_strdup (_("Scenario Show"));
-
-	dao_init_new_sheet (&dao);
-	dao.sheet = me->cmd.sheet;
-	me->sc->redo = scenario_show (me->sc->undo, NULL, &dao);
 
 	return gnm_command_push_undo (wbc, G_OBJECT (me));
 }

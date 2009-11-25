@@ -34,6 +34,7 @@
 
 #include "scenarios.h"
 #include "dao.h"
+#include "clipboard.h"
 #include "parse-util.h"
 #include <goffice/goffice.h>
 
@@ -61,8 +62,9 @@ void
 gnm_scenario_item_set_range (GnmScenarioItem *sci, const GnmSheetRange *sr)
 {
 	if (sr) {
-		GnmValue *v = value_new_cellrange_r (sr->sheet,
-						     &sr->range);
+		GnmValue *v = value_new_cellrange_r
+			(sr->sheet != sci->dep.sheet ? sr->sheet : NULL,
+			 &sr->range);
 		GnmExprTop const *texpr = gnm_expr_top_new_constant (v);
 		dependent_managed_set_expr (&sci->dep, texpr);
 		gnm_expr_top_unref (texpr);
@@ -78,11 +80,22 @@ gnm_scenario_item_set_value (GnmScenarioItem *sci, const GnmValue *v)
 }
 
 gboolean
-gnm_scenario_item_valid (const GnmScenarioItem *sci)
+gnm_scenario_item_valid (const GnmScenarioItem *sci, GnmSheetRange *sr)
 {
-	GnmExprTop const *texpr = sci ? sci->dep.texpr : NULL;
-	GnmValue const *vr = texpr ? gnm_expr_top_get_constant (texpr) : NULL;
-	return vr && vr->type == VALUE_CELLRANGE;
+	GnmExprTop const *texpr;
+	GnmValue const *vr;
+
+	if (!sci || !((texpr = sci->dep.texpr)))
+		return FALSE;
+
+	vr = gnm_expr_top_get_constant (texpr);
+	if (!vr || vr->type != VALUE_CELLRANGE)
+		return FALSE;
+
+	if (sr)
+		gnm_sheet_range_from_value
+			(sr, gnm_expr_top_get_constant (texpr));
+	return TRUE;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -184,9 +197,7 @@ cb_save_cells (GnmCellIter const *iter, gpointer user)
 
 	/* FIXME: Think about arrays.  */
 
-	sr.sheet = (cell->base.sheet == pdata->sc->sheet)
-		? NULL
-		: cell->base.sheet;
+	sr.sheet = cell->base.sheet;
 	sr.range.start = sr.range.end = iter->pp.eval;
 	gnm_scenario_item_set_range (sci, &sr);
 	gnm_scenario_item_set_value (sci, cell->value);
@@ -198,34 +209,61 @@ cb_save_cells (GnmCellIter const *iter, gpointer user)
 
 
 void
-gnm_scenario_add_area (GnmScenario *sc, const GnmSheetRange *sr,
-		       gboolean add_content)
+gnm_scenario_add_area (GnmScenario *sc, const GnmSheetRange *sr)
 {
 	GnmScenarioItem *sci;
-	GnmSheetRange sr2;
+	struct cb_save_cells data;
 
 	g_return_if_fail (GNM_IS_SCENARIO (sc));
 	g_return_if_fail (sr != NULL);
 
-	sr2 = *sr;
-	if (!sr2.sheet)
-		sr2.sheet = sc->sheet;
 	sci = gnm_scenario_item_new (sc->sheet);
-	gnm_scenario_item_set_range (sci, &sr2);
+	gnm_scenario_item_set_range (sci, sr);
 	sc->items = g_slist_prepend (sc->items, sci);
 
-	if (add_content) {
-		struct cb_save_cells data;
-		data.items = NULL;
-		data.sc = sc;
-		sheet_foreach_cell_in_range
-			(sr2.sheet, CELL_ITER_IGNORE_NONEXISTENT,
-			 sr2.range.start.col, sr2.range.start.row,
-			 sr2.range.end.col, sr2.range.end.row,
-			 cb_save_cells, &data);
-		sc->items = g_slist_concat (sc->items,
-					    g_slist_reverse (data.items));
+	data.items = NULL;
+	data.sc = sc;
+	sheet_foreach_cell_in_range
+		(eval_sheet (sr->sheet, sc->sheet),
+		 CELL_ITER_IGNORE_NONEXISTENT,
+		 sr->range.start.col, sr->range.start.row,
+		 sr->range.end.col, sr->range.end.row,
+		 cb_save_cells, &data);
+	sc->items = g_slist_concat (sc->items,
+				    g_slist_reverse (data.items));
+}
+
+GOUndo *
+gnm_scenario_apply (GnmScenario *sc)
+{
+	GOUndo *undo = NULL;
+	GSList *l;
+
+	g_return_val_if_fail (GNM_IS_SCENARIO (sc), NULL);
+
+	for (l = sc->items; l; l = l->next) {
+		GnmScenarioItem *sci = l->data;
+		GnmValue const *val = sci->value;
+		GnmSheetRange sr;
+
+		if (!gnm_scenario_item_valid (sci, &sr))
+			continue;
+
+		if (val) {
+			/* FIXME: think about arrays.  */
+			GnmCell *cell = sheet_cell_fetch
+				(eval_sheet (sr.sheet, sc->sheet),
+				 sr.range.start.col,
+				 sr.range.start.row);
+			sheet_cell_set_value (cell, value_dup (val));
+		} else {
+			GOUndo *u = clipboard_copy_range_undo (sr.sheet,
+							       &sr.range);
+			undo = go_undo_combine (undo, u);
+		}
 	}
+
+	return undo;
 }
 
 /* ------------------------------------------------------------------------- */
