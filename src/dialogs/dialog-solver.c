@@ -780,6 +780,7 @@ solver_add_scenario (SolverState *state, GnmSolverResult *res, gchar const *name
 	GnmValue const *vinput;
 	GnmScenario *sc;
 	GnmSheetRange sr;
+	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 
 	vinput = gnm_solver_param_get_input (param);
 	gnm_sheet_range_from_value (&sr, vinput);
@@ -799,7 +800,7 @@ solver_add_scenario (SolverState *state, GnmSolverResult *res, gchar const *name
 	}
 	gnm_scenario_add_area (sc, &sr, TRUE);
 
-	gnm_sheet_scenario_add (sc->sheet, sc);
+	cmd_scenario_add (wbc, sc, sc->sheet);
 }
 
 /**
