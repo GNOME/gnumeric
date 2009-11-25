@@ -94,6 +94,9 @@ scenario_for_each_value (GnmScenario *s, ScenarioValueCB fn, gpointer data)
 {
 	int        i, j, cols, pos;
 
+	if (!s->changing_cells)
+		return;
+
 	cols = s->range.end.col - s->range.start.col + 1;
 	for (i = s->range.start.row; i <= s->range.end.row; i++)
 		for (j = s->range.start.col; j <= s->range.end.col; j++) {
@@ -181,7 +184,9 @@ cb_save_cells (GnmCellIter const *iter, gpointer user)
 
 	/* FIXME: Think about arrays.  */
 
-	sr.sheet = cell->base.sheet;
+	sr.sheet = (cell->base.sheet == pdata->sc->sheet)
+		? NULL
+		: cell->base.sheet;
 	sr.range.start = sr.range.end = iter->pp.eval;
 	gnm_scenario_item_set_range (sci, &sr);
 	gnm_scenario_item_set_value (sci, cell->value);

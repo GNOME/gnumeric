@@ -777,18 +777,19 @@ static void
 solver_add_scenario (SolverState *state, GnmSolverResult *res, gchar const *name)
 {
 	GnmSolverParameters *param = state->sheet->solver_parameters;
-	GnmValue         *input_range;
-	gchar const      *comment = _("Optimal solution created by solver.\n");
-	GnmScenario       *scenario;
+	GnmValue const *vinput;
+	char const *comment = _("Optimal solution created by solver.\n");
+	GnmScenario *sc;
+	GnmSheetRange sr;
 
-	input_range = gnm_expr_entry_parse_as_value (state->change_cell_entry,
-						     state->sheet);
+	vinput = gnm_solver_param_get_input (param);
+	gnm_sheet_range_from_value (&sr, vinput);
 
-	scenario_add_new (name, input_range,
-			  value_peek_string (gnm_solver_param_get_input (param)),
-			  comment, state->sheet, &scenario);
-	gnm_sheet_scenario_add (scenario->sheet, scenario);
-	value_release (input_range);
+	sc = gnm_sheet_scenario_new (param->sheet, name);
+	gnm_scenario_set_comment (sc, comment);
+	gnm_scenario_add_area (sc, &sr, TRUE);
+
+	gnm_sheet_scenario_add (sc->sheet, sc);
 }
 
 /**
