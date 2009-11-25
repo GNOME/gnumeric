@@ -363,17 +363,13 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	GtkWidget               *entry, *comment_view;
 	GtkTextBuffer           *buf;
 	GtkTextIter             start, end;
-	GnmRangeRef const      *rr = NULL;
-	gboolean                res;
-	GnmScenario              *scenario;
+	GnmScenario             *sc;
+	GnmSheetRange           sr;
 
 	cell_range = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 
-	if (cell_range != NULL)
-		rr = value_get_rangeref (cell_range);
-
-	if (rr == NULL) {
+	if (!cell_range || !gnm_sheet_range_from_value (&sr, cell_range)) {
 		go_gtk_notice_dialog (GTK_WINDOW (state->base.dialog),
 				 GTK_MESSAGE_ERROR,
 				 _("Invalid changing cells"));
@@ -381,7 +377,7 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		return;
 	}
 
-	if (rr->a.sheet != state->base.sheet) {
+	if (sr.sheet && sr.sheet != state->base.sheet) {
 		go_gtk_notice_dialog (GTK_WINDOW (state->base.dialog),
 				 GTK_MESSAGE_ERROR,
 				 _("Changing cells should be on the current "
@@ -418,21 +414,12 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	wbc = WORKBOOK_CONTROL (state->base.wbcg);
 
-	res = scenario_add_new (name, cell_range,
-				(gchar *) gnm_expr_entry_get_text
-				(GNM_EXPR_ENTRY (state->base.input_entry)),
-				comment, state->base.sheet, &scenario);
+	sc = gnm_sheet_scenario_new (state->base.sheet, name);
+	if (comment && comment[0])
+		gnm_scenario_set_comment (sc, comment);
+	gnm_scenario_add_area (sc, &sr, TRUE);
 
-	cmd_scenario_add (wbc, scenario, state->base.sheet);
-
-	if (res)
-		go_gtk_notice_dialog (GTK_WINDOW (state->base.dialog),
-				 GTK_MESSAGE_WARNING,
-				 _("Changing cells contain at least one "
-				   "expression that is not just a value. "
-				   "Note that showing the scenario will "
-				   "overwrite the formula with its current "
-				   "value."));
+	cmd_scenario_add (wbc, sc, state->base.sheet);
 
 	g_free (name);
 	g_free (comment);

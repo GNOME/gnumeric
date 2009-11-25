@@ -66,10 +66,5 @@ typedef struct _scenario_cmd_t {
 GnmScenario *scenario_show         (GnmScenario             *scenario,
 				    GnmScenario             *old_values,
 				    data_analysis_output_t *dao);
-gboolean    scenario_add_new      (gchar const *name,
-				   GnmValue *changing_cells,
-				   gchar const *cell_sel_str,
-				   gchar const *comment,
-				   Sheet *sheet, GnmScenario **new_scenario);
 
 #endif

@@ -245,49 +245,6 @@ collect_cb (int col, int row, GnmValue *v, collect_cb_t *p)
 	return value_dup (cell->value);
 }
 
-/*
- * Collects cell values of a scenario. If any of the cells contain an
- * expression return TRUE so that the user can be warned about it.
- */
-static gboolean
-collect_values (Sheet *sheet, GnmScenario *s, GnmValueRange *range)
-{
-	int          cols, rows;
-	collect_cb_t cb;
-
-	range_init_value (&s->range, (GnmValue *) range);
-
-	rows = s->range.end.row - s->range.start.row + 1;
-	cols = s->range.end.col - s->range.start.col + 1;
-	s->changing_cells = g_new0 (GnmValue *, rows * cols);
-
-	cb.expr_flag = FALSE;
-	cb.sheet     = sheet;
-	scenario_for_each_value (s, (ScenarioValueCB) collect_cb, &cb);
-
-	return cb.expr_flag;
-}
-
-/* Doesn't actually add the new scenario into the sheet's scenario list. */
-gboolean
-scenario_add_new (gchar const *name,
-		  GnmValue *changing_cells,
-		  gchar const *cell_sel_str,
-		  gchar const *comment,
-		  Sheet *sheet,
-		  GnmScenario **new_scenario)
-{
-	GnmScenario *scenario = gnm_sheet_scenario_new (sheet, name);
-	gboolean    res = collect_values (sheet, scenario, (GnmValueRange *) changing_cells);
-
-	gnm_scenario_set_comment (scenario, comment);
-	scenario->cell_sel_str = g_strdup (cell_sel_str);
-	sheet_redraw_all (sheet, TRUE);
-
-	*new_scenario = scenario;
-	return res;
-}
-
 /* Scenario: Duplicate sheet ***********************************************/
 
 typedef struct {
