@@ -1163,10 +1163,26 @@ void
 dialog_solver (WBCGtk *wbcg, Sheet *sheet)
 {
         SolverState *state;
+	GnmSolverParameters *old_params = sheet->solver_parameters;
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, SOLVER_KEY))
 		return;
+
+	/* First time around, pick a functional algorithm.  */
+	if (!gnm_solver_factory_functional (old_params->options.algorithm)) {
+		GSList *l;
+		for (l = gnm_solver_db_get (); l; l = l->next) {
+			GnmSolverFactory *factory = l->data;
+			if (old_params->options.model_type != factory->type)
+				continue;
+			if (gnm_solver_factory_functional (factory)) {
+				gnm_solver_param_set_algorithm (old_params,
+								factory);
+				break;
+			}
+		}
+	}
 
 	state                 = g_new0 (SolverState, 1);
 	state->wbcg           = wbcg;

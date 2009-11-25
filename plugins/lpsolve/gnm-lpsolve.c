@@ -9,6 +9,7 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
+#define SOLVER_PROGRAM "lp_solve"
 #define PRIVATE_KEY "::lpsolve::"
 
 typedef struct {
@@ -256,7 +257,7 @@ gnm_lpsolve_start (GnmSolver *sol, WorkbookControl *wbc, GError **err,
 
 	g_return_val_if_fail (sol->status == GNM_SOLVER_STATUS_PREPARED, FALSE);
 
-	argv[argc++] = (gchar *)"lp_solve";
+	argv[argc++] = (gchar *)SOLVER_PROGRAM;
 	argv[argc++] = (gchar *)"-i";
 	argv[argc++] = (gchar *)(param->options.automatic_scaling
 				 ? "-s1"
@@ -285,6 +286,19 @@ gnm_lpsolve_stop (GnmSolver *sol, GError *err, GnmLPSolve *lp)
 
 	return TRUE;
 }
+
+gboolean
+lpsolve_solver_factory_functional (GnmSolverFactory *factory);
+
+gboolean
+lpsolve_solver_factory_functional (GnmSolverFactory *factory)
+{
+	char *full_path = g_find_program_in_path (SOLVER_PROGRAM);
+	gboolean res= (full_path != NULL);
+	g_free (full_path);
+	return res;
+}
+
 
 GnmSolver *
 lpsolve_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params);

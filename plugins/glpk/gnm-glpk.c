@@ -14,6 +14,7 @@
 #include <string.h>
 #include <unistd.h>
 
+#define SOLVER_PROGRAM "glpsol"
 #define PRIVATE_KEY "::glpk::"
 
 typedef struct {
@@ -259,7 +260,7 @@ gnm_glpk_start (GnmSolver *sol, WorkbookControl *wbc, GError **err,
 
 	g_return_val_if_fail (sol->status == GNM_SOLVER_STATUS_PREPARED, FALSE);
 
-	argv[argc++] = (gchar *)"glpsol";
+	argv[argc++] = (gchar *)SOLVER_PROGRAM;
 	argv[argc++] = (gchar *)(param->options.automatic_scaling
 				 ? "--scale"
 				 : "--noscale");
@@ -290,6 +291,19 @@ gnm_glpk_stop (GnmSolver *sol, GError *err, GnmGlpk *lp)
 
 	return TRUE;
 }
+
+gboolean
+glpk_solver_factory_functional (GnmSolverFactory *factory);
+
+gboolean
+glpk_solver_factory_functional (GnmSolverFactory *factory)
+{
+	char *full_path = g_find_program_in_path (SOLVER_PROGRAM);
+	gboolean res= (full_path != NULL);
+	g_free (full_path);
+	return res;
+}
+
 
 GnmSolver *
 glpk_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params);

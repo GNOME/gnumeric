@@ -56,6 +56,7 @@ GType plugin_service_solver_get_type (void);
 typedef struct _PluginServiceSolver PluginServiceSolver;
 typedef struct {
 	GnmSolverCreator creator;
+	GnmSolverFactoryFunctional functional;
 } PluginServiceSolverCallbacks;
 
 /**************************************************************************/

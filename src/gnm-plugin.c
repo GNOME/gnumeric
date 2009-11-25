@@ -512,6 +512,26 @@ cb_load_and_create (GnmSolverFactory *factory, GnmSolverParameters *param)
 	return res;
 }
 
+static gboolean
+cb_load_and_functional (GnmSolverFactory *factory)
+{
+	PluginServiceSolver *ssol =
+		g_object_get_data (G_OBJECT (factory), "ssol");
+	GOPluginService *service = GO_PLUGIN_SERVICE (ssol);
+	GOErrorInfo *ignored_error = NULL;
+	GnmSolverFactoryFunctional functional;
+
+	go_plugin_service_load (service, &ignored_error);
+	if (ignored_error != NULL) {
+		go_error_info_print (ignored_error);
+		go_error_info_free (ignored_error);
+		return FALSE;
+	}
+
+	functional = ssol->cbs.functional;
+	return (functional == NULL || functional (factory));
+}
+
 static void
 plugin_service_solver_init (PluginServiceSolver *ssol)
 {
@@ -572,7 +592,8 @@ plugin_service_solver_read_xml (GOPluginService *service, xmlNode *tree,
 		ssol->factory = gnm_solver_factory_new (CXML2C (s_id),
 							CXML2C (s_name),
 							type,
-							cb_load_and_create);
+							cb_load_and_create,
+							cb_load_and_functional);
 		g_object_set_data (G_OBJECT (ssol->factory), "ssol", ssol);
 	}
 	xmlFree (s_id);
@@ -815,6 +836,7 @@ gnm_plugin_loader_module_load_service_solver (GOPluginLoader *loader,
 	PluginServiceSolverCallbacks *cbs;
 	char *symname;
 	GnmSolverCreator creator;
+	GnmSolverFactoryFunctional functional;
 
 	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_SOLVER (service));
 
@@ -825,7 +847,6 @@ gnm_plugin_loader_module_load_service_solver (GOPluginLoader *loader,
 			       NULL);
 	g_module_symbol (loader_module->handle, symname, (gpointer)&creator);
 	g_free (symname);
-
 	if (!creator) {
 		*ret_error = go_error_info_new_printf (
 			_("Module file \"%s\" has invalid format."),
@@ -833,8 +854,15 @@ gnm_plugin_loader_module_load_service_solver (GOPluginLoader *loader,
 		return;
 	}
 
+	symname = g_strconcat (go_plugin_service_get_id (service),
+			       "_solver_factory_functional",
+			       NULL);
+	g_module_symbol (loader_module->handle, symname, (gpointer)&functional);
+	g_free (symname);
+
 	cbs = go_plugin_service_get_cbs (service);
 	cbs->creator = creator;
+	cbs->functional = functional;
 }
 
 static gboolean
@@ -864,6 +892,7 @@ gplm_service_unload (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 		PluginServiceSolverCallbacks *cbs =
 			go_plugin_service_get_cbs (s);
 		cbs->creator = NULL;
+		cbs->functional = NULL;
 	} else
 		return FALSE;
 	return TRUE;

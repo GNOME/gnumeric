@@ -638,8 +638,6 @@ gnm_solver_param_constructor (GType type,
 	sp->options.max_time_sec = 30;
 	sp->options.assume_non_negative = TRUE;
 	sp->options.scenario_name = g_strdup ("Optimal");
-	gnm_solver_param_set_algorithm
-		(sp, g_slist_nth_data (gnm_solver_db_get (), 0));
 
 	return obj;
 }
@@ -1396,7 +1394,8 @@ GnmSolverFactory *
 gnm_solver_factory_new (const char *id,
 			const char *name,
 			GnmSolverModelType type,
-			GnmSolverCreator creator)
+			GnmSolverCreator creator,
+			GnmSolverFactoryFunctional functional)
 {
 	GnmSolverFactory *res;
 
@@ -1409,6 +1408,7 @@ gnm_solver_factory_new (const char *id,
 	res->name = g_strdup (name);
 	res->type = type;
 	res->creator = creator;
+	res->functional = functional;
 	return res;
 }
 
@@ -1418,6 +1418,16 @@ gnm_solver_factory_create (GnmSolverFactory *factory,
 {
 	g_return_val_if_fail (GNM_IS_SOLVER_FACTORY (factory), NULL);
 	return factory->creator (factory, param);
+}
+
+gboolean
+gnm_solver_factory_functional (GnmSolverFactory *factory)
+{
+	if (factory == NULL)
+		return FALSE;
+
+	return (factory->functional == NULL ||
+		factory->functional (factory));
 }
 
 static int

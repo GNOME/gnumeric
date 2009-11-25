@@ -207,7 +207,7 @@ typedef struct {
 	gboolean (*start) (GnmSolver *solver,
 			   WorkbookControl *wbc, GError **err);
 	gboolean (*stop) (GnmSolver *solver, GError **err);
-	gboolean (*child_exit) (GnmSolver *solver, gboolean normal, int code);
+	void (*child_exit) (GnmSolver *solver, gboolean normal, int code);
 } GnmSolverClass;
 
 GType gnm_solver_get_type  (void);
@@ -291,6 +291,7 @@ const char *gnm_sub_solver_get_cell_name (GnmSubSolver *subsol,
 
 typedef GnmSolver * (*GnmSolverCreator) (GnmSolverFactory *,
 					 GnmSolverParameters *);
+typedef gboolean (*GnmSolverFactoryFunctional) (GnmSolverFactory *);
 
 struct GnmSolverFactory_ {
 	GObject parent;
@@ -299,6 +300,7 @@ struct GnmSolverFactory_ {
 	char *name; /* Already translated */
 	GnmSolverModelType type;
 	GnmSolverCreator creator;
+	GnmSolverFactoryFunctional functional;
 };
 
 typedef struct {
@@ -310,9 +312,11 @@ GType gnm_solver_factory_get_type (void);
 GnmSolverFactory *gnm_solver_factory_new (const char *id,
 					  const char *name,
 					  GnmSolverModelType type,
-					  GnmSolverCreator creator);
+					  GnmSolverCreator creator,
+					  GnmSolverFactoryFunctional funct);
 GnmSolver *gnm_solver_factory_create (GnmSolverFactory *factory,
 				      GnmSolverParameters *param);
+gboolean gnm_solver_factory_functional (GnmSolverFactory *factory);
 
 GSList *gnm_solver_db_get (void);
 void gnm_solver_db_register (GnmSolverFactory *factory);
