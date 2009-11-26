@@ -56,7 +56,7 @@ void gnm_scenario_add_area (GnmScenario *sc, const GnmSheetRange *sr);
 
 GOUndo *gnm_scenario_apply (GnmScenario *sc);
 
-char *gnm_scenario_get_range_str (GnmScenario *sc);
+char *gnm_scenario_get_range_str (const GnmScenario *sc);
 
 /* ------------------------------------------------------------------------- */
 

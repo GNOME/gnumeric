@@ -58,6 +58,15 @@ gnm_scenario_item_free (GnmScenarioItem *sci)
 	g_free (sci);
 }
 
+static GnmScenarioItem *
+gnm_scenario_item_dup (GnmScenarioItem *src)
+{
+	GnmScenarioItem *dst = gnm_scenario_item_new (src->dep.sheet);
+	dependent_managed_set_expr (&dst->dep, src->dep.texpr);
+	dst->value = value_dup (src->value);
+	return dst;
+}
+
 void
 gnm_scenario_item_set_range (GnmScenarioItem *sci, const GnmSheetRange *sr)
 {
@@ -265,7 +274,7 @@ gnm_scenario_apply (GnmScenario *sc)
 }
 
 char *
-gnm_scenario_get_range_str (GnmScenario *sc)
+gnm_scenario_get_range_str (const GnmScenario *sc)
 {
 	GString *str;
 	GSList *l;
@@ -289,6 +298,36 @@ gnm_scenario_get_range_str (GnmScenario *sc)
 
 /* ------------------------------------------------------------------------- */
 
+/* Scenario: Duplicate sheet ***********************************************/
+
+GnmScenario *
+gnm_scenario_dup (GnmScenario *src, Sheet *new_sheet)
+{
+	GnmScenario *dst;
+	GSList *l;
+
+	dst = gnm_scenario_new (src->name, new_sheet);
+	gnm_scenario_set_comment (dst, src->comment);
+	dst->range = src->range;
+
+	for (l = src->items; l; l = l->next) {
+		GnmScenarioItem *src_sci = l->data;
+		GnmScenarioItem *dst_sci = gnm_scenario_item_dup (src_sci);
+		dst->items = g_slist_prepend (dst->items, dst_sci);
+	}
+	dst->items = g_slist_reverse (dst->items);
+
+	return dst;
+}
+
+static GnmValue *
+show_cb (int col, int row, GnmValue *v, data_analysis_output_t *dao)
+{
+	dao_set_cell_value (dao, col, row, value_dup (v));
+
+	return v;
+}
+
 typedef struct {
 	gboolean expr_flag;
 	Sheet    *sheet;
@@ -302,56 +341,6 @@ collect_cb (int col, int row, GnmValue *v, collect_cb_t *p)
 	p->expr_flag |= gnm_cell_has_expr (cell);
 
 	return value_dup (cell->value);
-}
-
-/* Scenario: Duplicate sheet ***********************************************/
-
-typedef struct {
-	int        rows;
-	int        cols;
-	int        col_offset;
-	int        row_offset;
-	GnmScenario *dest;
-} copy_cb_t;
-
-static GnmValue *
-copy_cb (int col, int row, GnmValue *v, copy_cb_t *p)
-{
-	p->dest->changing_cells [col - p->col_offset +
-				 (row - p->row_offset) * p->cols] =
-		value_dup (v);
-
-	return v;
-}
-
-GnmScenario *
-gnm_scenario_dup (GnmScenario *src, Sheet *new_sheet)
-{
-	GnmScenario *dst;
-	copy_cb_t  cb;
-
-	dst = gnm_scenario_new (src->name, new_sheet);
-	gnm_scenario_set_comment (dst, src->comment);
-	dst->range = src->range;
-
-	cb.rows       = src->range.end.row - src->range.start.row + 1;
-	cb.cols       = src->range.end.col - src->range.start.col + 1;
-	cb.col_offset = src->range.start.col;
-	cb.row_offset = src->range.start.row;
-	cb.dest       = dst;
-
-	dst->changing_cells = g_new (GnmValue *, cb.rows * cb.cols);
-	scenario_for_each_value (src, (ScenarioValueCB) copy_cb, &cb);
-
-	return dst;
-}
-
-static GnmValue *
-show_cb (int col, int row, GnmValue *v, data_analysis_output_t *dao)
-{
-	dao_set_cell_value (dao, col, row, value_dup (v));
-
-	return v;
 }
 
 GnmScenario *
