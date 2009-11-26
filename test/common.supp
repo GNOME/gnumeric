@@ -29,6 +29,19 @@
 }
 
 {
+   ORBit_gconf_ping_writev_i686_v3
+   Memcheck:Param
+   writev(vector[...])
+   fun:*
+   fun:writev
+   fun:*
+   fun:link_connection_writev
+   fun:giop_send_buffer_write
+   fun:*
+   fun:ORBit_small_invoke_stub
+}
+
+{
    ORBit_gconf_ping_writev_i686_sym
    Memcheck:Param
    writev(vector[...])
