@@ -534,7 +534,7 @@ find_scenario_strs (GList *scenarios, gchar *name,
 			g_free (buf1);
 			g_free (buf2);
 
-			*cells = buf1 = g_strdup (scenario->cell_sel_str);
+			*cells = buf1 = gnm_scenario_get_range_str (scenario);
 			*comment = buf2 = g_strdup (scenario->comment);
 			return FALSE;
 		}

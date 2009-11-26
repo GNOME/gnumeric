@@ -57,7 +57,7 @@
 #include <sheet-filter.h>
 #include <print-info.h>
 #include <parse-util.h>
-#include <tools/scenarios.h>
+#include <tools/dao.h>
 #include <gutils.h>
 #include <style-conditions.h>
 

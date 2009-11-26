@@ -38,8 +38,6 @@ struct GnmScenario_ {
 
         GnmValue **changing_cells;
         GnmRange  range;
-
-        gchar *cell_sel_str;
 };
 
 typedef struct {
@@ -57,6 +55,8 @@ void gnm_scenario_set_comment (GnmScenario *sc, const char *comment);
 void gnm_scenario_add_area (GnmScenario *sc, const GnmSheetRange *sr);
 
 GOUndo *gnm_scenario_apply (GnmScenario *sc);
+
+char *gnm_scenario_get_range_str (GnmScenario *sc);
 
 /* ------------------------------------------------------------------------- */
 

@@ -1,3 +1,8 @@
+2009-11-25  Morten Welinder  <terra@gnome.org>
+
+	* src/commands.c (cmd_scenario_add_redo, cmd_scenario_add_undo):
+	fix life cycle.
+
 2009-11-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* component/Gnumeric-embed.xml.in: add "Normality Test..."  menu item

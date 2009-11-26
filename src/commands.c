@@ -5967,7 +5967,7 @@ cmd_remove_name (WorkbookControl *wbc, GnmNamedExpr *nexpr)
 
 typedef struct {
 	GnmCommand cmd;
-	GnmScenario     *scenario;
+	GnmScenario *scenario;
 } CmdScenarioAdd;
 
 MAKE_GNM_COMMAND (CmdScenarioAdd, cmd_scenario_add, NULL)
@@ -5976,24 +5976,18 @@ static gboolean
 cmd_scenario_add_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdScenarioAdd *me = CMD_SCENARIO_ADD (cmd);
-	GnmScenario *sc = gnm_scenario_dup (me->scenario, me->cmd.sheet);
-
+	GnmScenario *sc = g_object_ref (me->scenario);
 	gnm_sheet_scenario_add (sc->sheet, sc);
-
 	return FALSE;
 }
 
 static gboolean
 cmd_scenario_add_undo (GnmCommand *cmd,
-			G_GNUC_UNUSED WorkbookControl *wbc)
+		       G_GNUC_UNUSED WorkbookControl *wbc)
 {
 	CmdScenarioAdd *me = CMD_SCENARIO_ADD (cmd);
-	GnmScenario *sc = gnm_sheet_scenario_find (me->cmd.sheet,
-						   me->scenario->name);
-
-	if (sc)
-		gnm_sheet_scenario_remove (sc->sheet, sc);
-
+	GnmScenario *sc = me->scenario;
+	gnm_sheet_scenario_remove (sc->sheet, sc);
 	return FALSE;
 }
 
@@ -6016,7 +6010,7 @@ cmd_scenario_add (WorkbookControl *wbc, GnmScenario *s, Sheet *sheet)
 
 	me = g_object_new (CMD_SCENARIO_ADD_TYPE, NULL);
 
-	me->scenario  = s;
+	me->scenario  = s; /* Take ownership */
 	me->cmd.sheet = sheet;
 	me->cmd.size  = 1;
 	me->cmd.cmd_descriptor = g_strdup (_("Add scenario"));

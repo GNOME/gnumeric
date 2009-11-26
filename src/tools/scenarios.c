@@ -143,8 +143,6 @@ gnm_scenario_finalize (GObject *obj)
 
 	go_slist_free_custom (sc->items, (GFreeFunc)gnm_scenario_item_free);
 
-	g_free (sc->cell_sel_str);
-
 	scenario_for_each_value (sc, cb_value_free, NULL);
 
 	g_free (sc->changing_cells);
@@ -266,6 +264,29 @@ gnm_scenario_apply (GnmScenario *sc)
 	return undo;
 }
 
+char *
+gnm_scenario_get_range_str (GnmScenario *sc)
+{
+	GString *str;
+	GSList *l;
+
+	g_return_val_if_fail (GNM_IS_SCENARIO (sc), NULL);
+
+	str = g_string_new (NULL);
+	for (l = sc->items; l; l = l->next) {
+		GnmScenarioItem const *sci = l->data;
+		GnmValue const *vrange;
+		if (sci->value || !gnm_scenario_item_valid (sci, NULL))
+			continue;
+		if (str->len)
+			g_string_append_c (str, ',');
+		vrange = gnm_expr_top_get_constant (sci->dep.texpr);
+		g_string_append (str, value_peek_string (vrange));
+	}
+
+	return g_string_free (str, FALSE);
+}
+
 /* ------------------------------------------------------------------------- */
 
 typedef struct {
@@ -311,7 +332,6 @@ gnm_scenario_dup (GnmScenario *src, Sheet *new_sheet)
 
 	dst = gnm_scenario_new (src->name, new_sheet);
 	gnm_scenario_set_comment (dst, src->comment);
-	dst->cell_sel_str = g_strdup (src->cell_sel_str);
 	dst->range = src->range;
 
 	cb.rows       = src->range.end.row - src->range.start.row + 1;
