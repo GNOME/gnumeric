@@ -1,3 +1,8 @@
+2009-11-26 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-normality.c (analysis_tool_normality_engine_run):
+	  create chart if requested
+
 2009-11-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-normality.h (analysis_tools_data_normality_t):

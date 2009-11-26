@@ -53,6 +53,10 @@ analysis_tool_normality_engine_run (data_analysis_output_t *dao,
 	char const *testname;
 	char const *n_comment;
 
+	GogGraph     *graph;
+	GogPlot	     *plot;
+	SheetObject *so;
+
 	switch (info->type) {
 	case normality_test_type_andersondarling:
 		fdname = "ADTEST";
@@ -93,6 +97,24 @@ analysis_tool_normality_engine_run (data_analysis_output_t *dao,
 	dao_set_italic (dao, 0, 0, 0, 5);
         dao_set_cell (dao, 0, 0, _(testname));
 
+	
+	if (info->graph) {
+		GogChart     *chart;
+
+		graph = g_object_new (GOG_TYPE_GRAPH, NULL);
+		chart = GOG_CHART (gog_object_add_by_name (
+						   GOG_OBJECT (graph), "Chart", NULL));
+
+		plot = gog_plot_new_by_name ("GogProbabilityPlot");
+		go_object_set_property (G_OBJECT (plot), "distribution",
+						"Distribution", "GODistNormal",
+						NULL, NULL);
+
+		gog_object_add_by_name (GOG_OBJECT (chart),
+					"Plot", GOG_OBJECT (plot));
+	}
+	
+
 	/* xgettext:
 	 * Note to translators: in the following string and others like it,
 	 * the "/" is a separator character that can be changed to anything
@@ -115,6 +137,17 @@ analysis_tool_normality_engine_run (data_analysis_output_t *dao,
 		dao_set_italic (dao, col, 0, col, 0);
 		analysis_tools_write_label (val_org, dao, &info->base, 
 					    col, 0, col);
+		if (info->graph) {
+			GogSeries    *series;
+
+			series = gog_plot_new_series (plot);
+			gog_series_set_dim (series, 0, 
+					    gnm_go_data_vector_new_expr 
+					    (val_org->v_range.cell.a.sheet,
+					     gnm_expr_top_new (gnm_expr_new_constant (value_dup (val_org)))), 
+					    NULL);
+		}
+
 		if (col == 1)
 			dao_set_cell_float (dao, col, 1, info->alpha);
 		else
@@ -132,6 +165,14 @@ analysis_tool_normality_engine_run (data_analysis_output_t *dao,
 				    gnm_expr_new_constant (value_new_string (_("Not normal"))), 
 				    gnm_expr_new_constant (value_new_string (_("Possibly normal")))));
 	}
+
+	if (info->graph) {
+		so = sheet_object_graph_new (graph);
+		g_object_unref (graph);
+		
+		dao_set_sheet_object (dao, 0, 1, so);
+	}
+
 
 	gnm_func_unref (fd);
 	gnm_func_unref (fd_if);

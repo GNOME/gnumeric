@@ -1,3 +1,7 @@
+2009-11-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* normality-tests.glade: enable chart checkbox
+
 2009-11-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* normality-tests.glade: add more test seelction buttons
