@@ -521,29 +521,6 @@ update_comment (ScenariosState *state, const gchar *cells,
 	gtk_text_buffer_set_text (buf, comment, strlen (comment));
 }
 
-static gboolean
-find_scenario_strs (GList *scenarios, gchar *name,
-		    gchar **cells, gchar **comment)
-{
-	static gchar *buf1 = NULL, *buf2 = NULL;
-
-	while (scenarios) {
-		const GnmScenario *scenario = scenarios->data;
-
-		if (strcmp (scenario->name, name) == 0) {
-			g_free (buf1);
-			g_free (buf2);
-
-			*cells = buf1 = gnm_scenario_get_range_str (scenario);
-			*comment = buf2 = g_strdup (scenario->comment);
-			return FALSE;
-		}
-		scenarios = scenarios->next;
-	}
-
-	return TRUE;
-}
-
 static void
 set_selection_state (ScenariosState *state, gboolean f)
 {
@@ -556,14 +533,14 @@ set_selection_state (ScenariosState *state, gboolean f)
 		GtkTreeIter             iter;
 		GtkTreeModel            *model;
 		gchar                   *name;
-		gchar                   *comment = NULL;
-		gchar                   *cells = NULL;
+		gchar                   *cells_txt;
+		GnmScenario             *sc;
 
 		selection = gtk_tree_view_get_selection
 			(GTK_TREE_VIEW
 			 (state->scenario_state->scenarios_treeview));
 		if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
-		return;
+			return;
 		model = gtk_tree_view_get_model
 			(GTK_TREE_VIEW
 			 (state->scenario_state->scenarios_treeview));
@@ -571,9 +548,12 @@ set_selection_state (ScenariosState *state, gboolean f)
 		gtk_tree_model_get (GTK_TREE_MODEL (model), &iter,
 				    0, &name, -1);
 
-		find_scenario_strs (state->base.sheet->scenarios, name,
-				    &cells, &comment);
-		update_comment (state, cells, comment);
+		sc = gnm_sheet_scenario_find (state->base.sheet, name);
+		if (!sc)
+			return;
+		cells_txt = gnm_scenario_get_range_str (sc);
+		update_comment (state, cells_txt, sc->comment);
+		g_free (cells_txt);
 	} else
 		update_comment (state, "", "");
 }
