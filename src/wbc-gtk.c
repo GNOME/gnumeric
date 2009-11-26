@@ -4662,6 +4662,7 @@ typedef struct {
 	int dim_i;
 	gboolean suppress_update;
 	GogDataType data_type;
+	gboolean changed;
 
 	gulong dataset_changed_handler;
 	gulong entry_update_handler;
@@ -4675,6 +4676,7 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 	GOData *data = NULL;
 	Sheet *sheet;
 	SheetControlGUI *scg;
+	editor->changed = FALSE;
 
 	/* Ignore changes while we are insensitive. useful for displaying
 	 * values, without storing them as Data.  Also ignore updates if the
@@ -4709,6 +4711,8 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 				wb_control_validation_msg (WORKBOOK_CONTROL (scg_wbcg (scg)),
 					VALIDATION_STYLE_INFO, NULL, perr.err->message);
 				parse_error_free (&perr);
+				gtk_editable_select_region (GTK_EDITABLE (gnm_expr_entry_get_entry (editor->entry)), 0, G_MAXINT);
+				editor->changed = TRUE;
 				return;
 			}
 		}
@@ -4732,13 +4736,28 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 }
 
 static gboolean
+cb_update_idle (GraphDimEditor *editor)
+{
+	cb_graph_dim_editor_update (editor->entry, FALSE, editor);
+	return FALSE;
+}
+
+static gboolean
 cb_graph_dim_entry_focus_out_event (G_GNUC_UNUSED GtkEntry	*ignored,
 				    G_GNUC_UNUSED GdkEventFocus	*event,
 				    GraphDimEditor		*editor)
 {
-	cb_graph_dim_editor_update (editor->entry, FALSE, editor);
+	if (!editor->changed)
+		return FALSE;
+	g_idle_add ((GSourceFunc) cb_update_idle, editor);
 
 	return FALSE;
+}
+
+static void
+cb_graph_dim_entry_changed (GraphDimEditor *editor)
+{
+	editor->changed = TRUE;
 }
 
 static void
@@ -4819,6 +4838,9 @@ wbcg_data_allocator_editor (GogDataAllocator *dalloc,
 	g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (editor->entry)),
 		"focus-out-event",
 		G_CALLBACK (cb_graph_dim_entry_focus_out_event), editor);
+	g_signal_connect_swapped (G_OBJECT (gnm_expr_entry_get_entry (editor->entry)),
+		"changed",
+		G_CALLBACK (cb_graph_dim_entry_changed), editor);
 	editor->dataset_changed_handler = g_signal_connect (G_OBJECT (editor->dataset),
 		"changed", G_CALLBACK (cb_dataset_changed), editor);
 	g_object_set_data_full (G_OBJECT (editor->entry),

@@ -59,7 +59,11 @@ build_ls_s() {
     build_ls_s "${WINEDIR}/Python${py_ver}/libs/python${py_ver}.lib"	"lib/libpython${py_ver}.dll.a"
 
 # prep jhbuild files
-    ${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc.py" "${is_shell}"
+    if [ ! "x${is_shell}" = "x" ]; then
+ 	${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc.py" "${is_shell}"
+    else
+	${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc.py"
+fi
 
 ################################################################
 # TODO

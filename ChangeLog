@@ -1,3 +1,9 @@
+2009-11-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/wbc-gtk.c (cb_graph_dim_editor_update), (cb_update_idle),
+	(cb_graph_dim_entry_focus_out_event), (cb_graph_dim_entry_changed),
+	(wbcg_data_allocator_editor): avoid piles of error message boxes. [#152517]
+
 2009-11-25  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_scenario_add_redo, cmd_scenario_add_undo):

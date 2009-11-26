@@ -14,6 +14,7 @@ Andreas:
 
 Jean:
 	* Fix cursor and cell edition on dark backgrounds. [#600656]
+	* Fix multiple error message boxes in graph guru. [#152517]
 
 Jody:
 	* turnkey win32 build on 32bit host.
