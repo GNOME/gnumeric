@@ -109,37 +109,6 @@ gnm_scenario_item_valid (const GnmScenarioItem *sci, GnmSheetRange *sr)
 
 /* ------------------------------------------------------------------------- */
 
-typedef GnmValue * (*ScenarioValueCB) (int col, int row, GnmValue *v, gpointer data);
-
-static void
-scenario_for_each_value (GnmScenario *s, ScenarioValueCB fn, gpointer data)
-{
-	int        i, j, cols, pos;
-
-	if (!s->changing_cells)
-		return;
-
-	cols = s->range.end.col - s->range.start.col + 1;
-	for (i = s->range.start.row; i <= s->range.end.row; i++)
-		for (j = s->range.start.col; j <= s->range.end.col; j++) {
-			pos = j - s->range.start.col +
-				(i - s->range.start.row) * cols;
-			s->changing_cells [pos] = fn (j, i,
-						      s->changing_cells [pos],
-						      data);
-		}
-}
-
-static GnmValue *
-cb_value_free (int col, int row, GnmValue *v, gpointer data)
-{
-	value_release (v);
-
-	return NULL;
-}
-
-/* ------------------------------------------------------------------------- */
-
 static GObjectClass *gnm_scenario_parent_class;
 
 static void
@@ -151,10 +120,6 @@ gnm_scenario_finalize (GObject *obj)
 	g_free (sc->comment);
 
 	go_slist_free_custom (sc->items, (GFreeFunc)gnm_scenario_item_free);
-
-	scenario_for_each_value (sc, cb_value_free, NULL);
-
-	g_free (sc->changing_cells);
 
 	gnm_scenario_parent_class->finalize (obj);
 }
@@ -179,6 +144,18 @@ gnm_scenario_new (char const *name, Sheet *sheet)
 	sc->name = g_strdup (name);
 
 	return sc;
+}
+
+GnmScenario *
+gnm_scenario_dup (GnmScenario *src, Sheet *new_sheet)
+{
+	GnmScenario *dst;
+
+	dst = gnm_scenario_new (src->name, new_sheet);
+	gnm_scenario_set_comment (dst, src->comment);
+	dst->items = go_slist_map (src->items,
+				   (GOMapFunc)gnm_scenario_item_dup);
+	return dst;
 }
 
 void
@@ -252,20 +229,23 @@ gnm_scenario_apply (GnmScenario *sc)
 		GnmScenarioItem *sci = l->data;
 		GnmValue const *val = sci->value;
 		GnmSheetRange sr;
+		Sheet *sheet;
 
 		if (!gnm_scenario_item_valid (sci, &sr))
 			continue;
+		sheet = eval_sheet (sr.sheet, sc->sheet);
 
 		if (val) {
 			/* FIXME: think about arrays.  */
 			GnmCell *cell = sheet_cell_fetch
-				(eval_sheet (sr.sheet, sc->sheet),
+				(sheet,
 				 sr.range.start.col,
 				 sr.range.start.row);
 			sheet_cell_set_value (cell, value_dup (val));
 		} else {
-			GOUndo *u = clipboard_copy_range_undo (sr.sheet,
+			GOUndo *u = clipboard_copy_range_undo (sheet,
 							       &sr.range);
+			/* FIXME: Clear the range.  */
 			undo = go_undo_combine (undo, u);
 		}
 	}
@@ -298,85 +278,3 @@ gnm_scenario_get_range_str (const GnmScenario *sc)
 
 /* ------------------------------------------------------------------------- */
 
-/* Scenario: Duplicate sheet ***********************************************/
-
-GnmScenario *
-gnm_scenario_dup (GnmScenario *src, Sheet *new_sheet)
-{
-	GnmScenario *dst;
-	GSList *l;
-
-	dst = gnm_scenario_new (src->name, new_sheet);
-	gnm_scenario_set_comment (dst, src->comment);
-	dst->range = src->range;
-
-	for (l = src->items; l; l = l->next) {
-		GnmScenarioItem *src_sci = l->data;
-		GnmScenarioItem *dst_sci = gnm_scenario_item_dup (src_sci);
-		dst->items = g_slist_prepend (dst->items, dst_sci);
-	}
-	dst->items = g_slist_reverse (dst->items);
-
-	return dst;
-}
-
-static GnmValue *
-show_cb (int col, int row, GnmValue *v, data_analysis_output_t *dao)
-{
-	dao_set_cell_value (dao, col, row, value_dup (v));
-
-	return v;
-}
-
-typedef struct {
-	gboolean expr_flag;
-	Sheet    *sheet;
-} collect_cb_t;
-
-static GnmValue *
-collect_cb (int col, int row, GnmValue *v, collect_cb_t *p)
-{
-	GnmCell *cell = sheet_cell_fetch (p->sheet, col, row);
-
-	p->expr_flag |= gnm_cell_has_expr (cell);
-
-	return value_dup (cell->value);
-}
-
-GnmScenario *
-scenario_show (GnmScenario             *s,
-	       GnmScenario             *old_values,
-	       data_analysis_output_t *dao)
-{
-	GnmScenario   *stored_values;
-	int           rows, cols;
-	collect_cb_t  cb;
-
-	/* Recover values of the previous show call. */
-	if (old_values) {
-		scenario_for_each_value (old_values, (ScenarioValueCB) show_cb,
-					 dao);
-		g_object_unref (old_values);
-	}
-
-	if (s == NULL)
-		return NULL;
-
-	/* Store values for recovery. */
-	stored_values = gnm_sheet_scenario_new (dao->sheet, "");
-	stored_values->range = s->range;
-	rows = s->range.end.row - s->range.start.row + 1;
-	cols = s->range.end.col - s->range.start.col + 1;
-	stored_values->changing_cells = g_new (GnmValue *, rows * cols);
-
-	cb.sheet = dao->sheet;
-	scenario_for_each_value (stored_values, (ScenarioValueCB) collect_cb,
-				 &cb);
-
-	/* Show scenario and recalculate. */
-	scenario_for_each_value (s, (ScenarioValueCB) show_cb, dao);
-	workbook_recalc (dao->sheet->workbook);
-	sheet_redraw_all (dao->sheet, TRUE);
-
-	return stored_values;
-}

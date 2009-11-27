@@ -49,38 +49,23 @@
 typedef struct {
 	GenericToolState base;
 
-	scenario_state_t *scenario_state;
-        GtkWidget *name_entry;
-} ScenariosState;
-
-struct _scenario_state {
 	GtkWidget  *show_button;
 	GtkWidget  *delete_button;
 	GtkWidget  *summary_button;
+        GtkWidget  *name_entry;
 
         GtkWidget  *scenarios_treeview;
 	GSList     *new_report_sheets;
 
-	GnmScenario *old_values;
+	GOUndo *undo;
 	GnmScenario *current;
-};
+} ScenariosState;
 
 typedef GnmValue * (*ScenarioValueCB) (int col, int row, GnmValue *v, gpointer data);
 
 static void
 scenario_for_each_value (GnmScenario *s, ScenarioValueCB fn, gpointer data)
 {
-	int        i, j, cols, pos;
-
-	cols = s->range.end.col - s->range.start.col + 1;
-	for (i = s->range.start.row; i <= s->range.end.row; i++)
-		for (j = s->range.start.col; j <= s->range.end.col; j++) {
-			pos = j - s->range.start.col +
-				(i - s->range.start.row) * cols;
-			s->changing_cells [pos] = fn (j, i,
-						      s->changing_cells [pos],
-						      data);
-		}
 }
 
 /* Ok button pressed. */
@@ -190,65 +175,6 @@ static void
 scenario_summary_res_cells (WorkbookControl *wbc, GSList *results,
 			    summary_cb_t *cb)
 {
-	data_analysis_output_t dao;
-	int        i, j, col, tmp_row = 4 + cb->row;
-	GnmRange      r;
-
-	dao_init_new_sheet (&dao);
-	dao.sheet = cb->sheet;
-
-	dao_set_cell (&cb->dao, 0, 3 + cb->row++, _("Result Cells:"));
-
-	while (results != NULL) {
-		range_init_value (&r, (GnmValue *) results->data);
-		for (i = r.start.col; i <= r.end.col; i++)
-			for (j = r.start.row; j <= r.end.row; j++) {
-				GnmScenario *ov = NULL;
-				GnmCell    *cell;
-				GList      *cur;
-
-				cell = sheet_cell_fetch (cb->sheet, i, j);
-
-				/* Names of the result cells. */
-				dao_set_cell (&cb->dao, 0, 3 + cb->row,
-					      cell_name (cell));
-
-				/* Current value. */
-				dao_set_cell_value
-					(&cb->dao, 1, 3 + cb->row,
-					 value_dup (cell->value));
-
-				/* Evaluate and write the value of the cell
-				 * with all different scenario values. */
-				col = 2;
-				for (cur = cb->sheet->scenarios; cur != NULL;
-				     cur = cur->next) {
-					GnmScenario *s = cur->data;
-
-					ov = scenario_show (s, ov, &dao);
-
-					cell = sheet_cell_fetch (cb->sheet,
-								 i, j);
-
-					cell_queue_recalc (cell);
-					gnm_cell_eval (cell);
-					dao_set_cell_value (&cb->dao, col++,
-							    3 + cb->row,
-							    value_dup
-							    (cell->value));
-				}
-				cb->row++;
-
-				/* Use show to clean up 'ov'. */
-				scenario_show (NULL, ov, &dao);
-				ov = NULL;
-			}
-		results = results->next;
-	}
-
-	/* Set the alignment of names of result cells to be right. */
-	dao_set_align (&cb->dao, 0, tmp_row, 0, 2 + cb->row,
-		       HALIGN_RIGHT, VALIGN_BOTTOM);
 }
 
 static void
@@ -525,8 +451,8 @@ static void
 set_selection_state (ScenariosState *state, gboolean f)
 {
 	/* Set the sensitivies to FALSE since no selections have been made */
-	gtk_widget_set_sensitive (state->scenario_state->show_button, f);
-	gtk_widget_set_sensitive (state->scenario_state->delete_button, f);
+	gtk_widget_set_sensitive (state->show_button, f);
+	gtk_widget_set_sensitive (state->delete_button, f);
 
 	if (f) {
 		GtkTreeSelection        *selection;
@@ -538,12 +464,12 @@ set_selection_state (ScenariosState *state, gboolean f)
 
 		selection = gtk_tree_view_get_selection
 			(GTK_TREE_VIEW
-			 (state->scenario_state->scenarios_treeview));
+			 (state->scenarios_treeview));
 		if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
 			return;
 		model = gtk_tree_view_get_model
 			(GTK_TREE_VIEW
-			 (state->scenario_state->scenarios_treeview));
+			 (state->scenarios_treeview));
 
 		gtk_tree_model_get (GTK_TREE_MODEL (model), &iter,
 				    0, &name, -1);
@@ -610,10 +536,13 @@ scenarios_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 static void
 scenario_manager_free (ScenariosState *state)
 {
-	g_slist_free (state->scenario_state->new_report_sheets);
-	state->scenario_state->new_report_sheets = NULL;
+	g_slist_free (state->new_report_sheets);
+	state->new_report_sheets = NULL;
 
-	g_free (state->scenario_state);
+	if (state->undo) {
+		g_object_unref (state->undo);
+		state->undo = NULL;
+	}
 }
 
 /**
@@ -627,9 +556,9 @@ static void
 scenarios_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			 ScenariosState *state)
 {
-	if (state->scenario_state->current) {
+	if (state->current) {
 		WorkbookControl *wbc = WORKBOOK_CONTROL (state->base.wbcg);
-		cmd_scenario_mngr (wbc, state->scenario_state->current);
+		cmd_scenario_mngr (wbc, state->current);
 	}
 
 	scenario_manager_ok (state->base.sheet);
@@ -643,19 +572,16 @@ scenarios_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 static void
 restore_old_values (ScenariosState *state)
 {
-	data_analysis_output_t  dao;
-	WorkbookControl *wbc;
+	GOCmdContext *cc;
 
-	if (state->scenario_state->old_values == NULL)
+	if (state->undo == NULL)
 		return;
-	wbc = WORKBOOK_CONTROL (state->base.wbcg);
-	dao_init_new_sheet (&dao);
-	dao.sheet = state->base.sheet;
-	scenario_show (NULL,
-		       (GnmScenario *) state->scenario_state->old_values,
-		       &dao);
-	state->scenario_state->current    = NULL;
-	state->scenario_state->old_values = NULL;
+
+	cc = GO_CMD_CONTEXT (state->base.wbcg);
+	go_undo_undo_with_data (state->undo, cc);
+	g_object_unref (state->undo);
+	state->undo = NULL;
+	state->current = NULL;
 }
 
 /**
@@ -677,7 +603,7 @@ scenarios_cancel_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	wbc = WORKBOOK_CONTROL (state->base.wbcg);
 
 	/* Remove report sheets created on this dialog session. */
-	for (cur = state->scenario_state->new_report_sheets; cur != NULL;
+	for (cur = state->new_report_sheets; cur != NULL;
 	     cur = cur->next) {
 		Sheet *sheet = (Sheet *) cur->data;
 
@@ -700,7 +626,6 @@ static void
 scenarios_show_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			   ScenariosState *state)
 {
-	data_analysis_output_t  dao;
 	WorkbookControl         *wbc;
 	GtkTreeSelection        *selection;
 	GtkTreeIter             iter;
@@ -708,23 +633,19 @@ scenarios_show_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	const gchar             *value;
 
 	selection = gtk_tree_view_get_selection
-	        (GTK_TREE_VIEW (state->scenario_state->scenarios_treeview));
-	dao_init_new_sheet (&dao);
-	dao.sheet = state->base.sheet;
+	        (GTK_TREE_VIEW (state->scenarios_treeview));
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
 		return;
 	model = gtk_tree_view_get_model
-	        (GTK_TREE_VIEW (state->scenario_state->scenarios_treeview));
+	        (GTK_TREE_VIEW (state->scenarios_treeview));
 
 	gtk_tree_model_get (GTK_TREE_MODEL (model), &iter,  0, &value, -1);
 
 	wbc = WORKBOOK_CONTROL (state->base.wbcg);
-	state->scenario_state->current =
+	state->current =
 		gnm_sheet_scenario_find (state->base.sheet, value);
-	state->scenario_state->old_values =
-		scenario_show (state->scenario_state->current,
-			       state->scenario_state->old_values,
-			       &dao);
+	state->undo =
+		gnm_scenario_apply (state->current);
 }
 
 static void
@@ -743,13 +664,13 @@ scenarios_delete_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	restore_old_values (state);
 
 	selection = gtk_tree_view_get_selection
-	        (GTK_TREE_VIEW (state->scenario_state->scenarios_treeview));
+	        (GTK_TREE_VIEW (state->scenarios_treeview));
 	dao_init_new_sheet (&dao);
 	dao.sheet = state->base.sheet;
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
 		return;
 	model = gtk_tree_view_get_model
-	        (GTK_TREE_VIEW (state->scenario_state->scenarios_treeview));
+	        (GTK_TREE_VIEW (state->scenarios_treeview));
 
 	gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 0, &value, -1);
 
@@ -770,7 +691,7 @@ scenarios_delete_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	}
 
 	gtk_widget_set_sensitive
-		(state->scenario_state->summary_button, !all_deleted);
+		(state->summary_button, !all_deleted);
 }
 
 static void
@@ -796,8 +717,8 @@ scenarios_summary_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	scenario_summary (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
 			  results, &new_sheet);
 
-	state->scenario_state->new_report_sheets =
-		g_slist_prepend (state->scenario_state->new_report_sheets,
+	state->new_report_sheets =
+		g_slist_prepend (state->new_report_sheets,
 				 new_sheet);
 	if (results)
 		go_slist_free_custom (results, (GFreeFunc)value_release);
@@ -814,29 +735,29 @@ static gboolean
 init_scenario_buttons (ScenariosState *state)
 {
 	/* Show button */
-	state->scenario_state->show_button =
+	state->show_button =
 	        glade_xml_get_widget (state->base.gui, "show_button");
-	if (state->scenario_state->show_button == NULL)
+	if (state->show_button == NULL)
 	        return TRUE;
-	g_signal_connect (G_OBJECT (state->scenario_state->show_button),
+	g_signal_connect (G_OBJECT (state->show_button),
 			  "clicked",
 			  G_CALLBACK (scenarios_show_clicked_cb), state);
 
 	/* Delete button */
-	state->scenario_state->delete_button =
+	state->delete_button =
 	        glade_xml_get_widget (state->base.gui, "delete_button");
-	if (state->scenario_state->delete_button == NULL)
+	if (state->delete_button == NULL)
 	        return TRUE;
-	g_signal_connect (G_OBJECT (state->scenario_state->delete_button),
+	g_signal_connect (G_OBJECT (state->delete_button),
 			  "clicked",
 			  G_CALLBACK (scenarios_delete_clicked_cb), state);
 
 	/* Summary button */
-	state->scenario_state->summary_button =
+	state->summary_button =
 	        glade_xml_get_widget (state->base.gui, "summary_button");
-	if (state->scenario_state->summary_button == NULL)
+	if (state->summary_button == NULL)
 	        return TRUE;
-	g_signal_connect (G_OBJECT (state->scenario_state->summary_button),
+	g_signal_connect (G_OBJECT (state->summary_button),
 			  "clicked",
 			  G_CALLBACK (scenarios_summary_clicked_cb),
 			  state);
@@ -862,10 +783,9 @@ dialog_scenarios (WBCGtk *wbcg)
 	sheet = wb_control_cur_sheet (wbc);
 
 	state = g_new (ScenariosState, 1);
-	state->scenario_state = g_new (scenario_state_t, 1);
-	state->scenario_state->new_report_sheets = NULL;
-	state->scenario_state->current    = NULL;
-	state->scenario_state->old_values = NULL;
+	state->new_report_sheets = NULL;
+	state->current    = NULL;
+	state->undo = NULL;
 	state->base.wb = wb_control_get_workbook (wbc);
 
 	if (dialog_tool_init (&state->base, wbcg, sheet,
@@ -881,9 +801,9 @@ dialog_scenarios (WBCGtk *wbcg)
 	if (init_scenario_buttons (state))
 		goto error_out;
 
-	state->scenario_state->scenarios_treeview = glade_xml_get_widget
+	state->scenarios_treeview = glade_xml_get_widget
 	        (state->base.gui, "scenarios_treeview");
-	if (state->scenario_state->scenarios_treeview == NULL)
+	if (state->scenarios_treeview == NULL)
 	        goto error_out;
 
 	w = glade_xml_get_widget (state->base.gui, "changing_cells_entry");
@@ -898,12 +818,12 @@ dialog_scenarios (WBCGtk *wbcg)
 
 	if (state->base.sheet->scenarios == NULL)
 		gtk_widget_set_sensitive
-			(state->scenario_state->summary_button, FALSE);
+			(state->summary_button, FALSE);
 
-	update_scenarios_treeview (state->scenario_state->scenarios_treeview,
+	update_scenarios_treeview (state->scenarios_treeview,
 				   sheet->scenarios);
 	select = gtk_tree_view_get_selection
-		(GTK_TREE_VIEW (state->scenario_state->scenarios_treeview));
+		(GTK_TREE_VIEW (state->scenarios_treeview));
 	g_signal_connect (select, "changed",
 			  G_CALLBACK (cb_selection_changed), state);
 
@@ -915,7 +835,6 @@ dialog_scenarios (WBCGtk *wbcg)
  error_out:
 	go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
 			      "%s", error_str);
-	g_free (state->scenario_state);
 	g_free (state);
 
 	return;

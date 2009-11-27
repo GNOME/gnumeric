@@ -1,8 +1,8 @@
 #ifndef _TOOLS_GNM_SOLVER_H_
 #define _TOOLS_GNM_SOLVER_H_
 
-#include <glib-object.h>
 #include <gnumeric.h>
+#include <glib-object.h>
 #include <dependent.h>
 #include <numbers.h>
 

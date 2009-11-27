@@ -2,7 +2,7 @@
 #define __SCENARIOS_H__
 
 #include <gnumeric.h>
-#include <tools/dao.h>
+#include <glib-object.h>
 
 /* ------------------------------------------------------------------------- */
 
@@ -35,9 +35,6 @@ struct GnmScenario_ {
         char *comment;
 
 	GSList *items;
-
-        GnmValue **changing_cells;
-        GnmRange  range;
 };
 
 typedef struct {
@@ -59,9 +56,5 @@ GOUndo *gnm_scenario_apply (GnmScenario *sc);
 char *gnm_scenario_get_range_str (const GnmScenario *sc);
 
 /* ------------------------------------------------------------------------- */
-
-GnmScenario *scenario_show         (GnmScenario             *scenario,
-				    GnmScenario             *old_values,
-				    data_analysis_output_t *dao);
 
 #endif
