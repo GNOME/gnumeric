@@ -194,6 +194,7 @@ datetime_locale_setup (char const *lc_time)
 	 * "Dec 1, 2000"
 	 * "Dec/1/04"
 	 * "December 1, 2000"
+	 * "December 1 2000"
 	 * "Dec-1-2000"
 	 * "Dec 1"
 	 * "Dec/1"
@@ -204,7 +205,7 @@ datetime_locale_setup (char const *lc_time)
 			 p_MMMM->str,
 			 "|",
 			 p_MMM->str,
-			 ")(-|/|\\s)(\\d+)((,\\s+|-|/)(\\d+))?\\b",
+			 ")(-|/|\\s)(\\d+)((,?\\s+|-|/)(\\d+))?\\b",
 			 NULL);
 	datetime_locale_setup1 (&datetime_locale.re_MMMMddyyyy, s);
 	g_free (s);
