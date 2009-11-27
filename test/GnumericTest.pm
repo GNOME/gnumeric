@@ -329,6 +329,7 @@ sub test_valgrind {
     }
 
     # $cmd = "--show-reachable=yes $cmd";
+    $cmd = "--show-below-main=yes $cmd";
     $cmd = "--leak-check=full $cmd";
     $cmd = "--num-callers=20 $cmd";
     $cmd = "--track-fds=yes $cmd";
