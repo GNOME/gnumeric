@@ -1,3 +1,4 @@
+#!/usr/bin/perl
 # Task: convert gnumeric's function documentation into a valid DocBook XML
 # fragment.
 

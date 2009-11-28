@@ -322,8 +322,10 @@ sub test_valgrind {
     $valvers = $1 * 10000 + $2 * 100 + $3;
 
     $cmd = "--gen-suppressions=all $cmd";
+
     {
 	my $suppfile = "common.supp";
+	&report_skip ("file $suppfile does not exist") unless -r $suppfile;
 	$cmd = "--suppressions=$suppfile $cmd" if -r $suppfile;
     }
 
