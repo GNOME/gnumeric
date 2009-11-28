@@ -1,3 +1,7 @@
+2009-11-27  Morten Welinder  <terra@gnome.org>
+
+	* src/print.c (gnm_print_sheet): Plug leak.
+
 2009-11-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/wbc-gtk.c (cb_graph_dim_editor_update), (cb_update_idle),

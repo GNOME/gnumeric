@@ -1559,6 +1559,7 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
   pi->pr = default_range;
   gtk_print_settings_set_use_color (settings, !sheet->print_info->print_black_and_white);
   gtk_print_operation_set_print_settings (print, settings);
+  g_object_unref (settings);
 
   page_setup = print_info_get_page_setup (sheet->print_info);
   if (page_setup) {
