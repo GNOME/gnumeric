@@ -12,7 +12,7 @@
     <para>Gnumeric includes a facility for performing Monte Carlo Simulation.  Monte Carlo simulation involves the sampling of random numbers to solve a problem where the passage of time plays no substantive role.
     <footnote>
       <para>Definition from Law and Kelton (1991), Simulation Modeling &amp; Analysis, 2nd ed, pp. 113.</para>
-    </footnote>  In other words, each sample is not effected by prior samples.  This is in contrast to discrete event simulation or continuous simulation where the results from earlier in the simulation can effect successive samples within a simulation experiment.  The Monte Carlo simulation will be enabled through the use of the Random Number functions as described in <xref linkend="CATEGORY_Random_Numbers"/> and the results presented along with statistics for use in analysis.    
+    </footnote>  In other words, each sample is not effected by prior samples.  This is in contrast to discrete event simulation or continuous simulation where the results from earlier in the simulation can effect successive samples within a simulation experiment.  The Monte Carlo simulation will be enabled through the use of the Random Number functions as described in ??? <!--<xref linkend="CATEGORY_Random_Numbers"/> --> and the results presented along with statistics for use in analysis.    
     <footnote>
       <para>Gnumeric random numbers are generated using the Mersenne twister MT19937 pseudo-random number generator as implemented in the GNU Scientific Library.</para>
     </footnote>
