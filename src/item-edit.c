@@ -55,6 +55,7 @@ struct _ItemEdit {
 	GnmCellPos pos;
 	gboolean   cursor_visible;
 	int        blink_timer;
+	int	   sel_start;
 
 	GnmFont   *gfont;
 	GnmStyle  *style;
@@ -137,6 +138,8 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 		int x, y, w, h;
 		GdkEventExpose *expose = (GdkEventExpose *) goc_canvas_get_cur_event (item->canvas);
 		GdkDrawable *drawable = GDK_DRAWABLE (expose->window);
+		start = g_utf8_offset_to_pointer (text, start) - text;
+		end = g_utf8_offset_to_pointer (text, end) - text;
 		pango_layout_index_to_pos (ie->layout, start, &pos);
 		x = PANGO_PIXELS (pos.x);
 		y = PANGO_PIXELS (pos.y);
@@ -203,13 +206,68 @@ item_edit_button_pressed (GocItem *item, int button, double x, double y)
 			target_index = strlen (text);
 			trailing = 0;
 		}
-		gtk_editable_set_position (GTK_EDITABLE (ie->entry),
-			g_utf8_pointer_to_offset (text, text + target_index)
-			+ trailing);
+		ie->sel_start = g_utf8_pointer_to_offset (text, text + target_index) + trailing; 
+		gtk_editable_set_position (GTK_EDITABLE (ie->entry), ie->sel_start);
 
 		return TRUE;
 	}
 
+	return FALSE;
+}
+
+static gboolean
+item_edit_motion (GocItem *item, double x, double y)
+{
+	ItemEdit *ie = ITEM_EDIT (item);
+	if (ie->sel_start >=0) {
+		GtkEditable *ed = GTK_EDITABLE (ie->entry);
+		int target_index, trailing;
+		int top, left;
+		char const *text = pango_layout_get_text (ie->layout);
+
+		get_top_left (ie, &top, &left);
+		y -= top;
+		x -= left;
+
+		if (pango_layout_xy_to_index (ie->layout,
+					      x * PANGO_SCALE, y * PANGO_SCALE,
+					      &target_index, &trailing)) {
+			int preedit = GNM_PANE (item->canvas)->preedit_length;
+			gint cur_index = gtk_editable_get_position (ed);
+			cur_index = g_utf8_offset_to_pointer (text, cur_index) - text;
+
+			if (target_index >= cur_index && preedit > 0) {
+				if (target_index < (cur_index + preedit)) {
+					target_index = cur_index;
+					trailing = 0;
+				} else
+					target_index -= preedit;
+			}
+		} else {
+			/* the click occured after text end (#388342) */
+			target_index = strlen (text);
+			trailing = 0;
+		}
+		target_index = g_utf8_pointer_to_offset (text, text + target_index) + trailing;
+		if (target_index > ie->sel_start)
+			gtk_editable_select_region (GTK_EDITABLE (ie->entry), ie->sel_start, target_index);
+		else
+			gtk_editable_select_region (GTK_EDITABLE (ie->entry), target_index, ie->sel_start);
+		goc_item_invalidate (item);
+
+		return TRUE;
+	}
+	return FALSE;
+}
+
+static gboolean
+item_edit_button_released (GocItem *item, int button, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
+{
+	ItemEdit *ie = ITEM_EDIT (item);
+	if (ie->sel_start >= 0) {
+		ie->sel_start = -1;
+		return TRUE;
+	}
 	return FALSE;
 }
 
@@ -491,6 +549,7 @@ item_edit_init (ItemEdit *ie)
 	ie->gfont = NULL;
 	ie->style      = NULL;
 	ie->cursor_visible = TRUE;
+	ie->sel_start = -1;
 }
 
 static void
@@ -535,13 +594,15 @@ item_edit_class_init (GObjectClass *gobject_class)
 			 GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 
 	/* GocItem method overrides */
-	item_class->realize        = item_edit_realize;
-	item_class->unrealize      = item_edit_unrealize;
-	item_class->draw           = item_edit_draw;
-	item_class->distance       = item_edit_distance;
-	item_class->update_bounds  = item_edit_update_bounds;
-	item_class->button_pressed = item_edit_button_pressed;
-	item_class->enter_notify   = item_edit_enter_notify;
+	item_class->realize         = item_edit_realize;
+	item_class->unrealize       = item_edit_unrealize;
+	item_class->draw            = item_edit_draw;
+	item_class->distance        = item_edit_distance;
+	item_class->update_bounds   = item_edit_update_bounds;
+	item_class->button_pressed  = item_edit_button_pressed;
+	item_class->enter_notify    = item_edit_enter_notify;
+	item_class->motion          = item_edit_motion;
+	item_class->button_released = item_edit_button_released;
 }
 
 GSF_CLASS (ItemEdit, item_edit,

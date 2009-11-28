@@ -17,6 +17,7 @@ Jean:
 	* Fix multiple error message boxes in graph guru. [#152517]
 	* Invert selected text in a cell when editing. [#122176]
 	* Allow selection when the click occur after the last character. [#388342]
+	* Fixed selecting text in a cell. [#337521]
 
 Jody:
 	* turnkey win32 build on 32bit host.
