@@ -3723,6 +3723,15 @@ The successive use of the simulation tool also requires that you give to the too
 
 
 @CATEGORY=Statistics
+@FUNCTION=ADTEST
+@SYNTAX=ADTEST(x)
+@DESCRIPTION=This function returns an array with the first row giving the p-value of the Anderson-Darling Test, the second row the test statistic of the test, and the third the number of observations in the sample.
+@{x}: array of sample values
+
+@NOTE=If there are less than 8 sample values, ADTEST returns #VALUE!
+@SEEALSO=CHITEST,CVMTEST,LKSTEST,SFTEST
+
+@CATEGORY=Statistics
 @FUNCTION=AVEDEV
 @SEEALSO=STDEV
 
@@ -3901,6 +3910,15 @@ The successive use of the simulation tool also requires that you give to the too
 @CATEGORY=Statistics
 @FUNCTION=CRONBACH
 @SEEALSO=VAR
+
+@CATEGORY=Statistics
+@FUNCTION=CVMTEST
+@SYNTAX=CVMTEST(x)
+@DESCRIPTION=This function returns an array with the first row giving the p-value of the Cramér-von Mises Test, the second row the test statistic of the test, and the third the number of observations in the sample.
+@{x}: array of sample values
+
+@NOTE=If there are less than 8 sample values, CVMTEST returns #VALUE!
+@SEEALSO=CHITEST,ADTEST,LKSTEST,SFTEST
 
 @CATEGORY=Statistics
 @FUNCTION=DEVSQ
@@ -4140,6 +4158,15 @@ The successive use of the simulation tool also requires that you give to the too
 @DESCRIPTION=If @{affine} is false, R^2 is the uncentered version of the coefficient of determination; that is the proportion of the sum of squares explained by the model.
 @NOTE=If the length of @{known_y's} does not match the corresponding length of @{known_x's}, this function returns a #NUM! error.
 @SEEALSO=LOGEST,TREND
+
+@CATEGORY=Statistics
+@FUNCTION=LKSTEST
+@SYNTAX=LKSTEST(x)
+@DESCRIPTION=This function returns an array with the first row giving the p-value of the Lilliefors (Kolmogorov-Smirnov) Test, the second row the test statistic of the test, and the third the number of observations in the sample.
+@{x}: array of sample values
+
+@NOTE=If there are less than 5 sample values, LKSTEST returns #VALUE!
+@SEEALSO=CHITEST,ADTEST,SFTEST,CVMTEST
 
 @CATEGORY=Statistics
 @FUNCTION=LOGEST
@@ -4959,6 +4986,15 @@ The successive use of the simulation tool also requires that you give to the too
 @{array2}: second component values
 
 @SEEALSO=CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND
+
+@CATEGORY=Statistics
+@FUNCTION=SFTEST
+@SYNTAX=SFTEST(x)
+@DESCRIPTION=This function returns an array with the first row giving the p-value of the Shapiro-Francia Test, the second row the test statistic of the test, and the third the number of observations in the sample.
+@{x}: array of sample values
+
+@NOTE=If there are less than 5 or more than 5000 sample values, SFTEST returns #VALUE!
+@SEEALSO=CHITEST,ADTEST,LKSTEST,CVMTEST
 
 @CATEGORY=Statistics
 @FUNCTION=SKEW
