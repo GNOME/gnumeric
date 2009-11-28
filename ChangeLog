@@ -1,5 +1,7 @@
 2009-11-27  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook.c (workbook_finalize): Plug leak.
+
 	* src/print.c (gnm_print_sheet): Plug leak.
 
 2009-11-26  Jean Brefort  <jean.brefort@normalesup.org>

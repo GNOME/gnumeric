@@ -144,6 +144,11 @@ workbook_finalize (GObject *obj)
 	/* Remove ourselves from the list of workbooks.  */
 	gnm_app_workbook_list_remove (wb);
 
+	if (wb->sheet_local_functions) {
+		g_hash_table_destroy (wb->sheet_local_functions);
+		wb->sheet_local_functions = NULL;
+	}
+
 	/* Now do deletions that will put this workbook into a weird
 	   state.  Careful here.  */
 	g_hash_table_destroy (wb->sheet_hash_private);
