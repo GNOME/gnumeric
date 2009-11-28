@@ -316,9 +316,19 @@ sub test_valgrind {
     &report_skip ("Valgrind is not available") unless defined $valhelp;
     die "Problem running valgrind.\n" unless $valhelp =~ /log-file/;
 
+    my $valvers = `valgrind --version`;
+    die "Problem running valgrind.\n"
+	unless $valvers =~ /^valgrind-(\d+)\.(\d+)\.(\d+)$/;
+    $valvers = $1 * 10000 + $2 * 100 + $3;
+
     $cmd = "--gen-suppressions=all $cmd";
     {
 	my $suppfile = "common.supp";
+	$cmd = "--suppressions=$suppfile $cmd" if -r $suppfile;
+    }
+
+    if ($valvers >= 30500) {
+	my $suppfile = "commondots.supp";
 	$cmd = "--suppressions=$suppfile $cmd" if -r $suppfile;
     }
 

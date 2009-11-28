@@ -24,7 +24,7 @@
 # 90xx: Misc stuff.
 
 TESTS = $(wildcard $(srcdir)/t[0-9][0-9][0-9][0-9]-*.pl)
-SUPPS = common.supp gui.supp t8003-valgrind-pdf.supp
+SUPPS = common.supp commondots.supp gui.supp t8003-valgrind-pdf.supp
 
 import-db:
 	for t in $(srcdir)/t5[0-9][0-9][0-9]-*.pl; do echo "*** $$t ***"; $(PERL) $$t create-db; done

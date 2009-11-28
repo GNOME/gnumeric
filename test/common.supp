@@ -293,136 +293,6 @@
 }
 
 {
-   Leak/g_type_register_static
-   Memcheck:Leak
-   fun:calloc
-   fun:g_malloc0
-   fun:type_data_make_W
-   fun:g_type_register_static
-}
-
-{
-   Leak/g_type_register_static2
-   Memcheck:Leak
-   fun:malloc
-   fun:realloc
-   fun:g_realloc
-   fun:type_node_any_new_W
-   fun:type_node_new_W
-   fun:g_type_register_static
-}
-
-{
-   Leak/g_type_register_static2a
-   Memcheck:Leak
-   fun:realloc
-   fun:g_realloc
-   fun:type_node_any_new_W
-   fun:type_node_new_W
-   fun:g_type_register_static
-}
-
-{
-   Leak/g_type_register_static3
-   Memcheck:Leak
-   fun:malloc
-   fun:realloc
-   fun:g_realloc
-   fun:type_add_flags_W
-   fun:g_type_register_static
-}
-
-{
-   Leak/g_type_register_fundamental
-   Memcheck:Leak
-   fun:calloc
-   fun:g_malloc0
-   fun:type_add_flags_W
-   fun:g_type_register_fundamental
-}
-
-{
-   Leak/g_type_register_fundamental2
-   Memcheck:Leak
-   fun:malloc
-   fun:realloc
-   fun:g_realloc
-   fun:type_add_flags_W
-   fun:g_type_register_fundamental
-}
-
-{
-   Leak/g_type_register_fundamental3
-   Memcheck:Leak
-   fun:calloc
-   fun:g_malloc0
-   fun:type_data_make_W
-   fun:g_type_register_fundamental
-}
-
-{
-   Leak/g_type_register_fundamental4
-   Memcheck:Leak
-   fun:calloc
-   fun:g_malloc0
-   fun:type_node_any_new_W
-   fun:type_node_fundamental_new_W
-   fun:g_type_register_fundamental
-}
-
-{
-   Leak/g_type_init_with_debug_flags
-   Memcheck:Leak
-   fun:calloc
-   fun:g_malloc0
-   fun:type_data_make_W
-   fun:g_type_init_with_debug_flags
-}
-
-# Probably not leaked, but cached.
-{
-   Leak/pango_ot_ruleset_init
-   Memcheck:Leak
-   fun:malloc
-   fun:g_malloc
-   fun:g_slice_alloc
-   fun:g_array_sized_new
-   fun:g_array_new
-   fun:pango_ot_ruleset_init
-}
-
-# Probably not leaked, but cached.
-{
-   Leak/pango_ot_ruleset_add_feature
-   Memcheck:Leak
-   fun:realloc
-   fun:g_realloc
-   fun:g_array_maybe_expand
-   fun:g_array_append_vals
-   fun:pango_ot_ruleset_add_feature
-}
-
-# Probably not leaked, but cached.
-{
-   Leak/pango_ot_ruleset_maybe_add_feature
-   Memcheck:Leak
-   fun:realloc
-   fun:g_realloc
-   fun:pango_ot_ruleset_maybe_add_feature
-}
-
-# Probably not leaked, but cached.
-{
-   Leak/pango_ot_ruleset_new_for
-   Memcheck:Leak
-   fun:malloc
-   fun:g_malloc
-   fun:g_type_create_instance
-   fun:g_object_constructor
-   fun:pango_ot_ruleset_new_for
-}
-
-{
    Leak/gnm_pre_parse_init/g_set_prgname
    Memcheck:Leak
    fun:malloc
@@ -472,6 +342,20 @@
    Memcheck:Leak
    fun:malloc
    fun:FcPatternObjectInsertElt
+}
+
+{
+   Leak/FcPatternObjectInsertElt2
+   Memcheck:Leak
+   fun:realloc
+   fun:FcPatternObjectInsertElt
+}
+
+{
+   Leak/FcPatternObjectAddWithBinding
+   Memcheck:Leak
+   fun:malloc
+   fun:FcPatternObjectAddWithBinding
 }
 
 {
@@ -562,6 +446,24 @@
 }
 
 {
+   Leak/pango_find_map2
+   Memcheck:Leak
+   fun:calloc
+   fun:g_malloc0
+   fun:g_type_class_ref
+   fun:pango_find_map
+}
+
+{
+   Leak/pango_find_map3
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_strdup
+   fun:pango_find_map
+}
+
+{
    Leak/giop_connection_class_init
    Memcheck:Leak
    fun:calloc
@@ -572,4 +474,78 @@
    fun:g_param_spec_internal
    fun:g_param_spec_pointer
    fun:giop_connection_class_init
+}
+
+{
+   Leak/giop_connection_class_init2
+   Memcheck:Leak
+   fun:calloc
+   fun:g_malloc0
+   fun:g_type_class_ref
+   fun:g_type_create_instance
+   fun:g_param_spec_internal
+   fun:g_param_spec_pointer
+   fun:giop_connection_class_init
+}
+
+{
+   Leak/dbus
+   Memcheck:Leak
+   fun:malloc
+   fun:dbus_malloc
+}
+
+{
+   Leak/dbus2
+   Memcheck:Leak
+   fun:realloc
+   fun:dbus_realloc
+}
+
+{
+   Leak/ft_alloc
+   Memcheck:Leak
+   fun:malloc
+   fun:ft_alloc
+}
+
+{
+   Leak/ft_realloc
+   Memcheck:Leak
+   fun:realloc
+   fun:ft_realloc
+}
+
+{
+   Leak/FT_Outline_Decompose
+   Memcheck:Leak
+   fun:malloc
+   fun:_cairo_path_buf_create
+   fun:_cairo_path_fixed_add
+   fun:_cairo_path_fixed_curve_to
+   fun:_conic_to
+   fun:FT_Outline_Decompose
+}
+
+ {
+   Leak/pango_ot_info_get
+   Memcheck:Leak
+   fun:realloc
+   fun:_hb_ot_layout_set_glyph_class
+   fun:hb_ot_layout_build_glyph_classes
+   fun:pango_ot_info_get
+}
+
+{
+   Leak/_cairo_cache_create
+   Memcheck:Leak
+   fun:malloc
+   fun:_cairo_cache_create
+}
+
+{
+   Leak/_cairo_hash_table_create
+   Memcheck:Leak
+   fun:?alloc
+   fun:_cairo_hash_table_create
 }

@@ -1,0 +1,65 @@
+{
+   Leak/pango_layout_check_lines
+   Memcheck:Leak
+   ...
+   fun:pango_layout_check_lines
+}
+
+{
+   Leak/_cairo_scaled_glyph_lookup
+   Memcheck:Leak
+   ...
+   fun:_cairo_scaled_glyph_lookup
+}
+
+{
+   Leak/cairo_show_glyphs
+   Memcheck:Leak
+   ...
+   fun:cairo_show_glyphs
+}
+
+{
+   Leak/g_type_register_fundamental
+   Memcheck:Leak
+   ...
+   fun:g_type_register_fundamental
+}
+
+{
+   Leak/g_type_register_static
+   Memcheck:Leak
+   ...
+   fun:g_type_register_static
+}
+
+{
+   Leak/g_type_init_with_debug_flags
+   Memcheck:Leak
+   ...
+   fun:g_type_init_with_debug_flags
+}
+
+
+{
+   Leak/g_bookmark_file_load_from_data
+   Memcheck:Leak
+   ...
+   fun:g_bookmark_file_load_from_data
+}
+
+# Probably not leaked, but cached.
+{
+   Leak/pango_ot_ruleset_...
+   Memcheck:Leak
+   ...
+   fun:pango_ot_ruleset_*
+}
+
+{
+   glibc_write_fseeko64
+   Memcheck:Param
+   write(buf)
+   ...
+   fun:fseeko64
+}
