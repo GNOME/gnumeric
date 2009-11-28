@@ -8,17 +8,22 @@ use XML::Parser;
 @GnumericTest::ISA = qw (Exporter);
 @GnumericTest::EXPORT = qw(test_sheet_calc test_importer test_valgrind
 			   test_ssindex sstest test_command message
-			   $ssconvert $sstest $topsrc $samples $PERL);
+			   $ssconvert $sstest $topsrc $top_builddir
+			   $samples $PERL);
 @GnumericTest::EXPORT_OK = qw(junkfile);
 
-use vars qw($topsrc $samples $PERL $verbose);
+use vars qw($topsrc $top_builddir $samples $PERL $verbose);
 use vars qw($ssconvert $ssindex $sstest);
-$topsrc = "..";
+
+$topsrc = $0;
+$topsrc =~ s|/[^/]+$|/..|;
+$topsrc =~ s|/test/\.\.$||;
+
+$top_builddir = "..";
 $samples = "$topsrc/samples";
-# FIXME.  The binaries might not be in the source tree.
-$ssconvert = "$topsrc/src/ssconvert";
-$ssindex = "$topsrc/src/ssindex";
-$sstest = "$topsrc/src/sstest";
+$ssconvert = "$top_builddir/src/ssconvert";
+$ssindex = "$top_builddir/src/ssindex";
+$sstest = "$top_builddir/src/sstest";
 $verbose = 0;
 $PERL = $Config{'perlpath'};
 $PERL .= $Config{'_exe'} if $^O ne 'VMS' && $PERL !~ m/$Config{'_exe'}$/i;
@@ -324,13 +329,13 @@ sub test_valgrind {
     $cmd = "--gen-suppressions=all $cmd";
 
     {
-	my $suppfile = "common.supp";
+	my $suppfile = "$topsrc/test/common.supp";
 	&report_skip ("file $suppfile does not exist") unless -r $suppfile;
 	$cmd = "--suppressions=$suppfile $cmd" if -r $suppfile;
     }
 
     if ($valvers >= 30500) {
-	my $suppfile = "commondots.supp";
+	my $suppfile = "$topsrc/test/commondots.supp";
 	$cmd = "--suppressions=$suppfile $cmd" if -r $suppfile;
     }
 
