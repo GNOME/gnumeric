@@ -1,3 +1,9 @@
+2009-11-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/item-edit.c (item_edit_draw), (item_edit_button_pressed),
+	(item_edit_realize), (item_edit_unrealize): invert selected text, and allow
+	mouse selection past the last character. [#122176 and #388342]
+
 2009-11-27  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook.c (workbook_finalize): Plug leak.

@@ -58,6 +58,7 @@ struct _ItemEdit {
 
 	GnmFont   *gfont;
 	GnmStyle  *style;
+	GdkGC    *gc;
 };
 
 typedef GocItemClass ItemEditClass;
@@ -95,6 +96,9 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 	int top, left;
 	GOColor color;
 	int x0, y0, x1, y1; /* in widget coordinates */
+	int start, end;
+	PangoRectangle pos;
+	char const *text = gtk_entry_get_text (ie->entry);
 
 	get_top_left (ie, &top, &left);
 	if (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) {
@@ -113,10 +117,9 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 	color = GO_COLOR_FROM_GDK (gtk_widget_get_style (GTK_WIDGET (item->canvas))->black);
 	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
 	cairo_move_to (cr, left, top);
+	gtk_editable_get_selection_bounds (GTK_EDITABLE (ie->entry), &start, &end);
 	pango_cairo_show_layout (cr, ie->layout);
 	if (ie->cursor_visible) {
-		PangoRectangle pos;
-		char const *text = gtk_entry_get_text (ie->entry);
 		int cursor_pos = gtk_editable_get_position (GTK_EDITABLE (ie->entry));
 		pango_layout_index_to_pos (ie->layout,
 			g_utf8_offset_to_pointer (text, cursor_pos) - text, &pos);
@@ -128,6 +131,23 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 		cairo_move_to (cr, left + PANGO_PIXELS (pos.x) + .5, top + PANGO_PIXELS (pos.y));
 		cairo_line_to (cr, left + PANGO_PIXELS (pos.x) + .5, top + PANGO_PIXELS (pos.y + pos.height) - 1);
 		cairo_stroke (cr);
+	}
+	if (start != end) {
+		/* invert selected region */
+		int x, y, w, h;
+		GdkEventExpose *expose = (GdkEventExpose *) goc_canvas_get_cur_event (item->canvas);
+		GdkDrawable *drawable = GDK_DRAWABLE (expose->window);
+		pango_layout_index_to_pos (ie->layout, start, &pos);
+		x = PANGO_PIXELS (pos.x);
+		y = PANGO_PIXELS (pos.y);
+		h = PANGO_PIXELS (pos.height);
+		pango_layout_index_to_pos (ie->layout, end, &pos);
+		w = PANGO_PIXELS (pos.x) - x;
+		if (w < 0) {
+			x += w;
+			w = -w;
+		}
+		gdk_draw_rectangle (drawable, ie->gc, TRUE, left + x, top + y, w, h);
 	}
 }
 
@@ -158,6 +178,7 @@ item_edit_button_pressed (GocItem *item, int button, double x, double y)
 		GtkEditable *ed = GTK_EDITABLE (ie->entry);
 		int target_index, trailing;
 		int top, left;
+		char const *text = pango_layout_get_text (ie->layout);
 
 		get_top_left (ie, &top, &left);
 		y -= top;
@@ -167,7 +188,6 @@ item_edit_button_pressed (GocItem *item, int button, double x, double y)
 					      x * PANGO_SCALE, y * PANGO_SCALE,
 					      &target_index, &trailing)) {
 			int preedit = GNM_PANE (item->canvas)->preedit_length;
-			char const *text = pango_layout_get_text (ie->layout);
 			gint cur_index = gtk_editable_get_position (ed);
 			cur_index = g_utf8_offset_to_pointer (text, cur_index) - text;
 
@@ -178,13 +198,18 @@ item_edit_button_pressed (GocItem *item, int button, double x, double y)
 				} else
 					target_index -= preedit;
 			}
-			gtk_editable_set_position (GTK_EDITABLE (ie->entry),
-				g_utf8_pointer_to_offset (text, text + target_index)
-				+ trailing);
-
-			return TRUE;
+		} else {
+			/* the click occured after text end (#388342) */
+			target_index = strlen (text);
+			trailing = 0;
 		}
+		gtk_editable_set_position (GTK_EDITABLE (ie->entry),
+			g_utf8_pointer_to_offset (text, text + target_index)
+			+ trailing);
+
+		return TRUE;
 	}
+
 	return FALSE;
 }
 
@@ -360,6 +385,7 @@ item_edit_realize (GocItem *item)
 	Sheet const *sheet;
 	GnmPane	*pane;
 	double scale;
+	GdkGCValues values;
 
 	parent_class->realize (item);
 
@@ -417,12 +443,21 @@ item_edit_realize (GocItem *item)
 				    : PANGO_ALIGN_LEFT);
 
 	item_edit_cursor_blink_start (ie);
+
+	ie->gc = gdk_gc_new (GTK_WIDGET (item->canvas)->window);
+	gdk_gc_set_rgb_fg_color (ie->gc, &gs_white);
+	gdk_gc_set_rgb_bg_color (ie->gc, &gs_white);
+	values.function = GDK_XOR;
+	gdk_gc_set_values (ie->gc, &values, GDK_GC_FUNCTION);
 }
 
 static void
 item_edit_unrealize (GocItem *item)
 {
 	ItemEdit *ie = ITEM_EDIT (item);
+
+	g_object_unref (G_OBJECT (ie->gc));
+	ie->gc = NULL;
 
 	item_edit_cursor_blink_stop (ie);
 
