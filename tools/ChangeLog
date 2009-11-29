@@ -1,3 +1,7 @@
+2009-11-29  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.16
+
 2009-11-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* win32/build: make without shell build work again.

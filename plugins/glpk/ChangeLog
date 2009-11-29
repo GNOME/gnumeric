@@ -1,3 +1,7 @@
+2009-11-29  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.16
+
 2009-11-15  Morten Welinder  <terra@gnome.org>
 
 	* gnm-glpk.c (gnm_glpk_read_solution): Handle the MILP solution

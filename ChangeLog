@@ -1,3 +1,7 @@
+2009-11-29  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.16
+
 2009-11-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/item-edit.c (item_edit_draw): fix selection bounds in case of

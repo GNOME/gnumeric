@@ -1,3 +1,7 @@
+2009-11-29  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.16
+
 2009-11-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* normality-tests.glade: enable chart checkbox

@@ -1,3 +1,7 @@
+2009-11-29  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.16
+
 2009-11-16  Morten Welinder  <terra@gnome.org>
 
 	* gnm-lpsolve.c (gnm_lpsolve_start): Handle automatic scaling.
