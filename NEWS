@@ -35,6 +35,8 @@ Morten:
 	* Make solver parameter changes always persist.  [#440664]
 	* Re-implement MPS importer.
 	* Fix matching of "Sep 23 2008".  [#603116]
+	* Major scenario code cleanup.
+	* Implement load and save of scenarios.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.15

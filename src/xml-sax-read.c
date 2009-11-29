@@ -33,6 +33,7 @@
 #include "sheet.h"
 #include "ranges.h"
 #include <tools/gnm-solver.h>
+#include <tools/scenarios.h>
 #include "style.h"
 #include "style-border.h"
 #include "style-color.h"
@@ -318,6 +319,9 @@ typedef struct {
 	int expr_id, array_rows, array_cols;
 	int value_type;
 	GOFormat *value_fmt;
+
+	GnmScenario *scenario;
+	GnmValue *scenario_range;
 
 	GnmFilter *filter;
 
@@ -2392,6 +2396,103 @@ xml_sax_solver_start (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+xml_sax_scenario_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	const char *name = "scenario";
+	const char *comment = NULL;
+
+	for (; attrs && attrs[0] && attrs[1] ; attrs += 2) {
+		if (attr_eq (attrs[0], "Name")) {
+			name = CXML2C (attrs[1]);
+		} else if (attr_eq (attrs[0], "Comment")) {
+			comment = CXML2C (attrs[1]);
+		}
+	}
+
+	state->scenario = gnm_sheet_scenario_new (state->sheet, name);
+	if (comment)
+		gnm_scenario_set_comment (state->scenario, comment);
+}
+
+static void
+xml_sax_scenario_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	GnmScenario *sc = state->scenario;
+	sc->items = g_slist_reverse (sc->items);
+	gnm_sheet_scenario_add (state->sheet, sc);
+	state->scenario = NULL;
+}
+
+static void
+xml_sax_scenario_item_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	const char *rtxt = NULL;
+	GnmParsePos pp;
+
+	for (; attrs && attrs[0] && attrs[1] ; attrs += 2) {
+		if (attr_eq (attrs[0], "Range")) {
+			rtxt = CXML2C (attrs[1]);
+		} else if (gnm_xml_attr_int (attrs, "ValueType",
+					     &state->value_type))
+			; /* Nothing */
+		else if (attr_eq (attrs[0], "ValueFormat"))
+			state->value_fmt = make_format (CXML2C (attrs[1]));
+	}
+
+	parse_pos_init_sheet (&pp, state->sheet);
+	state->scenario_range = rtxt
+		? value_new_cellrange_parsepos_str (&pp, rtxt, GNM_EXPR_PARSE_DEFAULT)
+		: NULL;
+}
+
+static void
+xml_sax_scenario_item_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	char const * content = xin->content->str;
+	int const len = xin->content->len;
+	GnmScenarioItem *sci = NULL;
+	GnmScenario *sc = state->scenario;
+	GnmSheetRange sr;
+
+	if (!state->scenario_range)
+		goto bad;
+
+	gnm_sheet_range_from_value (&sr, state->scenario_range);
+	sci = gnm_scenario_item_new (sc->sheet);
+	gnm_scenario_item_set_range (sci, &sr);
+
+	if (len > 0) {
+		GnmValue *v = value_new_from_string (state->value_type,
+						     content,
+						     state->value_fmt,
+						     FALSE);
+		if (!v)
+			goto bad;
+		gnm_scenario_item_set_value (sci, v);
+		value_release (v);
+	}
+
+	sc->items = g_slist_prepend (sc->items, sci);
+	goto out;
+
+bad:
+	g_warning ("Ignoring invalid scenario item");
+	if (sci)
+		gnm_scenario_item_free (sci);
+
+out:
+	state->value_type = -1;
+	go_format_unref (state->value_fmt);
+	state->value_fmt = NULL;
+	value_release (state->scenario_range);
+	state->scenario_range = NULL;
+}
+
+static void
 xml_sax_named_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
@@ -2718,7 +2819,8 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, TRUE
       GSF_XML_IN_NODE (SHEET, SHEET_SOLVER, GNM, "Solver", GSF_XML_NO_CONTENT, xml_sax_solver_start, NULL),
 	GSF_XML_IN_NODE (SHEET_SOLVER, SOLVER_CONSTR, GNM, "Constr", GSF_XML_NO_CONTENT, xml_sax_solver_constr_start, NULL),
       GSF_XML_IN_NODE (SHEET, SHEET_SCENARIOS, GNM, "Scenarios", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (SHEET_SCENARIOS, SHEET_SCENARIO, GNM, "Scenario", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (SHEET_SCENARIOS, SHEET_SCENARIO, GNM, "Scenario", GSF_XML_NO_CONTENT, xml_sax_scenario_start, xml_sax_scenario_end),
+          GSF_XML_IN_NODE (SHEET_SCENARIO, SCENARIO_ITEM, GNM, "Item", GSF_XML_CONTENT, xml_sax_scenario_item_start, xml_sax_scenario_item_end),
 
       GSF_XML_IN_NODE (SHEET, SHEET_OBJECTS, GNM, "Objects", GSF_XML_NO_CONTENT, NULL, NULL),
         /* Old crufty IO */
@@ -2867,6 +2969,8 @@ read_file_init_state (XMLSaxParseState *state,
 	state->expr_id = -1;
 	state->value_type = -1;
 	state->value_fmt = NULL;
+	state->scenario = NULL;
+	state->scenario_range = NULL;
 	state->filter = NULL;
 	state->validation.title = state->validation.msg = NULL;
 	state->validation.texpr[0] = state->validation.texpr[1] = NULL;
