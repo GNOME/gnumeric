@@ -6035,7 +6035,8 @@ static gboolean
 cmd_scenario_mngr_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdScenarioMngr *me = CMD_SCENARIO_MNGR (cmd);
-	me->undo = gnm_scenario_apply (me->sc);
+	if (!me->undo)
+		me->undo = gnm_scenario_apply (me->sc);
 	return FALSE;
 }
 
@@ -6063,16 +6064,17 @@ cmd_scenario_mngr_finalize (GObject *cmd)
 }
 
 gboolean
-cmd_scenario_mngr (WorkbookControl *wbc, GnmScenario *sc)
+cmd_scenario_mngr (WorkbookControl *wbc, GnmScenario *sc, GOUndo *undo)
 {
 	CmdScenarioMngr *me;
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
-	g_return_val_if_fail (GNM_IS_SCENARIO (wbc), TRUE);
+	g_return_val_if_fail (GNM_IS_SCENARIO (sc), TRUE);
 
 	me = g_object_new (CMD_SCENARIO_MNGR_TYPE, NULL);
 
 	me->sc = g_object_ref (sc);
+	me->undo = g_object_ref (undo);
 	me->cmd.sheet = sc->sheet;
 	me->cmd.size  = 1;
 	me->cmd.cmd_descriptor = g_strdup (_("Scenario Show"));

@@ -112,10 +112,9 @@ gboolean cmd_define_name	(WorkbookControl *wbc, char const *name,
 				 char const *descriptor);
 gboolean cmd_remove_name        (WorkbookControl *wbc, GnmNamedExpr *nexpr);
 
-/* FIXME: figure out how to resolve this better.  */
-struct _scenario_cmd_t;
 gboolean cmd_scenario_add (WorkbookControl *wbc, GnmScenario *s, Sheet *sheet);
-gboolean cmd_scenario_mngr (WorkbookControl *wbc, GnmScenario *sc);
+gboolean cmd_scenario_mngr (WorkbookControl *wbc, GnmScenario *sc,
+			    GOUndo *undo);
 
 /* FIXME: figure out how to resolve this better.  */
 struct _data_shuffling_t;

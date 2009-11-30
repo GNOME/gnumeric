@@ -558,7 +558,7 @@ scenarios_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 {
 	if (state->current) {
 		WorkbookControl *wbc = WORKBOOK_CONTROL (state->base.wbcg);
-		cmd_scenario_mngr (wbc, state->current);
+		cmd_scenario_mngr (wbc, state->current, state->undo);
 	}
 
 	scenario_manager_ok (state->base.sheet);
@@ -641,11 +641,11 @@ scenarios_show_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	gtk_tree_model_get (GTK_TREE_MODEL (model), &iter,  0, &value, -1);
 
+	restore_old_values (state);
+
 	wbc = WORKBOOK_CONTROL (state->base.wbcg);
-	state->current =
-		gnm_sheet_scenario_find (state->base.sheet, value);
-	state->undo =
-		gnm_scenario_apply (state->current);
+	state->current = gnm_sheet_scenario_find (state->base.sheet, value);
+	state->undo = gnm_scenario_apply (state->current);
 }
 
 static void
