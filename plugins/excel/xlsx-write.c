@@ -1030,7 +1030,7 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 		xlsx_write_plot_1_5_type (xml, plot);
 	} else if (0 == strcmp (plot_type, "GogPiePlot") ||
 		   0 == strcmp (plot_type, "GogRingPlot")) {
-		float initial_angle = 0., center_size = 0.;
+		double initial_angle = 0., center_size = 0.;
 		gboolean vary;
 		gint16 center = 0;
 		if (0 == strcmp (plot_type, "GogRingPlot")) {
@@ -1049,7 +1049,7 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 		xlsx_write_chart_bool (xml, "c:varyColors", vary);
 		xlsx_write_chart_int (xml, "c:firstSliceAng", 0, (int) initial_angle);
 #if 0
-		float default_separation = 0.;
+		double default_separation = 0.;
 		/* handled in series ? */
 		"default-separation",	&default_separation,
 		xlsx_write_chart_int (xml, "c:explosion", 0, default_separation);

@@ -5117,7 +5117,7 @@ gnumeric_cvmtest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			total += (delta * delta);
 		}
 
-		total += (1 / (12 * (float)n));
+		total += (1 / (12 * (gnm_float)n));
 		value_array_set (result, 0, 1,
 				 value_new_float (total));
 

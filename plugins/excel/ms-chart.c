@@ -1537,8 +1537,8 @@ static gboolean
 BC_R(pie)(XLChartHandler const *handle,
 	  XLChartReadState *s, BiffQuery *q)
 {
-	float initial_angle = GSF_LE_GET_GUINT16 (q->data);
-	float center_size = GSF_LE_GET_GUINT16 (q->data+2); /* 0-100 */
+	double initial_angle = GSF_LE_GET_GUINT16 (q->data);
+	double center_size = GSF_LE_GET_GUINT16 (q->data+2); /* 0-100 */
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+4);
 	gboolean in_3d = (BC_R(ver)(s) >= MS_BIFF_V8 && (flags & 0x01));
 
@@ -1741,7 +1741,7 @@ BC_R(scatter)(XLChartHandler const *handle,
 			gboolean in_3d = (flags & 0x04) != 0;
 			gboolean show_negatives = (flags & 0x02) != 0;
 			gboolean size_as_area = (size_type != 2);
-			float scale =  GSF_LE_GET_GUINT16 (q->data) / 100.;
+			double scale =  GSF_LE_GET_GUINT16 (q->data) / 100.;
 			s->plot = (GogPlot*) gog_plot_new_by_name ("GogBubblePlot");
 			g_return_val_if_fail (s->plot != NULL, TRUE);
 			g_object_set (G_OBJECT (s->plot),
@@ -4650,7 +4650,7 @@ chart_write_series (XLChartWriteState *s, GogSeries const *series, unsigned n)
 		go_line_interpolation_from_str (interpolation));
 	g_free (interpolation);
 	for (ptr = gog_series_get_overrides (series); ptr != NULL ; ptr = ptr->next) {
-		float sep = 0;
+		double sep = 0;
 		if (g_object_class_find_property (
 			G_OBJECT_GET_CLASS (ptr->data), "separation"))
 			g_object_get (G_OBJECT (ptr->data), "separation", &sep, NULL);
@@ -5016,7 +5016,7 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 	} else if (0 == strcmp (type, "GogPiePlot") ||
 		   0 == strcmp (type, "GogRingPlot")) {
 		gboolean in_3d = FALSE;
-		float initial_angle = 0., center_size = 0., default_separation = 0.;
+		double initial_angle = 0, center_size = 0, default_separation = 0;
 		gint16 center = 0;
 		g_object_get (G_OBJECT (plot),
 			"in-3d",		&in_3d,
