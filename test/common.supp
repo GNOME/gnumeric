@@ -331,6 +331,41 @@
 }
 
 {
+   Leak/font-config/FcConfigAllocExpr
+   Memcheck:Leak
+   fun:malloc
+   fun:FcConfigAllocExpr
+}
+
+{
+   Leak/font-config/FcTestCreate
+   Memcheck:Leak
+   fun:malloc
+   fun:FcTestCreate
+}
+
+{
+   Leak/font-config/FcEditCreate
+   Memcheck:Leak
+   fun:malloc
+   fun:FcEditCreate
+}
+
+{
+   Leak/font-config/FcMatrixCopy
+   Memcheck:Leak
+   fun:malloc
+   fun:FcMatrixCopy
+}
+
+{
+   Leak/font-config/FcConfigAddEdit
+   Memcheck:Leak
+   fun:malloc
+   fun:FcConfigAddEdit
+}
+
+{
    Leak/FcStrStaticName
    Memcheck:Leak
    fun:malloc
