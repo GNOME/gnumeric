@@ -33,8 +33,6 @@ typedef struct {
 					 gboolean couple_panes);
 	void (*cursor_bound)		(SheetControl *sc, GnmRange const *r);
 	void (*set_panes)		(SheetControl *sc);
-	float (*colrow_distance_get)	(SheetControl const *sc, gboolean is_col,
-					 int start, int end);
 	void (*object_create_view)	(SheetControl *sc, SheetObject *so);
 	void (*scale_changed)		(SheetControl *sc);
 } SheetControlClass;
