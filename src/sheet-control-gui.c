@@ -2032,7 +2032,7 @@ scg_mode_edit_virt (SheetControl *sc)
 
 static int
 calc_obj_place (GnmPane *pane, gint64 canvas_coord, gboolean is_col,
-		float *offset)
+		double *offset)
 {
 	gint64 origin;
 	int colrow;

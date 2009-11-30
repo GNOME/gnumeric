@@ -2150,7 +2150,7 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 	GnmRange		anchor_r;
 	GODrawingAnchorDir	anchor_dir;
 	SheetObjectAnchor	anchor;
-	float			f_tmp[4], *anchor_offset = NULL;
+	double			f_tmp[4], *anchor_offset = NULL;
 
 	g_return_if_fail (state->so == NULL);
 
@@ -2217,7 +2217,7 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 		else if (attr_eq (attrs[i], "ObjectBound"))
 			range_parse (&anchor_r, CXML2C (attrs[i + 1]), gnm_sheet_get_size (state->sheet));
 		else if (attr_eq (attrs[i], "ObjectOffset") &&
-			4 == sscanf (CXML2C (attrs[i + 1]), "%g %g %g %g",
+			4 == sscanf (CXML2C (attrs[i + 1]), "%lg %lg %lg %lg",
 				     f_tmp + 0, f_tmp + 1, f_tmp + 2, f_tmp + 3))
 			anchor_offset = f_tmp;
 		else if (gnm_xml_attr_int (attrs+i, "Direction", &tmp_int))

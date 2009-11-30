@@ -41,7 +41,7 @@ struct _SheetObjectAnchor {
 	GODrawingAnchor	base;
 
 	GnmRange cell_bound; /* cellpos containing corners */
-	float	 offset [4]; /* offsets from the top left (in LTR of cell_bound) */
+	double	 offset[4];  /* offsets from the top left (in LTR of cell_bound) */
 };
 
 #define SHEET_OBJECT_TYPE     (sheet_object_get_type ())
@@ -118,7 +118,7 @@ void sheet_object_anchor_to_offset_pts	(SheetObjectAnchor const *anchor,
 					 Sheet const *sheet, double *res_pts);
 void sheet_object_anchor_init	(SheetObjectAnchor *anchor,
 				 GnmRange const *cell_bound,
-				 float const	*offset,
+				 const double *offsets,
 				 GODrawingAnchorDir direction);
 SheetObjectAnchor *
      sheet_object_anchor_dup	(SheetObjectAnchor const *src);

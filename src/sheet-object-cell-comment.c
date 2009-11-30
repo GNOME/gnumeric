@@ -395,7 +395,7 @@ void
 cell_comment_set_pos (GnmComment *cc, GnmCellPos const *pos)
 {
 	/* top right */
-	static float const a_offsets [4] = { 1., 0., 1., 0. };
+	static double const a_offsets [4] = { 1., 0., 1., 0. };
 	SheetObjectAnchor anchor;
 	GnmRange	  r;
 

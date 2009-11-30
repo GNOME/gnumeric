@@ -383,10 +383,10 @@ ms_sheet_map_color (ExcelReadSheet const *esheet, MSObj const *obj, MSObjAttrID 
 static gboolean
 ms_sheet_obj_anchor_to_pos (Sheet const * sheet, MsBiffVersion const ver,
 			    guint8 const *raw_anchor,
-			    GnmRange *range, float offset[4])
+			    GnmRange *range, double offset[4])
 {
 	/* NOTE :
-	 * float const row_denominator = (ver >= MS_BIFF_V8) ? 256. : 1024.;
+	 * gnm_float const row_denominator = (ver >= MS_BIFF_V8) ? 256. : 1024.;
 	 * damn damn damn
 	 * chap03-1.xls suggests that XL95 uses 256 too
 	 * Do we have any tests that confirm the docs contention of 1024 ?
@@ -491,7 +491,7 @@ handle_arrow_head (SheetObject *so, const char *prop_name,
 static gboolean
 ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 {
-	float offsets[4];
+	double offsets[4];
 	PangoAttrList *markup;
 	GnmRange range;
 	ExcelReadSheet *esheet;
@@ -3808,7 +3808,7 @@ excel_read_XCT (BiffQuery *q, GnmXLImporter *importer)
 }
 
 static XL_font_width const *
-xl_find_fontspec (ExcelReadSheet *esheet, float *size20)
+xl_find_fontspec (ExcelReadSheet *esheet, double *size20)
 {
 	/* Use the 'Normal' Style which is by definition the 0th */
 	BiffXFData const *xf = excel_get_xf (esheet, 0);
@@ -3955,7 +3955,7 @@ static void
 excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	int i;
-	float scale, width;
+	double scale, width;
 	guint16 const  firstcol	  = GSF_LE_GET_GUINT16 (q->data);
 	guint16        lastcol	  = GSF_LE_GET_GUINT16 (q->data + 2);
 	int            charwidths = GSF_LE_GET_GUINT16 (q->data + 4);
@@ -3984,7 +3984,7 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 	 * NOTE: These measurements do NOT correspond to what is shown to the
 	 * user */
 	width = 8. * spec->defcol_unit +
-		(float)(charwidths - spec->colinfo_baseline) / spec->colinfo_step;
+		(double)(charwidths - spec->colinfo_baseline) / spec->colinfo_step;
 	width *= scale * 72./96.;
 
 	if (width <= 0) {	/* Columns are of default width */
@@ -4232,7 +4232,7 @@ static void
 excel_read_DEF_COL_WIDTH (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	guint16 charwidths;
-	float scale;
+	double scale;
 	XL_font_width const *spec = xl_find_fontspec (esheet, &scale);
 
 	XL_CHECK_CONDITION (q->length >= 2);

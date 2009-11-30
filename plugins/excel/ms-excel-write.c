@@ -4289,7 +4289,7 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 		: NULL;
 
 	if (IS_CELL_COMMENT (so)) {
-		static float const offset[4] = { .5, .5, .5, .5 };
+		static double const offset[4] = { .5, .5, .5, .5 };
 		GnmRange r;
 
 		r.start = real_anchor->cell_bound.start;

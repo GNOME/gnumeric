@@ -546,7 +546,7 @@ static void
 gnm_filter_add_field (GnmFilter *filter, int i)
 {
 	/* pretend to fill the cell, then clip the X start later */
-	static float const a_offsets[4] = { .0, .0, 1., 1. };
+	static double const a_offsets[4] = { .0, .0, 1., 1. };
 	int n;
 	GnmRange tmp;
 	SheetObjectAnchor anchor;

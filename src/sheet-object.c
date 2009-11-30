@@ -1044,7 +1044,7 @@ sheet_object_rubber_band_directly (SheetObject const *so)
  * sheet_object_anchor_init :
  * @anchor : #SheetObjectAnchor
  * @r : #GnmRange
- * @offsets : float[4]
+ * @offsets : double[4]
  * @direction : #GODrawingAnchorDir
  *
  * A utility routine to initialize an anchor.  Useful in case we change fields
@@ -1052,7 +1052,7 @@ sheet_object_rubber_band_directly (SheetObject const *so)
  **/
 void
 sheet_object_anchor_init (SheetObjectAnchor *anchor,
-			  GnmRange const *r, float const *offsets,
+			  GnmRange const *r, const double *offsets,
 			  GODrawingAnchorDir direction)
 {
 	int i;
@@ -1064,11 +1064,11 @@ sheet_object_anchor_init (SheetObjectAnchor *anchor,
 	anchor->cell_bound = *r;
 
 	if (offsets == NULL) {
-		static float const defaultVal [4] = { 0., 0., 0., 0. };
+		static double const defaultVal [4] = { 0., 0., 0., 0. };
 		offsets = defaultVal;
 	}
 	for (i = 4; i-- > 0 ; )
-		anchor->offset [i] = offsets [i];
+		anchor->offset[i] = offsets [i];
 
 	anchor->base.direction = direction;
 	/* TODO : add sanity checking to handle offsets past edges of col/row */

@@ -311,7 +311,7 @@ wb_view_style_feedback (WorkbookView *wbv)
 
 	if (NULL != wbv->in_cell_combo)
 	{
-		float const a_offsets [4] = { 0., 0., 1., 1. };
+		const double a_offsets [4] = { 0., 0., 1., 1. };
 		SheetObjectAnchor  anchor;
 		GnmRange corner;
 		GnmRange const *r;

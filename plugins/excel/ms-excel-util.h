@@ -85,7 +85,7 @@ typedef struct {
 	char const *name;
 	int	defcol_unit;
 	int	colinfo_baseline;
-	float	colinfo_step;
+	double	colinfo_step;
 } XL_font_width;
 
 /* Measures base character width for column sizing. Returns width. */

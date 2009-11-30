@@ -3181,7 +3181,7 @@ od_draw_frame (GsfXMLIn *xin, xmlChar const **attrs)
 
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GnmRange cell_base;
-	gfloat frame_offset [4];
+	double frame_offset[4];
 	gchar const *aux = NULL;
 	gdouble height = 0., width = 0., x = 0., y = 0., end_x = 0., end_y = 0.;
 	ColRowInfo const *col, *row;
