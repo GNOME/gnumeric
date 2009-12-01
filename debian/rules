@@ -39,7 +39,9 @@ features+= --enable-ssindex
 # The GnomeDB plugin for gnumeric requires a version of GnomeDB that is not
 # available as packages yet.
 #	Tue, 01 Sep 2009 20:49:41 +0200
-features+= --with-gda --without-gnomedb
+# Likewise for GDA.
+#	Sun, 29 Nov 2009 22:29:18 +0100
+features+= --without-gda --without-gnomedb
 
 # Psion files support
 features+= --with-psiconv

@@ -1,3 +1,15 @@
+gnumeric (1.9.16-1) unstable; urgency=low
+
+  * [debian/control]
+    * Bumped goffice build dependency as per configure.in .
+    * Added gnumeric Recommends: lp-solve as Linear Programming solving has
+      been moved into a plugin that uses the external lp_solve program.
+  * [debian/rules, debian/control, debian/gnumeric-plugins-extra.install]
+    Disable GDA support as it requires newer GDA packages than are available
+    in unstable.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 01 Dec 2009 20:52:06 +0100
+
 gnumeric (1.9.15-1) unstable; urgency=medium
 
   * New upstream development release.

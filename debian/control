@@ -6,12 +6,12 @@ Build-Depends: debhelper (>= 7.0.0), python-central (>= 0.5), dh-buildinfo,
  po-debconf, gettext, bison, flex, rarian-compat | scrollkeeper,
  intltool (>= 0.29), libxml-parser-perl,
  zlib1g-dev, libglib2.0-dev (>= 2.12.0), libgsf-1-dev (>= 1.14.15),
- libgoffice-0-8-dev (>= 0.7.15), libxml2-dev (>= 2.6.10-2),
+ libgoffice-0-8-dev (>= 0.7.16), libxml2-dev (>= 2.6.10-2),
  libpango1.0-dev (>= 1.12.0),
  libgtk2.0-dev (>= 2.12.0), libglade2-dev (>= 1:2.4.0),
  libart-2.0-dev (>= 2.3.16-5),
  pxlib-dev (>= 0.5.1-2+b1), libpsiconv-dev (>= 0.9.8-2), libperl-dev,
- python-dev, python-gtk2-dev, libgda-4.0-dev
+ python-dev, python-gtk2-dev
 Homepage: http://www.gnumeric.org/
 Vcs-git: git://git.gnome.org/gnumeric
 Vcs-Browser: http://git.gnome.org/cgit/gnumeric
@@ -20,7 +20,7 @@ Standards-Version: 3.8.3
 Package: gnumeric
 Architecture: any
 Depends: ${shlibs:Depends}, procps, gsfonts, gnumeric-common (= ${source:Version}), ${misc:Depends}
-Recommends: evince (>= 0.9.0) | evince-gtk (>= 0.9.0)
+Recommends: evince (>= 0.9.0) | evince-gtk (>= 0.9.0), lp-solve
 Suggests: gnumeric-doc (>= ${Upstream-Version}), gnumeric-plugins-extra, epiphany-browser, ttf-liberation | ttf-mscorefonts-installer
 Conflicts: gnumeric1.0, gnumeric1.0-doc, gnumeric-doc (<< ${Upstream-Version})
 Replaces: zh-trans (<< 0.8-1), gnumeric1.0

@@ -1,4 +1,4 @@
-/usr/lib/gnumeric/*/plugins/gdaif/*
+# /usr/lib/gnumeric/*/plugins/gdaif/*
 # /usr/lib/gnumeric/*/plugins/gnome-db/*
 /usr/lib/gnumeric/*/plugins/gnome-glossary/*
 /usr/lib/gnumeric/*/plugins/paradox/*
