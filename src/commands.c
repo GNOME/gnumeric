@@ -740,6 +740,7 @@ typedef struct {
 	GnmCellRegion *old_contents;
 	ColRowIndexList *columns, *rows;
 	ColRowStateGroup *old_widths, *old_heights;
+	gboolean first;
 } CmdSetText;
 
 static void
@@ -828,7 +829,10 @@ cmd_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 				TRUE, FALSE,
 				&me->rows, &me->old_heights);
 
-	select_range (me->cmd.sheet, &r, wbc);
+	if (me->first)
+		me->first = FALSE;
+	else
+		select_range (me->cmd.sheet, &r, wbc);
 
 	return FALSE;
 }
@@ -956,6 +960,7 @@ cmd_set_text (WorkbookControl *wbc,
 		pango_attr_list_ref (me->markup);
 	r.start = r.end = *pos;
 	me->old_contents = clipboard_copy_range (sheet, &r);
+	me->first = TRUE;
 
 	text = make_undo_text (corrected_text, &truncated);
 

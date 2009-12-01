@@ -2,6 +2,7 @@ Gnumeric 1.9.17
 
 Morten:
 	* Elminate use of "float".
+	* Fix selection problem.  [#601107]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.16
