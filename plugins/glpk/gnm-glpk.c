@@ -15,6 +15,7 @@
 #include <unistd.h>
 
 #define SOLVER_PROGRAM "glpsol"
+#define SOLVER_URL "http://www.gnu.org/software/glpk/"
 #define PRIVATE_KEY "::glpk::"
 
 typedef struct {
@@ -276,6 +277,17 @@ gnm_glpk_start (GnmSolver *sol, WorkbookControl *wbc, GError **err,
 				   NULL, NULL,
 				   NULL, NULL,
 				   err);
+
+	if (!ok && err &&
+	    g_error_matches (*err, G_SPAWN_ERROR, G_SPAWN_ERROR_NOENT)) {
+		g_clear_error (err);
+		g_set_error (err, G_SPAWN_ERROR, G_SPAWN_ERROR_NOENT,
+			     _("The %s program was not found.  You can either "
+			       "install it or use another solver. "
+			       "For more information see %s"),
+			     SOLVER_PROGRAM,
+			     SOLVER_URL);
+	}
 
 	return ok;
 }

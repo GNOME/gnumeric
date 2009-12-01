@@ -10,6 +10,7 @@
 #include <string.h>
 
 #define SOLVER_PROGRAM "lp_solve"
+#define SOLVER_URL "http://sourceforge.net/projects/lpsolve/"
 #define PRIVATE_KEY "::lpsolve::"
 
 typedef struct {
@@ -271,6 +272,17 @@ gnm_lpsolve_start (GnmSolver *sol, WorkbookControl *wbc, GError **err,
 				   (GIOFunc)cb_read_stdout, lp,
 				   NULL, NULL,
 				   err);
+
+	if (!ok && err &&
+	    g_error_matches (*err, G_SPAWN_ERROR, G_SPAWN_ERROR_NOENT)) {
+		g_clear_error (err);
+		g_set_error (err, G_SPAWN_ERROR, G_SPAWN_ERROR_NOENT,
+			     _("The %s program was not found.  You can either "
+			       "install it or use another solver. "
+			       "For more information see %s"),
+			     SOLVER_PROGRAM,
+			     SOLVER_URL);
+	}
 
 	return ok;
 }
