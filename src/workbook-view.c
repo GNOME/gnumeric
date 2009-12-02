@@ -65,10 +65,7 @@
 #include "mathfunc.h"
 
 #ifdef G_OS_WIN32
-#include <windef.h>
-#include <shellapi.h>
-#include <wingdi.h>
-#include <winuser.h>
+#include <windows.h>
 #endif
 
 enum {
