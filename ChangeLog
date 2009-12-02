@@ -1,5 +1,8 @@
 2009-12-02  Morten Welinder  <terra@gnome.org>
 
+	* src/ssconvert.c (run_solver): Optionally run solver.  (For
+	testing only.)
+
 	* src/workbook-control.c (wbc_cmd_context_init): New function.
 
 2009-12-01  Morten Welinder  <terra@gnome.org>

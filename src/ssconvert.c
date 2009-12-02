@@ -17,6 +17,7 @@
 #include "parse-util.h"
 #include "workbook.h"
 #include "workbook-priv.h"
+#include "workbook-control.h"
 #include "sheet.h"
 #include "dependent.h"
 #include "expr-name.h"
@@ -40,6 +41,7 @@ static gboolean ssconvert_list_exporters = FALSE;
 static gboolean ssconvert_list_importers = FALSE;
 static gboolean ssconvert_one_file_per_sheet = FALSE;
 static gboolean ssconvert_recalc = FALSE;
+static gboolean ssconvert_solve = FALSE;
 static char *ssconvert_range = NULL;
 static char *ssconvert_import_encoding = NULL;
 static char *ssconvert_import_id = NULL;
@@ -112,21 +114,21 @@ static const GOptionEntry ssconvert_options [] = {
 	{
 		"export-file-per-sheet", 'S',
 		0, G_OPTION_ARG_NONE, &ssconvert_one_file_per_sheet,
-		N_("Export a file for each sheet if the exporter only supports one sheet at a time."),
+		N_("Export a file for each sheet if the exporter only supports one sheet at a time"),
 		NULL
 	},
 
 	{
 		"recalc", 0,
 		0, G_OPTION_ARG_NONE, &ssconvert_recalc,
-		N_("Recalculate all cells before writing the result."),
+		N_("Recalculate all cells before writing the result"),
 		NULL
 	},
 
 
 	/* ---------------------------------------- */
 
-	/* For now this is for INTERNAL GNUMERIC USE ONLY.  */
+	/* For now these are for INTERNAL GNUMERIC USE ONLY.  */
 	{
 		"export-range", 0,
 		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_STRING, &ssconvert_range,
@@ -138,6 +140,13 @@ static const GOptionEntry ssconvert_options [] = {
 		"goal-seek", 0,
 		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_STRING_ARRAY, &ssconvert_goal_seek,
 		N_("Goal seek areas"),
+		NULL
+	},
+
+	{
+		"solve", 0,
+		0, G_OPTION_ARG_NONE, &ssconvert_solve,
+		N_("Run the solver"),
 		NULL
 	},
 
@@ -411,6 +420,69 @@ merge (Workbook *wb, char const *inputs[],
 	return result;
 }
 
+static void
+run_solver (Sheet *sheet, WorkbookView *wbv)
+{
+	GnmSolverParameters *params = sheet->solver_parameters;
+	GError *err = NULL;
+	WorkbookControl *wbc;
+	GnmSolver *sol = NULL;
+
+	wbc = g_object_new (WORKBOOK_CONTROL_TYPE, NULL);
+	wb_control_set_view (wbc, wbv, NULL);
+
+	/* Pick a functional algorithm.  */
+	if (!gnm_solver_factory_functional (params->options.algorithm)) {
+		GSList *l;
+		for (l = gnm_solver_db_get (); l; l = l->next) {
+			GnmSolverFactory *factory = l->data;
+			if (params->options.model_type != factory->type)
+				continue;
+			if (gnm_solver_factory_functional (factory)) {
+				gnm_solver_param_set_algorithm (params,
+								factory);
+				break;
+			}
+		}
+	}
+
+	if (!gnm_solver_param_valid (params, &err))
+		goto done;
+
+	sol = params->options.algorithm
+		? gnm_solver_factory_create (params->options.algorithm, params)
+		: NULL;
+	if (!sol) {
+		g_set_error (&err, go_error_invalid (), 0,
+			     _("Failed to create solver"));
+		goto done;
+	}
+
+	if (!gnm_solver_start (sol, wbc, &err))
+		goto done;
+
+	while (!gnm_solver_finished (sol)) {
+		g_main_context_iteration (NULL, TRUE);
+	}
+
+	if (sol->status != GNM_SOLVER_STATUS_DONE) {
+		g_set_error (&err, go_error_invalid (), 0,
+			     _("Solver ran, but failed"));
+		goto done;
+	}
+
+	gnm_solver_store_result (sol);
+
+ done:
+	if (sol)
+		g_object_unref (sol);
+	if (err) {
+		g_printerr (_("Solver: %s\n"), err->message);
+		g_error_free (err);
+	}
+}
+
+
 static int
 convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	 GOCmdContext *cc)
@@ -512,6 +584,9 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 					dialog_goal_seek (NULL, sheet);
 				}
 			}
+
+			if (ssconvert_solve)
+				run_solver (sheet, wbv);
 
 			if (ssconvert_recalc)
 				workbook_recalc_all (wb);
