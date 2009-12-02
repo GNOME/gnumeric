@@ -1,3 +1,7 @@
+2009-12-02  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-control.c (wbc_cmd_context_init): New function.
+
 2009-12-01  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_set_text_redo): On the initial pass, don't

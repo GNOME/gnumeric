@@ -398,9 +398,24 @@ workbook_control_init (GObject *obj)
 		G_CALLBACK (cb_wbc_clipboard_modified), wbc);
 }
 
-GSF_CLASS (WorkbookControl, workbook_control,
-	   workbook_control_class_init, workbook_control_init,
-	   GO_TYPE_DOC_CONTROL)
+static void
+wbc_cmd_context_init (GOCmdContextClass *iface)
+{
+#if 0
+	iface->get_password	    = ;
+	iface->set_sensitive	    = ;
+	iface->error.error	    = ;
+	iface->error.error_info	    = ;
+	iface->progress_set	    = ;
+	iface->progress_message_set = ;
+#endif
+}
+
+GSF_CLASS_FULL (WorkbookControl, workbook_control, NULL, NULL,
+		workbook_control_class_init, NULL, workbook_control_init,
+		GO_TYPE_DOC_CONTROL, 0,
+		GSF_INTERFACE (wbc_cmd_context_init, GO_TYPE_CMD_CONTEXT))
+
 
 void
 wb_control_set_view (WorkbookControl *wbc,
