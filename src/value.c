@@ -1339,7 +1339,7 @@ value_set_fmt (GnmValue *v, GOFormat const *fmt)
 
 /****************************************************************************/
 
-typedef enum { CRIT_NULL, CRIT_FLOAT, CRIT_BADFLOAT, CRIT_STRING } CritType;
+typedef enum { CRIT_NULL, CRIT_FLOAT, CRIT_WRONGTYPE, CRIT_STRING } CritType;
 
 static CritType
 criteria_inspect_values (GnmValue const *x, gnm_float *xr, gnm_float *yr,
@@ -1356,13 +1356,18 @@ criteria_inspect_values (GnmValue const *x, gnm_float *xr, gnm_float *yr,
 	*yr = value_get_as_float (y);
 
 	if (VALUE_IS_NUMBER (x)) {
+		if (VALUE_IS_BOOLEAN (y) != VALUE_IS_BOOLEAN (x))
+			return CRIT_WRONGTYPE;
 		*xr = value_get_as_float (x);
 		return CRIT_FLOAT;
 	}
 
 	vx = format_match (value_peek_string (x), NULL, crit->date_conv);
-	if (!vx)
-		return CRIT_BADFLOAT;
+	if (VALUE_IS_EMPTY (vx) ||
+	    VALUE_IS_BOOLEAN (y) != VALUE_IS_BOOLEAN (vx)) {
+		value_release (vx);
+		return CRIT_WRONGTYPE;
+	}
 
 	*xr = value_get_as_float (vx);
 	value_release (vx);
@@ -1380,7 +1385,7 @@ criteria_test_equal (GnmValue const *x, GnmCriteria *crit)
 	default:
 		g_assert_not_reached ();
 	case CRIT_NULL:
-	case CRIT_BADFLOAT:
+	case CRIT_WRONGTYPE:
 		return FALSE;
 	case CRIT_FLOAT:
 		return xf == yf;
@@ -1400,7 +1405,7 @@ criteria_test_unequal (GnmValue const *x, GnmCriteria *crit)
 	default:
 		g_assert_not_reached ();
 	case CRIT_NULL:
-	case CRIT_BADFLOAT:
+	case CRIT_WRONGTYPE:
 		return FALSE;
 	case CRIT_FLOAT:
 		return xf != yf;
@@ -1420,7 +1425,7 @@ criteria_test_less (GnmValue const *x, GnmCriteria *crit)
 	default:
 		g_assert_not_reached ();
 	case CRIT_NULL:
-	case CRIT_BADFLOAT:
+	case CRIT_WRONGTYPE:
 	case CRIT_STRING:
 		return FALSE;
 	case CRIT_FLOAT:
@@ -1437,7 +1442,7 @@ criteria_test_greater (GnmValue const *x, GnmCriteria *crit)
 	default:
 		g_assert_not_reached ();
 	case CRIT_NULL:
-	case CRIT_BADFLOAT:
+	case CRIT_WRONGTYPE:
 	case CRIT_STRING:
 		return FALSE;
 	case CRIT_FLOAT:
@@ -1454,7 +1459,7 @@ criteria_test_less_or_equal (GnmValue const *x, GnmCriteria *crit)
 	default:
 		g_assert_not_reached ();
 	case CRIT_NULL:
-	case CRIT_BADFLOAT:
+	case CRIT_WRONGTYPE:
 	case CRIT_STRING:
 		return FALSE;
 	case CRIT_FLOAT:
@@ -1471,7 +1476,7 @@ criteria_test_greater_or_equal (GnmValue const *x, GnmCriteria *crit)
 	default:
 		g_assert_not_reached ();
 	case CRIT_NULL:
-	case CRIT_BADFLOAT:
+	case CRIT_WRONGTYPE:
 	case CRIT_STRING:
 		return FALSE;
 	case CRIT_FLOAT:
@@ -1482,12 +1487,11 @@ criteria_test_greater_or_equal (GnmValue const *x, GnmCriteria *crit)
 static gboolean
 criteria_test_match (GnmValue const *x, GnmCriteria *crit)
 {
-	const char *xs;
 	if (!crit->has_rx)
 		return FALSE;
 
-	xs = x ? value_peek_string (x) : "";
-	return go_regexec (&crit->rx, xs, 0, NULL, 0) == GO_REG_OK;
+	return go_regexec (&crit->rx, value_peek_string (x), 0, NULL, 0) ==
+		GO_REG_OK;
 }
 
 /*
@@ -1591,6 +1595,7 @@ parse_criteria (GnmValue const *crit_val, GODateConventions const *date_conv)
 	int len;
 	char const *criteria;
 	GnmCriteria *res = g_new0 (GnmCriteria, 1);
+	GnmValue *empty;
 
 	res->iter_flags = CELL_ITER_IGNORE_BLANK;
 	res->date_conv = date_conv;
@@ -1611,7 +1616,6 @@ parse_criteria (GnmValue const *crit_val, GODateConventions const *date_conv)
 	} else if (strncmp (criteria, "<>", 2) == 0) {
 		res->fun = criteria_test_unequal;
 		len = 2;
-		res->iter_flags &= ~CELL_ITER_IGNORE_BLANK;
 	} else if (*criteria == '<') {
 		res->fun = criteria_test_less;
 		len = 1;
@@ -1624,15 +1628,17 @@ parse_criteria (GnmValue const *crit_val, GODateConventions const *date_conv)
 	} else {
 		res->fun = criteria_test_match;
 		res->has_rx = (gnm_regcomp_XL (&res->rx, criteria, 0, TRUE) == GO_REG_OK);
-		if (res->fun (NULL, res))
-			res->iter_flags &= ~CELL_ITER_IGNORE_BLANK;
-
 		len = 0;
 	}
 
 	res->x = format_match (criteria + len, NULL, date_conv);
 	if (res->x == NULL)
 		res->x = value_new_string (criteria + len);
+
+	empty = value_new_empty ();
+	if (res->fun (empty, res))
+		res->iter_flags &= ~CELL_ITER_IGNORE_BLANK;
+	value_release (empty);
 
 	return res;
 }

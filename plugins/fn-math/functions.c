@@ -476,7 +476,7 @@ cb_countif (GnmCellIter const *iter, CountIfClosure *res)
 		gnm_cell_eval (cell);
 		v = cell->value;
 	} else
-		v = NULL;
+		v = value_new_empty ();  /* Never released */
 
 	if (!VALUE_IS_EMPTY (v) && !VALUE_IS_NUMBER (v) && !VALUE_IS_STRING (v))
 		return NULL;
@@ -552,7 +552,7 @@ cb_sumif (GnmCellIter const *iter, SumIfClosure *res)
 		gnm_cell_eval (cell);
 		v = cell->value;
 	} else
-		v = NULL;
+		v = value_new_empty ();  /* Never released */
 
 	if (!VALUE_IS_EMPTY (v) && !VALUE_IS_NUMBER (v) && !VALUE_IS_STRING (v))
 		return NULL;
@@ -561,23 +561,22 @@ cb_sumif (GnmCellIter const *iter, SumIfClosure *res)
 		return NULL;
 
 	if (NULL != res->target_sheet) {
-		cell = sheet_cell_get (res->target_sheet,
-				       iter->pp.eval.col + res->offset_col,
-				       iter->pp.eval.row + res->offset_row);
+		GnmCell *cell = sheet_cell_get
+			(res->target_sheet,
+			 iter->pp.eval.col + res->offset_col,
+			 iter->pp.eval.row + res->offset_row);
 		if (!cell)
 			return NULL;
 
 		gnm_cell_eval (cell);
 		v = cell->value;
-
-		/* FIXME: Check bools.  */
-		if (!VALUE_IS_FLOAT (v))
-			return NULL;
 	}
 
+	if (!VALUE_IS_FLOAT (v))
+		return NULL;
+
 	/* FIXME: Check bools and strings.  */
-	if (v)
-		res->sum += value_get_as_float (v);
+	res->sum += value_get_as_float (v);
 
 	return NULL;
 }
@@ -664,7 +663,7 @@ cb_averageif (GnmCellIter const *iter, AverageIfClosure *res)
 		gnm_cell_eval (cell);
 		v = cell->value;
 	} else
-		v = NULL;
+		v = value_new_empty ();  /* Never released */
 
 	if (!VALUE_IS_EMPTY (v) && !VALUE_IS_NUMBER (v) && !VALUE_IS_STRING (v))
 		return NULL;
@@ -673,23 +672,21 @@ cb_averageif (GnmCellIter const *iter, AverageIfClosure *res)
 		return NULL;
 
 	if (NULL != res->target_sheet) {
-		cell = sheet_cell_get (res->target_sheet,
-				       iter->pp.eval.col + res->offset_col,
-				       iter->pp.eval.row + res->offset_row);
+		GnmCell *cell = sheet_cell_get
+			(res->target_sheet,
+			 iter->pp.eval.col + res->offset_col,
+			 iter->pp.eval.row + res->offset_row);
 		if (!cell)
 			return NULL;
 
 		gnm_cell_eval (cell);
 		v = cell->value;
-
-		/* FIXME: Check bools.  */
-		if (!VALUE_IS_FLOAT (v))
-			return NULL;
 	}
 
-	/* FIXME: Check bools.  */
-	if (v)
-		res->sum += value_get_as_float (v);
+	if (!VALUE_IS_FLOAT (v))
+		return NULL;
+
+	res->sum += value_get_as_float (v);
 	res->count++;
 
 	return NULL;
