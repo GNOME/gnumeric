@@ -63,3 +63,10 @@
    ...
    fun:fseeko64
 }
+
+{
+   Leak/gconf_engine_get_default
+   Memcheck:Leak
+   ...
+   fun:gconf_engine_get_default
+}
