@@ -472,13 +472,13 @@ cb_countif (GnmCellIter const *iter, CountIfClosure *res)
 	GnmCell *cell = iter->cell;
 	GnmValue *v;
 
-	if (!cell)
-		return NULL;
+	if (cell) {
+		gnm_cell_eval (cell);
+		v = cell->value;
+	} else
+		v = NULL;
 
-	gnm_cell_eval (cell);
-	v = cell->value;
-
-	if (!VALUE_IS_NUMBER (v) && !VALUE_IS_STRING (v))
+	if (!VALUE_IS_EMPTY (v) && !VALUE_IS_NUMBER (v) && !VALUE_IS_STRING (v))
 		return NULL;
 
 	if (!res->crit->fun (v, res->crit))
@@ -511,7 +511,6 @@ gnumeric_countif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	res.count = 0;
 	res.crit = parse_criteria (argv[1], date_conv);
-#warning "2006/May/31  Why do we not filter non-existent as a flag, rather than checking for NULL in cb_countif"
 	problem = sheet_foreach_cell_in_range
 		(sheet, res.crit->iter_flags,
 		 r->cell.a.col, r->cell.a.row, r->cell.b.col, r->cell.b.row,
@@ -548,13 +547,14 @@ cb_sumif (GnmCellIter const *iter, SumIfClosure *res)
 {
 	GnmCell *cell = iter->cell;
 	GnmValue *v;
-	if (!cell)
-		return NULL;
 
-	gnm_cell_eval (cell);
-	v = cell->value;
+	if (cell) {
+		gnm_cell_eval (cell);
+		v = cell->value;
+	} else
+		v = NULL;
 
-	if (!VALUE_IS_NUMBER (v) && !VALUE_IS_STRING (v))
+	if (!VALUE_IS_EMPTY (v) && !VALUE_IS_NUMBER (v) && !VALUE_IS_STRING (v))
 		return NULL;
 
 	if (!res->crit->fun (v, res->crit))
@@ -575,8 +575,9 @@ cb_sumif (GnmCellIter const *iter, SumIfClosure *res)
 			return NULL;
 	}
 
-	/* FIXME: Check bools.  */
-	res->sum += value_get_as_float (v);
+	/* FIXME: Check bools and strings.  */
+	if (v)
+		res->sum += value_get_as_float (v);
 
 	return NULL;
 }
@@ -622,7 +623,6 @@ gnumeric_sumif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	res.sum = 0.;
 	res.crit = parse_criteria (argv[1], date_conv);
-#warning "2006/May/31  Why do we not filter non-existent as a flag, rather than checking for NULL in cb_sumif"
 	problem = sheet_foreach_cell_in_range
 		(start_sheet, res.crit->iter_flags,
 		 rs.start.col, rs.start.row, rs.end.col, rs.end.row,
@@ -659,13 +659,14 @@ cb_averageif (GnmCellIter const *iter, AverageIfClosure *res)
 {
 	GnmCell *cell = iter->cell;
 	GnmValue *v;
-	if (!cell)
-		return NULL;
 
-	gnm_cell_eval (cell);
-	v = cell->value;
+	if (cell) {
+		gnm_cell_eval (cell);
+		v = cell->value;
+	} else
+		v = NULL;
 
-	if (!VALUE_IS_NUMBER (v) && !VALUE_IS_STRING (v))
+	if (!VALUE_IS_EMPTY (v) && !VALUE_IS_NUMBER (v) && !VALUE_IS_STRING (v))
 		return NULL;
 
 	if (!res->crit->fun (v, res->crit))
@@ -687,7 +688,8 @@ cb_averageif (GnmCellIter const *iter, AverageIfClosure *res)
 	}
 
 	/* FIXME: Check bools.  */
-	res->sum += value_get_as_float (v);
+	if (v)
+		res->sum += value_get_as_float (v);
 	res->count++;
 
 	return NULL;
@@ -735,7 +737,6 @@ gnumeric_averageif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	res.sum = 0.;
 	res.count = 0;
 	res.crit = parse_criteria (argv[1], date_conv);
-#warning "2006/May/31  Why do we not filter non-existent as a flag, rather than checking for NULL in cb_averageif"
 	problem = sheet_foreach_cell_in_range
 		(start_sheet, res.crit->iter_flags,
 		 rs.start.col, rs.start.row, rs.end.col, rs.end.row,

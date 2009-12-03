@@ -1482,10 +1482,12 @@ criteria_test_greater_or_equal (GnmValue const *x, GnmCriteria *crit)
 static gboolean
 criteria_test_match (GnmValue const *x, GnmCriteria *crit)
 {
+	const char *xs;
 	if (!crit->has_rx)
 		return FALSE;
 
-	return go_regexec (&crit->rx, value_peek_string (x), 0, NULL, 0) == GO_REG_OK;
+	xs = x ? value_peek_string (x) : "";
+	return go_regexec (&crit->rx, xs, 0, NULL, 0) == GO_REG_OK;
 }
 
 /*
@@ -1609,7 +1611,7 @@ parse_criteria (GnmValue const *crit_val, GODateConventions const *date_conv)
 	} else if (strncmp (criteria, "<>", 2) == 0) {
 		res->fun = criteria_test_unequal;
 		len = 2;
-		res->iter_flags = CELL_ITER_ALL;
+		res->iter_flags &= ~CELL_ITER_IGNORE_BLANK;
 	} else if (*criteria == '<') {
 		res->fun = criteria_test_less;
 		len = 1;
@@ -1622,6 +1624,9 @@ parse_criteria (GnmValue const *crit_val, GODateConventions const *date_conv)
 	} else {
 		res->fun = criteria_test_match;
 		res->has_rx = (gnm_regcomp_XL (&res->rx, criteria, 0, TRUE) == GO_REG_OK);
+		if (res->fun (NULL, res))
+			res->iter_flags &= ~CELL_ITER_IGNORE_BLANK;
+
 		len = 0;
 	}
 
