@@ -540,6 +540,7 @@ typedef struct {
 	Sheet *target_sheet;
 	int offset_col, offset_row;
 	gnm_float sum;
+	int count;
 } SumIfClosure;
 
 static GnmValue *
@@ -575,8 +576,8 @@ cb_sumif (GnmCellIter const *iter, SumIfClosure *res)
 	if (!VALUE_IS_FLOAT (v))
 		return NULL;
 
-	/* FIXME: Check bools and strings.  */
 	res->sum += value_get_as_float (v);
+	res->count++;
 
 	return NULL;
 }
@@ -620,7 +621,8 @@ gnumeric_sumif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	} else
 		res.target_sheet = NULL;
 
-	res.sum = 0.;
+	res.sum = 0;
+	res.count = 0;
 	res.crit = parse_criteria (argv[1], date_conv);
 	problem = sheet_foreach_cell_in_range
 		(start_sheet, res.crit->iter_flags,
@@ -645,59 +647,12 @@ static GnmFuncHelp const help_averageif[] = {
         { GNM_FUNC_HELP_END}
 };
 
-typedef struct {
-	GnmCriteria *crit;
-	Sheet *target_sheet;
-	int offset_col, offset_row;
-	gnm_float sum;
-	int count;
-} AverageIfClosure;
-
-static GnmValue *
-cb_averageif (GnmCellIter const *iter, AverageIfClosure *res)
-{
-	GnmCell *cell = iter->cell;
-	GnmValue *v;
-
-	if (cell) {
-		gnm_cell_eval (cell);
-		v = cell->value;
-	} else
-		v = value_new_empty ();  /* Never released */
-
-	if (!VALUE_IS_EMPTY (v) && !VALUE_IS_NUMBER (v) && !VALUE_IS_STRING (v))
-		return NULL;
-
-	if (!res->crit->fun (v, res->crit))
-		return NULL;
-
-	if (NULL != res->target_sheet) {
-		GnmCell *cell = sheet_cell_get
-			(res->target_sheet,
-			 iter->pp.eval.col + res->offset_col,
-			 iter->pp.eval.row + res->offset_row);
-		if (!cell)
-			return NULL;
-
-		gnm_cell_eval (cell);
-		v = cell->value;
-	}
-
-	if (!VALUE_IS_FLOAT (v))
-		return NULL;
-
-	res->sum += value_get_as_float (v);
-	res->count++;
-
-	return NULL;
-}
-
 static GnmValue *
 gnumeric_averageif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	GnmRange rs;
 	Sheet *start_sheet, *end_sheet;
-	AverageIfClosure res;
+	SumIfClosure res;
 	GnmValue *problem;
 	GODateConventions const *date_conv =
 		workbook_date_conv (ei->pos->sheet->workbook);
@@ -737,7 +692,7 @@ gnumeric_averageif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	problem = sheet_foreach_cell_in_range
 		(start_sheet, res.crit->iter_flags,
 		 rs.start.col, rs.start.row, rs.end.col, rs.end.row,
-		 (CellIterFunc) &cb_averageif, &res);
+		 (CellIterFunc) &cb_sumif, &res);
 	free_criteria (res.crit);
 
 	if (NULL != problem)
