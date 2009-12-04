@@ -73,7 +73,7 @@
 
 2009-11-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/wbc-gtk.c (wbcg_update_title): be consistent with most other 
+	* src/wbc-gtk.c (wbcg_update_title): be consistent with most other
 	  Gnome programs.
 
 2009-11-14  Morten Welinder  <terra@gnome.org>
@@ -85,7 +85,7 @@
 2009-11-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* configure.in: check for gtk_entry_get_buffer (We need to use it to
-	  work around a gtk bug that only occurs when this is in fact 
+	  work around a gtk bug that only occurs when this is in fact
 	  available.)
 
 2009-11-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -205,11 +205,11 @@
 	fixes # 478152
 	* src/sheet-filter.h (gnm_filter_attach): publish
 	* src/sheet-filter.c (gnm_filter_attach): publish
-	  create field selectors here rather than in 
+	  create field selectors here rather than in
 	(gnm_filter_new)
 	(gnm_filter_remove): delete field selectors here rather than in
 	(gnm_filter_unref)
-	* src/wbc-gtk-actions.c (cb_auto_filter): just call 
+	* src/wbc-gtk-actions.c (cb_auto_filter): just call
 	  cmd_autofilter_add_remove
 
 2009-10-27  Morten Welinder  <terra@gnome.org>
@@ -296,7 +296,7 @@
 	->rows.max_used as appropriate.
 	(gnm_sheet_resize): Check for merges.  Add new perr argument.  All
 	callers changed.
-	
+
 2009-10-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/mathfunc.c (random_skew_normal): new
@@ -394,7 +394,7 @@
 	* src/GNOME_Gnumeric-gtk.xml.in: sort objects by type
 	* src/HILDON_Gnumeric-gtk.xml.in: ditto
 	* component/Gnumeric-embed.xml.in: ditto
-	* src/pixmaps/object_label_24.png: show rectangle 
+	* src/pixmaps/object_label_24.png: show rectangle
 
 2009-09-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	for Albert Graef  <Dr.Graef@t-online.de>
@@ -414,8 +414,8 @@
 	(sheet_widget_radio_button_set_group): new callbacks
 	(radio_button_eval): modified to set radio button activation state
 	  according to linked cell value
-	(sheet_widget_radio_button_init, sheet_widget_radio_button_init_full): 
-	  split to support initialization from existing data, added initialization 
+	(sheet_widget_radio_button_init, sheet_widget_radio_button_init_full):
+	  split to support initialization from existing data, added initialization
 	  of new fields in SheetWidgetRadioButton struct
 	(sheet_widget_radio_button_finalize): added finalization of new
 	  fields in SheetWidgetRadioButton struct
@@ -450,7 +450,7 @@
 
 	* src/gnm-pane.c (set_acetate_coords): revert my previous change (with the newer
 	  version of goffice this is not needed.)
-	
+
 2009-09-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-so-filled.c (gnm_so_filled_draw_cairo): fixed line setting.
@@ -944,7 +944,7 @@
 
 2009-08-14 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/func.h (_GnmFuncDescriptor): rename arg_names to 
+	* src/func.h (_GnmFuncDescriptor): rename arg_names to
 	  arg_names_depreceated
 	* src/func.c (gnm_func_load_stub): don't use arg_names
 	(gnm_func_add): ditto
@@ -952,7 +952,7 @@
 
 2009-08-14 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/func.c (function_def_get_arg_name): rewrite without using 
+	* src/func.c (function_def_get_arg_name): rewrite without using
 	  fn_def->arg_names
 
 2009-08-14  Morten Welinder  <terra@gnome.org>
@@ -982,7 +982,7 @@
 
 2009-08-05 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/wbc-gtk-actions.c: Change action names 
+	* src/wbc-gtk-actions.c: Change action names
 
 2009-07-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
@@ -1045,7 +1045,7 @@
 
 2009-06-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/sheet.c (sheet_get_nominal_printarea): make sure the 
+	* src/sheet.c (sheet_get_nominal_printarea): make sure the
 	  range is sane
 
 2009-06-28 Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -1056,9 +1056,9 @@
 
 2009-06-28 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* schemas/gnumeric-general.schemas.in: add schema for 
+	* schemas/gnumeric-general.schemas.in: add schema for
 	  long format toolbar and fix other toolbar schemas
-	* src/GNOME_Gnumeric-gtk.xml.in: provide a long version of 
+	* src/GNOME_Gnumeric-gtk.xml.in: provide a long version of
 	  the format toolbar
 
 2009-06-28 Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -1073,7 +1073,7 @@
 
 2009-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* component/gnumeric.c (go_gnm_component_edit): call 
+	* component/gnumeric.c (go_gnm_component_edit): call
 	  set_uifilename
 	* src/Makefile.am: add new headers
 	* src/wbc-gtk-impl.h (set_uifilename): new
@@ -1170,7 +1170,7 @@
 
 2009-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/commands.c (cmd_define_name_undo): we have to update the 
+	* src/commands.c (cmd_define_name_undo): we have to update the
 	  printarea menu items
 	(cmd_define_name_redo): ditto
 	* src/wbc-gtk.c (wbcg_menu_state_update): update the printarea menu
@@ -1183,7 +1183,7 @@
 	  than sorry and check whether sof->text is NULL
 	(gnm_so_filled_set_property): make sure sof->text does not become
 	  NULL. (If it is NULL the foocanvas items don't notice it changing.)
-	
+
 2009-06-16  Morten Welinder  <terra@gnome.org>
 
 	* src/func.c (dump_externals): New function for creating what will
@@ -1234,8 +1234,8 @@
 	(gnm_gconf_set_sort_has_header): deleted
 	* src/wbc-gtk-actions.c: sort_by_rows, trust the automatic
 	  detection and don't try to use the default too
-	(actions): move preferences, goto and fill menus 
-	
+	(actions): move preferences, goto and fill menus
+
 2009-06-11  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (stf_parse_fixed_line): Make sure we have the
@@ -1244,8 +1244,8 @@
 
 2009-06-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	for Almer S. Tigelaar
-	
-	* src/wbc-gtk.c (cb_scroll_wheel): make sure we are acting on 
+
+	* src/wbc-gtk.c (cb_scroll_wheel): make sure we are acting on
 	  the top visible sheet
 
 2009-06-10  Morten Welinder  <terra@gnome.org>
@@ -1267,7 +1267,7 @@
 
 2009-06-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/ranges.c (range_clip_to_finite): adjust limits and add 
+	* src/ranges.c (range_clip_to_finite): adjust limits and add
 	  explanatory comment
 
 2009-06-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -1276,15 +1276,15 @@
 	* src/sheet.c (gnm_sheet_constructor): change initialization
 	  of print area
 	(sheet_get_nominal_printarea): change return type
-	(sheet_get_printarea): adjust for changes in 
+	(sheet_get_printarea): adjust for changes in
 	  sheet_get_nominal_printarea
 	* src/wbc-gtk-actions.c (cb_file_print_area_clear): change to
 	  match changed print area interpretation
 	(cb_file_print_area_show): ditto
-	* src/xml-io.c (xml_read_names): since existing files will assume 
+	* src/xml-io.c (xml_read_names): since existing files will assume
 	  the old meaning of print area we should adjust upon loading.
 	* src/xml-sax-read.c (xml_sax_named_expr_end): ditto
-	
+
 2009-06-09  Jody Goldberg <jody@gnome.org>
 
 	* src/go-string.c (go_string_shutdown) : don't leak the shared string
@@ -1307,7 +1307,7 @@
 
 	* src/print-info.c (gnm_page_breaks_get_next_break): new
 	* src/print-info.h (gnm_page_breaks_get_next_break): new
-	* src/xml-io.c (xml_read_breaks): adjust to cahnge in enum 
+	* src/xml-io.c (xml_read_breaks): adjust to cahnge in enum
 	  interpretation
 	* src/xml-sax-read.c (xml_sax_page_break): ditto
 	* src/xml-sax-write.c (xml_write_breaks): also write soft breaks
@@ -1342,7 +1342,7 @@
 	* src/print-info.h (gnm_page_breaks_clean): new
 	* src/print-info.c(gnm_page_breaks_clean): new
 	* src/print.c (paginate): store page breaks if requested
-	(compute_sheet_pages): clear page breaks if storage of new ones 
+	(compute_sheet_pages): clear page breaks if storage of new ones
 	  is requested
 
 2009-06-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -1403,7 +1403,7 @@
 
 2009-05-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/wbc-gtk-actions.c (toggle_font_attr): when we toggle sub or 
+	* src/wbc-gtk-actions.c (toggle_font_attr): when we toggle sub or
 	  subscript we should also toggle the size.
 
 2009-05-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -1425,7 +1425,7 @@
 	(gnm_so_filled_draw_cairo): ditto
 	(gnm_so_filled_write_xml_sax): ditto
 	(gnm_so_filled_init): Iniitalize with the empty string rather than NULL
-	  since something in FOOCANVAS doesn't update when we change from NULL to 
+	  since something in FOOCANVAS doesn't update when we change from NULL to
 	  text.
 
 2009-05-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -1440,7 +1440,7 @@
 2009-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* configure.in: increase goffice requirement to 0.7.8
-	
+
 2009-05-26  Morten Welinder  <terra@gnome.org>
 
 	* src/search.c (gnm_search_match_value): Accept a very small
@@ -1528,7 +1528,7 @@
 
 2009-05-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/xml-sax-write.c (xml_write_style): since we index into the 
+	* src/xml-sax-write.c (xml_write_style): since we index into the
 	  array with our enum we should make the order match.
 
 2009-05-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -1633,7 +1633,7 @@
 2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/cell.c (gnm_cell_is_nonsingleton_array): don't use
-	  simply gnm_cell_is_array_corner since it returns NULL for 
+	  simply gnm_cell_is_array_corner since it returns NULL for
 	  other array elements
 
 2009-05-09  Morten Welinder  <terra@gnome.org>
@@ -1653,11 +1653,11 @@
 
 	* src/gnm-so-filled.c (gnm_so_filled_write_xml_sax): write
 	  serialized pango attributes
-	(gnm_so_filled_prep_sax_parser): read serialized pango 
+	(gnm_so_filled_prep_sax_parser): read serialized pango
 	  attributes
 	* src/sheet-object-cell-comment.c (cell_comment_write_xml_sax)
 	  write serialized pango attributes
-	(cell_comment_prep_sax_parser): read serialized pango 
+	(cell_comment_prep_sax_parser): read serialized pango
 	  attributes
 
 2009-05-07  Morten Welinder  <terra@gnome.org>
@@ -1736,7 +1736,7 @@
 
 2009-05-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/gnm-so-filled.c (gnm_so_filled_draw_cairo) use 
+	* src/gnm-so-filled.c (gnm_so_filled_draw_cairo) use
 	  pango_layout_set_text rather than pango_layout_set_markup
 	  fixes #581125
 
@@ -1783,7 +1783,7 @@
 	(cmd_set_comment_apply): ditto, and change all callers
 	(cmd_set_comment_finalize): delete author info
 	* src/sheet-object-cell-comment.c: add "author" property
-	
+
 2009-04-30  Morten Welinder  <terra@gnome.org>
 
 	* src/position.c (gnm_cellref_get_row, gnm_cellref_get_col): Get
@@ -1812,13 +1812,13 @@
 	  markup argument and change all callers
 	* src/sheet-object-cell-comment.c (cell_set_comment): add
 	  markup argument
-	(cell_comment_set_property): comment out invalid call to 
+	(cell_comment_set_property): comment out invalid call to
 	  foo_canvas_item_set
 	* src/commands.h (cmd_set_comment): add attribute argument
 	* src/commands.c (cmd_set_comment): add attribute argument
 	(cmd_set_comment_apply): ditto and change all callers
 	(cmd_set_comment_finalize): unref attributes
-	* src/gui-util.c (gnumeric_keyed_dialog): remember dialog size for 
+	* src/gui-util.c (gnumeric_keyed_dialog): remember dialog size for
 	  comment dialog
 
 2009-04-29  Morten Welinder  <terra@gnome.org>
@@ -1901,7 +1901,7 @@
 	(gnm_load_pango_attributes_into_buffer_named_filter): ditto
 	(gnm_load_pango_attributes_into_buffer): The standard tags will exist.
 	  Classify the weight into the standard values.
-	
+
 2009-04-26  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-read.c (handle_delayed_names): Parse position here
@@ -2043,7 +2043,7 @@
 
 2009-04-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/gnm-so-filled.c (gnm_so_filled_user_config): adjust for 
+	* src/gnm-so-filled.c (gnm_so_filled_user_config): adjust for
 	  changed arguments of dialog_so_styled
 	* src/gnm-so-line.c (gnm_so_line_user_config): ditto
 	* src/gnm-so-polygon.c (gnm_so_polygon_user_config): ditto
@@ -2104,7 +2104,7 @@
 
 2009-04-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/sheet-object-widget.c (so_widget_view_set_bounds): Make sure that the 
+	* src/sheet-object-widget.c (so_widget_view_set_bounds): Make sure that the
 	  bounds are at least 6 wide  [#579152]
 
 2009-04-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -2124,10 +2124,10 @@
 	(AdjustmentConfigState): new field
 	(cb_adjustment_config_destroy): release label memory
 	(cb_adjustment_config_ok_clicked): call cmd_so_set_adjustment
-	(sheet_widget_adjustment_user_config_impl): previously 
+	(sheet_widget_adjustment_user_config_impl): previously
 	  sheet_widget_adjustment_user_config with window title and undo
 	  string handling
-	(sheet_widget_adjustment_user_config): stub to call 
+	(sheet_widget_adjustment_user_config): stub to call
 	  sheet_widget_adjustment_user_config_impl with correct labels.
 	(sheet_widget_scrollbar_user_config) : new
 	(sheet_widget_scrollbar_class_init): hookup sheet_widget_scrollbar_user_config
@@ -2238,7 +2238,7 @@
 
 2009-04-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	for:  John Rea
-	
+
 	* templates/english/calendar.gnumeric: new
 	* templates/english/Makefile.am: added above file
 
@@ -2317,8 +2317,8 @@
 
 2009-04-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/wbc-gtk.c (wbcg_sheet_focus): scg might be NULL 
-	
+	* src/wbc-gtk.c (wbcg_sheet_focus): scg might be NULL
+
 2009-04-01  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbcg_append_sheet, wbcg_insert_sheet): Use size
@@ -2514,12 +2514,12 @@
 
 2009-03-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/print-cell.c (print_cell_gtk): shift rotated text into the 
+	* src/print-cell.c (print_cell_gtk): shift rotated text into the
 	  correct position! Fixes #574813
 
 2009-03-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/commands.h (cmd_so_set_value): add Sheet* argument. 
+	* src/commands.h (cmd_so_set_value): add Sheet* argument.
 	  Fixes #574734
 
 	* src/commands.c (cmd_so_set_value): use new Sheet* argument
@@ -2555,7 +2555,7 @@
 
 2009-03-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/sheet.c (sheet_get_printarea): If the print area has been set 
+	* src/sheet.c (sheet_get_printarea): If the print area has been set
 	  to something other than the full sheet, always use the whole
 	  print area.
 
@@ -2710,7 +2710,7 @@
 
 2009-01-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/print.c (compute_group): use g_warning rather than 
+	* src/print.c (compute_group): use g_warning rather than
 	g_return_val_if_fail. Fixes 568991.
 
 2009-01-24  Morten Welinder  <terra@gnome.org>
@@ -3100,7 +3100,7 @@
 2008-10-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/item-cursor.c (item_cursor_target_region_ok): delete
-	(item_cursor_do_action): don't bother to call 
+	(item_cursor_do_action): don't bother to call
 	  item_cursor_target_region_ok
 
 2008-10-18  Morten Welinder  <terra@gnome.org>
@@ -3188,7 +3188,7 @@
 
 	* configure.in: switch to new LINGUAS scheme.  Fixes #554348.
 	* autogen.sh: ditto.
-	
+
 2008-10-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* component/gnumeric.c: render sheet objects using
@@ -3216,7 +3216,7 @@
 	Fix for #553342
 	* src/workbook-view.c (wb_view_selection_desc): add translator
 	  comments
-	
+
 2008-10-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	Fix for #554818
@@ -3237,7 +3237,7 @@
 
 	Fix for #55338
 	* src/sheet.c (gnm_sheet_class_init): remove extra space
-	
+
 2008-09-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	Fix for #535015
@@ -3319,7 +3319,7 @@
 2008-09-02  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
 	Fix of #153578
-	* src/print-cell.c: remove pcontext in whole file 
+	* src/print-cell.c: remove pcontext in whole file
 	(print_cell_gtk): do not use a new pango context, the old one will
 	  work much better.
 
@@ -3825,7 +3825,7 @@
 2008-03-30  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/stf.c: (stf_read_workbook), (stf_read_workbook_auto_csvtab):
-	call workbook_recalc_all instead or workbook_recalc to ensure 
+	call workbook_recalc_all instead or workbook_recalc to ensure
 	formula evaluation. [#525107]
 
 2008-03-28  Morten Welinder  <terra@gnome.org>
@@ -4142,7 +4142,7 @@
 
 2007-11-27  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
-	* src/print.c (print_sheet_objects): print the sheet objects in 
+	* src/print.c (print_sheet_objects): print the sheet objects in
 	  reverse order
 
 2007-11-27  Morten Welinder  <terra@gnome.org>
@@ -4205,7 +4205,7 @@
 
 	* src/print.c (gnm_draw_page_cb): set up HFRenderInfo
 	* src/print-info.c (render_cell): handle relative addresses
-	
+
 2007-11-17  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
 	* src/print-info.c (render_cell): use rangeref_parse to also handle
@@ -4220,7 +4220,7 @@
 
 2007-11-16  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
-	* src/print-cell.c (print_merged_range_gtk): print the 
+	* src/print-cell.c (print_merged_range_gtk): print the
 	  background behind the cell.
 
 2007-11-16  Morten Welinder  <terra@gnome.org>
@@ -4334,11 +4334,11 @@
 2007-11-08  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
 	* src/xml-sax-read.c (xml_sax_print_do_not_print): new
-	* src/xml-sax-write.c (xml_write_print_info): write do_not_print 
+	* src/xml-sax-write.c (xml_write_print_info): write do_not_print
 	  field
 	* src/xml-io.c (xml_read_print_info): read do_not_print field
 	* src/print-info.c (print_info_new): initialize do_not_print
-	
+
 2007-11-08  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (sheet_move_range): Initialize reloc_info.pos.
@@ -4414,10 +4414,10 @@
 
 	* src/print.c (compute_n_pages): deleted
 	(compute_scale_fit_to): use paginate rather than compute_n_pages
-	(compute_sheet_pages_add_range): change expected argument order to 
+	(compute_sheet_pages_add_range): change expected argument order to
 	  match how you are called.
 	(paginate): drop unneeded arguments
-	
+
 2007-11-05  Morten Welinder  <terra@gnome.org>
 
 	* src/print-info.c (print_init): Hook up options parsing for pdf
@@ -4434,7 +4434,7 @@
 	(print_job_info_init_sheet): deleted
 	(paginate): simplify arguments
 	(compute_sheet_pages): use simplified arguments for paginate
-	
+
 2007-11-04  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
 	* src/print.c (compute_sheet_pages_down_then_across): use
@@ -4553,7 +4553,7 @@
 	  and cols info to compute_sheet_pages_add_range
 	(gnm_draw_page_cb): adjust for change in data type
 	(gnm_request_page_setup_cb): ditto
-	
+
 2007-10-28  Morten Welinder  <terra@gnome.org>
 
 	* src/print-cell.c (print_cell_gtk): Handle cell->rendered_value
@@ -4697,7 +4697,7 @@
 2007-09-28  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* src/sheet-object-graph.c (gnm_sog_draw_cairo): use
-	gog_graph_render_to_cairo instead of removed 
+	gog_graph_render_to_cairo instead of removed
 	gog_graph_render_to_cairo_vector.
 
 2007-09-28  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
@@ -5558,8 +5558,8 @@
 
 	* xml-sax-read.c (xml_sax_print_grid): new
 	(GsfXMLInNode): hook up xml_sax_print_grid
-	* style-border.c (style_border_set_gtk_dash): even for 
-	  GNM_STYLE_BORDER_NONE (gridline only) do we need to set the 
+	* style-border.c (style_border_set_gtk_dash): even for
+	  GNM_STYLE_BORDER_NONE (gridline only) do we need to set the
 	  line width.
 
 2007-05-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -5598,13 +5598,13 @@
 	(xml_sax_even_if_only_styles):
 	(xml_sax_orientation): explicitly mention "landscape" but default
 	  portrait
-	(GsfXMLInNode): hook up xml_sax_monochrome and 
+	(GsfXMLInNode): hook up xml_sax_monochrome and
 	  xml_sax_even_if_only_styles
 	* src/print.c (cp_gtk_page_setup): new
 	(gnm_request_page_setup_cb): new
 	(gnm_print_sheet) : set monochrome if required and hook up
 	  gnm_request_page_setup_cb.
-	
+
 2007-05-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: test for go_render_generall instead
@@ -5634,13 +5634,13 @@
 
 2007-05-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/xml-sax-read.c (xml_sax_print_margins): use 
+	* src/xml-sax-read.c (xml_sax_print_margins): use
 	  print_info_set_edge_to_*
-	* src/gnumeric-gconf.h (gnm_gconf_set_print_tb_margins): new 
+	* src/gnumeric-gconf.h (gnm_gconf_set_print_tb_margins): new
 	  arguments
 	* src/gnumeric-gconf.c (gnm_gconf_set_print_tb_margins): new
 	  individual arguments
-	* src/xml-sax-write.c (xml_write_print_info): adjust 
+	* src/xml-sax-write.c (xml_write_print_info): adjust
 	  print_info_get_margins for new arguments
 	* src/xml-io.c (xml_sax_print_margins): use
 	  print_info_set_edge_to_*
@@ -5654,7 +5654,7 @@
 	(print_info_set_edge_to_below_header): new
 	(print_info_load_defaults): handle new fields
 	(page_setup_get_paper): work around gtk bug 426416
-	(print_info_set_page_setup): adjust for new arguments of 
+	(print_info_set_page_setup): adjust for new arguments of
 	  print_info_get_margins
 
 2007-05-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -5663,7 +5663,7 @@
 	* src/gnumeric-gconf.c (gnm_conf_init_page_setup): initialize orientation
 	(gnm_gconf_set_page_setup): save orientation
 	* src/gnumeric-gconf-priv.h (PRINTSETUP_GCONF_PAPER_ORIENTATION): new
-	
+
 2007-05-04  Morten Welinder  <terra@gnome.org>
 
 	* src/ssconvert.c (main): Install a PDF exporter.
@@ -5692,7 +5692,7 @@
 	(print_info_set_paper): use page_setup_set_paper
 	(print_info_get_paper): use page_setup_get_paper
 	(print_info_set_page_setup): preserve margins
-	
+
 2007-05-03  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
@@ -5719,7 +5719,7 @@
 	(xml_write_print_margin): delete
 	* src/gnumeric-gconf-priv.h (PRINTSETUP_GCONF_PREFERRED_UNIT): new
 	* src/xml-io.c (xml_node_get_print_unit): deleted
-	(xml_node_get_print_margin): rewrite and replace xml_node_get_print_unit with 
+	(xml_node_get_print_margin): rewrite and replace xml_node_get_print_unit with
 	xml_node_get_print_margin
 	* src/print-info.c (unit_name_to_unit): new
 	(unit_convert): deleted
@@ -5773,13 +5773,13 @@
 2007-04-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (cmd_print_setup): print_info_dup might load the pi
-	* src/xml-sax-read.c (xml_sax_orientation): use 
+	* src/xml-sax-read.c (xml_sax_orientation): use
 	  print_info_set_paper_orientation
-	* src/xml-sax-write.c (xml_write_print_info): use 
+	* src/xml-sax-write.c (xml_write_print_info): use
 	  print_info_get_paper_orientation
-	* src/print.c (compute_sheet_pages_across_then_down): remove debug 
+	* src/print.c (compute_sheet_pages_across_then_down): remove debug
 	  spew
-	* src/xml-io.c (xml_read_print_info): use 
+	* src/xml-io.c (xml_read_print_info): use
 	  print_info_set_paper_orientation
 	* src/print-info.c (print_info_set_paper_orientation): new
 	(print_info_get_paper_orientation): new
@@ -5793,7 +5793,7 @@
 	(print_info_get_paper_orientation): new
 	(print_info_get_page_setup): print-info is not constant
 	(print_info_get_paper_display_name): new
-	
+
 2007-04-21  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
@@ -5877,10 +5877,10 @@
 2007-04-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/xml-sax-write.c (xml_write_print_info): free paper name string
-	* src/print-info.c (print_info_get_paper): create importable name for 
+	* src/print-info.c (print_info_get_paper): create importable name for
 	custom paper sizes.
 	* src/print-info.h (print_info_get_paper): change return type
-	
+
 2007-04-04  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Bumped goffice dependency to reflect that goffice trunk
@@ -5888,10 +5888,10 @@
 
 2007-04-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* schemas/gnumeric-dialogs.schemas.in: replace 
+	* schemas/gnumeric-dialogs.schemas.in: replace
 	/schemas/apps/gnumeric/printsetup/printer-config with
 	/schemas/apps/gnumeric/printsetup/gtk-setting
-	* src/sheet.c (gnm_sheet_init): add new argument to 
+	* src/sheet.c (gnm_sheet_init): add new argument to
 	print_info_new
 	* src/gnumeric-gconf.c (gnm_conf_init_print_settings): add argument
 	(gnm_gconf_init_printer_defaults): new
@@ -5937,7 +5937,7 @@
 	(print_info_set_paper_width_height): new
 	(print_info_get_paper_width): change return type
 	(print_info_get_paper_height): change return type
-	
+
 
 2007-04-02  Morten Welinder  <terra@gnome.org>
 
@@ -5955,7 +5955,7 @@
 	* src/gnumeric-gconf.h (gnm_gconf_set_print_settings): new
 	(gnm_app_prefs): add print_settings field
 	* src/gnumeric-gconf-priv.h (PRINTSETUP_GCONF_GTKSETTING):
-	new key 
+	new key
 	* src/print.c (gnm_print_sheet): save/restore printsettings
 
 2007-03-29  Pema Geyleg <pema.geyleg@gmail.com>
@@ -6000,18 +6000,18 @@
 	(gnm_print_cell_range): delete
 	* src/sheet-object.h (sheet_object_print): delete
 	* src/sheet-object-cell-comment.c (cell_comment_print): delete
-	* src/dialogs/dialog-printer-setup.c: comment out all currently 
+	* src/dialogs/dialog-printer-setup.c: comment out all currently
 	  unused functions
 	(PrinterSetupStateNew): rename to PrinterSetupState
 	(printer_setup_state_new_new): rename to printer_setup_state_new
-	* src/dialogs/dialogs.h (dialog_printer_setup): does not depend on 
+	* src/dialogs/dialogs.h (dialog_printer_setup): does not depend on
 	gnomeprint
 	* src/dialogs/Makefile.am: remove libgnomeprint condition
 	* src/style-font.h: remove libgnomeprint include
 	* src/xml-sax-read.c: comment out gnomeprint dependency
 	* src/xml-sax-write.c: ditto
 	* src/xml-io.c: ditto
-	* src/gnumeric-gconf.c (gnm_conf_init_extras): remove libgnomeprint 
+	* src/gnumeric-gconf.c (gnm_conf_init_extras): remove libgnomeprint
 	dependency
 	* src/sheet-object-graph.c (gnm_sog_print): delete
 	* src/pattern.c (gnumeric_background_set_pc): delete
@@ -6061,7 +6061,7 @@
 	(gnm_begin_print_cb): ditto
 	(print_sheet): deleted
 	* src/sheet.h (sheet_get_printarea): add arguments
-	* src/sheet.c (sheet_get_printarea): add arguments and ignore 
+	* src/sheet.c (sheet_get_printarea): add arguments and ignore
 	  printarea if requested
 
 2007-03-28  Jean Brefort  <jean.brefort@normalesup.org>
@@ -6079,7 +6079,7 @@
 	* src/print.h: add keys
 	(PrintRange): add further options
 	* src/print.c (PrintingInstance): add more fields
-	(compute_sheet_pages): add selection and ignore_printarea args & 
+	(compute_sheet_pages): add selection and ignore_printarea args &
 	  clean up
 	(compute_pages): handle various print ranges
 	(PrintDialogState): deleted
@@ -6094,8 +6094,8 @@
 
 2007-03-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/sheet-object.h (sheet_object_draw_cairo): add rtl argument 
-	* src/sheet-object.c (sheet_object_draw_cairo): add rtl argument 
+	* src/sheet-object.h (sheet_object_draw_cairo): add rtl argument
+	* src/sheet-object.c (sheet_object_draw_cairo): add rtl argument
 	* src/print.c (print_sheet_objects): clip to cell range and handle
 	rtl sheets
 	(print_page_cells): Rows are determining the height and cols the width!
@@ -6111,7 +6111,7 @@
 	(print_page_cells): enable sheet object printing and prepare
 	  clipping region
 	(print_page): clipping should happen in print_page_cells
-	
+
 2007-03-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print-cell.c (print_cell_background_gtk): Enable diagonal
@@ -6126,7 +6126,7 @@
 	(style_border_set_gtk): new
 	(print_hline_gtk): new
 	(print_vline_gtk): new
-	
+
 2007-03-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/pattern.h (gnumeric_background_set_gtk): new
@@ -6136,12 +6136,12 @@
 	(print_cell_background_gtk): new
 	(print_merged_range_gtk): new
 	(gnm_gtk_print_cell_range): Enable merged and background printing.
-	
+
 2007-03-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print-cell.c (print_cell_gtk): set up clipping
 	and some sort of rotated printing
-	* src/print.c (print_page): prepare for clipping of whole 
+	* src/print.c (print_page): prepare for clipping of whole
 	page (currently disabled since it involves a heavy
 	performance hit).
 
@@ -6684,7 +6684,7 @@
 
 2006-12-16  Jody Goldberg <jody@gnome.org>
 
-	* src/sheet-filter.h : add GNM_FILTER_OP_BOTTOM_MASK, and 
+	* src/sheet-filter.h : add GNM_FILTER_OP_BOTTOM_MASK, and
 	  GNM_FILTER_OP_PERCENT_MASK.
 
 	* src/xml-sax-read.c (xml_sax_filter_condition) : make bucket count a
@@ -6823,7 +6823,7 @@
 	* src/dialogs/dialog-analysis-tools.h: Added header include for
 	analysis-histogram.h so that it compiles.
 
-	* tools/check-files: complain if a filename line contains 
+	* tools/check-files: complain if a filename line contains
 	leading/trailing whitespace, and ignore the whitespace.
 
 2006-12-05  Morten Welinder  <terra@gnome.org>
@@ -7000,7 +7000,7 @@
 	  no-view case.
 	* src/gnumeric-pane.c (gnm_pane_display_obj_size_tip) : ditto.
 
-	* src/sheet-object.c (sheet_object_clear_sheet) : Handle 
+	* src/sheet-object.c (sheet_object_clear_sheet) : Handle
 	  so::sheet == NULL (eg when data validation combo is cleared from
 	  wbv::finalize after content_destroy clears the sheet list)
 	  Drop the return flag, nothing was using.
@@ -7111,7 +7111,7 @@
 	nuts.  Prepare for the day when format_get_arg_sep might return
 	non-ASCII.
 
-2006-11-18  Djihed Afifi <djihed@gmail.com> 
+2006-11-18  Djihed Afifi <djihed@gmail.com>
 
 	* configure.in: Added Arabic Translation.
 
@@ -7443,7 +7443,7 @@
 2006-10-24  Jody Goldberg <jody@gnome.org>
 
 	* src/expr.c (reloc_range) : Special case deleting cols/rows.
-	  Trunate rather than invalidate  if only the bottom/right range 
+	  Trunate rather than invalidate  if only the bottom/right range
 	  is being removed.  Top/Left case is already handled by the inversion
 	  avoidance.
 
@@ -7762,7 +7762,7 @@
 2006-09-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-graph.c: removed unused and deprecated header
-	(gog-renderer-svg.h).	
+	(gog-renderer-svg.h).
 
 2006-09-23  Jody Goldberg <jody@gnome.org>
 
@@ -7824,9 +7824,9 @@
 	instead of gnm_simple_canvas_x_w2c.
 	* src/item-edit.c (ie_layout): ditto.
 	* src/sheet-control-gui.c (scg_redraw_headers): ditto.
-	(scg_resize): fix for foo_canvas_set_scroll_region in rtl mode. When 
+	(scg_resize): fix for foo_canvas_set_scroll_region in rtl mode. When
 	setting a canvas scroll region to [x0 .. x1[ , pixel x1 is not displayed.
-	That's why we set scroll region to [-FACTOR + 1 .. +1[ in rtl mode, 
+	That's why we set scroll region to [-FACTOR + 1 .. +1[ in rtl mode,
 	because we want x(ltr) = - x(rtl).
 	(cb_select_all): removed.
 	(cb_select_all_btn_expose): select all button is converted to a
@@ -7859,7 +7859,7 @@
 2006-08-11  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Fix for #342582.
-	
+
 	* src/gnumeric-pane.c (cb_pane_drag_motion): update cursor wrt
 	control key state of source_widget window.
 	(gnm_pane_object_start_resize): don't duplicate sheet object here.
@@ -7973,7 +7973,7 @@
 2006-07-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (cmd_paste_copy_impl): don't forget comments
-	(cmd_paste_copy): use undo_range_name rather than range_as_string 
+	(cmd_paste_copy): use undo_range_name rather than range_as_string
 	  to use sheet name according to preferences
 
 2006-07-18  Morten Welinder  <terra@gnome.org>
@@ -7990,13 +7990,13 @@
 
 2006-07-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/sheet.c (sheet_get_comment): If the position is in a 
+	* src/sheet.c (sheet_get_comment): If the position is in a
 	  merged region we have to search for comments in the whole
 	  region.
-	
+
 2006-07-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/commands.c (cmd_define_name): handle _ in names used in 
+	* src/commands.c (cmd_define_name): handle _ in names used in
 	  descriptor text
 
 2006-07-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -8011,17 +8011,17 @@
 	* src/wbcg-actions.c (cb_file_print_area_set): new
 	(cb_file_print_area_show): new
 	(cb_file_print_area_sclear): new
-	* src/workbook-control.c (wb_control_parse_and_jump): add argument 
+	* src/workbook-control.c (wb_control_parse_and_jump): add argument
 	  to call of cmd_define_name
-	
+
 2006-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/gnumeric-gconf.c (go_conf_set_double): use real_key when 
+	* src/gnumeric-gconf.c (go_conf_set_double): use real_key when
 	  writing the value #346433
 
 2006-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/expr-name.c (expr_name_perm_add)): accept expressions rather 
+	* src/expr-name.c (expr_name_perm_add)): accept expressions rather
 	  than just strings
 	* src/expr-name.h (expr_name_perm_add): ditto
 	* src/print.c (compute_pages): use new sheet_get_printarea
@@ -8105,7 +8105,7 @@
 	  fields
 	(expr_name_perm_add): new
 	* src/expr-name.c (expr_name_new): initialize new fields
-	(expr_name_add): avoid conflicts when permanent names are (re)loaded 
+	(expr_name_add): avoid conflicts when permanent names are (re)loaded
 	  from files.
 	(expr_name_perm_add): new
 
@@ -8346,14 +8346,14 @@
 	(go_gnm_component_init): updated,
 	(go_gnm_component_class_init): removed unused properties.
 	* src/gnm-so-filled.c: (gnm_so_filled_draw_cairo): don't use cairo if
-	GOFFICE_WITH_CAIRO is not defined.	
+	GOFFICE_WITH_CAIRO is not defined.
 	* src/gnm-so-line.c: (gnm_so_line_print): use correct color,
 	(gnm_so_line_draw_cairo): implemented,
 	(gnm_so_line_class_init): add draw_cairo.
 	* src/sheet-object-graph.c: (gnm_sog_draw_cairo): implemented,
 	(gnm_sog_class_init): add draw_cairo.
 	* src/sheet-object.c: (sheet_object_draw_cairo): don't use cairo if
-	GOFFICE_WITH_CAIRO is not defined.	
+	GOFFICE_WITH_CAIRO is not defined.
 
 2006-05-13  Jean Brefort  <jean.brefort@normalesup.org>
 
@@ -8456,7 +8456,7 @@
 2006-05-07  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Ensure pkg-config is recent enough to support private
-	libraries. 
+	libraries.
 	* libspreadsheet-1.7.pc.in: libart-2.0 is not being exposed by
 	libspreadsheet's headers; mark it as private.
 
@@ -8677,7 +8677,7 @@
 	* src/sheet-object.c (sheet_object_write_image): ditto.
 	* src/sheet-object-graph.c (gnm_sog_write_image): ditto.
 	(sog_cb_save_as): ditto. Get resolution from gui_get_image_save_info.
-	
+
 2006-04-19  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (sheet_apply_style): Don't re-fit heights here.
@@ -8850,7 +8850,7 @@
 	* src/gnumeric-pane.c (cb_pane_drag_end) : restore the ctrl points to
 	  the 'original' position in case the drag was canceled.  Hence the
 	  magic in scg_drag_receive_same_process.
-	  (cb_pane_drag_leave) : 
+	  (cb_pane_drag_leave) :
 
 2006-04-05  Morten Welinder  <terra@gnome.org>
 
@@ -9234,7 +9234,7 @@
 
 	* po/id.po: Added Indonesian translation, done by Imam Musthaqim <imam@infoflow.co.id>
 	* configure.in: Added "id" (Indonesian) to the ALL_LINGUAS line.
-			
+
 2006-03-03  Eduardo Lima  <eduardo.lima@indt.org.br>
 
 	* src/dialogs/dialog-doc-metadata.c: Code reformulation.
@@ -9458,9 +9458,9 @@
 	* src/main-application.c (gnumeric_arg_parse): Call gnome_vfs_init()
 	if defined USE_HILDON.
 	(main): Call osso_initialize() and osso_deinitialize()
-	* src/wbcg-actions.c (actions): 
+	* src/wbcg-actions.c (actions):
 	Inserted macros for "ViewFullScreen", "ViewZoomIn" and "ViewZoomOut"
-	accelerators. 
+	accelerators.
 	* src/HILDON_Gnumeric-gtk.xml.in: Removed File->Print.
 	Removed View->Zoom.
 	Inserted View->Zoom In.
@@ -9587,7 +9587,7 @@
 
 	* src/Makefile.am: Build as non-console Win32 application by default.
 
-	* src/main-application.c (main): Attach to an existing console (only 
+	* src/main-application.c (main): Attach to an existing console (only
 	if there is one)
 
 	* src/item-cursor.c (item_cursor_draw): Use GDK_XOR which is more
@@ -9664,7 +9664,7 @@
 	(sog_cb_save_as): use gog_graph_get_supported_image_formats API.
 	Format is an enum now.
 	* src/sheet-object-image.c (soi_get_image_fmt): removed. It's in
-	goffice now. 
+	goffice now.
 	(soi_free_image_fmt): removed.
 	(gnm_soi_write_image): use go_image_get_formats_with_pixbuf_saver API.
 

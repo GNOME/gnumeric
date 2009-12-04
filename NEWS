@@ -58,7 +58,7 @@ Andreas:
 	* Add R.PSNORM, R.DSNORM and R.DST.
 	* Fix small sort dialog problem. [#599091]
 	* A few functions from the christian liturgical calendar.
-	* Add ODF compatibility functions DAYS, ISFORMULA, IFNA, SHEETS, 
+	* Add ODF compatibility functions DAYS, ISFORMULA, IFNA, SHEETS,
 	  SHEET and NUMBERVALUE.
 	* Work around OpenOffice.org saving function names in lowercase.
 	* Add BINOM.DIST.RANGE (equivalent to the ODF function B).
@@ -159,7 +159,7 @@ Andreas:
 	* Fix ODF background colour export. [#593816]
 	* Handle super/subscript in html export. [#593851]
 	* Fix crash on unknown chart type. [#594041]
-	* Handle ODF import/export of surface plots originally created in 
+	* Handle ODF import/export of surface plots originally created in
 	  XL [#594041]
 
 Jean:
@@ -292,7 +292,7 @@ Morten:
 Gnumeric 1.9.8
 
 Andreas:
-	* Save and load text formatting of comments and of sheet object 
+	* Save and load text formatting of comments and of sheet object
 	  labels [#580979][#580838]
 	* Lots of improvements to the ODF exporter [#581937][#553508][# 582903]
 	* Some improvements to the ODF importer [#581953]
@@ -418,9 +418,9 @@ Andreas:
 	  content or style. [#554116] [#572818]
 	* Fix translation of argument names for empty names.
 	* Don't switch sheets when widgets are adjusted. [#574734]
-	* Fix printing of rotated text (negative angles or non-default 
+	* Fix printing of rotated text (negative angles or non-default
 	  alignment). [#574813]
-	* Remove crash potential for various dialogs with multiple views.  
+	* Remove crash potential for various dialogs with multiple views.
 	  [#364291]
 	* Fix some strings. [#575360]
 
@@ -587,7 +587,7 @@ Andreas:
 	* Do not print hidden sheets.  [#525368]
 	* Print wysiwyg.  [#153578]
 	* Fix column ordering in analysis tools.  [#516052]
-	* Make the paired t-test analysis tool use only 
+	* Make the paired t-test analysis tool use only
 	  complete pairs.  [# 531852]
 	* Improve regression tool
 	* Fix row height and column width dialogs [#360873]
@@ -786,7 +786,7 @@ Jon Kåre:
 Morten:
 	* Fix NPV doc problem.  [#506160]
 	* Fix python compilation problem.  [#509023]  [508988]
-	* Fix DSUM crash.  [#509427] 
+	* Fix DSUM crash.  [#509427]
 	* Fix insert-current-date locale problem.  [#508237]
 	* Fix xls read crash.  [#505330]
 	* Plug csv leak.
@@ -867,7 +867,7 @@ Gnumeric 1.7.91 (rc2)
 
 Andreas:
 	* Fix formula guru.  [#363871]
-	* Remove apparently confusing textview in the preference 
+	* Remove apparently confusing textview in the preference
 	  dialog [#380080]
 	* Fix header configuration crash [#499717]
 	* Fix sensitivity of buttons in header/footer configuration [#499719]
@@ -1390,7 +1390,7 @@ Andreas:
 	* Fix undo problem for paste [#347826]
 	* Fix crash when jumping to Print_Area [#349686]
 	* Adjust width of tables in LaTeX export [#350625]
-	* Check for empty styles.xml and meta.xml files in OpenDocument 
+	* Check for empty styles.xml and meta.xml files in OpenDocument
 	  import [#350644]  Patch by sum1_abi@yahoo.com.
 
 Jean Brefort:
@@ -1434,8 +1434,8 @@ Morten:
 	* Fix ods import of time values.  [#355943]
 
 Shixin Zeng:
-	* Add \L{} escape to LaTeX exporter (The content of the 
-          braces is being inserted literally into the LaTeX file.) 
+	* Add \L{} escape to LaTeX exporter (The content of the
+          braces is being inserted literally into the LaTeX file.)
 
 --------------------------------------------------------------------------
 
@@ -2029,7 +2029,7 @@ Gnumeric 1.5.0
 
 Emmanuel Pacaud:
 	* Snap to grid mode when moving sheet objects with shift.
-	
+
 Jean Brefort:
 	* add scatter plots with spline interpolation.
 	* Box-plots.
@@ -2175,7 +2175,7 @@ Gnumeric 1.4.0
 Andreas:
 	* Fix crash on empty file in lotus file probe.  [#158126]
 	* Enable auto-correct initial caps exception list.  [#158209]
-	* Fix removable of items from auto-correct initial caps 
+	* Fix removable of items from auto-correct initial caps
 	  exception list.  [#158207]
 	* Protect ABcD style strings from auto-correction [#124858]
 	* Rename graph guru's okay button [#152514]
@@ -2205,13 +2205,13 @@ Andreas:
 	* Keep the recently used function list uptodate.  [#156732]
 	* Fix default font selection in preference dialog.  [#157238]
 	* Fix preference dialog window fraction selection.  [#157239]
-	* Make various preferences setting changes apply to the current 
+	* Make various preferences setting changes apply to the current
 	  gnumeric instance
-	* Add screen page to preference dialog and fine-tune its general 
+	* Add screen page to preference dialog and fine-tune its general
 	  layout
 	* Replace text entry boxes in preference dialog with
 	  checkboxes and spinbuttons.
-	* Ensure that the preference dialog inthe non-gnome build 
+	* Ensure that the preference dialog inthe non-gnome build
 	  looks reasonable.
 
 Jody:
@@ -2235,20 +2235,20 @@ Gnumeric 1.3.92
 
 Andreas:
 	* Fix text export dialog [#155437, #154231]
-	* Skip sheet selection in text export if there is only one 
+	* Skip sheet selection in text export if there is only one
 	  non-empty sheet.  [#156604]
 	* Make print dialog less modal.  [#132876]
 	* Make non-imported columns in configurable text import more
 	  visible [#154139]
 	* Suppress warnings when filling with large series.  [#153527]
-	* Improve format page in configurable text import [#154138, 
+	* Improve format page in configurable text import [#154138,
 	  #139385]
 	* Improve schema description [#153631]
 	* Warn if csv import is dropping columns [#139385]
 	* Change menu text in fixed cvs import [#154137]
 	* Add format descriptor to column headers in text import.  [#154140]
 	* Fix various bugs [#156531, #156710]
-	* Add tooltips to buttons in text export sheet selection. 
+	* Add tooltips to buttons in text export sheet selection.
 	* Add top and bottom buttons to text export sheet selection.
 	* Disable buttons in text export sheet selection when not applicable.
 	* Fix LaTeX export of cells spanning to the left [#157047]
@@ -2259,9 +2259,9 @@ Arief Mulya Utama:
 Emmanuel Pacaud:
 	* Add dash styles to chart objects.
 	* Enables non integer line width for chart objects.
-	* Fix clipping in svg export.	
+	* Fix clipping in svg export.
 	* Update labels automatically [#152585].
-	
+
 Hal Ashburner:
 	* Some function documentation cleanups.
 
@@ -2654,7 +2654,7 @@ Andreas:
 	http://bugzilla.gnome.org/show_bug.cgi?id=132347
 	* Fix argument names for RATE.
 	* Some HIGfication in the print setup dialog
-	* Make sure that when printing to a file we don't accidentally 
+	* Make sure that when printing to a file we don't accidentally
 	  overwrite an existing one.
 	* Don't close the print dialog if a user wants to look at a preview.
 	* Remove last use of gnome-config
@@ -2781,13 +2781,13 @@ Andreas:
 	* Bug fixes: 128915, 128611
 	* Minor changes to the sort dialog
 	* http://bugzilla.gnome.org/show_bug.cgi?id=128936
-	  Allow text export to use the rendered strings rather than the 
+	  Allow text export to use the rendered strings rather than the
 	  stored values
 	* http://bugzilla.gnome.org/show_bug.cgi?id=129444
 	  Fix printing of non-word-wrapped cells with hard line breaks
 	* http://bugzilla.gnome.org/show_bug.cgi?id=129049
 	  Make sure dialogs are visible on session manager communications
-	
+
 
 Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=128565
@@ -2838,9 +2838,9 @@ Andreas:
 	http://bugzilla.gnome.org/show_bug.cgi?id=125361
 	* Fix printing from Page Setup dialog.
 	http://bugzilla.gnome.org/show_bug.cgi?id=125422
-	* Upon inserting of cells try to guess whether to move cells down 
+	* Upon inserting of cells try to guess whether to move cells down
           or to the right.
-	* Upon deleting of cells try to guess whether to move cells up 
+	* Upon deleting of cells try to guess whether to move cells up
           or to the left.
 	* Use the number of copies info read from an XL file
 	http://bugzilla.gnome.org/show_bug.cgi?id=127415
@@ -2996,7 +2996,7 @@ Jody:
 	* Fix xls export of operand classes
 	* Minor packaging bug in corba plugin
 	* Accept blank lines in text to cols.
-	* Provide a cleaner work around for 
+	* Provide a cleaner work around for
 	    http://bugzilla.gnome.org/show_bug.cgi?id=121543
 	* Re-enable the probe functions in plugins
 	* Big performance improvement when autosizing row heights.
@@ -3158,7 +3158,7 @@ Andreas:
 	* Fix latex export of non-ascii charaters
 	* Allow latex export to use utf-8 if required
 	* Avoid duplicate regression tool error messages
-	* Added new function SSMEDIAN (social science median, or 
+	* Added new function SSMEDIAN (social science median, or
           median for grouped data)
 	* Added a locale selector to text import.
 	* Fix 115542 (cs_CZ bug), 115503 (autofill of dates)
