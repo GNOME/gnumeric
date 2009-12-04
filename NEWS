@@ -1,5 +1,8 @@
 Gnumeric 1.9.17
 
+Andreas:
+	* Update EURO and EUROCONVERT with currencies added in 2207 to 2009.
+
 Morten:
 	* Elminate use of "float".
 	* Fix selection problem.  [#601107]

@@ -1980,6 +1980,7 @@ static GnmFuncHelp const help_euro[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("@{currency} must be one of "
 				 "ATS (Austria), "
 				 "BEF (Belgium), "
+				 "CYP (Cyprus), "
 				 "DEM (Germany), "
 				 "ESP (Spain), "
 				 "EUR (Euro), "
@@ -1989,8 +1990,11 @@ static GnmFuncHelp const help_euro[] = {
 				 "IEP (Ireland), "
 				 "ITL (Italy), "
 				 "LUF (Luxembourg), "
-				 "NLG (The Netherlands), or "
-				 "PTE (Portugal).") },
+				 "MTL (Malta), "
+				 "NLG (The Netherlands), "
+				 "PTE (Portugal), "
+				 "SIT (Slovenia), or "
+				 "SKK (Slovakia).") },
 	{ GNM_FUNC_HELP_NOTE, F_("This function is not likely to be useful anymore.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=EURO(\"DEM\")" },
         { GNM_FUNC_HELP_SEEALSO, "EUROCONVERT"},
@@ -2012,6 +2016,10 @@ one_euro (char const *str)
 	case 'B':
 		if (strncmp ("BEF", str, 3) == 0)
 			return GNM_const (40.3399);
+		break;
+	case 'C':
+		if (strncmp ("CYP", str, 3) == 0)
+			return GNM_const (0.585274);
 		break;
 	case 'D':
 		if (strncmp ("DEM", str, 3) == 0)
@@ -2043,6 +2051,10 @@ one_euro (char const *str)
 		if (strncmp ("LUX", str, 3) == 0)
 			return GNM_const (40.3399);
 		break;
+	case 'M':
+		if (strncmp ("MTL", str, 3) == 0)
+			return GNM_const (0.429300);
+		break;
 	case 'N':
 		if (strncmp ("NLG", str, 3) == 0)
 			return GNM_const (2.20371);
@@ -2050,6 +2062,12 @@ one_euro (char const *str)
 	case 'P':
 		if (strncmp ("PTE", str, 3) == 0)
 			return GNM_const (200.482);
+		break;
+	case 'S':
+		if (strncmp ("SIT", str, 3) == 0)
+			return GNM_const (239.640);
+		else if (strncmp ("SKK", str, 3) == 0)
+			return GNM_const (30.1260);
 		break;
 	default:
 		break;

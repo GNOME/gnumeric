@@ -1,3 +1,9 @@
+2009-12-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_euro): add currencies added to 
+	  the euro in 2007 to 2009
+	(one_euro): ditto
+
 2009-11-29  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.16
