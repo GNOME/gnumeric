@@ -402,13 +402,11 @@ odf_add_pt (GsfXMLOut *xml, char const *id, double l)
 }
 
 static void
-gnm_xml_out_add_hex_color (GsfXMLOut *o, char const *id, GnmColor const *c)
+gnm_xml_out_add_hex_color (GsfXMLOut *o, char const *id, GnmColor const *c, int pattern)
 {
-	GnmColor *back_colour;
 	g_return_if_fail (c != NULL);
 
-	back_colour = style_color_auto_back ();
-	if (style_color_equal (back_colour, c))
+	if (pattern == 0)
 		gsf_xml_out_add_cstr_unchecked (o, id, "transparent");
 	else {
 		char *color;
@@ -419,7 +417,6 @@ gnm_xml_out_add_hex_color (GsfXMLOut *o, char const *id, GnmColor const *c)
 		gsf_xml_out_add_cstr_unchecked (o, id, color);
 		g_free (color);
 	}
-	style_color_unref (back_colour);
 }
 
 static void
@@ -670,7 +667,7 @@ odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
 /* Background Color */
 	if (gnm_style_is_element_set (style, MSTYLE_COLOR_BACK))
 		gnm_xml_out_add_hex_color (state->xml, FOSTYLE "background-color",
-					   gnm_style_get_back_color (style));
+					   gnm_style_get_back_color (style), gnm_style_get_pattern (style));
 /* Borders */
 	BORDERSTYLE(MSTYLE_BORDER_TOP,FOSTYLE "border-top", STYLE "border-line-width-top", GNMSTYLE "border-line-style-top");
 	BORDERSTYLE(MSTYLE_BORDER_BOTTOM,FOSTYLE "border-bottom", STYLE "border-line-width-bottom", GNMSTYLE "border-line-style-bottom");
@@ -922,7 +919,7 @@ odf_write_style_text_properties (GnmOOExport *state, GnmStyle const *style)
 /* Foreground Color */
 	if (gnm_style_is_element_set (style, MSTYLE_FONT_COLOR))
 		gnm_xml_out_add_hex_color (state->xml, FOSTYLE "color",
-					   gnm_style_get_font_color (style));
+					   gnm_style_get_font_color (style), 1);
 /* Font Family */
 	if (gnm_style_is_element_set (style, MSTYLE_FONT_NAME))
 		gsf_xml_out_add_cstr (state->xml, FOSTYLE "font-family",
@@ -2234,6 +2231,26 @@ odf_write_objects (GnmOOExport *state, GSList *objects)
 }
 
 static void
+odf_write_link_start (GnmOOExport *state, GnmHLink *link)
+{
+	if (link == NULL)
+		return;
+	gsf_xml_out_start_element (state->xml, TEXT "a");
+	gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
+	gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onRequest");
+	gsf_xml_out_add_cstr (state->xml, XLINK "href", gnm_hlink_get_target (link));
+	gsf_xml_out_add_cstr (state->xml, OFFICE "title", gnm_hlink_get_tip (link));
+}
+
+static void
+odf_write_link_end (GnmOOExport *state, GnmHLink *link)
+{
+	if (link != NULL)
+		gsf_xml_out_end_element (state->xml);  /* a */
+}
+
+
+static void
 odf_write_empty_cell (GnmOOExport *state, int num, GnmStyle const *style, GSList *objects)
 {
 	if (num > 0) {
@@ -2273,6 +2290,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 {
 	int rows_spanned = 0, cols_spanned = 0;
 	gboolean pp = TRUE;
+	GnmHLink *link = NULL;
 
 	g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
 
@@ -2297,6 +2315,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			if (name != NULL)
 				gsf_xml_out_add_cstr (state->xml,
 						      TABLE "style-name", name);
+			link = gnm_style_get_hlink (style);
 		}
 
 		if ((NULL != cell->base.texpr) &&
@@ -2377,10 +2396,13 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			char *rendered_string = gnm_cell_get_rendered_text (cell);
 			gboolean white_written = TRUE;
 
-			if (*rendered_string != '\0') {
+			if (*rendered_string != '\0' || link != NULL) {
 				gsf_xml_out_start_element (state->xml, TEXT "p");
-				odf_add_chars (state, rendered_string, strlen (rendered_string),
-					       &white_written);
+				odf_write_link_start (state, link);
+				if (*rendered_string != '\0')
+					odf_add_chars (state, rendered_string, strlen (rendered_string),
+						       &white_written);
+				odf_write_link_end (state, link);
 				gsf_xml_out_end_element (state->xml);   /* p */
 			}
 			g_free (rendered_string);
@@ -2392,7 +2414,9 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			markup = go_format_get_markup (VALUE_FMT (cell->value));
 
 			gsf_xml_out_start_element (state->xml, TEXT "p");
+			odf_write_link_start (state, link);
 			odf_new_markup (state, markup, str->str);
+			odf_write_link_end (state, link);
 			gsf_xml_out_end_element (state->xml);   /* p */
 
 			g_string_free (str, TRUE);
@@ -2628,6 +2652,7 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 			GnmCell *current_cell = sheet_cell_get (sheet, col, row);
 			GnmRange const	*merge_range;
 			GSList *objects;
+			GnmStyle const *this_style;
 
 			pos.col = col;
 			merge_range = gnm_sheet_merge_is_corner (sheet, &pos);
@@ -2643,9 +2668,9 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 			objects = odf_sheet_objects_get (sheet, &pos);
 
 			if ((merge_range == NULL) && (objects == NULL) &&
-			    gnm_cell_is_empty (current_cell)) {
-				GnmStyle const *this_style= sheet_style_get (sheet, pos.col, pos.row);
-
+			    gnm_cell_is_empty (current_cell) && 
+			    NULL == gnm_style_get_hlink 
+			    ((this_style = sheet_style_get (sheet, pos.col, pos.row)))) {
 				if ((null_cell == 0) || (null_style == this_style)) {
 					null_style = this_style;
 					if (covered_cell > 0)
@@ -3650,7 +3675,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		odf_start_style (state->xml, "wallstyle", "chart");
 		gsf_xml_out_start_element (state->xml, STYLE "graphic-properties");
 		gsf_xml_out_add_cstr (state->xml, DRAW "fill", "solid");
-/* 	gnm_xml_out_add_hex_color (state->xml, DRAW "fill-color", GnmColor const *c) */
+/* 	gnm_xml_out_add_hex_color (state->xml, DRAW "fill-color", GnmColor const *c, 1) */
 		gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", "#D0D0D0");
 		gsf_xml_out_end_element (state->xml); /* </style:graphic-properties> */
 		gsf_xml_out_end_element (state->xml); /* </style:style> */

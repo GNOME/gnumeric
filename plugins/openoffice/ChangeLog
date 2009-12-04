@@ -1,3 +1,13 @@
+2009-12-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (gnm_xml_out_add_hex_color): use the 
+	  pattern to determine transparency, add pattern argument
+	  and change all callers
+	(odf_write_link_start): new
+	(odf_write_link_end): new
+	(odf_write_cell): write link
+	(odf_write_content_rows): cells with links need to be written
+	
 2009-11-29  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.16

@@ -2,6 +2,7 @@ Gnumeric 1.9.17
 
 Andreas:
 	* Update EURO and EUROCONVERT with currencies added in 2207 to 2009.
+	* Export hyperlinks to ODF. [#603533]
 
 Morten:
 	* Elminate use of "float".
