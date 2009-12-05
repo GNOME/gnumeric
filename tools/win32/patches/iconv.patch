@@ -13,7 +13,7 @@
   LIBTOOL_INSTALL = $(LIBTOOL) --mode=install
   LIBTOOL_UNINSTALL = $(LIBTOOL) --mode=uninstall
   # Windows resource compiler (windres). Used via libtool.
-! RC = i586-mingw32msvc-windres
+! RC = @WINDRES@
   CP = cp
   MV = mv
   LN = @LN@
