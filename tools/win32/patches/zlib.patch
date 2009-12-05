@@ -60,7 +60,7 @@ diff -cNr win32/Makefile.gcc win32/Makefile.gcc
   AR = ar
   ARFLAGS = rcs
   
-! RC =i586-mingw32msvc-windres
+! RC = $(WINDRES)
   RCFLAGS = --define GCC_WINDRES
   
 + #DLLWRAP = dllwrap
@@ -105,7 +105,7 @@ diff -cNr win32/Makefile.gcc win32/Makefile.gcc
 ! $(SHAREDLIB) $(IMPLIB): win32/zlib.def $(OBJS) $(OBJA) zlibrc.o
 ! 	$(CC) -shared -o $@ $(OBJS) $(OBJA) zlibrc.o
 ! 	$(DLLTOOL) --def win32/zlib.def --dllname $(SHAREDLIB) --output-lib $(IMPLIB)
-! 	i586-mingw32msvc-strip $(SHAREDLIB)
+! 	$(STRIP) $(SHAREDLIB)
   
   example: example.o $(STATICLIB)
   	$(LD) $(LDFLAGS) -o $@ example.o $(STATICLIB)
