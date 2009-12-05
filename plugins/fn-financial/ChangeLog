@@ -1,5 +1,14 @@
 2009-12-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* functions.c (one_euro): change LUX to LUF
+	(euro_local_rounding): new
+	(help_euroconvert): add 2 optional arguments
+	(gnumeric_euroconvert): handle optional arguments
+	(financial_functions): add 2 optional arguments to
+	  euroconvert
+
+2009-12-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c (help_euro): add currencies added to 
 	  the euro in 2007 to 2009
 	(one_euro): ditto

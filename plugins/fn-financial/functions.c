@@ -2048,7 +2048,7 @@ one_euro (char const *str)
 			return GNM_const (1936.27);
 		break;
 	case 'L':
-		if (strncmp ("LUX", str, 3) == 0)
+		if (strncmp ("LUF", str, 3) == 0)
 			return GNM_const (40.3399);
 		break;
 	case 'M':
@@ -2088,6 +2088,81 @@ gnumeric_euro (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		return value_new_error_NUM (ei->pos);
 }
 
+/*
+ * Returns one euro as a given national currency. On error, negative
+ * value is returned.
+ */
+static int
+euro_local_rounding (char const *str)
+{
+	switch (*str) {
+	case 'A':
+/* 		if (strncmp ("ATS", str, 3) == 0) */
+/* 			return 2; */
+		break;
+	case 'B':
+		if (strncmp ("BEF", str, 3) == 0)
+			return 0;
+		break;
+	case 'C':
+/* 		if (strncmp ("CYP", str, 3) == 0) */
+/* 			return 2; /\*??*\/ */
+		break;
+	case 'D':
+/* 		if (strncmp ("DEM", str, 3) == 0) */
+/* 			return 2; */
+		break;
+	case 'E':
+		if (strncmp ("ESP", str, 3) == 0)
+			return 0;
+/* 		else if (strncmp ("EUR", str, 3) == 0) */
+/* 			return 2; */
+		break;
+	case 'F':
+/* 		if (strncmp ("FIM", str, 3) == 0) */
+/* 			return 2 */
+/* 		else if (strncmp ("FRF", str, 3) == 0) */
+/* 			return 2; */
+		break;
+	case 'G':
+		if (strncmp ("GRD", str, 3) == 0)
+			return 0;
+		break;
+	case 'I':
+		if (strncmp ("ITL", str, 3) == 0)
+			return 0;
+/* 		else if (strncmp ("IEP", str, 3) == 0) */
+/* 			return 2; */
+		break;
+	case 'L':
+		if (strncmp ("LUF", str, 3) == 0)
+			return 0;
+		break;
+	case 'M':
+/* 		if (strncmp ("MTL", str, 3) == 0) */
+/* 			return 2;  /\* ?? *\/ */
+		break;
+	case 'N':
+/* 		if (strncmp ("NLG", str, 3) == 0) */
+/* 			return 2; */
+		break;
+	case 'P':
+		if (strncmp ("PTE", str, 3) == 0)
+			return 0;
+		break;
+	case 'S':
+/* 		if (strncmp ("SIT", str, 3) == 0) */
+/* 			return 2; */
+/* 		else if (strncmp ("SKK", str, 3) == 0) */
+/* 			return 2;  /\* ?? *\/ */
+		break;
+	default:
+		break;
+	}
+
+	return 2;
+}
+
 /***************************************************************************/
 
 static GnmFuncHelp const help_euroconvert[] = {
@@ -2095,13 +2170,19 @@ static GnmFuncHelp const help_euroconvert[] = {
         { GNM_FUNC_HELP_ARG, F_("n:amount")},
         { GNM_FUNC_HELP_ARG, F_("source:three-letter source currency code")},
         { GNM_FUNC_HELP_ARG, F_("target:three-letter target currency code")},
+        { GNM_FUNC_HELP_ARG, F_("full_precision:if true, the result is not rounded; if false the result is rounded to 0 or 2 decimals depending on the target urrency; defaults to false.")},
+        { GNM_FUNC_HELP_ARG, F_("triangulation_precision:number of digits (at least 3) to be rounded to after the source currency has been converted to euro; omitting this argument results in no rounding.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("EUROCONVERT converts @{n} units of currency @{source} to currency @{target}.  The rates used are the official ones used on the introduction of the Euro.") },
 	{ GNM_FUNC_HELP_NOTE, F_("@{source} and @{target} must be one of the currencies listed for the EURO function.") },
 	{ GNM_FUNC_HELP_NOTE, F_("This function is not likely to be useful anymore.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=EUROCONVERT(1,\"DEM\",\"ITL\")" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=EUROCONVERT(1,\"DEM\",\"ITL\",FALSE)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=EUROCONVERT(1,\"DEM\",\"ITL\",FALSE,3)" },
         { GNM_FUNC_HELP_SEEALSO, "EURO"},
 	{ GNM_FUNC_HELP_END }
 };
+
+
 
 static GnmValue *
 gnumeric_euroconvert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
@@ -2111,7 +2192,24 @@ gnumeric_euroconvert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	if (c1 >= 0 && c2 >= 0) {
 		gnm_float n  = value_get_as_float (argv[0]);
-		return value_new_float (n * c2 / c1);
+		gnm_float inter = n / c1;
+		gboolean err = FALSE;
+		if (argv[3] != NULL && argv[4] != NULL) {
+			int decimals = value_get_as_int (argv[4]);
+			if (decimals < 3 || decimals > GNM_MAX_EXP)
+				return value_new_error_VALUE (ei->pos);
+			else {
+				gnm_float p10 = gnm_pow10 (decimals);
+				inter = gnm_fake_trunc (inter * p10 + 0.5) / p10;
+			}
+		}
+		inter = inter * c2;
+		if (argv[3] != NULL && !value_get_as_bool (argv[3], &err) && !err) {
+			int decimals = euro_local_rounding (value_peek_string (argv[2]));
+			gnm_float p10 = gnm_pow10 (decimals);
+			inter = gnm_fake_trunc (inter * p10 + 0.5) / p10;
+		}
+		return value_new_float (inter);
 	} else
 		return value_new_error_VALUE (ei->pos);
 }
@@ -3251,7 +3349,7 @@ GnmFuncDescriptor const financial_functions[] = {
 	{ "euro", "s",
 	  help_euro,	  gnumeric_euro, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "euroconvert", "fss",
+	{ "euroconvert", "fss|bf",
 	  help_euroconvert, gnumeric_euroconvert, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "fv", "fff|ff",
