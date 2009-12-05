@@ -1,3 +1,8 @@
+2009-12-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c (gnm_go_data_matrix_get_value): do not exchange row and
+	column.
+
 2009-12-03  Morten Welinder  <terra@gnome.org>
 
 	* src/value.c (parse_criteria): For matching, if we match the

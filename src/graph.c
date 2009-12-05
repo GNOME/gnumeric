@@ -1063,7 +1063,8 @@ gnm_go_data_matrix_get_value (GODataMatrix *dat, unsigned i, unsigned j)
 		gnm_go_data_matrix_load_size (dat);
 
 	eval_pos_init_dep (&ep, &mat->dep);
-	v = value_dup (value_area_get_x_y (mat->val, i, j, &ep));
+	/* i is row and j is column */
+	v = value_dup (value_area_get_x_y (mat->val, j, i, &ep));
 	if (NULL == v)
 		return go_nan;
 
