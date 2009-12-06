@@ -1,3 +1,7 @@
+2009-12-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/item-bar.c (ib_draw_cell): clip when drawing text. [#603862]
+
 2009-12-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/graph.c (gnm_go_data_matrix_get_value): do not exchange row and

@@ -5,6 +5,9 @@ Andreas:
 	* Export hyperlinks to ODF. [#603533]
 	* Make EUROCONVERT Excel compatible
 
+Jean:
+	* Fixed problem with row headers. [#603862]
+
 Morten:
 	* Elminate use of "float".
 	* Fix selection problem.  [#601107]

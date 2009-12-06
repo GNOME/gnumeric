@@ -271,8 +271,8 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 		return;
 	}
 
-	cairo_rectangle (cr, rect->x + 1, rect->y + 1, rect->width - 1, rect->height - 1);
-	cairo_fill (cr);
+	cairo_rectangle (cr, rect->x + 1, rect->y + 1, rect->width - 2, rect->height - 2);
+	cairo_fill_preserve (cr);
 	cairo_restore (cr);
 
 	/* The widget parameters could be NULL, but if so some themes would emit a warning.
@@ -288,6 +288,7 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 	pango_glyph_string_extents (ib->pango.glyphs, font, NULL, &size);
 
 	cairo_save (cr);
+	cairo_clip (cr);
 	cairo_set_source_rgb (cr, 0., 0., 0.);
 	cairo_translate (cr,
 					 rect->x + (rect->width - PANGO_PIXELS (size.width)) / 2,
