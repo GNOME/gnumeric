@@ -323,15 +323,16 @@ gnumeric_datedif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	if (date1 > date2)
 		return value_new_error_NUM (ei->pos);
-	if (!strcmp (opt, "d"))
-		return value_new_int (date2 - date1);
 
 	go_date_serial_to_g (&d1, date1, conv);
 	go_date_serial_to_g (&d2, date2, conv);
 	if (!g_date_valid (&d1) || !g_date_valid (&d2))
 		return value_new_error_VALUE (ei->pos);
 
-	if (!strcmp (opt, "m"))
+	if (!strcmp (opt, "d"))
+		return value_new_int (g_date_get_julian (&d2) -
+				      g_date_get_julian (&d1));
+	else if (!strcmp (opt, "m"))
 		return value_new_int (go_date_g_months_between (&d1, &d2));
 	else if (!strcmp (opt, "y"))
 		return value_new_int (go_date_g_years_between (&d1, &d2));

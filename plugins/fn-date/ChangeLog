@@ -1,3 +1,8 @@
+2009-12-08  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_datedif): Go via GDate, even for "d" case.
+	Fixes #599461 and a few other things.
+
 2009-11-29  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.16
