@@ -2,13 +2,12 @@
 
 # configurable settings
 py_ver=26
-py_pkg_ver=2.6.3
+py_pkg_ver=2.6.4
 
 ###################################################
 builddir="$1"
 srcdir="$2"
 target="$3"
-is_shell="$4"
 
 if [ -z "${builddir}" -o -z "${srcdir}" -o -z "${target}" ]; then
     echo "usage  : $0 <builddir> <srcdir> <target>"
@@ -58,9 +57,17 @@ build_ls_s() {
     build_ls_s "${WINEDIR}/windows/system32/python${py_ver}.dll" 	"bin/libpython${py_ver}.dll"
     build_ls_s "${WINEDIR}/Python${py_ver}/libs/python${py_ver}.lib"	"lib/libpython${py_ver}.dll.a"
 
-# prep jhbuild files
+# example usage:
+#	make debug
+#	make start=foo debug
+#	make module=foo debug
+#	make debug_shell
     if [ ! "x${is_shell}" = "x" ]; then
- 	${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc.py" "${is_shell}"
+ 	${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc.py" shell
+    elif [ ! "x${start}" = "x" ]; then
+ 	${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc.py" build --start-at="${start}"
+    elif [ ! "x${module}" = "x" ]; then
+ 	${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc.py" buildone "${module}"
     else
 	${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc.py"
 fi

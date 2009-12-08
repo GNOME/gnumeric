@@ -14,13 +14,13 @@
     <repository type="tarball" name="fontconfig"
 		href="http://fontconfig.org/release/"/>
 
-    <repository type="git" name="freedesktop.org"
-		href="git://cgit.freedesktop.org/git"/>
     <repository type="tarball" name="cairographics"
 		href="http://cairographics.org/releases/"/>
 
     <repository type="tarball" name="debian"
 		href="http://ftp.debian.org/debian/pool/main/"/>
+    <repository type="tarball" name="sourceforge"
+		href="http://downloads.sourceforge.net/project/"/>
 
     <tarball id="gettext" version="0.17">
 	<source href="ftp://ftp.gnu.org/pub/gnu/gettext/gettext-0.17.tar.gz"
@@ -31,28 +31,9 @@
 	<dependencies/>
     </tarball>
 
-    <tarball id="pcre" version="7.9">
-	<source href="http://downloads.sourceforge.net/pcre/pcre-7.9.tar.bz2"/>
+    <tarball id="pcre" version="8.00">
+	<source href="ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.00.tar.bz2"/>
     </tarball>
-    <autotools id="gtk-doc"
-	autogen-sh="autoreconf"  skip-autogen="never">
-	<branch repo="gnome.org" module="sources/gtk-doc/1.11/gtk-doc-1.11.tar.bz2" version="1.11">
-	    <patch file="&patch_dir;gtk-doc-disable-python.patch"/>
-	</branch>
-    </autotools>
-
-    <autotools id="glib">
-	<branch repo="gnome.org" module="sources/glib/2.22/glib-2.22.2.tar.bz2" version="2.22.2">
-	    <patch file="&patch_dir;glib-win32-cachefile.patch.gz"/>
-	    <patch file="&patch_dir;glib-goption-disable-localization.patch"/>
-	    <patch file="&patch_dir;glib-disable-python.patch" strip="1"/>
-	</branch>
-	<dependencies>
-	    <dep package="gettext"/>
-	    <dep package="iconv"/>
-	    <dep package="gtk-doc"/>
-	</dependencies>
-    </autotools>
 
 <!-- Compression -->
     <autotools id="zlib"
@@ -70,6 +51,27 @@
 	    <patch file="&patch_dir;libbz2.patch" strip="1"/>
 	</patches>
     </tarball>
+
+    <autotools id="gtk-doc"
+	autogen-sh="autoreconf"  skip-autogen="never">
+	<branch repo="gnome.org" module="sources/gtk-doc/1.11/gtk-doc-1.11.tar.bz2" version="1.11">
+	    <patch file="&patch_dir;gtk-doc-disable-python.patch"/>
+	</branch>
+    </autotools>
+
+    <autotools id="glib">
+	<branch repo="gnome.org" module="sources/glib/2.22/glib-2.22.3.tar.bz2" version="2.22.3">
+	    <patch file="&patch_dir;glib-win32-cachefile.patch.gz"/>
+	    <patch file="&patch_dir;glib-goption-disable-localization.patch"/>
+	    <patch file="&patch_dir;glib-disable-python.patch" strip="1"/>
+	</branch>
+	<dependencies>
+	    <dep package="gettext"/>
+	    <dep package="iconv"/>
+	    <dep package="zlib"/>
+	    <dep package="gtk-doc"/>
+	</dependencies>
+    </autotools>
 
 <!-- Image formats  -->
     <tarball id="jpeg" version="6b" checkoutdir="jpeg-6b">
@@ -97,8 +99,8 @@
 <!-- Gtk stack -->
     <autotools id="pixman">
 	<branch repo="cairographics"
-		module="pixman-0.16.2.tar.gz"
-		version="0.16.2"/>
+		module="pixman-0.17.2.tar.gz"
+		version="0.17.2"/>
     </autotools>
     <autotools id="cairo">
 	<branch repo="cairographics"
@@ -141,13 +143,12 @@
 
     <autotools id="gnome-common">
 	<branch/>
-	<dependencies>
-	</dependencies>
+	<dependencies/>
     </autotools>
 
     <autotools id="freetype"
 	autogen-sh="configure"  skip-autogen="never">
-	<branch repo="savannah" module="freetype/freetype-2.3.9.tar.bz2" version="2.3.9"/>
+	<branch repo="savannah" module="freetype/freetype-2.3.11.tar.bz2" version="2.3.11"/>
 	<dependencies>
 	</dependencies>
     </autotools>
@@ -193,11 +194,10 @@
     </autotools>
 
     <autotools id="gtk+">
-	<branch repo="gnome.org" module="sources/gtk+/2.18/gtk+-2.18.2.tar.bz2"
-		version="2.18.2">
+	<branch repo="gnome.org" module="sources/gtk+/2.18/gtk+-2.18.4.tar.bz2"
+		version="2.18.4">
 	    <patch file="&patch_dir;gtk-disable-demo.patch"/>
-	    <patch file="&patch_dir;gtk-pending-2.18.3.patch" strip="1"/>
-	    <patch file="&patch_dir;gtk-use-wine-to-cross-compile.patch" strip="1"/>
+	    <patch file="&patch_dir;gtk-use-wine-to-cross-compile.patch"/>
 	</branch>
 	<dependencies>
 	    <dep package="glib"/>
@@ -240,8 +240,8 @@
     </autotools>
 
     <autotools id="libgda">
-	<branch repo="gnome.org" module="sources/libgda/4.1/libgda-4.1.2.tar.bz2"
-		version="4.1.2">
+	<branch repo="gnome.org" module="sources/libgda/4.1/libgda-4.1.3.tar.bz2"
+		version="4.1.3">
 	</branch>
 	<dependencies>
 	    <dep package="glib"/>
@@ -249,24 +249,12 @@
 	</dependencies>
     </autotools>
 
-    <autotools id="libgnomedb"
-	autogen-sh="autoreconf" skip-autogen="never">
-	<branch repo="gnome.org" module="sources/libgnomedb/3.99/libgnomedb-3.99.7.tar.bz2"
-		version="3.99.7">
-	</branch>
-	<dependencies>
-	    <dep package="libgda"/>
-	    <dep package="gtk+"/>
-	</dependencies>
-    </autotools>
-
-    <tarball id="pxlib" version="0.6.3">
-	<source href="http://superb-east.dl.sourceforge.net/sourceforge/pxlib/pxlib-0.6.3.tar.gz"
-		md5sum="0742020854496fa757d7acbe6a895224"/>
-	<patches>
+    <autotools id="pxlib" autogen-sh="configure">
+	<branch repo="sourceforge" module="pxlib/pxlib/0.6.3/pxlib-0.6.3.tar.gz"
+		version="0.6.3">
 	    <patch file="&patch_dir;pxlib-intl.patch"/>
-	</patches>
-    </tarball>
+	</branch>
+    </autotools>
 
     <autotools id="psiconv">
 	<branch repo="debian"
@@ -277,8 +265,8 @@
     </autotools>
 
 <!-- print preview -->
-  <tarball id="poppler" version="0.12.0">
-    <source href="http://poppler.freedesktop.org/poppler-0.12.0.tar.gz"/>
+  <tarball id="poppler" version="0.12.2">
+    <source href="http://poppler.freedesktop.org/poppler-0.12.2.tar.gz"/>
     <dependencies>
       <dep package="cairo"/>
       <dep package="glib"/>
@@ -292,24 +280,33 @@
       <dep package="gtk+"/>
     </after>
     <patches>
-	<patch file="&patch_dir;poppler-is-same-color.patch"/>
     </patches>
   </tarball>
-  <autotools id="evince">
-    <branch/>
+<!-- Check license and fix make
+  <tarball id="poppler-data" version="0.3.1">
+    <source href="http://poppler.freedesktop.org/poppler-data-0.3.1.tar.gz"/>
     <dependencies>
-      <dep package="glib"/>
-      <dep package="gtk+"/>
-      <dep package="libxml2"/>
-      <!-- <dep package="gnome-icon-theme"/>-->
-      <dep package="libglade"/>
-      <dep package="poppler"/>
-      <!-- <dep package="gnome-doc-utils"/>-->
     </dependencies>
-    <suggests>
-      <dep package="gnome-keyring"/>
-    </suggests>
-  </autotools>
+    <patches>
+    </patches>
+  </tarball>
+-->
+
+    <autotools id="evince">
+	<branch>
+	    <patch file="&patch_dir;evince-no-mkdtemp.patch"/>
+	</branch>
+	<dependencies>
+	    <dep package="glib"/>
+	    <dep package="gtk+"/>
+	    <dep package="libxml2"/>
+	    <!-- <dep package="gnome-icon-theme"/>-->
+	    <dep package="libglade"/>
+	    <dep package="poppler"/>
+	    <!-- <dep package="gnome-doc-utils"/>-->
+	</dependencies>
+    </autotools>
+
 <!-- Gnumeric stack -->
     <autotools id="libgsf">
 	<branch/>
@@ -320,6 +317,12 @@
 	    <dep package="zlib"/>
 	    <dep package="libbz2"/>
 	</dependencies>
+    </autotools>
+
+    <autotools id="lp_solve">
+	<branch repo="sourceforge" module="lpsolve/lpsolve/5.5.0.15/lp_solve_5.5.0.15_source.tar.gz"
+		version="5.5.0.15" checkoutdir="lp_solve_5.5">
+	</branch>
     </autotools>
 
     <autotools id="lasem">
@@ -347,9 +350,10 @@
 	    <dep package="libglade"/>
 	</dependencies>
 	<suggests>
-<!--	    <dep package="libgnomedb"/> -->
-	    <dep package="pxlib"/>
+	    <dep package="libgda"/>
+	    <dep package="lp_solve"/>
 	    <dep package="psiconv"/>
+	    <dep package="pxlib"/>
 	    <dep package="pygobject"/>
 	</suggests>
     </autotools>

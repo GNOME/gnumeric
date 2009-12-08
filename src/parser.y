@@ -571,20 +571,20 @@ int yyparse (void);
 }
 %type  <list>	opt_exp arg_list array_row array_rows
 %type  <expr>	exp array_exp function string_opt_quote cellref
-%token <expr>	STRING QUOTED_STRING CONSTANT RANGEREF GTE LTE NE AND OR NOT INTERSECT
+%token <expr>	STRING QUOTED_STRING CONSTANT RANGEREF tok_GTE tok_LTE tok_NE tok_AND tok_OR tok_NOT INTERSECT
 %token		ARG_SEP ARRAY_COL_SEP ARRAY_ROW_SEP SHEET_SEP INVALID_TOKEN
 %type  <sheet>	sheetref
 %type  <wb>	workbookref
 
-%left '<' '>' '=' GTE LTE NE
+%left '<' '>' '=' tok_GTE tok_LTE tok_NE
 %left '&'
 %left '-' '+'
 %left '*' '/'
-%right RIGHT_EXP_TOKEN
-%left LEFT_EXP_TOKEN
+%right tok_RIGHT_EXP
+%left  tok_LEFT_EXP
 %nonassoc '%'
-%nonassoc NEG PLUS NOT
-%left AND OR
+%nonassoc tok_NEG tok_PLUS tok_NOT
+%left tok_AND tok_OR
 %left ','
 %left RANGE_INTERSECT
 %left RANGE_SEP
@@ -624,31 +624,31 @@ exp:	  CONSTANT 	{ $$ = $1; }
 	| exp '-' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_SUB,	$3); }
 	| exp '*' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_MULT,	$3); }
 	| exp '/' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_DIV,	$3); }
-	| exp RIGHT_EXP_TOKEN exp { $$ = build_exp ($1, $3); }
-	| exp LEFT_EXP_TOKEN exp { $$ = build_exp ($1, $3); }
+	| exp tok_RIGHT_EXP exp { $$ = build_exp ($1, $3); }
+	| exp tok_LEFT_EXP  exp { $$ = build_exp ($1, $3); }
 	| exp '&' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_CAT,	$3); }
 	| exp '=' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_EQUAL,	$3); }
 	| exp '<' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_LT,		$3); }
 	| exp '>' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_GT,		$3); }
-	| exp GTE exp	{ $$ = build_binop ($1, GNM_EXPR_OP_GTE,	$3); }
-	| exp NE  exp	{ $$ = build_binop ($1, GNM_EXPR_OP_NOT_EQUAL,	$3); }
-	| exp LTE exp	{ $$ = build_binop ($1, GNM_EXPR_OP_LTE,	$3); }
-	| exp AND exp	{ $$ = build_logical ($1, TRUE,	$3); }
-	| exp OR  exp	{ $$ = build_logical ($1, FALSE, $3); }
+	| exp tok_GTE exp	{ $$ = build_binop ($1, GNM_EXPR_OP_GTE,	$3); }
+	| exp tok_NE  exp	{ $$ = build_binop ($1, GNM_EXPR_OP_NOT_EQUAL,	$3); }
+	| exp tok_LTE exp	{ $$ = build_binop ($1, GNM_EXPR_OP_LTE,	$3); }
+	| exp tok_AND exp	{ $$ = build_logical ($1, TRUE,	$3); }
+	| exp tok_OR  exp	{ $$ = build_logical ($1, FALSE, $3); }
 	| exp RANGE_INTERSECT exp {
 		$$ = build_intersect ($1, $3);
 		if ($$ == NULL) { YYERROR; }
 	}
 
-        | '-' exp %prec NEG {
+        | '-' exp %prec tok_NEG {
 		GnmExpr *tmp = fold_negative_constant ($2);
 		$$ = tmp ? tmp : build_unary_op (GNM_EXPR_OP_UNARY_NEG, $2);
 	}
-        | '+' exp %prec PLUS {
+        | '+' exp %prec tok_PLUS {
 		/* Don't fold here.  */
 		$$ = build_unary_op (GNM_EXPR_OP_UNARY_PLUS, $2);
 	}
-        | NOT exp { $$ = build_not ($2); }
+        | tok_NOT exp { $$ = build_not ($2); }
         | exp '%' { $$ = build_unary_op (GNM_EXPR_OP_PERCENTAGE, $1); }
 
 	| '(' arg_list ')' {
@@ -1039,11 +1039,11 @@ yylex (void)
 			state->ptr += 3;
 			if (*state->ptr == '='){
 				state->ptr++;
-				return LTE;
+				return tok_LTE;
 			}
 			if (!strncmp (state->ptr, "&gt;", 4)) {
 				state->ptr += 4;
-				return NE;
+				return tok_NE;
 			}
 			return '<';
 		}
@@ -1051,7 +1051,7 @@ yylex (void)
 			state->ptr += 3;
 			if (*state->ptr == '='){
 				state->ptr++;
-				return GTE;
+				return tok_GTE;
 			}
 			return '>';
 		}
@@ -1140,15 +1140,15 @@ yylex (void)
 	if (c == '#' && state->convs->accept_hash_logicals) {
 		if (!strncmp (state->ptr, "NOT#", 4)) {
 			state->ptr += 4;
-			return eat_space (state, NOT);
+			return eat_space (state, tok_NOT);
 		}
 		if (!strncmp (state->ptr, "AND#", 4)) {
 			state->ptr += 4;
-			return eat_space (state, AND);
+			return eat_space (state, tok_AND);
 		}
 		if (!strncmp (state->ptr, "OR#", 3)) {
 			state->ptr += 3;
-			return eat_space (state, OR);
+			return eat_space (state, tok_OR);
 		}
 	}
 
@@ -1371,18 +1371,18 @@ yylex (void)
 	case '<':
 		if (*state->ptr == '='){
 			state->ptr++;
-			return eat_space (state, LTE);
+			return eat_space (state, tok_LTE);
 		}
 		if (*state->ptr == '>'){
 			state->ptr++;
-			return eat_space (state, NE);
+			return eat_space (state, tok_NE);
 		}
 		return eat_space (state, c);
 
 	case '>':
 		if (*state->ptr == '='){
 			state->ptr++;
-			return eat_space (state, GTE);
+			return eat_space (state, tok_GTE);
 		}
 		return eat_space (state, c);
 
@@ -1397,17 +1397,17 @@ yylex (void)
 
 	case '^':
 		return state->convs->exp_is_left_associative
-			? LEFT_EXP_TOKEN
-			: RIGHT_EXP_TOKEN;
+			? tok_LEFT_EXP
+			: tok_RIGHT_EXP;
 
-	case UNICODE_LOGICAL_NOT_C: return NOT;
+	case UNICODE_LOGICAL_NOT_C: return tok_NOT;
 	case UNICODE_MINUS_SIGN_C: return '-';
 	case UNICODE_DIVISION_SLASH_C: return '/';
-	case UNICODE_LOGICAL_AND_C: return AND;
-	case UNICODE_LOGICAL_OR_C: return OR;
-	case UNICODE_NOT_EQUAL_TO_C: return eat_space (state, NE);
-	case UNICODE_LESS_THAN_OR_EQUAL_TO_C: return eat_space (state, LTE);
-	case UNICODE_GREATER_THAN_OR_EQUAL_TO_C: return eat_space (state, GTE);
+	case UNICODE_LOGICAL_AND_C: return tok_AND;
+	case UNICODE_LOGICAL_OR_C: return tok_OR;
+	case UNICODE_NOT_EQUAL_TO_C: return eat_space (state, tok_NE);
+	case UNICODE_LESS_THAN_OR_EQUAL_TO_C: return eat_space (state, tok_LTE);
+	case UNICODE_GREATER_THAN_OR_EQUAL_TO_C: return eat_space (state, tok_GTE);
 	}
 
 	if (ignore_space_after (c))

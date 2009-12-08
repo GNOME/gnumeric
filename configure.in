@@ -133,8 +133,11 @@ dnl **********
 GOFFICE_API_VER="0.8"
 AC_SUBST(GOFFICE_API_VER)
 # Components
-GOFFICE_PLUGINS_DIR=`pkg-config --variable=PluginDir libgoffice-0.8`
+GOFFICE_PLUGINS_DIR=`pkg-config --variable=PluginDir libgoffice-${GOFFICE_API_VER}`
 AC_SUBST(GOFFICE_PLUGINS_DIR)
+GOFFICE_VERSION=`pkg-config --modversion libgoffice-${GOFFICE_API_VER}`
+AC_SUBST(GOFFICE_VERSION)
+
 
 dnl PKG_PROG_PKG_CONFIG is expanded just before the first occurrence of
 dnl PKG_CHECK_MODULES.  Since this is inside an `if,' it can escape
