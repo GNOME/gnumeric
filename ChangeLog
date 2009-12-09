@@ -1,3 +1,10 @@
+2009-12-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gutils.c (gnm_insert_meta_date): new
+	* gutils.h (gnm_insert_meta_date): new
+	* workbook-view.c (wbv_save_to_output): update modification time
+	* workbook.c (workbook_new): update creation date
+
 2009-12-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/item-bar.c (ib_draw_cell): clip when drawing text. [#603862]

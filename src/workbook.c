@@ -42,6 +42,7 @@
 
 #include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-meta-names.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
 #include <errno.h>
@@ -311,6 +312,7 @@ workbook_new (void)
 		g_free (name);
 		g_free (nameutf8);
 	} while (!is_unique);
+	gnm_insert_meta_date (GO_DOC (wb), GSF_META_NAME_DATE_CREATED);
 	return wb;
 }
 

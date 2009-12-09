@@ -53,6 +53,7 @@
 
 #include <goffice/goffice.h>
 #include <gsf/gsf.h>
+#include <gsf/gsf-meta-names.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-input.h>
@@ -966,6 +967,8 @@ wbv_save_to_output (WorkbookView *wbv, GOFileSaver const *fs,
 	GError const *err;
 	char const   *msg;
 
+	/* FIXME: we should be using the true modification time */
+	gnm_insert_meta_date (GO_DOC (wbv->wb), GSF_META_NAME_DATE_MODIFIED);
 	go_file_saver_save (fs, io_context, wbv, output);
 
 	/* The plugin convention is unclear */
