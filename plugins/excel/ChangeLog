@@ -1,3 +1,7 @@
+2009-12-09  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (end): always initialize matrix bounds. [#593937]
+
 2009-11-29  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.16

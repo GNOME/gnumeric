@@ -2724,6 +2724,8 @@ BC_R(end)(XLChartHandler const *handle,
 					}
 					vector.start.row = row_start;
 					vector.end.row = last;
+					vector.start.col = col_start;
+					vector.end.col = col;
 					gog_series_set_dim (series, 2,
 						gnm_go_data_matrix_new_expr (sheet,
 							gnm_expr_top_new_constant (
@@ -2752,6 +2754,8 @@ BC_R(end)(XLChartHandler const *handle,
 					}
 					vector.start.col = col_start;
 					vector.end.col = last;
+					vector.start.row = row_start;
+					vector.end.row = row;
 					gog_series_set_dim (series, 2,
 						gnm_go_data_matrix_new_expr (sheet,
 							gnm_expr_top_new_constant (
