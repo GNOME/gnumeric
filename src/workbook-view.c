@@ -966,9 +966,11 @@ wbv_save_to_output (WorkbookView *wbv, GOFileSaver const *fs,
 {
 	GError const *err;
 	char const   *msg;
+	GODoc *godoc = wb_view_get_doc (wbv);
 
-	/* FIXME: we should be using the true modification time */
-	gnm_insert_meta_date (GO_DOC (wbv->wb), GSF_META_NAME_DATE_MODIFIED);
+	if (go_doc_is_dirty (godoc))
+	  /* FIXME: we should be using the true modification time */
+	  gnm_insert_meta_date (godoc, GSF_META_NAME_DATE_MODIFIED);
 	go_file_saver_save (fs, io_context, wbv, output);
 
 	/* The plugin convention is unclear */

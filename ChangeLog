@@ -1,9 +1,14 @@
 2009-12-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	
+	* src/workbook-view.c (wbv_save_to_output): update modification time
+	  only when we in fact modified the file.
+	
+2009-12-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* gutils.c (gnm_insert_meta_date): new
-	* gutils.h (gnm_insert_meta_date): new
-	* workbook-view.c (wbv_save_to_output): update modification time
-	* workbook.c (workbook_new): update creation date
+	* src/gutils.c (gnm_insert_meta_date): new
+	* src/gutils.h (gnm_insert_meta_date): new
+	* src/workbook-view.c (wbv_save_to_output): update modification time
+	* src/workbook.c (workbook_new): update creation date
 
 2009-12-06  Jean Brefort  <jean.brefort@normalesup.org>
 
