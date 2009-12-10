@@ -43,6 +43,7 @@
 #include <goffice/goffice.h>
 
 #include <gtk/gtk.h>
+#include <gsf/gsf-meta-names.h>
 
 #include <glib/gi18n-lib.h>
 #include <glib/gstdio.h>
@@ -1609,6 +1610,7 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
   switch (res) {
   case GTK_PRINT_OPERATION_RESULT_APPLY:
 	  gnm_conf_set_print_settings (gtk_print_operation_get_print_settings (print));
+	  gnm_insert_meta_date (GO_DOC (sheet->workbook), GSF_META_NAME_PRINT_DATE);
 	  break;
   case GTK_PRINT_OPERATION_RESULT_CANCEL:
 	  printing_instance_delete (pi);

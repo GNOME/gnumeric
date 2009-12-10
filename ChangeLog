@@ -1,3 +1,7 @@
+2009-12-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/print.c (gnm_print_sheet): store print date
+
 2009-12-09  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (graph_dim_cancel_idle): New function.
