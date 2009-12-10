@@ -1014,7 +1014,7 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_isoweeknum[] = {
         { GNM_FUNC_HELP_NAME, F_("ISOWEEKNUM:ISO week number")},
         { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("ISOWEEKNUM calculates the week number according to the ISE 8601 standard.  Weeks start on Mondays and week 1 contains the first Thursday of the year.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("ISOWEEKNUM calculates the week number according to the ISO 8601 standard.  Weeks start on Mondays and week 1 contains the first Thursday of the year.") },
 	{ GNM_FUNC_HELP_NOTE, F_("January 1 of a year is sometimes in week 52 or 53 of the previous year.  Similarly, December 31 is sometimes in week 1 of the following year.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ISOWEEKNUM(DATE(2000,1,1))" },
         { GNM_FUNC_HELP_EXAMPLES, "=ISOWEEKNUM(DATE(2008,1,1))" },

@@ -1,3 +1,7 @@
+2009-12-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_isoweeknum): fix spelling
+
 2009-12-08  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_datedif): Go via GDate, even for "d" case.
