@@ -59,6 +59,7 @@
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-doc-meta-data.h>
 #include <gtk/gtk.h>
 #include "gdk/gdkkeysyms.h"
 #include <glib/gi18n-lib.h>
@@ -4666,6 +4667,7 @@ typedef struct {
 
 	gulong dataset_changed_handler;
 	gulong entry_update_handler;
+	guint idle;
 } GraphDimEditor;
 
 static void
@@ -4742,6 +4744,15 @@ cb_update_idle (GraphDimEditor *editor)
 	return FALSE;
 }
 
+static void
+graph_dim_cancel_idle (GraphDimEditor *editor)
+{
+	if (editor->idle) {
+		g_source_remove (editor->idle);
+		editor->idle = 0;
+	}
+}
+
 static gboolean
 cb_graph_dim_entry_focus_out_event (G_GNUC_UNUSED GtkEntry	*ignored,
 				    G_GNUC_UNUSED GdkEventFocus	*event,
@@ -4749,7 +4760,8 @@ cb_graph_dim_entry_focus_out_event (G_GNUC_UNUSED GtkEntry	*ignored,
 {
 	if (!editor->changed)
 		return FALSE;
-	g_idle_add ((GSourceFunc) cb_update_idle, editor);
+	graph_dim_cancel_idle (editor);
+	editor->idle = g_idle_add ((GSourceFunc) cb_update_idle, editor);
 
 	return FALSE;
 }
@@ -4797,6 +4809,7 @@ cb_dim_editor_weakref_notify (GraphDimEditor *editor, GogDataset *dataset)
 static void
 graph_dim_editor_free (GraphDimEditor *editor)
 {
+	graph_dim_cancel_idle (editor);
 	if (editor->dataset) {
 		g_signal_handler_disconnect (editor->dataset, editor->dataset_changed_handler);
 		g_object_weak_unref (G_OBJECT (editor->dataset),
@@ -4819,6 +4832,7 @@ wbcg_data_allocator_editor (GogDataAllocator *dalloc,
 	editor->suppress_update = FALSE;
 	editor->data_type	= data_type;
 	editor->entry		= gnm_expr_entry_new (wbcg, TRUE);
+	editor->idle            = 0;
 	g_object_weak_ref (G_OBJECT (editor->dataset),
 		(GWeakNotify) cb_dim_editor_weakref_notify, editor);
 

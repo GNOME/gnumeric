@@ -1,8 +1,13 @@
+2009-12-09  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (graph_dim_cancel_idle): New function.
+	(graph_dim_editor_free): Cancel idle handler.  Fixes #604223.
+
 2009-12-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
-	
+
 	* src/workbook-view.c (wbv_save_to_output): update modification time
 	  only when we in fact modified the file.
-	
+
 2009-12-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gutils.c (gnm_insert_meta_date): new
