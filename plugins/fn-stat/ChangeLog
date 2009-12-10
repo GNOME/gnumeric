@@ -1,5 +1,11 @@
 2009-12-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* functions.c (help_stdev): simplified
+	(help_vara): simplified
+	(help_stdeva): simplified
+
+2009-12-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c (help_var): simplified 
 
 2009-11-29  Morten Welinder <terra@gnome.org>

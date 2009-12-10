@@ -106,9 +106,7 @@ static GnmFuncHelp const help_stdev[] = {
 	{ GNM_FUNC_HELP_NAME, F_("STDEV:sample standard deviation of the given sample")},
 	{ GNM_FUNC_HELP_ARG, F_("area1:first cell area")},
 	{ GNM_FUNC_HELP_ARG, F_("area2:second cell area")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("STDEV is also known as the N-1-standard deviation. "
-					"Under reasonable conditions, it is the maximum-likelihood "
-					"estimator for the true population standard deviation.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("STDEV is also known as the N-1-standard deviation.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("To obtain the population standard deviation of a whole population use STDEVP.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.")},
@@ -2571,9 +2569,7 @@ static GnmFuncHelp const help_vara[] = {
 	{ GNM_FUNC_HELP_NAME, F_("VARA:sample variance of the given sample")},
 	{ GNM_FUNC_HELP_ARG, F_("area1:first cell area")},
 	{ GNM_FUNC_HELP_ARG, F_("area2:second cell area")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("VARA is also known as the N-1-variance. Under reasonable "
-					"conditions, it is the maximum-likelihood estimator for the "
-					"true variance")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("VARA is also known as the N-1-variance.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("To get the true variance of a complete population use VARPA.") },
 	HELP_DESCRIPTION_TEXT_INCLUSION,
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -2629,10 +2625,7 @@ static GnmFuncHelp const help_stdeva[] = {
 	   "sample.")},
 	{ GNM_FUNC_HELP_ARG, F_("area1:first cell area")},
 	{ GNM_FUNC_HELP_ARG, F_("area2:second cell area")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("STDEVA is also known as the N-1-standard deviation. "
-					"Under reasonable "
-					"conditions, it is the maximum-likelihood estimator for the "
-					"true population standard deviation.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("STDEVA is also known as the N-1-standard deviation.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("To obtain the population standard deviation of a whole population "
 					"use STDEVPA.")},
 	HELP_DESCRIPTION_TEXT_INCLUSION,
