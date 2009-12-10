@@ -1,3 +1,8 @@
+2009-12-10  Morten Welinder  <terra@gnome.org>
+
+	* dialog-goal-seek.c (dialog_init): Force sheets in cell
+	references as code appears to want that.  Fixes crash.
+
 2009-11-29  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.16
