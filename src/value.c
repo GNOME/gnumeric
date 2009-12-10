@@ -1631,9 +1631,11 @@ parse_criteria (GnmValue const *crit_val, GODateConventions const *date_conv)
 		len = 0;
 	}
 
-	res->x = format_match (criteria + len, NULL, date_conv);
+	res->x = format_match_number (criteria + len, NULL, date_conv);
 	if (res->x == NULL)
 		res->x = value_new_string (criteria + len);
+	else if (len == 0 && VALUE_IS_NUMBER (res->x))
+		res->fun = criteria_test_equal;
 
 	empty = value_new_empty ();
 	if (res->fun (empty, res))

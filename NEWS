@@ -13,7 +13,7 @@ Morten:
 	* Elminate use of "float".
 	* Fix selection problem.  [#601107]
 	* Automate solver testing.
-	* Fix SUMIF problem.  [#603671]
+	* Fix SUMIF problems.  [#603671] [#604214]
 	* Fix DATEDIF problem across bogus 1900-02-29.  [#599461]
 	* Fix graph editor crash.  [#604223]
 	* Fix goal seek problems.
