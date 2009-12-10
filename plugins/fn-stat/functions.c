@@ -79,8 +79,7 @@ static GnmFuncHelp const help_var[] = {
 	{ GNM_FUNC_HELP_NAME, F_("VAR:sample variance of the given sample")},
 	{ GNM_FUNC_HELP_ARG, F_("area1:first cell area")},
 	{ GNM_FUNC_HELP_ARG, F_("area2:second cell area")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("VAR is also known as the N-1-variance. Under reasonable conditions, it is the maximum-likelihood estimator for the "
-	   "true variance.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("VAR is also known as the N-1-variance.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then VAR(A1:A5) equals 117.64.")},
