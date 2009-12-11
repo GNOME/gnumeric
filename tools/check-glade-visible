@@ -35,7 +35,7 @@ my %exceptions =
 my @files;
 {
     local (*FIND);
-    open (*FIND, "find . '(' -name \*.glade -type f -print ')' -o '(' -type d '(' -name CVS -o -name intl -o -name macros ')' -prune ')' |")
+    open (*FIND, "find . '(' -name \*.glade -type f -print ')' -o '(' -type d '(' -name .git -o -name win32 -o -name intl -o -name macros ')' -prune ')' |")
 	or die "$0: cannot execute find: $!\n";
     foreach my $filename (<FIND>) {
 	chomp $filename;
