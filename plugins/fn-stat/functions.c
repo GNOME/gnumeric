@@ -80,10 +80,13 @@ static GnmFuncHelp const help_var[] = {
 	{ GNM_FUNC_HELP_ARG, F_("area1:first cell area")},
 	{ GNM_FUNC_HELP_ARG, F_("area2:second cell area")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("VAR is also known as the N-1-variance.")},
+	{ GNM_FUNC_HELP_NOTE, F_("Since the N-1-variance includes Bessel's correction, whereas the N-variance calculated by VARPA or VARP does not, "
+				 "under reasonable conditions the N-1-variance is an unbiased estimator of the variance of the population "
+				 "from which the sample is drawn.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then VAR(A1:A5) equals 117.64.")},
-	{ GNM_FUNC_HELP_SEEALSO, ("VARP,STDEV")},
+	{ GNM_FUNC_HELP_SEEALSO, ("VARP,STDEV,VARA")},
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Variance") },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:Variance.html") },
 	{ GNM_FUNC_HELP_END }
@@ -2572,6 +2575,9 @@ static GnmFuncHelp const help_vara[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("VARA is also known as the N-1-variance.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("To get the true variance of a complete population use VARPA.") },
 	HELP_DESCRIPTION_TEXT_INCLUSION,
+	{ GNM_FUNC_HELP_NOTE, F_("Since the N-1-variance includes Bessel's correction, whereas the N-variance calculated by VARPA or VARP does not, "
+				 "under reasonable conditions the N-1-variance is an unbiased estimator of the variance of the population "
+				 "from which the sample is drawn.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
 				     "11.4, 17.3, \"missing\", 25.9, and 40.1.") },

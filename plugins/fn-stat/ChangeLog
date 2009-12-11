@@ -1,5 +1,10 @@
 2009-12-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* functions.c (help_var): add some more explanation
+	(help_vara): ditto
+	
+2009-12-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c (help_stdev): simplified
 	(help_vara): simplified
 	(help_stdeva): simplified
