@@ -26,6 +26,10 @@ while (<STDIN>) {
 	s{(<gnm:(paper|orientation)>).*(</gnm:\2>)}{$1xxx$3};
     }
 
+    if (m|^\s*<office:meta>\s*$| .. m|^\s*</office:meta>\s*$|) {
+        s|(<meta:creation-date>).*(</meta:creation-date>)|$1XXX$2|;
+    }
+
     # Sort names.
     if (0 && m|^\s*<gnm:Sheets>\s*$| .. m|^\s*</gnm:Sheets>\s*$|) {
 	if (m|^\s*<gnm:Names>\s*$| .. m|^\s*</gnm:Names>\s*$|) {
