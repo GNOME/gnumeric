@@ -1,3 +1,7 @@
+2009-12-11  Morten Welinder  <terra@gnome.org>
+
+	* src/value.c (criteria_inspect_values): Fix bool issues.
+
 2009-12-10  Morten Welinder  <terra@gnome.org>
 
 	* src/value.c (parse_criteria): If the criteria is a string that

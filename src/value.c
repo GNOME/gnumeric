@@ -1351,27 +1351,45 @@ criteria_inspect_values (GnmValue const *x, gnm_float *xr, gnm_float *yr,
 	if (x == NULL || y == NULL)
 		return CRIT_NULL;
 
-	if (!VALUE_IS_NUMBER (y))
-		return CRIT_STRING;
-	*yr = value_get_as_float (y);
-
-	if (VALUE_IS_NUMBER (x)) {
-		if (VALUE_IS_BOOLEAN (y) != VALUE_IS_BOOLEAN (x))
+	switch (y->type) {
+	case VALUE_BOOLEAN:
+		/* If we're searching for a bool -- even one that is
+		   from a string search value -- we match only bools.  */
+		if (!VALUE_IS_BOOLEAN (x))
 			return CRIT_WRONGTYPE;
 		*xr = value_get_as_float (x);
+		*yr = value_get_as_float (y);
+		return CRIT_FLOAT;
+
+	case VALUE_EMPTY:
+	case VALUE_STRING:
+		return CRIT_STRING;
+
+	default:
+		g_warning ("This should not happen.  Please report.");
+		return CRIT_WRONGTYPE;
+
+	case VALUE_FLOAT:
+		*yr = value_get_as_float (y);
+
+		if (VALUE_IS_BOOLEAN (x))
+			return CRIT_WRONGTYPE;
+		else if (VALUE_IS_FLOAT (x)) {
+			*xr = value_get_as_float (x);
+			return CRIT_FLOAT;
+		}
+
+		vx = format_match (value_peek_string (x), NULL, crit->date_conv);
+		if (VALUE_IS_EMPTY (vx) ||
+		    VALUE_IS_BOOLEAN (y) != VALUE_IS_BOOLEAN (vx)) {
+			value_release (vx);
+			return CRIT_WRONGTYPE;
+		}
+
+		*xr = value_get_as_float (vx);
+		value_release (vx);
 		return CRIT_FLOAT;
 	}
-
-	vx = format_match (value_peek_string (x), NULL, crit->date_conv);
-	if (VALUE_IS_EMPTY (vx) ||
-	    VALUE_IS_BOOLEAN (y) != VALUE_IS_BOOLEAN (vx)) {
-		value_release (vx);
-		return CRIT_WRONGTYPE;
-	}
-
-	*xr = value_get_as_float (vx);
-	value_release (vx);
-	return CRIT_FLOAT;
 }
 
 

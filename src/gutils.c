@@ -176,7 +176,10 @@ gnm_regcomp_XL (GORegexp *preg, char const *pattern, int cflags,
 			break;
 
 		case '~':
-			pattern++;
+			if (pattern[1] == '*' ||
+			    pattern[1] == '?' ||
+			    pattern[1] == '~')
+				pattern++;
 			/* Fall through */
 		default:
 			pattern = go_regexp_quote1 (res, pattern);
