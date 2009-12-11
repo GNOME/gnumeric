@@ -1,3 +1,9 @@
+2009-12-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	* plugin.xml.in: add RANK.AVG
+	* functions.c (help_rank_avg): new
+	(gnumeric_rank_avg): new
+	(stat_functions): add RANK.AVG
+
 2009-12-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_var): add some more explanation

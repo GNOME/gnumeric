@@ -84,6 +84,7 @@
 				<function name="prob"/>
 				<function name="quartile"/>
 				<function name="rank"/>
+				<function name="rank.avg"/>
 				<function name="rayleigh"/>
 				<function name="rayleightail"/>
 				<function name="rsq"/>

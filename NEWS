@@ -5,6 +5,7 @@ Andreas:
 	* Export hyperlinks to ODF. [#603533]
 	* Make EUROCONVERT Excel compatible [#603755]
 	* Update modification times. [#603099]
+	* Add RANK.AVG (rank function returning average rank for ties)
 
 Jean:
 	* Fixed problem with row headers. [#603862]

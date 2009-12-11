@@ -164,11 +164,13 @@ static GnmFuncHelp const help_rank[] = {
 	{ GNM_FUNC_HELP_NAME, F_("RANK:rank of a number in a list of numbers")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number whose rank you want to find")},
 	{ GNM_FUNC_HELP_ARG, F_("ref:list of numbers")},
-	{ GNM_FUNC_HELP_ARG, F_("order:If this is 0, numbers are ranked in descending order, otherwise numbers are ranked in ascending order.")},
+	{ GNM_FUNC_HELP_ARG, F_("order:If this is 0, numbers are ranked in descending order, otherwise numbers are ranked in ascending order. Defaults to 0.")},
+	{ GNM_FUNC_HELP_NOTE, F_("In case of a tie, RANK returns the largest possible rank.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 25.9.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then RANK(17.3,A1:A5) equals 4.")},
-	{ GNM_FUNC_HELP_SEEALSO, ("PERCENTRANK")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then RANK(25.9,A1:A5) equals 1.")},
+	{ GNM_FUNC_HELP_SEEALSO, ("PERCENTRANK,RANK.AVG")},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -200,6 +202,62 @@ gnumeric_rank (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	}
 
 	result = value_new_int (r);
+
+ out:
+	g_free (xs);
+
+	return result;
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_rank_avg[] = {
+	{ GNM_FUNC_HELP_NAME, F_("RANK.AVG:rank of a number in a list of numbers")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number whose rank you want to find")},
+	{ GNM_FUNC_HELP_ARG, F_("ref:list of numbers")},
+	{ GNM_FUNC_HELP_ARG, F_("order:If this is 0, numbers are ranked in descending order, otherwise numbers are ranked in ascending order. Defaults to 0.")},
+	{ GNM_FUNC_HELP_NOTE, F_("In case of a tie, RANK returns the average rank.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel 2010 compatible.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 25.9.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then RANK.AVG(17.3,A1:A5) equals 4.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then RANK.AVG(25.9,A1:A5) equals 1.5.")},
+	{ GNM_FUNC_HELP_SEEALSO, ("PERCENTRANK,RANK")},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_rank_avg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float *xs;
+	int i, r, n, t;
+	GnmValue *result = NULL;
+	gnm_float x, order;
+
+	x = value_get_as_float (argv[0]);
+	xs = collect_floats_value (argv[1], ei->pos,
+				   COLLECT_IGNORE_STRINGS |
+				   COLLECT_IGNORE_BOOLS |
+				   COLLECT_IGNORE_BLANKS |
+				   COLLECT_ORDER_IRRELEVANT,
+				   &n, &result);
+	order = argv[2] ? value_get_as_int (argv[2]) : 0;
+
+	if (result)
+		goto out;
+
+	for (i = 0, r = 1, t = 0; i < n; i++) {
+		gnm_float y = xs[i];
+
+		if (order ? y < x : y > x)
+			r++;
+		if (x == y)
+			t++;
+	}
+
+	if (t > 1)
+		result = value_new_float (r + (t - 1)/2.);
+	else
+		result = value_new_int (r);
 
  out:
 	g_free (xs);
@@ -5442,6 +5500,9 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "rank",         "fr|f",
 	  help_rank, gnumeric_rank, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "rank.avg",         "fr|f",
+	  help_rank_avg, gnumeric_rank_avg, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
 	{ "slope",        "AA",
 	  help_slope, gnumeric_slope, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
