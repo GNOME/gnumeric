@@ -45,12 +45,15 @@ analysis_tool_sign_test_engine_run (data_analysis_output_t *dao,
 	GnmExpr const *expr;
 	GnmExpr const *expr_neg;
 	GnmExpr const *expr_pos;
+	GnmExpr const *expr_isnumber;
 
 	GnmFunc *fd_median;
 	GnmFunc *fd_if;
 	GnmFunc *fd_sum;
 	GnmFunc *fd_min;
 	GnmFunc *fd_binomdist;
+	GnmFunc *fd_isnumber;
+	GnmFunc *fd_iferror;
 
 	fd_median = gnm_func_lookup_or_add_placeholder ("MEDIAN", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_median);
@@ -62,6 +65,10 @@ analysis_tool_sign_test_engine_run (data_analysis_output_t *dao,
 	gnm_func_ref (fd_min);
 	fd_binomdist = gnm_func_lookup_or_add_placeholder ("BINOMDIST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_binomdist);
+	fd_isnumber = gnm_func_lookup_or_add_placeholder ("ISNUMBER", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	gnm_func_ref (fd_isnumber);
+	fd_iferror = gnm_func_lookup_or_add_placeholder ("IFERROR", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	gnm_func_ref (fd_iferror);
 
 	dao_set_italic (dao, 0, 0, 0, 9);
 	set_cell_text_col (dao, 0, 0, _("/Sign Test"
@@ -89,6 +96,12 @@ analysis_tool_sign_test_engine_run (data_analysis_output_t *dao,
 			dao_set_cell_expr (dao, col + 1, 5, make_cellref (-1,0));
 		}
 
+		expr_isnumber = gnm_expr_new_funcall3
+			(fd_if, gnm_expr_new_funcall1
+			 (fd_isnumber, gnm_expr_new_constant (value_dup (val_org))),
+			 gnm_expr_new_constant (value_new_int (1)), 
+			 gnm_expr_new_constant (value_new_int (0)));
+
 		expr = gnm_expr_new_funcall1
 			(fd_median,
 			 gnm_expr_new_constant (value_dup (val_org)));
@@ -96,38 +109,42 @@ analysis_tool_sign_test_engine_run (data_analysis_output_t *dao,
 
 		expr_neg = gnm_expr_new_funcall1
 			(fd_sum,
-			 gnm_expr_new_funcall3
-			 (fd_if, gnm_expr_new_binary (gnm_expr_new_constant (value_dup (val_org)), 
-						      GNM_EXPR_OP_LT, make_cellref (0,-1)), 
-			  gnm_expr_new_constant (value_new_int (1)), 
-			  gnm_expr_new_constant (value_new_int (0))));
+			 gnm_expr_new_binary 
+			 (gnm_expr_copy (expr_isnumber), GNM_EXPR_OP_MULT,
+			  gnm_expr_new_funcall2
+			  (fd_iferror, 
+			   gnm_expr_new_funcall3
+			   (fd_if, gnm_expr_new_binary (gnm_expr_new_constant (value_dup (val_org)), 
+							GNM_EXPR_OP_LT, make_cellref (0,-1)), 
+			    gnm_expr_new_constant (value_new_int (1)), 
+			    gnm_expr_new_constant (value_new_int (0))),
+			   gnm_expr_new_constant (value_new_int (0)))));
 		expr_pos = gnm_expr_new_funcall1
 			(fd_sum,
-			 gnm_expr_new_funcall3
-			 (fd_if, gnm_expr_new_binary (gnm_expr_new_constant (value_dup (val_org)), 
-						      GNM_EXPR_OP_GT, make_cellref (0,-1)), 
-			  gnm_expr_new_constant (value_new_int (1)), 
-			  gnm_expr_new_constant (value_new_int (0))));
+			 gnm_expr_new_binary 
+			 (gnm_expr_copy (expr_isnumber), GNM_EXPR_OP_MULT,
+			  gnm_expr_new_funcall2
+			  (fd_iferror, 
+			   gnm_expr_new_funcall3
+			   (fd_if, gnm_expr_new_binary (gnm_expr_new_constant (value_dup (val_org)), 
+							GNM_EXPR_OP_GT, make_cellref (0,-1)), 
+			    gnm_expr_new_constant (value_new_int (1)), 
+			    gnm_expr_new_constant (value_new_int (0))),
+			   gnm_expr_new_constant (value_new_int (0)))));
 		expr = gnm_expr_new_funcall2
 			(fd_min, expr_neg, expr_pos);
 		dao_set_cell_array_expr (dao, col + 1, 3, expr);
 		
-		expr_neg = gnm_expr_new_funcall1
-			(fd_sum,
-			 gnm_expr_new_funcall3
-			 (fd_if, gnm_expr_new_binary (gnm_expr_new_constant (value_dup (val_org)), 
-						      GNM_EXPR_OP_LT, make_cellref (0,-2)), 
-			  gnm_expr_new_constant (value_new_int (1)), 
-			  gnm_expr_new_constant (value_new_int (0))));
-		expr_pos = gnm_expr_new_funcall1
-			(fd_sum,
-			 gnm_expr_new_funcall3
-			 (fd_if, gnm_expr_new_binary (gnm_expr_new_constant (val_org), 
-						      GNM_EXPR_OP_GT, make_cellref (0,-2)), 
-			  gnm_expr_new_constant (value_new_int (1)), 
-			  gnm_expr_new_constant (value_new_int (0))));
-		expr = gnm_expr_new_funcall2
-			(fd_sum, expr_neg, expr_pos);
+		expr = gnm_expr_new_funcall1
+			(fd_sum, gnm_expr_new_binary 
+			 (expr_isnumber, GNM_EXPR_OP_MULT, 
+			  gnm_expr_new_funcall2
+			  (fd_iferror, gnm_expr_new_funcall3
+			   (fd_if, gnm_expr_new_binary (gnm_expr_new_constant (value_dup (val_org)), 
+							GNM_EXPR_OP_NOT_EQUAL, make_cellref (0,-2)), 
+			    gnm_expr_new_constant (value_new_int (1)), 
+			    gnm_expr_new_constant (value_new_int (0))), 
+			   gnm_expr_new_constant (value_new_int (0)))));
 		dao_set_cell_array_expr (dao, col + 1, 4, expr);
 
 		expr = gnm_expr_new_funcall4 (fd_binomdist, make_cellref (0,-3), make_cellref (0,-2), 
@@ -139,6 +156,7 @@ analysis_tool_sign_test_engine_run (data_analysis_output_t *dao,
 					    GNM_EXPR_OP_MULT, make_cellref (0,-1));
 		dao_set_cell_array_expr (dao, col + 1, 7, expr);
 		
+		value_release (val_org);
 	}
 
 	gnm_func_unref (fd_median);
@@ -146,6 +164,8 @@ analysis_tool_sign_test_engine_run (data_analysis_output_t *dao,
 	gnm_func_unref (fd_min);
 	gnm_func_unref (fd_sum);
 	gnm_func_unref (fd_binomdist);
+	gnm_func_unref (fd_isnumber);
+	gnm_func_unref (fd_iferror);
 
 	dao_redraw_respan (dao);
 

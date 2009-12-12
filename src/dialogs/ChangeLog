@@ -1,5 +1,10 @@
 2009-12-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-analysis-tool-sign-test.c (dialog_sign_test_tool):
+	  check for fn_info plugin
+
+2009-12-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-analysis-tool-sign-test.c: new
 	* sign-test.glade: new
 	* Makefile.am: add the above

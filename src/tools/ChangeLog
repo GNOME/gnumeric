@@ -1,5 +1,10 @@
 2009-12-11 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* analysis-sign-test.c (analysis_tool_sign_test_engine_run):
+	  watch for errors and non-numbers
+
+2009-12-11 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* analysis-sign-test.c: new
 	* analysis-sign-test.h: new
 	* Makefile.am: add the above

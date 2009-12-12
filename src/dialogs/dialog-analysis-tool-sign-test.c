@@ -190,6 +190,7 @@ dialog_sign_test_tool (WBCGtk *wbcg, Sheet *sheet, G_GNUC_UNUSED int n_median)
 	char const * plugins[] = { "Gnumeric_fnstat",
 				   "Gnumeric_fnlogical",
 				   "Gnumeric_fnmath",
+				   "Gnumeric_fninfo",
 				   NULL};
 
 	if ((wbcg == NULL) ||
