@@ -1,3 +1,11 @@
+2009-12-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-analysis-tool-sign-test.c: new
+	* sign-test.glade: new
+	* Makefile.am: add the above
+	* dialogs.h (dialog_sign_test_tool): new
+	* help.h: add GNUMERIC_HELP_LINK_SIGN_TEST
+
 2009-12-10  Morten Welinder  <terra@gnome.org>
 
 	* dialog-goal-seek.c (dialog_init): Force sheets in cell

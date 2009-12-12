@@ -158,6 +158,9 @@
 /* dialog-analysis-tool-normality.c */
 #define GNUMERIC_HELP_LINK_NORMALITY "sect-analysis-statistical"
 
+/* dialog-analysis-tool-sign-test.c */
+#define GNUMERIC_HELP_LINK_SIGN_TEST "sect-analysis-statistical"
+
 /* dialog-consolidate.c     */
 #define GNUMERIC_HELP_LINK_CONSOLIDATE ""
 

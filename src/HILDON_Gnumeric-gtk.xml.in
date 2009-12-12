@@ -192,7 +192,8 @@
         <menuitem action="ToolsRanking"/>
         <menuitem action="ToolsRegression"/>
         <menuitem action="ToolsSampling"/>
-        <menu name="ToolTTest" action="MenuToolTTest">
+	<menuitem action="ToolsOneMedianSignTest"/>
+         <menu name="ToolTTest" action="MenuToolTTest">
           <menuitem action="ToolTTestPaired"/>
           <menuitem action="ToolTTestEqualVar"/>
           <menuitem action="ToolTTestUnequalVar"/>

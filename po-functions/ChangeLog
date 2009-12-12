@@ -1,3 +1,9 @@
+2009-12-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* POTFILES.in: added src/dialogs/dialog-analysis-tool-sign-test.c
+	  and src/tools/analysis-sign-test.c
+	* POTFILES.skip: added src/dialogs/sign-test.glade
+
 2009-11-29  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.16

@@ -29,6 +29,8 @@ libtools_la_SOURCES =					\
 	analysis-kaplan-meier.h				\
 	analysis-normality.c				\
 	analysis-normality.h				\
+	analysis-sign-test.c				\
+	analysis-sign-test.h				\
 	analysis-tools.c				\
 	analysis-tools.h				\
 	random-generator.c				\

@@ -883,6 +883,7 @@ static GNM_ACTION_DEF (cb_tools_normality_tests){ dialog_normality_tool (wbcg, w
 static GNM_ACTION_DEF (cb_tools_ranking)	{ dialog_ranking_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_regression)	{ dialog_regression_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_sampling)	{ dialog_sampling_tool (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_sign_test_one_mean)	{ dialog_sign_test_tool (wbcg, wbcg_cur_sheet (wbcg), 1); }
 static GNM_ACTION_DEF (cb_tools_ttest_paired)	{ dialog_ttest_tool (wbcg, wbcg_cur_sheet (wbcg), TTEST_PAIRED); }
 static GNM_ACTION_DEF (cb_tools_ttest_equal_var) { dialog_ttest_tool (wbcg, wbcg_cur_sheet (wbcg), TTEST_UNPAIRED_EQUALVARIANCES); }
 static GNM_ACTION_DEF (cb_tools_ttest_unequal_var) { dialog_ttest_tool (wbcg, wbcg_cur_sheet (wbcg), TTEST_UNPAIRED_UNEQUALVARIANCES); }
@@ -2140,6 +2141,9 @@ static GtkActionEntry const actions[] = {
 	{ "ToolsNormalityTests", NULL, N_("_Normality Tests..."),
 		NULL, N_("Testing a sample for normality"),
 		G_CALLBACK (cb_tools_normality_tests) },
+	{ "ToolsOneMedianSignTest", NULL, N_("One M_edian Sign Test..."),
+		NULL, N_("Testing the value of a median"),
+		G_CALLBACK (cb_tools_sign_test_one_mean) },
 
 /* Data */
 	{ "DataSort", GTK_STOCK_SORT_ASCENDING, N_("_Sort..."),

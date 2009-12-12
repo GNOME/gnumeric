@@ -128,6 +128,7 @@ src/dialogs/sheet-order.glade
 src/dialogs/sheet-resize.glade
 src/dialogs/shuffle.glade
 src/dialogs/simulation.glade
+src/dialogs/sign-test.glade
 src/dialogs/so-button.glade
 src/dialogs/so-checkbox.glade
 src/dialogs/so-frame.glade
