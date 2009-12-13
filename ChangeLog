@@ -1,3 +1,8 @@
+2009-12-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gnm-pane.c (gnm_pane_compute_visible_region): fixed pane origin
+	when zoomed. [#604373]
+
 2009-12-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* component/Gnumeric-embed.xml.in: add sign test

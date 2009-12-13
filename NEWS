@@ -10,6 +10,7 @@ Andreas:
 
 Jean:
 	* Fixed problem with row headers. [#603862]
+	* Fixed pane origin when zoomed. [#604373]
 
 Morten:
 	* Elminate use of "float".

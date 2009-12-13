@@ -1335,7 +1335,7 @@ gnm_pane_compute_visible_region (GnmPane *pane,
 					      0, pane->first_offset.y / canvas->pixels_per_unit);
 
 		goc_canvas_scroll_to (GOC_CANVAS (pane),
-				      col_offset, pane->first_offset.y / canvas->pixels_per_unit);
+				      col_offset / canvas->pixels_per_unit, pane->first_offset.y / canvas->pixels_per_unit);
 	}
 
 	/* Find out the last visible col and the last full visible column */
