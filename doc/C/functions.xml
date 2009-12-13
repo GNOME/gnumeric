@@ -2466,7 +2466,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>ISOWEEKNUM</function> calculates the week number according to the ISE 8601 standard.  Weeks start on Mondays and week 1 contains the first Thursday of the year.</para>
+        <para><function>ISOWEEKNUM</function> calculates the week number according to the ISO 8601 standard.  Weeks start on Mondays and week 1 contains the first Thursday of the year.</para>
         <para><parameter>date</parameter>: date serial value</para>
       </refsect1>
       <refsect1>
@@ -4801,7 +4801,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para><parameter>currency</parameter> must be one of ATS (Austria), BEF (Belgium), DEM (Germany), ESP (Spain), EUR (Euro), FIM (Finland), FRF (France), GRD (Greece), IEP (Ireland), ITL (Italy), LUF (Luxembourg), NLG (The Netherlands), or PTE (Portugal).</para>
+        <para><parameter>currency</parameter> must be one of ATS (Austria), BEF (Belgium), CYP (Cyprus), DEM (Germany), ESP (Spain), EUR (Euro), FIM (Finland), FRF (France), GRD (Greece), IEP (Ireland), ITL (Italy), LUF (Luxembourg), MTL (Malta), NLG (The Netherlands), PTE (Portugal), SIT (Slovenia), or SKK (Slovakia).</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -4826,7 +4826,7 @@
         <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>EUROCONVERT</function>(<parameter>n</parameter>,<parameter>source</parameter>,<parameter>target</parameter>)</synopsis>
+        <synopsis><function>EUROCONVERT</function>(<parameter>n</parameter>,<parameter>source</parameter>,<parameter>target</parameter>,<parameter>full_precision</parameter>,<parameter>triangulation_precision</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -4834,6 +4834,8 @@
         <para><parameter>n</parameter>: amount</para>
         <para><parameter>source</parameter>: three-letter source currency code</para>
         <para><parameter>target</parameter>: three-letter target currency code</para>
+        <para><parameter>full_precision</parameter>: if true, the result is not rounded; if false the result is rounded to 0 or 2 decimals depending on the target urrency; defaults to false.</para>
+        <para><parameter>triangulation_precision</parameter>: number of digits (at least 3) to be rounded to after the source currency has been converted to euro; omitting this argument results in no rounding.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -15953,9 +15955,57 @@
         </refname>
         <refpurpose/>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>RANK</function>(<parameter>x</parameter>,<parameter>ref</parameter>,<parameter>order</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>.</para>
+        <para><parameter>x</parameter>: number whose rank you want to find</para>
+        <para><parameter>ref</parameter>: list of numbers</para>
+        <para><parameter>order</parameter>: If this is 0, numbers are ranked in descending order, otherwise numbers are ranked in ascending order. Defaults to 0.</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>In case of a tie, <function>RANK</function> returns the largest possible rank.</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
-        <para><link linkend="gnumeric-PERCENTRANK"><function>PERCENTRANK</function></link>.
+        <para><link linkend="gnumeric-PERCENTRANK"><function>PERCENTRANK</function></link>,
+        <link linkend="gnumeric-RANK.AVG"><function>RANK.AVG</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-RANK.AVG">
+      <refmeta>
+        <refentrytitle>
+          <function>RANK.AVG</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>RANK.AVG</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>RANK.AVG</function>(<parameter>x</parameter>,<parameter>ref</parameter>,<parameter>order</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>.</para>
+        <para><parameter>x</parameter>: number whose rank you want to find</para>
+        <para><parameter>ref</parameter>: list of numbers</para>
+        <para><parameter>order</parameter>: If this is 0, numbers are ranked in descending order, otherwise numbers are ranked in ascending order. Defaults to 0.</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>In case of a tie, RANK returns the average rank.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-PERCENTRANK"><function>PERCENTRANK</function></link>,
+        <link linkend="gnumeric-RANK"><function>RANK</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -16293,7 +16343,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>STDEV</function> is also known as the N-1-standard deviation. Under reasonable conditions, it is the maximum-likelihood estimator for the true population standard deviation.</para>
+        <para><function>STDEV</function> is also known as the N-1-standard deviation.</para>
         <para><parameter>area1</parameter>: first cell area</para>
         <para><parameter>area2</parameter>: second cell area</para>
       </refsect1>
@@ -16329,7 +16379,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>STDEVA</function> is also known as the N-1-standard deviation. Under reasonable conditions, it is the maximum-likelihood estimator for the true population standard deviation.</para>
+        <para><function>STDEVA</function> is also known as the N-1-standard deviation.</para>
         <para><parameter>area1</parameter>: first cell area</para>
         <para><parameter>area2</parameter>: second cell area</para>
       </refsect1>
@@ -16669,14 +16719,19 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>VAR</function> is also known as the N-1-variance. Under reasonable conditions, it is the maximum-likelihood estimator for the true variance.</para>
+        <para><function>VAR</function> is also known as the N-1-variance.</para>
         <para><parameter>area1</parameter>: first cell area</para>
         <para><parameter>area2</parameter>: second cell area</para>
       </refsect1>
       <refsect1>
+        <title>Note</title>
+        <para>Since the N-1-variance includes Bessel's correction, whereas the N-variance calculated by VARPA or VARP does not, under reasonable conditions the N-1-variance is an unbiased estimator of the variance of the population from which the sample is drawn.</para>
+      </refsect1>
+      <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-VARP"><function>VARP</function></link>,
-        <link linkend="gnumeric-STDEV"><function>STDEV</function></link>.
+        <link linkend="gnumeric-STDEV"><function>STDEV</function></link>,
+        <link linkend="gnumeric-VARA"><function>VARA</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -16697,7 +16752,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>VARA</function> is also known as the N-1-variance. Under reasonable conditions, it is the maximum-likelihood estimator for the true variance</para>
+        <para><function>VARA</function> is also known as the N-1-variance.</para>
         <para><parameter>area1</parameter>: first cell area</para>
         <para><parameter>area2</parameter>: second cell area</para>
       </refsect1>
@@ -16708,6 +16763,10 @@
       <refsect1>
         <title>Description</title>
         <para>Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1). Note that empty cells are not counted.</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>Since the N-1-variance includes Bessel's correction, whereas the N-variance calculated by VARPA or VARP does not, under reasonable conditions the N-1-variance is an unbiased estimator of the variance of the population from which the sample is drawn.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>

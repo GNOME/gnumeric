@@ -706,7 +706,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @CATEGORY=Date/Time
 @FUNCTION=ISOWEEKNUM
 @SYNTAX=ISOWEEKNUM(date)
-@DESCRIPTION=ISOWEEKNUM calculates the week number according to the ISE 8601 standard.  Weeks start on Mondays and week 1 contains the first Thursday of the year.
+@DESCRIPTION=ISOWEEKNUM calculates the week number according to the ISO 8601 standard.  Weeks start on Mondays and week 1 contains the first Thursday of the year.
 @{date}: date serial value
 
 @NOTE=January 1 of a year is sometimes in week 52 or 53 of the previous year.  Similarly, December 31 is sometimes in week 1 of the following year.
@@ -1508,17 +1508,19 @@ If any argument is zero, the result is zero.
 @DESCRIPTION=EURO calculates the national currency amount corresponding to 1 EUR for any of the national currencies that were replaced by the Euro on its introduction.
 @{currency}: three-letter currency code
 
-@NOTE=@{currency} must be one of ATS (Austria), BEF (Belgium), DEM (Germany), ESP (Spain), EUR (Euro), FIM (Finland), FRF (France), GRD (Greece), IEP (Ireland), ITL (Italy), LUF (Luxembourg), NLG (The Netherlands), or PTE (Portugal).
+@NOTE=@{currency} must be one of ATS (Austria), BEF (Belgium), CYP (Cyprus), DEM (Germany), ESP (Spain), EUR (Euro), FIM (Finland), FRF (France), GRD (Greece), IEP (Ireland), ITL (Italy), LUF (Luxembourg), MTL (Malta), NLG (The Netherlands), PTE (Portugal), SIT (Slovenia), or SKK (Slovakia).
 @NOTE=This function is not likely to be useful anymore.
 @SEEALSO=EUROCONVERT
 
 @CATEGORY=Finance
 @FUNCTION=EUROCONVERT
-@SYNTAX=EUROCONVERT(n,source,target)
+@SYNTAX=EUROCONVERT(n,source,target,full_precision,triangulation_precision)
 @DESCRIPTION=EUROCONVERT converts @{n} units of currency @{source} to currency @{target}.  The rates used are the official ones used on the introduction of the Euro.
 @{n}: amount
 @{source}: three-letter source currency code
 @{target}: three-letter target currency code
+@{full_precision}: if true, the result is not rounded; if false the result is rounded to 0 or 2 decimals depending on the target urrency; defaults to false.
+@{triangulation_precision}: number of digits (at least 3) to be rounded to after the source currency has been converted to euro; omitting this argument results in no rounding.
 
 @NOTE=@{source} and @{target} must be one of the currencies listed for the EURO function.
 @NOTE=This function is not likely to be useful anymore.
@@ -4968,7 +4970,23 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=RANK
-@SEEALSO=PERCENTRANK
+@SYNTAX=RANK(x,ref,order)
+@DESCRIPTION=.
+@{x}: number whose rank you want to find
+@{ref}: list of numbers
+@{order}: If this is 0, numbers are ranked in descending order, otherwise numbers are ranked in ascending order. Defaults to 0.
+@NOTE=In case of a tie, RANK returns the largest possible rank.
+@SEEALSO=PERCENTRANK,RANK.AVG
+
+@CATEGORY=Statistics
+@FUNCTION=RANK.AVG
+@SYNTAX=RANK.AVG(x,ref,order)
+@DESCRIPTION=.
+@{x}: number whose rank you want to find
+@{ref}: list of numbers
+@{order}: If this is 0, numbers are ranked in descending order, otherwise numbers are ranked in ascending order. Defaults to 0.
+@NOTE=In case of a tie, RANK returns the average rank.
+@SEEALSO=PERCENTRANK,RANK
 
 @CATEGORY=Statistics
 @FUNCTION=RAYLEIGH
@@ -5061,7 +5079,7 @@ The successive use of the simulation tool also requires that you give to the too
 @CATEGORY=Statistics
 @FUNCTION=STDEV
 @SYNTAX=STDEV(area1,area2)
-@DESCRIPTION=STDEV is also known as the N-1-standard deviation. Under reasonable conditions, it is the maximum-likelihood estimator for the true population standard deviation.
+@DESCRIPTION=STDEV is also known as the N-1-standard deviation.
 @{area1}: first cell area
 @{area2}: second cell area
 
@@ -5071,7 +5089,7 @@ The successive use of the simulation tool also requires that you give to the too
 @CATEGORY=Statistics
 @FUNCTION=STDEVA
 @SYNTAX=STDEVA(area1,area2)
-@DESCRIPTION=STDEVA is also known as the N-1-standard deviation. Under reasonable conditions, it is the maximum-likelihood estimator for the true population standard deviation.
+@DESCRIPTION=STDEVA is also known as the N-1-standard deviation.
 @{area1}: first cell area
 @{area2}: second cell area
 
@@ -5173,21 +5191,23 @@ The successive use of the simulation tool also requires that you give to the too
 @CATEGORY=Statistics
 @FUNCTION=VAR
 @SYNTAX=VAR(area1,area2)
-@DESCRIPTION=VAR is also known as the N-1-variance. Under reasonable conditions, it is the maximum-likelihood estimator for the true variance.
+@DESCRIPTION=VAR is also known as the N-1-variance.
 @{area1}: first cell area
 @{area2}: second cell area
 
-@SEEALSO=VARP,STDEV
+@NOTE=Since the N-1-variance includes Bessel's correction, whereas the N-variance calculated by VARPA or VARP does not, under reasonable conditions the N-1-variance is an unbiased estimator of the variance of the population from which the sample is drawn.
+@SEEALSO=VARP,STDEV,VARA
 
 @CATEGORY=Statistics
 @FUNCTION=VARA
 @SYNTAX=VARA(area1,area2)
-@DESCRIPTION=VARA is also known as the N-1-variance. Under reasonable conditions, it is the maximum-likelihood estimator for the true variance
+@DESCRIPTION=VARA is also known as the N-1-variance.
 @{area1}: first cell area
 @{area2}: second cell area
 
 @DESCRIPTION=To get the true variance of a complete population use VARPA.
 @DESCRIPTION=Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1). Note that empty cells are not counted.
+@NOTE=Since the N-1-variance includes Bessel's correction, whereas the N-variance calculated by VARPA or VARP does not, under reasonable conditions the N-1-variance is an unbiased estimator of the variance of the population from which the sample is drawn.
 @SEEALSO=VAR,VARPA
 
 @CATEGORY=Statistics
