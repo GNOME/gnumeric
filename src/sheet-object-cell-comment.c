@@ -86,10 +86,6 @@ comment_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vi
 		points->points[2].y = scale * y + TRIANGLE_WIDTH;
 
 		dx = TRIANGLE_WIDTH;
-		if (so->sheet->text_is_rtl) {
-			dx = -dx;
-			scale = -scale;
-		}
 		x = scg_colrow_distance_get (scg, TRUE, 0, far_col);
 		points->points[0].x = scale * x - dx;
 		points->points[1].x = scale * x;

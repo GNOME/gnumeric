@@ -11,6 +11,7 @@ Andreas:
 Jean:
 	* Fixed problem with row headers. [#603862]
 	* Fixed pane origin when zoomed. [#604373]
+	* Make the cell comment red triangle visible in RTL mode. [#604580]
 
 Morten:
 	* Elminate use of "float".

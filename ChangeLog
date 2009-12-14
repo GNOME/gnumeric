@@ -1,5 +1,10 @@
 2009-12-14  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* src/sheet-object-cell-comment.c (comment_view_set_bounds): make the
+	cell comment red triangle visible in RTL mode. [#604580]
+
+2009-12-14  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* src/item-grid.c (item_grid_draw_region): fixed panes borders.
 
 2009-12-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
