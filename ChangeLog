@@ -1,3 +1,7 @@
+2009-12-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/item-grid.c (item_grid_draw_region): fixed panes borders.
+
 2009-12-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gutils.c: include required header file

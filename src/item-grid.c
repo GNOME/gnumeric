@@ -730,18 +730,14 @@ plain_draw : /* a quick hack to deal with 142267 */
 		y += ri->size_pixels;
 	}
 
-	if (row >= ig->bound.end.row) {
-		gnm_style_borders_row_draw (prev_vert, &sr,
-			cr, start_x, y, y, colwidths, FALSE, dir);
-		if (pane->index >= 2)
-			ig_cairo_draw_bound (cr, start_x, y, x, y);
-	}
-	if (col >= ig->bound.end.col &&
-	    /* TODO : Add pane flags to avoid hard coding pane numbers */
-	    (pane->index == 1 || pane->index == 2)) {
-		if (canvas->direction == GOC_DIRECTION_RTL)
-			x += 1; /* fix a border effect */
-		ig_cairo_draw_bound (cr, x, start_y, x, y);
+	if (ig->bound.start.row > 0 && start_y < 1)
+		ig_cairo_draw_bound (cr, start_x, 1, x, 1);
+	if (ig->bound.start.col > 0) {
+		if (canvas->direction == GOC_DIRECTION_RTL && start_x >= goc_canvas_get_width (canvas)) {
+			x = goc_canvas_get_width (canvas);
+			ig_cairo_draw_bound (cr, x, start_y, x, y);
+		} else if (canvas->direction == GOC_DIRECTION_LTR && start_x < 1)
+			ig_cairo_draw_bound (cr, 1, start_y, 1, y);
 	    }
 
 	g_slist_free (merged_used);	   /* merges with bottom in view */
