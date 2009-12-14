@@ -29,6 +29,7 @@
 #include <errno.h>
 #include <locale.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-doc-meta-data.h>
 
 static char *gnumeric_lib_dir;
 static char *gnumeric_data_dir;

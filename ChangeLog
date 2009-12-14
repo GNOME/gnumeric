@@ -1,3 +1,7 @@
+2009-12-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gutils.c: include required header file
+
 2009-12-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-pane.c (gnm_pane_compute_visible_region): fixed pane origin
