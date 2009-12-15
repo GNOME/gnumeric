@@ -137,7 +137,8 @@ glade_DATA = 				\
 	merge.glade			\
 	moving-averages.glade		\
 	normality-tests.glade		\
-	sign-test.glade		\
+	sign-test.glade			\
+	sign-test-two.glade		\
 	paste-names.glade		\
 	plugin-manager.glade		\
 	preferences.glade 		\

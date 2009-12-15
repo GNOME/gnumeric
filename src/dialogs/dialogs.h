@@ -93,7 +93,13 @@ int dialog_frequency_tool	 (WBCGtk *wbcg, Sheet *sheet);
 int dialog_kaplan_meier_tool	 (WBCGtk *wbcg, Sheet *sheet);
 int dialog_normality_tool	 (WBCGtk *wbcg, Sheet *sheet);
 int dialog_chi_square_tool       (WBCGtk *wbcg, Sheet *sheet, gboolean independence);
-int dialog_sign_test_tool        (WBCGtk *wbcg, Sheet *sheet, int n_medians);
+
+typedef enum {
+	SIGNTEST_1 = 1,
+	SIGNTEST_2 = 2
+} signtest_type;
+
+int dialog_sign_test_tool        (WBCGtk *wbcg, Sheet *sheet, signtest_type n_medians);
 
 typedef enum {
 	TTEST_PAIRED = 1,

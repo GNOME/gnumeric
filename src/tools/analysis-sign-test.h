@@ -40,8 +40,15 @@ typedef struct {
 	gnm_float        alpha;
 } analysis_tools_data_sign_test_t;
 
+typedef struct {
+	analysis_tools_data_generic_b_t base;
+	gnm_float        median;
+} analysis_tools_data_sign_test_two_t;
+
 gboolean analysis_tool_sign_test_engine (data_analysis_output_t *dao, gpointer specs,
 					   analysis_tool_engine_t selector, gpointer result);
 
+gboolean analysis_tool_sign_test_two_engine (data_analysis_output_t *dao, gpointer specs,
+					   analysis_tool_engine_t selector, gpointer result);
 
 #endif

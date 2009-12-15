@@ -1,3 +1,13 @@
+2009-12-15 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-sign-test.c (analysis_tool_sign_test_engine_run): simplify
+	(analysis_tool_sign_test_two_engine_run): new
+	(gboolean analysis_tool_sign_test_two_engine): new
+	* analysis-sign-test.h (analysis_tools_data_sign_test_two_t): new
+	(gboolean analysis_tool_sign_test_two_engine): new
+	* analysis-tools.h (analysis_tools_write_label_ftest): new
+	* analysis-tools.c (analysis_tools_write_label_ftest): make public
+
 2009-12-11 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-sign-test.c (analysis_tool_sign_test_engine_run):

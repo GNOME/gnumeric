@@ -1,3 +1,18 @@
+2009-12-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-analysis-tool-sign-test.c 
+	(sign_test_tool_update_sensitivity_cb): also handle 2 
+	  medians case
+	(sign_test_two_tool_ok_clicked_cb): new
+	(dialog_sign_test_tool): change argument type and also 
+	  handle 2-medians case
+	* dialog-analysis-tool-sign-test.h
+	(dialog_sign_test_tool): change argument type
+	* sign-test-two.glade: new
+	* Makefile.am: add sign-test-two.glade
+	* dialogs.h (dialog_sign_test_tool): change argument type
+	* help.h: add GNUMERIC_HELP_LINK_SIGN_TEST
+
 2009-12-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-analysis-tool-sign-test.c (dialog_sign_test_tool):

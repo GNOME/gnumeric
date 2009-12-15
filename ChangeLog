@@ -1,3 +1,10 @@
+2009-12-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* component/Gnumeric-embed.xml.in: add 2 medians sign test
+	* src/HILDON_Gnumeric-gtk.xml.in: add 2 medians sign test
+	* src/GNOME_Gnumeric-gtk.xml.in: add 2 medians sign test
+	* src/wbc-gtk-actions.c: add 2 medians sign test action
+
 2009-12-14  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-cell-comment.c (comment_view_set_bounds): make the

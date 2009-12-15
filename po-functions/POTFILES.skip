@@ -129,6 +129,7 @@ src/dialogs/sheet-resize.glade
 src/dialogs/shuffle.glade
 src/dialogs/simulation.glade
 src/dialogs/sign-test.glade
+src/dialogs/sign-test-two.glade
 src/dialogs/so-button.glade
 src/dialogs/so-checkbox.glade
 src/dialogs/so-frame.glade

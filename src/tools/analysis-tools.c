@@ -201,7 +201,7 @@ analysis_tools_write_label (GnmValue *val, data_analysis_output_t *dao,
 }
 
 /*
- *  analysis_tools_write_label:
+ *  analysis_tools_write_label_ftest:
  *  @val: range to extract label from
  *  @dao: data_analysis_output_t, where to write to
  *  @info: analysis_tools_data_generic_t info
@@ -211,7 +211,7 @@ analysis_tools_write_label (GnmValue *val, data_analysis_output_t *dao,
  *
  */
 
-static void
+void
 analysis_tools_write_label_ftest (GnmValue *val, data_analysis_output_t *dao,
 				  int x, int y, gboolean labels, int i)
 {

@@ -1,3 +1,7 @@
+2009-12-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* POTFILES.in: added src/dialogs/sign-test-two.glade
+
 2009-12-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* POTFILES.in: added src/dialogs/dialog-analysis-tool-sign-test.c,
