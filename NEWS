@@ -24,6 +24,7 @@ Morten:
 	* Fix DATEDIF problem across bogus 1900-02-29.  [#599461]
 	* Fix graph editor crash.  [#604223]
 	* Fix goal seek problems.
+	* Fix ODS import crash.  [#604615]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.16

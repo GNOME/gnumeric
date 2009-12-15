@@ -1,3 +1,8 @@
+2009-12-15  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_col_start, oo_row_start): Allocate the
+	right amount of memory.  Fixes #604615.
+
 2009-12-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (gnm_xml_out_add_hex_color): use the 
