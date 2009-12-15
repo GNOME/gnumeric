@@ -8,6 +8,9 @@ Andreas:
 	* Add RANK.AVG (rank function returning average rank for ties)
 	* Added Sign Test to statistical analysis tools
 
+Gabriel Kerneis:
+	* Implement --one-file-per-sheet in ssconvert [#604549]
+
 Jean:
 	* Fixed problem with row headers. [#603862]
 	* Fixed pane origin when zoomed. [#604373]

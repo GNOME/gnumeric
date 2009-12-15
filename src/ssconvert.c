@@ -601,14 +601,28 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 			else if (workbook_sheet_count (wb) > 1 &&
 				 go_file_saver_get_save_scope (fs) != GO_FILE_SAVE_WORKBOOK) {
 				if (ssconvert_one_file_per_sheet) {
-					g_warning ("TODO: one sheet per file is not implemented");
+					GSList *ptr;
+					GString *s;
+					char *tmpfile;
+					int idx = 0;
+					res = 0;
+					
+					for (ptr = workbook_sheets(wb); ptr && !res; ptr = ptr->next, idx++) {
+						wb_view_sheet_focus(wbv, (Sheet *)ptr->data);
+						s = g_string_new (outfile);
+						g_string_append_printf(s, ".%d", idx);
+						tmpfile = g_string_free (s, FALSE);
+						res = !wb_view_save_as (wbv, fs, tmpfile, cc);
+						g_free(tmpfile);
+					}
+					goto printing_done;
 				} else
 					g_printerr (_("Selected exporter (%s) does not support saving multiple sheets in one file.\n"
 						      "Only the current sheet will be saved.\n"),
 						    go_file_saver_get_id (fs));
 			}
 			res = !wb_view_save_as (wbv, fs, outfile, cc);
-
+		printing_done:
 			g_object_unref (wb);
 		}
 		g_object_unref (io_context);

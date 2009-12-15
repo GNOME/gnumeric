@@ -1,4 +1,8 @@
 2009-12-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	for Gabriel Kerneis
+	* src/ssconvert.c (convert): handle one sheet per file
+
+2009-12-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* component/Gnumeric-embed.xml.in: add 2 medians sign test
 	* src/HILDON_Gnumeric-gtk.xml.in: add 2 medians sign test
