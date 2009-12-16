@@ -1,5 +1,9 @@
 2009-12-15  Morten Welinder <terra@gnome.org>
 
+	* configure.in: Post-release bump.
+
+2009-12-15  Morten Welinder <terra@gnome.org>
+
 	* Release 1.9.17
 
 2009-12-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
