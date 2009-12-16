@@ -1,3 +1,7 @@
+2009-12-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.17
+
 2009-12-03  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (cb_averageif, cb_sumif, cb_countif): Handle empty
