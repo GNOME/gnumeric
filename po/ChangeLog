@@ -1,3 +1,7 @@
+2009-12-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* POTFILES.in: added src/dialogs/paste-special.glade
+
 2009-12-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.17

@@ -24,6 +24,7 @@
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <wbc-gtk.h>
 #include <gui-util.h>
@@ -33,223 +34,238 @@
 
 #include <gtk/gtk.h>
 
-typedef struct {
-	WBCGtk *wbcg;
-	GtkDialog	*dialog;
-	GtkWidget	*op_frame;
-	struct {
-		GtkWidget *btn;
-		gboolean   val;
-	} transpose, skip_blanks;
-	GSList		*type_group, *op_group;
-	int		type, op;
-} PasteSpecialState;
+static char const * const paste_type_group[] = {
+	"paste-type-all",
+	"paste-type-content",
+	"paste-type-as-value",
+	"paste-type-formats",
+	"paste-type-comments",
+	NULL
+};
+static struct {
+	gboolean permit_cell_ops;
+	int paste_enum;
+} paste_type_group_props[] = {
+	{TRUE, PASTE_ALL_TYPES},
+	{TRUE, PASTE_CONTENTS},
+	{TRUE, PASTE_AS_VALUES},
+	{FALSE, PASTE_FORMATS},
+	{FALSE, PASTE_COMMENTS},
+};
+static char const * const cell_operation_group[] = {
+	"cell-operation-none",	
+	"cell-operation-add",	
+	"cell-operation-subtract",	
+	"cell-operation-multiply",	
+	"cell-operation-divide",	
+	NULL
+};
+static struct {
+	int paste_enum;
+} cell_operation_props[] = {
+	{0},
+	{PASTE_OPER_ADD},
+	{PASTE_OPER_SUB},
+	{PASTE_OPER_MULT},
+	{PASTE_OPER_DIV},
+};
+static char const * const region_operation_group[] = {
+	"region-operation-none",
+	"region-operation-transpose",
+	NULL
+};
+static struct {
+	int paste_enum;
+} region_operation_props[] = {
+	{0},
+	{PASTE_TRANSPOSE},
+};
 
-#define BUTTON_PASTE_LINK 0
+typedef struct {
+	GladeXML  *gui;
+	GtkWidget *dialog;
+	GtkWidget *ok_button;
+	GtkWidget *cancel_button;
+	GtkWidget *link_button;
+	GtkWidget *help_button;
+	char const *help_link;
+	Sheet	  *sheet;
+	SheetView *sv;
+	Workbook  *wb;
+	WBCGtk  *wbcg;
+} PasteSpecialState;
 
 #define GNM_PASTE_SPECIAL_KEY	"gnm-paste-special"
 
-static struct {
-	char const *name;
-	gboolean allows_operations;
-} const paste_types [] = {
-	/* xgettext : The accelerators for All, Content, As Value, Formats,
-	 *	Comments, None, Add, Subtract, Multiply, Divide, Transpose,
-	 *	Skip Blanks, Paste Link, Cancel, Ok are all on the same page
-	 *	try to keep them from conflicting */
-	{ N_("_All"),      TRUE },
-	{ N_("Cont_ent"),  TRUE },
-	{ N_("As _Value"), TRUE },
-	{ N_("_Formats"),  FALSE },
-	{ N_("Co_mments"),  FALSE },
-	{ NULL, FALSE }
-};
-
-static const char * const paste_ops[] = {
-	N_("_None"),
-	N_("A_dd"),
-	N_("_Subtract"),
-	N_("M_ultiply"),
-	N_("D_ivide"),
-	NULL
-};
-
 /* The "Paste Link" button should be grayed-out, unless type "All" is
-   selected, operation "None" is selected, and "Transpose" and "Skip
-   Blanks" are not selected.  */
+   selected, cell operation "None" is selected,
+   region operation "None" is selected, and "Skip
+   Blanks" is not selected.  */
 static void
 paste_link_set_sensitive (PasteSpecialState *state)
 {
 	gboolean sensitive =
-		(gtk_radio_group_get_selected (state->type_group) == 0) &&
-		(gtk_radio_group_get_selected (state->op_group) == 0) &&
-		!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->transpose.btn)) &&
-		!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->skip_blanks.btn));
-
-	gtk_dialog_set_response_sensitive (state->dialog,
-		BUTTON_PASTE_LINK, sensitive);
+		(!gtk_toggle_button_get_active 
+		 (GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui,"skip-blanks")))
+		 && 0 == gnumeric_glade_group_value (state->gui, paste_type_group)
+		 && 0 == gnumeric_glade_group_value (state->gui, cell_operation_group)
+		 && 0 == gnumeric_glade_group_value (state->gui, region_operation_group));
+	gtk_widget_set_sensitive (state->link_button, sensitive);
 }
 
 static void
-cb_type_toggle (G_GNUC_UNUSED GtkWidget *ignored,
-		PasteSpecialState *state)
+cb_destroy (PasteSpecialState *state)
 {
-	state->type = gtk_radio_group_get_selected (state->type_group);
-	gtk_widget_set_sensitive (state->op_frame,
-		paste_types [state->type].allows_operations);
-	paste_link_set_sensitive (state);
+	if (state->gui != NULL)
+		g_object_unref (G_OBJECT (state->gui));
+	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
+	g_free (state);
 }
 
 static void
-cb_op_toggle (G_GNUC_UNUSED GtkWidget *ignored,
-	      PasteSpecialState *state)
+dialog_paste_special_type_toggled_cb (GtkWidget *button, PasteSpecialState *state)
 {
-	state->op = gtk_radio_group_get_selected (state->op_group);
-	paste_link_set_sensitive (state);
-}
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button))) {
+		int i = gnumeric_glade_group_value (state->gui, paste_type_group);
+		char const * const *group;
+		gboolean permit_cell_ops = paste_type_group_props[i].permit_cell_ops;
 
-static void
-cb_transpose (GtkWidget *widget, PasteSpecialState *state)
-{
-	state->transpose.val = GTK_TOGGLE_BUTTON (widget)->active;
-	paste_link_set_sensitive (state);
-}
-static void
-cb_skip_blanks (GtkWidget *widget, PasteSpecialState *state)
-{
-	state->skip_blanks.val = GTK_TOGGLE_BUTTON (widget)->active;
-	paste_link_set_sensitive (state);
-}
-
-static void
-cb_paste_special_response (GtkWidget *dialog,
-			   gint response_id, PasteSpecialState *state)
-{
-	int result = 0;
-	if (response_id == GTK_RESPONSE_HELP)
-		return;
-	if (response_id == GTK_RESPONSE_OK) {
-		switch (state->type) {
-		case 0: result = PASTE_ALL_TYPES;	break;
-		case 1: result = PASTE_CONTENTS;	break;
-		case 2: result = PASTE_AS_VALUES;	break;
-		case 3: result = PASTE_FORMATS;		break;
-		case 4: result = PASTE_COMMENTS;	break;
-		}
-
-		if (paste_types [state->type].allows_operations) {
-			switch (state->op) {
-			case 1 : result |= PASTE_OPER_ADD;  break;
-			case 2 : result |= PASTE_OPER_SUB;  break;
-			case 3 : result |= PASTE_OPER_MULT; break;
-			case 4 : result |= PASTE_OPER_DIV;  break;
-			}
-		}
-		if (state->transpose.val)
-			result |= PASTE_TRANSPOSE;
-		if (state->skip_blanks.val)
-			result |= PASTE_SKIP_BLANKS;
-	} else if (response_id == BUTTON_PASTE_LINK)
-		result = PASTE_LINK;
-
-	if (result != 0) {
-		WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
-		SheetView *sv = wb_control_cur_sheet_view (wbc);
-		cmd_paste_to_selection (wbc, sv, result);
+		for (group = cell_operation_group; *group != NULL; group++) 
+			gtk_widget_set_sensitive (glade_xml_get_widget (state->gui,*group),
+						  permit_cell_ops);
+		paste_link_set_sensitive (state);
 	}
-	gtk_object_destroy (GTK_OBJECT (dialog));
+}
+
+static void
+dialog_paste_special_cell_op_toggled_cb (GtkWidget *button, PasteSpecialState *state)
+{
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button))) {
+		paste_link_set_sensitive (state);		
+	}
+}
+
+static void
+dialog_paste_special_region_op_toggled_cb (GtkWidget *button, PasteSpecialState *state)
+{
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button))) {
+		paste_link_set_sensitive (state);		
+	}
+}
+static void
+dialog_paste_special_skip_blanks_toggled_cb (GtkWidget *button, PasteSpecialState *state)
+{
+		paste_link_set_sensitive (state);		
+}
+
+static void
+cb_tool_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
+			PasteSpecialState *state)
+{
+	gtk_widget_destroy (state->dialog);
+	return;
+}
+
+static void
+cb_tool_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
+			PasteSpecialState *state)
+{
+	int result;
+	int paste_type = gnumeric_glade_group_value (state->gui, paste_type_group);
+	int region_op_type = gnumeric_glade_group_value (state->gui, region_operation_group);
+		
+	result = paste_type_group_props[paste_type].paste_enum 
+		| region_operation_props[region_op_type].paste_enum;
+
+	if (paste_type_group_props[paste_type].permit_cell_ops) {
+		int cell_op_type = gnumeric_glade_group_value (state->gui, cell_operation_group);
+		result |= cell_operation_props[cell_op_type].paste_enum;
+	}
+
+	if (gtk_toggle_button_get_active 
+	    (GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui,"skip-blanks"))))
+		result |= PASTE_SKIP_BLANKS;
+
+	cmd_paste_to_selection (WORKBOOK_CONTROL (state->wbcg), state->sv, result);
+	gtk_widget_destroy (state->dialog);
+	return;
+}
+
+static void
+cb_tool_paste_link_clicked (G_GNUC_UNUSED GtkWidget *button,
+			PasteSpecialState *state)
+{
+	cmd_paste_to_selection (WORKBOOK_CONTROL (state->wbcg), state->sv, PASTE_LINK);
+	gtk_widget_destroy (state->dialog);
+	return;
 }
 
 void
 dialog_paste_special (WBCGtk *wbcg)
 {
 	PasteSpecialState *state;
-	GtkWidget *tmp, *hbox, *vbox, *f1, *f1v, *op_box, *first_button = NULL;
-	int i;
+	GladeXML *gui;
+	char const * const *group;
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, GNM_PASTE_SPECIAL_KEY))
 		return;
+	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
+		"paste-special.glade", NULL, NULL);
+	if (gui == NULL)
+		return;
 
-	tmp = gtk_dialog_new_with_buttons (_("Paste Special"),
-		wbcg_toplevel (wbcg),
-		GTK_DIALOG_DESTROY_WITH_PARENT,
-		_("Paste _Link"),	BUTTON_PASTE_LINK,
-		GTK_STOCK_CANCEL,	GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OK,		GTK_RESPONSE_OK,
-		NULL);
 	state = g_new0 (PasteSpecialState, 1);
 	state->wbcg   = wbcg;
-	state->dialog = GTK_DIALOG (tmp);
-	gtk_dialog_set_default_response (state->dialog, GTK_RESPONSE_OK);
+	state->gui    = gui;
+	state->dialog =  glade_xml_get_widget (state->gui, "paste-special");
+	state->sheet = wbcg_cur_sheet (wbcg);
+	state->sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 
-	f1  = gtk_frame_new (_("Paste type"));
-	f1v = gtk_vbox_new (TRUE, 0);
-	gtk_container_add (GTK_CONTAINER (f1), f1v);
+	g_return_if_fail (state->dialog != NULL);
 
-	state->op_frame  = gtk_frame_new (_("Operation"));
-	op_box = gtk_vbox_new (TRUE, 0);
-	gtk_container_add (GTK_CONTAINER (state->op_frame), op_box);
+	state->link_button = glade_xml_get_widget (state->gui,"paste-link_button");
+	g_signal_connect (G_OBJECT (state->link_button),
+			  "clicked",
+			  G_CALLBACK (cb_tool_paste_link_clicked), state);
+	state->help_button = glade_xml_get_widget (state->gui, "help_button");
+	gnumeric_init_help_button (state->help_button, GNUMERIC_HELP_LINK_PASTE_SPECIAL);
+	state->cancel_button = glade_xml_get_widget (state->gui, "cancel_button");
+	g_signal_connect (G_OBJECT (state->cancel_button),
+			  "clicked",
+			  G_CALLBACK (cb_tool_cancel_clicked), state);
+	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
+	g_signal_connect (G_OBJECT (state->ok_button),
+			  "clicked",
+			  G_CALLBACK (cb_tool_ok_clicked), state);
+	
 
-	state->type = 0;
-	state->type_group = NULL;
-	for (i = 0; paste_types[i].name; i++){
-		GtkWidget *r = gtk_radio_button_new_with_mnemonic (state->type_group,
-			_(paste_types[i].name));
-		state->type_group = GTK_RADIO_BUTTON (r)->group;
-		g_signal_connect (G_OBJECT (r),
-			"toggled",
-			G_CALLBACK (cb_type_toggle), state);
-		gtk_box_pack_start (GTK_BOX (f1v), r, TRUE, TRUE, 0);
-		if (i == 0)
-			first_button = r;
-	}
+	for (group = paste_type_group; *group != NULL; group++) 
+		g_signal_connect_after (glade_xml_get_widget (state->gui,*group),
+					"toggled",
+					G_CALLBACK (dialog_paste_special_type_toggled_cb), state);
+	for (group = cell_operation_group; *group != NULL; group++) 
+		g_signal_connect_after (glade_xml_get_widget (state->gui,*group),
+					"toggled",
+					G_CALLBACK (dialog_paste_special_cell_op_toggled_cb), state);
+	for (group = region_operation_group; *group != NULL; group++) 
+		g_signal_connect_after (glade_xml_get_widget (state->gui,*group),
+					"toggled",
+					G_CALLBACK (dialog_paste_special_region_op_toggled_cb), state);
+	g_signal_connect_after (glade_xml_get_widget (state->gui, "skip-blanks"),
+				"toggled",
+				G_CALLBACK (dialog_paste_special_skip_blanks_toggled_cb), state);
+	paste_link_set_sensitive (state);	
 
-	state->op = 0;
-	state->op_group = NULL;
-	for (i = 0; paste_ops[i]; i++){
-		GtkWidget *r = gtk_radio_button_new_with_mnemonic (state->op_group,
-			_(paste_ops[i]));
-		state->op_group = GTK_RADIO_BUTTON (r)->group;
-		g_signal_connect (G_OBJECT (r),
-			"toggled",
-			G_CALLBACK (cb_op_toggle), state);
-		gtk_box_pack_start (GTK_BOX (op_box), r, TRUE, TRUE, 0);
-	}
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), wbcg,
+					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
 
-	hbox = gtk_hbox_new (TRUE, 0);
+	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
+			       GNM_PASTE_SPECIAL_KEY);
 
-	state->transpose.btn = gtk_check_button_new_with_mnemonic (_("_Transpose"));
-	g_signal_connect (G_OBJECT (state->transpose.btn),
-		"toggled",
-		G_CALLBACK (cb_transpose), state);
-	gtk_box_pack_start (GTK_BOX (hbox), state->transpose.btn, TRUE, TRUE, 0);
-
-	state->skip_blanks.btn = gtk_check_button_new_with_mnemonic (_("Skip _Blanks"));
-	g_signal_connect (G_OBJECT (state->skip_blanks.btn),
-		"toggled",
-		G_CALLBACK (cb_skip_blanks), state);
-	gtk_box_pack_start (GTK_BOX (hbox), state->skip_blanks.btn, TRUE, TRUE, 0);
-
-	vbox = gtk_vbox_new (FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), f1, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), state->op_frame, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
-
-	gtk_box_pack_start (GTK_BOX (state->dialog->vbox), vbox, TRUE, TRUE, 0);
-	gtk_widget_show_all (vbox);
-	gtk_widget_grab_focus (first_button);
-
-	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog),
-					   state->wbcg,
-					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
-
-	/* a candidate for merging into attach guru */
-	g_signal_connect (G_OBJECT (state->dialog), "response",
-		G_CALLBACK (cb_paste_special_response), state);
+	wbc_gtk_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
-		"state", state, (GDestroyNotify) g_free);
-	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
-				   GTK_WINDOW (state->dialog));
-	wbc_gtk_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
-	gtk_widget_show_all (GTK_WIDGET (state->dialog));
+				"state", state,
+				(GDestroyNotify) cb_destroy);
+
+	gtk_widget_show (state->dialog);
 }

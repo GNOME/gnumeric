@@ -189,4 +189,7 @@
 /* dialog-doc-metadata.c */
 #define GNUMERIC_HELP_LINK_METADATA ""
 
+/* dialog-paste-special.c */
+#define GNUMERIC_HELP_LINK_PASTE_SPECIAL ""
+
 #endif /* GNUMERIC_HELP_H */

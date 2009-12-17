@@ -236,6 +236,7 @@ src/dialogs/merge.glade
 src/dialogs/moving-averages.glade
 src/dialogs/normality-tests.glade
 src/dialogs/paste-names.glade
+src/dialogs/paste-special.glade
 src/dialogs/plugin-manager.glade
 src/dialogs/preferences.glade
 src/dialogs/print.glade

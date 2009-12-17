@@ -140,6 +140,7 @@ glade_DATA = 				\
 	sign-test.glade			\
 	sign-test-two.glade		\
 	paste-names.glade		\
+	paste-special.glade		\
 	plugin-manager.glade		\
 	preferences.glade 		\
 	rank.glade			\
