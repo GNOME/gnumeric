@@ -72,6 +72,8 @@ static struct {
 static char const * const region_operation_group[] = {
 	"region-operation-none",
 	"region-operation-transpose",
+	"region-operation-flip-h",
+	"region-operation-flip-v",
 	NULL
 };
 static struct {
@@ -79,6 +81,8 @@ static struct {
 } region_operation_props[] = {
 	{0},
 	{PASTE_TRANSPOSE},
+	{PASTE_FLIP_H},
+	{PASTE_FLIP_V},
 };
 
 typedef struct {

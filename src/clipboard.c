@@ -305,6 +305,12 @@ cb_paste_cell (GnmCellCopy const *src, gconstpointer ignore,
 	if (dat->pt->paste_flags & PASTE_TRANSPOSE) {
 		target_col += src->offset.row;
 		target_row += src->offset.col;
+	} else if (dat->pt->paste_flags & PASTE_FLIP_H) {
+		target_col += dat->cr->cols - src->offset.col - 1;
+		target_row += src->offset.row;
+	} else if (dat->pt->paste_flags & PASTE_FLIP_V) {
+		target_col += src->offset.col;
+		target_row += dat->cr->rows - src->offset.row - 1;
 	} else {
 		target_col += src->offset.col;
 		target_row += src->offset.row;

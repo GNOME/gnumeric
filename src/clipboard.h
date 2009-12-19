@@ -41,7 +41,11 @@ enum {
 	PASTE_EXPR_LOCAL_RELOCATE = 1 << 15,
 
 	/* Avoid flagging dependencies.  */
-	PASTE_NO_RECALC         = 1 << 16
+	PASTE_NO_RECALC         = 1 << 16,
+
+	/* Whether the paste flips or not */
+	PASTE_FLIP_H         = 1 << 17,
+	PASTE_FLIP_V         = 1 << 18
 };
 
 #define PASTE_ALL_TYPES (PASTE_CONTENTS | PASTE_FORMATS | PASTE_COMMENTS | PASTE_OBJECTS)
