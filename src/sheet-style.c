@@ -1885,7 +1885,7 @@ sheet_style_relocate (GnmExprRelocateInfo const *rinfo)
 			       sheet_style_default (rinfo->origin_sheet));
 	corner.col = rinfo->origin.start.col + rinfo->col_offset;
 	corner.row = rinfo->origin.start.row + rinfo->row_offset;
-	sheet_style_set_list (rinfo->target_sheet, &corner, FALSE, styles);
+	sheet_style_set_list (rinfo->target_sheet, &corner, styles, NULL, NULL);
 	style_list_free	(styles);
 }
 
@@ -1939,7 +1939,8 @@ sheet_style_insert_colrow (GnmExprRelocateInfo const *rinfo)
 	sheet_style_relocate (rinfo);
 
 	if (styles != NULL) {
-		sheet_style_set_list (rinfo->target_sheet, &corner, FALSE, styles);
+		sheet_style_set_list (rinfo->target_sheet, &corner, styles, 
+				      NULL, NULL);
 		style_list_free	(styles);
 	}
 }
@@ -2390,7 +2391,9 @@ sheet_style_collect_validations (Sheet const *sheet, GnmRange const *r)
  **/
 GnmSpanCalcFlags
 sheet_style_set_list (Sheet *sheet, GnmCellPos const *corner,
-		      gboolean transpose, GnmStyleList const *list)
+		      GnmStyleList const *list,
+		      sheet_style_set_list_cb_t range_modify, 
+		      gpointer data)
 {
 	GnmSpanCalcFlags spanflags = GNM_SPANCALC_SIMPLE;
 	GnmStyleList const *l;
@@ -2403,8 +2406,8 @@ sheet_style_set_list (Sheet *sheet, GnmCellPos const *corner,
 		GnmRange              r  = sr->range;
 
 		range_translate (&r, sheet, +corner->col, +corner->row);
-		if (transpose)
-			range_transpose (&r, sheet, corner);
+		if (range_modify)
+			range_modify (&r, sheet, data);
 
 		gnm_style_ref (sr->style);
 		sheet_style_set_range (sheet, &r, sr->style);

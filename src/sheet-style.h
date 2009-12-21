@@ -73,8 +73,15 @@ void      sheet_style_update_grid_color      (Sheet const *sheet);
 GnmStyle const    *style_list_get_style	 (GnmStyleList const *l, int col, int row);
 void		   style_list_free	 (GnmStyleList *l);
 GnmStyleList	  *sheet_style_get_range (Sheet const *sheet, GnmRange const *r);
-GnmSpanCalcFlags   sheet_style_set_list  (Sheet *sheet, GnmCellPos const *corner,
-					  gboolean transpose, GnmStyleList const *l);
+
+typedef  gboolean (*sheet_style_set_list_cb_t) (GnmRange *range, 
+						Sheet const *sheet, 
+						gpointer data);
+GnmSpanCalcFlags   sheet_style_set_list  (Sheet *sheet, 
+					  GnmCellPos const *corner,
+					  GnmStyleList const *l,
+					  sheet_style_set_list_cb_t range_modify, 
+					  gpointer data);
 
 GnmStyleList *sheet_style_collect_conditions	(Sheet const *s, GnmRange const *r);
 GnmStyleList *sheet_style_collect_hlinks	(Sheet const *s, GnmRange const *r);

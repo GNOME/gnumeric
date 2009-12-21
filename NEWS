@@ -1,7 +1,7 @@
 Gnumeric 1.9.18
 
 Andreas:
-	* Add paste special flip horizontally and vertically (for content)
+	* Add paste special flip horizontally and vertically [#393367]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.17

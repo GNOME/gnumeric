@@ -1670,7 +1670,7 @@ cmd_format_undo (GnmCommand *cmd,
 			GnmRange const *r = l2->data;
 			GnmSpanCalcFlags flags = sheet_style_set_list
 				(me->cmd.sheet,
-				 &os->pos, FALSE, os->styles);
+				 &os->pos, os->styles, NULL, NULL);
 
 			if (os->old_heights) {
 				colrow_restore_state_group (me->cmd.sheet, FALSE,
@@ -3402,7 +3402,7 @@ cmd_autoformat_undo (GnmCommand *cmd,
 			GnmRange *r;
 			CmdAutoFormatOldStyle *os = l1->data;
 			GnmSpanCalcFlags flags = sheet_style_set_list (me->cmd.sheet,
-					    &os->pos, FALSE, os->styles);
+					    &os->pos, os->styles, NULL, NULL);
 
 			g_return_val_if_fail (l2 && l2->data, TRUE);
 
@@ -6816,7 +6816,7 @@ cmd_hyperlink_undo (GnmCommand *cmd,
 			GnmRange const *r = l2->data;
 			GnmSpanCalcFlags flags = sheet_style_set_list
 				(me->cmd.sheet,
-				 &os->pos, FALSE, os->styles);
+				 &os->pos, os->styles, NULL, NULL);
 
 			sheet_range_calc_spans (me->cmd.sheet, r, flags);
 			sheet_flag_style_update_range (me->cmd.sheet, r);

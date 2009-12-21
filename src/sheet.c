@@ -5322,7 +5322,7 @@ sheet_dup_styles (Sheet const *src, Sheet *dst)
 		dst, sheet_style_get_auto_pattern_color (src));
 
 	styles = sheet_style_get_range (src, range_init_full_sheet (&r, src));
-	sheet_style_set_list (dst, &corner, FALSE, styles);
+	sheet_style_set_list (dst, &corner, styles, NULL, NULL);
 	style_list_free	(styles);
 }
 

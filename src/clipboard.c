@@ -328,6 +328,32 @@ cb_paste_cell (GnmCellCopy const *src, gconstpointer ignore,
 	paste_cell (target_col, target_row, src, dat);
 }
 
+static gboolean
+range_flip_h (GnmRange *range, Sheet const *sheet, int const *data)
+{
+	int t;
+
+	g_return_val_if_fail (range != NULL, TRUE);
+
+	t = *data - range->end.col;
+	range->end.col = *data -  range->start.col;
+	range->start.col = t;
+
+	return FALSE;
+}
+static gboolean
+range_flip_v (GnmRange *range, Sheet const *sheet, int const *data)
+{
+	int t;
+
+	g_return_val_if_fail (range != NULL, TRUE);
+
+	t = *data - range->end.row;
+	range->end.row = *data -  range->start.row;
+	range->start.row = t;
+
+	return FALSE;
+}
 
 /**
  * clipboard_paste_region:
@@ -487,11 +513,29 @@ clipboard_paste_region (GnmCellRegion const *cr,
 			}
 
 			/* Move the styles on here so we get correct formats before recalc */
-			if (pt->paste_flags & PASTE_FORMATS)
-				sheet_style_set_list (pt->sheet, &dat.top_left,
-					(pt->paste_flags & PASTE_TRANSPOSE),
-					cr->styles);
-
+			if (pt->paste_flags & PASTE_FORMATS) {
+				if (pt->paste_flags & PASTE_TRANSPOSE) 
+					sheet_style_set_list (pt->sheet, &dat.top_left,
+							      cr->styles, 
+							      (sheet_style_set_list_cb_t)
+							      range_transpose, 
+							      &dat.top_left);
+				else if (pt->paste_flags & PASTE_FLIP_H) {
+					int data = 2 * left + src_cols - 1;
+					sheet_style_set_list (pt->sheet, &dat.top_left,
+							      cr->styles, 
+							      (sheet_style_set_list_cb_t)
+							      range_flip_h, &data);
+				} else if (pt->paste_flags & PASTE_FLIP_V) {
+					int data = 2 * top + src_rows - 1;
+					sheet_style_set_list (pt->sheet, &dat.top_left,
+							      cr->styles,  
+							      (sheet_style_set_list_cb_t)
+							      range_flip_v, &data);
+				} else
+					sheet_style_set_list (pt->sheet, &dat.top_left,
+							      cr->styles, NULL, NULL);
+			}
 			if (has_contents && !(pt->paste_flags & PASTE_DONT_MERGE)) {
 				for (ptr = cr->merged; ptr != NULL ; ptr = ptr->next) {
 					GnmRange tmp = *((GnmRange const *)ptr->data);
