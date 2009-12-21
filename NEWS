@@ -3,6 +3,9 @@ Gnumeric 1.9.18
 Andreas:
 	* Add paste special flip horizontally and vertically [#393367]
 
+Jean
+	* Fix import export of line type in scatter plots. [#605043]
+
 --------------------------------------------------------------------------
 Gnumeric 1.9.17
 

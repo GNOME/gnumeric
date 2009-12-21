@@ -1,3 +1,8 @@
+2009-12-21  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (lineformat), (chart_write_LINEFORMAT): fix import export
+	of line type in scatter plots. [#605043]
+
 2009-12-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.17

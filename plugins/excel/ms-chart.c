@@ -1357,7 +1357,45 @@ BC_R(lineformat)(XLChartHandler const *handle,
 	d (0, g_printerr ("Lines have a %s pattern.\n",
 		       ms_line_pattern [pattern]););
 
-	s->style->line.dash_type = ms_escher_xl_to_line_type (pattern);
+	switch (pattern) {
+	default: 
+	case 0:
+		s->style->line.dash_type = GO_LINE_SOLID;
+		break;	
+	case 1:
+		s->style->line.dash_type = GO_LINE_DASH;
+		break;	
+	case 2:
+		s->style->line.dash_type = GO_LINE_DOT;
+		break;	
+	case 3:
+		s->style->line.dash_type = GO_LINE_DASH_DOT;
+		break;	
+	case 4:
+		s->style->line.dash_type = GO_LINE_DASH_DOT_DOT;
+		break;	
+	case 5:
+		s->style->line.dash_type = GO_LINE_NONE;
+		break;
+/* we don't really support the other styles, although GOStyle would allow that now */
+#if 0
+	case 6:
+		s->style->line.dash_type = GO_LINE_SOLID;
+		s->style->line.pattern = GO_PATTERN_GREY25; /* or 75? */
+		s->style->line.fore = GO_COLOR_WHITE;
+		break;	
+	case 7:
+		s->style->line.dash_type = GO_LINE_SOLID;
+		s->style->line.pattern = GO_PATTERN_GREY50;
+		s->style->line.fore = GO_COLOR_WHITE;
+		break;	
+	case 8:
+		s->style->line.dash_type = GO_LINE_SOLID;
+		s->style->line.pattern = GO_PATTERN_GREY75; /* or 25? */
+		s->style->line.fore = GO_COLOR_WHITE;
+		break;
+#endif
+	}
 
 	if (BC_R(ver)(s) >= MS_BIFF_V8 && s->currentSeries != NULL) {
 		guint16 const fore = GSF_LE_GET_GUINT16 (q->data + 10);
@@ -3976,8 +4014,9 @@ chart_write_LINEFORMAT (XLChartWriteState *s, GOStyleLine const *lstyle,
 			w = 1;	/* medium */
 		else
 			w = 2;	/* wide */
-		if (lstyle->auto_color)
-			flags |= 9;	/* docs only mention 1, but there is an 8 in there too */
+		/* seems that excel understand auto as solid, so if pattern is not solid
+		   do not set the auto flag, see #605043 */
+		flags |= (lstyle->auto_color && pat > 0)? 9: 8;	/* docs only mention 1, but there is an 8 in there too */
 	} else {
 		color_index = chart_write_color (s, data, 0);
 		if (clear_lines_for_null) {
