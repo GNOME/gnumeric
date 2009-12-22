@@ -184,6 +184,8 @@ gnm_float discpfuncinverter (gnm_float p, const gnm_float shape[],
 void    mmult (gnm_float *A, gnm_float *B, int cols_a, int rows_a, int cols_b,
 	       gnm_float *product);
 
+gboolean gnm_matrix_eigen (gnm_float **matrix, gnm_float **eigenvectors,
+			   gnm_float *eigenvalues, int size);
 /* ------------------------------------------------------------------------- */
 
 gnm_float combin (gnm_float n, gnm_float k);

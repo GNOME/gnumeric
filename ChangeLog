@@ -1,3 +1,10 @@
+2009-12-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/mathfunc.h (gnm_matrix_eigen): new
+	* src/mathfunc.c (gnm_matrix_eigen): new
+	(gnm_matrix_eigen_max_index): new
+	(gnm_matrix_eigen_update): new
+	
 2009-12-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-style.h (sheet_style_set_list): change arguments

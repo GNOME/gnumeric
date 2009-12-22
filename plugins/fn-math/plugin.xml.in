@@ -38,6 +38,7 @@
 				<function name="csc"/>
 				<function name="csch"/>
 				<function name="degrees"/>
+				<function name="eigen"/>
 				<function name="even"/>
 				<function name="exp"/>
 				<function name="expm1"/>

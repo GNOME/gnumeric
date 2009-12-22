@@ -2,6 +2,8 @@ Gnumeric 1.9.18
 
 Andreas:
 	* Add paste special flip horizontally and vertically [#393367]
+	* Add EIGEN function to calculate eigenvalues and eigenvectors
+	  of real symmetric matrices
 
 Jean
 	* Fix import export of line type in scatter plots. [#605043]

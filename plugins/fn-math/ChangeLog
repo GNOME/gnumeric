@@ -1,3 +1,12 @@
+2009-121  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* plugin.xml.in: add EIGEN
+	* functions.c (help_eigen): new
+	(new_matrix): new
+	)compare_doubles): new
+	(gnumeric_eigen): new
+	(math_functions): add EIGEN
+
 2009-12-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.17

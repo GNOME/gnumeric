@@ -3020,6 +3020,117 @@ done:
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_eigen[] = {
+        { GNM_FUNC_HELP_NAME, F_("EIGEN:eigenvalues and eigenvectors of the symmetric @{matrix}")},
+        { GNM_FUNC_HELP_ARG, F_("matrix:a symmetric matrix")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{matrix} is not symmetric, EIGEN returns #NUM!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{matrix} does not contain an equal number of columns and rows, EIGEN returns #VALUE!") },
+        { GNM_FUNC_HELP_END}
+};
+
+
+static gnm_float **
+new_matrix (int cols, int rows)
+{
+	gnm_float **res = g_new (gnm_float *, rows);
+	int r;
+
+	for (r = 0; r < rows; r++)
+		res[r] = g_new0 (gnm_float, cols);
+
+	return res;
+}
+
+int
+compare_doubles (const void *a, const void *b)
+{
+  const gnm_float *da = (const double *) a;
+  const gnm_float *db = (const double *) b;
+
+  if (*da > *db)
+	  return -1;
+  else if (*da == *db)
+	  return 0;
+  else
+	  return 1;
+}
+
+
+typedef struct {
+	gnm_float val;
+	int index;
+} gnumeric_eigen_ev_t;
+
+static GnmValue *
+gnumeric_eigen (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	GnmEvalPos const * const ep = ei->pos;
+
+	int	r, rows;
+	int	c, cols;
+	GnmValue *res;
+        GnmValue const *values = argv[0];
+	gnm_float **matrix;
+	gnm_float **eigenvectors;
+	gnm_float *eigenvalues;
+	GnmStdError err;
+	gnumeric_eigen_ev_t *ev_sort;
+
+	if (validate_range_numeric_matrix (ep, values, &rows, &cols, &err))
+		return value_new_error_std (ei->pos, err);
+
+	/* Guarantee shape and non-zero size */
+	if (cols != rows || !rows || !cols)
+		return value_new_error_VALUE (ei->pos);
+
+	matrix = value_to_matrix (values, cols, rows, ep);
+
+	/* Check for symmetry */
+	for (c = 0; c < cols; ++c)
+		for (r = c + 1; r < rows; ++r)
+			if (matrix[r][c] !=  matrix[c][r]) {
+				free_matrix (matrix, cols, rows);
+				return value_new_error_NUM (ei->pos);
+			}
+	
+	eigenvectors = new_matrix (rows, cols);
+	eigenvalues = g_new0 (gnm_float, cols);
+
+	if (!gnm_matrix_eigen (matrix, eigenvectors, eigenvalues, cols)) {
+		free_matrix (matrix, cols, rows);
+		free_matrix (eigenvectors, cols, rows);
+		g_free (eigenvalues);
+		return value_new_error_NUM (ei->pos);
+	}
+
+	/* Sorting eigenvalues */
+	ev_sort = g_new (gnumeric_eigen_ev_t, cols);
+	for (c = 0; c < cols; ++c) {
+		ev_sort[c].val = eigenvalues[c];
+		ev_sort[c].index = c;
+	}
+	qsort (ev_sort, cols, sizeof (gnumeric_eigen_ev_t), compare_doubles);
+
+	res = value_new_array_non_init (cols, rows + 1);
+	for (c = 0; c < cols; ++c) {
+		res->v_array.vals[c] = g_new (GnmValue *, rows + 1);
+		res->v_array.vals[c][0] = value_new_float (eigenvalues[ev_sort[c].index]);
+		for (r = 0; r < rows; ++r) {
+			gnm_float tmp = eigenvectors[r][ev_sort[c].index];
+			res->v_array.vals[c][r+1] = value_new_float (tmp);
+		}
+	}
+	free_matrix (matrix, cols, rows);
+	free_matrix (eigenvectors, cols, rows);
+	g_free (eigenvalues);
+	g_free (ev_sort);
+
+	return res;
+}
+
+
+/***************************************************************************/
+
 GnmFuncDescriptor const math_functions[] = {
 	{ "abs",     "f",     help_abs,
 	  gnumeric_abs, NULL, NULL, NULL, NULL,
@@ -3283,6 +3394,9 @@ GnmFuncDescriptor const math_functions[] = {
 	  gnumeric_munit, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE,
 	  GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{ "eigen","A",      help_eigen,
+	  gnumeric_eigen, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
 #if 0
 	{ "logmdeterm", "A|si",
 	  help_logmdeterm, gnumeric_logmdeterm, NULL, NULL, NULL },

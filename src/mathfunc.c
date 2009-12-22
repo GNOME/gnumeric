@@ -7795,6 +7795,121 @@ mmult (gnm_float *A, gnm_float *B, int cols_a, int rows_a, int cols_b,
 	}
 }
 
+/***************************************************************************/
+
+static int
+gnm_matrix_eigen_max_index (gnm_float *row, int row_n, int size) 
+{
+	int i, res = row_n + 1;
+	gnm_float max = gnm_abs (row[res]);
+	for (i = res + 1; i < size; i++)
+		if (gnm_abs (row[i]) > max) {
+			res = i;
+			max = gnm_abs (row[i]);
+		}
+	return res;
+}
+
+static void
+gnm_matrix_eigen_rotate (gnm_float **matrix, int k, int l, int i, int j, gnm_float c, gnm_float s)
+{
+	gnm_float x = c * matrix[k][l] - s * matrix[i][j];
+	gnm_float y = s * matrix[k][l] + c * matrix[i][j];
+
+	matrix[k][l] = x;
+	matrix[i][j] = y;
+}
+
+static void
+gnm_matrix_eigen_update (int k, gnm_float t, gnm_float *eigenvalues, gboolean *changed, int *state)
+{
+	gnm_float y = eigenvalues[k];
+	eigenvalues[k] += t;
+	if (changed[k] && y == eigenvalues[k]) {
+		changed[k] = FALSE;
+		(*state)--;
+	} else if ((!changed[k]) && (y != eigenvalues[k])) {
+		changed[k] = TRUE;
+		(*state)++;
+	}
+}
+
+/* Calculates the eigenvalues and eigenvectors of a real symmetric matrix.
+ */
+gboolean    
+gnm_matrix_eigen (gnm_float **matrix, gnm_float **eigenvectors, gnm_float *eigenvalues, int size) 
+{
+	int i, state = size, *ind;
+	gboolean *changed;
+	int counter = 0;
+
+	ind = g_new (int, size);
+	changed =  g_new (gboolean, size);
+	
+	for (i = 0; i < size; i++) {
+		int j;
+		for (j = 0; j < size; j++)
+			eigenvectors[j][i] = 0.;
+		eigenvectors[i][i] = 1.;
+		eigenvalues[i] = matrix[i][i];
+		ind[i] = gnm_matrix_eigen_max_index (matrix[i], i, size);
+		changed[i] = TRUE;
+	}
+
+	while (state != 0) {
+		int k, l, m = 0;
+		gnm_float c, s, y, pivot, t;
+		
+		counter++;
+		if (counter > 400000) {
+			g_free (ind);
+			g_free (changed);
+			g_print ("gnm_matrix_eigen exceeded iterations\n"); 
+			return FALSE;
+		}
+		for (k = 1; k < (size-1); k++)
+			if (gnm_abs (matrix[k][ind[k]]) > gnm_abs (matrix[m][ind[m]]))
+				m = k;
+		l = ind[m];
+		pivot = matrix[m][l];
+		/* pivot is (m,l) */
+		
+		y = (eigenvalues[l] - eigenvalues[m])/2;
+		t = gnm_abs (y) + gnm_sqrt (pivot*pivot+y*y);
+		s = gnm_sqrt (pivot*pivot+t*t);
+		c = t/s;
+		s = pivot/s;
+		t = pivot * pivot /t;
+		if (y < 0) {
+			s = -s;
+			t = -t;
+		}
+		matrix[m][l] = 0.;
+		gnm_matrix_eigen_update (m, -t, eigenvalues, changed, &state);
+		gnm_matrix_eigen_update (l, t, eigenvalues, changed, &state);
+		for (i = 0; i < m; i++)
+			gnm_matrix_eigen_rotate (matrix, i, m, i, l, c, s);
+		for (i = m + 1; i < l; i++)
+			gnm_matrix_eigen_rotate (matrix, m, i, i, l, c, s);
+		for (i = l + 1; i < size; i++)
+			gnm_matrix_eigen_rotate (matrix, m, i, l, i, c, s);
+		for (i = 0; i < size; i++) {
+			gnm_float x = c * eigenvectors[i][m] - s * eigenvectors[i][l];
+			gnm_float y = s * eigenvectors[i][m] + c * eigenvectors[i][l];
+
+			eigenvectors[i][m] = x;
+			eigenvectors[i][l] = y;
+		}
+		ind[m] = gnm_matrix_eigen_max_index (matrix[m], m, size);
+		ind[l] = gnm_matrix_eigen_max_index (matrix[l], l, size);
+	}
+
+	g_free (ind);
+	g_free (changed);
+
+	return TRUE;
+}
+
 /* ------------------------------------------------------------------------- */
 
 #ifdef NEED_FAKE_ERFGNUM
