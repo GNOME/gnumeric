@@ -1,3 +1,11 @@
+2009-12-22 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-analysis-tool-principal-components.c: new
+	* principal-components.glade: new
+	* Makefile.am: add the above
+	* dialogs.h (dialog_principal_components_tool): new
+	* help.h (GNUMERIC_HELP_LINK_PRINCIPAL_COMPONENTS): new
+
 2009-12-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* paste-special.glade: eanble flip h and v

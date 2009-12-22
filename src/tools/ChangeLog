@@ -1,3 +1,12 @@
+2009-12-22 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-principal-components.c: new
+	* analysis-principal-components.h: new
+	* Makefile.am: add the above
+	* analysis-tools.c (analysis_tool_table): make non-static and add 
+	  full_table argument. Change all callers.
+	* analysis-tools.h (analysis_tool_table): new
+
 2009-12-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.17

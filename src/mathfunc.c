@@ -7856,7 +7856,7 @@ gnm_matrix_eigen (gnm_float **matrix, gnm_float **eigenvectors, gnm_float *eigen
 		changed[i] = TRUE;
 	}
 
-	while (state != 0) {
+	while (size > 1 && state != 0) {
 		int k, l, m = 0;
 		gnm_float c, s, y, pivot, t;
 		

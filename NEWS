@@ -4,6 +4,7 @@ Andreas:
 	* Add paste special flip horizontally and vertically [#393367]
 	* Add EIGEN function to calculate eigenvalues and eigenvectors
 	  of real symmetric matrices
+	* Add principal components analysis
 
 Jean
 	* Fix import export of line type in scatter plots. [#605043]

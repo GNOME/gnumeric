@@ -215,6 +215,11 @@ void analysis_tools_write_label (GnmValue *val, data_analysis_output_t *dao,
 void analysis_tools_write_label_ftest (GnmValue *val, data_analysis_output_t *dao,
 				       int x, int y, gboolean labels, int i);
 
+gboolean analysis_tool_table (data_analysis_output_t *dao,
+			      analysis_tools_data_generic_t *info,
+			      gchar const *title, gchar const *functionname,
+			      gboolean full_table);
+
 void prepare_input_range (GSList **input_range, group_by_t group_by);
 
 const GnmExpr *make_cellref (int dx, int dy);

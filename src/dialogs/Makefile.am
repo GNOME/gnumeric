@@ -30,6 +30,7 @@ base_files =					\
 	dialog-analysis-tool-frequency.c	\
 	dialog-analysis-tool-kaplan-meier.c	\
 	dialog-analysis-tool-normality.c	\
+	dialog-analysis-tool-principal-components.c	\
 	dialog-analysis-tool-sign-test.c	\
 	dialog-autofilter.c			\
 	dialog-autoformat.c			\
@@ -137,12 +138,11 @@ glade_DATA = 				\
 	merge.glade			\
 	moving-averages.glade		\
 	normality-tests.glade		\
-	sign-test.glade			\
-	sign-test-two.glade		\
 	paste-names.glade		\
 	paste-special.glade		\
 	plugin-manager.glade		\
 	preferences.glade 		\
+	principal-components.glade	\
 	rank.glade			\
 	random-generation.glade		\
 	random-generation-cor.glade	\
@@ -155,6 +155,8 @@ glade_DATA = 				\
 	sheet-order.glade		\
 	sheet-resize.glade              \
 	shuffle.glade			\
+	sign-test.glade			\
+	sign-test-two.glade		\
 	so-button.glade			\
  	so-radiobutton.glade		\
 	so-checkbox.glade		\

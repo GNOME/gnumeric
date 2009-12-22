@@ -1,3 +1,9 @@
+2009-12-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* POTFILES.in: added src/dialogs/dialog-analysis--principal-components.c,
+	  src/tools/analysis-principal-components.c and 
+	  src/dialogs/principal-components.glade
+
 2009-12-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* POTFILES.in: added src/dialogs/paste-special.glade

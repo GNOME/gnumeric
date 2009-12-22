@@ -189,6 +189,7 @@
 	</menu>
         <menuitem action="ToolsKaplanMeier"/>
         <menuitem action="ToolsNormalityTests"/>
+        <menuitem action="ToolsPrincipalComponents"/>
         <menuitem action="ToolsRanking"/>
         <menuitem action="ToolsRegression"/>
         <menuitem action="ToolsSampling"/>

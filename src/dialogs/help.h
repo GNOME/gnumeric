@@ -145,6 +145,7 @@
 #define GNUMERIC_HELP_LINK_HISTOGRAM "sect-analysis-statistical"
 #define GNUMERIC_HELP_LINK_ANOVA_SINGLE_FACTOR "sect-analysis-statistical"
 #define GNUMERIC_HELP_LINK_ANOVA_TWO_FACTOR "sect-analysis-statistical"
+#define GNUMERIC_HELP_LINK_PRINCIPAL_COMPONENTS "sect-analysis-statistical"
 
 /* dialog-analysis-tool-chi-squared.c */
 #define GNUMERIC_HELP_LINK_CHI_SQUARED "sect-analysis-statistical"

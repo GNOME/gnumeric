@@ -539,18 +539,19 @@ int analysis_tool_calc_length (analysis_tools_data_generic_t *info)
  *
  **/
 
-static gboolean
+gboolean
 analysis_tool_table (data_analysis_output_t *dao,
 		     analysis_tools_data_generic_t *info,
-		     gchar const *title, gchar const *functionname)
+		     gchar const *title, gchar const *functionname,
+		     gboolean full_table)
 {
 	GSList *inputdata, *inputexpr = NULL;
 	GnmFunc *fd = NULL;
 
 	guint col, row;
 
-	dao_set_cell_printf (dao, 0, 0, "%s", title);
 	dao_set_italic (dao, 0, 0, 0, 0);
+	dao_set_cell_printf (dao, 0, 0, "%s", title);
 
 	fd = gnm_func_lookup_or_add_placeholder (functionname, dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd);
@@ -584,7 +585,7 @@ analysis_tool_table (data_analysis_output_t *dao,
 		     colexprlist = colexprlist->next, col++) {
 			GnmExpr const *colexpr = colexprlist->data;
 
-			if (col < row)
+			if ((!full_table) && (col < row))
 				continue;
 
 			dao_set_cell_expr
@@ -610,7 +611,8 @@ static gboolean
 analysis_tool_correlation_engine_run (data_analysis_output_t *dao,
 				      analysis_tools_data_generic_t *info)
 {
-	return analysis_tool_table (dao, info, _("Correlations"), "CORREL");
+	return analysis_tool_table (dao, info, _("Correlations"), 
+				    "CORREL", FALSE);
 }
 
 gboolean
@@ -664,7 +666,8 @@ static gboolean
 analysis_tool_covariance_engine_run (data_analysis_output_t *dao,
 				      analysis_tools_data_generic_t *info)
 {
-	return analysis_tool_table (dao, info, _("Covariances"), "COVAR");
+	return analysis_tool_table (dao, info, _("Covariances"), 
+				    "COVAR", FALSE);
 }
 
 gboolean
