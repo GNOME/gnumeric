@@ -2912,9 +2912,11 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	expr_confidence = dao_get_cellref (dao, 5, 15);
 
 	dao_set_cell_comment (dao, 4, 15,
-			      _("Probability of an observation's\n"
-				"absolute value being larger than\n"
-				"the t-value's absolute value"));
+			      _("Probability of observing a t-statistic\n"
+				"whose absolute value is at least as large\n"
+				"as the absolute value of the actually\n"
+				"observed t-statistic, assuming the null\n"
+				"hypothesis is in fact true."));
 	if (!info->intercept)
 		dao_set_cell_comment (dao, 0, 4,
 			      _("This value is not the square of R\n"
