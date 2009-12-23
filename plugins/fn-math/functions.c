@@ -3041,25 +3041,24 @@ new_matrix (int cols, int rows)
 	return res;
 }
 
-int
-compare_doubles (const void *a, const void *b)
-{
-  const gnm_float *da = (const double *) a;
-  const gnm_float *db = (const double *) b;
-
-  if (*da > *db)
-	  return -1;
-  else if (*da == *db)
-	  return 0;
-  else
-	  return 1;
-}
-
-
 typedef struct {
 	gnm_float val;
 	int index;
 } gnumeric_eigen_ev_t;
+
+static int
+compare_gnumeric_eigen_ev (const void *a, const void *b)
+{
+  const gnumeric_eigen_ev_t *da = a;
+  const gnumeric_eigen_ev_t *db = b;
+
+  if (da->val > db->val)
+	  return -1;
+  else if (da->val == db->val)
+	  return 0;
+  else
+	  return 1;
+}
 
 static GnmValue *
 gnumeric_eigen (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
@@ -3109,7 +3108,7 @@ gnumeric_eigen (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		ev_sort[c].val = eigenvalues[c];
 		ev_sort[c].index = c;
 	}
-	qsort (ev_sort, cols, sizeof (gnumeric_eigen_ev_t), compare_doubles);
+	qsort (ev_sort, cols, sizeof (gnumeric_eigen_ev_t), compare_gnumeric_eigen_ev);
 
 	res = value_new_array_non_init (cols, rows + 1);
 	for (c = 0; c < cols; ++c) {

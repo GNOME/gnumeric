@@ -1,8 +1,20 @@
+2009-12-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (compare_doubles): rename to 
+	  compare_gnumeric_eigen_ev and change all callers
+	(compare_gnumeric_eigen_ev): use the true type
+
 2009-12-23  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnm_gcd_max): Fix type.
 
-2009-121  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2009-12-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (compare_doubles): rename to 
+	  compare_gnumeric_eigen_ev and change all callers
+	(compare_gnumeric_eigen_ev): use the true type
+
+2009-12-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* plugin.xml.in: add EIGEN
 	* functions.c (help_eigen): new
