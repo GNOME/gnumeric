@@ -65,7 +65,7 @@ static GnmFuncHelp const help_gcd[] = {
         { GNM_FUNC_HELP_END}
 };
 
-static const double gnm_gcd_max = 1 / GNM_EPSILON;
+static const gnm_float gnm_gcd_max = 1 / GNM_EPSILON;
 
 static gnm_float
 gnm_gcd (gnm_float a, gnm_float b)

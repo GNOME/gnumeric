@@ -1,3 +1,7 @@
+2009-12-23  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnm_gcd_max): Fix type.
+
 2009-121  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* plugin.xml.in: add EIGEN

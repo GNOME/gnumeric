@@ -86,7 +86,7 @@ datetime_value_to_serial_raw (GnmValue const *v, GODateConventions const *conv)
 int
 datetime_value_to_serial (GnmValue const *v, GODateConventions const *conv)
 {
-	double serial = datetime_value_to_serial_raw (v, conv);
+	gnm_float serial = datetime_value_to_serial_raw (v, conv);
 	if (serial >= G_MAXINT || serial < G_MININT)
 		return G_MAXINT;
 	return go_date_serial_raw_to_serial (serial);

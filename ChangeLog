@@ -1,3 +1,7 @@
+2009-12-23  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-datetime.c (datetime_value_to_serial): Fix type problem.
+
 2009-12-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* component/Gnumeric-embed.xml.in: add principal components analysis
