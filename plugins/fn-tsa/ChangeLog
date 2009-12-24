@@ -1,3 +1,11 @@
+2009-12-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* functions.c (linear_interpolation), (linear_averaging),
+	(staircase_interpolation), (staircase_averaging),
+	(spline_interpolation), (spline_averaging),
+	(gnumeric_interpolation), (gnumeric_periodogram): fixed double/gnm_float
+	issues.
+
 2009-12-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.17

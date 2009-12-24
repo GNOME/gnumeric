@@ -18,6 +18,7 @@ G_BEGIN_DECLS
 #	define gnm_range_fractile_inter_sorted go_range_fractile_inter_sortedl
 #	define gnm_range_median_inter go_range_median_interl
 #	define gnm_range_median_inter_sorted go_range_median_inter_sortedl
+#       define gnm_range_increasing go_range_increasingl
 #else
 #	define gnm_range_sum go_range_sum
 #	define gnm_range_sumsq go_range_sumsq
@@ -29,6 +30,7 @@ G_BEGIN_DECLS
 #	define gnm_range_fractile_inter_sorted go_range_fractile_inter_sorted
 #	define gnm_range_median_inter go_range_median_inter
 #	define gnm_range_median_inter_sorted go_range_median_inter_sorted
+#       define gnm_range_increasing go_range_increasingl
 #endif
 
 int gnm_range_count		(gnm_float const *xs, int n, gnm_float *res);

@@ -1504,7 +1504,8 @@ sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 
 			is_string_vec = characterize_vec (sheet, &vector, as_cols,
 				desc->series.dim[cur_dim].val_type == GOG_DIM_LABEL);
-			while ((desc->series.dim[cur_dim].val_type == GOG_DIM_LABEL && !is_string_vec) ||
+			while ((desc->series.dim[cur_dim].val_type == GOG_DIM_LABEL && !is_string_vec
+				&& (!first_series || !data->share_x)) ||
 			       (desc->series.dim[cur_dim].val_type == GOG_DIM_VALUE && is_string_vec)) {
 				if (desc->series.dim[cur_dim].priority == GOG_SERIES_REQUIRED)
 					goto skip;

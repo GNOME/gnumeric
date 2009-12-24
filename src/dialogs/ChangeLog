@@ -1,3 +1,7 @@
+2009-12-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dialog-preferences.c: Fixed double/gnm_float issues.
+
 2009-12-22 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-analysis-tool-principal-components.c: new

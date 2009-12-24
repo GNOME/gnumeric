@@ -1,3 +1,10 @@
+2009-12-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/rangefunc.h: add gnm_range_increasing (to fix a double/gnm_float
+	issue).
+	* src/selection.c (sv_selection_to_plot): force sharing of first series
+	as labels for line plots and friends when requested. [#605330]
+
 2009-12-23  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-datetime.c (datetime_value_to_serial): Fix type problem.

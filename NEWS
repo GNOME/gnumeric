@@ -10,6 +10,7 @@ Andreas:
 
 Jean
 	* Fix import export of line type in scatter plots. [#605043]
+	* Force sharing of first series in line plots when requested. [#605330]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.17

@@ -66,7 +66,7 @@ typedef struct {
 	gulong          app_wb_removed_sig;
 } PrefState;
 
-typedef void (* double_conf_setter_t) (gnm_float value);
+typedef void (* double_conf_setter_t) (double value);
 typedef void (* gint_conf_setter_t) (gint value);
 typedef void (* gboolean_conf_setter_t) (gboolean value);
 typedef void (* enum_conf_setter_t) (int value);

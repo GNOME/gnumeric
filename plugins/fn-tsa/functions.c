@@ -152,8 +152,8 @@ linear_interpolation (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 	gnm_float slope, *res;
 	if (nb_knots < 2)
 		return NULL;
-	res = g_new (double, nb_targets);
-	if (go_range_increasing (targets, nb_targets)) {
+	res = g_new (gnm_float, nb_targets);
+	if (gnm_range_increasing (targets, nb_targets)) {
 		j = 1;
 		k = 0;
 		slope = (ord[1] - ord[0]) / (absc[1] - absc[0]);
@@ -204,9 +204,9 @@ linear_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 {
 	int i, j, k, jmax = nb_knots - 1;
 	gnm_float slope, *res, x0, x1;
-	if (nb_knots < 2 || !go_range_increasing (targets, nb_targets))
+	if (nb_knots < 2 || !gnm_range_increasing (targets, nb_targets))
 		return NULL;
-	res = g_new (double, nb_targets - 1);
+	res = g_new (gnm_float, nb_targets - 1);
 	j = 1;
 	while (j < jmax && targets[0] > absc[j])
 		j++;
@@ -250,8 +250,8 @@ staircase_interpolation (const gnm_float *absc, const gnm_float *ord, int nb_kno
 {
 	int i, j, jmax = nb_knots - 1;
 	gnm_float *res;
-	res = g_new (double, nb_targets);
-	if (go_range_increasing (targets, nb_targets)) {
+	res = g_new (gnm_float, nb_targets);
+	if (gnm_range_increasing (targets, nb_targets)) {
 		j = 1;
 		for (i = 0; i < nb_targets; i++) {
 			while (j <= jmax && targets[i] >= absc[j])
@@ -290,9 +290,9 @@ staircase_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 {
 	int i, j, jmax = nb_knots - 1;
 	gnm_float *res;
-	if (!go_range_increasing (targets, nb_targets))
+	if (!gnm_range_increasing (targets, nb_targets))
 		return NULL;
-	res = g_new (double, nb_targets - 1);
+	res = g_new (gnm_float, nb_targets - 1);
 	j = 1;
 	while (j <= jmax && targets[0] >= absc[j])
 		j++;
@@ -324,10 +324,10 @@ spline_interpolation (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 					   GO_CSPLINE_NATURAL, 0., 0.);
 	if (!sp)
 		return NULL;
-	if (go_range_increasing (targets, nb_targets))
+	if (gnm_range_increasing (targets, nb_targets))
 		res = gnm_cspline_get_values (sp, targets, nb_targets);
 	else {
-		res = g_new (double, nb_targets);
+		res = g_new (gnm_float, nb_targets);
 		for (i = 0; i < nb_targets; i++)
 			res[i] = gnm_cspline_get_value (sp, targets[i]);
 	}
@@ -344,7 +344,7 @@ spline_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 	gnm_float *res;
 	int i, imax;
 	GnmCSpline *sp;
-	if (!go_range_increasing (targets, nb_targets))
+	if (!gnm_range_increasing (targets, nb_targets))
 		return NULL;
 	sp = gnm_cspline_init (absc, ord, nb_knots,
 			       GO_CSPLINE_NATURAL, 0., 0.);
@@ -591,7 +591,7 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 		/* here we test if there is abscissas are always increasing, if not,
 		   an error is returned */
-		if (!go_range_increasing (vals0, n0) || n2==0) {
+		if (!gnm_range_increasing (vals0, n0) || n2==0) {
 			res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
 			for (i = 0; i < nb; i++)
 				value_release (values[i]);
@@ -773,7 +773,7 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		}
 		/* here we test if there is abscissas are always increasing, if not,
 		   an error is returned */
-		if (!go_range_increasing (absc, n0) || n0 == 0) {
+		if (!gnm_range_increasing (absc, n0) || n0 == 0) {
 			g_free (absc);
 			g_free (ord);
 			return value_new_error_std (ei->pos, GNM_ERROR_VALUE);
