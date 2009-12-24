@@ -82,7 +82,7 @@ analysis_tool_chi_squared_engine_run (data_analysis_output_t *dao,
 					"/Degrees of Freedom:"
 					"/p-Value:"
 					"/Critical Value:"));
-	cc = g_strdup_printf ("%s = %.2f", "\xce\xb1", info->alpha);
+	cc = g_strdup_printf ("%s = %.2" GNM_FORMAT_f, "\xce\xb1", info->alpha);
 	dao_set_cell_comment (dao, 0, 4, cc);
 	g_free (cc);
 

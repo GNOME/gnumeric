@@ -1,3 +1,7 @@
+2009-12-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* sample_datasource.c (cb_atl_input): fixed double/gnm_float issues.
+
 2009-12-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.17

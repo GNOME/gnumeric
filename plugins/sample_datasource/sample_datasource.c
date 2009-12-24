@@ -133,7 +133,7 @@ cb_atl_input (GIOChannel *gioc, GIOCondition cond, gpointer ignored)
 
 				g_hash_table_foreach (wv->deps,
 					cb_watcher_queue_recalc, NULL);
-				g_printerr ("'%s' <= %f\n", sym, val);
+				g_printerr ("'%s' <= %" GNM_FORMAT_f "\n", sym, val);
 			}
 		}
 	}

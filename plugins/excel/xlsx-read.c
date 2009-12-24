@@ -1173,7 +1173,7 @@ static void
 xlsx_axis_bound (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	double val;
+	gnm_float val;
 	if (state->axis.info && simple_float (xin, attrs, &val))
 		gog_dataset_set_dim (GOG_DATASET (state->axis.obj),
 			xin->node->user_data.v_int,
@@ -2458,7 +2458,7 @@ elem_color (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	int indx;
 	GOColor c;
-	double tint = 0.;
+	gnm_float tint = 0.;
 	gboolean has_color = FALSE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
@@ -2696,7 +2696,7 @@ xlsx_CT_Row (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int row = -1, xf_index;
-	double h = -1.;
+	gnm_float h = -1.;
 	int cust_fmt = FALSE, cust_height = FALSE, collapsed = FALSE;
 	int hidden = -1;
 	int outline = -1;
@@ -2739,7 +2739,7 @@ xlsx_CT_Col (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int first = -1, last = -1, xf_index;
-	double width = -1.;
+	gnm_float width = -1.;
 	gboolean cust_width = FALSE, best_fit = FALSE, collapsed = FALSE;
 	int i, hidden = -1;
 	int outline = -1;
@@ -2847,7 +2847,7 @@ static void
 xlsx_CT_SheetFormatPr (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	double h;
+	gnm_float h;
 	int i;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -2866,7 +2866,7 @@ static void
 xlsx_CT_PageMargins (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	double margin;
+	gnm_float margin;
 	PrintInformation *pi = state->sheet->print_info;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -3219,7 +3219,7 @@ xlsx_CT_Top10 (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gboolean top = TRUE;
 	gboolean percent = FALSE;
-	double val = -1.;
+	gnm_float val = -1.;
 	GnmFilterCondition *cond;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -3810,7 +3810,7 @@ xlsx_CT_Pane (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GnmCellPos topLeft;
 	int tmp;
-	double xSplit = -1., ySplit = -1.;
+	gnm_float xSplit = -1., ySplit = -1.;
 	gboolean frozen = FALSE;
 
 	g_return_if_fail (state->sv != NULL);
@@ -4494,7 +4494,7 @@ static void
 xlsx_CT_FontSize (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	double val;
+	gnm_float val;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_float (xin, attrs, "val", &val))

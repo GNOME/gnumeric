@@ -1,3 +1,10 @@
+2009-12-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* analysis-anova.c
+	(analysis_tool_anova_two_factor_no_rep_engine_run),
+	(analysis_tool_anova_two_factor_engine_run): fixed double/gnm_float issues.
+	* analysis-chi-squared.c (analysis_tool_chi_squared_engine_run): ditto.
+
 2009-12-22 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-tools.c (analysis_tool_regression_engine_run): try to

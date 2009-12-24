@@ -379,7 +379,7 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 			  gnm_expr_new_constant (value_new_float (info->alpha)),
 			  make_cellref (-4, 0),
 			  make_cellref (-4, 1)));
-		cc = g_strdup_printf ("%s = %.2f", "\xce\xb1", info->alpha);
+		cc = g_strdup_printf ("%s = %.2" GNM_FORMAT_f, "\xce\xb1", info->alpha);
 		dao_set_cell_comment (dao, 5, 0, cc);
 		dao_set_cell_comment (dao, 5, 1, cc);
 		g_free (cc);
@@ -784,7 +784,7 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 			  gnm_expr_new_constant (value_new_float (info->alpha)),
 			  make_cellref (-4, 0),
 			  make_cellref (-4, 1)));
-		cc = g_strdup_printf ("%s = %.2f", "\xce\xb1", info->alpha);
+		cc = g_strdup_printf ("%s = %.2" GNM_FORMAT_f, "\xce\xb1", info->alpha);
 		dao_set_cell_comment (dao, 5, 0, cc);
 		dao_set_cell_comment (dao, 5, 1, cc);
 		dao_set_cell_comment (dao, 5, 2, cc);

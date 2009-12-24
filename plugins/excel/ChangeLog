@@ -1,3 +1,11 @@
+2009-12-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* xlsx-read-pivot.c (xlsx_CT_Number),
+	(xlsx_CT_pivotCacheDefinition): fixed double/gnm_float issues.
+	* xlsx-read.c (xlsx_axis_bound), (elem_color), (xlsx_CT_Row),
+	(xlsx_CT_Col), (xlsx_CT_SheetFormatPr), (xlsx_CT_PageMargins),
+	(xlsx_CT_Top10), (xlsx_CT_Pane), (xlsx_CT_FontSize): ditto.
+
 2009-12-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c (lineformat), (chart_write_LINEFORMAT): fix import export

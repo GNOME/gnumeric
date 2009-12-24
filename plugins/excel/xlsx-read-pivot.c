@@ -708,7 +708,7 @@ xlsx_CT_Missing (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_CT_Number (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	double v;
+	gnm_float v;
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_float (xin, attrs, "v", &v))
@@ -855,7 +855,7 @@ xlsx_CT_pivotCacheDefinition (GsfXMLIn *xin, xmlChar const **attrs)
 	unsigned int createdVersion = 0;
 	unsigned int refreshedVersion = 0;
 	gboolean upgradeOnRefresh = FALSE;
-	double v;
+	gnm_float v;
 
 	state->pivot.cache_record_part_id = NULL;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
