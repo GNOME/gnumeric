@@ -1,3 +1,9 @@
+2009-12-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_plot_assign_dim): also set default labels
+	(oo_plot_area): store info on labels that are part of 
+	  cell-range-address
+
 2009-12-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.17

@@ -5,6 +5,7 @@ Andreas:
 	* Add EIGEN function to calculate eigenvalues and eigenvectors
 	  of real symmetric matrices
 	* Add principal components analysis
+	* Load graph series labels and categories from ODF files [#379220]
 
 Jean
 	* Fix import export of line type in scatter plots. [#605043]

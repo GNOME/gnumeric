@@ -168,6 +168,10 @@ typedef struct {
 	GnmRange	 src_range;
 	gboolean	 src_in_rows;
 	int		 src_n_vectors;
+	GnmRange	 src_abscissa;
+	gboolean         src_abscissa_set;
+	GnmRange	 src_label;
+	gboolean         src_label_set;
 
 	GogSeries	*series;
 	unsigned	 series_count;	/* reset for each plotarea */
@@ -3430,6 +3434,8 @@ oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, int dim_type, char cons
 	GnmParsePos pp;
 	GnmValue *v;
 	int dim;
+	gboolean set_default_labels = FALSE;
+	gboolean set_default_series_name = FALSE;
 
 	if (NULL == state->chart.series)
 		return;
@@ -3472,6 +3478,9 @@ oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, int dim_type, char cons
 			state->chart.src_range.end.row = ++state->chart.src_range.start.row;
 		else
 			state->chart.src_range.end.col = ++state->chart.src_range.start.col;
+	       
+		set_default_labels = state->chart.src_abscissa_set;
+		set_default_series_name = state->chart.src_label_set;
 	}
 
 	texpr = gnm_expr_top_new_constant (v);
@@ -3481,6 +3490,31 @@ oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, int dim_type, char cons
 			? gnm_go_data_vector_new_expr (state->pos.sheet, texpr)
 			: gnm_go_data_scalar_new_expr (state->pos.sheet, texpr),
 			NULL);
+	if (set_default_labels) {
+		v = value_new_cellrange_r (state->chart.src_sheet,
+					   &state->chart.src_abscissa);
+		texpr = gnm_expr_top_new_constant (v);
+		if (NULL != texpr)
+			gog_series_set_dim (state->chart.series, GOG_DIM_LABEL,
+					    gnm_go_data_vector_new_expr 
+					    (state->pos.sheet, texpr),
+					    NULL);
+	}
+	if (set_default_series_name) {
+		v = value_new_cellrange_r (state->chart.src_sheet,
+					   &state->chart.src_label);
+		texpr = gnm_expr_top_new_constant (v);
+		if (NULL != texpr)
+			gog_series_set_name (state->chart.series,
+					     GO_DATA_SCALAR (gnm_go_data_scalar_new_expr 
+							     (state->pos.sheet, texpr)),
+					    NULL);
+		if (state->chart.src_in_rows)
+			state->chart.src_label.end.row = ++state->chart.src_label.start.row;
+		else
+			state->chart.src_label.end.col = ++state->chart.src_label.start.col;
+		
+	}
 }
 
 static void
@@ -3490,6 +3524,7 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "both",		2 | 1 },
 		{ "column",		2 },
 		{ "row",		    1 },
+		{ "none",		    0 },
 		{ NULL,	0 },
 	};
 
@@ -3514,6 +3549,8 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 
 	state->chart.src_n_vectors = -1;
 	state->chart.src_in_rows = TRUE;
+	state->chart.src_abscissa_set = FALSE;
+	state->chart.src_label_set = FALSE;
 	state->chart.series = NULL;
 	state->chart.series_count = 0;
 	state->chart.stock_series = NULL;
@@ -3542,9 +3579,31 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 			if (state->chart.src_in_rows) {
 				state->chart.src_n_vectors = range_height (&state->chart.src_range);
 				state->chart.src_range.end.row  = state->chart.src_range.start.row;
+				if (label_flags & 1) {
+					state->chart.src_abscissa = state->chart.src_range;
+					state->chart.src_abscissa.end.row = --state->chart.src_abscissa.start.row;
+					state->chart.src_abscissa_set = TRUE;
+				}
+				if (label_flags & 2) {
+					state->chart.src_label = state->chart.src_range;
+					state->chart.src_label.end.col = --state->chart.src_label.start.col;
+					state->chart.src_label.end.row = state->chart.src_label.start.row;
+					state->chart.src_label_set = TRUE;
+				}
 			} else {
 				state->chart.src_n_vectors = range_width (&state->chart.src_range);
 				state->chart.src_range.end.col  = state->chart.src_range.start.col;
+				if (label_flags & 2) {
+					state->chart.src_abscissa = state->chart.src_range;
+					state->chart.src_abscissa.end.col = --state->chart.src_abscissa.start.col;
+					state->chart.src_abscissa_set = TRUE;
+				}
+				if (label_flags & 1) {
+					state->chart.src_label = state->chart.src_range;
+					state->chart.src_label.end.row = --state->chart.src_label.start.row;
+					state->chart.src_label.end.col = state->chart.src_label.start.col;
+					state->chart.src_label_set = TRUE;
+				}
 			}
 		}
 	}
