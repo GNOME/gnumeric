@@ -638,6 +638,31 @@ cb_gee_key_press_event (GtkEntry	*entry,
 		return TRUE;
 	}
 
+	case GDK_Tab: {
+		SheetView *sv;
+		WBCEditResult result;
+
+		if (gee->is_cell_renderer)
+			return FALSE;
+
+		if (!wbcg_is_editing (wbcg))
+			break;
+
+		/* Be careful to use the editing sheet */
+		sv = sheet_get_view (wbcg->editing_sheet,
+			wb_control_view (WORKBOOK_CONTROL (wbcg)));
+
+		result = WBC_EDIT_ACCEPT;
+		
+                /* move the edit pos for normal entry */
+		if (wbcg_edit_finish (wbcg, result, NULL) && result == WBC_EDIT_ACCEPT) {
+			gboolean const direction = (event->state & GDK_SHIFT_MASK) ? FALSE : TRUE;
+			sv_selection_walk_step (sv, direction, TRUE);
+			sv_update (sv);
+		}
+		return TRUE;
+	}
+
 	case GDK_KP_Separator:
 	case GDK_KP_Decimal: {
 		GtkEditable *editable = GTK_EDITABLE (entry);
