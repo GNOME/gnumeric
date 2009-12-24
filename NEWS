@@ -1,11 +1,12 @@
 Gnumeric 1.9.18
 
 Andreas:
-	* Add paste special flip horizontally and vertically [#393367]
+	* Add paste special flip horizontally and vertically. [#393367]
 	* Add EIGEN function to calculate eigenvalues and eigenvectors
-	  of real symmetric matrices
-	* Add principal components analysis
-	* Load graph series labels and categories from ODF files [#379220]
+	  of real symmetric matrices.
+	* Add principal components analysis.
+	* Load graph series labels and categories from ODF files. [#379220]
+	* Write series labels to ODF files.
 
 Jean
 	* Fix import export of line type in scatter plots. [#605043]

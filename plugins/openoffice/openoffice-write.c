@@ -3238,6 +3238,16 @@ odf_write_standard_series (GnmOOExport *state, GSList const *series)
 				str = g_strdup_printf ("series%i", i);
 				gsf_xml_out_add_cstr (state->xml, CHART "style-name", str);
 				g_free (str);
+				dat = gog_series_get_name (GOG_SERIES (series->data));
+				if (NULL != dat) {
+					texpr = gnm_go_data_get_expr (dat);
+					if (NULL != texpr) {
+						str = gnm_expr_top_as_string (texpr, &pp, state->conv);
+						gsf_xml_out_add_cstr (state->xml, CHART "label-cell-address",
+								      odf_strip_brackets (str));
+						g_free (str);
+					}
+				}
 				if (NULL != cat) {
 					texpr = gnm_go_data_get_expr (cat);
 					if (NULL != texpr) {
