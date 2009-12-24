@@ -11,19 +11,24 @@ $version2 =~ s/^(\d+\.\d+)\..*/$1/;
 
 my $bug_prefix = "http://bugzilla.gnome.org/show_bug.cgi?id=";
 
-&prolog ();
-
 my $state = 0;
 my $who = undef;
 my $item = '';
 my $have_item = 0;
 my $bug = undef;
+my $module = undef;
+
 open (FIL, "<NEWS") or die "$0: cannot open NEWS: $!\n";
 while (<FIL>) {
     chomp;
 
     if (/^(Gnumeric|goffice|libgsf)\s*([^ :]*)\s*:?\s*$/i) {
-	$state = 1 if $2 eq $version;
+	if ($2 eq $version) {
+	    $state = 1;
+	    $module = $1;
+
+	    &prolog ();
+	}
 	next;
     }
 
@@ -103,22 +108,25 @@ sub add_to_item {
 # -----------------------------------------------------------------------------
 
 sub prolog {
-    print "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
-    print "<html>\n";
-    print "<head>\n";
-    print "  <meta http-equiv=\"Content-Type\" content=\"text/html;charset=ISO-8859-1\">\n";
-    print "  <title>Gnumeric $version Release Notes</title>\n";
-    print "</head>\n";
+    print "<!--#set var=\"title\" value=\"$module $version\" -->";
+    print "<!--#set var=\"rootdir\" value=\"../..\" -->";
+    print "<!--#include virtual=\"../../header-begin.shtml\" -->\n";
+    print "<!--#include virtual=\"../../header-end.shtml\" -->\n\n";
 
-    print "<body text=\"#000000\" bgcolor=\"#ffffff\">\n";
-    print "  <h2>Gnumeric $version aka &quot;&quot; is now available.</h2>\n";
+    print "  <h2>$module $version aka &quot;TBD&quot; is now available.</h2>\n";
+    print "  <p>The Gnumeric Team is pleased to announce the availability of\n";
+    print "  $module version $version.</p>\n";
+    print "  <p>Noteworthy news in this release:</p>\n";
+    print "  <ul>\n";
+    print "  <li>...</li>\n";
+    print "  </ul>\n\n";
     print "  <ul>\n";
 }
 
 # -----------------------------------------------------------------------------
 
 sub epilog {
-    my $link = "http://ftp.gnome.org/pub/GNOME/sources/gnumeric/$version2/";
+    my $link = "http://ftp.gnome.org/pub/GNOME/sources/" . lc $module . "/$version2/";
 
     print "  </ul>\n";
 
@@ -127,8 +135,7 @@ sub epilog {
     print "    <a href=\"$link\">$link</a>\n";
     print "  </blockquote>\n";
 
-    print "</body>\n";
-    print "</html>\n";
+    print "<!--#include virtual=\"../../footer.shtml\" -->\n";
 }
 
 # -----------------------------------------------------------------------------
