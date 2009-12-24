@@ -70,3 +70,17 @@
    ...
    fun:gconf_engine_get_default
 }
+
+{
+   Leak/dlopen_dots
+   Memcheck:Leak
+   ...
+   fun:dlopen*
+}
+
+{
+   Leak/gtk_recent_manager_set_property
+   Memcheck:Leak
+   ...
+   fun:gtk_recent_manager_set_property
+}
