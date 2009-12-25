@@ -8,6 +8,7 @@ Andreas:
 	* Load graph series labels and categories from ODF files. [#379220]
 	* Write series labels to ODF files.
 	* Fix tab behaviour. [#388344]
+	* Print sheet widget objects. [#144787]
 
 Jean
 	* Fix import export of line type in scatter plots. [#605043]

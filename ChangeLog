@@ -1,3 +1,9 @@
+2009-12-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-object-widget.c (sheet_widget_ ## n1 ## _class_init):
+	  install sheet_widget_draw_cairo
+	(sheet_widget_draw_cairo): new
+
 2009-12-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/rangefunc.h: add gnm_range_increasing (to fix a double/gnm_float

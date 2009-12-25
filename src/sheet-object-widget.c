@@ -70,6 +70,10 @@ attr_eq (const xmlChar *a, const char *s)
 /****************************************************************************/
 
 static void
+sheet_widget_draw_cairo (SheetObject const *so, cairo_t *cr,
+			 double width, double height);
+
+static void
 cb_so_get_ref (GnmDependent *dep, SheetObject *so, gpointer user)
 {
 	GnmDependent **pdep = user;
@@ -193,6 +197,7 @@ sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)		\
 	so_class->copy			= fn_copy;			\
 	so_class->write_xml_sax		= fn_write_sax;			\
 	so_class->prep_sax_parser	= fn_prep_sax_parser;		\
+	so_class->draw_cairo	        = &sheet_widget_draw_cairo;     \
 	sow_class->create_widget	= &sheet_widget_ ## n1 ## _create_widget; \
         { class_init_code; }						\
 }									\
@@ -443,7 +448,6 @@ cb_frame_config_cancel_clicked (GtkWidget *button, FrameConfigState *state)
 
 	gtk_widget_destroy (state->dialog);
 }
-
 
 static void
 cb_frame_label_changed (GtkWidget *entry, FrameConfigState *state)
@@ -3257,6 +3261,46 @@ sheet_widget_combo_class_init (SheetObjectWidgetClass *sow_class)
 GSF_CLASS (SheetWidgetCombo, sheet_widget_combo,
 	   &sheet_widget_combo_class_init, NULL,
 	   SHEET_WIDGET_LIST_BASE_TYPE)
+
+
+/**************************************************************************/
+
+static void
+sheet_widget_draw_cairo (SheetObject const *so, cairo_t *cr,
+			 double width, double height)
+{
+	SheetObjectWidget *sow = SHEET_OBJECT_WIDGET (so);
+
+	if ((sow->so.realized_list->data != NULL)) {
+		SheetObjectView *view = sow->so.realized_list->data;
+		GocWidget *item = get_goc_widget (view);
+		GtkWidget *w = GTK_WIDGET (item->widget);
+		GdkPixmap *ss = gtk_widget_get_snapshot (w, NULL);
+		double hscale, vscale;
+		GtkAllocation allocation;
+
+		gtk_widget_get_allocation (w, &allocation);
+		hscale = width / (allocation.width - 1.);
+		vscale = height / (allocation.height - 1.);
+
+		cairo_save (cr);
+		cairo_scale (cr, hscale, vscale);
+		gdk_cairo_set_source_pixmap (cr, ss, -0.5, -0.5);
+                /* We probably need to scale the drawing slightly! */
+		cairo_new_path (cr);
+		cairo_move_to (cr, 0., 0.);
+		cairo_line_to (cr, width/hscale, 0.);
+		cairo_line_to (cr, width/hscale, height/vscale);
+		cairo_line_to (cr, 0., height/vscale);
+		cairo_line_to (cr, 0., 0.);
+		cairo_close_path (cr);
+		cairo_fill (cr);
+		cairo_restore (cr);
+		g_object_unref(G_OBJECT (ss));
+	}
+}
+
+
 
 /**************************************************************************/
 
