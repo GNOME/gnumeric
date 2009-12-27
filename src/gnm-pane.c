@@ -2424,6 +2424,9 @@ control_point_set_cursor (SheetControlGUI const *scg, GocItem *ctrl_pt)
 	gboolean invert_v = coords [1] > coords [3];
 	GdkCursorType cursor;
 
+	if (goc_canvas_get_direction (ctrl_pt->canvas) == GOC_DIRECTION_RTL)
+		invert_h = !invert_h;
+
 	switch (GPOINTER_TO_INT (g_object_get_data (G_OBJECT (ctrl_pt), "index"))) {
 	case 1: invert_v = !invert_v;
 		/* fallthrough */
