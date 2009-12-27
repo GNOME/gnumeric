@@ -9,6 +9,7 @@ Andreas:
 	* Write series labels to ODF files.
 	* Fix tab behaviour. [#388344]
 	* Print sheet widget objects. [#144787]
+	* Allow sheet object sizes to be specified via a dialog.
 
 Jean
 	* Fix import export of line type in scatter plots. [#605043]
