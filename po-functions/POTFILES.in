@@ -116,6 +116,7 @@ src/dialogs/dialog-scenarios.c
 src/dialogs/dialog-search-replace.c
 src/dialogs/dialog-search.c
 src/dialogs/dialog-sheet-order.c
+src/dialogs/dialog-sheetobject-size.c
 src/dialogs/dialog-shuffle.c
 src/dialogs/dialog-simulation.c
 src/dialogs/dialog-so-list.c

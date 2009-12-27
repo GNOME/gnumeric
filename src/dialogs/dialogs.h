@@ -132,4 +132,7 @@ void	dialog_doc_metadata_new  (WBCGtk *wbcg, int page);
 
 void    dialog_quit (WBCGtk *wbcg);
 
+void	dialog_so_size	 (WBCGtk *wbcg, GObject *so);
+
+
 #endif /* GNUMERIC_DIALOGS_H */

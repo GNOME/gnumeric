@@ -64,6 +64,13 @@ static GQuark	sov_so_quark;
 static GQuark	sov_container_quark;
 
 static void
+cb_so_size_position (SheetObject *so, SheetControl *sc)
+{
+	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (sc), NULL);	
+	dialog_so_size (((SheetControlGUI *)sc)->wbcg, so);
+}
+
+static void
 cb_so_snap_to_grid (SheetObject *so, SheetControl *sc)
 {
 	SheetObjectAnchor *snapped =
@@ -129,6 +136,7 @@ sheet_object_populate_menu_real (SheetObject *so, GPtrArray *actions)
 	static SheetObjectAction const so_actions [] = {
 		{ "gtk-properties",	NULL,		NULL,  0, sheet_object_get_editor },
 		{ NULL,	NULL, NULL, 0, NULL },
+		{ GTK_STOCK_LEAVE_FULLSCREEN, N_("Si_ze"),	NULL,  0, cb_so_size_position },
 		{ "gtk-fullscreen",	N_("_Snap to Grid"),	NULL,  0, cb_so_snap_to_grid },
 		{ NULL,			N_("_Order"),	NULL,  1, NULL },
 			{ NULL,			N_("Pul_l to Front"),	NULL,  0, cb_so_pull_to_front },

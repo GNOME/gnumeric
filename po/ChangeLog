@@ -1,6 +1,12 @@
+2009-12-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* POTFILES.in: added src/dialogs/dialog-sheetobject-size.c and
+	  src/dialogs/sheetobject-size.glade
+
 2009-12-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* POTFILES.in: added src/dialogs/dialog-analysis--principal-components.c,
+	* POTFILES.in: added 
+	  src/dialogs/dialog-analysis-principal-components.c,
 	  src/tools/analysis-principal-components.c and 
 	  src/dialogs/principal-components.glade
 

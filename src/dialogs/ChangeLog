@@ -1,3 +1,10 @@
+2009-12-26 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* Makefile.am: add dialog-sheetobject-size.c and
+	  sheetobject-size.glade
+	* help.h (GNUMERIC_HELP_LINK_SO_SIZE): new
+	* dialogs.h (dialog_so_size): new
+
 2009-12-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* dialog-preferences.c: Fixed double/gnm_float issues.

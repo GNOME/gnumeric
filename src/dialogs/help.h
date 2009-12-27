@@ -25,6 +25,9 @@
 #define GNUMERIC_HELP_LINK_SO_CHECKBOX	 "sect-graphics-drawings"
 #define GNUMERIC_HELP_LINK_SO_LIST	 "sect-graphics-drawings"
 
+/* dialog-sheetobject-size.c       */
+#define GNUMERIC_HELP_LINK_SO_SIZE "sect-graphics-drawings"
+
 /* dialog-autofilter.c         */
 #define GNUMERIC_HELP_LINK_AUTOFILTER_TOP_TEN "sect-data-modify"
 #define GNUMERIC_HELP_LINK_AUTOFILTER_CUSTOM "sect-data-modify"

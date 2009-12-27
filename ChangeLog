@@ -1,3 +1,8 @@
+2009-12-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-object.c (cb_so_size_position): new
+	(so_actions): add menu item
+
 2009-12-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-object-widget.c (sheet_widget_ ## n1 ## _class_init):

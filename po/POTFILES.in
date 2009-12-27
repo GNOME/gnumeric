@@ -196,6 +196,7 @@ src/dialogs/dialog-scenarios.c
 src/dialogs/dialog-search-replace.c
 src/dialogs/dialog-search.c
 src/dialogs/dialog-sheet-order.c
+src/dialogs/dialog-sheetobject-size.c
 src/dialogs/dialog-shuffle.c
 src/dialogs/dialog-simulation.c
 src/dialogs/dialog-so-list.c
@@ -254,6 +255,7 @@ src/dialogs/search-replace.glade
 [type: gettext/glade]src/dialogs/search.ui
 src/dialogs/sheet-order.glade
 src/dialogs/sheet-resize.glade
+src/dialogs/sheetobject-size.glade
 src/dialogs/shuffle.glade
 src/dialogs/simulation.glade
 src/dialogs/sign-test.glade
