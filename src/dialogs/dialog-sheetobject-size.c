@@ -59,12 +59,15 @@ typedef struct {
 	GtkSpinButton      *wspin;
 	GtkWidget          *hpoints;
 	GtkSpinButton      *hspin;
+	GtkEntry           *nameentry;
 
 	SheetObject        *so;
 	SheetObjectAnchor  *old_anchor;
 	SheetObjectAnchor  *active_anchor;
 	double              coords[4];
+	gchar              *old_name;
 	gboolean            so_needs_restore;
+	gboolean            so_name_changed;
 } SOSizeState;
 
 static void
@@ -81,8 +84,12 @@ cb_dialog_so_size_value_changed_update_points (GtkSpinButton *spinbutton,
 static void
 dialog_so_size_button_sensitivity (SOSizeState *state)
 {
-	gtk_widget_set_sensitive (state->ok_button, state->so_needs_restore);
-	gtk_widget_set_sensitive (state->apply_button, state->so_needs_restore);
+	gtk_widget_set_sensitive 
+		(state->ok_button, 
+		 state->so_needs_restore || state->so_name_changed);
+	gtk_widget_set_sensitive 
+		(state->apply_button, 
+		 state->so_needs_restore || state->so_name_changed);
 }
 
 static void
@@ -92,6 +99,7 @@ cb_dialog_so_size_destroy (SOSizeState *state)
 		sheet_object_set_anchor	(state->so, state->old_anchor);
 	g_free (state->old_anchor);
 	g_free (state->active_anchor);
+	g_free (state->old_name);
 	if (state->so!= NULL)
 		g_object_unref (G_OBJECT (state->so));
 	if (state->gui != NULL)
@@ -142,7 +150,8 @@ cb_dialog_so_size_value_changed (G_GNUC_UNUSED GtkSpinButton *spinbutton,
 		else
 			new_coords[1] = new_coords[3] + new_height;
 		
-		scg_object_coords_to_anchor (state->scg, new_coords, state->active_anchor);
+		scg_object_coords_to_anchor (state->scg, new_coords, 
+					     state->active_anchor);
 	}
 
 	sheet_object_set_anchor	(state->so, state->active_anchor);
@@ -154,8 +163,11 @@ static void
 dialog_so_size_load (SOSizeState *state)
 {
 	g_free (state->old_anchor);
-	state->old_anchor = sheet_object_anchor_dup (sheet_object_get_anchor (state->so));
-	scg_object_anchor_to_coords (state->scg, state->old_anchor, state->coords);
+	state->old_anchor = sheet_object_anchor_dup 
+		(sheet_object_get_anchor (state->so));
+	scg_object_anchor_to_coords (state->scg, 
+				     state->old_anchor, 
+				     state->coords);
 	state->so_needs_restore = FALSE;
 }
 
@@ -164,15 +176,27 @@ static void
 cb_dialog_so_size_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 				   SOSizeState *state)
 {
-	if (!state->so_needs_restore)
-		return;
+	char const *name;
 
-	sheet_object_set_anchor	(state->so, state->old_anchor);
-	if (!cmd_objects_move (WORKBOOK_CONTROL (state->wbcg), g_slist_prepend (NULL, state->so),
-			       g_slist_prepend 
-			       (NULL, sheet_object_anchor_dup (state->active_anchor)),
-			       FALSE, _("Resize Object")))
-		dialog_so_size_load (state);
+	if (state->so_needs_restore) {
+		sheet_object_set_anchor	(state->so, state->old_anchor);
+		if (!cmd_objects_move (WORKBOOK_CONTROL (state->wbcg), 
+				       g_slist_prepend (NULL, state->so),
+				       g_slist_prepend 
+				       (NULL, sheet_object_anchor_dup 
+					(state->active_anchor)),
+				       FALSE, _("Resize Object")))
+			dialog_so_size_load (state);
+	}
+
+	name = gtk_entry_get_text (state->nameentry);
+	if (name == NULL)
+		name = "";
+	if (strcmp (name, state->old_name) != 0)
+		state->so_name_changed 
+			= cmd_so_rename (WORKBOOK_CONTROL (state->wbcg),
+					 state->so, 
+					 (*name == '\0') ? NULL : name);
 
 	dialog_so_size_button_sensitivity (state);
 
@@ -187,6 +211,21 @@ cb_dialog_so_size_ok_clicked (GtkWidget *button, SOSizeState *state)
 		gtk_widget_destroy (state->dialog);
 	return;
 }
+
+static gboolean
+cb_dialog_so_size_name_changed (GtkEntry *entry,
+				GdkEventFocus *event,
+				SOSizeState *state)
+{
+	char const *name = gtk_entry_get_text (entry);
+	if (name == NULL)
+		name = "";
+	state->so_name_changed 
+		= (strcmp (name, state->old_name) != 0);
+	dialog_so_size_button_sensitivity (state);
+	return FALSE;
+}
+
 
 void
 dialog_so_size (WBCGtk *wbcg, GObject *so)
@@ -214,7 +253,22 @@ dialog_so_size (WBCGtk *wbcg, GObject *so)
 
 	state->so = SHEET_OBJECT (so);
 	g_object_ref (so);
+	
+	state->nameentry = GTK_ENTRY (glade_xml_get_widget (state->gui, "name-entry"));
 	state->old_anchor = NULL;
+	state->old_name = NULL;
+	g_object_get (so, "name", &state->old_name, NULL);
+	if (state->old_name == NULL)
+		state->old_name = g_strdup ("");
+	gtk_entry_set_text (state->nameentry, state->old_name);
+	state->so_name_changed = FALSE;
+	g_signal_connect (G_OBJECT (state->nameentry),
+			  "focus-out-event",
+			  G_CALLBACK (cb_dialog_so_size_name_changed),
+			  state);
+
+	
+		
 
 	state->wpoints = GTK_WIDGET (glade_xml_get_widget (state->gui, "w-pts-label"));
 	state->wspin  = GTK_SPIN_BUTTON (glade_xml_get_widget (state->gui, "w-spin"));

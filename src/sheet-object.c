@@ -66,8 +66,8 @@ static GQuark	sov_container_quark;
 static void
 cb_so_size_position (SheetObject *so, SheetControl *sc)
 {
-	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (sc), NULL);	
-	dialog_so_size (((SheetControlGUI *)sc)->wbcg, so);
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (sc));	
+	dialog_so_size (((SheetControlGUI *)sc)->wbcg, G_OBJECT (so));
 }
 
 static void

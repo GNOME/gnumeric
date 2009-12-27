@@ -148,14 +148,8 @@ gboolean cmd_objects_move	(WorkbookControl *wbc,
 gboolean cmd_object_format	(WorkbookControl *wbc, SheetObject *so,
 				 gpointer orig_style, char *orig_text,
 				 PangoAttrList *orig_attr);
-
-gboolean cmd_reorganize_sheets  (WorkbookControl *wbc,
-				 WorkbookSheetState *old_state,
-				 Sheet *undo_sheet);
-
-gboolean cmd_resize_sheets      (WorkbookControl *wbc,
-				 GSList *sheets,
-				 int cols, int rows);
+gboolean cmd_so_rename	        (WorkbookControl *wbc, SheetObject *so,
+				 char const *new_name);
 
 gboolean cmd_so_graph_config (WorkbookControl *wbc, SheetObject *sog,
                               GObject *n_graph, GObject *o_graph);
@@ -199,6 +193,19 @@ gboolean cmd_so_set_adjustment (WorkbookControl *wbc, SheetObject *so,
 				int lower, int upper,
 				int step, int page,
 				char const *undo_label);
+
+
+/********************************************************************************/
+
+gboolean cmd_reorganize_sheets  (WorkbookControl *wbc,
+				 WorkbookSheetState *old_state,
+				 Sheet *undo_sheet);
+
+gboolean cmd_resize_sheets      (WorkbookControl *wbc,
+				 GSList *sheets,
+				 int cols, int rows);
+
+
 
 
 /********************************************************************************/

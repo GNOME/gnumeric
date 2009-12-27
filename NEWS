@@ -10,6 +10,7 @@ Andreas:
 	* Fix tab behaviour. [#388344]
 	* Print sheet widget objects. [#144787]
 	* Allow sheet object sizes to be specified via a dialog.
+	* Allow the sheet object name to be specified. [#596545]
 
 Jean
 	* Fix import export of line type in scatter plots. [#605043]

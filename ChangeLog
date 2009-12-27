@@ -1,3 +1,10 @@
+2009-12-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-object.c (cb_so_size_position): use g_return_if_fail
+	* src/commands.h (cmd_so_rename): new
+	* src/commands.c (cmd_so_rename): new
+	(cmd_so_rename_*): new
+
 2009-12-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-object.c (cb_so_size_position): new
