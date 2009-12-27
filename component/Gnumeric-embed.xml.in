@@ -71,6 +71,7 @@
         <menuitem action="EditSelectArray"/>
         <menuitem action="EditSelectDepends"/>
         <menuitem action="EditSelectInputs"/>
+        <menuitem action="EditSelectObject"/>
         <separator name="edit-sep5"/>
 	<menuitem action="EditGoto"/>
       </menu>

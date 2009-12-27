@@ -1,3 +1,19 @@
+2009-12-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* component/Gnumeric-embed.xml.in: add EditSelectObject menu item
+	* src/GNOME_Gnumeric-gtk.xml.in: ditto
+	* src/HILDON_Gnumeric-gtk.xml.in: ditto
+	* src/gnm-pane.c (gnm_pane_object_key_press): move some code from 
+	  here to scg_object_select_next
+	(gnm_pane_key_mode_sheet): use ctrl-tab to select the first object
+	* src/sheet-control-gui.c (scg_object_select_next): new
+	* src/sheet-control-gui.h (scg_object_select_next): new
+	* src/sheet-view.c (sv_update): update MS_SELECT_OBJECT menu
+	* src/wbc-gtk-actions.c (cb_edit_select_object): new
+	(EditSelectObject): new action
+	* src/wbc-gtk.c (wbcg_menu_state_update): handle MS_SELECT_OBJECT
+	* src/workbook-control.h (MS_SELECT_OBJECT): new
+	
 2009-12-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-pane.c (control_point_set_cursor): use the right cursor in RTL

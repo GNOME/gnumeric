@@ -1497,6 +1497,10 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 		wbc_gtk_set_action_sensitivity (wbcg, "FilePrintAreaClear", has_print_area);
 		wbc_gtk_set_action_sensitivity (wbcg, "FilePrintAreaShow", has_print_area);
 	}
+	if (MS_SELECT_OBJECT & flags) {
+		wbc_gtk_set_action_sensitivity (wbcg, "EditSelectObject", 
+						sheet->sheet_objects != NULL);
+	}
 
 	if (MS_FREEZE_VS_THAW & flags) {
 		/* Cheat and use the same accelerator for both states because

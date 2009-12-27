@@ -2137,6 +2137,45 @@ scg_object_unselect (SheetControlGUI *scg, SheetObject *so)
 	wb_control_update_action_sensitivity (scg_wbc (scg));
 }
 
+void 
+scg_object_select_next	(SheetControlGUI *scg, gboolean reverse)
+{
+	Sheet *sheet = scg_sheet (scg);
+	GSList *ptr = sheet->sheet_objects;
+
+	g_return_if_fail (ptr != NULL);
+
+	if ((scg->selected_objects == NULL) || 
+	    (g_hash_table_size (scg->selected_objects) == 0)) {
+		scg_object_select (scg, ptr->data);
+		return;
+	} else {
+		GSList *prev = NULL;
+		for (; ptr != NULL ; prev = ptr, ptr = ptr->next)
+			if (NULL != g_hash_table_lookup 
+			    (scg->selected_objects, ptr->data)) {
+				SheetObject *target;
+				if (reverse) {
+					if (ptr->next == NULL)
+						target = sheet->sheet_objects->data;
+					else
+						target = ptr->next->data;
+				} else {
+					if (NULL == prev) {
+						GSList *last = g_slist_last (ptr);
+						target = last->data;
+					} else
+						target = prev->data;
+				}
+				if (ptr->data != target) {
+					scg_object_unselect (scg, NULL);
+					scg_object_select (scg, target);
+					return;
+				}
+			}
+	}
+}
+
 typedef struct {
 	SheetControlGUI *scg;
 	GnmPane	*pane;

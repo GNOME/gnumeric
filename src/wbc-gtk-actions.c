@@ -379,6 +379,10 @@ static GNM_ACTION_DEF (cb_edit_select_inputs)
 {
 	sv_select_cur_inputs (wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)));
 }
+static GNM_ACTION_DEF (cb_edit_select_object)
+{
+	scg_object_select_next (wbcg_cur_scg (wbcg), FALSE);
+}
 
 static GNM_ACTION_DEF (cb_edit_cut)
 {
@@ -1860,6 +1864,11 @@ static GtkActionEntry const actions[] = {
 	{ "EditSelectInputs", NULL, N_("_Inputs"),
 		"<control>bracketleft", N_("Select all the cells are used by the current edit cell"),
 		G_CALLBACK (cb_edit_select_inputs) },
+
+	{ "EditSelectObject", NULL, N_("Next _Object"),
+	  "<control>Tab", N_("Select the next sheet object"),
+		G_CALLBACK (cb_edit_select_object) },
+
 	{ "EditGoto", GTK_STOCK_JUMP_TO, N_("_Goto cell..."),
 		"<control>G", N_("Jump to a specified cell"),
 		G_CALLBACK (cb_edit_goto) },

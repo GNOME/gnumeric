@@ -79,6 +79,7 @@
         <menuitem action="EditSelectArray"/>
         <menuitem action="EditSelectDepends"/>
         <menuitem action="EditSelectInputs"/>
+        <menuitem action="EditSelectObject"/>
       </menu>
       <menuitem action="EditRecalc"/>
       <placeholder name="ops"/>

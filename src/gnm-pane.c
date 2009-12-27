@@ -114,30 +114,9 @@ gnm_pane_object_key_press (GnmPane *pane, GdkEventKey *ev)
 	case GDK_Tab:
 	case GDK_ISO_Left_Tab:
 	case GDK_KP_Tab:
-		if (scg->selected_objects != NULL) {
-			Sheet *sheet = sc_sheet (sc);
-			GSList *prev = NULL, *ptr = sheet->sheet_objects;
-			for (; ptr != NULL ; prev = ptr, ptr = ptr->next)
-				if (NULL != g_hash_table_lookup (scg->selected_objects, ptr->data)) {
-					SheetObject *target;
-					if ((ev->state & GDK_SHIFT_MASK)) {
-						if (ptr->next == NULL)
-							target = sheet->sheet_objects->data;
-						else
-							target = ptr->next->data;
-					} else {
-						if (NULL == prev) {
-							GSList *last = g_slist_last (ptr);
-							target = last->data;
-						} else
-							target = prev->data;
-					}
-					if (ptr->data != target) {
-						scg_object_unselect (scg, NULL);
-						scg_object_select (scg, target);
-						return TRUE;
-					}
-				}
+		if ((scg_sheet (scg))->sheet_objects != NULL) {
+			scg_object_select_next (scg, (ev->state & GDK_SHIFT_MASK) != 0);
+			return TRUE;
 		}
 		break;
 
@@ -422,6 +401,11 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 				if (is_enter) {
 					horizontal = go_direction_is_horizontal (dir);
 					forward = go_direction_is_forward (dir);
+				} else if ((event->state & GDK_CONTROL_MASK) && 
+					   ((sc_sheet (sc))->sheet_objects != NULL)) {
+					scg_object_select_next 
+						(scg, (event->state & GDK_SHIFT_MASK) != 0);
+					break;
 				}
 
 				if (event->state & GDK_SHIFT_MASK)
