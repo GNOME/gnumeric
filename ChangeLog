@@ -1,3 +1,8 @@
+2009-12-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/wbc-gtk.c (cb_sheet_label_button_press): unselect sheet 
+	  objects if necessary and possible
+
 2009-12-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-object.c (sheet_object_populate_menu_real): change "Si_ze"

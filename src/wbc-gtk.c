@@ -578,11 +578,14 @@ cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
 	if (event->button == 1 || NULL != wbcg->rangesel)
 		return TRUE;
 
-	if (event->button == 3 &&
-	    editable_label_get_editable (EDITABLE_LABEL (widget))) {
-		sheet_menu_label_run (scg, event);
-		scg_take_focus (scg);
-		return TRUE;
+	if (event->button == 3) {
+		if ((scg_wbcg (scg))->edit_line.guru == NULL)
+			scg_object_unselect (scg, NULL);
+		if (editable_label_get_editable (EDITABLE_LABEL (widget))) {
+			sheet_menu_label_run (scg, event);
+			scg_take_focus (scg);
+			return TRUE;
+		}
 	}
 
 	return FALSE;
