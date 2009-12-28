@@ -59,6 +59,10 @@ typedef struct {
 	GtkSpinButton      *wspin;
 	GtkWidget          *hpoints;
 	GtkSpinButton      *hspin;
+	GtkWidget          *xpoints;
+	GtkSpinButton      *xspin;
+	GtkWidget          *ypoints;
+	GtkSpinButton      *yspin;
 	GtkEntry           *nameentry;
 
 	SheetObject        *so;
@@ -66,7 +70,8 @@ typedef struct {
 	SheetObjectAnchor  *active_anchor;
 	double              coords[4];
 	gchar              *old_name;
-	gboolean            so_needs_restore;
+	gboolean            so_size_needs_restore;
+	gboolean            so_pos_needs_restore;
 	gboolean            so_name_changed;
 } SOSizeState;
 
@@ -84,18 +89,19 @@ cb_dialog_so_size_value_changed_update_points (GtkSpinButton *spinbutton,
 static void
 dialog_so_size_button_sensitivity (SOSizeState *state)
 {
+	gboolean sensitive = state->so_size_needs_restore || 
+		state->so_pos_needs_restore || 
+		state->so_name_changed;
 	gtk_widget_set_sensitive 
-		(state->ok_button, 
-		 state->so_needs_restore || state->so_name_changed);
+		(state->ok_button, sensitive);
 	gtk_widget_set_sensitive 
-		(state->apply_button, 
-		 state->so_needs_restore || state->so_name_changed);
+		(state->apply_button, sensitive);
 }
 
 static void
 cb_dialog_so_size_destroy (SOSizeState *state)
 {
-	if (state->so_needs_restore)
+	if (state->so_size_needs_restore || state->so_pos_needs_restore)
 		sheet_object_set_anchor	(state->so, state->old_anchor);
 	g_free (state->old_anchor);
 	g_free (state->active_anchor);
@@ -121,6 +127,7 @@ cb_dialog_so_size_value_changed (G_GNUC_UNUSED GtkSpinButton *spinbutton,
 {
 	int width, height;
 	int new_width, new_height;
+	int dx, dy;
 	
 	width = state->coords[2] - state->coords[0];
 	height = state->coords[3] - state->coords[1];
@@ -129,18 +136,21 @@ cb_dialog_so_size_value_changed (G_GNUC_UNUSED GtkSpinButton *spinbutton,
 	
 	new_width = gtk_spin_button_get_value_as_int (state->wspin);
 	new_height = gtk_spin_button_get_value_as_int (state->hspin);
+	dx =  gtk_spin_button_get_value_as_int (state->xspin);
+	dy =  gtk_spin_button_get_value_as_int (state->yspin);
 
-	state->so_needs_restore = (new_width != width) || (new_height != height);
+	state->so_size_needs_restore = (new_width != width) || (new_height != height);
+	state->so_pos_needs_restore = (dx != 0) || (dy != 0);
 
 	*(state->active_anchor) = *(state->old_anchor);
 
-	if (state->so_needs_restore) {
+	if (state->so_size_needs_restore || state->so_pos_needs_restore) {
 		gdouble new_coords[4];
 		
-		new_coords[0] = state->coords[0];
-		new_coords[1] = state->coords[1];
-		new_coords[2] = state->coords[2];
-		new_coords[3] = state->coords[3];
+		new_coords[0] = state->coords[0] + dx;
+		new_coords[1] = state->coords[1] + dy;
+		new_coords[2] = state->coords[2] + dx;
+		new_coords[3] = state->coords[3] + dy;
 		if (new_coords[0] < new_coords[2])
 			new_coords[2] = new_coords[0] + new_width;
 		else
@@ -168,7 +178,8 @@ dialog_so_size_load (SOSizeState *state)
 	scg_object_anchor_to_coords (state->scg, 
 				     state->old_anchor, 
 				     state->coords);
-	state->so_needs_restore = FALSE;
+	state->so_size_needs_restore = FALSE;
+	state->so_pos_needs_restore = FALSE;
 }
 
 
@@ -178,14 +189,16 @@ cb_dialog_so_size_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 {
 	char const *name;
 
-	if (state->so_needs_restore) {
+	if (state->so_size_needs_restore || state->so_pos_needs_restore) {
+		char const *label = state->so_pos_needs_restore ?
+			_("Move Object") : _("Resize Object");
 		sheet_object_set_anchor	(state->so, state->old_anchor);
 		if (!cmd_objects_move (WORKBOOK_CONTROL (state->wbcg), 
 				       g_slist_prepend (NULL, state->so),
 				       g_slist_prepend 
 				       (NULL, sheet_object_anchor_dup 
 					(state->active_anchor)),
-				       FALSE, _("Resize Object")))
+				       FALSE, label))
 			dialog_so_size_load (state);
 	}
 
@@ -207,7 +220,8 @@ static void
 cb_dialog_so_size_ok_clicked (GtkWidget *button, SOSizeState *state)
 {
 	cb_dialog_so_size_apply_clicked (button, state);
-	if (!state->so_needs_restore)
+	if (!state->so_size_needs_restore && !state->so_pos_needs_restore &&
+	    !state->so_name_changed)
 		gtk_widget_destroy (state->dialog);
 	return;
 }
@@ -267,19 +281,24 @@ dialog_so_size (WBCGtk *wbcg, GObject *so)
 			  G_CALLBACK (cb_dialog_so_size_name_changed),
 			  state);
 
-	
-		
-
 	state->wpoints = GTK_WIDGET (glade_xml_get_widget (state->gui, "w-pts-label"));
 	state->wspin  = GTK_SPIN_BUTTON (glade_xml_get_widget (state->gui, "w-spin"));
 	state->hpoints = GTK_WIDGET (glade_xml_get_widget (state->gui, "h-pts-label"));
 	state->hspin  = GTK_SPIN_BUTTON (glade_xml_get_widget (state->gui, "h-spin"));
+	state->xpoints = GTK_WIDGET (glade_xml_get_widget (state->gui, "x-pts-label"));
+	state->xspin  = GTK_SPIN_BUTTON (glade_xml_get_widget (state->gui, "x-spin"));
+	state->ypoints = GTK_WIDGET (glade_xml_get_widget (state->gui, "y-pts-label"));
+	state->yspin  = GTK_SPIN_BUTTON (glade_xml_get_widget (state->gui, "y-spin"));
 
 	dialog_so_size_load (state);
 	state->active_anchor = sheet_object_anchor_dup (sheet_object_get_anchor (state->so));
 	width = state->coords[2] - state->coords[0];
 	height = state->coords[3] - state->coords[1];
 
+	gtk_spin_button_set_value (state->wspin, (width < 0) ? - width : width);
+	gtk_spin_button_set_value (state->hspin, (height < 0) ? - height : height);
+	gtk_spin_button_set_value (state->xspin, 0.);
+	gtk_spin_button_set_value (state->yspin, 0.);
 	g_signal_connect (G_OBJECT (state->wspin),
 			  "value-changed",
 			  G_CALLBACK (cb_dialog_so_size_value_changed_update_points),
@@ -288,13 +307,30 @@ dialog_so_size (WBCGtk *wbcg, GObject *so)
 			  "value-changed",
 			  G_CALLBACK (cb_dialog_so_size_value_changed_update_points),
 			  state->hpoints);
-	gtk_spin_button_set_value (state->wspin, (width < 0) ? - width : width);
-	gtk_spin_button_set_value (state->hspin, (height < 0) ? - height : height);
+	g_signal_connect (G_OBJECT (state->xspin),
+			  "value-changed",
+			  G_CALLBACK (cb_dialog_so_size_value_changed_update_points),
+			  state->xpoints);
+	g_signal_connect (G_OBJECT (state->yspin),
+			  "value-changed",
+			  G_CALLBACK (cb_dialog_so_size_value_changed_update_points),
+			  state->ypoints);
+	cb_dialog_so_size_value_changed_update_points (state->wspin, GTK_LABEL (state->wpoints));
+	cb_dialog_so_size_value_changed_update_points (state->hspin, GTK_LABEL (state->hpoints));
+	cb_dialog_so_size_value_changed_update_points (state->xspin, GTK_LABEL (state->xpoints));
+	cb_dialog_so_size_value_changed_update_points (state->yspin, GTK_LABEL (state->ypoints));
+
 
 	g_signal_connect (G_OBJECT (state->wspin),
 		"value-changed",
 		G_CALLBACK (cb_dialog_so_size_value_changed), state);
 	g_signal_connect (G_OBJECT (state->hspin),
+		"value-changed",
+		G_CALLBACK (cb_dialog_so_size_value_changed), state);
+	g_signal_connect (G_OBJECT (state->xspin),
+		"value-changed",
+		G_CALLBACK (cb_dialog_so_size_value_changed), state);
+	g_signal_connect (G_OBJECT (state->yspin),
 		"value-changed",
 		G_CALLBACK (cb_dialog_so_size_value_changed), state);
 

@@ -1,3 +1,14 @@
+2009-12-28 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-sheetobject-size.c (dialog_so_size_button_sensitivity):
+	  handle position
+	(cb_dialog_so_size_destroy): ditto
+	(cb_dialog_so_size_value_changed): ditto
+	(dialog_so_size_load): ditto
+	(cb_dialog_so_size_apply_clicked): ditto
+	(dialog_so_size): ditto
+	* sheetobject-size.glade: add position section
+	
 2009-12-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-sheetobject-size.c (dialog_so_size_button_sensitivity): 

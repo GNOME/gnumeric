@@ -1,5 +1,10 @@
 2009-12-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/sheet-object.c (sheet_object_populate_menu_real): change "Si_ze"
+	  to "Size _& Position"
+
+2009-12-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/sheet-object.c (cb_so_size_position): make sure we only have one
 	  guru active
 	(sheet_object_get_editor): ditto
