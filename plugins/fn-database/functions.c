@@ -91,6 +91,9 @@ GNM_PLUGIN_MODULE_HEADER;
  * find_cells_that_match :
  * Finds the cells from the given column that match the criteria.
  */
+
+#warning  We should really be using find_rows_that_match from value.c
+
 static GSList *
 find_cells_that_match (Sheet *sheet, GnmValue const *database,
 		       int col, GSList *criterias)

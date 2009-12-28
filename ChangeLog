@@ -1,5 +1,10 @@
 2009-12-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/value.c (find_rows_that_match): make this behave like
+	  find_cells_that_match from the database plugin.
+
+2009-12-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/wbc-gtk.c (cb_sheet_label_button_press): unselect sheet 
 	  objects if necessary and possible
 

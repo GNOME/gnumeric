@@ -1766,13 +1766,12 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 			     cond_ptr != NULL ; cond_ptr = cond_ptr->next) {
 				GnmCriteria *cond = cond_ptr->data;
 				test_cell = sheet_cell_get (sheet, cond->column, row);
-				if (test_cell != NULL) {
+				if (test_cell != NULL)
 					gnm_cell_eval (test_cell);
-					if (!gnm_cell_is_empty (test_cell) &&
-					    !cond->fun (test_cell->value, cond)) {
-						add_flag = FALSE;
-						break;
-					}
+				if (gnm_cell_is_empty (test_cell) ||
+				    !cond->fun (test_cell->value, cond)) {
+					add_flag = FALSE;
+					break;
 				}
 			}
 

@@ -13,6 +13,7 @@ Andreas:
 	* Allow the sheet object name to be specified. [#596545]
 	* Add menu item to select sheet objects. [#338615]
 	* Enable sheet tab menu when objects are selected. [#604496]
+	* Fix empty cell handling of the advanced filter. [#599064]
 
 Jean
 	* Fix import export of line type in scatter plots. [#605043]
