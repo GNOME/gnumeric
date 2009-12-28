@@ -66,8 +66,19 @@ static GQuark	sov_container_quark;
 static void
 cb_so_size_position (SheetObject *so, SheetControl *sc)
 {
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (sc));	
-	dialog_so_size (((SheetControlGUI *)sc)->wbcg, G_OBJECT (so));
+	WBCGtk *wbcg;
+
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (sc));
+
+	wbcg = scg_wbcg ((SheetControlGUI *)sc);
+
+	if (wbcg->edit_line.guru != NULL) {
+		GtkWidget *w = wbcg->edit_line.guru;
+		wbc_gtk_detach_guru (wbcg);
+		gtk_widget_destroy (w);
+	}
+
+	dialog_so_size (wbcg, G_OBJECT (so));
 }
 
 static void
@@ -111,8 +122,19 @@ cb_so_delete (SheetObject *so, SheetControl *sc)
 void
 sheet_object_get_editor (SheetObject *so, SheetControl *sc)
 {
+	WBCGtk *wbcg;
+
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 	g_return_if_fail (SO_CLASS (so));
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (sc));
+
+	wbcg = scg_wbcg ((SheetControlGUI *)sc);
+
+	if (wbcg->edit_line.guru != NULL) {
+		GtkWidget *w = wbcg->edit_line.guru;
+		wbc_gtk_detach_guru (wbcg);
+		gtk_widget_destroy (w);
+	}
 
 	if (SO_CLASS(so)->user_config)
 		SO_CLASS(so)->user_config (so, sc);

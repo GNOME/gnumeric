@@ -1,5 +1,11 @@
 2009-12-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/sheet-object.c (cb_so_size_position): make sure we only have one
+	  guru active
+	(sheet_object_get_editor): ditto
+
+2009-12-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* component/Gnumeric-embed.xml.in: add EditSelectObject menu item
 	* src/GNOME_Gnumeric-gtk.xml.in: ditto
 	* src/HILDON_Gnumeric-gtk.xml.in: ditto
