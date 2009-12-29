@@ -47,18 +47,20 @@ for tool in mingw_tools.keys():
 	fullpath_tool = mingw_tool_prefix + mingw_tools[tool]
 	os.environ[tool] = fullpath_tool
 
-if os.getenv('JH_TARGET') == "debug":
+if os.getenv('JH_BUILD') == "debug":
     optim = ' -O0 -gstabs'
-elif os.getenv('JH_TARGET') == "release":
+elif os.getenv('JH_BUILD') == "release":
     optim = ' -O2'
 else:
     print "Best to invoke this via build script from make"
     sys.exit (0)
 
 #Exporting tool flags enviroment variables
-os.environ['LDFLAGS']	 = ' -mno-cygwin -no-undefined' + \
-    ' -L' + os.path.join(os.sep, prefix, 'lib') + \
-    ' -L' + os.path.join(os.sep, prefix, 'lib64')
+# -no-undefined' 
+os.environ['LDFLAGS']	 \
+	= ' -mno-cygwin' \
+	+ ' -L' + os.path.join(os.sep, prefix, 'lib') \
+	+ ' -L' + os.path.join(os.sep, prefix, 'lib64')
 os.environ['CFLAGS']	 = optim + ' -mno-cygwin -mms-bitfields -march=i686 ' + ' -I' + os.path.join(os.sep, prefix, 'include')
 os.environ['CPPLAGS']	 = optim + ' -mno-cygwin -mms-bitfields -march=i686 ' + ' -I' + os.path.join(os.sep, prefix, 'include')
 os.environ['CXXLAGS']	 = optim + ' -mno-cygwin -mms-bitfields -march=i686 ' + ' -I' + os.path.join(os.sep, prefix, 'include')

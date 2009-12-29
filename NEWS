@@ -24,6 +24,9 @@ Jean
 	* Force sharing of first series in line plots when requested. [#605330]
 	* Fixed mouse cursor for object resizing in RTL mode. [#605514]
 
+Jody:
+	* Fix use of ExprEntry from glade on win32.
+
 --------------------------------------------------------------------------
 Gnumeric 1.9.17
 

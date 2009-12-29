@@ -7,19 +7,19 @@ py_pkg_ver=2.6.4
 ###################################################
 builddir="$1"
 srcdir="$2"
-target="$3"
+build="$3"
 
-if [ -z "${builddir}" -o -z "${srcdir}" -o -z "${target}" ]; then
-    echo "usage  : $0 <builddir> <srcdir> <target>"
+if [ -z "${builddir}" -o -z "${srcdir}" -o -z "${build}" ]; then
+    echo "usage  : $0 <builddir> <srcdir> <build>"
     exit 1
 fi
 
 export WINEPREFIX="${builddir}/wine"
 WINEDIR="${WINEPREFIX}/drive_c"
 archive_dir="${builddir}/archive"
-export JH_PREFIX="${builddir}/${target}"
+export JH_PREFIX="${builddir}/${build}"
 export JH_MODULE_SET="${srcdir}/moduleset"
-export JH_TARGET="${target}"
+export JH_BUILD="${build}"
 
 build_mkdir() {
      if [ ! -d "$1" ]; then
@@ -34,20 +34,45 @@ build_ls_s() {
     fi
 }
 
+download() {
+	cd "${archive_dir}"
+	echo wget -N $*
+	wget -N $*
+}
+
+# From : http://code.google.com/p/htmlhelp/wiki/HHW4Wine
+setup_html_help() {
+    cd "${archive_dir}"
+
+    wine htmlhelp.exe
+    wine regedit "${builddir}/htmlhelp.reg"
+
+    # Install ITSS.DLL
+    cabextract -F hhupd.exe htmlhelp.exe
+    cabextract -F itircl.dll hhupd.exe
+    cabextract -F itss.dll hhupd.exe
+
+    cp -a itircl.dll "$WINEPREFIX/drive_c/windows/system32/"
+    cp -a itss.dll   "$WINEPREFIX/drive_c/windows/system32/"
+    wine regsvr32 /s 'C:\WINDOWS\SYSTEM32\itircl.dll'
+    wine regsvr32 /s 'C:\WINDOWS\SYSTEM32\itss.dll'
+}
+
 # Setup up the JH_PREFIX/deploy
     build_mkdir "${JH_PREFIX}/deploy" ; cd "${JH_PREFIX}/deploy"
     build_mkdir "bin"
     build_mkdir "lib"
+    build_mkdir "include"
     build_mkdir "etc/gtk-2.0"
     install "${srcdir}/gtkrc" "etc/gtk-2.0"
 
-# Setup Python
-    py_pkg="${archive_dir}/python-${py_pkg_ver}.msi"
     build_mkdir "${archive_dir}"
 
+# Setup Python
+    py_pkg="${archive_dir}/python-${py_pkg_ver}.msi"
+
     if [ ! -f "$py_pkg" ]; then
-	echo wget "http://www.python.org/ftp/python/${py_pkg_ver}/python-${py_pkg_ver}.msi"
-	( cd "${archive_dir}" ; wget "http://www.python.org/ftp/python/${py_pkg_ver}/python-${py_pkg_ver}.msi" )
+	( download "http://www.python.org/ftp/python/${py_pkg_ver}/python-${py_pkg_ver}.msi" )
     fi
     if [ ! -d "${WINEDIR}/Python${py_ver}" ]; then
 	echo wine msiexec /i ${py_pkg}
@@ -57,13 +82,25 @@ build_ls_s() {
     build_ls_s "${WINEDIR}/windows/system32/python${py_ver}.dll" 	"bin/libpython${py_ver}.dll"
     build_ls_s "${WINEDIR}/Python${py_ver}/libs/python${py_ver}.lib"	"lib/libpython${py_ver}.dll.a"
 
+# Download HTML Help
+    if [ ! -f "${archive_dir}/htmlhelp.exe" ]; then
+	( download 'http://go.microsoft.com/fwlink/?LinkId=14188' )
+    fi
+    if [ ! -d "${WINEDIR}/Program Files/HTML Help Workshop" ]; then
+	( setup_html_help )
+    fi
+
 # example usage:
 #	make debug
 #	make start=foo debug
 #	make module=foo debug
-#	make debug_shell
-    if [ ! "x${is_shell}" = "x" ]; then
+#	make target=shell debug
+#	make target=doc debug
+    if [ "x${target}" = "xshell" ]; then
  	${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc.py" shell
+    elif [ "x${target}" = "xdoc" ]; then
+	echo exiting
+	exit 0
     elif [ ! "x${start}" = "x" ]; then
  	${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc.py" build --start-at="${start}"
     elif [ ! "x${module}" = "x" ]; then

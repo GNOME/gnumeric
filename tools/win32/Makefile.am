@@ -1,18 +1,12 @@
-export start module
+export start module target
 
-all: moduleset gnumeric.nsi
+all: debug
 
-debug:: moduleset
+debug:: moduleset gnumeric.nsi
 	$(abs_srcdir)/build $(abs_builddir) $(abs_srcdir) debug
 
-release:: moduleset
+release:: moduleset gnumeric.nsi
 	$(abs_srcdir)/build $(abs_builddir) $(abs_srcdir) release
-
-debug_shell:: moduleset
-	$(abs_srcdir)/build $(abs_builddir) $(abs_srcdir) debug shell
-
-release_shell:: moduleset
-	$(abs_srcdir)/build $(abs_builddir) $(abs_srcdir) release shell
 
 clean:
 	rm -rf debug release
@@ -20,4 +14,4 @@ clean:
 EXTRA_DIST = gnumeric.nsi.in gtkrc moduleset.in \
 	build jhbuildrc.py
 
-.PHONY : debug release debug_shell release_shell
+.PHONY : debug release all clean
