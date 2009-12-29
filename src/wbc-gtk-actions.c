@@ -1125,16 +1125,31 @@ sort_by_rows (WBCGtk *wbcg, gboolean descending)
 	if (!(tmp = selection_first_range (sv, GO_CMD_CONTEXT (wbcg), _("Sort"))))
 		return;
 
-	sel = gnm_range_dup (tmp);
-	range_clip_to_finite (sel, sv_sheet (sv));
+	if (range_is_singleton (tmp)) {
+		Sheet *sheet = sv_sheet (sv);
 
-	numclause = range_width (sel);
-	clause = g_new0 (GnmSortClause, numclause);
-	for (i = 0; i < numclause; i++) {
-		clause[i].offset = i;
-		clause[i].asc = descending;
-		clause[i].cs = gnm_conf_get_core_sort_default_by_case ();
-		clause[i].val = TRUE;
+		sel = g_new0 (GnmRange, 1);
+		range_init_full_sheet (sel, sheet);
+		sel->start.row = tmp->start.row;
+		range_clip_to_finite (sel, sheet);
+		numclause = 1;
+		clause = g_new0 (GnmSortClause, 1);
+		clause[0].offset = tmp->start.col - sel->start.col;
+		clause[0].asc = descending;
+		clause[0].cs = gnm_conf_get_core_sort_default_by_case ();
+		clause[0].val = TRUE;
+	} else {
+		sel = gnm_range_dup (tmp);
+		range_clip_to_finite (sel, sv_sheet (sv));
+		
+		numclause = range_width (sel);
+		clause = g_new0 (GnmSortClause, numclause);
+		for (i = 0; i < numclause; i++) {
+			clause[i].offset = i;
+			clause[i].asc = descending;
+			clause[i].cs = gnm_conf_get_core_sort_default_by_case ();
+			clause[i].val = TRUE;
+		}
 	}
 
 	data = g_new (GnmSortData, 1);

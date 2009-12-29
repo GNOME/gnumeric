@@ -1,5 +1,10 @@
 2009-12-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/wbc-gtk-actions.c (sort_by_rows): consider singleton
+	  selections to be a request to sort the whole sheet [#141313]
+	
+2009-12-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/sheet-control-gui-priv.h (_SheetControlGUI): new fields
 	* src/sheet-control-gui.c (scg_gtk_paned_set_position): new
 	  replace all calls to gtk_paned_set_position by 
