@@ -2214,8 +2214,12 @@ static GtkActionEntry const actions[] = {
 		NULL, N_("Generate random numbers of a selection of distributions"),
 		G_CALLBACK (cb_tools_random_generator_uncorrelated) },
 	{ "RandomGeneratorCorrelated", NULL, N_("_Correlated..."),
-		NULL, N_("Generate varaites for correlated normal distributed random variables"),
+		NULL, N_("Generate variates for correlated normal distributed random variables"),
 		G_CALLBACK (cb_tools_random_generator_correlated) },
+	{ "CopyDown", NULL, N_("Fill downwards"), "<control>D", 
+	  N_("Copy the content from the top row to the cells below"), G_CALLBACK (cb_copydown) },
+	{ "CopyRight", NULL, N_("Fill to right"), "<control>R", 
+	  N_("Copy the content from the left column to the cells on the right"), G_CALLBACK (cb_copyright) },
 
 
 /* Data -> Outline */
@@ -2372,10 +2376,6 @@ static GtkActionEntry const actions[] = {
 	{ "FormatIncreaseIndent", GTK_STOCK_INDENT, NULL,
 		"<control><alt>Tab", N_("Increase the indent, and align the contents to the left"),
 		G_CALLBACK (cb_format_inc_indent) },
-/* Unattached */
-#warning add descriptions for copy down/right
-	{ "CopyDown", NULL, "", "<control>D", NULL, G_CALLBACK (cb_copydown) },
-	{ "CopyRight", NULL, "", "<control>R", NULL, G_CALLBACK (cb_copyright) }
 };
 
 #define TOGGLE_HANDLER(flag,property)					\

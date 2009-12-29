@@ -1,5 +1,14 @@
 2009-12-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* component/Gnumeric-embed.xml.in: add CopyDown and CopyRight
+	  to menu
+	* src/GNOME_Gnumeric-gtk.xml.in: ditto
+	* src/HILDON_Gnumeric-gtk.xml.in: ditto
+	* src/wbc-gtk-actions.c (actions): add description for CopyDown
+	  and CopyRight
+
+2009-12-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/wbc-gtk-actions.c (sort_by_rows): consider singleton
 	  selections to be a request to sort the whole sheet [#141313]
 	
