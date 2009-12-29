@@ -1,3 +1,11 @@
+2009-12-29 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* formula-guru.glade: add quote button
+	* dialog-formula-guru.c (dialog_formula_guru_update_this_parent):
+	  check for unparsable expressions
+	(dialog_formula_guru_init): set up quote button
+	(dialog_formula_guru): initialize GnmParsePos
+
 2009-12-28 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-sheetobject-size.c (dialog_so_size_button_sensitivity):

@@ -16,7 +16,8 @@ Andreas:
 	* Fix empty cell handling of the advanced filter. [#599064]
 	* Fix scroll bar problem with large frozen panes. [#68603]
 	* Singleton selections now cause the sort buttons to sort the
-	  whole sheet below teh selection. [#141313]
+	  whole sheet below the selection. [#141313]
+	* Have the formula guru auto-quote unparsable expressions. [#442941]
 
 Jean
 	* Fix import export of line type in scatter plots. [#605043]

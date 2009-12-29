@@ -39,6 +39,7 @@
 #include <cell.h>
 #include <expr.h>
 #include <expr-impl.h>
+#include <expr-name.h>
 #include <func.h>
 #include <gnm-format.h>
 #include <goffice/goffice.h>
@@ -68,6 +69,7 @@ typedef struct
 	GtkWidget *zoom_button;
 	GtkWidget *array_button;
 	GtkWidget *main_button_area;
+	GtkWidget *quote_button;
 	GtkTreePath* active_path;
 	char * prefix;
 	char * suffix;
@@ -179,8 +181,28 @@ dialog_formula_guru_update_this_parent (GtkTreeIter *parent, FormulaGuruState *s
 				}
 				gtk_tree_path_free (b);
 			}
-			if (argument && strlen (argument) > 0)
-				text = g_string_append (text, argument);
+			if (argument && strlen (argument) > 0) {
+				GnmExprTop const *texpr = gnm_expr_parse_str 
+					(argument, state->pos, 
+					 GNM_EXPR_PARSE_DEFAULT,
+					 sheet_get_conventions (state->pos->sheet), 
+					 NULL);
+				if (texpr == NULL) {
+					text = g_string_append_c (text, '"');
+					text = g_string_append (text, argument);
+					text = g_string_append_c (text, '"');
+				} else {
+					if ((GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_NAME) 
+					    && expr_name_is_placeholder (texpr->expr->name.name)
+					    && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->quote_button))) {
+						text = g_string_append_c (text, '"');
+						text = g_string_append (text, argument);
+						text = g_string_append_c (text, '"');
+					} else
+						text = g_string_append (text, argument);
+					gnm_expr_top_unref (texpr);
+				}
+			}
 			g_free (argument);
 			not_first = TRUE;
 			arg_num++;
@@ -851,10 +873,11 @@ dialog_formula_guru_init (FormulaGuruState *state)
 
 	g_signal_connect (state->treeview,
 			  "button_press_event",
-			  G_CALLBACK (start_editing_cb), state),
-
+			  G_CALLBACK (start_editing_cb), state);
 	/* Finished set-up of treeview */
 
+	state->quote_button = glade_xml_get_widget (state->gui,
+						    "quote-button");
 	state->array_button = glade_xml_get_widget (state->gui,
 						    "array_button");
 	gtk_widget_set_sensitive (state->array_button, TRUE);
@@ -970,12 +993,17 @@ dialog_formula_guru (WBCGtk *wbcg, GnmFunc const *fd)
 	state->wb    = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 	state->gui   = gui;
 	state->active_path = NULL;
-	state->pos = NULL;
+	state->pos = g_new (GnmParsePos, 1);
 
 	sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	cell = sheet_cell_get (sv_sheet (sv), sv->edit_pos.col, sv->edit_pos.row);
-	if (cell != NULL && gnm_cell_has_expr (cell))
-		expr = gnm_expr_top_first_funcall (cell->base.texpr);
+	if (cell != NULL) {
+		parse_pos_init_cell (state->pos, cell);
+		if (gnm_cell_has_expr (cell))
+			expr = gnm_expr_top_first_funcall (cell->base.texpr);
+	} else
+		parse_pos_init_editpos (state->pos, sv);
+	
 
 	if (expr == NULL) {
 		wbcg_edit_start (wbcg, TRUE, TRUE);
@@ -986,9 +1014,8 @@ dialog_formula_guru (WBCGtk *wbcg, GnmFunc const *fd)
 		char const *full_str = gtk_entry_get_text (wbcg_get_entry (wbcg));
 		char *func_str;
 
-		state->pos = g_new (GnmParsePos, 1);
 		func_str = gnm_expr_as_string (expr,
-			 parse_pos_init_cell (state->pos, cell),
+			 state->pos,
 			 sheet_get_conventions (sv_sheet (sv)));
 
 		wbcg_edit_start (wbcg, FALSE, TRUE);
