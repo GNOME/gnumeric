@@ -3269,6 +3269,9 @@ static void
 sheet_widget_draw_cairo (SheetObject const *so, cairo_t *cr,
 			 double width, double height)
 {
+#ifdef HAVE_GTK_DIALOG_GET_CONTENT_AREA
+/* so we have gtk 2.14 or later and gtk_widget_get_snapshot is available */
+
 	SheetObjectWidget *sow = SHEET_OBJECT_WIDGET (so);
 
 	if ((sow->so.realized_list->data != NULL)) {
@@ -3298,6 +3301,8 @@ sheet_widget_draw_cairo (SheetObject const *so, cairo_t *cr,
 		cairo_restore (cr);
 		g_object_unref(G_OBJECT (ss));
 	}
+
+#endif
 }
 
 

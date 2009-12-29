@@ -1,3 +1,8 @@
+2009-12-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-object-widget.c (sheet_widget_draw_cairo): only use 
+	  this for gtk 2.14 and later (since we need  gtk_widget_get_snapshot
+
 2009-12-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* component/Gnumeric-embed.xml.in: add CopyDown and CopyRight
