@@ -31,6 +31,7 @@
 #include <gnm-format.h>
 #include <number-match.h>
 #include <gnm-datetime.h>
+#include <gnumeric-gconf.h>
 #include <goffice/goffice.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -548,6 +549,7 @@ cb_gee_key_press_event (GtkEntry	*entry,
 			GnmExprEntry	*gee)
 {
 	WBCGtk *wbcg  = gee->wbcg;
+	gboolean is_enter = FALSE;
 	int state = gnumeric_filter_modifiers (event->state);
 
 	switch (event->keyval) {
@@ -603,10 +605,7 @@ cb_gee_key_press_event (GtkEntry	*entry,
 		return TRUE;
 
 	case GDK_KP_Enter:
-	case GDK_Return: {
-		SheetView *sv;
-		WBCEditResult result;
-
+	case GDK_Return:
 		if (gee->is_cell_renderer)
 			return FALSE;
 		/* Is this the right way to append a newline ?? */
@@ -621,44 +620,45 @@ cb_gee_key_press_event (GtkEntry	*entry,
 		if (!wbcg_is_editing (wbcg))
 			break;
 
-		/* Be careful to use the editing sheet */
-		sv = sheet_get_view (wbcg->editing_sheet,
-			wb_control_view (WORKBOOK_CONTROL (wbcg)));
+		is_enter = TRUE;
+		/* fall through */
 
-		if (state & GDK_CONTROL_MASK)
-			result = (state & GDK_SHIFT_MASK) ? WBC_EDIT_ACCEPT_ARRAY : WBC_EDIT_ACCEPT_RANGE;
-		else
-			result = WBC_EDIT_ACCEPT;
-		/* move the edit pos for normal entry */
-		if (wbcg_edit_finish (wbcg, result, NULL) && result == WBC_EDIT_ACCEPT) {
-			gboolean const direction = (event->state & GDK_SHIFT_MASK) ? FALSE : TRUE;
-			sv_selection_walk_step (sv, direction, FALSE);
-			sv_update (sv);
-		}
-		return TRUE;
-	}
-
-	case GDK_Tab: {
+	case GDK_Tab:
+	case GDK_ISO_Left_Tab:
+	case GDK_KP_Tab: {
 		SheetView *sv;
 		WBCEditResult result;
 
-		if (gee->is_cell_renderer)
-			return FALSE;
+		if (is_enter && (state & GDK_CONTROL_MASK))
+			result = (state & GDK_SHIFT_MASK) ? WBC_EDIT_ACCEPT_ARRAY : WBC_EDIT_ACCEPT_RANGE;
+		else
+			result = WBC_EDIT_ACCEPT;
 
-		if (!wbcg_is_editing (wbcg))
-			break;
-
-		/* Be careful to use the editing sheet */
+		/* Be careful to restore the editing sheet if we are editing */
 		sv = sheet_get_view (wbcg->editing_sheet,
 			wb_control_view (WORKBOOK_CONTROL (wbcg)));
 
-		result = WBC_EDIT_ACCEPT;
-		
-                /* move the edit pos for normal entry */
+		/* move the edit pos for normal entry */
 		if (wbcg_edit_finish (wbcg, result, NULL) && result == WBC_EDIT_ACCEPT) {
-			gboolean const direction = (event->state & GDK_SHIFT_MASK) ? FALSE : TRUE;
-			sv_selection_walk_step (sv, direction, TRUE);
-			sv_update (sv);
+			GODirection dir = gnm_conf_get_core_gui_editing_enter_moves_dir ();
+			if (!is_enter || dir != GO_DIRECTION_NONE) {
+				gboolean forward = TRUE;
+				gboolean horizontal = TRUE;
+				if (is_enter) {
+					horizontal = go_direction_is_horizontal (dir);
+					forward = go_direction_is_forward (dir);
+				}
+
+				if (event->state & GDK_SHIFT_MASK)
+					forward = !forward;
+
+				sv_selection_walk_step (sv, forward, horizontal);
+
+				/* invalidate, in case Enter direction changes */
+				if (is_enter)
+					sv->first_tab_col = -1;
+				sv_update (sv);
+			}
 		}
 		return TRUE;
 	}

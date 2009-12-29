@@ -1,3 +1,11 @@
+2009-12-29  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-expr-entry.c (cb_gee_key_press_event) : handle auto
+	  iteration in region with <Tab>.
+
+	* gnm-cell-combo-view.c (ccombo_activate) : hooks to support Ok/Cancel
+	  buttons in combos
+
 2009-12-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (cb_gee_key_press_event):  handle tab key

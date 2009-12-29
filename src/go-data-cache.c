@@ -42,7 +42,6 @@ enum {
 };
 
 /*****************************************************************/
-#define go_data_cache_records_index(c, i)	((c)->records + ((c)->record_size * (i)))
 
 static void
 go_data_cache_records_set_size (GODataCache *cache, unsigned int n)
@@ -296,7 +295,7 @@ go_data_cache_import_start (GODataCache *cache, unsigned int n)
 	go_data_cache_records_init (cache, n, offset);
 }
 
-static void
+void
 go_data_cache_dump_value (GOVal const *v)
 {
 	if (NULL == v) {
@@ -424,30 +423,6 @@ go_data_cache_get_field (GODataCache const *cache, int i)
 	g_return_val_if_fail (IS_GO_DATA_CACHE (cache), NULL);
 	g_return_val_if_fail (0 <= i && (unsigned int)i < cache->fields->len, NULL);
 	return g_ptr_array_index (cache->fields, i);
-}
-
-GOVal const *
-go_data_cache_get_val (GODataCache const *cache,
-		       GODataCacheField const *field, unsigned int record_num)
-{
-	gpointer p;
-	unsigned int idx;
-
-	g_return_val_if_fail (IS_GO_DATA_CACHE (cache), NULL);
-
-	p = go_data_cache_records_index (cache, record_num) + field->offset;
-	switch (field->ref_type) {
-	case GO_DATA_CACHE_FIELD_TYPE_NONE   : return NULL;
-	case GO_DATA_CACHE_FIELD_TYPE_INLINE : return *((GOVal **)p);
-	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I8  : idx = *(guint8 *)p; break;
-	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I16 : idx = *(guint16 *)p; break;
-	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I32 : idx = *(guint32 *)p; break;
-	default :
-		g_warning ("unknown field type %d", field->ref_type);
-		return NULL;
-	}
-
-	return (idx-- > 0) ? g_ptr_array_index (field->indexed, idx) : NULL;
 }
 
 int

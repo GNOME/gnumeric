@@ -250,7 +250,7 @@ xls_write_cache_row (ExcelWriteState *ewb, GODataCache const *cache, unsigned in
 
 	for (i = 0 ; i < inlined->len ; i++)
 		xls_write_pivot_cache_value (ewb,
-			go_data_cache_get_val (cache, g_ptr_array_index (inlined, i), n));
+			go_data_cache_field_get_val (g_ptr_array_index (inlined, i), n));
 }
 
 static void

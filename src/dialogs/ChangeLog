@@ -1,3 +1,7 @@
+2009-12-29  Jody Goldberg <jody@gnome.org>
+
+	* dialog-data-slicer.c : some incomplete work towards creating sources
+
 2009-12-29 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* formula-guru.glade: add quote button

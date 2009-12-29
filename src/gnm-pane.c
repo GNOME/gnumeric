@@ -159,6 +159,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 	gboolean delayed_movement = FALSE;
 	gboolean jump_to_bounds = event->state & GDK_CONTROL_MASK;
 	gboolean is_enter = FALSE;
+	int first_tab_col;
 	int state = gnumeric_filter_modifiers (event->state);
 	void (*movefn) (SheetControlGUI *, int n, gboolean jump, gboolean horiz);
 
@@ -386,8 +387,14 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 		if (wbcg_is_editing (wbcg))
 			sheet = wbcg->editing_sheet;
 
+	       	/* registering the cmd clears it,  restore it afterwards */
+		first_tab_col = sv->first_tab_col;
+
 		if (wbcg_edit_finish (wbcg, WBC_EDIT_ACCEPT, NULL)) {
 			GODirection dir = gnm_conf_get_core_gui_editing_enter_moves_dir ();
+
+			sv->first_tab_col = first_tab_col;
+
 			if ((event->state & GDK_MOD1_MASK) &&
 			    (event->state & GDK_CONTROL_MASK) &&
 			    !is_enter) {
@@ -395,7 +402,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 					workbook_cmd_dec_indent (sc->wbc);
 				else
 					workbook_cmd_inc_indent	(sc->wbc);
-			} else if (dir != GO_DIRECTION_NONE) {
+			} else if (!is_enter || dir != GO_DIRECTION_NONE) {
 				gboolean forward = TRUE;
 				gboolean horizontal = TRUE;
 				if (is_enter) {

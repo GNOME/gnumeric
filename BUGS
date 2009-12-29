@@ -10,22 +10,18 @@ For 1.10
 
 Release Critical
 ----------------
-    - move xml probe to gsf				(DONE)
-    - poi open-pkg in gsf				(DONE)
-    - merge autosave tree				(DONE)
-    - win32 build issues				(DONE)
-    - coverity fixes					(DONE)
+    - hidding col/row headers should not hide outline symbols
+    - header selection broken when there are groups
 
 In Progress
 -----------
     Jody
 	- xlsx chart axis export
 	- data slicers
-	- move clipboard to SAX interfaces
 	- CELL translation & array handling
 	- INDEX range res, iteration
 	- ExprEntry extensions
-	- Filter dups (does this make sense ?)
+	- Tool to filter dups
 	- python wrapper for libspreadsheet
 	- mis-export of array expr
 	    http://bugzilla.gnome.org/show_bug.cgi?id=322096
@@ -35,8 +31,6 @@ In Progress
 Review
 ------
     - func name translation		{Manny}
-    - merge hdate functions
-    	http://bugzilla.gnome.org/show_bug.cgi?id=153738
     - merge libgda port
 
 Target Features
@@ -76,7 +70,7 @@ Misc stuff that should be fixed
 
 Worries
 -------
-    : range_translate in stf.c looks suspecious.
+    : range_translate in stf.c looks suspicous.
     : Add bounds checking of integers on the xml based importers
     : do bounds check in excel_get_text
     : provide undo for dropped objects from sheet_objects_clear
@@ -87,10 +81,6 @@ Worries
     - Create new type string/double/int (not bool) for BIN2DEC etc.
     - Allow missing arguments that are not '?' for ACCRINT.
 
-    - GETPIVOTDATA signature
-
-    - Reading /local/info/test-xls/Desktop\ \&\ Collaboration\ Products\ Weekly\ Invoice.xls
-	: getpivotdata
     - TestForBiffConsumer : #REF ??
     - accrint-test.xls : why fail ?
     - BAHT functions
@@ -111,7 +101,6 @@ Worries
     - named-expr-97.xls
     - operand.xls
     - pivot-edited.xls : odd colours in the 'the range that contains' box
-    - hidding col/row headers should not hide outline symbols
     - store and persist view modes
     - fix bogosity of 'ant' cursors being in sheet_view and having the app contact them.
 
@@ -247,6 +236,8 @@ Architecture Changes
 	    5.5.4.3) support toggles				(DONE)
 	    5.5.4.4) Add ok/cancel buttons
 	    5.5.4.5) filter/sort options
+    5.6) Functions
+	5.6.1) GETPIVOTDATA signature
 
 6) Undo/redo improvements
     6.1) Keep a .swp style log of user actions			{Dan Hall}
@@ -824,37 +815,23 @@ Architecture Changes
 41) win32
     41.1) Fix preview [#533795]
 	41.1.1) port over evince based preview from unix
-	    41.1.1.1) port it					(DONE)
+	    41.1.1.1) port it
 	    41.1.1.2) patch glib [#566348]
     41.2) python installation [#549387]
-	41.2.1) pygobject build fix				(DONE)
-	41.2.2) automate pygobject build fix			(DONE)
+	41.2.1) pygobject build fix
+	41.2.2) automate pygobject build fix
 	41.2.3) package pygobject
 	41.2.4) install pygobject
-    41.3) libbz2 not found for libgsf				(DONE)
-    41.4) hhmap
-	41.4.1) how to generate
-	41.4.2) include in the installer
-    41.5) optionally add quicklaunch & desktop links
+    41.3) Docs
+	41.3.1) Generation of hhmap 				(DONE)
+	41.3.2) include hhmap with installer			(DONE)
+	41.3.3) Include chm/hhmap build in build process
+	41.3.4) Generate chm package during build
     41.6) long pause between license and screen ?
     41.7) version dll.a the same way the .dll is handled
-    41.8) Fix Paradox build
-	41.8.1) find solution					(DONE)
-	41.8.2) automate solution
-    41.9) Add MS Office processing instruction hooks for us
-    41.10) freetype
-	41.10.1) fix build					(DONE)
-	41.10.2) extend jhbuild to automate fix			(DONE)
-	41.10.3) get patch into mainline [#566437]
-    41.11) fontconfig
-	41.11.1) jpg not found
-	41.11.2) zlib not found
-	41.11.3) CPPFLAGS patch
-    41.12) evince
-	41.12.1) totem screensaver disable
-	    41.12.1.1) make patch
-	41.12.2) session management
-	41.12.3) direct connection to unix print backend
+    41.8) Add MS Office processing instruction hooks for us
+    41.9) Increase stack size
+    41.10) Check registry/gconf wrapper
 
 autoformat
 ----------

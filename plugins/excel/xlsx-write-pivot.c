@@ -117,7 +117,7 @@ xlsx_write_pivot_cache_records (XLSXWriteState *state, GODataCache const *cache,
 
 			case GO_DATA_CACHE_FIELD_TYPE_INLINE :
 				xlsx_write_pivot_val (state, xml,
-					go_data_cache_get_val (cache, field, j));
+					go_data_cache_field_get_val (field, j));
 			break;
 
 			case GO_DATA_CACHE_FIELD_TYPE_NONE :

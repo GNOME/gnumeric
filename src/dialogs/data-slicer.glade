@@ -91,12 +91,14 @@
 	  <property name="enable_popup">False</property>
 
 	  <child>
-	    <widget class="Custom" id="custom1">
+	    <widget class="GtkVBox" id="source_vbox">
 	      <property name="visible">True</property>
-	      <property name="creation_function">gnm_expr_entry_new_glade</property>
-	      <property name="int1">0</property>
-	      <property name="int2">0</property>
-	      <property name="last_modification_time">Sun, 03 May 2009 22:57:16 GMT</property>
+	      <property name="homogeneous">False</property>
+	      <property name="spacing">0</property>
+
+	      <child>
+		<placeholder/>
+	      </child>
 	    </widget>
 	    <packing>
 	      <property name="tab_expand">False</property>
@@ -107,7 +109,7 @@
 	  <child>
 	    <widget class="GtkLabel" id="label1">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Data</property>
+	      <property name="label" translatable="yes">Source</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>

@@ -1,11 +1,11 @@
 export start module target
 
-all: debug
+all: moduleset gnumeric.nsi
 
-debug:: moduleset gnumeric.nsi
+debug:: all
 	$(abs_srcdir)/build $(abs_builddir) $(abs_srcdir) debug
 
-release:: moduleset gnumeric.nsi
+release:: all
 	$(abs_srcdir)/build $(abs_builddir) $(abs_srcdir) release
 
 clean:

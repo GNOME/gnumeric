@@ -736,7 +736,7 @@ typedef struct {
 	GnmEvalPos pos;
 	gchar *text;
 	PangoAttrList *markup;
-	gboolean has_user_format;
+	gboolean has_user_format, first_time;
 	GnmCellRegion *old_contents;
 	ColRowIndexList *columns, *rows;
 	ColRowStateGroup *old_widths, *old_heights;
@@ -978,6 +978,7 @@ cmd_set_text (WorkbookControl *wbc,
 	g_free (where);
 	g_free (text);
 
+	me->first_time = TRUE;
 	me->has_user_format = !go_format_is_general (
 		gnm_style_get_format (sheet_style_get (sheet, pos->col, pos->row)));
 

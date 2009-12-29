@@ -1,3 +1,8 @@
+2009-12-29  Jody Goldberg <jody@gnome.org>
+
+	* src/gnm-pane.c (gnm_pane_key_mode_sheet) : Support autoiterating
+	  through a region with <Tab>.
+
 2009-12-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-object-widget.c (sheet_widget_draw_cairo): only use 

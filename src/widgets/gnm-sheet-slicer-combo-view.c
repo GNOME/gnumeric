@@ -46,10 +46,12 @@ enum {
 };
 
 static gboolean
-sscombo_activate (SheetObject *so, GtkWidget *popup, GtkTreeView *list,
-		 WBCGtk *wbcg)
+sscombo_activate (SheetObject *so, GtkTreeView *list, WBCGtk *wbcg, gboolean button)
 {
 	GtkTreeIter	    iter;
+
+	if (!button)
+		return FALSE;
 
 	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (list), NULL, &iter)) {
 		char		*strval;
@@ -64,7 +66,7 @@ sscombo_activate (SheetObject *so, GtkWidget *popup, GtkTreeView *list,
 #endif
 		g_free (strval);
 	}
-	return FALSE;
+	return TRUE;
 }
 
 static void
@@ -84,7 +86,8 @@ cb_filter_toggle (GtkCellRendererToggle *cell,
 }
 
 static GtkWidget *
-sscombo_create_list (SheetObject *so, GtkTreePath **clip, GtkTreePath **select)
+sscombo_create_list (SheetObject *so,
+		     GtkTreePath **clip, GtkTreePath **select, gboolean *make_buttons)
 {
 	GnmSheetSlicerCombo *sscombo = GNM_SHEET_SLICER_COMBO (so);
 	GODataCacheField const *dcf  = go_data_slicer_field_get_cache_field (sscombo->dsf);
@@ -92,9 +95,11 @@ sscombo_create_list (SheetObject *so, GtkTreePath **clip, GtkTreePath **select)
 	GtkTreeIter	 iter;
 	GtkCellRenderer *renderer;
 	GtkWidget	*list;
-	GOValArray const *vals;
+	GOValArray const*vals;
+	GOVal const	*v;
 	GString		*str;
 	unsigned i;
+	GODateConventions const *dconv = workbook_date_conv (sscombo->parent.sv->sheet->workbook);
 
 	vals = go_data_cache_field_get_vals (dcf, TRUE);
 	if (NULL == vals)
@@ -105,13 +110,14 @@ sscombo_create_list (SheetObject *so, GtkTreePath **clip, GtkTreePath **select)
 		G_TYPE_BOOLEAN, G_TYPE_STRING);
 	str = g_string_sized_new (20);
 	for (i = 0; i < vals->len ; i++) {
-		if (GO_FORMAT_NUMBER_OK == format_value_gstring (str, NULL,
-			g_ptr_array_index (vals, i), NULL, -1,
-			workbook_date_conv (sscombo->parent.sv->sheet->workbook))) {
-			gtk_list_store_append (model, &iter);
-			gtk_list_store_set (model, &iter, 0, TRUE, 1, str->str, -1);
-			g_string_truncate (str, 0);
-		}
+		v = g_ptr_array_index (vals, i);
+		gtk_list_store_append (model, &iter);
+		if (VALUE_IS_EMPTY(v))
+			g_string_assign (str, _("<Blank>"));
+		else if (GO_FORMAT_NUMBER_OK != format_value_gstring (str, NULL, v, NULL, -1, dconv))
+			g_string_assign (str, "<ERROR>");
+		gtk_list_store_set (model, &iter, 0, TRUE, 1, str->str, -1);
+		g_string_truncate (str, 0);
 	}
 	list = gtk_tree_view_new_with_model (GTK_TREE_MODEL (model));
 	g_object_unref (model);
@@ -127,6 +133,9 @@ sscombo_create_list (SheetObject *so, GtkTreePath **clip, GtkTreePath **select)
 		gtk_tree_view_column_new_with_attributes ("ID",
 			gtk_cell_renderer_text_new (), "text", SSCOMBO_COL_NAME,
 			NULL));
+
+	*make_buttons = TRUE;
+
 	return list;
 }
 
@@ -151,22 +160,22 @@ sscombo_ccombo_init (GnmCComboViewIface void *ccombo_iface)
 static void
 sscombo_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
-	GocItem *view = GOC_ITEM (sov);
+	GocGroup *view = GOC_GROUP (sov);
 
 	if (visible) {
 		double h = (coords[3] - coords[1]) + 1.;
 		if (h > 20.)	/* clip vertically */
 			h = 20.;
-		goc_item_set (view,
+		goc_item_set (GOC_ITEM (view->children->data),
 			/* put it outside the cell */
 			"x",	  ((coords[2] >= 0.) ? coords[2] : (coords[0]-h+1.)),
 			"y",	  coords [3] - h + 1.,
 			"width",  h,	/* force a square, use h for width too */
 			"height", h,
 			NULL);
-		goc_item_show (view);
+		goc_item_show (GOC_ITEM (view));
 	} else
-		goc_item_hide (view);
+		goc_item_hide (GOC_ITEM (view));
 }
 
 static void

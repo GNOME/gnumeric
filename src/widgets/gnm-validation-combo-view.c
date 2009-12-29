@@ -46,8 +46,8 @@
 #include <string.h>
 
 static gboolean
-vcombo_activate (SheetObject *so, GtkWidget *popup, GtkTreeView *list,
-		 WBCGtk *wbcg)
+vcombo_activate (SheetObject *so, GtkTreeView *list, WBCGtk *wbcg,
+		 G_GNUC_UNUSED gboolean button)
 {
 	GnmValidationCombo *vcombo = GNM_VALIDATION_COMBO (so);
 	GtkTreeIter	    iter;
@@ -88,7 +88,8 @@ cb_hash_domain (GnmValue *key, gpointer value, gpointer accum)
 }
 
 static GtkWidget *
-vcombo_create_list (SheetObject *so, GtkTreePath **clip, GtkTreePath **select)
+vcombo_create_list (SheetObject *so,
+		    GtkTreePath **clip, GtkTreePath **select, gboolean *make_buttons)
 {
 	GnmValidationCombo *vcombo = GNM_VALIDATION_COMBO (so);
 	unsigned	 i;
@@ -185,22 +186,22 @@ vcombo_create_arrow (G_GNUC_UNUSED SheetObject *so)
 static void
 vcombo_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
-	GocItem *view = GOC_ITEM (sov);
+	GocGroup *view = GOC_GROUP (sov);
 
 	if (visible) {
 		double h = (coords[3] - coords[1]) + 1.;
 		if (h > 20.)	/* clip vertically */
 			h = 20.;
-		goc_item_set (view,
+		goc_item_set (GOC_ITEM (view->children->data),
 			/* put it outside the cell */
 			"x",	  ((coords[2] >= 0.) ? coords[2] : (coords[0]-h+1.)),
 			"y",	  coords [3] - h + 1.,
 			"width",  h,	/* force a square, use h for width too */
 			"height", h,
 			NULL);
-		goc_item_show (view);
+		goc_item_show (GOC_ITEM (view));
 	} else
-		goc_item_hide (view);
+		goc_item_hide (GOC_ITEM (view));
 }
 
 /****************************************************************************/

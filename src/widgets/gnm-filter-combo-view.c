@@ -44,8 +44,8 @@
 #include <string.h>
 
 static gboolean
-fcombo_activate (SheetObject *so, GtkWidget *popup, GtkTreeView *list,
-		 WBCGtk *wbcg)
+fcombo_activate (SheetObject *so, GtkTreeView *list, WBCGtk *wbcg,
+		 G_GNUC_UNUSED gboolean button)
 {
 	GnmFilterCombo *fcombo = GNM_FILTER_COMBO (so);
 	GtkTreeIter     iter;
@@ -142,7 +142,8 @@ formatted_value_equal (GnmValue const *a, GnmValue const *b)
 }
 
 static GtkWidget *
-fcombo_create_list (SheetObject *so,  GtkTreePath **clip, GtkTreePath **select)
+fcombo_create_list (SheetObject *so,
+		    GtkTreePath **clip, GtkTreePath **select, gboolean *make_buttons)
 {
 	GnmFilterCombo  *fcombo = GNM_FILTER_COMBO (so);
 	GnmFilter const *filter = fcombo->filter;

@@ -44,10 +44,12 @@ typedef enum {
 
 GType go_data_cache_field_get_type (void);
 
-GOString 	 *go_data_cache_field_get_name (GODataCacheField const *field);
-GOValArray const *go_data_cache_field_get_vals (GODataCacheField const *field, gboolean group_val);
-void		  go_data_cache_field_set_vals (GODataCacheField       *field, gboolean group_val,
-						GOValArray *a);
+GODataCache	 *go_data_cache_field_get_cache (GODataCacheField const *field);
+GOVal const	 *go_data_cache_field_get_val   (GODataCacheField const *field, unsigned int record_num);
+GOString 	 *go_data_cache_field_get_name  (GODataCacheField const *field);
+GOValArray const *go_data_cache_field_get_vals  (GODataCacheField const *field, gboolean group_val);
+void		  go_data_cache_field_set_vals  (GODataCacheField       *field, gboolean group_val,
+						 GOValArray *a);
 
 gboolean 	  go_data_cache_field_is_base (GODataCacheField const *field);
 GODataCacheFieldType

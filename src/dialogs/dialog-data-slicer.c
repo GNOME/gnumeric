@@ -34,17 +34,24 @@
 #include <gnm-sheet-slicer.h>
 #include <go-data-slicer.h>
 #include <go-data-slicer-field.h>
+#include <go-data-cache.h>
 
 #include <glade/glade.h>
 
 typedef struct {
-	GtkWidget	*dialog;
-	GladeXML	*gui;
-	WBCGtk		*wbcg;
-	SheetView	*sv;
-	GnmSheetSlicer	*slicer;
+	GtkWidget		*dialog;
+	GladeXML		*gui;
+	WBCGtk			*wbcg;
+	SheetView		*sv;
 
-	GtkTreeView	*treeview;
+	GnmSheetSlicer		*slicer;
+	GODataCache		*cache;
+	GODataCacheSource	*source;
+
+	GtkWidget		*notebook;
+	GnmExprEntry		*source_expr;
+
+	GtkTreeView		*treeview;
 	GtkTreeSelection	*selection;
 } DialogDataSlicer;
 
@@ -60,8 +67,10 @@ enum {
 static void
 cb_dialog_data_slicer_destroy (DialogDataSlicer *state)
 {
-	if (NULL != state->gui) { g_object_unref (G_OBJECT (state->gui)); state->gui = NULL; }
-	if (NULL != state->slicer) { g_object_unref (G_OBJECT (state->slicer)); state->slicer = NULL; }
+	if (NULL != state->gui)		{ g_object_unref (G_OBJECT (state->gui));	state->gui = NULL; }
+	if (NULL != state->slicer)	{ g_object_unref (G_OBJECT (state->slicer));	state->slicer = NULL; }
+	if (NULL != state->cache)	{ g_object_unref (G_OBJECT (state->cache));	state->cache = NULL; }
+	if (NULL != state->source)	{ g_object_unref (G_OBJECT (state->source));	state->source = NULL; }
 	state->dialog = NULL;
 	g_free (state);
 }
@@ -134,6 +143,7 @@ cb_dialog_data_slicer_create_model (DialogDataSlicer *state)
 		{ GDS_FIELD_TYPE_ROW,	N_("Row") },
 		{ GDS_FIELD_TYPE_COL,	N_("Column") },
 		{ GDS_FIELD_TYPE_DATA,	N_("Data") },
+		/* Must be last */
 		{ GDS_FIELD_TYPE_UNSET,	N_("Unused") }
 	};
 
@@ -164,24 +174,26 @@ cb_dialog_data_slicer_create_model (DialogDataSlicer *state)
 	n = go_data_slicer_num_fields (GO_DATA_SLICER (state->slicer));
 	for (i = 0 ; i < n ; i++) {
 		GtkTreeIter child_iter;
-		unsigned int field_types;
-		int header_indx;
 		GODataSlicerField *field =
 			go_data_slicer_get_field (GO_DATA_SLICER (state->slicer), i);
 		GOString *name = go_data_slicer_field_get_name (field);
+		gboolean used = FALSE;
 
-		g_object_get (field, "field-types", &field_types, "header-index", &header_indx, NULL);
-
-		for (j = 0 ; j < G_N_ELEMENTS (field_type_labels) ; j++)
-		       	if ((field_types & (1 << field_type_labels[j].type))) {
+		for (j = 0 ; j < G_N_ELEMENTS (field_type_labels) ; j++) {
+			int header_index = (GDS_FIELD_TYPE_UNSET != field_type_labels[j].type)
+				? go_data_slicer_field_get_field_type_pos (field, field_type_labels[j].type)
+				: (used ? -1 : 0);
+			if (header_index >= 0) {
+				used = TRUE;
 				gtk_tree_store_append (model, &child_iter, &field_type_labels[j].iter);
 				gtk_tree_store_set (model, &child_iter,
-					FIELD,			NULL,
+					FIELD,			field,
 					FIELD_TYPE,		field_type_labels[j].type,
 					FIELD_NAME,		name->str,
-					FIELD_HEADER_INDEX,	header_indx,
+					FIELD_HEADER_INDEX,	header_index,
 					-1);
 			}
+		}
 	}
 	gtk_tree_view_set_model (state->treeview, smodel);
 }
@@ -190,6 +202,14 @@ static void
 cb_dialog_data_slicer_selection_changed (GtkTreeSelection *selection,
 					 DialogDataSlicer *state)
 {
+}
+
+static void
+cb_source_expr_changed (DialogDataSlicer *state)
+{
+        GnmValue *range;
+       	range = gnm_expr_entry_parse_as_value
+		(GNM_EXPR_ENTRY (state->source_expr), sv_sheet (state->sv));
 }
 
 void
@@ -211,16 +231,35 @@ dialog_data_slicer (WBCGtk *wbcg, gboolean create)
 	if (NULL == gui)
 		return;
 
-	state = g_new (DialogDataSlicer, 1);
+	state = g_new0 (DialogDataSlicer, 1);
 	state->wbcg	= wbcg;
 	state->sv	= wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	state->gui	= gui;
-	state->slicer	= sv_editpos_in_slicer (state->sv);
-	if (NULL == state->slicer) {
-	} else
-		g_object_ref (G_OBJECT (state->slicer));
 
-	state->dialog = glade_xml_get_widget (state->gui, "dialog_data_slicer");
+	state->dialog	= glade_xml_get_widget (state->gui, "dialog_data_slicer");
+	state->notebook = glade_xml_get_widget (state->gui, "notebook");
+	state->slicer	= create ? NULL : sv_editpos_in_slicer (state->sv);
+	state->cache	= NULL;
+	state->source	= NULL;
+
+	if (NULL == state->slicer) {
+		state->slicer = g_object_new (GNM_SHEET_SLICER_TYPE, NULL);
+	} else {
+		g_object_ref (G_OBJECT (state->slicer));
+		g_object_get (G_OBJECT (state->slicer), "cache", &state->cache, NULL);
+		if (NULL != state->cache &&
+		    NULL != (state->source = go_data_cache_get_source (state->cache)))
+		    g_object_ref (G_OBJECT (state->source));
+	}
+
+	state->source_expr = gnm_expr_entry_new (state->wbcg, TRUE);
+	gnm_expr_entry_set_flags (state->source_expr,
+		GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
+	g_signal_connect_swapped (G_OBJECT (state->source_expr),
+		"changed", G_CALLBACK (cb_source_expr_changed), state);
+	w = glade_xml_get_widget (state->gui, "source_vbox");
+	gtk_box_pack_start (GTK_BOX (w), GTK_WIDGET (state->source_expr), FALSE, FALSE, 0);
+	gtk_widget_show (GTK_WIDGET (state->source_expr));
 
 	w = glade_xml_get_widget (state->gui, "ok_button");
 	g_signal_connect (G_OBJECT (w), "clicked",
@@ -245,6 +284,8 @@ dialog_data_slicer (WBCGtk *wbcg, gboolean create)
 	cb_dialog_data_slicer_create_model (state);
 
 	g_signal_connect (state->treeview, "realize", G_CALLBACK (gtk_tree_view_expand_all), NULL);
+
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (state->notebook), create ? 0 : 1);
 
 	/* a candidate for merging into attach guru */
 	gnumeric_init_help_button (glade_xml_get_widget (state->gui, "help_button"),

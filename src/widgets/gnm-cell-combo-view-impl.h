@@ -9,9 +9,10 @@ typedef SheetObjectView GnmCComboView;
 typedef struct {
 	SheetObjectViewClass base;
 
-	gboolean	(*activate)	(SheetObject *so, GtkWidget *popup,   GtkTreeView *list,
-					 WBCGtk *wbcg);
-	GtkWidget *	(*create_list)  (SheetObject *so, GtkTreePath **clip, GtkTreePath **select);
+	gboolean	(*activate)	(SheetObject *so, GtkTreeView *list,
+					 WBCGtk *wbcg, gboolean button);
+	GtkWidget *	(*create_list)  (SheetObject *so, GtkTreePath **clip, GtkTreePath **select,
+					 gboolean *add_buttons);
 	GtkWidget *	(*create_arrow) (SheetObject *so);
 } GnmCComboViewClass;
 

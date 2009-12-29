@@ -1141,37 +1141,23 @@ cb_wbc_destroyed (SheetControlGUI *scg)
 }
 
 static void
-cb_scg_prefs (G_GNUC_UNUSED Sheet *sheet,
-	      G_GNUC_UNUSED GParamSpec *pspec,
-	      SheetControlGUI *scg)
+cb_scg_redraw (SheetControlGUI *scg)
 {
 	scg_adjust_preferences (scg);
-}
-
-static void
-cb_scg_redraw (Sheet *sheet,
-	       GParamSpec *pspec,
-	       SheetControlGUI *scg)
-{
-	cb_scg_prefs (sheet, pspec, scg);
 	scg_redraw_all (&scg->sheet_control, TRUE);
 }
 
 static void
-cb_scg_redraw_resize (Sheet *sheet,
-		      GParamSpec *pspec,
-		      SheetControlGUI *scg)
+cb_scg_redraw_resize (SheetControlGUI *scg)
 {
-	cb_scg_redraw (sheet, pspec, scg);
+	cb_scg_redraw (scg);
 	scg_resize (scg, FALSE);
 }
 
 static void
-cb_scg_sheet_resized (Sheet *sheet,
-		      GParamSpec *pspec,
-		      SheetControlGUI *scg)
+cb_scg_sheet_resized (SheetControlGUI *scg)
 {
-	cb_scg_redraw_resize (sheet, pspec, scg);
+	cb_scg_redraw_resize (scg);
 	sc_set_panes (&scg->sheet_control);
 }
 
@@ -1535,20 +1521,19 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 
 	sv_attach_control (sv, SHEET_CONTROL (scg));
 
-	g_object_connect
-		(G_OBJECT (sheet),
+	g_object_connect (G_OBJECT (sheet),
 		 "swapped_signal::notify::text-is-rtl", cb_scg_direction_changed, scg,
-		 "signal::notify::display-formulas", cb_scg_redraw, scg,
-		 "signal::notify::display-zeros", cb_scg_redraw, scg,
-		 "signal::notify::display-grid", cb_scg_redraw, scg,
-		 "signal::notify::display-column-header", cb_scg_prefs, scg,
-		 "signal::notify::display-row-header", cb_scg_prefs, scg,
-		 "signal::notify::use-r1c1", cb_scg_redraw, scg,
-		 "signal::notify::display-outlines", cb_scg_redraw_resize, scg,
-		 "signal::notify::display-outlines-below", cb_scg_redraw_resize, scg,
-		 "signal::notify::display-outlines-right", cb_scg_redraw_resize, scg,
-		 "signal::notify::columns", cb_scg_sheet_resized, scg,
-		 "signal::notify::rows", cb_scg_sheet_resized, scg,
+		 "swapped_signal::notify::display-formulas", cb_scg_redraw, scg,
+		 "swapped_signal::notify::display-zeros", cb_scg_redraw, scg,
+		 "swapped_signal::notify::display-grid", cb_scg_redraw, scg,
+		 "swapped_signal::notify::display-column-header", scg_adjust_preferences, scg,
+		 "swapped_signal::notify::display-row-header", scg_adjust_preferences, scg,
+		 "swapped_signal::notify::use-r1c1", cb_scg_redraw, scg,
+		 "swapped_signal::notify::display-outlines", cb_scg_redraw_resize, scg,
+		 "swapped_signal::notify::display-outlines-below", cb_scg_redraw_resize, scg,
+		 "swapped_signal::notify::display-outlines-right", cb_scg_redraw_resize, scg,
+		 "swapped_signal::notify::columns", cb_scg_sheet_resized, scg,
+		 "swapped_signal::notify::rows", cb_scg_sheet_resized, scg,
 		 NULL);
 
 	scg->label = editable_label_new
@@ -1601,7 +1586,7 @@ scg_finalize (GObject *object)
 
 	if (sc->view) {
 		Sheet *sheet = sv_sheet (sc->view);
-		g_signal_handlers_disconnect_by_func (sheet, cb_scg_prefs, scg);
+		g_signal_handlers_disconnect_by_func (sheet, scg_adjust_preferences, scg);
 		g_signal_handlers_disconnect_by_func (sheet, cb_scg_redraw, scg);
 		g_signal_handlers_disconnect_by_func (sheet, cb_scg_redraw_resize, scg);
 		g_signal_handlers_disconnect_by_func (sheet, cb_scg_sheet_resized, scg);

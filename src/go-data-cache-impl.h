@@ -48,6 +48,9 @@ typedef struct {
 	GObjectClass base;
 } GODataCacheClass;
 
+/* utility macro */
+#define go_data_cache_records_index(c, i)	((c)->records + ((c)->record_size * (i)))
+
 G_END_DECLS
 
 #endif /* GO_DATA_CACHE_IMPL_H */

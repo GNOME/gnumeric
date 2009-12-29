@@ -39,7 +39,7 @@
 #define	AUTOSCROLL_ID	"autoscroll-id"
 #define	AUTOSCROLL_DIR	"autoscroll-dir"
 
-static void ccombo_popup_destroy (GtkWidget *popup, GtkWidget *list);
+static void ccombo_popup_destroy (GtkWidget *list);
 
 static GtkWidget *
 ccombo_create_arrow (GnmCComboView *ccombo, SheetObject *so)
@@ -49,28 +49,28 @@ ccombo_create_arrow (GnmCComboView *ccombo, SheetObject *so)
 }
 
 static gboolean
-ccombo_activate (GtkWidget *popup, GtkTreeView *list)
+ccombo_activate (GtkTreeView *list, gboolean button)
 {
 	SheetObjectView		*sov    = g_object_get_data (G_OBJECT (list), SOV_ID);
 	GocItem			*view   = GOC_ITEM (sov);
 	GnmPane			*pane   = GNM_PANE (view->canvas);
 	GnmCComboViewClass	*klass  = GNM_CCOMBO_VIEW_GET_CLASS (sov);
 
-	if ((klass->activate) (sheet_object_view_get_so (sov), popup, list,
-			      scg_wbcg (pane->simple.scg)))
+	if ((klass->activate) (sheet_object_view_get_so (sov), list,
+			       scg_wbcg (pane->simple.scg), button))
 	{
-		ccombo_popup_destroy (popup, GTK_WIDGET (list));
+		ccombo_popup_destroy (GTK_WIDGET (list));
 		return TRUE;
 	}
 	return FALSE;
 }
 
 static GtkWidget *
-ccombo_create_list (GnmCComboView *ccombo,
-		    SheetObject *so, GtkTreePath **clip, GtkTreePath **select)
+ccombo_create_list (GnmCComboView *ccombo, SheetObject *so,
+		    GtkTreePath **clip, GtkTreePath **select, gboolean *make_buttons)
 {
 	GnmCComboViewClass *klass = GNM_CCOMBO_VIEW_GET_CLASS (ccombo);
-	return (klass->create_list) (so, clip, select);
+	return (klass->create_list) (so, clip, select, make_buttons);
 }
 
 /****************************************************************************/
@@ -143,11 +143,11 @@ ccombo_autoscroll_set (GObject *list, int dir)
 }
 
 static void
-ccombo_popup_destroy (GtkWidget *popup, GtkWidget *list)
+ccombo_popup_destroy (GtkWidget *list)
 {
 	ccombo_autoscroll_set (G_OBJECT (list), 0);
 	ccombo_focus_change (list, FALSE);
-	gtk_widget_destroy (popup);
+	gtk_widget_destroy (gtk_widget_get_toplevel (list));
 }
 
 static gint
@@ -155,7 +155,7 @@ cb_ccombo_key_press (GtkWidget *popup, GdkEventKey *event, GtkWidget *list)
 {
 	switch (event->keyval) {
 	case GDK_Escape :
-		ccombo_popup_destroy (popup, list);
+		ccombo_popup_destroy (list);
 		return TRUE;
 
 	case GDK_KP_Down :
@@ -168,7 +168,7 @@ cb_ccombo_key_press (GtkWidget *popup, GdkEventKey *event, GtkWidget *list)
 
 	case GDK_KP_Enter :
 	case GDK_Return :
-		ccombo_activate (popup, GTK_TREE_VIEW (list));
+		ccombo_activate (GTK_TREE_VIEW (list), FALSE);
 		return TRUE;
 	default :
 		;
@@ -228,7 +228,7 @@ cb_ccombo_button_press (GtkWidget *popup, GdkEventButton *event,
 {
 	/* btn1 down outside the popup cancels */
 	if (event->button == 1 && event->window != popup->window) {
-		ccombo_popup_destroy (popup, list);
+		ccombo_popup_destroy (list);
 		return TRUE;
 	}
 	return FALSE;
@@ -239,22 +239,19 @@ cb_ccombo_button_release (GtkWidget *popup, GdkEventButton *event,
 			  GtkTreeView *list)
 {
 	if (event->button == 1) {
-	    if (gtk_get_event_widget ((GdkEvent *) event) == GTK_WIDGET (list))
-		    return ccombo_activate (popup, list);
+		if (gtk_get_event_widget ((GdkEvent *) event) == GTK_WIDGET (list))
+			return ccombo_activate (list, FALSE);
 
-	    g_signal_handlers_disconnect_by_func (popup,
-			G_CALLBACK (cb_ccombo_popup_motion), list);
-	    ccombo_autoscroll_set (G_OBJECT (list), 0);
+		g_signal_handlers_disconnect_by_func (popup,
+						      G_CALLBACK (cb_ccombo_popup_motion), list);
+		ccombo_autoscroll_set (G_OBJECT (list), 0);
 	}
 	return FALSE;
 }
 
-static void
-cb_ccombo_button_pressed (G_GNUC_UNUSED GtkButton *button,
-			  SheetObjectView *sov)
-{
-	gnm_cell_combo_view_popdown (sov, GDK_CURRENT_TIME);
-}
+static void cb_ccombo_button_pressed	(SheetObjectView *sov)	{ gnm_cell_combo_view_popdown (sov, GDK_CURRENT_TIME); }
+static void cb_ccombo_ok_button		(GtkTreeView *list)	{ ccombo_activate (list, TRUE); }
+static void cb_ccombo_cancel_button	(GtkWidget *list)	{ ccombo_popup_destroy (list); }
 
 /**
  * gnm_cell_combo_view_popdown:
@@ -273,6 +270,7 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 	Sheet const	   *sheet  = sheet_object_get_sheet (so);
 	GtkWidget *frame,  *popup, *list, *container;
 	int root_x, root_y;
+	gboolean 	make_buttons = FALSE;
 	GtkTreePath	  *clip = NULL, *select = NULL;
 	GtkRequisition	req;
 	GtkWindow *toplevel = wbcg_toplevel (scg_wbcg (scg));
@@ -286,7 +284,7 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 	gtk_window_set_screen (GTK_WINDOW (popup),
 		gtk_widget_get_screen (GTK_WIDGET (toplevel)));
 
-	list = ccombo_create_list (GNM_CCOMBO_VIEW (sov), so, &clip, &select);
+	list = ccombo_create_list (GNM_CCOMBO_VIEW (sov), so, &clip, &select, &make_buttons);
 
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (list), FALSE);
 	gtk_widget_size_request (GTK_WIDGET (list), &req);
@@ -316,6 +314,25 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 		container = sw;
 	} else
 		container = list;
+
+	if (make_buttons) {
+		GtkWidget *vbox = gtk_vbox_new (FALSE, 0);
+		GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+
+		GtkWidget *button;
+		button = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
+		g_signal_connect_swapped (button, "clicked",
+			G_CALLBACK (cb_ccombo_cancel_button), list);
+		gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 6);
+		button = gtk_button_new_from_stock (GTK_STOCK_OK);
+		g_signal_connect_swapped (button, "clicked",
+			G_CALLBACK (cb_ccombo_ok_button), list);
+		gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 6);
+
+		gtk_box_pack_start (GTK_BOX (vbox), container, FALSE, TRUE, 6);
+		gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 6);
+		container = vbox;
+	}
 
 	gtk_container_add (GTK_CONTAINER (frame), container);
 
@@ -402,7 +419,7 @@ gnm_cell_combo_view_new (SheetObject *so, GType type,
 
 	gtk_container_add (GTK_CONTAINER (view_widget),
 		ccombo_create_arrow (GNM_CCOMBO_VIEW (ccombo), so));
-	g_signal_connect (view_widget, "pressed",
+	g_signal_connect_swapped (view_widget, "pressed",
 		G_CALLBACK (cb_ccombo_button_pressed), ccombo);
 	gtk_widget_show_all (view_widget);
 

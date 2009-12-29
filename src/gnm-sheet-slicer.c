@@ -321,6 +321,7 @@ gnm_sheet_slicers_at_pos (Sheet const *sheet, GnmCellPos const *pos)
 	return NULL;
 }
 
+#if 0
 static void
 gss_append_field_indicies (GnmSheetSlicer const *gss, GODataSlicerFieldType type,
 			   GArray *field_order)
@@ -330,6 +331,29 @@ gss_append_field_indicies (GnmSheetSlicer const *gss, GODataSlicerFieldType type
 	for (i = 0 ; i < n; i++)
 		g_array_append_val (field_order, g_array_index (tmp, int, i));
 }
+
+static void
+gnm_sheet_slicer_test_sort (GnmSheetSlicer *gss)
+{
+	/* quick test to sort the cache based on the row/col */
+	GArray *permutation, *field_order;
+	unsigned int i, n;
+
+	field_order = g_array_sized_new (FALSE, FALSE, sizeof (unsigned int), gss->base.all_fields->len);
+	gss_append_field_indicies (gss, GDS_FIELD_TYPE_ROW, field_order);
+	gss_append_field_indicies (gss, GDS_FIELD_TYPE_COL, field_order);
+
+	n = go_data_cache_num_items (gss->base.cache);
+	permutation = g_array_sized_new (FALSE, FALSE, sizeof (int), n);
+	for (i = 0 ; i < n ; i++)
+		g_array_append_val (permutation, i);
+	go_data_cache_permute (gss->base.cache, field_order, permutation);
+	go_data_cache_dump (gss->base.cache, field_order, permutation);
+
+	g_array_free (field_order, TRUE);
+	g_array_free (permutation, TRUE);
+}
+#endif
 
 /**
  * gnm_sheet_slicer_regenerate:
@@ -342,27 +366,20 @@ gss_append_field_indicies (GnmSheetSlicer const *gss, GODataSlicerFieldType type
 void
 gnm_sheet_slicer_regenerate (GnmSheetSlicer *gss)
 {
-	GArray *permutation, *field_order;
+#if 0
+	GArray *permutation, *rows;
 	unsigned int i, n;
 
 	g_return_if_fail (IS_GNM_SHEET_SLICER (gss));
 	g_return_if_fail (IS_SHEET (gss->sheet));
+	g_return_if_fail (NULL != gss->base.cache);
 
 	field_order = g_array_sized_new (FALSE, FALSE, sizeof (unsigned int), gss->base.all_fields->len);
 	gss_append_field_indicies (gss, GDS_FIELD_TYPE_ROW, field_order);
 	gss_append_field_indicies (gss, GDS_FIELD_TYPE_COL, field_order);
 
 	n = go_data_cache_num_items (gss->base.cache);
-	permutation = g_array_sized_new (FALSE, FALSE, sizeof (int), n);
-	for (i = 0 ; i < n ; i++)
-		g_array_append_val (permutation, i);
-
-	/* TODO : apply page filters */
-	go_data_cache_permute (gss->base.cache, field_order, permutation);
-	go_data_cache_dump (gss->base.cache, field_order, permutation);
-
-	g_array_free (field_order, TRUE);
-	g_array_free (permutation, TRUE);
+#endif
 }
 
 GnmSheetSlicerLayout

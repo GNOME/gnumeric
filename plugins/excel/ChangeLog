@@ -1,3 +1,9 @@
+2009-12-29  Jody Goldberg <jody@gnome.org>
+
+	* xls-read-pivot.c (xls_read_SXVI) : new stub.  Currently only notices
+	  when XL wants to hide things.
+	(xls_read_SXVD) : used from here.
+
 2009-12-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* xlsx-read-pivot.c (xlsx_CT_Number),

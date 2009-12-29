@@ -23,6 +23,7 @@
 
 #include <gnumeric-config.h>
 #include "go-data-cache-field-impl.h"
+#include "go-data-cache-impl.h"
 #include "go-data-cache.h"
 
 #include <go-val.h>
@@ -152,6 +153,13 @@ GSF_CLASS (GODataCacheField, go_data_cache_field,
 	   go_data_cache_field_class_init, go_data_cache_field_init,
 	   G_TYPE_OBJECT)
 
+GODataCache *
+go_data_cache_field_get_cache (GODataCacheField const *field)
+{
+	g_return_val_if_fail (IS_GO_DATA_CACHE_FIELD (field), NULL);
+	return field->cache;
+}
+
 GOString *
 go_data_cache_field_get_name (GODataCacheField const *field)
 {
@@ -193,4 +201,27 @@ go_data_cache_field_ref_type (GODataCacheField const *field)
 {
 	g_return_val_if_fail (IS_GO_DATA_CACHE_FIELD (field), GO_DATA_CACHE_FIELD_TYPE_NONE);
 	return field->ref_type;
+}
+
+GOVal const *
+go_data_cache_field_get_val (GODataCacheField const *field, unsigned int record_num)
+{
+	gpointer p;
+	unsigned int idx;
+
+	g_return_val_if_fail (IS_GO_DATA_CACHE_FIELD (field), NULL);
+
+	p = go_data_cache_records_index (field->cache, record_num) + field->offset;
+	switch (field->ref_type) {
+	case GO_DATA_CACHE_FIELD_TYPE_NONE   : return NULL;
+	case GO_DATA_CACHE_FIELD_TYPE_INLINE : return *((GOVal **)p);
+	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I8  : idx = *(guint8 *)p; break;
+	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I16 : idx = *(guint16 *)p; break;
+	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I32 : idx = *(guint32 *)p; break;
+	default :
+		g_warning ("unknown field type %d", field->ref_type);
+		return NULL;
+	}
+
+	return (idx-- > 0) ? g_ptr_array_index (field->indexed, idx) : NULL;
 }

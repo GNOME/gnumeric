@@ -612,6 +612,54 @@ xls_read_SXIVD (BiffQuery *q, ExcelReadSheet *esheet)
 	}
 }
 
+static void
+xls_read_SXVI (BiffQuery *q, ExcelReadSheet *esheet, unsigned int i)
+{
+	guint16 const type	  = GSF_LE_GET_GUINT16 (q->data + 0);
+	guint16 const flags	  = GSF_LE_GET_GUINT16 (q->data + 2);
+	guint16 const cache_index = GSF_LE_GET_GUINT16 (q->data + 4);
+	// guint16 const name_len	  = GSF_LE_GET_GUINT16 (q->data + 6);
+	GnmXLImporter *imp = esheet->container.importer;
+	GODataCacheField *dcf = go_data_slicer_field_get_cache_field (imp->pivot.slicer_field);
+	char const *type_str = "unknown";
+
+	XL_CHECK_CONDITION (NULL != dcf);
+
+	d(0, { switch (type) {
+	case 0xFE: type_str = "Page"; break;
+	case 0xFF: type_str = "Null"; break;
+	case 0x00: type_str = "Data"; break;
+	case 0x01: type_str = "Default"; break;
+	case 0x02: type_str = "SUM"; break;
+	case 0x03: type_str = "COUNTA"; break;
+	case 0x04: type_str = "COUNT"; break;
+	case 0x05: type_str = "AVERAGE"; break;
+	case 0x06: type_str = "MAX"; break;
+	case 0x07: type_str = "MIN"; break;
+	case 0x08: type_str = "PRODUCT"; break;
+	case 0x09: type_str = "STDEV"; break;
+	case 0x0A: type_str = "STDEVP"; break;
+	case 0x0B: type_str = "VAR"; break;
+	case 0x0C: type_str = "VARP"; break;
+	case 0x0D: type_str = "Grand total"; break;
+	default :  type_str = "UNKNOWN"; break;
+	}
+	g_print ("[%u] %s %s %s %s %s = %hu\n", i, type_str,
+		 (flags & 1) ? "hidden " : "",
+		 (flags & 2) ? "detailHid " : "",
+		 (flags & 4) ? "calc " : "",
+		 (flags & 8) ? "missing " : "", cache_index);
+	});
+
+	if (type == 0x00 && (flags & 1))
+	{
+		XL_CHECK_CONDITION (cache_index != 0xffff);
+		g_print ("hide : ");
+		go_data_cache_dump_value (go_data_cache_field_get_val (dcf, cache_index));
+		g_print ("\n");
+	}
+}
+
 void
 xls_read_SXVD (BiffQuery *q, ExcelReadSheet *esheet)
 {
@@ -657,7 +705,7 @@ xls_read_SXVD (BiffQuery *q, ExcelReadSheet *esheet)
 	for (i = 0 ; i < num_items ; i++)
 		if (ms_biff_query_peek_next (q, &opcode) && BIFF_SXVI == opcode &&
 		    check_next_min (q, 8)) {
-			/* Ignore */
+			xls_read_SXVI (q, esheet, i);
 		}
 	if (ms_biff_query_peek_next (q, &opcode) && BIFF_SXVDEX == opcode &&
 	    check_next_min (q, 12)) {
