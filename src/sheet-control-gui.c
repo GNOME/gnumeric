@@ -1236,6 +1236,17 @@ resize_pane_pos (SheetControlGUI *scg, GtkPaned *p,
 }
 
 static void
+scg_gtk_paned_set_position (SheetControlGUI *scg, GtkPaned *p, int pane_pos)
+{
+	if (p == scg->vpane) 
+		scg->vpos = pane_pos;
+	else
+		scg->hpos = pane_pos;
+
+	gtk_paned_set_position (p, pane_pos);
+}
+
+static void
 set_resize_pane_pos (SheetControlGUI *scg, GtkPaned *p)
 {
 	int handle_size, pane_pos, size;
@@ -1262,10 +1273,13 @@ set_resize_pane_pos (SheetControlGUI *scg, GtkPaned *p)
 
 	g_signal_handlers_block_by_func (G_OBJECT (p),
 		G_CALLBACK (cb_resize_pane_motion), scg);
-	gtk_paned_set_position (p, pane_pos);
+	scg_gtk_paned_set_position (scg, p, pane_pos);
 	g_signal_handlers_unblock_by_func (G_OBJECT (p),
 		G_CALLBACK (cb_resize_pane_motion), scg);
 }
+
+static void
+cb_check_resize (GtkPaned *p, GtkAllocation *allocation, SheetControlGUI *scg);
 
 static gboolean
 resize_pane_finish (SheetControlGUI *scg, GtkPaned *p)
@@ -1301,6 +1315,10 @@ resize_pane_finish (SheetControlGUI *scg, GtkPaned *p)
 
 	set_resize_pane_pos (scg, p);
 
+	g_signal_handlers_unblock_by_func
+		(G_OBJECT (p),
+		 G_CALLBACK (cb_check_resize), scg);
+
 	return FALSE;
 }
 static gboolean
@@ -1313,6 +1331,7 @@ cb_resize_hpane_finish (SheetControlGUI *scg)
 {
 	return resize_pane_finish (scg, scg->hpane);
 }
+
 static void
 cb_resize_pane_motion (GtkPaned *p,
 		       G_GNUC_UNUSED GParamSpec *pspec,
@@ -1324,6 +1343,9 @@ cb_resize_pane_motion (GtkPaned *p,
 
 	resize_pane_pos (scg, p, &colrow, &guide_pos);
 	if (scg->pane_drag_handler == 0 && p->in_drag) {
+		g_signal_handlers_block_by_func
+			(G_OBJECT (p),
+			 G_CALLBACK (cb_check_resize), scg);
 		scg_size_guide_start (scg, vert, colrow, 7);
 		scg->pane_drag_handler = g_timeout_add (250,
 			vert ? (GSourceFunc) cb_resize_hpane_finish
@@ -1332,6 +1354,29 @@ cb_resize_pane_motion (GtkPaned *p,
 	}
 	if (scg->pane_drag_handler)
 		scg_size_guide_motion (scg, vert, guide_pos);
+
+}
+
+static void
+cb_check_resize (GtkPaned *p, GtkAllocation *allocation, 
+		 SheetControlGUI *scg)
+{
+	gboolean const vert = (p == scg->vpane);
+	gint max, pos = vert ? scg->vpos : scg->hpos;
+
+	g_object_get (G_OBJECT (p), "max-position", &max, NULL);
+	if (pos > max)
+		pos = max;
+
+	if (gtk_paned_get_position (p) != pos) {
+		g_signal_handlers_block_by_func
+			(G_OBJECT (p),
+			 G_CALLBACK (cb_resize_pane_motion), scg);
+		gtk_paned_set_position (p, pos);
+		g_signal_handlers_unblock_by_func
+			(G_OBJECT (p),
+			 G_CALLBACK (cb_resize_pane_motion), scg);
+	}
 }
 
 SheetControlGUI *
@@ -1454,7 +1499,7 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 	scg->vpane = g_object_new (GTK_TYPE_VPANED, NULL);
 	gtk_paned_add1 (scg->vpane, gtk_label_new (NULL)); /* use a spacer */
 	gtk_paned_add2 (scg->vpane, scg->vs);
-	gtk_paned_set_position (scg->vpane, 0);
+	scg_gtk_paned_set_position (scg, scg->vpane, 0);
 	gtk_table_attach (scg->table, GTK_WIDGET (scg->vpane),
 		1, 2, 0, 1,
 		GTK_FILL,
@@ -1463,7 +1508,7 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 	scg->hpane = g_object_new (GTK_TYPE_HPANED, NULL);
 	gtk_paned_add1 (scg->hpane, gtk_label_new (NULL)); /* use a spacer */
 	gtk_paned_add2 (scg->hpane, scg->hs);
-	gtk_paned_set_position (scg->hpane, 0);
+	scg_gtk_paned_set_position (scg, scg->hpane, 0);
 	gtk_table_attach (scg->table, GTK_WIDGET (scg->hpane),
 		0, 1, 1, 2,
 		GTK_EXPAND | GTK_FILL | GTK_SHRINK,
@@ -1474,8 +1519,13 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 		G_CALLBACK (cb_resize_pane_motion), scg);
 	g_signal_connect (G_OBJECT (scg->hpane), "notify::position",
 		G_CALLBACK (cb_resize_pane_motion), scg);
+	g_signal_connect_after (G_OBJECT (scg->vpane), "size-allocate",
+		G_CALLBACK (cb_check_resize), scg);
+	g_signal_connect_after (G_OBJECT (scg->hpane), "size-allocate",
+		G_CALLBACK (cb_check_resize), scg);
+
 	g_signal_connect_data (G_OBJECT (scg->table),
-		"size_allocate",
+		"size-allocate",
 		G_CALLBACK (scg_scrollbar_config), scg, NULL,
 		G_CONNECT_AFTER | G_CONNECT_SWAPPED);
 	g_signal_connect_object (G_OBJECT (scg->table),

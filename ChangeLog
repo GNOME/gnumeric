@@ -1,5 +1,17 @@
 2009-12-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/sheet-control-gui-priv.h (_SheetControlGUI): new fields
+	* src/sheet-control-gui.c (scg_gtk_paned_set_position): new
+	  replace all calls to gtk_paned_set_position by 
+	  scg_gtk_paned_set_position throughout
+	(set_resize_pane_finish): unblock cb_check_resize
+	(cb_resize_pane_motion): block cb_check_resize
+	(cb_check_resize): new
+	(sheet_control_gui_new): attach cb_check_resize and fix
+	  signal name
+
+2009-12-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/value.c (find_rows_that_match): make this behave like
 	  find_cells_that_match from the database plugin.
 

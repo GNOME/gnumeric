@@ -14,6 +14,7 @@ Andreas:
 	* Add menu item to select sheet objects. [#338615]
 	* Enable sheet tab menu when objects are selected. [#604496]
 	* Fix empty cell handling of the advanced filter. [#599064]
+	* Fix scroll bar problem with large frozen panes. [#68603]
 
 Jean
 	* Fix import export of line type in scatter plots. [#605043]
