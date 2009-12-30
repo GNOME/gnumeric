@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
 <glade-interface>
-  <!-- interface-requires gtk+ 2.6 -->
-  <!-- interface-naming-policy toplevel-contextual -->
   <widget class="GtkDialog" id="hyperlink-dialog">
     <property name="title" translatable="yes">HyperLink</property>
     <property name="window_position">mouse</property>
@@ -10,7 +8,6 @@
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkTable" id="table1">
             <property name="visible">True</property>

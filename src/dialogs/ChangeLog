@@ -1,5 +1,9 @@
 2009-12-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* hyperlink.glade: remove "orientation" attribute for VBox
+
+2009-12-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-hyperlink.c (dhl_get_default_tip): new
 	(dhl_set_tip): hadnle default tips and switch to 
 	  textview
