@@ -1,3 +1,15 @@
+2009-12-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-hyperlink.c (dhl_get_default_tip): new
+	(dhl_set_tip): hadnle default tips and switch to 
+	  textview
+	(dhl_get_tip): ditto
+	(dhl_cb_ok): dhl_get_tip now returns an allocated string
+	(dhl_init): change widget name since it changed type, tool tip
+	  radio and entry
+	* hyperlink.glade: add tool tip radio buttons and
+	  switch tool tip entry to textview
+
 2009-12-29  Jody Goldberg <jody@gnome.org>
 
 	* dialog-data-slicer.c : some incomplete work towards creating sources

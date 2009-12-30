@@ -18,6 +18,7 @@ Andreas:
 	* Singleton selections now cause the sort buttons to sort the
 	  whole sheet below the selection. [#141313]
 	* Have the formula guru auto-quote unparsable expressions. [#442941]
+	* Create default tip for hyperlinks. [#316974]
 
 Jean
 	* Fix import export of line type in scatter plots. [#605043]
