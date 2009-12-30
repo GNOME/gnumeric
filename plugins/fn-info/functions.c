@@ -1169,7 +1169,7 @@ End Function
 /***************************************************************************/
 
 static GnmFuncHelp const help_expression[] = {
-        { GNM_FUNC_HELP_NAME, F_("EXPRESSION:expression in @cell as a string")},
+        { GNM_FUNC_HELP_NAME, F_("EXPRESSION:expression in @{cell} as a string")},
         { GNM_FUNC_HELP_ARG, F_("cell:a cell reference")},
         { GNM_FUNC_HELP_NOTE, F_("If @{cell} contains no expression, EXPRESSION returns empty.")},
         { GNM_FUNC_HELP_SEEALSO, "TEXT"},
