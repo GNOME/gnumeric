@@ -26,6 +26,7 @@ Jean
 
 Jody:
 	* Fix use of ExprEntry from glade on win32.
+	* More win32 build fixes (xslt for libgda & poppler).
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.17

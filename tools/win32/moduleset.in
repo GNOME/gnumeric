@@ -233,21 +233,9 @@
 	</dependencies>
     </autotools>
 
-    <tarball id="libgpg-error" version="1.4">
-	<source href="ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-1.4.tar.bz2"
-	    size="467196" md5sum="2ea1e25b7a6f9365c969403af4a6dbc5" />
-    </tarball>
-    <tarball id="libgcrypt" version="1.2.2">
-	<source href="ftp://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-1.2.2.tar.bz2"
-	    size="780315" md5sum="4a8a9a7572892ae3803a5aa558e52e02" />
-	<dependencies>
-	    <dep package="libgpg-error" />
-	</dependencies>
-    </tarball>
     <tarball id="libxslt" version="1.1.26">
 	<source href="ftp://xmlsoft.org/libxslt/libxslt-1.1.26.tar.gz"/>
 	<dependencies>
-	    <dep package="libgcrypt"/>
 	    <dep package="libxml2"/>
 	</dependencies>
     </tarball>

@@ -99,6 +99,10 @@ setup_html_help() {
     if [ "x${target}" = "xshell" ]; then
  	${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc.py" shell
     elif [ "x${target}" = "xdoc" ]; then
+	echo make -C "${srcdir}/../../doc/C" chm
+	make -C "${srcdir}/../../doc/C" chm
+	echo cp -r "${srcdir}/../../doc/C/chm" ..
+	cp -r "${srcdir}/../../doc/C/chm" ..
 	echo exiting
 	exit 0
     elif [ ! "x${start}" = "x" ]; then

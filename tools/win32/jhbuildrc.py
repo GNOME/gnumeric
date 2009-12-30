@@ -66,7 +66,7 @@ os.environ['CPPLAGS']	 = optim + ' -mno-cygwin -mms-bitfields -march=i686 ' + ' 
 os.environ['CXXLAGS']	 = optim + ' -mno-cygwin -mms-bitfields -march=i686 ' + ' -I' + os.path.join(os.sep, prefix, 'include')
 os.environ['ARFLAGS']	 = 'rcs'
 os.environ['INSTALL']	 = os.path.expanduser('~/bin/install-check')
-os.environ['ACLOCAL_AMFLAGS'] = ' -I '+prefix+'/share/aclocal'	# for libgnomedb
+os.environ['ACLOCAL_AMFLAGS'] = ' -I m4 -I '+prefix+'/share/aclocal'	# for libgnomedb
 
 os.environ['WINEDEBUG']	 = '-all'
 #os.environ['MAKE']	 = 'colormake'
@@ -132,17 +132,19 @@ module_autogenargs['psiconv']	= autogenargs + """ --disable-xhtml-docs \
 						    --without-imagemagick"""
 
 module_autogenargs['libxml2']	= autogenargs + """ --disable-scrollkeeper --without-iconv"""
+module_autogenargs['libxslt']	= autogenargs + """ --without-crypto"""
 
 autogenargs += """ --disable-scrollkeeper --disable-gtk-doc"""
 
 module_autogenargs['atk']	= autogenargs + """ --disable-glibtest"""
 module_autogenargs['gtk+']	= autogenargs + """ --disable-glibtest --enable-gdiplus --without-libjasper  --without-libtiff --without-libjpeg --enable-cups=no"""
 
-module_autogenargs['libgda']	= autogenargs + """ --without-odbc --without-lda --without-java"""
+module_autogenargs['libgda']	= autogenargs + """ --without-odbc --without-java --without-libsoup"""
 module_autogenargs['pxlib']	= autogenargs + """ --with-gsf=""" + prefix
 module_autogenargs['libglade']	= autogenargs
 module_autogenargs['pygobject']	= autogenargs
 module_autogenargs['libgsf']	= autogenargs + """ --without-gnome-vfs --without-bonobo"""
 module_autogenargs['goffice']	= autogenargs + """ --without-gconf --with-gmathml"""
 module_autogenargs['gnumeric']	= autogenargs + """ --disable-component"""
+module_autogenargs['poppler']	= autogenargs + """ --disable-cms"""
 module_autogenargs['evince']	= autogenargs + """ --without-gconf --without-keyring"""
