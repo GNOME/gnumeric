@@ -1,5 +1,12 @@
 2009-12-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* functions.c (help_get_link): new
+	(gnumeric_get_link): new
+	(info_functions): add GET.LINK
+	* plugin.xml.in: add GET.LINK
+
+2009-12-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c (help_expression): fix formatting
 	
 2009-12-15  Morten Welinder <terra@gnome.org>

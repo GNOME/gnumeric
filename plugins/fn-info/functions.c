@@ -48,6 +48,7 @@
 #include <sheet-style.h>
 #include <number-match.h>
 #include <gnm-i18n.h>
+#include <hlink.h>
 
 #include <goffice/goffice.h>
 #include <gnm-plugin.h>
@@ -1810,6 +1811,44 @@ gnumeric_getenv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_get_link[] = {
+	{ GNM_FUNC_HELP_NAME, F_("GET.LINK:The target of the hyperlink attached to @{cell} as a string.")},
+	{ GNM_FUNC_HELP_ARG,  F_("cell:the referenced cell")},
+	{ GNM_FUNC_HELP_NOTE, F_("The value return is not updated automatically when "
+				 "the link attached to @{cell} changes but requires a"
+				 " recalculation.")},
+	{ GNM_FUNC_HELP_SEEALSO, "HYPERLINK"},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_get_link (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	GnmValue const * const v = argv[0];
+
+	if (v->type == VALUE_CELLRANGE) {
+		GnmCellRef const * a = &v->v_range.cell.a;
+		GnmCellRef const * b = &v->v_range.cell.b;
+		Sheet *sheet;
+		GnmHLink *link;
+		GnmCellPos pos;
+
+		if (a->col != b->col || a->row != b->row || a->sheet !=b->sheet)
+			return value_new_error_REF (ei->pos);
+
+		sheet = (a->sheet == NULL) ? ei->pos->sheet : a->sheet;
+		gnm_cellpos_init_cellref (&pos, a, &(ei->pos->eval), sheet);
+		link = sheet_hlink_find (sheet, &pos);
+
+		if (link)
+			return value_new_string (gnm_hlink_get_target (link));
+	}
+
+	return value_new_empty ();
+}
+
+/***************************************************************************/
+
 GnmFuncDescriptor const info_functions[] = {
 	{ "cell",	"sr",  help_cell,
 	  gnumeric_cell, NULL, NULL, NULL, NULL,
@@ -1879,6 +1918,9 @@ GnmFuncDescriptor const info_functions[] = {
 	{ "get.formula", "r",    help_get_formula,
 	  gnumeric_get_formula, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{ "get.link", "r",    help_get_link,
+	  gnumeric_get_link, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "isformula", "r",    help_isformula,
 	  gnumeric_isformula, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE},

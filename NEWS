@@ -19,6 +19,7 @@ Andreas:
 	  whole sheet below the selection. [#141313]
 	* Have the formula guru auto-quote unparsable expressions. [#442941]
 	* Create default tip for hyperlinks. [#316974]
+	* Add GET.LINK. [#128534]
 
 Jean
 	* Fix import export of line type in scatter plots. [#605043]
