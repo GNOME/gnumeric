@@ -17,6 +17,8 @@ noinst_LTLIBRARIES = libtools.la
 libtools_la_SOURCES =					\
 	analysis-anova.c				\
 	analysis-anova.h				\
+	analysis-auto-expression.c			\
+	analysis-auto-expression.h			\
 	analysis-chi-squared.c				\
 	analysis-chi-squared.h				\
 	analysis-exp-smoothing.c			\

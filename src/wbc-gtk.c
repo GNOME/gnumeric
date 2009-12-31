@@ -56,6 +56,8 @@
 #include "graph.h"
 #include "selection.h"
 #include "file-autoft.h"
+#include "ranges.h"
+#include "tools/analysis-auto-expression.h"
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
@@ -4137,6 +4139,73 @@ cb_auto_expr_precision_toggled (GtkWidget *item, WBCGtk *wbcg)
 	go_object_toggle (wbv, "auto-expr-max-precision");
 }
 
+static void
+cb_auto_expr_insert_formula_below (GtkWidget *item, WBCGtk *wbcg)
+{
+	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
+	GnmRange const *selection = selection_first_range (scg_view (scg), NULL, NULL);
+	GnmRange output;
+	GnmRange *input;
+	gboolean multiple, use_last_row;
+	data_analysis_output_t *dao;
+	analysis_tools_data_auto_expression_t *specs;
+
+	if (selection == NULL || range_height (selection) < 2)
+		return;
+
+	multiple = (range_width (selection) > 1);
+	output = *selection;
+	range_normalize (&output);
+	output.start.row = output.end.row;
+	
+	use_last_row = sheet_is_region_empty (scg_sheet (scg), &output);
+
+	if (!use_last_row) {
+		if (range_translate (&output, scg_sheet (scg), 0, 1))
+			return;
+		if (multiple && 
+		    (gnm_sheet_get_last_col (scg_sheet (scg)) > output.end.col))
+			output.end.col++;
+	}
+
+	input = gnm_range_dup (selection);
+	range_normalize (input);
+	if (use_last_row)
+		input->end.row--;
+
+	dao = dao_init (NULL, RangeOutput);
+	dao->start_col         = output.start.col;
+	dao->start_row         = output.start.row;
+	dao->cols              = range_width (&output);
+	dao->rows              = range_height (&output);
+	dao->sheet             = scg_sheet (scg);
+	dao->autofit_flag      = FALSE;
+	dao->put_formulas      = TRUE;
+
+	specs = g_new0 (analysis_tools_data_auto_expression_t, 1);
+	specs->base.wbc = WORKBOOK_CONTROL (wbcg);
+	specs->base.input = g_slist_prepend (NULL, value_new_cellrange_r (scg_sheet (scg), input));
+	g_free (input);
+	specs->base.group_by = GROUPED_BY_COL;
+	specs->base.labels = FALSE;
+	specs->multiple = multiple;
+	specs->func = NULL;
+	g_object_get (G_OBJECT (wb_control_view (WORKBOOK_CONTROL (wbcg))), 
+		      "auto-expr-func", &(specs->func), NULL);
+	if (specs->func == NULL)
+		specs->func =  gnm_func_lookup_or_add_placeholder 
+			("sum", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	gnm_func_ref (specs->func);
+
+	cmd_analysis_tool (WORKBOOK_CONTROL (wbcg), scg_sheet (scg),
+			   dao, specs, analysis_tool_auto_expression_engine);
+}
+
+/* static void */
+/* cb_auto_expr_insert_formula_to_side (GtkWidget *item, WBCGtk *wbcg) */
+/* { */
+/* } */
+
 
 static gboolean
 cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WBCGtk *wbcg)
@@ -4222,6 +4291,22 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WBCGtk *wbcg)
 		G_CALLBACK (cb_auto_expr_precision_toggled), wbcg);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	gtk_widget_show (item);
+
+	item = gtk_separator_menu_item_new ();
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	gtk_widget_show (item);
+
+	item = gtk_menu_item_new_with_label (_("Insert formula below."));
+	g_signal_connect (G_OBJECT (item), "activate",
+		G_CALLBACK (cb_auto_expr_insert_formula_below), wbcg);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	gtk_widget_show (item);
+
+/* 	item = gtk_menu_item_new_with_label (_("Insert formula to side.")); */
+/* 	g_signal_connect (G_OBJECT (item), "activate", */
+/* 		G_CALLBACK (cb_auto_expr_insert_formula_to_side), wbcg); */
+/* 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item); */
+/* 	gtk_widget_show (item); */
 
 	gnumeric_popup_menu (GTK_MENU (menu), event);
 	return TRUE;

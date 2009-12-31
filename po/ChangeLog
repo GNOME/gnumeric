@@ -1,3 +1,7 @@
+2009-12-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* POTFILES.in: added src/tools/analysis-auto-expression.c
+
 2009-12-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* POTFILES.in: added src/dialogs/dialog-sheetobject-size.c and

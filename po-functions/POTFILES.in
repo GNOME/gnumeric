@@ -193,6 +193,7 @@ src/stf.c
 src/style.c
 src/test-pango.c
 src/tools/analysis-anova.c
+src/tools/analysis-auto-expression.c
 src/tools/analysis-chi-squared.c
 src/tools/analysis-exp-smoothing.c
 src/tools/analysis-frequency.c

@@ -1,3 +1,8 @@
+2009-12-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* wbc-gtk.c (cb_auto_expr_insert_formula_below): new
+	(cb_select_auto_expr): add separator and menu item
+
 2009-12-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-object-widget.c (sheet_widget_draw_cairo): only use 
