@@ -118,6 +118,16 @@ paste_link_set_sensitive (PasteSpecialState *state)
 }
 
 static void
+skip_blanks_set_sensitive (PasteSpecialState *state)
+{
+	GtkWidget *button = glade_xml_get_widget (state->gui,"skip-blanks");
+	gboolean sensitive =
+		(3 > gnumeric_glade_group_value (state->gui, paste_type_group)
+		 && 0 == gnumeric_glade_group_value (state->gui, cell_operation_group));
+	gtk_widget_set_sensitive (button, sensitive);
+}
+
+static void
 cb_destroy (PasteSpecialState *state)
 {
 	if (state->gui != NULL)
@@ -138,6 +148,7 @@ dialog_paste_special_type_toggled_cb (GtkWidget *button, PasteSpecialState *stat
 			gtk_widget_set_sensitive (glade_xml_get_widget (state->gui,*group),
 						  permit_cell_ops);
 		paste_link_set_sensitive (state);
+		skip_blanks_set_sensitive (state);		
 	}
 }
 
@@ -146,6 +157,7 @@ dialog_paste_special_cell_op_toggled_cb (GtkWidget *button, PasteSpecialState *s
 {
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button))) {
 		paste_link_set_sensitive (state);		
+		skip_blanks_set_sensitive (state);		
 	}
 }
 

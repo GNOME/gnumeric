@@ -1,5 +1,12 @@
 2009-12-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-paste-special.c (skip_blanks_set_sensitive): new
+	(dialog_paste_special_type_toggled_cb): connect 
+	  skip_blanks_set_sensitive
+	(dialog_paste_special_cell_op_toggled_cb): ditto
+
+2009-12-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* hyperlink.glade: remove "orientation" attribute for VBox
 
 2009-12-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
