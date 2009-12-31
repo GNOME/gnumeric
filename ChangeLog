@@ -1,3 +1,9 @@
+2009-12-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.c (cmd_paste_copy_select_obj): new
+	(cmd_paste_copy_impl): select pasted objects if appropriate
+	(cmd_paste_copy): remember whether we have just objects
+
 2009-12-29  Jody Goldberg <jody@gnome.org>
 
 	* src/gnm-pane.c (gnm_pane_key_mode_sheet) : Support autoiterating

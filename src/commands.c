@@ -64,6 +64,7 @@
 #include "sheet-object.h"
 #include "sheet-object-graph.h"
 #include "sheet-control.h"
+#include "sheet-control-gui.h"
 #include "sheet-utils.h"
 #include "style-color.h"
 #include "sheet-filter.h"
@@ -73,6 +74,7 @@
 #include "scenarios.h"
 #include "data-shuffling.h"
 #include "tools/tabulate.h"
+#include "wbc-gtk.h"
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-doc-meta-data.h>
@@ -2736,6 +2738,7 @@ typedef struct {
 	GSList          *pasted_objects,*orig_contents_objects;
 	GnmPasteTarget   dst;
 	gboolean         has_been_through_cycle;
+	gboolean         only_objects;
 	ColRowStateList *saved_sizes;
 } CmdPasteCopy;
 
@@ -2795,6 +2798,12 @@ get_new_objects (Sheet *sheet, GSList *old)
 	}
 
 	return objs;
+}
+
+static void
+cmd_paste_copy_select_obj (SheetObject *so, SheetControlGUI *scg)
+{
+	scg_object_select (scg, so);
 }
 
 static gboolean
@@ -2860,6 +2869,14 @@ cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 	me->has_been_through_cycle = TRUE;
 
 	/* Select the newly pasted contents  (this queues a redraw) */
+	if (me->only_objects && IS_WBC_GTK (wbc)) {
+		SheetControlGUI *scg = 
+			wbcg_get_nth_scg (WBC_GTK (wbc), 
+					  cmd->sheet->index_in_wb);
+		scg_object_unselect (scg, NULL);
+		g_slist_foreach (me->pasted_objects, 
+				 (GFunc) cmd_paste_copy_select_obj, scg);
+	}
 	select_range (me->dst.sheet, &me->dst.range, wbc);
 
 	return FALSE;
@@ -2918,15 +2935,15 @@ cmd_paste_copy (WorkbookControl *wbc,
 	me->dst = *pt;
 	me->contents = cr;
 	me->has_been_through_cycle = FALSE;
+	me->only_objects = (cr->cols < 1 || cr->rows < 1);
 	me->saved_sizes = NULL;
 	me->pasted_objects = NULL;
 	me->orig_contents_objects =
 		go_slist_map (cr->objects, (GOMapFunc)sheet_object_dup);
 
 	/* If the input is only objects ignore all this range stuff */
-	if (cr->cols < 1 || cr->rows < 1) {
-
-	} else {	/* see if we need to do any tiling */
+	if (!me->only_objects) {	
+                /* see if we need to do any tiling */
 		GnmRange *r = &me->dst.range;
 		if (pt->paste_flags & PASTE_TRANSPOSE) {
 			n = range_width (r) / cr->rows;
@@ -2992,7 +3009,7 @@ cmd_paste_copy (WorkbookControl *wbc,
 	}
 
 	/* no need to test if all we have are objects */
-	if (cr->cols > 0 && cr->rows > 0 &&
+	if ((!me->only_objects) &&
 	    sheet_range_splits_region (pt->sheet, &me->dst.range,
 				       NULL, GO_CMD_CONTEXT (wbc), me->cmd.cmd_descriptor)) {
 		g_object_unref (me);
