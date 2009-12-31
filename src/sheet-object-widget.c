@@ -3269,8 +3269,11 @@ static void
 sheet_widget_draw_cairo (SheetObject const *so, cairo_t *cr,
 			 double width, double height)
 {
-#ifdef HAVE_GTK_DIALOG_GET_CONTENT_AREA
-/* so we have gtk 2.14 or later and gtk_widget_get_snapshot is available */
+#ifdef HAVE_GTK_ENTRY_GET_BUFFER
+/* In gtk 2.14 or later gtk_widget_get_snapshot is available */
+/* Since we have only tested this for 2.18 or later, we are  */
+/* checking for gtk_entry_get_buffer that became available   */
+/* with 2.18                                                 */
 
 	SheetObjectWidget *sow = SHEET_OBJECT_WIDGET (so);
 
