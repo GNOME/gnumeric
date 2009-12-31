@@ -4140,38 +4140,52 @@ cb_auto_expr_precision_toggled (GtkWidget *item, WBCGtk *wbcg)
 }
 
 static void
-cb_auto_expr_insert_formula_below (GtkWidget *item, WBCGtk *wbcg)
+cb_auto_expr_insert_formula (WBCGtk *wbcg, gboolean below)
 {
 	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
 	GnmRange const *selection = selection_first_range (scg_view (scg), NULL, NULL);
 	GnmRange output;
 	GnmRange *input;
-	gboolean multiple, use_last_row;
+	gboolean multiple, use_last_cr;
 	data_analysis_output_t *dao;
 	analysis_tools_data_auto_expression_t *specs;
 
-	if (selection == NULL || range_height (selection) < 2)
-		return;
+	g_return_if_fail (selection != NULL);
 
-	multiple = (range_width (selection) > 1);
-	output = *selection;
-	range_normalize (&output);
-	output.start.row = output.end.row;
-	
-	use_last_row = sheet_is_region_empty (scg_sheet (scg), &output);
-
-	if (!use_last_row) {
-		if (range_translate (&output, scg_sheet (scg), 0, 1))
-			return;
-		if (multiple && 
-		    (gnm_sheet_get_last_col (scg_sheet (scg)) > output.end.col))
-			output.end.col++;
+	if (below) {
+		multiple = (range_width (selection) > 1);
+		output = *selection;
+		range_normalize (&output);
+		output.start.row = output.end.row;
+		use_last_cr = (range_height (selection) > 1) && sheet_is_region_empty (scg_sheet (scg), &output);
+		if (!use_last_cr) {
+			if (range_translate (&output, scg_sheet (scg), 0, 1))
+				return;
+			if (multiple && gnm_sheet_get_last_col (scg_sheet (scg)) > output.end.col)
+				output.end.col++;
+		}
+		input = gnm_range_dup (selection);
+		range_normalize (input);
+		if (use_last_cr)
+			input->end.row--;
+	} else {
+		multiple = (range_height (selection) > 1);
+		output = *selection;
+		range_normalize (&output);
+		output.start.col = output.end.col;
+		use_last_cr = (range_width (selection) > 1) && sheet_is_region_empty (scg_sheet (scg), &output);
+		if (!use_last_cr) {
+			if (range_translate (&output, scg_sheet (scg), 1, 0))
+				return;
+			if (multiple && gnm_sheet_get_last_row (scg_sheet (scg)) > output.end.row)
+				output.end.row++;
+		}
+		input = gnm_range_dup (selection);
+		range_normalize (input);
+		if (use_last_cr)
+			input->end.col--;
 	}
-
-	input = gnm_range_dup (selection);
-	range_normalize (input);
-	if (use_last_row)
-		input->end.row--;
+	
 
 	dao = dao_init (NULL, RangeOutput);
 	dao->start_col         = output.start.col;
@@ -4186,9 +4200,10 @@ cb_auto_expr_insert_formula_below (GtkWidget *item, WBCGtk *wbcg)
 	specs->base.wbc = WORKBOOK_CONTROL (wbcg);
 	specs->base.input = g_slist_prepend (NULL, value_new_cellrange_r (scg_sheet (scg), input));
 	g_free (input);
-	specs->base.group_by = GROUPED_BY_COL;
+	specs->base.group_by = below ? GROUPED_BY_COL : GROUPED_BY_ROW;
 	specs->base.labels = FALSE;
 	specs->multiple = multiple;
+	specs->below = below;
 	specs->func = NULL;
 	g_object_get (G_OBJECT (wb_control_view (WORKBOOK_CONTROL (wbcg))), 
 		      "auto-expr-func", &(specs->func), NULL);
@@ -4201,10 +4216,17 @@ cb_auto_expr_insert_formula_below (GtkWidget *item, WBCGtk *wbcg)
 			   dao, specs, analysis_tool_auto_expression_engine);
 }
 
-/* static void */
-/* cb_auto_expr_insert_formula_to_side (GtkWidget *item, WBCGtk *wbcg) */
-/* { */
-/* } */
+static void
+cb_auto_expr_insert_formula_below (G_GNUC_UNUSED GtkWidget *item, WBCGtk *wbcg)
+{
+	cb_auto_expr_insert_formula (wbcg, TRUE);
+}
+
+static void
+cb_auto_expr_insert_formula_to_side (G_GNUC_UNUSED GtkWidget *item, WBCGtk *wbcg)
+{
+	cb_auto_expr_insert_formula (wbcg, FALSE);
+}
 
 
 static gboolean
@@ -4302,11 +4324,11 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WBCGtk *wbcg)
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	gtk_widget_show (item);
 
-/* 	item = gtk_menu_item_new_with_label (_("Insert formula to side.")); */
-/* 	g_signal_connect (G_OBJECT (item), "activate", */
-/* 		G_CALLBACK (cb_auto_expr_insert_formula_to_side), wbcg); */
-/* 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item); */
-/* 	gtk_widget_show (item); */
+	item = gtk_menu_item_new_with_label (_("Insert formula to side."));
+	g_signal_connect (G_OBJECT (item), "activate",
+		G_CALLBACK (cb_auto_expr_insert_formula_to_side), wbcg);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	gtk_widget_show (item);
 
 	gnumeric_popup_menu (GTK_MENU (menu), event);
 	return TRUE;

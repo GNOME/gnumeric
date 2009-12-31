@@ -37,6 +37,7 @@
 typedef struct {
 	analysis_tools_data_generic_t base;
 	gboolean multiple;
+	gboolean below;
 	GnmFunc *func;
 } analysis_tools_data_auto_expression_t;
 

@@ -1,5 +1,12 @@
 2009-12-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* wbc-gtk.c (cb_auto_expr_insert_formula): new
+	(cb_auto_expr_insert_formula_below): use cb_auto_expr_insert_formula
+	(cb_auto_expr_insert_formula_to_side): new
+	(cb_select_auto_expr): add menu item
+	
+2009-12-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* wbc-gtk.c (cb_auto_expr_insert_formula_below): new
 	(cb_select_auto_expr): add separator and menu item
 

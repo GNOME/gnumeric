@@ -1,5 +1,13 @@
 2009-12-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* analysis-auto-expression.c (analysis_tool_auto_expression_engine_run):
+	  also handle adding formula to the side
+	(analysis_tool_auto_expression_engine): ditto
+	* analysis-auto-expression.h (analysis_tools_data_auto_expression_t):
+	  add field
+
+2009-12-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* analysis-auto-expression.c: new
 	* analysis-auto-expression.h: new
 	* Makefile.am: add the above

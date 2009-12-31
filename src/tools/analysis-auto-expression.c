@@ -41,20 +41,35 @@ analysis_tool_auto_expression_engine_run (data_analysis_output_t *dao,
 	guint     col;
 	GSList *data = info->base.input;
 
-	for (col = 0; data != NULL; data = data->next, col++)
-		dao_set_cell_expr
-			(dao, col, 0,
-			 gnm_expr_new_funcall1
-			 (info->func,
-			  gnm_expr_new_constant (value_dup (data->data))));
-
-	if (info->multiple)
-		dao_set_cell_expr
-			(dao, col, 0,
-			 gnm_expr_new_funcall1
-			 (info->func,
-			  make_rangeref (-col,0,-1,0)));
-
+	if (info->below) {
+		for (col = 0; data != NULL; data = data->next, col++)
+			dao_set_cell_expr
+				(dao, col, 0,
+				 gnm_expr_new_funcall1
+				 (info->func,
+				  gnm_expr_new_constant (value_dup (data->data))));
+		
+		if (info->multiple)
+			dao_set_cell_expr
+				(dao, col, 0,
+				 gnm_expr_new_funcall1
+				 (info->func,
+				  make_rangeref (- col, 0, -1, 0)));
+	} else {
+		for (col = 0; data != NULL; data = data->next, col++)
+			dao_set_cell_expr
+				(dao, 0, col,
+				 gnm_expr_new_funcall1
+				 (info->func,
+				  gnm_expr_new_constant (value_dup (data->data))));
+		
+		if (info->multiple)
+			dao_set_cell_expr
+				(dao, 0, col,
+				 gnm_expr_new_funcall1
+				 (info->func,
+				  make_rangeref (0, - col, 0, -1)));
+	}
 	dao_redraw_respan (dao);
 
 	return FALSE;
@@ -84,9 +99,13 @@ analysis_tool_auto_expression_engine (data_analysis_output_t *dao, gpointer spec
 			== NULL);
 	case TOOL_ENGINE_UPDATE_DAO:
 		prepare_input_range (&info->base.input, info->base.group_by);
-		dao_adjust (dao, 
-			    (info->multiple ? 1 : 0)  + g_slist_length (info->base.input),
-			    1);
+		if (info->below)
+			dao_adjust (dao, 
+				    (info->multiple ? 1 : 0)  + g_slist_length (info->base.input),
+				    1);
+		else
+			dao_adjust (dao, 1,
+				    (info->multiple ? 1 : 0)  + g_slist_length (info->base.input));			
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
 		return analysis_tool_auto_expression_engine_clean (specs);
