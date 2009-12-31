@@ -1,5 +1,15 @@
 2009-12-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-paste-special.c (dont_change_formulae_set_sensitive): 
+	new
+	(dialog_paste_special_type_toggled_cb): connect 
+	  dont_change_formulae_set_sensitive
+	(dialog_paste_special_cell_op_toggled_cb): ditto
+	(cb_tool_ok_clicked): check dont-change-formulae
+	* paste-special.glade: add dont-change-formulae check
+
+2009-12-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-paste-special.c (skip_blanks_set_sensitive): new
 	(dialog_paste_special_type_toggled_cb): connect 
 	  skip_blanks_set_sensitive

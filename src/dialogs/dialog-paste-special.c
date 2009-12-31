@@ -128,6 +128,16 @@ skip_blanks_set_sensitive (PasteSpecialState *state)
 }
 
 static void
+dont_change_formulae_set_sensitive (PasteSpecialState *state)
+{
+	GtkWidget *button = glade_xml_get_widget (state->gui,"dont-change-formulae");
+	gboolean sensitive =
+		(2 > gnumeric_glade_group_value (state->gui, paste_type_group)
+		 && 0 == gnumeric_glade_group_value (state->gui, cell_operation_group));
+	gtk_widget_set_sensitive (button, sensitive);
+}
+
+static void
 cb_destroy (PasteSpecialState *state)
 {
 	if (state->gui != NULL)
@@ -149,6 +159,7 @@ dialog_paste_special_type_toggled_cb (GtkWidget *button, PasteSpecialState *stat
 						  permit_cell_ops);
 		paste_link_set_sensitive (state);
 		skip_blanks_set_sensitive (state);		
+		dont_change_formulae_set_sensitive (state);		
 	}
 }
 
@@ -158,6 +169,7 @@ dialog_paste_special_cell_op_toggled_cb (GtkWidget *button, PasteSpecialState *s
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button))) {
 		paste_link_set_sensitive (state);		
 		skip_blanks_set_sensitive (state);		
+		dont_change_formulae_set_sensitive (state);		
 	}
 }
 
@@ -201,6 +213,9 @@ cb_tool_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	if (gtk_toggle_button_get_active 
 	    (GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui,"skip-blanks"))))
 		result |= PASTE_SKIP_BLANKS;
+	if (gtk_toggle_button_get_active 
+	    (GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui,"dont-change-formulae"))))
+		result |= PASTE_EXPR_LOCAL_RELOCATE;
 
 	cmd_paste_to_selection (WORKBOOK_CONTROL (state->wbcg), state->sv, result);
 	gtk_widget_destroy (state->dialog);

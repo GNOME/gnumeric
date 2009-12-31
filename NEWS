@@ -20,6 +20,7 @@ Andreas:
 	* Have the formula guru auto-quote unparsable expressions. [#442941]
 	* Create default tip for hyperlinks. [#316974]
 	* Add GET.LINK. [#128534]
+	* Add "Don't change formulae" to paste special. [#123326]
 
 Jean
 	* Fix import export of line type in scatter plots. [#605043]

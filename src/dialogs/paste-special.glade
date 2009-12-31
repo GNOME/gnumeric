@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
 <glade-interface>
-  <!-- interface-requires gtk+ 2.6 -->
-  <!-- interface-naming-policy toplevel-contextual -->
   <widget class="GtkDialog" id="paste-special">
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Paste Special</property>
@@ -161,7 +159,6 @@
                           <widget class="GtkRadioButton" id="region-operation-flip-h">
                             <property name="label" translatable="yes">Flip Hori_zontally</property>
                             <property name="visible">True</property>
-                            <property name="sensitive">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="use_underline">True</property>
@@ -176,7 +173,6 @@
                           <widget class="GtkRadioButton" id="region-operation-flip-v">
                             <property name="label" translatable="yes">Fli_p Vertically</property>
                             <property name="visible">True</property>
-                            <property name="sensitive">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="use_underline">True</property>
@@ -208,21 +204,6 @@
               <packing>
                 <property name="left_attach">2</property>
                 <property name="right_attach">3</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkCheckButton" id="skip-blanks">
-                <property name="label" translatable="yes">Skip _Blanks</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
-                <property name="use_underline">True</property>
-                <property name="draw_indicator">True</property>
-              </widget>
-              <packing>
-                <property name="right_attach">3</property>
-                <property name="top_attach">1</property>
-                <property name="bottom_attach">2</property>
               </packing>
             </child>
             <child>
@@ -325,6 +306,45 @@
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkHBox" id="hbox1">
+                <property name="visible">True</property>
+                <child>
+                  <widget class="GtkCheckButton" id="skip-blanks">
+                    <property name="label" translatable="yes">Skip _Blanks</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="use_underline">True</property>
+                    <property name="draw_indicator">True</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkCheckButton" id="dont-change-formulae">
+                    <property name="label" translatable="yes">D_o not change formul&#xE6;</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="use_underline">True</property>
+                    <property name="draw_indicator">True</property>
+                  </widget>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="right_attach">3</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options">GTK_FILL</property>
               </packing>
             </child>
           </widget>
