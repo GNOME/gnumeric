@@ -1,3 +1,10 @@
+2010-01-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* figures/menu-edit-delete-cells.png: new
+	* figures/menu-edit-paste-special.png: new
+	* figures/menu-edit-labelled.png: updated
+	* gui-menus.xml: updated
+
 2010-01-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* figures/menu-file-printarea.png: new

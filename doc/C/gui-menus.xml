@@ -509,12 +509,10 @@
 	  re-opened. Note also that the list only covers the last few
 	  dozen operations. The number of operations which Gnumeric
 	  tracks in its history depends on the size and complexity of
-	  those operations. Finally, there are some operations which
-	  cannot yet be modified in this way in &gnum; 1.0.
-	  Sheet operations (adding or removal)
-	  cannot be undone, nor can deleted comments be restored, nor
-	  can altered summary information, nor can operations on
-	  embedded objects be undone.
+	  those operations. You can customize this number using the preference
+	  facility described in <xref linkend="chapter-configuring" />. 
+	  There are a few unusual operations which
+	  are not yet tracked in this way.
 	</para>
 	<itemizedlist>
 	  <listitem>
@@ -631,14 +629,31 @@
 	      Special...</guimenuitem> act as if it were the
 	      <guimenuitem>Paste</guimenuitem> menu item.
 	    </para>
+
+    <figure id="menu-edit-paste-special.png">
+		    <title>The Paste Special Dialog</title>
+		    <screenshot>
+		      <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/menu-edit-paste-special.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the Paste Special Dialog.</phrase>
+            </textobject>
+           </mediaobject>
+		    </screenshot>
+    </figure>
+
+
+
 	    <para>
 	      The first set of choices allow the user to control the
 	      data pasted.The user can chose to limit the pasting to
-	      only the cell contents (no cell formatting is copied) or
-	      the opposite only cell formats copied (no
+	      only the cell contents (no cell formatting is copied) or ---
+	      the opposite --- only cell formats copied (no
 	      contents). Furthermore, the user can insert the
 	      selection while transforming all the contents into
-	      values only. Formulas will not be copied, only the
+	      values only. In this case, formulas will not be copied, only the
 	      results will be.
 	    </para>
 	    <para>
@@ -648,22 +663,24 @@
 	      modified by the cell contents. For instance, using the
 	      divide operation will result in each cell in the zone
 	      pasted into being divided by the equivalent cell which
-	      was cut or copied originally.
+	      was copied originally.
 	    </para>
 	    <para>
-	      The final choices allow the transposition of the
-	      original selection or to not paste empty cells. The
-	      <guilabel>transpose</guilabel> check box will change the
-	      selection so that the cells that are down n rows from
-	      the selection's origin are pasted as being over n
-	      columns (and vice-versa). The <guilabel>skip
-	      blanks</guilabel> prevents
+	      The third set of choices allow the transposition or flip of the
+	      original selection. The
+	      <guilabel>transpose</guilabel> choice will change the
+	      selection by flipping it about the diagonal from top left to 
+	      bottom right. Similarly, <guilabel>flip horizontally</guilabel> and 
+	      <guilabel>flip vertically</guilabel> paste the selection accordingly.
+	    </para>
+	    <para>The <guilabel>skip
+	      blanks</guilabel> check box prevents
 	      &gnum; from taking any
 	      action for the cells in the selection that are
-	      blank. Note that the selection will be transformed if
-	      that option is selected but then that the paste will not
-	      change the cells in the transformed location if this
-	      <guilabel>skip blanks</guilabel> option is selected.
+	      blank. Normally &gnum; will modify formulae that use relative 
+	      addressing to cells outside the selection. The <guilabel>do not
+	      change formulae</guilabel> checkbox suppresses this change. (Note that 
+	      references to cells within the selection are alsways preserved.)
 	    </para>
 	  </listitem>
 
@@ -727,7 +744,26 @@
 				 menu item will open a dialog asking the user how to fill in the
 				 deleted cells. Blocks of cells will either be filled in by the
 				 columns of cells below the block selection or by the rows on 
-				 the right of the block. For example, if the user chose the
+				 the right of the block. 
+				 </para>
+
+    <figure id="menu-edit-delete-cells.png">
+		    <title>The Delete Cells Dialog</title>
+		    <screenshot>
+		      <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/menu-edit-delete-cells.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the Delete Cells Dialog.</phrase>
+            </textobject>
+           </mediaobject>
+		    </screenshot>
+    </figure>
+
+
+				 <para>
+				 For example, if the user chose the
 				 block of cells from E6:G8 for deletion, those cells could be
 				 filled in by the cells below E8, F8 and G8 if the <guilabel>Shift cells
 				 up</guilabel> option were chosen. Alternatively, the cells to the right
@@ -738,7 +774,6 @@
 			</itemizedlist>
 		</listitem>
 	</varlistentry>
-
 
 	<varlistentry>
 		<term>
