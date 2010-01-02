@@ -1,3 +1,9 @@
+2010-01-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dao.glade: mark items in combo box for translation
+	* dialog-cell-format.c (fmt_dialog_init_conditions_page):
+	  mark visible text for translation
+
 2010-01-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* help.h: adjust links to statistical analysis sections

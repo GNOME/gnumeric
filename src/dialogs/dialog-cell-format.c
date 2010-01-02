@@ -2219,14 +2219,15 @@ fmt_dialog_init_conditions_page (FormatState *state)
 								   "conditions_label"));
 	if (state->conflicts & (1 << MSTYLE_CONDITIONS)) {
 		gtk_label_set_markup (state->conditions.label,
-				      "The selection is <b>not</b> homogeneous "
-				      "with respect to conditions!");
+				      N_("The selection is <b>not</b> "
+					 "homogeneous "
+					 "with respect to conditions!"));
 		(void) sv_selection_foreach (state->sv,
 					     fmt_dialog_condition_collector, state);
 	} else {
 		gtk_label_set_markup (state->conditions.label,
-				      "The selection is homogeneous with "
-				      "respect to conditions.");
+				      N_("The selection is homogeneous with "
+					 "respect to conditions."));
 		if (state->style != NULL)
 			fmt_dialog_conditions_page_load_conditions
 				(state->style, NULL, state);

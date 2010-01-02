@@ -179,7 +179,7 @@
 	  <child>
 	    <widget class="GtkComboBox" id="put_menu">
 	      <property name="visible">True</property>
-	      <property name="items">Values
+	      <property name="items" translatable="yes">Values
 Formulas</property>
 	    </widget>
 	    <packing>
