@@ -778,18 +778,18 @@
 	<varlistentry>
 		<term>
 	            <emphasis role="bold">4</emphasis>
-			Search and locate operations.
+			Search and replace operations.
 		</term>
 		<listitem>
-			<para>These menu entries do not group together logically. Each
+			<para>These menu entries relate to search and replace operations. Each
 			  entry is explained in detail below. </para>
 
 	 		<itemizedlist>
 
       	    	<listitem>
      	      	<para>
-     	       	<guimenuitem>Find...</guimenuitem> &mdash; The
-			       <guimenuitem>Find...</guimenuitem> menu item opens a dialog
+     	       	<guimenuitem>Search...</guimenuitem> &mdash; The
+			       <guimenuitem>Search...</guimenuitem> menu item opens a dialog
 				 to search for cells with particular content. The dialog has
 				 three tabs. In the first the user can enter the information
 				 the user wants to find and some constraints on the search. The
@@ -802,25 +802,15 @@
 
       	    	<listitem>
      	      	<para>
-     	       	<guimenuitem>Replace...</guimenuitem> &mdash; The
-			       <guimenuitem>Replace...</guimenuitem> menu item
+     	       	<guimenuitem>Search &amp; Replace...</guimenuitem> &mdash; The
+			       <guimenuitem>.Search &amp; Replace..</guimenuitem> menu item
 				 will launch a dialog to find cells with particular
 				 characteristics and replace them all with a common content.
-				 This dialog is similar to the <guilabel>Find</guilabel>
+				 This dialog is similar to the <guilabel>Search</guilabel>
 				 dialog.
 				 </para>
      	   		</listitem>
 
-      	    	<listitem>
-     	      	<para>
-     	       	<guimenuitem>Goto cell...</guimenuitem> &mdash; The
-			       <guimenuitem>Goto cell...</guimenuitem> menuitem opens up a
-				   dialog which allows the user to type the name of a cell in
-				   the worksheet. The current view will then change to be sure
-				   that the selected cell is in the current view and the
-				   selection will cover that cell.
-				 </para>
-     	   		</listitem>
 		    </itemizedlist>
 		    </listitem>
 
@@ -847,10 +837,9 @@
 				   worksheet tabs. The worksheet can be duplicated to create a
 				   second sheet with the same contents. A new worksheet can be
 				   inserted immediately following the current sheet. The
-				   current sheet can be renamed in a the little pop-up window. The
+				   current sheet can be renamed. The
 				   sheets can be re-ordered or the current sheet can be
-				   deleted. For this last option &gnum; asks for confirmation
-				   since this choice cannot be undone.
+				   deleted.
 				 </para>
      	   		</listitem>
 
@@ -858,20 +847,59 @@
      	      	<para>
      	       	<guimenuitem>Select</guimenuitem> &mdash; The
 			       <guimenuitem>Select</guimenuitem> menu item allows the user
-				 to select various portions of the worksheet. The
-				 <guimenuitem>Select All</guimenuitem> provides a quick way to
-				 select the entire worksheet. The <guimenuitem>Select
-				 Row</guimenuitem> and <guimenuitem>Select Column</guimenuitem>
-				 menuitems allow the user to select all the rows or columns 
-				 spanned by the current selection.
+				    to select various portions of the worksheet. When selected
+                    it opens a submenu.
+ 				 </para>
+
+    <figure id="menu-edit-select.png">
+		    <title>The Select Submenu</title>
+		    <screenshot>
+		      <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/menu-edit-select.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the Select Submenu.</phrase>
+            </textobject>
+           </mediaobject>
+		    </screenshot>
+    </figure>
+
+
+	            <itemizedlist>
+     	   		  <listitem>
+				    <para>The
+				      <guimenuitem>Select All</guimenuitem> provides a quick way to
+				      select the entire worksheet. The <guimenuitem>Select
+				      Row</guimenuitem> and <guimenuitem>Select Column</guimenuitem>
+				      menuitems allow the user to select all the rows or columns 
+				      spanned by the current selection.
+				    </para>
+     	   		</listitem>
+
+      	    	<listitem>
+				    <para>
+				      The <guimenuitem>Select Array</guimenuitem> menu item allows a
+				      user to select all the cells which are part of the same array
+				      as the current cell. The <guimenuitem>Select Depends
+                      </guimenuitem> 
+				      menu item selects all the cells which are formulas which at
+				      least partially need the data in the current cell. 
+				    </para>
+     	   		</listitem>
+
+      	    	<listitem>
+     	      	<para>
+     	       	<guimenuitem>Goto cell...</guimenuitem> &mdash; The
+			       <guimenuitem>Goto cell...</guimenuitem> menuitem opens up a
+				   dialog which allows the user to type the name or address of 
+                    a cell in
+				   the worksheet. The current view will then change to ensure
+				   that the selected cell is in the current view and the
+				   selection will cover that cell.
 				 </para>
-				 <para>
-				 The <guimenuitem>Select Array</guimenuitem> menu item allows a
-				 user to select all the cells which are part of the same array
-				 as the current cell. The <guimenuitem>Select Depends</guimenuitem> 
-				 menu item selects all the cells which are formulas which at
-				 least partially need the data in the current cell. 
-				 </para>
+     	   		</listitem>
+	            </itemizedlist>
      	   		</listitem>
 
       	    	<listitem>
@@ -886,20 +914,26 @@
 					workbook.
      	      		</para>
      	   		</listitem>
-            	<listitem>
-                    <para><!-- Keep in sync with format dialog entry. -->
-	                    <guimenuitem>Preferences...</guimenuitem> &mdash; The
-	                    <guimenuitem>Preference...</guimenuitem> menu item call
-	                    the <guilabel>Gnumeric Preferences</guilabel> dialog. This
-	                    menu item opens a dialog with fields to edit the document
-	                    summary information of the file currently open in that
-	                    window. Summary information describes the sheet, for
-	                    instance, with the author name and a comment.
-	                </para>
-	            </listitem>
 	  </itemizedlist>
 	</listitem>
 	</varlistentry>
+
+	<varlistentry>
+		<term>
+	            <emphasis role="bold">5</emphasis>
+			The only item in this section allows for the general configuration of
+            &gnum;.
+		</term>
+		<listitem>
+                <para>
+                    <guimenuitem>Preferences...</guimenuitem> &mdash; The
+                    <guimenuitem>Preference...</guimenuitem> menu item calls
+                    the <guilabel>Gnumeric Preferences</guilabel> dialog 
+                    explained in detail in <xref linkend="chapter-configuring" />
+                </para>
+	    </listitem>
+	</varlistentry>
+
   </variablelist>
 </sect2>
 
