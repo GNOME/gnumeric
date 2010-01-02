@@ -1793,7 +1793,13 @@ static GtkActionEntry const actions[] = {
 	{ "FileSend", "Gnumeric_Link_EMail", N_("Sen_d To..."),
 		NULL, N_("Send the current file via email"),
 		G_CALLBACK (cb_file_sendto) },
+#ifdef HAVE_GTK_ADJUSTMENT_CONFIGURE
+	/* gtk_adjustment_configure implies gtk 2.14 or later */
+	/* that is required for GTK_STOCK_PAGE_SETUP */
+	{ "FilePageSetup", GTK_STOCK_PAGE_SETUP, N_("Page Set_up..."),
+#else
 	{ "FilePageSetup", NULL, N_("Page Set_up..."),
+#endif
 		NULL, N_("Setup the page settings for your current printer"),
 		G_CALLBACK (cb_file_page_setup) },
 	{ "FilePrintPreview", GTK_STOCK_PRINT_PREVIEW, NULL,

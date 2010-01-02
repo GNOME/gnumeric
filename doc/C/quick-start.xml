@@ -587,7 +587,7 @@ c:\Program Files\Gnome-Office\gnumeric
     </sect3>
 
     <sect3 id="quick-data-input-input">
-      <title>Data Input</title>
+      <title>Data input</title>
 
       <para>
         In order to enter data into a selected cell, you can simply
@@ -651,7 +651,7 @@ c:\Program Files\Gnome-Office\gnumeric
     </sect3>
 
     <sect3 id="quick-data-input-recognition">
-      <title>Automatic Data recognition</title>
+      <title>Automatic data recognition</title>
 
       <para>
         As you enter data into the spreadsheet,
@@ -793,7 +793,7 @@ c:\Program Files\Gnome-Office\gnumeric
     </sect3>
 
     <sect3 id="quick-data-input-formula">
-      <title>Entering a Formula</title>
+      <title>Entering a formula</title>
 
       <para>
         To enter a formula, select a cell and type in the
@@ -892,12 +892,13 @@ c:\Program Files\Gnome-Office\gnumeric
     </sect3>
 
     <sect3 id="quick-data-input-error">
-      <title>Entering an Error Value</title>
+      <title>Entering an error value</title>
 
       <para>
         Error values are almost never entered into the spreadsheet
         directly but generally arise when formulas cannot calculate
-        valid results.
+        valid results. The only error value occasionally entered is
+        "#N/A". It can be either typed in directly or created via "=na()".
       </para>
 
     </sect3>
@@ -1340,32 +1341,10 @@ c:\Program Files\Gnome-Office\gnumeric
     provide an effective way to present data so as to demonstrate
     relationships in the data and summarize large amounts of data in
     an effective image. In &gnum;, both
-    of these can be done easily and efficiently.
+    of these can be done easily and efficiently. Information on the
+    creation of graphical displays of data is
+    presented in greater detail in <xref linkend="chapter-graphics"/>.
   </para>
-
-  <warning>
-    <title>Graphing is a work in progress</title>
-
-    <para>
-      The approach to the creation of graphical displays of data was
-      completely redesigned in
-      &gnum; version 1.2 and is still
-      being improved. The ultimate goal is a system which will produce
-      an elegant graph automatically but can be customized in detail
-      according the user's preferences. This is a active area of
-      programming development and therefore will be changing
-      repeatedly in future versions.
-    </para>
-
-    <para>
-      Information on the creation of graphical displays of data is
-      presented in greater detail in <xref linkend="chapter-graphics"
-      />. That chapter will be updated regularly during development to
-      explain in detail how to produce and modify graphical displays
-      of data.
-    </para>
-
-  </warning>  
 
   <para>
     When graphs are used to explore data, the aim is usually to
@@ -1406,7 +1385,7 @@ c:\Program Files\Gnome-Office\gnumeric
         available in &gnum; often appear
         cluttered. The visual richness of such images can often
         obscure the message contained in the presentation of the
-        data. Spare, elegant and direct graphs will communicate
+        data. Sparse, elegant and direct graphs will communicate
         results most effectively.
       </para>
     </tip>
@@ -1466,7 +1445,7 @@ c:\Program Files\Gnome-Office\gnumeric
         <step>
           <para>
             The quickest way to make a plot starts with the selection
-            of the data. Using the mouse, first select the range B1:C5
+            of the data. Using the mouse, first select the range A1:C5
             which includes the data both for the number of Eggs and
             for the number of Females.
           </para>
@@ -1507,14 +1486,14 @@ c:\Program Files\Gnome-Office\gnumeric
                   </para>
                 </textobject>
               </inlinemediaobject>
-            which will move the selection down to that row.
+            which will move the selection to that row.
           </para>
         </step>
 
         <step>
 <!--TODO: update button label from "OK" to "Graph"-->
           <para>
-            Click on the "Ok" button. This will make the druid
+            Click on the "Insert" button. This will make the druid
             disappear and leave the mouse cursor as a thin cross hair.
           </para>
         </step>
@@ -1674,7 +1653,7 @@ c:\Program Files\Gnome-Office\gnumeric
 
         <step>
           <para>
-            Click on the "Ok" button. The plot should now have a title
+            Click on the "Apply" button. The plot should now have a title
             and a legend. Note that
             &gnum; has used the words in
             the column headers automatically to label the two data

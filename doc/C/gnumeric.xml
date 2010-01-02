@@ -15,12 +15,12 @@
 "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 
   <!ENTITY gnum "<application>Gnumeric</application>">
-  <!ENTITY appversion "1.8">
-  <!ENTITY manrevision "1.8">
-  <!ENTITY date "November 2007">
+  <!ENTITY appversion "1.10">
+  <!ENTITY manrevision "1.9">
+  <!ENTITY date "January 2010">
   <!ENTITY file-format-open "Gnumeric XML, 
                              Microsoft Excel 95/97/2000/2003/XP/2007, 
-                             OpenOffice ODF, 
+                             Open Document Format (ODF 1.0 &amp; 1.1), 
                              Microsoft Office Open XML,
                              Text: comma separated value CSV; tab separated value TSV,
                              Applix,  
@@ -185,12 +185,20 @@
 -->
 
     <copyright>
+      <year>2010</year>
+      <year>2009</year>
+      <holder>Andreas J. Guelzow.
+      </holder> 
+   </copyright>
+ 
+
+    <copyright>
       <year>2007</year>
       <year>2006</year>
       <year>2005</year>
       <year>2004</year>
       <holder>Adrian Custer, Ray Dassen, Jody Goldberg, 
-              Andreas Guelzow, Louis Luangkesorn.
+              Andreas J. Guelzow, Louis Luangkesorn.
       </holder> 
     </copyright>
   <!-- translators: uncomment this:
@@ -269,9 +277,9 @@
         <!-- email>jody@chez@gnome.org</email -->
       </author>
       <author> 
-        <firstname>Andreas</firstname>
+        <firstname>Andreas J.</firstname>
         <surname>Guelzow</surname> 
-        <!-- email>aguelzow@chez@taliesin.ca</email -->
+        <!-- email>aguelzow@chez@pyrshep.ca</email -->
       </author>
       <author> 
         <firstname>Jon K.</firstname>
@@ -357,6 +365,14 @@
       <revision> 
         <revnumber>Gnumeric Manual: Version &manrevision;</revnumber> 
         <date>&date;</date> 
+        <revdescription> 
+          <para role="author">The Gnumeric Team</para>
+          <para role="publisher">GNOME Documentation Project</para>
+        </revdescription> 
+      </revision>
+      <revision> 
+        <revnumber>Gnumeric Manual: Version 1.8</revnumber> 
+        <date>November 2007</date> 
         <revdescription> 
           <para role="author">The Gnumeric Team</para>
           <para role="publisher">GNOME Documentation Project</para>

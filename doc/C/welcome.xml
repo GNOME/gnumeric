@@ -241,14 +241,14 @@
 
 
 <para>
-  <emphasis role="bold">The Gnumeric 1.9 Series of Releases for Developers</emphasis>
+  <emphasis role="bold">The Gnumeric 1.11 Series of Releases for Developers</emphasis>
 </para>
 
 <para>
-  The &gnum; 1.9 series of releases are
+  The &gnum; 1.11 series of releases are
   developer releases. These releases are kept as stable as
   possible. However, each release in this series includes changes and
-  improvements some of which are quite large. These new changes may
+  improvements some of which may be quite large. These new changes may
   cause the program to crash and loose data. Do not use these releases
   if you cannot afford to loose any data or work. However, these
   releases include many new features that can be helpful. If you use
@@ -259,6 +259,7 @@
   interface as detailed in <xref linkend="chapter-bugs" />.
 </para>
 
+<!--
 <para>
   In this version of &gnum;, we have been patching bugs, and working on the 
   following features:
@@ -270,6 +271,84 @@
       </para>
       <para>
 	Comment...
+      </para>
+    </listitem>
+  </itemizedlist>
+</para>
+-->
+
+<para>
+  <emphasis role="bold">New features introduced in the Gnumeric 1.10 release
+  series:</emphasis>
+</para>
+
+<para>
+  The 1.10 series of &gnum; includes
+  numerous improvements over the versions in the 1.8 series.
+
+  <itemizedlist>
+    <listitem>
+      <para>
+        <emphasis role="bold">Adjustable Sheet Size</emphasis>
+      </para>
+      <para>
+	Sheets are no longer restricted to 256 columns of 65536 rows.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="bold">Improved OpenDocument Format Import and Export</emphasis>
+      </para>
+      <para>
+	Basic import and export support for the
+	<ulink type="http" url="http://en.wikipedia.org/wiki/ODF"> OpenDocument Format </ulink> ("OOXML")
+	format was added, focussing on standard spreadsheet content and charts. Gnumeric also supports 
+	nearly all functions in the large group of functions in the current OpenFormula Draft.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="bold">New and Improved Graphs</emphasis>
+      </para>
+      <para>New plot types for surfaces and probability plots have been added. Moreover, when an axis 
+	is a date or time axis, reasonable places for tick marks will now be picked. Trend lines have 
+	also been improved
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="bold">Faster Evaluation</emphasis>
+      </para>
+      <para>Evaluation of some fairly common sheets with
+	large numbers of calls to HLOOKUP, or similar functions,
+	over the same database have been improved from &ldquo;rather
+	slow&rdquo; to &ldquo;instant&rdquo;.  Similar improvements have been
+	implemented for farms of RANK or PERCENTILE calls.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="bold">Reduced Memory Usage</emphasis>
+      </para>
+      <para>The memory usage for large sheets has been decreased significantly.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="bold">Added Statistical Analysis Tools</emphasis>
+      </para>
+      <para>The statistical analysis tools have been improved and
+	there are quite a few new ones, for example Kaplan Meier Estimates, 
+	Normality Tests, Principal Component Analysis, Sign Tests, improved Exponential 
+	Smoothing, etc.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="bold">Improved Sheet Objects</emphasis>
+      </para>
+      <para>
+	Support for sheet objects (lines, arrows, widgets, &hellip;) has been improved.
       </para>
     </listitem>
   </itemizedlist>

@@ -68,10 +68,8 @@ struct _GnmApp {
 	/* Recalculation manager.  */
 	int             recalc_count;
 
-#ifdef HAVE_GTK_RECENT_MANAGER_GET_DEFAULT
 	GtkRecentManager *recent;
 	gulong           recent_sig;
-#endif
 };
 
 typedef struct {
@@ -531,7 +529,6 @@ gnm_app_create_opener_filter (void)
 	return filter;
 }
 
-#ifdef HAVE_GTK_RECENT_MANAGER_GET_DEFAULT
 static gint
 compare_mru (GtkRecentInfo *a, GtkRecentInfo *b)
 {
@@ -540,7 +537,6 @@ compare_mru (GtkRecentInfo *a, GtkRecentInfo *b)
 
 	return ta < tb;
 }
-#endif
 
 /**
  * gnm_app_history_get_list:
@@ -552,7 +548,6 @@ compare_mru (GtkRecentInfo *a, GtkRecentInfo *b)
 GSList *
 gnm_app_history_get_list (int max_elements)
 {
-#ifdef HAVE_GTK_RECENT_MANAGER_GET_DEFAULT
 	GSList *res = NULL;
 	GList *items, *l;
 	GtkFileFilter *filter = gnm_app_create_opener_filter ();
@@ -601,9 +596,6 @@ gnm_app_history_get_list (int max_elements)
 	g_object_unref (filter);
 
 	return g_slist_reverse (res);
-#else
-	return NULL;
-#endif
 }
 
 /**
@@ -615,7 +607,6 @@ gnm_app_history_get_list (int max_elements)
 void
 gnm_app_history_add (char const *uri, const char *mimetype)
 {
-#ifdef HAVE_GTK_RECENT_MANAGER_GET_DEFAULT
 	GtkRecentData rd;
 	gboolean retval;
 
@@ -638,7 +629,6 @@ gnm_app_history_add (char const *uri, const char *mimetype)
 	g_free (rd.mime_type);
 	g_free (rd.app_name);
 	g_free (rd.app_exec);
-#endif
 
 	g_object_notify (G_OBJECT (app), "file-history-list");
 }
@@ -657,9 +647,7 @@ gnumeric_application_finalize (GObject *obj)
 	g_free (application->clipboard_cut_range);
 	application->clipboard_cut_range = NULL;
 
-#ifdef HAVE_GTK_RECENT_MANAGER_GET_DEFAULT
 	application->recent = NULL;
-#endif
 
 	if (app == application)
 		app = NULL;
@@ -757,12 +745,10 @@ gnm_app_init (GObject *obj)
 
 	gnm_app->workbook_list = NULL;
 
-#ifdef HAVE_GTK_RECENT_MANAGER_GET_DEFAULT
 	gnm_app->recent = gtk_recent_manager_get_default ();
 	g_signal_connect_object (G_OBJECT (gnm_app->recent),
 				 "changed", G_CALLBACK (cb_recent_changed),
 				 gnm_app, 0);
-#endif
 
 	app = gnm_app;
 }

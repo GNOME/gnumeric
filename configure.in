@@ -678,7 +678,7 @@ LIBS="$GNUMERIC_LIBS $LIBS"
 
 AC_CHECK_FUNCS(g_date_set_time_t g_slice_alloc g_option_context_set_delocalize)
 AC_CHECK_FUNCS(pango_font_map_create_context)
-AC_CHECK_FUNCS(gtk_recent_manager_get_default gtk_orientable_set_orientation gtk_adjustment_configure gtk_widget_get_window gsf_open_pkg_foreach_rel gtk_dialog_get_content_area gtk_entry_get_buffer)
+AC_CHECK_FUNCS(gtk_orientable_set_orientation gtk_adjustment_configure gtk_widget_get_window gsf_open_pkg_foreach_rel gtk_dialog_get_content_area gtk_entry_get_buffer)
 AC_CHECK_FUNCS(gsf_infile_msvba_steal_modules)
 
 AC_MSG_CHECKING([for PANGO_WEIGHT_THIN etc.])

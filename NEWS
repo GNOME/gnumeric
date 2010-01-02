@@ -23,6 +23,7 @@ Andreas:
 	* Add "Don't change formulae" to paste special. [#123326]
 	* Select pasted objects. [#604227]
 	* Add auto expression menu items to add formula. [#8872]
+	* Some updates to the Gnumeric manual.
 
 Jean
 	* Fix import export of line type in scatter plots. [#605043]

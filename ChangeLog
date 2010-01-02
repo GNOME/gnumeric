@@ -1,13 +1,22 @@
+2010-01-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* configure.in: remove teh check for gtk_recent_manager_get_default.
+	  It is implied by the gtk 2.12 requirement
+	* src/application.c: remove the checks for gtk_recent_manager_get_default
+	  throughout
+	* src/wbc-gtk-actions.c (actions): use GTK_STOCK_PAGE_SETUP if we
+	  have it.
+
 2009-12-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* wbc-gtk.c (cb_auto_expr_insert_formula): new
+	* src/wbc-gtk.c (cb_auto_expr_insert_formula): new
 	(cb_auto_expr_insert_formula_below): use cb_auto_expr_insert_formula
 	(cb_auto_expr_insert_formula_to_side): new
 	(cb_select_auto_expr): add menu item
 	
 2009-12-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* wbc-gtk.c (cb_auto_expr_insert_formula_below): new
+	* src/wbc-gtk.c (cb_auto_expr_insert_formula_below): new
 	(cb_select_auto_expr): add separator and menu item
 
 2009-12-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
