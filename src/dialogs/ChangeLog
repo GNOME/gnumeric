@@ -1,3 +1,7 @@
+2010-01-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* help.h: adjust links to statistical analysis sections
+
 2009-12-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-paste-special.c (dont_change_formulae_set_sensitive): 

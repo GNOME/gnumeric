@@ -1,32 +1,5 @@
-<sect1 id="sect-analysis-statistical">
-  <title>Statistical Analysis</title>
-
-  <para>
-    The data analysis tools package contains tools for statistical
-    data analysis and data sampling.  To use
-    these tools select the <guilabel>Data Analysis...</guilabel> item
-    in the <guilabel>Tools</guilabel> menu.  This yields a list of
-    tools to choose from.  Select one of the tools from the list and
-    press the OK button or double-click on the tool.  The tools are
-    described below.
-  </para>
-
-  <figure id="fig-statistical-analysistools">
-    <title>Statistical Analysis Tools </title>
-    <screenshot>
-      <screeninfo>&gnum;'s Data Analysis Tools</screeninfo>
-      <mediaobject>
-        <imageobject>
-          <imagedata fileref="figures/analysistools-tools.png" 
-              format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the statistical analysis tools
-              available through the "Tools" menu.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
+<sect1 id="sect-stat-analysis-overview">
+  <title>Overview</title>
 
   <para>
     All tools have the same output options (see <xref
@@ -120,14 +93,14 @@
     any time, you may switch to another sheet of the workbook.
   </para>
 
+</sect1>
 
 
 
-
-<sect2 id="anova">
+<sect1 id="anova">
   <title>Analysis of Variance</title>
 
-  <sect3 id="anova-single-factor-tool">
+  <sect2 id="anova-single-factor-tool">
      <title>ANOVA: Single Factor Tool</title>
 
      <para>
@@ -193,9 +166,9 @@
   </figure>
      
 
-  </sect3>
+  </sect2>
 
-  <sect3 id="anova-two-factor-tool">
+  <sect2 id="anova-two-factor-tool">
      <title>ANOVA: Two-Factor Tool</title>
 
      <para>&gnum; can perform two factor fixed effects ANOVAs with and 
@@ -203,7 +176,7 @@
      appropriate tool is selected depending on whether the number of rows 
      per sample is 1 or larger than 1.</para> 
 
-  <sect4 id="anova-two-factor-without-tool">
+  <sect3 id="anova-two-factor-without-tool">
      <title>ANOVA: Two-Factor Without Replication Tool</title>
 
      <para>If the number of rows per sample is given as 1, &gnum; 
@@ -254,9 +227,9 @@
            </mediaobject>
     </screenshot>
   </figure>
-  </sect4>
+  </sect3>
 
-  <sect4 id="anova-two-factor-with-tool">
+  <sect3 id="anova-two-factor-with-tool">
      <title>ANOVA: Two-Factor With Replication Tool</title>
      <para>If the number of rows per sample is larger than 1, &gnum; 
      performs a two factor fixed effects ANOVA with replication. Each
@@ -311,12 +284,26 @@
      values in that combination. The degrees of freedom are adjusted
      appropriately. </para>
 
-  </sect4>
   </sect3>
+  </sect2>
 
-</sect2>
+</sect1>
 
-  <sect2 id="correlation-tool">
+  <sect1 id="chi-square-tool">
+      <title>Tests for a Contingency Table</title>
+
+  <sect2 id="homogeneity-tool">
+      <title>Test of Homogeneity</title>
+      <para></para>
+  </sect2>
+  <sect2 id="independence-tool">
+      <title>Test of Independence</title>
+      <para></para>
+  </sect2>
+
+  </sect1>
+
+  <sect1 id="correlation-tool">
      <title>Correlation Tool</title>
 
   <figure id="correlation-tool-dialog">
@@ -425,9 +412,9 @@
            </mediaobject>
     </screenshot>
   </figure>
-  </sect2>
+  </sect1>
 
-  <sect2 id="covariance-tool">
+  <sect1 id="covariance-tool">
      <title>Covariance Tool</title>
 
   <figure id="covariance-tool-dialog">
@@ -521,10 +508,10 @@
            </mediaobject>
     </screenshot>
   </figure>
-  </sect2>
+  </sect1>
 
 
-  <sect2 id="descriptive-statistics-tool">
+  <sect1 id="descriptive-statistics-tool">
      <title>Descriptive Statistics Tool</title>
 
   <figure id="descriptive-statistics-tool-dialog">
@@ -636,11 +623,11 @@
            </mediaobject>
     </screenshot>
   </figure>
-  </sect2>
+  </sect1>
 
- <sect2 id="forecast-tools">
+ <sect1 id="forecast-tools">
      <title>Forecast Tools</title>
-  <sect3 id="exp-smoothing-tool">
+  <sect2 id="exp-smoothing-tool">
      <title>Exponential Smoothing Tool</title>
 
   <figure id="smoothing-tool-dialog">
@@ -689,7 +676,7 @@
        page.
      </para>
 
-     <sect4 id="exp-smoothing-tool-common">
+     <sect3 id="exp-smoothing-tool-common">
  <title>Common Options of the Exponential Smoothing Tool</title>
 
      <para>Specify the cells containing the datasets in the <quote><guilabel>Input
@@ -705,9 +692,9 @@
        will also create a chart showing both the data and corresponding smoothed 
        values.
      </para>
-     </sect4>
+     </sect3>
 
-  <sect4 id="exp-smoothing-tool-hunter">
+  <sect3 id="exp-smoothing-tool-hunter">
  <title>Exponential Smoothing According to Hunter</title>
 
     <para>  Each value in the
@@ -824,9 +811,9 @@
     </screenshot>
   </figure>
 
-  </sect4>
+  </sect3>
 
-  <sect4 id="exp-smoothing-tool-roberts">
+  <sect3 id="exp-smoothing-tool-roberts">
 <title>Exponential Smoothing According to Roberts</title>
 
   <para>The simple exponential smoothing method according to Roberts is used for 
@@ -918,9 +905,9 @@
            </mediaobject>
     </screenshot>
   </figure>
-  </sect4>
+  </sect3>
 
-  <sect4 id="exp-smoothing-tool-holt">
+  <sect3 id="exp-smoothing-tool-holt">
 <title>Holt's Trend Corrected Exponential Smoothing</title>
 
   <para>Holt's trend corrected exponential smoothing is appropriate when both the level and the growth rate of a time series are changing. (If the time series has a fixed growth rate and therefore exhibits a linear trend, a linear regression model is more appropriate.) 
@@ -1020,10 +1007,10 @@
            </mediaobject>
     </screenshot>
   </figure>
-  </sect4>
+  </sect3>
 
 
-  <sect4 id="exp-smoothing-tool-additive-holt-winters">
+  <sect3 id="exp-smoothing-tool-additive-holt-winters">
 <title>Additive Holt-Winters Method</title>
 
   <para>The additive Holt-Winters method of exponential smoothing is appropriate when a time 
@@ -1154,9 +1141,9 @@
     </screenshot>
   </figure>
 
-    </sect4>
+    </sect3>
 
-  <sect4 id="exp-smoothing-tool-multiplicative-holt-winters">
+  <sect3 id="exp-smoothing-tool-multiplicative-holt-winters">
 <title>Multiplicative Holt-Winters Method</title>
 
   <para>The multiplicative Holt-Winters method of exponential smoothing is appropriate when a time 
@@ -1268,10 +1255,10 @@
     </screenshot>
   </figure>
 
-  </sect4>
   </sect3>
+  </sect2>
 
-  <sect3 id="moving-average-tool">
+  <sect2 id="moving-average-tool">
      <title>Moving Average Tool</title>
 
   <figure id="moving-tool-dialog">
@@ -1418,20 +1405,20 @@
     input range.
   </para>
 
-     <sect4 id="moving-averages-simple">
+     <sect3 id="moving-averages-simple">
        <title>Simple Moving Average</title>
        <para>
 	 A simple moving average is the unweighted average of a collection of 
 	 observations. Exactly which observations are included depends on whether 
 	 a prior or central moving average is calculated.  
        </para>
-     </sect4>
-     <sect4 id="moving-averages-cumulative">
+     </sect3>
+     <sect3 id="moving-averages-cumulative">
        <title>Cumulative Moving Average</title>
        <para>A cumulative moving average is a prior moving average in which the current 
        and all prior observations are included.</para>
-     </sect4>
-     <sect4 id="moving-averages-weighted">
+     </sect3>
+     <sect3 id="moving-averages-weighted">
        <title>Weighted Moving Average</title>
        <para>A weighted moving average with an interval <parameter>i</parameter> is a prior 
 	 moving average calculated according to formula 
@@ -1458,10 +1445,10 @@
            </mediaobject>
 	 </screenshot>
        </figure>
-     </sect4>
+     </sect3>
    
 
-     <sect4 id="moving-averages-spencer">
+     <sect3 id="moving-averages-spencer">
        <title>Spencer's 15 Point Moving Average</title>
        <para>Spencer's 15 point moving average is a central moving average calculated 
 	 according to formula 
@@ -1486,9 +1473,9 @@
            </mediaobject>
 	 </screenshot>
        </figure>
-     </sect4>
+     </sect3>
 
-     <sect4 id="moving-averages-example">
+     <sect3 id="moving-averages-example">
        <title>A Moving Average Example</title>
        <figure id="moving-example-1">
 	 <title>Some Example Data for the Moving Average Tool</title>
@@ -1541,11 +1528,11 @@
            </mediaobject>
 	 </screenshot>
        </figure>
-     </sect4>
-  </sect3>
+     </sect3>
   </sect2>
+  </sect1>
 
-  <sect2 id="fourier-analysis-tool">
+  <sect1 id="fourier-analysis-tool">
      <title>Fourier Analysis Tool</title>
 
   <figure id="fourier-tool-dialog">
@@ -1615,9 +1602,9 @@
        and it uses a scaling factor of
        <parameter>1/SQRT(N)</parameter> rather than
        <parameter>1/N</parameter>.</para></note>
-  </sect2>
+  </sect1>
 
-  <sect2 id="ftest-two-sample-for-variances-tool">
+  <sect1 id="ftest-two-sample-for-variances-tool">
      <title>F-Test: Two-Sample for Variances Tool</title>
 
   <figure id="ftest-tool-dialog">
@@ -1700,9 +1687,9 @@
     </screenshot>
   </figure>
     
-  </sect2>
+  </sect1>
 
-  <sect2 id="frequencies-tools">
+  <sect1 id="frequencies-tools">
       <title>Frequency Tables</title>
       <para>
 	&gnum; provides two types of frequencies tables:
@@ -1718,10 +1705,10 @@
      </para></listitem>
      </itemizedlist>
 
-    <sect3 id="frequency-tool">
+    <sect2 id="frequency-tool">
       <title>Frequency Tables Tool</title>
 
-      <sect4 id="frequency-tool-intro">
+      <sect3 id="frequency-tool-intro">
 	<title>Introduction</title>
 	
 	<para> The frequency tool can be used to create frequency tables for 
@@ -1755,9 +1742,9 @@
 	  frequency table dialog has four tabs. We will introduce them in
 	  sequence.
 	</para>
-      </sect4>
+      </sect3>
       
-      <sect4 id="frequency-tool-inputtab">
+      <sect3 id="frequency-tool-inputtab">
 	<title>The <quote><guilabel>Input</guilabel></quote> Tab</title>
 	
 	<para>The <quote><guilabel>Input</guilabel></quote> tab shown in 
@@ -1776,9 +1763,9 @@
 	  If the input is grouped by areas and the top left cell contains a label, the
 	  other cells in the first row are being ignored.
 	</para>
-      </sect4>
+      </sect3>
       
-      <sect4 id="frequency-tool-catstab">
+      <sect3 id="frequency-tool-catstab">
 	<title>The <quote><guilabel>Categories</guilabel></quote> Tab</title>
 	
 	<para>The <quote><guilabel>Categories</guilabel></quote> tab permits the specification
@@ -1805,10 +1792,10 @@
             </mediaobject>
 	  </screenshot>
 	</figure>
-      </sect4>
+      </sect3>
       
       
-      <sect4 id="frequency-tool-optionstab">
+      <sect3 id="frequency-tool-optionstab">
 	<title>The <quote><guilabel>Graphs &amp;  Options</guilabel></quote> Tab</title>
 	
 	<para>The <quote><guilabel>Graphs &amp;  Options</guilabel></quote> tab allows various 
@@ -1847,10 +1834,10 @@
             </mediaobject>
 	  </screenshot>
 	</figure>
-      </sect4>
+      </sect3>
       
       
-      <sect4 id="frequency-tool-results-sect">
+      <sect3 id="frequency-tool-results-sect">
 	<title>Frequency Tool Results</title>
 	<figure id="frequency-tool-results">
 	  <title>Frequency Tool Results</title>
@@ -1866,13 +1853,13 @@
 	    </mediaobject>
 	  </screenshot>
 	</figure>
-      </sect4>
-    </sect3>
+      </sect3>
+    </sect2>
     
-    <sect3 id="histogram-tool">
+    <sect2 id="histogram-tool">
       <title>Histogram Tool</title>
       
-      <sect4 id="histogram-tool-intro">
+      <sect3 id="histogram-tool-intro">
 	<title>Introduction</title>
 	
 	
@@ -1907,9 +1894,9 @@
 	  histogram dialog has five tabs. We will introduce them in
 	  sequence.
 	</para>
-      </sect4>
+      </sect3>
 
-  <sect4 id="histogram-tool-inputtab">
+  <sect3 id="histogram-tool-inputtab">
      <title>The <quote><guilabel>Input</guilabel></quote> Tab</title>
 
      <para>The <quote><guilabel>Input</guilabel></quote> tab shown in 
@@ -1928,9 +1915,9 @@
        If the input is grouped by areas and the top left cell contains a label, the
        other cells in the first row are being ignored.
      </para>
-  </sect4>
+  </sect3>
   
-  <sect4 id="histogram-tool-cutoffsstab">
+  <sect3 id="histogram-tool-cutoffsstab">
      <title>The <quote><guilabel>Cutoffs</guilabel></quote> Tab</title>
   <figure id="histogram-tool-dialog-cutoffs">
     <title>Histogram Tool Dialog <quote><guilabel>Cutoffs</guilabel></quote> Tab</title>
@@ -1969,9 +1956,9 @@
     and <quote><guilabel>Maximum cutoff</guilabel></quote> entries. If the minimum or maximum
     cutoff is not specified, the tool will use the minimum and/or maximum of the current data. 
   </para>
-  </sect4>
+  </sect3>
   
-  <sect4 id="histogram-tool-binstab">
+  <sect3 id="histogram-tool-binstab">
      <title>The <quote><guilabel>Bins</guilabel></quote> Tab</title>
   <figure id="histogram-tool-dialog-bins">
     <title>Histogram Tool Dialog <quote><guilabel>Bins Tab</guilabel></quote></title>
@@ -2004,9 +1991,9 @@
     indicates that the first bin starts at the first cutoff while the last bin ends at &#x221e;. Moreover,
     each cutoff value belongs to the bin on its right.
   </para>
-    </sect4>
+    </sect3>
 
-  <sect4 id="histogram-tool-optionstab">
+  <sect3 id="histogram-tool-optionstab">
      <title>The <quote><guilabel>Graphs &amp; Options</guilabel></quote> Tab</title>
  <figure id="histogram-tool-dialog-options">
     <title>Histogram Tool Dialog <quote><guilabel>Graphs &amp; Options Tab</guilabel></quote></title>
@@ -2056,21 +2043,21 @@
      </listitem>
      </itemizedlist>
 
-  </sect4>
+  </sect3>
 
 
-  <sect4 id="histogram-tool-outputtab">
+  <sect3 id="histogram-tool-outputtab">
      <title>The <quote><guilabel>Output</guilabel></quote> Tab</title>
 
       <para>
         The Output tab contains the standard output options and fields
-        described at the beginning of <xref
-        linkend="sect-analysis-statistical" />.
+        described in <xref
+        linkend="sect-stat-analysis-overview" />.
       </para>
-  </sect4>
+  </sect3>
 
 
-  <sect4 id="histogram-tool-example">
+  <sect3 id="histogram-tool-example">
     <title>A Histogram Example</title>
 
     <figure id="histogram-example-1">
@@ -2153,8 +2140,8 @@
         <listitem>
           <para>
             In the <quote><guilabel>Output</guilabel></quote> tab,
-            specify the output options as described at the beginning of
-            <xref linkend="sect-analysis-statistical" />.
+            specify the output options as described in
+            <xref linkend="sect-stat-analysis-overview" />.
           </para>
         </listitem>
         <listitem><para>
@@ -2230,15 +2217,15 @@
            </mediaobject>
     </screenshot>
   </figure>
-  </sect4>
   </sect3>
   </sect2>
+  </sect1>
 
-  <sect2 id="kaplan-meier-tool">
+  <sect1 id="kaplan-meier-tool">
       <title>Kaplan Meier Estimates Tool</title>
       <para/>
 
-  <sect3 id="kaplan-meier-tool-inputtab">
+  <sect2 id="kaplan-meier-tool-inputtab">
      <title>The <quote><guilabel>Input</guilabel></quote> Tab</title>
 
      <para>The <quote><guilabel>Input</guilabel></quote> tab shown in 
@@ -2261,9 +2248,9 @@
            </mediaobject>
     </screenshot>
   </figure>
-  </sect3>
+  </sect2>
 
-  <sect3 id="kaplan-meier-tool-optionstab">
+  <sect2 id="kaplan-meier-tool-optionstab">
      <title>The <quote><guilabel>Options</guilabel></quote> Tab</title>
 
  <figure id="kaplan-meier-tool-dialog-options">
@@ -2281,18 +2268,18 @@
            </mediaobject>
     </screenshot>
   </figure>
-  </sect3>
+  </sect2>
 
-  <sect3 id="kaplan-meier-tool-outputtab">
+  <sect2 id="kaplan-meier-tool-outputtab">
      <title>The <quote><guilabel>Output</guilabel></quote> Tab</title>
 
       <para>
         The Output tab contains the standard output options and fields
-        described at the beginning of <xref linkend="sect-analysis-statistical" />.
+        described in <xref linkend="sect-stat-analysis-overview" />.
       </para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="kaplan-meier-tool-example">
+  <sect2 id="kaplan-meier-tool-example">
     <title>A Kaplan-Meier Example</title>
     
       <figure id="kaplan-meier-tool-example-1">
@@ -2336,13 +2323,21 @@
 
     </example>
     
-  </sect3>
-  
   </sect2>
   
-   
+  </sect1>
+  
+  <sect1 id="normality-tool">
+      <title>Normality Tests</title>
+      <para></para>
+  </sect1>
 
-  <sect2 id="rank-and-percentile-tool">
+  <sect1 id="principal-component-tool">
+      <title>Principal Component Analysis</title>
+      <para></para>
+  </sect1>
+
+  <sect1 id="rank-and-percentile-tool">
      <title>Rank and Percentile Tool</title>
 
   <figure id="rank-and-percentile-tool-dialog">
@@ -2427,9 +2422,9 @@
   is normally used to determine placements. The two values 10 would therefore each receive
   a rank of 2.   
   </para></note>
-  </sect2>
+  </sect1>
 
-  <sect2 id="regression-tool">
+  <sect1 id="regression-tool">
      <title>Regression Tool</title>
   <figure id="regression-tool-dialog">
     <title>Regression Tool Dialog</title>
@@ -2544,9 +2539,9 @@
            </mediaobject>
     </screenshot>
   </figure>
-  </sect2>
+  </sect1>
 
-  <sect2 id="sampling-tool">
+  <sect1 id="sampling-tool">
      <title>Sampling Tool</title>
      <figure>
         <title>Sampling Tool Dialog</title>
@@ -2637,10 +2632,17 @@
            </mediaobject>
     </screenshot>
   </figure>
-  </sect2>
+  </sect1>
 
 
-<sect2 id="t-test">
+  <sect1 id="sign-test-tool">
+      <title>Sign Tests</title>
+      <para></para>
+  </sect1>
+
+
+
+<sect1 id="t-test-tool">
      <title>Comparing Means of 2 Populations</title>
      <para>&gnum; provides 4 similar
      tools to test whether the difference of two population means is
@@ -2709,7 +2711,7 @@
      </varlistentry>
      </variablelist>
 
-  <sect3 id="t-test-paired-two-samples-for-means-tool">
+  <sect2 id="t-test-paired-two-samples-for-means-tool">
      <title><parameter>t</parameter>-Test: Paired Two Sample for Means Tool</title>
   <figure id="ttest-dialog-paired">
     <title><parameter>t</parameter>-Test (Paired) Tool Dialog Options</title>
@@ -2766,9 +2768,9 @@
     </screenshot>
   </figure>
 
-  </sect3>
+  </sect2>
 
-  <sect3 id="t-test-two-sample-equal-variances-tool">
+  <sect2 id="t-test-two-sample-equal-variances-tool">
      <title><parameter>t</parameter>-Test: Two-Sample Assuming Equal Variances Tool</title>
   <figure id="ttest-dialog-equal">
     <title><parameter>t</parameter>-Test (Equal Variances) Tool Dialog
@@ -2828,9 +2830,9 @@
            </mediaobject>
     </screenshot>
   </figure>
-  </sect3>
+  </sect2>
 
-  <sect3 id="t-test-two-samples-unequal-variances">
+  <sect2 id="t-test-two-samples-unequal-variances">
      <title><parameter>t</parameter>-Test: Two-Sample Assuming Unequal Variances Tool</title>
   <figure id="ttest-dialog-unequal">
     <title><parameter>t</parameter>-Test (Unknown and Unequal Variances) Tool 
@@ -2894,9 +2896,9 @@
            </mediaobject>
     </screenshot>
   </figure>
-  </sect3>
+  </sect2>
 
-  <sect3 id="ztest-two-samples-for-means-tool">
+  <sect2 id="ztest-two-samples-for-means-tool">
      <title><parameter>z</parameter>-Test: Two Samples for Means Tool</title>
   <figure id="ztest-dialog">
     <title><parameter>z</parameter>-Test Tool Dialog Options</title>
@@ -2960,6 +2962,5 @@
       </mediaobject>
     </screenshot>
   </figure>
-  </sect3>
-</sect2>
+  </sect2>
 </sect1>

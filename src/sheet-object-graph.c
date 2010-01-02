@@ -663,7 +663,7 @@ sheet_object_graph_guru (WBCGtk *wbcg, GogGraph *graph,
 	}
 	gnumeric_init_help_button (
 		gog_guru_get_help_button (dialog),
-		"sect-graphics-plots");
+		"chapter-graphs");
 	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (dialog),
 		wbcg, GNM_DIALOG_DESTROY_SHEET_REMOVED);
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (dialog), "graph-guru");

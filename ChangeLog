@@ -1,5 +1,9 @@
 2010-01-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/sheet-object-graph.c (sheet_object_graph_guru): change help link
+
+2010-01-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* configure.in: remove teh check for gtk_recent_manager_get_default.
 	  It is implied by the gtk 2.12 requirement
 	* src/application.c: remove the checks for gtk_recent_manager_get_default

@@ -1,5 +1,13 @@
 2010-01-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* analysis-statistical.xml: promote to chapter
+	* gnumeric.xml: adjst for promotion of analysis-statistical.xml
+	  and graphics-plots.xml
+	* graphics-plots.xml: promote to chapter
+	* gui-menus.xml: fix links
+
+2010-01-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* figures/example-colGraph-modified.png: updated
 	* figures/example-colGraph.png: updated
 	* figures/gnumeric-empty.png: updated

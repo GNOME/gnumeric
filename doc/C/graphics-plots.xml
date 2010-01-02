@@ -1,43 +1,5 @@
-<sect1 id="sect-graphics-plots">
-  <title>Graphical Plots</title>
-
-  <para>
-    &gnum; includes a powerful mechanism
-    to create graphical plots which present visually the data contained
-    in a worksheet. 
-  </para>
-
-  <para>
-    The first sub-section of this section starts with an overview of
-    graph creation, discusses terminology, and presents graph
-    components and their organization. The next sub-section explains
-    the <interface>"Graph Guru"</interface> which is the tool used to
-    configure graphs. The subsequent  sub-section presents the different
-    types of plots which can be included in a graph and the final
-    sub-section explains how data can be pre-selected to speed up the
-    process of graph creation.
-  </para>
-
-  <note>
-    <para>
-      Graphs are exceedingly effective communication
-      devices. Unfortunately, this means that one cannot determine,
-      simply based on the data to be plotted, what type of plot will be
-      the most effective. Instead users must familiarize themselves with
-      the various types of plots which are available and decide for
-      themselves which plot type is the most effective to communicate
-      an idea. <xref
-      linkend="sect-graphics-plots-overview-types" /> contains a
-      detailed explanation of the plot types available in
-      &gnum;.
-    </para>
-  </note>
-
-
-
-
-  <sect2 id="sect-graphics-plots-overview">
-    <title>Overview of Plots</title>
+  <sect1 id="sect-graphs-overview">
+    <title>Overview of Graphs</title>
 
     <para>
       This overview will start with a brief summary of the process
@@ -47,7 +9,7 @@
       the graphs.
     </para>
 
-      <sect3 id="sect-graphics-plots-overview-process">
+      <sect2 id="sect-graphs-overview-process">
         <title>The Graph Creation Process</title>
 
 	<para> 
@@ -77,7 +39,7 @@
 	  </title>
 	  <para>
 	    As explained in <xref
-	    linkend="sect-graphics-plots-preselect" />, it is possible
+	    linkend="sect-graphs-preselect" />, it is possible
 	    to pre-select the data and have gnumeric correctly assign
 	    the cell contents into series names, category labels and
 	    data values. This process can only be understood once the
@@ -124,7 +86,7 @@
 	    the guru is dismissed by clicking the
 	    <guibutton>OK</guibutton> button. This step will be
 	    explained in detail in <xref
-	    linkend="sect-graphics-plots-graphguru-navigating" />,
+	    linkend="sect-graphs-graphguru-navigating" />,
 	    below. 
 	  </para>
 	</step>
@@ -143,12 +105,12 @@
       </procedure>
 
 
-    </sect3>
+    </sect2>
 
 
 
 
-    <sect3 id="sect-graphics-plots-overview-terms">
+    <sect2 id="sect-graphs-overview-terms">
       <title>On Terminology</title>
 
   <note>
@@ -195,10 +157,10 @@
   </para>
 
 
-    </sect3>
+    </sect2>
 
 
-    <sect3 id="sect-graphics-plots-overview-components">
+    <sect2 id="sect-graphs-overview-components">
       <title>The Components of Graphs</title>
 
   <figure id="fig-graph-components">
@@ -230,9 +192,9 @@
   </figure>
 
 
-    </sect3>
+    </sect2>
 
-     <sect3 id="sect-graphics-plots-overview-componentHierarchy">
+     <sect2 id="sect-graphs-overview-componentHierarchy">
        <title>The Graph Component Hierarchy</title>
 
        <para>
@@ -342,18 +304,18 @@
 	  the X and the Y direction. Obviously, these different plot
 	  types will require different options. The options associated
 	  with each specific plot type will be discussed below, in 
-	  <xref linkend="sect-graphics-plots-elementProperties" />.
+	  <xref linkend="sect-graphs-elementProperties" />.
 	</para>
 
-     </sect3>
+     </sect2>
 
-   </sect2>
-
-
+   </sect1>
 
 
 
-  <sect2 id="sect-graphics-plots-graphguru">
+
+
+  <sect1 id="sect-graphs-graphguru">
     <title>The Graph Guru</title>
 
     <para>
@@ -364,7 +326,7 @@
 
 
 
-    <sect3 id="sect-graphics-plots-graphguru-components">
+    <sect2 id="sect-graphs-graphguru-components">
       <title>The components of the Graph Guru</title>
 
       <para>
@@ -665,9 +627,9 @@
       </para>
 
 
-    </sect3>
+    </sect2>
 
-    <sect3 id="sect-graphics-plots-graphguru-navigating">
+    <sect2 id="sect-graphs-graphguru-navigating">
       <title>Navigating the graph guru</title>
 
       <para>
@@ -687,7 +649,7 @@
             some of the data they will use in their plots. However,
             this step requires a complete understanding graphs and
             this step is not described here. <xref
-            linkend="sect-graphics-plots-preselect" /> will explain
+            linkend="sect-graphs-preselect" /> will explain
             data preselection once the rest of the graphing process
             has been explained.
           </para>
@@ -743,7 +705,7 @@
                 which plot type has been chosen. The characteristics
                 of the different plot types are explained extensively
                 in <xref
-                linkend="sect-graphics-plots-overview-types" />. 
+                linkend="sect-graphs-overview-types" />. 
               </para>
             </step>
             <step>
@@ -770,7 +732,7 @@
                 creating a new one. However, the style choices can
                 be altered in the next panel. The meaning of each of
                 these icons is explained in <xref
-                linkend="sect-graphics-plots-overview-types" />
+                linkend="sect-graphs-overview-types" />
                 below grouped by plot type. If data has been
                 pre-selected, clicking on the <guibutton>Show
                 Sample</guibutton> will present a preview of the plot
@@ -931,7 +893,7 @@
       	            different tabs. The detailed explanation of how to
       	            configure each property of each element will be
       	            explained in <xref
-      	            linkend="sect-graphics-plots-elementProperties" /> below.
+      	            linkend="sect-graphs-elementProperties" /> below.
       	          </para>
                 </listitem>
               </varlistentry>
@@ -993,20 +955,20 @@
 
 
 
-    </sect3>
+    </sect2>
 
 
-  </sect2>
-
-
-
+  </sect1>
 
 
 
 
 
 
-  <sect2 id="sect-graphics-plots-overview-types">
+
+
+
+  <sect1 id="sect-graphs-overview-types">
     <title>Plot Types</title>
 
     <para>
@@ -1019,7 +981,7 @@
     </para>
 
 
-    <sect3 id="sect-graphics-plots-overview-types-line" >
+    <sect2 id="sect-graphs-overview-types-line" >
       <title>
         Line Plots
         <inlinemediaobject>
@@ -1337,13 +1299,13 @@
 	    </variablelist>
 
 
-    </sect3>
+    </sect2>
 
 
 
 
 
-    <sect3 id="sect-graphics-plots-overview-types-xy" >
+    <sect2 id="sect-graphs-overview-types-xy" >
       <title>
         XY Scatterplots
         <inlinemediaobject>
@@ -1559,12 +1521,12 @@
       </variablelist>
 
 
-    </sect3>
+    </sect2>
 
 
 
 
-    <sect3 id="sect-graphics-plots-overview-types-bubble" >
+    <sect2 id="sect-graphs-overview-types-bubble" >
       <title>
         Bubble Plots
         <inlinemediaobject>
@@ -1734,7 +1696,7 @@
       </variablelist>
 
 
-    </sect3>
+    </sect2>
 
 
 
@@ -1742,7 +1704,7 @@
 
 
 
-    <sect3 id="sect-graphics-plots-overview-types-pie" >
+    <sect2 id="sect-graphs-overview-types-pie" >
       <title>
         Pie Plots
         <inlinemediaobject>
@@ -1909,11 +1871,11 @@
 	    </variablelist>
 
 
-    </sect3>
+    </sect2>
 
 
 
-    <sect3 id="sect-graphics-plots-overview-types-area" >
+    <sect2 id="sect-graphs-overview-types-area" >
       <title>
         Area Plots
         <inlinemediaobject>
@@ -2159,10 +2121,10 @@
 	    </variablelist>
 
 
-    </sect3>
+    </sect2>
 
 
-    <sect3 id="sect-graphics-plots-overview-types-bar" >
+    <sect2 id="sect-graphs-overview-types-bar" >
       <title>
         Bar Plots
         <inlinemediaobject>
@@ -2411,10 +2373,10 @@
 	    </variablelist>
 
 
-    </sect3>
+    </sect2>
 
 
-    <sect3 id="sect-graphics-plots-overview-types-column" >
+    <sect2 id="sect-graphs-overview-types-column" >
       <title>
         Column Plots
         <inlinemediaobject>
@@ -2657,14 +2619,14 @@
 	    </variablelist>
 
 
-    </sect3>
+    </sect2>
 
 
 
 
 
 
-    <sect3 id="sect-graphics-plots-overview-types-radar" >
+    <sect2 id="sect-graphs-overview-types-radar" >
       <title>
         Radar Plots
         <inlinemediaobject>
@@ -2890,10 +2852,10 @@
 	    </variablelist>
 
 
-    </sect3>
+    </sect2>
 
 
-    <sect3 id="sect-graphics-plots-overview-types-ring" >
+    <sect2 id="sect-graphs-overview-types-ring" >
       <title>
         Ring Plots
         <inlinemediaobject>
@@ -3112,8 +3074,8 @@
          <!-- graph_surface.png -->
       </para>
 	    
-    </sect3>
-  </sect2>
+    </sect2>
+  </sect1>
 
 
 
@@ -3123,7 +3085,7 @@
 
 
 
-  <sect2 id="sect-graphics-plots-elementProperties">
+  <sect1 id="sect-graphs-elementProperties">
     <title>Configuring Graph Element Properties</title>
 
     <para>
@@ -3189,7 +3151,7 @@
 
 
 
-    <sect3 id="sect-graphics-plots-elementProperties-backPanels">
+    <sect2 id="sect-graphs-elementProperties-backPanels">
       <title>Background Panels: Graphs, Charts, Grids</title>
 
       <para>
@@ -3392,12 +3354,12 @@
         each row comes before the number in each column.
       </para>
 
-    </sect3>
+    </sect2>
 
 
 
 
-    <sect3 id="sect-graphics-plots-elementProperties-title">
+    <sect2 id="sect-graphs-elementProperties-title">
       <title>Titles and Axis Labels</title>
 
       <para>
@@ -3441,7 +3403,7 @@
         configure the background panel in the same way this was
         configured for graphs, charts and grids, as was explained
         above in <xref
-        linkend="sect-graphics-plots-elementProperties-backPanels"/>. 
+        linkend="sect-graphs-elementProperties-backPanels"/>. 
       </para>
 
 
@@ -3467,12 +3429,12 @@
         expression which results in a text value.
       </para>
 
-     </sect3>
+     </sect2>
 
 
 
 
-    <sect3 id="sect-graphics-plots-elementProperties-legend">
+    <sect2 id="sect-graphs-elementProperties-legend">
       <title>Chart Legends</title>
 
       <para>
@@ -3485,21 +3447,21 @@
         allows for the configuration of the background pane in a manner
         analogous to the graph, chart and grid background panes,
         explained in  <xref
-        linkend="sect-graphics-plots-elementProperties-backPanels"/>.
+        linkend="sect-graphs-elementProperties-backPanels"/>.
         The <guilabel>Font</guilabel> tab allows the configuration of
         the font that will appear in the legend. This configuration is
         identical to the configuration of the title and axis label
         fonts presented in <xref
-        linkend="sect-graphics-plots-elementProperties-title"/>. 
+        linkend="sect-graphs-elementProperties-title"/>. 
       </para>
 
-    </sect3>
+    </sect2>
 
 
 
 
 
-    <sect3 id="sect-graphics-plots-elementProperties-axes">
+    <sect2 id="sect-graphs-elementProperties-axes">
       <title>Axes</title>
 
       <para>
@@ -3530,7 +3492,7 @@
         any axes.
       </para>
 
-      <sect4 id="sect-graphics-plots-elementProperties-axes-categorical">
+      <sect3 id="sect-graphs-elementProperties-axes-categorical">
         <title>Category Axes</title>
 
 	<para>
@@ -3611,7 +3573,7 @@
 	  categories. The font configuration is performed in the same
 	  way as the font configuration for titles and axis labels
 	  which was explained in <xref
-	  linkend="sect-graphics-plots-elementProperties-title" />. 
+	  linkend="sect-graphs-elementProperties-title" />. 
 	</para>
 
         <figure id="fig-graphics-plots-elementProperties-axes-categry-details">
@@ -3671,11 +3633,11 @@
 	</para>
 
 
-      </sect4>
+      </sect3>
 
 
 
-      <sect4 id="sect-graphics-plots-elementProperties-axes-continuous">
+      <sect3 id="sect-graphs-elementProperties-axes-continuous">
         <title>Continuous Axes: Linear and Radial</title>
 
 	<para>
@@ -3746,7 +3708,7 @@
 	  The <guilabel>Style</guilabel> tab changes the linear style
 	  of the axis in the same way as it acted on category
 	  axes. The explanation given in <xref
-	  linkend="sect-graphics-plots-elementProperties-axes-categorical"/>
+	  linkend="sect-graphs-elementProperties-axes-categorical"/>
 	  apply equally well to continuous axes.
 	</para>
 
@@ -3755,7 +3717,7 @@
 	  configure the font used in the numeric markers along the
 	  axis. Selecting the font for a continuous axis works in the
 	  same way as for a category axis as was explained in <xref
-	  linkend="sect-graphics-plots-elementProperties-axes-categorical"/>.
+	  linkend="sect-graphs-elementProperties-axes-categorical"/>.
 	</para>
 
 	<para>
@@ -3796,9 +3758,9 @@
 	</para>
 
 
-      </sect4>
+      </sect3>
 
-      <sect4 id="sect-graphics-plots-elementProperties-axes-circular">
+      <sect3 id="sect-graphs-elementProperties-axes-circular">
         <title>Circular Axes</title>
 
 	<para>
@@ -3806,15 +3768,15 @@
 	  have any properties which can be configured.
 	</para>
 
-      </sect4>
+      </sect3>
 
-    </sect3>
-
-
+    </sect2>
 
 
 
-    <sect3 id="sect-graphics-plots-elementProperties-plots">
+
+
+    <sect2 id="sect-graphs-elementProperties-plots">
       <title>Plots</title>
 
       <para>
@@ -3830,7 +3792,7 @@
 
 
 
-      <sect4 id="sect-graphics-plots-elementProperties-plots-bubble">
+      <sect3 id="sect-graphs-elementProperties-plots-bubble">
         <title>Bubble plots</title>
 
 	<para>
@@ -3888,12 +3850,12 @@
           altered. 
         </para>
 
-      </sect4>
+      </sect3>
 
 
 
 
-      <sect4 id="sect-graphics-plots-elementProperties-plots-pie">
+      <sect3 id="sect-graphs-elementProperties-plots-pie">
         <title>Pie plots</title>
 
 	<para>
@@ -3948,12 +3910,12 @@
 	  with a different color for the slices to be distinguishable.
 	</para>
 
-      </sect4>
+      </sect3>
 
 
 
 
-      <sect4 id="sect-graphics-plots-elementProperties-plots-barCol">
+      <sect3 id="sect-graphs-elementProperties-plots-barCol">
         <title>Bar and Column plots</title>
 
 	<para>
@@ -4005,12 +3967,12 @@
 	  visible.  
 	</para>
 
-      </sect4>
+      </sect3>
 
 
 
 
-      <sect4 id="sect-graphics-plots-elementProperties-plots-radar">
+      <sect3 id="sect-graphs-elementProperties-plots-radar">
         <title>Radar plots</title>
 
 	<para>
@@ -4053,12 +4015,12 @@
 	</note>
 
 
-      </sect4>
+      </sect3>
 
 
 
 
-      <sect4 id="sect-graphics-plots-elementProperties-plots-ring">
+      <sect3 id="sect-graphs-elementProperties-plots-ring">
         <title>Ring plots</title>
 
 	<para>
@@ -4116,16 +4078,16 @@
 	  checked. 
 	</para>
 
-      </sect4>
+      </sect3>
 
-    </sect3>
-
-
+    </sect2>
 
 
 
 
-    <sect3 id="sect-graphics-plots-elementProperties-series">
+
+
+    <sect2 id="sect-graphs-elementProperties-series">
       <title>Data Series</title>
 
       <para>
@@ -4145,7 +4107,7 @@
       </para>
 
 
-      <sect4 id="sect-graphics-plots-elementProperties-series-style-line">
+      <sect3 id="sect-graphs-elementProperties-series-style-line">
         <title>Series line style</title>
 
 	<para>
@@ -4207,12 +4169,12 @@
 	  arrows to increase or decrease the size.
 	</para>
 
-      </sect4>
+      </sect3>
 
 
 
 
-      <sect4 id="sect-graphics-plots-elementProperties-series-style-filled">
+      <sect3 id="sect-graphs-elementProperties-series-style-filled">
         <title>Series filled style</title>
 
 	<para>
@@ -4221,7 +4183,7 @@
 	  <guilabel>Style</guilabel> with fill and outline
 	  properties. These properties are the same as those presented
 	  for background panels in <xref
-	  linkend="sect-graphics-plots-elementProperties-backPanels"/>
+	  linkend="sect-graphs-elementProperties-backPanels"/>
 	  and are changed in the same way. 
 	</para>
 
@@ -4258,12 +4220,12 @@
 	  color and size of this outline element can be altered. 
 	</para>
 
-      </sect4>
+      </sect3>
 
 
 
 
-       <sect4 id="sect-graphics-plots-elementProperties-series-data-single">
+       <sect3 id="sect-graphs-elementProperties-series-data-single">
         <title>Series data: single values</title>
 
 	<para>
@@ -4357,13 +4319,13 @@
 	  mouse button.
 	</para>
 
-    </sect4>
+    </sect3>
 
 
 
 
 
-      <sect4 id="sect-graphics-plots-elementProperties-series-data-xy">
+      <sect3 id="sect-graphs-elementProperties-series-data-xy">
         <title>Series data: X and Y values</title>
 
 	<para>
@@ -4416,12 +4378,12 @@
 	  have the same number of elements as the list of X values. 
 	</para>
 
-      </sect4>
+      </sect3>
 
 
 
 
-      <sect4 id="sect-graphics-plots-elementProperties-series-data-bubble">
+      <sect3 id="sect-graphs-elementProperties-series-data-bubble">
         <title>Series data: bubble values</title>
 
 	<para>
@@ -4476,11 +4438,11 @@
 	  and of Y values.
 	</para>
 
-      </sect4>
+      </sect3>
 
 
 
-     <sect4 id="sect-graphics-plots-elementProperties-series-error">
+     <sect3 id="sect-graphs-elementProperties-series-error">
         <title>Series error values</title>
 
 	<para>
@@ -4555,26 +4517,23 @@
 	  quantifies the lower whisker.
 	</para>
 
-      </sect4>
+      </sect3>
 
-    </sect3>
+    </sect2>
 
-  </sect2>
-
-
+  </sect1>
 
 
 
 
-  <sect2 id="sect-graphics-plots-preselect">
+
+
+  <sect1 id="sect-graphs-preselect">
     <title>Pre-Selecting Data</title>
 
     <para>
       This section is not yet written.
     </para>
 
-  </sect2>
+  </sect1>
 
-
-
-</sect1>

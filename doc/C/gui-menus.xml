@@ -1107,7 +1107,7 @@
 	       allow a user to insert a graphic plot of data. This
 	       menu item will launch the graph druid. Graphing in
 	       &gnum; is explained in
-	       <xref linkend="sect-graphics-plots" />.
+	       <xref linkend="chapter-graphs" />.
 	     </para>
 	   </listitem>
 
@@ -1696,7 +1696,7 @@
 	<listitem>
 	  <para>Statistical analysis can easily be done with
 	  &gnum;. All the statistical
-	  tools are explained in <xref linkend="sect-analysis-statistical" />.
+	  tools are explained in <xref linkend="chapter-stat-analysis" />.
 		</para>
 	</listitem>
       </varlistentry>

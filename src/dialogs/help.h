@@ -134,36 +134,36 @@
 #define GNUMERIC_HELP_LINK_ADVANCED_FILTER "sect-data-modify"
 
 /* dialog-analysis-tools.c */
-#define GNUMERIC_HELP_LINK_CORRELATION "sect-analysis-statistical"
-#define GNUMERIC_HELP_LINK_COVARIANCE "sect-analysis-statistical"
-#define GNUMERIC_HELP_LINK_RANKING "sect-analysis-statistical"
-#define GNUMERIC_HELP_LINK_FOURIER_ANALYSIS "sect-analysis-statistical"
-#define GNUMERIC_HELP_LINK_DESCRIPTIVE_STATS "sect-analysis-statistical"
-#define GNUMERIC_HELP_LINK_MEAN_TESTS "sect-analysis-statistical"
-#define GNUMERIC_HELP_LINK_F_TEST_TWO_SAMPLE "sect-analysis-statistical"
-#define GNUMERIC_HELP_LINK_SAMPLING "sect-analysis-statistical"
-#define GNUMERIC_HELP_LINK_REGRESSION "sect-analysis-statistical"
-#define GNUMERIC_HELP_LINK_EXP_SMOOTHING "sect-analysis-statistical"
-#define GNUMERIC_HELP_LINK_MOVING_AVERAGES "sect-analysis-statistical"
-#define GNUMERIC_HELP_LINK_HISTOGRAM "sect-analysis-statistical"
-#define GNUMERIC_HELP_LINK_ANOVA_SINGLE_FACTOR "sect-analysis-statistical"
-#define GNUMERIC_HELP_LINK_ANOVA_TWO_FACTOR "sect-analysis-statistical"
-#define GNUMERIC_HELP_LINK_PRINCIPAL_COMPONENTS "sect-analysis-statistical"
+#define GNUMERIC_HELP_LINK_CORRELATION "correlation-tool"
+#define GNUMERIC_HELP_LINK_COVARIANCE "covariance-tool"
+#define GNUMERIC_HELP_LINK_RANKING "rank-and-percentile-tool"
+#define GNUMERIC_HELP_LINK_FOURIER_ANALYSIS "fourier-analysis-tool"
+#define GNUMERIC_HELP_LINK_DESCRIPTIVE_STATS "descriptive-statistics-tool"
+#define GNUMERIC_HELP_LINK_MEAN_TESTS "t-test"
+#define GNUMERIC_HELP_LINK_F_TEST_TWO_SAMPLE "ftest-two-sample-for-variances-tool"
+#define GNUMERIC_HELP_LINK_SAMPLING "sampling-tool"
+#define GNUMERIC_HELP_LINK_REGRESSION "regression-tool"
+#define GNUMERIC_HELP_LINK_EXP_SMOOTHING "smoothing-tool-dialog"
+#define GNUMERIC_HELP_LINK_MOVING_AVERAGES "moving-average-tool"
+#define GNUMERIC_HELP_LINK_HISTOGRAM "histogram-tool"
+#define GNUMERIC_HELP_LINK_ANOVA_SINGLE_FACTOR "anova-single-factor-tool"
+#define GNUMERIC_HELP_LINK_ANOVA_TWO_FACTOR "anova-two-factor-tool"
+#define GNUMERIC_HELP_LINK_PRINCIPAL_COMPONENTS "principal-component-tool"
 
 /* dialog-analysis-tool-chi-squared.c */
-#define GNUMERIC_HELP_LINK_CHI_SQUARED "sect-analysis-statistical"
+#define GNUMERIC_HELP_LINK_CHI_SQUARED "chi-square-tool"
 
 /* dialog-analysis-tool-frequency.c */
-#define GNUMERIC_HELP_LINK_FREQUENCY "sect-analysis-statistical"
+#define GNUMERIC_HELP_LINK_FREQUENCY "frequency-tool"
 
 /* dialog-analysis-tool-kaplan-meier.c */
-#define GNUMERIC_HELP_LINK_KAPLAN_MEIER "sect-analysis-statistical"
+#define GNUMERIC_HELP_LINK_KAPLAN_MEIER "kaplan-meier-tool"
 
 /* dialog-analysis-tool-normality.c */
-#define GNUMERIC_HELP_LINK_NORMALITY "sect-analysis-statistical"
+#define GNUMERIC_HELP_LINK_NORMALITY "normality-tool"
 
 /* dialog-analysis-tool-sign-test.c */
-#define GNUMERIC_HELP_LINK_SIGN_TEST "sect-analysis-statistical"
+#define GNUMERIC_HELP_LINK_SIGN_TEST "sign-test-tool"
 
 /* dialog-consolidate.c     */
 #define GNUMERIC_HELP_LINK_CONSOLIDATE ""
@@ -191,9 +191,9 @@
 #define GNUMERIC_HELP_LINK_DEFINE_TABLE "sect-data-table"
 
 /* dialog-doc-metadata.c */
-#define GNUMERIC_HELP_LINK_METADATA ""
+#define GNUMERIC_HELP_LINK_METADATA "chapter-workbooks"
 
 /* dialog-paste-special.c */
-#define GNUMERIC_HELP_LINK_PASTE_SPECIAL ""
+#define GNUMERIC_HELP_LINK_PASTE_SPECIAL "Edit-Menu"
 
 #endif /* GNUMERIC_HELP_H */

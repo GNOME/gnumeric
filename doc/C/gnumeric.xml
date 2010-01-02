@@ -168,7 +168,7 @@
 <book id="index" lang="en">
 <!-- please do not change the id; for translations, change lang to -->
 <!-- appropriate code -->
-  <title>The Gnumeric Manual, version &appversion;</title>
+  <title>The Gnumeric Manual, version &manrevision;</title>
 
   <bookinfo>
 
@@ -569,47 +569,133 @@
   </chapter>
 
 
-<!-- TODO: analysis- Split into three Chapters: anal w/ stats, w/ scenarios, w/ l.p. -->
   <chapter id="chapter-advanced-analysis">
     <title>Advanced Analysis</title>
 
     <para>
       This chapter explains many of the advanced analytic tools
-      available in &gnum; including
-      statistical analysis, linear algebra calculations and simulation
+      available in &gnum; including linear algebra calculations and simulation
       analysis.
     </para>
 
     &analysis-overview;
     &analysis-complexNum;
     &analysis-goalseek;
-    &analysis-solver;
     &analysis-simulation;
     &analysis-scenarios;
+  </chapter>
+
+  <chapter id="chapter-solver">
+    <title>The Solver</title>
+
+    <para>
+      This chapter explains the linear programming solver available 
+      from within &gnum;.
+    </para>
+
+    &analysis-solver;
+  </chapter>
+
+
+  <chapter id="chapter-stat-analysis">
+    <title>Statistical Analysis</title>
+
+    <para>
+      This chapter explains the various statistical analysis tools
+      available within &gnum;.
+    </para>
+
+  <para>
+    The data analysis tools package contains tools for statistical
+    data analysis and data sampling.  To use
+    these tools select the <guilabel>Data Analysis...</guilabel> item
+    in the <guilabel>Tools</guilabel> menu.  This yields a list of
+    tools to choose from.  Select one of the tools from the list and
+    press the OK button or double-click on the tool.  The tools are
+    described below.
+  </para>
+
+  <figure id="fig-statistical-analysistools">
+    <title>Statistical Analysis Tools </title>
+    <screenshot>
+      <screeninfo>&gnum;'s Data Analysis Tools</screeninfo>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="figures/analysistools-tools.png" 
+              format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the statistical analysis tools
+              available through the "Tools" menu.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+
     &analysis-statistical;
   </chapter>
 
 
 
-
-
   <chapter id="chapter-graphics">
-    <title>Graphics: Plots, Images, Widgets, and Drawings</title>
+    <title>Graphics: Images, Widgets, and Drawings</title>
 
     <para>
       This chapter explains how to add graphical elements to a
           &gnum; worksheet, including
-          data graphs to plot worksheet data, images from external
+          images from external
           files, graphical user interface widgets which interact with
           worksheet data, and simple drawing elements.
     </para>
 
     &graphics-overview;
-    &graphics-plots;
     &graphics-images;
     &graphics-widgets;
     &graphics-drawings;
 
+  </chapter>
+
+  <chapter id="chapter-graphs">
+    <title>Graphs</title>
+
+  <para>
+    &gnum; includes a powerful mechanism
+    to create graphical charts which present visually the data contained
+    in a worksheet. 
+  </para>
+
+  <para>
+    The first section of this chapter starts with an overview of
+    graph creation, discusses terminology, and presents graph
+    components and their organization. The next section explains
+    the <interface>"Chart Guru"</interface> which is the tool used to
+    configure graphs. The subsequent section presents the different
+    types of plots which can be included in a graph and the final
+    section explains how data can be pre-selected to speed up the
+    process of graph creation.
+  </para>
+
+  <note>
+    <para>
+      Charts are exceedingly effective communication
+      devices. Unfortunately, this means that one cannot determine,
+      simply based on the data to be plotted, what type of plot will be
+      the most effective. Instead users must familiarize themselves with
+      the various types of plots which are available and decide for
+      themselves which plot type is the most effective to communicate
+      an idea. <xref
+      linkend="sect-graphs-overview" /> contains a
+      detailed explanation of the plot types available in
+      &gnum;.
+    </para>
+  </note>
+
+    <para>
+      This chapter explains how to add graphs to plot worksheet data.
+    </para>
+
+    &graphics-plots;
   </chapter>
 
   <chapter id="chapter-worksheets">
