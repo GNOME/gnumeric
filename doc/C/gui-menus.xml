@@ -155,12 +155,10 @@
 	</term>
 
 	<listitem>
-<!--
 	  <para>These menu items perform operations on files. Each item is
 	  presented below. File operations are critical and are therefore
-	  discussed in their own section latter in this manual in <xef
+	  discussed in their own section latter in this manual in <xref
 	  linkend="chapter-files" />. </para>
--->
 	 <itemizedlist>
 
       	    <listitem>
@@ -174,9 +172,21 @@
      	      </para>
      	    </listitem>
 
+      	    <listitem>
+     	      <para>
+     	        <guimenuitem>New From Template</guimenuitem> &mdash; This 
+                menu item brings up a submenu from which a template can be selected.
+                Rather than creating a new empty workbook, the template 
+                specifies some standard content. The new workbook is opened in a new
+                window. The name named of the workbook is determined by the name
+                of the template. Note that the opened file has not yet
+                been saved.
+     	      </para>
+     	    </listitem>
+
      	    <listitem>
      	      <para>
-     	        <guimenuitem>Open...</guimenuitem> &mdash; The
+     	        <guimenuitem>Open</guimenuitem> &mdash; The
 	        <guimenuitem>Open</guimenuitem> menu item opens the
 	        file chooser dialog to allow the user to pick an
 	        existing workbook for Gnumeric to open. Files in many
@@ -256,6 +266,31 @@
                 in <xref linkend="sect-printing-setup" />.
   	       </para>
   	      </listitem>
+
+ 	    <listitem>
+	      <para>
+ 	        <guimenuitem>Print Area</guimenuitem> &mdash; The
+                <guimenuitem>Print Area</guimenuitem> menu item
+                opens the submenu shown in <xref linkend="menu-file-printarea.png" />.
+                The items in this submenu allow the print area to be set, 
+                shown or cleared. The print area of a sheet is that range 
+                of the sheet that should be printed. Items outside of the
+                print area are usually ommitted when printing.
+  	       </para>
+    <figure id="menu-file-printarea.png">
+      <title>The <guimenu>Print Area</guimenu> submenu.</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/menu-file-printarea.png" />
+          </imageobject>
+          <textobject>
+            <phrase>An image of the Print Area submenu.</phrase>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+  	      </listitem>
   	      <listitem>
    	      <para>
    	        <guimenuitem>Print...</guimenuitem> &mdash; The
@@ -312,32 +347,17 @@
 	  </para> 
 	  </listitem>
 	  <listitem>
-
 	  <para>
-	    <guimenuitem>Properties...</guimenuitem> &mdash; The
-	    <guimenuitem>Properties...</guimenuitem> menu item call
-	    the <guilabel>Document Summary</guilabel> dialog. This
-	    menu item opens a dialog with fields to edit the document
-	    summary information of the file currently open in that
-	    window. Summary information describes the sheet, for
-	    instance, with the author name and a comment.
+	    <guimenuitem>Document Properties...</guimenuitem> &mdash; The
+	    <guimenuitem>Document Properties...</guimenuitem> menu item calls
+	    the <guilabel>Document Properties</guilabel> dialog, a 
+        dialog with several tabs that allow many document specific
+        settings to be adjusted. The dialog is described in detail in
+        <xref linkend="chapter-workbooks" />.
 	  </para>
 	</listitem>
-
-	<listitem>
-	  <para><!-- Keep in sync with format dialog entry. -->
-	    <guimenuitem>Preferences...</guimenuitem> &mdash; The
-	    <guimenuitem>Preference...</guimenuitem> menu item call
-	    the <guilabel>Gnumeric Preferences</guilabel> dialog. This
-	    menu item opens a dialog with fields to edit the document
-	    summary information of the file currently open in that
-	    window. Summary information describes the sheet, for
-	    instance, with the author name and a comment.
-	  </para>
-	  </listitem>
-	  </itemizedlist>
+	 </itemizedlist>
 	</listitem>
-
       </varlistentry>
 
 	<!-- recent files -->
@@ -347,8 +367,11 @@
 	  Recently used files.
 	</term>
 	<listitem>
+        <itemizedlist>
+	<listitem>
 	  <para>
-	    These menu entries are shortcuts to re-open recently used
+	    The first three menu entries in this section are shortcuts to 
+        re-open recently used
 	    files.  The list will change dynamically as new workbooks
 	    are opened and created.  Clicking on a file name listed
 	    here is the same as using the
@@ -357,8 +380,18 @@
 	    that if the file has been moved since
 	    &gnum; last saved it,
 	    &gnum; will not find the
-	    file.
+	    file. To access any recent file not listed, one can use the the
+	    <guimenuitem>Full History...</guimenuitem> menu item below.
 	  </para>
+	</listitem>
+	  <listitem>
+	  <para>
+	    <guimenuitem>Full History...</guimenuitem> &mdash; The
+	    <guimenuitem>Full History...</guimenuitem> menu item opens a dialog
+        that shows all recently used files.
+	  </para>
+	</listitem>
+	 </itemizedlist>
 	</listitem>
       </varlistentry>
       
@@ -818,8 +851,19 @@
 					workbook.
      	      		</para>
      	   		</listitem>
-			</itemizedlist>  
-		</listitem>
+            	<listitem>
+                    <para><!-- Keep in sync with format dialog entry. -->
+	                    <guimenuitem>Preferences...</guimenuitem> &mdash; The
+	                    <guimenuitem>Preference...</guimenuitem> menu item call
+	                    the <guilabel>Gnumeric Preferences</guilabel> dialog. This
+	                    menu item opens a dialog with fields to edit the document
+	                    summary information of the file currently open in that
+	                    window. Summary information describes the sheet, for
+	                    instance, with the author name and a comment.
+	                </para>
+	            </listitem>
+	  </itemizedlist>
+	</listitem>
 	</varlistentry>
   </variablelist>
 </sect2>

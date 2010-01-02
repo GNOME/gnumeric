@@ -1,5 +1,11 @@
 2010-01-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* figures/menu-file-printarea.png: new
+	* figures/menu-file-labelled.png: updated
+	* gui-menus.xml: updated
+
+2010-01-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* analysis-statistical.xml: promote to chapter
 	* gnumeric.xml: adjst for promotion of analysis-statistical.xml
 	  and graphics-plots.xml
