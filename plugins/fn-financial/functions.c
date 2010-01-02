@@ -2170,7 +2170,7 @@ static GnmFuncHelp const help_euroconvert[] = {
         { GNM_FUNC_HELP_ARG, F_("n:amount")},
         { GNM_FUNC_HELP_ARG, F_("source:three-letter source currency code")},
         { GNM_FUNC_HELP_ARG, F_("target:three-letter target currency code")},
-        { GNM_FUNC_HELP_ARG, F_("full_precision:if true, the result is not rounded; if false the result is rounded to 0 or 2 decimals depending on the target urrency; defaults to false.")},
+        { GNM_FUNC_HELP_ARG, F_("full_precision:if true, the result is not rounded; if false the result is rounded to 0 or 2 decimals depending on the target currency; defaults to false.")},
         { GNM_FUNC_HELP_ARG, F_("triangulation_precision:number of digits (at least 3) to be rounded to after the source currency has been converted to euro; omitting this argument results in no rounding.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("EUROCONVERT converts @{n} units of currency @{source} to currency @{target}.  The rates used are the official ones used on the introduction of the Euro.") },
 	{ GNM_FUNC_HELP_NOTE, F_("@{source} and @{target} must be one of the currencies listed for the EURO function.") },

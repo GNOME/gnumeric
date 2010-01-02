@@ -1,3 +1,7 @@
+2010-01-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_euroconvert): fix spelling
+
 2009-12-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.17

@@ -680,7 +680,7 @@
 	      blank. Normally &gnum; will modify formulae that use relative 
 	      addressing to cells outside the selection. The <guilabel>do not
 	      change formulae</guilabel> checkbox suppresses this change. (Note that 
-	      references to cells within the selection are alsways preserved.)
+	      references to cells within the selection are always preserved.)
 	    </para>
 	  </listitem>
 
@@ -869,24 +869,56 @@
 	            <itemizedlist>
      	   		  <listitem>
 				    <para>The
-				      <guimenuitem>Select All</guimenuitem> provides a quick way to
-				      select the entire worksheet. The <guimenuitem>Select
-				      Row</guimenuitem> and <guimenuitem>Select Column</guimenuitem>
-				      menuitems allow the user to select all the rows or columns 
+				      <guimenuitem>All</guimenuitem> item provides a quick way to
+				      select the entire worksheet. 
+				    </para>
+     	   		</listitem>
+
+      	    	<listitem>
+				    <para>
+				      The <guimenuitem>Row</guimenuitem> and <guimenuitem>Column
+                      </guimenuitem>
+				      items allow the user to select all the rows or columns 
 				      spanned by the current selection.
 				    </para>
      	   		</listitem>
 
       	    	<listitem>
 				    <para>
-				      The <guimenuitem>Select Array</guimenuitem> menu item allows a
+				      The <guimenuitem>Array</guimenuitem> menu item allows a
 				      user to select all the cells which are part of the same array
-				      as the current cell. The <guimenuitem>Select Depends
-                      </guimenuitem> 
-				      menu item selects all the cells which are formulas which at
-				      least partially need the data in the current cell. 
+				      as the current cell. 
 				    </para>
      	   		</listitem>
+
+      	    	<listitem>
+				    <para>
+				      The <guimenuitem>Depends
+                      </guimenuitem> 
+				      menu item selects all the cells which contain formulas that
+				      reference data in the current cell. 
+				    </para>
+     	   		</listitem>
+
+      	    	<listitem>
+				    <para>
+				      Similarly, the <guimenuitem>Inputs
+                      </guimenuitem> 
+				      menu item selects all the cells whose data is referenced
+                      by the formula in the current cell. 
+				    </para>
+     	   		</listitem>
+
+      	    	<listitem>
+				    <para>
+				      The <guimenuitem>Next Object
+                      </guimenuitem> 
+				      menu item selects the next sheet object on the current sheet.
+                      If no object is selected it will select the object locate at
+                      the front.
+				    </para>
+     	   		</listitem>
+
 
       	    	<listitem>
      	      	<para>
@@ -921,7 +953,7 @@
 	<varlistentry>
 		<term>
 	            <emphasis role="bold">5</emphasis>
-			The only item in this section allows for the general configuration of
+			General Configuration of
             &gnum;.
 		</term>
 		<listitem>
