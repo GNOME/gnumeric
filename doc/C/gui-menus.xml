@@ -952,7 +952,7 @@
 
 	<varlistentry>
 		<term>
-	            <emphasis role="bold">5</emphasis>
+	            <emphasis role="bold">6</emphasis>
 			General Configuration of
             &gnum;.
 		</term>
@@ -1043,14 +1043,47 @@
                 menu item.  If the user scrolled through each data
                 row, the data would line up underneath each header.
               </para>
-              <para>
-                &gnum; freezes the
-		portion of the worksheet which is currently visible
-		and is above and left of the current selection. If the
-		selection is not visible, then the frozen section will
-		be nine rows tall and five columns wide unless the
-		selection is in a currently visible column or row in
-		which case that position is used.
+              <para> There are 3 ways to determine which rows and/or 
+                columns should be frozen.
+              </para>
+              <itemizedlist>
+                <listitem>
+                  <para>
+                    If the selection is at least partially visible does 
+                    not include the cell
+                    A1, &gnum; freezes the
+		            portion of the worksheet above or to the left of the 
+                    current selection. 
+                 </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    If the selection is at least partially visible, 
+                    includes cell A1, and does not consist
+                    of whole rows or columns,
+                    &gnum; freezes all rows or columns intersecting the
+                    selection.
+                 </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    If the selection is at least partially visible, 
+                    includes cell A1, and consists
+                    of whole rows or columns,
+                    &gnum; freezes those rows or columns.
+                 </para>
+                </listitem>
+                <listitem>
+                  <para>If the
+		            selection is not visible at all, then &gnum; freezes those 
+                    rows and columns to the left or above the sixth visible column
+                    and tenth visible row.
+                  </para>
+                </listitem>
+              </itemizedlist>
+              <para>In all csaes, the region of the worksheet above or to the right 
+                of the currently visible region will become inaccessible until the
+                view is unfrozen.
               </para>
 <!-- TODO: menu elements, freeze only row/col. -->
             </listitem>
@@ -1064,6 +1097,7 @@
 		&gnum; documents.
               </para>
             </listitem>
+
 
           </itemizedlist>
         </listitem>
@@ -1112,20 +1146,64 @@
                 screen. In full screen mode, the window borders will
                 not be displayed nor will the toolbars. The key
                 <keysym>F11</keysym> toggles between full screen and
-                regular display mode.
+                regular display mode. When this menu item has the checkmark,
+                &gnum; is in <guimenuitem>Full Screen</guimenuitem> mode.
               </para>
             </listitem>
             <listitem>
               <para>
-                <guimenuitem>Zoom...</guimenuitem> &mdash; The
-                <guimenuitem>Zoom</guimenuitem> menu item opens a
-                dialog which allows the user to set the magnification
-                of any of the worksheets in the current workbook.
-                </para> </listitem>
+                <guimenuitem>View Properties...</guimenuitem> &mdash; The
+                <guimenuitem>View Properties...</guimenuitem> menu item opens the 
+                <guimenuitem>View Properties</guimenuitem> dialog.
+                </para> 
 
+                <figure id="menu-view-properties-dialog.png">
+                <title>The <guimenu>View Properties</guimenu> dialog.</title>
+                    <screenshot>
+                        <mediaobject>
+                            <imageobject>
+                            <imagedata fileref="figures/menu-view-properties-dialog.png" />
+                            </imageobject>
+                            <textobject>
+                            <phrase>An image of the View Properties dialog.</phrase>
+                            </textobject>
+                        </mediaobject>
+                    </screenshot>
+                </figure>
+
+                <para>The <guimenu>View Properties</guimenu> dialog has three tabs.
+                    <guimenu>Auto Completion </guimenu>is described in 
+                    <xref linkend="sect-worksheets-settings" />, 
+                    <guimenu>Protection</guimenu> in
+                    <xref linkend="sect-worksheets-settings-protection" />.
+                </para>
+                <para>The check boxes on the <guimenu>Widget</guimenu> tab shown in 
+                    <xref linkend="menu-view-properties-dialog.png" /> determine
+                    whether the notebook tabs, the horizontal scrollbar and/or 
+                    the vertical scrollbars are shown in this view.
+                </para>
+            </listitem>
               </itemizedlist>
             </listitem>
 	  </varlistentry>
+
+      <varlistentry>
+        <term>
+          <emphasis role="bold">3</emphasis>
+          Zoom Menu Item
+        </term>
+        <listitem>
+          <para>
+                <guimenuitem>Zoom...</guimenuitem> &mdash; The
+                <guimenuitem>Zoom</guimenuitem> menu item opens a
+                dialog which allows the user to set the magnification
+                of all worksheets in the current workbook. This item 
+                is separated from the previous ones since it always acts
+                on all views of a worksheet.
+          </para>
+        </listitem>
+	  </varlistentry>
+
 
 	</variablelist>
   </sect2>

@@ -270,15 +270,20 @@ EXTRA_DIST = \
      menu-context-object-order.png \
      menu-context-tabs.png \
      menu-context-toolbars.png \
+     menu-edit-delete-cells.png \
      menu-data-labelled.png \
      menu-edit-labelled.png \
+     menu-edit-paste-special.png \
+     menu-edit-select.png \
      menu-file-labelled.png \
+     menu-file-printarea.png \
      menu-format-labelled.png \
      menu-help-labelled.png \
      menu-insert-labelled.png \
      menu-tools-labelled.png \
      menu-torn-off.png \
      menu-view-labelled.png \
+     menu-view-properties-dialog.png \
      number-format-border-dialog.png \
      number-format-color-dialog.png \
      number-format-dialog.png \
