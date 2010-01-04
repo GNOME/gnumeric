@@ -1,5 +1,10 @@
 2010-01-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* figures/menu-help-labelled.png: updated
+	* gui-menus.xml: fix grammar
+
+2010-01-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* figures/menu-data-labelled.png: updated
 	* figures/menu-tools-labelled.png: updated
 	* gui-menus.xml: updated
