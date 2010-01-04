@@ -1,5 +1,16 @@
 2010-01-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* figures/menu-help-labelled.png: make white transparent
+	* figures/menu-data-labelled.png: ditto
+	* figures/menu-edit-labelled.png: ditto
+	* figures/menu-file-labelled.png: ditto
+	* figures/menu-format-labelled.png: ditto
+	* figures/menu-format-sheet.png: ditto
+	* figures/menu-tools-labelled.png: ditto
+	* figures/menu-view-labelled.png: ditto
+
+2010-01-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* figures/menu-help-labelled.png: updated
 	* gui-menus.xml: fix grammar
 
