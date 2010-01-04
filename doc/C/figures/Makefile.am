@@ -277,7 +277,9 @@ EXTRA_DIST = \
      menu-edit-select.png \
      menu-file-labelled.png \
      menu-file-printarea.png \
+     menu-format-column.png \
      menu-format-labelled.png \
+     menu-format-sheet.png \
      menu-help-labelled.png \
      menu-insert-labelled.png \
      menu-tools-labelled.png \

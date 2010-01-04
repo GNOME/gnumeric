@@ -1,5 +1,13 @@
 2010-01-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* figures/menu-format-column.png: new
+	* figures/menu-format-sheet.png: new
+	* figures/menu-format-labelled.png: updated
+	* gui-menus.xml: updated
+	* figures/Makefile.am: add new pngs
+
+2010-01-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* figures/menu-view-properties-dialog.png: new
 	* gui-menus.xml: updated
 	* figures/Makefile.am: add new pngs

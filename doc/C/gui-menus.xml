@@ -1466,7 +1466,7 @@
     </para>
 
     <figure id="menu-format-labelled.png">
-      <title>The <guimenu>Format</guimenu> menu.</title>
+      <title>The <guimenu>Format</guimenu> Menu.</title>
       <screenshot>
         <mediaobject>
             <imageobject>
@@ -1503,7 +1503,22 @@
 	  <guimenuitem>Column</guimenuitem> menu item opens a sub-menu
 	  with choices to allows the user to modify the view of the
 	  selected columns.
+        </para>
+    <figure id="menu-format-column.png">
+      <title>The <guimenu>Column</guimenu> Submenu.</title>
+      <screenshot>
+        <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/menu-format-column.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the Column submenu.</phrase>
+            </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
 
+        <para>
 	 <itemizedlist>
 	   <listitem>
 	     <para>
@@ -1607,107 +1622,165 @@
         <listitem>
          <para>
           <guimenuitem>Sheet</guimenuitem> &mdash; The <guimenuitem>Sheet</guimenuitem>
-					menu item opens a sub-menu with operations to change properties of the
-					worksheet.
-					<itemizedlist>
-              <listitem>
-                <para>
-                <guimenuitem>Change Name...</guimenuitem> &mdash; This opens a
-								dialog with the name of the worksheet. A user can use this to
-								change the name of the current sheet.
-	        </para>
-	      </listitem>
+			menu item opens a sub-menu with operations to change properties of the
+			worksheet. This submenu has three sections.
+        </para>
+    <figure id="menu-format-sheet.png">
+      <title>The <guimenu>Sheet</guimenu> Submenu.</title>
+      <screenshot>
+        <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/menu-format-sheet.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the Sheet submenu.</phrase>
+            </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+    <variablelist>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">1</emphasis>
+	    Sheet Management Items
+	</term>
+	<listitem>
+        <para>
+            The first section contains menu items used to modify sheets indirectly.
+            Note that these items are also
+	    	available from the context menu which appears by clicking
+	       (usually with the right mouse button) on one of the
+	       worksheet tabs.
+        </para>
+        <para>
+		<itemizedlist>
               <listitem>
                  <para>
-                <guimenuitem>Re-Order Sheets...</guimenuitem> &mdash;- This opens a
-								dialog with the names of all the sheets. A user can click on
-								one of the names in the dialog and then click on the up and
-								down arrows, as appropriate, to move the selected sheet in
-								front or behind others. The tabs for the sheets will move at
-								the same time. This dialog also allows the user to delete
-								sheets.
-								</para>
+                <guimenuitem>Manage Sheets...</guimenuitem> &mdash;- This opens a
+				dialog with the names and properties of all the sheets. 
+                A user can click on
+				one of the names in the dialog and then click on the up and
+				down arrows, as appropriate, to move the selected sheet in
+				front or behind others. The tabs for the sheets will move at
+				the same time. This dialog also allows the user to delete
+				sheets, to rename sheets, and to change many other sheet 
+                properties.
+				</para>
 	      </listitem>
+           <listitem>
+              <para>
+                <guimenuitem>Rename</guimenuitem> &mdash; After selecting this
+                item the sheet name in the sheet tab is selected and can now be
+                changed there.
+	        </para>
+	      </listitem>
+		</itemizedlist>
+	    </para>
+	      </listitem>
+        </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">2</emphasis>
+	    Toggle Items
+	</term>
+	<listitem>
+        <para>The second section contains various toggle menu items 
+            used to switch sheet
+            properties directly.
+        </para>
+        <para>
+		<itemizedlist>
               <listitem>
                 <para>
                 <guimenuitem>Display Formulas</guimenuitem> &mdash; This menu item
-								acts as a toggle. By default it is unset and formulas results
-								are displayed. If this menu item is clicked, it will display a
-								little check mark on the left. The worksheet will show the
-								actual formulas for all cells with formulas instead of showing
-								the calculated result. This is useful for quickly assessing
-								which cells contain formulas and which contain data.
+						acts as a toggle. By default it is unset and formulas results
+						are displayed. If this menu item is clicked, it will display a
+						little check mark on the left. The worksheet will show the
+						actual formulas for all cells with formulas instead of showing
+						the calculated result. This is useful for quickly assessing
+						which cells contain formulas and which contain data.
+	        			</para>
+	      </listitem>
+              <listitem>
+                <para>
+                <guimenuitem>Use R1C1 Notation</guimenuitem> &mdash; This
+						menu item acts as a toggle. If this menu item is clicked,
+						&gnum; display a check mark on the left of the menu item.
+						&gnum; will also use R1C1 style notation to address cells
+                        rather than A1 notation.
 	        			</para>
 	      </listitem>
               <listitem>
                 <para>
                 <guimenuitem>Hide Zeros</guimenuitem> &mdash; This menu item acts as
-								a toggle. Click on this menu item will cause a check mark to
-								appear on the left. The sheet will then display all the cells
-								which display zeros as empty cells. This is useful in sheets
-								with many zero results, to quickly find cells with data.
+						a toggle. Click on this menu item will cause a check mark to
+						appear on the left. The sheet will then display all the cells
+						which display zeros as empty cells. This is useful in sheets
+						with many zero results, to quickly find cells with data.
 	        			</para>
 	      </listitem>
               <listitem>
                 <para>
                 <guimenuitem>Hide Gridlines</guimenuitem> &mdash; This menu item
-								acts as a toggle. If this menu item is clicked, &gnum; will
-								display a check mark to the left of the menu item. The lines
-								which separate all the cells will then be hidden and &gnum;
-								will appear to be a blank background. This is useful to make
-								certain data look pretty on screen.
+						acts as a toggle. If this menu item is clicked, &gnum; will
+						display a check mark to the left of the menu item. The lines
+						which separate all the cells will then be hidden and &gnum;
+						will appear to be a blank background. This is useful to make
+						certain data look pretty on screen.
 	        			</para>
 	      </listitem>
               <listitem>
                 <para>
                 <guimenuitem>Hide Column Headers</guimenuitem> &mdash; This
-								menu item acts as a toggle. If this menu item is clicked,
-								&gnum; display a check mark on the left of the menu item.
-								&gnum; will also hide the boxes with the alphabetical names
-								of the columns.
+						menu item acts as a toggle. If this menu item is clicked,
+						&gnum; display a check mark on the left of the menu item.
+						&gnum; will also hide the boxes with the alphabetical names
+						of the columns.
 	        			</para>
 	      </listitem>
               <listitem>
                 <para>
                 <guimenuitem>Hide Row Header</guimenuitem> &mdash; This
-								menu item acts as a toggle. If this menu item is clicked,
-								&gnum; display a check mark on the left of the menu item.
-								&gnum; will also hide the boxes with the numeric names
-								of the rows.
+						menu item acts as a toggle. If this menu item is clicked,
+						&gnum; display a check mark on the left of the menu item.
+						&gnum; will also hide the boxes with the numeric names
+						of the rows.
 	        			</para>
 	      </listitem>
-            </itemizedlist>
-         </para>
-        </listitem>
+              <listitem>
+                <para>
+                <guimenuitem>Direction</guimenuitem> &mdash; This
+						menu item acts as a toggle. When selected
+						&gnum; will change from left-to-right sheets to 
+                        right-to-left sheets.
+	        			</para>
+	      </listitem>
+		</itemizedlist>
+	    </para>
+	      </listitem>
+        </varlistentry>
 
+      <varlistentry>
+        <term>
+          <emphasis role="bold">3</emphasis>
+          Zoom Menu Item
+        </term>
         <listitem>
           <para>
-            <guimenuitem>Workbook...</guimenuitem> &mdash; This menu item
-	    opens a dialog which allows users to configure the current
-	    workbook. The dialog currently has four choices. Text
-	    autocomplete can be unset which means that
-	    &gnum; will not compare text
-	    as it entered against text in above it in the column. Text
-	    autocomplete is useful to users entering data because if
-	    entries are repeated, &gnum;
-	    can guess what the user intends. The user can simply type
-	    the <keycap>Tab</keycap> key and
-	    &gnum; will enter the rest of
-	    the text.  The use of notebook tabs can be turned off, as
-	    can the horizontal and vertical scrollbars.
-	  </para>
+                <guimenuitem>Zoom...</guimenuitem> &mdash; The
+                <guimenuitem>Zoom</guimenuitem> menu item opens a
+                dialog which allows the user to set the magnification
+                of all worksheets in the current workbook. This item is
+                also included in the
+                <guimenuitem>View</guimenuitem> menu discussed in 
+                <xref linkend="View-Menu" />,
+          </para>
         </listitem>
-
-        <listitem>
-          <para>
-            <guimenuitem>Preferences...</guimenuitem> &mdash; The
-	    <guimenuitem>Preference...</guimenuitem> menu item call
-	    the <guilabel>Gnumeric Preferences</guilabel> dialog. This
-	    menu item opens a dialog with fields to edit the document
-	    summary information of the file currently open in that
-	    window. Summary information describes the sheet, for
-	    instance, with the author name and a comment.
-	  </para>
+	  </varlistentry>
+      </variablelist>
         </listitem>
 
         <listitem>
