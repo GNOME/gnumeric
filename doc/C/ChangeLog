@@ -1,3 +1,9 @@
+2010-01-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* figures/menu-data-labelled.png: updated
+	* figures/menu-tools-labelled.png: updated
+	* gui-menus.xml: updated
+
 2010-01-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* figures/menu-format-column.png: new

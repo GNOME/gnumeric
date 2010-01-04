@@ -1853,25 +1853,6 @@
       <varlistentry>
 	<term>
 	  <emphasis role="bold">1</emphasis>
-	    The Plug-ins dialog.
-	</term>
-	<listitem>
-	  <para>This entry launches the plug-in management
-	  dialog. Plug-ins are programs which are separate from
-	  &gnum; but provide useful
-	  functionality.  Some of the core parts of gnumeric, such as
-	  Excel file format support, are actually plugins. This means
-	  that a user who never uses Excel files can remove this
-	  module from &gnum; and make
-	  &gnum; use less memory.<!--
-	  <xref linkend="Plugins" /> explains plug-ins in greater
-	  detail.--></para>
-	</listitem>
-      </varlistentry>
-
-      <varlistentry>
-	<term>
-	  <emphasis role="bold">2</emphasis>
 	    Automatic tools
 	</term>
 	<listitem>
@@ -1920,8 +1901,9 @@
 <!-- TODO: Split lp and scenarios when the 2 chpt.  are written. -->
       <varlistentry>
 	<term>
-	  <emphasis role="bold">3</emphasis>
-	   Linear programming and scenario generation tools
+	  <emphasis role="bold">2</emphasis>
+	   Linear programming, scenario generation, simulation and statistical
+        analysis tools
 	</term>
 	<listitem>
 	  <para>
@@ -1979,21 +1961,37 @@
 	      constraints. 
 	    </para>
 	  </listitem>
+
+	  <listitem>
+	    <para>
+	        <guimenuitem>Statistical Analysis</guimenuitem> &mdash; The
+	        <guimenuitem>Statistical Analysis</guimenuitem> menu item opens a
+	        submenu with all available atatistical analysis tools. These tools
+            are explained in <xref linkend="chapter-stat-analysis" />.
+	      constraints. 
+	    </para>
+	  </listitem>
+
 	</itemizedlist>
 	</listitem>
       </varlistentry>
 
-
       <varlistentry>
 	<term>
-	  <emphasis role="bold">4</emphasis>
-	    Statistics and other Data Analysis tools
+	  <emphasis role="bold">3</emphasis>
+	    The Plug-ins dialog.
 	</term>
 	<listitem>
-	  <para>Statistical analysis can easily be done with
-	  &gnum;. All the statistical
-	  tools are explained in <xref linkend="chapter-stat-analysis" />.
-		</para>
+	  <para>This entry launches the plug-in management
+	  dialog. Plug-ins are programs which are separate from
+	  &gnum; but provide useful
+	  functionality.  Some of the core parts of gnumeric, such as
+	  Excel file format support, are actually plugins. This means
+	  that a user who never uses Excel files can remove this
+	  module from &gnum; and make
+	  &gnum; use less memory.<!--
+	  <xref linkend="Plugins" /> explains plug-ins in greater
+	  detail.--></para>
 	</listitem>
       </varlistentry>
 
@@ -2038,8 +2036,7 @@
 	</term>
 	<listitem>
 	  <para>
-	    These menu items allow the user to re-organize data
-	    fields.
+	    These menu items allow the user to re-organize data.
 	  </para>
 
 	  <itemizedlist>
@@ -2086,6 +2083,14 @@
 
 	    <listitem>
 	      <para>
+	        <guimenuitem>Fill</guimenuitem> &mdash; The
+		<guimenuitem>Fill</guimenuitem> menu item opens a
+		sub-menu that allows various form of data to be created.
+	      </para>
+	    </listitem>
+
+	    <listitem>
+	      <para>
 	        <guimenuitem>Filter</guimenuitem> &mdash; The
 		<guimenuitem>Filter</guimenuitem> menu item opens a
 		sub-menu with three entries: <guimenuitem>Add Auto
@@ -2108,27 +2113,10 @@
 	    </listitem>
 
 
-	  </itemizedlist>
-	</listitem>
-      </varlistentry>
-
-      <varlistentry>
-	<term>
-	  <emphasis role="bold">2</emphasis>
-	    Miscellaneous Entries.
-	</term>
-	<listitem>
-	  <para>
-	    These entries allow user to manipulate cell contents,
-	    alter the appearance of the worksheet or import external
-	    data directly into a worksheet.
-	    </para>
-	    <itemizedlist>
-
 	    <listitem>
 	      <para>
-	        <guimenuitem>Text to Columns...</guimenuitem> &mdash; The
-		<guimenuitem>Text to Columns...</guimenuitem> menu item
+	        <guimenuitem>Consolidate...</guimenuitem> &mdash; The
+		<guimenuitem>Consolidate...</guimenuitem> menu item
 		opens a dialog box through which a user can create
 		derived information based on data in other worksheets.
 	      </para>
@@ -2136,10 +2124,7 @@
 
 	    <listitem>
 	      <para>
-	        <guimenuitem>Consolidate...</guimenuitem> &mdash; The
-		<guimenuitem>Consolidate...</guimenuitem> menu item
-		opens a dialog box through which a user can create
-		derived information based on data in other worksheets.
+	        <guimenuitem>Table...</guimenuitem> &mdash; 
 	      </para>
 	    </listitem>
 
@@ -2153,6 +2138,32 @@
 		alter the display of the grouping handles on the
 		borders of the worksheet.
 
+	      </para>
+	    </listitem>
+
+	  </itemizedlist>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <emphasis role="bold">2</emphasis>
+	    Data Modifications or Import.
+	</term>
+	<listitem>
+	  <para>
+	    These entries allow user to convert data already in a worksheet or to 
+        import external
+	    data directly into a worksheet.
+	    </para>
+	    <itemizedlist>
+
+	    <listitem>
+	      <para>
+	        <guimenuitem>Text to Columns...</guimenuitem> &mdash; The
+		<guimenuitem>Text to Columns...</guimenuitem> menu item
+		opens a dialog box through which a user can create
+		derived information based on data in other worksheets.
 	      </para>
 	    </listitem>
 
