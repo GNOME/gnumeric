@@ -325,7 +325,9 @@ gnumeric_SOURCES =				\
 
 gnumeric_LDADD =				\
 	libspreadsheet.la			\
-	$(INTLLIBS)
+	$(GNUMERIC_LIBS)			\
+	$(INTLLIBS)				\
+	$(HILDON_LIBS)
 gnumeric_LDFLAGS = -export-dynamic
 
 ssconvert_LDADD   = $(gnumeric_LDADD)
