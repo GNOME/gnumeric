@@ -1354,13 +1354,20 @@ gnm_canvas_get_position (GocCanvas *canvas, int *x, int *y, gint64 px, gint64 py
 {
 	GtkWidget *cw = GTK_WIDGET (canvas);
 	GdkWindow *cbw = GTK_LAYOUT (cw)->bin_window;
-	int wx, wy, ox, oy;
+	int wx, wy;
+	int ox = 0, oy = 0;
 
+#ifndef HAVE_GTK_ENTRY_GET_BUFFER
+	/*
+	 *   So we haven't gotten gtk 2.18 yet where we apparently should call
+	 *   this anymore.
+	 */
 	/*
 	 * Get offsets for the 16-bit X11 system within the 32-bit gdk system.
 	 * I don't think this should be necessary, see bug 586756.
 	 */
 	gdk_window_get_internal_paint_info (cbw, NULL, &ox, &oy);
+#endif
 
 	gdk_window_get_origin (cbw, &wx, &wy);
 
