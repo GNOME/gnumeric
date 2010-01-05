@@ -2434,7 +2434,10 @@
 	<para>The context menu for tabs provides the same functions as are provided 
 	in the <guimenuitem>Sheet</guimenuitem> menu item in the
 	<guimenu>Edit</guimenu> menu. These options are explained at the bottom of 
-	<xref linkend="Edit-Menu" />.
+	<xref linkend="Edit-Menu" />. In addition, this context menu provides for two
+        submenus to select any of the existing sheets, whether their tab is currently
+        visible or not. The first submenu lists the sheets in their current order, 
+        the second submenu lists them alphabetically.
 	</para>
 
 
@@ -2477,10 +2480,10 @@
     </para>
 
     <para>
-      A second menu entry, labeled <guimenuitem>Save
-      As...</guimenuitem> and only present for certain elements,
-      allows the object to be saved as an image file. This menu item
-      is not present in <xref linkend="menu-context-object.png"/>.
+      The first menu entry, labeled
+      <guimenuitem>Properties</guimenuitem>, will open a dialog
+      specific to the type of element selected in which the user can
+      configure the properties of the element.
     </para>
 
     <para>
@@ -2519,6 +2522,13 @@
       functionality while leaving the original item in place. The
       <guimenuitem>Delete</guimenuitem> allows the user to remove the
       graphical element entirely.
+    </para>
+
+    <para>
+      A second menu entry, labeled <guimenuitem>Save
+      As...</guimenuitem> and only present for certain elements,
+      allows the object to be saved as an image file. This menu item
+      is not present in <xref linkend="menu-context-object.png"/>.
     </para>
 
 
