@@ -25,6 +25,7 @@ Andreas:
 	* Add auto expression menu items to add formula. [#8872]
 	* Some updates to the Gnumeric manual.
 	* Fix tool tip position for recent gtk (2.18 or newer). [#605723]
+	* Fix NPV documentation. [#22381]
 
 Jean
 	* Fix import export of line type in scatter plots. [#605043]

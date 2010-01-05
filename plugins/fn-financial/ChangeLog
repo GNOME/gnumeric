@@ -1,3 +1,8 @@
+2010-01-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_npv): there does not seem to be 
+	  a type argument
+	
 2010-01-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_euroconvert): fix spelling

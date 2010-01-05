@@ -1473,7 +1473,6 @@ static GnmFuncHelp const help_npv[] = {
         { GNM_FUNC_HELP_ARG, F_("value1:cash flow for period 1")},
         { GNM_FUNC_HELP_ARG, F_("value2:cash flow for period 2")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("NPV calculates the net present value of a cash flow.") },
-	TYPE_HELP,
         { GNM_FUNC_HELP_EXAMPLES, "=NPV(10%,100,100,-250)" },
         { GNM_FUNC_HELP_SEEALSO, "PV"},
 	{ GNM_FUNC_HELP_END }
