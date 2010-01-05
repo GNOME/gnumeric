@@ -2480,14 +2480,19 @@
     </para>
 
     <para>
-      The first menu entry, labeled
-      <guimenuitem>Properties</guimenuitem>, will open a dialog
-      specific to the type of element selected in which the user can
-      configure the properties of the element.
+      The menu entry labeled
+      <guimenuitem>Size &amp; Position</guimenuitem>, will open a dialog
+      that permits the user to adjust the size and position of the embedded object.
     </para>
 
     <para>
-      A third menu entry, labeled <guimenuitem>Order</guimenuitem>,
+      The menu entry labeled
+      <guimenuitem>Snap to Grid</guimenuitem>, enlarges the object such that all of
+        its corners are located at cell corners.
+    </para>
+
+    <para>
+      The menu entry labeled <guimenuitem>Order</guimenuitem>,
       opens a submenu which allows the user to change the visual order
       in which the graphical elements are placed. This order will
       affect the way in which the graphical elements obscure each other.
@@ -2525,11 +2530,32 @@
     </para>
 
     <para>
-      A second menu entry, labeled <guimenuitem>Save
-      As...</guimenuitem> and only present for certain elements,
+      For certain types of objects, menu entry labeled <guimenuitem>Save
+      As...</guimenuitem> 
       allows the object to be saved as an image file. This menu item
-      is not present in <xref linkend="menu-context-object.png"/>.
+      is not present in <xref linkend="menu-context-object.png"/> but is shown in 
+        <xref linkend="menu-context-graph.png"/> .
     </para>
+
+    <figure id="menu-context-graph.png">
+      <title>The Context Menu for Graphs and Images</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/menu-context-graph.png" />
+          </imageobject>
+          <textobject>
+            <phrase>An image of the context menu for graphs and images.</phrase>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+    <para>
+        Graphs also have a context menu with a menu entry labeled <guimenuitem>Open in
+        New Window</guimenuitem>. That menu item shows the graph by itself in a window.
+    </para>
+
 
 
 </sect2>

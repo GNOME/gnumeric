@@ -1,5 +1,10 @@
 2010-01-05 Andreas J. Guelzow <aguelzow@pyrshep>
 
+	* figures/menu-context-graph.png: updated
+	* gui-menus.xml: updated
+
+2010-01-05 Andreas J. Guelzow <aguelzow@pyrshep>
+
 	* figures/menu-context-col-row-header.png: updated
 	* figures/menu-context-object-order.png: updated
 	* figures/menu-context-object.png: updated
