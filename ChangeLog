@@ -1,5 +1,9 @@
 2010-01-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/rangefunc.h (gnm_range_increasing): use the correctly typed function
+
+2010-01-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/gui-util.c (gnm_canvas_get_position): call 
 	  gdk_window_get_internal_paint_info only for gtk < 2.18
 	
