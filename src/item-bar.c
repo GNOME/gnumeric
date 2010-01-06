@@ -224,6 +224,8 @@ item_bar_unrealize (GocItem *item)
 
 	gdk_cursor_unref (ib->change_cursor);
 	gdk_cursor_unref (ib->normal_cursor);
+
+	parent_class->unrealize (item);
 }
 
 static void
