@@ -730,6 +730,8 @@ dialog_kaplan_meier_tool (WBCGtk *wbcg, Sheet *sheet)
 	tool_load_selection ((GenericToolState *)state, TRUE);
 
 	gtk_widget_show_all (GTK_WIDGET (state->base.dialog));
+	/* And to hide the in-place button again */
+	gnm_dao_set_inplace ( GNM_DAO (state->base.gdao), NULL);
 
         return 0;
 }

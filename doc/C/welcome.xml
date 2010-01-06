@@ -64,9 +64,9 @@
 </para>
 <note>
   <para>
-    Releases of &gnum; in the 1.8 series have numbers starting
-    with 1.8 but with extra numbers afterwards, such as 1.8.0 or
-    1.8.3. These are stable releases which are only changed with minor
+    Releases of &gnum; in the &appversion; series have numbers starting
+    with &appversion; but with extra numbers afterwards, such as &appversion;.0 or
+    &appversion;.3. These are stable releases which are only changed with minor
     improvements and fixes for problems (bugs) in the program. These
     releases can be considered safe for use in a production
     environment.
@@ -75,9 +75,9 @@
 
 <warning>
   <para>
-    The 1.9 series of releases are unstable releases meant for
+    The &devversion; series of releases are unstable releases meant for
     developer testing. If you want a stable release get the most recent
-    release from the 1.8 series.
+    release from the &appversion; series.
   </para>
 </warning>
 
@@ -241,11 +241,11 @@
 
 
 <para>
-  <emphasis role="bold">The Gnumeric 1.11 Series of Releases for Developers</emphasis>
+  <emphasis role="bold">The Gnumeric &devversion; Series of Releases for Developers</emphasis>
 </para>
 
 <para>
-  The &gnum; 1.11 series of releases are
+  The &gnum; &devversion; series of releases are
   developer releases. These releases are kept as stable as
   possible. However, each release in this series includes changes and
   improvements some of which may be quite large. These new changes may

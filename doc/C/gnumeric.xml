@@ -16,6 +16,7 @@
 
   <!ENTITY gnum "<application>Gnumeric</application>">
   <!ENTITY appversion "1.10">
+  <!ENTITY devversion "1.11">
   <!ENTITY manrevision "1.9">
   <!ENTITY date "January 2010">
   <!ENTITY file-format-open "Gnumeric XML, 

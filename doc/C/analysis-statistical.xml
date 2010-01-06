@@ -27,7 +27,7 @@
     if you have already preformatted the output range.
   </para>
 
-  <para>Most analysis tools also provide a choice whether
+  <para>All analysis tools also provide a choice whether
     they will enter formulas or just values in the cells. By default 
     &gnum; will usually enter formulas. These formulas will automatically
     reevaluate when the data change. For some tools, the formulas also
