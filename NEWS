@@ -27,6 +27,7 @@ Andreas:
 	* Fix tool tip position for recent gtk (2.18 or newer). [#605723]
 	* Fix NPV documentation. [#22381]
 	* Fix type errors. [#606066]
+	* Add surface plot description. [#604285]
 
 Jean
 	* Fix import export of line type in scatter plots. [#605043]

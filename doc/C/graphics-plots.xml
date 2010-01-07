@@ -2810,7 +2810,229 @@
       <title>
         Surface Plots
       </title>
-        <para>Work in Progress</para>
+      <para>
+        Surface plots are used to plot (<parameter>x</parameter>,<parameter>y
+        </parameter>,<parameter>z</parameter>) points in three-dimensional space
+        as a surface where z is interpreted as the height above the 
+        <parameter>xy</parameter>-plane. 
+        A &gnum; chart of course shows the projection of this surface in 3-space 
+        onto a 2-dimensional sheet.
+      </para>
+
+      <para>
+        Surface plot sub-types provide for 2 distinct ways of providing the data
+        for a surface plot.
+      </para>
+      <para>The first subtype uses an <parameter>n</parameter> by 1 or 1 by
+        <parameter>n</parameter> range for 
+        the <parameter>x</parameter>-values, a second 1 by <parameter>m</parameter> 
+        or <parameter>m</parameter> by 1 range for the <parameter>y</parameter>-values
+        and an 
+        <parameter>m</parameter> by <parameter>n</parameter> range for the 
+        <parameter>z</parameter> values. The plotted points are constructed from 
+        these three ranges in such a way that the <parameter>z</parameter> value 
+        in the <parameter>i</parameter>th column and <parameter>j</parameter>th 
+        row is combined with the <parameter>i</parameter>th <parameter>x</parameter> 
+        value and the <parameter>j</parameter>th <parameter>y</parameter> value. 
+        This subtype 
+        then uses an <parameter>m</parameter> by <parameter>n</parameter> 
+        grid for the surface. 
+      </para>
+
+      <figure id="fig-graph-types-example-surface-t1">
+        <title>An example of a surface plot with rectangular data area</title>
+              <screenshot>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="figures/graph-example-surface-t1.png" 
+                               format="PNG"  />
+                    </imageobject>
+                    <textobject>
+                      <para>
+		        A screenshot of a worksheet with a data table
+                and a graph containing an surface plot with rectangular 
+                data area.
+                      </para>
+                    </textobject>
+                  </mediaobject>
+                </screenshot>
+      </figure>
+
+      <para>The second subtype uses a direct listing of the 
+        <parameter>n</parameter> points. The <parameter>x</parameter> values
+        are specified with an <parameter>n</parameter> by 1 range, so are the 
+        <parameter>y</parameter> and <parameter>z</parameter> values. The 
+        <parameter>i</parameter>th 
+        <parameter>z</parameter> value is then combined with the 
+        <parameter>i</parameter>th <parameter>x</parameter> and 
+        <parameter>i</parameter>th <parameter>y</parameter> value to obtain the 
+        points to be plotted.It is not necessary to provide the same number of 
+        <parameter>y</parameter> 
+        coordinates for each <parameter>x</parameter> coordinate or vice versa. 
+        &gnum; will interpolate
+        missing values. For this purpose one needs to specify the number of 
+        (equidistant) rows and columns to be used for the surface grid. This grid
+        need not align with the provided coordinates.
+      </para>
+
+
+      <figure id="fig-graph-types-example-surface-t12">
+        <title>An example of a surface plot with x,y, and z series</title>
+              <screenshot>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="figures/graph-example-surface-t2.png" 
+                               format="PNG"  />
+                    </imageobject>
+                    <textobject>
+                      <para>
+		        A screenshot of a worksheet with a data table
+                        and a graph containing an surface plot with xyz series.
+                      </para>
+                    </textobject>
+                  </mediaobject>
+                </screenshot>
+      </figure>
+
+      <para>
+        Surface plots do not have any pre-defined styles.
+      </para>
+
+
+
+<table frame='all'><title>The data in each surface plot series with rectangular 
+                            data area
+                    </title>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry align="center">Element</entry>
+  <entry align="center">Type</entry>
+  <entry align="center">Example</entry>
+</row>
+</thead>
+<tbody>
+<row>
+  <entry>Name</entry>
+  <entry>A single textual element labeling the data series. These will
+    be used in the legend which may be displayed with the surface
+    plot.</entry> 
+  <entry>{"Widgets"}</entry>
+</row>
+<row>
+  <entry>X</entry>
+  <entry>An optional series of numeric values to be used for the <parameter>x</parameter> coordinates of the grid. This defaults to {1,2,&hellip;,n}.</entry>
+  <entry>{1,3,5,6,8,9}</entry>
+</row>
+<row>
+  <entry>Y</entry>
+  <entry>An optional series of numeric values to be used for the <parameter>y</parameter> coordinates of the grid. This defaults to {1,2,&hellip;,n}.</entry>
+  <entry>{1,1.5,2,2.5}</entry>
+</row>
+<row>
+  <entry>Z</entry>
+  <entry>A rectangular range of numbers where the number in <parameter>j</parameter>th 
+        row and <parameter>i</parameter>th column is the height of the 
+        <parameter>(i,j)</parameter> grid point.</entry> 
+  <entry>A2:J15</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+<table frame='all'><title>The data in each surface plot series with <parameter>xyz</parameter> series.
+                    </title>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry align="center">Element</entry>
+  <entry align="center">Type</entry>
+  <entry align="center">Example</entry>
+</row>
+</thead>
+<tbody>
+<row>
+  <entry>Name</entry>
+  <entry>A single textual element labeling the data series. These will
+    be used in the legend which may be displayed with the surface
+    plot.</entry> 
+  <entry>{"Widgets"}</entry>
+</row>
+<row>
+  <entry>X</entry>
+  <entry>A series of numeric values to be used for the <parameter>x</parameter> coordinates of the grid.</entry>
+  <entry>{1,1.5,2,2.5}</entry>
+</row>
+<row>
+  <entry>Y</entry>
+  <entry>A series of numeric values to be used for the <parameter>y</parameter> coordinates of the grid.</entry>
+  <entry>{1,1.5,2,2.5}</entry>
+</row>
+<row>
+  <entry>Z</entry>
+  <entry>A series of numeric values to be used for the <parameter>z</parameter> coordinates of the grid.</entry>
+  <entry>{1,1.5,2,2.5}</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+
+      <para>
+        Surface plots provide two icons to choose one of the two
+      surface plot sub-types.
+      </para>
+
+
+
+      <variablelist>
+        <title>Surface plot sub-type and style options.</title>
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_surface_1.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for a surface plot of the sub-type with
+	                  rectangular data area.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for an area plot of the sub-type with rectangular data area.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_surface_2.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for a surface plot of the sub-type with
+                      xyz series.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for an area plot of the sub-type with
+                    xyz series.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	    </variablelist>
+
+
     </sect2>
 
 

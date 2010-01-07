@@ -1,5 +1,13 @@
 2010-01-07 Andreas J. Guelzow <aguelzow@pyrshep>
 
+	* figures/chart_surface_1.png: new
+	* figures/chart_surface_2.png: new
+	* figures/graph-example-surface-t1.png: new
+	* figures/graph-example-surface-t2.png: new
+	* graphics-plots.xml: add surface plot description
+
+2010-01-07 Andreas J. Guelzow <aguelzow@pyrshep>
+
 	* graphics-plots.xml: add stubs for new plot types
 
 2010-01-07 Andreas J. Guelzow <aguelzow@pyrshep>
