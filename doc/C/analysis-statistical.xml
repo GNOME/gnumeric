@@ -2229,9 +2229,15 @@
      <title>The <quote><guilabel>Input</guilabel></quote> Tab</title>
 
      <para>The <quote><guilabel>Input</guilabel></quote> tab shown in 
-       <xref linkend="kaplan-meier-tool-dialog" /> contains
-       the field specifying the data to be used for the
-       histogram.</para>
+        <xref linkend="kaplan-meier-tool-dialog" /> contains
+        the fields specifying the data to be used for the
+        Kaplan Meier Estimates. The time column contains the times or dates 
+        at which the subjects died or were censored. If any of the subjects
+        were censored, the <guilabel>Permit censorship</guilabel> checkbox is
+        checked and the Censor column contained the censorship marks. Censorship
+        marks are typically 0s or 1s. The range of censor marks or labels can be 
+        set using the the 
+        remaining two spinboxes.</para>
 
  <figure id="kaplan-meier-tool-dialog">
     <title>Kaplan-Meier Tool Dialog</title>
@@ -2242,16 +2248,52 @@
                   format="PNG" />
             </imageobject>
             <textobject>
-              <phrase>An image of the output from the histogram
-              analysis tool.</phrase>
+              <phrase>An image of the .Kaplan-Meier tool dialog.</phrase>
             </textobject>
            </mediaobject>
     </screenshot>
   </figure>
   </sect2>
 
+  <sect2 id="kaplan-meier-tool-group-tab">
+     <title>The <quote><guilabel>Groups</guilabel></quote> Tab</title>
+
+    <para>
+        If the subjects belong to several groups and the groups are supposed to be
+        analyzed separately, the groups tab can be used. 
+    </para>
+
+ <figure id="kaplan-meier-tool-dialog-groups">
+    <title>Kaplan-Meier Tool Dialog Groups Tab</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-kaplan-groups.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the Kaplan-Meier tool dialog groups tab.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+    <para>
+        The groups tab can be enabled via the <guilabel>Define multiple groups
+        </guilabel> checkbox. The groups column entry contains the address of 
+        the column specifying the group membership. Groups can then be defined 
+        or deleted via the <guilabel>Add</guilabel> and <guilabel>Remove
+        </guilabel> buttons.
+    </para>
+
+  </sect2>
+
   <sect2 id="kaplan-meier-tool-optionstab">
      <title>The <quote><guilabel>Options</guilabel></quote> Tab</title>
+
+    <para>The options tab of the Kaplan-Meier tools dialog is used to set 
+        various options of the Kaplan-Meier tool.
+    </para>
 
  <figure id="kaplan-meier-tool-dialog-options">
     <title>Kaplan-Meier Tool Dialog Options Tab</title>
@@ -2262,8 +2304,7 @@
                   format="PNG" />
             </imageobject>
             <textobject>
-              <phrase>An image of the output from the histogram
-              analysis tool.</phrase>
+              <phrase>An image of the Kaplan-Meier tool dialog options tab.</phrase>
             </textobject>
            </mediaobject>
     </screenshot>
@@ -2281,7 +2322,7 @@
 
   <sect2 id="kaplan-meier-tool-example">
     <title>A Kaplan-Meier Example</title>
-    
+
       <figure id="kaplan-meier-tool-example-1">
 	<title>Kaplan-Meier Tool Example Input</title>
 	<screenshot>
@@ -2291,20 +2332,78 @@
 		      format="PNG" />
 		</imageobject>
 		<textobject>
-		  <phrase>An image of the output from the histogramdata and input 
+		  <phrase>An image of the input to the Kaplan-Meier estimate example 
+            and of the input 
 		  tab of the Kaplan-Meier analysis tool.</phrase>
 		</textobject>
 	       </mediaobject>
 	</screenshot>
       </figure>
- 
-      <figure id="kaplan-meier-tool-tool-example-2">
+
+    <example id="usingkaplan-meiertool">
+      <title>Using the Kaplan-Meier Tool</title>
+      <para>
+        Suppose you want to calculate Kaplan-Meier Estimates 
+        for the as given in <xref linkend="kaplan-meier-tool-example-1" />. Each 
+        row contains the data for one subject. Column A contains the survival time,
+        i.e. the time until death or censure. Column B contains the group number, 
+        we are considering two groups of subjects. Column C indicates whether the 
+        subject died (0) or was censured (1).
+        </para>
+        <para>
+        We complete the fields of the <guilabel>Input</guilabel> tab as shown in 
+        <xref linkend="kaplan-meier-tool-example-1" />. The time column is A2:A21
+        and the censure column is C2:C21.
+        </para>
+        <para>
+        Since we have two groups of subjects, on the <guilabel>Groups</guilabel> 
+        tab we check the  <guilabel>Define multiple groups</guilabel> check box and 
+        set up two groups with identifiers 1 and 2 in column B2:B21:
+      <figure id="kaplan-meier-tool-tool-example-3">
+	 <title>Kaplan-Meier Tool Example Group Tab</title>
+	 <screenshot>
+	     <mediaobject>
+		 <imageobject>
+		   <imagedata fileref="figures/analysistools-kaplan-ex3.png" 
+		       format="PNG" />
+		 </imageobject>
+		 <textobject>
+		   <phrase>An image of the group tab of the Kaplan-Meier
+		   analysis tool.</phrase>
+		 </textobject>
+		</mediaobject>
+	 </screenshot>
+       </figure>
+      </para>
+    <para>On the <guilabel>Options</guilabel> tab all checkboxes are pre-checked
+     and we leave them that way to obtain a maximum amount of information.
+    </para>
+    <para>Onthe output tab we choose where we would like the output to be placed. For 
+    the purposes of this example we retain the <guilabel>New Sheet</guilabel> target. 
+    After clicking <guilabel>OK</guilabel> we get the output shown in 
+    <xref linkend="kaplan-meier-tool-example-2" />. Note that the graph initially 
+        always appears on top of the numerical result and was moved for the 
+        screen shot.
+    </para>
+    <para>
+        B1:F17 shows the results of the first group, G1 to K17 the results of the 
+        second group. The graph shows the Kaplan-Meier survival curves for both 
+        groups.
+    </para>
+    <para>
+        M4:N7 shows the result of the Mantel-Haenszel Log-Rank Test. In this case 
+        the p-value is larger than 0.3 and we would fail to reject the Null 
+        hypothesis. There is no evidence that the survival times differ.
+    </para>
+    </example>
+
+      <figure id="kaplan-meier-tool-example-2">
 	 <title>Kaplan-Meier Tool Example Output</title>
 	 <screenshot>
 	     <mediaobject>
 		 <imageobject>
 		   <imagedata fileref="figures/analysistools-kaplan-ex2.png" 
-		       format="PNG" />
+		       format="PNG" scale="45" />
 		 </imageobject>
 		 <textobject>
 		   <phrase>An image of the output of the Kaplan-Meier
@@ -2314,14 +2413,7 @@
 	 </screenshot>
        </figure>
 
-    <example id="usingkaplan-meiertool">
-      <title>Using the Kaplan-Meier Tool</title>
-      <para>
-        For example, suppose you want to calculate Kaplan-Meier Estimates 
-	for data as given in <xref linkend="kaplan-meier-tool-example-1" />.
-      </para>
 
-    </example>
     
   </sect2>
   

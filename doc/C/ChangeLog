@@ -1,3 +1,13 @@
+2010-01-07 Andreas J. Guelzow <aguelzow@pyrshep>
+
+	* figures/analysistools-kaplan-ex3.png: new
+	* figures/analysistools-kaplan-groups.png: new
+	* figures/analysistools-kaplan-ex1.png: updated
+	* figures/analysistools-kaplan-ex2.png: updated
+	* figures/analysistools-kaplan-options.png: updated
+	* figures/analysistools-kaplan.png: updated
+	* analysis-statistical.xml: updated
+	
 2010-01-06 Andreas J. Guelzow <aguelzow@pyrshep>
 
 	* figures/analysistools-outputoptions.png: updated
