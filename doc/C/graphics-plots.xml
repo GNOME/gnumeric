@@ -981,18 +981,916 @@
     </para>
 
 
+    <sect2 id="sect-graphs-overview-types-area" >
+      <title>
+        Area Plots
+      </title>
+
+      <para>
+        Area plots present the numeric values of categorical data with
+        the data values of each series connected by a line and the
+        area below the line shaded. This type is directly analogous to
+        the line plot type. Sequential data values are considered to
+        belong to different categories and are plotted along the
+        horizontal axis at equally spaced intervals. The data
+        values from different series are assigned to these categories
+        based on the position of the value in the series, for example,
+        the second data value taken from each series all share one
+        category. The data values are plotted along the vertical (Y)
+        axis according to their numeric value and the particular
+        sub-type chosen for the area plot.
+      </para>
+
+      <para>
+        Area plot sub-types provide three options for relating the
+        values from different data series. The first sub-type plots
+        each series independently with the data value determining the
+        vertical distance between each point and the horizontal
+        axis. The second sub-type plots the series stacked on each
+        other in a cumulative fashion with the data value of each
+        series determining the vertical distance from the point to the
+        sum of the values in all the previous series. For example, if
+        the first series starts with values 
+	<literal>{3.9, 4.2, ...}</literal>, the second
+        series with values 
+        <literal>{1.2, 3.5, ...}</literal>, and the
+        third series with values 
+	<literal>{3.1, 1.9, ...}</literal>, then the
+        point value for the second element of the third series will be
+        plotted at 9.6 
+	(since <literal>9.6=4.2+3.5+1.9</literal>) along
+        the vertical axis. The third sub-type plots each series based
+        on the proportional contribution of the value to the total of
+        all values in that category. Using the example above, the
+        three values would be plotted at 0.4375, 0.8020, and 1 because
+        the intervals between zero and each of these numbers is
+        <literal>0.4375=4.2/(4.2+3.5+1.9)</literal>
+        for the first, 
+	<literal>0.3645...=3.5/(4.2+3.5+1.9)</literal> for the
+        second, and 
+        <literal>0.1979...=1.9/(4.2+3.5+1.9)</literal> 
+	for the third, although, by default, these numbers are
+        presented as percentages on the vertical (Y) axis.
+      </para>
+
+
+      <para>
+        Area plots do not have any pre-defined styles.
+      </para>
+
+
+      <figure id="fig-graph-types-example-area">
+        <title>An example of area plots</title>
+              <screenshot>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="figures/graph-example-area.png" 
+                               format="PNG"  />
+                    </imageobject>
+                    <textobject>
+                      <para>
+		        A screenshot of a worksheet with a data table
+                        and a graph containing an area plot.
+                      </para>
+                    </textobject>
+                    <caption>
+                      <para>
+	                This screenshot shows a table of data and three
+                        area plots. The data consist of three series
+                        organized by row and starting with the words
+                        "Widgets", "Gadgets", and "Lumpets". Each of
+                        these series has values in five categories. The
+                        three graphs illustrate the three sub-types of
+                        area plots, with the series plotted
+                        independently in the left plot, stacked in the
+                        middle plot, and proportionately stacked in the
+                        right plot.
+	              </para>
+                    </caption>
+                  </mediaobject>
+                </screenshot>
+      </figure>
+
+      <para>
+        Each series in area plots can include three main elements and
+        two error elements, although only the value element is
+        necessary. The series can have a 'Name' element, which is a
+        single text entry used to identify the series, must have a
+        'Values' element, which is a sequence of numeric values, and
+        may have a 'Label' element, which is a sequence of text
+        entries used to identify the categories.  All of these
+        elements can be defined as references to a region of the
+        worksheet, as literally defined entries, or as formula
+        expressions which result in the correct type. The 'Label'
+        element is shared by all of the series. The legend added to an
+        area plot identifies the different series, by default using
+        the entries of the 'Name' element of each series. The two
+        error elements include a list for errors in the positive
+        direction and one for errors in the negative direction.
+      </para>
+
+<table frame='all'><title>The data in each area plot series</title>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
+
+<thead>
+<row>
+  <entry align="center">Element</entry>
+  <entry align="center">Type</entry>
+  <entry align="center">Example</entry>
+</row>
+</thead>
+<tbody>
+<row>
+  <entry>Name</entry>
+  <entry>A single textual element labeling the data series. These will
+    be used in the legend which may be displayed with the area
+    plot.</entry> 
+  <entry>{"Widgets"}</entry>
+</row>
+<row>
+  <entry>Value</entry>
+  <entry>A series of numeric values.</entry>
+  <entry>{1293, 2502, 3297, 1100, 2487}</entry>
+</row>
+<row>
+  <entry>Label</entry>
+  <entry>A series of textual elements labeling each
+    value. Generally, this series will have as many entries as there
+    were in the "Value" series. These entries are shared by all the
+    series in the area plot.</entry> 
+  <entry>{"North", "South", "Central", "East", "West"}</entry>
+</row>
+<row>
+  <entry>Error (+)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'Value' list. These values can be in the same units as
+  the numeric values in the 'Value' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.10, 0.12, 0.09, 0.11, 0.09}</entry>
+</row>
+<row>
+  <entry>Error (-)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'Value' list. These values can be in the same units as
+  the numeric values in the 'Value' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.08, 0.11, 0.10, 0.09, 0.11}</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+      <para>
+        Area plots provide three icons to choose one of the three
+      area plot sub-types.
+      </para>
+
+
+
+      <variablelist>
+        <title>Area plot sub-type and style options.</title>
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_area_1_1.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for an area plot of the sub-type with
+	                  independent, overlapping areas.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for an area plot of the sub-type with independent,
+	            overlapping areas.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_area_1_2.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for an area plot of the sub-type with
+                      stacked areas.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for an area plot of the sub-type with
+                    stacked areas.
+		  </para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_area_1_3.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for an area plot of the sub-type with
+                          stacked, proportionate areas.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for an area plot of the sub-type with
+                    stacked, proportionate areas.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+
+	    </variablelist>
+
+
+    </sect2>
+
+    <sect2 id="sect-graphs-overview-types-bar" >
+      <title>
+        Bar Plots
+      </title>
+
+      <para>
+        Bar plots present the numeric values of categorical data with
+        the data values of each series represented as a horizontal
+        bar. Sequential data values are considered to belong to
+        different categories and are plotted along the vertical
+        axis at equally spaced intervals. The data values from
+        different series are assigned to these categories based on the
+        position of the value in the series, for example, the second
+        data value taken from each series all share one category. The
+        data values are plotted along the horizontal (X) axis as bars
+        of different lengths and positions depending on the numeric
+        content of the data value and the particular sub-type
+        chosen for the bar plot.
+      </para>
+
+      <para>
+        Bar plot sub-types provide three options for relating the
+        values from different data series. The first sub-type plots
+        each series independently in adjacent bars, each of which is
+        tied to the vertical axis and has its length determined by the
+        numeric content of the data value. The second sub-type plots
+        each series as a horizontally stacked set of bars with the
+        horizontal length of each element determined by the numeric
+        content of the data value and the position of the bar
+        determined by the position of the element in the data
+        series. For example, if the first series starts with values
+	<literal>{3.9, 4.2, ...}</literal>, the second
+        series with values 
+        <literal>{1.2, 3.5, ...}</literal>, and the
+        third series with values 
+	<literal>{3.1, 1.9, ...}</literal>, then the third bar will be
+        plotted ranging from 7.7 to 9.6, since 
+	<literal>7.7=4.2+3.5</literal> and 
+	<literal>9.6=4.2+3.5+1.9</literal>. The third sub-type plots
+        each series as a horizontally stacked set of bars scaled to
+        the total all the numeric values in that category. Using the
+        example above, the three bars would range from 0 to 0.4375,
+        from 0.4375 to 0.8020, and from 0.8020 to 1 respectively
+        because the intervals are the proportional contribution of
+        each data value to the total, i.e.
+        <literal>0.4375=4.2/(4.2+3.5+1.9)</literal>
+        for the first, 
+	<literal>0.3645...=3.5/(4.2+3.5+1.9)</literal> for the
+        second, and 
+        <literal>0.1979...=1.9/(4.2+3.5+1.9)</literal> 
+	for the third. By default, these numbers are
+        presented as percentages on the horizontal (X) axis.
+      </para>
+
+      <para>
+        Bar plots do not have any pre-defined styles.
+      </para>
+
+
+
+      <figure id="fig-graph-types-example-bar">
+        <title>An example of bar plots</title>
+              <screenshot>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="figures/graph-example-bar.png" 
+                               format="PNG"  />
+                    </imageobject>
+                    <textobject>
+                      <para>
+		        A screenshot of a table of data and three bar
+                        plots made using those data. 
+                      </para>
+                    </textobject>
+                    <caption>
+                      <para>
+	                This screenshot shows a table of data and three
+                        bar plots. The data consist of three series
+                        organized by row and starting with the words
+                        "Widgets", "Gadgets", and "Lumpets". Each of
+                        these series has values in five categories. The
+                        three graphs illustrate the three sub-types of
+                        bar plots, with the series plotted
+                        independently in the left plot, stacked in the
+                        middle plot, and proportionately stacked in the
+                        right plot.
+	              </para>
+                    </caption>
+                  </mediaobject>
+                </screenshot>
+      </figure>
+
+      <para>
+        Each series in bar plots can include three main elements and
+        two error elements, although only the value element is
+        necessary. The series can have a 'Name' element, which is a
+        single text entry used to identify the series, must have a
+        'Values' element, which is a sequence of numeric values, and
+        may have a 'Label' element, which is a sequence of text
+        entries used to identify the categories.  All of these
+        elements can be defined as references to a region of the
+        worksheet, as literally defined entries, or as formula
+        expressions which result in the correct type. The 'Label'
+        element is shared by all of the series. The legend added to a
+        bar plot identifies the different series, by default using the
+        entries of the 'Name' element of each series. The two error
+        elements include a list for errors in the positive direction
+        and one for errors in the negative direction.
+      </para>
+
+<table frame='all'><title>The data in each bar plot series</title>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
+
+<thead>
+<row>
+  <entry align="center">Element</entry>
+  <entry align="center">Type</entry>
+  <entry align="center">Example</entry>
+</row>
+</thead>
+<tbody>
+<row>
+  <entry>Name</entry>
+  <entry>A single textual element labeling the data series. These will
+    be used in the legend which may be displayed with the bar
+    plot.</entry>
+  <entry>{"Widgets"}</entry>
+</row>
+<row>
+  <entry>Value</entry>
+  <entry>A series of numeric values.</entry>
+  <entry>{1293, 2502, 3297, 1100, 2487}</entry>
+</row>
+<row>
+  <entry>Label</entry>
+  <entry>A series of textual elements labeling each
+  value. Generally, this series will have as many entries as there
+  were in the "Value" series. These entries are shared by all the
+    series in the bar plot.</entry> 
+  <entry>{"North", "South", "Central", "East", "West"}</entry>
+</row>
+<row>
+  <entry>Error (+)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'Value' list. These values can be in the same units as
+  the numeric values in the 'Value' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.10, 0.12, 0.09, 0.11, 0.09}</entry>
+</row>
+<row>
+  <entry>Error (-)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'Value' list. These values can be in the same units as
+  the numeric values in the 'Value' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.08, 0.11, 0.10, 0.09, 0.11}</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+      <para>
+        Bar plots provide three icons to choose one of the three bar
+      plot sub-types.
+      </para>
+
+
+
+      <variablelist>
+        <title>Bar plot sub-type and style options.</title>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_bar_1_1.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for a bar plot of the sub-type with
+                          independent, adjacent bars.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for a bar plot of the sub-type with
+                    independent, adjacent bars.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_bar_1_2.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for a bar plot of the sub-type with
+                          horizontally stacked bars.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for a bar plot of the sub-type with
+                    horizontally stacked bars.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_bar_1_3.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for a bar plot of the sub-type with
+                          horizontally stacked, proportionately scaled bars.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for a bar plot of the sub-type with
+                    horizontally stacked, proportionately scaled bars.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	    </variablelist>
+
+
+    </sect2>
+
+
+
+
+    <sect2 id="sect-graphs-overview-types-bubble" >
+      <title>
+        Bubble Plots
+      </title>
+
+      <para>
+        The data values from three series of equal length are plotted
+	on the Cartesian (X-Y) plane, the value from the first series
+	determining the position of the plotted symbol center along
+	the X axis, the value from the second series determining the
+	position of the plotted symbol center along the Y axis, and
+	the value of the third series determining the radius of the
+	circle plotted. Each triplet of series can be plotted with
+	different symbols but the data values of any series can be
+	shared.
+      </para>
+
+      <figure id="fig-graph-types-example-bubble">
+        <title>An example of a bubble plot</title>
+              <screenshot>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="figures/graph-example-bubble.png" 
+                               format="PNG"  />
+                    </imageobject>
+                    <textobject>
+                      <para>
+		        A screenshot of a worksheet with two series of
+                        data, each with three lists, and of the
+                        resulting bubble plot.
+                      </para>
+                    </textobject>
+                    <caption>
+                      <para>
+	                This screenshot shows a worksheet with a table
+                        of data with two series, each with three lists
+                        of numeric values. The screenshot also shows a
+                        bubble plot made from these two series.
+	              </para>
+                    </caption>
+                  </mediaobject>
+                </screenshot>
+      </figure>
+
+      <para>
+        Each series in a bubble plot can include four main components
+        and four optional error components. The series may have a
+        name, a single text value which will identify the series in
+        the graph guru and in any legend attached to the chart. The
+        series must have two lists of quantitative values, a list of X
+        values and a list of Y values, which must have an equal number
+        of elements. The series must also have a list, with the same
+        number of elements, whose values will determine the size of
+        the circles drawn at each point. The series may have lists of
+        error components for the X values or the Y values and for
+        positive or negative errors.
+      </para>
+
+<table frame='all'><title>The data in each bubble series</title>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
+
+<thead>
+<row>
+  <entry align="center">Element</entry>
+  <entry align="center">Type</entry>
+  <entry align="center">Example</entry>
+</row>
+</thead>
+<tbody>
+<row>
+  <entry>Name</entry>
+  <entry>A single textual element labeling the data series.</entry>
+  <entry>{"Series1"}</entry>
+</row>
+<row>
+  <entry>X</entry>
+  <entry>A list of numeric values, which will place the values along
+  the horizontal axis.</entry>
+  <entry>{14.5, 2.8, 11.8, 5.7, 8.2}</entry>
+</row>
+<row>
+  <entry>Y</entry>
+  <entry>A second list of numeric values, which will place the values along
+  the vertical axis.</entry>
+  <entry>{154, 29, 63, 90, 107}</entry>
+</row>
+<row>
+  <entry>Bubble</entry>
+  <entry>A series of numeric values, which will determine the size of
+  each circle drawn at the points.</entry>
+  <entry>{45, 54, 34, 23, 37}</entry>
+</row>
+<row>
+  <entry>X Error (+)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'X' list. These values can be in the same units as
+  the numeric values in the 'X' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.10, 0.12, 0.09, 0.11, 0.09}</entry>
+</row>
+<row>
+  <entry>X Error (-)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'X' list. These values can be in the same units as
+  the numeric values in the 'Value' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.08, 0.11, 0.10, 0.09, 0.11}</entry>
+</row>
+<row>
+  <entry>Y Error (+)</entry>
+  <entry>A list of numeric values with as many elements as there were
+  in the 'Y' list, and therefore in the 'X' list. These values can be
+  in the same units as the numeric values in the 'Y' list, can be
+  proportions or can be proportions multiplied by one hundred.</entry>
+  <entry>{0.09, 0.11, 0.10, 0.12, 0.09}</entry>
+</row>
+<row>
+  <entry>Y Error (-)</entry>
+  <entry>A list of numeric values with as many elements as there were
+  in the 'Y' list, and therefore in the 'X' list. These values can be
+  in the same units as the numeric values in the 'Y' list, can be
+  proportions or can be proportions multiplied by one hundred.
+</entry> 
+  <entry>{0.10, 0.09, 0.08, 0.11, 0.11}</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+      <para>
+        Bubble plots have a single icon for the plot style.
+      </para>
+
+
+
+      <variablelist>
+        <title>The icon for bubble plots</title>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_bubble_1_1.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for a bubble plot.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for a bubble plot.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+      </variablelist>
+
+
+    </sect2>
+
+    <sect2 id="sect-graphs-overview-types-coloredxy" >
+      <title>
+        Coloured XY Plots
+      </title>
+        <para>Work in Progress</para>
+    </sect2>
+
+
+
+    <sect2 id="sect-graphs-overview-types-column" >
+      <title>
+        Column Plots
+      </title>
+
+
+      <para>
+        Column plots present the numeric values of categorical data with
+        the data values of each series represented as a vertical
+        column. Sequential data values are considered to belong to
+        different categories and are plotted along the horizontal
+        axis at equally spaced intervals. The data values from
+        different series are assigned to these categories based on the
+        position of the value in the series, for example, the second
+        data value taken from each series all share one category. The
+        data values are plotted along the vertical (Y) axis as columns
+        of different heights and positions depending on the numeric
+        content of the data value and the particular sub-type
+        chosen for the column plot.
+      </para>
+
+      <para>
+        Column plot sub-types provide three options for relating the
+        values from different data series. The first sub-type plots
+        each series independently in adjacent bars, each of which is
+        tied to the horizontal axis and has its height determined by
+        the numeric content of the data value. The second sub-type
+        plots each series as a vertically stacked set of columns with
+        the vertical height of each element determined by the
+        numeric content of the data value and the position of the column
+        determined by the position of the element in the data
+        series. For example, if the first series starts with values
+	<literal>{3.9, 4.2, ...}</literal>, the second
+        series with values 
+        <literal>{1.2, 3.5, ...}</literal>, and the
+        third series with values 
+	<literal>{3.1, 1.9, ...}</literal>, then the third column will be
+        plotted ranging from 7.7 to 9.6, since 
+	<literal>7.7=4.2+3.5</literal> and 
+	<literal>9.6=4.2+3.5+1.9</literal>. The third sub-type plots
+        each series as a vertically stacked set of columns scaled to
+        the total all the numeric values in that category. Using the
+        example above, the three columns would range from 0 to 0.4375,
+        from 0.4375 to 0.8020, and from 0.8020 to 1 respectively
+        because the intervals are the proportional contribution of
+        each data value to the total, i.e.
+        <literal>0.4375=4.2/(4.2+3.5+1.9)</literal>
+        for the first, 
+	<literal>0.3645...=3.5/(4.2+3.5+1.9)</literal> for the
+        second, and 
+        <literal>0.1979...=1.9/(4.2+3.5+1.9)</literal> 
+	for the third. By default, these numbers are
+        presented as percentages on the vertical (Y) axis.
+      </para>
+
+      <para>
+        Column plots do not have any pre-defined styles.
+      </para>
+
+
+      <figure id="fig-graph-types-example-column">
+        <title>An example of column plots</title>
+              <screenshot>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="figures/graph-example-column.png" 
+                               format="PNG"  />
+                    </imageobject>
+                    <textobject>
+                      <para>
+		        A screenshot of a table of data and three column
+                        plots made using those data. 
+                      </para>
+                    </textobject>
+                    <caption>
+                      <para>
+	                This screenshot shows a table of data and three
+                        column plots. The data consist of three series
+                        organized by row and starting with the words
+                        "Widgets", "Gadgets", and "Lumpets". Each of
+                        these series has values in five categories. The
+                        three graphs illustrate the three sub-types of
+                        column plots, with the series plotted
+                        independently in the left plot, stacked in the
+                        middle plot, and proportionately stacked in the
+                        right plot.
+	              </para>
+                    </caption>
+                  </mediaobject>
+                </screenshot>
+      </figure>
+
+      <para>
+        Each series in column plots can include three main elements
+        and two error elements, although only the value element is
+        necessary. The series can have a 'Name' element, which is a
+        single text entry used to identify the series, must have a
+        'Values' element, which is a sequence of numeric values, and
+        may have a 'Label' element, which is a sequence of text
+        entries used to identify the categories.  All of these
+        elements can be defined as references to a region of the
+        worksheet, as literally defined entries, or as formula
+        expressions which result in the correct type. The 'Label'
+        element is shared by all of the series. The legend added to a
+        column plot identifies the different series, by default using
+        the entries of the 'Name' element of each series. The two
+        error elements include a list for errors in the positive
+        direction and one for errors in the negative direction.
+      </para>
+
+<table frame='all'><title>The data in each column plot series</title>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
+
+<thead>
+<row>
+  <entry align="center">Element</entry>
+  <entry align="center">Type</entry>
+  <entry align="center">Example</entry>
+</row>
+</thead>
+<tbody>
+<row>
+  <entry>Name</entry>
+  <entry>A single textual element labeling the data series. These will
+    be used in the legend which may be displayed with the column
+    plot.</entry>
+  <entry>{"Widgets"}</entry>
+</row>
+<row>
+  <entry>Value</entry>
+  <entry>A series of numeric values.</entry>
+  <entry>{1293, 2502, 3297, ,1100, 2487}</entry>
+</row>
+<row>
+  <entry>Label</entry>
+  <entry>A series of textual elements labeling each
+    value. Generally, this series will have as many entries as there
+    were in the "Value" series. These entries are shared by all the
+    series in the column plot.</entry> 
+  <entry>{"North", "South", "Central", "East", "West"}</entry>
+</row>
+<row>
+  <entry>Error (+)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'Value' list. These values can be in the same units as
+  the numeric values in the 'Value' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.10, 0.12, 0.09, 0.11, 0.09}</entry>
+</row>
+<row>
+  <entry>Error (-)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'Value' list. These values can be in the same units as
+  the numeric values in the 'Value' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.08, 0.11, 0.10, 0.09, 0.11}</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+      <para>
+        Column plots provide three icons to choose between three plot
+        sub-types. 
+      </para>
+
+
+
+      <variablelist>
+        <title>Column plot sub-type and style options.</title>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_column_1_1.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for pie plot of style with joint slices.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for pie plot of style with joint slices.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_column_1_2.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for pie plot of style with joint slices.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for pie plot of style with joint slices.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_column_1_3.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for pie plot of style with joint slices.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for pie plot of style with joint slices.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	    </variablelist>
+    </sect2>
+
+
+    <sect2 id="sect-graphs-overview-types-contour" >
+      <title>
+        Contour Plots
+      </title>
+        <para>Work in Progress</para>
+    </sect2>
+
+
+    <sect2 id="sect-graphs-overview-types-dropbar" >
+      <title>
+        DropBar Plots
+      </title>
+        <para>Work in Progress</para>
+    </sect2>
+
+
     <sect2 id="sect-graphs-overview-types-line" >
       <title>
         Line Plots
-        <inlinemediaobject>
-          <imageobject>
-            <imagedata fileref="figures/graphs-types-line.png" 
-		       valign="top" />
-          </imageobject>
-          <textobject>
-            <phrase>An icon for the line plot type.</phrase>
-          </textobject>
-        </inlinemediaobject>
       </title>
 
       <para>
@@ -1301,421 +2199,18 @@
 
     </sect2>
 
-
-
-
-
-    <sect2 id="sect-graphs-overview-types-xy" >
+    <sect2 id="sect-graphs-overview-types-minmax" >
       <title>
-        XY Scatterplots
-        <inlinemediaobject>
-          <imageobject>
-            <imagedata fileref="figures/graphs-types-xyplot.png" 
-		       valign="top"/>
-          </imageobject>
-          <textobject>
-            <phrase>An icon for the XY scatterplot plot type.</phrase>
-          </textobject>
-        </inlinemediaobject>
+        Min-Max Plots
       </title>
-
-      <para>
-         The data values of two series of equal length are plotted on
-	 the Cartesian (X-Y) plane, the value from the first series
-	 determining the position of the plotted symbol along the X
-	 axis, and the value from the second series determining the
-	 position of the plotted symbol along the Y axis. Data can be
-	 plotted as points only, with each pair of data series having
-	 different symbols, or, alternatively, sequential data pairs
-	 can be connected by a line, or, finally, both symbols and a
-	 connecting line can be used.
-      </para>
-
-      <figure id="fig-graph-types-example-xyplot">
-        <title>An example of an XY scatterplot</title>
-              <screenshot>
-                <mediaobject>
-                  <imageobject>
-                    <imagedata fileref="figures/graph-example-xyplot.png" 
-                               format="PNG"  />
-                    </imageobject>
-                    <textobject>
-                      <para>
-		        A screenshot of an XY scatterplot and the data
-                        used to generate the plot.
-                      </para>
-                    </textobject>
-                    <caption>
-                      <para>
-	                This screenshot shows a data table with two
-                        different series highlighted which are usable in
-                        a scatterplot. Each series is comprised of two
-                        lists of numeric values. The screenshot also
-                        shows the scatterplot made from these two data
-                        series.
-	              </para>
-                    </caption>
-                  </mediaobject>
-                </screenshot>
-      </figure>
-
-      <para>
-        Each series in a scatterplot can include three core components
-        and four optional error components. The series may have a
-        name, a single text value which will identify the series in
-        the <interface>Graph Guru</interface> and in any legend
-        attached to the chart. The series must have two lists of
-        quantitative values, a list of X values and a list of Y
-        values, which must have an equal number of elements. The
-        series may also contain lists of error values for each of the
-        X and Y lists with a positive and a negative component for
-        each.
-      </para>
-
-<table frame='all'><title>The data in each XY scatterplot series</title>
-<tgroup cols='3' align='left' colsep='1' rowsep='1'>
-
-<thead>
-<row>
-  <entry align="center">Element</entry>
-  <entry align="center">Type</entry>
-  <entry align="center">Example</entry>
-</row>
-</thead>
-<tbody>
-<row>
-  <entry>Name</entry>
-  <entry>A single textual element labeling the data series.</entry>
-  <entry>{"Series1"}</entry>
-</row>
-<row>
-  <entry>X</entry>
-  <entry>A list of numeric values, which will place the values along
-  the horizontal axis.</entry>
-  <entry>{14.5, 2.8, 11.8, 5.7, 8.2}</entry>
-</row>
-<row>
-  <entry>Y</entry>
-  <entry>A second list of numeric values, which will place the values along
-  the vertical axis.</entry>
-  <entry>{154, 29, 63, 90, 107}</entry>
-</row>
-<row>
-  <entry>X Error (+)</entry>
-  <entry>A list of numeric values with as many elements as there
-  were in the 'X' list. These values can be in the same units as
-  the numeric values in the 'X' list, can be proportions or can be
-  proportions multiplied by one hundred.</entry> 
-  <entry>{0.10, 0.12, 0.09, 0.11, 0.09}</entry>
-</row>
-<row>
-  <entry>X Error (-)</entry>
-  <entry>A list of numeric values with as many elements as there
-  were in the 'X' list. These values can be in the same units as
-  the numeric values in the 'Value' list, can be proportions or can be
-  proportions multiplied by one hundred.</entry> 
-  <entry>{0.08, 0.11, 0.10, 0.09, 0.11}</entry>
-</row>
-<row>
-  <entry>Y Error (+)</entry>
-  <entry>A list of numeric values with as many elements as there were
-  in the 'Y' list, and therefore in the 'X' list. These values can be
-  in the same units as the numeric values in the 'Y' list, can be
-  proportions or can be proportions multiplied by one hundred.</entry>
-  <entry>{0.09, 0.11, 0.10, 0.12, 0.09}</entry>
-</row>
-<row>
-  <entry>Y Error (-)</entry>
-  <entry>A list of numeric values with as many elements as there were
-  in the 'Y' list, and therefore in the 'X' list. These values can be
-  in the same units as the numeric values in the 'Y' list, can be
-  proportions or can be proportions multiplied by one hundred.
-</entry> 
-  <entry>{0.10, 0.09, 0.08, 0.11, 0.11}</entry>
-</row>
-</tbody>
-</tgroup>
-</table>
-
-      <para>
-        XY scatterplots provide three icons to select between
-        different style options. The plots can be rendered with
-        markers at each point, with markers at each point and a line
-        joining adjacent values in the data lists, or with a line but
-        no markers. 
-      </para>
-
-
-
-      <variablelist>
-        <title>XY scatterplot style options.</title>
-
-	      <varlistentry>
-	        <term>
-		    <inlinemediaobject>
-                      <imageobject>
-                        <imagedata fileref="figures/chart_scatter_1_1.png" />
-                      </imageobject>
-                      <textobject>
-                        <phrase>
-		          The icon for scatter plot of style with only
-                          a marker at each point.
-	                </phrase>
-                      </textobject>
-                    </inlinemediaobject>
-	        </term>
-	        <listitem>
-	          <para>
-		    The icon for scatterplot of style with only
-                    a marker at each point.
-		  </para>
-		</listitem>
-	      </varlistentry>
-
-	      <varlistentry>
-	        <term>
-		    <inlinemediaobject>
-                      <imageobject>
-                        <imagedata fileref="figures/chart_scatter_3_1.png" />
-                      </imageobject>
-                      <textobject>
-                        <phrase>
-		          The icon for scatter plot of style with a
-                          marker at each point and a line between
-                          adjacent points in the value lists.
-	                </phrase>
-                      </textobject>
-                    </inlinemediaobject>
-	        </term>
-	        <listitem>
-	          <para>
-		    The icon for scatterplot of style with a
-                          marker at each point and a line between
-                          adjacent points in the value lists.
-		  </para>
-		</listitem>
-	      </varlistentry>
-
-	      <varlistentry>
-	        <term>
-		    <inlinemediaobject>
-                      <imageobject>
-                        <imagedata fileref="figures/chart_scatter_3_2.png" />
-                      </imageobject>
-                      <textobject>
-                        <phrase>
-		          The icon for scatter plot of style with only
-                          a line between adjacent points in the value lists.
-	                </phrase>
-                      </textobject>
-                    </inlinemediaobject>
-	        </term>
-	        <listitem>
-	          <para>
-		    The icon for scatterplot of style with only
-                    a line between adjacent points in the value lists.
-		  </para>
-		</listitem>
-	      </varlistentry>
-
-      </variablelist>
-
-
+        <para>Work in Progress</para>
     </sect2>
-
-
-
-
-    <sect2 id="sect-graphs-overview-types-bubble" >
-      <title>
-        Bubble Plots
-        <inlinemediaobject>
-          <imageobject>
-            <imagedata fileref="figures/graphs-types-bubble.png" 
-		       valign="top"/>
-          </imageobject>
-          <textobject>
-            <phrase>An icon for the pie plot type.</phrase>
-          </textobject>
-        </inlinemediaobject>
-      </title>
-
-      <para>
-        The data values from three series of equal length are plotted
-	on the Cartesian (X-Y) plane, the value from the first series
-	determining the position of the plotted symbol center along
-	the X axis, the value from the second series determining the
-	position of the plotted symbol center along the Y axis, and
-	the value of the third series determining the radius of the
-	circle plotted. Each triplet of series can be plotted with
-	different symbols but the data values of any series can be
-	shared.
-      </para>
-
-      <figure id="fig-graph-types-example-bubble">
-        <title>An example of a bubble plot</title>
-              <screenshot>
-                <mediaobject>
-                  <imageobject>
-                    <imagedata fileref="figures/graph-example-bubble.png" 
-                               format="PNG"  />
-                    </imageobject>
-                    <textobject>
-                      <para>
-		        A screenshot of a worksheet with two series of
-                        data, each with three lists, and of the
-                        resulting bubble plot.
-                      </para>
-                    </textobject>
-                    <caption>
-                      <para>
-	                This screenshot shows a worksheet with a table
-                        of data with two series, each with three lists
-                        of numeric values. The screenshot also shows a
-                        bubble plot made from these two series.
-	              </para>
-                    </caption>
-                  </mediaobject>
-                </screenshot>
-      </figure>
-
-      <para>
-        Each series in a bubble plot can include four main components
-        and four optional error components. The series may have a
-        name, a single text value which will identify the series in
-        the graph guru and in any legend attached to the chart. The
-        series must have two lists of quantitative values, a list of X
-        values and a list of Y values, which must have an equal number
-        of elements. The series must also have a list, with the same
-        number of elements, whose values will determine the size of
-        the circles drawn at each point. The series may have lists of
-        error components for the X values or the Y values and for
-        positive or negative errors.
-      </para>
-
-<table frame='all'><title>The data in each bubble series</title>
-<tgroup cols='3' align='left' colsep='1' rowsep='1'>
-
-<thead>
-<row>
-  <entry align="center">Element</entry>
-  <entry align="center">Type</entry>
-  <entry align="center">Example</entry>
-</row>
-</thead>
-<tbody>
-<row>
-  <entry>Name</entry>
-  <entry>A single textual element labeling the data series.</entry>
-  <entry>{"Series1"}</entry>
-</row>
-<row>
-  <entry>X</entry>
-  <entry>A list of numeric values, which will place the values along
-  the horizontal axis.</entry>
-  <entry>{14.5, 2.8, 11.8, 5.7, 8.2}</entry>
-</row>
-<row>
-  <entry>Y</entry>
-  <entry>A second list of numeric values, which will place the values along
-  the vertical axis.</entry>
-  <entry>{154, 29, 63, 90, 107}</entry>
-</row>
-<row>
-  <entry>Bubble</entry>
-  <entry>A series of numeric values, which will determine the size of
-  each circle drawn at the points.</entry>
-  <entry>{45, 54, 34, 23, 37}</entry>
-</row>
-<row>
-  <entry>X Error (+)</entry>
-  <entry>A list of numeric values with as many elements as there
-  were in the 'X' list. These values can be in the same units as
-  the numeric values in the 'X' list, can be proportions or can be
-  proportions multiplied by one hundred.</entry> 
-  <entry>{0.10, 0.12, 0.09, 0.11, 0.09}</entry>
-</row>
-<row>
-  <entry>X Error (-)</entry>
-  <entry>A list of numeric values with as many elements as there
-  were in the 'X' list. These values can be in the same units as
-  the numeric values in the 'Value' list, can be proportions or can be
-  proportions multiplied by one hundred.</entry> 
-  <entry>{0.08, 0.11, 0.10, 0.09, 0.11}</entry>
-</row>
-<row>
-  <entry>Y Error (+)</entry>
-  <entry>A list of numeric values with as many elements as there were
-  in the 'Y' list, and therefore in the 'X' list. These values can be
-  in the same units as the numeric values in the 'Y' list, can be
-  proportions or can be proportions multiplied by one hundred.</entry>
-  <entry>{0.09, 0.11, 0.10, 0.12, 0.09}</entry>
-</row>
-<row>
-  <entry>Y Error (-)</entry>
-  <entry>A list of numeric values with as many elements as there were
-  in the 'Y' list, and therefore in the 'X' list. These values can be
-  in the same units as the numeric values in the 'Y' list, can be
-  proportions or can be proportions multiplied by one hundred.
-</entry> 
-  <entry>{0.10, 0.09, 0.08, 0.11, 0.11}</entry>
-</row>
-</tbody>
-</tgroup>
-</table>
-
-      <para>
-        Bubble plots have a single icon for the plot style.
-      </para>
-
-
-
-      <variablelist>
-        <title>The icon for bubble plots</title>
-
-	      <varlistentry>
-	        <term>
-		    <inlinemediaobject>
-                      <imageobject>
-                        <imagedata fileref="figures/chart_bubble_1_1.png" />
-                      </imageobject>
-                      <textobject>
-                        <phrase>
-		          The icon for a bubble plot.
-	                </phrase>
-                      </textobject>
-                    </inlinemediaobject>
-	        </term>
-	        <listitem>
-	          <para>
-		    The icon for a bubble plot.
-		  </para>
-		</listitem>
-	      </varlistentry>
-
-      </variablelist>
-
-
-    </sect2>
-
-
-
-
 
 
 
     <sect2 id="sect-graphs-overview-types-pie" >
       <title>
         Pie Plots
-        <inlinemediaobject>
-          <imageobject>
-            <imagedata fileref="figures/graphs-types-pie.png" 
-		       valign="top"/>
-          </imageobject>
-          <textobject>
-            <phrase>An icon for the pie plot type.</phrase>
-          </textobject>
-        </inlinemediaobject>
       </title>
 
       <para>
@@ -1873,755 +2368,12 @@
 
     </sect2>
 
-
-
-    <sect2 id="sect-graphs-overview-types-area" >
+    <sect2 id="sect-graphs-overview-types-polar" >
       <title>
-        Area Plots
-        <inlinemediaobject>
-          <imageobject>
-            <imagedata fileref="figures/graphs-types-area.png" 
-		       valign="top"/>
-          </imageobject>
-          <textobject>
-            <phrase>An icon for the area plot type.</phrase>
-          </textobject>
-        </inlinemediaobject>
+        Polar Plots
       </title>
-
-      <para>
-        Area plots present the numeric values of categorical data with
-        the data values of each series connected by a line and the
-        area below the line shaded. This type is directly analogous to
-        the line plot type. Sequential data values are considered to
-        belong to different categories and are plotted along the
-        horizontal axis at equally spaced intervals. The data
-        values from different series are assigned to these categories
-        based on the position of the value in the series, for example,
-        the second data value taken from each series all share one
-        category. The data values are plotted along the vertical (Y)
-        axis according to their numeric value and the particular
-        sub-type chosen for the area plot.
-      </para>
-
-      <para>
-        Area plot sub-types provide three options for relating the
-        values from different data series. The first sub-type plots
-        each series independently with the data value determining the
-        vertical distance between each point and the horizontal
-        axis. The second sub-type plots the series stacked on each
-        other in a cumulative fashion with the data value of each
-        series determining the vertical distance from the point to the
-        sum of the values in all the previous series. For example, if
-        the first series starts with values 
-	<literal>{3.9, 4.2, ...}</literal>, the second
-        series with values 
-        <literal>{1.2, 3.5, ...}</literal>, and the
-        third series with values 
-	<literal>{3.1, 1.9, ...}</literal>, then the
-        point value for the second element of the third series will be
-        plotted at 9.6 
-	(since <literal>9.6=4.2+3.5+1.9</literal>) along
-        the vertical axis. The third sub-type plots each series based
-        on the proportional contribution of the value to the total of
-        all values in that category. Using the example above, the
-        three values would be plotted at 0.4375, 0.8020, and 1 because
-        the intervals between zero and each of these numbers is
-        <literal>0.4375=4.2/(4.2+3.5+1.9)</literal>
-        for the first, 
-	<literal>0.3645...=3.5/(4.2+3.5+1.9)</literal> for the
-        second, and 
-        <literal>0.1979...=1.9/(4.2+3.5+1.9)</literal> 
-	for the third, although, by default, these numbers are
-        presented as percentages on the vertical (Y) axis.
-      </para>
-
-
-      <para>
-        Area plots do not have any pre-defined styles.
-      </para>
-
-
-      <figure id="fig-graph-types-example-area">
-        <title>An example of area plots</title>
-              <screenshot>
-                <mediaobject>
-                  <imageobject>
-                    <imagedata fileref="figures/graph-example-area.png" 
-                               format="PNG"  />
-                    </imageobject>
-                    <textobject>
-                      <para>
-		        A screenshot of a worksheet with a data table
-                        and a graph containing an area plot.
-                      </para>
-                    </textobject>
-                    <caption>
-                      <para>
-	                This screenshot shows a table of data and three
-                        area plots. The data consist of three series
-                        organized by row and starting with the words
-                        "Widgets", "Gadgets", and "Lumpets". Each of
-                        these series has values in five categories. The
-                        three graphs illustrate the three sub-types of
-                        area plots, with the series plotted
-                        independently in the left plot, stacked in the
-                        middle plot, and proportionately stacked in the
-                        right plot.
-	              </para>
-                    </caption>
-                  </mediaobject>
-                </screenshot>
-      </figure>
-
-      <para>
-        Each series in area plots can include three main elements and
-        two error elements, although only the value element is
-        necessary. The series can have a 'Name' element, which is a
-        single text entry used to identify the series, must have a
-        'Values' element, which is a sequence of numeric values, and
-        may have a 'Label' element, which is a sequence of text
-        entries used to identify the categories.  All of these
-        elements can be defined as references to a region of the
-        worksheet, as literally defined entries, or as formula
-        expressions which result in the correct type. The 'Label'
-        element is shared by all of the series. The legend added to an
-        area plot identifies the different series, by default using
-        the entries of the 'Name' element of each series. The two
-        error elements include a list for errors in the positive
-        direction and one for errors in the negative direction.
-      </para>
-
-<table frame='all'><title>The data in each area plot series</title>
-<tgroup cols='3' align='left' colsep='1' rowsep='1'>
-
-<thead>
-<row>
-  <entry align="center">Element</entry>
-  <entry align="center">Type</entry>
-  <entry align="center">Example</entry>
-</row>
-</thead>
-<tbody>
-<row>
-  <entry>Name</entry>
-  <entry>A single textual element labeling the data series. These will
-    be used in the legend which may be displayed with the area
-    plot.</entry> 
-  <entry>{"Widgets"}</entry>
-</row>
-<row>
-  <entry>Value</entry>
-  <entry>A series of numeric values.</entry>
-  <entry>{1293, 2502, 3297, 1100, 2487}</entry>
-</row>
-<row>
-  <entry>Label</entry>
-  <entry>A series of textual elements labeling each
-    value. Generally, this series will have as many entries as there
-    were in the "Value" series. These entries are shared by all the
-    series in the area plot.</entry> 
-  <entry>{"North", "South", "Central", "East", "West"}</entry>
-</row>
-<row>
-  <entry>Error (+)</entry>
-  <entry>A list of numeric values with as many elements as there
-  were in the 'Value' list. These values can be in the same units as
-  the numeric values in the 'Value' list, can be proportions or can be
-  proportions multiplied by one hundred.</entry> 
-  <entry>{0.10, 0.12, 0.09, 0.11, 0.09}</entry>
-</row>
-<row>
-  <entry>Error (-)</entry>
-  <entry>A list of numeric values with as many elements as there
-  were in the 'Value' list. These values can be in the same units as
-  the numeric values in the 'Value' list, can be proportions or can be
-  proportions multiplied by one hundred.</entry> 
-  <entry>{0.08, 0.11, 0.10, 0.09, 0.11}</entry>
-</row>
-</tbody>
-</tgroup>
-</table>
-
-      <para>
-        Area plots provide three icons to choose one of the three
-      area plot sub-types.
-      </para>
-
-
-
-      <variablelist>
-        <title>Area plot sub-type and style options.</title>
-	      <varlistentry>
-	        <term>
-		    <inlinemediaobject>
-                      <imageobject>
-                        <imagedata fileref="figures/chart_area_1_1.png" />
-                      </imageobject>
-                      <textobject>
-                        <phrase>
-		          The icon for an area plot of the sub-type with
-	                  independent, overlapping areas.
-	                </phrase>
-                      </textobject>
-                    </inlinemediaobject>
-	        </term>
-	        <listitem>
-	          <para>
-		    The icon for an area plot of the sub-type with independent,
-	            overlapping areas.
-		  </para>
-		</listitem>
-	      </varlistentry>
-
-	      <varlistentry>
-	        <term>
-		    <inlinemediaobject>
-                      <imageobject>
-                        <imagedata fileref="figures/chart_area_1_2.png" />
-                      </imageobject>
-                      <textobject>
-                        <phrase>
-		          The icon for an area plot of the sub-type with
-                      stacked areas.
-	                </phrase>
-                      </textobject>
-                    </inlinemediaobject>
-	        </term>
-	        <listitem>
-	          <para>
-		    The icon for an area plot of the sub-type with
-                    stacked areas.
-		  </para>
-		</listitem>
-	      </varlistentry>
-	      <varlistentry>
-	        <term>
-		    <inlinemediaobject>
-                      <imageobject>
-                        <imagedata fileref="figures/chart_area_1_3.png" />
-                      </imageobject>
-                      <textobject>
-                        <phrase>
-		          The icon for an area plot of the sub-type with
-                          stacked, proportionate areas.
-	                </phrase>
-                      </textobject>
-                    </inlinemediaobject>
-	        </term>
-	        <listitem>
-	          <para>
-		    The icon for an area plot of the sub-type with
-                    stacked, proportionate areas.
-		  </para>
-		</listitem>
-	      </varlistentry>
-
-
-	    </variablelist>
-
-
+        <para>Work in Progress</para>
     </sect2>
-
-
-    <sect2 id="sect-graphs-overview-types-bar" >
-      <title>
-        Bar Plots
-        <inlinemediaobject>
-          <imageobject>
-            <imagedata fileref="figures/graphs-types-bar.png" 
-		       valign="top"/>
-          </imageobject>
-          <textobject>
-            <phrase>An icon for the bar plot type.</phrase>
-          </textobject>
-        </inlinemediaobject>
-      </title>
-
-      <para>
-        Bar plots present the numeric values of categorical data with
-        the data values of each series represented as a horizontal
-        bar. Sequential data values are considered to belong to
-        different categories and are plotted along the vertical
-        axis at equally spaced intervals. The data values from
-        different series are assigned to these categories based on the
-        position of the value in the series, for example, the second
-        data value taken from each series all share one category. The
-        data values are plotted along the horizontal (X) axis as bars
-        of different lengths and positions depending on the numeric
-        content of the data value and the particular sub-type
-        chosen for the bar plot.
-      </para>
-
-      <para>
-        Bar plot sub-types provide three options for relating the
-        values from different data series. The first sub-type plots
-        each series independently in adjacent bars, each of which is
-        tied to the vertical axis and has its length determined by the
-        numeric content of the data value. The second sub-type plots
-        each series as a horizontally stacked set of bars with the
-        horizontal length of each element determined by the numeric
-        content of the data value and the position of the bar
-        determined by the position of the element in the data
-        series. For example, if the first series starts with values
-	<literal>{3.9, 4.2, ...}</literal>, the second
-        series with values 
-        <literal>{1.2, 3.5, ...}</literal>, and the
-        third series with values 
-	<literal>{3.1, 1.9, ...}</literal>, then the third bar will be
-        plotted ranging from 7.7 to 9.6, since 
-	<literal>7.7=4.2+3.5</literal> and 
-	<literal>9.6=4.2+3.5+1.9</literal>. The third sub-type plots
-        each series as a horizontally stacked set of bars scaled to
-        the total all the numeric values in that category. Using the
-        example above, the three bars would range from 0 to 0.4375,
-        from 0.4375 to 0.8020, and from 0.8020 to 1 respectively
-        because the intervals are the proportional contribution of
-        each data value to the total, i.e.
-        <literal>0.4375=4.2/(4.2+3.5+1.9)</literal>
-        for the first, 
-	<literal>0.3645...=3.5/(4.2+3.5+1.9)</literal> for the
-        second, and 
-        <literal>0.1979...=1.9/(4.2+3.5+1.9)</literal> 
-	for the third. By default, these numbers are
-        presented as percentages on the horizontal (X) axis.
-      </para>
-
-      <para>
-        Bar plots do not have any pre-defined styles.
-      </para>
-
-
-
-      <figure id="fig-graph-types-example-bar">
-        <title>An example of bar plots</title>
-              <screenshot>
-                <mediaobject>
-                  <imageobject>
-                    <imagedata fileref="figures/graph-example-bar.png" 
-                               format="PNG"  />
-                    </imageobject>
-                    <textobject>
-                      <para>
-		        A screenshot of a table of data and three bar
-                        plots made using those data. 
-                      </para>
-                    </textobject>
-                    <caption>
-                      <para>
-	                This screenshot shows a table of data and three
-                        bar plots. The data consist of three series
-                        organized by row and starting with the words
-                        "Widgets", "Gadgets", and "Lumpets". Each of
-                        these series has values in five categories. The
-                        three graphs illustrate the three sub-types of
-                        bar plots, with the series plotted
-                        independently in the left plot, stacked in the
-                        middle plot, and proportionately stacked in the
-                        right plot.
-	              </para>
-                    </caption>
-                  </mediaobject>
-                </screenshot>
-      </figure>
-
-      <para>
-        Each series in bar plots can include three main elements and
-        two error elements, although only the value element is
-        necessary. The series can have a 'Name' element, which is a
-        single text entry used to identify the series, must have a
-        'Values' element, which is a sequence of numeric values, and
-        may have a 'Label' element, which is a sequence of text
-        entries used to identify the categories.  All of these
-        elements can be defined as references to a region of the
-        worksheet, as literally defined entries, or as formula
-        expressions which result in the correct type. The 'Label'
-        element is shared by all of the series. The legend added to a
-        bar plot identifies the different series, by default using the
-        entries of the 'Name' element of each series. The two error
-        elements include a list for errors in the positive direction
-        and one for errors in the negative direction.
-      </para>
-
-<table frame='all'><title>The data in each bar plot series</title>
-<tgroup cols='3' align='left' colsep='1' rowsep='1'>
-
-<thead>
-<row>
-  <entry align="center">Element</entry>
-  <entry align="center">Type</entry>
-  <entry align="center">Example</entry>
-</row>
-</thead>
-<tbody>
-<row>
-  <entry>Name</entry>
-  <entry>A single textual element labeling the data series. These will
-    be used in the legend which may be displayed with the bar
-    plot.</entry>
-  <entry>{"Widgets"}</entry>
-</row>
-<row>
-  <entry>Value</entry>
-  <entry>A series of numeric values.</entry>
-  <entry>{1293, 2502, 3297, 1100, 2487}</entry>
-</row>
-<row>
-  <entry>Label</entry>
-  <entry>A series of textual elements labeling each
-  value. Generally, this series will have as many entries as there
-  were in the "Value" series. These entries are shared by all the
-    series in the bar plot.</entry> 
-  <entry>{"North", "South", "Central", "East", "West"}</entry>
-</row>
-<row>
-  <entry>Error (+)</entry>
-  <entry>A list of numeric values with as many elements as there
-  were in the 'Value' list. These values can be in the same units as
-  the numeric values in the 'Value' list, can be proportions or can be
-  proportions multiplied by one hundred.</entry> 
-  <entry>{0.10, 0.12, 0.09, 0.11, 0.09}</entry>
-</row>
-<row>
-  <entry>Error (-)</entry>
-  <entry>A list of numeric values with as many elements as there
-  were in the 'Value' list. These values can be in the same units as
-  the numeric values in the 'Value' list, can be proportions or can be
-  proportions multiplied by one hundred.</entry> 
-  <entry>{0.08, 0.11, 0.10, 0.09, 0.11}</entry>
-</row>
-</tbody>
-</tgroup>
-</table>
-
-      <para>
-        Bar plots provide three icons to choose one of the three bar
-      plot sub-types.
-      </para>
-
-
-
-      <variablelist>
-        <title>Bar plot sub-type and style options.</title>
-
-	      <varlistentry>
-	        <term>
-		    <inlinemediaobject>
-                      <imageobject>
-                        <imagedata fileref="figures/chart_bar_1_1.png" />
-                      </imageobject>
-                      <textobject>
-                        <phrase>
-		          The icon for a bar plot of the sub-type with
-                          independent, adjacent bars.
-	                </phrase>
-                      </textobject>
-                    </inlinemediaobject>
-	        </term>
-	        <listitem>
-	          <para>
-		    The icon for a bar plot of the sub-type with
-                    independent, adjacent bars.
-		  </para>
-		</listitem>
-	      </varlistentry>
-
-	      <varlistentry>
-	        <term>
-		    <inlinemediaobject>
-                      <imageobject>
-                        <imagedata fileref="figures/chart_bar_1_2.png" />
-                      </imageobject>
-                      <textobject>
-                        <phrase>
-		          The icon for a bar plot of the sub-type with
-                          horizontally stacked bars.
-	                </phrase>
-                      </textobject>
-                    </inlinemediaobject>
-	        </term>
-	        <listitem>
-	          <para>
-		    The icon for a bar plot of the sub-type with
-                    horizontally stacked bars.
-		  </para>
-		</listitem>
-	      </varlistentry>
-
-	      <varlistentry>
-	        <term>
-		    <inlinemediaobject>
-                      <imageobject>
-                        <imagedata fileref="figures/chart_bar_1_3.png" />
-                      </imageobject>
-                      <textobject>
-                        <phrase>
-		          The icon for a bar plot of the sub-type with
-                          horizontally stacked, proportionately scaled bars.
-	                </phrase>
-                      </textobject>
-                    </inlinemediaobject>
-	        </term>
-	        <listitem>
-	          <para>
-		    The icon for a bar plot of the sub-type with
-                    horizontally stacked, proportionately scaled bars.
-		  </para>
-		</listitem>
-	      </varlistentry>
-
-	    </variablelist>
-
-
-    </sect2>
-
-
-    <sect2 id="sect-graphs-overview-types-column" >
-      <title>
-        Column Plots
-        <inlinemediaobject>
-          <imageobject>
-            <imagedata fileref="figures/graphs-types-column.png" 
-		       valign="top"/>
-          </imageobject>
-          <textobject>
-            <phrase>An icon for the column plot type.</phrase>
-          </textobject>
-        </inlinemediaobject>
-      </title>
-
-
-      <para>
-        Column plots present the numeric values of categorical data with
-        the data values of each series represented as a vertical
-        column. Sequential data values are considered to belong to
-        different categories and are plotted along the horizontal
-        axis at equally spaced intervals. The data values from
-        different series are assigned to these categories based on the
-        position of the value in the series, for example, the second
-        data value taken from each series all share one category. The
-        data values are plotted along the vertical (Y) axis as columns
-        of different heights and positions depending on the numeric
-        content of the data value and the particular sub-type
-        chosen for the column plot.
-      </para>
-
-      <para>
-        Column plot sub-types provide three options for relating the
-        values from different data series. The first sub-type plots
-        each series independently in adjacent bars, each of which is
-        tied to the horizontal axis and has its height determined by
-        the numeric content of the data value. The second sub-type
-        plots each series as a vertically stacked set of columns with
-        the vertical height of each element determined by the
-        numeric content of the data value and the position of the column
-        determined by the position of the element in the data
-        series. For example, if the first series starts with values
-	<literal>{3.9, 4.2, ...}</literal>, the second
-        series with values 
-        <literal>{1.2, 3.5, ...}</literal>, and the
-        third series with values 
-	<literal>{3.1, 1.9, ...}</literal>, then the third column will be
-        plotted ranging from 7.7 to 9.6, since 
-	<literal>7.7=4.2+3.5</literal> and 
-	<literal>9.6=4.2+3.5+1.9</literal>. The third sub-type plots
-        each series as a vertically stacked set of columns scaled to
-        the total all the numeric values in that category. Using the
-        example above, the three columns would range from 0 to 0.4375,
-        from 0.4375 to 0.8020, and from 0.8020 to 1 respectively
-        because the intervals are the proportional contribution of
-        each data value to the total, i.e.
-        <literal>0.4375=4.2/(4.2+3.5+1.9)</literal>
-        for the first, 
-	<literal>0.3645...=3.5/(4.2+3.5+1.9)</literal> for the
-        second, and 
-        <literal>0.1979...=1.9/(4.2+3.5+1.9)</literal> 
-	for the third. By default, these numbers are
-        presented as percentages on the vertical (Y) axis.
-      </para>
-
-      <para>
-        Column plots do not have any pre-defined styles.
-      </para>
-
-
-      <figure id="fig-graph-types-example-column">
-        <title>An example of column plots</title>
-              <screenshot>
-                <mediaobject>
-                  <imageobject>
-                    <imagedata fileref="figures/graph-example-column.png" 
-                               format="PNG"  />
-                    </imageobject>
-                    <textobject>
-                      <para>
-		        A screenshot of a table of data and three column
-                        plots made using those data. 
-                      </para>
-                    </textobject>
-                    <caption>
-                      <para>
-	                This screenshot shows a table of data and three
-                        column plots. The data consist of three series
-                        organized by row and starting with the words
-                        "Widgets", "Gadgets", and "Lumpets". Each of
-                        these series has values in five categories. The
-                        three graphs illustrate the three sub-types of
-                        column plots, with the series plotted
-                        independently in the left plot, stacked in the
-                        middle plot, and proportionately stacked in the
-                        right plot.
-	              </para>
-                    </caption>
-                  </mediaobject>
-                </screenshot>
-      </figure>
-
-      <para>
-        Each series in column plots can include three main elements
-        and two error elements, although only the value element is
-        necessary. The series can have a 'Name' element, which is a
-        single text entry used to identify the series, must have a
-        'Values' element, which is a sequence of numeric values, and
-        may have a 'Label' element, which is a sequence of text
-        entries used to identify the categories.  All of these
-        elements can be defined as references to a region of the
-        worksheet, as literally defined entries, or as formula
-        expressions which result in the correct type. The 'Label'
-        element is shared by all of the series. The legend added to a
-        column plot identifies the different series, by default using
-        the entries of the 'Name' element of each series. The two
-        error elements include a list for errors in the positive
-        direction and one for errors in the negative direction.
-      </para>
-
-<table frame='all'><title>The data in each column plot series</title>
-<tgroup cols='3' align='left' colsep='1' rowsep='1'>
-
-<thead>
-<row>
-  <entry align="center">Element</entry>
-  <entry align="center">Type</entry>
-  <entry align="center">Example</entry>
-</row>
-</thead>
-<tbody>
-<row>
-  <entry>Name</entry>
-  <entry>A single textual element labeling the data series. These will
-    be used in the legend which may be displayed with the column
-    plot.</entry>
-  <entry>{"Widgets"}</entry>
-</row>
-<row>
-  <entry>Value</entry>
-  <entry>A series of numeric values.</entry>
-  <entry>{1293, 2502, 3297, ,1100, 2487}</entry>
-</row>
-<row>
-  <entry>Label</entry>
-  <entry>A series of textual elements labeling each
-    value. Generally, this series will have as many entries as there
-    were in the "Value" series. These entries are shared by all the
-    series in the column plot.</entry> 
-  <entry>{"North", "South", "Central", "East", "West"}</entry>
-</row>
-<row>
-  <entry>Error (+)</entry>
-  <entry>A list of numeric values with as many elements as there
-  were in the 'Value' list. These values can be in the same units as
-  the numeric values in the 'Value' list, can be proportions or can be
-  proportions multiplied by one hundred.</entry> 
-  <entry>{0.10, 0.12, 0.09, 0.11, 0.09}</entry>
-</row>
-<row>
-  <entry>Error (-)</entry>
-  <entry>A list of numeric values with as many elements as there
-  were in the 'Value' list. These values can be in the same units as
-  the numeric values in the 'Value' list, can be proportions or can be
-  proportions multiplied by one hundred.</entry> 
-  <entry>{0.08, 0.11, 0.10, 0.09, 0.11}</entry>
-</row>
-</tbody>
-</tgroup>
-</table>
-
-      <para>
-        Column plots provide three icons to choose between three plot
-        sub-types. 
-      </para>
-
-
-
-      <variablelist>
-        <title>Column plot sub-type and style options.</title>
-
-	      <varlistentry>
-	        <term>
-		    <inlinemediaobject>
-                      <imageobject>
-                        <imagedata fileref="figures/chart_column_1_1.png" />
-                      </imageobject>
-                      <textobject>
-                        <phrase>
-		          The icon for pie plot of style with joint slices.
-	                </phrase>
-                      </textobject>
-                    </inlinemediaobject>
-	        </term>
-	        <listitem>
-	          <para>
-		    The icon for pie plot of style with joint slices.
-		  </para>
-		</listitem>
-	      </varlistentry>
-
-	      <varlistentry>
-	        <term>
-		    <inlinemediaobject>
-                      <imageobject>
-                        <imagedata fileref="figures/chart_column_1_2.png" />
-                      </imageobject>
-                      <textobject>
-                        <phrase>
-		          The icon for pie plot of style with joint slices.
-	                </phrase>
-                      </textobject>
-                    </inlinemediaobject>
-	        </term>
-	        <listitem>
-	          <para>
-		    The icon for pie plot of style with joint slices.
-		  </para>
-		</listitem>
-	      </varlistentry>
-
-	      <varlistentry>
-	        <term>
-		    <inlinemediaobject>
-                      <imageobject>
-                        <imagedata fileref="figures/chart_column_1_3.png" />
-                      </imageobject>
-                      <textobject>
-                        <phrase>
-		          The icon for pie plot of style with joint slices.
-	                </phrase>
-                      </textobject>
-                    </inlinemediaobject>
-	        </term>
-	        <listitem>
-	          <para>
-		    The icon for pie plot of style with joint slices.
-		  </para>
-		</listitem>
-	      </varlistentry>
-
-	    </variablelist>
-
-
-    </sect2>
-
-
 
 
 
@@ -2629,15 +2381,6 @@
     <sect2 id="sect-graphs-overview-types-radar" >
       <title>
         Radar Plots
-        <inlinemediaobject>
-          <imageobject>
-            <imagedata fileref="figures/graphs-types-radar.png" 
-		       valign="top"/>
-          </imageobject>
-          <textobject>
-            <phrase>An icon for the radar plot type.</phrase>
-          </textobject>
-        </inlinemediaobject>
       </title>
 
       <para>
@@ -2858,15 +2601,6 @@
     <sect2 id="sect-graphs-overview-types-ring" >
       <title>
         Ring Plots
-        <inlinemediaobject>
-          <imageobject>
-            <imagedata fileref="figures/graphs-types-ring.png" 
-		       valign="top"/>
-          </imageobject>
-          <textobject>
-            <phrase>An icon for the ring plot type.</phrase>
-          </textobject>
-        </inlinemediaobject>
       </title>
 
       <para>
@@ -3062,19 +2796,250 @@
 
 	    </variablelist>
 
+    </sect2>
 
+    <sect2 id="sect-graphs-overview-types-statistics" >
+      <title>
+        Statistics Plots
+      </title>
+        <para>Work in Progress</para>
+    </sect2>
+
+
+    <sect2 id="sect-graphs-overview-types-suface" >
+      <title>
+        Surface Plots
+      </title>
+        <para>Work in Progress</para>
+    </sect2>
+
+
+
+    <sect2 id="sect-graphs-overview-types-xy" >
+      <title>
+        XY Scatterplots
+      </title>
 
       <para>
-         Several new types of plots will be added to
-         &gnum; in the near future as the
-         graphing engine is improved.
-        
-         <!-- mention here to keep in figures/ and its Makefile.am -->
-         <!-- graph_stock.png -->
-         <!-- graph_surface.png -->
+         The data values of two series of equal length are plotted on
+	 the Cartesian (X-Y) plane, the value from the first series
+	 determining the position of the plotted symbol along the X
+	 axis, and the value from the second series determining the
+	 position of the plotted symbol along the Y axis. Data can be
+	 plotted as points only, with each pair of data series having
+	 different symbols, or, alternatively, sequential data pairs
+	 can be connected by a line, or, finally, both symbols and a
+	 connecting line can be used.
       </para>
-	    
+
+      <figure id="fig-graph-types-example-xyplot">
+        <title>An example of an XY scatterplot</title>
+              <screenshot>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="figures/graph-example-xyplot.png" 
+                               format="PNG"  />
+                    </imageobject>
+                    <textobject>
+                      <para>
+		        A screenshot of an XY scatterplot and the data
+                        used to generate the plot.
+                      </para>
+                    </textobject>
+                    <caption>
+                      <para>
+	                This screenshot shows a data table with two
+                        different series highlighted which are usable in
+                        a scatterplot. Each series is comprised of two
+                        lists of numeric values. The screenshot also
+                        shows the scatterplot made from these two data
+                        series.
+	              </para>
+                    </caption>
+                  </mediaobject>
+                </screenshot>
+      </figure>
+
+      <para>
+        Each series in a scatterplot can include three core components
+        and four optional error components. The series may have a
+        name, a single text value which will identify the series in
+        the <interface>Graph Guru</interface> and in any legend
+        attached to the chart. The series must have two lists of
+        quantitative values, a list of X values and a list of Y
+        values, which must have an equal number of elements. The
+        series may also contain lists of error values for each of the
+        X and Y lists with a positive and a negative component for
+        each.
+      </para>
+
+<table frame='all'><title>The data in each XY scatterplot series</title>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
+
+<thead>
+<row>
+  <entry align="center">Element</entry>
+  <entry align="center">Type</entry>
+  <entry align="center">Example</entry>
+</row>
+</thead>
+<tbody>
+<row>
+  <entry>Name</entry>
+  <entry>A single textual element labeling the data series.</entry>
+  <entry>{"Series1"}</entry>
+</row>
+<row>
+  <entry>X</entry>
+  <entry>A list of numeric values, which will place the values along
+  the horizontal axis.</entry>
+  <entry>{14.5, 2.8, 11.8, 5.7, 8.2}</entry>
+</row>
+<row>
+  <entry>Y</entry>
+  <entry>A second list of numeric values, which will place the values along
+  the vertical axis.</entry>
+  <entry>{154, 29, 63, 90, 107}</entry>
+</row>
+<row>
+  <entry>X Error (+)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'X' list. These values can be in the same units as
+  the numeric values in the 'X' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.10, 0.12, 0.09, 0.11, 0.09}</entry>
+</row>
+<row>
+  <entry>X Error (-)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'X' list. These values can be in the same units as
+  the numeric values in the 'Value' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.08, 0.11, 0.10, 0.09, 0.11}</entry>
+</row>
+<row>
+  <entry>Y Error (+)</entry>
+  <entry>A list of numeric values with as many elements as there were
+  in the 'Y' list, and therefore in the 'X' list. These values can be
+  in the same units as the numeric values in the 'Y' list, can be
+  proportions or can be proportions multiplied by one hundred.</entry>
+  <entry>{0.09, 0.11, 0.10, 0.12, 0.09}</entry>
+</row>
+<row>
+  <entry>Y Error (-)</entry>
+  <entry>A list of numeric values with as many elements as there were
+  in the 'Y' list, and therefore in the 'X' list. These values can be
+  in the same units as the numeric values in the 'Y' list, can be
+  proportions or can be proportions multiplied by one hundred.
+</entry> 
+  <entry>{0.10, 0.09, 0.08, 0.11, 0.11}</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+      <para>
+        XY scatterplots provide three icons to select between
+        different style options. The plots can be rendered with
+        markers at each point, with markers at each point and a line
+        joining adjacent values in the data lists, or with a line but
+        no markers. 
+      </para>
+
+
+
+      <variablelist>
+        <title>XY scatterplot style options.</title>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_scatter_1_1.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for scatter plot of style with only
+                          a marker at each point.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for scatterplot of style with only
+                    a marker at each point.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_scatter_3_1.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for scatter plot of style with a
+                          marker at each point and a line between
+                          adjacent points in the value lists.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for scatterplot of style with a
+                          marker at each point and a line between
+                          adjacent points in the value lists.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_scatter_3_2.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for scatter plot of style with only
+                          a line between adjacent points in the value lists.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for scatterplot of style with only
+                    a line between adjacent points in the value lists.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+      </variablelist>
+
+
     </sect2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   </sect1>
 
 

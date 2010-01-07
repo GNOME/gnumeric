@@ -1,5 +1,9 @@
 2010-01-07 Andreas J. Guelzow <aguelzow@pyrshep>
 
+	* graphics-plots.xml: add stubs for new plot types
+
+2010-01-07 Andreas J. Guelzow <aguelzow@pyrshep>
+
 	* figures/analysistools-kaplan-ex3.png: new
 	* figures/analysistools-kaplan-groups.png: new
 	* figures/analysistools-kaplan-ex1.png: updated
