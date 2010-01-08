@@ -51,6 +51,8 @@ EXTRA_DIST = \
      analysistools-kaplan.png \
      analysistools-kaplan-ex1.png \
      analysistools-kaplan-ex2.png \
+     analysistools-kaplan-ex3.png \
+     analysistools-kaplan-groups.png \
      analysistools-kaplan-options.png \
      analysistools-moving-average-ex1.png \
      analysistools-moving-average-ex2.png \
@@ -184,6 +186,8 @@ EXTRA_DIST = \
      chart_scatter_1_1.png \
      chart_scatter_3_1.png \
      chart_scatter_3_2.png \
+     chart_surface_1.png \
+     chart_surface_2.png \
      dialog-auto-correct.png \
      dialog-autosave.png \
      dialog-fileopen-withTags.png \
@@ -249,6 +253,8 @@ EXTRA_DIST = \
      graph-example-column.png \
      graph-example-radar.png \
      graph-example-ring.png \
+     graph-example-surface-t1.png \
+     graph-example-surface-t2.png \
      graphs-types-area.png \
      graphs-types-bar.png \
      graphs-types-bubble.png \
