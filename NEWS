@@ -28,6 +28,8 @@ Andreas:
 	* Fix NPV documentation. [#22381]
 	* Fix type errors. [#606066]
 	* Add surface plot description. [#604285]
+	* Include the short functions descriptions in the documentation. 
+	  [#606354]
 
 Jean
 	* Fix import export of line type in scatter plots. [#605043]

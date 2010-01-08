@@ -1,5 +1,11 @@
 2010-01-07 Andreas J. Guelzow <aguelzow@pyrshep>
 
+	* func.defs: propagate changes and additions in 
+	  the function descriptions
+	* functions.xml: ditto
+
+2010-01-07 Andreas J. Guelzow <aguelzow@pyrshep>
+
 	* figures/chart_surface_1.png: new
 	* figures/chart_surface_2.png: new
 	* figures/graph-example-surface-t1.png: new

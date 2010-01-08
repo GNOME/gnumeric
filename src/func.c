@@ -329,6 +329,9 @@ function_dump_defs (char const *filename, int dump_type)
 					fprintf (output_file,
 						 "@FUNCTION=%s\n",
 						 name);
+					fprintf (output_file,
+						 "@SHORTDESC=%s\n",
+						 short_desc);
 					g_string_append (syntax, name);
 					g_string_append_c (syntax, '(');
 					g_free (name);

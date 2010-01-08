@@ -1,5 +1,6 @@
 @CATEGORY=Bitwise Operations
 @FUNCTION=BITAND
+@SHORTDESC=bitwise and
 @SYNTAX=BITAND(a,b)
 @DESCRIPTION=BITAND returns the bitwise and of the binary representations of its arguments.
 @{a}: non-negative integer
@@ -9,6 +10,7 @@
 
 @CATEGORY=Bitwise Operations
 @FUNCTION=BITLSHIFT
+@SHORTDESC=bit-shift to the left
 @SYNTAX=BITLSHIFT(a,n)
 @DESCRIPTION=BITLSHIFT returns the binary representations of @{a} shifted @{n} positions to the left.
 @{a}: non-negative integer
@@ -19,6 +21,7 @@
 
 @CATEGORY=Bitwise Operations
 @FUNCTION=BITOR
+@SHORTDESC=bitwise or
 @SYNTAX=BITOR(a,b)
 @DESCRIPTION=BITOR returns the bitwise or of the binary representations of its arguments.
 @{a}: non-negative integer
@@ -28,6 +31,7 @@
 
 @CATEGORY=Bitwise Operations
 @FUNCTION=BITRSHIFT
+@SHORTDESC=bit-shift to the right
 @SYNTAX=BITRSHIFT(a,n)
 @DESCRIPTION=BITRSHIFT returns the binary representations of @{a} shifted @{n} positions to the right.
 @{a}: non-negative integer
@@ -38,6 +42,7 @@
 
 @CATEGORY=Bitwise Operations
 @FUNCTION=BITXOR
+@SHORTDESC=bitwise exclusive or
 @SYNTAX=BITXOR(a,b)
 @DESCRIPTION=BITXOR returns the bitwise exclusive or of the binary representations of its arguments.
 @{a}: non-negative integer
@@ -47,6 +52,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=COMPLEX
+@SHORTDESC=a complex number of the form @{x} + @{y}@{i}.
 @SYNTAX=COMPLEX(x,y,i)
 @DESCRIPTION=.
 @{x}: real part
@@ -56,6 +62,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMABS
+@SHORTDESC=the absolute value of the complex number @{z}
 @SYNTAX=IMABS(z)
 @DESCRIPTION=.
 @{z}: a complex number
@@ -64,6 +71,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMAGINARY
+@SHORTDESC=the imaginary part of the complex number @{z}
 @SYNTAX=IMAGINARY(z)
 @DESCRIPTION=.
 @{z}: a complex number
@@ -72,6 +80,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMARCCOS
+@SHORTDESC=the complex arccosine of the complex number 
 @SYNTAX=IMARCCOS(z)
 @DESCRIPTION=IMARCCOS returns the complex arccosine of the complex number @{z}. The branch cuts are on the real axis, less than -1 and greater than 1.
 @{z}: a complex number
@@ -81,6 +90,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMARCCOSH
+@SHORTDESC=the complex hyperbolic arccosine of the complex number @{z}
 @SYNTAX=IMARCCOSH(z)
 @DESCRIPTION=IMARCCOSH returns the complex hyperbolic arccosine of the complex number @{z}. The branch cut is on the real axis, less than 1.
 @{z}: a complex number
@@ -90,6 +100,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMARCCOT
+@SHORTDESC=the complex arccotangent of the complex number @{z}
 @SYNTAX=IMARCCOT(z)
 @DESCRIPTION=.
 @{z}: a complex number
@@ -98,6 +109,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMARCCOTH
+@SHORTDESC=the complex hyperbolic arccotangent of the complex number @{z}
 @SYNTAX=IMARCCOTH(z)
 @DESCRIPTION=.
 @{z}: a complex number
@@ -106,6 +118,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMARCCSC
+@SHORTDESC=the complex arccosecant of the complex number @{z}
 @SYNTAX=IMARCCSC(z)
 @DESCRIPTION=.
 @{z}: a complex number
@@ -114,6 +127,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMARCCSCH
+@SHORTDESC=the complex hyperbolic arccosecant of the complex number @{z}
 @SYNTAX=IMARCCSCH(z)
 @DESCRIPTION=.
 @{z}: a complex number
@@ -122,6 +136,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMARCSEC
+@SHORTDESC=the complex arcsecant of the complex number @{z}
 @SYNTAX=IMARCSEC(z)
 @DESCRIPTION=.
 @{z}: a complex number
@@ -130,6 +145,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMARCSECH
+@SHORTDESC=the complex hyperbolic arcsecant of the complex number @{z}
 @SYNTAX=IMARCSECH(z)
 @DESCRIPTION=.
 @{z}: a complex number
@@ -138,6 +154,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMARCSIN
+@SHORTDESC=the complex arcsine of the complex number @{z}
 @SYNTAX=IMARCSIN(z)
 @DESCRIPTION=IMARCSIN returns the complex arcsine of the complex number @{z}. The branch cuts are on the real axis, less than -1 and greater than 1.
 @{z}: a complex number
@@ -147,6 +164,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMARCSINH
+@SHORTDESC=the complex hyperbolic arcsine of the complex number @{z}
 @SYNTAX=IMARCSINH(z)
 @DESCRIPTION=IMARCSINH returns the complex hyperbolic arcsine of the complex number @{z}.  The branch cuts are on the imaginary axis, below -i and above i.
 @{z}: a complex number
@@ -156,6 +174,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMARCTAN
+@SHORTDESC=the complex arctangent of the complex number 
 @SYNTAX=IMARCTAN(z)
 @DESCRIPTION=IMARCTAN returns the complex arctangent of the complex number @{z}. The branch cuts are on the imaginary axis, below -i and above i.
 @{z}: a complex number
@@ -165,6 +184,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMARCTANH
+@SHORTDESC=the complex hyperbolic arctangent of the complex number @{z}
 @SYNTAX=IMARCTANH(z)
 @DESCRIPTION=IMARCTANH returns the complex hyperbolic arctangent of the complex number @{z}. The branch cuts are on the real axis, less than -1 and greater than 1.
 @{z}: a complex number
@@ -174,6 +194,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMARGUMENT
+@SHORTDESC=the argument theta of the complex number @{z} 
 @SYNTAX=IMARGUMENT(z)
 @DESCRIPTION=The argument theta of a complex number is its angle in radians from the real axis.
 @{z}: a complex number
@@ -182,6 +203,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMCONJUGATE
+@SHORTDESC=the complex conjugate of the complex number @{z}
 @SYNTAX=IMCONJUGATE(z)
 @DESCRIPTION=.
 @{z}: a complex number
@@ -190,6 +212,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMCOS
+@SHORTDESC=the cosine of the complex number @{z}
 @SYNTAX=IMCOS(z)
 @DESCRIPTION=.
 @{z}: a complex number
@@ -198,6 +221,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMCOSH
+@SHORTDESC=the hyperbolic cosine of the complex number @{z}
 @SYNTAX=IMCOSH(z)
 @DESCRIPTION=.
 @{z}: a complex number
@@ -206,6 +230,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMCOT
+@SHORTDESC=the cotangent of the complex number @{z}
 @SYNTAX=IMCOT(z)
 @DESCRIPTION=cotz = cosz/sinz.
 @{z}: a complex number
@@ -215,6 +240,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMCOTH
+@SHORTDESC=the hyperbolic cotangent of the complex number @{z}
 @SYNTAX=IMCOTH(z)
 @DESCRIPTION=.
 @{z}: a complex number
@@ -223,6 +249,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMCSC
+@SHORTDESC=the cosecant of the complex number @{z}
 @SYNTAX=IMCSC(z)
 @DESCRIPTION=cscz = 1/sinz.
 @{z}: a complex number
@@ -232,6 +259,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMCSCH
+@SHORTDESC=the hyperbolic cosecant of the complex number @{z}
 @SYNTAX=IMCSCH(z)
 @DESCRIPTION=.
 @{z}: a complex number
@@ -240,6 +268,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMDIV
+@SHORTDESC=the quotient of two complex numbers @{z1}/@{z2}
 @SYNTAX=IMDIV(z1,z2)
 @DESCRIPTION=.
 @{z1}: a complex number
@@ -249,6 +278,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMEXP
+@SHORTDESC=the exponential of the complex number @{z}
 @SYNTAX=IMEXP(z)
 @DESCRIPTION=.
 @{z}: a complex number
@@ -257,6 +287,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMINV
+@SHORTDESC=the reciprocal, or inverse, of the complex number @{z}
 @SYNTAX=IMINV(z)
 @DESCRIPTION=.
 @{z}: a complex number
@@ -264,6 +295,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMLN
+@SHORTDESC=the natural logarithm of the complex number @{z}
 @SYNTAX=IMLN(z)
 @DESCRIPTION=The result will have an imaginary part between -π and +π.
 The natural logarithm is not uniquely defined on complex numbers. You may need to add or subtract an even multiple of π to the imaginary part.
@@ -274,6 +306,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Complex
 @FUNCTION=IMLOG10
+@SHORTDESC=the base-10 logarithm of the complex number @{z}
 @SYNTAX=IMLOG10(z)
 @DESCRIPTION=.
 @{z}: a complex number
@@ -282,6 +315,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Complex
 @FUNCTION=IMLOG2
+@SHORTDESC=the base-2 logarithm of the complex number @{z}
 @SYNTAX=IMLOG2(z)
 @DESCRIPTION=.
 @{z}: a complex number
@@ -290,6 +324,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Complex
 @FUNCTION=IMNEG
+@SHORTDESC=the negative of the complex number @{z}
 @SYNTAX=IMNEG(z)
 @DESCRIPTION=.
 @{z}: a complex number
@@ -297,6 +332,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Complex
 @FUNCTION=IMPOWER
+@SHORTDESC= the complex number @{z1} raised to the @{z2}th power
 @SYNTAX=IMPOWER(z1,z2)
 @DESCRIPTION=.
 @{z1}: a complex number
@@ -306,6 +342,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Complex
 @FUNCTION=IMPRODUCT
+@SHORTDESC=the product of the given complex numbers.
 @SYNTAX=IMPRODUCT(z1,z2)
 @DESCRIPTION=.
 @{z1}: a complex number
@@ -315,6 +352,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Complex
 @FUNCTION=IMREAL
+@SHORTDESC=the real part of the complex number @{z}
 @SYNTAX=IMREAL(z)
 @DESCRIPTION=.
 @{z}: a complex number
@@ -323,6 +361,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Complex
 @FUNCTION=IMSEC
+@SHORTDESC=the secant of the complex number @{z}
 @SYNTAX=IMSEC(z)
 @DESCRIPTION=secz = 1/cosz.
 @{z}: a complex number
@@ -332,6 +371,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Complex
 @FUNCTION=IMSECH
+@SHORTDESC=the hyperbolic secant of the complex number @{z}
 @SYNTAX=IMSECH(z)
 @DESCRIPTION=.
 @{z}: a complex number
@@ -340,6 +380,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Complex
 @FUNCTION=IMSIN
+@SHORTDESC=the sine of the complex number @{z}
 @SYNTAX=IMSIN(z)
 @DESCRIPTION=.
 @{z}: a complex number
@@ -348,6 +389,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Complex
 @FUNCTION=IMSINH
+@SHORTDESC=the hyperbolic sine of the complex number @{z}
 @SYNTAX=IMSINH(z)
 @DESCRIPTION=.
 @{z}: a complex number
@@ -356,6 +398,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Complex
 @FUNCTION=IMSQRT
+@SHORTDESC=the square root of the complex number @{z}
 @SYNTAX=IMSQRT(z)
 @DESCRIPTION=.
 @{z}: a complex number
@@ -364,6 +407,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Complex
 @FUNCTION=IMSUB
+@SHORTDESC=the difference of two complex numbers.
 @SYNTAX=IMSUB(z1,z2)
 @DESCRIPTION=.
 @{z1}: a complex number
@@ -373,6 +417,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Complex
 @FUNCTION=IMSUM
+@SHORTDESC=the sum of the given complex numbers
 @SYNTAX=IMSUM(z1,z2)
 @DESCRIPTION=.
 @{z1}: a complex number
@@ -382,6 +427,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Complex
 @FUNCTION=IMTAN
+@SHORTDESC=the tangent of the complex number @{z}
 @SYNTAX=IMTAN(z)
 @DESCRIPTION=.
 @{z}: a complex number
@@ -390,6 +436,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Complex
 @FUNCTION=IMTANH
+@SHORTDESC=the hyperbolic tangent of the complex number @{z}
 @SYNTAX=IMTANH(z)
 @DESCRIPTION=.
 @{z}: a complex number
@@ -398,6 +445,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Database
 @FUNCTION=DAVERAGE
+@SHORTDESC=average of the values in @{field} in @{database} belonging to records that match @{criteria}
 @SYNTAX=DAVERAGE(database,field,criteria)
 @DESCRIPTION=@{database} is a range in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.
 @{database}: a range in which rows of related information are records and columns of data are fields
@@ -410,6 +458,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Database
 @FUNCTION=DCOUNT
+@SHORTDESC=count of numbers in @{field} in @{database} belonging to records that match @{criteria}
 @SYNTAX=DCOUNT(database,field,criteria)
 @DESCRIPTION=@{database} is a range in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.
 @{database}: a range in which rows of related information are records and columns of data are fields
@@ -422,6 +471,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Database
 @FUNCTION=DCOUNTA
+@SHORTDESC=count of cells with data in @{field} in @{database} belonging to records that match @{criteria}
 @SYNTAX=DCOUNTA(database,field,criteria)
 @DESCRIPTION=@{database} is a range in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.
 @{database}: a range in which rows of related information are records and columns of data are fields
@@ -434,6 +484,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Database
 @FUNCTION=DGET
+@SHORTDESC=a value from @{field} in @{database} belonging to records that match @{criteria}
 @SYNTAX=DGET(database,field,criteria)
 @DESCRIPTION=@{database} is a range in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.
 @{database}: a range in which rows of related information are records and columns of data are fields
@@ -448,6 +499,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Database
 @FUNCTION=DMAX
+@SHORTDESC=largest number in @{field} in @{database} belonging to a record that match @{criteria}
 @SYNTAX=DMAX(database,field,criteria)
 @DESCRIPTION=@{database} is a range in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.
 @{database}: a range in which rows of related information are records and columns of data are fields
@@ -460,6 +512,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Database
 @FUNCTION=DMIN
+@SHORTDESC=smallest number in @{field} in @{database} belonging to a record that match @{criteria}
 @SYNTAX=DMIN(database,field,criteria)
 @DESCRIPTION=@{database} is a range in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.
 @{database}: a range in which rows of related information are records and columns of data are fields
@@ -472,6 +525,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Database
 @FUNCTION=DPRODUCT
+@SHORTDESC=product of all values in @{field} in @{database} belonging to records that match @{criteria}
 @SYNTAX=DPRODUCT(database,field,criteria)
 @DESCRIPTION=@{database} is a range in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.
 @{database}: a range in which rows of related information are records and columns of data are fields
@@ -484,6 +538,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Database
 @FUNCTION=DSTDEV
+@SHORTDESC=sample standard deviation of the values in @{field} in @{database} belonging to records that match @{criteria}
 @SYNTAX=DSTDEV(database,field,criteria)
 @DESCRIPTION=@{database} is a range in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.
 @{database}: a range in which rows of related information are records and columns of data are fields
@@ -496,6 +551,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Database
 @FUNCTION=DSTDEVP
+@SHORTDESC=standard deviation of the population of values in @{field} in @{database} belonging to records that match @{criteria}
 @SYNTAX=DSTDEVP(database,field,criteria)
 @DESCRIPTION=@{database} is a range in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.
 @{database}: a range in which rows of related information are records and columns of data are fields
@@ -508,6 +564,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Database
 @FUNCTION=DSUM
+@SHORTDESC=sum of the values in @{field} in @{database} belonging to records that match @{criteria}
 @SYNTAX=DSUM(database,field,criteria)
 @DESCRIPTION=@{database} is a range in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.
 @{database}: a range in which rows of related information are records and columns of data are fields
@@ -520,6 +577,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Database
 @FUNCTION=DVAR
+@SHORTDESC=sample variance of the values in @{field} in @{database} belonging to records that match @{criteria}
 @SYNTAX=DVAR(database,field,criteria)
 @DESCRIPTION=@{database} is a range in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.
 @{database}: a range in which rows of related information are records and columns of data are fields
@@ -532,6 +590,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Database
 @FUNCTION=DVARP
+@SHORTDESC=variance of the population of values in @{field} in @{database} belonging to records that match @{criteria}
 @SYNTAX=DVARP(database,field,criteria)
 @DESCRIPTION=@{database} is a range in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.
 @{database}: a range in which rows of related information are records and columns of data are fields
@@ -544,6 +603,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Database
 @FUNCTION=GETPIVOTDATA
+@SHORTDESC=summary data from a pivot table
 @SYNTAX=GETPIVOTDATA(pivot_table,field_name)
 @DESCRIPTION=.
 @{pivot_table}: cell range containing the pivot table
@@ -552,6 +612,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=ASCENSIONTHURSDAY
+@SHORTDESC=Ascension Thursday in the Gregorian calendar according to the Roman rite of the Christian Church
 @SYNTAX=ASCENSIONTHURSDAY(year)
 @DESCRIPTION=.
 @{year}: year between 1582 and 9956, defaults to the year of the next Ascension Thursday
@@ -560,6 +621,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=ASHWEDNESDAY
+@SHORTDESC=Ash Wednesday in the Gregorian calendar according to the Roman rite of the Christian Church
 @SYNTAX=ASHWEDNESDAY(year)
 @DESCRIPTION=.
 @{year}: year between 1582 and 9956, defaults to the year of the next Ash Wednesday
@@ -568,6 +630,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=DATE
+@SHORTDESC=create a date serial value
 @SYNTAX=DATE(year,month,day)
 @DESCRIPTION=The DATE function creates date serial values.  1-Jan-1900 is serial value 1, 2-Jan-1900 is serial value 2, and so on.  For compatibility reasons, a serial value is reserved for the non-existing date 29-Feb-1900.
 @{year}: year of date
@@ -580,6 +643,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=DATE2UNIX
+@SHORTDESC=translate a date serial value to a Unix timestamp
 @SYNTAX=DATE2UNIX(d)
 @DESCRIPTION=The DATE2UNIX function translates a date serial values into a Unix timestamp.
 @{d}: date serial value
@@ -588,6 +652,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=DATEDIF
+@SHORTDESC=difference between dates
 @SYNTAX=DATEDIF(start_date,end_date,interval)
 @DESCRIPTION=DATEDIF returns the distance from @{start_date} to @{end_date} according to the unit specified by @{interval}.
 @{start_date}: starting date serial value
@@ -601,6 +666,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=DATEVALUE
+@SHORTDESC=the date part of a date and time serial value
 @SYNTAX=DATEVALUE(serial)
 @DESCRIPTION=DATEVALUE returns the date serial value part of a date and time serial value.
 @{serial}: date and time serial value
@@ -609,6 +675,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=DAY
+@SHORTDESC=the day-of-month part of a date serial value
 @SYNTAX=DAY(date)
 @DESCRIPTION=The DAY function returns the day-of-month part of @{date}.
 @{date}: date serial value
@@ -617,6 +684,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=DAYS
+@SHORTDESC=difference between dates in days
 @SYNTAX=DAYS(start_date,end_date)
 @DESCRIPTION=DAYS returns the positive or negative number of days from @{start_date} to @{end_date}.
 @{start_date}: starting date serial value
@@ -626,6 +694,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=DAYS360
+@SHORTDESC=days between dates
 @SYNTAX=DAYS360(start_date,end_date,method)
 @DESCRIPTION=DAYS360 returns the number of days from @{start_date} to @{end_date}.
 @{start_date}: starting date serial value
@@ -639,6 +708,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=EASTERSUNDAY
+@SHORTDESC=Easter Sunday in the Gregorian calendar according to the Roman rite of the Christian Church
 @SYNTAX=EASTERSUNDAY(year)
 @DESCRIPTION=.
 @{year}: year between 1582 and 9956, defaults to the year of the next Easter Sunday
@@ -647,6 +717,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=EDATE
+@SHORTDESC=adjust a date by a number of months
 @SYNTAX=EDATE(date,months)
 @DESCRIPTION=EDATE returns @{date} moved forward or backward the number of months specified by @{months}.
 @{date}: date serial value
@@ -656,6 +727,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=EOMONTH
+@SHORTDESC=end of month
 @SYNTAX=EOMONTH(date,months)
 @DESCRIPTION=EOMONTH returns the date serial value of the end of the month specified by @{date} adjusted forward or backward the number of months specified by @{months}.
 @{date}: date serial value
@@ -665,6 +737,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=GOODFRIDAY
+@SHORTDESC=Good Friday in the Gregorian calendar according to the Roman rite of the Christian Church
 @SYNTAX=GOODFRIDAY(year)
 @DESCRIPTION=.
 @{year}: year between 1582 and 9956, defaults to the year of the next Good Friday
@@ -673,30 +746,37 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=HDATE
+@SHORTDESC=Hebrew date
 @SEEALSO=HDATE_HEB,DATE
 
 @CATEGORY=Date/Time
 @FUNCTION=HDATE_DAY
+@SHORTDESC=Hebrew day of Gregorian date
 @SEEALSO=HDATE_JULIAN
 
 @CATEGORY=Date/Time
 @FUNCTION=HDATE_HEB
+@SHORTDESC=Hebrew date in Hebrew
 @SEEALSO=HDATE,DATE
 
 @CATEGORY=Date/Time
 @FUNCTION=HDATE_JULIAN
+@SHORTDESC=Julian day number for given Gregorian date
 @SEEALSO=HDATE
 
 @CATEGORY=Date/Time
 @FUNCTION=HDATE_MONTH
+@SHORTDESC=Hebrew month of Gregorian date
 @SEEALSO=HDATE_JULIAN
 
 @CATEGORY=Date/Time
 @FUNCTION=HDATE_YEAR
+@SHORTDESC=Hebrew year of Gregorian date
 @SEEALSO=HDATE_JULIAN
 
 @CATEGORY=Date/Time
 @FUNCTION=HOUR
+@SHORTDESC=compute hour part of fractional day
 @SYNTAX=HOUR(time)
 @DESCRIPTION=The HOUR function computes the hour part of the fractional day given by @{time}.
 @{time}: time of day as fractional day.
@@ -705,6 +785,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=ISOWEEKNUM
+@SHORTDESC=ISO week number
 @SYNTAX=ISOWEEKNUM(date)
 @DESCRIPTION=ISOWEEKNUM calculates the week number according to the ISO 8601 standard.  Weeks start on Mondays and week 1 contains the first Thursday of the year.
 @{date}: date serial value
@@ -714,6 +795,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=ISOYEAR
+@SHORTDESC=year corresponding to the ISO week number
 @SYNTAX=ISOYEAR(date)
 @DESCRIPTION=ISOYEAR calculates the year to go with week number according to the ISE 8601 standard.
 @{date}: date serial value
@@ -723,6 +805,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=MINUTE
+@SHORTDESC=compute minute part of fractional day
 @SYNTAX=MINUTE(time)
 @DESCRIPTION=The MINUTE function computes the minute part of the fractional day given by @{time}.
 @{time}: time of day as fractional day.
@@ -731,6 +814,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=MONTH
+@SHORTDESC=the month part of a date serial value
 @SYNTAX=MONTH(date)
 @DESCRIPTION=The MONTH function returns the month part of @{date}.
 @{date}: date serial value
@@ -739,6 +823,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=NETWORKDAYS
+@SHORTDESC=number of workdays in range
 @SYNTAX=NETWORKDAYS(start_date,end_date,holidays)
 @DESCRIPTION=NETWORKDAYS calculates the number of days from @{start_date} to @{end_date} skipping weekends and @{holidays} in the process.
 @{start_date}: starting date serial value
@@ -749,6 +834,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=NOW
+@SHORTDESC=the date and time serial value of the current time
 @SYNTAX=NOW()
 @DESCRIPTION=The NOW function returns the date and time serial value of the moment it is computed.  Recomputing later will produce a different value.
 
@@ -756,6 +842,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=PENTECOSTSUNDAY
+@SHORTDESC=Pentecost Sunday in the Gregorian calendar according to the Roman rite of the Christian Church
 @SYNTAX=PENTECOSTSUNDAY(year)
 @DESCRIPTION=.
 @{year}: year between 1582 and 9956, defaults to the year of the next Pentecost Sunday
@@ -764,6 +851,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=SECOND
+@SHORTDESC=compute seconds part of fractional day
 @SYNTAX=SECOND(time)
 @DESCRIPTION=The SECOND function computes the seconds part of the fractional day given by @{time}.
 @{time}: time of day as fractional day.
@@ -772,6 +860,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=TIME
+@SHORTDESC=create a time serial value
 @SYNTAX=TIME(hour,minute,second)
 @DESCRIPTION=The TIME function computes the fractional day between midnight at the time given by @{hour}, @{minute}, and @{second}.
 @{hour}: hour of the day
@@ -782,6 +871,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=TIMEVALUE
+@SHORTDESC=the time part of a date and time serial value
 @SYNTAX=TIMEVALUE(serial)
 @DESCRIPTION=TIMEVALUE returns the time-of-day part of a date and time serial value.
 @{serial}: date and time serial value
@@ -790,6 +880,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=TODAY
+@SHORTDESC=the date serial value of today
 @SYNTAX=TODAY()
 @DESCRIPTION=The TODAY function returns the date serial value of the day it is computed.  Recomputing on a later date will produce a different value.
 
@@ -797,6 +888,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=UNIX2DATE
+@SHORTDESC=create a date value from a Unix timestamp
 @SYNTAX=UNIX2DATE(t)
 @DESCRIPTION=The UNIT2DATE function translates Unix timestamps into date serial values.  Unix timestamps are number of seconds since Midnight 1-Jan-1900.
 @{t}: Unix time stamp
@@ -805,6 +897,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=WEEKDAY
+@SHORTDESC=day-of-week
 @SYNTAX=WEEKDAY(date,method)
 @DESCRIPTION=The WEEKDAY function returns the day-of-week of @{date}.  The value of @{method} determines how days are numbered.
 @{date}: date serial value
@@ -817,6 +910,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=WEEKNUM
+@SHORTDESC=ISO week number
 @SYNTAX=WEEKNUM(date,method)
 @DESCRIPTION=WEEKNUM calculates the week number according to @{method} which defaults to 1.
 @{date}: date serial value
@@ -829,6 +923,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=WORKDAY
+@SHORTDESC=add working days
 @SYNTAX=WORKDAY(date,days,holidays)
 @DESCRIPTION=WORKDAY adjusts @{date} by @{days} skipping over weekends and @{holidays} in the process.
 @{date}: date serial value
@@ -840,6 +935,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=YEAR
+@SHORTDESC=the year part of a date serial value
 @SYNTAX=YEAR(date)
 @DESCRIPTION=The YEAR function returns the year part of @{date}.
 @{date}: date serial value
@@ -848,6 +944,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=YEARFRAC
+@SHORTDESC=fractional number of years between dates
 @SYNTAX=YEARFRAC(start_date,end_date,basis)
 @DESCRIPTION=YEARFRAC calculates the number of days from @{start_date} to @{end_date} according to the calendar specified by @{basis}, which defaults to 0, and expresses the result as a fractional number of years.
 @{start_date}: starting date serial value
@@ -863,6 +960,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Engineering
 @FUNCTION=BASE
+@SHORTDESC=string of digits representing the number @{n} in base @{b}
 @SYNTAX=BASE(n,b,length)
 @DESCRIPTION=BASE converts @{n} to its string representation in base @{b}. Leading zeroes will be added to reach the minimum length given by @{length}.
 @{n}: integer
@@ -873,6 +971,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Engineering
 @FUNCTION=BESSELI
+@SHORTDESC=Modified Bessel function of the first kind of order @{α} at @{x}
 @SYNTAX=BESSELI(X,α)
 @DESCRIPTION=.
 @{X}: number
@@ -882,6 +981,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Engineering
 @FUNCTION=BESSELJ
+@SHORTDESC=Bessel function of the first kind of order @{α} at @{x}
 @SYNTAX=BESSELJ(X,α)
 @DESCRIPTION=.
 @{X}: number
@@ -891,6 +991,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Engineering
 @FUNCTION=BESSELK
+@SHORTDESC=Modified Bessel function of the second kind of order @{α} at @{x}
 @SYNTAX=BESSELK(X,α)
 @DESCRIPTION=.
 @{X}: number
@@ -900,6 +1001,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Engineering
 @FUNCTION=BESSELY
+@SHORTDESC=Bessel function of the second kind of order @{α} at @{x}
 @SYNTAX=BESSELY(X,α)
 @DESCRIPTION=.
 @{X}: number
@@ -909,10 +1011,12 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Engineering
 @FUNCTION=BIN2DEC
+@SHORTDESC=decimal representation of the binary number @{x}
 @SEEALSO=DEC2BIN,BIN2OCT,BIN2HEX
 
 @CATEGORY=Engineering
 @FUNCTION=BIN2HEX
+@SHORTDESC= hexadecimal representation of the binary number @{x}
 @SYNTAX=BIN2HEX(x,places)
 @DESCRIPTION=If @{places} is given, BIN2HEX pads the result with zeros to achieve exactly @{places} digits. If this is not possible, BIN2HEX returns #NUM!
 @{x}: a binary number, either as a string or as a number involving only the digits 0 and 1
@@ -922,6 +1026,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Engineering
 @FUNCTION=BIN2OCT
+@SHORTDESC= octal representation of the binary number @{x}
 @SYNTAX=BIN2OCT(x,places)
 @DESCRIPTION=If @{places} is given, BIN2OCT pads the result with zeros to achieve exactly @{places} digits. If this is not possible, BIN2OCT returns #NUM!
 @{x}: a binary number, either as a string or as a number involving only the digits 0 and 1
@@ -931,6 +1036,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Engineering
 @FUNCTION=CONVERT
+@SHORTDESC=a converted measurement
 @SYNTAX=CONVERT(x,from,to)
 @DESCRIPTION=CONVERT returns a conversion from one measurement system to another. @{x} is a value in @{from} units that is to be converted into @{to} units.
 @{x}: number
@@ -1032,6 +1138,7 @@ For metric units any of the following prefixes can be used:
 
 @CATEGORY=Engineering
 @FUNCTION=DEC2BIN
+@SHORTDESC= binary representation of the decimal number @{x}
 @SYNTAX=DEC2BIN(x,places)
 @DESCRIPTION=If @{places} is given, DEC2BIN pads the result with zeros to achieve exactly @{places} digits. If this is not possible, DEC2BIN returns #NUM!
 @{x}: integer
@@ -1041,6 +1148,7 @@ For metric units any of the following prefixes can be used:
 
 @CATEGORY=Engineering
 @FUNCTION=DEC2HEX
+@SHORTDESC= hexadecimal representation of the decimal number @{x}
 @SYNTAX=DEC2HEX(x,places)
 @DESCRIPTION=If @{places} is given, DEC2HEX pads the result with zeros to achieve exactly @{places} digits. If this is not possible, DEC2HEX returns #NUM!
 @{x}: integer
@@ -1050,6 +1158,7 @@ For metric units any of the following prefixes can be used:
 
 @CATEGORY=Engineering
 @FUNCTION=DEC2OCT
+@SHORTDESC= octal representation of the decimal number @{x}
 @SYNTAX=DEC2OCT(x,places)
 @DESCRIPTION=If @{places} is given, DEC2OCT pads the result with zeros to achieve exactly @{places} digits. If this is not possible, DEC2OCT returns #NUM!
 @{x}: integer
@@ -1059,10 +1168,12 @@ For metric units any of the following prefixes can be used:
 
 @CATEGORY=Engineering
 @FUNCTION=DECIMAL
+@SHORTDESC=decimal representation of @{x}
 @SEEALSO=BASE
 
 @CATEGORY=Engineering
 @FUNCTION=DELTA
+@SHORTDESC=Kronecker delta function
 @SYNTAX=DELTA(x0,x1)
 @DESCRIPTION=DELTA  returns 1 if  @{x1} = @{x0} and 0 otherwise.
 @{x0}: number
@@ -1073,6 +1184,7 @@ For metric units any of the following prefixes can be used:
 
 @CATEGORY=Engineering
 @FUNCTION=ERF
+@SHORTDESC=Gauss error function
 @SYNTAX=ERF(lower,upper)
 @DESCRIPTION=ERF returns 2/sqrt(π)* integral from @{lower} to @{upper} of exp(-t*t) dt
 @{lower}: lower limit of the integral, defaults to 0
@@ -1082,6 +1194,7 @@ For metric units any of the following prefixes can be used:
 
 @CATEGORY=Engineering
 @FUNCTION=ERFC
+@SHORTDESC=Complementary Gauss error function
 @SYNTAX=ERFC(x)
 @DESCRIPTION=ERFC returns 2/sqrt(π)* integral from @{x} to ∞ of exp(-t*t) dt
 @{x}: number
@@ -1090,6 +1203,7 @@ For metric units any of the following prefixes can be used:
 
 @CATEGORY=Engineering
 @FUNCTION=GESTEP
+@SHORTDESC=Step function with step at @{x1} evaluated at @{x0}
 @SYNTAX=GESTEP(x0,x1)
 @DESCRIPTION=GESTEP returns 1 if  @{x1} ≤ @{x0} and 0 otherwise.
 @{x0}: number
@@ -1100,6 +1214,7 @@ For metric units any of the following prefixes can be used:
 
 @CATEGORY=Engineering
 @FUNCTION=HEX2BIN
+@SHORTDESC=binary representation of the hexadecimalal number @{x}
 @SYNTAX=HEX2BIN(x,places)
 @DESCRIPTION=If @{places} is given, HEX2BIN pads the result with zeros to achieve exactly @{places} digits. If this is not possible, HEX2BIN returns #NUM!
 @{x}: a hexadecimal number, either as a string or as a number if no A to F are needed
@@ -1109,10 +1224,12 @@ For metric units any of the following prefixes can be used:
 
 @CATEGORY=Engineering
 @FUNCTION=HEX2DEC
+@SHORTDESC=decimal representation of the hexadecimal number @{x}
 @SEEALSO=DEC2HEX,HEX2BIN,HEX2OCT
 
 @CATEGORY=Engineering
 @FUNCTION=HEX2OCT
+@SHORTDESC=octal representation of the hexadecimal number @{x}
 @SYNTAX=HEX2OCT(x,places)
 @DESCRIPTION=If @{places} is given, HEX2OCT pads the result with zeros to achieve exactly @{places} digits. If this is not possible, HEX2OCT returns #NUM!
 @{x}: a hexadecimal number, either as a string or as a number if no A to F are needed
@@ -1122,6 +1239,7 @@ For metric units any of the following prefixes can be used:
 
 @CATEGORY=Engineering
 @FUNCTION=INVSUMINV
+@SHORTDESC=the reciprocal of the sum of reciprocals of the arguments
 @SYNTAX=INVSUMINV(x0,x1)
 @DESCRIPTION=.
 @{x0}: non-negative number
@@ -1133,6 +1251,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Engineering
 @FUNCTION=OCT2BIN
+@SHORTDESC=binary representation of the octal number @{x}
 @SYNTAX=OCT2BIN(x,places)
 @DESCRIPTION=If @{places} is given, OCT2BIN pads the result with zeros to achieve exactly @{places} digits. If this is not possible, OCT2BIN returns #NUM!
 @{x}: a octal number, either as a string or as a number
@@ -1142,10 +1261,12 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Engineering
 @FUNCTION=OCT2DEC
+@SHORTDESC=decimal representation of the octal number @{x}
 @SEEALSO=DEC2OCT,OCT2BIN,OCT2HEX
 
 @CATEGORY=Engineering
 @FUNCTION=OCT2HEX
+@SHORTDESC=hexadecimal representation of the octal number @{x}
 @SYNTAX=OCT2HEX(x,places)
 @DESCRIPTION=If @{places} is given, OCT2HEX pads the result with zeros to achieve exactly @{places} digits. If this is not possible, OCT2HEX returns #NUM!
 @{x}: a octal number, either as a string or as a number
@@ -1155,6 +1276,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Erlang
 @FUNCTION=DIMCIRC
+@SHORTDESC=number of circuits required
 @SYNTAX=DIMCIRC(traffic,gos)
 @DESCRIPTION=DIMCIRC returns the number of circuits required given @{traffic} calls with grade of service @{gos}.
 @{traffic}: number of calls
@@ -1164,6 +1286,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Erlang
 @FUNCTION=OFFCAP
+@SHORTDESC=traffic capacity
 @SYNTAX=OFFCAP(circuits,gos)
 @DESCRIPTION=OFFCAP returns the traffic capacity given @{circuits} circuits with grade of service @{gos}.
 @{circuits}: number of circuits
@@ -1173,6 +1296,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Erlang
 @FUNCTION=OFFTRAF
+@SHORTDESC=predicted number of offered calls
 @SYNTAX=OFFTRAF(traffic,circuits)
 @DESCRIPTION=OFFTRAF returns the predicted number of offered calls given @{traffic} carried calls (taken from measurements) on @{circuits} circuits.
 @{traffic}: number of carried calls
@@ -1183,6 +1307,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Erlang
 @FUNCTION=PROBBLOCK
+@SHORTDESC=probability of blocking
 @SYNTAX=PROBBLOCK(traffic,circuits)
 @DESCRIPTION=PROBBLOCK returns probability of blocking when @{traffic} calls load into @{circuits} circuits.
 @{traffic}: number of calls
@@ -1193,6 +1318,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=ACCRINT
+@SHORTDESC=accrued interest
 @SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency,basis)
 @DESCRIPTION=ACCRINT calculates the accrued interest for a security that pays periodic interest.
 @{issue}: date of issue
@@ -1213,6 +1339,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=ACCRINTM
+@SHORTDESC=accrued interest
 @SYNTAX=ACCRINTM(issue,maturity,rate,par,basis)
 @DESCRIPTION=ACCRINT calculates the accrued interest from @{issue} to @{maturity}.
 @{issue}: date of issue
@@ -1231,6 +1358,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=AMORDEGRC
+@SHORTDESC=depreciation of an asset using French accounting conventions
 @SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate,basis)
 @DESCRIPTION=AMORDEGRC calculates the depreciation of an asset using French accounting conventions. Assets purchased in the middle of a period take prorated depreciation into account. This is similar to AMORLINC, except that a depreciation coefficient is applied in the calculation depending on the life of the assets.
 @{cost}: initial cost of asset
@@ -1251,6 +1379,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=AMORLINC
+@SHORTDESC=depreciation of an asset using French accounting conventions
 @SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate,basis)
 @DESCRIPTION=AMORLINC calculates the depreciation of an asset using French accounting conventions. Assets purchased in the middle of a period take prorated depreciation into account. 
 @{cost}: initial cost of asset
@@ -1270,7 +1399,17 @@ If any argument is zero, the result is zero.
 @SEEALSO=AMORDEGRC
 
 @CATEGORY=Finance
+@FUNCTION=ATL_LAST
+@SHORTDESC=sample real-time data source
+@SYNTAX=ATL_LAST(tag)
+@DESCRIPTION=ATL_LAST is a sample implementation of a real time data source.  It takes a string tag and monitors the named pipe ~/atl for changes to the value of that tag.
+@{tag}: tag to watch
+
+@NOTE=This is not intended to be generally enabled and is OFF by default.
+
+@CATEGORY=Finance
 @FUNCTION=COUPDAYBS
+@SHORTDESC=number of days from coupon period to settlement
 @SYNTAX=COUPDAYBS(settlement,maturity,frequency,basis,eom)
 @DESCRIPTION=COUPDAYBS calculates the number of days from the beginning of the coupon period to the settlement date.
 @{settlement}: settlement date
@@ -1289,6 +1428,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=COUPDAYS
+@SHORTDESC=number of days in the coupon period of the settlement date
 @SYNTAX=COUPDAYS(settlement,maturity,frequency,basis,eom)
 @DESCRIPTION=COUPDAYS calculates the number of days in the coupon period of the settlement date.
 @{settlement}: settlement date
@@ -1307,6 +1447,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=COUPDAYSNC
+@SHORTDESC=number of days from the settlement date to the next coupon period
 @SYNTAX=COUPDAYSNC(settlement,maturity,frequency,basis,eom)
 @DESCRIPTION=COUPDAYSNC calculates number of days from the settlement date to the next coupon period.
 @{settlement}: settlement date
@@ -1325,6 +1466,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=COUPNCD
+@SHORTDESC=the next coupon date after settlement
 @SYNTAX=COUPNCD(settlement,maturity,frequency,basis,eom)
 @DESCRIPTION=COUPNCD calculates the coupon date following settlement.
 @{settlement}: settlement date
@@ -1343,6 +1485,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=COUPNUM
+@SHORTDESC=number of coupons
 @SYNTAX=COUPNUM(settlement,maturity,frequency,basis,eom)
 @DESCRIPTION=COUPNUM calculates the number of coupons to be paid between the settlement and maturity dates, rounded up.
 @{settlement}: settlement date
@@ -1361,6 +1504,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=COUPPCD
+@SHORTDESC=the last coupon date before settlement
 @SYNTAX=COUPPCD(settlement,maturity,frequency,basis,eom)
 @DESCRIPTION=COUPPCD calculates the coupon date preceding settlement.
 @{settlement}: settlement date
@@ -1379,6 +1523,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=CUM_BIV_NORM_DIST
+@SHORTDESC=cumulative bivariate normal distribution
 @SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)
 @DESCRIPTION=CUM_BIV_NORM_DIST calculates the probability that two standard normal distributed random variables with correlation @{rho} are respectively each less than @{a} and @{b}.
 @{a}: limit for first random variable
@@ -1388,6 +1533,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=CUMIPMT
+@SHORTDESC=cumulative interest payment
 @SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)
 @DESCRIPTION=CUMIPMT calculates the cumulative interest paid on a loan from @{start_period} to @{end_period}.
 @{rate}: effective annual interest rate
@@ -1402,6 +1548,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=CUMPRINC
+@SHORTDESC=cumulative principal
 @SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)
 @DESCRIPTION=CUMPRINC calculates the cumulative principal paid on a loan from @{start_period} to @{end_period}.
 @{rate}: effective annual interest rate
@@ -1416,6 +1563,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=DB
+@SHORTDESC=depreciation of an asset
 @SYNTAX=DB(cost,salvage,life,period,month)
 @DESCRIPTION=DB calculates the depreciation of an asset for a given period using the fixed-declining balance method.
 @{cost}: initial cost of asset
@@ -1428,6 +1576,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=DDB
+@SHORTDESC=depreciation of an asset
 @SYNTAX=DDB(cost,salvage,life,period,factor)
 @DESCRIPTION=DDB calculates the depreciation of an asset for a given period using the double-declining balance method.
 @{cost}: initial cost of asset
@@ -1440,6 +1589,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=DISC
+@SHORTDESC=discount rate
 @SYNTAX=DISC(settlement,maturity,par,redemption,basis)
 @DESCRIPTION=DISC calculates the discount rate for a security.
 @{settlement}: settlement date
@@ -1458,6 +1608,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=DOLLARDE
+@SHORTDESC=convert to decimal dollar amount
 @SYNTAX=DOLLARDE(fractional_dollar,fraction)
 @DESCRIPTION=DOLLARDE converts a fractional dollar amount into a decimal amount.  This is the inverse of the DOLLARFR function.
 @{fractional_dollar}: amount to convert
@@ -1467,6 +1618,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=DOLLARFR
+@SHORTDESC=convert to dollar fraction
 @SYNTAX=DOLLARFR(decimal_dollar,fraction)
 @DESCRIPTION=DOLLARFR converts a fractional dollar amount into a fraction which is represented as the digits after the decimal point.  For example, 2/8 would be represented as .2 while 3/16 would be represented as .03.
 @{decimal_dollar}: amount to convert
@@ -1476,6 +1628,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=DURATION
+@SHORTDESC=the duration of a security
 @SYNTAX=DURATION(settlement,maturity,coupon,yield,frequency,basis)
 @DESCRIPTION=DURATION calculates the duration of a security.
 @{settlement}: settlement date
@@ -1495,6 +1648,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=EFFECT
+@SHORTDESC=effective interest rate
 @SYNTAX=EFFECT(rate,nper)
 @DESCRIPTION=EFFECT calculates the effective interest rate using the formula (1+@{rate}/@{nper})^@{nper}-1.
 @{rate}: nominal annual interest rate
@@ -1504,6 +1658,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=EURO
+@SHORTDESC=equivalent of 1 EUR
 @SYNTAX=EURO(currency)
 @DESCRIPTION=EURO calculates the national currency amount corresponding to 1 EUR for any of the national currencies that were replaced by the Euro on its introduction.
 @{currency}: three-letter currency code
@@ -1514,12 +1669,13 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=EUROCONVERT
+@SHORTDESC=pre-Euro amount from one currency to another
 @SYNTAX=EUROCONVERT(n,source,target,full_precision,triangulation_precision)
 @DESCRIPTION=EUROCONVERT converts @{n} units of currency @{source} to currency @{target}.  The rates used are the official ones used on the introduction of the Euro.
 @{n}: amount
 @{source}: three-letter source currency code
 @{target}: three-letter target currency code
-@{full_precision}: if true, the result is not rounded; if false the result is rounded to 0 or 2 decimals depending on the target urrency; defaults to false.
+@{full_precision}: if true, the result is not rounded; if false the result is rounded to 0 or 2 decimals depending on the target currency; defaults to false.
 @{triangulation_precision}: number of digits (at least 3) to be rounded to after the source currency has been converted to euro; omitting this argument results in no rounding.
 
 @NOTE=@{source} and @{target} must be one of the currencies listed for the EURO function.
@@ -1528,6 +1684,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=FV
+@SHORTDESC=future value
 @SYNTAX=FV(rate,nper,pmt,pv,type)
 @DESCRIPTION=FV calculates the future value of @{pv} moved @{nper} periods into the future, assuming a periodic payment of @{pmt} and an interest rate of @{rate} per period.
 @{rate}: effective interest rate per period
@@ -1541,6 +1698,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=FVSCHEDULE
+@SHORTDESC=future value
 @SYNTAX=FVSCHEDULE(principal,schedule)
 @DESCRIPTION=FVSCHEDULE calculates the future value of @{principal} after applying a range of interest rates with compounding.
 @{principal}: initial value
@@ -1550,6 +1708,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=G_DURATION
+@SHORTDESC=the duration of a investment
 @SYNTAX=G_DURATION(rate,pv,fv)
 @DESCRIPTION=G_DURATION calculates the number of periods needed for an investment to attain a desired value.
 @{rate}: effective annual interest rate
@@ -1560,6 +1719,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=INTRATE
+@SHORTDESC=interest rate
 @SYNTAX=INTRATE(settlement,maturity,investment,redemption,basis)
 @DESCRIPTION=INTRATE calculates the interest of a fully vested security.
 @{settlement}: settlement date
@@ -1577,6 +1737,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=IPMT
+@SHORTDESC=interest payment for period
 @SYNTAX=IPMT(rate,per,nper,pv,fv,type)
 @DESCRIPTION=IPMT calculates the interest part of an annuity's payment for period number @{per}.
 @{rate}: effective annual interest rate
@@ -1591,6 +1752,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=IRR
+@SHORTDESC=internal rate of return
 @SYNTAX=IRR(values,guess)
 @DESCRIPTION=IRR calculates the internal rate of return of a cash flow with periodic payments.  @{values} lists the payments (negative values) and receipts (positive values) for each period.
 @{values}: cash flow
@@ -1601,6 +1763,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=ISPMT
+@SHORTDESC=interest payment for period
 @SYNTAX=ISPMT(rate,per,nper,pv)
 @DESCRIPTION=ISPMT calculates the interest payment for period number @{per}.
 @{rate}: effective annual interest rate
@@ -1612,6 +1775,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=MDURATION
+@SHORTDESC=the Macauley duration of a security
 @SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency,basis)
 @DESCRIPTION=MDURATION calculates the Macauley duration of a security.
 @{settlement}: settlement date
@@ -1631,6 +1795,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=MIRR
+@SHORTDESC=modified internal rate of return
 @SYNTAX=MIRR(values,finance_rate,reinvest_rate)
 @DESCRIPTION=MIRR calculates the modified internal rate of return of a periodic cash flow.
 @{values}: cash flow
@@ -1641,6 +1806,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=NOMINAL
+@SHORTDESC=nominal interest rate
 @SYNTAX=NOMINAL(rate,nper)
 @DESCRIPTION=NOMINAL calculates the nominal interest rate from the effective rate.
 @{rate}: effective annual interest rate
@@ -1650,6 +1816,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=NPER
+@SHORTDESC=number of periods
 @SYNTAX=NPER(rate,pmt,pv,fv,type)
 @DESCRIPTION=NPER calculates the number of periods of an investment based on periodic constant payments and a constant interest rate.
 @{rate}: effective annual interest rate
@@ -1663,17 +1830,18 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=NPV
+@SHORTDESC=net present value
 @SYNTAX=NPV(rate,value1,value2)
 @DESCRIPTION=NPV calculates the net present value of a cash flow.
 @{rate}: effective interest rate per period
 @{value1}: cash flow for period 1
 @{value2}: cash flow for period 2
 
-@NOTE=If @{type} is 0, the default, payment is at the end of each period.  If @{type} is 1, payment is at the beginning of each period.
 @SEEALSO=PV
 
 @CATEGORY=Finance
 @FUNCTION=ODDFPRICE
+@SHORTDESC=price of a security that has an odd first period
 @SYNTAX=ODDFPRICE(settlement,maturity,issue,first_interest,rate,yield,redemption,frequency,basis)
 @DESCRIPTION=ODDFPRICE calculates the price per $100 face value of a security that pays periodic interest, but has an odd first period.
 @{settlement}: settlement date
@@ -1696,6 +1864,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=ODDFYIELD
+@SHORTDESC=yield of a security that has an odd first period
 @SYNTAX=ODDFYIELD(settlement,maturity,issue,first_interest,rate,price,redemption,frequency,basis)
 @DESCRIPTION=ODDFYIELD calculates the yield of a security that pays periodic interest, but has an odd first period.
 @{settlement}: settlement date
@@ -1718,6 +1887,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=ODDLPRICE
+@SHORTDESC=price of a security that has an odd last period
 @SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yield,redemption,frequency,basis)
 @DESCRIPTION=ODDLPRICE calculates the price per $100 face value of a security that pays periodic interest, but has an odd last period.
 @{settlement}: settlement date
@@ -1739,6 +1909,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=ODDLYIELD
+@SHORTDESC=yield of a security that has an odd last period
 @SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,price,redemption,frequency,basis)
 @DESCRIPTION=ODDLYIELD calculates the yield of a security that pays periodic interest, but has an odd last period.
 @{settlement}: settlement date
@@ -1760,6 +1931,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=OPT_2_ASSET_CORRELATION
+@SHORTDESC=theoretical price of options on 2 assets with correlation @{rho}
 @SYNTAX=OPT_2_ASSET_CORRELATION(call_put_flag,spot1,spot2,strike1,strike1,time,cost_of_carry1,cost_of_carry2,rate,volatility1,volatility2,rho)
 @DESCRIPTION=OPT_2_ASSET_CORRELATION models the theoretical price of options on 2 assets with correlation @{rho}. The payoff for a call is max(@{spot2} - @{strike2},0) if @{spot1} > @{strike1} or 0 otherwise. The payoff for a put is max (@{strike2} - @{spot2}, 0) if @{spot1} < @{strike1} or 0 otherwise.
 @{call_put_flag}: 'c' for a call and 'p' for a put
@@ -1779,6 +1951,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=OPT_AMER_EXCHANGE
+@SHORTDESC=theoretical price of an American option to exchange assets
 @SYNTAX=OPT_AMER_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,volatility2,rho)
 @DESCRIPTION=OPT_AMER_EXCHANGE models the theoretical price of an American option to exchange one asset with quantity @{qty2} and spot price @{spot2} for another with quantity @{qty1} and spot price @{spot1}.
 @{spot1}: spot price of asset 1
@@ -1797,10 +1970,12 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=OPT_BAW_AMER
+@SHORTDESC=theoretical price of an option according to the Barone Adesie & Whaley approximation
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
 @FUNCTION=OPT_BINOMIAL
+@SHORTDESC=theoretical price of either an American or European style option using a binomial tree
 @SYNTAX=OPT_BINOMIAL(amer_euro_flag,call_put_flag,num_time_steps,spot,strike,time,rate,volatility,cost_of_carry)
 @DESCRIPTION=.
 @{amer_euro_flag}: 'a' for an American style option or 'e' for a European style option
@@ -1817,10 +1992,12 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=OPT_BJER_STENS
+@SHORTDESC=theoretical price of American options according to the Bjerksund & Stensland approximation technique
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
 @FUNCTION=OPT_BS
+@SHORTDESC=price of a European option
 @SYNTAX=OPT_BS(call_put_flag,spot,strike,time,rate,volatility,cost_of_carry)
 @DESCRIPTION=OPT_BS uses the Black-Scholes model to calculate the price of a European option struck at @{strike} on an asset with spot price @{spot}.
 @{call_put_flag}: 'c' for a call and 'p' for a put
@@ -1836,6 +2013,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=OPT_BS_CARRYCOST
+@SHORTDESC=elasticity of a European option
 @SYNTAX=OPT_BS_CARRYCOST(call_put_flag,spot,strike,time,rate,volatility,cost_of_carry)
 @DESCRIPTION=OPT_BS_CARRYCOST uses the Black-Scholes model to calculate the 'elasticity' of a European option struck at @{strike} on an asset with spot price @{spot}. The elasticity of an option is the rate of change of its price with respect to its @{cost_of_carry}.
 @{call_put_flag}: 'c' for a call and 'p' for a put
@@ -1851,6 +2029,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=OPT_BS_DELTA
+@SHORTDESC=delta of a European option
 @SYNTAX=OPT_BS_DELTA(call_put_flag,spot,strike,time,rate,volatility,cost_of_carry)
 @DESCRIPTION=OPT_BS_DELTA uses the Black-Scholes model to calculate the 'delta' of a European option struck at @{strike} on an asset with spot price @{spot}.
 @{call_put_flag}: 'c' for a call and 'p' for a put
@@ -1866,6 +2045,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=OPT_BS_GAMMA
+@SHORTDESC=gamma of a European option
 @SYNTAX=OPT_BS_GAMMA(spot,strike,time,rate,volatility,cost_of_carry)
 @DESCRIPTION=OPT_BS_DELTA uses the Black-Scholes model to calculate the 'gamma' of a European option struck at @{strike} on an asset with spot price @{spot}. The gamma of an option is the second derivative of its price with respect to the price of the underlying asset.
 @{spot}: spot price
@@ -1881,6 +2061,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=OPT_BS_RHO
+@SHORTDESC=rho of a European option
 @SYNTAX=OPT_BS_RHO(call_put_flag,spot,strike,time,rate,volatility,cost_of_carry)
 @DESCRIPTION=OPT_BS_DELTA uses the Black-Scholes model to calculate the 'rho' of a European option struck at @{strike} on an asset with spot price @{spot}. The rho of an option is the rate of change of its price with respect to the risk free interest rate.
 @{call_put_flag}: 'c' for a call and 'p' for a put
@@ -1896,6 +2077,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=OPT_BS_THETA
+@SHORTDESC=theta of a European option
 @SYNTAX=OPT_BS_THETA(call_put_flag,spot,strike,time,rate,volatility,cost_of_carry)
 @DESCRIPTION=OPT_BS_DELTA uses the Black-Scholes model to calculate the 'theta' of a European option struck at @{strike} on an asset with spot price @{spot}. The theta of an option is the rate of change of its price with respect to time to expiry.
 @{call_put_flag}: 'c' for a call and 'p' for a put
@@ -1911,6 +2093,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=OPT_BS_VEGA
+@SHORTDESC=vega of a European option
 @SYNTAX=OPT_BS_VEGA(spot,strike,time,rate,volatility,cost_of_carry)
 @DESCRIPTION=OPT_BS_DELTA uses the Black-Scholes model to calculate the 'vega' of a European option struck at @{strike} on an asset with spot price @{spot}. The vega of an option is the rate of change of its price with respect to volatility.
 @{spot}: spot price
@@ -1926,10 +2109,12 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=OPT_COMPLEX_CHOOSER
+@SHORTDESC=theoretical price of a complex chooser option
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
 @FUNCTION=OPT_EURO_EXCHANGE
+@SHORTDESC=theoretical price of a European option to exchange assets
 @SYNTAX=OPT_EURO_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,volatility2,rho)
 @DESCRIPTION=OPT_EURO_EXCHANGE models the theoretical price of a European option to exchange one asset with quantity @{qty2} and spot price @{spot2} for another with quantity @{qty1} and spot price @{spot1}.
 @{spot1}: spot price of asset 1
@@ -1948,6 +2133,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=OPT_EXEC
+@SHORTDESC=theoretical price of executive stock options
 @SYNTAX=OPT_EXEC(call_put_flag,spot,strike,time,rate,volatility,cost_of_carry,lambda)
 @DESCRIPTION=.
 @{call_put_flag}: 'c' for a call and 'p' for a put
@@ -1963,6 +2149,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=OPT_EXTENDIBLE_WRITER
+@SHORTDESC=theoretical price of extendible writer options
 @SYNTAX=OPT_EXTENDIBLE_WRITER(call_put_flag,spot,strike1,strike2,time1,time2,rate,cost_of_carry,volatility)
 @DESCRIPTION=OPT_EXTENDIBLE_WRITER models the theoretical price of extendible writer options. These are options that have their maturity extended to @{time2} if the option is out of the money at @{time1}.
 @{call_put_flag}: 'c' for a call and 'p' for a put
@@ -1979,6 +2166,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=OPT_FIXED_STRK_LKBK
+@SHORTDESC=theoretical price of a fixed-strike lookback option
 @SYNTAX=OPT_FIXED_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,volatility)
 @DESCRIPTION=OPT_FIXED_STRK_LKBK determines the theoretical price of a fixed-strike lookback option where the holder of the option may exercise on expiry at the most favourable price observed during the options life of the underlying asset.
 @{call_put_flag}: 'c' for a call and 'p' for a put
@@ -1995,6 +2183,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=OPT_FLOAT_STRK_LKBK
+@SHORTDESC=theoretical price of floating-strike lookback option
 @SYNTAX=OPT_FLOAT_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility)
 @DESCRIPTION=OPT_FLOAT_STRK_LKBK determines the theoretical price of a floating-strike lookback option where the holder of the option may exercise on expiry at the most favourable price observed during the options life of the underlying asset.
 @{call_put_flag}: 'c' for a call and 'p' for a put
@@ -2010,10 +2199,12 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=OPT_FORWARD_START
+@SHORTDESC=theoretical price of forward start options
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
 @FUNCTION=OPT_FRENCH
+@SHORTDESC=theoretical price of a European option adjusted for trading day volatility
 @SYNTAX=OPT_FRENCH(call_put_flag,spot,strike,time,ttime,rate,volatility,cost_of_carry)
 @DESCRIPTION=OPT_FRENCH values the theoretical price of a European option adjusted for trading day volatility, struck at @{strike} on an asset with spot price @{spot}.
 @{call_put_flag}: 'c' for a call and 'p' for a put
@@ -2029,6 +2220,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=OPT_GARMAN_KOHLHAGEN
+@SHORTDESC=theoretical price of a European currency option
 @SYNTAX=OPT_GARMAN_KOHLHAGEN(call_put_flag,spot,strike,time,domestic_rate,foreign_rate,volatility)
 @DESCRIPTION=OPT_GARMAN_KOHLHAGEN values the theoretical price of a European currency option struck at @{strike} on an asset with spot price @{spot}.
 @{call_put_flag}: 'c' for a call and 'p' for a put
@@ -2043,6 +2235,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=OPT_JUMP_DIFF
+@SHORTDESC=theoretical price of an option according to the Jump Diffusion process
 @SYNTAX=OPT_JUMP_DIFF(call_put_flag,spot,strike,time,rate,volatility,lambda,gamma)
 @DESCRIPTION=OPT_JUMP_DIFF models the theoretical price of an option according to the Jump Diffusion process (Merton).
 @{call_put_flag}: 'c' for a call and 'p' for a put
@@ -2058,10 +2251,12 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=OPT_MILTERSEN_SCHWARTZ
+@SHORTDESC=theoretical price of options on commodities futures according to Miltersen & Schwartz
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
 @FUNCTION=OPT_ON_OPTIONS
+@SHORTDESC=theoretical price of options on options
 @SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike2,time1,time2,rate,cost_of_carry,volatility)
 @DESCRIPTION=.
 @{type_flag}: 'cc' for calls on calls, 'cp' for calls on puts, and so on for 'pc', and 'pp'.
@@ -2078,18 +2273,22 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=OPT_RGW
+@SHORTDESC=theoretical price of an American option according to the Roll-Geske-Whaley approximation
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
 @FUNCTION=OPT_SIMPLE_CHOOSER
+@SHORTDESC=theoretical price of a simple chooser option
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
 @FUNCTION=OPT_SPREAD_APPROX
+@SHORTDESC=theoretical price of a European option on the spread between two futures contracts
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
 @FUNCTION=OPT_TIME_SWITCH
+@SHORTDESC=theoretical price of time switch options
 @SYNTAX=OPT_TIME_SWITCH(call_put_flag,spot,strike,a,time,m,dt,rate,cost_of_carry,volatility)
 @DESCRIPTION=OPT_TIME_SWITCH models the theoretical price of time switch options. (Pechtl 1995). The holder receives @{a} * @{dt} for each period that the asset price was greater than @{strike} (for a call) or below it (for a put).
 @{call_put_flag}: 'c' for a call and 'p' for a put
@@ -2107,6 +2306,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=PMT
+@SHORTDESC=payment for annuity
 @SYNTAX=PMT(rate,nper,pv,fv,type)
 @DESCRIPTION=PMT calculates the payment amount for an annuity.
 @{rate}: effective annual interest rate
@@ -2120,6 +2320,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=PPMT
+@SHORTDESC=interest payment for period
 @SYNTAX=PPMT(rate,per,nper,pv,fv,type)
 @DESCRIPTION=PPMT calculates the principal part of an annuity's payment for period number @{per}.
 @{rate}: effective annual interest rate
@@ -2134,6 +2335,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=PRICE
+@SHORTDESC=price of a security
 @SYNTAX=PRICE(settlement,maturity,rate,yield,redemption,frequency,basis)
 @DESCRIPTION=PRICE calculates the price per $100 face value of a security that pays periodic interest.
 @{settlement}: settlement date
@@ -2154,6 +2356,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=PRICEDISC
+@SHORTDESC=discounted price
 @SYNTAX=PRICEDISC(settlement,maturity,discount,redemption,basis)
 @DESCRIPTION=PRICEDISC calculates the price per $100 face value of a bond that does not pay interest at maturity.
 @{settlement}: settlement date
@@ -2171,6 +2374,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=PRICEMAT
+@SHORTDESC=price at maturity
 @SYNTAX=PRICEMAT(settlement,maturity,issue,discount,yield,basis)
 @DESCRIPTION=PRICEMAT calculates the price per $100 face value of a bond that pays interest at maturity.
 @{settlement}: settlement date
@@ -2189,6 +2393,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=PV
+@SHORTDESC=present value
 @SYNTAX=PV(rate,nper,pmt,fv,type)
 @DESCRIPTION=PV calculates the present value of @{fv} which is @{nper} periods into the future, assuming a periodic payment of @{pmt} and an interest rate of @{rate} per period.
 @{rate}: effective interest rate per period
@@ -2202,6 +2407,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=RATE
+@SHORTDESC=rate of investment
 @SYNTAX=RATE(nper,pmt,pv,fv,type,guess)
 @DESCRIPTION=RATE calculates the rate of return.
 @{nper}: number of periods
@@ -2217,6 +2423,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=RECEIVED
+@SHORTDESC=amount to be received at maturity
 @SYNTAX=RECEIVED(settlement,maturity,investment,rate,basis)
 @DESCRIPTION=RECEIVED calculates the amount to be received when a security matures.
 @{settlement}: settlement date
@@ -2234,6 +2441,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=RRI
+@SHORTDESC=equivalent interest rate for an investment increasing in value
 @SYNTAX=RRI(p,pv,fv)
 @DESCRIPTION=RRI determines an equivalent interest rate for an investment that increases in value. The interest is compounded after each complete period.
 @{p}: number of periods
@@ -2246,6 +2454,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=SLN
+@SHORTDESC=depreciation of an asset
 @SYNTAX=SLN(cost,salvage,life)
 @DESCRIPTION=SLN calculates the depreciation of an asset using the straight-line method.
 @{cost}: initial cost of asset
@@ -2256,6 +2465,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=SYD
+@SHORTDESC=sum-of-years depreciation
 @SYNTAX=SYD(cost,salvage,life,period)
 @DESCRIPTION=SYD calculates the depreciation of an asset using the sum-of-years method.
 @{cost}: initial cost of asset
@@ -2267,6 +2477,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=TBILLEQ
+@SHORTDESC=bond-equivalent yield for a treasury bill
 @SYNTAX=TBILLEQ(settlement,maturity,discount)
 @DESCRIPTION=TBILLEQ calculates the bond-equivalent yield for a treasury bill.
 @{settlement}: settlement date
@@ -2277,6 +2488,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=TBILLPRICE
+@SHORTDESC=price of a treasury bill
 @SYNTAX=TBILLPRICE(settlement,maturity,discount)
 @DESCRIPTION=TBILLPRICE calculates the price per $100 face value for a treasury bill.
 @{settlement}: settlement date
@@ -2287,6 +2499,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=TBILLYIELD
+@SHORTDESC=yield of a treasury bill
 @SYNTAX=TBILLYIELD(settlement,maturity,price)
 @DESCRIPTION=TBILLYIELD calculates the yield of a treasury bill.
 @{settlement}: settlement date
@@ -2297,6 +2510,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=VDB
+@SHORTDESC=depreciation of an asset
 @SYNTAX=VDB(cost,salvage,life,start_period,end_period,factor,no_switch)
 @DESCRIPTION=VDB calculates the depreciation of an asset for a given period range using the double-declining balance method.
 @{cost}: initial cost of asset
@@ -2312,6 +2526,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=XIRR
+@SHORTDESC=internal rate of return
 @SYNTAX=XIRR(values,dates,guess)
 @DESCRIPTION=XIRR calculates the annualized internal rate of return of a cash flow at arbitrary points in time.  @{values} lists the payments (negative values) and receipts (positive values) with one value for each entry in @{dates}.
 @{values}: cash flow
@@ -2323,6 +2538,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=XNPV
+@SHORTDESC=net present value
 @SYNTAX=XNPV(rate,values,dates)
 @DESCRIPTION=XNPV calculates the net present value of a cash flow at irregular times
 @{rate}: effective annual interest rate
@@ -2334,6 +2550,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=YIELD
+@SHORTDESC=yield of a security
 @SYNTAX=YIELD(settlement,maturity,rate,price,redemption,frequency,basis)
 @DESCRIPTION=YIELD calculates the yield of a security that pays periodic interest.
 @{settlement}: settlement date
@@ -2354,6 +2571,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=YIELDDISC
+@SHORTDESC=yield of a discounted security
 @SYNTAX=YIELDDISC(settlement,maturity,price,redemption,basis)
 @DESCRIPTION=YIELDDISC calculates the yield of a discounted security.
 @{settlement}: settlement date
@@ -2371,6 +2589,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Finance
 @FUNCTION=YIELDMAT
+@SHORTDESC=yield of a security
 @SYNTAX=YIELDMAT(settlement,maturity,issue,rate,price,basis)
 @DESCRIPTION=YIELDMAT calculates the yield of a security for which the interest is paid at maturity date.
 @{settlement}: settlement date
@@ -2389,6 +2608,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Gnumeric
 @FUNCTION=GNUMERIC_VERSION
+@SHORTDESC=the current version of GNumeric
 @SYNTAX=GNUMERIC_VERSION()
 @DESCRIPTION=GNUMERIC_VERSION returns the version of gnumeric as a string.
 
@@ -2396,6 +2616,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=CELL
+@SHORTDESC=information of @{type} about @{cell}
 @SYNTAX=CELL(type,cell)
 @DESCRIPTION=@{type} specifies the type of information you want to obtain:
   address        		Returns the given cell reference as text.
@@ -2430,14 +2651,17 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=COUNTBLANK
+@SHORTDESC=the number of blank cells in @{range}
 @SEEALSO=COUNT
 
 @CATEGORY=Information
 @FUNCTION=ERROR
+@SHORTDESC=the error with name @{text}
 @SEEALSO=ISERROR
 
 @CATEGORY=Information
 @FUNCTION=ERROR.TYPE
+@SHORTDESC=the type of @error
 @SYNTAX=ERROR.TYPE(error)
 @DESCRIPTION=ERROR.TYPE returns an error number corresponding to the given error value.  The error numbers for error values are:
 
@@ -2453,6 +2677,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=EXPRESSION
+@SHORTDESC=expression in @{cell} as a string
 @SYNTAX=EXPRESSION(cell)
 @DESCRIPTION=.
 @{cell}: a cell reference
@@ -2461,10 +2686,21 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=GET.FORMULA
+@SHORTDESC=The formula in @{cell} as a string.
 @SEEALSO=EXPRESSION,ISFORMULA
 
 @CATEGORY=Information
+@FUNCTION=GET.LINK
+@SHORTDESC=The target of the hyperlink attached to @{cell} as a string.
+@SYNTAX=GET.LINK(cell)
+@DESCRIPTION=.
+@{cell}: the referenced cell
+@NOTE=The value return is not updated automatically when the link attached to @{cell} changes but requires a recalculation.
+@SEEALSO=HYPERLINK
+
+@CATEGORY=Information
 @FUNCTION=GETENV
+@SHORTDESC=the value of execution environment varaible @{name}
 @SYNTAX=GETENV(name)
 @DESCRIPTION=.
 @{name}: the name of the environment variable
@@ -2473,6 +2709,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=INFO
+@SHORTDESC=information about the current operating environment according to @{type}
 @SYNTAX=INFO(type)
 @DESCRIPTION=INFO returns information about the current operating environment according to @{type}:
   memavail     		Returns the amount of memory available, bytes.
@@ -2489,6 +2726,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=ISBLANK
+@SHORTDESC=TRUE if @{value} is blank.
 @SYNTAX=ISBLANK(value)
 @DESCRIPTION=This function checks if a value is blank.  Empty cells are blank, but empty strings are not.
 @{value}: a value
@@ -2496,22 +2734,27 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=ISERR
+@SHORTDESC=TRUE if @{value} is any error value except #N/A
 @SEEALSO=ISERROR
 
 @CATEGORY=Information
 @FUNCTION=ISERROR
+@SHORTDESC=TRUE if @{value} is any error value
 @SEEALSO=ISERR,ISNA
 
 @CATEGORY=Information
 @FUNCTION=ISEVEN
+@SHORTDESC=TRUE if @{n} is even.
 @SEEALSO=ISODD
 
 @CATEGORY=Information
 @FUNCTION=ISFORMULA
+@SHORTDESC=TRUE if @{cell} contains a formula.
 @SEEALSO=GET.FORMULA
 
 @CATEGORY=Information
 @FUNCTION=ISLOGICAL
+@SHORTDESC=TRUE if @{value} is a logical value.
 @SYNTAX=ISLOGICAL(value)
 @DESCRIPTION=This function checks if a value is either TRUE or FALSE.
 @{value}: a value
@@ -2519,14 +2762,17 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=ISNA
+@SHORTDESC=TRUE if @{value} is the #N/A error value.
 @SEEALSO=NA
 
 @CATEGORY=Information
 @FUNCTION=ISNONTEXT
+@SHORTDESC=TRUE if @{value} is not text.
 @SEEALSO=ISTEXT
 
 @CATEGORY=Information
 @FUNCTION=ISNUMBER
+@SHORTDESC=TRUE if @{value} is a number.
 @SYNTAX=ISNUMBER(value)
 @DESCRIPTION=This function checks if a value is a number.  Neither TRUE nor FALSE are numbers for this purpose.
 @{value}: a value
@@ -2534,10 +2780,12 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=ISODD
+@SHORTDESC=TRUE if @{n} is odd.
 @SEEALSO=ISEVEN
 
 @CATEGORY=Information
 @FUNCTION=ISREF
+@SHORTDESC=TRUE if @{value} is a reference.
 @SYNTAX=ISREF(value)
 @DESCRIPTION=This function checks if a value is a cell reference.
 @{value}: a value
@@ -2545,10 +2793,12 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=ISTEXT
+@SHORTDESC=TRUE if @{value} is text.
 @SEEALSO=ISNONTEXT
 
 @CATEGORY=Information
 @FUNCTION=N
+@SHORTDESC=@{text} converted to a number
 @SYNTAX=N(text)
 @DESCRIPTION=.
 @{text}: string
@@ -2556,10 +2806,12 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=NA
+@SHORTDESC=the error value #N/A
 @SEEALSO=ISNA
 
 @CATEGORY=Information
 @FUNCTION=TYPE
+@SHORTDESC=a number indicating the data type of @{value}
 @SYNTAX=TYPE(value)
 @DESCRIPTION=TYPE returns a number indicating the data type of @{ value}:
 1  	= number
@@ -2572,6 +2824,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Logic
 @FUNCTION=AND
+@SHORTDESC=logical conjunction
 @SYNTAX=AND(b0,b1)
 @DESCRIPTION=AND calculates the logical conjunction of its arguments @{b0},@{b1},...
 @{b0}: logical value
@@ -2585,6 +2838,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Logic
 @FUNCTION=FALSE
+@SHORTDESC=the value FALSE.
 @SYNTAX=FALSE()
 @DESCRIPTION=FALSE returns the value FALSE.
 
@@ -2592,6 +2846,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Logic
 @FUNCTION=IF
+@SHORTDESC=conditional expression.
 @SYNTAX=IF(cond,trueval,falseval)
 @DESCRIPTION=This function first evaluates the condition.  If the result is true, it will then evaluate and return the second argument.  Otherwise, it will evaluate and return the last argument.
 @{cond}: condition.
@@ -2602,6 +2857,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Logic
 @FUNCTION=IFERROR
+@SHORTDESC=Test for error.
 @SYNTAX=IFERROR(x,y)
 @DESCRIPTION=This function returns the first value, unless that is an error, in which case it returns the second.
 @{x}: value to test for error.
@@ -2611,6 +2867,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Logic
 @FUNCTION=IFNA
+@SHORTDESC=Test for #NA! error.
 @SYNTAX=IFNA(x,y)
 @DESCRIPTION=This function returns the first value, unless that is #NA!, in which case it returns the second.
 @{x}: value to test for #NA! error.
@@ -2620,6 +2877,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Logic
 @FUNCTION=NOT
+@SHORTDESC=logical negation
 @SYNTAX=NOT(b)
 @DESCRIPTION=NOT calculates the logical negation of its argument.
 @{b}: logical value
@@ -2630,6 +2888,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Logic
 @FUNCTION=OR
+@SHORTDESC=logical disjunction
 @SYNTAX=OR(b0,b1)
 @DESCRIPTION=OR calculates the logical disjunction of its arguments @{b0},@{b1},...
 @{b0}: logical value
@@ -2643,6 +2902,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Logic
 @FUNCTION=TRUE
+@SHORTDESC=the value TRUE.
 @SYNTAX=TRUE()
 @DESCRIPTION=TRUE returns the value TRUE.
 
@@ -2650,6 +2910,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Logic
 @FUNCTION=XOR
+@SHORTDESC=logical exclusive disjunction
 @SYNTAX=XOR(b0,b1)
 @DESCRIPTION=XOR calculates the logical exclusive disjunction of its arguments @{b0},@{b1},...
 @{b0}: logical value
@@ -2663,6 +2924,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Lookup
 @FUNCTION=ADDRESS
+@SHORTDESC=cell address as text
 @SYNTAX=ADDRESS(row_num,col_num,abs_num,a1,text)
 @DESCRIPTION=.
 @{row_num}: row number
@@ -2676,10 +2938,12 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Lookup
 @FUNCTION=AREAS
+@SHORTDESC=number of areas in @{reference}
 @SEEALSO=ADDRESS,INDEX,INDIRECT,OFFSET
 
 @CATEGORY=Lookup
 @FUNCTION=CHOOSE
+@SHORTDESC=the (@{index}+1)th argument
 @SYNTAX=CHOOSE(index,value1,value2)
 @DESCRIPTION=CHOOSE returns its (@{index}+1)th argument.
 @{index}: positive number
@@ -2691,6 +2955,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Lookup
 @FUNCTION=COLUMN
+@SHORTDESC=vector of column numbers
 @SYNTAX=COLUMN(x)
 @DESCRIPTION=COLUMN function returns a Nx1 array containing the sequence of integers from the first column to the last column of @{reference}.
 @{x}: reference, defaults to the position of the current expression
@@ -2700,6 +2965,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Lookup
 @FUNCTION=COLUMNNUMBER
+@SHORTDESC=column number for the given column called @{name}
 @SYNTAX=COLUMNNUMBER(name)
 @DESCRIPTION=.
 @{name}: column name such as "IV"
@@ -2708,6 +2974,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Lookup
 @FUNCTION=COLUMNS
+@SHORTDESC=number of columns in @{reference}
 @SYNTAX=COLUMNS(reference)
 @DESCRIPTION=.
 @{reference}: array or area
@@ -2716,6 +2983,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Lookup
 @FUNCTION=HLOOKUP
+@SHORTDESC=search the first row of @{range} for @{value}
 @SYNTAX=HLOOKUP(value,range,row,approximate,as_index)
 @DESCRIPTION=HLOOKUP function finds the row in @{range} that has a first cell similar to @{value}.  If @{approximate} is not true it finds the row with an exact equality. If @{approximate} is true, it finds the last row with first value less than or equal to @{value}. If @{as_index} is true the 0-based row offset is returned.
 @{value}: search value
@@ -2730,6 +2998,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Lookup
 @FUNCTION=HYPERLINK
+@SHORTDESC=second or first arguments
 @SYNTAX=HYPERLINK(link_location,label)
 @DESCRIPTION=HYPERLINK function currently returns its 2nd argument, or if that is omitted the 1st argument.
 @{link_location}: string
@@ -2738,6 +3007,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Lookup
 @FUNCTION=INDEX
+@SHORTDESC=reference to a cell in the given @{array}
 @SYNTAX=INDEX(array,row,col,area)
 @DESCRIPTION=INDEX gives a reference to a cell in the given @{array}. The cell is selected by @{row} and @{col}, which count the rows and columns in the array.
 @{array}: 
@@ -2749,6 +3019,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Lookup
 @FUNCTION=INDIRECT
+@SHORTDESC=contents of the cell pointed to by the @{ref_text} string
 @SYNTAX=INDIRECT(ref_text,format)
 @DESCRIPTION=.
 @{ref_text}: 
@@ -2758,6 +3029,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Lookup
 @FUNCTION=LOOKUP
+@SHORTDESC=contents of @{vector2} at the corresponding location to @{value} in @{vector1}
 @SYNTAX=LOOKUP(value,vector1,vector2)
 @DESCRIPTION=If  @{vector1} has more rows than columns, LOOKUP searches the first row of @{vector1}, otherwise the first column. If @{vector2} is omitted the return value is taken from the last row or column of @{vector1}.
 @{value}: value to look up
@@ -2772,6 +3044,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Lookup
 @FUNCTION=MATCH
+@SHORTDESC=the index of @{seek} in @{vector}
 @SYNTAX=MATCH(seek,vector,type)
 @DESCRIPTION=MATCH searches @{vector} for @{seek} and returns the 1-based index.
 @{seek}: value to find
@@ -2785,6 +3058,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Lookup
 @FUNCTION=OFFSET
+@SHORTDESC=an offset cell range
 @SYNTAX=OFFSET(range,row,col,height,width)
 @DESCRIPTION=OFFSET returns the cell range starting at offset (@{row},@{col}) from @{range} of height @{height} and width @{width}.
 @{range}: reference or range
@@ -2798,6 +3072,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Lookup
 @FUNCTION=ROW
+@SHORTDESC=vector of row numbers
 @SYNTAX=ROW(x)
 @DESCRIPTION=ROW function returns a 1xN array containing the sequence of integers from the first row to the last row of @{reference}.
 @{x}: reference, defaults to the position of the current expression
@@ -2807,6 +3082,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Lookup
 @FUNCTION=ROWS
+@SHORTDESC=number of rows in @{reference}
 @SYNTAX=ROWS(reference)
 @DESCRIPTION=.
 @{reference}: array, reference, or range
@@ -2815,6 +3091,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Lookup
 @FUNCTION=SHEET
+@SHORTDESC=sheet number of @{reference}
 @SYNTAX=SHEET(reference)
 @DESCRIPTION=.
 @{reference}: reference or literal sheet name, defaults to the current sheet
@@ -2823,6 +3100,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Lookup
 @FUNCTION=SHEETS
+@SHORTDESC=number of sheets in @{reference}
 @SYNTAX=SHEETS(reference)
 @DESCRIPTION=.
 @{reference}: array, reference, or range, defaults to the maximum range
@@ -2831,10 +3109,12 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Lookup
 @FUNCTION=TRANSPOSE
+@SHORTDESC=the transpose of @{matrix}
 @SEEALSO=MMULT
 
 @CATEGORY=Lookup
 @FUNCTION=VLOOKUP
+@SHORTDESC=search the first column of @{range} for @{value}
 @SYNTAX=VLOOKUP(value,range,column,approximate,as_index)
 @DESCRIPTION=VLOOKUP function finds the row in @{range} that has a first cell similar to @{value}.  If @{approximate} is not true it finds the row with an exact equality. If @{approximate} is true, it finds the last row with first value less than or equal to @{value}. If @{as_index} is true the 0-based row offset is returned.
 @{value}: search value
@@ -2849,6 +3129,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=ABS
+@SHORTDESC=absolute value
 @SYNTAX=ABS(x)
 @DESCRIPTION=ABS gives the absolute value of @{x}, i.e. the non-negative number of the same magnitude as @{x}.
 @{x}: number
@@ -2857,22 +3138,27 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=ACOS
+@SHORTDESC=the arc cosine of @{x}
 @SEEALSO=COS, SIN, DEGREES, RADIANS
 
 @CATEGORY=Mathematics
 @FUNCTION=ACOSH
+@SHORTDESC=the hyperbolic arc cosine of @{x}
 @SEEALSO=ACOS,ASINH,DEGREES,RADIANS 
 
 @CATEGORY=Mathematics
 @FUNCTION=ACOT
+@SHORTDESC=inverse cotangent of a value
 @SEEALSO=COT,TAN
 
 @CATEGORY=Mathematics
 @FUNCTION=ACOTH
+@SHORTDESC=inverse hyperbolic cotangent of a value
 @SEEALSO=COTH,TANH
 
 @CATEGORY=Mathematics
 @FUNCTION=Arabic
+@SHORTDESC=The Roman numeral @{roman} as number
 @SYNTAX=Arabic(roman)
 @DESCRIPTION=Any Roman symbol to the left of a larger symbol (directly or indirectly) reduces the final value by the symbol amount, otherwise, it increases the final amount by the symbol's amount.
 @{roman}: Roman numeral
@@ -2881,6 +3167,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=ASIN
+@SHORTDESC=the arc sine of @{x}
 @SYNTAX=ASIN(x)
 @DESCRIPTION=ASIN calculates the arc sine of @{x}; that is the value whose sine is @{x}.
 @{x}: number
@@ -2890,6 +3177,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=ASINH
+@SHORTDESC=the inverse hyperbolic sine of @{x}
 @SYNTAX=ASINH(x)
 @DESCRIPTION=ASINH calculates the inverse hyperbolic sine of @{x}; that is the value whose hyperbolic sine is @{x}.
 @{x}: number
@@ -2898,6 +3186,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=ATAN
+@SHORTDESC=the arc tangent of @{x}
 @SYNTAX=ATAN(x)
 @DESCRIPTION=ATAN calculates the arc tangent of @{x}; that is the value whose tangent is @{x}.
 @{x}: angle in radians
@@ -2906,6 +3195,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=ATAN2
+@SHORTDESC=arc tangent of the ratio of @{b1} and @{b2}
 @SYNTAX=ATAN2(b1,b2)
 @DESCRIPTION=ATAN2 calculates the arc tangent of the ratio @{b1}/@{b2} with the sign according to the quadrant containing (@{b1},@{b2}).
 @{b1}: angle in radians
@@ -2915,6 +3205,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=ATANH
+@SHORTDESC=the inverse hyperbolic tangent of @{x}
 @SYNTAX=ATANH(x)
 @DESCRIPTION=ATANH calculates the inverse hyperbolic tangent of @{x}; that is the value whose hyperbolic tangent is @{x}.
 @{x}: angle in radians
@@ -2924,10 +3215,12 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=AVERAGEIF
+@SHORTDESC=average of the cells in @{actual range} for which the corresponding cells in the range meet the given @{criteria}
 @SEEALSO=SUMIF,COUNTIF
 
 @CATEGORY=Mathematics
 @FUNCTION=BETA
+@SHORTDESC=Euler beta function
 @SYNTAX=BETA(x,y)
 @DESCRIPTION=BETA function returns the value of the Euler beta function extended to all real numbers except 0 and negative integers.
 @{x}: number
@@ -2938,6 +3231,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=BETALN
+@SHORTDESC=Natural logarithm of the absolute value of the Euler beta function
 @SYNTAX=BETALN(x,y)
 @DESCRIPTION=BETALN function returns the natural logarithm of the absolute value of the Euler beta function extended to all real numbers except 0 and negative integers.
 @{x}: number
@@ -2948,6 +3242,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=CEIL
+@SHORTDESC=smallest integer larger than or equal to @{x}
 @SYNTAX=CEIL(x)
 @DESCRIPTION=CEIL(@{x}) is the smallest integer that is at least as large as @{x}.
 @{x}: number
@@ -2956,6 +3251,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=CEILING
+@SHORTDESC=nearest multiple of @{significance} whose absolute value is at least ABS(@{x})
 @SYNTAX=CEILING(x,significance)
 @DESCRIPTION=CEILING(@{x},@{significance}) is the nearest multiple of @{significance} whose absolute value is at least ABS(@{x}).
 @{x}: number
@@ -2967,6 +3263,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=CHOLESKY
+@SHORTDESC=the Cholesky decomposition of the symmetric positiv-definite @{matrix}
 @SYNTAX=CHOLESKY(matrix)
 @DESCRIPTION=.
 @{matrix}: a symmetric positive definite matrix
@@ -2976,6 +3273,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=COMBIN
+@SHORTDESC=Binomial coefficient
 @SYNTAX=COMBIN(n,k)
 @DESCRIPTION=COMBIN returns the binomial coefficient "@{n} choose @{k}", the number of @{k}-combinations of an @{n}-element set without repetition.
 @{n}: non-negative integer
@@ -2985,10 +3283,12 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=COMBINA
+@SHORTDESC=the number of @{k}-combinations of an @{n}-element set with repetition
 @SEEALSO=COMBIN
 
 @CATEGORY=Mathematics
 @FUNCTION=COS
+@SHORTDESC=Cosine function
 @SYNTAX=COS(x)
 @DESCRIPTION=This function is Excel compatible.
 @{x}: angle in radians
@@ -2997,38 +3297,56 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=COSH
+@SHORTDESC=Hyperbolic cosine function
 @SEEALSO=SIN,TAN,SINH,COSH,TANH,RADIANS,DEGREES
 
 @CATEGORY=Mathematics
 @FUNCTION=COT
+@SHORTDESC=cotangent of a value
 @SEEALSO=TAN,ACOT
 
 @CATEGORY=Mathematics
 @FUNCTION=COTH
+@SHORTDESC=hyperbolic cotangent of a value
 @SEEALSO=TANH,ACOTH
 
 @CATEGORY=Mathematics
 @FUNCTION=COUNTIF
+@SHORTDESC=count of the cells meeting the given @{criteria}
 @SEEALSO=COUNT,SUMIF
 
 @CATEGORY=Mathematics
 @FUNCTION=CSC
+@SHORTDESC=Cosecant
 @SEEALSO=SIN,COS,TAN,SEC,SINH,COSH,TANH,RADIANS,DEGREES
 
 @CATEGORY=Mathematics
 @FUNCTION=CSCH
+@SHORTDESC=Hyperbolic cosecant
 @SEEALSO=SIN,COS,TAN,CSC,SEC,SINH,COSH,TANH,RADIANS,DEGREES
 
 @CATEGORY=Mathematics
 @FUNCTION=DEGREES
+@SHORTDESC=Equivalent degrees to @{x} radians.
 @SEEALSO=RADIANS,PI
 
 @CATEGORY=Mathematics
+@FUNCTION=EIGEN
+@SHORTDESC=eigenvalues and eigenvectors of the symmetric @{matrix}
+@SYNTAX=EIGEN(matrix)
+@DESCRIPTION=.
+@{matrix}: a symmetric matrix
+@NOTE=If @{matrix} is not symmetric, EIGEN returns #NUM!
+@NOTE=If @{matrix} does not contain an equal number of columns and rows, EIGEN returns #VALUE!
+
+@CATEGORY=Mathematics
 @FUNCTION=EVEN
+@SHORTDESC= @{x} rounded away from 0 to the next even integer
 @SEEALSO=ODD
 
 @CATEGORY=Mathematics
 @FUNCTION=EXP
+@SHORTDESC=e raised to the power of @{x}
 @SYNTAX=EXP(x)
 @DESCRIPTION=.
 @{x}: number
@@ -3037,6 +3355,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=EXPM1
+@SHORTDESC=EXP(@{x})-1
 @SYNTAX=EXPM1(x)
 @DESCRIPTION=.
 @{x}: number
@@ -3045,6 +3364,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=FACT
+@SHORTDESC=the factorial of @{x}, i.e. @{x}!
 @SYNTAX=FACT(x)
 @DESCRIPTION=.
 @{x}: number
@@ -3052,6 +3372,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=FACTDOUBLE
+@SHORTDESC=double factorial
 @SYNTAX=FACTDOUBLE(x)
 @DESCRIPTION=FACTDOUBLE function returns the double factorial @{x}!!
 @{x}: non-negative integer
@@ -3061,6 +3382,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=FIB
+@SHORTDESC=Fibonacci numbers
 @SYNTAX=FIB(n)
 @DESCRIPTION=FIB(@{n}) is the @{n}th Fibonacci number.
 @{n}: positive integer
@@ -3069,6 +3391,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=FLOOR
+@SHORTDESC=nearest multiple of @{significance} whose absolute value is at most ABS(@{x}).
 @SYNTAX=FLOOR(x,significance)
 @DESCRIPTION=FLOOR(@{x},@{significance}) is the nearest multiple of @{significance} whose absolute value is at most ABS(@{x})
 @{x}: number.
@@ -3078,6 +3401,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=G_PRODUCT
+@SHORTDESC=product of all the values and cells referenced
 @SYNTAX=G_PRODUCT(x1,x2)
 @DESCRIPTION=.
 @{x1}: number
@@ -3087,14 +3411,17 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=GAMMA
+@SHORTDESC=the Gamma function
 @SEEALSO=GAMMALN
 
 @CATEGORY=Mathematics
 @FUNCTION=GAMMALN
+@SHORTDESC=natural logarithm of the Gamma function.
 @SEEALSO=GAMMA
 
 @CATEGORY=Mathematics
 @FUNCTION=GCD
+@SHORTDESC=the greatest common divisor
 @SYNTAX=GCD(n0,n1)
 @DESCRIPTION=GCD calculates the greatest common divisor of the given numbers @{n0},@{n1},..., the greatest integer that is a divisor of each argument.
 @{n0}: positive integer
@@ -3105,18 +3432,22 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=GD
+@SHORTDESC=Gudermannian function
 @SEEALSO=TAN,TANH
 
 @CATEGORY=Mathematics
 @FUNCTION=HYPOT
+@SHORTDESC=the square root of the sum of the squares of the arguments.
 @SEEALSO=MIN,MAX
 
 @CATEGORY=Mathematics
 @FUNCTION=INT
+@SHORTDESC= largest integer not larger than @{x}
 @SEEALSO=CEIL,CEILING,FLOOR,ABS,MOD
 
 @CATEGORY=Mathematics
 @FUNCTION=LCM
+@SHORTDESC=the least common multiple
 @SYNTAX=LCM(n0,n1)
 @DESCRIPTION=LCM calculates the least common multiple of the given numbers @{n0},@{n1},..., the smallest integer that is a multiple of each argument.
 @{n0}: positive integer
@@ -3127,6 +3458,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=LN
+@SHORTDESC=the natural logarithm of @{x}.
 @SYNTAX=LN(x)
 @DESCRIPTION=.
 @{x}: positive number
@@ -3135,6 +3467,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=LN1P
+@SHORTDESC=LN(1+@{x})
 @SYNTAX=LN1P(x)
 @DESCRIPTION=LN1P calculates LN(1+@{x}) but yielding a higher precision than evaluating LN(1+@{x}).
 @{x}: positive number
@@ -3144,6 +3477,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=LOG
+@SHORTDESC=Logarithm
 @SYNTAX=LOG(x,base)
 @DESCRIPTION=.
 @{x}: positive number
@@ -3154,6 +3488,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=LOG10
+@SHORTDESC=the base-10 logarithm of @{x}.
 @SYNTAX=LOG10(x)
 @DESCRIPTION=.
 @{x}: positive number
@@ -3162,6 +3497,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=LOG2
+@SHORTDESC=the base-2 logarithm of @{x}.
 @SYNTAX=LOG2(x)
 @DESCRIPTION=.
 @{x}: positive number
@@ -3170,10 +3506,12 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=MDETERM
+@SHORTDESC=the determinant of the matrix @{matrix}
 @SEEALSO=MMULT, MINVERSE
 
 @CATEGORY=Mathematics
 @FUNCTION=MINVERSE
+@SHORTDESC=the inverse matrix of @{matrix}
 @SYNTAX=MINVERSE(matrix)
 @DESCRIPTION=.
 @{matrix}: a square matrix
@@ -3183,10 +3521,12 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=MMULT
+@SHORTDESC=the matrix product of @{mat1} and @{mat2}
 @SEEALSO=TRANSPOSE,MINVERSE
 
 @CATEGORY=Mathematics
 @FUNCTION=MOD
+@SHORTDESC= the remainder of @{x} under division by @{n}
 @SYNTAX=MOD(x,n)
 @DESCRIPTION=MOD function returns the remainder when @{x} is divided by @{n}.
 @{x}: integer
@@ -3197,6 +3537,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=MROUND
+@SHORTDESC=@{x} rounded to a multiple of @{m}
 @SYNTAX=MROUND(x,m)
 @DESCRIPTION=.
 @{x}: number
@@ -3206,22 +3547,27 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=MULTINOMIAL
+@SHORTDESC=Multinomial coefficient (@{x1}+⋯+@{xn}) choose (@{x1},...,@{xn})
 @SEEALSO=COMBIN,SUM
 
 @CATEGORY=Mathematics
 @FUNCTION=MUNIT
+@SHORTDESC=the @{n} by @{n} identity matrix
 @SEEALSO=MMULT,MDETERM,MINVERSE
 
 @CATEGORY=Mathematics
 @FUNCTION=ODD
+@SHORTDESC= @{x} rounded away from 0 to the next odd integer
 @SEEALSO=EVEN
 
 @CATEGORY=Mathematics
 @FUNCTION=PI
+@SHORTDESC=the constant π
 @SEEALSO=SQRTPI
 
 @CATEGORY=Mathematics
 @FUNCTION=POWER
+@SHORTDESC=the value of @{x} raised to the power @{y}.
 @SYNTAX=POWER(x,y)
 @DESCRIPTION=.
 @{x}: number
@@ -3233,6 +3579,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=PRODUCT
+@SHORTDESC=product  of the given values
 @SYNTAX=PRODUCT(values)
 @DESCRIPTION=Product computes the product of all the values and cells referenced in the argument list.
 @{values}: a list of values to multiply
@@ -3242,6 +3589,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=QUOTIENT
+@SHORTDESC=integer portion of a division
 @SYNTAX=QUOTIENT(numerator,denominator)
 @DESCRIPTION=QUOTIENT yields the integer portion of the division @{numerator}/@{denominator}.
 QUOTIENT (@{numerator},@{denominator})⨉@{denominator}+MOD(@{numerator},@{denominator})=@{numerator}
@@ -3252,10 +3600,12 @@ QUOTIENT (@{numerator},@{denominator})⨉@{denominator}+MOD(@{numerator},@{denom
 
 @CATEGORY=Mathematics
 @FUNCTION=RADIANS
+@SHORTDESC=the number of radians equivalent to @{x} degrees.
 @SEEALSO=PI,DEGREES
 
 @CATEGORY=Mathematics
 @FUNCTION=ROMAN
+@SHORTDESC=@{n} as a roman numeral text
 @SYNTAX=ROMAN(n,type)
 @DESCRIPTION=ROMAN returns the arabic number @{n} as a roman numeral text.
 If @{type} is 0 or it is omitted, ROMAN returns classic roman numbers.
@@ -3266,6 +3616,7 @@ Type 1 is more concise than classic type, type 2 is more concise than type 1, an
 
 @CATEGORY=Mathematics
 @FUNCTION=ROUND
+@SHORTDESC=rounded @{x}
 @SYNTAX=ROUND(x,d)
 @DESCRIPTION=If @{d} is greater than zero, @{x} is rounded to the given number of digits.
 If @{d} is zero, @{x} is rounded to the next integer.
@@ -3277,6 +3628,7 @@ If @{d} is less than zero, @{x} is rounded to the left of the decimal point
 
 @CATEGORY=Mathematics
 @FUNCTION=ROUNDDOWN
+@SHORTDESC=@{x} rounded towards 0.
 @SYNTAX=ROUNDDOWN(x,d)
 @DESCRIPTION=If @{d} is greater than zero, @{x} is rounded toward 0 to the given number of digits.
 If @{d} is zero, @{x} is rounded toward 0 to the next integer.
@@ -3288,6 +3640,7 @@ If @{d} is less than zero, @{x} is rounded toward 0 to the left of the decimal p
 
 @CATEGORY=Mathematics
 @FUNCTION=ROUNDUP
+@SHORTDESC=@{x} rounded away from 0.
 @SYNTAX=ROUNDUP(x,d)
 @DESCRIPTION=If @{d} is greater than zero, @{x} is rounded away from 0 to the given number of digits.
 If @{d} is zero, @{x} is rounded away from 0 to the next integer.
@@ -3299,18 +3652,22 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 
 @CATEGORY=Mathematics
 @FUNCTION=SEC
+@SHORTDESC=Secant
 @SEEALSO=SIN,COS,TAN,CSC,SINH,COSH,TANH,RADIANS,DEGREES
 
 @CATEGORY=Mathematics
 @FUNCTION=SECH
+@SHORTDESC=Hyperbolic secant
 @SEEALSO=SIN,COS,TAN,CSC,SEC,SINH,COSH,TANH,RADIANS,DEGREES
 
 @CATEGORY=Mathematics
 @FUNCTION=SERIESSUM
+@SHORTDESC=sum of a power series at @{x}
 @SEEALSO=COUNT,SUM
 
 @CATEGORY=Mathematics
 @FUNCTION=SIGN
+@SHORTDESC=sign of @{x}
 @SYNTAX=SIGN(x)
 @DESCRIPTION=SIGN returns 1 if the @{x} is positive and it returns -1 if @{x} is negative.
 @{x}: number
@@ -3319,14 +3676,17 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 
 @CATEGORY=Mathematics
 @FUNCTION=SIN
+@SHORTDESC=Sine function
 @SEEALSO=COS,TAN,CSC,SEC,SINH,COSH,TANH,RADIANS,DEGREES
 
 @CATEGORY=Mathematics
 @FUNCTION=SINH
+@SHORTDESC=the hyperbolic sine of @{x}
 @SEEALSO=ACOS,ASINH,DEGREES,RADIANS 
 
 @CATEGORY=Mathematics
 @FUNCTION=SQRT
+@SHORTDESC=square root of @{x}
 @SYNTAX=SQRT(x)
 @DESCRIPTION=.
 @{x}: non-negative number
@@ -3335,10 +3695,12 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 
 @CATEGORY=Mathematics
 @FUNCTION=SQRTPI
+@SHORTDESC=the square root of @{x} times π
 @SEEALSO=PI
 
 @CATEGORY=Mathematics
 @FUNCTION=SUM
+@SHORTDESC=sum of the given values
 @SYNTAX=SUM(values)
 @DESCRIPTION=SUM computes the sum of all the values and cells referenced in the argument list.
 @{values}: a list of values to add
@@ -3347,6 +3709,7 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 
 @CATEGORY=Mathematics
 @FUNCTION=SUMA
+@SHORTDESC=sum of all values and cells referenced
 @SYNTAX=SUMA(area0,area1)
 @DESCRIPTION=Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1).
 @{area0}: first cell area
@@ -3356,10 +3719,12 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 
 @CATEGORY=Mathematics
 @FUNCTION=SUMIF
+@SHORTDESC=sum of the cells in @{actual_range} for which the corresponding cells in the range meet the given @{criteria}
 @SEEALSO=SUM,COUNTIF
 
 @CATEGORY=Mathematics
 @FUNCTION=SUMPRODUCT
+@SHORTDESC=Multiplies components and adds the results.
 @SYNTAX=SUMPRODUCT()
 @DESCRIPTION=Multiplies corresponding data entries in the given arrays or ranges, and then returns the sum of those products.
 
@@ -3370,10 +3735,12 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 
 @CATEGORY=Mathematics
 @FUNCTION=SUMSQ
+@SHORTDESC=sum of th squares of all values and cells referenced
 @SEEALSO=SUM,COUNT
 
 @CATEGORY=Mathematics
 @FUNCTION=SUMX2MY2
+@SHORTDESC= sum of the difference of squares
 @SYNTAX=SUMX2MY2(array0,array1)
 @DESCRIPTION=SUMX2MY2 function returns the sum of the difference of squares of corresponding values in two arrays. The equation of SUMX2MY2 is SUM(x^2-y^2).
 @{array0}: first cell area
@@ -3383,6 +3750,7 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 
 @CATEGORY=Mathematics
 @FUNCTION=SUMX2PY2
+@SHORTDESC= sum of the sum of squares
 @SYNTAX=SUMX2PY2(array0,array1)
 @DESCRIPTION=SUMX2PY2 function returns the sum of the sum of squares of corresponding values in two arrays. The equation of SUMX2PY2 is SUM(x^2+y^2).
 @{array0}: first cell area
@@ -3394,6 +3762,7 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Mathematics
 @FUNCTION=SUMXMY2
+@SHORTDESC= sum of the squares of differences
 @SYNTAX=SUMXMY2(array0,array1)
 @DESCRIPTION=SUMXMY2 function returns the sum of the squares of the differences of corresponding values in two arrays. The equation of SUMXMY2 is SUM((x-y)^2).
 @{array0}: first cell area
@@ -3405,14 +3774,17 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Mathematics
 @FUNCTION=TAN
+@SHORTDESC=tangent
 @SEEALSO=TANH,COS,COSH,SIN,SINH,DEGREES,RADIANS
 
 @CATEGORY=Mathematics
 @FUNCTION=TANH
+@SHORTDESC=hyperbolic tangent
 @SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS
 
 @CATEGORY=Mathematics
 @FUNCTION=TRUNC
+@SHORTDESC=@{x} truncated to @{d} digits
 @SYNTAX=TRUNC(x,x)
 @DESCRIPTION=.
 @{x}: number
@@ -3422,6 +3794,7 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Number Theory
 @FUNCTION=ISPRIME
+@SHORTDESC=whether @{n} is prime
 @SYNTAX=ISPRIME(n)
 @DESCRIPTION=ISPRIME returns TRUE if @{n} is prime and FALSE otherwise.
 @{n}: positive integer
@@ -3430,6 +3803,7 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Number Theory
 @FUNCTION=ITHPRIME
+@SHORTDESC=@{i}th prime
 @SYNTAX=ITHPRIME(i)
 @DESCRIPTION=ITHPRIME finds the @{i}th prime.
 @{i}: positive integer
@@ -3438,6 +3812,7 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Number Theory
 @FUNCTION=NT_D
+@SHORTDESC=number of divisors
 @SYNTAX=NT_D(n)
 @DESCRIPTION=NT_D calculates the number of divisors of @{n}.
 @{n}: positive integer
@@ -3446,6 +3821,7 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Number Theory
 @FUNCTION=NT_MU
+@SHORTDESC=Möbius mu function
 @SYNTAX=NT_MU(n)
 @DESCRIPTION=NT_MU function (Möbius mu function) returns 0  if @{n} is divisible by the square of a prime. Otherwise, if @{n} has an odd  number of different prime factors, NT_MU returns -1, and if @{n} has an even number of different prime factors, it returns 1. If @{n} = 1, NT_MU returns 1.
 @{n}: positive integer
@@ -3454,6 +3830,7 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Number Theory
 @FUNCTION=NT_PHI
+@SHORTDESC=Euler's totient function
 @SYNTAX=NT_PHI(n)
 @DESCRIPTION=.
 @{n}: positive integer
@@ -3462,6 +3839,7 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Number Theory
 @FUNCTION=NT_PI
+@SHORTDESC=number of primes upto @{n}
 @SYNTAX=NT_PI(n)
 @DESCRIPTION=NT_PI returns the number of primes less than or equal to @{n}.
 @{n}: positive integer
@@ -3470,6 +3848,7 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Number Theory
 @FUNCTION=NT_SIGMA
+@SHORTDESC=sigma function
 @SYNTAX=NT_SIGMA(n)
 @DESCRIPTION=NT_SIGMA calculates the sum of the divisors of @{n}.
 @{n}: positive integer
@@ -3478,6 +3857,7 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Number Theory
 @FUNCTION=PFACTOR
+@SHORTDESC=smallest prime factor
 @SYNTAX=PFACTOR(n)
 @DESCRIPTION=PFACTOR finds the smallest prime factor of its argument.
 @{n}: positive integer
@@ -3487,10 +3867,12 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Random Numbers
 @FUNCTION=RAND
+@SHORTDESC=a random number between zero and one.
 @SEEALSO=RANDBETWEEN
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDBERNOULLI
+@SHORTDESC=random variate from a Bernoulli distribution
 @SYNTAX=RANDBERNOULLI(p)
 @DESCRIPTION=.
 @{p}: probability of success
@@ -3499,10 +3881,12 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDBETA
+@SHORTDESC=random variate from a Beta distribution
 @SEEALSO=RAND,RANDGAMMA
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDBETWEEN
+@SHORTDESC=a random integer number between and including @{bottom} and @{top}
 @SYNTAX=RANDBETWEEN(bottom,top)
 @DESCRIPTION=.
 @{bottom}: lower limit
@@ -3512,6 +3896,7 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDBINOM
+@SHORTDESC=random variate from a binomial distribution
 @SYNTAX=RANDBINOM(p,n)
 @DESCRIPTION=.
 @{p}: probability of success in a single trial
@@ -3522,6 +3907,7 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDCAUCHY
+@SHORTDESC=random variate from a Cauchy or Lorentz distribution
 @SYNTAX=RANDCAUCHY(a)
 @DESCRIPTION=.
 @{a}: scale parameter of the distribution
@@ -3530,10 +3916,12 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDCHISQ
+@SHORTDESC=random variate from a Chi-square distribution
 @SEEALSO=RAND,RANDGAMMA
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDDISCRETE
+@SHORTDESC=random variate from a finite discrete distribution
 @SYNTAX=RANDDISCRETE(val_range,prob_range)
 @DESCRIPTION=RANDDISCRETE returns one of the values in the @{val_range}. The probabilities for each value are given in the @{prob_range}.
 @{val_range}: possible values of the random variable
@@ -3546,10 +3934,12 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDEXP
+@SHORTDESC=random variate from an exponential distribution
 @SEEALSO=RAND,RANDBETWEEN
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDEXPPOW
+@SHORTDESC=random variate from an exponential power distribution
 @SYNTAX=RANDEXPPOW(a,b)
 @DESCRIPTION=For @{b} = 1 the exponential power distribution reduces to the Laplace distribution.
 @{a}: scale parameter of the exponential power distribution
@@ -3560,10 +3950,12 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDFDIST
+@SHORTDESC=random variate from an F distribution
 @SEEALSO=RAND,RANDGAMMA
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDGAMMA
+@SHORTDESC=random variate from a Gamma distribution
 @SYNTAX=RANDGAMMA(a,b)
 @DESCRIPTION=.
 @{a}: parameter of the Gamma distribution
@@ -3573,6 +3965,7 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDGEOM
+@SHORTDESC=random variate from a geometric distribution
 @SYNTAX=RANDGEOM(p)
 @DESCRIPTION=.
 @{p}: probability of success in a single trial
@@ -3581,6 +3974,7 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDGUMBEL
+@SHORTDESC=random variate from a Gumbel distribution
 @SYNTAX=RANDGUMBEL(a,b,type)
 @DESCRIPTION=.
 @{a}: parameter of the Gumbel distribution
@@ -3591,18 +3985,22 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDHYPERG
+@SHORTDESC=random variate from a hypergeometric distribution
 @SEEALSO=RAND
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDLANDAU
+@SHORTDESC=random variate from the Landau distribution
 @SEEALSO=RAND
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDLAPLACE
+@SHORTDESC=random variate from a Laplace distribution
 @SEEALSO=RAND
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDLEVY
+@SHORTDESC=random variate from a Lévy distribution
 @SYNTAX=RANDLEVY(c,α,β)
 @DESCRIPTION=For @{α} = 1, @{β}=0, the Lévy distribution reduces to the Cauchy (or Lorentzian) distribution.
 @{c}: parameter of the Lévy distribution
@@ -3616,6 +4014,7 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDLOG
+@SHORTDESC=random variate from a logarithmic distribution
 @SYNTAX=RANDLOG(p)
 @DESCRIPTION=.
 @{p}: probability
@@ -3624,10 +4023,12 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDLOGISTIC
+@SHORTDESC=random variate from a logistic distribution
 @SEEALSO=RAND
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDLOGNORM
+@SHORTDESC=random variate from a lognormal distribution
 @SYNTAX=RANDLOGNORM(ζ,σ)
 @DESCRIPTION=.
 @{ζ}: parameter of the lognormal distribution
@@ -3637,6 +4038,7 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDNEGBINOM
+@SHORTDESC=random variate from a negative binomial distribution
 @SYNTAX=RANDNEGBINOM(p,n)
 @DESCRIPTION=.
 @{p}: probability of success in a single trial
@@ -3647,6 +4049,7 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDNORM
+@SHORTDESC=random variate from a normal distribution
 @SYNTAX=RANDNORM(μ,σ)
 @DESCRIPTION=.
 @{μ}: mean of the distribution
@@ -3656,6 +4059,7 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDNORMTAIL
+@SHORTDESC=a random variates from the upper tail of a normal distribution with mean 0
 @SYNTAX=RANDNORMTAIL(a,σ)
 @DESCRIPTION=.
 @{a}: lower limit of the tail
@@ -3665,10 +4069,12 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDPARETO
+@SHORTDESC=random variate from a Pareto distribution
 @SEEALSO=RAND
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDPOISSON
+@SHORTDESC=random variate from a Poisson distribution
 @SYNTAX=RANDPOISSON(λ)
 @DESCRIPTION=.
 @{λ}: parameter of the Poisson distribution
@@ -3677,14 +4083,17 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDRAYLEIGH
+@SHORTDESC=random variate from a Rayleigh distribution
 @SEEALSO=RAND
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDRAYLEIGHTAIL
+@SHORTDESC=random variate from the tail of a Rayleigh distribution
 @SEEALSO=RAND,RANDRAYLEIGH
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDSNORM
+@SHORTDESC=random variate from a skew normal distribution
 @SYNTAX=RANDSNORM(a,μ,σ)
 @DESCRIPTION=.
 @{a}:  amount of skew, defaults to 0
@@ -3695,14 +4104,17 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDSTDIST
+@SHORTDESC=random variate from a skew t distribution
 @SEEALSO=RANDTDIST
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDTDIST
+@SHORTDESC=random variate from a Student t distribution
 @SEEALSO=RAND
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDUNIFORM
+@SHORTDESC=random variate from the uniform distribution from @{a} to @{b}
 @SYNTAX=RANDUNIFORM(a,b)
 @DESCRIPTION=.
 @{a}: lower limit of the uniform distribution
@@ -3712,10 +4124,12 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDWEIBULL
+@SHORTDESC=random variate from a Weibull distribution
 @SEEALSO=RAND
 
 @CATEGORY=Random Numbers
 @FUNCTION=SIMTABLE
+@SHORTDESC=one of the values in the given argument list depending on the round number of the simulation tool.
 @SYNTAX=SIMTABLE(d1,d2)
 @DESCRIPTION=SIMTABLE returns one of the values in the given argument list depending on the round number of the simulation tool. When the simulation tool is not activated, SIMTABLE returns @{d1}.
 With the simulation tool and the SIMTABLE function you can test given decision variables. Each SIMTABLE function contains the possible values of a simulation variable. In most valid simulation models you should have the same number of values @{dN} for all decision variables.  If the simulation is run more rounds than there are values defined, SIMTABLE returns #N/A! error (e.g. if A1 contains `=SIMTABLE(1)' and A2 `=SIMTABLE(1,2)', A1 yields #N/A! error on the second round).
@@ -3726,6 +4140,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=ADTEST
+@SHORTDESC=Anderson-Darling Test of Normality
 @SYNTAX=ADTEST(x)
 @DESCRIPTION=This function returns an array with the first row giving the p-value of the Anderson-Darling Test, the second row the test statistic of the test, and the third the number of observations in the sample.
 @{x}: array of sample values
@@ -3735,14 +4150,17 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=AVEDEV
+@SHORTDESC=average of the absolute deviations of a data set
 @SEEALSO=STDEV
 
 @CATEGORY=Statistics
 @FUNCTION=AVERAGE
+@SHORTDESC=average of all the numeric values and cells
 @SEEALSO=SUM, COUNT
 
 @CATEGORY=Statistics
 @FUNCTION=AVERAGEA
+@SHORTDESC=average of all the values and cells
 @SYNTAX=AVERAGEA(number1,number2)
 @DESCRIPTION=Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1). Note that empty cells are not counted.
 @{number1}: first value
@@ -3752,6 +4170,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=BERNOULLI
+@SHORTDESC=probability mass function of a Bernoulli distribution
 @SYNTAX=BERNOULLI(k,p)
 @DESCRIPTION=.
 @{k}: 
@@ -3762,6 +4181,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=BETADIST
+@SHORTDESC=cumulative distribution function of the beta distribution
 @SYNTAX=BETADIST(x,alpha,beta,a,b)
 @DESCRIPTION=.
 @{x}: 
@@ -3776,6 +4196,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=BETAINV
+@SHORTDESC=inverse of the cumulative distribution function of the beta distribution
 @SYNTAX=BETAINV(p,alpha,beta,a,b)
 @DESCRIPTION=.
 @{p}: probability
@@ -3790,6 +4211,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=BINOM.DIST.RANGE
+@SHORTDESC=probability of the binomial distribution over an interval
 @SYNTAX=BINOM.DIST.RANGE(trials,p,start,end)
 @DESCRIPTION=.
 @{trials}: number of trials
@@ -3804,6 +4226,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=BINOMDIST
+@SHORTDESC=(cumulative) probability mass function of the binomial distribution
 @SYNTAX=BINOMDIST(n,trials,p,cumulative)
 @DESCRIPTION=.
 @{n}: number of successes
@@ -3818,6 +4241,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=CAUCHY
+@SHORTDESC=(cumulative) probability density function of the Cauchy, Lorentz or Breit-Wigner distribution
 @SYNTAX=CAUCHY(x,a,cumulative)
 @DESCRIPTION=.
 @{x}: 
@@ -3829,6 +4253,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=CHIDIST
+@SHORTDESC=survival function of the chi-squared distribution
 @SYNTAX=CHIDIST(x,dof)
 @DESCRIPTION=The survival function is 1 minus the cumulative distribution function.
 @{x}: 
@@ -3840,6 +4265,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=CHIINV
+@SHORTDESC=inverse of the survival function of the chi-squared distribution
 @SYNTAX=CHIINV(p,dof)
 @DESCRIPTION=The survival function is 1 minus the cumulative distribution function.
 @{p}: probability
@@ -3850,6 +4276,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=CHITEST
+@SHORTDESC=p value of the Goodness of Fit Test
 @SYNTAX=CHITEST(actual_range,theoretical_range)
 @DESCRIPTION=.
 @{actual_range}: observed data
@@ -3859,6 +4286,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=CONFIDENCE
+@SHORTDESC=margin of error of a confidence interval for the population mean
 @SYNTAX=CONFIDENCE(alpha,stddev,size)
 @DESCRIPTION=.
 @{alpha}: significance level
@@ -3872,6 +4300,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=CORREL
+@SHORTDESC=Pearson correlation coefficient of two data sets
 @SYNTAX=CORREL(array1,array2)
 @DESCRIPTION=Strings and empty cells are simply ignored.
 @{array1}: first data set
@@ -3881,14 +4310,17 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=COUNT
+@SHORTDESC=total number of integer or floating point arguments passed
 @SEEALSO=AVERAGE
 
 @CATEGORY=Statistics
 @FUNCTION=COUNTA
+@SHORTDESC=number of arguments passed not including empty cells
 @SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM
 
 @CATEGORY=Statistics
 @FUNCTION=COVAR
+@SHORTDESC=covariance of two data sets
 @SYNTAX=COVAR(array1,array2)
 @DESCRIPTION=Strings and empty cells are simply ignored.
 @{array1}: first data set
@@ -3898,6 +4330,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=CRITBINOM
+@SHORTDESC=right-tailed critical value of the binomial distribution
 @SYNTAX=CRITBINOM(trials,p,alpha)
 @DESCRIPTION=.
 @{trials}: number of trials
@@ -3911,10 +4344,12 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=CRONBACH
+@SHORTDESC=Cronbach's alpha
 @SEEALSO=VAR
 
 @CATEGORY=Statistics
 @FUNCTION=CVMTEST
+@SHORTDESC= Cramér-von Mises Test of Normality
 @SYNTAX=CVMTEST(x)
 @DESCRIPTION=This function returns an array with the first row giving the p-value of the Cramér-von Mises Test, the second row the test statistic of the test, and the third the number of observations in the sample.
 @{x}: array of sample values
@@ -3924,6 +4359,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=DEVSQ
+@SHORTDESC=sum of squares of deviations of a data set
 @SYNTAX=DEVSQ(number1,number2)
 @DESCRIPTION=Strings and empty cells are simply ignored.
 @{number1}: first value
@@ -3933,6 +4369,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=EXPONDIST
+@SHORTDESC=(cumulative)density function of the exponential distribution
 @SYNTAX=EXPONDIST(x,y,cumulative)
 @DESCRIPTION=If @{cumulative} is false it will return:	@{y} * exp (-@{y}*@{x}),otherwise it will return	1 - exp (-@{y}*@{x}).
 @{x}: 
@@ -3944,6 +4381,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=EXPPOWDIST
+@SHORTDESC= the probability density function of the Exponential Power distribution
 @SYNTAX=EXPPOWDIST(x,a,b)
 @DESCRIPTION=This distribution has been recommended for lifetime analysis when a U-shaped hazard function is desired. This corresponds to rapid failure once the product starts to wear out after a period of steady or even improving reliability.
 @{x}: 
@@ -3954,6 +4392,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=FDIST
+@SHORTDESC=survival function of the F distribution
 @SYNTAX=FDIST(x,dof_of_num,dof_of_denom)
 @DESCRIPTION=The survival function is 1 minus the cumulative distribution function.
 @{x}: 
@@ -3966,6 +4405,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=FINV
+@SHORTDESC=inverse of the survival function of the F distribution
 @SYNTAX=FINV(p,dof_of_num,dof_of_denom)
 @DESCRIPTION=The survival function is 1 minus the cumulative distribution function.
 @{p}: probability
@@ -3978,6 +4418,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=FISHER
+@SHORTDESC=Fisher transformation
 @SYNTAX=FISHER(x)
 @DESCRIPTION=.
 @{x}: 
@@ -3987,6 +4428,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=FISHERINV
+@SHORTDESC=inverse of the Fisher transformation
 @SYNTAX=FISHERINV(x)
 @DESCRIPTION=.
 @{x}: 
@@ -3995,6 +4437,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=FORECAST
+@SHORTDESC=estimates a future value according to existing values using simple linear regression
 @SYNTAX=FORECAST(x,known_y's,known_x's)
 @DESCRIPTION=This function estimates a future value according to existing values using simple linear regression.
 @{x}: x-value whose matching y-value should be forecast
@@ -4007,6 +4450,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=FREQUENCY
+@SHORTDESC=the frequency table
 @SYNTAX=FREQUENCY(data_array,bins_array)
 @DESCRIPTION=The results are given as an array.
 @{data_array}: data values
@@ -4016,10 +4460,12 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=FTEST
+@SHORTDESC=p-value for the two-tailed hypothesis test comparing the variances of two populations
 @SEEALSO=FDIST,FINV
 
 @CATEGORY=Statistics
 @FUNCTION=GAMMADIST
+@SHORTDESC=(cumulative) density function of the gamma distribution
 @SYNTAX=GAMMADIST(x,alpha,beta,cumulative)
 @DESCRIPTION=.
 @{x}: 
@@ -4032,6 +4478,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=GAMMAINV
+@SHORTDESC=inverse of the cumulative gamma distribution
 @SYNTAX=GAMMAINV(p,alpha,beta)
 @DESCRIPTION=.
 @{p}: probability
@@ -4043,6 +4490,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=GEOMDIST
+@SHORTDESC=(cumulative) probability mass function of the hypergeometric distribution
 @SYNTAX=GEOMDIST(k,p,cumulative)
 @DESCRIPTION=.
 @{k}: number of trials
@@ -4055,6 +4503,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=GEOMEAN
+@SHORTDESC=geometric mean
 @SYNTAX=GEOMEAN(number1,number2)
 @DESCRIPTION=The geometric mean is equal to the Nth root of the product of the N values.
 @{number1}: first value
@@ -4064,6 +4513,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=GROWTH
+@SHORTDESC= predicts the exponential growth
 @SYNTAX=GROWTH(known_y's,known_x's,new_x's,const)
 @DESCRIPTION=GROWTH function applies the ``least squares'' method to fit an exponential curve to your data and predicts the exponential growth by using this curve.
 @{known_y's}: known y-values
@@ -4077,6 +4527,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=HARMEAN
+@SHORTDESC=harmonic mean
 @SYNTAX=HARMEAN(number1,number2)
 @DESCRIPTION=The harmonic mean of N data points is  N divided by the sum of the reciprocals of the data points).
 @{number1}: first value
@@ -4086,6 +4537,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=HYPGEOMDIST
+@SHORTDESC=(cumulative) probability mass function of the hypergeometric distribution
 @SYNTAX=HYPGEOMDIST(x,n,M,N,cumulative)
 @DESCRIPTION=.
 @{x}: number of successes
@@ -4100,6 +4552,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=INTERCEPT
+@SHORTDESC=the intercept of a linear regression line
 @SYNTAX=INTERCEPT(known_y's,known_x's)
 @DESCRIPTION=.
 @{known_y's}: known y-values
@@ -4110,6 +4563,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=KURT
+@SHORTDESC=unbiased estimate of the kurtosis of a data set.
 @SYNTAX=KURT(number1,number2)
 @DESCRIPTION=Strings and empty cells are simply ignored.
 @{number1}: first value
@@ -4121,6 +4575,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=KURTP
+@SHORTDESC=population kurtosis of a data set
 @SYNTAX=KURTP(number1,number2)
 @DESCRIPTION=Strings and empty cells are simply ignored.
 @{number1}: first value
@@ -4131,14 +4586,17 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=LANDAU
+@SHORTDESC=approximate probability density function of the Landau distribution
 @SEEALSO=RANDLANDAU
 
 @CATEGORY=Statistics
 @FUNCTION=LAPLACE
+@SHORTDESC=probability density function of the Laplace distribution
 @SEEALSO=RANDLAPLACE
 
 @CATEGORY=Statistics
 @FUNCTION=LARGE
+@SHORTDESC=@{k}-th largest value in a data set
 @SYNTAX=LARGE(data,k)
 @DESCRIPTION=.
 @{data}: data set
@@ -4149,6 +4607,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=LINEST
+@SHORTDESC=determines multiple linear regression coefficients and statistics.
 @SYNTAX=LINEST(known_y's,known_x's,affine,stats)
 @DESCRIPTION=This function returns an array with the first row giving the regression coefficients for the independent variables x_m, x_(m-1),...,x_2, x_1 followed by the y-intercept if @{affine} is true.
 @{known_y's}: vector of values of dependent variable.
@@ -4163,6 +4622,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=LKSTEST
+@SHORTDESC=Lilliefors (Kolmogorov-Smirnov) Test of Normality
 @SYNTAX=LKSTEST(x)
 @DESCRIPTION=This function returns an array with the first row giving the p-value of the Lilliefors (Kolmogorov-Smirnov) Test, the second row the test statistic of the test, and the third the number of observations in the sample.
 @{x}: array of sample values
@@ -4172,6 +4632,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=LOGEST
+@SHORTDESC=exponential least square fit
 @SYNTAX=LOGEST(known_y's,known_x's,const,stat)
 @DESCRIPTION=LOGEST function applies the ``least squares'' method to fit an exponential curve of the form	y = b * m{1}^x{1} * m{2}^x{2}... to your data.
 @{known_y's}: known y-values
@@ -4186,6 +4647,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=LOGFIT
+@SHORTDESC=logarithmic least square fit (using a trial and error method)
 @SYNTAX=LOGFIT(known_y's,known_x's)
 @DESCRIPTION=LOGFIT function applies the ``least squares'' method to fit the logarithmic equation y = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 to your data. The graph of the equation is a logarithmic curve moved horizontally by c and possibly mirrored across the y-axis (if sign = -1).
 @{known_y's}: known y-values
@@ -4199,6 +4661,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=LOGINV
+@SHORTDESC=inverse of the cumulative distribution function of the lognormal distribution
 @SYNTAX=LOGINV(p,mean,stddev)
 @DESCRIPTION=.
 @{p}: probability
@@ -4209,10 +4672,12 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=LOGISTIC
+@SHORTDESC=probability density function of the logistic distribution
 @SEEALSO=RANDLOGISTIC
 
 @CATEGORY=Statistics
 @FUNCTION=LOGNORMDIST
+@SHORTDESC=cumulative distribution function of the lognormal distribution
 @SYNTAX=LOGNORMDIST(x,mean,stddev)
 @DESCRIPTION=.
 @{x}: 
@@ -4224,6 +4689,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=LOGREG
+@SHORTDESC=the logarithmic regression
 @SYNTAX=LOGREG(known_y's,known_x's,const,stat)
 @DESCRIPTION=LOGREG function transforms your x's to z=ln(x) and applies the ``least squares'' method to fit the linear equation y = m * z + b to your y's and z's --- equivalent to fitting the equation y = m * ln(x) + b to y's and x's. LOGREG returns an array having two columns and one row. m is given in the first column and b in the second. 
 @{known_y's}: known y-values
@@ -4237,10 +4703,12 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=MAX
+@SHORTDESC=largest value, with negative numbers considered smaller than positive numbers.
 @SEEALSO=MIN,ABS
 
 @CATEGORY=Statistics
 @FUNCTION=MAXA
+@SHORTDESC=largest value, with negative numbers considered smaller than positive numbers.
 @SYNTAX=MAXA(number1,number2)
 @DESCRIPTION=Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1). Note that empty cells are not counted.
 @{number1}: first value
@@ -4250,6 +4718,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=MEDIAN
+@SHORTDESC=median of a data set
 @SYNTAX=MEDIAN(number1,number2)
 @DESCRIPTION=Strings and empty cells are simply ignored.
 @{number1}: first value
@@ -4260,10 +4729,12 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=MIN
+@SHORTDESC=smallest value, with negative numbers considered smaller than positive numbers
 @SEEALSO=MAX,ABS
 
 @CATEGORY=Statistics
 @FUNCTION=MINA
+@SHORTDESC=smallest value, with negative numbers considered smaller than positive numbers
 @SYNTAX=MINA(number1,number2)
 @DESCRIPTION=Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1). Note that empty cells are not counted.
 @{number1}: first value
@@ -4273,6 +4744,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=MODE
+@SHORTDESC=first most common number in the dataset
 @SYNTAX=MODE(number1,number2)
 @DESCRIPTION=Strings and empty cells are simply ignored.
 @{number1}: first value
@@ -4283,6 +4755,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=NEGBINOMDIST
+@SHORTDESC=probability mass function of the negative binomial distribution
 @SYNTAX=NEGBINOMDIST(f,t,p)
 @DESCRIPTION=.
 @{f}: number of failures
@@ -4295,6 +4768,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=NORMDIST
+@SHORTDESC=(cumulative) probability density function of a normal distribution
 @SYNTAX=NORMDIST(x,mean,stddev,cumulative)
 @DESCRIPTION=.
 @{x}: 
@@ -4306,6 +4780,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=NORMINV
+@SHORTDESC=inverse of the cumulative distribution function of a normal distribution
 @SYNTAX=NORMINV(p,mean,stddev)
 @DESCRIPTION=.
 @{p}: probability
@@ -4316,10 +4791,12 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=NORMSDIST
+@SHORTDESC=cumulative density function of the standard normal distribution
 @SEEALSO=NORMDIST
 
 @CATEGORY=Statistics
 @FUNCTION=NORMSINV
+@SHORTDESC=inverse of the cumulative density function of the standard normal distribution
 @SYNTAX=NORMSINV(p)
 @DESCRIPTION=.
 @{p}: given probability
@@ -4328,10 +4805,12 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=PARETO
+@SHORTDESC=probability density function of the pareto distribution
 @SEEALSO=RANDPARETO
 
 @CATEGORY=Statistics
 @FUNCTION=PEARSON
+@SHORTDESC=Pearson correlation coefficient of the paired set of data
 @SYNTAX=PEARSON(array1,array2)
 @DESCRIPTION=Strings and empty cells are simply ignored.
 @{array1}: first component values
@@ -4341,6 +4820,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=PERCENTILE
+@SHORTDESC=determines the  100*@{k}-th percentile of the given data points
 @SYNTAX=PERCENTILE(array,k)
 @DESCRIPTION=.
 @{array}: data points
@@ -4351,6 +4831,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=PERCENTRANK
+@SHORTDESC=rank of a data point in a data set.
 @SYNTAX=PERCENTRANK(array,x,significance)
 @DESCRIPTION=.
 @{array}: range of numeric values
@@ -4364,6 +4845,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=PERMUT
+@SHORTDESC=number of @{k}-permutations of a @{n}-set
 @SYNTAX=PERMUT(n,k)
 @DESCRIPTION=.
 @{n}: size of the base set
@@ -4374,6 +4856,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=PERMUTATIONA
+@SHORTDESC=the number of permutations of @{y} objects chosen from @{x} objects with repetition allowed.
 @SYNTAX=PERMUTATIONA(x,y)
 @DESCRIPTION=.
 @{x}: total number of objects
@@ -4385,6 +4868,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=POISSON
+@SHORTDESC=(cumulative) probability mass function of the Poisson distribution
 @SYNTAX=POISSON(x,mean,cumulative)
 @DESCRIPTION=.
 @{x}: number of events
@@ -4397,6 +4881,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=PROB
+@SHORTDESC=probability of an interval for a discrete (and finite) probability distribution
 @SYNTAX=PROB(x_range,prob_range,lower_limit,upper_limit)
 @DESCRIPTION=.
 @{x_range}: possible values
@@ -4410,6 +4895,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=QUARTILE
+@SHORTDESC=the @{k}-th quartile of the data points
 @SYNTAX=QUARTILE(array,quart)
 @DESCRIPTION=.
 @{array}: data points
@@ -4421,6 +4907,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.DBETA
+@SHORTDESC=probability density function of the beta distribution
 @SYNTAX=R.DBETA(x,a,b,give_log)
 @DESCRIPTION=This function returns the probability density function of the beta distribution.
 @{x}: observation
@@ -4432,6 +4919,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.DBINOM
+@SHORTDESC=probability density function of the binomial distribution
 @SYNTAX=R.DBINOM(x,n,psuc,give_log)
 @DESCRIPTION=This function returns the probability density function of the binomial distribution.
 @{x}: observation
@@ -4443,6 +4931,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.DCAUCHY
+@SHORTDESC=probability density function of the Cauchy distribution
 @SYNTAX=R.DCAUCHY(x,location,scale,give_log)
 @DESCRIPTION=This function returns the probability density function of the Cauchy distribution.
 @{x}: observation
@@ -4454,6 +4943,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.DCHISQ
+@SHORTDESC=probability density function of the chi-square distribution
 @SYNTAX=R.DCHISQ(x,df,give_log)
 @DESCRIPTION=This function returns the probability density function of the chi-square distribution.
 @{x}: observation
@@ -4464,6 +4954,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.DEXP
+@SHORTDESC=probability density function of the exponential distribution
 @SYNTAX=R.DEXP(x,scale,give_log)
 @DESCRIPTION=This function returns the probability density function of the exponential distribution.
 @{x}: observation
@@ -4474,6 +4965,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.DF
+@SHORTDESC=probability density function of the F distribution
 @SYNTAX=R.DF(x,n1,n2,give_log)
 @DESCRIPTION=This function returns the probability density function of the F distribution.
 @{x}: observation
@@ -4485,6 +4977,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.DGAMMA
+@SHORTDESC=probability density function of the gamma distribution
 @SYNTAX=R.DGAMMA(x,shape,scale,give_log)
 @DESCRIPTION=This function returns the probability density function of the gamma distribution.
 @{x}: observation
@@ -4496,6 +4989,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.DGEOM
+@SHORTDESC=probability density function of the geometric distribution
 @SYNTAX=R.DGEOM(x,psuc,give_log)
 @DESCRIPTION=This function returns the probability density function of the geometric distribution.
 @{x}: observation
@@ -4506,6 +5000,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.DHYPER
+@SHORTDESC=probability density function of the hypergeometric distribution
 @SYNTAX=R.DHYPER(x,r,b,n,give_log)
 @DESCRIPTION=This function returns the probability density function of the hypergeometric distribution.
 @{x}: observation
@@ -4518,6 +5013,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.DLNORM
+@SHORTDESC=probability density function of the log-normal distribution
 @SYNTAX=R.DLNORM(x,logmean,logsd,give_log)
 @DESCRIPTION=This function returns the probability density function of the log-normal distribution.
 @{x}: observation
@@ -4529,6 +5025,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.DNBINOM
+@SHORTDESC=probability density function of the negative binomial distribution
 @SYNTAX=R.DNBINOM(x,n,psuc,give_log)
 @DESCRIPTION=This function returns the probability density function of the negative binomial distribution.
 @{x}: observation
@@ -4540,6 +5037,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.DNORM
+@SHORTDESC=probability density function of the normal distribution
 @SYNTAX=R.DNORM(x,mu,sigma,give_log)
 @DESCRIPTION=This function returns the probability density function of the normal distribution.
 @{x}: observation
@@ -4551,6 +5049,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.DPOIS
+@SHORTDESC=probability density function of the Poisson distribution
 @SYNTAX=R.DPOIS(x,lambda,give_log)
 @DESCRIPTION=This function returns the probability density function of the Poisson distribution.
 @{x}: observation
@@ -4561,6 +5060,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.DSNORM
+@SHORTDESC=probability density function of the skew-normal distribution
 @SYNTAX=R.DSNORM(x,shape,location,scale,give_log)
 @DESCRIPTION=This function returns the probability density function of the skew-normal distribution.
 @{x}: observation
@@ -4573,6 +5073,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.DST
+@SHORTDESC=probability density function of the skew-t distribution
 @SYNTAX=R.DST(x,n,shape,give_log)
 @DESCRIPTION=This function returns the probability density function of the skew-t distribution.
 @{x}: observation
@@ -4584,6 +5085,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.DT
+@SHORTDESC=probability density function of the Student t distribution
 @SYNTAX=R.DT(x,n,give_log)
 @DESCRIPTION=This function returns the probability density function of the Student t distribution.
 @{x}: observation
@@ -4594,6 +5096,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.DWEIBULL
+@SHORTDESC=probability density function of the Weibull distribution
 @SYNTAX=R.DWEIBULL(x,shape,scale,give_log)
 @DESCRIPTION=This function returns the probability density function of the Weibull distribution.
 @{x}: observation
@@ -4605,6 +5108,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.PBETA
+@SHORTDESC=cumulative distribution function of the beta distribution
 @SYNTAX=R.PBETA(x,a,b,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the beta distribution.
 @{x}: observation
@@ -4617,6 +5121,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.PBINOM
+@SHORTDESC=cumulative distribution function of the binomial distribution
 @SYNTAX=R.PBINOM(x,n,psuc,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the binomial distribution.
 @{x}: observation
@@ -4629,6 +5134,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.PCAUCHY
+@SHORTDESC=cumulative distribution function of the Cauchy distribution
 @SYNTAX=R.PCAUCHY(x,location,scale,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the Cauchy distribution.
 @{x}: observation
@@ -4641,6 +5147,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.PCHISQ
+@SHORTDESC=cumulative distribution function of the chi-square distribution
 @SYNTAX=R.PCHISQ(x,df,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the chi-square distribution.
 @{x}: observation
@@ -4652,6 +5159,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.PEXP
+@SHORTDESC=cumulative distribution function of the exponential distribution
 @SYNTAX=R.PEXP(x,scale,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the exponential distribution.
 @{x}: observation
@@ -4663,6 +5171,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.PF
+@SHORTDESC=cumulative distribution function of the F distribution
 @SYNTAX=R.PF(x,n1,n2,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the F distribution.
 @{x}: observation
@@ -4675,6 +5184,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.PGAMMA
+@SHORTDESC=cumulative distribution function of the gamma distribution
 @SYNTAX=R.PGAMMA(x,shape,scale,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the gamma distribution.
 @{x}: observation
@@ -4687,6 +5197,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.PGEOM
+@SHORTDESC=cumulative distribution function of the geometric distribution
 @SYNTAX=R.PGEOM(x,psuc,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the geometric distribution.
 @{x}: observation
@@ -4698,6 +5209,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.PHYPER
+@SHORTDESC=cumulative distribution function of the hypergeometric distribution
 @SYNTAX=R.PHYPER(x,r,b,n,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the hypergeometric distribution.
 @{x}: observation
@@ -4711,6 +5223,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.PLNORM
+@SHORTDESC=cumulative distribution function of the log-normal distribution
 @SYNTAX=R.PLNORM(x,logmean,logsd,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the log-normal distribution.
 @{x}: observation
@@ -4723,6 +5236,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.PNBINOM
+@SHORTDESC=cumulative distribution function of the negative binomial distribution
 @SYNTAX=R.PNBINOM(x,n,psuc,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the negative binomial distribution.
 @{x}: observation
@@ -4735,6 +5249,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.PNORM
+@SHORTDESC=cumulative distribution function of the normal distribution
 @SYNTAX=R.PNORM(x,mu,sigma,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the normal distribution.
 @{x}: observation
@@ -4747,6 +5262,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.PPOIS
+@SHORTDESC=cumulative distribution function of the Poisson distribution
 @SYNTAX=R.PPOIS(x,lambda,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the Poisson distribution.
 @{x}: observation
@@ -4758,6 +5274,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.PSNORM
+@SHORTDESC=cumulative distribution function of the skew-normal distribution
 @SYNTAX=R.PSNORM(x,shape,location,scale,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the skew-normal distribution.
 @{x}: observation
@@ -4771,6 +5288,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.PT
+@SHORTDESC=cumulative distribution function of the Student t distribution
 @SYNTAX=R.PT(x,n,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the Student t distribution.
 @{x}: observation
@@ -4782,6 +5300,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.PWEIBULL
+@SHORTDESC=cumulative distribution function of the Weibull distribution
 @SYNTAX=R.PWEIBULL(x,shape,scale,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the Weibull distribution.
 @{x}: observation
@@ -4794,6 +5313,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.QBETA
+@SHORTDESC=probability quantile function of the beta distribution
 @SYNTAX=R.QBETA(p,a,b,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the beta distribution.
 @{p}: probability
@@ -4806,6 +5326,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.QBINOM
+@SHORTDESC=probability quantile function of the binomial distribution
 @SYNTAX=R.QBINOM(x,n,psuc,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the binomial distribution.
 @{x}: observation
@@ -4818,6 +5339,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.QCAUCHY
+@SHORTDESC=probability quantile function of the Cauchy distribution
 @SYNTAX=R.QCAUCHY(p,location,scale,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Cauchy distribution.
 @{p}: probability
@@ -4830,6 +5352,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.QCHISQ
+@SHORTDESC=probability quantile function of the chi-square distribution
 @SYNTAX=R.QCHISQ(p,df,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the chi-square distribution.
 @{p}: probability
@@ -4841,6 +5364,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.QEXP
+@SHORTDESC=probability quantile function of the exponential distribution
 @SYNTAX=R.QEXP(p,scale,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the exponential distribution.
 @{p}: probability
@@ -4852,6 +5376,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.QF
+@SHORTDESC=probability quantile function of the F distribution
 @SYNTAX=R.QF(x,n1,n2,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the F distribution.
 @{x}: observation
@@ -4864,6 +5389,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.QGAMMA
+@SHORTDESC=probability quantile function of the gamma distribution
 @SYNTAX=R.QGAMMA(p,shape,scale,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the gamma distribution.
 @{p}: probability
@@ -4876,6 +5402,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.QGEOM
+@SHORTDESC=probability quantile function of the geometric distribution
 @SYNTAX=R.QGEOM(p,psuc,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the geometric distribution.
 @{p}: probability
@@ -4887,6 +5414,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.QHYPER
+@SHORTDESC=probability quantile function of the hypergeometric distribution
 @SYNTAX=R.QHYPER(p,r,b,n,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the hypergeometric distribution.
 @{p}: probability
@@ -4900,6 +5428,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.QLNORM
+@SHORTDESC=probability quantile function of the log-normal distribution
 @SYNTAX=R.QLNORM(x,logmean,logsd,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the log-normal distribution.
 @{x}: observation
@@ -4912,6 +5441,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.QNBINOM
+@SHORTDESC=probability quantile function of the negative binomial distribution
 @SYNTAX=R.QNBINOM(p,n,psuc,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the negative binomial distribution.
 @{p}: probability
@@ -4924,6 +5454,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.QNORM
+@SHORTDESC=probability quantile function of the normal distribution
 @SYNTAX=R.QNORM(p,mu,sigma,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the normal distribution.
 @{p}: probability
@@ -4936,6 +5467,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.QPOIS
+@SHORTDESC=probability quantile function of the Poisson distribution
 @SYNTAX=R.QPOIS(p,lambda,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Poisson distribution.
 @{p}: probability
@@ -4947,6 +5479,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.QT
+@SHORTDESC=probability quantile function of the Student t distribution
 @SYNTAX=R.QT(p,n,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Student t distribution.
 @{p}: probability
@@ -4958,6 +5491,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=R.QWEIBULL
+@SHORTDESC=probability quantile function of the Weibull distribution
 @SYNTAX=R.QWEIBULL(p,shape,scale,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Weibull distribution.
 @{p}: probability
@@ -4970,6 +5504,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=RANK
+@SHORTDESC=rank of a number in a list of numbers
 @SYNTAX=RANK(x,ref,order)
 @DESCRIPTION=.
 @{x}: number whose rank you want to find
@@ -4980,6 +5515,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=RANK.AVG
+@SHORTDESC=rank of a number in a list of numbers
 @SYNTAX=RANK.AVG(x,ref,order)
 @DESCRIPTION=.
 @{x}: number whose rank you want to find
@@ -4990,14 +5526,17 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=RAYLEIGH
+@SHORTDESC=probability density function of the Rayleigh distribution
 @SEEALSO=RANDRAYLEIGH
 
 @CATEGORY=Statistics
 @FUNCTION=RAYLEIGHTAIL
+@SHORTDESC=probability density function of the Rayleigh tail distribution
 @SEEALSO=RANDRAYLEIGHTAIL
 
 @CATEGORY=Statistics
 @FUNCTION=RSQ
+@SHORTDESC=square of the Pearson correlation coefficient of the paired set of data
 @SYNTAX=RSQ(array1,array2)
 @DESCRIPTION=Strings and empty cells are simply ignored.
 @{array1}: first component values
@@ -5007,6 +5546,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=SFTEST
+@SHORTDESC=Shapiro-Francia Test of Normality
 @SYNTAX=SFTEST(x)
 @DESCRIPTION=This function returns an array with the first row giving the p-value of the Shapiro-Francia Test, the second row the test statistic of the test, and the third the number of observations in the sample.
 @{x}: array of sample values
@@ -5016,6 +5556,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=SKEW
+@SHORTDESC=unbiased estimate for skewness of a distribution
 @SYNTAX=SKEW(number1,number2)
 @DESCRIPTION=Strings and empty cells are simply ignored.
 @{number1}: first value
@@ -5027,6 +5568,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=SKEWP
+@SHORTDESC=population skewness of a data set
 @SYNTAX=SKEWP(number1,number2)
 @DESCRIPTION=Strings and empty cells are simply ignored.
 @{number1}: first value
@@ -5037,6 +5579,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=SLOPE
+@SHORTDESC=the slope of a linear regression line
 @SYNTAX=SLOPE(known_y's,known_x's)
 @DESCRIPTION=.
 @{known_y's}: known y-values
@@ -5047,6 +5590,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=SMALL
+@SHORTDESC= @{k}-th smallest value in a data set.
 @SYNTAX=SMALL(data,k)
 @DESCRIPTION=.
 @{data}: data set
@@ -5057,6 +5601,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=SSMEDIAN
+@SHORTDESC=median for grouped data as commonly determined in the social sciences
 @SYNTAX=SSMEDIAN(array,interval)
 @DESCRIPTION=The data points given in @{array} are assumed to be the result of grouping data into intervals of length @{interval}
 @{array}: data set
@@ -5068,6 +5613,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=STANDARDIZE
+@SHORTDESC=z-score of a value
 @SYNTAX=STANDARDIZE(x,mean,stddev)
 @DESCRIPTION=.
 @{x}: value
@@ -5078,6 +5624,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=STDEV
+@SHORTDESC=sample standard deviation of the given sample
 @SYNTAX=STDEV(area1,area2)
 @DESCRIPTION=STDEV is also known as the N-1-standard deviation.
 @{area1}: first cell area
@@ -5088,6 +5635,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=STDEVA
+@SHORTDESC=sample standard deviation of the given sample.
 @SYNTAX=STDEVA(area1,area2)
 @DESCRIPTION=STDEVA is also known as the N-1-standard deviation.
 @{area1}: first cell area
@@ -5099,6 +5647,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=STDEVP
+@SHORTDESC=population standard deviation of the given population
 @SYNTAX=STDEVP(area1,area2)
 @DESCRIPTION=This is also known as the N-standard deviation
 @{area1}: first cell area
@@ -5108,6 +5657,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=STDEVPA
+@SHORTDESC=population standard deviation of an entire population.
 @SYNTAX=STDEVPA(area1,area2)
 @DESCRIPTION=This is also known as the N-standard deviation
 @{area1}: first cell area
@@ -5118,6 +5668,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=STEYX
+@SHORTDESC=standard error of the predicted y-value in the regression
 @SYNTAX=STEYX(known_y's,known_x's)
 @DESCRIPTION=.
 @{known_y's}: known y-values
@@ -5127,10 +5678,12 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=SUBTOTAL
+@SHORTDESC=the subtotal of the given list of arguments
 @SEEALSO=COUNT,SUM
 
 @CATEGORY=Statistics
 @FUNCTION=TDIST
+@SHORTDESC=survival function of the Student t-distribution
 @SYNTAX=TDIST(x,dof,tails)
 @DESCRIPTION=The survival function is 1 minus the cumulative distribution function.
 @{x}: 
@@ -5145,6 +5698,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=TINV
+@SHORTDESC=inverse of the survival function of the Student t-distribution
 @SYNTAX=TINV(p,dof)
 @DESCRIPTION=The survival function is 1 minus the cumulative distribution function.
 @{p}: probability
@@ -5156,6 +5710,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=TREND
+@SHORTDESC=estimates future values of a given data set using a least squares approximation
 @SYNTAX=TREND(known_y's,known_x's,new_x's,const)
 @DESCRIPTION=.
 @{known_y's}: known y-values
@@ -5167,6 +5722,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=TRIMMEAN
+@SHORTDESC=mean of the interior of a data set
 @SYNTAX=TRIMMEAN(ref,fraction)
 @DESCRIPTION=If @{fraction}=0.2 and the data set contains 40 numbers, 8 numbers are trimmed from the data set (40 x 0.2): the 4 largest and the 4 smallest. To avoid a bias, the number of points to be excluded is always rounded down to the nearest even number.
 @{ref}: list of numbers whose mean you want to calculate
@@ -5176,6 +5732,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=TTEST
+@SHORTDESC=p-value for a hypothesis test comparing the means of two populations usingthe Student t-distribution
 @SYNTAX=TTEST(array1,array2,tails,type)
 @DESCRIPTION=.
 @{array1}: sample from the first population
@@ -5190,6 +5747,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=VAR
+@SHORTDESC=sample variance of the given sample
 @SYNTAX=VAR(area1,area2)
 @DESCRIPTION=VAR is also known as the N-1-variance.
 @{area1}: first cell area
@@ -5200,6 +5758,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=VARA
+@SHORTDESC=sample variance of the given sample
 @SYNTAX=VARA(area1,area2)
 @DESCRIPTION=VARA is also known as the N-1-variance.
 @{area1}: first cell area
@@ -5212,6 +5771,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=VARP
+@SHORTDESC=variance of an entire population
 @SYNTAX=VARP(area1,area2)
 @DESCRIPTION=VARP is also known as the N-variance.
 @{area1}: first cell area
@@ -5221,6 +5781,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=VARPA
+@SHORTDESC=variance of an entire population
 @SYNTAX=VARPA(area1,area2)
 @DESCRIPTION=VARPA is also known as the N-variance.
 @{area1}: first cell area
@@ -5231,6 +5792,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=WEIBULL
+@SHORTDESC=(cumulative) probability density function of the Weibull distribution
 @SYNTAX=WEIBULL(x,alpha,beta,cumulative)
 @DESCRIPTION=If the @{cumulative} boolean is true it will return: 1 - exp (-(@{x}/@{beta})^@{alpha}),otherwise it will return (@{alpha}/@{beta}^@{alpha}) * @{x}^(@{alpha}-1) * exp(-(@{x}/@{beta}^@{alpha})).
 @{x}: 
@@ -5244,6 +5806,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=ZTEST
+@SHORTDESC=p-value of a 2-tailed z-test for a population mean
 @SYNTAX=ZTEST(ref,x,stddev)
 @DESCRIPTION=.
 @{ref}: data set
@@ -5254,6 +5817,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=String
 @FUNCTION=ASC
+@SHORTDESC=text with full-width katakana and ASCII characters converted to half-width.
 @SYNTAX=ASC(text)
 @DESCRIPTION=ASC converts full-width katakana and ASCII characters to half-width equivalent characters, copying all others. 
 @{text}: string
@@ -5264,6 +5828,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=String
 @FUNCTION=CHAR
+@SHORTDESC=the CP1252 (Windows-1252) character for the code point @{x}.
 @SYNTAX=CHAR(x)
 @DESCRIPTION=CHAR(@{x}) returns the CP1252 (Windows-1252) character with code @{x}.
 @{x}: code point
@@ -5278,6 +5843,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=String
 @FUNCTION=CLEAN
+@SHORTDESC=@{text} with any non-printable characters removed
 @SYNTAX=CLEAN(text)
 @DESCRIPTION=CLEAN removes non-printable characters from its argument leaving only regular characters and white-space.
 @{text}: string
@@ -5285,6 +5851,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=String
 @FUNCTION=CODE
+@SHORTDESC=the CP1252 (Windows-1252) code point for the character @{c}
 @SYNTAX=CODE(c)
 @DESCRIPTION=@{c} must be a valid CP1252 (Windows-1252) character.
 @{c}: character
@@ -5298,18 +5865,22 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=String
 @FUNCTION=CONCATENATE
+@SHORTDESC=the concatenation of the strings @{s1}, @{s2},...
 @SEEALSO=LEFT,MID,RIGHT
 
 @CATEGORY=String
 @FUNCTION=DOLLAR
+@SHORTDESC=@{num} formatted as currency.
 @SEEALSO=FIXED,TEXT,VALUE
 
 @CATEGORY=String
 @FUNCTION=EXACT
+@SHORTDESC=TRUE if @{string1} is exactly equal to @{string2}
 @SEEALSO=LEN,SEARCH,DELTA
 
 @CATEGORY=String
 @FUNCTION=FIND
+@SHORTDESC=first position of @{string1} in @{string2} following position @{start}
 @SYNTAX=FIND(string1,string2,start)
 @DESCRIPTION=.
 @{string1}: search string
@@ -5320,6 +5891,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=String
 @FUNCTION=FINDB
+@SHORTDESC=first byte position of @{string1} in @{string2} following byte position @{start}
 @SYNTAX=FINDB(string1,string2,start)
 @DESCRIPTION=.
 @{string1}: search string
@@ -5330,10 +5902,12 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=String
 @FUNCTION=FIXED
+@SHORTDESC=formatted string representation of @{num}
 @SEEALSO=TEXT,VALUE,DOLLAR
 
 @CATEGORY=String
 @FUNCTION=JIS
+@SHORTDESC=text with half-width katakana and ASCII characters converted to full-width.
 @SYNTAX=JIS(text)
 @DESCRIPTION=JIS converts half-width katakana and ASCII characters to full-width equivalent characters, copying all others. 
 @{text}: original text
@@ -5344,6 +5918,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=String
 @FUNCTION=LEFT
+@SHORTDESC=the first @{num_chars} characters of the string @{s}
 @SYNTAX=LEFT(s,num_chars)
 @DESCRIPTION=.
 @{s}: the string
@@ -5353,6 +5928,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=String
 @FUNCTION=LEFTB
+@SHORTDESC=the first characters  of the string @{s} comprising at most @{num_bytes} bytes
 @SYNTAX=LEFTB(s,num_bytes)
 @DESCRIPTION=.
 @{s}: the string
@@ -5363,22 +5939,27 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=String
 @FUNCTION=LEN
+@SHORTDESC=the number of characters of the string @{s}
 @SEEALSO=CHAR,CODE,LENB
 
 @CATEGORY=String
 @FUNCTION=LENB
+@SHORTDESC=the number of bytes in the string @{s}
 @SEEALSO=CHAR, CODE, LEN
 
 @CATEGORY=String
 @FUNCTION=LOWER
+@SHORTDESC=a lower-case version of the string @{text}.
 @SEEALSO=UPPER
 
 @CATEGORY=String
 @FUNCTION=MID
+@SHORTDESC=the substring of the string @{s} starting at position @{position} consisting of @{length} characters
 @SEEALSO=LEFT,RIGHT,LEN,LEFTB,MIDB,RIGHTB,LENB
 
 @CATEGORY=String
 @FUNCTION=MIDB
+@SHORTDESC=the characters following the first @{start_pos} bytes comprising at most @{num_bytes} bytes
 @SYNTAX=MIDB(s,start_pos,num_bytes)
 @DESCRIPTION=.
 @{s}: the string
@@ -5389,6 +5970,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=String
 @FUNCTION=NUMBERVALUE
+@SHORTDESC=numeric value of @{text}
 @SYNTAX=NUMBERVALUE(text,separator)
 @DESCRIPTION=.
 @{text}: string
@@ -5398,14 +5980,17 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=String
 @FUNCTION=PROPER
+@SHORTDESC=@{text} with initial of each word capitalised.
 @SEEALSO=LOWER,UPPER
 
 @CATEGORY=String
 @FUNCTION=REPLACE
+@SHORTDESC=String @{old} with @{num} characters starting at @{start} replaced by @{new}
 @SEEALSO=MID,SEARCH,SUBSTITUTE,TRIM
 
 @CATEGORY=String
 @FUNCTION=REPLACEB
+@SHORTDESC=string @{old} with up to @{num} bytes starting at @{start} replaced by @{new}
 @SYNTAX=REPLACEB(old,start,num,new)
 @DESCRIPTION=REPLACEB replaces the string of valid unicode characters starting at the byte @{start} and ending at @{start}+@{num}-1 with the string @{new}.
 @{old}: original text
@@ -5418,10 +6003,12 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=String
 @FUNCTION=REPT
+@SHORTDESC=@{num} repetitions of string @{text}
 @SEEALSO=CONCATENATE
 
 @CATEGORY=String
 @FUNCTION=RIGHT
+@SHORTDESC=the last @{num_chars} characters of the string @{s}
 @SYNTAX=RIGHT(s,num_chars)
 @DESCRIPTION=.
 @{s}: the string
@@ -5431,6 +6018,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=String
 @FUNCTION=RIGHTB
+@SHORTDESC=the last characters of the string @{s} comprising at most @{num_bytes} bytes
 @SYNTAX=RIGHTB(s,num_bytes)
 @DESCRIPTION=.
 @{s}: the string
@@ -5441,6 +6029,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=String
 @FUNCTION=SEARCH
+@SHORTDESC=the location of the @{search} string within @{text} after position @{start}
 @SYNTAX=SEARCH(search,text,start)
 @DESCRIPTION=@{search} may contain wildcard characters (*) and question marks (?). A question mark matches any single character, and a wildcard matches any string including the empty string. To search for * or ?, precede the symbol with ~.
 @{search}: search string
@@ -5454,6 +6043,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=String
 @FUNCTION=SEARCHB
+@SHORTDESC=the location of the @{search} string within @{text} after byte position @{start}
 @SYNTAX=SEARCHB(search,text,start)
 @DESCRIPTION=@{search} may contain wildcard characters (*) and question marks (?). A question mark matches any single character, and a wildcard matches any string including the empty string. To search for * or ?, precede the symbol with ~.
 @{search}: search string
@@ -5468,38 +6058,47 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=String
 @FUNCTION=SUBSTITUTE
+@SHORTDESC=@{text} with all occurrences of @{old} replaced by @{new}
 @SEEALSO=REPLACE,TRIM
 
 @CATEGORY=String
 @FUNCTION=T
+@SHORTDESC=@{value} if and only if @{value} is text, otherwise empty
 @SEEALSO=CELL,N,VALUE
 
 @CATEGORY=String
 @FUNCTION=TEXT
+@SHORTDESC=@{value} as a string formatted as @{format}
 @SEEALSO=DOLLAR,FIXED,VALUE
 
 @CATEGORY=String
 @FUNCTION=TRIM
+@SHORTDESC=@{text} with only single spaces between words.
 @SEEALSO=CLEAN,MID,REPLACE,SUBSTITUTE
 
 @CATEGORY=String
 @FUNCTION=UNICHAR
+@SHORTDESC=the Unicode character represented by the Unicode code point @{x}.
 @SEEALSO=CHAR,UNICODE,CODE
 
 @CATEGORY=String
 @FUNCTION=UNICODE
+@SHORTDESC=the Unicode code point for the character @{c}
 @SEEALSO=UNICHAR,CODE,CHAR
 
 @CATEGORY=String
 @FUNCTION=UPPER
+@SHORTDESC=an upper-case version of the string @text.
 @SEEALSO=LOWER
 
 @CATEGORY=String
 @FUNCTION=VALUE
+@SHORTDESC=numeric value of @{text}
 @SEEALSO=DOLLAR,FIXED,TEXT
 
 @CATEGORY=Time Series Analysis
 @FUNCTION=FOURIER
+@SHORTDESC=Fourier or inverse Fourier transform.
 @SYNTAX=FOURIER(Sequence,Inverse)
 @DESCRIPTION=This array function returns the Fourier or inverse Fourier transform of the given data sequence.
 @{Sequence}:  the data sequence to be transformed
@@ -5510,6 +6109,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Time Series Analysis
 @FUNCTION=INTERPOLATION
+@SHORTDESC=interpolated values corresponding to the given abscissa targets.
 @SYNTAX=INTERPOLATION(abscissas,ordinates,targets,interpolation)
 @DESCRIPTION=If an interpolation method is used, the number of returned values is one less than the number of targets and the targets values must be given in increasing order.
 @{abscissas}: The abscissas of the data to interpolate.
@@ -5531,6 +6131,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Time Series Analysis
 @FUNCTION=PERIODOGRAM
+@SHORTDESC= Periodogram of the given data.
 @SYNTAX=PERIODOGRAM(ordinates,filter,abscissas,interpolation,number)
 @DESCRIPTION=If an interpolation method is used, the number of returned values is one less than the number of targets and the targets values must be given in increasing order.
 @{ordinates}: The ordinates of the data to interpolate.

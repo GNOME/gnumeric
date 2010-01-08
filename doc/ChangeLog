@@ -1,3 +1,8 @@
+2010-01-07 Andreas J. Guelzow <aguelzow@pyrshep>
+
+	* make-func-list.pl: also include the short 
+	  description
+
 2009-12-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.17

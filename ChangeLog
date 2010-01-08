@@ -1,10 +1,15 @@
+2010-01-07 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/func.c (function_dump_defs): also dump the short description
+
 2010-01-06  Morten Welinder  <terra@gnome.org>
 
 	* src/item-bar.c (item_bar_unrealize): Chain up.
 
 2010-01-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/rangefunc.h (gnm_range_increasing): use the correctly typed function
+	* src/rangefunc.h (gnm_range_increasing): use the correctly typed 
+	  function
 
 2010-01-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

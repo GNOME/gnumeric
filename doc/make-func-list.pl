@@ -120,9 +120,18 @@ sub process_function($) {
 	print $ws, "  </refmeta>\n";
 	print $ws, "  <refnamediv>\n";
 	print $ws, "    <refname><function>$func</function></refname>\n";
-	print $ws, "  <refpurpose/>\n";
-	print $ws, "  </refnamediv>\n";
 	push @tagstack, ('</refentry>');
+	push @tagstack, ('</refnamediv>');
+}
+
+sub process_short_desc($) {
+	my ($desc) = @_;
+
+	my $ws = "  " x scalar(@tagstack);
+	print $ws, "  <refpurpose>\n";
+	print $ws, "    ", &markup_stuff ($desc), "\n";
+	print $ws, "  </refpurpose>\n";
+    close_including('/refnamediv');
 }
 
 sub process_description($) {
@@ -196,6 +205,7 @@ sub process_seealso($) {
 my %processor = (
 	'CATEGORY'	=> \&process_category,
 	'FUNCTION'	=> \&process_function,
+	'SHORTDESC'	=> \&process_short_desc,
 	'SYNTAX'	=> \&process_syntax,
 	'DESCRIPTION'	=> \&process_description,
 	'SEEALSO'	=> \&process_seealso,
