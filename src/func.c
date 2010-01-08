@@ -358,7 +358,7 @@ function_dump_defs (char const *filename, int dump_type)
 				case GNM_FUNC_HELP_NOTE:
 					if (!seen_desc) {
 						g_string_append_c (syntax, ')');
-						fprintf (output_file, "%s\n@DESCRIPTION=.\n%s",
+						fprintf (output_file, "%s\n@DESCRIPTION=%s",
 							 syntax->str,
 							 arg_desc->str);
 						seen_desc = TRUE;
@@ -394,6 +394,14 @@ function_dump_defs (char const *filename, int dump_type)
 					break;
 				}
 			}
+			if (!seen_desc) {
+				g_string_append_c (syntax, ')');
+				fprintf (output_file, "%s\n@DESCRIPTION=%s",
+							 syntax->str,
+					 arg_desc->str);
+				seen_desc = TRUE;
+			}
+
 			g_string_free (syntax, TRUE);
 			g_string_free (arg_desc, TRUE);
 			fputc ('\n', output_file);
