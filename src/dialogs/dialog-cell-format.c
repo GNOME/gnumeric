@@ -2266,6 +2266,13 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 		GnmBorder *borders[GNM_STYLE_BORDER_EDGE_MAX];
 		int i;
 
+		/* We need to make sure the right sheet is active */
+		/* since we are acting on the current selection   */
+		/* validation may have switched sheets.           */
+
+		wb_control_sheet_focus (WORKBOOK_CONTROL (state->wbcg), 
+					state->sheet);
+
 		if (state->validation.changed)
 			validation_rebuild_validation (state);
 
