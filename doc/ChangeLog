@@ -1,5 +1,11 @@
 2010-01-07 Andreas J. Guelzow <aguelzow@pyrshep>
 
+	* make-func-list.pl (process_function):
+	  don't push refnamediv
+	(process_short_desc): close refnamediv
+
+2010-01-07 Andreas J. Guelzow <aguelzow@pyrshep>
+
 	* make-func-list.pl: also include the short 
 	  description
 

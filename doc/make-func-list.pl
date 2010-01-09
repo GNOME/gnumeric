@@ -121,7 +121,6 @@ sub process_function($) {
 	print $ws, "  <refnamediv>\n";
 	print $ws, "    <refname><function>$func</function></refname>\n";
 	push @tagstack, ('</refentry>');
-	push @tagstack, ('</refnamediv>');
 }
 
 sub process_short_desc($) {
@@ -131,7 +130,7 @@ sub process_short_desc($) {
 	print $ws, "  <refpurpose>\n";
 	print $ws, "    ", &markup_stuff ($desc), "\n";
 	print $ws, "  </refpurpose>\n";
-    close_including('/refnamediv');
+	print $ws, "</refnamediv>\n";
 }
 
 sub process_description($) {
