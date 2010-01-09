@@ -711,56 +711,56 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @CATEGORY=Date/Time
 @FUNCTION=HDATE
 @SHORTDESC=Hebrew date
-@SEEALSO=HDATE_HEB,DATE
 @SYNTAX=HDATE(year,month,day)
 @DESCRIPTION=@{year}: year of date
 @{month}: month of year
 @{day}: day of month
+@SEEALSO=HDATE_HEB,DATE
 
 @CATEGORY=Date/Time
 @FUNCTION=HDATE_DAY
 @SHORTDESC=Hebrew day of Gregorian date
-@SEEALSO=HDATE_JULIAN
 @SYNTAX=HDATE_DAY(year,month,day)
 @DESCRIPTION=@{year}: Gregorian year of date
 @{month}: Gregorian month of year
 @{day}: Gregorian day of month
+@SEEALSO=HDATE_JULIAN
 
 @CATEGORY=Date/Time
 @FUNCTION=HDATE_HEB
 @SHORTDESC=Hebrew date in Hebrew
-@SEEALSO=HDATE,DATE
 @SYNTAX=HDATE_HEB(year,month,day)
 @DESCRIPTION=@{year}: year of date
 @{month}: month of year
 @{day}: day of month
+@SEEALSO=HDATE,DATE
 
 @CATEGORY=Date/Time
 @FUNCTION=HDATE_JULIAN
 @SHORTDESC=Julian day number for given Gregorian date
-@SEEALSO=HDATE
 @SYNTAX=HDATE_JULIAN(year,month,day)
 @DESCRIPTION=@{year}: Gregorian year of date
 @{month}: Gregorian month of year
 @{day}: Gregorian day of month
+@SEEALSO=HDATE
 
 @CATEGORY=Date/Time
 @FUNCTION=HDATE_MONTH
 @SHORTDESC=Hebrew month of Gregorian date
-@SEEALSO=HDATE_JULIAN
 @SYNTAX=HDATE_MONTH(year,month,day)
 @DESCRIPTION=@{year}: Gregorian year of date
 @{month}: Gregorian month of year
 @{day}: Gregorian day of month
+@SEEALSO=HDATE_JULIAN
 
 @CATEGORY=Date/Time
 @FUNCTION=HDATE_YEAR
 @SHORTDESC=Hebrew year of Gregorian date
-@SEEALSO=HDATE_JULIAN
 @SYNTAX=HDATE_YEAR(year,month,day)
 @DESCRIPTION=@{year}: Gregorian year of date
 @{month}: Gregorian month of year
 @{day}: Gregorian day of month
+@SEEALSO=HDATE_JULIAN
 
 @CATEGORY=Date/Time
 @FUNCTION=HOUR
@@ -995,9 +995,9 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @CATEGORY=Engineering
 @FUNCTION=BIN2DEC
 @SHORTDESC=decimal representation of the binary number @{x}
-@SEEALSO=DEC2BIN,BIN2OCT,BIN2HEX
 @SYNTAX=BIN2DEC(x)
 @DESCRIPTION=@{x}: a binary number, either as a string or as a number involving only the digits 0 and 1
+@SEEALSO=DEC2BIN,BIN2OCT,BIN2HEX
 
 @CATEGORY=Engineering
 @FUNCTION=BIN2HEX
@@ -1154,10 +1154,10 @@ For metric units any of the following prefixes can be used:
 @CATEGORY=Engineering
 @FUNCTION=DECIMAL
 @SHORTDESC=decimal representation of @{x}
-@SEEALSO=BASE
 @SYNTAX=DECIMAL(x,base)
 @DESCRIPTION=@{x}: number in base @{base}
 @{base}: base of @{x}, (2 ≤ @{b} ≤ 36)
+@SEEALSO=BASE
 
 @CATEGORY=Engineering
 @FUNCTION=DELTA
@@ -1213,9 +1213,9 @@ For metric units any of the following prefixes can be used:
 @CATEGORY=Engineering
 @FUNCTION=HEX2DEC
 @SHORTDESC=decimal representation of the hexadecimal number @{x}
-@SEEALSO=DEC2HEX,HEX2BIN,HEX2OCT
 @SYNTAX=HEX2DEC(x)
 @DESCRIPTION=@{x}: a hexadecimal number, either as a string or as a number if no A to F are needed
+@SEEALSO=DEC2HEX,HEX2BIN,HEX2OCT
 
 @CATEGORY=Engineering
 @FUNCTION=HEX2OCT
@@ -1251,9 +1251,9 @@ If any argument is zero, the result is zero.
 @CATEGORY=Engineering
 @FUNCTION=OCT2DEC
 @SHORTDESC=decimal representation of the octal number @{x}
-@SEEALSO=DEC2OCT,OCT2BIN,OCT2HEX
 @SYNTAX=OCT2DEC(x)
 @DESCRIPTION=@{x}: a octal number, either as a string or as a number
+@SEEALSO=DEC2OCT,OCT2BIN,OCT2HEX
 
 @CATEGORY=Engineering
 @FUNCTION=OCT2HEX
@@ -1962,7 +1962,6 @@ If any argument is zero, the result is zero.
 @CATEGORY=Finance
 @FUNCTION=OPT_BAW_AMER
 @SHORTDESC=theoretical price of an option according to the Barone Adesie & Whaley approximation
-@SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 @SYNTAX=OPT_BAW_AMER(call_put_flag,spot,strike,time,rate,cost_of_carry,volatility)
 @DESCRIPTION=@{call_put_flag}: 'c' for a call and 'p' for a put
 @{spot}: spot price
@@ -1971,6 +1970,7 @@ If any argument is zero, the result is zero.
 @{rate}: annualized risk-free interest rate
 @{cost_of_carry}: net cost of holding the underlying asset
 @{volatility}: annualized volatility of the asset
+@SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
 @FUNCTION=OPT_BINOMIAL
@@ -1991,7 +1991,6 @@ If any argument is zero, the result is zero.
 @CATEGORY=Finance
 @FUNCTION=OPT_BJER_STENS
 @SHORTDESC=theoretical price of American options according to the Bjerksund & Stensland approximation technique
-@SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 @SYNTAX=OPT_BJER_STENS(call_put_flag,spot,strike,time,rate,volatility,cost_of_carry)
 @DESCRIPTION=@{call_put_flag}: 'c' for a call and 'p' for a put
 @{spot}: spot price
@@ -2000,6 +1999,7 @@ If any argument is zero, the result is zero.
 @{rate}: annualized risk-free interest rate
 @{volatility}: annualized volatility of the asset
 @{cost_of_carry}: net cost of holding the underlying asset (for common stocks, the risk free rate less the dividend yield), defaults to 0
+@SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
 @FUNCTION=OPT_BS
@@ -2116,7 +2116,6 @@ If any argument is zero, the result is zero.
 @CATEGORY=Finance
 @FUNCTION=OPT_COMPLEX_CHOOSER
 @SHORTDESC=theoretical price of a complex chooser option
-@SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 @SYNTAX=OPT_COMPLEX_CHOOSER(spot,strike_call,strike_put,time,time_call,time_put,rate,cost_of_carry,volatility)
 @DESCRIPTION=@{spot}: spot price
 @{strike_call}: strike price, if exercised as a call option.
@@ -2127,6 +2126,7 @@ If any argument is zero, the result is zero.
 @{rate}: annualized risk-free interest rate
 @{cost_of_carry}: net cost of holding the underlying asset
 @{volatility}: annualized volatility of the asset in percent for the period through to the exercise date
+@SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
 @FUNCTION=OPT_EURO_EXCHANGE
@@ -2215,7 +2215,6 @@ If any argument is zero, the result is zero.
 @CATEGORY=Finance
 @FUNCTION=OPT_FORWARD_START
 @SHORTDESC=theoretical price of forward start options
-@SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 @SYNTAX=OPT_FORWARD_START(call_put_flag,spot,alpha,time_start,time,rate,volatility,cost_of_carry)
 @DESCRIPTION=@{call_put_flag}: 'c' for a call and 'p' for a put
 @{spot}: spot price
@@ -2225,6 +2224,7 @@ If any argument is zero, the result is zero.
 @{rate}: annualized risk-free interest rate
 @{volatility}: annualized volatility of the asset
 @{cost_of_carry}: net cost of holding the underlying asset
+@SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
 @FUNCTION=OPT_FRENCH
@@ -2276,7 +2276,6 @@ If any argument is zero, the result is zero.
 @CATEGORY=Finance
 @FUNCTION=OPT_MILTERSEN_SCHWARTZ
 @SHORTDESC=theoretical price of options on commodities futures according to Miltersen & Schwartz
-@SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 @SYNTAX=OPT_MILTERSEN_SCHWARTZ(call_put_flag,p_t,f_t,strike,t1,t2,v_s,v_e,v_f,rho_se,rho_sf,rho_ef,kappa_e,kappa_f)
 @DESCRIPTION=@{call_put_flag}: 'c' for a call and 'p' for a put
 @{p_t}: zero coupon bond with expiry at option maturity
@@ -2292,6 +2291,7 @@ If any argument is zero, the result is zero.
 @{rho_ef}: correlation between the forward interest rate and the convenience yield
 @{kappa_e}: speed of mean reversion of the convenience yield
 @{kappa_f}: speed of mean reversion of the forward interest rate
+@SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
 @FUNCTION=OPT_ON_OPTIONS
@@ -2312,7 +2312,6 @@ If any argument is zero, the result is zero.
 @CATEGORY=Finance
 @FUNCTION=OPT_RGW
 @SHORTDESC=theoretical price of an American option according to the Roll-Geske-Whaley approximation
-@SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 @SYNTAX=OPT_RGW(spot,strike,time_payout,time_exp,rate,d,volatility)
 @DESCRIPTION=@{spot}: spot price
 @{strike}: strike price
@@ -2321,11 +2320,11 @@ If any argument is zero, the result is zero.
 @{rate}: annualized interest rate
 @{d}: amount of the dividend to be paid expressed in currency
 @{volatility}: annualized volatility of the asset in percent for the period through to the exercise date
+@SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
 @FUNCTION=OPT_SIMPLE_CHOOSER
 @SHORTDESC=theoretical price of a simple chooser option
-@SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 @SYNTAX=OPT_SIMPLE_CHOOSER(call_put_flag,spot,strike,time1,time2,cost_of_carry,volatility)
 @DESCRIPTION=@{call_put_flag}: 'c' for a call and 'p' for a put
 @{spot}: spot price
@@ -2334,11 +2333,11 @@ If any argument is zero, the result is zero.
 @{time2}: time in years until the chosen option expires
 @{cost_of_carry}: net cost of holding the underlying asset
 @{volatility}: annualized volatility of the asset
+@SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
 @FUNCTION=OPT_SPREAD_APPROX
 @SHORTDESC=theoretical price of a European option on the spread between two futures contracts
-@SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 @SYNTAX=OPT_SPREAD_APPROX(call_put_flag,fut_price1,fut_price2,strike,time,rate,volatility1,volatility2,rho)
 @DESCRIPTION=@{call_put_flag}: 'c' for a call and 'p' for a put
 @{fut_price1}: price of the first futures contract
@@ -2349,6 +2348,7 @@ If any argument is zero, the result is zero.
 @{volatility1}: annualized volatility in price of the first underlying futures contract
 @{volatility2}: annualized volatility in price of the second underlying futures contract
 @{rho}: correlation between the two futures contracts
+@SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
 @FUNCTION=OPT_TIME_SWITCH
@@ -2716,16 +2716,16 @@ If any argument is zero, the result is zero.
 @CATEGORY=Information
 @FUNCTION=COUNTBLANK
 @SHORTDESC=the number of blank cells in @{range}
-@SEEALSO=COUNT
 @SYNTAX=COUNTBLANK(range)
 @DESCRIPTION=@{range}: a cell range
+@SEEALSO=COUNT
 
 @CATEGORY=Information
 @FUNCTION=ERROR
 @SHORTDESC=the error with name @{text}
-@SEEALSO=ISERROR
 @SYNTAX=ERROR(name)
 @DESCRIPTION=@{name}: string
+@SEEALSO=ISERROR
 
 @CATEGORY=Information
 @FUNCTION=ERROR.TYPE
@@ -2754,9 +2754,9 @@ If any argument is zero, the result is zero.
 @CATEGORY=Information
 @FUNCTION=GET.FORMULA
 @SHORTDESC=The formula in @{cell} as a string.
-@SEEALSO=EXPRESSION,ISFORMULA
 @SYNTAX=GET.FORMULA(cell)
 @DESCRIPTION=@{cell}: the referenced cell
+@SEEALSO=EXPRESSION,ISFORMULA
 
 @CATEGORY=Information
 @FUNCTION=GET.LINK
@@ -2802,30 +2802,30 @@ If any argument is zero, the result is zero.
 @CATEGORY=Information
 @FUNCTION=ISERR
 @SHORTDESC=TRUE if @{value} is any error value except #N/A
-@SEEALSO=ISERROR
 @SYNTAX=ISERR(value)
 @DESCRIPTION=@{value}: a value
+@SEEALSO=ISERROR
 
 @CATEGORY=Information
 @FUNCTION=ISERROR
 @SHORTDESC=TRUE if @{value} is any error value
-@SEEALSO=ISERR,ISNA
 @SYNTAX=ISERROR(value)
 @DESCRIPTION=@{value}: a value
+@SEEALSO=ISERR,ISNA
 
 @CATEGORY=Information
 @FUNCTION=ISEVEN
 @SHORTDESC=TRUE if @{n} is even.
-@SEEALSO=ISODD
 @SYNTAX=ISEVEN(n)
 @DESCRIPTION=@{n}: number
+@SEEALSO=ISODD
 
 @CATEGORY=Information
 @FUNCTION=ISFORMULA
 @SHORTDESC=TRUE if @{cell} contains a formula.
-@SEEALSO=GET.FORMULA
 @SYNTAX=ISFORMULA(cell)
 @DESCRIPTION=@{cell}: the referenced cell
+@SEEALSO=GET.FORMULA
 
 @CATEGORY=Information
 @FUNCTION=ISLOGICAL
@@ -2838,16 +2838,16 @@ If any argument is zero, the result is zero.
 @CATEGORY=Information
 @FUNCTION=ISNA
 @SHORTDESC=TRUE if @{value} is the #N/A error value.
-@SEEALSO=NA
 @SYNTAX=ISNA(value)
 @DESCRIPTION=@{value}: a value
+@SEEALSO=NA
 
 @CATEGORY=Information
 @FUNCTION=ISNONTEXT
 @SHORTDESC=TRUE if @{value} is not text.
-@SEEALSO=ISTEXT
 @SYNTAX=ISNONTEXT(value)
 @DESCRIPTION=@{value}: a value
+@SEEALSO=ISTEXT
 
 @CATEGORY=Information
 @FUNCTION=ISNUMBER
@@ -2860,9 +2860,9 @@ If any argument is zero, the result is zero.
 @CATEGORY=Information
 @FUNCTION=ISODD
 @SHORTDESC=TRUE if @{n} is odd.
-@SEEALSO=ISEVEN
 @SYNTAX=ISODD(n)
 @DESCRIPTION=@{n}: number
+@SEEALSO=ISEVEN
 
 @CATEGORY=Information
 @FUNCTION=ISREF
@@ -2875,9 +2875,9 @@ If any argument is zero, the result is zero.
 @CATEGORY=Information
 @FUNCTION=ISTEXT
 @SHORTDESC=TRUE if @{value} is text.
-@SEEALSO=ISNONTEXT
 @SYNTAX=ISTEXT(value)
 @DESCRIPTION=@{value}: a value
+@SEEALSO=ISNONTEXT
 
 @CATEGORY=Information
 @FUNCTION=N
@@ -2889,9 +2889,9 @@ If any argument is zero, the result is zero.
 @CATEGORY=Information
 @FUNCTION=NA
 @SHORTDESC=the error value #N/A
-@SEEALSO=ISNA
 @SYNTAX=NA()
-@DESCRIPTION=
+@DESCRIPTION=@SEEALSO=ISNA
+
 @CATEGORY=Information
 @FUNCTION=TYPE
 @SHORTDESC=a number indicating the data type of @{value}
@@ -3021,9 +3021,9 @@ If any argument is zero, the result is zero.
 @CATEGORY=Lookup
 @FUNCTION=AREAS
 @SHORTDESC=number of areas in @{reference}
-@SEEALSO=ADDRESS,INDEX,INDIRECT,OFFSET
 @SYNTAX=AREAS(reference)
 @DESCRIPTION=@{reference}: range
+@SEEALSO=ADDRESS,INDEX,INDIRECT,OFFSET
 
 @CATEGORY=Lookup
 @FUNCTION=CHOOSE
@@ -3188,9 +3188,9 @@ If any argument is zero, the result is zero.
 @CATEGORY=Lookup
 @FUNCTION=TRANSPOSE
 @SHORTDESC=the transpose of @{matrix}
-@SEEALSO=MMULT
 @SYNTAX=TRANSPOSE(matrix)
 @DESCRIPTION=@{matrix}: range
+@SEEALSO=MMULT
 
 @CATEGORY=Lookup
 @FUNCTION=VLOOKUP
@@ -3219,30 +3219,30 @@ If any argument is zero, the result is zero.
 @CATEGORY=Mathematics
 @FUNCTION=ACOS
 @SHORTDESC=the arc cosine of @{x}
-@SEEALSO=COS, SIN, DEGREES, RADIANS
 @SYNTAX=ACOS(x)
 @DESCRIPTION=@{x}: number
+@SEEALSO=COS, SIN, DEGREES, RADIANS
 
 @CATEGORY=Mathematics
 @FUNCTION=ACOSH
 @SHORTDESC=the hyperbolic arc cosine of @{x}
-@SEEALSO=ACOS,ASINH,DEGREES,RADIANS 
 @SYNTAX=ACOSH(x)
 @DESCRIPTION=@{x}: number
+@SEEALSO=ACOS,ASINH,DEGREES,RADIANS 
 
 @CATEGORY=Mathematics
 @FUNCTION=ACOT
 @SHORTDESC=inverse cotangent of a value
-@SEEALSO=COT,TAN
 @SYNTAX=ACOT(x)
 @DESCRIPTION=@{x}: value
+@SEEALSO=COT,TAN
 
 @CATEGORY=Mathematics
 @FUNCTION=ACOTH
 @SHORTDESC=inverse hyperbolic cotangent of a value
-@SEEALSO=COTH,TANH
 @SYNTAX=ACOTH(x)
 @DESCRIPTION=@{x}: number
+@SEEALSO=COTH,TANH
 
 @CATEGORY=Mathematics
 @FUNCTION=Arabic
@@ -3304,11 +3304,11 @@ If any argument is zero, the result is zero.
 @CATEGORY=Mathematics
 @FUNCTION=AVERAGEIF
 @SHORTDESC=average of the cells in @{actual range} for which the corresponding cells in the range meet the given @{criteria}
-@SEEALSO=SUMIF,COUNTIF
 @SYNTAX=AVERAGEIF(range,criteria,actual_range)
 @DESCRIPTION=@{range}: cell area
 @{criteria}:  condition for a cell to be included
 @{actual_range}:  cell area, defaults to @{range}
+@SEEALSO=SUMIF,COUNTIF
 
 @CATEGORY=Mathematics
 @FUNCTION=BETA
@@ -3375,10 +3375,10 @@ If any argument is zero, the result is zero.
 @CATEGORY=Mathematics
 @FUNCTION=COMBINA
 @SHORTDESC=the number of @{k}-combinations of an @{n}-element set with repetition
-@SEEALSO=COMBIN
 @SYNTAX=COMBINA(n,k)
 @DESCRIPTION=@{n}: non-negative integer
 @{k}: non-negative integer
+@SEEALSO=COMBIN
 
 @CATEGORY=Mathematics
 @FUNCTION=COS
@@ -3392,52 +3392,52 @@ If any argument is zero, the result is zero.
 @CATEGORY=Mathematics
 @FUNCTION=COSH
 @SHORTDESC=Hyperbolic cosine function
-@SEEALSO=SIN,TAN,SINH,COSH,TANH,RADIANS,DEGREES
 @SYNTAX=COSH(x)
 @DESCRIPTION=@{x}: angle in radians
+@SEEALSO=SIN,TAN,SINH,COSH,TANH,RADIANS,DEGREES
 
 @CATEGORY=Mathematics
 @FUNCTION=COT
 @SHORTDESC=cotangent of a value
-@SEEALSO=TAN,ACOT
 @SYNTAX=COT(x)
 @DESCRIPTION=@{x}: number
+@SEEALSO=TAN,ACOT
 
 @CATEGORY=Mathematics
 @FUNCTION=COTH
 @SHORTDESC=hyperbolic cotangent of a value
-@SEEALSO=TANH,ACOTH
 @SYNTAX=COTH(x)
 @DESCRIPTION=@{x}: number
+@SEEALSO=TANH,ACOTH
 
 @CATEGORY=Mathematics
 @FUNCTION=COUNTIF
 @SHORTDESC=count of the cells meeting the given @{criteria}
-@SEEALSO=COUNT,SUMIF
 @SYNTAX=COUNTIF(range,criteria)
 @DESCRIPTION=@{range}: cell area
 @{criteria}:  condition for a cell to be counted
+@SEEALSO=COUNT,SUMIF
 
 @CATEGORY=Mathematics
 @FUNCTION=CSC
 @SHORTDESC=Cosecant
-@SEEALSO=SIN,COS,TAN,SEC,SINH,COSH,TANH,RADIANS,DEGREES
 @SYNTAX=CSC(x)
 @DESCRIPTION=@{x}: angle in radians
+@SEEALSO=SIN,COS,TAN,SEC,SINH,COSH,TANH,RADIANS,DEGREES
 
 @CATEGORY=Mathematics
 @FUNCTION=CSCH
 @SHORTDESC=Hyperbolic cosecant
-@SEEALSO=SIN,COS,TAN,CSC,SEC,SINH,COSH,TANH,RADIANS,DEGREES
 @SYNTAX=CSCH(x)
 @DESCRIPTION=@{x}: angle in radians
+@SEEALSO=SIN,COS,TAN,CSC,SEC,SINH,COSH,TANH,RADIANS,DEGREES
 
 @CATEGORY=Mathematics
 @FUNCTION=DEGREES
 @SHORTDESC=Equivalent degrees to @{x} radians.
-@SEEALSO=RADIANS,PI
 @SYNTAX=DEGREES(x)
 @DESCRIPTION=@{x}: angle in radians
+@SEEALSO=RADIANS,PI
 
 @CATEGORY=Mathematics
 @FUNCTION=EIGEN
@@ -3450,9 +3450,9 @@ If any argument is zero, the result is zero.
 @CATEGORY=Mathematics
 @FUNCTION=EVEN
 @SHORTDESC= @{x} rounded away from 0 to the next even integer
-@SEEALSO=ODD
 @SYNTAX=EVEN(x)
 @DESCRIPTION=@{x}: number
+@SEEALSO=ODD
 
 @CATEGORY=Mathematics
 @FUNCTION=EXP
@@ -3518,16 +3518,16 @@ If any argument is zero, the result is zero.
 @CATEGORY=Mathematics
 @FUNCTION=GAMMA
 @SHORTDESC=the Gamma function
-@SEEALSO=GAMMALN
 @SYNTAX=GAMMA(x)
 @DESCRIPTION=@{x}: number
+@SEEALSO=GAMMALN
 
 @CATEGORY=Mathematics
 @FUNCTION=GAMMALN
 @SHORTDESC=natural logarithm of the Gamma function.
-@SEEALSO=GAMMA
 @SYNTAX=GAMMALN(x)
 @DESCRIPTION=@{x}: number
+@SEEALSO=GAMMA
 
 @CATEGORY=Mathematics
 @FUNCTION=GCD
@@ -3543,24 +3543,24 @@ If any argument is zero, the result is zero.
 @CATEGORY=Mathematics
 @FUNCTION=GD
 @SHORTDESC=Gudermannian function
-@SEEALSO=TAN,TANH
 @SYNTAX=GD(x)
 @DESCRIPTION=@{x}: value
+@SEEALSO=TAN,TANH
 
 @CATEGORY=Mathematics
 @FUNCTION=HYPOT
 @SHORTDESC=the square root of the sum of the squares of the arguments.
-@SEEALSO=MIN,MAX
 @SYNTAX=HYPOT(n0,n1)
 @DESCRIPTION=@{n0}: number
 @{n1}: number
+@SEEALSO=MIN,MAX
 
 @CATEGORY=Mathematics
 @FUNCTION=INT
 @SHORTDESC= largest integer not larger than @{x}
-@SEEALSO=CEIL,CEILING,FLOOR,ABS,MOD
 @SYNTAX=INT(x)
 @DESCRIPTION=@{x}: number
+@SEEALSO=CEIL,CEILING,FLOOR,ABS,MOD
 
 @CATEGORY=Mathematics
 @FUNCTION=LCM
@@ -3620,9 +3620,9 @@ If any argument is zero, the result is zero.
 @CATEGORY=Mathematics
 @FUNCTION=MDETERM
 @SHORTDESC=the determinant of the matrix @{matrix}
-@SEEALSO=MMULT, MINVERSE
 @SYNTAX=MDETERM(matrix)
 @DESCRIPTION=@{matrix}: a square matrix
+@SEEALSO=MMULT, MINVERSE
 
 @CATEGORY=Mathematics
 @FUNCTION=MINVERSE
@@ -3636,10 +3636,10 @@ If any argument is zero, the result is zero.
 @CATEGORY=Mathematics
 @FUNCTION=MMULT
 @SHORTDESC=the matrix product of @{mat1} and @{mat2}
-@SEEALSO=TRANSPOSE,MINVERSE
 @SYNTAX=MMULT(mat1,mat2)
 @DESCRIPTION=@{mat1}: a matrix
 @{mat2}: a matrix
+@SEEALSO=TRANSPOSE,MINVERSE
 
 @CATEGORY=Mathematics
 @FUNCTION=MOD
@@ -3664,32 +3664,32 @@ If any argument is zero, the result is zero.
 @CATEGORY=Mathematics
 @FUNCTION=MULTINOMIAL
 @SHORTDESC=Multinomial coefficient (@{x1}+⋯+@{xn}) choose (@{x1},...,@{xn})
-@SEEALSO=COMBIN,SUM
 @SYNTAX=MULTINOMIAL(x1,x2,xn)
 @DESCRIPTION=@{x1}: first number
 @{x2}: second number
 @{xn}: nth number
+@SEEALSO=COMBIN,SUM
 
 @CATEGORY=Mathematics
 @FUNCTION=MUNIT
 @SHORTDESC=the @{n} by @{n} identity matrix
-@SEEALSO=MMULT,MDETERM,MINVERSE
 @SYNTAX=MUNIT(n)
 @DESCRIPTION=@{n}: size of the matrix
+@SEEALSO=MMULT,MDETERM,MINVERSE
 
 @CATEGORY=Mathematics
 @FUNCTION=ODD
 @SHORTDESC= @{x} rounded away from 0 to the next odd integer
-@SEEALSO=EVEN
 @SYNTAX=ODD(x)
 @DESCRIPTION=@{x}: number
+@SEEALSO=EVEN
 
 @CATEGORY=Mathematics
 @FUNCTION=PI
 @SHORTDESC=the constant π
-@SEEALSO=SQRTPI
 @SYNTAX=PI()
-@DESCRIPTION=
+@DESCRIPTION=@SEEALSO=SQRTPI
+
 @CATEGORY=Mathematics
 @FUNCTION=POWER
 @SHORTDESC=the value of @{x} raised to the power @{y}.
@@ -3725,9 +3725,9 @@ QUOTIENT (@{numerator},@{denominator})⨉@{denominator}+MOD(@{numerator},@{denom
 @CATEGORY=Mathematics
 @FUNCTION=RADIANS
 @SHORTDESC=the number of radians equivalent to @{x} degrees.
-@SEEALSO=PI,DEGREES
 @SYNTAX=RADIANS(x)
 @DESCRIPTION=@{x}: angle in degrees
+@SEEALSO=PI,DEGREES
 
 @CATEGORY=Mathematics
 @FUNCTION=ROMAN
@@ -3779,26 +3779,26 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @CATEGORY=Mathematics
 @FUNCTION=SEC
 @SHORTDESC=Secant
-@SEEALSO=SIN,COS,TAN,CSC,SINH,COSH,TANH,RADIANS,DEGREES
 @SYNTAX=SEC(x)
 @DESCRIPTION=@{x}: angle in radians
+@SEEALSO=SIN,COS,TAN,CSC,SINH,COSH,TANH,RADIANS,DEGREES
 
 @CATEGORY=Mathematics
 @FUNCTION=SECH
 @SHORTDESC=Hyperbolic secant
-@SEEALSO=SIN,COS,TAN,CSC,SEC,SINH,COSH,TANH,RADIANS,DEGREES
 @SYNTAX=SECH(x)
 @DESCRIPTION=@{x}: angle in radians
+@SEEALSO=SIN,COS,TAN,CSC,SEC,SINH,COSH,TANH,RADIANS,DEGREES
 
 @CATEGORY=Mathematics
 @FUNCTION=SERIESSUM
 @SHORTDESC=sum of a power series at @{x}
-@SEEALSO=COUNT,SUM
 @SYNTAX=SERIESSUM(x,n,m,coeff)
 @DESCRIPTION=@{x}: number where to evaluate the power series
 @{n}: non-negative integer, exponent of the lowest term of the series
 @{m}: increment to each exponent
 @{coeff}: coefficients of the power series
+@SEEALSO=COUNT,SUM
 
 @CATEGORY=Mathematics
 @FUNCTION=SIGN
@@ -3812,16 +3812,16 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @CATEGORY=Mathematics
 @FUNCTION=SIN
 @SHORTDESC=Sine function
-@SEEALSO=COS,TAN,CSC,SEC,SINH,COSH,TANH,RADIANS,DEGREES
 @SYNTAX=SIN(x)
 @DESCRIPTION=@{x}: angle in radians
+@SEEALSO=COS,TAN,CSC,SEC,SINH,COSH,TANH,RADIANS,DEGREES
 
 @CATEGORY=Mathematics
 @FUNCTION=SINH
 @SHORTDESC=the hyperbolic sine of @{x}
-@SEEALSO=ACOS,ASINH,DEGREES,RADIANS 
 @SYNTAX=SINH(x)
 @DESCRIPTION=@{x}: angle in radians
+@SEEALSO=ACOS,ASINH,DEGREES,RADIANS 
 
 @CATEGORY=Mathematics
 @FUNCTION=SQRT
@@ -3834,9 +3834,9 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @CATEGORY=Mathematics
 @FUNCTION=SQRTPI
 @SHORTDESC=the square root of @{x} times π
-@SEEALSO=PI
 @SYNTAX=SQRTPI(x)
 @DESCRIPTION=@{x}: non-negative number
+@SEEALSO=PI
 
 @CATEGORY=Mathematics
 @FUNCTION=SUM
@@ -3860,11 +3860,11 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @CATEGORY=Mathematics
 @FUNCTION=SUMIF
 @SHORTDESC=sum of the cells in @{actual_range} for which the corresponding cells in the range meet the given @{criteria}
-@SEEALSO=SUM,COUNTIF
 @SYNTAX=SUMIF(range,criteria,actual_range)
 @DESCRIPTION=@{range}: cell area
 @{criteria}:  condition for a cell to be summed
 @{actual_range}:  cell area, defaults to @{range}
+@SEEALSO=SUM,COUNTIF
 
 @CATEGORY=Mathematics
 @FUNCTION=SUMPRODUCT
@@ -3880,10 +3880,10 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @CATEGORY=Mathematics
 @FUNCTION=SUMSQ
 @SHORTDESC=sum of th squares of all values and cells referenced
-@SEEALSO=SUM,COUNT
 @SYNTAX=SUMSQ(area0,area1)
 @DESCRIPTION=@{area0}: first cell area
 @{area1}: second cell area
+@SEEALSO=SUM,COUNT
 
 @CATEGORY=Mathematics
 @FUNCTION=SUMX2MY2
@@ -3922,16 +3922,16 @@ Strings and empty cells are simply ignored.
 @CATEGORY=Mathematics
 @FUNCTION=TAN
 @SHORTDESC=tangent
-@SEEALSO=TANH,COS,COSH,SIN,SINH,DEGREES,RADIANS
 @SYNTAX=TAN(x)
 @DESCRIPTION=@{x}: angle in radians
+@SEEALSO=TANH,COS,COSH,SIN,SINH,DEGREES,RADIANS
 
 @CATEGORY=Mathematics
 @FUNCTION=TANH
 @SHORTDESC=hyperbolic tangent
-@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS
 @SYNTAX=TANH(x)
 @DESCRIPTION=@{x}: angle in radians
+@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS
 
 @CATEGORY=Mathematics
 @FUNCTION=TRUNC
@@ -4017,9 +4017,9 @@ Strings and empty cells are simply ignored.
 @CATEGORY=Random Numbers
 @FUNCTION=RAND
 @SHORTDESC=a random number between zero and one.
-@SEEALSO=RANDBETWEEN
 @SYNTAX=RAND()
-@DESCRIPTION=
+@DESCRIPTION=@SEEALSO=RANDBETWEEN
+
 @CATEGORY=Random Numbers
 @FUNCTION=RANDBERNOULLI
 @SHORTDESC=random variate from a Bernoulli distribution
@@ -4031,10 +4031,10 @@ Strings and empty cells are simply ignored.
 @CATEGORY=Random Numbers
 @FUNCTION=RANDBETA
 @SHORTDESC=random variate from a Beta distribution
-@SEEALSO=RAND,RANDGAMMA
 @SYNTAX=RANDBETA(a,b)
 @DESCRIPTION=@{a}: parameter of the Beta distribution
 @{b}: parameter of the Beta distribution
+@SEEALSO=RAND,RANDGAMMA
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDBETWEEN
@@ -4066,9 +4066,9 @@ Strings and empty cells are simply ignored.
 @CATEGORY=Random Numbers
 @FUNCTION=RANDCHISQ
 @SHORTDESC=random variate from a Chi-square distribution
-@SEEALSO=RAND,RANDGAMMA
 @SYNTAX=RANDCHISQ(df)
 @DESCRIPTION=@{df}: degrees of freedom
+@SEEALSO=RAND,RANDGAMMA
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDDISCRETE
@@ -4086,9 +4086,9 @@ Strings and empty cells are simply ignored.
 @CATEGORY=Random Numbers
 @FUNCTION=RANDEXP
 @SHORTDESC=random variate from an exponential distribution
-@SEEALSO=RAND,RANDBETWEEN
 @SYNTAX=RANDEXP(b)
 @DESCRIPTION=@{b}: parameter of the exponential distribution
+@SEEALSO=RAND,RANDBETWEEN
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDEXPPOW
@@ -4104,10 +4104,10 @@ Strings and empty cells are simply ignored.
 @CATEGORY=Random Numbers
 @FUNCTION=RANDFDIST
 @SHORTDESC=random variate from an F distribution
-@SEEALSO=RAND,RANDGAMMA
 @SYNTAX=RANDFDIST(df1,df2)
 @DESCRIPTION=@{df1}: numerator degrees of freedom
 @{df2}: denominator degrees of freedom
+@SEEALSO=RAND,RANDGAMMA
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDGAMMA
@@ -4139,24 +4139,24 @@ Strings and empty cells are simply ignored.
 @CATEGORY=Random Numbers
 @FUNCTION=RANDHYPERG
 @SHORTDESC=random variate from a hypergeometric distribution
-@SEEALSO=RAND
 @SYNTAX=RANDHYPERG(n1,n2,t)
 @DESCRIPTION=@{n1}: number of objects of type 1
 @{n2}: number of objects of type 2
 @{t}: total number of objects selected
+@SEEALSO=RAND
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDLANDAU
 @SHORTDESC=random variate from the Landau distribution
-@SEEALSO=RAND
 @SYNTAX=RANDLANDAU()
-@DESCRIPTION=
+@DESCRIPTION=@SEEALSO=RAND
+
 @CATEGORY=Random Numbers
 @FUNCTION=RANDLAPLACE
 @SHORTDESC=random variate from a Laplace distribution
-@SEEALSO=RAND
 @SYNTAX=RANDLAPLACE(a)
 @DESCRIPTION=@{a}: parameter of the Laplace distribution
+@SEEALSO=RAND
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDLEVY
@@ -4183,9 +4183,9 @@ Strings and empty cells are simply ignored.
 @CATEGORY=Random Numbers
 @FUNCTION=RANDLOGISTIC
 @SHORTDESC=random variate from a logistic distribution
-@SEEALSO=RAND
 @SYNTAX=RANDLOGISTIC(a)
 @DESCRIPTION=@{a}: parameter of the logistic distribution
+@SEEALSO=RAND
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDLOGNORM
@@ -4227,10 +4227,10 @@ Strings and empty cells are simply ignored.
 @CATEGORY=Random Numbers
 @FUNCTION=RANDPARETO
 @SHORTDESC=random variate from a Pareto distribution
-@SEEALSO=RAND
 @SYNTAX=RANDPARETO(a,b)
 @DESCRIPTION=@{a}: parameter of the Pareto distribution
 @{b}: parameter of the Pareto distribution
+@SEEALSO=RAND
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDPOISSON
@@ -4243,17 +4243,17 @@ Strings and empty cells are simply ignored.
 @CATEGORY=Random Numbers
 @FUNCTION=RANDRAYLEIGH
 @SHORTDESC=random variate from a Rayleigh distribution
-@SEEALSO=RAND
 @SYNTAX=RANDRAYLEIGH(σ)
 @DESCRIPTION=@{σ}: scale parameter of the Rayleigh distribution
+@SEEALSO=RAND
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDRAYLEIGHTAIL
 @SHORTDESC=random variate from the tail of a Rayleigh distribution
-@SEEALSO=RAND,RANDRAYLEIGH
 @SYNTAX=RANDRAYLEIGHTAIL(a,σ)
 @DESCRIPTION=@{a}: lower limit of the tail
 @{σ}: scale parameter of the Rayleigh distribution
+@SEEALSO=RAND,RANDRAYLEIGH
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDSNORM
@@ -4268,17 +4268,17 @@ Strings and empty cells are simply ignored.
 @CATEGORY=Random Numbers
 @FUNCTION=RANDSTDIST
 @SHORTDESC=random variate from a skew t distribution
-@SEEALSO=RANDTDIST
 @SYNTAX=RANDSTDIST(df,a)
 @DESCRIPTION=@{df}: degrees of freedom
 @{a}:  amount of skew, defaults to 0
+@SEEALSO=RANDTDIST
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDTDIST
 @SHORTDESC=random variate from a Student t distribution
-@SEEALSO=RAND
 @SYNTAX=RANDTDIST(df)
 @DESCRIPTION=@{df}: degrees of freedom
+@SEEALSO=RAND
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDUNIFORM
@@ -4292,10 +4292,10 @@ Strings and empty cells are simply ignored.
 @CATEGORY=Random Numbers
 @FUNCTION=RANDWEIBULL
 @SHORTDESC=random variate from a Weibull distribution
-@SEEALSO=RAND
 @SYNTAX=RANDWEIBULL(a,b)
 @DESCRIPTION=@{a}: parameter of the Weibull distribution
 @{b}: parameter of the Weibull distribution
+@SEEALSO=RAND
 
 @CATEGORY=Random Numbers
 @FUNCTION=SIMTABLE
@@ -4321,18 +4321,18 @@ The successive use of the simulation tool also requires that you give to the too
 @CATEGORY=Statistics
 @FUNCTION=AVEDEV
 @SHORTDESC=average of the absolute deviations of a data set
-@SEEALSO=STDEV
 @SYNTAX=AVEDEV(number1,number2)
 @DESCRIPTION=@{number1}: first value
 @{number2}: second value
+@SEEALSO=STDEV
 
 @CATEGORY=Statistics
 @FUNCTION=AVERAGE
 @SHORTDESC=average of all the numeric values and cells
-@SEEALSO=SUM, COUNT
 @SYNTAX=AVERAGE(number1,number2)
 @DESCRIPTION=@{number1}: first value
 @{number2}: second value
+@SEEALSO=SUM, COUNT
 
 @CATEGORY=Statistics
 @FUNCTION=AVERAGEA
@@ -4479,18 +4479,18 @@ The successive use of the simulation tool also requires that you give to the too
 @CATEGORY=Statistics
 @FUNCTION=COUNT
 @SHORTDESC=total number of integer or floating point arguments passed
-@SEEALSO=AVERAGE
 @SYNTAX=COUNT(number1,number2)
 @DESCRIPTION=@{number1}: first value
 @{number2}: second value
+@SEEALSO=AVERAGE
 
 @CATEGORY=Statistics
 @FUNCTION=COUNTA
 @SHORTDESC=number of arguments passed not including empty cells
-@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM
 @SYNTAX=COUNTA(number1,number2)
 @DESCRIPTION=@{number1}: first value
 @{number2}: second value
+@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM
 
 @CATEGORY=Statistics
 @FUNCTION=COVAR
@@ -4518,10 +4518,10 @@ The successive use of the simulation tool also requires that you give to the too
 @CATEGORY=Statistics
 @FUNCTION=CRONBACH
 @SHORTDESC=Cronbach's alpha
-@SEEALSO=VAR
 @SYNTAX=CRONBACH(ref1,ref2)
 @DESCRIPTION=@{ref1}: first data set
 @{ref2}: second data set
+@SEEALSO=VAR
 
 @CATEGORY=Statistics
 @FUNCTION=CVMTEST
@@ -4635,10 +4635,10 @@ The successive use of the simulation tool also requires that you give to the too
 @CATEGORY=Statistics
 @FUNCTION=FTEST
 @SHORTDESC=p-value for the two-tailed hypothesis test comparing the variances of two populations
-@SEEALSO=FDIST,FINV
 @SYNTAX=FTEST(array1,array2)
 @DESCRIPTION=@{array1}: sample from the first population
 @{array2}: sample from the second population
+@SEEALSO=FDIST,FINV
 
 @CATEGORY=Statistics
 @FUNCTION=GAMMADIST
@@ -4759,17 +4759,17 @@ The successive use of the simulation tool also requires that you give to the too
 @CATEGORY=Statistics
 @FUNCTION=LANDAU
 @SHORTDESC=approximate probability density function of the Landau distribution
-@SEEALSO=RANDLANDAU
 @SYNTAX=LANDAU(x)
 @DESCRIPTION=@{x}: 
+@SEEALSO=RANDLANDAU
 
 @CATEGORY=Statistics
 @FUNCTION=LAPLACE
 @SHORTDESC=probability density function of the Laplace distribution
-@SEEALSO=RANDLAPLACE
 @SYNTAX=LAPLACE(x,a)
 @DESCRIPTION=@{x}: 
 @{a}: mean
+@SEEALSO=RANDLAPLACE
 
 @CATEGORY=Statistics
 @FUNCTION=LARGE
@@ -4848,10 +4848,10 @@ The successive use of the simulation tool also requires that you give to the too
 @CATEGORY=Statistics
 @FUNCTION=LOGISTIC
 @SHORTDESC=probability density function of the logistic distribution
-@SEEALSO=RANDLOGISTIC
 @SYNTAX=LOGISTIC(x,a)
 @DESCRIPTION=@{x}: 
 @{a}: scale parameter
+@SEEALSO=RANDLOGISTIC
 
 @CATEGORY=Statistics
 @FUNCTION=LOGNORMDIST
@@ -4881,10 +4881,10 @@ The successive use of the simulation tool also requires that you give to the too
 @CATEGORY=Statistics
 @FUNCTION=MAX
 @SHORTDESC=largest value, with negative numbers considered smaller than positive numbers.
-@SEEALSO=MIN,ABS
 @SYNTAX=MAX(number1,number2)
 @DESCRIPTION=@{number1}: first value
 @{number2}: second value
+@SEEALSO=MIN,ABS
 
 @CATEGORY=Statistics
 @FUNCTION=MAXA
@@ -4910,10 +4910,10 @@ The successive use of the simulation tool also requires that you give to the too
 @CATEGORY=Statistics
 @FUNCTION=MIN
 @SHORTDESC=smallest value, with negative numbers considered smaller than positive numbers
-@SEEALSO=MAX,ABS
 @SYNTAX=MIN(number1,number2)
 @DESCRIPTION=@{number1}: first value
 @{number2}: second value
+@SEEALSO=MAX,ABS
 
 @CATEGORY=Statistics
 @FUNCTION=MINA
@@ -4972,9 +4972,9 @@ The successive use of the simulation tool also requires that you give to the too
 @CATEGORY=Statistics
 @FUNCTION=NORMSDIST
 @SHORTDESC=cumulative density function of the standard normal distribution
-@SEEALSO=NORMDIST
 @SYNTAX=NORMSDIST(x)
 @DESCRIPTION=@{x}: 
+@SEEALSO=NORMDIST
 
 @CATEGORY=Statistics
 @FUNCTION=NORMSINV
@@ -4987,11 +4987,11 @@ The successive use of the simulation tool also requires that you give to the too
 @CATEGORY=Statistics
 @FUNCTION=PARETO
 @SHORTDESC=probability density function of the pareto distribution
-@SEEALSO=RANDPARETO
 @SYNTAX=PARETO(x,a,b)
 @DESCRIPTION=@{x}: 
 @{a}: exponent
 @{b}: scale parameter
+@SEEALSO=RANDPARETO
 
 @CATEGORY=Statistics
 @FUNCTION=PEARSON
@@ -5703,19 +5703,19 @@ The successive use of the simulation tool also requires that you give to the too
 @CATEGORY=Statistics
 @FUNCTION=RAYLEIGH
 @SHORTDESC=probability density function of the Rayleigh distribution
-@SEEALSO=RANDRAYLEIGH
 @SYNTAX=RAYLEIGH(x,sigma)
 @DESCRIPTION=@{x}: 
 @{sigma}: scale parameter
+@SEEALSO=RANDRAYLEIGH
 
 @CATEGORY=Statistics
 @FUNCTION=RAYLEIGHTAIL
 @SHORTDESC=probability density function of the Rayleigh tail distribution
-@SEEALSO=RANDRAYLEIGHTAIL
 @SYNTAX=RAYLEIGHTAIL(x,a,sigma)
 @DESCRIPTION=@{x}: 
 @{a}: lower limit
 @{sigma}: scale parameter
+@SEEALSO=RANDRAYLEIGHTAIL
 
 @CATEGORY=Statistics
 @FUNCTION=RSQ
@@ -5858,7 +5858,6 @@ The successive use of the simulation tool also requires that you give to the too
 @CATEGORY=Statistics
 @FUNCTION=SUBTOTAL
 @SHORTDESC=the subtotal of the given list of arguments
-@SEEALSO=COUNT,SUM
 @SYNTAX=SUBTOTAL(function_nbr,ref1,ref2)
 @DESCRIPTION=@{function_nbr}: determines which function to use according to the following table:
 	1   AVERAGE
@@ -5874,6 +5873,7 @@ The successive use of the simulation tool also requires that you give to the too
 	11   VARP
 @{ref1}: first value
 @{ref2}: second value
+@SEEALSO=COUNT,SUM
 
 @CATEGORY=Statistics
 @FUNCTION=TDIST
@@ -6057,26 +6057,26 @@ The successive use of the simulation tool also requires that you give to the too
 @CATEGORY=String
 @FUNCTION=CONCATENATE
 @SHORTDESC=the concatenation of the strings @{s1}, @{s2},...
-@SEEALSO=LEFT,MID,RIGHT
 @SYNTAX=CONCATENATE(s1,s2)
 @DESCRIPTION=@{s1}: first string
 @{s2}: second string
+@SEEALSO=LEFT,MID,RIGHT
 
 @CATEGORY=String
 @FUNCTION=DOLLAR
 @SHORTDESC=@{num} formatted as currency.
-@SEEALSO=FIXED,TEXT,VALUE
 @SYNTAX=DOLLAR(num,decimals)
 @DESCRIPTION=@{num}: number
 @{decimals}: decimals
+@SEEALSO=FIXED,TEXT,VALUE
 
 @CATEGORY=String
 @FUNCTION=EXACT
 @SHORTDESC=TRUE if @{string1} is exactly equal to @{string2}
-@SEEALSO=LEN,SEARCH,DELTA
 @SYNTAX=EXACT(string1,string2)
 @DESCRIPTION=@{string1}: first string
 @{string2}: second string
+@SEEALSO=LEN,SEARCH,DELTA
 
 @CATEGORY=String
 @FUNCTION=FIND
@@ -6101,11 +6101,11 @@ The successive use of the simulation tool also requires that you give to the too
 @CATEGORY=String
 @FUNCTION=FIXED
 @SHORTDESC=formatted string representation of @{num}
-@SEEALSO=TEXT,VALUE,DOLLAR
 @SYNTAX=FIXED(num,decimals,no_commas)
 @DESCRIPTION=@{num}: number
 @{decimals}: number of decimals
 @{no_commas}: TRUE if no thousand separators should be used, defaults to FALSE
+@SEEALSO=TEXT,VALUE,DOLLAR
 
 @CATEGORY=String
 @FUNCTION=JIS
@@ -6140,32 +6140,32 @@ The successive use of the simulation tool also requires that you give to the too
 @CATEGORY=String
 @FUNCTION=LEN
 @SHORTDESC=the number of characters of the string @{s}
-@SEEALSO=CHAR,CODE,LENB
 @SYNTAX=LEN(s)
 @DESCRIPTION=@{s}: the string
+@SEEALSO=CHAR,CODE,LENB
 
 @CATEGORY=String
 @FUNCTION=LENB
 @SHORTDESC=the number of bytes in the string @{s}
-@SEEALSO=CHAR, CODE, LEN
 @SYNTAX=LENB(s)
 @DESCRIPTION=@{s}: the string
+@SEEALSO=CHAR, CODE, LEN
 
 @CATEGORY=String
 @FUNCTION=LOWER
 @SHORTDESC=a lower-case version of the string @{text}.
-@SEEALSO=UPPER
 @SYNTAX=LOWER(text)
 @DESCRIPTION=@{text}: string
+@SEEALSO=UPPER
 
 @CATEGORY=String
 @FUNCTION=MID
 @SHORTDESC=the substring of the string @{s} starting at position @{position} consisting of @{length} characters
-@SEEALSO=LEFT,RIGHT,LEN,LEFTB,MIDB,RIGHTB,LENB
 @SYNTAX=MID(s,position,length)
 @DESCRIPTION=@{s}: the string
 @{position}: the starting position
 @{length}: the number of characters to return
+@SEEALSO=LEFT,RIGHT,LEN,LEFTB,MIDB,RIGHTB,LENB
 
 @CATEGORY=String
 @FUNCTION=MIDB
@@ -6189,19 +6189,19 @@ The successive use of the simulation tool also requires that you give to the too
 @CATEGORY=String
 @FUNCTION=PROPER
 @SHORTDESC=@{text} with initial of each word capitalised.
-@SEEALSO=LOWER,UPPER
 @SYNTAX=PROPER(text)
 @DESCRIPTION=@{text}: string
+@SEEALSO=LOWER,UPPER
 
 @CATEGORY=String
 @FUNCTION=REPLACE
 @SHORTDESC=String @{old} with @{num} characters starting at @{start} replaced by @{new}
-@SEEALSO=MID,SEARCH,SUBSTITUTE,TRIM
 @SYNTAX=REPLACE(old,start,num,new)
 @DESCRIPTION=@{old}: original text
 @{start}: starting position
 @{num}: number of characters to be replaced
 @{new}: replacement string
+@SEEALSO=MID,SEARCH,SUBSTITUTE,TRIM
 
 @CATEGORY=String
 @FUNCTION=REPLACEB
@@ -6219,10 +6219,10 @@ The successive use of the simulation tool also requires that you give to the too
 @CATEGORY=String
 @FUNCTION=REPT
 @SHORTDESC=@{num} repetitions of string @{text}
-@SEEALSO=CONCATENATE
 @SYNTAX=REPT(text,num)
 @DESCRIPTION=@{text}: string
 @{num}: non-negative integer
+@SEEALSO=CONCATENATE
 
 @CATEGORY=String
 @FUNCTION=RIGHT
@@ -6275,62 +6275,62 @@ The successive use of the simulation tool also requires that you give to the too
 @CATEGORY=String
 @FUNCTION=SUBSTITUTE
 @SHORTDESC=@{text} with all occurrences of @{old} replaced by @{new}
-@SEEALSO=REPLACE,TRIM
 @SYNTAX=SUBSTITUTE(text,old,new,num)
 @DESCRIPTION=@{text}: original text
 @{old}: string to be replaced
 @{new}: replacement string
 @{num}: if @{num} is specified and a number only the @{num}th occurrence of @{old} is replaced
+@SEEALSO=REPLACE,TRIM
 
 @CATEGORY=String
 @FUNCTION=T
 @SHORTDESC=@{value} if and only if @{value} is text, otherwise empty
-@SEEALSO=CELL,N,VALUE
 @SYNTAX=T(value)
 @DESCRIPTION=@{value}: original value
+@SEEALSO=CELL,N,VALUE
 
 @CATEGORY=String
 @FUNCTION=TEXT
 @SHORTDESC=@{value} as a string formatted as @{format}
-@SEEALSO=DOLLAR,FIXED,VALUE
 @SYNTAX=TEXT(value,format)
 @DESCRIPTION=@{value}: value to be formatted
 @{format}: desired format
+@SEEALSO=DOLLAR,FIXED,VALUE
 
 @CATEGORY=String
 @FUNCTION=TRIM
 @SHORTDESC=@{text} with only single spaces between words.
-@SEEALSO=CLEAN,MID,REPLACE,SUBSTITUTE
 @SYNTAX=TRIM(text)
 @DESCRIPTION=@{text}: string
+@SEEALSO=CLEAN,MID,REPLACE,SUBSTITUTE
 
 @CATEGORY=String
 @FUNCTION=UNICHAR
 @SHORTDESC=the Unicode character represented by the Unicode code point @{x}.
-@SEEALSO=CHAR,UNICODE,CODE
 @SYNTAX=UNICHAR(x)
 @DESCRIPTION=@{x}: Unicode code point
+@SEEALSO=CHAR,UNICODE,CODE
 
 @CATEGORY=String
 @FUNCTION=UNICODE
 @SHORTDESC=the Unicode code point for the character @{c}
-@SEEALSO=UNICHAR,CODE,CHAR
 @SYNTAX=UNICODE(c)
 @DESCRIPTION=@{c}: character
+@SEEALSO=UNICHAR,CODE,CHAR
 
 @CATEGORY=String
 @FUNCTION=UPPER
 @SHORTDESC=an upper-case version of the string @text.
-@SEEALSO=LOWER
 @SYNTAX=UPPER(text)
 @DESCRIPTION=@{text}: string
+@SEEALSO=LOWER
 
 @CATEGORY=String
 @FUNCTION=VALUE
 @SHORTDESC=numeric value of @{text}
-@SEEALSO=DOLLAR,FIXED,TEXT
 @SYNTAX=VALUE(text)
 @DESCRIPTION=@{text}: string
+@SEEALSO=DOLLAR,FIXED,TEXT
 
 @CATEGORY=Time Series Analysis
 @FUNCTION=FOURIER

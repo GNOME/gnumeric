@@ -338,6 +338,13 @@ function_dump_defs (char const *filename, int dump_type)
 					break;
 				}
 				case GNM_FUNC_HELP_SEEALSO:
+					if (!seen_desc) {
+						g_string_append_c (syntax, ')');
+						fprintf (output_file, "%s\n@DESCRIPTION=%s",
+							 syntax->str,
+							 arg_desc->str);
+						seen_desc = TRUE;
+					}
 					fprintf (output_file, "@SEEALSO=%s\n",
 						 _(fd->help[i].text));
 					break;

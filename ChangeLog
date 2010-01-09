@@ -1,5 +1,11 @@
 2010-01-08 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/func.c (function_dump_defs): make sure the argument 
+	  descriptions precede a SEEALSO. Documentation creation
+	  depends on this.
+
+2010-01-08 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/func.c (function_dump_defs): don't add gratuitous periods and
 	  make sure that we always include the argument descriptions
 

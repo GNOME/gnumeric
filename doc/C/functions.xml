@@ -2435,20 +2435,20 @@
         Hebrew date
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>HDATE</function>(<parameter>year</parameter>,<parameter>month</parameter>,<parameter>day</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>year</parameter>: year of date</para>
+        <para><parameter>month</parameter>: month of year</para>
+        <para><parameter>day</parameter>: day of month</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-HDATE_HEB"><function>HDATE_HEB</function></link>,
         <link linkend="gnumeric-DATE"><function>DATE</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>HDATE</function>(<parameter>year</parameter>,<parameter>month</parameter>,<parameter>day</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>year</parameter>: year of date</para>
-          <para><parameter>month</parameter>: month of year</para>
-          <para><parameter>day</parameter>: day of month</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-HDATE_DAY">
@@ -2465,19 +2465,19 @@
         Hebrew day of Gregorian date
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>HDATE_DAY</function>(<parameter>year</parameter>,<parameter>month</parameter>,<parameter>day</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>year</parameter>: Gregorian year of date</para>
+        <para><parameter>month</parameter>: Gregorian month of year</para>
+        <para><parameter>day</parameter>: Gregorian day of month</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-HDATE_JULIAN"><function>HDATE_JULIAN</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>HDATE_DAY</function>(<parameter>year</parameter>,<parameter>month</parameter>,<parameter>day</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>year</parameter>: Gregorian year of date</para>
-          <para><parameter>month</parameter>: Gregorian month of year</para>
-          <para><parameter>day</parameter>: Gregorian day of month</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-HDATE_HEB">
@@ -2494,20 +2494,20 @@
         Hebrew date in Hebrew
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>HDATE_HEB</function>(<parameter>year</parameter>,<parameter>month</parameter>,<parameter>day</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>year</parameter>: year of date</para>
+        <para><parameter>month</parameter>: month of year</para>
+        <para><parameter>day</parameter>: day of month</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-HDATE"><function>HDATE</function></link>,
         <link linkend="gnumeric-DATE"><function>DATE</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>HDATE_HEB</function>(<parameter>year</parameter>,<parameter>month</parameter>,<parameter>day</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>year</parameter>: year of date</para>
-          <para><parameter>month</parameter>: month of year</para>
-          <para><parameter>day</parameter>: day of month</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-HDATE_JULIAN">
@@ -2524,19 +2524,19 @@
         Julian day number for given Gregorian date
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>HDATE_JULIAN</function>(<parameter>year</parameter>,<parameter>month</parameter>,<parameter>day</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>year</parameter>: Gregorian year of date</para>
+        <para><parameter>month</parameter>: Gregorian month of year</para>
+        <para><parameter>day</parameter>: Gregorian day of month</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-HDATE"><function>HDATE</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>HDATE_JULIAN</function>(<parameter>year</parameter>,<parameter>month</parameter>,<parameter>day</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>year</parameter>: Gregorian year of date</para>
-          <para><parameter>month</parameter>: Gregorian month of year</para>
-          <para><parameter>day</parameter>: Gregorian day of month</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-HDATE_MONTH">
@@ -2553,19 +2553,19 @@
         Hebrew month of Gregorian date
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>HDATE_MONTH</function>(<parameter>year</parameter>,<parameter>month</parameter>,<parameter>day</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>year</parameter>: Gregorian year of date</para>
+        <para><parameter>month</parameter>: Gregorian month of year</para>
+        <para><parameter>day</parameter>: Gregorian day of month</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-HDATE_JULIAN"><function>HDATE_JULIAN</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>HDATE_MONTH</function>(<parameter>year</parameter>,<parameter>month</parameter>,<parameter>day</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>year</parameter>: Gregorian year of date</para>
-          <para><parameter>month</parameter>: Gregorian month of year</para>
-          <para><parameter>day</parameter>: Gregorian day of month</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-HDATE_YEAR">
@@ -2582,19 +2582,19 @@
         Hebrew year of Gregorian date
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>HDATE_YEAR</function>(<parameter>year</parameter>,<parameter>month</parameter>,<parameter>day</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>year</parameter>: Gregorian year of date</para>
+        <para><parameter>month</parameter>: Gregorian month of year</para>
+        <para><parameter>day</parameter>: Gregorian day of month</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-HDATE_JULIAN"><function>HDATE_JULIAN</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>HDATE_YEAR</function>(<parameter>year</parameter>,<parameter>month</parameter>,<parameter>day</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>year</parameter>: Gregorian year of date</para>
-          <para><parameter>month</parameter>: Gregorian month of year</para>
-          <para><parameter>day</parameter>: Gregorian day of month</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-HOUR">
@@ -3368,19 +3368,19 @@
         decimal representation of the binary number <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>BIN2DEC</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: a binary number, either as a string or as a number involving only the digits 0 and 1</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-DEC2BIN"><function>DEC2BIN</function></link>,
         <link linkend="gnumeric-BIN2OCT"><function>BIN2OCT</function></link>,
         <link linkend="gnumeric-BIN2HEX"><function>BIN2HEX</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>BIN2DEC</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: a binary number, either as a string or as a number involving only the digits 0 and 1</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-BIN2HEX">
@@ -3675,18 +3675,18 @@
         decimal representation of <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>DECIMAL</function>(<parameter>x</parameter>,<parameter>base</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: number in base <parameter>base</parameter></para>
+        <para><parameter>base</parameter>: base of <parameter>x</parameter>, (2 ≤ <parameter>b</parameter> ≤ 36)</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-BASE"><function>BASE</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>DECIMAL</function>(<parameter>x</parameter>,<parameter>base</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: number in base <parameter>base</parameter></para>
-          <para><parameter>base</parameter>: base of <parameter>x</parameter>, (2 ≤ <parameter>b</parameter> ≤ 36)</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-DELTA">
@@ -3858,19 +3858,19 @@
         decimal representation of the hexadecimal number <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>HEX2DEC</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: a hexadecimal number, either as a string or as a number if no A to F are needed</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-DEC2HEX"><function>DEC2HEX</function></link>,
         <link linkend="gnumeric-HEX2BIN"><function>HEX2BIN</function></link>,
         <link linkend="gnumeric-HEX2OCT"><function>HEX2OCT</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>HEX2DEC</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: a hexadecimal number, either as a string or as a number if no A to F are needed</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-HEX2OCT">
@@ -3986,19 +3986,19 @@
         decimal representation of the octal number <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>OCT2DEC</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: a octal number, either as a string or as a number</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-DEC2OCT"><function>DEC2OCT</function></link>,
         <link linkend="gnumeric-OCT2BIN"><function>OCT2BIN</function></link>,
         <link linkend="gnumeric-OCT2HEX"><function>OCT2HEX</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>OCT2DEC</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: a octal number, either as a string or as a number</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-OCT2HEX">
@@ -5988,6 +5988,19 @@
         theoretical price of an option according to the Barone Adesie &amp; Whaley approximation
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>OPT_BAW_AMER</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>time</parameter>,<parameter>rate</parameter>,<parameter>cost_of_carry</parameter>,<parameter>volatility</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>call_put_flag</parameter>: 'c' for a call and 'p' for a put</para>
+        <para><parameter>spot</parameter>: spot price</para>
+        <para><parameter>strike</parameter>: strike price</para>
+        <para><parameter>time</parameter>: time to maturity in days</para>
+        <para><parameter>rate</parameter>: annualized risk-free interest rate</para>
+        <para><parameter>cost_of_carry</parameter>: net cost of holding the underlying asset</para>
+        <para><parameter>volatility</parameter>: annualized volatility of the asset</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-OPT_BS"><function>OPT_BS</function></link>,
@@ -5996,19 +6009,6 @@
         <link linkend="gnumeric-OPT_BS_THETA"><function>OPT_BS_THETA</function></link>,
         <link linkend="gnumeric-OPT_BS_GAMMA"><function>OPT_BS_GAMMA</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>OPT_BAW_AMER</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>time</parameter>,<parameter>rate</parameter>,<parameter>cost_of_carry</parameter>,<parameter>volatility</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>call_put_flag</parameter>: 'c' for a call and 'p' for a put</para>
-          <para><parameter>spot</parameter>: spot price</para>
-          <para><parameter>strike</parameter>: strike price</para>
-          <para><parameter>time</parameter>: time to maturity in days</para>
-          <para><parameter>rate</parameter>: annualized risk-free interest rate</para>
-          <para><parameter>cost_of_carry</parameter>: net cost of holding the underlying asset</para>
-          <para><parameter>volatility</parameter>: annualized volatility of the asset</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-OPT_BINOMIAL">
@@ -6068,6 +6068,19 @@
         theoretical price of American options according to the Bjerksund &amp; Stensland approximation technique
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>OPT_BJER_STENS</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>time</parameter>,<parameter>rate</parameter>,<parameter>volatility</parameter>,<parameter>cost_of_carry</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>call_put_flag</parameter>: 'c' for a call and 'p' for a put</para>
+        <para><parameter>spot</parameter>: spot price</para>
+        <para><parameter>strike</parameter>: strike price</para>
+        <para><parameter>time</parameter>: time to maturity in days</para>
+        <para><parameter>rate</parameter>: annualized risk-free interest rate</para>
+        <para><parameter>volatility</parameter>: annualized volatility of the asset</para>
+        <para><parameter>cost_of_carry</parameter>: net cost of holding the underlying asset (for common stocks, the risk free rate less the dividend yield), defaults to 0</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-OPT_BS"><function>OPT_BS</function></link>,
@@ -6076,19 +6089,6 @@
         <link linkend="gnumeric-OPT_BS_THETA"><function>OPT_BS_THETA</function></link>,
         <link linkend="gnumeric-OPT_BS_GAMMA"><function>OPT_BS_GAMMA</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>OPT_BJER_STENS</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>time</parameter>,<parameter>rate</parameter>,<parameter>volatility</parameter>,<parameter>cost_of_carry</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>call_put_flag</parameter>: 'c' for a call and 'p' for a put</para>
-          <para><parameter>spot</parameter>: spot price</para>
-          <para><parameter>strike</parameter>: strike price</para>
-          <para><parameter>time</parameter>: time to maturity in days</para>
-          <para><parameter>rate</parameter>: annualized risk-free interest rate</para>
-          <para><parameter>volatility</parameter>: annualized volatility of the asset</para>
-          <para><parameter>cost_of_carry</parameter>: net cost of holding the underlying asset (for common stocks, the risk free rate less the dividend yield), defaults to 0</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-OPT_BS">
@@ -6405,6 +6405,21 @@
         theoretical price of a complex chooser option
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>OPT_COMPLEX_CHOOSER</function>(<parameter>spot</parameter>,<parameter>strike_call</parameter>,<parameter>strike_put</parameter>,<parameter>time</parameter>,<parameter>time_call</parameter>,<parameter>time_put</parameter>,<parameter>rate</parameter>,<parameter>cost_of_carry</parameter>,<parameter>volatility</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>spot</parameter>: spot price</para>
+        <para><parameter>strike_call</parameter>: strike price, if exercised as a call option.</para>
+        <para><parameter>strike_put</parameter>: strike price, if exercised as a put option</para>
+        <para><parameter>time</parameter>: time in years until the holder chooses a put or a call option</para>
+        <para><parameter>time_call</parameter>: time in years to maturity of the call option if chosen</para>
+        <para><parameter>time_put</parameter>: time in years  to maturity of the put option if chosen</para>
+        <para><parameter>rate</parameter>: annualized risk-free interest rate</para>
+        <para><parameter>cost_of_carry</parameter>: net cost of holding the underlying asset</para>
+        <para><parameter>volatility</parameter>: annualized volatility of the asset in percent for the period through to the exercise date</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-OPT_BS"><function>OPT_BS</function></link>,
@@ -6413,21 +6428,6 @@
         <link linkend="gnumeric-OPT_BS_THETA"><function>OPT_BS_THETA</function></link>,
         <link linkend="gnumeric-OPT_BS_GAMMA"><function>OPT_BS_GAMMA</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>OPT_COMPLEX_CHOOSER</function>(<parameter>spot</parameter>,<parameter>strike_call</parameter>,<parameter>strike_put</parameter>,<parameter>time</parameter>,<parameter>time_call</parameter>,<parameter>time_put</parameter>,<parameter>rate</parameter>,<parameter>cost_of_carry</parameter>,<parameter>volatility</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>spot</parameter>: spot price</para>
-          <para><parameter>strike_call</parameter>: strike price, if exercised as a call option.</para>
-          <para><parameter>strike_put</parameter>: strike price, if exercised as a put option</para>
-          <para><parameter>time</parameter>: time in years until the holder chooses a put or a call option</para>
-          <para><parameter>time_call</parameter>: time in years to maturity of the call option if chosen</para>
-          <para><parameter>time_put</parameter>: time in years  to maturity of the put option if chosen</para>
-          <para><parameter>rate</parameter>: annualized risk-free interest rate</para>
-          <para><parameter>cost_of_carry</parameter>: net cost of holding the underlying asset</para>
-          <para><parameter>volatility</parameter>: annualized volatility of the asset in percent for the period through to the exercise date</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-OPT_EURO_EXCHANGE">
@@ -6648,6 +6648,20 @@
         theoretical price of forward start options
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>OPT_FORWARD_START</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>alpha</parameter>,<parameter>time_start</parameter>,<parameter>time</parameter>,<parameter>rate</parameter>,<parameter>volatility</parameter>,<parameter>cost_of_carry</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>call_put_flag</parameter>: 'c' for a call and 'p' for a put</para>
+        <para><parameter>spot</parameter>: spot price</para>
+        <para><parameter>alpha</parameter>: fraction setting the strike price at the future date <parameter>time_start</parameter></para>
+        <para><parameter>time_start</parameter>: time until the option starts in days</para>
+        <para><parameter>time</parameter>: time to maturity in days</para>
+        <para><parameter>rate</parameter>: annualized risk-free interest rate</para>
+        <para><parameter>volatility</parameter>: annualized volatility of the asset</para>
+        <para><parameter>cost_of_carry</parameter>: net cost of holding the underlying asset</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-OPT_BS"><function>OPT_BS</function></link>,
@@ -6656,20 +6670,6 @@
         <link linkend="gnumeric-OPT_BS_THETA"><function>OPT_BS_THETA</function></link>,
         <link linkend="gnumeric-OPT_BS_GAMMA"><function>OPT_BS_GAMMA</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>OPT_FORWARD_START</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>alpha</parameter>,<parameter>time_start</parameter>,<parameter>time</parameter>,<parameter>rate</parameter>,<parameter>volatility</parameter>,<parameter>cost_of_carry</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>call_put_flag</parameter>: 'c' for a call and 'p' for a put</para>
-          <para><parameter>spot</parameter>: spot price</para>
-          <para><parameter>alpha</parameter>: fraction setting the strike price at the future date <parameter>time_start</parameter></para>
-          <para><parameter>time_start</parameter>: time until the option starts in days</para>
-          <para><parameter>time</parameter>: time to maturity in days</para>
-          <para><parameter>rate</parameter>: annualized risk-free interest rate</para>
-          <para><parameter>volatility</parameter>: annualized volatility of the asset</para>
-          <para><parameter>cost_of_carry</parameter>: net cost of holding the underlying asset</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-OPT_FRENCH">
@@ -6802,6 +6802,26 @@
         theoretical price of options on commodities futures according to Miltersen &amp; Schwartz
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>OPT_MILTERSEN_SCHWARTZ</function>(<parameter>call_put_flag</parameter>,<parameter>p_t</parameter>,<parameter>f_t</parameter>,<parameter>strike</parameter>,<parameter>t1</parameter>,<parameter>t2</parameter>,<parameter>v_s</parameter>,<parameter>v_e</parameter>,<parameter>v_f</parameter>,<parameter>rho_se</parameter>,<parameter>rho_sf</parameter>,<parameter>rho_ef</parameter>,<parameter>kappa_e</parameter>,<parameter>kappa_f</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>call_put_flag</parameter>: 'c' for a call and 'p' for a put</para>
+        <para><parameter>p_t</parameter>: zero coupon bond with expiry at option maturity</para>
+        <para><parameter>f_t</parameter>: futures price</para>
+        <para><parameter>strike</parameter>: strike price</para>
+        <para><parameter>t1</parameter>: time to maturity of the option</para>
+        <para><parameter>t2</parameter>: time to maturity of the underlying commodity futures contract</para>
+        <para><parameter>v_s</parameter>: volatility of the spot commodity price</para>
+        <para><parameter>v_e</parameter>: volatility of the future convenience yield</para>
+        <para><parameter>v_f</parameter>: volatility of the forward rate of interest</para>
+        <para><parameter>rho_se</parameter>: correlation between the spot commodity price and the convenience yield</para>
+        <para><parameter>rho_sf</parameter>: correlation between the spot commodity price and the forward interest rate</para>
+        <para><parameter>rho_ef</parameter>: correlation between the forward interest rate and the convenience yield</para>
+        <para><parameter>kappa_e</parameter>: speed of mean reversion of the convenience yield</para>
+        <para><parameter>kappa_f</parameter>: speed of mean reversion of the forward interest rate</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-OPT_BS"><function>OPT_BS</function></link>,
@@ -6810,26 +6830,6 @@
         <link linkend="gnumeric-OPT_BS_THETA"><function>OPT_BS_THETA</function></link>,
         <link linkend="gnumeric-OPT_BS_GAMMA"><function>OPT_BS_GAMMA</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>OPT_MILTERSEN_SCHWARTZ</function>(<parameter>call_put_flag</parameter>,<parameter>p_t</parameter>,<parameter>f_t</parameter>,<parameter>strike</parameter>,<parameter>t1</parameter>,<parameter>t2</parameter>,<parameter>v_s</parameter>,<parameter>v_e</parameter>,<parameter>v_f</parameter>,<parameter>rho_se</parameter>,<parameter>rho_sf</parameter>,<parameter>rho_ef</parameter>,<parameter>kappa_e</parameter>,<parameter>kappa_f</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>call_put_flag</parameter>: 'c' for a call and 'p' for a put</para>
-          <para><parameter>p_t</parameter>: zero coupon bond with expiry at option maturity</para>
-          <para><parameter>f_t</parameter>: futures price</para>
-          <para><parameter>strike</parameter>: strike price</para>
-          <para><parameter>t1</parameter>: time to maturity of the option</para>
-          <para><parameter>t2</parameter>: time to maturity of the underlying commodity futures contract</para>
-          <para><parameter>v_s</parameter>: volatility of the spot commodity price</para>
-          <para><parameter>v_e</parameter>: volatility of the future convenience yield</para>
-          <para><parameter>v_f</parameter>: volatility of the forward rate of interest</para>
-          <para><parameter>rho_se</parameter>: correlation between the spot commodity price and the convenience yield</para>
-          <para><parameter>rho_sf</parameter>: correlation between the spot commodity price and the forward interest rate</para>
-          <para><parameter>rho_ef</parameter>: correlation between the forward interest rate and the convenience yield</para>
-          <para><parameter>kappa_e</parameter>: speed of mean reversion of the convenience yield</para>
-          <para><parameter>kappa_f</parameter>: speed of mean reversion of the forward interest rate</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-OPT_ON_OPTIONS">
@@ -6889,6 +6889,19 @@
         theoretical price of an American option according to the Roll-Geske-Whaley approximation
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>OPT_RGW</function>(<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>time_payout</parameter>,<parameter>time_exp</parameter>,<parameter>rate</parameter>,<parameter>d</parameter>,<parameter>volatility</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>spot</parameter>: spot price</para>
+        <para><parameter>strike</parameter>: strike price</para>
+        <para><parameter>time_payout</parameter>: time to dividend payout</para>
+        <para><parameter>time_exp</parameter>: time to expiration</para>
+        <para><parameter>rate</parameter>: annualized interest rate</para>
+        <para><parameter>d</parameter>: amount of the dividend to be paid expressed in currency</para>
+        <para><parameter>volatility</parameter>: annualized volatility of the asset in percent for the period through to the exercise date</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-OPT_BS"><function>OPT_BS</function></link>,
@@ -6897,19 +6910,6 @@
         <link linkend="gnumeric-OPT_BS_THETA"><function>OPT_BS_THETA</function></link>,
         <link linkend="gnumeric-OPT_BS_GAMMA"><function>OPT_BS_GAMMA</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>OPT_RGW</function>(<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>time_payout</parameter>,<parameter>time_exp</parameter>,<parameter>rate</parameter>,<parameter>d</parameter>,<parameter>volatility</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>spot</parameter>: spot price</para>
-          <para><parameter>strike</parameter>: strike price</para>
-          <para><parameter>time_payout</parameter>: time to dividend payout</para>
-          <para><parameter>time_exp</parameter>: time to expiration</para>
-          <para><parameter>rate</parameter>: annualized interest rate</para>
-          <para><parameter>d</parameter>: amount of the dividend to be paid expressed in currency</para>
-          <para><parameter>volatility</parameter>: annualized volatility of the asset in percent for the period through to the exercise date</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-OPT_SIMPLE_CHOOSER">
@@ -6926,6 +6926,19 @@
         theoretical price of a simple chooser option
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>OPT_SIMPLE_CHOOSER</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>time1</parameter>,<parameter>time2</parameter>,<parameter>cost_of_carry</parameter>,<parameter>volatility</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>call_put_flag</parameter>: 'c' for a call and 'p' for a put</para>
+        <para><parameter>spot</parameter>: spot price</para>
+        <para><parameter>strike</parameter>: strike price</para>
+        <para><parameter>time1</parameter>: time in years until the holder chooses a put or a call option</para>
+        <para><parameter>time2</parameter>: time in years until the chosen option expires</para>
+        <para><parameter>cost_of_carry</parameter>: net cost of holding the underlying asset</para>
+        <para><parameter>volatility</parameter>: annualized volatility of the asset</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-OPT_BS"><function>OPT_BS</function></link>,
@@ -6934,19 +6947,6 @@
         <link linkend="gnumeric-OPT_BS_THETA"><function>OPT_BS_THETA</function></link>,
         <link linkend="gnumeric-OPT_BS_GAMMA"><function>OPT_BS_GAMMA</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>OPT_SIMPLE_CHOOSER</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>time1</parameter>,<parameter>time2</parameter>,<parameter>cost_of_carry</parameter>,<parameter>volatility</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>call_put_flag</parameter>: 'c' for a call and 'p' for a put</para>
-          <para><parameter>spot</parameter>: spot price</para>
-          <para><parameter>strike</parameter>: strike price</para>
-          <para><parameter>time1</parameter>: time in years until the holder chooses a put or a call option</para>
-          <para><parameter>time2</parameter>: time in years until the chosen option expires</para>
-          <para><parameter>cost_of_carry</parameter>: net cost of holding the underlying asset</para>
-          <para><parameter>volatility</parameter>: annualized volatility of the asset</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-OPT_SPREAD_APPROX">
@@ -6963,6 +6963,21 @@
         theoretical price of a European option on the spread between two futures contracts
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>OPT_SPREAD_APPROX</function>(<parameter>call_put_flag</parameter>,<parameter>fut_price1</parameter>,<parameter>fut_price2</parameter>,<parameter>strike</parameter>,<parameter>time</parameter>,<parameter>rate</parameter>,<parameter>volatility1</parameter>,<parameter>volatility2</parameter>,<parameter>rho</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>call_put_flag</parameter>: 'c' for a call and 'p' for a put</para>
+        <para><parameter>fut_price1</parameter>: price of the first futures contract</para>
+        <para><parameter>fut_price2</parameter>: price of the second futures contract</para>
+        <para><parameter>strike</parameter>: strike price</para>
+        <para><parameter>time</parameter>: time to maturity in years</para>
+        <para><parameter>rate</parameter>: annualized risk-free interest rate</para>
+        <para><parameter>volatility1</parameter>: annualized volatility in price of the first underlying futures contract</para>
+        <para><parameter>volatility2</parameter>: annualized volatility in price of the second underlying futures contract</para>
+        <para><parameter>rho</parameter>: correlation between the two futures contracts</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-OPT_BS"><function>OPT_BS</function></link>,
@@ -6971,21 +6986,6 @@
         <link linkend="gnumeric-OPT_BS_THETA"><function>OPT_BS_THETA</function></link>,
         <link linkend="gnumeric-OPT_BS_GAMMA"><function>OPT_BS_GAMMA</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>OPT_SPREAD_APPROX</function>(<parameter>call_put_flag</parameter>,<parameter>fut_price1</parameter>,<parameter>fut_price2</parameter>,<parameter>strike</parameter>,<parameter>time</parameter>,<parameter>rate</parameter>,<parameter>volatility1</parameter>,<parameter>volatility2</parameter>,<parameter>rho</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>call_put_flag</parameter>: 'c' for a call and 'p' for a put</para>
-          <para><parameter>fut_price1</parameter>: price of the first futures contract</para>
-          <para><parameter>fut_price2</parameter>: price of the second futures contract</para>
-          <para><parameter>strike</parameter>: strike price</para>
-          <para><parameter>time</parameter>: time to maturity in years</para>
-          <para><parameter>rate</parameter>: annualized risk-free interest rate</para>
-          <para><parameter>volatility1</parameter>: annualized volatility in price of the first underlying futures contract</para>
-          <para><parameter>volatility2</parameter>: annualized volatility in price of the second underlying futures contract</para>
-          <para><parameter>rho</parameter>: correlation between the two futures contracts</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-OPT_TIME_SWITCH">
@@ -7971,17 +7971,17 @@
         the number of blank cells in <parameter>range</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>COUNTBLANK</function>(<parameter>range</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>range</parameter>: a cell range</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-COUNT"><function>COUNT</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>COUNTBLANK</function>(<parameter>range</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>range</parameter>: a cell range</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-ERROR">
@@ -7998,17 +7998,17 @@
         the error with name <parameter>text</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>ERROR</function>(<parameter>name</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>name</parameter>: string</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-ISERROR"><function>ISERROR</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>ERROR</function>(<parameter>name</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>name</parameter>: string</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-ERROR.TYPE">
@@ -8091,18 +8091,18 @@
         The formula in <parameter>cell</parameter> as a string.
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>GET.FORMULA</function>(<parameter>cell</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>cell</parameter>: the referenced cell</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-EXPRESSION"><function>EXPRESSION</function></link>,
         <link linkend="gnumeric-ISFORMULA"><function>ISFORMULA</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>GET.FORMULA</function>(<parameter>cell</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>cell</parameter>: the referenced cell</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-GET.LINK">
@@ -8239,17 +8239,17 @@
         TRUE if <parameter>value</parameter> is any error value except #N/A
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>ISERR</function>(<parameter>value</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>value</parameter>: a value</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-ISERROR"><function>ISERROR</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>ISERR</function>(<parameter>value</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>value</parameter>: a value</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-ISERROR">
@@ -8266,18 +8266,18 @@
         TRUE if <parameter>value</parameter> is any error value
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>ISERROR</function>(<parameter>value</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>value</parameter>: a value</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-ISERR"><function>ISERR</function></link>,
         <link linkend="gnumeric-ISNA"><function>ISNA</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>ISERROR</function>(<parameter>value</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>value</parameter>: a value</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-ISEVEN">
@@ -8294,17 +8294,17 @@
         TRUE if <parameter>n</parameter> is even.
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>ISEVEN</function>(<parameter>n</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>n</parameter>: number</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-ISODD"><function>ISODD</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>ISEVEN</function>(<parameter>n</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>n</parameter>: number</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-ISFORMULA">
@@ -8321,17 +8321,17 @@
         TRUE if <parameter>cell</parameter> contains a formula.
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>ISFORMULA</function>(<parameter>cell</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>cell</parameter>: the referenced cell</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-GET.FORMULA"><function>GET.FORMULA</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>ISFORMULA</function>(<parameter>cell</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>cell</parameter>: the referenced cell</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-ISLOGICAL">
@@ -8371,17 +8371,17 @@
         TRUE if <parameter>value</parameter> is the #N/A error value.
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>ISNA</function>(<parameter>value</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>value</parameter>: a value</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-NA"><function>NA</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>ISNA</function>(<parameter>value</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>value</parameter>: a value</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-ISNONTEXT">
@@ -8398,17 +8398,17 @@
         TRUE if <parameter>value</parameter> is not text.
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>ISNONTEXT</function>(<parameter>value</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>value</parameter>: a value</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-ISTEXT"><function>ISTEXT</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>ISNONTEXT</function>(<parameter>value</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>value</parameter>: a value</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-ISNUMBER">
@@ -8448,17 +8448,17 @@
         TRUE if <parameter>n</parameter> is odd.
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>ISODD</function>(<parameter>n</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>n</parameter>: number</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-ISEVEN"><function>ISEVEN</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>ISODD</function>(<parameter>n</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>n</parameter>: number</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-ISREF">
@@ -8498,17 +8498,17 @@
         TRUE if <parameter>value</parameter> is text.
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>ISTEXT</function>(<parameter>value</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>value</parameter>: a value</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-ISNONTEXT"><function>ISNONTEXT</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>ISTEXT</function>(<parameter>value</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>value</parameter>: a value</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-N">
@@ -8550,16 +8550,12 @@
         the error value #N/A
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>NA</function>(<parameter/>)</synopsis>
+      </refsynopsisdiv>
       <refsect1>
-        <title>See also</title>
-        <para><link linkend="gnumeric-ISNA"><function>ISNA</function></link>.
-      </para>
-        <refsynopsisdiv>
-          <synopsis><function>NA</function>(<parameter/>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-        </refsect1>
+        <title>Description</title>
+        <para><parameter>SEEALSO</parameter>=ISNA</para>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-TYPE">
@@ -8980,6 +8976,13 @@
         number of areas in <parameter>reference</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>AREAS</function>(<parameter>reference</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>reference</parameter>: range</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-ADDRESS"><function>ADDRESS</function></link>,
@@ -8987,13 +8990,6 @@
         <link linkend="gnumeric-INDIRECT"><function>INDIRECT</function></link>,
         <link linkend="gnumeric-OFFSET"><function>OFFSET</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>AREAS</function>(<parameter>reference</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>reference</parameter>: range</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-CHOOSE">
@@ -9532,17 +9528,17 @@
         the transpose of <parameter>matrix</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>TRANSPOSE</function>(<parameter>matrix</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>matrix</parameter>: range</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-MMULT"><function>MMULT</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>TRANSPOSE</function>(<parameter>matrix</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>matrix</parameter>: range</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-VLOOKUP">
@@ -9634,6 +9630,13 @@
         the arc cosine of <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>ACOS</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: number</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-COS"><function>COS</function></link>,
@@ -9641,13 +9644,6 @@
         <link linkend="gnumeric-DEGREES"><function>DEGREES</function></link>,
         <link linkend="gnumeric-RADIANS"><function>RADIANS</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>ACOS</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: number</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-ACOSH">
@@ -9664,6 +9660,13 @@
         the hyperbolic arc cosine of <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>ACOSH</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: number</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-ACOS"><function>ACOS</function></link>,
@@ -9671,13 +9674,6 @@
         <link linkend="gnumeric-DEGREES"><function>DEGREES</function></link>,
         <link linkend="gnumeric-RADIANS"><function>RADIANS</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>ACOSH</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: number</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-ACOT">
@@ -9694,18 +9690,18 @@
         inverse cotangent of a value
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>ACOT</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: value</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-COT"><function>COT</function></link>,
         <link linkend="gnumeric-TAN"><function>TAN</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>ACOT</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: value</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-ACOTH">
@@ -9722,18 +9718,18 @@
         inverse hyperbolic cotangent of a value
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>ACOTH</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: number</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-COTH"><function>COTH</function></link>,
         <link linkend="gnumeric-TANH"><function>TANH</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>ACOTH</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: number</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-Arabic">
@@ -9949,20 +9945,20 @@
         average of the cells in @{actual range} for which the corresponding cells in the range meet the given <parameter>criteria</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>AVERAGEIF</function>(<parameter>range</parameter>,<parameter>criteria</parameter>,<parameter>actual_range</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>range</parameter>: cell area</para>
+        <para><parameter>criteria</parameter>:  condition for a cell to be included</para>
+        <para><parameter>actual_range</parameter>:  cell area, defaults to <parameter>range</parameter></para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-SUMIF"><function>SUMIF</function></link>,
         <link linkend="gnumeric-COUNTIF"><function>COUNTIF</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>AVERAGEIF</function>(<parameter>range</parameter>,<parameter>criteria</parameter>,<parameter>actual_range</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>range</parameter>: cell area</para>
-          <para><parameter>criteria</parameter>:  condition for a cell to be included</para>
-          <para><parameter>actual_range</parameter>:  cell area, defaults to <parameter>range</parameter></para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-BETA">
@@ -10185,18 +10181,18 @@
         the number of <parameter>k</parameter>-combinations of an <parameter>n</parameter>-element set with repetition
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>COMBINA</function>(<parameter>n</parameter>,<parameter>k</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>n</parameter>: non-negative integer</para>
+        <para><parameter>k</parameter>: non-negative integer</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-COMBIN"><function>COMBIN</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>COMBINA</function>(<parameter>n</parameter>,<parameter>k</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>n</parameter>: non-negative integer</para>
-          <para><parameter>k</parameter>: non-negative integer</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-COS">
@@ -10247,6 +10243,13 @@
         Hyperbolic cosine function
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>COSH</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: angle in radians</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-SIN"><function>SIN</function></link>,
@@ -10257,13 +10260,6 @@
         <link linkend="gnumeric-RADIANS"><function>RADIANS</function></link>,
         <link linkend="gnumeric-DEGREES"><function>DEGREES</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>COSH</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: angle in radians</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-COT">
@@ -10280,18 +10276,18 @@
         cotangent of a value
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>COT</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: number</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-TAN"><function>TAN</function></link>,
         <link linkend="gnumeric-ACOT"><function>ACOT</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>COT</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: number</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-COTH">
@@ -10308,18 +10304,18 @@
         hyperbolic cotangent of a value
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>COTH</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: number</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-TANH"><function>TANH</function></link>,
         <link linkend="gnumeric-ACOTH"><function>ACOTH</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>COTH</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: number</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-COUNTIF">
@@ -10336,19 +10332,19 @@
         count of the cells meeting the given <parameter>criteria</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>COUNTIF</function>(<parameter>range</parameter>,<parameter>criteria</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>range</parameter>: cell area</para>
+        <para><parameter>criteria</parameter>:  condition for a cell to be counted</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-COUNT"><function>COUNT</function></link>,
         <link linkend="gnumeric-SUMIF"><function>SUMIF</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>COUNTIF</function>(<parameter>range</parameter>,<parameter>criteria</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>range</parameter>: cell area</para>
-          <para><parameter>criteria</parameter>:  condition for a cell to be counted</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-CSC">
@@ -10365,6 +10361,13 @@
         Cosecant
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>CSC</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: angle in radians</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-SIN"><function>SIN</function></link>,
@@ -10377,13 +10380,6 @@
         <link linkend="gnumeric-RADIANS"><function>RADIANS</function></link>,
         <link linkend="gnumeric-DEGREES"><function>DEGREES</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>CSC</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: angle in radians</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-CSCH">
@@ -10400,6 +10396,13 @@
         Hyperbolic cosecant
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>CSCH</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: angle in radians</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-SIN"><function>SIN</function></link>,
@@ -10413,13 +10416,6 @@
         <link linkend="gnumeric-RADIANS"><function>RADIANS</function></link>,
         <link linkend="gnumeric-DEGREES"><function>DEGREES</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>CSCH</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: angle in radians</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-DEGREES">
@@ -10436,18 +10432,18 @@
         Equivalent degrees to <parameter>x</parameter> radians.
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>DEGREES</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: angle in radians</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-RADIANS"><function>RADIANS</function></link>,
         <link linkend="gnumeric-PI"><function>PI</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>DEGREES</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: angle in radians</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-EIGEN">
@@ -10493,17 +10489,17 @@
         <refpurpose><parameter>x</parameter> rounded away from 0 to the next even integer
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>EVEN</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: number</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-ODD"><function>ODD</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>EVEN</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: number</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-EXP">
@@ -10736,17 +10732,17 @@
         the Gamma function
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>GAMMA</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: number</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-GAMMALN"><function>GAMMALN</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>GAMMA</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: number</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-GAMMALN">
@@ -10763,17 +10759,17 @@
         natural logarithm of the Gamma function.
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>GAMMALN</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: number</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-GAMMA"><function>GAMMA</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>GAMMALN</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: number</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-GCD">
@@ -10823,18 +10819,18 @@
         Gudermannian function
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>GD</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: value</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-TAN"><function>TAN</function></link>,
         <link linkend="gnumeric-TANH"><function>TANH</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>GD</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: value</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-HYPOT">
@@ -10851,19 +10847,19 @@
         the square root of the sum of the squares of the arguments.
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>HYPOT</function>(<parameter>n0</parameter>,<parameter>n1</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>n0</parameter>: number</para>
+        <para><parameter>n1</parameter>: number</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-MIN"><function>MIN</function></link>,
         <link linkend="gnumeric-MAX"><function>MAX</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>HYPOT</function>(<parameter>n0</parameter>,<parameter>n1</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>n0</parameter>: number</para>
-          <para><parameter>n1</parameter>: number</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-INT">
@@ -10880,6 +10876,13 @@
          largest integer not larger than <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>INT</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: number</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-CEIL"><function>CEIL</function></link>,
@@ -10888,13 +10891,6 @@
         <link linkend="gnumeric-ABS"><function>ABS</function></link>,
         <link linkend="gnumeric-MOD"><function>MOD</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>INT</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: number</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-LCM">
@@ -11115,18 +11111,18 @@
         the determinant of the matrix <parameter>matrix</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>MDETERM</function>(<parameter>matrix</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>matrix</parameter>: a square matrix</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-MMULT"><function>MMULT</function></link>,
         <link linkend="gnumeric-MINVERSE"><function>MINVERSE</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>MDETERM</function>(<parameter>matrix</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>matrix</parameter>: a square matrix</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-MINVERSE">
@@ -11179,19 +11175,19 @@
         the matrix product of <parameter>mat1</parameter> and <parameter>mat2</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>MMULT</function>(<parameter>mat1</parameter>,<parameter>mat2</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>mat1</parameter>: a matrix</para>
+        <para><parameter>mat2</parameter>: a matrix</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-TRANSPOSE"><function>TRANSPOSE</function></link>,
         <link linkend="gnumeric-MINVERSE"><function>MINVERSE</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>MMULT</function>(<parameter>mat1</parameter>,<parameter>mat2</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>mat1</parameter>: a matrix</para>
-          <para><parameter>mat2</parameter>: a matrix</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-MOD">
@@ -11279,20 +11275,20 @@
         Multinomial coefficient (<parameter>x1</parameter>+⋯+<parameter>xn</parameter>) choose (<parameter>x1</parameter>,...,<parameter>xn</parameter>)
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>MULTINOMIAL</function>(<parameter>x1</parameter>,<parameter>x2</parameter>,<parameter>xn</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x1</parameter>: first number</para>
+        <para><parameter>x2</parameter>: second number</para>
+        <para><parameter>xn</parameter>: nth number</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-COMBIN"><function>COMBIN</function></link>,
         <link linkend="gnumeric-SUM"><function>SUM</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>MULTINOMIAL</function>(<parameter>x1</parameter>,<parameter>x2</parameter>,<parameter>xn</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x1</parameter>: first number</para>
-          <para><parameter>x2</parameter>: second number</para>
-          <para><parameter>xn</parameter>: nth number</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-MUNIT">
@@ -11309,19 +11305,19 @@
         the <parameter>n</parameter> by <parameter>n</parameter> identity matrix
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>MUNIT</function>(<parameter>n</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>n</parameter>: size of the matrix</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-MMULT"><function>MMULT</function></link>,
         <link linkend="gnumeric-MDETERM"><function>MDETERM</function></link>,
         <link linkend="gnumeric-MINVERSE"><function>MINVERSE</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>MUNIT</function>(<parameter>n</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>n</parameter>: size of the matrix</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-ODD">
@@ -11337,17 +11333,17 @@
         <refpurpose><parameter>x</parameter> rounded away from 0 to the next odd integer
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>ODD</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: number</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-EVEN"><function>EVEN</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>ODD</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: number</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-PI">
@@ -11364,16 +11360,12 @@
         the constant π
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>PI</function>(<parameter/>)</synopsis>
+      </refsynopsisdiv>
       <refsect1>
-        <title>See also</title>
-        <para><link linkend="gnumeric-SQRTPI"><function>SQRTPI</function></link>.
-      </para>
-        <refsynopsisdiv>
-          <synopsis><function>PI</function>(<parameter/>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-        </refsect1>
+        <title>Description</title>
+        <para><parameter>SEEALSO</parameter>=SQRTPI</para>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-POWER">
@@ -11494,18 +11486,18 @@
         the number of radians equivalent to <parameter>x</parameter> degrees.
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>RADIANS</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: angle in degrees</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-PI"><function>PI</function></link>,
         <link linkend="gnumeric-DEGREES"><function>DEGREES</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>RADIANS</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: angle in degrees</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-ROMAN">
@@ -11642,6 +11634,13 @@
         Secant
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>SEC</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: angle in radians</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-SIN"><function>SIN</function></link>,
@@ -11654,13 +11653,6 @@
         <link linkend="gnumeric-RADIANS"><function>RADIANS</function></link>,
         <link linkend="gnumeric-DEGREES"><function>DEGREES</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>SEC</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: angle in radians</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-SECH">
@@ -11677,6 +11669,13 @@
         Hyperbolic secant
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>SECH</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: angle in radians</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-SIN"><function>SIN</function></link>,
@@ -11690,13 +11689,6 @@
         <link linkend="gnumeric-RADIANS"><function>RADIANS</function></link>,
         <link linkend="gnumeric-DEGREES"><function>DEGREES</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>SECH</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: angle in radians</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-SERIESSUM">
@@ -11713,21 +11705,21 @@
         sum of a power series at <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>SERIESSUM</function>(<parameter>x</parameter>,<parameter>n</parameter>,<parameter>m</parameter>,<parameter>coeff</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: number where to evaluate the power series</para>
+        <para><parameter>n</parameter>: non-negative integer, exponent of the lowest term of the series</para>
+        <para><parameter>m</parameter>: increment to each exponent</para>
+        <para><parameter>coeff</parameter>: coefficients of the power series</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-COUNT"><function>COUNT</function></link>,
         <link linkend="gnumeric-SUM"><function>SUM</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>SERIESSUM</function>(<parameter>x</parameter>,<parameter>n</parameter>,<parameter>m</parameter>,<parameter>coeff</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: number where to evaluate the power series</para>
-          <para><parameter>n</parameter>: non-negative integer, exponent of the lowest term of the series</para>
-          <para><parameter>m</parameter>: increment to each exponent</para>
-          <para><parameter>coeff</parameter>: coefficients of the power series</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-SIGN">
@@ -11772,6 +11764,13 @@
         Sine function
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>SIN</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: angle in radians</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-COS"><function>COS</function></link>,
@@ -11784,13 +11783,6 @@
         <link linkend="gnumeric-RADIANS"><function>RADIANS</function></link>,
         <link linkend="gnumeric-DEGREES"><function>DEGREES</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>SIN</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: angle in radians</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-SINH">
@@ -11807,6 +11799,13 @@
         the hyperbolic sine of <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>SINH</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: angle in radians</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-ACOS"><function>ACOS</function></link>,
@@ -11814,13 +11813,6 @@
         <link linkend="gnumeric-DEGREES"><function>DEGREES</function></link>,
         <link linkend="gnumeric-RADIANS"><function>RADIANS</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>SINH</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: angle in radians</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-SQRT">
@@ -11868,17 +11860,17 @@
         the square root of <parameter>x</parameter> times π
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>SQRTPI</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: non-negative number</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-PI"><function>PI</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>SQRTPI</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: non-negative number</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-SUM">
@@ -11955,20 +11947,20 @@
         sum of the cells in <parameter>actual_range</parameter> for which the corresponding cells in the range meet the given <parameter>criteria</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>SUMIF</function>(<parameter>range</parameter>,<parameter>criteria</parameter>,<parameter>actual_range</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>range</parameter>: cell area</para>
+        <para><parameter>criteria</parameter>:  condition for a cell to be summed</para>
+        <para><parameter>actual_range</parameter>:  cell area, defaults to <parameter>range</parameter></para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-SUM"><function>SUM</function></link>,
         <link linkend="gnumeric-COUNTIF"><function>COUNTIF</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>SUMIF</function>(<parameter>range</parameter>,<parameter>criteria</parameter>,<parameter>actual_range</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>range</parameter>: cell area</para>
-          <para><parameter>criteria</parameter>:  condition for a cell to be summed</para>
-          <para><parameter>actual_range</parameter>:  cell area, defaults to <parameter>range</parameter></para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-SUMPRODUCT">
@@ -12026,19 +12018,19 @@
         sum of th squares of all values and cells referenced
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>SUMSQ</function>(<parameter>area0</parameter>,<parameter>area1</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>area0</parameter>: first cell area</para>
+        <para><parameter>area1</parameter>: second cell area</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-SUM"><function>SUM</function></link>,
         <link linkend="gnumeric-COUNT"><function>COUNT</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>SUMSQ</function>(<parameter>area0</parameter>,<parameter>area1</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>area0</parameter>: first cell area</para>
-          <para><parameter>area1</parameter>: second cell area</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-SUMX2MY2">
@@ -12156,6 +12148,13 @@
         tangent
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>TAN</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: angle in radians</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-TANH"><function>TANH</function></link>,
@@ -12166,13 +12165,6 @@
         <link linkend="gnumeric-DEGREES"><function>DEGREES</function></link>,
         <link linkend="gnumeric-RADIANS"><function>RADIANS</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>TAN</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: angle in radians</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-TANH">
@@ -12189,6 +12181,13 @@
         hyperbolic tangent
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>TANH</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: angle in radians</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-TAN"><function>TAN</function></link>,
@@ -12199,13 +12198,6 @@
         <link linkend="gnumeric-DEGREES"><function>DEGREES</function></link>,
         <link linkend="gnumeric-RADIANS"><function>RADIANS</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>TANH</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: angle in radians</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-TRUNC">
@@ -12503,16 +12495,12 @@
         a random number between zero and one.
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>RAND</function>(<parameter/>)</synopsis>
+      </refsynopsisdiv>
       <refsect1>
-        <title>See also</title>
-        <para><link linkend="gnumeric-RANDBETWEEN"><function>RANDBETWEEN</function></link>.
-      </para>
-        <refsynopsisdiv>
-          <synopsis><function>RAND</function>(<parameter/>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-        </refsect1>
+        <title>Description</title>
+        <para><parameter>SEEALSO</parameter>=RANDBETWEEN</para>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-RANDBERNOULLI">
@@ -12561,19 +12549,19 @@
         random variate from a Beta distribution
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>RANDBETA</function>(<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>a</parameter>: parameter of the Beta distribution</para>
+        <para><parameter>b</parameter>: parameter of the Beta distribution</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-RAND"><function>RAND</function></link>,
         <link linkend="gnumeric-RANDGAMMA"><function>RANDGAMMA</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>RANDBETA</function>(<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>a</parameter>: parameter of the Beta distribution</para>
-          <para><parameter>b</parameter>: parameter of the Beta distribution</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-RANDBETWEEN">
@@ -12691,18 +12679,18 @@
         random variate from a Chi-square distribution
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>RANDCHISQ</function>(<parameter>df</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>df</parameter>: degrees of freedom</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-RAND"><function>RAND</function></link>,
         <link linkend="gnumeric-RANDGAMMA"><function>RANDGAMMA</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>RANDCHISQ</function>(<parameter>df</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>df</parameter>: degrees of freedom</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-RANDDISCRETE">
@@ -12761,18 +12749,18 @@
         random variate from an exponential distribution
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>RANDEXP</function>(<parameter>b</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>b</parameter>: parameter of the exponential distribution</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-RAND"><function>RAND</function></link>,
         <link linkend="gnumeric-RANDBETWEEN"><function>RANDBETWEEN</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>RANDEXP</function>(<parameter>b</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>b</parameter>: parameter of the exponential distribution</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-RANDEXPPOW">
@@ -12822,19 +12810,19 @@
         random variate from an F distribution
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>RANDFDIST</function>(<parameter>df1</parameter>,<parameter>df2</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>df1</parameter>: numerator degrees of freedom</para>
+        <para><parameter>df2</parameter>: denominator degrees of freedom</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-RAND"><function>RAND</function></link>,
         <link linkend="gnumeric-RANDGAMMA"><function>RANDGAMMA</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>RANDFDIST</function>(<parameter>df1</parameter>,<parameter>df2</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>df1</parameter>: numerator degrees of freedom</para>
-          <para><parameter>df2</parameter>: denominator degrees of freedom</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-RANDGAMMA">
@@ -12947,19 +12935,19 @@
         random variate from a hypergeometric distribution
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>RANDHYPERG</function>(<parameter>n1</parameter>,<parameter>n2</parameter>,<parameter>t</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>n1</parameter>: number of objects of type 1</para>
+        <para><parameter>n2</parameter>: number of objects of type 2</para>
+        <para><parameter>t</parameter>: total number of objects selected</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-RAND"><function>RAND</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>RANDHYPERG</function>(<parameter>n1</parameter>,<parameter>n2</parameter>,<parameter>t</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>n1</parameter>: number of objects of type 1</para>
-          <para><parameter>n2</parameter>: number of objects of type 2</para>
-          <para><parameter>t</parameter>: total number of objects selected</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-RANDLANDAU">
@@ -12976,16 +12964,12 @@
         random variate from the Landau distribution
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>RANDLANDAU</function>(<parameter/>)</synopsis>
+      </refsynopsisdiv>
       <refsect1>
-        <title>See also</title>
-        <para><link linkend="gnumeric-RAND"><function>RAND</function></link>.
-      </para>
-        <refsynopsisdiv>
-          <synopsis><function>RANDLANDAU</function>(<parameter/>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-        </refsect1>
+        <title>Description</title>
+        <para><parameter>SEEALSO</parameter>=RAND</para>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-RANDLAPLACE">
@@ -13002,17 +12986,17 @@
         random variate from a Laplace distribution
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>RANDLAPLACE</function>(<parameter>a</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>a</parameter>: parameter of the Laplace distribution</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-RAND"><function>RAND</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>RANDLAPLACE</function>(<parameter>a</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>a</parameter>: parameter of the Laplace distribution</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-RANDLEVY">
@@ -13102,17 +13086,17 @@
         random variate from a logistic distribution
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>RANDLOGISTIC</function>(<parameter>a</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>a</parameter>: parameter of the logistic distribution</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-RAND"><function>RAND</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>RANDLOGISTIC</function>(<parameter>a</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>a</parameter>: parameter of the logistic distribution</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-RANDLOGNORM">
@@ -13262,18 +13246,18 @@
         random variate from a Pareto distribution
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>RANDPARETO</function>(<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>a</parameter>: parameter of the Pareto distribution</para>
+        <para><parameter>b</parameter>: parameter of the Pareto distribution</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-RAND"><function>RAND</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>RANDPARETO</function>(<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>a</parameter>: parameter of the Pareto distribution</para>
-          <para><parameter>b</parameter>: parameter of the Pareto distribution</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-RANDPOISSON">
@@ -13322,17 +13306,17 @@
         random variate from a Rayleigh distribution
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>RANDRAYLEIGH</function>(<parameter/>σ)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>@{σ}: scale parameter of the Rayleigh distribution</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-RAND"><function>RAND</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>RANDRAYLEIGH</function>(<parameter/>σ)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para>@{σ}: scale parameter of the Rayleigh distribution</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-RANDRAYLEIGHTAIL">
@@ -13349,19 +13333,19 @@
         random variate from the tail of a Rayleigh distribution
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>RANDRAYLEIGHTAIL</function>(<parameter>a</parameter>,<parameter/>σ)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>a</parameter>: lower limit of the tail</para>
+        <para>@{σ}: scale parameter of the Rayleigh distribution</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-RAND"><function>RAND</function></link>,
         <link linkend="gnumeric-RANDRAYLEIGH"><function>RANDRAYLEIGH</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>RANDRAYLEIGHTAIL</function>(<parameter>a</parameter>,<parameter/>σ)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>a</parameter>: lower limit of the tail</para>
-          <para>@{σ}: scale parameter of the Rayleigh distribution</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-RANDSNORM">
@@ -13411,18 +13395,18 @@
         random variate from a skew t distribution
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>RANDSTDIST</function>(<parameter>df</parameter>,<parameter>a</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>df</parameter>: degrees of freedom</para>
+        <para><parameter>a</parameter>:  amount of skew, defaults to 0</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-RANDTDIST"><function>RANDTDIST</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>RANDSTDIST</function>(<parameter>df</parameter>,<parameter>a</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>df</parameter>: degrees of freedom</para>
-          <para><parameter>a</parameter>:  amount of skew, defaults to 0</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-RANDTDIST">
@@ -13439,17 +13423,17 @@
         random variate from a Student t distribution
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>RANDTDIST</function>(<parameter>df</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>df</parameter>: degrees of freedom</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-RAND"><function>RAND</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>RANDTDIST</function>(<parameter>df</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>df</parameter>: degrees of freedom</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-RANDUNIFORM">
@@ -13499,18 +13483,18 @@
         random variate from a Weibull distribution
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>RANDWEIBULL</function>(<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>a</parameter>: parameter of the Weibull distribution</para>
+        <para><parameter>b</parameter>: parameter of the Weibull distribution</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-RAND"><function>RAND</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>RANDWEIBULL</function>(<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>a</parameter>: parameter of the Weibull distribution</para>
-          <para><parameter>b</parameter>: parameter of the Weibull distribution</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-SIMTABLE">
@@ -13591,18 +13575,18 @@
         average of the absolute deviations of a data set
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>AVEDEV</function>(<parameter>number1</parameter>,<parameter>number2</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>number1</parameter>: first value</para>
+        <para><parameter>number2</parameter>: second value</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-STDEV"><function>STDEV</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>AVEDEV</function>(<parameter>number1</parameter>,<parameter>number2</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>number1</parameter>: first value</para>
-          <para><parameter>number2</parameter>: second value</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-AVERAGE">
@@ -13619,19 +13603,19 @@
         average of all the numeric values and cells
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>AVERAGE</function>(<parameter>number1</parameter>,<parameter>number2</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>number1</parameter>: first value</para>
+        <para><parameter>number2</parameter>: second value</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-SUM"><function>SUM</function></link>,
         <link linkend="gnumeric-COUNT"><function>COUNT</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>AVERAGE</function>(<parameter>number1</parameter>,<parameter>number2</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>number1</parameter>: first value</para>
-          <para><parameter>number2</parameter>: second value</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-AVERAGEA">
@@ -14110,18 +14094,18 @@
         total number of integer or floating point arguments passed
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>COUNT</function>(<parameter>number1</parameter>,<parameter>number2</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>number1</parameter>: first value</para>
+        <para><parameter>number2</parameter>: second value</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-AVERAGE"><function>AVERAGE</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>COUNT</function>(<parameter>number1</parameter>,<parameter>number2</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>number1</parameter>: first value</para>
-          <para><parameter>number2</parameter>: second value</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-COUNTA">
@@ -14138,6 +14122,14 @@
         number of arguments passed not including empty cells
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>COUNTA</function>(<parameter>number1</parameter>,<parameter>number2</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>number1</parameter>: first value</para>
+        <para><parameter>number2</parameter>: second value</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-AVERAGE"><function>AVERAGE</function></link>,
@@ -14147,14 +14139,6 @@
         <link linkend="gnumeric-PRODUCT"><function>PRODUCT</function></link>,
         <link linkend="gnumeric-SUM"><function>SUM</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>COUNTA</function>(<parameter>number1</parameter>,<parameter>number2</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>number1</parameter>: first value</para>
-          <para><parameter>number2</parameter>: second value</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-COVAR">
@@ -14247,18 +14231,18 @@
         Cronbach's alpha
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>CRONBACH</function>(<parameter>ref1</parameter>,<parameter>ref2</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>ref1</parameter>: first data set</para>
+        <para><parameter>ref2</parameter>: second data set</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-VAR"><function>VAR</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>CRONBACH</function>(<parameter>ref1</parameter>,<parameter>ref2</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>ref1</parameter>: first data set</para>
-          <para><parameter>ref2</parameter>: second data set</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-CVMTEST">
@@ -14614,19 +14598,19 @@
         p-value for the two-tailed hypothesis test comparing the variances of two populations
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>FTEST</function>(<parameter>array1</parameter>,<parameter>array2</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>array1</parameter>: sample from the first population</para>
+        <para><parameter>array2</parameter>: sample from the second population</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-FDIST"><function>FDIST</function></link>,
         <link linkend="gnumeric-FINV"><function>FINV</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>FTEST</function>(<parameter>array1</parameter>,<parameter>array2</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>array1</parameter>: sample from the first population</para>
-          <para><parameter>array2</parameter>: sample from the second population</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-GAMMADIST">
@@ -15023,17 +15007,17 @@
         approximate probability density function of the Landau distribution
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>LANDAU</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: </para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-RANDLANDAU"><function>RANDLANDAU</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>LANDAU</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: </para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-LAPLACE">
@@ -15050,18 +15034,18 @@
         probability density function of the Laplace distribution
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>LAPLACE</function>(<parameter>x</parameter>,<parameter>a</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: </para>
+        <para><parameter>a</parameter>: mean</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-RANDLAPLACE"><function>RANDLAPLACE</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>LAPLACE</function>(<parameter>x</parameter>,<parameter>a</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: </para>
-          <para><parameter>a</parameter>: mean</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-LARGE">
@@ -15323,18 +15307,18 @@
         probability density function of the logistic distribution
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>LOGISTIC</function>(<parameter>x</parameter>,<parameter>a</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: </para>
+        <para><parameter>a</parameter>: scale parameter</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-RANDLOGISTIC"><function>RANDLOGISTIC</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>LOGISTIC</function>(<parameter>x</parameter>,<parameter>a</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: </para>
-          <para><parameter>a</parameter>: scale parameter</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-LOGNORMDIST">
@@ -15429,19 +15413,19 @@
         largest value, with negative numbers considered smaller than positive numbers.
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>MAX</function>(<parameter>number1</parameter>,<parameter>number2</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>number1</parameter>: first value</para>
+        <para><parameter>number2</parameter>: second value</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-MIN"><function>MIN</function></link>,
         <link linkend="gnumeric-ABS"><function>ABS</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>MAX</function>(<parameter>number1</parameter>,<parameter>number2</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>number1</parameter>: first value</para>
-          <para><parameter>number2</parameter>: second value</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-MAXA">
@@ -15527,19 +15511,19 @@
         smallest value, with negative numbers considered smaller than positive numbers
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>MIN</function>(<parameter>number1</parameter>,<parameter>number2</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>number1</parameter>: first value</para>
+        <para><parameter>number2</parameter>: second value</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-MAX"><function>MAX</function></link>,
         <link linkend="gnumeric-ABS"><function>ABS</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>MIN</function>(<parameter>number1</parameter>,<parameter>number2</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>number1</parameter>: first value</para>
-          <para><parameter>number2</parameter>: second value</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-MINA">
@@ -15736,17 +15720,17 @@
         cumulative density function of the standard normal distribution
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>NORMSDIST</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: </para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-NORMDIST"><function>NORMDIST</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>NORMSDIST</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: </para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-NORMSINV">
@@ -15798,19 +15782,19 @@
         probability density function of the pareto distribution
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>PARETO</function>(<parameter>x</parameter>,<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: </para>
+        <para><parameter>a</parameter>: exponent</para>
+        <para><parameter>b</parameter>: scale parameter</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-RANDPARETO"><function>RANDPARETO</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>PARETO</function>(<parameter>x</parameter>,<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: </para>
-          <para><parameter>a</parameter>: exponent</para>
-          <para><parameter>b</parameter>: scale parameter</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-PEARSON">
@@ -17775,18 +17759,18 @@
         probability density function of the Rayleigh distribution
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>RAYLEIGH</function>(<parameter>x</parameter>,<parameter>sigma</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: </para>
+        <para><parameter>sigma</parameter>: scale parameter</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-RANDRAYLEIGH"><function>RANDRAYLEIGH</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>RAYLEIGH</function>(<parameter>x</parameter>,<parameter>sigma</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: </para>
-          <para><parameter>sigma</parameter>: scale parameter</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-RAYLEIGHTAIL">
@@ -17803,19 +17787,19 @@
         probability density function of the Rayleigh tail distribution
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>RAYLEIGHTAIL</function>(<parameter>x</parameter>,<parameter>a</parameter>,<parameter>sigma</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: </para>
+        <para><parameter>a</parameter>: lower limit</para>
+        <para><parameter>sigma</parameter>: scale parameter</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-RANDRAYLEIGHTAIL"><function>RANDRAYLEIGHTAIL</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>RAYLEIGHTAIL</function>(<parameter>x</parameter>,<parameter>a</parameter>,<parameter>sigma</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: </para>
-          <para><parameter>a</parameter>: lower limit</para>
-          <para><parameter>sigma</parameter>: scale parameter</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-RSQ">
@@ -18300,31 +18284,31 @@
         the subtotal of the given list of arguments
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>SUBTOTAL</function>(<parameter>function_nbr</parameter>,<parameter>ref1</parameter>,<parameter>ref2</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>function_nbr</parameter>: determines which function to use according to the following table:</para>
+        <para>	1   AVERAGE</para>
+        <para>	2   COUNT</para>
+        <para>	3   COUNTA</para>
+        <para>	4   MAX</para>
+        <para>	5   MIN</para>
+        <para>	6   PRODUCT</para>
+        <para>	7   STDEV</para>
+        <para>	8   STDEVP</para>
+        <para>	9   SUM</para>
+        <para>	10   VAR</para>
+        <para>	11   VARP</para>
+        <para><parameter>ref1</parameter>: first value</para>
+        <para><parameter>ref2</parameter>: second value</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-COUNT"><function>COUNT</function></link>,
         <link linkend="gnumeric-SUM"><function>SUM</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>SUBTOTAL</function>(<parameter>function_nbr</parameter>,<parameter>ref1</parameter>,<parameter>ref2</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>function_nbr</parameter>: determines which function to use according to the following table:</para>
-          <para>	1   AVERAGE</para>
-          <para>	2   COUNT</para>
-          <para>	3   COUNTA</para>
-          <para>	4   MAX</para>
-          <para>	5   MIN</para>
-          <para>	6   PRODUCT</para>
-          <para>	7   STDEV</para>
-          <para>	8   STDEVP</para>
-          <para>	9   SUM</para>
-          <para>	10   VAR</para>
-          <para>	11   VARP</para>
-          <para><parameter>ref1</parameter>: first value</para>
-          <para><parameter>ref2</parameter>: second value</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-TDIST">
@@ -18922,20 +18906,20 @@
         the concatenation of the strings <parameter>s1</parameter>, <parameter>s2</parameter>,...
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>CONCATENATE</function>(<parameter>s1</parameter>,<parameter>s2</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>s1</parameter>: first string</para>
+        <para><parameter>s2</parameter>: second string</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-LEFT"><function>LEFT</function></link>,
         <link linkend="gnumeric-MID"><function>MID</function></link>,
         <link linkend="gnumeric-RIGHT"><function>RIGHT</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>CONCATENATE</function>(<parameter>s1</parameter>,<parameter>s2</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>s1</parameter>: first string</para>
-          <para><parameter>s2</parameter>: second string</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-DOLLAR">
@@ -18951,20 +18935,20 @@
         <refpurpose><parameter>num</parameter> formatted as currency.
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>DOLLAR</function>(<parameter>num</parameter>,<parameter>decimals</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>num</parameter>: number</para>
+        <para><parameter>decimals</parameter>: decimals</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-FIXED"><function>FIXED</function></link>,
         <link linkend="gnumeric-TEXT"><function>TEXT</function></link>,
         <link linkend="gnumeric-VALUE"><function>VALUE</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>DOLLAR</function>(<parameter>num</parameter>,<parameter>decimals</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>num</parameter>: number</para>
-          <para><parameter>decimals</parameter>: decimals</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-EXACT">
@@ -18981,20 +18965,20 @@
         TRUE if <parameter>string1</parameter> is exactly equal to <parameter>string2</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>EXACT</function>(<parameter>string1</parameter>,<parameter>string2</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>string1</parameter>: first string</para>
+        <para><parameter>string2</parameter>: second string</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-LEN"><function>LEN</function></link>,
         <link linkend="gnumeric-SEARCH"><function>SEARCH</function></link>,
         <link linkend="gnumeric-DELTA"><function>DELTA</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>EXACT</function>(<parameter>string1</parameter>,<parameter>string2</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>string1</parameter>: first string</para>
-          <para><parameter>string2</parameter>: second string</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-FIND">
@@ -19087,21 +19071,21 @@
         formatted string representation of <parameter>num</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>FIXED</function>(<parameter>num</parameter>,<parameter>decimals</parameter>,<parameter>no_commas</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>num</parameter>: number</para>
+        <para><parameter>decimals</parameter>: number of decimals</para>
+        <para><parameter>no_commas</parameter>: TRUE if no thousand separators should be used, defaults to FALSE</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-TEXT"><function>TEXT</function></link>,
         <link linkend="gnumeric-VALUE"><function>VALUE</function></link>,
         <link linkend="gnumeric-DOLLAR"><function>DOLLAR</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>FIXED</function>(<parameter>num</parameter>,<parameter>decimals</parameter>,<parameter>no_commas</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>num</parameter>: number</para>
-          <para><parameter>decimals</parameter>: number of decimals</para>
-          <para><parameter>no_commas</parameter>: TRUE if no thousand separators should be used, defaults to FALSE</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-JIS">
@@ -19233,19 +19217,19 @@
         the number of characters of the string <parameter>s</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>LEN</function>(<parameter>s</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>s</parameter>: the string</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-CHAR"><function>CHAR</function></link>,
         <link linkend="gnumeric-CODE"><function>CODE</function></link>,
         <link linkend="gnumeric-LENB"><function>LENB</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>LEN</function>(<parameter>s</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>s</parameter>: the string</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-LENB">
@@ -19262,19 +19246,19 @@
         the number of bytes in the string <parameter>s</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>LENB</function>(<parameter>s</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>s</parameter>: the string</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-CHAR"><function>CHAR</function></link>,
         <link linkend="gnumeric-CODE"><function>CODE</function></link>,
         <link linkend="gnumeric-LEN"><function>LEN</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>LENB</function>(<parameter>s</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>s</parameter>: the string</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-LOWER">
@@ -19291,17 +19275,17 @@
         a lower-case version of the string <parameter>text</parameter>.
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>LOWER</function>(<parameter>text</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>text</parameter>: string</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-UPPER"><function>UPPER</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>LOWER</function>(<parameter>text</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>text</parameter>: string</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-MID">
@@ -19318,6 +19302,15 @@
         the substring of the string <parameter>s</parameter> starting at position <parameter>position</parameter> consisting of <parameter>length</parameter> characters
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>MID</function>(<parameter>s</parameter>,<parameter>position</parameter>,<parameter>length</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>s</parameter>: the string</para>
+        <para><parameter>position</parameter>: the starting position</para>
+        <para><parameter>length</parameter>: the number of characters to return</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-LEFT"><function>LEFT</function></link>,
@@ -19328,15 +19321,6 @@
         <link linkend="gnumeric-RIGHTB"><function>RIGHTB</function></link>,
         <link linkend="gnumeric-LENB"><function>LENB</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>MID</function>(<parameter>s</parameter>,<parameter>position</parameter>,<parameter>length</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>s</parameter>: the string</para>
-          <para><parameter>position</parameter>: the starting position</para>
-          <para><parameter>length</parameter>: the number of characters to return</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-MIDB">
@@ -19423,18 +19407,18 @@
         <refpurpose><parameter>text</parameter> with initial of each word capitalised.
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>PROPER</function>(<parameter>text</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>text</parameter>: string</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-LOWER"><function>LOWER</function></link>,
         <link linkend="gnumeric-UPPER"><function>UPPER</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>PROPER</function>(<parameter>text</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>text</parameter>: string</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-REPLACE">
@@ -19451,6 +19435,16 @@
         String <parameter>old</parameter> with <parameter>num</parameter> characters starting at <parameter>start</parameter> replaced by <parameter>new</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>REPLACE</function>(<parameter>old</parameter>,<parameter>start</parameter>,<parameter>num</parameter>,<parameter>new</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>old</parameter>: original text</para>
+        <para><parameter>start</parameter>: starting position</para>
+        <para><parameter>num</parameter>: number of characters to be replaced</para>
+        <para><parameter>new</parameter>: replacement string</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-MID"><function>MID</function></link>,
@@ -19458,16 +19452,6 @@
         <link linkend="gnumeric-SUBSTITUTE"><function>SUBSTITUTE</function></link>,
         <link linkend="gnumeric-TRIM"><function>TRIM</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>REPLACE</function>(<parameter>old</parameter>,<parameter>start</parameter>,<parameter>num</parameter>,<parameter>new</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>old</parameter>: original text</para>
-          <para><parameter>start</parameter>: starting position</para>
-          <para><parameter>num</parameter>: number of characters to be replaced</para>
-          <para><parameter>new</parameter>: replacement string</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-REPLACEB">
@@ -19521,18 +19505,18 @@
         <refpurpose><parameter>num</parameter> repetitions of string <parameter>text</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>REPT</function>(<parameter>text</parameter>,<parameter>num</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>text</parameter>: string</para>
+        <para><parameter>num</parameter>: non-negative integer</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-CONCATENATE"><function>CONCATENATE</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>REPT</function>(<parameter>text</parameter>,<parameter>num</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>text</parameter>: string</para>
-          <para><parameter>num</parameter>: non-negative integer</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-RIGHT">
@@ -19718,21 +19702,21 @@
         <refpurpose><parameter>text</parameter> with all occurrences of <parameter>old</parameter> replaced by <parameter>new</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>SUBSTITUTE</function>(<parameter>text</parameter>,<parameter>old</parameter>,<parameter>new</parameter>,<parameter>num</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>text</parameter>: original text</para>
+        <para><parameter>old</parameter>: string to be replaced</para>
+        <para><parameter>new</parameter>: replacement string</para>
+        <para><parameter>num</parameter>: if <parameter>num</parameter> is specified and a number only the <parameter>num</parameter>th occurrence of <parameter>old</parameter> is replaced</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-REPLACE"><function>REPLACE</function></link>,
         <link linkend="gnumeric-TRIM"><function>TRIM</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>SUBSTITUTE</function>(<parameter>text</parameter>,<parameter>old</parameter>,<parameter>new</parameter>,<parameter>num</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>text</parameter>: original text</para>
-          <para><parameter>old</parameter>: string to be replaced</para>
-          <para><parameter>new</parameter>: replacement string</para>
-          <para><parameter>num</parameter>: if <parameter>num</parameter> is specified and a number only the <parameter>num</parameter>th occurrence of <parameter>old</parameter> is replaced</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-T">
@@ -19748,19 +19732,19 @@
         <refpurpose><parameter>value</parameter> if and only if <parameter>value</parameter> is text, otherwise empty
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>T</function>(<parameter>value</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>value</parameter>: original value</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-CELL"><function>CELL</function></link>,
         <link linkend="gnumeric-N"><function>N</function></link>,
         <link linkend="gnumeric-VALUE"><function>VALUE</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>T</function>(<parameter>value</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>value</parameter>: original value</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-TEXT">
@@ -19776,20 +19760,20 @@
         <refpurpose><parameter>value</parameter> as a string formatted as <parameter>format</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>TEXT</function>(<parameter>value</parameter>,<parameter>format</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>value</parameter>: value to be formatted</para>
+        <para><parameter>format</parameter>: desired format</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-DOLLAR"><function>DOLLAR</function></link>,
         <link linkend="gnumeric-FIXED"><function>FIXED</function></link>,
         <link linkend="gnumeric-VALUE"><function>VALUE</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>TEXT</function>(<parameter>value</parameter>,<parameter>format</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>value</parameter>: value to be formatted</para>
-          <para><parameter>format</parameter>: desired format</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-TRIM">
@@ -19805,6 +19789,13 @@
         <refpurpose><parameter>text</parameter> with only single spaces between words.
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>TRIM</function>(<parameter>text</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>text</parameter>: string</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-CLEAN"><function>CLEAN</function></link>,
@@ -19812,13 +19803,6 @@
         <link linkend="gnumeric-REPLACE"><function>REPLACE</function></link>,
         <link linkend="gnumeric-SUBSTITUTE"><function>SUBSTITUTE</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>TRIM</function>(<parameter>text</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>text</parameter>: string</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-UNICHAR">
@@ -19835,19 +19819,19 @@
         the Unicode character represented by the Unicode code point <parameter>x</parameter>.
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>UNICHAR</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>x</parameter>: Unicode code point</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-CHAR"><function>CHAR</function></link>,
         <link linkend="gnumeric-UNICODE"><function>UNICODE</function></link>,
         <link linkend="gnumeric-CODE"><function>CODE</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>UNICHAR</function>(<parameter>x</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>x</parameter>: Unicode code point</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-UNICODE">
@@ -19864,19 +19848,19 @@
         the Unicode code point for the character <parameter>c</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>UNICODE</function>(<parameter>c</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>c</parameter>: character</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-UNICHAR"><function>UNICHAR</function></link>,
         <link linkend="gnumeric-CODE"><function>CODE</function></link>,
         <link linkend="gnumeric-CHAR"><function>CHAR</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>UNICODE</function>(<parameter>c</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>c</parameter>: character</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-UPPER">
@@ -19893,17 +19877,17 @@
         an upper-case version of the string <parameter>text</parameter>.
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>UPPER</function>(<parameter>text</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>text</parameter>: string</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-LOWER"><function>LOWER</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>UPPER</function>(<parameter>text</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>text</parameter>: string</para>
-        </refsect1>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-VALUE">
@@ -19920,19 +19904,19 @@
         numeric value of <parameter>text</parameter>
       </refpurpose>
       </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>VALUE</function>(<parameter>text</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><parameter>text</parameter>: string</para>
+      </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-DOLLAR"><function>DOLLAR</function></link>,
         <link linkend="gnumeric-FIXED"><function>FIXED</function></link>,
         <link linkend="gnumeric-TEXT"><function>TEXT</function></link>.
       </para>
-        <refsynopsisdiv>
-          <synopsis><function>VALUE</function>(<parameter>text</parameter>)</synopsis>
-        </refsynopsisdiv>
-        <refsect1>
-          <title>Description</title>
-          <para><parameter>text</parameter>: string</para>
-        </refsect1>
       </refsect1>
     </refentry>
   </sect1>
