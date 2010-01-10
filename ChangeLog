@@ -1,4 +1,11 @@
-2010-01-08 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2010-01-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/stf-export.c (gnm_stf_get_stfe): publish
+	* src/stf-export.h (gnm_stf_get_stfe): publish
+	* src/stf-parse.c (stf_read_remember_settings): new
+	(stf_parse_sheet): call stf_read_remember_settings
+	
+2010-01-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/func.c (function_dump_defs): make sure the argument 
 	  descriptions precede a SEEALSO. Documentation creation

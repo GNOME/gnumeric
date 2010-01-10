@@ -568,7 +568,7 @@ GSF_CLASS (GnmStfExport, gnm_stf_export,
 #include "dialog-stf-export.h"
 #include "workbook-view.h"
 
-static GnmStfExport *
+GnmStfExport *
 gnm_stf_get_stfe (GObject *obj)
 {
 	GnmStfExport *stfe = g_object_get_data (obj, "stfe");

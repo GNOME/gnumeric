@@ -30,6 +30,7 @@
 #include <glib/gi18n-lib.h>
 #include "gnumeric.h"
 #include "stf-parse.h"
+#include "stf-export.h"
 
 #include "workbook.h"
 #include "cell.h"
@@ -1213,6 +1214,25 @@ stf_cell_set_text (GnmCell *cell, char const *text)
 	}
 }
 
+static void
+stf_read_remember_settings (Workbook *book, StfParseOptions_t *po)
+{
+	if (po->parsetype == PARSE_TYPE_CSV) {
+		GnmStfExport *stfe = gnm_stf_get_stfe (G_OBJECT (book));
+		char quote[6];
+		int length = g_unichar_to_utf8 (po->stringindicator, quote);
+		if (length > 5) {
+			quote[0] = '"';
+			quote[1] = '\0';
+		} else quote[length] = '\0';
+
+		g_object_set (G_OBJECT (stfe), "separator", po->sep.chr, "quote", &quote, NULL);
+
+		if ((po->terminator != NULL) &&  (po->terminator->data != NULL))
+			g_object_set (G_OBJECT (stfe), "eol", po->terminator->data, NULL);
+	}
+}
+
 gboolean
 stf_parse_sheet (StfParseOptions_t *parseoptions,
 		 char const *data, char const *data_end,
@@ -1295,6 +1315,8 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 	if (lines)
 		stf_parse_general_free (lines);
 	g_string_chunk_free (lines_chunk);
+	if (result)
+		stf_read_remember_settings (sheet->workbook, parseoptions);	
 	return result;
 }
 

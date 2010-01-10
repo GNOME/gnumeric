@@ -177,6 +177,12 @@ stf_export_dialog_format_page_init (TextExportState *state)
 
 		state->format.quotechar = GTK_COMBO_BOX_ENTRY (glade_xml_get_widget (state->gui, "format_quotechar"));
 		g_object_get (sobj, "quote", &s, NULL);
+
+#ifdef HAVE_GTK_ENTRY_GET_BUFFER
+		/* We need to work around gtk bug #601922 */
+		gtk_entry_get_buffer (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (state->format.quotechar))));
+#endif
+
 		gtk_editable_insert_text (GTK_EDITABLE (gtk_bin_get_child (GTK_BIN (state->format.quotechar))),
 					  s, -1, &pos);
 		g_free (s);

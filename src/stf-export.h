@@ -36,6 +36,8 @@ GSList *gnm_stf_export_options_sheet_list_get (const GnmStfExport *stfe);
 
 gboolean gnm_stf_export_can_transliterate (void);
 
+GnmStfExport *gnm_stf_get_stfe (GObject *obj);
+
 gboolean gnm_stf_export (GnmStfExport *export_options);
 
 

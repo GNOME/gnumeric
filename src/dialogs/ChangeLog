@@ -1,5 +1,10 @@
 2010-01-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-stf-export.c (stf_export_dialog_format_page_init):
+	  work around gtk bug #601922
+	
+2010-01-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-cell-format.c (cb_fmt_dialog_dialog_buttons): make sure that 
 	  the correct sheet is active
 

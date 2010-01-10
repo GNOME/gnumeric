@@ -222,6 +222,7 @@ Andreas:
 	* Fix crash on unknown chart type. [#594041]
 	* Handle ODF import/export of surface plots originally created in
 	  XL [#594041]
+	* Remember text import configuration for export. [#142395] 
 
 Jean:
 	* Don't use simple GOData when importing xls files. [#594068]
