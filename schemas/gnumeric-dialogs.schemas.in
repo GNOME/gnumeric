@@ -554,6 +554,39 @@
         <long>Please use the Print Setup dialog to edit this value.</long>
         </locale>
       </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/stf/export/stringindicator</key>
+        <applyto>/apps/gnumeric/stf/export/stringindicator</applyto>
+        <owner>Gnumeric</owner>
+        <type>string</type>
+	<default>&quot;</default>
+        <locale name="C">
+        <short>Text Export String Indicator</short>
+        <long>Please use the Text Export dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/stf/export/separator</key>
+        <applyto>/apps/gnumeric/stf/export/separator</applyto>
+        <owner>Gnumeric</owner>
+        <type>string</type>
+	<default>,</default>
+        <locale name="C">
+        <short>Text Export Field Separator</short>
+        <long>Please use the Text Export dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/stf/export/terminator</key>
+        <applyto>/apps/gnumeric/stf/export/terminator</applyto>
+        <owner>Gnumeric</owner>
+        <type>string</type>
+	<default>\n</default>
+        <locale name="C">
+        <short>Text Export Record Terminator</short>
+        <long>Please use the Text Export dialog to edit this value.</long>
+        </locale>
+      </schema>
    </schemalist>
 </gconfschemafile>
   

@@ -373,6 +373,18 @@ GOConfNode *gnm_conf_get_printsetup_scale_width_node (void);
 int gnm_conf_get_printsetup_scale_width (void);
 void gnm_conf_set_printsetup_scale_width (int);
 
+GOConfNode *gnm_conf_get_stf_export_separator_node (void);
+const char *gnm_conf_get_stf_export_separator (void);
+void gnm_conf_set_stf_export_separator (const char *);
+
+GOConfNode *gnm_conf_get_stf_export_stringindicator_node (void);
+const char *gnm_conf_get_stf_export_stringindicator (void);
+void gnm_conf_set_stf_export_stringindicator (const char *);
+
+GOConfNode *gnm_conf_get_stf_export_terminator_node (void);
+const char *gnm_conf_get_stf_export_terminator (void);
+void gnm_conf_set_stf_export_terminator (const char *);
+
 GOConfNode *gnm_conf_get_undo_max_descriptor_width_node (void);
 int gnm_conf_get_undo_max_descriptor_width (void);
 void gnm_conf_set_undo_max_descriptor_width (int);

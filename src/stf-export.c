@@ -30,6 +30,7 @@
 #include <glib/gi18n-lib.h>
 #include "stf-export.h"
 
+#include "gnumeric-gconf.h"
 #include "sheet.h"
 #include "workbook.h"
 #include "cell.h"
@@ -573,11 +574,23 @@ gnm_stf_get_stfe (GObject *obj)
 {
 	GnmStfExport *stfe = g_object_get_data (obj, "stfe");
 	if (!stfe) {
+		const char * sep = gnm_conf_get_stf_export_separator ();
+		const char * string_indicator = gnm_conf_get_stf_export_stringindicator ();
+		const char * terminator = gnm_conf_get_stf_export_terminator ();
+		GString *triggers = g_string_new (NULL);
+		g_string_append (triggers, " \t");
+		g_string_append (triggers, terminator);
+		g_string_append (triggers, string_indicator);
+		g_string_append (triggers, sep);
+
 		stfe = g_object_new (GNM_STF_EXPORT_TYPE,
-				     "quoting-triggers", ", \t\n\"",
-				     "separator", " ",
+				     "quoting-triggers", triggers->str,
+				     "separator", sep,
+				     "quote", string_indicator,
+				     "eol", terminator,
 				     NULL);
 		g_object_set_data_full (obj, "stfe", stfe, g_object_unref);
+		g_string_free (triggers, TRUE);
 	}
 	return stfe;
 }

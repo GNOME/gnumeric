@@ -1,3 +1,26 @@
+2010-01-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* schemas/gnumeric-dialogs.schemas.in: add items
+	* src/gnumeric-gconf.h (gnm_conf_get_stf_export_separator_node): new
+	(gnm_conf_get_stf_export_separator): new
+	(gnm_conf_set_stf_export_separator): new
+	(gnm_conf_get_stf_export_stringindicator_node): new
+	(gnm_conf_get_stf_export_stringindicator): new
+	(gnm_conf_set_stf_export_stringindicator): new
+	(gnm_conf_get_stf_export_terminator_node): new
+	(gnm_conf_get_stf_export_terminator): new
+	(gnm_conf_set_stf_export_terminator): new
+	* src/gnumeric-gconf.c (gnm_conf_get_stf_export_separator_node): new
+	(gnm_conf_get_stf_export_separator): new
+	(gnm_conf_set_stf_export_separator): new
+	(gnm_conf_get_stf_export_stringindicator_node): new
+	(gnm_conf_get_stf_export_stringindicator): new
+	(gnm_conf_set_stf_export_stringindicator): new
+	(gnm_conf_get_stf_export_terminator_node): new
+	(gnm_conf_get_stf_export_terminator): new
+	(gnm_conf_set_stf_export_terminator): new
+	* src/stf-export.c (gnm_stf_get_stfe): use the gconf info
+	
 2010-01-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/stf-export.c (gnm_stf_get_stfe): publish

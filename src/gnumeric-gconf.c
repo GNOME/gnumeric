@@ -2872,6 +2872,87 @@ gnm_conf_get_printsetup_scale_width_node (void)
 	return get_node (watch_printsetup_scale_width.key);
 }
 
+static struct cb_watch_string watch_stf_export_separator = {
+	0, "stf/export/separator", ",",
+};
+
+const char *
+gnm_conf_get_stf_export_separator (void)
+{
+	if (!watch_stf_export_separator.handler)
+		watch_string (&watch_stf_export_separator);
+	return watch_stf_export_separator.var;
+}
+
+void
+gnm_conf_set_stf_export_separator (const char *x)
+{
+	g_return_if_fail (x != NULL);
+	if (!watch_stf_export_separator.handler)
+		watch_string (&watch_stf_export_separator);
+	set_string (&watch_stf_export_separator, x);
+}
+
+GOConfNode *
+gnm_conf_get_stf_export_separator_node (void)
+{
+	return get_node (watch_stf_export_separator.key);
+}
+
+static struct cb_watch_string watch_stf_export_stringindicator = {
+	0, "stf/export/stringindicator", "\"",
+};
+
+const char *
+gnm_conf_get_stf_export_stringindicator (void)
+{
+	if (!watch_stf_export_stringindicator.handler)
+		watch_string (&watch_stf_export_stringindicator);
+	return watch_stf_export_stringindicator.var;
+}
+
+void
+gnm_conf_set_stf_export_stringindicator (const char *x)
+{
+	g_return_if_fail (x != NULL);
+	if (!watch_stf_export_stringindicator.handler)
+		watch_string (&watch_stf_export_stringindicator);
+	set_string (&watch_stf_export_stringindicator, x);
+}
+
+GOConfNode *
+gnm_conf_get_stf_export_stringindicator_node (void)
+{
+	return get_node (watch_stf_export_stringindicator.key);
+}
+
+static struct cb_watch_string watch_stf_export_terminator = {
+	0, "stf/export/terminator", "\n",
+};
+
+const char *
+gnm_conf_get_stf_export_terminator (void)
+{
+	if (!watch_stf_export_terminator.handler)
+		watch_string (&watch_stf_export_terminator);
+	return watch_stf_export_terminator.var;
+}
+
+void
+gnm_conf_set_stf_export_terminator (const char *x)
+{
+	g_return_if_fail (x != NULL);
+	if (!watch_stf_export_terminator.handler)
+		watch_string (&watch_stf_export_terminator);
+	set_string (&watch_stf_export_terminator, x);
+}
+
+GOConfNode *
+gnm_conf_get_stf_export_terminator_node (void)
+{
+	return get_node (watch_stf_export_terminator.key);
+}
+
 static struct cb_watch_int watch_undo_max_descriptor_width = {
 	0, "undo/max_descriptor_width", 5, 256, 40,
 };
