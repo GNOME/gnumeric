@@ -334,6 +334,8 @@ sub create_hcfile {
 	$var =~ s{^/apps/gnome-settings/gnumeric/}{};
 	$var =~ s{[^a-zA-Z0-9_]}{_}g;
 
+	my $watch_name = "watch_$var";
+
 	my $needs_conf = 0;
 	if ($key =~ s{/apps/gnumeric/}{}) {
 	    my $dir = $key; $dir =~ s{/[^/]+$}{};
@@ -341,13 +343,15 @@ sub create_hcfile {
 	    $needs_conf = 1;
 	}
 
+	if ($needs_conf) {
+	    &make_get_conf_node ("$watch_name.key", $var, "node",
+				 \$hfile, \$cfile);
+	}
 	$hfile .= "${ctypes}gnm_conf_get_$var (void);\n";
 	$hfile .= "void gnm_conf_set_$var ($ctype);\n\n";
 
 	my $get_head = "$ctype\ngnm_conf_get_$var (void)";
 	my $set_head = "void\ngnm_conf_set_$var (${ctypes}x)";
-
-	my $watch_name = "watch_$var";
 
 	if ($type eq 'bool') {
 	    $default = uc $default;
@@ -450,11 +454,6 @@ sub create_hcfile {
 	    $cfile .= "}\n\n";
 	} else {
 	    die "$0: Unhandled type $type\n";
-	}
-
-	if ($needs_conf) {
-	    &make_get_conf_node ("$watch_name.key", $var, "node",
-				 \$hfile, \$cfile);
 	}
     }
 

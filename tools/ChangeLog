@@ -1,6 +1,8 @@
 2010-01-11  Morten Welinder  <terra@gnome.org>
 
 	* handle-conf-options (quote_c_string): New function.
+	(create_hcfile): Improve positioning of get_node functions in
+	header file.
 
 2009-12-15  Morten Welinder <terra@gnome.org>
 
