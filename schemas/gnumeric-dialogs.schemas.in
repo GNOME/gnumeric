@@ -581,7 +581,8 @@
         <applyto>/apps/gnumeric/stf/export/terminator</applyto>
         <owner>Gnumeric</owner>
         <type>string</type>
-	<default>\n</default>
+	<default>
+</default>
         <locale name="C">
         <short>Text Export Record Terminator</short>
         <long>Please use the Text Export dialog to edit this value.</long>

@@ -1,3 +1,7 @@
+2010-01-11  Morten Welinder  <terra@gnome.org>
+
+	* schemas/gnumeric-dialogs.schemas.in: Fix default for terminator.
+
 2010-01-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* schemas/gnumeric-dialogs.schemas.in: add items

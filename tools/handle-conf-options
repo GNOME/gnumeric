@@ -283,6 +283,17 @@ sub make_get_conf_node {
     ${$pcfile} .= "}\n\n";
 }
 
+sub quote_c_string {
+    my ($s) = @_;
+
+    return '"' . join ('',
+		       map {
+			   s/([\\""])/\\$1/;
+			   s/\n/\\n/;
+			   $_;
+		       } (split (//, $s))) . '"';
+}
+
 sub create_hcfile {
     @schemas = sort { $a->{'applyto'} cmp $b->{'applyto'} } @schemas;
     &number_schemas ();
@@ -383,7 +394,7 @@ sub create_hcfile {
 	    $cfile .= "}\n\n";
 	} elsif ($type eq 'string' && $gtype eq '0') {
 	    $cfile .= "static struct cb_watch_string $watch_name = {\n";
-	    $cfile .= "\t0, \"$key\", \"$default\",\n";
+	    $cfile .= "\t0, \"$key\", " . &quote_c_string ($default) . ",\n";
 	    $cfile .= "};\n\n";
 
 	    $cfile .= "$get_head\n";
