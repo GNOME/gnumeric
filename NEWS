@@ -31,6 +31,8 @@ Andreas:
 	* Include the short functions descriptions in the documentation. 
 	  [#606354]
 	* Fix sheet handling in validation setup. [#606458]
+	* Allow some of the text export properties to be saved as default. 
+	  [#559749]
 
 Jean
 	* Fix import export of line type in scatter plots. [#605043]

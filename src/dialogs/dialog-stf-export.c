@@ -149,10 +149,15 @@ stf_export_dialog_format_page_init (TextExportState *state)
 			if (strcmp (s, format_seps[ui]) == 0)
 				break;
 		gtk_combo_box_set_active (state->format.separator, ui);
-		if (!format_seps[ui])
+		if (!format_seps[ui]) {
+#ifdef HAVE_GTK_ENTRY_GET_BUFFER
+			/* We need to work around gtk bug #601922 */
+			gtk_entry_get_buffer (GTK_ENTRY (state->format.custom));
+#endif
 			gtk_editable_insert_text (GTK_EDITABLE (state->format.custom),
 						  s, -1,
 						  &pos);
+		}
 		g_free (s);
 	}
 
@@ -360,6 +365,14 @@ stf_export_dialog_finish (TextExportState *state)
 		      "charset", charset,
 		      "locale", locale,
 		      NULL);
+
+	if (gtk_toggle_button_get_active 
+	    (GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, 
+						      "save-as-default-check")))) {
+		gnm_conf_set_stf_export_separator (separator);
+		gnm_conf_set_stf_export_stringindicator (quote);
+		gnm_conf_set_stf_export_terminator (eol);
+	}
 
 	/* Which sheets?  */
 	gnm_stf_export_options_sheet_list_clear (state->stfe);

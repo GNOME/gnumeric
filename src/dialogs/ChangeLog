@@ -1,3 +1,10 @@
+2010-01-11 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-stf-export.glade: add save-as-default checkbox
+	* dialog-stf-export.c (stf_export_dialog_format_page_init):
+	  work around gtk bug #601922
+	(stf_export_dialog_finish): save settings if appropriate.
+
 2010-01-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-stf-export.c (stf_export_dialog_format_page_init):
