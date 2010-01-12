@@ -1,3 +1,8 @@
+2010-01-12  Jody Goldberg <jody@gnome.org>
+
+	* src/test-pango.c (cb_kill_wbcg) : new.
+	(cb_exercise_pango) : setup shutdown mechanism.
+
 2010-01-11  Morten Welinder  <terra@gnome.org>
 
 	* schemas/gnumeric-dialogs.schemas.in: Fix default for terminator.

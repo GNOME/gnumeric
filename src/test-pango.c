@@ -25,6 +25,14 @@
 #define STEP_SIZE	40
 
 static gboolean
+cb_kill_wbcg (WBCGtk *wbcg)
+{
+	gboolean still_open = wbc_gtk_close (wbcg);
+	g_assert (!still_open);
+	return FALSE;
+}
+
+static gboolean
 cb_exercise_pango (gpointer data)
 {
 	static int state = 0;
@@ -47,7 +55,10 @@ cb_exercise_pango (gpointer data)
 		g_object_unref (wb_control_get_workbook (wbc));
 	}
 
-	return state++ < TEST_STEPS*2;
+	if (state++ < TEST_STEPS*2)
+	    return 1;
+	g_idle_add ((GSourceFunc)cb_kill_wbcg, wbc);
+	return 0;
 }
 
 int
@@ -73,6 +84,8 @@ main (int argc, char const **argv)
 	wbc = wbc_gtk_new (NULL, workbook_new_with_sheets (1), NULL, NULL);
 
 	g_idle_add (cb_exercise_pango, wbc);
+
+	gtk_main ();
 
 	gnm_shutdown ();
 	gnm_pre_parse_shutdown ();
