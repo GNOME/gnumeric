@@ -30,6 +30,7 @@
 #include <wbc-gtk.h>
 #include <sheet.h>
 #include <gui-util.h>
+#include <gnumeric-gconf.h>
 #include <goffice/goffice.h>
 
 #include <gtk/gtk.h>
@@ -630,10 +631,8 @@ stf_export_dialog_sheet_page_init (TextExportState *state)
 		if (!empty)
 			state->sheets.non_empty++;
 
-		if (export) {
+		if (export)
 			state->sheets.num_selected++;
-			gtk_tree_selection_select_iter (selection, &iter);
-		}
 	}
 	set_sheet_selection_count (state, state->sheets.num_selected);
 
@@ -672,9 +671,13 @@ stf_export_dialog_switch_page (TextExportState *state, TextExportPage new_page)
 	if (new_page == PAGE_FORMAT) {
 		gtk_widget_hide (state->next_button);
 		gtk_widget_show (state->finish_button);
+		gtk_widget_grab_default (state->finish_button);
+		gtk_widget_grab_focus (state->finish_button);
 	} else {
 		gtk_widget_show (state->next_button);
 		gtk_widget_hide (state->finish_button);
+		gtk_widget_grab_default (state->next_button);
+		gtk_widget_grab_focus (state->next_button);
 	}
 
 	if (state->sheets.non_empty > 1) {
@@ -741,7 +744,6 @@ stf_export_dialog (WBCGtk *wbcg, GnmStfExport *stfe, Workbook *wb)
 			(&state,
 			 (1 >= state.sheets.non_empty) ?
 			 PAGE_FORMAT : PAGE_SHEETS);
-		gtk_widget_grab_default (state.next_button);
 		g_signal_connect_swapped (G_OBJECT (state.back_button),
 					  "clicked",
 					  G_CALLBACK (cb_back_page), &state);

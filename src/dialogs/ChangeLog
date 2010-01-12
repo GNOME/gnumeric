@@ -1,3 +1,10 @@
+2010-01-12 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-stf-export.c (stf_export_dialog_sheet_page_init): don't 
+	  select the iter.
+	(stf_export_dialog_switch_page): set the right default and focus
+	(stf_export_dialog): don't do it here
+	
 2010-01-11 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-stf-export.glade: add save-as-default checkbox
