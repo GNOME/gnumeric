@@ -1,3 +1,8 @@
+2010-01-13  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (range_gcd): Handle GCD(2,0)=2 as Excel, but err on
+	GCD(0,0).
+
 2009-12-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (compare_doubles): rename to 

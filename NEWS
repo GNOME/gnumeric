@@ -44,6 +44,9 @@ Jody:
 	* More win32 build fixes (xslt for libgda & poppler).
 	* Fix pango test harness.
 
+Morten:
+	* Fix GCD border case.  [#606870]
+
 --------------------------------------------------------------------------
 Gnumeric 1.9.17
 

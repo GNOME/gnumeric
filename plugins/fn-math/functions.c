@@ -70,9 +70,6 @@ static const gnm_float gnm_gcd_max = 1 / GNM_EPSILON;
 static gnm_float
 gnm_gcd (gnm_float a, gnm_float b)
 {
-	g_return_val_if_fail (a > 0 && a <= gnm_gcd_max, -1);
-	g_return_val_if_fail (b > 0 && b <= gnm_gcd_max, -1);
-
 	while (b > 0.5) {
 		gnm_float r = gnm_fmod (a, b);
 		a = b;
@@ -90,11 +87,15 @@ range_gcd (gnm_float const *xs, int n, gnm_float *res)
 
 		for (i = 0; i < n; i++) {
 			gnm_float thisx = gnm_fake_floor (xs[i]);
-			if (thisx <= 0 || thisx > gnm_gcd_max)
+			if (thisx < 0 || thisx > gnm_gcd_max)
 				return 1;
 			else
 				gcd_so_far = gnm_gcd (thisx, gcd_so_far);
 		}
+
+		if (gcd_so_far == 0)
+			return 1;
+
 		*res = gcd_so_far;
 		return 0;
 	} else
