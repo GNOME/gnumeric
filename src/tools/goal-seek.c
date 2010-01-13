@@ -203,8 +203,8 @@ goal_seek_newton_polish (GoalSeekFunction f, GoalSeekFunction df,
 
 	for (iterations = 0; iterations < 20; iterations++) {
 		if (try_square) {
-			double x1 = x0 * gnm_abs (x0);
-			double y1, r;
+			gnm_float x1 = x0 * gnm_abs (x0);
+			gnm_float y1, r;
 			GoalSeekStatus status = f (x1, &y1, user_data);
 			if (status != GOAL_SEEK_OK)
 				goto nomore_square;
@@ -231,7 +231,7 @@ goal_seek_newton_polish (GoalSeekFunction f, GoalSeekFunction df,
 		}
 
 		if (try_newton) {
-			double df0, r, x1, y1;
+			gnm_float df0, r, x1, y1;
 			GoalSeekStatus status = df
 				? df (x0, &df0, user_data)
 				: fake_df (f, x0, &df0, gnm_abs (x0) / 1e6, data, user_data);
@@ -388,7 +388,7 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 			 * Verify that we made progress using our
 			 * potentially bogus df0.
 			 */
-			double y1;
+			gnm_float y1;
 
 			if (x1 < data->xmin || x1 > data->xmax)
 				return GOAL_SEEK_ERROR;

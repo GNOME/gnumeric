@@ -1,3 +1,8 @@
+2010-01-13  Morten Welinder  <terra@gnome.org>
+
+	* goal-seek.c (goal_seek_newton_polish): Fix some gnm_float
+	issues.
+
 2009-12-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-auto-expression.c (analysis_tool_auto_expression_engine_run):
