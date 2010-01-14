@@ -44,6 +44,7 @@ Jody:
 	* More win32 build fixes (xslt for libgda & poppler).
 	* Fix pango test harness.
 	* Fix use of Tab in ExprEntry for gurus.
+	* Adapt to latest gtk-2.19.3 GSEAL.
 
 Morten:
 	* Fix GCD border case.  [#606870]

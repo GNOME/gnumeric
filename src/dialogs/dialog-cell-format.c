@@ -2369,10 +2369,18 @@ set_initial_focus (FormatState *s)
 	else
 		focus_widget = NULL;
 
+
+#ifdef HAVE_GTK_WIDGET_GET_CAN_FOCUS
+	if (focus_widget
+	    && gtk_widget_get_can_focus (focus_widget)
+	    && gtk_widget_is_sensitive (focus_widget))
+		gtk_widget_grab_focus (focus_widget);
+#else
 	if (focus_widget
 	    && GTK_WIDGET_CAN_FOCUS (focus_widget)
 	    && GTK_WIDGET_IS_SENSITIVE (focus_widget))
 		gtk_widget_grab_focus (focus_widget);
+#endif
 }
 
 static void
