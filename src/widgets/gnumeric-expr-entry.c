@@ -627,7 +627,7 @@ cb_gee_key_press_event (GtkEntry	*entry,
 	case GDK_ISO_Left_Tab:
 	case GDK_KP_Tab:
 		/* Tab is only applicable for the main entry */
-		if (!wbcg_is_editing (wbcg))
+		 if (gee->is_cell_renderer || !wbcg_is_editing (wbcg))
 			break;
 		{
 		SheetView *sv;
