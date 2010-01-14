@@ -84,8 +84,8 @@
 	    <patch file="http://gnome.org/~aruiz/gtk+/patches/jpeg_mingwport.patch" strip="1"/>
 	</patches>
     </tarball>
-    <tarball id="png" version="1.2.41">
-	<source href="ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng-1.2.41.tar.bz2"/>
+    <tarball id="png" version="1.2.42">
+	<source href="ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng-1.2.42.tar.bz2"/>
 	<dependencies>
 	    <dep package="zlib"/>
 	</dependencies>
@@ -203,7 +203,7 @@
 
 <!-- glade stack -->
     <tarball id="libxml2" version="2.6.32">
-	<source href="ftp://xmlsoft.org/libxml2/libxml2-2.6.32.tar.gz"/>
+	<source href="ftp://xmlsoft.org/libxml2/old/libxml2-2.6.32.tar.gz"/>
 	<dependencies>
 	    <dep package="zlib"/>
 	</dependencies>
