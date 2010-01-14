@@ -43,6 +43,7 @@ Jody:
 	* Fix use of ExprEntry from glade on win32.
 	* More win32 build fixes (xslt for libgda & poppler).
 	* Fix pango test harness.
+	* Fix use of Tab in ExprEntry for gurus.
 
 Morten:
 	* Fix GCD border case.  [#606870]
