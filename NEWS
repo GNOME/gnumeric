@@ -33,6 +33,7 @@ Andreas:
 	* Fix sheet handling in validation setup. [#606458]
 	* Allow some of the text export properties to be saved as default. 
 	  [#559749]
+	* Fix printing of repeated rows and columns. [#607451]
 
 Jean
 	* Fix import export of line type in scatter plots. [#605043]

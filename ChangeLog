@@ -1,3 +1,10 @@
+2010-01-19 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/print.c (load_repeat_range): range_parse does not
+	  handle full rows or columns.
+	(compute_sheet_pages): don't use the same range for two 
+	  different purposes.
+
 2010-01-12  Jody Goldberg <jody@gnome.org>
 
 	* src/test-pango.c (cb_kill_wbcg) : new.

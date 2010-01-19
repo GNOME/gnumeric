@@ -886,7 +886,22 @@ compute_sheet_pages_across_then_down (PrintingInstance * pi,
 static gboolean
 load_repeat_range (char const *str, GnmRange *r, Sheet *sheet)
 {
-	return str && range_parse (r, str, gnm_sheet_get_size (sheet));
+	GnmParsePos pp;
+	GnmRangeRef res;
+
+	if (str == NULL || *str == '\0')
+		return FALSE;
+	
+	if (str != rangeref_parse (&res, str, 
+				   parse_pos_init_sheet (&pp, sheet), 
+				   gnm_conventions_default)) {
+		Sheet *start_sheet = sheet, *end_sheet = sheet;
+		gnm_rangeref_normalize_pp (&res, &pp,
+					   &start_sheet, &end_sheet,
+					   r);
+		return TRUE;
+	} else
+		return FALSE;
 }
 
 /*
@@ -929,13 +944,13 @@ compute_sheet_pages (GtkPrintContext   *context,
 		if (selection_range == NULL)
 			return TRUE;
 		if (spi->ignore_printarea) {
-			r = *selection_range;
+			print_area = *selection_range;
 		} else {
 			if (!range_intersection (&r, selection_range, &print_area))
 				return FALSE;
+			print_area = r;
 		}
-	} else
-		r = print_area;
+	};
 
 	page_width = gtk_print_context_get_width (context);
 	page_height = gtk_print_context_get_height (context);
@@ -971,7 +986,7 @@ compute_sheet_pages (GtkPrintContext   *context,
 		/* whether we print first down or across!            */
 		gdouble pxy;
 
-		pxy = compute_scale_fit_to (sheet, r.start.row, r.end.row,
+		pxy = compute_scale_fit_to (sheet, print_area.start.row, print_area.end.row,
 					    page_height, sheet_row_get_info,
 					    sheet_row_get_distance_pts,
 					    pinfo->scaling.dim.rows, 1.,
@@ -979,7 +994,7 @@ compute_sheet_pages (GtkPrintContext   *context,
 					    repeat_top_use,
 					    repeat_top_start, repeat_top_end,
 					    pi->ignore_pb ? NULL : pinfo->page_breaks.v);
-		pxy = compute_scale_fit_to (sheet, r.start.col, r.end.col,
+		pxy = compute_scale_fit_to (sheet, print_area.start.col, print_area.end.col,
 					    page_width, sheet_col_get_info,
 					    sheet_col_get_distance_pts,
 					    pinfo->scaling.dim.cols, pxy,
@@ -1003,12 +1018,12 @@ compute_sheet_pages (GtkPrintContext   *context,
 	usable_x   = page_width / px;
 	usable_y   = page_height / py;
 
-	paginate (&column_pagination, sheet, r.start.col, r.end.col,
+	paginate (&column_pagination, sheet, print_area.start.col, print_area.end.col,
 		  usable_x - row_header_width,
 		  repeat_left_use, repeat_left_start, repeat_left_end,
 		  sheet_col_get_distance_pts, sheet_col_get_info,
 		  pi->ignore_pb ? NULL : pinfo->page_breaks.h, !pi->ignore_pb);
-	paginate (&row_pagination, sheet, r.start.row, r.end.row,
+	paginate (&row_pagination, sheet, print_area.start.row, print_area.end.row,
 		  usable_y - col_header_height,
 		  repeat_top_use, repeat_top_start, repeat_top_end,
 		  sheet_row_get_distance_pts, sheet_row_get_info,
