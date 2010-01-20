@@ -298,8 +298,8 @@ gnumeric_trimmean (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (result)
 		goto out;
 
-	if (p < 0 || p > 1) {
-		result = value_new_error_VALUE (ei->pos);
+	if (p < 0 || p >= 1) {
+		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
 
