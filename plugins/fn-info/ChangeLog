@@ -1,3 +1,7 @@
+2010-01-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.18
+
 2009-12-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_get_link): new

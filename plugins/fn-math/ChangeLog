@@ -1,3 +1,7 @@
+2010-01-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.18
+
 2010-01-13  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (range_gcd): Handle GCD(2,0)=2 as Excel, but err on

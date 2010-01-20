@@ -1,3 +1,7 @@
+2010-01-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.18
+
 2010-01-13  Morten Welinder  <terra@gnome.org>
 
 	* goal-seek.c (goal_seek_newton_polish): Fix some gnm_float
