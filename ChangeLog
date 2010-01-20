@@ -1,12 +1,16 @@
 2010-01-19  Morten Welinder <terra@gnome.org>
 
+	* configure.in: Post-release bump.
+
+2010-01-19  Morten Welinder <terra@gnome.org>
+
 	* Release 1.9.18
 
 2010-01-19 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print.c (load_repeat_range): range_parse does not
 	  handle full rows or columns.
-	(compute_sheet_pages): don't use the same range for two 
+	(compute_sheet_pages): don't use the same range for two
 	  different purposes.
 
 2010-01-12  Jody Goldberg <jody@gnome.org>
@@ -40,17 +44,17 @@
 	(gnm_conf_get_stf_export_terminator): new
 	(gnm_conf_set_stf_export_terminator): new
 	* src/stf-export.c (gnm_stf_get_stfe): use the gconf info
-	
+
 2010-01-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/stf-export.c (gnm_stf_get_stfe): publish
 	* src/stf-export.h (gnm_stf_get_stfe): publish
 	* src/stf-parse.c (stf_read_remember_settings): new
 	(stf_parse_sheet): call stf_read_remember_settings
-	
+
 2010-01-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/func.c (function_dump_defs): make sure the argument 
+	* src/func.c (function_dump_defs): make sure the argument
 	  descriptions precede a SEEALSO. Documentation creation
 	  depends on this.
 
@@ -69,14 +73,14 @@
 
 2010-01-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/rangefunc.h (gnm_range_increasing): use the correctly typed 
+	* src/rangefunc.h (gnm_range_increasing): use the correctly typed
 	  function
 
 2010-01-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/gui-util.c (gnm_canvas_get_position): call 
+	* src/gui-util.c (gnm_canvas_get_position): call
 	  gdk_window_get_internal_paint_info only for gtk < 2.18
-	
+
 2010-01-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-object-graph.c (sheet_object_graph_guru): change help link
@@ -96,7 +100,7 @@
 	(cb_auto_expr_insert_formula_below): use cb_auto_expr_insert_formula
 	(cb_auto_expr_insert_formula_to_side): new
 	(cb_select_auto_expr): add menu item
-	
+
 2009-12-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/wbc-gtk.c (cb_auto_expr_insert_formula_below): new
@@ -104,7 +108,7 @@
 
 2009-12-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/sheet-object-widget.c (sheet_widget_draw_cairo): only use 
+	* src/sheet-object-widget.c (sheet_widget_draw_cairo): only use
 	  this for gtk 2.18 and later. The required gtk_widget_get_snapshot
 	  became available with 2.14, but since we cannot test it with 2.14
 	  or 2.16 we are palying it safe.
@@ -122,7 +126,7 @@
 
 2009-12-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/sheet-object-widget.c (sheet_widget_draw_cairo): only use 
+	* src/sheet-object-widget.c (sheet_widget_draw_cairo): only use
 	  this for gtk 2.14 and later (since we need  gtk_widget_get_snapshot)
 
 2009-12-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -138,12 +142,12 @@
 
 	* src/wbc-gtk-actions.c (sort_by_rows): consider singleton
 	  selections to be a request to sort the whole sheet [#141313]
-	
+
 2009-12-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-control-gui-priv.h (_SheetControlGUI): new fields
 	* src/sheet-control-gui.c (scg_gtk_paned_set_position): new
-	  replace all calls to gtk_paned_set_position by 
+	  replace all calls to gtk_paned_set_position by
 	  scg_gtk_paned_set_position throughout
 	(set_resize_pane_finish): unblock cb_check_resize
 	(cb_resize_pane_motion): block cb_check_resize
@@ -158,7 +162,7 @@
 
 2009-12-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/wbc-gtk.c (cb_sheet_label_button_press): unselect sheet 
+	* src/wbc-gtk.c (cb_sheet_label_button_press): unselect sheet
 	  objects if necessary and possible
 
 2009-12-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -177,7 +181,7 @@
 	* component/Gnumeric-embed.xml.in: add EditSelectObject menu item
 	* src/GNOME_Gnumeric-gtk.xml.in: ditto
 	* src/HILDON_Gnumeric-gtk.xml.in: ditto
-	* src/gnm-pane.c (gnm_pane_object_key_press): move some code from 
+	* src/gnm-pane.c (gnm_pane_object_key_press): move some code from
 	  here to scg_object_select_next
 	(gnm_pane_key_mode_sheet): use ctrl-tab to select the first object
 	* src/sheet-control-gui.c (scg_object_select_next): new
@@ -187,7 +191,7 @@
 	(EditSelectObject): new action
 	* src/wbc-gtk.c (wbcg_menu_state_update): handle MS_SELECT_OBJECT
 	* src/workbook-control.h (MS_SELECT_OBJECT): new
-	
+
 2009-12-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-pane.c (control_point_set_cursor): use the right cursor in RTL
@@ -236,7 +240,7 @@
 	* src/mathfunc.c (gnm_matrix_eigen): new
 	(gnm_matrix_eigen_max_index): new
 	(gnm_matrix_eigen_update): new
-	
+
 2009-12-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-style.h (sheet_style_set_list): change arguments
@@ -246,15 +250,15 @@
 	(sheet_style_set_list): change arguments and adjust code
 	* src/clipboard.c (range_flip_h): new
 	(range_flip_v): new
-	(clipboard_paste_region): handle PASTE_FLIP_H and 
-	  PASTE_FLIP for styles
+	(clipboard_paste_region): handle PASTE_FLIP_H and PASTE_FLIP
+	for styles
 
 2009-12-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/clipboard.h: add PASTE_FLIP_H and PASTE_FLIP_V
-	* src/clipboard.c (cb_paste_cell): handle PASTE_FLIP_H and 
+	* src/clipboard.c (cb_paste_cell): handle PASTE_FLIP_H and
 	  PASTE_FLIP_V
-	
+
 2009-12-15  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
