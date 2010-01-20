@@ -2,6 +2,7 @@ Gnumeric 1.9.19
 
 Morten:
 	* Fix TRIMMEAN border case.  [#607562]
+	* Fix TDIST border case.  [#607008]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.18

@@ -1211,11 +1211,10 @@ gnumeric_tdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float dof = value_get_as_float (argv[1]);
 	int tails = value_get_as_int (argv[2]);
 
-	if (dof < 1 || (tails != 1 && tails != 2))
+	if (x < 0 || dof < 1 || (tails != 1 && tails != 2))
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (tails * pt ((tails == 1) ? x : gnm_abs(x),
-					    dof, FALSE, FALSE));
+	return value_new_float (tails * pt (x, dof, FALSE, FALSE));
 }
 
 /***************************************************************************/

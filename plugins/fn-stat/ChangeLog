@@ -2,6 +2,7 @@
 
 	* functions.c (gnumeric_trimmean): Fix p==1 case.  Return right
 	error value.
+	(gnumeric_tdist): Don't allow negative x.  Fixes #607008.
 
 2010-01-19  Morten Welinder <terra@gnome.org>
 
