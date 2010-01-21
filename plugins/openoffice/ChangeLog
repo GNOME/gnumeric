@@ -1,3 +1,10 @@
+2010-01-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_plot_area): handle OO_PLOT_XYZ_SURFACE like
+	  OO_PLOT_XYZ_CONTOUR
+	(oo_series_domain): ditto
+	(oo_chart): replace OO_PLOT_XYZ_CONTOUR with OO_PLOT_XYZ_SURFACE
+
 2010-01-19  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.18

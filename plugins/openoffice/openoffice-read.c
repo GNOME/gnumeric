@@ -124,7 +124,6 @@ typedef enum {
 	OO_PLOT_BUBBLE,
 	OO_PLOT_GANTT,
 	OO_PLOT_POLAR,
-	OO_PLOT_XYZ_CONTOUR,
 	OO_PLOT_SCATTER_COLOUR,
 	OO_PLOT_XYZ_SURFACE,
 	OO_PLOT_SURFACE,
@@ -3631,14 +3630,13 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	case OO_PLOT_BUBBLE:	type = "GogBubblePlot"; break;
 	case OO_PLOT_GANTT:	type = "GogDropBarPlot"; break;
 	case OO_PLOT_POLAR:	type = "GogPolarPlot"; break;
-	case OO_PLOT_XYZ_CONTOUR:
+	case OO_PLOT_XYZ_SURFACE:
 		if (oo_style_have_three_dimensional (state->chart.these_plot_styles)) {
 			type = "GogXYZSurfacePlot";
 			state->chart.plot_type = OO_PLOT_XYZ_SURFACE;
 		} else
 			type = "GogXYZContourPlot";
 		break;
-	case OO_PLOT_XYZ_SURFACE: type = "GogXYZSurfacePlot"; break;
 	case OO_PLOT_SURFACE: type = "GogSurfacePlot"; break;
 	case OO_PLOT_SCATTER_COLOUR: type = "GogXYColorPlot";	break;
 	case OO_PLOT_XL_SURFACE: type = "XLSurfacePlot";	break;
@@ -3808,7 +3806,6 @@ oo_series_domain (GsfXMLIn *xin, xmlChar const **attrs)
 	case OO_PLOT_SCATTER_COLOUR:
 		dim = (state->chart.domain_count == 0) ? GOG_MS_DIM_VALUES : GOG_MS_DIM_CATEGORIES;
 		break;
-	case OO_PLOT_XYZ_CONTOUR:
 	case OO_PLOT_XYZ_SURFACE:
 	case OO_PLOT_SURFACE:
 		name = (state->chart.domain_count == 0) ? "Y" : "X";
@@ -3850,7 +3847,7 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "chart:gantt",	OO_PLOT_GANTT },
 		{ "chart:surface",	OO_PLOT_CONTOUR },
 		{ "gnm:polar",  	OO_PLOT_POLAR },
-		{ "gnm:xyz-contour", 	OO_PLOT_XYZ_CONTOUR },
+		{ "gnm:xyz-surface", 	OO_PLOT_XYZ_SURFACE },
 		{ "gnm:scatter-color", 	OO_PLOT_SCATTER_COLOUR },
 		{ NULL,	0 },
 	};

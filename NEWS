@@ -1,5 +1,8 @@
 Gnumeric 1.9.19
 
+Andreas:
+	* Fix ODF contour/surface plot confusion. [#607631]
+
 Morten:
 	* Fix TRIMMEAN border case.  [#607562]
 	* Fix TDIST border case.  [#607008]
