@@ -3631,10 +3631,9 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	case OO_PLOT_GANTT:	type = "GogDropBarPlot"; break;
 	case OO_PLOT_POLAR:	type = "GogPolarPlot"; break;
 	case OO_PLOT_XYZ_SURFACE:
-		if (oo_style_have_three_dimensional (state->chart.these_plot_styles)) {
+		if (oo_style_have_three_dimensional (state->chart.these_plot_styles))
 			type = "GogXYZSurfacePlot";
-			state->chart.plot_type = OO_PLOT_XYZ_SURFACE;
-		} else
+		else
 			type = "GogXYZContourPlot";
 		break;
 	case OO_PLOT_SURFACE: type = "GogSurfacePlot"; break;
