@@ -1,3 +1,11 @@
+2010-01-24 Andreas J. Guelzow <aguelzow@pyrshep>
+
+	* func.defs: propagate changes and additions in 
+	  the function descriptions (due to the changes in func.c)
+	* functions.xml: propagate changes and additions in 
+	  the function descriptions (make-func-list.pl and func.c)
+	* gnumeric.xml: bump manual version number to 1.10
+
 2010-01-19  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.18

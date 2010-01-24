@@ -17,8 +17,8 @@
   <!ENTITY gnum "<application>Gnumeric</application>">
   <!ENTITY appversion "1.10">
   <!ENTITY devversion "1.11">
-  <!ENTITY manrevision "1.9">
-  <!ENTITY date "January 2010">
+  <!ENTITY manrevision "1.10">
+  <!ENTITY date "February 2010">
   <!ENTITY file-format-open "Gnumeric XML, 
                              Microsoft Excel 95/97/2000/2003/XP/2007, 
                              Open Document Format (ODF 1.0 &amp; 1.1), 

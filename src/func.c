@@ -313,9 +313,13 @@ function_dump_defs (char const *filename, int dump_type)
 		if (dump_type == 1) {
 			int i;
 			gboolean first_arg = TRUE;
-			GString *syntax = g_string_new ("@SYNTAX=");
+			GString *syntax = g_string_new (NULL);
 			GString *arg_desc = g_string_new (NULL);
-			gboolean seen_desc = FALSE;
+			GString *desc = g_string_new (NULL);
+			GString *odf = g_string_new (NULL);
+			GString *excel = g_string_new (NULL);
+			GString *note = g_string_new (NULL);
+			GString *seealso = g_string_new (NULL);
 
 			fprintf (output_file, "@CATEGORY=%s\n",
 				 _(fd->fn_group->display_name->str));
@@ -338,79 +342,81 @@ function_dump_defs (char const *filename, int dump_type)
 					break;
 				}
 				case GNM_FUNC_HELP_SEEALSO:
-					if (!seen_desc) {
-						g_string_append_c (syntax, ')');
-						fprintf (output_file, "%s\n@DESCRIPTION=%s",
-							 syntax->str,
-							 arg_desc->str);
-						seen_desc = TRUE;
-					}
-					fprintf (output_file, "@SEEALSO=%s\n",
-						 _(fd->help[i].text));
+					if (seealso->len > 0)
+						g_string_append (seealso, ",");
+					g_string_append (seealso, _(fd->help[i].text));
 					break;
 				case GNM_FUNC_HELP_DESCRIPTION:
-					if (!seen_desc) {
-						g_string_append_c (syntax, ')');
-						fprintf (output_file, "%s\n",
-							 syntax->str);
-					}
-					fprintf (output_file, "@DESCRIPTION=%s\n",
-						 _(fd->help[i].text));
-					if (!seen_desc) {
-						fprintf (output_file, "%s\n",
-							 arg_desc->str);
-					}
-					seen_desc = TRUE;
+					if (desc->len > 0)
+						g_string_append (desc, "\n");
+					g_string_append (desc, _(fd->help[i].text));				
 					break;
 				case GNM_FUNC_HELP_NOTE:
-					if (!seen_desc) {
-						g_string_append_c (syntax, ')');
-						fprintf (output_file, "%s\n@DESCRIPTION=%s",
-							 syntax->str,
-							 arg_desc->str);
-						seen_desc = TRUE;
-					}
-					fprintf (output_file, "@NOTE=%s\n",
-						 _(fd->help[i].text));
+					if (note->len > 0)
+						g_string_append (note, " ");
+					g_string_append (note, _(fd->help[i].text));				
 					break;
 				case GNM_FUNC_HELP_ARG: {
-					char *desc;
-					char *name = split_at_colon (_(fd->help[i].text), &desc);
+					char *argdesc;
+					char *name = split_at_colon (_(fd->help[i].text), &argdesc);
 					if (first_arg)
 						first_arg = FALSE;
 					else
 						g_string_append_c (syntax, go_locale_get_arg_sep ());
 					g_string_append (syntax, name);
-					if (desc) {
+					if (argdesc) {
 						g_string_append_printf (arg_desc,
 									"@{%s}: %s\n",
 									name,
-									desc);
+									argdesc);
 					}
 					g_free (name);
 					/* FIXME: Optional args?  */
 					break;
 				}
+				case GNM_FUNC_HELP_ODF:
+					if (odf->len > 0)
+						g_string_append (odf, " ");
+					g_string_append (odf, _(fd->help[i].text));				
+					break;
+				case GNM_FUNC_HELP_EXCEL:
+					if (excel->len > 0)
+						g_string_append (excel, " ");
+					g_string_append (excel, _(fd->help[i].text));				
+					break;
 
 				case GNM_FUNC_HELP_EXTREF:
 					/* FIXME! */
 				case GNM_FUNC_HELP_EXAMPLES:
+					/* FIXME! */
 				case GNM_FUNC_HELP_END:
-				case GNM_FUNC_HELP_EXCEL:
-				case GNM_FUNC_HELP_ODF:
 					break;
 				}
 			}
-			if (!seen_desc) {
-				g_string_append_c (syntax, ')');
-				fprintf (output_file, "%s\n@DESCRIPTION=%s",
-							 syntax->str,
-					 arg_desc->str);
-				seen_desc = TRUE;
-			}
+
+			fprintf (output_file, "@SYNTAX=%s)\n", syntax->str);
+			
+			if (arg_desc->len > 0)
+				fprintf (output_file, "@ARGUMENTDESCRIPTION=%s", arg_desc->str);
+			if (desc->len > 0)
+				fprintf (output_file, "@DESCRIPTION=%s\n", desc->str);
+			if (note->len > 0)
+				fprintf (output_file, "@NOTE=%s\n", note->str);
+			if (excel->len > 0)
+				fprintf (output_file, "@EXCEL=%s\n", excel->str);
+			if (odf->len > 0)
+				fprintf (output_file, "@ODF=%s\n", odf->str);
+			if (seealso->len > 0)
+				fprintf (output_file, "@SEEALSO=%s\n", seealso->str);
 
 			g_string_free (syntax, TRUE);
 			g_string_free (arg_desc, TRUE);
+			g_string_free (desc, TRUE);
+			g_string_free (odf, TRUE);
+			g_string_free (excel, TRUE);
+			g_string_free (note, TRUE);
+			g_string_free (seealso, TRUE);
+
 			fputc ('\n', output_file);
 		} else if (dump_type == 0) {
 			static struct {

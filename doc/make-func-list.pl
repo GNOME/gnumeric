@@ -148,11 +148,48 @@ sub process_description($) {
 	print $ws, "</refsect1>\n";
 }
 
+sub process_argumentdescription($) {
+	my ($text) = @_;
+	my $ws = "  " x scalar(@tagstack);
+	print $ws, "<refsect1>\n";
+	print $ws, "  <title>Arguments</title>\n";
+	my $haveparameters = 0;
+	foreach my $l (split(/\n/, $text)) {
+		if (!$haveparameters && $l =~ m/^\@\{/) {
+			$haveparameters = 1;
+		}
+		print $ws,"    <para>", &markup_stuff($l), "</para>\n";
+	}
+	print $ws, "</refsect1>\n";
+}
+
 sub process_note($) {
 	my ($text) = @_;
 	my $ws = "  " x scalar(@tagstack);
 	print $ws, "<refsect1>\n";
 	print $ws, "  <title>Note</title>\n";
+	foreach my $l (split(/\n/, $text)) {
+		print $ws,"    <para>", &markup_stuff($l), "</para>\n";
+	}
+	print $ws, "</refsect1>\n";
+}
+
+sub process_excel($) {
+	my ($text) = @_;
+	my $ws = "  " x scalar(@tagstack);
+	print $ws, "<refsect1>\n";
+	print $ws, "  <title>Microsoft Excel Compatibility</title>\n";
+	foreach my $l (split(/\n/, $text)) {
+		print $ws,"    <para>", &markup_stuff($l), "</para>\n";
+	}
+	print $ws, "</refsect1>\n";
+}
+
+sub process_odf($) {
+	my ($text) = @_;
+	my $ws = "  " x scalar(@tagstack);
+	print $ws, "<refsect1>\n";
+	print $ws, "  <title>OpenDocument Format (ODF) Compatibility</title>\n";
 	foreach my $l (split(/\n/, $text)) {
 		print $ws,"    <para>", &markup_stuff($l), "</para>\n";
 	}
@@ -206,12 +243,12 @@ my %processor = (
 	'FUNCTION'	=> \&process_function,
 	'SHORTDESC'	=> \&process_short_desc,
 	'SYNTAX'	=> \&process_syntax,
+	'ARGUMENTDESCRIPTION'	=> \&process_argumentdescription,
 	'DESCRIPTION'	=> \&process_description,
 	'SEEALSO'	=> \&process_seealso,
-
 	'NOTE'		=> \&process_note,
-	'EXCEL'		=> \&processnotimplemented,
-	'ODF'		=> \&processnotimplemented,
+	'EXCEL'		=> \&process_excel,
+	'ODF'		=> \&process_odf,
 );
 
 sub process_chunk(@) {

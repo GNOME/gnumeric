@@ -1,3 +1,10 @@
+2010-01-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/func.c (function_dump_defs): also dump Excel and
+	  ODF compatibility and keep function description 
+	  separate from argument descriptions. Simplify the code
+	  by first collecting the information in separate g_strings
+
 2010-01-19  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
