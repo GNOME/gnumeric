@@ -47,7 +47,7 @@ Andreas:
 	  [#559749]
 	* Fix printing of repeated rows and columns. [#607451]
 
-Jean
+Jean:
 	* Fix import export of line type in scatter plots. [#605043]
 	* Force sharing of first series in line plots when requested. [#605330]
 	* Fixed mouse cursor for object resizing in RTL mode. [#605514]
