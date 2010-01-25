@@ -1012,6 +1012,19 @@ cb_paned_button_press (GtkWidget *widget, GdkEventButton *event)
 	return FALSE;
 }
 
+static gboolean
+cb_bnotebook_button_press (GtkWidget *widget, GdkEventButton *event)
+{
+	if (event->type == GDK_2BUTTON_PRESS && event->button == 1) {
+		/*
+		 * Eat the click so cb_paned_button_press doesn't see it.
+		 * see bug #607794.
+		 */
+		return TRUE;
+	}
+
+	return FALSE;
+}
 
 static void
 wbc_gtk_create_notebook_area (WBCGtk *wbcg)
@@ -1036,6 +1049,9 @@ wbc_gtk_create_notebook_area (WBCGtk *wbcg)
 	g_signal_connect_after (G_OBJECT (wbcg->bnotebook),
 		"switch_page",
 		G_CALLBACK (cb_notebook_switch_page), wbcg);
+	g_signal_connect (G_OBJECT (wbcg->bnotebook),
+			  "button-press-event", G_CALLBACK (cb_bnotebook_button_press),
+			  NULL);
 	gtk_paned_pack1 (wbcg->tabs_paned, GTK_WIDGET (wbcg->bnotebook), FALSE, TRUE);
 
 	gtk_widget_show_all (GTK_WIDGET (wbcg->tabs_paned));
