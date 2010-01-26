@@ -451,7 +451,7 @@ item_edit_realize (GocItem *item)
 
 	g_signal_connect_object (G_OBJECT (scg_wbcg (ie->scg)),
 		"markup-changed",
-		G_CALLBACK (goc_item_invalidate), G_OBJECT (ie),
+		G_CALLBACK (goc_item_bounds_changed), G_OBJECT (ie),
 		G_CONNECT_SWAPPED);
 
 	g_signal_connect_object (G_OBJECT (gtk_widget_get_parent (GTK_WIDGET (ie->entry))),

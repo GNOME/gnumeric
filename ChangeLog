@@ -1,3 +1,7 @@
+2010-01-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/item-edit.c (item_edit_realize): ensure that markup is displayed.
+
 2010-01-25  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (cb_bnotebook_button_press): New function to work
