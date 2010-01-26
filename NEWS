@@ -2,7 +2,8 @@ Gnumeric 1.9.19
 
 Andreas:
 	* Fix ODF contour/surface plot confusion. [#607631]
-	* Include compatibility info in the gnumeric manual
+	* Include compatibility info in the gnumeric manual.
+	* Fix confidence interval in simulation output. [#607970]
 
 Morten:
 	* Fix TRIMMEAN border case.  [#607562]
