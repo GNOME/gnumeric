@@ -1,3 +1,8 @@
+2010-01-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_frame): use the method prefered by the
+	  OASIS OIC interop report to address the object subfile
+
 2010-01-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_plot_area): remove some unnecessary code

@@ -2173,7 +2173,7 @@ odf_write_frame (GnmOOExport *state, SheetObject *so)
 	if (IS_SHEET_OBJECT_GRAPH (so)) {
 		char const *name = g_hash_table_lookup (state->objects, so);
 		if (name != NULL) {
-			char *full_name = g_strdup_printf ("./%s", name);
+			char *full_name = g_strdup_printf ("%s/", name);
 			gsf_xml_out_start_element (state->xml, DRAW "object");
 			gsf_xml_out_add_cstr (state->xml, XLINK "href", full_name);
 			g_free (full_name);
