@@ -4272,6 +4272,7 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 	gboolean checkbox_active = FALSE;
 	GnmNamedExpr *macro_nexpr;
 	gboolean terminate_obj = TRUE;
+	gboolean transparent = FALSE;
 
 	if (has_text_prop) {
 		g_object_get (so,
@@ -4322,6 +4323,7 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 			shape = 1;
 			type = MSOT_RECTANGLE;
 		}
+		transparent = !style->fill.auto_type && style->fill.type == GO_STYLE_FILL_NONE;
 	} else if (GNM_IS_SOW_CHECKBOX (so)) {
 		shape = 0xc9;
 		type = MSOT_CHECKBOX;
@@ -4378,12 +4380,13 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 		ms_escher_opt_add_bool (escher, optmark, MSEP_SHADOWOK, TRUE);
 		ms_escher_opt_add_bool (escher, optmark, MSEP_LINEOK, TRUE);
 		ms_escher_opt_add_bool (escher, optmark, MSEP_FILLOK, TRUE);
-	}
+	} else if (transparent)
+		ms_escher_opt_add_bool (escher, optmark, MSEP_FILLOK, FALSE);
 	ms_escher_opt_add_color (escher, optmark, MSEP_FILLCOLOR,
 				 style == NULL || style->fill.auto_back
 				 ? GO_COLOR_WHITE
 				 : style->fill.pattern.back);
-	if (is_widget)
+	if (is_widget || transparent)
 		ms_escher_opt_add_bool (escher, optmark, MSEP_FILLED, FALSE);
 	ms_escher_opt_add_bool (escher, optmark, MSEP_NOFILLHITTEST, TRUE);
 	ms_escher_opt_add_color (escher, optmark, MSEP_LINECOLOR,
