@@ -614,8 +614,11 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		style->fill.pattern.fore = ms_sheet_map_color
 			(esheet, obj, MS_OBJ_ATTR_FILL_BACKGROUND,
 			 GO_COLOR_BLACK, &style->fill.auto_fore);
+		/* fill type needs work, we now suppot more than solid color */
 		style->fill.type = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_UNFILLED)
 			? GO_STYLE_FILL_NONE : GO_STYLE_FILL_PATTERN;
+		if (style->fill.type != GO_STYLE_FILL_PATTERN)
+			style->fill.auto_type = FALSE;				
 
 		g_object_set (G_OBJECT (so), "style", style, NULL);
 		g_object_unref (style);
