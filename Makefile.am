@@ -40,7 +40,7 @@ Applications_in_files = gnumeric.desktop.in
 Applications_DATA = gnumeric.desktop
 
 gnumeric.desktop: gnumeric.desktop.in Makefile $(INTLTOOL_MERGE) $(POFILES_FULL)
-	 LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@.tmp
+	LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@.tmp
 	sed -e 's/F_OR_U/U/' <$@.tmp >$@.tmp2
 	sed -e 's/BUGZILLAVERSION/@VERSION@/' <$@.tmp2 >$@
 	rm -f $@.tmp $@.tmp2
