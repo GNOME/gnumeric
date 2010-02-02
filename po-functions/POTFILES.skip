@@ -16,6 +16,7 @@ plugins/applix/plugin.xml.in
 plugins/corba/plugin.xml.in
 plugins/dif/plugin.xml.in
 plugins/excel/plugin.xml.in
+plugins/excelplugins/plugin.xml.in
 plugins/fn-christian-date/plugin.xml.in
 plugins/fn-complex/plugin.xml.in
 plugins/fn-database/plugin.xml.in

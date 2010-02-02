@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_excelplugins">
+	<information>
+		<_name>Excel plugins</_name>
+		<_description>Adapter interface to load Excel plugins (also known as XLLs). Only operational for worksheet functions that expect only arguments of LPXLOPER type (type 'P' or 'R') and return an LPXLOPER (type 'P' or 'R').</_description>
+		<autoload/>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="plugin"/>
+	</loader>
+</plugin>

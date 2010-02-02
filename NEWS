@@ -10,6 +10,9 @@ Morten:
 	* Fix TDIST border case.  [#607008]
 	* Fix problem with hpaned for tabs/scrollbar.  [#607794]
 
+Peter Jaeckel:
+	* Support for XLL files.  [#597849]
+
 --------------------------------------------------------------------------
 Gnumeric 1.9.18
 

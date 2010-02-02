@@ -23,7 +23,7 @@ if WITH_GNOMEDB
   SUBDIRS_FUNCTIONS += gnome-db
 endif
 
-SUBDIRS_LOADERS =
+SUBDIRS_LOADERS = excelplugins
 SUBDIRS_EXAMPLES = uihello
 
 # Do not build by default until the libtool problems with

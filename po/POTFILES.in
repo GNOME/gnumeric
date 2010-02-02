@@ -18,6 +18,8 @@ plugins/excel/ms-formula-write.c
 plugins/excel/plugin.xml.in
 plugins/excel/xlsx-read.c
 plugins/excel/xlsx-read-pivot.c
+plugins/excelplugins/excelplugins.c
+plugins/excelplugins/plugin.xml.in
 plugins/fn-christian-date/functions.c
 plugins/fn-christian-date/plugin.xml.in
 plugins/fn-complex/functions.c
