@@ -276,7 +276,7 @@
 	<para>
 	  Gnumeric's plugin API is very simple. Every plugin must have
 	  one function: init_plugin see
-	  <filename>gnumeric/src/plugin.h</filename> for the full details.
+	  <filename>gnumeric/src/gnm-plugin.h</filename> for the full details.
 	</para>
  
       </sect1>
