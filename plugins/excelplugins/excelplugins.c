@@ -198,8 +198,6 @@ unsupported_xloper_type (const XLOPER*x)
 		   xloper_type_name (x));
 }
 
-static GnmValue * gnm_value_error_std[GNM_ERROR_UNKNOWN];
-
 static GnmStdError
 gnm_value_error_from_xloper (const XLOPER *x)
 {
@@ -783,8 +781,8 @@ actual_Excel4v (int xlfn, XLOPER* operRes, int count, XLOPER** opers)
 		/* We limit the number of argument strings we copy to the minimum of the number of arguments indicated
 		   in the types string and the number of arguments strings given. We always provide enough space for as
 		   many as indicated in the types string. */
-		for (i = 10,j = 0;
-		     i < count && i -10 < (int)number_of_arguments;
+		for (i = 10, j = 0;
+		     i < count && i - 10 < (int)number_of_arguments;
 		     ++i) {
 			++m;
 			help[m].type=GNM_FUNC_HELP_ARG;
@@ -801,7 +799,7 @@ actual_Excel4v (int xlfn, XLOPER* operRes, int count, XLOPER** opers)
 			}
 		}
 		++m;
-		g_assert (m<n);
+		g_assert (m < n);
 		help[m].type=GNM_FUNC_HELP_END;
 		if (NULL != arg_names) {
 			g_strfreev (arg_names);
@@ -1020,16 +1018,10 @@ scan_for_XLLs_and_register_functions (const gchar *dir_name)
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
-	guint i;
-
 	load_xlcall32 (plugin);
 
 	if (NULL == xlcall32_handle) /* If we couldn't load the helper dll, there is no point in continuing. */
 		return;
-
-	for (i = 0; i < GNM_ERROR_UNKNOWN; ++i) {
-		gnm_value_error_std[i] = value_new_error_std (NULL,(GnmStdError)i);
-	}
 
 	/*
 	 * Find all external XLL functions that are to be adapted into
@@ -1038,8 +1030,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	 * directories. Find them, load them, find xlAutoFree if
 	 * present, call xlAutoOpen, and record via the exposed
 	 * actual_Excel4v function what worksheet functions they want
-	 * to register with Excel. Then, put all this information in a
-	 * table and make theFuncCollection point to it.
+	 * to register with Excel.
 	 *
 	 * We search recursively the directory in which this plugin
 	 * resides and all of its subdirectories. This is not for any
@@ -1052,12 +1043,15 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 G_MODULE_EXPORT void
 go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
-	guint i;
-
-	/* To be formally correct, we should unregister all of the loaded XLL functions. To write this code is a lot of
-	   effort, and in all likelihood, it is never needed. Postponed until it becomes really necessary. In practice,
-	   XLL writers usually don't call the xlfUnregister procedure in Excel for each of the registered functions
-	   either. */
+	/*
+	 * To be formally correct, we should unregister all of the
+	 * loaded XLL functions. To write this code is a lot of
+	 * effort, and in all likelihood, it is never
+	 * needed. Postponed until it becomes really necessary. In
+	 * practice, XLL writers usually don't call the xlfUnregister
+	 * procedure in Excel for each of the registered functions
+	 * either.
+	 */
 
 	if (NULL != xll_function_info_map) {
 		g_tree_destroy (xll_function_info_map);
@@ -1074,12 +1068,6 @@ go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 	if (NULL != xlcall32_handle)
 		g_module_close (xlcall32_handle);
 	xlcall32_handle = NULL;
-
-	for (i = 0; i < GNM_ERROR_UNKNOWN; ++i) {
-		value_release (gnm_value_error_std[i]);
-		gnm_value_error_std[i] = 0;
-	}
-
 }
 
 /***************************************************************************/
