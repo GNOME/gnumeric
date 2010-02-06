@@ -386,8 +386,20 @@
 
 	  <varlistentry>
 	    <term>
-	      <guimenu>B</guimenu> - The Plot Subtype and Style
-	    Selection Area or Preview Area.
+	      <guimenu>B</guimenu> - The Preview Area.
+	    </term>
+	    <listitem>
+	      <para>
+	        This area shows a preview of the currently selected
+		plot type/sub type combination using the default
+		settings for this type of plot.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <guimenu>C</guimenu> - The Plot Subtype Area.
 	    </term>
 	    <listitem>
 	      <para>
@@ -405,48 +417,15 @@
 	      </para>
 
 	      <para>
-	        This area also becomes a preview area when the
-	        <guibutton>Show Sample</guibutton> button is pressed,
-	        as explained below in the list entry
-	        <guimenu>D</guimenu> explaining that button.
-	      </para>
-	    </listitem>
-          </varlistentry>
-
-
-	  <varlistentry>
-	    <term>
-	      <guimenu>C</guimenu> - The Plot Description Area
-	    </term>
-	    <listitem>
-	      <para>
-	        This area gives a brief text description of the
-	        selected combination of plot type and sub-type.
+	        Hovering the mouse pointer over one of these icons causes 
+		a description of the plot type to be shown next to the icon. 
 	      </para>
 	    </listitem>
           </varlistentry>
 
 	  <varlistentry>
 	    <term>
-	      <guimenu>D</guimenu> - The Show Sample Button
-	    </term>
-	    <listitem>
-	      <para>
-	        This area is a button which can be pressed by placing
-	        the mouse cursor over this area and pressing the
-	        primary mouse button. When the button is pressed, the
-	        area indicated by the label <guimenu>B</guimenu>
-	        becomes a preview of the graph with the selected plot
-	        type and sub-type. Note that the preview will only
-	        show a plot once data values have been added to one of
-	        the series.
-	      </para>
-	    </listitem>
-          </varlistentry>
-
-	  <varlistentry>
-	    <term>
-	      <guimenu>E</guimenu> - The First Panel Navigation Buttons
+	      <guimenu>D</guimenu> - The First Panel Navigation Buttons
 	    </term>
 	    <listitem>
 	      <para>
@@ -497,11 +476,11 @@
 
 	        <varlistentry>
 		  <term>
-		    The <guibutton>OK</guibutton> Button
+		    The <guibutton>Insert</guibutton> Button
 		  </term>
 		  <listitem>
 		    <para>
-		      The <guibutton>OK</guibutton> button will
+		      The <guibutton>Insert</guibutton> button will
 		      dismiss the <interface>Graph Guru</interface> and
 		      allow users to insert the graph, as it is
 		      currently defined, into the worksheet. The
@@ -521,7 +500,7 @@
 
 	  <varlistentry>
 	    <term>
-	      <guimenu>F</guimenu> - The hierarchy tree of graph components
+	      <guimenu>E</guimenu> - The hierarchy tree of graph components
 	    </term>
 	    <listitem>
 	      <para>
@@ -536,16 +515,10 @@
 	        <guimenu>J</guimenu> since each component in the
 	        hierarchy has its own specific properties.
 	      </para>
-	    </listitem>
-          </varlistentry>
 
-	  <varlistentry>
-	    <term>
-	      <guimenu>G</guimenu> - The hierarchy modification buttons
-	    </term>
-	    <listitem>
 	      <para>
-	        These buttons allow a user to modify the hierarchy of
+	        Immediantely below the hierachy are buttons that
+		allow a user to modify the hierarchy of
 	        components by adding components with the
 	        <guibutton>Add</guibutton> button or by removing
 	        components with the <guibutton>Delete</guibutton>
@@ -557,39 +530,24 @@
 	    </listitem>
           </varlistentry>
 
-	  <varlistentry>
-	    <term>
-	      <guimenu>H</guimenu> - The panel rearrangement handles
-	    </term>
-	    <listitem>
-	      <para>
-	        These triple dots indicate that the mouse can be used
-	        to change the shape and size of the different areas in
-	        this panel of the graph guru. These handles can be
-	        used by placing the mouse pointer above a handle,
-	        clicking and holding with the primary mouse button,
-	        then dragging the handle to a new position, and then
-	        releasing the mouse button.
-	      </para>
-	    </listitem>
-          </varlistentry>
 
 	  <varlistentry>
 	    <term>
-	      <guimenu>I</guimenu> - The preview area
+	      <guimenu>F</guimenu> - The preview area
 	    </term>
 	    <listitem>
 	      <para>
 	        This area shows a preview of the graph as it will look
-	        if the user clicks on the <guibutton>OK</guibutton> at
-	        the bottom of the panel, in area <guimenu>K</guimenu>.
+	        if the user clicks on the <guibutton>Insert</guibutton> or 
+		<guibutton>Apply</guibutton> at
+	        the bottom of the panel, in area <guimenu>H</guimenu>.
 	      </para>
 	    </listitem>
           </varlistentry>
 
 	  <varlistentry>
 	    <term>
-	      <guimenu>J</guimenu> - The component properties
+	      <guimenu>G</guimenu> - The component properties
 	    selection area.
 	    </term>
 	    <listitem>
@@ -597,7 +555,7 @@
 	        This area allows the user to change the graph by
 	        modifying the properties of the component that is
 	        selected (highlighted in blue) in area
-	        <guimenu>F</guimenu>. For components which have
+	        <guimenu>E</guimenu>. For components which have
 	        multiple properties these may be grouped into related
 	        sets and placed on different tabs. By clicking on the
 	        tabs at the upper left, a user can access the
@@ -608,19 +566,85 @@
 
 	  <varlistentry>
 	    <term>
-	      <guimenu>K</guimenu> - The second panel navigation buttons
+	      <guimenu>H</guimenu> - The second panel navigation buttons
 	    </term>
 	    <listitem>
 	      <para>
-	        These buttons act in the same way as the buttons in
-	        the first panel, in area <guimenu>E</guimenu> except
+		If the guru is opened to create a new graph the buttons in 
+		this are act in the same way as the buttons in
+	        the first panel, in area <guimenu>D</guimenu> except
 	        that the <guibutton>Forward</guibutton> is now a
 	        <guibutton>Back</guibutton> and takes the user back to
 	        the first panel.
 	      </para>
+	      <para>
+		If the guru is opened to modify an existing graph the following
+		buttons are shown (as in the screenshot 
+		<xref linkend="fig-graphguru-panels" />).
+	      </para>
+
+	      <variablelist>
+
+	        <varlistentry>
+		  <term>
+		    The <guibutton>Help</guibutton> Button
+		  </term>
+		  <listitem>
+		    <para>
+		      The <guibutton>Help</guibutton> button should
+		      cause this section of the manual to open.
+		    </para>
+		  </listitem>
+		</varlistentry>
+
+	        <varlistentry>
+		  <term>
+		    The <guibutton>Cancel</guibutton> Button
+		  </term>
+		  <listitem>
+		    <para>
+		      The <guibutton>Cancel</guibutton> button will
+		      dismiss the <interface>Graph Guru</interface>
+		      and return the user to the
+		      &gnum; worksheet, leaving the graph unchanged.
+		    </para>
+		  </listitem>
+		</varlistentry>
+
+	        <varlistentry>
+		  <term>
+		    The <guibutton>Apply</guibutton> Button
+		  </term>
+		  <listitem>
+		    <para>
+		      The <guibutton>Apply</guibutton> button will
+		      dismiss the <interface>Graph Guru</interface> and
+		      apply the changes to the current graph.
+		    </para>
+		  </listitem>
+		</varlistentry>
+
+	      </variablelist>
+
 	    </listitem>
           </varlistentry>
 
+	  <varlistentry>
+	    <term>
+	      <guimenu>K</guimenu> - The panel rearrangement handles
+	    </term>
+	    <listitem>
+	      <para>
+	        These triple dots in various places of the two panels of the 
+		graph guru indicate that the mouse can be used
+	        to change the size of the different areas. These handles can be
+	        used by placing the mouse pointer above a handle,
+	        clicking and holding with the primary mouse button,
+	        then dragging the handle to a new position, and then
+	        releasing the mouse button.
+	      </para>
+	    </listitem>
+          </varlistentry>
 
         </variablelist>
 
