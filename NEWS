@@ -1,4 +1,4 @@
-Gnumeric 1.9.19
+Gnumeric 1.10.0
 
 Andreas:
 	* Fix ODF contour/surface plot confusion. [#607631]

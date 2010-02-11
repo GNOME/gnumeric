@@ -4,8 +4,8 @@ dnl (It needs _AC_AM_CONFIG_HEADER_HOOK, for example.)
 AC_PREREQ(2.54)
 
 m4_define([gnumeric_version_epoch], [1])
-m4_define([gnumeric_version_major], [9])
-m4_define([gnumeric_version_minor], [19])
+m4_define([gnumeric_version_major], [10])
+m4_define([gnumeric_version_minor], [0])
 m4_define([gnumeric_version_extra], [])
 m4_define([gnumeric_version_full],
     [gnumeric_version_epoch.gnumeric_version_major.gnumeric_version_minor[]gnumeric_version_extra])
@@ -146,7 +146,7 @@ PKG_PROG_PKG_CONFIG(0.18)
 
 dnl *****************************
 libspreadsheet_reqs="
-	libgoffice-${GOFFICE_API_VER}	>= 0.7.17
+	libgoffice-${GOFFICE_API_VER}	>= 0.8.0
 	libgsf-1		>= 1.14.15
 	libxml-2.0		>= 2.4.12
 "
