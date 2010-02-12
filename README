@@ -17,7 +17,7 @@ You need:				Debian package name
 	glib		>= 2.10.0	libglib2.0-dev
 	gtk+		>= 2.12.0	libgtk2.0-dev
 	libgsf		>= 1.14.15	libgsf-1-dev
-	libgoffice	>= 0.7.9	libgoffice-0-5-dev
+	libgoffice	>= 0.8.0	libgoffice-0-8-dev
 	libglade	>= 2.3.6	libglade2-dev
 	gnome-xml   	>= 2.4.12	libxml2-dev
 	pango		>= 1.12.0	libpango1.0-dev
@@ -25,10 +25,6 @@ You need:				Debian package name
 
 Optionally:
 	libgsf-gnome	>= 1.14.2	libgsf-gnome-1-dev
-	libgnome	>= 2.0.0	libgnome2-dev
-	libgnomeui	>= 2.0.0	libgnomeui-dev
-	libbonobo	>= 2.2.0	libbonobo2-dev
-	libbonoboui	>= 2.2.0	libbonoboui2-dev
 	python		>= 2.0		python-dev
 	pygtk		>= 1.99.10	python-gtk2-dev
 
@@ -40,8 +36,7 @@ Currently disabled:
 	guile		>= 1.5	(no maintainer)
 
 Runtime suggestions:
-	To view help pages in the --with-gnome build there is a
-	runtime dependence on 'yelp'
+	'yelp' for help
 
 Mailing lists
 -------------
