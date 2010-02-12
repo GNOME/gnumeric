@@ -3000,9 +3000,9 @@ If any argument is zero, the result is zero.
 @SEEALSO=COTH,TANH
 
 @CATEGORY=Mathematics
-@FUNCTION=Arabic
+@FUNCTION=ARABIC
 @SHORTDESC=The Roman numeral @{roman} as number
-@SYNTAX=Arabic(roman)
+@SYNTAX=ARABIC(roman)
 @ARGUMENTDESCRIPTION=@{roman}: Roman numeral
 @DESCRIPTION=Any Roman symbol to the left of a larger symbol (directly or indirectly) reduces the final value by the symbol amount, otherwise, it increases the final amount by the symbol's amount.
 @ODF=This function is OpenFormula compatible.

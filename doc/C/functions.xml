@@ -9908,22 +9908,22 @@
       </para>
       </refsect1>
     </refentry>
-    <refentry id="gnumeric-Arabic">
+    <refentry id="gnumeric-ARABIC">
       <refmeta>
         <refentrytitle>
-          <function>Arabic</function>
+          <function>ARABIC</function>
         </refentrytitle>
       </refmeta>
       <refnamediv>
         <refname>
-          <function>Arabic</function>
+          <function>ARABIC</function>
         </refname>
         <refpurpose>
         The Roman numeral <parameter>roman</parameter> as number
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>Arabic</function>(<parameter>roman</parameter>)</synopsis>
+        <synopsis><function>ARABIC</function>(<parameter>roman</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>

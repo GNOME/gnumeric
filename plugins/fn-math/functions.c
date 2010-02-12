@@ -2031,7 +2031,7 @@ gnumeric_mround (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_arabic[] = {
-        { GNM_FUNC_HELP_NAME, F_("Arabic:The Roman numeral @{roman} as number")},
+        { GNM_FUNC_HELP_NAME, F_("ARABIC:The Roman numeral @{roman} as number")},
         { GNM_FUNC_HELP_ARG, F_("roman:Roman numeral")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("Any Roman symbol to the left of a larger symbol "
 					"(directly or indirectly) reduces the final value "
