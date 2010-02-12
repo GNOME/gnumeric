@@ -1,0 +1,24 @@
+--- configure.ac	2010-02-10 18:08:43.002509267 +0100
++++ configure.ac	2010-02-10 18:09:19.238592081 +0100
+@@ -74,15 +74,15 @@
+ AC_SUBST(LIBPNG_NO_MMX)
+ 
+ AC_MSG_CHECKING([if libraries can be versioned])
+-GLD=`$LD --help < /dev/null 2>/dev/null | grep version-script`
+-if test "$GLD"; then
+-    have_ld_version_script=yes
+-    AC_MSG_RESULT(yes)
+-else
++#GLD=`$LD --help < /dev/null 2>/dev/null | grep version-script`
++#if test "$GLD"; then
++#    have_ld_version_script=yes
++#    AC_MSG_RESULT(yes)
++#else
+     have_ld_version_script=no
+     AC_MSG_RESULT(no)
+     AC_MSG_WARN(*** You have not enabled versioned symbols.)
+-fi
++#fi
+ AM_CONDITIONAL(HAVE_LD_VERSION_SCRIPT, test "$have_ld_version_script" = "yes")
+ 
+ if test "$have_ld_version_script" = "yes"; then

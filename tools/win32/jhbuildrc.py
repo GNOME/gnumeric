@@ -56,7 +56,8 @@ else:
     sys.exit (0)
 
 #Exporting tool flags enviroment variables
-# -no-undefined' 
+# -no-undefined' /
+use_lib64 = False
 os.environ['LDFLAGS']	 \
 	= ' -mno-cygwin' \
 	+ ' -L' + os.path.join(os.sep, prefix, 'lib') \
@@ -108,6 +109,7 @@ module_autogenargs['glib']	=    autogenargs + """ --enable-explicit-deps=no \
                                                   --cache-file=win32.cache \
                                                   --disable-gtk-doc"""
 module_autogenargs['freetype']  = autogenargs
+module_autogenargs['png']  = autogenargs + """ --without-libpng-compat"""
 module_autogenargs['fontconfig']= autogenargs + """ --with-arch=x86"""
 module_autogenargs['pango']	= autogenargs + """ --disable-gtk-doc \
                                                   --enable-explicit-deps=no \
