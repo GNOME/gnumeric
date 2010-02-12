@@ -48,7 +48,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 0.71\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-08-14 22:11-0400\n"
-"PO-Revision-Date: 2009-08-14 22:53-0400\n"
+"PO-Revision-Date: 2010-02-12 09:52-0500\n"
 "Last-Translator: Morten Welinder <terra@gnome.org>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -63,9 +63,8 @@ msgstr ""
 
 #. Keep in sync with .desktop file
 #: ../gnumeric.desktop.in.h:2 ../src/main-application.c:381
-#, fuzzy
 msgid "Gnumeric Spreadsheet"
-msgstr "Indsæt et nyt regneark"
+msgstr "Gnumeric Regneark"
 
 #: ../gnumeric.desktop.in.h:3
 msgid "Spreadsheet"
@@ -211,12 +210,10 @@ msgid ""
 msgstr "Læser og skriver information gemt i Data Interchange Format'et (*.dif)"
 
 #: ../plugins/excel/boot.c:185
-#, fuzzy
 msgid "No Workbook or Book streams found."
 msgstr "Ingen bøger eller arbejdsbogsstrømme fundet."
 
 #: ../plugins/excel/boot.c:254
-#, fuzzy
 msgid "Preparing to save..."
 msgstr "Forbereder gemning..."
 
@@ -555,7 +552,6 @@ msgid "Functions for complex numbers, base conversions, and more"
 msgstr ""
 
 #: ../plugins/fn-erlang/plugin.xml.in.h:1
-#, fuzzy
 msgid "Erlang"
 msgstr "Erlang"
 
@@ -568,9 +564,8 @@ msgid "Functions to help Erlang Analysis"
 msgstr "Funktioner til Erlanganalyse"
 
 #: ../plugins/fn-financial/plugin.xml.in.h:2
-#, fuzzy
 msgid "Financial Functions"
-msgstr "Finansielle afledede"
+msgstr "Finansielle funktioner"
 
 #: ../plugins/fn-financial/plugin.xml.in.h:3
 msgid "Interest rate calculations"
@@ -795,7 +790,6 @@ msgid "Unable to parse the html."
 msgstr "Kan ikke indsætte"
 
 #: ../plugins/html/plugin.xml.in.h:1
-#, fuzzy
 msgid "HTML &amp; TeX"
 msgstr "HTML og TeX"
 
@@ -3051,11 +3045,11 @@ msgstr "Slet navn %s"
 
 #: ../src/commands.c:6010
 msgid "Add scenario"
-msgstr ""
+msgstr "Nyt scenarie"
 
 #: ../src/commands.c:6083
 msgid "Scenario Show"
-msgstr ""
+msgstr "Vis scenarie"
 
 #: ../src/commands.c:6145
 msgid "Shuffle Data"
@@ -6608,24 +6602,20 @@ msgid ""
 msgstr ""
 
 #: ../src/dialogs/dialog-scenarios.c:129
-#, fuzzy
 msgid "Invalid changing cells"
-msgstr "_Ved at ændre cellerne: "
+msgstr "Ugyldige celler til ændring"
 
 #: ../src/dialogs/dialog-scenarios.c:137
-#, fuzzy
 msgid "Changing cells should be on the current sheet only."
-msgstr "Søg og erstat kun i det aktive ark"
+msgstr "Celler til ændring skal være på det aktive ark"
 
 #: ../src/dialogs/dialog-scenarios.c:149
-#, fuzzy
 msgid "Scenario name already used"
-msgstr "Disse rækker er allerede grupperet"
+msgstr "Scenarienavn er allerede i brug"
 
 #: ../src/dialogs/dialog-scenarios.c:155
-#, fuzzy
 msgid "Invalid scenario name"
-msgstr "Ugyldigt søgemønster."
+msgstr "Ugyldigt scenarienavn"
 
 #: ../src/dialogs/dialog-scenarios.c:181
 msgid ""
@@ -6640,9 +6630,8 @@ msgid "Could not create the Scenario Add dialog."
 msgstr "Kunne ikke oprette målsøgnings-dialogen."
 
 #: ../src/dialogs/dialog-scenarios.c:247
-#, fuzzy, c-format
 msgid "Created on "
-msgstr "Opret en pil"
+msgstr "Oprettet "
 
 #: ../src/dialogs/dialog-scenarios.c:572
 msgid "Results entry did not contain valid cell names."
@@ -9645,9 +9634,8 @@ msgid "Reports"
 msgstr "Raporter"
 
 #: ../src/dialogs/solver.glade.h:15
-#, fuzzy
 msgid "Scenarios"
-msgstr "Adskillelsestegn"
+msgstr "Scenarier"
 
 #: ../src/dialogs/solver.glade.h:16
 msgid "Solve"
@@ -13440,9 +13428,8 @@ msgid "_Tools"
 msgstr "Vær_ktøj"
 
 #: ../src/wbc-gtk-actions.c:1711
-#, fuzzy
 msgid "Sce_narios"
-msgstr "Adskillelsestegn"
+msgstr "Sce_narier"
 
 #: ../src/wbc-gtk-actions.c:1712
 #, fuzzy
