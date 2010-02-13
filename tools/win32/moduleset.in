@@ -22,7 +22,7 @@
     <repository type="tarball" name="sourceforge"
 		href="http://downloads.sourceforge.net/project/"/>
     <repository type="tarball" name="simplesystems.org"
-		href="ftp://ftp.simplesystems.org/pub/libpng/png/src"/>
+		href="ftp://ftp.simplesystems.org/pub/libpng/png/src/"/>
 
     <tarball id="gettext" version="0.17">
 	<source href="ftp://ftp.gnu.org/pub/gnu/gettext/gettext-0.17.tar.gz"
@@ -231,6 +231,7 @@
 	<branch repo="gnome.org" module="sources/pygobject/2.20/pygobject-2.20.0.tar.bz2"
 		version="2.20.0">
 	    <patch file="&patch_dir;pygobject.patch"/>
+	    <patch file="&patch_dir;pygiochannel.patch"/>
 	</branch>
 
 	<dependencies>

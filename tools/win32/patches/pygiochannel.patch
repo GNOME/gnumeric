@@ -1,0 +1,10 @@
+--- glib/pygiochannel.c.orig	2010-02-12 20:33:20.738519659 +0100
++++ glib/pygiochannel.c	2010-02-12 20:34:03.178515213 +0100
+@@ -10,6 +10,7 @@
+ 
+ #include "pyglib.h"
+ #include "pyglib-private.h"
++#include "pygsource.h"
+ 
+ typedef struct {
+     PyObject_HEAD
