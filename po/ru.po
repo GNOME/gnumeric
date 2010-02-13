@@ -1,13 +1,12 @@
 # Copyright (C) 1999-2005 Free Software Foundation, Inc.
-# Valek Filippov <frob@df.ru>, 1999-2006
 # Dmitry G. Mastrukov <dmitry@taurussoft.org>, 2001-2002, 2004.
-#
+# Valek Filippov <frob@df.ru>, 1999-2006, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-08-14 20:22-0400\n"
-"PO-Revision-Date: 2009-10-14 15:11-0400\n"
+"PO-Revision-Date: 2010-02-12 22:59-0500\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team:  <gnome-cyr@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -230,7 +229,7 @@ msgid "Incorrect expression for name '%s': content will be lost.\n"
 msgstr "Неправильное выражение для имени \"%s\": содержимое будет потеряно.\n"
 
 #: ../plugins/excel/ms-excel-read.c:3387
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "DDE links are not supported yet.\n"
 "Name '%s' will be lost.\n"
@@ -239,7 +238,7 @@ msgstr ""
 "Имя \"%s\" будет потеряно.\n"
 
 #: ../plugins/excel/ms-excel-read.c:3391
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "OLE links are not supported yet.\n"
 "Name '%s' will be lost.\n"
@@ -374,9 +373,9 @@ msgid "Invalid integer '%s' for attribute %s"
 msgstr "Неверное целое \"%s\" для атрибута %s"
 
 #: ../plugins/excel/xlsx-read.c:440
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid RRGGBB color '%s' for attribute %s"
-msgstr "Неверный цвет \"%s\" для атрибута rgb"
+msgstr "Неверный цвет RRGGBB \"%s\" для атрибута %s"
 
 #: ../plugins/excel/xlsx-read.c:471
 #, c-format
@@ -394,9 +393,9 @@ msgid "Invalid range '%s' for attribute %s"
 msgstr "Неверный диапазон \"%s\" для атрибута %s"
 
 #: ../plugins/excel/xlsx-read.c:713
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown theme color %d"
-msgstr "Неизвестная книга \"%s\""
+msgstr "Неизвестный цвет темы %d"
 
 #: ../plugins/excel/xlsx-read.c:859
 #, c-format
@@ -404,9 +403,9 @@ msgid "Undefined number format id '%s'"
 msgstr "Неопределённый индикатор числового формата \"%s\""
 
 #: ../plugins/excel/xlsx-read.c:1506
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown color '%s'"
-msgstr "Неизвестная книга \"%s\""
+msgstr "Неизвестный цвет \"%s\""
 
 #: ../plugins/excel/xlsx-read.c:2168
 msgid "Dropping missing object"
@@ -649,7 +648,6 @@ msgid "Statistical Functions"
 msgstr "Статистические функции"
 
 #: ../plugins/fn-r/plugin.xml.in.h:2
-#, fuzzy
 msgid ""
 "Statistical Functions with naming and calling conventions from The R Project"
 msgstr ""
@@ -694,14 +692,12 @@ msgid "String Functions"
 msgstr "Строковые функции"
 
 #: ../plugins/fn-tsa/plugin.xml.in.h:1
-#, fuzzy
 msgid "Time Series Analysis"
-msgstr "Анализ Фурье"
+msgstr "Анализ временных последовательностей"
 
 #: ../plugins/fn-tsa/plugin.xml.in.h:2
-#, fuzzy
 msgid "Time Series Analysis Functions"
-msgstr "Инженерные функции"
+msgstr "Функции анализа временных последовательностей"
 
 #: ../plugins/gda/plugin-gda.c:158
 msgid "Too much data returned"
@@ -709,7 +705,7 @@ msgstr "Возвращено слишком много данных"
 
 #: ../plugins/gda/plugin-gda.c:167
 msgid "Can't obtain data"
-msgstr ""
+msgstr "Не удалось получить данные"
 
 #: ../plugins/gda/plugin-gda.c:263
 msgid "Database Connection"
@@ -737,9 +733,9 @@ msgid "Database functions for retrieval of data from a database."
 msgstr "Функции баз данных предоставляют возможность получения данных из баз."
 
 #: ../plugins/gnome-db/plugin-gnomedb.c:20
-#, fuzzy, c-format
+#, c-format
 msgid "Could not run GNOME database configuration tool ('%s')"
-msgstr "Не удалось запустить программу настройки баз данных GNOME"
+msgstr "Не удалось запустить программу настройки баз данных GNOME (\"%s)"
 
 #: ../plugins/gnome-db/plugin.xml.in.h:1
 msgid "Database UI services plugin"
@@ -973,20 +969,18 @@ msgstr ""
 "так как \"%s\""
 
 #: ../plugins/openoffice/openoffice-read.c:1057
-#, fuzzy, c-format
+#, c-format
 msgid "Content past the maximum number of rows (%i) supported."
-msgstr ""
-"Количество строк превышает поддерживаемое в этой сборке (%u). "
-"Перекомпилируйте с большим пределом."
+msgstr "Содержимое превышает поддерживаемое число строк (%i). "
 
 #: ../plugins/openoffice/openoffice-read.c:1165
 msgid "Missing expression"
 msgstr "Пропущенное выражение"
 
 #: ../plugins/openoffice/openoffice-read.c:1184
-#, fuzzy, c-format
+#, c-format
 msgid "Missing or unknown expression namespace: %s"
-msgstr "Пропущенное пространство имён для выражения"
+msgstr "Пропущенное  или неизвестное пространство имён для выражения: %s"
 
 #: ../plugins/openoffice/openoffice-read.c:1192
 #, c-format
@@ -1015,9 +1009,9 @@ msgid "Unknown break type '%s' defaulting to NONE"
 msgstr ""
 
 #: ../plugins/openoffice/openoffice-read.c:2802
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
-msgstr "Неизвестный тип данных \"%s\" в строке %d. Игнорируется."
+msgstr "Неизвестный тип данных \"%s\". Игнорируется."
 
 #: ../plugins/openoffice/openoffice-read.c:3021
 #, c-format
@@ -1048,25 +1042,23 @@ msgstr "Испорченные метаданные \"%s\""
 
 #: ../plugins/openoffice/plugin.xml.in.h:1
 msgid "ODF/OpenOffice with foreign elements (*.ods)"
-msgstr ""
+msgstr "ODF/OpenOffice с дополнительными элементами (*.ods)"
 
 #: ../plugins/openoffice/plugin.xml.in.h:2
 msgid "ODF/OpenOffice without foreign elements (*.ods)"
-msgstr ""
+msgstr "ODF/OpenOffice без дополнительных элементов (*.ods)"
 
 #: ../plugins/openoffice/plugin.xml.in.h:3
-#, fuzzy
 msgid "Open Document Format"
-msgstr "Документация"
+msgstr "Формат Open Document"
 
 #: ../plugins/openoffice/plugin.xml.in.h:4
-#, fuzzy
 msgid "Open Document Format (*.sxc, *.ods)"
-msgstr "Open/Star Calc (*.sxc, *.ods)"
+msgstr "Формат Open Document (*.sxc, *.ods)"
 
 #: ../plugins/openoffice/plugin.xml.in.h:5
 msgid "Open Document Format as used by OpenOffice, Lotus Symphony, etc."
-msgstr ""
+msgstr "Формат Open Document используемый OpenOffice, Lotus Symphony и т.п."
 
 #: ../plugins/paradox/paradox.c:67 ../plugins/paradox/paradox.c:117
 msgid "Error while opening Paradox file."
@@ -1086,50 +1078,50 @@ msgstr "Поля типа %d не поддерживаются."
 #. * the memory for the field name.
 #: ../plugins/paradox/paradox.c:326
 msgid "Allocate memory for field definitions."
-msgstr ""
+msgstr "Выделение памяти для определений полей."
 
 #: ../plugins/paradox/paradox.c:327
-#, fuzzy
 msgid "Cannot allocate memory for field definitions."
-msgstr "Не удалось получить память для записи."
+msgstr "Не удалось получить память для определений полей."
 
 #: ../plugins/paradox/paradox.c:335
 msgid "First line of sheet must contain database specification."
-msgstr ""
+msgstr "Первая строка в таблице должна содержать описание базы данных."
 
 #: ../plugins/paradox/paradox.c:350
 msgid ""
 "Field specification must be a comma separated value (Name,Type,Size,Prec)."
 msgstr ""
+"Спецификация полей должна быть значениями разделёнными запятыми (Название, "
+"Тип, Размер, Точность)"
 
 #: ../plugins/paradox/paradox.c:355
-#, fuzzy
 msgid "Allocate memory for column name."
-msgstr "Не удалось получить память для записи."
+msgstr "Выделение памяти для названия столбца."
 
 #: ../plugins/paradox/paradox.c:356
-#, fuzzy, c-format
+#, c-format
 msgid "Could not allocate memory for %d. field name."
-msgstr "Не удалось получить память для записи."
+msgstr "Не удалось получить память для названия столбца %d"
 
 #: ../plugins/paradox/paradox.c:366
 #, c-format
 msgid "%d. field specification ended unexpectetly."
-msgstr ""
+msgstr "%d. Спецификация поля неожиданно закончилась."
 
 #: ../plugins/paradox/paradox.c:371
 #, c-format
 msgid "%d. field specification misses type."
-msgstr ""
+msgstr "%d. Спецификация поля не содержит тип."
 
 #: ../plugins/paradox/paradox.c:439
 #, c-format
 msgid "%d. field type '%c' is unknown."
-msgstr ""
+msgstr "%d. Неизвестный тип поля \"%c\"."
 
 #: ../plugins/paradox/paradox.c:450 ../plugins/paradox/paradox.c:460
 msgid "Field specification misses the column size."
-msgstr ""
+msgstr "Спецификация поля не содержит размер столбца."
 
 #: ../plugins/paradox/paradox.c:467
 #, c-format
@@ -1138,17 +1130,14 @@ msgid ""
 msgstr ""
 
 #: ../plugins/paradox/paradox.c:476
-#, fuzzy
 msgid "Could not create output file."
-msgstr "Невозможно создать диалог перехода."
+msgstr "Невозможно создать файл для вывода."
 
 #: ../plugins/paradox/paradox.c:485
-#, fuzzy
 msgid "Allocate memory for record data."
-msgstr "Не удалось получить память для записи."
+msgstr "Выделение памяти для записи."
 
 #: ../plugins/paradox/paradox.c:486
-#, fuzzy
 msgid "Could not allocate memory for record data."
 msgstr "Не удалось получить память для записи."
 
@@ -1160,12 +1149,12 @@ msgstr ""
 #: ../plugins/paradox/paradox.c:541
 #, c-format
 msgid "Field %d in row %d could not be written."
-msgstr ""
+msgstr "Поле %d в строке %d не может быть записано"
 
 #: ../plugins/paradox/paradox.c:578
-#, fuzzy, c-format
+#, c-format
 msgid "Could not write record number %d."
-msgstr "Невозможно создать помощника по формулам."
+msgstr "Невозможно выполнить запись с номером %d."
 
 #: ../plugins/paradox/plugin.xml.in.h:1
 msgid "Imports Paradox files"
@@ -1177,12 +1166,11 @@ msgstr "Paradox"
 
 #: ../plugins/paradox/plugin.xml.in.h:3
 msgid "Paradox database (*.db)"
-msgstr ""
+msgstr "База данных Paradox (*.db)"
 
 #: ../plugins/paradox/plugin.xml.in.h:4
-#, fuzzy
 msgid "Paradox database or primary index file (*.db, *.px)"
-msgstr "Файл базы данных или первичного индекса Paradox"
+msgstr "Файл базы данных или первичного индекса Paradox (*.db, *.px)"
 
 #: ../plugins/perl-func/plugin.xml.in.h:1
 msgid "Perl"
@@ -1203,6 +1191,9 @@ msgid ""
 "@SYNTAX=PERL_FUNCTION_TEMPLATE(value1, value2, ...)\n"
 "@DESCRIPTION=This is the perl function template. \n"
 msgstr ""
+"@FUNCTION=PERL_FUNCTION_TEMPLATE\n"
+"@SYNTAX=PERL_FUNCTION_TEMPLATE(значение1, значение2, ...)\n"
+"@DESCRIPTION=Это шаблон функции perl.\n"
 
 #: ../plugins/perl-loader/perl-loader.c:89
 msgid "Perl error: "
@@ -1453,7 +1444,7 @@ msgstr "Quattro Pro(tm)"
 #: ../plugins/qpro/qpro-read.c:118
 #, c-format
 msgid "File is most likely corrupted.\n"
-msgstr ""
+msgstr "Файл скорее всего повреждён.\n"
 
 #: ../plugins/qpro/qpro-read.c:868
 #, c-format
@@ -1569,14 +1560,12 @@ msgstr ""
 "сетки. Для исправления этого значения используйте диалог настройки печати."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:2
-#, fuzzy
 msgid ""
 ">This value determines whether the default setting in the Print Setup dialog "
 "is to center pages vertically."
 msgstr ""
 ">Это значение определяет исходные настройки в диалоге печати для "
-"вертикального центрирования страниц. Для исправления этого значения "
-"используйте диалог настройки печати."
+"вертикального центрирования страниц."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:3
 msgid "Activate New Plugins"
@@ -1689,7 +1678,7 @@ msgstr "Название шрифта используемого по умолч
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:30
 msgid "GTKPrintSetting"
-msgstr ""
+msgstr "GTKPrintSetting"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:31
 msgid "Header/Footer Format (Left Portion)"
@@ -1970,26 +1959,18 @@ msgstr ""
 "этого значения."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:79
-#, fuzzy
 msgid ""
 "This value determines the maximum number of pages that make up the height of "
 "a printout of the current sheet. The sheet will be reduced to fit within "
 "this height. This value can be changed in the Page Setup dialog."
 msgstr ""
-"Это значение определяет исходное количество страниц печати в высоту для "
-"текущего листа. 0 отключает масштабирование. Используйте диалог настройки "
-"печати для изменения этого значения."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:80
-#, fuzzy
 msgid ""
 "This value determines the maximum number of pages that make up the width of "
 "a printout of the current sheet. The sheet will be reduced to fit within "
 "this width. This value can be changed in the Page Setup dialog."
 msgstr ""
-"Это значение определяет исходное количество страниц печати в высоту для "
-"текущего листа. 0 отключает масштабирование. Используйте диалог настройки "
-"печати для изменения этого значения."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:81
 msgid ""
@@ -2016,14 +1997,10 @@ msgstr ""
 "наклонным."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:84
-#, fuzzy
 msgid ""
 "This value determines whether the default setting in the Print Setup dialog "
 "is to center pages horizontally."
 msgstr ""
-"Это значение задаёт исходные настройки для горизонтального центрирования "
-"страниц при печати. Используйте диалог настройки печати для изменения этого "
-"значения."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:85
 msgid ""
@@ -2107,9 +2084,8 @@ msgid "Autocomplete"
 msgstr "Автодополнение"
 
 #: ../schemas/gnumeric-general.schemas.in.h:3
-#, fuzzy
 msgid "Autosave frequency"
-msgstr "Сообщение об автосохранении"
+msgstr "Частота автосохранения"
 
 #: ../schemas/gnumeric-general.schemas.in.h:4
 msgid ""
@@ -2141,14 +2117,12 @@ msgid "Default Number of Sheets"
 msgstr "Исходное число листов"
 
 #: ../schemas/gnumeric-general.schemas.in.h:9
-#, fuzzy
 msgid "Default Number of columns in a sheet"
-msgstr "Исходное число листов"
+msgstr "Исходное число столбцов на листе"
 
 #: ../schemas/gnumeric-general.schemas.in.h:10
-#, fuzzy
 msgid "Default Number of rows in a sheet"
-msgstr "Исходное число листов"
+msgstr "Исходное число строк на листе"
 
 #: ../schemas/gnumeric-general.schemas.in.h:11
 #: ../src/dialogs/dialog-preferences.c:686
@@ -2170,9 +2144,8 @@ msgid "Default font name"
 msgstr "Название используемого по умолчанию шрифта"
 
 #: ../schemas/gnumeric-general.schemas.in.h:15
-#, fuzzy
 msgid "Format toolbar position"
-msgstr "Панель форматирования видна"
+msgstr "Расположение панели форматирования"
 
 #: ../schemas/gnumeric-general.schemas.in.h:16
 msgid "Format toolbar visible"
@@ -2211,14 +2184,12 @@ msgid "Live Scrolling"
 msgstr "Немедленная прокрутка"
 
 #: ../schemas/gnumeric-general.schemas.in.h:21
-#, fuzzy
 msgid "Long format toolbar position"
-msgstr "Расположение стандартной панели"
+msgstr "Расположение длинной панели инструментов"
 
 #: ../schemas/gnumeric-general.schemas.in.h:22
-#, fuzzy
 msgid "Long format toolbar visible"
-msgstr "Панель форматирования видна"
+msgstr "Длинная панель форматирования видна"
 
 #: ../schemas/gnumeric-general.schemas.in.h:23
 #: ../src/dialogs/dialog-preferences.c:559
@@ -2236,9 +2207,8 @@ msgid "Number of Undo Items"
 msgstr "Число элементов отмены"
 
 #: ../schemas/gnumeric-general.schemas.in.h:26
-#, fuzzy
 msgid "Object toolbar position"
-msgstr "Панель графических элементов видна"
+msgstr "Расположение панели графических элементов"
 
 #: ../schemas/gnumeric-general.schemas.in.h:27
 msgid "Object toolbar visible"
@@ -2342,6 +2312,9 @@ msgid ""
 "gnumeric session. Whatever value is given here, the real number of columns "
 "will be a power of 2 between 256 and 4096."
 msgstr ""
+"Число столбцов на каждом листе. Эта настройка будет использована только "
+"после перезапуска gnumeric. Независимо от заданного здесь значения "
+"действительное число столбцов будет степенью 2 между 256 и 4096."
 
 #: ../schemas/gnumeric-general.schemas.in.h:47
 msgid ""
@@ -2349,11 +2322,13 @@ msgid ""
 "gnumeric session. Whatever value is given here, the real number of rows will "
 "be a power of 2 between 65539 and 16777216."
 msgstr ""
+"Число строк на каждом листе. Эта настройка будет использована только после "
+"перезапуска gnumeric. Независимо от заданного значения действительное число "
+"строк будет степенью 2 между 65539 и 16777216."
 
 #: ../schemas/gnumeric-general.schemas.in.h:48
-#, fuzzy
 msgid "The number of seconds between autosaves."
-msgstr "Секунд до автосохраняния"
+msgstr "Число секунд между автосохранениями."
 
 #: ../schemas/gnumeric-general.schemas.in.h:49
 msgid "The number of sheets initially created in a new workbook."
@@ -2445,13 +2420,12 @@ msgstr ""
 "слева, 1 - справа, 2 - сверху."
 
 #: ../schemas/gnumeric-general.schemas.in.h:61
-#, fuzzy
 msgid ""
 "This variable determines where the long format toolbar should be shown. 0 is "
 "left, 1 is right, 2 is top."
 msgstr ""
-"Эта переменная определяет где будет отображаться панель форматирования. 0 - "
-"слева, 1 - справа, 2 - сверху."
+"Эта переменная определяет где будет отображаться длинная панель "
+"форматирования. 0 - слева, 1 - справа, 2 - сверху."
 
 #: ../schemas/gnumeric-general.schemas.in.h:62
 msgid ""
@@ -2489,12 +2463,12 @@ msgstr ""
 "Эта переменная определяет будет ли видна при запуске панель форматирования."
 
 #: ../schemas/gnumeric-general.schemas.in.h:67
-#, fuzzy
 msgid ""
 "This variable determines whether the long format toolbar should be visible "
 "initially."
 msgstr ""
-"Эта переменная определяет будет ли видна при запуске панель форматирования."
+"Эта переменная определяет будет ли видна при запуске длинная панель "
+"форматирования."
 
 #: ../schemas/gnumeric-general.schemas.in.h:68
 msgid ""
@@ -2582,9 +2556,8 @@ msgid "FormatToolbar"
 msgstr "Панель форматирования"
 
 #: ../src/GNOME_Gnumeric-gtk.xml.in.h:2
-#, fuzzy
 msgid "LongFormatToolbar"
-msgstr "Панель форматирования"
+msgstr "Длинная панель форматирования"
 
 #: ../src/GNOME_Gnumeric-gtk.xml.in.h:3 ../src/HILDON_Gnumeric-gtk.xml.in.h:2
 msgid "ObjectToolbar"
@@ -2603,7 +2576,6 @@ msgid "File History List"
 msgstr "Длина списка файлов"
 
 #: ../src/application.c:696
-#, fuzzy
 msgid "A list of filenames that have been read recently"
 msgstr "Список недавно открывавшихся файлов"
 
@@ -2721,28 +2693,28 @@ msgid "Typing \"%s%s\""
 msgstr "Набрать \"%s%s\""
 
 #: ../src/commands.c:1192
-#, fuzzy, c-format
+#, c-format
 msgid "Creating a Data Table in %s"
-msgstr "Создать срез данных"
+msgstr "Создать срез данных в %s"
 
 #: ../src/commands.c:1230
 msgid "Ins/Del Column/Row"
 msgstr "Вставить/Удалить столбцы/строки"
 
 #: ../src/commands.c:1392
-#, fuzzy, c-format
+#, c-format
 msgid "Inserting %d column before %s"
 msgid_plural "Inserting %d columns before %s"
-msgstr[0] "Вставка %d столбцов перед %s"
+msgstr[0] "Вставка %d столбца перед %s"
 msgstr[1] "Вставка %d столбцов перед %s"
 msgstr[2] "Вставка %d столбцов перед %s"
 
 #: ../src/commands.c:1404
-#, fuzzy, c-format
+#, c-format
 msgid "Inserting %d row before %s"
 msgid_plural "Inserting %d rows before %s"
 msgstr[0] "Вставка %d строки перед %s"
-msgstr[1] "Вставка %d строки перед %s"
+msgstr[1] "Вставка %d строк перед %s"
 msgstr[2] "Вставка %d строки перед %s"
 
 #: ../src/commands.c:1416
@@ -2963,6 +2935,9 @@ msgid ""
 "It is possible that some dates could be copied\n"
 "incorrectly."
 msgstr ""
+"Копирование файлов с разными соглашениями о датах.\n"
+"Некоторые даты могут быть скопированы\n"
+"некорректною"
 
 #: ../src/commands.c:2741
 msgid "Paste Copy"
@@ -3043,9 +3018,8 @@ msgid "A workbook cannot have two sheets with the same name."
 msgstr "Книга не может содержать два листа с одинаковыми названиями."
 
 #: ../src/commands.c:4831
-#, fuzzy
 msgid "Resizing sheet"
-msgstr "Переименование листа"
+msgstr "Изменение размера листа"
 
 #: ../src/commands.c:4979
 #, c-format
@@ -3094,7 +3068,7 @@ msgstr "Настройка печати для всех листов"
 
 #: ../src/commands.c:5810
 msgid "is not allowed as defined name"
-msgstr ""
+msgstr "недопустимо в качестве названия"
 
 #: ../src/commands.c:5817
 msgid "has a circular reference"
@@ -3172,34 +3146,29 @@ msgid "Right to Left"
 msgstr "Справа на лево"
 
 #: ../src/commands.c:6917
-#, fuzzy
 msgid "Changing Hyperlink"
 msgstr "Исправить гиперссылку"
 
 #: ../src/commands.c:7058
-#, fuzzy, c-format
+#, c-format
 msgid "Changing hyperlink of %s"
-msgstr "Изменение формата %s"
+msgstr "Исправление гиперссылки %s"
 
 #: ../src/commands.c:7139
-#, fuzzy
 msgid "Configure List"
-msgstr "Ядро"
+msgstr "Настроить список"
 
 #: ../src/commands.c:7209
-#, fuzzy
 msgid "Set Frame Label"
-msgstr "Создать метку"
+msgstr "Установить метку рамки"
 
 #: ../src/commands.c:7280
-#, fuzzy
 msgid "Configure Checkbox"
-msgstr "Ядро"
+msgstr "Настроить поле отметки"
 
 #: ../src/commands.c:7400 ../src/sheet-object-widget.c:1209
-#, fuzzy
 msgid "Configure Adjustment"
-msgstr "Ядро"
+msgstr ""
 
 #: ../src/consolidate.c:751
 #, c-format
@@ -3615,14 +3584,12 @@ msgid "_minutes"
 msgstr "минут"
 
 #: ../src/dialogs/cell-comment.glade.h:1
-#, fuzzy
 msgid "<b>New Author:</b>"
-msgstr "<b>Другое:</b>"
+msgstr "<b>Новый автор:</b>"
 
 #: ../src/dialogs/cell-comment.glade.h:2
-#, fuzzy
 msgid "<b>Old Author:</b>"
-msgstr "<b>Другое:</b>"
+msgstr "<b>Старый автор:</b>"
 
 #: ../src/dialogs/cell-comment.glade.h:3
 msgid "Cell Comment"
@@ -3630,7 +3597,7 @@ msgstr "Комментарий ячейки"
 
 #: ../src/dialogs/cell-comment.glade.h:4
 msgid "_Wrap in properties window"
-msgstr ""
+msgstr "Переносить окно свойств"
 
 #: ../src/dialogs/cell-format.glade.h:1 ../src/dialogs/define-name.glade.h:1
 #: ../src/dialogs/paste-names.glade.h:1 ../src/dialogs/view.glade.h:1
@@ -3774,9 +3741,8 @@ msgid "Con_dition:"
 msgstr "Условие:"
 
 #: ../src/dialogs/cell-format.glade.h:42
-#, fuzzy
 msgid "Conditions"
-msgstr "Условие:"
+msgstr "Условия"
 
 #: ../src/dialogs/cell-format.glade.h:43
 msgid "D_istributed"
@@ -3795,9 +3761,8 @@ msgid "Diagonal Stripe"
 msgstr "Диагональные штрихи"
 
 #: ../src/dialogs/cell-format.glade.h:47
-#, fuzzy
 msgid "E_xpand"
-msgstr "Развернуть строки"
+msgstr "Развернуть"
 
 #: ../src/dialogs/cell-format.glade.h:48
 #: ../src/dialogs/dialog-preferences.c:803 ../src/wbc-gtk.c:2927
@@ -4114,30 +4079,27 @@ msgstr ""
 
 #: ../src/dialogs/chi-squared.glade.h:6
 msgid "Test of _Homogeneity"
-msgstr ""
+msgstr "Тест гомогенности"
 
 #: ../src/dialogs/chi-squared.glade.h:7
 msgid "Test of _Independence"
-msgstr ""
+msgstr "Тест независимости"
 
 #: ../src/dialogs/chi-squared.glade.h:11
-#, fuzzy
 msgid "_Contingency Table:"
-msgstr "Содержимое"
+msgstr ""
 
 #: ../src/dialogs/col-width.glade.h:1
 msgid "Column Width"
 msgstr "Ширина столбца"
 
 #: ../src/dialogs/col-width.glade.h:2
-#, fuzzy
 msgid "Column width in points:"
-msgstr "Ширина столбца (пт):"
+msgstr "Ширина столбца в пунктах:"
 
 #: ../src/dialogs/col-width.glade.h:3
-#, fuzzy
 msgid "_Column width in pixels:"
-msgstr "Ширина столбца (пт):"
+msgstr "Ширина столбца в точках растра:"
 
 #: ../src/dialogs/col-width.glade.h:4 ../src/dialogs/row-height.glade.h:4
 msgid "_Use Default"
@@ -4284,9 +4246,8 @@ msgid "Data"
 msgstr "Данные"
 
 #: ../src/dialogs/data-slicer.glade.h:2
-#, fuzzy
 msgid "DataSlicer Guru : Gnumeric"
-msgstr "Мастер сводных таблиц : Gnumeric"
+msgstr "Мастер срезов данных : Gnumeric"
 
 #: ../src/dialogs/data-slicer.glade.h:3 ../src/dialogs/dialog-stf.glade.h:24
 #: ../src/stf-export.c:550
@@ -4294,9 +4255,8 @@ msgid "Format"
 msgstr "Формат"
 
 #: ../src/dialogs/data-slicer.glade.h:4
-#, fuzzy
 msgid "_Aggregation"
-msgstr "Итерация"
+msgstr ""
 
 #: ../src/dialogs/data-slicer.glade.h:5
 msgid "_Down"
@@ -4307,7 +4267,6 @@ msgid "_Format"
 msgstr "Формат"
 
 #: ../src/dialogs/data-slicer.glade.h:7
-#, fuzzy
 msgid "_Layout"
 msgstr "Расположение"
 
@@ -4316,7 +4275,6 @@ msgid "_Remove"
 msgstr "Удалить"
 
 #: ../src/dialogs/data-slicer.glade.h:9
-#, fuzzy
 msgid "_Style"
 msgstr "Стиль"
 
@@ -4326,17 +4284,15 @@ msgstr "Вверх"
 
 #: ../src/dialogs/data-table.glade.h:1
 msgid "Co_lumn Input :"
-msgstr ""
+msgstr "Столбец ввода: "
 
 #: ../src/dialogs/data-table.glade.h:2 ../src/dialogs/dialog-data-table.c:160
-#, fuzzy
 msgid "Data Table"
 msgstr "База данных"
 
 #: ../src/dialogs/data-table.glade.h:3
-#, fuzzy
 msgid "_Row Input :"
-msgstr "Ввод"
+msgstr "Строка ввода: "
 
 #: ../src/dialogs/define-name.glade.h:2 ../src/dialogs/paste-names.glade.h:2
 msgid "<b>Available Names</b>"
@@ -4791,7 +4747,7 @@ msgstr "Morten Welinder"
 
 #: ../src/dialogs/dialog-about.c:148
 msgid "All round powerhouse"
-msgstr ""
+msgstr "Всё вокруг движка"
 
 #: ../src/dialogs/dialog-about.c:149
 msgid "Kevin Breit"
@@ -4870,9 +4826,8 @@ msgid "The input range is invalid."
 msgstr "Недопустимый диапазон ввода"
 
 #: ../src/dialogs/dialog-analysis-tool-chi-squared.c:154
-#, fuzzy
 msgid "The input range is too small."
-msgstr "Недопустимый диапазон ввода"
+msgstr "Диапазон ввода слишком мал."
 
 #: ../src/dialogs/dialog-analysis-tool-chi-squared.c:165
 #: ../src/dialogs/dialog-analysis-tools.c:3340
@@ -4896,38 +4851,32 @@ msgid "The output specification is invalid."
 msgstr "Неправильная спецификация вывода."
 
 #: ../src/dialogs/dialog-analysis-tool-chi-squared.c:218
-#, fuzzy
 msgid "Could not create the Chi Squared Tests tool dialog."
-msgstr "Невозможно создать диалог проверки среднего."
+msgstr "Невозможно создать диалог теста Хи-квадрат."
 
 #: ../src/dialogs/dialog-analysis-tool-frequency.c:114
-#, fuzzy
 msgid "The categories range is not valid."
-msgstr "Недопустимый диапазон критерия."
+msgstr "Недопустимый диапазон категорий."
 
 #: ../src/dialogs/dialog-analysis-tool-frequency.c:121
-#, fuzzy
 msgid "The number of categories is invalid."
-msgstr "Недопустимый диапазон ввода"
+msgstr "Недопустимое число категорий."
 
 #: ../src/dialogs/dialog-analysis-tool-frequency.c:258
-#, fuzzy
 msgid "Could not create the Frequency Tool dialog."
-msgstr "Невозможно создать диалог вычисления F-теста."
+msgstr "Невозможно создать диалог частотных таблиц."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:116
-#, fuzzy
 msgid "The time column is not valid."
-msgstr "Значение заданное в \"До значения:\" не является допустимым."
+msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:128
 msgid "The time column should be part of a single column."
 msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:138
-#, fuzzy
 msgid "The censorship column is not valid."
-msgstr "Недопустимый диапазон критерия."
+msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:145
 msgid "The censorship column should be part of a single column."
@@ -4938,9 +4887,8 @@ msgid "The censorship and time columns should have the same height."
 msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:167
-#, fuzzy
 msgid "The groups column is not valid."
-msgstr "Недопустимый диапазон вывода."
+msgstr "Недопустимый столбец групп."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:173
 msgid "The groups column should be part of a single column."
@@ -4951,9 +4899,9 @@ msgid "The groups and time columns should have the same height."
 msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:479
-#, fuzzy, c-format
+#, c-format
 msgid "Group %d"
-msgstr "Сгруппировать"
+msgstr "Группа %d"
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:523
 #: ../src/wbc-gtk-actions.c:981
@@ -4961,19 +4909,16 @@ msgid "Group"
 msgstr "Сгруппировать"
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:537
-#, fuzzy
 msgid "From"
-msgstr "от:"
+msgstr "От"
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:549
-#, fuzzy
 msgid "To"
-msgstr "Вверх"
+msgstr "До"
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:620
-#, fuzzy
 msgid "Could not create the Kaplan Meier Tool dialog."
-msgstr "Невозможно создать диалог расчёта ковариации."
+msgstr "Невозможно создать диалог расчёта Каплан-Мейер."
 
 #: ../src/dialogs/dialog-analysis-tools.c:626
 #: ../src/dialogs/dialog-analysis-tools.c:746
@@ -5048,24 +4993,20 @@ msgid "Could not create the FTest Tool dialog."
 msgstr "Невозможно создать диалог вычисления F-теста."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1825
-#, fuzzy
 msgid "The requested number of samples is invalid."
-msgstr "Недопустимый диапазон списка."
+msgstr "Недопустимое запрошеное число выборок."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1838
-#, fuzzy
 msgid "The requested period is invalid."
-msgstr "Недопустимый диапазон списка."
+msgstr "Недопустимый запрошеный период."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1846
-#, fuzzy
 msgid "The requested offset is invalid."
-msgstr "Недопустимый диапазон списка."
+msgstr "Недопустимое запрошеное смещение."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1855
-#, fuzzy
 msgid "The requested sample size is invalid."
-msgstr "Недопустимый диапазон списка."
+msgstr "Недопустимый запрошеный размер выборки."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2015
 msgid "Could not create the Sampling Tool dialog."
@@ -5073,80 +5014,69 @@ msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tools.c:2194
 #: ../src/dialogs/dialog-analysis-tools.c:2205
-#, fuzzy
 msgid "The y variable range is invalid."
-msgstr "Недопустимый диапазон входной переменной."
+msgstr "Недопустимый диапазон переменной Y."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2211
 msgid "The y variable range must be a vector (n by 1 or 1 by n)."
-msgstr ""
+msgstr "Диапазон переменной Y должен быть вектором (n на 1 или 1 на n)."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2217
-#, fuzzy
 msgid "The y variable range is to small"
-msgstr "Недопустимый диапазон входной переменной."
+msgstr "Слишком маленький диапазон переменной Y"
 
 #: ../src/dialogs/dialog-analysis-tools.c:2226
 #: ../src/dialogs/dialog-analysis-tools.c:2237
-#, fuzzy
 msgid "The x variables range is invalid."
-msgstr "Недопустимый диапазон входной переменной."
+msgstr "Недопустимый диапазон переменной X."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2244
 msgid "The sizes of the x variable and y variable ranges do not match."
-msgstr ""
+msgstr "Размеры диапазонов переменных X и Y не совпадают."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2253
-#, fuzzy
 msgid "The confidence level is invalid."
-msgstr "Доверительный уровень должен быть между 0 и 1."
+msgstr "Недопустимый доверительный уровень."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2302
 msgid "Could not create the Regression Tool dialog."
 msgstr "Невозможно создать диалог расчёта регрессии."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2416
-#, fuzzy
 msgid "The given seasonal damping factor is invalid."
-msgstr "Недопустимый диапазон входной переменной."
+msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tools.c:2425
-#, fuzzy
 msgid "The given seasonal period is invalid."
-msgstr "Недопустимый диапазон ввода"
+msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tools.c:2436
-#, fuzzy
 msgid "The given growthdamping factor is invalid."
-msgstr "Заданное критерий не является допустимым."
+msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tools.c:2448
-#, fuzzy
 msgid "The given damping factor is invalid."
-msgstr "Недопустимый диапазон ввода"
+msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tools.c:2578
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Невозможно создать диалог экспоненциального сглаживания."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2775
-#, fuzzy
 msgid "The given interval is invalid."
-msgstr "Заданное критерий не является допустимым."
+msgstr "Задан недопустимый интервал."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2785
-#, fuzzy
 msgid "The given offset is invalid."
-msgstr "Недопустимый диапазон ввода"
+msgstr "Задано недопустимое смещение."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2946
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Невозможно создать диалог скользящих средних."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3064
-#, fuzzy
 msgid "The cutoff range is not valid."
-msgstr "Недопустимый диапазон ввода"
+msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tools.c:3071
 msgid "The number of to be calculated cutoffs is invalid."
@@ -5331,14 +5261,14 @@ msgid "Could not create the autosave dialog."
 msgstr "Невозможно создать диалог автосохранения."
 
 #: ../src/dialogs/dialog-cell-comment.c:165
-#, fuzzy, c-format
+#, c-format
 msgid "Edit Cell Comment (%s)"
-msgstr "Комментарий ячейки"
+msgstr "Правка комментария (%s)"
 
 #: ../src/dialogs/dialog-cell-comment.c:168
-#, fuzzy, c-format
+#, c-format
 msgid "New Cell Comment (%s)"
-msgstr "Комментарий ячейки"
+msgstr "Новый комментарий (%s)"
 
 #: ../src/dialogs/dialog-cell-format.c:73
 msgid "Single"
@@ -5397,75 +5327,99 @@ msgstr "Информация (допускается неправильный в
 msgid ""
 "If the cell content is between these two values, a special style is used."
 msgstr ""
+"Если содержимое ячейки МЕЖДУ этими двумя значениями, используется "
+"специальный стиль."
 
 #: ../src/dialogs/dialog-cell-format.c:1996
 msgid ""
 "If the cell content is not between these two values, a special style is used."
 msgstr ""
+"Если содержимое ячейки НЕ МЕЖДУ этими двумя значениями, используется "
+"специальный стиль."
 
 #: ../src/dialogs/dialog-cell-format.c:2003
 msgid "If the cell content is equal to this value, a special style is used."
 msgstr ""
+"Если содержимое ячейки РАВНО этому значению, используется специальный стиль."
 
 #: ../src/dialogs/dialog-cell-format.c:2010
 msgid ""
 "If the cell content is not equal to this value, a special style is used."
 msgstr ""
+"Если содержимое ячейки НЕ РАВНО этому значению, используется специальный "
+"стиль."
 
 #: ../src/dialogs/dialog-cell-format.c:2017
 msgid "If the cell content is > this value, a special style is used."
 msgstr ""
+"Если содержимое ячейки БОЛЬШЕ этого значения, используется специальный стиль."
 
 #: ../src/dialogs/dialog-cell-format.c:2024
 msgid "If the cell content is < this value, a special style is used."
 msgstr ""
+"Если содержимое ячейки МЕНЬШЕ этого значения, используется специальный стиль."
 
 #: ../src/dialogs/dialog-cell-format.c:2031
 msgid "If the cell content is ≧ this value, a special style is used."
 msgstr ""
+"Если содержимое ячейки БОЛЬШЕ или РАВНО этому значению, используется "
+"специальный стиль."
 
 #: ../src/dialogs/dialog-cell-format.c:2039
 msgid "If the cell content is ≦ this value, a special style is used."
 msgstr ""
+"Если содержимое ячейки МЕНЬШЕ или РАВНО этому значению, используется "
+"специальный стиль."
 
 #: ../src/dialogs/dialog-cell-format.c:2047
 msgid "If this formula evaluates to TRUE, a special style is used."
 msgstr ""
+"Если вычисление по формуле даёт значение TRUE (ИСТИНА), используется "
+"специальный стиль."
 
 #: ../src/dialogs/dialog-cell-format.c:2053
 msgid "If the cell content contains this string, a special style is used."
-msgstr ""
+msgstr "Если ячейка содержит эту строку, используется специальный стиль."
 
 #: ../src/dialogs/dialog-cell-format.c:2060
 msgid ""
 "If the cell content does not contain this string, a special style is used."
-msgstr ""
+msgstr "Если ячейка НЕ содержит эту строку, используется специальный стиль."
 
 #: ../src/dialogs/dialog-cell-format.c:2067
 msgid "If the cell content begins with this string, a special style is used."
 msgstr ""
+"Если содержимое ячейки начинается с этой строки, используется специальный "
+"стиль."
 
 #: ../src/dialogs/dialog-cell-format.c:2074
 msgid ""
 "If the cell content does not begin with this string, a special style is used."
 msgstr ""
+"Если содержимое ячейки НЕ начинается с этой строки, используется специальный "
+"стиль."
 
 #: ../src/dialogs/dialog-cell-format.c:2081
 msgid "If the cell content ends with this string, a special style is used."
 msgstr ""
+"Если содержимое ячейки заканчивается этой строкой, используется специальный "
+"стиль."
 
 #: ../src/dialogs/dialog-cell-format.c:2088
 msgid ""
 "If the cell content does not end  with this string, a special style is used."
 msgstr ""
+"Если содержимое ячейки НЕ заканчивается этой строкой, используется "
+"специальный стиль."
 
 #: ../src/dialogs/dialog-cell-format.c:2095
 msgid "If the cell contains an error value, a special style is used."
-msgstr ""
+msgstr "Если ячейка содержит значение ошибки, используется специальный стиль."
 
 #: ../src/dialogs/dialog-cell-format.c:2101
 msgid "If the cell does not contain an error value, a special style is used."
 msgstr ""
+"Если ячейка НЕ содержит значение ошибки, используется специальный стиль."
 
 #: ../src/dialogs/dialog-cell-format.c:2107
 msgid "If the cell content is ≦ this contains blanks, a special style is used."
@@ -5477,7 +5431,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-cell-format.c:2119
 msgid "This is an unknown condition type."
-msgstr ""
+msgstr "Это неизвестный тип условия."
 
 #: ../src/dialogs/dialog-cell-format.c:2273
 msgid "The validation criteria are unusable. Disable validation?"
@@ -5572,27 +5526,22 @@ msgid "Could not create the Consolidate dialog."
 msgstr "Невозможно создать диалог консолидации данных."
 
 #: ../src/dialogs/dialog-data-slicer.c:133
-#, fuzzy
 msgid "Filter"
 msgstr "Фильтр"
 
 #: ../src/dialogs/dialog-data-slicer.c:134 ../src/tools/analysis-tools.c:2807
-#, fuzzy
 msgid "Row"
 msgstr "Строка"
 
 #: ../src/dialogs/dialog-data-slicer.c:135 ../src/tools/analysis-tools.c:2808
-#, fuzzy
 msgid "Column"
-msgstr "Столбцы"
+msgstr "Столбец"
 
 #: ../src/dialogs/dialog-data-slicer.c:137
-#, fuzzy
 msgid "Unused"
-msgstr "Откат"
+msgstr "Неиспользуемое"
 
 #: ../src/dialogs/dialog-data-table.c:145
-#, fuzzy
 msgid "Create Data Table"
 msgstr "Создать срез данных"
 
@@ -5601,11 +5550,12 @@ msgstr "Создать срез данных"
 msgid ""
 "The selection must have more than 1 column and row to create a Data Table."
 msgstr ""
+"Выделение должно содержать больше одного столбца и строки для создания среза "
+"данных."
 
 #: ../src/dialogs/dialog-data-table.c:169
-#, fuzzy
 msgid "Could not create the Data Table definition dialog."
-msgstr "Невозможно создать диалог перемешивания данных."
+msgstr "Невозможно создать диалог определения среза данных."
 
 #: ../src/dialogs/dialog-define-names.c:400
 msgid "Invalid name"
@@ -5644,9 +5594,8 @@ msgid "Linked To"
 msgstr "Связано с"
 
 #: ../src/dialogs/dialog-doc-metadata.c:1548
-#, fuzzy
 msgid "Could not create the Properties dialog."
-msgstr "Невозможно создать диалог перехода."
+msgstr "Невозможно создать диалог свойств."
 
 #: ../src/dialogs/dialog-fill-series.c:255
 msgid "Could not create the Fill Series dialog."
@@ -5674,23 +5623,21 @@ msgid "All Functions (long list)"
 msgstr "Все функции (длинный список)"
 
 #: ../src/dialogs/dialog-function-select.c:330
-#, fuzzy, c-format
+#, c-format
 msgid "%s evaluates to %s."
-msgstr "%s версия %s"
+msgstr ""
 
 #: ../src/dialogs/dialog-function-select.c:389
 msgid "Arguments:"
 msgstr "Аргументы:"
 
 #: ../src/dialogs/dialog-function-select.c:409
-#, fuzzy
 msgid "Note: "
-msgstr "Название: "
+msgstr "Примечание: "
 
 #: ../src/dialogs/dialog-function-select.c:421
-#, fuzzy
 msgid "Examples:"
-msgstr "Выборка"
+msgstr "Примеры:"
 
 #. Not translated
 #: ../src/dialogs/dialog-function-select.c:437
@@ -5698,27 +5645,24 @@ msgid "See also: "
 msgstr "См. также:"
 
 #: ../src/dialogs/dialog-function-select.c:452
-#, fuzzy
 msgid ", "
-msgstr " "
+msgstr ", "
 
 #: ../src/dialogs/dialog-function-select.c:484
-#, fuzzy
 msgid "Further information: "
-msgstr "Информация о системе"
+msgstr "Дополнительная информация:"
 
 #: ../src/dialogs/dialog-function-select.c:486
-#, fuzzy
 msgid "online descriptions"
-msgstr "Описание"
+msgstr "онлайновые описания"
 
 #: ../src/dialogs/dialog-function-select.c:497
 msgid "Microsoft Excel: "
-msgstr ""
+msgstr "Microsoft Excel: "
 
 #: ../src/dialogs/dialog-function-select.c:505
 msgid "ODF (OpenFormula): "
-msgstr ""
+msgstr "ODF (OpenFormula): "
 
 #: ../src/dialogs/dialog-goal-seek.c:330
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
@@ -6058,26 +6002,22 @@ msgid "Sorting is Case-Sensitive"
 msgstr "Сортировка чувствительна к регистру"
 
 #: ../src/dialogs/dialog-preferences.c:642
-#, fuzzy
 msgid "Default Number of Rows in a Sheet"
-msgstr "Исходное число листов"
+msgstr "Исходное число строк в таблице"
 
 #: ../src/dialogs/dialog-preferences.c:649
-#, fuzzy
 msgid "Default Number of Columns in a Sheet"
-msgstr "Исходное число листов"
+msgstr "Исходное число столбцов в таблице"
 
 #: ../src/dialogs/dialog-preferences.c:682
-#, fuzzy
 msgid "Default autosave frequency in seconds"
-msgstr "Интервал автосохранения в секундах"
+msgstr "Интервал автосохранения по умолчанию в секундах"
 
 #: ../src/dialogs/dialog-preferences.c:744
 msgid "Enter _Moves Selection"
 msgstr ""
 
 #: ../src/dialogs/dialog-preferences.c:783
-#, fuzzy
 msgid "Prefer CLIPBOARD Over PRIMARY Selection"
 msgstr "Предпочитать БУФЕР ОБМЕНА обычному ВЫДЕЛЕНИЮ"
 
@@ -6122,28 +6062,24 @@ msgid "mm"
 msgstr "мм"
 
 #: ../src/dialogs/dialog-printer-setup.c:1469
-#, fuzzy
 msgid "Default date format"
-msgstr "Печать заголовка по умолчанию"
+msgstr "Формат даты по умолчанию"
 
 #: ../src/dialogs/dialog-printer-setup.c:1475
-#, fuzzy
 msgid "Custom date format"
-msgstr "Настроить сноску"
+msgstr "Собственный формат даты"
 
 #: ../src/dialogs/dialog-printer-setup.c:1507
-#, fuzzy
 msgid "Default time format"
-msgstr "Печать заголовка по умолчанию"
+msgstr "Формат времени по умолчанию"
 
 #: ../src/dialogs/dialog-printer-setup.c:1513
-#, fuzzy
 msgid "Custom time format"
-msgstr "Настроить сноску"
+msgstr "Собственный формат времени"
 
 #: ../src/dialogs/dialog-printer-setup.c:1552
 msgid "$A$1 (first cell of this worksheet)"
-msgstr ""
+msgstr "$A$1 (первая ячейка на этом листе)"
 
 #: ../src/dialogs/dialog-printer-setup.c:1617
 msgid "Custom header configuration"
@@ -6154,14 +6090,12 @@ msgid "Custom footer configuration"
 msgstr "Конфигурация пользовательской сноски"
 
 #: ../src/dialogs/dialog-printer-setup.c:1771
-#, fuzzy
 msgid "Date format selection"
-msgstr "Автозаполнение выделения"
+msgstr "Выбор формата даты"
 
 #: ../src/dialogs/dialog-printer-setup.c:1773
-#, fuzzy
 msgid "Time format selection"
-msgstr "Автозаполнение выделения"
+msgstr "Выбор формата времени"
 
 #: ../src/dialogs/dialog-printer-setup.c:2192
 #, c-format
@@ -6189,44 +6123,41 @@ msgid "%.1f wide by %.1f tall"
 msgstr "%.1f в ширину на %.1f в высоту"
 
 #: ../src/dialogs/dialog-quit.c:76
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<b>%s</b>\n"
 "<small>Location: %s</small>"
-msgstr "<small>Дополнительно</small>"
+msgstr ""
+"<b>%s</b>\n"
+"<small>Расположение: %s</small>"
 
 #: ../src/dialogs/dialog-quit.c:157
 msgid "Some Documents have not Been Saved"
-msgstr ""
+msgstr "Некоторые документы не были сохранены"
 
 #: ../src/dialogs/dialog-quit.c:163
-#, fuzzy
 msgid "Select _all"
 msgstr "Выделить все"
 
 #: ../src/dialogs/dialog-quit.c:168
-#, fuzzy
 msgid "Select all documents for saving"
-msgstr "Защита допускает форматирование столбцов"
+msgstr "Выбрать все документы для сохранения"
 
 #: ../src/dialogs/dialog-quit.c:174
-#, fuzzy
 msgid "_Clear Selection"
-msgstr "Печать выделения"
+msgstr "Снять выделение"
 
 #: ../src/dialogs/dialog-quit.c:179
-#, fuzzy
 msgid "Unselect all documents for saving"
-msgstr "Защита допускает форматирование столбцов"
+msgstr "Снять выделение документов для сохранения"
 
 #: ../src/dialogs/dialog-quit.c:185
-#, fuzzy
 msgid "_Save Selected"
-msgstr "Удалённое"
+msgstr "Сохранить выделенное"
 
 #: ../src/dialogs/dialog-quit.c:190
 msgid "Save selected documents and then quit"
-msgstr ""
+msgstr "Сохранить выделенные документы и затем выйти"
 
 #: ../src/dialogs/dialog-quit.c:193 ../src/wbc-gtk.c:2339
 #: ../src/wbc-gtk.c:2344
@@ -6234,37 +6165,32 @@ msgid "_Discard"
 msgstr "Отказаться"
 
 #: ../src/dialogs/dialog-quit.c:196
-#, fuzzy
 msgid "Discard changes"
-msgstr "Отказаться ото всех"
+msgstr "Отказаться от изменений"
 
 #: ../src/dialogs/dialog-quit.c:199
-#, fuzzy
 msgid "Save"
-msgstr "Масштаб"
+msgstr "Сохранить"
 
 #: ../src/dialogs/dialog-quit.c:202
 msgid "Save document"
-msgstr ""
+msgstr "Сохранить документ"
 
 #: ../src/dialogs/dialog-quit.c:206
-#, fuzzy
 msgid "Don't Quit"
 msgstr "Не выходить"
 
 #: ../src/dialogs/dialog-quit.c:209
 msgid "Resume editing"
-msgstr ""
+msgstr "Прекратить редактирование"
 
 #: ../src/dialogs/dialog-quit.c:231
-#, fuzzy
 msgid "Save?"
-msgstr "Сохранить все"
+msgstr "Сохранить?"
 
 #: ../src/dialogs/dialog-quit.c:243
-#, fuzzy
 msgid "Document"
-msgstr "Документация"
+msgstr "Документ"
 
 #: ../src/dialogs/dialog-random-generator.c:106
 msgid "Uniform"
@@ -6501,18 +6427,16 @@ msgid "Could not create the Random Tool dialog."
 msgstr "Невозможно создать диалог случайных чисел."
 
 #: ../src/dialogs/dialog-recent.c:70
-#, fuzzy
 msgid "Recently Used Files"
 msgstr "Последние использовавшиеся"
 
 #: ../src/dialogs/dialog-recent.c:79
-#, fuzzy
 msgid "All files"
 msgstr "Все файлы"
 
 #: ../src/dialogs/dialog-recent.c:84
 msgid "All files used by Gnumeric"
-msgstr ""
+msgstr "Все файлы использовавшиеся в Gnumeric"
 
 #: ../src/dialogs/dialog-row-height.c:229
 msgid "Set standard/default row height"
@@ -6624,14 +6548,12 @@ msgstr "Напр."
 #: ../src/dialogs/dialog-sheet-order.c:719
 #: ../src/dialogs/sheet-resize.glade.h:5 ../src/sheet-object-graph.c:669
 #: ../src/sheet.c:1008
-#, fuzzy
 msgid "Rows"
 msgstr "Строки"
 
 #: ../src/dialogs/dialog-sheet-order.c:729
-#, fuzzy
 msgid "Cols"
-msgstr "Стоимость"
+msgstr "Столбцы"
 
 #: ../src/dialogs/dialog-sheet-order.c:737
 msgid "Current Name"
@@ -6642,9 +6564,9 @@ msgid "New Name"
 msgstr "Новое название"
 
 #: ../src/dialogs/dialog-sheet-order.c:1075
-#, fuzzy, c-format
+#, c-format
 msgid "You may not call more than one sheet \"%s\"."
-msgstr "Уже есть лист с названием \"%s\""
+msgstr "Уже есть лист с названием \"%s\"."
 
 #: ../src/dialogs/dialog-sheet-order.c:1402
 msgid "Another view is already managing sheets"
@@ -6724,9 +6646,8 @@ msgid "Could not create the Simulation dialog."
 msgstr "Невозможно создать диалог моделирования."
 
 #: ../src/dialogs/dialog-so-list.c:157
-#, fuzzy
 msgid "Could not create the List Property dialog."
-msgstr "Невозможно создать диалог перехода."
+msgstr ""
 
 #: ../src/dialogs/dialog-solver.c:103
 msgid "Simplex (LP Solve)"
@@ -7581,7 +7502,7 @@ msgstr "Столбцы"
 #: ../src/dialogs/exp-smoothing.glade.h:3
 #: ../src/dialogs/moving-averages.glade.h:5
 msgid "Denominator:"
-msgstr ""
+msgstr "Делитель:"
 
 #: ../src/dialogs/exp-smoothing.glade.h:4
 #: ../src/tools/analysis-exp-smoothing.c:113
@@ -7599,9 +7520,8 @@ msgid "Growth damping factor (γ):"
 msgstr ""
 
 #: ../src/dialogs/exp-smoothing.glade.h:7
-#, fuzzy
 msgid "Holt's trend corrected exponential smoothing"
-msgstr "Невозможно создать диалог экспоненциального сглаживания."
+msgstr ""
 
 #: ../src/dialogs/exp-smoothing.glade.h:8
 #: ../src/dialogs/moving-averages.glade.h:7
@@ -7621,14 +7541,12 @@ msgid "Seasonal period:"
 msgstr ""
 
 #: ../src/dialogs/exp-smoothing.glade.h:15
-#, fuzzy
 msgid "Simple exponential smoothing (Hunter, 1986)"
-msgstr "Экспоненциальное сглаживание (%s)"
+msgstr "Простое экспоненциальное сглаживание (Hunter, 1986)"
 
 #: ../src/dialogs/exp-smoothing.glade.h:16
-#, fuzzy
 msgid "Simple exponential smoothing (Roberts, 1959)"
-msgstr "Экспоненциальное сглаживание (%s)"
+msgstr "Простое экспоненциальное сглаживание (Roberts, 1959)"
 
 #: ../src/dialogs/exp-smoothing.glade.h:17
 msgid "_Damping factor (α):"
@@ -7641,23 +7559,22 @@ msgstr "Стандартные ошибки"
 
 #: ../src/dialogs/exp-smoothing.glade.h:22
 #: ../src/dialogs/moving-averages.glade.h:22
-#, fuzzy
 msgid "n"
-msgstr "ню"
+msgstr "n"
 
 #: ../src/dialogs/exp-smoothing.glade.h:23
 #: ../src/dialogs/moving-averages.glade.h:23
 msgid "n−1"
-msgstr ""
+msgstr "n-1"
 
 #: ../src/dialogs/exp-smoothing.glade.h:24
 #: ../src/dialogs/moving-averages.glade.h:24
 msgid "n−2"
-msgstr ""
+msgstr "n-2"
 
 #: ../src/dialogs/exp-smoothing.glade.h:25
 msgid "n−3"
-msgstr ""
+msgstr "n-3"
 
 #: ../src/dialogs/fill-series.glade.h:2
 msgid "D_ay"
@@ -7758,28 +7675,24 @@ msgid "_Inverse"
 msgstr "Инверсия"
 
 #: ../src/dialogs/frequency.glade.h:1
-#, fuzzy
 msgid "Automatic Categories"
-msgstr "Автоматическое масштабирование"
+msgstr "Автоматические категории"
 
 #: ../src/dialogs/frequency.glade.h:2 ../src/dialogs/histogram.glade.h:7
 msgid "Bar chart"
-msgstr ""
+msgstr "Полосковая диаграмма"
 
 #: ../src/dialogs/frequency.glade.h:3
-#, fuzzy
 msgid "C_ategories"
-msgstr "Категория:"
+msgstr "Категории"
 
 #: ../src/dialogs/frequency.glade.h:4
-#, fuzzy
 msgid "Category _range:"
-msgstr "Категория:"
+msgstr "Диапазон категории:"
 
 #: ../src/dialogs/frequency.glade.h:5 ../src/dialogs/histogram.glade.h:11
-#, fuzzy
 msgid "Column chart"
-msgstr "Ширина столбца"
+msgstr "Столбцовая диаграмма"
 
 #: ../src/dialogs/frequency.glade.h:7 ../src/dialogs/histogram.glade.h:14
 #: ../src/dialogs/kaplan-meier.glade.h:5 ../src/tools/analysis-histogram.c:138
@@ -7788,18 +7701,16 @@ msgid "Histogram"
 msgstr "Гистограмма"
 
 #: ../src/dialogs/frequency.glade.h:9 ../src/dialogs/histogram.glade.h:19
-#, fuzzy
 msgid "No chart"
-msgstr "Север"
+msgstr "Без диаграммы"
 
 #: ../src/dialogs/frequency.glade.h:10
 msgid "Use e_xact comparisons"
-msgstr ""
+msgstr "Использовать точные сравнения"
 
 #: ../src/dialogs/frequency.glade.h:13 ../src/dialogs/histogram.glade.h:25
-#, fuzzy
 msgid "_Graphs & Options"
-msgstr "Gnumeric: Проверка"
+msgstr "Графики и параметры"
 
 #: ../src/dialogs/frequency.glade.h:14 ../src/dialogs/histogram.glade.h:26
 #: ../src/dialogs/kaplan-meier.glade.h:14 ../src/dialogs/mean-tests.glade.h:14
@@ -7808,9 +7719,8 @@ msgid "_Input"
 msgstr "Ввод"
 
 #: ../src/dialogs/frequency.glade.h:16
-#, fuzzy
 msgid "_Maximum number of categories:"
-msgstr "Число переменных:"
+msgstr "Максимальное число категорий:"
 
 #: ../src/dialogs/frequency.glade.h:17 ../src/dialogs/histogram.glade.h:29
 #: ../src/dialogs/kaplan-meier.glade.h:15 ../src/dialogs/mean-tests.glade.h:17
@@ -7823,9 +7733,8 @@ msgid "_Percentages"
 msgstr "Проценты"
 
 #: ../src/dialogs/frequency.glade.h:19
-#, fuzzy
 msgid "_Predetermined categories\t"
-msgstr "Предопределённые двоичные"
+msgstr "Предопределённые категории\\t"
 
 #: ../src/dialogs/function-select.glade.h:1
 msgid "Category"
@@ -7896,69 +7805,58 @@ msgid "Date"
 msgstr "Дата"
 
 #: ../src/dialogs/hf-config.glade.h:3
-#, fuzzy
 msgid "Delete Field"
-msgstr "Удалить ячейки"
+msgstr "Удалить поле"
 
 #: ../src/dialogs/hf-config.glade.h:4
-#, fuzzy
 msgid "Delete the selected fields and text"
-msgstr "Очистить в выделенных ячейках содержимое"
+msgstr "Очистить выделенные поля и текст"
 
 #: ../src/dialogs/hf-config.glade.h:5
-#, fuzzy
 msgid "Enter the format string for each section:"
 msgstr "Ввести формат строки для каждого раздела:"
 
 #: ../src/dialogs/hf-config.glade.h:7
-#, fuzzy
 msgid "Insert a spreadsheet cell"
-msgstr "Вставить новую таблицу"
+msgstr "Вставить ячейку"
 
 #: ../src/dialogs/hf-config.glade.h:8
 msgid "Insert the date of printing"
-msgstr ""
+msgstr "Вставить дату печати"
 
 #: ../src/dialogs/hf-config.glade.h:9
-#, fuzzy
 msgid "Insert the name of the current sheet"
-msgstr "Переименовать текущую таблицу"
+msgstr "Вставить название текущей таблицы"
 
 #: ../src/dialogs/hf-config.glade.h:10
-#, fuzzy
 msgid "Insert the name of the file"
-msgstr "Название таблицы."
+msgstr "Вставить название файла"
 
 #: ../src/dialogs/hf-config.glade.h:11
-#, fuzzy
 msgid "Insert the page number"
-msgstr "Номер первой страницы:"
+msgstr "Вставить номер страницы"
 
 #: ../src/dialogs/hf-config.glade.h:12
-#, fuzzy
 msgid "Insert the path to the file"
-msgstr "Импортировать текст из файла"
+msgstr "Вставить путь к файлу"
 
 #: ../src/dialogs/hf-config.glade.h:13
 msgid "Insert the time of printing"
-msgstr ""
+msgstr "Вставить время печати"
 
 #: ../src/dialogs/hf-config.glade.h:14
-#, fuzzy
 msgid "Insert the total number of pages"
-msgstr "Неверное число аргументов"
+msgstr "Вставить полное число страниц"
 
 #: ../src/dialogs/hf-config.glade.h:15 ../src/dialogs/print.glade.h:24
 msgid "Page"
 msgstr "Страница"
 
 #: ../src/dialogs/hf-config.glade.h:16
-#, fuzzy
 msgid "Pages"
-msgstr "Страница"
+msgstr "Страницы"
 
 #: ../src/dialogs/hf-config.glade.h:17
-#, fuzzy
 msgid "Path"
 msgstr "Путь "
 
@@ -7983,88 +7881,79 @@ msgstr "Правая секция:"
 
 #: ../src/dialogs/hf-dt-format.glade.h:1
 msgid "<b>Select a date format:</b>"
-msgstr ""
+msgstr "<b>Выбрать формат даты:</b>"
 
 #: ../src/dialogs/histogram.glade.h:1
 msgid "(−∞,∙), [∙,∙), ⋯, [∙,∙), [∙,∞)"
-msgstr ""
+msgstr "(−∞,∙), [∙,∙), ⋯, [∙,∙), [∙,∞)"
 
 #: ../src/dialogs/histogram.glade.h:2
 msgid "(−∞,∙),[∙,∙),⋯,[∙,∙),[∙,∙)"
-msgstr ""
+msgstr "(−∞,∙),[∙,∙),⋯,[∙,∙),[∙,∙)"
 
 #: ../src/dialogs/histogram.glade.h:3
 msgid "(−∞,∙], (∙,∙], ⋯, (∙,∙], (∙,∞)"
-msgstr ""
+msgstr "(−∞,∙], (∙,∙], ⋯, (∙,∙], (∙,∞)"
 
 #: ../src/dialogs/histogram.glade.h:4
 msgid "(−∞,∙],(∙,∙],⋯,(∙,∙],(∙,∙]"
-msgstr ""
+msgstr "(−∞,∙],(∙,∙],⋯,(∙,∙],(∙,∙]"
 
 #: ../src/dialogs/histogram.glade.h:5
 msgid "(∙,∙],(∙,∙],⋯,(∙,∙],(∙,∙]"
-msgstr ""
+msgstr "(∙,∙],(∙,∙],⋯,(∙,∙],(∙,∙]"
 
 #: ../src/dialogs/histogram.glade.h:6
 msgid "(∙,∙],(∙,∙],⋯,(∙,∙],(∙,∞)"
-msgstr ""
+msgstr "(∙,∙],(∙,∙],⋯,(∙,∙],(∙,∞)"
 
 #: ../src/dialogs/histogram.glade.h:8
-#, fuzzy
 msgid "C_alculated cutoffs"
-msgstr "Вычисленные двоичные"
+msgstr ""
 
 #: ../src/dialogs/histogram.glade.h:9
-#, fuzzy
 msgid "C_umulative answers"
-msgstr "Накопленные проценты"
+msgstr ""
 
 #: ../src/dialogs/histogram.glade.h:10
-#, fuzzy
 msgid "C_utoffs"
-msgstr "Другой"
+msgstr ""
 
 #: ../src/dialogs/histogram.glade.h:12
-#, fuzzy
 msgid "Cutoff _range:"
-msgstr "Входной диапазон:"
+msgstr ""
 
 #: ../src/dialogs/histogram.glade.h:15
-#, fuzzy
 msgid "Histogram chart"
 msgstr "Гистограмма"
 
 #: ../src/dialogs/histogram.glade.h:17
-#, fuzzy
 msgid "M_inimum cutoff:"
-msgstr "Минимум"
+msgstr ""
 
 #: ../src/dialogs/histogram.glade.h:18
-#, fuzzy
 msgid "Ma_ximum cutoff:"
-msgstr "(Максимум):"
+msgstr ""
 
 #: ../src/dialogs/histogram.glade.h:20
 msgid "[∙,∙),[∙,∙),⋯,[∙,∙),[∙,∙)"
-msgstr ""
+msgstr "[∙,∙),[∙,∙),⋯,[∙,∙),[∙,∙)"
 
 #: ../src/dialogs/histogram.glade.h:21
 msgid "[∙,∙),[∙,∙),⋯,[∙,∙),[∙,∞)"
-msgstr ""
+msgstr "[∙,∙),[∙,∙),⋯,[∙,∙),[∙,∞)"
 
 #: ../src/dialogs/histogram.glade.h:23
 msgid "_Bins"
 msgstr "Двоичные"
 
 #: ../src/dialogs/histogram.glade.h:28
-#, fuzzy
 msgid "_Number of cutoffs:"
-msgstr "Число итераций"
+msgstr ""
 
 #: ../src/dialogs/histogram.glade.h:31
-#, fuzzy
 msgid "_Predetermined cutoffs"
-msgstr "Предопределённые двоичные"
+msgstr ""
 
 #: ../src/dialogs/hyperlink.glade.h:2
 msgid "<small>Optional</small>"
@@ -8127,9 +8016,8 @@ msgid "_Shift cells right"
 msgstr "Сдвинуть ячейки вправо"
 
 #: ../src/dialogs/kaplan-meier.glade.h:1
-#, fuzzy
 msgid "Censor co_lumn:"
-msgstr "Вставить столбцы"
+msgstr ""
 
 #: ../src/dialogs/kaplan-meier.glade.h:2
 msgid "Censored record labels from:"
@@ -8140,9 +8028,8 @@ msgid "Define _multiple groups"
 msgstr ""
 
 #: ../src/dialogs/kaplan-meier.glade.h:4
-#, fuzzy
 msgid "Groups column:"
-msgstr "Сгруппировать столбцы %s"
+msgstr "Столбец групп:"
 
 #: ../src/dialogs/kaplan-meier.glade.h:6
 msgid "Include censorship ticks"
@@ -8163,26 +8050,23 @@ msgstr ""
 
 #: ../src/dialogs/kaplan-meier.glade.h:10
 msgid "Show graph "
-msgstr ""
+msgstr "Показать график "
 
 #: ../src/dialogs/kaplan-meier.glade.h:11
 msgid "Show median survival times"
 msgstr ""
 
 #: ../src/dialogs/kaplan-meier.glade.h:12
-#, fuzzy
 msgid "Show standard errors"
-msgstr "Стандартные ошибки"
+msgstr "Показать стандартные отклонения"
 
 #: ../src/dialogs/kaplan-meier.glade.h:13
-#, fuzzy
 msgid "_Groups"
-msgstr "Сгруппировать"
+msgstr "Группы"
 
 #: ../src/dialogs/kaplan-meier.glade.h:16
-#, fuzzy
 msgid "_Time column:"
-msgstr "Скрыть столбцы"
+msgstr "Столбец времён:"
 
 #: ../src/dialogs/kaplan-meier.glade.h:17 ../src/print.c:1374
 msgid "to:"
@@ -8278,43 +8162,37 @@ msgid "3"
 msgstr "3"
 
 #: ../src/dialogs/moving-averages.glade.h:3
-#, fuzzy
 msgid "Central moving average"
-msgstr "Скользящее среднее"
+msgstr "Центральная скользящая средняя"
 
 #: ../src/dialogs/moving-averages.glade.h:4
-#, fuzzy
 msgid "Cumulative moving average"
-msgstr "Накопленные проценты"
+msgstr "Накопленная скользящая средняя"
 
 #: ../src/dialogs/moving-averages.glade.h:9 ../src/tools/analysis-tools.c:3650
 #: ../src/tools/analysis-tools.c:3653
 msgid "Moving Average"
-msgstr "Скользящее среднее"
+msgstr "Скользящая средняя"
 
 #: ../src/dialogs/moving-averages.glade.h:11
-#, fuzzy
 msgid "Other offset"
-msgstr "Другое значение"
+msgstr "Другое смещение"
 
 #: ../src/dialogs/moving-averages.glade.h:13
-#, fuzzy
 msgid "Prior moving average"
-msgstr "Скользящее среднее"
+msgstr ""
 
 #: ../src/dialogs/moving-averages.glade.h:14
-#, fuzzy
 msgid "Simple moving average"
-msgstr "Скользящее среднее"
+msgstr "Простое скользящее среднее"
 
 #: ../src/dialogs/moving-averages.glade.h:15
 msgid "Spencer's 15-point moving average"
-msgstr ""
+msgstr "15-точечная скользящая средняя Спенсера"
 
 #: ../src/dialogs/moving-averages.glade.h:16
-#, fuzzy
 msgid "Weighted moving average"
-msgstr "Скользящее среднее..."
+msgstr "Взвещенная скользящая средняя"
 
 #: ../src/dialogs/moving-averages.glade.h:18
 msgid "_Interval:"
@@ -8384,9 +8262,8 @@ msgid "<b>Center on page:</b>"
 msgstr "<b>Центрирование страницы:</b>"
 
 #: ../src/dialogs/print.glade.h:5
-#, fuzzy
 msgid "<b>O_rientation:</b>"
-msgstr "<b>Расположение:</b>"
+msgstr "<b>Ориентация:</b>"
 
 #: ../src/dialogs/print.glade.h:6
 msgid "<b>Page Order</b>"
@@ -8429,14 +8306,12 @@ msgid "Co_mments:"
 msgstr "Ко_мментарии:"
 
 #: ../src/dialogs/print.glade.h:16
-#, fuzzy
 msgid "Configure"
-msgstr "Ядро"
+msgstr "Настроить"
 
 #: ../src/dialogs/print.glade.h:17
-#, fuzzy
 msgid "Do not print with all sheets"
-msgstr "Применить настройки печати ко всем листам"
+msgstr "Не печатать на каждом листе"
 
 #: ../src/dialogs/print.glade.h:18
 msgid "Fi_rst page number:"
@@ -8455,9 +8330,8 @@ msgid "Headers and Footers"
 msgstr "Заголовки и сноски"
 
 #: ../src/dialogs/print.glade.h:22
-#, fuzzy
 msgid "Landscape"
-msgstr "Ландау"
+msgstr "Альбом"
 
 #: ../src/dialogs/print.glade.h:23
 msgid "Left margin:"
@@ -8468,9 +8342,8 @@ msgid "Page Setup"
 msgstr "Настройка печати"
 
 #: ../src/dialogs/print.glade.h:26
-#, fuzzy
 msgid "Portrait"
-msgstr "Ограничение"
+msgstr "Портрет"
 
 #: ../src/dialogs/print.glade.h:27
 msgid "Print _area:"
@@ -8481,14 +8354,12 @@ msgid "R_ight, then down"
 msgstr "Вправо, затем вниз"
 
 #: ../src/dialogs/print.glade.h:29
-#, fuzzy
 msgid "Reverse landscape"
-msgstr "Обратные диагональные штрихи"
+msgstr "Перевёрнутый альбом"
 
 #: ../src/dialogs/print.glade.h:30
-#, fuzzy
 msgid "Reverse portrait"
-msgstr "Обратные диагональные штрихи"
+msgstr "Перевёрнутый портрет"
 
 #: ../src/dialogs/print.glade.h:31
 msgid "Right margin:"
@@ -8563,9 +8434,8 @@ msgid "_Horizontally"
 msgstr "По горизонтали"
 
 #: ../src/dialogs/print.glade.h:50
-#, fuzzy
 msgid "_No scaling"
-msgstr "Без масштабирования "
+msgstr "Без масштабирования"
 
 #: ../src/dialogs/print.glade.h:51
 msgid "_Rows to repeat on the upper region:"
@@ -8645,19 +8515,16 @@ msgid "Row Height"
 msgstr "Высота строки"
 
 #: ../src/dialogs/row-height.glade.h:2
-#, fuzzy
 msgid "Row height in points:"
-msgstr "Высота строки (пт):"
+msgstr "Высота строки в пунктах:"
 
 #: ../src/dialogs/row-height.glade.h:3
-#, fuzzy
 msgid "_Row height in pixels:"
-msgstr "Высота строки (пт):"
+msgstr "Высота строки в точках растра:"
 
 #: ../src/dialogs/sampling.glade.h:3
-#, fuzzy
 msgid "Column major"
-msgstr "Столбец %s"
+msgstr ""
 
 #: ../src/dialogs/sampling.glade.h:5
 msgid "N_umber of samples:"
@@ -8665,16 +8532,15 @@ msgstr "Число испытаний:"
 
 #: ../src/dialogs/sampling.glade.h:7
 msgid "Offset:"
-msgstr ""
+msgstr "Смещение:"
 
 #: ../src/dialogs/sampling.glade.h:8
 msgid "Per_iod:"
 msgstr "Период:"
 
 #: ../src/dialogs/sampling.glade.h:9
-#, fuzzy
 msgid "Primary direction:"
-msgstr "Направление:"
+msgstr "Основное направление:"
 
 #: ../src/dialogs/sampling.glade.h:10
 msgid "Row major"
@@ -8871,7 +8737,6 @@ msgid "Search"
 msgstr "Поиск"
 
 #: ../src/dialogs/search-replace.glade.h:30
-#, fuzzy
 msgid "Search & Replace"
 msgstr "Поиск и замена"
 
@@ -9070,9 +8935,8 @@ msgid "Start search"
 msgstr "Начать поиск"
 
 #: ../src/dialogs/search.glade.h:34
-#, fuzzy
 msgid "_Number"
-msgstr "Числовой"
+msgstr "Число"
 
 #: ../src/dialogs/search.glade.h:37
 msgid "_Range"
@@ -9087,47 +8951,41 @@ msgid "_Search for:"
 msgstr "Поиск:"
 
 #: ../src/dialogs/sheet-order.glade.h:1
-#, fuzzy
 msgid "A_ppend"
 msgstr "Присоединить"
 
 #: ../src/dialogs/sheet-order.glade.h:2
-#, fuzzy
 msgid "Du_plicate"
 msgstr "Дублировать"
 
 #: ../src/dialogs/sheet-order.glade.h:3
-#, fuzzy
 msgid "Manage Sheets"
-msgstr "Управление листами..."
+msgstr "Управление листами"
 
 #: ../src/dialogs/sheet-order.glade.h:4
-#, fuzzy
 msgid "_Show advanced sheet properties"
-msgstr "Изменение свойств листа"
+msgstr "Показать дополнительные свойства листа"
 
 #: ../src/dialogs/sheet-resize.glade.h:1
-#, fuzzy
 msgid "Apply change to all sheets"
-msgstr "Применить настройки печати ко всем листам"
+msgstr "Применить изменение ко всем листам"
 
 #: ../src/dialogs/sheet-resize.glade.h:2
-#, fuzzy
 msgid "Check this to apply the new size to all sheets in the workbook"
-msgstr "Применить ко всем листам в книге."
+msgstr ""
+"Поставьте здесь отметку, чтобы применить новый размер ко всем листам в книге"
 
 #: ../src/dialogs/sheet-resize.glade.h:4
-#, fuzzy
 msgid "Resize Sheet"
-msgstr "Изменить размер объекта"
+msgstr "Изменить размер таблицы"
 
 #: ../src/dialogs/sheet-resize.glade.h:6
 msgid "xxxxx"
-msgstr ""
+msgstr "xxxxx"
 
 #: ../src/dialogs/sheet-resize.glade.h:7
 msgid "yyyyy"
-msgstr ""
+msgstr "yyyyy"
 
 #: ../src/dialogs/shuffle.glade.h:1
 msgid "Data Shuffling"
@@ -9237,19 +9095,16 @@ msgid "Frame Properties"
 msgstr "Свойства рамки"
 
 #: ../src/dialogs/so-list.glade.h:1
-#, fuzzy
 msgid "List Properties"
-msgstr "Свойства"
+msgstr "Свойства списка"
 
 #: ../src/dialogs/so-list.glade.h:2
-#, fuzzy
 msgid "_Content :"
-msgstr "Содержимое"
+msgstr "Содержимое:"
 
 #: ../src/dialogs/so-list.glade.h:3
-#, fuzzy
 msgid "_Link :"
-msgstr "Связь:"
+msgstr "Ссылка:"
 
 #: ../src/dialogs/so-scrollbar.glade.h:2
 msgid "Increment:"
@@ -9264,12 +9119,10 @@ msgid "Scrollbar Properties"
 msgstr "Свойства полосы прокрутки"
 
 #: ../src/dialogs/so-scrollbar.glade.h:8
-#, fuzzy
 msgid "_Horizontal"
 msgstr "По горизонтали"
 
 #: ../src/dialogs/so-scrollbar.glade.h:9
-#, fuzzy
 msgid "_Vertical"
 msgstr "По вертикали"
 
@@ -9321,9 +9174,8 @@ msgid "Parameters"
 msgstr "Параметры"
 
 #: ../src/dialogs/solver.glade.h:13
-#, fuzzy
 msgid "Re_place"
-msgstr "Заменить:"
+msgstr "Заменить"
 
 #: ../src/dialogs/solver.glade.h:14
 msgid "Reports"
@@ -9440,9 +9292,8 @@ msgid "Tabulate Dependency"
 msgstr "Табулировать зависимость"
 
 #: ../src/dialogs/tabulate.glade.h:10
-#, fuzzy
 msgid "Tabulation Mode"
-msgstr "Табуляция"
+msgstr "Режим табуляции"
 
 #: ../src/dialogs/tabulate.glade.h:11
 msgid ""
@@ -9612,61 +9463,62 @@ msgstr ""
 
 #: ../src/func-builtin.c:41
 msgid "Sum:sum of the given values"
-msgstr ""
+msgstr "Sum:сумма данных значений"
 
 #: ../src/func-builtin.c:42
 msgid "values:a list of values to add"
-msgstr ""
+msgstr "values:список значений для добавления"
 
 #: ../src/func-builtin.c:43
 msgid ""
 "SUM computes the sum of all the values and cells referenced in the argument "
 "list."
 msgstr ""
+"SUM вычисляет сумму всех значений в ячейках указанных в списке аргументов."
 
 #: ../src/func-builtin.c:44 ../src/func-builtin.c:69
 msgid "This function is Excel compatible."
-msgstr ""
+msgstr "Эта функция совместима с Excel."
 
 #: ../src/func-builtin.c:45 ../src/func-builtin.c:70
 msgid "This function is OpenFormula compatible."
-msgstr ""
+msgstr "Эта функция совместима с OpenFormula."
 
 #: ../src/func-builtin.c:65
 msgid "PRODUCT:product  of the given values"
-msgstr ""
+msgstr "PRODUCT:произведение заданных значений"
 
 #: ../src/func-builtin.c:66
 msgid "values:a list of values to multiply"
-msgstr ""
+msgstr "values:список значений для перемножения"
 
 #: ../src/func-builtin.c:67
 msgid ""
 "Product computes the product of all the values and cells referenced in the "
 "argument list."
 msgstr ""
+"Product вычисляет произведение всех значений и ячеек пеерчисленных в списке "
+"аргументов."
 
 #: ../src/func-builtin.c:68
 msgid "If all cells are empty, the result will be 0."
-msgstr ""
+msgstr "Если все ячейки пусты, результат будет равен 0."
 
 #: ../src/func-builtin.c:100
 msgid "GNUMERIC_VERSION:the current version of GNumeric"
-msgstr ""
+msgstr "GNUMERIC_VERSION:версия gnumeric"
 
 #: ../src/func-builtin.c:101
 msgid "GNUMERIC_VERSION returns the version of gnumeric as a string."
-msgstr ""
+msgstr "GNUMERIC_VERSION возвращает строку с номером версии gnumeric"
 
 #: ../src/func-builtin.c:258
-#, fuzzy
 msgid "IF:conditional expression."
-msgstr "Недопустимое выражение"
+msgstr "IF:выражение условия."
 
 #: ../src/func-builtin.c:259
-#, fuzzy
 msgid "cond:condition."
-msgstr "Условие:"
+msgstr "cond:условие."
 
 #: ../src/func-builtin.c:260
 msgid "trueval:value to use if condition is true."
@@ -9726,9 +9578,9 @@ msgid "Any"
 msgstr "Любой"
 
 #: ../src/gnm-commands-slicer.c:119
-#, fuzzy, c-format
+#, c-format
 msgid "Refreshing DataSlicer in %s"
-msgstr "Создать срез данных"
+msgstr "Обновление среза данных в %s"
 
 #: ../src/gnm-graph-window.c:182
 msgid "Fit"
@@ -9800,9 +9652,9 @@ msgid "Missing file name."
 msgstr "Ошибочное имя файла."
 
 #: ../src/gnm-plugin.c:383
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot read UI description from XML file %s: %s"
-msgstr "Невозможно прочесть файл описания интерфейса из XML файла \"%s\"."
+msgstr "Невозможно прочесть описание интерфейса из XML файла %s: %s"
 
 #. xgettext : %d gives the number of actions. This is input to ngettext.
 #: ../src/gnm-plugin.c:424
@@ -9846,12 +9698,10 @@ msgstr "Обнаруженные автоматически"
 #. xgettext: If possible try to use the same mnemonic for
 #. * Advanced and Simple
 #: ../src/gui-file.c:210 ../src/gui-file.c:274
-#, fuzzy
 msgid "Advanc_ed"
-msgstr "Расширенные"
+msgstr "Расширенный"
 
 #: ../src/gui-file.c:213
-#, fuzzy
 msgid "Simpl_e"
 msgstr "Простой"
 
@@ -9908,12 +9758,12 @@ msgstr "Не удалось открыть файл '%s'"
 #: ../src/gui-util.c:1383
 #, c-format
 msgid "The plugin with id %s is required but cannot be found."
-msgstr ""
+msgstr "Требуется дополнение с идентификатором %s, но оно не найдено."
 
 #: ../src/gui-util.c:1391
 #, c-format
 msgid "The %s plugin is required but is not loaded."
-msgstr ""
+msgstr "Требуется дополнение %s, но оно не загружено."
 
 #: ../src/hlink.c:161 ../src/hlink.c:177
 msgid "Link target"
@@ -10023,14 +9873,12 @@ msgstr ""
 "каталог библиотек := \"%s\"\n"
 
 #: ../src/libgnumeric.c:141
-#, fuzzy
 msgid "Gnumeric Options"
-msgstr "Gnumeric: Проверка"
+msgstr "Параметры Gnumeric"
 
 #: ../src/libgnumeric.c:141
-#, fuzzy
 msgid "Show Gnumeric Options"
-msgstr "Gnumeric: Проверка"
+msgstr "Показать параметры Gnumeric"
 
 #: ../src/main-application.c:76
 msgid "Specify the size and location of the initial window"
@@ -10148,9 +9996,9 @@ msgid "Name '%s' does not exist in sheet '%s'"
 msgstr "Имя \"%s\" отсутствует в таблице \"%s\""
 
 #: ../src/parser.y:711
-#, fuzzy, c-format
+#, c-format
 msgid "Name '%s' does not exist in workbook"
-msgstr "Название \"%s\" не существует"
+msgstr "Название \"%s\" не существует в рабочей книге"
 
 #: ../src/parser.y:766
 #, c-format
@@ -10158,9 +10006,9 @@ msgid "Unknown workbook '%s'"
 msgstr "Неизвестная книга \"%s\""
 
 #: ../src/parser.y:783
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown workbook"
-msgstr "Неизвестная книга \"%s\""
+msgstr "Неизвестная книга"
 
 #: ../src/parser.y:1079 ../src/parser.y:1343
 #, c-format
@@ -10266,19 +10114,19 @@ msgid "cell"
 msgstr "ячейка"
 
 #: ../src/print-info.c:744 ../src/stf-export.c:630
-#, fuzzy, c-format
+#, c-format
 msgid "There is no such sheet"
-msgstr "Название таблицы."
+msgstr "Нет такой таблицы."
 
 #: ../src/print-info.c:767
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown paper size"
-msgstr "Неизвестная версия"
+msgstr "Неизвестный размер бумаги"
 
 #: ../src/print-info.c:777
 #, c-format
 msgid "Invalid option for pdf exporter"
-msgstr ""
+msgstr "Недопустимый параметр для экспорта в PDF"
 
 #: ../src/print-info.c:798
 msgid "PDF export"
@@ -10286,7 +10134,7 @@ msgstr "Экспорт в PDF"
 
 #: ../src/print.c:607
 msgid "Even one cell is too large for this page."
-msgstr ""
+msgstr "Даже одна ячейка слишком велика для этой страницы."
 
 #: ../src/print.c:929
 msgid "Print Selection"
@@ -10297,9 +10145,8 @@ msgid "_All workbook sheets"
 msgstr "Все листы в книге"
 
 #: ../src/print.c:1342
-#, fuzzy
 msgid "Also print _hidden sheets"
-msgstr "Применить настройки печати ко всем листам"
+msgstr "Печатать скрытые листы"
 
 #: ../src/print.c:1347
 msgid "A_ctive workbook sheet"
@@ -10334,12 +10181,11 @@ msgstr "..."
 
 #: ../src/search.c:103
 msgid "Searching for regular expressions and numbers are mutually exclusive."
-msgstr ""
+msgstr "Поиск регулярных выражений и чисел взаимоисключён."
 
 #: ../src/search.c:107
-#, fuzzy
 msgid "The search text must be a number."
-msgstr "Поиск текста заданного буквально"
+msgstr "Текст для поиска должен быть числом."
 
 #: ../src/search.c:114
 msgid "You must specify a range to search."
@@ -10350,13 +10196,12 @@ msgid "The search range is invalid."
 msgstr "Недопустимая область поиска."
 
 #: ../src/search.c:668
-#, fuzzy
 msgid "Is Number"
-msgstr "Числовой"
+msgstr "Число"
 
 #: ../src/search.c:669
 msgid "Search for Specific Number Regardless of Formatting?"
-msgstr ""
+msgstr "Искать указанное число игнорируя форматирование?"
 
 #: ../src/search.c:677
 msgid "Search Strings"
@@ -10399,24 +10244,20 @@ msgid "Should cell comments be searched?"
 msgstr "Надо ли искать в комментариях?"
 
 #: ../src/search.c:722
-#, fuzzy
 msgid "Search Scripts"
-msgstr "Поиск в строках"
+msgstr "Поиск в скриптах"
 
 #: ../src/search.c:723
-#, fuzzy
 msgid "Should scrips (workbook, and worksheet) be searched?"
-msgstr "Надо ли искать в строках?"
+msgstr "Надо ли искать в скриптах?"
 
 #: ../src/search.c:731
-#, fuzzy
 msgid "Invert"
-msgstr "Вставить"
+msgstr "Инвертировать"
 
 #: ../src/search.c:732
-#, fuzzy
 msgid "Collect non-matching items"
-msgstr "Не удалось найти парную закрывающую кавычку"
+msgstr ""
 
 #: ../src/search.c:740
 msgid "By Row"
@@ -10553,26 +10394,22 @@ msgid "Edit Co_mment..."
 msgstr "Правка комментария..."
 
 #: ../src/sheet-control-gui.c:1878
-#, fuzzy
 msgid "_Edit DataSlicer"
-msgstr "Срез данных..."
+msgstr "Править срез данных"
 
 #: ../src/sheet-control-gui.c:1881
-#, fuzzy
 msgid "_Refresh DataSlicer"
-msgstr "Создать срез данных"
+msgstr "Обновить срез данных"
 
 #: ../src/sheet-control-gui.c:1885
 msgid "DataSlicer Field _Order "
-msgstr ""
+msgstr "Порядок полей в срезе данных "
 
 #: ../src/sheet-control-gui.c:1894
-#, fuzzy
 msgid "Up"
-msgstr "Вверх"
+msgstr "Наверх"
 
 #: ../src/sheet-control-gui.c:1897
-#, fuzzy
 msgid "Down"
 msgstr "Вниз"
 
@@ -10658,14 +10495,12 @@ msgid "Open in _New Window"
 msgstr "Открыть в новом окне"
 
 #: ../src/sheet-object-graph.c:663
-#, fuzzy
 msgid "Series as:"
-msgstr "Серии в:"
+msgstr "Серии как:"
 
 #: ../src/sheet-object-graph.c:667
-#, fuzzy
 msgid "Auto"
-msgstr "Автор:"
+msgstr "Авто"
 
 #: ../src/sheet-object-graph.c:673
 msgid "Use first series as shared abscissa"
@@ -10690,34 +10525,28 @@ msgid "Change widget"
 msgstr "Изменить виджет"
 
 #: ../src/sheet-object-widget.c:1210
-#, fuzzy
 msgid "Adjustment Properties"
-msgstr "Свойства"
+msgstr ""
 
 #: ../src/sheet-object-widget.c:1396
-#, fuzzy
 msgid "Configure Scrollbar"
-msgstr "Создать полосу прокрутки"
+msgstr "Настроить полосу прокрутки"
 
 #: ../src/sheet-object-widget.c:1443
-#, fuzzy
 msgid "Configure Spinbutton"
-msgstr "Создать кнопку прокрутки"
+msgstr "Настроить кнопку прокрутки"
 
 #: ../src/sheet-object-widget.c:1444
-#, fuzzy
 msgid "Spinbutton Properties"
-msgstr "Свойства"
+msgstr "Свойства кнопки прокрутки"
 
 #: ../src/sheet-object-widget.c:1494
-#, fuzzy
 msgid "Configure Slider"
-msgstr "Ядро"
+msgstr "Настроить ползунок"
 
 #: ../src/sheet-object-widget.c:1495
-#, fuzzy
 msgid "Slider Properties"
-msgstr "Свойства полосы прокрутки"
+msgstr "Свойства ползунка"
 
 #: ../src/sheet-object-widget.c:1629
 #, c-format
@@ -10739,11 +10568,11 @@ msgstr ""
 
 #: ../src/sheet-object.c:67
 msgid "Snap object to grid"
-msgstr ""
+msgstr "Выравнивать объекты по сетке"
 
 #: ../src/sheet-object.c:123
 msgid "_Snap to Grid"
-msgstr ""
+msgstr "Выравнять по сетке"
 
 #: ../src/sheet-object.c:124
 msgid "_Order"
@@ -10787,19 +10616,16 @@ msgstr ""
 "Ждите странностей."
 
 #: ../src/sheet.c:816
-#, fuzzy
 msgid "Sheet Type"
-msgstr "Лист"
+msgstr "Тип листа"
 
 #: ../src/sheet.c:817
-#, fuzzy
 msgid "How type of sheet this is."
-msgstr "Видим ли лист."
+msgstr "Какой тип у этого листа."
 
 #: ../src/sheet.c:825
-#, fuzzy
 msgid "Parent workbook"
-msgstr "Защитить книгу"
+msgstr ""
 
 #: ../src/sheet.c:826
 msgid "The workbook in which this sheet lives"
@@ -11006,7 +10832,6 @@ msgid "Protected allow edit pivottable"
 msgstr "Защита допускает редактирование сводных таблиц"
 
 #: ../src/sheet.c:957
-#, fuzzy
 msgid "Allow pivottable to be edited while a sheet is protected"
 msgstr "Разрешить редактирование сводных таблиц в защищённой таблице"
 
@@ -11061,14 +10886,12 @@ msgid "The level of zoom used for this sheet."
 msgstr "Масштаб используемый для этой таблицы."
 
 #: ../src/sheet.c:1002
-#, fuzzy
 msgid "Columns number in the sheet"
-msgstr "Название таблицы."
+msgstr "Число столбцов на листе"
 
 #: ../src/sheet.c:1009
-#, fuzzy
 msgid "Rows number in the sheet"
-msgstr "Название таблицы."
+msgstr "Число строк на листе"
 
 #: ../src/sheet.c:3122
 msgid "Target region contains merged cells"
@@ -11121,6 +10944,7 @@ msgstr "Список доступных модулей импорта"
 #: ../src/ssconvert.c:87
 msgid "Merge listed files (all same format) to make this file"
 msgstr ""
+"Объединить перечисленные файлы (все в одном формате) для создания этого файла"
 
 #: ../src/ssconvert.c:94
 msgid "Optionally specify which exporter to use"
@@ -11128,7 +10952,7 @@ msgstr "Дополнительно указать какой модуль для
 
 #: ../src/ssconvert.c:101
 msgid "Detailed instructions for the chosen exporter"
-msgstr ""
+msgstr "Подробные инструкции для выбранного фильтра экспорта"
 
 #: ../src/ssconvert.c:102
 msgid "string"
@@ -11159,9 +10983,8 @@ msgid "Goal seek areas"
 msgstr "Области поиска цели"
 
 #: ../src/ssconvert.c:193
-#, fuzzy
 msgid "Cannot parse export options."
-msgstr "Выберите формат экспортирования:"
+msgstr "Не удалось разобрать параметры экспортирования."
 
 #: ../src/ssconvert.c:199
 #, c-format
@@ -11241,7 +11064,7 @@ msgstr "Используйте: %s [ПАРАМЕТРЫ...] %s\n"
 
 #: ../src/ssgrep.c:60
 msgid "Only print a count of matches per file"
-msgstr ""
+msgstr "Печатать только число совпадений для каждого файла"
 
 #: ../src/ssgrep.c:66
 msgid "Search only via the string table, display a count of the references."
@@ -11249,7 +11072,7 @@ msgstr ""
 
 #: ../src/ssgrep.c:73
 msgid "Get patterns from a file, one per line"
-msgstr ""
+msgstr "Получение шаблонов из файла, по одному в строке"
 
 #: ../src/ssgrep.c:80
 msgid "Pattern is a set of fixed strings"
@@ -11257,36 +11080,33 @@ msgstr ""
 
 #: ../src/ssgrep.c:87
 msgid "Print the filename for each match"
-msgstr ""
+msgstr "Печатать название файла для каждого совпадения"
 
 #: ../src/ssgrep.c:94
 msgid "Do not print the filename for each match"
-msgstr ""
+msgstr "Не печатать название файла для каждого совпадения"
 
 #: ../src/ssgrep.c:101
-#, fuzzy
 msgid "Ignore differences in letter case"
-msgstr "Игнорировать определение области печати"
+msgstr "Игнорировать различия в регистре букв"
 
 #: ../src/ssgrep.c:108
 msgid "Print filenames with matches"
-msgstr ""
+msgstr "Печатать названия файлов с совпадениями"
 
 #: ../src/ssgrep.c:115
 msgid "Print filenames without matches"
-msgstr ""
+msgstr "Печатать названия файлов без совпадений"
 
 #: ../src/ssgrep.c:122
-#, fuzzy
 msgid "Print the location of each match"
-msgstr "Формат даты для выделения"
+msgstr "Печатать положение каждого совпадения"
 
 #: ../src/ssgrep.c:129
 msgid "Suppress all normal output"
 msgstr ""
 
 #: ../src/ssgrep.c:136
-#, fuzzy
 msgid "Search results of expressions too"
 msgstr "Поиск в формулах"
 
@@ -11299,50 +11119,45 @@ msgid "Search for cells that do not match"
 msgstr ""
 
 #: ../src/ssgrep.c:164
-#, fuzzy
 msgid "Match only whole words"
 msgstr "Только целые слова"
 
 #: ../src/ssgrep.c:171
-#, fuzzy
 msgid "Recalculate all cells"
-msgstr "Пересчитать"
+msgstr "Пересчитать все ячейки"
 
 #: ../src/ssgrep.c:363
-#, fuzzy
 msgid "result"
-msgstr "Результат"
+msgstr "результат"
 
 #: ../src/ssgrep.c:370
-#, fuzzy
 msgid "comment"
-msgstr "комментарии"
+msgstr "комментарий"
 
 #: ../src/ssgrep.c:427
-#, fuzzy
 msgid "PATTERN INFILE..."
-msgstr "INFILE..."
+msgstr "PATTERN INFILE..."
 
 #: ../src/ssgrep.c:441
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "version '%s'\n"
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
-"Версия ssindex: \"%s\"\n"
+"версия \"%s\"\n"
 "каталог данных: \"%s\"\n"
 "каталог библиотек: \"%s\"\n"
 
 #: ../src/ssgrep.c:461
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Cannot read %s: %s\n"
-msgstr "Невозможно создать файл %s\n"
+msgstr "%s: Невозможно прочесть %s: %s\n"
 
 #: ../src/ssgrep.c:491
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Missing pattern\n"
-msgstr "Ошибочное имя файла."
+msgstr "%s: Пропущенный шаблон\n"
 
 #: ../src/ssindex.c:51
 msgid "List MIME types which ssindex is able to read"
@@ -11350,7 +11165,7 @@ msgstr "Список типов MIME, которые ssindex может чита
 
 #: ../src/ssindex.c:58
 msgid "Index the given files"
-msgstr ""
+msgstr "Индексировать заданные файлы"
 
 #: ../src/ssindex.c:246 ../src/ssindex.c:266
 msgid "INFILE..."
@@ -11401,30 +11216,28 @@ msgstr "Ошибка при попытке экспортировать файл
 
 #: ../src/stf-export.c:648
 msgid "eol must be one of unix, mac, and windows"
-msgstr ""
+msgstr "конец строки должен быть unix, mac или windows"
 
 #: ../src/stf-export.c:668
 #, c-format
 msgid "Invalid value for option %s: \"%s\""
-msgstr ""
+msgstr "Недопустимое значение для параметра %s: \"%s\""
 
 #: ../src/stf-export.c:670
 msgid "Invalid option for stf exporter"
 msgstr ""
 
 #: ../src/stf-export.c:695
-#, fuzzy
 msgid "Text (configurable)"
-msgstr "Импорт текстового файла (настраиваемый)"
+msgstr "Текст (настраиваемый)"
 
 #. FIXME: What locale?
 #: ../src/stf-parse.c:1255
-#, fuzzy
 msgid ""
 "There are more rows of data than there is room for in the sheet.  Extra rows "
 "will be ignored."
 msgstr ""
-"Столбцов с данными больше чем места в таблице. Лишние столбцы будут "
+"Строк с данными больше чем места в таблице. Лишние строки будут "
 "проигнорированы."
 
 #. FIXME: What locale?
@@ -11445,10 +11258,9 @@ msgid "Text to Columns"
 msgstr "Текст по столбцам"
 
 #: ../src/stf.c:276
-#, fuzzy, c-format
+#, c-format
 msgid "Only one column of input data can be parsed at a time"
-msgstr ""
-"Только один столбец <b>входных</b> данных может быть проанализирован за раз"
+msgstr "Только один столбец входных данных может быть проанализирован за раз"
 
 #: ../src/stf.c:301
 msgid "There is no data to convert"
@@ -11464,7 +11276,7 @@ msgstr "Этот файл не в указанной кодировке."
 
 #: ../src/stf.c:412
 msgid "Some data did not fit on the sheet and was dropped."
-msgstr ""
+msgstr "Некоторые данные не поместились на листе и были отброшены."
 
 #: ../src/stf.c:435
 msgid "Parse error while trying to parse data into sheet"
@@ -11492,9 +11304,8 @@ msgid "Anova: Two-Factor Without Replication"
 msgstr "Дисперсионный анализ: двухфакторный без воспроизведения"
 
 #: ../src/tools/analysis-anova.c:124
-#, fuzzy
 msgid "/Summary/Count/Sum/Average/Variance"
-msgstr "/Количество/Сумма/Среднее/Дисперсия"
+msgstr "/Итог/Количество/Сумма/Среднее/Дисперсия"
 
 #: ../src/tools/analysis-anova.c:150 ../src/tools/analysis-tools.c:185
 #, c-format
@@ -11511,9 +11322,8 @@ msgid "\"ANOVA\";[Red]\"Invalid ANOVA: Missing Observations\""
 msgstr ""
 
 #: ../src/tools/analysis-anova.c:240
-#, fuzzy
 msgid "/Source of Variation/Rows/Columns/Error/Total"
-msgstr "/Дисперсионный анализ/Источник дисперсии/Строки/Столбцы/Ошибка/Всего"
+msgstr "/Источник дисперсии/Строки/Столбцы/Ошибка/Всего"
 
 #: ../src/tools/analysis-anova.c:250 ../src/tools/analysis-anova.c:609
 #: ../src/tools/analysis-tools.c:3923
@@ -11523,12 +11333,11 @@ msgstr ""
 
 #: ../src/tools/analysis-anova.c:387 ../src/tools/analysis-anova.c:793
 msgid "Insufficient space available for ANOVA table."
-msgstr ""
+msgstr "Недостаточно места для таблицы дисперсионного анализа."
 
 #: ../src/tools/analysis-anova.c:460
-#, fuzzy
 msgid "Anova: Two-Factor Fixed Effects With Replication"
-msgstr "Дисперсионный анализ: двухфакторный c воспроизведением"
+msgstr ""
 
 #. xgettext: this is a label for the first, second,... level of factor B in an ANOVA
 #: ../src/tools/analysis-anova.c:475
@@ -11537,9 +11346,8 @@ msgid "B, Level %i"
 msgstr ""
 
 #: ../src/tools/analysis-anova.c:477 ../src/tools/analysis-anova.c:535
-#, fuzzy
 msgid "Subtotal"
-msgstr "Промежуточный итог по"
+msgstr "Промежуточный итог"
 
 #. xgettext: this is a label for the first, second,... level of factor A in an ANOVA
 #: ../src/tools/analysis-anova.c:494
@@ -11552,9 +11360,8 @@ msgid "/Count/Sum/Average/Variance"
 msgstr "/Количество/Сумма/Среднее/Дисперсия"
 
 #: ../src/tools/analysis-anova.c:598
-#, fuzzy
 msgid "/Source of Variation/Factor A/Factor B/Interaction/Error/Total"
-msgstr "/Дисперсионный анализ/Источник дисперсии/Строки/Столбцы/Ошибка/Всего"
+msgstr "/Источник дисперсии/Фактор А/Фактор Б/Взаимодействие/Ошибка/Всего"
 
 #: ../src/tools/analysis-anova.c:837
 #, c-format
@@ -11589,22 +11396,22 @@ msgstr ""
 #: ../src/tools/analysis-chi-squared.c:185
 #, c-format
 msgid "Test of Independence (%s)"
-msgstr ""
+msgstr "Проверка независимости (%s)"
 
 #: ../src/tools/analysis-chi-squared.c:186
 #, c-format
 msgid "Test of Homogeneity (%s)"
-msgstr ""
+msgstr "Проверка гомогенности (%s)"
 
 #: ../src/tools/analysis-chi-squared.c:197
 #: ../src/tools/analysis-chi-squared.c:202
 msgid "Test of Independence"
-msgstr ""
+msgstr "Проверка независимости"
 
 #: ../src/tools/analysis-chi-squared.c:198
 #: ../src/tools/analysis-chi-squared.c:203
 msgid "Test of Homogeneity"
-msgstr ""
+msgstr "Проверка гомогенности"
 
 #: ../src/tools/analysis-exp-smoothing.c:114
 #: ../src/tools/analysis-exp-smoothing.c:289
@@ -11612,7 +11419,7 @@ msgstr ""
 #: ../src/tools/analysis-exp-smoothing.c:712
 #: ../src/tools/analysis-exp-smoothing.c:1031
 msgid "\"α =\" * 0.000"
-msgstr ""
+msgstr "\"α =\" * 0.000"
 
 #: ../src/tools/analysis-exp-smoothing.c:152
 #: ../src/tools/analysis-exp-smoothing.c:327
@@ -11621,9 +11428,9 @@ msgstr ""
 #: ../src/tools/analysis-exp-smoothing.c:1098
 #: ../src/tools/analysis-frequency.c:145 ../src/tools/analysis-histogram.c:291
 #: ../src/tools/analysis-tools.c:1157 ../src/tools/analysis-tools.c:3401
-#, fuzzy, c-format
+#, c-format
 msgid "Row %d"
-msgstr "Строка %s"
+msgstr "Строка %d"
 
 #: ../src/tools/analysis-exp-smoothing.c:204
 #: ../src/tools/analysis-exp-smoothing.c:384
@@ -11638,7 +11445,7 @@ msgstr "Стандартное отклонение"
 #: ../src/tools/analysis-exp-smoothing.c:716
 #: ../src/tools/analysis-exp-smoothing.c:1035
 msgid "\"γ =\" * 0.000"
-msgstr ""
+msgstr "\"γ =\" * 0.000"
 
 #: ../src/tools/analysis-exp-smoothing.c:636
 #: ../src/tools/analysis-exp-smoothing.c:639
@@ -11651,7 +11458,7 @@ msgstr ""
 #: ../src/tools/analysis-exp-smoothing.c:720
 #: ../src/tools/analysis-exp-smoothing.c:1039
 msgid "\"δ =\" * 0.000"
-msgstr ""
+msgstr "\"δ =\" * 0.000"
 
 #: ../src/tools/analysis-exp-smoothing.c:755
 #: ../src/tools/analysis-exp-smoothing.c:1076
@@ -11681,23 +11488,22 @@ msgstr "Экспоненциальное сглаживание (%s)"
 
 #: ../src/tools/analysis-frequency.c:77
 msgid "/Frequency Table/Category"
-msgstr ""
+msgstr "/Частотная таблица/Категория"
 
 #: ../src/tools/analysis-frequency.c:151 ../src/tools/analysis-histogram.c:297
 #: ../src/tools/analysis-tools.c:1163
-#, fuzzy, c-format
+#, c-format
 msgid "Area %d"
-msgstr "Область %i"
+msgstr "Область %d"
 
 #: ../src/tools/analysis-frequency.c:269
-#, fuzzy, c-format
+#, c-format
 msgid "Frequency Table (%s)"
-msgstr "Различные частотные таблицы"
+msgstr "Частотная таблица (%s)"
 
 #: ../src/tools/analysis-frequency.c:288 ../src/tools/analysis-frequency.c:291
-#, fuzzy
 msgid "Frequency Table"
-msgstr "Частота"
+msgstr "Частотная таблица"
 
 #. translator note: do not translate the "General"
 #. part of the following strings.
@@ -11716,9 +11522,8 @@ msgstr ""
 #. translator note: do not translate the "General" part
 #. of the following strings.
 #: ../src/tools/analysis-histogram.c:255
-#, fuzzy
 msgid "\"from\" * General"
-msgstr "Формат - общий"
+msgstr ""
 
 #: ../src/tools/analysis-histogram.c:255
 msgid "\"above\" * General"
@@ -11735,7 +11540,7 @@ msgstr "Гистограмма (%s)"
 
 #: ../src/tools/analysis-kaplan-meier.c:102
 msgid "Kaplan-Meier"
-msgstr ""
+msgstr "Каплан-Мейер"
 
 #: ../src/tools/analysis-kaplan-meier.c:203
 msgid "/At Risk/Deaths/Censures/Probability"
@@ -11746,18 +11551,17 @@ msgid "/At Risk/Deaths/Probability"
 msgstr ""
 
 #: ../src/tools/analysis-kaplan-meier.c:469
-#, fuzzy
 msgid "Median:"
-msgstr "Медиана"
+msgstr "Медиана:"
 
 #: ../src/tools/analysis-kaplan-meier.c:532
 msgid "/Log-Rank Test:/Statistics:/Degrees of Freedom:/p-Value:"
 msgstr ""
 
 #: ../src/tools/analysis-kaplan-meier.c:657
-#, fuzzy, c-format
+#, c-format
 msgid "Kaplan-Meier (%s)"
-msgstr "Выборка (%s)"
+msgstr "Каплан-Мейер (%s)"
 
 #: ../src/tools/analysis-kaplan-meier.c:681
 #: ../src/tools/analysis-kaplan-meier.c:684
@@ -11927,49 +11731,40 @@ msgid "F-Test (%s)"
 msgstr "F-Тест (%s)"
 
 #: ../src/tools/analysis-tools.c:2839
-#, fuzzy
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R^2/Standard Error/"
 "Adjusted R^2/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
-"/Итоговый вывод//Регрессионные статистики/Множественная регрессия/"
-"Коэффициент определенности/Подобранный коэффициент определенности/"
-"Стандартная ошибка/Наблюдения//Дисперсионный анализ//Регрессия/Остатки/"
-"Всего///Пересечение"
 
 #: ../src/tools/analysis-tools.c:2857
-#, fuzzy
 msgid "Response Variable:"
-msgstr "Y переменная"
+msgstr ""
 
 #: ../src/tools/analysis-tools.c:2890
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/степень свободы/сумма квадратов/Квадрат среднего/F/Значимость F"
 
 #: ../src/tools/analysis-tools.c:2897
-#, fuzzy
 msgid "/Coefficients/Standard Error/t-Statistics/p-Value"
-msgstr ""
-"/Коэффициенты/Стандартная ошибка/t Stat/Значение P/Ниже %%0.0%s%%%%/Выше %%"
-"0.0%s%%%%"
+msgstr "/Коэффициенты/Стандартная ошибка/t Статистика/Значение вероятности"
 
 #: ../src/tools/analysis-tools.c:2902
-#, fuzzy
 msgid "\"Lower\" 0%"
-msgstr "Ниже"
+msgstr "\"Ниже\" 0%"
 
 #: ../src/tools/analysis-tools.c:2903
-#, fuzzy
 msgid "\"Upper\" 0%"
-msgstr "Выше"
+msgstr "\"Выше\" 0%"
 
 #: ../src/tools/analysis-tools.c:2912
-#, fuzzy
 msgid ""
 "Probability of an observation's\n"
 "absolute value being larger than\n"
 "the t-value's absolute value"
-msgstr "Вероятность наблюдения абсолютного значения больше чем значение t"
+msgstr ""
+"Вероятность наблюдения\n"
+"абсолютного значения большего\n"
+"чем абсолютное значение t"
 
 #: ../src/tools/analysis-tools.c:2917
 msgid ""
@@ -11991,9 +11786,8 @@ msgid "Moving Average (%s)"
 msgstr "Скользящее среднее (%s)"
 
 #: ../src/tools/analysis-tools.c:3695
-#, fuzzy
 msgid "Ranks & Percentiles"
-msgstr "Ранг и Percentile"
+msgstr "Ранги и процентили"
 
 #: ../src/tools/analysis-tools.c:3705
 msgid "Point"
@@ -12004,7 +11798,6 @@ msgid "Rank"
 msgstr "Ранг"
 
 #: ../src/tools/analysis-tools.c:3707
-#, fuzzy
 msgid "Percentile Rank"
 msgstr "Процентиль"
 
@@ -12045,17 +11838,15 @@ msgstr "Однофакторный дисперсионный анализ"
 
 #: ../src/tools/analysis-tools.c:4187
 msgid "Inverse Fourier Transform"
-msgstr ""
+msgstr "Обратное преобразование Фурье"
 
 #: ../src/tools/analysis-tools.c:4188
-#, fuzzy
 msgid "Fourier Transform"
-msgstr "Серии Фурье"
+msgstr "Преобразование Фурье"
 
 #: ../src/tools/analysis-tools.c:4196
-#, fuzzy
 msgid "/Real/Imaginary"
-msgstr "Мнимое"
+msgstr "/Действительное/Мнимое"
 
 #: ../src/tools/analysis-tools.c:4249
 #, c-format
@@ -12087,9 +11878,8 @@ msgid "Report Created: "
 msgstr "Отчёт создан:"
 
 #: ../src/tools/data-shuffling.c:291
-#, fuzzy
 msgid "Shuffled"
-msgstr "Перемешать..."
+msgstr "Перемешанное"
 
 #: ../src/tools/fill-series.c:378
 #, c-format
@@ -12097,9 +11887,8 @@ msgid "Fill Series (%s)"
 msgstr "Заполнить серии (%s)"
 
 #: ../src/tools/filter.c:140
-#, fuzzy
 msgid "Filtered"
-msgstr "Фильтр"
+msgstr "Фильтрованное"
 
 #: ../src/tools/random-generator.c:107
 msgid ""
@@ -12848,6 +12637,10 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Не удалось запустить просмотр справки (%s).\n"
+"Сообщение об ошибке:\n"
+"\n"
+"%s"
 
 #: ../src/wbc-gtk-actions.c:1138
 msgid "Sort"
@@ -12926,9 +12719,8 @@ msgid "_File"
 msgstr "_Файл"
 
 #: ../src/wbc-gtk-actions.c:1692
-#, fuzzy
 msgid "New From Template"
-msgstr "Название шаблона"
+msgstr "Новый по шаблону"
 
 #: ../src/wbc-gtk-actions.c:1693
 msgid "Print Area"
@@ -13020,9 +12812,8 @@ msgid "F_orecast"
 msgstr "_Прогнозирование"
 
 #: ../src/wbc-gtk-actions.c:1716
-#, fuzzy
 msgid "Fre_quency Tables"
-msgstr "Частота"
+msgstr "Частотная таблица"
 
 #: ../src/wbc-gtk-actions.c:1717
 msgid "Two _Means"
@@ -13045,9 +12836,8 @@ msgid "Get External _Data"
 msgstr "Получить внешние данные"
 
 #: ../src/wbc-gtk-actions.c:1722
-#, fuzzy
 msgid "Data S_licer"
-msgstr "Срез данных..."
+msgstr "Срез данных"
 
 #: ../src/wbc-gtk-actions.c:1723
 msgid "_Help"
@@ -13250,27 +13040,24 @@ msgid "Select an entire row"
 msgstr "Выделить всю строку"
 
 #: ../src/wbc-gtk-actions.c:1869
-#, fuzzy
 msgid "Arra_y"
-msgstr "массив"
+msgstr "Массив"
 
 #: ../src/wbc-gtk-actions.c:1870
 msgid "Select an array of cells"
 msgstr "Выделение массива ячеек"
 
 #: ../src/wbc-gtk-actions.c:1872
-#, fuzzy
 msgid "_Depends"
-msgstr "Выделить зависимости"
+msgstr "Зависимости"
 
 #: ../src/wbc-gtk-actions.c:1873
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "Выделить все ячейки, которые зависят от редактируемой ячейки"
 
 #: ../src/wbc-gtk-actions.c:1875
-#, fuzzy
 msgid "_Inputs"
-msgstr "Ввод"
+msgstr "Исходные"
 
 #: ../src/wbc-gtk-actions.c:1876
 msgid "Select all the cells are used by the current edit cell"
@@ -13326,14 +13113,12 @@ msgid "Rename the current sheet"
 msgstr "Переименовать текущую таблицу"
 
 #: ../src/wbc-gtk-actions.c:1905 ../src/wbc-gtk.c:492
-#, fuzzy
 msgid "Resize..."
-msgstr "Серии..."
+msgstr "Изменить размер..."
 
 #: ../src/wbc-gtk-actions.c:1906
-#, fuzzy
 msgid "Change the size of the current sheet"
-msgstr "Переименовать текущую таблицу"
+msgstr "Изменить размер текущей таблицы"
 
 #. Edit
 #: ../src/wbc-gtk-actions.c:1910
@@ -13361,18 +13146,16 @@ msgid "Edit the selected cell's comment"
 msgstr "Изменить комментарии для выделенных ячеек"
 
 #: ../src/wbc-gtk-actions.c:1921
-#, fuzzy
 msgid "S_earch..."
-msgstr "Поиск"
+msgstr "Поиск..."
 
 #: ../src/wbc-gtk-actions.c:1922
 msgid "Search for something"
 msgstr "Поиск чего-нибудь"
 
 #: ../src/wbc-gtk-actions.c:1924
-#, fuzzy
 msgid "Search _& Replace..."
-msgstr "Поиск и замена"
+msgstr "Поиск и замена..."
 
 #: ../src/wbc-gtk-actions.c:1925
 msgid "Search for something and replace it with something else"
@@ -13387,9 +13170,8 @@ msgid "Recalculate the spreadsheet"
 msgstr "Пересчитать таблицу"
 
 #: ../src/wbc-gtk-actions.c:1932
-#, fuzzy
 msgid "Preferences..."
-msgstr "_Настроить..."
+msgstr "Настройки..."
 
 #: ../src/wbc-gtk-actions.c:1933
 msgid "Change Gnumeric Preferences"
@@ -13710,19 +13492,19 @@ msgstr "Двухфакторный дисперсионный анализ..."
 #. Tools -> Chi Square Tests
 #: ../src/wbc-gtk-actions.c:2093
 msgid "Test of _Homogeneity..."
-msgstr ""
+msgstr "Проверка гомогенности..."
 
 #: ../src/wbc-gtk-actions.c:2094
 msgid "Chi Squared Test of Homogeneity..."
-msgstr ""
+msgstr "Хи-квадрат проверка гомогенности..."
 
 #: ../src/wbc-gtk-actions.c:2096
 msgid "Test of _Independence..."
-msgstr ""
+msgstr "Проверка независимости..."
 
 #: ../src/wbc-gtk-actions.c:2097
 msgid "Chi Squared Test of Independence..."
-msgstr ""
+msgstr "Хи-квадрат проверка независимости..."
 
 #. Tools -> Forecasting
 #: ../src/wbc-gtk-actions.c:2101
@@ -13743,23 +13525,20 @@ msgstr "Скользящее среднее..."
 
 #. Tools -> Frequency Tables
 #: ../src/wbc-gtk-actions.c:2109
-#, fuzzy
 msgid "Fre_quency Tables..."
-msgstr "Различные частотные таблицы"
+msgstr "Частотные таблицы..."
 
 #: ../src/wbc-gtk-actions.c:2110
-#, fuzzy
 msgid "Frequency tables for non-numeric data"
-msgstr "Входной диапазон содержит нечисловые данные."
+msgstr "Частотные таблицы для нечисловых данных"
 
 #: ../src/wbc-gtk-actions.c:2112
 msgid "_Histogram..."
 msgstr "Гистограмма..."
 
 #: ../src/wbc-gtk-actions.c:2113
-#, fuzzy
 msgid "Various frequency tables for numeric data"
-msgstr "Различные частотные таблицы"
+msgstr "Различные частотные таблицы для числовых данных"
 
 #. Tools -> Two Means
 #: ../src/wbc-gtk-actions.c:2117
@@ -14033,32 +13812,28 @@ msgstr "Импортировать текст из файла"
 #. Data -> Data Slicer
 #. label and tip are context dependent, see wbcg_menu_state_update
 #: ../src/wbc-gtk-actions.c:2231
-#, fuzzy
 msgid "Add _Data Slicer"
-msgstr "Срез данных..."
+msgstr "Добавить срез данных"
 
 #: ../src/wbc-gtk-actions.c:2232
-#, fuzzy
 msgid "Create a data slicer"
 msgstr "Создать срез данных"
 
 #: ../src/wbc-gtk-actions.c:2234
 msgid "_Refresh"
-msgstr ""
+msgstr "Обновить"
 
 #: ../src/wbc-gtk-actions.c:2235
 msgid "Regenerate a data slicer from the source data"
-msgstr ""
+msgstr "Перегенерировать срез из исходных данных"
 
 #: ../src/wbc-gtk-actions.c:2237
-#, fuzzy
 msgid "_Edit Data Slicer..."
-msgstr "Срез данных..."
+msgstr "Исправить срез данных..."
 
 #: ../src/wbc-gtk-actions.c:2238
-#, fuzzy
 msgid "Adjust a data slicer"
-msgstr "Подобрать корневой каталог данных"
+msgstr "Подобрать срез данных"
 
 #. Standard Toolbar
 #: ../src/wbc-gtk-actions.c:2242 ../src/wbc-gtk.c:4075
@@ -14596,14 +14371,12 @@ msgid "Rename"
 msgstr "Переименовать"
 
 #: ../src/wbc-gtk.c:493
-#, fuzzy
 msgid "Select"
-msgstr "Выделение"
+msgstr "Выделить"
 
 #: ../src/wbc-gtk.c:494
-#, fuzzy
 msgid "Select (sorted)"
-msgstr "Парето (Отсортированное)"
+msgstr ""
 
 #: ../src/wbc-gtk.c:1357
 msgid " : Gnumeric"
@@ -14630,22 +14403,18 @@ msgid "Add a filter"
 msgstr "Добавить фильтр"
 
 #: ../src/wbc-gtk.c:1516
-#, fuzzy
 msgid "Remove _Data Slicer"
-msgstr "Удалить фильтр"
+msgstr "Удалить срез данных"
 
 #: ../src/wbc-gtk.c:1517
-#, fuzzy
 msgid "Create _Data Slicer"
 msgstr "Создать срез данных"
 
 #: ../src/wbc-gtk.c:1519
-#, fuzzy
 msgid "Remove a Data Slicer"
-msgstr "Создать срез данных"
+msgstr "Удалить срез данных"
 
 #: ../src/wbc-gtk.c:1520
-#, fuzzy
 msgid "Create a Data Slicer"
 msgstr "Создать срез данных"
 
@@ -14684,7 +14453,7 @@ msgstr "Не закрывать"
 
 #: ../src/wbc-gtk.c:2015
 msgid "END"
-msgstr ""
+msgstr "КОНЕЦ"
 
 #: ../src/wbc-gtk.c:2280
 msgid "Cancel change"
@@ -14859,9 +14628,8 @@ msgid "(Non Blanks...)"
 msgstr "(Непустые...)"
 
 #: ../src/widgets/gnumeric-expr-entry.c:883
-#, fuzzy
 msgid "Update policy"
-msgstr "Обновить"
+msgstr "Обновить политику"
 
 #: ../src/widgets/gnumeric-expr-entry.c:884
 msgid "How frequently changes to the entry should be applied"
@@ -14869,16 +14637,15 @@ msgstr ""
 
 #: ../src/widgets/gnumeric-expr-entry.c:891
 msgid "With icon"
-msgstr ""
+msgstr "С пиктограммой"
 
 #: ../src/widgets/gnumeric-expr-entry.c:892
 msgid "Should there be an icon to the right of the entry?"
 msgstr ""
 
 #: ../src/widgets/gnumeric-expr-entry.c:900
-#, fuzzy
 msgid "The contents of the entry"
-msgstr "Название таблицы."
+msgstr ""
 
 #: ../src/widgets/gnumeric-expr-entry.c:913
 msgid "SheetControlGUI"
@@ -14897,14 +14664,12 @@ msgid "The toplevel GUI container associated with the entry."
 msgstr ""
 
 #: ../src/widgets/gnumeric-expr-entry.c:929
-#, fuzzy
 msgid "Constant Format"
-msgstr "Изменение формата"
+msgstr ""
 
 #: ../src/widgets/gnumeric-expr-entry.c:930
-#, fuzzy
 msgid "Format for constants"
-msgstr "Формат - финансовый"
+msgstr ""
 
 #: ../src/widgets/gnumeric-expr-entry.c:1704
 #, c-format
@@ -14920,35 +14685,32 @@ msgid "Ultralight"
 msgstr ""
 
 #: ../src/widgets/gnumeric-text-view.c:249
-#, fuzzy
 msgid "Light"
-msgstr "Вправо"
+msgstr "Лёгкий"
 
 #: ../src/widgets/gnumeric-text-view.c:251
-#, fuzzy
 msgid "Medium"
-msgstr "Медиана"
+msgstr "Средний"
 
 #: ../src/widgets/gnumeric-text-view.c:252
-#, fuzzy
 msgid "Semibold"
-msgstr "Сплошной"
+msgstr "Полужирный"
 
 #: ../src/widgets/gnumeric-text-view.c:254
 msgid "Ultrabold"
-msgstr ""
+msgstr "Очень жирный"
 
 #: ../src/widgets/gnumeric-text-view.c:255
 msgid "Heavy"
-msgstr ""
+msgstr "Тяжёлый"
 
 #: ../src/widgets/gnumeric-text-view.c:256
 msgid "Ultraheavy"
-msgstr ""
+msgstr "Очень тяжёлый"
 
 #: ../src/widgets/widget-font-selector.c:197
 msgid "Bold italic"
-msgstr "Полужирный наклонный"
+msgstr "Жирный наклонный"
 
 #: ../src/workbook-cmd-format.c:79
 msgid "Increase Indent"
@@ -14964,7 +14726,7 @@ msgstr "Определить имя"
 
 #: ../src/workbook-control.c:240
 msgid "Cannot jump to an invisible sheet"
-msgstr ""
+msgstr "Невозможно перескочить на невидимый лист"
 
 #: ../src/workbook-control.c:294
 msgid "Address"
@@ -15025,58 +14787,48 @@ msgid "Displayed text for the automatically computed sheet function."
 msgstr "Текст отображаемый для автоматически вычисляемой функции для таблицы"
 
 #: ../src/workbook-view.c:847
-#, fuzzy
 msgid "Show horizontal scrollbar"
 msgstr "Горизонтальная прокрутка"
 
 #: ../src/workbook-view.c:848
-#, fuzzy
 msgid "Show the horizontal scrollbar"
-msgstr "Горизонтальная прокрутка"
+msgstr "Показывать полосу горизонтальной прокрутки"
 
 #: ../src/workbook-view.c:856
-#, fuzzy
 msgid "Show vertical scrollbar"
 msgstr "Вертикальная прокрутка"
 
 #: ../src/workbook-view.c:857
-#, fuzzy
 msgid "Show the vertical scrollbar"
-msgstr "Вертикальная прокрутка"
+msgstr "Показывать полосу вертикальной прокрутки"
 
 #: ../src/workbook-view.c:865
 msgid "Show notebook tabs"
-msgstr ""
+msgstr "Ярлыки листов"
 
 #: ../src/workbook-view.c:866
-#, fuzzy
 msgid "Show the notebook tabs for sheets"
-msgstr "Ярлыки для таблиц"
+msgstr "Показывать ярлыки для листов таблицы"
 
 #: ../src/workbook-view.c:874
-#, fuzzy
 msgid "Do auto completion"
 msgstr "Автодополнение"
 
 #: ../src/workbook-view.c:875
-#, fuzzy
 msgid "Auto-complete text"
-msgstr "Автодополнение"
+msgstr "Автодополнение текста"
 
 #: ../src/workbook-view.c:884
-#, fuzzy
 msgid "Is view protected?"
-msgstr "Таблица защищена."
+msgstr "Таблица защищена?"
 
 #: ../src/workbook-view.c:892 ../src/workbook-view.c:893
-#, fuzzy
 msgid "Preferred width"
-msgstr "Предпочтительные единицы измерения"
+msgstr "Предпочтительная ширина"
 
 #: ../src/workbook-view.c:901 ../src/workbook-view.c:902
-#, fuzzy
 msgid "Preferred height"
-msgstr "Предпочтительные единицы измерения"
+msgstr "Предпочтительная высота"
 
 #: ../src/workbook-view.c:981
 msgid "An unexplained error happened while saving."
