@@ -1,5 +1,9 @@
 2010-02-13  Morten Welinder <terra@gnome.org>
 
+	* configure.in: Post-release bump.
+
+2010-02-13  Morten Welinder <terra@gnome.org>
+
 	* Release 1.10.0
 
 2010-02-11  Morten Welinder  <terra@gnome.org>
@@ -19,7 +23,7 @@
 2010-01-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/func.c (function_dump_defs): also dump Excel and
-	  ODF compatibility and keep function description 
+	  ODF compatibility and keep function description
 	  separate from argument descriptions. Simplify the code
 	  by first collecting the information in separate g_strings
 
