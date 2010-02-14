@@ -10,7 +10,7 @@ plugin_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
 plugin_la_LIBADD = ../../src/.libs/libspreadsheet.la
 plugin_la_SOURCES = excelplugins.c
 xlcall32_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
-xlcall32_la_SOURCES = xlcall32_emulation.c
+xlcall32_la_SOURCES = xlcall32_emulation.c win32replacements.h xlcall.h
 
 xml_in_files = plugin.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
