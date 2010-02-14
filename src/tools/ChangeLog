@@ -1,3 +1,7 @@
+2010-02-13  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.0
+
 2010-01-25 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* simulation.c (create_stats): fix length calculation for the 

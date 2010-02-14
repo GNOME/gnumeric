@@ -1,3 +1,7 @@
+2010-02-13  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.0
+
 2010-01-20  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_trimmean): Fix p==1 case.  Return right

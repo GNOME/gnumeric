@@ -1,3 +1,7 @@
+2010-02-13  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.0
+
 2010-02-11  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: Bump version in preparation for release.
