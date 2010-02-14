@@ -1,0 +1,11 @@
+--- gobject/generate-constants.c.orig	2010-02-13 17:09:17.607115911 +0100
++++ gobject/generate-constants.c	2010-02-13 17:09:39.663240878 +0100
+@@ -15,7 +15,7 @@
+   printf("G_MINFLOAT = %f\n", G_MINFLOAT);
+   printf("G_MAXFLOAT = %f\n", G_MAXFLOAT);
+   printf("G_MINDOUBLE = %f\n", G_MINDOUBLE);
+-  printf("G_MAXDOUBLE = %f\n", G_MAXDOUBLE);
++  printf("G_MAXDOUBLE = %g\n", G_MAXDOUBLE);
+   printf("G_MINSHORT = %d\n", G_MINSHORT);
+   printf("G_MAXSHORT = %d\n", G_MAXSHORT);
+   printf("G_MAXUSHORT = %u\n", G_MAXUSHORT);

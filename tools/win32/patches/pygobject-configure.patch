@@ -1,0 +1,42 @@
+--- configure.ac.orig	2009-09-23 21:50:00.000000000 +0200
++++ configure.ac	2010-02-13 22:05:28.071571958 +0100
+@@ -192,14 +192,22 @@
+ fi
+ 
+ dnl giounix
+-PKG_CHECK_MODULES(GIOUNIX, gio-unix-2.0 >= giounix_required_version,
+-	have_giounix=true, have_giounix=false)
+-AC_SUBST(GIOUNIX_CFLAGS)
+-AC_SUBST(GIOUNIX_LIBS)
+-AM_CONDITIONAL(BUILD_GIOUNIX, $have_giounix)
+-if test -n "$export_dynamic"; then
+-  GIOUNIX_LIBS=`echo $GIOUNIX_LIBS | sed -e "s/$export_dynamic//"`
++AC_ARG_WITH(gio-unix,
++  AC_HELP_STRING([--without-gio-unix], [Disable gio-unix support]),
++  with_giounix=$withval,
++  with_giounix=auto)
++if test x"$with_gio_unix" = xno ; then
++  have_giounix=false
++else
++  PKG_CHECK_MODULES(GIOUNIX, gio-unix-2.0 >= giounix_required_version,
++    have_giounix=true, have_giounix=false)
++  AC_SUBST(GIOUNIX_CFLAGS)
++  AC_SUBST(GIOUNIX_LIBS)
++  if test -n "$export_dynamic"; then
++    GIOUNIX_LIBS=`echo $GIOUNIX_LIBS | sed -e "s/$export_dynamic//"`
++  fi
+ fi
++AM_CONDITIONAL(BUILD_GIOUNIX, $have_giounix)
+ 
+ dnl gobject_introspection
+ PKG_CHECK_MODULES(GOBJECT_INTROSPECTION, gobject-introspection-1.0 >= gobject_introspection_required_version,
+@@ -244,6 +252,9 @@
+   PKG-INFO)
+ AC_OUTPUT
+ 
++# fix path in Makefiles
++for i in Makefile */Makefile; do sed -i "s/\\\\Lib\\\\/\/lib\/python2.6\//" $i;done
++
+ echo
+ echo "libffi support: $have_libffi"
+ echo

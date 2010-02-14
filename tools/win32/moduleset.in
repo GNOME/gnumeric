@@ -57,7 +57,7 @@
 
     <autotools id="gtk-doc"
 	autogen-sh="autoreconf"  skip-autogen="never">
-	<branch repo="gnome.org" module="sources/gtk-doc/1.11/gtk-doc-1.11.tar.bz2" version="1.11">
+	<branch repo="gnome.org" module="sources/gtk-doc/1.13/gtk-doc-1.13.tar.bz2" version="1.13">
 	    <patch file="&patch_dir;gtk-doc-disable-python.patch"/>
 	</branch>
 	<suggests>
@@ -232,6 +232,8 @@
 		version="2.20.0">
 	    <patch file="&patch_dir;pygobject.patch"/>
 	    <patch file="&patch_dir;pygiochannel.patch"/>
+	    <patch file="&patch_dir;pygobject-configure.patch"/>
+	    <patch file="&patch_dir;pygconsts.patch"/>
 	</branch>
 
 	<dependencies>

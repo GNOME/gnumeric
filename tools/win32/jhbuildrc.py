@@ -144,7 +144,7 @@ module_autogenargs['gtk+']	= autogenargs + """ --disable-glibtest --enable-gdipl
 module_autogenargs['libgda']	= autogenargs + """ --without-odbc --without-java --without-libsoup"""
 module_autogenargs['pxlib']	= autogenargs + """ --with-gsf=""" + prefix
 module_autogenargs['libglade']	= autogenargs
-module_autogenargs['pygobject']	= autogenargs
+module_autogenargs['pygobject']	= autogenargs + """ --without-ffi --without-gio-unix"""
 module_autogenargs['libgsf']	= autogenargs + """ --without-gnome-vfs --without-bonobo"""
 module_autogenargs['goffice']	= autogenargs + """ --without-gconf --with-gmathml"""
 module_autogenargs['gnumeric']	= autogenargs + """ --disable-component"""

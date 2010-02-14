@@ -79,8 +79,8 @@ setup_html_help() {
 	wine msiexec /i ${py_pkg}
     fi
     build_ls_s "${WINEDIR}/Python${py_ver}"			 	"Python${py_ver}" 
-    build_ls_s "${WINEDIR}/windows/system32/python${py_ver}.dll" 	"bin/libpython${py_ver}.dll"
-    build_ls_s "${WINEDIR}/Python${py_ver}/libs/python${py_ver}.lib"	"lib/libpython${py_ver}.dll.a"
+    build_ls_s "${WINEDIR}/windows/system32/python${py_ver}.dll" 	"bin/python${py_ver}.dll"
+    build_ls_s "${WINEDIR}/Python${py_ver}/libs/libpython${py_ver}.a"	"lib/libpython${py_ver}.dll.a"
 
 # Download HTML Help
     if [ ! -f "${archive_dir}/htmlhelp.exe" ]; then
