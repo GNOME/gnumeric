@@ -1,3 +1,9 @@
+2010-02-15 Andreas J. Guelzow <aguelzow@pyrshep>
+
+	* analysis-statistical.xml: spelling fix & don't scale
+	  image
+	* figures/analysistools-kaplan-ex2.png: scale
+
 2010-02-13  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.0

@@ -2378,7 +2378,7 @@
     <para>On the <guilabel>Options</guilabel> tab all checkboxes are pre-checked
      and we leave them that way to obtain a maximum amount of information.
     </para>
-    <para>Onthe output tab we choose where we would like the output to be placed. For 
+    <para>On the output tab we choose where we would like the output to be placed. For 
     the purposes of this example we retain the <guilabel>New Sheet</guilabel> target. 
     After clicking <guilabel>OK</guilabel> we get the output shown in 
     <xref linkend="kaplan-meier-tool-example-2" />. Note that the graph initially 
@@ -2403,7 +2403,7 @@
 	     <mediaobject>
 		 <imageobject>
 		   <imagedata fileref="figures/analysistools-kaplan-ex2.png" 
-		       format="PNG" scale="45" />
+		       format="PNG" />
 		 </imageobject>
 		 <textobject>
 		   <phrase>An image of the output of the Kaplan-Meier
