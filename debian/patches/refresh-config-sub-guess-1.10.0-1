@@ -1,59 +1,6 @@
---- gnumeric-1.9.17.orig/config.sub
-+++ gnumeric-1.9.17/config.sub
-@@ -1,10 +1,10 @@
- #! /bin/sh
- # Configuration validation subroutine script.
- #   Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
--#   2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008
-+#   2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009
- #   Free Software Foundation, Inc.
- 
--timestamp='2009-04-17'
-+timestamp='2009-06-11'
- 
- # This file is (in principle) common to ALL GNU software.
- # The presence of a machine in this file suggests that SOME GNU software
-@@ -153,6 +153,9 @@ case $os in
- 		os=
- 		basic_machine=$1
- 		;;
-+        -bluegene*)
-+	        os=-cnk
-+		;;
- 	-sim | -cisco | -oki | -wec | -winbond)
- 		os=
- 		basic_machine=$1
-@@ -467,6 +470,10 @@ case $basic_machine in
- 		basic_machine=bfin-`echo $basic_machine | sed 's/^[^-]*-//'`
- 		os=-linux
- 		;;
-+	bluegene*)
-+		basic_machine=powerpc-ibm
-+		os=-cnk
-+		;;
- 	c90)
- 		basic_machine=c90-cray
- 		os=-unicos
-@@ -1260,7 +1267,7 @@ case $os in
- 	# Each alternative MUST END IN A *, to match a version number.
- 	# -sysv* is not here because it comes later, after sysvr4.
- 	-gnu* | -bsd* | -mach* | -minix* | -genix* | -ultrix* | -irix* \
--	      | -*vms* | -sco* | -esix* | -isc* | -aix* | -sunos | -sunos[34]*\
-+	      | -*vms* | -sco* | -esix* | -isc* | -aix* | -cnk* | -sunos | -sunos[34]*\
- 	      | -hpux* | -unos* | -osf* | -luna* | -dgux* | -solaris* | -sym* \
- 	      | -kopensolaris* \
- 	      | -amigaos* | -amigados* | -msdos* | -newsos* | -unicos* | -aof* \
-@@ -1613,7 +1620,7 @@ case $basic_machine in
- 			-sunos*)
- 				vendor=sun
- 				;;
--			-aix*)
-+			-cnk*|-aix*)
- 				vendor=ibm
- 				;;
- 			-beos*)
---- gnumeric-1.9.17.orig/config.guess
-+++ gnumeric-1.9.17/config.guess
+diff -ru gnumeric-1.10.0.orig/config.guess gnumeric-1.10.0/config.guess
+--- gnumeric-1.10.0.orig/config.guess	2010-02-12 00:58:24.000000000 +0100
++++ gnumeric-1.10.0/config.guess	2010-02-14 17:04:15.000000000 +0100
 @@ -1,10 +1,10 @@
  #! /bin/sh
  # Attempt to guess a canonical system name.
@@ -67,7 +14,7 @@
  
  # This file is free software; you can redistribute it and/or modify it
  # under the terms of the GNU General Public License as published by
-@@ -139,16 +139,6 @@ UNAME_RELEASE=`(uname -r) 2>/dev/null` |
+@@ -139,16 +139,6 @@
  UNAME_SYSTEM=`(uname -s) 2>/dev/null`  || UNAME_SYSTEM=unknown
  UNAME_VERSION=`(uname -v) 2>/dev/null` || UNAME_VERSION=unknown
  
@@ -84,7 +31,7 @@
  # Note: order is significant - the case branches are not exclusive.
  
  case "${UNAME_MACHINE}:${UNAME_SYSTEM}:${UNAME_RELEASE}:${UNAME_VERSION}" in
-@@ -180,7 +170,7 @@ case "${UNAME_MACHINE}:${UNAME_SYSTEM}:$
+@@ -180,7 +170,7 @@
  	    arm*|i386|m68k|ns32k|sh3*|sparc|vax)
  		eval $set_cc_for_build
  		if echo __ELF__ | $CC_FOR_BUILD -E - 2>/dev/null \
@@ -93,7 +40,7 @@
  		then
  		    # Once all utilities can be ECOFF (netbsdecoff) or a.out (netbsdaout).
  		    # Return netbsd for either.  FIX?
-@@ -666,7 +656,7 @@ EOF
+@@ -666,7 +656,7 @@
  	    # => hppa64-hp-hpux11.23
  
  	    if echo __LP64__ | (CCOPTS= $CC_FOR_BUILD -E - 2>/dev/null) |
@@ -102,7 +49,7 @@
  	    then
  		HP_ARCH="hppa2.0w"
  	    else
-@@ -832,6 +822,9 @@ EOF
+@@ -832,6 +822,9 @@
      [345]86:Windows_95:* | [345]86:Windows_98:* | [345]86:Windows_NT:*)
  	echo i${UNAME_MACHINE}-pc-mks
  	exit ;;
@@ -112,7 +59,7 @@
      i*:Windows_NT*:* | Pentium*:Windows_NT*:*)
  	# How do we know it's Interix rather than the generic POSIX subsystem?
  	# It also conflicts with pre-2.0 versions of AT&T UWIN. Should we
-@@ -866,13 +859,13 @@ EOF
+@@ -866,13 +859,13 @@
  	if echo __ARM_EABI__ | $CC_FOR_BUILD -E - 2>/dev/null \
  	    | grep -q __ARM_EABI__
  	then
@@ -129,7 +76,7 @@
  	exit ;;
      cris:Linux:*:*)
  	echo cris-axis-linux-gnu
-@@ -881,51 +874,28 @@ EOF
+@@ -881,28 +874,28 @@
  	echo crisv32-axis-linux-gnu
  	exit ;;
      frv:Linux:*:*)
@@ -149,16 +96,41 @@
 +	echo ${UNAME_MACHINE}-unknown-linux-gnu
  	exit ;;
 -    mips:Linux:*:*)
++    mips:Linux:*:* | mips64:Linux:*:*)
+ 	eval $set_cc_for_build
+ 	sed 's/^	//' << EOF >$dummy.c
+ 	#undef CPU
+-	#undef mips
+-	#undef mipsel
++	#undef ${UNAME_MACHINE}
++	#undef ${UNAME_MACHINE}el
+ 	#if defined(__MIPSEL__) || defined(__MIPSEL) || defined(_MIPSEL) || defined(MIPSEL)
+-	CPU=mipsel
++	CPU=${UNAME_MACHINE}el
+ 	#else
+ 	#if defined(__MIPSEB__) || defined(__MIPSEB) || defined(_MIPSEB) || defined(MIPSEB)
+-	CPU=mips
++	CPU=${UNAME_MACHINE}
+ 	#else
+ 	CPU=
+ 	#endif
+@@ -913,39 +906,16 @@
+ 		s: ::g
+ 		p
+ 	    }'`"
+-	test x"${CPU}" != x && { echo "${CPU}-${VENDOR}-linux-gnu"; exit; }
+-	;;
+-    mips64:Linux:*:*)
 -	eval $set_cc_for_build
 -	sed 's/^	//' << EOF >$dummy.c
 -	#undef CPU
--	#undef mips
--	#undef mipsel
+-	#undef mips64
+-	#undef mips64el
 -	#if defined(__MIPSEL__) || defined(__MIPSEL) || defined(_MIPSEL) || defined(MIPSEL)
--	CPU=mipsel
+-	CPU=mips64el
 -	#else
 -	#if defined(__MIPSEB__) || defined(__MIPSEB) || defined(_MIPSEB) || defined(MIPSEB)
--	CPU=mips
+-	CPU=mips64
 -	#else
 -	CPU=
 -	#endif
@@ -169,31 +141,6 @@
 -		s: ::g
 -		p
 -	    }'`"
--	test x"${CPU}" != x && { echo "${CPU}-${VENDOR}-linux-gnu"; exit; }
--	;;
--    mips64:Linux:*:*)
-+    mips:Linux:*:* | mips64:Linux:*:*)
- 	eval $set_cc_for_build
- 	sed 's/^	//' << EOF >$dummy.c
- 	#undef CPU
--	#undef mips64
--	#undef mips64el
-+	#undef ${UNAME_MACHINE}
-+	#undef ${UNAME_MACHINE}el
- 	#if defined(__MIPSEL__) || defined(__MIPSEL) || defined(_MIPSEL) || defined(MIPSEL)
--	CPU=mips64el
-+	CPU=${UNAME_MACHINE}el
- 	#else
- 	#if defined(__MIPSEB__) || defined(__MIPSEB) || defined(_MIPSEB) || defined(MIPSEB)
--	CPU=mips64
-+	CPU=${UNAME_MACHINE}
- 	#else
- 	CPU=
- 	#endif
-@@ -936,16 +906,16 @@ EOF
- 		s: ::g
- 		p
- 	    }'`"
 -	test x"${CPU}" != x && { echo "${CPU}-${VENDOR}-linux-gnu"; exit; }
 +	test x"${CPU}" != x && { echo "${CPU}-unknown-linux-gnu"; exit; }
  	;;
@@ -211,7 +158,7 @@
  	exit ;;
      alpha:Linux:*:*)
  	case `sed -n '/^cpu model/s/^.*: \(.*\)/\1/p' < /proc/cpuinfo` in
-@@ -957,9 +927,9 @@ EOF
+@@ -957,9 +927,9 @@
  	  EV67)  UNAME_MACHINE=alphaev67 ;;
  	  EV68*) UNAME_MACHINE=alphaev68 ;;
          esac
@@ -223,7 +170,7 @@
  	exit ;;
      padre:Linux:*:*)
  	echo sparc-unknown-linux-gnu
-@@ -967,34 +937,34 @@ EOF
+@@ -967,34 +937,34 @@
      parisc:Linux:*:* | hppa:Linux:*:*)
  	# Look for CPU level
  	case `grep '^cpu[^a-z]*:' /proc/cpuinfo 2>/dev/null | cut -d' ' -f2` in
@@ -267,7 +214,7 @@
  	exit ;;
      i*86:Linux:*:*)
  	# The BFD linker knows what the default object file format is, so
-@@ -1009,16 +979,8 @@ EOF
+@@ -1009,16 +979,8 @@
  				    p'`
          case "$ld_supported_targets" in
  	  elf32-i386)
@@ -285,7 +232,7 @@
  	esac
  	# Determine whether the default compiler is a.out or elf
  	eval $set_cc_for_build
-@@ -1051,7 +1013,7 @@ EOF
+@@ -1051,7 +1013,7 @@
  		p
  	    }'`"
  	test x"${LIBC}" != x && {
@@ -294,7 +241,7 @@
  		exit
  	}
  	test x"${TENTATIVE}" != x && { echo "${TENTATIVE}"; exit; }
-@@ -1076,16 +1038,16 @@ EOF
+@@ -1076,16 +1038,16 @@
  	echo ${UNAME_MACHINE}-pc-os2-emx
  	exit ;;
      i*86:XTS-300:*:STOP)
@@ -315,7 +262,7 @@
  	exit ;;
      i*86:*DOS:*:*)
  	echo ${UNAME_MACHINE}-pc-msdosdjgpp
-@@ -1105,7 +1067,7 @@ EOF
+@@ -1105,7 +1067,7 @@
  	    *Pentium)	     UNAME_MACHINE=i586 ;;
  	    *Pent*|*Celeron) UNAME_MACHINE=i686 ;;
  	esac
@@ -324,7 +271,7 @@
  	exit ;;
      i*86:*:3.2:*)
  	if test -f /usr/options/cb.name; then
-@@ -1144,7 +1106,7 @@ EOF
+@@ -1144,7 +1106,7 @@
  	if grep Stardent /usr/include/sys/uadmin.h >/dev/null 2>&1 ; then
  	  echo i860-stardent-sysv${UNAME_RELEASE} # Stardent Vistra i860-SVR4
  	else # Add other i860-SVR4 vendors below as they are discovered.
@@ -333,7 +280,7 @@
  	fi
  	exit ;;
      mini*:CTIX:SYS*5:*)
-@@ -1181,19 +1143,19 @@ EOF
+@@ -1181,19 +1143,19 @@
  	/bin/uname -p 2>/dev/null | /bin/grep pteron >/dev/null \
  	    && { echo i586-ncr-sysv4.3${OS_REL}; exit; } ;;
      m68*:LynxOS:2.*:* | m68*:LynxOS:3.0*:*)
@@ -358,7 +305,7 @@
  	exit ;;
      SM[BE]S:UNIX_SV:*:*)
  	echo mips-dde-sysv${UNAME_RELEASE}
-@@ -1243,7 +1205,7 @@ EOF
+@@ -1243,7 +1205,7 @@
  	if [ -d /usr/nec ]; then
  	        echo mips-nec-sysv${UNAME_RELEASE}
  	else
@@ -367,7 +314,7 @@
  	fi
          exit ;;
      BeBox:BeOS:*:*)	# BeOS running on hardware made by Be, PPC only.
-@@ -1324,13 +1286,13 @@ EOF
+@@ -1324,13 +1286,13 @@
  	else
  	    UNAME_MACHINE="$cputype"
  	fi
@@ -384,7 +331,7 @@
  	exit ;;
      KS10:TOPS-20:*:* | KL10:TOPS-20:*:* | TYPE4:TOPS-20:*:*)
  	echo pdp10-dec-tops20
-@@ -1339,16 +1301,16 @@ EOF
+@@ -1339,16 +1301,16 @@
  	echo pdp10-xkl-tops20
  	exit ;;
      *:TOPS-20:*:*)
@@ -404,3 +351,58 @@
  	exit ;;
      *:*VMS:*:*)
      	UNAME_MACHINE=`(uname -p) 2>/dev/null`
+diff -ru gnumeric-1.10.0.orig/config.sub gnumeric-1.10.0/config.sub
+--- gnumeric-1.10.0.orig/config.sub	2010-02-12 00:58:24.000000000 +0100
++++ gnumeric-1.10.0/config.sub	2010-02-14 17:04:15.000000000 +0100
+@@ -1,10 +1,10 @@
+ #! /bin/sh
+ # Configuration validation subroutine script.
+ #   Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
+-#   2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008
++#   2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009
+ #   Free Software Foundation, Inc.
+ 
+-timestamp='2009-04-17'
++timestamp='2009-06-11'
+ 
+ # This file is (in principle) common to ALL GNU software.
+ # The presence of a machine in this file suggests that SOME GNU software
+@@ -153,6 +153,9 @@
+ 		os=
+ 		basic_machine=$1
+ 		;;
++        -bluegene*)
++	        os=-cnk
++		;;
+ 	-sim | -cisco | -oki | -wec | -winbond)
+ 		os=
+ 		basic_machine=$1
+@@ -467,6 +470,10 @@
+ 		basic_machine=bfin-`echo $basic_machine | sed 's/^[^-]*-//'`
+ 		os=-linux
+ 		;;
++	bluegene*)
++		basic_machine=powerpc-ibm
++		os=-cnk
++		;;
+ 	c90)
+ 		basic_machine=c90-cray
+ 		os=-unicos
+@@ -1260,7 +1267,7 @@
+ 	# Each alternative MUST END IN A *, to match a version number.
+ 	# -sysv* is not here because it comes later, after sysvr4.
+ 	-gnu* | -bsd* | -mach* | -minix* | -genix* | -ultrix* | -irix* \
+-	      | -*vms* | -sco* | -esix* | -isc* | -aix* | -sunos | -sunos[34]*\
++	      | -*vms* | -sco* | -esix* | -isc* | -aix* | -cnk* | -sunos | -sunos[34]*\
+ 	      | -hpux* | -unos* | -osf* | -luna* | -dgux* | -solaris* | -sym* \
+ 	      | -kopensolaris* \
+ 	      | -amigaos* | -amigados* | -msdos* | -newsos* | -unicos* | -aof* \
+@@ -1613,7 +1620,7 @@
+ 			-sunos*)
+ 				vendor=sun
+ 				;;
+-			-aix*)
++			-cnk*|-aix*)
+ 				vendor=ibm
+ 				;;
+ 			-beos*)
