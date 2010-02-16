@@ -991,7 +991,7 @@ scan_for_XLLs_and_register_functions (const gchar *dir_name)
 							xll->handle = handle;
 							g_module_symbol (xll->handle, "xlAutoFree", (gpointer) &xll->xlAutoFree);
 							xlAutoOpenFunc = NULL;
-							if (g_module_symbol (xll->handle, "xlAutoOpen", (gpointer) &xlAutoOpenFunc)) {
+							if (g_module_symbol (xll->handle, "xlAutoOpen", (gpointer) &xlAutoOpenFunc) && xlAutoOpenFunc) {
 								currently_called_xll = xll;
 								xlAutoOpenFunc ();
 								currently_called_xll = NULL;

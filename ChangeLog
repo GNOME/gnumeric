@@ -1,3 +1,9 @@
+2010-02-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/excelplugins/excelplugins.c
+	(scan_for_XLLs_and_register_functions): don't call a NULL function.
+	[#610012]
+
 2010-02-13  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
