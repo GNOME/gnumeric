@@ -3,6 +3,9 @@ Gnumeric 1.10.1
 Jean:
 	* Fix a crasher in excelplugin: don't call a NULL function. [#610012]
 
+Morten:
+	* Turn off -Wstrict-prototypes for the stable series.
+
 --------------------------------------------------------------------------
 Gnumeric 1.10.0
 

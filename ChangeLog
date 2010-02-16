@@ -1,3 +1,7 @@
+2010-02-16  Morten Welinder  <terra@gnome.org>
+
+	* configure.in: turn off -Wstrict-prototypes for stable builds.
+
 2010-02-16  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/excelplugins/excelplugins.c
