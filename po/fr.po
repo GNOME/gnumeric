@@ -9838,8 +9838,8 @@ msgstr "Si toutes les cellules sont vides, le résultat sera nul."
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:105
-msgid "GNUMERIC_VERSION:the current version of GNumeric"
-msgstr "GNUMERIC_VERSION:le numéro de version de l'actuelle copie de GNumeric"
+msgid "GNUMERIC_VERSION:the current version of Gnumeric"
+msgstr "GNUMERIC_VERSION:le numéro de version de l'actuelle copie de Gnumeric"
 
 #: ../src/func-builtin.c:106
 msgid "GNUMERIC_VERSION returns the version of gnumeric as a string."

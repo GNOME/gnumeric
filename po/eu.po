@@ -9589,7 +9589,7 @@ msgid "If all cells are empty, the result will be 0."
 msgstr "Gelaxka guztiak hutsik egonez gero, emaitza 0 izango da."
 
 #: ../src/func-builtin.c:100
-msgid "GNUMERIC_VERSION:the current version of GNumeric"
+msgid "GNUMERIC_VERSION:the current version of Gnumeric"
 msgstr "GNUMERIC_VERSION: Gnumeric-ek uneko bertsioa"
 
 #: ../src/func-builtin.c:101

@@ -1179,7 +1179,7 @@ For metric units any of the following prefixes can be used:
 
 @CATEGORY=Engineering
 @FUNCTION=HEX2BIN
-@SHORTDESC=binary representation of the hexadecimalal number @{x}
+@SHORTDESC=binary representation of the hexadecimal number @{x}
 @SYNTAX=HEX2BIN(x,places)
 @ARGUMENTDESCRIPTION=@{x}: a hexadecimal number, either as a string or as a number if no A to F are needed
 @{places}: number of digits
@@ -2448,7 +2448,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Gnumeric
 @FUNCTION=GNUMERIC_VERSION
-@SHORTDESC=the current version of GNumeric
+@SHORTDESC=the current version of Gnumeric
 @SYNTAX=GNUMERIC_VERSION()
 @DESCRIPTION=GNUMERIC_VERSION returns the version of gnumeric as a string.
 
@@ -2544,7 +2544,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=GETENV
-@SHORTDESC=the value of execution environment varaible @{name}
+@SHORTDESC=the value of execution environment variable @{name}
 @SYNTAX=GETENV(name)
 @ARGUMENTDESCRIPTION=@{name}: the name of the environment variable
 @NOTE=If a variable called @{name} does not exist, #N/A! will be returned. Variable names are case sensitive.
@@ -5626,7 +5626,7 @@ This function is Excel compatible for non-negative @{x}.
 
 @CATEGORY=Statistics
 @FUNCTION=TTEST
-@SHORTDESC=p-value for a hypothesis test comparing the means of two populations usingthe Student t-distribution
+@SHORTDESC=p-value for a hypothesis test comparing the means of two populations using the Student t-distribution
 @SYNTAX=TTEST(array1,array2,tails,type)
 @ARGUMENTDESCRIPTION=@{array1}: sample from the first population
 @{array2}: sample from the second population

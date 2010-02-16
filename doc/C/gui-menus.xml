@@ -275,7 +275,7 @@
                 The items in this submenu allow the print area to be set, 
                 shown or cleared. The print area of a sheet is that range 
                 of the sheet that should be printed. Items outside of the
-                print area are usually ommitted when printing.
+                print area are usually omitted when printing.
   	       </para>
     <figure id="menu-file-printarea.png">
       <title>The <guimenu>Print Area</guimenu> submenu.</title>
@@ -1966,7 +1966,7 @@
 	    <para>
 	        <guimenuitem>Statistical Analysis</guimenuitem> &mdash; The
 	        <guimenuitem>Statistical Analysis</guimenuitem> menu item opens a
-	        submenu with all available atatistical analysis tools. These tools
+	        submenu with all available statistical analysis tools. These tools
             are explained in <xref linkend="chapter-stat-analysis" />.
 	      constraints. 
 	    </para>

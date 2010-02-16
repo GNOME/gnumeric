@@ -10101,8 +10101,8 @@ msgstr "Falls alle Zellen leer sind, ist das Ergebnis 0."
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:105
-msgid "GNUMERIC_VERSION:the current version of GNumeric"
-msgstr "GNUMERIC_VERSION:die aktuelle Version von GNumeric"
+msgid "GNUMERIC_VERSION:the current version of Gnumeric"
+msgstr "GNUMERIC_VERSION:die aktuelle Version von Gnumeric"
 
 #: ../src/func-builtin.c:106
 msgid "GNUMERIC_VERSION returns the version of gnumeric as a string."

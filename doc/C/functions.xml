@@ -4106,7 +4106,7 @@
           <function>HEX2BIN</function>
         </refname>
         <refpurpose>
-        binary representation of the hexadecimalal number <parameter>x</parameter>
+        binary representation of the hexadecimal number <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -7950,7 +7950,7 @@
           <function>GNUMERIC_VERSION</function>
         </refname>
         <refpurpose>
-        the current version of GNumeric
+        the current version of Gnumeric
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -8230,7 +8230,7 @@
           <function>GETENV</function>
         </refname>
         <refpurpose>
-        the value of execution environment varaible <parameter>name</parameter>
+        the value of execution environment variable <parameter>name</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -19312,7 +19312,7 @@
           <function>TTEST</function>
         </refname>
         <refpurpose>
-        p-value for a hypothesis test comparing the means of two populations usingthe Student t-distribution
+        p-value for a hypothesis test comparing the means of two populations using the Student t-distribution
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>

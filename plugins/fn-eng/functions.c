@@ -468,7 +468,7 @@ gnumeric_oct2hex (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_hex2bin[] = {
-        { GNM_FUNC_HELP_NAME, F_("HEX2BIN:binary representation of the hexadecimalal number @{x}") },
+        { GNM_FUNC_HELP_NAME, F_("HEX2BIN:binary representation of the hexadecimal number @{x}") },
         { GNM_FUNC_HELP_ARG, F_("x:a hexadecimal number, either as a string or as a number if no A to F are needed") },
         { GNM_FUNC_HELP_ARG, F_("places:number of digits") },
         { GNM_FUNC_HELP_DESCRIPTION, F_("If @{places} is given, HEX2BIN pads the result with zeros to achieve "

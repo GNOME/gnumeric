@@ -2014,7 +2014,7 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-eng/functions.c:473
-msgid "HEX2BIN:binary representation of the hexadecimalal number @{x}"
+msgid "HEX2BIN:binary representation of the hexadecimal number @{x}"
 msgstr ""
 
 #: ../plugins/fn-eng/functions.c:474 ../plugins/fn-eng/functions.c:497
@@ -3835,7 +3835,7 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-info/functions.c:1756
-msgid "GETENV:the value of execution environment varaible @{name}"
+msgid "GETENV:the value of execution environment variable @{name}"
 msgstr ""
 
 #: ../plugins/fn-info/functions.c:1757
@@ -8252,7 +8252,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:2913
 msgid ""
 "TTEST:p-value for a hypothesis test comparing the means of two populations "
-"usingthe Student t-distribution"
+"using the Student t-distribution"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2917

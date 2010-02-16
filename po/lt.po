@@ -9780,8 +9780,8 @@ msgid "If all cells are empty, the result will be 0."
 msgstr "Jeigu visi langeliai yra tušti, rezultatas – 0."
 
 #: ../src/func-builtin.c:100
-msgid "GNUMERIC_VERSION:the current version of GNumeric"
-msgstr "GNUMERIC_VERSION:dabartinė GNumeric versija"
+msgid "GNUMERIC_VERSION:the current version of Gnumeric"
+msgstr "GNUMERIC_VERSION:dabartinė Gnumeric versija"
 
 #: ../src/func-builtin.c:101
 msgid "GNUMERIC_VERSION returns the version of gnumeric as a string."

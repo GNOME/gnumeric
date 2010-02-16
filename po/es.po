@@ -10149,7 +10149,7 @@ msgstr ""
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:105
-msgid "GNUMERIC_VERSION:the current version of GNumeric"
+msgid "GNUMERIC_VERSION:the current version of Gnumeric"
 msgstr ""
 
 #: ../src/func-builtin.c:106

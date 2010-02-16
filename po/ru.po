@@ -9505,7 +9505,7 @@ msgid "If all cells are empty, the result will be 0."
 msgstr "Если все ячейки пусты, результат будет равен 0."
 
 #: ../src/func-builtin.c:100
-msgid "GNUMERIC_VERSION:the current version of GNumeric"
+msgid "GNUMERIC_VERSION:the current version of Gnumeric"
 msgstr "GNUMERIC_VERSION:версия gnumeric"
 
 #: ../src/func-builtin.c:101

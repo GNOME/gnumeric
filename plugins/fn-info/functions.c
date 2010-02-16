@@ -1789,7 +1789,7 @@ gnumeric_type (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_getenv[] = {
-        { GNM_FUNC_HELP_NAME, F_("GETENV:the value of execution environment varaible @{name}")},
+        { GNM_FUNC_HELP_NAME, F_("GETENV:the value of execution environment variable @{name}")},
         { GNM_FUNC_HELP_ARG, F_("name:the name of the environment variable")},
 	{ GNM_FUNC_HELP_NOTE, F_("If a variable called @{name} does not exist, #N/A! will be returned.") },
 	{ GNM_FUNC_HELP_NOTE, F_("Variable names are case sensitive.") },

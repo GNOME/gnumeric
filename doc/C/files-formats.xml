@@ -1801,7 +1801,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     <title>Microsoft Excel 2003 XML File Format</title>
 
     <para>
-      Microsoft Exce<trademark/> 2003 shipped with a file format
+      Microsoft Excel<trademark/> 2003 shipped with a file format
       called SpreadsheetML.  This file is XML.  It is not very common,
       but its core features are supported.
     </para>
