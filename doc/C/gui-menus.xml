@@ -1081,7 +1081,7 @@
                   </para>
                 </listitem>
               </itemizedlist>
-              <para>In all csaes, the region of the worksheet above or to the right 
+              <para>In all cases, the region of the worksheet above or to the right 
                 of the currently visible region will become inaccessible until the
                 view is unfrozen.
               </para>

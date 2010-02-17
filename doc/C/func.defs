@@ -3109,7 +3109,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=CHOLESKY
-@SHORTDESC=the Cholesky decomposition of the symmetric positiv-definite @{matrix}
+@SHORTDESC=the Cholesky decomposition of the symmetric positive-definite @{matrix}
 @SYNTAX=CHOLESKY(matrix)
 @ARGUMENTDESCRIPTION=@{matrix}: a symmetric positive definite matrix
 @NOTE=If the Cholesky-Banachiewicz algorithm applied to @{matrix} fails, Cholesky returns #NUM! If @{matrix} does not contain an equal number of columns and rows, CHOLESKY returns #VALUE!

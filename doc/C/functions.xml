@@ -10355,7 +10355,7 @@
           <function>CHOLESKY</function>
         </refname>
         <refpurpose>
-        the Cholesky decomposition of the symmetric positiv-definite <parameter>matrix</parameter>
+        the Cholesky decomposition of the symmetric positive-definite <parameter>matrix</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>

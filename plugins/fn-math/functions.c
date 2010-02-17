@@ -2680,7 +2680,7 @@ gnumeric_minverse (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_cholesky[] = {
-        { GNM_FUNC_HELP_NAME, F_("CHOLESKY:the Cholesky decomposition of the symmetric positiv-definite @{matrix}")},
+        { GNM_FUNC_HELP_NAME, F_("CHOLESKY:the Cholesky decomposition of the symmetric positive-definite @{matrix}")},
         { GNM_FUNC_HELP_ARG, F_("matrix:a symmetric positive definite matrix")},
 	{ GNM_FUNC_HELP_NOTE, F_("If the Cholesky-Banachiewicz algorithm applied to @{matrix} fails, Cholesky returns #NUM!") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{matrix} does not contain an equal number of columns and rows, CHOLESKY returns #VALUE!") },
