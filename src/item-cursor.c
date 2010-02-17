@@ -69,7 +69,7 @@ struct _ItemCursor {
 	/*
 	 * For the autofill mode:
 	 *     Where the action started (base_x, base_y) and the
-	 *     width and heigth of the selection when the autofill
+	 *     width and height of the selection when the autofill
 	 *     started.
 	 */
 	int   base_x, base_y;
