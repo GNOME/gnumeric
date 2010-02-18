@@ -1,7 +1,11 @@
 2010-02-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (oo_db_range_end): reapply filter [#610399]
+
+2010-02-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_objects): don't export the filter
-	  combos
+	  combos [#610399]
 
 2010-02-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

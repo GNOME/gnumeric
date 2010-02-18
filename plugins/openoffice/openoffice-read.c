@@ -3084,7 +3084,11 @@ static void
 oo_db_range_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	state->filter = NULL;
+	
+	if (state->filter != NULL) {
+		gnm_filter_reapply (state->filter);
+		state->filter = NULL;
+	}
 }
 
 static void
