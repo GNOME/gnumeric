@@ -1,7 +1,14 @@
 2010-02-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (odf_write_cell): Sore error literals
-	  as assignment. FIxes #610175.
+	* openoffice-write.c (odf_write_cell): use value_get_as_gstring
+	  rather than value_get_as_float [#610372]
+	(odf_write_filter_cond): use value_get_as_gstring rather than
+	  value_get_as_string [#610372]
+
+2010-02-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_cell): Store error literals
+	  as assignment. Fixes #610175.
 
 2010-02-18  Morten Welinder  <terra@gnome.org>
 

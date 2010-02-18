@@ -2359,13 +2359,16 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			odf_add_bool (state->xml, OFFICE "boolean-value",
 				value_get_as_bool (cell->value, NULL));
 			break;
-		case VALUE_FLOAT:
+		case VALUE_FLOAT: {
+			GString *str = g_string_new (NULL);
+
 			gsf_xml_out_add_cstr_unchecked (state->xml,
 							OFFICE "value-type", "float");
-			gsf_xml_out_add_float (state->xml, OFFICE "value",
-					       value_get_as_float
-					       (cell->value),
-					       -1);
+			value_get_as_gstring (cell->value, str, state->conv);
+			gsf_xml_out_add_cstr (state->xml, OFFICE "value", str->str);
+
+			g_string_free (str, TRUE);
+		}
 			break;
 		case VALUE_ERROR:
 			if (NULL == cell->base.texpr) {
@@ -2421,7 +2424,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			GString *str = g_string_new (NULL);
 			const PangoAttrList * markup;
 
-			value_get_as_gstring (cell->value, str, NULL);
+			value_get_as_gstring (cell->value, str, state->conv);
 			markup = go_format_get_markup (VALUE_FMT (cell->value));
 
 			gsf_xml_out_start_element (state->xml, TEXT "p");
@@ -2766,7 +2769,7 @@ odf_write_filter_cond (GnmOOExport *state, GnmFilter const *filter, int i)
 {
 	GnmFilterCondition const *cond = gnm_filter_get_condition (filter, i);
 	char const *op, *type = NULL;
-	char *val_str = NULL;
+	GString *val_str = NULL;
 
 	if (cond == NULL)
 		return;
@@ -2793,23 +2796,26 @@ odf_write_filter_cond (GnmOOExport *state, GnmFilter const *filter, int i)
 	}
 
 	if (GNM_FILTER_OP_TYPE_BUCKETS == (cond->op[0] & GNM_FILTER_OP_TYPE_MASK)) {
+		val_str = g_string_new (NULL);
 		type = "number";
-		val_str = g_strdup_printf ("%g", cond->count);
+		g_string_printf (val_str, "%g", cond->count);
 	} else if (GNM_FILTER_OP_TYPE_BLANKS  != (cond->op[0] & GNM_FILTER_OP_TYPE_MASK)) {
+		val_str = g_string_new (NULL);
 		type = VALUE_IS_FLOAT (cond->value[0]) ? "number" : "text";
-		val_str = value_get_as_string (cond->value[0]);
+		value_get_as_gstring (cond->value[0], val_str, state->conv);
 	}
 
 	gsf_xml_out_start_element (state->xml, TABLE "filter-condition");
 	gsf_xml_out_add_int (state->xml, TABLE "field-number", i);
-	if (NULL != type) {
+	if (NULL != type && val_str != NULL) {
 		gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "data-type", type);
-		gsf_xml_out_add_cstr (state->xml, TABLE "value", val_str);
+		gsf_xml_out_add_cstr (state->xml, TABLE "value", val_str->str);
 	}
 	gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "operator", op);
 	gsf_xml_out_end_element (state->xml); /* </table:filter-condition> */
 
-	g_free (val_str);
+	if (val_str)
+		g_string_free (val_str, TRUE);
 }
 
 static void

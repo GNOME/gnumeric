@@ -433,9 +433,10 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 						gsf_xml_out_add_int (xml, NULL, str_id);
 						str_id = -1;
 					} else if (val->type != VALUE_BOOLEAN) {
-						content = value_get_as_string (cell->value);
-						gsf_xml_out_add_cstr (xml, NULL, content);
-						g_free (content);
+						GString *str = g_string_new (NULL);
+						value_get_as_gstring (cell->value, str, state->convs);
+						gsf_xml_out_add_cstr (xml, NULL, str->str);
+						g_string_free (str, TRUE);
 					} else
 						xlsx_add_bool (xml, NULL, val->v_bool.val);
 					gsf_xml_out_end_element (xml); /* </v> */
