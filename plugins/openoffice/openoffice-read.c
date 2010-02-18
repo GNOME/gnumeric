@@ -5372,8 +5372,9 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	i = workbook_sheet_count (state.pos.wb);
 	while (i-- > 0)
 		sheet_flag_recompute_spans (workbook_sheet_by_index (state.pos.wb, i));
+	workbook_queue_all_recalc (state.pos.wb);
 
-	for (i = 0; i<NUM_FORMULAE_SUPPORTED; i++)
+	for (i = 0; i < NUM_FORMULAE_SUPPORTED; i++)
 		if (state.convs[i] != NULL)
 			gnm_conventions_free (state.convs[i]);
 

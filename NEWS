@@ -5,6 +5,7 @@ Jean:
 
 Morten:
 	* Turn off -Wstrict-prototypes for the stable series.
+	* Fix ods read problem.  [#610178]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.0

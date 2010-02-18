@@ -1,3 +1,8 @@
+2010-02-18  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (openoffice_file_open): Queue everything for
+	recalc since we use gnm_cell_set_expr_and_value.  Fixes #610178.
+
 2010-02-13  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.0
