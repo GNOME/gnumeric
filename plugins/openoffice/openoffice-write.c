@@ -2351,6 +2351,8 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 		}
 
 		switch (cell->value->type) {
+		case VALUE_EMPTY:
+			break;
 		case VALUE_BOOLEAN:
 			gsf_xml_out_add_cstr_unchecked (state->xml,
 							OFFICE "value-type", "boolean");
@@ -2365,24 +2367,33 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 					       (cell->value),
 					       -1);
 			break;
-
-		case VALUE_STRING:
-			gsf_xml_out_add_cstr_unchecked (state->xml,
-							OFFICE "value-type", "string");
-			break;
 		case VALUE_ERROR:
+			if (NULL == cell->base.texpr) {
+				/* see https://bugzilla.gnome.org/show_bug.cgi?id=610175 */
+				/* this is the same that Excel does, OOo does not have   */
+				/* error literals. ODF 1.2 might be introducing a new    */
+				/* value-type to address this issue                      */
+				char *eq_formula = g_strdup_printf 
+					("of:=%s", value_peek_string (cell->value));
+				gsf_xml_out_add_cstr (state->xml,
+						      TABLE "formula",
+						      eq_formula);
+				g_free (eq_formula);
+			}
 			gsf_xml_out_add_cstr_unchecked (state->xml,
 							OFFICE "value-type", "string");
 			gsf_xml_out_add_cstr (state->xml,
 					      OFFICE "string-value",
 					      value_peek_string (cell->value));
 			break;
-
-		case VALUE_ARRAY:
+		case VALUE_STRING:
+			gsf_xml_out_add_cstr_unchecked (state->xml,
+							OFFICE "value-type", "string");
+			break;
 		case VALUE_CELLRANGE:
+		case VALUE_ARRAY:
 		default:
 			break;
-
 		}
 	}
 

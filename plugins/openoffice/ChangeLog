@@ -1,3 +1,8 @@
+2010-02-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_cell): Sore error literals
+	  as assignment. FIxes #610175.
+
 2010-02-18  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (openoffice_file_open): Queue everything for

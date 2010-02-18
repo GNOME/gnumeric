@@ -1,5 +1,8 @@
 Gnumeric 1.10.1
 
+Andreas:
+	* Fix storing of error-literals in ODF. [#610175]
+
 Jean:
 	* Fix a crasher in excelplugin: don't call a NULL function. [#610012]
 
