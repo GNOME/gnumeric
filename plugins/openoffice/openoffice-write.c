@@ -64,6 +64,7 @@
 #include <sheet-object.h>
 #include <sheet-object-graph.h>
 #include <sheet-object-cell-comment.h>
+#include <sheet-filter-combo.h>
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output.h>
@@ -2225,7 +2226,7 @@ odf_write_objects (GnmOOExport *state, GSList *objects)
 		}
 		if (IS_CELL_COMMENT (so))
 			odf_write_comment (state, CELL_COMMENT (so));
-		else
+		else if (!IS_GNM_FILTER_COMBO (so))
 			odf_write_frame (state, so);
 	}
 }
