@@ -1135,7 +1135,7 @@ static GnmFuncHelp const help_match[] = {
 	{ GNM_FUNC_HELP_NAME, F_("MATCH:the index of @{seek} in @{vector}")},
         { GNM_FUNC_HELP_ARG, F_("seek:value to find")},
         { GNM_FUNC_HELP_ARG, F_("vector:n by 1 or 1 by n range to be searched")},
-        { GNM_FUNC_HELP_ARG, F_("type:+1 to find the largest value \xe2\x89\xa4 @{seek}, "
+        { GNM_FUNC_HELP_ARG, F_("type:+1 (the default) to find the largest value \xe2\x89\xa4 @{seek}, "
 				"0 to find the first value = @{seek}, or"
 				"-1 to find the smallest value \xe2\x89\xa5 @{seek}")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("MATCH searches @{vector} for @{seek} and returns the 1-based index.")},
