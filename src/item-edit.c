@@ -325,8 +325,6 @@ item_edit_update_bounds (GocItem *item)
 		pango_layout_set_attributes (ie->layout, attrs);
 		pango_attr_list_unref (attrs);
 
-		text = wbcg_edit_get_display_text (scg_wbcg (ie->scg));
-
 		if (pane->preedit_length) {
 			PangoAttrList *tmp_attrs = pango_attr_list_new ();
 			pango_attr_list_splice (tmp_attrs, pane->preedit_attrs,

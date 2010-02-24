@@ -107,6 +107,8 @@ void scg_drag_data_get      (SheetControlGUI *scg,
 
 void scg_delete_sheet_if_possible (SheetControlGUI *scg);
 
+void scg_reload_item_edits (SheetControlGUI *scg);
+
 /* Convenience wrappers.  */
 SheetView	*scg_view	(SheetControlGUI const *scg);
 Sheet		*scg_sheet	(SheetControlGUI const *scg);

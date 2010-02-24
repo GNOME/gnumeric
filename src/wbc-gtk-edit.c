@@ -329,6 +329,8 @@ workbook_edit_complete_notify (char const *text, void *closure)
 
 	g_free (wbcg->auto_complete_text);
 	wbcg->auto_complete_text = g_strdup (text);
+
+	scg_reload_item_edits (wbcg_cur_scg (wbcg));
 }
 
 static void

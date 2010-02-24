@@ -1,3 +1,11 @@
+2010-02-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/item-edit.c (item_edit_update_bounds): remove duplicated code
+	* src/sheet-control-gui.c (scg_reload_item_edits): new
+	* src/sheet-control-gui.h (scg_reload_item_edits): new
+	* src/wbc-gtk-edit.c (workbook_edit_complete_notify): also reload
+	  item edits
+
 2010-02-16  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: turn off -Wstrict-prototypes for stable builds.

@@ -3734,3 +3734,13 @@ scg_delete_sheet_if_possible (SheetControlGUI *scg)
 		cmd_reorganize_sheets (wbc, old_state, sheet);
 	}
 }
+
+void 
+scg_reload_item_edits (SheetControlGUI *scg)
+{
+	SCG_FOREACH_PANE (scg, pane, {
+			if (pane->editor != NULL)
+				goc_item_bounds_changed 
+					(GOC_ITEM (pane->editor));
+	});
+}

@@ -4,6 +4,7 @@ Andreas:
 	* Fix storing of error-literals in ODF. [#610175]
 	* Don't export filter combos to ODF. [#610399]
 	* Apply filter on ODF import. [#610399]
+	* Fix display of autocomplete suggestions [#610537]
 
 Jean:
 	* Fix a crasher in excelplugin: don't call a NULL function. [#610012]
