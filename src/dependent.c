@@ -1541,6 +1541,8 @@ iterate :
 			}
 			value_release (cell->value);
 			cell->value = v;
+
+			gnm_cell_unrender (cell);
 #ifdef DEBUG_EVALUATION
 			puts ("/* LOOP */");
 #endif

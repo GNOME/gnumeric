@@ -1,3 +1,8 @@
+2010-02-26  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (gnm_cell_eval_content): Fix rendering problem
+	with iterated calculation.
+
 2010-02-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/item-edit.c (item_edit_update_bounds): remove duplicated code
