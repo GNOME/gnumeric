@@ -182,7 +182,7 @@
   <entry>application/x-sc</entry>
 </row>
 <row>
-  <entry><link linkend="file-format-sylk">Mutiplan (SYLK)</link></entry>
+  <entry><link linkend="file-format-sylk">Multiplan (SYLK)</link></entry>
   <entry> <literal>.sylk</literal> / <literal>.slk</literal></entry> 
   <entry>YES</entry>
   <entry>YES</entry>
