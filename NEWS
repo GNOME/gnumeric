@@ -13,6 +13,7 @@ Morten:
 	* Turn off -Wstrict-prototypes for the stable series.
 	* Fix ODF read problem.  [#610178]
 	* Fix rendering problem with iterated evaluation.
+	* Fix solver undo problem.  [#611406]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.0

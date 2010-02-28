@@ -6336,7 +6336,7 @@ cmd_solver (WorkbookControl *wbc, const char *txt, GOUndo *undo, GOUndo *redo)
 
 	me = g_object_new (CMD_SOLVER_TYPE, NULL);
 
-	me->cmd.sheet = NULL;
+	me->cmd.sheet = wb_control_cur_sheet (wbc);
 	me->cmd.size = 1;
 	me->cmd.cmd_descriptor = g_strdup (txt);
 

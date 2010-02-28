@@ -1,3 +1,7 @@
+2010-02-28  Morten Welinder  <terra@gnome.org>
+
+	* src/commands.c (cmd_solver): Set cmd.sheet.  Fixes #611406.
+
 2010-02-26  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (gnm_cell_eval_content): Fix rendering problem
