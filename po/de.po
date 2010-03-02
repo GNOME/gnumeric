@@ -42,7 +42,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-07 16:06+0100\n"
+"POT-Creation-Date: 2010-03-02 09:24-0500\n"
 "PO-Revision-Date: 2010-01-07 01:19+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
@@ -115,7 +115,7 @@ msgstr "CORBA-Schnittstelle"
 msgid "Provides a CORBA scripting interface"
 msgstr "Stellt eine CORBA-Skriptschnittstelle zur Verfügung"
 
-#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6767
+#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6770
 #: ../plugins/openoffice/openoffice-read.c:5290 ../src/xml-sax-read.c:3066
 msgid "Reading file..."
 msgstr "Datei wird gelesen …"
@@ -218,43 +218,43 @@ msgstr "Unerwartetes Attribut %s::%s == »%s«."
 msgid "XML document not well formed!"
 msgstr "Das XML-Dokument ist nicht wohlgeformt (\"well formed\")!"
 
-#: ../plugins/excel/ms-excel-read.c:1349 ../src/value.c:76
+#: ../plugins/excel/ms-excel-read.c:1352 ../src/value.c:76
 msgid "#UNKNOWN!"
 msgstr "#UNBEKANNT!"
 
-#: ../plugins/excel/ms-excel-read.c:1446 ../plugins/excel/ms-excel-read.c:1457
+#: ../plugins/excel/ms-excel-read.c:1449 ../plugins/excel/ms-excel-read.c:1460
 #: ../plugins/oleo/oleo.c:230 ../plugins/psiconv/psiconv-read.c:544
 #, c-format
 msgid "Sheet%d"
 msgstr "Blatt%d"
 
-#: ../plugins/excel/ms-excel-read.c:1461
+#: ../plugins/excel/ms-excel-read.c:1464
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: ../plugins/excel/ms-excel-read.c:1465
+#: ../plugins/excel/ms-excel-read.c:1468
 #, c-format
 msgid "Chart%d"
 msgstr "Diagramm%d"
 
-#: ../plugins/excel/ms-excel-read.c:1468
+#: ../plugins/excel/ms-excel-read.c:1471
 #, c-format
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: ../plugins/excel/ms-excel-read.c:3356
+#: ../plugins/excel/ms-excel-read.c:3359
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Name »%s« konnte nicht verarbeitet werden"
 
-#: ../plugins/excel/ms-excel-read.c:3470
+#: ../plugins/excel/ms-excel-read.c:3473
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
 msgstr ""
 "Falscher Ausdruck für die Bezeichnung »%s«: Inhalt wird verloren gehen\n"
 
-#: ../plugins/excel/ms-excel-read.c:3475
+#: ../plugins/excel/ms-excel-read.c:3478
 #, c-format
 msgid ""
 "DDE links are not supported yet.\n"
@@ -263,7 +263,7 @@ msgstr ""
 "DDE-Verknüpfungen werden noch nicht unterstützt.\n"
 "Der Name »%s« geht verloren.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3479
+#: ../plugins/excel/ms-excel-read.c:3482
 #, c-format
 msgid ""
 "OLE links are not supported yet.\n"
@@ -272,11 +272,11 @@ msgstr ""
 "OLE-Verknüpfungen werden noch nicht unterstützt.\n"
 "Der Name »%s« geht verloren.\n"
 
-#: ../plugins/excel/ms-excel-read.c:5912
+#: ../plugins/excel/ms-excel-read.c:5915
 msgid "external references"
 msgstr "externe Bezüge"
 
-#: ../plugins/excel/ms-excel-read.c:5951
+#: ../plugins/excel/ms-excel-read.c:5954
 msgid "No password supplied"
 msgstr "Kein Passwort angegeben"
 
@@ -320,11 +320,11 @@ msgstr ""
 "Es wurde bereits die Länge einer Zeichenkette für diese reserviert, obwohl "
 "sie auf Grund von Problemen mit der Zeichenkodierung abgeschnitten wird."
 
-#: ../plugins/excel/ms-excel-write.c:6271
+#: ../plugins/excel/ms-excel-write.c:6274
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Datenstrom »Book« konnte nicht zum Schreiben geöffnet werden.\n"
 
-#: ../plugins/excel/ms-excel-write.c:6293
+#: ../plugins/excel/ms-excel-write.c:6296
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Datenstrom »Workbook« konnte nicht zum Schreiben geöffnet werden.\n"
 
@@ -503,6 +503,84 @@ msgid "Skipping invalid pivot field group for field '%s' because : %s"
 msgstr ""
 "Ungültige Schlüsselfeldgruppe für Feld »%s« wird übersprungen, weil : %s"
 
+#. We don't attempt to flatten a 3D range to an array.
+#: ../plugins/excelplugins/excelplugins.c:316
+msgid "Cannot convert 3D cell range to XLOPER."
+msgstr ""
+
+#: ../plugins/excelplugins/excelplugins.c:357
+#, fuzzy, c-format
+msgid "Unsupported GnmValue type (%d)"
+msgstr "Nicht unterstützter Python-Typ: %s"
+
+#: ../plugins/excelplugins/excelplugins.c:617
+#, fuzzy, c-format
+msgid "%s: %s"
+msgstr "%s (%s)"
+
+#: ../plugins/excelplugins/excelplugins.c:642
+#, c-format
+msgid ""
+"Overriding function %s from XLL/DLL/SO file %s with function of the same "
+"name from XLL/DLL/SO file %s."
+msgstr ""
+
+#: ../plugins/excelplugins/excelplugins.c:652
+#, c-format
+msgid "Failed to find function \"%s\" in XLL/DLL/SO %s .\n"
+msgstr ""
+
+#: ../plugins/excelplugins/excelplugins.c:702
+#, c-format
+msgid ""
+"Excel plugin loader / xlfRegister: at least three XLOPER arguments must be "
+"provided (DLL name[ignored],exported name[mandatory],types string"
+"[mandatory]). You supplied %d in some function loaded from XLL/DLL/SO file %"
+"s."
+msgstr ""
+
+#: ../plugins/excelplugins/excelplugins.c:709
+msgid ""
+"Excel plugin loader / xlfRegister: the second and third argument must be "
+"strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."
+msgstr ""
+
+#: ../plugins/excelplugins/excelplugins.c:938
+msgid "Dynamic module loading is not supported on this system."
+msgstr ""
+
+#: ../plugins/excelplugins/excelplugins.c:950
+#, fuzzy, c-format
+msgid "Unable to open module file \"%s\"."
+msgstr "Datei »%s« kann nicht geöffnet werden."
+
+#: ../plugins/excelplugins/excelplugins.c:955
+#, c-format
+msgid "Module \"%s\" doesn't contain (\"register_actual_excel4v\" symbol)."
+msgstr ""
+
+#: ../plugins/excelplugins/excelplugins.c:999
+#, c-format
+msgid "No loadable worksheet functions found in XLL/DLL/SO file %s ."
+msgstr ""
+
+#: ../plugins/excelplugins/excelplugins.c:1002
+#, c-format
+msgid "Loaded %lu functions from XLL/DLL/SO %s ."
+msgstr ""
+
+#. *************************************************************************
+#: ../plugins/excelplugins/plugin.xml.in.h:1
+msgid ""
+"Adapter interface to load Excel plugins (also known as XLLs). Only "
+"operational for worksheet functions that expect only arguments of LPXLOPER "
+"type (type 'P' or 'R') and return an LPXLOPER (type 'P' or 'R')."
+msgstr ""
+
+#: ../plugins/excelplugins/plugin.xml.in.h:2
+msgid "Excel plugins"
+msgstr ""
+
 #: ../plugins/fn-christian-date/plugin.xml.in.h:1
 msgid "Christian Date Functions"
 msgstr "Christliche Datumsfunktionen"
@@ -680,9 +758,9 @@ msgid "%s version %s"
 msgstr "%s Version %s"
 
 #: ../plugins/fn-info/functions.c:1406
-#: ../src/dialogs/dialog-cell-format.c:2515
-#: ../src/dialogs/dialog-cell-format.c:2519
-#: ../src/dialogs/dialog-cell-format.c:2527 ../src/wbc-gtk.c:2869
+#: ../src/dialogs/dialog-cell-format.c:2530
+#: ../src/dialogs/dialog-cell-format.c:2534
+#: ../src/dialogs/dialog-cell-format.c:2542 ../src/wbc-gtk.c:2885
 msgid "Automatic"
 msgstr "Automatisch"
 
@@ -801,7 +879,7 @@ msgstr "Zufallszahlen-Funktionen"
 msgid "Random Numbers"
 msgstr "Zufallszahlen"
 
-#: ../plugins/fn-stat/functions.c:2400 ../plugins/fn-stat/functions.c:2430
+#: ../plugins/fn-stat/functions.c:2399 ../plugins/fn-stat/functions.c:2429
 msgid "Array version not implemented!"
 msgstr "Feldversion nicht implementiert!"
 
@@ -810,7 +888,7 @@ msgid "Functions for manipulating strings"
 msgstr "Funktionen zur Manipulation von Zeichenketten"
 
 #: ../plugins/fn-string/plugin.xml.in.h:2 ../src/dialogs/dialog-search.c:150
-#: ../src/func.c:1115
+#: ../src/func.c:1139
 msgid "String"
 msgstr "Zeichenkette"
 
@@ -1128,7 +1206,7 @@ msgstr "GNU Oleo (*.oleo)"
 msgid "Imports GNU Oleo documents"
 msgstr "»GNU Oleo«-Dokumente importieren"
 
-#: ../plugins/openoffice/openoffice-read.c:691
+#: ../plugins/openoffice/openoffice-read.c:690
 #, c-format
 msgid ""
 "Unable to parse\n"
@@ -1139,57 +1217,57 @@ msgstr ""
 "kann aufgrund von »%s«\n"
 "nicht verarbeitet werden"
 
-#: ../plugins/openoffice/openoffice-read.c:1061
+#: ../plugins/openoffice/openoffice-read.c:1060
 #, c-format
 msgid "Content past the maximum number of rows (%i) supported."
 msgstr "Inhalt überschreitet die maximal unterstützte Anzahl von (%i) Reihen"
 
-#: ../plugins/openoffice/openoffice-read.c:1169
+#: ../plugins/openoffice/openoffice-read.c:1168
 msgid "Missing expression"
 msgstr "Ausdruck fehlt"
 
-#: ../plugins/openoffice/openoffice-read.c:1188
+#: ../plugins/openoffice/openoffice-read.c:1187
 #, c-format
 msgid "Missing or unknown expression namespace: %s"
 msgstr "Unbekannter oder fehlender Ausdruck im Namensraum »%s«"
 
-#: ../plugins/openoffice/openoffice-read.c:1196
+#: ../plugins/openoffice/openoffice-read.c:1195
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "Ausdruck »%s« beginnt mit keinem bekannten Zeichen"
 
-#: ../plugins/openoffice/openoffice-read.c:1323
+#: ../plugins/openoffice/openoffice-read.c:1322
 msgid "Invalid array expression does not specify number of columns."
 msgstr "Ungültiger Datenfeldausdruck gibt die Spaltenanzahl nicht an."
 
-#: ../plugins/openoffice/openoffice-read.c:1326
+#: ../plugins/openoffice/openoffice-read.c:1325
 msgid "Invalid array expression does not specify number of rows."
 msgstr "Ungültiger Datenfeldausdruck gibt die Zeilenanzahl nicht an."
 
-#: ../plugins/openoffice/openoffice-read.c:1528
+#: ../plugins/openoffice/openoffice-read.c:1527
 msgid "Duplicate default column style encountered."
 msgstr "Doppelter Standard-Spalten-Stil gefunden."
 
-#: ../plugins/openoffice/openoffice-read.c:1543
+#: ../plugins/openoffice/openoffice-read.c:1542
 msgid "Duplicate default row style encountered."
 msgstr "Doppelter Standard-Zeilen-Stil gefunden."
 
-#: ../plugins/openoffice/openoffice-read.c:2576
+#: ../plugins/openoffice/openoffice-read.c:2575
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr "Unbekannter Unterbrechnungstype »%s« wird auf Standard NONE gesetzt"
 
-#: ../plugins/openoffice/openoffice-read.c:2796
+#: ../plugins/openoffice/openoffice-read.c:2795
 #, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
 msgstr "Unbekannte Bedingung »%s« wurde gefunden, wird ignoriert."
 
-#: ../plugins/openoffice/openoffice-read.c:3042
+#: ../plugins/openoffice/openoffice-read.c:3041
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "Ausdruck »%s« @ »%s« ist keine Zellenreferenz"
 
-#: ../plugins/openoffice/openoffice-read.c:3079
+#: ../plugins/openoffice/openoffice-read.c:3078
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Ungültiger DB-Bereich »%s«"
@@ -1916,15 +1994,21 @@ msgstr ""
 "Bitte verwenden Sie den Druckeinstellungsdialog zum Bearbeiten dieses Werts."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:47
+#, fuzzy
+msgid "Please use the Text Export dialog to edit this value."
+msgstr ""
+"Bitte verwenden Sie den Druckeinstellungsdialog zum Bearbeiten dieses Werts."
+
+#: ../schemas/gnumeric-dialogs.schemas.in.h:48
 msgid "Preferred Display Unit"
 msgstr "Bevorzugte Anzeigeeinheit"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:48
+#: ../schemas/gnumeric-dialogs.schemas.in.h:49
 #: ../schemas/gnumeric-general.schemas.in.h:29
 msgid "Sans"
 msgstr "Sans"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:49
+#: ../schemas/gnumeric-dialogs.schemas.in.h:50
 msgid ""
 "Some dialogs contain only a single entry field that allows range selections "
 "in the workbook. Setting this variable to TRUE directs selections to this "
@@ -1935,11 +2019,24 @@ msgstr ""
 "»TRUE« leitet Markierungen an diesen Eintrag weiter, sogar wenn der Eintrag "
 "keinen Tastaturfokus hat."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:50
+#: ../schemas/gnumeric-dialogs.schemas.in.h:51
 msgid "System Directory for Autoformats"
 msgstr "Systemverzeichnis für Auto-Formatierungen"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:51
+#: ../schemas/gnumeric-dialogs.schemas.in.h:52
+msgid "Text Export Field Separator"
+msgstr ""
+
+#: ../schemas/gnumeric-dialogs.schemas.in.h:53
+msgid "Text Export Record Terminator"
+msgstr ""
+
+#: ../schemas/gnumeric-dialogs.schemas.in.h:54
+#, fuzzy
+msgid "Text Export String Indicator"
+msgstr "Textindikator"
+
+#: ../schemas/gnumeric-dialogs.schemas.in.h:55
 msgid ""
 "The autocorrect engine does not correct the first letter for words in this "
 "list."
@@ -1947,7 +2044,7 @@ msgstr ""
 "Der ersten Buchstaben von Wörter in dieser Liste wird nicht von der Auto-"
 "Korrektur korrigiert."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:52
+#: ../schemas/gnumeric-dialogs.schemas.in.h:56
 msgid ""
 "The autocorrect engine does not correct the initial caps for words in this "
 "list."
@@ -1955,28 +2052,28 @@ msgstr ""
 "Die großen Anfangsbuchstaben von Wörtern in dieser Liste werden nicht "
 "automatisch berichtigt."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:53
+#: ../schemas/gnumeric-dialogs.schemas.in.h:57
 msgid "The configuration of GTKPrintSetting. Do not edit this variable."
 msgstr ""
 "Die Konfiguration von GTKPrintSetting. Verändern Sie diesen Wert nicht!"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:54
+#: ../schemas/gnumeric-dialogs.schemas.in.h:58
 msgid "The default font name for headers and footers."
 msgstr "Der Name der Vorgabeschrift für Kopf- und Fußzeilen."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:55
+#: ../schemas/gnumeric-dialogs.schemas.in.h:59
 msgid "The default font size for headers and footers."
 msgstr "Die Größe der Vorgabeschrift für Kopf- und Fußzeilen."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:56
+#: ../schemas/gnumeric-dialogs.schemas.in.h:60
 msgid "The default header/footer font is bold."
 msgstr "Die Vorgabeschrift für Kopf-/Fußzeilen ist fett."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:57
+#: ../schemas/gnumeric-dialogs.schemas.in.h:61
 msgid "The default header/footer font is italic."
 msgstr "Die Vorgabeschrift für Kopf-/Fußzeilen ist kursiv."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:58
+#: ../schemas/gnumeric-dialogs.schemas.in.h:62
 msgid ""
 "The default page footer for new documents that can be modified using the "
 "page setup dialog."
@@ -1984,7 +2081,7 @@ msgstr ""
 "Die Vorgabefußzeile neuer Dokumente, die mit Hilfe des Dialogs "
 "Seiteneinstellungen verändert werden kann."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:59
+#: ../schemas/gnumeric-dialogs.schemas.in.h:63
 msgid ""
 "The default page header for new documents that can be modified using the "
 "page setup dialog."
@@ -1992,7 +2089,7 @@ msgstr ""
 "Die Vorgabekopfzeile neuer Dokumente, die mit Hilfe des Dialogs "
 "Seiteneinstellungen verändert werden kann."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:60
+#: ../schemas/gnumeric-dialogs.schemas.in.h:64
 msgid ""
 "The function selector keeps a list of recently used functions. This is that "
 "list."
@@ -2000,7 +2097,7 @@ msgstr ""
 "Die Funktionswahl hält eine Liste zuletzt verwendeter Funktionen vor. Dies "
 "ist diese Liste."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:61
+#: ../schemas/gnumeric-dialogs.schemas.in.h:65
 msgid ""
 "The function selector keeps a list of recently used functions. This is the "
 "maximum length of that list."
@@ -2008,18 +2105,18 @@ msgstr ""
 "Die Funktionswahl hält eine Liste zuletzt verwendeter Funktionen vor. Dies "
 "ist die Zahl der maximalen Einträge in dieser Liste."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:62
+#: ../schemas/gnumeric-dialogs.schemas.in.h:66
 msgid "The main directory for user specific autoformat templates."
 msgstr ""
 "Das Hauptverzeichnis für benutzerspezifische Vorlagen zur Auto-Formatierung."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:63
+#: ../schemas/gnumeric-dialogs.schemas.in.h:67
 msgid "This directory contains the pre-installed autoformat templates."
 msgstr ""
 "Dieser Ordner enthält die vorinstallierten Vorlagen für die Auto-"
 "Formatierung."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:64
+#: ../schemas/gnumeric-dialogs.schemas.in.h:68
 msgid ""
 "This is the default paper orientation. Please use the Print Setup dialog to "
 "edit this value."
@@ -2027,7 +2124,7 @@ msgstr ""
 "Das ist die vorgegebene Papierausrichtung. Bitte verwenden Sie den "
 "Druckeinstellungsdialog zum Bearbeiten dieses Werts."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:65
+#: ../schemas/gnumeric-dialogs.schemas.in.h:69
 msgid ""
 "This is the default paper specification. Please use the Print Setup dialog "
 "to edit this value."
@@ -2035,33 +2132,33 @@ msgstr ""
 "Das ist die vorgegebene Papierangabe. Bitte verwenden Sie den "
 "Druckeinstellungsdialog zum Bearbeiten dieses Werts."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:66
+#: ../schemas/gnumeric-dialogs.schemas.in.h:70
 msgid ""
 "This list contains all extra directories containing autoformat templates."
 msgstr ""
 "Diese Liste enthält alle zusätzlichen Dateien, die Vorlagen zur Auto-"
 "Formatierung enthalten."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:67
+#: ../schemas/gnumeric-dialogs.schemas.in.h:71
 msgid "This list contains all extra directories containing plugins."
 msgstr "Diese Liste enthält alle zusätzlichen Dateien, die Plugins enthalten."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:68
+#: ../schemas/gnumeric-dialogs.schemas.in.h:72
 msgid "This list contains all known plugins."
 msgstr "Diese Liste enthält alle bekannten Plugins."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:69
+#: ../schemas/gnumeric-dialogs.schemas.in.h:73
 msgid "This list contains all plugin file states."
 msgstr "Diese Liste enthält alle Plugin-Dateizustände."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:70
+#: ../schemas/gnumeric-dialogs.schemas.in.h:74
 msgid ""
 "This list contains all plugins that are supposed to be automatically "
 "activated."
 msgstr ""
 "Diese Liste enthält alle Plugins, die automatisch aktiviert werden sollen."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:71
+#: ../schemas/gnumeric-dialogs.schemas.in.h:75
 msgid ""
 "This string gives the default region to be repeated at the left of each "
 "printed sheet. Please use the Print Setup dialog to edit this value."
@@ -2070,7 +2167,7 @@ msgstr ""
 "auf jeder gedruckten Seite erscheint. Bitte verwenden Sie den "
 "Druckeinstellungsdialog zum Bearbeiten dieses Werts."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:72
+#: ../schemas/gnumeric-dialogs.schemas.in.h:76
 msgid ""
 "This string gives the default region to be repeated at the top of each "
 "printed sheet. Please use the Print Setup dialog to edit this value."
@@ -2079,13 +2176,13 @@ msgstr ""
 "auf jeder gedruckten Seite erscheint. Bitte verwenden Sie den "
 "Druckeinstellungsdialog zum Bearbeiten dieses Werts."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:73
+#: ../schemas/gnumeric-dialogs.schemas.in.h:77
 msgid "This string gives the default unit to be used in the page setup dialog."
 msgstr ""
 "Diese Zeichenkette liefert die Standard-Einheit, die im Seiteneinstellungens-"
 "Dialog verwendet wird."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:74
+#: ../schemas/gnumeric-dialogs.schemas.in.h:78
 msgid ""
 "This value determines the default setting in the Print Setup dialog whether "
 "to print empty but formatted cells. Please use the Print Setup dialog to "
@@ -2095,7 +2192,7 @@ msgstr ""
 "im Druckeinstellungsdialog per Vorgabe aktiviert ist. Bitte verwenden Sie "
 "den Druckeinstellungsdialog zum Bearbeiten dieses Werts."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:75
+#: ../schemas/gnumeric-dialogs.schemas.in.h:79
 msgid ""
 "This value determines the default setting in the Print Setup dialog whether "
 "to print first right then down. Please use the Print Setup dialog to edit "
@@ -2105,7 +2202,7 @@ msgstr ""
 "Druckeinstellungsdialog per Vorgabe aktiviert ist. Bitte verwenden Sie den "
 "Druckeinstellungsdialog zum Bearbeiten dieses Werts."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:76
+#: ../schemas/gnumeric-dialogs.schemas.in.h:80
 msgid ""
 "This value determines the default setting in the Print Setup dialog whether "
 "to print in only black and white. Please use the Print Setup dialog to edit "
@@ -2115,7 +2212,7 @@ msgstr ""
 "per Vorgabe aktiviert ist. Bitte verwenden Sie den Druckeinstellungsdialog "
 "zum Bearbeiten dieses Werts."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:77
+#: ../schemas/gnumeric-dialogs.schemas.in.h:81
 msgid ""
 "This value determines the default setting in the Print Setup dialog whether "
 "to print row and column headers. Please use the Print Setup dialog to edit "
@@ -2125,7 +2222,7 @@ msgstr ""
 "Spalten im Druckeinstellungsdialog per Vorgabe aktiviert ist. Bitte "
 "verwenden Sie den Druckeinstellungsdialog zum Bearbeiten dieses Werts."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:78
+#: ../schemas/gnumeric-dialogs.schemas.in.h:82
 msgid ""
 "This value determines the default setting in the Print Setup dialog whether "
 "to scale pages by a given percentage. Please use the Print Setup dialog to "
@@ -2135,7 +2232,7 @@ msgstr ""
 "Prozentwert im Druckeinstellungsdialog per Vorgabe aktiviert ist. Bitte "
 "verwenden Sie den Druckeinstellungsdialog zum Bearbeiten dieses Werts."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:79
+#: ../schemas/gnumeric-dialogs.schemas.in.h:83
 msgid ""
 "This value determines the maximum number of pages that make up the height of "
 "a printout of the current sheet. The sheet will be reduced to fit within "
@@ -2145,7 +2242,7 @@ msgstr ""
 "Blattes sein soll. Das Blatt wird verkleinert, um die Höhe anzupassen. Bitte "
 "verwenden Sie den Druckeinstellungsdialog zum Bearbeiten dieses Werts."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:80
+#: ../schemas/gnumeric-dialogs.schemas.in.h:84
 msgid ""
 "This value determines the maximum number of pages that make up the width of "
 "a printout of the current sheet. The sheet will be reduced to fit within "
@@ -2155,7 +2252,7 @@ msgstr ""
 "Blattes sein soll. Das Blatt wird verkleinert, um die Breite anzupassen. "
 "Bitte verwenden Sie den Druckeinstellungsdialog zum Bearbeiten dieses Werts."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:81
+#: ../schemas/gnumeric-dialogs.schemas.in.h:85
 msgid ""
 "This value determines whether by default the print set-up dialog applies to "
 "all sheets simultaneously."
@@ -2163,7 +2260,7 @@ msgstr ""
 "Dieser Wert legt fest, ob der Druckeinstellungsdialog per Vorgabe auf alle "
 "Blätter gleichzeitig angewendet werden soll."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:82
+#: ../schemas/gnumeric-dialogs.schemas.in.h:86
 msgid ""
 "This value determines whether the default font for headers and footers is "
 "bold."
@@ -2171,7 +2268,7 @@ msgstr ""
 "Dieser Wert legt fest, ob die Vorgabeschrift für Kopf- und Fußzeilen fett "
 "ist."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:83
+#: ../schemas/gnumeric-dialogs.schemas.in.h:87
 msgid ""
 "This value determines whether the default font for headers and footers is "
 "italic."
@@ -2179,7 +2276,7 @@ msgstr ""
 "Dieser Wert legt fest, ob die Vorgabeschrift für neue Kopf- und Fußzeilen "
 "kursiv ist."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:84
+#: ../schemas/gnumeric-dialogs.schemas.in.h:88
 msgid ""
 "This value determines whether the default setting in the Print Setup dialog "
 "is to center pages horizontally."
@@ -2187,7 +2284,7 @@ msgstr ""
 "Dieser Wert legt fest, ob die horizontale Zentrierung von Seiten im "
 "Druckeinstellungsdialog per Vorgabe aktiviert ist."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:85
+#: ../schemas/gnumeric-dialogs.schemas.in.h:89
 msgid ""
 "This value gives the default number of points from the bottom of a page to "
 "the end of the body. Please use the Print Setup dialog to edit this value."
@@ -2196,7 +2293,7 @@ msgstr ""
 "Körpers in Punkten. Bitte verwenden Sie den Druckeinstellungsdialog zum "
 "Bearbeiten dieses Werts."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:86
+#: ../schemas/gnumeric-dialogs.schemas.in.h:90
 msgid ""
 "This value gives the default number of points from the bottom of a page to "
 "the end of the footer. Please use the Print Setup dialog to edit this value."
@@ -2205,7 +2302,7 @@ msgstr ""
 "Fußzeile in Punkten. Bitte verwenden Sie den Druckeinstellungsdialog zum "
 "Bearbeiten dieses Werts."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:87
+#: ../schemas/gnumeric-dialogs.schemas.in.h:91
 msgid ""
 "This value gives the default number of points from the left of a page to the "
 "left of the body. Please use the Print Setup dialog to edit this value."
@@ -2214,7 +2311,7 @@ msgstr ""
 "Körperseite in Punkten. Bitte verwenden Sie den Druckeinstellungsdialog zum "
 "Bearbeiten dieses Werts."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:88
+#: ../schemas/gnumeric-dialogs.schemas.in.h:92
 msgid ""
 "This value gives the default number of points from the right of a page to "
 "the right of the body. Please use the Print Setup dialog to edit this value."
@@ -2223,7 +2320,7 @@ msgstr ""
 "rechten Körperseite in Punkten. Bitte verwenden Sie den "
 "Druckeinstellungsdialog zum Bearbeiten dieses Werts."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:89
+#: ../schemas/gnumeric-dialogs.schemas.in.h:93
 msgid ""
 "This value gives the default number of points from the top of a page to the "
 "start of the body. Please use the Print Setup dialog to edit this value."
@@ -2232,7 +2329,7 @@ msgstr ""
 "des Körpers in Punkten. Bitte verwenden Sie den Druckeinstellungsdialog zum "
 "Bearbeiten dieses Werts."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:90
+#: ../schemas/gnumeric-dialogs.schemas.in.h:94
 msgid ""
 "This value gives the default number of points from the top of a page to the "
 "top of the header. Please use the Print Setup dialog to edit this value."
@@ -2241,7 +2338,7 @@ msgstr ""
 "der Kopfzeile in Punkten. Bitte verwenden Sie den Druckeinstellungsdialog "
 "zum Bearbeiten dieses Werts."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:91
+#: ../schemas/gnumeric-dialogs.schemas.in.h:95
 msgid ""
 "This value gives the percentage by which to scale each printed page. Please "
 "use the Print Setup dialog to edit this value."
@@ -2250,14 +2347,14 @@ msgstr ""
 "werden soll. Bitte verwenden Sie den Druckeinstellungsdialog zum Bearbeiten "
 "dieses Werts."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:92
+#: ../schemas/gnumeric-dialogs.schemas.in.h:96
 msgid ""
 "This variable determines whether to activate every new encountered plugin."
 msgstr ""
 "Diese Variable legt fest, ob jedes neu entdeckte Plugin aktiviert werden "
 "soll."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:93
+#: ../schemas/gnumeric-dialogs.schemas.in.h:97
 msgid "User Directory for Autoformats"
 msgstr "Benutzerordner für Auto-Formatierungen"
 
@@ -3942,17 +4039,17 @@ msgstr ""
 "Benutzerdefiniert"
 
 #: ../src/dialogs/cell-format.glade.h:33
-#: ../src/dialogs/dialog-cell-format.c:2523 ../src/wbc-gtk.c:2922
-#: ../src/wbc-gtk.c:2923 ../src/wbc-gtk.c:2932
+#: ../src/dialogs/dialog-cell-format.c:2538 ../src/wbc-gtk.c:2938
+#: ../src/wbc-gtk.c:2939 ../src/wbc-gtk.c:2948
 msgid "Background"
 msgstr "Hintergrund"
 
 #: ../src/dialogs/cell-format.glade.h:34
-#: ../src/dialogs/dialog-cell-format.c:2515
+#: ../src/dialogs/dialog-cell-format.c:2530
 msgid "Border"
 msgstr "Rand"
 
-#: ../src/dialogs/cell-format.glade.h:35 ../src/wbc-gtk.c:2618
+#: ../src/dialogs/cell-format.glade.h:35 ../src/wbc-gtk.c:2634
 msgid "Bottom"
 msgstr "Unten"
 
@@ -4005,7 +4102,7 @@ msgid "E_xpand"
 msgstr "Er_weitern"
 
 #: ../src/dialogs/cell-format.glade.h:48
-#: ../src/dialogs/dialog-preferences.c:1023 ../src/wbc-gtk.c:2973
+#: ../src/dialogs/dialog-preferences.c:1023 ../src/wbc-gtk.c:2989
 msgid "Font"
 msgstr "Schrift"
 
@@ -4014,7 +4111,7 @@ msgid "Foreground Solid"
 msgstr "Einfarbiger Vordergrund"
 
 #: ../src/dialogs/cell-format.glade.h:50
-#: ../src/dialogs/dialog-cell-format.c:2454
+#: ../src/dialogs/dialog-cell-format.c:2469
 msgid "Format Cells"
 msgstr "Zellen formatieren"
 
@@ -4062,7 +4159,7 @@ msgstr "Große Kreise"
 
 #. start sub menu
 #: ../src/dialogs/cell-format.glade.h:61 ../src/sheet-control-gui.c:1890
-#: ../src/wbc-gtk.c:2610
+#: ../src/wbc-gtk.c:2626
 msgid "Left"
 msgstr "Links"
 
@@ -4097,7 +4194,7 @@ msgid "Reverse Diagonal Stripe"
 msgstr "Diagonale Streifen rückwärts"
 
 #: ../src/dialogs/cell-format.glade.h:68 ../src/sheet-control-gui.c:1893
-#: ../src/wbc-gtk.c:2612
+#: ../src/wbc-gtk.c:2628
 msgid "Right"
 msgstr "Rechts"
 
@@ -4499,7 +4596,7 @@ msgid "DataSlicer Guru : Gnumeric"
 msgstr "Demodulator Guru : Gnumeric"
 
 #: ../src/dialogs/data-slicer.glade.h:2 ../src/dialogs/dialog-stf.glade.h:24
-#: ../src/stf-export.c:550
+#: ../src/stf-export.c:551
 msgid "Format"
 msgstr "Format"
 
@@ -5074,7 +5171,8 @@ msgid "Visit the Gnumeric website"
 msgstr "Besuchen Sie die Gnumeric-Webseite"
 
 #: ../src/dialogs/dialog-about.c:569
-msgid "Copyright © 1998-2009"
+#, fuzzy
+msgid "Copyright © 1998-2010"
 msgstr "Copyright © 1998-2009"
 
 # Das benötigt noch etwas Feinschliff.
@@ -5618,7 +5716,7 @@ msgid "Double"
 msgstr "Doppelt"
 
 #: ../src/dialogs/dialog-cell-format.c:483 ../src/dialogs/dialog-search.c:152
-#: ../src/func.c:1113 ../src/wbc-gtk-actions.c:2339
+#: ../src/func.c:1137 ../src/wbc-gtk-actions.c:2339
 msgid "Number"
 msgstr "Zahl"
 
@@ -5784,22 +5882,22 @@ msgstr ""
 msgid "The selection is homogeneous with respect to conditions."
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format.c:2276
+#: ../src/dialogs/dialog-cell-format.c:2283
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr ""
 "Die Überprüfungskriterien sind nicht anwendbar. Überprüfung deaktivieren?"
 
-#: ../src/dialogs/dialog-cell-format.c:2519 ../src/wbc-gtk.c:2723
-#: ../src/wbc-gtk.c:2871 ../src/wbc-gtk.c:2872 ../src/wbc-gtk.c:2883
-#: ../src/wbc-gtk.c:2989 ../src/wbc-gtk.c:3053
+#: ../src/dialogs/dialog-cell-format.c:2534 ../src/wbc-gtk.c:2739
+#: ../src/wbc-gtk.c:2887 ../src/wbc-gtk.c:2888 ../src/wbc-gtk.c:2899
+#: ../src/wbc-gtk.c:3005 ../src/wbc-gtk.c:3069
 msgid "Foreground"
 msgstr "Vordergrund"
 
-#: ../src/dialogs/dialog-cell-format.c:2523 ../src/wbc-gtk.c:2920
+#: ../src/dialogs/dialog-cell-format.c:2538 ../src/wbc-gtk.c:2936
 msgid "Clear Background"
 msgstr "Hintergrund entfernen"
 
-#: ../src/dialogs/dialog-cell-format.c:2527
+#: ../src/dialogs/dialog-cell-format.c:2542
 msgid "Pattern"
 msgstr "Muster"
 
@@ -5823,27 +5921,27 @@ msgstr "%s (%s)"
 msgid "%s to %s"
 msgstr "%s bis %s"
 
-#: ../src/dialogs/dialog-cell-sort.c:763
+#: ../src/dialogs/dialog-cell-sort.c:764
 msgid "no available row"
 msgstr "Kein verfügbare Reihe"
 
-#: ../src/dialogs/dialog-cell-sort.c:763
+#: ../src/dialogs/dialog-cell-sort.c:764
 msgid "no available column"
 msgstr "Keine verfügbare Spalte"
 
-#: ../src/dialogs/dialog-cell-sort.c:1017
+#: ../src/dialogs/dialog-cell-sort.c:1018
 msgid "Header"
 msgstr "Kopf"
 
-#: ../src/dialogs/dialog-cell-sort.c:1022
+#: ../src/dialogs/dialog-cell-sort.c:1023
 msgid "Row/Column"
 msgstr "Zeile / Spalte"
 
-#: ../src/dialogs/dialog-cell-sort.c:1042
+#: ../src/dialogs/dialog-cell-sort.c:1043
 msgid "Case Sensitive"
 msgstr "Groß-/Kleinschreibung berücksichtigen"
 
-#: ../src/dialogs/dialog-cell-sort.c:1062
+#: ../src/dialogs/dialog-cell-sort.c:1063
 msgid "By Value"
 msgstr "Nach Wert"
 
@@ -6082,7 +6180,7 @@ msgid "Workbook Level"
 msgstr "Arbeitsbuchwert"
 
 #: ../src/dialogs/dialog-goto-cell.c:289 ../src/dialogs/dialog-search.c:411
-#: ../src/dialogs/dialog-stf-export.c:582 ../src/dialogs/hf-config.glade.h:18
+#: ../src/dialogs/dialog-stf-export.c:602 ../src/dialogs/hf-config.glade.h:18
 #: ../src/dialogs/print.glade.h:37 ../src/print-info.c:492 ../src/search.c:767
 #: ../src/tools/gnm-solver.c:713 ../src/tools/gnm-solver.c:714
 #: ../src/workbook.c:893
@@ -6471,8 +6569,8 @@ msgstr "_Ausgewähltes speichern"
 msgid "Save selected documents and then quit"
 msgstr "Ausgewählte Dokumente speichern und beenden"
 
-#: ../src/dialogs/dialog-quit.c:193 ../src/wbc-gtk.c:2359
-#: ../src/wbc-gtk.c:2364
+#: ../src/dialogs/dialog-quit.c:193 ../src/wbc-gtk.c:2375
+#: ../src/wbc-gtk.c:2380
 msgid "_Discard"
 msgstr "_Verwerfen"
 
@@ -6958,17 +7056,17 @@ msgstr "Laufzeit"
 msgid "Run on"
 msgstr "Laufen auf"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:246
-#: ../src/wbc-gtk.c:4254
+#: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:247
+#: ../src/wbc-gtk.c:4270
 msgid "Min"
 msgstr "Min"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4256
+#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4272
 msgid "Average"
 msgstr "Durchschnitt"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:248
-#: ../src/wbc-gtk.c:4255
+#: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:249
+#: ../src/wbc-gtk.c:4271
 msgid "Max"
 msgstr "Max"
 
@@ -7091,11 +7189,11 @@ msgstr "Unterliegt den Nebenbedingungen:"
 msgid "Could not create the Solver dialog."
 msgstr "Der Lösungssuchdialog konnte nicht erzeugt werden."
 
-#: ../src/dialogs/dialog-stf-export.c:576
+#: ../src/dialogs/dialog-stf-export.c:596
 msgid "Export"
 msgstr "Exportieren"
 
-#: ../src/dialogs/dialog-stf-export.c:718
+#: ../src/dialogs/dialog-stf-export.c:740
 msgid "This workbook does not contain any exportable content."
 msgstr "Dieses Arbeitsbuch enthält keinen exportierbaren Inhalt."
 
@@ -7185,18 +7283,23 @@ msgstr ""
 "schieben, um es früher zu exportieren."
 
 #: ../src/dialogs/dialog-stf-export.glade.h:19
+#, fuzzy
+msgid "Save as default formatting"
+msgstr "Als Vorgabeeinstellungen speichern"
+
+#: ../src/dialogs/dialog-stf-export.glade.h:20
 msgid "Select N_one"
 msgstr "Auswahl a_ufheben"
 
-#: ../src/dialogs/dialog-stf-export.glade.h:20
+#: ../src/dialogs/dialog-stf-export.glade.h:21
 msgid "Select _All"
 msgstr "_Alles markieren"
 
-#: ../src/dialogs/dialog-stf-export.glade.h:21
+#: ../src/dialogs/dialog-stf-export.glade.h:22
 msgid "Select all non-empty sheets for export."
 msgstr "Alle nicht leeren Blätter zum Exportieren auswählen."
 
-#: ../src/dialogs/dialog-stf-export.glade.h:22
+#: ../src/dialogs/dialog-stf-export.glade.h:23
 msgid ""
 "Space\n"
 "Tab\n"
@@ -7220,7 +7323,7 @@ msgstr ""
 "Schrägstrich (/)\n"
 "Benutzerdefiniert"
 
-#: ../src/dialogs/dialog-stf-export.glade.h:32
+#: ../src/dialogs/dialog-stf-export.glade.h:33
 msgid ""
 "Transliterate\n"
 "Escape"
@@ -7228,7 +7331,7 @@ msgstr ""
 "Umkodieren\n"
 "Terminieren"
 
-#: ../src/dialogs/dialog-stf-export.glade.h:34
+#: ../src/dialogs/dialog-stf-export.glade.h:35
 msgid ""
 "Unix (linefeed)\n"
 "Macintosh (carriage return)\n"
@@ -7238,19 +7341,19 @@ msgstr ""
 "Macintosh (Wagenrücklauf)\n"
 "Windows (Wagenrücklauf + Zeilenvorschub)"
 
-#: ../src/dialogs/dialog-stf-export.glade.h:37
+#: ../src/dialogs/dialog-stf-export.glade.h:38
 msgid "_Format:"
 msgstr "_Format:"
 
-#: ../src/dialogs/dialog-stf-export.glade.h:38
+#: ../src/dialogs/dialog-stf-export.glade.h:39
 msgid "_Locale"
 msgstr "_Sprachumgebung"
 
-#: ../src/dialogs/dialog-stf-export.glade.h:39
+#: ../src/dialogs/dialog-stf-export.glade.h:40
 msgid "_Separator:"
 msgstr "_Trennzeichen:"
 
-#: ../src/dialogs/dialog-stf-export.glade.h:40
+#: ../src/dialogs/dialog-stf-export.glade.h:41
 msgid "_Unknown characters:"
 msgstr "_Unbekannte Zeichen:"
 
@@ -7361,7 +7464,7 @@ msgid "Line"
 msgstr "Linie"
 
 #: ../src/dialogs/dialog-stf-main-page.c:401
-#: ../src/widgets/gnumeric-expr-entry.c:924
+#: ../src/widgets/gnumeric-expr-entry.c:928
 msgid "Text"
 msgstr "Text"
 
@@ -7715,8 +7818,8 @@ msgid "Sheets"
 msgstr "Blätter"
 
 #. ----- vertical -----
-#: ../src/dialogs/dialog-zoom.glade.h:5 ../src/wbc-gtk.c:2568
-#: ../src/wbc-gtk.c:2590
+#: ../src/dialogs/dialog-zoom.glade.h:5 ../src/wbc-gtk.c:2584
+#: ../src/wbc-gtk.c:2606
 msgid "Zoom"
 msgstr "Ansicht verändern (Zoom)"
 
@@ -8477,7 +8580,7 @@ msgstr "_Gruppen"
 msgid "_Time column:"
 msgstr "_Zeitspalte:"
 
-#: ../src/dialogs/kaplan-meier.glade.h:17 ../src/print.c:1373
+#: ../src/dialogs/kaplan-meier.glade.h:17 ../src/print.c:1388
 msgid "to:"
 msgstr "bis:"
 
@@ -9682,7 +9785,7 @@ msgid "Prev. Sim."
 msgstr "Vorh. Sim."
 
 #. Fill in the header titles.
-#: ../src/dialogs/simulation.glade.h:18 ../src/tools/simulation.c:341
+#: ../src/dialogs/simulation.glade.h:18 ../src/tools/simulation.c:342
 msgid "Risk Simulation"
 msgstr "Risikosimulation"
 
@@ -10144,37 +10247,37 @@ msgstr ""
 msgid "Cannot create file %s\n"
 msgstr "Es ist nicht möglich, die Datei %s anzulegen\n"
 
-#: ../src/func.c:676
+#: ../src/func.c:700
 msgid "Function implementation not available."
 msgstr "Funktionsimplementierung ist nicht verfügbar."
 
-#: ../src/func.c:935
+#: ../src/func.c:959
 msgid "Unknown Function"
 msgstr "Unbekannte Funktion"
 
-#: ../src/func.c:1117
+#: ../src/func.c:1141
 msgid "Boolean"
 msgstr "Wahrheitswert"
 
-#: ../src/func.c:1119
+#: ../src/func.c:1143
 msgid "Cell Range"
 msgstr "Zellbereich"
 
-#: ../src/func.c:1121
+#: ../src/func.c:1145
 msgid "Area"
 msgstr "Bereich"
 
 # Das zweite Komma ist im Deutschen falsch.
-#: ../src/func.c:1123
+#: ../src/func.c:1147
 msgid "Scalar, Blank, or Error"
 msgstr "Skalar, Leerstelle oder Fehler"
 
-#: ../src/func.c:1125
+#: ../src/func.c:1149
 msgid "Scalar"
 msgstr "Skalar"
 
 #. Missing values will be NULL.
-#: ../src/func.c:1128
+#: ../src/func.c:1152
 msgid "Any"
 msgstr "Beliebig"
 
@@ -10729,7 +10832,7 @@ msgstr "Pfad"
 msgid "cell"
 msgstr "Zelle"
 
-#: ../src/print-info.c:744 ../src/stf-export.c:630
+#: ../src/print-info.c:744 ../src/stf-export.c:643
 #, c-format
 msgid "There is no such sheet"
 msgstr "Kein solches Blatt vorhanden"
@@ -10752,39 +10855,39 @@ msgstr "PDF-Export"
 msgid "Even one cell is too large for this page."
 msgstr "Sogar eine Zelle ist zu groß für diese Seite."
 
-#: ../src/print.c:928
+#: ../src/print.c:943
 msgid "Print Selection"
 msgstr "Auswahl drucken"
 
-#: ../src/print.c:1336
+#: ../src/print.c:1351
 msgid "_All workbook sheets"
 msgstr "_Alle Blätter des Arbeitsbuchs"
 
-#: ../src/print.c:1341
+#: ../src/print.c:1356
 msgid "Also print _hidden sheets"
 msgstr "Auch _verborgene Blätter drucken"
 
-#: ../src/print.c:1346
+#: ../src/print.c:1361
 msgid "A_ctive workbook sheet"
 msgstr "Akt_ives Blatt des Arbeitsbuchs"
 
-#: ../src/print.c:1351
+#: ../src/print.c:1366
 msgid "_Workbook sheets:"
 msgstr "Blätter des _Arbeitsbuchs:"
 
-#: ../src/print.c:1356
+#: ../src/print.c:1371
 msgid "Current _selection only"
 msgstr "Nur die aktuelle _Auswahl"
 
-#: ../src/print.c:1361
+#: ../src/print.c:1376
 msgid "_Ignore defined print area"
 msgstr "Festgelegten Druckbereich _ignorieren"
 
-#: ../src/print.c:1365
+#: ../src/print.c:1380
 msgid "from:"
 msgstr "von:"
 
-#: ../src/print.c:1603
+#: ../src/print.c:1618
 msgid "Gnumeric Print Range"
 msgstr "Gnumeric-Druckbereich"
 
@@ -11848,59 +11951,59 @@ msgstr ""
 "datadir := »%s«\n"
 "libdir := »%s«\n"
 
-#: ../src/stf-export.c:522
+#: ../src/stf-export.c:523
 msgid "Character set"
 msgstr "Zeichensatz"
 
-#: ../src/stf-export.c:523
+#: ../src/stf-export.c:524
 msgid "The character encoding of the output."
 msgstr "Die Zeichenkodierung der Ausgabe."
 
-#: ../src/stf-export.c:531
+#: ../src/stf-export.c:532
 msgid "Locale"
 msgstr "Sprachumgebung"
 
-#: ../src/stf-export.c:532
+#: ../src/stf-export.c:533
 msgid "The locale to use for number and date formatting."
 msgstr ""
 "Sprachumgebung, welche zur Zahlen- und Datumsformatierung genutzt wird."
 
-#: ../src/stf-export.c:540
+#: ../src/stf-export.c:541
 msgid "Transliterate mode"
 msgstr "Transkribierungsmodus"
 
-#: ../src/stf-export.c:541
+#: ../src/stf-export.c:542
 msgid "What to do with unrepresentable characters."
 msgstr "Die Behandlung von nicht darstellbaren Zeichen."
 
-#: ../src/stf-export.c:551
+#: ../src/stf-export.c:552
 msgid "How should cells be formatted?"
 msgstr "Wie sollen Zellen formatiert werden?"
 
-#: ../src/stf-export.c:611
+#: ../src/stf-export.c:624
 msgid "Error while trying to export file as text"
 msgstr ""
 "Beim Versuch, die Datei als Text zu exportieren, ist ein Fehler aufgetreten"
 
-#: ../src/stf-export.c:648
+#: ../src/stf-export.c:661
 msgid "eol must be one of unix, mac, and windows"
 msgstr "Zeilenende (EOL) muss Unix, Mac oder Windows sein"
 
-#: ../src/stf-export.c:668
+#: ../src/stf-export.c:681
 #, c-format
 msgid "Invalid value for option %s: \"%s\""
 msgstr "Ungültiger Wert für Option %s: »%s«"
 
-#: ../src/stf-export.c:670
+#: ../src/stf-export.c:683
 msgid "Invalid option for stf exporter"
 msgstr "Option für STF-Exporteur ist ungültig"
 
-#: ../src/stf-export.c:695
+#: ../src/stf-export.c:708
 msgid "Text (configurable)"
 msgstr "Text (konfigurierbar)"
 
 #. FIXME: What locale?
-#: ../src/stf-parse.c:1255
+#: ../src/stf-parse.c:1275
 msgid ""
 "There are more rows of data than there is room for in the sheet.  Extra rows "
 "will be ignored."
@@ -11909,7 +12012,7 @@ msgstr ""
 "Zusätzliche Zeilen werden ignoriert."
 
 #. FIXME: What locale?
-#: ../src/stf-parse.c:1277
+#: ../src/stf-parse.c:1297
 msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
@@ -12633,7 +12736,7 @@ msgstr "Wertebereiche"
 msgid "Anova: Single Factor"
 msgstr "Varianzanalyse: Ein Faktor"
 
-#: ../src/tools/analysis-tools.c:3849 ../src/tools/simulation.c:335
+#: ../src/tools/analysis-tools.c:3849 ../src/tools/simulation.c:336
 msgid "SUMMARY"
 msgstr "ZUSAMMENFASSUNG"
 
@@ -12843,71 +12946,71 @@ msgstr ""
 "Ausgabevariablen in Ihrem Modell (möglicherweise ist Ihre letzte Runden-Nr. "
 "zu hoch)."
 
-#: ../src/tools/simulation.c:234
+#: ../src/tools/simulation.c:235
 msgid "Simulation Report"
 msgstr "Simulationsbericht"
 
-#: ../src/tools/simulation.c:247
+#: ../src/tools/simulation.c:248
 msgid "Mean"
 msgstr "Mittelwert"
 
-#: ../src/tools/simulation.c:249
+#: ../src/tools/simulation.c:250
 msgid "Median"
 msgstr "Medianwert"
 
-#: ../src/tools/simulation.c:250
+#: ../src/tools/simulation.c:251
 msgid "Mode"
 msgstr "Modus"
 
-#: ../src/tools/simulation.c:251
+#: ../src/tools/simulation.c:252
 msgid "Std. Dev."
 msgstr "Stdvert."
 
-#: ../src/tools/simulation.c:252
+#: ../src/tools/simulation.c:253
 msgid "Variance"
 msgstr "Varianz"
 
-#: ../src/tools/simulation.c:253
+#: ../src/tools/simulation.c:254
 msgid "Skewness"
 msgstr "Schräge"
 
-#: ../src/tools/simulation.c:254
+#: ../src/tools/simulation.c:255
 msgid "Kurtosis"
 msgstr "Kurtosis"
 
-#: ../src/tools/simulation.c:255
+#: ../src/tools/simulation.c:256
 msgid "Range"
 msgstr "Bereich"
 
-#: ../src/tools/simulation.c:256 ../src/wbc-gtk.c:4257
+#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:4273
 msgid "Count"
 msgstr "Anzahl"
 
-#: ../src/tools/simulation.c:257
+#: ../src/tools/simulation.c:258
 msgid "Confidence (95%)"
 msgstr "Zuversicht (95%)"
 
-#: ../src/tools/simulation.c:258
+#: ../src/tools/simulation.c:259
 msgid "Lower Limit (95%)"
 msgstr "Untergrenze (95%)"
 
-#: ../src/tools/simulation.c:259
+#: ../src/tools/simulation.c:260
 msgid "Upper Limit (95%)"
 msgstr "Obergrenze (95%)"
 
-#: ../src/tools/simulation.c:327
+#: ../src/tools/simulation.c:328
 msgid "SUMMARY OF SIMULATION ROUND #"
 msgstr "ZUSAMMENFASSUNG DER SIMULATIONSRUNDE "
 
-#: ../src/tools/simulation.c:341
+#: ../src/tools/simulation.c:342
 msgid "Report"
 msgstr "Bericht"
 
-#: ../src/tools/simulation.c:388
+#: ../src/tools/simulation.c:389
 msgid "(Input) "
 msgstr "(Eingabe)"
 
-#: ../src/tools/simulation.c:403
+#: ../src/tools/simulation.c:404
 msgid "Maximum time exceeded. Simulation was not completed. "
 msgstr "Maximale Zeit ist verstrichen: Simulation wurde unterbrochen"
 
@@ -13366,21 +13469,21 @@ msgstr "Markierung kopieren"
 msgid "Paste the clipboard"
 msgstr "Inhalt der Zwischenablage einfügen"
 
-#: ../src/wbc-gtk-actions.c:1751 ../src/wbc-gtk.c:1554
+#: ../src/wbc-gtk-actions.c:1751 ../src/wbc-gtk.c:1570
 msgid "_Undo"
 msgstr "_Rückgängig"
 
-#: ../src/wbc-gtk-actions.c:1752 ../src/wbc-gtk.c:2823
+#: ../src/wbc-gtk-actions.c:1752 ../src/wbc-gtk.c:2839
 msgid "Undo the last action"
 msgstr "Die letzte Aktion rückgängig machen"
 
-#: ../src/wbc-gtk-actions.c:1754 ../src/wbc-gtk.c:1553
+#: ../src/wbc-gtk-actions.c:1754 ../src/wbc-gtk.c:1569
 msgid "_Redo"
 msgstr "_Wiederholen"
 
 # Or just: "Rückgängig wiederherstellen"
 # 2001-02-14 08:43:51 CET -ke-
-#: ../src/wbc-gtk-actions.c:1755 ../src/wbc-gtk.c:2818
+#: ../src/wbc-gtk-actions.c:1755 ../src/wbc-gtk.c:2834
 msgid "Redo the undone action"
 msgstr "Rückgängig gemachte Aktion wiederherstellen"
 
@@ -13704,11 +13807,11 @@ msgstr "_Neue Ansicht …"
 msgid "Create a new view of the workbook"
 msgstr "Eine neue Arbeitsbuchansicht erzeugen"
 
-#: ../src/wbc-gtk-actions.c:1955 ../src/wbc-gtk.c:1515
+#: ../src/wbc-gtk-actions.c:1955 ../src/wbc-gtk.c:1531
 msgid "_Freeze Panes"
 msgstr "_Flächen einfrieren"
 
-#: ../src/wbc-gtk-actions.c:1956 ../src/wbc-gtk.c:1518
+#: ../src/wbc-gtk-actions.c:1956 ../src/wbc-gtk.c:1534
 msgid "Freeze the top left of the sheet"
 msgstr "Den oberen linken Teil des Blattes einfrieren"
 
@@ -14356,7 +14459,7 @@ msgid "Remove an outline group"
 msgstr "Diese Übersichtsgruppe löschen"
 
 #. Data -> Filter
-#: ../src/wbc-gtk-actions.c:2246 ../src/wbc-gtk.c:1526
+#: ../src/wbc-gtk-actions.c:2246 ../src/wbc-gtk.c:1542
 msgid "Add _Auto Filter"
 msgstr "_Auto-Filter hinzufügen"
 
@@ -14416,7 +14519,7 @@ msgid "Adjust a data slicer"
 msgstr "Demodulator korrigieren"
 
 #. Standard Toolbar
-#: ../src/wbc-gtk-actions.c:2273 ../src/wbc-gtk.c:4253
+#: ../src/wbc-gtk-actions.c:2273 ../src/wbc-gtk.c:4269
 #: ../src/workbook-view.c:941
 msgid "Sum"
 msgstr "Summe"
@@ -14897,25 +15000,25 @@ msgstr "Horizontale Ausrichtung"
 msgid "Vertical Alignment"
 msgstr "Vertikale Ausrichtung"
 
-#: ../src/wbc-gtk-edit.c:720
+#: ../src/wbc-gtk-edit.c:722
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s ist gesperrt"
 
-#: ../src/wbc-gtk-edit.c:724
+#: ../src/wbc-gtk-edit.c:726
 msgid "Unprotect the workbook to enable editing."
 msgstr ""
 "Den Schutz des Arbeitsbuchs entfernen, um das Bearbeiten zu ermöglichen."
 
-#: ../src/wbc-gtk-edit.c:725
+#: ../src/wbc-gtk-edit.c:727
 msgid "Unprotect the sheet to enable editing."
 msgstr "Den Schutz des Blatts entfernen, um das Bearbeiten zu ermöglichen."
 
-#: ../src/wbc-gtk-edit.c:744
+#: ../src/wbc-gtk-edit.c:746
 msgid "You are about to edit a cell with \"text\" format."
 msgstr "Sie sind dabei, eine als »Text« formatierte Zelle zu bearbeiten."
 
-#: ../src/wbc-gtk-edit.c:745
+#: ../src/wbc-gtk-edit.c:747
 msgid ""
 "The cell does not currently contain text, though, so if you go on editing "
 "then the contents will be turned into text."
@@ -14923,11 +15026,11 @@ msgstr ""
 "Die Zelle beinhaltet momentan keinen Text. Falls Sie den Inhalt weiter "
 "bearbeiten, wird dieser in Text umgewandelt."
 
-#: ../src/wbc-gtk-edit.c:750
+#: ../src/wbc-gtk-edit.c:752
 msgid "Remove format"
 msgstr "Format entfernen"
 
-#: ../src/wbc-gtk-edit.c:755
+#: ../src/wbc-gtk-edit.c:757
 msgid "Show this dialog next time."
 msgstr "Diesen Dialog beim nächsten Mal anzeigen."
 
@@ -14959,7 +15062,7 @@ msgstr "Auswahl"
 msgid "Select (sorted)"
 msgstr "Auswahl (sortiert)"
 
-#: ../src/wbc-gtk.c:1373
+#: ../src/wbc-gtk.c:1389
 msgid " - Gnumeric"
 msgstr " - Gnumeric"
 
@@ -14969,167 +15072,167 @@ msgstr " - Gnumeric"
 # 2001-07-15 06:44:59 CEST -ke-
 # hmmm, auftauen
 # 2001-12-24 -cm-
-#: ../src/wbc-gtk.c:1514
+#: ../src/wbc-gtk.c:1530
 msgid "Un_freeze Panes"
 msgstr "Flächen au_ftauen"
 
-#: ../src/wbc-gtk.c:1517
+#: ../src/wbc-gtk.c:1533
 msgid "Unfreeze the top left of the sheet"
 msgstr "Den oberen linken Teil des Blattes auftauen"
 
-#: ../src/wbc-gtk.c:1525
+#: ../src/wbc-gtk.c:1541
 msgid "Remove _Auto Filter"
 msgstr "_Auto-Filter entfernen"
 
-#: ../src/wbc-gtk.c:1528
+#: ../src/wbc-gtk.c:1544
 msgid "Remove a filter"
 msgstr "Einen Filter entfernen"
 
-#: ../src/wbc-gtk.c:1529
+#: ../src/wbc-gtk.c:1545
 msgid "Add a filter"
 msgstr "Einen Filter hinzufügen"
 
-#: ../src/wbc-gtk.c:1536
+#: ../src/wbc-gtk.c:1552
 msgid "Remove _Data Slicer"
 msgstr "_Demodulator entfernen"
 
-#: ../src/wbc-gtk.c:1537
+#: ../src/wbc-gtk.c:1553
 msgid "Create _Data Slicer"
 msgstr "_Demodulator erstellen"
 
-#: ../src/wbc-gtk.c:1539
+#: ../src/wbc-gtk.c:1555
 msgid "Remove a Data Slicer"
 msgstr "Einen Demodulator entfernen"
 
-#: ../src/wbc-gtk.c:1540
+#: ../src/wbc-gtk.c:1556
 msgid "Create a Data Slicer"
 msgstr "Einen Demodulator erstellen"
 
-#: ../src/wbc-gtk.c:1583
+#: ../src/wbc-gtk.c:1599
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "Änderungen am Arbeitsbuch »%s« vor dem Schließen speichern?"
 
-#: ../src/wbc-gtk.c:1588
+#: ../src/wbc-gtk.c:1604
 msgid "Save changes to workbook before closing?"
 msgstr "Änderungen am Arbeitsbuch vor dem Schließen speichern?"
 
-#: ../src/wbc-gtk.c:1595
+#: ../src/wbc-gtk.c:1611
 msgid "If you close without saving, changes will be discarded."
 msgstr "Änderungen werden verworfen, falls Sie sie nicht speichern."
 
-#: ../src/wbc-gtk.c:1601
+#: ../src/wbc-gtk.c:1617
 msgid "Discard all"
 msgstr "Alle verwerfen"
 
-#: ../src/wbc-gtk.c:1603 ../src/wbc-gtk.c:1610 ../src/wbc-gtk.c:1616
+#: ../src/wbc-gtk.c:1619 ../src/wbc-gtk.c:1626 ../src/wbc-gtk.c:1632
 msgid "Discard"
 msgstr "Verwerfen"
 
-#: ../src/wbc-gtk.c:1605
+#: ../src/wbc-gtk.c:1621
 msgid "Save all"
 msgstr "Alle speichern"
 
-#: ../src/wbc-gtk.c:1607 ../src/wbc-gtk.c:1612
+#: ../src/wbc-gtk.c:1623 ../src/wbc-gtk.c:1628
 msgid "Don't quit"
 msgstr "Nicht beenden"
 
-#: ../src/wbc-gtk.c:1618
+#: ../src/wbc-gtk.c:1634
 msgid "Don't close"
 msgstr "Nicht schließen"
 
-#: ../src/wbc-gtk.c:2035
+#: ../src/wbc-gtk.c:2051
 msgid "END"
 msgstr "Ende"
 
-#: ../src/wbc-gtk.c:2300
+#: ../src/wbc-gtk.c:2316
 msgid "Cancel change"
 msgstr "Änderungen verwerfen"
 
-#: ../src/wbc-gtk.c:2304
+#: ../src/wbc-gtk.c:2320
 msgid "Accept change"
 msgstr "Änderungen anwenden"
 
-#: ../src/wbc-gtk.c:2308
+#: ../src/wbc-gtk.c:2324
 msgid "Enter formula..."
 msgstr "Formel eingeben …"
 
-#: ../src/wbc-gtk.c:2358 ../src/wbc-gtk.c:2373
+#: ../src/wbc-gtk.c:2374 ../src/wbc-gtk.c:2389
 msgid "_Re-Edit"
 msgstr "_Erneut bearbeiten"
 
-#: ../src/wbc-gtk.c:2363 ../src/wbc-gtk.c:2374
+#: ../src/wbc-gtk.c:2379 ../src/wbc-gtk.c:2390
 msgid "_Accept"
 msgstr "_Akzeptieren"
 
-#: ../src/wbc-gtk.c:2566
+#: ../src/wbc-gtk.c:2582
 msgid "_Zoom"
 msgstr "Ansichts_größe verändern"
 
-#: ../src/wbc-gtk.c:2611
+#: ../src/wbc-gtk.c:2627
 msgid "Clear Borders"
 msgstr "Ränder entfernen"
 
-#: ../src/wbc-gtk.c:2614
+#: ../src/wbc-gtk.c:2630
 msgid "All Borders"
 msgstr "Alle Ränder"
 
-#: ../src/wbc-gtk.c:2615
+#: ../src/wbc-gtk.c:2631
 msgid "Outside Borders"
 msgstr "Außenränder"
 
-#: ../src/wbc-gtk.c:2616
+#: ../src/wbc-gtk.c:2632
 msgid "Thick Outside Borders"
 msgstr "Dicke Außenränder"
 
-#: ../src/wbc-gtk.c:2619
+#: ../src/wbc-gtk.c:2635
 msgid "Double Bottom"
 msgstr "Unten doppelt"
 
-#: ../src/wbc-gtk.c:2620
+#: ../src/wbc-gtk.c:2636
 msgid "Thick Bottom"
 msgstr "Unten dick"
 
-#: ../src/wbc-gtk.c:2622
+#: ../src/wbc-gtk.c:2638
 msgid "Top and Bottom"
 msgstr "Oben und unten"
 
-#: ../src/wbc-gtk.c:2623
+#: ../src/wbc-gtk.c:2639
 msgid "Top and Double Bottom"
 msgstr "Oben, dazu unten doppelt"
 
-#: ../src/wbc-gtk.c:2624
+#: ../src/wbc-gtk.c:2640
 msgid "Top and Thick Bottom"
 msgstr "Oben, dazu unten dick"
 
-#: ../src/wbc-gtk.c:2709
+#: ../src/wbc-gtk.c:2725
 msgid "Set Borders"
 msgstr "Ränder festlegen"
 
-#: ../src/wbc-gtk.c:2717 ../src/wbc-gtk.c:2718
+#: ../src/wbc-gtk.c:2733 ../src/wbc-gtk.c:2734
 msgid "Borders"
 msgstr "Ränder"
 
-#: ../src/wbc-gtk.c:2858
+#: ../src/wbc-gtk.c:2874
 msgid "Set Foreground Color"
 msgstr "Vordergrundfarbe festlegen"
 
 #. Set background to NONE
-#: ../src/wbc-gtk.c:2913
+#: ../src/wbc-gtk.c:2929
 msgid "Set Background Color"
 msgstr "Hintergrundfarbe festlegen"
 
-#: ../src/wbc-gtk.c:2952
+#: ../src/wbc-gtk.c:2968
 #, c-format
 msgid "Font Name %s"
 msgstr "Schriftname %s"
 
-#: ../src/wbc-gtk.c:3012
+#: ../src/wbc-gtk.c:3028
 #, c-format
 msgid "Font Size %f"
 msgstr "Schriftgröße %f"
 
-#: ../src/wbc-gtk.c:3030 ../src/wbc-gtk.c:3031
+#: ../src/wbc-gtk.c:3046 ../src/wbc-gtk.c:3047
 msgid "Font Size"
 msgstr "Schriftgröße"
 
@@ -15139,84 +15242,84 @@ msgstr "Schriftgröße"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:3239
+#: ../src/wbc-gtk.c:3255
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr ""
 "Im Menü »%s« wird die Zugriffstaste »%s« für »%s« und »%s« gleichermaßen "
 "verwendet."
 
-#: ../src/wbc-gtk.c:3555
+#: ../src/wbc-gtk.c:3571
 msgid "Display above sheets"
 msgstr "Über den Blätten anzeigen"
 
-#: ../src/wbc-gtk.c:3556
+#: ../src/wbc-gtk.c:3572
 msgid "Display to the left of sheets"
 msgstr "Auf der linken Seite der Blätter anzeigen"
 
-#: ../src/wbc-gtk.c:3557
+#: ../src/wbc-gtk.c:3573
 msgid "Display to the right of sheets"
 msgstr "Auf der rechten Seite der Blätter anzeigen"
 
-#: ../src/wbc-gtk.c:3561
+#: ../src/wbc-gtk.c:3577
 msgid "Reattach to main window"
 msgstr "Wieder an das Hauptfenster andocken"
 
-#: ../src/wbc-gtk.c:3593
+#: ../src/wbc-gtk.c:3609
 msgid "Hide"
 msgstr "Verbergen"
 
-#: ../src/wbc-gtk.c:3657
+#: ../src/wbc-gtk.c:3673
 msgid "Standard Toolbar"
 msgstr "Standardwerkzeugleiste"
 
-#: ../src/wbc-gtk.c:3658
+#: ../src/wbc-gtk.c:3674
 msgid "Format Toolbar"
 msgstr "Formatierungswerkzeugleiste"
 
-#: ../src/wbc-gtk.c:3659
+#: ../src/wbc-gtk.c:3675
 msgid "Long Format Toolbar"
 msgstr "Lange Formatierungswerkzeugleiste"
 
-#: ../src/wbc-gtk.c:3660
+#: ../src/wbc-gtk.c:3676
 msgid "Object Toolbar"
 msgstr "Objektwerkzeugleiste"
 
-#: ../src/wbc-gtk.c:3674
+#: ../src/wbc-gtk.c:3690
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Werkzeugleiste %s anzeigen/verbergen"
 
-#: ../src/wbc-gtk.c:4309
+#: ../src/wbc-gtk.c:4325
 msgid "Use maximum precision"
 msgstr "Höchste Genauigkeit verwenden"
 
-#: ../src/wbc-gtk.c:4321
+#: ../src/wbc-gtk.c:4337
 msgid "Insert formula below."
 msgstr "Formel unten einfügen."
 
-#: ../src/wbc-gtk.c:4327
+#: ../src/wbc-gtk.c:4343
 msgid "Insert formula to side."
 msgstr "Formel an der Seite einfügen."
 
-#: ../src/wbc-gtk.c:4438
+#: ../src/wbc-gtk.c:4454
 #, c-format
 msgid "Open %s"
 msgstr "%s öffnen"
 
-#: ../src/wbc-gtk.c:5092
+#: ../src/wbc-gtk.c:5108
 msgid "Autosave prompt"
 msgstr "Anfrage nach automatischem Speichern"
 
-#: ../src/wbc-gtk.c:5093
+#: ../src/wbc-gtk.c:5109
 msgid "Ask about autosave?"
 msgstr "Nach automatischem Speichern fragen?"
 
-#: ../src/wbc-gtk.c:5099
+#: ../src/wbc-gtk.c:5115
 msgid "Autosave time in seconds"
 msgstr "Automatische Speicherzeit in Sekunden"
 
-#: ../src/wbc-gtk.c:5100
+#: ../src/wbc-gtk.c:5116
 msgid "Seconds before autosave"
 msgstr "Sekunden vor dem automatischen Speichern"
 
@@ -15240,56 +15343,61 @@ msgstr "(Leere...)"
 msgid "(Non Blanks...)"
 msgstr "(Nicht leere...)"
 
-#: ../src/widgets/gnumeric-expr-entry.c:908
+#: ../src/widgets/gnumeric-expr-entry.c:912
 msgid "Update policy"
 msgstr "Aktualisierungs-Richtlinie"
 
-#: ../src/widgets/gnumeric-expr-entry.c:909
+#: ../src/widgets/gnumeric-expr-entry.c:913
 msgid "How frequently changes to the entry should be applied"
 msgstr "Wie häufig Veränderungen auf Einträge angewandt werden sollen"
 
-#: ../src/widgets/gnumeric-expr-entry.c:916
+#: ../src/widgets/gnumeric-expr-entry.c:920
 msgid "With icon"
 msgstr "Mit Symbol"
 
-#: ../src/widgets/gnumeric-expr-entry.c:917
+#: ../src/widgets/gnumeric-expr-entry.c:921
 msgid "Should there be an icon to the right of the entry?"
 msgstr "Sollte ein Symbol rechts vom Eintrag angezeigt werden?"
 
-#: ../src/widgets/gnumeric-expr-entry.c:925
+#: ../src/widgets/gnumeric-expr-entry.c:929
 msgid "The contents of the entry"
 msgstr "Der Inhalt des Eintrags"
 
-#: ../src/widgets/gnumeric-expr-entry.c:938
+#: ../src/widgets/gnumeric-expr-entry.c:942
 msgid "SheetControlGUI"
 msgstr "Blatt-Kontroll-Benutzeroberfläche"
 
-#: ../src/widgets/gnumeric-expr-entry.c:939
+#: ../src/widgets/gnumeric-expr-entry.c:943
 msgid "The GUI container associated with the entry."
 msgstr "Der Benutzeroberflächen-Behälter, der diesem Eintrag zugeordnet ist"
 
-#: ../src/widgets/gnumeric-expr-entry.c:946
+#: ../src/widgets/gnumeric-expr-entry.c:950
 msgid "WBCGtk"
 msgstr "WBCGtk"
 
-#: ../src/widgets/gnumeric-expr-entry.c:947
+#: ../src/widgets/gnumeric-expr-entry.c:951
 msgid "The toplevel GUI container associated with the entry."
 msgstr ""
 "Der Benutzeroberflächen-Behälter der obersten Ebene, der diesem Eintrag "
 "zugeordnet ist"
 
-#: ../src/widgets/gnumeric-expr-entry.c:954
+#: ../src/widgets/gnumeric-expr-entry.c:958
 msgid "Constant Format"
 msgstr "Konstanten-Format"
 
-#: ../src/widgets/gnumeric-expr-entry.c:955
+#: ../src/widgets/gnumeric-expr-entry.c:959
 msgid "Format for constants"
 msgstr "Format für Konstanten"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1735
+#: ../src/widgets/gnumeric-expr-entry.c:1739
 #, c-format
 msgid "Expecting a single range"
 msgstr "Einfache Reichweite erwartet"
+
+#: ../src/widgets/gnm-sheet-slicer-combo-view.c:116
+#, fuzzy
+msgid "<Blank>"
+msgstr "Schwarz"
 
 #: ../src/widgets/gnumeric-text-view.c:247
 msgid "Thin"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-17 22:02+0000\n"
+"POT-Creation-Date: 2010-03-02 09:24-0500\n"
 "PO-Revision-Date: 2010-02-17 21:17+0100\n"
 "Last-Translator: Bruce Cowan <bcowan@fastmail.co.uk>\n"
 "Language-Team: British English <en@li.org>\n"
@@ -83,7 +83,7 @@ msgid "Provides a CORBA scripting interface"
 msgstr "Provides a CORBA scripting interface"
 
 #: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6770
-#: ../plugins/openoffice/openoffice-read.c:5286 ../src/xml-sax-read.c:3066
+#: ../plugins/openoffice/openoffice-read.c:5290 ../src/xml-sax-read.c:3066
 msgid "Reading file..."
 msgstr "Reading file..."
 
@@ -180,7 +180,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Unexpected attribute %s::%s == '%s'."
 
 #: ../plugins/excel/excel-xml-read.c:1068
-#: ../plugins/openoffice/openoffice-read.c:5353 ../src/xml-sax-read.c:3083
+#: ../plugins/openoffice/openoffice-read.c:5357 ../src/xml-sax-read.c:3083
 msgid "XML document not well formed!"
 msgstr "XML document not well formed!"
 
@@ -1238,19 +1238,19 @@ msgstr "expression '%s' @ '%s' is not a cellref"
 msgid "Invalid DB range '%s'"
 msgstr "Invalid DB range '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:5219
+#: ../plugins/openoffice/openoffice-read.c:5223
 msgid "Unknown mimetype for openoffice file."
 msgstr "Unknown mimetype for openoffice file."
 
-#: ../plugins/openoffice/openoffice-read.c:5227
+#: ../plugins/openoffice/openoffice-read.c:5231
 msgid "No stream named content.xml found."
 msgstr "No stream named content.xml found."
 
-#: ../plugins/openoffice/openoffice-read.c:5235
+#: ../plugins/openoffice/openoffice-read.c:5239
 msgid "No stream named styles.xml found."
 msgstr "No stream named styles.xml found."
 
-#: ../plugins/openoffice/openoffice-read.c:5296
+#: ../plugins/openoffice/openoffice-read.c:5300
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Invalid metadata '%s'"
@@ -5783,27 +5783,27 @@ msgstr "%s (%s)"
 msgid "%s to %s"
 msgstr "%s to %s"
 
-#: ../src/dialogs/dialog-cell-sort.c:763
+#: ../src/dialogs/dialog-cell-sort.c:764
 msgid "no available row"
 msgstr "no available row"
 
-#: ../src/dialogs/dialog-cell-sort.c:763
+#: ../src/dialogs/dialog-cell-sort.c:764
 msgid "no available column"
 msgstr "no available column"
 
-#: ../src/dialogs/dialog-cell-sort.c:1017
+#: ../src/dialogs/dialog-cell-sort.c:1018
 msgid "Header"
 msgstr "Header"
 
-#: ../src/dialogs/dialog-cell-sort.c:1022
+#: ../src/dialogs/dialog-cell-sort.c:1023
 msgid "Row/Column"
 msgstr "Row/Column"
 
-#: ../src/dialogs/dialog-cell-sort.c:1042
+#: ../src/dialogs/dialog-cell-sort.c:1043
 msgid "Case Sensitive"
 msgstr "Case Sensitive"
 
-#: ../src/dialogs/dialog-cell-sort.c:1062
+#: ../src/dialogs/dialog-cell-sort.c:1063
 msgid "By Value"
 msgstr "By Value"
 
@@ -14714,24 +14714,24 @@ msgstr "Horizontal Alignment"
 msgid "Vertical Alignment"
 msgstr "Vertical Alignment"
 
-#: ../src/wbc-gtk-edit.c:720
+#: ../src/wbc-gtk-edit.c:722
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s is locked"
 
-#: ../src/wbc-gtk-edit.c:724
+#: ../src/wbc-gtk-edit.c:726
 msgid "Unprotect the workbook to enable editing."
 msgstr "Unprotect the workbook to enable editing."
 
-#: ../src/wbc-gtk-edit.c:725
+#: ../src/wbc-gtk-edit.c:727
 msgid "Unprotect the sheet to enable editing."
 msgstr "Unprotect the sheet to enable editing."
 
-#: ../src/wbc-gtk-edit.c:744
+#: ../src/wbc-gtk-edit.c:746
 msgid "You are about to edit a cell with \"text\" format."
 msgstr "You are about to edit a cell with \"text\" format."
 
-#: ../src/wbc-gtk-edit.c:745
+#: ../src/wbc-gtk-edit.c:747
 msgid ""
 "The cell does not currently contain text, though, so if you go on editing "
 "then the contents will be turned into text."
@@ -14739,11 +14739,11 @@ msgstr ""
 "The cell does not currently contain text, though, so if you go on editing "
 "then the contents will be turned into text."
 
-#: ../src/wbc-gtk-edit.c:750
+#: ../src/wbc-gtk-edit.c:752
 msgid "Remove format"
 msgstr "Remove format"
 
-#: ../src/wbc-gtk-edit.c:755
+#: ../src/wbc-gtk-edit.c:757
 msgid "Show this dialog next time."
 msgstr "Show this dialogue next time."
 

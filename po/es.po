@@ -13,9 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=gnumeric&component=general\n"
-"POT-Creation-Date: 2010-02-16 20:49+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-03-02 09:24-0500\n"
 "PO-Revision-Date: 2010-02-20 13:10+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
@@ -90,7 +89,7 @@ msgid "Provides a CORBA scripting interface"
 msgstr "Proporciona un interfaz para scripts de CORBA"
 
 #: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6770
-#: ../plugins/openoffice/openoffice-read.c:5286 ../src/xml-sax-read.c:3066
+#: ../plugins/openoffice/openoffice-read.c:5290 ../src/xml-sax-read.c:3066
 msgid "Reading file..."
 msgstr "Leyendo archivo…"
 
@@ -191,7 +190,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Atributo inesperado %s::%s == «%s»."
 
 #: ../plugins/excel/excel-xml-read.c:1068
-#: ../plugins/openoffice/openoffice-read.c:5353 ../src/xml-sax-read.c:3083
+#: ../plugins/openoffice/openoffice-read.c:5357 ../src/xml-sax-read.c:3083
 msgid "XML document not well formed!"
 msgstr "El documento XML no se encuentra bien definido"
 
@@ -485,13 +484,11 @@ msgstr "No se puede convertir un rango de celda 3D en un XLOPER."
 
 #: ../plugins/excelplugins/excelplugins.c:357
 #, c-format
-#| msgid "Unsupported Python type: %s"
 msgid "Unsupported GnmValue type (%d)"
 msgstr "Tipo de valor GnmValue no soportado (%d)"
 
 #: ../plugins/excelplugins/excelplugins.c:617
 #, c-format
-#| msgid "%s (%s)"
 msgid "%s: %s"
 msgstr "%s: %s"
 
@@ -528,7 +525,6 @@ msgstr ""
 
 #: ../plugins/excelplugins/excelplugins.c:950
 #, c-format
-#| msgid "Unable to open file '%s'"
 msgid "Unable to open module file \"%s\"."
 msgstr "No se pudo abrir el archivo de módulo «%s»."
 
@@ -570,7 +566,6 @@ msgid "Date/Time"
 msgstr "Fecha/Hora"
 
 #: ../plugins/fn-christian-date/plugin.xml.in.h:3
-#| msgid "Functions manipulating dates and time"
 msgid "Functions manipulating dates of the Christian liturgical calendar"
 msgstr ""
 "Funciones que manipulan fechas y horas del calendario litúrgico cristiano"
@@ -941,13 +936,11 @@ msgstr "Escribiendo archivo glpk…"
 
 #: ../plugins/glpk/gnm-glpk.c:54
 #, fuzzy, c-format
-#| msgid "Default file saver is not available."
 msgid "The GLPK exporter is not available."
 msgstr "No se encuentra disponible el guardador de archivos preestablecido."
 
 #: ../plugins/glpk/gnm-glpk.c:236
 #, fuzzy, c-format
-#| msgid "Failed to create temporary file for sending."
 msgid "Failed to create file for solution"
 msgstr "No se puede crear archivo temporal para el envío."
 
@@ -1060,7 +1053,6 @@ msgstr "Lotus 123 (*.wk1, *.wks *.123)"
 
 #: ../plugins/lpsolve/gnm-lpsolve.c:50
 #, fuzzy, c-format
-#| msgid "Default file saver is not available."
 msgid "The LPSolve exporter is not available."
 msgstr "No se encuentra disponible el guardador de archivos preestablecido."
 
@@ -1070,7 +1062,6 @@ msgstr ""
 
 #: ../plugins/lpsolve/plugin.xml.in.h:1
 #, fuzzy
-#| msgid "LP Solve"
 msgid "LPSolve"
 msgstr "LP Solve"
 
@@ -1092,19 +1083,16 @@ msgstr "Nombre del programa"
 
 #: ../plugins/mps/mps.c:222
 #, fuzzy
-#| msgid "Invalid ROWS section in the file."
 msgid "Invalid line in ROWS section"
 msgstr "La sección ROWS en el archivo no es válida."
 
 #: ../plugins/mps/mps.c:231
 #, fuzzy, c-format
-#| msgid "Update Name %s"
 msgid "Duplicate rows name %s"
 msgstr "Actualizar nombre %s"
 
 #: ../plugins/mps/mps.c:249
 #, fuzzy
-#| msgid "Duplicate Object"
 msgid "Duplicate objective row"
 msgstr "Duplicar objeto"
 
@@ -1113,7 +1101,6 @@ msgid "Missing objective row"
 msgstr ""
 
 #: ../plugins/mps/mps.c:292
-#| msgid "Invalid name"
 msgid "Invalid marker"
 msgstr "Marcador no válido"
 
@@ -1124,7 +1111,6 @@ msgstr ""
 
 #: ../plugins/mps/mps.c:408
 #, fuzzy, c-format
-#| msgid "Invalid sst ref '%s'"
 msgid "Invalid bounds type %s"
 msgstr "Referencia sst %s inválida"
 
@@ -1163,7 +1149,6 @@ msgid "Variable"
 msgstr "Variable"
 
 #: ../plugins/mps/mps.c:668
-#| msgid "Objective function:"
 msgid "Objective function"
 msgstr "Función objetivo:"
 
@@ -1261,19 +1246,19 @@ msgstr "la expresión «%s» @ «%s» no es una referencia de celda"
 msgid "Invalid DB range '%s'"
 msgstr "Rango DB «%s» no válido"
 
-#: ../plugins/openoffice/openoffice-read.c:5219
+#: ../plugins/openoffice/openoffice-read.c:5223
 msgid "Unknown mimetype for openoffice file."
 msgstr "Tipo mime desconocido para el archivo openoffice."
 
-#: ../plugins/openoffice/openoffice-read.c:5227
+#: ../plugins/openoffice/openoffice-read.c:5231
 msgid "No stream named content.xml found."
 msgstr "No se encontró ningún flujo llamado content.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:5235
+#: ../plugins/openoffice/openoffice-read.c:5239
 msgid "No stream named styles.xml found."
 msgstr "No se encontró ningún flujo llamado styles.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:5296
+#: ../plugins/openoffice/openoffice-read.c:5300
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Metadato inválido: «%s»"
@@ -1987,7 +1972,6 @@ msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:47
 #, fuzzy
-#| msgid "Please use the Print Setup dialog to edit this value."
 msgid "Please use the Text Export dialog to edit this value."
 msgstr ""
 "Por favor, use el diálogo «Configurar impresión» para editar este valor."
@@ -2026,7 +2010,6 @@ msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:54
 #, fuzzy
-#| msgid "Text indicator"
 msgid "Text Export String Indicator"
 msgstr "Indicador de texto"
 
@@ -2966,7 +2949,6 @@ msgstr "Debiera dividir un array"
 
 #: ../src/command-context.c:68
 #, fuzzy, c-format
-#| msgid "Would split array %s"
 msgid "Would split merge %s"
 msgstr "Debiera dividir el array %s"
 
@@ -3471,7 +3453,6 @@ msgstr "Configurar botón"
 
 #: ../src/commands.c:7303
 #, fuzzy
-#| msgid "Configure Button"
 msgid "Configure Radio Button"
 msgstr "Configurar botón"
 
@@ -3497,25 +3478,21 @@ msgstr "Requiere más de una columna"
 
 #: ../src/commands.c:7593
 #, fuzzy
-#| msgid "Unable to parse the html."
 msgid "Unable to create Autofilter"
 msgstr "Ha sido imposible analizar el HTML."
 
 #: ../src/commands.c:7609
 #, fuzzy, c-format
-#| msgid "Add _Auto Filter"
 msgid "Add Autofilter to %s"
 msgstr "Añadir _auto filtro"
 
 #: ../src/commands.c:7610
 #, fuzzy, c-format
-#| msgid "Remove _Auto Filter"
 msgid "Remove Autofilter from %s"
 msgstr "Eliminar el _autofiltro"
 
 #: ../src/commands.c:7681
 #, fuzzy
-#| msgid "Delete Object"
 msgid "Set Object Name"
 msgstr "Borrar objeto"
 
@@ -4567,7 +4544,6 @@ msgstr "Retener co_mentarios del rango de salida"
 
 #: ../src/dialogs/dao.glade.h:11
 #, fuzzy
-#| msgid "Formula"
 msgid ""
 "Values\n"
 "Formulas"
@@ -5152,7 +5128,6 @@ msgstr "Acerca de Gnumeric"
 
 #: ../src/dialogs/dialog-about.c:567
 #, fuzzy
-#| msgid "Browse to Gnumeric's website"
 msgid "Visit the Gnumeric website"
 msgstr "Ir al sitio web de Gnumeric"
 
@@ -5322,26 +5297,22 @@ msgstr "No se puede crear el diálogo para la Herramienta de Muestreo."
 
 #: ../src/dialogs/dialog-analysis-tool-normality.c:201
 #, fuzzy
-#| msgid "Could not create the FTest Tool dialog."
 msgid "Could not create the Normality Test Tool dialog."
 msgstr "No se puede crear el diálogo para la Herramienta de Prueba-F."
 
 #: ../src/dialogs/dialog-analysis-tool-principal-components.c:174
 #, fuzzy
-#| msgid "Could not create the Fourier Analysis Tool dialog."
 msgid "Could not create the Principal Components Analysis Tool dialog."
 msgstr ""
 "No se puede crear el diálogo para la Herramienta de Análisis de Fourier."
 
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:97
 #, fuzzy
-#| msgid "The input range is invalid."
 msgid "The first input range is invalid."
 msgstr "El rango de entrada no es válido."
 
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:110
 #, fuzzy
-#| msgid "The input range is invalid."
 msgid "The second input range is invalid."
 msgstr "El rango de entrada no es válido."
 
@@ -5352,7 +5323,6 @@ msgstr "El texto de búsqueda se toma literalmente."
 
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:279
 #, fuzzy
-#| msgid "Could not create the FTest Tool dialog."
 msgid "Could not create the Sign Test Tool dialog."
 msgstr "No se puede crear el diálogo para la Herramienta de Prueba-F."
 
@@ -5899,27 +5869,27 @@ msgstr "%s (%s)"
 msgid "%s to %s"
 msgstr "%s a %s"
 
-#: ../src/dialogs/dialog-cell-sort.c:763
+#: ../src/dialogs/dialog-cell-sort.c:764
 msgid "no available row"
 msgstr "fila no disponible"
 
-#: ../src/dialogs/dialog-cell-sort.c:763
+#: ../src/dialogs/dialog-cell-sort.c:764
 msgid "no available column"
 msgstr "columna no disponible"
 
-#: ../src/dialogs/dialog-cell-sort.c:1017
+#: ../src/dialogs/dialog-cell-sort.c:1018
 msgid "Header"
 msgstr "Encabezado"
 
-#: ../src/dialogs/dialog-cell-sort.c:1022
+#: ../src/dialogs/dialog-cell-sort.c:1023
 msgid "Row/Column"
 msgstr "Fila/Columna"
 
-#: ../src/dialogs/dialog-cell-sort.c:1042
+#: ../src/dialogs/dialog-cell-sort.c:1043
 msgid "Case Sensitive"
 msgstr "Sensible a capitalización"
 
-#: ../src/dialogs/dialog-cell-sort.c:1062
+#: ../src/dialogs/dialog-cell-sort.c:1063
 msgid "By Value"
 msgstr "Por valor"
 
@@ -6395,7 +6365,6 @@ msgstr "Pasar a mayúsculas los _nombres de los días"
 
 #: ../src/dialogs/dialog-preferences.c:973
 #, fuzzy
-#| msgid "INitial CApitals"
 msgid "Correct _TWo INitial CApitals"
 msgstr "INiciales en MAyúsculas"
 
@@ -6821,25 +6790,21 @@ msgstr "No se puede crear el diálogo para la herramienta de aleatoriedad."
 
 #: ../src/dialogs/dialog-random-generator-cor.c:99
 #, fuzzy
-#| msgid "The categories range is not valid."
 msgid "The matrix range is not valid."
 msgstr "El rango de categorías no es válido."
 
 #: ../src/dialogs/dialog-random-generator-cor.c:110
 #, fuzzy
-#| msgid "K must be a positive integer."
 msgid "The matrix must be symmetric positive-definite."
 msgstr "K debe ser un entero positivo."
 
 #: ../src/dialogs/dialog-random-generator-cor.c:126
 #, fuzzy
-#| msgid "The number of categories is invalid."
 msgid "The number of random numbers requested is invalid."
 msgstr "El número de categorías no es válido."
 
 #: ../src/dialogs/dialog-random-generator-cor.c:222
 #, fuzzy
-#| msgid "Could not create the Correlation Tool dialog."
 msgid "Could not create the Correlated Random Tool dialog."
 msgstr "No se puede crear el diálogo para la Herramienta de Correlación."
 
@@ -7081,9 +7046,6 @@ msgstr "No se puedo crear el diálogo Listar propiedades."
 
 #: ../src/dialogs/dialog-solver.c:350
 #, fuzzy
-#| msgid ""
-#| "Looking for a subject for your thesis? Maybe you would like to write a QP "
-#| "solver for Gnumeric?"
 msgid ""
 "Looking for a subject for your thesis? Maybe you would like to write a "
 "solver for Gnumeric?"
@@ -7093,91 +7055,76 @@ msgstr ""
 
 #: ../src/dialogs/dialog-solver.c:445
 #, fuzzy
-#| msgid "Changing sheet properties"
 msgid "Changing solver parameters"
 msgstr "Cambiando propiedades de la hoja"
 
 #: ../src/dialogs/dialog-solver.c:511
 #, fuzzy
-#| msgid "Real"
 msgid "Ready"
 msgstr "Preparado"
 
 #: ../src/dialogs/dialog-solver.c:514
 #, fuzzy
-#| msgid "Replacing"
 msgid "Preparing"
 msgstr "Preparando"
 
 #: ../src/dialogs/dialog-solver.c:517
 #, fuzzy
-#| msgid "_Separated"
 msgid "Prepared"
 msgstr "Preparado"
 
 #: ../src/dialogs/dialog-solver.c:520
 #, fuzzy
-#| msgid "Run on"
 msgid "Running"
 msgstr "Ejecutándose"
 
 #: ../src/dialogs/dialog-solver.c:529
 #, fuzzy
-#| msgid "None"
 msgid "Done"
 msgstr "Hecho"
 
 #: ../src/dialogs/dialog-solver.c:533
 #, fuzzy
-#| msgid "Arrow"
 msgid "Error"
 msgstr "Error"
 
 #: ../src/dialogs/dialog-solver.c:536
 #, fuzzy
-#| msgid "C_ancel"
 msgid "Cancelled"
 msgstr "Cancelado"
 
 #: ../src/dialogs/dialog-solver.c:572
 #, fuzzy, c-format
-#| msgid "Feasible"
 msgid "Feasible: %s"
 msgstr "Factible"
 
 #: ../src/dialogs/dialog-solver.c:580
 #, fuzzy, c-format
-#| msgid "p,trials"
 msgid "Optimal: %s"
 msgstr "p,intentos"
 
 #: ../src/dialogs/dialog-solver.c:586
 #, fuzzy
-#| msgid "Feasible"
 msgid "Infeasible"
 msgstr "Factible"
 
 #: ../src/dialogs/dialog-solver.c:590
 #, fuzzy
-#| msgid "Unbounded problem"
 msgid "Unbounded"
 msgstr "Problema sin límites"
 
 #: ../src/dialogs/dialog-solver.c:636
 #, fuzzy
-#| msgid "Default file saver is not available."
 msgid "No suitable solver available."
 msgstr "No se encuentra disponible el guardador de archivos preestablecido."
 
 #: ../src/dialogs/dialog-solver.c:648
 #, fuzzy
-#| msgid "Solver"
 msgid "Running Solver"
 msgstr "Solver"
 
 #: ../src/dialogs/dialog-solver.c:653
 #, fuzzy
-#| msgid "Step"
 msgid "Stop"
 msgstr "Parar"
 
@@ -7199,7 +7146,6 @@ msgstr "Solución óptima creada por el solver.\n"
 
 #: ../src/dialogs/dialog-solver.c:796
 #, fuzzy
-#| msgid "Optimal solution created by solver.\n"
 msgid "Feasible solution created by solver.\n"
 msgstr "Solución óptima creada por el solver.\n"
 
@@ -7307,7 +7253,6 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.glade.h:19
 #, fuzzy
-#| msgid "Save as default settings"
 msgid "Save as default formatting"
 msgstr "Guardar como ajustes predeterminados"
 
@@ -7816,13 +7761,11 @@ msgstr "Pantalla %d"
 
 #: ../src/dialogs/dialog-workbook-attr.c:186
 #, fuzzy
-#| msgid "_Edges"
 msgid "Widgets"
 msgstr "Widgets"
 
 #: ../src/dialogs/dialog-workbook-attr.c:188
 #, fuzzy
-#| msgid "Do auto completion"
 msgid "Auto Completion"
 msgstr "Autocompletado"
 
@@ -8510,13 +8453,11 @@ msgstr "_Rango objetivo:"
 
 #: ../src/dialogs/hyperlink.glade.h:5
 #, fuzzy
-#| msgid "_Tip:"
 msgid "Tip:"
 msgstr "Consejo:"
 
 #: ../src/dialogs/hyperlink.glade.h:6
 #, fuzzy
-#| msgid "_Use Default"
 msgid "Use default tip"
 msgstr "_Usar predeterminado"
 
@@ -8579,7 +8520,6 @@ msgstr ""
 
 #: ../src/dialogs/kaplan-meier.glade.h:6
 #, fuzzy
-#| msgid "Kaplan-Meier Estimates"
 msgid "Kaplan Meier Estimates"
 msgstr "Estimaciones Kaplan-Meier"
 
@@ -8791,19 +8731,16 @@ msgstr "Pegar definiciones de nombres"
 
 #: ../src/dialogs/paste-special.glade.h:1
 #, fuzzy
-#| msgid "<b>Location</b>"
 msgid "<b>Cell operation</b>"
 msgstr "<b>Ubicación</b>"
 
 #: ../src/dialogs/paste-special.glade.h:2
 #, fuzzy
-#| msgid "<b>Pattern</b>"
 msgid "<b>Paste type</b>"
 msgstr "<b>Patrón</b>"
 
 #: ../src/dialogs/paste-special.glade.h:3
 #, fuzzy
-#| msgid "<b>Information</b>"
 msgid "<b>Region operation</b>"
 msgstr "<b>Información</b>"
 
@@ -8833,13 +8770,11 @@ msgstr ""
 
 #: ../src/dialogs/paste-special.glade.h:10
 #, fuzzy
-#| msgid "_Vertically"
 msgid "Fli_p Vertically"
 msgstr "_Verticalmente"
 
 #: ../src/dialogs/paste-special.glade.h:11
 #, fuzzy
-#| msgid "Fill Horizontally"
 msgid "Flip Hori_zontally"
 msgstr "Rellenar horizontalmente"
 
@@ -9169,25 +9104,21 @@ msgstr ""
 
 #: ../src/dialogs/random-generation-cor.glade.h:3
 #, fuzzy
-#| msgid "Covariance"
 msgid "Co_variance Matrix"
 msgstr "Covarianza"
 
 #: ../src/dialogs/random-generation-cor.glade.h:4
 #, fuzzy
-#| msgid "Random Number Generation"
 msgid "Correlated Random Number Generator"
 msgstr "Generación de números aleatorios"
 
 #: ../src/dialogs/random-generation-cor.glade.h:6
 #, fuzzy
-#| msgid "Number of Undo Items"
 msgid "Number of _random numbers:"
 msgstr "Número de elementos a deshacer"
 
 #: ../src/dialogs/random-generation-cor.glade.h:9
 #, fuzzy
-#| msgid "Matrix"
 msgid "_Matrix:"
 msgstr "Matriz"
 
@@ -9714,7 +9645,6 @@ msgstr "yyyyy"
 
 #: ../src/dialogs/sheetobject-size.glade.h:1
 #, fuzzy
-#| msgid "Row height in points:"
 msgid "Height in points:"
 msgstr "Altura de fila en puntos:"
 
@@ -9724,7 +9654,6 @@ msgstr ""
 
 #: ../src/dialogs/sheetobject-size.glade.h:3
 #, fuzzy
-#| msgid "Ac_tion:"
 msgid "Size & Position"
 msgstr "A_cción:"
 
@@ -9736,49 +9665,41 @@ msgstr ""
 
 #: ../src/dialogs/sheetobject-size.glade.h:5
 #, fuzzy
-#| msgid "Column width in points:"
 msgid "Width in points:"
 msgstr "Anchura de columna en puntos:"
 
 #: ../src/dialogs/sheetobject-size.glade.h:6
 #, fuzzy
-#| msgid "_Row height in pixels:"
 msgid "_Height in pixels:"
 msgstr "Altura de _fila en píxeles:"
 
 #: ../src/dialogs/sheetobject-size.glade.h:7
 #, fuzzy
-#| msgid "_Name: "
 msgid "_Name:"
 msgstr "_Nombre:"
 
 #: ../src/dialogs/sheetobject-size.glade.h:8
 #, fuzzy
-#| msgid "_Column width in pixels:"
 msgid "_Width in pixels:"
 msgstr "Anchura de _columna en píxeles:"
 
 #: ../src/dialogs/sheetobject-size.glade.h:9
 #, fuzzy
-#| msgid "_Row height in pixels:"
 msgid "_x-Offset in pixels:"
 msgstr "Altura de _fila en píxeles:"
 
 #: ../src/dialogs/sheetobject-size.glade.h:10
 #, fuzzy
-#| msgid "_Row height in pixels:"
 msgid "_y-Offset in pixels:"
 msgstr "Altura de _fila en píxeles:"
 
 #: ../src/dialogs/sheetobject-size.glade.h:12
 #, fuzzy
-#| msgid "Row height in points:"
 msgid "x-Offset in points:"
 msgstr "Altura de fila en puntos:"
 
 #: ../src/dialogs/sheetobject-size.glade.h:13
 #, fuzzy
-#| msgid "Row height in points:"
 msgid "y-Offset in points:"
 msgstr "Altura de fila en puntos:"
 
@@ -9875,25 +9796,21 @@ msgstr "Variables"
 #: ../src/tools/analysis-sign-test.c:360 ../src/tools/analysis-sign-test.c:385
 #: ../src/tools/analysis-sign-test.c:388
 #, fuzzy
-#| msgid "Align left"
 msgid "Sign Test"
 msgstr "Alineación izquierda"
 
 #: ../src/dialogs/sign-test.glade.h:11
 #, fuzzy
-#| msgid "E_xecute in:"
 msgid "_Predicted Median:"
 msgstr "E_jecutar en:"
 
 #: ../src/dialogs/sign-test-two.glade.h:2
 #, fuzzy
-#| msgid "Hypothesized mean _difference:"
 msgid "Hypothesized _difference of medians:"
 msgstr "_Diferencia de la media de la hipótesis:"
 
 #: ../src/dialogs/so-button.glade.h:1
 #, fuzzy
-#| msgid "List Properties"
 msgid "Button Properties"
 msgstr "Propiedades del botón"
 
@@ -9930,7 +9847,6 @@ msgstr "_Enlace:"
 
 #: ../src/dialogs/so-radiobutton.glade.h:3
 #, fuzzy
-#| msgid "List Properties"
 msgid "Radiobutton Properties"
 msgstr "Listar propiedades"
 
@@ -10167,7 +10083,6 @@ msgstr "No implementado"
 
 #: ../src/dialogs/workbook-attr.glade.h:7
 #, fuzzy
-#| msgid "Slider Properties"
 msgid "View Properties"
 msgstr "Propiedades del deslizador"
 
@@ -10185,7 +10100,6 @@ msgstr "Barra de desplazamiento _vertical"
 
 #: ../src/dialogs/workbook-attr.glade.h:11
 #, fuzzy
-#| msgid "page"
 msgid "page 3"
 msgstr "página 3"
 
@@ -10219,7 +10133,6 @@ msgstr "Archivo de plantilla inválido: %s"
 
 #: ../src/format-template.c:496
 #, fuzzy
-#| msgid "Error while trying to load autoformat template"
 msgid "Error while opening autoformat template"
 msgstr "Error al intentar cargar plantilla de autoformato"
 
@@ -10449,7 +10362,6 @@ msgstr[1] "Interfaz de usuario con %d acciones"
 
 #: ../src/gnm-plugin.c:571
 #, fuzzy
-#| msgid "Infeasible problem"
 msgid "Invalid solver problem type."
 msgstr "Problema no abordable"
 
@@ -10459,7 +10371,6 @@ msgstr ""
 
 #: ../src/gnm-plugin.c:636
 #, fuzzy, c-format
-#| msgid "Algorithm:"
 msgid "Solver Algorithm %s"
 msgstr "Algoritmo:"
 
@@ -11317,13 +11228,11 @@ msgstr "Botón"
 
 #: ../src/sheet-object-widget.c:670
 #, fuzzy
-#| msgid "Create a button"
 msgid "Pressed Button"
 msgstr "Crea un botón"
 
 #: ../src/sheet-object-widget.c:685
 #, fuzzy
-#| msgid "RadioButton"
 msgid "Released Button"
 msgstr "RadioButton"
 
@@ -11373,7 +11282,6 @@ msgstr "RadioButton"
 #. FIXME: This text sucks:
 #: ../src/sheet-object-widget.c:2424
 #, fuzzy
-#| msgid "Create a radio button"
 msgid "Clicking radiobutton"
 msgstr "Crear un botón de selección"
 
@@ -11387,7 +11295,6 @@ msgstr "Ajustar objeto a la rejilla"
 
 #: ../src/sheet-object.c:161
 #, fuzzy
-#| msgid "Ac_tion:"
 msgid "Size _& Position"
 msgstr "A_cción:"
 
@@ -11442,7 +11349,6 @@ msgstr "Tipo de hoja"
 
 #: ../src/sheet.c:811
 #, fuzzy
-#| msgid "How type of sheet this is."
 msgid "Which type of sheet this is."
 msgstr "Qué tipo de hoja es."
 
@@ -11795,9 +11701,6 @@ msgstr "Lista de exportadores disponibles"
 
 #: ../src/ssconvert.c:117
 #, fuzzy
-#| msgid ""
-#| "Export a file for each sheet if the exporter only supports one sheet at a "
-#| "time."
 msgid ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time"
@@ -11807,7 +11710,6 @@ msgstr ""
 
 #: ../src/ssconvert.c:124
 #, fuzzy
-#| msgid "Recalculate all cells before writing the result."
 msgid "Recalculate all cells before writing the result"
 msgstr "Recalcular todas las celdas antes de escribir el resultado."
 
@@ -11839,7 +11741,6 @@ msgstr ""
 
 #: ../src/ssconvert.c:457
 #, fuzzy, c-format
-#| msgid "Failed to read DBF header."
 msgid "Failed to create solver"
 msgstr "Falló al leer la cabecera DBF."
 
@@ -11850,7 +11751,6 @@ msgstr ""
 
 #: ../src/ssconvert.c:480
 #, fuzzy, c-format
-#| msgid "Solver"
 msgid "Solver: %s\n"
 msgstr "Solver"
 
@@ -12163,7 +12063,6 @@ msgstr "Valores separados por comas (CSV)"
 
 #: ../src/tools/analysis-anova.c:122
 #, fuzzy
-#| msgid "Anova: Two-Factor Without Replication"
 msgid "ANOVA: Two-Factor Without Replication"
 msgstr "Anova: Dos factores sin replicación"
 
@@ -12243,7 +12142,6 @@ msgstr "Análisis de varianza de dos factores (%s),  con replicación"
 
 #: ../src/tools/analysis-anova.c:852
 #, fuzzy
-#| msgid "_ANOVA"
 msgid "ANOVA"
 msgstr "_Análisis de varianza"
 
@@ -12253,14 +12151,12 @@ msgstr "Análisis de varianza de dos factores"
 
 #: ../src/tools/analysis-auto-expression.c:98
 #, fuzzy, c-format
-#| msgid "Auto-expression text"
 msgid "Auto Expression (%s)"
 msgstr "Texto de autoexpresión"
 
 #: ../src/tools/analysis-auto-expression.c:115
 #: ../src/tools/analysis-auto-expression.c:118
 #, fuzzy
-#| msgid "Expression"
 msgid "Auto Expression"
 msgstr "Expresión"
 
@@ -12499,7 +12395,6 @@ msgstr ""
 
 #: ../src/tools/analysis-normality.c:165
 #, fuzzy
-#| msgid "Normal"
 msgid "Not normal"
 msgstr "Normal"
 
@@ -12509,13 +12404,11 @@ msgstr ""
 
 #: ../src/tools/analysis-normality.c:193
 #, fuzzy, c-format
-#| msgid "t-Test (%s)"
 msgid "Normality Test (%s)"
 msgstr "Prueba-t (%s)"
 
 #: ../src/tools/analysis-normality.c:204 ../src/tools/analysis-normality.c:207
 #, fuzzy
-#| msgid "Format Cells"
 msgid "Normality Test"
 msgstr "Formatear celdas"
 
@@ -12531,7 +12424,6 @@ msgstr ""
 
 #: ../src/tools/analysis-principal-components.c:112
 #, fuzzy
-#| msgid "Covariances"
 msgid "Covariances:"
 msgstr "Covarianzas"
 
@@ -12541,7 +12433,6 @@ msgstr ""
 
 #: ../src/tools/analysis-principal-components.c:141
 #, fuzzy
-#| msgid "Percentage"
 msgid "Percent of Trace:"
 msgstr "Porcentaje"
 
@@ -12564,7 +12455,6 @@ msgstr ""
 
 #: ../src/tools/analysis-sign-test.c:346 ../src/tools/analysis-sign-test.c:375
 #, fuzzy, c-format
-#| msgid "z-Test (%s)"
 msgid "Sign Test (%s)"
 msgstr "Prueba-z (%s)"
 
@@ -12908,49 +12798,41 @@ msgstr "Filtrado"
 
 #: ../src/tools/gnm-solver.c:569
 #, fuzzy, c-format
-#| msgid "Invalid number of arguments"
 msgid "Invalid solver target"
 msgstr "Número de argumentos inválido"
 
 #: ../src/tools/gnm-solver.c:579
 #, fuzzy, c-format
-#| msgid "Target cell should contain a formula."
 msgid "Target cell, %s, must contain a formula that evaluates to a number"
 msgstr "La celda destino debería contener una fórmula."
 
 #: ../src/tools/gnm-solver.c:588
 #, fuzzy, c-format
-#| msgid "Invalid scenario name"
 msgid "Invalid solver input range"
 msgstr "Nombre de escenario inválido"
 
 #: ../src/tools/gnm-solver.c:598
 #, fuzzy, c-format
-#| msgid "Target cell should contain a formula."
 msgid "Input cell %s contains a formula"
 msgstr "La celda destino debería contener una fórmula."
 
 #: ../src/tools/gnm-solver.c:612
 #, fuzzy, c-format
-#| msgid "The list range is invalid."
 msgid "Solver constraint #%d is invalid"
 msgstr "El rango de la lista no es válido."
 
 #: ../src/tools/gnm-solver.c:721 ../src/tools/gnm-solver.c:722
 #, fuzzy
-#| msgid "Problem Size"
 msgid "Problem Type"
 msgstr "Tamaño del problema"
 
 #: ../src/tools/gnm-solver.c:968
 #, fuzzy, c-format
-#| msgid "Failed to create temporary file for sending."
 msgid "Failed to create file for linear program"
 msgstr "No se puede crear archivo temporal para el envío."
 
 #: ../src/tools/gnm-solver.c:977
 #, fuzzy, c-format
-#| msgid "Failed to create temporary file for sending."
 msgid "Failed to create linear program file"
 msgstr "No se puede crear archivo temporal para el envío."
 
@@ -12961,7 +12843,6 @@ msgstr ""
 
 #: ../src/tools/gnm-solver.c:1014
 #, fuzzy
-#| msgid "Status"
 msgid "status"
 msgstr "estado"
 
@@ -12971,7 +12852,6 @@ msgstr ""
 
 #: ../src/tools/gnm-solver.c:1023
 #, fuzzy
-#| msgid "Separators"
 msgid "Solver parameters"
 msgstr "Separadores"
 
@@ -13022,14 +12902,12 @@ msgstr "Variables aleatorias correladas"
 
 #: ../src/tools/random-generator-cor.c:143
 #, fuzzy, c-format
-#| msgid "Random Numbers (%s)"
 msgid "Correlated Random Numbers (%s)"
 msgstr "Números aleatorios (%s)"
 
 #: ../src/tools/random-generator-cor.c:154
 #: ../src/tools/random-generator-cor.c:157
 #, fuzzy
-#| msgid "Random Numbers"
 msgid "Correlated Random Numbers"
 msgstr "Generación de números aleatorios"
 
@@ -13091,19 +12969,16 @@ msgstr "Cuenta"
 
 #: ../src/tools/simulation.c:258
 #, fuzzy
-#| msgid "Confidence (95 %)"
 msgid "Confidence (95%)"
 msgstr "Nivel de confianza (95%)"
 
 #: ../src/tools/simulation.c:259
 #, fuzzy
-#| msgid "Lower Limit (95 %)"
 msgid "Lower Limit (95%)"
 msgstr "Límite inferior (95 %)"
 
 #: ../src/tools/simulation.c:260
 #, fuzzy
-#| msgid "Upper Limit (95 %)"
 msgid "Upper Limit (95%)"
 msgstr "Límite superior (95 %)"
 
@@ -13651,13 +13526,11 @@ msgstr "Imprimir este archivo"
 
 #: ../src/wbc-gtk-actions.c:1811
 #, fuzzy
-#| msgid "Proper_ties..."
 msgid "Document Proper_ties..."
 msgstr "P_ropiedades…"
 
 #: ../src/wbc-gtk-actions.c:1812
 #, fuzzy
-#| msgid "Changing sheet properties"
 msgid "Edit document properties"
 msgstr "Cambiando propiedades de la hoja"
 
@@ -13763,13 +13636,11 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1889
 #, fuzzy
-#| msgid "Cut Object"
 msgid "Next _Object"
 msgstr "Cortar objeto"
 
 #: ../src/wbc-gtk-actions.c:1890
 #, fuzzy
-#| msgid "Select all non-empty sheets for export."
 msgid "Select the next sheet object"
 msgstr "Seleccionar todas las hojas no vacías para exportar."
 
@@ -14021,13 +13892,11 @@ msgstr "Modifica el formato de las celdas seleccionadas"
 
 #: ../src/wbc-gtk-actions.c:2023
 #, fuzzy
-#| msgid "Proper_ties..."
 msgid "View _Properties..."
 msgstr "P_ropiedades…"
 
 #: ../src/wbc-gtk-actions.c:2024
 #, fuzzy
-#| msgid "Changing sheet properties"
 msgid "Modify the view properties"
 msgstr "Cambiando propiedades de la hoja"
 
@@ -14371,7 +14240,6 @@ msgstr "Creación de curvas de supervivencia de Kaplan-Meier"
 
 #: ../src/wbc-gtk-actions.c:2177
 #, fuzzy
-#| msgid "_Format Cells..."
 msgid "_Normality Tests..."
 msgstr "_Formatear celdas…"
 
@@ -14385,13 +14253,11 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2181
 #, fuzzy
-#| msgid "Testing the Difference of 2 Means"
 msgid "Testing the value of a median"
 msgstr "Prueba de la diferencia de dos medias"
 
 #: ../src/wbc-gtk-actions.c:2183
 #, fuzzy
-#| msgid "_Two Variances: FTest..."
 msgid "T_wo Medians Sign Test..."
 msgstr "_Dos varianzas: F-Test…"
 
@@ -14511,7 +14377,6 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2227
 #, fuzzy
-#| msgid "Fit Height"
 msgid "Fill to right"
 msgstr "Ajustar altura"
 
@@ -14889,7 +14754,6 @@ msgstr "Muestra el valor de una fórmula o la fórmula"
 
 #: ../src/wbc-gtk-actions.c:2422
 #, fuzzy
-#| msgid "Hide _Zeros"
 msgid "_Hide Zeros"
 msgstr "Ocultar c_eros"
 
@@ -15098,24 +14962,24 @@ msgstr "Alineación horizontal"
 msgid "Vertical Alignment"
 msgstr "Alineación vertical"
 
-#: ../src/wbc-gtk-edit.c:720
+#: ../src/wbc-gtk-edit.c:722
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s está bloqueado"
 
-#: ../src/wbc-gtk-edit.c:724
+#: ../src/wbc-gtk-edit.c:726
 msgid "Unprotect the workbook to enable editing."
 msgstr "Desproteger el libro de cuentas para permitir la edición."
 
-#: ../src/wbc-gtk-edit.c:725
+#: ../src/wbc-gtk-edit.c:727
 msgid "Unprotect the sheet to enable editing."
 msgstr "Desproteger la hoja para permitir la edición."
 
-#: ../src/wbc-gtk-edit.c:744
+#: ../src/wbc-gtk-edit.c:746
 msgid "You are about to edit a cell with \"text\" format."
 msgstr "Va a editar una celda con formato «texto»."
 
-#: ../src/wbc-gtk-edit.c:745
+#: ../src/wbc-gtk-edit.c:747
 msgid ""
 "The cell does not currently contain text, though, so if you go on editing "
 "then the contents will be turned into text."
@@ -15123,11 +14987,11 @@ msgstr ""
 "La celda actualmente no contiene texto, aunque, si procede a editarla "
 "entonces el contenido se convertirá en texto."
 
-#: ../src/wbc-gtk-edit.c:750
+#: ../src/wbc-gtk-edit.c:752
 msgid "Remove format"
 msgstr "Quitar formato"
 
-#: ../src/wbc-gtk-edit.c:755
+#: ../src/wbc-gtk-edit.c:757
 msgid "Show this dialog next time."
 msgstr "Mostrar este diálogo la próxima vez."
 
@@ -15161,7 +15025,6 @@ msgstr "Seleccionar (ordenado)"
 
 #: ../src/wbc-gtk.c:1389
 #, fuzzy
-#| msgid " : Gnumeric"
 msgid " - Gnumeric"
 msgstr " : Gnumeric"
 
@@ -15366,25 +15229,21 @@ msgstr "Ocultar"
 
 #: ../src/wbc-gtk.c:3673
 #, fuzzy
-#| msgid "StandardToolbar"
 msgid "Standard Toolbar"
 msgstr "Barra estándar"
 
 #: ../src/wbc-gtk.c:3674
 #, fuzzy
-#| msgid "FormatToolbar"
 msgid "Format Toolbar"
 msgstr "Barra de formato"
 
 #: ../src/wbc-gtk.c:3675
 #, fuzzy
-#| msgid "LongFormatToolbar"
 msgid "Long Format Toolbar"
 msgstr "Barra de formato largo"
 
 #: ../src/wbc-gtk.c:3676
 #, fuzzy
-#| msgid "ObjectToolbar"
 msgid "Object Toolbar"
 msgstr "Barra de objetos"
 
@@ -15399,13 +15258,11 @@ msgstr "Usar precisión máxima"
 
 #: ../src/wbc-gtk.c:4337
 #, fuzzy
-#| msgid "Enter formula..."
 msgid "Insert formula below."
 msgstr "Introducir fórmula…"
 
 #: ../src/wbc-gtk.c:4343
 #, fuzzy
-#| msgid "Enter formula..."
 msgid "Insert formula to side."
 msgstr "Introducir fórmula…"
 
@@ -15501,7 +15358,6 @@ msgstr "Se espera un rango simple"
 
 #: ../src/widgets/gnm-sheet-slicer-combo-view.c:116
 #, fuzzy
-#| msgid "Black"
 msgid "<Blank>"
 msgstr "Negro"
 
