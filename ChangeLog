@@ -1,3 +1,8 @@
+2010-03-02  Morten Welinder  <terra@gnome.org>
+
+	* src/graph.c (render_val): For cells, get the right format unless
+	overridden.  Fixes #611362.
+
 2010-02-28  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_solver): Set cmd.sheet.  Fixes #611406.

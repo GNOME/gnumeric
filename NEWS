@@ -14,6 +14,7 @@ Morten:
 	* Fix ODF read problem.  [#610178]
 	* Fix rendering problem with iterated evaluation.
 	* Fix solver undo problem.  [#611406]
+	* Fix graph label problem.  [#611362]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.0

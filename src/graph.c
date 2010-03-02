@@ -101,6 +101,9 @@ render_val (GnmValue const *v, int i, int j,
 			return NULL;
 		gnm_cell_eval (cell);
 		v = cell->value;
+
+		if (fmt == NULL)
+			fmt = gnm_cell_get_format (cell);
 	} else if (v->type == VALUE_ARRAY)
 		v = value_area_get_x_y (v, i, j, ep);
 
