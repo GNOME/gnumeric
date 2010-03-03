@@ -2981,7 +2981,7 @@ out:
 /***************************************************************************/
 
 static GnmFuncHelp const help_ttest[] = {
-	{ GNM_FUNC_HELP_NAME, F_("TTEST:p-value for a hypothesis test comparing the means of two populations using"
+	{ GNM_FUNC_HELP_NAME, F_("TTEST:p-value for a hypothesis test comparing the means of two populations using "
 				 "the Student t-distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("array1:sample from the first population")},
 	{ GNM_FUNC_HELP_ARG, F_("array2:sample from the second population")},
