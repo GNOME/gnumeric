@@ -1,5 +1,10 @@
 2010-03-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* latex.c (latex2e_write_multicolumn_cell): wrap multirows into
+	  \parbox to allow for hyphenation
+
+2010-03-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* latex.c (latex2e_write_file_header): add new length
 	(latex2e_write_blank_multicolumn_cell): use different setup 
 	  for multirow cells

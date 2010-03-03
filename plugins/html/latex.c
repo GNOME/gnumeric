@@ -919,7 +919,10 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 			if (i>0)
 				gsf_output_printf (output, "\t \\addtolength{\\gnumericMultiRowLength}{\\tabcolsep}%%\n");
 		}
-		gsf_output_printf (output, "\t \\multirow{%i}[%i]{\\gnumericMultiRowLength}{%%\n\t ", num_merged_rows, num_merged_rows/2);
+		gsf_output_printf (output, 
+				   "\t \\multirow{%i}[%i]{\\gnumericMultiRowLength}"
+				   "{\\parbox{\\gnumericMultiRowLength}{%%\n\t ", 
+				   num_merged_rows, num_merged_rows/2);
 	}
 
 
@@ -1050,7 +1053,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 
 	/* Close the multirowtext. */
 	if (num_merged_rows > 1)
-		gsf_output_printf (output, "}");
+		gsf_output_printf (output, "}}");
 
 	/* Close the multicolumn text bracket. */
 	if (num_merged_cols > 1 || left_border != GNM_STYLE_BORDER_NONE
