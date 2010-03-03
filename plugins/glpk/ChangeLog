@@ -1,3 +1,8 @@
+2010-03-02  Morten Welinder  <terra@gnome.org>
+
+	* gnm-glpk.c (gnm_glpk_read_solution): Handle "undefined" status
+	of primary as infeasible.  Fixes #611407.
+
 2010-02-13  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.0

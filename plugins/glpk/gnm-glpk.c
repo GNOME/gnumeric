@@ -120,6 +120,7 @@ gnm_glpk_read_solution (GnmGlpk *lp)
 	case 5:
 		result->quality = GNM_SOLVER_RESULT_OPTIMAL;
 		break;
+	case 1: /* "Undefined" -- see #611407 */
 	case 3:
 	case 4:
 		result->quality = GNM_SOLVER_RESULT_INFEASIBLE;
