@@ -1,3 +1,11 @@
+2010-03-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* latex.c (latex2e_write_file_header): add new length
+	(latex2e_write_blank_multicolumn_cell): use different setup 
+	  for multirow cells
+	(latex2e_write_multicolumn_cell): ditto
+	(latex_file_save): use lengths for column widths.
+
 2010-02-13  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.0

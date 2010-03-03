@@ -455,8 +455,8 @@ latex2e_write_file_header(GsfOutput *output)
 
 	if (gnm_conf_get_plugin_latex_use_utf8 ())
 		gsf_output_puts (output,
-"%%    \\usepackage{ucs}                                            %%\n"
-"%%    \\usepackage[utf8x]{inputenc}                                 %%\n"
+"%%    \\usepackage{ucs}                                              %%\n"
+"%%    \\usepackage[utf8x]{inputenc}                                  %%\n"
 			);
 	else
 		gsf_output_puts (output,
@@ -564,6 +564,7 @@ latex2e_write_file_header(GsfOutput *output)
 " \\ifundefined{gnumericTableWidthDefined}\n"
 "        \\newlength{\\gnumericTableWidth}\n"
 "        \\newlength{\\gnumericTableWidthComplete}\n"
+"        \\newlength{\\gnumericMultiRowLength}\n"
 "        \\global\\def\\gnumericTableWidthDefined{}\n"
 " \\fi\n"
 "\n"
@@ -790,17 +791,16 @@ latex2e_write_blank_multicolumn_cell (GsfOutput *output, int start_col, int star
 	if (num_merged_rows > 1) {
 		int i;
 		/* Open the multirow statement. */
-		gsf_output_printf (output, "\\multirow{%d}[%i]*{\\begin{tabular}{p{",
-			 num_merged_rows, num_merged_rows/2);
+		gsf_output_printf (output, "\\setlength{\\gnumericMultiRowLength}{0pt}%%\n");
 		for (i = 0; i < num_merged_cols; i++) {
-			gsf_output_printf (output, "\t\\gnumericCol%s+%%\n", col_name (start_col + i));
+			gsf_output_printf (output, "\t \\addtolength{\\gnumericMultiRowLength}{\\gnumericCol%s}%%\n", col_name (start_col + i));
+			if (i>0)
+				gsf_output_printf (output, "\t \\addtolength{\\gnumericMultiRowLength}{\\tabcolsep}%%\n");
 		}
-		if (num_merged_cols > 2)
-			gsf_output_printf (output, "\t\\tabcolsep*2*%i}}", num_merged_cols - 2);
-		else
-			gsf_output_printf (output, "\t0pt}}");
+		gsf_output_printf (output, "\t \\multirow{%i}[%i]{\\gnumericMultiRowLength}{%%\n\t ", num_merged_rows, num_merged_rows/2);
+		
 		/* Close the multirowtext. */
-		gsf_output_printf (output, "\\end{tabular}}");
+		gsf_output_printf (output, "}");
 	}
 
 	/* Close the multicolumn text bracket. */
@@ -910,20 +910,16 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 
 	}
 
-
-
 	if (num_merged_rows > 1) {
 		int i;
 		/* Open the multirow statement. */
-		gsf_output_printf (output, "\\multirow{%d}[%i]*{\\begin{tabular}{p{",
-			 num_merged_rows, num_merged_rows/2);
+		gsf_output_printf (output, "\\setlength{\\gnumericMultiRowLength}{0pt}%%\n");
 		for (i = 0; i < num_merged_cols; i++) {
-			gsf_output_printf (output, "\t\\gnumericCol%s+%%\n", col_name (start_col + i));
+			gsf_output_printf (output, "\t \\addtolength{\\gnumericMultiRowLength}{\\gnumericCol%s}%%\n", col_name (start_col + i));
+			if (i>0)
+				gsf_output_printf (output, "\t \\addtolength{\\gnumericMultiRowLength}{\\tabcolsep}%%\n");
 		}
-		if (num_merged_cols > 2)
-			gsf_output_printf (output, "\t\\tabcolsep*2*%i}}", num_merged_cols - 2);
-		else
-			gsf_output_printf (output, "\t0pt}}");
+		gsf_output_printf (output, "\t \\multirow{%i}[%i]{\\gnumericMultiRowLength}{%%\n\t ", num_merged_rows, num_merged_rows/2);
 	}
 
 
@@ -1054,7 +1050,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 
 	/* Close the multirowtext. */
 	if (num_merged_rows > 1)
-		gsf_output_printf (output, "\\end{tabular}}");
+		gsf_output_printf (output, "}");
 
 	/* Close the multicolumn text bracket. */
 	if (num_merged_cols > 1 || left_border != GNM_STYLE_BORDER_NONE
@@ -1227,9 +1223,13 @@ latex_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 
 	for (col = total_range.start.col; col <=  total_range.end.col; col++) {
 		ColRowInfo const * ci;
+		char const *colname = col_name (col);
+
 		ci = sheet_col_get_info (current_sheet, col);
-		gsf_output_printf (output, "\\def\\gnumericCol%s{%ipt*\\gnumericScale}\n", col_name (col),
-			 ci->size_pixels * 10 / 12);
+		gsf_output_printf (output, "\\ifthenelse{\\isundefined{\\gnumericCol%s}}"
+				   "{\\newlength{\\gnumericCol%s}}{}\\settowidth{\\gnumericCol%s}"
+				   "{\\begin{tabular}{@{}p{%ipt*\\gnumericScale}@{}}x\\end{tabular}}\n",
+				   colname, colname, colname, ci->size_pixels * 10 / 12);
 	}
 
 	/* Start outputting the table. */
