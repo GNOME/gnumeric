@@ -17,6 +17,7 @@ Morten:
 	* Fix solver undo problem.  [#611406]
 	* Fix graph label problem.  [#611362]
 	* Fix GLPK solver issue.  [#611407]
+	* Fix ssindex problem.  [#611842]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.0

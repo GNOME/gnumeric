@@ -97,15 +97,17 @@ ssindex_hlink (IndexerState *state, GnmHLink const *lnk)
 static void
 ssindex_validation (IndexerState *state, GnmValidation const *valid)
 {
-	gchar const *str;
+	if (valid->title) {
+		const char *str = valid->title->str;
+		if (str && *str)
+			gsf_xml_out_simple_element (state->output, "data", str);
+	}
 
-	str = valid->title->str;
-	if (*str)
-		gsf_xml_out_simple_element (state->output, "data", str);
-
-	str = valid->msg->str;
-	if (*str)
-		gsf_xml_out_simple_element (state->output, "data", str);
+	if (valid->msg) {
+		const char *str = valid->msg->str;
+		if (str && *str)
+			gsf_xml_out_simple_element (state->output, "data", str);
+	}
 }
 
 static void

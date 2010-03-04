@@ -1,3 +1,8 @@
+2010-03-04  Morten Welinder  <terra@gnome.org>
+
+	* src/ssindex.c (ssindex_validation): Handle NULLs better.  Fixes
+	#611842.
+
 2010-03-02  Morten Welinder  <terra@gnome.org>
 
 	* src/graph.c (render_val): For cells, get the right format unless
