@@ -567,6 +567,8 @@ latex2e_write_file_header(GsfOutput *output)
 "        \\newlength{\\gnumericMultiRowLength}\n"
 "        \\global\\def\\gnumericTableWidthDefined{}\n"
 " \\fi\n"
+"%% The following setting protects this code from babel shorthands.  %%\n"
+" \\ifthenelse{\\isundefined{\\languageshorthands}}{}{\\languageshorthands{english}}"
 "\n"
 "%%  The default table format retains the relative column widths of  %%\n"
 "%%  gnumeric. They can easily be changed to c, r or l. In that case %%\n"
@@ -1382,8 +1384,10 @@ latex_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 
 	g_free (next_vert);
 
-	gsf_output_printf (output, "\\end{longtable}\n\n");
-	gsf_output_printf (output, "\\gnumericTableEnd\n");
+	gsf_output_puts (output, "\\end{longtable}\n\n"
+			 "\\ifthenelse{\\isundefined{\\languageshorthands}}"
+			 "{}{\\languageshorthands{\\languagename}}\n"
+			 "\\gnumericTableEnd\n");
 }
 
 

@@ -6,6 +6,7 @@ Andreas:
 	* Apply filter on ODF import. [#610399]
 	* Fix display of autocomplete suggestions. [#610537]
 	* Fix formatting of multirow cells in LaTeX export. [#611633]
+	* Protect exported LaTeX files from babel shorthands.
 
 Jean:
 	* Fix a crasher in excelplugin: don't call a NULL function. [#610012]
