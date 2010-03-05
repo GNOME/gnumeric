@@ -1,3 +1,8 @@
+2010-03-05  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-write.c (odf_expr_conventions_new): Fix export of
+	intersection.  Fixes #611824.
+
 2010-02-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (oo_db_range_end): reapply filter [#610399]

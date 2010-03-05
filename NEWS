@@ -19,6 +19,7 @@ Morten:
 	* Fix graph label problem.  [#611362]
 	* Fix GLPK solver issue.  [#611407]
 	* Fix ssindex problem.  [#611842]
+	* Fix ODF export of intersection.  [#611824]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.0

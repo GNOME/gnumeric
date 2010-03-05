@@ -2033,6 +2033,7 @@ odf_expr_conventions_new (void)
 	conv->arg_sep			= ';';
 	conv->array_col_sep		= ';';
 	conv->array_row_sep		= '|';
+	conv->intersection_char         = '!';
 	conv->decimal_sep_dot		= TRUE;
 	conv->output.cell_ref		= odf_cellref_as_string;
 	conv->output.range_ref		= odf_rangeref_as_string;
