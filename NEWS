@@ -9,7 +9,7 @@ Andreas:
 	* Protect exported LaTeX files from babel shorthands.
 
 Jean:
-	* Fix a crasher in excelplugin: don't call a NULL function. [#610012]
+	* Fix a crash in excelplugin. [#610012]
 
 Morten:
 	* Turn off -Wstrict-prototypes for the stable series.
@@ -18,7 +18,7 @@ Morten:
 	* Fix solver undo problem.  [#611406]
 	* Fix graph label problem.  [#611362]
 	* Fix GLPK solver issue.  [#611407]
-	* Fix ssindex problem.  [#611842]
+	* Fix ssindex crash.  [#611842]
 	* Fix ODF export of intersection.  [#611824]
 
 --------------------------------------------------------------------------
@@ -68,10 +68,10 @@ Andreas:
 	* Fix NPV documentation. [#22381]
 	* Fix type errors. [#606066]
 	* Add surface plot description. [#604285]
-	* Include the short functions descriptions in the documentation. 
+	* Include the short functions descriptions in the documentation.
 	  [#606354]
 	* Fix sheet handling in validation setup. [#606458]
-	* Allow some of the text export properties to be saved as default. 
+	* Allow some of the text export properties to be saved as default.
 	  [#559749]
 	* Fix printing of repeated rows and columns. [#607451]
 
@@ -271,7 +271,7 @@ Andreas:
 	* Fix crash on unknown chart type. [#594041]
 	* Handle ODF import/export of surface plots originally created in
 	  XL [#594041]
-	* Remember text import configuration for export. [#142395] 
+	* Remember text import configuration for export. [#142395]
 
 Jean:
 	* Don't use simple GOData when importing xls files. [#594068]
