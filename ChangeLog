@@ -1,3 +1,8 @@
+2010-03-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/item-cursor.c (item_cursor_draw): fix cursor appearance when the
+	line or column is on the border of a hidden area. [#611076]
+
 2010-03-04  Morten Welinder  <terra@gnome.org>
 
 	* src/ssindex.c (ssindex_validation): Handle NULLs better.  Fixes

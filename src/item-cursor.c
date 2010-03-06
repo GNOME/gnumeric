@@ -386,7 +386,7 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 		gdk_draw_lines (drawable, ic->gc, points, 5);
 	}
 
-	if (draw_external && draw_internal) {
+	if (draw_external && draw_internal && draw_handle) {
 		if (draw_handle < 2) {
 			points [0].x -= 2;
 			points [1].x -= 2;
