@@ -1,3 +1,7 @@
+2010-03-08  Morten Welinder  <terra@gnome.org>
+
+	* dialog-sheetobject-size.c: Warning fix.
+
 2010-02-13  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.0

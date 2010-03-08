@@ -24,6 +24,7 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
+#include <string.h>
 #include "dialogs.h"
 #include "help.h"
 
