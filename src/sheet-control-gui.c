@@ -2534,10 +2534,9 @@ scg_object_anchor_to_coords (SheetControlGUI const *scg,
  *
  */
 void
-scg_comment_display (SheetControlGUI *scg, GnmComment *cc)
+scg_comment_display (SheetControlGUI *scg, GnmComment *cc,
+		     int x, int y)
 {
-	int x, y;
-
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	scg_comment_timer_clear (scg);
@@ -2564,8 +2563,6 @@ scg_comment_display (SheetControlGUI *scg, GnmComment *cc)
 
 		scg->comment.item = gtk_window_new (GTK_WINDOW_POPUP);
 		gtk_window_set_screen (GTK_WINDOW (scg->comment.item), screen);
-		gdk_window_get_pointer (gdk_screen_get_root_window (screen),
-					&x, &y, NULL);
 		gtk_window_move (GTK_WINDOW (scg->comment.item), x+10, y+10);
 
 		text = gtk_text_view_new ();
@@ -2610,7 +2607,8 @@ cb_cell_comment_timer (SheetControlGUI *scg)
 	g_return_val_if_fail (scg->comment.timer != -1, FALSE);
 
 	scg->comment.timer = -1;
-	scg_comment_display (scg, scg->comment.selected);
+	scg_comment_display (scg, scg->comment.selected,
+			     scg->comment.x, scg->comment.y);
 	return FALSE;
 }
 
@@ -2622,7 +2620,7 @@ cb_cell_comment_timer (SheetControlGUI *scg)
  * Prepare @cc for display.
  */
 void
-scg_comment_select (SheetControlGUI *scg, GnmComment *cc)
+scg_comment_select (SheetControlGUI *scg, GnmComment *cc, int x, int y)
 {
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
@@ -2634,6 +2632,8 @@ scg_comment_select (SheetControlGUI *scg, GnmComment *cc)
 	scg->comment.selected = cc;
 	scg->comment.timer = g_timeout_add (1000,
 		(GSourceFunc)cb_cell_comment_timer, scg);
+	scg->comment.x = x;
+	scg->comment.y = y;
 }
 
 /**

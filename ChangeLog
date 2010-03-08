@@ -1,6 +1,8 @@
 2010-03-08  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-control-gui.c (scg_comment_select): Fix critical.
+	(scg_comment_display, scg_comment_select): Take window position
+	too.  All callers changed.  Fixes part of #573028.
 
 2010-03-06  Jean Brefort  <jean.brefort@normalesup.org>
 

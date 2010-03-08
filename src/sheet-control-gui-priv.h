@@ -54,6 +54,7 @@ struct _SheetControlGUI {
 		GnmComment *selected;
 		GtkWidget   *item;	/* TODO : make this a canvas item with an arrow */
 		int	     timer;
+		int          x, y;
 	} comment;
 
 	struct {

@@ -42,8 +42,10 @@ void scg_object_select		(SheetControlGUI *scg, SheetObject *so);
 void scg_object_unselect	(SheetControlGUI *scg, SheetObject *so);
 void scg_object_select_next	(SheetControlGUI *scg, gboolean reverse);
 
-void scg_comment_select		(SheetControlGUI *scg, GnmComment *cc);
-void scg_comment_display	(SheetControlGUI *scg, GnmComment *cc);
+void scg_comment_select		(SheetControlGUI *scg, GnmComment *cc,
+				 int x, int y);
+void scg_comment_display	(SheetControlGUI *scg, GnmComment *cc,
+				 int x, int y);
 void scg_comment_unselect	(SheetControlGUI *scg, GnmComment *cc);
 
 void scg_select_all		(SheetControlGUI *scg);
