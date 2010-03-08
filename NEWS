@@ -22,6 +22,7 @@ Morten:
 	* Fix GLPK solver issue.  [#611407]
 	* Fix ssindex crash.  [#611842]
 	* Fix ODF export of intersection.  [#611824]
+	* Fix cell comment critical.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.0

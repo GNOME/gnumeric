@@ -2625,10 +2625,11 @@ void
 scg_comment_select (SheetControlGUI *scg, GnmComment *cc)
 {
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
-	g_return_if_fail (scg->comment.timer == -1);
 
 	if (scg->comment.selected != NULL)
 		scg_comment_unselect (scg, scg->comment.selected);
+
+	g_return_if_fail (scg->comment.timer == -1);
 
 	scg->comment.selected = cc;
 	scg->comment.timer = g_timeout_add (1000,
