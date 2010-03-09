@@ -1,3 +1,7 @@
+2010-03-08  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.1
+
 2010-03-05  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-write.c (odf_expr_conventions_new): Fix export of

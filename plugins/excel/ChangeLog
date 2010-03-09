@@ -1,3 +1,7 @@
+2010-03-08  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.1
+
 2010-02-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-write.c (xlsx_write_cells): use value_get_as_gstring

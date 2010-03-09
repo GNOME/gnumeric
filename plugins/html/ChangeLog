@@ -1,3 +1,7 @@
+2010-03-08  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.1
+
 2010-03-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* latex.c (latex2e_write_file_header): protect the created
