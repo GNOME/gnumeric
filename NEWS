@@ -13,7 +13,6 @@ Andreas:
 
 Jean:
 	* Fix a crash in excelplugin. [#610012]
-	* Fix a crasher in excelplugin. [#610012]
 	* Fix cursor appearance. [#611076]
 
 Morten:
