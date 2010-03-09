@@ -29,8 +29,6 @@
 
 #include "hdate.h"
 
-#define MAX_HNUMBER_SIZE 25
-
 /**
  @brief convert an integer to hebrew string UTF-8 (logical)
  
@@ -105,7 +103,7 @@ hdate_get_hebrew_month_name (int month)
 		/* xgettext: hebrew months' names using Latin characters.  */
 		N_("Tishri"), N_("Heshwan"), N_("Kislev"),
 		N_("Tebet"), N_("Shebat"), N_("Adar"),
-		N_("Nisan"), N_("Iyar"), N_("Sivan"), ("Tammuz"),
+		N_("Nisan"), N_("Iyar"), N_("Sivan"), N_("Tammuz"),
 		N_("Ab"), N_("Elul"), N_("Adar I"), N_("Adar II")
 	};
 
