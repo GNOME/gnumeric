@@ -1378,6 +1378,27 @@ gnm_canvas_get_position (GocCanvas *canvas, int *x, int *y, gint64 px, gint64 py
 	*y = py + wy - oy;
 }
 
+/*
+ * Get the gdk position for canvas coordinates (x,y).  This is suitable
+ * for tooltip windows.
+ *
+ * It is possible that this does not work right for very large coordinates
+ * prior to gtk+ 2.18.  See the code and comments in gnm_canvas_get_position.
+ */
+void
+gnm_canvas_get_screen_position (GocCanvas *canvas,
+				double x, double y,
+				int *ix, int *iy)
+{
+	GdkWindow *cbw = GTK_LAYOUT (canvas)->bin_window;
+	int wx, wy;
+
+	gdk_window_get_origin (cbw, &wx, &wy);
+	goc_canvas_c2w (canvas, x, y, ix, iy);
+	(*ix) += wx;
+	(*iy) += wy;
+}
+
 
 gboolean
 gnm_check_for_plugins_missing (char const **ids, GtkWindow *parent)

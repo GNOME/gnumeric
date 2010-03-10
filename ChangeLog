@@ -1,3 +1,14 @@
+2010-03-10  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-cell-comment.c (comment_view_button_released,
+	comment_view_enter_notify): Use gnm_canvas_get_screen_position.
+
+	* src/gui-util.c (gnm_canvas_get_screen_position): New function
+	extracted from comment_view_get_xy.
+
+	* src/gnm-pane.c (gnm_pane_display_obj_size_tip): Add
+	control-point as argument.  Use that for tooltip positioning.
+
 2010-03-08  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

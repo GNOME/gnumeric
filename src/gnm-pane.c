@@ -54,7 +54,7 @@ static GocCanvasClass *parent_klass;
 
 static void cb_pane_popup_menu (GnmPane *pane);
 static void gnm_pane_clear_obj_size_tip (GnmPane *pane);
-static void gnm_pane_display_obj_size_tip (GnmPane *pane);
+static void gnm_pane_display_obj_size_tip (GnmPane *pane, GocItem *ctrl_pt);
 
 /**
  * For now, application/x-gnumeric is disabled. It handles neither
@@ -122,23 +122,19 @@ gnm_pane_object_key_press (GnmPane *pane, GdkEventKey *ev)
 
 	case GDK_KP_Left: case GDK_Left:
 		scg_objects_nudge (scg, pane, (alt ? 4 : (control ? 3 : 8)), -delta , 0, symmetric, shift);
-		if (pane->cur_object)
-			gnm_pane_display_obj_size_tip (pane);
+		gnm_pane_display_obj_size_tip (pane, NULL);
 		return TRUE;
 	case GDK_KP_Right: case GDK_Right:
 		scg_objects_nudge (scg, pane, (alt ? 4 : (control ? 3 : 8)), delta, 0, symmetric, shift);
-		if (pane->cur_object)
-			gnm_pane_display_obj_size_tip (pane);
+		gnm_pane_display_obj_size_tip (pane, NULL);
 		return TRUE;
 	case GDK_KP_Up: case GDK_Up:
 		scg_objects_nudge (scg, pane, (alt ? 6 : (control ? 1 : 8)), 0, -delta, symmetric, shift);
-		if (pane->cur_object)
-			gnm_pane_display_obj_size_tip (pane);
+		gnm_pane_display_obj_size_tip (pane, NULL);
 		return TRUE;
 	case GDK_KP_Down: case GDK_Down:
 		scg_objects_nudge (scg, pane, (alt ? 6 : (control ? 1 : 8)), 0, delta, symmetric, shift);
-		if (pane->cur_object)
-			gnm_pane_display_obj_size_tip (pane);
+		gnm_pane_display_obj_size_tip (pane, NULL);
 		return TRUE;
 
 	default:
@@ -1885,7 +1881,7 @@ gnm_pane_clear_obj_size_tip (GnmPane *pane)
 }
 
 static void
-gnm_pane_display_obj_size_tip (GnmPane *pane)
+gnm_pane_display_obj_size_tip (GnmPane *pane, GocItem *ctrl_pt)
 {
 	SheetControlGUI *scg = pane->simple.scg;
 	double const *coords = g_hash_table_lookup (scg->selected_objects, pane->cur_object);
@@ -1893,24 +1889,30 @@ gnm_pane_display_obj_size_tip (GnmPane *pane)
 	char *msg;
 	SheetObjectAnchor anchor;
 
-	g_return_if_fail (pane->cur_object != NULL);
-
 	if (pane->size_tip == NULL) {
 		GtkWidget *cw = GTK_WIDGET (pane);
 		GtkWidget *top;
 		int x, y;
-		GdkScreen *screen = gtk_widget_get_screen (cw);
+
+		if (ctrl_pt == NULL) {
+			/*
+			 * Keyboard navigation when we are not displaying
+			 * a tooltip already.
+			 */
+			return;
+		}
 
 		pane->size_tip = gnumeric_create_tooltip (cw);
 		top = gtk_widget_get_toplevel (pane->size_tip);
-		/* do not use gnumeric_position_tooltip because it places the tip
-		 * too close to the mouse and generates LEAVE events */
-		gdk_window_get_pointer (gdk_screen_get_root_window (screen),
-					&x, &y, NULL);
+
+		gnm_canvas_get_screen_position (ctrl_pt->canvas,
+						ctrl_pt->x1, ctrl_pt->y1,
+						&x, &y);
 		gtk_window_move (GTK_WINDOW (top), x + 10, y + 10);
 		gtk_widget_show_all (top);
 	}
 
+	g_return_if_fail (pane->cur_object != NULL);
 	g_return_if_fail (pane->size_tip != NULL);
 
 	anchor = *sheet_object_get_anchor (pane->cur_object);
@@ -2258,7 +2260,7 @@ gnm_pane_object_move (GnmPane *pane, GObject *ctrl_pt,
 	gnm_pane_objects_drag (pane, pane->cur_object, new_x, new_y, idx,
 			       symmetric, snap_to_grid);
 	if (idx != 8)
-		gnm_pane_display_obj_size_tip (pane);
+		gnm_pane_display_obj_size_tip (pane, GOC_ITEM (ctrl_pt));
 }
 
 static gboolean
@@ -2409,8 +2411,9 @@ cb_pane_popup_menu (GnmPane *pane)
 static void
 control_point_set_cursor (SheetControlGUI const *scg, GocItem *ctrl_pt)
 {
-	double const *coords = g_hash_table_lookup (scg->selected_objects,
-		g_object_get_data (G_OBJECT (ctrl_pt), "so"));
+	SheetObject *so = g_object_get_data (G_OBJECT (ctrl_pt), "so");
+	int idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (ctrl_pt), "index"));
+	double const *coords = g_hash_table_lookup (scg->selected_objects, so);
 	gboolean invert_h = coords [0] > coords [2];
 	gboolean invert_v = coords [1] > coords [3];
 	GdkCursorType cursor;
@@ -2418,7 +2421,7 @@ control_point_set_cursor (SheetControlGUI const *scg, GocItem *ctrl_pt)
 	if (goc_canvas_get_direction (ctrl_pt->canvas) == GOC_DIRECTION_RTL)
 		invert_h = !invert_h;
 
-	switch (GPOINTER_TO_INT (g_object_get_data (G_OBJECT (ctrl_pt), "index"))) {
+	switch (idx) {
 	case 1: invert_v = !invert_v;
 		/* fallthrough */
 	case 6: cursor = invert_v ? GDK_TOP_SIDE : GDK_BOTTOM_SIDE;
@@ -2699,7 +2702,7 @@ control_point_enter_notify (GocItem *item, G_GNUC_UNUSED double x, G_GNUC_UNUSED
 		GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 		style->fill.pattern.back = GO_COLOR_GREEN;
 		goc_item_invalidate (item);
-		gnm_pane_display_obj_size_tip (pane);
+		gnm_pane_display_obj_size_tip (pane, item);
 	}
 	return TRUE;
 }

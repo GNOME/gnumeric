@@ -98,26 +98,6 @@ comment_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vi
 		goc_item_hide (GOC_ITEM (sov));
 }
 
-/*
- * Get the gdk position for canvas coordinates (x,y).  This is suitable
- * for tooltip windows.
- *
- * It is possible that this does not work right for very large coordinates
- * prior to gtk+ 2.18.  See the code and comments in gnm_canvas_get_position.
- */
-static void
-comment_view_get_xy (GocItem *item, double x, double y, int *ix, int *iy)
-{
-	GdkWindow *cbw = GTK_LAYOUT (item->canvas)->bin_window;
-	int wx, wy;
-
-	gdk_window_get_origin (cbw, &wx, &wy);
-	goc_canvas_c2w (item->canvas, x, y, ix, iy);
-	(*ix) += wx;
-	(*iy) += wy;
-}
-
-
 static gboolean
 comment_view_button_released (GocItem *item, int button, double x, double y)
 {
@@ -127,7 +107,7 @@ comment_view_button_released (GocItem *item, int button, double x, double y)
 	if (button != 1)
 		return FALSE;
 
-	comment_view_get_xy (item, x, y, &ix, &iy);
+	gnm_canvas_get_screen_position (item->canvas, x, y, &ix, &iy);
 	so = sheet_object_view_get_so (SHEET_OBJECT_VIEW (item));
 	scg_comment_display (GNM_PANE (item->canvas)->simple.scg,
 	                     CELL_COMMENT (so),
@@ -166,7 +146,7 @@ comment_view_enter_notify (GocItem *item, double x, double y)
 
 	gnm_widget_set_cursor_type (GTK_WIDGET (item->canvas), GDK_ARROW);
 
-	comment_view_get_xy (item, x, y, &ix, &iy);
+	gnm_canvas_get_screen_position (item->canvas, x, y, &ix, &iy);
 	so = sheet_object_view_get_so (SHEET_OBJECT_VIEW (item));
 
 	scg_comment_select (GNM_PANE (item->canvas)->simple.scg,
