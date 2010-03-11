@@ -1,18 +1,19 @@
 # Copyright (C) 1999-2005 Free Software Foundation, Inc.
 # Dmitry G. Mastrukov <dmitry@taurussoft.org>, 2001-2002, 2004.
 # Valek Filippov <frob@df.ru>, 1999-2006, 2010.
+# Konstantin Tokarev <annulen@yandex.ru>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-02 09:24-0500\n"
-"PO-Revision-Date: 2010-02-12 22:59-0500\n"
-"Last-Translator: Valek Filippov <frob@df.ru>\n"
+"POT-Creation-Date: 2010-03-11 16:11-0500\n"
+"PO-Revision-Date: 2010-03-11 18:30-0500\n"
+"Last-Translator: Konstantin Tokarev <annulen@yandex.ru>\n"
 "Language-Team:  <gnome-cyr@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: ../gnumeric.desktop.in.h:1
@@ -398,7 +399,7 @@ msgstr "Неизвестный цвет \"%s\""
 
 #: ../plugins/excel/xlsx-read.c:2164
 msgid "Dropping missing object"
-msgstr ""
+msgstr "Пропущенный объект игнорируется"
 
 #: ../plugins/excel/xlsx-read.c:2182
 #, c-format
@@ -423,7 +424,7 @@ msgstr "Неопределённая частичная запись стиля 
 #: ../plugins/excel/xlsx-read.c:2544
 #, c-format
 msgid "Invalid sst ref '%s'"
-msgstr ""
+msgstr "Неправильная ссылка на SharedStringTable: \"%s\""
 
 #: ../plugins/excel/xlsx-read.c:2665
 #, c-format
@@ -469,21 +470,23 @@ msgstr "Не найден поток рабочей книги."
 #, c-format
 msgid "Skipping invalid pivot field group for field '%s' because : %s"
 msgstr ""
+"Пропущено неправильное поле группы сводной таблицы для поля \"%s\". Ошибка: %"
+"s"
 
 #. We don't attempt to flatten a 3D range to an array.
 #: ../plugins/excelplugins/excelplugins.c:316
 msgid "Cannot convert 3D cell range to XLOPER."
-msgstr ""
+msgstr "Невозможно преобразовать трехмерный диапазон ячеек в XLOPER."
 
 #: ../plugins/excelplugins/excelplugins.c:357
-#, fuzzy, c-format
+#, c-format
 msgid "Unsupported GnmValue type (%d)"
-msgstr "Неподдерживаемый тип Python: %s"
+msgstr "Неподдерживаемый тип GnmValue (%d)"
 
 #: ../plugins/excelplugins/excelplugins.c:617
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s"
-msgstr "%s (%s)"
+msgstr "%s: %s"
 
 #: ../plugins/excelplugins/excelplugins.c:642
 #, c-format
@@ -491,11 +494,13 @@ msgid ""
 "Overriding function %s from XLL/DLL/SO file %s with function of the same "
 "name from XLL/DLL/SO file %s."
 msgstr ""
+"Функция %s из XLL/DLL/SO файла %s заменена функцией с таким же названием из "
+"XLL/DLL/SO файла %s."
 
 #: ../plugins/excelplugins/excelplugins.c:652
 #, c-format
 msgid "Failed to find function \"%s\" in XLL/DLL/SO %s .\n"
-msgstr ""
+msgstr "Не удалось найти функцию \"%s\" в XLL/DLL/SO файле %s.\n"
 
 #: ../plugins/excelplugins/excelplugins.c:702
 #, c-format
@@ -514,17 +519,17 @@ msgstr ""
 
 #: ../plugins/excelplugins/excelplugins.c:938
 msgid "Dynamic module loading is not supported on this system."
-msgstr ""
+msgstr "Динамическая загрузка модулей не поддерживается на этой системе"
 
 #: ../plugins/excelplugins/excelplugins.c:950
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open module file \"%s\"."
-msgstr "Не удалось открыть файл '%s'"
+msgstr "Не удалось открыть файл модуля \"%s\"."
 
 #: ../plugins/excelplugins/excelplugins.c:955
 #, c-format
 msgid "Module \"%s\" doesn't contain (\"register_actual_excel4v\" symbol)."
-msgstr ""
+msgstr "Модуль \"%s\" не содержит символ \"register_actual_excel4v\"."
 
 #: ../plugins/excelplugins/excelplugins.c:999
 #, c-format
@@ -546,12 +551,11 @@ msgstr ""
 
 #: ../plugins/excelplugins/plugin.xml.in.h:2
 msgid "Excel plugins"
-msgstr ""
+msgstr "Дополнения Excel"
 
 #: ../plugins/fn-christian-date/plugin.xml.in.h:1
-#, fuzzy
 msgid "Christian Date Functions"
-msgstr "Функции баз данных"
+msgstr "Функции христианского календаря"
 
 #: ../plugins/fn-christian-date/plugin.xml.in.h:2
 #: ../plugins/fn-date/plugin.xml.in.h:2
@@ -560,9 +564,8 @@ msgid "Date/Time"
 msgstr "Дата / Время"
 
 #: ../plugins/fn-christian-date/plugin.xml.in.h:3
-#, fuzzy
 msgid "Functions manipulating dates of the Christian liturgical calendar"
-msgstr "Функции для работы с датами и временем"
+msgstr "Функции для работы с датами христианского литургического календаря"
 
 #: ../plugins/fn-complex/plugin.xml.in.h:1
 msgid "Complex"
@@ -620,7 +623,7 @@ msgstr "Инженерные функции"
 
 #: ../plugins/fn-eng/plugin.xml.in.h:3
 msgid "Functions for complex numbers, base conversions, and more"
-msgstr "Функции для комплексных числе, преобразования оснований и прочее"
+msgstr "Функции для комплексных чисел, преобразования оснований и прочее"
 
 #: ../plugins/fn-erlang/plugin.xml.in.h:1
 msgid "Erlang"
@@ -646,74 +649,69 @@ msgstr "Вычисления процентных ставок"
 #. Merriam-Webster dictionary
 #. xgettext: Tishri to Adar II are transliterations of the
 #. xgettext: hebrew months' names using Latin characters.
-#: ../plugins/fn-hebrew-date/hdate_strings.c:106
+#: ../plugins/fn-hebrew-date/hdate_strings.c:104
 msgid "Tishri"
-msgstr ""
+msgstr "Тишрей"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:106
-#, fuzzy
+#: ../plugins/fn-hebrew-date/hdate_strings.c:104
 msgid "Heshwan"
-msgstr "Меньше чем"
+msgstr "Хешван"
+
+#: ../plugins/fn-hebrew-date/hdate_strings.c:104
+msgid "Kislev"
+msgstr "Кислев"
+
+#: ../plugins/fn-hebrew-date/hdate_strings.c:105
+msgid "Tebet"
+msgstr "Тевет"
+
+#: ../plugins/fn-hebrew-date/hdate_strings.c:105
+msgid "Shebat"
+msgstr "Шват"
+
+#: ../plugins/fn-hebrew-date/hdate_strings.c:105
+msgid "Adar"
+msgstr "Адар"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:106
-#, fuzzy
-msgid "Kislev"
-msgstr "Файл"
-
-#: ../plugins/fn-hebrew-date/hdate_strings.c:107
-#, fuzzy
-msgid "Tebet"
-msgstr "Текстовый"
-
-#: ../plugins/fn-hebrew-date/hdate_strings.c:107
-#, fuzzy
-msgid "Shebat"
-msgstr "Лист"
-
-#: ../plugins/fn-hebrew-date/hdate_strings.c:107
-msgid "Adar"
-msgstr ""
-
-#: ../plugins/fn-hebrew-date/hdate_strings.c:108
 msgid "Nisan"
-msgstr ""
+msgstr "Нисан"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:108
+#: ../plugins/fn-hebrew-date/hdate_strings.c:106
 msgid "Iyar"
-msgstr ""
+msgstr "Ияр"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:108
-#, fuzzy
+#: ../plugins/fn-hebrew-date/hdate_strings.c:106
 msgid "Sivan"
-msgstr "Sans"
+msgstr "Сиван"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:109
-#, fuzzy
+#: ../plugins/fn-hebrew-date/hdate_strings.c:106
+msgid "Tammuz"
+msgstr "Таммуз"
+
+#: ../plugins/fn-hebrew-date/hdate_strings.c:107
 msgid "Ab"
-msgstr "b"
+msgstr "Ав"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:109
-#, fuzzy
+#: ../plugins/fn-hebrew-date/hdate_strings.c:107
 msgid "Elul"
-msgstr "Равняется"
+msgstr "Элул"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:109
+#: ../plugins/fn-hebrew-date/hdate_strings.c:107
 msgid "Adar I"
-msgstr ""
+msgstr "Адар I"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:109
+#: ../plugins/fn-hebrew-date/hdate_strings.c:107
 msgid "Adar II"
-msgstr ""
+msgstr "Адар II"
 
 #: ../plugins/fn-hebrew-date/plugin.xml.in.h:2
-#, fuzzy
 msgid "Functions manipulating Hebrew dates"
-msgstr "Функции для работы с датами и временем"
+msgstr "Функции для работы с датами еврейского календаря"
 
 #: ../plugins/fn-hebrew-date/plugin.xml.in.h:3
-#, fuzzy
 msgid "Hebrew Date Functions"
-msgstr "Функции баз данных"
+msgstr "Функции дат еврейского календаря"
 
 #. Path of the current directory or folder.
 #. Absolute A1-style reference, as text, prepended with "$A:"
@@ -905,7 +903,7 @@ msgstr "Ошибка: невозможно открыть соединение �
 
 #: ../plugins/gda/plugin-gda.c:360 ../plugins/gda/plugin-gda.c:440
 msgid "More than one statement in SQL string"
-msgstr ""
+msgstr "Больше одного оператора в строке SQL"
 
 #: ../plugins/gda/plugin-gda.c:417
 msgid "Format: readDBTable(dsn,user,password,table)"
@@ -917,9 +915,8 @@ msgid "Could not run GNOME database configuration tool ('%s')"
 msgstr "Не удалось запустить программу настройки баз данных GNOME (\"%s)"
 
 #: ../plugins/gda/plugin.xml.in.h:1 ../plugins/gnome-db/plugin.xml.in.h:1
-#, fuzzy
 msgid "Data Bases..."
-msgstr "База данных"
+msgstr "Базы данных..."
 
 #: ../plugins/gda/plugin.xml.in.h:3
 msgid "Database functions for retrieval of data from a database."
@@ -931,21 +928,20 @@ msgid "Target cell did not evaluate to a number."
 msgstr ""
 
 #: ../plugins/glpk/glpk-write.c:346
-#, fuzzy
 msgid "Writing glpk file..."
-msgstr "Сохранение файла..."
+msgstr "Запись файла glpk..."
 
 #: ../plugins/glpk/gnm-glpk.c:54
-#, fuzzy, c-format
+#, c-format
 msgid "The GLPK exporter is not available."
-msgstr "Функция сохранения используемая по умолчанию не доступна."
+msgstr "Экспортёр GLPK не доступен."
 
-#: ../plugins/glpk/gnm-glpk.c:236
-#, fuzzy, c-format
+#: ../plugins/glpk/gnm-glpk.c:237
+#, c-format
 msgid "Failed to create file for solution"
-msgstr "Не удалось создать временный файл для отправки."
+msgstr ""
 
-#: ../plugins/glpk/gnm-glpk.c:285 ../plugins/lpsolve/gnm-lpsolve.c:280
+#: ../plugins/glpk/gnm-glpk.c:286 ../plugins/lpsolve/gnm-lpsolve.c:280
 #, c-format
 msgid ""
 "The %s program was not found.  You can either install it or use another "
@@ -954,7 +950,7 @@ msgstr ""
 
 #: ../plugins/glpk/plugin.xml.in.h:1
 msgid "GLPK"
-msgstr ""
+msgstr "GLPK"
 
 #: ../plugins/glpk/plugin.xml.in.h:2
 msgid "GLPK Linear Program Solver"
@@ -1053,18 +1049,17 @@ msgid "Lotus 123 (*.wk1, *.wks, *.123)"
 msgstr "Lotus 123 (*.wk1, *.wks, *.123)"
 
 #: ../plugins/lpsolve/gnm-lpsolve.c:50
-#, fuzzy, c-format
+#, c-format
 msgid "The LPSolve exporter is not available."
-msgstr "Функция сохранения используемая по умолчанию не доступна."
+msgstr ""
 
 #: ../plugins/lpsolve/lpsolve-write.c:329
 msgid "Writing lpsolve file..."
-msgstr ""
+msgstr "Запись файла lpsolve..."
 
 #: ../plugins/lpsolve/plugin.xml.in.h:1
-#, fuzzy
 msgid "LPSolve"
-msgstr "Решить"
+msgstr "LPSolve"
 
 #: ../plugins/lpsolve/plugin.xml.in.h:2
 msgid "LPSolve Linear Program Solver"
@@ -1083,28 +1078,25 @@ msgid "Program Name"
 msgstr "Название программы"
 
 #: ../plugins/mps/mps.c:222
-#, fuzzy
 msgid "Invalid line in ROWS section"
-msgstr "Недопустимый раздел ROWS (строки) в файле."
+msgstr "Недопустимая строка в разделе ROWS (строки)"
 
 #: ../plugins/mps/mps.c:231
-#, fuzzy, c-format
+#, c-format
 msgid "Duplicate rows name %s"
-msgstr "Обновить имя %s"
+msgstr ""
 
 #: ../plugins/mps/mps.c:249
-#, fuzzy
 msgid "Duplicate objective row"
-msgstr "Дублировать объект"
+msgstr ""
 
 #: ../plugins/mps/mps.c:267
 msgid "Missing objective row"
 msgstr ""
 
 #: ../plugins/mps/mps.c:292
-#, fuzzy
 msgid "Invalid marker"
-msgstr "Недопустимое название"
+msgstr "Недопустимый маркер"
 
 #: ../plugins/mps/mps.c:342
 #, c-format
@@ -1112,9 +1104,9 @@ msgid "Invalid row name, %s, in columns"
 msgstr ""
 
 #: ../plugins/mps/mps.c:408
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid bounds type %s"
-msgstr "Неправильная ячейка %s"
+msgstr ""
 
 #: ../plugins/mps/mps.c:424
 #, c-format
@@ -1135,7 +1127,7 @@ msgstr "Ограничение"
 #: ../src/dialogs/dialog-doc-metadata.c:1294
 #: ../src/dialogs/dialog-simulation.c:222
 msgid "Value"
-msgstr "Значения"
+msgstr "Значение"
 
 #: ../plugins/mps/mps.c:587 ../src/dialogs/dialog-formula-guru.c:853
 #: ../src/dialogs/dialog-search.c:413
@@ -1151,9 +1143,8 @@ msgid "Variable"
 msgstr "Переменная"
 
 #: ../plugins/mps/mps.c:668
-#, fuzzy
 msgid "Objective function"
-msgstr "Действительная функция:"
+msgstr "Действительная функция"
 
 #: ../plugins/mps/mps.c:717
 msgid "Error while reading MPS file."
@@ -1530,9 +1521,8 @@ msgid "Could not find %s"
 msgstr "Не удалось найти %s"
 
 #: ../plugins/python-loader/plugin.xml.in.h:1
-#, fuzzy
 msgid "Python console"
-msgstr "Консоль Python в Gnumeric"
+msgstr "Консоль Python"
 
 #: ../plugins/python-loader/plugin.xml.in.h:2
 msgid "Python plugin loader"
@@ -1843,7 +1833,7 @@ msgstr "Центрирование по горизонтали по умолча
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:16
 msgid "Default Left Margin"
-msgstr "Отсуп слева по умолчанию"
+msgstr "Отступ слева по умолчанию"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:17
 msgid "Default Print Cells with Only Styles"
@@ -1883,7 +1873,7 @@ msgstr "Печать заголовка по умолчанию"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:26
 msgid "Default Top Margin"
-msgstr "Отсуп сверху по умолчанию"
+msgstr "Отступ сверху по умолчанию"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:27
 msgid "Default Top Outside Margin"
@@ -1967,9 +1957,8 @@ msgid "Please use the Print Setup dialog to edit this value."
 msgstr "Используйте диалог настройки печати для исправления этого значения."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:47
-#, fuzzy
 msgid "Please use the Text Export dialog to edit this value."
-msgstr "Используйте диалог настройки печати для исправления этого значения."
+msgstr "Используйте диалог экспорта текста для исправления этого значения."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:48
 msgid "Preferred Display Unit"
@@ -1997,16 +1986,15 @@ msgstr "Системный каталог для шаблонов автофор
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:52
 msgid "Text Export Field Separator"
-msgstr ""
+msgstr "Разделитель полей для экспорта текста"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:53
 msgid "Text Export Record Terminator"
 msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:54
-#, fuzzy
 msgid "Text Export String Indicator"
-msgstr "Индикатор текста"
+msgstr "Индикатор строки для экспорта текста"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:55
 msgid ""
@@ -2903,9 +2891,9 @@ msgid "Would split an array"
 msgstr ""
 
 #: ../src/command-context.c:68
-#, fuzzy, c-format
+#, c-format
 msgid "Would split merge %s"
-msgstr "Не удалось импортировать %s."
+msgstr ""
 
 #: ../src/commands.c:192
 #, c-format
@@ -2959,7 +2947,7 @@ msgid "Inserting %d row before %s"
 msgid_plural "Inserting %d rows before %s"
 msgstr[0] "Вставка %d строки перед %s"
 msgstr[1] "Вставка %d строк перед %s"
-msgstr[2] "Вставка %d строки перед %s"
+msgstr[2] "Вставка %d строк перед %s"
 
 #: ../src/commands.c:1426
 #, c-format
@@ -3405,14 +3393,12 @@ msgid "Set Frame Label"
 msgstr "Установить метку рамки"
 
 #: ../src/commands.c:7222
-#, fuzzy
 msgid "Configure Button"
-msgstr "Настроить кнопку прокрутки"
+msgstr "Настроить кнопку"
 
 #: ../src/commands.c:7303
-#, fuzzy
 msgid "Configure Radio Button"
-msgstr "Настроить кнопку прокрутки"
+msgstr "Настроить радио-кнопку"
 
 #: ../src/commands.c:7379
 msgid "Configure Checkbox"
@@ -3435,24 +3421,22 @@ msgid "Requires more than 1 row"
 msgstr "Требуется больше чем 1 строка"
 
 #: ../src/commands.c:7593
-#, fuzzy
 msgid "Unable to create Autofilter"
-msgstr "Невозможно проанализировать html."
+msgstr "Не удалось создать Автофильтр"
 
 #: ../src/commands.c:7609
-#, fuzzy, c-format
+#, c-format
 msgid "Add Autofilter to %s"
-msgstr "Добавить автофильтр"
+msgstr "Добавить автофильтр к %s"
 
 #: ../src/commands.c:7610
-#, fuzzy, c-format
+#, c-format
 msgid "Remove Autofilter from %s"
-msgstr "Удалить автофильтр"
+msgstr "Удалить автофильтр из %s"
 
 #: ../src/commands.c:7681
-#, fuzzy
 msgid "Set Object Name"
-msgstr "Удалить объект"
+msgstr "Задать имя объекта"
 
 #: ../src/consolidate.c:751
 #, c-format
@@ -4349,7 +4333,7 @@ msgstr "Тест независимости"
 
 #: ../src/dialogs/chi-squared.glade.h:11
 msgid "_Contingency Table:"
-msgstr ""
+msgstr "_Таблица случайностей:"
 
 #: ../src/dialogs/col-width.glade.h:1
 msgid "Column Width"
@@ -4499,11 +4483,12 @@ msgid "Retain output range co_mments"
 msgstr "Сохранять комментарии диапазона вывода"
 
 #: ../src/dialogs/dao.glade.h:11
-#, fuzzy
 msgid ""
 "Values\n"
 "Formulas"
-msgstr "Формула"
+msgstr ""
+"Значения\n"
+"Формулы"
 
 #: ../src/dialogs/dao.glade.h:13
 msgid "_Enter into cells:"
@@ -4708,7 +4693,7 @@ msgstr "Дизайн"
 
 #: ../src/dialogs/dialog-about.c:65
 msgid "Packaging"
-msgstr "Упаковка"
+msgstr "Создание пакетов"
 
 #: ../src/dialogs/dialog-about.c:73
 msgid "Harald Ashburner"
@@ -4800,7 +4785,7 @@ msgstr "Kjell Eikland"
 
 #: ../src/dialogs/dialog-about.c:96 ../src/dialogs/dialog-about.c:122
 msgid "LP-solve"
-msgstr ""
+msgstr "LP-solve"
 
 #: ../src/dialogs/dialog-about.c:97
 msgid "Gergo Erdi"
@@ -4968,7 +4953,7 @@ msgstr "Arturo Tena"
 
 #: ../src/dialogs/dialog-about.c:140
 msgid "Initial work on OLE2 for libgsf"
-msgstr "Исходная работа надо OLE2 для libgsf"
+msgstr "Исходная работа над OLE2 для libgsf"
 
 #: ../src/dialogs/dialog-about.c:141
 msgid "Almer S. Tigelaar"
@@ -5043,33 +5028,33 @@ msgid "Alexander Kirillov"
 msgstr "Alexander Kirillov"
 
 #: ../src/dialogs/dialog-about.c:451
-#, fuzzy
 msgid "Gnumeric is the result of"
-msgstr "Домашняя с_траница Gnumeric"
+msgstr "Gnumeric - это результат"
 
 #. Overlap.
 #: ../src/dialogs/dialog-about.c:457
 msgid "the efforts of many people."
-msgstr ""
+msgstr "труда многих людей"
 
 #. Overlap.
 #: ../src/dialogs/dialog-about.c:464
 msgid "Your help is much appreciated!"
-msgstr ""
+msgstr "Мы высоко ценим вашу помощь!"
 
 #: ../src/dialogs/dialog-about.c:514
 msgid "We apologize if anyone was left out."
 msgstr ""
+"Мы приносим свои извинения в случае, если кто-то не оказался в этом списке"
 
 #. Overlap.
 #: ../src/dialogs/dialog-about.c:522
 msgid "Please contact us to correct mistakes."
-msgstr ""
+msgstr "Пожалуйста, связывайтесь с нами, чтобы сообщить об ошибках."
 
 #. Overlap.
 #: ../src/dialogs/dialog-about.c:530
 msgid "Report problems at http://bugzilla.gnome.org"
-msgstr ""
+msgstr "Сообщайте о проблемах на http://bugzilla.gnome.org"
 
 #. Overlap.
 #: ../src/dialogs/dialog-about.c:535 ../src/dialogs/dialog-about.c:542
@@ -5081,17 +5066,16 @@ msgid "About Gnumeric"
 msgstr "О программе Gnumeric"
 
 #: ../src/dialogs/dialog-about.c:567
-#, fuzzy
 msgid "Visit the Gnumeric website"
-msgstr "Посмотреть веб-сайт Gnumeric"
+msgstr "Посетить веб-сайт Gnumeric"
 
 #: ../src/dialogs/dialog-about.c:569
 msgid "Copyright © 1998-2010"
-msgstr ""
+msgstr "Copyright © 1998-2010"
 
 #: ../src/dialogs/dialog-about.c:570
 msgid "Free, Fast, Accurate - Pick Any Three!"
-msgstr ""
+msgstr "Свободный, быстрый, точный - выберите любые три!"
 
 #: ../src/dialogs/dialog-advanced-filter.c:70
 msgid "The list range is invalid."
@@ -5108,7 +5092,7 @@ msgstr "Недопустимый диапазон вывода."
 
 #: ../src/dialogs/dialog-advanced-filter.c:143
 msgid "The given criteria are invalid."
-msgstr "Заданное критерий не является допустимым."
+msgstr "Заданный критерий не является допустимым."
 
 #: ../src/dialogs/dialog-advanced-filter.c:149
 msgid "No matching records were found."
@@ -5247,34 +5231,28 @@ msgid "Could not create the Kaplan Meier Tool dialog."
 msgstr "Невозможно создать диалог расчёта Каплан-Мейер."
 
 #: ../src/dialogs/dialog-analysis-tool-normality.c:201
-#, fuzzy
 msgid "Could not create the Normality Test Tool dialog."
-msgstr "Невозможно создать диалог вычисления F-теста."
+msgstr "Невозможно создать диалог проверки нормальности."
 
 #: ../src/dialogs/dialog-analysis-tool-principal-components.c:174
-#, fuzzy
 msgid "Could not create the Principal Components Analysis Tool dialog."
-msgstr "Невозможно создать диалог Фурье анализа."
+msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:97
-#, fuzzy
 msgid "The first input range is invalid."
-msgstr "Недопустимый диапазон ввода"
+msgstr "Недопустимый первый диапазон ввода."
 
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:110
-#, fuzzy
 msgid "The second input range is invalid."
-msgstr "Недопустимый диапазон ввода"
+msgstr "Недопустимый второй диапазон ввода."
 
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:122
-#, fuzzy
 msgid "The predicted median should be a number."
-msgstr "Текст для поиска должен быть числом."
+msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:279
-#, fuzzy
 msgid "Could not create the Sign Test Tool dialog."
-msgstr "Невозможно создать диалог вычисления F-теста."
+msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tools.c:630
 #: ../src/dialogs/dialog-analysis-tools.c:750
@@ -5350,19 +5328,19 @@ msgstr "Невозможно создать диалог вычисления F-
 
 #: ../src/dialogs/dialog-analysis-tools.c:1829
 msgid "The requested number of samples is invalid."
-msgstr "Недопустимое запрошеное число выборок."
+msgstr "Недопустимое запрошенное число выборок."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1842
 msgid "The requested period is invalid."
-msgstr "Недопустимый запрошеный период."
+msgstr "Недопустимый запрошенный период."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1850
 msgid "The requested offset is invalid."
-msgstr "Недопустимое запрошеное смещение."
+msgstr "Недопустимое запрошенное смещение."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1859
 msgid "The requested sample size is invalid."
-msgstr "Недопустимый запрошеный размер выборки."
+msgstr "Недопустимый запрошенный размер выборки."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2019
 msgid "Could not create the Sampling Tool dialog."
@@ -5771,9 +5749,8 @@ msgstr ""
 "Если ячейка НЕ содержит значение ошибки, используется специальный стиль."
 
 #: ../src/dialogs/dialog-cell-format.c:2109
-#, fuzzy
 msgid "If the cell content contains blanks, a special style is used."
-msgstr "Если ячейка содержит эту строку, используется специальный стиль."
+msgstr "Если ячейка ничего не содержит, используется специальный стиль."
 
 #: ../src/dialogs/dialog-cell-format.c:2115
 msgid "If the cell content does not contain blanks, a special style is used."
@@ -5829,27 +5806,27 @@ msgstr "%s (%s)"
 msgid "%s to %s"
 msgstr "%s - %s"
 
-#: ../src/dialogs/dialog-cell-sort.c:764
+#: ../src/dialogs/dialog-cell-sort.c:763
 msgid "no available row"
 msgstr "нет доступной строки"
 
-#: ../src/dialogs/dialog-cell-sort.c:764
+#: ../src/dialogs/dialog-cell-sort.c:763
 msgid "no available column"
 msgstr "нет доступного столбца"
 
-#: ../src/dialogs/dialog-cell-sort.c:1018
+#: ../src/dialogs/dialog-cell-sort.c:1017
 msgid "Header"
 msgstr "Заголовок"
 
-#: ../src/dialogs/dialog-cell-sort.c:1023
+#: ../src/dialogs/dialog-cell-sort.c:1022
 msgid "Row/Column"
 msgstr "Строка/Столбец"
 
-#: ../src/dialogs/dialog-cell-sort.c:1043
+#: ../src/dialogs/dialog-cell-sort.c:1042
 msgid "Case Sensitive"
 msgstr "Чувствительно к регистру"
 
-#: ../src/dialogs/dialog-cell-sort.c:1063
+#: ../src/dialogs/dialog-cell-sort.c:1062
 msgid "By Value"
 msgstr "По значению"
 
@@ -6107,6 +6084,8 @@ msgid ""
 "Left click once to follow this link.\n"
 "Middle click once to select this cell"
 msgstr ""
+"Щёлкните левой кнопкой для перехода по этой ссылке.\n"
+"Щёлкните средней кнопкой для выделения этой ячейки"
 
 #: ../src/dialogs/dialog-hyperlink.c:185
 msgid "Not a range or name"
@@ -6305,7 +6284,7 @@ msgstr "Интервал автосохранения по умолчанию в
 
 #: ../src/dialogs/dialog-preferences.c:890
 msgid "Enter _Moves Selection"
-msgstr ""
+msgstr "Enter перемещает выделение"
 
 #: ../src/dialogs/dialog-preferences.c:929
 msgid "Prefer CLIPBOARD Over PRIMARY Selection"
@@ -6316,9 +6295,8 @@ msgid "Capitalize _names of days"
 msgstr "Делать заглавными названия дней"
 
 #: ../src/dialogs/dialog-preferences.c:973
-#, fuzzy
 msgid "Correct _TWo INitial CApitals"
-msgstr "НАчальные ЗАглавные"
+msgstr "Исправлять НАчальные ЗАглавные"
 
 #: ../src/dialogs/dialog-preferences.c:997
 msgid "Capitalize _first letter of sentence"
@@ -6741,24 +6719,20 @@ msgid "Could not create the Random Tool dialog."
 msgstr "Невозможно создать диалог случайных чисел."
 
 #: ../src/dialogs/dialog-random-generator-cor.c:99
-#, fuzzy
 msgid "The matrix range is not valid."
-msgstr "Недопустимый диапазон категорий."
+msgstr "Недопустимый диапазон матрицы."
 
 #: ../src/dialogs/dialog-random-generator-cor.c:110
-#, fuzzy
 msgid "The matrix must be symmetric positive-definite."
-msgstr "К должно быть целым и положительным."
+msgstr ""
 
 #: ../src/dialogs/dialog-random-generator-cor.c:126
-#, fuzzy
 msgid "The number of random numbers requested is invalid."
-msgstr "Недопустимое число категорий."
+msgstr "Недопустимое число запрошенных случайных чисел."
 
 #: ../src/dialogs/dialog-random-generator-cor.c:222
-#, fuzzy
 msgid "Could not create the Correlated Random Tool dialog."
-msgstr "Невозможно создать диалог расчёта корреляции."
+msgstr ""
 
 #: ../src/dialogs/dialog-recent.c:70
 msgid "Recently Used Files"
@@ -6795,7 +6769,7 @@ msgstr "Текущие значения"
 
 #: ../src/dialogs/dialog-scenarios.c:196
 msgid "Changing Cells:"
-msgstr ""
+msgstr "Изменяя ячейки:"
 
 #: ../src/dialogs/dialog-scenarios.c:301
 msgid "Invalid changing cells"
@@ -6916,12 +6890,12 @@ msgstr ""
 msgid "Default"
 msgstr "По умолчанию"
 
-#: ../src/dialogs/dialog-sheetobject-size.c:194
+#: ../src/dialogs/dialog-sheetobject-size.c:195
 #: ../src/sheet-control-gui.c:2428
 msgid "Move Object"
 msgstr "Переместить объект"
 
-#: ../src/dialogs/dialog-sheetobject-size.c:194
+#: ../src/dialogs/dialog-sheetobject-size.c:195
 #: ../src/sheet-control-gui.c:2428
 msgid "Resize Object"
 msgstr "Изменить размер объекта"
@@ -6995,86 +6969,74 @@ msgid "Could not create the List Property dialog."
 msgstr ""
 
 #: ../src/dialogs/dialog-solver.c:350
-#, fuzzy
 msgid ""
 "Looking for a subject for your thesis? Maybe you would like to write a "
 "solver for Gnumeric?"
 msgstr ""
-"Ищете тему для диплома или диссертации? Может быть напишете QP Solver для "
-"gnumeric?"
+"Ищете тему для диплома или диссертации? Может быть Вы захотите написать "
+"Solver для gnumeric?"
 
 #: ../src/dialogs/dialog-solver.c:445
-#, fuzzy
 msgid "Changing solver parameters"
-msgstr "Изменение свойств листа"
+msgstr ""
 
 #: ../src/dialogs/dialog-solver.c:511
-#, fuzzy
 msgid "Ready"
-msgstr "Действительное"
+msgstr ""
 
 #: ../src/dialogs/dialog-solver.c:514
-#, fuzzy
 msgid "Preparing"
-msgstr "Замена"
+msgstr ""
 
 #: ../src/dialogs/dialog-solver.c:517
-#, fuzzy
 msgid "Prepared"
-msgstr "Разделенные"
+msgstr ""
 
 #: ../src/dialogs/dialog-solver.c:520
 msgid "Running"
 msgstr ""
 
 #: ../src/dialogs/dialog-solver.c:529
-#, fuzzy
 msgid "Done"
-msgstr "Нет"
+msgstr "Сделано"
 
 #: ../src/dialogs/dialog-solver.c:533
-#, fuzzy
 msgid "Error"
-msgstr "Стрелка"
+msgstr "Ошибка"
 
 #: ../src/dialogs/dialog-solver.c:536
-#, fuzzy
 msgid "Cancelled"
-msgstr "Отмена"
+msgstr "Отменено"
 
 #: ../src/dialogs/dialog-solver.c:572
-#, fuzzy, c-format
+#, c-format
 msgid "Feasible: %s"
-msgstr "Ожидаемое"
+msgstr "Ожидаемое: %s"
 
 #: ../src/dialogs/dialog-solver.c:580
 #, c-format
 msgid "Optimal: %s"
-msgstr ""
+msgstr "Оптимальное: %s"
 
 #: ../src/dialogs/dialog-solver.c:586
-#, fuzzy
 msgid "Infeasible"
-msgstr "Ожидаемое"
+msgstr ""
 
 #: ../src/dialogs/dialog-solver.c:590
-#, fuzzy
 msgid "Unbounded"
-msgstr "Неиспользуемое"
+msgstr ""
 
 #: ../src/dialogs/dialog-solver.c:636
-#, fuzzy
 msgid "No suitable solver available."
-msgstr "Функция сохранения используемая по умолчанию не доступна."
+msgstr ""
 
 #: ../src/dialogs/dialog-solver.c:648
 msgid "Running Solver"
-msgstr ""
+msgstr "Поиск решения"
 
 #: ../src/dialogs/dialog-solver.c:653
-#, fuzzy
 msgid "Stop"
-msgstr "Шаг"
+msgstr "Стоп"
 
 #: ../src/dialogs/dialog-solver.c:658
 msgid "Stop the running solver"
@@ -7090,7 +7052,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-solver.c:792
 msgid "Optimal solution created by solver.\n"
-msgstr ""
+msgstr "Найдено оптимальное решение.\n"
 
 #: ../src/dialogs/dialog-solver.c:796
 msgid "Feasible solution created by solver.\n"
@@ -7102,7 +7064,7 @@ msgstr "Предмет ограничений:"
 
 #: ../src/dialogs/dialog-solver.c:1196
 msgid "Could not create the Solver dialog."
-msgstr ""
+msgstr "Не удалось открыть диалог Решение."
 
 #: ../src/dialogs/dialog-stf-export.c:596
 msgid "Export"
@@ -7194,9 +7156,8 @@ msgstr ""
 "экспортирован раньше."
 
 #: ../src/dialogs/dialog-stf-export.glade.h:19
-#, fuzzy
 msgid "Save as default formatting"
-msgstr "Сохранить в качестве настроек по умолчанию"
+msgstr "Сохранить в качестве форматирования по умолчанию"
 
 #: ../src/dialogs/dialog-stf-export.glade.h:20
 msgid "Select N_one"
@@ -7208,7 +7169,7 @@ msgstr "Выделить все"
 
 #: ../src/dialogs/dialog-stf-export.glade.h:22
 msgid "Select all non-empty sheets for export."
-msgstr "Выбрать все непустые таблицы для экспорта."
+msgstr "Выбрать все не пустые таблицы для экспорта."
 
 #: ../src/dialogs/dialog-stf-export.glade.h:23
 msgid ""
@@ -7634,7 +7595,7 @@ msgstr "Unix (LF)"
 
 #: ../src/dialogs/dialog-stf.glade.h:61
 msgid "_Windows (CR+LF)"
-msgstr "Windows (CR+LF)"
+msgstr "_Windows (CR+LF)"
 
 #: ../src/dialogs/dialog-stf.glade.h:62
 msgid "`"
@@ -7700,12 +7661,10 @@ msgid "Screen %d"
 msgstr "Экран %d"
 
 #: ../src/dialogs/dialog-workbook-attr.c:186
-#, fuzzy
 msgid "Widgets"
-msgstr "_Края"
+msgstr "_Виджеты"
 
 #: ../src/dialogs/dialog-workbook-attr.c:188
-#, fuzzy
 msgid "Auto Completion"
 msgstr "Автодополнение"
 
@@ -8097,7 +8056,6 @@ msgid "Column chart"
 msgstr "Столбцовая диаграмма"
 
 #: ../src/dialogs/frequency.glade.h:6
-#, fuzzy
 msgid "Frequency Tables"
 msgstr "Частотная таблица"
 
@@ -8380,14 +8338,12 @@ msgid "Target _Range:"
 msgstr "Целевой диапазон:"
 
 #: ../src/dialogs/hyperlink.glade.h:5
-#, fuzzy
 msgid "Tip:"
 msgstr "Подсказка:"
 
 #: ../src/dialogs/hyperlink.glade.h:6
-#, fuzzy
 msgid "Use default tip"
-msgstr "По умолчанию"
+msgstr "Использовать подсказку по умолчанию"
 
 #: ../src/dialogs/hyperlink.glade.h:7
 msgid "_File:"
@@ -8446,9 +8402,8 @@ msgid "Include censorship ticks"
 msgstr ""
 
 #: ../src/dialogs/kaplan-meier.glade.h:6
-#, fuzzy
 msgid "Kaplan Meier Estimates"
-msgstr "Каплан-Мейер (%s)"
+msgstr "Оценки Каплан-Мейер"
 
 #: ../src/dialogs/kaplan-meier.glade.h:7 ../src/dialogs/regression.glade.h:3
 #: ../src/dialogs/sampling.glade.h:6
@@ -8609,7 +8564,7 @@ msgstr "15-точечная скользящая средняя Спенсера
 
 #: ../src/dialogs/moving-averages.glade.h:16
 msgid "Weighted moving average"
-msgstr "Взвещенная скользящая средняя"
+msgstr "Взвешенная скользящая средняя"
 
 #: ../src/dialogs/moving-averages.glade.h:18
 msgid "_Interval:"
@@ -8626,7 +8581,7 @@ msgstr ""
 
 #: ../src/dialogs/normality-tests.glade.h:3
 msgid "Create Normal Probability Plot"
-msgstr ""
+msgstr "Создать график нормальной вероятности"
 
 #: ../src/dialogs/normality-tests.glade.h:6
 #: ../src/tools/analysis-normality.c:77
@@ -8635,7 +8590,7 @@ msgstr ""
 
 #: ../src/dialogs/normality-tests.glade.h:7
 msgid "Normality Tests"
-msgstr ""
+msgstr "Тесты нормальности"
 
 #: ../src/dialogs/normality-tests.glade.h:9
 #: ../src/tools/analysis-normality.c:83
@@ -8652,19 +8607,16 @@ msgid "Paste Name Definitions"
 msgstr "Вставить определения имён"
 
 #: ../src/dialogs/paste-special.glade.h:1
-#, fuzzy
 msgid "<b>Cell operation</b>"
-msgstr "<b>Расположение</b>"
+msgstr ""
 
 #: ../src/dialogs/paste-special.glade.h:2
-#, fuzzy
 msgid "<b>Paste type</b>"
-msgstr "<b>Шаблон</b>"
+msgstr "<b>Вставить тип</b>"
 
 #: ../src/dialogs/paste-special.glade.h:3
-#, fuzzy
 msgid "<b>Region operation</b>"
-msgstr "<b>Информация</b>"
+msgstr ""
 
 #: ../src/dialogs/paste-special.glade.h:4
 msgid "A_dd"
@@ -8691,14 +8643,12 @@ msgid "D_o not change formul&#xE6;"
 msgstr ""
 
 #: ../src/dialogs/paste-special.glade.h:10
-#, fuzzy
 msgid "Fli_p Vertically"
-msgstr "По вертикали"
+msgstr "Отразить по вертикали"
 
 #: ../src/dialogs/paste-special.glade.h:11
-#, fuzzy
 msgid "Flip Hori_zontally"
-msgstr "Заполнить по горизонтали"
+msgstr "Отразить по горизонтали"
 
 #: ../src/dialogs/paste-special.glade.h:12
 msgid "M_ultiply"
@@ -8934,7 +8884,7 @@ msgstr "Стили без содержимого"
 
 #: ../src/dialogs/print.glade.h:39
 msgid "Top margin:"
-msgstr "Отсуп сверху:"
+msgstr "Отступ сверху:"
 
 #: ../src/dialogs/print.glade.h:40
 msgid "Unit:"
@@ -8946,7 +8896,7 @@ msgstr "Автоматическое масштабирование:"
 
 #: ../src/dialogs/print.glade.h:42
 msgid "_Black and white"
-msgstr "Черное и белое"
+msgstr "Чёрное и белое"
 
 #: ../src/dialogs/print.glade.h:43
 msgid "_Columns to repeat on the left side:"
@@ -9009,7 +8959,7 @@ msgstr "Генерация случайных чисел"
 
 #: ../src/dialogs/random-generation.glade.h:7
 msgid "_Distribution:"
-msgstr "Дистрибутив:"
+msgstr "_Распределение:"
 
 #: ../src/dialogs/random-generation.glade.h:8
 msgid "_Number of variables:"
@@ -9024,28 +8974,24 @@ msgid "Cholesky _Decomposition of the Covariance Matrix"
 msgstr ""
 
 #: ../src/dialogs/random-generation-cor.glade.h:3
-#, fuzzy
 msgid "Co_variance Matrix"
-msgstr "Ковариация"
+msgstr "Матрица ковариации"
 
 #: ../src/dialogs/random-generation-cor.glade.h:4
-#, fuzzy
 msgid "Correlated Random Number Generator"
-msgstr "Генерация случайных чисел"
+msgstr "Генератор коррелированных случайных чисел"
 
 #: ../src/dialogs/random-generation-cor.glade.h:6
-#, fuzzy
 msgid "Number of _random numbers:"
-msgstr "Число элементов отмены"
+msgstr "Число _случайных чисел:"
 
 #: ../src/dialogs/random-generation-cor.glade.h:9
-#, fuzzy
 msgid "_Matrix:"
-msgstr "Матрица"
+msgstr "_Матрица:"
 
 #: ../src/dialogs/rank.glade.h:5
 msgid "Rank and Percentile"
-msgstr "Ранг и Percentile"
+msgstr "Ранг и процентиль"
 
 #: ../src/dialogs/rank.glade.h:6
 msgid "Ties:"
@@ -9562,17 +9508,16 @@ msgid "yyyyy"
 msgstr "yyyyy"
 
 #: ../src/dialogs/sheetobject-size.glade.h:1
-#, fuzzy
 msgid "Height in points:"
-msgstr "Высота строки в пунктах:"
+msgstr "Высота в пунктах:"
 
 #: ../src/dialogs/sheetobject-size.glade.h:2
 msgid "Object position relative to its current position:"
-msgstr ""
+msgstr "Расположение объекта относительно текущего:"
 
 #: ../src/dialogs/sheetobject-size.glade.h:3
 msgid "Size & Position"
-msgstr ""
+msgstr "Размер и расположение"
 
 #: ../src/dialogs/sheetobject-size.glade.h:4
 msgid ""
@@ -9581,44 +9526,36 @@ msgid ""
 msgstr ""
 
 #: ../src/dialogs/sheetobject-size.glade.h:5
-#, fuzzy
 msgid "Width in points:"
-msgstr "Ширина столбца в пунктах:"
+msgstr "Ширина в пунктах:"
 
 #: ../src/dialogs/sheetobject-size.glade.h:6
-#, fuzzy
 msgid "_Height in pixels:"
-msgstr "Высота строки в точках растра:"
+msgstr "Высота в точках растра:"
 
 #: ../src/dialogs/sheetobject-size.glade.h:7
-#, fuzzy
 msgid "_Name:"
-msgstr "Название :"
+msgstr "_Название:"
 
 #: ../src/dialogs/sheetobject-size.glade.h:8
-#, fuzzy
 msgid "_Width in pixels:"
-msgstr "Ширина столбца в точках растра:"
+msgstr "Ширина в точках растра:"
 
 #: ../src/dialogs/sheetobject-size.glade.h:9
-#, fuzzy
 msgid "_x-Offset in pixels:"
-msgstr "Высота строки в точках растра:"
+msgstr "Горизонтальное смещение в точках растра:"
 
 #: ../src/dialogs/sheetobject-size.glade.h:10
-#, fuzzy
 msgid "_y-Offset in pixels:"
-msgstr "Высота строки в точках растра:"
+msgstr "Вертикальное смещение в точках растра:"
 
 #: ../src/dialogs/sheetobject-size.glade.h:12
-#, fuzzy
 msgid "x-Offset in points:"
-msgstr "Высота строки в пунктах:"
+msgstr "Горизонтальное смещение в пунктах:"
 
 #: ../src/dialogs/sheetobject-size.glade.h:13
-#, fuzzy
 msgid "y-Offset in points:"
-msgstr "Высота строки в пунктах:"
+msgstr "Вертикальное смещение в пунктах:"
 
 #: ../src/dialogs/shuffle.glade.h:1
 msgid "Data Shuffling"
@@ -9710,24 +9647,20 @@ msgstr "Переменные"
 #: ../src/dialogs/sign-test.glade.h:4 ../src/tools/analysis-sign-test.c:357
 #: ../src/tools/analysis-sign-test.c:360 ../src/tools/analysis-sign-test.c:385
 #: ../src/tools/analysis-sign-test.c:388
-#, fuzzy
 msgid "Sign Test"
-msgstr "Выровнять влево"
+msgstr ""
 
 #: ../src/dialogs/sign-test.glade.h:11
-#, fuzzy
 msgid "_Predicted Median:"
-msgstr "Выполнить в:"
+msgstr ""
 
 #: ../src/dialogs/sign-test-two.glade.h:2
-#, fuzzy
 msgid "Hypothesized _difference of medians:"
-msgstr "Гипотетическая разность средних:"
+msgstr ""
 
 #: ../src/dialogs/so-button.glade.h:1
-#, fuzzy
 msgid "Button Properties"
-msgstr "Свойства кнопки прокрутки"
+msgstr "Свойства кнопки"
 
 #: ../src/dialogs/so-button.glade.h:2 ../src/dialogs/so-checkbox.glade.h:3
 #: ../src/dialogs/so-frame.glade.h:3 ../src/dialogs/so-radiobutton.glade.h:1
@@ -9761,9 +9694,8 @@ msgid "_Link :"
 msgstr "Ссылка:"
 
 #: ../src/dialogs/so-radiobutton.glade.h:3
-#, fuzzy
 msgid "Radiobutton Properties"
-msgstr "Свойства кнопки прокрутки"
+msgstr "Свойства радио-кнопки"
 
 #: ../src/dialogs/so-scrollbar.glade.h:2
 msgid "Increment:"
@@ -9847,7 +9779,7 @@ msgstr "Решить"
 
 #: ../src/dialogs/solver.glade.h:17
 msgid "Solver"
-msgstr ""
+msgstr "Поиск решения"
 
 #: ../src/dialogs/solver.glade.h:18
 msgid "_Algorithm:"
@@ -9925,7 +9857,7 @@ msgstr "Минимум"
 
 #: ../src/dialogs/tabulate.glade.h:7
 msgid "Result cell"
-msgstr ""
+msgstr "Ячейка результата"
 
 #: ../src/dialogs/tabulate.glade.h:8
 msgid "Step"
@@ -9993,9 +9925,8 @@ msgid "Unimplementented"
 msgstr "Не реализовано"
 
 #: ../src/dialogs/workbook-attr.glade.h:7
-#, fuzzy
 msgid "View Properties"
-msgstr "Свойства ползунка"
+msgstr ""
 
 #: ../src/dialogs/workbook-attr.glade.h:8
 msgid "_Horizontal Scrollbar"
@@ -10010,9 +9941,8 @@ msgid "_Vertical Scrollbar"
 msgstr "Вертикальная прокрутка"
 
 #: ../src/dialogs/workbook-attr.glade.h:11
-#, fuzzy
 msgid "page 3"
-msgstr "страница"
+msgstr "страница 3"
 
 #: ../src/expr-name.c:510
 #, c-format
@@ -10043,7 +9973,6 @@ msgid "Invalid template file: %s"
 msgstr "Испорченный файл шаблона: %s"
 
 #: ../src/format-template.c:496
-#, fuzzy
 msgid "Error while opening autoformat template"
 msgstr "Ошибка при попытке загрузить шаблон автоформатирования"
 
@@ -10070,7 +9999,6 @@ msgstr ""
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:42
-#, fuzzy
 msgid "SUM:sum of the given values"
 msgstr "Sum:сумма данных значений"
 
@@ -10109,7 +10037,7 @@ msgid ""
 "Product computes the product of all the values and cells referenced in the "
 "argument list."
 msgstr ""
-"Product вычисляет произведение всех значений и ячеек пеерчисленных в списке "
+"Product вычисляет произведение всех значений и ячеек перечисленных в списке "
 "аргументов."
 
 #: ../src/func-builtin.c:72
@@ -10287,9 +10215,9 @@ msgid "Missing fields in plugin file"
 msgstr ""
 
 #: ../src/gnm-plugin.c:636
-#, fuzzy, c-format
+#, c-format
 msgid "Solver Algorithm %s"
-msgstr "Алгоритм:"
+msgstr "Алгоритм решения %s"
 
 #: ../src/gnm-plugin.c:734 ../src/gnm-plugin.c:806 ../src/gnm-plugin.c:852
 #, c-format
@@ -10544,7 +10472,7 @@ msgid "Exit immediately after loading the selected books"
 msgstr "Выйти немедленно после загрузки выбранных книг."
 
 #: ../src/main-application.c:227 ../src/ssconvert.c:657 ../src/ssgrep.c:434
-#: ../src/ssindex.c:253
+#: ../src/ssindex.c:255
 #, c-format
 msgid ""
 "%s\n"
@@ -11118,7 +11046,7 @@ msgstr "Авто"
 
 #: ../src/sheet-object-graph.c:654
 msgid "Use first series as shared abscissa"
-msgstr ""
+msgstr "Использовать первую серию в качестве общей абсциссы"
 
 #: ../src/sheet-object-image.c:452
 msgid "_Save as image"
@@ -11135,14 +11063,12 @@ msgid "Button"
 msgstr "Кнопка"
 
 #: ../src/sheet-object-widget.c:670
-#, fuzzy
 msgid "Pressed Button"
-msgstr "Создать кнопку"
+msgstr "Нажатая кнопка"
 
 #: ../src/sheet-object-widget.c:685
-#, fuzzy
 msgid "Released Button"
-msgstr "Радио-кнопка"
+msgstr "Отжатая кнопка"
 
 #. FIXME: This text sucks:
 #: ../src/sheet-object-widget.c:1128
@@ -11189,9 +11115,8 @@ msgstr "Радио-кнопка"
 
 #. FIXME: This text sucks:
 #: ../src/sheet-object-widget.c:2424
-#, fuzzy
 msgid "Clicking radiobutton"
-msgstr "Создать радио-кнопку"
+msgstr ""
 
 #: ../src/sheet-object-widget.c:2848
 msgid "Clicking in list"
@@ -11245,7 +11170,7 @@ msgid ""
 "column named TRUE may conflict with the constant of the same\n"
 "name.  Expect weirdness."
 msgstr ""
-"Это специальная версия Gnumeric. Она была скомилирована\n"
+"Это специальная версия Gnumeric. Она была скомпилирована\n"
 "с поддержкой очень большого числа столбцов. Доступ к столбцу\n"
 "названному 'TRUE' может конфликтовать с одноимённой константой.\n"
 "Ждите странностей."
@@ -11255,7 +11180,6 @@ msgid "Sheet Type"
 msgstr "Тип листа"
 
 #: ../src/sheet.c:811
-#, fuzzy
 msgid "Which type of sheet this is."
 msgstr "Какой тип у этого листа."
 
@@ -11491,7 +11415,7 @@ msgstr ""
 #. convenience wrapper to CONVENTIONS
 #: ../src/sheet.c:964
 msgid "Display convention for expressions as XLS_R1C1 vs default"
-msgstr "Показать соглашение об обозначаниях как XLS_R1C1 или по умолчанию"
+msgstr "Показать соглашение об обозначениях как XLS_R1C1 или по умолчанию"
 
 #: ../src/sheet.c:965
 msgid "How to format displayed expressions, (a convenience api)"
@@ -11499,19 +11423,19 @@ msgstr "Как форматировать отображаемые выраже�
 
 #: ../src/sheet.c:971
 msgid "Tab Foreground"
-msgstr "Передний план"
+msgstr "Передний план ярлыка"
 
 #: ../src/sheet.c:972
 msgid "The foreground color of the tab."
-msgstr "Цвет текста таблицы."
+msgstr "Цвет текста ярлыка."
 
 #: ../src/sheet.c:977
 msgid "Tab Background"
-msgstr "Фон"
+msgstr "Фон ярлыка"
 
 #: ../src/sheet.c:978
 msgid "The background color of the tab."
-msgstr "Цвет фона таблицы."
+msgstr "Цвет фона ярлыка."
 
 #: ../src/sheet.c:985
 msgid "Zoom Factor"
@@ -11599,7 +11523,6 @@ msgid "List the available exporters"
 msgstr "Список доступных модулей экспорта"
 
 #: ../src/ssconvert.c:117
-#, fuzzy
 msgid ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time"
@@ -11608,9 +11531,8 @@ msgstr ""
 "только один лист."
 
 #: ../src/ssconvert.c:124
-#, fuzzy
 msgid "Recalculate all cells before writing the result"
-msgstr "Пересчитать все ячейки перед записью результата."
+msgstr "Пересчитать все ячейки перед записью результата"
 
 #: ../src/ssconvert.c:135
 msgid "The range to export"
@@ -11631,7 +11553,7 @@ msgstr "Не удалось разобрать параметры экспорт
 #: ../src/ssconvert.c:208
 #, c-format
 msgid "The file saver does not take options"
-msgstr ""
+msgstr "Модуль сохранения файла не принимает параметры"
 
 #: ../src/ssconvert.c:343
 #, c-format
@@ -11639,9 +11561,9 @@ msgid "Name conflict during merge: '%s' appears twice at workbook scope.\n"
 msgstr ""
 
 #: ../src/ssconvert.c:457
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create solver"
-msgstr "Сбой при чтении заголовка DBF."
+msgstr ""
 
 #: ../src/ssconvert.c:470
 #, c-format
@@ -11649,9 +11571,9 @@ msgid "Solver ran, but failed"
 msgstr ""
 
 #: ../src/ssconvert.c:480
-#, fuzzy, c-format
+#, c-format
 msgid "Solver: %s\n"
-msgstr "Решить"
+msgstr "Поиск решения: %s\n"
 
 #: ../src/ssconvert.c:500
 #, c-format
@@ -11714,7 +11636,7 @@ msgstr ""
 "каталог данных: \"%s\"\n"
 "каталог библиотек: \"%s\"\n"
 
-#: ../src/ssconvert.c:693 ../src/ssindex.c:264
+#: ../src/ssconvert.c:693 ../src/ssindex.c:266
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Используйте: %s [ПАРАМЕТРЫ...] %s\n"
@@ -11733,7 +11655,7 @@ msgstr "Получение шаблонов из файла, по одному �
 
 #: ../src/ssgrep.c:80
 msgid "Pattern is a set of fixed strings"
-msgstr ""
+msgstr "Шаблон -- это набор фиксированных строк"
 
 #: ../src/ssgrep.c:87
 msgid "Print the filename for each match"
@@ -11761,7 +11683,7 @@ msgstr "Печатать положение каждого совпадения"
 
 #: ../src/ssgrep.c:129
 msgid "Suppress all normal output"
-msgstr ""
+msgstr "Отключить весь нормальный вывод"
 
 #: ../src/ssgrep.c:136
 msgid "Search results of expressions too"
@@ -11824,11 +11746,11 @@ msgstr "Список типов MIME, которые ssindex может чита
 msgid "Index the given files"
 msgstr "Индексировать заданные файлы"
 
-#: ../src/ssindex.c:246 ../src/ssindex.c:266
+#: ../src/ssindex.c:248 ../src/ssindex.c:268
 msgid "INFILE..."
 msgstr "INFILE..."
 
-#: ../src/ssindex.c:260
+#: ../src/ssindex.c:262
 #, c-format
 msgid ""
 "ssindex version '%s'\n"
@@ -11957,7 +11879,6 @@ msgid "Comma separated values (CSV)"
 msgstr "Значения разделённые запятыми (CSV)"
 
 #: ../src/tools/analysis-anova.c:122
-#, fuzzy
 msgid "ANOVA: Two-Factor Without Replication"
 msgstr "Дисперсионный анализ: двухфакторный без воспроизведения"
 
@@ -11994,9 +11915,8 @@ msgid "Insufficient space available for ANOVA table."
 msgstr "Недостаточно места для таблицы дисперсионного анализа."
 
 #: ../src/tools/analysis-anova.c:460
-#, fuzzy
 msgid "ANOVA: Two-Factor Fixed Effects With Replication"
-msgstr "Дисперсионный анализ: двухфакторный без воспроизведения"
+msgstr ""
 
 #. xgettext: this is a label for the first, second,... level of factor B in an ANOVA
 #: ../src/tools/analysis-anova.c:475
@@ -12033,7 +11953,6 @@ msgid "Two Factor ANOVA (%s),  with replication"
 msgstr "Двухфакторный дисперсионный анализ (%s) c воспроизведением"
 
 #: ../src/tools/analysis-anova.c:852
-#, fuzzy
 msgid "ANOVA"
 msgstr "Дисперсионный анализ"
 
@@ -12042,15 +11961,14 @@ msgid "Two Factor ANOVA"
 msgstr "Двухфакторный дисперсионный анализ"
 
 #: ../src/tools/analysis-auto-expression.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "Auto Expression (%s)"
-msgstr "Текст автовыражения"
+msgstr "Автовыражение (%s)"
 
 #: ../src/tools/analysis-auto-expression.c:115
 #: ../src/tools/analysis-auto-expression.c:118
-#, fuzzy
 msgid "Auto Expression"
-msgstr "Выражение"
+msgstr "Автоматическое выражение"
 
 #: ../src/tools/analysis-chi-squared.c:60
 msgid "[>=5]\"Test of Independence\";[<5][Red]\"Invalid Test of Independence\""
@@ -12188,21 +12106,21 @@ msgstr ""
 
 #: ../src/tools/analysis-histogram.c:243
 msgid "\"to\" * \"∞\""
-msgstr ""
+msgstr "\"до\" * \"∞\""
 
 #. translator note: do not translate the "General" part
 #. of the following strings.
 #: ../src/tools/analysis-histogram.c:255
 msgid "\"from\" * General"
-msgstr ""
+msgstr "\"от\" * General"
 
 #: ../src/tools/analysis-histogram.c:255
 msgid "\"above\" * General"
-msgstr ""
+msgstr "\"выше\" * General"
 
 #: ../src/tools/analysis-histogram.c:259
 msgid "\"from\" * \"−∞\";\"from\" * \"−∞\""
-msgstr ""
+msgstr "\"от\" * \"−∞\";\"от\" * \"−∞\""
 
 #: ../src/tools/analysis-histogram.c:415
 #, c-format
@@ -12237,7 +12155,7 @@ msgstr "Каплан-Мейер (%s)"
 #: ../src/tools/analysis-kaplan-meier.c:679
 #: ../src/tools/analysis-kaplan-meier.c:682
 msgid "Kaplan-Meier Estimates"
-msgstr ""
+msgstr "Оценки Каплан-Мейер"
 
 #: ../src/tools/analysis-normality.c:64
 msgid ""
@@ -12282,23 +12200,21 @@ msgid "/Alpha/p-Value/Statistic/N/Conclusion"
 msgstr ""
 
 #: ../src/tools/analysis-normality.c:165
-#, fuzzy
 msgid "Not normal"
-msgstr "Нормальное"
+msgstr ""
 
 #: ../src/tools/analysis-normality.c:166
 msgid "Possibly normal"
 msgstr ""
 
 #: ../src/tools/analysis-normality.c:193
-#, fuzzy, c-format
+#, c-format
 msgid "Normality Test (%s)"
-msgstr "t-Тест (%s)"
+msgstr "Тест нормальности (%s)"
 
 #: ../src/tools/analysis-normality.c:204 ../src/tools/analysis-normality.c:207
-#, fuzzy
 msgid "Normality Test"
-msgstr "Формат ячеек"
+msgstr "Тест нормальности"
 
 #: ../src/tools/analysis-principal-components.c:67
 msgid "Principal components analysis has insufficient space."
@@ -12311,18 +12227,16 @@ msgid ""
 msgstr ""
 
 #: ../src/tools/analysis-principal-components.c:112
-#, fuzzy
 msgid "Covariances:"
-msgstr "Ковариации"
+msgstr "Ковариации:"
 
 #: ../src/tools/analysis-principal-components.c:136
 msgid "/Count:/Mean:/Variance://Eigenvalues:/Eigenvectors:"
 msgstr ""
 
 #: ../src/tools/analysis-principal-components.c:141
-#, fuzzy
 msgid "Percent of Trace:"
-msgstr "Проценты"
+msgstr ""
 
 #: ../src/tools/analysis-principal-components.c:219
 #, c-format
@@ -12342,9 +12256,9 @@ msgid ""
 msgstr ""
 
 #: ../src/tools/analysis-sign-test.c:346 ../src/tools/analysis-sign-test.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "Sign Test (%s)"
-msgstr "z-Тест (%s)"
+msgstr ""
 
 #: ../src/tools/analysis-tools.c:191
 #, c-format
@@ -12672,62 +12586,60 @@ msgid "Filtered"
 msgstr "Фильтрованное"
 
 #: ../src/tools/gnm-solver.c:569
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid solver target"
-msgstr "Неверное число аргументов"
+msgstr ""
 
 #: ../src/tools/gnm-solver.c:579
-#, fuzzy, c-format
+#, c-format
 msgid "Target cell, %s, must contain a formula that evaluates to a number"
-msgstr "Целевая ячейка должна содержать формулу."
+msgstr "Целевая ячейка %s должна содержать формулу, рассчитывающую число"
 
 #: ../src/tools/gnm-solver.c:588
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid solver input range"
-msgstr "Недопустимое название сценария"
+msgstr "Недопустимый интервал входных ячеек для решения"
 
 #: ../src/tools/gnm-solver.c:598
-#, fuzzy, c-format
+#, c-format
 msgid "Input cell %s contains a formula"
-msgstr "Целевая ячейка должна содержать формулу."
+msgstr "Входная ячейка %s содержит формулу"
 
 #: ../src/tools/gnm-solver.c:612
-#, fuzzy, c-format
+#, c-format
 msgid "Solver constraint #%d is invalid"
-msgstr "Недопустимый диапазон списка."
+msgstr "Условие #%d некорректно."
 
 #: ../src/tools/gnm-solver.c:721 ../src/tools/gnm-solver.c:722
 msgid "Problem Type"
-msgstr ""
+msgstr "Тип задачи"
 
 #: ../src/tools/gnm-solver.c:968
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create file for linear program"
-msgstr "Не удалось создать временный файл для отправки."
+msgstr ""
 
 #: ../src/tools/gnm-solver.c:977
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create linear program file"
-msgstr "Не удалось создать временный файл для отправки."
+msgstr ""
 
 #: ../src/tools/gnm-solver.c:997
 #, c-format
 msgid "Failed to save linear program"
-msgstr ""
+msgstr "Не удалось сохранить линейную программу"
 
 #: ../src/tools/gnm-solver.c:1014
-#, fuzzy
 msgid "status"
-msgstr "Состояние"
+msgstr "состояние"
 
 #: ../src/tools/gnm-solver.c:1015
 msgid "The solver's current status"
 msgstr ""
 
 #: ../src/tools/gnm-solver.c:1023
-#, fuzzy
 msgid "Solver parameters"
-msgstr "Разделители"
+msgstr "Параметры решения"
 
 #: ../src/tools/gnm-solver.c:1031
 msgid "Current best feasible result"
@@ -12768,22 +12680,21 @@ msgstr ""
 
 #: ../src/tools/random-generator-cor.c:76
 msgid "Uncorrelated Random Variables"
-msgstr ""
+msgstr "Некоррелированные случайные числа"
 
 #: ../src/tools/random-generator-cor.c:101
 msgid "Correlated Random Variables"
-msgstr ""
+msgstr "Коррелированные случайные числа"
 
 #: ../src/tools/random-generator-cor.c:143
-#, fuzzy, c-format
+#, c-format
 msgid "Correlated Random Numbers (%s)"
-msgstr "Случайные числа (%s)"
+msgstr "Коррелированные случайные числа (%s)"
 
 #: ../src/tools/random-generator-cor.c:154
 #: ../src/tools/random-generator-cor.c:157
-#, fuzzy
 msgid "Correlated Random Numbers"
-msgstr "Случайные числа"
+msgstr "Коррелированные случайные числа"
 
 #: ../src/tools/simulation.c:93
 msgid ""
@@ -12838,17 +12749,14 @@ msgid "Count"
 msgstr "Количество"
 
 #: ../src/tools/simulation.c:258
-#, fuzzy
 msgid "Confidence (95%)"
-msgstr "Доверительный уровень (95 %)"
+msgstr "Доверительная вероятность (95 %)"
 
 #: ../src/tools/simulation.c:259
-#, fuzzy
 msgid "Lower Limit (95%)"
 msgstr "Нижний предел (95 %)"
 
 #: ../src/tools/simulation.c:260
-#, fuzzy
 msgid "Upper Limit (95%)"
 msgstr "Верхний предел (95 %)"
 
@@ -13231,7 +13139,7 @@ msgstr "Дисперсионный анализ"
 
 #: ../src/wbc-gtk-actions.c:1716
 msgid "Contin_gency Table"
-msgstr ""
+msgstr "Таблица случайностей"
 
 #: ../src/wbc-gtk-actions.c:1717
 msgid "F_orecast"
@@ -13258,9 +13166,8 @@ msgid "F_ill"
 msgstr "_Заполнить"
 
 #: ../src/wbc-gtk-actions.c:1723
-#, fuzzy
 msgid "_Random Generators"
-msgstr "Генерация случайных чисел..."
+msgstr "Случайные числа..."
 
 #: ../src/wbc-gtk-actions.c:1724
 msgid "_Group and Outline"
@@ -13340,7 +13247,7 @@ msgstr "Посмотреть веб-сайт Gnumeric"
 
 #: ../src/wbc-gtk-actions.c:1764
 msgid "_Live Assistance"
-msgstr "Живая помощь"
+msgstr "Помощь в Интернете"
 
 #: ../src/wbc-gtk-actions.c:1765
 msgid "See if anyone is available to answer questions"
@@ -13397,14 +13304,12 @@ msgid "Print the current file"
 msgstr "Печать текущего файла"
 
 #: ../src/wbc-gtk-actions.c:1811
-#, fuzzy
 msgid "Document Proper_ties..."
-msgstr "Свойства..."
+msgstr "Свойства докумен_та..."
 
 #: ../src/wbc-gtk-actions.c:1812
-#, fuzzy
 msgid "Edit document properties"
-msgstr "Свойства ползунка"
+msgstr "Редактировать свойства документа"
 
 #: ../src/wbc-gtk-actions.c:1814
 msgid "Full _History..."
@@ -13503,14 +13408,12 @@ msgid "Select all the cells are used by the current edit cell"
 msgstr "Выделить все ячейки, от которых зависит редактируемая ячейка"
 
 #: ../src/wbc-gtk-actions.c:1889
-#, fuzzy
 msgid "Next _Object"
-msgstr "Вырезать объект"
+msgstr "Следующий _объект"
 
 #: ../src/wbc-gtk-actions.c:1890
-#, fuzzy
 msgid "Select the next sheet object"
-msgstr "Выбрать все непустые таблицы для экспорта."
+msgstr "Выбрать следующий объект таблицы"
 
 #: ../src/wbc-gtk-actions.c:1893
 msgid "_Goto cell..."
@@ -13759,14 +13662,12 @@ msgid "Modify the formatting of the selected cells"
 msgstr "Изменить форматирование выделенных ячеек"
 
 #: ../src/wbc-gtk-actions.c:2023
-#, fuzzy
 msgid "View _Properties..."
-msgstr "Свойства..."
+msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2024
-#, fuzzy
 msgid "Modify the view properties"
-msgstr "Изменить атрибуты рабочей книги"
+msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2026
 msgid "_Autoformat..."
@@ -13832,7 +13733,7 @@ msgstr "Убедиться, что высота строк достаточна 
 
 #: ../src/wbc-gtk-actions.c:2058
 msgid "Hide the selected rows"
-msgstr "Скрыт выделенные строки"
+msgstr "Скрыть выделенные строки"
 
 #: ../src/wbc-gtk-actions.c:2061
 msgid "Make any hidden rows in the selection visible"
@@ -13873,7 +13774,7 @@ msgstr "Автоматически сохранять текущий докум�
 
 #: ../src/wbc-gtk-actions.c:2077
 msgid "_Goal Seek..."
-msgstr "Поиск цели..."
+msgstr "Подбор параметра..."
 
 #: ../src/wbc-gtk-actions.c:2078
 msgid "Iteratively recalculate to find a target value"
@@ -13881,7 +13782,7 @@ msgstr "Итеративное перевычисление для поиска 
 
 #: ../src/wbc-gtk-actions.c:2080
 msgid "_Solver..."
-msgstr "Решение..."
+msgstr "Поиск решения..."
 
 #: ../src/wbc-gtk-actions.c:2081
 msgid "Iteratively recalculate with constraints to approach a target value"
@@ -14090,34 +13991,31 @@ msgstr "Сравнение дисперсий двух выборок"
 
 #: ../src/wbc-gtk-actions.c:2174
 msgid "_Kaplan-Meier Estimates..."
-msgstr ""
+msgstr "Оценки Каплан-Мейер..."
 
 #: ../src/wbc-gtk-actions.c:2175
 msgid "Creation of Kaplan-Meier Survival Curves"
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2177
-#, fuzzy
 msgid "_Normality Tests..."
-msgstr "Формат ячеек..."
+msgstr "Тесты нормальности..."
 
 #: ../src/wbc-gtk-actions.c:2178
 msgid "Testing a sample for normality"
-msgstr ""
+msgstr "Проверка нормальности выборки"
 
 #: ../src/wbc-gtk-actions.c:2180
 msgid "One M_edian Sign Test..."
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2181
-#, fuzzy
 msgid "Testing the value of a median"
-msgstr "Проверка различия двух средних"
+msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2183
-#, fuzzy
 msgid "T_wo Medians Sign Test..."
-msgstr "Две дисперсии: F-тест..."
+msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2184
 msgid "Comparing the values of two medians"
@@ -14209,39 +14107,37 @@ msgstr ""
 "последовательностями"
 
 #: ../src/wbc-gtk-actions.c:2219
-#, fuzzy
 msgid "_Uncorrelated..."
-msgstr "Корреляция..."
+msgstr "_Некоррелированные..."
 
 #: ../src/wbc-gtk-actions.c:2220
 msgid "Generate random numbers of a selection of distributions"
 msgstr "Генерировать случайные числа с выбранным распределением"
 
 #: ../src/wbc-gtk-actions.c:2222
-#, fuzzy
 msgid "_Correlated..."
-msgstr "Корреляция..."
+msgstr "_Коррелированные..."
 
 #: ../src/wbc-gtk-actions.c:2223
 msgid "Generate variates for correlated normal distributed random variables"
 msgstr ""
+"Генерировать вариации коррелированных нормально распределенных значений"
 
 #: ../src/wbc-gtk-actions.c:2225
 msgid "Fill downwards"
-msgstr ""
+msgstr "Заполнить вниз"
 
 #: ../src/wbc-gtk-actions.c:2226
 msgid "Copy the content from the top row to the cells below"
-msgstr ""
+msgstr "Копировать содержимое верхней строки в ячейки расположенные ниже"
 
 #: ../src/wbc-gtk-actions.c:2227
-#, fuzzy
 msgid "Fill to right"
-msgstr "Заполнить по высоте"
+msgstr "Заполнить вправо"
 
 #: ../src/wbc-gtk-actions.c:2228
 msgid "Copy the content from the left column to the cells on the right"
-msgstr ""
+msgstr "Копировать содержимое левого столбца в ячейки расположенные справа"
 
 #. Data -> Outline
 #: ../src/wbc-gtk-actions.c:2232
@@ -14326,7 +14222,7 @@ msgstr "Обновить"
 
 #: ../src/wbc-gtk-actions.c:2266
 msgid "Regenerate a data slicer from the source data"
-msgstr "Перегенерировать срез из исходных данных"
+msgstr "Регенерировать срез из исходных данных"
 
 #: ../src/wbc-gtk-actions.c:2268
 msgid "_Edit Data Slicer..."
@@ -14604,9 +14500,8 @@ msgid "Display the value of a formula or the formula itself"
 msgstr "Показывать значение формулы или саму формулу"
 
 #: ../src/wbc-gtk-actions.c:2422
-#, fuzzy
 msgid "_Hide Zeros"
-msgstr "Скрыть нули"
+msgstr "_Скрыть нули"
 
 #: ../src/wbc-gtk-actions.c:2423
 msgid "Toggle whether or not to display zeros as blanks"
@@ -14876,9 +14771,8 @@ msgid "Select (sorted)"
 msgstr ""
 
 #: ../src/wbc-gtk.c:1389
-#, fuzzy
 msgid " - Gnumeric"
-msgstr " : Gnumeric"
+msgstr " - Gnumeric"
 
 #: ../src/wbc-gtk.c:1530
 msgid "Un_freeze Panes"
@@ -15076,24 +14970,20 @@ msgid "Hide"
 msgstr "Скрыть"
 
 #: ../src/wbc-gtk.c:3673
-#, fuzzy
 msgid "Standard Toolbar"
 msgstr "Стандартная панель"
 
 #: ../src/wbc-gtk.c:3674
-#, fuzzy
 msgid "Format Toolbar"
 msgstr "Панель форматирования"
 
 #: ../src/wbc-gtk.c:3675
-#, fuzzy
 msgid "Long Format Toolbar"
-msgstr "Длинная панель форматирования"
+msgstr "Расширенная панель форматирования"
 
 #: ../src/wbc-gtk.c:3676
-#, fuzzy
 msgid "Object Toolbar"
-msgstr "Панель графических элементов"
+msgstr "Панель объектов"
 
 #: ../src/wbc-gtk.c:3690
 #, c-format
@@ -15105,14 +14995,12 @@ msgid "Use maximum precision"
 msgstr "Использовать максимальную точность"
 
 #: ../src/wbc-gtk.c:4337
-#, fuzzy
 msgid "Insert formula below."
-msgstr "Ввести формулу..."
+msgstr "Ввести формулу ниже."
 
 #: ../src/wbc-gtk.c:4343
-#, fuzzy
 msgid "Insert formula to side."
-msgstr "Ввести формулу..."
+msgstr "Ввести формулу сбоку."
 
 #: ../src/wbc-gtk.c:4454
 #, c-format
@@ -15169,7 +15057,7 @@ msgstr "С пиктограммой"
 
 #: ../src/widgets/gnumeric-expr-entry.c:921
 msgid "Should there be an icon to the right of the entry?"
-msgstr ""
+msgstr "Должна ли отображаться пиктограмма справа?"
 
 #: ../src/widgets/gnumeric-expr-entry.c:929
 msgid "The contents of the entry"
@@ -15197,7 +15085,7 @@ msgstr ""
 
 #: ../src/widgets/gnumeric-expr-entry.c:959
 msgid "Format for constants"
-msgstr ""
+msgstr "Формат констант"
 
 #: ../src/widgets/gnumeric-expr-entry.c:1739
 #, c-format
@@ -15205,17 +15093,16 @@ msgid "Expecting a single range"
 msgstr "Ожидается один диапазон"
 
 #: ../src/widgets/gnm-sheet-slicer-combo-view.c:116
-#, fuzzy
 msgid "<Blank>"
-msgstr "Чёрный"
+msgstr "<Чёрный>"
 
 #: ../src/widgets/gnumeric-text-view.c:247
 msgid "Thin"
-msgstr ""
+msgstr "Тонкий"
 
 #: ../src/widgets/gnumeric-text-view.c:248
 msgid "Ultralight"
-msgstr ""
+msgstr "Очень лёгкий"
 
 #: ../src/widgets/gnumeric-text-view.c:249
 msgid "Light"
@@ -15658,7 +15545,7 @@ msgstr "Шаблон в зелёных тонах"
 
 #: ../templates/autoformat/autoformat.List.green.xml.in.h:3
 msgid "Green"
-msgstr "Зеленый"
+msgstr "Зелёный"
 
 #: ../templates/autoformat/autoformat.List.lila.xml.in.h:2
 msgid "Lila"
@@ -15671,1072 +15558,3 @@ msgstr "Шаблон с лиловыми полосами"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "Простой шаблон для списка"
-
-#~ msgid "Objective Value"
-#~ msgstr "Действительное значение"
-
-#~ msgid "Constraints:"
-#~ msgstr "Ограничения:"
-
-#~ msgid "RHS"
-#~ msgstr "Справа"
-
-#~ msgid "Slack"
-#~ msgstr "Допуск"
-
-#~ msgid "Problem name was not defined in the file."
-#~ msgstr "Название проблемы не было определено в файле."
-
-#~ msgid "Invalid COLUMNS section in the file."
-#~ msgstr "Недопустимый раздел COLUMNS (столбцы) в файле."
-
-#~ msgid "Invalid RHS section in the file."
-#~ msgstr "Недопустимый раздел RHS в файле."
-
-#~ msgid "Invalid RANGES section in the file."
-#~ msgstr "Недопустимый раздел RANGES в файле."
-
-#~ msgid "Invalid BOUNDS section in the file."
-#~ msgstr "Недопустимый раздел BOUNDS в файле."
-
-#~ msgid ""
-#~ "@FUNCTION=PERL_FUNCTION_TEMPLATE\n"
-#~ "@SYNTAX=PERL_FUNCTION_TEMPLATE(value1, value2, ...)\n"
-#~ "@DESCRIPTION=This is the perl function template. \n"
-#~ msgstr ""
-#~ "@FUNCTION=PERL_FUNCTION_TEMPLATE\n"
-#~ "@SYNTAX=PERL_FUNCTION_TEMPLATE(значение1, значение2, ...)\n"
-#~ "@DESCRIPTION=Это шаблон функции perl.\n"
-
-#~ msgid "Correct _TWo INitial CApitals                           "
-#~ msgstr "Исправлять ДВе ПЕрвые ЗАглавные"
-
-#~ msgid "Do _not capitalize after:"
-#~ msgstr "Не делать заглавными после:"
-
-#~ msgid "Do _not correct:"
-#~ msgstr "Не исправлять:"
-
-#~ msgid "Re_place:"
-#~ msgstr "Заменить:"
-
-#~ msgid "_Replace text when typed"
-#~ msgstr "Заменить текст при наборе"
-
-#~ msgid "_With:"
-#~ msgstr "На:"
-
-#~ msgid "Could not create the AutoCorrect dialog."
-#~ msgstr "Невозможно создать диалог автокоррекции."
-
-#~ msgid "Paste type"
-#~ msgstr "Вставить тип"
-
-#~ msgid "Operation"
-#~ msgstr "Действие"
-
-#~ msgid "< Not available >"
-#~ msgstr "<Недоступно>"
-
-#~ msgid ""
-#~ "Solver found an optimal solution.  All constraints and optimality "
-#~ "conditions are satisfied.\n"
-#~ msgstr ""
-#~ "Найдено оптимальное решение. Все ограничения и условия оптимальности "
-#~ "выполнены.\n"
-
-#~ msgid ""
-#~ "Neither sensitivity nor limits report are meaningful if the program has "
-#~ "integer constraints.  These reports will not be created."
-#~ msgstr ""
-#~ "Отчёты о чувствительности и пределах не имеют смысла, если программа "
-#~ "имеет целочисленные ограничения. Эти отчёты не будут созданы."
-
-#~ msgid ""
-#~ "A feasible solution could not be found.  All specified constraints cannot "
-#~ "be met simultaneously. "
-#~ msgstr ""
-#~ "Подходящее решение не может быть найдено. Невозможно удовлетворить всем "
-#~ "ограничениям."
-
-#~ msgid ""
-#~ "The maximum number of iterations exceeded. The optimal value could not be "
-#~ "found."
-#~ msgstr ""
-#~ "Достигнуто максимальное число итераций. Оптимальное значение не может "
-#~ "быть найдено."
-
-#~ msgid "Unknown error."
-#~ msgstr "Неизвестная ошибка."
-
-#~ msgid "You have not specified a problem to be solved"
-#~ msgstr "Вы не указали какую проблему решать"
-
-#~ msgid "Constraint `%s' is for a cell that is not an input cell."
-#~ msgstr "Ограничение \"%s\" для ячейки не являющейся входной."
-
-#~ msgid "No constraints defined for the problem."
-#~ msgstr "Для проблемы не определены ограничения."
-
-#~ msgid "<small>Optional</small>"
-#~ msgstr "<small>Дополнительно</small>"
-
-#~ msgid "_Answer"
-#~ msgstr "Ответ"
-
-#~ msgid "_Limits"
-#~ msgstr "Пределы"
-
-#~ msgid "_Performance"
-#~ msgstr "Производительность"
-
-#~ msgid "_Sensitivity"
-#~ msgstr "Чувствительность"
-
-#~ msgid "Format Workbook"
-#~ msgstr "Формат книги"
-
-#~ msgid "Error while trying to build tree from autoformat template file"
-#~ msgstr "Ошибка при попытке построить файл шаблона автоформатирования"
-
-#~ msgid "Is not an autoformat template file"
-#~ msgstr "Не является файлом шаблона автоформата"
-
-#~ msgid "Invalid xml file. Tree is empty?"
-#~ msgstr "Испорченный файл XML. Дерево пусто?"
-
-#~ msgid ""
-#~ "Probability of an observation's\n"
-#~ "absolute value being larger than\n"
-#~ "the t-value's absolute value"
-#~ msgstr ""
-#~ "Вероятность наблюдения\n"
-#~ "абсолютного значения большего\n"
-#~ "чем абсолютное значение t"
-
-#~ msgid "Answer Report"
-#~ msgstr "Итоговый отчет"
-
-#~ msgid "Original Value"
-#~ msgstr "Исходное значение"
-
-#~ msgid "Final Value"
-#~ msgstr "Итоговое значение"
-
-#~ msgid "Cell Value"
-#~ msgstr "Значение ячейки"
-
-#~ msgid "Binding"
-#~ msgstr "Связывание"
-
-#~ msgid "Not Binding"
-#~ msgstr "Без связывания"
-
-#~ msgid "Assume that all variables are integers."
-#~ msgstr "Предполагать, что все переменные -- целые числа."
-
-#~ msgid "Target Cell (Maximize)"
-#~ msgstr "Целевая ячейка (Максимизировать)"
-
-#~ msgid "Target Cell (Minimize)"
-#~ msgstr "Целевая ячейка (Минимизировать)"
-
-#~ msgid "Adjustable Cells"
-#~ msgstr "Настраиваемые ячейки"
-
-#~ msgid "Sensitivity Report"
-#~ msgstr "Отчет о чувствительности"
-
-#~ msgid "Final"
-#~ msgstr "Финальный"
-
-#~ msgid "Reduced"
-#~ msgstr "Уменьшенный"
-
-#~ msgid "Objective"
-#~ msgstr "Целевой"
-
-#~ msgid "Allowable"
-#~ msgstr "Позволительный"
-
-#~ msgid "Cost"
-#~ msgstr "Стоимость"
-
-#~ msgid "Coefficient"
-#~ msgstr "Коэффициент"
-
-#~ msgid "Increase"
-#~ msgstr "Увеличить"
-
-#~ msgid "Decrease"
-#~ msgstr "Уменьшить"
-
-#~ msgid "Shadow"
-#~ msgstr "Тень"
-
-#~ msgid "Price"
-#~ msgstr "Цена"
-
-#~ msgid "R.H. Side"
-#~ msgstr "Правая сторона"
-
-#~ msgid "Infinity"
-#~ msgstr "Бесконечность"
-
-#~ msgid "Limits Report"
-#~ msgstr "Отчёт о пределах"
-
-#~ msgid "Target"
-#~ msgstr "Цель"
-
-#~ msgid "Adjustable"
-#~ msgstr "Настраиваемый"
-
-#~ msgid "Lower"
-#~ msgstr "Ниже"
-
-#~ msgid "Upper"
-#~ msgstr "Выше"
-
-#~ msgid "Performance Report"
-#~ msgstr "Отчёт о производительности"
-
-#~ msgid "Number of Iterations"
-#~ msgstr "Число итераций"
-
-#~ msgid "Minimization"
-#~ msgstr "Минимизация"
-
-#~ msgid "Maximization"
-#~ msgstr "Максимизация"
-
-#~ msgid "Optimal solution found"
-#~ msgstr "Найдено оптимальное решение"
-
-#~ msgid "Maximum number of iterations exceeded: optimization interrupted"
-#~ msgstr "Достигнуто максимальное число итераций: оптимизация прервана."
-
-#~ msgid "Maximum time exceeded: optimization interrupted"
-#~ msgstr "Исчерпано время: оптимизация прервана"
-
-#~ msgid "Integer Constraints"
-#~ msgstr "Целочисленные ограничения"
-
-#~ msgid "Boolean Constraints"
-#~ msgstr "Логические ограничения"
-
-#~ msgid "Number of"
-#~ msgstr "Число"
-
-#~ msgid "Elements"
-#~ msgstr "Элементы"
-
-#~ msgid "Non-zeros in"
-#~ msgstr "Ненулевые"
-
-#~ msgid "Ratio"
-#~ msgstr "Отношение"
-
-#~ msgid "User"
-#~ msgstr "Пользователь"
-
-#~ msgid "System"
-#~ msgstr "Система"
-
-#~ msgid "Time (sec.)"
-#~ msgstr "Время (сек.)"
-
-#~ msgid "CPU Model"
-#~ msgstr "Модель ЦПУ"
-
-#~ msgid "CPU MHz"
-#~ msgstr "ЦПУ МГц"
-
-#~ msgid "OS"
-#~ msgstr "ОС"
-
-#~ msgid "Model Assumptions:"
-#~ msgstr "Допущения модели:"
-
-#~ msgid "Autoscaling:"
-#~ msgstr "Автомасштабирование:"
-
-#~ msgid "Max Iterations:"
-#~ msgstr "Макс. число итераций"
-
-#~ msgid "Max Time:"
-#~ msgstr "Макс. время:"
-
-#~ msgid "Non-Negative"
-#~ msgstr "Неотрицательные"
-
-#~ msgid "Yes"
-#~ msgstr "Да"
-
-#~ msgid "No"
-#~ msgstr "Нет"
-
-#~ msgid "General Information"
-#~ msgstr "Общие сведения"
-
-#~ msgid "Computing Time"
-#~ msgstr "Время расчёта"
-
-#~ msgid "System Information"
-#~ msgstr "Информация о системе"
-
-#~ msgid "Program Report"
-#~ msgstr "Отчёт программы"
-
-#~ msgid "Assume that all variables take only positive values."
-#~ msgstr ""
-#~ "Предполагать, что все переменные принимают только положительные значения."
-
-#~ msgid "Minimize"
-#~ msgstr "Минимизировать"
-
-#~ msgid "Maximize"
-#~ msgstr "Максимизировать"
-
-#~ msgid "Equal to"
-#~ msgstr "Равняется"
-
-#~ msgid ""
-#~ "The LHS cells should contain formulas that yield proper numerical "
-#~ "values.  Specify valid LHS entries."
-#~ msgstr ""
-#~ "Ячейки слева должны содержать формулы, которые дают подходящие числовые "
-#~ "значения. Укажите правильные ячейки."
-
-#~ msgid ""
-#~ "The RHS cells should contain proper numerical values only.  Specify valid "
-#~ "RHS entries."
-#~ msgstr ""
-#~ "Ячейки справа должны содержать только подходящие числовые значения. "
-#~ "Укажите правильные ячейки."
-
-#~ msgid ""
-#~ "Some of the input cells contain non-numeric values.  Specify a valid "
-#~ "input range."
-#~ msgstr ""
-#~ "Некоторые из входных ячеек содержат нечисловые значения. Укажите "
-#~ "правильный входной диапазон."
-
-#~ msgid "Edit descriptive information"
-#~ msgstr "Изменить описательную информацию"
-
-#~ msgid "_Workbook..."
-#~ msgstr "Рабочая книга..."
-
-#~ msgid "_Gnumeric..."
-#~ msgstr "Gnumeric..."
-
-#~ msgid "Edit the Gnumeric Preferences"
-#~ msgstr "Изменить настройки программы"
-
-#~ msgid "Label"
-#~ msgstr "Метка"
-
-#~ msgid "Create a label"
-#~ msgstr "Создать метку"
-
-#~ msgid "Unparsable xml in clipboard"
-#~ msgstr "Невозможно разобрать XML из буфера обмена"
-
-#~ msgid "Clipboard is in unknown format"
-#~ msgstr "Неизвестный формат в буфере обмена"
-
-#~ msgid "Processing file..."
-#~ msgstr "Обработка файла..."
-
-#~ msgid "The file is not a Gnumeric Workbook file"
-#~ msgstr "Это не файл рабочей книги Gnumeric"
-
-#~ msgid "Gnumeric XML (*.gnumeric) Old slow importer"
-#~ msgstr "Gnumeric XML (*.gnumeric) старый медленный модуль импорта"
-
-#~ msgid "a, b, rho"
-#~ msgstr "a, b, rho"
-
-#~ msgid "real,im,suffix"
-#~ msgstr "действительная,мнимая,суффикс"
-
-#~ msgid "inumber"
-#~ msgstr "комплексное число"
-
-#~ msgid "inumber,inumber"
-#~ msgstr "комплексное число,комплексное число,"
-
-#~ msgid "database,field,criteria"
-#~ msgstr "база данных, поле, критерий"
-
-#~ msgid "pivot_table,field_name"
-#~ msgstr "сводная, название поля"
-
-#~ msgid "year,month,day"
-#~ msgstr "год, месяц, день"
-
-#~ msgid "date_str"
-#~ msgstr "строка даты"
-
-#~ msgid "date1,date2,interval"
-#~ msgstr "дата1, дата2, интервал"
-
-#~ msgid "date1,date2,method"
-#~ msgstr "дата1, дата2, метод"
-
-#~ msgid "date,months"
-#~ msgstr "дата, месяцы"
-
-#~ msgid "start_date,months"
-#~ msgstr "начальная дата, месяцы"
-
-#~ msgid "start_date,end_date,holidays"
-#~ msgstr "начальная дата, конечная дата, праздники"
-
-#~ msgid "hours,minutes,seconds"
-#~ msgstr "часы, минуты, секунды"
-
-#~ msgid "timetext"
-#~ msgstr "текст времени"
-
-#~ msgid "date,days,holidays"
-#~ msgstr "дата, дни, праздники"
-
-#~ msgid "unixtime"
-#~ msgstr "время UNIX"
-
-#~ msgid "serial"
-#~ msgstr "последовательное"
-
-#~ msgid "traffic,circuits"
-#~ msgstr "нагрузка, линии"
-
-#~ msgid "traffic,gos"
-#~ msgstr "нагрузка, доступность"
-
-#~ msgid "circuits,gos"
-#~ msgstr "линии, доступность"
-
-#, fuzzy
-#~ msgid "rate,values"
-#~ msgstr "Другие значения"
-
-#~ msgid "info_type, cell"
-#~ msgstr "info_type, ячейка"
-
-#~ msgid "value"
-#~ msgstr "значение"
-
-#~ msgid "info_type"
-#~ msgstr "info_type"
-
-#~ msgid "range"
-#~ msgstr "диапазон"
-
-#~ msgid "text"
-#~ msgstr "текст"
-
-#~ msgid "number,number,"
-#~ msgstr "число, число,"
-
-#~ msgid "number"
-#~ msgstr "число"
-
-#, fuzzy
-#~ msgid "value,value"
-#~ msgstr "значение"
-
-#~ msgid "row_num,col_num,abs_num,a1,text"
-#~ msgstr "номер строки, номер столбца, абсолютное, a1, текст"
-
-#~ msgid "reference"
-#~ msgstr "ссылка"
-
-#~ msgid "index,value,"
-#~ msgstr "индекс, значение"
-
-#~ msgid "ref"
-#~ msgstr "ссылка"
-
-#~ msgid "colname"
-#~ msgstr "название столбца"
-
-#~ msgid "array"
-#~ msgstr "массив"
-
-#~ msgid "xnum,ynum"
-#~ msgstr "xnum,ynum"
-
-#~ msgid "a,b"
-#~ msgstr "a,b"
-
-#~ msgid "range,criteria"
-#~ msgstr "диапазон, критерий"
-
-#~ msgid "n,k"
-#~ msgstr "n,k"
-
-#~ msgid "number,number"
-#~ msgstr "число, число"
-
-#~ msgid "number,base"
-#~ msgstr "число, основание"
-
-#~ msgid "number,multiple"
-#~ msgstr "число, множитель"
-
-#~ msgid "base,exponent"
-#~ msgstr "основание, степень"
-
-#~ msgid "number,type"
-#~ msgstr "число, тип"
-
-#~ msgid "number,digits"
-#~ msgstr "число, цифры"
-
-#~ msgid "x,n,m,coefficients"
-#~ msgstr "x,n,m, коэффициенты"
-
-#~ msgid "range,range,"
-#~ msgstr "диапазон, диапазон, "
-
-#~ msgid "array1,array2"
-#~ msgstr "массив1, массив2"
-
-#~ msgid "p"
-#~ msgstr "p"
-
-#~ msgid "bottom,top"
-#~ msgstr "низ, верх"
-
-#~ msgid "a"
-#~ msgstr "a"
-
-#~ msgid "nu"
-#~ msgstr "ню"
-
-#~ msgid "nu1,nu2"
-#~ msgstr "ню1, ню2"
-
-#~ msgid "a,sigma"
-#~ msgstr "a, сигма"
-
-#~ msgid "a,b,type"
-#~ msgstr "a, b, тип"
-
-#~ msgid "c,alpha,beta"
-#~ msgstr "c, альфа, бета"
-
-#~ msgid "zeta,sigma"
-#~ msgstr "зета, сигма"
-
-#~ msgid "mean,stdev"
-#~ msgstr "среднее, ст.отклонение"
-
-#~ msgid "lambda"
-#~ msgstr "лямбда"
-
-#~ msgid "sigma"
-#~ msgstr "сигма"
-
-#~ msgid "d1,d2,...,dN"
-#~ msgstr "d1,d2,...,dN"
-
-#, fuzzy
-#~ msgid "number1,number2,"
-#~ msgstr "число, число,"
-
-#~ msgid "k,p"
-#~ msgstr "k,p"
-
-#~ msgid "x,alpha,beta,a,b"
-#~ msgstr "x, альфа, бета, a, b"
-
-#~ msgid "p,alpha,beta,a,b"
-#~ msgstr "p, альфа, бета, a, b,"
-
-#, fuzzy
-#~ msgid "x,a,cumulative"
-#~ msgstr "Кумулятивный %"
-
-#, fuzzy
-#~ msgid "x,known_y's,known_x's"
-#~ msgstr "известное y, известное x"
-
-#, fuzzy
-#~ msgid "x,alpha,beta,cumulative"
-#~ msgstr "x, альфа, бета, a, b"
-
-#, fuzzy
-#~ msgid "p,alpha,beta"
-#~ msgstr "c, альфа, бета"
-
-#~ msgid "known_y's,known_x's"
-#~ msgstr "известное y, известное x"
-
-#, fuzzy
-#~ msgid "known_y's,known_x's,affine,stat"
-#~ msgstr "известное y, известное x"
-
-#~ msgid "f,t,p"
-#~ msgstr "f,t,p"
-
-#~ msgid "array,k"
-#~ msgstr "массив, k"
-
-#, fuzzy
-#~ msgid "area1,area2,"
-#~ msgstr "массив1, массив2"
-
-#~ msgid "x,a,b"
-#~ msgstr "x,a,b"
-
-#, fuzzy
-#~ msgid "k,p,cumulative"
-#~ msgstr "Кумулятивный %"
-
-#~ msgid "x,a"
-#~ msgstr "x,a"
-
-#~ msgid "x,sigma"
-#~ msgstr "x, сигма"
-
-#~ msgid "x,a,sigma"
-#~ msgstr "x,a,сигма"
-
-#~ msgid "text,text,"
-#~ msgstr "текст, текст, "
-
-#~ msgid "text1,text2"
-#~ msgstr "текст1, текст2"
-
-#~ msgid "text1,text2,num"
-#~ msgstr "текст1, текст2, число"
-
-#, fuzzy
-#~ msgid "text,num_bytes"
-#~ msgstr "текст, число"
-
-#~ msgid "text,num"
-#~ msgstr "текст, число"
-
-#~ msgid "text,old,new,num"
-#~ msgstr "текст, старое, новое, число"
-
-#~ msgid "condition,if true,if false"
-#~ msgstr "условие, если истинно, если ложно"
-
-#~ msgid "Search Center"
-#~ msgstr "Поиск центра"
-
-#~ msgid "_Find..."
-#~ msgstr "_Найти..."
-
-#~ msgid "R_eplace..."
-#~ msgstr "Зам_енить..."
-
-#, fuzzy
-#~ msgid "Missing theme"
-#~ msgstr "Ошибочное имя файла."
-
-#, fuzzy
-#~ msgid "Missing record '%d'"
-#~ msgstr "Пропущено закрывающее 'E'"
-
-#~ msgid "n,t,p,c"
-#~ msgstr "n,t,p,c"
-
-#~ msgid "arr1,arr2"
-#~ msgstr "массив1,массив2"
-
-#~ msgid "values,k,"
-#~ msgstr "значения,к,"
-
-#~ msgid "Open/Star Office spreadsheet"
-#~ msgstr "Таблица Open/Star Office"
-
-#~ msgid "OpenCalc/StarCalc"
-#~ msgstr "OpenCalc/StarCalc"
-
-#~ msgid "OpenDocument/OpenOffice _UNFINISHED_ (*.ods)"
-#~ msgstr "OpenDocument/OpenOffice _НЕЗАВЕРШЁННЫЙ_ (*.ods)"
-
-#~ msgid ""
-#~ "This value determines the default number of pages a printout of the "
-#~ "current sheet is supposed to be wide. 0 disables scaling. Please use the "
-#~ "Print Setup dialog to edit this value."
-#~ msgstr ""
-#~ "Это значение определяет исходное количество страниц печати в ширину для "
-#~ "текущего листа. 0 отключает масштабирование. Используйте диалог настройки "
-#~ "печати для изменения этого значения."
-
-#~ msgid ""
-#~ "Setting this option will cause the sort buttons on the toolbar to assume "
-#~ "that the area to be sorted has a header and determine the initial state "
-#~ "of the has-header checkbox in the sort dialog."
-#~ msgstr ""
-#~ "Установка этого параметра приведёт к тому, что при сортировке с помощью "
-#~ "кнопки на панели инструментов будет предполагаться, что сортируемая "
-#~ "область имеет заголовок. Соответствующим образом будет определяться "
-#~ "исходное значение переключателя \"Область сортировки содержит заголовок\" "
-#~ "в диалоге сортировки."
-
-#~ msgid "Sort Area Has Header"
-#~ msgstr "Область сортировки содержит заголовок"
-
-#~ msgid "Inserting %d columns before %s"
-#~ msgstr "Вставка %d столбцов перед %s"
-
-#~ msgid "Inserting %d rows before %s"
-#~ msgstr "Вставка %d строк перед %s"
-
-#~ msgid "Sort Area Has a HEADER"
-#~ msgstr "Область сортировки имеет заголовок"
-
-#~ msgid "New sheets must be given a name."
-#~ msgstr "Новые листы должны быть названы."
-
-#~ msgid "The sheet order has changed. Do you want to update the list?"
-#~ msgstr "Порядок таблиц был изменён. Хотите обновить лист?"
-
-#~ msgid ""
-#~ "\"\n"
-#~ "'\n"
-#~ "`\n"
-#~ msgstr ""
-#~ "\"\n"
-#~ "'\n"
-#~ "`\n"
-
-#~ msgid "<accessed>"
-#~ msgstr "Дата последнего доступа"
-
-#~ msgid "<created>"
-#~ msgstr "<cоздано>"
-
-#~ msgid "<group>"
-#~ msgstr "<группа>"
-
-#~ msgid "<location>"
-#~ msgstr "<расположение>"
-
-#~ msgid "<modified>"
-#~ msgstr "<изменено>"
-
-#~ msgid "<name.extension>"
-#~ msgstr "<имя.расширение>"
-
-#~ msgid "<owner>"
-#~ msgstr "<владелец>"
-
-#~ msgid "0.2"
-#~ msgstr "0.2"
-
-#~ msgid "Bin _labels"
-#~ msgstr "Двоичные метки"
-
-#~ msgid "Bin _range:"
-#~ msgstr "Двоичный диапазон:"
-
-#~ msgid "M_in:"
-#~ msgstr "Мин.:"
-
-#~ msgid "Ma_x:"
-#~ msgstr "Макс.:"
-
-#~ msgid "_Chart output"
-#~ msgstr "Вывод диаграммы"
-
-#~ msgid "_N:"
-#~ msgstr "N:"
-
-#~ msgid "_Change"
-#~ msgstr "Изменить"
-
-#~ msgid ""
-#~ "@FUNCTION=SUM\n"
-#~ "@SYNTAX=SUM(value1, value2, ...)\n"
-#~ "@DESCRIPTION=SUM computes the sum of all the values and cells referenced "
-#~ "in the argument list.\n"
-#~ "\n"
-#~ "* This function is Excel compatible.\n"
-#~ "@EXAMPLES=\n"
-#~ "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, "
-#~ "21, and 43.  Then\n"
-#~ "SUM(A1:A5) equals 107."
-#~ msgstr ""
-#~ "@FUNCTION=SUM\n"
-#~ "@SYNTAX=SUM(value1, value2, ...)\n"
-#~ "@DESCRIPTION=Вычисляет сумму всех значений и ячеек заданных в списке "
-#~ "аргументов.\n"
-#~ "\n"
-#~ "Эта функция совместима с Excel.\n"
-#~ "@EXAMPLES=\n"
-#~ "Допустим, что ячейки A1, A2, ..., A5 содержат числа 11, 15, 17, 21 и 43. "
-#~ "Тогда\n"
-#~ "SUM(A1:A5) равняется 107."
-
-#~ msgid ""
-#~ "@FUNCTION=PRODUCT\n"
-#~ "@SYNTAX=PRODUCT(value1, value2, ...)\n"
-#~ "@DESCRIPTION=PRODUCT returns the product of all the values and cells "
-#~ "referenced in the argument list.\n"
-#~ "\n"
-#~ "* This function is Excel compatible.  In particular, this means that if "
-#~ "all cells are empty, the result will be 0.\n"
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "PRODUCT(2,5,9) equals 90."
-#~ msgstr ""
-#~ "@FUNCTION=PRODUCT\n"
-#~ "@SYNTAX=PRODUCT(value1, value2, ...)\n"
-#~ "@DESCRIPTION=Возвращает произведение всех значений и ячеек перечисленных "
-#~ "в списке аргументов.\n"
-#~ "\n"
-#~ "Эта функция совместима с Excel.  В частности это означает, что если все "
-#~ "ячейки пусты результат равен 0.\n"
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "PRODUCT(2,5,9) равняется 90."
-
-#~ msgid ""
-#~ "@FUNCTION=GNUMERIC_VERSION\n"
-#~ "@SYNTAX=GNUMERIC_VERSION()\n"
-#~ "@DESCRIPTION=GNUMERIC_VERSION returns the version of gnumeric as a "
-#~ "string.\n"
-#~ "@EXAMPLES=\n"
-#~ "GNUMERIC_VERSION()."
-#~ msgstr ""
-#~ "@FUNCTION=GNUMERIC_VERSION\n"
-#~ "@SYNTAX=GNUMERIC_VERSION()\n"
-#~ "@DESCRIPTION=Возвращает строку содержащую номер версии gnumeric.\n"
-#~ "@EXAMPLES=\n"
-#~ "GNUMERIC_VERSION()."
-
-#~ msgid "Label Properties"
-#~ msgstr "Свойства метки"
-
-#~ msgid ""
-#~ "The cells dragged will overwrite the contents of the\n"
-#~ "existing cells in that range.  Do you want me to replace\n"
-#~ "the contents in this region?"
-#~ msgstr ""
-#~ "Переносимые ячейки перепишут содержимое существующих\n"
-#~ "в этом месте ячеек. Вы хотите заменить содержимое\n"
-#~ "в этой области?"
-
-#~ msgid "Enables some dependency related debugging functions"
-#~ msgstr "Разрешить некоторые отладочные функции относящиеся к зависимостям"
-
-#~ msgid "Enables some debugging functions for expression sharing"
-#~ msgstr "Разрешить некоторые отладочные функции для разделения выражений"
-
-#~ msgid ""
-#~ "Thank you for using Gnumeric!\n"
-#~ "\n"
-#~ "The version of Gnumeric you are using is quite old\n"
-#~ "by now.  It is likely that many bugs have been fixed\n"
-#~ "and that new features have been added in the meantime.\n"
-#~ "\n"
-#~ "Please consider upgrading before reporting any bugs.\n"
-#~ "Consult http://www.gnome.org/projects/gnumeric/ for details.\n"
-#~ "\n"
-#~ "-- The Gnumeric Team."
-#~ msgstr ""
-#~ "Благодарим за использование Gnumeric!\n"
-#~ "\n"
-#~ "Версия Gnumeric, которую вы используете очень стара.\n"
-#~ "Скорее всего к настоящему моменту существует более новая версия,\n"
-#~ "в которой исправлены многие ошибки и добавлено много новых возможностей.\n"
-#~ "\n"
-#~ "Пожалуйста, обновите программу прежде чем сообщать об ошибках.\n"
-#~ "Подробности можно найти по адресу http://www.gnumeric.org/\n"
-#~ "\n"
-#~ "-- Команда разработчиков Gnumeric."
-
-#~ msgid ""
-#~ "The Pango library present on your system is buggy, see\n"
-#~ "http://bugzilla.gnome.org/show_bug.cgi?id=316054\n"
-#~ "Editing rich text therefore does not work well.  Please check\n"
-#~ "with your distribution if a fixed Pango library is available."
-#~ msgstr ""
-#~ "Установленная в вашей системе библиотека Pango содержит ошибки, смотрите\n"
-#~ "http://bugzilla.gnome.org/show_bug.cgi?id=316054\n"
-#~ "Поэтому редактирование текста с форматированием не работает правильно.\n"
-#~ "Проверьте, доступна ли для вашего дистрибутива исправленная версия Pango."
-
-#~ msgid ""
-#~ "Some columns of data were dropped since they exceeded the available sheet "
-#~ "size."
-#~ msgstr ""
-#~ "Некоторые столбцы с данными были отброшены, так как они выходили за "
-#~ "пределы допустимого размера таблицы."
-
-#~ msgid "<%s"
-#~ msgstr "<%s"
-
-#~ msgid "Too Small"
-#~ msgstr "Слишком маленькое"
-
-#~ msgid "More"
-#~ msgstr "Далее"
-
-#~ msgid ">%s"
-#~ msgstr ">%s"
-
-#~ msgid "Too Large"
-#~ msgstr "Слишком большое"
-
-#~ msgid "Bin"
-#~ msgstr "Двоичное"
-
-#~ msgid "%"
-#~ msgstr "%"
-
-#~ msgid "/SUMMARY/Count/Sum/Average/Variance"
-#~ msgstr "/Итог/Количество/Сумма/Среднее/Дисперсия"
-
-#~ msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
-#~ msgstr ""
-#~ "/Дисперсионный анализ/Источник дисперсии/Строки/Столбцы/Ошибка/Всего"
-
-#~ msgid "Select _Column"
-#~ msgstr "Выделить столбец"
-
-#~ msgid "Select _Row"
-#~ msgstr "Выделить строку"
-
-#~ msgid "Select Arra_y"
-#~ msgstr "Выделить область"
-
-#~ msgid "Invalid '%s' record of length %hd instead of %d"
-#~ msgstr "Неправильная запись \"%s\" длиной %hd вместо %d"
-
-#~ msgid ""
-#~ "This build of Gnumeric can only hold %d rows.  Ignoring the rest of this "
-#~ "file.  You will need a custom build with SHEET_MAX_ROWS increased to read "
-#~ "this file."
-#~ msgstr ""
-#~ "Эта сборка Gnumeric поддерживает только %d строк. Остаток файла будет "
-#~ "проигнорирован. Чтобы прочесть этот файл необходимо пересобрать Gnumeric "
-#~ "с увеличенным значением SHEET_MAX_ROWS."
-
-#~ msgid ""
-#~ "There must be an equal number of entries for each variable in the "
-#~ "regression."
-#~ msgstr ""
-#~ "Число значений для каждой переменной в регрессии должно быть одинаковым."
-
-#~ msgid ""
-#~ "There are too few data points to conduct this regression.\n"
-#~ "There must be at least as many data points as free variables."
-#~ msgstr ""
-#~ "Слишком мало точек данных для проведения этой регрессии.\n"
-#~ "Должно быть хотя бы столько же сколько свободных переменных."
-
-#~ msgid ""
-#~ "Two or more of the independent variables are nearly linearly\n"
-#~ "dependent.  All numerical precision was lost in the computation."
-#~ msgstr ""
-#~ "Две или более независимых переменных почти линейно зависимы.\n"
-#~ "При вычислении будет утрачена точность."
-
-#~ msgid ""
-#~ "Two or more of the independent variables are linearly\n"
-#~ "dependent, and the regression cannot be calculated.\n"
-#~ "\n"
-#~ "Remove one of these\n"
-#~ "variables and try the regression again."
-#~ msgstr ""
-#~ "Две или более независимых переменных линейно зависимы,\n"
-#~ "регрессия не может быть вычислена.\n"
-#~ "\n"
-#~ "Удалите одну из этих переменных\n"
-#~ "и попробуйте ещё раз."
-
-#~ msgid ""
-#~ "Two or more of the independent variables are nearly linearly\n"
-#~ "dependent.  Treat the regression result with great care!"
-#~ msgstr ""
-#~ "Две или более независимых переменных почти линейно\n"
-#~ "зависимы. Отнеситесь к результатам регрессии скептически."
-
-#~ msgid "Undefined font record '%d'"
-#~ msgstr "Неопределённая запись шрифта \"%d\""
-
-#~ msgid "No stream named mimetype found."
-#~ msgstr "Не найден поток с названием mimetype."
-
-#~ msgid "Could not create the Cell-Sort dialog."
-#~ msgstr "Невозможно создать диалог сортировки ячеек."
-
-#~ msgid ""
-#~ "The items on this page customize the behaviour of the undo/redo system."
-#~ msgstr "Настройки на этой странице устанавливают поведение системы отмен."
-
-#~ msgid ""
-#~ "The items on this page customize the inital settings of the sort dialog "
-#~ "and the behaviour of the sort toolbar buttons."
-#~ msgstr ""
-#~ "Настройки на этой странице устанавливают исходные значения для диалога "
-#~ "сортировки и поведение кнопок сортировки на панели инструментов."
-
-#~ msgid "The items on this page customize the new default workbook."
-#~ msgstr ""
-#~ "Настройки на этой странице устанавливают исходные значения для новой "
-#~ "рабочей книги."
-
-#~ msgid ""
-#~ "The items on this page are related to the saving and opening of files."
-#~ msgstr ""
-#~ "Настройки на этой странице относятся к открытию и сохранению файлов."
-
-#~ msgid ""
-#~ "The items on this page are related to the screen layout and resolution."
-#~ msgstr ""
-#~ "Настройки на этой странице относятся к расположению и разрешению экрана."
-
-#~ msgid ""
-#~ "The items on this page and its subpages are related to various gnumeric "
-#~ "tools."
-#~ msgstr ""
-#~ "Настройки на этой странице и подчинённых ей относятся к различным "
-#~ "инструментам gnumeric."
-
-#~ msgid "The items on this page are related to copy, cut and paste."
-#~ msgstr ""
-#~ "Настройки на этой вкладке относятся к копированию, вырезанию и вставке."
-
-#~ msgid "Customize header"
-#~ msgstr "Настроить заголовок"
-
-#~ msgid "Layout:"
-#~ msgstr "Расположение:"
-
-#~ msgid "_Add:"
-#~ msgstr "Добавить:"
-
-#~ msgid "_Page"
-#~ msgstr "Страница"
-
-#~ msgid "<b>Content</b>"
-#~ msgstr "<b>Содержание</b>"
-
-#~ msgid "Enables some debugging functions"
-#~ msgstr "Разрешить некоторые отладочные функции"
-
-#~ msgid "Text export (configurable)"
-#~ msgstr "Экспорт текстового файла (настраиваемый)"
-
-#~ msgid "): ncalc (=%ld) != nb (=%ld); alpha=%"
-#~ msgstr "): ncalc (=%ld) != nb (=%ld); alpha=%"
-
-#~ msgid ". Arg. out of range?\n"
-#~ msgstr "Аргументы вне допустимого диапазона?\n"
-
-#~ msgid ",nu=%"
-#~ msgstr ",nu=%"
-
-#~ msgid "): precision lost in result\n"
-#~ msgstr "): результат имеет меньшую точность\n"
