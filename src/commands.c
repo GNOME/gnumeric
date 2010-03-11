@@ -7567,9 +7567,10 @@ cmd_autofilter_add_remove (WorkbookControl *wbc)
 	CmdAutofilterAddRemove *me;
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	GnmFilter *f = sv_editpos_in_filter (sv);
-	gboolean add = FALSE;
+	gboolean add = (f == NULL);
+	char *descr;
 
-	if (f == NULL) {
+	if (add) {
 		GnmRange region;
 		GnmRange const *src = selection_first_range (sv,
 			GO_CMD_CONTEXT (wbc), _("Add Filter"));
@@ -7583,31 +7584,41 @@ cmd_autofilter_add_remove (WorkbookControl *wbc)
 		if (src->start.row == src->end.row)
 			gnm_sheet_guess_region  (sv->sheet, &region);
 		if (region.start.row == region.end.row) {
-			go_cmd_context_error_invalid	(GO_CMD_CONTEXT (wbc),
-				 _("AutoFilter"), _("Requires more than 1 row"));
+			go_cmd_context_error_invalid
+				(GO_CMD_CONTEXT (wbc),
+				 _("AutoFilter"),
+				 _("Requires more than 1 row"));
 			return TRUE;
 		}
 		f = gnm_filter_new (sv->sheet, &region);
 		if (f == NULL) {
-			go_cmd_context_error_invalid	(GO_CMD_CONTEXT (wbc),
-				 _("AutoFilter"), _("Unable to create Autofilter"));
+			go_cmd_context_error_invalid
+				(GO_CMD_CONTEXT (wbc),
+				 _("AutoFilter"),
+				 _("Unable to create Autofilter"));
 			return TRUE;
 		}
 		gnm_filter_remove (f);
-		add = TRUE;
-	} else 
-		gnm_filter_remove (f);
-	
+
+		descr = g_strdup_printf (_("Add Autofilter to %s"),
+					 range_as_string (&(f->r)));
+	} else {
+		/*
+		 * Removing a filter.
+		 * This actual removal is in the redo handler.
+		 */
+		descr = g_strdup_printf (_("Remove Autofilter from %s"),
+					 range_as_string (&(f->r)));
+	}
+
 	me = g_object_new (CMD_AUTOFILTER_ADD_REMOVE_TYPE, NULL);
 
 	me->cmd.sheet = sv->sheet;
 	me->cmd.size = 1;
+	me->cmd.cmd_descriptor = descr;
 
 	me->filter = f;
 	me->add = add;
-
-	me->cmd.cmd_descriptor = add ? g_strdup_printf (_("Add Autofilter to %s"), range_as_string (&(f->r))) 
-		: g_strdup_printf (_("Remove Autofilter from %s"), range_as_string (&(f->r)));
 
 	sheet_redraw_all (sv->sheet, TRUE);
 

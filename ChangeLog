@@ -1,5 +1,8 @@
 2010-03-11  Morten Welinder  <terra@gnome.org>
 
+	* src/commands.c (cmd_autofilter_add_remove): Remove extra
+	gnm_filter_remove call.  Fixes #611073.
+
 	* src/print-info.c (page_setup_set_paper): Avoid some calls to
 	g_log even if we block the warnings it would print.  This helps
 	debugging.
