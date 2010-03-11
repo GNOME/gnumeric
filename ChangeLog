@@ -1,3 +1,9 @@
+2010-03-11  Morten Welinder  <terra@gnome.org>
+
+	* src/print-info.c (page_setup_set_paper): Avoid some calls to
+	g_log even if we block the warnings it would print.  This helps
+	debugging.
+
 2010-03-10  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object-cell-comment.c (comment_view_button_released,

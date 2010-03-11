@@ -979,6 +979,14 @@ print_info_set_margins (PrintInformation *pi,
 						 right, GTK_UNIT_POINTS);
 }
 
+static gboolean
+known_bad_paper (const char *paper)
+{
+	if (strcmp (paper, "") == 0)
+		return TRUE;
+	return FALSE;
+}
+
 
 static void
 paper_log_func (const gchar   *log_domain,
@@ -1032,7 +1040,10 @@ page_setup_set_paper (GtkPageSetup *page_setup, char const *paper)
 
 	/* Hack: gtk_paper_size_new warns on bad paper, so shut it up.  */
 	/* http://bugzilla.gnome.org/show_bug.cgi?id=493880 */
-	{
+	if (known_bad_paper (paper)) {
+		gtk_paper = NULL;
+		bad_paper = 1;
+	} else {
 		const char *domain = "Gtk";
 		guint handler = g_log_set_handler (domain, G_LOG_LEVEL_WARNING,
 						   paper_log_func, &bad_paper);
