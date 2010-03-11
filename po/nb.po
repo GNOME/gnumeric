@@ -1,13 +1,13 @@
 # Norwegian (bokmål dialect) translation of gnumeric.
 # Copyright (C) 1998-2004 Free Software Foundation, Inc.
-# Kjartan Maraas <kmaraas@gnome.org>, 1998-2009.
+# Kjartan Maraas <kmaraas@gnome.org>, 1998-2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.8.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-02 09:24-0500\n"
-"PO-Revision-Date: 2009-08-07 13:50+0200\n"
+"Report-Msgid-Bugs-To:\n"
+"POT-Creation-Date: 2010-03-11 10:07+0100\n"
+"PO-Revision-Date: 2010-03-11 10:25+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -456,14 +456,14 @@ msgid "Cannot convert 3D cell range to XLOPER."
 msgstr ""
 
 #: ../plugins/excelplugins/excelplugins.c:357
-#, fuzzy, c-format
+#, c-format
 msgid "Unsupported GnmValue type (%d)"
-msgstr "Ikke støttet Python-type: %s"
+msgstr "Ikke støttet GnmValue-type: (%d)"
 
 #: ../plugins/excelplugins/excelplugins.c:617
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s"
-msgstr "%s (%s)"
+msgstr "%s: %s"
 
 #: ../plugins/excelplugins/excelplugins.c:642
 #, c-format
@@ -497,9 +497,9 @@ msgid "Dynamic module loading is not supported on this system."
 msgstr ""
 
 #: ../plugins/excelplugins/excelplugins.c:950
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open module file \"%s\"."
-msgstr "Kunne ikke åpne fil '%s'"
+msgstr "Kunne ikke åpne modulfil '%s'."
 
 #: ../plugins/excelplugins/excelplugins.c:955
 #, c-format
@@ -526,12 +526,11 @@ msgstr ""
 
 #: ../plugins/excelplugins/plugin.xml.in.h:2
 msgid "Excel plugins"
-msgstr ""
+msgstr "Excel-tillegg"
 
 #: ../plugins/fn-christian-date/plugin.xml.in.h:1
-#, fuzzy
 msgid "Christian Date Functions"
-msgstr "Databasefunksjoner"
+msgstr "Kristne datofunksjoner"
 
 #: ../plugins/fn-christian-date/plugin.xml.in.h:2
 #: ../plugins/fn-date/plugin.xml.in.h:2
@@ -627,74 +626,64 @@ msgstr "Rentekalkulering"
 #. xgettext: Tishri to Adar II are transliterations of the
 #. xgettext: hebrew months' names using Latin characters.
 #: ../plugins/fn-hebrew-date/hdate_strings.c:106
-#, fuzzy
 msgid "Tishri"
-msgstr "Tynn"
+msgstr "Tishri"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:106
-#, fuzzy
 msgid "Heshwan"
-msgstr "Mindre enn"
+msgstr "Heshwan"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:106
-#, fuzzy
 msgid "Kislev"
-msgstr "Fil"
+msgstr "Kislev"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:107
-#, fuzzy
 msgid "Tebet"
-msgstr "Tekst"
+msgstr "Tebet"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:107
-#, fuzzy
 msgid "Shebat"
-msgstr "Ark"
+msgstr "Shebat"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:107
 msgid "Adar"
-msgstr ""
+msgstr "Adar"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:108
 msgid "Nisan"
-msgstr ""
+msgstr "Nisan"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:108
 msgid "Iyar"
-msgstr ""
+msgstr "Iyar"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:108
-#, fuzzy
 msgid "Sivan"
-msgstr "Sans"
+msgstr "Sivan"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:109
-#, fuzzy
 msgid "Ab"
-msgstr "b"
+msgstr "Ab"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:109
-#, fuzzy
 msgid "Elul"
-msgstr "Lik"
+msgstr "Elul"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:109
 msgid "Adar I"
-msgstr ""
+msgstr "Adar"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:109
 msgid "Adar II"
-msgstr ""
+msgstr "Adar II"
 
 #: ../plugins/fn-hebrew-date/plugin.xml.in.h:2
-#, fuzzy
 msgid "Functions manipulating Hebrew dates"
-msgstr "Funksjoner for manipulering av dato og klokkeslett"
+msgstr "Funksjoner for manipulering av hebraiske datoer"
 
 #: ../plugins/fn-hebrew-date/plugin.xml.in.h:3
-#, fuzzy
 msgid "Hebrew Date Functions"
-msgstr "Databasefunksjoner"
+msgstr "Hebraiske datofunksjoner"
 
 #. Path of the current directory or folder.
 #. Absolute A1-style reference, as text, prepended with "$A:"
@@ -897,9 +886,8 @@ msgid "Could not run GNOME database configuration tool ('%s')"
 msgstr ""
 
 #: ../plugins/gda/plugin.xml.in.h:1 ../plugins/gnome-db/plugin.xml.in.h:1
-#, fuzzy
 msgid "Data Bases..."
-msgstr "Database"
+msgstr "Databaser..."
 
 #: ../plugins/gda/plugin.xml.in.h:3
 msgid "Database functions for retrieval of data from a database."
@@ -911,21 +899,20 @@ msgid "Target cell did not evaluate to a number."
 msgstr ""
 
 #: ../plugins/glpk/glpk-write.c:346
-#, fuzzy
 msgid "Writing glpk file..."
-msgstr "Lagrer fil..."
+msgstr "Skriver glpk-fil..."
 
 #: ../plugins/glpk/gnm-glpk.c:54
 #, fuzzy, c-format
 msgid "The GLPK exporter is not available."
 msgstr "Forvalgt fillagrer ikke tilgjengelig."
 
-#: ../plugins/glpk/gnm-glpk.c:236
+#: ../plugins/glpk/gnm-glpk.c:237
 #, fuzzy, c-format
 msgid "Failed to create file for solution"
 msgstr "Kunne ikke opprette midlertidig fil for sending."
 
-#: ../plugins/glpk/gnm-glpk.c:285 ../plugins/lpsolve/gnm-lpsolve.c:280
+#: ../plugins/glpk/gnm-glpk.c:286 ../plugins/lpsolve/gnm-lpsolve.c:280
 #, c-format
 msgid ""
 "The %s program was not found.  You can either install it or use another "
@@ -1039,7 +1026,7 @@ msgstr "Forvalgt fillagrer ikke tilgjengelig."
 
 #: ../plugins/lpsolve/lpsolve-write.c:329
 msgid "Writing lpsolve file..."
-msgstr ""
+msgstr "Skriver lpsolve-fil..."
 
 #: ../plugins/lpsolve/plugin.xml.in.h:1
 #, fuzzy
@@ -1082,9 +1069,8 @@ msgid "Missing objective row"
 msgstr ""
 
 #: ../plugins/mps/mps.c:292
-#, fuzzy
 msgid "Invalid marker"
-msgstr "Ugyldig navn"
+msgstr "Ugyldig markør"
 
 #: ../plugins/mps/mps.c:342
 #, c-format
@@ -1504,9 +1490,8 @@ msgid "Could not find %s"
 msgstr "Kunne ikke finne %s"
 
 #: ../plugins/python-loader/plugin.xml.in.h:1
-#, fuzzy
 msgid "Python console"
-msgstr "Gnumeric Python-konsoll"
+msgstr "Python-konsoll"
 
 #: ../plugins/python-loader/plugin.xml.in.h:2
 msgid "Python plugin loader"
@@ -3289,14 +3274,12 @@ msgid "Set Frame Label"
 msgstr "Sett etikett for ramme"
 
 #: ../src/commands.c:7222
-#, fuzzy
 msgid "Configure Button"
-msgstr "Konfigurer"
+msgstr "Konfigurer knapp"
 
 #: ../src/commands.c:7303
-#, fuzzy
 msgid "Configure Radio Button"
-msgstr "Konfigurer"
+msgstr "Konfigurer radioknapp"
 
 #: ../src/commands.c:7379
 msgid "Configure Checkbox"
@@ -3319,24 +3302,22 @@ msgid "Requires more than 1 row"
 msgstr "Krever mer enn 1 rad"
 
 #: ../src/commands.c:7593
-#, fuzzy
 msgid "Unable to create Autofilter"
-msgstr "Kan ikke lese html-koden."
+msgstr "Kan ikke lage automatisk filter"
 
 #: ../src/commands.c:7609
-#, fuzzy, c-format
+#, c-format
 msgid "Add Autofilter to %s"
-msgstr "Legg til _AutoFilter"
+msgstr "Legg til automatisk filter til %s"
 
 #: ../src/commands.c:7610
-#, fuzzy, c-format
+#, c-format
 msgid "Remove Autofilter from %s"
-msgstr "Fjern _AutoFilter"
+msgstr "Fjern automatisk filter fra %s"
 
 #: ../src/commands.c:7681
-#, fuzzy
 msgid "Set Object Name"
-msgstr "Slett objekt"
+msgstr "Sett navn på objekt"
 
 #: ../src/consolidate.c:751
 #, c-format
@@ -4382,11 +4363,12 @@ msgid "Retain output range co_mments"
 msgstr "Behold k_ommentarer for utdataområde"
 
 #: ../src/dialogs/dao.glade.h:11
-#, fuzzy
 msgid ""
 "Values\n"
 "Formulas"
-msgstr "Formel"
+msgstr ""
+"Verdier\n"
+"Formeler"
 
 #: ../src/dialogs/dao.glade.h:13
 msgid "_Enter into cells:"
@@ -4926,33 +4908,32 @@ msgid "Alexander Kirillov"
 msgstr "Alexander Kirillov"
 
 #: ../src/dialogs/dialog-about.c:451
-#, fuzzy
 msgid "Gnumeric is the result of"
-msgstr "Gnumeric på _nett"
+msgstr "Gnumeric er resultatet av"
 
 #. Overlap.
 #: ../src/dialogs/dialog-about.c:457
 msgid "the efforts of many people."
-msgstr ""
+msgstr "mange menneskers innsats."
 
 #. Overlap.
 #: ../src/dialogs/dialog-about.c:464
 msgid "Your help is much appreciated!"
-msgstr ""
+msgstr "Din hjelp er høyt verdsatt!"
 
 #: ../src/dialogs/dialog-about.c:514
 msgid "We apologize if anyone was left out."
-msgstr ""
+msgstr "Vi beklager hvis noen har blitt utelatt."
 
 #. Overlap.
 #: ../src/dialogs/dialog-about.c:522
 msgid "Please contact us to correct mistakes."
-msgstr ""
+msgstr "Vennligst kontakt oss for å korrigere feil."
 
 #. Overlap.
 #: ../src/dialogs/dialog-about.c:530
 msgid "Report problems at http://bugzilla.gnome.org"
-msgstr ""
+msgstr "Rapporter problemer på http://bugzilla.gnome.org"
 
 #. Overlap.
 #: ../src/dialogs/dialog-about.c:535 ../src/dialogs/dialog-about.c:542
@@ -4964,17 +4945,16 @@ msgid "About Gnumeric"
 msgstr "Om Gnumeric"
 
 #: ../src/dialogs/dialog-about.c:567
-#, fuzzy
 msgid "Visit the Gnumeric website"
-msgstr "Se på Gnumeric's nettside"
+msgstr "Besøk Gnumeric's nettside"
 
 #: ../src/dialogs/dialog-about.c:569
 msgid "Copyright © 1998-2010"
-msgstr ""
+msgstr "Opphavsrett © 1998-2010"
 
 #: ../src/dialogs/dialog-about.c:570
 msgid "Free, Fast, Accurate - Pick Any Three!"
-msgstr ""
+msgstr "Fri, rask, nøyaktig - velg alle tre!"
 
 #: ../src/dialogs/dialog-advanced-filter.c:70
 msgid "The list range is invalid."
@@ -5704,27 +5684,27 @@ msgstr "%s (%s)"
 msgid "%s to %s"
 msgstr "%s til %s"
 
-#: ../src/dialogs/dialog-cell-sort.c:764
+#: ../src/dialogs/dialog-cell-sort.c:763
 msgid "no available row"
 msgstr "ingen tilgjengelig rad"
 
-#: ../src/dialogs/dialog-cell-sort.c:764
+#: ../src/dialogs/dialog-cell-sort.c:763
 msgid "no available column"
 msgstr "ingen tilgjengelig kolonne"
 
-#: ../src/dialogs/dialog-cell-sort.c:1018
+#: ../src/dialogs/dialog-cell-sort.c:1017
 msgid "Header"
 msgstr "Topptekst"
 
-#: ../src/dialogs/dialog-cell-sort.c:1023
+#: ../src/dialogs/dialog-cell-sort.c:1022
 msgid "Row/Column"
 msgstr "Rad/kolonne"
 
-#: ../src/dialogs/dialog-cell-sort.c:1043
+#: ../src/dialogs/dialog-cell-sort.c:1042
 msgid "Case Sensitive"
 msgstr "Skill mellom små-/store bokstaver"
 
-#: ../src/dialogs/dialog-cell-sort.c:1063
+#: ../src/dialogs/dialog-cell-sort.c:1062
 msgid "By Value"
 msgstr "Etter verdi"
 
@@ -6872,59 +6852,50 @@ msgid "Changing solver parameters"
 msgstr "Endrer egenskaper for ark"
 
 #: ../src/dialogs/dialog-solver.c:511
-#, fuzzy
 msgid "Ready"
-msgstr "Heltall"
+msgstr "Klar"
 
 #: ../src/dialogs/dialog-solver.c:514
-#, fuzzy
 msgid "Preparing"
-msgstr "Erstatter"
+msgstr "Forbereder"
 
 #: ../src/dialogs/dialog-solver.c:517
-#, fuzzy
 msgid "Prepared"
-msgstr "_Separert"
+msgstr "Forberedt"
 
 #: ../src/dialogs/dialog-solver.c:520
-#, fuzzy
 msgid "Running"
-msgstr "Kjør"
+msgstr "Kjører"
 
 #: ../src/dialogs/dialog-solver.c:529
-#, fuzzy
 msgid "Done"
-msgstr "Ingen"
+msgstr "Ferdig"
 
 #: ../src/dialogs/dialog-solver.c:533
-#, fuzzy
 msgid "Error"
-msgstr "Pil"
+msgstr "Feil"
 
 #: ../src/dialogs/dialog-solver.c:536
-#, fuzzy
 msgid "Cancelled"
-msgstr "_Avbryt"
+msgstr "Avbrutt"
 
 #: ../src/dialogs/dialog-solver.c:572
-#, fuzzy, c-format
+#, c-format
 msgid "Feasible: %s"
-msgstr "Oppnåelig"
+msgstr "Oppnåelig: %s"
 
 #: ../src/dialogs/dialog-solver.c:580
-#, fuzzy, c-format
+#, c-format
 msgid "Optimal: %s"
-msgstr "p,forsøk"
+msgstr "Optimal: %s"
 
 #: ../src/dialogs/dialog-solver.c:586
-#, fuzzy
 msgid "Infeasible"
-msgstr "Oppnåelig"
+msgstr "Ikke oppnåelig"
 
 #: ../src/dialogs/dialog-solver.c:590
-#, fuzzy
 msgid "Unbounded"
-msgstr "Uavgrenset problem"
+msgstr "Uavgrenset"
 
 #: ../src/dialogs/dialog-solver.c:636
 #, fuzzy
@@ -6932,35 +6903,32 @@ msgid "No suitable solver available."
 msgstr "Forvalgt fillagrer ikke tilgjengelig."
 
 #: ../src/dialogs/dialog-solver.c:648
-#, fuzzy
 msgid "Running Solver"
-msgstr "Problemløser"
+msgstr "Kjører problemløser"
 
 #: ../src/dialogs/dialog-solver.c:653
-#, fuzzy
 msgid "Stop"
-msgstr "Steg"
+msgstr "Stopp"
 
 #: ../src/dialogs/dialog-solver.c:658
 msgid "Stop the running solver"
-msgstr ""
+msgstr "Stopp kjørende problemløser"
 
 #: ../src/dialogs/dialog-solver.c:665
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: ../src/dialogs/dialog-solver.c:755
 msgid "Running solver"
-msgstr ""
+msgstr "Kjører problemløser"
 
 #: ../src/dialogs/dialog-solver.c:792
 msgid "Optimal solution created by solver.\n"
 msgstr "Optimal løsning funnet av problemløseren.\n"
 
 #: ../src/dialogs/dialog-solver.c:796
-#, fuzzy
 msgid "Feasible solution created by solver.\n"
-msgstr "Optimal løsning funnet av problemløseren.\n"
+msgstr "Oppnåelig løsning funnet av problemløseren.\n"
 
 #: ../src/dialogs/dialog-solver.c:1061
 msgid "Subject to the Constraints:"
@@ -7056,9 +7024,8 @@ msgid ""
 msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.glade.h:19
-#, fuzzy
 msgid "Save as default formatting"
-msgstr "Lagre som forvalgte innstillinger"
+msgstr "Lagre som forvalgt formattering"
 
 #: ../src/dialogs/dialog-stf-export.glade.h:20
 msgid "Select N_one"
@@ -7557,14 +7524,12 @@ msgid "Screen %d"
 msgstr "Skjerm %d"
 
 #: ../src/dialogs/dialog-workbook-attr.c:186
-#, fuzzy
 msgid "Widgets"
-msgstr "_Sider"
+msgstr "Komponenter"
 
 #: ../src/dialogs/dialog-workbook-attr.c:188
-#, fuzzy
 msgid "Auto Completion"
-msgstr "Bruk automatisk ufylling"
+msgstr "Automatisk fullføring"
 
 #: ../src/dialogs/dialog-zoom.glade.h:2
 #, no-c-format
@@ -8083,9 +8048,8 @@ msgid "Delete the selected fields and text"
 msgstr "Slett valgte felt og tekst"
 
 #: ../src/dialogs/hf-config.glade.h:5
-#, fuzzy
 msgid "Enter the format string for each section:"
-msgstr "Skriv inn formatstrengene for hver del:"
+msgstr "Skriv inn formatstreng for hver del:"
 
 #: ../src/dialogs/hf-config.glade.h:7
 msgid "Insert a spreadsheet cell"
@@ -8256,14 +8220,12 @@ msgid "Target _Range:"
 msgstr "Målom_råde:"
 
 #: ../src/dialogs/hyperlink.glade.h:5
-#, fuzzy
 msgid "Tip:"
-msgstr "_Tips:"
+msgstr "Tips:"
 
 #: ../src/dialogs/hyperlink.glade.h:6
-#, fuzzy
 msgid "Use default tip"
-msgstr "Br_uk forvalg"
+msgstr "Bruk forvalgt tips"
 
 #: ../src/dialogs/hyperlink.glade.h:7
 msgid "_File:"
@@ -8535,19 +8497,16 @@ msgid "Paste Name Definitions"
 msgstr "Lim inn navnedefinisjoner"
 
 #: ../src/dialogs/paste-special.glade.h:1
-#, fuzzy
 msgid "<b>Cell operation</b>"
-msgstr "<b>Lokasjon</b>"
+msgstr "<b>Operasjon på celle</b>"
 
 #: ../src/dialogs/paste-special.glade.h:2
-#, fuzzy
 msgid "<b>Paste type</b>"
-msgstr "<b>Mønster</b>"
+msgstr "<b>Type innliming</b>"
 
 #: ../src/dialogs/paste-special.glade.h:3
-#, fuzzy
 msgid "<b>Region operation</b>"
-msgstr "<b>Informasjon</b>"
+msgstr "<b>Operasjon på region</b>"
 
 #: ../src/dialogs/paste-special.glade.h:4
 msgid "A_dd"
@@ -8574,14 +8533,12 @@ msgid "D_o not change formul&#xE6;"
 msgstr ""
 
 #: ../src/dialogs/paste-special.glade.h:10
-#, fuzzy
 msgid "Fli_p Vertically"
-msgstr "_Vertikalt"
+msgstr "Ven_d vertikalt"
 
 #: ../src/dialogs/paste-special.glade.h:11
-#, fuzzy
 msgid "Flip Hori_zontally"
-msgstr "Fyll ut horisontalt"
+msgstr "Vend hori_sontalt"
 
 #: ../src/dialogs/paste-special.glade.h:12
 msgid "M_ultiply"
@@ -9444,9 +9401,8 @@ msgid "yyyyy"
 msgstr "yyyyy"
 
 #: ../src/dialogs/sheetobject-size.glade.h:1
-#, fuzzy
 msgid "Height in points:"
-msgstr "Radhøyde i punkter:"
+msgstr "Høyde i punkter:"
 
 #: ../src/dialogs/sheetobject-size.glade.h:2
 msgid "Object position relative to its current position:"
@@ -9454,7 +9410,7 @@ msgstr ""
 
 #: ../src/dialogs/sheetobject-size.glade.h:3
 msgid "Size & Position"
-msgstr ""
+msgstr "Størrelse og posisjon"
 
 #: ../src/dialogs/sheetobject-size.glade.h:4
 msgid ""
@@ -9463,24 +9419,20 @@ msgid ""
 msgstr ""
 
 #: ../src/dialogs/sheetobject-size.glade.h:5
-#, fuzzy
 msgid "Width in points:"
-msgstr "Kolonnebredde i punkter:"
+msgstr "Bredde i punkter:"
 
 #: ../src/dialogs/sheetobject-size.glade.h:6
-#, fuzzy
 msgid "_Height in pixels:"
-msgstr "_Radhøyde i piksler:"
+msgstr "_Høyde i piksler:"
 
 #: ../src/dialogs/sheetobject-size.glade.h:7
-#, fuzzy
 msgid "_Name:"
-msgstr "_Navn: "
+msgstr "_Navn:"
 
 #: ../src/dialogs/sheetobject-size.glade.h:8
-#, fuzzy
 msgid "_Width in pixels:"
-msgstr "_Kolonnebredde i piksler:"
+msgstr "_Bredde i piksler:"
 
 #: ../src/dialogs/sheetobject-size.glade.h:9
 #, fuzzy
@@ -9609,9 +9561,8 @@ msgid "Hypothesized _difference of medians:"
 msgstr "Hypotetisk _differanse mellom middelverdier:"
 
 #: ../src/dialogs/so-button.glade.h:1
-#, fuzzy
 msgid "Button Properties"
-msgstr "Egenskaper for liste"
+msgstr "Egenskaper for knapp"
 
 #: ../src/dialogs/so-button.glade.h:2 ../src/dialogs/so-checkbox.glade.h:3
 #: ../src/dialogs/so-frame.glade.h:3 ../src/dialogs/so-radiobutton.glade.h:1
@@ -9645,9 +9596,8 @@ msgid "_Link :"
 msgstr "_Lenke:"
 
 #: ../src/dialogs/so-radiobutton.glade.h:3
-#, fuzzy
 msgid "Radiobutton Properties"
-msgstr "Egenskaper for liste"
+msgstr "Egenskaper for radioknapp"
 
 #: ../src/dialogs/so-scrollbar.glade.h:2
 msgid "Increment:"
@@ -9872,9 +9822,8 @@ msgid "Unimplementented"
 msgstr "Uimplementert"
 
 #: ../src/dialogs/workbook-attr.glade.h:7
-#, fuzzy
 msgid "View Properties"
-msgstr "Egenskaper for rullefelt"
+msgstr "Vis egenskaper"
 
 #: ../src/dialogs/workbook-attr.glade.h:8
 msgid "_Horizontal Scrollbar"
@@ -9889,9 +9838,8 @@ msgid "_Vertical Scrollbar"
 msgstr "_Vertikalt rullefelt"
 
 #: ../src/dialogs/workbook-attr.glade.h:11
-#, fuzzy
 msgid "page 3"
-msgstr "side"
+msgstr "side 3"
 
 #: ../src/expr-name.c:510
 #, c-format
@@ -10159,9 +10107,9 @@ msgid "Missing fields in plugin file"
 msgstr ""
 
 #: ../src/gnm-plugin.c:636
-#, fuzzy, c-format
+#, c-format
 msgid "Solver Algorithm %s"
-msgstr "Algoritme:"
+msgstr "Algoritme for problemløser %s"
 
 #: ../src/gnm-plugin.c:734 ../src/gnm-plugin.c:806 ../src/gnm-plugin.c:852
 #, c-format
@@ -10415,7 +10363,7 @@ msgid "Exit immediately after loading the selected books"
 msgstr "Avslutt med én gang etter å ha åpnet de valgte arbeidsbøkene"
 
 #: ../src/main-application.c:227 ../src/ssconvert.c:657 ../src/ssgrep.c:434
-#: ../src/ssindex.c:253
+#: ../src/ssindex.c:255
 #, c-format
 msgid ""
 "%s\n"
@@ -11007,9 +10955,8 @@ msgid "Button"
 msgstr "Knapp"
 
 #: ../src/sheet-object-widget.c:670
-#, fuzzy
 msgid "Pressed Button"
-msgstr "Lag en knapp"
+msgstr "Nedtrykket knapp"
 
 #: ../src/sheet-object-widget.c:685
 #, fuzzy
@@ -11022,9 +10969,8 @@ msgid "Change widget"
 msgstr "Endre komponent"
 
 #: ../src/sheet-object-widget.c:1455
-#, fuzzy
 msgid "Adjustment Properties"
-msgstr "Egenskaper for liste"
+msgstr "Egenskaper for justering"
 
 #: ../src/sheet-object-widget.c:1606
 msgid "Configure Scrollbar"
@@ -11128,14 +11074,12 @@ msgid "Sheet Type"
 msgstr "Type ark"
 
 #: ../src/sheet.c:811
-#, fuzzy
 msgid "Which type of sheet this is."
-msgstr "Hvor synlig arket er."
+msgstr "Hvilken type ark dette er."
 
 #: ../src/sheet.c:819
-#, fuzzy
 msgid "Parent workbook"
-msgstr "_Beskytt arbeidsbok"
+msgstr "Opphavsarbeidsbok"
 
 #: ../src/sheet.c:820
 msgid "The workbook in which this sheet lives"
@@ -11581,7 +11525,7 @@ msgstr ""
 "datakatalog := «%s»\n"
 "bibliotekkatalog := «%s»\n"
 
-#: ../src/ssconvert.c:693 ../src/ssindex.c:264
+#: ../src/ssconvert.c:693 ../src/ssindex.c:266
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr ""
@@ -11696,11 +11640,11 @@ msgstr ""
 msgid "Index the given files"
 msgstr "Indekser gitte filer"
 
-#: ../src/ssindex.c:246 ../src/ssindex.c:266
+#: ../src/ssindex.c:248 ../src/ssindex.c:268
 msgid "INFILE..."
 msgstr "INNFIL..."
 
-#: ../src/ssindex.c:260
+#: ../src/ssindex.c:262
 #, c-format
 msgid ""
 "ssindex version '%s'\n"
@@ -11903,9 +11847,8 @@ msgid "Two Factor ANOVA (%s),  with replication"
 msgstr "Tofaktor ANOVA (%s), med replikering"
 
 #: ../src/tools/analysis-anova.c:852
-#, fuzzy
 msgid "ANOVA"
-msgstr "_ANOVA"
+msgstr "ANOVA"
 
 #: ../src/tools/analysis-anova.c:855
 msgid "Two Factor ANOVA"
@@ -12153,16 +12096,15 @@ msgid "/Alpha/p-Value/Statistic/N/Conclusion"
 msgstr ""
 
 #: ../src/tools/analysis-normality.c:165
-#, fuzzy
 msgid "Not normal"
-msgstr "Normal"
+msgstr "Ikke normal"
 
 #: ../src/tools/analysis-normality.c:166
 msgid "Possibly normal"
-msgstr ""
+msgstr "Mulig normal"
 
 #: ../src/tools/analysis-normality.c:193
-#, fuzzy, c-format
+#, c-format, fuzzy
 msgid "Normality Test (%s)"
 msgstr "t-test (%s)"
 
@@ -12182,9 +12124,8 @@ msgid ""
 msgstr ""
 
 #: ../src/tools/analysis-principal-components.c:112
-#, fuzzy
 msgid "Covariances:"
-msgstr "Kovarianser"
+msgstr "Kovarianser:"
 
 #: ../src/tools/analysis-principal-components.c:136
 msgid "/Count:/Mean:/Variance://Eigenvalues:/Eigenvectors:"
@@ -12574,9 +12515,8 @@ msgid "Failed to save linear program"
 msgstr ""
 
 #: ../src/tools/gnm-solver.c:1014
-#, fuzzy
 msgid "status"
-msgstr "Status"
+msgstr "status"
 
 #: ../src/tools/gnm-solver.c:1015
 msgid "The solver's current status"
@@ -12696,19 +12636,16 @@ msgid "Count"
 msgstr "Teller"
 
 #: ../src/tools/simulation.c:258
-#, fuzzy
 msgid "Confidence (95%)"
-msgstr "Konfidensnivå (95 %)"
+msgstr "Konfidensnivå (95%)"
 
 #: ../src/tools/simulation.c:259
-#, fuzzy
 msgid "Lower Limit (95%)"
-msgstr "Nedre grense (95 %)"
+msgstr "Nedre grense (95%)"
 
 #: ../src/tools/simulation.c:260
-#, fuzzy
 msgid "Upper Limit (95%)"
-msgstr "Øvre grense (95 %)"
+msgstr "Øvre grense (95%)"
 
 #: ../src/tools/simulation.c:328
 msgid "SUMMARY OF SIMULATION ROUND #"
@@ -13093,9 +13030,8 @@ msgid "F_orecast"
 msgstr "F_orhåndsmelding"
 
 #: ../src/wbc-gtk-actions.c:1718
-#, fuzzy
 msgid "Fre_quency Tables"
-msgstr "Forskjellige frekvenstabeller"
+msgstr "Fre_kvenstabeller"
 
 #: ../src/wbc-gtk-actions.c:1719
 msgid "Two _Means"
@@ -13254,14 +13190,12 @@ msgid "Print the current file"
 msgstr "Skriv ut aktiv fil"
 
 #: ../src/wbc-gtk-actions.c:1811
-#, fuzzy
 msgid "Document Proper_ties..."
-msgstr "Egenskape_r..."
+msgstr "Egenskape for dokumen_tr..."
 
 #: ../src/wbc-gtk-actions.c:1812
-#, fuzzy
 msgid "Edit document properties"
-msgstr "Egenskaper for liste"
+msgstr "Rediger Egenskaper for dokument"
 
 #: ../src/wbc-gtk-actions.c:1814
 msgid "Full _History..."
@@ -13362,9 +13296,8 @@ msgid "Select all the cells are used by the current edit cell"
 msgstr "Velg alle celler som brukes av cellen som redigeres"
 
 #: ../src/wbc-gtk-actions.c:1889
-#, fuzzy
 msgid "Next _Object"
-msgstr "Klipp ut objekt"
+msgstr "Neste _objekt"
 
 #: ../src/wbc-gtk-actions.c:1890
 #, fuzzy
@@ -13618,9 +13551,8 @@ msgid "Modify the formatting of the selected cells"
 msgstr "Modifiser formateringen til valgte celler"
 
 #: ../src/wbc-gtk-actions.c:2023
-#, fuzzy
 msgid "View _Properties..."
-msgstr "Egenskape_r..."
+msgstr "Egenska_per for visning..."
 
 #: ../src/wbc-gtk-actions.c:2024
 #, fuzzy
@@ -14088,9 +14020,8 @@ msgid "Copy the content from the top row to the cells below"
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2227
-#, fuzzy
 msgid "Fill to right"
-msgstr "Tilpass til høyde"
+msgstr "Fyll til høyde"
 
 #: ../src/wbc-gtk-actions.c:2228
 msgid "Copy the content from the left column to the cells on the right"
@@ -14462,7 +14393,6 @@ msgid "Display the value of a formula or the formula itself"
 msgstr "Vis verdien av en formel eller selve formelen"
 
 #: ../src/wbc-gtk-actions.c:2422
-#, fuzzy
 msgid "_Hide Zeros"
 msgstr "Sk_jul nuller"
 
@@ -14731,9 +14661,8 @@ msgid "Select (sorted)"
 msgstr "Velg (sortert)"
 
 #: ../src/wbc-gtk.c:1389
-#, fuzzy
 msgid " - Gnumeric"
-msgstr " : Gnumeric"
+msgstr " - Gnumeric"
 
 #: ../src/wbc-gtk.c:1530
 msgid "Un_freeze Panes"
@@ -14935,22 +14864,18 @@ msgid "Hide"
 msgstr "Skjul"
 
 #: ../src/wbc-gtk.c:3673
-#, fuzzy
 msgid "Standard Toolbar"
 msgstr "Standard verktøylinje"
 
 #: ../src/wbc-gtk.c:3674
-#, fuzzy
 msgid "Format Toolbar"
 msgstr "Verktøylinje for formattering"
 
 #: ../src/wbc-gtk.c:3675
-#, fuzzy
 msgid "Long Format Toolbar"
 msgstr "Lang verktøylinje for formattering"
 
 #: ../src/wbc-gtk.c:3676
-#, fuzzy
 msgid "Object Toolbar"
 msgstr "Verktøylinje for objekter"
 
@@ -15066,9 +14991,8 @@ msgid "Expecting a single range"
 msgstr "Forventer et enkelt område"
 
 #: ../src/widgets/gnm-sheet-slicer-combo-view.c:116
-#, fuzzy
 msgid "<Blank>"
-msgstr "Sort"
+msgstr "<Tom>"
 
 #: ../src/widgets/gnumeric-text-view.c:247
 msgid "Thin"
@@ -15540,792 +15464,3 @@ msgstr "Lilla mal for liste"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "Mal for en enkel liste"
-
-#~ msgid "Objective Value"
-#~ msgstr "Objektiv verdi"
-
-#~ msgid "Constraints:"
-#~ msgstr "Begrensninger:"
-
-#~ msgid "RHS"
-#~ msgstr "RHS"
-
-#~ msgid "Slack"
-#~ msgstr "Slark"
-
-#~ msgid "Problem name was not defined in the file."
-#~ msgstr "Problemnavnet var ikke definert i filen."
-
-#~ msgid "Invalid COLUMNS section in the file."
-#~ msgstr "Ugyldig KOLONNER-seksjon i filen."
-
-#~ msgid "Invalid RHS section in the file."
-#~ msgstr "Ugyldig RHS-seksjon i filen."
-
-#~ msgid "Invalid RANGES section in the file."
-#~ msgstr "Ugyldig OMRÅDER-seksjon i filen."
-
-#~ msgid "Invalid BOUNDS section in the file."
-#~ msgstr "Ugyldig GRENSER-seksjon i filen."
-
-#~ msgid "Correct _TWo INitial CApitals                           "
-#~ msgstr "Korriger _to store bokstaver i begynnelsen av ord"
-
-#~ msgid "Do _not capitalize after:"
-#~ msgstr "_Ikke bruk store bokstaver etter:"
-
-#~ msgid "Do _not correct:"
-#~ msgstr "I_kke korriger:"
-
-#~ msgid "Re_place:"
-#~ msgstr "E_rstatt:"
-
-#~ msgid "_Replace text when typed"
-#~ msgstr "E_rstatt tekst under skriving"
-
-#~ msgid "_With:"
-#~ msgstr "_Med:"
-
-#~ msgid "Could not create the AutoCorrect dialog."
-#~ msgstr "Kunne ikke opprette dialogen for autokorrektur."
-
-#~ msgid "Paste type"
-#~ msgstr "Lim inn type"
-
-#~ msgid "Operation"
-#~ msgstr "Operasjon"
-
-#~ msgid "Revised Simplex (GLPK 4.9)"
-#~ msgstr "Revidert Simplex (GLPK 4.9)"
-
-#~ msgid "< Not available >"
-#~ msgstr "< Ikke tilgjengelig >"
-
-#~ msgid ""
-#~ "Solver found an optimal solution.  All constraints and optimality "
-#~ "conditions are satisfied.\n"
-#~ msgstr ""
-#~ "Problemløseren fant en optimal løsning. Alle begrensninger og betingelser "
-#~ "for en optimal løsning er tilfredsstilt.\n"
-
-#~ msgid ""
-#~ "The Target Cell value specified does not converge!  The program is "
-#~ "unbounded."
-#~ msgstr "Målcelleverdien konvergerer ikke! Programmet er uavgrenset."
-
-#~ msgid ""
-#~ "A feasible solution could not be found.  All specified constraints cannot "
-#~ "be met simultaneously. "
-#~ msgstr ""
-#~ "En mulig løsning ble ikke funnet. Alle spesifiserte begrensninger kan "
-#~ "ikke møtes samtidig."
-
-#~ msgid ""
-#~ "The maximum number of iterations exceeded. The optimal value could not be "
-#~ "found."
-#~ msgstr ""
-#~ "Maksimalt antall gjennomganger oversteget. Den beste verdien ble ikke "
-#~ "funnet."
-
-#~ msgid "Unknown error."
-#~ msgstr "Ukjent feil."
-
-#~ msgid "You have not specified a problem to be solved"
-#~ msgstr "Du har ikke spesifisert et problem som skal løses"
-
-#~ msgid "Constraint `%s' is for a cell that is not an input cell."
-#~ msgstr "Begrensning «%s» er for en celle som ikke er en inndatacelle."
-
-#~ msgid "No constraints defined for the problem."
-#~ msgstr "Ingen begrensninger definert for problemet."
-
-#~ msgid "<small>Optional</small>"
-#~ msgstr "<small>Valgfri</small>"
-
-#~ msgid "_Answer"
-#~ msgstr "Sv_ar"
-
-#~ msgid "_Limits"
-#~ msgstr "_Grenser"
-
-#~ msgid "_Performance"
-#~ msgstr "_Ytelse"
-
-#~ msgid "_Sensitivity"
-#~ msgstr "_Sensitivitet"
-
-#~ msgid "Format Workbook"
-#~ msgstr "Formatter arbeidsbok"
-
-#~ msgid "Error while trying to build tree from autoformat template file"
-#~ msgstr "Feil under forsøk på å bygge tre fra autoformat malfil"
-
-#~ msgid "Is not an autoformat template file"
-#~ msgstr "Er ikke en autoformat mal"
-
-#~ msgid "Invalid xml file. Tree is empty?"
-#~ msgstr "Ugyldig xml fil. Treet er tomt?"
-
-#~ msgid "Answer Report"
-#~ msgstr "Svarrapport"
-
-#~ msgid "Original Value"
-#~ msgstr "Originalverdi"
-
-#~ msgid "Final Value"
-#~ msgstr "Endelig verdi"
-
-#~ msgid "Cell Value"
-#~ msgstr "Celleverdi"
-
-#~ msgid "Binding"
-#~ msgstr "Binding"
-
-#~ msgid "Not Binding"
-#~ msgstr "Ikke bindende"
-
-#~ msgid "Assume that all variables are integers."
-#~ msgstr "Anta at alle variabler er heltall."
-
-#~ msgid "Target Cell (Maximize)"
-#~ msgstr "Målcelle (Maksimer)"
-
-#~ msgid "Target Cell (Minimize)"
-#~ msgstr "Målcelle (Minimer)"
-
-#~ msgid "Adjustable Cells"
-#~ msgstr "Justerbare celler"
-
-#~ msgid "Sensitivity Report"
-#~ msgstr "Sensitivitetsrapport"
-
-#~ msgid "Final"
-#~ msgstr "Endelig"
-
-#~ msgid "Reduced"
-#~ msgstr "Redusert"
-
-#~ msgid "Objective"
-#~ msgstr "Objektiv"
-
-#~ msgid "Allowable"
-#~ msgstr "Lovlige"
-
-#~ msgid "Cost"
-#~ msgstr "Kostnad"
-
-#~ msgid "Coefficient"
-#~ msgstr "Koeffisient"
-
-#~ msgid "Increase"
-#~ msgstr "Øk"
-
-#~ msgid "Decrease"
-#~ msgstr "Senk"
-
-#~ msgid "Shadow"
-#~ msgstr "Skygge"
-
-#~ msgid "Price"
-#~ msgstr "Pris"
-
-#~ msgid "R.H. Side"
-#~ msgstr "Høyre side"
-
-#~ msgid "Infinity"
-#~ msgstr "Uendelig"
-
-#~ msgid "Limits Report"
-#~ msgstr "Grenserapport"
-
-#~ msgid "Target"
-#~ msgstr "Mål"
-
-#~ msgid "Adjustable"
-#~ msgstr "Justerbar"
-
-#~ msgid "Lower"
-#~ msgstr "Nedre"
-
-#~ msgid "Upper"
-#~ msgstr "Øvre"
-
-#~ msgid "Performance Report"
-#~ msgstr "Ytelsesrapport"
-
-#~ msgid "Number of Iterations"
-#~ msgstr "Antall gjennomganger"
-
-#~ msgid "Minimization"
-#~ msgstr "Minimering"
-
-#~ msgid "Maximization"
-#~ msgstr "Maksimering"
-
-#~ msgid "Target value search"
-#~ msgstr "Søk etter målverdi"
-
-#~ msgid "Optimal solution found"
-#~ msgstr "Optimal løsning funnet"
-
-#~ msgid "Maximum number of iterations exceeded: optimization interrupted"
-#~ msgstr "Maksimalt antall gjennomganger oversteget: optimering avbrutt"
-
-#~ msgid "Maximum time exceeded: optimization interrupted"
-#~ msgstr "Maksimal tid oversteget: optimering avbrutt"
-
-#~ msgid "Integer Constraints"
-#~ msgstr "Begrensninger for heltall"
-
-#~ msgid "Boolean Constraints"
-#~ msgstr "Begrensninger for boolske verdier"
-
-#~ msgid "Number of"
-#~ msgstr "Antall"
-
-#~ msgid "Elements"
-#~ msgstr "Elementer"
-
-#~ msgid "Ratio"
-#~ msgstr "Rate"
-
-#~ msgid "User"
-#~ msgstr "Bruker"
-
-#~ msgid "System"
-#~ msgstr "System"
-
-#~ msgid "Time (sec.)"
-#~ msgstr "Tid (sek.)"
-
-#~ msgid "CPU Model"
-#~ msgstr "CPU-modell"
-
-#~ msgid "CPU MHz"
-#~ msgstr "CPU MHz"
-
-#~ msgid "OS"
-#~ msgstr "OS"
-
-#~ msgid "Model Assumptions:"
-#~ msgstr "Modellens antakelser:"
-
-#~ msgid "Autoscaling:"
-#~ msgstr "Automatisk skalering:"
-
-#~ msgid "Max Iterations:"
-#~ msgstr "Maks gjennomganger:"
-
-#~ msgid "Max Time:"
-#~ msgstr "Maks tid:"
-
-#~ msgid "Non-Negative"
-#~ msgstr "Ikke-negativ"
-
-#~ msgid "Yes"
-#~ msgstr "Ja"
-
-#~ msgid "No"
-#~ msgstr "Nei"
-
-#~ msgid "General Information"
-#~ msgstr "Generell informasjon"
-
-#~ msgid "Data Sparsity"
-#~ msgstr "Datatetthet"
-
-#~ msgid "Computing Time"
-#~ msgstr "Prosesseringstid"
-
-#~ msgid "System Information"
-#~ msgstr "Systeminformasjon"
-
-#~ msgid "Program Report"
-#~ msgstr "Programrapport"
-
-#~ msgid "Assume that all variables take only positive values."
-#~ msgstr "Anta at alle variabler kun tar positive verdier."
-
-#~ msgid "Minimize"
-#~ msgstr "Minimer"
-
-#~ msgid "Maximize"
-#~ msgstr "Maksimer"
-
-#~ msgid "Equal to"
-#~ msgstr "Lik"
-
-#~ msgid "Dual Program Report"
-#~ msgstr "Dobbel programrapport"
-
-#~ msgid "Edit descriptive information"
-#~ msgstr "Ekstra beskrivende informasjon"
-
-#~ msgid "_Workbook..."
-#~ msgstr "_Arbeidsbok..."
-
-#~ msgid "_Gnumeric..."
-#~ msgstr "_Gnumeric..."
-
-#~ msgid "Edit the Gnumeric Preferences"
-#~ msgstr "Rediger brukervalg for Gnumeric"
-
-#~ msgid "Label"
-#~ msgstr "Etikett"
-
-#~ msgid "Create a label"
-#~ msgstr "Lag en etikett"
-
-#~ msgid "Unparsable xml in clipboard"
-#~ msgstr "Ugyldig xml på utklippstavlen"
-
-#~ msgid "Clipboard is in unknown format"
-#~ msgstr "Utklippstavlen har ukjent format"
-
-#~ msgid "Processing file..."
-#~ msgstr "Prossesserer fil..."
-
-#~ msgid "The file is not a Gnumeric Workbook file"
-#~ msgstr "Filen er ikke en Gnumeric arbeidsbok"
-
-#~ msgid "Gnumeric XML (*.gnumeric) Old slow importer"
-#~ msgstr "Gnumeric XML (*.gnumeric) Gammel treg import"
-
-#~ msgid "a, b, rho"
-#~ msgstr "a, b, rho"
-
-#~ msgid "real,im,suffix"
-#~ msgstr "heltall,im,suffiks"
-
-#~ msgid "inumber"
-#~ msgstr "komplekst tall"
-
-#~ msgid "inumber,inumber"
-#~ msgstr "komplekst tall,komplekst tall"
-
-#~ msgid "database,field,criteria"
-#~ msgstr "database,felt,kriterie"
-
-#~ msgid "pivot_table,field_name"
-#~ msgstr "pivottabell,feltnavn"
-
-#~ msgid "year,month,day"
-#~ msgstr "år,måned,dag"
-
-#~ msgid "date_str"
-#~ msgstr "dato_str"
-
-#~ msgid "date1,date2,interval"
-#~ msgstr "dato1,dato2,Intervall"
-
-#~ msgid "date1,date2,method"
-#~ msgstr "dato1,dato2,metode"
-
-#~ msgid "date,months"
-#~ msgstr "dato,måneder"
-
-#~ msgid "start_date,months"
-#~ msgstr "start_dato,måneder"
-
-#~ msgid "start_date,end_date,holidays"
-#~ msgstr "start_dato,slutt_dato,fridager"
-
-#~ msgid "hours,minutes,seconds"
-#~ msgstr "timer,minutter,sekunder"
-
-#~ msgid "timetext"
-#~ msgstr "tidstekst"
-
-#~ msgid "date,days,holidays"
-#~ msgstr "dato,dager,fridager"
-
-#~ msgid "unixtime"
-#~ msgstr "unixtid"
-
-#~ msgid "serial"
-#~ msgstr "serienummer"
-
-#~ msgid "traffic,circuits"
-#~ msgstr "trafikk,runder"
-
-#~ msgid "rate,values"
-#~ msgstr "rate,verdier"
-
-#~ msgid "value"
-#~ msgstr "verdi"
-
-#~ msgid "info_type"
-#~ msgstr "info_type"
-
-#~ msgid "range"
-#~ msgstr "område"
-
-#~ msgid "text"
-#~ msgstr "tekst"
-
-#~ msgid "number,number,"
-#~ msgstr "tall,tall,"
-
-#~ msgid "number"
-#~ msgstr "tall"
-
-#~ msgid "value,value"
-#~ msgstr "verdi,verdi"
-
-#~ msgid "row_num,col_num,abs_num,a1,text"
-#~ msgstr "radnummer,kolonnenummer,absoluttall,a1,tekst"
-
-#~ msgid "reference"
-#~ msgstr "referanse"
-
-#~ msgid "index,value,"
-#~ msgstr "indeks,verdi,"
-
-#~ msgid "ref"
-#~ msgstr "ref"
-
-#~ msgid "colname"
-#~ msgstr "kolonnenavn"
-
-#~ msgid "val,range,col_idx,approx,as_index"
-#~ msgstr "verdi,område,kolonneindeks,tilnærming,as_indeks"
-
-#~ msgid "ref_string,format"
-#~ msgstr "ref_streng,format"
-
-#~ msgid "reference,row,col,area"
-#~ msgstr "referanse,rad,kol,område"
-
-#~ msgid "val,range,range"
-#~ msgstr "verdi,område,område"
-
-#~ msgid "val,range,approx"
-#~ msgstr "verdi,område,tilnærming"
-
-#~ msgid "ref,row,col,height,width"
-#~ msgstr "ref,rad,kol,høyde,bredde"
-
-#~ msgid "array"
-#~ msgstr "tabell"
-
-#~ msgid "xnum,ynum"
-#~ msgstr "xtall,ytall"
-
-#~ msgid "a,b"
-#~ msgstr "a,b"
-
-#~ msgid "range,criteria"
-#~ msgstr "område,kriterie"
-
-#~ msgid "number,significance"
-#~ msgstr "tall,signifikans"
-
-#~ msgid "n,k"
-#~ msgstr "n,k"
-
-#~ msgid "number,number"
-#~ msgstr "tall,tall"
-
-#~ msgid "number,base"
-#~ msgstr "tall,base"
-
-#~ msgid "numerator,denominator"
-#~ msgstr "numerator,denominator"
-
-#~ msgid "number,multiple"
-#~ msgstr "tall,multippel"
-
-#~ msgid "base,exponent"
-#~ msgstr "base,eksponent"
-
-#~ msgid "number,type"
-#~ msgstr "tall,type"
-
-#~ msgid "number,digits"
-#~ msgstr "tall,siffer"
-
-#~ msgid "x,n,m,coefficients"
-#~ msgstr "x,n,m,koeffisienter"
-
-#~ msgid "range,criteria,actual_range"
-#~ msgstr "område,kriterie,faktisk_område"
-
-#~ msgid "range,range,"
-#~ msgstr "område,område"
-
-#~ msgid "array1,array2"
-#~ msgstr "tabell1,tabell2"
-
-#~ msgid "array,matrix_type,bandsize"
-#~ msgstr "tabell,matrise_type,båndbredde"
-
-#~ msgid "p"
-#~ msgstr "p"
-
-#~ msgid "bottom,top"
-#~ msgstr "bunn,topp"
-
-#~ msgid "a"
-#~ msgstr "a"
-
-#~ msgid "nu"
-#~ msgstr "nu"
-
-#~ msgid "value_range,prob_range"
-#~ msgstr "verdi_område,sannsynlighets_område"
-
-#~ msgid "nu1,nu2"
-#~ msgstr "nu1,nu2"
-
-#~ msgid "a,sigma"
-#~ msgstr "a sigma"
-
-#~ msgid "a,b,type"
-#~ msgstr "a,b,type"
-
-#~ msgid "n1,n2,t"
-#~ msgstr "n1,n2,t"
-
-#~ msgid "c,alpha,beta"
-#~ msgstr "c,alpha,beta"
-
-#~ msgid "zeta,sigma"
-#~ msgstr "zeta,sigma"
-
-#~ msgid "p,failures"
-#~ msgstr "p,feil"
-
-#~ msgid "mean,stdev"
-#~ msgstr "median,standardavvik"
-
-#~ msgid "lambda"
-#~ msgstr "lambda"
-
-#~ msgid "sigma"
-#~ msgstr "sigma"
-
-#~ msgid "d1,d2,...,dN"
-#~ msgstr "d1,d2,...,dN"
-
-#~ msgid "number1,number2,"
-#~ msgstr "tall1,tall2,"
-
-#~ msgid "k,p"
-#~ msgstr "k,p"
-
-#~ msgid "x,alpha,beta,a,b"
-#~ msgstr "x,alpha,beta,a,b"
-
-#~ msgid "p,alpha,beta,a,b"
-#~ msgstr "p,alpha,beta,a,b"
-
-#~ msgid "n,trials,p,cumulative"
-#~ msgstr "n,forsøk,p,kumulativ"
-
-#~ msgid "x,a,cumulative"
-#~ msgstr "x,a,kumulativ"
-
-#~ msgid "x,dof"
-#~ msgstr "x,dof"
-
-#~ msgid "p,dof"
-#~ msgstr "p,dof"
-
-#~ msgid "actual_range,theoretical_range"
-#~ msgstr "faktisk_område,teoretisk_område"
-
-#~ msgid "x,stddev,size"
-#~ msgstr "x,stdavvik,størrelse"
-
-#~ msgid "trials,p,alpha"
-#~ msgstr "forsøk,p,alpha"
-
-#~ msgid "x,y,cumulative"
-#~ msgstr "x,y,kumulativ"
-
-#~ msgid "x,alpha,beta,cumulative"
-#~ msgstr "x,alpha,beta,kumulativ"
-
-#~ msgid "p,alpha,beta"
-#~ msgstr "p,alpha,beta"
-
-#~ msgid "x,n,M,N,cumulative"
-#~ msgstr "x,n,M,N,kumulativ"
-
-#~ msgid "f,t,p"
-#~ msgstr "f,t,p"
-
-#~ msgid "x,mean,stddev,cumulative"
-#~ msgstr "x,median,standardavvik,kumulativ"
-
-#~ msgid "array,k"
-#~ msgstr "tabell k"
-
-#~ msgid "x,mean,cumulative"
-#~ msgstr "x,median,kumulativ"
-
-#~ msgid "x,ref,order"
-#~ msgstr "x,ref,rekkefølge"
-
-#~ msgid "area1,area2,"
-#~ msgstr "område1,område2"
-
-#~ msgid "ref,fraction"
-#~ msgstr "ref,andel"
-
-#~ msgid "x,a,b"
-#~ msgstr "x,a,b"
-
-#~ msgid "k,p,cumulative"
-#~ msgstr "k,p,kumulativ"
-
-#~ msgid "x,a"
-#~ msgstr "x,a"
-
-#~ msgid "x,sigma"
-#~ msgstr "x,sigma"
-
-#~ msgid "x,a,sigma"
-#~ msgstr "x,a,sigma"
-
-#~ msgid "ref1,ref2,"
-#~ msgstr "ref1,ref2,"
-
-#~ msgid "text,text,"
-#~ msgstr "tekst,tekst"
-
-#~ msgid "num,decimals"
-#~ msgstr "tall,desimaler"
-
-#~ msgid "text1,text2"
-#~ msgstr "tekst1,tekst2"
-
-#~ msgid "text1,text2,num"
-#~ msgstr "tekst1,tekst2,tall"
-
-#~ msgid "num,decs,no_commas"
-#~ msgstr "tall,des,uten_komma"
-
-#~ msgid "text,num_chars"
-#~ msgstr "tekst,ant_tegn"
-
-#~ msgid "text,num_bytes"
-#~ msgstr "tekst,num_bytes"
-
-#~ msgid "text,pos,num"
-#~ msgstr "tekst,pos,tall"
-
-#~ msgid "old,start,num,new"
-#~ msgstr "gammel,start,tall,ny"
-
-#~ msgid "text,num"
-#~ msgstr "tekst,tall"
-
-#~ msgid "text,old,new,num"
-#~ msgstr "tekst,gammel,ny,num"
-
-#~ msgid "value,format_text"
-#~ msgstr "verdi,format,tekst"
-
-#~ msgid "Sequence,Inverse"
-#~ msgstr "Sekvens,Invers"
-
-#~ msgid "condition,if true,if false"
-#~ msgstr "betingelse,hvis sann,hvis usann"
-
-#~ msgid "Search Center"
-#~ msgstr "Søkesenter"
-
-#~ msgid "_Find..."
-#~ msgstr "_Finn..."
-
-#~ msgid "R_eplace..."
-#~ msgstr "_Erstatt:"
-
-#~ msgid "Open Document Format/OpenOffice (*.ods)"
-#~ msgstr "Open Document-format/OpenOffice (*.ods)"
-
-#~ msgid ""
-#~ "@FUNCTION=SUM\n"
-#~ "@SYNTAX=SUM(value1, value2, ...)\n"
-#~ "@DESCRIPTION=SUM computes the sum of all the values and cells referenced "
-#~ "in the argument list.\n"
-#~ "\n"
-#~ "* This function is Excel compatible.\n"
-#~ "@EXAMPLES=\n"
-#~ "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, "
-#~ "21, and 43.  Then\n"
-#~ "SUM(A1:A5) equals 107."
-#~ msgstr ""
-#~ "@FUNCTION=SUM\n"
-#~ "@SYNTAX=SUM(verdi1, verdi2, ...)\n"
-#~ "@DESCRIPTION=SUM beregner summen av alle verdier og celler som refereres "
-#~ "i argumentlisten.\n"
-#~ "* Denne funksjonen er Excel kompatibel. \n"
-#~ "@EXAMPLES=\n"
-#~ "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21 "
-#~ "og 43. Da får vi at\n"
-#~ "SUM(A1:A5) er lik 107."
-
-#~ msgid ""
-#~ "@FUNCTION=PRODUCT\n"
-#~ "@SYNTAX=PRODUCT(value1, value2, ...)\n"
-#~ "@DESCRIPTION=PRODUCT returns the product of all the values and cells "
-#~ "referenced in the argument list.\n"
-#~ "\n"
-#~ "* This function is Excel compatible.  In particular, this means that if "
-#~ "all cells are empty, the result will be 0.\n"
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "PRODUCT(2,5,9) equals 90."
-#~ msgstr ""
-#~ "@FUNCTION=PRODUCT\n"
-#~ "@SYNTAX=PRODUCT(verdi1, verdi2, ...)\n"
-#~ "@DESCRIPTION=PRODUCT returnerer produktet av alle verdier og celler som "
-#~ "er referert i argumentlisten.\n"
-#~ "* Denne funksjonen er Excel kompatibel. Dette vil i praksis si at hvis "
-#~ "alle celler er tomme, vil resultatet bli 0.\n"
-#~ "@EXAMPLES=\n"
-#~ "PRODUCT(2,5,9) er lik 90."
-
-#~ msgid ""
-#~ "@FUNCTION=GNUMERIC_VERSION\n"
-#~ "@SYNTAX=GNUMERIC_VERSION()\n"
-#~ "@DESCRIPTION=GNUMERIC_VERSION returns the version of gnumeric as a "
-#~ "string.\n"
-#~ "@EXAMPLES=\n"
-#~ "GNUMERIC_VERSION()."
-#~ msgstr ""
-#~ "@FUNCTION=GNUMERIC_VERSION\n"
-#~ "@SYNTAX=GNUMERIC_VERSION()\n"
-#~ "@DESCRIPTION=GNUMERIC_VERSION returnerer gnumeric's versjon som en "
-#~ "streng.\n"
-#~ "@EXAMPLES=\n"
-#~ "GNUMERIC_VERSION()."
-
-#~ msgid "Label Properties"
-#~ msgstr "Egenskaper for etikett"
-
-#~ msgid "The input range contains non-numeric data."
-#~ msgstr "Inndataområde inneholder ikke-numeriske data."
-
-#~ msgid "/SUMMARY/Count/Sum/Average/Variance"
-#~ msgstr "/SAMMENDRAG/Antall/Sum/Gjennomsnitt/Varians"
-
-#~ msgid "One of the factor combinations does not contain any observations!"
-#~ msgstr "En av faktorkombinasjonene inneholder ikke noen observasjoner!"
-
-#~ msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
-#~ msgstr "/ANOVA/Variasjonskilde/Rader/Kolonner/Krysningspunkt/Innenfor"
-
-#~ msgid "Select _Column"
-#~ msgstr "Velg _kolonne"
-
-#~ msgid "Select _Row"
-#~ msgstr "Velg _rad"
-
-#~ msgid "Select Arra_y"
-#~ msgstr "Velg mat_rise"
-
-#~ msgid "Select _Inputs"
-#~ msgstr "Velg _inndata"
