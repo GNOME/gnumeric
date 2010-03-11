@@ -11,8 +11,8 @@
 # Frank Arnold <frank@scirocco-5v-turbo.de>, 2005.
 # Hendrik Richter <hendrikr@gnome.org>, 2005, 2006.
 # Mario Blättermann <mariobl@gnome.org>, 2009, 2010.
-# Christian Kirbach <Christian.Kirbach@googlemail.com>, 2009, 2010.
 # Sven Rodelstein <srodelstein@math.concordia.ab.ca>, 2009.
+# Christian Kirbach <Christian.Kirbach@googlemail.com>, 2009, 2010.
 #
 # Thanks for improvements to "Andreas J. Guelzow" <aguelzow@taliesin.ca>, 2001.
 #
@@ -41,15 +41,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.9\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-02 09:24-0500\n"
-"PO-Revision-Date: 2010-01-07 01:19+0100\n"
-"Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
-"Language-Team: German <gnome-de@gnome.org>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=gnumeric&component=general\n"
+"POT-Creation-Date: 2010-03-10 16:42+0000\n"
+"PO-Revision-Date: 2010-03-10 23:35+0100\n"
+"Last-Translator: Christian Kirbach <Christian.Kirbach@googlemail.com>\n"
+"Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: ../gnumeric.desktop.in.h:1
 msgid "Calculation, Analysis, and Visualization of Information"
@@ -506,17 +507,17 @@ msgstr ""
 #. We don't attempt to flatten a 3D range to an array.
 #: ../plugins/excelplugins/excelplugins.c:316
 msgid "Cannot convert 3D cell range to XLOPER."
-msgstr ""
+msgstr "3D-Zellenbereich kann nicht in XLOPER umgewandelt werden."
 
 #: ../plugins/excelplugins/excelplugins.c:357
-#, fuzzy, c-format
+#, c-format
 msgid "Unsupported GnmValue type (%d)"
-msgstr "Nicht unterstützter Python-Typ: %s"
+msgstr "Nicht unterstützter GnmValue-Typ (%d)"
 
 #: ../plugins/excelplugins/excelplugins.c:617
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s"
-msgstr "%s (%s)"
+msgstr "%s: %s"
 
 #: ../plugins/excelplugins/excelplugins.c:642
 #, c-format
@@ -524,11 +525,13 @@ msgid ""
 "Overriding function %s from XLL/DLL/SO file %s with function of the same "
 "name from XLL/DLL/SO file %s."
 msgstr ""
+"Funktion %s aus XLL/DLL/SO-Datei %s wird mit einer Funktion gleichen Namens "
+"aus der XLL/DLL/SO-Datei %s überschrieben."
 
 #: ../plugins/excelplugins/excelplugins.c:652
 #, c-format
 msgid "Failed to find function \"%s\" in XLL/DLL/SO %s .\n"
-msgstr ""
+msgstr "Funktion »%s« konnte in XLL/DLL/SO %s nicht gefunden werden.\n"
 
 #: ../plugins/excelplugins/excelplugins.c:702
 #, c-format
@@ -538,36 +541,46 @@ msgid ""
 "[mandatory]). You supplied %d in some function loaded from XLL/DLL/SO file %"
 "s."
 msgstr ""
+"Excel-Pluginlader / xlfRegister: Mindestens drei XLOPER-Argumente müssen "
+"angegeben werden (DLL-Name[ignoriert],exportierter Name[obligatorisch],"
+"Typzeichenkette[obligatorisch]). Sie haben %d in einigen aus der XLL/DLL/SO-"
+"Datei %s geladenen Funktionen angegeben."
 
 #: ../plugins/excelplugins/excelplugins.c:709
 msgid ""
 "Excel plugin loader / xlfRegister: the second and third argument must be "
 "strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."
 msgstr ""
+"Excel-Pluginlader / xlfRegister: Das zweite und dritte Argument müssen "
+"Zeichenketten sein (DLL-Name[ignoriert],exportierter Name[obligatorisch],"
+"Typzeichenkette[obligatorisch])."
 
 #: ../plugins/excelplugins/excelplugins.c:938
 msgid "Dynamic module loading is not supported on this system."
 msgstr ""
+"Das dynamische Laden von Modulen wird auf diesem System nicht unterstützt."
 
 #: ../plugins/excelplugins/excelplugins.c:950
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open module file \"%s\"."
-msgstr "Datei »%s« kann nicht geöffnet werden."
+msgstr "Moduldatei »%s« kann nicht geöffnet werden."
 
 #: ../plugins/excelplugins/excelplugins.c:955
 #, c-format
 msgid "Module \"%s\" doesn't contain (\"register_actual_excel4v\" symbol)."
-msgstr ""
+msgstr "Modul »%s« enthält kein (»register_actual_excel4v«-Symbol)."
 
 #: ../plugins/excelplugins/excelplugins.c:999
 #, c-format
 msgid "No loadable worksheet functions found in XLL/DLL/SO file %s ."
 msgstr ""
+"In der XLL/DLL/SO-Datei %s wurden keine ladefähigen Arbeitsblattfunktionen "
+"gefunden."
 
 #: ../plugins/excelplugins/excelplugins.c:1002
 #, c-format
 msgid "Loaded %lu functions from XLL/DLL/SO %s ."
-msgstr ""
+msgstr "%lu Funktionen wurden aus XLL/DLL/SO %s geladen."
 
 #. *************************************************************************
 #: ../plugins/excelplugins/plugin.xml.in.h:1
@@ -576,10 +589,14 @@ msgid ""
 "operational for worksheet functions that expect only arguments of LPXLOPER "
 "type (type 'P' or 'R') and return an LPXLOPER (type 'P' or 'R')."
 msgstr ""
+"Adapterschnittstelle zum Laden von Excel-Plugins (auch als XLLs bekannt). "
+"Funktioniert nur für Arbeitsblattfunktionen, die nur Argumente des Typs "
+"LPXLOPER erwarten (Typ »P« oder »R«) und den Typ LPXLOPER (Tye »P« oder »R«) "
+"zurückgeben."
 
 #: ../plugins/excelplugins/plugin.xml.in.h:2
 msgid "Excel plugins"
-msgstr ""
+msgstr "Excel-Plugins"
 
 #: ../plugins/fn-christian-date/plugin.xml.in.h:1
 msgid "Christian Date Functions"
@@ -678,55 +695,59 @@ msgstr "Zinsberechnung"
 #. Merriam-Webster dictionary
 #. xgettext: Tishri to Adar II are transliterations of the
 #. xgettext: hebrew months' names using Latin characters.
-#: ../plugins/fn-hebrew-date/hdate_strings.c:106
+#: ../plugins/fn-hebrew-date/hdate_strings.c:104
 msgid "Tishri"
 msgstr "Tishri"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:106
+#: ../plugins/fn-hebrew-date/hdate_strings.c:104
 msgid "Heshwan"
 msgstr "Heshwan"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:106
+#: ../plugins/fn-hebrew-date/hdate_strings.c:104
 msgid "Kislev"
 msgstr "Kislev"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:107
+#: ../plugins/fn-hebrew-date/hdate_strings.c:105
 msgid "Tebet"
 msgstr "Tebet"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:107
+#: ../plugins/fn-hebrew-date/hdate_strings.c:105
 msgid "Shebat"
 msgstr "Shebat"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:107
+#: ../plugins/fn-hebrew-date/hdate_strings.c:105
 msgid "Adar"
 msgstr "Adar"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:108
+#: ../plugins/fn-hebrew-date/hdate_strings.c:106
 msgid "Nisan"
 msgstr "Nisan"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:108
+#: ../plugins/fn-hebrew-date/hdate_strings.c:106
 msgid "Iyar"
 msgstr "Iyar"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:108
+#: ../plugins/fn-hebrew-date/hdate_strings.c:106
 msgid "Sivan"
 msgstr "Sivan"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:109
+#: ../plugins/fn-hebrew-date/hdate_strings.c:106
+msgid "Tammuz"
+msgstr ""
+
+#: ../plugins/fn-hebrew-date/hdate_strings.c:107
 msgid "Ab"
 msgstr "Ab"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:109
+#: ../plugins/fn-hebrew-date/hdate_strings.c:107
 msgid "Elul"
 msgstr "Elul"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:109
+#: ../plugins/fn-hebrew-date/hdate_strings.c:107
 msgid "Adar I"
 msgstr "Adar I"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:109
+#: ../plugins/fn-hebrew-date/hdate_strings.c:107
 msgid "Adar II"
 msgstr "Adar II"
 
@@ -962,12 +983,12 @@ msgstr "glpk-Datei wird gespeichert …"
 msgid "The GLPK exporter is not available."
 msgstr "Der GLPK-Exporter ist nicht verfügbar."
 
-#: ../plugins/glpk/gnm-glpk.c:236
+#: ../plugins/glpk/gnm-glpk.c:237
 #, c-format
 msgid "Failed to create file for solution"
 msgstr "Temporärdatei für die Lösung konnte nicht angelegt werden."
 
-#: ../plugins/glpk/gnm-glpk.c:285 ../plugins/lpsolve/gnm-lpsolve.c:280
+#: ../plugins/glpk/gnm-glpk.c:286 ../plugins/lpsolve/gnm-lpsolve.c:280
 #, c-format
 msgid ""
 "The %s program was not found.  You can either install it or use another "
@@ -1111,43 +1132,41 @@ msgid "Invalid line in ROWS section"
 msgstr "Ungültige Zeile im ROWS-Abschnitt der Datei"
 
 #: ../plugins/mps/mps.c:231
-#, fuzzy, c-format
+#, c-format
 msgid "Duplicate rows name %s"
-msgstr "Namen %s aktualisieren"
+msgstr "Zeilenname %s duplizieren"
 
 #: ../plugins/mps/mps.c:249
-#, fuzzy
 msgid "Duplicate objective row"
-msgstr "Objekt duplizieren"
+msgstr "Zielzeile duplizieren"
 
 #: ../plugins/mps/mps.c:267
 msgid "Missing objective row"
-msgstr ""
+msgstr "Zielzeile fehlt"
 
 #: ../plugins/mps/mps.c:292
-#, fuzzy
 msgid "Invalid marker"
-msgstr "Ungültiger Name"
+msgstr "Ungültige Markierung"
 
 #: ../plugins/mps/mps.c:342
 #, c-format
 msgid "Invalid row name, %s, in columns"
-msgstr ""
+msgstr "Ungültiger Zeilenname, %s, in Spalten"
 
 #: ../plugins/mps/mps.c:408
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid bounds type %s"
-msgstr "sst-Referenz »%s« ist ungültig"
+msgstr "Ungültiger Grenztyp %s"
 
 #: ../plugins/mps/mps.c:424
 #, c-format
 msgid "Invalid column name, %s, in bounds"
-msgstr ""
+msgstr "Ungültiger Spaltenname, %s, in Grenzen"
 
 #: ../plugins/mps/mps.c:468
 #, c-format
 msgid "Invalid row name, %s, in rhs/ranges section"
-msgstr ""
+msgstr "Ungültiger Zeilenname, %s, inm rhs/ranges-Abschnitt"
 
 #. ----------------------------------------
 #: ../plugins/mps/mps.c:585
@@ -1174,9 +1193,8 @@ msgid "Variable"
 msgstr "Variable"
 
 #: ../plugins/mps/mps.c:668
-#, fuzzy
 msgid "Objective function"
-msgstr "Zielfunktion:"
+msgstr "Zielfunktion"
 
 #: ../plugins/mps/mps.c:717
 msgid "Error while reading MPS file."
@@ -1994,10 +2012,8 @@ msgstr ""
 "Bitte verwenden Sie den Druckeinstellungsdialog zum Bearbeiten dieses Werts."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:47
-#, fuzzy
 msgid "Please use the Text Export dialog to edit this value."
-msgstr ""
-"Bitte verwenden Sie den Druckeinstellungsdialog zum Bearbeiten dieses Werts."
+msgstr "Bitte verwenden Sie den Textexport-Dialog zum Bearbeiten dieses Werts."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:48
 msgid "Preferred Display Unit"
@@ -2025,7 +2041,7 @@ msgstr "Systemverzeichnis für Auto-Formatierungen"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:52
 msgid "Text Export Field Separator"
-msgstr ""
+msgstr "Feldtrenner für Textexport"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:53
 msgid "Text Export Record Terminator"
@@ -5171,9 +5187,8 @@ msgid "Visit the Gnumeric website"
 msgstr "Besuchen Sie die Gnumeric-Webseite"
 
 #: ../src/dialogs/dialog-about.c:569
-#, fuzzy
 msgid "Copyright © 1998-2010"
-msgstr "Copyright © 1998-2009"
+msgstr "Copyright © 1998-2010"
 
 # Das benötigt noch etwas Feinschliff.
 #: ../src/dialogs/dialog-about.c:570
@@ -5334,14 +5349,12 @@ msgid "Could not create the Kaplan Meier Tool dialog."
 msgstr "Der Kaplan-Meier-Wekzeugdialog konnte nicht erzeugt werden."
 
 #: ../src/dialogs/dialog-analysis-tool-normality.c:201
-#, fuzzy
 msgid "Could not create the Normality Test Tool dialog."
-msgstr "Der F-Test-Dialog konnte nicht erzeugt werden."
+msgstr "Der Normalitätstest-Dialog konnte nicht erzeugt werden."
 
 #: ../src/dialogs/dialog-analysis-tool-principal-components.c:174
-#, fuzzy
 msgid "Could not create the Principal Components Analysis Tool dialog."
-msgstr "Der Fourier-Analysewerkzeug-Dialog konnte nicht erzeugt werden."
+msgstr "Der Hauptkomponentenanalyse-Dialog konnte nicht erzeugt werden."
 
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:97
 msgid "The first input range is invalid."
@@ -5876,11 +5889,11 @@ msgstr "Unbekannter Bedingungstyp."
 
 #: ../src/dialogs/dialog-cell-format.c:2222
 msgid "The selection is <b>not</b> homogeneous with respect to conditions!"
-msgstr ""
+msgstr "Hinsichtlich der Bedingungen ist die Auswahl <b>nicht</b> homogen!"
 
 #: ../src/dialogs/dialog-cell-format.c:2229
 msgid "The selection is homogeneous with respect to conditions."
-msgstr ""
+msgstr "Hinsichtlich der Bedingungen ist die Auswahl homogen."
 
 #: ../src/dialogs/dialog-cell-format.c:2283
 msgid "The validation criteria are unusable. Disable validation?"
@@ -5921,27 +5934,27 @@ msgstr "%s (%s)"
 msgid "%s to %s"
 msgstr "%s bis %s"
 
-#: ../src/dialogs/dialog-cell-sort.c:764
+#: ../src/dialogs/dialog-cell-sort.c:763
 msgid "no available row"
 msgstr "Kein verfügbare Reihe"
 
-#: ../src/dialogs/dialog-cell-sort.c:764
+#: ../src/dialogs/dialog-cell-sort.c:763
 msgid "no available column"
 msgstr "Keine verfügbare Spalte"
 
-#: ../src/dialogs/dialog-cell-sort.c:1018
+#: ../src/dialogs/dialog-cell-sort.c:1017
 msgid "Header"
 msgstr "Kopf"
 
-#: ../src/dialogs/dialog-cell-sort.c:1023
+#: ../src/dialogs/dialog-cell-sort.c:1022
 msgid "Row/Column"
 msgstr "Zeile / Spalte"
 
-#: ../src/dialogs/dialog-cell-sort.c:1043
+#: ../src/dialogs/dialog-cell-sort.c:1042
 msgid "Case Sensitive"
 msgstr "Groß-/Kleinschreibung berücksichtigen"
 
-#: ../src/dialogs/dialog-cell-sort.c:1063
+#: ../src/dialogs/dialog-cell-sort.c:1062
 msgid "By Value"
 msgstr "Nach Wert"
 
@@ -6201,6 +6214,8 @@ msgid ""
 "Left click once to follow this link.\n"
 "Middle click once to select this cell"
 msgstr ""
+"Einmal links klicken, um dem Verweis zu folgen.\n"
+"Mittelklick, um diese Zelle auszuwählen."
 
 #: ../src/dialogs/dialog-hyperlink.c:185
 msgid "Not a range or name"
@@ -7010,12 +7025,12 @@ msgstr "Eine andere Ansicht verwaltet bereits Blätter"
 msgid "Default"
 msgstr "Vorgabe"
 
-#: ../src/dialogs/dialog-sheetobject-size.c:194
+#: ../src/dialogs/dialog-sheetobject-size.c:195
 #: ../src/sheet-control-gui.c:2428
 msgid "Move Object"
 msgstr "Objekt verschieben"
 
-#: ../src/dialogs/dialog-sheetobject-size.c:194
+#: ../src/dialogs/dialog-sheetobject-size.c:195
 #: ../src/sheet-control-gui.c:2428
 msgid "Resize Object"
 msgstr "Objektgröße verändern"
@@ -7131,9 +7146,9 @@ msgid "Cancelled"
 msgstr "Abgebrochen"
 
 #: ../src/dialogs/dialog-solver.c:572
-#, fuzzy, c-format
+#, c-format
 msgid "Feasible: %s"
-msgstr "Möglich"
+msgstr "Möglich: %s"
 
 #: ../src/dialogs/dialog-solver.c:580
 #, c-format
@@ -7177,9 +7192,8 @@ msgid "Optimal solution created by solver.\n"
 msgstr "Optimale Lösung vom Löser gefunden.\n"
 
 #: ../src/dialogs/dialog-solver.c:796
-#, fuzzy
 msgid "Feasible solution created by solver.\n"
-msgstr "Optimale Lösung vom Löser gefunden.\n"
+msgstr "Mögliche Lösung vom Löser gefunden.\n"
 
 #: ../src/dialogs/dialog-solver.c:1061
 msgid "Subject to the Constraints:"
@@ -7283,9 +7297,8 @@ msgstr ""
 "schieben, um es früher zu exportieren."
 
 #: ../src/dialogs/dialog-stf-export.glade.h:19
-#, fuzzy
 msgid "Save as default formatting"
-msgstr "Als Vorgabeeinstellungen speichern"
+msgstr "Als Vorgabeformatierung speichern"
 
 #: ../src/dialogs/dialog-stf-export.glade.h:20
 msgid "Select N_one"
@@ -8542,7 +8555,6 @@ msgid "Include censorship ticks"
 msgstr "Einschließlich augenblicklicher Zensur"
 
 #: ../src/dialogs/kaplan-meier.glade.h:6
-#, fuzzy
 msgid "Kaplan Meier Estimates"
 msgstr "Kaplan-Meier-Schätzer"
 
@@ -8564,9 +8576,8 @@ msgid "Show graph "
 msgstr "Diagramm anzeigen"
 
 #: ../src/dialogs/kaplan-meier.glade.h:11
-#, fuzzy
 msgid "Show median survival times"
-msgstr "Mittellinien Überlebensdauer anzeigen"
+msgstr "Mittellinien-Überlebensdauer anzeigen"
 
 #: ../src/dialogs/kaplan-meier.glade.h:12
 msgid "Show standard errors"
@@ -8715,7 +8726,7 @@ msgstr "In_tervall:"
 #: ../src/dialogs/normality-tests.glade.h:1
 #: ../src/tools/analysis-normality.c:63
 msgid "Anderson-Darling Test"
-msgstr ""
+msgstr "Anderson-Darling-Test"
 
 #: ../src/dialogs/normality-tests.glade.h:2
 msgid "Cram&#xE9;r-von Mises Test"
@@ -8723,21 +8734,21 @@ msgstr "Cram&#xE9;r-von-Mises-Test"
 
 #: ../src/dialogs/normality-tests.glade.h:3
 msgid "Create Normal Probability Plot"
-msgstr ""
+msgstr "Normalen Wahrscheinlichkeitsgraphen erstellen"
 
 #: ../src/dialogs/normality-tests.glade.h:6
 #: ../src/tools/analysis-normality.c:77
 msgid "Lilliefors (Kolmogorov-Smirnov) Test"
-msgstr ""
+msgstr "Lilliefors(Kolmogorov-Smirnov)-Test"
 
 #: ../src/dialogs/normality-tests.glade.h:7
 msgid "Normality Tests"
-msgstr ""
+msgstr "Normalitätstests"
 
 #: ../src/dialogs/normality-tests.glade.h:9
 #: ../src/tools/analysis-normality.c:83
 msgid "Shapiro-Francia Test"
-msgstr ""
+msgstr "Shapiro-Francia-Test"
 
 #: ../src/dialogs/normality-tests.glade.h:10
 #: ../src/dialogs/sign-test.glade.h:5 ../src/dialogs/variance-tests.glade.h:5
@@ -9099,7 +9110,7 @@ msgstr "Seite(n)"
 #: ../src/tools/analysis-principal-components.c:234
 #: ../src/wbc-gtk-actions.c:2160
 msgid "Principal Components Analysis"
-msgstr ""
+msgstr "Hauptkomponentenanalyse"
 
 #: ../src/dialogs/random-generation.glade.h:5
 msgid "Random Number Generation"
@@ -9674,6 +9685,8 @@ msgid ""
 "This name is used by some plugins that provide programmability to address "
 "this object. Most users will not need to set this name. "
 msgstr ""
+"Dieser Name wird verwendet, um dem Objekt Programmierfunktionen zuzuordnen. "
+"Die meisten Benutzer werden diesen Namen nicht festlegen müssen."
 
 #: ../src/dialogs/sheetobject-size.glade.h:5
 msgid "Width in points:"
@@ -10322,7 +10335,7 @@ msgstr "300%"
 msgid "500%"
 msgstr "500%"
 
-#: ../src/gnm-pane.c:1919
+#: ../src/gnm-pane.c:1921
 #, c-format
 msgid ""
 "%.1f x %.1f pts\n"
@@ -10472,13 +10485,13 @@ msgstr "Mehrere Fehler\n"
 msgid "Unable to open file '%s'"
 msgstr "Datei »%s« kann nicht geöffnet werden."
 
-#: ../src/gui-util.c:1390
+#: ../src/gui-util.c:1411
 #, c-format
 msgid "The plugin with id %s is required but cannot be found."
 msgstr ""
 "Das Plugin mit der Kennung %s wird benötigt, kann aber nicht gefunden werden."
 
-#: ../src/gui-util.c:1398
+#: ../src/gui-util.c:1419
 #, c-format
 msgid "The %s plugin is required but is not loaded."
 msgstr "Das Plugin »%s« wird benötigt, ist aber nicht geladen."
@@ -10636,7 +10649,7 @@ msgid "Exit immediately after loading the selected books"
 msgstr "Sofort nach dem Laden der angewählten Bücher beenden"
 
 #: ../src/main-application.c:227 ../src/ssconvert.c:657 ../src/ssgrep.c:434
-#: ../src/ssindex.c:253
+#: ../src/ssindex.c:255
 #, c-format
 msgid ""
 "%s\n"
@@ -11824,7 +11837,7 @@ msgstr ""
 "datadir := »%s«\n"
 "libdir := »%s«\n"
 
-#: ../src/ssconvert.c:693 ../src/ssindex.c:264
+#: ../src/ssconvert.c:693 ../src/ssindex.c:266
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Aufruf: %s [OPTION...] %s\n"
@@ -11936,11 +11949,11 @@ msgstr "MIME-Typen auflisten, die »ssindex« lesen können"
 msgid "Index the given files"
 msgstr "Angegebene Dateien indizieren"
 
-#: ../src/ssindex.c:246 ../src/ssindex.c:266
+#: ../src/ssindex.c:248 ../src/ssindex.c:268
 msgid "INFILE..."
 msgstr "EINGABEDATEI …"
 
-#: ../src/ssindex.c:260
+#: ../src/ssindex.c:262
 #, c-format
 msgid ""
 "ssindex version '%s'\n"
@@ -12372,6 +12385,9 @@ msgid ""
 "the sample size must be at\n"
 "least 8."
 msgstr ""
+"Für den Anderson-Darling Test\n"
+"muss die Stichprobengröße\n"
+"mindestens 8 sein."
 
 #: ../src/tools/analysis-normality.c:70
 msgid "Cramér-von Mises Test"
@@ -12383,12 +12399,17 @@ msgid ""
 "the sample size must be at\n"
 "least 8."
 msgstr ""
+"Für den Cramér-von Mises-Test\n"
+"muss die Stichprobengröße\n"
+"mindestens 8 sein."
 
 #: ../src/tools/analysis-normality.c:78
 msgid ""
 "For the Lilliefors (Kolmogorov-Smirnov) Test\n"
 "the sample size must be at least 5."
 msgstr ""
+"Für den Lilliefors-(Kolmogorov-Smirnov-)Test\n"
+"muss die Stichprobengröße mindestens 5 sein."
 
 #: ../src/tools/analysis-normality.c:84
 msgid ""
@@ -12396,6 +12417,9 @@ msgid ""
 "the sample size must be at\n"
 "least 5 and at most 5000."
 msgstr ""
+"Für den Shapiro-Francia-Test\n"
+"muss die Stichprobengröße\n"
+"zwischen 5 und 5000 liegen."
 
 #. xgettext:
 #. * Note to translators: in the following string and others like it,
@@ -12406,7 +12430,7 @@ msgstr ""
 #.
 #: ../src/tools/analysis-normality.c:125
 msgid "/Alpha/p-Value/Statistic/N/Conclusion"
-msgstr ""
+msgstr "/Alpha/p-Wert/Statistik/N/Konklusion"
 
 #: ../src/tools/analysis-normality.c:165
 msgid "Not normal"
@@ -12414,27 +12438,26 @@ msgstr "Nicht normal"
 
 #: ../src/tools/analysis-normality.c:166
 msgid "Possibly normal"
-msgstr ""
+msgstr "Möglicherweise normal"
 
 #: ../src/tools/analysis-normality.c:193
-#, fuzzy, c-format
+#, c-format
 msgid "Normality Test (%s)"
-msgstr "t-Test (%s)"
+msgstr "Normalitätstest (%s)"
 
 #: ../src/tools/analysis-normality.c:204 ../src/tools/analysis-normality.c:207
-#, fuzzy
 msgid "Normality Test"
-msgstr "Zellen formatieren"
+msgstr "Normalitätstest"
 
 #: ../src/tools/analysis-principal-components.c:67
 msgid "Principal components analysis has insufficient space."
-msgstr ""
+msgstr "Die Hauptkomponentenanalyse hat ungenügend Speicher."
 
 #: ../src/tools/analysis-principal-components.c:106
 msgid ""
 "\"Principal Components Analysis\";[Red]\"Principal Components Analysis is "
 "invalid.\""
-msgstr ""
+msgstr "»Hauptkomponentenanalyse«;[Red]»Hauptkomponentenanalyse ist ungültig.«"
 
 #: ../src/tools/analysis-principal-components.c:112
 msgid "Covariances:"
@@ -12444,15 +12467,15 @@ msgstr "Kovarianzen:"
 msgid "/Count:/Mean:/Variance://Eigenvalues:/Eigenvectors:"
 msgstr "/Anzahl:/Mittelwert:/Varianz://Eigenwerte:/Eigenvektoren:"
 
+# Stammt aus der Wikipedia-Seite zur Hauptkomponentenanalyse.
 #: ../src/tools/analysis-principal-components.c:141
-#, fuzzy
 msgid "Percent of Trace:"
-msgstr "Prozentsätze"
+msgstr "Prozent der Gesamtvarianz:"
 
 #: ../src/tools/analysis-principal-components.c:219
 #, c-format
 msgid "Principal Components Analysis (%s)"
-msgstr ""
+msgstr "Hauptkomponentenanalyse (%s)"
 
 #: ../src/tools/analysis-sign-test.c:74
 #, fuzzy
@@ -12460,7 +12483,7 @@ msgid ""
 "/Sign Test/Median:/Predicted Median:/Test Statistic:/N:/α:/P(T≤t) one-"
 "tailed:/P(T≤t) two-tailed:"
 msgstr ""
-"/Vorzeichentest/Medianwert:/Vorhergesagter Medianwert:/Test Statistic:/N:/α:/"
+"/Vorzeichentest/Medianwert:/Vorhergesagter Medianwert:/Test-Statistik:/N:/α:/"
 "P(T≤t) one-tailed:/P(T≤t) two-tailed:"
 
 #: ../src/tools/analysis-sign-test.c:216
@@ -13680,9 +13703,8 @@ msgid "Next _Object"
 msgstr "Nächstes _Objekt"
 
 #: ../src/wbc-gtk-actions.c:1890
-#, fuzzy
 msgid "Select the next sheet object"
-msgstr "Alle nicht leeren Blätter zum Exportieren auswählen."
+msgstr "Nächstes Blattobjekt wählen"
 
 #: ../src/wbc-gtk-actions.c:1893
 msgid "_Goto cell..."
@@ -14237,7 +14259,7 @@ msgstr "_Fourier-Analyse …"
 
 #: ../src/wbc-gtk-actions.c:2159
 msgid "Principal Components Analysis..."
-msgstr ""
+msgstr "Hauptkomponentenanalyse …"
 
 #: ../src/wbc-gtk-actions.c:2162
 msgid "Ranks And _Percentiles..."
@@ -14280,13 +14302,12 @@ msgid "Creation of Kaplan-Meier Survival Curves"
 msgstr "Überlebensfunktion nach Kaplan-Meier erstellen"
 
 #: ../src/wbc-gtk-actions.c:2177
-#, fuzzy
 msgid "_Normality Tests..."
-msgstr "Zellen _formatieren …"
+msgstr "_Normalitätstests …"
 
 #: ../src/wbc-gtk-actions.c:2178
 msgid "Testing a sample for normality"
-msgstr ""
+msgstr "Testen eines Beispiels auf Normalität"
 
 #: ../src/wbc-gtk-actions.c:2180
 msgid "One M_edian Sign Test..."
@@ -14297,7 +14318,6 @@ msgid "Testing the value of a median"
 msgstr "Den Wert eines Median testen"
 
 #: ../src/wbc-gtk-actions.c:2183
-#, fuzzy
 msgid "T_wo Medians Sign Test..."
 msgstr "Vorzeichentest mit _zwei Medianwerten …"
 
@@ -14405,7 +14425,6 @@ msgid "_Correlated..."
 msgstr "_Korreliert …"
 
 #: ../src/wbc-gtk-actions.c:2223
-#, fuzzy
 msgid "Generate variates for correlated normal distributed random variables"
 msgstr "Ähnliche Varianten für normal verteilte Zufallsvariablen erzeugen"
 
@@ -15395,9 +15414,8 @@ msgid "Expecting a single range"
 msgstr "Einfache Reichweite erwartet"
 
 #: ../src/widgets/gnm-sheet-slicer-combo-view.c:116
-#, fuzzy
 msgid "<Blank>"
-msgstr "Schwarz"
+msgstr "<Leer>"
 
 #: ../src/widgets/gnumeric-text-view.c:247
 msgid "Thin"
