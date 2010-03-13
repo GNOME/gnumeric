@@ -5337,6 +5337,11 @@ wbc_gtk_init (GObject *obj)
 #endif
 
 	wbcg_set_autosave_time (wbcg, gnm_conf_get_core_workbook_autosave_time ());
+
+#ifndef GNM_ENABLE_SOLVER
+	wbc_gtk_set_action_sensitivity (wbcg, "ToolsSolver", FALSE);
+#endif
+
 }
 
 GSF_CLASS_FULL (WBCGtk, wbc_gtk, NULL, NULL, wbc_gtk_class_init, NULL,

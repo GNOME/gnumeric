@@ -2593,8 +2593,4 @@ wbc_gtk_init_actions (WBCGtk *wbcg)
 		font_toggle_actions, G_N_ELEMENTS (font_toggle_actions), wbcg);
 
 	wbc_gtk_init_alignments (wbcg);
-
-#ifndef GNM_ENABLE_SOLVER
-	wbc_gtk_set_action_sensitivity (wbcg, "ToolsSolver", FALSE);
-#endif
 }

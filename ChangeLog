@@ -1,3 +1,9 @@
+2010-03-13 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/wbc-gtk-actions.c (wbc_gtk_init_actions): move disabling
+	  of solver menu item from here to
+	* src/wbc-gtk.c (wbc_gtk_init): here
+
 2010-03-11  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_autofilter_add_remove): Remove extra
