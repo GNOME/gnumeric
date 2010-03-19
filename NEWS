@@ -2,7 +2,9 @@ Gnumeric 1.10.2
 
 Andreas:
 
-	* fix build with --disable-solver. [#612820]
+	* Fix build with --disable-solver. [#612820]
+	* Fix column and row header display under Quartz. [#600085]
+
 Morten:
 	* Improve object sizing tooltip positioning a bit.
 	* Fix filter critical.  [#611073]

@@ -1,5 +1,11 @@
 2010-03-13 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/item-bar.c (item_bar_calc_size): use pango_itemize to create
+	  PangoItem and PangoAnalysis
+	(item_bar_init): initialize pango.item to NULL
+
+2010-03-13 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/wbc-gtk-actions.c (wbc_gtk_init_actions): move disabling
 	  of solver menu item from here to
 	* src/wbc-gtk.c (wbc_gtk_init): here

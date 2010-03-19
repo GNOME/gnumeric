@@ -114,6 +114,8 @@ item_bar_calc_size (ItemBar *ib)
 	PangoLayout *layout;
 	PangoRectangle ink_rect, logical_rect;
 	gboolean const char_label = ib->is_col_header && !sheet->convs->r1c1_addresses;
+	GList *item_list;
+	PangoAttrList *attr_list;
 
 	ib_fonts_unref (ib);
 
@@ -153,18 +155,23 @@ item_bar_calc_size (ItemBar *ib)
 	pango_layout_get_extents (layout, NULL, &logical_rect);
 	ib->cell_width = 5 + 5 + PANGO_PIXELS (logical_rect.width);
 
-	pango_font_description_free (desc);
-	g_object_unref (layout);
+	attr_list = pango_attr_list_new ();
+	pango_attr_list_insert (attr_list, pango_attr_font_desc_new (desc));
+	item_list = pango_itemize (context, "A", 0, 1, attr_list, NULL);
+	pango_attr_list_unref (attr_list);
 
-	ib->pango.item->analysis.font = g_object_ref (ib->normal_font);
-	ib->pango.item->analysis.language =
-		pango_context_get_language (context);
-	ib->pango.item->analysis.shape_engine =
-		pango_font_find_shaper (ib->normal_font,
-					ib->pango.item->analysis.language,
-					'A');
+	ib->pango.item = item_list->data;
+	item_list->data = NULL;
+
+	if (item_list->next != NULL)
+	  g_warning ("Leaking pango items");
+
+	g_list_free (item_list);
 
 	ib->indent = ib_compute_pixels_from_indent (sheet, ib->is_col_header);
+
+	pango_font_description_free (desc);
+	g_object_unref (layout);
 
 	return ib->indent +
 		(ib->is_col_header ? ib->cell_height : ib->cell_width);
@@ -1086,7 +1093,7 @@ item_bar_init (ItemBar *ib)
 
 	ib->colrow_being_resized = -1;
 	ib->has_resize_guides = FALSE;
-	ib->pango.item = pango_item_new ();
+	ib->pango.item = NULL;
 	ib->pango.glyphs = pango_glyph_string_new ();
 }
 
