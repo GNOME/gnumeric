@@ -13,9 +13,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-02 09:24-0500\n"
-"PO-Revision-Date: 2010-02-20 13:10+0100\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=gnumeric&component=general\n"
+"POT-Creation-Date: 2010-03-09 20:54+0000\n"
+"PO-Revision-Date: 2010-03-21 17:50+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -652,55 +653,59 @@ msgstr "Cálculos de tasa de interés"
 #. Merriam-Webster dictionary
 #. xgettext: Tishri to Adar II are transliterations of the
 #. xgettext: hebrew months' names using Latin characters.
-#: ../plugins/fn-hebrew-date/hdate_strings.c:106
+#: ../plugins/fn-hebrew-date/hdate_strings.c:104
 msgid "Tishri"
 msgstr "Tishrei"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:106
+#: ../plugins/fn-hebrew-date/hdate_strings.c:104
 msgid "Heshwan"
 msgstr "Jeshván"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:106
+#: ../plugins/fn-hebrew-date/hdate_strings.c:104
 msgid "Kislev"
 msgstr "Kislev"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:107
+#: ../plugins/fn-hebrew-date/hdate_strings.c:105
 msgid "Tebet"
 msgstr "Tevet"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:107
+#: ../plugins/fn-hebrew-date/hdate_strings.c:105
 msgid "Shebat"
 msgstr "Shevat"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:107
+#: ../plugins/fn-hebrew-date/hdate_strings.c:105
 msgid "Adar"
 msgstr "Adar"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:108
+#: ../plugins/fn-hebrew-date/hdate_strings.c:106
 msgid "Nisan"
 msgstr "Nisán"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:108
+#: ../plugins/fn-hebrew-date/hdate_strings.c:106
 msgid "Iyar"
 msgstr "Iyar"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:108
+#: ../plugins/fn-hebrew-date/hdate_strings.c:106
 msgid "Sivan"
 msgstr "Siván"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:109
+#: ../plugins/fn-hebrew-date/hdate_strings.c:106
+msgid "Tammuz"
+msgstr "Tamuz"
+
+#: ../plugins/fn-hebrew-date/hdate_strings.c:107
 msgid "Ab"
 msgstr "Ab"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:109
+#: ../plugins/fn-hebrew-date/hdate_strings.c:107
 msgid "Elul"
 msgstr "Elul"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:109
+#: ../plugins/fn-hebrew-date/hdate_strings.c:107
 msgid "Adar I"
 msgstr "Adar I"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:109
+#: ../plugins/fn-hebrew-date/hdate_strings.c:107
 msgid "Adar II"
 msgstr "Adar II"
 
@@ -935,21 +940,23 @@ msgid "Writing glpk file..."
 msgstr "Escribiendo archivo glpk…"
 
 #: ../plugins/glpk/gnm-glpk.c:54
-#, fuzzy, c-format
+#, c-format
 msgid "The GLPK exporter is not available."
-msgstr "No se encuentra disponible el guardador de archivos preestablecido."
+msgstr "El exportador GLPK no está disponible."
 
-#: ../plugins/glpk/gnm-glpk.c:236
-#, fuzzy, c-format
+#: ../plugins/glpk/gnm-glpk.c:237
+#, c-format
 msgid "Failed to create file for solution"
-msgstr "No se puede crear archivo temporal para el envío."
+msgstr "Falló al crear el archivo para la solución"
 
-#: ../plugins/glpk/gnm-glpk.c:285 ../plugins/lpsolve/gnm-lpsolve.c:280
+#: ../plugins/glpk/gnm-glpk.c:286 ../plugins/lpsolve/gnm-lpsolve.c:280
 #, c-format
 msgid ""
 "The %s program was not found.  You can either install it or use another "
 "solver. For more information see %s"
 msgstr ""
+"No se encontró el programa %s. Puede instalarlo o usar otro resolutor. Para "
+"obtener más información consulte %s."
 
 #: ../plugins/glpk/plugin.xml.in.h:1
 msgid "GLPK"
@@ -1052,26 +1059,25 @@ msgid "Lotus 123 (*.wk1, *.wks, *.123)"
 msgstr "Lotus 123 (*.wk1, *.wks *.123)"
 
 #: ../plugins/lpsolve/gnm-lpsolve.c:50
-#, fuzzy, c-format
+#, c-format
 msgid "The LPSolve exporter is not available."
-msgstr "No se encuentra disponible el guardador de archivos preestablecido."
+msgstr "El exportador LPSolve no está disponible."
 
 #: ../plugins/lpsolve/lpsolve-write.c:329
 msgid "Writing lpsolve file..."
-msgstr ""
+msgstr "Escribiendo archivo lpsolve…"
 
 #: ../plugins/lpsolve/plugin.xml.in.h:1
-#, fuzzy
 msgid "LPSolve"
-msgstr "LP Solve"
+msgstr "LPSolve"
 
 #: ../plugins/lpsolve/plugin.xml.in.h:2
 msgid "LPSolve Linear Program Solver"
-msgstr ""
+msgstr "Programa resolutor lineal LPSolve"
 
 #: ../plugins/lpsolve/plugin.xml.in.h:3
 msgid "LPSolve Linear Program Solver Interface"
-msgstr ""
+msgstr "Interfaz del programa resolutor lineal LPSolve"
 
 #: ../plugins/lpsolve/plugin.xml.in.h:4
 msgid "Solver Interface to LPSolve"
@@ -1082,23 +1088,21 @@ msgid "Program Name"
 msgstr "Nombre del programa"
 
 #: ../plugins/mps/mps.c:222
-#, fuzzy
 msgid "Invalid line in ROWS section"
-msgstr "La sección ROWS en el archivo no es válida."
+msgstr "Línea no válida en la sección ROWS"
 
 #: ../plugins/mps/mps.c:231
-#, fuzzy, c-format
+#, c-format
 msgid "Duplicate rows name %s"
-msgstr "Actualizar nombre %s"
+msgstr "Nombre de filas %s duplicado"
 
 #: ../plugins/mps/mps.c:249
-#, fuzzy
 msgid "Duplicate objective row"
-msgstr "Duplicar objeto"
+msgstr "Duplicar fila objetivo"
 
 #: ../plugins/mps/mps.c:267
 msgid "Missing objective row"
-msgstr ""
+msgstr "Falta la fila objetivo"
 
 #: ../plugins/mps/mps.c:292
 msgid "Invalid marker"
@@ -5678,14 +5682,14 @@ msgid "Could not create the autosave dialog."
 msgstr "No se puede crear el diálogo de guardado automático."
 
 #: ../src/dialogs/dialog-cell-comment.c:165
-#, fuzzy, c-format
+#, c-format
 msgid "Edit Cell Comment (%s)"
-msgstr "Comentario de la celda"
+msgstr "Editar comentario de la celda (%s)"
 
 #: ../src/dialogs/dialog-cell-comment.c:168
-#, fuzzy, c-format
+#, c-format
 msgid "New Cell Comment (%s)"
-msgstr "Comentario de la celda"
+msgstr "Comentario nuevo en la celda (%s)"
 
 #: ../src/dialogs/dialog-cell-format.c:74
 msgid "Single"
@@ -5869,27 +5873,27 @@ msgstr "%s (%s)"
 msgid "%s to %s"
 msgstr "%s a %s"
 
-#: ../src/dialogs/dialog-cell-sort.c:764
+#: ../src/dialogs/dialog-cell-sort.c:763
 msgid "no available row"
 msgstr "fila no disponible"
 
-#: ../src/dialogs/dialog-cell-sort.c:764
+#: ../src/dialogs/dialog-cell-sort.c:763
 msgid "no available column"
 msgstr "columna no disponible"
 
-#: ../src/dialogs/dialog-cell-sort.c:1018
+#: ../src/dialogs/dialog-cell-sort.c:1017
 msgid "Header"
 msgstr "Encabezado"
 
-#: ../src/dialogs/dialog-cell-sort.c:1023
+#: ../src/dialogs/dialog-cell-sort.c:1022
 msgid "Row/Column"
 msgstr "Fila/Columna"
 
-#: ../src/dialogs/dialog-cell-sort.c:1043
+#: ../src/dialogs/dialog-cell-sort.c:1042
 msgid "Case Sensitive"
 msgstr "Sensible a capitalización"
 
-#: ../src/dialogs/dialog-cell-sort.c:1063
+#: ../src/dialogs/dialog-cell-sort.c:1062
 msgid "By Value"
 msgstr "Por valor"
 
@@ -5924,7 +5928,6 @@ msgid "Could not create the Consolidate dialog."
 msgstr "No se puede crear el diálogo de Consolidación."
 
 #: ../src/dialogs/dialog-data-slicer.c:142
-#, fuzzy
 msgid "Filter"
 msgstr "Filtro"
 
@@ -5943,7 +5946,6 @@ msgstr "Datos"
 
 #. Must be last
 #: ../src/dialogs/dialog-data-slicer.c:147
-#, fuzzy
 msgid "Unused"
 msgstr "Libre"
 
@@ -6018,9 +6020,8 @@ msgid "Calculation"
 msgstr "Cálculo"
 
 #: ../src/dialogs/dialog-doc-metadata.c:1798
-#, fuzzy
 msgid "Could not create the Properties dialog."
-msgstr "No se puedo crear el diálogo Listar propiedades."
+msgstr "No se puedo crear el diálogo Propiedades."
 
 #: ../src/dialogs/dialog-fill-series.c:255
 msgid "Could not create the Fill Series dialog."
@@ -6048,9 +6049,9 @@ msgid "All Functions (long list)"
 msgstr "Todas las funciones (lista larga)"
 
 #: ../src/dialogs/dialog-function-select.c:330
-#, fuzzy, c-format
+#, c-format
 msgid "%s evaluates to %s."
-msgstr "%s versión %s"
+msgstr "%s evalúa %s."
 
 #: ../src/dialogs/dialog-function-select.c:389
 msgid "Arguments:"
@@ -6074,22 +6075,20 @@ msgid ", "
 msgstr ", "
 
 #: ../src/dialogs/dialog-function-select.c:484
-#, fuzzy
 msgid "Further information: "
-msgstr "Información del sistema"
+msgstr "Más información: "
 
 #: ../src/dialogs/dialog-function-select.c:486
-#, fuzzy
 msgid "online descriptions"
-msgstr "Descripción"
+msgstr "descripciones en línea"
 
 #: ../src/dialogs/dialog-function-select.c:497
 msgid "Microsoft Excel: "
-msgstr ""
+msgstr "Microsoft Excel: "
 
 #: ../src/dialogs/dialog-function-select.c:505
 msgid "ODF (OpenFormula): "
-msgstr ""
+msgstr "ODF (OpenFormula): "
 
 #: ../src/dialogs/dialog-goal-seek.c:329
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
@@ -6964,12 +6963,12 @@ msgstr "Ya está otra vista gestionando las hojas"
 msgid "Default"
 msgstr "Predeterminado"
 
-#: ../src/dialogs/dialog-sheetobject-size.c:194
+#: ../src/dialogs/dialog-sheetobject-size.c:195
 #: ../src/sheet-control-gui.c:2428
 msgid "Move Object"
 msgstr "Mover objeto"
 
-#: ../src/dialogs/dialog-sheetobject-size.c:194
+#: ../src/dialogs/dialog-sheetobject-size.c:195
 #: ../src/sheet-control-gui.c:2428
 msgid "Resize Object"
 msgstr "Redimensionar objeto"
@@ -7138,7 +7137,7 @@ msgstr "Aceptar"
 
 #: ../src/dialogs/dialog-solver.c:755
 msgid "Running solver"
-msgstr ""
+msgstr "Ejecutando resolutor"
 
 #: ../src/dialogs/dialog-solver.c:792
 msgid "Optimal solution created by solver.\n"
@@ -8131,7 +8130,7 @@ msgstr "Asistente para fórmulas"
 
 #: ../src/dialogs/formula-guru.glade.h:3
 msgid "Quote unknown names"
-msgstr ""
+msgstr "Entrecomillar nombres desconocidos"
 
 #: ../src/dialogs/fourier-analysis.glade.h:1 ../src/wbc-gtk-actions.c:2156
 msgid "Fourier Analysis"
@@ -10174,7 +10173,7 @@ msgstr ""
 
 #: ../src/func-builtin.c:46 ../src/func-builtin.c:73
 msgid "This function is Excel compatible."
-msgstr ""
+msgstr "Esta función es compatible con Excel."
 
 #: ../src/func-builtin.c:47 ../src/func-builtin.c:74
 msgid "This function is OpenFormula compatible."
@@ -10627,7 +10626,7 @@ msgid "Exit immediately after loading the selected books"
 msgstr "Salir inmediatamente después de cargar los libros seleccionados"
 
 #: ../src/main-application.c:227 ../src/ssconvert.c:657 ../src/ssgrep.c:434
-#: ../src/ssindex.c:253
+#: ../src/ssindex.c:255
 #, c-format
 msgid ""
 "%s\n"
@@ -11816,7 +11815,7 @@ msgstr ""
 "datadir := «%s»\n"
 "libdir := «%s»\n"
 
-#: ../src/ssconvert.c:693 ../src/ssindex.c:264
+#: ../src/ssconvert.c:693 ../src/ssindex.c:266
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Uso: %s [OPCIÓN…] %s\n"
@@ -11929,11 +11928,11 @@ msgstr "Listar los tipos MIME cuyo ssindex se pueda leer"
 msgid "Index the given files"
 msgstr "Indexar los archivos dados"
 
-#: ../src/ssindex.c:246 ../src/ssindex.c:266
+#: ../src/ssindex.c:248 ../src/ssindex.c:268
 msgid "INFILE..."
 msgstr "ARCHIVO-ENTRADA…"
 
-#: ../src/ssindex.c:260
+#: ../src/ssindex.c:262
 #, c-format
 msgid ""
 "ssindex version '%s'\n"
