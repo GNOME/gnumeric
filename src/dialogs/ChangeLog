@@ -1,3 +1,8 @@
+2010-03-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-preferences.c: fix boolean preferences under goffice 
+	  configured --without-gconf
+
 2010-03-08  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.1

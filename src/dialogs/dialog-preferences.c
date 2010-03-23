@@ -72,6 +72,9 @@ typedef void (* gboolean_conf_setter_t) (gboolean value);
 typedef void (* enum_conf_setter_t) (int value);
 typedef void (* wordlist_conf_setter_t) (GSList *value);
 
+typedef gboolean (* gboolean_conf_getter_t) (void);
+
+
 static void
 dialog_pref_add_item (PrefState *state, char const *page_name,
 		      char const *icon_name,
@@ -156,10 +159,11 @@ static void
 bool_pref_widget_to_conf (GtkToggleButton *button,
 			  gboolean_conf_setter_t setter)
 {
-	GOConfNode *node = g_object_get_data (G_OBJECT (button), "node");
+	gboolean_conf_getter_t getter 
+		= g_object_get_data (G_OBJECT (button), "getter");
 	gboolean val_in_button = gtk_toggle_button_get_active (button);
-	gboolean val_in_conf = go_conf_get_bool (node, NULL);
-	if ((!val_in_button) != (!val_in_conf))
+	gboolean val_in_conf = getter ();
+	if ((!val_in_button) != (!val_in_conf)) 
 		setter (val_in_button);
 }
 
@@ -168,7 +172,11 @@ bool_pref_conf_to_widget (GOConfNode *node, G_GNUC_UNUSED char const *key,
 			  GtkToggleButton *button)
 {
 	gboolean val_in_button = gtk_toggle_button_get_active (button);
+
+	/* We can't use the getter here since the main preferences */
+	/* may be notified after us */
 	gboolean val_in_conf = go_conf_get_bool (node, NULL);
+
 	if ((!val_in_button) != (!val_in_conf))
 		gtk_toggle_button_set_active (button, val_in_conf);
 }
@@ -176,6 +184,7 @@ bool_pref_conf_to_widget (GOConfNode *node, G_GNUC_UNUSED char const *key,
 static void
 bool_pref_create_widget (GOConfNode *node, GtkWidget *table,
 			 gint row, gboolean_conf_setter_t setter,
+			 gboolean_conf_getter_t getter,
 			 char const *default_label)
 {
 	char *desc = go_conf_get_short_desc (node, NULL);
@@ -184,8 +193,9 @@ bool_pref_create_widget (GOConfNode *node, GtkWidget *table,
 
 	g_free (desc);
 
-	bool_pref_conf_to_widget (node, NULL, GTK_TOGGLE_BUTTON (item));
-	g_object_set_data (G_OBJECT (item), "node", node);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (item), getter ());
+
+	g_object_set_data (G_OBJECT (item), "getter", getter);
 	g_signal_connect (G_OBJECT (item), "toggled",
 			  G_CALLBACK (bool_pref_widget_to_conf),
 			  (gpointer) setter);
@@ -710,6 +720,7 @@ pref_undo_page_initializer (PrefState *state,
 	bool_pref_create_widget (gnm_conf_get_undo_show_sheet_name_node (),
 				 page, row++,
 				 gnm_conf_set_undo_show_sheet_name,
+				 gnm_conf_get_undo_show_sheet_name,
 				_("Show Sheet Name in Undo List"));
 
 	gtk_widget_show_all (page);
@@ -736,14 +747,17 @@ pref_sort_page_initializer (PrefState *state,
 	bool_pref_create_widget (gnm_conf_get_core_sort_default_retain_formats_node (),
 				 page, row++,
 				 gnm_conf_set_core_sort_default_retain_formats,
+				 gnm_conf_get_core_sort_default_retain_formats,
 				 _("Sorting Preserves Formats"));
 	bool_pref_create_widget (gnm_conf_get_core_sort_default_by_case_node (),
 				 page, row++,
 				 gnm_conf_set_core_sort_default_by_case,
+				 gnm_conf_get_core_sort_default_by_case,
 				 _("Sorting is Case-Sensitive"));
 	bool_pref_create_widget (gnm_conf_get_core_sort_default_ascending_node (),
 				 page, row++,
 				 gnm_conf_set_core_sort_default_ascending,
+				 gnm_conf_get_core_sort_default_ascending,
 				 _("Sort Ascending"));
 
 	gtk_widget_show_all (page);
@@ -798,6 +812,7 @@ pref_window_page_initializer (PrefState *state,
 	bool_pref_create_widget (gnm_conf_get_core_gui_editing_livescrolling_node (),
 				 page, row++,
 				 gnm_conf_set_core_gui_editing_livescrolling,
+				 gnm_conf_get_core_gui_editing_livescrolling,
 				 _("Live Scrolling"));
 
 	gtk_widget_show_all (page);
@@ -829,15 +844,18 @@ pref_file_page_initializer (PrefState *state,
 	bool_pref_create_widget (gnm_conf_get_core_file_save_def_overwrite_node (),
 				 page, row++,
 				 gnm_conf_set_core_file_save_def_overwrite,
+				 gnm_conf_get_core_file_save_def_overwrite,
 				 _("Default To Overwriting Files"));
 	bool_pref_create_widget (gnm_conf_get_core_file_save_single_sheet_node (),
 				 page, row++,
 				 gnm_conf_set_core_file_save_single_sheet,
+				 gnm_conf_get_core_file_save_single_sheet,
 				 _("Warn When Exporting Into Single "
 				   "Sheet Format"));
 	bool_pref_create_widget (gnm_conf_get_plugin_latex_use_utf8_node (),
 				 page, row++,
 				 gnm_conf_set_plugin_latex_use_utf8,
+				 gnm_conf_get_plugin_latex_use_utf8,
 				 _("Use UTF-8 in LaTeX Export"));
 
 	gtk_widget_show_all (page);
@@ -891,14 +909,17 @@ pref_tool_page_initializer (PrefState *state,
 	bool_pref_create_widget (gnm_conf_get_core_gui_editing_transitionkeys_node (),
 				 page, row++,
 				 gnm_conf_set_core_gui_editing_transitionkeys,
+				 gnm_conf_get_core_gui_editing_transitionkeys,
 				 _("Transition Keys"));
 	bool_pref_create_widget (gnm_conf_get_core_gui_editing_autocomplete_node (),
 				 page, row++,
 				 gnm_conf_set_core_gui_editing_autocomplete,
+				 gnm_conf_get_core_gui_editing_autocomplete,
 				_("Autocomplete"));
 	bool_pref_create_widget (gnm_conf_get_dialogs_rs_unfocused_node (),
 				 page, row++,
 				 gnm_conf_set_dialogs_rs_unfocused,
+				 gnm_conf_get_dialogs_rs_unfocused,
 				_("Allow Unfocused Range Selections"));
 	int_pref_create_widget (gnm_conf_get_functionselector_num_of_recent_node (),
 				page, row++, 10, 0, 40, 1,
@@ -926,6 +947,7 @@ pref_copypaste_page_initializer (PrefState *state,
 	bool_pref_create_widget (gnm_conf_get_cut_and_paste_prefer_clipboard_node (),
 				 page, row++,
 				 gnm_conf_set_cut_and_paste_prefer_clipboard,
+				 gnm_conf_get_cut_and_paste_prefer_clipboard,
 				 _("Prefer CLIPBOARD Over PRIMARY Selection"));
 
 	gtk_widget_show_all (page);
@@ -948,6 +970,7 @@ pref_autocorrect_general_page_initializer (PrefState *state,
 	bool_pref_create_widget (gnm_conf_get_autocorrect_names_of_days_node (),
 				 page, row++,
 				 gnm_conf_set_autocorrect_names_of_days,
+				 gnm_conf_get_autocorrect_names_of_days,
 				 _("Capitalize _names of days"));
 
 	gtk_widget_show_all (page);
@@ -970,6 +993,7 @@ pref_autocorrect_initialcaps_page_initializer (PrefState *state,
 	bool_pref_create_widget (gnm_conf_get_autocorrect_init_caps_node (),
 				 page, row++,
 				 gnm_conf_set_autocorrect_init_caps,
+				 gnm_conf_get_autocorrect_init_caps,
 				 _("Correct _TWo INitial CApitals"));
 	wordlist_pref_create_widget (gnm_conf_get_autocorrect_init_caps_list_node (), page,
 				     row++, "Do _not correct:");
@@ -994,6 +1018,7 @@ pref_autocorrect_firstletter_page_initializer (PrefState *state,
 	bool_pref_create_widget (gnm_conf_get_autocorrect_first_letter_node (),
 				 page, row++,
 				 gnm_conf_set_autocorrect_first_letter,
+				 gnm_conf_get_autocorrect_first_letter,
 				 _("Capitalize _first letter of sentence"));
 	wordlist_pref_create_widget (gnm_conf_get_autocorrect_first_letter_list_node (), page,
 				     row++, "Do _not capitalize after:");
