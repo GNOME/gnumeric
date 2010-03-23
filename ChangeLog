@@ -1,5 +1,10 @@
 2010-03-23  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (cb_paned_size_allocate): Improve handling of
+	too-narrow windows.
+	(cb_status_size_allocate): New function to trigger repartition
+	after window resize.
+
 	* src/wbc-gtk-actions.c (permanent_actions): Move FileNew,
 	FileOpen, and a few more actions here.
 
