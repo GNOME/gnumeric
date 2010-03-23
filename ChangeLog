@@ -1,3 +1,8 @@
+2010-03-23  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk-actions.c (permanent_actions): Move FileNew,
+	FileOpen, and a few more actions here.
+
 2010-03-13 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/item-bar.c (item_bar_calc_size): use pango_itemize to create

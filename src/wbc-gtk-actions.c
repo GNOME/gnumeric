@@ -1692,8 +1692,6 @@ static GNM_ACTION_DEF (cb_file_menu)
 /* Actions that are always sensitive */
 static GtkActionEntry const permanent_actions[] = {
 	{ "MenuFile",		NULL, N_("_File"), NULL, NULL, G_CALLBACK (cb_file_menu) },
-	{ "FileNewFromTemplate", GTK_STOCK_NEW, N_("New From Template"), "" },
-		{ "FilePrintArea",      NULL, N_("Print Area")},
 	{ "MenuEdit",		NULL, N_("_Edit") },
 		{ "MenuEditClear",	GTK_STOCK_CLEAR, N_("C_lear") },
 		{ "MenuEditDelete",	GTK_STOCK_DELETE, N_("_Delete") },
@@ -1726,12 +1724,26 @@ static GtkActionEntry const permanent_actions[] = {
 		{ "MenuSlicer",		NULL,	N_("Data S_licer") },
 	{ "MenuHelp",	NULL,	N_("_Help") },
 
+	{ "FileNew", GTK_STOCK_NEW, NULL,
+		NULL, N_("Create a new workbook"),
+		G_CALLBACK (cb_file_new) },
+	{ "FileNewFromTemplate", GTK_STOCK_NEW, N_("New From Template"), "" },
+	{ "FileOpen", GTK_STOCK_OPEN, NULL,
+		NULL, N_("Open a file"),
+		G_CALLBACK (cb_file_open) },
 	{ "FileSave", GTK_STOCK_SAVE, NULL,
 		NULL, N_("Save the current workbook"),
 		G_CALLBACK (cb_file_save) },
 	{ "FileSaveAs", GTK_STOCK_SAVE_AS, NULL,
 		"<control><shift>s", N_("Save the current workbook with a different name"),
 		G_CALLBACK (cb_file_save_as) },
+	{ "FileSend", "Gnumeric_Link_EMail", N_("Sen_d To..."),
+		NULL, N_("Send the current file via email"),
+		G_CALLBACK (cb_file_sendto) },
+	{ "FilePrintArea",      NULL, N_("Print Area")},
+	{ "FileHistoryFull", NULL, N_("Full _History..."),
+		NULL, N_("Access previously used file"),
+		G_CALLBACK (cb_file_history_full) },
 	{ "FileClose", GTK_STOCK_CLOSE, NULL,
 		NULL, N_("Close the current file"),
 		G_CALLBACK (cb_file_close) },
@@ -1784,15 +1796,6 @@ static GtkActionEntry const permanent_actions[] = {
 
 static GtkActionEntry const actions[] = {
 /* File */
-	{ "FileNew", GTK_STOCK_NEW, NULL,
-		NULL, N_("Create a new workbook"),
-		G_CALLBACK (cb_file_new) },
-	{ "FileOpen", GTK_STOCK_OPEN, NULL,
-		NULL, N_("Open a file"),
-		G_CALLBACK (cb_file_open) },
-	{ "FileSend", "Gnumeric_Link_EMail", N_("Sen_d To..."),
-		NULL, N_("Send the current file via email"),
-		G_CALLBACK (cb_file_sendto) },
 #ifdef HAVE_GTK_ADJUSTMENT_CONFIGURE
 	/* gtk_adjustment_configure implies gtk 2.14 or later */
 	/* that is required for GTK_STOCK_PAGE_SETUP */
@@ -1811,9 +1814,6 @@ static GtkActionEntry const actions[] = {
 	{ "FileMetaData", GTK_STOCK_PROPERTIES, N_("Document Proper_ties..."),
 		NULL, N_("Edit document properties"),
 		G_CALLBACK (cb_doc_meta_data) },
-	{ "FileHistoryFull", NULL, N_("Full _History..."),
-		NULL, N_("Access previously used file"),
-		G_CALLBACK (cb_file_history_full) },
 
 /* File->PrintArea */
         { "FilePrintAreaSet", NULL, N_("Set Print Area"),
