@@ -3,7 +3,7 @@
   <menubar>
     <menu name="File" action="MenuFile">
       <menuitem action="FileNew"/>
-      <menu name="Templates" action="FileNewFromTemplate">
+      <menu name="Templates" action="MenuFileNewFromTemplate">
       </menu>
       <menuitem action="FileOpen"/>
       <separator name="file-sep1"/>

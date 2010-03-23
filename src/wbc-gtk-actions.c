@@ -1692,6 +1692,8 @@ static GNM_ACTION_DEF (cb_file_menu)
 /* Actions that are always sensitive */
 static GtkActionEntry const permanent_actions[] = {
 	{ "MenuFile",		NULL, N_("_File"), NULL, NULL, G_CALLBACK (cb_file_menu) },
+		{ "MenuFileNewFromTemplate", GTK_STOCK_NEW,
+		  N_("New From Template"), "" },
 	{ "MenuEdit",		NULL, N_("_Edit") },
 		{ "MenuEditClear",	GTK_STOCK_CLEAR, N_("C_lear") },
 		{ "MenuEditDelete",	GTK_STOCK_DELETE, N_("_Delete") },
@@ -1727,7 +1729,6 @@ static GtkActionEntry const permanent_actions[] = {
 	{ "FileNew", GTK_STOCK_NEW, NULL,
 		NULL, N_("Create a new workbook"),
 		G_CALLBACK (cb_file_new) },
-	{ "FileNewFromTemplate", GTK_STOCK_NEW, N_("New From Template"), "" },
 	{ "FileOpen", GTK_STOCK_OPEN, NULL,
 		NULL, N_("Open a file"),
 		G_CALLBACK (cb_file_open) },
