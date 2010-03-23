@@ -934,7 +934,7 @@ cb_paned_size_allocate (GtkHPaned *hpaned,
 	GtkWidget *widget = (GtkWidget *)paned;
 	GtkRequisition child1_requisition;
 	gint handle_size;
-	gint p1, p2, h1, h2, w1, w2, w, desired;
+	gint p1, p2, h1, h2, w1, w2, w, wp;
 	gint border_width = GTK_CONTAINER (paned)->border_width;
 	gboolean position_set;
 	GtkWidget *child1 = paned->child1;
@@ -969,8 +969,19 @@ cb_paned_size_allocate (GtkHPaned *hpaned,
 
 	gtk_widget_style_get (widget, "handle-size", &handle_size, NULL);
 	w = widget->allocation.width - handle_size - 2 * border_width;
-	desired = MAX (0, w / 3);
-	p1 = MIN (desired, child1->requisition.width);
+	p1 = MAX (0, w / 2);
+
+	/*
+	 * Don't let the status text take up more then 125% of the space
+	 * used for auto-expr and other little things.  This helps with
+	 * wide windows.
+	 */
+	wp = GTK_WIDGET (hpaned)->parent->allocation.width;
+	p1 = MAX (p1, w - (wp - w) * 125 / 100);
+
+	/* However, never use more for tabs than we want.  */
+	p1 = MIN (p1, child1->requisition.width);
+
 	p2 = MAX (0, w - p1);
 
 	if (p1 < child1->requisition.width) {

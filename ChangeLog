@@ -1,7 +1,7 @@
 2010-03-23  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (cb_paned_size_allocate): Improve handling of
-	too-narrow windows.
+	too-narrow windows.  Show more tabs for wide windows.
 	(cb_status_size_allocate): New function to trigger repartition
 	after window resize.
 
