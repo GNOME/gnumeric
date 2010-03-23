@@ -37,6 +37,14 @@
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
+typedef enum {
+	AC_INIT_CAPS,
+	AC_FIRST_LETTER,
+	AC_NAMES_OF_DAYS,
+	AC_REPLACE,
+	AC_MAX_FEATURE
+} AutoCorrectFeature;
+
 static struct {
 	gboolean init_caps;
 	gboolean first_letter;
@@ -58,6 +66,9 @@ static struct {
 #define AUTOCORRECT_FIRST_LETTER_LIST	"first-letter-list"
 #define AUTOCORRECT_NAMES_OF_DAYS	"names-of-days"
 #define AUTOCORRECT_REPLACE		"replace"
+
+static void
+autocorrect_set_exceptions (AutoCorrectFeature feat, GSList const *list);
 
 static void
 autocorrect_clear (void)
@@ -103,82 +114,13 @@ autocorrect_init (void)
 		(GDestroyNotify) autocorrect_clear);
 }
 
-void
-autocorrect_store_config (void)
-{
-	gnm_conf_set_autocorrect_init_caps (autocorrect.init_caps);
-	gnm_conf_set_autocorrect_init_caps_list (autocorrect.exceptions.init_caps);
-
-	gnm_conf_set_autocorrect_first_letter (autocorrect.first_letter);
-	gnm_conf_set_autocorrect_first_letter_list (autocorrect.exceptions.first_letter);
-
-	gnm_conf_set_autocorrect_names_of_days (autocorrect.names_of_days);
-
-	gnm_conf_set_autocorrect_replace (autocorrect.replace);
-}
-
-gboolean
-autocorrect_get_feature (AutoCorrectFeature feature)
-{
-	autocorrect_init ();
-
-	switch (feature) {
-	case AC_INIT_CAPS :	return autocorrect.init_caps;
-	case AC_FIRST_LETTER :	return autocorrect.first_letter;
-	case AC_NAMES_OF_DAYS :	return autocorrect.names_of_days;
-	case AC_REPLACE :	return autocorrect.replace;
-	default :
-		g_warning ("Invalid autocorrect feature %d.", feature);
-	};
-	return TRUE;
-}
-
-void
-autocorrect_set_feature (AutoCorrectFeature feature, gboolean val)
-{
-	switch (feature) {
-	case AC_INIT_CAPS :	autocorrect.init_caps = val;	break;
-	case AC_FIRST_LETTER :	autocorrect.first_letter = val;	break;
-	case AC_NAMES_OF_DAYS :	autocorrect.names_of_days = val;break;
-	case AC_REPLACE :	autocorrect.replace = val;	break;
-	default :
-		g_warning ("Invalid autocorrect feature %d.", feature);
-	};
-}
-
-/**
- * autocorrect_get_exceptions :
- * @feature :
- *
- * Return a list of UTF-8 encoded strings.  Both the list and the content need to be freed.
- **/
-GSList *
-autocorrect_get_exceptions (AutoCorrectFeature feature)
-{
-	GSList *ptr, *accum;
-
-	autocorrect_init ();
-
-	switch (feature) {
-	case AC_INIT_CAPS :    ptr = autocorrect.exceptions.init_caps; break;
-	case AC_FIRST_LETTER : ptr = autocorrect.exceptions.first_letter; break;
-	default :
-		g_warning ("Invalid autocorrect feature %d.", feature);
-		return NULL;
-	};
-
-	for (accum = NULL; ptr != NULL; ptr = ptr->next)
-		accum = g_slist_prepend (accum, g_strdup (ptr->data));
-	return g_slist_reverse (accum);
-}
-
 /**
  * autocorrect_set_exceptions :
  * @feature :
  * @list : A GSList of UTF-8 encoded strings.
  *
  **/
-void
+static void
 autocorrect_set_exceptions (AutoCorrectFeature feature, GSList const *list)
 {
 	GSList **res, *accum = NULL;

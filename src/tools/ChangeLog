@@ -1,3 +1,18 @@
+2010-03-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* auto-correct.h (AutoCorrectFeature): move to auto-correct.c
+	(autocorrect_store_config): delete
+	(autocorrect_get_feature): delete
+	(autocorrect_set_feature): delete
+	(autocorrect_get_exceptions): delete
+	(autocorrect_set_exceptions): move to auto-correct.c
+	* auto-correct.c (AutoCorrectFeature): moved here from auto-correct.h
+	(autocorrect_store_config): delete
+	(autocorrect_get_feature): delete
+	(autocorrect_set_feature): delete
+	(autocorrect_get_exceptions): delete
+	(autocorrect_set_exceptions): make static
+
 2010-03-08  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.1
