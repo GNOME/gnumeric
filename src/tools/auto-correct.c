@@ -37,109 +37,6 @@
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
-typedef enum {
-	AC_INIT_CAPS,
-	AC_FIRST_LETTER,
-	AC_NAMES_OF_DAYS,
-	AC_REPLACE,
-	AC_MAX_FEATURE
-} AutoCorrectFeature;
-
-static struct {
-	gboolean init_caps;
-	gboolean first_letter;
-	gboolean names_of_days;
-	gboolean replace;
-
-	struct {
-		GSList *first_letter;
-		GSList *init_caps;
-	} exceptions;
-
-	guint notification_id;
-} autocorrect;
-
-#define AUTOCORRECT_DIRECTORY		"autocorrect"
-#define AUTOCORRECT_INIT_CAPS		"init-caps"
-#define AUTOCORRECT_INIT_CAPS_LIST	"init-caps-list"
-#define AUTOCORRECT_FIRST_LETTER	"first-letter"
-#define AUTOCORRECT_FIRST_LETTER_LIST	"first-letter-list"
-#define AUTOCORRECT_NAMES_OF_DAYS	"names-of-days"
-#define AUTOCORRECT_REPLACE		"replace"
-
-static void
-autocorrect_set_exceptions (AutoCorrectFeature feat, GSList const *list);
-
-static void
-autocorrect_clear (void)
-{
-	autocorrect_set_exceptions (AC_INIT_CAPS, NULL);
-	autocorrect_set_exceptions (AC_FIRST_LETTER, NULL);
-}
-
-static void
-autocorrect_load (void)
-{
-	autocorrect.init_caps = gnm_conf_get_autocorrect_init_caps ();
-	autocorrect_set_exceptions (AC_INIT_CAPS,
-				    gnm_conf_get_autocorrect_init_caps_list ());
-
-	autocorrect.first_letter = gnm_conf_get_autocorrect_first_letter ();
-	autocorrect_set_exceptions (AC_FIRST_LETTER,
-				    gnm_conf_get_autocorrect_first_letter_list ());
-
-	autocorrect.names_of_days = gnm_conf_get_autocorrect_names_of_days ();
-	autocorrect.replace = gnm_conf_get_autocorrect_replace ();
-}
-
-static void
-cb_autocorrect_update (GOConfNode *node, gchar const *key, gpointer data)
-{
-	autocorrect_clear ();
-	autocorrect_load ();
-}
-
-static void
-autocorrect_init (void)
-{
-	if (autocorrect.notification_id != 0)
-		return;
-
-	autocorrect_load ();
-	autocorrect.notification_id =
-		go_conf_add_monitor (gnm_conf_get_autocorrect_dir_node (),
-				     NULL, &cb_autocorrect_update, NULL);
-	g_object_set_data_full (gnm_app_get_app (),
-		"ToolsAutoCorrect", GINT_TO_POINTER (1),
-		(GDestroyNotify) autocorrect_clear);
-}
-
-/**
- * autocorrect_set_exceptions :
- * @feature :
- * @list : A GSList of UTF-8 encoded strings.
- *
- **/
-static void
-autocorrect_set_exceptions (AutoCorrectFeature feature, GSList const *list)
-{
-	GSList **res, *accum = NULL;
-
-	switch (feature) {
-	case AC_INIT_CAPS: res = &autocorrect.exceptions.init_caps; break;
-	case AC_FIRST_LETTER: res = &autocorrect.exceptions.first_letter; break;
-	default :
-		g_warning ("Invalid autocorrect feature %d.", feature);
-		return;
-	};
-
-	for (; list; list = list->next)
-		accum = g_slist_prepend (accum, g_strdup (list->data));
-	accum = g_slist_reverse (accum);
-
-	go_slist_free_custom (*res, g_free);
-	*res = accum;
-}
 
 /*
  * Utility to replace a single character in an UTF-8 string.
@@ -212,7 +109,7 @@ autocorrect_initial_caps (const char *src)
 				char *newres, *lotext;
 				gboolean exception_found = FALSE;
 
-				for (l = autocorrect.exceptions.init_caps; l; l = l->next) {
+				for (l = gnm_conf_get_autocorrect_init_caps_list (); l; l = l->next) {
 					const char *except = l->data;
 					if (strncmp (begin, except, strlen (except)) == 0) {
 						exception_found = TRUE;
@@ -273,7 +170,7 @@ autocorrect_first_letter (G_GNUC_UNUSED const char *src)
 		while (g_unichar_isspace(*s))
 			++s;
 		if (g_unichar_islower (*s) && (s == ucommand || g_unichar_isspace (s[-1]))) {
-			GSList const *cur = autocorrect.exceptions.first_letter;
+			GSList const *cur = gnm_conf_get_autocorrect_first_letter_list ();
 
 			for ( ; cur != NULL; cur = cur->next) {
 				gunichar *t, *c = cur->data;
@@ -338,9 +235,7 @@ autocorrect_tool (char const *src)
 {
 	char *res = NULL;
 
-	autocorrect_init ();
-
-        if (autocorrect.init_caps) {
+        if (gnm_conf_get_autocorrect_init_caps ()) {
 		char *res2 = autocorrect_initial_caps (src);
 		if (res2) {
 			g_free (res);
@@ -348,7 +243,7 @@ autocorrect_tool (char const *src)
 		}
 	}
 
-	if (autocorrect.first_letter) {
+	if (gnm_conf_get_autocorrect_first_letter ()) {
 		char *res2 = autocorrect_first_letter (src);
 		if (res2) {
 			g_free (res);
@@ -356,7 +251,7 @@ autocorrect_tool (char const *src)
 		}
 	}
 
-	if (autocorrect.names_of_days) {
+	if (gnm_conf_get_autocorrect_names_of_days ()) {
 		char *res2 = autocorrect_names_of_days (src);
 		if (res2) {
 			g_free (res);

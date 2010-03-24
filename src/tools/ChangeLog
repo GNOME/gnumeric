@@ -1,5 +1,18 @@
 2010-03-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* auto-correct.c (AutoCorrectFeature): deleted
+	(autocorrect): delete new structure
+	(autocorrect_set_exceptions): deleted
+	(autocorrect_clear): deleted
+	(autocorrect_load): deleted
+	(cb_autocorrect_update): deleted
+	(autocorrect_init): deleted
+	(autocorrect_initial_caps): use gnm_conf_get_autocorrect_init_caps_list
+	(autocorrect_first_letter): use gnm_conf_get_..._first_letter_list
+	(autocorrect_tool): use gnm_conf_get_...
+
+2010-03-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* auto-correct.h (AutoCorrectFeature): move to auto-correct.c
 	(autocorrect_store_config): delete
 	(autocorrect_get_feature): delete
