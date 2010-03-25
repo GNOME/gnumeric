@@ -1,3 +1,9 @@
+2010-03-25 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gnumeric-gconf.c (set_string_list): since go_conf_set_str_list
+	  may trigger cb_watch_string_list that uses string_list_pool, we need
+	  to fix the hash table first. 
+
 2010-03-23  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (cb_paned_size_allocate): Improve handling of

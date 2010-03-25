@@ -343,8 +343,8 @@ set_string_list (struct cb_watch_string_list *watch, GSList *x)
 
 	MAYBE_DEBUG_SET (watch->key);
 	watch->var = x;
-	go_conf_set_str_list (root, watch->key, x);
 	g_hash_table_replace (string_list_pool, (gpointer)watch->key, x);
+	go_conf_set_str_list (root, watch->key, x);
 	schedule_sync ();
 }
 

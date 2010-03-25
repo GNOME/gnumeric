@@ -1,5 +1,10 @@
 2010-03-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-preferences.c (wordlist_pref_remove): fix leak
+	(wordlist_pref_add): ditto
+
+2010-03-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-preferences.c (wordlist_pref_remove): get and set list 
 	  via gnumeric-gconf
 	(wordlist_pref_add): ditto

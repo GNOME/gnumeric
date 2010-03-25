@@ -469,7 +469,9 @@ wordlist_pref_remove (GtkButton *button, wordlist_conf_setter_t setter) {
 	if (gtk_tree_selection_get_selected (select, &model, &iter)) {
 		char *text;
 		wordlist_conf_getter_t getter = g_object_get_data (G_OBJECT (button), "getter");
-		GSList *l, *list = go_string_slist_copy (getter ());
+		GSList *l, *list = getter ();
+
+		list = go_string_slist_copy (list);
 
 		gtk_tree_model_get (model, &iter,
 				    0, &text,
@@ -479,8 +481,8 @@ wordlist_pref_remove (GtkButton *button, wordlist_conf_setter_t setter) {
 			g_free (l->data);
 			list = g_slist_delete_link (list, l);
 			setter (list);
-		} else 
-			go_slist_free_custom (list, g_free);
+		}
+		go_slist_free_custom (list, g_free);
 		g_free (text);
 	}
 }
@@ -499,6 +501,7 @@ wordlist_pref_add (GtkButton *button, wordlist_conf_setter_t setter)
 			list = go_string_slist_copy (list);
 			list = g_slist_append (list, g_strdup (text));
 			setter (list);
+			go_slist_free_custom (list, g_free);
 		}
 	}
 }
