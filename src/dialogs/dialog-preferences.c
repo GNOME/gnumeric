@@ -74,6 +74,9 @@ typedef void (* wordlist_conf_setter_t) (GSList *value);
 
 typedef gboolean (* gboolean_conf_getter_t) (void);
 typedef GSList * (* wordlist_conf_getter_t) (void);
+typedef int      (* enum_conf_getter_t) (void);
+typedef gint     (* gint_conf_getter_t) (void);
+typedef double   (* double_conf_getter_t) (void);
 
 static void
 dialog_pref_add_item (PrefState *state, char const *page_name,
@@ -256,6 +259,8 @@ enum_pref_conf_to_widget (GOConfNode *node, G_GNUC_UNUSED char const *key,
 	GtkTreeModel *model = gtk_combo_box_get_model (combo);
 
 	cls.combo = combo;
+	/* We can't use the getter here since the main preferences */
+	/* may be notified after us */
 	cls.val   = go_conf_get_enum_as_str (node, NULL);
 	if (NULL != cls.val) {	/* in case go_conf fails */
 		gtk_tree_model_foreach (model,
@@ -269,6 +274,7 @@ static void
 enum_pref_create_widget (GOConfNode *node, GtkWidget *table,
 			 gint row, GType enum_type,
 			 enum_conf_setter_t setter,
+			 enum_conf_getter_t getter,
 			 gchar const *default_label)
 {
 	unsigned int	 i;
@@ -278,6 +284,8 @@ enum_pref_create_widget (GOConfNode *node, GtkWidget *table,
 	GtkWidget	*combo = gtk_combo_box_new ();
 	GtkListStore	*model = gtk_list_store_new (2,
 		G_TYPE_STRING, G_TYPE_POINTER);
+	gint             current = getter ();
+	gint             current_index = -1;
 
 	for (i = 0; i < enum_class->n_values ; i++) {
 		gtk_list_store_append (model, &iter);
@@ -285,6 +293,8 @@ enum_pref_create_widget (GOConfNode *node, GtkWidget *table,
 			0,	enum_class->values[i].value_nick,
 			1,	enum_class->values + i,
 			-1);
+		if (enum_class->values[i].value == current)
+			current_index = i;
 	}
 
 	g_type_class_unref (enum_class);
@@ -294,7 +304,8 @@ enum_pref_create_widget (GOConfNode *node, GtkWidget *table,
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), renderer, TRUE);
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), renderer, "text", 0, NULL);
 
-	enum_pref_conf_to_widget (node, NULL, GTK_COMBO_BOX (combo));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (combo), current_index);
+
 	gtk_table_attach (GTK_TABLE (table), combo,
 		1, 2, row, row + 1,
 		GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 5, 5);
@@ -915,6 +926,7 @@ pref_tool_page_initializer (PrefState *state,
 				 page, row++,
 				 GO_TYPE_DIRECTION,
 				 (enum_conf_setter_t)gnm_conf_set_core_gui_editing_enter_moves_dir,
+				 (enum_conf_getter_t)gnm_conf_get_core_gui_editing_enter_moves_dir,
 				 _("Enter _Moves Selection"));
 	bool_pref_create_widget (gnm_conf_get_core_gui_editing_transitionkeys_node (),
 				 page, row++,
