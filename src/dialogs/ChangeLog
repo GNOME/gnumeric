@@ -1,3 +1,11 @@
+2010-03-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-preferences.c (wordlist_pref_remove): get and set list 
+	  via gnumeric-gconf
+	(wordlist_pref_add): ditto
+	(wordlist_pref_create_widget): add getter and setter to argumanets
+	  and change all callers. Store thie info with the buttons
+
 2010-03-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-preferences.c: fix boolean preferences under goffice 

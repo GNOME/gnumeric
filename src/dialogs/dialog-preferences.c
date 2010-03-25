@@ -73,7 +73,7 @@ typedef void (* enum_conf_setter_t) (int value);
 typedef void (* wordlist_conf_setter_t) (GSList *value);
 
 typedef gboolean (* gboolean_conf_getter_t) (void);
-
+typedef GSList * (* wordlist_conf_getter_t) (void);
 
 static void
 dialog_pref_add_item (PrefState *state, char const *page_name,
@@ -442,6 +442,8 @@ static void
 wordlist_pref_conf_to_widget (GOConfNode *node, G_GNUC_UNUSED char const *key,
 			 GtkListStore *store)
 {
+	/* We can't use the getter here since the main preferences */
+	/* may be notified after us */
 	GSList *l, *list = go_conf_get_str_list (node, NULL);
 	GtkTreeIter  iter;
 
@@ -458,7 +460,7 @@ wordlist_pref_conf_to_widget (GOConfNode *node, G_GNUC_UNUSED char const *key,
 }
 
 static void                
-wordlist_pref_remove (GtkButton *button, GOConfNode *node) {
+wordlist_pref_remove (GtkButton *button, wordlist_conf_setter_t setter) {
 	GtkTreeView *tree = g_object_get_data (G_OBJECT (button), "treeview");
 	GtkTreeSelection *select = gtk_tree_view_get_selection (tree);
 	GtkTreeIter iter;
@@ -466,7 +468,8 @@ wordlist_pref_remove (GtkButton *button, GOConfNode *node) {
 
 	if (gtk_tree_selection_get_selected (select, &model, &iter)) {
 		char *text;
-		GSList *l, *list = go_conf_get_str_list (node, NULL);
+		wordlist_conf_getter_t getter = g_object_get_data (G_OBJECT (button), "getter");
+		GSList *l, *list = go_string_slist_copy (getter ());
 
 		gtk_tree_model_get (model, &iter,
 				    0, &text,
@@ -475,27 +478,28 @@ wordlist_pref_remove (GtkButton *button, GOConfNode *node) {
 		if (l != NULL) {
 			g_free (l->data);
 			list = g_slist_delete_link (list, l);
-			go_conf_set_str_list (node, NULL, list);
-		}
+			setter (list);
+		} else 
+			go_slist_free_custom (list, g_free);
 		g_free (text);
-		go_slist_free_custom (list, g_free);
 	}
 }
 
 static void                
-wordlist_pref_add (GtkButton *button, GOConfNode *node)
+wordlist_pref_add (GtkButton *button, wordlist_conf_setter_t setter)
 {
 	GtkEntry *entry = g_object_get_data (G_OBJECT (button), "entry");
 	const gchar *text = gtk_entry_get_text (entry);
 
 	if (text[0]) {
-		GSList *l, *list = go_conf_get_str_list (node, NULL);
+		wordlist_conf_getter_t getter = g_object_get_data (G_OBJECT (button), "getter");
+		GSList *l, *list = getter ();
 		l = g_slist_find_custom (list, text, (GCompareFunc)strcmp);
 		if (l == NULL) {
+			list = go_string_slist_copy (list);
 			list = g_slist_append (list, g_strdup (text));
-			go_conf_set_str_list (node, NULL, list);
+			setter (list);
 		}
-		go_slist_free_custom (list, g_free);
 	}
 }
 
@@ -508,7 +512,8 @@ wordlist_pref_update_remove_button (GtkTreeSelection *selection, GtkButton *butt
 
 static GtkWidget *
 wordlist_pref_create_widget (GOConfNode *node, GtkWidget *table,
-			     gint row, 
+			     gint row, wordlist_conf_setter_t setter,
+			     wordlist_conf_getter_t getter,
 			     char const *default_label) 
 {
 	GtkWidget *w= gtk_table_new (5, 2, FALSE);
@@ -557,10 +562,12 @@ wordlist_pref_create_widget (GOConfNode *node, GtkWidget *table,
 
 	g_object_set_data (G_OBJECT (remove_button), "treeview", tv);
 	g_object_set_data (G_OBJECT (add_button), "entry", entry);
+	g_object_set_data (G_OBJECT (remove_button), "getter", getter);
+	g_object_set_data (G_OBJECT (add_button), "getter", getter);
 	g_signal_connect (G_OBJECT (remove_button), "clicked",
-		G_CALLBACK (wordlist_pref_remove), node);
+		G_CALLBACK (wordlist_pref_remove), setter);
 	g_signal_connect (G_OBJECT (add_button), "clicked",
-		G_CALLBACK (wordlist_pref_add), node);
+		G_CALLBACK (wordlist_pref_add), setter);
 	g_signal_connect (G_OBJECT (selection), "changed",
 		G_CALLBACK (wordlist_pref_update_remove_button), remove_button);
 	wordlist_pref_update_remove_button (selection, 
@@ -978,7 +985,7 @@ pref_autocorrect_general_page_initializer (PrefState *state,
 }
 
 /*******************************************************************************************/
-/*                     AutoCorrect Preferences Page (InitialCaps)                                              */
+/*                     AutoCorrect Preferences Page (InitialCaps)                          */
 /*******************************************************************************************/
 
 static GtkWidget *
@@ -996,14 +1003,16 @@ pref_autocorrect_initialcaps_page_initializer (PrefState *state,
 				 gnm_conf_get_autocorrect_init_caps,
 				 _("Correct _TWo INitial CApitals"));
 	wordlist_pref_create_widget (gnm_conf_get_autocorrect_init_caps_list_node (), page,
-				     row++, "Do _not correct:");
+				     row++, gnm_conf_set_autocorrect_init_caps_list,
+				     gnm_conf_get_autocorrect_init_caps_list,
+				     "Do _not correct:");
 
 	gtk_widget_show_all (page);
 	return page;
 }
 
 /*******************************************************************************************/
-/*                     AutoCorrect Preferences Page (InitialCaps)                                              */
+/*                     AutoCorrect Preferences Page (FirstLetter)                          */
 /*******************************************************************************************/
 
 static GtkWidget *
@@ -1021,7 +1030,9 @@ pref_autocorrect_firstletter_page_initializer (PrefState *state,
 				 gnm_conf_get_autocorrect_first_letter,
 				 _("Capitalize _first letter of sentence"));
 	wordlist_pref_create_widget (gnm_conf_get_autocorrect_first_letter_list_node (), page,
-				     row++, "Do _not capitalize after:");
+				     row++, gnm_conf_set_autocorrect_first_letter_list,
+				     gnm_conf_get_autocorrect_first_letter_list,
+				     "Do _not capitalize after:");
 
 	gtk_widget_show_all (page);
 	return page;
