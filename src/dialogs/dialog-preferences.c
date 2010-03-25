@@ -324,9 +324,10 @@ enum_pref_create_widget (GOConfNode *node, GtkWidget *table,
 static void
 int_pref_widget_to_conf (GtkSpinButton *button, gint_conf_setter_t setter)
 {
-	GOConfNode *node = g_object_get_data (G_OBJECT (button), "node");
+	gint_conf_getter_t getter 
+		= g_object_get_data (G_OBJECT (button), "getter");
 	gint val_in_button = gtk_spin_button_get_value_as_int (button);
-	gint val_in_conf = go_conf_get_int (node, NULL);
+	gint val_in_conf = getter ();
 
 	if (val_in_conf != val_in_button)
 		setter (val_in_button);
@@ -337,6 +338,9 @@ int_pref_conf_to_widget (GOConfNode *node, G_GNUC_UNUSED char const *key,
 			 GtkSpinButton *button)
 {
 	gint val_in_button = gtk_spin_button_get_value_as_int (button);
+
+	/* We can't use the getter here since the main preferences */
+	/* may be notified after us */
 	gint val_in_conf = go_conf_get_int (node, NULL);
 
 	if (val_in_conf != val_in_button)
@@ -346,18 +350,21 @@ int_pref_conf_to_widget (GOConfNode *node, G_GNUC_UNUSED char const *key,
 static GtkWidget *
 int_pref_create_widget (GOConfNode *node, GtkWidget *table,
 			gint row, gint val, gint from, gint to, gint step,
-			gint_conf_setter_t setter, char const *default_label)
+			gint_conf_setter_t setter,  gint_conf_getter_t getter,
+			char const *default_label)
 {
 	GtkAdjustment *adj = GTK_ADJUSTMENT
 		(gtk_adjustment_new (val, from, to, step, step, 0));
 	GtkWidget *w = gtk_spin_button_new (adj, 1, 0);
 
-	int_pref_conf_to_widget (node, NULL, GTK_SPIN_BUTTON (w));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), (gdouble) getter ());
+
 	g_object_set_data (G_OBJECT (w), "node", node);
 	gtk_table_attach (GTK_TABLE (table), w,
 		1, 2, row, row + 1,
 		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_SHRINK, 5, 2);
 
+	g_object_set_data (G_OBJECT (w), "getter", getter);
 	g_signal_connect (G_OBJECT (w), "value-changed",
 			  G_CALLBACK (int_pref_widget_to_conf),
 			  (gpointer) setter);
@@ -400,9 +407,10 @@ power_of_2_handlers (GtkWidget *w)
 static void
 double_pref_widget_to_conf (GtkSpinButton *button, double_conf_setter_t setter)
 {
-	GOConfNode *node = g_object_get_data (G_OBJECT (button), "node");
+	double_conf_getter_t getter 
+		= g_object_get_data (G_OBJECT (button), "getter");
 	double val_in_button = gtk_spin_button_get_value (button);
-	double val_in_conf = go_conf_get_double (node, NULL);
+	double val_in_conf = getter();
 
 	if (fabs (val_in_conf - val_in_button) > 1e-10) /* dead simple */
 		setter (val_in_button);
@@ -413,6 +421,9 @@ double_pref_conf_to_widget (GOConfNode *node, G_GNUC_UNUSED char const *key,
 			    GtkSpinButton *button)
 {
 	double val_in_button = gtk_spin_button_get_value (button);
+
+	/* We can't use the getter here since the main preferences */
+	/* may be notified after us */
 	double val_in_conf = go_conf_get_double (node, NULL);
 
 	if (fabs (val_in_conf - val_in_button) > 1e-10) /* dead simple */
@@ -420,20 +431,22 @@ double_pref_conf_to_widget (GOConfNode *node, G_GNUC_UNUSED char const *key,
 }
 static void
 double_pref_create_widget (GOConfNode *node, GtkWidget *table,
-			   gint row, gnm_float val, gnm_float from,gnm_float to,
-			   gnm_float step,
-			   gint digits, double_conf_setter_t setter,
+			   gint row, gnm_float val, gnm_float from, gnm_float to,
+			   gnm_float step, gint digits, 
+			   double_conf_setter_t setter,
+			   double_conf_getter_t getter,
 			   char const *default_label)
 {
 	GtkWidget *w =  gtk_spin_button_new (GTK_ADJUSTMENT (
 		gtk_adjustment_new (val, from, to, step, step, 0)),
 		1, digits);
-	double_pref_conf_to_widget (node, NULL, GTK_SPIN_BUTTON (w));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), getter ());
 	g_object_set_data (G_OBJECT (w), "node", node);
 	gtk_table_attach (GTK_TABLE (table), w,
 		1, 2, row, row + 1,
 		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_SHRINK, 5, 2);
 
+	g_object_set_data (G_OBJECT (w), "getter", getter);
 	g_signal_connect (G_OBJECT (w), "value-changed",
 		G_CALLBACK (double_pref_widget_to_conf), (gpointer) setter);
 	connect_notification (node,
@@ -729,14 +742,17 @@ pref_undo_page_initializer (PrefState *state,
 	int_pref_create_widget (gnm_conf_get_undo_max_descriptor_width_node (),
 				page, row++, 5, 5, 200, 1,
 				gnm_conf_set_undo_max_descriptor_width,
+				gnm_conf_get_undo_max_descriptor_width,
 				_("Length of Undo Descriptors"));
 	int_pref_create_widget (gnm_conf_get_undo_size_node (),
 				page, row++, 1000, 0, 30000, 100,
 				gnm_conf_set_undo_size,
+				gnm_conf_get_undo_size,
 				_("Maximal Undo Size"));
 	int_pref_create_widget (gnm_conf_get_undo_maxnum_node (),
 				page, row++, 20, 1, 200, 1,
 				gnm_conf_set_undo_maxnum,
+				gnm_conf_get_undo_maxnum,
 				_("Number of Undo Items"));
 	bool_pref_create_widget (gnm_conf_get_undo_show_sheet_name_node (),
 				 page, row++,
@@ -764,6 +780,7 @@ pref_sort_page_initializer (PrefState *state,
 	int_pref_create_widget (gnm_conf_get_core_sort_dialog_max_initial_clauses_node (),
 				page, row++, 10, 0, 50, 1,
 				gnm_conf_set_core_sort_dialog_max_initial_clauses,
+				gnm_conf_get_core_sort_dialog_max_initial_clauses,
 				_("Number of Automatic Clauses"));
 	bool_pref_create_widget (gnm_conf_get_core_sort_default_retain_formats_node (),
 				 page, row++,
@@ -802,24 +819,29 @@ pref_window_page_initializer (PrefState *state,
 	double_pref_create_widget (gnm_conf_get_core_gui_window_y_node (),
 				   page, row++, 0.75, 0.25, 1, 0.05, 2,
 				   gnm_conf_set_core_gui_window_y,
+				   gnm_conf_get_core_gui_window_y,
 				   _("Default Vertical Window Size"));
 	double_pref_create_widget (gnm_conf_get_core_gui_window_x_node (),
 				   page, row++, 0.75, 0.25, 1, 0.05, 2,
 				   gnm_conf_set_core_gui_window_x,
+				   gnm_conf_get_core_gui_window_x,
 				   _("Default Horizontal Window Size"));
 	double_pref_create_widget (gnm_conf_get_core_gui_window_zoom_node (),
 				   page, row++, 1.00, 0.10, 5.00, 0.05, 2,
 				   gnm_conf_set_core_gui_window_zoom,
+				   gnm_conf_get_core_gui_window_zoom,
 				   _("Default Zoom Factor"));
 	int_pref_create_widget (gnm_conf_get_core_workbook_n_sheet_node (),
 				page, row++, 1, 1, 64, 1,
 				gnm_conf_set_core_workbook_n_sheet,
+				gnm_conf_get_core_workbook_n_sheet,
 				_("Default Number of Sheets"));
 
 	w = int_pref_create_widget (gnm_conf_get_core_workbook_n_rows_node (),
 				    page, row++,
 				    GNM_DEFAULT_ROWS, GNM_MIN_ROWS, GNM_MAX_ROWS, 1,
 				    gnm_conf_set_core_workbook_n_rows,
+				    gnm_conf_get_core_workbook_n_rows,
 				    _("Default Number of Rows in a Sheet"));
 	power_of_2_handlers (w);
 
@@ -827,6 +849,7 @@ pref_window_page_initializer (PrefState *state,
 				    page, row++,
 				    GNM_DEFAULT_COLS, GNM_MIN_COLS, GNM_MAX_COLS, 1,
 				    gnm_conf_set_core_workbook_n_cols,
+				    gnm_conf_get_core_workbook_n_cols,
 				    _("Default Number of Columns in a Sheet"));
 	power_of_2_handlers (w);
 
@@ -856,11 +879,13 @@ pref_file_page_initializer (PrefState *state,
 	int_pref_create_widget (gnm_conf_get_core_xml_compression_level_node (),
 				page, row++, 9, 0, 9, 1,
 				gnm_conf_set_core_xml_compression_level,
+				gnm_conf_get_core_xml_compression_level,
 				_("Default Compression Level For "
 				  "Gnumeric Files"));
 	int_pref_create_widget (gnm_conf_get_core_workbook_autosave_time_node (),
 				page, row++, 0, 0, 365*24*60*60, 60,
 				gnm_conf_set_core_workbook_autosave_time,
+				gnm_conf_get_core_workbook_autosave_time,
 				_("Default autosave frequency in seconds"));
 	bool_pref_create_widget (gnm_conf_get_core_file_save_def_overwrite_node (),
 				 page, row++,
@@ -899,10 +924,12 @@ pref_screen_page_initializer (PrefState *state,
 	double_pref_create_widget (gnm_conf_get_core_gui_screen_horizontaldpi_node (),
 				   page, row++, 96, 50, 250, 1, 1,
 				   gnm_conf_set_core_gui_screen_horizontaldpi,
+				   gnm_conf_get_core_gui_screen_horizontaldpi,
 				   _("Horizontal DPI"));
 	double_pref_create_widget (gnm_conf_get_core_gui_screen_verticaldpi_node (),
 				   page, row++, 96, 50, 250, 1, 1,
 				   gnm_conf_set_core_gui_screen_verticaldpi,
+				   gnm_conf_get_core_gui_screen_verticaldpi,
 				   _("Vertical DPI"));
 
 	gtk_widget_show_all (page);
@@ -946,6 +973,7 @@ pref_tool_page_initializer (PrefState *state,
 	int_pref_create_widget (gnm_conf_get_functionselector_num_of_recent_node (),
 				page, row++, 10, 0, 40, 1,
 				gnm_conf_set_functionselector_num_of_recent,
+				gnm_conf_get_functionselector_num_of_recent,
 				_("Maximum Length of Recently "
 				  "Used Functions List"));
 

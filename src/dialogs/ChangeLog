@@ -1,5 +1,12 @@
 2010-03-25 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-preferences.c (int_pref_widget_to_conf): get the
+	  values from the main configuration
+	(int_pref_create_widget): add argument and
+	  change all callers, always use the correct initial value.
+
+2010-03-25 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-preferences.c (enum_pref_create_widget): add argument and
 	  change all callers, always use the correct initial value.
 	

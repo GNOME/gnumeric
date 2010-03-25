@@ -4,7 +4,7 @@ Andreas:
 
 	* Fix build with --disable-solver. [#612820]
 	* Fix column and row header display under Quartz. [#600085]
-	* Fix boolean preferences in gconf-less situations. [#613523]
+	* Fix preferences in gconf-less situations. [#613523]
 
 Morten:
 	* Improve object sizing tooltip positioning a bit.
