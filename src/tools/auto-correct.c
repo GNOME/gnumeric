@@ -151,15 +151,38 @@ autocorrect_initial_caps (const char *src)
 	return res;
 }
 
+static gboolean
+autocorrect_first_letter_exception (const char *start, const char *end)
+{
+	GSList *l = gnm_conf_get_autocorrect_first_letter_list ();
+	char *text;
+
+	if (l == NULL)
+		return FALSE;
+
+	text = g_strndup (start, end - start + 1);
+
+	for (; l != NULL; l = l->next) {
+		if (g_str_has_suffix(text, l->data)) {
+			g_free (text);
+			return TRUE;
+		}
+	}
+	
+	g_free (text);
+	return FALSE;
+}
+
 
 static char *
-autocorrect_first_letter (G_GNUC_UNUSED const char *src)
+autocorrect_first_letter (const char *src)
 {
 	const char * last_end = NULL;
 	const char *last_copy = src;
 	const char *this;
 	GString *gstr = NULL;
 	gboolean seen_text = FALSE;
+	gboolean seen_white = FALSE;
 
 	for (this = src; '\0' != *this; this = g_utf8_next_char (this)) {
 		gunichar this_char = g_utf8_get_char (this);
@@ -171,16 +194,22 @@ autocorrect_first_letter (G_GNUC_UNUSED const char *src)
 				   type == G_UNICODE_BREAK_CLOSE_PUNCTUATION ||
 				   type == G_UNICODE_BREAK_EXCLAMATION))
 			last_end = this;
+		else if ((last_end != NULL) && g_unichar_isspace (this_char))
+			seen_white = TRUE;
 		else if ((last_end != NULL) && !g_unichar_isspace (this_char)) {
-			gunichar new = g_unichar_totitle (this_char);
-			
-			if (this_char != new) {
-				if (gstr == NULL)
-					gstr = g_string_new (NULL);
-				g_string_append_len (gstr, last_copy, 
-						     this - last_copy);
-				g_string_append_unichar (gstr, new);
-				last_copy = g_utf8_next_char (this);
+			if (seen_white) {
+				gunichar new = g_unichar_totitle (this_char);
+				
+				if ((this_char != new) && 
+				    !autocorrect_first_letter_exception (src, last_end)) {
+					if (gstr == NULL)
+						gstr = g_string_new (NULL);
+					g_string_append_len (gstr, last_copy, 
+							     this - last_copy);
+					g_string_append_unichar (gstr, new);
+					last_copy = g_utf8_next_char (this);
+				}
+				seen_white = FALSE;
 			}
 			last_end = NULL;
 		}

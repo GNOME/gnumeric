@@ -1,5 +1,11 @@
 2010-03-26 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* auto-correct.c (autocorrect_first_letter_exception): new 
+	(autocorrect_first_letter): don't consider symbols without following
+	  whitespace sentence enders and check for exceptions.
+
+2010-03-26 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* auto-correct.c (autocorrect_first_letter): implement
 	
 2010-03-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
