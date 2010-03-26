@@ -1,5 +1,5 @@
---- zlib-1.2.4/win32/Makefile.gcc~	2010-02-23 11:00:23.000000000 -0500
-+++ zlib-1.2.4/win32/Makefile.gcc	2010-03-26 19:21:15.000000000 -0400
+--- win32/Makefile.gcc~	2010-02-23 11:00:23.000000000 -0500
++++ win32/Makefile.gcc	2010-03-26 19:21:15.000000000 -0400
 @@ -24,14 +24,14 @@
  # the DLL name should be changed from "zlib1.dll".
  
@@ -77,3 +77,36 @@
  	-$(INSTALL) $(IMPLIB) $(LIBRARY_PATH)
  
  uninstall:
+--- win32/zlib.def~	2010-03-12 12:56:34.000000000 -0500
++++ win32/zlib.def	2010-03-26 19:32:13.000000000 -0400
+@@ -34,6 +34,7 @@
+     compressBound
+     uncompress
+     gzopen
++    gzopen64
+     gzdopen
+     gzbuffer
+     gzsetparams
+@@ -47,9 +48,12 @@
+     gzungetc
+     gzflush
+     gzseek
++    gzseek64
+     gzrewind
+     gztell
++    gztell64
+     gzoffset
++    gzoffset64
+     gzeof
+     gzdirect
+     gzclose
+@@ -61,7 +65,9 @@
+     adler32
+     crc32
+     adler32_combine
++    adler32_combine64
+     crc32_combine
++    crc32_combine64
+ ; various hacks, don't look :)
+     deflateInit_
+     deflateInit2_
