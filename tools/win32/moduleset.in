@@ -87,8 +87,8 @@
 	</patches>
     </tarball>
     <autotools id="png" autogen-sh="autogen.sh&amp;&amp;./configure"  skip-autogen="never">
-	<branch repo="simplesystems.org" module="libpng-1.2.42.tar.bz2"
-		version="1.2.42">
+	<branch repo="simplesystems.org" module="libpng-1.2.43.tar.bz2"
+		version="1.2.43">
 	    <patch file="&patch_dir;png-symbols.patch"/>
 	</branch>
 	<dependencies>
