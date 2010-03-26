@@ -155,43 +155,43 @@ autocorrect_initial_caps (const char *src)
 static char *
 autocorrect_first_letter (G_GNUC_UNUSED const char *src)
 {
-	/* Sorry, not implemented.  I got tired.  */
-#if 0
-	for (s = ucommand; *s; s = p+1) {
-	skip_first_letter:
-		/* Attempt to find the end of a sentence. */
-		for (p = s; *p != '\0' &&
-			     !(g_unichar_ispunct (*p) &&
-			       NULL == g_unichar_strchr (not_punct, *p)) ; p++)
-			;
-		if (*p == '\0')
-			break;
+	const char * last_end = NULL;
+	const char *last_copy = src;
+	const char *this;
+	GString *gstr = NULL;
+	gboolean seen_text = FALSE;
 
-		while (g_unichar_isspace(*s))
-			++s;
-		if (g_unichar_islower (*s) && (s == ucommand || g_unichar_isspace (s[-1]))) {
-			GSList const *cur = gnm_conf_get_autocorrect_first_letter_list ();
+	for (this = src; '\0' != *this; this = g_utf8_next_char (this)) {
+		gunichar this_char = g_utf8_get_char (this);
+		GUnicodeBreakType type = g_unichar_break_type (this_char);
 
-			for ( ; cur != NULL; cur = cur->next) {
-				gunichar *t, *c = cur->data;
-				gint l = g_unichar_strlen (c);
-				gint spaces = 0;
+		seen_text = seen_text || g_unichar_isalpha (this_char);
 
-				for (t = s - 1; t >= ucommand; t--)
-					if (g_unichar_isspace (*t))
-						++spaces;
-					else
-						break;
-				if (s - ucommand > l + spaces &&
-				    g_unichar_strncmp (s-l-spaces, c, l) == 0) {
-					s = p + 1;
-					goto skip_first_letter;
-				}
+		if (seen_text && ( g_unichar_ispunct (this_char) || 
+				   type == G_UNICODE_BREAK_CLOSE_PUNCTUATION ||
+				   type == G_UNICODE_BREAK_EXCLAMATION))
+			last_end = this;
+		else if ((last_end != NULL) && !g_unichar_isspace (this_char)) {
+			gunichar new = g_unichar_totitle (this_char);
+			
+			if (this_char != new) {
+				if (gstr == NULL)
+					gstr = g_string_new (NULL);
+				g_string_append_len (gstr, last_copy, 
+						     this - last_copy);
+				g_string_append_unichar (gstr, new);
+				last_copy = g_utf8_next_char (this);
 			}
-				*s = g_unichar_toupper (*s);
+			last_end = NULL;
 		}
 	}
-#endif
+	
+	if (gstr != NULL) {
+		g_string_append_len (gstr, last_copy, 
+				     strlen (last_copy));
+		return g_string_free (gstr, FALSE);
+	}
+
 	return NULL;
 }
 

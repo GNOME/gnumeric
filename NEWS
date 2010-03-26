@@ -5,6 +5,7 @@ Andreas:
 	* Fix build with --disable-solver. [#612820]
 	* Fix column and row header display under Quartz. [#600085]
 	* Fix preferences in gconf-less situations. [#613523]
+	* Implement first letter capitalization w/o exceptions. [#613768]
 
 Morten:
 	* Improve object sizing tooltip positioning a bit.
