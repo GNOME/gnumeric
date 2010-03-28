@@ -1,13 +1,17 @@
+2010-03-28  Morten Welinder  <terra@gnome.org>
+
+	* goal-seek.c (update_data): Properly handle NaNs.  Fixes #614147.
+
 2010-03-26 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* auto-correct.c (autocorrect_first_letter_exception): new 
+	* auto-correct.c (autocorrect_first_letter_exception): new
 	(autocorrect_first_letter): don't consider symbols without following
 	  whitespace sentence enders and check for exceptions.
 
 2010-03-26 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* auto-correct.c (autocorrect_first_letter): implement
-	
+
 2010-03-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* auto-correct.c (AutoCorrectFeature): deleted

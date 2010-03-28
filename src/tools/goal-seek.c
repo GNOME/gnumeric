@@ -25,6 +25,9 @@
 static gboolean
 update_data (gnm_float x, gnm_float y, GoalSeekData *data)
 {
+	if (!gnm_finite (y))
+		return FALSE;
+
 	if (y > 0) {
 		if (data->havexpos) {
 			if (data->havexneg) {
