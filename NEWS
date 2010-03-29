@@ -13,6 +13,7 @@ Morten:
 	* Make more menu entries available when an object is selected.
 	* Improve partitioning of status area.
 	* Fix goal seek problem affecting XIRR.  [#614147]
+	* Fix export xls of XIRR, FVSCHEDULE, and XNPV.  [#614257]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.1

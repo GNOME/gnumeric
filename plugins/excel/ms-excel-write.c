@@ -540,7 +540,6 @@ excel_write_externsheets_v7 (ExcelWriteState *ewb)
 	static guint8 const magic_addin[] = { 0x01, 0x3a };
 	static guint8 const magic_self[]  = { 0x01, 0x04 };
 	unsigned i, num_sheets = ewb->esheets->len;
-	GnmFunc *func;
 
 	ms_biff_put_2byte (ewb->bp, BIFF_EXTERNCOUNT, num_sheets + 2);
 
@@ -567,12 +566,17 @@ excel_write_externsheets_v7 (ExcelWriteState *ewb)
 	ms_biff_put_commit (ewb->bp);
 
 	for (i = 0; i < ewb->externnames->len ; i++) {
+		GnmFunc *func;
+		char *func_name;
+
 		ms_biff_put_var_next (ewb->bp, BIFF_EXTERNNAME_v0); /* yes v0 */
 		ms_biff_put_var_write (ewb->bp, zeros, 6);
 
 		/* write the name and the 1 byte length */
 		func = g_ptr_array_index (ewb->externnames, i);
-		excel_write_string (ewb->bp, STR_ONE_BYTE_LENGTH, func->name);
+		func_name = g_utf8_strup (func->name, -1);
+		excel_write_string (ewb->bp, STR_ONE_BYTE_LENGTH, func_name);
+		g_free (func_name);
 
 		ms_biff_put_var_write (ewb->bp, expr_ref, sizeof (expr_ref));
 		ms_biff_put_commit (ewb->bp);
@@ -603,8 +607,7 @@ excel_write_externsheets_v8 (ExcelWriteState *ewb)
 	static guint8 const magic_addin[] = { 0x01, 0x00, 0x01, 0x3a };
 	static guint8 const magic_self[]  = { 0x01, 0x04 };
 	unsigned i;
-	guint8 data [8];
-	GnmFunc *func;
+	guint8 data[8];
 
 	/* XL appears to get irrate if we export an addin SUPBOOK with
 	 * no names.  So be extra tidy and only export it if necessary */
@@ -614,12 +617,17 @@ excel_write_externsheets_v8 (ExcelWriteState *ewb)
 		ms_biff_put_commit (ewb->bp);
 
 		for (i = 0; i < ewb->externnames->len ; i++) {
+			GnmFunc *func;
+			char *func_name;
+
 			ms_biff_put_var_next (ewb->bp, BIFF_EXTERNNAME_v0); /* yes v0 */
 			ms_biff_put_var_write (ewb->bp, zeros, 6);
 
 			/* write the name and the 1 byte length */
 			func = g_ptr_array_index (ewb->externnames, i);
-			excel_write_string (ewb->bp, STR_ONE_BYTE_LENGTH, func->name);
+			func_name = g_utf8_strup (func->name, -1);
+			excel_write_string (ewb->bp, STR_ONE_BYTE_LENGTH, func_name);
+			g_free (func_name);
 			ms_biff_put_var_write (ewb->bp, expr_ref, sizeof (expr_ref));
 			ms_biff_put_commit (ewb->bp);
 		}

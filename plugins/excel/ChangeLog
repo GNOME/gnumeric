@@ -1,3 +1,13 @@
+2010-03-29  Morten Welinder  <terra@gnome.org>
+
+	* ms-formula-write.c (write_funcall): Guess argument types for
+	functions that the excel format doesn't know about.
+	(guess_arg_types): New function.
+
+	* ms-excel-write.c (excel_write_externsheets_v7,
+	excel_write_externsheets_v8): Fix letter case for extername
+	records.
+
 2010-03-08  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.1

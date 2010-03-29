@@ -658,6 +658,9 @@ make_function (GnmExprList **stack, int fn_idx, int numargs, Workbook *wb)
 		}
 
 		name = gnm_func_lookup (f_name, wb);
+		d (2, fprintf (stderr, "Function '%s' of %d args\n",
+			       f_name, numargs););
+
 		if (name == NULL)
 			name = gnm_func_add_placeholder (wb, f_name, "UNKNOWN", TRUE);
 

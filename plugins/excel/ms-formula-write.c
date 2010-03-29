@@ -482,6 +482,35 @@ excel_formula_write_AREA (PolishData *pd, GnmCellRef const *a, GnmCellRef const 
 		excel_formula_write_CELLREF (pd, a, b->sheet, target_type);
 }
 
+static char *
+guess_arg_types (const GnmFunc *func)
+{
+	char *res, *p;
+
+	if (func->fn_type != GNM_FUNC_TYPE_ARGS)
+		return NULL;
+
+	res = g_strdup (func->fn.args.arg_types);
+
+	for (p = res; *p; p++) {
+		switch (*p) {
+		case 'r':
+		case 'A':
+			*p = 'A';
+			break;
+		default:
+			*p = 'V';
+		}
+	}
+
+#if FORMULA_DEBUG > 1
+	g_printerr ("Coming up with arg types for %s: %s\n",
+		    func->name, res);
+#endif
+
+	return res;
+}
+
 static void
 write_funcall (PolishData *pd, GnmExpr const *expr,
 	       XLOpType target_type)
@@ -492,6 +521,7 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 	gboolean prompt   = FALSE;
 	gboolean cmdequiv = FALSE;
 	char const *arg_types = NULL;
+	char *arg_types_holder = NULL;
 	GnmFunc *func = expr->func.func;
 	ExcelFunc *ef = g_hash_table_lookup (pd->ewb->function_map, func);
 	XLOpType arg_type = XL_VAL; /* default */
@@ -520,6 +550,9 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 				push_guint16 (pd, ef->idx);
 				push_guint16 (pd, 0); /* reserved */
 			}
+
+			arg_types_holder = guess_arg_types (func);
+			arg_types = arg_types_holder;
 		}
 	} else
 		arg_types = ef->efunc->known_args;
@@ -538,6 +571,7 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 			}
 			write_node (pd, expr->func.argv[arg], 0, arg_type);
 		}
+	g_free (arg_types_holder);
 
 	if (ef->efunc != NULL) {
 		guint8 op_class = xl_get_op_class (pd,
