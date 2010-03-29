@@ -43,9 +43,9 @@ msgstr ""
 "Project-Id-Version: gnumeric 1.9\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&component=general\n"
-"POT-Creation-Date: 2010-03-10 16:42+0000\n"
-"PO-Revision-Date: 2010-03-10 23:35+0100\n"
-"Last-Translator: Christian Kirbach <Christian.Kirbach@googlemail.com>\n"
+"POT-Creation-Date: 2010-03-11 09:08+0000\n"
+"PO-Revision-Date: 2010-03-29 22:39+0100\n"
+"Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -144,8 +144,7 @@ msgstr "Unbekannter Wertetyp »%d« in Zeile %d. Der Fehler wird ignoriert."
 #: ../plugins/dif/dif.c:251
 #, c-format
 msgid ""
-"DIF file has more than the maximum number of rows %d. Ignoring remaining "
-"rows."
+"DIF file has more than the maximum number of rows %d. Ignoring remaining rows."
 msgstr ""
 "Die DIF-Datei überschreitet die Höchstzahl von %d Zeilen.\n"
 "Die verbleibenden Zeilen werden ignoriert."
@@ -194,8 +193,8 @@ msgstr "Data Interchange Format (DIF)-Modul"
 msgid ""
 "Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr ""
-"Lesen und Schreiben von Informationen, die im Data Interchange Format (*."
-"dif) gespeichert sind"
+"Lesen und Schreiben von Informationen, die im Data Interchange Format (*.dif) "
+"gespeichert sind"
 
 #: ../plugins/excel/boot.c:185
 msgid "No Workbook or Book streams found."
@@ -252,8 +251,7 @@ msgstr "Name »%s« konnte nicht verarbeitet werden"
 #: ../plugins/excel/ms-excel-read.c:3473
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
-msgstr ""
-"Falscher Ausdruck für die Bezeichnung »%s«: Inhalt wird verloren gehen\n"
+msgstr "Falscher Ausdruck für die Bezeichnung »%s«: Inhalt wird verloren gehen\n"
 
 #: ../plugins/excel/ms-excel-read.c:3478
 #, c-format
@@ -287,8 +285,8 @@ msgid ""
 "Some content will be lost when saving.  This format only supports %u column, "
 "and this workbook has %d"
 msgid_plural ""
-"Some content will be lost when saving.  This format only supports %u "
-"columns, and this workbook has %d"
+"Some content will be lost when saving.  This format only supports %u columns, "
+"and this workbook has %d"
 msgstr[0] ""
 "Beim Speichern wird Inhalt verloren gehen. Dieses Format unterstützt nur %u "
 "Spalte, aber das Arbeitsbuch hat %d"
@@ -299,8 +297,8 @@ msgstr[1] ""
 #: ../plugins/excel/ms-excel-write.c:231
 #, c-format
 msgid ""
-"Some content will be lost when saving.  This format only supports %u row, "
-"and this workbook has %d"
+"Some content will be lost when saving.  This format only supports %u row, and "
+"this workbook has %d"
 msgid_plural ""
 "Some content will be lost when saving.  This format only supports %u rows, "
 "and this workbook has %d"
@@ -335,8 +333,7 @@ msgstr "Fehlerhafte Funktion"
 
 #: ../plugins/excel/ms-formula-write.c:530
 #, c-format
-msgid ""
-"Too many arguments for function '%s', MS Excel can only handle %d not %d"
+msgid "Too many arguments for function '%s', MS Excel can only handle %d not %d"
 msgstr ""
 "Zu viele Argumente für die Funktion »%s«. MS-Excel kann nur %d verarbeiten, "
 "nicht %d"
@@ -501,8 +498,7 @@ msgstr "Es wurde kein Arbeitsbuch-Datenstrom gefunden."
 #: ../plugins/excel/xlsx-read-pivot.c:1188
 #, c-format
 msgid "Skipping invalid pivot field group for field '%s' because : %s"
-msgstr ""
-"Ungültige Schlüsselfeldgruppe für Feld »%s« wird übersprungen, weil : %s"
+msgstr "Ungültige Schlüsselfeldgruppe für Feld »%s« wird übersprungen, weil : %s"
 
 #. We don't attempt to flatten a 3D range to an array.
 #: ../plugins/excelplugins/excelplugins.c:316
@@ -522,8 +518,8 @@ msgstr "%s: %s"
 #: ../plugins/excelplugins/excelplugins.c:642
 #, c-format
 msgid ""
-"Overriding function %s from XLL/DLL/SO file %s with function of the same "
-"name from XLL/DLL/SO file %s."
+"Overriding function %s from XLL/DLL/SO file %s with function of the same name "
+"from XLL/DLL/SO file %s."
 msgstr ""
 "Funktion %s aus XLL/DLL/SO-Datei %s wird mit einer Funktion gleichen Namens "
 "aus der XLL/DLL/SO-Datei %s überschrieben."
@@ -538,8 +534,7 @@ msgstr "Funktion »%s« konnte in XLL/DLL/SO %s nicht gefunden werden.\n"
 msgid ""
 "Excel plugin loader / xlfRegister: at least three XLOPER arguments must be "
 "provided (DLL name[ignored],exported name[mandatory],types string"
-"[mandatory]). You supplied %d in some function loaded from XLL/DLL/SO file %"
-"s."
+"[mandatory]). You supplied %d in some function loaded from XLL/DLL/SO file %s."
 msgstr ""
 "Excel-Pluginlader / xlfRegister: Mindestens drei XLOPER-Argumente müssen "
 "angegeben werden (DLL-Name[ignoriert],exportierter Name[obligatorisch],"
@@ -733,7 +728,7 @@ msgstr "Sivan"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:106
 msgid "Tammuz"
-msgstr ""
+msgstr "Tammuz"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:107
 msgid "Ab"
@@ -778,8 +773,7 @@ msgstr "Unbekannte Version"
 msgid "%s version %s"
 msgstr "%s Version %s"
 
-#: ../plugins/fn-info/functions.c:1406
-#: ../src/dialogs/dialog-cell-format.c:2530
+#: ../plugins/fn-info/functions.c:1406 ../src/dialogs/dialog-cell-format.c:2530
 #: ../src/dialogs/dialog-cell-format.c:2534
 #: ../src/dialogs/dialog-cell-format.c:2542 ../src/wbc-gtk.c:2885
 msgid "Automatic"
@@ -863,8 +857,8 @@ msgstr "Zahlentheorie"
 
 #: ../plugins/fn-numtheory/plugin.xml.in.h:3
 msgid ""
-"Several basic utilities for prime numbers, pi, phi, sigma. It also holds "
-"some simple bitwise operations."
+"Several basic utilities for prime numbers, pi, phi, sigma. It also holds some "
+"simple bitwise operations."
 msgstr ""
 "Einige grundlegende Werkzeuge für Primzahlen, Pi, Phi und Sigma. Enthält "
 "außerdem einige einfache bitweise Operationen"
@@ -1363,8 +1357,7 @@ msgstr "Erste Zeile des Blattes muss Datenbankspezifikationen beinhalten"
 msgid ""
 "Field specification must be a comma separated value (Name,Type,Size,Prec)."
 msgstr ""
-"Feldspezifikation muß ein durch Kommata getrennter Wert sein (Name,Typ,"
-"Größe)."
+"Feldspezifikation muß ein durch Kommata getrennter Wert sein (Name,Typ,Größe)."
 
 #: ../plugins/paradox/paradox.c:355
 msgid "Allocate memory for column name."
@@ -1491,15 +1484,15 @@ msgstr "PLN: Das Arbeitsblatt ist mit einem Passwort verschlüsselt"
 #, c-format
 msgid "Ignoring data that claims to be in row %u which is > max row %u"
 msgstr ""
-"Daten, die beanspruchen, sich in Zeile %u zu befinden, welche > max. Zeile %"
-"u ist"
+"Daten, die beanspruchen, sich in Zeile %u zu befinden, welche > max. Zeile %u "
+"ist"
 
 #: ../plugins/plan-perfect/pln.c:576
 #, c-format
 msgid "Ignoring data that claims to be in column %u which is > max column %u"
 msgstr ""
-"Daten, die beanspruchen, sich in Spalte %u zu befinden, welche > max. Spalte "
-"%u ist"
+"Daten, die beanspruchen, sich in Spalte %u zu befinden, welche > max. Spalte %"
+"u ist"
 
 #: ../plugins/plan-perfect/plugin.xml.in.h:1
 msgid "Imports Plan Perfect Formatted Documents"
@@ -2045,12 +2038,11 @@ msgstr "Feldtrenner für Textexport"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:53
 msgid "Text Export Record Terminator"
-msgstr ""
+msgstr "Indikator für Textexport-Datensatz"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:54
-#, fuzzy
 msgid "Text Export String Indicator"
-msgstr "Textindikator"
+msgstr "Indikator für Textexport-Zeichenkette"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:55
 msgid ""
@@ -2070,8 +2062,7 @@ msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:57
 msgid "The configuration of GTKPrintSetting. Do not edit this variable."
-msgstr ""
-"Die Konfiguration von GTKPrintSetting. Verändern Sie diesen Wert nicht!"
+msgstr "Die Konfiguration von GTKPrintSetting. Verändern Sie diesen Wert nicht!"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:58
 msgid "The default font name for headers and footers."
@@ -2091,16 +2082,16 @@ msgstr "Die Vorgabeschrift für Kopf-/Fußzeilen ist kursiv."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:62
 msgid ""
-"The default page footer for new documents that can be modified using the "
-"page setup dialog."
+"The default page footer for new documents that can be modified using the page "
+"setup dialog."
 msgstr ""
 "Die Vorgabefußzeile neuer Dokumente, die mit Hilfe des Dialogs "
 "Seiteneinstellungen verändert werden kann."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:63
 msgid ""
-"The default page header for new documents that can be modified using the "
-"page setup dialog."
+"The default page header for new documents that can be modified using the page "
+"setup dialog."
 msgstr ""
 "Die Vorgabekopfzeile neuer Dokumente, die mit Hilfe des Dialogs "
 "Seiteneinstellungen verändert werden kann."
@@ -2129,8 +2120,7 @@ msgstr ""
 #: ../schemas/gnumeric-dialogs.schemas.in.h:67
 msgid "This directory contains the pre-installed autoformat templates."
 msgstr ""
-"Dieser Ordner enthält die vorinstallierten Vorlagen für die Auto-"
-"Formatierung."
+"Dieser Ordner enthält die vorinstallierten Vorlagen für die Auto-Formatierung."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:68
 msgid ""
@@ -2142,8 +2132,8 @@ msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:69
 msgid ""
-"This is the default paper specification. Please use the Print Setup dialog "
-"to edit this value."
+"This is the default paper specification. Please use the Print Setup dialog to "
+"edit this value."
 msgstr ""
 "Das ist die vorgegebene Papierangabe. Bitte verwenden Sie den "
 "Druckeinstellungsdialog zum Bearbeiten dieses Werts."
@@ -2188,8 +2178,8 @@ msgid ""
 "This string gives the default region to be repeated at the top of each "
 "printed sheet. Please use the Print Setup dialog to edit this value."
 msgstr ""
-"Diese Zeichenkette liefert den zu wiederholenden Vorgabebereich, der oben "
-"auf jeder gedruckten Seite erscheint. Bitte verwenden Sie den "
+"Diese Zeichenkette liefert den zu wiederholenden Vorgabebereich, der oben auf "
+"jeder gedruckten Seite erscheint. Bitte verwenden Sie den "
 "Druckeinstellungsdialog zum Bearbeiten dieses Werts."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:77
@@ -2201,12 +2191,12 @@ msgstr ""
 #: ../schemas/gnumeric-dialogs.schemas.in.h:78
 msgid ""
 "This value determines the default setting in the Print Setup dialog whether "
-"to print empty but formatted cells. Please use the Print Setup dialog to "
-"edit this value."
+"to print empty but formatted cells. Please use the Print Setup dialog to edit "
+"this value."
 msgstr ""
-"Dieser Wert legt fest, ob das Drucken von leeren, aber formatierten Zellen "
-"im Druckeinstellungsdialog per Vorgabe aktiviert ist. Bitte verwenden Sie "
-"den Druckeinstellungsdialog zum Bearbeiten dieses Werts."
+"Dieser Wert legt fest, ob das Drucken von leeren, aber formatierten Zellen im "
+"Druckeinstellungsdialog per Vorgabe aktiviert ist. Bitte verwenden Sie den "
+"Druckeinstellungsdialog zum Bearbeiten dieses Werts."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:79
 msgid ""
@@ -2235,8 +2225,8 @@ msgid ""
 "this value."
 msgstr ""
 "Dieser Wert legt fest, ob das Drucken der Beschriftungen von Zeilen und "
-"Spalten im Druckeinstellungsdialog per Vorgabe aktiviert ist. Bitte "
-"verwenden Sie den Druckeinstellungsdialog zum Bearbeiten dieses Werts."
+"Spalten im Druckeinstellungsdialog per Vorgabe aktiviert ist. Bitte verwenden "
+"Sie den Druckeinstellungsdialog zum Bearbeiten dieses Werts."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:82
 msgid ""
@@ -2251,8 +2241,8 @@ msgstr ""
 #: ../schemas/gnumeric-dialogs.schemas.in.h:83
 msgid ""
 "This value determines the maximum number of pages that make up the height of "
-"a printout of the current sheet. The sheet will be reduced to fit within "
-"this height. This value can be changed in the Page Setup dialog."
+"a printout of the current sheet. The sheet will be reduced to fit within this "
+"height. This value can be changed in the Page Setup dialog."
 msgstr ""
 "Dieser Wert legt fest, wie viele Seiten hoch ein Ausdruck des momentanen "
 "Blattes sein soll. Das Blatt wird verkleinert, um die Höhe anzupassen. Bitte "
@@ -2260,9 +2250,9 @@ msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:84
 msgid ""
-"This value determines the maximum number of pages that make up the width of "
-"a printout of the current sheet. The sheet will be reduced to fit within "
-"this width. This value can be changed in the Page Setup dialog."
+"This value determines the maximum number of pages that make up the width of a "
+"printout of the current sheet. The sheet will be reduced to fit within this "
+"width. This value can be changed in the Page Setup dialog."
 msgstr ""
 "Dieser Wert legt fest, wie viele Seiten breit ein Ausdruck des momentanen "
 "Blattes sein soll. Das Blatt wird verkleinert, um die Breite anzupassen. "
@@ -2281,8 +2271,7 @@ msgid ""
 "This value determines whether the default font for headers and footers is "
 "bold."
 msgstr ""
-"Dieser Wert legt fest, ob die Vorgabeschrift für Kopf- und Fußzeilen fett "
-"ist."
+"Dieser Wert legt fest, ob die Vorgabeschrift für Kopf- und Fußzeilen fett ist."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:87
 msgid ""
@@ -2329,8 +2318,8 @@ msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:92
 msgid ""
-"This value gives the default number of points from the right of a page to "
-"the right of the body. Please use the Print Setup dialog to edit this value."
+"This value gives the default number of points from the right of a page to the "
+"right of the body. Please use the Print Setup dialog to edit this value."
 msgstr ""
 "Dieser Wert liefert den vorgegebenen Abstand von der rechten Seite zur "
 "rechten Körperseite in Punkten. Bitte verwenden Sie den "
@@ -2351,8 +2340,8 @@ msgid ""
 "top of the header. Please use the Print Setup dialog to edit this value."
 msgstr ""
 "Dieser Wert liefert den vorgegebenen Abstand vom Anfang der Seite zum Anfang "
-"der Kopfzeile in Punkten. Bitte verwenden Sie den Druckeinstellungsdialog "
-"zum Bearbeiten dieses Werts."
+"der Kopfzeile in Punkten. Bitte verwenden Sie den Druckeinstellungsdialog zum "
+"Bearbeiten dieses Werts."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:95
 msgid ""
@@ -2367,8 +2356,7 @@ msgstr ""
 msgid ""
 "This variable determines whether to activate every new encountered plugin."
 msgstr ""
-"Diese Variable legt fest, ob jedes neu entdeckte Plugin aktiviert werden "
-"soll."
+"Diese Variable legt fest, ob jedes neu entdeckte Plugin aktiviert werden soll."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:97
 msgid "User Directory for Autoformats"
@@ -2389,9 +2377,9 @@ msgstr "Häufigkeit des automatischen Speicherns"
 
 #: ../schemas/gnumeric-general.schemas.in.h:4
 msgid ""
-"Before an existing file is being overwritten, gnumeric will present a "
-"warning dialog. Setting this option will make the overwrite button in that "
-"dialog the default button."
+"Before an existing file is being overwritten, gnumeric will present a warning "
+"dialog. Setting this option will make the overwrite button in that dialog the "
+"default button."
 msgstr ""
 "Bevor eine existierende Datei überschrieben wird, zeigt Gnumeric einen "
 "Warndialog an. Das Setzen dieser Option macht den Überschreiben-Knopf in "
@@ -2462,18 +2450,18 @@ msgid ""
 "every change. Non-zero values of `lag' allow gnumeric to accumulate more "
 "changes before each recalculation. If `lag' is positive, then whenever a "
 "change appears, gnumeric waits `lag' milleseconds and then recalculates; if "
-"more changes appear during that period, they are also processed at that "
-"time. If `lag' is negative, then recalculation happens only after a quiet "
-"period of |lag| milleseconds."
+"more changes appear during that period, they are also processed at that time. "
+"If `lag' is negative, then recalculation happens only after a quiet period of "
+"|lag| milleseconds."
 msgstr ""
 "Wenn »lag« auf 0 gesetzt ist, werden alle automatischen Ausdrücke unmittelbar "
 "nach jeder Änderung neu berechnet. Werte ober- oder unterhalb von 0 erlauben "
 "es, mehrere Änderungen vor jeder Neuberechnung zu sammeln. Wenn »lag« positiv "
-"ist, wird bei jeder Änderung die Anzahl von in »lag« angegebenen "
-"Millisekunden mit der Neuberechnung gewartet. Wenn in diesem Zeitraum "
-"weitere Änderungen passiert sind, werden sie zu diesem Zeitpunkt ebenfalls "
-"ausgeführt. Wenn »lag« negativ ist, werden Neuberechnungen nur nach einem "
-"kurzen Zeitraum von |lag|  Millisekunden ausgeführt."
+"ist, wird bei jeder Änderung die Anzahl von in »lag« angegebenen Millisekunden "
+"mit der Neuberechnung gewartet. Wenn in diesem Zeitraum weitere Änderungen "
+"passiert sind, werden sie zu diesem Zeitpunkt ebenfalls ausgeführt. Wenn »lag« "
+"negativ ist, werden Neuberechnungen nur nach einem kurzen Zeitraum von |lag|  "
+"Millisekunden ausgeführt."
 
 #: ../schemas/gnumeric-general.schemas.in.h:19
 msgid "Length of the Undo Descriptors"
@@ -2534,9 +2522,9 @@ msgid ""
 "checkbox in the sort dialog."
 msgstr ""
 "Das Setzen dieser Option veranlasst die Sortierknöpfe in der Werkzeugleiste, "
-"die Sortierung unter Berücksichtigung der Groß-/Kleinschreibung "
-"durchzuführen und legt den Zustand des »Groß-/Kleinschreibung "
-"berücksichtigen«-Ankreuzfeldes zu Beginn im Sortierdialog fest."
+"die Sortierung unter Berücksichtigung der Groß-/Kleinschreibung durchzuführen "
+"und legt den Zustand des »Groß-/Kleinschreibung berücksichtigen«-Ankreuzfeldes "
+"zu Beginn im Sortierdialog fest."
 
 #: ../schemas/gnumeric-general.schemas.in.h:33
 msgid ""
@@ -2560,8 +2548,8 @@ msgid ""
 "workbook is being saved."
 msgstr ""
 "Einige Dateiformate können nur ein einzelnes Blatt speichern. Diese Variable "
-"legt fest, ob der Benutzer gewarnt werden soll, falls nur ein einzelnes "
-"Blatt eines Arbeitsbuchs gespeichert wird, das mehrere Blätter enthält."
+"legt fest, ob der Benutzer gewarnt werden soll, falls nur ein einzelnes Blatt "
+"eines Arbeitsbuchs gespeichert wird, das mehrere Blätter enthält."
 
 #: ../schemas/gnumeric-general.schemas.in.h:36
 #: ../src/dialogs/dialog-preferences.c:747 ../src/wbc-gtk-actions.c:2280
@@ -2623,8 +2611,8 @@ msgid ""
 "be a power of 2 between 65539 and 16777216."
 msgstr ""
 "Die Anzahl der Zeilen in jedem Blatt. Diese Einstellung wird nur in einer "
-"neuen Gnumeric-Sitzung verwendet. Egal welcher Wert hier übergeben wurde, "
-"die wirkliche Anzahl an Spalten wird ein Vielfaches von 2 zwischen 65539 und "
+"neuen Gnumeric-Sitzung verwendet. Egal welcher Wert hier übergeben wurde, die "
+"wirkliche Anzahl an Spalten wird ein Vielfaches von 2 zwischen 65539 und "
 "16777216 sein."
 
 #: ../schemas/gnumeric-general.schemas.in.h:48
@@ -2644,8 +2632,8 @@ msgid ""
 "compression while 9 is maximal compression."
 msgstr ""
 "Diese Ganzzahl (zwischen 0 und 9) gibt den Grad der Kompression an, die von "
-"Gnumeric beim Speichern von Dateien im Vorgabe-Dateiformat durchgeführt "
-"wird. 0 führt zu einer minimalen Kompression, während 9 der maximale "
+"Gnumeric beim Speichern von Dateien im Vorgabe-Dateiformat durchgeführt wird. "
+"0 führt zu einer minimalen Kompression, während 9 der maximale "
 "Kompressionsgrad ist."
 
 #: ../schemas/gnumeric-general.schemas.in.h:51
@@ -2658,39 +2646,38 @@ msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:52
 msgid ""
-"This number (between 0.25 and 1.00) gives the vertical fraction of the "
-"screen size covered by the default window."
+"This number (between 0.25 and 1.00) gives the vertical fraction of the screen "
+"size covered by the default window."
 msgstr ""
 "Die Zahl (zwischen 0.25 und 1.00) gibt den vertikalen Anteil des Bildschirms "
 "an, den das Vorgabefenster belegen soll."
 
 #: ../schemas/gnumeric-general.schemas.in.h:53
 msgid ""
-"This option determines the initial state of the sort-order button in the "
-"sort dialog."
+"This option determines the initial state of the sort-order button in the sort "
+"dialog."
 msgstr ""
 "Diese Option legt den Vorgabezustand des Sortierreihenfolge-Knopfes im "
 "Sortierdialog fest."
 
 #: ../schemas/gnumeric-general.schemas.in.h:54
 msgid ""
-"This value determines the length of the undo chain. Each editing action has "
-"a size associate with it, to compare it with the memory requirements of a "
+"This value determines the length of the undo chain. Each editing action has a "
+"size associate with it, to compare it with the memory requirements of a "
 "simple one-cell edit (size of 1). The undo list will be truncated when its "
 "total size exceeds this configurable value."
 msgstr ""
-"Dieser Wert legt die Länge der Rückgängig-Kette fest. Jede "
-"Bearbeitungsaktion hat eine Größe damit assoziiert, um sie mit den "
-"Speichererfordernissen einer einfachen ein-Zell-Bearbeitung (Größe von 1) zu "
-"vergleichen. Die Rückgängig-Liste wird abgeschnitten, wenn die gesamte Größe "
-"diesen konfiguriertbaren Wert überschreitet."
+"Dieser Wert legt die Länge der Rückgängig-Kette fest. Jede Bearbeitungsaktion "
+"hat eine Größe damit assoziiert, um sie mit den Speichererfordernissen einer "
+"einfachen ein-Zell-Bearbeitung (Größe von 1) zu vergleichen. Die Rückgängig-"
+"Liste wird abgeschnitten, wenn die gesamte Größe diesen konfiguriertbaren "
+"Wert überschreitet."
 
 #: ../schemas/gnumeric-general.schemas.in.h:55
-msgid ""
-"This value determines the maximum number of items in the undo/redo list."
+msgid "This value determines the maximum number of items in the undo/redo list."
 msgstr ""
-"Diese Wert legt die maximale Anzahl der Objekte in der Rückgängig/"
-"Wiederholen-Liste fest."
+"Diese Wert legt die maximale Anzahl der Objekte in der Rückgängig/Wiederholen-"
+"Liste fest."
 
 #: ../schemas/gnumeric-general.schemas.in.h:56
 msgid ""
@@ -2723,11 +2710,11 @@ msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:60
 msgid ""
-"This variable determines where the format toolbar should be shown. 0 is "
-"left, 1 is right, 2 is top."
+"This variable determines where the format toolbar should be shown. 0 is left, "
+"1 is right, 2 is top."
 msgstr ""
-"Diese Variable legt fest, wo die Formatierungswerkzeugleiste angezeigt "
-"werden soll. 0 bedeutet links, 1 rechts und 2 bedeutet oben."
+"Diese Variable legt fest, wo die Formatierungswerkzeugleiste angezeigt werden "
+"soll. 0 bedeutet links, 1 rechts und 2 bedeutet oben."
 
 #: ../schemas/gnumeric-general.schemas.in.h:61
 msgid ""
@@ -2739,11 +2726,11 @@ msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:62
 msgid ""
-"This variable determines where the object toolbar should be shown. 0 is "
-"left, 1 is right, 2 is top."
+"This variable determines where the object toolbar should be shown. 0 is left, "
+"1 is right, 2 is top."
 msgstr ""
-"Diese Variable legt fest, wo die Objekt-Werkzeugleiste angezeigt werden "
-"soll. 0 bedeutet links, 1 rechts und 2 bedeutet oben."
+"Diese Variable legt fest, wo die Objekt-Werkzeugleiste angezeigt werden soll. "
+"0 bedeutet links, 1 rechts und 2 bedeutet oben."
 
 #: ../schemas/gnumeric-general.schemas.in.h:63
 msgid ""
@@ -2761,8 +2748,7 @@ msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:65
 msgid ""
-"This variable determines whether live (versus delayed) scrolling is "
-"performed."
+"This variable determines whether live (versus delayed) scrolling is performed."
 msgstr ""
 "Diese Variable legt fest, ob das Bewegen des Rollbalkens sofort umgesetzt "
 "wird (andernfalls Verzögerung)."
@@ -2780,16 +2766,16 @@ msgid ""
 "This variable determines whether the long format toolbar should be visible "
 "initially."
 msgstr ""
-"Diese Variable legt fest, ob die lange Formatierungswerkzeugleiste von "
-"Anfang an angezeigt werden soll."
+"Diese Variable legt fest, ob die lange Formatierungswerkzeugleiste von Anfang "
+"an angezeigt werden soll."
 
 #: ../schemas/gnumeric-general.schemas.in.h:68
 msgid ""
 "This variable determines whether the object toolbar should be visible "
 "initially."
 msgstr ""
-"Diese Variable legt fest, ob die Objektwerkzeugleiste von Anfang an "
-"angezeigt werden soll."
+"Diese Variable legt fest, ob die Objektwerkzeugleiste von Anfang an angezeigt "
+"werden soll."
 
 #: ../schemas/gnumeric-general.schemas.in.h:69
 msgid ""
@@ -2806,9 +2792,9 @@ msgid ""
 "page movement rather than jumping to the start/end of series."
 msgstr ""
 "Diese Variable legt fest, ob die Wechseltasten angezeigt werden sollen. "
-"Wechseltasten bewirken ein Zurückkehren zur Ereignisabwicklung im 1-2-3-"
-"Stil. Sie verändern Strg-Pfeiltaste zu Seitenbewegungen anstatt zum Anfang/"
-"Ende einer Reihe zu springen."
+"Wechseltasten bewirken ein Zurückkehren zur Ereignisabwicklung im 1-2-3-Stil. "
+"Sie verändern Strg-Pfeiltaste zu Seitenbewegungen anstatt zum Anfang/Ende "
+"einer Reihe zu springen."
 
 #: ../schemas/gnumeric-general.schemas.in.h:71
 msgid "Toolbar Style"
@@ -2844,9 +2830,9 @@ msgid ""
 "applications, like Xterm or Emacs, which set only the PRIMARY selection."
 msgstr ""
 "Falls dieser Schlüssel wahr ist, bevorzugt Gnumeric die moderne CLIPBOARD-"
-"Auswahl gegenüber der veralteten PRIMARY-Auswahl. Setzen Sie diesen "
-"Schlüssel auf falsch, falls Sie ältere Anwendungen benutzen, wie Xterm oder "
-"Emacs, die ausschließlich die PRIMARY-Auswahl verwenden."
+"Auswahl gegenüber der veralteten PRIMARY-Auswahl. Setzen Sie diesen Schlüssel "
+"auf falsch, falls Sie ältere Anwendungen benutzen, wie Xterm oder Emacs, die "
+"ausschließlich die PRIMARY-Auswahl verwenden."
 
 #: ../schemas/gnumeric-general.schemas.in.h:77
 msgid ""
@@ -3353,8 +3339,7 @@ msgstr "Objekt formatieren"
 #: ../src/dialogs/dialog-function-select.c:804
 #: ../src/dialogs/dialog-function-select.c:826
 #: ../src/dialogs/dialog-function-select.c:831
-#: ../src/dialogs/dialog-paste-names.c:93
-#: ../src/dialogs/dialog-scenarios.c:517
+#: ../src/dialogs/dialog-paste-names.c:93 ../src/dialogs/dialog-scenarios.c:517
 #: ../src/dialogs/dialog-simulation.c:217 ../src/dialogs/dialog-zoom.c:191
 #: ../src/format-template.c:218 ../src/sheet.c:826
 msgid "Name"
@@ -3571,9 +3556,8 @@ msgstr "Komplexer Filter"
 #: ../src/dialogs/moving-averages.glade.h:8
 #: ../src/dialogs/normality-tests.glade.h:5
 #: ../src/dialogs/principal-components.glade.h:2
-#: ../src/dialogs/random-generation-cor.glade.h:5
-#: ../src/dialogs/rank.glade.h:2 ../src/dialogs/sign-test.glade.h:2
-#: ../src/dialogs/variance-tests.glade.h:3
+#: ../src/dialogs/random-generation-cor.glade.h:5 ../src/dialogs/rank.glade.h:2
+#: ../src/dialogs/sign-test.glade.h:2 ../src/dialogs/variance-tests.glade.h:3
 msgid "Input"
 msgstr "Eingabe"
 
@@ -3582,16 +3566,15 @@ msgstr "Eingabe"
 #: ../src/dialogs/consolidate.glade.h:8 ../src/dialogs/correlation.glade.h:4
 #: ../src/dialogs/covariance.glade.h:4
 #: ../src/dialogs/descriptive-stats.glade.h:10
-#: ../src/dialogs/exp-smoothing.glade.h:12
-#: ../src/dialogs/fill-series.glade.h:6
+#: ../src/dialogs/exp-smoothing.glade.h:12 ../src/dialogs/fill-series.glade.h:6
 #: ../src/dialogs/fourier-analysis.glade.h:5
 #: ../src/dialogs/moving-averages.glade.h:12
 #: ../src/dialogs/normality-tests.glade.h:8
 #: ../src/dialogs/principal-components.glade.h:3
 #: ../src/dialogs/random-generation.glade.h:4
-#: ../src/dialogs/random-generation-cor.glade.h:8
-#: ../src/dialogs/rank.glade.h:4 ../src/dialogs/simulation.glade.h:15
-#: ../src/dialogs/sign-test.glade.h:3 ../src/dialogs/variance-tests.glade.h:4
+#: ../src/dialogs/random-generation-cor.glade.h:8 ../src/dialogs/rank.glade.h:4
+#: ../src/dialogs/simulation.glade.h:15 ../src/dialogs/sign-test.glade.h:3
+#: ../src/dialogs/variance-tests.glade.h:4
 msgid "Output"
 msgstr "Ausgabe"
 
@@ -3615,9 +3598,8 @@ msgstr "Varianzanalyse - einfaktoriell"
 #: ../src/dialogs/correlation.glade.h:2 ../src/dialogs/covariance.glade.h:2
 #: ../src/dialogs/descriptive-stats.glade.h:6
 #: ../src/dialogs/exp-smoothing.glade.h:5
-#: ../src/dialogs/fourier-analysis.glade.h:2
-#: ../src/dialogs/frequency.glade.h:7 ../src/dialogs/histogram.glade.h:13
-#: ../src/dialogs/moving-averages.glade.h:6
+#: ../src/dialogs/fourier-analysis.glade.h:2 ../src/dialogs/frequency.glade.h:7
+#: ../src/dialogs/histogram.glade.h:13 ../src/dialogs/moving-averages.glade.h:6
 #: ../src/dialogs/normality-tests.glade.h:4
 #: ../src/dialogs/principal-components.glade.h:1 ../src/dialogs/rank.glade.h:1
 #: ../src/dialogs/sampling.glade.h:4 ../src/dialogs/sign-test.glade.h:1
@@ -3625,22 +3607,21 @@ msgid "Grouped by:"
 msgstr "Gruppiert nach:"
 
 #: ../src/dialogs/anova-one.glade.h:4 ../src/dialogs/anova-two.glade.h:6
-#: ../src/dialogs/chi-squared.glade.h:4
-#: ../src/dialogs/exp-smoothing.glade.h:11
+#: ../src/dialogs/chi-squared.glade.h:4 ../src/dialogs/exp-smoothing.glade.h:11
 #: ../src/dialogs/fill-series.glade.h:5
 #: ../src/dialogs/fourier-analysis.glade.h:4
 #: ../src/dialogs/moving-averages.glade.h:10
 #: ../src/dialogs/random-generation.glade.h:3
-#: ../src/dialogs/random-generation-cor.glade.h:7
-#: ../src/dialogs/rank.glade.h:3 ../src/dialogs/scenario-manager.glade.h:9
+#: ../src/dialogs/random-generation-cor.glade.h:7 ../src/dialogs/rank.glade.h:3
+#: ../src/dialogs/scenario-manager.glade.h:9
 #: ../src/dialogs/simulation.glade.h:14 ../src/dialogs/solver.glade.h:10
 msgid "Options"
 msgstr "Optionen"
 
 #: ../src/dialogs/anova-one.glade.h:6 ../src/dialogs/chi-squared.glade.h:8
 #: ../src/dialogs/mean-tests.glade.h:13
-#: ../src/dialogs/normality-tests.glade.h:11
-#: ../src/dialogs/sign-test.glade.h:6 ../src/dialogs/sign-test-two.glade.h:6
+#: ../src/dialogs/normality-tests.glade.h:11 ../src/dialogs/sign-test.glade.h:6
+#: ../src/dialogs/sign-test-two.glade.h:6
 #: ../src/dialogs/variance-tests.glade.h:9
 msgid "_Alpha:"
 msgstr "_Alpha:"
@@ -3676,8 +3657,8 @@ msgstr "S_palten"
 #: ../src/dialogs/fourier-analysis.glade.h:7
 #: ../src/dialogs/moving-averages.glade.h:17
 #: ../src/dialogs/normality-tests.glade.h:14
-#: ../src/dialogs/principal-components.glade.h:7
-#: ../src/dialogs/rank.glade.h:10 ../src/dialogs/sign-test.glade.h:9
+#: ../src/dialogs/principal-components.glade.h:7 ../src/dialogs/rank.glade.h:10
+#: ../src/dialogs/sign-test.glade.h:9
 msgid "_Input range:"
 msgstr "_Eingabebereich:"
 
@@ -3691,10 +3672,9 @@ msgstr "_Eingabebereich:"
 #: ../src/dialogs/mean-tests.glade.h:16
 #: ../src/dialogs/moving-averages.glade.h:19
 #: ../src/dialogs/normality-tests.glade.h:15
-#: ../src/dialogs/principal-components.glade.h:8
-#: ../src/dialogs/rank.glade.h:11 ../src/dialogs/regression.glade.h:7
-#: ../src/dialogs/sampling.glade.h:18 ../src/dialogs/sign-test.glade.h:10
-#: ../src/dialogs/sign-test-two.glade.h:8
+#: ../src/dialogs/principal-components.glade.h:8 ../src/dialogs/rank.glade.h:11
+#: ../src/dialogs/regression.glade.h:7 ../src/dialogs/sampling.glade.h:18
+#: ../src/dialogs/sign-test.glade.h:10 ../src/dialogs/sign-test-two.glade.h:8
 #: ../src/dialogs/variance-tests.glade.h:10
 msgid "_Labels"
 msgstr "Be_schriftungen"
@@ -3709,10 +3689,10 @@ msgstr "Be_schriftungen"
 #: ../src/dialogs/frequency.glade.h:20 ../src/dialogs/histogram.glade.h:32
 #: ../src/dialogs/moving-averages.glade.h:20
 #: ../src/dialogs/normality-tests.glade.h:16
-#: ../src/dialogs/principal-components.glade.h:9
-#: ../src/dialogs/rank.glade.h:12 ../src/dialogs/sampling.glade.h:22
-#: ../src/dialogs/shuffle.glade.h:6 ../src/dialogs/sign-test.glade.h:12
-#: ../src/wbc-gtk-actions.c:1844 ../src/wbc-gtk-actions.c:1979
+#: ../src/dialogs/principal-components.glade.h:9 ../src/dialogs/rank.glade.h:12
+#: ../src/dialogs/sampling.glade.h:22 ../src/dialogs/shuffle.glade.h:6
+#: ../src/dialogs/sign-test.glade.h:12 ../src/wbc-gtk-actions.c:1844
+#: ../src/wbc-gtk-actions.c:1979
 msgid "_Rows"
 msgstr "_Zeilen"
 
@@ -3734,8 +3714,7 @@ msgstr "*"
 
 #: ../src/dialogs/anova-two.glade.h:2
 #: ../src/dialogs/descriptive-stats.glade.h:3
-#: ../src/dialogs/random-generation.glade.h:2
-#: ../src/dialogs/sampling.glade.h:2
+#: ../src/dialogs/random-generation.glade.h:2 ../src/dialogs/sampling.glade.h:2
 msgid "1"
 msgstr "1"
 
@@ -3859,8 +3838,7 @@ msgstr "Auto-Formatierung"
 msgid "C_ategory:"
 msgstr "_Kategorie:"
 
-#: ../src/dialogs/autoformat.glade.h:11
-#: ../src/dialogs/doc-meta-data.glade.h:22
+#: ../src/dialogs/autoformat.glade.h:11 ../src/dialogs/doc-meta-data.glade.h:22
 msgid "Category:"
 msgstr "Kategorie:"
 
@@ -4182,11 +4160,10 @@ msgstr "Links"
 #: ../src/dialogs/cell-format.glade.h:62
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr ""
-"Das Sperren von Zellen oder das Verbergen von Formeln betrifft nur "
-"geschützte Arbeitsblätter."
+"Das Sperren von Zellen oder das Verbergen von Formeln betrifft nur geschützte "
+"Arbeitsblätter."
 
-#: ../src/dialogs/cell-format.glade.h:63
-#: ../src/dialogs/dialog-cell-format.c:73
+#: ../src/dialogs/cell-format.glade.h:63 ../src/dialogs/dialog-cell-format.c:73
 #: ../src/dialogs/paste-special.glade.h:13
 msgid "None"
 msgstr "Keine"
@@ -4373,8 +4350,7 @@ msgid ""
 "selection of fields from a menu."
 msgstr ""
 "Fügt alle Felder im Bereichskasten auf der linken Seite zu den "
-"Sortierungskriterien hinzu oder erlaubt die Auswahl von Feldern über ein "
-"Menü."
+"Sortierungskriterien hinzu oder erlaubt die Auswahl von Feldern über ein Menü."
 
 #: ../src/dialogs/cell-sort.glade.h:4
 msgid "Clear all fields from the sort specification"
@@ -5573,8 +5549,7 @@ msgstr "Die gegeben Eingabe sollte zumindest zwei Spalten mit Daten umfassen."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3489
 msgid ""
-"The given input range should contain at least two rows of data and the "
-"labels."
+"The given input range should contain at least two rows of data and the labels."
 msgstr ""
 "Die gegeben Eingabe sollte zumindest zwei Zeilen mit Daten und die "
 "Beschriftungen umfassen."
@@ -5595,8 +5570,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tools.c:3621
 msgid "Could not create the ANOVA (two factor) tool dialog."
-msgstr ""
-"Der Varianzanalyse (zweifaktoriell)-Dialog konnte nicht erzeugt werden."
+msgstr "Der Varianzanalyse (zweifaktoriell)-Dialog konnte nicht erzeugt werden."
 
 #: ../src/dialogs/dialog-autoformat.c:72
 #: ../src/dialogs/scenario-manager.glade.h:1
@@ -5790,8 +5764,7 @@ msgstr ""
 "Sind der Zelleninhalt und der Wert gleich, wird ein besonderer Stil genutzt."
 
 #: ../src/dialogs/dialog-cell-format.c:2012
-msgid ""
-"If the cell content is not equal to this value, a special style is used."
+msgid "If the cell content is not equal to this value, a special style is used."
 msgstr ""
 "Sind der Zelleninhalt und der Wert nicht gleich, wird ein besonderer Stil "
 "genutzt."
@@ -5852,8 +5825,8 @@ msgstr ""
 #: ../src/dialogs/dialog-cell-format.c:2083
 msgid "If the cell content ends with this string, a special style is used."
 msgstr ""
-"Wenn der Zelleninhalt mit dieser Zeichenkette endet, wird ein besonderer "
-"Stil genutzt."
+"Wenn der Zelleninhalt mit dieser Zeichenkette endet, wird ein besonderer Stil "
+"genutzt."
 
 #: ../src/dialogs/dialog-cell-format.c:2090
 msgid ""
@@ -5967,8 +5940,8 @@ msgstr "Die voreingestellte Spaltenbreite festlegen"
 msgid ""
 "Set column width of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
-"Die Spaltenbreite der Markierung <span style='italic' weight='bold'>%s</"
-"span> festlegen"
+"Die Spaltenbreite der Markierung <span style='italic' weight='bold'>%s</span> "
+"festlegen"
 
 #: ../src/dialogs/dialog-consolidate.c:192
 #, c-format
@@ -6000,8 +5973,7 @@ msgstr "Zeile"
 msgid "Column"
 msgstr "Spalte"
 
-#: ../src/dialogs/dialog-data-slicer.c:145
-#: ../src/dialogs/dialog-stf.glade.h:17
+#: ../src/dialogs/dialog-data-slicer.c:145 ../src/dialogs/dialog-stf.glade.h:17
 msgid "Data"
 msgstr "Daten"
 
@@ -6291,8 +6263,8 @@ msgstr "%i Felder sind nicht Teil des Übernahmebereichs!"
 #: ../src/dialogs/dialog-merge.c:277
 #, c-format
 msgid ""
-"The data columns range in length from %i to %i. Shall we trim the lengths to "
-"%i and proceed?"
+"The data columns range in length from %i to %i. Shall we trim the lengths to %"
+"i and proceed?"
 msgstr ""
 "Die Länge des Datenbereichs von %i nach %i. Wollen Sie die Längen auf %i "
 "zuschneiden und fortfahren?"
@@ -6345,8 +6317,7 @@ msgstr "Fehler beim Aktivieren der Plugins"
 
 #: ../src/dialogs/dialog-plugin-manager.c:588
 msgid ""
-"The following extra plugins must be activated in order to activate this "
-"one:\n"
+"The following extra plugins must be activated in order to activate this one:\n"
 "\n"
 msgstr ""
 "Folgende zusätzliche Plugins müssen in angegebener Reihenfolge aktiviert "
@@ -6411,8 +6382,7 @@ msgstr "Vorgegebene Anzahl von Spalten in einem Blatt"
 
 #: ../src/dialogs/dialog-preferences.c:828
 msgid "Default autosave frequency in seconds"
-msgstr ""
-"Voreingestellte Anzahl an Sekunden zwischen automatischen Speicherungen"
+msgstr "Voreingestellte Anzahl an Sekunden zwischen automatischen Speicherungen"
 
 #: ../src/dialogs/dialog-preferences.c:890
 msgid "Enter _Moves Selection"
@@ -6584,8 +6554,7 @@ msgstr "_Ausgewähltes speichern"
 msgid "Save selected documents and then quit"
 msgstr "Ausgewählte Dokumente speichern und beenden"
 
-#: ../src/dialogs/dialog-quit.c:193 ../src/wbc-gtk.c:2375
-#: ../src/wbc-gtk.c:2380
+#: ../src/dialogs/dialog-quit.c:193 ../src/wbc-gtk.c:2375 ../src/wbc-gtk.c:2380
 msgid "_Discard"
 msgstr "_Verwerfen"
 
@@ -6910,8 +6879,8 @@ msgstr "Durch Ändern der Zellen ungültig"
 #: ../src/dialogs/dialog-scenarios.c:309
 msgid "Changing cells should be on the current sheet only."
 msgstr ""
-"Das Ändern von Zellen sollte ausschließlich auf dem momentan geöffneten "
-"Blatt stattfinden."
+"Das Ändern von Zellen sollte ausschließlich auf dem momentan geöffneten Blatt "
+"stattfinden."
 
 #: ../src/dialogs/dialog-scenarios.c:321
 msgid "Scenario name already used"
@@ -7025,13 +6994,11 @@ msgstr "Eine andere Ansicht verwaltet bereits Blätter"
 msgid "Default"
 msgstr "Vorgabe"
 
-#: ../src/dialogs/dialog-sheetobject-size.c:195
-#: ../src/sheet-control-gui.c:2428
+#: ../src/dialogs/dialog-sheetobject-size.c:195 ../src/sheet-control-gui.c:2428
 msgid "Move Object"
 msgstr "Objekt verschieben"
 
-#: ../src/dialogs/dialog-sheetobject-size.c:195
-#: ../src/sheet-control-gui.c:2428
+#: ../src/dialogs/dialog-sheetobject-size.c:195 ../src/sheet-control-gui.c:2428
 msgid "Resize Object"
 msgstr "Objektgröße verändern"
 
@@ -7107,8 +7074,8 @@ msgstr "Der Dialog zum Auflisten der Eigenschaft konnte nicht erzeugt werden."
 
 #: ../src/dialogs/dialog-solver.c:350
 msgid ""
-"Looking for a subject for your thesis? Maybe you would like to write a "
-"solver for Gnumeric?"
+"Looking for a subject for your thesis? Maybe you would like to write a solver "
+"for Gnumeric?"
 msgstr ""
 "Suchen Sie nach einem Thema für Ihre Diplomarbeit? Haben Sie Interesse am "
 "Schreiben eines Lösers für Gnumeric?"
@@ -7266,16 +7233,16 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.glade.h:14
 msgid ""
-"Move the selected sheet to the end of the list of to be exported sheets to "
-"be exported last."
+"Move the selected sheet to the end of the list of to be exported sheets to be "
+"exported last."
 msgstr ""
 "Das gewählte Blatt in der Liste zu exportierender Blätter an das Ende "
 "schieben, um es als letztes zu exportieren."
 
 #: ../src/dialogs/dialog-stf-export.glade.h:15
 msgid ""
-"Move the selected sheet to the top of the list of to be exported sheets to "
-"be exported first."
+"Move the selected sheet to the top of the list of to be exported sheets to be "
+"exported first."
 msgstr ""
 "Das gewählte Blatt in der Liste zu exportierender Blätter an den Anfang "
 "schieben, um es zuerst zu exportieren."
@@ -7293,8 +7260,8 @@ msgid ""
 "Raise the selected sheet in the list of to be exported sheets to be exported "
 "earlier."
 msgstr ""
-"Das gewählte Blatt in der Liste zu exportierender Blätter nach oben "
-"schieben, um es früher zu exportieren."
+"Das gewählte Blatt in der Liste zu exportierender Blätter nach oben schieben, "
+"um es früher zu exportieren."
 
 #: ../src/dialogs/dialog-stf-export.glade.h:19
 msgid "Save as default formatting"
@@ -7439,8 +7406,7 @@ msgid "A maximum of %d columns can be imported."
 msgstr "Es können maximal %d Spalten importiert werden."
 
 #: ../src/dialogs/dialog-stf-format-page.c:551
-msgid ""
-"If this checkbox is selected, the column will be imported into Gnumeric."
+msgid "If this checkbox is selected, the column will be imported into Gnumeric."
 msgstr ""
 "Falls dieses Kontrollkästchen angewählt ist, wird die Spalte in Gnumeric "
 "importiert"
@@ -7496,8 +7462,7 @@ msgstr "'"
 
 #: ../src/dialogs/dialog-stf.glade.h:3
 msgid ""
-"Actual processing will start at this line, any previous lines will be "
-"ignored."
+"Actual processing will start at this line, any previous lines will be ignored."
 msgstr ""
 "Die tatsächliche Verarbeitung wird bei dieser Zeile beginnen, alle "
 "vorangehenden\n"
@@ -7556,8 +7521,7 @@ msgstr "Spalten"
 
 #: ../src/dialogs/dialog-stf.glade.h:16
 msgid "Custom separator, this can be any character."
-msgstr ""
-"Benutzerdefiniertes Trennzeichen; das kann ein beliebiges Zeichen sein."
+msgstr "Benutzerdefiniertes Trennzeichen; das kann ein beliebiges Zeichen sein."
 
 #: ../src/dialogs/dialog-stf.glade.h:18
 msgid "Define the width of each column manually."
@@ -8653,8 +8617,7 @@ msgstr "Die Varianzen der _Grundgesamtheit sind:"
 msgid "_Populations"
 msgstr "_Grundgesamtheiten"
 
-#: ../src/dialogs/mean-tests.glade.h:21
-#: ../src/dialogs/sign-test-two.glade.h:10
+#: ../src/dialogs/mean-tests.glade.h:21 ../src/dialogs/sign-test-two.glade.h:10
 msgid "_Test"
 msgstr "_Test"
 
@@ -8750,8 +8713,8 @@ msgstr "Normalitätstests"
 msgid "Shapiro-Francia Test"
 msgstr "Shapiro-Francia-Test"
 
-#: ../src/dialogs/normality-tests.glade.h:10
-#: ../src/dialogs/sign-test.glade.h:5 ../src/dialogs/variance-tests.glade.h:5
+#: ../src/dialogs/normality-tests.glade.h:10 ../src/dialogs/sign-test.glade.h:5
+#: ../src/dialogs/variance-tests.glade.h:5
 msgid "Test"
 msgstr "Test"
 
@@ -8884,8 +8847,7 @@ msgid ""
 msgstr ""
 "Das Plugin kann nicht deaktiviert werden, da es gerade verwendet wird.\n"
 "Wollen Sie es zur Deaktivierung markieren, sodass es bei nächsten Start von "
-"Gnumeric inaktiv ist (Es sei denn, es wird von einem anderen Plugin "
-"benötigt)?"
+"Gnumeric inaktiv ist (Es sei denn, es wird von einem anderen Plugin benötigt)?"
 
 #: ../src/dialogs/plugin-manager.glade.h:9
 msgid "_Activate All"
@@ -10222,8 +10184,7 @@ msgstr "GNUMERIC_VERSION:die aktuelle Version von Gnumeric"
 
 #: ../src/func-builtin.c:106
 msgid "GNUMERIC_VERSION returns the version of gnumeric as a string."
-msgstr ""
-"GNUMERIC_VERSION gibt die Version von gnumeric als Zeichenfolge zurück."
+msgstr "GNUMERIC_VERSION gibt die Version von gnumeric als Zeichenfolge zurück."
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:264
@@ -10251,9 +10212,9 @@ msgid ""
 "then evaluate and return the second argument.  Otherwise, it will evaluate "
 "and return the last argument."
 msgstr ""
-"Die Funktion wertet als erstes die Bedingung aus. Wenn das Ergebnis wahr "
-"ist, wertet sie das zweite Argument aus und gibt dieses zurück, andernfalls "
-"wertet sie das letzte Argument aus und gibt dieses zurück."
+"Die Funktion wertet als erstes die Bedingung aus. Wenn das Ergebnis wahr ist, "
+"wertet sie das zweite Argument aus und gibt dieses zurück, andernfalls wertet "
+"sie das letzte Argument aus und gibt dieses zurück."
 
 #: ../src/func.c:226
 #, c-format
@@ -10741,8 +10702,7 @@ msgstr "Unbekanntes Arbeitsbuch"
 #: ../src/parser.y:1079 ../src/parser.y:1343
 #, c-format
 msgid "Could not find matching closing quote"
-msgstr ""
-"Zugehöriges schließendes Anführungszeichen konnte nicht gefunden werden"
+msgstr "Zugehöriges schließendes Anführungszeichen konnte nicht gefunden werden"
 
 #: ../src/parser.y:1204
 #, c-format
@@ -11576,8 +11536,7 @@ msgstr "Geschützt, Bearbeiten des automatischen Filters zulässig"
 #: ../src/sheet.c:947
 msgid "Allow auto filters to be edited while a sheet is protected"
 msgstr ""
-"Bearbeitung von automatischen Filtern zulassen, obwohl ein Blatt geschützt "
-"ist"
+"Bearbeitung von automatischen Filtern zulassen, obwohl ein Blatt geschützt ist"
 
 #: ../src/sheet.c:950
 msgid "Protected allow edit pivottable"
@@ -11585,8 +11544,7 @@ msgstr "Geschützt, Bearbeiten von Pivot-Tabellen zulässig"
 
 #: ../src/sheet.c:951
 msgid "Allow pivottable to be edited while a sheet is protected"
-msgstr ""
-"Bearbeitung von Pivot-Tabellen zulassen, obwohl ein Blatt geschützt ist"
+msgstr "Bearbeitung von Pivot-Tabellen zulassen, obwohl ein Blatt geschützt ist"
 
 #: ../src/sheet.c:954
 msgid "Protected allow select unlocked cells"
@@ -11723,8 +11681,7 @@ msgstr "Alle verfügbaren Exporter auflisten"
 
 #: ../src/ssconvert.c:117
 msgid ""
-"Export a file for each sheet if the exporter only supports one sheet at a "
-"time"
+"Export a file for each sheet if the exporter only supports one sheet at a time"
 msgstr ""
 "Für jedes Blatt eine separate Datei exportieren, falls der Exporter nur ein "
 "Blatt auf einmal unterstützt"
@@ -11758,8 +11715,8 @@ msgstr "Dateispeicherer hat keine Optionen"
 #, c-format
 msgid "Name conflict during merge: '%s' appears twice at workbook scope.\n"
 msgstr ""
-"Während des Zusammenführens ist ein Namenskonflikt aufgetreten: »%s« "
-"erscheint zwei Mal im Arbeitsbuchbereich.\n"
+"Während des Zusammenführens ist ein Namenskonflikt aufgetreten: »%s« erscheint "
+"zwei Mal im Arbeitsbuchbereich.\n"
 
 #: ../src/ssconvert.c:457
 #, c-format
@@ -11978,8 +11935,7 @@ msgstr "Sprachumgebung"
 
 #: ../src/stf-export.c:533
 msgid "The locale to use for number and date formatting."
-msgstr ""
-"Sprachumgebung, welche zur Zahlen- und Datumsformatierung genutzt wird."
+msgstr "Sprachumgebung, welche zur Zahlen- und Datumsformatierung genutzt wird."
 
 #: ../src/stf-export.c:541
 msgid "Transliterate mode"
@@ -12021,8 +11977,8 @@ msgid ""
 "There are more rows of data than there is room for in the sheet.  Extra rows "
 "will be ignored."
 msgstr ""
-"Im Blatt ist nicht genügend Platz für alle Datenzeilen vorhanden. "
-"Zusätzliche Zeilen werden ignoriert."
+"Im Blatt ist nicht genügend Platz für alle Datenzeilen vorhanden. Zusätzliche "
+"Zeilen werden ignoriert."
 
 #. FIXME: What locale?
 #: ../src/stf-parse.c:1297
@@ -12053,8 +12009,7 @@ msgstr "Es sind keine Daten zum Konvertieren vorhanden"
 #: ../src/stf.c:321
 msgid "Error while trying to parse data into sheet"
 msgstr ""
-"Beim Versuch, Daten in das Blatt zu interpretieren, ist ein Fehler "
-"aufgetreten"
+"Beim Versuch, Daten in das Blatt zu interpretieren, ist ein Fehler aufgetreten"
 
 #: ../src/stf.c:370
 msgid "That file is not in the given encoding."
@@ -12182,8 +12137,8 @@ msgstr "Automatischer Ausdruck"
 #: ../src/tools/analysis-chi-squared.c:60
 msgid "[>=5]\"Test of Independence\";[<5][Red]\"Invalid Test of Independence\""
 msgstr ""
-"[>=5]\"Test auf Unabhängigkeit\";[<5][Red]\"Ungültiger Test auf "
-"Unabhängigkeit\""
+"[>=5]\"Test auf Unabhängigkeit\";[<5][Red]\"Ungültiger Test auf Unabhängigkeit"
+"\""
 
 #: ../src/tools/analysis-chi-squared.c:61
 msgid "[>=5]\"Test of Homogeneity\";[<5][Red]\"Invalid Test of Homogeneity\""
@@ -12478,16 +12433,14 @@ msgid "Principal Components Analysis (%s)"
 msgstr "Hauptkomponentenanalyse (%s)"
 
 #: ../src/tools/analysis-sign-test.c:74
-#, fuzzy
 msgid ""
-"/Sign Test/Median:/Predicted Median:/Test Statistic:/N:/α:/P(T≤t) one-"
-"tailed:/P(T≤t) two-tailed:"
+"/Sign Test/Median:/Predicted Median:/Test Statistic:/N:/α:/P(T≤t) one-tailed:/"
+"P(T≤t) two-tailed:"
 msgstr ""
-"/Vorzeichentest/Medianwert:/Vorhergesagter Medianwert:/Test-Statistik:/N:/α:/"
-"P(T≤t) one-tailed:/P(T≤t) two-tailed:"
+"/Vorzeichentest/Medianwert:/Vorhergesagter Medianwert:/Test-Statistik:/N:/α:/P"
+"(T≤t) one-tailed:/P(T≤t) two-tailed:"
 
 #: ../src/tools/analysis-sign-test.c:216
-#, fuzzy
 msgid ""
 "/Sign Test/Median:/Predicted Difference:/Test Statistic:/N:/α:/P(T≤t) one-"
 "tailed:/P(T≤t) two-tailed:"
@@ -12607,9 +12560,9 @@ msgid ""
 "tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 msgstr ""
 "/Mittelwert/Varianz/Beobachtungen/Pearson-Korrelation/Hypothetische "
-"Mittelwertsdifferenz/Beobachtete Mittelwertsdifferenz/Varianz der "
-"Differenzen/df/t Stat/Einseitiges P (T<=t)/Einseitiger Kritischer t Wert/"
-"Zweiseitiges P (T<=t)/Zweiseitiger Kritischer t Wert"
+"Mittelwertsdifferenz/Beobachtete Mittelwertsdifferenz/Varianz der Differenzen/"
+"df/t Stat/Einseitiges P (T<=t)/Einseitiger Kritischer t Wert/Zweiseitiges P "
+"(T<=t)/Zweiseitiger Kritischer t Wert"
 
 #: ../src/tools/analysis-tools.c:1820
 #, c-format
@@ -12629,8 +12582,8 @@ msgid ""
 "(T<=t) two-tail/t Critical two-tail"
 msgstr ""
 "/Mittelwert/Varianz/Beobachtungen/Gemeinsame Varianz/Hypothetische "
-"Mittelwertsdifferenz/Beobachtete Mittelwertsdifferenz/df/t Stat/Einseitiger "
-"P-Wert/Einseitiger Kritischer t Wert/Zweisieitiger P Wert/ Zweiseitiger "
+"Mittelwertsdifferenz/Beobachtete Mittelwertsdifferenz/df/t Stat/Einseitiger P-"
+"Wert/Einseitiger Kritischer t Wert/Zweisieitiger P Wert/ Zweiseitiger "
 "Kritischer t Wert"
 
 #: ../src/tools/analysis-tools.c:2120 ../src/tools/analysis-tools.c:2413
@@ -12670,8 +12623,8 @@ msgstr "F-Test (%s)"
 # CHECK
 #: ../src/tools/analysis-tools.c:2842
 msgid ""
-"/SUMMARY OUTPUT//Regression Statistics/Multiple R/R^2/Standard Error/"
-"Adjusted R^2/Observations//ANOVA//Regression/Residual/Total///Intercept"
+"/SUMMARY OUTPUT//Regression Statistics/Multiple R/R^2/Standard Error/Adjusted "
+"R^2/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
 "/Zusammenfassung//Regressionsstatistik/Vielfaches R/R²/Standardfehler/"
 "Angepasster R²/Beobachtungen//Varianzanalyse//Regression/Rest/Gesamt///"
@@ -12705,6 +12658,12 @@ msgid ""
 "observed t-statistic, assuming the null\n"
 "hypothesis is in fact true."
 msgstr ""
+"Wahrscheinlichkeit der Überwachung\n"
+"einer t-Statistik, deren absoluter Wert\n"
+"mindestens so groß ist wie der Absolutwert\n"
+"der derzeit überwachten t-Statistik, unter der\n"
+"Annahme, dass die Null-Hypothese\n"
+"faktisch wahr ist."
 
 #: ../src/tools/analysis-tools.c:2922
 msgid ""
@@ -13686,8 +13645,7 @@ msgstr "_Hängt ab"
 
 #: ../src/wbc-gtk-actions.c:1883
 msgid "Select all the cells that depend on the current edit cell"
-msgstr ""
-"Alle Zellen markieren, die von der momentan Fokussierten abhängig sind."
+msgstr "Alle Zellen markieren, die von der momentan Fokussierten abhängig sind."
 
 #: ../src/wbc-gtk-actions.c:1885
 msgid "_Inputs"
@@ -14064,8 +14022,7 @@ msgstr "Auto-_Speichern …"
 
 #: ../src/wbc-gtk-actions.c:2075
 msgid "Automatically save the current document at regular intervals"
-msgstr ""
-"Das aktuelle Dokument automatisch in regelmäßigen Intervallen speichern"
+msgstr "Das aktuelle Dokument automatisch in regelmäßigen Intervallen speichern"
 
 #: ../src/wbc-gtk-actions.c:2077
 msgid "_Goal Seek..."
@@ -14106,8 +14063,7 @@ msgstr "_Ansicht …"
 
 #: ../src/wbc-gtk-actions.c:2090
 msgid "View, delete and report different scenarios"
-msgstr ""
-"Verschiedene Szenarien anzeigen, löschen und Berichte darüber erstellen"
+msgstr "Verschiedene Szenarien anzeigen, löschen und Berichte darüber erstellen"
 
 #: ../src/wbc-gtk-actions.c:2092
 msgid "_Add..."
@@ -14202,8 +14158,8 @@ msgstr "Ungepaarte Stichproben, _gleiche Varianzen: T-Test …"
 
 #: ../src/wbc-gtk-actions.c:2134
 msgid ""
-"Comparing two population means for two unpaired samples from populations "
-"with equal variances: t-test..."
+"Comparing two population means for two unpaired samples from populations with "
+"equal variances: t-test..."
 msgstr ""
 "Vergleich der Mittelwerte zweier Grundgesamtheiten für zwei ungepaarte "
 "Stichproben mit gleichen Varianzen: t-Test …"
@@ -14214,8 +14170,8 @@ msgstr "Ungepaarte Stichproben, _ungleiche Varianzen: T-Test …"
 
 #: ../src/wbc-gtk-actions.c:2138
 msgid ""
-"Comparing two population means for two unpaired samples from populations "
-"with unequal variances: t-test..."
+"Comparing two population means for two unpaired samples from populations with "
+"unequal variances: t-test..."
 msgstr ""
 "Vergleich der Mittelwerte zweier Grundgesamtheiten für zwei ungepaarte "
 "Stichproben mit ungleichen Varianzen: t-Test …"
@@ -14229,8 +14185,8 @@ msgid ""
 "Comparing two population means from populations with known variances: z-"
 "test..."
 msgstr ""
-"Vergleich der Mittelwerte zweier Grundgesamtheiten mit bekannten Varianzen: "
-"z-Test …"
+"Vergleich der Mittelwerte zweier Grundgesamtheiten mit bekannten Varianzen: z-"
+"Test …"
 
 #. Tools -> Analysis
 #: ../src/wbc-gtk-actions.c:2146
@@ -14311,7 +14267,7 @@ msgstr "Testen eines Beispiels auf Normalität"
 
 #: ../src/wbc-gtk-actions.c:2180
 msgid "One M_edian Sign Test..."
-msgstr ""
+msgstr "M_edian-Vorzeichentest …"
 
 #: ../src/wbc-gtk-actions.c:2181
 msgid "Testing the value of a median"
@@ -14390,8 +14346,7 @@ msgid "_Merge..."
 msgstr "_Zusammenführen …"
 
 #: ../src/wbc-gtk-actions.c:2211
-msgid ""
-"Merges columnar data into a sheet creating duplicate sheets for each row"
+msgid "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 "Zelldaten in ein Blatt übernehmen, wobei für jede Zeile ein neues Blatt "
 "erstellt wird."
@@ -14553,8 +14508,7 @@ msgstr "Eine Funktion in der aktuellen Zelle bearbeiten"
 
 #: ../src/wbc-gtk-actions.c:2281
 msgid ""
-"Sort the selected region in ascending order based on the first column "
-"selected"
+"Sort the selected region in ascending order based on the first column selected"
 msgstr ""
 "Den markierten Bereich in aufsteigender Ordnung sortieren, basierend auf der "
 "ersten markierten Spalte"
@@ -14888,8 +14842,7 @@ msgstr "Zusa_mmenführen und zentrieren"
 #: ../src/wbc-gtk-actions.c:2455
 msgid "Merge the selection into 1 cell, and center horizontaly."
 msgstr ""
-"Die Auswahl zu einer einzelnen Zelle zusammenführen und horizontal "
-"zentrieren."
+"Die Auswahl zu einer einzelnen Zelle zusammenführen und horizontal zentrieren."
 
 #: ../src/wbc-gtk-actions.c:2462
 msgid "Align _Top"
@@ -15519,8 +15472,7 @@ msgstr "Höchste Genauigkeit des automatischen Ausdrucks"
 #: ../src/workbook-view.c:828
 msgid "Use maximum available precision for auto-expressions"
 msgstr ""
-"Die höchste maximal verfügbare Genauigkeit für automatische Ausdrücke "
-"benutzen"
+"Die höchste maximal verfügbare Genauigkeit für automatische Ausdrücke benutzen"
 
 #: ../src/workbook-view.c:836
 msgid "Auto-expression text"
@@ -15921,8 +15873,8 @@ msgstr "Eine einfache Listenvorlage"
 
 #~ msgid ""
 #~ "Changing cells contain at least one expression that is not just a value. "
-#~ "Note that showing the scenario will overwrite the formula with its "
-#~ "current value."
+#~ "Note that showing the scenario will overwrite the formula with its current "
+#~ "value."
 #~ msgstr ""
 #~ "Um Zellen zu ändern, müssen diese mindestens einen Ausdruck beinhalten, "
 #~ "der kein Wert ist. Beachten Sie, dass beim Anzeigen des Szenarios die "
@@ -16061,8 +16013,7 @@ msgstr "Eine einfache Listenvorlage"
 #~ msgstr "Problem nicht durchführbar"
 
 #~ msgid "Maximum number of iterations exceeded: optimization interrupted"
-#~ msgstr ""
-#~ "Maximale Zahl der Durchläufe überschritten: Optimierung unterbrochen"
+#~ msgstr "Maximale Zahl der Durchläufe überschritten: Optimierung unterbrochen"
 
 #~ msgid "Maximum time exceeded: optimization interrupted"
 #~ msgstr "Maximale Zeit verstrichen: Optimierung unterbrochen"
@@ -16225,8 +16176,8 @@ msgstr "Eine einfache Listenvorlage"
 #~ "The maximum number of iterations exceeded. The optimal value could not be "
 #~ "found."
 #~ msgstr ""
-#~ "Die Maximale Anzahl an Iterationen ist erschöpft. Es konnte kein "
-#~ "optimaler Wert gefunden werden."
+#~ "Die Maximale Anzahl an Iterationen ist erschöpft. Es konnte kein optimaler "
+#~ "Wert gefunden werden."
 
 #~ msgid "Unknown error."
 #~ msgstr "Unbekannter Fehler."
@@ -16248,11 +16199,11 @@ msgstr "Eine einfache Listenvorlage"
 #~ "nicht erstellt."
 
 #~ msgid ""
-#~ "The LHS cells should contain formulas that yield proper numerical "
-#~ "values.  Specify valid LHS entries."
+#~ "The LHS cells should contain formulas that yield proper numerical values.  "
+#~ "Specify valid LHS entries."
 #~ msgstr ""
-#~ "Die Zelle mit der linken Seite der Gleichung sollte Formeln enthalten, "
-#~ "die korrekte numerische Werte ergeben. Geben Sie gültige Einträge für die "
+#~ "Die Zelle mit der linken Seite der Gleichung sollte Formeln enthalten, die "
+#~ "korrekte numerische Werte ergeben. Geben Sie gültige Einträge für die "
 #~ "rechte Seite der Gleichung an."
 
 #~ msgid ""
@@ -16283,18 +16234,18 @@ msgstr "Eine einfache Listenvorlage"
 #~ "gesetzt werden. Probieren Sie einen anderen Algorithmus."
 
 #~ msgid ""
-#~ "Failure setting the maximum solving time with this solver, try a "
-#~ "different algorithm."
+#~ "Failure setting the maximum solving time with this solver, try a different "
+#~ "algorithm."
 #~ msgstr ""
 #~ "Die maximale Lösungszeit konnte mit diesem Problemlöser nicht gesetzt "
 #~ "werden. Probieren Sie einen anderen Algorithmus."
 
 #~ msgid ""
-#~ "Some of the input cells contain non-numeric values.  Specify a valid "
-#~ "input range."
+#~ "Some of the input cells contain non-numeric values.  Specify a valid input "
+#~ "range."
 #~ msgstr ""
-#~ "Einige der Eingabezellen enthalten nicht-numerische Werte. Geben Sie "
-#~ "einen gültigen Eingabebereich an."
+#~ "Einige der Eingabezellen enthalten nicht-numerische Werte. Geben Sie einen "
+#~ "gültigen Eingabebereich an."
 
 #~ msgid "Edit descriptive information"
 #~ msgstr "Beschreibende Informationen ändern"
@@ -16417,8 +16368,8 @@ msgstr "Eine einfache Listenvorlage"
 #~ "Übertragskosten; Volatilität"
 
 #~ msgid ""
-#~ "call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, "
-#~ "rho_ef, kappa_e, kappa_f)"
+#~ "call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, "
+#~ "kappa_e, kappa_f)"
 #~ msgstr ""
 #~ "Call_oder_Put; p_t; f_t; x; Laufzeit1; Laufzeit2; v_s; v_e; v_f; Rho_se; "
 #~ "Rho_sf; Rho_ef; Kappa_e; Kappa_f)"
@@ -16432,8 +16383,8 @@ msgstr "Eine einfache Listenvorlage"
 #~ msgid ""
 #~ "call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
 #~ msgstr ""
-#~ "Call_oder_Put; Kassapreis; Alpha; Laufzeit1; Laufzeit2; Kurs; "
-#~ "Volatilität; Übertragskosten"
+#~ "Call_oder_Put; Kassapreis; Alpha; Laufzeit1; Laufzeit2; Kurs; Volatilität; "
+#~ "Übertragskosten"
 
 #~ msgid ""
 #~ "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, "
@@ -16465,9 +16416,9 @@ msgstr "Eine einfache Listenvorlage"
 #~ "type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, "
 #~ "cost_of_carry2, rate, volatility1, volatility2, rho"
 #~ msgstr ""
-#~ "Call_oder_Put; Kassapreis1; Kassapreis2; Ausübungspreis1; "
-#~ "Ausübungspreis2; Laufzeit; Übertragskosten1; Übertragskosten2; Kurs; "
-#~ "Volatilität1; Volatilität2; Rho"
+#~ "Call_oder_Put; Kassapreis1; Kassapreis2; Ausübungspreis1; Ausübungspreis2; "
+#~ "Laufzeit; Übertragskosten1; Übertragskosten2; Kurs; Volatilität1; "
+#~ "Volatilität2; Rho"
 
 #~ msgid ""
 #~ "spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
@@ -16486,15 +16437,15 @@ msgstr "Eine einfache Listenvorlage"
 #~ msgid ""
 #~ "call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
 #~ msgstr ""
-#~ "Call_oder_Put; Kassapreis; Kassapreis_min; Kassapreis_max; Laufzeit; "
-#~ "Kurs; Übertragskosten; Volatilität"
+#~ "Call_oder_Put; Kassapreis; Kassapreis_min; Kassapreis_max; Laufzeit; Kurs; "
+#~ "Übertragskosten; Volatilität"
 
 #~ msgid ""
 #~ "call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
 #~ "volatility"
 #~ msgstr ""
-#~ "Call_oder_Put; Kassapreis; Kassapreis_min; Kassapreis_max; "
-#~ "Ausübungspreis; Laufzeit; Kurs; Übertragskosten; Volatilität"
+#~ "Call_oder_Put; Kassapreis; Kassapreis_min; Kassapreis_max; Ausübungspreis; "
+#~ "Laufzeit; Kurs; Übertragskosten; Volatilität"
 
 #~ msgid ""
 #~ "amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
@@ -16961,8 +16912,8 @@ msgstr "Eine einfache Listenvorlage"
 #, fuzzy
 #~ msgid ""
 #~ "Setting this option will cause the sort buttons on the toolbar to assume "
-#~ "that the area to be sorted has a header and determine the initial state "
-#~ "of the has-header checkbox in the sort dialog."
+#~ "that the area to be sorted has a header and determine the initial state of "
+#~ "the has-header checkbox in the sort dialog."
 #~ msgstr ""
 #~ "Das Setzen dieser Option veranlasst die Sortierknöpfe in der "
 #~ "Werkzeugleiste, die Sortierung unter Berücksichtigung der Groß-/"
@@ -17428,15 +17379,15 @@ msgstr "Eine einfache Listenvorlage"
 #~ "interpretiert werden"
 
 #~ msgid ""
-#~ "Some content will be lost when saving as OpenOffice .sxc. It only "
-#~ "supports %d rows, and sheet '%s' has %d"
+#~ "Some content will be lost when saving as OpenOffice .sxc. It only supports "
+#~ "%d rows, and sheet '%s' has %d"
 #~ msgstr ""
 #~ "Beim Speichern im OpenOffice .sxc-Format gehen einige Daten verloren. Es "
 #~ "unterstützt lediglich %d Zeilen, das Blatt »%s« hat jedoch %d"
 
 #~ msgid ""
-#~ "Some content will be lost when saving as OpenOffice .sxc. It only "
-#~ "supports %d columns, and sheet '%s' has %d"
+#~ "Some content will be lost when saving as OpenOffice .sxc. It only supports "
+#~ "%d columns, and sheet '%s' has %d"
 #~ msgstr ""
 #~ "Beim Speichern im OpenOffice .sxc-Format gehen einige Daten verloren. Es "
 #~ "unterstützt lediglich %d Spalten, das Blatt »%s« hat jedoch %d"
@@ -17459,8 +17410,8 @@ msgstr "Eine einfache Listenvorlage"
 #~ msgid ""
 #~ "The file menu shows a list of recently used functions. This is that list."
 #~ msgstr ""
-#~ "Das Dateimenü zeigt eine Liste zuletzt verwendeter Funktionen an. Dies "
-#~ "ist diese Liste."
+#~ "Das Dateimenü zeigt eine Liste zuletzt verwendeter Funktionen an. Dies ist "
+#~ "diese Liste."
 
 #~ msgid "The number of files kept in the `recent' section of the file menu."
 #~ msgstr ""
