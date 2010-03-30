@@ -1,0 +1,13 @@
+Index: configure.in
+===================================================================
+--- configure.in	(revision 2583)
++++ configure.in	(working copy)
+@@ -484,7 +484,7 @@
+ # Checks for GObject Introspection
+ #
+ have_introspection=false
+-PKG_CHECK_MODULES(INTROSPECTION, gobject-introspection-1.0 >= 0.6.4, have_introspection=true, have_introspection=false)
++#PKG_CHECK_MODULES(INTROSPECTION, gobject-introspection-1.0 >= 0.6.4, have_introspection=true, have_introspection=false)
+ AM_CONDITIONAL(HAVE_INTROSPECTION, $have_introspection)
+ 
+ G_IR_SCANNER=

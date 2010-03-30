@@ -175,6 +175,7 @@
 
     <autotools id="pango">
 	<branch repo="gnome.org" module="sources/pango/1.26/pango-1.26.2.tar.bz2" version="1.26.2">
+	  <patch file="&patch_dir;pango-no-introspection.patch"/>
 	</branch>
 	<dependencies>
 	    <dep package="freetype"/>
