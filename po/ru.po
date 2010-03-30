@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-11 16:11-0500\n"
-"PO-Revision-Date: 2010-03-11 18:30-0500\n"
+"PO-Revision-Date: 2010-03-29 23:11-0400\n"
 "Last-Translator: Konstantin Tokarev <annulen@yandex.ru>\n"
 "Language-Team:  <gnome-cyr@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -925,7 +925,7 @@ msgstr "Функции баз данных предоставляют возмо
 #: ../plugins/glpk/glpk-write.c:64 ../plugins/lpsolve/lpsolve-write.c:64
 #, c-format
 msgid "Target cell did not evaluate to a number."
-msgstr ""
+msgstr "Целевая ячейка не рассчитывает число."
 
 #: ../plugins/glpk/glpk-write.c:346
 msgid "Writing glpk file..."
@@ -947,6 +947,8 @@ msgid ""
 "The %s program was not found.  You can either install it or use another "
 "solver. For more information see %s"
 msgstr ""
+"Программа %s не найдена. Вы можете установить ее или использовать другой "
+"алгоритм решения. Подробности на %s"
 
 #: ../plugins/glpk/plugin.xml.in.h:1
 msgid "GLPK"
@@ -1084,7 +1086,7 @@ msgstr "Недопустимая строка в разделе ROWS (строк
 #: ../plugins/mps/mps.c:231
 #, c-format
 msgid "Duplicate rows name %s"
-msgstr ""
+msgstr "Дубликат названий строк %s"
 
 #: ../plugins/mps/mps.c:249
 msgid "Duplicate objective row"
@@ -1990,7 +1992,7 @@ msgstr "Разделитель полей для экспорта текста"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:53
 msgid "Text Export Record Terminator"
-msgstr ""
+msgstr "Завершитель записи для экспорта текста"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:54
 msgid "Text Export String Indicator"
@@ -7044,7 +7046,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-solver.c:665
 msgid "OK"
-msgstr ""
+msgstr "Ok"
 
 #: ../src/dialogs/dialog-solver.c:755
 msgid "Running solver"
@@ -8608,7 +8610,7 @@ msgstr "Вставить определения имён"
 
 #: ../src/dialogs/paste-special.glade.h:1
 msgid "<b>Cell operation</b>"
-msgstr ""
+msgstr "<b>Операции с ячейками</b>"
 
 #: ../src/dialogs/paste-special.glade.h:2
 msgid "<b>Paste type</b>"
@@ -8616,7 +8618,7 @@ msgstr "<b>Вставить тип</b>"
 
 #: ../src/dialogs/paste-special.glade.h:3
 msgid "<b>Region operation</b>"
-msgstr ""
+msgstr "<b>Операции с областью</b>"
 
 #: ../src/dialogs/paste-special.glade.h:4
 msgid "A_dd"
@@ -8640,7 +8642,7 @@ msgstr "Разделить"
 
 #: ../src/dialogs/paste-special.glade.h:9
 msgid "D_o not change formul&#xE6;"
-msgstr ""
+msgstr "_Не изменять формулу"
 
 #: ../src/dialogs/paste-special.glade.h:10
 msgid "Fli_p Vertically"
@@ -14768,7 +14770,7 @@ msgstr "Выделить"
 
 #: ../src/wbc-gtk.c:501
 msgid "Select (sorted)"
-msgstr ""
+msgstr "Выбрать (по порядку)"
 
 #: ../src/wbc-gtk.c:1389
 msgid " - Gnumeric"
