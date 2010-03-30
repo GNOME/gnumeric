@@ -141,8 +141,8 @@
     </autotools>
     <autotools id="libthai">
 	<branch repo="debian"
-		module="libt/libthai/libthai_0.1.13.orig.tar.gz"
-		version="0.1.13" checkoutdir="libthai-0.1.13">
+		module="libt/libthai/libthai_0.1.14.orig.tar.gz"
+		version="0.1.14" checkoutdir="libthai-0.1.14">
 	    <patch file="&patch_dir;libthai.patch"/>
 	</branch>
 	<dependencies>
