@@ -35,7 +35,7 @@ diff -crN bzip2-1.0.5/Makefile bzip2-1.0.5-patched/Makefile
   # Where you want it installed when you do 'make install'
 ! PREFIX=$(prefix)
   
-+ RC =i586-mingw32msvc-windres
++ RC =$(WINDRES)
 + RCFLAGS = --define GCC_WINDRES
   
   OBJS= blocksort.o  \
