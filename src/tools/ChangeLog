@@ -1,3 +1,12 @@
+2010-03-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-tools.h (analysis_tools_data_regression_t): add fields
+	* analysis-tools.c (analysis_tools_remove_label): change arguments
+	  and change all callers
+	(analysis_tools_write_a_label): new
+	(analysis_tool_regression_simple_engine_run): new
+	(analysis_tool_regression_engine): hook up second engine
+
 2010-03-28  Morten Welinder  <terra@gnome.org>
 
 	* goal-seek.c (update_data): Properly handle NaNs.  Fixes #614147.

@@ -1,3 +1,9 @@
+2010-03-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* regression.glade: add radio buttons
+	* dialog-analysis-tools.c (regression_tool_ok_clicked_cb): handle 
+	  new radio buttons
+
 2010-03-25 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-preferences.c (int_pref_widget_to_conf): get the

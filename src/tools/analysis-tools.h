@@ -166,6 +166,8 @@ typedef struct {
 	analysis_tools_data_generic_b_t base;
 	gint       intercept;
 	group_by_t group_by;
+	gboolean   multiple_regression;
+	GSList    *indep_vars;
 } analysis_tools_data_regression_t;
 
 gboolean analysis_tool_regression_engine (data_analysis_output_t *dao, gpointer specs,

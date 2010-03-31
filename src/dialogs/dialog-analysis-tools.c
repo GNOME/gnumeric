@@ -2149,6 +2149,9 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	w = glade_xml_get_widget (state->base.gui, "intercept-button");
 	data->intercept = 1 - gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
+	w = glade_xml_get_widget (state->base.gui, "multiple-regression-button");
+	data->multiple_regression = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+
 	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
 			       dao, data, analysis_tool_regression_engine)) {
 		char *text;

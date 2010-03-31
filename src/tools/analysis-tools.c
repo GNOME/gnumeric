@@ -129,17 +129,15 @@ cb_adjust_areas (gpointer data, G_GNUC_UNUSED gpointer user_data)
 
 /*
  *  analysis_tools_remove_label:
- *  @val: range to extract label from
- *  @info: analysis_tools_data_generic_t info
  *
  */
 
 static void
 analysis_tools_remove_label (GnmValue *val,
-			    analysis_tools_data_generic_t *info)
+			     gboolean labels, group_by_t group_by)
 {
-	if (info->labels) {
-		switch (info->group_by) {
+	if (labels) {
+		switch (group_by) {
 		case GROUPED_BY_ROW:
 			val->v_range.cell.a.col++;
 			break;
@@ -178,7 +176,7 @@ analysis_tools_write_label (GnmValue *val, data_analysis_output_t *dao,
 
 		label->v_range.cell.b = label->v_range.cell.a;
 		dao_set_cell_expr (dao, x, y, gnm_expr_new_constant (label));
-		analysis_tools_remove_label (val, info);
+		analysis_tools_remove_label (val, info->labels, info->group_by);
 	} else {
 		switch (info->group_by) {
 		case GROUPED_BY_ROW:
@@ -197,6 +195,54 @@ analysis_tools_write_label (GnmValue *val, data_analysis_output_t *dao,
 		}
 
 		dao_set_cell_printf (dao, x, y, format, i);
+	}
+}
+
+/*
+ *  analysis_tools_write_label:
+ *  @val: range to extract label from
+ *  @dao: data_analysis_output_t, where to write to
+ *  @labels: analysis_tools_data_generic_t infowhether the 
+ *           @val contains label info
+ *  @group_by: grouping info
+ *  @x: output col number
+ *  @y: output row number
+ *  @i: default col/row number
+ *
+ */
+
+static void
+analysis_tools_write_a_label (GnmValue *val, data_analysis_output_t *dao,
+			      gboolean   labels, group_by_t group_by,
+			      int x, int y)
+{
+	if (labels) {
+		GnmValue *label = value_dup (val);
+
+		label->v_range.cell.b = label->v_range.cell.a;
+		dao_set_cell_expr (dao, x, y, gnm_expr_new_constant (label));
+		analysis_tools_remove_label (val, labels, group_by);
+	} else {
+		char const *str = ((group_by == GROUPED_BY_ROW) ? "row" : "col");
+		char const *label = ((group_by == GROUPED_BY_ROW) ? _("Row") : _("Column"));
+
+		GnmFunc *fd_concatenate;
+		GnmFunc *fd_cell;
+
+		fd_concatenate = gnm_func_lookup_or_add_placeholder ("CONCATENATE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		gnm_func_ref (fd_concatenate);
+		fd_cell = gnm_func_lookup_or_add_placeholder ("CELL", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		gnm_func_ref (fd_cell);
+
+		dao_set_cell_expr (dao, x, y, gnm_expr_new_funcall3
+				   (fd_concatenate, gnm_expr_new_constant (value_new_string (label)),
+				    gnm_expr_new_constant (value_new_string (" ")),
+				    gnm_expr_new_funcall2 (fd_cell,
+							   gnm_expr_new_constant (value_new_string (str)),
+							   gnm_expr_new_constant (value_dup (val)))));
+
+		gnm_func_unref (fd_concatenate);
+		gnm_func_unref (fd_cell);
 	}
 }
 
@@ -3242,6 +3288,109 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	return FALSE;
 }
 
+static gboolean
+analysis_tool_regression_simple_engine_run (data_analysis_output_t *dao,
+				     analysis_tools_data_regression_t *info)
+{
+	GnmFunc *fd_linest;
+	GnmFunc *fd_index;
+	GnmFunc *fd_fdist;
+	GnmFunc *fd_rows;
+	GnmFunc *fd_columns;
+
+	GSList *inputdata;
+	guint row;
+
+	GnmValue *val_dep = value_dup (info->base.range_2);
+	GnmExpr const *expr_intercept = gnm_expr_new_constant (value_new_bool (info->intercept));
+	GnmExpr const *expr_observ;
+	GnmExpr const *expr_val_dep;
+
+	fd_linest = gnm_func_lookup_or_add_placeholder ("LINEST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	gnm_func_ref (fd_linest);
+	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	gnm_func_ref (fd_index);
+	fd_fdist = gnm_func_lookup_or_add_placeholder ("FDIST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	gnm_func_ref (fd_fdist);
+	fd_rows = gnm_func_lookup_or_add_placeholder ("ROWS", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	gnm_func_ref (fd_rows);
+	fd_columns = gnm_func_lookup_or_add_placeholder ("COLUMNS", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	gnm_func_ref (fd_columns);
+
+	dao_set_italic (dao, 0, 0, 4, 0);
+	dao_set_italic (dao, 0, 2, 5, 2);
+        set_cell_text_row (dao, 0, 0, _("/SUMMARY OUTPUT"
+					"/"
+					"/Response Variable:"
+					"/"
+					"/Observations:"));
+        set_cell_text_row (dao, 0, 2, _("/Independent Variable"
+					"/R^2"
+					"/Slope"
+					"/Intercept"
+					"/F"
+					"/Significance of F"));
+	analysis_tools_write_a_label (val_dep, dao,
+				      info->base.labels, info->group_by,
+				      3, 0);
+
+	expr_val_dep = gnm_expr_new_constant (val_dep);
+	dao_set_cell_expr (dao, 5, 0, gnm_expr_new_binary (gnm_expr_new_funcall1 (fd_rows, gnm_expr_copy (expr_val_dep)),
+							   GNM_EXPR_OP_MULT,
+							   gnm_expr_new_funcall1 (fd_columns, gnm_expr_copy (expr_val_dep))));
+	expr_observ = dao_get_cellref (dao, 5, 0);
+
+	for (row = 3, inputdata = info->indep_vars; inputdata != NULL;
+	     inputdata = inputdata->next, row++) {
+		GnmValue *val_indep = value_dup (inputdata->data);
+		GnmExpr const *expr_linest;
+		
+		dao_set_italic (dao, 0, row, 0, row);
+		analysis_tools_write_a_label (val_indep, dao,
+					      info->base.labels, info->group_by,
+					      0, row);
+		expr_linest = gnm_expr_new_funcall4 (fd_linest,
+						     gnm_expr_copy (expr_val_dep),
+						     gnm_expr_new_constant (val_indep),
+						     gnm_expr_copy (expr_intercept),
+						     gnm_expr_new_constant (value_new_bool (TRUE)));
+		dao_set_cell_array_expr (dao, 1, row,
+				 gnm_expr_new_funcall3 (fd_index,
+							gnm_expr_copy (expr_linest),
+							gnm_expr_new_constant (value_new_int (3)),
+							gnm_expr_new_constant (value_new_int (1))));
+		dao_set_cell_array_expr (dao, 4, row,
+				 gnm_expr_new_funcall3 (fd_index,
+							gnm_expr_copy (expr_linest),
+							gnm_expr_new_constant (value_new_int (4)),
+							gnm_expr_new_constant (value_new_int (1))));
+		dao_set_array_expr (dao, 2, row, 2, 1, expr_linest);
+
+		dao_set_cell_expr (dao, 5, row, gnm_expr_new_funcall3 
+				   (fd_fdist,
+				    make_cellref (-1, 0),
+				    gnm_expr_new_constant (value_new_int (1)),
+				    gnm_expr_new_binary (gnm_expr_copy (expr_observ),
+							 GNM_EXPR_OP_SUB,
+							 gnm_expr_new_constant (value_new_int (2)))));
+
+	}
+
+	gnm_expr_free (expr_intercept);
+	gnm_expr_free (expr_observ);
+	gnm_expr_free (expr_val_dep);
+
+	gnm_func_unref (fd_fdist);
+	gnm_func_unref (fd_linest);
+	gnm_func_unref (fd_index);
+	gnm_func_unref (fd_rows);
+	gnm_func_unref (fd_columns);
+
+	dao_redraw_respan (dao);
+
+	return FALSE;
+}
+
 gboolean
 analysis_tool_regression_engine (data_analysis_output_t *dao, gpointer specs,
 			    analysis_tool_engine_t selector, gpointer result)
@@ -3256,11 +3405,22 @@ analysis_tool_regression_engine (data_analysis_output_t *dao, gpointer specs,
 	{
 		gint xdim = calculate_xdim (info->base.range_1, info->group_by);
 
-		dao_adjust (dao, 7, 17 + xdim);
+		if (info->multiple_regression) {
+			info->indep_vars = NULL;
+			dao_adjust (dao, 7, 17 + xdim);
+		} else {
+			info->indep_vars = g_slist_prepend (NULL, info->base.range_1);
+			info->base.range_1 = NULL;
+			prepare_input_range (&info->indep_vars, info->group_by);
+			dao_adjust (dao, 6, 3 + xdim);
+		}
 		return FALSE;
 	}
 	case TOOL_ENGINE_CLEAN_UP:
+		range_list_destroy (info->indep_vars);
+		info->indep_vars = NULL;
 		return analysis_tool_generic_b_clean (specs);
+		
 	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
 		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
@@ -3270,7 +3430,10 @@ analysis_tool_regression_engine (data_analysis_output_t *dao, gpointer specs,
 		return dao_format_output (dao, _("Regression"));
 	case TOOL_ENGINE_PERFORM_CALC:
 	default:
-		return analysis_tool_regression_engine_run (dao, specs);
+		if (info->multiple_regression)
+			return analysis_tool_regression_engine_run (dao, specs);
+		else
+			return analysis_tool_regression_simple_engine_run (dao, specs);
 	}
 	return TRUE;  /* We shouldn't get here */
 }
@@ -3948,7 +4111,9 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 			GnmExpr const *expr_one;
 			GnmExpr const *expr_count_one;
 
-			analysis_tools_remove_label (val_org, &info->base);
+			analysis_tools_remove_label (val_org, 
+						     info->base.labels,
+						     info->base.group_by);
 			expr_one = gnm_expr_new_constant (value_dup (val_org));
 
 			arg_ss_total =  gnm_expr_list_append
