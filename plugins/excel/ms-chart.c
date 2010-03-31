@@ -3952,17 +3952,24 @@ chart_write_AREAFORMAT (XLChartWriteState *s, GOStyle const *style, gboolean dis
 			fore = GO_COLOR_WHITE;
 			back = GO_COLOR_WHITE;
 			break;
-		case GO_STYLE_FILL_PATTERN: {
-			pat = style->fill.pattern.pattern + 1;
-			if (pat == 1) {
-				back = style->fill.pattern.fore;
-				fore = style->fill.pattern.back;
+		case GO_STYLE_FILL_PATTERN:
+			if ((style->fill.pattern.pattern == GO_PATTERN_SOLID && style->fill.pattern.back == 0)
+			    || (style->fill.pattern.pattern == GO_PATTERN_FOREGROUND_SOLID && style->fill.pattern.fore == 0)
+			    || (style->fill.pattern.fore == 0 && style->fill.pattern.back == 0)) {
+				pat = 0;
+				fore = GO_COLOR_WHITE;
+				back = GO_COLOR_WHITE;
 			} else {
-				fore = style->fill.pattern.fore;
-				back = style->fill.pattern.back;
+				pat = style->fill.pattern.pattern + 1;
+				if (pat == 1) {
+					back = style->fill.pattern.fore;
+					fore = style->fill.pattern.back;
+				} else {
+					fore = style->fill.pattern.fore;
+					back = style->fill.pattern.back;
+				}
 			}
 			break;
-		}
 		case GO_STYLE_FILL_GRADIENT:
 			pat = 1;
 			fore = back = style->fill.pattern.fore;

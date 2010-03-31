@@ -1,3 +1,8 @@
+2010-03-31  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (chart_write_AREAFORMAT): export transparent patterns as
+	no filling.
+
 2010-03-29  Morten Welinder  <terra@gnome.org>
 
 	* ms-formula-write.c (write_funcall): Guess argument types for
