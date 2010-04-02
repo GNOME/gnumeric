@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&component=general\n"
-"POT-Creation-Date: 2010-03-30 03:38+0000\n"
-"PO-Revision-Date: 2010-03-31 20:56+0100\n"
+"POT-Creation-Date: 2010-03-31 19:13+0000\n"
+"PO-Revision-Date: 2010-04-02 10:40+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -5442,23 +5442,20 @@ msgid "MUNIT:the @{n} by @{n} identity matrix"
 msgstr "Naredi identično matriko dane velikosti"
 
 #: ../plugins/fn-math/functions.c:2771
-#, fuzzy
 msgid "n:size of the matrix"
-msgstr "Matrične skupine"
+msgstr ""
 
 #: ../plugins/fn-math/functions.c:2800
 msgid "MMULT:the matrix product of @{mat1} and @{mat2}"
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:2801
-#, fuzzy
 msgid "mat1:a matrix"
-msgstr "Matrične skupine"
+msgstr ""
 
 #: ../plugins/fn-math/functions.c:2802
-#, fuzzy
 msgid "mat2:a matrix"
-msgstr "Matrične skupine"
+msgstr ""
 
 #: ../plugins/fn-math/functions.c:2867
 #, fuzzy
@@ -5534,9 +5531,8 @@ msgid "wolfram:MoebiusFunction.html"
 msgstr "<b>HTML možnosti izvoza:</b>"
 
 #: ../plugins/fn-numtheory/numtheory.c:293
-#, fuzzy
 msgid "NT_D:number of divisors"
-msgstr "_Rob številk vrstic"
+msgstr ""
 
 #: ../plugins/fn-numtheory/numtheory.c:295
 msgid "NT_D calculates the number of divisors of @{n}."
@@ -9562,13 +9558,15 @@ msgstr ""
 
 #: ../plugins/gda/plugin-gda.c:307
 #: ../plugins/gda/plugin-gda.c:384
+#, fuzzy
 msgid "dsn:libgda data source"
-msgstr ""
+msgstr "Potrditev odstranjevanja virov podatkov"
 
 #: ../plugins/gda/plugin-gda.c:308
 #: ../plugins/gda/plugin-gda.c:385
+#, fuzzy
 msgid "username:user name to access @{dsn}"
-msgstr ""
+msgstr "Uporabniško ime, ki bo uporabljeno pri dostopu do zapisa."
 
 #: ../plugins/gda/plugin-gda.c:309
 #: ../plugins/gda/plugin-gda.c:386
@@ -9589,16 +9587,18 @@ msgid "READDBTABLE:all rows of the table @{table} in @{dsn}"
 msgstr ""
 
 #: ../plugins/gda/plugin-gda.c:387
+#, fuzzy
 msgid "table:SQL table to retrieve"
-msgstr ""
+msgstr "Ni mogoče pridobiti podatkov hitrosti"
 
 #: ../plugins/sample_datasource/sample_datasource.c:278
 msgid "ATL_LAST:sample real-time data source"
 msgstr ""
 
 #: ../plugins/sample_datasource/sample_datasource.c:279
+#, fuzzy
 msgid "tag:tag to watch"
-msgstr ""
+msgstr "Vrednosti za opazovanje"
 
 #: ../plugins/sample_datasource/sample_datasource.c:280
 msgid "ATL_LAST is a sample implementation of a real time data source.  It takes a string tag and monitors the named pipe ~/atl for changes to the value of that tag."
