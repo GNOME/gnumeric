@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&component=general\n"
-"POT-Creation-Date: 2010-03-31 19:12+0000\n"
-"PO-Revision-Date: 2010-04-04 20:11+0100\n"
+"POT-Creation-Date: 2010-04-04 18:13+0000\n"
+"PO-Revision-Date: 2010-04-04 21:55+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -3614,8 +3614,8 @@ msgstr ""
 "ni enako\n"
 "je večje kot\n"
 "je večje ali enako kot\n"
-"je manjše kot\n"
-"je manjše ali enako kot\n"
+"je manj kot\n"
+"je manj ali enako kot\n"
 "se začne z\n"
 "se ne začne z\n"
 "se konča s\n"
@@ -7780,9 +7780,8 @@ msgid "You should introduce a valid number as maximum"
 msgstr ""
 
 #: ../src/dialogs/dialog-tabulate.c:229
-#, fuzzy
 msgid "The maximum value should be bigger than the minimum"
-msgstr "Največja vrednost mora biti večja od najmanjše.\n"
+msgstr "Največja vrednost mora biti večja od najmanjše."
 
 #: ../src/dialogs/dialog-tabulate.c:238
 msgid "You should introduce a valid number as step size"
@@ -10223,12 +10222,10 @@ msgstr "zaženi navidezni način delovanja"
 
 #: ../src/dialogs/simulation.glade.h:19
 #: ../src/tools/analysis-anova.c:462
-#, fuzzy
 msgid "Summary"
 msgstr "Povzetek"
 
 #: ../src/dialogs/simulation.glade.h:20
-#, fuzzy
 msgid "Variables"
 msgstr "Spremenljivke"
 
@@ -10260,7 +10257,6 @@ msgstr "Lastnosti prekinitvene točke"
 #: ../src/dialogs/so-checkbox.glade.h:3
 #: ../src/dialogs/so-frame.glade.h:3
 #: ../src/dialogs/so-radiobutton.glade.h:1
-#, fuzzy
 msgid "Label:"
 msgstr "Naziv:"
 
@@ -10268,9 +10264,8 @@ msgstr "Naziv:"
 #: ../src/dialogs/so-checkbox.glade.h:4
 #: ../src/dialogs/so-radiobutton.glade.h:2
 #: ../src/dialogs/so-scrollbar.glade.h:3
-#, fuzzy
 msgid "Link to:"
-msgstr "povezava do %s"
+msgstr "Povezava z:"
 
 #: ../src/dialogs/so-checkbox.glade.h:2
 #, fuzzy
@@ -10288,14 +10283,12 @@ msgid "List Properties"
 msgstr "Lastnosti seznama stikov"
 
 #: ../src/dialogs/so-list.glade.h:2
-#, fuzzy
 msgid "_Content :"
-msgstr "Vsebina:"
+msgstr "_Vsebina:"
 
 #: ../src/dialogs/so-list.glade.h:3
-#, fuzzy
 msgid "_Link :"
-msgstr "Povezava"
+msgstr "_Povezava:"
 
 #: ../src/dialogs/so-radiobutton.glade.h:3
 #, fuzzy
@@ -10308,7 +10301,6 @@ msgid "Increment:"
 msgstr "Najmanjše povečevanje"
 
 #: ../src/dialogs/so-scrollbar.glade.h:6
-#, fuzzy
 msgid "Page:"
 msgstr "Stran:"
 
@@ -11358,39 +11350,32 @@ msgid "tab"
 msgstr "tabulator"
 
 #: ../src/print-info.c:574
-#, fuzzy
 msgid "page"
 msgstr "stran"
 
 #: ../src/print-info.c:575
-#, fuzzy
 msgid "pages"
-msgstr "Strani"
+msgstr "strani"
 
 #: ../src/print-info.c:576
-#, fuzzy
 msgid "date"
 msgstr "datum"
 
 #: ../src/print-info.c:577
-#, fuzzy
 msgid "time"
 msgstr "čas"
 
 #: ../src/print-info.c:578
 #: ../src/ssconvert.c:90
-#, fuzzy
 msgid "file"
 msgstr "datoteka"
 
 #: ../src/print-info.c:579
-#, fuzzy
 msgid "path"
 msgstr "pot"
 
 #: ../src/print-info.c:580
 #: ../src/ssgrep.c:352
-#, fuzzy
 msgid "cell"
 msgstr "celica"
 
@@ -11454,7 +11439,6 @@ msgid "_Ignore defined print area"
 msgstr ""
 
 #: ../src/print.c:1380
-#, fuzzy
 msgid "from:"
 msgstr "od:"
 
@@ -11467,7 +11451,6 @@ msgstr "Točke, ki pokrivajo Y območje"
 #. * But max_width was computed as an estimate, anyway, so we don't care.
 #.
 #: ../src/ranges.c:1047
-#, fuzzy
 msgid "..."
 msgstr "..."
 
@@ -11577,7 +11560,6 @@ msgid "Is the search order by row?"
 msgstr ""
 
 #: ../src/search.c:749
-#, fuzzy
 msgid "Query"
 msgstr "Poizvedba"
 
@@ -11642,9 +11624,8 @@ msgstr "_Ne prepiši slik"
 
 #: ../src/session.c:128
 #: ../src/session.c:131
-#, fuzzy
 msgid "Do not save"
-msgstr "_Ne shrani"
+msgstr "Ne shrani"
 
 #: ../src/session.c:133
 #, fuzzy
@@ -11740,32 +11721,27 @@ msgid "DataSlicer Field _Order "
 msgstr "Obrni vrstni red seznama"
 
 #: ../src/sheet-control-gui.c:1896
-#, fuzzy
 msgid "Up"
 msgstr "Gor"
 
 #: ../src/sheet-control-gui.c:1899
-#, fuzzy
 msgid "Down"
 msgstr "Dol"
 
 #. end sub menu
 #: ../src/sheet-control-gui.c:1906
-#, fuzzy
 msgid "_Format Cells..."
-msgstr "Izbor vrste zapisa:"
+msgstr "_Oblika celic ..."
 
 #. Column specific (Note some labels duplicate row labels)
 #: ../src/sheet-control-gui.c:1910
-#, fuzzy
 msgid "Column _Width..."
-msgstr "Širina stolpca"
+msgstr "_Širina stolpca ..."
 
 #: ../src/sheet-control-gui.c:1912
 #: ../src/sheet-control-gui.c:1920
 #: ../src/wbc-gtk-actions.c:2041
 #: ../src/wbc-gtk-actions.c:2058
-#, fuzzy
 msgid "_Hide"
 msgstr "_Skrij"
 
@@ -11778,24 +11754,20 @@ msgstr ""
 
 #. Row specific (Note some labels duplicate col labels)
 #: ../src/sheet-control-gui.c:1918
-#, fuzzy
 msgid "_Row Height..."
-msgstr "Višina vrstice:"
+msgstr "_Višina vrstice ..."
 
 #: ../src/sheet-control-gui.c:1925
-#, fuzzy
 msgid "_Hyperlink"
-msgstr "Hiperpovezava"
+msgstr "_Hiperpovezava"
 
 #: ../src/sheet-control-gui.c:1928
-#, fuzzy
 msgid "Edit _Hyperlink"
-msgstr "<b>Določilo hiperpovezave</b>"
+msgstr "_Uredi hiperpovezavo"
 
 #: ../src/sheet-control-gui.c:1931
-#, fuzzy
 msgid "_Remove Hyperlink"
-msgstr "<b>Določilo hiperpovezave</b>"
+msgstr "_Odstrani hiperpovezavo"
 
 #. This is somewhat cheesy and should use ngettext
 #: ../src/sheet-control-gui.c:2427
@@ -11804,14 +11776,12 @@ msgid "Duplicate Object"
 msgstr "Predmet vsebuje"
 
 #: ../src/sheet-control-gui.c:2427
-#, fuzzy
 msgid "Insert Object"
-msgstr "Predmet vsebuje"
+msgstr "Vstavi predmet"
 
 #. Format toolbar
 #: ../src/sheet-merge.c:74
 #: ../src/wbc-gtk-actions.c:2330
-#, fuzzy
 msgid "Merge"
 msgstr "Združi"
 
@@ -11829,14 +11799,12 @@ msgid "Unknown failure while saving image"
 msgstr ""
 
 #: ../src/sheet-object-graph.c:314
-#, fuzzy
 msgid "_Save as Image"
-msgstr "Shrani sliko kot"
+msgstr "Shrani kot s_liko"
 
 #: ../src/sheet-object-graph.c:315
-#, fuzzy
 msgid "Open in _New Window"
-msgstr "Odpri v novih _oknih"
+msgstr "Odpri v novem _oknu"
 
 #: ../src/sheet-object-graph.c:644
 #, fuzzy
@@ -11853,9 +11821,8 @@ msgid "Use first series as shared abscissa"
 msgstr ""
 
 #: ../src/sheet-object-image.c:452
-#, fuzzy
 msgid "_Save as image"
-msgstr "Shrani sliko kot"
+msgstr "Shrani kot s_liko"
 
 #. Object Toolbar
 #: ../src/sheet-object-widget.c:335
@@ -11867,7 +11834,6 @@ msgstr "Okvir"
 #: ../src/sheet-object-widget.c:640
 #: ../src/wbc-gtk-actions.c:2322
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:2
-#, fuzzy
 msgid "Button"
 msgstr "Gumb"
 
@@ -11908,19 +11874,17 @@ msgid "Spinbutton Properties"
 msgstr "Lastnosti prekinitvene točke"
 
 #: ../src/sheet-object-widget.c:1706
-#, fuzzy
 msgid "Configure Slider"
-msgstr "Širina vodoravnega drsnika"
+msgstr "Nastavitev drsnika"
 
 #: ../src/sheet-object-widget.c:1707
-#, fuzzy
 msgid "Slider Properties"
-msgstr "Lastnosti prekinitvene točke"
+msgstr "Lastnosti drsnika"
 
 #: ../src/sheet-object-widget.c:1851
-#, fuzzy, c-format
+#, c-format
 msgid "CheckBox %d"
-msgstr "Potrditveno polje"
+msgstr "Potrditveno polje %d"
 
 #. FIXME: This text sucks:
 #: ../src/sheet-object-widget.c:1896
@@ -11984,7 +11948,6 @@ msgid "Pus_h to Back"
 msgstr "Nazaj na zadetke"
 
 #: ../src/sheet-view.c:384
-#, fuzzy
 msgid "Copy"
 msgstr "Kopiraj"
 
@@ -13708,34 +13671,28 @@ msgstr ""
 "in {1}"
 
 #: ../src/validation.c:73
-#, fuzzy
 msgid "Equal"
-msgstr "Enak"
+msgstr "Enako"
 
 #: ../src/validation.c:74
-#, fuzzy
 msgid "Not Equal"
-msgstr "ni enako kot"
+msgstr "Ni enako"
 
 #: ../src/validation.c:75
-#, fuzzy
 msgid "Greater Than"
-msgstr "je večje kot"
+msgstr "Večje kot"
 
 #: ../src/validation.c:76
-#, fuzzy
 msgid "Less Than"
-msgstr "manj kot"
+msgstr "Manj kot"
 
 #: ../src/validation.c:77
-#, fuzzy
 msgid "Greater than or Equal"
-msgstr "večje ali enako kot"
+msgstr "Večje ali enako kot"
 
 #: ../src/validation.c:78
-#, fuzzy
 msgid "Less than or Equal"
-msgstr "manj ali enako kot"
+msgstr "Manj ali enako kot"
 
 #: ../src/validation.c:285
 #, fuzzy
@@ -14058,9 +14015,8 @@ msgid "F_ormat"
 msgstr "_Oblika"
 
 #: ../src/wbc-gtk-actions.c:1709
-#, fuzzy
 msgid "C_olumn"
-msgstr "_Dodaj stolpec ..."
+msgstr "_Stolpec"
 
 #. ICK A DUPLICATE : we have no way to override a label on one proxy
 #: ../src/wbc-gtk-actions.c:1711
@@ -14266,7 +14222,6 @@ msgid "Report problem"
 msgstr "_Poročilo o napaki"
 
 #: ../src/wbc-gtk-actions.c:1783
-#, fuzzy
 msgid "_About"
 msgstr "_O programu"
 
@@ -14458,14 +14413,12 @@ msgid "Append a new sheet"
 msgstr "Zapisovanje cue predloge"
 
 #: ../src/wbc-gtk-actions.c:1912
-#, fuzzy
 msgid "_Duplicate"
 msgstr "Po_dvoji"
 
 #: ../src/wbc-gtk-actions.c:1913
-#, fuzzy
 msgid "Make a copy of the current sheet"
-msgstr "Shrani kopijo trenutnega dokumenta"
+msgstr "Ustvari kopijo trenutnega delovnega lista"
 
 #: ../src/wbc-gtk-actions.c:1916
 msgid "Irrevocably remove an entire sheet"
@@ -14541,7 +14494,6 @@ msgid "Search for something and replace it with something else"
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1944
-#, fuzzy
 msgid "Recalculate"
 msgstr "Ponovno izračunaj"
 
@@ -14583,16 +14535,14 @@ msgid "Freeze the top left of the sheet"
 msgstr "Zgornji levi kot platna zaslona"
 
 #: ../src/wbc-gtk-actions.c:1959
-#, fuzzy
 msgid "_Zoom..."
-msgstr "Približanje"
+msgstr "_Približanje ..."
 
 #: ../src/wbc-gtk-actions.c:1960
 msgid "Zoom the spreadsheet in or out"
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1962
-#, fuzzy
 msgid "Zoom _In"
 msgstr "_Približaj"
 
@@ -14601,7 +14551,6 @@ msgid "Increase the zoom to make things larger"
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1965
-#, fuzzy
 msgid "Zoom _Out"
 msgstr "_Oddalji"
 
@@ -14635,7 +14584,6 @@ msgid "Insert a Chart"
 msgstr "Finančni grafikon"
 
 #: ../src/wbc-gtk-actions.c:1987
-#, fuzzy
 msgid "_Image..."
 msgstr "_Slika ..."
 
@@ -14656,9 +14604,8 @@ msgstr "<b>Določilo hiperpovezave</b>"
 
 #. Insert -> Special
 #: ../src/wbc-gtk-actions.c:1995
-#, fuzzy
 msgid "Current _date"
-msgstr "Trenutni datum:"
+msgstr "Trenutni _datum"
 
 #: ../src/wbc-gtk-actions.c:1996
 msgid "Insert the current date into the selected cell(s)"
@@ -14707,9 +14654,8 @@ msgstr ""
 
 #. Format
 #: ../src/wbc-gtk-actions.c:2021
-#, fuzzy
 msgid "_Cells..."
-msgstr "Prostor med celicami"
+msgstr "_Celice ..."
 
 #: ../src/wbc-gtk-actions.c:2022
 #, fuzzy
@@ -14735,7 +14681,6 @@ msgid "Format a region of cells according to a pre-defined template"
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2030
-#, fuzzy
 msgid "Direction"
 msgstr "Smer"
 
@@ -14745,9 +14690,8 @@ msgstr ""
 
 #. Format -> Col
 #: ../src/wbc-gtk-actions.c:2035
-#, fuzzy
 msgid "_Width..."
-msgstr "<b>Širina</b>"
+msgstr "_Širina ..."
 
 #: ../src/wbc-gtk-actions.c:2036
 #, fuzzy
@@ -14872,9 +14816,8 @@ msgstr ""
 
 #. Tools -> Scenarios
 #: ../src/wbc-gtk-actions.c:2090
-#, fuzzy
 msgid "_View..."
-msgstr "Pogled"
+msgstr "_Pogled ..."
 
 #: ../src/wbc-gtk-actions.c:2091
 msgid "View, delete and report different scenarios"
@@ -14959,9 +14902,8 @@ msgid "Frequency tables for non-numeric data"
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2125
-#, fuzzy
 msgid "_Histogram..."
-msgstr "<b>Histogram:</b>"
+msgstr "_Histogram ..."
 
 #: ../src/wbc-gtk-actions.c:2126
 msgid "Various frequency tables for numeric data"
@@ -15151,7 +15093,6 @@ msgid "Consolidate regions using a function"
 msgstr "Najde ničlo funkcije z uporabo bisekcijske metode"
 
 #: ../src/wbc-gtk-actions.c:2203
-#, fuzzy
 msgid "_Table..."
 msgstr "_Preglednica ..."
 
@@ -15326,7 +15267,6 @@ msgid "Create a data slicer"
 msgstr "Ustvarite podatkovni CD/DVD"
 
 #: ../src/wbc-gtk-actions.c:2266
-#, fuzzy
 msgid "_Refresh"
 msgstr "_Osveži"
 
@@ -15380,24 +15320,20 @@ msgid "Create a frame"
 msgstr "Ustvari nov okvir besedila"
 
 #: ../src/wbc-gtk-actions.c:2292
-#, fuzzy
 msgid "Checkbox"
 msgstr "Potrditveno polje"
 
 #: ../src/wbc-gtk-actions.c:2293
-#, fuzzy
 msgid "Create a checkbox"
-msgstr "Ustvari vejo"
+msgstr "Ustvari potrditveno polje"
 
 #: ../src/wbc-gtk-actions.c:2295
-#, fuzzy
 msgid "Scrollbar"
 msgstr "Drsnik"
 
 #: ../src/wbc-gtk-actions.c:2296
-#, fuzzy
 msgid "Create a scrollbar"
-msgstr "Vodoravni drsnik"
+msgstr "Ustvari drsnik"
 
 #: ../src/wbc-gtk-actions.c:2298
 #, fuzzy
@@ -15431,14 +15367,12 @@ msgid "Create a list"
 msgstr "Ustvari seznam nalog"
 
 #: ../src/wbc-gtk-actions.c:2307
-#, fuzzy
 msgid "Combo Box"
 msgstr "Spustno polje"
 
 #: ../src/wbc-gtk-actions.c:2308
-#, fuzzy
 msgid "Create a combo box"
-msgstr "Vnos spustnega polja"
+msgstr "Ustvari spustno polje"
 
 #: ../src/wbc-gtk-actions.c:2311
 #, fuzzy
@@ -15491,7 +15425,6 @@ msgid "Merge a range of cells"
 msgstr "Prostor med celicami"
 
 #: ../src/wbc-gtk-actions.c:2333
-#, fuzzy
 msgid "Split"
 msgstr "Razdeli"
 
@@ -15500,7 +15433,6 @@ msgid "Split merged ranges of cells"
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2337
-#, fuzzy
 msgid "General"
 msgstr "Splošno"
 
@@ -15515,9 +15447,8 @@ msgid "Format the selection as numbers"
 msgstr "Kljukice niso podane kot števila"
 
 #: ../src/wbc-gtk-actions.c:2343
-#, fuzzy
 msgid "Currency"
-msgstr "Denar"
+msgstr "Valuta"
 
 #: ../src/wbc-gtk-actions.c:2344
 #, fuzzy
