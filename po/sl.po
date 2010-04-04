@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&component=general\n"
 "POT-Creation-Date: 2010-03-31 19:12+0000\n"
-"PO-Revision-Date: 2010-04-02 14:06+0100\n"
+"PO-Revision-Date: 2010-04-04 20:11+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +51,7 @@ msgstr "manjkajoč zaključni znak ] za znakovni razred"
 #: ../plugins/applix/applix-read.c:325
 #, fuzzy, c-format
 msgid "Invalid characters for encoding '%c%c'"
-msgstr "Za kodiranje je določena napačna vrsta sporočila"
+msgstr "Nabor znakov za podnapise"
 
 #: ../plugins/applix/applix-read.c:1200
 #, fuzzy, c-format
@@ -72,7 +72,7 @@ msgstr ""
 #: ../plugins/applix/plugin.xml.in.h:2
 #, fuzzy
 msgid "Applix (*.as)"
-msgstr "med tipkanjem"
+msgstr "Shrani _kot"
 
 #: ../plugins/applix/plugin.xml.in.h:3
 msgid "Imports version 4.[234] spreadsheets"
@@ -249,7 +249,7 @@ msgstr ""
 #: ../plugins/excel/ms-excel-read.c:5915
 #, fuzzy
 msgid "external references"
-msgstr "Deklaracija referenc"
+msgstr "&Pokaži sklice"
 
 #: ../plugins/excel/ms-excel-read.c:5954
 #, fuzzy
@@ -305,15 +305,15 @@ msgstr ""
 #: ../plugins/excel/plugin.xml.in.h:2
 #, fuzzy
 msgid "MS Excel (tm)"
-msgstr "Ustvari zbirko pomnilnika prevodov"
+msgstr "Ustvari zbirko podatkov TM"
 
 #: ../plugins/excel/plugin.xml.in.h:3
 msgid "MS Excel (tm) (*.xls)"
-msgstr ""
+msgstr "MS Excel (tm) (*.xls)"
 
 #: ../plugins/excel/plugin.xml.in.h:4
 msgid "MS Excel (tm) 2003 SpreadsheetML"
-msgstr ""
+msgstr "MS Excel (tm) 2003 SpreadsheetML"
 
 #: ../plugins/excel/plugin.xml.in.h:5
 #, fuzzy
@@ -322,20 +322,20 @@ msgstr "Omogoči ustvarjanje sličic za Microsoft Excel 2007 razpredelnice"
 
 #: ../plugins/excel/plugin.xml.in.h:6
 msgid "MS Excel (tm) 5.0/95"
-msgstr ""
+msgstr "MS Excel (tm) 5.0/95"
 
 #: ../plugins/excel/plugin.xml.in.h:7
 msgid "MS Excel (tm) 97/2000/XP"
-msgstr ""
+msgstr "MS Excel (tm) 97/2000/XP"
 
 #: ../plugins/excel/plugin.xml.in.h:8
 msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
-msgstr ""
+msgstr "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
 
 #: ../plugins/excel/xlsx-read.c:245
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' is corrupt!"
-msgstr "paket je pokvarjen"
+msgstr "'%s' je pokvarjen!"
 
 #: ../plugins/excel/xlsx-read.c:338
 #, fuzzy, c-format
@@ -352,7 +352,7 @@ msgstr ""
 #: ../plugins/excel/xlsx-read.c:414
 #, fuzzy, c-format
 msgid "Invalid integer '%s' for attribute %s"
-msgstr "Neveljavna oblika za vrednost celega števila"
+msgstr "Nepričakovan atribut '%s' za element '%s'"
 
 #: ../plugins/excel/xlsx-read.c:440
 #, c-format
@@ -362,7 +362,7 @@ msgstr ""
 #: ../plugins/excel/xlsx-read.c:471
 #, fuzzy, c-format
 msgid "Invalid number '%s' for attribute %s"
-msgstr "Neveljavna preverjevalna vsota za številko bančnega računa."
+msgstr "Nepričakovan atribut '%s' za element '%s'"
 
 #: ../plugins/excel/xlsx-read.c:496
 #, c-format
@@ -375,19 +375,19 @@ msgid "Invalid range '%s' for attribute %s"
 msgstr "Nepričakovan atribut '%s' za element '%s'"
 
 #: ../plugins/excel/xlsx-read.c:711
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown theme color %d"
-msgstr "Uporabi barvo teme "
+msgstr "Neznana barva teme %d"
 
 #: ../plugins/excel/xlsx-read.c:857
 #, fuzzy, c-format
 msgid "Undefined number format id '%s'"
-msgstr "Veljavnost uporabniškega ID je nedoločena."
+msgstr "MusicBrainz ID albuma v UUID obliki."
 
 #: ../plugins/excel/xlsx-read.c:1504
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown color '%s'"
-msgstr "Neznana barva"
+msgstr "Neznana barva '%s'"
 
 #: ../plugins/excel/xlsx-read.c:2164
 #, fuzzy
@@ -421,9 +421,9 @@ msgid "Invalid sst ref '%s'"
 msgstr "Neveljavna vrsta GbfAmConfigValue"
 
 #: ../plugins/excel/xlsx-read.c:2665
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid cell %s"
-msgstr "<b>Izbrane celice</b>"
+msgstr "Neveljavna celica %s"
 
 #: ../plugins/excel/xlsx-read.c:2765
 msgid "Ignoring column information that does not specify first or last."
@@ -435,7 +435,6 @@ msgid "Ignoring invalid data validation because : %s"
 msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:3482
-#, fuzzy
 msgid "Undefined"
 msgstr "Nedoločeno"
 
@@ -447,7 +446,7 @@ msgstr ""
 #: ../plugins/excel/xlsx-read.c:3906
 #, fuzzy
 msgid "Unknown type of hyperlink"
-msgstr "Neznana vrsta okna '%s'"
+msgstr "Neznana vrsta puščice: %d\n"
 
 #: ../plugins/excel/xlsx-read.c:4135
 #, fuzzy
@@ -462,7 +461,7 @@ msgstr "Manjkajoči id za del v '%s'"
 #: ../plugins/excel/xlsx-read.c:5156
 #, fuzzy
 msgid "No workbook stream found."
-msgstr "Mesta pretoka ni mogoče najti"
+msgstr "Ni podobnih izvajalcev "
 
 #: ../plugins/excel/xlsx-read-pivot.c:1188
 #, c-format
@@ -480,7 +479,7 @@ msgid "Unsupported GnmValue type (%d)"
 msgstr "Nepodprta vrsta medija"
 
 #: ../plugins/excelplugins/excelplugins.c:617
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s"
 msgstr "%s: %s"
 
@@ -506,12 +505,12 @@ msgstr ""
 #: ../plugins/excelplugins/excelplugins.c:938
 #, fuzzy
 msgid "Dynamic module loading is not supported on this system."
-msgstr "Ta sistem na podpira dinamičnega nalaganja modulov."
+msgstr "Ni mogoče naložiti %s: Nalaganje modulov na tem sistemu ni podprto."
 
 #: ../plugins/excelplugins/excelplugins.c:950
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open module file \"%s\"."
-msgstr "Datoteke modula \"%s\" ni mogoče odpreti."
+msgstr "Ni mogoče odpreti datoteke modula \"%s\"."
 
 #: ../plugins/excelplugins/excelplugins.c:955
 #, c-format
@@ -534,9 +533,8 @@ msgid "Adapter interface to load Excel plugins (also known as XLLs). Only operat
 msgstr ""
 
 #: ../plugins/excelplugins/plugin.xml.in.h:2
-#, fuzzy
 msgid "Excel plugins"
-msgstr "Razpoložljivi vstavki"
+msgstr "Vstavki Excel"
 
 #: ../plugins/fn-christian-date/plugin.xml.in.h:1
 #, fuzzy
@@ -546,7 +544,6 @@ msgstr "Funkcije/spremenljivke članov"
 #: ../plugins/fn-christian-date/plugin.xml.in.h:2
 #: ../plugins/fn-date/plugin.xml.in.h:2
 #: ../plugins/fn-hebrew-date/plugin.xml.in.h:1
-#, fuzzy
 msgid "Date/Time"
 msgstr "Datum/čas"
 
@@ -555,39 +552,33 @@ msgid "Functions manipulating dates of the Christian liturgical calendar"
 msgstr ""
 
 #: ../plugins/fn-complex/plugin.xml.in.h:1
-#, fuzzy
 msgid "Complex"
-msgstr "Obsežek"
+msgstr "Kompleksna števila"
 
 #: ../plugins/fn-complex/plugin.xml.in.h:2
-#, fuzzy
 msgid "Complex Functions"
-msgstr "XSLT - Funkcije"
+msgstr "Funkcije kompleksnih števil"
 
 #: ../plugins/fn-complex/plugin.xml.in.h:3
-#, fuzzy
 msgid "Functions for complex numbers"
-msgstr "arctan2 ni definiran za kompleksna števila"
+msgstr "Funkcije za kompleksna števila"
 
 #: ../plugins/fn-database/plugin.xml.in.h:1
 #: ../plugins/gda/plugin.xml.in.h:2
-#, fuzzy
 msgid "Database"
 msgstr "Podatkovna zbirka"
 
 #: ../plugins/fn-database/plugin.xml.in.h:2
-#, fuzzy
 msgid "Database Functions"
-msgstr "XSLT - Funkcije"
+msgstr "Funkcije podatkovne zbirke"
 
 #: ../plugins/fn-database/plugin.xml.in.h:3
 msgid "Functions looking up values in databases"
 msgstr ""
 
 #: ../plugins/fn-date/plugin.xml.in.h:1
-#, fuzzy
 msgid "Date and Time Functions"
-msgstr "Izbor datuma in časa"
+msgstr "Funkcije datuma in časa"
 
 #: ../plugins/fn-date/plugin.xml.in.h:3
 msgid "Functions manipulating dates and time"
@@ -596,9 +587,8 @@ msgstr ""
 #: ../plugins/fn-derivatives/plugin.xml.in.h:1
 #: ../plugins/fn-financial/plugin.xml.in.h:1
 #: ../plugins/sample_datasource/plugin.xml.in.h:2
-#, fuzzy
 msgid "Finance"
-msgstr "Finance in podjetništvo"
+msgstr "Finance"
 
 #: ../plugins/fn-derivatives/plugin.xml.in.h:2
 #, fuzzy
@@ -707,7 +697,7 @@ msgstr ""
 #: ../plugins/fn-hebrew-date/hdate_strings.c:107
 #, fuzzy
 msgid "Adar II"
-msgstr "I, II, III, ..."
+msgstr "Vojašnice II"
 
 #: ../plugins/fn-hebrew-date/plugin.xml.in.h:2
 msgid "Functions manipulating Hebrew dates"
@@ -733,41 +723,37 @@ msgstr "ključi za uvoz: ni implementirano"
 #: ../plugins/fn-info/functions.c:1389
 #, fuzzy
 msgid "Unknown version"
-msgstr "Neznana različica sheme: '%s'"
+msgstr "_Podrobnosti različice"
 
 #: ../plugins/fn-info/functions.c:1391
-#, fuzzy, c-format
+#, c-format
 msgid "%s version %s"
-msgstr "Različica"
+msgstr "%s različica %s"
 
 #: ../plugins/fn-info/functions.c:1406
 #: ../src/dialogs/dialog-cell-format.c:2530
 #: ../src/dialogs/dialog-cell-format.c:2534
 #: ../src/dialogs/dialog-cell-format.c:2542
 #: ../src/wbc-gtk.c:2909
-#, fuzzy
 msgid "Automatic"
 msgstr "Samodejno"
 
 #: ../plugins/fn-info/functions.c:1406
-#, fuzzy
 msgid "Manual"
 msgstr "Ročno"
 
 #: ../plugins/fn-info/functions.c:1416
-#, fuzzy
 msgid "Unknown system"
-msgstr "Sistemski klic:"
+msgstr "Neznan sistem"
 
 #: ../plugins/fn-info/functions.c:1432
-#, fuzzy
 msgid "Unknown info_type"
-msgstr "Neznana vrsta okna '%s'"
+msgstr "Neznana info_vrsta"
 
 #: ../plugins/fn-info/functions.c:1693
 #, fuzzy
 msgid "Invalid number of arguments"
-msgstr "%s: napačno število argumentov"
+msgstr "Napačno število argumentov."
 
 #: ../plugins/fn-info/plugin.xml.in.h:1
 msgid "Functions for inspecting values, cells, and more"
@@ -784,9 +770,8 @@ msgid "Information Functions"
 msgstr "XSLT - Funkcije"
 
 #: ../plugins/fn-logical/functions.c:116
-#, fuzzy
 msgid "Type Mismatch"
-msgstr "Vrsta ne ustreza"
+msgstr "Neskladnost vrste"
 
 #: ../plugins/fn-logical/plugin.xml.in.h:1
 msgid "Functions for manipulating truth values"
@@ -794,14 +779,12 @@ msgstr ""
 
 #: ../plugins/fn-logical/plugin.xml.in.h:2
 #: ../src/func-builtin.c:400
-#, fuzzy
 msgid "Logic"
 msgstr "Logika"
 
 #: ../plugins/fn-logical/plugin.xml.in.h:3
-#, fuzzy
 msgid "Logic Functions"
-msgstr "XSLT - Funkcije"
+msgstr "Logične funkcije"
 
 #: ../plugins/fn-lookup/plugin.xml.in.h:1
 msgid "Functions for looking up values in ranges"
@@ -818,18 +801,15 @@ msgid "Lookup Functions"
 msgstr "XSLT - Funkcije"
 
 #: ../plugins/fn-math/plugin.xml.in.h:1
-#, fuzzy
 msgid "Math Functions"
-msgstr "XSLT - Funkcije"
+msgstr "Matematične funkcije"
 
 #: ../plugins/fn-math/plugin.xml.in.h:2
-#, fuzzy
 msgid "Mathematical Functions"
-msgstr "XSLT - Funkcije"
+msgstr "Matematične funkcije"
 
 #: ../plugins/fn-math/plugin.xml.in.h:3
 #: ../src/func-builtin.c:390
-#, fuzzy
 msgid "Mathematics"
 msgstr "Matematika"
 
@@ -839,7 +819,6 @@ msgid "Bitwise Operations"
 msgstr "CVS opravila"
 
 #: ../plugins/fn-numtheory/plugin.xml.in.h:2
-#, fuzzy
 msgid "Number Theory"
 msgstr "Teorija števil"
 
@@ -849,9 +828,8 @@ msgstr ""
 
 #: ../plugins/fn-r/plugin.xml.in.h:1
 #: ../plugins/fn-stat/plugin.xml.in.h:1
-#, fuzzy
 msgid "Statistical Functions"
-msgstr "XSLT - Funkcije"
+msgstr "Statistične funkcije"
 
 #: ../plugins/fn-r/plugin.xml.in.h:2
 msgid "Statistical Functions with naming and calling conventions from The R Project"
@@ -862,7 +840,6 @@ msgstr ""
 #: ../src/dialogs/descriptive-stats.glade.h:12
 #: ../src/dialogs/dialog-doc-metadata.c:1598
 #: ../src/dialogs/doc-meta-data.glade.h:35
-#, fuzzy
 msgid "Statistics"
 msgstr "Statistika"
 
@@ -881,7 +858,7 @@ msgstr "/Osmiško naključno število (širina)"
 #: ../src/tools/random-generator.c:676
 #, fuzzy
 msgid "Random Numbers"
-msgstr "Številke _strani"
+msgstr "Številke vrstic"
 
 #: ../plugins/fn-stat/functions.c:2399
 #: ../plugins/fn-stat/functions.c:2429
@@ -892,7 +869,7 @@ msgstr "Parameter ukaza ni implementiran"
 #: ../plugins/fn-string/plugin.xml.in.h:1
 #, fuzzy
 msgid "Functions for manipulating strings"
-msgstr "Toleranca za izračun odvodov funkcij"
+msgstr "Programi za obdelavo in pregledovanje slik"
 
 #: ../plugins/fn-string/plugin.xml.in.h:2
 #: ../src/dialogs/dialog-search.c:150
@@ -923,14 +900,12 @@ msgstr ""
 "%d - %s"
 
 #: ../plugins/gda/plugin-gda.c:164
-#, fuzzy
 msgid "Can't obtain data"
-msgstr "Ni mogoč dostop do podatkov"
+msgstr "Ni mogoče pridobiti podatkov"
 
 #: ../plugins/gda/plugin-gda.c:258
-#, fuzzy
 msgid "Database Connection"
-msgstr "Povezovanje s podatkovno zbirko '%s' ni bilo uspešno.\n"
+msgstr "Povezovanje podatkovne zbirke"
 
 #: ../plugins/gda/plugin-gda.c:339
 msgid "Format: execSQL(dsn,user,password,sql)"
@@ -938,9 +913,9 @@ msgstr ""
 
 #: ../plugins/gda/plugin-gda.c:343
 #: ../plugins/gda/plugin-gda.c:421
-#, fuzzy, c-format
+#, c-format
 msgid "Error: could not open connection to %s"
-msgstr "Ni mogoče odpreti pretvornika iz '%s' v '%s'"
+msgstr "Napaka: ni mogoče odpreti povezave z %s"
 
 #: ../plugins/gda/plugin-gda.c:360
 #: ../plugins/gda/plugin-gda.c:440
@@ -959,9 +934,8 @@ msgstr ""
 
 #: ../plugins/gda/plugin.xml.in.h:1
 #: ../plugins/gnome-db/plugin.xml.in.h:1
-#, fuzzy
 msgid "Data Bases..."
-msgstr "Različne podrobnosti"
+msgstr "Podatkovne osnove ..."
 
 #: ../plugins/gda/plugin.xml.in.h:3
 msgid "Database functions for retrieval of data from a database."
@@ -974,9 +948,8 @@ msgid "Target cell did not evaluate to a number."
 msgstr ""
 
 #: ../plugins/glpk/glpk-write.c:346
-#, fuzzy
 msgid "Writing glpk file..."
-msgstr "Napaka med pisanjem datoteke \"%s\": %s"
+msgstr "Pisanje GLPK datoteke ..."
 
 #: ../plugins/glpk/gnm-glpk.c:54
 #, fuzzy, c-format
@@ -986,7 +959,7 @@ msgstr "Ta postaja ni dostopna."
 #: ../plugins/glpk/gnm-glpk.c:237
 #, fuzzy, c-format
 msgid "Failed to create file for solution"
-msgstr "Odpiranje datoteke \"%s\" za izhod je spodletelo: %s"
+msgstr "Napaka med ustvarjanjem datoteke osebnega ključa '%s': %s"
 
 #: ../plugins/glpk/gnm-glpk.c:286
 #: ../plugins/lpsolve/gnm-lpsolve.c:280
@@ -1017,14 +990,13 @@ msgid "Database UI services plugin"
 msgstr "Vstavek Anjute za brskanje po simbolih."
 
 #: ../plugins/gnome-db/plugin.xml.in.h:3
-#, fuzzy
 msgid "GNOME-DB"
-msgstr "Demo Gnome-Db kode"
+msgstr "GNOME-DB"
 
 #: ../plugins/gnome-glossary/plugin.xml.in.h:1
 #, fuzzy
 msgid "Gnome Glossary"
-msgstr "Vnos slovarja"
+msgstr "Gnome Aplet"
 
 #: ../plugins/gnome-glossary/plugin.xml.in.h:2
 msgid "Gnome Glossary PO file format"
@@ -1040,52 +1012,44 @@ msgid "Unable to parse the html."
 msgstr "Ni mogoče razčleniti predmeta"
 
 #: ../plugins/html/plugin.xml.in.h:1
-#, fuzzy
 msgid "HTML &amp; TeX"
-msgstr "Makri TeX Metapost"
+msgstr "HTML &amp; TeX"
 
 #: ../plugins/html/plugin.xml.in.h:2
-#, fuzzy
 msgid "HTML (*.html) fragment"
-msgstr "Delček dokumenta"
+msgstr "HTML (*.html) odsek"
 
 #: ../plugins/html/plugin.xml.in.h:3
-#, fuzzy
 msgid "HTML (*.html, *.htm)"
-msgstr "zabojnik html"
+msgstr "HTML (*.html, *.htm)"
 
 #: ../plugins/html/plugin.xml.in.h:4
-#, fuzzy
 msgid "HTML 3.2 (*.html)"
-msgstr "HTML"
+msgstr "HTML 3.2 (*.html)"
 
 #: ../plugins/html/plugin.xml.in.h:5
-#, fuzzy
 msgid "HTML 4.0 (*.html)"
-msgstr "HTML"
+msgstr "HTML 4.0 (*.html)"
 
 #: ../plugins/html/plugin.xml.in.h:6
 msgid "Import/Export of HTML, TeX, DVI, roff"
 msgstr ""
 
 #: ../plugins/html/plugin.xml.in.h:7
-#, fuzzy
 msgid "LaTeX 2e (*.tex)"
-msgstr "Makri TeX Metapost"
+msgstr "LaTeX 2e (*.tex)"
 
 #: ../plugins/html/plugin.xml.in.h:8
 msgid "LaTeX 2e (*.tex) table fragment"
 msgstr ""
 
 #: ../plugins/html/plugin.xml.in.h:9
-#, fuzzy
 msgid "TROFF (*.me)"
-msgstr "Vprašaj me"
+msgstr "TROFF (*.me)"
 
 #: ../plugins/html/plugin.xml.in.h:10
-#, fuzzy
 msgid "XHTML (*.html)"
-msgstr "zabojnik html"
+msgstr "XHTML (*.html)"
 
 #: ../plugins/html/plugin.xml.in.h:11
 msgid "XHTML range - for export to clipboard"
@@ -1102,11 +1066,11 @@ msgstr ""
 
 #: ../plugins/lotus-123/plugin.xml.in.h:2
 msgid "Lotus 123"
-msgstr ""
+msgstr "Lotus 123"
 
 #: ../plugins/lotus-123/plugin.xml.in.h:3
 msgid "Lotus 123 (*.wk1, *.wks, *.123)"
-msgstr ""
+msgstr "Lotus 123 (*.wk1, *.wks, *.123)"
 
 #: ../plugins/lpsolve/gnm-lpsolve.c:50
 #, fuzzy, c-format
@@ -1136,14 +1100,13 @@ msgid "Solver Interface to LPSolve"
 msgstr "Napaka med nalaganjem uporabniškega vmesnika"
 
 #: ../plugins/mps/mps.c:193
-#, fuzzy
 msgid "Program Name"
 msgstr "Ime programa"
 
 #: ../plugins/mps/mps.c:222
 #, fuzzy
 msgid "Invalid line in ROWS section"
-msgstr "Neveljavno držalo v nizu: vrstica %d, stolpec %d"
+msgstr "Napaka: Neveljavna vrstica %s v kazalu pomnilnika\n"
 
 #: ../plugins/mps/mps.c:231
 #, fuzzy, c-format
@@ -1195,25 +1158,21 @@ msgstr "Omejitev:"
 #: ../plugins/mps/mps.c:648
 #: ../src/dialogs/dialog-doc-metadata.c:1294
 #: ../src/dialogs/dialog-simulation.c:222
-#, fuzzy
 msgid "Value"
 msgstr "Vrednost"
 
 #: ../plugins/mps/mps.c:587
 #: ../src/dialogs/dialog-formula-guru.c:853
 #: ../src/dialogs/dialog-search.c:413
-#, fuzzy
 msgid "Type"
 msgstr "Vrsta"
 
 #: ../plugins/mps/mps.c:588
-#, fuzzy
 msgid "Limit"
-msgstr "Omeji"
+msgstr "Omejitev"
 
 #: ../plugins/mps/mps.c:646
 #: ../src/dialogs/dialog-simulation.c:236
-#, fuzzy
 msgid "Variable"
 msgstr "Spremenljivka"
 
@@ -1240,14 +1199,12 @@ msgid "Reads LP programs stored in the MPS format (*.mps)"
 msgstr ""
 
 #: ../plugins/oleo/plugin.xml.in.h:1
-#, fuzzy
 msgid "GNU Oleo"
-msgstr "GNU zaslon"
+msgstr "GNU Oleo"
 
 #: ../plugins/oleo/plugin.xml.in.h:2
-#, fuzzy
 msgid "GNU Oleo (*.oleo)"
-msgstr "GNU zaslon"
+msgstr "GNU Oleo (*.oleo)"
 
 #: ../plugins/oleo/plugin.xml.in.h:3
 msgid "Imports GNU Oleo documents"
@@ -1270,9 +1227,8 @@ msgid "Content past the maximum number of rows (%i) supported."
 msgstr ""
 
 #: ../plugins/openoffice/openoffice-read.c:1168
-#, fuzzy
 msgid "Missing expression"
-msgstr "Logični izraz"
+msgstr "Manjka izraz"
 
 #: ../plugins/openoffice/openoffice-read.c:1187
 #, fuzzy, c-format
@@ -1308,7 +1264,7 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:2795
 #, fuzzy, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
-msgstr "Pri torrentu \"%s\" je prišlo do neznane napake."
+msgstr "Vozlišče ima neznan \"type\" atribut `%s', prezrto"
 
 #: ../plugins/openoffice/openoffice-read.c:3041
 #, fuzzy, c-format
@@ -1335,7 +1291,7 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:5300
 #, fuzzy, c-format
 msgid "Invalid metadata '%s'"
-msgstr "Neveljavni metapodatki"
+msgstr "Neveljaven razdelek metapodatkov v '%s': %s"
 
 #: ../plugins/openoffice/plugin.xml.in.h:1
 msgid "ODF/OpenOffice with foreign elements (*.ods)"
@@ -1398,7 +1354,7 @@ msgstr ""
 #: ../plugins/paradox/paradox.c:355
 #, fuzzy
 msgid "Allocate memory for column name."
-msgstr "Manjka ime stolpca za preglednico '%s'"
+msgstr "Ni mogoče dodeliti pomnilnika za pretok"
 
 #: ../plugins/paradox/paradox.c:356
 #, fuzzy, c-format
@@ -1470,21 +1426,18 @@ msgid "Paradox"
 msgstr "Paradox"
 
 #: ../plugins/paradox/plugin.xml.in.h:3
-#, fuzzy
 msgid "Paradox database (*.db)"
-msgstr "Dodatno ojačanje (dB):"
+msgstr "Paradox (*.db)"
 
 #: ../plugins/paradox/plugin.xml.in.h:4
 msgid "Paradox database or primary index file (*.db, *.px)"
 msgstr ""
 
 #: ../plugins/perl-func/plugin.xml.in.h:1
-#, fuzzy
 msgid "Perl"
 msgstr "Perl"
 
 #: ../plugins/perl-func/plugin.xml.in.h:2
-#, fuzzy
 msgid "Perl functions"
 msgstr "Perl funkcije"
 
@@ -1493,29 +1446,26 @@ msgid "Sample Perl plugin providing some (useless) functions."
 msgstr ""
 
 #: ../plugins/perl-loader/perl-loader.c:76
-#, fuzzy
 msgid "Perl error: "
-msgstr "Možnosti napak"
+msgstr "Napaka Perl:"
 
 #: ../plugins/perl-loader/perl-loader.c:221
 #: ../plugins/perl-loader/perl-loader.c:240
-#, fuzzy, c-format
+#, c-format
 msgid "Perl error: %s\n"
-msgstr "Možnosti napak"
+msgstr "Napaka Perl: %s\n"
 
 #: ../plugins/perl-loader/perl-loader.c:281
-#, fuzzy
 msgid "Module name not given."
 msgstr "Ime modula ni podano."
 
 #: ../plugins/perl-loader/perl-loader.c:309
 msgid "perl_func.pl doesn't exist."
-msgstr ""
+msgstr "perl_func.pl ne obstaja."
 
 #: ../plugins/perl-loader/plugin.xml.in.h:1
-#, fuzzy
 msgid "Perl plugin loader"
-msgstr "Test nalaganja Python vstavkov"
+msgstr "Nalagalnik vstavkov Perl"
 
 #: ../plugins/perl-loader/plugin.xml.in.h:2
 msgid "This plugin provides support for Perl plugins"
@@ -1555,11 +1505,11 @@ msgstr ""
 
 #: ../plugins/psiconv/plugin.xml.in.h:2
 msgid "Psiconv"
-msgstr ""
+msgstr "Psiconv"
 
 #: ../plugins/psiconv/plugin.xml.in.h:3
 msgid "Psion (*.psisheet)"
-msgstr ""
+msgstr "Psion (*.psisheet)"
 
 #: ../plugins/psiconv/psiconv-read.c:652
 #, fuzzy
@@ -1574,17 +1524,15 @@ msgstr "Napaka med razčlenjevanjem CSV datoteke: %s"
 #: ../plugins/psiconv/psiconv-read.c:671
 #, fuzzy
 msgid "This Psion file is not a Sheet file."
-msgstr "Neveljavna datoteka ali pa to ni uvozna datoteka."
+msgstr "Pisanje v to vrsto datoteke ni podprto"
 
 #: ../plugins/py-func/plugin.xml.in.h:1
-#, fuzzy
 msgid "Python"
 msgstr "Python"
 
 #: ../plugins/py-func/plugin.xml.in.h:2
-#, fuzzy
 msgid "Python functions"
-msgstr "XSLT - Funkcije"
+msgstr "Python funkcije"
 
 #: ../plugins/py-func/plugin.xml.in.h:3
 msgid "Sample Python plugin providing some (useless) functions."
@@ -1593,18 +1541,18 @@ msgstr ""
 #: ../plugins/python-loader/gnm-py-interpreter.c:255
 #, fuzzy
 msgid "Default interpreter"
-msgstr "privzet protokol"
+msgstr "Privzeto stiskanje"
 
 #: ../plugins/python-loader/gnm-python.c:128
 #: ../plugins/python-loader/gnm-python.c:150
-#, fuzzy, c-format
+#, c-format
 msgid "Could not import %s."
-msgstr "CD-ja ni mogoče uvoziti"
+msgstr "Ni mogoče uvoziti %s."
 
 #: ../plugins/python-loader/gnm-python.c:135
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find %s."
-msgstr "Ni mogoče najti '%s'"
+msgstr "Ni mogoče najti %s."
 
 #: ../plugins/python-loader/gnm-python.c:143
 #, c-format
@@ -1646,7 +1594,6 @@ msgid "E_xecute in:"
 msgstr "_Vstopi"
 
 #: ../plugins/python-loader/py-console.c:214
-#, fuzzy
 msgid "C_ommand:"
 msgstr "U_kaz:"
 
@@ -1701,7 +1648,7 @@ msgstr "Skupina ne obstaja"
 #: ../plugins/python-loader/python-loader.c:163
 #, fuzzy, c-format
 msgid "Execution of module \"%s\" failed."
-msgstr "Izvedba postopka je spodletela"
+msgstr "g_module_open nad `%s' z `%s' ni uspel"
 
 #: ../plugins/python-loader/python-loader.c:273
 msgid "Some name"
@@ -1713,19 +1660,19 @@ msgstr "Neko ime"
 #: ../plugins/python-loader/python-loader.c:774
 #, fuzzy, c-format
 msgid "Python file \"%s\" has invalid format."
-msgstr "Datoteka modula \"%s\" ima neveljaven zapis."
+msgstr "Neveljaven ali nepodprt zapis datoteke INP"
 
 #: ../plugins/python-loader/python-loader.c:342
 #: ../plugins/python-loader/python-loader.c:436
 #, fuzzy, c-format
 msgid "File doesn't contain \"%s\" function."
-msgstr "Datoteka ne vsebuje funkcije \"%s\"."
+msgstr "Predloga '%s' ne vsebuje XXXXXX"
 
 #: ../plugins/python-loader/python-loader.c:667
 #: ../plugins/python-loader/python-loader.c:779
 #, fuzzy, c-format
 msgid "File doesn't contain \"%s\" dictionary."
-msgstr "Datoteka ne vsebuje funkcije \"%s\"."
+msgstr "Predloga '%s' ne vsebuje XXXXXX"
 
 #: ../plugins/python-loader/python-loader.c:672
 #: ../plugins/python-loader/python-loader.c:784
@@ -1742,7 +1689,7 @@ msgstr "Neznano dejanje: %s"
 #: ../plugins/python-loader/python-loader.c:727
 #, fuzzy, c-format
 msgid "Not a valid function for action: %s"
-msgstr "Napaka: dejanje '%s' ni veljavno.\n"
+msgstr "\"%s\" ni veljavna vrednost za atribut \"%s\""
 
 #: ../plugins/qpro/plugin.xml.in.h:1
 msgid "Imports Quattro Pro (tm) files"
@@ -1759,7 +1706,7 @@ msgstr "Quattro Pro(tm)"
 #: ../plugins/qpro/qpro-read.c:118
 #, fuzzy, c-format
 msgid "File is most likely corrupted.\n"
-msgstr "Datoteke '%s' ni mogoče naložiti, najverjetneje je pokvarjena."
+msgstr "Datoteke '%s' ni mogoče naložiti, najverjetneje je okvarjena."
 
 #: ../plugins/qpro/qpro-read.c:868
 #, fuzzy, c-format
@@ -1782,11 +1729,11 @@ msgstr ""
 #: ../plugins/sample_datasource/plugin.xml.in.h:3
 #, fuzzy
 msgid "Sample DataSource"
-msgstr "Izbor podatkovnega vira"
+msgstr "Vzorčni vstavek"
 
 #: ../plugins/sc/plugin.xml.in.h:1
 msgid "Imports SC/XSpread files"
-msgstr ""
+msgstr "Uvoz datotek SC/XSpread"
 
 #: ../plugins/sc/plugin.xml.in.h:2
 #, fuzzy
@@ -1813,15 +1760,15 @@ msgstr "Napaka med razčlenjevanjem vrstice"
 #.
 #: ../plugins/sylk/plugin.xml.in.h:1
 msgid "Import/Export for MultiPlan (SYLK) files"
-msgstr ""
+msgstr "Ivoz/Izvoz datotek MultiPlan (SYLK)"
 
 #: ../plugins/sylk/plugin.xml.in.h:2
 msgid "MultiPlan (SYLK)"
-msgstr ""
+msgstr "MultiPlan (SYLK)"
 
 #: ../plugins/sylk/sylk.c:244
 msgid "Multiple values in the same cell"
-msgstr ""
+msgstr "Več vrednosti v isti celici"
 
 #: ../plugins/sylk/sylk.c:253
 #: ../plugins/sylk/sylk.c:262
@@ -1844,7 +1791,7 @@ msgstr "Hello Python"
 #: ../plugins/uihello/uihello.c:32
 #, fuzzy, c-format
 msgid "This is message from the \"%s\" plugin."
-msgstr "To je samodejno ustvarjeno sporočilo poslano preko %s."
+msgstr "To je digitalno podpisan del sporočila"
 
 #: ../plugins/xbase/boot.c:160
 #, fuzzy
@@ -1868,7 +1815,7 @@ msgstr "Vrsta datotek Visio XML"
 #: ../plugins/xbase/xbase.c:149
 #, fuzzy
 msgid "Failed to read DBF header."
-msgstr "Napaka med branjem QTIF glave"
+msgstr "Ni mogoče brati iz datoteke '%s': %s"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:1
 msgid ">This value determines the default setting in the Print Setup dialog whether print grid lines. Please use the Print Setup dialog to edit this value."
@@ -1895,7 +1842,7 @@ msgstr ""
 #: ../schemas/gnumeric-dialogs.schemas.in.h:6
 #, fuzzy
 msgid "Autocorrect first letter"
-msgstr "Velike prve črke vseh oznak"
+msgstr "Pisemska ovojnica US Extra"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:7
 #, fuzzy
@@ -1905,7 +1852,7 @@ msgstr "Opozorilo velikih črk"
 #: ../schemas/gnumeric-dialogs.schemas.in.h:8
 #, fuzzy
 msgid "Autocorrect names of days"
-msgstr "Starejše kot (dni):"
+msgstr "%d dni od danes naprej"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:9
 #, fuzzy
@@ -1940,7 +1887,7 @@ msgstr "Velikost pisave, relativno na privzeto velikost"
 #: ../schemas/gnumeric-dialogs.schemas.in.h:15
 #, fuzzy
 msgid "Default Horizontal Centering"
-msgstr "Barva vodoravne vrstice"
+msgstr "Določitev vodoravne razporeditve"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:16
 #, fuzzy
@@ -1968,7 +1915,7 @@ msgstr "Privzeti nabor vstavkov za zgornji pult"
 #: ../schemas/gnumeric-dialogs.schemas.in.h:21
 #, fuzzy
 msgid "Default Scale Percentage"
-msgstr "Nastavi začetni odstotek"
+msgstr "odstotek časa zaključka"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:22
 #, fuzzy
@@ -1988,22 +1935,22 @@ msgstr "Privzeta širina programa."
 #: ../schemas/gnumeric-dialogs.schemas.in.h:25
 #, fuzzy
 msgid "Default Title Printing"
-msgstr "Uporabi privzet naslov polja:"
+msgstr "Določi območje tiskanja"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:26
 #, fuzzy
 msgid "Default Top Margin"
-msgstr "Vrhnji rob v točkah"
+msgstr "_Rob številk vrstic"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:27
 #, fuzzy
 msgid "Default Top Outside Margin"
-msgstr "Vrhnji rob v točkah"
+msgstr "Privzeti nabor vstavkov za zgornji pult"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:28
 #, fuzzy
 msgid "Default Vertical Centering"
-msgstr "  vstavi navpični prostor"
+msgstr "Določitev navpične razporeditve"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:29
 #, fuzzy
@@ -2012,7 +1959,7 @@ msgstr "Ime privzete pisave"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:30
 msgid "GTKPrintSetting"
-msgstr ""
+msgstr "GTKPrintSetting"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:31
 msgid "Header/Footer Format (Left Portion)"
@@ -2042,7 +1989,7 @@ msgstr "Seznam map dodatnih vstavkov."
 #: ../schemas/gnumeric-dialogs.schemas.in.h:37
 #, fuzzy
 msgid "List of First Letter Exceptions"
-msgstr "Velike prve črke vseh oznak"
+msgstr "Naj bo prva črka vsake besede velika"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:38
 msgid "List of Init Caps Exceptions"
@@ -2108,7 +2055,7 @@ msgstr "_Mapa za zajete slike:"
 #: ../schemas/gnumeric-dialogs.schemas.in.h:52
 #, fuzzy
 msgid "Text Export Field Separator"
-msgstr "Večvrstično polje besedila"
+msgstr "Besedilo v polju oznake obrazca"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:53
 msgid "Text Export Record Terminator"
@@ -2133,19 +2080,19 @@ msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:58
 msgid "The default font name for headers and footers."
-msgstr ""
+msgstr "Privzeto ime pisave za glave in noge."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:59
 msgid "The default font size for headers and footers."
-msgstr ""
+msgstr "Privzeta velikost ime pisave za glave in noge."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:60
 msgid "The default header/footer font is bold."
-msgstr ""
+msgstr "Privzeta pisava glave in noge je krepka."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:61
 msgid "The default header/footer font is italic."
-msgstr ""
+msgstr "Privzeta pisava glave in noge je ležeča."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:62
 msgid "The default page footer for new documents that can be modified using the page setup dialog."
@@ -2189,11 +2136,11 @@ msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:72
 msgid "This list contains all known plugins."
-msgstr ""
+msgstr "Seznam vsebuje vse poznane vstavke."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:73
 msgid "This list contains all plugin file states."
-msgstr ""
+msgstr "Seznam vsebuje vsa stanja datotek vstavkov."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:74
 msgid "This list contains all plugins that are supposed to be automatically activated."
@@ -2298,14 +2245,13 @@ msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:2
 #: ../src/dialogs/dialog-preferences.c:967
-#, fuzzy
 msgid "Autocomplete"
-msgstr "samodejno dopolnjevanje"
+msgstr "Samodejno dopolnjevanje"
 
 #: ../schemas/gnumeric-general.schemas.in.h:3
 #, fuzzy
 msgid "Autosave frequency"
-msgstr "Sredniščenje frekvence"
+msgstr "Pretvornik frekvence"
 
 #: ../schemas/gnumeric-general.schemas.in.h:4
 msgid "Before an existing file is being overwritten, gnumeric will present a warning dialog. Setting this option will make the overwrite button in that dialog the default button."
@@ -2317,7 +2263,6 @@ msgid "Default Compression Level For Gnumeric Files"
 msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:6
-#, fuzzy
 msgid "Default Font Size"
 msgstr "Privzeta velikost pisave"
 
@@ -2411,7 +2356,7 @@ msgstr "Orodna vrstica bo prikazana."
 #: ../src/dialogs/dialog-preferences.c:751
 #, fuzzy
 msgid "Maximal Undo Size"
-msgstr "Nastavi velikost koraka"
+msgstr "Pokaži _osnovno velikost"
 
 #: ../schemas/gnumeric-general.schemas.in.h:24
 #: ../src/dialogs/dialog-preferences.c:784
@@ -2627,7 +2572,7 @@ msgstr "Slog orodne vrstice. Mogoče vrednosti so \"both\", \"both_horiz\", \"ic
 #: ../src/dialogs/dialog-preferences.c:962
 #, fuzzy
 msgid "Transition Keys"
-msgstr "Večpredstavnostne tipke"
+msgstr "Multimedijske tipke"
 
 #: ../schemas/gnumeric-general.schemas.in.h:74
 #: ../src/dialogs/dialog-preferences.c:933
@@ -2762,12 +2707,12 @@ msgstr "glava stolpca"
 #: ../src/command-context.c:55
 #, fuzzy, c-format
 msgid "Would split array %s"
-msgstr "Polje vrst stolpcev"
+msgstr "(%s) kot rezultat pričakuje polje"
 
 #: ../src/command-context.c:58
 #, fuzzy, c-format
 msgid "Would split an array"
-msgstr "Polje vrst stolpcev"
+msgstr "(%s) kot rezultat pričakuje polje"
 
 #: ../src/command-context.c:68
 #, fuzzy, c-format
@@ -2793,7 +2738,7 @@ msgstr "Določitev besedila"
 #: ../src/commands.c:975
 #, fuzzy, c-format
 msgid "Editing style in %s"
-msgstr "Slog predmetov te palete orodij"
+msgstr "Uredi v XEmacs"
 
 #: ../src/commands.c:976
 #, fuzzy, c-format
@@ -2803,12 +2748,12 @@ msgstr "_Vstopi"
 #: ../src/commands.c:1179
 #, fuzzy, c-format
 msgid "Typing \"%s%s\""
-msgstr "Tipkanje"
+msgstr "Pisanje sporočila."
 
 #: ../src/commands.c:1202
 #, fuzzy, c-format
 msgid "Creating a Data Table in %s"
-msgstr "Neznana preglednica v vsebini metapodatkov"
+msgstr "Število vrstic v preglednici"
 
 #: ../src/commands.c:1240
 #, fuzzy
@@ -2884,12 +2829,12 @@ msgstr "_Vstopi"
 #: ../src/commands.c:1712
 #, fuzzy
 msgid "Changing Format"
-msgstr "_Oblika = Povezana"
+msgstr "Izbor vrste zapisa:"
 
 #: ../src/commands.c:1849
 #, fuzzy, c-format
 msgid "Changing format of %s"
-msgstr "_Oblika = Povezana"
+msgstr "Izbor vrste zapisa:"
 
 #: ../src/commands.c:1954
 #, fuzzy, c-format
@@ -3009,7 +2954,7 @@ msgstr "Pokaži stolpec kategorij"
 #: ../src/commands.c:2310
 #, fuzzy, c-format
 msgid "Show row outline %d"
-msgstr "Koordinate obrobe animacije"
+msgstr "glava vrstice preglednice"
 
 #: ../src/commands.c:2379
 #, fuzzy
@@ -3032,7 +2977,7 @@ msgstr ""
 #: ../src/commands.c:2417
 #, fuzzy, c-format
 msgid "Group columns %s"
-msgstr "Število stolpcev"
+msgstr "Izbrani stolpci"
 
 #: ../src/commands.c:2417
 #, fuzzy, c-format
@@ -3075,7 +3020,7 @@ msgstr "Kopiraj izbrano"
 #: ../src/commands.c:2931
 #, fuzzy, c-format
 msgid "Pasting into %s"
-msgstr "Prilepi v"
+msgstr "Prijavljanje v {0}"
 
 #. Check arrays or merged regions in src or target regions
 #: ../src/commands.c:3048
@@ -3110,7 +3055,7 @@ msgstr "Samodejno zavrti in sredini"
 #: ../src/commands.c:3807
 #, fuzzy, c-format
 msgid "Merging %s"
-msgstr "Združevanje projekta `%s'"
+msgstr "Združevanje razlik ..."
 
 #. Corrected below.
 #: ../src/commands.c:4176
@@ -3181,12 +3126,12 @@ msgstr ""
 #: ../src/commands.c:5012
 #, fuzzy, c-format
 msgid "Clearing comment of %s"
-msgstr "Dodaj opombo"
+msgstr "Ni opomb"
 
 #: ../src/commands.c:5013
 #, fuzzy, c-format
 msgid "Setting comment of %s"
-msgstr "Dodaj opombo"
+msgstr "Ni opomb"
 
 #: ../src/commands.c:5429
 #, fuzzy, c-format
@@ -3201,12 +3146,12 @@ msgstr "Splošne lastnosti razreda"
 #: ../src/commands.c:5593
 #, fuzzy
 msgid "Pull Object to the Front"
-msgstr "Dodaj na začetek vrste"
+msgstr "Prenesi vse v ospredje"
 
 #: ../src/commands.c:5596
 #, fuzzy
 msgid "Pull Object Forward"
-msgstr "Posreduj trenutno sporočilo"
+msgstr "P_osreduj kot priloženo ..."
 
 #: ../src/commands.c:5599
 #, fuzzy
@@ -3216,17 +3161,17 @@ msgstr "Drugotni koračnik nazaj"
 #: ../src/commands.c:5602
 #, fuzzy
 msgid "Push Object to the Back"
-msgstr "&lt;- Nazaj na dejanja"
+msgstr "Nazaj na prvo mapo v zgodovini"
 
 #: ../src/commands.c:5716
 #, fuzzy, c-format
 msgid "Page Setup For %s"
-msgstr "Nastavitve strani za tiskanje"
+msgstr "Nastavitev lastnosti strani za tiskanje"
 
 #: ../src/commands.c:5718
 #, fuzzy
 msgid "Page Setup For All Sheets"
-msgstr "Nastavitve strani za tiskanje"
+msgstr "Nastavitev lastnosti strani za tiskanje"
 
 #: ../src/commands.c:5843
 msgid "is not allowed as defined name"
@@ -3235,17 +3180,17 @@ msgstr ""
 #: ../src/commands.c:5850
 #, fuzzy
 msgid "has a circular reference"
-msgstr "Priloži kot sklic?"
+msgstr "Sklic na vrsto bloka"
 
 #: ../src/commands.c:5884
 #, fuzzy, c-format
 msgid "Define Name %s"
-msgstr "Polno _Ime:"
+msgstr "Ime pravila:"
 
 #: ../src/commands.c:5887
 #, fuzzy, c-format
 msgid "Update Name %s"
-msgstr "Polno _Ime:"
+msgstr "Ime pravila:"
 
 #: ../src/commands.c:5980
 #, fuzzy, c-format
@@ -3260,7 +3205,7 @@ msgstr "Izbor _scenarija:"
 #: ../src/commands.c:6103
 #, fuzzy
 msgid "Scenario Show"
-msgstr "_Pokaži geslo"
+msgstr "<u>pokaži podrobnosti</u>"
 
 #: ../src/commands.c:6161
 #, fuzzy
@@ -3299,17 +3244,17 @@ msgstr "Od desne proti levi"
 #: ../src/commands.c:6863
 #, fuzzy
 msgid "Changing Hyperlink"
-msgstr "Barva hiperpovezave"
+msgstr "<b>Določilo hiperpovezave</b>"
 
 #: ../src/commands.c:7004
 #, fuzzy, c-format
 msgid "Changing hyperlink of %s"
-msgstr "Barva hiperpovezave"
+msgstr "<b>Določilo hiperpovezave</b>"
 
 #: ../src/commands.c:7081
 #, fuzzy
 msgid "Configure List"
-msgstr "Možnosti seznama"
+msgstr "Seznam definicij"
 
 #: ../src/commands.c:7151
 #, fuzzy
@@ -3344,7 +3289,7 @@ msgstr "Dodaj filter"
 #: ../src/commands.c:7589
 #: ../src/commands.c:7597
 msgid "AutoFilter"
-msgstr ""
+msgstr "Samodejni filter"
 
 #: ../src/commands.c:7590
 #, fuzzy
@@ -3473,7 +3418,7 @@ msgstr "Konstantni faktor pod -1"
 #: ../src/dialogs/sign-test.glade.h:1
 #, fuzzy
 msgid "Grouped by:"
-msgstr "Uporablja ga %s"
+msgstr "Razvrsti po"
 
 #: ../src/dialogs/anova-one.glade.h:4
 #: ../src/dialogs/anova-two.glade.h:6
@@ -3664,11 +3609,24 @@ msgid ""
 "contains\n"
 "does not contain"
 msgstr ""
+"\n"
+"je enako\n"
+"ni enako\n"
+"je večje kot\n"
+"je večje ali enako kot\n"
+"je manjše kot\n"
+"je manjše ali enako kot\n"
+"se začne z\n"
+"se ne začne z\n"
+"se konča s\n"
+"se ne konča s\n"
+"vsebuje\n"
+"ne vsebuje"
 
 #: ../src/dialogs/autofilter-expression.glade.h:15
 #: ../src/dialogs/autofilter-top10.glade.h:1
 msgid "Gnumeric : AutoFilter"
-msgstr ""
+msgstr "Gnumeric : samodejni filter"
 
 #: ../src/dialogs/autofilter-expression.glade.h:16
 #, fuzzy
@@ -3683,7 +3641,7 @@ msgstr "IN"
 #: ../src/dialogs/autofilter-expression.glade.h:18
 #, fuzzy
 msgid "_Or"
-msgstr "ALI"
+msgstr "1-ali-0"
 
 #: ../src/dialogs/autofilter-top10.glade.h:2
 #, fuzzy
@@ -3706,7 +3664,7 @@ msgstr "Zgornji pult"
 #: ../src/dialogs/autoformat.glade.h:2
 #, fuzzy
 msgid "A short description of the template"
-msgstr "Kratek opis elementa XML"
+msgstr "Kratek opis vašega projekta."
 
 #: ../src/dialogs/autoformat.glade.h:3
 #, fuzzy
@@ -3786,11 +3744,11 @@ msgstr ""
 #: ../src/dialogs/cell-format.glade.h:89
 #, fuzzy
 msgid "_Bottom"
-msgstr "_Spodaj"
+msgstr "_Na dno"
 
 #: ../src/dialogs/autoformat.glade.h:20
 msgid "_Edges"
-msgstr ""
+msgstr "_Robovi"
 
 #: ../src/dialogs/autoformat.glade.h:21
 #: ../src/dialogs/cell-format.glade.h:95
@@ -3809,7 +3767,7 @@ msgstr "_Nastavitve"
 #: ../src/dialogs/autoformat.glade.h:24
 #, fuzzy
 msgid "_Show Gridlines"
-msgstr "_Pokaži geslo"
+msgstr "<u>pokaži podrobnosti</u>"
 
 #: ../src/dialogs/autoformat.glade.h:25
 #: ../src/dialogs/cell-format.glade.h:101
@@ -3820,7 +3778,7 @@ msgstr "_Zgoraj"
 #: ../src/dialogs/autosave.glade.h:2
 #, fuzzy
 msgid "Auto Save"
-msgstr "Shrani _kot ..."
+msgstr "Samodejno shrani"
 
 #: ../src/dialogs/autosave.glade.h:3
 #, fuzzy
@@ -3849,7 +3807,7 @@ msgstr "Ime avtorja:"
 #: ../src/dialogs/cell-comment.glade.h:3
 #, fuzzy
 msgid "Cell Comment"
-msgstr "Dodaj opombo"
+msgstr "Ni opomb"
 
 #: ../src/dialogs/cell-comment.glade.h:4
 #, fuzzy
@@ -3895,12 +3853,12 @@ msgstr "<b>Ozadje</b>"
 #: ../src/dialogs/cell-format.glade.h:13
 #, fuzzy
 msgid "<b>Control</b>"
-msgstr "Nadzor-3"
+msgstr "Nadzor"
 
 #: ../src/dialogs/cell-format.glade.h:14
 #, fuzzy
 msgid "<b>Error alerts</b>"
-msgstr "Možnosti napak"
+msgstr "Napaka vsebuje"
 
 #: ../src/dialogs/cell-format.glade.h:15
 msgid "<b>Horizontal alignment</b>"
@@ -3941,7 +3899,7 @@ msgstr "Poravnava"
 
 #: ../src/dialogs/cell-format.glade.h:24
 msgid "Allo_w:"
-msgstr ""
+msgstr "_Dovoli:"
 
 #: ../src/dialogs/cell-format.glade.h:25
 msgid ""
@@ -3995,7 +3953,7 @@ msgstr "Sre_dišče nalepke"
 #: ../src/dialogs/cell-format.glade.h:40
 #, fuzzy
 msgid "Center across _selection"
-msgstr "Možnosti izbire datoteke"
+msgstr "Zapomni si izbiro"
 
 #: ../src/dialogs/cell-format.glade.h:41
 #, fuzzy
@@ -4005,7 +3963,7 @@ msgstr "Di_rigent:"
 #: ../src/dialogs/cell-format.glade.h:42
 #, fuzzy
 msgid "Conditions"
-msgstr "RAZMERE:"
+msgstr "Razmere:"
 
 #: ../src/dialogs/cell-format.glade.h:43
 msgid "D_istributed"
@@ -4019,7 +3977,7 @@ msgstr "Diagonala"
 #: ../src/dialogs/cell-format.glade.h:45
 #, fuzzy
 msgid "Diagonal Crosshatch"
-msgstr "Je matrika diagonalna"
+msgstr "Diagonalna linearna faza"
 
 #: ../src/dialogs/cell-format.glade.h:46
 #, fuzzy
@@ -4039,13 +3997,13 @@ msgstr "Pisava"
 #: ../src/dialogs/cell-format.glade.h:49
 #, fuzzy
 msgid "Foreground Solid"
-msgstr "Polno ospredje"
+msgstr "Enobarvno"
 
 #: ../src/dialogs/cell-format.glade.h:50
 #: ../src/dialogs/dialog-cell-format.c:2469
 #, fuzzy
 msgid "Format Cells"
-msgstr "_Oblika = Povezana"
+msgstr "Izbor vrste zapisa:"
 
 #: ../src/dialogs/cell-format.glade.h:51
 msgid "Hi_de"
@@ -4074,17 +4032,17 @@ msgstr "Neimenovano sporočilo"
 #: ../src/dialogs/cell-format.glade.h:56
 #, fuzzy
 msgid "Inside"
-msgstr "znotraj"
+msgstr "Postavitev %s znotraj %s"
 
 #: ../src/dialogs/cell-format.glade.h:57
 #, fuzzy
 msgid "Inside Horizontal"
-msgstr "Vodoravno merilo"
+msgstr "Vodoravni preliv"
 
 #: ../src/dialogs/cell-format.glade.h:58
 #, fuzzy
 msgid "Inside Vertical"
-msgstr "Navpična izbira"
+msgstr "Navpični preliv"
 
 #: ../src/dialogs/cell-format.glade.h:59
 msgid "J_ustify"
@@ -4093,7 +4051,7 @@ msgstr ""
 #: ../src/dialogs/cell-format.glade.h:60
 #, fuzzy
 msgid "Large Circles"
-msgstr "Veliki krogi"
+msgstr "Velika pisava"
 
 #. start sub menu
 #: ../src/dialogs/cell-format.glade.h:61
@@ -4126,12 +4084,12 @@ msgstr "Brez zaščite"
 #: ../src/dialogs/cell-format.glade.h:66
 #, fuzzy
 msgid "Reverse Diagonal"
-msgstr "_Vzvratno iskanje"
+msgstr "_Obrnjen vrstni red"
 
 #: ../src/dialogs/cell-format.glade.h:67
 #, fuzzy
 msgid "Reverse Diagonal Stripe"
-msgstr "Je matrika diagonalna"
+msgstr "Diagonalna linearna faza"
 
 #: ../src/dialogs/cell-format.glade.h:68
 #: ../src/sheet-control-gui.c:1893
@@ -4142,7 +4100,7 @@ msgstr "Desno"
 #: ../src/dialogs/cell-format.glade.h:69
 #, fuzzy
 msgid "Semi Circles"
-msgstr "Polkrogi"
+msgstr "Malo skrčeno"
 
 #: ../src/dialogs/cell-format.glade.h:70
 #, fuzzy
@@ -4152,7 +4110,7 @@ msgstr "_Prilagodi širini"
 #: ../src/dialogs/cell-format.glade.h:71
 #, fuzzy
 msgid "Small Circles"
-msgstr "Majhni krogi"
+msgstr "Majhna pisava"
 
 #: ../src/dialogs/cell-format.glade.h:72
 msgid "Solid"
@@ -4160,7 +4118,7 @@ msgstr "Polno"
 
 #: ../src/dialogs/cell-format.glade.h:73
 msgid "Stri_kethrough"
-msgstr ""
+msgstr "_Prečrtano"
 
 #: ../src/dialogs/cell-format.glade.h:74
 msgid "Style:"
@@ -4172,7 +4130,7 @@ msgstr "_Podpisano"
 
 #: ../src/dialogs/cell-format.glade.h:76
 msgid "Sup_erscript"
-msgstr ""
+msgstr "_Nadpisano"
 
 #: ../src/dialogs/cell-format.glade.h:77
 msgid "Thatch"
@@ -4181,27 +4139,27 @@ msgstr ""
 #: ../src/dialogs/cell-format.glade.h:78
 #, fuzzy
 msgid "Thick Diagonal Crosshatch"
-msgstr "Je matrika diagonalna"
+msgstr "Diagonalna linearna faza"
 
 #: ../src/dialogs/cell-format.glade.h:79
 #, fuzzy
 msgid "Thin Diagonal Crosshatch"
-msgstr "Je matrika diagonalna"
+msgstr "Diagonalna linearna faza"
 
 #: ../src/dialogs/cell-format.glade.h:80
 #, fuzzy
 msgid "Thin Diagonal Stripe"
-msgstr "Je matrika diagonalna"
+msgstr "Diagonalna linearna faza"
 
 #: ../src/dialogs/cell-format.glade.h:81
 #, fuzzy
 msgid "Thin Horizontal Crosshatch"
-msgstr "Barva vodoravne vrstice"
+msgstr "Določitev vodoravne razporeditve"
 
 #: ../src/dialogs/cell-format.glade.h:82
 #, fuzzy
 msgid "Thin Horizontal Stripe"
-msgstr "Barva vodoravne vrstice"
+msgstr "Določitev vodoravne razporeditve"
 
 #: ../src/dialogs/cell-format.glade.h:83
 msgid "Thin Reverse Diagonal Stripe"
@@ -4210,11 +4168,11 @@ msgstr ""
 #: ../src/dialogs/cell-format.glade.h:84
 #, fuzzy
 msgid "Thin Vertical Stripe"
-msgstr "  vstavi navpični prostor"
+msgstr "Določitev navpične razporeditve"
 
 #: ../src/dialogs/cell-format.glade.h:85
 msgid "Titl_e:"
-msgstr ""
+msgstr "_Naziv:"
 
 #: ../src/dialogs/cell-format.glade.h:86
 #, fuzzy
@@ -4325,7 +4283,6 @@ msgid "Move the selected field down in the sort order"
 msgstr ""
 
 #: ../src/dialogs/cell-sort.glade.h:9
-#, fuzzy
 msgid "Range:"
 msgstr "Obseg:"
 
@@ -4371,12 +4328,12 @@ msgstr "glava stolpca preglednice"
 #: ../src/dialogs/chi-squared.glade.h:6
 #, fuzzy
 msgid "Test of _Homogeneity"
-msgstr "<b>Spremenljivke testa</b>"
+msgstr "Rezultati preizkusa"
 
 #: ../src/dialogs/chi-squared.glade.h:7
 #, fuzzy
 msgid "Test of _Independence"
-msgstr "<b>Spremenljivke testa</b>"
+msgstr "Rezultati preizkusa"
 
 #: ../src/dialogs/chi-squared.glade.h:11
 #, fuzzy
@@ -4384,7 +4341,6 @@ msgid "_Contingency Table:"
 msgstr "<b>Podrobnosti preglednice</b>"
 
 #: ../src/dialogs/col-width.glade.h:1
-#, fuzzy
 msgid "Column Width"
 msgstr "Širina stolpca"
 
@@ -4400,7 +4356,6 @@ msgstr "Privzeta širina zajete slike (v točkah):"
 
 #: ../src/dialogs/col-width.glade.h:4
 #: ../src/dialogs/row-height.glade.h:4
-#, fuzzy
 msgid "_Use Default"
 msgstr "Uporabi _privzeto"
 
@@ -4438,7 +4393,7 @@ msgstr "Stolpec širine v znakih"
 #: ../src/dialogs/consolidate.glade.h:7
 #, fuzzy
 msgid "Labels in _top row"
-msgstr "priročnik igre štiri-v-vrsto"
+msgstr "Priročnik Štiri-v-vrsto"
 
 #: ../src/dialogs/consolidate.glade.h:9
 msgid ""
@@ -4453,6 +4408,16 @@ msgid ""
 "VAR\n"
 "VARP"
 msgstr ""
+"SUM\n"
+"MIN\n"
+"MAX\n"
+"AVERAGE\n"
+"COUNT\n"
+"PRODUCT\n"
+"STDEV\n"
+"STDEVP\n"
+"VAR\n"
+"VARP"
 
 #: ../src/dialogs/consolidate.glade.h:19
 #, fuzzy
@@ -4480,14 +4445,14 @@ msgstr "Izvorna datoteka:"
 #: ../src/tools/analysis-tools.c:688
 #: ../src/tools/analysis-tools.c:691
 msgid "Correlation"
-msgstr ""
+msgstr "Korelacija"
 
 #: ../src/dialogs/covariance.glade.h:1
 #: ../src/tools/analysis-tools.c:743
 #: ../src/tools/analysis-tools.c:746
 #: ../src/wbc-gtk-actions.c:2151
 msgid "Covariance"
-msgstr ""
+msgstr "Kovarianca"
 
 #: ../src/dialogs/dao.glade.h:1
 #, fuzzy
@@ -4497,17 +4462,16 @@ msgstr "Oblikovanje sporočila"
 #: ../src/dialogs/dao.glade.h:2
 #, fuzzy
 msgid "<b>Output Placement</b>"
-msgstr "Postavitev zavihkov:"
+msgstr "Naslednja postavitev"
 
 #: ../src/dialogs/dao.glade.h:3
-#, fuzzy
 msgid "A_utofit columns"
-msgstr "Izbrani stolpci"
+msgstr "_Samodejno prilagajanje stolpcev"
 
 #: ../src/dialogs/dao.glade.h:4
 #, fuzzy
 msgid "C_lear output range"
-msgstr "Vrednost je izven območja.\n"
+msgstr "Točke, ki pokrivajo Y območje"
 
 #: ../src/dialogs/dao.glade.h:5
 #: ../src/dialogs/dialog-advanced-filter.c:196
@@ -4545,7 +4509,7 @@ msgstr ""
 msgid ""
 "Values\n"
 "Formulas"
-msgstr "Nariši vrednosti"
+msgstr "Vrednosti CIE"
 
 #: ../src/dialogs/dao.glade.h:13
 #, fuzzy
@@ -4599,13 +4563,12 @@ msgstr "_Gor"
 #: ../src/dialogs/data-table.glade.h:1
 #, fuzzy
 msgid "Co_lumn Input :"
-msgstr "Neveljavna oblika vnosa"
+msgstr "Povečaj vhodno okno"
 
 #: ../src/dialogs/data-table.glade.h:2
 #: ../src/dialogs/dialog-data-table.c:160
-#, fuzzy
 msgid "Data Table"
-msgstr "Celica tabele (podatki)"
+msgstr "Podatkovna preglednica"
 
 #: ../src/dialogs/data-table.glade.h:3
 #, fuzzy
@@ -4631,7 +4594,7 @@ msgstr "Imena mest"
 #: ../src/dialogs/define-name.glade.h:5
 #, fuzzy
 msgid "Switch _Scope"
-msgstr "Obseg bibliografije"
+msgstr "Področje razreda"
 
 #: ../src/dialogs/define-name.glade.h:6
 msgid "Workbook"
@@ -4662,22 +4625,22 @@ msgstr "<span weight=\"bold\">Vrsta slike</span>"
 #: ../src/dialogs/delete-cells.glade.h:2
 #, fuzzy
 msgid "Delete _column(s)"
-msgstr "Izbriši stolpec matrike"
+msgstr "Izbriši stolpec iz preglednice"
 
 #: ../src/dialogs/delete-cells.glade.h:3
 #, fuzzy
 msgid "Delete _row(s)"
-msgstr "Izbriši vrstico matrike"
+msgstr "glava vrstice"
 
 #: ../src/dialogs/delete-cells.glade.h:4
 #, fuzzy
 msgid "Delete cells"
-msgstr "_Izbriši datoteke"
+msgstr "Izbriši vejo"
 
 #: ../src/dialogs/delete-cells.glade.h:5
 #, fuzzy
 msgid "Shift cells _left"
-msgstr "Prestavi izbor levo"
+msgstr "Določilo časa (desno - levo):"
 
 #: ../src/dialogs/delete-cells.glade.h:6
 #, fuzzy
@@ -4713,7 +4676,7 @@ msgstr "Izračunaj k-to sestavljeno matriko A"
 #: ../src/dialogs/descriptive-stats.glade.h:11
 #, fuzzy
 msgid "S_ummary Statistics"
-msgstr "<b>statistični podatki</b>"
+msgstr "Statistika dokumenta"
 
 #: ../src/dialogs/descriptive-stats.glade.h:13
 msgid "Use the ssmedian function with interval width 1 rather than the traditional median function.  "
@@ -4738,7 +4701,7 @@ msgstr "Zmožnosti"
 
 #: ../src/dialogs/dialog-about.c:56
 msgid "Analytics"
-msgstr ""
+msgstr "Analitika"
 
 #: ../src/dialogs/dialog-about.c:57
 msgid "Import Export"
@@ -4784,7 +4747,7 @@ msgstr "Harald Ashburner"
 #: ../src/dialogs/dialog-about.c:74
 #, fuzzy
 msgid "Options pricers"
-msgstr "Splošne možnosti"
+msgstr "Nastavitve prejemanja"
 
 #: ../src/dialogs/dialog-about.c:75
 msgid "Sean Atkinson"
@@ -4811,11 +4774,11 @@ msgstr "Jean Brefort"
 #: ../src/dialogs/dialog-about.c:80
 #, fuzzy
 msgid "Core charting engine."
-msgstr "neveljaven šifrirni strojnik %d"
+msgstr "Privzeto orodje predvajalnika"
 
 #: ../src/dialogs/dialog-about.c:81
 msgid "Grandma Chema Celorio"
-msgstr ""
+msgstr "Grandma Chema Celorio"
 
 #: ../src/dialogs/dialog-about.c:82
 msgid "Quality Assurance and sheet copy."
@@ -4866,7 +4829,7 @@ msgstr "Tom Dyas"
 #: ../src/dialogs/dialog-about.c:94
 #, fuzzy
 msgid "Original plugin engine."
-msgstr "neveljaven šifrirni strojnik %d"
+msgstr "Privzeto orodje predvajalnika"
 
 #: ../src/dialogs/dialog-about.c:95
 msgid "Kjell Eikland"
@@ -4880,7 +4843,7 @@ msgstr "Reši igro"
 
 #: ../src/dialogs/dialog-about.c:97
 msgid "Gergo Erdi"
-msgstr ""
+msgstr "Gergo Erdi"
 
 #: ../src/dialogs/dialog-about.c:98
 #, fuzzy
@@ -4898,7 +4861,7 @@ msgstr "RPM spremenljivka"
 
 #: ../src/dialogs/dialog-about.c:101
 msgid "Andreas J. Gülzow"
-msgstr ""
+msgstr "Andreas J. Gülzow"
 
 #: ../src/dialogs/dialog-about.c:102
 #, fuzzy
@@ -4907,15 +4870,15 @@ msgstr "Zagotovi pripomočke in storitve grafičnega uporabniškega vmesnika."
 
 #: ../src/dialogs/dialog-about.c:103
 msgid "Jon Kåre Hellan"
-msgstr ""
+msgstr "Jon Kåre Hellan"
 
 #: ../src/dialogs/dialog-about.c:104
 msgid "UI polish and all round bug fixer"
-msgstr ""
+msgstr "Pregledovanje grafičnega vmesnika in razhroščevanje"
 
 #: ../src/dialogs/dialog-about.c:105
 msgid "Ross Ihaka"
-msgstr ""
+msgstr "Ross Ihaka"
 
 #: ../src/dialogs/dialog-about.c:106
 #, fuzzy
@@ -4924,7 +4887,7 @@ msgstr "XSLT - Funkcije"
 
 #: ../src/dialogs/dialog-about.c:107
 msgid "Jukka-Pekka Iivonen"
-msgstr ""
+msgstr "Jukka-Pekka Iivonen"
 
 #: ../src/dialogs/dialog-about.c:108
 msgid "Solver, lots of worksheet functions, and general trailblazer"
@@ -4932,7 +4895,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-about.c:109
 msgid "Jakub Jelínek"
-msgstr ""
+msgstr "Jakub Jelínek"
 
 #: ../src/dialogs/dialog-about.c:110
 msgid "One of the original core contributors"
@@ -4940,7 +4903,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-about.c:111
 msgid "Chris Lahey"
-msgstr ""
+msgstr "Chris Lahey"
 
 #: ../src/dialogs/dialog-about.c:112
 msgid "The original value format engine and libgoffice work"
@@ -4948,7 +4911,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-about.c:113
 msgid "Takashi Matsuda"
-msgstr ""
+msgstr "Takashi Matsuda"
 
 #: ../src/dialogs/dialog-about.c:114
 #, fuzzy
@@ -4957,7 +4920,7 @@ msgstr "Manjkajoče mesto vstavka %s"
 
 #: ../src/dialogs/dialog-about.c:115
 msgid "Michael Meeks"
-msgstr ""
+msgstr "Michael Meeks"
 
 #: ../src/dialogs/dialog-about.c:116
 msgid "Started the MS Excel import/export engine, and 'GnmStyle'"
@@ -4965,7 +4928,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-about.c:117
 msgid "Lutz Muller"
-msgstr ""
+msgstr "Lutz Muller"
 
 #: ../src/dialogs/dialog-about.c:118
 #, fuzzy
@@ -4974,11 +4937,11 @@ msgstr "Skupina za samo izboljševanje "
 
 #: ../src/dialogs/dialog-about.c:119
 msgid "Yukihiro Nakai"
-msgstr ""
+msgstr "Yukihiro Nakai"
 
 #: ../src/dialogs/dialog-about.c:120
 msgid "Support for non-Latin languages"
-msgstr ""
+msgstr "Podpora za ne-latinične jezike"
 
 #: ../src/dialogs/dialog-about.c:121
 msgid "Peter Notebaert"
@@ -4986,7 +4949,7 @@ msgstr "Peter Notebaert"
 
 #: ../src/dialogs/dialog-about.c:123
 msgid "Emmanuel Pacaud"
-msgstr ""
+msgstr "Emmanuel Pacaud"
 
 #: ../src/dialogs/dialog-about.c:124
 msgid "Many plot types for charting engine."
@@ -4994,7 +4957,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-about.c:125
 msgid "Federico M. Quintero"
-msgstr ""
+msgstr "Federico M. Quintero"
 
 #: ../src/dialogs/dialog-about.c:126
 #, fuzzy
@@ -5028,11 +4991,11 @@ msgstr ""
 
 #: ../src/dialogs/dialog-about.c:133
 msgid "Ariel Rios"
-msgstr ""
+msgstr "Ariel Rios"
 
 #: ../src/dialogs/dialog-about.c:135
 msgid "Jakub Steiner"
-msgstr ""
+msgstr "Jakub Steiner"
 
 #: ../src/dialogs/dialog-about.c:136
 msgid "Icons and Images"
@@ -5040,7 +5003,7 @@ msgstr "Ikone in slike"
 
 #: ../src/dialogs/dialog-about.c:137
 msgid "Uwe Steinmann"
-msgstr ""
+msgstr "Uwe Steinmann"
 
 #: ../src/dialogs/dialog-about.c:138
 #, fuzzy
@@ -5049,7 +5012,7 @@ msgstr "iTunes uvoznik"
 
 #: ../src/dialogs/dialog-about.c:139
 msgid "Arturo Tena"
-msgstr ""
+msgstr "Arturo Tena"
 
 #: ../src/dialogs/dialog-about.c:140
 msgid "Initial work on OLE2 for libgsf"
@@ -5057,7 +5020,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-about.c:141
 msgid "Almer S. Tigelaar"
-msgstr ""
+msgstr "Almer S. Tigelaar"
 
 #: ../src/dialogs/dialog-about.c:142
 msgid "Consolidation and Structured Text importer"
@@ -5074,7 +5037,7 @@ msgstr "Uvoz MS Project XML datoteke"
 
 #: ../src/dialogs/dialog-about.c:145
 msgid "Arief Mulya Utama"
-msgstr ""
+msgstr "Arief Mulya Utama"
 
 #: ../src/dialogs/dialog-about.c:146
 #, fuzzy
@@ -5083,16 +5046,16 @@ msgstr "XSLT - Funkcije"
 
 #: ../src/dialogs/dialog-about.c:147
 msgid "Daniel Veillard"
-msgstr ""
+msgstr "Daniel Veillard"
 
 #: ../src/dialogs/dialog-about.c:148
 #, fuzzy
 msgid "Initial XML support"
-msgstr "Vstavek za podporo JS"
+msgstr "Podpora zvočnih CD"
 
 #: ../src/dialogs/dialog-about.c:149
 msgid "Vladimir Vuksan"
-msgstr ""
+msgstr "Vladimir Vuksan"
 
 #: ../src/dialogs/dialog-about.c:150
 #, fuzzy
@@ -5101,7 +5064,7 @@ msgstr "Funkcije/spremenljivke članov"
 
 #: ../src/dialogs/dialog-about.c:151
 msgid "Morten Welinder"
-msgstr ""
+msgstr "Morten Welinder"
 
 #: ../src/dialogs/dialog-about.c:152
 #, fuzzy
@@ -5110,7 +5073,7 @@ msgstr "Velikost nalepke (okrogla)"
 
 #: ../src/dialogs/dialog-about.c:153
 msgid "Kevin Breit"
-msgstr ""
+msgstr "Kevin Breit"
 
 #: ../src/dialogs/dialog-about.c:154
 msgid "Thomas Canty"
@@ -5118,15 +5081,15 @@ msgstr "Thomas Canty"
 
 #: ../src/dialogs/dialog-about.c:155
 msgid "Adrian Custer"
-msgstr ""
+msgstr "Adrian Custer"
 
 #: ../src/dialogs/dialog-about.c:156
 msgid "Adrian Likins"
-msgstr ""
+msgstr "Adrian Likins"
 
 #: ../src/dialogs/dialog-about.c:157
 msgid "Aaron Weber"
-msgstr ""
+msgstr "Aaron Weber"
 
 #: ../src/dialogs/dialog-about.c:158
 msgid "Alexander Kirillov"
@@ -5135,13 +5098,13 @@ msgstr "Alexander Kirillov"
 #: ../src/dialogs/dialog-about.c:451
 #, fuzzy
 msgid "Gnumeric is the result of"
-msgstr "Rezultat izračuna je {0:##0.###}"
+msgstr "Ni najdeniz zadetkov"
 
 #. Overlap.
 #: ../src/dialogs/dialog-about.c:457
 #, fuzzy
 msgid "the efforts of many people."
-msgstr "Ljudje za mizo"
+msgstr "Pokaži vsebino ljudi"
 
 #. Overlap.
 #: ../src/dialogs/dialog-about.c:464
@@ -5172,7 +5135,7 @@ msgstr "Izbor vstavka za zagon"
 #: ../src/dialogs/dialog-about.c:564
 #, fuzzy
 msgid "About Gnumeric"
-msgstr "O programu"
+msgstr "O programu Anjuta"
 
 #: ../src/dialogs/dialog-about.c:567
 #, fuzzy
@@ -5373,9 +5336,7 @@ msgstr ""
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:122
 #, fuzzy
 msgid "The predicted median should be a number."
-msgstr ""
-"Klic '%s' z napačnim številom argumentov!\n"
-"(mora biti %d)"
+msgstr "Ali naj bodo elementi prikazani s številkami"
 
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:279
 msgid "Could not create the Sign Test Tool dialog."
@@ -5415,7 +5376,7 @@ msgstr ""
 #: ../src/dialogs/dialog-analysis-tools.c:1122
 #, fuzzy
 msgid "No statistics are selected."
-msgstr "Izbran ni noben prenos podatkov\n"
+msgstr "Ni izbranih posodobitev"
 
 #: ../src/dialogs/dialog-analysis-tools.c:1132
 msgid "The confidence level should be between 0 and 1."
@@ -5703,7 +5664,7 @@ msgstr ""
 #: ../src/dialogs/dialog-autosave.c:78
 #, fuzzy, c-format
 msgid "Do you want to save the workbook %s ?"
-msgstr "Ali jih želite shraniti pred zapiranjem?"
+msgstr "Katalog je spremenjen. Ali želite shraniti spremembe?"
 
 #: ../src/dialogs/dialog-autosave.c:162
 #, fuzzy
@@ -6012,7 +5973,7 @@ msgstr ""
 #: ../src/dialogs/dialog-paste-names.c:137
 #, fuzzy
 msgid "Could not create the Name Guru."
-msgstr "Ni mogoče ustvariti poštnega predala vrste %s"
+msgstr "Elementa filesrc ni mogoče ustvariti"
 
 #: ../src/dialogs/dialog-delete-cells.c:125
 #: ../src/dialogs/scenario-manager.glade.h:8
@@ -6074,12 +6035,12 @@ msgstr "[%s]"
 #: ../src/dialogs/dialog-formula-guru.c:864
 #, fuzzy
 msgid "Function/Argument"
-msgstr "%s: argument ni funkcija"
+msgstr "Funkcija zahteva en argument"
 
 #: ../src/dialogs/dialog-formula-guru.c:1037
 #, fuzzy
 msgid "Could not create the formula guru."
-msgstr "Ni mogoče ustvariti poštnega predala vrste %s"
+msgstr "Elementa filesrc ni mogoče ustvariti"
 
 #: ../src/dialogs/dialog-function-select.c:215
 msgid "Recently Used"
@@ -6124,7 +6085,7 @@ msgstr "Več podrobnosti"
 #: ../src/dialogs/dialog-function-select.c:486
 #, fuzzy
 msgid "online descriptions"
-msgstr "Opis razporeditve"
+msgstr "Spletni viri"
 
 #: ../src/dialogs/dialog-function-select.c:497
 msgid "Microsoft Excel: "
@@ -6232,7 +6193,7 @@ msgstr "Elektronska povezava"
 #: ../src/dialogs/dialog-hyperlink.c:314
 #, fuzzy
 msgid "Prepare an email"
-msgstr "Nastavitve pošte"
+msgstr "Nova sporočila"
 
 #: ../src/dialogs/dialog-hyperlink.c:317
 msgid "Web Link"
@@ -6321,7 +6282,7 @@ msgstr "Odvisnosti vstavkov:"
 #: ../src/dialogs/dialog-plugin-manager.c:406
 #, fuzzy
 msgid "Unknown plugin"
-msgstr "Neznano ime vstavka."
+msgstr "Napake vstavkov"
 
 #: ../src/dialogs/dialog-plugin-manager.c:420
 #, fuzzy
@@ -6331,7 +6292,7 @@ msgstr "Temeljne storitve"
 #: ../src/dialogs/dialog-plugin-manager.c:490
 #, fuzzy
 msgid "Errors while activating plugins"
-msgstr "Napake med zaganjanjem vstavkov."
+msgstr "Pogostost napak med umeščevanjem"
 
 #: ../src/dialogs/dialog-plugin-manager.c:588
 msgid ""
@@ -6342,7 +6303,7 @@ msgstr ""
 #: ../src/dialogs/dialog-plugin-manager.c:594
 #, fuzzy, c-format
 msgid "Unknown plugin with id=\"%s\"\n"
-msgstr "Vstavka z id=\"%s\" ni mogoče zagnati."
+msgstr "Dodaj navedek z ID"
 
 #: ../src/dialogs/dialog-plugin-manager.c:601
 msgid ""
@@ -6353,12 +6314,12 @@ msgstr ""
 #: ../src/dialogs/dialog-plugin-manager.c:623
 #, fuzzy, c-format
 msgid "Error while deactivating plugin \"%s\"."
-msgstr "Napaka med nalaganjem storitve vstavkov."
+msgstr "Napaka med nalaganjem projekta."
 
 #: ../src/dialogs/dialog-plugin-manager.c:627
 #, fuzzy, c-format
 msgid "Error while activating plugin \"%s\"."
-msgstr "Napaka med zaganjanjem odvisnosti vstavkov."
+msgstr "Napaka med nalaganjem projekta."
 
 #: ../src/dialogs/dialog-plugin-manager.c:698
 msgid "Active"
@@ -6405,7 +6366,7 @@ msgstr ""
 #: ../src/dialogs/dialog-preferences.c:957
 #, fuzzy
 msgid "Enter _Moves Selection"
-msgstr "Možnosti izbire datoteke"
+msgstr "Zapomni si izbiro"
 
 #: ../src/dialogs/dialog-preferences.c:1001
 msgid "Prefer CLIPBOARD Over PRIMARY Selection"
@@ -6414,7 +6375,7 @@ msgstr ""
 #: ../src/dialogs/dialog-preferences.c:1024
 #, fuzzy
 msgid "Capitalize _names of days"
-msgstr "Starejše kot (dni):"
+msgstr "%d dni od danes naprej"
 
 #: ../src/dialogs/dialog-preferences.c:1047
 msgid "Correct _TWo INitial CApitals"
@@ -6624,7 +6585,7 @@ msgstr "Dokument"
 #: ../src/dialogs/dialog-random-generator.c:106
 #, fuzzy
 msgid "Uniform"
-msgstr "Enotno"
+msgstr "enotna preglednica"
 
 #: ../src/dialogs/dialog-random-generator.c:106
 #: ../src/dialogs/dialog-random-generator.c:108
@@ -6732,17 +6693,17 @@ msgstr ""
 #: ../src/dialogs/dialog-random-generator.c:127
 #, fuzzy
 msgid "_nu Value:"
-msgstr "Skrij vrednost"
+msgstr "Trenutna vrednost"
 
 #: ../src/dialogs/dialog-random-generator.c:129
 #, fuzzy
 msgid "Exponential"
-msgstr "Potenca"
+msgstr "Eksponentno povprečje gibanja:"
 
 #: ../src/dialogs/dialog-random-generator.c:131
 #, fuzzy
 msgid "Exponential Power"
-msgstr "Vrh moči"
+msgstr "Pretvornik napetosti"
 
 #: ../src/dialogs/dialog-random-generator.c:133
 msgid "F"
@@ -6751,20 +6712,21 @@ msgstr "F"
 #: ../src/dialogs/dialog-random-generator.c:133
 #, fuzzy
 msgid "nu_1 Value:"
-msgstr "Skrij vrednost"
+msgstr "Trenutna vrednost"
 
 #: ../src/dialogs/dialog-random-generator.c:133
 #, fuzzy
 msgid "nu_2 Value:"
-msgstr "Skrij vrednost"
+msgstr "Trenutna vrednost"
 
 #: ../src/dialogs/dialog-random-generator.c:135
 msgid "Gamma"
 msgstr "Gama"
 
 #: ../src/dialogs/dialog-random-generator.c:137
+#, fuzzy
 msgid "Gaussian Tail"
-msgstr ""
+msgstr "Gauss zameglitev"
 
 #: ../src/dialogs/dialog-random-generator.c:137
 #: ../src/dialogs/dialog-random-generator.c:155
@@ -6772,8 +6734,9 @@ msgid "_Sigma"
 msgstr "_Sigma"
 
 #: ../src/dialogs/dialog-random-generator.c:139
+#, fuzzy
 msgid "Geometric"
-msgstr ""
+msgstr "Geometrijski kot:: %s"
 
 #: ../src/dialogs/dialog-random-generator.c:141
 #, fuzzy
@@ -6794,8 +6757,9 @@ msgid "Laplace"
 msgstr "Laplace"
 
 #: ../src/dialogs/dialog-random-generator.c:149
+#, fuzzy
 msgid "Levy alpha-Stable"
-msgstr ""
+msgstr "GNOME 2.26 (stabilna različica)"
 
 #: ../src/dialogs/dialog-random-generator.c:149
 msgid "_c Value:"
@@ -6865,7 +6829,7 @@ msgstr "Študent"
 #: ../src/dialogs/dialog-random-generator.c:168
 #, fuzzy
 msgid "nu Value:"
-msgstr "Skrij vrednost"
+msgstr "Trenutna vrednost"
 
 #: ../src/dialogs/dialog-random-generator.c:170
 msgid "Weibull"
@@ -6920,7 +6884,7 @@ msgstr ""
 #: ../src/dialogs/dialog-scenarios.c:228
 #, fuzzy
 msgid "Scenario Summary"
-msgstr "Povzetek seje"
+msgstr "Povzetek napak"
 
 #. Titles.
 #: ../src/dialogs/dialog-scenarios.c:195
@@ -6960,7 +6924,7 @@ msgstr "Ni mogoče naložiti vmesnika za pogovorno okno dodajanja lastnika"
 #: ../src/dialogs/dialog-scenarios.c:410
 #, fuzzy, c-format
 msgid "Created on "
-msgstr "Ustvarjeno v %1$s"
+msgstr "_Dejanje"
 
 #: ../src/dialogs/dialog-scenarios.c:712
 msgid "Results entry did not contain valid cell names."
@@ -7000,7 +6964,7 @@ msgstr "Izraz"
 #: ../src/dialogs/dialog-search.c:154
 #, fuzzy
 msgid "Other value"
-msgstr "Skrij vrednost"
+msgstr "Trenutna vrednost"
 
 #: ../src/dialogs/dialog-search.c:414
 #: ../src/dialogs/dialog-so-styled.c:169
@@ -7081,7 +7045,7 @@ msgstr "Izbira: izberi in premakni predmet"
 #: ../src/sheet-control-gui.c:2428
 #, fuzzy
 msgid "Resize Object"
-msgstr "Spremeni velikost predmeta"
+msgstr "Predmet vsebuje"
 
 #: ../src/dialogs/dialog-shuffle.c:150
 #, fuzzy
@@ -7217,14 +7181,12 @@ msgstr ""
 #: ../src/dialogs/dialog-solver.c:636
 #, fuzzy
 msgid "No suitable solver available."
-msgstr "Ni dostopne naprave (gonilnika)"
+msgstr "Podatki o mestu niso na voljo."
 
 #: ../src/dialogs/dialog-solver.c:648
 #, fuzzy
 msgid "Running Solver"
-msgstr ""
-"Zaganjanje %s je uspešno:\n"
-"%s"
+msgstr "Nadaljuj izvajanje"
 
 #: ../src/dialogs/dialog-solver.c:653
 msgid "Stop"
@@ -7242,9 +7204,7 @@ msgstr "V redu"
 #: ../src/dialogs/dialog-solver.c:755
 #, fuzzy
 msgid "Running solver"
-msgstr ""
-"Zaganjanje %s je uspešno:\n"
-"%s"
+msgstr "Nadaljuj izvajanje"
 
 #: ../src/dialogs/dialog-solver.c:792
 msgid "Optimal solution created by solver.\n"
@@ -7299,7 +7259,7 @@ msgstr "Znakovno _kodiranje:"
 #: ../src/dialogs/dialog-stf-export.glade.h:8
 #, fuzzy
 msgid "Choose export formatting:"
-msgstr "Uporabi oblikovanje po meri"
+msgstr "Napaka med formatiranjem nosilca"
 
 #: ../src/dialogs/dialog-stf-export.glade.h:9
 msgid "Choose sheets to export and determine export ordering of the sheets:"
@@ -7338,7 +7298,7 @@ msgstr "_Navajanje:"
 #: ../src/dialogs/dialog-stf-export.glade.h:17
 #, fuzzy
 msgid "Quote _character:"
-msgstr "Podatki znaka"
+msgstr "_Nabor znakov:"
 
 #: ../src/dialogs/dialog-stf-export.glade.h:18
 msgid "Raise the selected sheet in the list of to be exported sheets to be exported earlier."
@@ -7481,7 +7441,7 @@ msgstr "Barva besedila pri kopiranju na desno:"
 #: ../src/dialogs/dialog-stf-format-page.c:520
 #, fuzzy, c-format
 msgid "A maximum of %d columns can be imported."
-msgstr "Nekaterih stolpcev ni mogoče spremeniti"
+msgstr "Največja velikost, ki jo je mogoče izbrati"
 
 #: ../src/dialogs/dialog-stf-format-page.c:551
 msgid "If this checkbox is selected, the column will be imported into Gnumeric."
@@ -7500,16 +7460,16 @@ msgstr ""
 #: ../src/tools/analysis-tools.c:3570
 #, fuzzy, c-format
 msgid "Column %d"
-msgstr "STOLPEC"
+msgstr "Stolpec"
 
 #: ../src/dialogs/dialog-stf-main-page.c:164
-#, fuzzy, c-format
+#, c-format
 msgid "%d of %d line to import"
 msgid_plural "%d of %d lines to import"
-msgstr[0] "Uvozi v knjižnico"
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%d od %d vrstic za uvoz"
+msgstr[1] "%d od %d vrstice za uvoz"
+msgstr[2] "%d od %d vrstic za uvoz"
+msgstr[3] "%d od %d vrstic za uvoz"
 
 #: ../src/dialogs/dialog-stf-main-page.c:187
 #, c-format
@@ -7583,7 +7543,7 @@ msgstr "Seznam stolpcev za pogled '%s'"
 #: ../src/dialogs/dialog-stf.glade.h:14
 #, fuzzy
 msgid "Column selection"
-msgstr "Izbira koledarja"
+msgstr "_Počisti izbor"
 
 #: ../src/dialogs/dialog-stf.glade.h:15
 #: ../src/dialogs/sheet-resize.glade.h:3
@@ -7608,7 +7568,7 @@ msgstr ""
 #: ../src/dialogs/dialog-stf.glade.h:20
 #, fuzzy
 msgid "Encoding:"
-msgstr "Kodiranje:"
+msgstr "Nabor znakov:"
 
 #: ../src/dialogs/dialog-stf.glade.h:21
 msgid "F_inish"
@@ -7646,12 +7606,12 @@ msgstr "Uvozi v knjižnico"
 #: ../src/dialogs/dialog-stf.glade.h:29
 #, fuzzy
 msgid "Main"
-msgstr "Glavni del"
+msgstr "Glavni meni"
 
 #: ../src/dialogs/dialog-stf.glade.h:30
 #, fuzzy
 msgid "Number of lines to import"
-msgstr "_Število vrstic za beleženje:"
+msgstr "Število točk, ki naj bodo izpuščene nad črtami"
 
 #: ../src/dialogs/dialog-stf.glade.h:31
 #, fuzzy
@@ -7666,7 +7626,7 @@ msgstr "Oblikovanje sporočila"
 #: ../src/dialogs/dialog-stf.glade.h:33
 #, fuzzy
 msgid "Per column formatting"
-msgstr "Uporabi oblikovanje po meri"
+msgstr "Napaka med formatiranjem nosilca"
 
 #: ../src/dialogs/dialog-stf.glade.h:34
 msgid "Processing ends at this line, any subsequent lines will be ignored."
@@ -7696,7 +7656,7 @@ msgstr "Široke ločnice"
 #: ../src/dialogs/dialog-stf.glade.h:40
 #, fuzzy
 msgid "Source Format"
-msgstr "_Oblika = Povezana"
+msgstr "Izbor vrste zapisa:"
 
 #: ../src/dialogs/dialog-stf.glade.h:41
 #, fuzzy
@@ -7757,7 +7717,7 @@ msgstr "Vejica"
 #: ../src/dialogs/dialog-stf.glade.h:53
 #, fuzzy
 msgid "_Hyphen (-)"
-msgstr "vezaj"
+msgstr "Simbol pomišljaj --"
 
 #: ../src/dialogs/dialog-stf.glade.h:54
 #, fuzzy
@@ -7777,7 +7737,7 @@ msgstr "Ločena razporeditev postavitev"
 #: ../src/dialogs/dialog-stf.glade.h:57
 #, fuzzy
 msgid "_Space"
-msgstr "space, _"
+msgstr "Prostor"
 
 #: ../src/dialogs/dialog-stf.glade.h:58
 #, fuzzy
@@ -7921,12 +7881,12 @@ msgstr "_75 %"
 #: ../src/dialogs/dialog-zoom.glade.h:14
 #, fuzzy
 msgid "_Custom Percentage"
-msgstr "Besedilo odstotka"
+msgstr "Odstotek polnjenja:"
 
 #: ../src/dialogs/dialog-zoom.glade.h:15
 #, fuzzy
 msgid "_Fit Selection"
-msgstr "Izbira koledarja"
+msgstr "_Počisti izbor"
 
 #: ../src/dialogs/doc-meta-data.glade.h:1
 #, fuzzy
@@ -7936,7 +7896,7 @@ msgstr "Ustvarjeno"
 #: ../src/dialogs/doc-meta-data.glade.h:2
 #, fuzzy
 msgid "<b>Group:</b>"
-msgstr "<b>Skupina:</b>"
+msgstr "Skupina:"
 
 #: ../src/dialogs/doc-meta-data.glade.h:3
 #, fuzzy
@@ -7946,7 +7906,7 @@ msgstr "<b>Podrobnosti</b>"
 #: ../src/dialogs/doc-meta-data.glade.h:4
 #, fuzzy
 msgid "<b>Last Accessed:</b>"
-msgstr "Zadnji dostop"
+msgstr "Zadnji dostop:"
 
 #: ../src/dialogs/doc-meta-data.glade.h:5
 #, fuzzy
@@ -7981,22 +7941,22 @@ msgstr "število delovnih listov (privzeto=1)"
 #: ../src/dialogs/doc-meta-data.glade.h:11
 #, fuzzy
 msgid "<b>Other:</b>"
-msgstr "Drugo ..."
+msgstr "Ostalo"
 
 #: ../src/dialogs/doc-meta-data.glade.h:12
 #, fuzzy
 msgid "<b>Owner:</b>"
-msgstr "<b>Lastnik:</b>"
+msgstr "Lastnik"
 
 #: ../src/dialogs/doc-meta-data.glade.h:13
 #, fuzzy
 msgid "<b>Permissions</b>"
-msgstr "Dovoljenja:"
+msgstr "Dovoljenja ..."
 
 #: ../src/dialogs/doc-meta-data.glade.h:14
 #, fuzzy
 msgid "<b>Read</b>"
-msgstr "P_rebrano"
+msgstr "_Preberi"
 
 #: ../src/dialogs/doc-meta-data.glade.h:15
 #, fuzzy
@@ -8011,7 +7971,7 @@ msgstr "Prostor med celicami"
 #: ../src/dialogs/doc-meta-data.glade.h:17
 #, fuzzy
 msgid "<pages>"
-msgstr "_Strani"
+msgstr "Strani"
 
 #: ../src/dialogs/doc-meta-data.glade.h:18
 #, fuzzy
@@ -8025,7 +7985,7 @@ msgstr "_Samodejno"
 #: ../src/dialogs/doc-meta-data.glade.h:23
 #, fuzzy
 msgid "Comments:"
-msgstr "Opombe:"
+msgstr "_Opombe"
 
 #: ../src/dialogs/doc-meta-data.glade.h:24
 #, fuzzy
@@ -8040,7 +8000,7 @@ msgstr "Ključne besede:"
 #: ../src/dialogs/doc-meta-data.glade.h:28
 #, fuzzy
 msgid "Link:"
-msgstr "Poveži"
+msgstr "Povezava"
 
 #: ../src/dialogs/doc-meta-data.glade.h:29
 #, fuzzy
@@ -8080,7 +8040,7 @@ msgstr "Naslov:"
 #: ../src/dialogs/doc-meta-data.glade.h:38
 #, fuzzy
 msgid "Value: "
-msgstr "VREDNOST"
+msgstr "Vrednost"
 
 #: ../src/dialogs/doc-meta-data.glade.h:39
 msgid "_Iteration"
@@ -8089,7 +8049,7 @@ msgstr ""
 #: ../src/dialogs/doc-meta-data.glade.h:40
 #, fuzzy
 msgid "_Manual"
-msgstr "_Ročno"
+msgstr "ročno"
 
 #: ../src/dialogs/exp-smoothing.glade.h:1
 msgid "Additive Holt-Winters exponential smoothing"
@@ -8117,7 +8077,7 @@ msgstr "Imenovalec"
 #: ../src/tools/analysis-exp-smoothing.c:1395
 #, fuzzy
 msgid "Exponential Smoothing"
-msgstr "program potenčnega glajenja"
+msgstr "Eksponentno povprečje gibanja:"
 
 #: ../src/dialogs/exp-smoothing.glade.h:6
 #, fuzzy
@@ -8159,7 +8119,7 @@ msgstr ""
 #: ../src/dialogs/exp-smoothing.glade.h:17
 #, fuzzy
 msgid "_Damping factor (α):"
-msgstr "Faktor kovinskosti [%]"
+msgstr "Korekcijski faktor"
 
 #: ../src/dialogs/exp-smoothing.glade.h:21
 #: ../src/dialogs/moving-averages.glade.h:21
@@ -8198,12 +8158,12 @@ msgstr "Enota datuma:"
 #: ../src/tools/fill-series.c:391
 #, fuzzy
 msgid "Fill Series"
-msgstr "Izjava nanizanke"
+msgstr "Serija uMG"
 
 #: ../src/dialogs/fill-series.glade.h:7
 #, fuzzy
 msgid "S_tep value:"
-msgstr "Skrij vrednost"
+msgstr "Trenutna vrednost"
 
 #: ../src/dialogs/fill-series.glade.h:8
 #, fuzzy
@@ -8283,7 +8243,7 @@ msgstr "Velikost:"
 #: ../src/dialogs/formula-guru.glade.h:1
 #, fuzzy
 msgid "Enter as array function"
-msgstr "Dobi karakteristike polinoma kot funkcijo"
+msgstr "Ali želite omogočiti funkcijske tipke? Vnesite y za da ali n za ne:"
 
 #: ../src/dialogs/formula-guru.glade.h:2
 #, fuzzy
@@ -8293,13 +8253,13 @@ msgstr "s formulo"
 #: ../src/dialogs/formula-guru.glade.h:3
 #, fuzzy
 msgid "Quote unknown names"
-msgstr "Spreminjanje imena za:"
+msgstr "Razločevanje c++ imen simbolov"
 
 #: ../src/dialogs/fourier-analysis.glade.h:1
 #: ../src/wbc-gtk-actions.c:2157
 #, fuzzy
 msgid "Fourier Analysis"
-msgstr "Analiza teka"
+msgstr "Analiza zapisnikov"
 
 #: ../src/dialogs/fourier-analysis.glade.h:8
 #, fuzzy
@@ -8335,7 +8295,7 @@ msgstr "Finančni grafikon"
 #: ../src/dialogs/frequency.glade.h:6
 #, fuzzy
 msgid "Frequency Tables"
-msgstr "_Uredi preglednice"
+msgstr "Kazalo preglednice"
 
 #: ../src/dialogs/frequency.glade.h:9
 #: ../src/dialogs/histogram.glade.h:19
@@ -8352,7 +8312,7 @@ msgstr "Uporabi predelavo/oznako:"
 #: ../src/dialogs/histogram.glade.h:25
 #, fuzzy
 msgid "_Graphs & Options"
-msgstr "Splošne možnosti"
+msgstr "Nastavitve prejemanja"
 
 #: ../src/dialogs/frequency.glade.h:14
 #: ../src/dialogs/histogram.glade.h:26
@@ -8363,7 +8323,7 @@ msgstr "Splošne možnosti"
 #: ../src/dialogs/sign-test-two.glade.h:7
 #, fuzzy
 msgid "_Input"
-msgstr "Vhod"
+msgstr "Vnesi"
 
 #: ../src/dialogs/frequency.glade.h:16
 #, fuzzy
@@ -8405,7 +8365,7 @@ msgstr "Funkcija"
 #: ../src/dialogs/function-select.glade.h:4
 #, fuzzy
 msgid "Function Selector"
-msgstr "Izbirnik možnosti"
+msgstr "Izbirnik koledarjev"
 
 #: ../src/dialogs/function-select.glade.h:5
 #, fuzzy
@@ -8420,7 +8380,7 @@ msgstr ", naj_več:"
 #: ../src/dialogs/goalseek.glade.h:2
 #, fuzzy
 msgid "(_Minimum):"
-msgstr "Najmanj"
+msgstr "Največja vrednost X:"
 
 #: ../src/dialogs/goalseek.glade.h:4
 #, fuzzy
@@ -8446,17 +8406,17 @@ msgstr ""
 #: ../src/dialogs/goalseek.glade.h:8
 #, fuzzy
 msgid "Remaining Error:"
-msgstr "Možnosti napak"
+msgstr "Napaka vsebuje"
 
 #: ../src/dialogs/goalseek.glade.h:9
 #, fuzzy
 msgid "Solution:"
-msgstr "Rešitev _grafa"
+msgstr "Pogon shrambe podatkov"
 
 #: ../src/dialogs/goalseek.glade.h:10
 #, fuzzy
 msgid "_By Changing Cell:"
-msgstr "Celica glave preglednice"
+msgstr "Baterija za mobilni telefon"
 
 #: ../src/dialogs/goalseek.glade.h:11
 #, fuzzy
@@ -8496,7 +8456,7 @@ msgstr ""
 #: ../src/dialogs/hf-config.glade.h:7
 #, fuzzy
 msgid "Insert a spreadsheet cell"
-msgstr "Celica glave preglednice"
+msgstr "Baterija za mobilni telefon"
 
 #: ../src/dialogs/hf-config.glade.h:8
 #, fuzzy
@@ -8561,17 +8521,17 @@ msgstr "Čas"
 #: ../src/dialogs/hf-config.glade.h:20
 #, fuzzy
 msgid "_Left section:"
-msgstr "Odsek (raven 5)"
+msgstr "Cestni odsek"
 
 #: ../src/dialogs/hf-config.glade.h:21
 #, fuzzy
 msgid "_Middle section:"
-msgstr "Odsek (raven 5)"
+msgstr "Cestni odsek"
 
 #: ../src/dialogs/hf-config.glade.h:22
 #, fuzzy
 msgid "_Right section:"
-msgstr "Odsek (raven 5)"
+msgstr "Cestni odsek"
 
 #: ../src/dialogs/hf-dt-format.glade.h:1
 #, fuzzy
@@ -8636,12 +8596,12 @@ msgstr "Finančni grafikon"
 #: ../src/dialogs/histogram.glade.h:17
 #, fuzzy
 msgid "M_inimum cutoff:"
-msgstr "Obrez [Hz]"
+msgstr "Mega bass prekinitev"
 
 #: ../src/dialogs/histogram.glade.h:18
 #, fuzzy
 msgid "Ma_ximum cutoff:"
-msgstr "Naj_večja bitna hitrost:"
+msgstr "Mega bass prekinitev"
 
 #: ../src/dialogs/histogram.glade.h:20
 msgid "[∙,∙),[∙,∙),⋯,[∙,∙),[∙,∙)"
@@ -8692,7 +8652,7 @@ msgstr "Vrsta:"
 #: ../src/dialogs/hyperlink.glade.h:6
 #, fuzzy
 msgid "Use default tip"
-msgstr "Uporabi _privzeto namizje (%s)"
+msgstr "Uporabi privzete jezikovne nastavitve"
 
 #: ../src/dialogs/hyperlink.glade.h:7
 #, fuzzy
@@ -8727,7 +8687,7 @@ msgstr "Vstavi _čas"
 #: ../src/dialogs/insert-cells.glade.h:4
 #, fuzzy
 msgid "Shift cells _down"
-msgstr "Spustno polje"
+msgstr "Puščica gor-dol"
 
 #: ../src/dialogs/insert-cells.glade.h:5
 #, fuzzy
@@ -8737,7 +8697,7 @@ msgstr "Vstavi stolpec"
 #: ../src/dialogs/insert-cells.glade.h:6
 #, fuzzy
 msgid "_Shift cells right"
-msgstr "Prestavi izbor desno"
+msgstr "Določilo časa (desno - levo):"
 
 #: ../src/dialogs/kaplan-meier.glade.h:1
 #, fuzzy
@@ -8939,7 +8899,7 @@ msgstr "Povprečje gibanja:"
 #: ../src/dialogs/moving-averages.glade.h:11
 #, fuzzy
 msgid "Other offset"
-msgstr "Neveljaven odmik"
+msgstr "Odmik gumba"
 
 #: ../src/dialogs/moving-averages.glade.h:13
 #, fuzzy
@@ -8963,13 +8923,13 @@ msgstr "Eksponentno povprečje gibanja:"
 #: ../src/dialogs/moving-averages.glade.h:18
 #, fuzzy
 msgid "_Interval:"
-msgstr "Datumski interval"
+msgstr "Razmik (v bsekundah)"
 
 #: ../src/dialogs/normality-tests.glade.h:1
 #: ../src/tools/analysis-normality.c:63
 #, fuzzy
 msgid "Anderson-Darling Test"
-msgstr "20 jardni test gibljivosti"
+msgstr "Preizkus povratnega klica"
 
 #: ../src/dialogs/normality-tests.glade.h:2
 msgid "Cram&#xE9;r-von Mises Test"
@@ -8987,20 +8947,20 @@ msgstr ""
 #: ../src/dialogs/normality-tests.glade.h:7
 #, fuzzy
 msgid "Normality Tests"
-msgstr "Pokaži teste"
+msgstr "Preizkusi:"
 
 #: ../src/dialogs/normality-tests.glade.h:9
 #: ../src/tools/analysis-normality.c:83
 #, fuzzy
 msgid "Shapiro-Francia Test"
-msgstr "20 jardni test gibljivosti"
+msgstr "Preizkus povratnega klica"
 
 #: ../src/dialogs/normality-tests.glade.h:10
 #: ../src/dialogs/sign-test.glade.h:5
 #: ../src/dialogs/variance-tests.glade.h:5
 #, fuzzy
 msgid "Test"
-msgstr "Test"
+msgstr "Preizkus"
 
 #: ../src/dialogs/paste-names.glade.h:3
 #, fuzzy
@@ -9029,7 +8989,7 @@ msgstr "_Dodaj"
 #: ../src/dialogs/paste-special.glade.h:5
 #, fuzzy
 msgid "As _Value"
-msgstr "Skrij vrednost"
+msgstr "Trenutna vrednost"
 
 #: ../src/dialogs/paste-special.glade.h:6
 #: ../src/wbc-gtk-actions.c:1837
@@ -9052,7 +9012,7 @@ msgstr "Ni mogoče spremeniti gesla."
 #: ../src/dialogs/paste-special.glade.h:10
 #, fuzzy
 msgid "Fli_p Vertically"
-msgstr "Zrasti navpično"
+msgstr "Zrcali _navpično"
 
 #: ../src/dialogs/paste-special.glade.h:11
 #, fuzzy
@@ -9136,7 +9096,7 @@ msgstr "<u>pokaži podrobnosti</u>"
 #: ../src/dialogs/plugin-manager.glade.h:5
 #, fuzzy
 msgid "Plugin List"
-msgstr "Možnosti seznama"
+msgstr "Seznam definicij"
 
 #: ../src/dialogs/plugin-manager.glade.h:6
 #, fuzzy
@@ -9173,7 +9133,7 @@ msgstr ""
 #: ../src/dialogs/print.glade.h:4
 #, fuzzy
 msgid "<b>Center on page:</b>"
-msgstr "Vstavi stan na %s"
+msgstr "Na _sredini strani"
 
 #: ../src/dialogs/print.glade.h:5
 msgid "<b>O_rientation:</b>"
@@ -9202,12 +9162,12 @@ msgstr "_Merilo:"
 #: ../src/dialogs/print.glade.h:10
 #, fuzzy
 msgid "<b>Titles To Print</b>"
-msgstr "Natisni v konzolo"
+msgstr "Priprava na tiskanje ..."
 
 #: ../src/dialogs/print.glade.h:11
 #, fuzzy
 msgid "Apply _to:"
-msgstr "Uporabi za"
+msgstr "<b>Uporabi za</b>"
 
 #: ../src/dialogs/print.glade.h:12
 msgid "Apply to all sheets of this _workbook."
@@ -9283,7 +9243,7 @@ msgstr "risalna površina"
 #: ../src/dialogs/print.glade.h:28
 #, fuzzy
 msgid "R_ight, then down"
-msgstr "Spustno polje"
+msgstr "Puščica gor-dol"
 
 #: ../src/dialogs/print.glade.h:29
 #, fuzzy
@@ -9332,12 +9292,12 @@ msgstr "Ni sporočil z UID %s"
 #: ../src/dialogs/print.glade.h:39
 #, fuzzy
 msgid "Top margin:"
-msgstr "Vrhnji rob v točkah"
+msgstr "Rob _zaznamovanj"
 
 #: ../src/dialogs/print.glade.h:40
 #, fuzzy
 msgid "Unit:"
-msgstr "Enota:"
+msgstr "_Enota:"
 
 #: ../src/dialogs/print.glade.h:41
 #, fuzzy
@@ -9347,7 +9307,7 @@ msgstr "Prilagajanje velikosti strani:"
 #: ../src/dialogs/print.glade.h:42
 #, fuzzy
 msgid "_Black and white"
-msgstr "Črno na belem"
+msgstr "Črno-belo"
 
 #: ../src/dialogs/print.glade.h:43
 msgid "_Columns to repeat on the left side:"
@@ -9356,7 +9316,7 @@ msgstr ""
 #: ../src/dialogs/print.glade.h:44
 #, fuzzy
 msgid "_Down, then right"
-msgstr "Desni kazalec"
+msgstr "Pokaži desni rob"
 
 #: ../src/dialogs/print.glade.h:45
 #, fuzzy
@@ -9366,7 +9326,7 @@ msgstr "Prilagajanje velikosti strani:"
 #: ../src/dialogs/print.glade.h:46
 #, fuzzy
 msgid "_Footer:"
-msgstr "noga"
+msgstr "_Noga:"
 
 #: ../src/dialogs/print.glade.h:47
 #, fuzzy
@@ -9376,7 +9336,7 @@ msgstr "Mrežne črte"
 #: ../src/dialogs/print.glade.h:48
 #, fuzzy
 msgid "_Header:"
-msgstr "Glava:"
+msgstr "_Glava:"
 
 #: ../src/dialogs/print.glade.h:49
 #, fuzzy
@@ -9442,7 +9402,7 @@ msgstr ""
 #: ../src/dialogs/random-generation-cor.glade.h:3
 #, fuzzy
 msgid "Co_variance Matrix"
-msgstr "Izbriši stolpec matrike"
+msgstr "MPEG4 delitvena matrica"
 
 #: ../src/dialogs/random-generation-cor.glade.h:4
 #, fuzzy
@@ -9457,7 +9417,7 @@ msgstr "/Osmiško naključno število (širina)"
 #: ../src/dialogs/random-generation-cor.glade.h:9
 #, fuzzy
 msgid "_Matrix:"
-msgstr "matrika"
+msgstr "MPEG4 delitvena matrica"
 
 #: ../src/dialogs/rank.glade.h:5
 #, fuzzy
@@ -9472,12 +9432,12 @@ msgstr "_Lastnosti"
 #: ../src/dialogs/rank.glade.h:8
 #, fuzzy
 msgid "_Average rank"
-msgstr "Stopnja strežnika:"
+msgstr "Povprečna bitna hitrost"
 
 #: ../src/dialogs/rank.glade.h:13
 #, fuzzy
 msgid "_Top rank"
-msgstr "Stopnja strežnika:"
+msgstr "Zgornji pult"
 
 #: ../src/dialogs/regression.glade.h:1
 msgid "0.95"
@@ -9507,7 +9467,7 @@ msgstr ""
 #: ../src/dialogs/regression.glade.h:9
 #, fuzzy
 msgid "_Multiple linear regression"
-msgstr "Linearne regresijske krivulje"
+msgstr "Pravokotna linearna faza"
 
 #: ../src/dialogs/regression.glade.h:11
 #, fuzzy
@@ -9532,7 +9492,7 @@ msgstr "Velikost pisave v točkah"
 #: ../src/dialogs/row-height.glade.h:3
 #, fuzzy
 msgid "_Row height in pixels:"
-msgstr "Višina slike v točkah"
+msgstr "Privzeta višina okna v točkah"
 
 #: ../src/dialogs/sampling.glade.h:3
 #, fuzzy
@@ -9542,7 +9502,7 @@ msgstr "?female:Majorka"
 #: ../src/dialogs/sampling.glade.h:5
 #, fuzzy
 msgid "N_umber of samples:"
-msgstr "Postopno prehajanje med vzorcema"
+msgstr "Š_tevilo nasprotnikov:"
 
 #: ../src/dialogs/sampling.glade.h:7
 #, fuzzy
@@ -9567,7 +9527,7 @@ msgstr "?female:Majorka"
 #: ../src/dialogs/sampling.glade.h:11
 #, fuzzy
 msgid "Sampling"
-msgstr "Deklaracija vzorčevanja"
+msgstr "YCbCr vzorčenje"
 
 #: ../src/dialogs/sampling.glade.h:12
 #, fuzzy
@@ -9607,7 +9567,7 @@ msgstr "Opomba:"
 #: ../src/dialogs/scenario-add.glade.h:4
 #, fuzzy
 msgid "Scenario name:"
-msgstr "Polno _Ime:"
+msgstr "Ime pravila:"
 
 #: ../src/dialogs/scenario-add.glade.h:5
 #, fuzzy
@@ -9637,7 +9597,7 @@ msgstr "<span weight=\"bold\">Splošno</span>"
 #: ../src/dialogs/scenario-manager.glade.h:7
 #, fuzzy
 msgid "Create _Report"
-msgstr "Ustvari poročilo ..."
+msgstr "Poročilo enot"
 
 #: ../src/dialogs/scenario-manager.glade.h:10
 #, fuzzy
@@ -9804,7 +9764,7 @@ msgstr "Osnovno iskanje in zamenjava"
 #: ../src/dialogs/search-replace.glade.h:32
 #, fuzzy
 msgid "Search and Replace Query"
-msgstr "Iskanje in zamenjava besedila"
+msgstr "Poišči in zamenjaj besedilo"
 
 #: ../src/dialogs/search-replace.glade.h:33
 msgid "Search and replace in all cells in the workbook"
@@ -9886,13 +9846,13 @@ msgstr "_Ne, ne spreminjaj stanja"
 #: ../src/dialogs/search.ui.h:31
 #, fuzzy
 msgid "_Entire workbook"
-msgstr "Celotna zbirka"
+msgstr "_Celoten meni"
 
 #: ../src/dialogs/search-replace.glade.h:49
 #: ../src/dialogs/search.ui.h:32
 #, fuzzy
 msgid "_Expressions"
-msgstr "_Funkcije / izrazi"
+msgstr "Kopiraj privzeti izraz"
 
 #: ../src/dialogs/search-replace.glade.h:50
 #, fuzzy
@@ -9914,7 +9874,7 @@ msgstr "Ohranjaj B sličice za sklicevanje"
 #: ../src/dialogs/search.ui.h:35
 #, fuzzy
 msgid "_Other values"
-msgstr "Nariši vrednosti"
+msgstr "Vrednosti CIE"
 
 #: ../src/dialogs/search-replace.glade.h:54
 #: ../src/dialogs/search.ui.h:36
@@ -9925,7 +9885,7 @@ msgstr "Običajno besedilo"
 #: ../src/dialogs/search-replace.glade.h:55
 #, fuzzy
 msgid "_Preserve case"
-msgstr "Ohrani male/velike črke"
+msgstr "Upoštevaj velikost črk"
 
 #: ../src/dialogs/search-replace.glade.h:56
 #, fuzzy
@@ -9935,7 +9895,7 @@ msgstr "_Poizvedba"
 #: ../src/dialogs/search-replace.glade.h:57
 #, fuzzy
 msgid "_Replace by"
-msgstr "Uporablja ga %s"
+msgstr "Razvrsti po"
 
 #: ../src/dialogs/search-replace.glade.h:58
 #: ../src/dialogs/search.ui.h:39
@@ -9962,7 +9922,7 @@ msgstr "?female:Majorka"
 #: ../src/dialogs/search.ui.h:3
 #, fuzzy
 msgid "Dismiss search center"
-msgstr "Središčenje vhoda frekvence"
+msgstr "Preklopnik podatkovnega središča"
 
 #: ../src/dialogs/search.ui.h:5
 msgid "Find text within cell comments"
@@ -10014,7 +9974,7 @@ msgstr "- Išče izraze v vseh podatkih"
 #: ../src/dialogs/search.ui.h:19
 #, fuzzy
 msgid "Search in current sheet only"
-msgstr "prikaz le oseb v trenutni seji"
+msgstr "Preišči pomoč za trenutno besedo v urejevalniku"
 
 #: ../src/dialogs/search.ui.h:20
 msgid "Search in specified range only"
@@ -10023,7 +9983,7 @@ msgstr ""
 #: ../src/dialogs/search.ui.h:22
 #, fuzzy
 msgid "Search text is"
-msgstr "Iskanje besedila"
+msgstr "Poišči besedilo"
 
 #: ../src/dialogs/search.ui.h:23
 #, fuzzy
@@ -10033,22 +9993,22 @@ msgstr "Izberi naslednji zadetek"
 #: ../src/dialogs/search.ui.h:24
 #, fuzzy
 msgid "Show previous match"
-msgstr "Najdi predhodni zadetek"
+msgstr "Pokaži predhodno skladbo"
 
 #: ../src/dialogs/search.ui.h:25
 #, fuzzy
 msgid "Start search"
-msgstr "Zagon storitve iskanja"
+msgstr "Samodejno začni iskanje"
 
 #: ../src/dialogs/search.ui.h:34
 #, fuzzy
 msgid "_Number"
-msgstr "ŠTEVILKA"
+msgstr "Številka"
 
 #: ../src/dialogs/search.ui.h:37
 #, fuzzy
 msgid "_Range"
-msgstr "Obseg:"
+msgstr "Območje"
 
 #: ../src/dialogs/search.ui.h:38
 #, fuzzy
@@ -10063,7 +10023,7 @@ msgstr "_Poišči:"
 #: ../src/dialogs/sheet-order.glade.h:1
 #, fuzzy
 msgid "A_ppend"
-msgstr "Pripni k d_atoteki"
+msgstr "Pripni d_atoteki ..."
 
 #: ../src/dialogs/sheet-order.glade.h:2
 #, fuzzy
@@ -10078,12 +10038,12 @@ msgstr "Drugi listi"
 #: ../src/dialogs/sheet-order.glade.h:4
 #, fuzzy
 msgid "_Show advanced sheet properties"
-msgstr "Pokaži lastnosti zaznamka"
+msgstr "Pokaži napredne možnosti zgoščenke"
 
 #: ../src/dialogs/sheet-resize.glade.h:1
 #, fuzzy
 msgid "Apply change to all sheets"
-msgstr "Uporabi trenutno vrednost za vse skladbe"
+msgstr "Pripni možnost vsem nejasnim mestom dokumentov"
 
 #: ../src/dialogs/sheet-resize.glade.h:2
 msgid "Check this to apply the new size to all sheets in the workbook"
@@ -10145,12 +10105,12 @@ msgstr "Širina v točkah."
 #: ../src/dialogs/sheetobject-size.glade.h:9
 #, fuzzy
 msgid "_x-Offset in pixels:"
-msgstr "Višina v točkah."
+msgstr "Vrhnji odmik v točkah"
 
 #: ../src/dialogs/sheetobject-size.glade.h:10
 #, fuzzy
 msgid "_y-Offset in pixels:"
-msgstr "Višina v točkah."
+msgstr "Vrhnji odmik v točkah"
 
 #: ../src/dialogs/sheetobject-size.glade.h:12
 #, fuzzy
@@ -10180,7 +10140,7 @@ msgstr "Način razdeljevanja"
 #: ../src/dialogs/shuffle.glade.h:4
 #, fuzzy
 msgid "_Area"
-msgstr "Območje"
+msgstr "Področje:"
 
 #: ../src/dialogs/simulation.glade.h:1
 #, fuzzy
@@ -10197,7 +10157,7 @@ msgstr "<span weight=\"bold\">Splošno</span>"
 #: ../src/dialogs/simulation.glade.h:4
 #, fuzzy
 msgid "<b>Simulation summary:</b>"
-msgstr "Povzetek seje"
+msgstr "Povzetek napak"
 
 #: ../src/dialogs/simulation.glade.h:5
 #, fuzzy
@@ -10207,7 +10167,7 @@ msgstr "Rezultati uvoza"
 #: ../src/dialogs/simulation.glade.h:6
 #, fuzzy
 msgid "Find Max."
-msgstr "Največji ČS"
+msgstr "Največje število vrstic"
 
 #: ../src/dialogs/simulation.glade.h:7
 #, fuzzy
@@ -10279,7 +10239,7 @@ msgstr "Spremenljivke"
 #: ../src/tools/analysis-sign-test.c:388
 #, fuzzy
 msgid "Sign Test"
-msgstr "<b>Spremenljivke testa</b>"
+msgstr "Rezultati preizkusa"
 
 #: ../src/dialogs/sign-test.glade.h:11
 #, fuzzy
@@ -10294,7 +10254,7 @@ msgstr "Razlike med datotekami"
 #: ../src/dialogs/so-button.glade.h:1
 #, fuzzy
 msgid "Button Properties"
-msgstr "Lastnosti gumba"
+msgstr "Lastnosti prekinitvene točke"
 
 #: ../src/dialogs/so-button.glade.h:2
 #: ../src/dialogs/so-checkbox.glade.h:3
@@ -10330,12 +10290,12 @@ msgstr "Lastnosti seznama stikov"
 #: ../src/dialogs/so-list.glade.h:2
 #, fuzzy
 msgid "_Content :"
-msgstr "Vsebina"
+msgstr "Vsebina:"
 
 #: ../src/dialogs/so-list.glade.h:3
 #, fuzzy
 msgid "_Link :"
-msgstr "Poveži"
+msgstr "Povezava"
 
 #: ../src/dialogs/so-radiobutton.glade.h:3
 #, fuzzy
@@ -10345,7 +10305,7 @@ msgstr "Lastnosti prekinitvene točke"
 #: ../src/dialogs/so-scrollbar.glade.h:2
 #, fuzzy
 msgid "Increment:"
-msgstr "Povečevanje:"
+msgstr "Najmanjše povečevanje"
 
 #: ../src/dialogs/so-scrollbar.glade.h:6
 #, fuzzy
@@ -10371,12 +10331,12 @@ msgstr "_Navpično"
 #: ../src/dialogs/solver.glade.h:1
 #, fuzzy
 msgid "Assume _Integer (Discrete)"
-msgstr "Ustvari naključno celo število"
+msgstr "Vrednost nepodpisanega celega števila"
 
 #: ../src/dialogs/solver.glade.h:2
 #, fuzzy
 msgid "Assume _Non-Negative"
-msgstr "Barva negativnih vrednosti"
+msgstr "Negativna izhodna spremenljivka"
 
 #: ../src/dialogs/solver.glade.h:3
 #, fuzzy
@@ -10396,17 +10356,17 @@ msgstr "Omejitve"
 #: ../src/dialogs/solver.glade.h:6
 #, fuzzy
 msgid "M_in"
-msgstr "V:"
+msgstr "%s v %s"
 
 #: ../src/dialogs/solver.glade.h:7
 #, fuzzy
 msgid "Max _Iterations:"
-msgstr "Največji ČS"
+msgstr "Največje število vrstic"
 
 #: ../src/dialogs/solver.glade.h:8
 #, fuzzy
 msgid "Max _Time (sec.):"
-msgstr "%(min)d:%(sec)02d"
+msgstr "Avtor/datum-čas"
 
 #: ../src/dialogs/solver.glade.h:9
 #, fuzzy
@@ -10459,12 +10419,12 @@ msgstr ""
 #: ../src/dialogs/solver.glade.h:20
 #, fuzzy
 msgid "_Do not create scenarios"
-msgstr "ni mogoče ustvariti vsebine"
+msgstr "Cevovoda ni mogoče ustvariti"
 
 #: ../src/dialogs/solver.glade.h:21
 #, fuzzy
 msgid "_Equal To:"
-msgstr "je enako"
+msgstr "Enako"
 
 #: ../src/dialogs/solver.glade.h:22
 #, fuzzy
@@ -10478,7 +10438,7 @@ msgstr "_Linearni model (LP/MILP)"
 #: ../src/dialogs/solver.glade.h:24
 #, fuzzy
 msgid "_Max"
-msgstr "Največ"
+msgstr "X max"
 
 #: ../src/dialogs/solver.glade.h:26
 msgid "_Quadratic Model (QP/MIQP)"
@@ -10507,6 +10467,11 @@ msgid ""
 "Int\n"
 "Bool\n"
 msgstr ""
+"≤\n"
+"≥\n"
+"=\n"
+"Int\n"
+"Bool\n"
 
 #: ../src/dialogs/tabulate.glade.h:3
 #, fuzzy
@@ -10520,12 +10485,12 @@ msgstr ""
 #: ../src/dialogs/tabulate.glade.h:5
 #, fuzzy
 msgid "Maximum"
-msgstr "Največ"
+msgstr "Največja velikost"
 
 #: ../src/dialogs/tabulate.glade.h:6
 #, fuzzy
 msgid "Minimum"
-msgstr "Najmanj"
+msgstr "Največja vrednost X:"
 
 #: ../src/dialogs/tabulate.glade.h:7
 #, fuzzy
@@ -10535,7 +10500,7 @@ msgstr "<b>Izbrane celice</b>"
 #: ../src/dialogs/tabulate.glade.h:8
 #, fuzzy
 msgid "Step"
-msgstr "Korak"
+msgstr "_Korak"
 
 #: ../src/dialogs/tabulate.glade.h:9
 #, fuzzy
@@ -10609,7 +10574,7 @@ msgstr ""
 #: ../src/dialogs/workbook-attr.glade.h:7
 #, fuzzy
 msgid "View Properties"
-msgstr "Lastnosti ogleda"
+msgstr "Ogled lastnosti slike"
 
 #: ../src/dialogs/workbook-attr.glade.h:8
 #, fuzzy
@@ -10634,24 +10599,24 @@ msgstr "stran 3"
 #: ../src/expr-name.c:510
 #, fuzzy, c-format
 msgid "'%s' has a circular reference"
-msgstr "Priloži kot sklic?"
+msgstr "Sklic na vrsto bloka"
 
 #: ../src/expr-name.c:538
 #: ../src/expr-name.c:736
 #, fuzzy, c-format
 msgid "'%s' is already defined in sheet"
-msgstr "Naprava je že v uporabi."
+msgstr "Vir je že v cilju"
 
 #: ../src/expr-name.c:539
 #: ../src/expr-name.c:737
 #, fuzzy, c-format
 msgid "'%s' is already defined in workbook"
-msgstr "Naprava je že v uporabi."
+msgstr "Vir je že v cilju"
 
 #: ../src/expr.c:829
 #, fuzzy
 msgid "Internal type error"
-msgstr "Prišlo je do notranje napake."
+msgstr "Prišlo je do notranje napake"
 
 #: ../src/expr.c:1534
 #, fuzzy
@@ -10687,7 +10652,7 @@ msgstr ""
 #: ../src/func-builtin.c:42
 #, fuzzy
 msgid "SUM:sum of the given values"
-msgstr "Natisni delne vrednosti"
+msgstr "Vrednosti za opazovanje"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:44
@@ -10715,7 +10680,7 @@ msgstr "To je funkcija poskusnega vstavka\n"
 #: ../src/func-builtin.c:68
 #, fuzzy
 msgid "PRODUCT:product  of the given values"
-msgstr "Natisni delne vrednosti"
+msgstr "Vrednosti za opazovanje"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:70
@@ -10751,7 +10716,7 @@ msgstr "Neveljaven logični izraz: '%s': %s"
 #: ../src/func-builtin.c:266
 #, fuzzy
 msgid "cond:condition."
-msgstr "Pogoj zastavice"
+msgstr "Pisava pogoja"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:268
@@ -10770,7 +10735,9 @@ msgstr ""
 #: ../src/func.c:226
 #, fuzzy, c-format
 msgid "Cannot create file %s\n"
-msgstr "Ni mogoče ustvariti začasne datoteke"
+msgstr ""
+"Ni mogoče ustvariti izhodne datoteke: %s:\n"
+" %s"
 
 #: ../src/func.c:700
 #, fuzzy
@@ -10864,7 +10831,7 @@ msgstr "Točke, ki pokrivajo Y območje"
 #: ../src/gnm-plugin.c:123
 #, fuzzy
 msgid "Missing function category name."
-msgstr "Ime nove kategorije:"
+msgstr "Vnos imena nove kategorije"
 
 #: ../src/gnm-plugin.c:127
 #, fuzzy
@@ -10877,13 +10844,13 @@ msgid "No func_desc_load method.\n"
 msgstr "Nalagalnik nima metode load_base.\n"
 
 #: ../src/gnm-plugin.c:227
-#, fuzzy, c-format
+#, c-format
 msgid "%d function in category \"%s\""
 msgid_plural "Group of %d functions in category \"%s\""
-msgstr[0] "Pokaži stolpec kategorij"
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Skupina %d funkcij v kategoriji \"%s\""
+msgstr[1] "Skupina %d funkcije v kategoriji \"%s\""
+msgstr[2] "Skupina %d funkcij v kategoriji \"%s\""
+msgstr[3] "Skupina %d funkcij v kategoriji \"%s\""
 
 #: ../src/gnm-plugin.c:336
 #, fuzzy
@@ -10908,7 +10875,7 @@ msgstr[3] ""
 #: ../src/gnm-plugin.c:571
 #, fuzzy
 msgid "Invalid solver problem type."
-msgstr "Neveljavna vrsta nadzora MIDI"
+msgstr "Neveljaven cdr_type \"%s\" na <%s>"
 
 #: ../src/gnm-plugin.c:590
 #, fuzzy
@@ -10918,20 +10885,20 @@ msgstr "Izbrani naslov URI v vstavku upravljalnika datotek"
 #: ../src/gnm-plugin.c:636
 #, fuzzy, c-format
 msgid "Solver Algorithm %s"
-msgstr "Algoritem filtra"
+msgstr "Označevalnik algoritma"
 
 #: ../src/gnm-plugin.c:734
 #: ../src/gnm-plugin.c:806
 #: ../src/gnm-plugin.c:852
 #, fuzzy, c-format
 msgid "Module file \"%s\" has invalid format."
-msgstr "Datoteka modula \"%s\" ima neveljaven zapis."
+msgstr "Neveljaven ali nepodprt zapis datoteke INP"
 
 #: ../src/gnm-plugin.c:738
 #: ../src/gnm-plugin.c:809
 #, fuzzy, c-format
 msgid "File doesn't contain \"%s\" array."
-msgstr "Datoteka ne vsebuje funkcije \"%s\"."
+msgstr "Predloga '%s' ne vsebuje XXXXXX"
 
 #: ../src/gnm-so-filled.c:171
 #, fuzzy
@@ -10956,7 +10923,7 @@ msgstr "Odložišče"
 #: ../src/gui-file.c:77
 #, fuzzy
 msgid "Automatically detected"
-msgstr "Samodejno zaznano"
+msgstr "Zaznana zanka"
 
 #. xgettext: If possible try to use the same mnemonic for
 #. * Advanced and Simple
@@ -11019,7 +10986,7 @@ msgstr "Napake vstavkov"
 #: ../src/gui-util.c:506
 #, fuzzy, c-format
 msgid "Unable to open file '%s'"
-msgstr "Datoteke '%s' ni mogoče odpreti."
+msgstr "Ni mogoče odpreti datoteke: %s\n"
 
 #: ../src/gui-util.c:1411
 #, c-format
@@ -11050,7 +11017,7 @@ msgstr "Brskalnika ni mogoče zagnati"
 #: ../src/hlink.c:279
 #, fuzzy, c-format
 msgid "Unable to open '%s'"
-msgstr "Ni mogoče odpreti '%s'"
+msgstr "Ni mogoče odpreti datoteke: %s\n"
 
 #: ../src/item-bar.c:776
 #, fuzzy, c-format
@@ -11060,7 +11027,7 @@ msgstr "Privzeta širina zajete slike (v točkah):"
 #: ../src/item-bar.c:779
 #, fuzzy, c-format
 msgid "Height: %.2f pts (%d pixels)"
-msgstr "Višina slike v točkah"
+msgstr "<b>Video:</b> %d x %d <i>točk</i> pri %.2f<i>sl/s</i>"
 
 #: ../src/item-cursor.c:775
 msgid "_Move"
@@ -11079,7 +11046,7 @@ msgstr "Vrste zabojnikov:"
 #: ../src/item-cursor.c:783
 #, fuzzy
 msgid "Copy _Values"
-msgstr "Nariši vrednosti"
+msgstr "Vrednosti CIE"
 
 #: ../src/item-cursor.c:788
 #, fuzzy
@@ -11108,7 +11075,7 @@ msgstr "P_rekliči"
 #: ../src/item-cursor.c:1038
 #, fuzzy
 msgid "Drag to autofill"
-msgstr "(razvrsti s potegom)"
+msgstr "Potegni in spusti iz %s na %s"
 
 #: ../src/item-cursor.c:1041
 #, fuzzy
@@ -11154,12 +11121,12 @@ msgstr ""
 #: ../src/libgnumeric.c:141
 #, fuzzy
 msgid "Gnumeric Options"
-msgstr "Splošne možnosti"
+msgstr "Nastavitve prejemanja"
 
 #: ../src/libgnumeric.c:141
 #, fuzzy
 msgid "Show Gnumeric Options"
-msgstr "Pokaži splošne možnosti"
+msgstr "Pokaži možnosti strežnika."
 
 #: ../src/main-application.c:75
 #, fuzzy
@@ -11220,7 +11187,7 @@ msgstr ""
 #: ../src/mathfunc.c:3913
 #, fuzzy
 msgid "bessel_i allocation error"
-msgstr "Prišlo je do napake."
+msgstr "Napaka med zaganjanjem programa Evolution"
 
 #: ../src/mathfunc.c:3921
 #: ../src/mathfunc.c:3924
@@ -11230,7 +11197,7 @@ msgstr ""
 #: ../src/mathfunc.c:4384
 #, fuzzy
 msgid "bessel_k allocation error"
-msgstr "Prišlo je do napake."
+msgstr "Napaka med zaganjanjem programa Evolution"
 
 #: ../src/mathfunc.c:4392
 #: ../src/mathfunc.c:4395
@@ -11282,22 +11249,22 @@ msgstr "Logični izraz je neveljaven: %s"
 #: ../src/parser.y:689
 #, fuzzy, c-format
 msgid "Name '%s' does not exist in sheet '%s'"
-msgstr "Predmet %(name)s z glavnim ključem %(key)r ne obstaja."
+msgstr "Zbirka ključev s tem imenom ne obstaja."
 
 #: ../src/parser.y:711
 #, fuzzy, c-format
 msgid "Name '%s' does not exist in workbook"
-msgstr "Predmet %(name)s z glavnim ključem %(key)r ne obstaja."
+msgstr "Zbirka ključev s tem imenom ne obstaja."
 
 #: ../src/parser.y:766
 #, fuzzy, c-format
 msgid "Unknown workbook '%s'"
-msgstr "Neznana napaka"
+msgstr "Neznan predmet"
 
 #: ../src/parser.y:783
 #, fuzzy, c-format
 msgid "Unknown workbook"
-msgstr "Neznana napaka"
+msgstr "Neznan predmet"
 
 #: ../src/parser.y:1079
 #: ../src/parser.y:1343
@@ -11308,7 +11275,7 @@ msgstr ""
 #: ../src/parser.y:1204
 #, fuzzy, c-format
 msgid "Sheet name is required"
-msgstr "Zahtevano je ime seje."
+msgstr "Zahtevana razširitev '{0}' je onemogočena."
 
 #: ../src/parser.y:1257
 #: ../src/parser.y:1266
@@ -11345,7 +11312,7 @@ msgstr "Neveljaven izraz"
 #: ../src/parser.y:1561
 #, fuzzy, c-format
 msgid "Unexpected token %c"
-msgstr "Program je naletel na nepričakovan žeton: %d"
+msgstr "Posebni žetoni"
 
 #: ../src/print-info.c:157
 #: ../src/print-info.c:160
@@ -11398,7 +11365,7 @@ msgstr "stran"
 #: ../src/print-info.c:575
 #, fuzzy
 msgid "pages"
-msgstr "_Strani"
+msgstr "Strani"
 
 #: ../src/print-info.c:576
 #, fuzzy
@@ -11431,7 +11398,7 @@ msgstr "celica"
 #: ../src/stf-export.c:643
 #, fuzzy, c-format
 msgid "There is no such sheet"
-msgstr "Ni take skupine."
+msgstr "Ni ustreznega Glade projekta"
 
 #: ../src/print-info.c:767
 #, fuzzy, c-format
@@ -11446,7 +11413,7 @@ msgstr ""
 #: ../src/print-info.c:798
 #, fuzzy
 msgid "PDF export"
-msgstr "Izvozi DocBook kot PDF"
+msgstr "Izvozi seznam predvajanja ..."
 
 #: ../src/print.c:606
 msgid "Even one cell is too large for this page."
@@ -11455,7 +11422,7 @@ msgstr ""
 #: ../src/print.c:943
 #, fuzzy
 msgid "Print Selection"
-msgstr "Izbira koledarja"
+msgstr "_Počisti izbor"
 
 #: ../src/print.c:1351
 #, fuzzy
@@ -11465,7 +11432,7 @@ msgstr "Listi in predmeti ..."
 #: ../src/print.c:1356
 #, fuzzy
 msgid "Also print _hidden sheets"
-msgstr "Najdi tudi skrite datoteke"
+msgstr "Preišči tudi skrite datoteke"
 
 #: ../src/print.c:1361
 #, fuzzy
@@ -11494,7 +11461,7 @@ msgstr "od:"
 #: ../src/print.c:1618
 #, fuzzy
 msgid "Gnumeric Print Range"
-msgstr "Vrednost je izven območja.\n"
+msgstr "Točke, ki pokrivajo Y območje"
 
 #. Actually we can get slightly more than max_width here.
 #. * But max_width was computed as an estimate, anyway, so we don't care.
@@ -11516,12 +11483,12 @@ msgstr "Ta vrednost mora biti decimalno število."
 #: ../src/search.c:114
 #, fuzzy
 msgid "You must specify a range to search."
-msgstr "Določiti je treba pozdravno osebo.\n"
+msgstr "Določiti morate pozdravno osebo.\n"
 
 #: ../src/search.c:118
 #, fuzzy
 msgid "The search range is invalid."
-msgstr "Pot iskanja %s ni veljavna"
+msgstr "Vzorec za iskanje datotek je napačen."
 
 #: ../src/search.c:668
 #, fuzzy
@@ -11540,7 +11507,7 @@ msgstr "Osnovni niz"
 #: ../src/search.c:678
 #, fuzzy
 msgid "Should strings be searched?"
-msgstr "Imena spremenljivk morajo biti nizi"
+msgstr "Ali želite zamenjati datoteko %s?"
 
 #: ../src/search.c:686
 #, fuzzy
@@ -11550,12 +11517,12 @@ msgstr "Iskanje druge dokumentacije"
 #: ../src/search.c:687
 #, fuzzy
 msgid "Should non-strings be searched?"
-msgstr "Imena spremenljivk morajo biti nizi"
+msgstr "Ali so neštevilčne vrednosti prezrte"
 
 #: ../src/search.c:695
 #, fuzzy
 msgid "Search Expressions"
-msgstr "_Funkcije / izrazi"
+msgstr "Iskanje vnosa"
 
 #: ../src/search.c:696
 #, fuzzy
@@ -11584,7 +11551,7 @@ msgstr ""
 #: ../src/search.c:722
 #, fuzzy
 msgid "Search Scripts"
-msgstr "Razvojni skripti"
+msgstr "Iskanje vnosa"
 
 #: ../src/search.c:723
 msgid "Should scrips (workbook, and worksheet) be searched?"
@@ -11593,7 +11560,7 @@ msgstr ""
 #: ../src/search.c:731
 #, fuzzy
 msgid "Invert"
-msgstr "Obrni"
+msgstr "Preobrni"
 
 #: ../src/search.c:732
 #, fuzzy
@@ -11650,7 +11617,7 @@ msgstr "Izberite mapo, v kateri želite iskati"
 #: ../src/selection.c:349
 #, fuzzy, c-format
 msgid "%s does not support multiple ranges"
-msgstr "strežnik ne podpira omejitve prostora"
+msgstr "Shramba ne podpira mape INBOX"
 
 #: ../src/session.c:114
 #, c-format
@@ -11671,7 +11638,7 @@ msgstr ""
 #: ../src/session.c:126
 #, fuzzy
 msgid "Do not save any"
-msgstr "Vi nimate zemljevida"
+msgstr "_Ne prepiši slik"
 
 #: ../src/session.c:128
 #: ../src/session.c:131
@@ -11682,7 +11649,7 @@ msgstr "_Ne shrani"
 #: ../src/session.c:133
 #, fuzzy
 msgid "Do not log out"
-msgstr "Odjavi se _brez shranjevanja"
+msgstr "Zapri in se _odjavi"
 
 #. xgettext: This is a C format string where %d will be replaced
 #. by 1, 2, 3, or 4.  A year will then be appended and we'll get
@@ -11725,7 +11692,7 @@ msgstr "Vstavi _čas"
 #: ../src/sheet-control-gui.c:1861
 #, fuzzy
 msgid "_Delete Cells..."
-msgstr "_Izbriši datoteke"
+msgstr "Izbriši vejo"
 
 #: ../src/sheet-control-gui.c:1863
 #, fuzzy
@@ -11735,7 +11702,7 @@ msgstr "Vstavi stolpec"
 #: ../src/sheet-control-gui.c:1865
 #, fuzzy
 msgid "_Delete Column(s)"
-msgstr "Izbriši stolpec matrike"
+msgstr "Izbriši stolpec iz preglednice"
 
 #: ../src/sheet-control-gui.c:1867
 #, fuzzy
@@ -11745,7 +11712,7 @@ msgstr "Vstavi vrstico"
 #: ../src/sheet-control-gui.c:1869
 #, fuzzy
 msgid "_Delete Row(s)"
-msgstr "Izbriši vrstico matrike"
+msgstr "glava vrstice"
 
 #: ../src/sheet-control-gui.c:1872
 #, fuzzy
@@ -11765,12 +11732,12 @@ msgstr "_Uredi zaznamke ..."
 #: ../src/sheet-control-gui.c:1883
 #, fuzzy
 msgid "_Refresh DataSlicer"
-msgstr "Osveži _vpisnik"
+msgstr "Osveži _register"
 
 #: ../src/sheet-control-gui.c:1887
 #, fuzzy
 msgid "DataSlicer Field _Order "
-msgstr "Nepodprt vrsti red bajtov"
+msgstr "Obrni vrstni red seznama"
 
 #: ../src/sheet-control-gui.c:1896
 #, fuzzy
@@ -11786,7 +11753,7 @@ msgstr "Dol"
 #: ../src/sheet-control-gui.c:1906
 #, fuzzy
 msgid "_Format Cells..."
-msgstr "_Oblika = Povezana"
+msgstr "Izbor vrste zapisa:"
 
 #. Column specific (Note some labels duplicate row labels)
 #: ../src/sheet-control-gui.c:1910
@@ -11823,12 +11790,12 @@ msgstr "Hiperpovezava"
 #: ../src/sheet-control-gui.c:1928
 #, fuzzy
 msgid "Edit _Hyperlink"
-msgstr "Barva hiperpovezave"
+msgstr "<b>Določilo hiperpovezave</b>"
 
 #: ../src/sheet-control-gui.c:1931
 #, fuzzy
 msgid "_Remove Hyperlink"
-msgstr "Barva hiperpovezave"
+msgstr "<b>Določilo hiperpovezave</b>"
 
 #. This is somewhat cheesy and should use ngettext
 #: ../src/sheet-control-gui.c:2427
@@ -11874,7 +11841,7 @@ msgstr "Odpri v novih _oknih"
 #: ../src/sheet-object-graph.c:644
 #, fuzzy
 msgid "Series as:"
-msgstr "med tipkanjem"
+msgstr "Shrani _kot"
 
 #: ../src/sheet-object-graph.c:648
 #, fuzzy
@@ -12004,7 +11971,7 @@ msgstr "Prinesi na _vrh"
 #: ../src/sheet-object.c:165
 #, fuzzy
 msgid "Pull _Forward"
-msgstr "_Posreduj priloženo ..."
+msgstr "Posreduj _URI:"
 
 #: ../src/sheet-object.c:166
 #, fuzzy
@@ -12083,7 +12050,7 @@ msgstr "Ali naj bo preklopnik viden."
 #: ../src/sheet.c:845
 #, fuzzy
 msgid "Display Formulas"
-msgstr "Pokaži obvestilo"
+msgstr "Prikaz pomoči"
 
 #: ../src/sheet.c:846
 msgid "Control whether formulas are shown instead of values."
@@ -12092,7 +12059,7 @@ msgstr ""
 #: ../src/sheet.c:851
 #, fuzzy
 msgid "Display Zeros"
-msgstr "Pokaži obvestilo"
+msgstr "Prikaz pomoči"
 
 #: ../src/sheet.c:852
 msgid "Control whether zeros are shown are blanked out."
@@ -12120,7 +12087,7 @@ msgstr ""
 #: ../src/sheet.c:869
 #, fuzzy
 msgid "Display Row Headers"
-msgstr "Ne pokaži glav"
+msgstr "Počisti glave dejavnih vrstic"
 
 #: ../src/sheet.c:870
 msgid "Control whether row headers are shown."
@@ -12319,7 +12286,7 @@ msgstr "Izberite barvo ospredja"
 #: ../src/sheet.c:977
 #, fuzzy
 msgid "Tab Background"
-msgstr "Slika ozadja"
+msgstr "Lastnosti ozadja"
 
 #: ../src/sheet.c:978
 #, fuzzy
@@ -12442,7 +12409,7 @@ msgstr "Izvozi v Facebook"
 #: ../src/ssconvert.c:142
 #, fuzzy
 msgid "Goal seek areas"
-msgstr "Prilagodljiva besedilna območja"
+msgstr "Iskanje mesta"
 
 #: ../src/ssconvert.c:149
 #, fuzzy
@@ -12452,7 +12419,7 @@ msgstr "Zaženi izvedljivo datoteko ..."
 #: ../src/ssconvert.c:202
 #, fuzzy
 msgid "Cannot parse export options."
-msgstr "Ni mogoče izvoziti v datoteko {0}"
+msgstr "Ključa ni mogoče uporabiti"
 
 #: ../src/ssconvert.c:208
 #, c-format
@@ -12467,7 +12434,7 @@ msgstr ""
 #: ../src/ssconvert.c:457
 #, fuzzy, c-format
 msgid "Failed to create solver"
-msgstr "Napaka med ustvarjanjem uporabnika"
+msgstr "Napaka med ustvarjanjem cevi v '%s': %s"
 
 #: ../src/ssconvert.c:470
 #, c-format
@@ -12608,7 +12575,7 @@ msgstr "Prostor med celicami"
 #: ../src/ssgrep.c:363
 #, fuzzy
 msgid "result"
-msgstr "{0} zadetkov"
+msgstr "Rezultat"
 
 #: ../src/ssgrep.c:370
 #, fuzzy
@@ -12618,7 +12585,7 @@ msgstr "Opomba"
 #: ../src/ssgrep.c:427
 #, fuzzy
 msgid "PATTERN INFILE..."
-msgstr "_Vzorec imena datoteke"
+msgstr "Logični niz"
 
 #: ../src/ssgrep.c:441
 #, fuzzy, c-format
@@ -12631,12 +12598,12 @@ msgstr "Zahtvana SDL različica:"
 #: ../src/ssgrep.c:461
 #, fuzzy, c-format
 msgid "%s: Cannot read %s: %s\n"
-msgstr "Ni mogoče prebrati %s: %s"
+msgstr "\"%s\" ni mogoče brati"
 
 #: ../src/ssgrep.c:491
 #, fuzzy, c-format
 msgid "%s: Missing pattern\n"
-msgstr "_Vzorec imena datoteke"
+msgstr "Logični niz"
 
 #: ../src/ssindex.c:51
 msgid "List MIME types which ssindex is able to read"
@@ -12692,7 +12659,7 @@ msgstr "Kaj narediti z dinamičnim nazivom"
 #: ../src/stf-export.c:552
 #, fuzzy
 msgid "How should cells be formatted?"
-msgstr "Kako naj bo kodirano geslo"
+msgstr "Kako naj se osveži območje na zaslonu"
 
 #: ../src/stf-export.c:624
 msgid "Error while trying to export file as text"
@@ -12779,7 +12746,7 @@ msgstr "_Uvozi besedilo za urjenje"
 #: ../src/stf.c:588
 #, fuzzy
 msgid "Comma separated values (CSV)"
-msgstr "Vrednosti ločene z vejicami (.csv)"
+msgstr "Zapis vrednosti, ločenih z vejicami (.csv)"
 
 #: ../src/tools/analysis-anova.c:122
 msgid "ANOVA: Two-Factor Without Replication"
@@ -12897,24 +12864,24 @@ msgstr ""
 #: ../src/tools/analysis-chi-squared.c:184
 #, fuzzy, c-format
 msgid "Test of Independence (%s)"
-msgstr "<b>Spremenljivke testa</b>"
+msgstr "Rezultati preizkusa"
 
 #: ../src/tools/analysis-chi-squared.c:185
 #, fuzzy, c-format
 msgid "Test of Homogeneity (%s)"
-msgstr "<b>Spremenljivke testa</b>"
+msgstr "Rezultati preizkusa"
 
 #: ../src/tools/analysis-chi-squared.c:196
 #: ../src/tools/analysis-chi-squared.c:201
 #, fuzzy
 msgid "Test of Independence"
-msgstr "<b>Spremenljivke testa</b>"
+msgstr "Rezultati preizkusa"
 
 #: ../src/tools/analysis-chi-squared.c:197
 #: ../src/tools/analysis-chi-squared.c:202
 #, fuzzy
 msgid "Test of Homogeneity"
-msgstr "<b>Spremenljivke testa</b>"
+msgstr "Rezultati preizkusa"
 
 #: ../src/tools/analysis-exp-smoothing.c:114
 #: ../src/tools/analysis-exp-smoothing.c:289
@@ -12990,7 +12957,7 @@ msgstr ""
 #: ../src/tools/analysis-exp-smoothing.c:1364
 #, fuzzy, c-format
 msgid "Exponential Smoothing (%s)"
-msgstr "program potenčnega glajenja"
+msgstr "Eksponentno povprečje gibanja:"
 
 #: ../src/tools/analysis-frequency.c:77
 #, fuzzy
@@ -13002,7 +12969,7 @@ msgstr "Pokaži stolpec kategorij"
 #: ../src/tools/analysis-tools.c:1212
 #, fuzzy, c-format
 msgid "Area %d"
-msgstr "Območje"
+msgstr "Področje:"
 
 #: ../src/tools/analysis-frequency.c:269
 #, fuzzy, c-format
@@ -13037,12 +13004,12 @@ msgstr "Za"
 #: ../src/tools/analysis-histogram.c:255
 #, fuzzy
 msgid "\"from\" * General"
-msgstr "Splošne možnosti"
+msgstr "Splošna naprava"
 
 #: ../src/tools/analysis-histogram.c:255
 #, fuzzy
 msgid "\"above\" * General"
-msgstr "Splošne možnosti"
+msgstr "Splošna naprava"
 
 #: ../src/tools/analysis-histogram.c:259
 #, fuzzy
@@ -13141,13 +13108,13 @@ msgstr "Običajni nadzor"
 #: ../src/tools/analysis-normality.c:193
 #, fuzzy, c-format
 msgid "Normality Test (%s)"
-msgstr "<b>Spremenljivke testa</b>"
+msgstr "Rezultati preizkusa"
 
 #: ../src/tools/analysis-normality.c:204
 #: ../src/tools/analysis-normality.c:207
 #, fuzzy
 msgid "Normality Test"
-msgstr "<b>Spremenljivke testa</b>"
+msgstr "Rezultati preizkusa"
 
 #: ../src/tools/analysis-principal-components.c:67
 msgid "Principal components analysis has insufficient space."
@@ -13187,7 +13154,7 @@ msgstr ""
 #: ../src/tools/analysis-sign-test.c:375
 #, fuzzy, c-format
 msgid "Sign Test (%s)"
-msgstr "<b>Spremenljivke testa</b>"
+msgstr "Rezultati preizkusa"
 
 #: ../src/tools/analysis-tools.c:189
 #, fuzzy, c-format
@@ -13197,7 +13164,7 @@ msgstr "Smeti"
 #: ../src/tools/analysis-tools.c:193
 #, fuzzy, c-format
 msgid "Area %i"
-msgstr "Območje"
+msgstr "Področje:"
 
 #: ../src/tools/analysis-tools.c:278
 #, fuzzy, c-format
@@ -13206,21 +13173,21 @@ msgstr "Spremenljivka"
 
 #: ../src/tools/analysis-tools.c:660
 msgid "Correlations"
-msgstr ""
+msgstr "Korelacije"
 
 #: ../src/tools/analysis-tools.c:672
 #, c-format
 msgid "Correlation (%s)"
-msgstr ""
+msgstr "Korelacija (%s)"
 
 #: ../src/tools/analysis-tools.c:715
 msgid "Covariances"
-msgstr ""
+msgstr "Kovariance"
 
 #: ../src/tools/analysis-tools.c:727
 #, c-format
 msgid "Covariance (%s)"
-msgstr ""
+msgstr "Kovarianca (%s)"
 
 #.
 #. * Note to translators: in the following string and others like it,
@@ -13241,22 +13208,22 @@ msgstr "Znakovni nabor za datoteko %s je spremenjen iz \"%s\" v \"%s\"."
 #: ../src/tools/analysis-tools.c:1091
 #, c-format
 msgid "Largest (%d)"
-msgstr ""
+msgstr "Največje (%d)"
 
 #: ../src/tools/analysis-tools.c:1098
 #, c-format
 msgid "Smallest (%d)"
-msgstr ""
+msgstr "Najmanjša (%d)"
 
 #: ../src/tools/analysis-tools.c:1115
 #, fuzzy, c-format
 msgid "Descriptive Statistics (%s)"
-msgstr "<b>statistični podatki</b>"
+msgstr "Statistika dokumenta"
 
 #: ../src/tools/analysis-tools.c:1309
 #, fuzzy, c-format
 msgid "Sampling (%s)"
-msgstr "Deklaracija vzorčevanja"
+msgstr "YCbCr vzorčenje"
 
 #: ../src/tools/analysis-tools.c:1343
 #: ../src/tools/analysis-tools.c:1346
@@ -13344,7 +13311,7 @@ msgstr ""
 #: ../src/tools/analysis-tools.c:2951
 #, fuzzy
 msgid "\"Lower\" 0%"
-msgstr "Znižaj"
+msgstr "nizka"
 
 #: ../src/tools/analysis-tools.c:2952
 #, fuzzy
@@ -13467,13 +13434,13 @@ msgstr "Pravo ime:"
 #: ../src/tools/analysis-tools.c:4417
 #, fuzzy, c-format
 msgid "Fourier Series (%s)"
-msgstr "Izjava nanizanke"
+msgstr "Serija uMG"
 
 #: ../src/tools/analysis-tools.c:4429
 #: ../src/tools/analysis-tools.c:4432
 #, fuzzy
 msgid "Fourier Series"
-msgstr "Izjava nanizanke"
+msgstr "Serija uMG"
 
 #: ../src/tools/dao.c:171
 #, fuzzy
@@ -13508,7 +13475,7 @@ msgstr ""
 #: ../src/tools/fill-series.c:378
 #, fuzzy, c-format
 msgid "Fill Series (%s)"
-msgstr "Izjava nanizanke"
+msgstr "Serija uMG"
 
 #: ../src/tools/filter.c:140
 msgid "Filtered"
@@ -13605,7 +13572,7 @@ msgstr "Tiskalnik '%s' morda ni ustrezno priklopljen."
 #: ../src/tools/random-generator.c:655
 #, fuzzy, c-format
 msgid "Random Numbers (%s)"
-msgstr "Številke _strani"
+msgstr "Številke vrstic"
 
 #: ../src/tools/random-generator-cor.c:64
 msgid "Cholesky Decomposition of the Covariance Matrix"
@@ -13643,7 +13610,7 @@ msgstr ""
 #: ../src/tools/simulation.c:235
 #, fuzzy
 msgid "Simulation Report"
-msgstr "Naredi poročilo"
+msgstr "Poročilo enot"
 
 #: ../src/tools/simulation.c:248
 #, fuzzy
@@ -13663,11 +13630,11 @@ msgstr "Način"
 #: ../src/tools/simulation.c:252
 #, fuzzy
 msgid "Std. Dev."
-msgstr "Amazon razvijalna oznaka"
+msgstr "Gauss običajno odstopanje"
 
 #: ../src/tools/simulation.c:253
 msgid "Variance"
-msgstr ""
+msgstr "Varianca"
 
 #: ../src/tools/simulation.c:254
 msgid "Skewness"
@@ -13675,7 +13642,7 @@ msgstr ""
 
 #: ../src/tools/simulation.c:255
 msgid "Kurtosis"
-msgstr ""
+msgstr "Kurtosis"
 
 #: ../src/tools/simulation.c:256
 #, fuzzy
@@ -13715,7 +13682,7 @@ msgstr "Poročilo"
 #: ../src/tools/simulation.c:389
 #, fuzzy
 msgid "(Input) "
-msgstr "Vhod"
+msgstr "Vnesi"
 
 #: ../src/tools/simulation.c:404
 msgid "Maximum time exceeded. Simulation was not completed. "
@@ -13729,7 +13696,9 @@ msgstr ""
 #: ../src/validation.c:71
 #, fuzzy
 msgid "Between"
-msgstr "med"
+msgstr ""
+"Med {0} \n"
+"in {1}"
 
 #: ../src/validation.c:72
 #, fuzzy
@@ -13751,7 +13720,7 @@ msgstr "ni enako kot"
 #: ../src/validation.c:75
 #, fuzzy
 msgid "Greater Than"
-msgstr "je večje"
+msgstr "je večje kot"
 
 #: ../src/validation.c:76
 #, fuzzy
@@ -13776,7 +13745,7 @@ msgstr "Manjka recipročnost za %s povezavo"
 #: ../src/validation.c:288
 #, fuzzy
 msgid "Extra formula for validation"
-msgstr "Dodatni podatki za ta skok"
+msgstr "Dodatni cilj že obstaja za "
 
 #: ../src/validation.c:299
 #, fuzzy
@@ -13821,7 +13790,7 @@ msgstr "ni označeno"
 #: ../src/validation.c:502
 #, fuzzy, c-format
 msgid "%s is out of permitted range"
-msgstr "Indeks matrike je izven obsega"
+msgstr "Celoštevilska vrednost '%s' izven obsega"
 
 #: ../src/value.c:69
 msgid "#NULL!"
@@ -13915,13 +13884,13 @@ msgstr "Izbrani stolpci"
 #: ../src/wbc-gtk-actions.c:940
 #, fuzzy
 msgid "Show Detail"
-msgstr "Pokaži podrobnosti >>"
+msgstr "Preklop podrobnosti"
 
 #: ../src/wbc-gtk-actions.c:920
 #: ../src/wbc-gtk-actions.c:940
 #, fuzzy
 msgid "Hide Detail"
-msgstr "<< Skrij podrobnosti"
+msgstr "Preklop podrobnosti"
 
 #: ../src/wbc-gtk-actions.c:927
 msgid "can only be performed on an existing group"
@@ -13969,7 +13938,7 @@ msgstr "Zapiši sliko kot:"
 #: ../src/wbc-gtk-actions.c:1427
 #, fuzzy
 msgid "Format as Number"
-msgstr "Oblike negativnih števil"
+msgstr "Zapiši sliko kot:"
 
 #: ../src/wbc-gtk-actions.c:1443
 #, fuzzy
@@ -14020,7 +13989,7 @@ msgstr "Številčne natančnost"
 #: ../src/wbc-gtk-actions.c:1624
 #, fuzzy
 msgid "Toggle thousands separator"
-msgstr "Dodaj ločni_co podpisa"
+msgstr "Pokaži ločnico tisočic"
 
 #: ../src/wbc-gtk-actions.c:1632
 msgid "Copy down"
@@ -14129,7 +14098,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:1718
 #, fuzzy
 msgid "Fre_quency Tables"
-msgstr "ni razpredelnic, ustvarjanje ..."
+msgstr "Vse preglednice povezave:"
 
 #: ../src/wbc-gtk-actions.c:1719
 #, fuzzy
@@ -14151,7 +14120,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:1723
 #, fuzzy
 msgid "_Random Generators"
-msgstr "Naključni dokument"
+msgstr "Naključno gibanje"
 
 #: ../src/wbc-gtk-actions.c:1724
 #, fuzzy
@@ -14175,7 +14144,7 @@ msgstr "Pomo_č"
 #: ../src/wbc-gtk-actions.c:1730
 #, fuzzy
 msgid "Create a new workbook"
-msgstr "Ustvari nov račun"
+msgstr "Ustvari nove mape"
 
 #: ../src/wbc-gtk-actions.c:1733
 msgid "Open a file"
@@ -14351,7 +14320,7 @@ msgstr "Območje urejanje vnosa"
 #: ../src/wbc-gtk-actions.c:1826
 #, fuzzy
 msgid "Show Print Area"
-msgstr "Pokaži TV varno področje"
+msgstr "_Pokaži ikono na pladnju obvestil"
 
 #: ../src/wbc-gtk-actions.c:1827
 #, fuzzy
@@ -14408,12 +14377,12 @@ msgstr "Število celic v dokumentu."
 #: ../src/wbc-gtk-actions.c:1874
 #, fuzzy
 msgid "Select an entire column"
-msgstr "Izberi celotno pošto"
+msgstr "Izberi celotno stran"
 
 #: ../src/wbc-gtk-actions.c:1877
 #, fuzzy
 msgid "Select an entire row"
-msgstr "Izberi celotno pošto"
+msgstr "Izberi celotno stran"
 
 #: ../src/wbc-gtk-actions.c:1880
 msgid "Arra_y"
@@ -14516,12 +14485,12 @@ msgstr "Preimenuj trenutni pogled"
 #: ../src/wbc-gtk.c:499
 #, fuzzy
 msgid "Resize..."
-msgstr "Spremeni velikost ..."
+msgstr "_Spremeni velikost"
 
 #: ../src/wbc-gtk-actions.c:1922
 #, fuzzy
 msgid "Change the size of the current sheet"
-msgstr "Spremeni trenutno delovno mapo"
+msgstr "Trenutna mapa: %1 - skupaj: %2 b - lastna velikost: %3"
 
 #. Edit
 #: ../src/wbc-gtk-actions.c:1926
@@ -14560,7 +14529,7 @@ msgstr "_Poišči ..."
 #: ../src/wbc-gtk-actions.c:1938
 #, fuzzy
 msgid "Search for something"
-msgstr "_Išči po imenu:"
+msgstr "Iskanje ključne besede"
 
 #: ../src/wbc-gtk-actions.c:1940
 #, fuzzy
@@ -14673,7 +14642,7 @@ msgstr "_Slika ..."
 #: ../src/wbc-gtk-actions.c:1988
 #, fuzzy
 msgid "Insert an image"
-msgstr "Vstavi _sliko"
+msgstr "Vstavi sliko"
 
 #: ../src/wbc-gtk-actions.c:1991
 #, fuzzy
@@ -14683,7 +14652,7 @@ msgstr "Izbrana povezava"
 #: ../src/wbc-gtk-actions.c:1992
 #, fuzzy
 msgid "Insert a Hyperlink"
-msgstr "Barva hiperpovezave"
+msgstr "<b>Določilo hiperpovezave</b>"
 
 #. Insert -> Special
 #: ../src/wbc-gtk-actions.c:1995
@@ -14730,7 +14699,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:2015
 #, fuzzy
 msgid "_Auto generate names..."
-msgstr "Spreminjanje imena za:"
+msgstr "Razločevanje c++ imen simbolov"
 
 #: ../src/wbc-gtk-actions.c:2016
 msgid "Use the current selection to create names"
@@ -14750,12 +14719,12 @@ msgstr "Spremeni nastavitve trenutno izbranega veznika"
 #: ../src/wbc-gtk-actions.c:2024
 #, fuzzy
 msgid "View _Properties..."
-msgstr "Lastnosti ogleda"
+msgstr "Ogled lastnosti slike"
 
 #: ../src/wbc-gtk-actions.c:2025
 #, fuzzy
 msgid "Modify the view properties"
-msgstr "Ogled lastnosti datoteke"
+msgstr "Ogled lastnosti slike"
 
 #: ../src/wbc-gtk-actions.c:2027
 msgid "_Autoformat..."
@@ -14778,7 +14747,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:2035
 #, fuzzy
 msgid "_Width..."
-msgstr "ŠIRINA"
+msgstr "<b>Širina</b>"
 
 #: ../src/wbc-gtk-actions.c:2036
 #, fuzzy
@@ -14789,7 +14758,7 @@ msgstr "Vsi stolpci so enake širine"
 #: ../src/wbc-gtk-actions.c:2055
 #, fuzzy
 msgid "_Auto fit selection"
-msgstr "Skrči odložišče do prilagajanja z izborom"
+msgstr "Zapomni si izbiro"
 
 #: ../src/wbc-gtk-actions.c:2039
 msgid "Ensure columns are just wide enough to display content"
@@ -14807,7 +14776,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:2047
 #, fuzzy
 msgid "_Standard Width"
-msgstr "Nastavi širino"
+msgstr "širina zajemanja"
 
 #: ../src/wbc-gtk-actions.c:2048
 #, fuzzy
@@ -14841,7 +14810,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:2064
 #, fuzzy
 msgid "_Standard Height"
-msgstr "Nastavi višino"
+msgstr "višina zajemanja"
 
 #: ../src/wbc-gtk-actions.c:2065
 #, fuzzy
@@ -14861,7 +14830,7 @@ msgstr "izpiši enote, ki so na voljo"
 #: ../src/wbc-gtk-actions.c:2072
 #, fuzzy
 msgid "Auto _Correct..."
-msgstr "Pravilna oblika"
+msgstr "Pravilna izbira"
 
 #: ../src/wbc-gtk-actions.c:2073
 msgid "Automatically perform simple spell checking"
@@ -14918,13 +14887,13 @@ msgstr "_Dodaj ..."
 #: ../src/wbc-gtk-actions.c:2094
 #, fuzzy
 msgid "Add a new scenario"
-msgstr "Dodaj nov vnos"
+msgstr "Dodaj račun"
 
 #. Tools -> ANOVA
 #: ../src/wbc-gtk-actions.c:2098
 #, fuzzy
 msgid "_One Factor..."
-msgstr "Faktor kovinskosti [%]"
+msgstr "Korekcijski faktor"
 
 #: ../src/wbc-gtk-actions.c:2099
 msgid "One Factor Analysis of Variance..."
@@ -14933,7 +14902,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:2101
 #, fuzzy
 msgid "_Two Factor..."
-msgstr "Faktor kovinskosti [%]"
+msgstr "Korekcijski faktor"
 
 #: ../src/wbc-gtk-actions.c:2102
 msgid "Two Factor Analysis of Variance..."
@@ -14943,7 +14912,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:2106
 #, fuzzy
 msgid "Test of _Homogeneity..."
-msgstr "<b>Spremenljivke testa</b>"
+msgstr "Rezultati preizkusa"
 
 #: ../src/wbc-gtk-actions.c:2107
 msgid "Chi Squared Test of Homogeneity..."
@@ -14952,7 +14921,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:2109
 #, fuzzy
 msgid "Test of _Independence..."
-msgstr "<b>Spremenljivke testa</b>"
+msgstr "Rezultati preizkusa"
 
 #: ../src/wbc-gtk-actions.c:2110
 msgid "Chi Squared Test of Independence..."
@@ -14962,12 +14931,12 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:2114
 #, fuzzy
 msgid "_Exponential Smoothing..."
-msgstr "program potenčnega glajenja"
+msgstr "Eksponentno povprečje gibanja:"
 
 #: ../src/wbc-gtk-actions.c:2115
 #, fuzzy
 msgid "Exponential smoothing..."
-msgstr "program potenčnega glajenja"
+msgstr "Eksponentno povprečje gibanja:"
 
 #: ../src/wbc-gtk-actions.c:2117
 #, fuzzy
@@ -14983,7 +14952,7 @@ msgstr "Povprečje gibanja:"
 #: ../src/wbc-gtk-actions.c:2122
 #, fuzzy
 msgid "Fre_quency Tables..."
-msgstr "ni razpredelnic, ustvarjanje ..."
+msgstr "Vse preglednice povezave:"
 
 #: ../src/wbc-gtk-actions.c:2123
 msgid "Frequency tables for non-numeric data"
@@ -15002,7 +14971,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:2130
 #, fuzzy
 msgid "_Paired Samples: T-Test..."
-msgstr "20 jardni test gibljivosti"
+msgstr "Preizkus povratnega klica"
 
 #: ../src/wbc-gtk-actions.c:2131
 msgid "Comparing two population means for two paired samples: t-test..."
@@ -15027,7 +14996,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:2142
 #, fuzzy
 msgid "_Known Variances: Z-Test..."
-msgstr "20 jardni test gibljivosti"
+msgstr "Preizkus povratnega klica"
 
 #: ../src/wbc-gtk-actions.c:2143
 msgid "Comparing two population means from populations with known variances: z-test..."
@@ -15036,11 +15005,11 @@ msgstr ""
 #. Tools -> Analysis
 #: ../src/wbc-gtk-actions.c:2147
 msgid "_Correlation..."
-msgstr ""
+msgstr "_Korelacija ..."
 
 #: ../src/wbc-gtk-actions.c:2148
 msgid "Pearson Correlation"
-msgstr ""
+msgstr "Pearsonova korelacija"
 
 #: ../src/wbc-gtk-actions.c:2150
 #, fuzzy
@@ -15050,17 +15019,17 @@ msgstr "_Enota"
 #: ../src/wbc-gtk-actions.c:2153
 #, fuzzy
 msgid "_Descriptive Statistics..."
-msgstr "<b>statistični podatki</b>"
+msgstr "Statistika dokumenta"
 
 #: ../src/wbc-gtk-actions.c:2154
 #, fuzzy
 msgid "Various summary statistics"
-msgstr "Okno statistike Chronojump"
+msgstr "Statistika modula: %(name)s"
 
 #: ../src/wbc-gtk-actions.c:2156
 #, fuzzy
 msgid "_Fourier Analysis..."
-msgstr "Analiza teka"
+msgstr "Analiza zapisnikov"
 
 #: ../src/wbc-gtk-actions.c:2160
 #, fuzzy
@@ -15084,7 +15053,7 @@ msgstr "Enačba regresije"
 #: ../src/wbc-gtk-actions.c:2167
 #, fuzzy
 msgid "Regression Analysis"
-msgstr "Analiza teka"
+msgstr "Analiza zapisnikov"
 
 #: ../src/wbc-gtk-actions.c:2169
 msgid "_Sampling..."
@@ -15097,7 +15066,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:2172
 #, fuzzy
 msgid "_Two Variances: FTest..."
-msgstr "Usklajevanje dveh map"
+msgstr "Dvosmerno usklajevanje"
 
 #: ../src/wbc-gtk-actions.c:2173
 msgid "Comparing two population variances"
@@ -15199,7 +15168,7 @@ msgstr "Barva polnila:"
 #: ../src/wbc-gtk-actions.c:2209
 #, fuzzy
 msgid "Automatically fill the current selection"
-msgstr "Premik trenutnega izbora v odložišče"
+msgstr "Trenutna izbira (privzeto za dokument)"
 
 #: ../src/wbc-gtk-actions.c:2211
 msgid "_Merge..."
@@ -15246,7 +15215,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:2226
 #, fuzzy
 msgid "Fill downwards"
-msgstr "Premik navzdol"
+msgstr "Barva polnila:"
 
 #: ../src/wbc-gtk-actions.c:2227
 msgid "Copy the content from the top row to the cells below"
@@ -15255,7 +15224,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:2228
 #, fuzzy
 msgid "Fill to right"
-msgstr "Premik desno"
+msgstr "Z leve proti desni"
 
 #: ../src/wbc-gtk-actions.c:2229
 msgid "Copy the content from the left column to the cells on the right"
@@ -15265,7 +15234,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:2233
 #, fuzzy
 msgid "_Hide Detail"
-msgstr "<< Skrij podrobnosti"
+msgstr "Preklop podrobnosti"
 
 #: ../src/wbc-gtk-actions.c:2234
 #, fuzzy
@@ -15275,7 +15244,7 @@ msgstr "Skupina ne obstaja"
 #: ../src/wbc-gtk-actions.c:2236
 #, fuzzy
 msgid "_Show Detail"
-msgstr "Pokaži podrobnosti >>"
+msgstr "Preklop podrobnosti"
 
 #: ../src/wbc-gtk-actions.c:2237
 #, fuzzy
@@ -15312,12 +15281,12 @@ msgstr "Filtru dodaj pravilo"
 #: ../src/wbc-gtk-actions.c:2248
 #, fuzzy
 msgid "Add or remove a filter"
-msgstr "Dodaj ali odstrani kodni nabor znakov terminala"
+msgstr "Dodajte ali odstranite uporabnike in skupine"
 
 #: ../src/wbc-gtk-actions.c:2250
 #, fuzzy
 msgid "_Show All"
-msgstr "Pokaži vse"
+msgstr "Prikaz vsega"
 
 #: ../src/wbc-gtk-actions.c:2251
 msgid "Show all filtered and hidden rows"
@@ -15386,7 +15355,7 @@ msgstr "Vsota"
 #: ../src/wbc-gtk-actions.c:2275
 #, fuzzy
 msgid "Sum into the current cell"
-msgstr "Združi obstoječi projekt v trenutni projekt"
+msgstr "Združi uveljavitve v trenutno vejo"
 
 #: ../src/wbc-gtk-actions.c:2278
 msgid "Edit a function in the current cell"
@@ -15418,7 +15387,7 @@ msgstr "Potrditveno polje"
 #: ../src/wbc-gtk-actions.c:2293
 #, fuzzy
 msgid "Create a checkbox"
-msgstr "Ustvari novega uporabnika"
+msgstr "Ustvari vejo"
 
 #: ../src/wbc-gtk-actions.c:2295
 #, fuzzy
@@ -15448,7 +15417,7 @@ msgstr "VrtljivGumb"
 #: ../src/wbc-gtk-actions.c:2302
 #, fuzzy
 msgid "Create a spin button"
-msgstr "Vrtljiv gumb (logaritemski)"
+msgstr "Posodobi gumb za vrtenje"
 
 #: ../src/wbc-gtk-actions.c:2304
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:3
@@ -15588,7 +15557,7 @@ msgstr "Vstavi vsebino odložišča kot trenutni izbor"
 #: ../src/wbc-gtk-actions.c:2356
 #, fuzzy
 msgid "Format the selection as date"
-msgstr "Datum v katerikoli obliki"
+msgstr "Oblika zapisa datuma naziva opombe"
 
 #: ../src/wbc-gtk-actions.c:2359
 #, fuzzy
@@ -15602,7 +15571,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:2362
 #, fuzzy
 msgid "Add a border around the selection"
-msgstr "Obrez področja okoli izbora"
+msgstr "Rob okoli vrstice napredka"
 
 #: ../src/wbc-gtk-actions.c:2364
 msgid "ClearBorders"
@@ -15611,7 +15580,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:2365
 #, fuzzy
 msgid "Clear the border around the selection"
-msgstr "Obrez področja okoli izbora"
+msgstr "Rob okoli vrstice napredka"
 
 #: ../src/wbc-gtk-actions.c:2368
 msgid "Thousands Separator"
@@ -15648,7 +15617,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:2411
 #, fuzzy
 msgid "Display _Outlines"
-msgstr "Pokaži oris"
+msgstr "Prikaz pomoči"
 
 #: ../src/wbc-gtk-actions.c:2412
 msgid "Toggle whether or not to display outline groups"
@@ -15657,7 +15626,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:2414
 #, fuzzy
 msgid "Outlines _Below"
-msgstr "Nastavljanje spodaj\n"
+msgstr "Vrstica pod"
 
 #: ../src/wbc-gtk-actions.c:2415
 msgid "Toggle whether to display row outlines on top or bottom"
@@ -15666,7 +15635,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:2417
 #, fuzzy
 msgid "Outlines _Right"
-msgstr "Desni palec"
+msgstr "Poravnava desno"
 
 #: ../src/wbc-gtk-actions.c:2418
 msgid "Toggle whether to display column outlines on the left or right"
@@ -15675,7 +15644,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:2420
 #, fuzzy
 msgid "Display _Formulas"
-msgstr "Pokaži obvestilo"
+msgstr "Prikaz pomoči"
 
 #: ../src/wbc-gtk-actions.c:2421
 msgid "Display the value of a formula or the formula itself"
@@ -15762,7 +15731,7 @@ msgstr "Poravnava desno"
 #: ../src/wbc-gtk-actions.c:2451
 #, fuzzy
 msgid "_Center Across Selection"
-msgstr "Možnosti izbire datoteke"
+msgstr "Zapomni si izbiro"
 
 #: ../src/wbc-gtk-actions.c:2452
 #: ../src/wbc-gtk-actions.c:2515
@@ -15886,7 +15855,7 @@ msgstr "Nadpisano"
 #. from icon theme
 #: ../src/wbc-gtk-actions.c:2503
 msgid "Subscrip_t"
-msgstr ""
+msgstr "_Podpisano"
 
 #: ../src/wbc-gtk-actions.c:2504
 msgid "Subscript"
@@ -15958,7 +15927,7 @@ msgstr "Drugi listi"
 #: ../src/wbc-gtk.c:495
 #, fuzzy
 msgid "Append"
-msgstr "Pripni"
+msgstr "Združi"
 
 #: ../src/wbc-gtk.c:496
 #, fuzzy
@@ -16002,7 +15971,7 @@ msgstr "Zgornji levi kot platna zaslona"
 #: ../src/wbc-gtk.c:1565
 #, fuzzy
 msgid "Remove _Auto Filter"
-msgstr "Določi filter imen datoteke"
+msgstr "Filtriraj _skrite datoteke"
 
 #: ../src/wbc-gtk.c:1568
 #, fuzzy
@@ -16017,7 +15986,7 @@ msgstr "_Dodaj filter"
 #: ../src/wbc-gtk.c:1576
 #, fuzzy
 msgid "Remove _Data Slicer"
-msgstr "Odstranim obstoječe podatke na logičnem nosilcu?"
+msgstr "Pripni prenesene podatke"
 
 #: ../src/wbc-gtk.c:1577
 #, fuzzy
@@ -16027,7 +15996,7 @@ msgstr "Ustvarite podatkovni CD/DVD"
 #: ../src/wbc-gtk.c:1579
 #, fuzzy
 msgid "Remove a Data Slicer"
-msgstr "Odstranim obstoječe podatke na logičnem nosilcu?"
+msgstr "Pripni prenesene podatke"
 
 #: ../src/wbc-gtk.c:1580
 #, fuzzy
@@ -16037,12 +16006,12 @@ msgstr "Ustvarite podatkovni CD/DVD"
 #: ../src/wbc-gtk.c:1623
 #, fuzzy, c-format
 msgid "Save changes to workbook '%s' before closing?"
-msgstr "Ali želite shraniti spremembe v dokumentu \"%s\" pred zapiranjem?"
+msgstr "Ali naj se shranijo spremembe slike \"%s\" pred zapiranjem?"
 
 #: ../src/wbc-gtk.c:1628
 #, fuzzy
 msgid "Save changes to workbook before closing?"
-msgstr "Ali želite shraniti spremembe v dokumentu \"%s\" pred zapiranjem?"
+msgstr "Ali naj se shranijo spremembe slike \"%s\" pred zapiranjem?"
 
 #: ../src/wbc-gtk.c:1635
 #, fuzzy
@@ -16168,7 +16137,7 @@ msgstr "Nariši okvirje"
 #: ../src/wbc-gtk.c:2758
 #, fuzzy
 msgid "Borders"
-msgstr "Borders"
+msgstr "Nariši okvirje"
 
 #: ../src/wbc-gtk.c:2898
 #, fuzzy
@@ -16236,22 +16205,22 @@ msgstr "Skrij"
 #: ../src/wbc-gtk.c:3697
 #, fuzzy
 msgid "Standard Toolbar"
-msgstr "Pokaži orodno vrstico"
+msgstr "Prikaži orodno vrstico."
 
 #: ../src/wbc-gtk.c:3698
 #, fuzzy
 msgid "Format Toolbar"
-msgstr "Pokaži orodno vrstico"
+msgstr "Prikaži orodno vrstico."
 
 #: ../src/wbc-gtk.c:3699
 #, fuzzy
 msgid "Long Format Toolbar"
-msgstr "*Dolg zapis datuma"
+msgstr "Uporabi zapis v dolgi obliki"
 
 #: ../src/wbc-gtk.c:3700
 #, fuzzy
 msgid "Object Toolbar"
-msgstr "Pokaži orodno vrstico"
+msgstr "Prikaži orodno vrstico."
 
 #: ../src/wbc-gtk.c:3714
 #, fuzzy, c-format
@@ -16261,7 +16230,7 @@ msgstr "Pokaži ali skrij orodno vrstico"
 #: ../src/wbc-gtk.c:4349
 #, fuzzy
 msgid "Use maximum precision"
-msgstr "Natančnost plavajoče vejice"
+msgstr "Natančnost vektorjev gibanja"
 
 #: ../src/wbc-gtk.c:4361
 #, fuzzy
@@ -16357,7 +16326,7 @@ msgstr "Polja povezana z <b>%s</b> vrsto vnosa"
 
 #: ../src/widgets/gnumeric-expr-entry.c:950
 msgid "WBCGtk"
-msgstr ""
+msgstr "WBCGtk"
 
 #: ../src/widgets/gnumeric-expr-entry.c:951
 msgid "The toplevel GUI container associated with the entry."
@@ -16366,7 +16335,7 @@ msgstr ""
 #: ../src/widgets/gnumeric-expr-entry.c:958
 #, fuzzy
 msgid "Constant Format"
-msgstr "_Oblika = Povezana"
+msgstr "Izbor vrste zapisa:"
 
 #: ../src/widgets/gnumeric-expr-entry.c:959
 #, fuzzy
@@ -16376,7 +16345,7 @@ msgstr "_Vprašaj za zapis"
 #: ../src/widgets/gnumeric-expr-entry.c:1739
 #, fuzzy, c-format
 msgid "Expecting a single range"
-msgstr "Vrednost je izven območja.\n"
+msgstr "Točke, ki pokrivajo Y območje"
 
 #: ../src/widgets/gnm-sheet-slicer-combo-view.c:116
 #, fuzzy
@@ -16413,7 +16382,7 @@ msgstr ""
 #: ../src/widgets/gnumeric-text-view.c:255
 #, fuzzy
 msgid "Heavy"
-msgstr "Močno pršenje"
+msgstr "Težki metal"
 
 #: ../src/widgets/gnumeric-text-view.c:256
 msgid "Ultraheavy"
@@ -16422,7 +16391,7 @@ msgstr ""
 #: ../src/widgets/widget-font-selector.c:199
 #, fuzzy
 msgid "Bold italic"
-msgstr "Krepko poševno"
+msgstr "Poševno besedilo"
 
 #: ../src/workbook-cmd-format.c:79
 #, fuzzy
@@ -16437,7 +16406,7 @@ msgstr "Zmanjšaj zamik"
 #: ../src/workbook-control.c:207
 #, fuzzy
 msgid "Define Name"
-msgstr "Polno _Ime:"
+msgstr "Ime pravila:"
 
 #: ../src/workbook-control.c:240
 msgid "Cannot jump to an invisible sheet"
@@ -16499,9 +16468,7 @@ msgstr ""
 #: ../src/workbook-view.c:836
 #, fuzzy
 msgid "Auto-expression text"
-msgstr ""
-"Navedeno besedilo\n"
-"logični izraz:"
+msgstr "Besedilo za izris"
 
 #: ../src/workbook-view.c:837
 msgid "Displayed text for the automatically computed sheet function."
@@ -16530,7 +16497,7 @@ msgstr "Vedenje navpičnega drsnika"
 #: ../src/workbook-view.c:863
 #, fuzzy
 msgid "Show notebook tabs"
-msgstr "Pokaži z_avihke predalov"
+msgstr "_Vedno pokaži zavihke"
 
 #: ../src/workbook-view.c:864
 msgid "Show the notebook tabs for sheets"
@@ -16655,7 +16622,7 @@ msgstr "Drugi listi"
 #: ../src/workbook.c:1407
 #, fuzzy
 msgid "Changing sheet order"
-msgstr "Nepodprt vrsti red bajtov"
+msgstr "Obrni vrstni red seznama"
 
 #: ../src/workbook.c:1409
 #, fuzzy
@@ -16702,7 +16669,7 @@ msgstr "Gnumeric XML (*.gnumeric)"
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:1
 #, fuzzy
 msgid "A button like template"
-msgstr "S predlogo ujemajoče se pravilo"
+msgstr "Viden seznam predlog"
 
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:3
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:2
