@@ -8,6 +8,7 @@ Andreas:
 	* Implement first letter capitalization. [#613768]
 	* Extend regression tool to perform multiple simple regressions.
 	  [#614031]
+	* Fix ZTEST description. [#614746]
 
 Morten:
 	* Improve object sizing tooltip positioning a bit.

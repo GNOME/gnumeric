@@ -2487,13 +2487,18 @@ gnumeric_steyx (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_ztest[] = {
-	{ GNM_FUNC_HELP_NAME, F_("ZTEST:p-value of a 2-tailed z-test for a population mean")},
-	{ GNM_FUNC_HELP_ARG, F_("ref:data set")},
-	{ GNM_FUNC_HELP_ARG, F_("x:mean as given in the null hypothesis")},
+	{ GNM_FUNC_HELP_NAME, F_("ZTEST:the probability of observing a sample mean as large as "
+				 "or larger than the mean of the given sample")},
+	{ GNM_FUNC_HELP_ARG, F_("ref:data set (sample)")},
+	{ GNM_FUNC_HELP_ARG, F_("x:population mean")},
 	{ GNM_FUNC_HELP_ARG, F_("stddev:population standard deviation, defaults to the sample standard deviation")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("ZTEST calulates the probability of observing a sample mean as large as "
+				 "or larger than the mean of the given sample for samples drawn "
+				 "from a normal distribution with mean @{x} and standard deviation @{stddev}.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{ref} contains less than two data items ZTEST "
 				 "returns #DIV/0! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
 				     "11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then ZTEST(A1:A5,20) equals 0.254717826.")},
@@ -4890,7 +4895,7 @@ static GnmFuncHelp const help_permutationa[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If both @{x} and @{y} equal 0, PERMUTATIONA returns 1.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < 0 or @{y} < 0, PERMUTATIONA returns #NUM!") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{y} are not integers, they are truncated") },
-	{ GNM_FUNC_HELP_ODF, F_("This function is ODF compatible.") },
+	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=PERMUTATIONA(2,7)" },
         { GNM_FUNC_HELP_EXAMPLES, "=PERMUTATIONA(2.3,7.6)" },
         { GNM_FUNC_HELP_EXAMPLES, "=PERMUTATIONA(0,0)" },

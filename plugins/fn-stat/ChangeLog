@@ -1,3 +1,8 @@
+2010-04-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_ztest): fix description. [#614746]
+	(help_permutationa): Fix ODF string
+
 2010-03-08  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.1
