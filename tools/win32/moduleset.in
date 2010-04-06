@@ -198,6 +198,7 @@
 		version="2.18.5">
 	    <patch file="&patch_dir;gtk-disable-demo.patch"/>
 	    <patch file="&patch_dir;gtk-use-wine-to-cross-compile.patch"/>
+	    <patch file="&patch_dir;gtk-gdk-expose-order.patch" strip="1"/>
 	</branch>
 	<dependencies>
 	    <dep package="glib"/>
@@ -353,7 +354,7 @@
 	    <dep package="pcre"/>
 	    <dep package="libxml2"/>
 	    <dep package="pango"/>
-	    <dep package="lasem"/>
+	    <!-- <dep package="lasem"/> -->
 	</dependencies>
     </autotools>
     <autotools id="gnumeric">
@@ -363,9 +364,9 @@
 	    <dep package="libglade"/>
 	</dependencies>
 	<suggests>
-	    <dep package="libgda"/>
-	    <dep package="lp_solve"/>
-	    <dep package="psiconv"/>
+	    <!-- <dep package="libgda"/> -->
+	    <!-- <dep package="lp_solve"/> -->
+	    <!-- <dep package="psiconv"/> -->
 	    <dep package="pxlib"/>
 	    <dep package="pygobject"/>
 	</suggests>

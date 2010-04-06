@@ -1,0 +1,81 @@
+diff -ur gtk+-2.18.5/gdk/gdkwindow.c gtk+-2.18.5.new/gdk/gdkwindow.c
+--- gtk+-2.18.5/gdk/gdkwindow.c	2009-12-08 10:13:05.000000000 -0500
++++ gtk+-2.18.5.new/gdk/gdkwindow.c	2010-04-05 18:38:41.000000000 -0400
+@@ -4569,7 +4569,7 @@
+   region = gdk_region_rectangle (&rect);
+   gdk_window_clear_region_internal (window,
+ 				    region,
+-				    FALSE);
++				    send_expose);
+   gdk_region_destroy (region);
+ 
+ }
+@@ -5008,7 +5008,7 @@
+       /*  if "window" has an ancestor in the list and tmp is one of
+        *  "window's" children, insert "window" before tmp
+        */
+-      if (has_ancestor_in_list && gdk_window_is_ancestor (tmp->data, window))
++      if (gdk_window_is_ancestor (tmp->data, window))
+ 	{
+ 	  tmp = g_slist_prepend (tmp, window);
+ 
+@@ -5086,6 +5086,7 @@
+   GdkRegion *child_region;
+   GdkRectangle r;
+   GList *l, *children;
++  GList *csw_children = NULL, *csw_regions = NULL;
+ 
+   if (gdk_region_empty (expose_region))
+     return;
+@@ -5127,19 +5128,20 @@
+ 	  gdk_region_intersect (child_region, expose_region);
+ 	  gdk_region_subtract (expose_region, child_region);
+ 	  gdk_region_offset (child_region, -child->x, -child->y);
+-	  _gdk_window_process_updates_recurse ((GdkWindow *)child, child_region);
++
++	  csw_children = g_list_prepend (csw_children, child);
++	  csw_regions = g_list_prepend (csw_regions, child_region);
++	  child_region = NULL;
+ 	}
+       else
+ 	{
+ 	  /* Native child, just remove area from expose region */
+ 	  gdk_region_subtract (expose_region, child_region);
+ 	}
+-      gdk_region_destroy (child_region);
++      if (child_region)
++	gdk_region_destroy (child_region);
+     }
+ 
+-  g_list_foreach (children, (GFunc)g_object_unref, NULL);
+-  g_list_free (children);
+-
+   if (!gdk_region_empty (expose_region) &&
+       !private->destroyed)
+     {
+@@ -5177,6 +5179,25 @@
+ 	  gdk_window_end_paint (window);
+ 	}
+     }
++
++  csw_children = g_list_reverse (csw_children);
++  csw_regions = g_list_reverse (csw_regions);
++  while (csw_children)
++    {
++      child = csw_children->data;
++      child_region = csw_regions->data;
++
++      _gdk_window_process_updates_recurse ((GdkWindow *)child, child_region);
++
++      gdk_region_destroy (child_region);
++
++      csw_children = g_list_delete_link (csw_children, csw_children);
++      csw_regions = g_list_delete_link (csw_regions, csw_regions);
++    }
++
++
++  g_list_foreach (children, (GFunc)g_object_unref, NULL);
++  g_list_free (children);
+ }
+ 
+ /* Process and remove any invalid area on the native window by creating
