@@ -2,8 +2,8 @@
 <!DOCTYPE doc [
 ]>
 <moduleset>
-    <repository type="svn" name="svn.gnome.org" default="yes"
-		href="http://svn.gnome.org/svn/"/>
+    <repository type="git" name="git.gnome.org" default="yes"
+		href="git://git.gnome.org/"/>
 
     <autotools id="libgsf" version="trunk">
 	<branch/>

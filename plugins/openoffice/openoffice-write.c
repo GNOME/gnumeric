@@ -3202,14 +3202,17 @@ odf_write_manifest (GnmOOExport *state, GsfOutput *child)
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:manifest",
 		"urn:oasis:names:tc:opendocument:xmlns:manifest:1.0");
 	odf_file_entry (xml, "application/vnd.oasis.opendocument.spreadsheet" ,"/");
-	odf_file_entry (xml, "", "Pictures/");
 	odf_file_entry (xml, "text/xml", "content.xml");
 	odf_file_entry (xml, "text/xml", "styles.xml");
 	odf_file_entry (xml, "text/xml", "meta.xml");
 	odf_file_entry (xml, "text/xml", "settings.xml");
 
-	state->xml = xml;
-	g_hash_table_foreach (state->objects, (GHFunc) odf_write_graph_manifest, state);
+	if (g_hash_table_size (state->objects) > 0) {
+		odf_file_entry (xml, "", "Pictures/");
+		state->xml = xml;
+		g_hash_table_foreach (state->objects, (GHFunc) odf_write_graph_manifest, state);
+		state->xml = NULL;
+	}
 
 	gsf_xml_out_end_element (xml); /* </manifest:manifest> */
 	g_object_unref (xml);

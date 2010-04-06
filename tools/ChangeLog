@@ -1,3 +1,7 @@
+2010-04-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* moduleset: use git not svn
+
 2010-03-08  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.1

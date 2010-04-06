@@ -9,6 +9,7 @@ Andreas:
 	* Extend regression tool to perform multiple simple regressions.
 	  [#614031]
 	* Fix ZTEST description. [#614746]
+	* Don't write unnecessary manifest entries in ODF export.
 
 Morten:
 	* Improve object sizing tooltip positioning a bit.
