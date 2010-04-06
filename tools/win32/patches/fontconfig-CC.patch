@@ -14,24 +14,3 @@ Index: configure.in
  AC_MSG_RESULT([$CC_FOR_BUILD])
  AC_SUBST(CC_FOR_BUILD)
  
-Index: src/fcint.h
-===================================================================
-*** src/fcint.h	Wed Jun 24 13:52:13 2009
---- src/fcint.h	Sun Jun 28 16:25:38 2009
-***************
-*** 538,544 ****
-  
-  #ifdef _WIN32
-  FcPrivate int
-! FcStat (const char *file, struct stat *statb)
-  #else
-  #define FcStat stat
-  #endif
---- 538,544 ----
-  
-  #ifdef _WIN32
-  FcPrivate int
-! FcStat (const char *file, struct stat *statb);
-  #else
-  #define FcStat stat
-  #endif

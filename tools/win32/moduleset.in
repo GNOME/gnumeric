@@ -66,7 +66,7 @@
     </autotools>
 
     <autotools id="glib">
-	<branch repo="gnome.org" module="sources/glib/2.22/glib-2.22.3.tar.bz2" version="2.22.3">
+	<branch repo="gnome.org" module="sources/glib/2.24/glib-2.24.0.tar.bz2" version="2.22.3">
 	    <patch file="&patch_dir;glib-win32-cachefile.patch.gz"/>
 	    <patch file="&patch_dir;glib-goption-disable-localization.patch"/>
 	    <patch file="&patch_dir;glib-disable-python.patch" strip="1"/>
@@ -164,7 +164,7 @@
 
     <autotools id="fontconfig"
 	autogen-sh="autoreconf"  skip-autogen="never">
-	<branch repo="fontconfig" module="fontconfig-2.7.0.tar.gz" version="2.7.0">
+	<branch repo="fontconfig" module="fontconfig-2.8.0.tar.gz" version="2.8.0">
 	    <patch file="&patch_dir;fontconfig-CC.patch"/>
 	</branch>
 	<dependencies>
@@ -174,7 +174,7 @@
     </autotools>
 
     <autotools id="pango">
-	<branch repo="gnome.org" module="sources/pango/1.26/pango-1.26.2.tar.bz2" version="1.26.2">
+	<branch repo="gnome.org" module="sources/pango/1.28/pango-1.28.0.tar.bz2" version="1.28.0">
 	  <patch file="&patch_dir;pango-no-introspection.patch"/>
 	</branch>
 	<dependencies>
@@ -187,14 +187,14 @@
     </autotools>
 
     <autotools id="atk">
-	<branch repo="gnome.org" module="sources/atk/1.28/atk-1.28.0.tar.bz2" version="1.28.0"/>
+	<branch repo="gnome.org" module="sources/atk/1.30/atk-1.30.0.tar.bz2" version="1.30.0"/>
 	<dependencies>
 	    <dep package="glib"/>
 	</dependencies>
     </autotools>
 
     <autotools id="gtk+">
-	<branch repo="gnome.org" module="sources/gtk+/2.18/gtk+-2.18.5.tar.bz2"
+	<branch repo="gnome.org" module="sources/gtk+/2.20/gtk+-2.20.0.tar.bz2"
 		version="2.18.5">
 	    <patch file="&patch_dir;gtk-disable-demo.patch"/>
 	    <patch file="&patch_dir;gtk-use-wine-to-cross-compile.patch"/>

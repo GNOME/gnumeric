@@ -64,7 +64,7 @@
  
  example.exe: example.o $(STATICLIB)
  	$(LD) $(LDFLAGS) -o $@ example.o $(STATICLIB)
-@@ -106,11 +105,9 @@
+@@ -106,11 +105,10 @@
  .PHONY: install uninstall clean
  
  install: zlib.h zconf.h $(LIB)
@@ -74,6 +74,7 @@
  	-$(INSTALL) zconf.h $(INCLUDE_PATH)
 -	-$(INSTALL) $(STATICLIB) $(LIBRARY_PATH)
 +	-$(INSTALL) $(STATICLIB) $(exec_prefix)
++	-$(INSTALL) $(SHAREDLIB) $(exec_prefix)
  	-$(INSTALL) $(IMPLIB) $(LIBRARY_PATH)
  
  uninstall:

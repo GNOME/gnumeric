@@ -1,15 +1,6 @@
 diff -ur gtk+-2.18.5/gdk/gdkwindow.c gtk+-2.18.5.new/gdk/gdkwindow.c
 --- gtk+-2.18.5/gdk/gdkwindow.c	2009-12-08 10:13:05.000000000 -0500
 +++ gtk+-2.18.5.new/gdk/gdkwindow.c	2010-04-05 18:38:41.000000000 -0400
-@@ -4569,7 +4569,7 @@
-   region = gdk_region_rectangle (&rect);
-   gdk_window_clear_region_internal (window,
- 				    region,
--				    FALSE);
-+				    send_expose);
-   gdk_region_destroy (region);
- 
- }
 @@ -5008,7 +5008,7 @@
        /*  if "window" has an ancestor in the list and tmp is one of
         *  "window's" children, insert "window" before tmp
