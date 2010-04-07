@@ -519,6 +519,7 @@ static GnmFuncHelp const help_opt_bs_rho[] = {
 					"on an asset with spot price @{spot}. The rho of an "
 					"option is the rate of change of its price with "
 					"respect to the risk free interest rate.")},
+	/* xgettext:no-c-format */
 	{ GNM_FUNC_HELP_NOTE, F_("Rho is expressed as the rate of change "
 				 "of the option value, per 100% change in @{rate}.")},
         { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_THETA,OPT_BS_VEGA,OPT_BS_GAMMA"},
