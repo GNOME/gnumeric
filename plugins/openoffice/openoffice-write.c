@@ -741,7 +741,8 @@ odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
 			/* Note that we will be setting style:writing-mode-automatic below */
 			break;
 		}
-		gsf_xml_out_add_cstr (state->xml, STYLE "writing-mode", writing_mode);
+		if (get_gsf_odf_version () > 101)
+			gsf_xml_out_add_cstr (state->xml, STYLE "writing-mode", writing_mode);
 		if (direction != NULL)
 			gsf_xml_out_add_cstr (state->xml, FOSTYLE "direction", direction);
 		gsf_xml_out_add_cstr (state->xml, STYLE "glyph-orientation-vertical", "auto");
@@ -789,6 +790,30 @@ odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
 					      gnm_input_msg_get_msg (msg));		}
 	}
 
+/* Horizontal Alignment */
+	if (gnm_style_is_element_set (style, MSTYLE_ALIGN_H)) {
+		GnmHAlign align = gnm_style_get_align_h (style);
+		char const *source = NULL;
+		switch (align) {
+		case HALIGN_LEFT:
+		case HALIGN_RIGHT:
+		case HALIGN_CENTER:
+		case HALIGN_JUSTIFY:
+		        source = "fix";
+			break;
+		case HALIGN_GENERAL:
+		case HALIGN_FILL:
+		case HALIGN_CENTER_ACROSS_SELECTION:
+		case HALIGN_DISTRIBUTED:
+		default:
+			/* Note that since source is value-type, alignment should be ignored */
+                        /*(but isn't by OOo) */
+			source = "value-type";
+			break;
+		}
+		gsf_xml_out_add_cstr (state->xml, STYLE "text-align-source", source);
+	}
+
 	gsf_xml_out_end_element (state->xml); /* </style:table-cell-properties */
 
 }
@@ -808,7 +833,6 @@ odf_write_style_paragraph_properties (GnmOOExport *state, GnmStyle const *style)
 	if (gnm_style_is_element_set (style, MSTYLE_ALIGN_H)) {
 		GnmHAlign align = gnm_style_get_align_h (style);
 		char const *alignment = NULL;
-		char const *source = "fix";
 		gboolean gnum_specs = FALSE;
 		switch (align) {
 		case HALIGN_LEFT:
@@ -831,13 +855,11 @@ odf_write_style_paragraph_properties (GnmOOExport *state, GnmStyle const *style)
 			/* Note that since source is value-type, alignment should be ignored */
                         /*(but isn't by OOo) */
 			alignment = "start";
-			source = "value-type";
 			gnum_specs = TRUE;
 			break;
 		}
 		if (align != HALIGN_GENERAL)
 			gsf_xml_out_add_cstr (state->xml, FOSTYLE "text-align", alignment);
-		gsf_xml_out_add_cstr (state->xml, STYLE "text-align-source", source);
 		if (gnum_specs && state->with_extension)
 			gsf_xml_out_add_int (state->xml, GNMSTYLE "GnmHAlign", align);
 	}
@@ -915,7 +937,7 @@ odf_write_style_text_properties (GnmOOExport *state, GnmStyle const *style)
 		}
 /* Font Size */
 	if (gnm_style_is_element_set (style, MSTYLE_FONT_SIZE))
-		gsf_xml_out_add_int (state->xml, FOSTYLE "font-size",
+		odf_add_pt (state->xml, FOSTYLE "font-size",
 				     gnm_style_get_font_size (style));
 /* Foreground Color */
 	if (gnm_style_is_element_set (style, MSTYLE_FONT_COLOR))

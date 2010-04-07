@@ -1,5 +1,9 @@
 Gnumeric 1.10.2
 
+Alexander Kahl & Sven Mantei:
+
+	* Some documentation updates
+
 Andreas:
 
 	* Fix build with --disable-solver. [#612820]
@@ -10,6 +14,7 @@ Andreas:
 	  [#614031]
 	* Fix ZTEST description. [#614746]
 	* Don't write unnecessary manifest entries in ODF export.
+	* Various ODF export fixes.
 
 Morten:
 	* Improve object sizing tooltip positioning a bit.

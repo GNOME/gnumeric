@@ -1,3 +1,12 @@
+2010-04-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_style_cell_properties): 
+	  style:writing-mode in cell styles requires ODF 1.2
+	  style:text-align-source needs to be set here
+	(odf_write_style_paragraph_properties): not here
+	(odf_write_style_text_properties): font sizes must be lengths not
+	  just integers
+
 2010-04-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_manifest): only write a manifest

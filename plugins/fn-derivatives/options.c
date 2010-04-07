@@ -455,6 +455,7 @@ static GnmFuncHelp const help_opt_bs_vega[] = {
 					"option is the rate of change of its price with "
 					"respect to volatility.")},
 	{ GNM_FUNC_HELP_NOTE, F_("Vega is the same for calls and puts.")},
+	/* xgettext:no-c-format */
 	{ GNM_FUNC_HELP_NOTE, F_("Vega is expressed as the rate of change "
 				 "of option value, per 100% volatility.")},
         { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
@@ -575,6 +576,7 @@ static GnmFuncHelp const help_opt_bs_carrycost[] = {
 					"on an asset with spot price @{spot}. The elasticity of an option "
 					"is the rate of change of its price "
 					"with respect to its @{cost_of_carry}.")},
+	/* xgettext:no-c-format */
 	{ GNM_FUNC_HELP_NOTE, F_("Elasticity is expressed as the rate of change "
 				 "of the option value, per 100% volatility.")},
         { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},

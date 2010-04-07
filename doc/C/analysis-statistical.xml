@@ -2534,9 +2534,7 @@
   </figure>
   <para>The regression tool performs a multiple regression analysis.</para>
   <para>Enter a range or list of ranges containing the independent variables 
-  into the <quote><guilabel>X Variables:</guilabel></quote> entry. These ranges 
-  can be grouped into the various independent variables by columns, by rows, 
-  or by areas. Select the appropriate option.</para>
+  into the <quote><guilabel>X Variables:</guilabel></quote> entry.</para>
   <para>Enter a single range containing the dependent variable into the
    <quote><guilabel>Y Variable:</guilabel></quote> entry.</para>
   <para>If the ranges for the independent and dependent variables also contains 
@@ -2578,19 +2576,13 @@
     variable.</para>
 <orderedlist>
      <listitem><para>
-     Enter B1:B9,E1:E9 in the <quote><guilabel>X Variables:</guilabel></quote> 
+     Enter B1:C11 in the <quote><guilabel>X Variables:</guilabel></quote> 
      entry by typing 
      this directly into the entry or clicking in the entry field and 
-     then selecting the first part range on the sheet, typing comma, and then 
-     selecting the second range. In the latter case the 
-     entry will also contain the sheet name. </para></listitem>
+     then selecting the range on the sheet.</para></listitem>
      <listitem><para>
-     Enter A1:A9  in the <quote><guilabel>Y Variable:</guilabel></quote> 
+     Enter A1:A11  in the <quote><guilabel>Y Variable:</guilabel></quote> 
      entry. </para></listitem>
-     <listitem><para>
-     Select the <quote><guibutton>Columns</guibutton></quote> or 
-     <quote><guibutton>Areas</guibutton></quote> option 
-     since each variable is in its own column and also its own area.</para></listitem>
      <listitem><para> Select the <quote><guibutton>Labels</guibutton></quote>
      option since the first row contains labels. (see 
      <xref linkend="regression-example-2" />).</para></listitem>

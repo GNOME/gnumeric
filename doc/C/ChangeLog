@@ -1,3 +1,28 @@
+2010-04-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	for Alexander Kahl & Sven Mantei
+
+	* analysis-solver.xml: updated
+	* analysis-statistical.xml: updated
+	* data-entry-advanced.xml: updated
+	* figures/advanced-filter-1.png: updated
+	* figures/analysistools-random-ex1.png: updated
+	* figures/analysistools-random-ex2.png: updated
+	* figures/analysistools-regression-ex1.png: updated
+	* figures/analysistools-regression-ex2.png: updated
+	* figures/analysistools-regression-ex3.png: updated
+	* figures/analysistools-regression.png: updated
+	* figures/dialog-auto-correct.png: updated
+	* figures/dialog-filter.png: updated
+	* figures/menu-context-graph.png: updated
+	* figures/number-format-dialog.png: updated
+	* figures/number-format-justification-dialog-2.png: updated
+	* figures/preferences-tools.png: updated
+	* figures/preferences-windows.png: updated
+	* figures/solver-02.png: updated
+	* figures/solver-03.png: updated
+	* figures/solver-04.png: updated
+
+
 2010-03-08  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.1

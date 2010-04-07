@@ -292,6 +292,15 @@
          </screenshot>
        </figure>
 
+  <sect3 id="sect-dataentryadv-autocorrect-cap-days">
+     <title>Capitalize the Names of Days</title>
+
+     <para>If this correction rule is activated, the first letter of a
+     name of a day is capitalized automatically.  For example, if you
+     type `monday', it is automatically replaced by `Monday'.</para>
+
+  </sect3>
+
   <sect3 id="sect-dataentryadv-autocorrect-init-caps">
      <title>Correct TWo INitial CApitals</title>
 
@@ -306,15 +315,10 @@
 
      <para>It is possible to specify exceptions to this tool.  For
      example, you do not want the tool to replace the word `PVbonds'
-     when it is typed.  To specify exceptions, press the
-     ``Exceptions...''  button in the dialog.  This should pop up the
-     ``Auto correct exceptions'' dialog.  In this dialog, select the
-     ``INitial CApitals'' page.  In this page, type `PVbonds' into the
+     when it is typed.  To specify exceptions, type `PVbonds' into the
      ``Do not correct'' entry, and press ``Add'' button.  Now the word
      should be included in the list of exceptions.  To remove a word
-     from the list, select the word and press the ``Remove'' button.
-     If you now press ``Ok'' the exceptions in the list are
-     activated.</para>
+     from the list, select the word and press the ``Remove'' button.</para>
 
   </sect3>
 
@@ -328,27 +332,14 @@
 
      <para>It is possible to specify exceptions to this tool.  For
      example, you do not want the tool to capitalize letters after
-     acronym `i.g.'.  To specify exceptions, press the
-     ``Exceptions...''  button in the dialog.  This should pop up the
-     ``Auto correct exceptions'' dialog.  In this dialog, select the
-     ``First letter'' page.  In this page, type `i.g.' into the ``Do
+     acronym `i.g.'.  To specify exceptions, type `i.g.' into the ``Do
      not capitalize after'' entry, and press ``Add'' button.  Now the
      word should be included in the list of exceptions.  To remove a
      word from the list, select the word and press the ``Remove''
-     button.  If you now press ``Ok'' the exceptions in the list are
-     activated.</para>
+     button.</para>
 
   </sect3>
-
-  <sect3 id="sect-dataentryadv-autocorrect-cap-days">
-     <title>Capitalize the Names of Days</title>
-
-     <para>If this correction rule is activated, the first letter of a
-     name of a day is capitalized automatically.  For example, if you
-     type `monday', it is automatically replaced by `Monday'.</para>
-  </sect3>
-
-
+     
   </sect2>
 
 
@@ -387,13 +378,7 @@
      numbers.  This tool can generate random numbers from various
      probability distributions.</para>
 
-     <para>Specify the number of variables in the
-     <quote><guilabel>Number of Variables:</guilabel></quote> entry.
-     This determines the number of columns of random values to be
-     produced.</para> <para> Specify the number of random numbers for
-     each variable in the <quote><guilabel>Size of
-     Sample:</guilabel></quote> entry.  This determines the number of
-     rows of random values to be produced.</para> <para> Specify the
+          <para> Specify the
      random distribution by selecting one of the items from the random
      distribution list.  The following random distributions are
      supported: Discrete, Normal, Poisson, Exponential, Binomial,
@@ -499,6 +484,15 @@
         values for these entries are 0 and 1.</para>
         </listitem></varlistentry>
      </variablelist>
+
+     <para>Specify the number of variables in the <quote><guilabel>
+     Number of Variables:</guilabel></quote> entry on the `Options' Page.
+     This determines the number of columns of random values to be 
+     produced.</para> <para> Specify the number of random numbers for 
+     each variable in the <quote><guilabel>Size of Sample:</guilabel>
+     </quote> entry on the same page. This determines the number of rows 
+     of random values to be produced.</para> 
+
    <figure id="random-example-1">
     <title>Some Example Data for the Random Number Generation Tool</title>
     <screenshot>

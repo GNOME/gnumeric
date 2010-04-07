@@ -142,7 +142,7 @@
 
       <para>The model to be optimized is a linear model.  Thus, we
       should check that the check button `Linear (LP/MILP)' is pressed
-      on under the `Model Assumptions'.  Also make sure that the
+      on on the page `Model'.  Also make sure that the
       assume non-negative button is on, otherwise, the input variables
       can also take negative values.  There is also a check button
       `Assume Integer (Discrete)' which adds an integer constraint for
@@ -152,11 +152,11 @@
       <para>A few additional options can be set too.  If you want to
       limit the number of iterations the optimization algorithm is
       allowed to take you can set the maximum number in the `Max
-      iterations' entry box.  Similarly, you can limit the maximum
-      time the optimization is allowed to take in the `Max time' entry
-      box.  If either one of these settings is exceeded during the
-      optimization, the optimization is interrupted and an error
-      dialog is displayed.</para>
+      iterations' entry box on page `Options'.  Similarly, you can 
+      limit the maximum time the optimization is allowed to take in 
+      the `Max time' entry box.  If either one of these settings is 
+      exceeded during the optimization, the optimization is interrupted
+      and an error dialog is displayed.</para>
 
       <para>Some models can be better solved if the model is scaled
       into another form before the actual optimization.  Gnumeric
@@ -199,13 +199,13 @@
       left hand side (LHS) cell into the `Left Hand Side:' entry box.
       In our example, this would be E7 for the constraint #1, E8 for
       constraint #2, and so on.  The combo entry in the middle defines
-      the type of the constraint.  It can be<![CDATA[ `<=', `=', `>='
-      ]]> , or `Int'.  We will explain the `Int' constraints later.
-      In this example, you should select <![CDATA[ `<=' for
-      constraints #1-#2, `>=' ]]>for #3, and `=' for constraint #4.
-      The last entry on the right takes the right hand side values of
-      the constraints.  For constraints #1-#4 they should be G7 (5),
-      G8 (9), G9 (1), and G10 (4) in this order.</para>
+      the type of the constraint.  It can be<![CDATA[ `≤', `=', `≥'
+      ]]> ,`Int' or `Bool'.  We will explain the `Int' and `Bool' 
+      constraints later. In this example, you should select <![CDATA[ 
+      `≤' for constraints #1-#2, `≥' ]]>for #3, and `=' for 
+      constraint #4. The last entry on the right takes the right hand 
+      side values of the constraints.  For constraints #1-#4 they 
+      should be G7 (5), G8 (9), G9 (1), and G10 (4) in this order.</para>
 
       <para>After typing a constraint press
       <mousebutton>Add</mousebutton> button, and you will be able to
@@ -243,11 +243,11 @@
     <sect3 id="sect-advanced-analysis-solver-using-report">
       <title>Solver Reporting</title>
 
-      <para>Select the `Reports' page from the top of the dialog and
-      the a page containing five check buttons should appear.  By
-      pressing these check buttons on, you can produce various kinds of
-      reports.  You can read more about solver reporting in the
-      following section.</para>
+      <para>Select the `Reports' page from the top of the dialog and 
+      you will see a checkbox named `Program'. This report gives the 
+      model in its mathematical form. Program report is useful for 
+      checking out the correctness of the model.It can also be useful 
+      for educational purposes.</para>
 
     </sect3>
 
@@ -279,77 +279,6 @@
       <para>If the maximum time specified in the options was exceeded,
       the solver reports that `The maximum time exceeded. The optimal
       value could not be found in given time.'.</para>
-
-    </sect3>
-
-  </sect2>
-
-  <sect2 id="sect-advanced-analysis-solver-reports">
-    <title>Solver Reports</title>
-
-    <sect3 id="sect-advanced-analysis-solver-reports-answer">
-      <title>Answer Report</title>
-
-      <para>Answer report gives the original and final values for the
-      problem and for all the input variables and the constraints.  In
-      addition, for the constraints their formulas, binding status and
-      the slacks are printed out nicely.  The answer report is given
-      as a new sheet.</para>
-
-    </sect3>
-
-    <sect3 id="sect-advanced-analysis-solver-reports-sensitivity">
-      <title>Sensitivity Report</title>
-
-      <para>Sensitivity report gives the shadow prices for the
-      constraints.</para>
-
-      <para>Note that if the model contains integer or boolean
-      constraints, sensitivity report cannot be produced.</para>
-
-    </sect3>
-
-    <sect3 id="sect-advanced-analysis-solver-reports-limits">
-      <title>Limits Report</title>
-
-      <para>Limits report reports the achieved optimal value all the
-      input variables of the model with the optimal values and with
-      upper and lower bound for the optimal value in with the
-      particular variable could vary without changing the optimal
-      solution.</para>
-
-      <para>If an optimal value for a variable x is 4, for example,
-      and the lower bound is 2.4 and upper bound 5.9, then x could
-      take any value between 2.4 and 5.9, and still all the same
-      constraints were binding as with the optimal value 4.  In limits
-      report, you can also find the value of the target cell for both
-      upper and lower bound values for the variable.  For example, if
-      the optimal value where x is 4 leads to a profit of $5,000,
-      limits report specifies that if x is set to 2.4 the profit drops
-      to $3,640.</para>
-
-      <para>Note that if the model contains integer or boolean
-      constraints, limits report cannot be produced.</para>
-
-    </sect3>
-
-    <sect3 id="sect-advanced-analysis-solver-reports-performance">
-      <title>Performance Report</title>
-
-      <para>Performance reports gives various statistical
-      characteristics about the given model like how many variables
-      and rows it contains, and how many non-zero matrix elements it
-      has.  It also gives out the performance numbers like how much
-      computing time was required to compute the results.</para>
-
-    </sect3>
-
-    <sect3 id="sect-advanced-analysis-solver-reports-program">
-      <title>Program Report</title>
-
-      <para>Program report gives the model in its mathematical form.
-      Program report is useful for checking out the correctness of the
-      model.  It can also be useful for educational purposes.</para>
 
     </sect3>
 

@@ -1,3 +1,7 @@
+2010-04-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* options.c: add some translator comments
+
 2010-03-08  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.1
