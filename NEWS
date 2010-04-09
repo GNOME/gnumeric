@@ -5,7 +5,6 @@ Alexander Kahl & Sven Mantei:
 	* Some documentation updates
 
 Andreas:
-
 	* Fix build with --disable-solver. [#612820]
 	* Fix column and row header display under Quartz. [#600085]
 	* Fix preferences in gconf-less situations. [#613523]
@@ -24,6 +23,7 @@ Morten:
 	* Fix goal seek problem affecting XIRR.  [#614147]
 	* Fix export xls of XIRR, FVSCHEDULE, and XNPV.  [#614257]
 	* Set win32 stack size to 64M.  [#571346]
+	* Patch gtk+ so GtkEntry widgets on win32 draw right.  [#603667]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.1
