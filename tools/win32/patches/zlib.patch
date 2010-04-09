@@ -1,5 +1,6 @@
---- win32/Makefile.gcc~	2010-02-23 11:00:23.000000000 -0500
-+++ win32/Makefile.gcc	2010-03-26 19:21:15.000000000 -0400
+diff -u win32/Makefile.gcc win32/Makefile.gcc
+--- win32/Makefile.gcc	2010-02-23 11:00:23.000000000 -0500
++++ win32/Makefile.gcc	2010-04-07 22:19:03.000000000 -0400
 @@ -24,14 +24,14 @@
  # the DLL name should be changed from "zlib1.dll".
  
@@ -43,7 +44,7 @@
  OBJA =
  
 -all: $(STATICLIB) $(SHAREDLIB) $(IMPLIB) example.exe minigzip.exe example_d.exe minigzip_d.exe
-+all: $(STATICLIB) $(SHAREDLIB) $(IMPLIB)
++all: $(SHAREDLIB) $(IMPLIB)
  
  test: example.exe minigzip.exe
  	./example
@@ -64,7 +65,7 @@
  
  example.exe: example.o $(STATICLIB)
  	$(LD) $(LDFLAGS) -o $@ example.o $(STATICLIB)
-@@ -106,11 +105,10 @@
+@@ -106,18 +105,16 @@
  .PHONY: install uninstall clean
  
  install: zlib.h zconf.h $(LIB)
@@ -73,41 +74,36 @@
  	-$(INSTALL) zlib.h $(INCLUDE_PATH)
  	-$(INSTALL) zconf.h $(INCLUDE_PATH)
 -	-$(INSTALL) $(STATICLIB) $(LIBRARY_PATH)
-+	-$(INSTALL) $(STATICLIB) $(exec_prefix)
 +	-$(INSTALL) $(SHAREDLIB) $(exec_prefix)
  	-$(INSTALL) $(IMPLIB) $(LIBRARY_PATH)
  
  uninstall:
---- win32/zlib.def~	2010-03-12 12:56:34.000000000 -0500
-+++ win32/zlib.def	2010-03-26 19:32:13.000000000 -0400
-@@ -34,6 +34,7 @@
-     compressBound
-     uncompress
-     gzopen
-+    gzopen64
-     gzdopen
-     gzbuffer
-     gzsetparams
-@@ -47,9 +48,12 @@
-     gzungetc
-     gzflush
-     gzseek
-+    gzseek64
-     gzrewind
-     gztell
-+    gztell64
-     gzoffset
-+    gzoffset64
-     gzeof
-     gzdirect
-     gzclose
-@@ -61,7 +65,9 @@
-     adler32
-     crc32
-     adler32_combine
-+    adler32_combine64
-     crc32_combine
-+    crc32_combine64
- ; various hacks, don't look :)
-     deflateInit_
-     deflateInit2_
+ 	-$(RM) $(INCLUDE_PATH)/zlib.h
+ 	-$(RM) $(INCLUDE_PATH)/zconf.h
+-	-$(RM) $(LIBRARY_PATH)/$(STATICLIB)
+-	-$(RM) $(LIBRARY_PATH)/$(IMPLIB)
++	-$(RM) $(SHAREDLIB) $(exec_prefix)
++	-$(RM) $(IMPLIB) $(LIBRARY_PATH)
+ 
+ clean:
+ 	-$(RM) $(STATICLIB)
+--- zlib.h~	2010-03-14 12:23:32.000000000 -0400
++++ zlib.h	2010-04-08 19:40:38.000000000 -0400
+@@ -1556,7 +1556,7 @@
+         inflateBackInit_((strm), (windowBits), (window), \
+                                             ZLIB_VERSION, sizeof(z_stream))
+ 
+-#ifdef _LARGEFILE64_SOURCE
++#ifdef NOPE_LARGEFILE64_SOURCE
+    ZEXTERN gzFile ZEXPORT gzopen64 OF((const char *, const char *));
+    ZEXTERN off64_t ZEXPORT gzseek64 OF((gzFile, off64_t, int));
+    ZEXTERN off64_t ZEXPORT gztell64 OF((gzFile));
+@@ -1565,7 +1565,7 @@
+    ZEXTERN uLong ZEXPORT crc32_combine64 OF((uLong, uLong, off64_t));
+ #endif
+ 
+-#if !defined(ZLIB_INTERNAL) && _FILE_OFFSET_BITS == 64
++#if !defined(ZLIB_INTERNAL) && 0 && _FILE_OFFSET_BITS == 64
+ #  define gzopen gzopen64
+ #  define gzseek gzseek64
+ #  define gztell gztell64

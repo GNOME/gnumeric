@@ -209,8 +209,8 @@
     </autotools>
 
 <!-- glade stack -->
-    <tarball id="libxml2" version="2.6.32">
-	<source href="ftp://xmlsoft.org/libxml2/old/libxml2-2.6.32.tar.gz"/>
+    <tarball id="libxml2" version="2.7.7">
+	<source href="ftp://xmlsoft.org/libxml2/libxml2-2.7.7.tar.gz"/>
 	<dependencies>
 	    <dep package="zlib"/>
 	</dependencies>
@@ -323,7 +323,8 @@
 
 <!-- Gnumeric stack -->
     <autotools id="libgsf">
-	<branch/>
+	<branch repo="gnome.org" module="sources/libgsf/1.14/libgsf-1.14.18.tar.gz" version="1.14.18">
+	</branch>
 	<dependencies>
 	    <dep package="glib"/>
 	    <dep package="gtk+"/> <!-- make sure gdkpixbuf does not pick up external gtk -->
