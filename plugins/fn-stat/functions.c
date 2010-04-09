@@ -1188,8 +1188,7 @@ static GnmFuncHelp const help_tdist[] = {
 	{ GNM_FUNC_HELP_NAME, F_("TDIST:survival function of the Student t-distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("x:")},
 	{ GNM_FUNC_HELP_ARG, F_("dof:number of degrees of freedom")},
-	{ GNM_FUNC_HELP_ARG, F_("tails:1 or 2. If this is 2, @{x} is replaced by the absolute value and "
-				"the returned value is multiplied by 2")},
+	{ GNM_FUNC_HELP_ARG, F_("tails:1 or 2.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The survival function is 1 minus the cumulative distribution function.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{dof} < 1 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{tails} is neither 1 or 2 this function returns a #NUM! error.") },
@@ -1210,11 +1209,29 @@ gnumeric_tdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float x = value_get_as_float (argv[0]);
 	gnm_float dof = value_get_as_float (argv[1]);
 	int tails = value_get_as_int (argv[2]);
+	gnm_float p;
 
-	if (x < 0 || dof < 1 || (tails != 1 && tails != 2))
-		return value_new_error_NUM (ei->pos);
+	if (dof < 1)
+		goto bad;
 
-	return value_new_float (tails * pt (x, dof, FALSE, FALSE));
+	if (tails == 1) {
+		gboolean lower_tail = FALSE;
+		if (x < 0) {
+			lower_tail = TRUE;
+			x = -x;
+		}
+		p = pt (x, dof, lower_tail, FALSE);
+	} else if (tails == 2) {
+		if (x < 0)
+			goto bad;
+		p = 2 * pt (x, dof, FALSE, FALSE);
+	} else
+		goto bad;
+
+	return value_new_float (p);
+
+ bad:
+	return value_new_error_NUM (ei->pos);
 }
 
 /***************************************************************************/

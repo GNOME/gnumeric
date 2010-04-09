@@ -9481,7 +9481,7 @@
         <title>Arguments</title>
         <para><parameter>seek</parameter>: value to find</para>
         <para><parameter>vector</parameter>: n by 1 or 1 by n range to be searched</para>
-        <para><parameter>type</parameter>: +1 to find the largest value ≤ <parameter>seek</parameter>, 0 to find the first value = <parameter>seek</parameter>, or-1 to find the smallest value ≥ <parameter>seek</parameter></para>
+        <para><parameter>type</parameter>: +1 (the default) to find the largest value ≤ <parameter>seek</parameter>, 0 to find the first value = <parameter>seek</parameter>, or-1 to find the smallest value ≥ <parameter>seek</parameter></para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -16631,7 +16631,7 @@
       </refsect1>
       <refsect1>
         <title>OpenDocument Format (ODF) Compatibility</title>
-        <para>This function is ODF compatible.</para>
+        <para>This function is OpenFormula compatible.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -19168,7 +19168,7 @@
         <title>Arguments</title>
         <para><parameter>x</parameter>: </para>
         <para><parameter>dof</parameter>: number of degrees of freedom</para>
-        <para><parameter>tails</parameter>: 1 or 2. If this is 2, <parameter>x</parameter> is replaced by the absolute value and the returned value is multiplied by 2</para>
+        <para><parameter>tails</parameter>: 1 or 2.</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -19552,7 +19552,7 @@
           <function>ZTEST</function>
         </refname>
         <refpurpose>
-        p-value of a 2-tailed z-test for a population mean
+        the probability of observing a sample mean as large as or larger than the mean of the given sample
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -19560,9 +19560,13 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>ref</parameter>: data set</para>
-        <para><parameter>x</parameter>: mean as given in the null hypothesis</para>
+        <para><parameter>ref</parameter>: data set (sample)</para>
+        <para><parameter>x</parameter>: population mean</para>
         <para><parameter>stddev</parameter>: population standard deviation, defaults to the sample standard deviation</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para><function>ZTEST</function> calulates the probability of observing a sample mean as large as or larger than the mean of the given sample for samples drawn from a normal distribution with mean <parameter>x</parameter> and standard deviation <parameter>stddev</parameter>.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -19571,6 +19575,10 @@
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
         <para>This function is Excel compatible.</para>
+      </refsect1>
+      <refsect1>
+        <title>OpenDocument Format (ODF) Compatibility</title>
+        <para>This function is OpenFormula compatible.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>

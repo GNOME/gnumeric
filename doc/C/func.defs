@@ -2889,7 +2889,7 @@ If any argument is zero, the result is zero.
 @SYNTAX=MATCH(seek,vector,type)
 @ARGUMENTDESCRIPTION=@{seek}: value to find
 @{vector}: n by 1 or 1 by n range to be searched
-@{type}: +1 to find the largest value ≤ @{seek}, 0 to find the first value = @{seek}, or-1 to find the smallest value ≥ @{seek}
+@{type}: +1 (the default) to find the largest value ≤ @{seek}, 0 to find the first value = @{seek}, or-1 to find the smallest value ≥ @{seek}
 @DESCRIPTION=MATCH searches @{vector} for @{seek} and returns the 1-based index.
 @NOTE= For @{type} = -1 the data must be sorted in descending order; for @{type} = +1 the data must be sorted in ascending order. If @{seek} could not be found, #N/A is returned. If @{vector} is neither n by 1 nor 1 by n, #N/A is returned.
 @SEEALSO=LOOKUP
@@ -4798,7 +4798,7 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @ARGUMENTDESCRIPTION=@{x}: total number of objects
 @{y}: number of selected objects
 @NOTE=If both @{x} and @{y} equal 0, PERMUTATIONA returns 1. If @{x} < 0 or @{y} < 0, PERMUTATIONA returns #NUM! If @{x} or @{y} are not integers, they are truncated
-@ODF=This function is ODF compatible.
+@ODF=This function is OpenFormula compatible.
 @SEEALSO=POWER
 
 @CATEGORY=Statistics
@@ -5586,7 +5586,7 @@ Numbers, text and logical values are included in the calculation too. If the cel
 @SYNTAX=TDIST(x,dof,tails)
 @ARGUMENTDESCRIPTION=@{x}: 
 @{dof}: number of degrees of freedom
-@{tails}: 1 or 2. If this is 2, @{x} is replaced by the absolute value and the returned value is multiplied by 2
+@{tails}: 1 or 2.
 @DESCRIPTION=The survival function is 1 minus the cumulative distribution function.
 This function is Excel compatible for non-negative @{x}.
 @NOTE=If @{dof} < 1 this function returns a #NUM! error. If @{tails} is neither 1 or 2 this function returns a #NUM! error. The parameterization of this function is different from what is used for, e.g., NORMSDIST.  This is a common source of mistakes, but necessary for compatibility.
@@ -5695,13 +5695,15 @@ Numbers, text and logical values are included in the calculation too. If the cel
 
 @CATEGORY=Statistics
 @FUNCTION=ZTEST
-@SHORTDESC=p-value of a 2-tailed z-test for a population mean
+@SHORTDESC=the probability of observing a sample mean as large as or larger than the mean of the given sample
 @SYNTAX=ZTEST(ref,x,stddev)
-@ARGUMENTDESCRIPTION=@{ref}: data set
-@{x}: mean as given in the null hypothesis
+@ARGUMENTDESCRIPTION=@{ref}: data set (sample)
+@{x}: population mean
 @{stddev}: population standard deviation, defaults to the sample standard deviation
+@DESCRIPTION=ZTEST calulates the probability of observing a sample mean as large as or larger than the mean of the given sample for samples drawn from a normal distribution with mean @{x} and standard deviation @{stddev}.
 @NOTE=If @{ref} contains less than two data items ZTEST returns #DIV/0! error.
 @EXCEL=This function is Excel compatible.
+@ODF=This function is OpenFormula compatible.
 @SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE
 
 @CATEGORY=String
