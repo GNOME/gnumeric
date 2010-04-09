@@ -23,6 +23,7 @@ Morten:
 	* Improve partitioning of status area.
 	* Fix goal seek problem affecting XIRR.  [#614147]
 	* Fix export xls of XIRR, FVSCHEDULE, and XNPV.  [#614257]
+	* Set win32 stack size to 64M.  [#571346]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.1

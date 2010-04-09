@@ -360,8 +360,8 @@ test_pango_SOURCES =				\
 
 if WITH_NATIVE_WIN32
     gnumeric_LDADD += gnumeric_rc.o
-    gnumeric_LDFLAGS	+= -mwindows
-    ssconvert_LDFLAGS	+= -mconsole
+    gnumeric_LDFLAGS	+= -mwindows -Wl,--stack,0x4000000
+    ssconvert_LDFLAGS	+= -mconsole -Wl,--stack,0x4000000
     ssindex_LDFLAGS	+= -mconsole
     ssgrep_LDFLAGS	+= -mconsole
 
