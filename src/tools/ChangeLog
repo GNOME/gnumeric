@@ -1,3 +1,8 @@
+2010-04-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-tools.c (analysis_tool_regression_engine_run): wrap the 
+	  first argument to TDIST with ABS.
+
 2010-03-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-tools.h (analysis_tools_data_regression_t): add fields

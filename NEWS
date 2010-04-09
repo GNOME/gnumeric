@@ -14,6 +14,7 @@ Andreas:
 	* Fix ZTEST description. [#614746]
 	* Don't write unnecessary manifest entries in ODF export.
 	* Various ODF export fixes.
+	* Adjust regression tool to reflect the changes to TDIST.
 
 Morten:
 	* Improve object sizing tooltip positioning a bit.

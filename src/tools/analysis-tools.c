@@ -2846,6 +2846,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_sum;
 	GnmFunc *fd_sqrt;
 	GnmFunc *fd_tdist;
+	GnmFunc *fd_abs;
 	GnmFunc *fd_tinv;
 	GnmFunc *fd_transpose;
 	GnmFunc *fd_concatenate = NULL;
@@ -2868,6 +2869,8 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	gnm_func_ref (fd_sqrt);
 	fd_tdist = gnm_func_lookup_or_add_placeholder ("TDIST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_tdist);
+	fd_abs = gnm_func_lookup_or_add_placeholder ("ABS", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	gnm_func_ref (fd_abs);
 	fd_tinv = gnm_func_lookup_or_add_placeholder ("TINV", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_tinv);
 	fd_transpose = gnm_func_lookup_or_add_placeholder ("TRANSPOSE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
@@ -3158,7 +3161,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 				       GNM_EXPR_OP_DIV,
 				       make_cellref (-1, 0));
 	expr_df = dao_get_cellref (dao, 1, 12);
-	expr_pvalue = gnm_expr_new_funcall3 (fd_tdist, make_cellref (-1, 0),
+	expr_pvalue = gnm_expr_new_funcall3 (fd_tdist, gnm_expr_new_funcall1 (fd_abs, make_cellref (-1, 0)),
 					     gnm_expr_copy (expr_df),
 					     gnm_expr_new_constant (value_new_int (2)));
 	expr_lower = gnm_expr_new_binary (make_cellref (-4, 0),
@@ -3274,6 +3277,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	gnm_func_unref (fd_sum);
 	gnm_func_unref (fd_sqrt);
 	gnm_func_unref (fd_tdist);
+	gnm_func_unref (fd_abs);
 	gnm_func_unref (fd_tinv);
 	gnm_func_unref (fd_transpose);
 	if (fd_concatenate != NULL)
