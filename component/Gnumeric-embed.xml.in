@@ -3,11 +3,10 @@
   <menubar>
     <menu name="File" action="MenuFile">
       <menuitem action="FileNew"/>
-      <menu name="Templates" action="FileNewFromTemplate">
+      <menu name="Templates" action="MenuFileNewFromTemplate">
       </menu>
       <menuitem action="FileOpen"/>
       <separator name="file-sep1"/>
-<!--      <menuitem action="FileSave"/> -->
       <menuitem action="FileSaveEmbed"/>
       <menuitem action="FileSaveAs"/>
       <separator name="file-sep2"/>
@@ -27,7 +26,6 @@
       <menuitem action="FileHistoryFull"/>
       <separator name="file-sep5"/>
       <menuitem action="FileClose"/>
- <!--      <menuitem action="FileQuit"/> -->
     </menu>
     <menu name="Edit" action="MenuEdit">
       <menuitem action="Undo"/>
