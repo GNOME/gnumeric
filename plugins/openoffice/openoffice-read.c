@@ -66,6 +66,7 @@
 #include <sheet-object-graph.h>
 #include <sheet-object-image.h>
 #include <graph.h>
+#include <gnm-so-filled.h>
 
 #include <string.h>
 #include <errno.h>
@@ -159,7 +160,8 @@ typedef struct {
 typedef struct {
 	GogGraph	*graph;
 	GogChart	*chart;
-	GSList          *stock_series; /* used by Stcock plot */
+	SheetObject     *so;   /* used by text box */
+	GSList          *list; /* used by Stock plot and textbox*/
 
 	/* set in plot-area */
 	GogPlot		*plot;
@@ -3342,6 +3344,43 @@ od_draw_image (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+od_draw_text_box (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	GOStyle  *style = go_style_new ();
+
+	style->line.width = 0;
+	style->line.dash_type = GO_LINE_NONE;
+	style->line.auto_dash = FALSE;
+	style->fill.type = GO_STYLE_FILL_NONE;
+	style->fill.auto_type = FALSE;
+
+	state->chart.so = g_object_new (GNM_SO_FILLED_TYPE, "is-oval", FALSE, "style", style, NULL);
+	g_object_unref (style);
+
+	sheet_object_set_anchor (state->chart.so, &state->chart.anchor);
+	sheet_object_set_sheet (state->chart.so, state->pos.sheet);
+}
+
+static void
+od_draw_text_box_p_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	gchar *text_old, *text_new;
+
+	g_object_get (state->chart.so, "text", &text_old, NULL);
+
+	if (text_old == NULL) {
+		g_object_set (state->chart.so, "text", xin->content->str, NULL);
+	} else {
+		text_new = g_strconcat (text_old, "\n", xin->content->str, NULL);
+		g_free (text_old);
+		g_object_set (state->chart.so, "text", text_new, NULL);
+		g_free (text_new);
+	}
+}
+
+static void
 oo_chart_title (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	GogObject *label = NULL;
@@ -3556,7 +3595,7 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	state->chart.src_label_set = FALSE;
 	state->chart.series = NULL;
 	state->chart.series_count = 0;
-	state->chart.stock_series = NULL;
+	state->chart.list = NULL;
 	if (NULL != source_range_str) {
 		GnmParsePos pp;
 		GnmEvalPos  ep;
@@ -3670,7 +3709,7 @@ static void
 odf_create_stock_plot (GsfXMLIn *xin)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	GSList *series_addresses = state->chart.stock_series;
+	GSList *series_addresses = state->chart.list;
 	int len = g_slist_length (series_addresses);
 
 	if (len > 3) {
@@ -3694,8 +3733,8 @@ oo_plot_area_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	if (state->chart.plot_type == OO_PLOT_STOCK) {
 		odf_create_stock_plot (xin);
-		go_slist_free_custom (state->chart.stock_series, g_free);
-		state->chart.stock_series = NULL;
+		go_slist_free_custom (state->chart.list, g_free);
+		state->chart.list = NULL;
 	} else if (state->chart.series != NULL) {
 		oo_plot_assign_dim (xin, NULL, GOG_MS_DIM_VALUES, NULL);
 		state->chart.series = NULL;
@@ -3721,7 +3760,7 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 	case OO_PLOT_STOCK:
 		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 			if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "values-cell-range-address"))
-				state->chart.stock_series = g_slist_append (state->chart.stock_series,
+				state->chart.list = g_slist_append (state->chart.list,
 									    g_strdup (attrs[1]));
 		break;
 	case OO_PLOT_SURFACE:
@@ -4363,6 +4402,8 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_OBJECT, OO_NS_DRAW, "object", GSF_XML_NO_CONTENT, &od_draw_object, NULL),
 		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_IMAGE, OO_NS_DRAW, "image", GSF_XML_NO_CONTENT, &od_draw_image, NULL),
 		    GSF_XML_IN_NODE (DRAW_FRAME, SVG_DESC, OO_NS_SVG, "desc", GSF_XML_NO_CONTENT, NULL, NULL),
+		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_TEXT_BOX, OO_NS_DRAW, "text-box", GSF_XML_NO_CONTENT, &od_draw_text_box, NULL),
+		    GSF_XML_IN_NODE (DRAW_TEXT_BOX, DRAW_TEXT_BOX_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, &od_draw_text_box_p_end),
 	          GSF_XML_IN_NODE (TABLE_CELL, CELL_ANNOTATION, OO_NS_OFFICE, "annotation", GSF_XML_NO_CONTENT, &odf_annotation_start, &odf_annotation_end),
 	            GSF_XML_IN_NODE (CELL_ANNOTATION, CELL_ANNOTATION_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, &odf_annotation_content_end),
   		      GSF_XML_IN_NODE (CELL_ANNOTATION_TEXT, CELL_ANNOTATION_TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),

@@ -15,6 +15,7 @@ Andreas:
 	* Don't write unnecessary manifest entries in ODF export.
 	* Various ODF export fixes.
 	* Adjust regression tool to reflect the changes to TDIST.
+	* Basic import of text boxes from ODF files.
 
 Morten:
 	* Improve object sizing tooltip positioning a bit.
