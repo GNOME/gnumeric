@@ -1,3 +1,7 @@
+2010-04-12  Morten Welinder  <terra@gnome.org>
+
+	* win32/build: Install COPYING (as a link).
+
 2010-04-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* moduleset: use git not svn

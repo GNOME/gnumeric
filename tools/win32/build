@@ -66,6 +66,8 @@ setup_html_help() {
     build_mkdir "etc/gtk-2.0"
     install "${srcdir}/gtkrc" "etc/gtk-2.0"
 
+    (cd "${JH_PREFIX}/deploy" && ln -f -s $srcdir/../../COPYING .)
+
     build_mkdir "${archive_dir}"
 
 # Setup Python
