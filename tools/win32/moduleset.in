@@ -193,12 +193,13 @@
 	</dependencies>
     </autotools>
 
-    <autotools id="gtk+">
+    <autotools id="gtk+" autogen-sh="autoreconf" skip-autogen="never">
 	<branch repo="gnome.org" module="sources/gtk+/2.20/gtk+-2.20.0.tar.bz2"
 		version="2.18.5">
 	    <patch file="&patch_dir;gtk-disable-demo.patch"/>
 	    <patch file="&patch_dir;gtk-use-wine-to-cross-compile.patch"/>
 	    <patch file="&patch_dir;gtk-gdk-expose-order.patch" strip="1"/>
+	    <patch file="&patch_dir;gtk-gtkprintoperation-win32.patch" strip="1"/>
 	</branch>
 	<dependencies>
 	    <dep package="glib"/>
