@@ -30,6 +30,10 @@ addpath('PKG_CONFIG_PATH', os.path.join(os.sep, prefix, 'share', 'pkgconfig'))
 
 #Prefix for all the tools
 mingw_tool_prefix = '/usr/bin/i586-mingw32msvc-'
+if os.path.exists(mingw_tool_prefix + 'gcc'):
+    # Nothing
+else:
+    mingw_tool_prefix = '/usr/bin/i686-pc-mingw32-'
 
 mingw_tools = {'ADDR2LINE': 'addr2line',
 	'AS': 'as', 'CC': 'gcc', 'CPP': 'cpp',
@@ -147,6 +151,6 @@ module_autogenargs['libglade']	= autogenargs
 module_autogenargs['pygobject']	= autogenargs + """ --without-ffi --without-gio-unix"""
 module_autogenargs['libgsf']	= autogenargs + """ --without-gnome-vfs --without-bonobo"""
 module_autogenargs['goffice']	= autogenargs + """ --without-gconf --with-gmathml"""
-module_autogenargs['gnumeric']	= autogenargs + """ --disable-component"""
+module_autogenargs['gnumeric']	= autogenargs + """ --disable-component --without-perl"""
 module_autogenargs['poppler']	= autogenargs + """ --disable-cms"""
 module_autogenargs['evince']	= autogenargs + """ --without-gconf --without-keyring"""
