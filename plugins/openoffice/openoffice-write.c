@@ -64,6 +64,7 @@
 #include <sheet-object.h>
 #include <sheet-object-graph.h>
 #include <sheet-object-cell-comment.h>
+#include <gnm-so-filled.h>
 #include <sheet-filter-combo.h>
 
 #include <gsf/gsf-libxml.h>
@@ -2227,6 +2228,16 @@ odf_write_frame (GnmOOExport *state, SheetObject *so)
 			gsf_xml_out_end_element (state->xml); /*  DRAW "image" */
 		} else
 			g_warning ("Graph is missing from hash.");
+	} else if (IS_GNM_SO_FILLED (so)) {
+		gchar *text = NULL;
+
+		g_object_get (G_OBJECT (so), "text", &text, NULL);
+
+		gsf_xml_out_start_element (state->xml, DRAW "text-box");
+		gsf_xml_out_simple_element (state->xml, TEXT "p", text);
+		gsf_xml_out_end_element (state->xml); /*  DRAW "text-box" */
+
+		g_free (text);
 	} else {
 		gsf_xml_out_start_element (state->xml, DRAW "text-box");
 		gsf_xml_out_simple_element (state->xml, TEXT "p", "Missing Sheet Object");

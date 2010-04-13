@@ -1,6 +1,10 @@
+2010-04-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_write_frame): write a dimple textbox
+
 2010-04-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c: (od_draw_text_box_end): new
+	* openoffice-read.c (od_draw_text_box_end): new
 	(opendoc_content_dtd): connect the above
 
 2010-04-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
