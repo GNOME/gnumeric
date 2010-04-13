@@ -3363,6 +3363,15 @@ od_draw_text_box (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+od_draw_text_box_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	g_object_unref (state->chart.so);
+	state->chart.so = NULL;
+}
+
+static void
 od_draw_text_box_p_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -4402,7 +4411,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_OBJECT, OO_NS_DRAW, "object", GSF_XML_NO_CONTENT, &od_draw_object, NULL),
 		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_IMAGE, OO_NS_DRAW, "image", GSF_XML_NO_CONTENT, &od_draw_image, NULL),
 		    GSF_XML_IN_NODE (DRAW_FRAME, SVG_DESC, OO_NS_SVG, "desc", GSF_XML_NO_CONTENT, NULL, NULL),
-		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_TEXT_BOX, OO_NS_DRAW, "text-box", GSF_XML_NO_CONTENT, &od_draw_text_box, NULL),
+		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_TEXT_BOX, OO_NS_DRAW, "text-box", GSF_XML_NO_CONTENT, &od_draw_text_box, &od_draw_text_box_end),
 		    GSF_XML_IN_NODE (DRAW_TEXT_BOX, DRAW_TEXT_BOX_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, &od_draw_text_box_p_end),
 	          GSF_XML_IN_NODE (TABLE_CELL, CELL_ANNOTATION, OO_NS_OFFICE, "annotation", GSF_XML_NO_CONTENT, &odf_annotation_start, &odf_annotation_end),
 	            GSF_XML_IN_NODE (CELL_ANNOTATION, CELL_ANNOTATION_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, &odf_annotation_content_end),
