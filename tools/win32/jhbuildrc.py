@@ -31,7 +31,7 @@ addpath('PKG_CONFIG_PATH', os.path.join(os.sep, prefix, 'share', 'pkgconfig'))
 #Prefix for all the tools
 mingw_tool_prefix = '/usr/bin/i586-mingw32msvc-'
 if os.path.exists(mingw_tool_prefix + 'gcc'):
-    # Nothing
+    0# Nothing
 else:
     mingw_tool_prefix = '/usr/bin/i686-pc-mingw32-'
 
