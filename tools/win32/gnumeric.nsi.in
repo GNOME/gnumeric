@@ -17,8 +17,8 @@ SetCompressor /SOLID lzma
 
 !define GOFFICE_VERSION		"@GOFFICE_VERSION@"
 
-!define GTK_VERSION		"2.18"
-!define GTK_VENDORRC		"2"
+!define GTK_VERSION		"2.20"
+!define GTK_VENDORRC		"0"
 !define GTK_VENDORVERSION	"${GTK_VERSION}.${GTK_VENDORRC}"
 
 ; MUI 1.67 compatible ------
