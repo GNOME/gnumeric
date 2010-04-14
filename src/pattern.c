@@ -127,31 +127,22 @@ gnumeric_background_set_gtk (GnmStyle const *mstyle, cairo_t *context)
 		 * 'foreground solid', so we need to paint it the pattern
 		 * color.
 		 */
-		if (pattern == 24) {
+		 else if (pattern == 24) {
 			GnmColor const *pat_col = gnm_style_get_pattern_color (mstyle);
 			g_return_val_if_fail (pat_col != NULL, FALSE);
 
 			cairo_set_source_rgba (context,
 					       GO_COLOR_TO_CAIRO (pat_col->go_color));
-		}
-#if 0
-		/* FIXME: How to do the other patterns? */
-		if (pattern > 1) {
-			GnmColor const *pat_col = gnm_style_get_pattern_color (mstyle);
-			g_return_val_if_fail (pat_col != NULL, FALSE);
-
-			gdk_gc_set_fill (gc, GDK_OPAQUE_STIPPLED);
-			gdk_gc_set_rgb_fg_color (gc, &pat_col->color);
-			gdk_gc_set_rgb_bg_color (gc, back);
-			gdk_gc_set_stipple (gc,
-					    gnumeric_pattern_get_stipple (XXX,
-									  pattern));
-			foo_canvas_set_stipple_origin (canvas, gc);
 		} else {
-			gdk_gc_set_fill (gc, GDK_SOLID);
-			gdk_gc_set_rgb_fg_color (gc, back);
+			GOPattern gopat;
+			cairo_pattern_t *crpat;
+			gopat.pattern = patterns[pattern - 1];
+			gopat.fore = gnm_style_get_pattern_color (mstyle)->go_color;
+			gopat.back = gnm_style_get_back_color (mstyle)->go_color;
+			crpat = go_pattern_create_cairo_pattern (&gopat, context);
+			cairo_set_source (context, crpat);
+			cairo_pattern_destroy (crpat);
 		}
-#endif
 		return TRUE;
 	}
 

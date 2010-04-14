@@ -17,6 +17,9 @@ Andreas:
 	* Adjust regression tool to reflect the changes to TDIST.
 	* Basic import and export of text boxes from ODF files.
 
+Jean:
+	* Print pattern backgrounds. [#615365]
+
 Morten:
 	* Improve object sizing tooltip positioning a bit.
 	* Fix filter critical.  [#611073]
