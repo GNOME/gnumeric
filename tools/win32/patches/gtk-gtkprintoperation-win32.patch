@@ -1,23 +1,13 @@
---- gtk+-2.20.0.save/configure.in	2010-03-22 23:29:31.000000000 -0400
-+++ gtk+-2.20.0/configure.in	2010-04-12 20:10:38.000000000 -0400
-@@ -1954,6 +1954,9 @@
-               [enable_test_print_backend=no])
- AM_CONDITIONAL(TEST_PRINT_BACKEND, test "x$enable_test_print_backend" != "xno")
- 
-+if test "$os_win32" = "yes"; then
-+  AC_CHECK_TYPES([IPrintDialogCallback],[],[],[[#include <windows.h>]])
-+fi
- 
- ################################################################
- # Strip -export-dynamic from the link lines of various libraries
---- gtk+-2.20.0.save/gtk/gtkprintoperation-win32.c	2010-04-12 20:15:51.000000000 -0400
-+++ gtk+-2.20.0/gtk/gtkprintoperation-win32.c	2010-04-12 20:15:28.000000000 -0400
-@@ -72,7 +72,7 @@
+--- gtk+-2.20.0/gtk/gtkprintoperation-win32.c	2010-03-22 08:44:12.000000000 -0400
++++ gtk+-2.20.0.new/gtk/gtkprintoperation-win32.c	2010-04-14 22:40:57.000000000 -0400
+@@ -72,8 +72,9 @@
  
  static const GUID myIID_IPrintDialogCallback  = {0x5852a2c3,0x6530,0x11d1,{0xb6,0xa3,0x0,0x0,0xf8,0x75,0x7b,0xf9}};
  
 -#if !defined (_MSC_VER) && !defined (MINGW64) && !defined (__MINGW64__)
-+#ifndef HAVE_IPRINTDIALOGCALLBACK
++#if 1
  #undef INTERFACE
++#define IPrintDialogCallback MyIPrintDialogCallback
  #define INTERFACE IPrintDialogCallback
  DECLARE_INTERFACE_ (IPrintDialogCallback, IUnknown)
+ {
