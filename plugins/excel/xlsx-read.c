@@ -4073,6 +4073,26 @@ xlsx_CT_PivotCache (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+xlsx_CT_WorkbookPr (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static EnumVal const switchModes[] = {
+		{ "on",	 TRUE },
+		{ "1",	 TRUE },
+		{ "true", TRUE },
+		{ "off", FALSE },
+		{ "0", FALSE },
+		{ "false", FALSE },
+		{ NULL, 0 }
+	};
+	int tmp;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_enum (xin, attrs, "date1904", switchModes, &tmp))
+			workbook_set_1904 (state->wb, tmp);
+}
+
+static void
 xlsx_CT_CalcPr (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static EnumVal const calcModes[] = {
@@ -4244,7 +4264,7 @@ static GsfXMLInNode const xlsx_workbook_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "workbook", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, &xlsx_wb_end, 0),
   GSF_XML_IN_NODE (WORKBOOK, VERSION, XL_NS_SS,	   "fileVersion", GSF_XML_NO_CONTENT, NULL, NULL),
-  GSF_XML_IN_NODE (WORKBOOK, PROPERTIES, XL_NS_SS, "workbookPr", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (WORKBOOK, PROPERTIES, XL_NS_SS, "workbookPr", GSF_XML_NO_CONTENT, &xlsx_CT_WorkbookPr, NULL),
   GSF_XML_IN_NODE (WORKBOOK, CALC_PROPS, XL_NS_SS, "calcPr", GSF_XML_NO_CONTENT, &xlsx_CT_CalcPr, NULL),
 
   GSF_XML_IN_NODE (WORKBOOK, VIEWS,	 XL_NS_SS, "bookViews",	GSF_XML_NO_CONTENT, NULL, NULL),

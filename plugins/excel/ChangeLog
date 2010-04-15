@@ -1,3 +1,8 @@
+2010-04-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-read.c (xlsx_CT_WorkbookPr): new
+	(xlsx_workbook_dtd); hook up xlsx_CT_WorkbookPr
+
 2010-03-31  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c (chart_write_AREAFORMAT): export transparent patterns as
