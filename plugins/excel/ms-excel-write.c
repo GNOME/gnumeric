@@ -4429,7 +4429,7 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 
 	ms_escher_spcontainer_end (escher, spmark);
 
-	sppos = bp->streamPos + 4;
+	sppos = bp->streamPos + bp->length + 4;
 	splen = GSF_LE_GET_GUINT32 (escher->str + spmark + 4);
 
 	draw_len += escher->len;
@@ -4531,10 +4531,12 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 	/* ---------------------------------------- */
 
 	if (do_textbox) {
+		guint8 spbuf[4];
 		gsize this_len = excel_write_ClientTextbox (ewb, so, label);
 		draw_len += this_len;
 		splen += this_len;
-		ms_biff_put_abs_write (bp, sppos + 4, &splen, 4);
+		GSF_LE_SET_GUINT32 (spbuf, splen);
+		ms_biff_put_abs_write (bp, sppos + 4, spbuf, 4);
 	}
 
 	g_free (name);
@@ -5316,13 +5318,13 @@ excel_write_objs_v8 (ExcelWriteSheet *esheet)
 
 	if (bp->version >= MS_BIFF_V8) {
 		char tmp[4];
-		guint32 spcontlen = len + 48;
-		guint32 dgcontlen = spcontlen + 24;
+		guint32 spgrcontlen = len + 48;
+		guint32 dgcontlen = spgrcontlen + 24;
 
 		GSF_LE_SET_GUINT32 (tmp, dgcontlen);
 		ms_biff_put_abs_write (bp, fpos + 4, tmp, 4);
 
-		GSF_LE_SET_GUINT32 (tmp, spcontlen);
+		GSF_LE_SET_GUINT32 (tmp, spgrcontlen);
 		ms_biff_put_abs_write (bp, fpos + 28, tmp, 4);
 	}
 }

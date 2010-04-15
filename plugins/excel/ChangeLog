@@ -1,8 +1,13 @@
+2010-04-15  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_write_textbox_or_widget_v8): Take
+	bp->length into account too.
+
 2010-04-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* xlsx-write.c (xlsx_write_workbook): write 1900/1904 date 
-	  base info
-	
+	* xlsx-write.c (xlsx_write_workbook): write 1900/1904 date base
+	info
+
 2010-04-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-read.c (xlsx_CT_WorkbookPr): new
