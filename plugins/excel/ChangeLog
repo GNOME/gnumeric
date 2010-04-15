@@ -1,5 +1,10 @@
 2010-04-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-write.c (xlsx_write_workbook): write 1900/1904 date 
+	  base info
+	
+2010-04-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-read.c (xlsx_CT_WorkbookPr): new
 	(xlsx_workbook_dtd); hook up xlsx_CT_WorkbookPr
 

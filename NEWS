@@ -17,6 +17,7 @@ Andreas:
 	* Adjust regression tool to reflect the changes to TDIST.
 	* Basic import and export of text boxes from ODF files.
 	* Watch for the null date in OOXML import. [#615777]
+	* Write the null date in OOXML export.
 
 Jean:
 	* Print pattern backgrounds. [#615365]

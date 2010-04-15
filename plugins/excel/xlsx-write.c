@@ -1431,7 +1431,11 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 	gsf_xml_out_add_int (xml, "rupBuild", 3820);
 	gsf_xml_out_end_element (xml);
 
-	gsf_xml_out_simple_element (xml, "workbookPr", NULL);
+	gsf_xml_out_start_element (xml, "workbookPr");
+	gsf_xml_out_add_int (xml, "date1904", 
+			     workbook_date_conv (state->base.wb)->use_1904 
+			     ? 1 : 0);
+	gsf_xml_out_end_element (xml);
 
 	gsf_xml_out_start_element (xml, "bookViews");
 	WORKBOOK_FOREACH_VIEW (state->base.wb, view, {
