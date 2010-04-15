@@ -787,6 +787,10 @@ AC_ARG_WITH(long_double,
 dnl **************************************************
 dnl * Check for Perl
 dnl **************************************************
+
+AC_ARG_VAR(PERL, [The Perl executable.])
+AC_CHECK_PROG(PERL, perl, perl)
+
 want_perl=auto
 have_perl=no
 perl_reason=""
@@ -795,11 +799,9 @@ AC_ARG_WITH(perl, AS_HELP_STRING([--without-perl], [Do not build the Perl plugin
 	yes) want_perl=yes;;
 	no) want_perl=no;;
 	esac])
-AC_ARG_VAR(PERL, [The Perl executable.])
 if test "x$want_perl" = xno ; then
     perl_reason="disabled by request"
 else
-    AC_CHECK_PROG(PERL, perl, perl)
     if test "x$PERL" != x; then
 	BIG_CHECKING([for perl ExtUtils::Embed module])
 	if $PERL -e 'eval { require ExtUtils::Embed }; if ($@) { exit(1); } else { exit(0); }'
