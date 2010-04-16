@@ -1258,30 +1258,45 @@ gnumeric_index (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	gboolean valid;
 	GnmValue *v, *res;
 
-	if (argc == 0)
+	if (argc == 0 || argc > 4)
 		return value_new_error_VALUE (ei->pos);
 	source = argv[0];
 
+	/* This is crazy.  */
+	while (GNM_EXPR_GET_OPER (source) == GNM_EXPR_OP_PAREN)
+		source = source->unary.value;
+
+	v = gnm_expr_eval (source, ei->pos, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
+	if (VALUE_IS_ERROR (v))
+		return v;
+
 	for (i = 0; i + 1 < argc && i < (int)G_N_ELEMENTS (elem); i++) {
-		v = value_coerce_to_number (
+		GnmValue *vi = value_coerce_to_number (
 			gnm_expr_eval (argv[i + 1], ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY),
 			&valid, ei->pos);
-		if (!valid)
-			return v;
-		elem[i] = value_get_as_int (v) - 1;
-		value_release (v);
+		if (!valid) {
+			value_release (v);
+			return vi;
+		}
+		elem[i] = value_get_as_int (vi) - 1;
+		value_release (vi);
 	}
 
 	if (GNM_EXPR_GET_OPER (source) == GNM_EXPR_OP_SET) {
-		source = (elem[2] >= 0 && elem[2] < source->set.argc)
-			? source->set.argv[elem[2]]
-			: NULL;
-		if (source == NULL)
+		int w = value_area_get_height (v, ei->pos);
+		int i = elem[2];
+		GnmValue *vi;
+		if (i < 0 || i >= w) {
+			value_release (v);
 			return value_new_error_REF (ei->pos);
-	} else if (elem[2] != 0)
+		}
+		vi = value_dup (value_area_fetch_x_y (v, 0, i, ei->pos));
+		value_release (v);
+		v = vi;
+	} else if (elem[2] != 0) {
+		value_release (v);
 		return value_new_error_REF (ei->pos);
-
-	v = gnm_expr_eval (source, ei->pos, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
+	}
 
 	if (elem[1] < 0 ||
 	    elem[1] >= value_area_get_width (v, ei->pos) ||
