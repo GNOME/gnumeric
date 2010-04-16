@@ -31,6 +31,7 @@ Morten:
 	* Set win32 stack size to 64M.  [#571346]
 	* Patch gtk+ so GtkEntry widgets on win32 draw right.  [#603667]
 	* Fix xls export of cell comments.  [#615845]
+	* Fix error propagation problem.  [#615772]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.1

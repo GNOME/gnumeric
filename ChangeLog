@@ -1,7 +1,13 @@
+2010-04-16  Morten Welinder  <terra@gnome.org>
+
+	* src/func.c (function_call_with_exprs): When we compute an error
+	value for an 'A' or 'r' argument, return that error.  Fixes
+	#615772.
+
 2010-04-14  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* src/pattern.c (gnumeric_background_set_gtk): print pattern backgrounds.
-	[#615365]
+	* src/pattern.c (gnumeric_background_set_gtk): print pattern
+	backgrounds. [#615365]
 
 2010-04-09  Jean Brefort  <jean.brefort@normalesup.org>
 

@@ -1255,6 +1255,11 @@ function_call_with_exprs (GnmFuncEvalInfo *ei, GnmExprEvalFlags flags)
 			} else {
 				tmp = args[i] = gnm_expr_eval (expr, ei->pos,
 					GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
+				if (VALUE_IS_ERROR (tmp)) {
+					free_values (args, i);
+					return tmp;
+				}
+
 				if (tmp->type == VALUE_CELLRANGE) {
 					gnm_cellref_make_abs (&tmp->v_range.cell.a,
 						&tmp->v_range.cell.a,
