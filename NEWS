@@ -33,6 +33,8 @@ Morten:
 	* Fix xls export of cell comments.  [#615845]
 	* Fix error propagation problem.  [#615772]
 	* Partially clean up INDEX implementation.
+	* Make regression functions return a result when goffice reports
+	  that the problem is near singular, but still good.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.1

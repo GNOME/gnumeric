@@ -3296,6 +3296,7 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		OTHER      = 4
 	}                 ytype;
 	gnm_regression_stat_t *extra_stat;
+	GORegressionResult regres;
 
 	extra_stat = gnm_regression_stat_new ();
 	dim = 0;
@@ -3453,8 +3454,13 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	linres = g_new (gnm_float, dim + 1);
 
-	if (gnm_linear_regression (xss, dim, ys, nx, affine,
-			       linres, extra_stat) != GO_REG_ok) {
+	regres = gnm_linear_regression (xss, dim, ys, nx, affine,
+					linres, extra_stat);
+	switch (regres) {
+	case GO_REG_ok:
+	case GO_REG_near_singular_good:
+		break;
+	default:
 		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
@@ -3558,6 +3564,7 @@ gnumeric_logreg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	int               xarg = 1;
 	gnm_float        *logreg_res = NULL;
 	gboolean          affine, stat, err;
+	GORegressionResult regres;
 	enum {
 		ARRAY      = 1,
 		SINGLE_COL = 2,
@@ -3713,8 +3720,13 @@ gnumeric_logreg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	logreg_res = g_new (gnm_float, dim + 1);
 
-	if (gnm_logarithmic_regression (xss, dim, ys, nx, affine,
-				    logreg_res, extra_stat) != GO_REG_ok) {
+	regres = gnm_logarithmic_regression (xss, dim, ys, nx, affine,
+					     logreg_res, extra_stat);
+	switch (regres) {
+	case GO_REG_ok:
+	case GO_REG_near_singular_good:
+		break;
+	default:
 		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
@@ -3881,6 +3893,7 @@ gnumeric_trend (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	int      nx, ny, nnx, i, dim;
 	gboolean affine, err;
 	gnm_float  linres[2];
+	GORegressionResult regres;
 
 	ys = collect_floats_value (argv[0], ei->pos,
 				   COLLECT_IGNORE_STRINGS |
@@ -3944,8 +3957,12 @@ gnumeric_trend (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	dim = 1;
 
-	if (gnm_linear_regression (&xs, dim, ys, nx, affine, linres, NULL) !=
-	    GO_REG_ok) {
+	regres = gnm_linear_regression (&xs, dim, ys, nx, affine, linres, NULL);
+	switch (regres) {
+	case GO_REG_ok:
+	case GO_REG_near_singular_good:
+		break;
+	default:
 		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
@@ -3999,6 +4016,7 @@ gnumeric_logest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float        *expres = NULL;
 	gboolean          stat, err;
 	gnm_regression_stat_t *extra_stat;
+	GORegressionResult regres;
 	enum {
 		ARRAY      = 1,
 		SINGLE_COL = 2,
@@ -4150,8 +4168,13 @@ gnumeric_logest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		stat = FALSE;
 
 	expres = g_new (gnm_float, dim + 1);
-	if (gnm_exponential_regression (xss, dim, ys, nx, affine,
-				    expres, extra_stat) != GO_REG_ok) {
+	regres = gnm_exponential_regression (xss, dim, ys, nx, affine,
+					     expres, extra_stat);
+	switch (regres) {
+	case GO_REG_ok:
+	case GO_REG_near_singular_good:
+		break;
+	default:
 		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
@@ -4223,6 +4246,7 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gboolean affine, err;
 	int      nx, ny, nnx, i, dim;
 	gnm_float  expres[2];
+	GORegressionResult regres;
 
 	affine = TRUE;
 
@@ -4288,8 +4312,13 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	dim = 1;
 
-	if (gnm_exponential_regression (&xs, dim,
-				    ys, nx, affine, expres, NULL) != GO_REG_ok) {
+	regres = gnm_exponential_regression (&xs, dim,
+					     ys, nx, affine, expres, NULL);
+	switch (regres) {
+	case GO_REG_ok:
+	case GO_REG_near_singular_good:
+		break;
+	default:
 		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
@@ -4338,6 +4367,7 @@ gnumeric_forecast (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GnmValue *result = NULL;
 	int nx, ny, dim;
 	gnm_float linres[2];
+	GORegressionResult regres;
 
 	x = value_get_as_float (argv[0]);
 
@@ -4362,7 +4392,12 @@ gnumeric_forecast (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	dim = 1;
 
-	if (gnm_linear_regression (&xs, dim, ys, nx, 1, linres, NULL) != GO_REG_ok) {
+	regres = gnm_linear_regression (&xs, dim, ys, nx, 1, linres, NULL);
+	switch (regres) {
+	case GO_REG_ok:
+	case GO_REG_near_singular_good:
+		break;
+	default:
 		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
@@ -4399,11 +4434,20 @@ range_intercept (gnm_float const *xs, gnm_float const *ys, int n, gnm_float *res
 {
 	gnm_float linres[2];
 	int dim = 1;
+	GORegressionResult regres;
 
-	if (n <= 0 ||
-	    gnm_linear_regression ((gnm_float **)&xs, dim,
-				   ys, n, 1, linres, NULL) != GO_REG_ok)
+	if (n <= 0)
 		return 1;
+
+	regres = gnm_linear_regression ((gnm_float **)&xs, dim,
+					ys, n, 1, linres, NULL);
+	switch (regres) {
+	case GO_REG_ok:
+	case GO_REG_near_singular_good:
+		break;
+	default:
+		return 1;
+	}
 
 	*res = linres[0];
 	return 0;
@@ -4445,11 +4489,20 @@ range_slope (gnm_float const *xs, gnm_float const *ys, int n, gnm_float *res)
 {
 	gnm_float linres[2];
 	int dim = 1;
+	GORegressionResult regres;
 
-	if (n <= 0 ||
-	    gnm_linear_regression ((gnm_float **)&xs, dim,
-				   ys, n, 1, linres, NULL) != GO_REG_ok)
+	if (n <= 0)
 		return 1;
+
+	regres = gnm_linear_regression ((gnm_float **)&xs, dim,
+					ys, n, 1, linres, NULL);
+	switch (regres) {
+	case GO_REG_ok:
+	case GO_REG_near_singular_good:
+		break;
+	default:
+		return 1;
+	}
 
 	*res = linres[1];
 	return 0;

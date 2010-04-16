@@ -1,3 +1,9 @@
+2010-04-16  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_linest, gnumeric_trend, gnumeric_forecast,
+	range_slope, range_intercept, gnumeric_logreg, gnumeric_logest,
+	gnumeric_growth): Handle near-singular case.
+
 2010-04-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_ztest): fix description. [#614746]
