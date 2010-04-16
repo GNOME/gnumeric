@@ -1021,6 +1021,8 @@ AC_SUBST(gnumeric_localedir, '${prefix}/${DATADIRNAME}/locale')
 dnl
 AC_SUBST(gnumeric_plugindir, '${gnumeric_libdir}/plugins')
 
+AC_SUBST(YYYYMMDD, `date +%Y%m%d`)
+
 dnl Export to gnumeric-config.h
 AC_DEFINE(GNM_VERSION_FULL, "gnumeric_version_full",
 	[The version number of this release, with optional extra suffix])

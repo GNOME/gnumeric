@@ -8,7 +8,7 @@ SetCompressor /SOLID lzma
 !define GNM_LONGNAME		"Gnumeric Spreadsheet"
 !define GNM_APPNAME		"Gnumeric Spreadsheet"
 !define GNM_VERSION		"@VERSION@"
-!define GNM_VERSION_TAG		"20090507-debug"
+!define GNM_VERSION_TAG		"@YYYYMMDD@"
 !define GNM_VERSION_FULL	"${GNM_VERSION}-${GNM_VERSION_TAG}"
 !define GNM_UNINST_KEY		"Software\Microsoft\Windows\CurrentVersion\Uninstall\${GNM_NAME}"
 !define GNM_STARTMENU_REG_VAL	"NSIS:StartMenuDir"
