@@ -1,5 +1,8 @@
 Gnumeric 1.10.3
 
+Andreas:
+	* Fix CHITEST for rectangular ranges. [#615920]
+
 --------------------------------------------------------------------------
 Gnumeric 1.10.2
 

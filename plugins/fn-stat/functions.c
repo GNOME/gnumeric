@@ -1031,7 +1031,10 @@ static GnmFuncHelp const help_chitest[] = {
 	{ GNM_FUNC_HELP_ARG, F_("actual_range:observed data")},
 	{ GNM_FUNC_HELP_ARG, F_("theoretical_range:expected values")},
 	{ GNM_FUNC_HELP_NOTE, F_("If the actual range is not an n by 1 or 1 by n range, "
-				 "the returned value appears to have no sensible meaning.")},
+				 "but an n by m range, then CHITEST uses (n-1) times (m-1) as "
+				 "degrees of freedom. This is useful if the expected values "
+				 "were calculated from the observed value in a test of "
+				 "independence or test of homogeneity.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, F_("CHITEST is the OpenFormula function LEGACY.CHITEST.") },
 	{ GNM_FUNC_HELP_SEEALSO, "CHIDIST,CHIINV"},
@@ -1103,10 +1106,8 @@ gnumeric_chitest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (chisq == -1)
 		return value_new_error_NUM (ei->pos);
 
-	/* FIXME : XL docs claim df = (r-1)(c-1) not (r-1),
-	 * However, that makes no sense.
-	 */
-	df = (h0 == 1 ? w0 - 1 : h0 - 1);
+	df = (w0-1) * (h0-1);
+	df = (df == 0 ? w0 * h0 - 1 : df);
 	return value_new_float (pchisq (chisq, df, FALSE, FALSE));
 }
 

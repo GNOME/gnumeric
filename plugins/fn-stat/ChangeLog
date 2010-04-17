@@ -1,3 +1,8 @@
+2010-04-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (gnumeric_chitest): correct df in rectangular case
+	(help_chitest): change docs to reflect changed df
+
 2010-04-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.2
