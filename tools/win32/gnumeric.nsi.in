@@ -105,8 +105,8 @@ Section "Gnumeric (required)" SEC01
     File /r "share\goffice"
     File /r /x C "share\gnumeric"
     File /r "share\libthai"
-    File /r "share\libgda-4.0"
-    File /r "share\libgda-4.1"
+    ;File /r "share\libgda-4.0"
+    ;File /r "share\libgda-4.1"
     ;File /r /x "demo" "share\gnome-db-3.0"
     File /r "share\pixmaps"
 
