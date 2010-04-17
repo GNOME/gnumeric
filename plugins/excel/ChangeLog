@@ -1,3 +1,7 @@
+2010-04-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.2
+
 2010-04-15  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_write_textbox_or_widget_v8): Take

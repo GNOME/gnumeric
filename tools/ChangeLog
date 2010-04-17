@@ -1,3 +1,7 @@
+2010-04-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.2
+
 2010-04-12  Morten Welinder  <terra@gnome.org>
 
 	* win32/jhbuildrc.py: Check for alternate mingw_tool_prefix.

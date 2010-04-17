@@ -1341,14 +1341,6 @@ If any argument is zero, the result is zero.
 @SEEALSO=AMORDEGRC
 
 @CATEGORY=Finance
-@FUNCTION=ATL_LAST
-@SHORTDESC=sample real-time data source
-@SYNTAX=ATL_LAST(tag)
-@ARGUMENTDESCRIPTION=@{tag}: tag to watch
-@DESCRIPTION=ATL_LAST is a sample implementation of a real time data source.  It takes a string tag and monitors the named pipe ~/atl for changes to the value of that tag.
-@NOTE=This is not intended to be generally enabled and is OFF by default.
-
-@CATEGORY=Finance
 @FUNCTION=COUPDAYBS
 @SHORTDESC=number of days from coupon period to settlement
 @SYNTAX=COUPDAYBS(settlement,maturity,frequency,basis,eom)

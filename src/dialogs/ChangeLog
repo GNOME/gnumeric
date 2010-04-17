@@ -1,3 +1,7 @@
+2010-04-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.2
+
 2010-03-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* regression.glade: add radio buttons
