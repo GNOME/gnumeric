@@ -1,3 +1,8 @@
+2010-04-21  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (ai), (objectlink), (end), (ms_excel_chart_read): import
+	chart title when it is actually the series label. [#616262]
+
 2010-04-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.2

@@ -5,6 +5,8 @@ Andreas:
 
 Jean
 	* Implement graph only sheets. [#158170]
+	* Fix chart title import when excel automagically uses the unique
+	series label. [#616262]
 
 Morten:
 	* Make sure an empty string is shown with a quote.

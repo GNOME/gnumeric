@@ -87,6 +87,7 @@ typedef struct {
 	GogChart	*chart;
 	GogObject	*legend;
 	GogPlot		*plot;
+	GogObject	*label;
 	GOStyle		*default_plot_style;
 	GogObject	*axis, *xaxis;
 	guint8		axislineflags;
@@ -297,27 +298,23 @@ BC_R(ai)(XLChartHandler const *handle,
 
 	/* ignore these for now */
 	if (top_state == BIFF_CHART_text) {
-		d (2, g_printerr ("We have non imported data for a text field;\n"););
+		GnmExprTop const *texpr;
+		g_return_val_if_fail (s->label == NULL, FALSE);
+		s->label = g_object_new (GOG_TYPE_LABEL, NULL);
+		texpr = ms_container_parse_expr (&s->container,
+						 q->data+8, length);
+		if (texpr != NULL) {
+			Sheet *sheet = ms_container_sheet (s->container.parent);
+			GOData *data = gnm_go_data_scalar_new_expr (sheet, texpr);
+
+			XL_CHECK_CONDITION_VAL (sheet &&
+						s->label,
+						(gnm_expr_top_unref (texpr), TRUE));
+			gog_dataset_set_dim (GOG_DATASET (s->label), 0, data, NULL);
+		}
 		return FALSE;
 	}
 	else if (top_state == BIFF_CHART_trendlimits) {
-		GnmExprTop const *texpr =
-			ms_container_parse_expr (&s->container,
-						 q->data+8, length);
-		g_return_val_if_fail (ref_type == 2, FALSE);
-		if (texpr != NULL) {
-			Sheet *sheet = ms_container_sheet (s->container.parent);
-
-			XL_CHECK_CONDITION_VAL (sheet &&
-						s->currentSeries &&
-						purpose < G_N_ELEMENTS (s->currentSeries->reg_dims) &&
-						s->currentSeries->reg_dims[purpose] == NULL,
-						(gnm_expr_top_unref (texpr), TRUE));
-
-			s->currentSeries->reg_dims[purpose] =
-				gnm_go_data_scalar_new_expr (sheet, texpr);
-		}
-		return FALSE;
 	}
 
 	/* Rest are 0 */
@@ -1494,13 +1491,14 @@ BC_R(objectlink)(XLChartHandler const *handle,
 	guint16 const purpose = GSF_LE_GET_GUINT16 (q->data);
 	GogObject *label = NULL;
 
-	if (purpose != 4 && s->text == NULL)
+
+	if (purpose != 4 && s->text == NULL && s->label == NULL)
 		return FALSE;
 
 	switch (purpose) {
 	case 1:
 		g_return_val_if_fail (s->chart != NULL, FALSE);
-		label = gog_object_add_by_name (GOG_OBJECT (s->chart), "Title", NULL);
+		label = gog_object_add_by_name (GOG_OBJECT (s->chart), "Title", s->label);
 		break;
 	case 2:
 	case 3:
@@ -1522,7 +1520,7 @@ BC_R(objectlink)(XLChartHandler const *handle,
 
 		g_return_val_if_fail (axes != NULL, FALSE);
 
-		label = gog_object_add_by_name (GOG_OBJECT (axes->data), "Label", NULL);
+		label = gog_object_add_by_name (GOG_OBJECT (axes->data), "Label", s->label);
 		g_slist_free (axes);
 		break;
 	}
@@ -1539,6 +1537,11 @@ BC_R(objectlink)(XLChartHandler const *handle,
 					     gnm_go_data_scalar_new_expr (sheet, texpr), NULL);
 		}
 		s->text = NULL;
+		s->label = NULL;
+	} else if (s->label) {
+		d (2, g_printerr ("We have non imported data for a text field;\n"););
+		g_object_unref (s->label);
+		s->label = NULL;
 	}
 
 	d (2, {
@@ -3042,8 +3045,7 @@ not_a_matrix:
 		if (g_slist_length (s->plot->series) == 0) {
 			gog_object_clear_parent (GOG_OBJECT (s->plot));
 			g_object_unref (s->plot);
-		}
-		s->plot = NULL;
+		}		s->plot = NULL;
 		break;
 	}
 
@@ -3082,6 +3084,10 @@ not_a_matrix:
 		default:
 			break;
 		}
+		if (s->label) {
+			g_object_unref (s->label);
+			s->label = NULL;
+		}
 
 		if (clear_style && s->style != NULL) {
 			g_object_unref (s->style);
@@ -3104,6 +3110,32 @@ not_a_matrix:
 		s->style = NULL;
 		break;
 
+	case BIFF_CHART_chart : {
+		GogPlot *plot = GOG_PLOT (gog_object_get_child_by_name (GOG_OBJECT (s->chart), "Plot"));
+ 		/* check if the chart has an epty title and the plot only one series,
+		 * in that case Excel uses the series label as title */
+		if (g_slist_length (plot->series) == 1) {
+			GogObject *title = gog_object_get_child_by_name (GOG_OBJECT (s->chart), "Title");
+			if (title) {
+				GOData *dat = gog_dataset_get_dim (GOG_DATASET (title), 0);
+				GError *err = NULL;
+				if (dat) {
+					char *str = go_data_get_scalar_string (dat);
+					if (str && *str) {
+						g_free (str);
+						break;
+					}
+					g_free (str);
+				}
+				dat = gog_dataset_get_dim (GOG_DATASET (plot->series->data), -1);
+				if (!dat)
+					break;
+				gog_dataset_set_dim (GOG_DATASET (title), 0, GO_DATA (g_object_ref (dat)), &err);
+				if (err)
+					g_error_free (err);
+			}
+		}
+	}
 	default :
 		break;
 	}
@@ -3549,6 +3581,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 	state.series	    = g_ptr_array_new ();
 	state.plot_counter  = -1;
 	state.has_a_grid    = FALSE;
+	state.label	    = NULL;
 	state.text	    = NULL;
 	state.is_surface	= FALSE;
 	state.cur_role = -1;
