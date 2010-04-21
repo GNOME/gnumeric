@@ -1,5 +1,8 @@
 2010-04-21  Morten Welinder  <terra@gnome.org>
 
+	* src/xml-sax-read.c (xml_sax_cell_content): Handle empty strings.
+	Fixes #616139.
+
 	* src/cell.c (gnm_cell_get_entered_text): Make sure the empty
 	string gets quoted.  Fixes part of #616139.
 

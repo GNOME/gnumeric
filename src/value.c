@@ -473,6 +473,7 @@ value_new_from_string (GnmValueType t, char const *str, GOFormat *sf,
 		       gboolean translated)
 {
 	GnmValue *res = NULL;
+
 	switch (t) {
 	case VALUE_EMPTY:
 		res = value_new_empty ();

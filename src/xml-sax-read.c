@@ -2008,13 +2008,16 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			cc->texpr = texpr;
 			gnm_expr_top_ref (texpr);
 		}
-	} else if (is_new_cell)
+	} else if (is_new_cell) {
 		/*
 		 * Only set to empty if this is a new cell.
 		 * If it was created by a previous array
 		 * we do not want to erase it.
 		 */
-		gnm_cell_set_value (cell, value_new_empty ());
+		gnm_cell_set_value (cell,
+				    value_new_from_string (value_type, "",
+							   NULL, FALSE));
+	}
 
 	go_format_unref (value_fmt);
 }
