@@ -35,6 +35,7 @@
 #include "commands.h"
 #include "application.h"
 #include "sheet.h"
+#include "print-info.h"
 #include <graph.h>
 
 #include <goffice/goffice.h>
@@ -151,19 +152,75 @@ gnm_sog_finalize (GObject *obj)
 	parent_klass->finalize (obj);
 }
 
+static void
+cb_graph_size_changed (GocItem *item, GtkAllocation *allocation)
+{
+	GogRenderer *rend;
+	GogGraph *graph;
+	SheetObject *so = sheet_object_view_get_so (SHEET_OBJECT_VIEW (item->parent));
+	PrintInformation *pi = so->sheet->print_info;
+	double top, bottom, left, right, edge_to_below_header, edge_to_above_footer, w, h, x = 0., y = 0.;
+	w = print_info_get_paper_width (pi, GTK_UNIT_POINTS);
+	h = print_info_get_paper_height (pi, GTK_UNIT_POINTS);
+	print_info_get_margins (pi, &top, &bottom, &left, &right, &edge_to_below_header, &edge_to_above_footer);
+	w -= left + right;
+	h -= top + bottom + edge_to_above_footer + edge_to_below_header;
+	g_object_get (item, "renderer", &rend, NULL);
+	g_object_get (rend, "model", &graph, NULL);
+	gog_graph_set_size (graph, w, h);
+	if (w / allocation->width > h / allocation->height) {
+		h = allocation->width * h / w;
+		w = allocation->width;
+		y = (allocation->height - h) / 2.;
+	} else {
+		w = allocation->height * w / h;
+		h = allocation->height;
+		x = (allocation->width - w) / 2.;
+	}
+	goc_item_set (item, "x", x, "width", w, "y", y, "height", h, NULL);
+	g_object_unref (graph);
+	g_object_unref (rend);
+}
+
+static gboolean
+cb_post_new_view (GocItem *item)
+{
+	GtkAllocation alloc;
+	alloc.width = goc_canvas_get_width (item->canvas);
+	alloc.height = goc_canvas_get_height (item->canvas);
+	cb_graph_size_changed (item, &alloc);
+	return FALSE;
+}
+
 static SheetObjectView *
 gnm_sog_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
-	GnmPane *pane = GNM_PANE (container);
+	GnmPane *pane;
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
-	GocItem *view = goc_item_new (pane->object_views,
-		so_graph_goc_view_get_type (),
-		NULL);
-	goc_item_new (GOC_GROUP (view),
-		      GOC_TYPE_GRAPH,
-		      "renderer", sog->renderer,
-		      NULL);
-	return gnm_pane_object_register (so, view, TRUE);
+	if (IS_GNM_PANE (container)) {
+		GocItem *view;
+		pane = GNM_PANE (container);
+		view = goc_item_new (pane->object_views,
+			so_graph_goc_view_get_type (),
+			NULL);
+		goc_item_new (GOC_GROUP (view),
+			      GOC_TYPE_GRAPH,
+			      "renderer", sog->renderer,
+			      NULL);
+		return gnm_pane_object_register (so, view, TRUE);
+	} else {
+		GocCanvas *canvas = GOC_CANVAS (container);
+		GocItem *view = goc_item_new (goc_canvas_get_root (canvas),
+			so_graph_goc_view_get_type (),
+			NULL);
+		GocItem *item = goc_item_new (GOC_GROUP (view),
+			      GOC_TYPE_GRAPH,
+			      "renderer", sog->renderer,
+			      NULL);
+		g_idle_add ((GSourceFunc) cb_post_new_view, item); 
+		g_signal_connect_swapped (canvas, "size_allocate", G_CALLBACK (cb_graph_size_changed), item);
+		return (SheetObjectView *) view;
+	}
 }
 
 static GtkTargetList *
@@ -454,9 +511,14 @@ gnm_sog_bounds_changed (SheetObject *so)
 	/* If it has not been realized there is no renderer yet */
 	if (sog->renderer != NULL) {
 		double coords [4];
-		sheet_object_position_pts_get (so, coords);
-		gog_graph_set_size (sog->graph, fabs (coords[2] - coords[0]),
-				    fabs (coords[3] - coords[1]));
+		if (so->sheet->sheet_type == GNM_SHEET_DATA) {
+			sheet_object_position_pts_get (so, coords);
+			gog_graph_set_size (sog->graph, fabs (coords[2] - coords[0]),
+					    fabs (coords[3] - coords[1]));
+		} else {
+			/*FIXME: get dimensions from print settings */
+			gog_graph_set_size (sog->graph, 400., 300.);
+		}
 	}
 }
 
@@ -628,6 +690,12 @@ cb_shared_mode_changed (GtkToggleButton *btn, GraphDataClosure *data)
 	}
 }
 
+static void
+cb_sheet_target_changed (GtkToggleButton *btn, GraphDataClosure *data)
+{
+	data->new_sheet = gtk_toggle_button_get_active (btn);
+}
+
 void
 sheet_object_graph_guru (WBCGtk *wbcg, GogGraph *graph,
 			 GClosure *closure)
@@ -636,7 +704,7 @@ sheet_object_graph_guru (WBCGtk *wbcg, GogGraph *graph,
 		GO_CMD_CONTEXT (wbcg), closure);
 	if (!graph) {
 		GraphDataClosure *data = (GraphDataClosure *) g_new0 (GraphDataClosure, 1);
-		GtkWidget *custom = gtk_table_new (2, 2, FALSE), *w;
+		GtkWidget *custom = gtk_table_new (2, 3, FALSE), *w;
 		GObject *object;
 
 		data->dalloc = GOG_DATA_ALLOCATOR (wbcg);
@@ -654,6 +722,9 @@ sheet_object_graph_guru (WBCGtk *wbcg, GogGraph *graph,
 		w = gtk_check_button_new_with_label (_("Use first series as shared abscissa"));
 		g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (cb_shared_mode_changed), data);
 		gtk_table_attach (GTK_TABLE (custom), w, 0, 2, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
+		w = gtk_check_button_new_with_label (_("New graph sheet"));
+		g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (cb_sheet_target_changed), data);
+		gtk_table_attach (GTK_TABLE (custom), w, 0, 2, 2, 3, GTK_FILL, GTK_FILL, 0, 0);
 		data->obj = G_OBJECT (custom);
 		gog_guru_add_custom_widget (dialog, custom);
 		object = (GObject*) g_object_get_data (data->obj, "graph");
@@ -671,4 +742,19 @@ sheet_object_graph_guru (WBCGtk *wbcg, GogGraph *graph,
 		"guru", wbcg, (GDestroyNotify) cb_graph_guru_done);
 	wbc_gtk_attach_guru (wbcg, dialog);
 	gtk_widget_show (dialog);
+}
+
+/**
+ * @so: #SheetObject
+ *
+ * Updates the size of the graph item in the canvas for graph sheets objects.
+ */
+void
+sheet_object_graph_ensure_size (SheetObject *so)
+{
+	GList *ptr = so->realized_list;
+	while (ptr) {
+		cb_post_new_view (GOC_ITEM (GOC_GROUP (ptr->data)->children->data));
+		ptr = ptr->next;
+	}
 }

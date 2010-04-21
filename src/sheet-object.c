@@ -155,26 +155,37 @@ cb_so_copy (SheetObject *so, SheetControl *sc)
 static void
 sheet_object_populate_menu_real (SheetObject *so, GPtrArray *actions)
 {
-	static SheetObjectAction const so_actions [] = {
-		{ "gtk-properties",	NULL,		NULL,  0, sheet_object_get_editor },
-		{ NULL,	NULL, NULL, 0, NULL },
-		{ GTK_STOCK_LEAVE_FULLSCREEN, N_("Size _& Position"),	NULL,  0, cb_so_size_position },
-		{ "gtk-fullscreen",	N_("_Snap to Grid"),	NULL,  0, cb_so_snap_to_grid },
-		{ NULL,			N_("_Order"),	NULL,  1, NULL },
-			{ NULL,			N_("Pul_l to Front"),	NULL,  0, cb_so_pull_to_front },
-			{ NULL,			N_("Pull _Forward"),	NULL,  0, cb_so_pull_forward },
-			{ NULL,			N_("Push _Backward"),	NULL,  0, cb_so_push_backward },
-			{ NULL,			N_("Pus_h to Back"),	NULL,  0, cb_so_push_to_back },
-			{ NULL,			NULL,			NULL, -1, NULL },
-		{ NULL,	NULL, NULL, 0, NULL },
-		{ "gtk-cut",		NULL,		NULL,  0, cb_so_cut },
-		{ "gtk-copy",		NULL,		NULL,  0, cb_so_copy },
-		{ "gtk-delete",		NULL,		NULL, 0, cb_so_delete },
-	};
 	unsigned i;
-	for (i = 0 ; i < G_N_ELEMENTS (so_actions); i++)
-		if (i != 0 || SO_CLASS(so)->user_config != NULL)
-			g_ptr_array_add (actions, (gpointer) (so_actions + i));
+	if (so->sheet->sheet_type == GNM_SHEET_OBJECT) {
+		static SheetObjectAction const so_actions [] = {
+			{ "gtk-properties",	NULL,		NULL,  0, sheet_object_get_editor },
+			{ NULL,	NULL, NULL, 0, NULL },
+			{ "gtk-copy",		NULL,		NULL,  0, cb_so_copy },
+		};
+		for (i = 0 ; i < G_N_ELEMENTS (so_actions); i++)
+			if (i != 0 || SO_CLASS(so)->user_config != NULL)
+				g_ptr_array_add (actions, (gpointer) (so_actions + i));
+	} else {
+		static SheetObjectAction const so_actions [] = {
+			{ "gtk-properties",	NULL,		NULL,  0, sheet_object_get_editor },
+			{ NULL,	NULL, NULL, 0, NULL },
+			{ GTK_STOCK_LEAVE_FULLSCREEN, N_("Size _& Position"),	NULL,  0, cb_so_size_position },
+			{ "gtk-fullscreen",	N_("_Snap to Grid"),	NULL,  0, cb_so_snap_to_grid },
+			{ NULL,			N_("_Order"),	NULL,  1, NULL },
+				{ NULL,			N_("Pul_l to Front"),	NULL,  0, cb_so_pull_to_front },
+				{ NULL,			N_("Pull _Forward"),	NULL,  0, cb_so_pull_forward },
+				{ NULL,			N_("Push _Backward"),	NULL,  0, cb_so_push_backward },
+				{ NULL,			N_("Pus_h to Back"),	NULL,  0, cb_so_push_to_back },
+				{ NULL,			NULL,			NULL, -1, NULL },
+			{ NULL,	NULL, NULL, 0, NULL },
+			{ "gtk-cut",		NULL,		NULL,  0, cb_so_cut },
+			{ "gtk-copy",		NULL,		NULL,  0, cb_so_copy },
+			{ "gtk-delete",		NULL,		NULL, 0, cb_so_delete },
+		};
+		for (i = 0 ; i < G_N_ELEMENTS (so_actions); i++)
+			if (i != 0 || SO_CLASS(so)->user_config != NULL)
+				g_ptr_array_add (actions, (gpointer) (so_actions + i));
+	}
 }
 
 /**
@@ -670,6 +681,12 @@ sheet_object_draw_cairo (SheetObject const *so, cairo_t *cr, gboolean rtl)
 		cairo_translate (cr, x, y);
 		SO_CLASS (so)->draw_cairo (so, cr, width, height);
 	}
+}
+
+void
+sheet_object_draw_cairo_sized (SheetObject const *so, cairo_t *cr, double width, double height)
+{
+	SO_CLASS (so)->draw_cairo (so, cr, width, height);
 }
 
 GnmRange const *
@@ -1199,7 +1216,7 @@ sheet_object_view_enter_notify (GocItem *item, double x, double y)
 {
 	SheetObject *so;
 
-	if (scg_wbcg (GNM_SIMPLE_CANVAS (item->canvas)->scg)->new_object) {
+	if (IS_GNM_PANE (item->canvas) && scg_wbcg (GNM_SIMPLE_CANVAS (item->canvas)->scg)->new_object) {
 		ItemGrid *grid = GNM_PANE (item->canvas)->grid;
 		return GOC_ITEM_GET_CLASS (grid)->enter_notify (GOC_ITEM (grid), x, y);
 	}
@@ -1210,45 +1227,120 @@ sheet_object_view_enter_notify (GocItem *item, double x, double y)
 	return FALSE;
 }
 
+static void
+cb_so_menu_activate (GObject *menu, GocItem *view)
+{
+	SheetObjectAction const *a = g_object_get_data (menu, "action");
+	SheetObject *so = sheet_object_view_get_so (SHEET_OBJECT_VIEW (view));
+	if (a->func)
+		(a->func) (so,
+			   SHEET_CONTROL (g_object_get_data (G_OBJECT (view->canvas), "sheet-control")));
+}
+
+static void
+cb_ptr_array_free (GPtrArray *actions)
+{
+	g_ptr_array_free (actions, TRUE);
+}
+
+static GtkWidget *
+build_so_menu (SheetObjectViewContainer *cont, SheetObjectView *view,
+	       GPtrArray const *actions, unsigned *i)
+{
+	SheetObjectAction const *a;
+	GtkWidget *item, *menu = gtk_menu_new ();
+
+	while (*i < actions->len) {
+		a = g_ptr_array_index (actions, *i);
+		(*i)++;
+		if (a->submenu < 0)
+			break;
+		if (a->icon != NULL) {
+			if (a->label != NULL) {
+				item = gtk_image_menu_item_new_with_mnemonic (_(a->label));
+				gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
+					gtk_image_new_from_stock (a->icon, GTK_ICON_SIZE_MENU));
+			} else
+				item = gtk_image_menu_item_new_from_stock (a->icon, NULL);
+		} else if (a->label != NULL)
+			item = gtk_menu_item_new_with_mnemonic (_(a->label));
+		else
+			item = gtk_separator_menu_item_new ();
+		if (a->submenu > 0)
+			gtk_menu_item_set_submenu (GTK_MENU_ITEM (item),
+				build_so_menu (cont, view, actions, i));
+		else if (a->label != NULL || a->icon != NULL) { /* not a separator or menu */
+			g_object_set_data (G_OBJECT (item), "action", (gpointer)a);
+			g_signal_connect_object (G_OBJECT (item), "activate",
+				G_CALLBACK (cb_so_menu_activate), view, 0);
+		}
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
+	}
+	return menu;
+}
+
 static gboolean
 sheet_object_view_button_pressed (GocItem *item, int button, double x, double y)
 {
 	GnmPane *pane;
 	SheetObject *so;
+	if (IS_GNM_PANE (item->canvas)) {
+		if (scg_wbcg (GNM_SIMPLE_CANVAS (item->canvas)->scg)->new_object) {
+			ItemGrid *grid = GNM_PANE (item->canvas)->grid;
+			return GOC_ITEM_GET_CLASS (grid)->button_pressed (GOC_ITEM (grid), button, x, y);
+		}
 
-	if (scg_wbcg (GNM_SIMPLE_CANVAS (item->canvas)->scg)->new_object) {
-		ItemGrid *grid = GNM_PANE (item->canvas)->grid;
-		return GOC_ITEM_GET_CLASS (grid)->button_pressed (GOC_ITEM (grid), button, x, y);
-	}
-
-	if (button > 3)
-		return FALSE;
-
-	pane = GNM_PANE (item->canvas);
-	so = (SheetObject *) g_object_get_qdata (G_OBJECT (item), sov_so_quark);
-
-	x *= goc_canvas_get_pixels_per_unit (item->canvas);
-	y *= goc_canvas_get_pixels_per_unit (item->canvas);
-	/* cb_sheet_object_widget_canvas_event calls even if selected */
-	if (NULL == g_hash_table_lookup (pane->drag.ctrl_pts, so)) {
-		SheetObjectClass *soc =
-			G_TYPE_INSTANCE_GET_CLASS (so, SHEET_OBJECT_TYPE, SheetObjectClass);
-		GdkEventButton *event = (GdkEventButton *) goc_canvas_get_cur_event (item->canvas);
-
-		if (soc->interactive && button != 3)
+		if (button > 3)
 			return FALSE;
 
-		if (!(event->state & GDK_SHIFT_MASK))
-			scg_object_unselect (pane->simple.scg, NULL);
-		scg_object_select (pane->simple.scg, so);
-		if (NULL == g_hash_table_lookup (pane->drag.ctrl_pts, so))
-			return FALSE;	/* protected ? */
-	}
+		pane = GNM_PANE (item->canvas);
+		so = (SheetObject *) g_object_get_qdata (G_OBJECT (item), sov_so_quark);
 
-	if (button < 3)
-		gnm_pane_object_start_resize (pane, button, x, y, so, 8, FALSE);
-	else
-		gnm_pane_display_object_menu (pane, so, goc_canvas_get_cur_event (item->canvas));
+		x *= goc_canvas_get_pixels_per_unit (item->canvas);
+		y *= goc_canvas_get_pixels_per_unit (item->canvas);
+		/* cb_sheet_object_widget_canvas_event calls even if selected */
+		if (NULL == g_hash_table_lookup (pane->drag.ctrl_pts, so)) {
+			SheetObjectClass *soc =
+				G_TYPE_INSTANCE_GET_CLASS (so, SHEET_OBJECT_TYPE, SheetObjectClass);
+			GdkEventButton *event = (GdkEventButton *) goc_canvas_get_cur_event (item->canvas);
+
+			if (soc->interactive && button != 3)
+				return FALSE;
+
+			if (!(event->state & GDK_SHIFT_MASK))
+				scg_object_unselect (pane->simple.scg, NULL);
+			scg_object_select (pane->simple.scg, so);
+			if (NULL == g_hash_table_lookup (pane->drag.ctrl_pts, so))
+				return FALSE;	/* protected ? */
+		}
+
+		if (button < 3)
+			gnm_pane_object_start_resize (pane, button, x, y, so, 8, FALSE);
+		else
+			gnm_pane_display_object_menu (pane, so, goc_canvas_get_cur_event (item->canvas));
+	} else {
+		if (button == 3) {
+			GPtrArray *actions = g_ptr_array_new ();
+			GtkWidget *menu;
+			unsigned i = 0;
+
+			so = (SheetObject *) g_object_get_qdata (G_OBJECT (item), sov_so_quark);
+			sheet_object_populate_menu (so, actions);
+
+			if (actions->len == 0) {
+				g_ptr_array_free (actions, TRUE);
+				return FALSE;
+			}
+
+			menu = build_so_menu ((SheetObjectViewContainer *) item->canvas,
+				sheet_object_get_view (so, (SheetObjectViewContainer *) item->canvas),
+				actions, &i);
+			g_object_set_data_full (G_OBJECT (menu), "actions", actions,
+				(GDestroyNotify) cb_ptr_array_free);
+			gtk_widget_show_all (menu);
+			gnumeric_popup_menu (GTK_MENU (menu), &goc_canvas_get_cur_event (item->canvas)->button);
+		}
+	}
 	return TRUE;
 }
 

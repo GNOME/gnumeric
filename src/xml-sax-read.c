@@ -347,6 +347,7 @@ typedef struct {
 	SheetObject *so;
 
 	int sheet_rows, sheet_cols;
+	GnmSheetType sheet_type;
 
 	GnmPageBreaks *page_breaks;
 
@@ -499,12 +500,16 @@ xml_sax_wb_sheetsize (GsfXMLIn *xin, xmlChar const **attrs)
 	/* Defaults for legacy files.  */
 	state->sheet_cols = 256;
 	state->sheet_rows = 65536;
+	state->sheet_type = GNM_SHEET_DATA;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gnm_xml_attr_int (attrs, "gnm:Cols", &state->sheet_cols))
 			; /* Nothing more */
 		else if (gnm_xml_attr_int (attrs, "gnm:Rows", &state->sheet_rows))
 			; /* Nothing more */
+		else if (!strcmp (CXML2C (attrs[0]), "gnm:SheetType") &&
+			 !strcmp (CXML2C (attrs[1]), "object"))
+			state->sheet_type = GNM_SHEET_OBJECT;
 		else
 			unknown_attr (xin, attrs);
 	}
@@ -528,7 +533,8 @@ xml_sax_wb_sheetname (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 						&state->sheet_rows);
 		}
 
-		sheet = sheet_new (wb, name,
+		sheet = sheet_new_with_type (wb, name,
+				   state->sheet_type,
 				   state->sheet_cols,
 				   state->sheet_rows);
 		workbook_sheet_attach (wb, sheet);

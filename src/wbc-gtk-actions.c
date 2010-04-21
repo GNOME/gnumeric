@@ -62,6 +62,7 @@
 #include "gnumeric-gconf.h"
 #include "expr.h"
 #include "print.h"
+#include "print-info.h"
 #include "gnm-pane-impl.h"
 
 #include <goffice/goffice.h>
@@ -1180,6 +1181,26 @@ static GNM_ACTION_DEF (cb_sort_descending) { sort_by_rows (wbcg, TRUE); }
 static void
 cb_add_graph (GogGraph *graph, gpointer wbcg)
 {
+	GraphDataClosure *data = (GraphDataClosure *) g_object_get_data (G_OBJECT (graph), "data-closure");
+	if (data) {
+		if (data->new_sheet) {
+			WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+			Sheet *sheet = wb_control_cur_sheet (wbc);
+			WorkbookSheetState *old_state = workbook_sheet_state_new (wb_control_get_workbook (wbc));
+			Sheet *new_sheet = workbook_sheet_add_with_type (
+				wb_control_get_workbook (wbc),
+				GNM_SHEET_OBJECT, -1,
+				gnm_sheet_get_max_cols (sheet),
+				gnm_sheet_get_max_rows (sheet));
+			SheetObject *sog = sheet_object_graph_new (graph);
+			print_info_set_paper_orientation (new_sheet->print_info, GTK_PAGE_ORIENTATION_LANDSCAPE);
+			sheet_object_set_sheet (sog, new_sheet);
+			wb_view_sheet_focus (wb_control_view (wbc), new_sheet);
+			cmd_reorganize_sheets (wbc, old_state, sheet);
+			g_object_unref (sog);
+			return;
+		}
+	}
 	wbcg_insert_object (WBC_GTK (wbcg), sheet_object_graph_new (graph));
 }
 
@@ -1742,6 +1763,22 @@ static GtkActionEntry const permanent_actions[] = {
 		NULL, N_("Send the current file via email"),
 		G_CALLBACK (cb_file_sendto) },
 	{ "FilePrintArea",      NULL, N_("Print Area")},
+#ifdef HAVE_GTK_ADJUSTMENT_CONFIGURE
+	/* gtk_adjustment_configure implies gtk 2.14 or later */
+	/* that is required for GTK_STOCK_PAGE_SETUP */
+	{ "FilePageSetup", GTK_STOCK_PAGE_SETUP, N_("Page Set_up..."),
+#else
+	{ "FilePageSetup", NULL, N_("Page Set_up..."),
+#endif
+		NULL, N_("Setup the page settings for your current printer"),
+		G_CALLBACK (cb_file_page_setup) },
+	{ "FilePrintPreview", GTK_STOCK_PRINT_PREVIEW, NULL,
+		NULL, N_("Print preview"),
+		G_CALLBACK (cb_file_print_preview) },
+	{ "FilePrint", GTK_STOCK_PRINT, NULL,
+		"<control>p", N_("Print the current file"),
+		G_CALLBACK (cb_file_print) },
+
 	{ "FileHistoryFull", NULL, N_("Full _History..."),
 		NULL, N_("Access previously used file"),
 		G_CALLBACK (cb_file_history_full) },
@@ -1797,21 +1834,6 @@ static GtkActionEntry const permanent_actions[] = {
 
 static GtkActionEntry const actions[] = {
 /* File */
-#ifdef HAVE_GTK_ADJUSTMENT_CONFIGURE
-	/* gtk_adjustment_configure implies gtk 2.14 or later */
-	/* that is required for GTK_STOCK_PAGE_SETUP */
-	{ "FilePageSetup", GTK_STOCK_PAGE_SETUP, N_("Page Set_up..."),
-#else
-	{ "FilePageSetup", NULL, N_("Page Set_up..."),
-#endif
-		NULL, N_("Setup the page settings for your current printer"),
-		G_CALLBACK (cb_file_page_setup) },
-	{ "FilePrintPreview", GTK_STOCK_PRINT_PREVIEW, NULL,
-		NULL, N_("Print preview"),
-		G_CALLBACK (cb_file_print_preview) },
-	{ "FilePrint", GTK_STOCK_PRINT, NULL,
-		"<control>p", N_("Print the current file"),
-		G_CALLBACK (cb_file_print) },
 	{ "FileMetaData", GTK_STOCK_PROPERTIES, N_("Document Proper_ties..."),
 		NULL, N_("Edit document properties"),
 		G_CALLBACK (cb_doc_meta_data) },

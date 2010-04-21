@@ -35,6 +35,7 @@
 #include <print.h>
 #include <ranges.h>
 #include <sheet.h>
+#include <sheet-object-graph.h>
 #include <workbook.h>
 #include <wbc-gtk.h>
 #include <style.h>
@@ -2443,12 +2444,29 @@ static void
 cb_do_print_preview (PrinterSetupState *state)
 {
 	PrintInformation *old_pi;
+	double width, height;
+	GogGraph *graph = NULL;
 
 	fetch_settings (state);
 	old_pi = state->sheet->print_info;
 	state->sheet->print_info = state->pi;
+	if (state->sheet->sheet_type == GNM_SHEET_OBJECT) {
+		graph = GOG_GRAPH (sheet_object_graph_get_gog (SHEET_OBJECT (state->sheet->sheet_objects->data)));
+		if (graph) {
+			double top, bottom, left, right, edge_to_below_header, edge_to_above_footer, w, h;
+			gog_graph_get_size (graph, &width, &height);
+			w = print_info_get_paper_width (state->pi, GTK_UNIT_POINTS);
+			h = print_info_get_paper_height (state->pi, GTK_UNIT_POINTS);
+			print_info_get_margins (state->pi, &top, &bottom, &left, &right, &edge_to_below_header, &edge_to_above_footer);
+			w -= left + right;
+			h -= top + bottom + edge_to_above_footer + edge_to_below_header;
+			gog_graph_set_size (graph, w, h);
+		}
+	}
 	gnm_print_sheet (WORKBOOK_CONTROL (state->wbcg),
 		state->sheet, TRUE, PRINT_ACTIVE_SHEET, NULL);
+	if (graph)
+		gog_graph_set_size (graph, width, height);
 	state->sheet->print_info = old_pi;
 }
 

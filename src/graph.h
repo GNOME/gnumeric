@@ -42,7 +42,7 @@ GOData	*gnm_go_data_matrix_new_expr  (Sheet *sheet, GnmExprTop const *texpr);
 /* closure for data allocation */
 typedef struct {
 	int colrowmode; /* 0 = auto; 1 = columns; 2 = rows */
-	gboolean share_x;
+	gboolean share_x, new_sheet;
 	GObject *obj;
 	GogDataAllocator *dalloc;
 } GraphDataClosure;

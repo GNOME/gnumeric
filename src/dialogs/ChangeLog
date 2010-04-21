@@ -1,3 +1,9 @@
+2010-04-21  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* dialog-printer-setup.c (cb_do_print_preview):
+
 2010-04-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.2

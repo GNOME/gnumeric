@@ -15,11 +15,6 @@ struct _GnmSheetSize {
 };
 
 typedef struct _SheetPrivate SheetPrivate;
-typedef enum {
-	GNM_SHEET_DATA,
-	GNM_SHEET_OBJECT,
-	GNM_SHEET_XLM
-} GnmSheetType;
 GType gnm_sheet_type_get_type (void);
 #define GNM_SHEET_TYPE_TYPE (gnm_sheet_type_get_type ())
 

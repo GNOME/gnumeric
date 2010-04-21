@@ -372,6 +372,21 @@ wbcg_update_action_sensitivity (WorkbookControl *wbc)
 	g_object_set (G_OBJECT (wbcg->font_actions),
 		"sensitive", enable_actions || enable_edit_ok_cancel,
 		NULL);
+
+	if (scg && scg_sheet (scg)->sheet_type == GNM_SHEET_OBJECT) {
+		GtkAction *action = gtk_action_group_get_action (wbcg->permanent_actions, "EditPaste");
+		gtk_action_set_sensitive (action, FALSE);
+		action = gtk_action_group_get_action (wbcg->permanent_actions, "EditCut");
+		gtk_action_set_sensitive (action, FALSE);
+		gtk_widget_set_sensitive (GTK_WIDGET (wbcg->edit_line.entry), FALSE);
+		gtk_widget_set_sensitive (GTK_WIDGET (wbcg->selection_descriptor), FALSE);
+	} else {
+		GtkAction *action = gtk_action_group_get_action (wbcg->permanent_actions, "EditPaste");
+		gtk_action_set_sensitive (action, TRUE);
+		action = gtk_action_group_get_action (wbcg->permanent_actions, "EditCut");
+		gtk_action_set_sensitive (action, TRUE);
+		gtk_widget_set_sensitive (GTK_WIDGET (wbcg->selection_descriptor), TRUE);
+	}
 }
 
 static gboolean
@@ -775,7 +790,8 @@ wbcg_set_direction (SheetControlGUI const *scg)
 
 	if (dir != gtk_widget_get_direction (w))
 		set_dir (w, &dir);
-	g_object_set (scg->hs, "inverted", text_is_rtl, NULL);
+	if (scg->hs)
+		g_object_set (scg->hs, "inverted", text_is_rtl, NULL);
 }
 
 static void
@@ -1947,7 +1963,7 @@ cb_scroll_wheel (GtkWidget *w, GdkEventScroll *event,
 	gboolean go_back = (event->direction == GDK_SCROLL_UP ||
 			    event->direction == GDK_SCROLL_LEFT);
 
-	if (!GTK_WIDGET_REALIZED (w))
+	if (!pane || !GTK_WIDGET_REALIZED (w))
 		return FALSE;
 
 	if ((event->state & GDK_MOD1_MASK))
@@ -5473,7 +5489,8 @@ wbcg_set_transient (WBCGtk *wbcg, GtkWindow *window)
 int
 wbcg_get_n_scg (WBCGtk const *wbcg)
 {
-	return gtk_notebook_get_n_pages (wbcg->snotebook);
+	return (GTK_IS_NOTEBOOK (wbcg->snotebook))?
+		gtk_notebook_get_n_pages (wbcg->snotebook): -1;
 }
 
 /**

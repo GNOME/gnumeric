@@ -140,6 +140,7 @@ void sheet_object_write_object	(SheetObject const *so,
 
 /* cairo rendering */
 void sheet_object_draw_cairo (SheetObject const *so, cairo_t *cr, gboolean rtl);
+void sheet_object_draw_cairo_sized (SheetObject const *so, cairo_t *cr, double width, double height);
 
 /* management routine to register all the builtin object types */
 void sheet_objects_init (void);

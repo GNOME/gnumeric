@@ -907,6 +907,34 @@ workbook_sheet_add (Workbook *wb, int pos, int columns, int rows)
 }
 
 /**
+ * workbook_sheet_add_with_type :
+ * @wb :
+ * @pos : position to add, -1 meaning append.
+ * @type : sheet type.
+ *
+ * Create and name a new sheet, putting it at position @pos.  The sheet
+ * returned is not ref'd.  (The ref belongs to the workbook.)
+ */
+Sheet *
+workbook_sheet_add_with_type (Workbook *wb, GnmSheetType sheet_type, int pos, int columns, int rows)
+{
+	char *name = workbook_sheet_get_free_name (wb, (sheet_type == GNM_SHEET_OBJECT)? _("Graph"): _("Sheet"), TRUE, FALSE);
+	Sheet *new_sheet = sheet_new_with_type (wb, name, sheet_type, columns, rows);
+	g_free (name);
+
+	if (pos == -1)
+		pos = wb->sheets->len;
+	workbook_sheet_attach_at_pos (wb, new_sheet, pos);
+
+	/* FIXME: Why here?  */
+	g_signal_emit (G_OBJECT (wb), signals [SHEET_ADDED], 0);
+
+	g_object_unref (new_sheet);
+
+	return new_sheet;
+}
+
+/**
  * workbook_sheet_delete:
  * @sheet: the sheet that we want to delete from its workbook
  *

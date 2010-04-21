@@ -20,6 +20,7 @@ void	     sheet_object_graph_set_gog (SheetObject *sog, GogGraph *graph);
 void sheet_object_graph_guru (WBCGtk *wbcg, GogGraph *graph,
 			      GClosure *closure);
 
+void	     sheet_object_graph_ensure_size (SheetObject *sog);
 G_END_DECLS
 
 #endif /* _GNM_SHEET_OBJECT_GRAPH_H_ */

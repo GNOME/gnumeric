@@ -24,6 +24,7 @@ Sheet      *workbook_sheet_by_name       (Workbook const *wb, char const *sheet_
 void        workbook_sheet_attach        (Workbook *wb, Sheet *new_sheet);
 void        workbook_sheet_attach_at_pos (Workbook *wb, Sheet *new_sheet, int pos);
 Sheet	   *workbook_sheet_add		 (Workbook *wb, int pos, int columns, int rows);
+Sheet	   *workbook_sheet_add_with_type (Workbook *wb, GnmSheetType sheet_type, int pos, int columns, int rows);
 void        workbook_sheet_delete        (Sheet *sheet);
 void        workbook_sheet_move          (Sheet *sheet, int direction);
 char       *workbook_sheet_get_free_name (Workbook *wb,

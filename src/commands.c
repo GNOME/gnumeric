@@ -5622,6 +5622,14 @@ typedef struct {
 
 MAKE_GNM_COMMAND (CmdPrintSetup, cmd_print_setup, NULL)
 
+static void
+update_sheet_graph_cb (Sheet *sheet)
+{
+	g_return_if_fail (IS_SHEET (sheet) && sheet->sheet_type == GNM_SHEET_OBJECT);
+
+	sheet_object_graph_ensure_size (SHEET_OBJECT (sheet->sheet_objects->data));
+}
+
 static gboolean
 cmd_print_setup_undo (GnmCommand *cmd, WorkbookControl *wbc)
 {
@@ -5636,6 +5644,8 @@ cmd_print_setup_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		PrintInformation *pi = me->old_pi->data;
 		print_info_free (me->cmd.sheet->print_info);
 		me->cmd.sheet->print_info = print_info_dup (pi);
+		if (me->cmd.sheet->sheet_type == GNM_SHEET_OBJECT)
+			update_sheet_graph_cb (me->cmd.sheet);
 	} else {
 		book = wb_control_get_workbook(wbc);
 		n = workbook_sheet_count (book);
@@ -5650,6 +5660,8 @@ cmd_print_setup_undo (GnmCommand *cmd, WorkbookControl *wbc)
 
 			print_info_free (sheet->print_info);
 			sheet->print_info = print_info_dup (pi);
+			if (sheet->sheet_type == GNM_SHEET_OBJECT)
+				update_sheet_graph_cb (sheet);
 			infos = infos->next;
 		}
 	}
@@ -5670,6 +5682,8 @@ cmd_print_setup_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		else
 			print_info_free (me->cmd.sheet->print_info);
 		me->cmd.sheet->print_info = print_info_dup (me->new_pi);
+		if (me->cmd.sheet->sheet_type == GNM_SHEET_OBJECT)
+			update_sheet_graph_cb (me->cmd.sheet);
 	} else {
 		book = wb_control_get_workbook(wbc);
 		n = workbook_sheet_count (book);
@@ -5681,6 +5695,8 @@ cmd_print_setup_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			else
 				print_info_free (sheet->print_info);
 			sheet->print_info = print_info_dup (me->new_pi);
+			if (sheet->sheet_type == GNM_SHEET_OBJECT)
+				update_sheet_graph_cb (sheet);
 		}
 		if (save_pis)
 			me->old_pi = g_slist_reverse (me->old_pi);

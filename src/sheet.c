@@ -1334,6 +1334,9 @@ sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type,
 			      "zoom-factor", gnm_conf_get_core_gui_window_zoom (),
 			      NULL);
 
+	if (type == GNM_SHEET_OBJECT)
+		print_info_set_paper_orientation (sheet->print_info, GTK_PAGE_ORIENTATION_LANDSCAPE);
+
 	return sheet;
 }
 

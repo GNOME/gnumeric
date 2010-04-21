@@ -308,80 +308,82 @@ scg_resize (SheetControlGUI *scg, gboolean force_scroll)
 	GnmPane *pane = scg_pane (scg, 0);
 	int h, w, btn_h, btn_w, tmp;
 
-	/* Recalibrate the starting offsets */
-	pane->first_offset.x = scg_colrow_distance_get (scg,
-		TRUE, 0, pane->first.col);
-	pane->first_offset.y = scg_colrow_distance_get (scg,
-		FALSE, 0, pane->first.row);
+	if (pane) {
+		/* Recalibrate the starting offsets */
+		pane->first_offset.x = scg_colrow_distance_get (scg,
+			TRUE, 0, pane->first.col);
+		pane->first_offset.y = scg_colrow_distance_get (scg,
+			FALSE, 0, pane->first.row);
 
-	/* resize Pane[0] headers */
-	h = item_bar_calc_size (scg->pane[0]->col.item);
-	btn_h = h - item_bar_indent (scg->pane[0]->col.item);
-	w = item_bar_calc_size (scg->pane[0]->row.item);
-	btn_w = w - item_bar_indent (scg->pane[0]->row.item);
-	gtk_widget_set_size_request (scg->select_all_btn, btn_w, btn_h);
-	gtk_widget_set_size_request (GTK_WIDGET (scg->pane[0]->col.canvas), -1, h);
-	gtk_widget_set_size_request (GTK_WIDGET (scg->pane[0]->row.canvas), w, -1);
+		/* resize Pane[0] headers */
+		h = item_bar_calc_size (scg->pane[0]->col.item);
+		btn_h = h - item_bar_indent (scg->pane[0]->col.item);
+		w = item_bar_calc_size (scg->pane[0]->row.item);
+		btn_w = w - item_bar_indent (scg->pane[0]->row.item);
+		gtk_widget_set_size_request (scg->select_all_btn, btn_w, btn_h);
+		gtk_widget_set_size_request (GTK_WIDGET (scg->pane[0]->col.canvas), -1, h);
+		gtk_widget_set_size_request (GTK_WIDGET (scg->pane[0]->row.canvas), w, -1);
 
-	tmp = item_bar_group_size (scg->pane[0]->col.item,
-		sheet->cols.max_outline_level);
-	scg_setup_group_buttons (scg, sheet->cols.max_outline_level,
-		scg->pane[0]->col.item, TRUE,
-		tmp, tmp, scg->col_group.buttons, scg->col_group.button_box);
-	scg_setup_group_buttons (scg, sheet->rows.max_outline_level,
-		scg->pane[0]->row.item, FALSE,
-		-1, btn_h, scg->row_group.buttons, scg->row_group.button_box);
+		tmp = item_bar_group_size (scg->pane[0]->col.item,
+			sheet->cols.max_outline_level);
+		scg_setup_group_buttons (scg, sheet->cols.max_outline_level,
+			scg->pane[0]->col.item, TRUE,
+			tmp, tmp, scg->col_group.buttons, scg->col_group.button_box);
+		scg_setup_group_buttons (scg, sheet->rows.max_outline_level,
+			scg->pane[0]->row.item, FALSE,
+			-1, btn_h, scg->row_group.buttons, scg->row_group.button_box);
 
-	if (scg->active_panes != 1 && sv_is_frozen (scg_view (scg))) {
-		GnmCellPos const *tl = &scg_view (scg)->frozen_top_left;
-		GnmCellPos const *br = &scg_view (scg)->unfrozen_top_left;
-		int const l = scg_colrow_distance_get (scg, TRUE,
-			0, tl->col);
-		int const r = scg_colrow_distance_get (scg, TRUE,
-			tl->col, br->col) + l;
-		int const t = scg_colrow_distance_get (scg, FALSE,
-			0, tl->row);
-		int const b = scg_colrow_distance_get (scg, FALSE,
-			tl->row, br->row) + t;
-		int i;
+		if (scg->active_panes != 1 && sv_is_frozen (scg_view (scg))) {
+			GnmCellPos const *tl = &scg_view (scg)->frozen_top_left;
+			GnmCellPos const *br = &scg_view (scg)->unfrozen_top_left;
+			int const l = scg_colrow_distance_get (scg, TRUE,
+				0, tl->col);
+			int const r = scg_colrow_distance_get (scg, TRUE,
+				tl->col, br->col) + l;
+			int const t = scg_colrow_distance_get (scg, FALSE,
+				0, tl->row);
+			int const b = scg_colrow_distance_get (scg, FALSE,
+				tl->row, br->row) + t;
+			int i;
 
-		/* pane 0 has already been done */
-		for (i = scg->active_panes; i-- > 1 ; ) {
-			GnmPane *pane = scg->pane[i];
-			if (NULL != pane) {
-				pane->first_offset.x = scg_colrow_distance_get (
-					scg, TRUE, 0, pane->first.col);
-				pane->first_offset.y = scg_colrow_distance_get (
-					scg, FALSE, 0, pane->first.row);
+			/* pane 0 has already been done */
+			for (i = scg->active_panes; i-- > 1 ; ) {
+				GnmPane *pane = scg->pane[i];
+				if (NULL != pane) {
+					pane->first_offset.x = scg_colrow_distance_get (
+						scg, TRUE, 0, pane->first.col);
+					pane->first_offset.y = scg_colrow_distance_get (
+						scg, FALSE, 0, pane->first.row);
+				}
 			}
+
+			if (scg->pane[1]) {
+				gtk_widget_set_size_request (GTK_WIDGET (scg->pane[1]), r - l, -1);
+				/* The item_bar_calcs should be equal */
+				/* FIXME : The canvas gets confused when the initial scroll
+				 * region is set too early in its life cycle.
+				 * It likes it to be at the origin, we can live with that for now.
+				 * However, we really should track the bug eventually.
+				 */
+				h = item_bar_calc_size (scg->pane[1]->col.item);
+				gtk_widget_set_size_request (GTK_WIDGET (scg->pane[1]->col.canvas), r - l, h);
+			}
+
+			if (scg->pane[3]) {
+				gtk_widget_set_size_request (GTK_WIDGET (scg->pane[3]), -1,    b - t);
+				/* The item_bar_calcs should be equal */
+				w = item_bar_calc_size (scg->pane[3]->row.item);
+				gtk_widget_set_size_request (GTK_WIDGET (scg->pane[3]->row.canvas), w, b - t);
+			}
+
+			if (scg->pane[2])
+				gtk_widget_set_size_request (GTK_WIDGET (scg->pane[2]), r - l, b - t);
 		}
 
-		if (scg->pane[1]) {
-			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[1]), r - l, -1);
-			/* The item_bar_calcs should be equal */
-			/* FIXME : The canvas gets confused when the initial scroll
-			 * region is set too early in its life cycle.
-			 * It likes it to be at the origin, we can live with that for now.
-			 * However, we really should track the bug eventually.
-			 */
-			h = item_bar_calc_size (scg->pane[1]->col.item);
-			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[1]->col.canvas), r - l, h);
-		}
-
-		if (scg->pane[3]) {
-			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[3]), -1,    b - t);
-			/* The item_bar_calcs should be equal */
-			w = item_bar_calc_size (scg->pane[3]->row.item);
-			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[3]->row.canvas), w, b - t);
-		}
-
-		if (scg->pane[2])
-			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[2]), r - l, b - t);
+		SCG_FOREACH_PANE (scg, pane, {
+			gnm_pane_reposition_cursors (pane);
+		});
 	}
-
-	SCG_FOREACH_PANE (scg, pane, {
-		gnm_pane_reposition_cursors (pane);
-	});
 }
 
 static void
@@ -416,39 +418,42 @@ scg_scrollbar_config (SheetControl const *sc)
 	GnmPane *pane = scg_pane (scg, 0);
 	SheetView const *sv = sc->view;
 	Sheet const *sheet = sv->sheet;
-	int const last_col = pane->last_full.col;
-	int const last_row = pane->last_full.row;
-	int max_col = last_col;
-	int max_row = last_row;
 
-	if (sv_is_frozen (sv)) {
-		ha->lower = sv->unfrozen_top_left.col;
-		va->lower = sv->unfrozen_top_left.row;
-	} else
-		ha->lower = va->lower = 0;
+	if (pane) {
+		int const last_col = pane->last_full.col;
+		int const last_row = pane->last_full.row;
+		int max_col = last_col;
+		int max_row = last_row;
 
-	if (max_row < sheet->rows.max_used)
-		max_row = sheet->rows.max_used;
-	if (max_row < sheet->max_object_extent.row)
-		max_row = sheet->max_object_extent.row;
-	va->upper = max_row + 1;
-	va->value = pane->first.row;
-	va->page_size = last_row - pane->first.row + 1;
-	va->page_increment = MAX (va->page_size - 3.0, 1.0);
-	va->step_increment = 1;
+		if (sv_is_frozen (sv)) {
+			ha->lower = sv->unfrozen_top_left.col;
+			va->lower = sv->unfrozen_top_left.row;
+		} else
+			ha->lower = va->lower = 0;
 
-	if (max_col < sheet->cols.max_used)
-		max_col = sheet->cols.max_used;
-	if (max_col < sheet->max_object_extent.col)
-		max_col = sheet->max_object_extent.col;
-	ha->upper = max_col + 1;
-	ha->page_size = last_col - pane->first.col + 1;
-	ha->value = pane->first.col;
-	ha->page_increment = MAX (ha->page_size - 3.0, 1.0);
-	ha->step_increment = 1;
+		if (max_row < sheet->rows.max_used)
+			max_row = sheet->rows.max_used;
+		if (max_row < sheet->max_object_extent.row)
+			max_row = sheet->max_object_extent.row;
+		va->upper = max_row + 1;
+		va->value = pane->first.row;
+		va->page_size = last_row - pane->first.row + 1;
+		va->page_increment = MAX (va->page_size - 3.0, 1.0);
+		va->step_increment = 1;
 
-	gtk_adjustment_changed (va);
-	gtk_adjustment_changed (ha);
+		if (max_col < sheet->cols.max_used)
+			max_col = sheet->cols.max_used;
+		if (max_col < sheet->max_object_extent.col)
+			max_col = sheet->max_object_extent.col;
+		ha->upper = max_col + 1;
+		ha->page_size = last_col - pane->first.col + 1;
+		ha->value = pane->first.col;
+		ha->page_increment = MAX (ha->page_size - 3.0, 1.0);
+		ha->step_increment = 1;
+
+		gtk_adjustment_changed (va);
+		gtk_adjustment_changed (ha);
+	}
 }
 
 void
@@ -853,6 +858,8 @@ scg_set_top_left (SheetControl *sc, int col, int row)
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
+	if (!scg->pane[0])
+		return;
 	/* We could be faster if necessary */
 	scg_set_left_col (scg, col);
 	scg_set_top_row (scg, row);
@@ -956,6 +963,9 @@ scg_make_cell_visible (SheetControlGUI *scg, int col, int row,
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
+	if (!scg->active_panes)
+		return;
+
 	tl = &sv->frozen_top_left;
 	br = &sv->unfrozen_top_left;
 	if (col < br->col) {
@@ -1033,6 +1043,8 @@ scg_set_panes (SheetControl *sc)
 
 	g_return_if_fail (IS_SHEET_VIEW (sv));
 
+	if (!scg->pane[0])
+		return;
 	if (being_frozen) {
 		GnmCellPos const *tl = &sv->frozen_top_left;
 		GnmCellPos const *br = &sv->unfrozen_top_left;
@@ -1237,6 +1249,9 @@ set_resize_pane_pos (SheetControlGUI *scg, GtkPaned *p)
 {
 	int handle_size, pane_pos, size;
 
+	if (!scg->pane[0])
+		return;
+
 	if (p == scg->vpane) {
 		gtk_widget_get_size_request (
 			GTK_WIDGET (scg->pane[0]->col.canvas), NULL, &pane_pos);
@@ -1365,6 +1380,15 @@ cb_check_resize (GtkPaned *p, GtkAllocation *allocation,
 	}
 }
 
+static gboolean
+post_create_cb (SheetControlGUI *scg)
+{
+	Sheet *sheet = sc_sheet (SHEET_CONTROL (scg));
+	if (sheet->sheet_objects)
+		scg_object_select (scg, (SheetObject *) sheet->sheet_objects->data);
+	return FALSE;
+}
+
 SheetControlGUI *
 sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 {
@@ -1387,154 +1411,182 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 		(GWeakNotify) cb_wbc_destroyed,
 		scg);
 
-	scg->active_panes = 1;
-	scg->pane[0] = NULL;
-	scg->pane[1] = NULL;
-	scg->pane[2] = NULL;
-	scg->pane[3] = NULL;
-	scg->pane_drag_handler = 0;
+	if (sheet->sheet_type == GNM_SHEET_DATA) {
+		scg->active_panes = 1;
+		scg->pane[0] = NULL;
+		scg->pane[1] = NULL;
+		scg->pane[2] = NULL;
+		scg->pane[3] = NULL;
+		scg->pane_drag_handler = 0;
 
-	scg->col_group.buttons = g_ptr_array_new ();
-	scg->row_group.buttons = g_ptr_array_new ();
-	scg->col_group.button_box = gtk_vbox_new (TRUE, 0);
-	scg->row_group.button_box = gtk_hbox_new (TRUE, 0);
-	scg->select_all_btn = gtk_drawing_area_new ();
-	gtk_widget_add_events (scg->select_all_btn, GDK_BUTTON_PRESS_MASK);
-	g_signal_connect (G_OBJECT (scg->select_all_btn), "expose-event",
-			  G_CALLBACK (cb_select_all_btn_expose), scg);
-	g_signal_connect (G_OBJECT (scg->select_all_btn), "event",
-			  G_CALLBACK (cb_select_all_btn_event), scg);
+		scg->col_group.buttons = g_ptr_array_new ();
+		scg->row_group.buttons = g_ptr_array_new ();
+		scg->col_group.button_box = gtk_vbox_new (TRUE, 0);
+		scg->row_group.button_box = gtk_hbox_new (TRUE, 0);
+		scg->select_all_btn = gtk_drawing_area_new ();
+		gtk_widget_add_events (scg->select_all_btn, GDK_BUTTON_PRESS_MASK);
+		g_signal_connect (G_OBJECT (scg->select_all_btn), "expose-event",
+				  G_CALLBACK (cb_select_all_btn_expose), scg);
+		g_signal_connect (G_OBJECT (scg->select_all_btn), "event",
+				  G_CALLBACK (cb_select_all_btn_event), scg);
 
-	scg->corner	 = GTK_TABLE (gtk_table_new (2, 2, FALSE));
-	gtk_table_attach (scg->corner, scg->col_group.button_box,
-		1, 2, 0, 1,
-		GTK_SHRINK,
-		GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-		0, 0);
-	gtk_table_attach (scg->corner, scg->row_group.button_box,
-		0, 1, 1, 2,
-		GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-		GTK_SHRINK,
-		0, 0);
-	gtk_table_attach (scg->corner, scg->select_all_btn,
-		1, 2, 1, 2,
-		0,
-		0,
-		0, 0);
+		scg->corner	 = GTK_TABLE (gtk_table_new (2, 2, FALSE));
+		gtk_table_attach (scg->corner, scg->col_group.button_box,
+			1, 2, 0, 1,
+			GTK_SHRINK,
+			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			0, 0);
+		gtk_table_attach (scg->corner, scg->row_group.button_box,
+			0, 1, 1, 2,
+			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			GTK_SHRINK,
+			0, 0);
+		gtk_table_attach (scg->corner, scg->select_all_btn,
+			1, 2, 1, 2,
+			0,
+			0,
+			0, 0);
 
-	scg->pane[1] = scg->pane[2] = scg->pane[3] = NULL;
-	scg->pane[0] = gnm_pane_new (scg, TRUE, TRUE, 0);
-	gnm_pane_set_direction (scg->pane[0], direction);
-	scg->inner_table = GTK_TABLE (gtk_table_new (3, 3, FALSE));
-	gtk_table_attach (scg->inner_table, GTK_WIDGET (scg->corner),
-		0, 1, 0, 1,
-		GTK_FILL,
-		GTK_FILL,
-		0, 0);
-	gtk_table_attach (scg->inner_table, GTK_WIDGET (scg->pane[0]->col.alignment),
-		2, 3, 0, 1,
-		GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-		GTK_FILL,
-		0, 0);
-	gtk_table_attach (scg->inner_table, GTK_WIDGET (scg->pane[0]->row.alignment),
-		0, 1, 2, 3,
-		GTK_FILL,
-		GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-		0, 0);
-	gtk_table_attach (scg->inner_table, GTK_WIDGET (scg->pane[0]),
-		2, 3, 2, 3,
-		GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-		GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-		0, 0);
-	gtk_widget_show_all (GTK_WIDGET (scg->inner_table));
+		scg->pane[1] = scg->pane[2] = scg->pane[3] = NULL;
+		scg->pane[0] = gnm_pane_new (scg, TRUE, TRUE, 0);
+		gnm_pane_set_direction (scg->pane[0], direction);
+		scg->inner_table = GTK_TABLE (gtk_table_new (3, 3, FALSE));
+		gtk_table_attach (scg->inner_table, GTK_WIDGET (scg->corner),
+			0, 1, 0, 1,
+			GTK_FILL,
+			GTK_FILL,
+			0, 0);
+		gtk_table_attach (scg->inner_table, GTK_WIDGET (scg->pane[0]->col.alignment),
+			2, 3, 0, 1,
+			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			GTK_FILL,
+			0, 0);
+		gtk_table_attach (scg->inner_table, GTK_WIDGET (scg->pane[0]->row.alignment),
+			0, 1, 2, 3,
+			GTK_FILL,
+			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			0, 0);
+		gtk_table_attach (scg->inner_table, GTK_WIDGET (scg->pane[0]),
+			2, 3, 2, 3,
+			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			0, 0);
+		gtk_widget_show_all (GTK_WIDGET (scg->inner_table));
 
-	/* Scroll bars and their adjustments */
-	scroll_update_policy = gnm_conf_get_core_gui_editing_livescrolling ()
-		? GTK_UPDATE_CONTINUOUS : GTK_UPDATE_DELAYED;
-	scg->va = (GtkAdjustment *)gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
-	scg->vs = g_object_new (GTK_TYPE_VSCROLLBAR,
-			"adjustment",	 scg->va,
-			"update-policy", scroll_update_policy,
-			NULL);
-	g_signal_connect (G_OBJECT (scg->vs),
-		"value_changed",
-		G_CALLBACK (cb_vscrollbar_value_changed), scg);
-	g_signal_connect (G_OBJECT (scg->vs),
-		"adjust_bounds",
-		G_CALLBACK (cb_vscrollbar_adjust_bounds), sheet);
+		/* Scroll bars and their adjustments */
+		scroll_update_policy = gnm_conf_get_core_gui_editing_livescrolling ()
+			? GTK_UPDATE_CONTINUOUS : GTK_UPDATE_DELAYED;
+		scg->va = (GtkAdjustment *)gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
+		scg->vs = g_object_new (GTK_TYPE_VSCROLLBAR,
+				"adjustment",	 scg->va,
+				"update-policy", scroll_update_policy,
+				NULL);
+		g_signal_connect (G_OBJECT (scg->vs),
+			"value_changed",
+			G_CALLBACK (cb_vscrollbar_value_changed), scg);
+		g_signal_connect (G_OBJECT (scg->vs),
+			"adjust_bounds",
+			G_CALLBACK (cb_vscrollbar_adjust_bounds), sheet);
 
-	scg->ha = (GtkAdjustment *)gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
-	scg->hs = g_object_new (GTK_TYPE_HSCROLLBAR,
-			"adjustment", scg->ha,
-			"update-policy", scroll_update_policy,
-			NULL);
-	g_signal_connect (G_OBJECT (scg->hs),
-		"value_changed",
-		G_CALLBACK (cb_hscrollbar_value_changed), scg);
-	g_signal_connect (G_OBJECT (scg->hs),
-		"adjust_bounds",
-		G_CALLBACK (cb_hscrollbar_adjust_bounds), sheet);
+		scg->ha = (GtkAdjustment *)gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
+		scg->hs = g_object_new (GTK_TYPE_HSCROLLBAR,
+				"adjustment", scg->ha,
+				"update-policy", scroll_update_policy,
+				NULL);
+		g_signal_connect (G_OBJECT (scg->hs),
+			"value_changed",
+			G_CALLBACK (cb_hscrollbar_value_changed), scg);
+		g_signal_connect (G_OBJECT (scg->hs),
+			"adjust_bounds",
+			G_CALLBACK (cb_hscrollbar_adjust_bounds), sheet);
 
-	scg->table = GTK_TABLE (gtk_table_new (4, 4, FALSE));
-	g_object_ref (scg->table);
-	gtk_table_attach (scg->table, GTK_WIDGET (scg->inner_table),
-		0, 1, 0, 1,
-		GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-		GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-		0, 0);
-	scg->vpane = g_object_new (GTK_TYPE_VPANED, NULL);
-	gtk_paned_add1 (scg->vpane, gtk_label_new (NULL)); /* use a spacer */
-	gtk_paned_add2 (scg->vpane, scg->vs);
-	scg_gtk_paned_set_position (scg, scg->vpane, 0);
-	gtk_table_attach (scg->table, GTK_WIDGET (scg->vpane),
-		1, 2, 0, 1,
-		GTK_FILL,
-		GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-		0, 0);
-	scg->hpane = g_object_new (GTK_TYPE_HPANED, NULL);
-	gtk_paned_add1 (scg->hpane, gtk_label_new (NULL)); /* use a spacer */
-	gtk_paned_add2 (scg->hpane, scg->hs);
-	scg_gtk_paned_set_position (scg, scg->hpane, 0);
-	gtk_table_attach (scg->table, GTK_WIDGET (scg->hpane),
-		0, 1, 1, 2,
-		GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-		GTK_FILL,
-		0, 0);
-	/* do not connect until after setting position */
-	g_signal_connect (G_OBJECT (scg->vpane), "notify::position",
-		G_CALLBACK (cb_resize_pane_motion), scg);
-	g_signal_connect (G_OBJECT (scg->hpane), "notify::position",
-		G_CALLBACK (cb_resize_pane_motion), scg);
-	g_signal_connect_after (G_OBJECT (scg->vpane), "size-allocate",
-		G_CALLBACK (cb_check_resize), scg);
-	g_signal_connect_after (G_OBJECT (scg->hpane), "size-allocate",
-		G_CALLBACK (cb_check_resize), scg);
+		scg->table = GTK_TABLE (gtk_table_new (4, 4, FALSE));
+		g_object_ref (scg->table);
+		gtk_table_attach (scg->table, GTK_WIDGET (scg->inner_table),
+			0, 1, 0, 1,
+			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			0, 0);
+		scg->vpane = g_object_new (GTK_TYPE_VPANED, NULL);
+		gtk_paned_add1 (scg->vpane, gtk_label_new (NULL)); /* use a spacer */
+		gtk_paned_add2 (scg->vpane, scg->vs);
+		scg_gtk_paned_set_position (scg, scg->vpane, 0);
+		gtk_table_attach (scg->table, GTK_WIDGET (scg->vpane),
+			1, 2, 0, 1,
+			GTK_FILL,
+			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			0, 0);
+		scg->hpane = g_object_new (GTK_TYPE_HPANED, NULL);
+		gtk_paned_add1 (scg->hpane, gtk_label_new (NULL)); /* use a spacer */
+		gtk_paned_add2 (scg->hpane, scg->hs);
+		scg_gtk_paned_set_position (scg, scg->hpane, 0);
+		gtk_table_attach (scg->table, GTK_WIDGET (scg->hpane),
+			0, 1, 1, 2,
+			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			GTK_FILL,
+			0, 0);
+		/* do not connect until after setting position */
+		g_signal_connect (G_OBJECT (scg->vpane), "notify::position",
+			G_CALLBACK (cb_resize_pane_motion), scg);
+		g_signal_connect (G_OBJECT (scg->hpane), "notify::position",
+			G_CALLBACK (cb_resize_pane_motion), scg);
+		g_signal_connect_after (G_OBJECT (scg->vpane), "size-allocate",
+			G_CALLBACK (cb_check_resize), scg);
+		g_signal_connect_after (G_OBJECT (scg->hpane), "size-allocate",
+			G_CALLBACK (cb_check_resize), scg);
 
-	g_signal_connect_data (G_OBJECT (scg->table),
-		"size-allocate",
-		G_CALLBACK (scg_scrollbar_config), scg, NULL,
-		G_CONNECT_AFTER | G_CONNECT_SWAPPED);
-	g_signal_connect_object (G_OBJECT (scg->table),
-		"destroy",
-		G_CALLBACK (cb_table_destroy), G_OBJECT (scg),
-		G_CONNECT_SWAPPED);
+		g_signal_connect_data (G_OBJECT (scg->table),
+			"size-allocate",
+			G_CALLBACK (scg_scrollbar_config), scg, NULL,
+			G_CONNECT_AFTER | G_CONNECT_SWAPPED);
+		g_signal_connect_object (G_OBJECT (scg->table),
+			"destroy",
+			G_CALLBACK (cb_table_destroy), G_OBJECT (scg),
+			G_CONNECT_SWAPPED);
 
-	sv_attach_control (sv, SHEET_CONTROL (scg));
+		sv_attach_control (sv, SHEET_CONTROL (scg));
 
-	g_object_connect (G_OBJECT (sheet),
-		 "swapped_signal::notify::text-is-rtl", cb_scg_direction_changed, scg,
-		 "swapped_signal::notify::display-formulas", cb_scg_redraw, scg,
-		 "swapped_signal::notify::display-zeros", cb_scg_redraw, scg,
-		 "swapped_signal::notify::display-grid", cb_scg_redraw, scg,
-		 "swapped_signal::notify::display-column-header", scg_adjust_preferences, scg,
-		 "swapped_signal::notify::display-row-header", scg_adjust_preferences, scg,
-		 "swapped_signal::notify::use-r1c1", cb_scg_redraw, scg,
-		 "swapped_signal::notify::display-outlines", cb_scg_redraw_resize, scg,
-		 "swapped_signal::notify::display-outlines-below", cb_scg_redraw_resize, scg,
-		 "swapped_signal::notify::display-outlines-right", cb_scg_redraw_resize, scg,
-		 "swapped_signal::notify::columns", cb_scg_sheet_resized, scg,
-		 "swapped_signal::notify::rows", cb_scg_sheet_resized, scg,
-		 NULL);
+		g_object_connect (G_OBJECT (sheet),
+			 "swapped_signal::notify::text-is-rtl", cb_scg_direction_changed, scg,
+			 "swapped_signal::notify::display-formulas", cb_scg_redraw, scg,
+			 "swapped_signal::notify::display-zeros", cb_scg_redraw, scg,
+			 "swapped_signal::notify::display-grid", cb_scg_redraw, scg,
+			 "swapped_signal::notify::display-column-header", scg_adjust_preferences, scg,
+			 "swapped_signal::notify::display-row-header", scg_adjust_preferences, scg,
+			 "swapped_signal::notify::use-r1c1", cb_scg_redraw, scg,
+			 "swapped_signal::notify::display-outlines", cb_scg_redraw_resize, scg,
+			 "swapped_signal::notify::display-outlines-below", cb_scg_redraw_resize, scg,
+			 "swapped_signal::notify::display-outlines-right", cb_scg_redraw_resize, scg,
+			 "swapped_signal::notify::columns", cb_scg_sheet_resized, scg,
+			 "swapped_signal::notify::rows", cb_scg_sheet_resized, scg,
+			 NULL);
+	} else {
+		GtkStyle *style;
+		scg->active_panes = 0;
+		scg->table = GTK_TABLE (gtk_table_new (1, 1, FALSE));
+		g_object_ref (scg->table);
+		sheet->hide_col_header = sheet->hide_row_header = FALSE;
+		if (sheet->sheet_type == GNM_SHEET_OBJECT) {
+			scg->vs = g_object_new (GOC_TYPE_CANVAS, NULL);
+			gtk_table_attach (scg->table, scg->vs,
+				0, 1, 0, 1,
+				GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+				GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+				0, 0);
+		}
+		style = gtk_style_copy (scg->vs->style);
+		style->bg[GTK_STATE_NORMAL] = style->white;
+		gtk_widget_set_style (scg->vs, style);
+		g_object_unref (style);
+
+		sv_attach_control (sv, SHEET_CONTROL (scg));
+		g_object_set_data (G_OBJECT (scg->vs), "sheet-control", scg);
+		if (sheet->sheet_objects) {
+			/* we need an idle function because not every thing is intialized at this point */
+			sheet_object_new_view ((SheetObject *) sheet->sheet_objects->data, (SheetObjectViewContainer*) scg->vs);
+			g_idle_add ((GSourceFunc) post_create_cb, scg);
+		}
+	}
 
 	scg->label = editable_label_new
 		(sheet->name_unquoted,
@@ -1567,14 +1619,17 @@ scg_finalize (GObject *object)
 	GSList *ptr;
 
 	/* remove the object view before we disappear */
-	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next )
-		SCG_FOREACH_PANE (scg, pane,
-			g_object_unref (
-				sheet_object_get_view (ptr->data, (SheetObjectViewContainer *)pane));
-		);
+	if (*scg->pane)
+		for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next )
+			SCG_FOREACH_PANE (scg, pane,
+				g_object_unref (
+					sheet_object_get_view (ptr->data, (SheetObjectViewContainer *)pane));
+			);
 
-	g_ptr_array_free (scg->col_group.buttons, TRUE);
-	g_ptr_array_free (scg->row_group.buttons, TRUE);
+	if (scg->col_group.buttons) {
+		g_ptr_array_free (scg->col_group.buttons, TRUE);
+		g_ptr_array_free (scg->row_group.buttons, TRUE);
+	}
 
 	scg_comment_timer_clear (scg);
 
@@ -1621,7 +1676,7 @@ scg_unant (SheetControl *sc)
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	/* Always have a pane 0 */
-	if (scg->pane[0]->cursor.animated == NULL)
+	if (scg->active_panes == 0  || scg->pane[0]->cursor.animated == NULL)
 		return;
 
 	SCG_FOREACH_PANE (scg, pane, {
@@ -1642,6 +1697,9 @@ scg_ant (SheetControl *sc)
 	GList *l;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+
+	if (scg->active_panes == 0)
+		return;
 
 	/* Always have a grid 0 */
 	if (NULL != scg->pane[0]->cursor.animated)
@@ -1685,22 +1743,24 @@ scg_adjust_preferences (SheetControlGUI *scg)
 		}
 	});
 
-	if (sheet->hide_col_header || sheet->hide_row_header)
-		gtk_widget_hide (GTK_WIDGET (scg->corner));
-	else
-		gtk_widget_show (GTK_WIDGET (scg->corner));
-
-	if (scg_wbc (scg) != NULL) {
-		WorkbookView *wbv = wb_control_view (scg_wbc (scg));
-		if (wbv->show_horizontal_scrollbar)
-			gtk_widget_show (scg->hs);
+	if (scg->corner) {
+		if (sheet->hide_col_header || sheet->hide_row_header)
+			gtk_widget_hide (GTK_WIDGET (scg->corner));
 		else
-			gtk_widget_hide (scg->hs);
+			gtk_widget_show (GTK_WIDGET (scg->corner));
 
-		if (wbv->show_vertical_scrollbar)
-			gtk_widget_show (scg->vs);
-		else
-			gtk_widget_hide (scg->vs);
+		if (scg_wbc (scg) != NULL) {
+			WorkbookView *wbv = wb_control_view (scg_wbc (scg));
+			if (wbv->show_horizontal_scrollbar)
+				gtk_widget_show (scg->hs);
+			else
+				gtk_widget_hide (scg->hs);
+
+			if (wbv->show_vertical_scrollbar)
+				gtk_widget_show (scg->vs);
+			else
+				gtk_widget_hide (scg->vs);
+		}
 	}
 }
 
@@ -3120,8 +3180,11 @@ static void
 scg_object_create_view	(SheetControl *sc, SheetObject *so)
 {
 	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
-	SCG_FOREACH_PANE (scg, pane,
-		sheet_object_new_view (so, (SheetObjectViewContainer *)pane););
+	if (scg->active_panes)
+		SCG_FOREACH_PANE (scg, pane,
+			sheet_object_new_view (so, (SheetObjectViewContainer *)pane););
+	else
+		sheet_object_new_view (so, (SheetObjectViewContainer *)scg->vs);
 }
 
 static void

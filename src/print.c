@@ -508,70 +508,77 @@ print_page (GtkPrintOperation *operation,
 	}
 	cairo_scale (cr, px, py);
 
+	if (sheet->sheet_type == GNM_SHEET_OBJECT) {
+		SheetObject *so = (SheetObject *) sheet->sheet_objects->data;
+		if (so)
+			sheet_object_draw_cairo_sized (so, cr, width, height);
+	} else {
+
 /* printing column and row headers */
 
-	if (sheet->print_info->print_titles) {
-		cairo_save (cr);
-		if (gsr->n_rep_cols > 0) {
-			print_page_col_headers (context, pi, cr, sheet,
-						&r_repeating_intersect,
+		if (sheet->print_info->print_titles) {
+			cairo_save (cr);
+			if (gsr->n_rep_cols > 0) {
+				print_page_col_headers (context, pi, cr, sheet,
+							&r_repeating_intersect,
+							row_header_width, col_header_height);
+				cairo_translate (cr, dir * rep_col_width, 0 );
+			}
+			print_page_col_headers (context, pi, cr, sheet, &gsr->range,
 						row_header_width, col_header_height);
-			cairo_translate (cr, dir * rep_col_width, 0 );
-		}
-		print_page_col_headers (context, pi, cr, sheet, &gsr->range,
-					row_header_width, col_header_height);
-		cairo_restore (cr);
-		cairo_save (cr);
-		if (gsr->n_rep_rows > 0) {
-			print_page_row_headers (context, pi, cr, sheet,
-						&r_repeating_intersect,
+			cairo_restore (cr);
+			cairo_save (cr);
+			if (gsr->n_rep_rows > 0) {
+				print_page_row_headers (context, pi, cr, sheet,
+							&r_repeating_intersect,
+							row_header_width, col_header_height);
+				cairo_translate (cr, 0, rep_row_height);
+			}
+			print_page_row_headers (context, pi, cr, sheet, &gsr->range,
 						row_header_width, col_header_height);
-			cairo_translate (cr, 0, rep_row_height);
+			cairo_restore (cr);
+			cairo_translate (cr, dir * row_header_width, col_header_height);
 		}
-		print_page_row_headers (context, pi, cr, sheet, &gsr->range,
-					row_header_width, col_header_height);
-		cairo_restore (cr);
-		cairo_translate (cr, dir * row_header_width, col_header_height);
-	}
 
 /* printing repeated row/col intersect */
 
-	if ((gsr->n_rep_rows > 0) && (gsr->n_rep_cols > 0)) {
-		print_page_cells (context, pi, cr, sheet,
-				  &r_repeating_intersect,
-				  dir * GNM_COL_MARGIN, -GNM_ROW_MARGIN);
-	}
+		if ((gsr->n_rep_rows > 0) && (gsr->n_rep_cols > 0)) {
+			print_page_cells (context, pi, cr, sheet,
+					  &r_repeating_intersect,
+					  dir * GNM_COL_MARGIN, -GNM_ROW_MARGIN);
+		}
 
 /* printing repeated rows  */
 
-	if (gsr->n_rep_rows > 0) {
-		GnmRange r;
-		range_init (&r, gsr->range.start.col, gsr->first_rep_rows,
-			    gsr->range.end.col, gsr->first_rep_rows + gsr->n_rep_rows - 1);
-		cairo_save (cr);
-		if (gsr->n_rep_cols > 0)
-			cairo_translate (cr, dir * rep_col_width, 0 );
-		print_page_cells (context, pi, cr, sheet, &r,
-				  dir * GNM_COL_MARGIN, -GNM_ROW_MARGIN);
-		cairo_restore (cr);
-		cairo_translate (cr, 0, rep_row_height );
-	}
+		if (gsr->n_rep_rows > 0) {
+			GnmRange r;
+			range_init (&r, gsr->range.start.col, gsr->first_rep_rows,
+				    gsr->range.end.col, gsr->first_rep_rows + gsr->n_rep_rows - 1);
+			cairo_save (cr);
+			if (gsr->n_rep_cols > 0)
+				cairo_translate (cr, dir * rep_col_width, 0 );
+			print_page_cells (context, pi, cr, sheet, &r,
+					  dir * GNM_COL_MARGIN, -GNM_ROW_MARGIN);
+			cairo_restore (cr);
+			cairo_translate (cr, 0, rep_row_height );
+		}
 
 /* printing repeated cols */
 
-	if (gsr->n_rep_cols > 0) {
-		GnmRange r;
-		range_init (&r, gsr->first_rep_cols, gsr->range.start.row,
-			    gsr->first_rep_cols + gsr->n_rep_cols - 1, gsr->range.end.row);
-		print_page_cells (context, pi, cr, sheet, &r,
-				  dir * GNM_COL_MARGIN, -GNM_ROW_MARGIN);
-		cairo_translate (cr, dir * rep_col_width, 0 );
-	}
+		if (gsr->n_rep_cols > 0) {
+			GnmRange r;
+			range_init (&r, gsr->first_rep_cols, gsr->range.start.row,
+				    gsr->first_rep_cols + gsr->n_rep_cols - 1, gsr->range.end.row);
+			print_page_cells (context, pi, cr, sheet, &r,
+					  dir * GNM_COL_MARGIN, -GNM_ROW_MARGIN);
+			cairo_translate (cr, dir * rep_col_width, 0 );
+		}
 
 /* printing page content  */
 
-	print_page_cells (context, pi, cr, sheet, &gsr->range,
-			  dir * GNM_COL_MARGIN, -GNM_ROW_MARGIN);
+		print_page_cells (context, pi, cr, sheet, &gsr->range,
+				  dir * GNM_COL_MARGIN, -GNM_ROW_MARGIN);
+	}
 
 	cairo_restore (cr);
 	return 1;

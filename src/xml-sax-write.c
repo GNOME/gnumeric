@@ -182,6 +182,8 @@ xml_write_sheet_names (GnmOutputXML *state)
 	for (i = 0 ; i < n ; i++) {
 		sheet = workbook_sheet_by_index (state->wb, i);
 		gsf_xml_out_start_element (state->output, GNM "SheetName");
+		if (sheet->sheet_type == GNM_SHEET_OBJECT)
+			gsf_xml_out_add_cstr (state->output, GNM "SheetType", "object");
 		gsf_xml_out_add_int (state->output, GNM "Cols",
 							 gnm_sheet_get_max_cols (sheet));
 		gsf_xml_out_add_int (state->output, GNM "Rows",

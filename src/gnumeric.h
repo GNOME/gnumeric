@@ -34,6 +34,12 @@ typedef enum {
 	GNM_SHEET_VISIBILITY_HIDDEN,
 	GNM_SHEET_VISIBILITY_VERY_HIDDEN
 } GnmSheetVisibility;
+typedef enum {
+	GNM_SHEET_DATA,
+	GNM_SHEET_OBJECT,
+	GNM_SHEET_XLM
+} GnmSheetType;
+
 typedef struct _Sheet			Sheet;
 typedef struct _SheetView		SheetView;
 typedef struct _SheetControl		SheetControl;

@@ -1,3 +1,38 @@
+2010-04-21  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* src/commands.c (update_sheet_graph_cb), (cmd_print_setup_undo),
+	(cmd_print_setup_redo):
+	* src/gnumeric.h:
+	* src/graph.h:
+	* src/print.c (print_page):
+	* src/sheet-control-gui.c (scg_resize), (scg_scrollbar_config),
+	(scg_set_top_left), (scg_make_cell_visible), (scg_set_panes),
+	(set_resize_pane_pos), (post_create_cb), (sheet_control_gui_new),
+	(scg_finalize), (scg_unant), (scg_ant), (scg_adjust_preferences),
+	(scg_object_create_view):
+	* src/sheet-object-graph.c (cb_graph_size_changed),
+	(cb_post_new_view), (gnm_sog_new_view), (gnm_sog_bounds_changed),
+	(cb_sheet_target_changed), (sheet_object_graph_guru),
+	(sheet_object_graph_ensure_size):
+	* src/sheet-object-graph.h:
+	* src/sheet-object.c (sheet_object_populate_menu_real),
+	(sheet_object_draw_cairo_sized), (sheet_object_view_enter_notify),
+	(cb_so_menu_activate), (cb_ptr_array_free), (build_so_menu),
+	(sheet_object_view_button_pressed):
+	* src/sheet-object.h:
+	* src/sheet.c (sheet_new_with_type):
+	* src/sheet.h:
+	* src/wbc-gtk-actions.c (cb_add_graph):
+	* src/wbc-gtk.c (wbcg_update_action_sensitivity),
+	(wbcg_set_direction), (cb_scroll_wheel), (wbcg_get_n_scg):
+	* src/workbook.c (workbook_sheet_add_with_type):
+	* src/workbook.h:
+	* src/xml-sax-read.c (xml_sax_wb_sheetsize),
+	(xml_sax_wb_sheetname):
+	* src/xml-sax-write.c (xml_write_sheet_names):
+
 2010-04-16  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
