@@ -1,3 +1,8 @@
+2010-04-21  Morten Welinder  <terra@gnome.org>
+
+	* src/cell.c (gnm_cell_get_entered_text): Make sure the empty
+	string gets quoted.  Fixes part of #616139.
+
 2010-04-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	reviewed by: <delete if not using a buddy>

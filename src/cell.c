@@ -581,7 +581,9 @@ gnm_cell_get_entered_text (GnmCell const *cell)
 			/* Try to be reasonably smart about adding a leading quote */
 			char const *tmp = value_peek_string (v);
 
-			if (tmp[0] != '\'' && !gnm_expr_char_start_p (tmp)) {
+			if (tmp[0] != '\'' &&
+			    tmp[0] != 0 &&
+			    !gnm_expr_char_start_p (tmp)) {
 				GnmValue *val = format_match_number
 					(tmp,
 					 gnm_cell_get_format (cell),

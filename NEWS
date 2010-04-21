@@ -6,6 +6,9 @@ Andreas:
 Jean
 	* Implement graph only sheets. [#158170]
 
+Morten:
+	* Make sure an empty string is shown with a quote.
+
 --------------------------------------------------------------------------
 Gnumeric 1.10.2
 
