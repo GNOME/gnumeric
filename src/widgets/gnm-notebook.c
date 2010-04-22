@@ -8410,12 +8410,14 @@ gnm_notebook_insert_tab (GnmNotebook *nb, GtkWidget *label, int pos)
 {
 	GtkWidget *dummy_page = gtk_hbox_new (FALSE, 0);
 	gtk_widget_set_size_request (dummy_page, 1, 1);
-	gtk_widget_show (dummy_page);
+
 	g_object_set_data (G_OBJECT (label), DUMMY_KEY, dummy_page);
 
 	g_signal_connect_object (G_OBJECT (label), "destroy",
 				 G_CALLBACK (cb_label_destroyed), dummy_page,
 				 0);
+
+	cb_label_visibility (label, NULL, dummy_page);
 	g_signal_connect_object (G_OBJECT (label), "notify::visible",
 				 G_CALLBACK (cb_label_visibility), dummy_page,
 				 0);

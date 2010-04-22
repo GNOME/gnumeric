@@ -1291,8 +1291,10 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 
 	gtk_widget_show (scg->label);
 	gtk_widget_show_all (GTK_WIDGET (scg->table));
-	if (!visible)
+	if (!visible) {
 		gtk_widget_hide (GTK_WIDGET (scg->table));
+		gtk_widget_hide (GTK_WIDGET (scg->label));
+	}
 	g_object_connect (G_OBJECT (sheet),
 			  "signal::notify::visibility", cb_sheet_visibility_change, scg,
 			  "signal::notify::name", cb_sheet_tab_change, scg->label,

@@ -1,3 +1,8 @@
+2010-04-22  Morten Welinder  <terra@gnome.org>
+
+	* gnm-notebook.c (gnm_notebook_insert_tab): Set the dummy page's
+	visibility.  Fixes #616549.
+
 2010-04-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.2
