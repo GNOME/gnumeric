@@ -496,23 +496,26 @@ print_page (GtkPrintOperation *operation,
 /* setting up content area */
 	cairo_save (cr);
 	cairo_translate (cr, sheet->text_is_rtl ? width : 0, edge_to_below_header - header);
-	if (pinfo->center_horizontally == 1 || pinfo->center_vertically == 1) {
-		double shift_x = 0;
-		double shift_y = 0;
-
-		if (pinfo->center_horizontally == 1)
-			shift_x = (width - print_width * px)/2;
-		if (pinfo->center_vertically == 1)
-			shift_y = (height - print_height * py)/2;
-		cairo_translate (cr, dir * shift_x, shift_y);
-	}
-	cairo_scale (cr, px, py);
 
 	if (sheet->sheet_type == GNM_SHEET_OBJECT) {
 		SheetObject *so = (SheetObject *) sheet->sheet_objects->data;
-		if (so)
+		if (so) {
+			cairo_scale (cr, px, py);
 			sheet_object_draw_cairo_sized (so, cr, width, height);
+		}
 	} else {
+
+		if (pinfo->center_horizontally == 1 || pinfo->center_vertically == 1) {
+			double shift_x = 0;
+			double shift_y = 0;
+
+			if (pinfo->center_horizontally == 1)
+				shift_x = (width - print_width * px)/2;
+			if (pinfo->center_vertically == 1)
+				shift_y = (height - print_height * py)/2;
+			cairo_translate (cr, dir * shift_x, shift_y);
+		}
+		cairo_scale (cr, px, py);
 
 /* printing column and row headers */
 

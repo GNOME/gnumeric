@@ -30,6 +30,7 @@
  <maintainer>
      <foaf:Person>
       <foaf:name>Andreas J. Guelzow</foaf:name>
+     <foaf:mbox rdf:resource="mailto:aguelzow pyrshep.ca" />
       <gnome:userid>guelzow</gnome:userid>
     </foaf:Person>
   </maintainer>
