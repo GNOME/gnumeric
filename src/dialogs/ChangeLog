@@ -1,6 +1,13 @@
-2010-04-21  Jean Brefort  <jean.brefort@normalesup.org>
+2010-03-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	reviewed by: <delete if not using a buddy>
+	* dialog-sheet-order.c (cb_sheet_order_cnt_visible): simplify
+	(sheet_order_cnt_visible): ditto
+	(cb_toggled_visible): we are now ensuring that we are the only 
+	  modifier
+	(sheet_selection_can_toggle): new
+	(create_sheet_list): hook up sheet_selection_can_toggle
+
+2010-04-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* dialog-printer-setup.c (cb_do_print_preview):
 

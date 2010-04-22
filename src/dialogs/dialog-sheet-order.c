@@ -1,4 +1,3 @@
-
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * dialog-sheet-order.c: Dialog to change the order of sheets in the Gnumeric
@@ -536,38 +535,20 @@ cb_toggled_direction (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	update_undo (state, wbc);
 }
 
-
-typedef struct {
-	int i;
-	SheetManager *state;
-} SheetManager_Vis_Counter;
-
 static gboolean
 cb_sheet_order_cnt_visible (GtkTreeModel *model,
 			    GtkTreePath *path,
 			    GtkTreeIter *iter,
 			    gpointer data)
 {
-	SheetManager_Vis_Counter *svc = data;
+	gint *i = data;
 	gboolean is_visible;
-	Sheet *this_sheet;
 
 	gtk_tree_model_get (model, iter,
 			    SHEET_VISIBLE, &is_visible,
-			    SHEET_POINTER, &this_sheet,
 			    -1);
-	if (is_visible != (this_sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE)) {
-		gtk_list_store_set (GTK_LIST_STORE (model), iter,
-				    SHEET_VISIBLE, (this_sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE),
-				    SHEET_VISIBLE_IMAGE, (this_sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE
-							  ? svc->state->image_visible
-							  : NULL),
-				    -1);
-		is_visible = (this_sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE);
-	}
-
 	if (is_visible)
-		(svc->i)++;
+		(*i)++;
 
 	return FALSE;
 }
@@ -575,12 +556,14 @@ cb_sheet_order_cnt_visible (GtkTreeModel *model,
 static gint
 sheet_order_cnt_visible (SheetManager *state)
 {
-	SheetManager_Vis_Counter data = {0, state};
+	gint data = 0;
 	gtk_tree_model_foreach (GTK_TREE_MODEL (state->model),
 				cb_sheet_order_cnt_visible,
 				&data);
-	return data.i;
+	return data;
 }
+
+static void populate_sheet_list (SheetManager *state);
 
 static void
 cb_toggled_visible (G_GNUC_UNUSED GtkCellRendererToggle *cell,
@@ -612,17 +595,10 @@ cb_toggled_visible (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	if (is_visible) {
 		cnt = sheet_order_cnt_visible (state);
 		if (cnt <= 1) {
-			/* Note: sheet_order_cnt_visible may have changed whether this sheet is indeed */
-			/* so we should not post a warning message if the sheet has become invisible.  */
-			gtk_tree_model_get (model, &iter,
-					    SHEET_VISIBLE, &is_visible,
-					    -1);
-			if (is_visible) {
-				go_gtk_notice_dialog (GTK_WINDOW (state->dialog), GTK_MESSAGE_ERROR,
-						      _("At least one sheet must remain visible!"));
-				gtk_tree_path_free (path);
-				return;
-			}
+			go_gtk_notice_dialog (GTK_WINDOW (state->dialog), GTK_MESSAGE_ERROR,
+					      _("At least one sheet must remain visible!"));
+			gtk_tree_path_free (path);
+			return;
 		}
 		gtk_list_store_set (GTK_LIST_STORE (model), &iter,
 				    SHEET_VISIBLE, FALSE,
@@ -647,6 +623,30 @@ cb_toggled_visible (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 
 	cmd_reorganize_sheets (wbc, old_state, this_sheet);
 	update_undo (state, wbc);
+
+	if (is_visible)
+		populate_sheet_list (state);	
+}
+
+static gboolean
+sheet_selection_can_toggle(GtkTreeSelection *selection,
+			   GtkTreeModel *model,
+			   GtkTreePath *path,
+			   gboolean path_currently_selected,
+			   G_GNUC_UNUSED gpointer data)
+{
+	GtkTreeIter iter;
+	gboolean is_visible;
+
+	if (path_currently_selected || 
+	    !gtk_tree_model_get_iter (model, &iter, path))
+		return TRUE;
+
+	gtk_tree_model_get (model, &iter,
+			    SHEET_VISIBLE, &is_visible,
+			    -1);
+
+	return is_visible;
 }
 
 static void
@@ -765,6 +765,9 @@ create_sheet_list (SheetManager *state)
 		g_signal_connect (selection,
 				  "changed",
 				  G_CALLBACK (cb_selection_changed), state);
+	gtk_tree_selection_set_select_function (selection,
+						sheet_selection_can_toggle,
+						NULL, NULL);
 
 	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (state->sheet_list));
 }
