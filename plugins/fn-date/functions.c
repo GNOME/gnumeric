@@ -1076,8 +1076,8 @@ static GnmFuncHelp const help_weeknum[] = {
         { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
         { GNM_FUNC_HELP_ARG, F_("method:numbering system")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("WEEKNUM calculates the week number according to @{method} which defaults to 1.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 1, then weeks start on Sundays and days before first Sunday are in week 0.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 2, then weeks start on Mondays and days before first Monday are in week 0.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 1, then weeks start on Sundays and January 1 is in week 1.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 2, then weeks start on Mondays and January 1 is in week 1.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 150, then the ISO 8601 numbering is used.") },
         { GNM_FUNC_HELP_EXAMPLES, "=WEEKNUM(DATE(2000,1,1))" },
         { GNM_FUNC_HELP_EXAMPLES, "=WEEKNUM(DATE(2008,1,1))" },
@@ -1090,17 +1090,22 @@ gnumeric_weeknum (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	GDate date;
 	gnm_float method = argv[1] ? gnm_floor (value_get_as_float (argv[1])) : 1;
+	int m;
 
-	if (!(method == GO_WEEKNUM_METHOD_SUNDAY ||
-	      method == GO_WEEKNUM_METHOD_MONDAY ||
-	      method == GO_WEEKNUM_METHOD_ISO))
+	if (method == 1)
+		m = GO_WEEKNUM_METHOD_SUNDAY;
+	else if (method == 2)
+		m = GO_WEEKNUM_METHOD_MONDAY;
+	else if (method == 150 || method == 21)
+		m = GO_WEEKNUM_METHOD_ISO;
+	else
 		return value_new_error_VALUE (ei->pos);
 
 	datetime_value_to_g (&date, argv[0], DATE_CONV (ei->pos));
 	if (!g_date_valid (&date))
                   return value_new_error_VALUE (ei->pos);
 
-	return value_new_int (go_date_weeknum (&date, (int)method));
+	return value_new_int (go_date_weeknum (&date, m));
 }
 
 /***************************************************************************/

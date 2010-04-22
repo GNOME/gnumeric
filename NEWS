@@ -13,6 +13,7 @@ Jean
 Morten:
 	* Make sure an empty string is shown with a quote.
 	* Fix problem loading cells with empty strings.  [#616139]
+	* Fix WEEKNUM problems.  [#616330]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.2
