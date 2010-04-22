@@ -1,4 +1,4 @@
-2010-03-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2010-04-22 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-sheet-order.c (cb_sheet_order_cnt_visible): simplify
 	(sheet_order_cnt_visible): ditto
