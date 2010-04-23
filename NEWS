@@ -5,7 +5,7 @@ Andreas:
 	* Fix printing and preview of graph only sheets. [#616475]
 	* Make even active sheets invisible. [#616474]
 
-Jean
+Jean:
 	* Implement graph only sheets. [#158170]
 	* Fix chart title import when excel automagically uses the unique
 	series label. [#616262]
