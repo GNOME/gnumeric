@@ -3250,7 +3250,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>method</parameter> is 1, then weeks start on Sundays and days before first Sunday are in week 0. If <parameter>method</parameter> is 2, then weeks start on Mondays and days before first Monday are in week 0. If <parameter>method</parameter> is 150, then the ISO 8601 numbering is used.</para>
+        <para>If <parameter>method</parameter> is 1, then weeks start on Sundays and January 1 is in week 1. If <parameter>method</parameter> is 2, then weeks start on Mondays and January 1 is in week 1. If <parameter>method</parameter> is 150, then the ISO 8601 numbering is used.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -14504,7 +14504,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If the actual range is not an n by 1 or 1 by n range, the returned value appears to have no sensible meaning.</para>
+        <para>If the actual range is not an n by 1 or 1 by n range, but an n by m range, then <function>CHITEST</function> uses (n-1) times (m-1) as degrees of freedom. This is useful if the expected values were calculated from the observed value in a test of independence or test of homogeneity.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
