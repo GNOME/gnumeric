@@ -5752,8 +5752,6 @@ excel_externsheet_v8 (GnmXLImporter const *importer, guint16 i)
 static Sheet *
 supbook_get_sheet (GnmXLImporter *importer, gint16 sup_index, unsigned i)
 {
-	Sheet *sheet = NULL;
-
 	if (sup_index < 0) {
 		g_warning ("external references not supported yet.");
 		return NULL;
@@ -5769,16 +5767,23 @@ supbook_get_sheet (GnmXLImporter *importer, gint16 sup_index, unsigned i)
 
 	g_return_val_if_fail ((unsigned)sup_index < importer->v8.supbook->len, NULL);
 
-	/* supbook was self referential */
-	if (g_array_index (importer->v8.supbook, ExcelSupBook, sup_index).type == EXCEL_SUP_BOOK_SELFREF) {
+	switch (g_array_index (importer->v8.supbook, ExcelSupBook, sup_index).type) {
+	case EXCEL_SUP_BOOK_SELFREF: {
+		Sheet *sheet;
 		g_return_val_if_fail (i < importer->boundsheet_sheet_by_index->len, NULL);
 		sheet = g_ptr_array_index (importer->boundsheet_sheet_by_index, i);
 		g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	} else {
-		/* supbook was an external reference */
+		return sheet;
+	}
+	case EXCEL_SUP_BOOK_STD:
+		g_warning ("external references not supported yet.");
+		break;
+	case EXCEL_SUP_BOOK_PLUGIN:
+		g_warning ("strange external reference.");
+		break;
 	}
 
-	return sheet;
+	return (Sheet *)2; /* pretend "deleted" */
 }
 
 static void
@@ -6522,27 +6527,24 @@ static void
 excel_read_SUPBOOK (BiffQuery *q, GnmXLImporter *importer)
 {
 	unsigned numTabs, len;
-	unsigned i;
-	guint32 byte_length;
-	gboolean is_2byte = FALSE;
-	char *name;
-	guint8 encodeType, *data;
+	unsigned i, t;
+	guint32 byte_length, ofs;
 	ExcelSupBook *new_supbook;
+	char *bookname;
 
 	XL_CHECK_CONDITION (q->length >= 4);
 	numTabs = GSF_LE_GET_GUINT16 (q->data);
 	len = GSF_LE_GET_GUINT16 (q->data + 2);
 
-	d (2, g_printerr ("supbook %d has %d\n", importer->v8.supbook->len, numTabs););
-
 	i = importer->v8.supbook->len;
-	g_array_set_size (importer->v8.supbook, i+1);
+	g_array_set_size (importer->v8.supbook, i + 1);
 	new_supbook = &g_array_index (importer->v8.supbook, ExcelSupBook, i);
+
+	d (2, g_printerr ("supbook %d has %d sheets\n", i, numTabs););
 
 	new_supbook->externname = g_ptr_array_new ();
 	new_supbook->wb = NULL;
 
-	/* undocumented guess */
 	if (q->length == 4 && len == 0x0401) {
 		d (2, g_printerr ("\t is self referential\n"););
 		new_supbook->type = EXCEL_SUP_BOOK_SELFREF;
@@ -6555,43 +6557,45 @@ excel_read_SUPBOOK (BiffQuery *q, GnmXLImporter *importer)
 	}
 
 	new_supbook->type = EXCEL_SUP_BOOK_STD;
+	XL_CHECK_CONDITION (q->length >= 5);
 
-	XL_CHECK_CONDITION (q->length >= 6);
-	switch (GSF_LE_GET_GUINT8 (q->data + 4)) {
-	case 0 : break; /* 1 byte locale compressed unicode for book name */
-	case 1 : len *= 2; is_2byte = TRUE; break;	/* 2 byte unicode */
-	default :
-		 g_warning ("Invalid header on SUPBOOK record");
-		 gsf_mem_dump (q->data, q->length);
-		 return;
+	bookname = excel_get_text (importer, q->data + 4, len,
+				   &byte_length, q->length - 4);
+	d (2, g_printerr ("\trefers to %s\n", bookname););
+	/*
+	 * Bookname can be
+	 * (1) a single space -- "unused"
+	 * (2) a single nul -- self referencing
+	 * (3) an OLE-link VirtualPath
+	 * (4) any other VirtualPath -- external workbook
+	 */
+	if (len == 1 && *bookname == 0) {
+		new_supbook->type = EXCEL_SUP_BOOK_SELFREF;
+	} else if (len == 1 && *bookname == ' ') {
+		/* what? */
 	}
+	g_free (bookname);
 
-	XL_CHECK_CONDITION (len + 5 <= q->length);
+	ofs = 4 + byte_length;
+	XL_CHECK_CONDITION (ofs <= q->length);
 
-#warning create a workbook and sheets when we have a facility for merging things
-	encodeType = GSF_LE_GET_GUINT8 (q->data + 5);
-	d (1, g_printerr ("Supporting workbook with %d Tabs\n", numTabs););
-	switch (encodeType) {
-	case 0x00:
-		d (0, g_printerr ("--> SUPBOOK VirtPath encoding = chEmpty"););
-		break;
-	case 0x01:
-		d (0, g_printerr ("--> SUPBOOK VirtPath encoding = chEncode"););
-		break;
-	case 0x02: /* chSelf */
-		break;
-	default:
-		; /* un encoded */
-	}
-	d (1, {
-	gsf_mem_dump (q->data + 4 + 1, len);
-	for (data = q->data + 4 + 1 + len, i = 0; i < numTabs ; i++) {
-		len = GSF_LE_GET_GUINT16 (data);
-		name = excel_get_text_fixme (importer, data + 2, len, &byte_length);
-		g_printerr ("\t-> %s\n", name);
+	for (t = 0; t < numTabs; t++) {
+		char *name;
+		guint32 length;
+
+		XL_CHECK_CONDITION (ofs + 2 <= q->length);
+
+		length = GSF_LE_GET_GUINT16 (q->data + ofs);
+		ofs += 2;
+		name = excel_get_text (importer, q->data + ofs, length,
+				       &byte_length, q->length - ofs);
+		d (2, g_printerr ("\tSheet %d -> %s\n", t, name););
 		g_free (name);
-		data += byte_length + 2;
-	}});
+
+		ofs += byte_length;
+	}
+
+#warning "create a workbook and sheets when we have a facility for merging things"
 }
 
 static void
