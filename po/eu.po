@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-02 09:24-0500\n"
+"POT-Creation-Date: 2010-04-22 20:46-0400\n"
 "PO-Revision-Date: 2009-09-16 12:27+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>\n"
 "Language-Team: Basque <itzulpena@euskalgnu.org>\n"
@@ -83,7 +83,7 @@ msgid "Provides a CORBA scripting interface"
 msgstr "CORBA script interfazea eskaintzen du"
 
 #: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6770
-#: ../plugins/openoffice/openoffice-read.c:5290 ../src/xml-sax-read.c:3066
+#: ../plugins/openoffice/openoffice-read.c:5340 ../src/xml-sax-read.c:3075
 msgid "Reading file..."
 msgstr "Fitxategia irakurtzen..."
 
@@ -176,13 +176,13 @@ msgstr "Gordetzeko prestatzen..."
 msgid "Saving file..."
 msgstr "Fitxategia gordetzen..."
 
-#: ../plugins/excel/excel-xml-read.c:130 ../src/xml-sax-read.c:411
+#: ../plugins/excel/excel-xml-read.c:130 ../src/xml-sax-read.c:412
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Ustekabeko atributua, %s::%s == '%s'."
 
 #: ../plugins/excel/excel-xml-read.c:1068
-#: ../plugins/openoffice/openoffice-read.c:5357 ../src/xml-sax-read.c:3083
+#: ../plugins/openoffice/openoffice-read.c:5407 ../src/xml-sax-read.c:3092
 msgid "XML document not well formed!"
 msgstr "XML dokumentua ondo osatu gabe dago"
 
@@ -287,11 +287,11 @@ msgstr ""
 "Dagoeneko idatzi dugu kodetze-arazoen ondorioz trunkatutako kate baten "
 "luzera."
 
-#: ../plugins/excel/ms-excel-write.c:6274
+#: ../plugins/excel/ms-excel-write.c:6284
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Ezin izan da korronte 'Liburua' ireki idazteko\n"
 
-#: ../plugins/excel/ms-excel-write.c:6296
+#: ../plugins/excel/ms-excel-write.c:6306
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Ezin izan da korronteko 'Laneko liburua' ireki idazteko\n"
 
@@ -299,7 +299,7 @@ msgstr "Ezin izan da korronteko 'Laneko liburua' ireki idazteko\n"
 msgid "Broken function"
 msgstr "Hautsitako funtzioa"
 
-#: ../plugins/excel/ms-formula-write.c:530
+#: ../plugins/excel/ms-formula-write.c:563
 #, c-format
 msgid ""
 "Too many arguments for function '%s', MS Excel can only handle %d not %d"
@@ -451,16 +451,16 @@ msgstr "'%s' motako baldintzapeko formatu maneiatu gabeari ez ikusi egiten"
 msgid "Unknown type of hyperlink"
 msgstr "Hiperesteka mota ezezaguna"
 
-#: ../plugins/excel/xlsx-read.c:4135
+#: ../plugins/excel/xlsx-read.c:4155
 msgid "Ignoring a sheet without a name"
 msgstr "Izenik gabeko orri bati ez ikusi egiten"
 
-#: ../plugins/excel/xlsx-read.c:4223
+#: ../plugins/excel/xlsx-read.c:4243
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "'%s' orriaren part-id falta da"
 
-#: ../plugins/excel/xlsx-read.c:5156
+#: ../plugins/excel/xlsx-read.c:5176
 msgid "No workbook stream found."
 msgstr "Ez da aurkitu laneko liburuen korronterik."
 
@@ -645,62 +645,66 @@ msgstr "Interes-tasaren kalkuluak"
 #. Merriam-Webster dictionary
 #. xgettext: Tishri to Adar II are transliterations of the
 #. xgettext: hebrew months' names using Latin characters.
-#: ../plugins/fn-hebrew-date/hdate_strings.c:106
+#: ../plugins/fn-hebrew-date/hdate_strings.c:104
 #, fuzzy
 msgid "Tishri"
 msgstr "Mehea"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:106
+#: ../plugins/fn-hebrew-date/hdate_strings.c:104
 #, fuzzy
 msgid "Heshwan"
 msgstr "Txikiago"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:106
+#: ../plugins/fn-hebrew-date/hdate_strings.c:104
 #, fuzzy
 msgid "Kislev"
 msgstr "Fitxategia"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:107
+#: ../plugins/fn-hebrew-date/hdate_strings.c:105
 #, fuzzy
 msgid "Tebet"
 msgstr "Testua"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:107
+#: ../plugins/fn-hebrew-date/hdate_strings.c:105
 #, fuzzy
 msgid "Shebat"
 msgstr "Orria"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:107
+#: ../plugins/fn-hebrew-date/hdate_strings.c:105
 msgid "Adar"
 msgstr ""
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:108
+#: ../plugins/fn-hebrew-date/hdate_strings.c:106
 msgid "Nisan"
 msgstr ""
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:108
+#: ../plugins/fn-hebrew-date/hdate_strings.c:106
 msgid "Iyar"
 msgstr ""
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:108
+#: ../plugins/fn-hebrew-date/hdate_strings.c:106
 #, fuzzy
 msgid "Sivan"
 msgstr "Sans"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:109
+#: ../plugins/fn-hebrew-date/hdate_strings.c:106
+msgid "Tammuz"
+msgstr ""
+
+#: ../plugins/fn-hebrew-date/hdate_strings.c:107
 msgid "Ab"
 msgstr ""
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:109
+#: ../plugins/fn-hebrew-date/hdate_strings.c:107
 #, fuzzy
 msgid "Elul"
 msgstr "Berdin"
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:109
+#: ../plugins/fn-hebrew-date/hdate_strings.c:107
 msgid "Adar I"
 msgstr ""
 
-#: ../plugins/fn-hebrew-date/hdate_strings.c:109
+#: ../plugins/fn-hebrew-date/hdate_strings.c:107
 msgid "Adar II"
 msgstr ""
 
@@ -736,7 +740,7 @@ msgstr "%s bertsioa %s"
 #: ../plugins/fn-info/functions.c:1406
 #: ../src/dialogs/dialog-cell-format.c:2530
 #: ../src/dialogs/dialog-cell-format.c:2534
-#: ../src/dialogs/dialog-cell-format.c:2542 ../src/wbc-gtk.c:2885
+#: ../src/dialogs/dialog-cell-format.c:2542 ../src/wbc-gtk.c:2927
 msgid "Automatic"
 msgstr "Automatikoa"
 
@@ -854,7 +858,7 @@ msgstr "Ausazko zenbakien funtzioak"
 msgid "Random Numbers"
 msgstr "Ausazko zenbakiak"
 
-#: ../plugins/fn-stat/functions.c:2399 ../plugins/fn-stat/functions.c:2429
+#: ../plugins/fn-stat/functions.c:2417 ../plugins/fn-stat/functions.c:2447
 msgid "Array version not implemented!"
 msgstr "Array bertsioa inplementatu gabe"
 
@@ -940,12 +944,12 @@ msgstr "Fitxategia gordetzen..."
 msgid "The GLPK exporter is not available."
 msgstr "Fitxategi-gordetzaile lehenetsia ez dago erabilgarri."
 
-#: ../plugins/glpk/gnm-glpk.c:236
+#: ../plugins/glpk/gnm-glpk.c:237
 #, fuzzy, c-format
 msgid "Failed to create file for solution"
 msgstr "Huts egin du aldi baterako fitxategia sortzean bidaltzeko."
 
-#: ../plugins/glpk/gnm-glpk.c:285 ../plugins/lpsolve/gnm-lpsolve.c:280
+#: ../plugins/glpk/gnm-glpk.c:286 ../plugins/lpsolve/gnm-lpsolve.c:280
 #, c-format
 msgid ""
 "The %s program was not found.  You can either install it or use another "
@@ -1183,7 +1187,7 @@ msgstr "GNU Oleo (*.oleo)"
 msgid "Imports GNU Oleo documents"
 msgstr "GNU Oleo dokumentuak inportatzen ditu"
 
-#: ../plugins/openoffice/openoffice-read.c:690
+#: ../plugins/openoffice/openoffice-read.c:692
 #, c-format
 msgid ""
 "Unable to parse\n"
@@ -1194,74 +1198,74 @@ msgstr ""
 "\t'%s'\n"
 "analizatu. Arrazoia: '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:1060
+#: ../plugins/openoffice/openoffice-read.c:1062
 #, c-format
 msgid "Content past the maximum number of rows (%i) supported."
 msgstr "Edukiak gainditu egin du onartutako gehieneko errenkada kopurua (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:1168
+#: ../plugins/openoffice/openoffice-read.c:1170
 msgid "Missing expression"
 msgstr "Adierazpena falta da"
 
-#: ../plugins/openoffice/openoffice-read.c:1187
+#: ../plugins/openoffice/openoffice-read.c:1189
 #, c-format
 msgid "Missing or unknown expression namespace: %s"
 msgstr "Adierazpenaren izen-espazioa falta da, edo ezezaguna da: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:1195
+#: ../plugins/openoffice/openoffice-read.c:1197
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "'%s' adierazpena ez da hasten karaktere ezagun batekin"
 
-#: ../plugins/openoffice/openoffice-read.c:1322
+#: ../plugins/openoffice/openoffice-read.c:1324
 msgid "Invalid array expression does not specify number of columns."
 msgstr "Array adierazpen baliogabeak ez du zehazten zutabe kopurua."
 
-#: ../plugins/openoffice/openoffice-read.c:1325
+#: ../plugins/openoffice/openoffice-read.c:1327
 msgid "Invalid array expression does not specify number of rows."
 msgstr "Array adierazpen baliogabeak ez du zehazten errenkada kopurua."
 
-#: ../plugins/openoffice/openoffice-read.c:1527
+#: ../plugins/openoffice/openoffice-read.c:1529
 msgid "Duplicate default column style encountered."
 msgstr "Bikoiztutako zutabearen estilo lehenetsia aurkitu da."
 
-#: ../plugins/openoffice/openoffice-read.c:1542
+#: ../plugins/openoffice/openoffice-read.c:1544
 msgid "Duplicate default row style encountered."
 msgstr "Bikoiztutako errenkadaren estilo lehenetsia aurkitu da."
 
-#: ../plugins/openoffice/openoffice-read.c:2575
+#: ../plugins/openoffice/openoffice-read.c:2577
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr "'%s' salto mota ezezaguna (NONEra aldatzen)"
 
-#: ../plugins/openoffice/openoffice-read.c:2795
+#: ../plugins/openoffice/openoffice-read.c:2797
 #, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
 msgstr "'%s' baldintza mota ezezaguna. Ez ikusi egiten."
 
-#: ../plugins/openoffice/openoffice-read.c:3041
+#: ../plugins/openoffice/openoffice-read.c:3043
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "'%s' @ '%s' adierazpena ez da gelaxka-erreferentzia"
 
-#: ../plugins/openoffice/openoffice-read.c:3078
+#: ../plugins/openoffice/openoffice-read.c:3080
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "'%s' datu-baseko barrutia baliogabea da"
 
-#: ../plugins/openoffice/openoffice-read.c:5223
+#: ../plugins/openoffice/openoffice-read.c:5273
 msgid "Unknown mimetype for openoffice file."
 msgstr "MIME mota ezezaguna openoffice fitxategiarentzat."
 
-#: ../plugins/openoffice/openoffice-read.c:5231
+#: ../plugins/openoffice/openoffice-read.c:5281
 msgid "No stream named content.xml found."
 msgstr "Ez da aurkitu content.xml izeneko korronterik."
 
-#: ../plugins/openoffice/openoffice-read.c:5239
+#: ../plugins/openoffice/openoffice-read.c:5289
 msgid "No stream named styles.xml found."
 msgstr "Ez da aurkitu styles.xml izeneko korronterik."
 
-#: ../plugins/openoffice/openoffice-read.c:5300
+#: ../plugins/openoffice/openoffice-read.c:5350
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Metadatu baliogabeak: '%s'"
@@ -1796,7 +1800,7 @@ msgid "Activate New Plugins"
 msgstr "Aktibatu plugin berriak"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:4
-#: ../src/dialogs/dialog-preferences.c:902
+#: ../src/dialogs/dialog-preferences.c:972
 msgid "Allow Unfocused Range Selections"
 msgstr "Onartu fokurik gabeko barruti-hautapenak"
 
@@ -1949,7 +1953,7 @@ msgid "List of recently used functions."
 msgstr "Duela gutxi erabilitako funtzioen zerrenda."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:42
-#: ../src/dialogs/dialog-preferences.c:906
+#: ../src/dialogs/dialog-preferences.c:977
 msgid "Maximum Length of Recently Used Functions List"
 msgstr "Duela gutxi erabilitako funtzioen zerrendaren gehieneko luzera"
 
@@ -2337,7 +2341,7 @@ msgid "Auto Expression Recalculation Lag"
 msgstr "Adierazpenak automatikoki birkalkulatzeko atzerapena"
 
 #: ../schemas/gnumeric-general.schemas.in.h:2
-#: ../src/dialogs/dialog-preferences.c:898
+#: ../src/dialogs/dialog-preferences.c:967
 msgid "Autocomplete"
 msgstr "Osatze automatikoa"
 
@@ -2356,7 +2360,7 @@ msgstr ""
 "agertuko da gainidazteko botoia."
 
 #: ../schemas/gnumeric-general.schemas.in.h:5
-#: ../src/dialogs/dialog-preferences.c:823
+#: ../src/dialogs/dialog-preferences.c:883
 msgid "Default Compression Level For Gnumeric Files"
 msgstr "Gnumeric fitxategietarako konpresio-maila lehenetsia"
 
@@ -2365,12 +2369,12 @@ msgid "Default Font Size"
 msgstr "Letra-tipo lehenetsia"
 
 #: ../schemas/gnumeric-general.schemas.in.h:7
-#: ../src/dialogs/dialog-preferences.c:774
+#: ../src/dialogs/dialog-preferences.c:828
 msgid "Default Horizontal Window Size"
 msgstr "Leiho horizontalen tamaina lehenetsia"
 
 #: ../schemas/gnumeric-general.schemas.in.h:8
-#: ../src/dialogs/dialog-preferences.c:782
+#: ../src/dialogs/dialog-preferences.c:838
 msgid "Default Number of Sheets"
 msgstr "Orri kopuru lehenetsia"
 
@@ -2383,17 +2387,17 @@ msgid "Default Number of rows in a sheet"
 msgstr "Errenkada kopuru lehenetsia orri batean"
 
 #: ../schemas/gnumeric-general.schemas.in.h:11
-#: ../src/dialogs/dialog-preferences.c:832
+#: ../src/dialogs/dialog-preferences.c:894
 msgid "Default To Overwriting Files"
 msgstr "Fitxategiak gainidazteko lehenespena"
 
 #: ../schemas/gnumeric-general.schemas.in.h:12
-#: ../src/dialogs/dialog-preferences.c:770
+#: ../src/dialogs/dialog-preferences.c:823
 msgid "Default Vertical Window Size"
 msgstr "Leiho bertikalen tamaina lehenetsia"
 
 #: ../schemas/gnumeric-general.schemas.in.h:13
-#: ../src/dialogs/dialog-preferences.c:778
+#: ../src/dialogs/dialog-preferences.c:833
 msgid "Default Zoom Factor"
 msgstr "Zoom-faktore lehenetsia"
 
@@ -2410,7 +2414,7 @@ msgid "Format toolbar visible"
 msgstr "Formatuaren tresna-barra ikusgai"
 
 #: ../schemas/gnumeric-general.schemas.in.h:17
-#: ../src/dialogs/dialog-preferences.c:863
+#: ../src/dialogs/dialog-preferences.c:928
 msgid "Horizontal DPI"
 msgstr "DPI horizontala"
 
@@ -2438,7 +2442,7 @@ msgid "Length of the Undo Descriptors"
 msgstr "Desegiteko deskriptoreen luzera"
 
 #: ../schemas/gnumeric-general.schemas.in.h:20
-#: ../src/dialogs/dialog-preferences.c:801
+#: ../src/dialogs/dialog-preferences.c:860
 msgid "Live Scrolling"
 msgstr "Zuzeneko korritzea"
 
@@ -2451,17 +2455,17 @@ msgid "Long format toolbar visible"
 msgstr "Formatu luzearen tresna-barra ikusgai"
 
 #: ../schemas/gnumeric-general.schemas.in.h:23
-#: ../src/dialogs/dialog-preferences.c:705
+#: ../src/dialogs/dialog-preferences.c:751
 msgid "Maximal Undo Size"
 msgstr "Desegiteko gehieneko tamaina"
 
 #: ../schemas/gnumeric-general.schemas.in.h:24
-#: ../src/dialogs/dialog-preferences.c:735
+#: ../src/dialogs/dialog-preferences.c:784
 msgid "Number of Automatic Clauses"
 msgstr "Agindu automatikoen kopurua"
 
 #: ../schemas/gnumeric-general.schemas.in.h:25
-#: ../src/dialogs/dialog-preferences.c:709
+#: ../src/dialogs/dialog-preferences.c:756
 msgid "Number of Undo Items"
 msgstr "Desegiteko elementuen kopurua"
 
@@ -2507,7 +2511,7 @@ msgstr ""
 "kontrol-laukia hautatua agertuko da ordenatzeko elkarrizketa-koadroan."
 
 #: ../schemas/gnumeric-general.schemas.in.h:34
-#: ../src/dialogs/dialog-preferences.c:713
+#: ../src/dialogs/dialog-preferences.c:761
 msgid "Show Sheet Name in Undo List"
 msgstr "Erakutsi orriaren izena desegite-zerrendan"
 
@@ -2522,7 +2526,7 @@ msgstr ""
 "orri bakarra ari dela gordetzen."
 
 #: ../schemas/gnumeric-general.schemas.in.h:36
-#: ../src/dialogs/dialog-preferences.c:747 ../src/wbc-gtk-actions.c:2280
+#: ../src/dialogs/dialog-preferences.c:799 ../src/wbc-gtk-actions.c:2303
 msgid "Sort Ascending"
 msgstr "Ordenatu gorantz"
 
@@ -2531,7 +2535,7 @@ msgid "Sort is Case-Sensitive"
 msgstr "Ordenatze-funtzioak maiuskulak eta minuskulak bereizten ditu"
 
 #: ../schemas/gnumeric-general.schemas.in.h:38
-#: ../src/dialogs/dialog-preferences.c:739
+#: ../src/dialogs/dialog-preferences.c:789
 msgid "Sorting Preserves Formats"
 msgstr "Ordenatze-prozesuak formatuak mantentzen ditu"
 
@@ -2772,17 +2776,17 @@ msgstr ""
 "testua."
 
 #: ../schemas/gnumeric-general.schemas.in.h:73
-#: ../src/dialogs/dialog-preferences.c:894
+#: ../src/dialogs/dialog-preferences.c:962
 msgid "Transition Keys"
 msgstr "Trantsizio-teklak"
 
 #: ../schemas/gnumeric-general.schemas.in.h:74
-#: ../src/dialogs/dialog-preferences.c:867
+#: ../src/dialogs/dialog-preferences.c:933
 msgid "Vertical DPI"
 msgstr "DPI bertikala"
 
 #: ../schemas/gnumeric-general.schemas.in.h:75
-#: ../src/dialogs/dialog-preferences.c:836
+#: ../src/dialogs/dialog-preferences.c:899
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr "Abisatu orri bakarreko formatura esportatzean"
 
@@ -2818,7 +2822,7 @@ msgstr ""
 "instalatuta eduki behar duzu ucs LaTeX paketea."
 
 #: ../schemas/gnumeric-plugins.schemas.in.h:2
-#: ../src/dialogs/dialog-preferences.c:841
+#: ../src/dialogs/dialog-preferences.c:905
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Erabili UTF-8 LaTeX esportazioan"
 
@@ -3013,7 +3017,7 @@ msgid "Deleting row %s"
 msgstr "%s errenkada ezabatzen"
 
 #. Check for locked cells
-#: ../src/commands.c:1511 ../src/commands.c:1515 ../src/sheet.c:4078
+#: ../src/commands.c:1511 ../src/commands.c:1515 ../src/sheet.c:4081
 msgid "Clear"
 msgstr "Garbitu"
 
@@ -3107,7 +3111,7 @@ msgstr "%s zutabeen zabalera balio lehenetsian ezartzen"
 msgid "Setting height of rows %s to default"
 msgstr "%s errenkaden altuera balio lehenetsian ezartzen"
 
-#: ../src/commands.c:2043 ../src/dialogs/dialog-preferences.c:1029
+#: ../src/commands.c:2043 ../src/dialogs/dialog-preferences.c:1108
 msgid "Sorting"
 msgstr "Ordenatu"
 
@@ -3224,7 +3228,7 @@ msgstr "Hemen itsasten: %s"
 
 #. Check arrays or merged regions in src or target regions
 #: ../src/commands.c:3048 ../src/commands.c:3203 ../src/commands.c:3204
-#: ../src/item-cursor.c:962 ../src/wbc-gtk-actions.c:556
+#: ../src/item-cursor.c:962 ../src/wbc-gtk-actions.c:557
 msgid "Autofill"
 msgstr "Bete automatikoki"
 
@@ -3282,7 +3286,7 @@ msgstr "Ezabatu objektua"
 msgid "Format Object"
 msgstr "Formateatu objektua"
 
-#: ../src/commands.c:4768 ../src/commands.c:5780
+#: ../src/commands.c:4768 ../src/commands.c:5796
 #: ../src/dialogs/dialog-define-names.c:577
 #: ../src/dialogs/dialog-doc-metadata.c:1288
 #: ../src/dialogs/dialog-formula-guru.c:849
@@ -3345,141 +3349,145 @@ msgstr "Bultza objektuari atzerantz"
 msgid "Push Object to the Back"
 msgstr "Bultza objektua atzeraino"
 
-#: ../src/commands.c:5716
+#: ../src/commands.c:5732
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Prestatu orria honetarako: %s"
 
-#: ../src/commands.c:5718
+#: ../src/commands.c:5734
 msgid "Page Setup For All Sheets"
 msgstr "Prestatu orrialdea orri guztietarako"
 
-#: ../src/commands.c:5843
+#: ../src/commands.c:5859
 msgid "is not allowed as defined name"
 msgstr "ez dago onartuta izen definitu gisa"
 
-#: ../src/commands.c:5850
+#: ../src/commands.c:5866
 msgid "has a circular reference"
 msgstr "erreferentzia zirkularra dauka"
 
-#: ../src/commands.c:5884
+#: ../src/commands.c:5900
 #, c-format
 msgid "Define Name %s"
 msgstr "Definitu izena: %s"
 
-#: ../src/commands.c:5887
+#: ../src/commands.c:5903
 #, c-format
 msgid "Update Name %s"
 msgstr "Eguneratu izena: %s"
 
-#: ../src/commands.c:5980
+#: ../src/commands.c:5996
 #, c-format
 msgid "Remove Name %s"
 msgstr "Kendu izena: %s"
 
-#: ../src/commands.c:6039
+#: ../src/commands.c:6055
 msgid "Add scenario"
 msgstr "Gehitu agertokia"
 
-#: ../src/commands.c:6103
+#: ../src/commands.c:6119
 msgid "Scenario Show"
 msgstr "Erakutsi agertokia"
 
-#: ../src/commands.c:6161
+#: ../src/commands.c:6177
 msgid "Shuffle Data"
 msgstr "Nahastu datuak"
 
 #. FIXME?
-#: ../src/commands.c:6265
+#: ../src/commands.c:6281
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Testua (%s) zutabeetara (%s)"
 
-#: ../src/commands.c:6417
+#: ../src/commands.c:6433
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Xede-bilaketa (%s)"
 
-#: ../src/commands.c:6583
+#: ../src/commands.c:6599
 #, c-format
 msgid "Tabulating Dependencies"
 msgstr "Tabulazio-mendekotasunak"
 
-#: ../src/commands.c:6657
+#: ../src/commands.c:6673
 msgid "Reconfigure Graph"
 msgstr "Birkonfiguratu grafikoa"
 
-#: ../src/commands.c:6701
+#: ../src/commands.c:6717
 msgid "Left to Right"
 msgstr "Ezkerretik eskuinera"
 
-#: ../src/commands.c:6701
+#: ../src/commands.c:6717
 msgid "Right to Left"
 msgstr "Eskuinetik ezkerrera"
 
-#: ../src/commands.c:6863
+#: ../src/commands.c:6879
 msgid "Changing Hyperlink"
 msgstr "Hiperesteka aldatzen"
 
-#: ../src/commands.c:7004
+#: ../src/commands.c:7020
 #, c-format
 msgid "Changing hyperlink of %s"
 msgstr "Hiperestekaren %s aldatzen"
 
-#: ../src/commands.c:7081
+#: ../src/commands.c:7097
 msgid "Configure List"
 msgstr "Konfiguratu zerrenda"
 
-#: ../src/commands.c:7151
+#: ../src/commands.c:7167
 msgid "Set Frame Label"
 msgstr "Ezarri markoaren etiketa"
 
-#: ../src/commands.c:7222
+#: ../src/commands.c:7238
 #, fuzzy
 msgid "Configure Button"
 msgstr "Konfiguratu biratze-botoia"
 
-#: ../src/commands.c:7303
+#: ../src/commands.c:7319
 #, fuzzy
 msgid "Configure Radio Button"
 msgstr "Konfiguratu biratze-botoia"
 
-#: ../src/commands.c:7379
+#: ../src/commands.c:7395
 msgid "Configure Checkbox"
 msgstr "Konfiguratu kontrol-koadroa"
 
-#: ../src/commands.c:7499 ../src/sheet-object-widget.c:1454
+#: ../src/commands.c:7515 ../src/sheet-object-widget.c:1454
 msgid "Configure Adjustment"
 msgstr "Konfiguratu doiketa"
 
-#: ../src/commands.c:7575
+#: ../src/commands.c:7592
 msgid "Add Filter"
 msgstr "Gehitu iragazkia"
 
-#: ../src/commands.c:7587 ../src/commands.c:7593
+#: ../src/commands.c:7605 ../src/commands.c:7613
 msgid "AutoFilter"
 msgstr "Iragazki automatikoa"
 
-#: ../src/commands.c:7587
+#: ../src/commands.c:7606
 msgid "Requires more than 1 row"
 msgstr "Errenkada bat baino gehiago eskatzen du"
 
-#: ../src/commands.c:7593
+#: ../src/commands.c:7614
 #, fuzzy
 msgid "Unable to create Autofilter"
 msgstr "Ezin izan da html-a analizatu."
 
-#: ../src/commands.c:7609
+#: ../src/commands.c:7619
 #, fuzzy, c-format
 msgid "Add Autofilter to %s"
 msgstr "_Gehitu iragazki automatikoa"
 
-#: ../src/commands.c:7610
+#.
+#. * Removing a filter.
+#. * This actual removal is in the redo handler.
+#.
+#: ../src/commands.c:7626
 #, fuzzy, c-format
 msgid "Remove Autofilter from %s"
 msgstr "_Kendu iragazki automatikoa"
 
-#: ../src/commands.c:7681
+#: ../src/commands.c:7708
 #, fuzzy
 msgid "Set Object Name"
 msgstr "Ezabatu objektua"
@@ -3602,8 +3610,8 @@ msgstr "A_reak"
 #: ../src/dialogs/normality-tests.glade.h:13
 #: ../src/dialogs/principal-components.glade.h:6 ../src/dialogs/rank.glade.h:9
 #: ../src/dialogs/sampling.glade.h:15 ../src/dialogs/shuffle.glade.h:5
-#: ../src/dialogs/sign-test.glade.h:8 ../src/wbc-gtk-actions.c:1847
-#: ../src/wbc-gtk-actions.c:1976
+#: ../src/dialogs/sign-test.glade.h:8 ../src/wbc-gtk-actions.c:1870
+#: ../src/wbc-gtk-actions.c:1999
 msgid "_Columns"
 msgstr "_Zutabeak"
 
@@ -3630,7 +3638,7 @@ msgstr "_Sarrera-barrutia:"
 #: ../src/dialogs/moving-averages.glade.h:19
 #: ../src/dialogs/normality-tests.glade.h:15
 #: ../src/dialogs/principal-components.glade.h:8
-#: ../src/dialogs/rank.glade.h:11 ../src/dialogs/regression.glade.h:7
+#: ../src/dialogs/rank.glade.h:11 ../src/dialogs/regression.glade.h:8
 #: ../src/dialogs/sampling.glade.h:18 ../src/dialogs/sign-test.glade.h:10
 #: ../src/dialogs/sign-test-two.glade.h:8
 #: ../src/dialogs/variance-tests.glade.h:10
@@ -3650,7 +3658,7 @@ msgstr "_Etiketak"
 #: ../src/dialogs/principal-components.glade.h:9
 #: ../src/dialogs/rank.glade.h:12 ../src/dialogs/sampling.glade.h:22
 #: ../src/dialogs/shuffle.glade.h:6 ../src/dialogs/sign-test.glade.h:12
-#: ../src/wbc-gtk-actions.c:1844 ../src/wbc-gtk-actions.c:1979
+#: ../src/wbc-gtk-actions.c:1867 ../src/wbc-gtk-actions.c:2002
 msgid "_Rows"
 msgstr "_Errenkadak"
 
@@ -3993,8 +4001,8 @@ msgstr ""
 "Pertsonalizatua"
 
 #: ../src/dialogs/cell-format.glade.h:33
-#: ../src/dialogs/dialog-cell-format.c:2538 ../src/wbc-gtk.c:2938
-#: ../src/wbc-gtk.c:2939 ../src/wbc-gtk.c:2948
+#: ../src/dialogs/dialog-cell-format.c:2538 ../src/wbc-gtk.c:2980
+#: ../src/wbc-gtk.c:2981 ../src/wbc-gtk.c:2990
 msgid "Background"
 msgstr "Atzeko planoa"
 
@@ -4003,7 +4011,7 @@ msgstr "Atzeko planoa"
 msgid "Border"
 msgstr "Ertza"
 
-#: ../src/dialogs/cell-format.glade.h:35 ../src/wbc-gtk.c:2634
+#: ../src/dialogs/cell-format.glade.h:35 ../src/wbc-gtk.c:2676
 msgid "Bottom"
 msgstr "Behean"
 
@@ -4056,7 +4064,7 @@ msgid "E_xpand"
 msgstr "_Zabaldu"
 
 #: ../src/dialogs/cell-format.glade.h:48
-#: ../src/dialogs/dialog-preferences.c:1023 ../src/wbc-gtk.c:2989
+#: ../src/dialogs/dialog-preferences.c:1102 ../src/wbc-gtk.c:3031
 msgid "Font"
 msgstr "Letra-tipoa"
 
@@ -4110,8 +4118,8 @@ msgid "Large Circles"
 msgstr "Zirkulu handiak"
 
 #. start sub menu
-#: ../src/dialogs/cell-format.glade.h:61 ../src/sheet-control-gui.c:1890
-#: ../src/wbc-gtk.c:2626
+#: ../src/dialogs/cell-format.glade.h:61 ../src/sheet-control-gui.c:1950
+#: ../src/wbc-gtk.c:2668
 msgid "Left"
 msgstr "Ezkerrean"
 
@@ -4145,8 +4153,8 @@ msgstr "Alderantzizko diagonala"
 msgid "Reverse Diagonal Stripe"
 msgstr "Alderantzizko marra diagonala"
 
-#: ../src/dialogs/cell-format.glade.h:68 ../src/sheet-control-gui.c:1893
-#: ../src/wbc-gtk.c:2628
+#: ../src/dialogs/cell-format.glade.h:68 ../src/sheet-control-gui.c:1953
+#: ../src/wbc-gtk.c:2670
 msgid "Right"
 msgstr "Eskuinean"
 
@@ -4479,13 +4487,13 @@ msgstr "_Funtzioa:"
 msgid "_Source areas:"
 msgstr "_Iturburu-areak:"
 
-#: ../src/dialogs/correlation.glade.h:1 ../src/tools/analysis-tools.c:642
-#: ../src/tools/analysis-tools.c:645
+#: ../src/dialogs/correlation.glade.h:1 ../src/tools/analysis-tools.c:688
+#: ../src/tools/analysis-tools.c:691
 msgid "Correlation"
 msgstr "Korrelazioa"
 
-#: ../src/dialogs/covariance.glade.h:1 ../src/tools/analysis-tools.c:697
-#: ../src/tools/analysis-tools.c:700 ../src/wbc-gtk-actions.c:2150
+#: ../src/dialogs/covariance.glade.h:1 ../src/tools/analysis-tools.c:743
+#: ../src/tools/analysis-tools.c:746 ../src/wbc-gtk-actions.c:2173
 msgid "Covariance"
 msgstr "Kobariantza"
 
@@ -4570,7 +4578,7 @@ msgstr "_Formatua"
 msgid "_Layout"
 msgstr "_Diseinua"
 
-#: ../src/dialogs/data-slicer.glade.h:8 ../src/wbc-gtk-actions.c:1914
+#: ../src/dialogs/data-slicer.glade.h:8 ../src/wbc-gtk-actions.c:1937
 msgid "_Remove"
 msgstr "_Kendu"
 
@@ -4663,7 +4671,7 @@ msgid "Confidence Interval for the _Mean"
 msgstr "_Batez bestekoarentzako konfiantza-tartea"
 
 #: ../src/dialogs/descriptive-stats.glade.h:5
-#: ../src/tools/analysis-tools.c:1084 ../src/tools/analysis-tools.c:1087
+#: ../src/tools/analysis-tools.c:1130 ../src/tools/analysis-tools.c:1133
 msgid "Descriptive Statistics"
 msgstr "Estatistika deskribatzailea"
 
@@ -5152,8 +5160,8 @@ msgstr "Ez dago bat datorren erregistrorik."
 #: ../src/dialogs/dialog-analysis-tool-principal-components.c:130
 #: ../src/dialogs/dialog-analysis-tools.c:644
 #: ../src/dialogs/dialog-analysis-tools.c:764
-#: ../src/dialogs/dialog-analysis-tools.c:2157
-#: ../src/dialogs/dialog-analysis-tools.c:3505
+#: ../src/dialogs/dialog-analysis-tools.c:2160
+#: ../src/dialogs/dialog-analysis-tools.c:3508
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Ustekabeko errorea gertatu da: %d."
@@ -5170,11 +5178,11 @@ msgstr "Ezin izan da sortu Iragazki Aurreratuaren elkarrizketa-koadroa."
 #: ../src/dialogs/dialog-analysis-tools.c:565
 #: ../src/dialogs/dialog-analysis-tools.c:1113
 #: ../src/dialogs/dialog-analysis-tools.c:1819
-#: ../src/dialogs/dialog-analysis-tools.c:2405
-#: ../src/dialogs/dialog-analysis-tools.c:2764
-#: ../src/dialogs/dialog-analysis-tools.c:3052
-#: ../src/dialogs/dialog-analysis-tools.c:3331
-#: ../src/dialogs/dialog-analysis-tools.c:3545
+#: ../src/dialogs/dialog-analysis-tools.c:2408
+#: ../src/dialogs/dialog-analysis-tools.c:2767
+#: ../src/dialogs/dialog-analysis-tools.c:3055
+#: ../src/dialogs/dialog-analysis-tools.c:3334
+#: ../src/dialogs/dialog-analysis-tools.c:3548
 #: ../src/dialogs/dialog-shuffle.c:75
 msgid "The input range is invalid."
 msgstr "Sarrera-barrutia ez da baliozkoa."
@@ -5186,8 +5194,8 @@ msgstr "Sarrera-barrutia txikiegia da."
 #: ../src/dialogs/dialog-analysis-tool-chi-squared.c:165
 #: ../src/dialogs/dialog-analysis-tool-normality.c:110
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:132
-#: ../src/dialogs/dialog-analysis-tools.c:3342
-#: ../src/dialogs/dialog-analysis-tools.c:3556
+#: ../src/dialogs/dialog-analysis-tools.c:3345
+#: ../src/dialogs/dialog-analysis-tools.c:3559
 msgid "The alpha value should be a number between 0 and 1."
 msgstr "Alfa balioak 0 eta 1 arteko zenbakia izan behar du."
 
@@ -5200,12 +5208,12 @@ msgstr "Alfa balioak 0 eta 1 arteko zenbakia izan behar du."
 #: ../src/dialogs/dialog-analysis-tools.c:574
 #: ../src/dialogs/dialog-analysis-tools.c:1164
 #: ../src/dialogs/dialog-analysis-tools.c:1867
-#: ../src/dialogs/dialog-analysis-tools.c:2262
-#: ../src/dialogs/dialog-analysis-tools.c:2459
-#: ../src/dialogs/dialog-analysis-tools.c:2795
-#: ../src/dialogs/dialog-analysis-tools.c:3080
-#: ../src/dialogs/dialog-analysis-tools.c:3351
-#: ../src/dialogs/dialog-analysis-tools.c:3577
+#: ../src/dialogs/dialog-analysis-tools.c:2265
+#: ../src/dialogs/dialog-analysis-tools.c:2462
+#: ../src/dialogs/dialog-analysis-tools.c:2798
+#: ../src/dialogs/dialog-analysis-tools.c:3083
+#: ../src/dialogs/dialog-analysis-tools.c:3354
+#: ../src/dialogs/dialog-analysis-tools.c:3580
 #: ../src/dialogs/dialog-random-generator-cor.c:117
 msgid "The output specification is invalid."
 msgstr "Irteera-zehaztapena ez da baliozkoa."
@@ -5264,7 +5272,7 @@ msgid "Group %d"
 msgstr "%d. taldea"
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:523
-#: ../src/wbc-gtk-actions.c:968
+#: ../src/wbc-gtk-actions.c:969
 msgid "Group"
 msgstr "Taldea"
 
@@ -5403,88 +5411,88 @@ msgstr "Eskatutako lagin-tamaina ez da baliozkoa."
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Ezin izan da sortu Lagintze Tresnaren elkarrizketa-koadroa."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2196
-#: ../src/dialogs/dialog-analysis-tools.c:2207
+#: ../src/dialogs/dialog-analysis-tools.c:2199
+#: ../src/dialogs/dialog-analysis-tools.c:2210
 msgid "The y variable range is invalid."
 msgstr "Y aldagaiaren barrutia ez da baliozkoa."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2213
+#: ../src/dialogs/dialog-analysis-tools.c:2216
 msgid "The y variable range must be a vector (n by 1 or 1 by n)."
 msgstr ""
 "Y aldagaiaren barrutia bektore bat izan behar du (n bider 1 edo 1 bider n)."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2219
+#: ../src/dialogs/dialog-analysis-tools.c:2222
 msgid "The y variable range is to small"
 msgstr "Y aldagaiaren barrutia txikiegia da"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2228
-#: ../src/dialogs/dialog-analysis-tools.c:2239
+#: ../src/dialogs/dialog-analysis-tools.c:2231
+#: ../src/dialogs/dialog-analysis-tools.c:2242
 msgid "The x variables range is invalid."
 msgstr "X aldagaiaren barrutia ez da baliozkoa."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2246
+#: ../src/dialogs/dialog-analysis-tools.c:2249
 msgid "The sizes of the x variable and y variable ranges do not match."
 msgstr "X eta Y aldagaien barrutien tamaina ez datoz bat."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2255
+#: ../src/dialogs/dialog-analysis-tools.c:2258
 msgid "The confidence level is invalid."
 msgstr "Konfiantza-mailak ez da baliozkoa."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2304
+#: ../src/dialogs/dialog-analysis-tools.c:2307
 msgid "Could not create the Regression Tool dialog."
 msgstr "Ezin izan da sortu Erregresio Tresnaren elkarrizketa-koadroa."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2418
+#: ../src/dialogs/dialog-analysis-tools.c:2421
 msgid "The given seasonal damping factor is invalid."
 msgstr "Emandako urtaroko amortiguazio-faktorea ez da baliozkoa."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2427
+#: ../src/dialogs/dialog-analysis-tools.c:2430
 msgid "The given seasonal period is invalid."
 msgstr "Emandako urtaroko periodoa ez da baliozkoa."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2438
+#: ../src/dialogs/dialog-analysis-tools.c:2441
 msgid "The given growthdamping factor is invalid."
 msgstr "Emandako amortiguazio-faktorearen gehikuntza ez da baliozkoa."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2450
+#: ../src/dialogs/dialog-analysis-tools.c:2453
 msgid "The given damping factor is invalid."
 msgstr "Emandako moteltze faktorea ez da baliozkoa."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2580
+#: ../src/dialogs/dialog-analysis-tools.c:2583
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr ""
 "Ezin izan da sortu Leuntze Esponentziala Tresnaren elkarrizketa-koadroa."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2777
+#: ../src/dialogs/dialog-analysis-tools.c:2780
 msgid "The given interval is invalid."
 msgstr "Emandako bitartea ez da baliozkoa."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2787
+#: ../src/dialogs/dialog-analysis-tools.c:2790
 msgid "The given offset is invalid."
 msgstr "Emandako desplazamendua ez da baliozkoa."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2948
+#: ../src/dialogs/dialog-analysis-tools.c:2951
 msgid "Could not create the Moving Average Tool dialog."
 msgstr ""
 "Ezin izan da sortu Batez Besteko Mugikorra Tresnaren elkarrizketa-koadroa."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3066
+#: ../src/dialogs/dialog-analysis-tools.c:3069
 msgid "The cutoff range is not valid."
 msgstr "Ebakidura-barrutia ez da baliozkoa."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3073
+#: ../src/dialogs/dialog-analysis-tools.c:3076
 msgid "The number of to be calculated cutoffs is invalid."
 msgstr "Kalkulatutako ebakiduren zenbakia ez da baliozkoa."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3214
+#: ../src/dialogs/dialog-analysis-tools.c:3217
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Ezin izan da sortu Histograma Tresnaren elkarrizketa-koadroa."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3391
+#: ../src/dialogs/dialog-analysis-tools.c:3394
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "Ezin izan da sortu ANOVA tresna (faktore bakarra)."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3471
+#: ../src/dialogs/dialog-analysis-tools.c:3474
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -5492,7 +5500,7 @@ msgstr ""
 "Emandako sarrera-barrutiak eduki behar ditu gutxienez bi zutabe eta bi "
 "errenkada datuekin eta etiketak."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3474
+#: ../src/dialogs/dialog-analysis-tools.c:3477
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
@@ -5500,7 +5508,7 @@ msgstr ""
 "Emandako sarrera-barrutiak eduki behar ditu gutxienez bi zutabe eta bi "
 "errenkada datuekin."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3480
+#: ../src/dialogs/dialog-analysis-tools.c:3483
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
@@ -5508,12 +5516,12 @@ msgstr ""
 "Emandako sarrera-barrutiak eduki behar ditu gutxienez bi zutabe datuekin eta "
 "etiketak."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3483
+#: ../src/dialogs/dialog-analysis-tools.c:3486
 msgid "The given input range should contain at least two columns of data."
 msgstr ""
 "Emandako sarrera-barrutiak eduki behar ditu gutxienez bi zutabe datuekin."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3489
+#: ../src/dialogs/dialog-analysis-tools.c:3492
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
@@ -5521,22 +5529,22 @@ msgstr ""
 "Emandako sarrera-barrutiak eduki behar ditu gutxienez bi errenkada datuekin "
 "eta etiketak."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3492
+#: ../src/dialogs/dialog-analysis-tools.c:3495
 msgid "The given input range should contain at least two rows of data."
 msgstr ""
 "Emandako sarrera-barrutiak eduki behar ditu gutxienez bi errenkada datuekin."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3499
+#: ../src/dialogs/dialog-analysis-tools.c:3502
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr ""
 "Datu-errenkaden kopuruak erreplikatze kopuruaren multiploa izan behar du."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3568
+#: ../src/dialogs/dialog-analysis-tools.c:3571
 msgid "The number of rows per sample should be a positive integer."
 msgstr ""
 "Lagin bakoitzeko errenkada kopuruak osoko zenbaki positiboa izan behar du."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3621
+#: ../src/dialogs/dialog-analysis-tools.c:3624
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Ezin izan da sortu ANOVA tresna (bi faktore)."
 
@@ -5671,7 +5679,7 @@ msgid "Double"
 msgstr "Bikoitza"
 
 #: ../src/dialogs/dialog-cell-format.c:483 ../src/dialogs/dialog-search.c:152
-#: ../src/func.c:1137 ../src/wbc-gtk-actions.c:2339
+#: ../src/func.c:1137 ../src/wbc-gtk-actions.c:2362
 msgid "Number"
 msgstr "Zenbakia"
 
@@ -5827,13 +5835,13 @@ msgstr ""
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr "Balidazio-irizpideak erabiltezinak dira. Desgaitu balidazioa?"
 
-#: ../src/dialogs/dialog-cell-format.c:2534 ../src/wbc-gtk.c:2739
-#: ../src/wbc-gtk.c:2887 ../src/wbc-gtk.c:2888 ../src/wbc-gtk.c:2899
-#: ../src/wbc-gtk.c:3005 ../src/wbc-gtk.c:3069
+#: ../src/dialogs/dialog-cell-format.c:2534 ../src/wbc-gtk.c:2781
+#: ../src/wbc-gtk.c:2929 ../src/wbc-gtk.c:2930 ../src/wbc-gtk.c:2941
+#: ../src/wbc-gtk.c:3047 ../src/wbc-gtk.c:3111
 msgid "Foreground"
 msgstr "Aurreko planoa"
 
-#: ../src/dialogs/dialog-cell-format.c:2538 ../src/wbc-gtk.c:2936
+#: ../src/dialogs/dialog-cell-format.c:2538 ../src/wbc-gtk.c:2978
 msgid "Clear Background"
 msgstr "Garbitu atzeko planoa"
 
@@ -5861,27 +5869,27 @@ msgstr "%s (%s)"
 msgid "%s to %s"
 msgstr "%s - %s"
 
-#: ../src/dialogs/dialog-cell-sort.c:764
+#: ../src/dialogs/dialog-cell-sort.c:763
 msgid "no available row"
 msgstr "errenkada erabilgarririk ez"
 
-#: ../src/dialogs/dialog-cell-sort.c:764
+#: ../src/dialogs/dialog-cell-sort.c:763
 msgid "no available column"
 msgstr "zutabe erabilgarririk ez"
 
-#: ../src/dialogs/dialog-cell-sort.c:1018
+#: ../src/dialogs/dialog-cell-sort.c:1017
 msgid "Header"
 msgstr "Goiburua"
 
-#: ../src/dialogs/dialog-cell-sort.c:1023
+#: ../src/dialogs/dialog-cell-sort.c:1022
 msgid "Row/Column"
 msgstr "Errenkada/zutabea"
 
-#: ../src/dialogs/dialog-cell-sort.c:1043
+#: ../src/dialogs/dialog-cell-sort.c:1042
 msgid "Case Sensitive"
 msgstr "Maiuskula/minuskula"
 
-#: ../src/dialogs/dialog-cell-sort.c:1063
+#: ../src/dialogs/dialog-cell-sort.c:1062
 msgid "By Value"
 msgstr "Balioaren arabera"
 
@@ -5919,11 +5927,13 @@ msgstr "Ezin izan da sortu Kontsolidatzeko elkarrizketa-koadroa."
 msgid "Filter"
 msgstr "Iragazi"
 
-#: ../src/dialogs/dialog-data-slicer.c:143 ../src/tools/analysis-tools.c:2810
+#: ../src/dialogs/dialog-data-slicer.c:143 ../src/tools/analysis-tools.c:227
+#: ../src/tools/analysis-tools.c:2857
 msgid "Row"
 msgstr "Errenkada"
 
-#: ../src/dialogs/dialog-data-slicer.c:144 ../src/tools/analysis-tools.c:2811
+#: ../src/dialogs/dialog-data-slicer.c:144 ../src/tools/analysis-tools.c:227
+#: ../src/tools/analysis-tools.c:2858
 msgid "Column"
 msgstr "Zutabea"
 
@@ -5967,8 +5977,8 @@ msgid "Could not create the Name Guru."
 msgstr "Ezin izan da sortu Izenen morroia."
 
 #: ../src/dialogs/dialog-delete-cells.c:125
-#: ../src/dialogs/scenario-manager.glade.h:8 ../src/wbc-gtk-actions.c:332
-#: ../src/wbc-gtk-actions.c:346
+#: ../src/dialogs/scenario-manager.glade.h:8 ../src/wbc-gtk-actions.c:333
+#: ../src/wbc-gtk-actions.c:347
 msgid "Delete"
 msgstr "Ezabatu"
 
@@ -6123,7 +6133,7 @@ msgstr "Laneko liburua, 1. maila"
 #: ../src/dialogs/dialog-stf-export.c:602 ../src/dialogs/hf-config.glade.h:18
 #: ../src/dialogs/print.glade.h:37 ../src/print-info.c:492 ../src/search.c:767
 #: ../src/tools/gnm-solver.c:713 ../src/tools/gnm-solver.c:714
-#: ../src/workbook.c:893
+#: ../src/workbook.c:893 ../src/workbook.c:921
 msgid "Sheet"
 msgstr "Orria"
 
@@ -6188,7 +6198,7 @@ msgstr "Gehitu hiperesteka"
 msgid "Edit Hyperlink"
 msgstr "Editatu hiperesteka"
 
-#: ../src/dialogs/dialog-hyperlink.c:406 ../src/sheet-control-gui.c:1801
+#: ../src/dialogs/dialog-hyperlink.c:406 ../src/sheet-control-gui.c:1861
 msgid "Remove Hyperlink"
 msgstr "Kendu hiperesteka"
 
@@ -6196,7 +6206,7 @@ msgstr "Kendu hiperesteka"
 msgid "Could not create the hyperlink dialog."
 msgstr "Ezin izan da sortu hiperestekaren elkarrizketa-koadroa."
 
-#: ../src/dialogs/dialog-insert-cells.c:126 ../src/wbc-gtk.c:494
+#: ../src/dialogs/dialog-insert-cells.c:126 ../src/wbc-gtk.c:509
 msgid "Insert"
 msgstr "Txertatu"
 
@@ -6316,156 +6326,156 @@ msgstr "IDa"
 msgid "Directory"
 msgstr "Direktorioa"
 
-#: ../src/dialogs/dialog-preferences.c:701
+#: ../src/dialogs/dialog-preferences.c:746
 msgid "Length of Undo Descriptors"
 msgstr "Desegiteko deskriptoreen luzera"
 
-#: ../src/dialogs/dialog-preferences.c:743
+#: ../src/dialogs/dialog-preferences.c:794
 msgid "Sorting is Case-Sensitive"
 msgstr "Ordenatze-funtzioak maiuskulak eta minuskulak bereizten ditu"
 
-#: ../src/dialogs/dialog-preferences.c:788
+#: ../src/dialogs/dialog-preferences.c:845
 msgid "Default Number of Rows in a Sheet"
 msgstr "Orri bateko errenkada kopuru lehenetsia"
 
-#: ../src/dialogs/dialog-preferences.c:795
+#: ../src/dialogs/dialog-preferences.c:853
 msgid "Default Number of Columns in a Sheet"
 msgstr "Orri bateko zutabe kopuru lehenetsia"
 
-#: ../src/dialogs/dialog-preferences.c:828
+#: ../src/dialogs/dialog-preferences.c:889
 msgid "Default autosave frequency in seconds"
 msgstr "Automatikoki gordetzeko denbora lehenetsia (seg.)"
 
-#: ../src/dialogs/dialog-preferences.c:890
+#: ../src/dialogs/dialog-preferences.c:957
 msgid "Enter _Moves Selection"
 msgstr "Sartu sakatuta _hautapena lekuz aldatzen du"
 
-#: ../src/dialogs/dialog-preferences.c:929
+#: ../src/dialogs/dialog-preferences.c:1001
 msgid "Prefer CLIPBOARD Over PRIMARY Selection"
 msgstr "Hobetsi ARBELA hautapen NAGUSIaren gain"
 
-#: ../src/dialogs/dialog-preferences.c:951
+#: ../src/dialogs/dialog-preferences.c:1024
 msgid "Capitalize _names of days"
 msgstr "Jarri maiuskulaz e_gunen izenak"
 
-#: ../src/dialogs/dialog-preferences.c:973
+#: ../src/dialogs/dialog-preferences.c:1047
 #, fuzzy
 msgid "Correct _TWo INitial CApitals"
 msgstr "HAsierako MAiuskulak"
 
-#: ../src/dialogs/dialog-preferences.c:997
+#: ../src/dialogs/dialog-preferences.c:1074
 msgid "Capitalize _first letter of sentence"
 msgstr "_Jarri maiuskulaz esaldiko lehen letra"
 
-#: ../src/dialogs/dialog-preferences.c:1021
+#: ../src/dialogs/dialog-preferences.c:1100
 msgid "Copy and Paste"
 msgstr "Kopiatu eta itsatsi"
 
-#: ../src/dialogs/dialog-preferences.c:1022
+#: ../src/dialogs/dialog-preferences.c:1101
 msgid "Auto Correct"
 msgstr "Zuzenketa automatikoa"
 
-#: ../src/dialogs/dialog-preferences.c:1024
+#: ../src/dialogs/dialog-preferences.c:1103
 msgid "Files"
 msgstr "Fitxategiak"
 
-#: ../src/dialogs/dialog-preferences.c:1025
+#: ../src/dialogs/dialog-preferences.c:1104
 msgid "Tools"
 msgstr "Tresnak"
 
-#: ../src/dialogs/dialog-preferences.c:1026
+#: ../src/dialogs/dialog-preferences.c:1105
 msgid "Undo"
 msgstr "Desegin"
 
-#: ../src/dialogs/dialog-preferences.c:1027
+#: ../src/dialogs/dialog-preferences.c:1106
 msgid "Windows"
 msgstr "Leihoak"
 
-#: ../src/dialogs/dialog-preferences.c:1028
+#: ../src/dialogs/dialog-preferences.c:1107
 msgid "Header/Footer"
 msgstr "Goiburua/Orri-oina"
 
-#: ../src/dialogs/dialog-preferences.c:1030
+#: ../src/dialogs/dialog-preferences.c:1109
 msgid "Screen"
 msgstr "Pantaila"
 
-#: ../src/dialogs/dialog-preferences.c:1031
+#: ../src/dialogs/dialog-preferences.c:1110
 msgid "INitial CApitals"
 msgstr "HAsierako MAiuskulak"
 
-#: ../src/dialogs/dialog-preferences.c:1032
+#: ../src/dialogs/dialog-preferences.c:1111
 msgid "First Letter"
 msgstr "Lehen letra"
 
-#: ../src/dialogs/dialog-printer-setup.c:697
+#: ../src/dialogs/dialog-printer-setup.c:698
 msgid "points"
 msgstr "puntu"
 
-#: ../src/dialogs/dialog-printer-setup.c:701
+#: ../src/dialogs/dialog-printer-setup.c:702
 msgid "inches"
 msgstr "hazbete"
 
-#: ../src/dialogs/dialog-printer-setup.c:705
+#: ../src/dialogs/dialog-printer-setup.c:706
 msgid "mm"
 msgstr "mm"
 
-#: ../src/dialogs/dialog-printer-setup.c:1468
+#: ../src/dialogs/dialog-printer-setup.c:1469
 msgid "Default date format"
 msgstr "Data-formatu lehenetsia"
 
-#: ../src/dialogs/dialog-printer-setup.c:1474
+#: ../src/dialogs/dialog-printer-setup.c:1475
 msgid "Custom date format"
 msgstr "Data-formatu pertsonalizatua"
 
-#: ../src/dialogs/dialog-printer-setup.c:1506
+#: ../src/dialogs/dialog-printer-setup.c:1507
 msgid "Default time format"
 msgstr "Orduaren formatu lehenetsia"
 
-#: ../src/dialogs/dialog-printer-setup.c:1512
+#: ../src/dialogs/dialog-printer-setup.c:1513
 msgid "Custom time format"
 msgstr "Ordu-formatu pertsonalizatua"
 
-#: ../src/dialogs/dialog-printer-setup.c:1551
+#: ../src/dialogs/dialog-printer-setup.c:1552
 msgid "$A$1 (first cell of this worksheet)"
 msgstr "$A$1 (orri honetako aurreneko gelaxka)"
 
-#: ../src/dialogs/dialog-printer-setup.c:1616
+#: ../src/dialogs/dialog-printer-setup.c:1617
 msgid "Custom header configuration"
 msgstr "Goiburu pertsonalizatuaren konfigurazioa"
 
-#: ../src/dialogs/dialog-printer-setup.c:1621
+#: ../src/dialogs/dialog-printer-setup.c:1622
 msgid "Custom footer configuration"
 msgstr "Orri-oin pertsonalizatuaren konfigurazioa"
 
-#: ../src/dialogs/dialog-printer-setup.c:1770
+#: ../src/dialogs/dialog-printer-setup.c:1771
 msgid "Date format selection"
 msgstr "Data-formatuaren hautapena"
 
-#: ../src/dialogs/dialog-printer-setup.c:1772
+#: ../src/dialogs/dialog-printer-setup.c:1773
 msgid "Time format selection"
 msgstr "Ordu-formatuaren hautapena"
 
-#: ../src/dialogs/dialog-printer-setup.c:2189
+#: ../src/dialogs/dialog-printer-setup.c:2190
 #, c-format
 msgid "%.0f pixels wide by %.0f pixels tall"
 msgstr "%.0f pixel (zabalera) x %.0f pixel (altuera)"
 
-#: ../src/dialogs/dialog-printer-setup.c:2192
+#: ../src/dialogs/dialog-printer-setup.c:2193
 #, c-format
 msgid "%.0f points wide by %.0f points tall"
 msgstr "%.0f puntu (zabalera) x %.0f puntu (altuera)"
 
-#: ../src/dialogs/dialog-printer-setup.c:2195
+#: ../src/dialogs/dialog-printer-setup.c:2196
 #, c-format
 msgid "%.1f in wide by %.1f in tall"
 msgstr "%.1f hazbete (zabalera) x %.1f hazbete (altuera)"
 
-#: ../src/dialogs/dialog-printer-setup.c:2198
+#: ../src/dialogs/dialog-printer-setup.c:2199
 #, c-format
 msgid "%.0f mm wide by %.0f mm tall"
 msgstr "%.0f mm(zabalera) x %.0f mm (altuera)"
 
-#: ../src/dialogs/dialog-printer-setup.c:2201
+#: ../src/dialogs/dialog-printer-setup.c:2202
 #, c-format
 msgid "%.1f wide by %.1f tall"
 msgstr "%.1f (zabalera) x %.1f (altuera)"
@@ -6507,8 +6517,8 @@ msgstr "_Gorde hautatutakoak"
 msgid "Save selected documents and then quit"
 msgstr "Gorde hautatutako dokumentuak eta gero irten"
 
-#: ../src/dialogs/dialog-quit.c:193 ../src/wbc-gtk.c:2375
-#: ../src/wbc-gtk.c:2380
+#: ../src/dialogs/dialog-quit.c:193 ../src/wbc-gtk.c:2417
+#: ../src/wbc-gtk.c:2422
 msgid "_Discard"
 msgstr "_Baztertu"
 
@@ -6889,12 +6899,12 @@ msgstr "Balio gehiago"
 msgid "Content"
 msgstr "Edukia"
 
-#: ../src/dialogs/dialog-sheet-order.c:187
+#: ../src/dialogs/dialog-sheet-order.c:186
 msgid "<b>Note:</b> A sheet name change is pending."
 msgstr "<b>Oharra:</b> orri baten izena aldatzea falta da."
 
-#: ../src/dialogs/dialog-sheet-order.c:622
-#: ../src/dialogs/dialog-sheet-order.c:1025
+#: ../src/dialogs/dialog-sheet-order.c:599
+#: ../src/dialogs/dialog-sheet-order.c:1028
 msgid "At least one sheet must remain visible!"
 msgstr "Orri batek gutxienez ikusgai egon behar du"
 
@@ -6914,7 +6924,7 @@ msgid "Dir"
 msgstr "Helb."
 
 #: ../src/dialogs/dialog-sheet-order.c:720
-#: ../src/dialogs/sheet-resize.glade.h:5 ../src/sheet-object-graph.c:650
+#: ../src/dialogs/sheet-resize.glade.h:5 ../src/sheet-object-graph.c:718
 #: ../src/sheet.c:1002
 msgid "Rows"
 msgstr "Errenkadak"
@@ -6931,27 +6941,27 @@ msgstr "Uneko izena"
 msgid "New Name"
 msgstr "Izen berria"
 
-#: ../src/dialogs/dialog-sheet-order.c:1076
+#: ../src/dialogs/dialog-sheet-order.c:1079
 #, c-format
 msgid "You may not call more than one sheet \"%s\"."
 msgstr "Ezin duzu orri bat baino gehiago \"%s\" izenarekin jarri."
 
-#: ../src/dialogs/dialog-sheet-order.c:1403
+#: ../src/dialogs/dialog-sheet-order.c:1406
 msgid "Another view is already managing sheets"
 msgstr "Beste ikuspegi bat ari da orriak kudeatzen."
 
-#: ../src/dialogs/dialog-sheet-order.c:1463
-#: ../src/dialogs/dialog-sheet-order.c:1473
+#: ../src/dialogs/dialog-sheet-order.c:1466
+#: ../src/dialogs/dialog-sheet-order.c:1476
 msgid "Default"
 msgstr "Lehenetsia"
 
-#: ../src/dialogs/dialog-sheetobject-size.c:194
-#: ../src/sheet-control-gui.c:2428
+#: ../src/dialogs/dialog-sheetobject-size.c:195
+#: ../src/sheet-control-gui.c:2488
 msgid "Move Object"
 msgstr "Lekuz aldatu objektua"
 
-#: ../src/dialogs/dialog-sheetobject-size.c:194
-#: ../src/sheet-control-gui.c:2428
+#: ../src/dialogs/dialog-sheetobject-size.c:195
+#: ../src/sheet-control-gui.c:2488
 msgid "Resize Object"
 msgstr "Aldatu tamaina objektuari"
 
@@ -6992,16 +7002,16 @@ msgid "Run on"
 msgstr "Exekutatu hemen"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:247
-#: ../src/wbc-gtk.c:4270
+#: ../src/wbc-gtk.c:4312
 msgid "Min"
 msgstr "Min"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4272
+#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4314
 msgid "Average"
 msgstr "Batez bestekoa"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:249
-#: ../src/wbc-gtk.c:4271
+#: ../src/wbc-gtk.c:4313
 msgid "Max"
 msgstr "Max"
 
@@ -7381,7 +7391,7 @@ msgstr "Kontrol-lauki hau hautatzen bada, zutabea Gnumeric-era inportatuko da."
 #: ../src/tools/analysis-exp-smoothing.c:777
 #: ../src/tools/analysis-exp-smoothing.c:1098
 #: ../src/tools/analysis-frequency.c:148 ../src/tools/analysis-histogram.c:294
-#: ../src/tools/analysis-tools.c:1163 ../src/tools/analysis-tools.c:3407
+#: ../src/tools/analysis-tools.c:1209 ../src/tools/analysis-tools.c:3574
 #, c-format
 msgid "Column %d"
 msgstr "%d. zutabea"
@@ -7398,7 +7408,7 @@ msgstr[1] "%d/%d lerro inportatzeko"
 msgid "The data is not valid in encoding %s; please select another encoding."
 msgstr "Datuek ez dute balio %s kodeketarekin; hautatu beste kodeketa bat."
 
-#: ../src/dialogs/dialog-stf-main-page.c:389 ../src/wbc-gtk-actions.c:2309
+#: ../src/dialogs/dialog-stf-main-page.c:389 ../src/wbc-gtk-actions.c:2332
 msgid "Line"
 msgstr "Lerroa"
 
@@ -7475,7 +7485,7 @@ msgid "Column selection"
 msgstr "Zutabe-hautapena"
 
 #: ../src/dialogs/dialog-stf.glade.h:15 ../src/dialogs/sheet-resize.glade.h:3
-#: ../src/sheet-object-graph.c:649 ../src/sheet.c:995
+#: ../src/sheet-object-graph.c:717 ../src/sheet.c:995
 msgid "Columns"
 msgstr "Zutabeak"
 
@@ -7755,8 +7765,8 @@ msgid "Sheets"
 msgstr "Orriak"
 
 #. ----- vertical -----
-#: ../src/dialogs/dialog-zoom.glade.h:5 ../src/wbc-gtk.c:2584
-#: ../src/wbc-gtk.c:2606
+#: ../src/dialogs/dialog-zoom.glade.h:5 ../src/wbc-gtk.c:2626
+#: ../src/wbc-gtk.c:2648
 msgid "Zoom"
 msgstr "Zooma"
 
@@ -8039,7 +8049,7 @@ msgstr "Ge_lditze-balioa:"
 msgid "Type:"
 msgstr "Mota:"
 
-#: ../src/dialogs/fill-series.glade.h:12 ../src/wbc-gtk-actions.c:1872
+#: ../src/dialogs/fill-series.glade.h:12 ../src/wbc-gtk-actions.c:1895
 msgid "_Column"
 msgstr "_Zutabea"
 
@@ -8059,8 +8069,8 @@ msgstr "_Lineala"
 msgid "_Month"
 msgstr "_Hilabetea"
 
-#: ../src/dialogs/fill-series.glade.h:17 ../src/wbc-gtk-actions.c:1710
-#: ../src/wbc-gtk-actions.c:1875
+#: ../src/dialogs/fill-series.glade.h:17 ../src/wbc-gtk-actions.c:1731
+#: ../src/wbc-gtk-actions.c:1898
 msgid "_Row"
 msgstr "_Errenkada"
 
@@ -8100,7 +8110,7 @@ msgstr "Formulen morroia"
 msgid "Quote unknown names"
 msgstr ""
 
-#: ../src/dialogs/fourier-analysis.glade.h:1 ../src/wbc-gtk-actions.c:2156
+#: ../src/dialogs/fourier-analysis.glade.h:1 ../src/wbc-gtk-actions.c:2179
 msgid "Fourier Analysis"
 msgstr "Fourier-en analisia"
 
@@ -8146,7 +8156,7 @@ msgstr "_Grafikoak eta aukerak"
 
 #: ../src/dialogs/frequency.glade.h:14 ../src/dialogs/histogram.glade.h:26
 #: ../src/dialogs/kaplan-meier.glade.h:14 ../src/dialogs/mean-tests.glade.h:14
-#: ../src/dialogs/regression.glade.h:6 ../src/dialogs/sampling.glade.h:16
+#: ../src/dialogs/regression.glade.h:7 ../src/dialogs/sampling.glade.h:16
 #: ../src/dialogs/sign-test-two.glade.h:7
 msgid "_Input"
 msgstr "_Sarrera"
@@ -8157,7 +8167,7 @@ msgstr "Kategorien _gehienezko kopurua:"
 
 #: ../src/dialogs/frequency.glade.h:17 ../src/dialogs/histogram.glade.h:29
 #: ../src/dialogs/kaplan-meier.glade.h:15 ../src/dialogs/mean-tests.glade.h:17
-#: ../src/dialogs/regression.glade.h:8 ../src/dialogs/sampling.glade.h:19
+#: ../src/dialogs/regression.glade.h:10 ../src/dialogs/sampling.glade.h:19
 #: ../src/dialogs/sign-test-two.glade.h:9
 msgid "_Output"
 msgstr "_Irteera"
@@ -8174,7 +8184,7 @@ msgstr "_Aurrezehaztutako kategoriak\t"
 msgid "Category"
 msgstr "Kategoria"
 
-#: ../src/dialogs/function-select.glade.h:3 ../src/wbc-gtk-actions.c:2276
+#: ../src/dialogs/function-select.glade.h:3 ../src/wbc-gtk-actions.c:2299
 msgid "Function"
 msgstr "Funtzioa"
 
@@ -8234,7 +8244,7 @@ msgstr "_Balio honekin:"
 msgid "Go To..."
 msgstr "Joan hona..."
 
-#: ../src/dialogs/hf-config.glade.h:2 ../src/wbc-gtk-actions.c:2354
+#: ../src/dialogs/hf-config.glade.h:2 ../src/wbc-gtk-actions.c:2377
 msgid "Date"
 msgstr "Data"
 
@@ -8297,7 +8307,7 @@ msgstr "Bide-izena"
 #: ../src/dialogs/hf-config.glade.h:19
 #: ../src/tools/analysis-exp-smoothing.c:725
 #: ../src/tools/analysis-exp-smoothing.c:1044
-#: ../src/tools/analysis-kaplan-meier.c:123 ../src/wbc-gtk-actions.c:2357
+#: ../src/tools/analysis-kaplan-meier.c:123 ../src/wbc-gtk-actions.c:2380
 msgid "Time"
 msgstr "Ordua"
 
@@ -8481,7 +8491,7 @@ msgstr "Txertatu zentsuraren markak"
 msgid "Kaplan Meier Estimates"
 msgstr "Kaplan-Meier estimazioak"
 
-#: ../src/dialogs/kaplan-meier.glade.h:7 ../src/dialogs/regression.glade.h:3
+#: ../src/dialogs/kaplan-meier.glade.h:7 ../src/dialogs/regression.glade.h:4
 #: ../src/dialogs/sampling.glade.h:6
 msgid "O_ptions"
 msgstr "Au_kerak"
@@ -8514,7 +8524,7 @@ msgstr "_Taldeak"
 msgid "_Time column:"
 msgstr "_Orduaren zutabea:"
 
-#: ../src/dialogs/kaplan-meier.glade.h:17 ../src/print.c:1388
+#: ../src/dialogs/kaplan-meier.glade.h:17 ../src/print.c:1398
 msgid "to:"
 msgstr "hona:"
 
@@ -8617,8 +8627,8 @@ msgstr "Mugimendu zentralaren batez bestekoa"
 msgid "Cumulative moving average"
 msgstr "Mugimendu metatuaren batez bestekoa"
 
-#: ../src/dialogs/moving-averages.glade.h:9 ../src/tools/analysis-tools.c:3653
-#: ../src/tools/analysis-tools.c:3656
+#: ../src/dialogs/moving-averages.glade.h:9 ../src/tools/analysis-tools.c:3820
+#: ../src/tools/analysis-tools.c:3823
 msgid "Moving Average"
 msgstr "Batez besteko desplazamendua"
 
@@ -8705,7 +8715,7 @@ msgstr "_Gehitu"
 msgid "As _Value"
 msgstr "Ba_lio gisa"
 
-#: ../src/dialogs/paste-special.glade.h:6 ../src/wbc-gtk-actions.c:1836
+#: ../src/dialogs/paste-special.glade.h:6 ../src/wbc-gtk-actions.c:1859
 msgid "Co_mments"
 msgstr "I_ruzkinak"
 
@@ -8755,12 +8765,12 @@ msgstr "Sa_ltatu hutsak"
 #. *	with the rest of the key movement and rangeselection.
 #. *	Otherwise input methods would steal them
 #. A duplicate that should not go into the menus, used only for the accelerator
-#: ../src/dialogs/paste-special.glade.h:17 ../src/wbc-gtk-actions.c:1830
-#: ../src/wbc-gtk-actions.c:1865 ../src/wbc-gtk-actions.c:1869
+#: ../src/dialogs/paste-special.glade.h:17 ../src/wbc-gtk-actions.c:1853
+#: ../src/wbc-gtk-actions.c:1888 ../src/wbc-gtk-actions.c:1892
 msgid "_All"
 msgstr "_Denak"
 
-#: ../src/dialogs/paste-special.glade.h:18 ../src/wbc-gtk-actions.c:1833
+#: ../src/dialogs/paste-special.glade.h:18 ../src/wbc-gtk-actions.c:1856
 msgid "_Formats"
 msgstr "For_matuak"
 
@@ -9030,7 +9040,7 @@ msgstr "orrialde"
 #: ../src/dialogs/principal-components.glade.h:4
 #: ../src/tools/analysis-principal-components.c:231
 #: ../src/tools/analysis-principal-components.c:234
-#: ../src/wbc-gtk-actions.c:2160
+#: ../src/wbc-gtk-actions.c:2183
 msgid "Principal Components Analysis"
 msgstr ""
 
@@ -9095,20 +9105,29 @@ msgstr "0.95"
 msgid "Confidence level:"
 msgstr "Konfiantza-maila:"
 
-#: ../src/dialogs/regression.glade.h:4 ../src/tools/analysis-tools.c:3267
-#: ../src/tools/analysis-tools.c:3270
+#: ../src/dialogs/regression.glade.h:3
+msgid "Multiple 2-_variable regressions"
+msgstr ""
+
+#: ../src/dialogs/regression.glade.h:5 ../src/tools/analysis-tools.c:3431
+#: ../src/tools/analysis-tools.c:3434
 msgid "Regression"
 msgstr "Erregresioa"
 
-#: ../src/dialogs/regression.glade.h:5
+#: ../src/dialogs/regression.glade.h:6
 msgid "_Force intercept to be zero"
 msgstr "_Behartu interzepzioa zero izateko"
 
 #: ../src/dialogs/regression.glade.h:9
+#, fuzzy
+msgid "_Multiple linear regression"
+msgstr "Hainbat errore\n"
+
+#: ../src/dialogs/regression.glade.h:11
 msgid "_X variables:"
 msgstr "_X aldagaiak:"
 
-#: ../src/dialogs/regression.glade.h:10
+#: ../src/dialogs/regression.glade.h:12
 msgid "_Y variable:"
 msgstr "_Y aldagaia:"
 
@@ -10264,7 +10283,7 @@ msgstr "300%"
 msgid "500%"
 msgstr "500%"
 
-#: ../src/gnm-pane.c:1919
+#: ../src/gnm-pane.c:1921
 #, c-format
 msgid ""
 "%.1f x %.1f pts\n"
@@ -10412,12 +10431,12 @@ msgstr "Hainbat errore\n"
 msgid "Unable to open file '%s'"
 msgstr "Ezin da fitxategia ireki: '%s'"
 
-#: ../src/gui-util.c:1390
+#: ../src/gui-util.c:1411
 #, c-format
 msgid "The plugin with id %s is required but cannot be found."
 msgstr "%s IDko plugina behar da baina ezin da aurkitu."
 
-#: ../src/gui-util.c:1398
+#: ../src/gui-util.c:1419
 #, c-format
 msgid "The %s plugin is required but is not loaded."
 msgstr "%s plugina behar da baina ezin da kargatu."
@@ -10440,12 +10459,12 @@ msgstr "Ezin da URLa aktibatu: '%s'"
 msgid "Unable to open '%s'"
 msgstr "Ezin da '%s' ireki"
 
-#: ../src/item-bar.c:769
+#: ../src/item-bar.c:776
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Zabalera: %.2f ptu (%d pixel)"
 
-#: ../src/item-bar.c:772
+#: ../src/item-bar.c:779
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Altuera: %.2f ptu (%d pixel)"
@@ -10454,7 +10473,7 @@ msgstr "Altuera: %.2f ptu (%d pixel)"
 msgid "_Move"
 msgstr "_Lekuz aldatu"
 
-#: ../src/item-cursor.c:778 ../src/sheet-control-gui.c:1843
+#: ../src/item-cursor.c:778 ../src/sheet-control-gui.c:1903
 msgid "_Copy"
 msgstr "_Kopiatu"
 
@@ -10575,7 +10594,7 @@ msgid "Exit immediately after loading the selected books"
 msgstr "Irten berehala hautatutako liburuak kargatu ondoren"
 
 #: ../src/main-application.c:227 ../src/ssconvert.c:657 ../src/ssgrep.c:434
-#: ../src/ssindex.c:253
+#: ../src/ssindex.c:255
 #, c-format
 msgid ""
 "%s\n"
@@ -10785,43 +10804,43 @@ msgstr "Aukera baliogabea Pdf esportzailearentzako"
 msgid "PDF export"
 msgstr "PDF esportazioa"
 
-#: ../src/print.c:606
+#: ../src/print.c:616
 msgid "Even one cell is too large for this page."
 msgstr "Oraindik ere gelaxka bat ere luzeegia da orrialde honentzako."
 
-#: ../src/print.c:943
+#: ../src/print.c:953
 msgid "Print Selection"
 msgstr "Inprimatu hautapena"
 
-#: ../src/print.c:1351
+#: ../src/print.c:1361
 msgid "_All workbook sheets"
 msgstr "_Laneko liburuko orri guztiak"
 
-#: ../src/print.c:1356
+#: ../src/print.c:1366
 msgid "Also print _hidden sheets"
 msgstr "Inprimatu _ezkutuko orriak ere"
 
-#: ../src/print.c:1361
+#: ../src/print.c:1371
 msgid "A_ctive workbook sheet"
 msgstr "La_neko liburuko orri aktiboak"
 
-#: ../src/print.c:1366
+#: ../src/print.c:1376
 msgid "_Workbook sheets:"
 msgstr "Lane_ko liburuko orriak:"
 
-#: ../src/print.c:1371
+#: ../src/print.c:1381
 msgid "Current _selection only"
 msgstr "_Uneko hautapena bakarrik"
 
-#: ../src/print.c:1376
+#: ../src/print.c:1386
 msgid "_Ignore defined print area"
 msgstr "_Ez ikusi egin definitutako inprimatze-areari"
 
-#: ../src/print.c:1380
+#: ../src/print.c:1390
 msgid "from:"
 msgstr "hemendik:"
 
-#: ../src/print.c:1618
+#: ../src/print.c:1628
 msgid "Gnumeric Print Range"
 msgstr "Gnumeric inprimatze-barrutia"
 
@@ -10995,15 +11014,15 @@ msgstr "%dHL"
 msgid "(empty)"
 msgstr "(hutsik)"
 
-#: ../src/sheet-control-gui.c:1841
+#: ../src/sheet-control-gui.c:1901
 msgid "Cu_t"
 msgstr "_Ebaki"
 
-#: ../src/sheet-control-gui.c:1845
+#: ../src/sheet-control-gui.c:1905
 msgid "_Paste"
 msgstr "_Itsatsi"
 
-#: ../src/sheet-control-gui.c:1847
+#: ../src/sheet-control-gui.c:1907
 msgid "Paste _Special"
 msgstr "Itsatsi _berezia"
 
@@ -11014,106 +11033,106 @@ msgstr "Itsatsi _berezia"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: ../src/sheet-control-gui.c:1859
+#: ../src/sheet-control-gui.c:1919
 msgid "_Insert Cells..."
 msgstr "_Txertatu gelaxkak..."
 
-#: ../src/sheet-control-gui.c:1861
+#: ../src/sheet-control-gui.c:1921
 msgid "_Delete Cells..."
 msgstr "_Ezabatu gelaxkak..."
 
-#: ../src/sheet-control-gui.c:1863
+#: ../src/sheet-control-gui.c:1923
 msgid "_Insert Column(s)"
 msgstr "T_xertatu zutabea(k)"
 
-#: ../src/sheet-control-gui.c:1865
+#: ../src/sheet-control-gui.c:1925
 msgid "_Delete Column(s)"
 msgstr "E_zabatu zutabea(k)"
 
-#: ../src/sheet-control-gui.c:1867
+#: ../src/sheet-control-gui.c:1927
 msgid "_Insert Row(s)"
 msgstr "Txe_rtatu errenkada(k)"
 
-#: ../src/sheet-control-gui.c:1869
+#: ../src/sheet-control-gui.c:1929
 msgid "_Delete Row(s)"
 msgstr "Eza_batu errenkada(k)"
 
-#: ../src/sheet-control-gui.c:1872
+#: ../src/sheet-control-gui.c:1932
 msgid "Clear Co_ntents"
 msgstr "Garbitu e_dukia"
 
-#: ../src/sheet-control-gui.c:1874
+#: ../src/sheet-control-gui.c:1934
 msgid "Edit Co_mment..."
 msgstr "Editatu _iruzkina..."
 
-#: ../src/sheet-control-gui.c:1880
+#: ../src/sheet-control-gui.c:1940
 msgid "_Edit DataSlicer"
 msgstr "_Editatu datu-sektorea"
 
-#: ../src/sheet-control-gui.c:1883
+#: ../src/sheet-control-gui.c:1943
 msgid "_Refresh DataSlicer"
 msgstr "_Freskatu datu-sektorea"
 
-#: ../src/sheet-control-gui.c:1887
+#: ../src/sheet-control-gui.c:1947
 msgid "DataSlicer Field _Order "
 msgstr "Datu-sektorearen eremuaren _ordena "
 
-#: ../src/sheet-control-gui.c:1896
+#: ../src/sheet-control-gui.c:1956
 msgid "Up"
 msgstr "Gora"
 
-#: ../src/sheet-control-gui.c:1899
+#: ../src/sheet-control-gui.c:1959
 msgid "Down"
 msgstr "Behera"
 
 #. end sub menu
-#: ../src/sheet-control-gui.c:1906
+#: ../src/sheet-control-gui.c:1966
 msgid "_Format Cells..."
 msgstr "_Gelaxken formatua..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: ../src/sheet-control-gui.c:1910
+#: ../src/sheet-control-gui.c:1970
 msgid "Column _Width..."
 msgstr "Zu_tabe-zabalera..."
 
-#: ../src/sheet-control-gui.c:1912 ../src/sheet-control-gui.c:1920
-#: ../src/wbc-gtk-actions.c:2040 ../src/wbc-gtk-actions.c:2057
+#: ../src/sheet-control-gui.c:1972 ../src/sheet-control-gui.c:1980
+#: ../src/wbc-gtk-actions.c:2063 ../src/wbc-gtk-actions.c:2080
 msgid "_Hide"
 msgstr "E_zkutatu"
 
-#: ../src/sheet-control-gui.c:1914 ../src/sheet-control-gui.c:1922
-#: ../src/wbc-gtk-actions.c:2043 ../src/wbc-gtk-actions.c:2060
+#: ../src/sheet-control-gui.c:1974 ../src/sheet-control-gui.c:1982
+#: ../src/wbc-gtk-actions.c:2066 ../src/wbc-gtk-actions.c:2083
 msgid "_Unhide"
 msgstr "_Erakutsi"
 
 #. Row specific (Note some labels duplicate col labels)
-#: ../src/sheet-control-gui.c:1918
+#: ../src/sheet-control-gui.c:1978
 msgid "_Row Height..."
 msgstr "_Errenkada-altuera..."
 
-#: ../src/sheet-control-gui.c:1925
+#: ../src/sheet-control-gui.c:1985
 msgid "_Hyperlink"
 msgstr "_Hiperesteka"
 
-#: ../src/sheet-control-gui.c:1928
+#: ../src/sheet-control-gui.c:1988
 msgid "Edit _Hyperlink"
 msgstr "Editatu hi_peresteka"
 
-#: ../src/sheet-control-gui.c:1931
+#: ../src/sheet-control-gui.c:1991
 msgid "_Remove Hyperlink"
 msgstr "_Kendu hiperesteka"
 
 #. This is somewhat cheesy and should use ngettext
-#: ../src/sheet-control-gui.c:2427
+#: ../src/sheet-control-gui.c:2487
 msgid "Duplicate Object"
 msgstr "Bikoiztu objektua"
 
-#: ../src/sheet-control-gui.c:2427
+#: ../src/sheet-control-gui.c:2487
 msgid "Insert Object"
 msgstr "Txertatu objektua"
 
 #. Format toolbar
-#: ../src/sheet-merge.c:74 ../src/wbc-gtk-actions.c:2329
+#: ../src/sheet-merge.c:74 ../src/wbc-gtk-actions.c:2352
 msgid "Merge"
 msgstr "Batu"
 
@@ -11126,41 +11145,46 @@ msgstr ""
 "Badago lehendik batutako eremu bat honekin ebakitzen dena:\n"
 "%s!%s"
 
-#: ../src/sheet-object-graph.c:229 ../src/sheet-object-image.c:399
+#: ../src/sheet-object-graph.c:286 ../src/sheet-object-image.c:399
 #, c-format
 msgid "Unknown failure while saving image"
 msgstr "Huts-egite ezezaguna irudia gordetzean"
 
-#: ../src/sheet-object-graph.c:314
+#: ../src/sheet-object-graph.c:371
 msgid "_Save as Image"
 msgstr "_Gorde irudi gisa"
 
-#: ../src/sheet-object-graph.c:315
+#: ../src/sheet-object-graph.c:372
 msgid "Open in _New Window"
 msgstr "Ireki _leiho berrian"
 
-#: ../src/sheet-object-graph.c:644
+#: ../src/sheet-object-graph.c:712
 msgid "Series as:"
 msgstr "Hemengo serieak:"
 
-#: ../src/sheet-object-graph.c:648
+#: ../src/sheet-object-graph.c:716
 msgid "Auto"
 msgstr "Auto"
 
-#: ../src/sheet-object-graph.c:654
+#: ../src/sheet-object-graph.c:722
 msgid "Use first series as shared abscissa"
 msgstr "Erabili aurreneko serieak abszisa"
+
+#: ../src/sheet-object-graph.c:725
+#, fuzzy
+msgid "New graph sheet"
+msgstr "Orri _berria"
 
 #: ../src/sheet-object-image.c:452
 msgid "_Save as image"
 msgstr "_Gorde irudi gisa"
 
 #. Object Toolbar
-#: ../src/sheet-object-widget.c:335 ../src/wbc-gtk-actions.c:2288
+#: ../src/sheet-object-widget.c:335 ../src/wbc-gtk-actions.c:2311
 msgid "Frame"
 msgstr "Markoa"
 
-#: ../src/sheet-object-widget.c:640 ../src/wbc-gtk-actions.c:2321
+#: ../src/sheet-object-widget.c:640 ../src/wbc-gtk-actions.c:2344
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "Button"
 msgstr "Botoia"
@@ -11214,7 +11238,7 @@ msgstr "%d kontrol-laukia"
 msgid "Clicking checkbox"
 msgstr "Egin klik kontrol-laukian"
 
-#: ../src/sheet-object-widget.c:2378 ../src/wbc-gtk-actions.c:2324
+#: ../src/sheet-object-widget.c:2378 ../src/wbc-gtk-actions.c:2347
 msgid "RadioButton"
 msgstr "Aukera-botoia"
 
@@ -11232,31 +11256,31 @@ msgstr "Egin klik zerrendan"
 msgid "Snap object to grid"
 msgstr "Atxiki objektua saretari"
 
-#: ../src/sheet-object.c:161
+#: ../src/sheet-object.c:172
 msgid "Size _& Position"
 msgstr ""
 
-#: ../src/sheet-object.c:162
+#: ../src/sheet-object.c:173
 msgid "_Snap to Grid"
 msgstr "At_xiki saretari"
 
-#: ../src/sheet-object.c:163
+#: ../src/sheet-object.c:174
 msgid "_Order"
 msgstr "_Ordena"
 
-#: ../src/sheet-object.c:164
+#: ../src/sheet-object.c:175
 msgid "Pul_l to Front"
 msgstr "_Ekarri aurreraino"
 
-#: ../src/sheet-object.c:165
+#: ../src/sheet-object.c:176
 msgid "Pull _Forward"
 msgstr "E_karri aurrerantz"
 
-#: ../src/sheet-object.c:166
+#: ../src/sheet-object.c:177
 msgid "Push _Backward"
 msgstr "Bu_ltza atzerantz"
 
-#: ../src/sheet-object.c:167
+#: ../src/sheet-object.c:178
 msgid "Pus_h to Back"
 msgstr "_Bultza atzeraino"
 
@@ -11561,31 +11585,31 @@ msgstr "Zutabeen zenbakiak orrian"
 msgid "Rows number in the sheet"
 msgstr "Errenkaden zenbakiak orrian"
 
-#: ../src/sheet.c:3134
+#: ../src/sheet.c:3137
 msgid "Target region contains merged cells"
 msgstr "Helburuko eremuak batutako gelaxkak dauzka."
 
-#: ../src/sheet.c:3195
+#: ../src/sheet.c:3198
 msgid "cannot operate on merged cells"
 msgstr "ezin da batutako gelaxketan erabili"
 
-#: ../src/sheet.c:3205
+#: ../src/sheet.c:3208
 msgid "cannot operate on array formulae"
 msgstr "ezin da array formuletan erabili"
 
-#: ../src/sheet.c:4436
+#: ../src/sheet.c:4439
 msgid "Insert Columns"
 msgstr "Txertatu zutabeak"
 
-#: ../src/sheet.c:4527
+#: ../src/sheet.c:4530
 msgid "Delete Columns"
 msgstr "Ezabatu zutabeak"
 
-#: ../src/sheet.c:4608
+#: ../src/sheet.c:4611
 msgid "Insert Rows"
 msgstr "Txertatu errenkadak"
 
-#: ../src/sheet.c:4699
+#: ../src/sheet.c:4702
 msgid "Delete Rows"
 msgstr "Ezabatu errenkadak"
 
@@ -11748,7 +11772,7 @@ msgstr ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 
-#: ../src/ssconvert.c:693 ../src/ssindex.c:264
+#: ../src/ssconvert.c:693 ../src/ssindex.c:266
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Erabilera: %s [AUKERA...] %s\n"
@@ -11858,11 +11882,11 @@ msgstr "Zerrendatu irakurtzeko gai den ssindex daukaten MIME motak"
 msgid "Index the given files"
 msgstr "Indexatu fitxategiak"
 
-#: ../src/ssindex.c:246 ../src/ssindex.c:266
+#: ../src/ssindex.c:248 ../src/ssindex.c:268
 msgid "INFILE..."
 msgstr "SARRERA-FITXATEGIA..."
 
-#: ../src/ssindex.c:260
+#: ../src/ssindex.c:262
 #, c-format
 msgid ""
 "ssindex version '%s'\n"
@@ -11998,12 +12022,12 @@ msgstr "Anova: bi faktorekoa erreplikatzerik gabe"
 msgid "/Summary/Count/Sum/Average/Variance"
 msgstr "/Laburpena/Kopurua/Batura/Batez bestekoa/Bariantza"
 
-#: ../src/tools/analysis-anova.c:150 ../src/tools/analysis-tools.c:185
+#: ../src/tools/analysis-anova.c:150 ../src/tools/analysis-tools.c:183
 #, c-format
 msgid "Row %i"
 msgstr "%i. errenkada"
 
-#: ../src/tools/analysis-anova.c:189 ../src/tools/analysis-tools.c:188
+#: ../src/tools/analysis-anova.c:189 ../src/tools/analysis-tools.c:186
 #, c-format
 msgid "Column %i"
 msgstr "%i zutabea"
@@ -12017,7 +12041,7 @@ msgid "/Source of Variation/Rows/Columns/Error/Total"
 msgstr "Aldakuntzaren iturburua/Errenkadak/Zutabeak/Errorea/Totala"
 
 #: ../src/tools/analysis-anova.c:250 ../src/tools/analysis-anova.c:609
-#: ../src/tools/analysis-tools.c:3926
+#: ../src/tools/analysis-tools.c:4093
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/P-balioa/F kritikoa"
 
@@ -12135,7 +12159,7 @@ msgstr "\"α =\" * 0.000"
 #: ../src/tools/analysis-exp-smoothing.c:777
 #: ../src/tools/analysis-exp-smoothing.c:1098
 #: ../src/tools/analysis-frequency.c:145 ../src/tools/analysis-histogram.c:291
-#: ../src/tools/analysis-tools.c:1160 ../src/tools/analysis-tools.c:3404
+#: ../src/tools/analysis-tools.c:1206 ../src/tools/analysis-tools.c:3571
 #, c-format
 msgid "Row %d"
 msgstr "%d. errenkada"
@@ -12145,7 +12169,7 @@ msgstr "%d. errenkada"
 #: ../src/tools/analysis-exp-smoothing.c:600
 #: ../src/tools/analysis-exp-smoothing.c:918
 #: ../src/tools/analysis-exp-smoothing.c:1281
-#: ../src/tools/analysis-kaplan-meier.c:214 ../src/tools/analysis-tools.c:3579
+#: ../src/tools/analysis-kaplan-meier.c:214 ../src/tools/analysis-tools.c:3746
 msgid "Standard Error"
 msgstr "Errore estandarra"
 
@@ -12199,7 +12223,7 @@ msgid "/Frequency Table/Category"
 msgstr "/Maiztasun-taula/Kategoria"
 
 #: ../src/tools/analysis-frequency.c:151 ../src/tools/analysis-histogram.c:297
-#: ../src/tools/analysis-tools.c:1166
+#: ../src/tools/analysis-tools.c:1212
 #, c-format
 msgid "Area %d"
 msgstr "%d. area"
@@ -12383,35 +12407,35 @@ msgstr ""
 msgid "Sign Test (%s)"
 msgstr "z-Proba (%s)"
 
-#: ../src/tools/analysis-tools.c:191
+#: ../src/tools/analysis-tools.c:189
 #, c-format
 msgid "Bin %i"
 msgstr "%i klasea"
 
-#: ../src/tools/analysis-tools.c:195
+#: ../src/tools/analysis-tools.c:193
 #, c-format
 msgid "Area %i"
 msgstr "%i area"
 
-#: ../src/tools/analysis-tools.c:232
+#: ../src/tools/analysis-tools.c:278
 #, c-format
 msgid "Variable %i"
 msgstr "%i aldagaia"
 
-#: ../src/tools/analysis-tools.c:614
+#: ../src/tools/analysis-tools.c:660
 msgid "Correlations"
 msgstr "Korrelazioak"
 
-#: ../src/tools/analysis-tools.c:626
+#: ../src/tools/analysis-tools.c:672
 #, c-format
 msgid "Correlation (%s)"
 msgstr "Korrelazioa (%s)"
 
-#: ../src/tools/analysis-tools.c:669
+#: ../src/tools/analysis-tools.c:715
 msgid "Covariances"
 msgstr "Kobariantzak"
 
-#: ../src/tools/analysis-tools.c:681
+#: ../src/tools/analysis-tools.c:727
 #, c-format
 msgid "Covariance (%s)"
 msgstr "Kobariantza (%s)"
@@ -12423,7 +12447,7 @@ msgstr "Kobariantza (%s)"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: ../src/tools/analysis-tools.c:782
+#: ../src/tools/analysis-tools.c:828
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
@@ -12432,36 +12456,36 @@ msgstr ""
 "Laginaren bariantza/Kurtosia/Asimetria/Barrutia/Gutxienekoa/Gehienekoa/"
 "Batura/Kontaketa"
 
-#: ../src/tools/analysis-tools.c:917
+#: ../src/tools/analysis-tools.c:963
 #, c-format
 msgid "/%%%s%%%% CI for the Mean from/to"
 msgstr "/%%%s%%%% CI batez bestekoarentzat hemendik/hona:"
 
-#: ../src/tools/analysis-tools.c:1045
+#: ../src/tools/analysis-tools.c:1091
 #, c-format
 msgid "Largest (%d)"
 msgstr "Handiena (%d)"
 
-#: ../src/tools/analysis-tools.c:1052
+#: ../src/tools/analysis-tools.c:1098
 #, c-format
 msgid "Smallest (%d)"
 msgstr "Txikiena (%d)"
 
-#: ../src/tools/analysis-tools.c:1069
+#: ../src/tools/analysis-tools.c:1115
 #, c-format
 msgid "Descriptive Statistics (%s)"
 msgstr "Estatistika deskriptiboa (%s)"
 
-#: ../src/tools/analysis-tools.c:1263
+#: ../src/tools/analysis-tools.c:1309
 #, c-format
 msgid "Sampling (%s)"
 msgstr "Lagintzea (%s)"
 
-#: ../src/tools/analysis-tools.c:1297 ../src/tools/analysis-tools.c:1300
+#: ../src/tools/analysis-tools.c:1343 ../src/tools/analysis-tools.c:1346
 msgid "Sample"
 msgstr "Lagina"
 
-#: ../src/tools/analysis-tools.c:1338
+#: ../src/tools/analysis-tools.c:1384
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
@@ -12471,16 +12495,16 @@ msgstr ""
 "diferentzia/Batez bestekoaren diferentzia behatua/z/P (Z<=z) isats bakarra/z "
 "isats bakar kritikoa/P (Z<=z) bi isats/z bi isats kritiko"
 
-#: ../src/tools/analysis-tools.c:1528
+#: ../src/tools/analysis-tools.c:1574
 #, c-format
 msgid "z-Test (%s)"
 msgstr "z-Proba (%s)"
 
-#: ../src/tools/analysis-tools.c:1538 ../src/tools/analysis-tools.c:1541
+#: ../src/tools/analysis-tools.c:1584 ../src/tools/analysis-tools.c:1587
 msgid "z-Test"
 msgstr "z-Proba"
 
-#: ../src/tools/analysis-tools.c:1589
+#: ../src/tools/analysis-tools.c:1635
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-"
@@ -12491,18 +12515,18 @@ msgstr ""
 "bariantza/df/t Stat/P (T<=t) isats bakarra/t isats bakar kritikoa/P (T<=t) "
 "bi isats/t bi isats kritiko"
 
-#: ../src/tools/analysis-tools.c:1820
+#: ../src/tools/analysis-tools.c:1866
 #, c-format
 msgid "t-Test, paired (%s)"
 msgstr "t-Proba, bikoteka (%s)"
 
-#: ../src/tools/analysis-tools.c:1830 ../src/tools/analysis-tools.c:1833
-#: ../src/tools/analysis-tools.c:2130 ../src/tools/analysis-tools.c:2133
-#: ../src/tools/analysis-tools.c:2423 ../src/tools/analysis-tools.c:2426
+#: ../src/tools/analysis-tools.c:1876 ../src/tools/analysis-tools.c:1879
+#: ../src/tools/analysis-tools.c:2176 ../src/tools/analysis-tools.c:2179
+#: ../src/tools/analysis-tools.c:2469 ../src/tools/analysis-tools.c:2472
 msgid "t-Test"
 msgstr "t-Proba"
 
-#: ../src/tools/analysis-tools.c:1868
+#: ../src/tools/analysis-tools.c:1914
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
@@ -12513,12 +12537,12 @@ msgstr ""
 "(T<=t) isats bakarra/t isats bakar kritikoa/P (T<=t) bi isats/t bi isats "
 "kritiko"
 
-#: ../src/tools/analysis-tools.c:2120 ../src/tools/analysis-tools.c:2413
+#: ../src/tools/analysis-tools.c:2166 ../src/tools/analysis-tools.c:2459
 #, c-format
 msgid "t-Test (%s)"
 msgstr "t-Proba (%s)"
 
-#: ../src/tools/analysis-tools.c:2165
+#: ../src/tools/analysis-tools.c:2211
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
@@ -12528,12 +12552,12 @@ msgstr ""
 "diferentzia/Batez bestekoaren diferentzia behatua/df/t Stat/P (T<=t) isats "
 "bakarra/t isats bakar kritikoa/P (T<=t) bi isats/t bi isats kritiko"
 
-#: ../src/tools/analysis-tools.c:2461 ../src/tools/analysis-tools.c:2712
-#: ../src/tools/analysis-tools.c:2715
+#: ../src/tools/analysis-tools.c:2507 ../src/tools/analysis-tools.c:2758
+#: ../src/tools/analysis-tools.c:2761
 msgid "F-Test"
 msgstr "F-Proba"
 
-#: ../src/tools/analysis-tools.c:2463
+#: ../src/tools/analysis-tools.c:2509
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
@@ -12542,12 +12566,12 @@ msgstr ""
 "isats kritikoa/P (f<=F) ezker isatsa/F ezker isats kritikoa/P bi isats/F bi "
 "isats kritiko"
 
-#: ../src/tools/analysis-tools.c:2702
+#: ../src/tools/analysis-tools.c:2748
 #, c-format
 msgid "F-Test (%s)"
 msgstr "F-Proba (%s)"
 
-#: ../src/tools/analysis-tools.c:2842
+#: ../src/tools/analysis-tools.c:2891
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R^2/Standard Error/"
 "Adjusted R^2/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -12556,27 +12580,27 @@ msgstr ""
 "estandarra/R karratu doitua//Behaketak//ANOVA//Erregresioa/Hondarra/Totala///"
 "Interzeptatu"
 
-#: ../src/tools/analysis-tools.c:2860
+#: ../src/tools/analysis-tools.c:2909
 msgid "Response Variable:"
 msgstr "Erantzunaren aldagaia:"
 
-#: ../src/tools/analysis-tools.c:2893
+#: ../src/tools/analysis-tools.c:2942
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/SS/MS/F/Fren esangura"
 
-#: ../src/tools/analysis-tools.c:2900
+#: ../src/tools/analysis-tools.c:2949
 msgid "/Coefficients/Standard Error/t-Statistics/p-Value"
 msgstr "/Koefizienteak/Errore estandarra/t Statistikak/p-balioa"
 
-#: ../src/tools/analysis-tools.c:2905
+#: ../src/tools/analysis-tools.c:2954
 msgid "\"Lower\" 0%"
 msgstr "\"behekoa\" % 0"
 
-#: ../src/tools/analysis-tools.c:2906
+#: ../src/tools/analysis-tools.c:2955
 msgid "\"Upper\" 0%"
 msgstr "\"Goikoa\" % 0"
 
-#: ../src/tools/analysis-tools.c:2915
+#: ../src/tools/analysis-tools.c:2964
 msgid ""
 "Probability of observing a t-statistic\n"
 "whose absolute value is at least as large\n"
@@ -12585,7 +12609,7 @@ msgid ""
 "hypothesis is in fact true."
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:2922
+#: ../src/tools/analysis-tools.c:2971
 msgid ""
 "This value is not the square of R\n"
 "but the uncentered version of the\n"
@@ -12599,88 +12623,96 @@ msgstr ""
 "hau da, ereduan azaldutako karratuen\n"
 "baturaren proportzioa."
 
-#: ../src/tools/analysis-tools.c:3253
+#: ../src/tools/analysis-tools.c:3326
+msgid "/SUMMARY OUTPUT//Response Variable://Observations:"
+msgstr ""
+
+#: ../src/tools/analysis-tools.c:3331
+msgid "/Independent Variable/R^2/Slope/Intercept/F/Significance of F"
+msgstr ""
+
+#: ../src/tools/analysis-tools.c:3406
 #, c-format
 msgid "Regression (%s)"
 msgstr "Erregresioa (%s)"
 
-#: ../src/tools/analysis-tools.c:3640
+#: ../src/tools/analysis-tools.c:3807
 #, c-format
 msgid "Moving Average (%s)"
 msgstr "Batez besteko mugikorra (%s)"
 
-#: ../src/tools/analysis-tools.c:3698
+#: ../src/tools/analysis-tools.c:3865
 msgid "Ranks & Percentiles"
 msgstr "Heinak eta pertzentilak"
 
-#: ../src/tools/analysis-tools.c:3708
+#: ../src/tools/analysis-tools.c:3875
 msgid "Point"
 msgstr "Puntua"
 
-#: ../src/tools/analysis-tools.c:3709
+#: ../src/tools/analysis-tools.c:3876
 msgid "Rank"
 msgstr "Heina"
 
-#: ../src/tools/analysis-tools.c:3710
+#: ../src/tools/analysis-tools.c:3877
 msgid "Percentile Rank"
 msgstr "Pertzentilaren heina"
 
-#: ../src/tools/analysis-tools.c:3802
+#: ../src/tools/analysis-tools.c:3969
 #, c-format
 msgid "Ranks (%s)"
 msgstr "Heinak (%s)"
 
-#: ../src/tools/analysis-tools.c:3814 ../src/tools/analysis-tools.c:3817
+#: ../src/tools/analysis-tools.c:3981 ../src/tools/analysis-tools.c:3984
 msgid "Ranks"
 msgstr "Heinak"
 
-#: ../src/tools/analysis-tools.c:3848
+#: ../src/tools/analysis-tools.c:4015
 msgid "Anova: Single Factor"
 msgstr "Anova: faktore bakarra"
 
-#: ../src/tools/analysis-tools.c:3849 ../src/tools/simulation.c:336
+#: ../src/tools/analysis-tools.c:4016 ../src/tools/simulation.c:336
 msgid "SUMMARY"
 msgstr "LABURPENA"
 
-#: ../src/tools/analysis-tools.c:3852
+#: ../src/tools/analysis-tools.c:4019
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Taldeak/Kopurua/Batura/Batez bestekoa/Bariantza"
 
-#: ../src/tools/analysis-tools.c:3920
+#: ../src/tools/analysis-tools.c:4087
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Aldakuntzaren iturburua/Taldeen artean/Taldeen barruan/Totala"
 
-#: ../src/tools/analysis-tools.c:4137
+#: ../src/tools/analysis-tools.c:4306
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr "Faktore bakarreko ANOVA (%s)"
 
-#: ../src/tools/analysis-tools.c:4148
+#: ../src/tools/analysis-tools.c:4317
 msgid "Anova"
 msgstr "Anova"
 
-#: ../src/tools/analysis-tools.c:4151
+#: ../src/tools/analysis-tools.c:4320
 msgid "Single Factor ANOVA"
 msgstr "Faktore bakarreko ANOVA"
 
-#: ../src/tools/analysis-tools.c:4190
+#: ../src/tools/analysis-tools.c:4359
 msgid "Inverse Fourier Transform"
 msgstr "Fourier-en alderantzizko transformatua"
 
-#: ../src/tools/analysis-tools.c:4191
+#: ../src/tools/analysis-tools.c:4360
 msgid "Fourier Transform"
 msgstr "Fourier-en transformatua"
 
-#: ../src/tools/analysis-tools.c:4199
+#: ../src/tools/analysis-tools.c:4368
 msgid "/Real/Imaginary"
 msgstr "/Erreala/Irudikaria"
 
-#: ../src/tools/analysis-tools.c:4252
+#: ../src/tools/analysis-tools.c:4421
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr "Fourier seriea (%s)"
 
-#: ../src/tools/analysis-tools.c:4264 ../src/tools/analysis-tools.c:4267
+#: ../src/tools/analysis-tools.c:4433 ../src/tools/analysis-tools.c:4436
 msgid "Fourier Series"
 msgstr "Fourier seriea"
 
@@ -12883,7 +12915,7 @@ msgstr "Kurtosia"
 msgid "Range"
 msgstr "Barrutia"
 
-#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:4273
+#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:4315
 msgid "Count"
 msgstr "Kopurua"
 
@@ -13032,29 +13064,29 @@ msgstr "#ZK!"
 msgid "#N/A"
 msgstr "#E/E"
 
-#: ../src/wbc-gtk-actions.c:154
+#: ../src/wbc-gtk-actions.c:155
 msgid "Failed to create temporary file for sending."
 msgstr "Huts egin du aldi baterako fitxategia sortzean bidaltzeko."
 
-#: ../src/wbc-gtk-actions.c:211 ../src/workbook-view.c:1098
+#: ../src/wbc-gtk-actions.c:212 ../src/workbook-view.c:1098
 msgid "Default file saver is not available."
 msgstr "Fitxategi-gordetzaile lehenetsia ez dago erabilgarri."
 
 #. File->PrintArea
-#: ../src/wbc-gtk-actions.c:236 ../src/wbc-gtk-actions.c:1819
+#: ../src/wbc-gtk-actions.c:237 ../src/wbc-gtk-actions.c:1842
 msgid "Set Print Area"
 msgstr "Ezarri inprimatze-area"
 
-#: ../src/wbc-gtk-actions.c:240
+#: ../src/wbc-gtk-actions.c:241
 #, c-format
 msgid "Set Print Area to %s"
 msgstr "Ezarri inprimatze-area: %s"
 
-#: ../src/wbc-gtk-actions.c:259 ../src/wbc-gtk-actions.c:1822
+#: ../src/wbc-gtk-actions.c:260 ../src/wbc-gtk-actions.c:1845
 msgid "Clear Print Area"
 msgstr "Garbitu inprimatze-area"
 
-#: ../src/wbc-gtk-actions.c:475
+#: ../src/wbc-gtk-actions.c:476
 #, c-format
 msgid ""
 "In cell %s, the current contents\n"
@@ -13073,7 +13105,7 @@ msgstr ""
 "\n"
 "Ordeztea bertan behera utzi da, eta ez da ezer aldatu."
 
-#: ../src/wbc-gtk-actions.c:514
+#: ../src/wbc-gtk-actions.c:515
 #, c-format
 msgid "Comment in cell %s!%s"
 msgstr "Gelaxka honetako iruzkina: %s!%s"
@@ -13082,31 +13114,31 @@ msgstr "Gelaxka honetako iruzkina: %s!%s"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: ../src/wbc-gtk-actions.c:811
+#: ../src/wbc-gtk-actions.c:812
 msgid "Insert rows"
 msgstr "Txertatu errenkadak"
 
-#: ../src/wbc-gtk-actions.c:828
+#: ../src/wbc-gtk-actions.c:829
 msgid "Insert columns"
 msgstr "Txertatu zutabeak"
 
-#: ../src/wbc-gtk-actions.c:920 ../src/wbc-gtk-actions.c:940
+#: ../src/wbc-gtk-actions.c:921 ../src/wbc-gtk-actions.c:941
 msgid "Show Detail"
 msgstr "Erakutsi xehetasunak"
 
-#: ../src/wbc-gtk-actions.c:920 ../src/wbc-gtk-actions.c:940
+#: ../src/wbc-gtk-actions.c:921 ../src/wbc-gtk-actions.c:941
 msgid "Hide Detail"
 msgstr "Ezkutatu xehetasunak"
 
-#: ../src/wbc-gtk-actions.c:927
+#: ../src/wbc-gtk-actions.c:928
 msgid "can only be performed on an existing group"
 msgstr "lehendik dagoen talde batean bakarrik egin daiteke"
 
-#: ../src/wbc-gtk-actions.c:968
+#: ../src/wbc-gtk-actions.c:969
 msgid "Ungroup"
 msgstr "Banandu"
 
-#: ../src/wbc-gtk-actions.c:1021
+#: ../src/wbc-gtk-actions.c:1022
 #, c-format
 msgid ""
 "Unable to start the help browser (%s).\n"
@@ -13119,828 +13151,829 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../src/wbc-gtk-actions.c:1125
+#: ../src/wbc-gtk-actions.c:1126
 msgid "Sort"
 msgstr "Ordenatu"
 
-#: ../src/wbc-gtk-actions.c:1255
+#: ../src/wbc-gtk-actions.c:1276
 msgid "Set Horizontal Alignment"
 msgstr "Ezarri lerrokatze horizontala"
 
-#: ../src/wbc-gtk-actions.c:1289
+#: ../src/wbc-gtk-actions.c:1310
 msgid "Set Vertical Alignment"
 msgstr "Ezarri lerrokatze bertikala"
 
-#: ../src/wbc-gtk-actions.c:1389
+#: ../src/wbc-gtk-actions.c:1410
 msgid "Set Font Style"
 msgstr "Ezarri letra-estiloa"
 
-#: ../src/wbc-gtk-actions.c:1421
+#: ../src/wbc-gtk-actions.c:1442
 msgid "Format as General"
 msgstr "Eman formatu orokorra"
 
-#: ../src/wbc-gtk-actions.c:1427
+#: ../src/wbc-gtk-actions.c:1448
 msgid "Format as Number"
 msgstr "Eman zenbaki-formatua"
 
-#: ../src/wbc-gtk-actions.c:1443
+#: ../src/wbc-gtk-actions.c:1464
 msgid "Format as Currency"
 msgstr "Eman moneta-formatua"
 
-#: ../src/wbc-gtk-actions.c:1451
+#: ../src/wbc-gtk-actions.c:1472
 msgid "Format as Accounting"
 msgstr "Eman kontabilitate-formatua"
 
-#: ../src/wbc-gtk-actions.c:1457 ../src/wbc-gtk-actions.c:1464
+#: ../src/wbc-gtk-actions.c:1478 ../src/wbc-gtk-actions.c:1485
 msgid "Format as Percentage"
 msgstr "Eman ehuneko-formatua"
 
-#: ../src/wbc-gtk-actions.c:1472
+#: ../src/wbc-gtk-actions.c:1493
 msgid "Format as Time"
 msgstr "Eman ordu-formatua"
 
-#: ../src/wbc-gtk-actions.c:1479
+#: ../src/wbc-gtk-actions.c:1500
 msgid "Format as Date"
 msgstr "Eman data-formatua"
 
-#: ../src/wbc-gtk-actions.c:1503
+#: ../src/wbc-gtk-actions.c:1524
 msgid "Add Borders"
 msgstr "Gehitu ertzak"
 
-#: ../src/wbc-gtk-actions.c:1503
+#: ../src/wbc-gtk-actions.c:1524
 msgid "Remove borders"
 msgstr "Kendu ertzak"
 
-#: ../src/wbc-gtk-actions.c:1619
+#: ../src/wbc-gtk-actions.c:1640
 msgid "Increase precision"
 msgstr "Handiagotu doitasuna"
 
-#: ../src/wbc-gtk-actions.c:1622
+#: ../src/wbc-gtk-actions.c:1643
 msgid "Decrease precision"
 msgstr "Txikiagotu doitasuna"
 
-#: ../src/wbc-gtk-actions.c:1624
+#: ../src/wbc-gtk-actions.c:1645
 msgid "Toggle thousands separator"
 msgstr "Aldatu milakoen bereizlea"
 
-#: ../src/wbc-gtk-actions.c:1632
+#: ../src/wbc-gtk-actions.c:1653
 msgid "Copy down"
 msgstr "Kopiatu behean"
 
-#: ../src/wbc-gtk-actions.c:1638
+#: ../src/wbc-gtk-actions.c:1659
 msgid "Copy right"
 msgstr "Kopiatu eskuinean"
 
-#: ../src/wbc-gtk-actions.c:1694
+#: ../src/wbc-gtk-actions.c:1715
 msgid "_File"
 msgstr "_Fitxategia"
 
-#: ../src/wbc-gtk-actions.c:1695
+#: ../src/wbc-gtk-actions.c:1717
 msgid "New From Template"
 msgstr "Berria txantiloitik"
 
-#: ../src/wbc-gtk-actions.c:1696
-msgid "Print Area"
-msgstr "Inprimatze-area"
-
-#: ../src/wbc-gtk-actions.c:1697
+#: ../src/wbc-gtk-actions.c:1718
 msgid "_Edit"
 msgstr "_Editatu"
 
-#: ../src/wbc-gtk-actions.c:1698
+#: ../src/wbc-gtk-actions.c:1719
 msgid "C_lear"
 msgstr "_Garbitu"
 
-#: ../src/wbc-gtk-actions.c:1699
+#: ../src/wbc-gtk-actions.c:1720
 msgid "_Delete"
 msgstr "E_zabatu"
 
-#: ../src/wbc-gtk-actions.c:1700
+#: ../src/wbc-gtk-actions.c:1721
 msgid "S_heet"
 msgstr "_Orria"
 
-#: ../src/wbc-gtk-actions.c:1701
+#: ../src/wbc-gtk-actions.c:1722
 msgid "_Select"
 msgstr "_Hautatu"
 
-#: ../src/wbc-gtk-actions.c:1702
+#: ../src/wbc-gtk-actions.c:1723
 msgid "_View"
 msgstr "_Ikuspegia"
 
-#: ../src/wbc-gtk-actions.c:1703
+#: ../src/wbc-gtk-actions.c:1724
 msgid "_Windows"
 msgstr "_Leihoak"
 
-#: ../src/wbc-gtk-actions.c:1704
+#: ../src/wbc-gtk-actions.c:1725
 msgid "_Toolbars"
 msgstr "_Tresna-barrak"
 
-#: ../src/wbc-gtk-actions.c:1705 ../src/wbc-gtk-actions.c:1901
+#: ../src/wbc-gtk-actions.c:1726 ../src/wbc-gtk-actions.c:1924
 msgid "_Insert"
 msgstr "_Txertatu"
 
-#: ../src/wbc-gtk-actions.c:1706
+#: ../src/wbc-gtk-actions.c:1727
 msgid "_Names"
 msgstr "Ize_nak"
 
-#: ../src/wbc-gtk-actions.c:1707
+#: ../src/wbc-gtk-actions.c:1728
 msgid "S_pecial"
 msgstr "_Berezia"
 
-#: ../src/wbc-gtk-actions.c:1708
+#: ../src/wbc-gtk-actions.c:1729
 msgid "F_ormat"
 msgstr "_Formatua"
 
-#: ../src/wbc-gtk-actions.c:1709
+#: ../src/wbc-gtk-actions.c:1730
 msgid "C_olumn"
 msgstr "Z_utabea"
 
 #. ICK A DUPLICATE : we have no way to override a label on one proxy
-#: ../src/wbc-gtk-actions.c:1711 ../src/wbc-gtk-actions.c:1905
+#: ../src/wbc-gtk-actions.c:1732 ../src/wbc-gtk-actions.c:1928
 msgid "_Sheet"
 msgstr "_Orria"
 
-#: ../src/wbc-gtk-actions.c:1712
+#: ../src/wbc-gtk-actions.c:1733
 msgid "_Tools"
 msgstr "_Tresnak"
 
-#: ../src/wbc-gtk-actions.c:1713
+#: ../src/wbc-gtk-actions.c:1734
 msgid "Sce_narios"
 msgstr "_Agertokiak"
 
-#: ../src/wbc-gtk-actions.c:1714
+#: ../src/wbc-gtk-actions.c:1735
 msgid "Statistical Anal_ysis"
 msgstr "A_nalisi estatistikoa"
 
-#: ../src/wbc-gtk-actions.c:1715
+#: ../src/wbc-gtk-actions.c:1736
 msgid "_ANOVA"
 msgstr "_ANOVA"
 
-#: ../src/wbc-gtk-actions.c:1716
+#: ../src/wbc-gtk-actions.c:1737
 msgid "Contin_gency Table"
 msgstr "_Dependentzi-taula"
 
-#: ../src/wbc-gtk-actions.c:1717
+#: ../src/wbc-gtk-actions.c:1738
 msgid "F_orecast"
 msgstr "_Iragarpena"
 
-#: ../src/wbc-gtk-actions.c:1718
+#: ../src/wbc-gtk-actions.c:1739
 msgid "Fre_quency Tables"
 msgstr "_Maiztasun-taulak"
 
-#: ../src/wbc-gtk-actions.c:1719
+#: ../src/wbc-gtk-actions.c:1740
 msgid "Two _Means"
 msgstr "_Bi batez besteko"
 
-#: ../src/wbc-gtk-actions.c:1720
+#: ../src/wbc-gtk-actions.c:1741
 msgid "_Data"
 msgstr "_Datuak"
 
-#: ../src/wbc-gtk-actions.c:1721
+#: ../src/wbc-gtk-actions.c:1742
 msgid "_Filter"
 msgstr "I_ragazi"
 
-#: ../src/wbc-gtk-actions.c:1722
+#: ../src/wbc-gtk-actions.c:1743
 msgid "F_ill"
 msgstr "_Bete"
 
-#: ../src/wbc-gtk-actions.c:1723
+#: ../src/wbc-gtk-actions.c:1744
 msgid "_Random Generators"
 msgstr "_Ausazko sortzaileak"
 
-#: ../src/wbc-gtk-actions.c:1724
+#: ../src/wbc-gtk-actions.c:1745
 msgid "_Group and Outline"
 msgstr "_Elkartu eta eskema"
 
-#: ../src/wbc-gtk-actions.c:1725
+#: ../src/wbc-gtk-actions.c:1746
 msgid "Get External _Data"
 msgstr "Eskuratu _kanpoko datuak"
 
-#: ../src/wbc-gtk-actions.c:1726
+#: ../src/wbc-gtk-actions.c:1747
 msgid "Data S_licer"
 msgstr "_Datu-sektorea"
 
-#: ../src/wbc-gtk-actions.c:1727
+#: ../src/wbc-gtk-actions.c:1748
 msgid "_Help"
 msgstr "_Laguntza"
 
-#: ../src/wbc-gtk-actions.c:1730
-msgid "Save the current workbook"
-msgstr "Uneko laneko liburua gordetzen du"
-
-#: ../src/wbc-gtk-actions.c:1733
-msgid "Save the current workbook with a different name"
-msgstr "Uneko laneko liburua gordetzen du beste izen batekin"
-
-#: ../src/wbc-gtk-actions.c:1736
-msgid "Close the current file"
-msgstr "Uneko fitxategia ixten du"
-
-#: ../src/wbc-gtk-actions.c:1739
-msgid "Quit the application"
-msgstr "Aplikaziotik irteten da"
-
-#: ../src/wbc-gtk-actions.c:1743
-msgid "Cut the selection"
-msgstr "Hautapena ebakitzen du"
-
-#: ../src/wbc-gtk-actions.c:1746
-msgid "Copy the selection"
-msgstr "Hautapena kopiatzen du"
-
-#: ../src/wbc-gtk-actions.c:1749
-msgid "Paste the clipboard"
-msgstr "Arbelaren edukia itsasten du"
-
-#: ../src/wbc-gtk-actions.c:1751 ../src/wbc-gtk.c:1570
-msgid "_Undo"
-msgstr "_Desegin"
-
-#: ../src/wbc-gtk-actions.c:1752 ../src/wbc-gtk.c:2839
-msgid "Undo the last action"
-msgstr "Azken ekintza desegiten du"
-
-#: ../src/wbc-gtk-actions.c:1754 ../src/wbc-gtk.c:1569
-msgid "_Redo"
-msgstr "_Berregin"
-
-#: ../src/wbc-gtk-actions.c:1755 ../src/wbc-gtk.c:2834
-msgid "Redo the undone action"
-msgstr "Desegindako ekintza berregiten du"
-
-#: ../src/wbc-gtk-actions.c:1758 ../src/wbc-gtk-actions.c:1839
-msgid "_Contents"
-msgstr "_Edukia"
-
-#: ../src/wbc-gtk-actions.c:1759
-msgid "Open a viewer for Gnumeric's documentation"
-msgstr "Ikustaile bat irekitzen du Gnumeric-en dokumentazioa ikusteko"
-
-#: ../src/wbc-gtk-actions.c:1761
-msgid "Gnumeric on the _Web"
-msgstr "Gnumeric _Interneten"
-
-#: ../src/wbc-gtk-actions.c:1762
-msgid "Browse to Gnumeric's website"
-msgstr "Joan Gnumeric-en webgunera"
-
-#: ../src/wbc-gtk-actions.c:1764
-msgid "_Live Assistance"
-msgstr "_Zuzeneko laguntza"
-
-#: ../src/wbc-gtk-actions.c:1765
-msgid "See if anyone is available to answer questions"
-msgstr "Ikusi norbait galderak erantzuteko moduan dagoen"
-
-#: ../src/wbc-gtk-actions.c:1767
-msgid "Report a _Problem"
-msgstr "_Eman arazo baten berri"
-
-#: ../src/wbc-gtk-actions.c:1768
-msgid "Report problem"
-msgstr "Eman arazoaren berri"
-
-#: ../src/wbc-gtk-actions.c:1770
-msgid "_About"
-msgstr "Honi _buruz"
-
-#: ../src/wbc-gtk-actions.c:1771
-msgid "About this application"
-msgstr "Aplikazio honi buruz"
-
-#: ../src/wbc-gtk-actions.c:1788
+#: ../src/wbc-gtk-actions.c:1751
 msgid "Create a new workbook"
 msgstr "Sortu laneko liburu berria"
 
-#: ../src/wbc-gtk-actions.c:1791
+#: ../src/wbc-gtk-actions.c:1754
 msgid "Open a file"
 msgstr "Ireki fitxategi bat"
 
-#: ../src/wbc-gtk-actions.c:1793
+#: ../src/wbc-gtk-actions.c:1757
+msgid "Save the current workbook"
+msgstr "Uneko laneko liburua gordetzen du"
+
+#: ../src/wbc-gtk-actions.c:1760
+msgid "Save the current workbook with a different name"
+msgstr "Uneko laneko liburua gordetzen du beste izen batekin"
+
+#: ../src/wbc-gtk-actions.c:1762
 msgid "Sen_d To..."
 msgstr "Bi_dali hona..."
 
-#: ../src/wbc-gtk-actions.c:1794
+#: ../src/wbc-gtk-actions.c:1763
 msgid "Send the current file via email"
 msgstr "Bidali uneko fitxategia posta elektronikoz"
 
+#: ../src/wbc-gtk-actions.c:1765
+msgid "Print Area"
+msgstr "Inprimatze-area"
+
 #. gtk_adjustment_configure implies gtk 2.14 or later
 #. that is required for GTK_STOCK_PAGE_SETUP
-#: ../src/wbc-gtk-actions.c:1799 ../src/wbc-gtk-actions.c:1801
+#: ../src/wbc-gtk-actions.c:1769 ../src/wbc-gtk-actions.c:1771
 msgid "Page Set_up..."
 msgstr "Prestatu _orrialdea..."
 
-#: ../src/wbc-gtk-actions.c:1803
+#: ../src/wbc-gtk-actions.c:1773
 msgid "Setup the page settings for your current printer"
 msgstr "Konfiguratu orrialde-ezarpenak uneko inprimagailuarentzat"
 
-#: ../src/wbc-gtk-actions.c:1806
+#: ../src/wbc-gtk-actions.c:1776
 msgid "Print preview"
 msgstr "Inprimatzeko aurrebista"
 
-#: ../src/wbc-gtk-actions.c:1809
+#: ../src/wbc-gtk-actions.c:1779
 msgid "Print the current file"
 msgstr "Inprimatu uneko fitxategia"
 
+#: ../src/wbc-gtk-actions.c:1782
+msgid "Full _History..."
+msgstr "_Historia osoa..."
+
+#: ../src/wbc-gtk-actions.c:1783
+msgid "Access previously used file"
+msgstr "Atzitu lehen erabilitako fitxategia"
+
+#: ../src/wbc-gtk-actions.c:1786
+msgid "Close the current file"
+msgstr "Uneko fitxategia ixten du"
+
+#: ../src/wbc-gtk-actions.c:1789
+msgid "Quit the application"
+msgstr "Aplikaziotik irteten da"
+
+#: ../src/wbc-gtk-actions.c:1793
+msgid "Cut the selection"
+msgstr "Hautapena ebakitzen du"
+
+#: ../src/wbc-gtk-actions.c:1796
+msgid "Copy the selection"
+msgstr "Hautapena kopiatzen du"
+
+#: ../src/wbc-gtk-actions.c:1799
+msgid "Paste the clipboard"
+msgstr "Arbelaren edukia itsasten du"
+
+#: ../src/wbc-gtk-actions.c:1801 ../src/wbc-gtk.c:1612
+msgid "_Undo"
+msgstr "_Desegin"
+
+#: ../src/wbc-gtk-actions.c:1802 ../src/wbc-gtk.c:2881
+msgid "Undo the last action"
+msgstr "Azken ekintza desegiten du"
+
+#: ../src/wbc-gtk-actions.c:1804 ../src/wbc-gtk.c:1611
+msgid "_Redo"
+msgstr "_Berregin"
+
+#: ../src/wbc-gtk-actions.c:1805 ../src/wbc-gtk.c:2876
+msgid "Redo the undone action"
+msgstr "Desegindako ekintza berregiten du"
+
+#: ../src/wbc-gtk-actions.c:1808 ../src/wbc-gtk-actions.c:1862
+msgid "_Contents"
+msgstr "_Edukia"
+
+#: ../src/wbc-gtk-actions.c:1809
+msgid "Open a viewer for Gnumeric's documentation"
+msgstr "Ikustaile bat irekitzen du Gnumeric-en dokumentazioa ikusteko"
+
 #: ../src/wbc-gtk-actions.c:1811
+msgid "Gnumeric on the _Web"
+msgstr "Gnumeric _Interneten"
+
+#: ../src/wbc-gtk-actions.c:1812
+msgid "Browse to Gnumeric's website"
+msgstr "Joan Gnumeric-en webgunera"
+
+#: ../src/wbc-gtk-actions.c:1814
+msgid "_Live Assistance"
+msgstr "_Zuzeneko laguntza"
+
+#: ../src/wbc-gtk-actions.c:1815
+msgid "See if anyone is available to answer questions"
+msgstr "Ikusi norbait galderak erantzuteko moduan dagoen"
+
+#: ../src/wbc-gtk-actions.c:1817
+msgid "Report a _Problem"
+msgstr "_Eman arazo baten berri"
+
+#: ../src/wbc-gtk-actions.c:1818
+msgid "Report problem"
+msgstr "Eman arazoaren berri"
+
+#: ../src/wbc-gtk-actions.c:1820
+msgid "_About"
+msgstr "Honi _buruz"
+
+#: ../src/wbc-gtk-actions.c:1821
+msgid "About this application"
+msgstr "Aplikazio honi buruz"
+
+#. File
+#: ../src/wbc-gtk-actions.c:1837
 #, fuzzy
 msgid "Document Proper_ties..."
 msgstr "_Propietateak..."
 
-#: ../src/wbc-gtk-actions.c:1812
+#: ../src/wbc-gtk-actions.c:1838
 #, fuzzy
 msgid "Edit document properties"
 msgstr "Doiketaren propietateak"
 
-#: ../src/wbc-gtk-actions.c:1814
-msgid "Full _History..."
-msgstr "_Historia osoa..."
-
-#: ../src/wbc-gtk-actions.c:1815
-msgid "Access previously used file"
-msgstr "Atzitu lehen erabilitako fitxategia"
-
-#: ../src/wbc-gtk-actions.c:1820
+#: ../src/wbc-gtk-actions.c:1843
 msgid "Use the current selection as print area"
 msgstr "Erabili uneko hautapena inprimatze-area gisa"
 
-#: ../src/wbc-gtk-actions.c:1823
+#: ../src/wbc-gtk-actions.c:1846
 msgid "Undefine the print area"
 msgstr "Kendu definizioa inprimatze-areari"
 
-#: ../src/wbc-gtk-actions.c:1825
+#: ../src/wbc-gtk-actions.c:1848
 msgid "Show Print Area"
 msgstr "Erakutsi inprimatze-area"
 
-#: ../src/wbc-gtk-actions.c:1826
+#: ../src/wbc-gtk-actions.c:1849
 msgid "Select the print area"
 msgstr "Hautatu inprimatze-area"
 
-#: ../src/wbc-gtk-actions.c:1831
+#: ../src/wbc-gtk-actions.c:1854
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Garbitu hautatutako gelaxken formatuak, iruzkinak eta edukia"
 
-#: ../src/wbc-gtk-actions.c:1834
+#: ../src/wbc-gtk-actions.c:1857
 msgid "Clear the selected cells' formats"
 msgstr "Garbitu hautatutako gelaxken formatuak"
 
-#: ../src/wbc-gtk-actions.c:1837
+#: ../src/wbc-gtk-actions.c:1860
 msgid "Clear the selected cells' comments"
 msgstr "Garbitu hautatutako gelaxken iruzkinak"
 
-#: ../src/wbc-gtk-actions.c:1840
+#: ../src/wbc-gtk-actions.c:1863
 msgid "Clear the selected cells' contents"
 msgstr "Garbitu hautatutako gelaxken edukia"
 
-#: ../src/wbc-gtk-actions.c:1845
+#: ../src/wbc-gtk-actions.c:1868
 msgid "Delete the row(s) containing the selected cells"
 msgstr "Ezabatu hautatutako gelaxkak dituzten errenkadak"
 
-#: ../src/wbc-gtk-actions.c:1848
+#: ../src/wbc-gtk-actions.c:1871
 msgid "Delete the column(s) containing the selected cells"
 msgstr "Ezabatu hautatutako gelaxkak dituzten zutabeak"
 
 #. A duplicate that should not go into the menus, used only for the accelerator
 #. Insert
 #. A duplicate that should not go into the menus, used only for the accelerator
-#: ../src/wbc-gtk-actions.c:1850 ../src/wbc-gtk-actions.c:1854
-#: ../src/wbc-gtk-actions.c:1969 ../src/wbc-gtk-actions.c:1973
+#: ../src/wbc-gtk-actions.c:1873 ../src/wbc-gtk-actions.c:1877
+#: ../src/wbc-gtk-actions.c:1992 ../src/wbc-gtk-actions.c:1996
 msgid "C_ells..."
 msgstr "_Gelaxkak..."
 
-#: ../src/wbc-gtk-actions.c:1851 ../src/wbc-gtk-actions.c:1855
+#: ../src/wbc-gtk-actions.c:1874 ../src/wbc-gtk-actions.c:1878
 msgid "Delete the selected cells, shifting others into their place"
 msgstr "Ezabatu hautatutako gelaxkak, beste batzuk gora eramanez haien lekura"
 
-#: ../src/wbc-gtk-actions.c:1866 ../src/wbc-gtk-actions.c:1870
+#: ../src/wbc-gtk-actions.c:1889 ../src/wbc-gtk-actions.c:1893
 msgid "Select all cells in the spreadsheet"
 msgstr "Hautatu kalkulu-orriko gelaxka guztiak"
 
-#: ../src/wbc-gtk-actions.c:1873
+#: ../src/wbc-gtk-actions.c:1896
 msgid "Select an entire column"
 msgstr "Hautatu zutabe oso bat"
 
-#: ../src/wbc-gtk-actions.c:1876
+#: ../src/wbc-gtk-actions.c:1899
 msgid "Select an entire row"
 msgstr "Hautatu errenkada oso bat"
 
-#: ../src/wbc-gtk-actions.c:1879
+#: ../src/wbc-gtk-actions.c:1902
 msgid "Arra_y"
 msgstr "Arra_y-a"
 
-#: ../src/wbc-gtk-actions.c:1880
+#: ../src/wbc-gtk-actions.c:1903
 msgid "Select an array of cells"
 msgstr "Hautatu gelaxken array bat"
 
-#: ../src/wbc-gtk-actions.c:1882
+#: ../src/wbc-gtk-actions.c:1905
 msgid "_Depends"
 msgstr "_Mendekotasuna"
 
-#: ../src/wbc-gtk-actions.c:1883
+#: ../src/wbc-gtk-actions.c:1906
 msgid "Select all the cells that depend on the current edit cell"
 msgstr ""
 "Hautatu une honetan editatzen ari zaren gelaxkaren mendeko gelaxka guztiak"
 
-#: ../src/wbc-gtk-actions.c:1885
+#: ../src/wbc-gtk-actions.c:1908
 msgid "_Inputs"
 msgstr "_Sarrerak"
 
-#: ../src/wbc-gtk-actions.c:1886
+#: ../src/wbc-gtk-actions.c:1909
 msgid "Select all the cells are used by the current edit cell"
 msgstr ""
 "Hautatu une honetan editatzen ari zaren gelaxkak erabilitako gelaxka guztiak"
 
-#: ../src/wbc-gtk-actions.c:1889
+#: ../src/wbc-gtk-actions.c:1912
 #, fuzzy
 msgid "Next _Object"
 msgstr "Ebaki objektua"
 
-#: ../src/wbc-gtk-actions.c:1890
+#: ../src/wbc-gtk-actions.c:1913
 #, fuzzy
 msgid "Select the next sheet object"
 msgstr "Hautatu hutsik ez dauden orri guztiak esportatzeko."
 
-#: ../src/wbc-gtk-actions.c:1893
+#: ../src/wbc-gtk-actions.c:1916
 msgid "_Goto cell..."
 msgstr "_Joan gelaxkara..."
 
-#: ../src/wbc-gtk-actions.c:1894
+#: ../src/wbc-gtk-actions.c:1917
 msgid "Jump to a specified cell"
 msgstr "Egin salto zehaztutako gelaxkara"
 
 #. Edit -> Sheet
-#: ../src/wbc-gtk-actions.c:1898
+#: ../src/wbc-gtk-actions.c:1921
 msgid "_Manage Sheets..."
 msgstr "_Kudeatu orriak..."
 
-#: ../src/wbc-gtk-actions.c:1899
+#: ../src/wbc-gtk-actions.c:1922
 msgid "Manage the sheets in this workbook"
 msgstr "Kudeatu laneko liburu honetako orriak"
 
-#: ../src/wbc-gtk-actions.c:1902 ../src/wbc-gtk-actions.c:1906
+#: ../src/wbc-gtk-actions.c:1925 ../src/wbc-gtk-actions.c:1929
 msgid "Insert a new sheet"
 msgstr "Txertatu orri berria"
 
-#: ../src/wbc-gtk-actions.c:1908
+#: ../src/wbc-gtk-actions.c:1931
 msgid "_Append"
 msgstr "Era_ntsi"
 
-#: ../src/wbc-gtk-actions.c:1909
+#: ../src/wbc-gtk-actions.c:1932
 msgid "Append a new sheet"
 msgstr "Erantsi orri berria"
 
-#: ../src/wbc-gtk-actions.c:1911
+#: ../src/wbc-gtk-actions.c:1934
 msgid "_Duplicate"
 msgstr "_Bikoiztu"
 
-#: ../src/wbc-gtk-actions.c:1912
+#: ../src/wbc-gtk-actions.c:1935
 msgid "Make a copy of the current sheet"
 msgstr "Egin uneko orriaren kopia bat"
 
-#: ../src/wbc-gtk-actions.c:1915
+#: ../src/wbc-gtk-actions.c:1938
 msgid "Irrevocably remove an entire sheet"
 msgstr "Behin betiko kendu orri osoa"
 
-#: ../src/wbc-gtk-actions.c:1917
+#: ../src/wbc-gtk-actions.c:1940
 msgid "Re_name"
 msgstr "Al_datu izena"
 
-#: ../src/wbc-gtk-actions.c:1918
+#: ../src/wbc-gtk-actions.c:1941
 msgid "Rename the current sheet"
 msgstr "Aldatu uneko orriaren izena"
 
-#: ../src/wbc-gtk-actions.c:1920 ../src/wbc-gtk.c:499
+#: ../src/wbc-gtk-actions.c:1943 ../src/wbc-gtk.c:514
 msgid "Resize..."
 msgstr "Aldatu tamaina..."
 
-#: ../src/wbc-gtk-actions.c:1921
+#: ../src/wbc-gtk-actions.c:1944
 msgid "Change the size of the current sheet"
 msgstr "Aldatu uneko orriaden tamaina"
 
 #. Edit
-#: ../src/wbc-gtk-actions.c:1925
+#: ../src/wbc-gtk-actions.c:1948
 msgid "Repeat"
 msgstr "Errepikatu"
 
-#: ../src/wbc-gtk-actions.c:1926
+#: ../src/wbc-gtk-actions.c:1949
 msgid "Repeat the previous action"
 msgstr "Errepikatu aurreko ekintza"
 
-#: ../src/wbc-gtk-actions.c:1928
+#: ../src/wbc-gtk-actions.c:1951
 msgid "P_aste special..."
 msgstr "_Itsatsi berezia..."
 
-#: ../src/wbc-gtk-actions.c:1929
+#: ../src/wbc-gtk-actions.c:1952
 msgid "Paste with optional filters and transformations"
 msgstr "Itsatsi aukerako iragazkiekin eta eraldaketekin"
 
-#: ../src/wbc-gtk-actions.c:1932
+#: ../src/wbc-gtk-actions.c:1955
 msgid "Co_mment..."
 msgstr "Iru_zkina..."
 
-#: ../src/wbc-gtk-actions.c:1933
+#: ../src/wbc-gtk-actions.c:1956
 msgid "Edit the selected cell's comment"
 msgstr "Editatu hautatutako gelaxkaren iruzkina"
 
-#: ../src/wbc-gtk-actions.c:1936
+#: ../src/wbc-gtk-actions.c:1959
 msgid "S_earch..."
 msgstr "_Bilatu..."
 
-#: ../src/wbc-gtk-actions.c:1937
+#: ../src/wbc-gtk-actions.c:1960
 msgid "Search for something"
 msgstr "Bilatu zerbait"
 
-#: ../src/wbc-gtk-actions.c:1939
+#: ../src/wbc-gtk-actions.c:1962
 msgid "Search _& Replace..."
 msgstr "Bilatu eta _ordeztu..."
 
-#: ../src/wbc-gtk-actions.c:1940
+#: ../src/wbc-gtk-actions.c:1963
 msgid "Search for something and replace it with something else"
 msgstr "Bilatu zerbait eta ordeztu beste zerbaitekin"
 
-#: ../src/wbc-gtk-actions.c:1943
+#: ../src/wbc-gtk-actions.c:1966
 msgid "Recalculate"
 msgstr "Birkalkulatu"
 
-#: ../src/wbc-gtk-actions.c:1944
+#: ../src/wbc-gtk-actions.c:1967
 msgid "Recalculate the spreadsheet"
 msgstr "Birkalkulatu kalkulu-orria"
 
-#: ../src/wbc-gtk-actions.c:1947
+#: ../src/wbc-gtk-actions.c:1970
 msgid "Preferences..."
 msgstr "Hobespenak..."
 
-#: ../src/wbc-gtk-actions.c:1948
+#: ../src/wbc-gtk-actions.c:1971
 msgid "Change Gnumeric Preferences"
 msgstr "Aldatu Gnumeric-en hobespenak"
 
 #. View
-#: ../src/wbc-gtk-actions.c:1952
+#: ../src/wbc-gtk-actions.c:1975
 msgid "_New View..."
 msgstr "_Ikuspegi berria..."
 
-#: ../src/wbc-gtk-actions.c:1953
+#: ../src/wbc-gtk-actions.c:1976
 msgid "Create a new view of the workbook"
 msgstr "Sortu laneko liburuaren ikuspegi berri bat"
 
-#: ../src/wbc-gtk-actions.c:1955 ../src/wbc-gtk.c:1531
+#: ../src/wbc-gtk-actions.c:1978 ../src/wbc-gtk.c:1573
 msgid "_Freeze Panes"
 msgstr "_Izoztu panelak"
 
-#: ../src/wbc-gtk-actions.c:1956 ../src/wbc-gtk.c:1534
+#: ../src/wbc-gtk-actions.c:1979 ../src/wbc-gtk.c:1576
 msgid "Freeze the top left of the sheet"
 msgstr "Izoztu orriaren goi-ezkerraldea"
 
-#: ../src/wbc-gtk-actions.c:1958
+#: ../src/wbc-gtk-actions.c:1981
 msgid "_Zoom..."
 msgstr "_Zooma..."
 
-#: ../src/wbc-gtk-actions.c:1959
+#: ../src/wbc-gtk-actions.c:1982
 msgid "Zoom the spreadsheet in or out"
 msgstr "Handiagotu edo txikiago kalkulu-orriaren zooma"
 
-#: ../src/wbc-gtk-actions.c:1961
+#: ../src/wbc-gtk-actions.c:1984
 msgid "Zoom _In"
 msgstr "Zooma _handiagotu"
 
-#: ../src/wbc-gtk-actions.c:1962
+#: ../src/wbc-gtk-actions.c:1985
 msgid "Increase the zoom to make things larger"
 msgstr "Handiagotu zooma gauzak handiago ikusteko"
 
-#: ../src/wbc-gtk-actions.c:1964
+#: ../src/wbc-gtk-actions.c:1987
 msgid "Zoom _Out"
 msgstr "Zooma _txikiagotu"
 
-#: ../src/wbc-gtk-actions.c:1965
+#: ../src/wbc-gtk-actions.c:1988
 msgid "Decrease the zoom to make things smaller"
 msgstr "Txikiago zooma gauzak txikiago ikusteko"
 
-#: ../src/wbc-gtk-actions.c:1970 ../src/wbc-gtk-actions.c:1974
+#: ../src/wbc-gtk-actions.c:1993 ../src/wbc-gtk-actions.c:1997
 msgid "Insert new cells"
 msgstr "Txertatu gelaxka berriak"
 
-#: ../src/wbc-gtk-actions.c:1977
+#: ../src/wbc-gtk-actions.c:2000
 msgid "Insert new columns"
 msgstr "Txertatu zutabe berriak"
 
-#: ../src/wbc-gtk-actions.c:1980
+#: ../src/wbc-gtk-actions.c:2003
 msgid "Insert new rows"
 msgstr "Txertatu errenkada berriak"
 
-#: ../src/wbc-gtk-actions.c:1983
+#: ../src/wbc-gtk-actions.c:2006
 msgid "C_hart..."
 msgstr "_Diagrama…"
 
-#: ../src/wbc-gtk-actions.c:1984
+#: ../src/wbc-gtk-actions.c:2007
 msgid "Insert a Chart"
 msgstr "Txertatu diagrama bat"
 
-#: ../src/wbc-gtk-actions.c:1986
+#: ../src/wbc-gtk-actions.c:2009
 msgid "_Image..."
 msgstr "_Irudia..."
 
-#: ../src/wbc-gtk-actions.c:1987
+#: ../src/wbc-gtk-actions.c:2010
 msgid "Insert an image"
 msgstr "Txertatu irudi bat"
 
-#: ../src/wbc-gtk-actions.c:1990
+#: ../src/wbc-gtk-actions.c:2013
 msgid "Hyper_link..."
 msgstr "_Hiperesteka..."
 
-#: ../src/wbc-gtk-actions.c:1991
+#: ../src/wbc-gtk-actions.c:2014
 msgid "Insert a Hyperlink"
 msgstr "Txertatu hiperesteka bat"
 
 #. Insert -> Special
-#: ../src/wbc-gtk-actions.c:1994
+#: ../src/wbc-gtk-actions.c:2017
 msgid "Current _date"
 msgstr "_Uneko data"
 
-#: ../src/wbc-gtk-actions.c:1995
+#: ../src/wbc-gtk-actions.c:2018
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Txertatu uneko data hautatutako gelaxketan"
 
-#: ../src/wbc-gtk-actions.c:1998
+#: ../src/wbc-gtk-actions.c:2021
 msgid "Current _time"
 msgstr "Uneko _ordua"
 
-#: ../src/wbc-gtk-actions.c:1999
+#: ../src/wbc-gtk-actions.c:2022
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Txertatu uneko ordua hautatutako gelaxketan"
 
-#: ../src/wbc-gtk-actions.c:2002
+#: ../src/wbc-gtk-actions.c:2025
 msgid "Current d_ate and time"
 msgstr "Uneko _data eta ordua"
 
-#: ../src/wbc-gtk-actions.c:2003
+#: ../src/wbc-gtk-actions.c:2026
 msgid "Insert the current date and time into the selected cell(s)"
 msgstr "Txertatu uneko data eta ordua hautatutako gelaxketan"
 
 #. Insert -> Name
-#: ../src/wbc-gtk-actions.c:2007
+#: ../src/wbc-gtk-actions.c:2030
 msgid "_Define..."
 msgstr "De_finitu..."
 
-#: ../src/wbc-gtk-actions.c:2008
+#: ../src/wbc-gtk-actions.c:2031
 msgid "Edit sheet and workbook names"
 msgstr "Editatu orrien eta laneko liburuen izenak"
 
-#: ../src/wbc-gtk-actions.c:2011
+#: ../src/wbc-gtk-actions.c:2034
 msgid "Paste the definition of a name or names"
 msgstr "Itsatsi izen baten edo gehiagoren definizioa"
 
-#: ../src/wbc-gtk-actions.c:2014
+#: ../src/wbc-gtk-actions.c:2037
 msgid "_Auto generate names..."
 msgstr "_Sortu izenak automatikoki..."
 
-#: ../src/wbc-gtk-actions.c:2015
+#: ../src/wbc-gtk-actions.c:2038
 msgid "Use the current selection to create names"
 msgstr "Erabili uneko hautapenak izenak sortzeko"
 
 #. Format
-#: ../src/wbc-gtk-actions.c:2020
+#: ../src/wbc-gtk-actions.c:2043
 msgid "_Cells..."
 msgstr "_Gelaxkak..."
 
-#: ../src/wbc-gtk-actions.c:2021
+#: ../src/wbc-gtk-actions.c:2044
 msgid "Modify the formatting of the selected cells"
 msgstr "Aldatu hautatutako gelaxken formatua"
 
-#: ../src/wbc-gtk-actions.c:2023
+#: ../src/wbc-gtk-actions.c:2046
 #, fuzzy
 msgid "View _Properties..."
 msgstr "_Propietateak..."
 
-#: ../src/wbc-gtk-actions.c:2024
+#: ../src/wbc-gtk-actions.c:2047
 #, fuzzy
 msgid "Modify the view properties"
 msgstr "Aldatu laneko liburuaren atributuak"
 
-#: ../src/wbc-gtk-actions.c:2026
+#: ../src/wbc-gtk-actions.c:2049
 msgid "_Autoformat..."
 msgstr "_Formatu automatikoa..."
 
-#: ../src/wbc-gtk-actions.c:2027
+#: ../src/wbc-gtk-actions.c:2050
 msgid "Format a region of cells according to a pre-defined template"
 msgstr ""
 "Formateatu gelaxka-area bat aurrez definitutako txantiloi baten arabera"
 
-#: ../src/wbc-gtk-actions.c:2029
+#: ../src/wbc-gtk-actions.c:2052
 msgid "Direction"
 msgstr "Noranzkoa"
 
-#: ../src/wbc-gtk-actions.c:2030
+#: ../src/wbc-gtk-actions.c:2053
 msgid "Toggle sheet direction, left-to-right vs right-to-left"
 msgstr "Aldatu orri-noranzkoa, ezkerretik eskuinera vs. eskuinetik ezkerrera"
 
 #. Format -> Col
-#: ../src/wbc-gtk-actions.c:2034
+#: ../src/wbc-gtk-actions.c:2057
 msgid "_Width..."
 msgstr "_Zabalera..."
 
-#: ../src/wbc-gtk-actions.c:2035
+#: ../src/wbc-gtk-actions.c:2058
 msgid "Change width of the selected columns"
 msgstr "Aldatu hautatutako zutabeen zabalera"
 
-#: ../src/wbc-gtk-actions.c:2037 ../src/wbc-gtk-actions.c:2054
+#: ../src/wbc-gtk-actions.c:2060 ../src/wbc-gtk-actions.c:2077
 msgid "_Auto fit selection"
 msgstr "_Doitu automatikoki hautapena"
 
-#: ../src/wbc-gtk-actions.c:2038
+#: ../src/wbc-gtk-actions.c:2061
 msgid "Ensure columns are just wide enough to display content"
 msgstr "Ziurtatu zutabeen zabalera edukia bistaratzeko modukoa dela"
 
-#: ../src/wbc-gtk-actions.c:2041
+#: ../src/wbc-gtk-actions.c:2064
 msgid "Hide the selected columns"
 msgstr "Ezkutatu hautatutako zutabeak"
 
-#: ../src/wbc-gtk-actions.c:2044
+#: ../src/wbc-gtk-actions.c:2067
 msgid "Make any hidden columns in the selection visible"
 msgstr "Ipini ikusgai hautapeneko ezkutuko zutabeak"
 
-#: ../src/wbc-gtk-actions.c:2046
+#: ../src/wbc-gtk-actions.c:2069
 msgid "_Standard Width"
 msgstr "_Zabalera estandarra"
 
-#: ../src/wbc-gtk-actions.c:2047
+#: ../src/wbc-gtk-actions.c:2070
 msgid "Change the default column width"
 msgstr "Aldatu zutabe-zabalera lehenetsia"
 
 #. Format -> Row
-#: ../src/wbc-gtk-actions.c:2051
+#: ../src/wbc-gtk-actions.c:2074
 msgid "H_eight..."
 msgstr "A_ltuera..."
 
-#: ../src/wbc-gtk-actions.c:2052
+#: ../src/wbc-gtk-actions.c:2075
 msgid "Change height of the selected rows"
 msgstr "Aldatu hautatutako errenkaden altuera"
 
-#: ../src/wbc-gtk-actions.c:2055
+#: ../src/wbc-gtk-actions.c:2078
 msgid "Ensure rows are just tall enough to display content"
 msgstr "Ziurtatu errenkaden altuera edukia bistaratzeko modukoa dela"
 
-#: ../src/wbc-gtk-actions.c:2058
+#: ../src/wbc-gtk-actions.c:2081
 msgid "Hide the selected rows"
 msgstr "Ezkutatu hautatutako errenkadak"
 
-#: ../src/wbc-gtk-actions.c:2061
+#: ../src/wbc-gtk-actions.c:2084
 msgid "Make any hidden rows in the selection visible"
 msgstr "Ipini ikusgai hautapeneko ezkutuko errenkadak"
 
-#: ../src/wbc-gtk-actions.c:2063
+#: ../src/wbc-gtk-actions.c:2086
 msgid "_Standard Height"
 msgstr "Al_tuera estandarra"
 
-#: ../src/wbc-gtk-actions.c:2064
+#: ../src/wbc-gtk-actions.c:2087
 msgid "Change the default row height"
 msgstr "Aldatu errenkada-altuera lehenetsia"
 
 #. Tools
-#: ../src/wbc-gtk-actions.c:2068
+#: ../src/wbc-gtk-actions.c:2091
 msgid "_Plug-ins..."
 msgstr "_Pluginak..."
 
-#: ../src/wbc-gtk-actions.c:2069
+#: ../src/wbc-gtk-actions.c:2092
 msgid "Manage available plugin modules"
 msgstr "Kudeatu pluginen modulu erabilgarriak"
 
-#: ../src/wbc-gtk-actions.c:2071
+#: ../src/wbc-gtk-actions.c:2094
 msgid "Auto _Correct..."
 msgstr "Zuzenketa auto_matikoa..."
 
-#: ../src/wbc-gtk-actions.c:2072
+#: ../src/wbc-gtk-actions.c:2095
 msgid "Automatically perform simple spell checking"
 msgstr "Automatikoki egin ortografia-egiaztapen soila"
 
-#: ../src/wbc-gtk-actions.c:2074
+#: ../src/wbc-gtk-actions.c:2097
 msgid "_Auto Save..."
 msgstr "_Gorde automatikoki..."
 
-#: ../src/wbc-gtk-actions.c:2075
+#: ../src/wbc-gtk-actions.c:2098
 msgid "Automatically save the current document at regular intervals"
 msgstr "Gorde automatikoki uneko dokumentua maiztasun erregularrarekin"
 
-#: ../src/wbc-gtk-actions.c:2077
+#: ../src/wbc-gtk-actions.c:2100
 msgid "_Goal Seek..."
 msgstr "_Xede-bilaketa..."
 
-#: ../src/wbc-gtk-actions.c:2078
+#: ../src/wbc-gtk-actions.c:2101
 msgid "Iteratively recalculate to find a target value"
 msgstr "Iteratiboki birkalkulatu helburuko balioa aurkitzeko"
 
-#: ../src/wbc-gtk-actions.c:2080
+#: ../src/wbc-gtk-actions.c:2103
 msgid "_Solver..."
 msgstr "_Ebazlea..."
 
-#: ../src/wbc-gtk-actions.c:2081
+#: ../src/wbc-gtk-actions.c:2104
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr "Iteratiboki birkalkulatu murriztapenekin helburuko baliora hurbiltzeko"
 
-#: ../src/wbc-gtk-actions.c:2083
+#: ../src/wbc-gtk-actions.c:2106
 msgid "Si_mulation..."
 msgstr "_Simulazioa..."
 
-#: ../src/wbc-gtk-actions.c:2084
+#: ../src/wbc-gtk-actions.c:2107
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
@@ -13949,106 +13982,106 @@ msgstr ""
 "probableak eta haiei lotutako arriskuak ikusteko"
 
 #. Tools -> Scenarios
-#: ../src/wbc-gtk-actions.c:2089
+#: ../src/wbc-gtk-actions.c:2112
 msgid "_View..."
 msgstr "_Ikusi..."
 
-#: ../src/wbc-gtk-actions.c:2090
+#: ../src/wbc-gtk-actions.c:2113
 msgid "View, delete and report different scenarios"
 msgstr "Ikusi, ezabatu eta eman agertokien berri"
 
-#: ../src/wbc-gtk-actions.c:2092
+#: ../src/wbc-gtk-actions.c:2115
 msgid "_Add..."
 msgstr "Ge_hitu..."
 
-#: ../src/wbc-gtk-actions.c:2093
+#: ../src/wbc-gtk-actions.c:2116
 msgid "Add a new scenario"
 msgstr "Gehitu agertoki berria"
 
 #. Tools -> ANOVA
-#: ../src/wbc-gtk-actions.c:2097
+#: ../src/wbc-gtk-actions.c:2120
 msgid "_One Factor..."
 msgstr "_Faktore bat..."
 
-#: ../src/wbc-gtk-actions.c:2098
+#: ../src/wbc-gtk-actions.c:2121
 msgid "One Factor Analysis of Variance..."
 msgstr "Faktore bateko bariantza-analisia..."
 
-#: ../src/wbc-gtk-actions.c:2100
+#: ../src/wbc-gtk-actions.c:2123
 msgid "_Two Factor..."
 msgstr "_Bi faktore..."
 
-#: ../src/wbc-gtk-actions.c:2101
+#: ../src/wbc-gtk-actions.c:2124
 msgid "Two Factor Analysis of Variance..."
 msgstr "Bi faktoreko bariantza-analisia..."
 
 #. Tools -> Chi Square Tests
-#: ../src/wbc-gtk-actions.c:2105
+#: ../src/wbc-gtk-actions.c:2128
 msgid "Test of _Homogeneity..."
 msgstr "_Homogeneitatearen proba..."
 
-#: ../src/wbc-gtk-actions.c:2106
+#: ../src/wbc-gtk-actions.c:2129
 msgid "Chi Squared Test of Homogeneity..."
 msgstr "Homogeneitatearen khi-karratu proba..."
 
-#: ../src/wbc-gtk-actions.c:2108
+#: ../src/wbc-gtk-actions.c:2131
 msgid "Test of _Independence..."
 msgstr "_Independentziaren proba..."
 
-#: ../src/wbc-gtk-actions.c:2109
+#: ../src/wbc-gtk-actions.c:2132
 msgid "Chi Squared Test of Independence..."
 msgstr "Independentziaren Khi-karratu proba..."
 
 #. Tools -> Forecasting
-#: ../src/wbc-gtk-actions.c:2113
+#: ../src/wbc-gtk-actions.c:2136
 msgid "_Exponential Smoothing..."
 msgstr "_Leuntze esponentziala..."
 
-#: ../src/wbc-gtk-actions.c:2114
+#: ../src/wbc-gtk-actions.c:2137
 msgid "Exponential smoothing..."
 msgstr "Leuntze esponentziala..."
 
-#: ../src/wbc-gtk-actions.c:2116
+#: ../src/wbc-gtk-actions.c:2139
 msgid "_Moving Average..."
 msgstr "_Batez besteko mugikorra..."
 
-#: ../src/wbc-gtk-actions.c:2117
+#: ../src/wbc-gtk-actions.c:2140
 msgid "Moving average..."
 msgstr "Batez besteko mugikorra..."
 
 #. Tools -> Frequency Tables
-#: ../src/wbc-gtk-actions.c:2121
+#: ../src/wbc-gtk-actions.c:2144
 msgid "Fre_quency Tables..."
 msgstr "_Maiztasun-taulak..."
 
-#: ../src/wbc-gtk-actions.c:2122
+#: ../src/wbc-gtk-actions.c:2145
 msgid "Frequency tables for non-numeric data"
 msgstr "Maiztasun-taulak zenbakizkoak ez diren datuentzako"
 
-#: ../src/wbc-gtk-actions.c:2124
+#: ../src/wbc-gtk-actions.c:2147
 msgid "_Histogram..."
 msgstr "_Histograma..."
 
-#: ../src/wbc-gtk-actions.c:2125
+#: ../src/wbc-gtk-actions.c:2148
 msgid "Various frequency tables for numeric data"
 msgstr "Hainbat maiztasun-taula zenbakizko datuentzako"
 
 #. Tools -> Two Means
-#: ../src/wbc-gtk-actions.c:2129
+#: ../src/wbc-gtk-actions.c:2152
 msgid "_Paired Samples: T-Test..."
 msgstr "_Bikote egindako laginak: T-Proba..."
 
-#: ../src/wbc-gtk-actions.c:2130
+#: ../src/wbc-gtk-actions.c:2153
 msgid "Comparing two population means for two paired samples: t-test..."
 msgstr ""
 "Konparatu populazioaren bi batez besteko bikote egindako bi laginentzat: t-"
 "proba..."
 
-#: ../src/wbc-gtk-actions.c:2133
+#: ../src/wbc-gtk-actions.c:2156
 msgid "Unpaired Samples, _Equal Variances: T-Test..."
 msgstr "Bikote egin gabeko laginak, _Bariantza berdinak: T-Proba..."
 
-#: ../src/wbc-gtk-actions.c:2134
+#: ../src/wbc-gtk-actions.c:2157
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances: t-test..."
@@ -14056,11 +14089,11 @@ msgstr ""
 "Konparatu populazioaren bi batez besteko bariantza berdineko populazioetako "
 "bikote egin gabeko bi batez bestekorentzat: t-proba..."
 
-#: ../src/wbc-gtk-actions.c:2137
+#: ../src/wbc-gtk-actions.c:2160
 msgid "Unpaired Samples, _Unequal Variances: T-Test..."
 msgstr "Bikote egin gabeko laginak, _Bariantza desberdinak: T-Proba..."
 
-#: ../src/wbc-gtk-actions.c:2138
+#: ../src/wbc-gtk-actions.c:2161
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances: t-test..."
@@ -14068,11 +14101,11 @@ msgstr ""
 "Konparatu populazioaren bi batez besteko bariantza desberdineko "
 "populazioetako bikote egin gabeko bi batez bestekorentzat: t-proba..."
 
-#: ../src/wbc-gtk-actions.c:2141
+#: ../src/wbc-gtk-actions.c:2164
 msgid "_Known Variances: Z-Test..."
 msgstr "_Bariantza ezagunak: Z-Proba..."
 
-#: ../src/wbc-gtk-actions.c:2142
+#: ../src/wbc-gtk-actions.c:2165
 msgid ""
 "Comparing two population means from populations with known variances: z-"
 "test..."
@@ -14080,785 +14113,785 @@ msgstr ""
 "Konparatu bariantza ezaguneko populazioetako bi batez besteko: z-proba..."
 
 #. Tools -> Analysis
-#: ../src/wbc-gtk-actions.c:2146
+#: ../src/wbc-gtk-actions.c:2169
 msgid "_Correlation..."
 msgstr "_Korrelazioa..."
 
-#: ../src/wbc-gtk-actions.c:2147
+#: ../src/wbc-gtk-actions.c:2170
 msgid "Pearson Correlation"
 msgstr "Pearson korrelazioa"
 
-#: ../src/wbc-gtk-actions.c:2149
+#: ../src/wbc-gtk-actions.c:2172
 msgid "Co_variance..."
 msgstr "_Kobariantza..."
 
-#: ../src/wbc-gtk-actions.c:2152
+#: ../src/wbc-gtk-actions.c:2175
 msgid "_Descriptive Statistics..."
 msgstr "_Estatistika deskriptiboa..."
 
-#: ../src/wbc-gtk-actions.c:2153
+#: ../src/wbc-gtk-actions.c:2176
 msgid "Various summary statistics"
 msgstr "Hainbat laburpen-estatistika"
 
-#: ../src/wbc-gtk-actions.c:2155
+#: ../src/wbc-gtk-actions.c:2178
 msgid "_Fourier Analysis..."
 msgstr "_Fourier analisia..."
 
-#: ../src/wbc-gtk-actions.c:2159
+#: ../src/wbc-gtk-actions.c:2182
 msgid "Principal Components Analysis..."
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:2162
+#: ../src/wbc-gtk-actions.c:2185
 msgid "Ranks And _Percentiles..."
 msgstr "Heinak eta _pertzentilak..."
 
-#: ../src/wbc-gtk-actions.c:2163
+#: ../src/wbc-gtk-actions.c:2186
 msgid "Ranks, placements and percentiles"
 msgstr "Heinak, kokalekuak eta pertzentilak"
 
-#: ../src/wbc-gtk-actions.c:2165
+#: ../src/wbc-gtk-actions.c:2188
 msgid "_Regression..."
 msgstr "_Erregresioa..."
 
-#: ../src/wbc-gtk-actions.c:2166
+#: ../src/wbc-gtk-actions.c:2189
 msgid "Regression Analysis"
 msgstr "Erregresio-analisia"
 
-#: ../src/wbc-gtk-actions.c:2168
+#: ../src/wbc-gtk-actions.c:2191
 msgid "_Sampling..."
 msgstr "_Lagintzea..."
 
-#: ../src/wbc-gtk-actions.c:2169
+#: ../src/wbc-gtk-actions.c:2192
 msgid "Periodic and random samples"
 msgstr "Lagin periodikoak eta ausazkoak"
 
-#: ../src/wbc-gtk-actions.c:2171
+#: ../src/wbc-gtk-actions.c:2194
 msgid "_Two Variances: FTest..."
 msgstr "_Bi bariantza: F-Proba..."
 
-#: ../src/wbc-gtk-actions.c:2172
+#: ../src/wbc-gtk-actions.c:2195
 msgid "Comparing two population variances"
 msgstr "Kopiatu bi populazio-bariantza"
 
-#: ../src/wbc-gtk-actions.c:2174
+#: ../src/wbc-gtk-actions.c:2197
 msgid "_Kaplan-Meier Estimates..."
 msgstr "_Kaplan-Meier estimazioak..."
 
-#: ../src/wbc-gtk-actions.c:2175
+#: ../src/wbc-gtk-actions.c:2198
 msgid "Creation of Kaplan-Meier Survival Curves"
 msgstr "Kaplan-Meier biziraupen-kurben sorrera"
 
-#: ../src/wbc-gtk-actions.c:2177
+#: ../src/wbc-gtk-actions.c:2200
 #, fuzzy
 msgid "_Normality Tests..."
 msgstr "_Gelaxken formatua..."
 
-#: ../src/wbc-gtk-actions.c:2178
+#: ../src/wbc-gtk-actions.c:2201
 msgid "Testing a sample for normality"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:2180
+#: ../src/wbc-gtk-actions.c:2203
 msgid "One M_edian Sign Test..."
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:2181
+#: ../src/wbc-gtk-actions.c:2204
 #, fuzzy
 msgid "Testing the value of a median"
 msgstr "2 batez bestekoen diferentzia probatzea"
 
-#: ../src/wbc-gtk-actions.c:2183
+#: ../src/wbc-gtk-actions.c:2206
 #, fuzzy
 msgid "T_wo Medians Sign Test..."
 msgstr "_Bi bariantza: F-Proba..."
 
-#: ../src/wbc-gtk-actions.c:2184
+#: ../src/wbc-gtk-actions.c:2207
 msgid "Comparing the values of two medians"
 msgstr ""
 
 #. Data
-#: ../src/wbc-gtk-actions.c:2187
+#: ../src/wbc-gtk-actions.c:2210
 msgid "_Sort..."
 msgstr "_Ordenatu..."
 
-#: ../src/wbc-gtk-actions.c:2188
+#: ../src/wbc-gtk-actions.c:2211
 msgid "Sort the selected region"
 msgstr "Ordenatuta hautatutako area"
 
-#: ../src/wbc-gtk-actions.c:2190
+#: ../src/wbc-gtk-actions.c:2213
 msgid "Sh_uffle..."
 msgstr "_Nahastu..."
 
-#: ../src/wbc-gtk-actions.c:2191
+#: ../src/wbc-gtk-actions.c:2214
 msgid "Shuffle cells, rows or columns"
 msgstr "Nahastu gelaxkak, errenkadak edo zutabeak"
 
-#: ../src/wbc-gtk-actions.c:2193
+#: ../src/wbc-gtk-actions.c:2216
 msgid "_Validate..."
 msgstr "_Balidatu..."
 
-#: ../src/wbc-gtk-actions.c:2194
+#: ../src/wbc-gtk-actions.c:2217
 msgid "Validate input with preset criteria"
 msgstr "Balidatu sarrera aurrez ezarritako irizpideekin"
 
-#: ../src/wbc-gtk-actions.c:2196
+#: ../src/wbc-gtk-actions.c:2219
 msgid "T_ext to Columns..."
 msgstr "T_estua zutabeetara..."
 
-#: ../src/wbc-gtk-actions.c:2197
+#: ../src/wbc-gtk-actions.c:2220
 msgid "Parse the text in the selection into data"
 msgstr "Analizatu hautapeneko testua datutara"
 
-#: ../src/wbc-gtk-actions.c:2199
+#: ../src/wbc-gtk-actions.c:2222
 msgid "_Consolidate..."
 msgstr "_Kontsolidatu..."
 
-#: ../src/wbc-gtk-actions.c:2200
+#: ../src/wbc-gtk-actions.c:2223
 msgid "Consolidate regions using a function"
 msgstr "Kontsolidatu areak funtzio bat erabiliz"
 
-#: ../src/wbc-gtk-actions.c:2202
+#: ../src/wbc-gtk-actions.c:2225
 msgid "_Table..."
 msgstr "_Taula..."
 
-#: ../src/wbc-gtk-actions.c:2203
+#: ../src/wbc-gtk-actions.c:2226
 msgid "Create a Data Table to evaluate a function with multiple inputs"
 msgstr "Sortu datu-taula bat hainbat sarreratako funtzio bat ebaluatzeko"
 
 #. Data -> Fill
-#: ../src/wbc-gtk-actions.c:2207
+#: ../src/wbc-gtk-actions.c:2230
 msgid "Auto_fill"
 msgstr "_Bete automatikoki"
 
-#: ../src/wbc-gtk-actions.c:2208
+#: ../src/wbc-gtk-actions.c:2231
 msgid "Automatically fill the current selection"
 msgstr "Bete automatikoki uneko hautapena"
 
-#: ../src/wbc-gtk-actions.c:2210
+#: ../src/wbc-gtk-actions.c:2233
 msgid "_Merge..."
 msgstr "Ba_tu..."
 
-#: ../src/wbc-gtk-actions.c:2211
+#: ../src/wbc-gtk-actions.c:2234
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 "Zutabeetako datuak batzen ditu orri batean, orri bikoiztuak sortuz errenkada "
 "bakoitzarentzat"
 
-#: ../src/wbc-gtk-actions.c:2213
+#: ../src/wbc-gtk-actions.c:2236
 msgid "_Tabulate Dependency..."
 msgstr "_Tabulazio-mendekotasuna..."
 
-#: ../src/wbc-gtk-actions.c:2214
+#: ../src/wbc-gtk-actions.c:2237
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr ""
 "Egin taula bat gelaxka baten balioekin beste gelaxka batzuen funtzio gisa"
 
-#: ../src/wbc-gtk-actions.c:2216
+#: ../src/wbc-gtk-actions.c:2239
 msgid "_Series..."
 msgstr "_Seriea..."
 
-#: ../src/wbc-gtk-actions.c:2217
+#: ../src/wbc-gtk-actions.c:2240
 msgid "Fill according to a linear or exponential series"
 msgstr "Bete serie lineal edo esponentzial baten arabera"
 
-#: ../src/wbc-gtk-actions.c:2219
+#: ../src/wbc-gtk-actions.c:2242
 msgid "_Uncorrelated..."
 msgstr "_Deskorrelazioa..."
 
-#: ../src/wbc-gtk-actions.c:2220
+#: ../src/wbc-gtk-actions.c:2243
 msgid "Generate random numbers of a selection of distributions"
 msgstr "Sortu banaketa-hautapen baten ausazko zenbakiak"
 
-#: ../src/wbc-gtk-actions.c:2222
+#: ../src/wbc-gtk-actions.c:2245
 msgid "_Correlated..."
 msgstr "_Korrelazioa..."
 
-#: ../src/wbc-gtk-actions.c:2223
+#: ../src/wbc-gtk-actions.c:2246
 msgid "Generate variates for correlated normal distributed random variables"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:2225
+#: ../src/wbc-gtk-actions.c:2248
 msgid "Fill downwards"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:2226
+#: ../src/wbc-gtk-actions.c:2249
 msgid "Copy the content from the top row to the cells below"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:2227
+#: ../src/wbc-gtk-actions.c:2250
 #, fuzzy
 msgid "Fill to right"
 msgstr "Doitu altuera"
 
-#: ../src/wbc-gtk-actions.c:2228
+#: ../src/wbc-gtk-actions.c:2251
 msgid "Copy the content from the left column to the cells on the right"
 msgstr ""
 
 #. Data -> Outline
-#: ../src/wbc-gtk-actions.c:2232
+#: ../src/wbc-gtk-actions.c:2255
 msgid "_Hide Detail"
 msgstr "_Ezkutatu xehetasunak"
 
-#: ../src/wbc-gtk-actions.c:2233
+#: ../src/wbc-gtk-actions.c:2256
 msgid "Collapse an outline group"
 msgstr "Tolestu eskema taldea"
 
-#: ../src/wbc-gtk-actions.c:2235
+#: ../src/wbc-gtk-actions.c:2258
 msgid "_Show Detail"
 msgstr "_Erakutsi xehetasunak"
 
-#: ../src/wbc-gtk-actions.c:2236
+#: ../src/wbc-gtk-actions.c:2259
 msgid "Uncollapse an outline group"
 msgstr "Destolestu eskema taldea"
 
-#: ../src/wbc-gtk-actions.c:2238
+#: ../src/wbc-gtk-actions.c:2261
 msgid "_Group..."
 msgstr "_Elkartu..."
 
-#: ../src/wbc-gtk-actions.c:2239
+#: ../src/wbc-gtk-actions.c:2262
 msgid "Add an outline group"
 msgstr "Gehitu eskema taldea"
 
-#: ../src/wbc-gtk-actions.c:2241
+#: ../src/wbc-gtk-actions.c:2264
 msgid "_Ungroup..."
 msgstr "_Banandu..."
 
-#: ../src/wbc-gtk-actions.c:2242
+#: ../src/wbc-gtk-actions.c:2265
 msgid "Remove an outline group"
 msgstr "Kendu eskema taldea"
 
 #. Data -> Filter
-#: ../src/wbc-gtk-actions.c:2246 ../src/wbc-gtk.c:1542
+#: ../src/wbc-gtk-actions.c:2269 ../src/wbc-gtk.c:1584
 msgid "Add _Auto Filter"
 msgstr "_Gehitu iragazki automatikoa"
 
-#: ../src/wbc-gtk-actions.c:2247
+#: ../src/wbc-gtk-actions.c:2270
 msgid "Add or remove a filter"
 msgstr "Gehitu edo kendu iragazkia"
 
-#: ../src/wbc-gtk-actions.c:2249
+#: ../src/wbc-gtk-actions.c:2272
 msgid "_Show All"
 msgstr "_Erakutsi denak"
 
-#: ../src/wbc-gtk-actions.c:2250
+#: ../src/wbc-gtk-actions.c:2273
 msgid "Show all filtered and hidden rows"
 msgstr "Erakutsi iragazitako eta ezkutatutako errenkada guztiak"
 
-#: ../src/wbc-gtk-actions.c:2252
+#: ../src/wbc-gtk-actions.c:2275
 msgid "Advanced _Filter..."
 msgstr "_Iragazki aurreratua..."
 
-#: ../src/wbc-gtk-actions.c:2253
+#: ../src/wbc-gtk-actions.c:2276
 msgid "Filter data with given criteria"
 msgstr "Iragazi datuak zehaztutako irizpideen arabera"
 
 #. Data -> External
-#: ../src/wbc-gtk-actions.c:2256
+#: ../src/wbc-gtk-actions.c:2279
 msgid "Import _Text File..."
 msgstr "Inportatu testu-fitxategia..."
 
-#: ../src/wbc-gtk-actions.c:2257
+#: ../src/wbc-gtk-actions.c:2280
 msgid "Import the text from a file"
 msgstr "Inportatu testua fitxategi batetik"
 
 #. Data -> Data Slicer
 #. label and tip are context dependent, see wbcg_menu_state_update
-#: ../src/wbc-gtk-actions.c:2262
+#: ../src/wbc-gtk-actions.c:2285
 msgid "Add _Data Slicer"
 msgstr "Gehitu _datu-sektorea"
 
-#: ../src/wbc-gtk-actions.c:2263
+#: ../src/wbc-gtk-actions.c:2286
 msgid "Create a data slicer"
 msgstr "Sortu datu-sektorea"
 
-#: ../src/wbc-gtk-actions.c:2265
+#: ../src/wbc-gtk-actions.c:2288
 msgid "_Refresh"
 msgstr "_Freskatu"
 
-#: ../src/wbc-gtk-actions.c:2266
+#: ../src/wbc-gtk-actions.c:2289
 msgid "Regenerate a data slicer from the source data"
 msgstr "Birsortu datu-sektore bat iturburuko datuetatik"
 
-#: ../src/wbc-gtk-actions.c:2268
+#: ../src/wbc-gtk-actions.c:2291
 msgid "_Edit Data Slicer..."
 msgstr "_Editatu datu-sektorea..."
 
-#: ../src/wbc-gtk-actions.c:2269
+#: ../src/wbc-gtk-actions.c:2292
 msgid "Adjust a data slicer"
 msgstr "Doitu datu-sektore bat"
 
 #. Standard Toolbar
-#: ../src/wbc-gtk-actions.c:2273 ../src/wbc-gtk.c:4269
+#: ../src/wbc-gtk-actions.c:2296 ../src/wbc-gtk.c:4311
 #: ../src/workbook-view.c:941
 msgid "Sum"
 msgstr "Batu"
 
-#: ../src/wbc-gtk-actions.c:2274
+#: ../src/wbc-gtk-actions.c:2297
 msgid "Sum into the current cell"
 msgstr "Batu uneko gelaxkan"
 
-#: ../src/wbc-gtk-actions.c:2277
+#: ../src/wbc-gtk-actions.c:2300
 msgid "Edit a function in the current cell"
 msgstr "Editatu funtzio bat uneko gelaxkan"
 
-#: ../src/wbc-gtk-actions.c:2281
+#: ../src/wbc-gtk-actions.c:2304
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
 msgstr ""
 "Ordenatu hautatutako area gorantz, hautatutako lehen zutabean oinarrituta"
 
-#: ../src/wbc-gtk-actions.c:2283
+#: ../src/wbc-gtk-actions.c:2306
 msgid "Sort Descending"
 msgstr "Ordenatu beherantz"
 
-#: ../src/wbc-gtk-actions.c:2284
+#: ../src/wbc-gtk-actions.c:2307
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
 msgstr ""
 "Ordenatu hautatutako area beherantz, hautatutako lehen zutabean oinarrituta"
 
-#: ../src/wbc-gtk-actions.c:2289
+#: ../src/wbc-gtk-actions.c:2312
 msgid "Create a frame"
 msgstr "Sortu markoa"
 
-#: ../src/wbc-gtk-actions.c:2291
+#: ../src/wbc-gtk-actions.c:2314
 msgid "Checkbox"
 msgstr "Kontrol-laukia"
 
-#: ../src/wbc-gtk-actions.c:2292
+#: ../src/wbc-gtk-actions.c:2315
 msgid "Create a checkbox"
 msgstr "Sortu kontrol-laukia"
 
-#: ../src/wbc-gtk-actions.c:2294
+#: ../src/wbc-gtk-actions.c:2317
 msgid "Scrollbar"
 msgstr "Korritze-barra"
 
-#: ../src/wbc-gtk-actions.c:2295
+#: ../src/wbc-gtk-actions.c:2318
 msgid "Create a scrollbar"
 msgstr "Sortu korritze-barra"
 
-#: ../src/wbc-gtk-actions.c:2297
+#: ../src/wbc-gtk-actions.c:2320
 msgid "Slider"
 msgstr "Graduatzailea"
 
-#: ../src/wbc-gtk-actions.c:2298
+#: ../src/wbc-gtk-actions.c:2321
 msgid "Create a slider"
 msgstr "Sortu graduatzailea"
 
-#: ../src/wbc-gtk-actions.c:2300
+#: ../src/wbc-gtk-actions.c:2323
 msgid "SpinButton"
 msgstr "Biratze-botoia"
 
-#: ../src/wbc-gtk-actions.c:2301
+#: ../src/wbc-gtk-actions.c:2324
 msgid "Create a spin button"
 msgstr "Sortu biratze-botoia"
 
-#: ../src/wbc-gtk-actions.c:2303
+#: ../src/wbc-gtk-actions.c:2326
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:3
 msgid "List"
 msgstr "Zerrenda"
 
-#: ../src/wbc-gtk-actions.c:2304
+#: ../src/wbc-gtk-actions.c:2327
 msgid "Create a list"
 msgstr "Sortu zerrenda"
 
-#: ../src/wbc-gtk-actions.c:2306
+#: ../src/wbc-gtk-actions.c:2329
 msgid "Combo Box"
 msgstr "Konbinazio-koadroa"
 
-#: ../src/wbc-gtk-actions.c:2307
+#: ../src/wbc-gtk-actions.c:2330
 msgid "Create a combo box"
 msgstr "Sortu konbinazio-koadroa"
 
-#: ../src/wbc-gtk-actions.c:2310
+#: ../src/wbc-gtk-actions.c:2333
 msgid "Create a line object"
 msgstr "Sortu marra-objektua"
 
-#: ../src/wbc-gtk-actions.c:2312
+#: ../src/wbc-gtk-actions.c:2335
 msgid "Arrow"
 msgstr "Gezia"
 
-#: ../src/wbc-gtk-actions.c:2313
+#: ../src/wbc-gtk-actions.c:2336
 msgid "Create an arrow object"
 msgstr "Sortu gezi-objektua"
 
-#: ../src/wbc-gtk-actions.c:2315
+#: ../src/wbc-gtk-actions.c:2338
 msgid "Rectangle"
 msgstr "Laukizuzena"
 
-#: ../src/wbc-gtk-actions.c:2316
+#: ../src/wbc-gtk-actions.c:2339
 msgid "Create a rectangle object"
 msgstr "Sortu laukizuzen-objektua"
 
-#: ../src/wbc-gtk-actions.c:2318
+#: ../src/wbc-gtk-actions.c:2341
 msgid "Ellipse"
 msgstr "Elipsea"
 
-#: ../src/wbc-gtk-actions.c:2319
+#: ../src/wbc-gtk-actions.c:2342
 msgid "Create an ellipse object"
 msgstr "Sortu elipse-objektua"
 
-#: ../src/wbc-gtk-actions.c:2322
+#: ../src/wbc-gtk-actions.c:2345
 msgid "Create a button"
 msgstr "Sortu botoia"
 
-#: ../src/wbc-gtk-actions.c:2325
+#: ../src/wbc-gtk-actions.c:2348
 msgid "Create a radio button"
 msgstr "Sortu aukera-botoia"
 
-#: ../src/wbc-gtk-actions.c:2330
+#: ../src/wbc-gtk-actions.c:2353
 msgid "Merge a range of cells"
 msgstr "Batu gelaxka-barrutia"
 
-#: ../src/wbc-gtk-actions.c:2332
+#: ../src/wbc-gtk-actions.c:2355
 msgid "Split"
 msgstr "Banandu"
 
-#: ../src/wbc-gtk-actions.c:2333
+#: ../src/wbc-gtk-actions.c:2356
 msgid "Split merged ranges of cells"
 msgstr "Banandu batutako gelaxka-barrutiak"
 
-#: ../src/wbc-gtk-actions.c:2336
+#: ../src/wbc-gtk-actions.c:2359
 msgid "General"
 msgstr "Orokorra"
 
-#: ../src/wbc-gtk-actions.c:2337
+#: ../src/wbc-gtk-actions.c:2360
 msgid "Format the selection as General"
 msgstr "Formateatu hautapena Orokor gisa"
 
-#: ../src/wbc-gtk-actions.c:2340
+#: ../src/wbc-gtk-actions.c:2363
 msgid "Format the selection as numbers"
 msgstr "Formateatu hautapena zenbaki gisa"
 
-#: ../src/wbc-gtk-actions.c:2342
+#: ../src/wbc-gtk-actions.c:2365
 msgid "Currency"
 msgstr "Moneta"
 
-#: ../src/wbc-gtk-actions.c:2343
+#: ../src/wbc-gtk-actions.c:2366
 msgid "Format the selection as currency"
 msgstr "Formateatu hautapena moneta gisa"
 
-#: ../src/wbc-gtk-actions.c:2345
+#: ../src/wbc-gtk-actions.c:2368
 msgid "Accounting"
 msgstr "Kontabilitatea"
 
-#: ../src/wbc-gtk-actions.c:2346
+#: ../src/wbc-gtk-actions.c:2369
 msgid "Format the selection as accounting"
 msgstr "Formateatu hautapena kontabilitate gisa"
 
-#: ../src/wbc-gtk-actions.c:2348
+#: ../src/wbc-gtk-actions.c:2371
 msgid "Percentage"
 msgstr "Ehunekoa"
 
-#: ../src/wbc-gtk-actions.c:2349
+#: ../src/wbc-gtk-actions.c:2372
 msgid "Format the selection as percentage"
 msgstr "Formateatu hautapena ehuneko gisa"
 
-#: ../src/wbc-gtk-actions.c:2351
+#: ../src/wbc-gtk-actions.c:2374
 msgid "Scientific"
 msgstr "Zientifikoa"
 
-#: ../src/wbc-gtk-actions.c:2352
+#: ../src/wbc-gtk-actions.c:2375
 msgid "Format the selection as scientific"
 msgstr "Formateatu hautapena zientifiko gisa"
 
-#: ../src/wbc-gtk-actions.c:2355
+#: ../src/wbc-gtk-actions.c:2378
 msgid "Format the selection as date"
 msgstr "Formateatu hautapena data gisa"
 
-#: ../src/wbc-gtk-actions.c:2358
+#: ../src/wbc-gtk-actions.c:2381
 msgid "Format the selection as time"
 msgstr "Formateatu hautapena ordu gisa"
 
-#: ../src/wbc-gtk-actions.c:2360
+#: ../src/wbc-gtk-actions.c:2383
 msgid "AddBorders"
 msgstr "Gehitu ertzak"
 
-#: ../src/wbc-gtk-actions.c:2361
+#: ../src/wbc-gtk-actions.c:2384
 msgid "Add a border around the selection"
 msgstr "Gehitu ertza hautapenaren inguruan"
 
-#: ../src/wbc-gtk-actions.c:2363
+#: ../src/wbc-gtk-actions.c:2386
 msgid "ClearBorders"
 msgstr "Garbitu ertzak"
 
-#: ../src/wbc-gtk-actions.c:2364
+#: ../src/wbc-gtk-actions.c:2387
 msgid "Clear the border around the selection"
 msgstr "Garbitu hautapenaren inguruko ertza"
 
-#: ../src/wbc-gtk-actions.c:2367
+#: ../src/wbc-gtk-actions.c:2390
 msgid "Thousands Separator"
 msgstr "Milakoen bereizlea"
 
-#: ../src/wbc-gtk-actions.c:2368
+#: ../src/wbc-gtk-actions.c:2391
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr "Zehaztu hautatutako gelaxken formatua milakoen bereizlea sartzeko"
 
-#: ../src/wbc-gtk-actions.c:2370
+#: ../src/wbc-gtk-actions.c:2393
 msgid "Increase Precision"
 msgstr "Handiagotu doitasuna"
 
-#: ../src/wbc-gtk-actions.c:2371
+#: ../src/wbc-gtk-actions.c:2394
 msgid "Increase the number of decimals displayed"
 msgstr "Gehitu bistaratuko den dezimal kopurua"
 
-#: ../src/wbc-gtk-actions.c:2373
+#: ../src/wbc-gtk-actions.c:2396
 msgid "Decrease Precision"
 msgstr "Txikiagotu doitasuna"
 
-#: ../src/wbc-gtk-actions.c:2374
+#: ../src/wbc-gtk-actions.c:2397
 msgid "Decrease the number of decimals displayed"
 msgstr "Murriztu bistaratuko den dezimal kopurua"
 
-#: ../src/wbc-gtk-actions.c:2380
+#: ../src/wbc-gtk-actions.c:2403
 msgid "Decrease the indent, and align the contents to the left"
 msgstr "Txikitu koska eta lerrokatu edukia ezkerrean"
 
-#: ../src/wbc-gtk-actions.c:2383
+#: ../src/wbc-gtk-actions.c:2406
 msgid "Increase the indent, and align the contents to the left"
 msgstr "Handitu koska eta lerrokatu edukia ezkerrean"
 
-#: ../src/wbc-gtk-actions.c:2410
+#: ../src/wbc-gtk-actions.c:2433
 msgid "Display _Outlines"
 msgstr "Bistaratu _eskemak"
 
-#: ../src/wbc-gtk-actions.c:2411
+#: ../src/wbc-gtk-actions.c:2434
 msgid "Toggle whether or not to display outline groups"
 msgstr "Txandakatu eskema taldeak bistaratuko diren edo ez"
 
-#: ../src/wbc-gtk-actions.c:2413
+#: ../src/wbc-gtk-actions.c:2436
 msgid "Outlines _Below"
 msgstr "Eskemak _behean"
 
-#: ../src/wbc-gtk-actions.c:2414
+#: ../src/wbc-gtk-actions.c:2437
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Txandakatu errenkada-eskemak goian edo behean bistaratuko diren"
 
-#: ../src/wbc-gtk-actions.c:2416
+#: ../src/wbc-gtk-actions.c:2439
 msgid "Outlines _Right"
 msgstr "Eskemak es_kuinean"
 
-#: ../src/wbc-gtk-actions.c:2417
+#: ../src/wbc-gtk-actions.c:2440
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Txandakatu zutabe-eskemak ezkerrean edo eskuinean bistaratuko diren"
 
-#: ../src/wbc-gtk-actions.c:2419
+#: ../src/wbc-gtk-actions.c:2442
 msgid "Display _Formulas"
 msgstr "Bistaratu _formulak"
 
-#: ../src/wbc-gtk-actions.c:2420
+#: ../src/wbc-gtk-actions.c:2443
 msgid "Display the value of a formula or the formula itself"
 msgstr "Bistaratu formula baten balioa edo formula bera"
 
-#: ../src/wbc-gtk-actions.c:2422
+#: ../src/wbc-gtk-actions.c:2445
 #, fuzzy
 msgid "_Hide Zeros"
 msgstr "Ezkutatu _zeroak"
 
-#: ../src/wbc-gtk-actions.c:2423
+#: ../src/wbc-gtk-actions.c:2446
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Txandakatu zeroak zuriune gisa bistaratuko diren edo ez"
 
-#: ../src/wbc-gtk-actions.c:2425
+#: ../src/wbc-gtk-actions.c:2448
 msgid "Hide _Gridlines"
 msgstr "Ezkutatu _sareta-marrak"
 
-#: ../src/wbc-gtk-actions.c:2426
+#: ../src/wbc-gtk-actions.c:2449
 msgid "Toggle whether or not to display gridlines"
 msgstr "Txandakatu sareta-marrak bistaratuko diren edo ez"
 
-#: ../src/wbc-gtk-actions.c:2428
+#: ../src/wbc-gtk-actions.c:2451
 msgid "Hide _Column Headers"
 msgstr "Ezkutatu _zutabe-goiburuak"
 
-#: ../src/wbc-gtk-actions.c:2429
+#: ../src/wbc-gtk-actions.c:2452
 msgid "Toggle whether or not to display column headers"
 msgstr "Txandakatu zutabe-goiburuak bistaratuko diren edo ez"
 
-#: ../src/wbc-gtk-actions.c:2431
+#: ../src/wbc-gtk-actions.c:2454
 msgid "Hide _Row Headers"
 msgstr "Ezkutatu e_rrenkada-goiburuak"
 
-#: ../src/wbc-gtk-actions.c:2432
+#: ../src/wbc-gtk-actions.c:2455
 msgid "Toggle whether or not to display row headers"
 msgstr "Txandakatu errenkada-goiburuak bistaratuko diren edo ez"
 
 #. TODO : Make this a sub menu when we have more convention types
-#: ../src/wbc-gtk-actions.c:2436
+#: ../src/wbc-gtk-actions.c:2459
 msgid "Use R1C1 N_otation "
 msgstr "Erabili R1C1 n_otazioa "
 
-#: ../src/wbc-gtk-actions.c:2437
+#: ../src/wbc-gtk-actions.c:2460
 msgid "Display addresses as R1C1 or A1"
 msgstr "Bistaratu helbideak R1C1 edo A1 gisa"
 
-#: ../src/wbc-gtk-actions.c:2441
+#: ../src/wbc-gtk-actions.c:2464
 msgid "_Left Align"
 msgstr "_Lerrokatu ezkerrean"
 
-#: ../src/wbc-gtk-actions.c:2442 ../src/wbc-gtk-actions.c:2509
+#: ../src/wbc-gtk-actions.c:2465 ../src/wbc-gtk-actions.c:2532
 msgid "Align left"
 msgstr "Lerrokatu ezkerrean"
 
-#: ../src/wbc-gtk-actions.c:2444
+#: ../src/wbc-gtk-actions.c:2467
 msgid "_Center"
 msgstr "_Zentratu"
 
-#: ../src/wbc-gtk-actions.c:2445 ../src/wbc-gtk-actions.c:2510
+#: ../src/wbc-gtk-actions.c:2468 ../src/wbc-gtk-actions.c:2533
 msgid "Center horizontally"
 msgstr "Zentratu horizontalki"
 
-#: ../src/wbc-gtk-actions.c:2447
+#: ../src/wbc-gtk-actions.c:2470
 msgid "_Right Align"
 msgstr "_Lerrokatu eskuinean"
 
-#: ../src/wbc-gtk-actions.c:2448 ../src/wbc-gtk-actions.c:2511
+#: ../src/wbc-gtk-actions.c:2471 ../src/wbc-gtk-actions.c:2534
 msgid "Align right"
 msgstr "Lerrokatu eskuinean"
 
-#: ../src/wbc-gtk-actions.c:2450
+#: ../src/wbc-gtk-actions.c:2473
 msgid "_Center Across Selection"
 msgstr "_Zentratu hautapenean zehar"
 
-#: ../src/wbc-gtk-actions.c:2451 ../src/wbc-gtk-actions.c:2514
+#: ../src/wbc-gtk-actions.c:2474 ../src/wbc-gtk-actions.c:2537
 msgid "Center horizontally across the selection"
 msgstr "Zentratu horizontalki hautapenean zehar"
 
-#: ../src/wbc-gtk-actions.c:2454
+#: ../src/wbc-gtk-actions.c:2477
 msgid "_Merge and Center"
 msgstr "_Batu eta zentratu"
 
-#: ../src/wbc-gtk-actions.c:2455
+#: ../src/wbc-gtk-actions.c:2478
 msgid "Merge the selection into 1 cell, and center horizontaly."
 msgstr "Batu hautapena gelaxka bakarrean, eta zentratu horizontalki."
 
-#: ../src/wbc-gtk-actions.c:2462
+#: ../src/wbc-gtk-actions.c:2485
 msgid "Align _Top"
 msgstr "Lerrokatu _goian"
 
-#: ../src/wbc-gtk-actions.c:2463 ../src/wbc-gtk-actions.c:2521
+#: ../src/wbc-gtk-actions.c:2486 ../src/wbc-gtk-actions.c:2544
 msgid "Align Top"
 msgstr "Lerrokatu goian"
 
-#: ../src/wbc-gtk-actions.c:2465
+#: ../src/wbc-gtk-actions.c:2488
 msgid "_Vertically Center"
 msgstr "_Bertikalki zentratu"
 
-#: ../src/wbc-gtk-actions.c:2466
+#: ../src/wbc-gtk-actions.c:2489
 msgid "Vertically Center"
 msgstr "Bertikalki zentratu"
 
-#: ../src/wbc-gtk-actions.c:2468
+#: ../src/wbc-gtk-actions.c:2491
 msgid "Align _Bottom"
 msgstr "Lerrokatu _behean"
 
-#: ../src/wbc-gtk-actions.c:2469 ../src/wbc-gtk-actions.c:2523
+#: ../src/wbc-gtk-actions.c:2492 ../src/wbc-gtk-actions.c:2546
 msgid "Align Bottom"
 msgstr "Lerrokatu behean"
 
-#: ../src/wbc-gtk-actions.c:2472
+#: ../src/wbc-gtk-actions.c:2495
 msgid "View _Statusbar"
 msgstr "Ikusi _egoera-barra"
 
-#: ../src/wbc-gtk-actions.c:2473
+#: ../src/wbc-gtk-actions.c:2496
 msgid "Toggle visibility of statusbar"
 msgstr "Txandakatu egoera-barraren ikusgaitasuna"
 
-#: ../src/wbc-gtk-actions.c:2477
+#: ../src/wbc-gtk-actions.c:2500
 msgid "F_ull Screen"
 msgstr "_Pantaila osoa"
 
-#: ../src/wbc-gtk-actions.c:2478
+#: ../src/wbc-gtk-actions.c:2501
 msgid "Switch to or from full screen mode"
 msgstr "Aktibatu/desaktibatu pantaila osoko ikuspegia"
 
-#: ../src/wbc-gtk-actions.c:2484
+#: ../src/wbc-gtk-actions.c:2507
 msgid "_Bold"
 msgstr "_Lodia"
 
 #. ALSO "<control>2"
-#: ../src/wbc-gtk-actions.c:2485 ../src/widgets/gnumeric-text-view.c:253
+#: ../src/wbc-gtk-actions.c:2508 ../src/widgets/gnumeric-text-view.c:253
 #: ../src/widgets/widget-font-selector.c:198
 msgid "Bold"
 msgstr "Lodia"
 
-#: ../src/wbc-gtk-actions.c:2487
+#: ../src/wbc-gtk-actions.c:2510
 msgid "_Italic"
 msgstr "_Etzana"
 
 #. ALSO "<control>3"
-#: ../src/wbc-gtk-actions.c:2488 ../src/widgets/widget-font-selector.c:200
+#: ../src/wbc-gtk-actions.c:2511 ../src/widgets/widget-font-selector.c:200
 msgid "Italic"
 msgstr "Etzana"
 
-#: ../src/wbc-gtk-actions.c:2490
+#: ../src/wbc-gtk-actions.c:2513
 msgid "_Underline"
 msgstr "_Azpimarratua"
 
 #. ALSO "<control>4"
-#: ../src/wbc-gtk-actions.c:2491
+#: ../src/wbc-gtk-actions.c:2514
 msgid "Underline"
 msgstr "Azpimarratua"
 
-#: ../src/wbc-gtk-actions.c:2493
+#: ../src/wbc-gtk-actions.c:2516
 msgid "_Strike Through"
 msgstr "_Marratua"
 
-#: ../src/wbc-gtk-actions.c:2494
+#: ../src/wbc-gtk-actions.c:2517
 msgid "Strike Through"
 msgstr "Marratua"
 
 #. from icon theme
-#: ../src/wbc-gtk-actions.c:2496
+#: ../src/wbc-gtk-actions.c:2519
 msgid "_Double Underline"
 msgstr "_Azpimarra bikoitza"
 
-#: ../src/wbc-gtk-actions.c:2497
+#: ../src/wbc-gtk-actions.c:2520
 msgid "Double Underline"
 msgstr "Azpimarra bikoitza"
 
 #. from icon theme
-#: ../src/wbc-gtk-actions.c:2499
+#: ../src/wbc-gtk-actions.c:2522
 msgid "Su_perscript"
 msgstr "_Goi-indizea"
 
-#: ../src/wbc-gtk-actions.c:2500
+#: ../src/wbc-gtk-actions.c:2523
 msgid "Superscript"
 msgstr "Goi-indizea"
 
 #. from icon theme
-#: ../src/wbc-gtk-actions.c:2502
+#: ../src/wbc-gtk-actions.c:2525
 msgid "Subscrip_t"
 msgstr "A_zpindizea"
 
-#: ../src/wbc-gtk-actions.c:2503
+#: ../src/wbc-gtk-actions.c:2526
 msgid "Subscript"
 msgstr "Azpindizea"
 
-#: ../src/wbc-gtk-actions.c:2512
+#: ../src/wbc-gtk-actions.c:2535
 msgid "Fill Horizontally"
 msgstr "Bete horizontalki"
 
-#: ../src/wbc-gtk-actions.c:2513
+#: ../src/wbc-gtk-actions.c:2536
 msgid "Justify Horizontally"
 msgstr "Justifikatu horizontalki"
 
-#: ../src/wbc-gtk-actions.c:2516
+#: ../src/wbc-gtk-actions.c:2539
 msgid "Align numbers right, and text left"
 msgstr "Lerrokatu zenbakiak eskuinean eta testua ezkerrean"
 
-#: ../src/wbc-gtk-actions.c:2522
+#: ../src/wbc-gtk-actions.c:2545
 msgid "Center Vertically"
 msgstr "Zentratu bertikalki"
 
-#: ../src/wbc-gtk-actions.c:2546 ../src/wbc-gtk-actions.c:2547
-#: ../src/wbc-gtk-actions.c:2550 ../src/wbc-gtk-actions.c:2565
+#: ../src/wbc-gtk-actions.c:2569 ../src/wbc-gtk-actions.c:2570
+#: ../src/wbc-gtk-actions.c:2573 ../src/wbc-gtk-actions.c:2588
 msgid "Horizontal Alignment"
 msgstr "Lerrokatze horizontala"
 
-#: ../src/wbc-gtk-actions.c:2561 ../src/wbc-gtk-actions.c:2562
+#: ../src/wbc-gtk-actions.c:2584 ../src/wbc-gtk-actions.c:2585
 msgid "Vertical Alignment"
 msgstr "Lerrokatze bertikala"
 
@@ -14895,200 +14928,200 @@ msgstr "Kendu formatua"
 msgid "Show this dialog next time."
 msgstr "Erakutsi elkarrizketa-koadro hau hurrengo aldian."
 
-#: ../src/wbc-gtk.c:492
+#: ../src/wbc-gtk.c:507
 msgid "Manage sheets..."
 msgstr "Kudeatu orriak..."
 
-#: ../src/wbc-gtk.c:495
+#: ../src/wbc-gtk.c:510
 msgid "Append"
 msgstr "Erantsi"
 
-#: ../src/wbc-gtk.c:496
+#: ../src/wbc-gtk.c:511
 msgid "Duplicate"
 msgstr "Bikoiztu"
 
-#: ../src/wbc-gtk.c:497
+#: ../src/wbc-gtk.c:512
 msgid "Remove"
 msgstr "Kendu"
 
-#: ../src/wbc-gtk.c:498
+#: ../src/wbc-gtk.c:513
 msgid "Rename"
 msgstr "Izena aldatu"
 
-#: ../src/wbc-gtk.c:500
+#: ../src/wbc-gtk.c:515
 msgid "Select"
 msgstr "Hautatu"
 
-#: ../src/wbc-gtk.c:501
+#: ../src/wbc-gtk.c:516
 msgid "Select (sorted)"
 msgstr "Hautatu (ordenatua)"
 
-#: ../src/wbc-gtk.c:1389
+#: ../src/wbc-gtk.c:1431
 #, fuzzy
 msgid " - Gnumeric"
 msgstr " : Gnumeric"
 
-#: ../src/wbc-gtk.c:1530
+#: ../src/wbc-gtk.c:1572
 msgid "Un_freeze Panes"
 msgstr "_Desizoztu panelak"
 
-#: ../src/wbc-gtk.c:1533
+#: ../src/wbc-gtk.c:1575
 msgid "Unfreeze the top left of the sheet"
 msgstr "Desizoztu orriaren goi-ezkerraldea"
 
-#: ../src/wbc-gtk.c:1541
+#: ../src/wbc-gtk.c:1583
 msgid "Remove _Auto Filter"
 msgstr "_Kendu iragazki automatikoa"
 
-#: ../src/wbc-gtk.c:1544
+#: ../src/wbc-gtk.c:1586
 msgid "Remove a filter"
 msgstr "Kendu iragazkia"
 
-#: ../src/wbc-gtk.c:1545
+#: ../src/wbc-gtk.c:1587
 msgid "Add a filter"
 msgstr "Gehitu iragazkia"
 
-#: ../src/wbc-gtk.c:1552
+#: ../src/wbc-gtk.c:1594
 msgid "Remove _Data Slicer"
 msgstr "_Kendu datu-sektorea"
 
-#: ../src/wbc-gtk.c:1553
+#: ../src/wbc-gtk.c:1595
 msgid "Create _Data Slicer"
 msgstr "_Sortu datu-sektorea"
 
-#: ../src/wbc-gtk.c:1555
+#: ../src/wbc-gtk.c:1597
 msgid "Remove a Data Slicer"
 msgstr "Kendu datu-sektore bat"
 
-#: ../src/wbc-gtk.c:1556
+#: ../src/wbc-gtk.c:1598
 msgid "Create a Data Slicer"
 msgstr "Sortu datu-sektore bat"
 
-#: ../src/wbc-gtk.c:1599
+#: ../src/wbc-gtk.c:1641
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "'%s' laneko liburuko aldaketak gorde nahi dituzu itxi aurretik?"
 
-#: ../src/wbc-gtk.c:1604
+#: ../src/wbc-gtk.c:1646
 msgid "Save changes to workbook before closing?"
 msgstr "Laneko liburuko aldaketak gorde nahi dituzu itxi aurretik?"
 
-#: ../src/wbc-gtk.c:1611
+#: ../src/wbc-gtk.c:1653
 msgid "If you close without saving, changes will be discarded."
 msgstr "Gorde gabe ixten baduzu, aldaketak baztertu egingo dira."
 
-#: ../src/wbc-gtk.c:1617
+#: ../src/wbc-gtk.c:1659
 msgid "Discard all"
 msgstr "Baztertu denak"
 
-#: ../src/wbc-gtk.c:1619 ../src/wbc-gtk.c:1626 ../src/wbc-gtk.c:1632
+#: ../src/wbc-gtk.c:1661 ../src/wbc-gtk.c:1668 ../src/wbc-gtk.c:1674
 msgid "Discard"
 msgstr "Baztertu"
 
-#: ../src/wbc-gtk.c:1621
+#: ../src/wbc-gtk.c:1663
 msgid "Save all"
 msgstr "Gorde denak"
 
-#: ../src/wbc-gtk.c:1623 ../src/wbc-gtk.c:1628
+#: ../src/wbc-gtk.c:1665 ../src/wbc-gtk.c:1670
 msgid "Don't quit"
 msgstr "Ez irten"
 
-#: ../src/wbc-gtk.c:1634
+#: ../src/wbc-gtk.c:1676
 msgid "Don't close"
 msgstr "Ez itxi"
 
-#: ../src/wbc-gtk.c:2051
+#: ../src/wbc-gtk.c:2093
 msgid "END"
 msgstr "AMAITU"
 
-#: ../src/wbc-gtk.c:2316
+#: ../src/wbc-gtk.c:2358
 msgid "Cancel change"
 msgstr "Bertan behera utzi aldaketa"
 
-#: ../src/wbc-gtk.c:2320
+#: ../src/wbc-gtk.c:2362
 msgid "Accept change"
 msgstr "Onartu aldaketa"
 
-#: ../src/wbc-gtk.c:2324
+#: ../src/wbc-gtk.c:2366
 msgid "Enter formula..."
 msgstr "Sartu formula..."
 
-#: ../src/wbc-gtk.c:2374 ../src/wbc-gtk.c:2389
+#: ../src/wbc-gtk.c:2416 ../src/wbc-gtk.c:2431
 msgid "_Re-Edit"
 msgstr "_Berreditatu"
 
-#: ../src/wbc-gtk.c:2379 ../src/wbc-gtk.c:2390
+#: ../src/wbc-gtk.c:2421 ../src/wbc-gtk.c:2432
 msgid "_Accept"
 msgstr "_Onartu"
 
-#: ../src/wbc-gtk.c:2582
+#: ../src/wbc-gtk.c:2624
 msgid "_Zoom"
 msgstr "_Zooma"
 
-#: ../src/wbc-gtk.c:2627
+#: ../src/wbc-gtk.c:2669
 msgid "Clear Borders"
 msgstr "Garbitu ertzak"
 
-#: ../src/wbc-gtk.c:2630
+#: ../src/wbc-gtk.c:2672
 msgid "All Borders"
 msgstr "Ertz guztiak"
 
-#: ../src/wbc-gtk.c:2631
+#: ../src/wbc-gtk.c:2673
 msgid "Outside Borders"
 msgstr "Kanpoko ertzak"
 
-#: ../src/wbc-gtk.c:2632
+#: ../src/wbc-gtk.c:2674
 msgid "Thick Outside Borders"
 msgstr "Kanpoko ertz lodiak"
 
-#: ../src/wbc-gtk.c:2635
+#: ../src/wbc-gtk.c:2677
 msgid "Double Bottom"
 msgstr "Beheko ertz bikoitza"
 
-#: ../src/wbc-gtk.c:2636
+#: ../src/wbc-gtk.c:2678
 msgid "Thick Bottom"
 msgstr "Beheko ertz lodia"
 
-#: ../src/wbc-gtk.c:2638
+#: ../src/wbc-gtk.c:2680
 msgid "Top and Bottom"
 msgstr "Goiko eta beheko ertza"
 
-#: ../src/wbc-gtk.c:2639
+#: ../src/wbc-gtk.c:2681
 msgid "Top and Double Bottom"
 msgstr "Goiko ertza eta beheko ertz bikoitza"
 
-#: ../src/wbc-gtk.c:2640
+#: ../src/wbc-gtk.c:2682
 msgid "Top and Thick Bottom"
 msgstr "Goiko ertza eta beheko ertz lodia"
 
-#: ../src/wbc-gtk.c:2725
+#: ../src/wbc-gtk.c:2767
 msgid "Set Borders"
 msgstr "Ezarri ertzak"
 
-#: ../src/wbc-gtk.c:2733 ../src/wbc-gtk.c:2734
+#: ../src/wbc-gtk.c:2775 ../src/wbc-gtk.c:2776
 msgid "Borders"
 msgstr "Ertzak"
 
-#: ../src/wbc-gtk.c:2874
+#: ../src/wbc-gtk.c:2916
 msgid "Set Foreground Color"
 msgstr "Ezarri aurreko planoaren kolorea"
 
 #. Set background to NONE
-#: ../src/wbc-gtk.c:2929
+#: ../src/wbc-gtk.c:2971
 msgid "Set Background Color"
 msgstr "Ezarri atzeko planoaren kolorea"
 
-#: ../src/wbc-gtk.c:2968
+#: ../src/wbc-gtk.c:3010
 #, c-format
 msgid "Font Name %s"
 msgstr "Letra-tipoaren izena: %s"
 
-#: ../src/wbc-gtk.c:3028
+#: ../src/wbc-gtk.c:3070
 #, c-format
 msgid "Font Size %f"
 msgstr "Letra-tamaina: %f"
 
-#: ../src/wbc-gtk.c:3046 ../src/wbc-gtk.c:3047
+#: ../src/wbc-gtk.c:3088 ../src/wbc-gtk.c:3089
 msgid "Font Size"
 msgstr "Letra-tamaina"
 
@@ -15098,88 +15131,88 @@ msgstr "Letra-tamaina"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:3255
+#: ../src/wbc-gtk.c:3297
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "'%s' menuan, '%s' tekla erabiltzen da bi hauekin: '%s' eta '%s'."
 
-#: ../src/wbc-gtk.c:3571
+#: ../src/wbc-gtk.c:3613
 msgid "Display above sheets"
 msgstr "Erakutsi orrien goian"
 
-#: ../src/wbc-gtk.c:3572
+#: ../src/wbc-gtk.c:3614
 msgid "Display to the left of sheets"
 msgstr "Erakutsi orrien ezkerrean"
 
-#: ../src/wbc-gtk.c:3573
+#: ../src/wbc-gtk.c:3615
 msgid "Display to the right of sheets"
 msgstr "Erakutsi orrien eskuinean"
 
-#: ../src/wbc-gtk.c:3577
+#: ../src/wbc-gtk.c:3619
 msgid "Reattach to main window"
 msgstr "Erantsi berriro leiho nagusiari"
 
-#: ../src/wbc-gtk.c:3609
+#: ../src/wbc-gtk.c:3651
 msgid "Hide"
 msgstr "Ezkutatu"
 
-#: ../src/wbc-gtk.c:3673
+#: ../src/wbc-gtk.c:3715
 #, fuzzy
 msgid "Standard Toolbar"
 msgstr "Tresna-barra estandarra"
 
-#: ../src/wbc-gtk.c:3674
+#: ../src/wbc-gtk.c:3716
 #, fuzzy
 msgid "Format Toolbar"
 msgstr "Formatuaren tresna-barra"
 
-#: ../src/wbc-gtk.c:3675
+#: ../src/wbc-gtk.c:3717
 #, fuzzy
 msgid "Long Format Toolbar"
 msgstr "Formatu luzearen tresna-barra"
 
-#: ../src/wbc-gtk.c:3676
+#: ../src/wbc-gtk.c:3718
 #, fuzzy
 msgid "Object Toolbar"
 msgstr "Objektuen tresna-barra"
 
-#: ../src/wbc-gtk.c:3690
+#: ../src/wbc-gtk.c:3732
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Erakutsi/ezkutatu %s tresna-barra"
 
-#: ../src/wbc-gtk.c:4325
+#: ../src/wbc-gtk.c:4367
 msgid "Use maximum precision"
 msgstr "Erabili ahalik eta doitasun handiena"
 
-#: ../src/wbc-gtk.c:4337
+#: ../src/wbc-gtk.c:4379
 #, fuzzy
 msgid "Insert formula below."
 msgstr "Sartu formula..."
 
-#: ../src/wbc-gtk.c:4343
+#: ../src/wbc-gtk.c:4385
 #, fuzzy
 msgid "Insert formula to side."
 msgstr "Sartu formula..."
 
-#: ../src/wbc-gtk.c:4454
+#: ../src/wbc-gtk.c:4499
 #, c-format
 msgid "Open %s"
 msgstr "Ireki %s"
 
-#: ../src/wbc-gtk.c:5108
+#: ../src/wbc-gtk.c:5153
 msgid "Autosave prompt"
 msgstr "Automatikoki gordetzeko galdera"
 
-#: ../src/wbc-gtk.c:5109
+#: ../src/wbc-gtk.c:5154
 msgid "Ask about autosave?"
 msgstr "Galdetu automatikoki gordetzea nahi duzun?"
 
-#: ../src/wbc-gtk.c:5115
+#: ../src/wbc-gtk.c:5160
 msgid "Autosave time in seconds"
 msgstr "Automatikoki gordetzeko denbora segundotan"
 
-#: ../src/wbc-gtk.c:5116
+#: ../src/wbc-gtk.c:5161
 msgid "Seconds before autosave"
 msgstr "Automatikoki gorde aurreko segundoak"
 
@@ -15443,91 +15476,96 @@ msgstr "Gaitu birkalkulatze automatikoa."
 msgid "Book%d.%s"
 msgstr "Liburua%d.%s"
 
-#: ../src/workbook.c:1379
+#: ../src/workbook.c:921
+#, fuzzy
+msgid "Graph"
+msgstr "Taldea"
+
+#: ../src/workbook.c:1407
 msgid "Renaming sheet"
 msgstr "Geratzen den orria"
 
-#: ../src/workbook.c:1380
+#: ../src/workbook.c:1408
 #, c-format
 msgid "Renaming %d sheets"
 msgstr "Geratzen diren orriak: %d"
 
-#: ../src/workbook.c:1383
+#: ../src/workbook.c:1411
 msgid "Adding sheet"
 msgstr "Gehitu orria"
 
-#: ../src/workbook.c:1384
+#: ../src/workbook.c:1412
 #, c-format
 msgid "Adding %d sheets"
 msgstr "Gehitu %d orri"
 
-#: ../src/workbook.c:1391
+#: ../src/workbook.c:1419
 msgid "Inserting sheet"
 msgstr "Txertatu orria"
 
-#: ../src/workbook.c:1392
+#: ../src/workbook.c:1420
 #, c-format
 msgid "Inserting %d sheets"
 msgstr "Txertatu %d orri"
 
-#: ../src/workbook.c:1394
+#: ../src/workbook.c:1422
 msgid "Changing sheet tab colors"
 msgstr "Aldatu orri-fitxen koloreak"
 
-#: ../src/workbook.c:1396
+#: ../src/workbook.c:1424
 msgid "Changing sheet properties"
 msgstr "Aldatu orri-propietateak"
 
-#: ../src/workbook.c:1404
+#: ../src/workbook.c:1432
 msgid "Deleting sheet"
 msgstr "Ezabatu orria"
 
-#: ../src/workbook.c:1405
+#: ../src/workbook.c:1433
 #, c-format
 msgid "Deleting %d sheets"
 msgstr "Ezabatu %d orri"
 
-#: ../src/workbook.c:1407
+#: ../src/workbook.c:1435
 msgid "Changing sheet order"
 msgstr "Aldatu orrien ordena"
 
-#: ../src/workbook.c:1409
+#: ../src/workbook.c:1437
 msgid "Reorganizing Sheets"
 msgstr "Berrontolatu orriak"
 
-#: ../src/xml-sax-read.c:447
+#: ../src/xml-sax-read.c:448
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr "Hainbat bertsio-zehaztapen.  %d dela ulertuko da"
 
-#: ../src/xml-sax-read.c:722
+#: ../src/xml-sax-read.c:728
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "Fitxategiak SheetNameIndex elementu inkoherentea du."
 
-#: ../src/xml-sax-read.c:2050
+#: ../src/xml-sax-read.c:2059
 #, c-format
 msgid "Unknown filter operator \"%s\""
 msgstr "Iragazki-eragile ezezaguna: \"%s\""
 
-#: ../src/xml-sax-read.c:2090
+#: ../src/xml-sax-read.c:2099
 msgid "Missing filter type"
 msgstr "Iragazki mota falta da"
 
-#: ../src/xml-sax-read.c:2112
+#: ../src/xml-sax-read.c:2121
 #, c-format
 msgid "Unknown filter type \"%s\""
 msgstr "Iragazki mota ezezaguna: \"%s\""
 
-#: ../src/xml-sax-read.c:2132
+#: ../src/xml-sax-read.c:2141
 msgid "Invalid filter, missing Area"
 msgstr "Iragazki baliogabea, Area falta da"
 
-#: ../src/xml-sax-read.c:2192
+#: ../src/xml-sax-read.c:2201
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Onartu gabeko objektu mota: '%s'"
 
-#: ../src/xml-sax-read.c:3341 ../src/xml-sax-write.c:1534
+#: ../src/xml-sax-read.c:3350 ../src/xml-sax-write.c:1536
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
