@@ -4869,11 +4869,16 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 		GnmParsePos pos;
 		GnmParseError  perr;
 		GnmExprTop const *texpr;
+		GnmExprEntryFlags flags =
+			(editor->data_type == GOG_DATA_VECTOR)?
+				GNM_EXPR_PARSE_PERMIT_MULTIPLE_EXPRESSIONS |
+				GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS:
+				GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS;
 
 		parse_error_init (&perr);
 		texpr = gnm_expr_entry_parse (editor->entry,
 			parse_pos_init_sheet (&pos, sheet),
-			&perr, TRUE, GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS);
+			&perr, TRUE, flags);
 
 		/* TODO : add some error dialogs split out
 		 * the code in workbok_edit to add parens.  */

@@ -227,7 +227,9 @@ gnm_go_data_unserialize (GOData *dat, char const *str, gpointer user)
 	}
 
 	parse_pos_init_dep (&pp, dep);
-	texpr = gnm_expr_parse_str (str, &pp, GNM_EXPR_PARSE_DEFAULT,
+	texpr = gnm_expr_parse_str (str, &pp, (GO_IS_DATA_VECTOR (dat))?
+	                            GNM_EXPR_PARSE_PERMIT_MULTIPLE_EXPRESSIONS:
+		                    GNM_EXPR_PARSE_DEFAULT,
 				    convs, NULL);
 	if (texpr != NULL) {
 		dependent_set_expr (dep, texpr);
@@ -476,9 +478,26 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 	int old_len = dat->len;
 
 	eval_pos_init_dep (&ep, &vec->dep);
-	if (vec->val == NULL && vec->dep.texpr != NULL)
-		vec->val = gnm_expr_top_eval (vec->dep.texpr, &ep,
-			GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
+	if (vec->val == NULL && vec->dep.texpr != NULL) {
+		if (gnm_expr_is_rangeref (vec->dep.texpr->expr)) {
+			GSList *l = gnm_expr_top_get_ranges (vec->dep.texpr);
+			unsigned len = g_slist_length (l);
+			if (l->next == NULL) /* only one range */
+				vec->val = (GnmValue *) l->data;
+			else {
+				GSList *cur = l;
+				unsigned i;
+				vec->val = value_new_array_empty (len, 1);
+				for (i = 0; i < len; i++) {
+					vec->val->v_array.vals[i][0] = (GnmValue *) cur->data;
+					cur = cur->next;
+				}
+			}
+			g_slist_free (l);
+		} else
+			vec->val = gnm_expr_top_eval (vec->dep.texpr, &ep,
+				GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
+	}
 
 	if (vec->val != NULL) {
 		switch (vec->val->type) {
@@ -494,19 +513,28 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 			if (r.end.col >= r.start.col && r.end.row >= r.start.row) {
 				w = range_width (&r);
 				h = range_height (&r);
-				if (w > 0 && h > 0)
-					dat->len = ((vec->as_col = (h > w))) ? h : w;
-				else
-					dat->len = 0;
-			} else
-					dat->len = 0;
+				vec->as_col = h > w;
+				dat->len = h * w;
+			}
 			break;
 
-		case VALUE_ARRAY :
+		case VALUE_ARRAY : {
+			GnmValue *v;
+			int i, j;
+			dat->len = 0;
+			for (j = 0; j < vec->val->v_array.y; j++)
+				for (i = 0; i < vec->val->v_array.x; i++) {
+					v = vec->val->v_array.vals[i][j];
+					if (v->type == VALUE_CELLRANGE) {
+						gnm_rangeref_normalize (&v->v_range.cell, &ep,
+							&start_sheet, &end_sheet, &r);
+						dat->len += range_width (&r) * range_height (&r);
+					} else
+						dat->len++;
+				}
 			vec->as_col = (vec->val->v_array.y > vec->val->v_array.x);
-			dat->len =  vec->as_col ? vec->val->v_array.y : vec->val->v_array.x;
 			break;
-
+		}
 		default :
 			dat->len = 1;
 			vec->as_col = TRUE;
@@ -599,15 +627,10 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 
 		/* clip here rather than relying on sheet_foreach
 		 * because that only clips if we ignore blanks */
-		if (vec->as_col) {
-			r.end.col = r.start.col;
-			if (r.end.row > start_sheet->rows.max_used)
-				r.end.row = start_sheet->rows.max_used;
-		} else {
-			r.end.row = r.start.row;
-			if (r.end.col > start_sheet->cols.max_used)
-				r.end.col = start_sheet->cols.max_used;
-		}
+		if (r.end.row > start_sheet->rows.max_used)
+			r.end.row = start_sheet->rows.max_used;
+		if (r.end.col > start_sheet->cols.max_used)
+			r.end.col = start_sheet->cols.max_used;
 
 		/* In case the sheet is empty */
 		if (r.start.col <= r.end.col && r.start.row <= r.end.row) {
@@ -626,15 +649,45 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 			minimum = maximum = vals[0] = go_nan;
 		break;
 
-	case VALUE_ARRAY :
+	case VALUE_ARRAY : {
+		int last= 0;
 		maximum = - G_MAXDOUBLE;
 		minimum = G_MAXDOUBLE;
+		len = vec->as_col? vec->val->v_array.y: vec->val->v_array.x;
 		while (len-- > 0) {
 			v = vec->as_col
 				? vec->val->v_array.vals [0][len]
 				: vec->val->v_array.vals [len][0];
 
-			if (VALUE_IS_EMPTY_OR_ERROR (v)) {
+			if (v->type == VALUE_CELLRANGE) {
+				gnm_rangeref_normalize (&v->v_range.cell,
+					eval_pos_init_dep (&ep, &vec->dep),
+					&start_sheet, &end_sheet, &r);
+
+				/* clip here rather than relying on sheet_foreach
+				 * because that only clips if we ignore blanks */
+				if (r.end.row > start_sheet->rows.max_used)
+					r.end.row = start_sheet->rows.max_used;
+				if (r.end.col > start_sheet->cols.max_used)
+					r.end.col = start_sheet->cols.max_used;
+
+				if (r.start.col <= r.end.col && r.start.row <= r.end.row) {
+					closure.maximum = - G_MAXDOUBLE;
+					closure.minimum = G_MAXDOUBLE;
+					closure.vals = dat->values;
+					closure.last = last - 1;
+					closure.i = last;
+					sheet_foreach_cell_in_range (start_sheet, CELL_ITER_ALL,
+						r.start.col, r.start.row, r.end.col, r.end.row,
+						(CellIterFunc)cb_assign_val, &closure);
+					last = dat->len = closure.last + 1; /* clip */
+					if (minimum > closure.minimum)
+					    minimum = closure.minimum;
+					if (maximum < closure.maximum)
+					maximum = closure.maximum;
+				}
+				continue;
+			} else if (VALUE_IS_EMPTY_OR_ERROR (v)) {
 				vals[len] = go_nan;
 				continue;
 			} else if (VALUE_IS_STRING (v)) {
@@ -655,6 +708,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 				maximum = vals[len];
 		}
 		break;
+	}
 
 	case VALUE_STRING :
 		v = format_match_number (value_peek_string (vec->val),

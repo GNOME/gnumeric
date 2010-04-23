@@ -1,3 +1,10 @@
+2010-04-23  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c (gnm_go_data_unserialize),
+	(gnm_go_data_vector_load_len), (gnm_go_data_vector_load_values): allow
+	multiple and block selection for graph vector data.
+	* src/wbc-gtk.c (cb_graph_dim_editor_update): ditto.
+
 2010-04-22  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbcg_sheet_add): Set label's initial visibility.
