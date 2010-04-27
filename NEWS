@@ -17,6 +17,7 @@ Morten:
 	* Fix problem loading cells with empty strings.  [#616139]
 	* Fix WEEKNUM problems.  [#616330]
 	* Fix hidden-sheet problem.  [#616549]
+	* Fix auto-expr problem.  [#575104]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.2

@@ -1478,8 +1478,11 @@ wbcg_auto_expr_text_changed (WorkbookView *wbv,
 			     G_GNUC_UNUSED GParamSpec *pspec,
 			     WBCGtk *wbcg)
 {
-	gtk_label_set_text (GTK_LABEL (wbcg->auto_expr_label),
+	GtkLabel *lbl = GTK_LABEL (wbcg->auto_expr_label);
+
+	gtk_label_set_text (lbl,
 			    wbv->auto_expr_text ? wbv->auto_expr_text : "");
+	gtk_label_set_attributes (lbl, wbv->auto_expr_attrs);
 }
 
 static void
@@ -2480,6 +2483,7 @@ wbcg_view_changed (WBCGtk *wbcg,
 		 0);
 
 	DISCONNECT (wbcg->sig_wbv, sig_auto_expr_text);
+	DISCONNECT (wbcg->sig_wbv, sig_auto_expr_attrs);
 	DISCONNECT (wbcg->sig_wbv, sig_show_horizontal_scrollbar);
 	DISCONNECT (wbcg->sig_wbv, sig_show_vertical_scrollbar);
 	DISCONNECT (wbcg->sig_wbv, sig_show_notebook_tabs);
@@ -2494,6 +2498,13 @@ wbcg_view_changed (WBCGtk *wbcg,
 			g_signal_connect_object
 			(G_OBJECT (wbv),
 			 "notify::auto-expr-text",
+			 G_CALLBACK (wbcg_auto_expr_text_changed),
+			 wbcg,
+			 0);
+		wbcg->sig_auto_expr_attrs =
+			g_signal_connect_object
+			(G_OBJECT (wbv),
+			 "notify::auto-expr-attrs",
 			 G_CALLBACK (wbcg_auto_expr_text_changed),
 			 wbcg,
 			 0);

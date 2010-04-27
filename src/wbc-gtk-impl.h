@@ -98,7 +98,7 @@ struct _WBCGtk {
 
 	SheetControlGUI *active_scg;
 	gulong sig_view_changed;
-	gulong sig_auto_expr_text;
+	gulong sig_auto_expr_text, sig_auto_expr_attrs;
 	gulong sig_show_horizontal_scrollbar, sig_show_vertical_scrollbar;
 	gulong sig_show_notebook_tabs;
 	gulong sig_sheet_order, sig_notify_uri, sig_notify_dirty;

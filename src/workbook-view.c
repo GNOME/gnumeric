@@ -75,6 +75,7 @@ enum {
 	PROP_AUTO_EXPR_DESCR,
 	PROP_AUTO_EXPR_MAX_PRECISION,
 	PROP_AUTO_EXPR_TEXT,
+	PROP_AUTO_EXPR_ATTRS,
 	PROP_SHOW_HORIZONTAL_SCROLLBAR,
 	PROP_SHOW_VERTICAL_SCROLLBAR,
 	PROP_SHOW_NOTEBOOK_TABS,
@@ -514,6 +515,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 		GString *str = g_string_new (wbv->auto_expr_descr);
 		GOFormat const *format = NULL;
 		GOFormat *tmp_format = NULL;
+		PangoAttrList *attrs;
 
 		g_string_append_c (str, '=');
 		if (!wbv->auto_expr_use_max_precision) {
@@ -524,19 +526,36 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 		}
 
 		if (format) {
-			format_value_gstring (str, format, v, NULL,
+			GOColor color;
+			PangoAttribute *attr;
+			gsize old_len = str->len;
+
+			format_value_gstring (str, format, v, &color,
 					      -1, workbook_date_conv (wb_view_get_workbook (wbv)));
 			go_format_unref (tmp_format);
+
+			attrs = pango_attr_list_new ();
+			attr = go_color_to_pango (color, TRUE);
+			attr->start_index = old_len;
+			attr->end_index = str->len;
+			pango_attr_list_insert (attrs, attr);
 		} else {
 			g_string_append (str, value_peek_string (v));
+			attrs = NULL;
 		}
 
-		g_object_set (wbv, "auto-expr-text", str->str, NULL);
-
+		g_object_set (wbv,
+			      "auto-expr-text", str->str,
+			      "auto-expr-attrs", attrs,
+			      NULL);
 		g_string_free (str, TRUE);
+		pango_attr_list_unref (attrs);
 		value_release (v);
 	} else {
-		g_object_set (wbv, "auto-expr-text", "Internal ERROR", NULL);
+		g_object_set (wbv,
+			      "auto-expr-text", "Internal ERROR",
+			      "auto-expr-attrs", NULL,
+			      NULL);
 	}
 
 	gnm_expr_top_unref (texpr);
@@ -639,6 +658,19 @@ wb_view_auto_expr_text (WorkbookView *wbv, const char *text)
 }
 
 static void
+wb_view_auto_expr_attrs (WorkbookView *wbv, PangoAttrList *attrs)
+{
+	if (gnm_pango_attr_list_equal (attrs, wbv->auto_expr_attrs))
+		return;
+
+	if (attrs)
+		pango_attr_list_ref (attrs);
+	if (wbv->auto_expr_attrs)
+		pango_attr_list_ref (wbv->auto_expr_attrs);
+	wbv->auto_expr_attrs = attrs;
+}
+
+static void
 wb_view_set_property (GObject *object, guint property_id,
 		      const GValue *value, GParamSpec *pspec)
 {
@@ -656,6 +688,9 @@ wb_view_set_property (GObject *object, guint property_id,
 		break;
 	case PROP_AUTO_EXPR_TEXT:
 		wb_view_auto_expr_text (wbv, g_value_get_string (value));
+		break;
+	case PROP_AUTO_EXPR_ATTRS:
+		wb_view_auto_expr_attrs (wbv, g_value_peek_pointer (value));
 		break;
 	case PROP_SHOW_HORIZONTAL_SCROLLBAR:
 		wbv->show_horizontal_scrollbar = !!g_value_get_boolean (value);
@@ -702,6 +737,9 @@ wb_view_get_property (GObject *object, guint property_id,
 		break;
 	case PROP_AUTO_EXPR_TEXT:
 		g_value_set_string (value, wbv->auto_expr_text);
+		break;
+	case PROP_AUTO_EXPR_ATTRS:
+		g_value_set_boxed (value, wbv->auto_expr_attrs);
 		break;
 	case PROP_SHOW_HORIZONTAL_SCROLLBAR:
 		g_value_set_boolean (value, wbv->show_horizontal_scrollbar);
@@ -779,6 +817,11 @@ wb_view_finalize (GObject *object)
 	g_free (wbv->auto_expr_text);
 	wbv->auto_expr_text = NULL;
 
+	if (wbv->auto_expr_attrs) {
+		pango_attr_list_unref (wbv->auto_expr_attrs);
+		wbv->auto_expr_attrs = NULL;
+	}
+
 	if (wbv->current_style != NULL) {
 		gnm_style_unref (wbv->current_style);
 		wbv->current_style = NULL;
@@ -838,6 +881,14 @@ workbook_view_class_init (GObjectClass *gobject_class)
 				      NULL,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE));
+        g_object_class_install_property
+		(gobject_class,
+		 PROP_AUTO_EXPR_ATTRS,
+		 g_param_spec_boxed ("auto-expr-attrs",
+				     _("Auto-expression Attributes"),
+				     _("Text attributes for the automatically computed sheet function."),
+				     PANGO_TYPE_ATTR_LIST,
+				     GSF_PARAM_STATIC | G_PARAM_READWRITE));
         g_object_class_install_property
 		(gobject_class,
 		 PROP_SHOW_HORIZONTAL_SCROLLBAR,
@@ -940,6 +991,7 @@ workbook_view_new (Workbook *wb)
 		gnm_func_ref (wbv->auto_expr_func);
 	wbv->auto_expr_descr = g_strdup (_("Sum"));
 	wbv->auto_expr_text = NULL;
+	wbv->auto_expr_attrs = NULL;
 	wbv->auto_expr_use_max_precision = FALSE;
 
 	for (i = 0 ; i < workbook_sheet_count (wb); i++)

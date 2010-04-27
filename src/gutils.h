@@ -23,6 +23,8 @@ char const *gnm_usr_dir	       (void);
 int gnm_regcomp_XL (GORegexp *preg, char const *pattern,
 		    int cflags, gboolean full);
 
+gboolean gnm_pango_attr_list_equal (PangoAttrList const *l1, PangoAttrList const *l2);
+
 /* Locale utilities */
 typedef struct _GnmLocale GnmLocale;
 GnmLocale *gnm_push_C_locale (void);

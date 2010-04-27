@@ -1,3 +1,16 @@
+2010-04-27  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-view.c (wb_view_set_property,
+	wb_view_get_property): Keep auto expression attributes too.
+	(wb_view_auto_expr_recalc): Set colour when needed.  Fixes
+	#575104.
+
+	* src/wbc-gtk.c (wbcg_auto_expr_text_changed): Set attributes too.
+	(wbcg_view_changed): Watch attribute changes too.
+
+	* src/gutils.c (gnm_pango_attr_list_equal): Import from commands.c
+	and make this public.
+
 2010-04-23  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/graph.c (gnm_go_data_unserialize),

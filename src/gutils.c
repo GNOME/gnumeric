@@ -308,6 +308,54 @@ gnm_pango_attr_dump (PangoAttrList *list)
 }
 #endif
 
+
+static gboolean
+cb_gnm_pango_attr_list_equal (PangoAttribute *a, gpointer _sl)
+{
+	GSList **sl = _sl;
+	*sl = g_slist_prepend (*sl, a);
+	return FALSE;
+}
+
+/*
+ * This is a bit of a hack.  It might claim a difference even when things
+ * actually are equal.  But not the other way around.
+ */
+gboolean
+gnm_pango_attr_list_equal (PangoAttrList const *l1, PangoAttrList const *l2)
+{
+	if (l1 == l2)
+		return TRUE;
+	else if (l1 == NULL || l2 == NULL)
+		return FALSE;
+	else {
+		gboolean res;
+		GSList *sl1 = NULL, *sl2 = NULL;
+		(void)pango_attr_list_filter ((PangoAttrList *)l1,
+					      cb_gnm_pango_attr_list_equal,
+					      &sl1);
+		(void)pango_attr_list_filter ((PangoAttrList *)l2,
+					      cb_gnm_pango_attr_list_equal,
+					      &sl2);
+
+		while (sl1 && sl2) {
+			const PangoAttribute *a1 = sl1->data;
+			const PangoAttribute *a2 = sl2->data;
+			if (a1->start_index != a2->start_index ||
+			    a1->end_index != a2->end_index ||
+			    !pango_attribute_equal (a1, a2))
+				break;
+			sl1 = g_slist_delete_link (sl1, sl1);
+			sl2 = g_slist_delete_link (sl2, sl2);
+		}
+
+		res = (sl1 == sl2);
+		g_slist_free (sl1);
+		g_slist_free (sl2);
+		return res;
+	}
+}
+
 /* ------------------------------------------------------------------------- */
 
 struct _GnmLocale {
@@ -405,3 +453,5 @@ gnm_insert_meta_date (GODoc *doc, char const *name)
 				  g_strdup (name), 
 				  value);
 }
+
+/* ------------------------------------------------------------------------- */
