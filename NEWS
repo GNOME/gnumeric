@@ -11,6 +11,7 @@ Jean:
 	series label. [#616262]
 	* Allow multiple and block selection for graph vector data.
 	 [#494685,#616068]
+	 * Use the "combo-activate" signal where appropriate? [#583175]
 
 Morten:
 	* Make sure an empty string is shown with a quote.

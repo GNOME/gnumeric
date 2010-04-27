@@ -1,3 +1,9 @@
+2010-04-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: needs goffice-0.8.3.
+	* src/wbc-gtk.c (wbc_gtk_init_borders), (wbc_gtk_init_color_fore),
+	(wbc_gtk_init_color_back): use the combo-activate signal.
+
 2010-04-27  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-view.c (wb_view_set_property,

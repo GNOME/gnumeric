@@ -2793,7 +2793,7 @@ wbc_gtk_init_borders (WBCGtk *wbcg)
 	go_combo_pixmaps_select (wbcg->borders, 1); /* default to none */
 #endif
 	g_signal_connect (G_OBJECT (wbcg->borders),
-		"activate",
+		"combo-activate",
 		G_CALLBACK (cb_border_activated), wbcg);
 	gtk_action_group_add_action (wbcg->actions, GTK_ACTION (wbcg->borders));
 }
@@ -2943,7 +2943,7 @@ wbc_gtk_init_color_fore (WBCGtk *gtk)
 		      NULL);
 	/* TODO: Create vertical version.  */
 	g_signal_connect (G_OBJECT (gtk->fore_color),
-		"activate",
+		"combo-activate",
 		G_CALLBACK (cb_fore_color_changed), gtk);
 	g_signal_connect (G_OBJECT (gtk->fore_color),
 		"display-custom-dialog",
@@ -2994,7 +2994,7 @@ wbc_gtk_init_color_back (WBCGtk *gtk)
 		      NULL);
 	/* TODO: Create vertical version.  */
 	g_object_connect (G_OBJECT (gtk->back_color),
-		"signal::activate", G_CALLBACK (cb_back_color_changed), gtk,
+		"signal::combo-activate", G_CALLBACK (cb_back_color_changed), gtk,
 		"signal::display-custom-dialog", G_CALLBACK (cb_custom_color_created), gtk,
 		NULL);
 #if 0
