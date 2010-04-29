@@ -3834,7 +3834,7 @@ excel_write_AUTOFILTERINFO (BiffPut *bp, ExcelWriteSheet *esheet)
 		default :
 			str0 = excel_write_DOPER (cond, 0, buf + 4);
 			str1 = excel_write_DOPER (cond, 1, buf + 14);
-			GSF_LE_SET_GUINT16 (buf+2, cond->is_and ? 1 : 0);
+			GSF_LE_SET_GUINT16 (buf+2, cond->is_and ? 0 : 1);
 		}
 
 		GSF_LE_SET_GUINT16 (buf, i);

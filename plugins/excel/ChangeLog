@@ -1,6 +1,7 @@
 2010-04-29  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_write_DOPER): Fix saving of integers.
+	(excel_write_AUTOFILTERINFO): Fix swapped "and" and "or".
 
 2010-04-23  Morten Welinder  <terra@gnome.org>
 

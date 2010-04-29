@@ -19,7 +19,7 @@ Morten:
 	* Fix WEEKNUM problems.  [#616330]
 	* Fix hidden-sheet problem.  [#616549]
 	* Fix auto-expr problem.  [#575104]
-	* Fix xls-save problem with custom autofilters.
+	* Fix xls-save problems with custom autofilters.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.2
