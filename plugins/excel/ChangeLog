@@ -1,3 +1,7 @@
+2010-04-29  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_write_DOPER): Fix saving of integers.
+
 2010-04-23  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (supbook_get_sheet): Return "deleted sheet" for

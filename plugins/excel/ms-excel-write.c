@@ -3722,11 +3722,12 @@ excel_write_DOPER (GnmFilterCondition const *cond, int i, guint8 *buf)
 
 	if (cond->op[i] == GNM_FILTER_UNUSED)
 		return NULL;
-	switch (cond->value[i]->type) {
-	case VALUE_BOOLEAN:	buf[0] = 8;
-				buf[2] = 0;
-				buf[3] = v->v_bool.val ? 1 : 0;
-				break;
+	switch (v->type) {
+	case VALUE_BOOLEAN:
+		buf[0] = 8;
+		buf[2] = 0;
+		buf[3] = value_get_as_int (v);
+		break;
 
 	case VALUE_FLOAT: {
 		gnm_float f = value_get_as_float (v);
@@ -3736,20 +3737,22 @@ excel_write_DOPER (GnmFilterCondition const *cond, int i, guint8 *buf)
 		} else {
 			int i = (int)f;
 			buf[0] = 2;
-			GSF_LE_SET_GUINT32 (buf + 2, i | 2);
+			GSF_LE_SET_GUINT32 (buf + 2, (i << 2) | 2);
 			break;
 		}
 		break;
 	}
 
-	case VALUE_ERROR:	buf[0] = 8;
-				buf[2] = 1;
-				buf[3] = excel_write_map_errcode (v);
-				break;
+	case VALUE_ERROR:
+		buf[0] = 8;
+		buf[2] = 1;
+		buf[3] = excel_write_map_errcode (v);
+		break;
 
-	case VALUE_STRING:	buf[0] = 6;
-				str = v->v_str.val->str;
-				buf[6] = excel_strlen (str, NULL);
+	case VALUE_STRING:
+		buf[0] = 6;
+		str = value_peek_string (v);
+		buf[6] = excel_strlen (str, NULL);
 		break;
 	default :
 		/* ignore arrays, ranges, empties */
@@ -3775,7 +3778,6 @@ excel_write_AUTOFILTERINFO (BiffPut *bp, ExcelWriteSheet *esheet)
 {
 	GnmFilterCondition const *cond;
 	GnmFilter const *filter;
-	guint8  buf[24];
 	unsigned count, i;
 	char const *str0 = NULL, *str1 = NULL;
 
@@ -3791,6 +3793,8 @@ excel_write_AUTOFILTERINFO (BiffPut *bp, ExcelWriteSheet *esheet)
 
 	/* the fields */
 	for (i = 0; i < filter->fields->len ; i++) {
+		guint8 buf[24];
+
 		/* filter unused or bucket filters in excel5 */
 		if (NULL == (cond = gnm_filter_get_condition (filter, i)) ||
 		    cond->op[0] == GNM_FILTER_UNUSED ||
