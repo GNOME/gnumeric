@@ -115,6 +115,8 @@ typedef struct {
 	ColRowInfo const *column_default;
 	GHashTable *objects;
 	gboolean with_extension;
+	GOFormat const *time_fmt;
+	GOFormat const *date_fmt;
 } GnmOOExport;
 
 typedef struct {
@@ -2394,16 +2396,32 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			odf_add_bool (state->xml, OFFICE "boolean-value",
 				value_get_as_bool (cell->value, NULL));
 			break;
-		case VALUE_FLOAT: {
-			GString *str = g_string_new (NULL);
-
-			gsf_xml_out_add_cstr_unchecked (state->xml,
-							OFFICE "value-type", "float");
-			value_get_as_gstring (cell->value, str, state->conv);
-			gsf_xml_out_add_cstr (state->xml, OFFICE "value", str->str);
-
-			g_string_free (str, TRUE);
-		}
+		case VALUE_FLOAT: if (go_format_is_date (gnm_cell_get_format (cell)) 
+				      || go_format_is_time (gnm_cell_get_format (cell))) 
+			{
+				char *str;
+				if (value_get_as_float (cell->value) == (float) value_get_as_int (cell->value)) {
+					gsf_xml_out_add_cstr_unchecked (state->xml,
+									OFFICE "value-type", "date");
+					str = format_value (state->date_fmt, cell->value, NULL, -1, workbook_date_conv (state->wb));
+					gsf_xml_out_add_cstr (state->xml, OFFICE "date-value", str);
+				} else {
+					gsf_xml_out_add_cstr_unchecked (state->xml,
+									OFFICE "value-type", "time");
+					str = format_value (state->time_fmt, cell->value, NULL, -1, workbook_date_conv (state->wb));
+					gsf_xml_out_add_cstr (state->xml, OFFICE "time-value", str);
+				}
+				g_free (str);
+			} else {
+				GString *str = g_string_new (NULL);
+				
+				gsf_xml_out_add_cstr_unchecked (state->xml,
+								OFFICE "value-type", "float");
+				value_get_as_gstring (cell->value, str, state->conv);
+				gsf_xml_out_add_cstr (state->xml, OFFICE "value", str->str);
+				
+				g_string_free (str, TRUE);
+			}
 			break;
 		case VALUE_ERROR:
 			if (NULL == cell->base.texpr) {
@@ -3949,6 +3967,9 @@ openoffice_file_save_real (GOFileSaver const *fs, GOIOContext *ioc,
 	state.col_styles = NULL;
 	state.row_styles = NULL;
 
+	state.time_fmt = go_format_new_from_XL ("yyyy-mm-ddThh:mm:ss");
+	state.date_fmt = go_format_new_from_XL ("yyyy-mm-dd");
+
 	/* ODF dos not have defaults per table, so we use our first table for defaults only.*/
 	sheet = workbook_sheet_by_index (state.wb, 0);
 
@@ -3997,6 +4018,8 @@ openoffice_file_save_real (GOFileSaver const *fs, GOIOContext *ioc,
 	g_slist_free (state.col_styles);
 	g_slist_free (state.row_styles);
 	gnm_style_unref (state.default_style);
+	go_format_unref (state.time_fmt);
+	go_format_unref (state.date_fmt);
 }
 
 

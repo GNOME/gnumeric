@@ -1,3 +1,10 @@
+2010-04-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_cell): write times and dates as
+	  time-value or date-value
+	(openoffice_file_save_real): initialize and dispose of time_fmt
+	  and date_fmt
+
 2010-04-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.2
