@@ -117,6 +117,7 @@ typedef struct {
 	gboolean with_extension;
 	GOFormat const *time_fmt;
 	GOFormat const *date_fmt;
+	GOFormat const *date_long_fmt;
 } GnmOOExport;
 
 typedef struct {
@@ -2396,8 +2397,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			odf_add_bool (state->xml, OFFICE "boolean-value",
 				value_get_as_bool (cell->value, NULL));
 			break;
-		case VALUE_FLOAT: if (go_format_is_date (gnm_cell_get_format (cell)) 
-				      || go_format_is_time (gnm_cell_get_format (cell))) 
+		case VALUE_FLOAT: if (go_format_is_date (gnm_cell_get_format (cell))) 
 			{
 				char *str;
 				if (value_get_as_float (cell->value) == (float) value_get_as_int (cell->value)) {
@@ -2407,10 +2407,17 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 					gsf_xml_out_add_cstr (state->xml, OFFICE "date-value", str);
 				} else {
 					gsf_xml_out_add_cstr_unchecked (state->xml,
-									OFFICE "value-type", "time");
-					str = format_value (state->time_fmt, cell->value, NULL, -1, workbook_date_conv (state->wb));
-					gsf_xml_out_add_cstr (state->xml, OFFICE "time-value", str);
+									OFFICE "value-type", "date");
+					str = format_value (state->date_long_fmt, cell->value, NULL, -1, workbook_date_conv (state->wb));
+					gsf_xml_out_add_cstr (state->xml, OFFICE "date-value", str);
 				}
+				g_free (str);
+			} else if (go_format_is_time (gnm_cell_get_format (cell))) {
+				char *str;
+				gsf_xml_out_add_cstr_unchecked (state->xml,
+								OFFICE "value-type", "time");
+				str = format_value (state->time_fmt, cell->value, NULL, -1, workbook_date_conv (state->wb));
+				gsf_xml_out_add_cstr (state->xml, OFFICE "time-value", str);
 				g_free (str);
 			} else {
 				GString *str = g_string_new (NULL);
@@ -3967,8 +3974,9 @@ openoffice_file_save_real (GOFileSaver const *fs, GOIOContext *ioc,
 	state.col_styles = NULL;
 	state.row_styles = NULL;
 
-	state.time_fmt = go_format_new_from_XL ("yyyy-mm-ddThh:mm:ss");
+	state.date_long_fmt = go_format_new_from_XL ("yyyy-mm-ddThh:mm:ss");
 	state.date_fmt = go_format_new_from_XL ("yyyy-mm-dd");
+	state.time_fmt = go_format_new_from_XL ("\"PT\"hh\"H\"mm\"M\"ss\"S\"");
 
 	/* ODF dos not have defaults per table, so we use our first table for defaults only.*/
 	sheet = workbook_sheet_by_index (state.wb, 0);
@@ -4020,6 +4028,7 @@ openoffice_file_save_real (GOFileSaver const *fs, GOIOContext *ioc,
 	gnm_style_unref (state.default_style);
 	go_format_unref (state.time_fmt);
 	go_format_unref (state.date_fmt);
+	go_format_unref (state.date_long_fmt);
 }
 
 

@@ -1,5 +1,12 @@
 2010-04-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_cell): write times and dates 
+	  correctly as time-value or date-value
+	(openoffice_file_save_real): fix  time_fmt and setup
+	  date_long_fmt
+
+2010-04-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_cell): write times and dates as
 	  time-value or date-value
 	(openoffice_file_save_real): initialize and dispose of time_fmt
