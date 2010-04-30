@@ -3807,8 +3807,13 @@ excel_write_AUTOFILTERINFO (BiffPut *bp, ExcelWriteSheet *esheet)
 
 		switch (cond->op[0]) {
 		case GNM_FILTER_OP_BLANKS:
+			buf[2] = 0x04;  /* "fSimple1" */
+			buf[5] = 0x0c;
+			break;
+
 		case GNM_FILTER_OP_NON_BLANKS:
-			buf[5] = (cond->op[0] == GNM_FILTER_OP_BLANKS) ? 0xC : 0xE;
+			buf[2] = 0x04;  /* "fSimple1" */
+			buf[5] = 0x0E;
 			break;
 
 		case GNM_FILTER_OP_TOP_N:
@@ -3816,16 +3821,13 @@ excel_write_AUTOFILTERINFO (BiffPut *bp, ExcelWriteSheet *esheet)
 		case GNM_FILTER_OP_TOP_N_PERCENT:
 		case GNM_FILTER_OP_BOTTOM_N_PERCENT: {
 			guint16 flags = 0x10; /* top/bottom n */
-			int count = cond->count;
-
-			/* not really necessary but lets be paranoid */
-			if (count > 500) count = 500;
-			else if (count < 1) count = 1;
+			/* The limit of 500 is actually documented.  */
+			int count = CLAMP (cond->count, 1, 500);
 
 			flags |= (count << 7);
-			if ((cond->op[0] & 1) == 0)
+			if ((cond->op[0] & GNM_FILTER_OP_BOTTOM_MASK) == 0)
 				flags |= 0x20;
-			if ((cond->op[0] & 2) != 0)
+			if ((cond->op[0] & GNM_FILTER_OP_PERCENT_MASK) != 0)
 				flags |= 0x40;
 			GSF_LE_SET_GUINT16 (buf+2, flags);
 			break;
