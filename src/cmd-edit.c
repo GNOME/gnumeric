@@ -40,6 +40,7 @@
 #include "commands.h"
 #include "clipboard.h"
 #include "value.h"
+#include "wbc-gtk.h"
 
 /**
  * sv_select_cur_row:
@@ -400,8 +401,20 @@ cmd_shift_rows (WorkbookControl *wbc, Sheet *sheet,
 	rinfo.origin.start.col = col;
 	rinfo.origin.end.row = end_row;
 	rinfo.origin.end.col = gnm_sheet_get_last_col (sheet);
-	if (count > 0)
+
+
+	if (count > 0) {
+		GnmRange r = rinfo.origin;
+		r.start.col = r.end.col - count + 1;
+
+		if (!sheet_is_region_empty (sheet, &r)) {
+			go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (wbc)), GTK_MESSAGE_ERROR, 
+					      _("Inserting these cells would push data off the sheet. "
+						"Please enlarge the sheet first."));
+			return;
+		}		
 		rinfo.origin.end.col -= count;
+	}
 
 	desc = g_strdup_printf ((start_row != end_row)
 				? _("Shift rows %s")
@@ -439,8 +452,18 @@ cmd_shift_cols (WorkbookControl *wbc, Sheet *sheet,
 	rinfo.origin.start.row = row;
 	rinfo.origin.end.col = end_col;
 	rinfo.origin.end.row = gnm_sheet_get_last_row (sheet);
-	if (count > 0)
+	if (count > 0) {
+		GnmRange r = rinfo.origin;
+		r.start.row = r.end.row - count + 1;
+
+		if (!sheet_is_region_empty (sheet, &r)) {
+			go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (wbc)), GTK_MESSAGE_ERROR, 
+					      _("Inserting these cells would push data off the sheet. "
+						"Please enlarge the sheet first."));
+			return;
+		}		
 		rinfo.origin.end.row -= count;
+	}
 
 	desc = g_strdup_printf ((start_col != end_col)
 				? _("Shift columns %s")

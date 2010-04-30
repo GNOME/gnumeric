@@ -1,5 +1,10 @@
 2010-04-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/cmd-edit.c (cmd_shift_rows): protect against data loss
+	(cmd_shift_cols): ditto
+
+2010-04-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/commands.c (cmd_insert_cols): protect against data loss
 	(cmd_insert_rows): ditto
 
