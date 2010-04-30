@@ -1,3 +1,8 @@
+2010-04-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.c (cmd_insert_cols): protect against data loss
+	(cmd_insert_rows): ditto
+
 2010-04-30  Morten Welinder  <terra@gnome.org>
 
 	* src/value.c (find_rows_that_match): Fix checking of multiple

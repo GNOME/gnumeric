@@ -1350,7 +1350,23 @@ gboolean
 cmd_insert_cols (WorkbookControl *wbc,
 		 Sheet *sheet, int start_col, int count)
 {
-	char *mesg = g_strdup_printf
+	char *mesg;
+	GnmRange r = sheet_get_extent (sheet, TRUE);
+
+	r.end.col += count;
+
+	if (gnm_sheet_get_last_col (sheet) < r.end.col) {
+		go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (wbc)), GTK_MESSAGE_ERROR, 
+				      ngettext ("Inserting %i column before column %s would push data off the sheet. "
+						"Please enlarge the sheet first.",
+						"Inserting %i columns before column %s would push data off the sheet. "
+						"Please enlarge the sheet first.", 
+						count),
+				      count, col_name (start_col));
+		return TRUE;
+	}
+
+	mesg  = g_strdup_printf
 		(ngettext ("Inserting %d column before %s",
 			   "Inserting %d columns before %s",
 			   count),
@@ -1362,7 +1378,23 @@ gboolean
 cmd_insert_rows (WorkbookControl *wbc,
 		 Sheet *sheet, int start_row, int count)
 {
-	char *mesg = g_strdup_printf
+	char *mesg;
+	GnmRange r = sheet_get_extent (sheet, TRUE);
+
+	r.end.row += count;
+
+	if (gnm_sheet_get_last_row (sheet) < r.end.row) {
+		go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (wbc)), GTK_MESSAGE_ERROR, 
+				      ngettext ("Inserting %i row before row %s would push data off the sheet. "
+						"Please enlarge the sheet first.",
+						"Inserting %i rows before row %s would push data off the sheet. "
+						"Please enlarge the sheet first.", 
+						count),
+				      count, row_name (start_row));
+		return TRUE;
+	}
+
+	mesg = g_strdup_printf
 		(ngettext ("Inserting %d row before %s",
 			   "Inserting %d rows before %s",
 			   count),
