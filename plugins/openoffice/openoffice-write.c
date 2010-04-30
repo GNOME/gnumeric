@@ -2397,10 +2397,12 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			odf_add_bool (state->xml, OFFICE "boolean-value",
 				value_get_as_bool (cell->value, NULL));
 			break;
-		case VALUE_FLOAT: if (go_format_is_date (gnm_cell_get_format (cell))) 
-			{
+		case VALUE_FLOAT: {
+			GOFormat const *fmt = gnm_cell_get_format (cell);
+			gnm_float f = value_get_as_float (cell->value);
+			if (go_format_is_date (fmt)) {
 				char *str;
-				if (value_get_as_float (cell->value) == (float) value_get_as_int (cell->value)) {
+				if (f == gnm_floor (f)) {
 					gsf_xml_out_add_cstr_unchecked (state->xml,
 									OFFICE "value-type", "date");
 					str = format_value (state->date_fmt, cell->value, NULL, -1, workbook_date_conv (state->wb));
@@ -2412,7 +2414,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 					gsf_xml_out_add_cstr (state->xml, OFFICE "date-value", str);
 				}
 				g_free (str);
-			} else if (go_format_is_time (gnm_cell_get_format (cell))) {
+			} else if (go_format_is_time (fmt)) {
 				char *str;
 				gsf_xml_out_add_cstr_unchecked (state->xml,
 								OFFICE "value-type", "time");
@@ -2430,6 +2432,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 				g_string_free (str, TRUE);
 			}
 			break;
+		}
 		case VALUE_ERROR:
 			if (NULL == cell->base.texpr) {
 				/* see https://bugzilla.gnome.org/show_bug.cgi?id=610175 */
