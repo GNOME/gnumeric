@@ -21,6 +21,7 @@ Morten:
 	* Fix hidden-sheet problem.  [#616549]
 	* Fix auto-expr problem.  [#575104]
 	* Fix xls-save problems with custom autofilters.
+	* Fix auto-filter problem.  [#383400]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.2

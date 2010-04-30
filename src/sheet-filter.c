@@ -167,41 +167,57 @@ filter_expr_release (FilterExpr *fexpr, unsigned i)
 		value_release (fexpr->val[i]);
 }
 
+static char *
+filter_cell_contents (GnmCell *cell)
+{
+	GOFormat const *format = gnm_cell_get_format (cell);
+	GODateConventions const *date_conv =
+		workbook_date_conv (cell->base.sheet->workbook);
+	return format_value (format, cell->value, NULL, -1, date_conv);
+}
+
 static gboolean
 filter_expr_eval (GnmFilterOp op, GnmValue const *src, GORegexp const *regexp,
 		  GnmCell *cell)
 {
 	GnmValue *target = cell->value;
 	GnmValDiff cmp;
+	GnmValue *fake_val = NULL;
 
 	if (src == NULL) {
-		GOFormat const *format = gnm_cell_get_format (cell);
-		GODateConventions const *date_conv =
-			workbook_date_conv (cell->base.sheet->workbook);
-		char *str = format_value (format, target, NULL, -1, date_conv);
+		char *str = filter_cell_contents (cell);
 		GORegmatch rm;
 		int res = go_regexec (regexp, str, 1, &rm, 0);
+		gboolean whole = (rm.rm_so == 0 && str[rm.rm_eo] == 0);
+
+		g_free (str);
 
 		switch (res) {
 		case GO_REG_OK:
-			if (rm.rm_so == 0 && strlen (str) == (size_t)rm.rm_eo) {
-				g_free (str);
+			if (whole)
 				return op == GNM_FILTER_OP_EQUAL;
-			}
 			/* fall through */
 
 		case GO_REG_NOMATCH:
-			g_free (str);
 			return op == GNM_FILTER_OP_NOT_EQUAL;
 
 		default:
-			g_free (str);
 			g_warning ("Unexpected regexec result");
 			return FALSE;
 		}
 	}
 
-	cmp = value_compare (target, src, TRUE);
+	if (VALUE_IS_STRING (target) && VALUE_IS_NUMBER (src)) {
+		GODateConventions const *date_conv =
+			workbook_date_conv (cell->base.sheet->workbook);
+		char *str = format_value (NULL, src, NULL, -1, date_conv);
+		fake_val = value_new_string_nocopy (str);
+		src = fake_val;
+	}
+
+	cmp = value_compare (target, src, FALSE);
+	value_release (fake_val);
+
 	switch (op) {
 	case GNM_FILTER_OP_EQUAL     : return cmp == IS_EQUAL;
 	case GNM_FILTER_OP_NOT_EQUAL : return cmp != IS_EQUAL;

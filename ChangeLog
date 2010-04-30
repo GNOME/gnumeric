@@ -1,3 +1,8 @@
+2010-04-30  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-filter.c (filter_expr_eval): When we're looking for a
+	number, match also strings.  Match strings case insensitively.
+
 2010-04-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: needs goffice-0.8.3.
