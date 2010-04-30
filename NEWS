@@ -4,7 +4,7 @@ Andreas:
 	* Fix CHITEST for rectangular ranges. [#615920]
 	* Fix printing and preview of graph only sheets. [#616475]
 	* Make even active sheets invisible. [#616474]
-	* Improve date & time export to ODF.   
+	* Improve date & time import from and export to ODF. [#617208]   
 
 Jean:
 	* Implement graph only sheets. [#158170]

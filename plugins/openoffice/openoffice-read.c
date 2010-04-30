@@ -229,6 +229,9 @@ typedef struct {
 
 	struct {
 		GHashTable	*cell;
+		GHashTable	*cell_datetime;
+		GHashTable	*cell_date;
+		GHashTable	*cell_time;
 		GHashTable	*col;
 		GHashTable	*row;
 		GHashTable	*sheet;
@@ -1151,6 +1154,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	int array_cols = -1, array_rows = -1;
 	int merge_cols = 1, merge_rows = 1;
 	GnmStyle *style = NULL;
+	char *style_name = NULL;
 	char const *expr_string;
 	GnmRange tmp;
 	int max_cols = gnm_sheet_get_max_cols (state->pos.sheet);
@@ -1256,8 +1260,8 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-rows-spanned", &merge_rows))
 			;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name")) {
-			style = g_hash_table_lookup (state->styles.cell, attrs[1]);
-			gnm_style_ref (style);
+			g_free (style_name);
+			style_name = g_strdup (attrs[1]);
 		}
 	}
 
@@ -1266,31 +1270,54 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		if (texpr)
 			gnm_expr_top_unref (texpr);
 		value_release (val);
-		if (style)
-			gnm_style_unref (style);
+		g_free (style_name);
 		return;
 	}
+
+	
 
 	merge_cols = MIN (merge_cols, max_cols - state->pos.eval.col);
 	merge_rows = MIN (merge_rows, max_rows - state->pos.eval.row);
 
-	if ((state->ver == OOO_VER_1) && (has_datetime || has_date || has_time)) {
-		GOFormat *format;
-
-		if (has_datetime) {
-			format = go_format_default_date_time ();
-		} else if (has_date) {
-			format = go_format_default_date ();
-		} else {
-			format = go_format_default_time ();
-		}
+	if (style_name != NULL) {
+		if (has_datetime)
+			style = g_hash_table_lookup (state->styles.cell_datetime, style_name);
+		else if (has_date)
+			style = g_hash_table_lookup (state->styles.cell_date, style_name);
+		else if (has_time)
+			style = g_hash_table_lookup (state->styles.cell_time, style_name);
 
 		if (style == NULL) {
-			style = gnm_style_new_default ();
-/* 			gnm_style_ref(style); */
-			gnm_style_set_format (style, format);
-		} else if (!gnm_style_is_element_set (style, MSTYLE_FORMAT))
-			gnm_style_set_format (style, format);
+			style = g_hash_table_lookup (state->styles.cell, style_name);
+			
+			if (((style != NULL) || (state->ver == OOO_VER_1))
+			    && (has_datetime || has_date || has_time)) {
+				if ((style == NULL) ||
+				    ((!gnm_style_is_element_set (style, MSTYLE_FORMAT))
+				     || go_format_is_general (gnm_style_get_format (style)))) {
+					GOFormat *format;
+					style = (style == NULL) ? gnm_style_new_default () : gnm_style_dup (style);
+					if (has_datetime) {
+						format = go_format_default_date_time ();
+						g_hash_table_replace (state->styles.cell_datetime,
+								      g_strdup (style_name), style);
+					} else if (has_date) {
+						format = go_format_default_date ();
+						g_hash_table_replace (state->styles.cell_date,
+							      g_strdup (style_name), style);
+					} else {
+						format = go_format_default_time ();
+						g_hash_table_replace (state->styles.cell_time,
+								      g_strdup (style_name), style);
+					}	
+					gnm_style_set_format (style, format);
+				}
+			}
+		}
+		if (style != NULL)
+			gnm_style_ref (style);
+		
+		g_free (style_name);
 	}
 
 	if (style != NULL) {
@@ -5316,6 +5343,15 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	state.styles.cell = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) gnm_style_unref);
+	state.styles.cell_datetime = g_hash_table_new_full (g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) gnm_style_unref);
+	state.styles.cell_date = g_hash_table_new_full (g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) gnm_style_unref);
+	state.styles.cell_time = g_hash_table_new_full (g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) gnm_style_unref);
 	state.formats = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) go_format_unref);
@@ -5417,6 +5453,9 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	g_hash_table_destroy (state.styles.col);
 	g_hash_table_destroy (state.styles.row);
 	g_hash_table_destroy (state.styles.cell);
+	g_hash_table_destroy (state.styles.cell_datetime);
+	g_hash_table_destroy (state.styles.cell_date);
+	g_hash_table_destroy (state.styles.cell_time);
 	g_hash_table_destroy (state.chart.graph_styles);
 	g_hash_table_destroy (state.formats);
 	g_object_unref (contents);

@@ -1,5 +1,13 @@
 2010-04-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_cell): only retrieve the value
+	  as gnm_float if we really need to.
+	* openoffice-read.c (oo_cell_start): handle dates and times in 
+	  GENERAL format
+	(openoffice_file_open): setup and destroy new hashes
+
+2010-04-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_cell): write times and dates 
 	  correctly as time-value or date-value
 	(openoffice_file_save_real): fix  time_fmt and setup

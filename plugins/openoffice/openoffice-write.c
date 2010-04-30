@@ -2399,9 +2399,9 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			break;
 		case VALUE_FLOAT: {
 			GOFormat const *fmt = gnm_cell_get_format (cell);
-			gnm_float f = value_get_as_float (cell->value);
 			if (go_format_is_date (fmt)) {
 				char *str;
+				gnm_float f = value_get_as_float (cell->value);
 				if (f == gnm_floor (f)) {
 					gsf_xml_out_add_cstr_unchecked (state->xml,
 									OFFICE "value-type", "date");
