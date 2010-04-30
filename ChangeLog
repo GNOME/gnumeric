@@ -1,5 +1,8 @@
 2010-04-30  Morten Welinder  <terra@gnome.org>
 
+	* src/value.c (find_rows_that_match): Fix checking of multiple
+	criteria.  Fixes rest of #164169.
+
 	* src/sheet-filter.c (filter_expr_eval): When we're looking for a
 	number, match also strings.  Match strings case insensitively.
 

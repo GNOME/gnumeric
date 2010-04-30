@@ -1762,8 +1762,9 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 	for (row = first_row; row <= last_row; row++) {
 		add_flag = TRUE;
 		for (crit_ptr = criterias; crit_ptr; crit_ptr = crit_ptr->next) {
+			GnmDBCriteria const *crit = crit_ptr->data;
 			add_flag = TRUE;
-			for (cond_ptr = ((GnmDBCriteria const *)crit_ptr->data)->conditions;
+			for (cond_ptr = crit->conditions;
 			     cond_ptr != NULL ; cond_ptr = cond_ptr->next) {
 				GnmCriteria *cond = cond_ptr->data;
 				test_cell = sheet_cell_get (sheet, cond->column, row);
@@ -1776,7 +1777,7 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 				}
 			}
 
-			if (add_flag)
+			if (!add_flag)
 				break;
 		}
 		if (add_flag) {

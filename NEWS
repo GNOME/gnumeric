@@ -22,6 +22,7 @@ Morten:
 	* Fix auto-expr problem.  [#575104]
 	* Fix xls-save problems with custom autofilters.
 	* Fix auto-filter problem.  [#383400]
+	* Fix advanced-filter problem with multiple criteria.  [#164169]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.2
