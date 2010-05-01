@@ -86,7 +86,7 @@ gsl_complex_inverse (complex_t const *a, complex_t *res)
 
 void
 gsl_complex_negative (complex_t const *a, complex_t *res)
-{                               /* z=1/a */
+{
 	complex_init (res, -GSL_REAL (a), -GSL_IMAG (a));
 }
 
