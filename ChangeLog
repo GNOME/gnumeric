@@ -1,3 +1,8 @@
+2010-05-01  Morten Welinder  <terra@gnome.org>
+
+	* src/complex.c (complex_from_string): Reject invalid strings like
+	"42.0.1i".
+
 2010-04-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/cmd-edit.c (cmd_shift_rows): protect against data loss

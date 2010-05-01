@@ -113,6 +113,9 @@ complex_from_string (complex_t *dst, char const *src, char *imunit)
 		return 0;
 	}
 
+	if (*src != '-' && *src != '+')
+		return -1;
+
 	/* Case: "42+i", "+42-i", "-42-i", ...  */
 	if (is_unit_imaginary (src, &dst->im, imunit)) {
 		dst->re = x;
