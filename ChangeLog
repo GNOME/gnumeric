@@ -1,3 +1,8 @@
+2010-05-02  Morten Welinder  <terra@gnome.org>
+
+	* src/complex.h (complex_invalid, complex_invalid_p): New
+	functions.
+
 2010-05-01  Morten Welinder  <terra@gnome.org>
 
 	* src/complex.c (complex_from_string): Reject invalid strings like

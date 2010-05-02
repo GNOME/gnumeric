@@ -64,7 +64,9 @@ value_get_as_complex (GnmValue const *val, complex_t *res, char *imunit)
 static GnmValue *
 value_new_complex (complex_t const *c, char imunit)
 {
-	if (complex_real_p (c))
+	if (complex_invalid_p (c))
+		return value_new_error_NUM (NULL);
+	else if (complex_real_p (c))
 		return value_new_float (c->re);
 	else {
 		char f[5 + 4 * sizeof (int) + sizeof (GNM_FORMAT_g)];

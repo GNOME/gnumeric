@@ -60,6 +60,16 @@ GNUMERIC_COMPLEX_PROTO (void complex_init (complex_t *dst, gnm_float re, gnm_flo
 
 /* ------------------------------------------------------------------------- */
 
+GNUMERIC_COMPLEX_PROTO (void complex_invalid (complex_t *dst))
+#ifdef GNUMERIC_COMPLEX_BODY
+{
+	dst->re = gnm_nan;
+	dst->im = gnm_nan;
+}
+#endif
+
+/* ------------------------------------------------------------------------- */
+
 GNUMERIC_COMPLEX_PROTO (void complex_real (complex_t *dst, gnm_float re))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
@@ -74,6 +84,15 @@ GNUMERIC_COMPLEX_PROTO (int complex_real_p (complex_t const *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	return src->im == 0;
+}
+#endif
+
+/* ------------------------------------------------------------------------- */
+
+GNUMERIC_COMPLEX_PROTO (int complex_invalid_p (complex_t const *src))
+#ifdef GNUMERIC_COMPLEX_BODY
+{
+	return !(gnm_finite (src->re) && gnm_finite (src->im));
 }
 #endif
 
