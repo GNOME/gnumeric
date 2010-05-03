@@ -494,6 +494,7 @@ gnm_cell_render_value (GnmCell const *cell, gboolean allow_variable_width)
 
 	sheet = cell->base.sheet;
 	rv = gnm_rendered_value_new (cell,
+				     sheet->rendered_values->context,
 				     allow_variable_width,
 				     sheet->last_zoom_factor_used);
 

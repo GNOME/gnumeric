@@ -79,6 +79,7 @@ print_cell_gtk (GnmCell const *cell,
 		 */
 
 		rv100 = gnm_rendered_value_new ((GnmCell *)cell,
+						pango_layout_get_context (rv->layout),
 						rv->variable_width,
 						1.0);
 		rv = rv100;
@@ -87,7 +88,6 @@ print_cell_gtk (GnmCell const *cell,
 	/* Make sure we don't get overflow in print unless we had it in
 	   display.  */
 	rv->might_overflow = rv->numeric_overflow;
-
 
 	if (cell_calc_layout (cell, rv, -1,
 			      (int)(width * PANGO_SCALE / scale_h),

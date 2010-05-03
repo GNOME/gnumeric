@@ -181,6 +181,7 @@ gnm_rendered_value_remeasure (GnmRenderedValue *rv)
  **/
 GnmRenderedValue *
 gnm_rendered_value_new (GnmCell const *cell,
+			PangoContext *context,
 			gboolean allow_variable_width,
 			double zoom)
 {
@@ -191,14 +192,12 @@ gnm_rendered_value_new (GnmCell const *cell,
 	int              rotation;
 	Sheet const     *sheet;
 	gboolean         displayed_formula;
-	PangoContext *context;
 	GnmStyle const *mstyle;
 
 	g_return_val_if_fail (cell != NULL, NULL);
 
 	/* sheet->workbook can be NULL when called from preview-grid.c  */
 	sheet = cell->base.sheet;
-	context = sheet->context;
 
 	displayed_formula =
 		gnm_cell_has_expr (cell) && sheet->display_formulas;
