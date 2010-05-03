@@ -1,5 +1,7 @@
 2010-05-03  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.h (struct _Sheet): Drop context field.
+
 	* src/rendered-value.c (gnm_rendered_value_new): Add a
 	PangoContext* argument.  All callers changed.
 

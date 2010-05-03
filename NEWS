@@ -28,6 +28,7 @@ Morten:
 	* Improve error handle for complex functions.
 	* Improve IMPOWER.
 	* Fix sheet duplicate bugs.  [Part of #617469]
+	* Clean-up handling of pango contexts.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.2

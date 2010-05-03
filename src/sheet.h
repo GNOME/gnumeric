@@ -48,7 +48,6 @@ struct _Sheet {
 
 	/* This should eventually be moved to the views.  */
 	double      last_zoom_factor_used;
-	PangoContext *context;
 	GnmRenderedValueCollection *rendered_values;
 
 	GSList      *sheet_objects;	/* List of objects in this sheet */

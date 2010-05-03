@@ -715,6 +715,8 @@ gnm_sheet_constructor (GType type,
 static void
 gnm_sheet_init (Sheet *sheet)
 {
+	PangoContext *context;
+
 	sheet->priv = g_new0 (SheetPrivate, 1);
 	sheet->being_constructed = TRUE;
 
@@ -783,9 +785,10 @@ gnm_sheet_init (Sheet *sheet)
 
 	/* FIXME: probably not here.  */
 	/* See also gtk_widget_create_pango_context ().  */
-	sheet->context = gnm_pango_context_get ();
 	sheet->last_zoom_factor_used = -1;  /* Overridden later */
-	sheet->rendered_values = gnm_rvc_new (sheet->context, 5000);
+	context = gnm_pango_context_get ();
+	sheet->rendered_values = gnm_rvc_new (context, 5000);
+	g_object_unref (context);
 
 	/* Init menu states */
 	sheet->priv->enable_showhide_detail = TRUE;
@@ -2250,7 +2253,7 @@ cb_max_cell_height (GnmCellIter const *iter, struct cb_fit *data)
 		Sheet const *sheet = cell->base.sheet;
 		height = sheet->last_zoom_factor_used *
 			gnm_style_get_pango_height (gnm_cell_get_style (cell),
-						    sheet->context,
+						    sheet->rendered_values->context,
 						    sheet->last_zoom_factor_used);
 	} else {
 		(void)gnm_cell_fetch_rendered_value (cell, TRUE);
@@ -4002,11 +4005,6 @@ gnm_sheet_finalize (GObject *obj)
 
 	sheet_style_shutdown (sheet);
 
-	if (sheet->context) {
-		g_object_unref (G_OBJECT (sheet->context));
-		sheet->context = NULL;
-	}
-
 	(void) g_idle_remove_by_data (sheet);
 
 	g_free (sheet->name_quoted);
@@ -5405,8 +5403,6 @@ cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 	array = gnm_cell_is_array_corner (cell);
 
 	if (array) {
-		GnmExpr const *aexpr;
-
 		texpr = gnm_expr_top_relocate_sheet (texpr, src, dst);
 		array = gnm_expr_top_get_array_corner (texpr);
 
