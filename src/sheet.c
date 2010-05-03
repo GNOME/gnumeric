@@ -5422,7 +5422,7 @@ cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 					GnmCell *out = sheet_cell_fetch (dst,
 						cell->pos.col + i,
 						cell->pos.row + j);
-					gnm_cell_assign_value (out, in->value);
+					gnm_cell_assign_value (out, value_dup (in->value));
 				}
 	} else {
 		GnmCell *new_cell = sheet_cell_create (dst, cell->pos.col, cell->pos.row);

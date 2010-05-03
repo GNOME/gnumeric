@@ -27,7 +27,7 @@ Morten:
 	* Fix problem parsing comples numbers.
 	* Improve error handle for complex functions.
 	* Improve IMPOWER.
-	* Fix sheet duplicate criticals.  [Part of #617469]
+	* Fix sheet duplicate bugs.  [Part of #617469]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.2

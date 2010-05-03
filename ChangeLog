@@ -2,7 +2,7 @@
 
 	* src/sheet.c (cb_sheet_cell_copy): Use gnm_cell_assign_value, not
 	gnm_cell_set_value, for non-corner array cells.  Fixes part of
-	#617469.
+	#617469.  Copy the value!  Fixes part of #617469.
 
 2010-05-02  Morten Welinder  <terra@gnome.org>
 
