@@ -5395,47 +5395,33 @@ cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 	Sheet *dst = new_sheet_param;
 	Sheet *src;
 	GnmExprArrayCorner const *array;
+	GnmExprTop const *texpr;
 
 	g_return_if_fail (dst != NULL);
 	g_return_if_fail (cell != NULL);
 
 	src = cell->base.sheet;
+	texpr = cell->base.texpr;
 	array = gnm_cell_is_array_corner (cell);
 
 	if (array) {
-		unsigned int i, j;
-		GnmExprTop const *texpr =
-			gnm_expr_top_relocate_sheet (cell->base.texpr, src, dst);
+		texpr = gnm_expr_top_relocate_sheet (texpr, src, dst);
 
 		gnm_cell_set_array_formula (dst,
 			cell->pos.col, cell->pos.row,
 			cell->pos.col + array->cols-1,
 			cell->pos.row + array->rows-1,
 			texpr);
-
-		for (i = 0; i < array->cols ; i++)
-			for (j = 0; j < array->rows ; j++)
-				if (i != 0 || j != 0) {
-					GnmCell const *in = sheet_cell_fetch (src,
-						cell->pos.col + i,
-						cell->pos.row + j);
-					GnmCell *out = sheet_cell_fetch (dst,
-						cell->pos.col + i,
-						cell->pos.row + j);
-					gnm_cell_assign_value (out, value_dup (in->value));
-				}
-	} else if (cell->base.texpr && gnm_expr_top_is_array_elem (cell->base.texpr, NULL, NULL)) {
+	} else if (texpr && gnm_expr_top_is_array_elem (texpr, NULL, NULL)) {
 		/* Not a corner -- ignore.  */
 	} else {
 		GnmCell *new_cell = sheet_cell_create (dst, cell->pos.col, cell->pos.row);
-		GnmValue *value = value_dup (cell->value);
 		if (gnm_cell_has_expr (cell)) {
-			GnmExprTop const *texpr =
-				gnm_expr_top_relocate_sheet (cell->base.texpr, src, dst);
-			gnm_cell_set_expr_and_value (new_cell, texpr, value, TRUE);
+			texpr = gnm_expr_top_relocate_sheet (texpr, src, dst);
+			gnm_cell_set_expr_and_value (new_cell, texpr, value_new_empty (), TRUE);
 			gnm_expr_top_unref (texpr);
 		} else
-			gnm_cell_set_value (new_cell, value);
+			gnm_cell_set_value (new_cell, value_dup (cell->value));
 	}
 }
 
@@ -5443,6 +5429,7 @@ static void
 sheet_dup_cells (Sheet const *src, Sheet *dst)
 {
 	sheet_cell_foreach (src, &cb_sheet_cell_copy, dst);
+	sheet_region_queue_recalc (dst, NULL);
 }
 
 static void
