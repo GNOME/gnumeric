@@ -1,3 +1,8 @@
+2010-05-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/mathfunc.c (gnm_matrix_eigen_max_index): stay in the matrix
+	(gnm_matrix_eigen_*): use unsigned int
+
 2010-05-03  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (cb_sheet_cell_copy): Use gnm_cell_assign_value, not

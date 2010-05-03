@@ -7798,10 +7798,14 @@ mmult (gnm_float *A, gnm_float *B, int cols_a, int rows_a, int cols_b,
 /***************************************************************************/
 
 static int
-gnm_matrix_eigen_max_index (gnm_float *row, int row_n, int size) 
+gnm_matrix_eigen_max_index (gnm_float *row, guint row_n, guint size) 
 {
-	int i, res = row_n + 1;
-	gnm_float max = gnm_abs (row[res]);
+	guint i, res = row_n + 1;
+	gnm_float max;
+
+	if (res >= size)
+		return (size - 1);
+
 	for (i = res + 1; i < size; i++)
 		if (gnm_abs (row[i]) > max) {
 			res = i;
@@ -7811,7 +7815,7 @@ gnm_matrix_eigen_max_index (gnm_float *row, int row_n, int size)
 }
 
 static void
-gnm_matrix_eigen_rotate (gnm_float **matrix, int k, int l, int i, int j, gnm_float c, gnm_float s)
+gnm_matrix_eigen_rotate (gnm_float **matrix, guint k, guint l, guint i, guint j, gnm_float c, gnm_float s)
 {
 	gnm_float x = c * matrix[k][l] - s * matrix[i][j];
 	gnm_float y = s * matrix[k][l] + c * matrix[i][j];
@@ -7821,7 +7825,7 @@ gnm_matrix_eigen_rotate (gnm_float **matrix, int k, int l, int i, int j, gnm_flo
 }
 
 static void
-gnm_matrix_eigen_update (int k, gnm_float t, gnm_float *eigenvalues, gboolean *changed, int *state)
+gnm_matrix_eigen_update (guint k, gnm_float t, gnm_float *eigenvalues, gboolean *changed, guint *state)
 {
 	gnm_float y = eigenvalues[k];
 	eigenvalues[k] += t;
@@ -7839,25 +7843,31 @@ gnm_matrix_eigen_update (int k, gnm_float t, gnm_float *eigenvalues, gboolean *c
 gboolean    
 gnm_matrix_eigen (gnm_float **matrix, gnm_float **eigenvectors, gnm_float *eigenvalues, int size) 
 {
-	int i, state = size, *ind;
+	guint i, state, usize, *ind;
 	gboolean *changed;
-	int counter = 0;
+	guint counter = 0;
 
-	ind = g_new (int, size);
-	changed =  g_new (gboolean, size);
+	if (size < 1)
+		return FALSE;
+
+	usize = (guint) size;
+	state = usize; 
+
+	ind = g_new (guint, usize);
+	changed =  g_new (gboolean, usize);
 	
-	for (i = 0; i < size; i++) {
-		int j;
-		for (j = 0; j < size; j++)
+	for (i = 0; i < usize; i++) {
+		guint j;
+		for (j = 0; j < usize; j++)
 			eigenvectors[j][i] = 0.;
 		eigenvectors[i][i] = 1.;
 		eigenvalues[i] = matrix[i][i];
-		ind[i] = gnm_matrix_eigen_max_index (matrix[i], i, size);
+		ind[i] = gnm_matrix_eigen_max_index (matrix[i], i, usize);
 		changed[i] = TRUE;
 	}
 
-	while (size > 1 && state != 0) {
-		int k, l, m = 0;
+	while (usize > 1 && state != 0) {
+		guint k, l, m = 0;
 		gnm_float c, s, y, pivot, t;
 		
 		counter++;
@@ -7867,7 +7877,7 @@ gnm_matrix_eigen (gnm_float **matrix, gnm_float **eigenvectors, gnm_float *eigen
 			g_print ("gnm_matrix_eigen exceeded iterations\n"); 
 			return FALSE;
 		}
-		for (k = 1; k < (size-1); k++)
+		for (k = 1; k < (usize-1); k++)
 			if (gnm_abs (matrix[k][ind[k]]) > gnm_abs (matrix[m][ind[m]]))
 				m = k;
 		l = ind[m];
@@ -7891,17 +7901,17 @@ gnm_matrix_eigen (gnm_float **matrix, gnm_float **eigenvectors, gnm_float *eigen
 			gnm_matrix_eigen_rotate (matrix, i, m, i, l, c, s);
 		for (i = m + 1; i < l; i++)
 			gnm_matrix_eigen_rotate (matrix, m, i, i, l, c, s);
-		for (i = l + 1; i < size; i++)
+		for (i = l + 1; i < usize; i++)
 			gnm_matrix_eigen_rotate (matrix, m, i, l, i, c, s);
-		for (i = 0; i < size; i++) {
+		for (i = 0; i < usize; i++) {
 			gnm_float x = c * eigenvectors[i][m] - s * eigenvectors[i][l];
 			gnm_float y = s * eigenvectors[i][m] + c * eigenvectors[i][l];
 
 			eigenvectors[i][m] = x;
 			eigenvectors[i][l] = y;
 		}
-		ind[m] = gnm_matrix_eigen_max_index (matrix[m], m, size);
-		ind[l] = gnm_matrix_eigen_max_index (matrix[l], l, size);
+		ind[m] = gnm_matrix_eigen_max_index (matrix[m], m, usize);
+		ind[l] = gnm_matrix_eigen_max_index (matrix[l], l, usize);
 	}
 
 	g_free (ind);
