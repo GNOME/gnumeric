@@ -283,6 +283,7 @@ gnm_font_hash (gconstpointer v)
 }
 
 static PangoFontMap *fontmap;
+static PangoContext *context;
 
 /**
  * gnm_pango_context_get :
@@ -292,25 +293,26 @@ static PangoFontMap *fontmap;
 PangoContext *
 gnm_pango_context_get (void)
 {
-	PangoContext *context;
-	GdkScreen *screen = gdk_screen_get_default ();
+	if (!context) {
+		GdkScreen *screen = gdk_screen_get_default ();
 
-	if (screen != NULL) {
-		context = gdk_pango_context_get_for_screen (screen);
-	} else {
-		if (!fontmap)
-			fontmap = pango_cairo_font_map_new ();
-		pango_cairo_font_map_set_resolution (PANGO_CAIRO_FONT_MAP (fontmap), 96);
+		if (screen != NULL) {
+			context = gdk_pango_context_get_for_screen (screen);
+		} else {
+			if (!fontmap)
+				fontmap = pango_cairo_font_map_new ();
+			pango_cairo_font_map_set_resolution (PANGO_CAIRO_FONT_MAP (fontmap), 96);
 #ifdef HAVE_PANGO_FONT_MAP_CREATE_CONTEXT
-		context = pango_font_map_create_context (PANGO_FONT_MAP (fontmap));
+			context = pango_font_map_create_context (PANGO_FONT_MAP (fontmap));
 #else /* deprecated in 1.22.0 */
-		context = pango_cairo_font_map_create_context (PANGO_CAIRO_FONT_MAP (fontmap));
+			context = pango_cairo_font_map_create_context (PANGO_CAIRO_FONT_MAP (fontmap));
 #endif
+		}
+		pango_context_set_language (context, gtk_get_default_language ());
+		pango_context_set_base_dir (context, PANGO_DIRECTION_LTR);
 	}
-	pango_context_set_language (context, gtk_get_default_language ());
-	pango_context_set_base_dir (context, PANGO_DIRECTION_LTR);
 
-	return context;
+	return g_object_ref (context);
 }
 
 void
@@ -409,6 +411,11 @@ gnm_font_shutdown (void)
 	g_hash_table_foreach (style_font_negative_hash, (GHFunc) delete_neg_font, NULL);
 	g_hash_table_destroy (style_font_negative_hash);
 	style_font_negative_hash = NULL;
+
+	if (context) {
+		g_object_unref (context);
+		context = NULL;
+	}
 
 	if (fontmap) {
 		/* Do this late -- see bugs 558100 and 558254.  */

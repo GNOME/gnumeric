@@ -1,5 +1,9 @@
 2010-05-03  Morten Welinder  <terra@gnome.org>
 
+	* src/style.c (gnm_pango_context_get): Cache the context.  (Some
+	pango versions are indeterministic in font selection.)
+	(gnm_font_shutdown): Release the context.
+
 	* src/sheet.h (struct _Sheet): Drop context field.
 
 	* src/rendered-value.c (gnm_rendered_value_new): Add a
