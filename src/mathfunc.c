@@ -7806,6 +7806,8 @@ gnm_matrix_eigen_max_index (gnm_float *row, guint row_n, guint size)
 	if (res >= size)
 		return (size - 1);
 
+	max = gnm_abs (row[res]);
+
 	for (i = res + 1; i < size; i++)
 		if (gnm_abs (row[i]) > max) {
 			res = i;
