@@ -13,7 +13,7 @@
 
 #include <stdlib.h>
 #include <errno.h>
-
+#include <mathfunc.h>
 
 /* ------------------------------------------------------------------------- */
 
@@ -206,18 +206,60 @@ complex_sqrt (complex_t *dst, complex_t const *src)
 
 /* ------------------------------------------------------------------------- */
 
+/* Like complex_angle, but divide result by pi.  */
+static gnm_float
+complex_angle_pi (complex_t const *src)
+{
+	if (src->im == 0)
+		return (src->re >= 0 ? 0 : -1);
+
+	if (src->re == 0)
+		return (src->im >= 0 ? 0.5 : -0.5);
+
+	/* We could do quarters too */
+
+	/* Fallback.  */
+	return complex_angle (src) / M_PIgnum;
+}
+
+
 void
 complex_pow (complex_t *dst, complex_t const *a, complex_t const *b)
 {
-	complex_t lna, b_lna;
+	if (complex_zero_p (a) && complex_zero_p (b)) {
+		complex_invalid (dst);
+	} else {
+		gnm_float res_r, res_a1, res_a2, res_a2_pi, r, arg;
+		complex_t F;
 
-	/* ln is not defined for reals less than or equal to zero.  */
-	if (complex_real_p (a) && complex_real_p (b))
-		complex_init (dst, gnm_pow (a->re, b->re), 0);
-	else {
-		complex_ln (&lna, a);
-		complex_mul (&b_lna, b, &lna);
-		complex_exp (dst, &b_lna);
+		complex_to_polar (&r, &arg, a);
+		res_r = gnm_pow (r, b->re) * gnm_exp (-b->im * arg);
+		res_a1 = b->im * gnm_log (r);
+		res_a2 = b->re * arg;
+		res_a2_pi = b->re * complex_angle_pi (a);
+
+		res_a2_pi = gnm_fmod (res_a2_pi, 2);
+		if (res_a2_pi < 0) res_a2_pi += 2;
+
+		/*
+		 * Problem: sometimes res_a2 is a nice fraction of pi.
+		 * Actually adding it will introduce pointless rounding
+		 * errors.
+		 */
+		if (res_a2_pi == 0.5) {
+			res_a2 = 0;
+			complex_init (&F, 0, 1);
+		} else if (res_a2_pi == 1) {
+			res_a2 = 0;
+			complex_real (&F, -1);
+		} else if (res_a2_pi == 1.5) {
+			res_a2 = 0;
+			complex_init (&F, 0, -1);
+		} else
+			complex_real (&F, 1);
+
+		complex_from_polar (dst, res_r, res_a1 + res_a2);
+		complex_mul (dst, dst, &F);
 	}
 }
 

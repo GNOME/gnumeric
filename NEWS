@@ -26,6 +26,7 @@ Morten:
 	* Fix advanced-filter problem with multiple criteria.  [#164169]
 	* Fix problem parsing comples numbers.
 	* Improve error handle for complex functions.
+	* Improve IMPOWER.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.2

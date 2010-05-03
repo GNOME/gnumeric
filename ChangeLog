@@ -1,5 +1,7 @@
 2010-05-02  Morten Welinder  <terra@gnome.org>
 
+	* src/complex.c (complex_pow): Fix problem on negative real axis.
+
 	* src/complex.h (complex_invalid, complex_invalid_p): New
 	functions.
 
