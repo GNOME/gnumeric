@@ -471,7 +471,9 @@ item_edit_realize (GocItem *item)
 	scale = item->canvas->pixels_per_unit;
 	ie->style = gnm_style_dup
 		(sheet_style_get (sheet, ie->pos.col, ie->pos.row));
-	ie->gfont = gnm_style_get_font (ie->style, sheet->context);
+	ie->gfont = gnm_style_get_font
+		(ie->style,
+		 gtk_widget_get_pango_context (GTK_WIDGET (pane)));
 	gnm_font_ref (ie->gfont);
 
 	if (gnm_style_get_align_h (ie->style) == HALIGN_GENERAL)
