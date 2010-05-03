@@ -5424,6 +5424,8 @@ cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 						cell->pos.row + j);
 					gnm_cell_assign_value (out, value_dup (in->value));
 				}
+	} else if (cell->base.texpr && gnm_expr_top_is_array_elem (cell->base.texpr, NULL, NULL)) {
+		/* Not a corner -- ignore.  */
 	} else {
 		GnmCell *new_cell = sheet_cell_create (dst, cell->pos.col, cell->pos.row);
 		GnmValue *value = value_dup (cell->value);
