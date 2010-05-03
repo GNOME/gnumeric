@@ -1,5 +1,11 @@
 2010-05-03  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (cb_sheet_cell_copy): Unwrap the array expression.
+
+	* src/expr.c (gnm_expr_is_array): New function.
+	(gnm_expr_new_array_corner): Complain if subexpression in a array.
+	(gnm_expr_top_is_array): Use gnm_expr_is_array.
+
 	* src/sheet.c (sheet_dup_cells): Queue recalc of the new sheet.
 	(cb_sheet_cell_copy): Don't copy computed values.
 

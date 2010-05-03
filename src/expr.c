@@ -261,6 +261,14 @@ gnm_expr_new_cellref (GnmCellRef const *cr)
 
 /***************************************************************************/
 
+static gboolean
+gnm_expr_is_array (GnmExpr const *expr)
+{
+	return expr &&
+		(GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_ARRAY_ELEM ||
+		 GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_ARRAY_CORNER);
+}
+
 /**
  * gnm_expr_new_array_corner :
  * @cols :
@@ -273,6 +281,8 @@ static GnmExpr const *
 gnm_expr_new_array_corner(int cols, int rows, GnmExpr const *expr)
 {
 	GnmExprArrayCorner *ans;
+
+	g_return_val_if_fail (!gnm_expr_is_array (expr), NULL);
 
 	ans = CHUNK_ALLOC (GnmExprArrayCorner, expression_pool_big);
 	if (ans == NULL)
@@ -3117,8 +3127,7 @@ gboolean
 gnm_expr_top_is_array (GnmExprTop const *texpr)
 {
 	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), FALSE);
-	return (GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_ARRAY_ELEM ||
-		GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_ARRAY_CORNER);
+	return gnm_expr_is_array (texpr->expr);
 }
 
 GnmExprTop const *
