@@ -1,3 +1,18 @@
+2010-05-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-normality.c (analysis_tool_normality_engine_run):
+	  dao_autofit_columns is not needed
+	* analysis-tools.c (summary_statistics): ditto
+	* analysis-tools.h (analysis_tools_error_code_t): add items
+	(analysis_tool_advanced_filter_engine): new
+	(analysis_tools_data_advanced_filter_t): new
+	* filter.c (analysis_tool_advanced_filter_engine): new
+	(analysis_tool_advanced_filter_engine_run): new
+	(free_rows): deleted
+	(advanced_filter): replace defines with enum and use 
+	  go_slist_free_custom
+	* filter.h: remove unneeded defines
+
 2010-04-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.2

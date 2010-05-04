@@ -6,6 +6,7 @@ Andreas:
 	* Make even active sheets invisible. [#616474]
 	* Improve date & time import from and export to ODF. [#617208]
 	* Protect against accidentally pushing data off the sheet. [#98562]
+	* Make Advanced Filter (except ifilter-in-place) undoable.
 
 Jean:
 	* Implement graph only sheets. [#158170]

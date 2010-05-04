@@ -1,3 +1,8 @@
+2010-05-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-advanced-filter.c (advanced_filter_ok_clicked_cb): use 
+	  cmd_analysis_tool
+
 2010-04-22 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-sheet-order.c (cb_sheet_order_cnt_visible): simplify

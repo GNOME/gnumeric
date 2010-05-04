@@ -942,8 +942,6 @@ summary_statistics (data_analysis_output_t *dao,
 	gnm_func_unref (fd_sum);
 	gnm_func_unref (fd_count);
 	gnm_func_unref (fd_sqrt);
-
-	dao_autofit_columns (dao);
 }
 
 static void

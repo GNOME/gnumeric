@@ -19,7 +19,9 @@ typedef enum {
 	analysis_tools_missing_data,
 	analysis_tools_too_few_cols,
 	analysis_tools_too_few_rows,
-	analysis_tools_replication_invalid
+	analysis_tools_replication_invalid,
+	analysis_tools_no_records_found,
+	analysis_tools_invalid_field
 } analysis_tools_error_code_t;
 
 
@@ -185,13 +187,13 @@ gboolean analysis_tool_ttest_paired_engine (data_analysis_output_t *dao, gpointe
 				     analysis_tool_engine_t selector, gpointer result);
 
 
-/*********************** TTest equal varinaces *********/
+/*********************** TTest equal variances *********/
 
 gboolean analysis_tool_ttest_eqvar_engine (data_analysis_output_t *dao, gpointer specs,
 				     analysis_tool_engine_t selector, gpointer result);
 
 
-/*********************** TTest unequal varinaces *******/
+/*********************** TTest unequal variances *******/
 
 gboolean analysis_tool_ttest_neqvar_engine (data_analysis_output_t *dao, gpointer specs,
 					    analysis_tool_engine_t selector, gpointer result);
@@ -201,6 +203,17 @@ gboolean analysis_tool_ttest_neqvar_engine (data_analysis_output_t *dao, gpointe
 
 gboolean analysis_tool_ztest_engine (data_analysis_output_t *dao, gpointer specs,
 				     analysis_tool_engine_t selector, gpointer result);
+
+/****************  Advanced Filter  ********************/
+
+typedef struct {
+	analysis_tools_data_generic_b_t base;
+	gboolean   unique_only_flag;
+} analysis_tools_data_advanced_filter_t;
+
+gboolean analysis_tool_advanced_filter_engine (data_analysis_output_t *dao, gpointer specs,
+					   analysis_tool_engine_t selector, gpointer result);
+
 
 
 

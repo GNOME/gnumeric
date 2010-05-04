@@ -43,6 +43,8 @@
 #include <widgets/gnumeric-expr-entry.h>
 #include <widgets/gnm-dao.h>
 #include "filter.h"
+#include "analysis-tools.h"
+#include "commands.h"
 
 
 #define ADVANCED_FILTER_KEY         "advanced-filter-dialog"
@@ -108,7 +110,7 @@ static void
 advanced_filter_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			       AdvancedFilterState *state)
 {
-	data_analysis_output_t  dao;
+	data_analysis_output_t  *dao;
 	GnmValue                   *input;
 	GnmValue                   *criteria;
 	char                    *text;
@@ -122,27 +124,47 @@ advanced_filter_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	criteria = gnm_expr_entry_parse_as_value
 		(state->input_entry_2, state->sheet);
 
-        parse_output ((GenericToolState *) state, &dao);
+        dao  = parse_output ((GenericToolState *) state, NULL);
 
 	w = glade_xml_get_widget (state->gui, "unique-button");
 	unique = (1 == gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)));
 
-	err = advanced_filter (WORKBOOK_CONTROL (state->wbcg),
-			       &dao, input, criteria, unique);
+	if (dao->type == InPlaceOutput)
+		err = advanced_filter (WORKBOOK_CONTROL (state->wbcg),
+				       dao, input, criteria, unique);
+	else {
+		analysis_tools_data_advanced_filter_t  *
+			data = g_new0 (analysis_tools_data_advanced_filter_t, 1);
+		data->base.wbc = WORKBOOK_CONTROL (state->wbcg);
+		data->base.range_1 = input;
+		data->base.range_2 = criteria;
+		data->unique_only_flag = unique;
 
-	value_release (input);
-	value_release (criteria);
+		if (cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
+				       dao, data, analysis_tool_advanced_filter_engine)) {
+			err = data->base.err;
+			g_free (data);
+		} else 
+			err = analysis_tools_noerr;
+		
+	}
+
+	if (dao->type == InPlaceOutput || err != analysis_tools_noerr) {
+		value_release (input);
+		value_release (criteria);
+		g_free (dao);
+	}
 
 	switch (err) {
-	case OK:
+	case analysis_tools_noerr:
 		gtk_widget_destroy (state->dialog);
 		break;
-	case ERR_INVALID_FIELD:
+	case analysis_tools_invalid_field:
 		error_in_entry ((GenericToolState *) state,
 				GTK_WIDGET (state->input_entry_2),
 				_("The given criteria are invalid."));
 		break;
-	case NO_RECORDS_FOUND:
+	case analysis_tools_no_records_found:
 		go_gtk_notice_nonmodal_dialog ((GtkWindow *) state->dialog,
 					  &(state->warning_dialog),
 					  GTK_MESSAGE_INFO,

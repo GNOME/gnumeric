@@ -177,7 +177,6 @@ analysis_tool_normality_engine_run (data_analysis_output_t *dao,
 	gnm_func_unref (fd);
 	gnm_func_unref (fd_if);
 
-	dao_autofit_columns (dao);
 	dao_redraw_respan (dao);
 	return 0;
 }
