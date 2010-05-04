@@ -48,6 +48,10 @@ filter (data_analysis_output_t *dao, Sheet *sheet, GSList *rows,
 		sheet->has_filtered_rows = TRUE;
 		colrow_set_visibility (sheet, FALSE,
 				       FALSE, input_row_b+1, input_row_e);
+		for (i=input_row_b; i<=input_row_e; i++) {
+			ColRowInfo *ri = sheet_row_fetch (sheet, i);
+			ri->in_filter = TRUE;
+		}
 		while (rows != NULL) {
 			gint *row = (gint *) rows->data;
 			colrow_set_visibility (sheet, FALSE, TRUE, *row, *row);
@@ -135,6 +139,8 @@ advanced_filter (WorkbookControl        *wbc,
 
 	go_slist_free_custom (rows, (GFreeFunc)g_free);
 
+	wb_control_menu_state_update (wbc, MS_FILTER_STATE_CHANGED);
+
 	return analysis_tools_noerr;
 }
 
@@ -143,13 +149,14 @@ cb_show_all (GnmColRowIter const *iter, Sheet *sheet)
 {
 	if (iter->cri->in_filter && !iter->cri->visible)
 		colrow_set_visibility (sheet, FALSE, TRUE,
-			iter->pos, iter->pos);
+				       iter->pos, iter->pos);
 	return FALSE;
 }
 
 void
-filter_show_all (Sheet *sheet)
+filter_show_all (WorkbookControl *wbc)
 {
+	Sheet *sheet = wb_control_cur_sheet (wbc);
 	GSList *ptr = sheet->filters;
 	GnmFilter *filter;
 	unsigned i;
@@ -166,6 +173,8 @@ filter_show_all (Sheet *sheet)
 			(ColRowHandler) cb_show_all, sheet);
 	sheet->has_filtered_rows = FALSE;
 	sheet_redraw_all (sheet, TRUE);
+
+	wb_control_menu_state_update (wbc, MS_FILTER_STATE_CHANGED);
 }
 
 static gboolean

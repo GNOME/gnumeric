@@ -7,6 +7,7 @@ Andreas:
 	* Improve date & time import from and export to ODF. [#617208]
 	* Protect against accidentally pushing data off the sheet. [#98562]
 	* Make Advanced Filter (except filter-in-place) undoable.
+	* Fix Data->Filter->ShowAll for Advanced Filter. [#611079]
 
 Jean:
 	* Implement graph only sheets. [#158170]

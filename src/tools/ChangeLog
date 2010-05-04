@@ -1,5 +1,14 @@
 2010-05-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* filter.h (filter_show_all): require WorkbookControl rather 
+	  than Sheet.
+	* filter.c (filter_show_all): require WorkbookControl rather 
+	  than Sheet; update menu
+	(filter): mark rows to belong to a filter
+	(advanced_filter): update menu
+
+2010-05-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* analysis-normality.c (analysis_tool_normality_engine_run):
 	  dao_autofit_columns is not needed
 	* analysis-tools.c (summary_statistics): ditto

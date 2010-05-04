@@ -1554,7 +1554,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 		wbc_gtk_set_action_sensitivity (wbcg, "EditNames", !has_guru);
 	if (MS_CONSOLIDATE & flags)
 		wbc_gtk_set_action_sensitivity (wbcg, "DataConsolidate", !has_guru);
-	if (MS_CONSOLIDATE & flags)
+	if (MS_FILTER_STATE_CHANGED & flags)
 		wbc_gtk_set_action_sensitivity (wbcg, "DataFilterShowAll", has_filtered_rows);
 	if (MS_SHOW_PRINTAREA & flags) {
 		GnmRange *print_area = sheet_get_nominal_printarea (sheet);

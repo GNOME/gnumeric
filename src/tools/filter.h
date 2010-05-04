@@ -9,6 +9,6 @@ gint advanced_filter (WorkbookControl        *wbc,
 		      GnmValue               *database, GnmValue *criteria,
 		      gboolean                unique_only_flag);
 
-void filter_show_all (Sheet *sheet);
+void filter_show_all (WorkbookControl *wbc);
 
 #endif

@@ -1,3 +1,10 @@
+2010-05-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/wbc-gtk-actions.c: change argument to filter_show_all
+	* src/wbc-gtk.c (wbcg_menu_state_update): use MS_FILTER_STATE_CHANGED
+	  rather than MS_CONSOLIDATE
+	* src/workbook-control.h (MS_FILTER_STATE_CHANGED): new
+	
 2010-05-03  Morten Welinder  <terra@gnome.org>
 
 	* src/style.c (gnm_pango_context_get): Cache the context.  (Some
