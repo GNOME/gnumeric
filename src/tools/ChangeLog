@@ -1,5 +1,10 @@
 2010-05-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* filter.c (advanced_filter): force the selection to be
+	  corrected
+	
+2010-05-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* filter.c (filter): use ri->in_advanced_filter rather
 	  than ri->in_filter
 	(cb_show_all): set ri->in_advanced_filter to false

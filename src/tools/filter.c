@@ -33,6 +33,7 @@
 #include <cell.h>
 #include <ranges.h>
 #include <value.h>
+#include <selection.h>
 
 #include "filter.h"
 #include "analysis-tools.h"
@@ -106,6 +107,9 @@ advanced_filter (WorkbookControl        *wbc,
 {
         GSList  *crit, *rows;
 	GnmEvalPos ep;
+	GnmRange r, s;
+	SheetView *sv;
+	Sheet *sheet = criteria->v_range.cell.a.sheet;
 
 	/* I don't like this -- minimal fix for now.  509427.  */
 	if (criteria->type != VALUE_CELLRANGE)
@@ -118,7 +122,7 @@ advanced_filter (WorkbookControl        *wbc,
 	if (crit == NULL)
 		return analysis_tools_invalid_field;
 
-	rows = find_rows_that_match (database->v_range.cell.a.sheet,
+	rows = find_rows_that_match (sheet,
 				     database->v_range.cell.a.col,
 				     database->v_range.cell.a.row + 1,
 				     database->v_range.cell.b.col,
@@ -132,13 +136,20 @@ advanced_filter (WorkbookControl        *wbc,
 
 	dao_prepare_output (wbc, dao, _("Filtered"));
 
-	filter (dao, database->v_range.cell.a.sheet, rows,
+	filter (dao, sheet, rows,
 		database->v_range.cell.a.col,
 		database->v_range.cell.b.col, database->v_range.cell.a.row,
 		database->v_range.cell.b.row);
 
 	go_slist_free_custom (rows, (GFreeFunc)g_free);
 
+	sv = sheet_get_view (sheet, wb_control_view (wbc));
+	s = r = *(selection_first_range (sv, NULL, NULL));
+	r.end.row = r.start.row;
+	sv_selection_reset (sv);
+	sv_selection_add_range (sv, &r);
+	sv_selection_add_range (sv, &s);
+	
 	wb_control_menu_state_update (wbc, MS_FILTER_STATE_CHANGED);
 
 	return analysis_tools_noerr;
