@@ -10,6 +10,7 @@ Andreas:
 	* Fix Data->Filter->ShowAll for Advanced Filter. [#611079]
 	* Remove undesired interaction between Advanced Filters and 
 	  Autofilters.
+	* Make the par argument to ACCRINT optional. [#323545]
 
 Jean:
 	* Implement graph only sheets. [#158170]

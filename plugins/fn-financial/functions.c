@@ -368,6 +368,7 @@ static GnmFuncHelp const help_accrint[] = {
         { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
         { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("ACCRINT calculates the accrued interest for a security that pays periodic interest.") },
+	{ GNM_FUNC_HELP_NOTE, F_("@{par} defaults to $1000.") },
 	FREQ_HELP,
 	GNM_DATE_BASIS_HELP
         { GNM_FUNC_HELP_SEEALSO, "ACCRINTM"},
@@ -388,8 +389,11 @@ gnumeric_accrint (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	    !datetime_value_to_g (&settlement, argv[2], date_conv))
 		return value_new_error_VALUE (ei->pos);
 
+	if (argv[5] == NULL)
+		return value_new_error_NUM (ei->pos);
+
 	rate           = value_get_as_float (argv[3]);
-	par            = value_get_as_float (argv[4]);
+	par            = argv[4] ? value_get_as_float (argv[4]) : 1000;
 	freq           = value_get_freq (argv[5]);
 	basis          = value_get_basis (argv[6], GO_BASIS_MSRB_30_360);
 
@@ -3276,7 +3280,7 @@ gnumeric_vdb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 GnmFuncDescriptor const financial_functions[] = {
-	{ "accrint", "ffffff|f",
+	{ "accrint", "ffff|fff",
 	  help_accrint, gnumeric_accrint, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_MONETARY,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

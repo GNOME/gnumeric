@@ -1,3 +1,9 @@
+2010-05-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (gnumeric_accrint): make @{par} optional
+	(help_accrint): update 
+	(financial_functions): update 
+
 2010-04-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.2
