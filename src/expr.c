@@ -734,7 +734,12 @@ value_intersection (GnmValue *v, GnmEvalPos const *pos)
 		int col = pos->eval.col;
 		int row = pos->eval.row;
 
-		if (r.start.row == r.end.row) {
+		if (pos->dep && !dependent_is_cell (pos->dep)) {
+			/* See bug #142412.  */
+			col = r.start.col;
+			row = r.start.row;
+			found = TRUE;
+		} else if (r.start.row == r.end.row) {
 			if (r.start.col <= col && col <= r.end.col) {
 				row = r.start.row;
 				found = TRUE;

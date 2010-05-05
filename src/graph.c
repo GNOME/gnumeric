@@ -325,9 +325,12 @@ scalar_get_val (GnmGODataScalar *scalar)
 	if (scalar->val == NULL) {
 		if (scalar->dep.texpr != NULL) {
 			GnmEvalPos pos;
-			scalar->val = gnm_expr_top_eval (scalar->dep.texpr,
-				eval_pos_init_dep (&pos, &scalar->dep),
-				GNM_EXPR_EVAL_PERMIT_EMPTY);
+
+			eval_pos_init_dep (&pos, &scalar->dep);
+
+			scalar->val = gnm_expr_top_eval
+				(scalar->dep.texpr, &pos,
+				 GNM_EXPR_EVAL_PERMIT_EMPTY);
 		} else
 			scalar->val = value_new_empty ();
 	}
@@ -494,9 +497,10 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 				}
 			}
 			g_slist_free (l);
-		} else
+		} else {
 			vec->val = gnm_expr_top_eval (vec->dep.texpr, &ep,
 				GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
+		}
 	}
 
 	if (vec->val != NULL) {
@@ -881,9 +885,10 @@ gnm_go_data_matrix_load_size (GODataMatrix *dat)
 	int old_rows = dat->size.rows, old_columns = dat->size.columns;
 
 	eval_pos_init_dep (&ep, &mat->dep);
-	if (mat->val == NULL)
+	if (mat->val == NULL) {
 		mat->val = gnm_expr_top_eval (mat->dep.texpr, &ep,
 			GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
+	}
 
 	if (mat->val != NULL) {
 		switch (mat->val->type) {

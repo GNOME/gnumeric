@@ -34,6 +34,7 @@ Morten:
 	* Improve IMPOWER.
 	* Fix sheet duplicate bugs.  [Part of #617469]
 	* Clean-up handling of pango contexts.
+	* Fix old graph problem.  [#1424112]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.2
