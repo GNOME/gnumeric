@@ -1512,19 +1512,9 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 	SheetView const *sv  = wb_control_cur_sheet_view (wbc);
 	Sheet const *sheet = wb_control_cur_sheet (wbc);
 	gboolean const has_guru = wbc_gtk_get_guru (wbcg) != NULL;
-	gboolean has_filtered_rows = sheet->has_filtered_rows;
 	gboolean edit_object = scg != NULL &&
 		(scg->selected_objects != NULL || wbcg->new_object != NULL);
 	gboolean has_print_area;
-
-	if (!has_filtered_rows) {
-		GSList *ptr = sheet->filters;
-		for (;ptr != NULL ; ptr = ptr->next)
-			if (((GnmFilter *)ptr->data)->is_active) {
-				has_filtered_rows = TRUE;
-				break;
-			}
-	}
 
 	if (MS_INSERT_COLS & flags)
 		wbc_gtk_set_action_sensitivity (wbcg, "InsertColumns",
@@ -1555,7 +1545,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 	if (MS_CONSOLIDATE & flags)
 		wbc_gtk_set_action_sensitivity (wbcg, "DataConsolidate", !has_guru);
 	if (MS_FILTER_STATE_CHANGED & flags)
-		wbc_gtk_set_action_sensitivity (wbcg, "DataFilterShowAll", has_filtered_rows);
+		wbc_gtk_set_action_sensitivity (wbcg, "DataFilterShowAll", sheet->has_filtered_rows);
 	if (MS_SHOW_PRINTAREA & flags) {
 		GnmRange *print_area = sheet_get_nominal_printarea (sheet);
 		has_print_area = (print_area != NULL);

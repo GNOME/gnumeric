@@ -1,5 +1,13 @@
 2010-05-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/colrow.h (_ColRowInfo): add in_advanced_filter field
+	* src/wbc-gtk-actions.c (actions): make it clear that ShowAll 
+	  relates to Advanced Filters
+	* src/wbc-gtk.c (wbcg_menu_state_update): keep has_filtered_rows
+	  for advanced filters separate from the auto filters.
+
+2010-05-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/wbc-gtk-actions.c: change argument to filter_show_all
 	* src/wbc-gtk.c (wbcg_menu_state_update): use MS_FILTER_STATE_CHANGED
 	  rather than MS_CONSOLIDATE

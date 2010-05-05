@@ -1,5 +1,12 @@
 2010-05-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* filter.c (filter): use ri->in_advanced_filter rather
+	  than ri->in_filter
+	(cb_show_all): set ri->in_advanced_filter to false
+	(filter_show_all): don't touch the auto filters
+	
+2010-05-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* filter.h (filter_show_all): require WorkbookControl rather 
 	  than Sheet.
 	* filter.c (filter_show_all): require WorkbookControl rather 

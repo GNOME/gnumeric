@@ -50,7 +50,7 @@ filter (data_analysis_output_t *dao, Sheet *sheet, GSList *rows,
 				       FALSE, input_row_b+1, input_row_e);
 		for (i=input_row_b; i<=input_row_e; i++) {
 			ColRowInfo *ri = sheet_row_fetch (sheet, i);
-			ri->in_filter = TRUE;
+			ri->in_advanced_filter = TRUE;
 		}
 		while (rows != NULL) {
 			gint *row = (gint *) rows->data;
@@ -147,9 +147,13 @@ advanced_filter (WorkbookControl        *wbc,
 static gboolean
 cb_show_all (GnmColRowIter const *iter, Sheet *sheet)
 {
-	if (iter->cri->in_filter && !iter->cri->visible)
-		colrow_set_visibility (sheet, FALSE, TRUE,
-				       iter->pos, iter->pos);
+	if (iter->cri->in_advanced_filter) {
+		ColRowInfo *ri = sheet_row_fetch (sheet, iter->pos);
+		if (!iter->cri->visible)
+			colrow_set_visibility (sheet, FALSE, TRUE,
+					       iter->pos, iter->pos);
+		ri->in_advanced_filter = FALSE;
+	}
 	return FALSE;
 }
 
@@ -157,19 +161,10 @@ void
 filter_show_all (WorkbookControl *wbc)
 {
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	GSList *ptr = sheet->filters;
-	GnmFilter *filter;
-	unsigned i;
-
-	for (; ptr != NULL ; ptr = ptr->next) {
-		filter = ptr->data;
-		for (i = filter->fields->len; i-- > 0 ;)
-			gnm_filter_set_condition (filter, i, NULL, FALSE);
-	}
 
 	/* FIXME: This is slow. We should probably have a linked list
 	 * containing the filtered rows in the sheet structure. */
-	colrow_foreach (&sheet->rows, 0, gnm_sheet_get_max_rows (sheet),
+	colrow_foreach (&sheet->rows, FALSE, gnm_sheet_get_max_rows (sheet),
 			(ColRowHandler) cb_show_all, sheet);
 	sheet->has_filtered_rows = FALSE;
 	sheet_redraw_all (sheet, TRUE);

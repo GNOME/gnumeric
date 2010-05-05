@@ -17,6 +17,7 @@ struct _ColRowInfo {
 	unsigned  hard_size     : 1;	/* are dimensions explicitly set ? */
 	unsigned  visible       : 1;	/* visible */
 	unsigned  in_filter     : 1;	/* in a filter */
+	unsigned  in_advanced_filter : 1; /* in an advanced filter */
 	unsigned  needs_respan  : 1;	/* mark a row as needing span generation */
 
 	/* TODO : Add per row/col min/max */
