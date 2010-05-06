@@ -11,6 +11,8 @@ Andreas:
 	* Remove undesired interaction between Advanced Filters and 
 	  Autofilters.
 	* Make the par argument to ACCRINT optional. [#323545]
+	* Improve keyboard navigation of the configurable text
+	  importer. [#614939,#614941]
 
 Jean:
 	* Implement graph only sheets. [#158170]
@@ -34,7 +36,7 @@ Morten:
 	* Improve IMPOWER.
 	* Fix sheet duplicate bugs.  [Part of #617469]
 	* Clean-up handling of pango contexts.
-	* Fix old graph problem.  [#1424112]
+	* Fix old graph problem.  [#142412]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.2

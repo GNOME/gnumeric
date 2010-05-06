@@ -50,6 +50,7 @@ static void
 stf_dialog_set_initial_keyboard_focus (StfDialogData *pagedata)
 {
 	GtkWidget *focus_widget = NULL;
+	GtkWidget *default_widget = pagedata->next_button;
 
 	switch (gtk_notebook_get_current_page (pagedata->notebook)) {
 	case DPG_MAIN:
@@ -62,7 +63,8 @@ stf_dialog_set_initial_keyboard_focus (StfDialogData *pagedata)
 		focus_widget = GTK_WIDGET (pagedata->fixed.fixed_auto);
 		break;
 	case DPG_FORMAT:
-		go_format_sel_set_focus (pagedata->format.format_selector);
+		focus_widget = pagedata->finish_button;
+		default_widget = pagedata->finish_button;
 		break;
 	default:
 		g_assert_not_reached ();
@@ -70,6 +72,10 @@ stf_dialog_set_initial_keyboard_focus (StfDialogData *pagedata)
 
 	if (focus_widget)
 		gtk_widget_grab_focus (focus_widget);
+
+	if (default_widget)
+		gtk_widget_grab_default (default_widget);
+
 }
 
 static void
@@ -78,14 +84,8 @@ frob_buttons (StfDialogData *pagedata)
 	StfDialogPage pos =
 		gtk_notebook_get_current_page (pagedata->notebook);
 
-	if (pos == DPG_FORMAT) {
-		gtk_widget_show (pagedata->finish_button);
-		gtk_widget_hide (pagedata->next_button);
-	} else {
-		gtk_widget_hide (pagedata->finish_button);
-		gtk_widget_show (pagedata->next_button);
-	}
 	gtk_widget_set_sensitive (pagedata->back_button, pos != DPG_MAIN);
+	gtk_widget_set_sensitive (pagedata->next_button, pos != DPG_FORMAT);
 }
 
 static void
