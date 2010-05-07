@@ -3979,7 +3979,7 @@ openoffice_file_save_real (GOFileSaver const *fs, GOIOContext *ioc,
 
 	state.date_long_fmt = go_format_new_from_XL ("yyyy-mm-ddThh:mm:ss");
 	state.date_fmt = go_format_new_from_XL ("yyyy-mm-dd");
-	state.time_fmt = go_format_new_from_XL ("\"PT\"hh\"H\"mm\"M\"ss\"S\"");
+	state.time_fmt = go_format_new_from_XL ("\"PT0\"[h]\"H\"mm\"M\"ss\"S\"");
 
 	/* ODF dos not have defaults per table, so we use our first table for defaults only.*/
 	sheet = workbook_sheet_by_index (state.wb, 0);
