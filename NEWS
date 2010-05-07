@@ -4,11 +4,11 @@ Andreas:
 	* Fix CHITEST for rectangular ranges. [#615920]
 	* Fix printing and preview of graph only sheets. [#616475]
 	* Make even active sheets invisible. [#616474]
-	* Improve date & time import from and export to ODF. [#617208]
+	* Improve date and time import from and export to ODF. [#617208]
 	* Protect against accidentally pushing data off the sheet. [#98562]
 	* Make Advanced Filter (except filter-in-place) undoable.
 	* Fix Data->Filter->ShowAll for Advanced Filter. [#611079]
-	* Remove undesired interaction between Advanced Filters and 
+	* Remove undesired interaction between Advanced Filters and
 	  Autofilters.
 	* Make the par argument to ACCRINT optional. [#323545]
 	* Improve keyboard navigation of the configurable text
@@ -17,9 +17,9 @@ Andreas:
 Jean:
 	* Implement graph only sheets. [#158170]
 	* Fix chart title import when excel automagically uses the unique
-	series label. [#616262]
+	  series label. [#616262]
 	* Allow multiple and block selection for graph vector data.
-	 [#494685,#616068]
+	  [#494685,#616068]
 	 * Use the "combo-activate" signal where appropriate? [#583175]
 
 Morten:
