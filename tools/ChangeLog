@@ -1,3 +1,7 @@
+2010-05-07  Morten Welinder <terra@gnome.org>
+
+	* release-do-bump: New tool for releasing.
+
 2010-04-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.2

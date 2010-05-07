@@ -1,0 +1,88 @@
+#!/usr/bin/perl -w
+
+use strict;
+
+die "$0: must be run from top-level directory.\n"
+    unless -r "configure.in" && -r 'ChangeLog';
+
+my $email = $ENV{'EMAIL'};
+die "$0: you must define \$EMAIL.\n"
+    unless defined $email;
+
+my $name = $ENV{'NAME'};
+die "$0: you must define \$NAME.\n"
+    unless defined $name;
+
+my ($y,$m,$d) = (localtime (time))[5,4,3];
+$y += 1900;
+$m++;
+my $date = sprintf ("%04d-%02d-%02d", $y, $m, $d);
+
+# -----------------------------------------------------------------------------
+
+{
+    my $filename = 'configure.in';
+
+    local (*SRC);
+    local (*DST);
+
+    open (*SRC, "<$filename") || die "$0: failed to read $filename: $!\n";
+    open (*DST, ">$filename.tmp") || die "$0: failed to write $filename.tmp: $!\n";
+    foreach (<SRC>) {
+	if (/^(\s*m4_define\(\[\S*_version_minor\],\s*\[)(\d+)(\]\).*)/) {
+	    $_ = $1 . ($2 + 1) . $3 . "\n";
+	}
+	print DST;
+    }
+
+    close (*DST);
+    close (*SRC);
+
+    rename ("$filename.tmp", $filename);
+}
+
+# -----------------------------------------------------------------------------
+
+{
+    my $filename = 'NEWS';
+
+    local (*SRC);
+    local (*DST);
+
+    open (*SRC, "<$filename") || die "$0: failed to read $filename: $!\n";
+    open (*DST, ">$filename.tmp") || die "$0: failed to write $filename.tmp: $!\n";
+    my $first = 1;
+    foreach (<SRC>) {
+	if ($first) {
+	    $first = 0;
+	    die "[[[$_]]\n" unless /^(\S+\s+\d+\.\d+\.)(\d+)(.*)/;
+	    print DST "$1", ($2 + 1), "$3\n\n", ("-" x 74), "\n";
+	}
+	print DST;
+    }
+
+    close (*DST);
+    close (*SRC);
+
+    rename ("$filename.tmp", $filename);
+}
+
+# -----------------------------------------------------------------------------
+
+{
+    my $filename = 'ChangeLog';
+
+    my $entry = "$date  $name <$email>\n\n\t* configure.in: Post-release bump.\n\n";
+    local (*SRC);
+    local (*DST);
+
+    open (*SRC, "<$filename") || die "$0: failed to read $filename: $!\n";
+    open (*DST, ">$filename.tmp") || die "$0: failed to write $filename.tmp: $!\n";
+
+    print DST $entry;
+    foreach (<SRC>) { print DST; }
+    close (*DST);
+    close (*SRC);
+
+    rename ("$filename.tmp", $filename);
+}

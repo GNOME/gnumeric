@@ -5,10 +5,13 @@ use strict;
 die "$0: must be run from top-level directory.\n"
     unless -r "configure.in" && -r 'ChangeLog';
 
-my $email = $ARGV[0];
-my $newversion = $ARGV[1];
-die "$0: you must supply an email address and the new version as argument.\n"
-    unless $email && $newversion;
+my $newversion = $ARGV[0];
+die "$0: you must supply the new version as argument.\n"
+    unless $newversion;
+
+my $email = $ENV{'EMAIL'};
+die "$0: you must define \$EMAIL.\n"
+    unless defined $email;
 
 my $name = $ENV{'NAME'};
 die "$0: you must define \$NAME.\n"
@@ -32,8 +35,9 @@ my @clogs = split ("\n", $clogstxt);
 foreach my $filename (sort @clogs) {
     my $dir = $filename;
     $dir =~ s|/ChangeLog$||;
+    my $fulldir = $dir;
     $dir =~ s|^\./||;
-    if ($exceptions{$dir}) {
+    if ($exceptions{$dir} || $fulldir =~ m{/tools/win32/}) {
 	print "Skipping $filename\n";
 	next;
     }
