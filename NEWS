@@ -34,7 +34,7 @@ Morten:
 	* Fix xls-save problems with custom autofilters.
 	* Fix auto-filter problem.  [#383400]
 	* Fix advanced-filter problem with multiple criteria.  [#164169]
-	* Fix problem parsing comples numbers.
+	* Fix problem parsing complex numbers.
 	* Improve error handle for complex functions.
 	* Improve IMPOWER.
 	* Fix sheet duplicate bugs.  [Part of #617469]
