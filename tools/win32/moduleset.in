@@ -308,8 +308,8 @@
 -->
 
     <autotools id="evince">
-	<branch>
-	    <patch file="&patch_dir;evince-no-mkdtemp.patch"/>
+	<branch repo="gnome.org" module="sources/evince/2.30/evince-2.30.1.tar.bz2" version="2.30.1">
+	    <!-- <patch file="&patch_dir;evince-no-mkdtemp.patch"/> -->
 	</branch>
 	<dependencies>
 	    <dep package="glib"/>
