@@ -1,3 +1,7 @@
+2010-05-07  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.3
+
 2010-05-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* filter.c (advanced_filter): force the selection to be

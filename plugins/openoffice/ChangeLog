@@ -1,3 +1,7 @@
+2010-05-07  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.3
+
 2010-05-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (openoffice_file_save_real): use a more

@@ -1,3 +1,7 @@
+2010-05-07  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.3
+
 2010-05-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (gnumeric_accrint): make @{par} optional
