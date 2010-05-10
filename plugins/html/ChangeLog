@@ -1,3 +1,8 @@
+2010-05-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* html.c (html_file_save): include the real version number
+	  (rather than the macro name that should become the version)
+
 2010-05-07  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.3
