@@ -38,6 +38,7 @@
 #include <goffice/goffice.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-output-memory.h>
+#include <gsf/gsf-utils.h>
 #include <glib/gi18n-lib.h>
 #include <libxml/globals.h>
 #include <locale.h>
@@ -188,6 +189,18 @@ text_content_received (GtkClipboard *clipboard,  GtkSelectionData *sel,
 	GnmPasteTarget	   *pt   = ctxt->paste_target;
 	GnmCellRegion *content = NULL;
 
+	if (debug_clipboard ()) {
+		int maxlen = 1024;
+		char *name = gdk_atom_name (sel->target);
+		g_printerr ("Received %d bytes of text for target %s\n",
+			    sel->length,
+			    name);
+		g_free (name);
+		gsf_mem_dump (sel->data, MAX (sel->length, maxlen));
+		if (sel->length > maxlen)
+			g_printerr ("...\n");
+	}
+
 	/* Nothing on clipboard? */
 	if (sel->length < 0) {
 		;
@@ -327,6 +340,18 @@ image_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 	WBCGtk *wbcg = ctxt->wbcg;
 	GnmPasteTarget	   *pt   = ctxt->paste_target;
 
+	if (debug_clipboard ()) {
+		int maxlen = 1024;
+		char *name = gdk_atom_name (sel->target);
+		g_printerr ("Received %d bytes of image for target %s\n",
+			    sel->length,
+			    name);
+		g_free (name);
+		gsf_mem_dump (sel->data, MAX (sel->length, maxlen));
+		if (sel->length > maxlen)
+			g_printerr ("...\n");
+	}
+
 	if (sel->length > 0) {
 		scg_paste_image (wbcg_cur_scg (wbcg), &pt->range,
 				 sel->data, sel->length);
@@ -350,6 +375,18 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 	WorkbookControl	   *wbc  = WORKBOOK_CONTROL (wbcg);
 	GnmPasteTarget	   *pt   = ctxt->paste_target;
 	GnmCellRegion *content = NULL;
+
+	if (debug_clipboard ()) {
+		int maxlen = 1024;
+		char *name = gdk_atom_name (sel->target);
+		g_printerr ("Received %d bytes of table for target %s\n",
+			    sel->length,
+			    name);
+		g_free (name);
+		gsf_mem_dump (sel->data, MAX (sel->length, maxlen));
+		if (sel->length > maxlen)
+			g_printerr ("...\n");
+	}
 
 	/* Nothing on clipboard? */
 	if (sel->length < 0) {
