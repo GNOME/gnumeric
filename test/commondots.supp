@@ -84,11 +84,3 @@
    ...
    fun:gtk_recent_manager_set_property
 }
-
-{
-   Leak/go_component_type_service_activate
-   Memcheck:Leak
-   ...
-   fun:g_slist_append
-   fun:go_component_type_service_activate
-}
