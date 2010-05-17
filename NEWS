@@ -8,6 +8,7 @@ Jean:
 
 Morten:
 	* Linear regression test suite.
+	* Fix TABLE problem.  [#618829]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.3

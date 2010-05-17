@@ -1,3 +1,8 @@
+2010-05-17  Morten Welinder  <terra@gnome.org>
+
+	* src/func-builtin.c (gnumeric_table): Fix interactin with
+	collect.c in a hacky way.
+
 2010-05-17  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/item-cursor.c (item_cursor_in_drag_handle),
@@ -19,7 +24,7 @@
 2010-05-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/colrow.h (_ColRowInfo): add in_advanced_filter field
-	* src/wbc-gtk-actions.c (actions): make it clear that ShowAll 
+	* src/wbc-gtk-actions.c (actions): make it clear that ShowAll
 	  relates to Advanced Filters
 	* src/wbc-gtk.c (wbcg_menu_state_update): keep has_filtered_rows
 	  for advanced filters separate from the auto filters.
@@ -30,7 +35,7 @@
 	* src/wbc-gtk.c (wbcg_menu_state_update): use MS_FILTER_STATE_CHANGED
 	  rather than MS_CONSOLIDATE
 	* src/workbook-control.h (MS_FILTER_STATE_CHANGED): new
-	
+
 2010-05-03  Morten Welinder  <terra@gnome.org>
 
 	* src/style.c (gnm_pango_context_get): Cache the context.  (Some
@@ -128,7 +133,7 @@
 2010-04-21 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric.doap: add e-mail address
-	* src/print.c (print_page): graphs on graph sheets always take 
+	* src/print.c (print_page): graphs on graph sheets always take
 	  the whole space, no need to center
 
 2010-04-21  Morten Welinder  <terra@gnome.org>
@@ -205,7 +210,7 @@
 
 	* src/gnumeric-gconf.c (set_string_list): since go_conf_set_str_list
 	  may trigger cb_watch_string_list that uses string_list_pool, we need
-	  to fix the hash table first. 
+	  to fix the hash table first.
 
 2010-03-23  Morten Welinder  <terra@gnome.org>
 
