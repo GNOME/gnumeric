@@ -3728,7 +3728,7 @@ sheet_cell_remove_from_hash (Sheet *sheet, GnmCell *cell)
 }
 
 /**
- * sheet_cell_destroy : Remove the cell from the web of depenancies of a
+ * sheet_cell_destroy : Remove the cell from the web of dependencies of a
  *        sheet.  Do NOT redraw.
  */
 static void
@@ -3750,7 +3750,7 @@ sheet_cell_destroy (Sheet *sheet, GnmCell *cell, gboolean queue_recalc)
 }
 
 /**
- * sheet_cell_remove : Remove the cell from the web of depenancies of a
+ * sheet_cell_remove : Remove the cell from the web of dependencies of a
  *        sheet.  Do NOT free the cell, optionally redraw it, optionally
  *        queue it for recalc.
  */
