@@ -2,6 +2,9 @@ Gnumeric 1.10.4
 
 Andreas:
 	* Include version number in HTML export.
+
+Jean
+	* Fixed autofill issues. [#618687]
  
 --------------------------------------------------------------------------
 Gnumeric 1.10.3

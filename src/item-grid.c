@@ -1007,7 +1007,7 @@ item_grid_motion (GocItem *item, double x_, double y_)
 		g_assert_not_reached ();
 	}
 
-		gnm_pane_handle_motion (pane, canvas, x, y,
+	gnm_pane_handle_motion (pane, canvas, x, y,
 		GNM_PANE_SLIDE_X | GNM_PANE_SLIDE_Y |
 		GNM_PANE_SLIDE_AT_COLROW_BOUND,
 		slide_handler, NULL);

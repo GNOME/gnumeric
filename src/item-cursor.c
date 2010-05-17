@@ -570,8 +570,12 @@ item_cursor_in_drag_handle (ItemCursor *ic, gint64 x, gint64 y)
 	if ((y_test-AUTO_HANDLE_SPACE) <= y &&
 	    y <= (y_test+AUTO_HANDLE_SPACE)) {
 		gint64 const x_test = ic->auto_fill_handle_at_left
-			? ic->canvas_item.x0 * scale + AUTO_HANDLE_WIDTH
-			: ic->canvas_item.x1 *scale - AUTO_HANDLE_WIDTH;
+			? (ic->canvas_item.canvas->direction == GOC_DIRECTION_RTL?
+			   	ic->canvas_item.x1 * scale - AUTO_HANDLE_WIDTH:
+				ic->canvas_item.x0 * scale + AUTO_HANDLE_WIDTH)
+			: (ic->canvas_item.canvas->direction == GOC_DIRECTION_RTL?
+				ic->canvas_item.x0 * scale + AUTO_HANDLE_WIDTH:
+				ic->canvas_item.x1 * scale - AUTO_HANDLE_WIDTH);
 		return (x_test-AUTO_HANDLE_SPACE) <= x &&
 			x <= (x_test+AUTO_HANDLE_SPACE);
 	 }
@@ -611,7 +615,7 @@ item_cursor_selection_motion (GocItem *item, double x_, double y_)
 	 * determine which part of the cursor was clicked:
 	 * the border or the handlebox
 	 */
-	if (item_cursor_in_drag_handle (ic, x, y))
+	if (item_cursor_in_drag_handle (ic, x_, y_))
 		style = ITEM_CURSOR_AUTOFILL;
 	else
 		style = ITEM_CURSOR_DRAG;

@@ -1,3 +1,8 @@
+2010-05-17  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/item-cursor.c (item_cursor_in_drag_handle),
+	(item_cursor_selection_motion): fixed autofill issues. [#618687]
+
 2010-05-07  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
