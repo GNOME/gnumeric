@@ -50,6 +50,7 @@ enum {
 	CUSTOM_UI_REMOVED,
 	CLIPBOARD_MODIFIED,
 	RECALC_FINISHED,
+	RECALC_CLEAR_CACHES,
 	LAST_SIGNAL
 };
 
@@ -82,6 +83,7 @@ typedef struct {
 	void (*custom_ui_removed)   (GnmApp *gnm_app, GnmAppExtraUI *ui);
 	void (*clipboard_modified)  (GnmApp *gnm_app);
 	void (*recalc_finished)     (GnmApp *gnm_app);
+	void (*recalc_clear_caches) (GnmApp *gnm_app);
 } GnmAppClass;
 
 static GObjectClass *parent_klass;
@@ -733,6 +735,13 @@ gnm_app_class_init (GObjectClass *gobject_klass)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
+	signals [RECALC_FINISHED] = g_signal_new ("recalc_clear_caches",
+		GNM_APP_TYPE,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GnmAppClass, recalc_clear_caches),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 }
 
 static void
@@ -856,6 +865,14 @@ gnm_app_recalc_finish (void)
 {
 	g_return_if_fail (app->recalc_count > 0);
 	app->recalc_count--;
-	if (app->recalc_count == 0)
+	if (app->recalc_count == 0) {
+		gnm_app_recalc_clear_caches ();
 		g_signal_emit_by_name (gnm_app_get_app (), "recalc-finished");
+	}
+}
+
+void
+gnm_app_recalc_clear_caches (void)
+{
+	g_signal_emit_by_name (gnm_app_get_app (), "recalc-clear-caches");
 }

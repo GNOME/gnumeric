@@ -29,6 +29,7 @@ void	     gnm_app_history_add	   (char const *filename, const char *mimetype);
 
 void         gnm_app_recalc_start          (void);
 void         gnm_app_recalc_finish         (void);
+void         gnm_app_recalc_clear_caches   (void);
 
 /* GtkFileFilter */
 void        *gnm_app_create_opener_filter (void);

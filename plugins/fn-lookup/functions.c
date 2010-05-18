@@ -1765,13 +1765,14 @@ GnmFuncDescriptor const lookup_functions[] = {
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
-	g_signal_connect (gnm_app_get_app (), "recalc-finished",
+	g_signal_connect (gnm_app_get_app (), "recalc-clear-caches",
 			  G_CALLBACK (clear_caches), NULL);
 }
 
 G_MODULE_EXPORT void
 go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
+	clear_caches ();
 	g_signal_handlers_disconnect_by_func (gnm_app_get_app (),
 					      G_CALLBACK (clear_caches), NULL);
 }

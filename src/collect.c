@@ -87,7 +87,7 @@ create_caches (void)
 		return;
 
 	cache_handler =
-		g_signal_connect (gnm_app_get_app (), "recalc-finished",
+		g_signal_connect (gnm_app_get_app (), "recalc-clear-caches",
 				  G_CALLBACK (clear_caches), NULL);
 
 	single_floats_cache = g_hash_table_new_full

@@ -1,3 +1,10 @@
+2010-05-18  Morten Welinder  <terra@gnome.org>
+
+	* src/collect.c (create_caches): Hook recalc-clear-caches.
+
+	* src/application.c (gnm_app_recalc_clear_caches): New function.
+	(gnm_app_recalc_finish): Call gnm_app_recalc_clear_caches too.
+
 2010-05-17  Morten Welinder  <terra@gnome.org>
 
 	* src/func-builtin.c (gnumeric_table): Fix interaction with

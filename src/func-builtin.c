@@ -144,14 +144,6 @@ gnumeric_table_link (GnmFuncEvalInfo *ei)
 	return DEPENDENT_IGNORE_ARGS;
 }
 
-static void
-void_calculation_caches (void)
-{
-	/* A CRUDE, CRUDE way of killing collect.c's caches.  */
-	g_signal_emit_by_name (gnm_app_get_app (), "recalc-finished");
-}
-
-
 static GnmValue *
 gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
@@ -209,7 +201,7 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 			gnm_cell_eval (x_iter);
 			in[0]->value = value_dup (x_iter->value);
 			dependent_queue_recalc (&in[0]->base);
-			void_calculation_caches ();
+			gnm_app_recalc_clear_caches ();
 		} else
 			val[0] = value_dup (x_iter->value);
 
@@ -224,7 +216,7 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				/* not a leak, val[] holds the original */
 				in[1]->value = value_dup (y_iter->value);
 				dependent_queue_recalc (&in[1]->base);
-				void_calculation_caches ();
+				gnm_app_recalc_clear_caches ();
 				if (NULL != in[0]) {
 					gnm_cell_eval (in[2]);
 					value_array_set (res, x, y, value_dup (in[2]->value));
@@ -260,7 +252,7 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				sheet_cell_remove (ei->pos->sheet, in[x], FALSE, FALSE);
 				in[x] = NULL;
 			}
-			void_calculation_caches ();
+			gnm_app_recalc_clear_caches ();
 		}
 	for (x = 0 ; x < 3 ; x++)
 		if (in[x])
