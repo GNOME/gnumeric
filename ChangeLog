@@ -1,6 +1,6 @@
 2010-05-17  Morten Welinder  <terra@gnome.org>
 
-	* src/func-builtin.c (gnumeric_table): Fix interactin with
+	* src/func-builtin.c (gnumeric_table): Fix interaction with
 	collect.c in a hacky way.
 
 2010-05-17  Jean Brefort  <jean.brefort@normalesup.org>
