@@ -200,6 +200,8 @@ datetime_locale_setup (char const *lc_time)
 	 * "Dec/1"
 	 * "December 1"
 	 * "Dec-1"
+	 * "Jan 2010"
+	 * "January 2010"
 	 */
 	s = g_strconcat ("^(",
 			 p_MMMM->str,
@@ -331,18 +333,20 @@ find_month (GORegmatch const *pm)
 }
 
 static int
-handle_int (char const *text, GORegmatch const *pm, int min, int max)
+handle_int (char const *text, GORegmatch const *pm, int min, int max, int maxlen)
 {
 	int i = 0;
 	char const *p = text + pm->rm_so;
 	char const *end = text + pm->rm_eo;
+	int len = 0;
 
 	while (p != end) {
 		gunichar uc = g_utf8_get_char (p);
 		p = g_utf8_next_char (p);
 		i = (10 * i) + g_unichar_digit_value (uc);
+		len++;
 
-		if (i > max)
+		if (i > max || len > maxlen)
 			return -1;
 	}
 
@@ -355,13 +359,13 @@ handle_int (char const *text, GORegmatch const *pm, int min, int max)
 static int
 handle_day (char const *text, GORegmatch const *pm)
 {
-	return handle_int (text, pm, 1, 31);
+	return handle_int (text, pm, 1, 31, 2);
 }
 
 static int
 handle_month (char const *text, GORegmatch const *pm)
 {
-	return handle_int (text, pm, 1, 12);
+	return handle_int (text, pm, 1, 12, 2);
 }
 
 static int
@@ -380,7 +384,7 @@ handle_year (char const *text, GORegmatch const *pm)
 	if (pm->rm_so == pm->rm_eo)
 		return current_year ();
 
-	y = handle_int (text, pm, 0, 9999);
+	y = handle_int (text, pm, 0, 9999, 4);
 
 	if (y < 0)
 		return -1;
@@ -578,6 +582,14 @@ format_match_time (char const *text, gboolean allow_elapsed,
 	return v;
 }
 
+static gboolean
+valid_dmy (int d, int m, int y)
+{
+	/* Avoid sign-induced problem.  d and m are capped.  */
+	return y >= 0 && g_date_valid_dmy (d, m, y);
+}
+
+
 static GnmValue *
 format_match_datetime (char const *text,
 		       GODateConventions const *date_conv,
@@ -616,8 +628,16 @@ format_match_datetime (char const *text,
 		month = find_month (&match[2]);
 		if (month == -1) month = find_month (&match[2 + 12]);
 		day = handle_day (text, match + 27);
-		year = handle_year (text, match + 30);
-		if (g_date_valid_dmy (day, month, year)) {
+		if (day == -1 &&
+		    match[27].rm_eo - match[27].rm_so >= 4 &&
+		    match[28].rm_so == match[28].rm_eo) {
+			/* Only one number with 4+ digits -- might be a year.  */
+			year = handle_year (text, match + 27);
+			day = 1;
+		} else {
+			year = handle_year (text, match + 30);
+		}
+		if (valid_dmy (day, month, year)) {
 			date_format = gnm_format_frob_slashes ("mmm/dd/yyyy");
 			text += match[0].rm_eo;
 			goto got_date;
@@ -633,7 +653,7 @@ format_match_datetime (char const *text,
 		month = find_month (&match[4]);
 		if (month == -1) month = find_month (&match[4 + 12]);
 		year = handle_year (text, match + 30);
-		if (g_date_valid_dmy (day, month, year)) {
+		if (valid_dmy (day, month, year)) {
 			date_format = g_strdup ("d-mmm-yyyy");
 			text += match[0].rm_eo;
 			goto got_date;
@@ -647,7 +667,7 @@ format_match_datetime (char const *text,
 		year = handle_year (text, match + 1);
 		month = handle_month (text, match + 2);
 		day = handle_day (text, match + 3);
-		if (g_date_valid_dmy (day, month, year)) {
+		if (valid_dmy (day, month, year)) {
 			date_format = g_strdup ("yyyy-mmm-dd");
 			text += match[3].rm_eo;
 			if (*text == ':')
@@ -663,7 +683,7 @@ format_match_datetime (char const *text,
 		year = handle_year (text, match + 1);
 		month = handle_month (text, match + 2);
 		day = handle_day (text, match + 3);
-		if (g_date_valid_dmy (day, month, year)) {
+		if (valid_dmy (day, month, year)) {
 			date_format = g_strdup ("yyyy-mmm-dd");
 			text += match[0].rm_eo;
 			goto got_date;
@@ -682,7 +702,7 @@ format_match_datetime (char const *text,
 			day = handle_day (text, match + 1);
 		}
 		year = handle_year (text, match + 3);
-		if (g_date_valid_dmy (day, month, year)) {
+		if (valid_dmy (day, month, year)) {
 			date_format = gnm_format_frob_slashes (month_before_day
 							       ? "m/d/yyyy"
 							       : "d/m/yyyy");
@@ -724,7 +744,7 @@ format_match_datetime (char const *text,
 			date_format = gnm_format_frob_slashes ("d/m/yyyy");
 		} else
 			year = month = day = -1;
-		if (g_date_valid_dmy (day, month, year)) {
+		if (valid_dmy (day, month, year)) {
 			text += match[0].rm_eo;
 			goto got_date;
 		}

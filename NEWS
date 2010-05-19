@@ -9,6 +9,8 @@ Jean:
 Morten:
 	* Linear regression test suite.
 	* Fix TABLE problem.  [#618829]
+	* Handle "Jan 2010" and "January 2010" better.
+	* Fix date parsing problems for invalid years.
 
 Sameer Morar:
  	* Fix sheet order dialog layout. [#619056]
