@@ -10,6 +10,9 @@ Morten:
 	* Linear regression test suite.
 	* Fix TABLE problem.  [#618829]
 
+Sameer Morar:
+ 	* Fix sheet order dialog layout. [#619056]
+
 --------------------------------------------------------------------------
 Gnumeric 1.10.3
 
