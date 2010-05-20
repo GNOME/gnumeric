@@ -1,3 +1,7 @@
+2010-05-20  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.4
+
 2010-05-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* html.c (html_file_save): include the real version number

@@ -4533,7 +4533,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para><parameter>frequency</parameter> may be 1 (annual), 2 (semi-annual), or 4 (quarterly). If <parameter>basis</parameter> is 0, then the US 30/360 method is used. If <parameter>basis</parameter> is 1, then actual number of days is used. If <parameter>basis</parameter> is 2, then actual number of days is used within a month, but years are considered only 360 days. If <parameter>basis</parameter> is 3, then actual number of days is used within a month, but years are always considered 365 days. If <parameter>basis</parameter> is 4, then the European 30/360 method is used.</para>
+        <para><parameter>par</parameter> defaults to $1000. <parameter>frequency</parameter> may be 1 (annual), 2 (semi-annual), or 4 (quarterly). If <parameter>basis</parameter> is 0, then the US 30/360 method is used. If <parameter>basis</parameter> is 1, then actual number of days is used. If <parameter>basis</parameter> is 2, then actual number of days is used within a month, but years are considered only 360 days. If <parameter>basis</parameter> is 3, then actual number of days is used within a month, but years are always considered 365 days. If <parameter>basis</parameter> is 4, then the European 30/360 method is used.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>

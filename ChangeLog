@@ -1,3 +1,11 @@
+2010-05-20  Morten Welinder <terra@gnome.org>
+
+	* configure.in: Post-release bump.
+
+2010-05-20  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.4
+
 2010-05-19  Morten Welinder  <terra@gnome.org>
 
 	* src/number-match.c (handle_int): Impose a length restriction
