@@ -265,7 +265,8 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	GTypeModule *module;
 	char const *env_var;
 	GSList *dir_list;
-	bindtextdomain (GETTEXT_PACKAGE, GNOMELOCALEDIR);
+	bindtextdomain (GETTEXT_PACKAGE, gnm_locale_dir ());
+	bindtextdomain (GETTEXT_PACKAGE "-functions", gnm_locale_dir ());
 #ifdef ENABLE_NLS
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 #endif
