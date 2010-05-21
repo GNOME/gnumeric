@@ -877,7 +877,6 @@ gnm_solver_store_result (GnmSolver *sol)
 	GnmValue const *vinput;
 	GnmSheetRange sr;
 	int h, w, x, y;
-	GnmSolverResult const *result;
 	GnmValue const *solution;
 
 	g_return_if_fail (GNM_IS_SOLVER (sol));
@@ -890,19 +889,9 @@ gnm_solver_store_result (GnmSolver *sol)
 	h = range_height (&sr.range);
 	w = range_width (&sr.range);
 
-	result = sol->result;
-	switch (result->quality) {
-	case GNM_SOLVER_RESULT_FEASIBLE:
-	case GNM_SOLVER_RESULT_OPTIMAL:
-		solution = result->solution;
-		break;
-	default:
-	case GNM_SOLVER_RESULT_NONE:
-	case GNM_SOLVER_RESULT_INFEASIBLE:
-	case GNM_SOLVER_RESULT_UNBOUNDED:
-		solution = NULL;
-		break;
-	}
+	solution = gnm_solver_has_solution (sol)
+		? sol->result->solution
+		: NULL;
 
 	for (x = 0; x < w; x++) {
 		for (y = 0; y < h; y++) {
@@ -947,6 +936,85 @@ gnm_solver_set_status (GnmSolver *solver, GnmSolverStatus status)
 
 	solver->status = status;
 	g_object_notify (G_OBJECT (solver), "status");
+}
+
+gboolean
+gnm_solver_has_solution (GnmSolver *solver)
+{
+	if (solver->result == NULL)
+		return FALSE;
+
+	switch (solver->result->quality) {
+	case GNM_SOLVER_RESULT_NONE:
+	case GNM_SOLVER_RESULT_INFEASIBLE:
+	case GNM_SOLVER_RESULT_UNBOUNDED:
+	default:
+		return FALSE;
+	case GNM_SOLVER_RESULT_FEASIBLE:
+	case GNM_SOLVER_RESULT_OPTIMAL:
+		return TRUE;
+	}
+}
+
+gboolean
+gnm_solver_check_constraints (GnmSolver *solver)
+{
+	GSList *l;
+	GnmSolverParameters *sp = solver->params;
+
+	if (sp->options.assume_non_negative) {
+		/* FIXME */
+	}
+
+	if (sp->options.assume_discrete) {
+		/* FIXME */
+	}
+
+	for (l = sp->constraints; l; l = l->next) {
+		GnmSolverConstraint *c = l->data;
+		int i;
+		gnm_float cl, cr;
+		GnmCell *lhs, *rhs;
+
+		for (i = 0;
+		     gnm_solver_constraint_get_part (c, sp, i,
+						     &lhs, &cl,
+						     &rhs, &cr);
+		     i++) {
+			if (lhs)
+				cl = value_get_as_float (lhs->value);
+			if (rhs)
+				cr = value_get_as_float (rhs->value);
+
+			switch (c->type) {
+			case GNM_SOLVER_INTEGER:
+				if (cl == gnm_floor (cl))
+					continue;
+				return FALSE;
+			case GNM_SOLVER_BOOLEAN:
+				if (cl == 0 || cl == 1)
+					continue;
+				return FALSE;
+			case GNM_SOLVER_LE:
+				if (cl <= cr)
+					continue;
+				return FALSE;
+			case GNM_SOLVER_GE:
+				if (cl >= cr)
+					continue;
+				return FALSE;
+			case GNM_SOLVER_EQ:
+				if (cl == cr)
+					continue;
+				return FALSE;
+			default:
+				g_assert_not_reached ();
+				return FALSE;
+			}
+		}
+	}
+
+	return TRUE;
 }
 
 gboolean
