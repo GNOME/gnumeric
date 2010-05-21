@@ -1,3 +1,8 @@
+2010-05-21  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-parse.c (stf_parse_region): Avoid reading beyond the end
+	of the format array.  Fixes #619283.
+
 2010-05-20  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

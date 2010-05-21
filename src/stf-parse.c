@@ -1329,12 +1329,8 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 
 	GnmCellRegion *cr;
 	unsigned int row, colhigh = 0;
-	char *text;
 	GStringChunk *lines_chunk;
 	GPtrArray *lines;
-	GnmCellCopy	*cc;
-	GOFormat	*fmt;
-	GnmValue	*v;
 
 	SETUP_LOCALE_SWITCH;
 
@@ -1356,10 +1352,16 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 			if (parseoptions->col_import_array == NULL ||
 			    parseoptions->col_import_array_len <= col ||
 			    parseoptions->col_import_array[col]) {
-				if (NULL != (text = g_ptr_array_index (line, col))) {
-					fmt = g_ptr_array_index (
-						parseoptions->formats, col);
-					if (NULL == (v = format_match (text, fmt, date_conv)))
+				const char *text = g_ptr_array_index (line, col);
+				if (text) {
+					GOFormat *fmt = NULL;
+					GnmValue *v;
+					GnmCellCopy *cc;
+
+					if (col < parseoptions->formats->len)
+						fmt = g_ptr_array_index (parseoptions->formats, col);
+					v = format_match (text, fmt, date_conv);
+					if (!v)
 						v = value_new_string (text);
 
 					cc = gnm_cell_copy_new (cr, targetcol, row);
