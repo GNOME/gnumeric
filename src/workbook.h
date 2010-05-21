@@ -65,8 +65,8 @@ void workbook_foreach_name (Workbook const *wb, gboolean globals_only,
 
 
 /* Calculation */
-void     workbook_recalc                 (Workbook *wb);	/* in eval.c */
-void     workbook_recalc_all             (Workbook *wb);	/* in eval.c */
+void     workbook_recalc                 (Workbook *wb); /* in dependent.c */
+void     workbook_recalc_all             (Workbook *wb); /* in dependent.c */
 gboolean workbook_enable_recursive_dirty (Workbook *wb, gboolean enable);
 void     workbook_set_recalcmode	 (Workbook *wb, gboolean enable);
 gboolean workbook_get_recalcmode         (Workbook const *wb);
