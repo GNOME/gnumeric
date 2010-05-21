@@ -559,7 +559,7 @@ plugin_service_solver_read_xml (GOPluginService *service, xmlNode *tree,
 {
 	PluginServiceSolver *ssol = GNM_PLUGIN_SERVICE_SOLVER (service);
 	xmlChar *s_id, *s_name, *s_type;
-	GnmSolverProblemType type = GNM_SOLVER_LP;
+	GnmSolverModelType type = GNM_SOLVER_LP;
 	xmlNode *information_node;
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
@@ -567,6 +567,8 @@ plugin_service_solver_read_xml (GOPluginService *service, xmlNode *tree,
 	s_type = go_xml_node_get_cstr (tree, "model_type");
 	if (s_type && strcmp (CXML2C (s_type), "mip") == 0)
 		type = GNM_SOLVER_LP;
+	else if (s_type && strcmp (CXML2C (s_type), "nlp") == 0)
+		type = GNM_SOLVER_NLP;
 	else {
 		*ret_error = go_error_info_new_str (_("Invalid solver model type."));
 		return;

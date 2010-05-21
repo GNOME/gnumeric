@@ -43,7 +43,7 @@ typedef enum {
 
 
 typedef enum {
-	GNM_SOLVER_LP, GNM_SOLVER_QP
+	GNM_SOLVER_LP, GNM_SOLVER_QP, GNM_SOLVER_NLP
 } GnmSolverModelType;
 
 

@@ -65,7 +65,6 @@ typedef struct {
 	GtkWidget           *add_button;
 	GtkWidget           *change_button;
 	GtkWidget           *delete_button;
-	GtkWidget           *model_button;
 	GtkWidget           *scenario_name_entry;
 	struct {
 		GnmExprEntry*entry;
@@ -885,6 +884,7 @@ dialog_init (SolverState *state)
 	GSList *cl;
 	GnmCell *target_cell;
 	GnmValue const *input;
+	int i;
 
 	param = state->sheet->solver_parameters;
 
@@ -971,10 +971,12 @@ dialog_init (SolverState *state)
 					NULL);
 	fill_algorithm_combo (state, param->options.model_type);
 
-	state->model_button =
-		glade_xml_get_widget(state->gui, "lp_model_button");
-	g_signal_connect (G_OBJECT (state->model_button), "clicked",
-			  G_CALLBACK (cb_dialog_model_type_clicked), state);
+	for (i = 0; model_type_group[i]; i++) {
+		const char *bname = model_type_group[i];
+		GtkWidget *w = glade_xml_get_widget(state->gui, bname);
+		g_signal_connect (G_OBJECT (w), "clicked",
+				  G_CALLBACK (cb_dialog_model_type_clicked), state);
+	}
 
 	/* Options */
 	state->max_iter_entry = glade_xml_get_widget (state->gui,
@@ -1119,6 +1121,9 @@ dialog_init (SolverState *state)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "qp_model_button")),
 			param->options.model_type == GNM_SOLVER_QP);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
+		glade_xml_get_widget(state->gui, "nlp_model_button")),
+			param->options.model_type == GNM_SOLVER_NLP);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "no_scenario")),
 			! param->options.add_scenario);
