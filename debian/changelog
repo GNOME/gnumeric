@@ -1,3 +1,9 @@
+gnumeric (1.10.4-1) unstable; urgency=low
+
+  * New upstream stable release.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 21 May 2010 20:15:35 +0200
+
 gnumeric (1.10.3-1) unstable; urgency=low
 
   * New upstream stable release.
