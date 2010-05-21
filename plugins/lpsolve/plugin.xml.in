@@ -20,7 +20,7 @@
 		</service>
 		<service type="solver"
 			 id="lpsolve"
-			 problem_type="mip">
+			 model_type="mip">
 			<information>
 			  <_description>LPSolve</_description>
 			</information>

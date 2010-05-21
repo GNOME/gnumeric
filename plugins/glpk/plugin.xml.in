@@ -20,7 +20,7 @@
 		</service>
 		<service type="solver"
 			 id="glpk"
-			 problem_type="mip">
+			 model_type="mip">
 			<information>
 			  <_description>GLPK</_description>
 			</information>

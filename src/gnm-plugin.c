@@ -564,11 +564,11 @@ plugin_service_solver_read_xml (GOPluginService *service, xmlNode *tree,
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 
-	s_type = go_xml_node_get_cstr (tree, "problem_type");
+	s_type = go_xml_node_get_cstr (tree, "model_type");
 	if (s_type && strcmp (CXML2C (s_type), "mip") == 0)
 		type = GNM_SOLVER_LP;
 	else {
-		*ret_error = go_error_info_new_str (_("Invalid solver problem type."));
+		*ret_error = go_error_info_new_str (_("Invalid solver model type."));
 		return;
 	}
 	xmlFree (s_type);
