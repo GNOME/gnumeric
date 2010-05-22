@@ -990,6 +990,7 @@ xml_write_solver (GnmOutputXML *state)
 		gnm_expr_free (expr);
 	}
 
+	gsf_xml_out_add_int (state->output, "ModelType", param->options.model_type);
 	gsf_xml_out_add_int (state->output, "ProblemType", param->problem_type);
 	input = gnm_solver_param_get_input (param);
 	if (input)

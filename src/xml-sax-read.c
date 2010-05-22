@@ -2347,15 +2347,17 @@ xml_sax_solver_start (GsfXMLIn *xin, xmlChar const **attrs)
 	Sheet *sheet = gnm_xml_in_cur_sheet (xin);
 	GnmSolverParameters *sp = sheet->solver_parameters;
 	int col = -1, row = -1;
-	int ptype;
+	int ptype, mtype;
 	GnmParsePos pp;
 	gboolean old = FALSE;
 
 	parse_pos_init_sheet (&pp, sheet);
 
 	for (; attrs && attrs[0] && attrs[1] ; attrs += 2) {
-		if (gnm_xml_attr_int (attrs, "ProblemType", &ptype)) {
-			sp->problem_type = (GnmSolverProblemType)ptype;
+		if (gnm_xml_attr_int (attrs, "ModelType", &mtype)) {
+			sp->options.model_type = (GnmSolverModelType)mtype;
+		} else if (gnm_xml_attr_int (attrs, "ProblemType", &ptype)) {
+				sp->problem_type = (GnmSolverProblemType)ptype;
 		} else if (attr_eq (attrs[0], "Inputs")) {
 			GnmValue *v = value_new_cellrange_parsepos_str
 				(&pp,

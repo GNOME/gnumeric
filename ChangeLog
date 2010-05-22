@@ -1,5 +1,9 @@
 2010-05-21  Morten Welinder  <terra@gnome.org>
 
+	* src/xml-sax-write.c (xml_write_solver): Write model type.
+
+	* src/xml-sax-read.c (xml_sax_solver_start): Load model type.
+
 	* src/stf-parse.c (stf_parse_region): Avoid reading beyond the end
 	of the format array.  Fixes #619283.
 
