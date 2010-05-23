@@ -974,6 +974,9 @@ dialog_init (SolverState *state)
 	for (i = 0; model_type_group[i]; i++) {
 		const char *bname = model_type_group[i];
 		GtkWidget *w = glade_xml_get_widget(state->gui, bname);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
+					      param->options.model_type ==
+					      (GnmSolverModelType)i);
 		g_signal_connect (G_OBJECT (w), "clicked",
 				  G_CALLBACK (cb_dialog_model_type_clicked), state);
 	}
@@ -1115,15 +1118,6 @@ dialog_init (SolverState *state)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "min_button")),
 			param->problem_type == GNM_SOLVER_MINIMIZE);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
-		glade_xml_get_widget(state->gui, "lp_model_button")),
-			param->options.model_type == GNM_SOLVER_LP);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
-		glade_xml_get_widget(state->gui, "qp_model_button")),
-			param->options.model_type == GNM_SOLVER_QP);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
-		glade_xml_get_widget(state->gui, "nlp_model_button")),
-			param->options.model_type == GNM_SOLVER_NLP);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "no_scenario")),
 			! param->options.add_scenario);

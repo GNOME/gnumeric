@@ -345,13 +345,11 @@ gnm_nlsolve_idle (gpointer data)
 
 	d = g_new (gnm_float, n);
 	ok = (gnm_linear_solve (H, g, n, d) == 0);
-	if (!ok)
-		goto stop;
-
-	if (nl->debug)
-		print_vector ("Delta", d, n);
-
-	ok = try_direction (nl, x0, d);
+	if (ok) {
+		if (nl->debug)
+			print_vector ("Delta", d, n);
+		ok = try_direction (nl, x0, d);
+	}
 
 	if (!ok) {
 		int i, j;
@@ -380,6 +378,10 @@ gnm_nlsolve_idle (gpointer data)
 	}
 
 	if (!ok) {
+		int i;
+		for (i = 0; i < n; i++)
+			set_value (nl, i, x0[i]);
+
 		gnm_solver_set_status (sol, GNM_SOLVER_STATUS_DONE);
 		call_again = FALSE;
 	}
@@ -389,7 +391,6 @@ gnm_nlsolve_idle (gpointer data)
 		call_again = FALSE;
 	}
 
-out:
 	g_free (d);
 	g_free (x0);
 	g_free (g);
@@ -398,11 +399,6 @@ out:
 	g_free (H);
 
 	return call_again;
-
-stop:
-	gnm_solver_stop (sol, NULL);
-	call_again = FALSE;
-	goto out;
 }
 
 static gboolean
@@ -460,7 +456,7 @@ nlsolve_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params)
 
 	nl->debug = gnm_solver_debug ();
 	nl->eps = gnm_pow2 (-25);
-	nl->max_iter = 100;
+	nl->max_iter = 1000;
 	nl->min_factor = 1e-10;
 
 	nl->target = gnm_solver_param_get_target_cell (params);

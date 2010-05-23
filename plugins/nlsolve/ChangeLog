@@ -1,3 +1,8 @@
+2010-05-23  Morten Welinder  <terra@gnome.org>
+
+	* gnm-nlsolve.c (gnm_nlsolve_idle): Use the axis-method even if
+	the Hessian is singular.  Restore x0 if we fail to improve.
+
 2010-05-21  Morten Welinder  <terra@gnome.org>
 
 	* Initial Implementation
