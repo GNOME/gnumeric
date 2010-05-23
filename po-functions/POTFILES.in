@@ -42,6 +42,7 @@ plugins/lotus-123/lotus.c
 plugins/lpsolve/gnm-lpsolve.c
 plugins/lpsolve/lpsolve-write.c
 plugins/mps/mps.c
+plugins/nlsolve/gnm-nlsolve.c
 plugins/oleo/oleo.c
 plugins/openoffice/openoffice-read.c
 plugins/openoffice/openoffice-write.c

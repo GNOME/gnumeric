@@ -79,6 +79,8 @@ plugins/lpsolve/lpsolve-write.c
 plugins/lpsolve/plugin.xml.in
 plugins/mps/mps.c
 plugins/mps/plugin.xml.in
+plugins/nlsolve/gnm-nlsolve.c
+plugins/nlsolve/plugin.xml.in
 plugins/oleo/oleo.c
 plugins/oleo/plugin.xml.in
 plugins/openoffice/openoffice-read.c
