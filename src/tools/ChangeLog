@@ -1,3 +1,7 @@
+2010-05-22  Morten Welinder  <terra@gnome.org>
+
+	* gnm-solver.c (gnm_solver_get_current_values): New function.
+
 2010-05-21  Morten Welinder  <terra@gnome.org>
 
 	* gnm-solver.c (gnm_solver_check_constraints): New function.
@@ -16,19 +20,19 @@
 
 	* filter.c (advanced_filter): force the selection to be
 	  corrected
-	
+
 2010-05-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* filter.c (filter): use ri->in_advanced_filter rather
 	  than ri->in_filter
 	(cb_show_all): set ri->in_advanced_filter to false
 	(filter_show_all): don't touch the auto filters
-	
+
 2010-05-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* filter.h (filter_show_all): require WorkbookControl rather 
+	* filter.h (filter_show_all): require WorkbookControl rather
 	  than Sheet.
-	* filter.c (filter_show_all): require WorkbookControl rather 
+	* filter.c (filter_show_all): require WorkbookControl rather
 	  than Sheet; update menu
 	(filter): mark rows to belong to a filter
 	(advanced_filter): update menu
@@ -44,7 +48,7 @@
 	* filter.c (analysis_tool_advanced_filter_engine): new
 	(analysis_tool_advanced_filter_engine_run): new
 	(free_rows): deleted
-	(advanced_filter): replace defines with enum and use 
+	(advanced_filter): replace defines with enum and use
 	  go_slist_free_custom
 	* filter.h: remove unneeded defines
 
@@ -54,7 +58,7 @@
 
 2010-04-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* analysis-tools.c (analysis_tool_regression_engine_run): wrap the 
+	* analysis-tools.c (analysis_tool_regression_engine_run): wrap the
 	  first argument to TDIST with ABS.
 
 2010-03-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -118,7 +122,7 @@
 
 2010-01-25 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* simulation.c (create_stats): fix length calculation for the 
+	* simulation.c (create_stats): fix length calculation for the
 	  confidence interval
 
 2010-01-19  Morten Welinder <terra@gnome.org>
@@ -161,7 +165,7 @@
 	* analysis-principal-components.c: new
 	* analysis-principal-components.h: new
 	* Makefile.am: add the above
-	* analysis-tools.c (analysis_tool_table): make non-static and add 
+	* analysis-tools.c (analysis_tool_table): make non-static and add
 	  full_table argument. Change all callers.
 	* analysis-tools.h (analysis_tool_table): new
 
@@ -205,7 +209,7 @@
 	  modify fields
 	* analysis-normality.c (analysis_tool_normality_engine_run):
 	  handle additional tests.
-	
+
 2009-11-24  Morten Welinder  <terra@gnome.org>
 
 	* scenarios.c (scenarios_insert_rows, scenarios_insert_cols,
@@ -240,7 +244,7 @@
 
 	* auto-correct.c (autocorrect_store_config): use the correct
 	  list
-	
+
 2009-10-11  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.14
@@ -253,7 +257,7 @@
 
 	* analysis-anova.c: Change "Anova" to "ANOVA" throughout
 	(analysis_tool_anova_two_factor_engine_run): fix level
-	  offset 
+	  offset
 
 2009-09-20  Morten Welinder <terra@gnome.org>
 
@@ -321,8 +325,8 @@
 
 2009-06-18 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* *.c In all files in this directory where we use 
-	  gnm_func_lookup_or_add_placeholder we need to pass the 
+	* *.c In all files in this directory where we use
+	  gnm_func_lookup_or_add_placeholder we need to pass the
 	  appropriate workbook as scope to avoid leaks and warnings.
 
 2009-06-18 Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -357,7 +361,7 @@
 	(analysis_tool_fourier_engine_run): rewritten
 	(analysis_tool_fourier_calc_length): use analysis_tool_calc_length
 	(analysis_tool_fourier_engine): adjust required size
-	
+
 2009-06-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* Makefile.am: added  analysis-anova.[ch]
@@ -370,7 +374,7 @@
 	(analysis_tool_anova_two_factor_no_rep_engine_run): deleted
 	(make_label): deleted
 	(analysis_tool_anova_two_factor_engine_run): deleted
-	(analysis_tool_anova_two_factor_engine_clean): moved to 
+	(analysis_tool_anova_two_factor_engine_clean): moved to
 	  analysis-anova.c
 	(analysis_tool_anova_two_factor_engine): ditto
 	* dao.h (dao_set_border): new
@@ -442,14 +446,14 @@
 2008-12-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-tools.c (analysis_tool_regression_engine_run): add the name
-	  of the response variable and make the variable names more flexible 
+	  of the response variable and make the variable names more flexible
 
 2008-11-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-kaplan-meier.c (analysis_tool_kaplan_meier_engine_run):
 	  calculate log-rank statistics if requested
 	(analysis_tool_kaplan_meier_engine): adjust dao size for test output
-	* analysis-kaplan-meier.h (analysis_tools_data_kaplan_meier_t): add 
+	* analysis-kaplan-meier.h (analysis_tools_data_kaplan_meier_t): add
 	  new field
 
 2008-11-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -458,7 +462,7 @@
 	  calculate median survival times
 	(analysis_tool_kaplan_meier_engine): properly dispose of all data
 	  and adjust dao size for median output
-	* analysis-kaplan-meier.h (analysis_tools_data_kaplan_meier_t): add 
+	* analysis-kaplan-meier.h (analysis_tools_data_kaplan_meier_t): add
 	  new field
 
 2008-11-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -467,19 +471,19 @@
 	  handle multiple groups
 	(analysis_tool_kaplan_meier_clear_gl_cb): new
 	(analysis_tool_kaplan_meier_engine): properly dispose of all data
-	* analysis-kaplan-meier.h (analysis_tools_data_kaplan_meier_t): add 
+	* analysis-kaplan-meier.h (analysis_tools_data_kaplan_meier_t): add
 	  new fields
 	(analysis_tools_kaplan_meier_group_t): new
-	
+
 2008-11-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* analysis-kaplan-meier.c (analysis_tool_kaplan_meier_engine_run): 
+	* analysis-kaplan-meier.c (analysis_tool_kaplan_meier_engine_run):
 	  handle a range of censor marks
 	* analysis-kaplan-meier.h (analysis_tools_data_kaplan_meier_t): add field
 
 2008-11-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* analysis-exp-smoothing.c 
+	* analysis-exp-smoothing.c
 	(analysis_tool_exponential_smoothing_engine_des_run): only output
 	  standard errors if we also output the analysis, plug leak
 	(analysis_tool_exponential_smoothing_engine_ates_run): ditto
@@ -494,7 +498,7 @@
 	* analysis-kaplan-meier.c (analysis_tool_kaplan_meier_engine_run):
 	  include censorship ticks in the graph if requested
 	(analysis_tool_kaplan_meier_engine): adjust width for censures column
-	
+
 2008-10-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-kaplan-meier.c: new
@@ -513,7 +517,7 @@
 	* analysis-frequency.c (analysis_tool_frequency_engine_run): use
 	  EXACT if requested and copy the categories preserving blankness.
 	* analysis-frequency.c (analysis_tools_data_frequency_t): add field
-	
+
 2008-10-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-tools.h (set_cell_text_col): new
@@ -523,13 +527,13 @@
 
 2008-10-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* analysis-exp-smoothing.c 
-	(analysis_tool_exponential_smoothing_engine_mtes_run): the seasonal 
+	* analysis-exp-smoothing.c
+	(analysis_tool_exponential_smoothing_engine_mtes_run): the seasonal
 	  adjustments should average to 1.
 
 2008-10-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* analysis-exp-smoothing.c 
+	* analysis-exp-smoothing.c
 	(analysis_tool_exponential_smoothing_engine_mtes_run): improved
 	  estimate for seasonal adjustments
 	(analysis_tool_exp_smoothing_funcall5): don't copy ex, change all callers
@@ -542,7 +546,7 @@
 
 2008-10-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* analysis-exp-smoothing.c 
+	* analysis-exp-smoothing.c
 	(analysis_tool_exponential_smoothing_engine_mtes_run): new
 	(analysis_tool_exponential_smoothing_engine): call
 	  analysis_tool_exponential_smoothing_engine_mtes_run
@@ -556,13 +560,13 @@
 
 2008-10-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* analysis-exp-smoothing.h 
+	* analysis-exp-smoothing.h
 	(analysis_tools_data_exponential_smoothing_t): add field
 	* analysis-exp-smoothing.c (attach_series): this should not
 	  be called without a plot. Check for null plot before every call
 	  to avoid creating unnecessary expressions
 	(analysis_tool_exponential_smoothing_engine_ates_run): new
-	(analysis_tool_exponential_smoothing_engine): call 
+	(analysis_tool_exponential_smoothing_engine): call
 	  analysis_tool_exponential_smoothing_engine_ates_run if appropriate
 	* analysis-tools.h (set_cell_text_row): new
 	* analysis-tools.c (set_cell_text_row): make non-static
@@ -585,12 +589,12 @@
 	* analysis-exp-smoothing.h: new
 	* dao.c (dao_set_sheet_object): use up to 20 rows
 	* Makefile.am: add analysis-exp-smoothing.[ch]
-	
+
 2008-09-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-tools.c (analysis_tool_exponential_smoothing_engine_run):
 	write standard errors for Holt
-	
+
 2008-09-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-tools.c (analysis_tool_exponential_smoothing_engine_run):
@@ -600,24 +604,24 @@
 
 2008-09-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* analysis-tools.h (analysis_tools_data_exponential_smoothing_t): 
+	* analysis-tools.h (analysis_tools_data_exponential_smoothing_t):
 	  add field
 	(exponential_smoothing_type_t): add items
-	* analysis-tools.c (analysis_tool_exponential_smoothing_engine_run): 
+	* analysis-tools.c (analysis_tool_exponential_smoothing_engine_run):
 	  add handling of Holt's trend corrected exponential smoothing
 	(analysis_tool_exponential_smoothing_engine): adjust size
 
 2008-09-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* analysis-tools.h (analysis_tools_data_exponential_smoothing_t): 
+	* analysis-tools.h (analysis_tools_data_exponential_smoothing_t):
 	  add field
 	(exponential_smoothing_type_t): new
-	* analysis-tools.c (analysis_tool_exponential_smoothing_engine_run): 
+	* analysis-tools.c (analysis_tool_exponential_smoothing_engine_run):
 	  add handling of Robert's version of simple exponential smoothing
 
 2008-09-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* analysis-tools.h (analysis_tools_data_exponential_smoothing_t): 
+	* analysis-tools.h (analysis_tools_data_exponential_smoothing_t):
 	  add fields
 	* analysis-tools.c
 	(analysis_tool_exponential_smoothing_engine_run): rewrite completely
@@ -634,7 +638,7 @@
 2008-09-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-tools.c (analysis_tool_moving_average_engine_run): fix
-	  central moving average for even interval (we should average the 
+	  central moving average for even interval (we should average the
 	  averages), add weighted and cumulative moving averages.
 	* analysis-tools.h (moving_average_type_t): new type
 	(analysis_tools_data_moving_average_t): new field
@@ -649,7 +653,7 @@
 	* analysis-tools.h (analysis_tools_data_moving_average_t): new field
 	* analysis-tools.c (analysis_tool_moving_average_engine_run): create
 	  graph if requested
-	
+
 2008-09-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-tools.h (analysis_tools_data_moving_average_t): new fields
@@ -663,7 +667,7 @@
 
 2008-09-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* analysis-tools.c (analysis_tool_calc_length): count columns when the 
+	* analysis-tools.c (analysis_tool_calc_length): count columns when the
 	  data is grouped in rows.
 
 2008-09-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -676,7 +680,7 @@
 
 2008-09-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* analysis-histogram.c (analysis_tool_histogram_engine_run): we need to 
+	* analysis-histogram.c (analysis_tool_histogram_engine_run): we need to
 	keep the values around for potential redos.
 	(analysis_tool_histogram_engine): clean up when asked to do so.
 	* analysis-tools.h (analysis_tool_generic_clean): needs to be non-static
@@ -694,13 +698,13 @@
 
 2008-09-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* analysis-histogram.c (analysis_tool_histogram_engine_run): set the 
+	* analysis-histogram.c (analysis_tool_histogram_engine_run): set the
 	  x-axis numbering style to avoid the histogram to pick the "";"" style.
 
 2008-09-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dao.c (dao_set_sheet_object): don't make the graph too big
-	* analysis-histogram.c (analysis_tool_histogram_engine_run): handle 
+	* analysis-histogram.c (analysis_tool_histogram_engine_run): handle
 	  bar and column chart request
 
 2008-09-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -725,10 +729,10 @@
 
 	* analysis-histogram.c (analysis_tool_histogram_engine_run):
 	  use 1E99 instead of GNM_MAX to avoid #552464
-	
+
 2008-09-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* analysis-histogram.c (analysis_tool_histogram_engine_run): 
+	* analysis-histogram.c (analysis_tool_histogram_engine_run):
 	  fix typo
 
 2008-09-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -745,7 +749,7 @@
 	(make_cellref): made non-static
 
 2008-09-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
-	
+
 	* analysis-tools.c (analysis_tool_regression_engine_run):
 	add explanatory comment to R^2
 
@@ -774,7 +778,7 @@
 
 	Fix for #531852.
 	* analysis-tools.c (analysis_tool_ttest_paired_engine_run):
-	  change formulas to ensure we only use data pairs where both 
+	  change formulas to ensure we only use data pairs where both
 	  components are numbers
 
 2008-08-29  Jody Goldberg <jody@gnome.org>
@@ -1049,13 +1053,13 @@
 	http://bugzilla.gnome.org/show_bug.cgi?id=124858
 	* auto-correct.c (autocorrect_initial_caps): don't `fix'
 	  strings with capitals later in the string.
-	
+
 2004-11-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=158209
-	* auto-correct.c (autocorrect_initial_caps): don't replace 
+	* auto-correct.c (autocorrect_initial_caps): don't replace
 	  initial cups if we have found an exception
-	
+
 2004-11-07  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.93
@@ -1072,7 +1076,7 @@
 
 2004-10-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-        * analysis-tools.c (analysis_tool_ttest_eqvar_engine_run): 
+        * analysis-tools.c (analysis_tool_ttest_eqvar_engine_run):
 	  adjust italic region
 
 2004-10-05  Jody Goldberg <jody@gnome.org>
@@ -1087,14 +1091,14 @@
 
 2004-09-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* analysis-tools.c (analysis_tool_ztest_engine_run): 
+	* analysis-tools.c (analysis_tool_ztest_engine_run):
 	  use smaller tail
 	(analysis_tool_ttest_paired_engine_run): rewritten
 	(analysis_tool_ttest_paired_engine): increase dao size
 
 2004-09-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* analysis-tools.c (analysis_tool_ztest_engine_run): 
+	* analysis-tools.c (analysis_tool_ztest_engine_run):
 	  rewritten
 
 2004-09-08  Jody Goldberg <jody@gnome.org>
@@ -1141,7 +1145,7 @@
 	* analysis-tools.c (cb_inputexpr_free): new
 	(analysis_tool_table): new
 	(analysis_tool_correlation_engine_run): use analysis_tool_table
-	(analysis_tool_covariance_engine_run): use analysis_tool_table	
+	(analysis_tool_covariance_engine_run): use analysis_tool_table
 
 2004-07-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
@@ -1149,7 +1153,7 @@
 	* dao.c (dao_cell_is_visible): new
 	(dao_set_cell_expr): fix leak
 	* analysis-tools.c (analysis_tools_remove_label): new
-	(analysis_tools_write_label): use generic argument and 
+	(analysis_tools_write_label): use generic argument and
 	  analysis_tools_remove_label
 	(summary_statistics): change call to analysis_tools_write_label
 	(confidence_level): ditto
@@ -1174,7 +1178,7 @@
 	(kth_smallest_largest): new
 	(kth_largest): deleted
 	(kth_smallest): deleted
-	(analysis_tool_descriptive_engine_run): call the modified 
+	(analysis_tool_descriptive_engine_run): call the modified
 	  summary_statistics, confidenc_level and kth_smallest_largest
 	  functions and do not pre-calculate the basic statistics.
 	* dao.c (dao_set_cell_expr): absorb the expr reference.
@@ -1185,7 +1189,7 @@
 	  use dao
 	(analysis_tool_fourier_engine): do not pass dao to
 	  analysis_tool_fourier_calc_length
-	
+
 2004-03-30  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=138533
@@ -1266,7 +1270,7 @@
 
 2003-07-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* fill-series.c (fill_series_adjust_variables): adjust 
+	* fill-series.c (fill_series_adjust_variables): adjust
 	series length determination procedure
 
 2003-07-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
@@ -1291,10 +1295,10 @@
 
 2003-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* analysis-tools.c (analysis_tool_regression_engine_run): set the 
+	* analysis-tools.c (analysis_tool_regression_engine_run): set the
 	  error code to show that we have reported the errors
 	* analysis-tools.h: add more items to analysis_tools_error_code_t
-	
+
 2003-06-07  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.19
@@ -1339,7 +1343,7 @@
 
 	* scenarios.c (scenario_move_range): Implemented.
 	(move_range): Implemented the simplest case.
-	
+
 	* scenarios.c (scenario_summary_res_cells): Result cells output added.
 
 	* dao.c (dao_set_align): Wrote.
@@ -1353,7 +1357,7 @@
 	* scenarios.c (scenario_new): Make the name to be unique if it
 	isn't already.
 	(find_scenario): Renamed by scenario_find_by_name.
-	
+
 	* scenarios.c (scenario_add_new): Simplified the API.
 
 	* scenarios.c (find_scenario): API change to check the deletion
@@ -1366,7 +1370,7 @@
 
 	* scenarios.h (scenario_t): Added marked_deleted field.
 	(*): API changes.
-	
+
 2003-04-15  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* scenarios.c (scenario_summary): Set colors of the report.
@@ -1663,7 +1667,7 @@
 2002-04-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* auto-correct.[ch] : switch from gnome-config to gconf and make
-	  preserve autocorrect exceptions. Make exception lists into 
+	  preserve autocorrect exceptions. Make exception lists into
 	  GSList
 
 2002-04-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
@@ -1705,10 +1709,10 @@
 
 	* random-generator.[ch] : new files extracted from
 	  analysis-tools.[ch]
-	* analysis-tools.[ch] : some code moved to 
+	* analysis-tools.[ch] : some code moved to
 	  random-generator.[ch]
 	* Makefile.am : added random-generator.[ch]
-	  
+
 2002-03-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* analysis-tools.c : make F-, z- and t-tests undoable
@@ -1716,7 +1720,7 @@
 
 2002-03-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* analysis-tools.c :  make fourier analysis, moving averages, 
+	* analysis-tools.c :  make fourier analysis, moving averages,
 	  rank and percentile, and sampling tools undoable
 	* dao.c (dao_set_style) : new
 	(dao_set_percent) : use offsets by calling dao_set_style
@@ -1756,13 +1760,13 @@
 
 2002-03-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dao.[hc] : new files, code extracted from 
-	  src/tools/analysis-tools.[ch] and 
+	* dao.[hc] : new files, code extracted from
+	  src/tools/analysis-tools.[ch] and
 	  src/dialogs/dialog-analysis-tools.c, various
 	  functions renamed (prepended dao_)
 	* analysis-tools.[ch] : some code moved to
-	  src/dialogs/dao-gui-utils.[hc] and dao.[hc], change of 
-	  names of utility functions now in 
+	  src/dialogs/dao-gui-utils.[hc] and dao.[hc], change of
+	  names of utility functions now in
 	  src/dialogs/dao-gui-utils.[hc] or dao.[hc]
 	* Makefile.am : added dao.[hc]
 
@@ -1780,12 +1784,12 @@
 	(format_output) : utility clearing output range as
 	  appropriate.
 	(anova_single_factor_tool) : change into an engine
-	  callable by cmd_analysis_tool, renamed to 
+	  callable by cmd_analysis_tool, renamed to
 	  analysis_tool_anova_single_engine_run
 	(analysis_tool_anova_single_engine_clean) : new
 	(analysis_tool_anova_single_engine) : selector function
-	* analysis-tools.h : some rearrangments, new 
-	  analysis_tool_engine_t type, added fields to 
+	* analysis-tools.h : some rearrangments, new
+	  analysis_tool_engine_t type, added fields to
 	  data_analysis_output_type_t
 
 2002-03-08  Morten Welinder  <terra@diku.dk>

@@ -228,6 +228,8 @@ gboolean gnm_solver_has_solution (GnmSolver *solver);
 
 gboolean gnm_solver_check_constraints (GnmSolver *solver);
 
+GnmValue *gnm_solver_get_current_values (GnmSolver *solver);
+
 gboolean gnm_solver_saveas (GnmSolver *solver, WorkbookControl *wbc,
 			    GOFileSaver *fs,
 			    const char *templ, char **filename,

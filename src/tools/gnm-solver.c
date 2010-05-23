@@ -962,12 +962,24 @@ gnm_solver_check_constraints (GnmSolver *solver)
 	GSList *l;
 	GnmSolverParameters *sp = solver->params;
 
-	if (sp->options.assume_non_negative) {
-		/* FIXME */
-	}
+	if (sp->options.assume_non_negative ||
+	    sp->options.assume_discrete) {
+		GSList *input_cells = gnm_solver_param_get_input_cells (sp);
+		GSList *l;
 
-	if (sp->options.assume_discrete) {
-		/* FIXME */
+		for (l = input_cells; l; l = l->next) {
+			GnmCell *cell = l->data;
+			gnm_float val = value_get_as_float (cell->value);
+			if (sp->options.assume_non_negative && val < 0)
+				break;
+			if (sp->options.assume_discrete &&
+			    val != gnm_floor (val))
+				break;
+		}
+		g_slist_free (input_cells);
+
+		if (l)
+			return FALSE;
 	}
 
 	for (l = sp->constraints; l; l = l->next) {
@@ -1015,6 +1027,39 @@ gnm_solver_check_constraints (GnmSolver *solver)
 	}
 
 	return TRUE;
+}
+
+static GnmValue *
+cb_get_value (GnmValueIter const *iter, gpointer user_data)
+{
+	GnmValue *res = user_data;
+
+	value_array_set (res, iter->x, iter->y,
+			 iter->v
+			 ? value_dup (iter->v)
+			 : value_new_int (0));
+
+	return NULL;
+}
+
+GnmValue *
+gnm_solver_get_current_values (GnmSolver *solver)
+{
+	int w, h;
+	GnmValue *res;
+	GnmSolverParameters const *sp = solver->params;
+	GnmValue const *vinput = gnm_solver_param_get_input (sp);
+	GnmEvalPos ep;
+
+	eval_pos_init_sheet (&ep, sp->sheet);
+
+	w = value_area_get_width (vinput, &ep);
+	h = value_area_get_height (vinput, &ep);
+	res = value_new_array_empty (w, h);
+
+	value_area_foreach (vinput, &ep, CELL_ITER_ALL, cb_get_value, res);
+
+	return res;
 }
 
 gboolean
