@@ -44,8 +44,8 @@ msgstr ""
 "Project-Id-Version: gnumeric 1.9\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&component=general\n"
-"POT-Creation-Date: 2010-05-21 20:03+0000\n"
-"PO-Revision-Date: 2010-05-22 22:59+0100\n"
+"POT-Creation-Date: 2010-05-23 15:35+0000\n"
+"PO-Revision-Date: 2010-05-24 01:36+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -118,7 +118,7 @@ msgid "Provides a CORBA scripting interface"
 msgstr "Stellt eine CORBA-Skriptschnittstelle zur Verfügung"
 
 #: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6774
-#: ../plugins/openoffice/openoffice-read.c:5376 ../src/xml-sax-read.c:3075
+#: ../plugins/openoffice/openoffice-read.c:5376 ../src/xml-sax-read.c:3077
 msgid "Reading file..."
 msgstr "Datei wird gelesen …"
 
@@ -215,7 +215,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Unerwartetes Attribut %s::%s == »%s«."
 
 #: ../plugins/excel/excel-xml-read.c:1068
-#: ../plugins/openoffice/openoffice-read.c:5443 ../src/xml-sax-read.c:3092
+#: ../plugins/openoffice/openoffice-read.c:5443 ../src/xml-sax-read.c:3094
 msgid "XML document not well formed!"
 msgstr "Das XML-Dokument ist nicht wohlgeformt (\"well formed\")!"
 
@@ -1206,6 +1206,32 @@ msgstr "Linear- und Integer-Programm Ausdrucksformat (MPS) Modul"
 #: ../plugins/mps/plugin.xml.in.h:3
 msgid "Reads LP programs stored in the MPS format (*.mps)"
 msgstr "Liest LP-Programme, die im MPS-Format (*.mps) gespeichert sind"
+
+#: ../plugins/nlsolve/gnm-nlsolve.c:81
+#, c-format
+msgid "This solver handles only minimization."
+msgstr "Dieser Löser kann nur mit Minimierung umgehen."
+
+#: ../plugins/nlsolve/gnm-nlsolve.c:91
+#, c-format
+#| msgid "This Psion file is not a Sheet file."
+msgid "This solver does not handle discrete variables."
+msgstr "Dieser Löser kann nicht mit diskreten Variablen umgehen."
+
+#: ../plugins/nlsolve/gnm-nlsolve.c:144
+#, c-format
+msgid "The initial values do not satisfy the constraints."
+msgstr "Die Ausgangswerte entsprechen nicht den Beschränkungen."
+
+#: ../plugins/nlsolve/plugin.xml.in.h:1
+#| msgid "LP-solve"
+msgid "Nlsolve"
+msgstr "NL-lösen"
+
+#: ../plugins/nlsolve/plugin.xml.in.h:2
+#| msgid "GLPK Linear Program Solver"
+msgid "Non-Linear Program Solver"
+msgstr "Nicht-Linearer Programmlöser"
 
 #: ../plugins/oleo/plugin.xml.in.h:1
 msgid "GNU Oleo"
@@ -6963,7 +6989,7 @@ msgstr ""
 msgid "Comment"
 msgstr "Kommentare"
 
-#: ../src/dialogs/dialog-search.c:136 ../src/tools/gnm-solver.c:1030
+#: ../src/dialogs/dialog-search.c:136 ../src/tools/gnm-solver.c:1143
 msgid "Result"
 msgstr "Ergebnis"
 
@@ -7208,11 +7234,11 @@ msgstr "Optimale Lösung vom Löser gefunden.\n"
 msgid "Feasible solution created by solver.\n"
 msgstr "Mögliche Lösung vom Löser gefunden.\n"
 
-#: ../src/dialogs/dialog-solver.c:1063
+#: ../src/dialogs/dialog-solver.c:1066
 msgid "Subject to the Constraints:"
 msgstr "Unterliegt den Nebenbedingungen:"
 
-#: ../src/dialogs/dialog-solver.c:1201
+#: ../src/dialogs/dialog-solver.c:1195
 msgid "Could not create the Solver dialog."
 msgstr "Der Lösungssuchdialog konnte nicht erzeugt werden."
 
@@ -9935,7 +9961,7 @@ msgstr "Modell"
 msgid "P_rogram"
 msgstr "P_rogramm"
 
-#: ../src/dialogs/solver.glade.h:11 ../src/tools/gnm-solver.c:1022
+#: ../src/dialogs/solver.glade.h:11 ../src/tools/gnm-solver.c:1135
 msgid "Parameters"
 msgstr "Parameter"
 
@@ -9964,7 +9990,6 @@ msgid "_Algorithm:"
 msgstr "_Algorithmus:"
 
 #: ../src/dialogs/solver.glade.h:18
-#| msgid "Assume _Non-Negative"
 msgid "_Assume Non-Negative"
 msgstr "_Nicht-Negativ annehmen"
 
@@ -9993,7 +10018,6 @@ msgid "_Max"
 msgstr "_Max"
 
 #: ../src/dialogs/solver.glade.h:26
-#| msgid "_Linear Model (LP/MILP)"
 msgid "_Non-Linear Model"
 msgstr "_Nicht-Lineares Modell"
 
@@ -10404,7 +10428,6 @@ msgstr[0] "Benutzeroberfläche mit »%d« Aktion"
 msgstr[1] "Benutzeroberfläche mit »%d« Aktionen"
 
 #: ../src/gnm-plugin.c:573
-#| msgid "Invalid solver problem type."
 msgid "Invalid solver model type."
 msgstr "Ungültiger Modelltyp des Lösers."
 
@@ -12878,7 +12901,6 @@ msgstr "/Komplexer Filter:/Quellbereich:/Kriterienbereich:"
 
 #: ../src/tools/filter.c:269
 #, c-format
-#| msgid "Advanced Filter"
 msgid "Advanced Filter (%s)"
 msgstr "Komplexer Filter (%s)"
 
@@ -12911,34 +12933,34 @@ msgstr "Nebenbedingung #%d der Lösung ist ungültig."
 msgid "Problem Type"
 msgstr "Problemtyp"
 
-#: ../src/tools/gnm-solver.c:968
+#: ../src/tools/gnm-solver.c:1081
 #, c-format
 msgid "Failed to create file for linear program"
 msgstr "Lineare Progammdatei konnte nicht angelegt werden."
 
-#: ../src/tools/gnm-solver.c:977
+#: ../src/tools/gnm-solver.c:1090
 #, c-format
 msgid "Failed to create linear program file"
 msgstr "Lineare Programmdatei konnte nicht angelegt werden."
 
-#: ../src/tools/gnm-solver.c:997
+#: ../src/tools/gnm-solver.c:1110
 #, c-format
 msgid "Failed to save linear program"
 msgstr "Lineares Programm konnte nicht gespeichert werden"
 
-#: ../src/tools/gnm-solver.c:1014
+#: ../src/tools/gnm-solver.c:1127
 msgid "status"
 msgstr "Status"
 
-#: ../src/tools/gnm-solver.c:1015
+#: ../src/tools/gnm-solver.c:1128
 msgid "The solver's current status"
 msgstr "Gegenwärtiger Status des Lösers"
 
-#: ../src/tools/gnm-solver.c:1023
+#: ../src/tools/gnm-solver.c:1136
 msgid "Solver parameters"
 msgstr "Löser-Parameter"
 
-#: ../src/tools/gnm-solver.c:1031
+#: ../src/tools/gnm-solver.c:1144
 msgid "Current best feasible result"
 msgstr "Derzeitiges bestmögliches Ergebnis"
 
@@ -14526,7 +14548,6 @@ msgid "Add or remove a filter"
 msgstr "Einen Filter hinzufügen oder entfernen"
 
 #: ../src/wbc-gtk-actions.c:2272
-#| msgid "Advanced Filter"
 msgid "_Clear Advanced Filter"
 msgstr "Komplexen Filter lös_chen"
 
@@ -15568,12 +15589,10 @@ msgid "Displayed text for the automatically computed sheet function."
 msgstr "Von der automatisch errechneten Blattfunktion angezeigter Text."
 
 #: ../src/workbook-view.c:888
-#| msgid "Auto-expression text"
 msgid "Auto-expression Attributes"
 msgstr "Attribute des automatischen Ausdrucks"
 
 #: ../src/workbook-view.c:889
-#| msgid "Displayed text for the automatically computed sheet function."
 msgid "Text attributes for the automatically computed sheet function."
 msgstr "Von der automatisch errechneten Blattfunktion angezeigte Textattribute."
 
@@ -15741,7 +15760,7 @@ msgstr "Ungültiger Filter, Bereich fehlt"
 msgid "Unsupported object type '%s'"
 msgstr "Nicht unterstützter Objekttyp »%s«."
 
-#: ../src/xml-sax-read.c:3350 ../src/xml-sax-write.c:1536
+#: ../src/xml-sax-read.c:3352 ../src/xml-sax-write.c:1537
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric-XML (*.gnumeric)"
 
