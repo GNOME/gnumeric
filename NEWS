@@ -3,6 +3,7 @@ Gnumeric 1.10.5
 Morten:
 	* Fix stf crash.  [#619283]
 	* Persist solver model type.
+	* Add non-linear solver.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.4

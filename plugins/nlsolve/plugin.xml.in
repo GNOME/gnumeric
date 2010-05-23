@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_nlsolve">
+	<information>
+		<_name>Non-Linear Program Solver</_name>
+		<_description>Non-Linear Program Solver</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="nlsolve"/>
+	</loader>
+	<services>
+		<service type="solver"
+			 id="nlsolve"
+			 model_type="nlp">
+			<information>
+			  <_description>Nlsolve</_description>
+			</information>
+		</service>
+	</services>
+</plugin>
