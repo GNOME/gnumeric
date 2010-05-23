@@ -1491,7 +1491,7 @@ gnumeric_suma (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_sumsq[] = {
-        { GNM_FUNC_HELP_NAME, F_("SUMSQ:sum of th squares of all values and cells referenced")},
+        { GNM_FUNC_HELP_NAME, F_("SUMSQ:sum of the squares of all values and cells referenced")},
         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")},
         { GNM_FUNC_HELP_ARG, F_("area1:second cell area")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
