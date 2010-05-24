@@ -1,3 +1,12 @@
+2010-05-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-wilcoxon-mann-whitney.c: new
+	* analysis-wilcoxon-mann-whitney.h: new
+	* analysis-tools.h (analysis_tools_write_a_label): new
+	(analysis_tools_remove_label): new
+	* analysis-tools.c (analysis_tools_write_a_label): make public
+	(analysis_tools_remove_label): ditto
+
 2010-05-22  Morten Welinder  <terra@gnome.org>
 
 	* gnm-solver.c (gnm_solver_get_current_values): New function.

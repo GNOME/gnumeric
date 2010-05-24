@@ -1,5 +1,8 @@
 Gnumeric 1.10.5
 
+Andreas:
+	* Add Wilcoxon-Mann-Whitney test tool.
+
 Morten:
 	* Fix stf crash.  [#619283]
 	* Persist solver model type.

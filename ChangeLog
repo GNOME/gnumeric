@@ -1,3 +1,12 @@
+2010-05-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* component/Gnumeric-embed.xml.in: added Wilcoxon menu item.
+	* src/GNOME_Gnumeric-gtk.xml.in: ditto
+	* src/HILDON_Gnumeric-gtk.xml.in: ditto
+	* src/wbc-gtk-actions.c (MenuToolTwoMedians): new submenu
+	(cb_tools_wilcoxon_mann_whitney): new
+	(ToolsTwoMedianWilcoxonMannWhitney): new
+
 2010-05-24  Morten Welinder  <terra@gnome.org>
 
 	* src/ssconvert.c (ssconvert_options): Hide the --solve flag as

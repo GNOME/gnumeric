@@ -81,6 +81,7 @@ src/dialogs/dialog-analysis-tool-kaplan-meier.c
 src/dialogs/dialog-analysis-tool-normality.c
 src/dialogs/dialog-analysis-tool-principal-components.c
 src/dialogs/dialog-analysis-tool-sign-test.c
+src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c
 src/dialogs/dialog-analysis-tools.c
 src/dialogs/dialog-autofilter.c
 src/dialogs/dialog-autoformat.c
@@ -205,6 +206,7 @@ src/tools/analysis-normality.c
 src/tools/analysis-principal-components.c
 src/tools/analysis-sign-test.c
 src/tools/analysis-tools.c
+src/tools/analysis-wilcoxon-mann-whitney.c
 src/tools/dao.c
 src/tools/data-shuffling.c
 src/tools/fill-series.c

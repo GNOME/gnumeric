@@ -891,6 +891,7 @@ static GNM_ACTION_DEF (cb_tools_regression)	{ dialog_regression_tool (wbcg, wbcg
 static GNM_ACTION_DEF (cb_tools_sampling)	{ dialog_sampling_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_sign_test_one_median)	{ dialog_sign_test_tool (wbcg, wbcg_cur_sheet (wbcg), SIGNTEST_1); }
 static GNM_ACTION_DEF (cb_tools_sign_test_two_medians)	{ dialog_sign_test_tool (wbcg, wbcg_cur_sheet (wbcg), SIGNTEST_2); }
+static GNM_ACTION_DEF (cb_tools_wilcoxon_mann_whitney)	{ dialog_wilcoxon_m_w_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_ttest_paired)	{ dialog_ttest_tool (wbcg, wbcg_cur_sheet (wbcg), TTEST_PAIRED); }
 static GNM_ACTION_DEF (cb_tools_ttest_equal_var) { dialog_ttest_tool (wbcg, wbcg_cur_sheet (wbcg), TTEST_UNPAIRED_EQUALVARIANCES); }
 static GNM_ACTION_DEF (cb_tools_ttest_unequal_var) { dialog_ttest_tool (wbcg, wbcg_cur_sheet (wbcg), TTEST_UNPAIRED_UNEQUALVARIANCES); }
@@ -1737,6 +1738,7 @@ static GtkActionEntry const permanent_actions[] = {
 		{ "MenuContingencyTests",	NULL,	N_("Contin_gency Table") },
 		{ "MenuToolForecast",	NULL,	N_("F_orecast") },
 		{ "MenuToolFrequencies",	NULL,	N_("Fre_quency Tables") },
+		{ "MenuToolTwoMedians",	NULL,	N_("Two _Medians") },
 		{ "MenuToolTTest",	NULL,	N_("Two _Means") },
 	{ "MenuData",		NULL, N_("_Data") },
 		{ "MenuFilter",		NULL,	N_("_Filter") },
@@ -2148,7 +2150,7 @@ static GtkActionEntry const actions[] = {
 		NULL, N_("Various frequency tables for numeric data"),
 		G_CALLBACK (cb_tools_histogram) },
 
-/* Tools -> Two Means */
+/* Tools -> Analysis -> Two Means */
 	{ "ToolTTestPaired", NULL, N_("_Paired Samples: T-Test..."),
 		NULL, N_("Comparing two population means for two paired samples: t-test..."),
 		G_CALLBACK (cb_tools_ttest_paired) },
@@ -2164,6 +2166,15 @@ static GtkActionEntry const actions[] = {
 	{ "ToolZTest", NULL, N_("_Known Variances: Z-Test..."),
 		NULL, N_("Comparing two population means from populations with known variances: z-test..."),
 		G_CALLBACK (cb_tools_ztest) },
+
+/* Tools -> Analysis -> Two Medias */
+
+	{ "ToolsTwoMedianSignTest", NULL, N_("_Sign Test..."),
+		NULL, N_("Comparing the values of two medians of paired observations"),
+		G_CALLBACK (cb_tools_sign_test_two_medians) },
+	{ "ToolsTwoMedianWilcoxonMannWhitney", NULL, N_("_Wilcoxon-Mann-Whitney..."),
+		NULL, N_("Comparing the values of two medians of unpaired observations"),
+		G_CALLBACK (cb_tools_wilcoxon_mann_whitney) },
 
 /* Tools -> Analysis */
 	{ "ToolsCorrelation", NULL, N_("_Correlation..."),
@@ -2203,9 +2214,6 @@ static GtkActionEntry const actions[] = {
 	{ "ToolsOneMedianSignTest", NULL, N_("One M_edian Sign Test..."),
 		NULL, N_("Testing the value of a median"),
 		G_CALLBACK (cb_tools_sign_test_one_median) },
-	{ "ToolsTwoMedianSignTest", NULL, N_("T_wo Medians Sign Test..."),
-		NULL, N_("Comparing the values of two medians"),
-		G_CALLBACK (cb_tools_sign_test_two_medians) },
 /* Data */
 	{ "DataSort", GTK_STOCK_SORT_ASCENDING, N_("_Sort..."),
 		NULL, N_("Sort the selected region"),

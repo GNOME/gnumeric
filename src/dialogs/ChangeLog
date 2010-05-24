@@ -1,3 +1,12 @@
+2010-05-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-analysis-tool-wilcoxon-mann-whitney.c: new
+	* wilcoxon-mann-whitney.glade: new
+	* Makefile.am: added wilcoxon-mann-whitney.glade
+	  and dialog-analysis-tool-wilcoxon-mann-whitney.c
+	* dialogs.h (dialog_wilcoxon_m_w_tool): new
+	* help.h (GNUMERIC_HELP_LINK_WILCOXON_MANN_WHITNEY): new
+
 2010-05-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.4

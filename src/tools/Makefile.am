@@ -37,6 +37,8 @@ libtools_la_SOURCES =					\
 	analysis-sign-test.h				\
 	analysis-tools.c				\
 	analysis-tools.h				\
+	analysis-wilcoxon-mann-whitney.c	\
+	analysis-wilcoxon-mann-whitney.h	\
 	random-generator.c				\
 	random-generator.h				\
 	random-generator-cor.c				\

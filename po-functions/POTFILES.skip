@@ -145,6 +145,7 @@ src/dialogs/solver.glade
 src/dialogs/tabulate.glade
 src/dialogs/variance-tests.glade
 src/dialogs/view.glade
+src/dialogs/wilcoxon-mann-whitney.glade
 src/dialogs/workbook-attr.glade
 templates/autoformat/3D.category.in
 templates/autoformat/Classical.category.in

@@ -32,6 +32,7 @@ base_files =					\
 	dialog-analysis-tool-normality.c	\
 	dialog-analysis-tool-principal-components.c	\
 	dialog-analysis-tool-sign-test.c	\
+	dialog-analysis-tool-wilcoxon-mann-whitney.c    \
 	dialog-autofilter.c			\
 	dialog-autoformat.c			\
 	dialog-autosave.c			\
@@ -170,6 +171,7 @@ glade_DATA = 				\
 	tabulate.glade			\
 	variance-tests.glade		\
 	view.glade			\
+	wilcoxon-mann-whitney.glade	\
 	workbook-attr.glade		\
 	print.glade
 

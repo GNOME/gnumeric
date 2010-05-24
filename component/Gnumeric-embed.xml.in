@@ -188,7 +188,10 @@
         <menuitem action="ToolsRegression"/>
         <menuitem action="ToolsSampling"/>
         <menuitem action="ToolsOneMedianSignTest"/>
-        <menuitem action="ToolsTwoMedianSignTest"/>
+        <menu name="ToolTwoMedians" action="MenuToolTwoMedians">
+          <menuitem action="ToolsTwoMedianSignTest"/>
+          <menuitem action="ToolsTwoMedianWilcoxonMannWhitney"/>
+        </menu>
         <menu name="ToolTTest" action="MenuToolTTest">
           <menuitem action="ToolTTestPaired"/>
           <menuitem action="ToolTTestEqualVar"/>

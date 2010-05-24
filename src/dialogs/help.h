@@ -165,6 +165,9 @@
 /* dialog-analysis-tool-sign-test.c */
 #define GNUMERIC_HELP_LINK_SIGN_TEST "sign-test-tool"
 
+/* dialog-analysis-tool-wilcoxon-mann-whitney.c */
+#define GNUMERIC_HELP_LINK_WILCOXON_MANN_WHITNEY "wilcoxon-mann-whitney-tool"
+
 /* dialog-consolidate.c     */
 #define GNUMERIC_HELP_LINK_CONSOLIDATE ""
 

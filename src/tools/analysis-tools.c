@@ -132,7 +132,7 @@ cb_adjust_areas (gpointer data, G_GNUC_UNUSED gpointer user_data)
  *
  */
 
-static void
+void
 analysis_tools_remove_label (GnmValue *val,
 			     gboolean labels, group_by_t group_by)
 {
@@ -211,7 +211,7 @@ analysis_tools_write_label (GnmValue *val, data_analysis_output_t *dao,
  *
  */
 
-static void
+void
 analysis_tools_write_a_label (GnmValue *val, data_analysis_output_t *dao,
 			      gboolean   labels, group_by_t group_by,
 			      int x, int y)
