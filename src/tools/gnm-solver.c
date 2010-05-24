@@ -1358,6 +1358,12 @@ gnm_sub_solver_spawn (GnmSubSolver *subsol,
 		g_string_free (msg, TRUE);
 	}
 
+#ifdef G_OS_WIN32
+	/* Hope for the best... */
+	child_setup = NULL;
+	setup_data = NULL;
+#endif
+
 	ok = g_spawn_async_with_pipes
 		(g_get_home_dir (),  /* PWD */
 		 argv,

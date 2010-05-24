@@ -7,6 +7,12 @@
 	* analysis-tools.c (analysis_tools_write_a_label): make public
 	(analysis_tools_remove_label): ditto
 
+2010-05-24  Morten Welinder  <terra@gnome.org>
+
+	* gnm-solver.c (gnm_sub_solver_spawn): On windows, ignore the
+	child_setup since g_spawn_* will ignore it other than issuing a
+	warning.
+
 2010-05-22  Morten Welinder  <terra@gnome.org>
 
 	* gnm-solver.c (gnm_solver_get_current_values): New function.
