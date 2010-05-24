@@ -15,6 +15,8 @@
 # 69xx:   Minor formats
 #
 # 7xxx: Features
+# 70xx:   Goal seek
+# 71xx:   Solver
 #
 # 8xxx: Runs with valgrind and similar tools.
 # 80xx:   Valgrind
