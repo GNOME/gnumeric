@@ -1,3 +1,8 @@
+2010-05-24  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-plugin.c (plugin_service_solver_read_xml): Handle "qp"
+	model type too.
+
 2010-05-21  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-write.c (xml_write_solver): Write model type.

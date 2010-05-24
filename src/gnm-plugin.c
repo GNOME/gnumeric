@@ -567,6 +567,8 @@ plugin_service_solver_read_xml (GOPluginService *service, xmlNode *tree,
 	s_type = go_xml_node_get_cstr (tree, "model_type");
 	if (s_type && strcmp (CXML2C (s_type), "mip") == 0)
 		type = GNM_SOLVER_LP;
+	else if (s_type && strcmp (CXML2C (s_type), "qp") == 0)
+		type = GNM_SOLVER_QP;
 	else if (s_type && strcmp (CXML2C (s_type), "nlp") == 0)
 		type = GNM_SOLVER_NLP;
 	else {
