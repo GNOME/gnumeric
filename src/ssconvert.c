@@ -145,7 +145,7 @@ static const GOptionEntry ssconvert_options [] = {
 
 	{
 		"solve", 0,
-		0, G_OPTION_ARG_NONE, &ssconvert_solve,
+		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &ssconvert_solve,
 		N_("Run the solver"),
 		NULL
 	},

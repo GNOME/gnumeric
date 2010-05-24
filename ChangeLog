@@ -1,5 +1,8 @@
 2010-05-24  Morten Welinder  <terra@gnome.org>
 
+	* src/ssconvert.c (ssconvert_options): Hide the --solve flag as
+	per comments.
+
 	* src/gnm-plugin.c (plugin_service_solver_read_xml): Handle "qp"
 	model type too.
 
