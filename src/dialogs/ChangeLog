@@ -1,3 +1,15 @@
+2010-05-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	for Sameer Morar <smorar@gmail.com>
+	
+	* print.glade: add GtkAlignment to margin preview to center it
+	* dialog-printer-setup.c (margin_preview_page_available_size):
+	  create function to determine the available page size based upon
+	  surrounding widgets.
+	(margin_preview_page_create): use new method to determine the
+	  available preview page size.
+	(do_setup_margin): use new method to determine the
+	  available preview page size.
+
 2010-05-24  Morten Welinder  <terra@gnome.org>
 
 	* dialog-solver.c (run_solver): Make this less bouncy.

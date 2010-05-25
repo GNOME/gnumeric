@@ -46,17 +46,13 @@
 #include <goffice/goffice.h>
 #include <string.h>
 
-/* FIXME: do not hardcode pixel counts.  */
-#define PREVIEW_X 170
-#define PREVIEW_Y 170
 #define PREVIEW_MARGIN_X 20
 #define PREVIEW_MARGIN_Y 20
-#define PAGE_X (PREVIEW_X - PREVIEW_MARGIN_X)
-#define PAGE_Y (PREVIEW_Y - PREVIEW_MARGIN_Y)
 
 #define MARGIN_COLOR_DEFAULT 0xa9a9a9ff /* dark gray */
 #define MARGIN_COLOR_ACTIVE GO_COLOR_RED
 
+/* FIXME: do not hardcode pixel counts.  */
 #define HF_PREVIEW_X 350
 #define HF_PREVIEW_Y 75
 #define HF_PREVIEW_SHADOW 2
@@ -83,6 +79,10 @@ typedef struct {
 	double scale;
 } MarginPreviewInfo;
 
+typedef struct {
+	/* The available width and height for the nice preview page */
+	uint height, width;
+} MarginPreviewPageAvailableSize;
 
 typedef struct {
 	/* The Canvas object for the header/footer sample preview */
@@ -394,6 +394,98 @@ draw_margins (PrinterSetupState *state, double x1, double y1, double x2, double 
 	draw_margin_footer (&state->margins.footer);
 }
 
+static void
+margin_preview_page_available_size(PrinterSetupState *state,
+				   MarginPreviewPageAvailableSize *available_size)
+{
+
+	GtkTable *table;
+	GtkBox *container;
+	GtkAlignment *align;
+	GList *child_list;
+	GtkWidget *child_widget;
+	guint *widths, *heights;
+	GtkRequisition requisition;
+	guint top_att, bottom_att, left_att, right_att, i;
+
+	/* Reset available size to zero*/
+	available_size->width = 0;
+	available_size->height = 0;
+
+	table = GTK_TABLE (glade_xml_get_widget (state->gui, "table-paper-selector"));
+
+	widths = g_new0(guint, table->ncols);
+	heights = g_new0(guint, table->nrows);
+
+	container = GTK_BOX (glade_xml_get_widget (state->gui,
+						   "container-paper-sample"));
+
+	align = GTK_ALIGNMENT (gtk_widget_get_parent(GTK_WIDGET(container)));
+
+	/* Iterate through all child widgets in the table */
+	for (child_list = gtk_container_get_children(GTK_CONTAINER(table));
+	     child_list; child_list = child_list->next) {
+
+		child_widget = child_list->data;
+
+		/* Determine which cells the align widget spans across */
+		gtk_container_child_get(GTK_CONTAINER(table), GTK_WIDGET(child_widget),
+					"top-attach", &top_att,
+					"bottom-attach", &bottom_att,
+					"left-attach", &left_att,
+					"right-attach", &right_att,
+					NULL);
+
+		/* Determine the requisition size for the widget */
+		gtk_widget_size_request(GTK_WIDGET(child_widget), &requisition);
+
+		/* Find largest widget in each table column */
+		/* Exclude widgets that expand across more than one table cells */
+		if ( left_att + 1 == right_att){
+			if ((uint) requisition.width > widths[left_att]) {
+				widths[left_att] = (uint) requisition.width;
+			}
+		}
+
+		/* Find largest widget in each table row */
+		/* Exclude widgets that expand across more than one table cells */
+		if ( top_att + 1 == bottom_att){
+			if ((uint) requisition.height > heights[top_att]) {
+				heights[top_att] = (uint) requisition.height;
+			}
+		}
+	}
+
+	/* Determine which cells the align widget spans across */
+	gtk_container_child_get(GTK_CONTAINER(table),
+				GTK_WIDGET(align),
+				"top-attach", &top_att,
+				"bottom-attach", &bottom_att,
+				"left-attach", &left_att,
+				"right-attach", &right_att,
+				NULL);
+
+	/* Calculate width of container widget using maximum */
+	/* widget widths from above */
+	for (i = left_att; i <  right_att; i++){
+		available_size->width = available_size->width + widths[i];
+	}
+
+	/* Calculate height of container widget using maximum */
+	/* widget heights from above */
+	for (i = top_att; i < bottom_att; i++){
+		available_size->height = available_size->height + heights[i];
+	}
+
+	g_free(widths);
+	g_free(heights);
+
+	/* Account for the spacing between table cells */
+	available_size->width = available_size->width +
+		(uint) gtk_table_get_default_col_spacing(GTK_TABLE(table)) * (right_att - left_att);
+	available_size->height = available_size->height +
+		(uint) gtk_table_get_default_row_spacing(GTK_TABLE(table)) * (bottom_att - top_att);
+}
 
 static void
 margin_preview_page_create (PrinterSetupState *state)
@@ -402,17 +494,20 @@ margin_preview_page_create (PrinterSetupState *state)
 	double width, height;
 	MarginPreviewInfo *pi = &state->preview;
 	GOStyle *style;
+	MarginPreviewPageAvailableSize margin_available_size;
+
+	margin_preview_page_available_size(state, &margin_available_size);
 
 	width = state->width;
 	height = state->height;
 
 	if (width < height)
-		pi->scale = PAGE_Y / height;
+		pi->scale = (margin_available_size.height - PREVIEW_MARGIN_Y) / height;
 	else
-		pi->scale = PAGE_X / width;
+		pi->scale = (margin_available_size.width - PREVIEW_MARGIN_X) / width;
 
-	pi->offset_x = (PREVIEW_X - (width  * pi->scale)) / 2;
-	pi->offset_y = (PREVIEW_Y - (height * pi->scale)) / 2;
+	pi->offset_x = (margin_available_size.width - (width  * pi->scale)) / 2;
+	pi->offset_y = (margin_available_size.height - (height * pi->scale)) / 2;
 	x1 = pi->offset_x + 0 * pi->scale;
 	y1 = pi->offset_y + 0 * pi->scale;
 	x2 = pi->offset_x + width * pi->scale;
@@ -679,11 +774,14 @@ do_setup_margin (PrinterSetupState *state)
 {
 	GtkWidget *table;
 	GtkBox *container;
+	MarginPreviewPageAvailableSize margin_available_size;
+
+	margin_preview_page_available_size(state, &margin_available_size);
 
 	g_return_if_fail (state && state->pi);
 
 	state->preview.canvas = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
-	gtk_widget_set_size_request (state->preview.canvas, PREVIEW_X, PREVIEW_Y);
+	gtk_widget_set_size_request (state->preview.canvas, margin_available_size.width, margin_available_size.height);
 	gtk_widget_show (state->preview.canvas);
 
 	{

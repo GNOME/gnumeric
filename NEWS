@@ -8,6 +8,9 @@ Morten:
 	* Persist solver model type.
 	* Add non-linear solver.
 
+Sameer Morar:
+	* Improve page setup dialog. [#619421]
+
 --------------------------------------------------------------------------
 Gnumeric 1.10.4
 
