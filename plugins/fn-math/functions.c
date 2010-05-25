@@ -412,7 +412,7 @@ static GnmFuncHelp const help_atan2[] = {
         { GNM_FUNC_HELP_ARG, F_("y:y-coordinate")},
         { GNM_FUNC_HELP_ARG, F_("x:x-coordinate")},
         { GNM_FUNC_HELP_DESCRIPTION, F_("ATAN2 calculates the direction from the origin to (@{x},@{y}) as an angle in radians.")},
-	{ GNM_FUNC_HELP_NOTE, F_("The result will be between -pi and +pi.")},
+	{ GNM_FUNC_HELP_NOTE, F_("The result will be between \xcf\x80 and +\xcf\x80.")},
 	{ GNM_FUNC_HELP_NOTE, F_("The order of the arguments may be unexpected.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ATAN2(0.5,1.0)" },
