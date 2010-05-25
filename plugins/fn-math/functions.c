@@ -225,7 +225,7 @@ static GnmFuncHelp const help_abs[] = {
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ABS(7)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ABS(-3.14)" },
-        { GNM_FUNC_HELP_SEEALSO, "CEIL, CEILING, FLOOR, INT, MOD"},
+        { GNM_FUNC_HELP_SEEALSO, "CEIL,CEILING,FLOOR,INT,MOD"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -243,7 +243,7 @@ static GnmFuncHelp const help_acos[] = {
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ACOS(0.1)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ACOS(-0.1)" },
-        { GNM_FUNC_HELP_SEEALSO, "COS, SIN, DEGREES, RADIANS"},
+        { GNM_FUNC_HELP_SEEALSO, "COS,SIN,DEGREES,RADIANS"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -266,7 +266,7 @@ static GnmFuncHelp const help_acosh[] = {
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ACOSH(0.1)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ACOSH(-0.1)" },
-        { GNM_FUNC_HELP_SEEALSO, "ACOS,ASINH,DEGREES,RADIANS "},
+        { GNM_FUNC_HELP_SEEALSO, "ACOS,ASINH"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -351,7 +351,7 @@ static GnmFuncHelp const help_asinh[] = {
  	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ASINH(0.5)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ASINH(1)" },
-	{ GNM_FUNC_HELP_SEEALSO, "ASIN,ACOSH,SIN,COS,DEGREES,RADIANS"},
+	{ GNM_FUNC_HELP_SEEALSO, "ASIN,ACOSH,SIN,COS"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -365,7 +365,7 @@ gnumeric_asinh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_atan[] = {
         { GNM_FUNC_HELP_NAME, F_("ATAN:the arc tangent of @{x}")},
-	{ GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
         { GNM_FUNC_HELP_DESCRIPTION, F_("ATAN calculates the arc tangent of @{x}; that is the value whose tangent is @{x}.")},
  	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ATAN(0.5)" },
@@ -384,13 +384,13 @@ gnumeric_atan (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_atanh[] = {
         { GNM_FUNC_HELP_NAME, F_("ATANH:the inverse hyperbolic tangent of @{x}")},
-	{ GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
         { GNM_FUNC_HELP_DESCRIPTION, F_("ATANH calculates the inverse hyperbolic tangent of @{x}; that is the value whose hyperbolic tangent is @{x}.")},
  	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If the absolute value of @{x} is greater than 1.0, ATANH returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=ATANH(0.5)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ATANH(1)" },
-        { GNM_FUNC_HELP_SEEALSO, "ATAN,COS,SIN,DEGREES,RADIANS"},
+        { GNM_FUNC_HELP_SEEALSO, "ATAN,COS,SIN"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -408,14 +408,16 @@ gnumeric_atanh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_atan2[] = {
-        { GNM_FUNC_HELP_NAME, F_("ATAN2:arc tangent of the ratio of @{b1} and @{b2}")},
-        { GNM_FUNC_HELP_ARG, F_("b1:angle in radians")},
-        { GNM_FUNC_HELP_ARG, F_("b2:angle in radians")},
-        { GNM_FUNC_HELP_DESCRIPTION, F_("ATAN2 calculates the arc tangent of the ratio @{b1}/@{b2} with the sign according to the quadrant containing (@{b1},@{b2}).")},
+        { GNM_FUNC_HELP_NAME, F_("ATAN2:arc tangent of the ratio of @{y} and @{x}")},
+        { GNM_FUNC_HELP_ARG, F_("y:y-coordinate")},
+        { GNM_FUNC_HELP_ARG, F_("x:x-coordinate")},
+        { GNM_FUNC_HELP_DESCRIPTION, F_("ATAN2 calculates the direction from the origin to (@{x},@{y}) as an angle in radians.")},
+	{ GNM_FUNC_HELP_NOTE, F_("The result will be between -pi and +pi.")},
+	{ GNM_FUNC_HELP_NOTE, F_("The order of the arguments may be unexpected.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ATAN2(0.5,1.0)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ATAN2(-0.5,2.0)" },
-        { GNM_FUNC_HELP_SEEALSO, "ATAN,ATANH,COS,SIN,DEGREES,RADIANS"},
+        { GNM_FUNC_HELP_SEEALSO, "ATAN,ATANH,COS,SIN"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -759,11 +761,11 @@ gnumeric_cos (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_cosh[] = {
 	{ GNM_FUNC_HELP_NAME, F_("COSH:Hyperbolic cosine function")},
-	{ GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=COSH(0.5)" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=COSH(1)" },
-	{ GNM_FUNC_HELP_SEEALSO, "SIN,TAN,SINH,COSH,TANH,RADIANS,DEGREES" },
+	{ GNM_FUNC_HELP_SEEALSO, "SIN,TAN,SINH,COSH,TANH" },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -835,7 +837,7 @@ static GnmFuncHelp const help_exp[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("e is the base of the natural logarithm.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=EXP(2)" },
-        { GNM_FUNC_HELP_SEEALSO, "LOG, LOG2, LOG10"},
+        { GNM_FUNC_HELP_SEEALSO, "LOG,LOG2,LOG10"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -852,7 +854,7 @@ static GnmFuncHelp const help_expm1[] = {
         { GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_NOTE, F_("This function has a higher resulting precision than evaluating EXP(@{x})-1.") },
         { GNM_FUNC_HELP_EXAMPLES, "=EXPM1(0.01)" },
-        { GNM_FUNC_HELP_SEEALSO, "EXP, LN1P"},
+        { GNM_FUNC_HELP_SEEALSO, "EXP,LN1P"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -968,7 +970,6 @@ gnumeric_beta (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float a = value_get_as_float (argv[0]);
 	gnm_float b = value_get_as_float (argv[1]);
 
-#warning "Improve error handling.  Relying on value_new_float to do it is cheesy"
 	return value_new_float (beta (a, b));
 }
 
@@ -1370,11 +1371,11 @@ gnumeric_csc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_csch[] = {
 	{ GNM_FUNC_HELP_NAME, F_("CSCH:Hyperbolic cosecant")},
-	{ GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is not Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=CSCH(0.5)" },
-	{ GNM_FUNC_HELP_SEEALSO, "SIN,COS,TAN,CSC,SEC,SINH,COSH,TANH,RADIANS,DEGREES" },
+	{ GNM_FUNC_HELP_SEEALSO, "SIN,COS,TAN,CSC,SEC,SINH,COSH,TANH" },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:HyperbolicCosecant.html") },
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Hyperbolic_function") },
 	{ GNM_FUNC_HELP_END }
@@ -1410,11 +1411,11 @@ gnumeric_sec (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_sech[] = {
 	{ GNM_FUNC_HELP_NAME, F_("SECH:Hyperbolic secant")},
-	{ GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is not Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, F_("SECH(@{x}) is exported to OpenFormula as 1/COSH(@{x}).") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=SECH(0.5)" },
-	{ GNM_FUNC_HELP_SEEALSO, "SIN,COS,TAN,CSC,SEC,SINH,COSH,TANH,RADIANS,DEGREES" },
+	{ GNM_FUNC_HELP_SEEALSO, "SIN,COS,TAN,CSC,SEC,SINH,COSH,TANH" },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:HyperbolicSecant.html") },
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Hyperbolic_function") },
 	{ GNM_FUNC_HELP_END }
@@ -1428,11 +1429,11 @@ gnumeric_sech (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 static GnmFuncHelp const help_sinh[] = {
         { GNM_FUNC_HELP_NAME, F_("SINH:the hyperbolic sine of @{x}")},
-        { GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
+        { GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=SINH(0.1)" },
         { GNM_FUNC_HELP_EXAMPLES, "=SINH(-0.1)" },
-        { GNM_FUNC_HELP_SEEALSO, "ACOS,ASINH,DEGREES,RADIANS "},
+        { GNM_FUNC_HELP_SEEALSO, "SIN,COSH,ASINH"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -1544,7 +1545,7 @@ static GnmFuncHelp const help_g_product[] = {
         { GNM_FUNC_HELP_ARG, F_("x2:number")},
 	{ GNM_FUNC_HELP_NOTE, F_("Empty cells are ignored and the empty product is 1.")},
         { GNM_FUNC_HELP_EXAMPLES, "=G_PRODUCT(2,5,9)"},
-        { GNM_FUNC_HELP_SEEALSO, "SUM, COUNT"},
+        { GNM_FUNC_HELP_SEEALSO, "SUM,COUNT"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -1580,10 +1581,10 @@ gnumeric_tan (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_tanh[] = {
         { GNM_FUNC_HELP_NAME, F_("TANH:hyperbolic tangent")},
-        { GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
+        { GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=TANH(2)"},
-        { GNM_FUNC_HELP_SEEALSO, "TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"},
+        { GNM_FUNC_HELP_SEEALSO, "TAN,SIN,SINH,COS,COSH"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -2551,7 +2552,7 @@ static GnmFuncHelp const help_minverse[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{matrix} is not invertible, MINVERSE returns #NUM!") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{matrix} does not contain an equal number of columns and rows, MINVERSE returns #VALUE!") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_SEEALSO, "MMULT, MDETERM"},
+	{ GNM_FUNC_HELP_SEEALSO, "MMULT,MDETERM"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -2868,7 +2869,7 @@ static GnmFuncHelp const help_mdeterm[] = {
         { GNM_FUNC_HELP_ARG, F_("matrix:a square matrix")},
         { GNM_FUNC_HELP_EXAMPLES, "Let us assume that A1,...,A4 contain numbers 2, 3, 7, and 3; B1,..., B4 4, 2, 4, and 1; C1,...,C4 9, 4, 3; and 2; and D1,...,D4 7, 3, 6, and 5. Then MDETERM(A1:D4) yields 148."},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_SEEALSO, "MMULT, MINVERSE"},
+	{ GNM_FUNC_HELP_SEEALSO, "MMULT,MINVERSE"},
         { GNM_FUNC_HELP_END}
 };
 
