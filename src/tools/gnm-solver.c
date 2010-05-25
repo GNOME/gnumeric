@@ -961,6 +961,7 @@ gnm_solver_check_constraints (GnmSolver *solver)
 {
 	GSList *l;
 	GnmSolverParameters *sp = solver->params;
+	GnmCell *target_cell;
 
 	if (sp->options.assume_non_negative ||
 	    sp->options.assume_discrete) {
@@ -1025,6 +1026,11 @@ gnm_solver_check_constraints (GnmSolver *solver)
 			}
 		}
 	}
+
+	target_cell = gnm_solver_param_get_target_cell (sp);
+	gnm_cell_eval (target_cell);
+	if (!target_cell || !VALUE_IS_NUMBER (target_cell->value))
+		return FALSE;
 
 	return TRUE;
 }

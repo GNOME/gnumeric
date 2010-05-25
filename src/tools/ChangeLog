@@ -1,3 +1,8 @@
+2010-05-24  Morten Welinder  <terra@gnome.org>
+
+	* src/tools/gnm-solver.c (gnm_solver_check_constraints): Check
+	that the objective value is a number.
+
 2010-05-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-wilcoxon-mann-whitney.c: new
