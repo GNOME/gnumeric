@@ -49,7 +49,7 @@
 
 2009-11-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* gnumeric-expr-entry.c (gee_rangesel_update_text): work around gtk 
+	* gnumeric-expr-entry.c (gee_rangesel_update_text): work around gtk
 	  bug #601922
 
 2009-11-12  Morten Welinder  <terra@gnome.org>
@@ -205,7 +205,7 @@
 
 2009-04-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* gnumeric-text-view.c: replace "buffer" property with "attributes" 
+	* gnumeric-text-view.c: replace "buffer" property with "attributes"
 	  property and add "wrap" property
 
 2009-04-29  Morten Welinder  <terra@gnome.org>
@@ -442,7 +442,7 @@
 
 2006-11-25  Jody Goldberg <jody@gnome.org>
 
-	* gnm-validation-combo-foo-view.c (gnm_validation_combo_foo_view_new) : 
+	* gnm-validation-combo-foo-view.c (gnm_validation_combo_foo_view_new) :
 	  rename from gnm_validation_combo_new_foo_view_new.
 	(gnm_validation_combo_foo_view_popdown) : new public interface split
 	  out of cb_cell_button_pressed.
@@ -569,9 +569,9 @@
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=170462
 	* gnumeric-cell-renderer-text.c (gnumeric_cell_renderer_text_render):
-	  Make the gtk-cell-renderer think we aren't selected if the 
+	  Make the gtk-cell-renderer think we aren't selected if the
 	  foreground colour is set.
-	
+
 2005-03-15  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-lazy-list.c (gnumeric_lazy_list_new): Add n_rows
@@ -611,9 +611,9 @@
 
 2004-10-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* widget-format-selector.c 
+	* widget-format-selector.c
 	(number_format_selector_format_classification): new
-	* widget-format-selector.h 
+	* widget-format-selector.h
 	(number_format_selector_format_classification): new
 
 2004-10-05  Jody Goldberg <jody@gnome.org>
@@ -743,7 +743,7 @@
 	(gnm_dao_is_finite): new
 	(gnm_dao_focus_output_range): new
 	(gnm_dao_set_inplace): new
-	* gnm-dao.c (gdao): add field 
+	* gnm-dao.c (gdao): add field
 	(gnm_dao_new): add in-place argument
 	(gnm_dao_is_finite): new
 	(gnm_dao_focus_output_range): new
@@ -752,7 +752,7 @@
 
 2003-12-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* gnm-dao.[hc]: new files, establishing the output page of the 
+	* gnm-dao.[hc]: new files, establishing the output page of the
 	  statiscal analysis functions as its own widget.
 	* Makefile.am: add gnm-dao.[hc]
 
@@ -854,7 +854,7 @@
 	preview. Makes the color combo look prettier, especially when mouse is
 	over.
 	(color_combo_construct): idem.
-	
+
 2003-09-06  Jon K Hellan  <hellan@acm.org>
 
 	* widget-font-selector.c (fs_modify_style): Merge before emitting
@@ -909,7 +909,7 @@
 2003-08-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=118888
-	* widget-editable-label.c (el_set_style_label): apply colours also 
+	* widget-editable-label.c (el_set_style_label): apply colours also
 	  to active state
 
 2003-08-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
@@ -923,7 +923,7 @@
 	* gnumeric-cell-renderer-expr-entry.c: do not use depreciated gtk
 	(gnumeric_cell_renderer_expr_entry_start_editing): use g_signal_connect
 	  rather than gtk_signal_connect.
-	
+
 2003-07-28  Jody Goldberg <jody@gnome.org>
 
 	* widget-format-selector.c (funny_currency_order) : kludge even more
@@ -962,7 +962,7 @@
 
 	* widget-format-selector.c (draw_format_preview): no need to worry
 	about tags since the whole text is the same colour.
-	
+
 2003-06-30  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* widget-format-selector.c
@@ -996,7 +996,7 @@
 
 2003-06-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* widget-format-selector.c: remove warning 
+	* widget-format-selector.c: remove warning
 
 2003-06-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
 	for Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
@@ -1007,7 +1007,7 @@
 
 2003-06-22  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* widget-format-selector.h: move private data into 
+	* widget-format-selector.h: move private data into
 	  widget-format-selector.c
 	* widget-format-selector.c (populate_menu): new
 	(nfs_init): use treeview for categories menu
@@ -1017,15 +1017,15 @@
 
 2003-06-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* widget-format-selector.h: drop F_LIST_BOX, make preview_frame 
+	* widget-format-selector.h: drop F_LIST_BOX, make preview_frame
 	  just a GtkWidget
-	* widget-format-selector.c: drop F_LIST_BOX, make preview_frame 
+	* widget-format-selector.c: drop F_LIST_BOX, make preview_frame
 	  just a GtkWidget
 
 2003-06-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* widget-locale-selector.c: minor adjustment to locale names
-	
+
 2003-06-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* widget-format-selector.c (fmt_dialog_enable_widgets):
@@ -1043,11 +1043,11 @@
 
 2003-06-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* widget-format-selector.h (number_format_selector_set_locale): 
+	* widget-format-selector.h (number_format_selector_set_locale):
 	  after "oldlocale = g_strdup(gnumeric_setlocale(LC_ALL,newlocale));"
 	  oldlocale contains the newlocale
 	* widget-locale-selector.c: s/United Status/United States/
-	
+
 2003-06-20  Morten Welinder  <terra@gnome.org>
 
 	* widget-locale-selector.c (get_locale_name): Use GTK+-consistent
@@ -1105,7 +1105,7 @@
 		(number_format_selector_set_value),
 		(number_format_selector_set_date_conv),
 		(number_format_selector_editable_enters) : new
-		
+
 2003-06-14  Jon K Hellan  <hellan@acm.org>
 
 	* color-palette.c (color_palette_button_new):  Wrap preview
@@ -1248,7 +1248,7 @@
 
 	* gnumeric-optionmenu.c: remove some unused code
 	(gnumeric_option_menu_get_history): change return type
-	* gnumeric-optionmenu.h 
+	* gnumeric-optionmenu.h
 	(gnumeric_option_menu_get_history): change return type
 	* widget-charmap-selector.c (cs_init): don't build menu yet
 	(cs_build_menu): new
@@ -1264,7 +1264,7 @@
 	(cs_class_init): set up properties
 	(charmap_selector_new): pass property to constructor
 	(charmap_selector_get_encoding): simplify
-	* widget-charmap-selector.h 
+	* widget-charmap-selector.h
 	(CharmapSelectorTestDirection): new enum
 	(charmap_selector_new): add argument
 
@@ -1289,13 +1289,13 @@
 
 2003-05-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* gnumeric-optionmenu.c (option_menu_init): initialize 
+	* gnumeric-optionmenu.c (option_menu_init): initialize
 	  last_signaled_menu_item
 	(gnumeric_option_menu_changed): check and uncheck items
 	(gnumeric_option_menu_show_all): show more
 	* gnumeric-optionmenu.h (last_signaled_menu_item): new
 	  field in teh option menu
-	* widget-charmap-selector.c: use check_menu_item rather 
+	* widget-charmap-selector.c: use check_menu_item rather
 	  than just menu_item
 
 2003-05-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
@@ -1544,7 +1544,7 @@
 
 2002-05-21 Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* gnumeric-cell-renderer-expr-entry.c 
+	* gnumeric-cell-renderer-expr-entry.c
 	(gnumeric_cell_renderer_expr_entry_editing_done) : make non-static
 	(gnumeric_cell_renderer_expr_entry_start_editing) : save entry
 	* gnumeric-cell-renderer-expr-entry.h : declare
@@ -1552,7 +1552,7 @@
 
 2002-05-03 Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* gnumeric-expr-entry.c (gnm_expr_entry_can_rangesel) : Don't allow range 
+	* gnumeric-expr-entry.c (gnm_expr_entry_can_rangesel) : Don't allow range
 	  selections when a guru is up but no expression entry active.
 
 2002-05-03 Andreas J. Guelzow <aguelzow@taliesin.ca>
@@ -1606,24 +1606,24 @@
 	* gnumeric-expr-entry.c : add rangesel::is_valid
 	(gee_init) : initialize rangesel::is_valid
 	(gee_rangesel_reset) : set rangesel::is_valid
-	(gnm_expr_entry_rangesel_start) : set rangesel::is_valid and 
+	(gnm_expr_entry_rangesel_start) : set rangesel::is_valid and
 	  rangesel::sheet
 	(cb_gee_key_press_event) : ignore single shift and alt keys
-	(gnm_expr_entry_get_rangesel) : return a 
+	(gnm_expr_entry_get_rangesel) : return a
 	  boolean indicating whether the range selection is valid.
 	(gnm_expr_entry_can_rangesel) : use rangesel::is_valid
-	* gnumeric-expr-entry.h (gnm_expr_entry_get_rangesel) : return a 
+	* gnumeric-expr-entry.h (gnm_expr_entry_get_rangesel) : return a
 	  boolean indicating whether the range selection is valid.
 
 2002-04-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_rangesel_start) extract
-	  parsing into src/parse-util.c 
+	  parsing into src/parse-util.c
 
 2002-04-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* gnumeric-cell-renderer-expr-entry.[ch] : make this widget a subclass
-	  of gnumeric-cell-renderer-text rather than 
+	  of gnumeric-cell-renderer-text rather than
 	  gtkcellrenderertext.
 	* gnumeric-cell-renderer-text.c : mark editable fields with a frame to
 	  make them more visible.
@@ -1631,7 +1631,7 @@
 2002-04-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	*  gnumeric-expr-entry.c (gnm_expr_entry_rangesel_start): A
-	second cut at UTF-8 (or a first cut at the second half of this 
+	second cut at UTF-8 (or a first cut at the second half of this
 	function)
 
 2002-04-02  Morten Welinder  <terra@diku.dk>
@@ -1659,9 +1659,9 @@
 
 2002-03-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* gnumeric-cell-renderer-expr-entry.[ch] : new cell renderer using 
+	* gnumeric-cell-renderer-expr-entry.[ch] : new cell renderer using
 	  the expresion entry widget
-	* src/widgets/gnumeric-expr-entry.[ch] : implement GtkCellEditables 
+	* src/widgets/gnumeric-expr-entry.[ch] : implement GtkCellEditables
 	  interface
 	* Makefile.am : add gnumeric-cell-renderer-expr-entry.[ch]
 
@@ -1688,7 +1688,7 @@
 
 2002-03-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* widget-editable-label.[ch] (el_start_editing) : renamed to 
+	* widget-editable-label.[ch] (el_start_editing) : renamed to
 	  editable_label_start_editing and made non-static
 	(editable_label_set_color) : added third argument
 	(editable_label_new) : ditto
@@ -1697,7 +1697,7 @@
 
 	* gnumeric-cell-renderer-text.[ch] : new renderer to make
 	  sure not to obscure colored backgrounds on selection
-	* Makefile.am : added gnumeric-cell-renderer-text.[ch] 
+	* Makefile.am : added gnumeric-cell-renderer-text.[ch]
 
 2002-03-12  Jody Goldberg <jody@gnome.org>
 
@@ -1723,7 +1723,7 @@
 
 2002-02-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* gnumeric-expr-entry.c (gnm_expr_entry_is_blank) : implement. Was 
+	* gnumeric-expr-entry.c (gnm_expr_entry_is_blank) : implement. Was
 	  listed in gnumeric-expr-entry.h but did not exist
 
 2002-02-28  Jody Goldberg <jody@gnome.org>
@@ -1739,7 +1739,7 @@
 2002-02-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_is_cell_ref) : new (is_cell_ref
-	  from src/dialogs/dialog-solver.c and 
+	  from src/dialogs/dialog-solver.c and
 	  src/dialogs/dialog-consolidate.c)
 	(gnm_expr_entry_global_range_name) : new (extracted common code)
 	* gnumeric-expr-entry.h (gnm_expr_entry_is_cell_ref) : new
@@ -1768,7 +1768,7 @@
 
 	* gnumeric-expr-entry.c (gee_focus_in_event, gee_focus_out_event) :
 	  wbcg_set_entry doesn't work here, disabled
-	* gnumeric-expr-entry.h (gnumeric_expr_entry_set_update_policy) : 
+	* gnumeric-expr-entry.h (gnumeric_expr_entry_set_update_policy) :
 	  since this is non-static, declare it
 
 2002-02-21  Jody Goldberg <jody@gnome.org>
@@ -1806,8 +1806,8 @@
 
 2002-02-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* gnumeric-expr-entry.c (update_rangesel_text) : when deleting 
-	  text to add new text don't emit a signal partially through 
+	* gnumeric-expr-entry.c (update_rangesel_text) : when deleting
+	  text to add new text don't emit a signal partially through
 	  the process.
 
 2002-01-30  Jody Goldberg <jody@gnome.org>
@@ -1827,7 +1827,7 @@
 
 2002-01-19  Jody Goldberg <jody@gnome.org>
 
-	* gnumeric-expr-entry.c (gnumeric_expr_entry_class_init) : add 
+	* gnumeric-expr-entry.c (gnumeric_expr_entry_class_init) : add
 	  "rangesel_drag_finished" signal.
 	(gnumeric_expr_entry_end_of_drag) : emit it here.
 
@@ -1863,7 +1863,7 @@
 	http://bugzilla.gnome.org/show_bug.cgi?id=65894
 	* gnumeric-expr-entry.c (gnumeric_expr_entry_button_press_event) :
 	  new signal handler
-	(gnumeric_expr_entry_class_init) : install 
+	(gnumeric_expr_entry_class_init) : install
 	  gnumeric_expr_entry_button_press_event
 
 2001-12-19  Jody Goldberg <jody@gnome.org>
@@ -2100,7 +2100,7 @@
 	* gnumeric-expr-entry.[ch]
 	(gnumeric_expr_entry_at_subexpr_boundary_p): Rename to
 	gnumeric_expr_entry_rangesel_meaningful.
-	Rangesel after ':' or ')' do not make sense. Return FALSE. 
+	Rangesel after ':' or ')' do not make sense. Return FALSE.
 
 2001-05-20  Jody Goldberg <jgoldberg@home.com>
 
@@ -2120,7 +2120,7 @@
 
 2001-05-14  Miguel de Icaza  <miguel@ximian.com>
 
-	* Makefile.am (libwidgets_a_SOURCES): Removed unused scrollbar code. 
+	* Makefile.am (libwidgets_a_SOURCES): Removed unused scrollbar code.
 
 2001-05-11  Jon K Hellan  <hellan@acm.org>
 
@@ -2142,7 +2142,7 @@
 	(gnumeric_expr_entry_set_rangesel_from_range): Don't change text
 	while frozen.
 	(gnumeric_expr_entry_get_rangesel): Use new signature of
-	make_display_range. 
+	make_display_range.
 	(gnumeric_expr_entry_toggle_absolute): Send pos to
 	update_rangesel_text via expr_entry state.
 
@@ -2168,7 +2168,7 @@
 2001-05-04  Jon K Hellan  <hellan@acm.org>
 
 	* gnumeric-expr-entry.h: GnumericExprEntryPrivate is
-	unused. Remove. 
+	unused. Remove.
 
 	* gnumeric-expr-entry.c
 	(gnumeric_expr_entry_set_rangesel_from_range):  Make sure that pos
@@ -2267,7 +2267,7 @@
 2000-09-10  Miguel de Icaza  <miguel@helixcode.com>
 
 	* widget-editable-label.c (el_start_editing): Optionally select
-	the entire text. 
+	the entire text.
 	(el_button_press_event): Double click should start editing with
 	all the text selected.
 
@@ -2290,7 +2290,7 @@
 	* color-group.c : Re-write of color-combo-group.c to allow
 	for arbitrary widgets to share a common color history.
 
-	* widget-color-combo.c : 
+	* widget-color-combo.c :
 	Extracted all the code required to make the color table and moved it to a
 	new object (ColorPalette). Changed the ColorCombo so that it uses
 	the ColorPalette (and the shared color hsitory provided by the groupped
@@ -2311,7 +2311,7 @@
 	Includes functions to create and destroy the object, as
 	well as those required size, and navigate through the custom color history.
 
-	* widget-color-combo.c 
+	* widget-color-combo.c
 	(group_new_custom_color) : New function to handle the
 	new_custom_color signal emitted by the ColorComboGroup
 	(custom_color_history_setup) : New function which initialises a
@@ -2375,7 +2375,7 @@
 	on entry. Otherwise, endless loop would result.
 	(update_list_selection): New function. Guts of
 	gtk_combo_text_set_text moved here, since it is also used by
-	entry_activate_cb. 
+	entry_activate_cb.
 	(gtk_combo_text_set_text): See previous entry.
 	(gtk_combo_text_construct): Construct widget as case insensitive,
 	which is also the default for GtkCombo. Connect entry_activate_cb.
@@ -2387,7 +2387,7 @@
 2000-06-11  Jon K Hellan  <hellan@acm.org>
 
 	* gnumeric-dashed-canvas-line.c (hypothenuse): New static helper
-	function. 
+	function.
 	(double_line_draw): New function. Draw a double line. Even explain
 	in nice ASCII art how we do it.
 	(gnumeric_dashed_canvas_line_draw): Special case double lines by
@@ -2440,10 +2440,10 @@
 	(list_select_cb): Change it to handle list::select_child instead
 	of listitem::select. Change signature accordingly.
 	(list_select_cb): Invalidate cached state if selecting cached
-	widget. 
+	widget.
 	(list_unselect_cb): New callback. Handles unselect by re-selecting
 	if list is visible. This makes it impossible to deselect
-	interactively. 
+	interactively.
 	(cb_toggle): New callback. Handle <Ret> which by default toggles
 	the list item, and make it select instead.
 	(gtk_combo_text_add_item): Don't connect list_select_cb, that's
@@ -2459,9 +2459,9 @@
 
 	* gtk-combo-text.c (cb_enter): To fix bug where mouseover
 	highlight would never go away, only cache selected and normal
-	states. 
+	states.
 	(cb_exit): Only restore state if cached state belongs to this
-	widget. 
+	widget.
 
 2000-05-18  Jon K Hellan  <hellan@acm.org>
 
@@ -2472,7 +2472,7 @@
 	* gtk-combo-text.c (cb_list_mapped): New callback function. Sets
 	focus to selected item, which also happens to make it visible.
 	(gtk_combo_text_construct): Call
-	gtk_container_set_focus_hadjustment - this enables autoscroll and 
+	gtk_container_set_focus_hadjustment - this enables autoscroll and
 	keyboard scrolling. Connect cb_list_mapped.
 
 2000-05-15  Jon K Hellan  <hellan@acm.org>
@@ -2523,9 +2523,9 @@
 
 2000-04-22  Almer. S. Tigelaar.  <almer1@dds.nl>
 
-	* widget-editable-label.c : Added new event "editing_stopped", 
+	* widget-editable-label.c : Added new event "editing_stopped",
 	this signal is emmited when the user presses "ESC" or presses
-	the mouse button(s) outside the editable label. 
+	the mouse button(s) outside the editable label.
 
 2000-04-09  Morten Welinder  <terra@diku.dk>
 
@@ -2535,7 +2535,7 @@
 
 	* gtk-combo-text.[ch]: Fix problem with mouseover: Mouseover from
 	last time popup was up persists if popup was last dismissed with
-	Escape. 
+	Escape.
 
 	* gtk-combo-text.h (_GtkComboText): Add member to remember which
 	entry widget we are caching.
@@ -2599,14 +2599,14 @@
 	reattached after hiding.
 	(gtk_combo_box_popup_display): Realize popup as well as toplevel.
 	(gtk_combo_toggle_pressed): Use
-	gtk_combo_box_popup_hide_unconditional. 
+	gtk_combo_box_popup_hide_unconditional.
 	(gtk_combo_box_key_press): New function. Dismiss popup on escape.
 	(gtk_combo_box_init): Various renamings. Connect key press handler.
-	(gtk_combo_get_parent_toplevel): 
+	(gtk_combo_get_parent_toplevel):
 	(gtk_combo_popup_tear_off): New function. Tear off the popup.
 	(cb_tearable_button_release): Toggle tearoff state.
 	(gtk_combo_box_construct): Make tearoff menu item no fill, no
-	expand. 
+	expand.
 	(gtk_combo_box_set_title): New function. Set a title to display
 	over the tearoff window.
 

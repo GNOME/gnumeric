@@ -33,14 +33,14 @@
 
 2010-05-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-advanced-filter.c (advanced_filter_ok_clicked_cb): use 
+	* dialog-advanced-filter.c (advanced_filter_ok_clicked_cb): use
 	  cmd_analysis_tool
 
 2010-04-22 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-sheet-order.c (cb_sheet_order_cnt_visible): simplify
 	(sheet_order_cnt_visible): ditto
-	(cb_toggled_visible): we are now ensuring that we are the only 
+	(cb_toggled_visible): we are now ensuring that we are the only
 	  modifier
 	(sheet_selection_can_toggle): new
 	(create_sheet_list): hook up sheet_selection_can_toggle
@@ -56,7 +56,7 @@
 2010-03-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* regression.glade: add radio buttons
-	* dialog-analysis-tools.c (regression_tool_ok_clicked_cb): handle 
+	* dialog-analysis-tools.c (regression_tool_ok_clicked_cb): handle
 	  new radio buttons
 
 2010-03-25 Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -70,7 +70,7 @@
 
 	* dialog-preferences.c (enum_pref_create_widget): add argument and
 	  change all callers, always use the correct initial value.
-	
+
 2010-03-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-preferences.c (wordlist_pref_remove): fix leak
@@ -78,7 +78,7 @@
 
 2010-03-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-preferences.c (wordlist_pref_remove): get and set list 
+	* dialog-preferences.c (wordlist_pref_remove): get and set list
 	  via gnumeric-gconf
 	(wordlist_pref_add): ditto
 	(wordlist_pref_create_widget): add getter and setter to argumanets
@@ -86,7 +86,7 @@
 
 2010-03-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-preferences.c: fix boolean preferences under goffice 
+	* dialog-preferences.c: fix boolean preferences under goffice
 	  configured --without-gconf
 
 2010-03-08  Morten Welinder <terra@gnome.org>
@@ -107,11 +107,11 @@
 
 2010-01-12 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-stf-export.c (stf_export_dialog_sheet_page_init): don't 
+	* dialog-stf-export.c (stf_export_dialog_sheet_page_init): don't
 	  select the iter.
 	(stf_export_dialog_switch_page): set the right default and focus
 	(stf_export_dialog): don't do it here
-	
+
 2010-01-11 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-stf-export.glade: add save-as-default checkbox
@@ -123,15 +123,15 @@
 
 	* dialog-stf-export.c (stf_export_dialog_format_page_init):
 	  work around gtk bug #601922
-	
+
 2010-01-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-cell-format.c (cb_fmt_dialog_dialog_buttons): make sure that 
+	* dialog-cell-format.c (cb_fmt_dialog_dialog_buttons): make sure that
 	  the correct sheet is active
 
 2010-01-06 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-analysis-tool-kaplan-meier.c (dialog_kaplan_meier_tool): 
+	* dialog-analysis-tool-kaplan-meier.c (dialog_kaplan_meier_tool):
 	  keep in-place radio button hidden
 	* kaplan-meier.glade: fix title
 
@@ -147,9 +147,9 @@
 
 2009-12-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-paste-special.c (dont_change_formulae_set_sensitive): 
+	* dialog-paste-special.c (dont_change_formulae_set_sensitive):
 	new
-	(dialog_paste_special_type_toggled_cb): connect 
+	(dialog_paste_special_type_toggled_cb): connect
 	  dont_change_formulae_set_sensitive
 	(dialog_paste_special_cell_op_toggled_cb): ditto
 	(cb_tool_ok_clicked): check dont-change-formulae
@@ -158,7 +158,7 @@
 2009-12-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-paste-special.c (skip_blanks_set_sensitive): new
-	(dialog_paste_special_type_toggled_cb): connect 
+	(dialog_paste_special_type_toggled_cb): connect
 	  skip_blanks_set_sensitive
 	(dialog_paste_special_cell_op_toggled_cb): ditto
 
@@ -169,7 +169,7 @@
 2009-12-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-hyperlink.c (dhl_get_default_tip): new
-	(dhl_set_tip): hadnle default tips and switch to 
+	(dhl_set_tip): hadnle default tips and switch to
 	  textview
 	(dhl_get_tip): ditto
 	(dhl_cb_ok): dhl_get_tip now returns an allocated string
@@ -200,10 +200,10 @@
 	(cb_dialog_so_size_apply_clicked): ditto
 	(dialog_so_size): ditto
 	* sheetobject-size.glade: add position section
-	
+
 2009-12-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-sheetobject-size.c (dialog_so_size_button_sensitivity): 
+	* dialog-sheetobject-size.c (dialog_so_size_button_sensitivity):
 	  check for changed name
 	(cb_dialog_so_size_destroy): handle name field
 	(cb_dialog_so_size_apply_clicked): handle name
@@ -241,18 +241,18 @@
 	* dialog-paste-special.c: rewrite completely
 	* help.h: add GNUMERIC_HELP_LINK_PASTE_SPECIAL
 	* paste-special.glade: new
-	
+
 2009-12-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.17
 
 2009-12-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-analysis-tool-sign-test.c 
-	(sign_test_tool_update_sensitivity_cb): also handle 2 
+	* dialog-analysis-tool-sign-test.c
+	(sign_test_tool_update_sensitivity_cb): also handle 2
 	  medians case
 	(sign_test_two_tool_ok_clicked_cb): new
-	(dialog_sign_test_tool): change argument type and also 
+	(dialog_sign_test_tool): change argument type and also
 	  handle 2-medians case
 	* dialog-analysis-tool-sign-test.h
 	(dialog_sign_test_tool): change argument type
@@ -312,7 +312,7 @@
 
 2009-11-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-cell-sort.c (set_ok_button_sensitivity): check whether 
+	* dialog-cell-sort.c (set_ok_button_sensitivity): check whether
 	  state->sel is NULL
 	(cb_dialog_ok_clicked): store a copy of the setup.
 	(dialog_cell_sort_load_sort_setup): new stub
@@ -332,7 +332,7 @@
 
 	* dialog-doc-metadata.c (dialog_doc_meta_data_add_item): fix wrong
 	  key
-	* dialog-workbook-attr.c (AttrState): remove unneeded fields and 
+	* dialog-workbook-attr.c (AttrState): remove unneeded fields and
 	  add 2 new fields
 	(cb_page_select): deleted
 	(cb_widget_changed ): rewritten into instant-apply
@@ -348,11 +348,11 @@
 	(attr_dialog_impl): set up page selector
 	* preferences.glade: minor border adjstment
 	* workbook-attr.glade: major adjustments
-	
+
 2009-11-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-doc-metadata.c: use more appropriate icon for statistics
-	* dialog-preferences.c (page_info): change the order of items to 
+	* dialog-preferences.c (page_info): change the order of items to
 	  index the required page directly
 	(dialog_pref_select_page_search): new
 	(dialog_pref_select_page): use the page number rather than the path
@@ -380,7 +380,7 @@
 	(cb_dialog_doc_metadata_selection_changed): new
 	(dialog_doc_metadata_init): configure treeview
 	* dialog-preferences.c (page_info_t): drop unneeded item
-	(dialog_pref_select_page): use gtk_tree_view_set_curcsor 
+	(dialog_pref_select_page): use gtk_tree_view_set_curcsor
 	(dialog_preferences): drop unneeded item from page_info_t and delete
 	  superfluous code
 	* dialogs.h (dialog_doc_metadata_new): add page argument
@@ -444,7 +444,7 @@
 
 2009-10-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-cell-sort.c (cb_sort_header_check): call 
+	* dialog-cell-sort.c (cb_sort_header_check): call
 	  set_ok_button_sensitivity
 
 2009-10-11  Morten Welinder <terra@gnome.org>
@@ -464,7 +464,7 @@
 	* so-button.glade: new
 	* Makefile.am: add so-button.glade
 	* help.h: add GNUMERIC_HELP_LINK_SO_BUTTON
-	
+
 2009-09-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.13
@@ -570,7 +570,7 @@
 
 2009-07-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-analysis-tools.c (dialog_*_tool): check for 
+	* dialog-analysis-tools.c (dialog_*_tool): check for
 	  required plugins
 	* dialog-analysis-tool-chi-squared.c (dialog_chi_square_tool):
 	  ditto
@@ -581,7 +581,7 @@
 
 2009-07-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-analysis-tools.c (dialog_fourier_tool): check for 
+	* dialog-analysis-tools.c (dialog_fourier_tool): check for
 	  required plugins and enable dao selector
 
 2009-07-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -618,7 +618,7 @@
 2009-06-28 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* function-select.glade: add left and right margins to description
-	
+
 2009-06-28 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* cell-format.glade: add buttons
@@ -629,12 +629,12 @@
 
 	* dialog-sheet-order.c (dialog_sheet_order): restore window
 	  geometry
-	
+
 2009-06-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* cell-format.glade: remove unused label text and reduce
 	  indentation for conditions treeview
-	* dialog-cell-format.c: introduce enum for conditions treeview 
+	* dialog-cell-format.c: introduce enum for conditions treeview
 	  columns and use throughout
 	(fmt_dialog_conditions_page_load_cond): add parent iter argument
 	(fmt_dialog_conditions_page_load_conditions): new
@@ -646,12 +646,12 @@
 
 	* cell-format.glade: Add "conditions" page
 	* dialog-cell-format.c (): new
-	(fmt_dialog_conditions_page_load_cond_single_f): new		
-	(fmt_dialog_conditions_page_load_cond_double_f): new		
-	(fmt_dialog_conditions_page_load_cond): new		
-	(fmt_dialog_init_conditions_page): new		
+	(fmt_dialog_conditions_page_load_cond_single_f): new
+	(fmt_dialog_conditions_page_load_cond_double_f): new
+	(fmt_dialog_conditions_page_load_cond): new
+	(fmt_dialog_init_conditions_page): new
 	(fmt_dialog_impl): call fmt_dialog_init_conditions_page
-	
+
 2009-06-22  Morten Welinder  <terra@gnome.org>
 
 	* cell-comment.glade: Don't add orientation to a vbox.
@@ -659,7 +659,7 @@
 2009-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-function-select.c (describe_new_style): argument
-	  descriptions may refer to other arguments. Handle 
+	  descriptions may refer to other arguments. Handle
 	  GNM_FUNC_HELP_EXCEL and GNM_FUNC_HELP_ODF
 
 2009-06-20  Morten Welinder <terra@gnome.org>
@@ -675,12 +675,12 @@
 	* dialog-cell-sort.c (dialog_load_selection): return info about
 	  the selection
 	(dialog_init): use sheet_range_has_heading
-	* dialog-preferences.c (pref_sort_page_initializer): remove "Sort 
+	* dialog-preferences.c (pref_sort_page_initializer): remove "Sort
 	  Area Has a HEADER" button.
-	
+
 2009-06-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-printer-setup.c (load_print_area) adjust for changes in 
+	* dialog-printer-setup.c (load_print_area) adjust for changes in
 	  sheet_get_nominal_printarea
 
 2009-06-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -703,8 +703,8 @@
 
 2009-05-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-so-styled.c (dialog_so_styled_text_widget): make sure 
-	  the existing text is not NULL. 
+	* dialog-so-styled.c (dialog_so_styled_text_widget): make sure
+	  the existing text is not NULL.
 
 2009-05-25  Morten Welinder  <terra@gnome.org>
 
@@ -726,7 +726,7 @@
 
 2009-05-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-stf-export.glade: don't asked for translation of 
+	* dialog-stf-export.glade: don't asked for translation of
 	  untranslatables
 
 2009-05-10  Morten Welinder  <terra@gnome.org>
@@ -758,7 +758,7 @@
 
 2009-04-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-cell-comment.c (dialog_cell_comment): show cell name in 
+	* dialog-cell-comment.c (dialog_cell_comment): show cell name in
 	  dialog title
 
 2009-04-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -767,7 +767,7 @@
 	* dialog-cell-comment.c (cb_cell_comment_ok_clicked): handle attributes
 	(dialog_cell_comment): ditto
 	(cb_wrap_toggled): new
-	* dialog-so-styled.c (cb_dialog_so_styled_text_widget_changed): use 
+	* dialog-so-styled.c (cb_dialog_so_styled_text_widget_changed): use
 	  "attributes" property of GnmTextView
 	(dialog_so_styled_text_widget): ditto
 
@@ -819,7 +819,7 @@
 	(dialog_so_styled_bold_button_activated): new
 	(dialog_so_styled_build_button_bold): new
 	(dialog_so_styled_text_widget): setup bold button
-	
+
 2009-04-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-so-styled.c (DialogSOStyled): add button field
@@ -842,8 +842,8 @@
 	(cb_dialog_so_styled_text_widget_mark_set): new
 	(cb_dialog_so_styled_text_widget_set_italic): new
 	(dialog_so_styled_text_widget): add toolbar
-	(dialog_so_styled): show all widgets on the added page 
-	
+	(dialog_so_styled): show all widgets on the added page
+
 2009-04-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-so-styled.c (DialogSOStyled): include original attributes
@@ -878,7 +878,7 @@
 
 	* dialog-doc-metadata.c (dialog_doc_metadata_set_gsf_prop): avoid unneccessary
 	property changes
-	
+
 2009-04-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* dialog-about.c: fixed after GogStyle -> GOStyle rename.
@@ -900,7 +900,7 @@
 	(cb_dialog_doc_metadata_remove_clicked): call cmd_change_meta_data
 	(dialog_doc_metadata_set_gsf_prop): call cmd_change_meta_data
 	(dialog_doc_metadata_init): retrieve the correct metadata structure
-	
+
 2009-04-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-sheet-order.c (SheetManager): added fields
@@ -950,8 +950,8 @@
 
 2009-03-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-cell-format.c (fmt_dialog_impl) use 
-	  GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED instead of 
+	* dialog-cell-format.c (fmt_dialog_impl) use
+	  GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED instead of
 	  GNM_DIALOG_DESTROY_SHEET_REMOVED
 
 2009-03-12  Morten Welinder  <terra@gnome.org>
@@ -984,7 +984,7 @@
 
 2009-01-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* solver.glade: move add and replace constraints button next to 
+	* solver.glade: move add and replace constraints button next to
 	the constraint to be used.
 
 2008-12-22  Morten Welinder  <terra@gnome.org>
@@ -1015,7 +1015,7 @@
 	* sheet-order.glade: add checkbox
 	* dialog-sheet-order.c (cb_adv_check_toggled): new
 	(dialog_sheet_order): hook up cb_adv_check_toggled
-	
+
 2008-12-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* sheet-order.glade: reduce margin and add border to scrolled window
@@ -1028,7 +1028,7 @@
 2008-11-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* kaplan-meier.glade: add logrank checkbox
-	* dialog-analysis-tool-kaplan-meier.c (kaplan_meier_tool_ok_clicked_cb): 
+	* dialog-analysis-tool-kaplan-meier.c (kaplan_meier_tool_ok_clicked_cb):
 	  handle logrank checkbox
 	(dialog_kaplan_meier_tool): ditto
 	(KaplanMeierToolState): add new field
@@ -1036,14 +1036,14 @@
 2008-11-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* kaplan-meier.glade: add median checkbox
-	* dialog-analysis-tool-kaplan-meier.c (kaplan_meier_tool_ok_clicked_cb): 
-	  handle median checkbox 
-	
+	* dialog-analysis-tool-kaplan-meier.c (kaplan_meier_tool_ok_clicked_cb):
+	  handle median checkbox
+
 2008-11-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* kaplan-meier.glade: add groups tab
 	* dialog-analysis-tool-kaplan-meier.c (KaplanMeierToolState): add new
-	  fields 
+	  fields
 	(kaplan_meier_tool_update_sensitivity_cb): handle new tab
 	(kaplan_meier_tool_get_groups_cb): new
 	(kaplan_meier_tool_get_groups): new
@@ -1071,10 +1071,10 @@
 
 2008-11-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-function-select.c (cb_dialog_function_select_cat_selection_changed): 
+	* dialog-function-select.c (cb_dialog_function_select_cat_selection_changed):
 	  include category name in lists if they are not category specific
 	(dialog_function_select_init): add category column to functiojn store
-	
+
 2008-11-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-function-select.c (describe_new_style): include examples
@@ -1123,9 +1123,9 @@
 	  button as appropriate
 	(verify_validity): show the correct name
 	(cb_apply_names_clicked): do not use a dialog
-	(cb_sheet_order_cnt_visible): make sure that the model contains 
+	(cb_sheet_order_cnt_visible): make sure that the model contains
 	   up-to-date information
-	(sheet_order_cnt_visible): we need to pass the state to 
+	(sheet_order_cnt_visible): we need to pass the state to
 	  cb_sheet_order_cnt_visible
 	(cb_toggled_visible): don't show a warning if this sheet
 	  is already invisible
@@ -1139,11 +1139,11 @@
 	  fields
 	(workbook_signals_block): new
 	(workbook_signals_unblock): new
-	  replace all g_signal_handler_[un]block referring to 
+	  replace all g_signal_handler_[un]block referring to
 	  sheet_order_changed_listener with calls to the two above
 	(cb_sheet_order_destroy): destroy the two new listeners
 	(dialog_sheet_order_update_sheet_order): the dialog
-	  and the true number of sheets may not match temporarily if 
+	  and the true number of sheets may not match temporarily if
 	  a sheet was just added or deleted.
 	(cb_sheet_deleted): new
 	(cb_sheet_added): new
@@ -1151,7 +1151,7 @@
 
 2008-10-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-sheet-order.c (cb_delete_clicked): make sure at 
+	* dialog-sheet-order.c (cb_delete_clicked): make sure at
 	  least one sheet is still visible
 
 2008-10-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -1168,7 +1168,7 @@
 	  duplicate button
 	(dialog_sheet_order): ditto
 	(cb_duplicate_clicked): implement
-	
+
 2008-10-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-sheet-order.c (cb_sheet_order_cnt_visible): new
@@ -1192,7 +1192,7 @@
 	(populate_sheet_list): split out create_sheet_list and
 	  set_sheet_info_at_iter
 	(cb_append_clicked): new
-	(verify_validity): remove unused flags and reduce to checking 
+	(verify_validity): remove unused flags and reduce to checking
 	  names
 	(cb_apply_names_clicked): new
 	(cb_ok_clicked): deleted
@@ -1227,10 +1227,10 @@
 2008-10-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* kaplan-meier.glade: enable ticks button
-	* dialog-analysis-tool-kaplan-meier.c 
+	* dialog-analysis-tool-kaplan-meier.c
 	(kaplan_meier_tool_update_sensitivity_cb): disable ticks
 	  button when we do not have censorship info
-	
+
 2008-10-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* kaplan-meier.glade: new
@@ -1241,7 +1241,7 @@
 	* dialogs.h (dialog_kaplan_meier_tool): new
 	* dialog-analysis-tools.c: rename analysis_tools_data_ftest_t
 	  to analysis_tools_data_generic_b_t throughout
-	
+
 2008-10-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* frequency.glade: desensitize not-yet implemented option
@@ -1251,13 +1251,13 @@
 	* frequency.glade: add exact button
 	* dialog-analysis-tool-frequency.c (frequency_tool_ok_clicked_cb):
 	  handle exact button
-	
+
 2008-10-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* frequency.glade: new
 	* dialog-analysis-tool-frequency.c: new
 	* dialogs.h (dialog_frequency_tool): new
-	* Makefile.am: added frequency.glade and 
+	* Makefile.am: added frequency.glade and
 	  dialog-analysis-tool-frequency.c
 	* help.h (GNUMERIC_HELP_LINK_FREQUENCY): new
 
@@ -1279,7 +1279,7 @@
 	(exp_smoothing_tool_ok_clicked_cb): ditto
 	(dialog_exp_smoothing_tool): ditto and enable additive
 	  Holt-Winters
-	
+
 2008-10-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-analysis-tools.c: rename moving_average_type_*es to
@@ -1291,15 +1291,15 @@
 	* dialog-analysis-tools.c (exp_smoothing_ses_h_cb): no need to
 	  resensitize buttons
 	(exp_smoothing_ses_r_cb): do not desensitize buttons
-	(exp_smoothing_des_cb): ditto and switch denominator when 
+	(exp_smoothing_des_cb): ditto and switch denominator when
 	  selected
 
 2008-09-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-analysis-tools.c (exp_smoothing_ses_r_cb): new
-	(exp_smoothing_ses_cb): renamed to exp_smoothing_ses_h_cb 
+	(exp_smoothing_ses_cb): renamed to exp_smoothing_ses_h_cb
 	  and set appropriate denominator
-	
+
 2008-09-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* exp-smoothing.glade: added controls for Holt's
@@ -1308,7 +1308,7 @@
 	(ExpSmoothToolState): added more fields
 	(exp_smoothing_tool_ok_clicked_cb): retrieve info from
 	  additional fields
-	(exp_smoothing_tool_update_sensitivity_cb): check for 
+	(exp_smoothing_tool_update_sensitivity_cb): check for
 	  additional info.
 	(exp_smoothing_ses_cb): new
 	(exp_smoothing_des_cb): new
@@ -1318,16 +1318,16 @@
 2008-09-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* exp-smoothing.glade: enable "Roberts".
-	* dialog-analysis-tools.c (exp_smoothing_tool_ok_clicked_cb): 
+	* dialog-analysis-tools.c (exp_smoothing_tool_ok_clicked_cb):
 	  check for type of smoothing
 	(exp_smoothing_group): new
-	
+
 2008-09-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* exp-smoothing.glade: add controls and reformat
 	* dialog-analysis-tools.c (ExpSmoothToolState): add fields
 	(exp_smoothing_tool_ok_clicked_cb): handle new fields
-	(exp_smoothing_tool_update_sensitivity_cb): use warning 
+	(exp_smoothing_tool_update_sensitivity_cb): use warning
 	  field in the dialog
 	(exp_smoothing_tool_check_error_cb): new
 	(dialog_exp_smoothing_tool): setup new controls
@@ -1342,7 +1342,7 @@
 2008-09-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* moving-averages.glade: move items
-	* dialog-analysis-tools.c (moving_average_group): new 
+	* dialog-analysis-tools.c (moving_average_group): new
 	  group for radio buttons
 	(average_tool_sma_cb): new
 	(average_tool_cma_cb): new
@@ -1370,7 +1370,7 @@
 	(average_tool_interval_cb): new
 	(dialog_average_tool): setup new controls
 	* moving-averages.glade: enable controls
-	
+
 2008-09-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-analysis-tools.c (average_tool_update_sensitivity_cb):
@@ -1405,7 +1405,7 @@
 
 	Fix [#302883]
 	* plugin-manager.glade: remove "activate all" icon
-	* dialog-plugin-manager.c (dialog_plugin_manager): add 
+	* dialog-plugin-manager.c (dialog_plugin_manager): add
 	  "activate all" icon
 
 2008-09-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -1438,7 +1438,7 @@
 
 2008-09-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-analysis-tools.c (regression_tool_update_sensitivity_cb): add forgotten 
+	* dialog-analysis-tools.c (regression_tool_update_sensitivity_cb): add forgotten
 	  "return"
 	(histogram_tool_update_sensitivity_cb): use warning field in the dialog.
 
@@ -1464,7 +1464,7 @@
 	* dialog-hyperlink.c (dhl_cb_ok): use is_new rather than src_link
 	  since the latter contain only random info. Use cmd_selection_hyperlink
 	  rather than cmd_selection_format
-	
+
 2008-09-11  Morten Welinder  <terra@gnome.org>
 
 	* dialog-function-select.c (describe_new_style): Add missing
@@ -1488,7 +1488,7 @@
 	* row-height.glade: ditto
 	* dialog-col-width.c (ColWidthState): new fields
 	(dialog_col_width_update_points): new
-	(dialog_col_width_button_sensitivity): use int and call 
+	(dialog_col_width_button_sensitivity): use int and call
 	  dialog_col_width_update_points
 	(dialog_col_width_set_value): adjust for zoom factor and return
 	  adjusted value.
@@ -1502,11 +1502,11 @@
 	* regression.glade: remove "group by" buttons and add
 	  warnings label
 	* dialog-analysis-tools.c (regression_tool_calc_*): new
-	(regression_tool_ok_clicked_cb): keep arrays and 
+	(regression_tool_ok_clicked_cb): keep arrays and
 	  determine group-by from y variable
 	(regression_tool_update_sensitivity_cb): provide reasons
 	  and also check for correct range sizes
-	(dialog_regression): enable choice to enter formulas rather than 
+	(dialog_regression): enable choice to enter formulas rather than
 	  values
 
 2008-08-29  Jody Goldberg <jody@gnome.org>
@@ -1564,7 +1564,7 @@
 
 2007-11-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-printer-setup.c (hf_customize_apply): reset modification 
+	* dialog-printer-setup.c (hf_customize_apply): reset modification
 	  flags
 
 2007-11-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -1589,7 +1589,7 @@
 
 	* dialog-formula-guru.c (dialog_formula_guru_load_fd): return
 	  maximum number of possible arguments
-	(dialog_formula_guru_load_expr): use that return value of 
+	(dialog_formula_guru_load_expr): use that return value of
 	  dialog_formula_guru_load_fd and do not try to load more arguments.
 
 2007-11-19  Jody Goldberg <jody@gnome.org>
@@ -1612,7 +1612,7 @@
 	(hf_attach_insert_date_menu): link hf_insert_custom_date_cb
 	(hf_attach_insert_time_menu): link hf_insert_custom_time_cb
 	(hf_dt_customize_ok): new
-	
+
 2007-11-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* print.glade: add orientation radio buttons to the main dialog
@@ -1622,7 +1622,7 @@
 
 2007-11-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-printer-setup.c (check_hf_tag): add length argument and 
+	* dialog-printer-setup.c (check_hf_tag): add length argument and
 	  change all callers. Consider only length many characters.
 
 2007-11-17  Morten Welinder  <terra@gnome.org>
@@ -1635,7 +1635,7 @@
 	* dialog-printer-setup.c (hf_insert_cell_cb): new
 	(hf_attach_insert_cell_menu): new
 	(do_hf_customize): hook-up the above
-	
+
 2007-11-16  Morten Welinder  <terra@gnome.org>
 
 	* dialog-preferences.c (cb_workbook_removed): New handler to close
@@ -1651,7 +1651,7 @@
 
 2007-11-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-printer-setup.c (hf_insert_hf_stock_tag): handle 
+	* dialog-printer-setup.c (hf_insert_hf_stock_tag): handle
 	  options, add argument and change all callers
 	(hf_insert_hf_text_tag): deleted
 	(hf_insert_date_cb): retrieve and pass on options
@@ -1677,17 +1677,17 @@
 	(is_known_tag): add more known tags
 	(add_text_to_buffer): make sure the iter stays valid
 	(do_hf_customize): add icons to toolbar
-	
+
 2007-11-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-printer-setup.c (fill_hf): current format must be 
+	* dialog-printer-setup.c (fill_hf): current format must be
 	  registered.
 	(do_setup_hf_menus): Make sure current format is registered.
 
 2007-11-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-printer-setup.c (do_update_page): we need to set the
-	  header and footer margins first (they change the top and 
+	  header and footer margins first (they change the top and
 	  bottom margins)
 
 2007-11-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -1695,7 +1695,7 @@
 	* hf-config.glade: add some icons
 	* dialog-printer-setup.c (hf_insert_hf_stock_tag): new
 	(hf_insert_hf_text_tag): new
-	(hf_insert_hf_tag): rewritten to use the above and change 
+	(hf_insert_hf_tag): rewritten to use the above and change
 	  all callers to use new arguments
 	(buffer_delete_range_cb): delete dropped textmarks
 	(mark_info_compare): new
@@ -1733,7 +1733,7 @@
 	* dialog-printer-setup.c (hf_insert_*_cb): new
 	(hf_insert_hf_tag): new
 	(do_hf_customize): hook up toolbar buttons
-	
+
 2007-11-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* hf-config.glade: some fine tuning (scroll bars, toolbar, etc.)
@@ -1759,7 +1759,7 @@
 	* dialog-printer-setup.c (do_hf_customize): retrieve buffers only once
 	  and reset the modified bit after loading text.
 	(create_hf_preview_canvas): Don't center multiline headers or footers
-	
+
 2007-11-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* hf-config.glade: replace GtkEntry with GtkTextView
@@ -1770,10 +1770,10 @@
 2007-11-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* hf-config.glade: rewrite with glade 3
-	* dialog-printer-setup.c (do_hf_customize): use 
-	  gtk_window_set_transient_for since go_gtk_window_set_transient 
+	* dialog-printer-setup.c (do_hf_customize): use
+	  gtk_window_set_transient_for since go_gtk_window_set_transient
 	  stacks the dialog below the print setup dialog.
-	
+
 2007-11-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* print.glade: add "do not print" checkbox
@@ -1802,7 +1802,7 @@
 
 2007-11-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-printer-setup.c: reenable some of the header/footer 
+	* dialog-printer-setup.c: reenable some of the header/footer
 	  specification
 	* print.glade: remove unnecessary label on header/footer page
 
@@ -1825,7 +1825,7 @@
 
 2007-11-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-printer-setup.c (cb_do_print): Preserve required info 
+	* dialog-printer-setup.c (cb_do_print): Preserve required info
 	  before deleting state [#491775]
 
 2007-10-27  Jody Goldberg <jody@gnome.org>
@@ -1921,7 +1921,7 @@
 	(enum_pref_conf_to_widget) : new.
 	(enum_pref_create_widget) :  new.
 
-2007-06-27  Jody Goldberg <jody@gnome.org> 
+2007-06-27  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=450676
 	* dialog-analysis-tools.c (dialog_ttest_tool) : don't set a 'state'
@@ -1934,7 +1934,7 @@
 	(display_order_icon): enable
 	(do_setup_page_info): setup order icons
 	(do_setup_main_dialog): enable order buttons
-	
+
 
 2007-06-10  Jody Goldberg <jody@gnome.org>
 
@@ -2041,7 +2041,7 @@
 	(margin_spin_configure): new
 	(do_setup_margin): handle margin spin buttons
 	(do_update_margin): new
-	(do_update_page): call do_update_margin and configure_bounds_* 
+	(do_update_page): call do_update_margin and configure_bounds_*
 	(do_fetch_unit): new
 	(do_fetch_margins): rewrite
 	(fetch_settings): add new do_fetch_*
@@ -2271,7 +2271,7 @@
 2006-10-23  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-plugin-manager.c (cb_pm_button_deactivate_all_clicked):
-	Remove. 
+	Remove.
 	(pm_dialog_init, dialog_plugin_manager): Remove "Deactivate all"
 	button.
 	* plugin-manager.glade: Ditto.
@@ -2284,7 +2284,7 @@
 	workbook. [#364082]
 
 	* dialog-scenarios.c (scenario_add_ok_clicked_cb): Fix string typo.
-	[#364201] 
+	[#364201]
 
 	* dialog-stf-export.c (cb_selection_changed,
 	cb_sheet_export_toggled): Check that tree model iterator is valid.
@@ -2366,7 +2366,7 @@
 2006-06-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=345896
-	* dialog-define-names.c (NameGuruState): add action_possible 
+	* dialog-define-names.c (NameGuruState): add action_possible
 	  field
 	(name_guru_update_sensitivity): rewrite
 	(cb_scope_changed): just update the buttons, don't switch scope
@@ -2392,9 +2392,9 @@
 
 	* dialog-stf-format-page.c (cb_col_check_clicked): use
 	  ngettext #123860
-	* ialog-stf-main-page.c (main_page_import_range_changed): 
+	* ialog-stf-main-page.c (main_page_import_range_changed):
 	  use ngettext #123860
-	
+
 2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* dao-gui-utils.c: replaced gi18n.h by gi18n-lib.h.
@@ -2572,7 +2572,7 @@
 	All callers changed to dialog_doc_metadata_set_label_text.
 	(dialog_doc_metadata_get_gsf_prop_value): delete.
 	(dialog_doc_metadata_get_gsf_prop_value_as_str): delete.
-	(dialog_doc_metadata_get_value_as_str): renamed to 
+	(dialog_doc_metadata_get_value_as_str): renamed to
 	dialog_doc_metadata_get_prop_value_as_str. All callers changed.
 
 2006-03-03  Eduardo Lima  <eduardo.lima@indt.org.br>
@@ -2600,9 +2600,9 @@
 2006-01-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=327278
-	* dialog-preferences.c (pref_sort_page_initializer): add 
+	* dialog-preferences.c (pref_sort_page_initializer): add
 	  "has-header" checkbox
-	* dialog-cell-sort.c (dialog_init): initialize "has-header" 
+	* dialog-cell-sort.c (dialog_init): initialize "has-header"
 	  checkbox
 
 2006-01-13  Morten Welinder  <terra@gnome.org>
@@ -2668,10 +2668,10 @@
 
 2005-09-28 Eduardo de Barros Lima <eduardo.lima@indt.org.br>
 
-	* dialog-doc-metadata.c: new function implemented 
+	* dialog-doc-metadata.c: new function implemented
 	(dialog_doc_metadata_set_entry_text_with_gsf_str_prop_value) : new.
 	(populate_page_2) : code to set the text of the entries.
-	
+
 2005-09-26  Jody Goldberg <jody@gnome.org>
 
 	* cell-format.glade : give the super/sub script buttons names and
@@ -2844,7 +2844,7 @@
 
 	* src/dialog/dialog-about.c (dialog_about): use
 	gog_object_set_position_flags.
-						    
+
 2005-06-01  Stepan Kasal  <kasal@ucw.cz>
 
 	* dialog-about.c (contributors): Add accent to Jakub Jelinek.
@@ -2859,7 +2859,7 @@
 	* print.glade: some layout/spacing fixes. Don't use stock "print
 	preview" button, but just stock icon. In some locales, standard
 	translation of "Print preview" can lead to very wide dialog.
-	
+
 2005-05-26  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-preview.c (stf_preview_set_lines): Fix some serious
@@ -3018,7 +3018,7 @@
 
 2005-02-09  Jon K Hellan  <hellan@acm.org>
 
-	* dialog-simulation.c (simulation_update_sensitivity_cb) 
+	* dialog-simulation.c (simulation_update_sensitivity_cb)
 	(update_results_view): Cast gnm_float to double in printf.
 
 	* dialog-workbook-attr.c (struct AttrState, get_entry_values,
@@ -3082,7 +3082,7 @@
 2004-11-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=158207
-	* dialog-autocorrect.c (cb_remove_clicked): two 
+	* dialog-autocorrect.c (cb_remove_clicked): two
 	  strings can be the same even if they differ as pointers.
 
 2004-11-07  Jody Goldberg <jody@gnome.org>
@@ -3093,7 +3093,7 @@
 
 	* dialog-preferences.c: add default text argument to
 	  all calls of *_pref_create_widget
-	(dialog_pref_load_description_from_key): use 
+	(dialog_pref_load_description_from_key): use
 	  dialog_pref_load_description
 	(bool_pref_create_widget): use default text
 	(int_pref_create_widget): ditto
@@ -3130,7 +3130,7 @@
 	(pref_file_page_initializer): reorder items
 	(int_pref_create_widget): adjust spacing
 	(double_pref_create_widget): adjust spacing
-	
+
 2004-11-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-preferences.c: add setter function arguments to all calls to
@@ -3142,7 +3142,7 @@
 
 2004-11-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-preferences.c: add setter function arguments to all calls to 
+	* dialog-preferences.c: add setter function arguments to all calls to
 	  int_pref_create_widget
 	(int_pref_widget_to_conf) call setter function
 	  rather than talking to gconf
@@ -3175,7 +3175,7 @@
 
 2004-11-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-preferences.c: reenable some of the `internal' 
+	* dialog-preferences.c: reenable some of the `internal'
 	  preferences since they are apparently used
 
 2004-11-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
@@ -3186,14 +3186,14 @@
 	  a specific configuration setting function
 	(double_pref_create_widget): ditto
 	(cb_pref_font_has_changed): do not write directly to gconf
-	(pref_window_page_initializer): specify configuration 
+	(pref_window_page_initializer): specify configuration
 	  setting functions
 
 2004-11-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-stf-export.c (cb_selection_changed): disable
 	  movement buttons if there is an empty selection.
-	
+
 2004-11-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-function-select.c (dialog_function_write_recent_func):
@@ -3207,11 +3207,11 @@
 
 	* dialog-stf-export.c (cb_selection_changed): disable
 	  movement buttons if there is no selection.
-	
+
 2004-11-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-stf-export.c (location_of_iter): deleted
-	(cb_selection_changed): check whether first and last item 
+	(cb_selection_changed): check whether first and last item
 	  are selected
 	(cb_item_move): rewrite using gtk 2.2 api additions
 	(cb_up): change arguments to cb_item_move
@@ -3226,9 +3226,9 @@
 2004-10-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-stf-export.glade: mark sheet list reorderable
-	* dialog-stf-export.c 
+	* dialog-stf-export.c
 	(stf_export_dialog_sheet_page_init): mark sheet list reorderable
-	
+
 2004-10-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-stf-export.glade: fix spelling
@@ -3263,17 +3263,17 @@
 	  number of non-empty sheets only.
 	(cb_set_sheet): do not set empty sheets to be exported
 	(cb_sheet_select_all): `all' means all non-empty sheets.
-	(stf_export_dialog_sheet_page_init): check which sheets are 
+	(stf_export_dialog_sheet_page_init): check which sheets are
 	  non-empty
-	(stf_export_dialog_switch_page): ignore the sheet selection  page 
+	(stf_export_dialog_switch_page): ignore the sheet selection  page
 	  if there is only one empty sheet.
-	(stf_export_dialog): ditto. Moreover, warn the user if there is no 
+	(stf_export_dialog): ditto. Moreover, warn the user if there is no
 	  content that can be exported.
 
 2004-10-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=156531
-	* dialog-stf-format-page.c (format_page_update_preview): don't 
+	* dialog-stf-format-page.c (format_page_update_preview): don't
 	  hardcode maximum number of permissible columns.
 
 2004-10-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
@@ -3314,7 +3314,7 @@
 2004-10-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=154139
-	* dialog-stf-format-page.c (cb_col_check_clicked): switch column 
+	* dialog-stf-format-page.c (cb_col_check_clicked): switch column
 	  style
 	(format_page_update_preview): adjust column style
 
@@ -3473,7 +3473,7 @@
 
 2004-09-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-analysis-tools.c (dialog_ttest_tool): Enable the `put' 
+	* dialog-analysis-tools.c (dialog_ttest_tool): Enable the `put'
 	  menu in the dao widget.
 
 2004-09-02  Stepan Kasal  <kasal@ucw.cz>
@@ -3516,9 +3516,9 @@
 
 2004-07-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-analysis-tools.c (dialog_ftest_tool): Enable the `put' 
+	* dialog-analysis-tools.c (dialog_ftest_tool): Enable the `put'
 	  menu in the dao widget.
-	
+
 2004-07-27  Morten Welinder  <terra@gnome.org>
 
 	* dialog-search.c (make_matches_table): Don't use NULL
@@ -3530,7 +3530,7 @@
 
 2004-07-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-preferences.c (pref_tree_data): add CLIPBOARD over 
+	* dialog-preferences.c (pref_tree_data): add CLIPBOARD over
 	  PRIMARY preference
 
 2004-07-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
@@ -3558,7 +3558,7 @@
 
 	* dialog-analysis-tools.c (cb_desc_stat_tool_ok_clicked):
 	  retrieve information from the ss_button
-	(dialog_descriptive_stat_tool): c_entry is a spinbutton (not an 
+	(dialog_descriptive_stat_tool): c_entry is a spinbutton (not an
 	  entry). Enable the `put' menu in the dao widget.
 
 2004-06-01  Morten Welinder  <terra@gnome.org>
@@ -3588,17 +3588,17 @@
 
 2004-05-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-sheet-order.c: add handling of "visible" column 
+	* dialog-sheet-order.c: add handling of "visible" column
 	  throughout
 	(cb_toggled_visible) : new
-	
+
 2004-05-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* sheet-order.glade: increase default width
 
 2004-05-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-sheet-order.c (cb_color_changed_back): colour 0 is the 
+	* dialog-sheet-order.c (cb_color_changed_back): colour 0 is the
 	  default colour
 	(cb_color_changed_fore): colour 0 is the default colour
 
@@ -3782,7 +3782,7 @@
 
 2003-12-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-analysis-tools.c 
+	* dialog-analysis-tools.c
 	(anova_two_factor_tool_update_sensitivity_cb): switch to spin button
 	(anova_two_factor_tool_ok_clicked_cb): ditto
 	* anova-two.glade: change GtkEntry to GtkSpinButton
@@ -3795,11 +3795,11 @@
 
 2003-12-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-analysis-tools.c (anova_single_tool_update_sensitivity_cb): 
+	* dialog-analysis-tools.c (anova_single_tool_update_sensitivity_cb):
 	  switch to spin button
 	(anova_single_tool_ok_clicked_cb): ditto
 	* anova-one.glade: change GtkEntry to GtkSpinButton
-	
+
 2003-12-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-analysis-tools.c (desc_stat_tool_update_sensitivity_cb):
@@ -3837,7 +3837,7 @@
 	* dao-gui-utils.c (cb_focus_on_entry): deleted
 	(tool_set_focus_output_range): deleted
 	(dialog_tool_preset_to_range): use dao widget
-	(dialog_tool_init_outputs): all callers are now using the dao 
+	(dialog_tool_init_outputs): all callers are now using the dao
 	  widget
 	(parse_output): ditto
 	* dao.glade: add in-place toggle button
@@ -3847,21 +3847,21 @@
 	* dialog-analysis-tools.c (dialog_tool_init): state->put_menu is not
 	  longer used
 	(tool_load_selection): state->output_entry is not longer used
-	* dialog-consolidate.c (dialog_set_button_sensitivity): use new 
+	* dialog-consolidate.c (dialog_set_button_sensitivity): use new
 	  dao widget
 	(dialog_consolidate): enable `put' menu
-	* dialog-fill-series.c (cb_fill_series_update_sensitivity): use new 
+	* dialog-fill-series.c (cb_fill_series_update_sensitivity): use new
 	  dao widget
 	(dialog_fill_series): disable `put' menu
 	* dialog-random-generator.c (random_tool_update_sensitivity_cb):
 	  use new dao widget
 	(dialog_random_tool): disable `put' menu
-	* dialog-scenarios.c (dialog_scenario_add): replace 
+	* dialog-scenarios.c (dialog_scenario_add): replace
 	  state->base.output_entry with state->base.gdao (Should we relly
 	  be using dialog_tool_init here? It was designed for a different
 	  kind of dialog!)
 	* dialog-shuffle.c (dialog_shuffle): ditto
-	* dialog-simulation.c (simulation_update_sensitivity_cb): use new 
+	* dialog-simulation.c (simulation_update_sensitivity_cb): use new
 	  dao widget
 	(dialog_simulation): disable `put' menu
 	* tool-dialog.h (_GenericToolState): remove unneeded fields
@@ -3871,7 +3871,7 @@
 	* anova-one.glade: replace output page widgets with dao widget
 	  and minor HIGfication
 	* anova-two.glade: ditto
-	* dialog-analysis-tools.c (tool_update_sensitivity_cb): remove 
+	* dialog-analysis-tools.c (tool_update_sensitivity_cb): remove
 	  unused case (simple dialog not using dao widget)
 	(anova_single_tool_update_sensitivity_cb): use new dao widget
 	(anova_two_factor_tool_update_sensitivity_cb): ditto
@@ -3887,9 +3887,9 @@
 
 	* tool-dialogs.h (_GenericToolState): remove unused fields
 	(dialog_tool_init): remove unused arguments
-	* dialog-analysis-tools.c (dialog_tool_init): remove unused 
+	* dialog-analysis-tools.c (dialog_tool_init): remove unused
 	  arguments and adjust calls to dialog_tool_init throughout
-	* dialog-advanced-filter.c: adjust calls to dialog_tool_init 
+	* dialog-advanced-filter.c: adjust calls to dialog_tool_init
 	  throughout
 	* dialog-consolidate.c: ditto
 	* dialog-fill-series.c: ditto
@@ -3923,7 +3923,7 @@
 	* regression.glade: ditto
 	* sampling.glade: ditto
 	* variance-tests.glade: ditto
-	
+
 2003-12-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dao.glade: new
@@ -3949,7 +3949,7 @@
 
 	* dialog-cell-sort.c: make various strings translatable and remove
 	  corresponding warnings.
-	
+
 2003-12-24  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 	mostly for John Gill <sufc@utvinternet.com>
 
@@ -3983,7 +3983,7 @@
 2003-12-20  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* dialog-cell-sort.c (build_sort_field_menu): balance the size
-	of the submenus with the size of the main menu and don't introduce 
+	of the submenus with the size of the main menu and don't introduce
 	submenus if there are only a few items left.
 
 2003-12-20  Andreas J. Guelzow  <aguelzow@taliesin.ca>
@@ -3998,7 +3998,7 @@
 	  column
 	(move_cb): also move data from new column
 	(dialog_init): add header column to treeview
-	
+
 2003-12-20  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 	mostly for John Gill <sufc@utvinternet.com>
 
@@ -4125,9 +4125,9 @@
 
 	* dialog-scenarios.c (scenarios_ok_clicked_cb): Fixed a crash in
 	ok button.
-	
+
 	* scenario-manager.glade: Much improved dialog layout.
-	
+
 	* dialog-scenarios.c (dialog_scenarios): A label name change.
 
 2003-09-24  Jody Goldberg <jody@gnome.org>
@@ -4174,12 +4174,12 @@
 
 2003-09-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* dialog-printer-setup.c (display_hf_preview): initialize 
+	* dialog-printer-setup.c (display_hf_preview): initialize
 	  HFRenderInfo->sheet
 
 2003-09-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* dialog-analysis-tools.c (dialog_histogram_tool): connect 
+	* dialog-analysis-tools.c (dialog_histogram_tool): connect
 	  focus event handlers to an expression entry's entry
 	(histogram_tool_set_calculated): should return gboolean
 	(histogram_tool_set_predetermined): ditto
@@ -4194,7 +4194,7 @@
 
 2003-09-11  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* dialog-cell-sort.c (dialog_init): focus on the most 
+	* dialog-cell-sort.c (dialog_init): focus on the most
 	  likely entry field
 
 2003-09-10  Christian Neumair  <chris@gnome-de.org>
@@ -4226,12 +4226,12 @@
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=120552
 	* dialog-stf-export.c (stf_dialog_window_delete): new
-	(stf_export_dialog_attach_page_signals): connect 
+	(stf_export_dialog_attach_page_signals): connect
 	  stf_dialog_window_delete
 
 2003-08-25  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* dialog-printer-setup.c (create_hf_preview_canvas): use 
+	* dialog-printer-setup.c (create_hf_preview_canvas): use
 	  8 pt rather than 14/1024 pt font
 
 2003-08-21  Jody Goldberg <jody@gnome.org>
@@ -4240,7 +4240,7 @@
 
 2003-08-11  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* variance-tests.glade: changed to match other tool dialogs 
+	* variance-tests.glade: changed to match other tool dialogs
 
 2003-08-11  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
@@ -4252,7 +4252,7 @@
 2003-08-09  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* help.h: new, list of help links for all help buttons
-	* dialog-advanced-filter.c: replace helpfile address 
+	* dialog-advanced-filter.c: replace helpfile address
 	  with #define from help.h
 	* dialog-autocorrect.c: ditto
 	* dialog-autofilter.c: ditto
@@ -4294,7 +4294,7 @@
 	* dialog-view.c: ditto
 	* dialog-workbook-attr.c: ditto
 	* dialog-zoom.c: ditto
-	* dialog-analysis-tools.c: ditto, and remove some 
+	* dialog-analysis-tools.c: ditto, and remove some
 	  duplicate code
 	* dialog-autosave.c: ditto, and use utilities
 
@@ -4328,13 +4328,13 @@
 2003-08-04  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* dialog-scenarios.c: Put scenario specific fields into
-	  ScenariosState rather than GenericToolState and use 
+	  ScenariosState rather than GenericToolState and use
 	  ScenariosState thoughout
 	* dialog-tabulate.c (tabulation_eval): move to tools/tabulate.c
 	(my_get_format): ditto
 	(do_tabulation): ditto
 	(tabulate_ok_clicked): use cmd_tabulate
-	* tool-dialogs.h: Remove scenario specific fields from 
+	* tool-dialogs.h: Remove scenario specific fields from
 	  GenericToolState
 
 2003-08-03  Andreas J. Guelzow  <aguelzow@taliesin.ca>
@@ -4351,8 +4351,8 @@
 	  specific destruction function if needed.
 	(dialog_tool_init): initialize state->state_destroy and
 	  state->put_menu
-	* dialog-consolidate.c: use GenericToolState as part of the 
-	  state structure and use the standard dao calls rather than 
+	* dialog-consolidate.c: use GenericToolState as part of the
+	  state structure and use the standard dao calls rather than
 	  duplicating the code here.
 	* tool-dialogs.h (GenericToolState): add state_destroy and
 	  put_menu fields
@@ -4360,7 +4360,7 @@
 2003-07-31  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* dialog-sheet-order.c (cb_ok_clicked): use sheet indices
-	  rather than sheet pointers, adjust arguments to 
+	  rather than sheet pointers, adjust arguments to
 	  cmd_reorganize_sheets
 
 2003-07-30  Andreas J. Guelzow  <aguelzow@taliesin.ca>
@@ -4409,7 +4409,7 @@
 
 2003-07-24  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* dialog-solver.c (dialog_destroy): call cmd_solver if 
+	* dialog-solver.c (dialog_destroy): call cmd_solver if
 	  appropriate
 	(cb_dialog_cancel_clicked): set cancelled to true
 	(cb_dialog_close_clicked): set cancelled to false and defer
@@ -4462,15 +4462,15 @@
 
 2003-07-16  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-function-select.c 
-	(cb_dialog_function_select_fun_selection_changed): fix the offset 
+	* dialog-function-select.c
+	(cb_dialog_function_select_fun_selection_changed): fix the offset
 	  into the description for formatting. Make the syntax bold rather
-	  than the first occurrence of the function name (which did not 
+	  than the first occurrence of the function name (which did not
 	  work anyways.)
-	
+
 2003-07-16  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-function-select.c 
+	* dialog-function-select.c
 	(cb_dialog_function_select_cat_selection_changed): show the
 	  function names only
 	(cb_dialog_function_select_fun_selection_changed): prepend the
@@ -4495,7 +4495,7 @@
 	* dialog-fill-series.c: rewrite for the redesign dialog and
 	make undoable
 	* dialog-random-generator.c (dialog_random_tool_init): use
-	dialog_tool_preset_to_range rather than direct 
+	dialog_tool_preset_to_range rather than direct
 	gnm_expr_entry_load_from_range
 	* fill-series.glade: redesign
 	* tool-dialogs.h: add fixme warning
