@@ -83,7 +83,8 @@ typedef struct {
 		guint       timer_source;
 		time_t      timer_start;
 		GtkWidget   *status_widget;
-		GtkWidget   *result_widget;
+		GtkWidget   *problem_status_widget;
+		GtkWidget   *objective_value_widget;
 		GtkWidget   *stop_button;
 		GtkWidget   *ok_button;
 		gulong       sig_notify_result, sig_notify_status;
@@ -370,10 +371,10 @@ set_params (Sheet *sheet, GnmSolverParameters *params)
 }
 
 #define GET_BOOL_ENTRY(name_, field_)					\
-do {									\
-	GtkWidget *w_ = glade_xml_get_widget (state->gui, (name_));	\
-	param->field_ = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w_)); \
-} while (0)
+	do {								\
+		GtkWidget *w_ = glade_xml_get_widget (state->gui, (name_)); \
+		param->field_ = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w_)); \
+	} while (0)
 
 static void
 extract_settings (SolverState *state)
@@ -554,7 +555,7 @@ cb_notify_result (SolverState *state)
 {
 	GnmSolver *sol = state->run.solver;
 	GnmSolverResult *r;
-	char *txt;
+	const char *txt;
 
 	cb_notify_status (state);
 
@@ -562,36 +563,34 @@ cb_notify_result (SolverState *state)
 	switch (r ? r->quality : GNM_SOLVER_RESULT_NONE) {
 	default:
 	case GNM_SOLVER_RESULT_NONE:
-		txt = g_strdup ("");
+		txt = "";
 		break;
 
-	case GNM_SOLVER_RESULT_FEASIBLE: {
-		char *valtxt = gnm_format_value (go_format_general (),
-						 r->value);
-		txt = g_strdup_printf (_("Feasible: %s"), valtxt);
-		g_free (valtxt);
+	case GNM_SOLVER_RESULT_FEASIBLE:
+		txt = _("Feasible");
 		break;
-	}
 
-	case GNM_SOLVER_RESULT_OPTIMAL: {
-		char *valtxt = gnm_format_value (go_format_general (),
-						 r->value);
-		txt = g_strdup_printf (_("Optimal: %s"), valtxt);
-		g_free (valtxt);
+	case GNM_SOLVER_RESULT_OPTIMAL:
+		txt = _("Optimal");
 		break;
-	}
 
 	case GNM_SOLVER_RESULT_INFEASIBLE:
-		txt = g_strdup (_("Infeasible"));
+		txt = _("Infeasible");
 		break;
 
 	case GNM_SOLVER_RESULT_UNBOUNDED:
-		txt = g_strdup (_("Unbounded"));
+		txt = _("Unbounded");
 		break;
 	}
+	gtk_label_set_text (GTK_LABEL (state->run.problem_status_widget), txt);
 
-	gtk_label_set_text (GTK_LABEL (state->run.result_widget), txt);
-	g_free (txt);
+	if (gnm_solver_has_solution (sol)) {
+		char *valtxt = gnm_format_value (go_format_general (),
+						 r->value);
+		gtk_label_set_text (GTK_LABEL (state->run.objective_value_widget),
+				    valtxt);
+		g_free (valtxt);
+	}
 }
 
 
@@ -616,7 +615,7 @@ static GnmSolverResult *
 run_solver (SolverState *state, GnmSolverParameters *param)
 {
 	GtkDialog *dialog;
-	GtkWidget *hbox;
+	GtkWidget *table;
 	int dialog_res;
 	GError *err = NULL;
 	gboolean ok;
@@ -626,6 +625,7 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 	GnmValue const *vinput;
 	GtkWindow *top = GTK_WINDOW (gtk_widget_get_toplevel (state->dialog));
 	GnmSolverResult *res = NULL;
+	int y;
 
 	sol = param->options.algorithm
 		? gnm_solver_factory_create (param->options.algorithm, param)
@@ -665,21 +665,43 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 					  GTK_STOCK_OK,
 					  GTK_RESPONSE_YES);
 
-	hbox = gtk_hbox_new (FALSE, 2);
+	table = gtk_table_new (4, 2, FALSE);
+	for (y = 0; y < 4; y++) {
+		static const char *ltxt[4] = {
+			N_("Solver Status:"),
+			N_("Problem Status:"),
+			N_("Objective Value:"),
+			N_("Elapsed Time:")
+		};
+		GtkWidget *w, *a;
+		PangoContext *context =
+			gtk_widget_get_pango_context (state->dialog);
 
-	state->run.timer_widget = gtk_label_new ("");
-	gtk_box_pack_start (GTK_BOX (hbox), state->run.timer_widget,
-			    TRUE, TRUE, 0);
+		w = gtk_label_new (_(ltxt[y]));
+		a = gtk_alignment_new (1.0, 0.5, 0.0, 0.0);
+		gtk_container_add (GTK_CONTAINER(a), w);
+		gtk_table_attach_defaults (GTK_TABLE (table),
+					   a, 0, 1, y, y + 1);
+		w = gtk_label_new ("");
+		gtk_widget_ensure_style (w);
+		gtk_widget_set_size_request
+			(w,
+			 go_pango_measure_string (context,
+						  w->style->font_desc,
+						  "0") * (5 + GNM_DIG),
+			 -1);
+		gtk_table_attach_defaults (GTK_TABLE (table),
+					   w, 1, 2, y, y + 1);
+		switch (y) {
+		case 0: state->run.status_widget = w; break;
+		case 1: state->run.problem_status_widget = w; break;
+		case 2: state->run.objective_value_widget = w; break;
+		case 3: state->run.timer_widget = w; break;
+		default: g_assert_not_reached ();
+		}
+	}
 
-	state->run.status_widget = gtk_label_new ("");
-	gtk_box_pack_start (GTK_BOX (hbox), state->run.status_widget,
-			    TRUE, TRUE, 0);
-
-	state->run.result_widget = gtk_label_new ("");
-	gtk_box_pack_start (GTK_BOX (hbox), state->run.result_widget,
-			    TRUE, TRUE, 0);
-
-	gtk_box_pack_start (GTK_BOX (dialog->vbox), hbox, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (dialog->vbox), table, TRUE, TRUE, 0);
 	gtk_widget_show_all (GTK_WIDGET (dialog));
 
 	state->run.sig_notify_result =

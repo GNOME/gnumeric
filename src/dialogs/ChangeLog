@@ -1,3 +1,7 @@
+2010-05-24  Morten Welinder  <terra@gnome.org>
+
+	* dialog-solver.c (run_solver): Make this less bouncy.
+
 2010-05-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-analysis-tool-wilcoxon-mann-whitney.c: new
@@ -22,10 +26,10 @@
 2010-05-05 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-stf.c (stf_dialog_set_initial_keyboard_focus): use the
-	  finish and forward buttons as default buttons
+	finish and forward buttons as default buttons
 	(frob_buttons): keep the finish button visible.
-	* dialog-stf.glade: have only the forward and finish buttons as 
-	  possible default buttons.
+	* dialog-stf.glade: have only the forward and finish buttons as
+	possible default buttons.
 
 2010-05-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
