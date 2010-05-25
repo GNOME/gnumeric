@@ -70,6 +70,7 @@
 	    <patch file="&patch_dir;glib-win32-cachefile.patch.gz"/>
 	    <patch file="&patch_dir;glib-goption-disable-localization.patch"/>
 	    <patch file="&patch_dir;glib-disable-python.patch" strip="1"/>
+	    <patch file="&patch_dir;glib-gspawn-win32.patch" strip="1"/>
 	</branch>
 	<dependencies>
 	    <dep package="gettext"/>

@@ -1,0 +1,196 @@
+--- glib-2.24.0/glib/gspawn-win32-helper.c	2009-03-31 19:04:20.000000000 -0400
++++ glib-2.24.0/glib/gspawn-win32-helper.c	2010-05-24 20:16:28.000000000 -0400
+@@ -321,8 +321,12 @@
+ 
+   saved_errno = errno;
+ 
+-  if (handle == -1 && saved_errno != 0)
+-    write_err_and_exit (child_err_report_fd, CHILD_SPAWN_FAILED);
++  if (handle == -1 && saved_errno != 0) {
++    int ec = (saved_errno == ENOENT)
++	    ? CHILD_SPAWN_NOENT
++	    : CHILD_SPAWN_FAILED;
++    write_err_and_exit (child_err_report_fd, ec);
++  }
+ 
+   write (child_err_report_fd, &no_error, sizeof (no_error));
+   write (child_err_report_fd, &handle, sizeof (handle));
+--- glib-2.24.0/glib/gspawn-win32.c	2009-08-27 23:51:21.000000000 -0400
++++ glib-2.24.0/glib/gspawn-win32.c	2010-05-24 20:18:31.000000000 -0400
+@@ -85,6 +85,7 @@
+   CHILD_NO_ERROR,
+   CHILD_CHDIR_FAILED,
+   CHILD_SPAWN_FAILED,
++  CHILD_SPAWN_NOENT
+ };
+ 
+ enum {
+@@ -318,6 +319,7 @@
+   while (bytes < sizeof(gintptr)*2)
+     {
+       gint chunk;
++      int errsv;
+ 
+       if (debug)
+ 	g_print ("%s:read_helper_report: read %" G_GSIZE_FORMAT "...\n",
+@@ -326,14 +328,13 @@
+ 
+       chunk = read (fd, ((gchar*)report) + bytes,
+ 		    sizeof(gintptr)*2 - bytes);
++      errsv = errno;
+ 
+       if (debug)
+ 	g_print ("...got %d bytes\n", chunk);
+           
+       if (chunk < 0)
+         {
+-          int errsv = errno;
+-
+           /* Some weird shit happened, bail out */
+           g_set_error (error, G_SPAWN_ERROR, G_SPAWN_ERROR_FAILED,
+                        _("Failed to read from child pipe (%s)"),
+@@ -376,6 +377,11 @@
+ 		   _("Failed to execute child process (%s)"),
+ 		   g_strerror (report[1]));
+       break;
++    case CHILD_SPAWN_NOENT:
++      g_set_error (error, G_SPAWN_ERROR, G_SPAWN_ERROR_NOENT,
++		   _("Failed to execute child process (%s)"),
++		   g_strerror (report[1]));
++      break;
+     default:
+       g_assert_not_reached ();
+     }
+@@ -418,6 +424,113 @@
+   return TRUE;
+ }
+ 
++static gint
++exec_err_to_g_error (gint en)
++{
++  switch (en)
++    {
++#ifdef EACCES
++    case EACCES:
++      return G_SPAWN_ERROR_ACCES;
++      break;
++#endif
++
++#ifdef EPERM
++    case EPERM:
++      return G_SPAWN_ERROR_PERM;
++      break;
++#endif
++
++#ifdef E2BIG
++    case E2BIG:
++      return G_SPAWN_ERROR_2BIG;
++      break;
++#endif
++
++#ifdef ENOEXEC
++    case ENOEXEC:
++      return G_SPAWN_ERROR_NOEXEC;
++      break;
++#endif
++
++#ifdef ENAMETOOLONG
++    case ENAMETOOLONG:
++      return G_SPAWN_ERROR_NAMETOOLONG;
++      break;
++#endif
++
++#ifdef ENOENT
++    case ENOENT:
++      return G_SPAWN_ERROR_NOENT;
++      break;
++#endif
++
++#ifdef ENOMEM
++    case ENOMEM:
++      return G_SPAWN_ERROR_NOMEM;
++      break;
++#endif
++
++#ifdef ENOTDIR
++    case ENOTDIR:
++      return G_SPAWN_ERROR_NOTDIR;
++      break;
++#endif
++
++#ifdef ELOOP
++    case ELOOP:
++      return G_SPAWN_ERROR_LOOP;
++      break;
++#endif
++      
++#ifdef ETXTBUSY
++    case ETXTBUSY:
++      return G_SPAWN_ERROR_TXTBUSY;
++      break;
++#endif
++
++#ifdef EIO
++    case EIO:
++      return G_SPAWN_ERROR_IO;
++      break;
++#endif
++
++#ifdef ENFILE
++    case ENFILE:
++      return G_SPAWN_ERROR_NFILE;
++      break;
++#endif
++
++#ifdef EMFILE
++    case EMFILE:
++      return G_SPAWN_ERROR_MFILE;
++      break;
++#endif
++
++#ifdef EINVAL
++    case EINVAL:
++      return G_SPAWN_ERROR_INVAL;
++      break;
++#endif
++
++#ifdef EISDIR
++    case EISDIR:
++      return G_SPAWN_ERROR_ISDIR;
++      break;
++#endif
++
++#ifdef ELIBBAD
++    case ELIBBAD:
++      return G_SPAWN_ERROR_LIBBAD;
++      break;
++#endif
++      
++    default:
++      return G_SPAWN_ERROR_FAILED;
++      break;
++    }
++}
++
+ static gboolean
+ do_spawn_directly (gint                 *exit_status,
+ 		   gboolean		 do_return_handle,
+@@ -483,15 +596,15 @@
+     else
+       rc = _wspawnv (mode, wargv0, (const wchar_t **) wargv);
+ 
++  saved_errno = errno;
++
+   g_free (wargv0);
+   g_strfreev ((gchar **) wargv);
+   g_strfreev ((gchar **) wenvp);
+ 
+-  saved_errno = errno;
+-
+   if (rc == -1 && saved_errno != 0)
+     {
+-      g_set_error (error, G_SPAWN_ERROR, G_SPAWN_ERROR_FAILED,
++      g_set_error (error, G_SPAWN_ERROR, exec_err_to_g_error (saved_errno),
+ 		   _("Failed to execute child process (%s)"),
+ 		   g_strerror (saved_errno));
+       return FALSE;
