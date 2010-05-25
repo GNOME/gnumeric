@@ -34,7 +34,7 @@ Index: glib/goption.c
 +gboolean
 +g_option_context_get_delocalize (GOptionContext *context)
 +{
-+  g_return_if_fail (context != NULL);
++  g_return_val_if_fail (context != NULL, FALSE);
 +
 +  return context->delocalize;
 +}
