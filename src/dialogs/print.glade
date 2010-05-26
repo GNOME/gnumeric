@@ -365,13 +365,15 @@
                                     <property name="right_attach">2</property>
                                     <property name="top_attach">2</property>
                                     <property name="bottom_attach">9</property>
-                                    <property name="x_options"></property>
+                                    <property name="x_options">GTK_FILL</property>
                                     <property name="y_options">GTK_FILL</property>
                                   </packing>
                                 </child>
                               </widget>
                               <packing>
                                 <property name="padding">5</property>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
                               </packing>
                             </child>
                             <child>
@@ -599,6 +601,8 @@
                                 </child>
                               </widget>
                               <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
                                 <property name="position">1</property>
                               </packing>
                             </child>
