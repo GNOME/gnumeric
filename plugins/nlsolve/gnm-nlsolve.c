@@ -14,7 +14,6 @@
 
 typedef struct {
 	GnmSolver *parent;
-	GnmSheetRange srinput;
 
 	/* Input cells.  */
 	GPtrArray *vars;
@@ -450,9 +449,6 @@ nlsolve_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params)
 	GSList *input_cells, *l;
 
 	nl->parent = GNM_SOLVER (res);
-	gnm_sheet_range_from_value (&nl->srinput,
-				    gnm_solver_param_get_input (params));
-	if (nl->srinput.sheet) nl->srinput.sheet = params->sheet;
 
 	nl->debug = gnm_solver_debug ();
 	nl->eps = gnm_pow2 (-25);
