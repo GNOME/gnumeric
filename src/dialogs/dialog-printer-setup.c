@@ -81,7 +81,7 @@ typedef struct {
 
 typedef struct {
 	/* The available width and height for the nice preview page */
-	uint height, width;
+	guint height, width;
 } MarginPreviewPageAvailableSize;
 
 typedef struct {
@@ -442,16 +442,16 @@ margin_preview_page_available_size(PrinterSetupState *state,
 		/* Find largest widget in each table column */
 		/* Exclude widgets that expand across more than one table cells */
 		if ( left_att + 1 == right_att){
-			if ((uint) requisition.width > widths[left_att]) {
-				widths[left_att] = (uint) requisition.width;
+			if ((guint) requisition.width > widths[left_att]) {
+				widths[left_att] = (guint) requisition.width;
 			}
 		}
 
 		/* Find largest widget in each table row */
 		/* Exclude widgets that expand across more than one table cells */
 		if ( top_att + 1 == bottom_att){
-			if ((uint) requisition.height > heights[top_att]) {
-				heights[top_att] = (uint) requisition.height;
+			if ((guint) requisition.height > heights[top_att]) {
+				heights[top_att] = (guint) requisition.height;
 			}
 		}
 	}
@@ -482,9 +482,9 @@ margin_preview_page_available_size(PrinterSetupState *state,
 
 	/* Account for the spacing between table cells */
 	available_size->width = available_size->width +
-		(uint) gtk_table_get_default_col_spacing(GTK_TABLE(table)) * (right_att - left_att);
+		gtk_table_get_default_col_spacing(GTK_TABLE(table)) * (right_att - left_att);
 	available_size->height = available_size->height +
-		(uint) gtk_table_get_default_row_spacing(GTK_TABLE(table)) * (bottom_att - top_att);
+		gtk_table_get_default_row_spacing(GTK_TABLE(table)) * (bottom_att - top_att);
 }
 
 static void

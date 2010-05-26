@@ -1,3 +1,9 @@
+2010-05-25 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-printer-setup.c (MarginPreviewPageAvailableSize): 
+	  change uint to guint
+	(margin_preview_page_available_size): ditto
+	
 2010-05-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	for Sameer Morar <smorar@gmail.com>
 	
