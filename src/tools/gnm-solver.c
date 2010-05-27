@@ -634,8 +634,8 @@ gnm_solver_param_constructor (GType type,
 	dependent_managed_init (&sp->input, sp->sheet);
 
 	sp->options.model_type = GNM_SOLVER_LP;
-	sp->options.max_iter = 100;
-	sp->options.max_time_sec = 30;
+	sp->options.max_iter = 1000;
+	sp->options.max_time_sec = 60;
 	sp->options.assume_non_negative = TRUE;
 	sp->options.scenario_name = g_strdup ("Optimal");
 
