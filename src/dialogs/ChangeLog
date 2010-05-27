@@ -1,17 +1,21 @@
+2010-05-27  Morten Welinder  <terra@gnome.org>
+
+	* dialog-solver.c (dialog_init): Fix setting of spin buttons.
+
 2010-05-26 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	for Sameer Morar <smorar@gmail.com>
 
 	*  print.glade: minor adjustments
-	
+
 2010-05-25 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-printer-setup.c (MarginPreviewPageAvailableSize): 
+	* dialog-printer-setup.c (MarginPreviewPageAvailableSize):
 	  change uint to guint
 	(margin_preview_page_available_size): ditto
-	
+
 2010-05-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	for Sameer Morar <smorar@gmail.com>
-	
+
 	* print.glade: add GtkAlignment to margin preview to center it
 	* dialog-printer-setup.c (margin_preview_page_available_size):
 	  create function to determine the available page size based upon

@@ -1006,19 +1006,13 @@ dialog_init (SolverState *state)
 	/* Options */
 	state->max_iter_entry = glade_xml_get_widget (state->gui,
 						      "max_iter_entry");
-	{
-		char *txt = g_strdup_printf ("%d", param->options.max_iter);
-		gtk_entry_set_text (GTK_ENTRY (state->max_iter_entry), txt);
-		g_free (txt);
-	}
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->max_iter_entry),
+				   param->options.max_iter);
 
 	state->max_time_entry = glade_xml_get_widget (state->gui,
 						      "max_time_entry");
-	{
-		char *txt = g_strdup_printf ("%d", param->options.max_time_sec);
-		gtk_entry_set_text (GTK_ENTRY (state->max_time_entry), txt);
-		g_free (txt);
-	}
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->max_time_entry),
+				   param->options.max_time_sec);
 
 /* lhs_entry */
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "edit-table"));
