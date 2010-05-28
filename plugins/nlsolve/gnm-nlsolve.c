@@ -95,8 +95,23 @@ static void
 set_value (GnmNlsolve *nl, int i, gnm_float x)
 {
 	GnmCell *cell = g_ptr_array_index (nl->vars, i);
+	if (cell->value &&
+	    VALUE_IS_FLOAT (cell->value) &&
+	    value_get_as_float (cell->value) == x)
+		return;
+
 	gnm_cell_set_value (cell, value_new_float (x));
 	cell_queue_recalc (cell);
+}
+
+static void
+set_vector (GnmNlsolve *nl, const gnm_float *xs)
+{
+	const int n = nl->vars->len;
+	int i;
+
+	for (i = 0; i < n; i++)
+		set_value (nl, i, xs[i]);
 }
 
 static gnm_float
@@ -111,6 +126,15 @@ get_value (GnmNlsolve *nl)
 		return value_get_as_float (v);
 	else
 		return gnm_nan;
+}
+
+static void
+free_matrix (gnm_float **m, int n)
+{
+	int i;
+	for (i = 0; i < n; i++)
+		g_free (m[i]);
+	g_free (m);
 }
 
 static void
@@ -377,10 +401,7 @@ gnm_nlsolve_idle (gpointer data)
 	}
 
 	if (!ok) {
-		int i;
-		for (i = 0; i < n; i++)
-			set_value (nl, i, x0[i]);
-
+		set_vector (nl, x0);
 		gnm_solver_set_status (sol, GNM_SOLVER_STATUS_DONE);
 		call_again = FALSE;
 	}
@@ -393,9 +414,7 @@ gnm_nlsolve_idle (gpointer data)
 	g_free (d);
 	g_free (x0);
 	g_free (g);
-	for (i = 0; i < n; i++)
-		g_free (H[i]);
-	g_free (H);
+	free_matrix (H, n);
 
 	return call_again;
 }
