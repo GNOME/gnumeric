@@ -199,72 +199,79 @@ gnm_nlsolve_prepare (GnmSolver *sol, WorkbookControl *wbc, GError **err,
 	return ok;
 }
 
+static void
+print_vector (const char *name, const gnm_float *v, int n)
+{
+	int i;
+
+	if (name)
+		g_printerr ("%s:\n", name);
+	for (i = 0; i < n; i++)
+		g_printerr ("%15.8" GNM_FORMAT_f " ", v[i]);
+	g_printerr ("\n");
+}
+
 static gnm_float *
-compute_gradient (GnmNlsolve *nl)
+compute_gradient (GnmNlsolve *nl, const gnm_float *xs)
 {
 	gnm_float *g;
 	gnm_float y0;
 	const int n = nl->vars->len;
 	int i;
 
+	set_vector (nl, xs);
 	y0 = get_value (nl);
 	
 	g = g_new (gnm_float, n);
 	for (i = 0; i < n; i++) {
-		GnmCell *cell = g_ptr_array_index (nl->vars, i);
-		GnmValue *old = value_dup (cell->value);
-		gnm_float x0 = value_get_as_float (old);
+		gnm_float x0 = xs[i];
 		gnm_float dx;
 		gnm_float y1;
+		gnm_float eps = gnm_pow2 (-25);
 
 		if (x0 == 0)
-			dx = nl->eps;
+			dx = eps;
 		else
-			dx = gnm_abs (x0) * nl->eps;
+			dx = gnm_abs (x0) * eps;
 
 		set_value (nl, i, x0 + dx);
-#if 0
-		g_printerr ("  g[%d]: trying %.10" GNM_FORMAT_g "\n",
-			    i, x0 + nl->eps);
-#endif
-
 		y1 = get_value (nl);
 #if 0
 		g_printerr ("  y0=%g   y1=%g\n", y0, y1);
 #endif
 		g[i] = (y1 - y0) / dx;
 
-		gnm_cell_set_value (cell, old);
-		cell_queue_recalc (cell);
+		set_value (nl, i, x0);
 	}
 
 	return g;
 }
 
 static gnm_float **
-compute_hessian (GnmNlsolve *nl, const gnm_float *g0)
+compute_hessian (GnmNlsolve *nl, const gnm_float *xs, const gnm_float *g0)
 {
-	gnm_float **H;
+	gnm_float **H, *xs2;
 	const int n = nl->vars->len;
 	int i, j;
 
 	H = g_new (gnm_float *, n);
 
+	xs2 = g_memdup (xs, n * sizeof (gnm_float));
 	for (i = 0; i < n; i++) {
-		GnmCell *cell = g_ptr_array_index (nl->vars, i);
-		GnmValue *old = value_dup (cell->value);
-		gnm_float x0 = value_get_as_float (old);
+		gnm_float x0 = xs[i];
 		gnm_float dx;
 		const gnm_float *g;
+		gnm_float eps = gnm_pow2 (-25);
 
 		if (x0 == 0)
-			dx = nl->eps;
+			dx = eps;
 		else
-			dx = gnm_abs (x0) * nl->eps;
+			dx = gnm_abs (x0) * eps;
 
-		set_value (nl, i, x0 + dx);
+		xs2[i] = x0 + dx;
+		g = H[i] = compute_gradient (nl, xs2);
+		xs2[i] = x0;
 
-		g = H[i] = compute_gradient (nl);
 		if (nl->debug) {
 			int j;
 
@@ -276,23 +283,11 @@ compute_hessian (GnmNlsolve *nl, const gnm_float *g0)
 		for (j = 0; j < n; j++)
 			H[i][j] = (g[j] - g0[j]) / dx;
 
-		gnm_cell_set_value (cell, old);
-		cell_queue_recalc (cell);
+		set_value (nl, i, x0);
 	}
 
+	g_free (xs2);
 	return H;
-}
-
-static void
-print_vector (const char *name, const gnm_float *v, int n)
-{
-	int i;
-
-	if (name)
-		g_printerr ("%s:\n", name);
-	for (i = 0; i < n; i++)
-		g_printerr ("%15.8" GNM_FORMAT_f " ", v[i]);
-	g_printerr ("\n");
 }
 
 static gboolean
@@ -351,8 +346,8 @@ gnm_nlsolve_idle (gpointer data)
 		GnmCell *cell = g_ptr_array_index (nl->vars, i);
 		x0[i] = value_get_as_float (cell->value);
 	}
-	g = compute_gradient (nl);
-	H = compute_hessian (nl, g);
+	g = compute_gradient (nl, x0);
+	H = compute_hessian (nl, x0, g);
 
 	if (nl->debug) {
 		int i;
