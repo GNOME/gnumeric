@@ -19,6 +19,10 @@
 #include <gnumeric-config.h>
 #include "gnumeric-cell-renderer-text.h"
 
+#ifndef HAVE_GTK_WIDGET_GET_STATE
+#define gtk_widget_get_state(_w) GTK_WIDGET_STATE((_w))
+#endif
+
 static void gnumeric_cell_renderer_text_class_init
     (GnumericCellRendererTextClass *cell_text_class);
 
@@ -64,16 +68,13 @@ gnumeric_cell_renderer_text_render (GtkCellRenderer     *cell,
 	GtkStateType state;
 	GdkGC *gc = gdk_gc_new (window);
 
-	if ((flags & GTK_CELL_RENDERER_SELECTED) == GTK_CELL_RENDERER_SELECTED)
-	{
+	if ((flags & GTK_CELL_RENDERER_SELECTED) == GTK_CELL_RENDERER_SELECTED)	{
 		if (GTK_WIDGET_HAS_FOCUS (widget))
 			state = GTK_STATE_SELECTED;
 		else
 			state = GTK_STATE_ACTIVE;
-	}
-	else
-	{
-		if (GTK_WIDGET_STATE (widget) == GTK_STATE_INSENSITIVE)
+	} else {
+		if (gtk_widget_get_state (widget) == GTK_STATE_INSENSITIVE)
 			state = GTK_STATE_INSENSITIVE;
 		else
 			state = GTK_STATE_NORMAL;

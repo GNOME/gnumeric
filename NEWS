@@ -7,6 +7,7 @@ Morten:
 	* Fix stf crash.  [#619283]
 	* Persist solver model type.
 	* Add non-linear solver.
+	* Feed the gtk+ deprecation monster.  [#572240]
 
 Sameer Morar:
 	* Improve page setup dialog. [#619421]

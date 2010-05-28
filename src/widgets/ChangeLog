@@ -1,3 +1,8 @@
+2010-05-28  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric-cell-renderer-text.c (gnumeric_cell_renderer_text_render):
+	Use gtk_widget_get_state, if present.
+
 2010-05-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.4
