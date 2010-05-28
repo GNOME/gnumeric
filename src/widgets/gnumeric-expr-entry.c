@@ -39,6 +39,10 @@
 #include <gdk/gdkkeysyms.h>
 #include <string.h>
 
+#ifndef HAVE_GTK_WIDGET_IS_TOPLEVEL
+#define gtk_widget_is_toplevel(w_) (GTK_WIDGET_FLAGS ((w_)) & GTK_TOPLEVEL)
+#endif
+
 typedef struct {
 	GnmRangeRef ref;
 	int	    text_start;
@@ -187,7 +191,7 @@ cb_icon_clicked (GtkButton *icon,
 	 * not rolled up.
 	 */
 
-	if (toplevel != NULL && (GTK_WIDGET_FLAGS (toplevel) & GTK_TOPLEVEL)) {
+	if (toplevel != NULL && gtk_widget_is_toplevel (toplevel)) {
 		GtkWidget *old_entry_parent;
 		GtkWidget *old_toplevel_child;
 		GParamSpec **container_props_pspec;
