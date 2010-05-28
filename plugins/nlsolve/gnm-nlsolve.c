@@ -6,6 +6,7 @@
 #include "value.h"
 #include "ranges.h"
 #include "regression.h"
+#include "workbook.h"
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
@@ -15,13 +16,9 @@
 typedef struct {
 	GnmSolver *parent;
 
-	/* Input cells.  */
+	/* Input/output cells.  */
 	GPtrArray *vars;
-
-	/* Target cell. */
 	GnmCell *target;
-
-	gboolean debug;
 
 	int iterations;
 
@@ -29,7 +26,7 @@ typedef struct {
 	int dim;
 
 	/* Parameters: */
-	gnm_float eps;
+	gboolean debug;
 	int max_iter;
 	gnm_float min_factor;
 
@@ -406,6 +403,10 @@ gnm_nlsolve_idle (gpointer data)
 		call_again = FALSE;
 	}
 
+	if (!call_again) {
+		workbook_recalc (sol->params->sheet->workbook);
+	}
+
 	g_free (d);
 	g_free (x0);
 	g_free (g);
@@ -465,8 +466,7 @@ nlsolve_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params)
 	nl->parent = GNM_SOLVER (res);
 
 	nl->debug = gnm_solver_debug ();
-	nl->eps = gnm_pow2 (-25);
-	nl->max_iter = 1000;
+	nl->max_iter = params->options.max_iter;
 	nl->min_factor = 1e-10;
 
 	nl->target = gnm_solver_param_get_target_cell (params);
