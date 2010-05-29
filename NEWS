@@ -6,7 +6,7 @@ Andreas:
 Morten:
 	* Fix stf crash.  [#619283]
 	* Persist solver model type.
-	* Add non-linear solver.
+	* Add non-linear solver.  [#614865]
 	* Feed the gtk+ deprecation monster.  [#572240]
 	* Fix win32/paradox problem.  [#619942]
 
