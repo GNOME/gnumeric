@@ -269,6 +269,7 @@
 	<branch repo="sourceforge" module="pxlib/pxlib/0.6.3/pxlib-0.6.3.tar.gz"
 		version="0.6.3">
 	    <patch file="&patch_dir;pxlib-intl.patch"/>
+	    <patch file="&patch_dir;pxlib-link.patch"/>
 	</branch>
     </autotools>
 

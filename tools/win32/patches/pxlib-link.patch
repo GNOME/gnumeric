@@ -1,0 +1,11 @@
+--- src/Makefile.in~	2010-05-28 21:38:59.000000000 -0400
++++ src/Makefile.in	2010-05-28 21:39:48.000000000 -0400
+@@ -260,7 +260,7 @@
+                  sdncal.h
+ 
+ lib_LTLIBRARIES = libpx.la
+-libpx_la_LDFLAGS = -version-info @PXLIB_VERSION_INFO@
++libpx_la_LDFLAGS = -no-undefined -version-info @PXLIB_VERSION_INFO@
+ libpx_la_SOURCES = \
+ 		paradox.c \
+ 		px_head.c \

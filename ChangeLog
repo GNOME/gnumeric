@@ -1,3 +1,8 @@
+2010-05-28  Morten Welinder  <terra@gnome.org>
+
+	* tools/win32/moduleset.in: Link with -no-undefined.  Fixes
+	#619942.
+
 2010-05-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* component/Gnumeric-embed.xml.in: added Wilcoxon menu item.
