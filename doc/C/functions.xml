@@ -9816,9 +9816,7 @@
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-ACOS"><function>ACOS</function></link>,
-        <link linkend="gnumeric-ASINH"><function>ASINH</function></link>,
-        <link linkend="gnumeric-DEGREES"><function>DEGREES</function></link>,
-        <link linkend="gnumeric-RADIANS"><function>RADIANS</function></link>.
+        <link linkend="gnumeric-ASINH"><function>ASINH</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -9990,9 +9988,7 @@
         <para><link linkend="gnumeric-ASIN"><function>ASIN</function></link>,
         <link linkend="gnumeric-ACOSH"><function>ACOSH</function></link>,
         <link linkend="gnumeric-SIN"><function>SIN</function></link>,
-        <link linkend="gnumeric-COS"><function>COS</function></link>,
-        <link linkend="gnumeric-DEGREES"><function>DEGREES</function></link>,
-        <link linkend="gnumeric-RADIANS"><function>RADIANS</function></link>.
+        <link linkend="gnumeric-COS"><function>COS</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -10015,7 +10011,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: angle in radians</para>
+        <para><parameter>x</parameter>: number</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -10046,20 +10042,24 @@
           <function>ATAN2</function>
         </refname>
         <refpurpose>
-        arc tangent of the ratio of <parameter>b1</parameter> and <parameter>b2</parameter>
+        arc tangent of the ratio of <parameter>y</parameter> and <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>ATAN2</function>(<parameter>b1</parameter>,<parameter>b2</parameter>)</synopsis>
+        <synopsis><function>ATAN2</function>(<parameter>y</parameter>,<parameter>x</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>b1</parameter>: angle in radians</para>
-        <para><parameter>b2</parameter>: angle in radians</para>
+        <para><parameter>y</parameter>: y-coordinate</para>
+        <para><parameter>x</parameter>: x-coordinate</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><function>ATAN2</function> calculates the arc tangent of the ratio <parameter>b1</parameter>/<parameter>b2</parameter> with the sign according to the quadrant containing (<parameter>b1</parameter>,<parameter>b2</parameter>).</para>
+        <para><function>ATAN2</function> calculates the direction from the origin to (<parameter>x</parameter>,<parameter>y</parameter>) as an angle in radians.</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>The result will be between π and +π. The order of the arguments may be unexpected.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -10070,9 +10070,7 @@
         <para><link linkend="gnumeric-ATAN"><function>ATAN</function></link>,
         <link linkend="gnumeric-ATANH"><function>ATANH</function></link>,
         <link linkend="gnumeric-COS"><function>COS</function></link>,
-        <link linkend="gnumeric-SIN"><function>SIN</function></link>,
-        <link linkend="gnumeric-DEGREES"><function>DEGREES</function></link>,
-        <link linkend="gnumeric-RADIANS"><function>RADIANS</function></link>.
+        <link linkend="gnumeric-SIN"><function>SIN</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -10095,7 +10093,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: angle in radians</para>
+        <para><parameter>x</parameter>: number</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -10113,9 +10111,7 @@
         <title>See also</title>
         <para><link linkend="gnumeric-ATAN"><function>ATAN</function></link>,
         <link linkend="gnumeric-COS"><function>COS</function></link>,
-        <link linkend="gnumeric-SIN"><function>SIN</function></link>,
-        <link linkend="gnumeric-DEGREES"><function>DEGREES</function></link>,
-        <link linkend="gnumeric-RADIANS"><function>RADIANS</function></link>.
+        <link linkend="gnumeric-SIN"><function>SIN</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -10474,7 +10470,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: angle in radians</para>
+        <para><parameter>x</parameter>: number</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -10486,9 +10482,7 @@
         <link linkend="gnumeric-TAN"><function>TAN</function></link>,
         <link linkend="gnumeric-SINH"><function>SINH</function></link>,
         <link linkend="gnumeric-COSH"><function>COSH</function></link>,
-        <link linkend="gnumeric-TANH"><function>TANH</function></link>,
-        <link linkend="gnumeric-RADIANS"><function>RADIANS</function></link>,
-        <link linkend="gnumeric-DEGREES"><function>DEGREES</function></link>.
+        <link linkend="gnumeric-TANH"><function>TANH</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -10643,7 +10637,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: angle in radians</para>
+        <para><parameter>x</parameter>: number</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -10662,9 +10656,7 @@
         <link linkend="gnumeric-SEC"><function>SEC</function></link>,
         <link linkend="gnumeric-SINH"><function>SINH</function></link>,
         <link linkend="gnumeric-COSH"><function>COSH</function></link>,
-        <link linkend="gnumeric-TANH"><function>TANH</function></link>,
-        <link linkend="gnumeric-RADIANS"><function>RADIANS</function></link>,
-        <link linkend="gnumeric-DEGREES"><function>DEGREES</function></link>.
+        <link linkend="gnumeric-TANH"><function>TANH</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -12080,7 +12072,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: angle in radians</para>
+        <para><parameter>x</parameter>: number</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -12099,9 +12091,7 @@
         <link linkend="gnumeric-SEC"><function>SEC</function></link>,
         <link linkend="gnumeric-SINH"><function>SINH</function></link>,
         <link linkend="gnumeric-COSH"><function>COSH</function></link>,
-        <link linkend="gnumeric-TANH"><function>TANH</function></link>,
-        <link linkend="gnumeric-RADIANS"><function>RADIANS</function></link>,
-        <link linkend="gnumeric-DEGREES"><function>DEGREES</function></link>.
+        <link linkend="gnumeric-TANH"><function>TANH</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -12233,7 +12223,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: angle in radians</para>
+        <para><parameter>x</parameter>: number</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -12241,10 +12231,9 @@
       </refsect1>
       <refsect1>
         <title>See also</title>
-        <para><link linkend="gnumeric-ACOS"><function>ACOS</function></link>,
-        <link linkend="gnumeric-ASINH"><function>ASINH</function></link>,
-        <link linkend="gnumeric-DEGREES"><function>DEGREES</function></link>,
-        <link linkend="gnumeric-RADIANS"><function>RADIANS</function></link>.
+        <para><link linkend="gnumeric-SIN"><function>SIN</function></link>,
+        <link linkend="gnumeric-COSH"><function>COSH</function></link>,
+        <link linkend="gnumeric-ASINH"><function>ASINH</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -12466,7 +12455,7 @@
           <function>SUMSQ</function>
         </refname>
         <refpurpose>
-        sum of th squares of all values and cells referenced
+        sum of the squares of all values and cells referenced
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -12666,7 +12655,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: angle in radians</para>
+        <para><parameter>x</parameter>: number</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -12678,9 +12667,7 @@
         <link linkend="gnumeric-SIN"><function>SIN</function></link>,
         <link linkend="gnumeric-SINH"><function>SINH</function></link>,
         <link linkend="gnumeric-COS"><function>COS</function></link>,
-        <link linkend="gnumeric-COSH"><function>COSH</function></link>,
-        <link linkend="gnumeric-DEGREES"><function>DEGREES</function></link>,
-        <link linkend="gnumeric-RADIANS"><function>RADIANS</function></link>.
+        <link linkend="gnumeric-COSH"><function>COSH</function></link>.
       </para>
       </refsect1>
     </refentry>

@@ -2959,7 +2959,7 @@ If any argument is zero, the result is zero.
 @ARGUMENTDESCRIPTION=@{x}: number
 @DESCRIPTION=ABS gives the absolute value of @{x}, i.e. the non-negative number of the same magnitude as @{x}.
 @EXCEL=This function is Excel compatible.
-@SEEALSO=CEIL, CEILING, FLOOR, INT, MOD
+@SEEALSO=CEIL,CEILING,FLOOR,INT,MOD
 
 @CATEGORY=Mathematics
 @FUNCTION=ACOS
@@ -2967,7 +2967,7 @@ If any argument is zero, the result is zero.
 @SYNTAX=ACOS(x)
 @ARGUMENTDESCRIPTION=@{x}: number
 @EXCEL=This function is Excel compatible.
-@SEEALSO=COS, SIN, DEGREES, RADIANS
+@SEEALSO=COS,SIN,DEGREES,RADIANS
 
 @CATEGORY=Mathematics
 @FUNCTION=ACOSH
@@ -2975,7 +2975,7 @@ If any argument is zero, the result is zero.
 @SYNTAX=ACOSH(x)
 @ARGUMENTDESCRIPTION=@{x}: number
 @EXCEL=This function is Excel compatible.
-@SEEALSO=ACOS,ASINH,DEGREES,RADIANS 
+@SEEALSO=ACOS,ASINH
 
 @CATEGORY=Mathematics
 @FUNCTION=ACOT
@@ -3017,36 +3017,37 @@ If any argument is zero, the result is zero.
 @ARGUMENTDESCRIPTION=@{x}: number
 @DESCRIPTION=ASINH calculates the inverse hyperbolic sine of @{x}; that is the value whose hyperbolic sine is @{x}.
 @EXCEL=This function is Excel compatible.
-@SEEALSO=ASIN,ACOSH,SIN,COS,DEGREES,RADIANS
+@SEEALSO=ASIN,ACOSH,SIN,COS
 
 @CATEGORY=Mathematics
 @FUNCTION=ATAN
 @SHORTDESC=the arc tangent of @{x}
 @SYNTAX=ATAN(x)
-@ARGUMENTDESCRIPTION=@{x}: angle in radians
+@ARGUMENTDESCRIPTION=@{x}: number
 @DESCRIPTION=ATAN calculates the arc tangent of @{x}; that is the value whose tangent is @{x}.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=TAN,COS,SIN,DEGREES,RADIANS
 
 @CATEGORY=Mathematics
 @FUNCTION=ATAN2
-@SHORTDESC=arc tangent of the ratio of @{b1} and @{b2}
-@SYNTAX=ATAN2(b1,b2)
-@ARGUMENTDESCRIPTION=@{b1}: angle in radians
-@{b2}: angle in radians
-@DESCRIPTION=ATAN2 calculates the arc tangent of the ratio @{b1}/@{b2} with the sign according to the quadrant containing (@{b1},@{b2}).
+@SHORTDESC=arc tangent of the ratio of @{y} and @{x}
+@SYNTAX=ATAN2(y,x)
+@ARGUMENTDESCRIPTION=@{y}: y-coordinate
+@{x}: x-coordinate
+@DESCRIPTION=ATAN2 calculates the direction from the origin to (@{x},@{y}) as an angle in radians.
+@NOTE=The result will be between π and +π. The order of the arguments may be unexpected.
 @EXCEL=This function is Excel compatible.
-@SEEALSO=ATAN,ATANH,COS,SIN,DEGREES,RADIANS
+@SEEALSO=ATAN,ATANH,COS,SIN
 
 @CATEGORY=Mathematics
 @FUNCTION=ATANH
 @SHORTDESC=the inverse hyperbolic tangent of @{x}
 @SYNTAX=ATANH(x)
-@ARGUMENTDESCRIPTION=@{x}: angle in radians
+@ARGUMENTDESCRIPTION=@{x}: number
 @DESCRIPTION=ATANH calculates the inverse hyperbolic tangent of @{x}; that is the value whose hyperbolic tangent is @{x}.
 @NOTE=If the absolute value of @{x} is greater than 1.0, ATANH returns #NUM!
 @EXCEL=This function is Excel compatible.
-@SEEALSO=ATAN,COS,SIN,DEGREES,RADIANS
+@SEEALSO=ATAN,COS,SIN
 
 @CATEGORY=Mathematics
 @FUNCTION=AVERAGEIF
@@ -3139,9 +3140,9 @@ If any argument is zero, the result is zero.
 @FUNCTION=COSH
 @SHORTDESC=Hyperbolic cosine function
 @SYNTAX=COSH(x)
-@ARGUMENTDESCRIPTION=@{x}: angle in radians
+@ARGUMENTDESCRIPTION=@{x}: number
 @EXCEL=This function is Excel compatible.
-@SEEALSO=SIN,TAN,SINH,COSH,TANH,RADIANS,DEGREES
+@SEEALSO=SIN,TAN,SINH,COSH,TANH
 
 @CATEGORY=Mathematics
 @FUNCTION=COT
@@ -3179,10 +3180,10 @@ If any argument is zero, the result is zero.
 @FUNCTION=CSCH
 @SHORTDESC=Hyperbolic cosecant
 @SYNTAX=CSCH(x)
-@ARGUMENTDESCRIPTION=@{x}: angle in radians
+@ARGUMENTDESCRIPTION=@{x}: number
 @EXCEL=This function is not Excel compatible.
 @ODF=This function is OpenFormula compatible.
-@SEEALSO=SIN,COS,TAN,CSC,SEC,SINH,COSH,TANH,RADIANS,DEGREES
+@SEEALSO=SIN,COS,TAN,CSC,SEC,SINH,COSH,TANH
 
 @CATEGORY=Mathematics
 @FUNCTION=DEGREES
@@ -3214,7 +3215,7 @@ If any argument is zero, the result is zero.
 @ARGUMENTDESCRIPTION=@{x}: number
 @NOTE=e is the base of the natural logarithm.
 @EXCEL=This function is Excel compatible.
-@SEEALSO=LOG, LOG2, LOG10
+@SEEALSO=LOG,LOG2,LOG10
 
 @CATEGORY=Mathematics
 @FUNCTION=EXPM1
@@ -3222,7 +3223,7 @@ If any argument is zero, the result is zero.
 @SYNTAX=EXPM1(x)
 @ARGUMENTDESCRIPTION=@{x}: number
 @NOTE=This function has a higher resulting precision than evaluating EXP(@{x})-1.
-@SEEALSO=EXP, LN1P
+@SEEALSO=EXP,LN1P
 
 @CATEGORY=Mathematics
 @FUNCTION=FACT
@@ -3268,7 +3269,7 @@ If any argument is zero, the result is zero.
 @ARGUMENTDESCRIPTION=@{x1}: number
 @{x2}: number
 @NOTE=Empty cells are ignored and the empty product is 1.
-@SEEALSO=SUM, COUNT
+@SEEALSO=SUM,COUNT
 
 @CATEGORY=Mathematics
 @FUNCTION=GAMMA
@@ -3381,7 +3382,7 @@ If any argument is zero, the result is zero.
 @SYNTAX=MDETERM(matrix)
 @ARGUMENTDESCRIPTION=@{matrix}: a square matrix
 @EXCEL=This function is Excel compatible.
-@SEEALSO=MMULT, MINVERSE
+@SEEALSO=MMULT,MINVERSE
 
 @CATEGORY=Mathematics
 @FUNCTION=MINVERSE
@@ -3390,7 +3391,7 @@ If any argument is zero, the result is zero.
 @ARGUMENTDESCRIPTION=@{matrix}: a square matrix
 @NOTE=If @{matrix} is not invertible, MINVERSE returns #NUM! If @{matrix} does not contain an equal number of columns and rows, MINVERSE returns #VALUE!
 @EXCEL=This function is Excel compatible.
-@SEEALSO=MMULT, MDETERM
+@SEEALSO=MMULT,MDETERM
 
 @CATEGORY=Mathematics
 @FUNCTION=MMULT
@@ -3555,10 +3556,10 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @FUNCTION=SECH
 @SHORTDESC=Hyperbolic secant
 @SYNTAX=SECH(x)
-@ARGUMENTDESCRIPTION=@{x}: angle in radians
+@ARGUMENTDESCRIPTION=@{x}: number
 @EXCEL=This function is not Excel compatible.
 @ODF=SECH(@{x}) is exported to OpenFormula as 1/COSH(@{x}).
-@SEEALSO=SIN,COS,TAN,CSC,SEC,SINH,COSH,TANH,RADIANS,DEGREES
+@SEEALSO=SIN,COS,TAN,CSC,SEC,SINH,COSH,TANH
 
 @CATEGORY=Mathematics
 @FUNCTION=SERIESSUM
@@ -3592,9 +3593,9 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @FUNCTION=SINH
 @SHORTDESC=the hyperbolic sine of @{x}
 @SYNTAX=SINH(x)
-@ARGUMENTDESCRIPTION=@{x}: angle in radians
+@ARGUMENTDESCRIPTION=@{x}: number
 @EXCEL=This function is Excel compatible.
-@SEEALSO=ACOS,ASINH,DEGREES,RADIANS 
+@SEEALSO=SIN,COSH,ASINH
 
 @CATEGORY=Mathematics
 @FUNCTION=SQRT
@@ -3652,7 +3653,7 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 
 @CATEGORY=Mathematics
 @FUNCTION=SUMSQ
-@SHORTDESC=sum of th squares of all values and cells referenced
+@SHORTDESC=sum of the squares of all values and cells referenced
 @SYNTAX=SUMSQ(area0,area1)
 @ARGUMENTDESCRIPTION=@{area0}: first cell area
 @{area1}: second cell area
@@ -3705,9 +3706,9 @@ Strings and empty cells are simply ignored.
 @FUNCTION=TANH
 @SHORTDESC=hyperbolic tangent
 @SYNTAX=TANH(x)
-@ARGUMENTDESCRIPTION=@{x}: angle in radians
+@ARGUMENTDESCRIPTION=@{x}: number
 @EXCEL=This function is Excel compatible.
-@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS
+@SEEALSO=TAN,SIN,SINH,COS,COSH
 
 @CATEGORY=Mathematics
 @FUNCTION=TRUNC
