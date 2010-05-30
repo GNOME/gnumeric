@@ -1,3 +1,7 @@
+2010-05-30  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.5
+
 2010-05-27  Morten Welinder  <terra@gnome.org>
 
 	* dialog-solver.c (dialog_init): Fix setting of spin buttons.

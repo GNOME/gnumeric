@@ -1,3 +1,7 @@
+2010-05-30  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.5
+
 2010-05-27  Morten Welinder  <terra@gnome.org>
 
 	* gnm-solver.c (gnm_solver_param_constructor): Increase default

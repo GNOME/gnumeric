@@ -1,3 +1,7 @@
+2010-05-30  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.5
+
 2010-05-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* POTFILES.in: added wilcoxon-mann-whitney.glade,

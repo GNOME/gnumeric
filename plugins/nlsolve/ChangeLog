@@ -1,3 +1,7 @@
+2010-05-30  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.5
+
 2010-05-29  Morten Welinder  <terra@gnome.org>
 
 	* gnm-nlsolve.c (get_value, gnm_nlsolve_set_solution): Flip sign
