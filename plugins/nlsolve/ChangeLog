@@ -1,3 +1,9 @@
+2010-05-29  Morten Welinder  <terra@gnome.org>
+
+	* gnm-nlsolve.c (get_value, gnm_nlsolve_set_solution): Flip sign
+	for maximize.
+	(check_program): Don't reject maximize.
+
 2010-05-23  Morten Welinder  <terra@gnome.org>
 
 	* gnm-nlsolve.c (gnm_nlsolve_idle): Use the axis-method even if

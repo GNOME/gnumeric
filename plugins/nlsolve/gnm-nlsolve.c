@@ -21,6 +21,7 @@ typedef struct {
 	GnmCell *target;
 	GnmCellPos origin;
 	int input_width, input_height;
+	gboolean maximize;
 
 	/* Initial point.  */
 	gnm_float *x0;
@@ -78,15 +79,6 @@ check_program (const GnmSolverParameters *params, GError **err)
 			goto no_discrete;
 	}
 
-	if (params->problem_type != GNM_SOLVER_MINIMIZE) {
-		/* Not a fundamental problem, just not done.  */
-		g_set_error (err,
-			     go_error_invalid (),
-			     0,
-			     _("This solver handles only minimization."));
-		return FALSE;
-	}
-
 	return TRUE;
 
 no_discrete:
@@ -128,9 +120,10 @@ get_value (GnmNlsolve *nl)
 	gnm_cell_eval (nl->target);
 	v = nl->target->value;
 
-	if (VALUE_IS_NUMBER (v) || VALUE_IS_EMPTY (v))
-		return value_get_as_float (v);
-	else
+	if (VALUE_IS_NUMBER (v) || VALUE_IS_EMPTY (v)) {
+		gnm_float y = value_get_as_float (v);
+		return nl->maximize ? 0 - y : y;
+	} else
 		return gnm_nan;
 }
 
@@ -152,7 +145,7 @@ gnm_nlsolve_set_solution (GnmNlsolve *nl)
 	int i;
 
 	result->quality = GNM_SOLVER_RESULT_FEASIBLE;
-	result->value = nl->yk;
+	result->value = nl->maximize ? 0 - nl->yk : nl->yk;
 	result->solution = value_new_array_empty (nl->input_width,
 						  nl->input_height);
 	for (i = 0; i < n; i++) {
@@ -737,6 +730,8 @@ nlsolve_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params)
 	GnmCellRef origin;
 
 	nl->parent = GNM_SOLVER (res);
+
+	nl->maximize = (params->problem_type == GNM_SOLVER_MAXIMIZE);
 
 	eval_pos_init_sheet (&ep, params->sheet);
 	if (vinput) {
