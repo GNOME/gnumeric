@@ -574,6 +574,18 @@ int analysis_tool_calc_length (analysis_tools_data_generic_t *info)
 	return result;
 }
 
+GnmFunc *
+analysis_tool_get_function (char const *name, 
+			    data_analysis_output_t *dao)
+{
+	GnmFunc *fd;
+	
+	fd = gnm_func_lookup_or_add_placeholder 
+		(name, dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	gnm_func_ref (fd);
+	return fd;
+}
+
 
 
 /************* Correlation Tool *******************************************

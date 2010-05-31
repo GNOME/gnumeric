@@ -7,6 +7,7 @@
 #include "tools.h"
 #include "regression.h"
 #include "complex.h"
+#include "func.h"
 
 
 /*******************************************************************/
@@ -258,5 +259,8 @@ void set_cell_text_row (data_analysis_output_t *dao,
 			int col, int row, const char *text);
 void set_cell_text_col (data_analysis_output_t *dao,
 			int col, int row, const char *text);
+
+GnmFunc *analysis_tool_get_function (char const *name, 
+				     data_analysis_output_t *dao);
 
 #endif

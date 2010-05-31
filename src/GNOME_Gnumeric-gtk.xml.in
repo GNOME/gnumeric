@@ -161,48 +161,63 @@
         <menuitem action="ToolsScenarioAdd"/>
       </menu>
       <menuitem action="ToolsSimulation"/>
-      <menu name="ToolStatisticalAnalysis" action="MenuToolStatisticalAnalysis">
-        <menu name="ANOVA" action="MenuANOVA">
-          <menuitem action="ToolsANOVAoneFactor"/>
-          <menuitem action="ToolsANOVAtwoFactor"/>
-        </menu>
-        <menu name="ChiSquareTests" action="MenuContingencyTests">
-          <menuitem action="ToolsHomogeneity"/>
-          <menuitem action="ToolsIndependence"/>
-        </menu>
-        <menuitem action="ToolsCorrelation"/>
-        <menuitem action="ToolsCovariance"/>
-        <menuitem action="ToolsDescStatistics"/>
-        <menu name="ToolForecast" action="MenuToolForecast">
-          <menuitem action="ToolsExpSmoothing"/>
-          <menuitem action="ToolsAverage"/>
-        </menu>
-        <menuitem action="ToolsFourier"/>
-        <menu name="ToolFrequencies" action="MenuToolFrequencies">
+      <separator/>
+      <menuitem action="ToolsPlugins"/>
+    </menu>
+    <menu name="Statistics" action="MenuStatistics">
+      <menu name="StatisticsDescriptive" action="MenuStatisticsDescriptive">
+	<menuitem action="ToolsCorrelation"/>
+	<menuitem action="ToolsCovariance"/>
+	<menuitem action="ToolsDescStatistics"/>
+	<menu name="ToolFrequencies" action="MenuToolFrequencies">
           <menuitem action="ToolsFrequency"/>
           <menuitem action="ToolsHistogram"/>
-        </menu>
-        <menuitem action="ToolsKaplanMeier"/>
-        <menuitem action="ToolsNormalityTests"/>
-        <menuitem action="ToolsPrincipalComponents"/>
-        <menuitem action="ToolsRanking"/>
-        <menuitem action="ToolsRegression"/>
-        <menuitem action="ToolsSampling"/>
-        <menuitem action="ToolsOneMedianSignTest"/>
-        <menu name="ToolTwoMedians" action="MenuToolTwoMedians">
-          <menuitem action="ToolsTwoMedianSignTest"/>
-          <menuitem action="ToolsTwoMedianWilcoxonMannWhitney"/>
-        </menu>
-        <menu name="ToolTTest" action="MenuToolTTest">
+	</menu>
+	<menuitem action="ToolsRanking"/>
+      </menu>
+      <menuitem action="ToolsSampling"/>
+      <menu name="StatisticsTimeSeries" action="MenuStatisticsTimeSeries">
+	<menu name="ToolForecast" action="MenuToolForecast">
+          <menuitem action="ToolsExpSmoothing"/>
+          <menuitem action="ToolsAverage"/>
+	</menu>
+	<menuitem action="ToolsFourier"/>
+	<menuitem action="ToolsKaplanMeier"/>
+	<menuitem action="ToolsPrincipalComponents"/>
+	<menuitem action="ToolsRegression"/>
+      </menu>
+      <separator/>
+      <menu name="StatisticsOneSample" action="MenuStatisticsOneSample">
+	<menuitem action="ToolsNormalityTests"/>
+	<menu name="ToolOneMedian" action="MenuToolOneMedian">
+          <menuitem action="ToolsOneMedianSignTest"/>
+          <menuitem action="ToolsOneMedianWilcoxonSignedRank"/>
+	</menu>
+      </menu>
+      <menu name="StatisticsTwoSamples" action="MenuStatisticsTwoSamples">
+	<menu name="ToolTTest" action="MenuToolTTest">
           <menuitem action="ToolTTestPaired"/>
           <menuitem action="ToolTTestEqualVar"/>
           <menuitem action="ToolTTestUnequalVar"/>
           <menuitem action="ToolZTest"/>
-        </menu>
-        <menuitem action="ToolsFTest"/>
+	</menu>
+	<menu name="ToolTwoMedians" action="MenuToolTwoMedians">
+          <menuitem action="ToolsTwoMedianSignTest"/>
+          <menuitem action="ToolsTwoMedianWilcoxonSignedRank"/>
+          <menuitem action="ToolsTwoMedianWilcoxonMannWhitney"/>
+	</menu>
+	<menuitem action="ToolsFTest"/>
       </menu>
-      <separator/>
-      <menuitem action="ToolsPlugins"/>
+      <menu name="StatisticsMultipleSamples" action="MenuStatisticsMultipleSamples">
+	<menu name="ANOVA" action="MenuANOVA">
+          <menuitem action="ToolsANOVAoneFactor"/>
+          <menuitem action="ToolsANOVAtwoFactor"/>
+	</menu>
+	<menu name="ChiSquareTests" action="MenuContingencyTests">
+          <menuitem action="ToolsHomogeneity"/>
+          <menuitem action="ToolsIndependence"/>
+	</menu>
+      </menu>
     </menu>
     <menu name="Data" action="MenuData">
       <menuitem action="DataSort"/>

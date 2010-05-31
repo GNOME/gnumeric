@@ -344,6 +344,7 @@ src/tools/analysis-kaplan-meier.c
 src/tools/analysis-normality.c
 src/tools/analysis-principal-components.c
 src/tools/analysis-sign-test.c
+src/tools/analysis-signed-rank-test.c
 src/tools/analysis-tools.c
 src/tools/analysis-wilcoxon-mann-whitney.c
 src/tools/dao.c

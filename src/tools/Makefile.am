@@ -35,6 +35,8 @@ libtools_la_SOURCES =					\
 	analysis-principal-components.h			\
 	analysis-sign-test.c				\
 	analysis-sign-test.h				\
+	analysis-signed-rank-test.c			\
+	analysis-signed-rank-test.h			\
 	analysis-tools.c				\
 	analysis-tools.h				\
 	analysis-wilcoxon-mann-whitney.c	\

@@ -1,11 +1,11 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * analysis-sign-test.h:
+ * analysis-signed-rank-test.h:
  *
  * Author:
  *   Andreas J. Guelzow  <aguelzow@pyrshep.ca>
  *
- * (C) Copyright 2009 by Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+ * (C) Copyright 2010 by Andreas J. Guelzow  <aguelzow@pyrshep.ca>
  *
  *
  * This program is free software; you can redistribute it and/or modify
@@ -24,31 +24,29 @@
  */
 
 
-#ifndef ANALYSIS_SIGN_TEST_H
-#define ANALYSIS_SIGN_TEST_H
+#ifndef ANALYSIS_SIGNED_RANK_TEST_H
+#define ANALYSIS_SIGNED_RANK_TEST_H
 
 #include "gnumeric.h"
 #include "numbers.h"
 #include "dao.h"
 #include "tools.h"
 #include "analysis-tools.h"
+#include "analysis-sign-test.h"
 #include "sheet.h"
 
-typedef struct {
-	analysis_tools_data_generic_t base;
-	gnm_float median;
-	gnm_float alpha;
-} analysis_tools_data_sign_test_t;
+/* note: specs is a pointer to a analysis_tools_data_sign_test_t */
 
-typedef struct {
-	analysis_tools_data_generic_b_t base;
-	gnm_float        median;
-} analysis_tools_data_sign_test_two_t;
+gboolean analysis_tool_signed_rank_test_engine (data_analysis_output_t *dao, 
+						    gpointer specs,
+						    analysis_tool_engine_t selector, 
+						    gpointer result);
 
-gboolean analysis_tool_sign_test_engine (data_analysis_output_t *dao, gpointer specs,
-					   analysis_tool_engine_t selector, gpointer result);
+/* note: specs is a pointer to a analysis_tools_data_sign_test_two_t */
 
-gboolean analysis_tool_sign_test_two_engine (data_analysis_output_t *dao, gpointer specs,
-					   analysis_tool_engine_t selector, gpointer result);
+gboolean analysis_tool_signed_rank_test_two_engine (data_analysis_output_t *dao, 
+						    gpointer specs,
+						    analysis_tool_engine_t selector, 
+						    gpointer result);
 
 #endif

@@ -1,3 +1,13 @@
+2010-05-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-signed-rank-test.[ch]: new
+	* Makefile.am: add the above
+	* analysis-tools.h (analysis_tool_get_function): new
+	* analysis-tools.c (analysis_tool_get_function): new
+	* analysis-sign-test.h: minor formatting
+	* analysis-sign-test.c 
+	(analysis_tool_sign_test_two_engine_run): fix statistic
+
 2010-05-30  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.5

@@ -312,7 +312,14 @@ analysis_tool_sign_test_two_engine_run (data_analysis_output_t *dao,
 	expr = gnm_expr_new_funcall4 (fd_binomdist, make_cellref (0,-3), make_cellref (0,-2),
 				      gnm_expr_new_constant (value_new_float (0.5)),
 				      gnm_expr_new_constant (value_new_bool (TRUE)));
-	dao_set_cell_array_expr (dao, 1, 6, expr);
+	dao_set_cell_array_expr (dao, 1, 6, 
+				 gnm_expr_new_funcall2 
+				 (fd_min,
+				  gnm_expr_copy (expr),
+				  gnm_expr_new_binary 
+				  (gnm_expr_new_constant (value_new_int (1)),
+				   GNM_EXPR_OP_SUB,
+				   expr)));
 	
 	expr = gnm_expr_new_binary (gnm_expr_new_constant (value_new_int (2)),
 				    GNM_EXPR_OP_MULT, make_cellref (0,-1));

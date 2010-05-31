@@ -1,3 +1,14 @@
+2010-05-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* component/Gnumeric-embed.xml.in: added Wilcoxon Signed-Rank items
+      and rearrange into separate statistics menu.
+	* src/GNOME_Gnumeric-gtk.xml.in: ditto
+	* src/HILDON_Gnumeric-gtk.xml.in: ditto
+	* src/wbc-gtk-actions.c: ditto
+    (cb_tools_sign_test_two_medians): use new tool
+    (cb_tools_wilcoxon_signed_rank_two_medians): new
+    (cb_tools_wilcoxon_signed_rank_two_medians): new
+
 2010-05-31  Morten Welinder  <terra@gnome.org>
 
 	* src/hlink.c (gnm_hlink_external_activate): Use go_gtk_url_show.

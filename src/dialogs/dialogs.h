@@ -97,11 +97,14 @@ int dialog_principal_components_tool	 (WBCGtk *wbcg, Sheet *sheet);
 int dialog_wilcoxon_m_w_tool	 (WBCGtk *wbcg, Sheet *sheet);
 
 typedef enum {
-	SIGNTEST_1 = 1,
-	SIGNTEST_2 = 2
+	SIGNTEST,
+	SIGNTEST_WILCOXON
 } signtest_type;
 
-int dialog_sign_test_tool        (WBCGtk *wbcg, Sheet *sheet, signtest_type n_medians);
+int dialog_sign_test_tool        (WBCGtk *wbcg, Sheet *sheet, 
+				  signtest_type type);
+int dialog_sign_test_two_tool    (WBCGtk *wbcg, Sheet *sheet, 
+				  signtest_type type);
 
 typedef enum {
 	TTEST_PAIRED = 1,

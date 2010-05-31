@@ -889,8 +889,10 @@ static GNM_ACTION_DEF (cb_tools_principal_components)	{ dialog_principal_compone
 static GNM_ACTION_DEF (cb_tools_ranking)	{ dialog_ranking_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_regression)	{ dialog_regression_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_sampling)	{ dialog_sampling_tool (wbcg, wbcg_cur_sheet (wbcg)); }
-static GNM_ACTION_DEF (cb_tools_sign_test_one_median)	{ dialog_sign_test_tool (wbcg, wbcg_cur_sheet (wbcg), SIGNTEST_1); }
-static GNM_ACTION_DEF (cb_tools_sign_test_two_medians)	{ dialog_sign_test_tool (wbcg, wbcg_cur_sheet (wbcg), SIGNTEST_2); }
+static GNM_ACTION_DEF (cb_tools_sign_test_one_median)	{ dialog_sign_test_tool (wbcg, wbcg_cur_sheet (wbcg), SIGNTEST); }
+static GNM_ACTION_DEF (cb_tools_sign_test_two_medians)	{ dialog_sign_test_two_tool (wbcg, wbcg_cur_sheet (wbcg), SIGNTEST); }
+static GNM_ACTION_DEF (cb_tools_wilcoxon_signed_rank_one_median)	{ dialog_sign_test_tool (wbcg, wbcg_cur_sheet (wbcg), SIGNTEST_WILCOXON); }
+static GNM_ACTION_DEF (cb_tools_wilcoxon_signed_rank_two_medians)	{ dialog_sign_test_two_tool (wbcg, wbcg_cur_sheet (wbcg), SIGNTEST_WILCOXON); }
 static GNM_ACTION_DEF (cb_tools_wilcoxon_mann_whitney)	{ dialog_wilcoxon_m_w_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_ttest_paired)	{ dialog_ttest_tool (wbcg, wbcg_cur_sheet (wbcg), TTEST_PAIRED); }
 static GNM_ACTION_DEF (cb_tools_ttest_equal_var) { dialog_ttest_tool (wbcg, wbcg_cur_sheet (wbcg), TTEST_UNPAIRED_EQUALVARIANCES); }
@@ -1736,13 +1738,19 @@ static GtkActionEntry const permanent_actions[] = {
 		{ "MenuFormatSheet",		NULL, N_("_Sheet") },
 	{ "MenuTools",		NULL, N_("_Tools") },
 		{ "MenuToolsScenarios",	NULL,	N_("Sce_narios") },
-		{ "MenuToolStatisticalAnalysis",	NULL,	N_("Statistical Anal_ysis") },
-		{ "MenuANOVA",	NULL,	N_("_ANOVA") },
-		{ "MenuContingencyTests",	NULL,	N_("Contin_gency Table") },
-		{ "MenuToolForecast",	NULL,	N_("F_orecast") },
-		{ "MenuToolFrequencies",	NULL,	N_("Fre_quency Tables") },
-		{ "MenuToolTwoMedians",	NULL,	N_("Two _Medians") },
-		{ "MenuToolTTest",	NULL,	N_("Two _Means") },
+	{ "MenuStatistics",		NULL, N_("_Statistics") },
+		{ "MenuStatisticsDescriptive",	NULL, N_("_Descriptive Statistics") },
+			{ "MenuToolFrequencies",	NULL,	N_("Fre_quency Tables") },
+		{ "MenuStatisticsTimeSeries",	NULL, N_("De_pendent Observations") },
+			{ "MenuToolForecast",	NULL,	N_("F_orecast") },
+		{ "MenuStatisticsOneSample",	NULL,	N_("_One Sample Tests") },
+			{ "MenuToolOneMedian",	NULL,	N_("_One Median") },
+		{ "MenuStatisticsTwoSamples",	NULL,	N_("_Two Sample Tests") },
+			{ "MenuToolTwoMedians",	NULL,	N_("Two Me_dians") },
+			{ "MenuToolTTest",	NULL,	N_("Two _Means") },
+		{ "MenuStatisticsMultipleSamples",	NULL,	N_("_Multiple Sample Tests") },	        
+			{ "MenuANOVA",	NULL,	N_("_ANOVA") },
+			{ "MenuContingencyTests",	NULL,	N_("Contin_gency Table") },
 	{ "MenuData",		NULL, N_("_Data") },
 		{ "MenuFilter",		NULL,	N_("_Filter") },
 		{ "MenuEditFill",	NULL, N_("F_ill") },
@@ -2121,39 +2129,83 @@ static GtkActionEntry const actions[] = {
 		NULL, N_("Add a new scenario"),
                 G_CALLBACK (cb_tools_scenario_add) },
 
-/* Tools -> ANOVA */
-	{ "ToolsANOVAoneFactor", NULL, N_("_One Factor..."),
-		NULL, N_("One Factor Analysis of Variance..."),
-		G_CALLBACK (cb_tools_anova_one_factor) },
-	{ "ToolsANOVAtwoFactor", NULL, N_("_Two Factor..."),
-		NULL, N_("Two Factor Analysis of Variance..."),
-		G_CALLBACK (cb_tools_anova_two_factor) },
+/* Statistics */
 
-/* Tools -> Chi Square Tests */
-	{ "ToolsHomogeneity", NULL, N_("Test of _Homogeneity..."),
-		NULL, N_("Chi Squared Test of Homogeneity..."),
-		G_CALLBACK (cb_tools_chi_square_homogeneity) },
-	{ "ToolsIndependence", NULL, N_("Test of _Independence..."),
-		NULL, N_("Chi Squared Test of Independence..."),
-		G_CALLBACK (cb_tools_chi_square_independence) },
+	{ "ToolsSampling", NULL, N_("_Sampling..."),
+		NULL, N_("Periodic and random samples"),
+		G_CALLBACK (cb_tools_sampling) },
 
-/* Tools -> Forecasting */
-	{ "ToolsExpSmoothing", NULL, N_("_Exponential Smoothing..."),
-		NULL, N_("Exponential smoothing..."),
-		G_CALLBACK (cb_tools_exp_smoothing) },
-	{ "ToolsAverage", NULL, N_("_Moving Average..."),
-		NULL, N_("Moving average..."),
-		G_CALLBACK (cb_tools_average) },
+/* Statistics -> Descriptive*/
 
-/* Tools -> Frequency Tables */
+	{ "ToolsCorrelation", NULL, N_("_Correlation..."),
+		NULL, N_("Pearson Correlation"),
+		G_CALLBACK (cb_tools_correlation) },
+	{ "ToolsCovariance", NULL, N_("Co_variance..."),
+		NULL, N_("Covariance"),
+		G_CALLBACK (cb_tools_covariance) },
+	{ "ToolsDescStatistics", NULL, N_("_Descriptive Statistics..."),
+		NULL, N_("Various summary statistics"),
+		G_CALLBACK (cb_tools_desc_statistics) },
+
+/* Statistics -> Descriptive -> Frequencies */
+
 	{ "ToolsFrequency", NULL, N_("Fre_quency Tables..."),
 		NULL, N_("Frequency tables for non-numeric data"),
 		G_CALLBACK (cb_tools_frequency) },
 	{ "ToolsHistogram", NULL, N_("_Histogram..."),
 		NULL, N_("Various frequency tables for numeric data"),
 		G_CALLBACK (cb_tools_histogram) },
+	{ "ToolsRanking", NULL, N_("Ranks And _Percentiles..."),
+		NULL, N_("Ranks, placements and percentiles"),
+		G_CALLBACK (cb_tools_ranking) },
 
-/* Tools -> Analysis -> Two Means */
+/* Statistics -> DependentObservations */
+
+	{ "ToolsFourier", NULL, N_("_Fourier Analysis..."),
+		NULL, N_("Fourier Analysis"),
+		G_CALLBACK (cb_tools_fourier) },
+	{ "ToolsPrincipalComponents", NULL, 
+	        N_("Principal Components Analysis..."),
+		NULL, N_("Principal Components Analysis"),
+		G_CALLBACK (cb_tools_principal_components) },
+/* Statistics -> DependentObservations -> Forecast*/
+
+	{ "ToolsExpSmoothing", NULL, N_("_Exponential Smoothing..."),
+		NULL, N_("Exponential smoothing..."),
+		G_CALLBACK (cb_tools_exp_smoothing) },
+	{ "ToolsAverage", NULL, N_("_Moving Average..."),
+		NULL, N_("Moving average..."),
+		G_CALLBACK (cb_tools_average) },
+	{ "ToolsRegression", NULL, N_("_Regression..."),
+		NULL, N_("Regression Analysis"),
+		G_CALLBACK (cb_tools_regression) },
+	{ "ToolsKaplanMeier", NULL, N_("_Kaplan-Meier Estimates..."),
+		NULL, N_("Creation of Kaplan-Meier Survival Curves"),
+		G_CALLBACK (cb_tools_kaplan_meier) },
+
+/* Statistics -> OneSample */
+
+	{ "ToolsNormalityTests", NULL, N_("_Normality Tests..."),
+		NULL, N_("Testing a sample for normality"),
+		G_CALLBACK (cb_tools_normality_tests) },
+
+/* Statistics -> OneSample -> OneMedian*/
+
+	{ "ToolsOneMedianSignTest", NULL, N_("_Sign Test..."),
+		NULL, N_("Testing the value of a median"),
+		G_CALLBACK (cb_tools_sign_test_one_median) },
+	{ "ToolsOneMedianWilcoxonSignedRank", NULL, N_("_Wilcoxon Signed Rank Test..."),
+		NULL, N_("Testing the value of a median"),
+		G_CALLBACK (cb_tools_wilcoxon_signed_rank_one_median) },
+
+/* Statistics -> TwoSamples */
+
+	{ "ToolsFTest", NULL, N_("_Two Variances: FTest..."),
+		NULL, N_("Comparing two population variances"),
+		G_CALLBACK (cb_tools_ftest) },
+
+/* Statistics -> TwoSamples -> Two Means*/
+
 	{ "ToolTTestPaired", NULL, N_("_Paired Samples: T-Test..."),
 		NULL, N_("Comparing two population means for two paired samples: t-test..."),
 		G_CALLBACK (cb_tools_ttest_paired) },
@@ -2170,53 +2222,38 @@ static GtkActionEntry const actions[] = {
 		NULL, N_("Comparing two population means from populations with known variances: z-test..."),
 		G_CALLBACK (cb_tools_ztest) },
 
-/* Tools -> Analysis -> Two Medias */
+/* Statistics -> TwoSamples -> Two Medians*/
 
 	{ "ToolsTwoMedianSignTest", NULL, N_("_Sign Test..."),
 		NULL, N_("Comparing the values of two medians of paired observations"),
 		G_CALLBACK (cb_tools_sign_test_two_medians) },
-	{ "ToolsTwoMedianWilcoxonMannWhitney", NULL, N_("_Wilcoxon-Mann-Whitney..."),
+	{ "ToolsTwoMedianWilcoxonSignedRank", NULL, N_("_Wilcoxon Signed Rank Test..."),
+		NULL, N_("Comparing the values of two medians of paired observations"),
+		G_CALLBACK (cb_tools_wilcoxon_signed_rank_two_medians) },
+	{ "ToolsTwoMedianWilcoxonMannWhitney", NULL, N_("_Wilcoxon-Mann-Whitney Test..."),
 		NULL, N_("Comparing the values of two medians of unpaired observations"),
 		G_CALLBACK (cb_tools_wilcoxon_mann_whitney) },
 
-/* Tools -> Analysis */
-	{ "ToolsCorrelation", NULL, N_("_Correlation..."),
-		NULL, N_("Pearson Correlation"),
-		G_CALLBACK (cb_tools_correlation) },
-	{ "ToolsCovariance", NULL, N_("Co_variance..."),
-		NULL, N_("Covariance"),
-		G_CALLBACK (cb_tools_covariance) },
-	{ "ToolsDescStatistics", NULL, N_("_Descriptive Statistics..."),
-		NULL, N_("Various summary statistics"),
-		G_CALLBACK (cb_tools_desc_statistics) },
-	{ "ToolsFourier", NULL, N_("_Fourier Analysis..."),
-		NULL, N_("Fourier Analysis"),
-		G_CALLBACK (cb_tools_fourier) },
-	{ "ToolsPrincipalComponents", NULL, 
-	        N_("Principal Components Analysis..."),
-		NULL, N_("Principal Components Analysis"),
-		G_CALLBACK (cb_tools_principal_components) },
-	{ "ToolsRanking", NULL, N_("Ranks And _Percentiles..."),
-		NULL, N_("Ranks, placements and percentiles"),
-		G_CALLBACK (cb_tools_ranking) },
-	{ "ToolsRegression", NULL, N_("_Regression..."),
-		NULL, N_("Regression Analysis"),
-		G_CALLBACK (cb_tools_regression) },
-	{ "ToolsSampling", NULL, N_("_Sampling..."),
-		NULL, N_("Periodic and random samples"),
-		G_CALLBACK (cb_tools_sampling) },
-	{ "ToolsFTest", NULL, N_("_Two Variances: FTest..."),
-		NULL, N_("Comparing two population variances"),
-		G_CALLBACK (cb_tools_ftest) },
-	{ "ToolsKaplanMeier", NULL, N_("_Kaplan-Meier Estimates..."),
-		NULL, N_("Creation of Kaplan-Meier Survival Curves"),
-		G_CALLBACK (cb_tools_kaplan_meier) },
-	{ "ToolsNormalityTests", NULL, N_("_Normality Tests..."),
-		NULL, N_("Testing a sample for normality"),
-		G_CALLBACK (cb_tools_normality_tests) },
-	{ "ToolsOneMedianSignTest", NULL, N_("One M_edian Sign Test..."),
-		NULL, N_("Testing the value of a median"),
-		G_CALLBACK (cb_tools_sign_test_one_median) },
+/* Statistics -> MultipleSamples */
+
+/* Statistics -> MultipleSamples -> ANOVA*/
+
+	{ "ToolsANOVAoneFactor", NULL, N_("_One Factor..."),
+		NULL, N_("One Factor Analysis of Variance..."),
+		G_CALLBACK (cb_tools_anova_one_factor) },
+	{ "ToolsANOVAtwoFactor", NULL, N_("_Two Factor..."),
+		NULL, N_("Two Factor Analysis of Variance..."),
+		G_CALLBACK (cb_tools_anova_two_factor) },
+
+/* Statistics -> MultipleSamples -> ContingencyTable*/
+
+	{ "ToolsHomogeneity", NULL, N_("Test of _Homogeneity..."),
+		NULL, N_("Chi Squared Test of Homogeneity..."),
+		G_CALLBACK (cb_tools_chi_square_homogeneity) },
+	{ "ToolsIndependence", NULL, N_("Test of _Independence..."),
+		NULL, N_("Chi Squared Test of Independence..."),
+		G_CALLBACK (cb_tools_chi_square_independence) },
+
 /* Data */
 	{ "DataSort", GTK_STOCK_SORT_ASCENDING, N_("_Sort..."),
 		NULL, N_("Sort the selected region"),

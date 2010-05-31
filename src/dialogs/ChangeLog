@@ -1,3 +1,17 @@
+2010-05-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialogs.h (dialog_sign_test_two_tool): new
+	* dialog-analysis-tool-sign-test.c 
+	(sign_test_tool_update_common_sensitivity_cb): new
+	(sign_test_tool_update_sensitivity_cb): split
+	(sign_test_two_tool_update_sensitivity_cb): new
+	(sign_test_two_tool_ok_clicked_cb): handle Signed-Rank
+	(sign_test_tool_ok_clicked_cb): ditto
+	(dialog_sign_test_two_tool): new
+	(dialog_sign_test_tool): handle Signed-Rank
+	* sign-test-two.glade: add radio buttons
+	* sign-test.glade: ditto
+
 2010-05-30  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.5

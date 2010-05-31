@@ -1,5 +1,8 @@
 Gnumeric 1.10.6
 
+Andreas:
+    * Add Wilcoxon Signed Rank Test tools for one and two populations. 
+
 Morten:
 	* Make sure windows for help commands show up on right screen.
 

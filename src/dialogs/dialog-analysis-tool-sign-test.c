@@ -3,9 +3,9 @@
  * dialog-analysis-tool-sign-test.c:
  *
  * Authors:
-  *  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+  *  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
  *
- * (C) Copyright 2009 by Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+ * (C) Copyright 2009-2010 by Andreas J. Guelzow  <aguelzow@pyrshep.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "analysis-sign-test.h"
+#include "analysis-signed-rank-test.h"
 #include "analysis-tools.h"
 
 #include <workbook.h>
@@ -71,48 +72,18 @@ typedef struct {
 } SignTestToolState;
 
 /**
- * sign_test_tool_update_sensitivity_cb:
+ * sign_test_tool_update_common_sensitivity_cb:
  * @dummy:
  * @state:
  *
  * Update the dialog widgets sensitivity
  **/
-static void
-sign_test_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
-				      SignTestToolState *state)
+static gboolean
+sign_test_tool_update_common_sensitivity_cb (SignTestToolState *state)
 {
 	gnm_float alpha;
 	gnm_float median;
-        GSList *input_range;
 	gboolean err;
-
-	/* Checking first input range*/
-        input_range = gnm_expr_entry_parse_as_list
-		(GNM_EXPR_ENTRY (state->base.input_entry),
-		 state->base.sheet);
-	if (input_range == NULL) {
-		gtk_label_set_text (GTK_LABEL (state->base.warning),
-				    (state->base.input_entry_2 == NULL) 
-				    ? _("The input range is invalid.")
-				    : _("The first input range is invalid."));
-		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
-		return;
-	} else
-		range_list_destroy (input_range);
-
-	/* Checking second input range*/
-	if (state->base.input_entry_2 != NULL) {
-		input_range = gnm_expr_entry_parse_as_list
-			(GNM_EXPR_ENTRY (state->base.input_entry_2),
-			 state->base.sheet);
-		if (input_range == NULL) {
-			gtk_label_set_text (GTK_LABEL (state->base.warning),
-					    _("The second input range is invalid."));
-			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
-			return;
-		} else
-			range_list_destroy (input_range);
-	}
 
 	/* Checking Median*/
 	err = entry_to_float
@@ -121,7 +92,7 @@ sign_test_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
 				    _("The predicted median should be a number."));
 		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
-		return;
+		return FALSE;
 	}
 
 	/* Checking Alpha*/
@@ -132,7 +103,7 @@ sign_test_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				    _("The alpha value should "
 				      "be a number between 0 and 1."));
 		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
-		return;
+		return FALSE;
 	}
 
 	/* Checking Output Page */
@@ -141,54 +112,79 @@ sign_test_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				    _("The output specification "
 				      "is invalid."));
 		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
-		return;
+		return FALSE;
 	}
 
-	gtk_label_set_text (GTK_LABEL (state->base.warning), "");
-	gtk_widget_set_sensitive (state->base.ok_button, TRUE);
-
+	return TRUE;
 }
 
 
 /**
- * sign_test_tool_ok_clicked_cb:
- * @button:
+ * sign_test_tool_update_sensitivity_cb:
+ * @dummy:
  * @state:
  *
- * Retrieve the information from the dialog and call the sign_test_tool.
- * Note that we assume that the ok_button is only active if the entry fields
- * contain sensible data.
+ * Update the dialog widgets sensitivity
  **/
 static void
-sign_test_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
-			      SignTestToolState *state)
+sign_test_two_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
+				      SignTestToolState *state)
 {
-	data_analysis_output_t  *dao;
-	GtkWidget *w;
-	analysis_tools_data_sign_test_t *data;
-	gboolean err;
+        GnmValue *input_range;
+ 	gint w, h;
 
-	data = g_new0 (analysis_tools_data_sign_test_t, 1);
-	dao  = parse_output ((GenericToolState *)state, NULL);
+	/* Checking first input range*/
+        input_range = gnm_expr_entry_parse_as_value
+		(GNM_EXPR_ENTRY (state->base.input_entry),
+		 state->base.sheet);
+	if (input_range == NULL || input_range->type != VALUE_CELLRANGE) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    (state->base.input_entry_2 == NULL) 
+				    ? _("The input range is invalid.")
+				    : _("The first input range is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		value_release (input_range);
+		return;
+	} else {
+		GnmRange r;
+		range_init_rangeref (&r, &(input_range->v_range.cell));
+		w = range_width (&r);
+		h = range_height (&r);
+		value_release (input_range);
+	}
 
-	data->base.input = gnm_expr_entry_parse_as_list (
-		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
-	data->base.group_by = gnumeric_glade_group_value (state->base.gui, grouped_by_group);
-	
-	w = glade_xml_get_widget (state->base.gui, "labels_button");
-        data->base.labels = gtk_toggle_button_get_active 
-		(GTK_TOGGLE_BUTTON (w));
-	
-	err = entry_to_float
-		(GTK_ENTRY (state->median_entry), &data->median, FALSE);
-	data->alpha = gtk_spin_button_get_value
-		(GTK_SPIN_BUTTON (state->alpha_entry));
+	/* Checking second input range*/
+	if (state->base.input_entry_2 != NULL) {
+		input_range = gnm_expr_entry_parse_as_value
+			(GNM_EXPR_ENTRY (state->base.input_entry_2),
+			 state->base.sheet);
+		if (input_range == NULL || input_range->type != VALUE_CELLRANGE) {
+			gtk_label_set_text (GTK_LABEL (state->base.warning),
+					    _("The second input range is invalid."));
+			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+			value_release (input_range);
+			return;
+		} else {
+			GnmRange r;
+			range_init_rangeref (&r, &(input_range->v_range.cell));
+			value_release (input_range);
+			if (w != range_width (&r) || 
+			    h != range_height (&r)) {
+				gtk_label_set_text 
+					(GTK_LABEL (state->base.warning),
+					 _("The input ranges do not have the same shape."));
+				gtk_widget_set_sensitive 
+					(state->base.ok_button, FALSE);
+			return;
 
-	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
-				dao, data, analysis_tool_sign_test_engine))
-		gtk_widget_destroy (state->base.dialog);
+			}
+		}
+	}
 
-	return;
+	if (sign_test_tool_update_common_sensitivity_cb (state)) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning), "");
+		gtk_widget_set_sensitive (state->base.ok_button, TRUE);
+	}
 }
 
 static void
@@ -199,6 +195,7 @@ sign_test_two_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	GtkWidget *w;
 	analysis_tools_data_sign_test_two_t *data;
 	gboolean err;
+	analysis_tool_engine engine;
 
 	data = g_new0 (analysis_tools_data_sign_test_two_t, 1);
 	dao  = parse_output ((GenericToolState *)state, NULL);
@@ -219,76 +216,63 @@ sign_test_two_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->base.alpha = gtk_spin_button_get_value
 		(GTK_SPIN_BUTTON (state->alpha_entry));
 
-	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
-				dao, data, analysis_tool_sign_test_two_engine))
+	w =  glade_xml_get_widget (state->base.gui, "signtest");
+	engine =  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w))
+		? analysis_tool_sign_test_two_engine 
+		: analysis_tool_signed_rank_test_two_engine;
+
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), 
+				state->base.sheet,
+				dao, data, engine))
 		gtk_widget_destroy (state->base.dialog);
 
 	return;
 }
 
 /**
- * dialog_sign_test_tool:
- * @wbcg:
- * @sheet:
- *
- * Show the dialog (guru).
+ * dialog_sign_test_two_tool:
  *
  **/
 int
-dialog_sign_test_tool (WBCGtk *wbcg, Sheet *sheet, signtest_type n_median)
+dialog_sign_test_two_tool (WBCGtk *wbcg, Sheet *sheet, signtest_type type)
 {
-	char const *key, *glade;
 	char const * plugins[] = { "Gnumeric_fnstat",
 				   "Gnumeric_fnlogical",
 				   "Gnumeric_fnmath",
 				   "Gnumeric_fninfo",
 				   NULL};
         SignTestToolState *state;
-	GnmExprEntryFlags flags = 0;
-	GCallback cb;
+	GtkWidget *w;
 
 	if ((wbcg == NULL) ||
 	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
 
-
-	switch (n_median) {
-	case SIGNTEST_2:
-		key = SIGN_TEST_KEY_TWO;		
-		glade = "sign-test-two.glade";
-		flags = GNM_EE_SINGLE_RANGE;
-		cb = G_CALLBACK (sign_test_two_tool_ok_clicked_cb);
-		break;
-	case SIGNTEST_1:
-	default:
-		key = SIGN_TEST_KEY_ONE;
-		glade = "sign-test.glade";
-		cb = G_CALLBACK (sign_test_tool_ok_clicked_cb);
-		break;
-	}
-	
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, key))
+	if (gnumeric_dialog_raise_if_exists (wbcg, SIGN_TEST_KEY_TWO))
 		return 0;
 
 	state = g_new0 (SignTestToolState, 1);
 
 	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_SIGN_TEST,
-			      glade, "Sign-Test",
+			      "sign-test-two.glade", "Sign-Test",
 			      _("Could not create the Sign Test Tool dialog."),
-			      key, cb, NULL,
-			      G_CALLBACK (sign_test_tool_update_sensitivity_cb),
-			      flags))
+			      SIGN_TEST_KEY_TWO, 
+			      G_CALLBACK (sign_test_two_tool_ok_clicked_cb), 
+			      NULL, 
+			      G_CALLBACK (sign_test_two_tool_update_sensitivity_cb), 
+			      GNM_EE_SINGLE_RANGE))
 		return 0;
 
 	
 	state->alpha_entry = glade_xml_get_widget (state->base.gui,
 						   "alpha-entry");
 	float_to_entry (GTK_ENTRY (state->alpha_entry), 0.05);
-	g_signal_connect_after (G_OBJECT (state->alpha_entry),
-		"changed",
-		G_CALLBACK (sign_test_tool_update_sensitivity_cb), state);
+	g_signal_connect (G_OBJECT (state->alpha_entry),
+			  "value-changed", 
+			  G_CALLBACK (sign_test_two_tool_update_sensitivity_cb), 
+			  state);
 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->alpha_entry));
 
@@ -296,14 +280,169 @@ dialog_sign_test_tool (WBCGtk *wbcg, Sheet *sheet, signtest_type n_median)
 						    "median-entry");
 	int_to_entry (GTK_ENTRY (state->median_entry), 0);
 	g_signal_connect_after (G_OBJECT (state->median_entry),
-		"changed",
-		G_CALLBACK (sign_test_tool_update_sensitivity_cb), state);
+				"changed", 
+				G_CALLBACK (sign_test_two_tool_update_sensitivity_cb), 
+				state);
 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->median_entry));
+	w =  glade_xml_get_widget (state->base.gui,
+				   (type == SIGNTEST) ? "signtest" : "signedranktest");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
+
+	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
+	sign_test_two_tool_update_sensitivity_cb (NULL, state);
+	tool_load_selection ((GenericToolState *)state, TRUE);
+
+	return 0;
+
+}
+
+/************************************************************************************/
+
+/**
+ * sign_test_tool_ok_clicked_cb:
+ * @button:
+ * @state:
+ *
+ * Retrieve the information from the dialog and call the sign_test_tool.
+ * Note that we assume that the ok_button is only active if the entry fields
+ * contain sensible data.
+ **/
+static void
+sign_test_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
+			      SignTestToolState *state)
+{
+	data_analysis_output_t  *dao;
+	GtkWidget *w;
+	analysis_tools_data_sign_test_t *data;
+	gboolean err;
+	analysis_tool_engine engine;
+
+	data = g_new0 (analysis_tools_data_sign_test_t, 1);
+	dao  = parse_output ((GenericToolState *)state, NULL);
+
+	data->base.input = gnm_expr_entry_parse_as_list (
+		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+	data->base.group_by = gnumeric_glade_group_value (state->base.gui, grouped_by_group);
+	
+	w = glade_xml_get_widget (state->base.gui, "labels_button");
+        data->base.labels = gtk_toggle_button_get_active 
+		(GTK_TOGGLE_BUTTON (w));
+	
+	err = entry_to_float
+		(GTK_ENTRY (state->median_entry), &data->median, FALSE);
+	data->alpha = gtk_spin_button_get_value
+		(GTK_SPIN_BUTTON (state->alpha_entry));
+
+	w =  glade_xml_get_widget (state->base.gui, "signtest");
+	engine =  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w))
+		? analysis_tool_sign_test_engine 
+		: analysis_tool_signed_rank_test_engine;
+
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
+				dao, data, engine))
+		gtk_widget_destroy (state->base.dialog);
+
+	return;
+}
+
+/**
+ * sign_test_tool_update_sensitivity_cb:
+ * @dummy:
+ * @state:
+ *
+ * Update the dialog widgets sensitivity
+ **/
+static void
+sign_test_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
+				      SignTestToolState *state)
+{
+        GSList *input_range;
+
+	/* Checking first input range*/
+        input_range = gnm_expr_entry_parse_as_list
+		(GNM_EXPR_ENTRY (state->base.input_entry),
+		 state->base.sheet);
+	if (input_range == NULL) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    (state->base.input_entry_2 == NULL) 
+				    ? _("The input range is invalid.")
+				    : _("The first input range is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	} else
+		range_list_destroy (input_range);
+
+	if (sign_test_tool_update_common_sensitivity_cb (state)) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning), "");
+		gtk_widget_set_sensitive (state->base.ok_button, TRUE);
+	}
+
+}
+
+/**
+ * dialog_sign_test_tool:
+ *
+ **/
+int
+dialog_sign_test_tool (WBCGtk *wbcg, Sheet *sheet, signtest_type type)
+{
+	char const * plugins[] = { "Gnumeric_fnstat",
+				   "Gnumeric_fnlogical",
+				   "Gnumeric_fnmath",
+				   "Gnumeric_fninfo",
+				   NULL};
+        SignTestToolState *state;
+	GtkWidget *w;
+
+	if ((wbcg == NULL) ||
+	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
+		return 1;
+
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, SIGN_TEST_KEY_ONE))
+		return 0;
+
+	state = g_new0 (SignTestToolState, 1);
+
+	if (dialog_tool_init (&state->base, wbcg, sheet,
+			      GNUMERIC_HELP_LINK_SIGN_TEST,
+			      "sign-test.glade", "Sign-Test",
+			      _("Could not create the Sign Test Tool dialog."),
+			      SIGN_TEST_KEY_ONE, 
+			      G_CALLBACK (sign_test_tool_ok_clicked_cb), 
+			      NULL, 
+			      G_CALLBACK (sign_test_tool_update_sensitivity_cb), 
+			      0))
+		return 0;
+
+	
+	state->alpha_entry = glade_xml_get_widget (state->base.gui,
+						   "alpha-entry");
+	float_to_entry (GTK_ENTRY (state->alpha_entry), 0.05);
+	g_signal_connect (G_OBJECT (state->alpha_entry),
+			  "value-changed", 
+			  G_CALLBACK (sign_test_tool_update_sensitivity_cb), 
+			  state);
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+				  GTK_WIDGET (state->alpha_entry));
+
+	state->median_entry = glade_xml_get_widget (state->base.gui,
+						    "median-entry");
+	int_to_entry (GTK_ENTRY (state->median_entry), 0);
+	g_signal_connect_after (G_OBJECT (state->median_entry),
+				"changed", G_CALLBACK (sign_test_tool_update_sensitivity_cb), 
+				state);
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+				  GTK_WIDGET (state->median_entry));
+	w =  glade_xml_get_widget (state->base.gui,
+				   (type == SIGNTEST) ? "signtest" : "signedranktest");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	sign_test_tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 
 	return 0;
+
 }
