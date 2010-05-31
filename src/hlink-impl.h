@@ -15,7 +15,7 @@ struct _GnmHLink {
 typedef struct {
 	GObjectClass obj;
 
-	gboolean (*Activate) (GnmHLink *link, WorkbookControl *wbc);
+	gboolean (*Activate) (GnmHLink *link, WBCGtk *wbcg);
 } GnmHLinkClass;
 
 G_END_DECLS

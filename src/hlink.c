@@ -50,16 +50,16 @@
 /**
  * gnm_hlink_activate :
  * @link :
- * @wbv : the view that activated the link
+ * @wbcg : the wbcg that activated the link
  *
  * Return TRUE if the link successfully activated.
  **/
 gboolean
-gnm_hlink_activate (GnmHLink *lnk, WorkbookControl *wbc)
+gnm_hlink_activate (GnmHLink *lnk, WBCGtk *wbcg)
 {
 	g_return_val_if_fail (IS_GNM_HLINK (lnk), FALSE);
 
-	return GET_CLASS (lnk)->Activate (lnk, wbc);
+	return GET_CLASS (lnk)->Activate (lnk, wbcg);
 }
 
 GnmHLink *
@@ -147,17 +147,18 @@ typedef struct {
 #define GNM_HLINK_CUR_WB(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), gnm_hlink_cur_wb_get_type (), GnmHLinkCurWB))
 
 static gboolean
-gnm_hlink_cur_wb_activate (GnmHLink *lnk, WorkbookControl *wbc)
+gnm_hlink_cur_wb_activate (GnmHLink *lnk, WBCGtk *wbcg)
 {
 	GnmRangeRef const *r;
 	GnmCellPos tmp;
 	Sheet	  *target_sheet;
-	Sheet	  *sheet = wb_control_cur_sheet      (wbc);
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	Sheet	  *sheet = wbcg_cur_sheet (wbcg);
 	SheetView *sv	 = wb_control_cur_sheet_view (wbc);
 	GnmValue *target;
 
 	if (!lnk->target) {
-		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc),
+		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbcg),
 			_("Link target"), _("(none)"));
 		return FALSE;
 	}
@@ -173,7 +174,7 @@ gnm_hlink_cur_wb_activate (GnmHLink *lnk, WorkbookControl *wbc)
 			target = gnm_expr_top_get_range (nexpr->texpr);
 	}
 	if (target == NULL) {
-		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc),
+		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbcg),
 			_("Link target"), lnk->target);
 		return FALSE;
 	}
@@ -212,18 +213,21 @@ typedef struct {
 } GnmHLinkURL;
 
 static gboolean
-gnm_hlink_url_activate (GnmHLink *lnk, WorkbookControl *wbc)
+gnm_hlink_url_activate (GnmHLink *lnk, WBCGtk *wbcg)
 {
 	GError *err = NULL;
+	GdkScreen *screen;
 
 	if (lnk->target == NULL)
 		return FALSE;
 
-	err = go_url_show (lnk->target);
+	screen = gtk_window_get_screen (wbcg_toplevel (wbcg));
+	err = go_gtk_url_show (lnk->target, screen);
 
 	if (err != NULL) {
 		char *msg = g_strdup_printf (_("Unable to activate the url '%s'"), lnk->target);
-		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), msg, err->message);
+		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbcg),
+					      msg, err->message);
 		g_free (msg);
 		g_error_free (err);
 	}
@@ -262,22 +266,25 @@ typedef struct {
 } GnmHLinkExternal;
 
 static gboolean
-gnm_hlink_external_activate (GnmHLink *lnk, WorkbookControl *wbc)
+gnm_hlink_external_activate (GnmHLink *lnk, WBCGtk *wbcg)
 {
 	GError *err = NULL;
 	gboolean res = FALSE;
 	char *cmd;
+	GdkScreen *screen;
 
 	if (lnk->target == NULL)
 		return FALSE;
 
 	cmd = go_shell_arg_to_uri (lnk->target);
-	err = go_url_show (cmd);
+	screen = gtk_window_get_screen (wbcg_toplevel (wbcg));
+	err = go_gtk_url_show (cmd, screen);
 	g_free (cmd);
 
 	if (err != NULL) {
 		char *msg = g_strdup_printf(_("Unable to open '%s'"), lnk->target);
-		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), msg, err->message);
+		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbcg),
+					      msg, err->message);
 		g_free (msg);
 		g_error_free (err);
 	}

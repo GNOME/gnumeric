@@ -1,5 +1,7 @@
 2010-05-31  Morten Welinder  <terra@gnome.org>
 
+	* src/hlink.c (gnm_hlink_external_activate): Use go_gtk_url_show.
+
 	* src/wbc-gtk-actions.c (cb_help_web, cb_help_irc, cb_help_bug):
 	use go_gtk_url_show so we get the right screen.
 

@@ -3,6 +3,7 @@
 # define _GNM_HLINK_H_
 
 #include "gnumeric.h"
+#include "wbc-gtk.h"
 #include <glib-object.h>
 
 G_BEGIN_DECLS
@@ -18,7 +19,7 @@ G_BEGIN_DECLS
 GnmHLink	*sheet_hlink_find   (Sheet const *sheet, GnmCellPos const *pos);
 
 GType gnm_hlink_get_type (void);
-gboolean         gnm_hlink_activate   (GnmHLink *l, WorkbookControl *wbc);
+gboolean         gnm_hlink_activate   (GnmHLink *l, WBCGtk *wbcg);
 gchar const	*gnm_hlink_get_target (GnmHLink const *lnk);
 void	     	 gnm_hlink_set_target (GnmHLink *lnk, gchar const *url);
 gchar const	*gnm_hlink_get_tip    (GnmHLink const *l);

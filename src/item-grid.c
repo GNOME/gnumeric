@@ -1062,7 +1062,7 @@ item_grid_button_released (GocItem *item, int button, G_GNUC_UNUSED double x_, G
 			/* check for hyper links */
 			link = sheet_hlink_find (sheet, pos);
 			if (link != NULL)
-				gnm_hlink_activate (link, scg_wbc (scg));
+				gnm_hlink_activate (link, scg_wbcg (scg));
 		}
 	}
 	return TRUE;
