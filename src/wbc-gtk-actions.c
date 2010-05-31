@@ -1029,31 +1029,34 @@ static GNM_ACTION_DEF (cb_help_docs)
 	}
 }
 
-static GNM_ACTION_DEF (cb_help_web)
+static void
+show_url (WBCGtk *wbcg, const char *url)
 {
-	GError *err = go_url_show ("http://www.gnumeric.org/");
+	GError *err;
+	GdkScreen *screen;
+
+	screen = gtk_window_get_screen (wbcg_toplevel (wbcg));
+	err = go_gtk_url_show (url, screen);
 	if (err != NULL) {
 		go_cmd_context_error (GO_CMD_CONTEXT (wbcg), err);
 		g_error_free (err);
 	}
+}
+
+
+static GNM_ACTION_DEF (cb_help_web)
+{
+	show_url (wbcg, "http://www.gnumeric.org/");
 }
 
 static GNM_ACTION_DEF (cb_help_irc)
 {
-	GError *err = go_url_show ("irc://irc.gnome.org/gnumeric");
-	if (err != NULL) {
-		go_cmd_context_error (GO_CMD_CONTEXT (wbcg), err);
-		g_error_free (err);
-	}
+	show_url (wbcg, "irc://irc.gnome.org/gnumeric");
 }
 
 static GNM_ACTION_DEF (cb_help_bug)
 {
-	GError *err = go_url_show ("http://bugzilla.gnome.org/enter_bug.cgi?product=Gnumeric");
-	if (err != NULL) {
-		go_cmd_context_error (GO_CMD_CONTEXT (wbcg), err);
-		g_error_free (err);
-	}
+	show_url (wbcg, "http://bugzilla.gnome.org/enter_bug.cgi?product=Gnumeric");
 }
 
 static GNM_ACTION_DEF (cb_help_about) { dialog_about (wbcg); }
