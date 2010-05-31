@@ -406,6 +406,7 @@ rosenbrock_iter (GnmNlsolve *nl)
 	int dones = 0;
 	gnm_float ykm1 = nl->yk, *xkm1;
 	gnm_float eps = gnm_pow2 (-16);
+	int safety = 0;
 
 	if (nl->tentative) {
 		nl->tentative--;
@@ -445,6 +446,13 @@ rosenbrock_iter (GnmNlsolve *nl)
 	state = g_new0 (char, n);
 
 	while (dones < n) {
+		/*
+		 * A safety that shouldn't get hit, but might if the function
+		 * being optimized in non-deterministic.
+		 */
+		if (safety++ > n * GNM_MANT_DIG)
+			break;
+
 		for (i = 0; i < n; i++) {
 			gnm_float y;
 
