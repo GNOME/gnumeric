@@ -262,24 +262,21 @@ dialog_frequency_tool (WBCGtk *wbcg, Sheet *sheet)
 			      0))
 		return 0;
 
-	state->predetermined_button = GTK_WIDGET (glade_xml_get_widget
-						  (state->base.gui,
-						   "pre_determined_button"));
-	state->calculated_button = GTK_WIDGET (glade_xml_get_widget
-					       (state->base.gui,
-						"calculated_button"));
-	state->n_entry = GTK_ENTRY(glade_xml_get_widget (state->base.gui,
-							  "n_entry"));
+	state->predetermined_button = tool_setup_update 
+		(&state->base, "pre_determined_button",
+		 G_CALLBACK (frequency_tool_update_sensitivity_cb),
+		 state); 
 
-	g_signal_connect_after (G_OBJECT (state->predetermined_button),
-		"toggled",
-		G_CALLBACK (frequency_tool_update_sensitivity_cb), state);
-	g_signal_connect_after (G_OBJECT (state->calculated_button),
-		"toggled",
-		G_CALLBACK (frequency_tool_update_sensitivity_cb), state);
-	g_signal_connect_after (G_OBJECT (state->n_entry),
-		"changed",
-		G_CALLBACK (frequency_tool_update_sensitivity_cb), state);
+	state->calculated_button  = tool_setup_update 
+		(&state->base, "calculated_button",
+		 G_CALLBACK (frequency_tool_update_sensitivity_cb),
+		 state); 
+
+	state->n_entry = 
+		GTK_ENTRY(tool_setup_update 
+			  (&state->base, "n_entry",
+			   G_CALLBACK (frequency_tool_update_sensitivity_cb),
+			   state));
 	g_signal_connect (G_OBJECT (state->n_entry),
 		"key-press-event",
 		G_CALLBACK (frequency_tool_set_calculated), state);

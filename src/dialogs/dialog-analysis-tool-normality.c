@@ -206,14 +206,12 @@ dialog_normality_tool (WBCGtk *wbcg, Sheet *sheet)
 		return 0;
 
 
-	state->alpha_entry = glade_xml_get_widget (state->base.gui,
-						   "alpha-entry");
+	state->alpha_entry = tool_setup_update 
+		(&state->base, "alpha-entry",
+		 G_CALLBACK (normality_tool_update_sensitivity_cb), 
+		 state);
+
 	float_to_entry (GTK_ENTRY (state->alpha_entry), 0.05);
-	g_signal_connect_after (G_OBJECT (state->alpha_entry),
-		"changed",
-		G_CALLBACK (normality_tool_update_sensitivity_cb), state);
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
-				  GTK_WIDGET (state->alpha_entry));
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	normality_tool_update_sensitivity_cb (NULL, state);

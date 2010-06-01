@@ -1,5 +1,19 @@
 2010-05-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* tool-dialogs.h (tool_setup_update): new
+	* dialog-analysis-tool-chi-squared.c (dialog_chi_square_tool):
+	  use tool_setup_update
+	* dialog-analysis-tool-frequency.c (dialog_frequency_tool):
+	  ditto
+	* dialog-analysis-tool-normality.c (dialog_normality_tool):
+	  ditto
+	* dialog-analysis-tool-sign-test.c (dialog_sign_test_two_tool):
+	  ditto
+	(dialog_sign_test_tool): ditto
+	* dialog-analysis-tools.c (tool_setup_update): new
+	
+2010-05-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialogs.h (dialog_sign_test_two_tool): new
 	* dialog-analysis-tool-sign-test.c 
 	(sign_test_tool_update_common_sensitivity_cb): new

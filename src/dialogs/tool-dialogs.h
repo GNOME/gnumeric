@@ -65,4 +65,9 @@ gboolean dialog_tool_init (GenericToolState *state,
 			   GCallback sensitivity_cb,
 			   GnmExprEntryFlags flags);
 
+GtkWidget *tool_setup_update (GenericToolState* state,
+			      char const *name,
+			      GCallback cb,
+			      gpointer closure);
+
 #endif

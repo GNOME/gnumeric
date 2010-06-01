@@ -228,21 +228,21 @@ dialog_chi_square_tool (WBCGtk *wbcg, Sheet *sheet, gboolean independence)
 		type ="test-of-independence";
 	else
 		type ="test-of-homogeneity";
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->base.gui, type)),
-				      TRUE);
-	state->label = glade_xml_get_widget (state->base.gui,
-						   "labels_button");
-	g_signal_connect_after (G_OBJECT (state->label),
-		"toggled",
-		G_CALLBACK (chi_squared_tool_update_sensitivity_cb), state);
-	state->alpha_entry = glade_xml_get_widget (state->base.gui,
-						   "alpha-entry");
+	gtk_toggle_button_set_active 
+		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->base.gui, 
+							  type)),
+		 TRUE);
+
+	state->label = tool_setup_update 
+		(&state->base, "labels_button",
+		 G_CALLBACK (chi_squared_tool_update_sensitivity_cb),
+		 state);
+
+	state->alpha_entry = tool_setup_update 
+		(&state->base, "alpha-entry",
+		 G_CALLBACK (chi_squared_tool_update_sensitivity_cb),
+		 state);
 	float_to_entry (GTK_ENTRY (state->alpha_entry), 0.05);
-	g_signal_connect_after (G_OBJECT (state->alpha_entry),
-		"changed",
-		G_CALLBACK (chi_squared_tool_update_sensitivity_cb), state);
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
-				  GTK_WIDGET (state->alpha_entry));
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	chi_squared_tool_update_sensitivity_cb (NULL, state);

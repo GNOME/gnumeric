@@ -529,6 +529,28 @@ tool_load_selection (GenericToolState *state, gboolean allow_multiple)
 				   FALSE);
 }
 
+
+GtkWidget *    
+tool_setup_update (GenericToolState* state, char const *name, GCallback cb,
+		   gpointer closure)
+{
+	GtkWidget *w = glade_xml_get_widget (state->gui, name);
+	if (GTK_IS_SPIN_BUTTON (w)) {
+		g_signal_connect_after (w, "value-changed", cb, closure);
+		gnumeric_editable_enters (GTK_WINDOW (state->dialog), w);
+	} else if (GTK_IS_ENTRY (w)) {
+		g_signal_connect_after (w, "changed", cb, closure);
+		gnumeric_editable_enters (GTK_WINDOW (state->dialog), w);
+	} else if (GTK_IS_TOGGLE_BUTTON (w))
+		g_signal_connect_after (w, "toggled", cb, closure);
+	else
+		g_warning ("tool_setup_update called with unknown type");
+	return w;
+}
+
+
+
+
 /**********************************************/
 /*  Generic functions for the analysis tools  */
 /*  Functions in this section are being used  */

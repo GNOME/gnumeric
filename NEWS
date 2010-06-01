@@ -1,7 +1,8 @@
 Gnumeric 1.10.6
 
 Andreas:
-    * Add Wilcoxon Signed Rank Test tools for one and two populations. 
+	* Add Wilcoxon Signed Rank Test tools for one and two populations.
+	* Fix spin button handling in various tool dialogs. [#619971] 
 
 Morten:
 	* Make sure windows for help commands show up on right screen.

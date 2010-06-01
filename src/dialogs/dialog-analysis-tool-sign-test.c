@@ -266,27 +266,21 @@ dialog_sign_test_two_tool (WBCGtk *wbcg, Sheet *sheet, signtest_type type)
 		return 0;
 
 	
-	state->alpha_entry = glade_xml_get_widget (state->base.gui,
-						   "alpha-entry");
+	state->alpha_entry = tool_setup_update 
+		(&state->base, "alpha-entry",
+		 G_CALLBACK (sign_test_two_tool_update_sensitivity_cb), 
+		 state);
 	float_to_entry (GTK_ENTRY (state->alpha_entry), 0.05);
-	g_signal_connect (G_OBJECT (state->alpha_entry),
-			  "value-changed", 
-			  G_CALLBACK (sign_test_two_tool_update_sensitivity_cb), 
-			  state);
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
-				  GTK_WIDGET (state->alpha_entry));
 
-	state->median_entry = glade_xml_get_widget (state->base.gui,
-						    "median-entry");
+	state->median_entry = tool_setup_update 
+		(&state->base, "median-entry",
+		 G_CALLBACK (sign_test_two_tool_update_sensitivity_cb),
+		 state); 
 	int_to_entry (GTK_ENTRY (state->median_entry), 0);
-	g_signal_connect_after (G_OBJECT (state->median_entry),
-				"changed", 
-				G_CALLBACK (sign_test_two_tool_update_sensitivity_cb), 
-				state);
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
-				  GTK_WIDGET (state->median_entry));
+
 	w =  glade_xml_get_widget (state->base.gui,
-				   (type == SIGNTEST) ? "signtest" : "signedranktest");
+				   (type == SIGNTEST) ? "signtest" 
+				   : "signedranktest");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
@@ -417,26 +411,21 @@ dialog_sign_test_tool (WBCGtk *wbcg, Sheet *sheet, signtest_type type)
 		return 0;
 
 	
-	state->alpha_entry = glade_xml_get_widget (state->base.gui,
-						   "alpha-entry");
-	float_to_entry (GTK_ENTRY (state->alpha_entry), 0.05);
-	g_signal_connect (G_OBJECT (state->alpha_entry),
-			  "value-changed", 
-			  G_CALLBACK (sign_test_tool_update_sensitivity_cb), 
-			  state);
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
-				  GTK_WIDGET (state->alpha_entry));
+	state->alpha_entry = tool_setup_update 
+		(&state->base, "alpha-entry",
+		 G_CALLBACK (sign_test_two_tool_update_sensitivity_cb), 
+		 state);
+	state->median_entry = tool_setup_update 
+		(&state->base, "median-entry",
+		 G_CALLBACK (sign_test_two_tool_update_sensitivity_cb),
+		 state); 
 
-	state->median_entry = glade_xml_get_widget (state->base.gui,
-						    "median-entry");
 	int_to_entry (GTK_ENTRY (state->median_entry), 0);
-	g_signal_connect_after (G_OBJECT (state->median_entry),
-				"changed", G_CALLBACK (sign_test_tool_update_sensitivity_cb), 
-				state);
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
-				  GTK_WIDGET (state->median_entry));
+	float_to_entry (GTK_ENTRY (state->alpha_entry), 0.05);
+
 	w =  glade_xml_get_widget (state->base.gui,
-				   (type == SIGNTEST) ? "signtest" : "signedranktest");
+				   (type == SIGNTEST) ? "signtest" 
+				   : "signedranktest");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
