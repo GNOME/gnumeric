@@ -1,3 +1,10 @@
+gnumeric (1.10.5-1) unstable; urgency=low
+
+  * New upstream stable release.
+  * [debian/control] Bumped goffice build dependency as per configure.in .
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 01 Jun 2010 08:39:08 +0200
+
 gnumeric (1.10.4-1) unstable; urgency=low
 
   * New upstream stable release.
