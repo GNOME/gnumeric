@@ -197,6 +197,7 @@ typedef struct {
 	GnmSolverStatus status;
 	GnmSolverParameters *params;
 	GnmSolverResult *result;
+	double starttime, endtime;
 } GnmSolver;
 
 typedef struct {
@@ -221,6 +222,8 @@ gboolean gnm_solver_stop (GnmSolver *solver, GError **err);
 void gnm_solver_set_status (GnmSolver *solver, GnmSolverStatus status);
 
 void gnm_solver_store_result (GnmSolver *solver);
+
+double gnm_solver_elapsed (GnmSolver *solver);
 
 gboolean gnm_solver_finished (GnmSolver *solver);
 

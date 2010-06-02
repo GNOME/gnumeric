@@ -1,5 +1,11 @@
 2010-06-02  Morten Welinder  <terra@gnome.org>
 
+	* gnm-solver.h (GnmSolver): Add new starttime and endtime members.
+
+	* gnm-solver.c (gnm_solver_set_status): Set starttime and endtime
+	as we go to or from "running".
+	(gnm_solver_elapsed): New function.
+
 	* tabulate.c (tabulation_eval): Evaluate only what we need.
 	(do_tabulation): Restore old values of dependents.
 

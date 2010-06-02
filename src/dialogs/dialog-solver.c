@@ -81,7 +81,6 @@ typedef struct {
 		GtkDialog   *dialog;
 		GtkWidget   *timer_widget;
 		guint       timer_source;
-		time_t      timer_start;
 		GtkWidget   *status_widget;
 		GtkWidget   *problem_status_widget;
 		GtkWidget   *objective_value_widget;
@@ -597,7 +596,8 @@ cb_notify_result (SolverState *state)
 static gboolean
 cb_timer_tick (SolverState *state)
 {
-	int secs = time (NULL) - state->run.timer_start;
+	double dsecs = gnm_solver_elapsed (state->run.solver);
+	int secs = (int)CLAMP (dsecs, 0, INT_MAX);
 	int hh = secs / 3600;
 	int mm = secs / 60 % 60;
 	int ss = secs % 60;
@@ -723,7 +723,6 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 	g_object_ref (state->run.status_widget);
 	state->run.timer_source = g_timeout_add_seconds
 		(1, (GSourceFunc)cb_timer_tick, state);
-	state->run.timer_start = time (NULL);
 	cb_timer_tick (state);
 
 	/* ---------------------------------------- */

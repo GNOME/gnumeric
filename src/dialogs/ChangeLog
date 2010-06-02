@@ -1,3 +1,7 @@
+2010-06-02  Morten Welinder  <terra@gnome.org>
+
+	* dialog-solver.c (cb_timer_tick): Use gnm_solver_elapsed.
+
 2010-05-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* tool-dialogs.h (tool_setup_update): new

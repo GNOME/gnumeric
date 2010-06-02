@@ -745,7 +745,9 @@ enum {
 	SOL_PROP_0,
 	SOL_PROP_STATUS,
 	SOL_PROP_PARAMS,
-	SOL_PROP_RESULT
+	SOL_PROP_RESULT,
+	SOL_PROP_STARTTIME,
+	SOL_PROP_ENDTIME
 };
 
 static GObjectClass *gnm_solver_parent_class;
@@ -794,6 +796,14 @@ gnm_solver_get_property (GObject *object, guint property_id,
 		g_value_set_object (value, sol->result);
 		break;
 
+	case SOL_PROP_STARTTIME:
+		g_value_set_double (value, sol->starttime);
+		break;
+
+	case SOL_PROP_ENDTIME:
+		g_value_set_double (value, sol->endtime);
+		break;
+
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -819,6 +829,14 @@ gnm_solver_set_property (GObject *object, guint property_id,
 	case SOL_PROP_RESULT:
 		if (sol->result) g_object_unref (sol->result);
 		sol->result = g_value_dup_object (value);
+		break;
+
+	case SOL_PROP_STARTTIME:
+		sol->starttime = g_value_get_double (value);
+		break;
+
+	case SOL_PROP_ENDTIME:
+		sol->endtime = g_value_get_double (value);
 		break;
 
 	default:
@@ -869,6 +887,23 @@ gnm_solver_stop (GnmSolver *sol, GError **err)
 
 	g_signal_emit (sol, solver_signals[SOL_SIG_STOP], 0, err, &res);
 	return res;
+}
+
+double
+gnm_solver_elapsed (GnmSolver *solver)
+{
+	double endtime;
+
+	g_return_val_if_fail (GNM_IS_SOLVER (solver), 0);
+
+	if (solver->starttime < 0)
+		return 0;
+
+	endtime = (solver->endtime < 0)
+		? time (NULL)
+		: solver->endtime;
+
+	return endtime - solver->starttime;
 }
 
 void
@@ -931,11 +966,26 @@ gnm_solver_finished (GnmSolver *sol)
 void
 gnm_solver_set_status (GnmSolver *solver, GnmSolverStatus status)
 {
+	GnmSolverStatus old_status;
+
+	g_return_if_fail (GNM_IS_SOLVER (solver));
+
 	if (status == solver->status)
 		return;
 
+	old_status = solver->status;
 	solver->status = status;
 	g_object_notify (G_OBJECT (solver), "status");
+
+	if (status == GNM_SOLVER_STATUS_RUNNING)
+		g_object_set (G_OBJECT (solver),
+			      "starttime", (double)time (NULL),
+			      "endtime", (double)-1,
+			      NULL);
+	else if (old_status == GNM_SOLVER_STATUS_RUNNING)
+		g_object_set (G_OBJECT (solver),
+			      "endtime", (double)time (NULL),
+			      NULL);
 }
 
 gboolean
@@ -1149,6 +1199,20 @@ gnm_solver_class_init (GObjectClass *object_class)
 		 g_param_spec_object ("result", _("Result"),
 				      _("Current best feasible result"),
 				      GNM_SOLVER_RESULT_TYPE,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, SOL_PROP_STARTTIME,
+		 g_param_spec_double ("starttime", _("Start Time"),
+				      _("Time the solver was started"),
+				      -1, 1e10, -1,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, SOL_PROP_ENDTIME,
+		 g_param_spec_double ("endtime", _("End Time"),
+				      _("Time the solver finished"),
+				      -1, 1e10, -1,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE));
 
