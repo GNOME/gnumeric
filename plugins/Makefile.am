@@ -1,8 +1,17 @@
 SUBDIRS_FILE_FORMATS = excel lotus-123 oleo sc sylk xbase html dif qpro \
-	plan-perfect applix openoffice lpsolve nlsolve glpk
+	plan-perfect applix openoffice
+SUBDIRS_FUNCTIONS = fn-numtheory fn-christian-date fn-database fn-date \
+	fn-eng fn-erlang \
+	fn-financial fn-hebrew-date fn-info fn-logical fn-complex fn-lookup \
+	fn-math fn-r fn-stat fn-string fn-random fn-tsa fn-derivatives
+SUBDIRS_LOADERS = excelplugins
+SUBDIRS_DATA_SOURCES = sample_datasource
+SUBDIRS_SOLVERS =
+SUBDIRS_EXAMPLES = uihello
 
 if ENABLE_SOLVER
-  SUBDIRS_FILE_FORMATS += mps
+  SUBDIRS_FILE_FORMATS += mps lpsolve glpk
+  SUBDIRS_SOLVERS += nlsolve
 endif
 if WITH_PSICONV
   SUBDIRS_FILE_FORMATS += psiconv
@@ -11,20 +20,12 @@ if WITH_PARADOX
   SUBDIRS_FILE_FORMATS += paradox
 endif
 
-SUBDIRS_FUNCTIONS = fn-numtheory fn-christian-date fn-database fn-date \
-	fn-eng fn-erlang \
-	fn-financial fn-hebrew-date fn-info fn-logical fn-complex fn-lookup \
-	fn-math fn-r fn-stat fn-string fn-random fn-tsa fn-derivatives
-
 if WITH_GDA
   SUBDIRS_FUNCTIONS += gda
 endif
 if WITH_GNOMEDB
   SUBDIRS_FUNCTIONS += gnome-db
 endif
-
-SUBDIRS_LOADERS = excelplugins
-SUBDIRS_EXAMPLES = uihello
 
 # Do not build by default until the libtool problems with
 # a static libpython are resolved.
@@ -42,12 +43,9 @@ if WITH_CORBA
   SUBDIRS_LOADERS += corba
 endif
 
-SUBDIRS_DATA_SOURCES = sample_datasource
-
-
 if PLUGIN_LIST_GIVEN
   SUBDIRS = @PLUGIN_LIST@
 else
-  SUBDIRS = $(SUBDIRS_FILE_FORMATS) $(SUBDIRS_FUNCTIONS) \
+  SUBDIRS = $(SUBDIRS_FILE_FORMATS) $(SUBDIRS_FUNCTIONS) $(SUBDIRS_SOLVERS) \
 	$(SUBDIRS_LOADERS) $(SUBDIRS_DATA_SOURCES) $(SUBDIRS_EXAMPLES)
 endif
