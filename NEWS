@@ -6,6 +6,7 @@ Andreas:
 
 Morten:
 	* Make sure windows for help commands show up on right screen.
+	* Fix dependency tabulation undo issue.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.5

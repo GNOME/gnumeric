@@ -56,8 +56,8 @@ tabulation_eval (Workbook *wb, int dims, gnm_float const *x,
 		gnm_cell_set_value (xcells[i], value_new_float (x[i]));
 		cell_queue_recalc (xcells[i]);
 	}
-	workbook_recalc (wb);
 
+	gnm_cell_eval (ycell);
 	return ycell->value
 		? value_dup (ycell->value)
 		: value_new_error_VALUE (NULL);
@@ -91,6 +91,7 @@ do_tabulation (WorkbookControl *wbc,
 	int *counts = g_new (int, data->dims);
 	Sheet **sheets = NULL;
 	GOFormat const **formats = g_new (GOFormat const *, data->dims);
+	GnmValue **old_values = g_new (GnmValue *, data->dims);
 
 	{
 		int i;
@@ -98,6 +99,7 @@ do_tabulation (WorkbookControl *wbc,
 			values[i] = data->minima[i];
 			index[i] = 0;
 			formats[i] = my_get_format (data->cells[i]);
+			old_values[i] = value_dup (data->cells[i]->value);
 
 			counts[i] = 1 + gnm_fake_floor ((data->maxima[i] - data->minima[i]) / data->steps[i]);
 			/* Silently truncate at the edges.  */
@@ -189,7 +191,7 @@ do_tabulation (WorkbookControl *wbc,
 					sheet_cell_fetch (thissheet, 0, row), v);
 			}
 
-			/* Make a horizon line on top between header and table.  */
+			/* Make a horizontal line on top between header and table.  */
 			if (row == 1 && col == 1) {
 				GnmStyle *mstyle = gnm_style_new ();
 				GnmRange range;
@@ -256,11 +258,21 @@ do_tabulation (WorkbookControl *wbc,
 			break;
 	}
 
+	{
+		int i;
+		for (i = 0; i < data->dims; i++) {
+			gnm_cell_set_value (data->cells[i], old_values[i]);
+			cell_queue_recalc (data->cells[i]);
+		}
+		workbook_recalc (wb);
+	}
+
 	g_free (values);
 	g_free (index);
 	g_free (counts);
 	g_free (sheets);
 	g_free (formats);
+	g_free (old_values);
 
 	return sheet_idx;
 }

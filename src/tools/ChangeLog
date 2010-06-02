@@ -1,3 +1,8 @@
+2010-06-02  Morten Welinder  <terra@gnome.org>
+
+	* tabulate.c (tabulation_eval): Evaluate only what we need.
+	(do_tabulation): Restore old values of dependents.
+
 2010-05-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-signed-rank-test.[ch]: new
