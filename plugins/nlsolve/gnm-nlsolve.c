@@ -327,7 +327,8 @@ newton_improve (GnmNlsolve *nl, gnm_float *xs, gnm_float *y, gnm_float ymax)
 			y2 = get_value (nl);
 			if (nl->debug) {
 				print_vector ("xs2", xs2, n);
-				g_printerr ("YYY %.15g\n", y2);
+				g_printerr ("Obj value %.15" GNM_FORMAT_g "\n",
+					    y2);
 			}
 
 			if (y2 < ymax) {
@@ -560,6 +561,8 @@ rosenbrock_iter (GnmNlsolve *nl)
 			for (i = 0; i < 4; i++) {
 				gnm_float ymax = yk +
 					gnm_abs (yk) * (0.10 / (i + 1));
+				if (i > 0)
+					ymax = MIN (ymax, nl->yk);
 				if (!newton_improve (nl, nl->xk, &nl->yk, ymax))
 					break;
 			}

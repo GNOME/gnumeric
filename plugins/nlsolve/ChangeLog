@@ -1,3 +1,8 @@
+2010-06-01  Morten Welinder  <terra@gnome.org>
+
+	* gnm-nlsolve.c (rosenbrock_iter): Only allow first newton
+	improvement step to increase objective value.
+
 2010-05-31  Morten Welinder  <terra@gnome.org>
 
 	* gnm-nlsolve.c (rosenbrock_iter): Add safety against
