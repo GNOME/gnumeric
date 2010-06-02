@@ -1017,7 +1017,8 @@ static gboolean
 item_bar_button_released (GocItem *item, int button, double x, double y)
 {
 	ItemBar	*ib = ITEM_BAR (item);
-	gnm_simple_canvas_ungrab (item, 0);
+	if (item == goc_canvas_get_grabbed_item (item->canvas))
+		gnm_simple_canvas_ungrab (item, 0);
 	if (ib->colrow_being_resized >= 0) {
 		if (ib->has_resize_guides)
 			item_bar_resize_stop (ib, ib->colrow_resize_size);

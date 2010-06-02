@@ -4,6 +4,9 @@ Andreas:
 	* Add Wilcoxon Signed Rank Test tools for one and two populations.
 	* Fix spin button handling in various tool dialogs. [#619971] 
 
+Jean:
+	* Do not ungrab a not grabbed item. [#620369]
+
 Morten:
 	* Make sure windows for help commands show up on right screen.
 	* Fix dependency tabulation undo issue.
