@@ -889,6 +889,15 @@ gnm_solver_stop (GnmSolver *sol, GError **err)
 	return res;
 }
 
+static double
+current_time (void)
+{
+	GTimeVal now;
+	g_get_current_time (&now);
+	return now.tv_sec + (now.tv_usec / 1e6);
+}
+
+
 double
 gnm_solver_elapsed (GnmSolver *solver)
 {
@@ -900,7 +909,7 @@ gnm_solver_elapsed (GnmSolver *solver)
 		return 0;
 
 	endtime = (solver->endtime < 0)
-		? time (NULL)
+		? current_time ()
 		: solver->endtime;
 
 	return endtime - solver->starttime;
@@ -979,12 +988,12 @@ gnm_solver_set_status (GnmSolver *solver, GnmSolverStatus status)
 
 	if (status == GNM_SOLVER_STATUS_RUNNING)
 		g_object_set (G_OBJECT (solver),
-			      "starttime", (double)time (NULL),
+			      "starttime", current_time (),
 			      "endtime", (double)-1,
 			      NULL);
 	else if (old_status == GNM_SOLVER_STATUS_RUNNING)
 		g_object_set (G_OBJECT (solver),
-			      "endtime", (double)time (NULL),
+			      "endtime", current_time (),
 			      NULL);
 }
 

@@ -1,5 +1,8 @@
 2010-06-02  Morten Welinder  <terra@gnome.org>
 
+	* gnm-solver.c (gnm_solver_set_status, gnm_solver_elapsed):
+	Improve timer resolution.
+
 	* gnm-solver.h (GnmSolver): Add new starttime and endtime members.
 
 	* gnm-solver.c (gnm_solver_set_status): Set starttime and endtime
