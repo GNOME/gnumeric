@@ -55,7 +55,6 @@
 
 /* dialog-define-names.c       */
 #define GNUMERIC_HELP_LINK_DEFINE_NAMES "sect-workbooks-names"
-/* dialog-paste-names.c       */
 #define GNUMERIC_HELP_LINK_PASTE_NAMES "sect-workbooks-names-paste"
 
 /* dialog-define-table.c       */

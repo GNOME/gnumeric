@@ -1,6 +1,11 @@
+2010-06-06 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* POTFILES.in: removed src/dialogs/dialog-paste-names.c
+	* POTFILES.skip : removed src/dialogs/paste-names.glade
+	
 2010-05-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-    * POTFILES.in: added src/tools/analysis-signed-rank-test.c
+	* POTFILES.in: added src/tools/analysis-signed-rank-test.c
 
 2010-05-30  Morten Welinder <terra@gnome.org>
 

@@ -105,7 +105,6 @@ src/dialogs/dialog-hyperlink.c
 src/dialogs/dialog-insert-cells.c
 src/dialogs/dialog-merge.c
 src/dialogs/dialog-password.c
-src/dialogs/dialog-paste-names.c
 src/dialogs/dialog-paste-special.c
 src/dialogs/dialog-plugin-manager.c
 src/dialogs/dialog-preferences.c

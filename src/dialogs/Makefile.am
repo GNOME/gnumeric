@@ -52,7 +52,6 @@ base_files =					\
 	dialog-hyperlink.c			\
 	dialog-insert-cells.c			\
 	dialog-define-names.c			\
-	dialog-paste-names.c			\
 	dialog-delete-cells.c			\
 	dialog-merge.c				\
 	dialog-password.c			\
@@ -140,7 +139,6 @@ glade_DATA = 				\
 	merge.glade			\
 	moving-averages.glade		\
 	normality-tests.glade		\
-	paste-names.glade		\
 	paste-special.glade		\
 	plugin-manager.glade		\
 	preferences.glade 		\

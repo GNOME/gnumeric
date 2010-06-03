@@ -119,6 +119,7 @@
       <menuitem action="InsertFormula"/>
       <menu name="Names" action="MenuInsertNames">
         <menuitem action="EditNames"/>
+        <menuitem action="PasteNames"/>
       </menu>
       <menuitem action="InsertComment"/>
       <menuitem action="InsertHyperlink"/>

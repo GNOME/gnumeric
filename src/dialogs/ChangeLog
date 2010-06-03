@@ -1,5 +1,21 @@
 2010-06-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* paste-names.glade: deleted
+	* dialog-paste-names.c: deleted
+	* Makefile.am: remove the two above
+	* help.h: deleted a comment
+	* dialog-define-names.c: Add ITEM_PASTABLE and
+	  ITEM_PASTE_IMAGE and handle throughout
+	(name_guru_paste): new
+	(cb_name_guru_clicked): handle paste button
+	(cb_name_guru_paste): new
+	(name_guru_update_sensitivity): new
+	(cb_name_guru_selection_function): new
+	(name_guru_init): set up the new callbacks
+	(dialog_paste_names): new
+
+2010-06-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* define-name.glade: simplify
 	* dialog-define-names.c: rewrite in its entirety
 

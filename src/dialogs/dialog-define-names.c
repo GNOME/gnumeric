@@ -50,6 +50,7 @@
 #include <string.h>
 
 #define DEFINE_NAMES_KEY "define-names-dialog"
+#define PASTE_NAMES_KEY "paste-names-dialog"
 
 typedef struct {
 	GladeXML		*gui;
@@ -71,7 +72,10 @@ typedef struct {
 	GdkPixbuf               *image_lock;
 	GdkPixbuf               *image_up;
 	GdkPixbuf               *image_down;
+	GdkPixbuf               *image_paste;
 
+	gboolean                 is_paste_dialog;
+	gboolean                 has_pasted;
 } NameGuruState;
 
 enum {
@@ -85,6 +89,8 @@ enum {
 	ITEM_ADDDELETE_IMAGE,
 	ITEM_UPDOWN_ACTIVE,
 	ITEM_ADDDELETE_ACTIVE,
+	ITEM_PASTABLE,
+	ITEM_PASTE_IMAGE,
 	NUM_COLMNS
 };
 
@@ -169,7 +175,7 @@ name_guru_get_available_wb_names (Workbook const *wb)
 
 static void
 name_guru_set_images (NameGuruState *state, GtkTreeIter	*name_iter,
-		      item_type_t type)
+		      item_type_t type, gboolean pastable)
 {
 	GdkPixbuf *button1 = NULL, *button2 = NULL;
 
@@ -200,6 +206,8 @@ name_guru_set_images (NameGuruState *state, GtkTreeIter	*name_iter,
 	gtk_tree_store_set (state->model, name_iter, 
 			    ITEM_UPDOWN_IMAGE, button1,
 			    ITEM_ADDDELETE_IMAGE, button2,
+			    ITEM_PASTE_IMAGE, 
+			    pastable ?  state->image_paste : NULL,
 			    ITEM_UPDOWN_ACTIVE, button1 != NULL,
 			    ITEM_ADDDELETE_ACTIVE, button2 != NULL,
 			    -1);	
@@ -218,12 +226,19 @@ name_guru_store_names (GList            *list,
 
 	for (l = list; l != NULL; l = l->next) {
 		GnmNamedExpr    *nexpr = l->data;
+		gboolean         ciseditable, ispastable;
 
 		if (nexpr->is_hidden || expr_name_is_placeholder (nexpr))
 			continue;
 
-		if (nexpr->is_permanent)
+		ispastable = ciseditable = 
+			type == item_type_available_wb_name 
+			|| type == item_type_available_sheet_name;		
+
+		if (nexpr->is_permanent) {
 			adj_type =  item_type_locked_name;
+			ciseditable = FALSE;
+		}
 
 		content = expr_name_as_string (nexpr, &state->pp,
 					       gnm_conventions_default);
@@ -236,14 +251,13 @@ name_guru_store_names (GList            *list,
 				    ITEM_NAME_POINTER, nexpr, 
 				    ITEM_CONTENT, content, 
 				    ITEM_TYPE, adj_type, 
-				    ITEM_CONTENT_IS_EDITABLE, 
-				    adj_type == item_type_available_wb_name 
-				    || adj_type == item_type_available_sheet_name,
+				    ITEM_CONTENT_IS_EDITABLE, ciseditable, 
 				    ITEM_NAME_IS_EDITABLE, FALSE,
+				    ITEM_PASTABLE, ispastable,
 				    -1);
 		g_free (content);
 		
-		name_guru_set_images (state, &name_iter, adj_type);
+		name_guru_set_images (state, &name_iter, adj_type, ispastable);
 	}
 	g_list_free (list);
 }
@@ -266,12 +280,13 @@ name_guru_populate_list (NameGuruState *state)
 			    ITEM_TYPE, item_type_workbook, 
 			    ITEM_CONTENT_IS_EDITABLE, FALSE,
 			    ITEM_NAME_IS_EDITABLE, FALSE,
+			    ITEM_PASTABLE, FALSE,
 			    -1);
-	name_guru_set_images (state, &iter, item_type_workbook);
+	name_guru_set_images (state, &iter, item_type_workbook, FALSE);
 	name_guru_store_names (name_guru_get_available_wb_names (state->wb),
-		       &iter,
-		       state,
-		       item_type_available_wb_name);
+			       &iter,
+			       state,
+			       item_type_available_wb_name);
 	name_guru_expand_at_iter (state, &iter);
 
 	gtk_tree_store_append (state->model, &iter, NULL);
@@ -281,8 +296,9 @@ name_guru_populate_list (NameGuruState *state)
 			    ITEM_TYPE, item_type_main_sheet, 
 			    ITEM_CONTENT_IS_EDITABLE, FALSE, 
 			    ITEM_NAME_IS_EDITABLE, FALSE,
+			    ITEM_PASTABLE, FALSE,
 			    -1);
-	name_guru_set_images (state, &iter, item_type_main_sheet);
+	name_guru_set_images (state, &iter, item_type_main_sheet, FALSE);
 
 	name_guru_store_names (name_guru_get_available_sheet_names 
 			       (state->sheet),
@@ -306,6 +322,7 @@ name_guru_populate_list (NameGuruState *state)
 				    ITEM_TYPE, item_type_other_sheet, 
 				    ITEM_CONTENT_IS_EDITABLE, FALSE, 
 				    ITEM_NAME_IS_EDITABLE, FALSE,
+				    ITEM_PASTABLE, FALSE,
 				    -1);
 
 		name_guru_store_names 
@@ -313,6 +330,44 @@ name_guru_populate_list (NameGuruState *state)
 			 &iter, state, item_type_foreign_name);
 	}
 }
+
+static gboolean
+name_guru_paste (NameGuruState *state, GtkTreeIter *iter) 
+{
+        char *name, *txt;
+	gboolean is_pastable;
+	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+
+	gtk_tree_model_get (GTK_TREE_MODEL (state->model), 
+			    iter,
+			    ITEM_PASTABLE, &is_pastable,
+			    ITEM_NAME, &name,
+			    -1);
+	
+	if (!is_pastable)
+		return FALSE;
+
+	txt = g_strconcat ("=", name, NULL);
+
+	g_free (name);
+	state->has_pasted = TRUE;
+
+	if (wbcg_edit_start (state->wbcg, FALSE, FALSE)) {
+		WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+		SheetView *sv = wb_control_cur_sheet_view (wbc);
+		Sheet *sheet = sv_sheet (sv);
+		GnmCell const *cell = sheet_cell_fetch (sheet,
+							sv->edit_pos.col,
+							sv->edit_pos.row);
+		wb_control_edit_line_set (wbc, txt);
+
+	}
+	g_free (txt);
+
+	return TRUE;
+}
+
+
 
 
 static void
@@ -325,6 +380,15 @@ cb_name_guru_clicked (GtkWidget *button, NameGuruState *state)
 
 	if (button == state->close_button) {
 		gtk_widget_destroy (state->dialog);
+		return;
+	}
+	if (button == state->paste_button) {
+		GtkTreeIter iter;
+		if (gtk_tree_selection_get_selected 
+		    (gtk_tree_view_get_selection 
+		     (GTK_TREE_VIEW (state->treeview)), NULL, &iter) &&
+		    name_guru_paste (state, &iter))
+			gtk_widget_destroy (state->dialog);
 		return;
 	}
 }
@@ -353,17 +417,38 @@ cb_name_guru_destroy (NameGuruState *state)
 		state->gui = NULL;
 	}
 
-	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
+	wbcg_edit_finish (state->wbcg,
+			  state->has_pasted ?
+			  WBC_EDIT_ACCEPT : WBC_EDIT_REJECT,
+			  NULL);
 
 	state->dialog = NULL;
 
-	g_object_unref (G_OBJECT (state->image_add));
-	g_object_unref (G_OBJECT (state->image_delete));
-	g_object_unref (G_OBJECT (state->image_lock));
-	g_object_unref (G_OBJECT (state->image_up));
-	g_object_unref (G_OBJECT (state->image_down));
-
+	if (state->is_paste_dialog)
+		g_object_unref (G_OBJECT (state->image_paste));
+	else {
+		g_object_unref (G_OBJECT (state->image_add));
+		g_object_unref (G_OBJECT (state->image_delete));
+		g_object_unref (G_OBJECT (state->image_lock));
+		g_object_unref (G_OBJECT (state->image_up));
+		g_object_unref (G_OBJECT (state->image_down));
+	}
 	g_free (state);
+}
+
+
+static void
+cb_name_guru_paste (G_GNUC_UNUSED GtkCellRendererToggle *cell,
+			 gchar                 *path_string,
+			 gpointer               data)
+{
+	NameGuruState *state = data;
+	GtkTreeIter iter;
+
+	if (gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL (state->model), 
+						 &iter,
+						 path_string))
+		name_guru_paste (state, &iter);
 }
 
 static void
@@ -391,8 +476,9 @@ name_guru_add (NameGuruState *state, GtkTreeIter *iter, gchar const *path_string
 			    ITEM_TYPE, type, 
 			    ITEM_CONTENT_IS_EDITABLE, TRUE,
 			    ITEM_NAME_IS_EDITABLE, TRUE,
+			    ITEM_PASTABLE, FALSE,
 			    -1);
-	name_guru_set_images (state, &name_iter, type);
+	name_guru_set_images (state, &name_iter, type, FALSE);
 	name_guru_expand_at_iter (state, iter);
 	g_free (content);
 }
@@ -463,7 +549,7 @@ name_guru_move_record (NameGuruState *state, GtkTreeIter *from_iter,
 	GtkTreeIter new_parent_iter;
 	GnmNamedExpr *nexpr;
 	gchar *name, *content;
-	gboolean ceditable, neditable;
+	gboolean ceditable, neditable, pastable;
 
 	gtk_tree_model_get (GTK_TREE_MODEL (state->model), 
 			    from_iter,
@@ -472,6 +558,7 @@ name_guru_move_record (NameGuruState *state, GtkTreeIter *from_iter,
 			    ITEM_CONTENT, &content,
 			    ITEM_CONTENT_IS_EDITABLE, &ceditable,
 			    ITEM_NAME_IS_EDITABLE, &neditable,
+			    ITEM_PASTABLE, &pastable,
 			    -1);
 
 	gtk_tree_store_remove (state->model, from_iter);
@@ -492,8 +579,9 @@ name_guru_move_record (NameGuruState *state, GtkTreeIter *from_iter,
 				    ITEM_TYPE, new_type, 
 				    ITEM_CONTENT_IS_EDITABLE, ceditable,
 				    ITEM_NAME_IS_EDITABLE, neditable,
+				    ITEM_PASTABLE, pastable,
 				    -1);
-		name_guru_set_images (state, &new_iter, new_type);
+		name_guru_set_images (state, &new_iter, new_type, pastable);
 		name_guru_expand_at_iter (state, &new_iter);
 		g_free (name);
 		g_free (content);
@@ -724,9 +812,10 @@ cb_name_guru_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 			(state->model, &iter, 
 			 ITEM_NAME, new_text,
 			 ITEM_TYPE, item_type_available_wb_name,
+			 ITEM_PASTABLE, TRUE,
 			 -1);
 		name_guru_set_images (state, &iter, 
-				      item_type_available_wb_name);
+				      item_type_available_wb_name, TRUE);
 		cmd_define_name (WORKBOOK_CONTROL (state->wbcg), 
 				 new_text, &pp,
 				 texpr, NULL);
@@ -736,15 +825,58 @@ cb_name_guru_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 			(state->model, &iter, 
 			 ITEM_NAME, new_text,
 			 ITEM_TYPE, item_type_new_unsaved_sheet_name,
+			 ITEM_PASTABLE, TRUE,
 			 -1);
 		name_guru_set_images (state, &iter, 
-				      item_type_available_sheet_name);
+				      item_type_available_sheet_name, TRUE);
 		cmd_define_name (WORKBOOK_CONTROL (state->wbcg), 
 				 new_text, &pp,
 				 texpr, NULL);
 	}
 }
 
+static void
+name_guru_update_sensitivity (GtkTreeSelection *treeselection,
+			      gpointer          user_data)
+{
+	NameGuruState *state = user_data;
+	gboolean is_pastable = FALSE; 
+	GtkTreeIter iter;
+	
+	if (gtk_tree_selection_get_selected 
+	    (treeselection, NULL, &iter))
+		gtk_tree_model_get (GTK_TREE_MODEL (state->model), 
+				    &iter,
+				    ITEM_PASTABLE, &is_pastable,
+				    -1);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->paste_button),
+				  is_pastable);
+		
+} 
+
+static gboolean
+cb_name_guru_selection_function (GtkTreeSelection *selection,
+				 GtkTreeModel *model,
+				 GtkTreePath *path,
+				 gboolean path_currently_selected,
+				 gpointer data)
+{
+	NameGuruState *state = data;
+	GtkTreeIter iter;
+
+	if (path_currently_selected)
+		return TRUE;
+	if (gtk_tree_model_get_iter (model, &iter, path)) {
+		gboolean is_pastable, is_editable;; 
+		gtk_tree_model_get (GTK_TREE_MODEL (state->model), 
+				    &iter,
+				    ITEM_PASTABLE, &is_pastable,
+				    ITEM_CONTENT_IS_EDITABLE, &is_editable,
+				    -1);
+		return (is_pastable || is_editable);
+	}
+	return FALSE;
+}
 
 static gboolean
 name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
@@ -754,6 +886,9 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 	GtkTreeViewColumn *column;
 	GtkCellRenderer   *renderer;
 	GtkTreeSelection  *selection;
+
+	state->is_paste_dialog = is_paste_dialog;
+	state->has_pasted = FALSE;
 
 	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"define-name.glade", NULL, NULL);
@@ -773,7 +908,8 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 		 G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_STRING, 
 		 G_TYPE_INT, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN,
 		 GDK_TYPE_PIXBUF, GDK_TYPE_PIXBUF,
-		 G_TYPE_BOOLEAN, G_TYPE_BOOLEAN);
+		 G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN,
+		 GDK_TYPE_PIXBUF);
 	state->treeview  = glade_xml_get_widget (state->gui, "name_list");
 	gtk_tree_view_set_model (GTK_TREE_VIEW (state->treeview),
 				 GTK_TREE_MODEL (state->model));
@@ -795,30 +931,48 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 		 NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (state->treeview), column);
 
-	renderer = gnumeric_cell_renderer_toggle_new ();
-	g_signal_connect (G_OBJECT (renderer),
-			  "toggled",
-			  G_CALLBACK (cb_name_guru_add_delete), state);
-	column = gtk_tree_view_column_new_with_attributes
-		("Lock",
-		 renderer,
-		 "active", ITEM_ADDDELETE_ACTIVE,
-		 "pixbuf", ITEM_ADDDELETE_IMAGE,
-		 NULL);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (state->treeview), column);
-
-	renderer = gnumeric_cell_renderer_toggle_new ();
-	g_signal_connect (G_OBJECT (renderer),
-		"toggled",
-		G_CALLBACK (cb_name_guru_switch_scope), state);
-	column = gtk_tree_view_column_new_with_attributes
-		("Lock",
-		 renderer,
-		 "active", ITEM_UPDOWN_ACTIVE,
-		 "pixbuf", ITEM_UPDOWN_IMAGE,
-		 NULL);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (state->treeview), column);
+	if (is_paste_dialog) {
+		renderer = gnumeric_cell_renderer_toggle_new ();
+		g_signal_connect (G_OBJECT (renderer),
+				  "toggled",
+				  G_CALLBACK (cb_name_guru_paste), state);
+		column = gtk_tree_view_column_new_with_attributes
+			("Paste",
+			 renderer,
+			 "active", ITEM_PASTABLE,
+			 "pixbuf", ITEM_PASTE_IMAGE,
+			 NULL);
+		gtk_tree_view_append_column (GTK_TREE_VIEW (state->treeview), 
+					     column);
+	} else {
+		renderer = gnumeric_cell_renderer_toggle_new ();
+		g_signal_connect (G_OBJECT (renderer),
+				  "toggled",
+				  G_CALLBACK (cb_name_guru_add_delete), state);
+		column = gtk_tree_view_column_new_with_attributes
+			("Lock",
+			 renderer,
+			 "active", ITEM_ADDDELETE_ACTIVE,
+			 "pixbuf", ITEM_ADDDELETE_IMAGE,
+			 NULL);
+		gtk_tree_view_append_column (GTK_TREE_VIEW (state->treeview), 
+					     column);
 	
+		renderer = gnumeric_cell_renderer_toggle_new ();
+		g_signal_connect (G_OBJECT (renderer),
+				  "toggled",
+				  G_CALLBACK (cb_name_guru_switch_scope), 
+				  state);
+		column = gtk_tree_view_column_new_with_attributes
+			("Scope",
+			 renderer,
+			 "active", ITEM_UPDOWN_ACTIVE,
+			 "pixbuf", ITEM_UPDOWN_IMAGE,
+			 NULL);
+		gtk_tree_view_append_column (GTK_TREE_VIEW (state->treeview), 
+					     column);
+	}
+
 	renderer = gnumeric_cell_renderer_expr_entry_new (state->wbcg);
 	g_signal_connect (G_OBJECT (renderer), "edited",
 			  G_CALLBACK (cb_name_guru_content_edited), state);
@@ -834,61 +988,81 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 	selection = gtk_tree_view_get_selection 
 		(GTK_TREE_VIEW (state->treeview));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
+	gtk_tree_selection_set_select_function
+		(selection, cb_name_guru_selection_function,
+		 state, NULL);
 
 	state->close_button  = name_guru_init_button (state, "close_button");
+	state->paste_button  = name_guru_init_button (state, "paste_button");
 
-	if (is_paste_dialog)
+	if (is_paste_dialog) {
 		g_signal_connect (G_OBJECT (selection),
 				  "changed",
-				  NULL, state);
-
-	state->image_add =  gtk_widget_render_icon 
-		(state->dialog,
-		 GTK_STOCK_ADD,
-		 GTK_ICON_SIZE_SMALL_TOOLBAR,
-		 "Gnumeric-Define-Names-Dialog");
-	state->image_delete =  gtk_widget_render_icon 
-		(state->dialog,
-		 GTK_STOCK_REMOVE,
-		 GTK_ICON_SIZE_SMALL_TOOLBAR,
-		 "Gnumeric-Define-Names-Dialog");
-	state->image_lock =  gtk_widget_render_icon 
-		(state->dialog,
-		 "Gnumeric_Protection_Yes",
-		 GTK_ICON_SIZE_SMALL_TOOLBAR,
-		 "Gnumeric-Define-Names-Dialog");
-	state->image_up =  gtk_widget_render_icon 
-		(state->dialog,
-		 GTK_STOCK_GO_UP,
-		 GTK_ICON_SIZE_SMALL_TOOLBAR,
-		 "Gnumeric-Define-Names-Dialog");
-	state->image_down =  gtk_widget_render_icon 
-		(state->dialog,
-		 GTK_STOCK_GO_DOWN,
-		 GTK_ICON_SIZE_SMALL_TOOLBAR,
-		 "Gnumeric-Define-Names-Dialog");
+				  G_CALLBACK (name_guru_update_sensitivity),
+				  state);
+		state->image_paste = gtk_widget_render_icon 
+			(state->dialog,
+			 GTK_STOCK_PASTE,
+			 GTK_ICON_SIZE_SMALL_TOOLBAR,
+			 "Gnumeric-Define-Names-Dialog");
+		state->image_add    = NULL;
+		state->image_delete = NULL;
+		state->image_lock   = NULL;
+		state->image_up     = NULL;
+		state->image_down   = NULL;
+	} else {
+		state->image_paste = NULL;
+		state->image_add =  gtk_widget_render_icon 
+			(state->dialog,
+			 GTK_STOCK_ADD,
+			 GTK_ICON_SIZE_SMALL_TOOLBAR,
+			 "Gnumeric-Define-Names-Dialog");
+		state->image_delete =  gtk_widget_render_icon 
+			(state->dialog,
+			 GTK_STOCK_REMOVE,
+			 GTK_ICON_SIZE_SMALL_TOOLBAR,
+			 "Gnumeric-Define-Names-Dialog");
+		state->image_lock =  gtk_widget_render_icon 
+			(state->dialog,
+			 "Gnumeric_Protection_Yes",
+			 GTK_ICON_SIZE_SMALL_TOOLBAR,
+			 "Gnumeric-Define-Names-Dialog");
+		state->image_up =  gtk_widget_render_icon 
+			(state->dialog,
+			 GTK_STOCK_GO_UP,
+			 GTK_ICON_SIZE_SMALL_TOOLBAR,
+			 "Gnumeric-Define-Names-Dialog");
+		state->image_down =  gtk_widget_render_icon 
+			(state->dialog,
+			 GTK_STOCK_GO_DOWN,
+			 GTK_ICON_SIZE_SMALL_TOOLBAR,
+			 "Gnumeric-Define-Names-Dialog");
+	}
 
 
 	name_guru_populate_list (state);
+	name_guru_update_sensitivity (selection, state);
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
-		GNUMERIC_HELP_LINK_DEFINE_NAMES);
+		is_paste_dialog ? GNUMERIC_HELP_LINK_PASTE_NAMES
+		: GNUMERIC_HELP_LINK_DEFINE_NAMES);
 
 	/* a candidate for merging into attach guru */
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       DEFINE_NAMES_KEY);
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 				   GTK_WINDOW (state->dialog));
-
-	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_name_guru_destroy);
 
 	if (is_paste_dialog)
 		gtk_widget_show_all (GTK_WIDGET (state->dialog));
-	else
+	else {
+		wbc_gtk_attach_guru (state->wbcg, state->dialog);
 		gtk_widget_show (GTK_WIDGET (state->dialog));
+	}
 
 	return FALSE;
 }
@@ -916,6 +1090,36 @@ dialog_define_names (WBCGtk *wbcg)
 
 	state = g_new0 (NameGuruState, 1);
 	if (name_guru_init (state, wbcg, FALSE)) {
+		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
+				 _("Could not create the Name Guru."));
+		g_free (state);
+		return;
+	}
+}
+
+/**
+ * dialog_define_names:
+ * @wbcg:
+ *
+ * Create and show the define names dialog.
+ **/
+void
+dialog_paste_names (WBCGtk *wbcg)
+{
+	NameGuruState *state;
+
+	g_return_if_fail (wbcg != NULL);
+
+	/* Only one guru per workbook. */
+	if (wbc_gtk_get_guru (wbcg))
+		return;
+
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, PASTE_NAMES_KEY))
+		return;
+
+	state = g_new0 (NameGuruState, 1);
+	if (name_guru_init (state, wbcg, TRUE)) {
 		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
 				 _("Could not create the Name Guru."));
 		g_free (state);

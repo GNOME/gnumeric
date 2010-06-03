@@ -1,3 +1,10 @@
+2010-06-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* component/Gnumeric-embed.xml.in: add Paste Names
+	* src/GNOME_Gnumeric-gtk.xml.in: ditto
+	* src/HILDON_Gnumeric-gtk.xml.in: ditto
+	* src/wbc-gtk-actions.c: add ...
+
 2010-06-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/item-bar.c (item_bar_button_released): do not ungrab a not grabbed
