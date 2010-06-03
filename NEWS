@@ -4,7 +4,7 @@ Andreas:
 	* Add Wilcoxon Signed Rank Test tools for one and two populations.
 	* Fix spin button handling in various tool dialogs. [#619971]
 	* Redesign define-named-expressions dialog. [#465840] 
-	* Add paste-names dialog. 
+	* Add paste-names dialog. [#613325]
 
 Jean:
 	* Do not ungrab a not grabbed item. [#620369]

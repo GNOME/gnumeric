@@ -1,6 +1,11 @@
 2010-06-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	dialog-define-names.c (name_guru_paste): don't overwrite text
+	* dialog-define-names.c (name_guru_paste): delete the selection
+	  and move the cursor into place
+
+2010-06-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-define-names.c (name_guru_paste): don't overwrite text
 	
 2010-06-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

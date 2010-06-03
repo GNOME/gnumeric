@@ -355,6 +355,11 @@ name_guru_paste (NameGuruState *state, GtkTreeIter *iter)
 		if (position == 0)
 			gtk_editable_insert_text (GTK_EDITABLE (entry), "=",
 					  -1, &position);
+		else {
+			gtk_editable_delete_selection (GTK_EDITABLE (entry));
+			position = gtk_editable_get_position 
+				(GTK_EDITABLE (entry));
+		}
 		if (state->has_pasted) {
 			char sep = go_locale_get_arg_sep ();
 			gtk_editable_insert_text (GTK_EDITABLE (entry), &sep,
@@ -362,6 +367,7 @@ name_guru_paste (NameGuruState *state, GtkTreeIter *iter)
 		}
 		gtk_editable_insert_text (GTK_EDITABLE (entry), name,
 					  -1, &position);
+		gtk_editable_set_position (GTK_EDITABLE (entry), position);
 	}
 
 	g_free (name);

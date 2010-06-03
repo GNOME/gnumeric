@@ -1540,8 +1540,10 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 		wbc_gtk_set_action_sensitivity (wbcg, "FilePageSetup", !has_guru);
 	if (MS_SEARCH_REPLACE & flags)
 		wbc_gtk_set_action_sensitivity (wbcg, "EditReplace", !has_guru);
-	if (MS_DEFINE_NAME & flags)
+	if (MS_DEFINE_NAME & flags) {
 		wbc_gtk_set_action_sensitivity (wbcg, "EditNames", !has_guru);
+		wbc_gtk_set_action_sensitivity (wbcg, "PasteNames", !has_guru);
+	}
 	if (MS_CONSOLIDATE & flags)
 		wbc_gtk_set_action_sensitivity (wbcg, "DataConsolidate", !has_guru);
 	if (MS_FILTER_STATE_CHANGED & flags)

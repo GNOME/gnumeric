@@ -1,5 +1,10 @@
 2010-06-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/wbc-gtk-actions.c: make PasteNames action permanent
+	* src/wbc-gtk.c (wbcg_menu_state_update): update PasteNames
+
+2010-06-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* component/Gnumeric-embed.xml.in: add Paste Names
 	* src/GNOME_Gnumeric-gtk.xml.in: ditto
 	* src/HILDON_Gnumeric-gtk.xml.in: ditto
