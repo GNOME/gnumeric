@@ -1,5 +1,9 @@
 2010-06-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* configure.in: check for gtk_entry_get_text_length
+
+2010-06-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/wbc-gtk-actions.c: make PasteNames action permanent
 	* src/wbc-gtk.c (wbcg_menu_state_update): update PasteNames
 

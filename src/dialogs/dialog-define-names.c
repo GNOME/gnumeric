@@ -52,6 +52,12 @@
 #define DEFINE_NAMES_KEY "define-names-dialog"
 #define PASTE_NAMES_KEY "paste-names-dialog"
 
+#ifndef HAVE_GTK_ENTRY_GET_TEXT_LENGTH
+#define gtk_entry_get_text_length(x) g_utf8_strlen (gtk_entry_get_text (x), -1) 
+#endif
+
+
+
 typedef struct {
 	GladeXML		*gui;
 	GtkWidget		*dialog;

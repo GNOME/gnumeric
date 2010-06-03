@@ -1,5 +1,9 @@
 2010-06-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-define-names.c: add #define for gtk 2.12
+
+2010-06-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-define-names.c (name_guru_paste): delete the selection
 	  and move the cursor into place
 
