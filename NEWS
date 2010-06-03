@@ -2,7 +2,8 @@ Gnumeric 1.10.6
 
 Andreas:
 	* Add Wilcoxon Signed Rank Test tools for one and two populations.
-	* Fix spin button handling in various tool dialogs. [#619971] 
+	* Fix spin button handling in various tool dialogs. [#619971]
+	* Redesign define-named-expressions dialog. [#465840] 
 
 Jean:
 	* Do not ungrab a not grabbed item. [#620369]
