@@ -334,9 +334,8 @@ name_guru_populate_list (NameGuruState *state)
 static gboolean
 name_guru_paste (NameGuruState *state, GtkTreeIter *iter) 
 {
-        char *name, *txt;
+        char *name;
 	gboolean is_pastable;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 
 	gtk_tree_model_get (GTK_TREE_MODEL (state->model), 
 			    iter,
@@ -347,23 +346,27 @@ name_guru_paste (NameGuruState *state, GtkTreeIter *iter)
 	if (!is_pastable)
 		return FALSE;
 
-	txt = g_strconcat ("=", name, NULL);
+	if (wbcg_edit_start (state->wbcg, FALSE, FALSE)) {
+		GtkEntry *entry;
+		gint position;
+		entry = wbcg_get_entry (state->wbcg);
+
+		position = gtk_entry_get_text_length (entry);
+		if (position == 0)
+			gtk_editable_insert_text (GTK_EDITABLE (entry), "=",
+					  -1, &position);
+		if (state->has_pasted) {
+			char sep = go_locale_get_arg_sep ();
+			gtk_editable_insert_text (GTK_EDITABLE (entry), &sep,
+					  1, &position);
+		}
+		gtk_editable_insert_text (GTK_EDITABLE (entry), name,
+					  -1, &position);
+	}
 
 	g_free (name);
+
 	state->has_pasted = TRUE;
-
-	if (wbcg_edit_start (state->wbcg, FALSE, FALSE)) {
-		WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
-		SheetView *sv = wb_control_cur_sheet_view (wbc);
-		Sheet *sheet = sv_sheet (sv);
-		GnmCell const *cell = sheet_cell_fetch (sheet,
-							sv->edit_pos.col,
-							sv->edit_pos.row);
-		wb_control_edit_line_set (wbc, txt);
-
-	}
-	g_free (txt);
-
 	return TRUE;
 }
 
@@ -417,22 +420,18 @@ cb_name_guru_destroy (NameGuruState *state)
 		state->gui = NULL;
 	}
 
-	wbcg_edit_finish (state->wbcg,
-			  state->has_pasted ?
-			  WBC_EDIT_ACCEPT : WBC_EDIT_REJECT,
-			  NULL);
-
-	state->dialog = NULL;
-
 	if (state->is_paste_dialog)
 		g_object_unref (G_OBJECT (state->image_paste));
 	else {
+		wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
 		g_object_unref (G_OBJECT (state->image_add));
 		g_object_unref (G_OBJECT (state->image_delete));
 		g_object_unref (G_OBJECT (state->image_lock));
 		g_object_unref (G_OBJECT (state->image_up));
 		g_object_unref (G_OBJECT (state->image_down));
 	}
+
+	state->dialog = NULL;
 	g_free (state);
 }
 

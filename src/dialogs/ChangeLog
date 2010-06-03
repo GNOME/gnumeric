@@ -1,5 +1,9 @@
 2010-06-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	dialog-define-names.c (name_guru_paste): don't overwrite text
+	
+2010-06-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* paste-names.glade: deleted
 	* dialog-paste-names.c: deleted
 	* Makefile.am: remove the two above
