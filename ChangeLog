@@ -1,5 +1,11 @@
 2010-06-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/commands.h (cmd_rescope_name): new
+	* src/commands.c (cmd_rescope_name): new
+	(cmd_rescope_name_*): new
+
+2010-06-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* configure.in: check for gtk_entry_get_text_length
 
 2010-06-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>

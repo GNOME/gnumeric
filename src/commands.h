@@ -111,6 +111,8 @@ gboolean cmd_define_name	(WorkbookControl *wbc, char const *name,
 				 GnmExprTop const *texpr,
 				 char const *descriptor);
 gboolean cmd_remove_name        (WorkbookControl *wbc, GnmNamedExpr *nexpr);
+gboolean cmd_rescope_name       (WorkbookControl *wbc, GnmNamedExpr *nexpr, 
+				 Sheet *scope);
 
 gboolean cmd_scenario_add (WorkbookControl *wbc, GnmScenario *s, Sheet *sheet);
 gboolean cmd_scenario_mngr (WorkbookControl *wbc, GnmScenario *sc,

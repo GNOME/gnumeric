@@ -623,8 +623,10 @@ cb_name_guru_switch_scope (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 
 		switch (type) {
 		case item_type_available_wb_name:
-#warning make undoable		       
-			expr_name_set_scope (nexpr, state->sheet);
+			if (cmd_rescope_name 
+			    (WORKBOOK_CONTROL (state->wbcg), 
+			     nexpr, state->sheet))
+				return;
 			new_path  = "1"; 
 			new_type  = item_type_available_sheet_name;
 			break;
@@ -633,8 +635,10 @@ cb_name_guru_switch_scope (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 			new_type  = item_type_new_unsaved_sheet_name;
 			break;
 		case item_type_available_sheet_name:
-#warning make undoable		       
-			expr_name_set_scope (nexpr, NULL);
+			if (cmd_rescope_name 
+			    (WORKBOOK_CONTROL (state->wbcg), 
+			     nexpr, NULL))
+				return;
 			new_path  = "0"; 
 			new_type  = item_type_available_wb_name;
 			break;

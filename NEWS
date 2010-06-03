@@ -5,6 +5,7 @@ Andreas:
 	* Fix spin button handling in various tool dialogs. [#619971]
 	* Redesign define-named-expressions dialog. [#465840] 
 	* Add paste-names dialog. [#613325]
+	* Make changing the scope of a named expression undoable.
 
 Jean:
 	* Do not ungrab a not grabbed item. [#620369]

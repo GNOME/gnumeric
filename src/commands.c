@@ -5985,6 +5985,75 @@ cmd_remove_name (WorkbookControl *wbc, GnmNamedExpr *nexpr)
 
 /******************************************************************/
 
+#define CMD_RESCOPE_NAME_TYPE        (cmd_rescope_name_get_type ())
+#define CMD_RESCOPE_NAME(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_RESCOPE_NAME_TYPE, CmdRescopeName))
+
+typedef struct {
+	GnmCommand cmd;
+	GnmNamedExpr *nexpr;
+	Sheet *scope;
+} CmdRescopeName;
+
+MAKE_GNM_COMMAND (CmdRescopeName, cmd_rescope_name, NULL)
+
+static gboolean
+cmd_rescope_name_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
+{
+	CmdRescopeName *me = CMD_RESCOPE_NAME (cmd);
+	Sheet *old_scope = me->nexpr->pos.sheet;
+	
+	expr_name_set_scope (me->nexpr, me->scope);
+
+	me->scope = old_scope;
+	return FALSE;
+}
+
+static gboolean
+cmd_rescope_name_undo (GnmCommand *cmd, WorkbookControl *wbc)
+{
+	return cmd_rescope_name_redo (cmd, wbc);
+}
+
+
+static void
+cmd_rescope_name_finalize (GObject *cmd)
+{
+	CmdRescopeName *me = CMD_RESCOPE_NAME (cmd);
+
+	expr_name_unref (me->nexpr);
+	gnm_command_finalize (cmd);
+}
+
+/**
+ * cmd_rescope_name :
+ * @wbc :
+ * @nexpr : name to rescope.
+ *
+ * Returns TRUE on error
+ **/
+gboolean
+cmd_rescope_name (WorkbookControl *wbc, GnmNamedExpr *nexpr, Sheet *scope)
+{
+	CmdRescopeName *me;
+
+	g_return_val_if_fail (wbc != NULL, TRUE);
+	g_return_val_if_fail (nexpr != NULL, TRUE);
+	g_return_val_if_fail (!expr_name_is_placeholder (nexpr), TRUE);
+
+	expr_name_ref (nexpr);
+
+	me = g_object_new (CMD_RESCOPE_NAME_TYPE, NULL);
+	me->nexpr = nexpr;
+	me->scope = scope;
+	me->cmd.sheet = wb_control_cur_sheet (wbc);
+	me->cmd.size = 1;
+	me->cmd.cmd_descriptor = g_strdup_printf (_("Change Scope of Name %s"),
+						  expr_name_name (nexpr));
+
+	return gnm_command_push_undo (wbc, G_OBJECT (me));
+}
+/******************************************************************/
+
 #define CMD_SCENARIO_ADD_TYPE (cmd_scenario_add_get_type ())
 #define CMD_SCENARIO_ADD(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SCENARIO_ADD_TYPE, CmdScenarioAdd))
 

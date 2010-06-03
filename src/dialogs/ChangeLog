@@ -1,5 +1,10 @@
 2010-06-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-define-names.c (cb_name_guru_switch_scope): use
+	 cmd_rescope_name
+
+2010-06-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-define-names.c: add #define for gtk 2.12
 
 2010-06-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
