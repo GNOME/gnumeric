@@ -440,9 +440,9 @@ check_for_changed_options (SolverState *state)
 				     state->orig_params)) {
 		GOUndo *undo = set_params (sheet, state->orig_params);
 		GOUndo *redo = set_params (sheet, sheet->solver_parameters);
-		cmd_solver (WORKBOOK_CONTROL (state->wbcg),
-			    _("Changing solver parameters"),
-			    undo, redo);
+		cmd_generic (WORKBOOK_CONTROL (state->wbcg),
+			     _("Changing solver parameters"),
+			     undo, redo);
 
 		g_object_unref (state->orig_params);
 		state->orig_params =
@@ -771,9 +771,9 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 
 		gnm_solver_store_result (sol);
 		redo = clipboard_copy_range_undo (sr.sheet, &sr.range);
-		cmd_solver (WORKBOOK_CONTROL (state->wbcg),
-			    _("Running solver"),
-			    undo, redo);
+		cmd_generic (WORKBOOK_CONTROL (state->wbcg),
+			     _("Running solver"),
+			     undo, redo);
 		res = g_object_ref (sol->result);
 		undo = redo = NULL;
 		break;

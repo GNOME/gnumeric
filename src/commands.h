@@ -13,6 +13,12 @@ void command_repeat (WorkbookControl *wbc);
 void command_setup_combos	(WorkbookControl *wbc);
 void command_list_release	(GSList *cmds);
 
+gboolean cmd_generic (WorkbookControl *wbc, const char *text,
+		      GOUndo *undo, GOUndo *redo);
+gboolean cmd_generic_with_size (WorkbookControl *wbc, const char *text,
+				int size,
+				GOUndo *undo, GOUndo *redo);
+
 gboolean cmd_set_text		(WorkbookControl *wbc, Sheet *sheet,
 				 GnmCellPos const *pos, char const *new_text,
 				 PangoAttrList *markup);
@@ -127,9 +133,6 @@ gboolean cmd_text_to_columns (WorkbookControl *wbc,
 			      GnmRange const *src, Sheet *src_sheet,
 			      GnmRange const *target, Sheet *target_sheet,
 			      GnmCellRegion *content);
-
-gboolean cmd_solver (WorkbookControl *wbc, const char *text,
-		     GOUndo *undo, GOUndo *redo);
 
 gboolean cmd_goal_seek (WorkbookControl *wbc,
 			GnmCell *cell, GnmValue *ov, GnmValue *nv);

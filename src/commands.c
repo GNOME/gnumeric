@@ -6357,37 +6357,36 @@ cmd_text_to_columns (WorkbookControl *wbc,
 
 /******************************************************************/
 
-#define CMD_SOLVER_TYPE        (cmd_solver_get_type ())
-#define CMD_SOLVER(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SOLVER_TYPE, CmdSolver))
+#define CMD_GENERIC_TYPE        (cmd_generic_get_type ())
+#define CMD_GENERIC(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_GENERIC_TYPE, CmdGeneric))
 
 typedef struct {
 	GnmCommand cmd;
-
 	GOUndo *undo, *redo;
-} CmdSolver;
+} CmdGeneric;
 
-MAKE_GNM_COMMAND (CmdSolver, cmd_solver, NULL)
+MAKE_GNM_COMMAND (CmdGeneric, cmd_generic, NULL)
 
 static gboolean
-cmd_solver_undo (GnmCommand *cmd, WorkbookControl *wbc)
+cmd_generic_undo (GnmCommand *cmd, WorkbookControl *wbc)
 {
-	CmdSolver *me = CMD_SOLVER (cmd);
+	CmdGeneric *me = CMD_GENERIC (cmd);
 	go_undo_undo_with_data (me->undo, GO_CMD_CONTEXT (wbc));
 	return FALSE;
 }
 
 static gboolean
-cmd_solver_redo (GnmCommand *cmd, WorkbookControl *wbc)
+cmd_generic_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
-	CmdSolver *me = CMD_SOLVER (cmd);
+	CmdGeneric *me = CMD_GENERIC (cmd);
 	go_undo_undo_with_data (me->redo, GO_CMD_CONTEXT (wbc));
 	return FALSE;
 }
 
 static void
-cmd_solver_finalize (GObject *cmd)
+cmd_generic_finalize (GObject *cmd)
 {
-	CmdSolver *me = CMD_SOLVER (cmd);
+	CmdGeneric *me = CMD_GENERIC (cmd);
 
 	g_object_unref (me->undo);
 	g_object_unref (me->redo);
@@ -6396,23 +6395,31 @@ cmd_solver_finalize (GObject *cmd)
 }
 
 gboolean
-cmd_solver (WorkbookControl *wbc, const char *txt, GOUndo *undo, GOUndo *redo)
+cmd_generic_with_size (WorkbookControl *wbc, const char *txt,
+		       int size,
+		       GOUndo *undo, GOUndo *redo)
 {
-	CmdSolver *me;
+	CmdGeneric *me;
 
 	g_return_val_if_fail (GO_IS_UNDO (undo), TRUE);
 	g_return_val_if_fail (GO_IS_UNDO (redo), TRUE);
 
-	me = g_object_new (CMD_SOLVER_TYPE, NULL);
+	me = g_object_new (CMD_GENERIC_TYPE, NULL);
 
 	me->cmd.sheet = wb_control_cur_sheet (wbc);
-	me->cmd.size = 1;
+	me->cmd.size = size;
 	me->cmd.cmd_descriptor = g_strdup (txt);
 
 	me->undo = undo;
 	me->redo = redo;
 
 	return gnm_command_push_undo (wbc, G_OBJECT (me));
+}
+
+gboolean
+cmd_generic (WorkbookControl *wbc, const char *txt, GOUndo *undo, GOUndo *redo)
+{
+	return cmd_generic_with_size (wbc, txt, 1, undo, redo);
 }
 
 /******************************************************************/
