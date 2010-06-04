@@ -1,5 +1,10 @@
 2010-06-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-define-names.c (cb_name_guru_search): make searching
+	  case-insensitive.
+
+2010-06-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-define-names.c: convert GtkTreeModelFilter iters to
 	  GtkTreeStore iters throughout
 	(cb_name_guru_show_all): new
