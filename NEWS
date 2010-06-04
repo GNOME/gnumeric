@@ -6,6 +6,7 @@ Andreas:
 	* Redesign define-named-expressions dialog. [#465840] 
 	* Add paste-names dialog. [#613325]
 	* Make changing the scope of a named expression undoable.
+	* Add search tool to paste- and define-names dialogs. [#465840]
 
 Jean:
 	* Do not ungrab a not grabbed item. [#620369]

@@ -67,6 +67,7 @@ typedef struct {
 
 	GtkWidget *close_button;
 	GtkWidget *paste_button;
+	GtkWidget *search_entry;
 
 	Sheet			*sheet;
 	SheetView		*sv;
@@ -178,6 +179,80 @@ name_guru_warn (G_GNUC_UNUSED NameGuruState *state)
 {
 #warning Implement me!
 	return TRUE;
+}
+
+static gboolean
+cb_name_guru_show_all (GtkTreeModel *model, GtkTreePath *path,
+		       GtkTreeIter *iter, gpointer data)
+{
+	NameGuruState *state = data;
+	gtk_tree_store_set (state->model, iter, 
+			    ITEM_VISIBLE, TRUE,
+			    -1);
+	return FALSE;
+}
+
+static void
+name_guru_erase_search_entry (GtkEntry *entry,
+#ifdef HAVE_GTK_ENTRY_SET_ICON_FROM_STOCK
+			      G_GNUC_UNUSED GtkEntryIconPosition icon_pos,
+			      G_GNUC_UNUSED GdkEvent *event,
+#endif
+			      gpointer data)
+{
+	NameGuruState *state = data;
+	gtk_entry_set_text (entry, "");
+	gtk_tree_model_foreach (GTK_TREE_MODEL (state->model),
+				cb_name_guru_show_all, state);
+}
+
+static gboolean
+cb_name_guru_search (GtkTreeModel *model, GtkTreePath *path,
+		       GtkTreeIter *iter, gpointer data)
+{
+	char const *text = data;
+	gchar *name;
+	gboolean visible = TRUE, was_visible;
+	item_type_t type;
+
+	gtk_tree_model_get (model, iter,
+			    ITEM_TYPE, &type,
+			    ITEM_NAME, &name,
+			    ITEM_VISIBLE, &was_visible,
+			    -1);
+
+	if (type != item_type_workbook &&
+	    type != item_type_main_sheet &&
+	    type != item_type_other_sheet)
+		visible = (NULL != g_strstr_len (name, -1, text));
+	
+	if (visible != was_visible)
+		gtk_tree_store_set (GTK_TREE_STORE (model), iter, 
+				    ITEM_VISIBLE, visible,
+				    -1);
+
+	g_free (name);
+	return FALSE;
+}
+
+static void
+name_guru_search (GtkEntry *entry, gpointer data)
+{
+	gchar const *text;
+	NameGuruState *state = data;
+
+	if (0 == gtk_entry_get_text_length (entry)){
+		name_guru_erase_search_entry 
+			(entry,
+#ifdef HAVE_GTK_ENTRY_SET_ICON_FROM_STOCK
+			 GTK_ENTRY_ICON_SECONDARY, NULL,
+#endif
+			 data);
+		return;
+	}
+	text = gtk_entry_get_text (entry);	
+	gtk_tree_model_foreach (GTK_TREE_MODEL (state->model),
+				cb_name_guru_search, (gpointer) text);
 }
 
 static void
@@ -433,12 +508,17 @@ cb_name_guru_clicked (GtkWidget *button, NameGuruState *state)
 		return;
 	}
 	if (button == state->paste_button) {
+		GtkTreeIter iter_f;
 		GtkTreeIter iter;
 		if (gtk_tree_selection_get_selected 
 		    (gtk_tree_view_get_selection 
-		     (GTK_TREE_VIEW (state->treeview)), NULL, &iter) &&
-		    name_guru_paste (state, &iter))
-			gtk_widget_destroy (state->dialog);
+		     (GTK_TREE_VIEW (state->treeview)), NULL, &iter_f)) {
+			gtk_tree_model_filter_convert_iter_to_child_iter
+				(GTK_TREE_MODEL_FILTER (state->model_f), 
+				 &iter, &iter_f);
+			if (name_guru_paste (state, &iter))
+				gtk_widget_destroy (state->dialog);
+		}
 		return;
 	}
 }
@@ -1086,6 +1166,33 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 			 "Gnumeric-Define-Names-Dialog");
 	}
 
+	state->search_entry = glade_xml_get_widget (state->gui, 
+						    "search_entry");
+#ifdef HAVE_GTK_ENTRY_SET_ICON_FROM_STOCK
+
+	gtk_entry_set_icon_from_stock 
+		(GTK_ENTRY (state->search_entry),
+		 GTK_ENTRY_ICON_SECONDARY, GTK_STOCK_CLEAR);
+	gtk_entry_set_icon_tooltip_text 
+		(GTK_ENTRY (state->search_entry),
+		 GTK_ENTRY_ICON_SECONDARY,
+		 _("Erase the search entry."));
+	gtk_entry_set_icon_sensitive
+		(GTK_ENTRY (state->search_entry),
+		 GTK_ENTRY_ICON_SECONDARY, TRUE);
+	gtk_entry_set_icon_activatable
+		(GTK_ENTRY (state->search_entry),
+		 GTK_ENTRY_ICON_SECONDARY, TRUE);
+
+	g_signal_connect (G_OBJECT (state->search_entry),
+			  "icon-press",
+			  G_CALLBACK (name_guru_erase_search_entry),
+			  state);
+#endif
+	g_signal_connect (G_OBJECT (state->search_entry),
+			  "activate",
+			  G_CALLBACK (name_guru_search),
+			  state);
 
 	name_guru_populate_list (state);
 	name_guru_update_sensitivity (selection, state);
