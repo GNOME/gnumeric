@@ -1,5 +1,7 @@
 2010-06-04  Morten Welinder  <terra@gnome.org>
 
+	* src/gnm-pane.c (gnm_pane_display_obj_size_tip): Fix critical.
+
 	* src/commands.c (cmd_generic): Rename from cmd_solver.
 	(cmd_generic_with_size): New function.
 

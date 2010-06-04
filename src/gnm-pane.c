@@ -556,7 +556,7 @@ gnm_pane_key_press (GtkWidget *widget, GdkEventKey *event)
 	/* Object manipulation */
 	if (scg->selected_objects != NULL ||
 	     scg->wbcg->new_object != NULL) {
-		if (wbc_gtk_get_guru (scg->wbcg) == NULL  &&
+		if (wbc_gtk_get_guru (scg->wbcg) == NULL &&
 		    gnm_pane_object_key_press (pane, event))
 			return TRUE;
 	}
@@ -1884,7 +1884,7 @@ static void
 gnm_pane_display_obj_size_tip (GnmPane *pane, GocItem *ctrl_pt)
 {
 	SheetControlGUI *scg = pane->simple.scg;
-	double const *coords = g_hash_table_lookup (scg->selected_objects, pane->cur_object);
+	double const *coords;
 	double pts[4];
 	char *msg;
 	SheetObjectAnchor anchor;
@@ -1915,6 +1915,7 @@ gnm_pane_display_obj_size_tip (GnmPane *pane, GocItem *ctrl_pt)
 	g_return_if_fail (pane->cur_object != NULL);
 	g_return_if_fail (pane->size_tip != NULL);
 
+	coords = g_hash_table_lookup (scg->selected_objects, pane->cur_object);
 	anchor = *sheet_object_get_anchor (pane->cur_object);
 	scg_object_coords_to_anchor (scg, coords, &anchor);
 	sheet_object_anchor_to_pts (&anchor, scg_sheet (scg), pts);
