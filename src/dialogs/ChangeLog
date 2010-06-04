@@ -1,5 +1,12 @@
 2010-06-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-define-names.c (name_guru_move_record): change
+	  argument to iter from path_string, change caller
+	(cb_name_guru_name_edited): move the modified record into the
+	  correct place
+
+2010-06-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-define-names.c (name_guru_delete): no need to 
 	  check for in use if it wasn't saved.
 	(name_guru_find_place): new

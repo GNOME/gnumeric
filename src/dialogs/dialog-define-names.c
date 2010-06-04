@@ -718,12 +718,12 @@ name_guru_find_place (NameGuruState *state, GtkTreeIter *iter,
 
 static void
 name_guru_move_record (NameGuruState *state, GtkTreeIter *from_iter, 
-		       gchar const *to_path, item_type_t new_type)
+		       GtkTreeIter *new_parent_iter, item_type_t new_type)
 {
-	GtkTreeIter new_parent_iter;
 	GnmNamedExpr *nexpr;
 	gchar *name, *content;
 	gboolean ceditable, neditable, pastable, visible;
+	GtkTreeIter new_iter;
 
 	gtk_tree_model_get (GTK_TREE_MODEL (state->model), 
 			    from_iter,
@@ -737,28 +737,23 @@ name_guru_move_record (NameGuruState *state, GtkTreeIter *from_iter,
 			    -1);
 
 	gtk_tree_store_remove (state->model, from_iter);
-
-	if (name_guru_translate_pathstring_to_iter
-	    (state, &new_parent_iter, to_path)) {
-		GtkTreeIter new_iter;
 		
-		name_guru_find_place (state, &new_iter, &new_parent_iter, nexpr);
-		
-		gtk_tree_store_set (state->model, &new_iter, 
-				    ITEM_NAME, name, 
-				    ITEM_NAME_POINTER, nexpr, 
-				    ITEM_CONTENT, content, 
-				    ITEM_TYPE, new_type, 
-				    ITEM_CONTENT_IS_EDITABLE, ceditable,
-				    ITEM_NAME_IS_EDITABLE, neditable,
-				    ITEM_PASTABLE, pastable,
-				    ITEM_VISIBLE, visible,
-				    -1);
-		name_guru_set_images (state, &new_iter, new_type, pastable);
-		name_guru_expand_at_iter (state, &new_iter);
-		g_free (name);
-		g_free (content);
-	}
+	name_guru_find_place (state, &new_iter, new_parent_iter, nexpr);
+	
+	gtk_tree_store_set (state->model, &new_iter, 
+			    ITEM_NAME, name, 
+			    ITEM_NAME_POINTER, nexpr, 
+			    ITEM_CONTENT, content, 
+			    ITEM_TYPE, new_type, 
+			    ITEM_CONTENT_IS_EDITABLE, ceditable,
+			    ITEM_NAME_IS_EDITABLE, neditable,
+			    ITEM_PASTABLE, pastable,
+			    ITEM_VISIBLE, visible,
+			    -1);
+	name_guru_set_images (state, &new_iter, new_type, pastable);
+	name_guru_expand_at_iter (state, &new_iter);
+	g_free (name);
+	g_free (content);
 }
 
 static void
@@ -774,6 +769,7 @@ cb_name_guru_switch_scope (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 		item_type_t type, new_type;
 		gchar const *new_path;
 		GnmNamedExpr *nexpr;
+		GtkTreeIter new_parent_iter;
 
 		gtk_tree_model_get (GTK_TREE_MODEL (state->model), 
 				    &iter,
@@ -815,7 +811,12 @@ cb_name_guru_switch_scope (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 			return;
 		}
 		
-		name_guru_move_record (state, &iter, new_path, new_type);
+		if (gtk_tree_model_get_iter_from_string 
+		    (GTK_TREE_MODEL (state->model), 
+		     &new_parent_iter, new_path)) {
+			name_guru_move_record 
+				(state, &iter, &new_parent_iter, new_type);
+		}
 	}
 }
 
@@ -939,6 +940,7 @@ cb_name_guru_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 			     NameGuruState       *state)
 {
 	GtkTreeIter       iter;
+	GtkTreeIter       parent_iter;
 	item_type_t       type;
 	GnmParsePos       pp;
 	GnmExprTop const *texpr;
@@ -973,6 +975,8 @@ cb_name_guru_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 		return;
 	}
 
+#warning We need to check whter the name already exists!
+
 	texpr = name_guru_check_expression (state, content, &pp , type);
 	if (texpr == NULL)
 		return;
@@ -994,8 +998,10 @@ cb_name_guru_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 		 ITEM_PASTABLE, TRUE,
 		 -1);
 	name_guru_set_images (state, &iter, type, TRUE);
-	
-#warning We should be moving the renamed record to where it belongs in the ordering!
+
+	if (gtk_tree_model_iter_parent (GTK_TREE_MODEL (state->model),
+					&parent_iter, &iter))
+		name_guru_move_record (state, &iter, &parent_iter, type);
 }
 
 static void
@@ -1008,8 +1014,7 @@ name_guru_update_sensitivity (GtkTreeSelection *treeselection,
 	
 	if (gtk_tree_selection_get_selected 
 	    (treeselection, NULL, &iter))
-		gtk_tree_model_get (GTK_TREE_MODEL (state->model_f), 
-				    &iter,
+		gtk_tree_model_get (state->model_f, &iter,
 				    ITEM_PASTABLE, &is_pastable,
 				    -1);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->paste_button),
