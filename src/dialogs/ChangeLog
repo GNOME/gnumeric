@@ -1,3 +1,10 @@
+2010-06-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-define-names.c: insert GtkTreModelFilter between
+	 GtkTreeStore and GtkTreeView and adjust code throughout.
+	(name_guru_store_names): new type adjustment for every name
+	(cb_name_guru_content_edited): don't leak GnmExprTop
+	
 2010-06-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-define-names.c (cb_name_guru_switch_scope): use

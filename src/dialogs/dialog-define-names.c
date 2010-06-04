@@ -63,6 +63,7 @@ typedef struct {
 	GtkWidget		*dialog;
 	GtkWidget		*treeview;
 	GtkTreeStore		*model;
+	GtkTreeModel    	*model_f;
 
 	GtkWidget *close_button;
 	GtkWidget *paste_button;
@@ -97,6 +98,7 @@ enum {
 	ITEM_ADDDELETE_ACTIVE,
 	ITEM_PASTABLE,
 	ITEM_PASTE_IMAGE,
+	ITEM_VISIBLE,
 	NUM_COLMNS
 };
 
@@ -111,6 +113,34 @@ typedef enum {
 	item_type_new_unsaved_wb_name,
 	item_type_new_unsaved_sheet_name,
 } item_type_t;
+
+
+/**
+ * name_guru_translate_pathstring_to_iter:
+ * @state:
+ * @path_string: in the filter_model
+ * @iter:        in the base model
+ *
+ **/
+
+static gboolean
+name_guru_translate_pathstring_to_iter (NameGuruState *state,
+					GtkTreeIter *iter, 
+					gchar const *path_string)
+{
+	GtkTreeIter iter_f;
+
+	if (!gtk_tree_model_get_iter_from_string 
+	    (state->model_f, &iter_f, path_string))
+		return FALSE;
+
+	gtk_tree_model_filter_convert_iter_to_child_iter
+		(GTK_TREE_MODEL_FILTER (state->model_f), iter, &iter_f);
+	return TRUE;
+}
+
+
+
 
 /**
  * name_guru_expand_at_iter:
@@ -227,7 +257,7 @@ name_guru_store_names (GList            *list,
 {
 	GtkTreeIter	 name_iter;
 	char            *content;
-	item_type_t      adj_type = type;
+	item_type_t      adj_type;
 	GList           *l;
 
 	for (l = list; l != NULL; l = l->next) {
@@ -244,7 +274,8 @@ name_guru_store_names (GList            *list,
 		if (nexpr->is_permanent) {
 			adj_type =  item_type_locked_name;
 			ciseditable = FALSE;
-		}
+		} else
+			adj_type = type;
 
 		content = expr_name_as_string (nexpr, &state->pp,
 					       gnm_conventions_default);
@@ -260,6 +291,7 @@ name_guru_store_names (GList            *list,
 				    ITEM_CONTENT_IS_EDITABLE, ciseditable, 
 				    ITEM_NAME_IS_EDITABLE, FALSE,
 				    ITEM_PASTABLE, ispastable,
+				    ITEM_VISIBLE, TRUE,
 				    -1);
 		g_free (content);
 		
@@ -287,6 +319,7 @@ name_guru_populate_list (NameGuruState *state)
 			    ITEM_CONTENT_IS_EDITABLE, FALSE,
 			    ITEM_NAME_IS_EDITABLE, FALSE,
 			    ITEM_PASTABLE, FALSE,
+			    ITEM_VISIBLE, TRUE,
 			    -1);
 	name_guru_set_images (state, &iter, item_type_workbook, FALSE);
 	name_guru_store_names (name_guru_get_available_wb_names (state->wb),
@@ -303,6 +336,7 @@ name_guru_populate_list (NameGuruState *state)
 			    ITEM_CONTENT_IS_EDITABLE, FALSE, 
 			    ITEM_NAME_IS_EDITABLE, FALSE,
 			    ITEM_PASTABLE, FALSE,
+			    ITEM_VISIBLE, TRUE,
 			    -1);
 	name_guru_set_images (state, &iter, item_type_main_sheet, FALSE);
 
@@ -328,6 +362,7 @@ name_guru_populate_list (NameGuruState *state)
 				    ITEM_TYPE, item_type_other_sheet, 
 				    ITEM_CONTENT_IS_EDITABLE, FALSE, 
 				    ITEM_NAME_IS_EDITABLE, FALSE,
+				    ITEM_VISIBLE, TRUE,
 				    ITEM_PASTABLE, FALSE,
 				    -1);
 
@@ -456,9 +491,8 @@ cb_name_guru_paste (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	NameGuruState *state = data;
 	GtkTreeIter iter;
 
-	if (gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL (state->model), 
-						 &iter,
-						 path_string))
+	if (name_guru_translate_pathstring_to_iter
+	    (state, &iter, path_string))
 		name_guru_paste (state, &iter);
 }
 
@@ -488,6 +522,7 @@ name_guru_add (NameGuruState *state, GtkTreeIter *iter, gchar const *path_string
 			    ITEM_CONTENT_IS_EDITABLE, TRUE,
 			    ITEM_NAME_IS_EDITABLE, TRUE,
 			    ITEM_PASTABLE, FALSE,
+			    ITEM_VISIBLE, TRUE,
 			    -1);
 	name_guru_set_images (state, &name_iter, type, FALSE);
 	name_guru_expand_at_iter (state, iter);
@@ -523,9 +558,8 @@ cb_name_guru_add_delete (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	NameGuruState *state = data;
 	GtkTreeIter iter;
 
-	if (gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL (state->model), 
-						 &iter,
-						 path_string)) {
+	if (name_guru_translate_pathstring_to_iter
+	    (state, &iter, path_string)) {
 		item_type_t type;
 
 		gtk_tree_model_get (GTK_TREE_MODEL (state->model), 
@@ -560,7 +594,7 @@ name_guru_move_record (NameGuruState *state, GtkTreeIter *from_iter,
 	GtkTreeIter new_parent_iter;
 	GnmNamedExpr *nexpr;
 	gchar *name, *content;
-	gboolean ceditable, neditable, pastable;
+	gboolean ceditable, neditable, pastable, visible;
 
 	gtk_tree_model_get (GTK_TREE_MODEL (state->model), 
 			    from_iter,
@@ -570,14 +604,13 @@ name_guru_move_record (NameGuruState *state, GtkTreeIter *from_iter,
 			    ITEM_CONTENT_IS_EDITABLE, &ceditable,
 			    ITEM_NAME_IS_EDITABLE, &neditable,
 			    ITEM_PASTABLE, &pastable,
+			    ITEM_VISIBLE, &visible,
 			    -1);
 
 	gtk_tree_store_remove (state->model, from_iter);
 
-	if (gtk_tree_model_get_iter_from_string 
-	    (GTK_TREE_MODEL (state->model), 
-	     &new_parent_iter,
-	     to_path)) {
+	if (name_guru_translate_pathstring_to_iter
+	    (state, &new_parent_iter, to_path)) {
 		GtkTreeIter new_iter;
 		
 #warning We should be inserting the new record where it belongs in the ordering!
@@ -591,6 +624,7 @@ name_guru_move_record (NameGuruState *state, GtkTreeIter *from_iter,
 				    ITEM_CONTENT_IS_EDITABLE, ceditable,
 				    ITEM_NAME_IS_EDITABLE, neditable,
 				    ITEM_PASTABLE, pastable,
+				    ITEM_VISIBLE, visible,
 				    -1);
 		name_guru_set_images (state, &new_iter, new_type, pastable);
 		name_guru_expand_at_iter (state, &new_iter);
@@ -607,10 +641,8 @@ cb_name_guru_switch_scope (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	NameGuruState *state = data;
 	GtkTreeIter iter;
 
-	if (gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL (state->model), 
-						 &iter,
-						 path_string)) {
-
+	if (name_guru_translate_pathstring_to_iter
+	    (state, &iter, path_string)) {
 		item_type_t type, new_type;
 		gchar const *new_path;
 		GnmNamedExpr *nexpr;
@@ -736,16 +768,13 @@ cb_name_guru_content_edited (GnumericCellRendererExprEntry *cell,
 			     NameGuruState       *state)
 {
 	GtkTreeIter       iter;
-	gboolean          have_iter = FALSE;
 	item_type_t       type;
 	GnmParsePos       pp;
 	GnmExprTop const *texpr;
 	GnmNamedExpr     *nexpr;
 
-	have_iter = gtk_tree_model_get_iter_from_string 
-		(GTK_TREE_MODEL (state->model),
-					     &iter, path_string);
-	if (!have_iter)
+	if (!name_guru_translate_pathstring_to_iter
+	    (state, &iter, path_string))
 		return;
 
 	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
@@ -768,7 +797,8 @@ cb_name_guru_content_edited (GnumericCellRendererExprEntry *cell,
 		cmd_define_name (WORKBOOK_CONTROL (state->wbcg), 
 				 expr_name_name (nexpr), 
 				 &pp, texpr, NULL);
-	}
+	} else 
+		gnm_expr_top_unref (texpr);
 
 	/* set the model */
 	gtk_tree_store_set (state->model, &iter, ITEM_CONTENT, new_text, -1);
@@ -781,17 +811,13 @@ cb_name_guru_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 			     NameGuruState       *state)
 {
 	GtkTreeIter       iter;
-	gboolean          have_iter = FALSE;
 	item_type_t       type;
 	GnmParsePos       pp;
 	GnmExprTop const *texpr;
 	gchar            *content;
 
-	have_iter = gtk_tree_model_get_iter_from_string 
-		(GTK_TREE_MODEL (state->model),
-					     &iter, path_string);
-
-	if (!have_iter)
+	if (!name_guru_translate_pathstring_to_iter
+	    (state, &iter, path_string))
 		return;
 
 	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
@@ -860,7 +886,7 @@ name_guru_update_sensitivity (GtkTreeSelection *treeselection,
 	
 	if (gtk_tree_selection_get_selected 
 	    (treeselection, NULL, &iter))
-		gtk_tree_model_get (GTK_TREE_MODEL (state->model), 
+		gtk_tree_model_get (GTK_TREE_MODEL (state->model_f), 
 				    &iter,
 				    ITEM_PASTABLE, &is_pastable,
 				    -1);
@@ -874,16 +900,15 @@ cb_name_guru_selection_function (GtkTreeSelection *selection,
 				 GtkTreeModel *model,
 				 GtkTreePath *path,
 				 gboolean path_currently_selected,
-				 gpointer data)
+				 G_GNUC_UNUSED gpointer data)
 {
-	NameGuruState *state = data;
 	GtkTreeIter iter;
 
 	if (path_currently_selected)
 		return TRUE;
 	if (gtk_tree_model_get_iter (model, &iter, path)) {
 		gboolean is_pastable, is_editable;; 
-		gtk_tree_model_get (GTK_TREE_MODEL (state->model), 
+		gtk_tree_model_get (model, 
 				    &iter,
 				    ITEM_PASTABLE, &is_pastable,
 				    ITEM_CONTENT_IS_EDITABLE, &is_editable,
@@ -924,10 +949,17 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 		 G_TYPE_INT, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN,
 		 GDK_TYPE_PIXBUF, GDK_TYPE_PIXBUF,
 		 G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN,
-		 GDK_TYPE_PIXBUF);
+		 GDK_TYPE_PIXBUF, G_TYPE_BOOLEAN);
+
 	state->treeview  = glade_xml_get_widget (state->gui, "name_list");
+
+	state->model_f = gtk_tree_model_filter_new 
+		(GTK_TREE_MODEL (state->model), NULL);
+	gtk_tree_model_filter_set_visible_column
+		(GTK_TREE_MODEL_FILTER (state->model_f), ITEM_VISIBLE);
+
 	gtk_tree_view_set_model (GTK_TREE_VIEW (state->treeview),
-				 GTK_TREE_MODEL (state->model));
+				 state->model_f);
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (state->treeview), 
 					   FALSE);
 	gtk_tree_view_set_grid_lines (GTK_TREE_VIEW (state->treeview), 
