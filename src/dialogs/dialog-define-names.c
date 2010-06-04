@@ -167,6 +167,7 @@ name_guru_expand_at_iter (NameGuruState *state, GtkTreeIter *iter)
 /**
  * name_guru_warned_if_used:
  * @state:
+ * @nexpr: expression to be deleted
  *
  * If the expresion that is about to be deleted is being used,
  * warn the user about it. Ask if we should proceed or not
@@ -175,9 +176,10 @@ name_guru_expand_at_iter (NameGuruState *state, GtkTreeIter *iter)
  **/
 
 static gboolean
-name_guru_warn (G_GNUC_UNUSED NameGuruState *state)
+name_guru_warn (G_GNUC_UNUSED NameGuruState *state,
+		G_GNUC_UNUSED GnmNamedExpr *nexpr)
 {
-#warning Implement me!
+#warning Implement warning on deletion of used names!
 	return TRUE;
 }
 
@@ -625,15 +627,15 @@ name_guru_delete (NameGuruState *state, GtkTreeIter *iter, item_type_t type)
 {
 	GnmNamedExpr *nexpr;
 	
-	if (!name_guru_warn (state))
-		return;
-
 	if (type != item_type_new_unsaved_wb_name &&
 	    type != item_type_new_unsaved_sheet_name) {
 		gtk_tree_model_get (GTK_TREE_MODEL (state->model), 
 				    iter,
 				    ITEM_NAME_POINTER, &nexpr,
 				    -1);
+		
+		if (!name_guru_warn (state, nexpr))
+			return;
 		
 		cmd_remove_name (WORKBOOK_CONTROL (state->wbcg), nexpr);
 	}
@@ -679,6 +681,42 @@ cb_name_guru_add_delete (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 }
 
 static void
+name_guru_find_place (NameGuruState *state, GtkTreeIter *iter, 
+		      GtkTreeIter *parent_iter, GnmNamedExpr *nexpr)
+{
+	GtkTreeIter next_iter;
+	GnmNamedExpr *next_nexpr;
+	if (nexpr != NULL && 
+	    gtk_tree_model_iter_children (GTK_TREE_MODEL (state->model),
+					  &next_iter,
+					  parent_iter)) {
+		do {	
+			gtk_tree_model_get (GTK_TREE_MODEL (state->model), 
+					    &next_iter,
+					    ITEM_NAME_POINTER, &next_nexpr,
+					    -1);
+			if (next_nexpr != NULL && 
+			    expr_name_cmp_by_name (nexpr, next_nexpr) < 0) {
+				gtk_tree_store_insert_before        
+					(state->model,
+					 iter,
+					 parent_iter,
+                                         &next_iter);
+				return;
+			}
+		} while (gtk_tree_model_iter_next (GTK_TREE_MODEL (state->model),
+						   &next_iter));
+		
+		gtk_tree_store_append (state->model, iter,
+				       parent_iter);
+	} else {
+		gtk_tree_store_prepend (state->model, iter,
+					parent_iter);
+	}
+}
+
+
+static void
 name_guru_move_record (NameGuruState *state, GtkTreeIter *from_iter, 
 		       gchar const *to_path, item_type_t new_type)
 {
@@ -704,9 +742,8 @@ name_guru_move_record (NameGuruState *state, GtkTreeIter *from_iter,
 	    (state, &new_parent_iter, to_path)) {
 		GtkTreeIter new_iter;
 		
-#warning We should be inserting the new record where it belongs in the ordering!
-		gtk_tree_store_prepend (state->model, &new_iter,
-					&new_parent_iter);
+		name_guru_find_place (state, &new_iter, &new_parent_iter, nexpr);
+		
 		gtk_tree_store_set (state->model, &new_iter, 
 				    ITEM_NAME, name, 
 				    ITEM_NAME_POINTER, nexpr, 
@@ -906,6 +943,7 @@ cb_name_guru_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 	GnmParsePos       pp;
 	GnmExprTop const *texpr;
 	gchar            *content;
+	GnmNamedExpr     *nexpr;
 
 	if (!name_guru_translate_pathstring_to_iter
 	    (state, &iter, path_string))
@@ -939,32 +977,25 @@ cb_name_guru_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 	if (texpr == NULL)
 		return;
 	
-	if (type == item_type_new_unsaved_wb_name) {
-		gtk_tree_store_set 
-			(state->model, &iter, 
-			 ITEM_NAME, new_text,
-			 ITEM_TYPE, item_type_available_wb_name,
-			 ITEM_PASTABLE, TRUE,
-			 -1);
-		name_guru_set_images (state, &iter, 
-				      item_type_available_wb_name, TRUE);
-		cmd_define_name (WORKBOOK_CONTROL (state->wbcg), 
-				 new_text, &pp,
-				 texpr, NULL);
-	} else {
+	cmd_define_name (WORKBOOK_CONTROL (state->wbcg), 
+			 new_text, &pp,
+			 texpr, NULL);
+	nexpr = expr_name_lookup (&pp, new_text);
 
-		gtk_tree_store_set 
-			(state->model, &iter, 
-			 ITEM_NAME, new_text,
-			 ITEM_TYPE, item_type_new_unsaved_sheet_name,
-			 ITEM_PASTABLE, TRUE,
-			 -1);
-		name_guru_set_images (state, &iter, 
-				      item_type_available_sheet_name, TRUE);
-		cmd_define_name (WORKBOOK_CONTROL (state->wbcg), 
-				 new_text, &pp,
-				 texpr, NULL);
-	}
+	type = (type == item_type_new_unsaved_wb_name) ? 
+		item_type_available_wb_name :
+		item_type_new_unsaved_sheet_name;
+
+	gtk_tree_store_set 
+		(state->model, &iter, 
+		 ITEM_NAME, new_text,
+		 ITEM_NAME_POINTER, nexpr,
+		 ITEM_TYPE, type,
+		 ITEM_PASTABLE, TRUE,
+		 -1);
+	name_guru_set_images (state, &iter, type, TRUE);
+	
+#warning We should be moving the renamed record to where it belongs in the ordering!
 }
 
 static void

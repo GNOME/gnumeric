@@ -1,5 +1,14 @@
 2010-06-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-define-names.c (name_guru_delete): no need to 
+	  check for in use if it wasn't saved.
+	(name_guru_find_place): new
+	(name_guru_move_record): use name_guru_find_place
+	(cb_name_guru_name_edited): we also need to set the GnmNamedExpr
+	  if we possibly added a new name.
+	
+2010-06-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-define-names.c (cb_name_guru_search): make searching
 	  case-insensitive.
 
