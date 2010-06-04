@@ -1,5 +1,13 @@
 2010-06-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-define-names.c (name_guru_parse_pos_init): new
+	(name_guru_check_expression): use name_guru_parse_pos_init
+	(cb_name_guru_name_edited): don't duplicate errorchecks already
+	  in cmd_define_name but make sure that we don't just redefine 
+	  names
+
+2010-06-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-define-names.c (name_guru_move_record): change
 	  argument to iter from path_string, change caller
 	(cb_name_guru_name_edited): move the modified record into the

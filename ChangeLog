@@ -1,3 +1,9 @@
+2010-06-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.c (cmd_define_name): be clearer with the error 
+	  messages.
+	(cmd_rescope_name_redo): watch out for returned error strings
+
 2010-06-04  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-pane.c (gnm_pane_display_obj_size_tip): Fix critical.

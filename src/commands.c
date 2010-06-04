@@ -5837,10 +5837,21 @@ cmd_define_name (WorkbookControl *wbc, char const *name,
 	g_return_val_if_fail (pp != NULL, TRUE);
 	g_return_val_if_fail (texpr != NULL, TRUE);
 
+	if (name[0] == '\0') {
+		go_cmd_context_error_invalid 
+			(GO_CMD_CONTEXT (wbc), _("Defined Name"),
+			 _("An empty string is not allowed as defined name."));
+		gnm_expr_top_unref (texpr);
+		return TRUE;
+	}
+
 	sheet = wb_control_cur_sheet (wbc);
 	if (!expr_name_validate (name, sheet)) {
-		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), name,
-					_("is not allowed as defined name"));
+		gchar *err = g_strdup_printf 
+			(_("'%s' is not allowed as defined name."), name);
+		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), 
+					      _("Defined Name"), err);
+		g_free (err);
 		gnm_expr_top_unref (texpr);
 		return TRUE;
 	}
@@ -5997,12 +6008,19 @@ typedef struct {
 MAKE_GNM_COMMAND (CmdRescopeName, cmd_rescope_name, NULL)
 
 static gboolean
-cmd_rescope_name_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
+cmd_rescope_name_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdRescopeName *me = CMD_RESCOPE_NAME (cmd);
 	Sheet *old_scope = me->nexpr->pos.sheet;
+	char *err;
 	
-	expr_name_set_scope (me->nexpr, me->scope);
+	err = expr_name_set_scope (me->nexpr, me->scope);
+
+	if (err != NULL) {
+		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), _("Change Scope of Name"), err);
+		g_free (err);
+		return TRUE;
+	}
 
 	me->scope = old_scope;
 	return FALSE;

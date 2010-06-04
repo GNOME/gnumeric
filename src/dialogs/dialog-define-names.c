@@ -820,6 +820,31 @@ cb_name_guru_switch_scope (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	}
 }
 
+static gboolean
+name_guru_parse_pos_init (NameGuruState *state,
+			  GnmParsePos *pp, item_type_t type)
+{
+	switch (type) {
+	case item_type_available_wb_name:
+	case item_type_new_unsaved_wb_name:
+		parse_pos_init (pp, state->wb, NULL,
+				state->pp.eval.col, state->pp.eval.row);
+		return TRUE;
+	case item_type_available_sheet_name:
+	case item_type_new_unsaved_sheet_name:
+		parse_pos_init (pp, state->wb, state->sheet,
+				state->pp.eval.col, state->pp.eval.row);
+		return TRUE;
+	case item_type_workbook:
+	case item_type_main_sheet:
+	case item_type_other_sheet:
+	case item_type_locked_name:
+	case item_type_foreign_name:
+	default:
+		return FALSE;
+	}	
+}
+
 /*
  * Return the expression if it is acceptable.
  * The parse position will be initialized then.
@@ -832,25 +857,8 @@ name_guru_check_expression (NameGuruState *state, gchar *text,
 	GnmExprTop const *texpr;
 	GnmParseError	  perr;
 
-	switch (type) {
-	case item_type_available_wb_name:
-	case item_type_new_unsaved_wb_name:
-		parse_pos_init (pp, state->wb, NULL,
-				state->pp.eval.col, state->pp.eval.row);
-		break;
-	case item_type_available_sheet_name:
-	case item_type_new_unsaved_sheet_name:
-		parse_pos_init (pp, state->wb, state->sheet,
-				state->pp.eval.col, state->pp.eval.row);
-		break;
-	case item_type_workbook:
-	case item_type_main_sheet:
-	case item_type_other_sheet:
-	case item_type_locked_name:
-	case item_type_foreign_name:
-	default:
+	if (!name_guru_parse_pos_init (state, pp, type))
 		return NULL; /* We should have never gotten here. */
-	}
 
 	if (text == NULL || text[0] == '\0') {
 		go_gtk_notice_dialog (GTK_WINDOW (state->dialog), 
@@ -947,6 +955,8 @@ cb_name_guru_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 	gchar            *content;
 	GnmNamedExpr     *nexpr;
 
+	g_return_if_fail (new_text != NULL);
+
 	if (!name_guru_translate_pathstring_to_iter
 	    (state, &iter, path_string))
 		return;
@@ -960,48 +970,47 @@ cb_name_guru_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 	    type != item_type_new_unsaved_sheet_name)
 		return;
 
-	if (new_text == NULL || new_text[0] == '\0') {
-		go_gtk_notice_dialog (GTK_WINDOW (state->dialog), 
-				      GTK_MESSAGE_ERROR,
-				      _("The empty string is not a valid "
-					"name for a named expression!"));
-		return;
+	name_guru_parse_pos_init (state, &pp, type);
+	nexpr = expr_name_lookup (&pp, new_text);
+
+	if (nexpr != NULL) {
+		Sheet *scope = nexpr->pos.sheet;
+		if ((type == item_type_new_unsaved_wb_name && 
+		     scope == NULL) || 
+		    (type == item_type_new_unsaved_sheet_name)) {
+			go_gtk_notice_dialog (GTK_WINDOW (state->dialog), 
+					      GTK_MESSAGE_ERROR,
+					      _("This name is already in use!"));
+			return;
+		}
 	}
-
-	if (!expr_name_validate (new_text, state->sheet)) {
-		go_gtk_notice_dialog (GTK_WINDOW (state->dialog),
-				      GTK_MESSAGE_ERROR,
-				      _("Invalid name"));
-		return;
-	}
-
-#warning We need to check whter the name already exists!
-
+	
 	texpr = name_guru_check_expression (state, content, &pp , type);
 	if (texpr == NULL)
 		return;
-	
-	cmd_define_name (WORKBOOK_CONTROL (state->wbcg), 
-			 new_text, &pp,
-			 texpr, NULL);
-	nexpr = expr_name_lookup (&pp, new_text);
 
-	type = (type == item_type_new_unsaved_wb_name) ? 
-		item_type_available_wb_name :
-		item_type_new_unsaved_sheet_name;
+	if (!cmd_define_name (WORKBOOK_CONTROL (state->wbcg), 
+			      new_text, &pp,
+			      texpr, NULL)) {
+		nexpr = expr_name_lookup (&pp, new_text);
+		
+		type = (type == item_type_new_unsaved_wb_name) ? 
+			item_type_available_wb_name :
+			item_type_available_sheet_name;
 
-	gtk_tree_store_set 
-		(state->model, &iter, 
-		 ITEM_NAME, new_text,
-		 ITEM_NAME_POINTER, nexpr,
-		 ITEM_TYPE, type,
-		 ITEM_PASTABLE, TRUE,
-		 -1);
-	name_guru_set_images (state, &iter, type, TRUE);
-
-	if (gtk_tree_model_iter_parent (GTK_TREE_MODEL (state->model),
-					&parent_iter, &iter))
-		name_guru_move_record (state, &iter, &parent_iter, type);
+		gtk_tree_store_set 
+			(state->model, &iter, 
+			 ITEM_NAME, new_text,
+			 ITEM_NAME_POINTER, nexpr,
+			 ITEM_TYPE, type,
+			 ITEM_PASTABLE, TRUE,
+			 -1);
+		name_guru_set_images (state, &iter, type, TRUE);
+		
+		if (gtk_tree_model_iter_parent (GTK_TREE_MODEL (state->model),
+						&parent_iter, &iter))
+			name_guru_move_record (state, &iter, &parent_iter, type);
+	}
 }
 
 static void
