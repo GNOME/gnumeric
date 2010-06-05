@@ -58,6 +58,12 @@ setup_html_help() {
     wine regsvr32 /s 'C:\WINDOWS\SYSTEM32\itss.dll'
 }
 
+setup_nsis() {
+    cd "${archive_dir}"
+
+    wine nsis-2.46-setup.exe
+}
+
 # Setup up the JH_PREFIX/deploy
     build_mkdir "${JH_PREFIX}/deploy" ; cd "${JH_PREFIX}/deploy"
     build_mkdir "bin"
@@ -90,6 +96,14 @@ setup_html_help() {
     fi
     if [ ! -d "${WINEDIR}/Program Files/HTML Help Workshop" ]; then
 	( setup_html_help )
+    fi
+
+# Download NSIS
+    if [ ! -f "${archive_dir}/nsis-2.46-setup.exe" ]; then
+	( download 'http://sourceforge.net/projects/nsis/files/NSIS%202/2.46/nsis-2.46-setup.exe/download' )
+    fi
+    if [ ! -d "${WINEDIR}/Program Files/NSIS" ]; then
+	( setup_nsis )
     fi
 
 # example usage:
