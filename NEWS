@@ -15,6 +15,7 @@ Morten:
 	* Make sure windows for help commands show up on right screen.
 	* Fix dependency tabulation undo issue.
 	* Fix critical when inserting graph using keys.
+	* Automate win32 help generation.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.5

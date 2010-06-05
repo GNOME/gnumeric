@@ -55,7 +55,7 @@ validate :
 # http://home.kc.rr.com/rstone/ricks.htm
 # http://frogleg.mvps.org/helptechnologies/htmlhelp/hhtutorials.html
 # --param htmlhelp.force.map.and.alias 1
-chm :
+chm-stamp chm :
 	-rm -rf chm output
 	mkdir -p chm
 	cd $(srcdir) ; ../add_dbhh.pl --out-dir=$(abs_builddir)/output --map-file=$(abs_builddir)/chm/gnumeric.hhmap
@@ -68,6 +68,8 @@ chm :
 	    mv chm/.$$$$ "$$f" ;			\
 	done
 	cp -r $(srcdir)/figures	chm
+	touch chm-stamp
+
 
 if ENABLE_PDFDOCS
 noinst_DATA += gnumeric.pdf

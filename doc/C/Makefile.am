@@ -89,6 +89,20 @@ if ENABLE_SSGREP
 manpage_DATA += ssgrep.1
 endif
 
+winhelp_DATA =
+winhelpdir=$(gnumeric_datadir)/$(subdir)
+if WITH_WIN32
+winhelp_DATA += gnumeric.chm gnumeric.hhmap
+
+gnumeric.hhmap: chm-stamp
+	-(cd chm && wine 'C:\Program Files\HTML Help Workshop\hhc.exe' gnumeric.hhp)
+	cp chm/gnumeric.hhmap .
+
+gnumeric.chm: gnumeric.hhmap
+	cp chm/gnumeric.chm .
+
+endif
+
 # from gnumeric-doc.make
 dist-hook: validate
 
