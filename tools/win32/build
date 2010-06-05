@@ -112,7 +112,11 @@ setup_nsis() {
 #	make module=foo debug
 #	make target=shell debug
 #	make target=doc debug
-    if [ "x${target}" = "xshell" ]; then
+    
+    if [ "x${target}" = "xinstaller" ]; then
+	( cd "${JH_PREFIX}/deploy" && \
+	  wine 'C:\Program Files\NSIS/makensis.exe' gnumeric.nsi )
+    elif [ "x${target}" = "xshell" ]; then
  	${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc.py" shell
     elif [ "x${target}" = "xdoc" ]; then
 	echo make -C "${srcdir}/../../doc/C" chm
