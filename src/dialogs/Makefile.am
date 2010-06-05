@@ -159,7 +159,7 @@ glade_DATA = 				\
 	sign-test.glade			\
 	sign-test-two.glade		\
 	so-button.glade			\
- 	so-radiobutton.glade		\
+	so-radiobutton.glade		\
 	so-checkbox.glade		\
 	so-frame.glade			\
 	so-list.glade			\
