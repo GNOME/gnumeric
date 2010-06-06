@@ -176,11 +176,15 @@ name_guru_expand_at_iter (NameGuruState *state, GtkTreeIter *iter)
  **/
 
 static gboolean
-name_guru_warn (G_GNUC_UNUSED NameGuruState *state,
-		G_GNUC_UNUSED GnmNamedExpr *nexpr)
+name_guru_warn (NameGuruState *state,
+		GnmNamedExpr *nexpr)
 {
-#warning Implement warning on deletion of used names!
-	return TRUE;
+	return (!expr_name_in_use (nexpr) || 
+		 go_gtk_query_yes_no 
+		(GTK_WINDOW (state->dialog), FALSE,
+		 "The defined name '%s' is in use. "
+		 "Do you really want to delete it?",
+		 expr_name_name (nexpr)));
 }
 
 static gboolean

@@ -50,6 +50,7 @@ void	 expr_name_add_dep    (GnmNamedExpr *ne, GnmDependent *dep);
 void	 expr_name_remove_dep (GnmNamedExpr *ne, GnmDependent *dep);
 gboolean expr_name_is_placeholder (GnmNamedExpr const *ne);
 void	 expr_name_downgrade_to_placeholder (GnmNamedExpr *nexpr);
+gboolean expr_name_in_use     (GnmNamedExpr *nexpr);
 
 int      expr_name_cmp_by_name    (GnmNamedExpr const *a, GnmNamedExpr const *b);
 gboolean expr_name_check_for_loop (char const *name, GnmExprTop const *texpr);
