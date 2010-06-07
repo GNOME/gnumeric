@@ -23,7 +23,7 @@ struct _GnmNamedExpr {
 	gboolean    is_editable;
 };
 
-gboolean expr_name_validate (const char *name, Sheet *sheet);
+gboolean expr_name_validate (const char *name);
 
 GnmNamedExpr *expr_name_lookup (GnmParsePos const *pos, char const *name);
 GnmNamedExpr *expr_name_add    (GnmParsePos const *pp, char const *name,

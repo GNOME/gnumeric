@@ -5846,7 +5846,7 @@ cmd_define_name (WorkbookControl *wbc, char const *name,
 	}
 
 	sheet = wb_control_cur_sheet (wbc);
-	if (!expr_name_validate (name, sheet)) {
+	if (!expr_name_validate (name)) {
 		gchar *err = g_strdup_printf 
 			(_("'%s' is not allowed as defined name."), name);
 		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), 

@@ -1,3 +1,12 @@
+2010-06-07 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/expr-name.h (expr_name_validate): drop Sheet argument
+	* src/commands.c (cmd_define_name): change the caller here
+	* src/expr-name.c (expr_name_validate): and the definition
+	  here; use the following two functions
+	(expr_name_validate_r1c1): new
+	(expr_name_validate_a1): new
+
 2010-06-06 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/expr-name.h (expr_name_in_use): new

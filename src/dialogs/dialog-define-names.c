@@ -1008,6 +1008,7 @@ cb_name_guru_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 			 ITEM_NAME_POINTER, nexpr,
 			 ITEM_TYPE, type,
 			 ITEM_PASTABLE, TRUE,
+			 ITEM_NAME_IS_EDITABLE, FALSE,
 			 -1);
 		name_guru_set_images (state, &iter, type, TRUE);
 		

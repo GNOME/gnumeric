@@ -27,6 +27,52 @@
 
 #include <goffice/goffice.h>
 
+
+static gboolean
+expr_name_validate_r1c1 (const char *name)
+{
+	const char *p = name;
+	gint i;
+
+	if (p[0] != 'R' && p[0] != 'r')
+		return TRUE;
+	p++;
+	/* no need to worry about [] since they are not alphanumeric */
+	for (i = 0; p[0] && g_ascii_isdigit (p[0]); p = g_utf8_next_char (p))
+		i++;
+	if (i==0)
+		return TRUE;
+	if (p[0] != 'C' && p[0] != 'c')
+		return TRUE;
+	p++;
+	for (i = 0; p[0] && g_ascii_isdigit (p[0]); p = g_utf8_next_char (p))
+		i++;
+	if (i==0)
+		return TRUE;	
+	return (p[0] != '\0');
+}
+
+static gboolean
+expr_name_validate_a1 (const char *name)
+{
+	const char *p = name;
+	gint i;
+
+	for (i = 0; *p && g_ascii_isalpha(p[0]); 
+	     p = g_utf8_next_char (p))
+		i++;
+	if (i==0 || i>4) /* We want to allow "total2010" and it   */
+		         /* is unlikely to have more than  456976 */
+		         /* columns  atm */
+		return TRUE;
+	for (i = 0; *p && g_ascii_isdigit (p[0]); 
+	     p = g_utf8_next_char (p))
+		i++;
+	if (i==0)
+		return TRUE;
+	return (*p != '\0');
+}
+
 /**
  * expr_name_validate:
  * @name: tentative name
@@ -34,9 +80,8 @@
  * returns TRUE if the given name is valid, FALSE otherwise.
  */
 gboolean
-expr_name_validate (const char *name, Sheet *sheet)
+expr_name_validate (const char *name)
 {
-	GnmCellPos cp;
 	const char *p;
 
 	g_return_val_if_fail (name != NULL, FALSE);
@@ -49,9 +94,6 @@ expr_name_validate (const char *name, Sheet *sheet)
 	    strcmp (name, go_locale_boolean_name (FALSE)) == 0)
 		return FALSE;
 
-	/* What about R1C1?  */
-	if (cellpos_parse (name, gnm_sheet_get_size (sheet), &cp, TRUE))
-		return FALSE;
 
 	/* Hmm...   Now what?  */
 	if (!g_unichar_isalpha (g_utf8_get_char (name)) &&
@@ -64,6 +106,17 @@ expr_name_validate (const char *name, Sheet *sheet)
 			return FALSE;
 	}
 
+	/* Make sure it's not A1 etc.*/
+	/* Note that we can't use our regular parsers */
+	/* since we also have to avoid names that may become */
+	/* sensible when the sheet size changes. */
+	if (!expr_name_validate_a1 (name))
+		return FALSE;
+
+	/* What about R1C1?  */
+	if (!expr_name_validate_r1c1 (name))
+		return FALSE;
+	
 	return TRUE;
 }
 

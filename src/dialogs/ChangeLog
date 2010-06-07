@@ -1,3 +1,8 @@
+2010-06-07 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-define-names.c (cb_name_guru_name_edited): the 
+	  name becomes non-ediatable after it has been set.
+	
 2010-06-06 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* regression.glade: add new checkbox and move the selectors for
