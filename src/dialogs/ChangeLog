@@ -1,5 +1,16 @@
 2010-06-06 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* regression.glade: add new checkbox and move the selectors for
+	  the type of regression ahead of the input fields.
+	* dialog-analysis-tools.c (regression_tool_ok_clicked_cb):
+	  handle multiple-y
+	(regression_tool_update_sensitivity_cb): ditto
+	(dialog_regression_tool): ditto
+	(regression_tool_regression_radio_toggled_cb): new
+	(regression_tool_regression_check_toggled_cb): new
+
+2010-06-06 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-define-names.c (name_guru_warn): implement
 
 2010-06-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>

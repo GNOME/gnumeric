@@ -233,6 +233,8 @@ typedef struct {
 typedef struct {
 	GenericToolState base;
 	GtkWidget *confidence_entry;
+	GtkWidget *simple_linear_regression_radio;
+	GtkWidget *switch_variables_check;
 } RegressionToolState;
 
 typedef struct {
@@ -2171,8 +2173,12 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	w = glade_xml_get_widget (state->base.gui, "intercept-button");
 	data->intercept = 1 - gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	w = glade_xml_get_widget (state->base.gui, "multiple-regression-button");
-	data->multiple_regression = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	data->multiple_regression 
+		= !gtk_toggle_button_get_active 
+		(GTK_TOGGLE_BUTTON (state->simple_linear_regression_radio));
+
+	data->multiple_y = gtk_toggle_button_get_active 
+		(GTK_TOGGLE_BUTTON (state->switch_variables_check));
 
 	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
 			       dao, data, analysis_tool_regression_engine)) {
@@ -2212,13 +2218,19 @@ regression_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
         GnmValue *input_range_2;
 	gint y_h, y_w;
 	gint x_h, x_w;
+	gboolean switch_v;
+
+	switch_v = gtk_toggle_button_get_active 
+		(GTK_TOGGLE_BUTTON (state->switch_variables_check));
 
 	/* Checking Input Range */
         input_range_2 = gnm_expr_entry_parse_as_value (
 		GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
 	if (input_range_2 == NULL) {
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
-				    _("The y variable range is invalid."));
+				    switch_v ?
+				    _("The x variable range is invalid.") :
+				    _("The y variable range is invalid.") );
 		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
 		return;
 	}
@@ -2229,18 +2241,24 @@ regression_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 
 	if (y_h == 0 || y_w == 0) {
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    switch_v ?
+				    _("The x variable range is invalid.") :
 				    _("The y variable range is invalid."));
 		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
 		return;
 	}
 	if (y_h != 1 && y_w != 1) {
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    switch_v ?
+				    _("The x variable range must be a vector (n by 1 or 1 by n).") :
 				    _("The y variable range must be a vector (n by 1 or 1 by n)."));
 		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
 		return;
 	}
 	if (y_h <= 2 && y_w <= 2) {
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    switch_v ?
+				    _("The x variable range is to small") :
 				    _("The y variable range is to small"));
 		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
 		return;
@@ -2250,6 +2268,8 @@ regression_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		(GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 	if (input_range == NULL) {
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    switch_v ?
+				    _("The y variables range is invalid.") :
 				    _("The x variables range is invalid."));
 		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
 		return;
@@ -2261,6 +2281,8 @@ regression_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 
 	if (x_h == 0 || x_w == 0) {
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    switch_v ?
+				    _("The y variables range is invalid.") :
 				    _("The x variables range is invalid."));
 		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
 		return;
@@ -2268,7 +2290,9 @@ regression_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 
 	if ((y_h == 1 && y_w != x_w) || (y_w == 1 && y_h != x_h)) {
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
-				    _("The sizes of the x variable and y variable ranges do not match."));
+				    switch_v ?
+				    _("The sizes of the y variable and x variables ranges do not match.") :
+				    _("The sizes of the x variable and y variables ranges do not match."));
 		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
 		return;
 	}
@@ -2293,6 +2317,50 @@ regression_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	gtk_label_set_text (GTK_LABEL (state->base.warning), "");
 	gtk_widget_set_sensitive (state->base.ok_button, TRUE);
 }
+
+static void
+regression_tool_regression_radio_toggled_cb (G_GNUC_UNUSED 
+					     GtkToggleButton *togglebutton,
+					     RegressionToolState *state) 
+{
+	if (!gtk_toggle_button_get_active 
+	    (GTK_TOGGLE_BUTTON (state->simple_linear_regression_radio)))
+		gtk_toggle_button_set_active 
+			(GTK_TOGGLE_BUTTON (state->switch_variables_check), 
+			 FALSE);
+}
+
+static void
+regression_tool_regression_check_toggled_cb (G_GNUC_UNUSED 
+					     GtkToggleButton *togglebutton,
+					     RegressionToolState *state) 
+{
+	GtkWidget *w1, *w2;
+
+	w1 = glade_xml_get_widget 
+		(state->base.gui, "var1-label");
+	w2 = glade_xml_get_widget 
+		(state->base.gui, "var2-label");
+
+	if (gtk_toggle_button_get_active 
+	    (GTK_TOGGLE_BUTTON (state->switch_variables_check))) {
+ 		gtk_toggle_button_set_active 
+			(GTK_TOGGLE_BUTTON 
+			 (state->simple_linear_regression_radio), 
+			 TRUE);
+		gtk_label_set_markup_with_mnemonic  (GTK_LABEL (w1),
+						     _("_Y variables:"));
+		gtk_label_set_markup_with_mnemonic  (GTK_LABEL (w2),
+						     _("_X variable:"));
+	} else {
+		gtk_label_set_markup_with_mnemonic  (GTK_LABEL (w1),
+						     _("_X variables:"));
+		gtk_label_set_markup_with_mnemonic  (GTK_LABEL (w2),
+						     _("_Y variable:"));		
+	}
+	regression_tool_update_sensitivity_cb (NULL, state);
+}
+
 
 /**
  * dialog_regression_tool:
@@ -2340,6 +2408,31 @@ dialog_regression_tool (WBCGtk *wbcg, Sheet *sheet)
 		G_CALLBACK (regression_tool_update_sensitivity_cb), state);
 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->confidence_entry));
+
+	state->simple_linear_regression_radio 
+		= glade_xml_get_widget 
+		(state->base.gui, "simple-regression-button");
+	state->switch_variables_check 
+		= glade_xml_get_widget 
+		(state->base.gui, "multiple-independent-check");
+	gtk_toggle_button_set_active 
+		(GTK_TOGGLE_BUTTON (state->simple_linear_regression_radio),
+		 FALSE);
+	gtk_toggle_button_set_active 
+		(GTK_TOGGLE_BUTTON (state->switch_variables_check),
+		 FALSE);
+	g_signal_connect 
+		(G_OBJECT (state->simple_linear_regression_radio),
+		 "toggled",
+		 G_CALLBACK (regression_tool_regression_radio_toggled_cb), 
+		 state);
+	g_signal_connect 
+		(G_OBJECT (state->switch_variables_check),
+		 "toggled",
+		 G_CALLBACK (regression_tool_regression_check_toggled_cb), 
+		 state);
+   
+
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	regression_tool_update_sensitivity_cb (NULL, state);

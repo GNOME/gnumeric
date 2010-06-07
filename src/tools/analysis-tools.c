@@ -2850,15 +2850,15 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	GnmExpr const *expr_upper;
 	GnmExpr const *expr_confidence;
 
-	GnmFunc *fd_linest;
-	GnmFunc *fd_index;
-	GnmFunc *fd_fdist;
-	GnmFunc *fd_sum;
-	GnmFunc *fd_sqrt;
-	GnmFunc *fd_tdist;
-	GnmFunc *fd_abs;
-	GnmFunc *fd_tinv;
-	GnmFunc *fd_transpose;
+	GnmFunc *fd_linest    = analysis_tool_get_function ("LINEST", dao);
+	GnmFunc *fd_index     = analysis_tool_get_function ("INDEX", dao);
+	GnmFunc *fd_fdist     = analysis_tool_get_function ("FDIST", dao);
+	GnmFunc *fd_sum       = analysis_tool_get_function ("SUM", dao);
+	GnmFunc *fd_sqrt      = analysis_tool_get_function ("SQRT", dao);
+	GnmFunc *fd_tdist     = analysis_tool_get_function ("TDIST", dao);
+	GnmFunc *fd_abs       = analysis_tool_get_function ("ABS", dao);
+	GnmFunc *fd_tinv      = analysis_tool_get_function ("TINV", dao);
+	GnmFunc *fd_transpose = analysis_tool_get_function ("TRANSPOSE", dao);
 	GnmFunc *fd_concatenate = NULL;
 	GnmFunc *fd_cell = NULL;
 	GnmFunc *fd_offset = NULL;
@@ -2867,31 +2867,11 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	char const *label = ((info->group_by == GROUPED_BY_ROW) ? _("Row")
 			     : _("Column"));
 
-	fd_linest = gnm_func_lookup_or_add_placeholder ("LINEST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	gnm_func_ref (fd_linest);
-	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	gnm_func_ref (fd_index);
-	fd_fdist = gnm_func_lookup_or_add_placeholder ("FDIST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	gnm_func_ref (fd_fdist);
-	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	gnm_func_ref (fd_sum);
-	fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	gnm_func_ref (fd_sqrt);
-	fd_tdist = gnm_func_lookup_or_add_placeholder ("TDIST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	gnm_func_ref (fd_tdist);
-	fd_abs = gnm_func_lookup_or_add_placeholder ("ABS", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	gnm_func_ref (fd_abs);
-	fd_tinv = gnm_func_lookup_or_add_placeholder ("TINV", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	gnm_func_ref (fd_tinv);
-	fd_transpose = gnm_func_lookup_or_add_placeholder ("TRANSPOSE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	gnm_func_ref (fd_transpose);
 	if (!info->base.labels) {
-		fd_concatenate = gnm_func_lookup_or_add_placeholder ("CONCATENATE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-		gnm_func_ref (fd_concatenate);
-		fd_cell = gnm_func_lookup_or_add_placeholder ("CELL", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-		gnm_func_ref (fd_cell);
-		fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-		gnm_func_ref (fd_offset);
+		fd_concatenate = analysis_tool_get_function ("CONCATENATE",
+							     dao);
+		fd_cell        = analysis_tool_get_function ("CELL", dao);
+		fd_offset      = analysis_tool_get_function ("OFFSET", dao);
 	}
 
 	cb_adjust_areas (val_1, NULL);
@@ -3306,44 +3286,47 @@ static gboolean
 analysis_tool_regression_simple_engine_run (data_analysis_output_t *dao,
 				     analysis_tools_data_regression_t *info)
 {
-	GnmFunc *fd_linest;
-	GnmFunc *fd_index;
-	GnmFunc *fd_fdist;
-	GnmFunc *fd_rows;
-	GnmFunc *fd_columns;
+	GnmFunc *fd_linest  = analysis_tool_get_function ("LINEST", dao);
+	GnmFunc *fd_index   = analysis_tool_get_function ("INDEX", dao);
+	GnmFunc *fd_fdist   = analysis_tool_get_function ("FDIST", dao);
+	GnmFunc *fd_rows    = analysis_tool_get_function ("ROWS", dao);
+	GnmFunc *fd_columns = analysis_tool_get_function ("COLUMNS", dao);
 
 	GSList *inputdata;
 	guint row;
 
 	GnmValue *val_dep = value_dup (info->base.range_2);
-	GnmExpr const *expr_intercept = gnm_expr_new_constant (value_new_bool (info->intercept));
+	GnmExpr const *expr_intercept 
+		= gnm_expr_new_constant (value_new_bool (info->intercept));
 	GnmExpr const *expr_observ;
 	GnmExpr const *expr_val_dep;
 
-	fd_linest = gnm_func_lookup_or_add_placeholder ("LINEST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	gnm_func_ref (fd_linest);
-	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	gnm_func_ref (fd_index);
-	fd_fdist = gnm_func_lookup_or_add_placeholder ("FDIST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	gnm_func_ref (fd_fdist);
-	fd_rows = gnm_func_lookup_or_add_placeholder ("ROWS", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	gnm_func_ref (fd_rows);
-	fd_columns = gnm_func_lookup_or_add_placeholder ("COLUMNS", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	gnm_func_ref (fd_columns);
-
 	dao_set_italic (dao, 0, 0, 4, 0);
 	dao_set_italic (dao, 0, 2, 5, 2);
-        set_cell_text_row (dao, 0, 0, _("/SUMMARY OUTPUT"
-					"/"
-					"/Response Variable:"
-					"/"
-					"/Observations:"));
-        set_cell_text_row (dao, 0, 2, _("/Independent Variable"
-					"/R^2"
-					"/Slope"
-					"/Intercept"
-					"/F"
-					"/Significance of F"));
+        set_cell_text_row (dao, 0, 0, info->multiple_y ?
+			   _("/SUMMARY OUTPUT"
+			     "/"
+			     "/Independent Variable:"
+			     "/"
+			     "/Observations:") :
+			   _("/SUMMARY OUTPUT"
+			     "/"
+			     "/Response Variable:"
+			     "/"
+			     "/Observations:"));
+        set_cell_text_row (dao, 0, 2, info->multiple_y ?
+			   _("/Response Variable"
+			     "/R^2"
+			     "/Slope"
+			     "/Intercept"
+			     "/F"
+			     "/Significance of F") :
+			   _("/Independent Variable"
+			     "/R^2"
+			     "/Slope"
+			     "/Intercept"
+			     "/F"
+			     "/Significance of F"));
 	analysis_tools_write_a_label (val_dep, dao,
 				      info->base.labels, info->group_by,
 				      3, 0);
@@ -3363,11 +3346,17 @@ analysis_tool_regression_simple_engine_run (data_analysis_output_t *dao,
 		analysis_tools_write_a_label (val_indep, dao,
 					      info->base.labels, info->group_by,
 					      0, row);
-		expr_linest = gnm_expr_new_funcall4 (fd_linest,
-						     gnm_expr_copy (expr_val_dep),
-						     gnm_expr_new_constant (val_indep),
-						     gnm_expr_copy (expr_intercept),
-						     gnm_expr_new_constant (value_new_bool (TRUE)));
+		expr_linest = info->multiple_y ?
+			gnm_expr_new_funcall4 (fd_linest,
+					       gnm_expr_new_constant (val_indep),
+					       gnm_expr_copy (expr_val_dep),
+					       gnm_expr_copy (expr_intercept),
+					       gnm_expr_new_constant (value_new_bool (TRUE))) :
+			gnm_expr_new_funcall4 (fd_linest,
+					       gnm_expr_copy (expr_val_dep),
+					       gnm_expr_new_constant (val_indep),
+					       gnm_expr_copy (expr_intercept),
+					       gnm_expr_new_constant (value_new_bool (TRUE)));
 		dao_set_cell_array_expr (dao, 1, row,
 				 gnm_expr_new_funcall3 (fd_index,
 							gnm_expr_copy (expr_linest),

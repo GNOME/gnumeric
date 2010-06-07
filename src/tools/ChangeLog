@@ -1,3 +1,11 @@
+2010-06-06 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-tools.h (analysis_tools_data_regression_t): new field
+	* analysis-tools.c (analysis_tool_regression_engine_run): use
+	  analysis_tool_get_function
+	(analysis_tool_regression_simple_engine_run): use 
+	  analysis_tool_get_function and obey the new multiple-y setting. 
+	
 2010-06-02  Morten Welinder  <terra@gnome.org>
 
 	* gnm-solver.c (gnm_solver_set_status, gnm_solver_elapsed):

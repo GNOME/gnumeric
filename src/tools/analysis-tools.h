@@ -170,6 +170,7 @@ typedef struct {
 	gint       intercept;
 	group_by_t group_by;
 	gboolean   multiple_regression;
+        gboolean   multiple_y;
 	GSList    *indep_vars;
 } analysis_tools_data_regression_t;
 
