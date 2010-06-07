@@ -679,14 +679,19 @@ char const *
 gnm_expr_char_start_p (char const * c)
 {
 	char c0;
+	int N = 1;
 
 	if (NULL == c)
 		return NULL;
 
 	c0 = *c;
 
+	if (c0 == '=' || c0 == '@' || c0 == '+' || c0 == '-')
+		while (c[N] == ' ')
+			N++;
+
 	if (c0 == '=' || c0 == '@' || (c0 == '+' && c[1] == 0))
-		return c + 1;
+		return c + N;
 
 	if ((c0 == '-' || c0 == '+') && c0 != c[1]) {
 		char *end;
@@ -703,7 +708,7 @@ gnm_expr_char_start_p (char const * c)
 		 */
 		(void) gnm_strto (c, &end);
 		if (errno || *end != 0 || end == c)
-			return (c0 == '+') ? c + 1 : c;
+			return (c0 == '+') ? c + N : c;
 		/* Otherwise, it's a number.  */
 	}
 	return NULL;

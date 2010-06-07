@@ -1,4 +1,10 @@
 2010-06-07 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	for Konstantin Tokarev
+
+	* src/parse-util.c (gnm_expr_char_start_p): allow blanks after
+	the initial operator symbol or = in an expression.
+
+2010-06-07 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/expr-name.h (expr_name_validate): drop Sheet argument
 	* src/commands.c (cmd_define_name): change the caller here
