@@ -1,5 +1,12 @@
 2010-06-07 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* search-replace.glade: add apply button
+	* dialog-search-replace.c (apply_clicked): new
+	(ok_clicked): use apply_clicked
+	(dialog_search_replace): attach apply_clicked
+
+2010-06-07 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-define-names.c (cb_name_guru_name_edited): the 
 	  name becomes non-ediatable after it has been set.
 	

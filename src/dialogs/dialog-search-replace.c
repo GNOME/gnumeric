@@ -92,7 +92,7 @@ set_checked (GladeXML *gui, const char *name, gboolean checked)
 }
 
 static void
-ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
+apply_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 {
 	GladeXML *gui = dd->gui;
 	GtkDialog *dialog = dd->dialog;
@@ -154,11 +154,17 @@ ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 		return;
 	}
 
-	gtk_widget_destroy (GTK_WIDGET (dialog));
-	dd = NULL;  /* Destroyed */
-
 	cb (wbcg, sr);
 	g_object_unref (sr);
+}
+
+static void
+ok_clicked (GtkWidget *widget, DialogState *dd)
+{
+        apply_clicked (widget, dd);
+	
+	gtk_widget_destroy (GTK_WIDGET (dd->dialog));
+	dd = NULL;  /* Destroyed */
 }
 
 static void
@@ -265,6 +271,9 @@ dialog_search_replace (WBCGtk *wbcg,
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "ok_button")),
 		"clicked",
 		G_CALLBACK (ok_clicked), dd);
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "apply_button")),
+		"clicked",
+		G_CALLBACK (apply_clicked), dd);
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "cancel_button")),
 		"clicked",
 		G_CALLBACK (cancel_clicked), dd);
