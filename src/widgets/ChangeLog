@@ -1,3 +1,8 @@
+2010-06-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* gnumeric-expr-entry.c (gnm_expr_entry_parse): do not update the wrong
+	entry. [#620719]
+
 2010-05-30  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.5

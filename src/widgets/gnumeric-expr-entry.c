@@ -1754,7 +1754,8 @@ gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 	if (strcmp (str, text)) {
 		SheetControlGUI *scg = wbcg_cur_scg (gee->wbcg);
 		Rangesel const *rs = &gee->rangesel;
-		if (start_sel && sc_sheet (SHEET_CONTROL (scg)) == rs->ref.a.sheet) {
+		if (gee == wbcg_get_entry_logical (gee->wbcg) &&
+		    start_sel && sc_sheet (SHEET_CONTROL (scg)) == rs->ref.a.sheet) {
 			scg_rangesel_bound (scg,
 				rs->ref.a.col, rs->ref.a.row,
 				rs->ref.b.col, rs->ref.b.row);

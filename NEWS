@@ -15,6 +15,7 @@ Andreas:
 
 Jean:
 	* Do not ungrab a not grabbed item. [#620369]
+	* Always update the right series entry. [#620719]
 
 Morten:
 	* Make sure windows for help commands show up on right screen.
