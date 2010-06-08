@@ -58,12 +58,6 @@ setup_html_help() {
     wine regsvr32 /s 'C:\WINDOWS\SYSTEM32\itss.dll'
 }
 
-setup_nsis() {
-    cd "${archive_dir}"
-
-    wine nsis-2.46-setup.exe
-}
-
 # Setup up the JH_PREFIX/deploy
     build_mkdir "${JH_PREFIX}/deploy" ; cd "${JH_PREFIX}/deploy"
     build_mkdir "bin"
@@ -98,14 +92,6 @@ setup_nsis() {
 	( setup_html_help )
     fi
 
-# Download NSIS
-    if [ ! -f "${archive_dir}/nsis-2.46-setup.exe" ]; then
-	( download 'http://sourceforge.net/projects/nsis/files/NSIS%202/2.46/nsis-2.46-setup.exe/download' )
-    fi
-    if [ ! -d "${WINEDIR}/Program Files/NSIS" ]; then
-	( setup_nsis )
-    fi
-
 # example usage:
 #	make debug
 #	make start=foo debug
@@ -115,7 +101,7 @@ setup_nsis() {
     
     if [ "x${target}" = "xinstaller" ]; then
 	( cd "${JH_PREFIX}/deploy" && \
-	  wine 'C:\Program Files\NSIS/makensis.exe' gnumeric.nsi )
+	  makensis gnumeric.nsi )
     elif [ "x${target}" = "xshell" ]; then
  	${HOME}/bin/jhbuild -f "${srcdir}/jhbuildrc.py" shell
     elif [ "x${target}" = "xdoc" ]; then
