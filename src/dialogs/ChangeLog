@@ -1,3 +1,16 @@
+2010-06-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-function-select.c (cb_unref): new
+	(cb_dialog_function_select_search_all): handle "in use" 
+	  selection
+	(dialog_function_select_search): set up "in use" selection
+	(cb_dialog_function_select_destroy): unref funcs
+	(dialog_function_select_load_cb): add "in use" item
+	(dialog_function_select_get_description): load stubs
+	(dialog_function_select_load_tree): ref the funcs when 
+	  storing them in the model
+	(dialog_function_select_init): setup "in use" flag
+	
 2010-06-08 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-function-select.c (dialog_function_select_search):

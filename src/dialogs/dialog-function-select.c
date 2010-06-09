@@ -84,6 +84,7 @@ enum {
 	FUNCTION_CAT,
 	FUNCTION_VISIBLE,
 	FUNCTION_RECENT,
+	FUNCTION_USED,
 	NUM_COLUMNS
 };
 
@@ -94,6 +95,7 @@ enum {
 typedef struct {
 	char const *text;
 	gboolean recent_only;
+	gboolean used_only;
 	GnmFuncGroup const * cat;
 } search_t;
 
@@ -104,7 +106,7 @@ cb_dialog_function_select_search_all (GtkTreeModel *model, GtkTreePath *path,
 	search_t *specs = data;
 	gchar *name;
 	gchar *desc;
-	gboolean visible, was_visible, recent;
+	gboolean visible, was_visible, recent, used;
 	GnmFuncGroup const * cat;
 
 	gtk_tree_model_get (model, iter,
@@ -112,10 +114,13 @@ cb_dialog_function_select_search_all (GtkTreeModel *model, GtkTreePath *path,
 			    FUNCTION_DESC, &desc,
 			    FUNCTION_VISIBLE, &was_visible,
 			    FUNCTION_RECENT, &recent,
+			    FUNCTION_USED, &used,
 			    FUNCTION_CAT, &cat,
 			    -1);
 	
 	if (specs->recent_only && !recent)
+		visible = FALSE;
+	else if (specs->used_only && !used)
 		visible = FALSE;
 	else if (specs->cat != NULL && specs->cat != cat)
 		visible = FALSE;
@@ -158,7 +163,7 @@ cb_dialog_function_select_search_all (GtkTreeModel *model, GtkTreePath *path,
 static void
 dialog_function_select_search (GtkEntry *entry, gpointer data)
 {
-	search_t specs = {NULL, FALSE, NULL};
+	search_t specs = {NULL, FALSE, FALSE, NULL};
 	FunctionSelectState *state = data;
 	GtkTreeIter iter;
 
@@ -172,7 +177,10 @@ dialog_function_select_search (GtkEntry *entry, gpointer data)
 		specs.recent_only 
 			= (specs.cat != NULL && 
 			   specs.cat == GINT_TO_POINTER(-1));
-		if (specs.recent_only)
+		specs.used_only 
+			= (specs.cat != NULL && 
+			   specs.cat == GINT_TO_POINTER(-2));
+		if (specs.recent_only || specs.used_only)
 			specs.cat = NULL;
 	}
 	
@@ -271,6 +279,17 @@ dialog_function_write_recent_func (FunctionSelectState *state, GnmFunc const *fd
 	go_slist_free_custom (gconf_value_list, g_free);
 }
 
+static gboolean
+cb_unref (GtkTreeModel *model, G_GNUC_UNUSED GtkTreePath *path, 
+	  GtkTreeIter *iter, G_GNUC_UNUSED gpointer data)
+{
+	GnmFunc *f;
+	gtk_tree_model_get (model, iter,
+			    FUNCTION, &f,
+			    -1);
+	gnm_func_unref (f);
+	return FALSE;
+}
 
 static void
 cb_dialog_function_select_destroy (FunctionSelectState  *state)
@@ -285,6 +304,9 @@ cb_dialog_function_select_destroy (FunctionSelectState  *state)
 	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
 	g_slist_free (state->recent_funcs);
+	gtk_tree_model_foreach (GTK_TREE_MODEL (state->model_functions),
+				cb_unref,
+				NULL);
 	g_free (state);
 }
 
@@ -369,7 +391,8 @@ cb_dialog_function_select_load_cb (GtkTreeModel *model,
 			    CATEGORY, &ptr,
 			    -1);
 	
-	if (ptr == NULL || ptr == GINT_TO_POINTER(-1))
+	if (ptr == NULL || ptr == GINT_TO_POINTER(-1) 
+	    || ptr == GINT_TO_POINTER(-2))
 		return FALSE;
 	if (go_utf8_collate_casefold (specs->name, name) < 0) {
 		specs->iter = gtk_tree_iter_copy (iter);
@@ -383,28 +406,31 @@ dialog_function_select_load_cb (FunctionSelectState *state)
 {
 	int i = 0;
 	GtkTreeIter p_iter;
-	GtkTreeIter all_fun_iter;
-	GtkTreeIter recent_iter;
-	GtkTreeIter sep_iter;
 	GnmFuncGroup const * cat;
 
 	gtk_list_store_clear (state->model);
 
-	gtk_list_store_insert_before (state->model, &all_fun_iter, NULL);
-	gtk_list_store_set (state->model, &all_fun_iter,
+	gtk_list_store_insert_before (state->model, &p_iter, NULL);
+	gtk_list_store_set (state->model, &p_iter,
 			    CAT_NAME, _("All Functions"),
 			    CATEGORY, NULL,
 			    CAT_SEPARATOR, FALSE,
 			    -1);
-	gtk_list_store_insert_before (state->model, &recent_iter, NULL);
-	gtk_list_store_set (state->model, &recent_iter,
+	gtk_list_store_insert_before (state->model, &p_iter, NULL);
+	gtk_list_store_set (state->model, &p_iter,
 			    CAT_NAME, _("Recently Used"),
 			    CATEGORY, GINT_TO_POINTER(-1),
 			    CAT_SEPARATOR, FALSE,
 			    -1);
+	gtk_list_store_insert_before (state->model, &p_iter, NULL);
+	gtk_list_store_set (state->model, &p_iter,
+			    CAT_NAME, _("In Use"),
+			    CATEGORY, GINT_TO_POINTER(-2),
+			    CAT_SEPARATOR, FALSE,
+			    -1);
 
-	gtk_list_store_insert_before (state->model, &sep_iter, NULL);
-	gtk_list_store_set (state->model, &sep_iter,
+	gtk_list_store_insert_before (state->model, &p_iter, NULL);
+	gtk_list_store_set (state->model, &p_iter,
 			    CAT_NAME, "-",
 			    CATEGORY, NULL,
 			    CAT_SEPARATOR, TRUE,
@@ -905,10 +931,11 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *selection,
 /**********************************************************************/
 
 static gchar const *
-dialog_function_select_get_description (GnmFunc const *func)
+dialog_function_select_get_description (GnmFunc *func)
 {
 	GnmFuncHelp const *help;
 
+	gnm_func_load_if_stub (func);
 	help = func->help;
 
 	if (help == NULL)
@@ -945,7 +972,7 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 	GtkTreeIter  iter;
 	GnmFuncGroup const * cat;
 	GSList *funcs = NULL, *ptr;
-	GnmFunc const *func;
+	GnmFunc *func;
 	gint i = 0;
 
 	gtk_list_store_clear (state->model_functions);
@@ -960,8 +987,8 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 	for (ptr = funcs; ptr; ptr = ptr->next) {
 		func = ptr->data;
 		if (!(func->flags & GNM_FUNC_INTERNAL)) {
-			TokenizedHelp *help = tokenized_help_new (func);
 			gtk_list_store_append (state->model_functions, &iter);
+			gnm_func_ref (func);
 			gtk_list_store_set 
 				(state->model_functions, &iter,
 				 FUN_NAME, gnm_func_get_name (func),
@@ -971,8 +998,8 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 				 FUNCTION_CAT, func->fn_group,
 				 FUNCTION_VISIBLE, TRUE,
 				 FUNCTION_RECENT, FALSE,
+				 FUNCTION_USED, (func->ref_count > 1),
 				 -1);
-			tokenized_help_destroy (help);
 		}
 	}
 	
@@ -1019,7 +1046,7 @@ dialog_function_select_init (FunctionSelectState *state)
 	state->model_functions = gtk_list_store_new 
 		(NUM_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER, 
 		 G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_BOOLEAN, 
-		 G_TYPE_BOOLEAN);
+		 G_TYPE_BOOLEAN, G_TYPE_BOOLEAN);
 
 	state->model_filter = gtk_tree_model_filter_new 
 		(GTK_TREE_MODEL (state->model_functions), NULL);
