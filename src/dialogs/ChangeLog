@@ -1,5 +1,16 @@
 2010-06-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* function-select.glade: add close button
+	* dialog-function-select.c (dialog_function_select_init):
+	  show and hide the appropriate widgets depending on whether
+	  we are in help mode
+	(cb_dialog_function_select_ok_clicked): only called the 
+	  formula guru if we aren't in help mode
+	(dialog_function_select): don't show the purposefully hidden
+	  widgets
+
+2010-06-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-function-select.c (cb_unref): new
 	(cb_dialog_function_select_search_all): handle "in use" 
 	  selection

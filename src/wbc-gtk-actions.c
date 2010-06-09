@@ -996,6 +996,7 @@ static GNM_ACTION_DEF (cb_data_show_detail)	{ hide_show_detail (wbcg, TRUE); }
 static GNM_ACTION_DEF (cb_data_group)		{ group_ungroup_colrow (wbcg, TRUE); }
 static GNM_ACTION_DEF (cb_data_ungroup)		{ group_ungroup_colrow (wbcg, FALSE); }
 
+static GNM_ACTION_DEF (cb_help_function)	{ dialog_function_select (wbcg, NULL); }
 static GNM_ACTION_DEF (cb_help_docs)
 {
 	char   *argv[] = { NULL, NULL, NULL };
@@ -1825,6 +1826,9 @@ static GtkActionEntry const permanent_actions[] = {
 	{ "HelpDocs", GTK_STOCK_HELP, N_("_Contents"),
 		"F1", N_("Open a viewer for Gnumeric's documentation"),
 		G_CALLBACK (cb_help_docs) },
+	{ "HelpFunctions", NULL, N_("_Functions"),
+		NULL, N_("Functions help"),
+		G_CALLBACK (cb_help_function) },
 	{ "HelpWeb", NULL, N_("Gnumeric on the _Web"),
 		NULL, N_("Browse to Gnumeric's website"),
 		G_CALLBACK (cb_help_web) },

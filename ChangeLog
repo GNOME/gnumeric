@@ -1,3 +1,11 @@
+2010-06-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	
+	* component/Gnumeric-embed.xml.in: add Function Help
+	* src/GNOME_Gnumeric-gtk.xml.in: ditto
+	* src/HILDON_Gnumeric-gtk.xml.in: ditto
+	* src/wbc-gtk-actions.c (cb_help_function): new
+	(permanent_actions): attach cb_help_function
+
 2010-06-07 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	for Konstantin Tokarev
 

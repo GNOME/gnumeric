@@ -341,7 +341,8 @@ cb_dialog_function_select_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	GnmFunc const *func;
 	GtkTreeSelection *the_selection = gtk_tree_view_get_selection (state->treeview);
 
-	if (gtk_tree_selection_get_selected (the_selection, &model, &iter)) {
+	if (state->formula_guru_key != NULL && 
+	    gtk_tree_selection_get_selected (the_selection, &model, &iter)) {
 		WBCGtk *wbcg = state->wbcg;
 		gtk_tree_model_get (model, &iter,
 				    FUNCTION, &func,
@@ -353,7 +354,6 @@ cb_dialog_function_select_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 		return;
 	}
 
-	g_assert_not_reached ();
 	gtk_widget_destroy (state->dialog);
 	return;
 }
@@ -1014,6 +1014,9 @@ dialog_function_select_init (FunctionSelectState *state)
 	GtkTextIter where;
 	GtkTextBuffer *description;
 	GtkCellRenderer *cell;
+	GtkWidget *cancel_button;
+	GtkWidget *close_button;
+	gboolean help_mode;
 
 	g_object_set_data (G_OBJECT (state->dialog), FUNCTION_SELECT_DIALOG_KEY,
 			   state);
@@ -1033,7 +1036,6 @@ dialog_function_select_init (FunctionSelectState *state)
 	gtk_combo_box_set_row_separator_func 
 		(state->cb, dialog_function_select_cat_row_separator,
 		 state, NULL);
-	gtk_combo_box_set_active (state->cb, 0);
 	g_signal_connect (state->cb, "changed", 
 			  G_CALLBACK (dialog_function_select_cat_changed),
 			  state);
@@ -1129,9 +1131,11 @@ dialog_function_select_init (FunctionSelectState *state)
 	g_signal_connect (G_OBJECT (state->ok_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_function_select_ok_clicked), state);
-	g_signal_connect (G_OBJECT 
-			  (glade_xml_get_widget (state->gui, "cancel_button")),
-		"clicked",
+	cancel_button = glade_xml_get_widget (state->gui, "cancel_button");
+	g_signal_connect (G_OBJECT (cancel_button), "clicked",
+		G_CALLBACK (cb_dialog_function_select_cancel_clicked), state);
+	close_button = glade_xml_get_widget (state->gui, "close_button");
+	g_signal_connect (G_OBJECT (close_button), "clicked",
 		G_CALLBACK (cb_dialog_function_select_cancel_clicked), state);
 
 	gnm_dialog_setup_destroy_handlers 
@@ -1146,6 +1150,19 @@ dialog_function_select_init (FunctionSelectState *state)
 		(G_OBJECT (state->dialog),
 		 "state", state, 
 		 (GDestroyNotify) cb_dialog_function_select_destroy);
+
+	help_mode = (state->formula_guru_key == NULL);
+
+	gtk_widget_set_visible (close_button, help_mode);
+	gtk_widget_set_visible (glade_xml_get_widget 
+				(state->gui, "help_button"), 
+				!help_mode);
+	gtk_widget_set_visible (cancel_button, !help_mode);
+	gtk_widget_set_visible (state->ok_button, !help_mode);
+	gtk_widget_set_visible (glade_xml_get_widget 
+				(state->gui, "title_label"), 
+				!help_mode);
+	gtk_combo_box_set_active (state->cb, help_mode ? 2 : 0);
 }
 
 void
@@ -1176,5 +1193,5 @@ dialog_function_select (WBCGtk *wbcg, char const *key)
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       FUNCTION_SELECT_KEY);
 
-	gtk_widget_show_all (state->dialog);
+	gtk_widget_show (state->dialog);
 }

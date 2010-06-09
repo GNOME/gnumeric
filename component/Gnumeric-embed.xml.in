@@ -264,6 +264,7 @@
     </menu>
     <menu name="Help" action="MenuHelp">
       <menuitem action="HelpDocs"/>
+      <menuitem action="HelpFunctions"/>
       <menuitem action="HelpWeb"/>
       <menuitem action="HelpIRC"/>
       <menuitem action="HelpBug"/>
