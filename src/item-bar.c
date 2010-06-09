@@ -23,6 +23,7 @@
 #include "gui-util.h"
 #include "parse-util.h"
 #include "commands.h"
+#include "dead-kittens.h"
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
@@ -286,7 +287,9 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 
 	/* The widget parameters could be NULL, but if so some themes would emit a warning.
 	 * (Murrine is known to do this: http://bugzilla.gnome.org/show_bug.cgi?id=564410). */
-	gtk_paint_shadow (widget->style, canvas->bin_window, GTK_STATE_NORMAL, shadow,
+	gtk_paint_shadow (widget->style,
+			  gtk_layout_get_bin_window (canvas),
+			  GTK_STATE_NORMAL, shadow,
 			  NULL, widget, "GnmItemBarCell",
 			  rect->x, rect->y, rect->width + 1, rect->height + 1);
 
@@ -444,7 +447,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 							else if (size < 6)
 								safety = 6 - size;
 
-							gtk_paint_shadow (canvas->style, GTK_LAYOUT (canvas)->bin_window,
+							gtk_paint_shadow (canvas->style, gtk_layout_get_bin_window (GTK_LAYOUT (canvas)),
 								 GTK_STATE_NORMAL,
 								 prev_visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
 								 NULL, NULL, "GnmItemBarCell",
@@ -476,7 +479,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 								safety = 6 - size;
 
 							right = (rtl ? (total + pixels) : total) - size;
-							gtk_paint_shadow (canvas->style, GTK_LAYOUT (canvas)->bin_window,
+							gtk_paint_shadow (canvas->style, gtk_layout_get_bin_window (GTK_LAYOUT (canvas)),
 								 GTK_STATE_NORMAL,
 								 prev_visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
 								 NULL, NULL, "GnmItemBarCell",
@@ -605,7 +608,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 							left = pos - dir * (.2 * inc - 2);
 							if (rtl)
 								left -= size;
-							gtk_paint_shadow (canvas->style, GTK_LAYOUT (canvas)->bin_window,
+							gtk_paint_shadow (canvas->style, gtk_layout_get_bin_window (GTK_LAYOUT (canvas)),
 								 GTK_STATE_NORMAL,
 								 prev_visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
 								 NULL, NULL, "GnmItemBarCell",
@@ -639,7 +642,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 							if (rtl)
 								left -= size;
 							bottom = total - size;
-							gtk_paint_shadow (canvas->style, GTK_LAYOUT (canvas)->bin_window,
+							gtk_paint_shadow (canvas->style, gtk_layout_get_bin_window (GTK_LAYOUT (canvas)),
 								 GTK_STATE_NORMAL,
 								 next->visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
 								 NULL, NULL, "GnmItemBarCell",

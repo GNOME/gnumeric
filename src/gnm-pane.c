@@ -39,6 +39,7 @@
 #include "item-edit.h"
 #include "item-grid.h"
 #include "gnumeric-gconf.h"
+#include "dead-kittens.h"
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -957,9 +958,10 @@ GSF_CLASS (GnmPane, gnm_pane,
 	   GNM_SIMPLE_CANVAS_TYPE)
 
 static void
-cb_gnm_pane_header_realized (GtkWidget *widget)
+cb_gnm_pane_header_realized (GtkLayout *layout)
 {
-	gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE);
+	GdkWindow *window = gtk_layout_get_bin_window (layout);
+	gdk_window_set_back_pixmap (window, NULL, FALSE);
 }
 
 static void

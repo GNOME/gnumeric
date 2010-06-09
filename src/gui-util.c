@@ -23,6 +23,7 @@
 #include "workbook.h"
 #include "libgnumeric.h"
 #include "wbc-gtk.h"
+#include "dead-kittens.h"
 #include "widgets/gnumeric-expr-entry.h"
 
 #include <goffice/goffice.h>
@@ -1353,7 +1354,7 @@ void
 gnm_canvas_get_position (GocCanvas *canvas, int *x, int *y, gint64 px, gint64 py)
 {
 	GtkWidget *cw = GTK_WIDGET (canvas);
-	GdkWindow *cbw = GTK_LAYOUT (cw)->bin_window;
+	GdkWindow *cbw = gtk_layout_get_bin_window (GTK_LAYOUT (cw));
 	int wx, wy;
 	int ox = 0, oy = 0;
 
@@ -1390,7 +1391,7 @@ gnm_canvas_get_screen_position (GocCanvas *canvas,
 				double x, double y,
 				int *ix, int *iy)
 {
-	GdkWindow *cbw = GTK_LAYOUT (canvas)->bin_window;
+	GdkWindow *cbw = gtk_layout_get_bin_window (GTK_LAYOUT (canvas));
 	int wx, wy;
 
 	gdk_window_get_origin (cbw, &wx, &wy);
