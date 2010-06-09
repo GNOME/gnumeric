@@ -191,17 +191,17 @@ dialog_function_select_search (GtkEntry *entry, gpointer data)
 				(gpointer) &specs);
 }
 
+#ifdef HAVE_GTK_ENTRY_SET_ICON_FROM_STOCK
 static void
 dialog_function_select_erase_search_entry (GtkEntry *entry,
-#ifdef HAVE_GTK_ENTRY_SET_ICON_FROM_STOCK
 			      G_GNUC_UNUSED GtkEntryIconPosition icon_pos,
 			      G_GNUC_UNUSED GdkEvent *event,
-#endif
 			      gpointer data)
 {
 	gtk_entry_set_text (entry, "");
 	dialog_function_select_search (entry, data);
 }
+#endif
 
 static void
 dialog_function_select_cat_changed (G_GNUC_UNUSED GtkComboBox *widget,

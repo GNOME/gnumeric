@@ -1,5 +1,11 @@
 2010-06-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-function-select.c 
+	(dialog_function_select_erase_search_entry): only include for 
+	  newer gtk
+	
+2010-06-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-function-select.c (dialog_function_select_init):
 	  change the dialog title to reflect help mode
 	(dialog_function_select): use a differnt key in help mode to 
