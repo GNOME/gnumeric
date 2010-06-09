@@ -172,6 +172,8 @@ dialog_function_select_search (GtkEntry *entry, gpointer data)
 		specs.recent_only 
 			= (specs.cat != NULL && 
 			   specs.cat == GINT_TO_POINTER(-1));
+		if (specs.recent_only)
+			specs.cat = NULL;
 	}
 	
 	gtk_tree_model_foreach (GTK_TREE_MODEL (state->model_functions),
@@ -203,6 +205,26 @@ dialog_function_select_cat_changed (G_GNUC_UNUSED GtkComboBox *widget,
 
 /*************************************************************************/
 
+static gboolean
+cb_dialog_function_load_recent_funcs(GtkTreeModel *model,
+				     GtkTreePath *path,
+				     GtkTreeIter *iter,
+				     gpointer data)
+{
+	gpointer this;
+
+	gtk_tree_model_get (model, iter,
+			    FUNCTION, &this,
+			    -1);
+	if (this == data) {
+		gtk_list_store_set (GTK_LIST_STORE (model), iter,
+				    FUNCTION_RECENT, TRUE,
+				    -1);
+		return TRUE;
+	}
+	return FALSE;
+}
+
 static void
 dialog_function_load_recent_funcs (FunctionSelectState *state)
 {
@@ -218,8 +240,12 @@ dialog_function_load_recent_funcs (FunctionSelectState *state)
 			continue;
 
 		fd = gnm_func_lookup (name, NULL);
-		if (fd)
+		if (fd) {
 			state->recent_funcs = g_slist_prepend (state->recent_funcs, fd);
+			gtk_tree_model_foreach (GTK_TREE_MODEL (state->model_functions),
+						cb_dialog_function_load_recent_funcs,
+						fd);
+		}
 	}
 }
 

@@ -1,5 +1,13 @@
 2010-06-08 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-function-select.c (dialog_function_select_search):
+	  for "recent" functions, reset the category to NULL
+	(cb_dialog_function_load_recent_funcs): new
+	(dialog_function_load_recent_funcs): toggle the recent flag
+	  for recently used functions
+
+2010-06-08 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* function-select.glade: redesign
 	* dialog-function-select.c: rewrite nearly completely to
 	  use a GtkTreeModelFilter and to provide search ability
