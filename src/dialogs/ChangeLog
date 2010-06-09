@@ -1,3 +1,9 @@
+2010-06-08 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* function-select.glade: redesign
+	* dialog-function-select.c: rewrite nearly completely to
+	  use a GtkTreeModelFilter and to provide search ability
+
 2010-06-07 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* search-replace.glade: add apply button

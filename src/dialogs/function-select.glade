@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--*- mode: xml -*-->
+<?xml version="1.0"?>
 <glade-interface>
+  <!-- interface-requires gtk+ 2.6 -->
+  <!-- interface-naming-policy toplevel-contextual -->
   <widget class="GtkDialog" id="selection_dialog">
     <property name="width_request">620</property>
     <property name="height_request">550</property>
     <property name="border_width">6</property>
     <property name="title" translatable="yes">Function Selector</property>
-    <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
+    <property name="type_hint">dialog</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
-        <property name="spacing">6</property>
+        <property name="spacing">2</property>
         <child>
           <widget class="GtkLabel" id="label4">
             <property name="visible">True</property>
@@ -26,118 +26,126 @@
           </packing>
         </child>
         <child>
+          <placeholder/>
+        </child>
+        <child>
           <widget class="GtkVPaned" id="vpaned1">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="border_width">4</property>
             <child>
-              <widget class="GtkHPaned" id="hpaned1">
+              <widget class="GtkVBox" id="vbox1">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
                 <child>
-                  <widget class="GtkFrame" id="frame1">
+                  <widget class="GtkHBox" id="hbox1">
                     <property name="visible">True</property>
-                    <property name="label_xalign">0</property>
-                    <property name="shadow_type">GTK_SHADOW_NONE</property>
-                    <child>
-                      <widget class="GtkScrolledWindow" id="scrolled_tree">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="border_width">5</property>
-                        <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                        <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                        <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
-                      </widget>
-                    </child>
                     <child>
                       <widget class="GtkLabel" id="label1">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">Category</property>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">Category:</property>
                       </widget>
                       <packing>
-                        <property name="type">label_item</property>
+                        <property name="expand">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkComboBox" id="category-box">
+                        <property name="visible">True</property>
+                        <property name="has_frame">False</property>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="padding">5</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkVSeparator" id="vseparator1"/>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="padding">5</property>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkImage" id="image1">
+                        <property name="visible">True</property>
+                        <property name="stock">gtk-find</property>
+                        <property name="icon-size">2</property>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="pack_type">end</property>
+                        <property name="position">4</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkEntry" id="search-entry">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="invisible_char">&#x25CF;</property>
+                      </widget>
+                      <packing>
+                        <property name="pack_type">end</property>
+                        <property name="position">3</property>
                       </packing>
                     </child>
                   </widget>
                   <packing>
-                    <property name="resize">True</property>
-                    <property name="shrink">True</property>
+                    <property name="expand">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkFrame" id="frame2">
-                    <property name="width_request">140</property>
+                  <widget class="GtkScrolledWindow" id="scrolled_list">
                     <property name="visible">True</property>
-                    <property name="label_xalign">0</property>
-                    <property name="shadow_type">GTK_SHADOW_NONE</property>
+                    <property name="can_focus">True</property>
+                    <property name="border_width">5</property>
+                    <property name="hscrollbar_policy">automatic</property>
+                    <property name="vscrollbar_policy">automatic</property>
+                    <property name="shadow_type">etched-in</property>
                     <child>
-                      <widget class="GtkScrolledWindow" id="scrolled_list">
+                      <widget class="GtkTreeView" id="function-list">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="border_width">5</property>
-                        <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                        <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                        <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
                       </widget>
-                    </child>
-                    <child>
-                      <widget class="GtkLabel" id="label2">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">Function</property>
-                      </widget>
-                      <packing>
-                        <property name="type">label_item</property>
-                      </packing>
                     </child>
                   </widget>
                   <packing>
-                    <property name="resize">True</property>
-                    <property name="shrink">True</property>
+                    <property name="position">1</property>
                   </packing>
                 </child>
               </widget>
               <packing>
                 <property name="resize">False</property>
-                <property name="shrink">True</property>
+                <property name="shrink">False</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkFrame" id="frame3">
+              <widget class="GtkScrolledWindow" id="scrolled_desc">
                 <property name="visible">True</property>
-                <property name="label_xalign">0</property>
-                <property name="shadow_type">GTK_SHADOW_NONE</property>
+                <property name="can_focus">True</property>
+                <property name="border_width">5</property>
+                <property name="hscrollbar_policy">automatic</property>
+                <property name="shadow_type">etched-in</property>
                 <child>
-                  <widget class="GtkScrolledWindow" id="scrolled_desc">
+                  <widget class="GtkTextView" id="description">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="border_width">5</property>
-                    <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                    <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
-                    <child>
-                      <widget class="GtkTextView" id="description">
-                        <property name="visible">True</property>
-                        <property name="editable">False</property>
-                        <property name="wrap_mode">GTK_WRAP_WORD</property>
-                        <property name="cursor_visible">False</property>
-			<property name="right_margin">5</property>
-			<property name="left_margin">5</property>
-                      </widget>
-                    </child>
+                    <property name="editable">False</property>
+                    <property name="wrap_mode">word</property>
+                    <property name="left_margin">5</property>
+                    <property name="right_margin">5</property>
+                    <property name="cursor_visible">False</property>
                   </widget>
-                </child>
-                <child>
-                  <widget class="GtkLabel" id="label3">
-                    <property name="visible">True</property>
-                    <property name="label" translatable="yes">Description</property>
-                  </widget>
-                  <packing>
-                    <property name="type">label_item</property>
-                  </packing>
                 </child>
               </widget>
               <packing>
-                <property name="resize">True</property>
-                <property name="shrink">True</property>
+                <property name="resize">False</property>
+                <property name="shrink">False</property>
               </packing>
             </child>
           </widget>
@@ -148,47 +156,56 @@
         <child internal-child="action_area">
           <widget class="GtkHButtonBox" id="dialog-action_area1">
             <property name="visible">True</property>
-            <property name="layout_style">GTK_BUTTONBOX_END</property>
+            <property name="layout_style">end</property>
             <child>
               <widget class="GtkButton" id="help_button">
+                <property name="label">gtk-help</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
-                <property name="label">gtk-help</property>
+                <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
-                <property name="response_id">0</property>
               </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
             </child>
             <child>
               <widget class="GtkButton" id="cancel_button">
+                <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
-                <property name="label">gtk-cancel</property>
+                <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
-                <property name="response_id">0</property>
               </widget>
               <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
                 <property name="position">1</property>
               </packing>
             </child>
             <child>
               <widget class="GtkButton" id="ok_button">
+                <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="label">gtk-ok</property>
                 <property name="use_stock">True</property>
-                <property name="response_id">0</property>
               </widget>
               <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
                 <property name="position">2</property>
               </packing>
             </child>
           </widget>
           <packing>
             <property name="expand">False</property>
-            <property name="pack_type">GTK_PACK_END</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
           </packing>
         </child>
       </widget>

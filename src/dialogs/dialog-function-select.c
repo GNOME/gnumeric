@@ -4,9 +4,9 @@
  *
  * Authors:
  *  Michael Meeks <michael@ximian.com>
- *  Andreas J. Guelzow <aguelzow@taliesin.ca>
+ *  Andreas J. Guelzow <aguelzow@pyrshep.ca>
  *
- * Copyright (C) Andreas J. Guelzow <aguelzow@taliesin.ca>
+ * Copyright (C) 2003-2010 Andreas J. Guelzow <aguelzow@pyrshep.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,11 +58,13 @@ typedef struct {
 	GladeXML  *gui;
 	GtkWidget *dialog;
 	GtkWidget *ok_button;
-	GtkTreeStore  *model;
+	GtkListStore  *model;
+	GtkComboBox   *cb;
+	GtkListStore  *model_functions;
+	GtkTreeModel  *model_filter;
 	GtkTreeView   *treeview;
-	GtkListStore  *model_f;
-	GtkTreeView   *treeview_f;
 	GtkTextView   *description_view;
+	GtkWidget     *search_entry;
 
 	GSList *recent_funcs;
 
@@ -72,14 +74,134 @@ typedef struct {
 enum {
 	CAT_NAME,
 	CATEGORY,
+	CAT_SEPARATOR,
 	NUM_COLMNS
 };
 enum {
 	FUN_NAME,
 	FUNCTION,
+	FUNCTION_DESC,
 	FUNCTION_CAT,
+	FUNCTION_VISIBLE,
+	FUNCTION_RECENT,
 	NUM_COLUMNS
 };
+
+/*************************************************************************/
+/* Search Functions  */
+/*************************************************************************/
+
+typedef struct {
+	char const *text;
+	gboolean recent_only;
+	GnmFuncGroup const * cat;
+} search_t;
+
+static gboolean
+cb_dialog_function_select_search_all (GtkTreeModel *model, GtkTreePath *path,
+		       GtkTreeIter *iter, gpointer data)
+{
+	search_t *specs = data;
+	gchar *name;
+	gchar *desc;
+	gboolean visible, was_visible, recent;
+	GnmFuncGroup const * cat;
+
+	gtk_tree_model_get (model, iter,
+			    FUN_NAME, &name,
+			    FUNCTION_DESC, &desc,
+			    FUNCTION_VISIBLE, &was_visible,
+			    FUNCTION_RECENT, &recent,
+			    FUNCTION_CAT, &cat,
+			    -1);
+	
+	if (specs->recent_only && !recent)
+		visible = FALSE;
+	else if (specs->cat != NULL && specs->cat != cat)
+		visible = FALSE;
+	else if (specs->text == NULL)
+		visible = TRUE;
+	else {
+		gchar *name_n, *name_cf, *text_n, *text_cf;
+
+		text_n = g_utf8_normalize (specs->text, -1, G_NORMALIZE_ALL);
+		text_cf = g_utf8_casefold(text_n, -1);
+
+		name_n = g_utf8_normalize (name, -1, G_NORMALIZE_ALL);
+		name_cf = g_utf8_casefold(name_n, -1);
+		visible = (NULL != g_strstr_len (name_cf, -1, text_cf));
+		g_free (name_n); 
+		g_free (name_cf);
+
+		if (!visible) {
+			name_n = g_utf8_normalize (desc, -1, G_NORMALIZE_ALL);
+			name_cf = g_utf8_casefold(name_n, -1);
+			visible = (NULL != g_strstr_len (name_cf, -1, text_cf));
+			g_free (name_n); 
+			g_free (name_cf);
+		}
+
+		g_free (text_n); 
+		g_free (text_cf);
+	
+
+		g_free (name);
+		g_free (desc);
+	}
+	if (visible != was_visible)
+		gtk_list_store_set (GTK_LIST_STORE (model), iter, 
+				    FUNCTION_VISIBLE, visible,
+				    -1);
+	return FALSE;
+}
+
+static void
+dialog_function_select_search (GtkEntry *entry, gpointer data)
+{
+	search_t specs = {NULL, FALSE, NULL};
+	FunctionSelectState *state = data;
+	GtkTreeIter iter;
+
+	if (0 != gtk_entry_get_text_length (entry))
+		specs.text = gtk_entry_get_text (entry);
+
+	if (gtk_combo_box_get_active_iter (state->cb, &iter)) {
+		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
+				    CATEGORY, &specs.cat,
+				    -1);
+		specs.recent_only 
+			= (specs.cat != NULL && 
+			   specs.cat == GINT_TO_POINTER(-1));
+	}
+	
+	gtk_tree_model_foreach (GTK_TREE_MODEL (state->model_functions),
+				cb_dialog_function_select_search_all, 
+				(gpointer) &specs);
+}
+
+static void
+dialog_function_select_erase_search_entry (GtkEntry *entry,
+#ifdef HAVE_GTK_ENTRY_SET_ICON_FROM_STOCK
+			      G_GNUC_UNUSED GtkEntryIconPosition icon_pos,
+			      G_GNUC_UNUSED GdkEvent *event,
+#endif
+			      gpointer data)
+{
+	gtk_entry_set_text (entry, "");
+	dialog_function_select_search (entry, data);
+}
+
+static void
+dialog_function_select_cat_changed (G_GNUC_UNUSED GtkComboBox *widget,
+				    gpointer data)
+{
+	FunctionSelectState *state = data;
+
+	dialog_function_select_search (GTK_ENTRY (state->search_entry), 
+				       data);
+}
+
+/*************************************************************************/
 
 static void
 dialog_function_load_recent_funcs (FunctionSelectState *state)
@@ -136,10 +258,6 @@ cb_dialog_function_select_destroy (FunctionSelectState  *state)
 
 	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
-	if (state->model != NULL)
-		g_object_unref (G_OBJECT (state->model));
-	if (state->model_f != NULL)
-		g_object_unref (G_OBJECT (state->model_f));
 	g_slist_free (state->recent_funcs);
 	g_free (state);
 }
@@ -173,7 +291,7 @@ cb_dialog_function_select_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	GtkTreeIter  iter;
 	GtkTreeModel *model;
 	GnmFunc const *func;
-	GtkTreeSelection *the_selection = gtk_tree_view_get_selection (state->treeview_f);
+	GtkTreeSelection *the_selection = gtk_tree_view_get_selection (state->treeview);
 
 	if (gtk_tree_selection_get_selected (the_selection, &model, &iter)) {
 		WBCGtk *wbcg = state->wbcg;
@@ -201,36 +319,108 @@ dialog_function_select_by_name (gconstpointer _a, gconstpointer _b)
 	return strcmp (gnm_func_get_name (a), gnm_func_get_name (b));
 }
 
+/*************************************************************************/
+/* Functions related to the category selector                            */
+/*************************************************************************/
+
+typedef struct {
+	char const *name;
+	GtkTreeIter *iter;
+} dialog_function_select_load_cb_t;
+
+static gboolean
+cb_dialog_function_select_load_cb (GtkTreeModel *model,
+				   GtkTreePath *path,
+				   GtkTreeIter *iter,
+				   gpointer data)
+{
+	dialog_function_select_load_cb_t *specs = data;
+	gchar *name;
+	gpointer ptr;
+
+	gtk_tree_model_get (model, iter,
+			    CAT_NAME, &name,
+			    CATEGORY, &ptr,
+			    -1);
+	
+	if (ptr == NULL || ptr == GINT_TO_POINTER(-1))
+		return FALSE;
+	if (go_utf8_collate_casefold (specs->name, name) < 0) {
+		specs->iter = gtk_tree_iter_copy (iter);
+		return TRUE;
+	}
+	return FALSE;
+}
+
 static void
-dialog_function_select_load_tree (FunctionSelectState *state)
+dialog_function_select_load_cb (FunctionSelectState *state)
 {
 	int i = 0;
 	GtkTreeIter p_iter;
+	GtkTreeIter all_fun_iter;
+	GtkTreeIter recent_iter;
+	GtkTreeIter sep_iter;
 	GnmFuncGroup const * cat;
 
-	gtk_tree_store_clear (state->model);
+	gtk_list_store_clear (state->model);
 
-	gtk_tree_store_append (state->model, &p_iter, NULL);
-	gtk_tree_store_set (state->model, &p_iter,
-			    CAT_NAME, _("Recently Used"),
+	gtk_list_store_insert_before (state->model, &all_fun_iter, NULL);
+	gtk_list_store_set (state->model, &all_fun_iter,
+			    CAT_NAME, _("All Functions"),
 			    CATEGORY, NULL,
+			    CAT_SEPARATOR, FALSE,
 			    -1);
-	gtk_tree_store_append (state->model, &p_iter, NULL);
-	gtk_tree_store_set (state->model, &p_iter,
-			    CAT_NAME, _("All Functions (long list)"),
+	gtk_list_store_insert_before (state->model, &recent_iter, NULL);
+	gtk_list_store_set (state->model, &recent_iter,
+			    CAT_NAME, _("Recently Used"),
 			    CATEGORY, GINT_TO_POINTER(-1),
+			    CAT_SEPARATOR, FALSE,
+			    -1);
+
+	gtk_list_store_insert_before (state->model, &sep_iter, NULL);
+	gtk_list_store_set (state->model, &sep_iter,
+			    CAT_NAME, "-",
+			    CATEGORY, NULL,
+			    CAT_SEPARATOR, TRUE,
 			    -1);
 
 	while ((cat = gnm_func_group_get_nth (i++)) != NULL) {
-		gtk_tree_store_append (state->model, &p_iter, NULL);
-		gtk_tree_store_set (state->model, &p_iter,
-				    CAT_NAME, _(cat->display_name->str),
-				    CATEGORY, cat,
-				    -1);
-	}
+		dialog_function_select_load_cb_t specs;
+		specs.name = _(cat->display_name->str);
+		specs.iter = NULL;
 
+		gtk_tree_model_foreach (GTK_TREE_MODEL (state->model),
+					cb_dialog_function_select_load_cb,
+					&specs);
+
+		gtk_list_store_insert_before (state->model, &p_iter, specs.iter);
+		gtk_list_store_set (state->model, &p_iter,
+				    CAT_NAME, specs.name,
+				    CATEGORY, cat,
+				    CAT_SEPARATOR, FALSE,
+				    -1);
+		if (specs.iter != NULL)
+			gtk_tree_iter_free (specs.iter);
+	}
 }
 
+static gboolean
+dialog_function_select_cat_row_separator (GtkTreeModel *model,
+					  GtkTreeIter *iter,
+					  G_GNUC_UNUSED gpointer data)
+{
+	gboolean sep;
+
+	gtk_tree_model_get (model, iter,
+			    CAT_SEPARATOR, &sep,
+			    -1);
+
+	return sep;
+}
+
+/*************************************************************************/
+/* Functions related to the description field                            */
+/*************************************************************************/
 
 static GtkTextTag *
 make_link (GtkTextBuffer *description, const char *name,
@@ -520,30 +710,11 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func, Sheet *shee
 #undef ADD_LINK_TEXT
 
 typedef struct {
-	GnmFuncGroup const * cat;
 	GnmFunc    *fd;
 	FunctionSelectState *state;
-	GtkTreeIter *iter;
+	GtkTreePath *path;
 } dialog_function_select_find_func_t;
 
-static gboolean
-dialog_function_select_search_cat_func (GtkTreeModel *model,
-					GtkTreePath *path,
-					GtkTreeIter *iter,
-					gpointer dt)
-{
-	GnmFuncGroup const * cat;
-	dialog_function_select_find_func_t *data = dt;
-
-	gtk_tree_model_get (model, iter,
-			    CATEGORY, &cat,
-			    -1);
-	if (cat == data->cat) {
-		data->iter = gtk_tree_iter_copy (iter);
-		return TRUE;
-	}
-	return FALSE;
-}
 
 static gboolean
 dialog_function_select_search_func (GtkTreeModel *model,
@@ -558,7 +729,7 @@ dialog_function_select_search_func (GtkTreeModel *model,
 			    FUNCTION, &fd,
 			    -1);
 	if (fd == data->fd) {
-		data->iter = gtk_tree_iter_copy (iter);
+		data->path = gtk_tree_path_copy (path);
 		return TRUE;
 	}
 	return FALSE;
@@ -574,52 +745,37 @@ dialog_function_select_find_func (FunctionSelectState *state, char* name)
 
 	fd = gnm_func_lookup (name, state->wb);
 	if (fd != NULL) {
-		dialog_function_select_find_func_t data;
+		dialog_function_select_find_func_t data = {fd, state, NULL};
+		GtkTreeSelection *selection = gtk_tree_view_get_selection
+			(state->treeview);
+		GtkTreePath *path;
 
-		data.cat = fd->fn_group;
-		data.state = state;
-		data.iter = NULL;
-
-		gtk_tree_model_foreach (GTK_TREE_MODEL (state->model),
-					dialog_function_select_search_cat_func,
+		gtk_tree_model_foreach (GTK_TREE_MODEL (state->model_functions),
+					dialog_function_select_search_func,
 					&data);
-		if (data.iter != NULL) {
-			GtkTreeSelection *selection = gtk_tree_view_get_selection
-				(state->treeview);
-			GtkTreePath *path;
+		if (data.path != NULL) {
+			GtkTreeIter iter;
+			if (gtk_tree_model_get_iter 
+			    (GTK_TREE_MODEL (state->model_functions), &iter,
+                             data.path))
+				gtk_list_store_set (state->model_functions, 
+						    &iter, 
+						    FUNCTION_VISIBLE, TRUE,
+						    -1);
 
-			gtk_tree_selection_select_iter (selection,
-                                                        data.iter);
-			path = gtk_tree_model_get_path (GTK_TREE_MODEL (state->model),
-                                                        data.iter);
+			path = gtk_tree_model_filter_convert_child_path_to_path
+				(GTK_TREE_MODEL_FILTER (state->model_filter), 
+				 data.path);
+
+			gtk_tree_selection_select_path (selection,
+							path);
 			gtk_tree_view_scroll_to_cell (state->treeview, path,
 						      NULL, FALSE, 0., 0.);
 			gtk_tree_path_free (path);
-			gtk_tree_iter_free (data.iter);
-			data.iter = NULL;
-			data.fd = fd;
-
-			gtk_tree_model_foreach (GTK_TREE_MODEL (state->model_f),
-					dialog_function_select_search_func,
-					&data);
-			if (data.iter != NULL) {
-				selection = gtk_tree_view_get_selection
-					(state->treeview_f);
-
-				gtk_tree_selection_select_iter (selection,
-								data.iter);
-				path = gtk_tree_model_get_path (GTK_TREE_MODEL (state->model_f),
-								data.iter);
-				gtk_tree_view_scroll_to_cell (state->treeview_f, path,
-							      NULL, FALSE, 0., 0.);
-				gtk_tree_path_free (path);
-				gtk_tree_iter_free (data.iter);
-				data.iter = NULL;
-			} else
-				g_warning ("Function %s was not found in its category", name);
-
+			gtk_tree_path_free (data.path);
 		} else
-			g_warning ("Category of function %s was not found", name);
+			g_warning ("Function %s was not found in its category", name);
+		
 	} else
 		g_warning ("Function %s was not found", name);
 }
@@ -718,130 +874,195 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *selection,
 	}
 }
 
+/**********************************************************************/
+/* Setup Functions */
+/**********************************************************************/
+
+static gchar const *
+dialog_function_select_get_description (GnmFunc const *func)
+{
+	GnmFuncHelp const *help;
+
+	help = func->help;
+
+	if (help == NULL)
+		return "";
+
+	for (; TRUE; help++) {
+		switch (help->type) {
+		case GNM_FUNC_HELP_ARG:
+		case GNM_FUNC_HELP_NOTE:
+		case GNM_FUNC_HELP_EXAMPLES:
+		case GNM_FUNC_HELP_SEEALSO:
+		case GNM_FUNC_HELP_EXTREF:
+		case GNM_FUNC_HELP_EXCEL:
+		case GNM_FUNC_HELP_ODF:
+		case GNM_FUNC_HELP_DESCRIPTION:
+		default:
+			break;
+		case GNM_FUNC_HELP_NAME: {
+			const char *text = F2 (func, help->text);
+			const char *colon = strchr (text, ':');
+			return (colon ? colon + 1 : text);
+		}
+		case GNM_FUNC_HELP_END:
+			return "";
+		}
+	}
+}
+
+
+
 static void
-cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection,
-						 FunctionSelectState *state)
+dialog_function_select_load_tree (FunctionSelectState *state)
 {
 	GtkTreeIter  iter;
-	GtkTreeModel *model;
 	GnmFuncGroup const * cat;
 	GSList *funcs = NULL, *ptr;
 	GnmFunc const *func;
-	gboolean cat_specific = FALSE;
+	gint i = 0;
 
-	gtk_list_store_clear (state->model_f);
+	gtk_list_store_clear (state->model_functions);
 
-	if (gtk_tree_selection_get_selected (the_selection, &model, &iter)) {
-		gtk_tree_model_get (model, &iter,
-				    CATEGORY, &cat,
-				    -1);
-		if (cat != NULL) {
-			if (cat == GINT_TO_POINTER(-1)) {
-				/*  Show all functions */
-				int i = 0;
+	while ((cat = gnm_func_group_get_nth (i++)) != NULL)
+		funcs = g_slist_concat (funcs,
+					g_slist_copy (cat->functions));
+	
+	funcs = g_slist_sort (funcs,
+			      dialog_function_select_by_name);
 
-				while ((cat = gnm_func_group_get_nth (i++)) != NULL)
-					funcs = g_slist_concat (funcs,
-							g_slist_copy (cat->functions));
-
-				funcs = g_slist_sort (funcs,
-						      dialog_function_select_by_name);
-			} else {
-				/* Show category cat */
-				funcs = g_slist_sort (g_slist_copy (cat->functions),
-						      dialog_function_select_by_name);
-				cat_specific = TRUE;
-			}
-		} else
-			/* Show recent functions */
-			funcs = state->recent_funcs;
-
-		for (ptr = funcs; ptr; ptr = ptr->next) {
-			func = ptr->data;
-			if (!(func->flags & GNM_FUNC_INTERNAL)) {
-				gtk_list_store_append (state->model_f, &iter);
-				gtk_list_store_set (state->model_f, &iter,
-						    FUN_NAME, gnm_func_get_name (func),
-						    FUNCTION_CAT,
-						    cat_specific ? "" : _(func->fn_group->display_name->str),
-						    FUNCTION, func,
-						    -1);
-			}
+	for (ptr = funcs; ptr; ptr = ptr->next) {
+		func = ptr->data;
+		if (!(func->flags & GNM_FUNC_INTERNAL)) {
+			TokenizedHelp *help = tokenized_help_new (func);
+			gtk_list_store_append (state->model_functions, &iter);
+			gtk_list_store_set 
+				(state->model_functions, &iter,
+				 FUN_NAME, gnm_func_get_name (func),
+				 FUNCTION, func,
+				 FUNCTION_DESC, 
+				 dialog_function_select_get_description (func),
+				 FUNCTION_CAT, func->fn_group,
+				 FUNCTION_VISIBLE, TRUE,
+				 FUNCTION_RECENT, FALSE,
+				 -1);
+			tokenized_help_destroy (help);
 		}
-
-		gtk_tree_view_scroll_to_point (state->treeview_f, 0, 0);
-
-		if (funcs != state->recent_funcs)
-			g_slist_free (funcs);
 	}
+	
+	g_slist_free (funcs);
 }
 
 static void
 dialog_function_select_init (FunctionSelectState *state)
 {
-	GtkWidget *scrolled;
 	GtkTreeViewColumn *column;
 	GtkTreeSelection *selection;
 	GtkTextIter where;
 	GtkTextBuffer *description;
-
-	dialog_function_load_recent_funcs (state);
+	GtkCellRenderer *cell;
 
 	g_object_set_data (G_OBJECT (state->dialog), FUNCTION_SELECT_DIALOG_KEY,
 			   state);
 
-	/* Set-up first treeview */
-	scrolled = glade_xml_get_widget (state->gui, "scrolled_tree");
-	state->model = gtk_tree_store_new (NUM_COLMNS, G_TYPE_STRING, G_TYPE_POINTER);
-	state->treeview = GTK_TREE_VIEW (
-		gtk_tree_view_new_with_model (GTK_TREE_MODEL (state->model)));
+	/* Set-up combo box */
+	state->cb = GTK_COMBO_BOX 
+		(glade_xml_get_widget (state->gui, "category-box"));
+	state->model = gtk_list_store_new 
+		(NUM_COLMNS, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_BOOLEAN);
+
+	gtk_combo_box_set_model (state->cb, GTK_TREE_MODEL (state->model));
+	cell = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (state->cb), cell, TRUE);
+	gtk_cell_layout_add_attribute 
+		(GTK_CELL_LAYOUT (state->cb), cell, "text", CAT_NAME);
+	dialog_function_select_load_cb (state);
+	gtk_combo_box_set_row_separator_func 
+		(state->cb, dialog_function_select_cat_row_separator,
+		 state, NULL);
+	gtk_combo_box_set_active (state->cb, 0);
+	g_signal_connect (state->cb, "changed", 
+			  G_CALLBACK (dialog_function_select_cat_changed),
+			  state);
+	/* Finished set-up of combo box */
+
+	/* Set-up treeview */
+
+/* 	dialog_function_select_load_tree (state); */
+	
+	state->model_functions = gtk_list_store_new 
+		(NUM_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER, 
+		 G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_BOOLEAN, 
+		 G_TYPE_BOOLEAN);
+
+	state->model_filter = gtk_tree_model_filter_new 
+		(GTK_TREE_MODEL (state->model_functions), NULL);
+	gtk_tree_model_filter_set_visible_column
+		(GTK_TREE_MODEL_FILTER (state->model_filter), FUNCTION_VISIBLE);
+
+	state->treeview= GTK_TREE_VIEW 
+		(glade_xml_get_widget (state->gui, "function-list"));
+	gtk_tree_view_set_model (state->treeview, 
+				 state->model_filter);
+
 	selection = gtk_tree_view_get_selection (state->treeview);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
-	g_signal_connect (selection,
-		"changed",
-		G_CALLBACK (cb_dialog_function_select_cat_selection_changed), state);
+	g_signal_connect (selection, "changed",
+			  G_CALLBACK 
+			  (cb_dialog_function_select_fun_selection_changed), 
+			  state);
 
-	column = gtk_tree_view_column_new_with_attributes (_("Name"),
-							   gtk_cell_renderer_text_new (),
-							   "text", CAT_NAME, NULL);
-	gtk_tree_view_column_set_sort_column_id (column, CAT_NAME);
+	column = gtk_tree_view_column_new_with_attributes 
+		(_("Name"),
+		 gtk_cell_renderer_text_new (),
+		 "text", FUN_NAME, NULL);
+	gtk_tree_view_append_column (state->treeview, column);
+	column = gtk_tree_view_column_new_with_attributes 
+		(_("Description"),
+		 gtk_cell_renderer_text_new (),
+		 "text", FUNCTION_DESC, NULL);
 	gtk_tree_view_append_column (state->treeview, column);
 
 	gtk_tree_view_set_headers_visible (state->treeview, FALSE);
-	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (state->treeview));
+	/* Finished set-up of treeview */
+
 	dialog_function_select_load_tree (state);
-	/* Finished set-up of first treeview */
+	dialog_function_load_recent_funcs (state);
 
-	/* Set-up second treeview */
-	scrolled = glade_xml_get_widget (state->gui, "scrolled_list");
-	state->model_f = gtk_list_store_new (NUM_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_STRING);
-	state->treeview_f = GTK_TREE_VIEW (
-		gtk_tree_view_new_with_model (GTK_TREE_MODEL (state->model_f)));
-	selection = gtk_tree_view_get_selection (state->treeview_f);
-	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
-	g_signal_connect (selection,
-		"changed",
-		G_CALLBACK (cb_dialog_function_select_fun_selection_changed), state);
+	state->search_entry = glade_xml_get_widget (state->gui, 
+						    "search-entry");
+#ifdef HAVE_GTK_ENTRY_SET_ICON_FROM_STOCK
 
-	column = gtk_tree_view_column_new_with_attributes (_("Name"),
-							   gtk_cell_renderer_text_new (),
-							   "text", FUN_NAME, NULL);
-	gtk_tree_view_column_set_sort_column_id (column, FUN_NAME);
-	gtk_tree_view_append_column (state->treeview_f, column);
-	column = gtk_tree_view_column_new_with_attributes (_("Name"),
-							   gtk_cell_renderer_text_new (),
-							   "text", FUNCTION_CAT, NULL);
-	gtk_tree_view_column_set_sort_column_id (column, FUN_NAME);
-	gtk_tree_view_append_column (state->treeview_f, column);
+	gtk_entry_set_icon_from_stock 
+		(GTK_ENTRY (state->search_entry),
+		 GTK_ENTRY_ICON_SECONDARY, GTK_STOCK_CLEAR);
+	gtk_entry_set_icon_tooltip_text 
+		(GTK_ENTRY (state->search_entry),
+		 GTK_ENTRY_ICON_SECONDARY,
+		 _("Erase the search entry."));
+	gtk_entry_set_icon_sensitive
+		(GTK_ENTRY (state->search_entry),
+		 GTK_ENTRY_ICON_SECONDARY, TRUE);
+	gtk_entry_set_icon_activatable
+		(GTK_ENTRY (state->search_entry),
+		 GTK_ENTRY_ICON_SECONDARY, TRUE);
 
-	gtk_tree_view_set_headers_visible (state->treeview_f, FALSE);
-	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (state->treeview_f));
-	/* Finished set-up of second treeview */
+	g_signal_connect (G_OBJECT (state->search_entry),
+			  "icon-press",
+			  G_CALLBACK 
+			  (dialog_function_select_erase_search_entry),
+			  state);
+#endif
+	g_signal_connect (G_OBJECT (state->search_entry),
+			  "activate",
+			  G_CALLBACK (dialog_function_select_search),
+			  state);
 
 	gtk_paned_set_position (GTK_PANED (glade_xml_get_widget
 					   (state->gui, "vpaned1")), 300);
 
-	state->description_view = GTK_TEXT_VIEW (glade_xml_get_widget (state->gui, "description"));
+	state->description_view = GTK_TEXT_VIEW (glade_xml_get_widget 
+						 (state->gui, "description"));
 	description = gtk_text_view_get_buffer (state->description_view);
 	gtk_text_buffer_get_start_iter (description, &where);
 	gtk_text_buffer_create_mark (description, "start-mark", &where, TRUE);
@@ -855,19 +1076,23 @@ dialog_function_select_init (FunctionSelectState *state)
 	g_signal_connect (G_OBJECT (state->ok_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_function_select_ok_clicked), state);
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "cancel_button")),
+	g_signal_connect (G_OBJECT 
+			  (glade_xml_get_widget (state->gui, "cancel_button")),
 		"clicked",
 		G_CALLBACK (cb_dialog_function_select_cancel_clicked), state);
 
-	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog),
-					   state->wbcg,
-					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
+	gnm_dialog_setup_destroy_handlers 
+		(GTK_DIALOG (state->dialog),
+		 state->wbcg,
+		 GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_FUNCTION_SELECT);
-	g_object_set_data_full (G_OBJECT (state->dialog),
-		"state", state, (GDestroyNotify) cb_dialog_function_select_destroy);
+	g_object_set_data_full 
+		(G_OBJECT (state->dialog),
+		 "state", state, 
+		 (GDestroyNotify) cb_dialog_function_select_destroy);
 }
 
 void

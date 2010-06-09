@@ -12,6 +12,7 @@ Andreas:
           [#620505]
 	* Ensure that names cannot be mistaken as cell references.
 	  [#409997]
+	* Add search function to function selector. [#495776]
 
 Jean:
 	* Do not ungrab a not grabbed item. [#620369]
