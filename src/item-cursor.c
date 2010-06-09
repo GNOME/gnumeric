@@ -32,14 +32,11 @@
 #include "parse-util.h"
 #include "gui-util.h"
 #include "sheet-autofill.h"
+#include "dead-kittens.h"
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtk.h>
 #include <goffice/goffice.h>
 #define GNUMERIC_ITEM "CURSOR"
-
-#ifndef HAVE_GTK_WIDGET_GET_WINDOW
-#define gtk_widget_get_window(w) ((w)->window)
-#endif
 
 #define ITEM_CURSOR_CLASS(k)      (G_TYPE_CHECK_CLASS_CAST ((k), item_cursor_get_type (), ItemCursorClass))
 

@@ -17,11 +17,8 @@
  */
 
 #include <gnumeric-config.h>
+#include <dead-kittens.h>
 #include "gnumeric-cell-renderer-text.h"
-
-#ifndef HAVE_GTK_WIDGET_GET_STATE
-#define gtk_widget_get_state(_w) GTK_WIDGET_STATE((_w))
-#endif
 
 static void gnumeric_cell_renderer_text_class_init
     (GnumericCellRendererTextClass *cell_text_class);

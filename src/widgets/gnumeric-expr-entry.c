@@ -32,16 +32,13 @@
 #include <number-match.h>
 #include <gnm-datetime.h>
 #include <gnumeric-gconf.h>
+#include <dead-kittens.h>
 #include <goffice/goffice.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <string.h>
-
-#ifndef HAVE_GTK_WIDGET_IS_TOPLEVEL
-#define gtk_widget_is_toplevel(w_) (GTK_WIDGET_FLAGS ((w_)) & GTK_TOPLEVEL)
-#endif
 
 typedef struct {
 	GnmRangeRef ref;

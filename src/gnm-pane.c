@@ -1011,13 +1011,11 @@ cb_pane_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 {
 	double wx, wy;
 
-#ifdef DEBUG_DND
-	{
+	if (gnm_debug_flag ("dnd")) {
 		gchar *target_name = gdk_atom_name (selection_data->target);
 		g_printerr ("drag-data-received - %s\n", target_name);
 		g_free (target_name);
 	}
-#endif
 
 	goc_canvas_w2c (GOC_CANVAS (pane), x, y, &wx, &wy);
 	scg_drag_data_received (pane->simple.scg,
@@ -1031,11 +1029,12 @@ cb_pane_drag_data_get (GtkWidget *widget, GdkDragContext *context,
 		       guint info, guint time,
 		       SheetControlGUI *scg)
 {
-#ifdef DEBUG_DND
-	gchar *target_name = gdk_atom_name (selection_data->target);
-	g_printerr ("drag-data-get - %s \n", target_name);
-	g_free (target_name);
-#endif
+	if (gnm_debug_flag ("dnd")) {
+		gchar *target_name = gdk_atom_name (selection_data->target);
+		g_printerr ("drag-data-get - %s \n", target_name);
+		g_free (target_name);
+	}
+
 	scg_drag_data_get (scg, selection_data);
 }
 
@@ -2515,8 +2514,9 @@ gnm_pane_drag_begin (GnmPane *pane, SheetObject *so, GdkEvent *event)
 			gtk_target_list_unref (im_targets);
 		}
 	}
-#ifdef DEBUG_DND
-	{
+
+
+	if (gnm_debug_flag ("dnd")) {
 		GList *l;
 		g_printerr ("%d offered formats:\n", g_list_length (targets->list));
 		for (l = targets->list; l; l = l->next) {
@@ -2526,7 +2526,6 @@ gnm_pane_drag_begin (GnmPane *pane, SheetObject *so, GdkEvent *event)
 			g_free (target_name);
 		}
 	}
-#endif
 
 	context = gtk_drag_begin (GTK_WIDGET (canvas), targets,
 				  GDK_ACTION_COPY | GDK_ACTION_MOVE,

@@ -38,6 +38,7 @@
 #include <expr.h>
 #include <value.h>
 #include <sheet.h>
+#include <dead-kittens.h>
 #include <gnumeric-gconf.h>
 
 #include <gsf/gsf-impl-utils.h>
