@@ -48,6 +48,7 @@
 #define F2(func,s) dgettext ((func)->textdomain->str, (s))
 
 #define FUNCTION_SELECT_KEY "function-selector-dialog"
+#define FUNCTION_SELECT_HELP_KEY "function-selector-dialog-help-mode"
 #define FUNCTION_SELECT_DIALOG_KEY "function-selector-dialog"
 
 typedef struct {
@@ -1163,6 +1164,9 @@ dialog_function_select_init (FunctionSelectState *state)
 				(state->gui, "title_label"), 
 				!help_mode);
 	gtk_combo_box_set_active (state->cb, help_mode ? 2 : 0);
+	if (help_mode)
+		gtk_window_set_title (GTK_WINDOW (state->dialog),
+				      _("Gnumeric Function Help Browser"));
 }
 
 void
@@ -1171,9 +1175,12 @@ dialog_function_select (WBCGtk *wbcg, char const *key)
 	FunctionSelectState* state;
 	GladeXML  *gui;
 
+	gchar const *our_key = key ? FUNCTION_SELECT_KEY 
+		: FUNCTION_SELECT_HELP_KEY;
+
 	g_return_if_fail (wbcg != NULL);
 
-	if (gnumeric_dialog_raise_if_exists (wbcg, FUNCTION_SELECT_KEY))
+	if (gnumeric_dialog_raise_if_exists (wbcg, our_key))
 		return;
 	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"function-select.glade", NULL, NULL);
@@ -1191,7 +1198,7 @@ dialog_function_select (WBCGtk *wbcg, char const *key)
 
 	dialog_function_select_init (state);
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
-			       FUNCTION_SELECT_KEY);
+			       our_key);
 
 	gtk_widget_show (state->dialog);
 }

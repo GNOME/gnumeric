@@ -1,5 +1,12 @@
 2010-06-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-function-select.c (dialog_function_select_init):
+	  change the dialog title to reflect help mode
+	(dialog_function_select): use a differnt key in help mode to 
+	  avoid confusion
+
+2010-06-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* function-select.glade: add close button
 	* dialog-function-select.c (dialog_function_select_init):
 	  show and hide the appropriate widgets depending on whether
