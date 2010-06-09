@@ -1,5 +1,8 @@
 2010-06-09  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (wbcg_notebook_tabs_visibility): Use
+	gtk_widget_set_visible and simplify.
+
 	* src/dead-kittens.h: New file for kittens killed by gtk.
 
 2010-06-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>

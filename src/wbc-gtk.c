@@ -57,6 +57,7 @@
 #include "selection.h"
 #include "file-autoft.h"
 #include "ranges.h"
+#include "dead-kittens.h"
 #include "tools/analysis-auto-expression.h"
 
 #include <goffice/goffice.h>
@@ -1499,8 +1500,8 @@ wbcg_notebook_tabs_visibility (WorkbookView *wbv,
 			       G_GNUC_UNUSED GParamSpec *pspec,
 			       WBCGtk *wbcg)
 {
-	(wbv->show_notebook_tabs ? gtk_widget_show : gtk_widget_hide)
-		(GTK_WIDGET (wbcg->bnotebook));
+	gtk_widget_set_visible (GTK_WIDGET (wbcg->bnotebook),
+				wbv->show_notebook_tabs);
 }
 
 
