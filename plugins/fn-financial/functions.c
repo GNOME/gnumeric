@@ -6,7 +6,7 @@
  *   Jukka-Pekka Iivonen (jiivonen@hutcs.cs.hut.fi)
  *   Morten Welinder (terra@gnome.org)
  *   Vladimir Vuksan (vuksan@veus.hr)
- *   Andreas J. Guelzow (aguelzow@taliesin.ca)
+ *   Andreas J. Guelzow (aguelzow@pyrshep.ca)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -364,11 +364,28 @@ static GnmFuncHelp const help_accrint[] = {
         { GNM_FUNC_HELP_ARG, F_("first_interest:date of first interest payment")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("rate:nominal annual interest rate")},
-        { GNM_FUNC_HELP_ARG, F_("par:par value")},
+        { GNM_FUNC_HELP_ARG, F_("par:par value, defaults to $1000")},
         { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
-        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("ACCRINT calculates the accrued interest for a security that pays periodic interest.") },
-	{ GNM_FUNC_HELP_NOTE, F_("@{par} defaults to $1000.") },
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis, defaults to 0")},
+        { GNM_FUNC_HELP_ARG, F_("calc_method:calculation method, defaults to TRUE")},
+	{ GNM_FUNC_HELP_DESCRIPTION, 
+	  F_("If @{first_interest} < @{settlement} and @{calc_method} is "
+	     "TRUE, then ACCRINT returns the sum of the"
+	     " interest accrued in all coupon periods from @{issue} "
+	     " date until @{settlement} date.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, 
+	  F_("If @{first_interest} < @{settlement} and @{calc_method} is "
+	     "FALSE, then ACCRINT returns the sum of the"
+	     " interest accrued in all coupon periods from @{first_interest} "
+	     " date until @{settlement} date.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, 
+	  F_("Otherwise ACCRINT returns the sum of the"
+	     " interest accrued in all coupon periods from @{issue} "
+	     " date until @{settlement} date.") },
+	{ GNM_FUNC_HELP_NOTE, F_("@{frequency} must be one of 1, 2 or 4, but the exact value"
+				 " does not affect the result.") },
+	{ GNM_FUNC_HELP_NOTE, F_("@{issue} must precede both @{first_interest}"
+				 " and @{settlement}.") },
 	FREQ_HELP,
 	GNM_DATE_BASIS_HELP
         { GNM_FUNC_HELP_SEEALSO, "ACCRINTM"},
@@ -379,8 +396,10 @@ static GnmValue *
 gnumeric_accrint (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
         GDate      issue, first_interest, settlement;
-	gnm_float rate, a, d, par, freq;
+	gnm_float  rate, a, d, par, freq;
 	int        basis;
+	gboolean   calc_method;
+
 	GODateConventions const *date_conv =
 		workbook_date_conv (ei->pos->sheet->workbook);
 
@@ -396,6 +415,7 @@ gnumeric_accrint (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	par            = argv[4] ? value_get_as_float (argv[4]) : 1000;
 	freq           = value_get_freq (argv[5]);
 	basis          = value_get_basis (argv[6], GO_BASIS_MSRB_30_360);
+	calc_method    = argv[6] ? value_get_as_int (argv[6]) : 1;
 
         if (rate <= 0.	||
 	    par <= 0.	||
@@ -403,9 +423,11 @@ gnumeric_accrint (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	    !is_valid_basis (basis)	||
 	    g_date_compare (&issue, &settlement) >= 0)
 		return value_new_error_NUM (ei->pos);
-
-	a = days_monthly_basis (argv[0], argv[2], basis, date_conv);
-	d = annual_year_basis (argv[0], basis, date_conv);
+	if (g_date_compare (&first_interest, &settlement) >= 0 || calc_method)
+		a = days_monthly_basis (argv[0], argv[2], basis, date_conv);
+	else
+		a = days_monthly_basis (argv[1], argv[2], basis, date_conv);
+	d = annual_year_basis (argv[2], basis, date_conv);
 	if (a < 0 || d <= 0)
 		return value_new_error_NUM (ei->pos);
 
@@ -3280,7 +3302,7 @@ gnumeric_vdb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 GnmFuncDescriptor const financial_functions[] = {
-	{ "accrint", "ffff|fff",
+	{ "accrint", "ffff|fffb",
 	  help_accrint, gnumeric_accrint, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_MONETARY,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
