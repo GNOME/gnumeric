@@ -83,6 +83,7 @@ enum {
 	FUN_NAME,
 	FUNCTION,
 	FUNCTION_DESC,
+	FUNCTION_PAL,
 	FUNCTION_CAT,
 	FUNCTION_VISIBLE,
 	FUNCTION_RECENT,
@@ -286,6 +287,7 @@ cb_unref (GtkTreeModel *model, G_GNUC_UNUSED GtkTreePath *path,
 	  GtkTreeIter *iter, G_GNUC_UNUSED gpointer data)
 {
 	GnmFunc *f;
+
 	gtk_tree_model_get (model, iter,
 			    FUNCTION, &f,
 			    -1);
@@ -932,11 +934,11 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *selection,
 /* Setup Functions */
 /**********************************************************************/
 
-static gchar const *
-dialog_function_select_get_description (GnmFunc *func)
+static const gchar *
+dialog_function_select_peek_description (GnmFunc *func)
 {
 	GnmFuncHelp const *help;
-
+	
 	gnm_func_load_if_stub (func);
 	help = func->help;
 
@@ -967,6 +969,44 @@ dialog_function_select_get_description (GnmFunc *func)
 }
 
 
+static gchar *
+dialog_function_select_get_description (GnmFunc *func, PangoAttrList **pal)
+{
+	PangoAttribute *attr;
+	char const *desc = dialog_function_select_peek_description (func);
+	char const *here;
+	GString* gstr = g_string_new (NULL);
+
+	*pal = pango_attr_list_new ();
+
+	if (desc != NULL) {
+		while (*desc != '\0') {
+			here =  strstr (desc, "@{");
+			if (here == NULL) {
+				g_string_append (gstr, desc);
+				break;
+			}
+			g_string_append_len (gstr, desc, here - desc);
+			attr = pango_attr_weight_new (PANGO_WEIGHT_BOLD);
+			attr->start_index = gstr->len;
+			desc = here + 2;
+			here = strchr (desc,'}');
+			if (here == NULL) {
+				g_string_append (gstr, desc);
+				pango_attr_list_insert (*pal, attr);
+				break;
+			}
+			g_string_append_len (gstr, desc, here - desc);
+			attr->end_index = gstr->len;
+			pango_attr_list_insert (*pal, attr);
+			desc = here + 1;
+		}
+	}
+
+	return g_string_free (gstr, FALSE);
+}
+
+
 
 static void
 dialog_function_select_load_tree (FunctionSelectState *state)
@@ -976,6 +1016,8 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 	GSList *funcs = NULL, *ptr;
 	GnmFunc *func;
 	gint i = 0;
+	PangoAttrList *pal;
+	gchar *desc;
 
 	gtk_list_store_clear (state->model_functions);
 
@@ -991,17 +1033,21 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 		if (!(func->flags & GNM_FUNC_INTERNAL)) {
 			gtk_list_store_append (state->model_functions, &iter);
 			gnm_func_ref (func);
+			desc = dialog_function_select_get_description (func, &pal);
 			gtk_list_store_set 
 				(state->model_functions, &iter,
 				 FUN_NAME, gnm_func_get_name (func),
 				 FUNCTION, func,
-				 FUNCTION_DESC, 
-				 dialog_function_select_get_description (func),
+				 FUNCTION_DESC, desc,
+				 FUNCTION_PAL, pal,
 				 FUNCTION_CAT, func->fn_group,
 				 FUNCTION_VISIBLE, TRUE,
 				 FUNCTION_RECENT, FALSE,
 				 FUNCTION_USED, (func->ref_count > 1),
 				 -1);
+			g_free (desc);
+			pango_attr_list_unref (pal);
+
 		}
 	}
 	
@@ -1045,11 +1091,19 @@ dialog_function_select_init (FunctionSelectState *state)
 
 	/* Set-up treeview */
 
-/* 	dialog_function_select_load_tree (state); */
-	
 	state->model_functions = gtk_list_store_new 
-		(NUM_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER, 
-		 G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_BOOLEAN, 
+		(NUM_COLUMNS, 
+/* 	FUN_NAME, */
+/* 	FUNCTION, */
+/* 	FUNCTION_DESC, */
+/* 	FUNCTION_PAL, */
+/* 	FUNCTION_CAT, */
+/* 	FUNCTION_VISIBLE, */
+/* 	FUNCTION_RECENT, */
+/* 	FUNCTION_USED, */
+		 G_TYPE_STRING, G_TYPE_POINTER, 
+		 G_TYPE_STRING, PANGO_TYPE_ATTR_LIST, 
+		 G_TYPE_POINTER, G_TYPE_BOOLEAN, 
 		 G_TYPE_BOOLEAN, G_TYPE_BOOLEAN);
 
 	state->model_filter = gtk_tree_model_filter_new 
@@ -1077,7 +1131,8 @@ dialog_function_select_init (FunctionSelectState *state)
 	column = gtk_tree_view_column_new_with_attributes 
 		(_("Description"),
 		 gtk_cell_renderer_text_new (),
-		 "text", FUNCTION_DESC, NULL);
+		 "text", FUNCTION_DESC, 
+		 "attributes", FUNCTION_PAL, NULL);
 	gtk_tree_view_append_column (state->treeview, column);
 
 	gtk_tree_view_set_headers_visible (state->treeview, FALSE);

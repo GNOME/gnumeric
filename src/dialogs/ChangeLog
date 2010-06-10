@@ -1,3 +1,13 @@
+2010-06-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-function-select.c 
+	(dialog_function_select_get_description): rename to
+	  dialog_function_select_get_description
+	(dialog_function_select_get_description): new
+	(dialog_function_select_load_tree): store the PangoAttrList
+	(dialog_function_select_init): set up new attribute field in 
+	  the liststore
+	
 2010-06-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-function-select.c 
