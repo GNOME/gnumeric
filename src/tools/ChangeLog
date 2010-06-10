@@ -1,3 +1,9 @@
+2010-06-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-chi-squared.c (analysis_tool_chi_squared_engine_run):
+	  create the correcly sized vectors of ones even for non-square
+	  data
+
 2010-06-06 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-tools.h (analysis_tools_data_regression_t): new field

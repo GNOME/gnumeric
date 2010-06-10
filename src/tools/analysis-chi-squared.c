@@ -41,41 +41,27 @@ analysis_tool_chi_squared_engine_run (data_analysis_output_t *dao,
 	GnmExpr const *expr_check;
 	GnmExpr const *expr_region;
 	GnmExpr const *expr_statistic;
-	GnmExpr const *expr_ones;
+	GnmExpr const *expr_row_ones;
+	GnmExpr const *expr_col_ones;
 	GnmExpr const *expr_row;
+	GnmExpr const *expr_column;
 	GnmExpr const *expr_expect;
 
-	GnmFunc *fd_mmult;
-	GnmFunc *fd_row;
-	GnmFunc *fd_transpose;
-	GnmFunc *fd_sum;
-	GnmFunc *fd_min;
-	GnmFunc *fd_offset;
-	GnmFunc *fd_chiinv;
-	GnmFunc *fd_chidist;
+	GnmFunc *fd_mmult     = analysis_tool_get_function ("MMULT", dao);
+	GnmFunc *fd_row       = analysis_tool_get_function ("ROW", dao);
+	GnmFunc *fd_column    = analysis_tool_get_function ("COLUMN", dao);
+	GnmFunc *fd_transpose = analysis_tool_get_function ("TRANSPOSE", dao);
+	GnmFunc *fd_sum       = analysis_tool_get_function ("SUM", dao);
+	GnmFunc *fd_min       = analysis_tool_get_function ("MIN", dao);
+	GnmFunc *fd_offset    = analysis_tool_get_function ("OFFSET", dao);
+	GnmFunc *fd_chiinv    = analysis_tool_get_function ("CHIINV", dao);
+	GnmFunc *fd_chidist   = analysis_tool_get_function ("CHIDIST", dao);
 	char const *label;
 	char *cc;
 
 	label = (info->independence)
 		? _("[>=5]\"Test of Independence\";[<5][Red]\"Invalid Test of Independence\"")
 		: _("[>=5]\"Test of Homogeneity\";[<5][Red]\"Invalid Test of Homogeneity\"");
-
-	fd_mmult = gnm_func_lookup_or_add_placeholder ("MMULT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	gnm_func_ref (fd_mmult);
-	fd_row = gnm_func_lookup_or_add_placeholder ("ROW", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	gnm_func_ref (fd_row);
-	fd_transpose = gnm_func_lookup_or_add_placeholder ("TRANSPOSE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	gnm_func_ref (fd_transpose);
-	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	gnm_func_ref (fd_sum);
-	fd_min = gnm_func_lookup_or_add_placeholder ("MIN", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	gnm_func_ref (fd_min);
-	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	gnm_func_ref (fd_offset);
-	fd_chiinv = gnm_func_lookup_or_add_placeholder ("CHIINV", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	gnm_func_ref (fd_chiinv);
-	fd_chidist = gnm_func_lookup_or_add_placeholder ("CHIDIST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	gnm_func_ref (fd_chidist);
 
 	dao_set_italic (dao, 0, 1, 0, 4);
 	set_cell_text_col (dao, 0, 1, _("/Test Statistic:"
@@ -98,18 +84,24 @@ analysis_tool_chi_squared_engine_run (data_analysis_output_t *dao,
 		expr_region = gnm_expr_new_constant (value_dup (info->input));
 
 	expr_row = gnm_expr_new_funcall1 (fd_row, gnm_expr_copy (expr_region));
-	expr_ones = gnm_expr_new_binary (gnm_expr_copy (expr_row),
-					 GNM_EXPR_OP_DIV,
-					 expr_row);
+	expr_column = gnm_expr_new_funcall1 (fd_column, gnm_expr_copy (expr_region));
+	expr_col_ones = gnm_expr_new_funcall1 (fd_transpose,
+					       gnm_expr_new_binary (gnm_expr_copy (expr_column),
+								    GNM_EXPR_OP_DIV,
+								    expr_column));
+	expr_row_ones = gnm_expr_new_funcall1 (fd_transpose,
+					       gnm_expr_new_binary (gnm_expr_copy (expr_row),
+								    GNM_EXPR_OP_DIV,
+								    expr_row));
 	expr_expect = gnm_expr_new_binary (gnm_expr_new_funcall2
 					   (fd_mmult,
 					    gnm_expr_new_funcall2
 					    (fd_mmult,
 					     gnm_expr_copy (expr_region),
-					     gnm_expr_copy (expr_ones)),
+					     expr_col_ones),
 					    gnm_expr_new_funcall2
 					    (fd_mmult,
-					     gnm_expr_new_funcall1 (fd_transpose, gnm_expr_copy (expr_ones)),
+					     expr_row_ones,
 					     gnm_expr_copy (expr_region))),
 					   GNM_EXPR_OP_DIV,
 					   gnm_expr_new_funcall1 (fd_sum, gnm_expr_copy (expr_region)));
@@ -143,6 +135,7 @@ analysis_tool_chi_squared_engine_run (data_analysis_output_t *dao,
 
 	gnm_func_unref (fd_mmult);
 	gnm_func_unref (fd_row);
+	gnm_func_unref (fd_column);
 	gnm_func_unref (fd_transpose);
 	gnm_func_unref (fd_sum);
 	gnm_func_unref (fd_min);
@@ -150,7 +143,6 @@ analysis_tool_chi_squared_engine_run (data_analysis_output_t *dao,
 	gnm_func_unref (fd_chiinv);
 	gnm_func_unref (fd_chidist);
 
-	gnm_expr_free (expr_ones);
 	gnm_expr_free (expr_expect);
 	gnm_expr_free (expr_region);
 	dao_redraw_respan (dao);
