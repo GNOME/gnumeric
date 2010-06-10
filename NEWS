@@ -25,6 +25,7 @@ Morten:
 	* Fix dependency tabulation undo issue.
 	* Fix critical when inserting graph using keys.
 	* Automate win32 help generation.
+	* Mark a sheet dirty when its tab colour is changed.  [#621191]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.5

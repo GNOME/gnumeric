@@ -141,6 +141,8 @@ sheet_set_direction (Sheet *sheet, gboolean text_is_rtl)
 	if (text_is_rtl == sheet->text_is_rtl)
 		return;
 
+	sheet_mark_dirty (sheet);
+
 	sheet->text_is_rtl = text_is_rtl;
 	sheet->priv->reposition_objects.col = 0;
 	sheet_range_calc_spans (sheet,
@@ -186,6 +188,7 @@ sheet_set_conventions (Sheet *sheet, GnmConventions const *convs)
 		re_render_formulas (sheet);
 	SHEET_FOREACH_VIEW (sheet, sv,
 		sv->edit_pos_changed.content = TRUE;);
+	sheet_mark_dirty (sheet);
 }
 
 GnmConventions const *
@@ -211,7 +214,9 @@ sheet_set_hide_zeros (Sheet *sheet, gboolean hide)
 	hide = !!hide;
 	if (sheet->hide_zero == hide)
 		return;
+
 	sheet->hide_zero = hide;
+	sheet_mark_dirty (sheet);
 
 	sheet_cell_foreach (sheet, (GHFunc)cb_sheet_set_hide_zeros, NULL);
 }
@@ -362,7 +367,9 @@ sheet_set_display_formulas (Sheet *sheet, gboolean display)
 	display = !!display;
 	if (sheet->display_formulas == display)
 		return;
+
 	sheet->display_formulas = display;
+	sheet_mark_dirty (sheet);
 	if (!sheet->being_constructed)
 		sheet_scale_changed (sheet, TRUE, FALSE);
 }
@@ -487,12 +494,14 @@ gnm_sheet_set_property (GObject *object, guint property_id,
 		GnmColor *color = g_value_dup_boxed (value);
 		style_color_unref (sheet->tab_text_color);
 		sheet->tab_text_color = color;
+		sheet_mark_dirty (sheet);
 		break;
 	}
 	case PROP_TAB_BACKGROUND: {
 		GnmColor *color = g_value_dup_boxed (value);
 		style_color_unref (sheet->tab_color);
 		sheet->tab_color = color;
+		sheet_mark_dirty (sheet);
 		break;
 	}
 	case PROP_ZOOM_FACTOR:
