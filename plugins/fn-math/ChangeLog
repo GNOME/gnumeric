@@ -1,3 +1,7 @@
+2010-06-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_multinomial): fix invalid utf-8.
+
 2010-06-11  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_seriessum): Ignore blanks for

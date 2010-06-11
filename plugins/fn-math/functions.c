@@ -1515,7 +1515,7 @@ gnumeric_sumsq (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_multinomial[] = {
-        { GNM_FUNC_HELP_NAME, F_("MULTINOMIAL:multinomial coefficient (@{x1}+\xe2\x8b\xaf+@{xn}) choose (@{x1},\xe2\x80\a6,@{xn})")},
+        { GNM_FUNC_HELP_NAME, F_("MULTINOMIAL:multinomial coefficient (@{x1}+\xe2\x8b\xaf+@{xn}) choose (@{x1},\xe2\x80\xa6,@{xn})")},
         { GNM_FUNC_HELP_ARG, F_("x1:first number")},
         { GNM_FUNC_HELP_ARG, F_("x2:second number")},
         { GNM_FUNC_HELP_ARG, F_("xn:nth number")},
