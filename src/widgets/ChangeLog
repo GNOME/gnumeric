@@ -1,5 +1,9 @@
 2010-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gnumeric-expr-entry.c (gee_scan_for_range): remove warning
+
+2010-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* gnumeric-expr-entry.c (gee_scan_for_range): create cursors for all
 	  ranges
 

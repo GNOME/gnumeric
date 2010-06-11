@@ -1,9 +1,16 @@
+2010-06-11 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/expr.c (gnm_insert_unique_value_cmp): new
+	(gnm_insert_unique_value): new
+	(do_gnm_expr_get_ranges): use gnm_insert_unique_value rather than
+	  gnm_insert_unique which only compares pointers
+
 2010-06-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/item-edit.c (item_edit_draw):	Fixed multi-line item edit
 	selection. [#621235]
 
-2010-06-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2010-06-11 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gnm-pane-impl.h: make cursor.expr_range into a GSList
 	* src/gnm-pane.h (gnm_pane_expr_cursor_bound_set): add main_colour arg 

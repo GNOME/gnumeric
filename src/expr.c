@@ -2506,6 +2506,24 @@ gnm_expr_get_range (GnmExpr const *expr)
 	}
 }
 
+static gint
+gnm_insert_unique_value_cmp (gconstpointer a, gconstpointer b)
+{
+	return (value_equal (a,b) ? 0 : 1);
+}
+
+
+
+static GSList *
+gnm_insert_unique_value (GSList *list, GnmValue *data)
+{
+	if (g_slist_find_custom (list, data, 
+				 gnm_insert_unique_value_cmp) 
+	    == NULL)
+		return g_slist_prepend (list, data);
+	value_release (data);
+	return list;
+}
 
 static GSList *
 do_gnm_expr_get_ranges (GnmExpr const *expr, GSList *ranges)
@@ -2542,7 +2560,7 @@ do_gnm_expr_get_ranges (GnmExpr const *expr, GSList *ranges)
 	default: {
 		GnmValue *v = gnm_expr_get_range (expr);
 		if (v)
-			return gnm_insert_unique (ranges, v);
+			return gnm_insert_unique_value (ranges, v);
 		return ranges;
 	}
 	}

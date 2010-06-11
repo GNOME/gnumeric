@@ -513,7 +513,6 @@ gee_scan_for_range (GnmExprEntry *gee)
 			      sheet_get_conventions (sheet), NULL))!= NULL) {
 				GSList *ptr;
 				GSList *list = gnm_expr_top_get_ranges (texpr);
-#warning FIXME: gnm_expr_top_get_ranges does not delete duplicates!
 				for (ptr = list ; ptr != NULL ; ptr = ptr->next) {
 					GnmValue *v = ptr->data;
 					GnmRange  r;
