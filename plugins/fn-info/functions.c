@@ -1207,7 +1207,7 @@ gnumeric_expression (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_get_formula[] = {
-	{ GNM_FUNC_HELP_NAME, F_("GET.FORMULA:The formula in @{cell} as a string.")},
+	{ GNM_FUNC_HELP_NAME, F_("GET.FORMULA:the formula in @{cell} as a string")},
 	{ GNM_FUNC_HELP_ARG, F_("cell:the referenced cell")},
 	{ GNM_FUNC_HELP_ODF, F_("GET.FORMULA is the OpenFormula function FORMULA.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("If A1 is empty and A2 contains =B1+B2, then\n"
@@ -1249,7 +1249,7 @@ gnumeric_get_formula (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_isformula[] = {
-	{ GNM_FUNC_HELP_NAME, F_("ISFORMULA:TRUE if @{cell} contains a formula.")},
+	{ GNM_FUNC_HELP_NAME, F_("ISFORMULA:TRUE if @{cell} contains a formula")},
 	{ GNM_FUNC_HELP_ARG, F_("cell:the referenced cell")},
 	{ GNM_FUNC_HELP_ODF, F_("ISFORMULA is OpenFormula compatible.") },
 	{ GNM_FUNC_HELP_SEEALSO, "GET.FORMULA"},
@@ -1453,7 +1453,7 @@ gnumeric_iserror (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_isna[] = {
-        { GNM_FUNC_HELP_NAME, F_("ISNA:TRUE if @{value} is the #N/A error value.")},
+        { GNM_FUNC_HELP_NAME, F_("ISNA:TRUE if @{value} is the #N/A error value")},
         { GNM_FUNC_HELP_ARG, F_("value:a value")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ISNA(NA())" },
@@ -1565,7 +1565,7 @@ gnumeric_error (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_isblank[] = {
-        { GNM_FUNC_HELP_NAME, F_("ISBLANK:TRUE if @{value} is blank.")},
+        { GNM_FUNC_HELP_NAME, F_("ISBLANK:TRUE if @{value} is blank")},
         { GNM_FUNC_HELP_ARG, F_("value:a value")},
         { GNM_FUNC_HELP_DESCRIPTION, F_("This function checks if a value is blank.  Empty cells are blank, but empty strings are not.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -1582,7 +1582,7 @@ gnumeric_isblank (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_iseven[] = {
-        { GNM_FUNC_HELP_NAME, F_("ISEVEN:TRUE if @{n} is even.")},
+        { GNM_FUNC_HELP_NAME, F_("ISEVEN:TRUE if @{n} is even")},
         { GNM_FUNC_HELP_ARG, F_("n:number")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ISEVEN(4)" },
@@ -1603,7 +1603,7 @@ gnumeric_iseven (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_islogical[] = {
-        { GNM_FUNC_HELP_NAME, F_("ISLOGICAL:TRUE if @{value} is a logical value.")},
+        { GNM_FUNC_HELP_NAME, F_("ISLOGICAL:TRUE if @{value} is a logical value")},
         { GNM_FUNC_HELP_ARG, F_("value:a value")},
         { GNM_FUNC_HELP_DESCRIPTION, F_("This function checks if a value is either TRUE or FALSE.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -1621,7 +1621,7 @@ gnumeric_islogical (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_isnontext[] = {
-        { GNM_FUNC_HELP_NAME, F_("ISNONTEXT:TRUE if @{value} is not text.")},
+        { GNM_FUNC_HELP_NAME, F_("ISNONTEXT:TRUE if @{value} is not text")},
         { GNM_FUNC_HELP_ARG, F_("value:a value")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ISNONTEXT(\"Gnumeric\")" },
@@ -1638,7 +1638,7 @@ gnumeric_isnontext (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_isnumber[] = {
-        { GNM_FUNC_HELP_NAME, F_("ISNUMBER:TRUE if @{value} is a number.")},
+        { GNM_FUNC_HELP_NAME, F_("ISNUMBER:TRUE if @{value} is a number")},
         { GNM_FUNC_HELP_ARG, F_("value:a value")},
         { GNM_FUNC_HELP_DESCRIPTION, F_("This function checks if a value is a number.  Neither TRUE nor FALSE are numbers for this purpose.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -1656,7 +1656,7 @@ gnumeric_isnumber (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_isodd[] = {
-        { GNM_FUNC_HELP_NAME, F_("ISODD:TRUE if @{n} is odd.")},
+        { GNM_FUNC_HELP_NAME, F_("ISODD:TRUE if @{n} is odd")},
         { GNM_FUNC_HELP_ARG, F_("n:number")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ISODD(3)" },
@@ -1677,7 +1677,7 @@ gnumeric_isodd (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_isref[] = {
-        { GNM_FUNC_HELP_NAME, F_("ISREF:TRUE if @{value} is a reference.")},
+        { GNM_FUNC_HELP_NAME, F_("ISREF:TRUE if @{value} is a reference")},
         { GNM_FUNC_HELP_ARG, F_("value:a value")},
         { GNM_FUNC_HELP_DESCRIPTION, F_("This function checks if a value is a cell reference.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -1698,7 +1698,7 @@ gnumeric_isref (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_istext[] = {
-        { GNM_FUNC_HELP_NAME, F_("ISTEXT:TRUE if @{value} is text.")},
+        { GNM_FUNC_HELP_NAME, F_("ISTEXT:TRUE if @{value} is text")},
         { GNM_FUNC_HELP_ARG, F_("value:a value")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ISTEXT(\"Gnumeric\")" },
@@ -1812,7 +1812,7 @@ gnumeric_getenv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_get_link[] = {
-	{ GNM_FUNC_HELP_NAME, F_("GET.LINK:The target of the hyperlink attached to @{cell} as a string.")},
+	{ GNM_FUNC_HELP_NAME, F_("GET.LINK:the target of the hyperlink attached to @{cell} as a string")},
 	{ GNM_FUNC_HELP_ARG,  F_("cell:the referenced cell")},
 	{ GNM_FUNC_HELP_NOTE, F_("The value return is not updated automatically when "
 				 "the link attached to @{cell} changes but requires a"

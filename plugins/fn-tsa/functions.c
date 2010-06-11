@@ -368,7 +368,7 @@ spline_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 /******************************************************************************/
 
 static GnmFuncHelp const help_interpolation[] = {
-	{ GNM_FUNC_HELP_NAME, F_("INTERPOLATION:interpolated values corresponding to the given abscissa targets.") },
+	{ GNM_FUNC_HELP_NAME, F_("INTERPOLATION:interpolated values corresponding to the given abscissa targets") },
 	{ GNM_FUNC_HELP_ARG, F_("abscissas:The abscissas of the data to interpolate.") },
 	{ GNM_FUNC_HELP_ARG, F_("ordinates:The ordinates of the data to interpolate.") },
 	{ GNM_FUNC_HELP_ARG, F_("targets:The abscissas of the interpolated data.") },
@@ -637,7 +637,7 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /******************************************************************************/
 
 static GnmFuncHelp const help_periodogram[] = {
-	{ GNM_FUNC_HELP_NAME, F_("PERIODOGRAM: Periodogram of the given data.") },
+	{ GNM_FUNC_HELP_NAME, F_("PERIODOGRAM:periodogram of the given data") },
 	{ GNM_FUNC_HELP_ARG, F_("ordinates:The ordinates of the data to interpolate.") },
 	{ GNM_FUNC_HELP_ARG, F_("filter:Window function to  be used, defaults to no window function.") },
 	{ GNM_FUNC_HELP_ARG, F_("abscissas:The abscissas of the data to interpolate, defaults to regularly spaced abscissa.") },
@@ -909,7 +909,7 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /******************************************************************************/
 
 static GnmFuncHelp const help_fourier[] = {
-	{ GNM_FUNC_HELP_NAME, F_("FOURIER:Fourier or inverse Fourier transform.") },
+	{ GNM_FUNC_HELP_NAME, F_("FOURIER:Fourier or inverse Fourier transform") },
 	{ GNM_FUNC_HELP_ARG, F_("Sequence: the data sequence to be transformed") },
 	{ GNM_FUNC_HELP_ARG, F_("Inverse:if false, the inverse Fourier transform is calculated. Defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This array function returns the Fourier or inverse Fourier transform of the given data sequence.") },

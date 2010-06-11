@@ -255,7 +255,7 @@ gnumeric_bin2dec (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_bin2oct[] = {
-        { GNM_FUNC_HELP_NAME, F_("BIN2OCT: octal representation of the binary number @{x}") },
+        { GNM_FUNC_HELP_NAME, F_("BIN2OCT:octal representation of the binary number @{x}") },
         { GNM_FUNC_HELP_ARG, F_("x:a binary number, either as a string or as a number involving only the digits 0 and 1") },
         { GNM_FUNC_HELP_ARG, F_("places:number of digits") },
         { GNM_FUNC_HELP_DESCRIPTION, F_("If @{places} is given, BIN2OCT pads the result with zeros to achieve "
@@ -279,7 +279,7 @@ gnumeric_bin2oct (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_bin2hex[] = {
-        { GNM_FUNC_HELP_NAME, F_("BIN2HEX: hexadecimal representation of the binary number @{x}") },
+        { GNM_FUNC_HELP_NAME, F_("BIN2HEX:hexadecimal representation of the binary number @{x}") },
         { GNM_FUNC_HELP_ARG, F_("x:a binary number, either as a string or as a number involving only the digits 0 and 1") },
         { GNM_FUNC_HELP_ARG, F_("places:number of digits") },
         { GNM_FUNC_HELP_DESCRIPTION, F_("If @{places} is given, BIN2HEX pads the result with zeros to achieve "
@@ -304,7 +304,7 @@ gnumeric_bin2hex (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_dec2bin[] = {
-        { GNM_FUNC_HELP_NAME, F_("DEC2BIN: binary representation of the decimal number @{x}") },
+        { GNM_FUNC_HELP_NAME, F_("DEC2BIN:binary representation of the decimal number @{x}") },
         { GNM_FUNC_HELP_ARG, F_("x:integer") },
         { GNM_FUNC_HELP_ARG, F_("places:number of digits") },
         { GNM_FUNC_HELP_DESCRIPTION, F_("If @{places} is given, DEC2BIN pads the result with zeros to achieve "
@@ -328,7 +328,7 @@ gnumeric_dec2bin (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_dec2oct[] = {
-        { GNM_FUNC_HELP_NAME, F_("DEC2OCT: octal representation of the decimal number @{x}") },
+        { GNM_FUNC_HELP_NAME, F_("DEC2OCT:octal representation of the decimal number @{x}") },
         { GNM_FUNC_HELP_ARG, F_("x:integer") },
         { GNM_FUNC_HELP_ARG, F_("places:number of digits") },
         { GNM_FUNC_HELP_DESCRIPTION, F_("If @{places} is given, DEC2OCT pads the result with zeros to achieve "
@@ -351,7 +351,7 @@ gnumeric_dec2oct (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_dec2hex[] = {
-        { GNM_FUNC_HELP_NAME, F_("DEC2HEX: hexadecimal representation of the decimal number @{x}") },
+        { GNM_FUNC_HELP_NAME, F_("DEC2HEX:hexadecimal representation of the decimal number @{x}") },
         { GNM_FUNC_HELP_ARG, F_("x:integer") },
         { GNM_FUNC_HELP_ARG, F_("places:number of digits") },
         { GNM_FUNC_HELP_DESCRIPTION, F_("If @{places} is given, DEC2HEX pads the result with zeros to achieve "
@@ -1136,7 +1136,7 @@ gnumeric_delta (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_gestep[] = {
-        { GNM_FUNC_HELP_NAME, F_("GESTEP:Step function with step at @{x1} evaluated at @{x0}") },
+        { GNM_FUNC_HELP_NAME, F_("GESTEP:step function with step at @{x1} evaluated at @{x0}") },
         { GNM_FUNC_HELP_ARG, F_("x0:number") },
         { GNM_FUNC_HELP_ARG, F_("x1:number, defaults to 0") },
         { GNM_FUNC_HELP_DESCRIPTION, F_("GESTEP returns 1 if  @{x1} \xe2\x89\xa4 @{x0} and 0 otherwise.") },

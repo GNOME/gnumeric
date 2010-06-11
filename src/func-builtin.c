@@ -265,7 +265,7 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_if[] = {
 	/* xgettext : see po-functions/README.translators */
-	{ GNM_FUNC_HELP_NAME, N_("IF:conditional expression.") },
+	{ GNM_FUNC_HELP_NAME, N_("IF:conditional expression") },
 	/* xgettext : see po-functions/README.translators */
 	{ GNM_FUNC_HELP_ARG, N_("cond:condition.") },
 	/* xgettext : see po-functions/README.translators */

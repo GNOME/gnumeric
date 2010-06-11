@@ -43,7 +43,7 @@ GNM_PLUGIN_MODULE_HEADER;
 /***************************************************************************/
 
 static GnmFuncHelp const help_rand[] = {
-        { GNM_FUNC_HELP_NAME, F_("RAND:a random number between zero and one.")},
+        { GNM_FUNC_HELP_NAME, F_("RAND:a random number between zero and one")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=RAND()" },
         { GNM_FUNC_HELP_EXAMPLES, "=RAND()" },
@@ -788,7 +788,7 @@ gnumeric_randlandau (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randnormtail[] = {
-        { GNM_FUNC_HELP_NAME, F_("RANDNORMTAIL:a random variates from the upper tail of a normal distribution with mean 0") },
+        { GNM_FUNC_HELP_NAME, F_("RANDNORMTAIL:random variate from the upper tail of a normal distribution with mean 0") },
         { GNM_FUNC_HELP_ARG, F_("a:lower limit of the tail") },
         { GNM_FUNC_HELP_ARG, F_("\xcf\x83:standard deviation of the normal distribution") },
 	{ GNM_FUNC_HELP_NOTE, F_("The method is based on Marsaglia's famous "
@@ -813,7 +813,7 @@ gnumeric_randnormtail (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_simtable[] = {
         { GNM_FUNC_HELP_NAME, F_("SIMTABLE:one of the values in the given argument list "
-				 "depending on the round number of the simulation tool.") },
+				 "depending on the round number of the simulation tool") },
         { GNM_FUNC_HELP_ARG, F_("d1:first value") },
         { GNM_FUNC_HELP_ARG, F_("d2:second value") },
         { GNM_FUNC_HELP_DESCRIPTION, F_("SIMTABLE returns one of the values in the given argument list "

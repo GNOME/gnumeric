@@ -53,7 +53,7 @@ GNM_PLUGIN_MODULE_HEADER;
 static GIConv CHAR_iconv;
 
 static GnmFuncHelp const help_char[] = {
-	{ GNM_FUNC_HELP_NAME, F_("CHAR:the CP1252 (Windows-1252) character for the code point @{x}.")},
+	{ GNM_FUNC_HELP_NAME, F_("CHAR:the CP1252 (Windows-1252) character for the code point @{x}")},
 	{ GNM_FUNC_HELP_ARG, F_("x:code point")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("CHAR(@{x}) returns the CP1252 (Windows-1252) character with code @{x}.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("@{x} must be in the range 1 to 255.")},
@@ -100,10 +100,11 @@ gnumeric_char (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_unichar[] = {
-        { GNM_FUNC_HELP_NAME, F_("UNICHAR:the Unicode character represented by the Unicode code point @{x}.")},
+        { GNM_FUNC_HELP_NAME, F_("UNICHAR:the Unicode character represented by the Unicode code point @{x}")},
         { GNM_FUNC_HELP_ARG, F_("x:Unicode code point")},
         { GNM_FUNC_HELP_EXAMPLES, "=UNICHAR(65)"},
         { GNM_FUNC_HELP_EXAMPLES, "=UNICHAR(960)"},
+        { GNM_FUNC_HELP_EXAMPLES, "=UNICHAR(20000)"},
         { GNM_FUNC_HELP_SEEALSO, "CHAR,UNICODE,CODE"},
         { GNM_FUNC_HELP_END}
 };
@@ -314,7 +315,7 @@ gnumeric_leftb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_lower[] = {
-        { GNM_FUNC_HELP_NAME, F_("LOWER:a lower-case version of the string @{text}.")},
+        { GNM_FUNC_HELP_NAME, F_("LOWER:a lower-case version of the string @{text}")},
 	{ GNM_FUNC_HELP_ARG, F_("text:string")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
         { GNM_FUNC_HELP_EXAMPLES, "=LOWER(\"J. F. Kennedy\")" },
@@ -530,7 +531,7 @@ gnumeric_rightb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_upper[] = {
-        { GNM_FUNC_HELP_NAME, F_("UPPER:an upper-case version of the string @text.")},
+        { GNM_FUNC_HELP_NAME, F_("UPPER:an upper-case version of the string @text")},
 	{ GNM_FUNC_HELP_ARG, F_("text:string")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=UPPER(\"Gnumeric\")" },
@@ -549,7 +550,7 @@ gnumeric_upper (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_concatenate[] = {
-        { GNM_FUNC_HELP_NAME, F_("CONCATENATE:the concatenation of the strings @{s1}, @{s2},...")},
+        { GNM_FUNC_HELP_NAME, F_("CONCATENATE:the concatenation of the strings @{s1}, @{s2},\xe2\x80\xa6")},
         { GNM_FUNC_HELP_ARG, F_("s1:first string")},
         { GNM_FUNC_HELP_ARG, F_("s2:second string")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -740,7 +741,7 @@ gnumeric_fixed (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_proper[] = {
-        { GNM_FUNC_HELP_NAME, F_("PROPER:@{text} with initial of each word capitalised.")},
+        { GNM_FUNC_HELP_NAME, F_("PROPER:@{text} with initial of each word capitalised")},
         { GNM_FUNC_HELP_ARG, F_("text:string")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=PROPER(\"j. f. kennedy\")" },
@@ -782,7 +783,7 @@ gnumeric_proper (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_replace[] = {
-        { GNM_FUNC_HELP_NAME, F_("REPLACE:String @{old} with @{num} characters "
+        { GNM_FUNC_HELP_NAME, F_("REPLACE:string @{old} with @{num} characters "
 				 "starting at @{start} replaced by @{new}")},
         { GNM_FUNC_HELP_ARG, F_("old:original text")},
         { GNM_FUNC_HELP_ARG, F_("start:starting position")},
@@ -964,7 +965,7 @@ gnumeric_text (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_trim[] = {
-        { GNM_FUNC_HELP_NAME, F_("TRIM:@{text} with only single spaces between words.")},
+        { GNM_FUNC_HELP_NAME, F_("TRIM:@{text} with only single spaces between words")},
         { GNM_FUNC_HELP_ARG, F_("text:string")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=TRIM(\"  a bbb  cc \")" },
@@ -1177,7 +1178,7 @@ gnumeric_substitute (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_dollar[] = {
-        { GNM_FUNC_HELP_NAME, F_("DOLLAR:@{num} formatted as currency.")},
+        { GNM_FUNC_HELP_NAME, F_("DOLLAR:@{num} formatted as currency")},
         { GNM_FUNC_HELP_ARG, F_("num:number")},
         { GNM_FUNC_HELP_ARG, F_("decimals:decimals")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -1386,7 +1387,7 @@ gnumeric_searchb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_asc[] = {
-	{ GNM_FUNC_HELP_NAME, F_("ASC:text with full-width katakana and ASCII characters converted to half-width.")},
+	{ GNM_FUNC_HELP_NAME, F_("ASC:text with full-width katakana and ASCII characters converted to half-width")},
 	{ GNM_FUNC_HELP_ARG, F_("text:string")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("ASC converts full-width katakana and ASCII characters to half-width equivalent characters, copying all others. ")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The distinction between half-width and full-width characters is described in http://www.unicode.org/reports/tr11/.")},
@@ -1513,7 +1514,7 @@ gnumeric_asc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_jis[] = {
-	{ GNM_FUNC_HELP_NAME, F_("JIS:text with half-width katakana and ASCII characters converted to full-width.")},
+	{ GNM_FUNC_HELP_NAME, F_("JIS:text with half-width katakana and ASCII characters converted to full-width")},
 	{ GNM_FUNC_HELP_ARG, F_("text:original text")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("JIS converts half-width katakana and ASCII characters "
 					"to full-width equivalent characters, copying all others. ")},

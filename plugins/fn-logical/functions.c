@@ -227,7 +227,7 @@ gnumeric_xor (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_iferror[] = {
-	{ GNM_FUNC_HELP_NAME, F_("IFERROR:Test for error.") },
+	{ GNM_FUNC_HELP_NAME, F_("IFERROR:test for error") },
 	{ GNM_FUNC_HELP_ARG, F_("x:value to test for error.") },
 	{ GNM_FUNC_HELP_ARG, F_("y:alternate value.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the first value, unless that is an error, in which case it returns the second.") },
@@ -245,7 +245,7 @@ gnumeric_iferror (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_ifna[] = {
-	{ GNM_FUNC_HELP_NAME, F_("IFNA:Test for #NA! error.") },
+	{ GNM_FUNC_HELP_NAME, F_("IFNA:test for #NA! error") },
 	{ GNM_FUNC_HELP_ARG, F_("x:value to test for #NA! error.") },
 	{ GNM_FUNC_HELP_ARG, F_("y:alternate value.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the first value, unless that is #NA!, in which case it returns the second.") },
@@ -264,7 +264,7 @@ gnumeric_ifna (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 static GnmFuncHelp const help_true[] = {
-	{ GNM_FUNC_HELP_NAME, F_("TRUE:the value TRUE.") },
+	{ GNM_FUNC_HELP_NAME, F_("TRUE:the value TRUE") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("TRUE returns the value TRUE.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=TRUE()" },
@@ -282,7 +282,7 @@ gnumeric_true (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /***************************************************************************/
 
 static GnmFuncHelp const help_false[] = {
-	{ GNM_FUNC_HELP_NAME, F_("FALSE:the value FALSE.") },
+	{ GNM_FUNC_HELP_NAME, F_("FALSE:the value FALSE") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("FALSE returns the value FALSE.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=FALSE()" },

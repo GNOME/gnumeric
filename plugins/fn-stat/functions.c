@@ -751,7 +751,7 @@ gnumeric_min (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_max[] = {
-	{ GNM_FUNC_HELP_NAME, F_("MAX:largest value, with negative numbers considered smaller than positive numbers.")},
+	{ GNM_FUNC_HELP_NAME, F_("MAX:largest value, with negative numbers considered smaller than positive numbers")},
 	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -840,7 +840,7 @@ gnumeric_skewp (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_expondist[] = {
-	{ GNM_FUNC_HELP_NAME, F_("EXPONDIST:(cumulative)density function of the exponential distribution")},
+	{ GNM_FUNC_HELP_NAME, F_("EXPONDIST:porbaility density or cumulative distribution function of the exponential distribution")},
 	   { GNM_FUNC_HELP_ARG, F_("x:")},
 	{ GNM_FUNC_HELP_ARG, F_("y:scale parameter")},
 	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the density function or the cumulative distribution function")},
@@ -909,7 +909,7 @@ gnumeric_bernoulli (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_gammadist[] = {
-	{ GNM_FUNC_HELP_NAME, F_("GAMMADIST:(cumulative) density function of the gamma distribution")},
+	{ GNM_FUNC_HELP_NAME, F_("GAMMADIST:probability density or cumulative distribution function of the gamma distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("x:")},
 	{ GNM_FUNC_HELP_ARG, F_("alpha:scale parameter")},
 	{ GNM_FUNC_HELP_ARG, F_("beta:scale parameter")},
@@ -1469,7 +1469,7 @@ gnumeric_finv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_binomdist[] = {
-	{ GNM_FUNC_HELP_NAME, F_("BINOMDIST:(cumulative) probability mass function of the binomial distribution")},
+	{ GNM_FUNC_HELP_NAME, F_("BINOMDIST:probability mass of cumulative distribution function of the binomial distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("n:number of successes")},
 	{ GNM_FUNC_HELP_ARG, F_("trials:number of trials")},
 	{ GNM_FUNC_HELP_ARG, F_("p:probability of success in each trial")},
@@ -1549,7 +1549,7 @@ gnumeric_binom_dist_range (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 static GnmFuncHelp const help_cauchy[] = {
-	{ GNM_FUNC_HELP_NAME, F_("CAUCHY:(cumulative) probability density function of the Cauchy, "
+	{ GNM_FUNC_HELP_NAME, F_("CAUCHY:probability density or cumulative distribution function of the Cauchy, "
 				 "Lorentz or Breit-Wigner distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("x:")},
 	{ GNM_FUNC_HELP_ARG, F_("a:scale parameter")},
@@ -1636,7 +1636,7 @@ gnumeric_permut (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_hypgeomdist[] = {
-	{ GNM_FUNC_HELP_NAME, F_("HYPGEOMDIST:(cumulative) probability mass function of the hypergeometric distribution")},
+	{ GNM_FUNC_HELP_NAME, F_("HYPGEOMDIST:probability mass or cumulative distribution function of the hypergeometric distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number of successes")},
 	{ GNM_FUNC_HELP_ARG, F_("n:sample size")},
 	{ GNM_FUNC_HELP_ARG, F_("M:number of possible successes in the population")},
@@ -1729,7 +1729,7 @@ gnumeric_standardize (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_weibull[] = {
-	{ GNM_FUNC_HELP_NAME, F_("WEIBULL:(cumulative) probability density function of the Weibull distribution")},
+	{ GNM_FUNC_HELP_NAME, F_("WEIBULL:probability density or cumulative distribution function of the Weibull distribution")},
            { GNM_FUNC_HELP_ARG, F_("x:")},
 	{ GNM_FUNC_HELP_ARG, F_("alpha:scale parameter")},
 	{ GNM_FUNC_HELP_ARG, F_("beta:scale parameter")},
@@ -1765,7 +1765,7 @@ gnumeric_weibull (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_normdist[] = {
-	{ GNM_FUNC_HELP_NAME, F_("NORMDIST:(cumulative) probability density function of a normal distribution")},
+	{ GNM_FUNC_HELP_NAME, F_("NORMDIST:probability density or cumulative distribution function of a normal distribution")},
            { GNM_FUNC_HELP_ARG, F_("x:")},
 	{ GNM_FUNC_HELP_ARG, F_("mean:mean of the distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("stddev:standard deviation of the distribution")},
@@ -1826,7 +1826,7 @@ gnumeric_norminv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_kurt[] = {
-	{ GNM_FUNC_HELP_NAME, F_("KURT:unbiased estimate of the kurtosis of a data set.")},
+	{ GNM_FUNC_HELP_NAME, F_("KURT:unbiased estimate of the kurtosis of a data set")},
 	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.") },
@@ -1961,7 +1961,7 @@ gnumeric_fisher (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_poisson[] = {
-	{ GNM_FUNC_HELP_NAME, F_("POISSON:(cumulative) probability mass function of the Poisson distribution")},
+	{ GNM_FUNC_HELP_NAME, F_("POISSON:probability mass or cumulative distribution function of the Poisson distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number of events")},
 	{ GNM_FUNC_HELP_ARG, F_("mean:mean of the distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the mass function or the cumulative distribution function")},
@@ -2201,7 +2201,7 @@ gnumeric_large (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_small[] = {
-	{ GNM_FUNC_HELP_NAME, F_("SMALL: @{k}-th smallest value in a data set.")},
+	{ GNM_FUNC_HELP_NAME, F_("SMALL:@{k}-th smallest value in a data set")},
 	{ GNM_FUNC_HELP_ARG, F_("data:data set")},
 	{ GNM_FUNC_HELP_ARG, F_("k:which value to find")},
 	{ GNM_FUNC_HELP_NOTE, F_("If data set is empty this function returns a #NUM! error.") },
@@ -2595,7 +2595,7 @@ gnumeric_averagea (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_maxa[] = {
-	{ GNM_FUNC_HELP_NAME, F_("MAXA:largest value, with negative numbers considered smaller than positive numbers.")},
+	{ GNM_FUNC_HELP_NAME, F_("MAXA:largest value, with negative numbers considered smaller than positive numbers")},
 	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	HELP_DESCRIPTION_TEXT_INCLUSION,
@@ -2708,7 +2708,7 @@ gnumeric_varpa (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_stdeva[] = {
 	{ GNM_FUNC_HELP_NAME, F_("STDEVA:sample standard deviation of the given "
-	   "sample.")},
+	   "sample")},
 	{ GNM_FUNC_HELP_ARG, F_("area1:first cell area")},
 	{ GNM_FUNC_HELP_ARG, F_("area2:second cell area")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("STDEVA is also known as the N-1-standard deviation.")},
@@ -2737,7 +2737,7 @@ gnumeric_stdeva (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_stdevpa[] = {
-	{ GNM_FUNC_HELP_NAME, F_("STDEVPA:population standard deviation of an entire population.")},
+	{ GNM_FUNC_HELP_NAME, F_("STDEVPA:population standard deviation of an entire population")},
 	{ GNM_FUNC_HELP_ARG, F_("area1:first cell area")},
 	{ GNM_FUNC_HELP_ARG, F_("area2:second cell area")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This is also known as the N-standard deviation")},
@@ -2764,7 +2764,7 @@ gnumeric_stdevpa (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_percentrank[] = {
-	{ GNM_FUNC_HELP_NAME, F_("PERCENTRANK:rank of a data point in a data set.")},
+	{ GNM_FUNC_HELP_NAME, F_("PERCENTRANK:rank of a data point in a data set")},
 	{ GNM_FUNC_HELP_ARG, F_("array:range of numeric values")},
 	{ GNM_FUNC_HELP_ARG, F_("x:data point to be ranked")},
 	{ GNM_FUNC_HELP_ARG, F_("significance:number of significant digits, defaults to 3")},
@@ -3176,7 +3176,7 @@ gnumeric_ttest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_frequency[] = {
-	{ GNM_FUNC_HELP_NAME, F_("FREQUENCY:the frequency table")},
+	{ GNM_FUNC_HELP_NAME, F_("FREQUENCY:frequency table")},
 	{ GNM_FUNC_HELP_ARG, F_("data_array:data values")},
 	{ GNM_FUNC_HELP_ARG, F_("bins_array:array of cutoff values")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The results are given as an array.") },
@@ -3244,7 +3244,7 @@ gnumeric_frequency (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_linest[] = {
-	{ GNM_FUNC_HELP_NAME, F_("LINEST:determines multiple linear regression coefficients and statistics.") },
+	{ GNM_FUNC_HELP_NAME, F_("LINEST:multiple linear regression coefficients and statistics") },
 	{ GNM_FUNC_HELP_ARG, F_("known_y's:vector of values of dependent variable.") },
 	{ GNM_FUNC_HELP_ARG, F_("known_x's:array of values of independent variables, defaults to a single vector 1,...,n.") },
 	{ GNM_FUNC_HELP_ARG, F_("affine:if true, the model contains a constant term, defaults to true.") },
@@ -4223,13 +4223,15 @@ gnumeric_logest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_growth[] = {
-	{ GNM_FUNC_HELP_NAME, F_("GROWTH: predicts the exponential growth")},
+	{ GNM_FUNC_HELP_NAME, F_("GROWTH:exponential growth prediction")},
 	{ GNM_FUNC_HELP_ARG, F_("known_y's:known y-values")},
 	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.")},
 	{ GNM_FUNC_HELP_ARG, F_("new_x's:x-values for which you want to estimate the y-values; defaults to @{known_x}'s")},
 	{ GNM_FUNC_HELP_ARG, F_("const:if this is false the line will be forced to go through the origin; defaults to TRUE")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("GROWTH function applies the ``least squares'' method to fit an "
-					"exponential curve to your data and predicts the exponential "
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("GROWTH function applies the \xe2\x80\x9cleast "
+					"squares\xe2\x80\x9d method to fit an "
+					"exponential curve to your data and predicts "
+					"the exponential "
 					"growth by using this curve.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("GROWTH returns an array having one column and a row for each "
 					"data point in @{new_x}.") },
@@ -4734,7 +4736,7 @@ gnumeric_cronbach (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_geomdist[] = {
-	{ GNM_FUNC_HELP_NAME, F_("GEOMDIST:(cumulative) probability mass function of the hypergeometric distribution")},
+	{ GNM_FUNC_HELP_NAME, F_("GEOMDIST:probability mass or cumulative distribution function of the hypergeometric distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("k:number of trials")},
 	{ GNM_FUNC_HELP_ARG, F_("p:probability of success in any trial")},
 	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the mass function or the cumulative distribution function")},
@@ -4903,7 +4905,7 @@ gnumeric_rayleightail (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_exppowdist[] = {
-	{ GNM_FUNC_HELP_NAME, F_("EXPPOWDIST: the probability density function of the "
+	{ GNM_FUNC_HELP_NAME, F_("EXPPOWDIST:the probability density function of the "
 				 "Exponential Power distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("x:")},
 	{ GNM_FUNC_HELP_ARG, F_("a:scale parameter")},
@@ -4960,7 +4962,7 @@ gnumeric_laplace (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_permutationa[] = {
-        { GNM_FUNC_HELP_NAME, F_("PERMUTATIONA:the number of permutations of @{y} objects chosen from @{x} objects with repetition allowed.")},
+        { GNM_FUNC_HELP_NAME, F_("PERMUTATIONA:the number of permutations of @{y} objects chosen from @{x} objects with repetition allowed")},
         { GNM_FUNC_HELP_ARG, F_("x:total number of objects")},
         { GNM_FUNC_HELP_ARG, F_("y:number of selected objects")},
 	{ GNM_FUNC_HELP_NOTE, F_("If both @{x} and @{y} equal 0, PERMUTATIONA returns 1.") },
@@ -5194,7 +5196,7 @@ gnumeric_sftest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_cvmtest[] = {
-	{ GNM_FUNC_HELP_NAME, F_("CVMTEST: Cram\xc3\xa9r-von Mises Test of Normality") },
+	{ GNM_FUNC_HELP_NAME, F_("CVMTEST:Cram\xc3\xa9r-von Mises Test of Normality") },
 	{ GNM_FUNC_HELP_ARG, F_("x:array of sample values") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns an array with the first row giving the p-value of the Cram\xc3\xa9r-von Mises Test,"
 					" the second row the test statistic of the test, and the third the number of observations in the sample.")},

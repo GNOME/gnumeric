@@ -78,7 +78,7 @@ value_new_complex (complex_t const *c, char imunit)
 /***************************************************************************/
 
 static GnmFuncHelp const help_complex[] = {
-        { GNM_FUNC_HELP_NAME, F_("COMPLEX:a complex number of the form @{x} + @{y}@{i}.") },
+        { GNM_FUNC_HELP_NAME, F_("COMPLEX:a complex number of the form @{x} + @{y}@{i}") },
         { GNM_FUNC_HELP_ARG, F_("x:real part") },
         { GNM_FUNC_HELP_ARG, F_("y:imaginary part") },
         { GNM_FUNC_HELP_ARG, F_("i:the suffix for the complex number, either \"i\" or \"j\"; defaults to \"i\".") },
@@ -519,7 +519,7 @@ gnumeric_imlog10 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_impower[] = {
-        { GNM_FUNC_HELP_NAME, F_("IMPOWER: the complex number @{z1} raised to the @{z2}th power") },
+        { GNM_FUNC_HELP_NAME, F_("IMPOWER:the complex number @{z1} raised to the @{z2}th power") },
         { GNM_FUNC_HELP_ARG, F_("z1:a complex number") },
         { GNM_FUNC_HELP_ARG, F_("z2:a complex number") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{z1} or @{z2} is not a valid complex number, #VALUE! is returned.") },
@@ -1093,7 +1093,7 @@ gnumeric_imsqrt (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_imsub[] = {
-        { GNM_FUNC_HELP_NAME, F_("IMSUB:the difference of two complex numbers.") },
+        { GNM_FUNC_HELP_NAME, F_("IMSUB:the difference of two complex numbers") },
         { GNM_FUNC_HELP_ARG, F_("z1:a complex number") },
         { GNM_FUNC_HELP_ARG, F_("z2:a complex number") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{z1} or @{z2} is not a valid complex number, #VALUE! is returned.") },
@@ -1123,7 +1123,7 @@ gnumeric_imsub (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_improduct[] = {
-        { GNM_FUNC_HELP_NAME, F_("IMPRODUCT:the product of the given complex numbers.") },
+        { GNM_FUNC_HELP_NAME, F_("IMPRODUCT:the product of the given complex numbers") },
         { GNM_FUNC_HELP_ARG, F_("z1:a complex number") },
         { GNM_FUNC_HELP_ARG, F_("z2:a complex number") },
 	{ GNM_FUNC_HELP_NOTE, F_("If any of @{z1}, @{z2},... is not a valid complex number, #VALUE! is returned.") },
