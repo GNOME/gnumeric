@@ -5,6 +5,13 @@
 
 2010-06-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/gnm-pane-impl.h: make cursor.expr_range into a GSList
+	* src/gnm-pane.h (gnm_pane_expr_cursor_bound_set): add main_colour arg 
+	* src/gnm-pane.c (gnm_pane_expr_cursor_bound_set): add main_colour 
+	  arg and don't delete existing cursors
+
+2010-06-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/func-builtin.c (help_if): remove inconsistent period
 	
 2010-06-10  Morten Welinder  <terra@gnome.org>

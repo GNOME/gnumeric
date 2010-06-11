@@ -1,3 +1,8 @@
+2010-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (gee_scan_for_range): create cursors for all
+	  ranges
+
 2010-06-08  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_parse): do not update the wrong

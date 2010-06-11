@@ -855,6 +855,8 @@ gnm_pane_dispose (GObject *obj)
 
 	g_slist_free (pane->cursor.animated);
 	pane->cursor.animated = NULL;
+	go_slist_free_custom (pane->cursor.expr_range, g_object_unref);
+	pane->cursor.expr_range = NULL;
 
 	if (pane->mouse_cursor) {
 		gdk_cursor_unref (pane->mouse_cursor);
@@ -871,7 +873,7 @@ gnm_pane_dispose (GObject *obj)
 	 * unexpectedly.  */
 	pane->grid = NULL;
 	pane->editor = NULL;
-	pane->cursor.std = pane->cursor.rangesel = pane->cursor.special = pane->cursor.expr_range = NULL;
+	pane->cursor.std = pane->cursor.rangesel = pane->cursor.special = NULL;
 	pane->size_guide.guide = NULL;
 	pane->size_guide.start = NULL;
 	pane->size_guide.points = NULL;
@@ -2068,8 +2070,8 @@ gnm_pane_reposition_cursors (GnmPane *pane)
 		item_cursor_reposition (pane->cursor.rangesel);
 	if (NULL != pane->cursor.special)
 		item_cursor_reposition (pane->cursor.special);
-	if (NULL != pane->cursor.expr_range)
-		item_cursor_reposition (ITEM_CURSOR (pane->cursor.expr_range));
+	for (l = pane->cursor.expr_range; l; l = l->next)
+		item_cursor_reposition (ITEM_CURSOR (l->data));
 	for (l = pane->cursor.animated; l; l = l->next)
 		item_cursor_reposition (ITEM_CURSOR (l->data));
 
@@ -2178,28 +2180,36 @@ gnm_pane_mouse_cursor_set (GnmPane *pane, GdkCursor *c)
 
 /****************************************************************************/
 
-void
-gnm_pane_expr_cursor_bound_set (GnmPane *pane, GnmRange const *r)
-{
-	if (NULL == pane->cursor.expr_range)
-		pane->cursor.expr_range = (ItemCursor *) goc_item_new (
-			GOC_GROUP (GOC_CANVAS (pane)->root),
-			item_cursor_get_type (),
-			"SheetControlGUI",	pane->simple.scg,
-			"style",		ITEM_CURSOR_EXPR_RANGE,
-			"color",		"blue",
-			NULL);
 
-	item_cursor_bound_set (pane->cursor.expr_range, r);
+void
+gnm_pane_expr_cursor_bound_set (GnmPane *pane, GnmRange const *r, 
+				gboolean main_color)
+{
+	gchar const *colours[5] 
+		= {"green","yellow", "orange", "red", "purple"};
+	gint i;
+	ItemCursor *cursor;
+
+	i = g_slist_length (pane->cursor.expr_range) % 5;
+
+	cursor = (ItemCursor *) goc_item_new 
+		(GOC_GROUP (GOC_CANVAS (pane)->root),
+		 item_cursor_get_type (),
+		 "SheetControlGUI",	pane->simple.scg,
+		 "style",		ITEM_CURSOR_EXPR_RANGE,
+		 "color",		main_color ? "blue" : colours[i],
+		 NULL);
+
+	item_cursor_bound_set (cursor, r);
+	pane->cursor.expr_range = g_slist_prepend 
+		(pane->cursor.expr_range, cursor);
 }
 
 void
 gnm_pane_expr_cursor_stop (GnmPane *pane)
 {
-	if (NULL != pane->cursor.expr_range) {
-		g_object_unref (G_OBJECT (pane->cursor.expr_range));
-		pane->cursor.expr_range = NULL;
-	}
+	go_slist_free_custom (pane->cursor.expr_range, g_object_unref);
+	pane->cursor.expr_range = NULL;
 }
 
 /****************************************************************************/

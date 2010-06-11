@@ -63,7 +63,7 @@ struct _GnmPane {
 		ItemCursor *std, *rangesel, *special;
 		GSList *animated;
 
-		ItemCursor *expr_range;	/* highlight refs while editing */
+		GSList *expr_range;	/* highlight refs while editing */
 	} cursor;
 
 	struct {
