@@ -117,6 +117,12 @@ static void     cb_gee_notify_cursor_position (GnmExprEntry *gee);
 
 static GtkObjectClass *parent_class = NULL;
 
+static gboolean
+gee_is_editing (GnmExprEntry *gee)
+{
+	return (gee != NULL && gee->wbcg != NULL && wbcg_is_editing (gee->wbcg));
+}
+
 static GnmConventions const *
 gee_convs (const GnmExprEntry *gee)
 {
@@ -499,11 +505,7 @@ gee_scan_for_range (GnmExprEntry *gee)
 	parse_pos_init_editpos (&gee->pp, scg_view (gee->scg));
 	gee_destroy_feedback_range (gee);
 	if (!gee->feedback_disabled) {
-		gnm_expr_entry_find_range (gee);
-		in_editing = gnm_expr_entry_get_rangesel (gee, &range, &parse_sheet);
-#warning This is only tells us we are editing if we are even in a range.
-
-		if (in_editing) {
+		if (gee_is_editing (gee)) {
 			char const *text = gtk_entry_get_text (gee->entry);
 			GnmParsePos pp;
 			GnmExprTop const *texpr;
@@ -536,6 +538,7 @@ gee_scan_for_range (GnmExprEntry *gee)
 				gnm_expr_top_unref (texpr);
 			}
 		}
+		gnm_expr_entry_find_range (gee);
 		if (gnm_expr_entry_get_rangesel (gee, &range, &parse_sheet) &&
 		    parse_sheet == sheet) {
 			GnmRange const *merge; /* [#127415] */			

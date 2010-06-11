@@ -17,7 +17,7 @@ Andreas:
 	* Improve ACCRINT and its description. [#611436]
 	* Fix tests for homogeneity and independence for non-square
 	  tables. [#621227]
-	* Show all ranges while editing a range.
+	* Show all ranges while editing. [#166653]
 
 Jean:
 	* Do not ungrab a not grabbed item. [#620369]

@@ -1,5 +1,10 @@
 2010-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gnumeric-expr-entry.c (gee_is_editing): new
+	(gee_scan_for_range): use gee_is_editing
+
+2010-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* gnumeric-expr-entry.c (gee_scan_for_range): remove warning
 
 2010-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
