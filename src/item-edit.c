@@ -145,6 +145,25 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 		y = PANGO_PIXELS (pos.y);
 		h = PANGO_PIXELS (pos.height);
 		pango_layout_index_to_pos (ie->layout, end, &pos);
+		if (PANGO_PIXELS (pos.y) != y) {
+			PangoLayoutLine *line;
+			int x_pos, line_no;
+			PangoRectangle rect;
+			pango_layout_index_to_line_x (ie->layout, start, 0, &line_no, &x_pos);
+			line = pango_layout_get_line (ie->layout, line_no);
+			pango_layout_line_get_extents (line, NULL, &rect);
+			while (PANGO_PIXELS (pos.y) > y) {
+				w = PANGO_PIXELS (rect.x + rect.width) - x;
+				gdk_draw_rectangle (drawable, ie->gc, TRUE, left + x, top + y, w, h);
+				line = pango_layout_get_line (ie->layout, line_no);
+				if (!line)
+					break; /* this should not happen */
+				pango_layout_line_get_extents (line, NULL, &rect);
+				x = PANGO_PIXELS (rect.x);
+				h = PANGO_PIXELS (rect.height);
+				y += h; /* seems that PANGO_PIXELS (rect.y) gives some negative insanity */
+			}
+		}
 		w = PANGO_PIXELS (pos.x) - x;
 		if (w < 0) {
 			x += w;

@@ -1,3 +1,8 @@
+2010-06-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/item-edit.c (item_edit_draw):	Fixed multi-line item edit
+	selection. [#621235]
+
 2010-06-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/func-builtin.c (help_if): remove inconsistent period
