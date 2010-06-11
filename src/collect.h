@@ -68,7 +68,7 @@ GnmValue *string_range_function (int argc, GnmExprConstPtr const *argv,
 
 GSList *gnm_slist_sort_merge (GSList * list_1, GSList * list_2);
 
-void gnm_strip_missing (GArray * data, GSList *missing);
+void gnm_strip_missing (gnm_float* data, int *p, GSList *missing);
 
 
 G_END_DECLS

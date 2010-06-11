@@ -548,23 +548,22 @@ gnm_slist_sort_merge (GSList *l1,
  *
  */
 void
-gnm_strip_missing (GArray *data, GSList *missing)
+gnm_strip_missing (gnm_float *data, int *n, GSList *missing)
 {
-	unsigned src, dst;;
+	unsigned src, dst;
 
 	if (missing == NULL)
 		return;
 
-	for (src = dst = 0; src < data->len; src++) {
-		if (missing && src == GPOINTER_TO_UINT (missing->data))
+	for (src = dst = 0; (int)dst < *n; src++) {
+		if (missing && src == GPOINTER_TO_UINT (missing->data)) {
 			missing = missing->next;
-		else {
-			g_array_index (data, gnm_float, dst) =
-				g_array_index (data, gnm_float, src);
+			(*n)--;
+		} else {
+			data[dst] = data[src];
 			dst++;
 		}
 	}
-	g_array_set_size (data, dst);
 }
 
 GnmValue *
@@ -605,22 +604,8 @@ float_range_function2d (GnmValue const *val0, GnmValue const *val1,
 
 		if (missing0 || missing1) {
 			GSList *missing = gnm_slist_sort_merge (missing0, missing1);
-			GArray *gval;
-			gval = g_array_new (FALSE, FALSE, sizeof (gnm_float));
-			gval = g_array_append_vals (gval, vals0, n0);
-			g_free (vals0);
-			gnm_strip_missing (gval, missing);
-			vals0 = (gnm_float *)gval->data;
-			n0 = gval->len;
-			g_array_free (gval, FALSE);
-
-			gval = g_array_new (FALSE, FALSE, sizeof (gnm_float));
-			gval = g_array_append_vals (gval, vals1, n1);
-			g_free (vals1);
-			gnm_strip_missing (gval, missing);
-			vals1 = (gnm_float *)gval->data;
-			n1 = gval->len;
-			g_array_free (gval, FALSE);
+			gnm_strip_missing (vals0, &n0, missing);
+			gnm_strip_missing (vals1, &n1, missing);
 
 			g_slist_free (missing);
 

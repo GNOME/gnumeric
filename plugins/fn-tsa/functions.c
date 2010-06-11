@@ -561,26 +561,9 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			value_release (values[i]);
 	} else {
 		if (missing0 || missing1) {
-			GSList *missing ;
-			GArray *gval;
-
-			missing = gnm_slist_sort_merge (missing0, missing1);
-			gval = g_array_new (FALSE, FALSE, sizeof (gnm_float));
-			gval = g_array_append_vals (gval, vals0, n0);
-			g_free (vals0);
-			gnm_strip_missing (gval, missing);
-			vals0 = (gnm_float *) gval->data;
-			n0 = gval->len;
-			g_array_free (gval, FALSE);
-
-			gval = g_array_new (FALSE, FALSE, sizeof (gnm_float));
-			gval = g_array_append_vals (gval, vals1, n1);
-			g_free (vals1);
-			gnm_strip_missing (gval, missing);
-			vals1 = (gnm_float *) gval->data;
-			n1 = gval->len;
-			g_array_free (gval, FALSE);
-
+			GSList *missing = gnm_slist_sort_merge (missing0, missing1);
+			gnm_strip_missing (vals0, &n0, missing);
+			gnm_strip_missing (vals1, &n1, missing);
 			g_slist_free (missing);
 
 			if (n0 != n1) {
@@ -745,26 +728,9 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			interp = INTERPOLATION_LINEAR;
 
 		if (missing0 || missing1) {
-			GSList *missing ;
-			GArray *gval;
-
-			missing = gnm_slist_sort_merge (missing0, missing1);
-			gval = g_array_new (FALSE, FALSE, sizeof (gnm_float));
-			gval = g_array_append_vals (gval, ord, n0);
-			g_free (ord);
-			gnm_strip_missing (gval, missing);
-			ord = (gnm_float *) gval->data;
-			n0 = gval->len;
-			g_array_free (gval, FALSE);
-
-			gval = g_array_new (FALSE, FALSE, sizeof (gnm_float));
-			gval = g_array_append_vals (gval, absc, n1);
-			g_free (absc);
-			gnm_strip_missing (gval, missing);
-			absc = (gnm_float *) gval->data;
-			n1 = gval->len;
-			g_array_free (gval, FALSE);
-
+			GSList *missing = gnm_slist_sort_merge (missing0, missing1);
+			gnm_strip_missing (ord, &n0, missing);
+			gnm_strip_missing (absc, &n1, missing);
 			g_slist_free (missing);
 
 			if (n0 != n1)
@@ -842,16 +808,7 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	} else {
 		/* we have no interpolation to apply, so just take the values */
 		if (missing0) {
-			GArray *gval;
-
-			gval = g_array_new (FALSE, FALSE, sizeof (gnm_float));
-			gval = g_array_append_vals (gval, ord, n0);
-			g_free (ord);
-			gnm_strip_missing (gval, missing0);
-			ord = (gnm_float *) gval->data;
-			n0 = gval->len;
-			g_array_free (gval, FALSE);
-
+			gnm_strip_missing (ord, &n0, missing0);
 			g_slist_free (missing0);
 		}
 		nb = 1;
@@ -962,16 +919,7 @@ gnumeric_fourier (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	}
 
 	if (missing0) {
-		GArray *gval;
-
-		gval = g_array_new (FALSE, FALSE, sizeof (gnm_float));
-		gval = g_array_append_vals (gval, ord, n0);
-		g_free (ord);
-		gnm_strip_missing (gval, missing0);
-		ord = (gnm_float *) gval->data;
-		n0 = gval->len;
-		g_array_free (gval, FALSE);
-
+		gnm_strip_missing (ord, &n0, missing0);
 		g_slist_free (missing0);
 	}
 
