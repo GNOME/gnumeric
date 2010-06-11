@@ -229,6 +229,10 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
 	case VALUE_EMPTY:
 		if (cl->flags & COLLECT_IGNORE_BLANKS)
 			ignore = TRUE;
+		else if (cl->flags & COLLECT_ZERO_BLANKS)
+			x = 0;
+		else
+			return value_new_error_VALUE (ep);
 		break;
 
 	case VALUE_BOOLEAN:
