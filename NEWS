@@ -29,6 +29,7 @@ Morten:
 	* Fix critical when inserting graph using keys.
 	* Automate win32 help generation.
 	* Mark a sheet dirty when its tab colour is changed.  [#621191]
+	* Fix SERIESSUM issue.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.5

@@ -1981,7 +1981,7 @@ gnumeric_fvschedule (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	pv       = value_get_as_float (argv[0]);
 	schedule = collect_floats_value (argv[1], ei->pos,
-					 0, &n, &result);
+					 COLLECT_IGNORE_BLANKS, &n, &result);
 	if (result)
 		goto out;
 

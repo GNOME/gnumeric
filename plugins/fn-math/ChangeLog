@@ -1,3 +1,8 @@
+2010-06-11  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_seriessum): Ignore blanks for
+	compatibility.
+
 2010-06-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c: remove superfluous spaces, inconsitent periods, etc.

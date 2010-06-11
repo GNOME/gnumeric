@@ -2510,9 +2510,10 @@ gnumeric_seriessum (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float m = value_get_as_float (argv[2]);
 	GnmValue *result = NULL;
 	int N;
-	/* Treat blanks as 0; err on bools or strings.  */
+	/* Ignore blanks; err on bools or strings.  */
 	gnm_float *data =
-		collect_floats_value (argv[3], ei->pos, 0, &N, &result);
+		collect_floats_value (argv[3], ei->pos,
+				      COLLECT_IGNORE_BLANKS, &N, &result);
 
 	if (result)
 		goto done;
