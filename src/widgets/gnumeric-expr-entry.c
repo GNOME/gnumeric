@@ -500,7 +500,6 @@ gee_scan_for_range (GnmExprEntry *gee)
 	GnmRange  range;
 	Sheet *sheet = scg_sheet (gee->scg);
 	Sheet *parse_sheet;
-	gboolean in_editing;
 
 	parse_pos_init_editpos (&gee->pp, scg_view (gee->scg));
 	gee_destroy_feedback_range (gee);
