@@ -4433,11 +4433,11 @@ static GnmFuncHelp const help_geomdist[] = {
 static GnmValue *
 gnumeric_geomdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	int       k   = value_get_as_int (argv[0]);
+	gnm_float k   = gnm_fake_floor (value_get_as_float (argv[0]));
 	gnm_float p   = value_get_as_float (argv[1]);
 	gboolean  cum = value_get_as_checked_bool (argv[2]);
 
-	if (p < 0 || p > 1 || k < 0 || (cum != TRUE && cum != FALSE))
+	if (p < 0 || p > 1 || k < 0)
 		return value_new_error_NUM (ei->pos);
 
 	if (cum)
