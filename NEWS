@@ -34,6 +34,7 @@ Morten:
 	* Modernize code for LINEST, LOGEST, and  LOGREG.  [#317426]
 	* GEOMDIST: avoid overflow in extreme cases.
 	* SFTEST: improve extreme-case precision.
+	* Fix RANDLEVY.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.5

@@ -736,7 +736,7 @@ gnumeric_randlevy (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float c     = value_get_as_float (argv[0]);
 	gnm_float alpha = value_get_as_float (argv[1]);
-	gnm_float beta  = argv[2] == NULL ? 0 : value_get_as_float (argv[1]);
+	gnm_float beta  = argv[2] ? value_get_as_float (argv[2]): 0;
 
 	if (alpha <= 0 || alpha > 2 || beta < -1 || beta > 1)
 		return value_new_error_NUM (ei->pos);
