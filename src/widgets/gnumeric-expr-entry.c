@@ -22,6 +22,7 @@
 #include <ranges.h>
 #include <value.h>
 #include <expr.h>
+#include <func.h>
 #include <dependent.h>
 #include <sheet.h>
 #include <workbook.h>
@@ -575,6 +576,51 @@ cb_gee_notify_cursor_position (GnmExprEntry *gee)
 }
 
 static void
+gee_delete_tooltip (GnmExprEntry *gee)
+{
+	if (gee->entry)
+		gtk_widget_set_has_tooltip (GTK_WIDGET (gee->entry), FALSE);
+}
+
+static void
+gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd)
+{
+	GString *str;
+	gchar sep = go_locale_get_arg_sep ();
+	gint min, max, i;
+	gboolean first = TRUE;
+
+	gnm_func_load_if_stub (fd);
+
+	str = g_string_new (gnm_func_get_name (fd));
+	g_string_append_c (str, '(');
+
+	function_def_count_args (fd, &min, &max);
+	for (i = 0; i < max; i++) {
+		char *arg_name = function_def_get_arg_name
+			(fd, i);
+		if (arg_name != NULL) {
+			if (first)
+				first = FALSE;
+			else
+				g_string_append_c (str, sep);
+			g_string_append (str, arg_name);
+			g_free (arg_name);
+		} else
+			break;
+	}
+	if (i < max) {
+		if (!first)
+			g_string_append_c (str, sep);
+		g_string_append (str, "\xe2\x80\xa6");
+	}
+	g_string_append_c (str, ')');
+	if (gee->entry)
+		gtk_widget_set_tooltip_text (GTK_WIDGET (gee->entry), str->str);
+	g_string_free (str, TRUE);
+}
+
+static void
 cb_entry_changed (GnmExprEntry *gee)
 {
 	gee_update_env (gee);
@@ -767,6 +813,38 @@ cb_gee_key_press_event (GtkEntry	*entry,
 		return TRUE;
 	}
 
+	case GDK_parenright: {
+		gee_delete_tooltip (gee);
+		return FALSE;
+	}
+
+	case GDK_parenleft: {
+		/* Create tooltip with the syntax of the current function */
+		GtkEditable *editable = GTK_EDITABLE (entry);
+		gint end;
+		char *str;
+		char *prefix;
+		char *str_end;
+
+		end = gtk_editable_get_position (editable);
+		str = gtk_editable_get_chars (editable, 0, end);
+		prefix = str_end = str + strlen (str);
+		do {prefix--;} while (prefix >= str && (('a' <= *prefix && *prefix <= 'z') ||
+						       ('a' <= *prefix && *prefix <= 'z')));
+		prefix++;
+		
+		if (prefix < str_end) {
+			GnmFunc	   *fd = gnm_func_lookup (prefix, NULL);
+			gnm_func_ref (fd);
+			if (fd != NULL)
+				gee_set_tooltip (gee, fd);
+			gnm_func_unref (fd);
+		}
+
+		g_free (str);
+		return FALSE;
+	}
+
 	default:
 		break;
 	}
@@ -785,6 +863,7 @@ cb_gee_button_press_event (G_GNUC_UNUSED GtkEntry *entry,
 		scg_rangesel_stop (gee->scg, FALSE);
 		gnm_expr_entry_find_range (gee);
 		g_signal_emit (G_OBJECT (gee), signals[CHANGED], 0);
+		gee_delete_tooltip (gee);
 	}
 
 	return FALSE;
@@ -1500,6 +1579,7 @@ gnm_expr_entry_load_from_text (GnmExprEntry *gee, char const *txt)
 
 	gee_rangesel_reset (gee);
 	gtk_entry_set_text (gee->entry, txt);
+	gee_delete_tooltip (gee);
 }
 
 /**
@@ -1531,6 +1611,7 @@ gnm_expr_entry_load_from_dep (GnmExprEntry *gee, GnmDependent const *dep)
 		gee->rangesel.text_end = strlen (text);
 
 		g_free (text);
+		gee_delete_tooltip (gee);
 	} else
 		gnm_expr_entry_load_from_text (gee, "");
 }
@@ -1560,6 +1641,7 @@ gnm_expr_entry_load_from_expr (GnmExprEntry *gee,
 		gtk_entry_set_text (gee->entry, text);
 		gee->rangesel.text_end = strlen (text);
 		g_free (text);
+		gee_delete_tooltip (gee);
 	} else
 		gnm_expr_entry_load_from_text (gee, "");
 }

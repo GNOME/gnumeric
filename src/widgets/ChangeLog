@@ -1,5 +1,15 @@
 2010-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gnumeric-expr-entry.c (gee_delete_tooltip): new
+	(gee_set_tooltip): new
+	(cb_gee_key_press_event): create tooltip
+	(cb_gee_button_press_event): delete tooltip
+	(gnm_expr_entry_load_from_text): delete tooltip
+	(gnm_expr_entry_load_from_dep): delete tooltip
+	(gnm_expr_entry_load_from_expr): delete tooltip
+
+2010-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* gnumeric-expr-entry.c (gee_is_editing): new
 	(gee_scan_for_range): use gee_is_editing
 
