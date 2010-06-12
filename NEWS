@@ -32,6 +32,8 @@ Morten:
 	* Mark a sheet dirty when its tab colour is changed.  [#621191]
 	* Fix SERIESSUM issue.
 	* Modernize code for LINEST, LOGEST, and  LOGREG.  [#317426]
+	* GEOMDIST: avoid overflow in extreme cases.
+	* SFTEST: improve extreme-case precision.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.5

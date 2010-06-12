@@ -4831,7 +4831,7 @@ gnumeric_sftest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 				 value_new_error_VALUE (ei->pos));
 	} else {
 		int i;
-		gnm_float stat;
+		gnm_float stat_;
 		gnm_float *ys;
 		gnm_float *zs;
 
@@ -4841,7 +4841,7 @@ gnumeric_sftest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		for (i = 0; i < n; i++)
 			zs[i] = qnorm ((((gnm_float)(i+1))-3./8.)/(n+0.25), 0., 1., TRUE, FALSE);
 
-		if (gnm_range_correl_pop (ys, zs, n, &stat)) {
+		if (gnm_range_correl_pop (ys, zs, n, &stat_)) {
 			value_array_set (result, 0, 0,
 					 value_new_error_VALUE (ei->pos));
 			value_array_set (result, 0, 1,
@@ -4850,17 +4850,17 @@ gnumeric_sftest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			gnm_float p;
 			gnm_float u, v, mu, sig;
 
-			stat = stat * stat;
+			stat_ = stat_ * stat_;
 
 			value_array_set (result, 0, 1,
-					 value_new_float (stat));
+					 value_new_float (stat_));
 
 			u = gnm_log (n);
 			v = gnm_log (u);
 			mu = -1.2725 + 1.0521 * (v - u);
 			sig = 1.0308 - 0.26758 * (v + 2./u);
 
-			p = pnorm (gnm_log (1. - stat), mu, sig, FALSE, FALSE);
+			p = pnorm (gnm_log1p (-stat_), mu, sig, FALSE, FALSE);
 
 			value_array_set (result, 0, 0,
 					 value_new_float (p));

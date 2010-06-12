@@ -5,6 +5,8 @@
 	(gnumeric_linest, gnumeric_logreg, gnumeric_logest): Simplify
 	using gnm_reg_data_collect.  Fixes #317426.
 	(gnumeric_geomdist): Avoid using "int" for "k".
+	(gnumeric_sftest): Avoid using reserved identifier.  Improve
+	precision in extreme cases.
 
 2010-06-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
