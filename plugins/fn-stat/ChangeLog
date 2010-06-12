@@ -1,3 +1,10 @@
+2010-06-11  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnm_reg_data_collect, gnm_reg_data_free): New
+	functions.
+	(gnumeric_linest, gnumeric_logreg, gnumeric_logest): Simplify
+	using gnm_reg_data_collect.  Fixes #317426.
+
 2010-06-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c: remove superfluous spaces, inconsitent periods, etc.

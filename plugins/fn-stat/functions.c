@@ -3243,6 +3243,149 @@ gnumeric_frequency (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+/* Notes for now, to be incorporated into help when it actually works:
+ *
+ * Entered as linest(Yrange, [Xrange, [Intercept, [Stat]]]). Intercept and Stat
+ * work as above. According to playing with Excel, if Yrange is an array, Xrange
+ * must be an array. They claim that you can use semicolons to separate rows in
+ * an array, but I've never gotten that to work. If Yrange is a single column,
+ * every column in the Xrange (which must be a cell range) is interpreted as a
+ * separate variable. Similar for a single row. If Y is a blob, X is interpreted
+ * as a single variable blob. Experiments suggest that multivariable blobs don't work.
+ * Currently everything should be implemented except for inputting arrays. X's must
+ * be contiguous so far as I can tell.
+ */
+
+typedef struct {
+	gnm_float *ys;
+	int n;
+	gnm_float **xss;
+	int dim;
+} GnmRegData;
+
+static void
+gnm_reg_data_free (GnmRegData *data)
+{
+	int i;
+
+	g_free (data->ys);
+	for (i = 0; i < data->dim; i++)
+		g_free (data->xss[i]);
+	g_free (data->xss);
+
+	memset (data, 0, sizeof (*data));
+}
+
+static gnm_float *
+gnm_reg_get_var (GnmValue const *xval, int x, int y, int dx, int dy,
+		 int n, GnmEvalPos const *ep)
+{
+	gnm_float *res = g_new (gnm_float, n);
+	int i;
+
+	for (i = 0; i < n; i++) {
+		GnmValue const *v = value_area_fetch_x_y (xval, x, y, ep);
+
+		if (!VALUE_IS_FLOAT (v)) {
+			/* Anything else is an error.  */
+			g_free (res);
+			return NULL;
+		}
+
+		res[i] = value_get_as_float (v);
+		x += dx;
+		y += dy;
+	}
+
+	return res;
+}
+
+
+
+static GnmValue *
+gnm_reg_data_collect (GnmValue const *yval, GnmValue const *xval,
+		      GnmRegData *data, GnmEvalPos const *ep)
+{
+	int yh = value_area_get_height (yval, ep);
+	int yw = value_area_get_width (yval, ep);
+	int ny;
+	GnmValue *result = NULL;
+
+	memset (data, 0, sizeof (data));
+
+	/* Blanks, bools, strings, errors all are forbidden.  */
+	data->ys = collect_floats_value (yval, ep, 0,
+					 &ny, &result);
+	if (result || ny <= 0)
+		goto error;
+	data->n = ny;
+
+	if (VALUE_IS_EMPTY (xval)) {
+		int i;
+
+		data->dim = 1;
+		data->xss = g_new (gnm_float *, data->dim);
+		data->xss[0] = g_new (gnm_float, ny);
+		for (i = 0; i < ny; i++)
+			data->xss[0][i] = i + 1;
+	} else {
+		int xh = value_area_get_height (xval, ep);
+		int xw = value_area_get_width (xval, ep);
+		int i, nx;
+
+		if (yw == 1) {
+			/* X's columns are the variables.  */
+			if (xh != yh)
+				goto ref_error;
+			data->dim = xw;
+			data->xss = g_new0 (gnm_float *, data->dim);
+			for (i = 0; i < data->dim; i++) {
+				data->xss[i] = gnm_reg_get_var
+					(xval, i, 0, 0, +1, xh, ep);
+				if (!data->xss[i])
+					goto error;
+			}
+		} else if (yh == 1) {
+			/* X's rows are the variables.  */
+			if (xw != yw)
+				goto ref_error;
+			data->dim = xh;
+			data->xss = g_new0 (gnm_float *, data->dim);
+			for (i = 0; i < data->dim; i++) {
+				data->xss[i] = gnm_reg_get_var
+					(xval, 0, i, +1, 0, xw, ep);
+				if (!data->xss[i])
+					goto error;
+			}
+		} else {
+			if (xh != yh || xw != yw)
+				goto ref_error;
+			data->dim = 1;
+			data->xss = g_new0 (gnm_float *, data->dim);
+			data->xss[0] = collect_floats_value (xval, ep, 0,
+							     &nx, &result);
+			if (result)
+				goto error;
+		}
+	}
+
+	return NULL;
+
+ error:
+	value_release (result);
+	/* Always this kind of error.  */
+	result = value_new_error_VALUE (ep);
+	gnm_reg_data_free (data);
+	return result;
+
+ ref_error:
+	/* If the areas have the wrong shape, we get #REF!  */
+	gnm_reg_data_free (data);
+	return value_new_error_REF (ep);
+}
+
+
+
 static GnmFuncHelp const help_linest[] = {
 	{ GNM_FUNC_HELP_NAME, F_("LINEST:multiple linear regression coefficients and statistics") },
 	{ GNM_FUNC_HELP_ARG, F_("known_y's:vector of values of dependent variable.") },
@@ -3268,194 +3411,29 @@ static GnmFuncHelp const help_linest[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-/* Notes for now, to be incorporated into help when it actually works:
- *
- * Entered as linest(Yrange, [Xrange, [Intercept, [Stat]]]). Intercept and Stat
- * work as above. According to playing with Excel, if Yrange is an array, Xrange
- * must be an array. They claim that you can use semicolons to separate rows in
- * an array, but I've never gotten that to work. If Yrange is a single column,
- * every column in the Xrange (which must be a cell range) is interpreted as a
- * separate variable. Similar for a single row. If Y is a blob, X is interpreted
- * as a single variable blob. Experiments suggest that multivariable blobs don't work.
- * Currently everything should be implemented except for inputting arrays. X's must
- * be contiguous so far as I can tell.
- */
-
 static GnmValue *
 gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float       **xss = NULL, *ys = NULL;
-	GnmValue         *result = NULL;
-	int               nx, ny, dim, i, ny_exp = 0;
-	int               xarg = 1;
-	gnm_float        *linres = NULL;
-	gboolean          affine, stat, err;
-	enum {
-		ARRAY      = 1,
-		SINGLE_COL = 2,
-		SINGLE_ROW = 3,
-		OTHER      = 4
-	}                 ytype;
-	gnm_regression_stat_t *extra_stat;
+	GnmRegData data;
+	gnm_regression_stat_t *extra_stat = NULL;
 	GORegressionResult regres;
+	GnmValue *result;
+	gnm_float *linres = NULL;
+	gboolean affine, withstat;
+	int i, dim;
 
-	extra_stat = gnm_regression_stat_new ();
-	dim = 0;
+	result = gnm_reg_data_collect (argv[0], argv[1], &data, ei->pos);
+	if (result)
+		return result;
+	dim = data.dim;
 
-	if (argv[0] == NULL || (argv[0]->type != VALUE_ARRAY && argv[0]->type != VALUE_CELLRANGE)){
-		goto out; /* Not a valid input for ys */
-	}
-
-	if (argv[0]->type == VALUE_ARRAY)
-		ytype = ARRAY;
-	else if (argv[0]->v_range.cell.a.col == argv[0]->v_range.cell.b.col) {
-		ny_exp = argv[0]->v_range.cell.b.row - argv[0]->v_range.cell.a.row + 1;
-		ytype = SINGLE_COL;
-	} else if (argv[0]->v_range.cell.a.row == argv[0]->v_range.cell.b.row) {
-		ytype = SINGLE_ROW;
-		ny_exp = argv[0]->v_range.cell.b.col - argv[0]->v_range.cell.a.col + 1;
-	} else ytype = OTHER;
-
-	if (argv[0]->type == VALUE_CELLRANGE)
-		ys = collect_floats_value (argv[0], ei->pos,
-					   COLLECT_IGNORE_STRINGS |
-					   COLLECT_IGNORE_BOOLS |
-					   COLLECT_IGNORE_BLANKS,
-					   &ny, &result);
-	else if (argv[0]->type == VALUE_ARRAY){
-		ny = 0;
-		/*
-		 * Get ys from array argument argv[0]
-		 */
-	}
-
-	if (result || ny < 1)
-		goto out;
-
-	if (ny != ny_exp) {
-		result = value_new_error_NUM (ei->pos);
-		goto out;
-	}
-
-	/* TODO Better error-checking in next statement */
-
-	if (argv[1] == NULL || (ytype == ARRAY && argv[1]->type != VALUE_ARRAY) ||
-	    (ytype != ARRAY && argv[1]->type != VALUE_CELLRANGE)){
-		xarg = 0;
-		dim = 1;
-		xss = g_new (gnm_float *, 1);
-		xss[0] = g_new (gnm_float, ny);
-		for (nx = 0; nx < ny; nx++)
-			xss[0][nx] = nx + 1;
-	} else if (ytype == ARRAY){
-		/* Get xss from array argument argv[1] */
-		nx = 0;
-	} else if (ytype == SINGLE_COL){
-		GnmValue *copy = value_dup (argv[1]);
-		int firstcol = argv[1]->v_range.cell.a.col;
-		int lastcol  = argv[1]->v_range.cell.b.col;
-		if (firstcol > lastcol) {
-			int tmp = firstcol;
-			firstcol = lastcol;
-			lastcol = tmp;
-		}
-
-		dim = lastcol - firstcol + 1;
-		xss = g_new (gnm_float *, dim);
-		for (i = firstcol; i <= lastcol; i++){
-			copy->v_range.cell.a.col = i;
-			copy->v_range.cell.b.col = i;
-			xss[i - firstcol] = collect_floats_value (copy, ei->pos,
-								  COLLECT_IGNORE_STRINGS |
-								  COLLECT_IGNORE_BOOLS |
-								  COLLECT_IGNORE_BLANKS,
-								  &nx, &result);
-			if (result){
-				value_release (copy);
-				dim = i - firstcol; /* How many got allocated before failure*/
-				goto out;
-			}
-			if (nx != ny){
-				value_release (copy);
-				dim = i - firstcol + 1;
-				result = value_new_error_NUM (ei->pos);
-				goto out;
-			}
-		}
-		value_release (copy);
-	} else if (ytype == SINGLE_ROW){
-		GnmValue *copy = value_dup (argv[1]);
-		int firstrow = argv[1]->v_range.cell.a.row;
-		int lastrow  = argv[1]->v_range.cell.b.row;
-		if (firstrow > lastrow) {
-			int tmp = firstrow;
-			firstrow = lastrow;
-			lastrow = tmp;
-		}
-
-		dim = lastrow - firstrow + 1;
-		xss = g_new (gnm_float *, dim);
-		for (i = firstrow; i <= lastrow; i++){
-			copy->v_range.cell.a.row = i;
-			copy->v_range.cell.b.row = i;
-			xss[i - firstrow] = collect_floats_value (copy, ei->pos,
-								  COLLECT_IGNORE_STRINGS |
-								  COLLECT_IGNORE_BOOLS |
-								  COLLECT_IGNORE_BLANKS,
-								  &nx, &result);
-			if (result){
-				value_release (copy);
-				dim = i - firstrow; /*How many got allocated before failure*/
-				goto out;
-			}
-			if (nx != ny){
-					value_release (copy);
-					dim = i - firstrow + 1;
-					result = value_new_error_NUM (ei->pos);
-					goto out;
-			}
-		}
-		value_release (copy);
-	} else { /*Y is none of the above */
-		dim = 1;
-		xss = g_new (gnm_float *, dim);
-		xss[0] = collect_floats_value (argv[1], ei->pos,
-					       COLLECT_IGNORE_STRINGS |
-					       COLLECT_IGNORE_BOOLS |
-					       COLLECT_IGNORE_BLANKS,
-					       &nx, &result);
-		if (result){
-			dim = 0;
-			goto out;
-		}
-		if (nx != ny){
-			dim = 1;
-			result = value_new_error_NUM (ei->pos);
-			goto out;
-		}
-	}
-
-	if (argv[1 + xarg]) {
-		affine = value_get_as_bool (argv[1 + xarg], &err);
-		if (err) {
-			result = value_new_error_VALUE (ei->pos);
-			goto out;
-		}
-	} else
-		affine = TRUE;
-
-	if (argv[2 + xarg]) {
-		stat = value_get_as_bool (argv[2 + xarg], &err);
-		if (err) {
-			result = value_new_error_VALUE (ei->pos);
-			goto out;
-		}
-	} else
-		stat = FALSE;
+	affine = argv[2] ? value_get_as_checked_bool (argv[2]) : TRUE;
+	withstat = argv[3] ? value_get_as_checked_bool (argv[3]) : FALSE;
 
 	linres = g_new (gnm_float, dim + 1);
-
-	regres = gnm_linear_regression (xss, dim, ys, nx, affine,
+	extra_stat = gnm_regression_stat_new ();
+	regres = gnm_linear_regression (data.xss, dim,
+					data.ys, data.n, affine,
 					linres, extra_stat);
 	switch (regres) {
 	case GO_REG_ok:
@@ -3466,7 +3444,7 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		goto out;
 	}
 
-	if (stat) {
+	if (withstat) {
 		result = value_new_array (dim + 1, 5);
 
 		value_array_set (result, 0, 2,
@@ -3496,12 +3474,7 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 				 value_new_float (linres[i + 1]));
 
  out:
-	if (xss) {
-		for (i = 0; i < dim; i++)
-			g_free (xss[i]);
-		g_free (xss);
-	}
-	g_free (ys);
+	gnm_reg_data_free (&data);
 	g_free (linres);
 	gnm_regression_stat_destroy (extra_stat);
 
@@ -3539,7 +3512,7 @@ static GnmFuncHelp const help_logreg[] = {
 	{ GNM_FUNC_HELP_SEEALSO, "LOGFIT,LINEST,LOGEST"},
 	{ GNM_FUNC_HELP_END }
 };
-/* The following is a copy of "gnumeric_linest" of Gnumeric version 1.1.9
+/* The following is a copy of "gnumeric_linest"
  * with "linear_regression" replaced by "logarithmic_regression".
  *
  * In Excel, this functionality is not available as a function, but only
@@ -3555,174 +3528,30 @@ static GnmFuncHelp const help_logreg[] = {
  * But see comment to "gnumeric_linest" for problem with reading more than
  * one x-range.
  */
-
 static GnmValue *
 gnumeric_logreg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float       **xss = NULL, *ys = NULL;
-	GnmValue         *result = NULL;
-	int               nx, ny, dim, i;
-	int               xarg = 1;
-	gnm_float        *logreg_res = NULL;
-	gboolean          affine, stat, err;
+	GnmRegData data;
+	gnm_regression_stat_t *extra_stat = NULL;
 	GORegressionResult regres;
-	enum {
-		ARRAY      = 1,
-		SINGLE_COL = 2,
-		SINGLE_ROW = 3,
-		OTHER      = 4
-	}                 ytype;
-	gnm_regression_stat_t *extra_stat;
+	GnmValue *result;
+	gnm_float *logres = NULL;
+	gboolean affine, withstat;
+	int i, dim;
 
+	result = gnm_reg_data_collect (argv[0], argv[1], &data, ei->pos);
+	if (result)
+		return result;
+	dim = data.dim;
+
+	affine = argv[2] ? value_get_as_checked_bool (argv[2]) : TRUE;
+	withstat = argv[3] ? value_get_as_checked_bool (argv[3]) : FALSE;
+
+	logres = g_new (gnm_float, dim + 1);
 	extra_stat = gnm_regression_stat_new ();
-	dim = 0;
-
-	if (argv[0] == NULL || (argv[0]->type != VALUE_ARRAY && argv[0]->type != VALUE_CELLRANGE)){
-		goto out; /* Not a valid input for ys */
-	}
-
-	if (argv[0]->type == VALUE_ARRAY)
-		ytype = ARRAY;
-	else if (argv[0]->v_range.cell.a.col == argv[0]->v_range.cell.b.col)
-		ytype = SINGLE_COL;
-	else if (argv[0]->v_range.cell.a.row == argv[0]->v_range.cell.b.row)
-		ytype = SINGLE_ROW;
-	else ytype = OTHER;
-
-	if (argv[0]->type == VALUE_CELLRANGE) {
-		ys = collect_floats_value (argv[0], ei->pos,
-					   COLLECT_IGNORE_STRINGS |
-					   COLLECT_IGNORE_BOOLS,
-					   &ny, &result);
-	} else if (argv[0]->type == VALUE_ARRAY) {
-		ny = 0;
-		/*
-		 * Get ys from array argument argv[0]
-		 */
-	}
-
-	if (result || ny < 1)
-		goto out;
-
-	/* TODO Better error-checking in next statement */
-
-	if (argv[1] == NULL || (ytype == ARRAY && argv[1]->type != VALUE_ARRAY) ||
-	    (ytype != ARRAY && argv[1]->type != VALUE_CELLRANGE)){
-		xarg = 0;
-		dim = 1;
-		xss = g_new (gnm_float *, 1);
-		xss[0] = g_new (gnm_float, ny);
-		for (nx = 0; nx < ny; nx++)
-			xss[0][nx] = nx + 1;
-	} else if (ytype == ARRAY) {
-		/* Get xss from array argument argv[1] */
-		nx = 0;
-	} else if (ytype == SINGLE_COL) {
-		GnmValue *copy = value_dup (argv[1]);
-		int firstcol   = argv[1]->v_range.cell.a.col;
-		int lastcol    = argv[1]->v_range.cell.b.col;
-
-		if (firstcol > lastcol) {
-			int tmp = firstcol;
-			firstcol = lastcol;
-			lastcol = tmp;
-		}
-
-		dim = lastcol - firstcol + 1;
-		xss = g_new (gnm_float *, dim);
-		for (i = firstcol; i <= lastcol; i++){
-			copy->v_range.cell.a.col = i;
-			copy->v_range.cell.b.col = i;
-			xss[i - firstcol] = collect_floats_value (copy, ei->pos,
-						       COLLECT_IGNORE_STRINGS |
-						       COLLECT_IGNORE_BOOLS,
-						       &nx, &result);
-			if (result){
-				value_release (copy);
-				dim = i - firstcol; /* How many got allocated before failure*/
-				goto out;
-			}
-			if (nx != ny){
-				value_release (copy);
-				dim = i - firstcol + 1;
-				result = value_new_error_NUM (ei->pos);
-				goto out;
-			}
-		}
-		value_release (copy);
-	} else if (ytype == SINGLE_ROW) {
-		GnmValue *copy = value_dup (argv[1]);
-		int firstrow   = argv[1]->v_range.cell.a.row;
-		int lastrow    = argv[1]->v_range.cell.b.row;
-
-		if (firstrow > lastrow) {
-			int tmp = firstrow;
-			firstrow = lastrow;
-			lastrow = tmp;
-		}
-
-		dim = lastrow - firstrow + 1;
-		xss = g_new (gnm_float *, dim);
-		for (i = firstrow; i <= lastrow; i++){
-			copy->v_range.cell.a.row = i;
-			copy->v_range.cell.b.row = i;
-			xss[i - firstrow] = collect_floats_value (copy, ei->pos,
-						       COLLECT_IGNORE_STRINGS |
-						       COLLECT_IGNORE_BOOLS,
-						       &nx, &result);
-			if (result){
-				value_release (copy);
-				dim = i - firstrow; /*How many got allocated before failure*/
-				goto out;
-			}
-			if (nx != ny){
-					value_release (copy);
-					dim = i - firstrow + 1;
-					result = value_new_error_NUM (ei->pos);
-					goto out;
-			}
-		}
-		value_release (copy);
-	} else { /*Y is none of the above */
-		dim = 1;
-		xss = g_new (gnm_float *, dim);
-		xss[0] = collect_floats_value (argv[1], ei->pos,
-					       COLLECT_IGNORE_STRINGS |
-					       COLLECT_IGNORE_BOOLS,
-					       &nx, &result);
-		if (result){
-			dim = 0;
-			goto out;
-		}
-		if (nx != ny){
-			dim = 1;
-			result = value_new_error_NUM (ei->pos);
-			goto out;
-		}
-	}
-
-	if (argv[1 + xarg]) {
-		affine = value_get_as_bool (argv[1 + xarg], &err);
-		if (err) {
-			result = value_new_error_VALUE (ei->pos);
-			goto out;
-		}
-	} else
-		affine = TRUE;
-
-	if (argv[2 + xarg]) {
-		stat = value_get_as_bool (argv[2 + xarg], &err);
-		if (err) {
-			result = value_new_error_VALUE (ei->pos);
-			goto out;
-		}
-	} else
-		stat = FALSE;
-
-	logreg_res = g_new (gnm_float, dim + 1);
-
-	regres = gnm_logarithmic_regression (xss, dim, ys, nx, affine,
-					     logreg_res, extra_stat);
+	regres = gnm_logarithmic_regression (data.xss, dim,
+					     data.ys, data.n, affine,
+					     logres, extra_stat);
 	switch (regres) {
 	case GO_REG_ok:
 	case GO_REG_near_singular_good:
@@ -3732,7 +3561,7 @@ gnumeric_logreg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		goto out;
 	}
 
-	if (stat) {
+	if (withstat) {
 		result = value_new_array (dim + 1, 5);
 
 		value_array_set (result, 0, 2,
@@ -3751,23 +3580,19 @@ gnumeric_logreg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			value_array_set (result, dim - i - 1, 1,
 					 value_new_float (extra_stat->se[i+affine]));
 		value_array_set (result, dim, 1,
-				 value_new_float (extra_stat->se[0]));
+				 affine ? value_new_float (extra_stat->se[0])
+				 : value_new_error_NA (ei->pos));
 	} else
 		result = value_new_array (dim + 1, 1);
 
-	value_array_set (result, dim, 0, value_new_float (logreg_res[0]));
+	value_array_set (result, dim, 0, value_new_float (logres[0]));
 	for (i = 0; i < dim; i++)
 		value_array_set (result, dim - i - 1, 0,
-				 value_new_float (logreg_res[i + 1]));
+				 value_new_float (logres[i + 1]));
 
  out:
-	if (xss) {
-		for (i = 0; i < dim; i++)
-			g_free (xss[i]);
-		g_free (xss);
-	}
-	g_free (ys);
-	g_free (logreg_res);
+	gnm_reg_data_free (&data);
+	g_free (logres);
 	gnm_regression_stat_destroy (extra_stat);
 
 	return result;
@@ -4010,166 +3835,26 @@ static GnmFuncHelp const help_logest[] = {
 static GnmValue *
 gnumeric_logest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float       **xss = NULL, *ys = NULL;
-	GnmValue         *result = NULL;
-	int               affine, nx, ny, dim, i;
-	int               xarg = 1;
-	gnm_float        *expres = NULL;
-	gboolean          stat, err;
-	gnm_regression_stat_t *extra_stat;
+	GnmRegData data;
+	gnm_regression_stat_t *extra_stat = NULL;
 	GORegressionResult regres;
-	enum {
-		ARRAY      = 1,
-		SINGLE_COL = 2,
-		SINGLE_ROW = 3,
-		OTHER      = 4
-	}                 ytype;
+	GnmValue *result;
+	gnm_float *expres = NULL;
+	gboolean affine, withstat;
+	int i, dim;
 
-	extra_stat = gnm_regression_stat_new ();
-	dim = 0;
+	result = gnm_reg_data_collect (argv[0], argv[1], &data, ei->pos);
+	if (result)
+		return result;
+	dim = data.dim;
 
-	if (argv[0] == NULL || (argv[0]->type != VALUE_ARRAY && argv[0]->type != VALUE_CELLRANGE)){
-		goto out; /* Not a valid input for ys */
-	}
-
-	if (argv[0]->type == VALUE_ARRAY)
-		ytype = ARRAY;
-	else if (argv[0]->v_range.cell.a.col == argv[0]->v_range.cell.b.col)
-		ytype = SINGLE_COL;
-	else if (argv[0]->v_range.cell.a.row == argv[0]->v_range.cell.b.row)
-		ytype = SINGLE_ROW;
-	else ytype = OTHER;
-
-	if (argv[0]->type == VALUE_CELLRANGE) {
-		ys = collect_floats_value (argv[0], ei->pos,
-					   COLLECT_IGNORE_STRINGS |
-					   COLLECT_IGNORE_BOOLS,
-					   &ny, &result);
-	} else if (argv[0]->type == VALUE_ARRAY) {
-		ny = 0;
-		/*
-		 * Get ys from array argument argv[0]
-		 */
-	}
-
-	if (result || ny < 1)
-		goto out;
-
-	/* TODO Better error-checking in next statement */
-
-	if (argv[1] == NULL || (ytype == ARRAY && argv[1]->type != VALUE_ARRAY) ||
-	    (ytype != ARRAY && argv[1]->type != VALUE_CELLRANGE)){
-		xarg = 0;
-		dim = 1;
-		xss = g_new (gnm_float *, 1);
-		xss[0] = g_new (gnm_float, ny);
-		for (nx = 0; nx < ny; nx++)
-			xss[0][nx] = nx + 1;
-	} else if (ytype == ARRAY){
-		/* Get xss from array argument argv[1] */
-		nx = 0;
-	} else if (ytype == SINGLE_COL){
-		GnmValue *copy = value_dup (argv[1]);
-		int firstcol = argv[1]->v_range.cell.a.col;
-		int lastcol  = argv[1]->v_range.cell.b.col;
-		if (firstcol > lastcol) {
-			int tmp = firstcol;
-			firstcol = lastcol;
-			lastcol = tmp;
-		}
-
-		dim = lastcol - firstcol + 1;
-		xss = g_new (gnm_float *, dim);
-		for (i = firstcol; i <= lastcol; i++){
-			copy->v_range.cell.a.col = i;
-			copy->v_range.cell.b.col = i;
-			xss[i - firstcol] = collect_floats_value (copy, ei->pos,
-						       COLLECT_IGNORE_STRINGS |
-						       COLLECT_IGNORE_BOOLS,
-						       &nx, &result);
-			if (result){
-				value_release (copy);
-				dim = i - firstcol; /*How many got allocated before failure*/
-				goto out;
-			}
-			if (nx != ny){
-				value_release (copy);
-				dim = i - firstcol + 1;
-				result = value_new_error_NUM (ei->pos);
-				goto out;
-			}
-		}
-		value_release (copy);
-	} else if (ytype == SINGLE_ROW) {
-		GnmValue *copy = value_dup (argv[1]);
-		int firstrow = argv[1]->v_range.cell.a.row;
-		int lastrow  = argv[1]->v_range.cell.b.row;
-		if (firstrow > lastrow) {
-			int tmp = firstrow;
-			firstrow = lastrow;
-			lastrow = tmp;
-		}
-
-		dim = lastrow - firstrow + 1;
-		xss = g_new (gnm_float *, dim);
-		for (i = firstrow; i <= lastrow; i++){
-			copy->v_range.cell.a.row = i;
-			copy->v_range.cell.b.row = i;
-			xss[i - firstrow] = collect_floats_value (copy, ei->pos,
-						       COLLECT_IGNORE_STRINGS |
-						       COLLECT_IGNORE_BOOLS,
-						       &nx, &result);
-			if (result){
-				value_release (copy);
-				dim = i - firstrow; /*How many got allocated before failure*/
-				goto out;
-			}
-			if (nx != ny){
-					value_release (copy);
-					dim = i - firstrow + 1;
-					result = value_new_error_NUM (ei->pos);
-					goto out;
-			}
-		}
-		value_release (copy);
-	} else { /*Y is none of the above */
-		dim = 1;
-		xss = g_new (gnm_float *, dim);
-		xss[0] = collect_floats_value (argv[1], ei->pos,
-					       COLLECT_IGNORE_STRINGS |
-					       COLLECT_IGNORE_BOOLS,
-					       &nx, &result);
-		if (result){
-			dim = 0;
-			goto out;
-		}
-		if (nx != ny){
-			dim = 1;
-			result = value_new_error_NUM (ei->pos);
-			goto out;
-		}
-	}
-
-	if (argv[1 + xarg]) {
-		affine = value_get_as_bool (argv[1 + xarg], &err) ? 1 : 0;
-		if (err) {
-			result = value_new_error_VALUE (ei->pos);
-			goto out;
-		}
-	} else
-		affine = 1;
-
-	if (argv[2 + xarg]) {
-		stat = value_get_as_bool (argv[2 + xarg], &err);
-		if (err) {
-			result = value_new_error_VALUE (ei->pos);
-			goto out;
-		}
-	} else
-		stat = FALSE;
+	affine = argv[2] ? value_get_as_checked_bool (argv[2]) : TRUE;
+	withstat = argv[3] ? value_get_as_checked_bool (argv[3]) : FALSE;
 
 	expres = g_new (gnm_float, dim + 1);
-	regres = gnm_exponential_regression (xss, dim, ys, nx, affine,
+	extra_stat = gnm_regression_stat_new ();
+	regres = gnm_exponential_regression (data.xss, dim,
+					     data.ys, data.n, affine,
 					     expres, extra_stat);
 	switch (regres) {
 	case GO_REG_ok:
@@ -4180,13 +3865,13 @@ gnumeric_logest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		goto out;
 	}
 
-	if (stat) {
+	if (withstat) {
 		result = value_new_array (dim + 1, 5);
 
 		value_array_set (result, 0, 2,
 				 value_new_float (extra_stat->sqr_r));
 		value_array_set (result, 1, 2,
-				 value_new_float (gnm_sqrt (extra_stat->var))); /* Still wrong ! */
+				 value_new_float (gnm_sqrt (extra_stat->var)));
 		value_array_set (result, 0, 3,
 				 value_new_float (extra_stat->F));
 		value_array_set (result, 1, 3,
@@ -4197,23 +3882,20 @@ gnumeric_logest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 				 value_new_float (extra_stat->ss_resid));
 		for (i = 0; i < dim; i++)
 			value_array_set (result, dim - i - 1, 1,
-					 value_new_float (extra_stat->se[i + affine]));
+					 value_new_float (extra_stat->se[i+affine]));
 		value_array_set (result, dim, 1,
-				 value_new_float (extra_stat->se[0]));
+				 affine ? value_new_float (extra_stat->se[0])
+				 : value_new_error_NA (ei->pos));
 	} else
 		result = value_new_array (dim + 1, 1);
 
 	value_array_set (result, dim, 0, value_new_float (expres[0]));
 	for (i = 0; i < dim; i++)
-		value_array_set (result, dim - i - 1, 0, value_new_float (expres[i + 1]));
+		value_array_set (result, dim - i - 1, 0,
+				 value_new_float (expres[i + 1]));
 
  out:
-	if (xss) {
-		for (i = 0; i < dim; i++)
-			g_free (xss[i]);
-		g_free (xss);
-	}
-	g_free (ys);
+	gnm_reg_data_free (&data);
 	g_free (expres);
 	gnm_regression_stat_destroy (extra_stat);
 
@@ -5028,7 +4710,7 @@ gnumeric_lkstest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	value_array_set (result, 0, 2,
 			 value_new_int (n));
 
-	if ((n < 5) || gnm_range_average (xs, n, &mu) 
+	if ((n < 5) || gnm_range_average (xs, n, &mu)
 	    || gnm_range_stddev_est (xs, n, &sigma)) {
 		value_array_set (result, 0, 0,
 				 value_new_error_VALUE (ei->pos));
@@ -5073,7 +4755,7 @@ gnumeric_lkstest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		} else
 			nd = n;
 
-		p = gnm_exp (-7.01256 * stat * stat * (nd + 2.78019) + 2.99587 * stat * gnm_sqrt (nd + 2.78019) 
+		p = gnm_exp (-7.01256 * stat * stat * (nd + 2.78019) + 2.99587 * stat * gnm_sqrt (nd + 2.78019)
 			     - 0.122119 + 0.974598/gnm_sqrt(nd) + 1.67997/nd);
 
 		if (p > 0.1) {
@@ -5102,7 +4784,7 @@ gnumeric_lkstest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		value_array_set (result, 0, 0,
 				 value_new_float (p));
 	}
-	
+
  out:
 	g_free (xs);
 
@@ -5167,26 +4849,26 @@ gnumeric_sftest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		} else {
 			gnm_float p;
 			gnm_float u, v, mu, sig;
-			
+
 			stat = stat * stat;
-			
+
 			value_array_set (result, 0, 1,
 					 value_new_float (stat));
-			
+
 			u = gnm_log (n);
 			v = gnm_log (u);
 			mu = -1.2725 + 1.0521 * (v - u);
 			sig = 1.0308 - 0.26758 * (v + 2./u);
 
-			p = pnorm (gnm_log (1. - stat), mu, sig, FALSE, FALSE); 
-			
+			p = pnorm (gnm_log (1. - stat), mu, sig, FALSE, FALSE);
+
 			value_array_set (result, 0, 0,
 					 value_new_float (p));
 		}
 		g_free (ys);
 		g_free (zs);
 	}
-	
+
  out:
 	g_free (xs);
 
@@ -5229,7 +4911,7 @@ gnumeric_cvmtest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	value_array_set (result, 0, 2,
 			 value_new_int (n));
 
-	if ((n < 8) || gnm_range_average (xs, n, &mu) 
+	if ((n < 8) || gnm_range_average (xs, n, &mu)
 	    || gnm_range_stddev_est (xs, n, &sigma)) {
 		value_array_set (result, 0, 0,
 				 value_new_error_VALUE (ei->pos));
@@ -5255,11 +4937,11 @@ gnumeric_cvmtest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 				 value_new_float (total));
 
 		g_free (ys);
-	
+
 		total *= (1 + 0.5 / n);
 		if (total < 0.0275)
 			p = 1. - gnm_exp (-13.953 + 775.5 * total - 12542.61 * total * total);
-		else if (total < 0.051)	
+		else if (total < 0.051)
 			p = 1. - gnm_exp (-5.903 + 179.546 * total - 1515.29 * total * total);
 		else if (total < 0.092)
 			p = gnm_exp (0.886 - 31.62  * total - 10.897 * total * total);
@@ -5271,7 +4953,7 @@ gnumeric_cvmtest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		value_array_set (result, 0, 0,
 				 value_new_float (p));
 	}
-	
+
  out:
 	g_free (xs);
 
@@ -5314,7 +4996,7 @@ gnumeric_adtest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	value_array_set (result, 0, 2,
 			 value_new_int (n));
 
-	if ((n < 8) || gnm_range_average (xs, n, &mu) 
+	if ((n < 8) || gnm_range_average (xs, n, &mu)
 	    || gnm_range_stddev_est (xs, n, &sigma)) {
 		value_array_set (result, 0, 0,
 				 value_new_error_VALUE (ei->pos));
@@ -5338,11 +5020,11 @@ gnumeric_adtest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 				 value_new_float (total));
 
 		g_free (ys);
-	
+
 		total *= (1 + 0.75 / n + 2.25 / (n * n));
 		if (total < 0.2)
 			p = 1. - gnm_exp (-13.436 + 101.14 * total - 223.73 * total * total);
-		else if (total < 0.34)	
+		else if (total < 0.34)
 			p = 1. - gnm_exp (-8.318 + 42.796 * total - 59.938 * total * total);
 		else if (total < 0.6)
 			p = gnm_exp (0.9177 - 4.279  * total - 1.38 * total * total);
@@ -5352,7 +5034,7 @@ gnumeric_adtest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		value_array_set (result, 0, 0,
 				 value_new_float (p));
 	}
-	
+
  out:
 	g_free (xs);
 
@@ -5364,19 +5046,19 @@ gnumeric_adtest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 GnmFuncDescriptor const stat_functions[] = {
 	{ "adtest",       "A",
 	  help_adtest, gnumeric_adtest, NULL, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, 
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 	  GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
 	{ "sftest",       "A",
 	  help_sftest, gnumeric_sftest, NULL, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, 
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 	  GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
 	{ "cvmtest",       "A",
 	  help_cvmtest, gnumeric_cvmtest, NULL, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, 
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 	  GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
 	{ "lkstest",       "A",
 	  help_lkstest, gnumeric_lkstest, NULL, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, 
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 	  GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
         { "avedev", NULL,
 	  help_avedev, NULL, gnumeric_avedev, NULL, NULL, NULL,
