@@ -196,7 +196,7 @@ test_insdel_rowcol_names (void)
 static void
 test_func_help (void)
 {
-	const char *test_name = "test_insdel_rowcol_names";
+	const char *test_name = "test_func_help";
 	int res;
 
 	mark_test_start (test_name);

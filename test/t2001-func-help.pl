@@ -13,8 +13,8 @@ my $expected;
 
 __DATA__
 -----------------------------------------------------------------------------
-Start: test_insdel_rowcol_names
+Start: test_func_help
 -----------------------------------------------------------------------------
 
 Result = 0
-End: test_insdel_rowcol_names
+End: test_func_help
