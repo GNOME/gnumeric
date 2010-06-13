@@ -74,11 +74,9 @@
 
 #include <string.h>
 
-#define DEBUG_DND
-
 static GObjectClass *scg_parent_class;
 
-static void scg_unant        (SheetControl *sc);
+static void scg_unant (SheetControl *sc);
 static void set_resize_pane_pos (SheetControlGUI *scg, GtkPaned *p);
 static void cb_resize_pane_motion (GtkPaned *p, GParamSpec *pspec, SheetControlGUI *scg);
 
@@ -1236,7 +1234,7 @@ resize_pane_pos (SheetControlGUI *scg, GtkPaned *p,
 static void
 scg_gtk_paned_set_position (SheetControlGUI *scg, GtkPaned *p, int pane_pos)
 {
-	if (p == scg->vpane) 
+	if (p == scg->vpane)
 		scg->vpos = pane_pos;
 	else
 		scg->hpos = pane_pos;
@@ -1359,7 +1357,7 @@ cb_resize_pane_motion (GtkPaned *p,
 }
 
 static void
-cb_check_resize (GtkPaned *p, GtkAllocation *allocation, 
+cb_check_resize (GtkPaned *p, GtkAllocation *allocation,
 		 SheetControlGUI *scg)
 {
 	gboolean const vert = (p == scg->vpane);
@@ -2232,7 +2230,7 @@ scg_object_unselect (SheetControlGUI *scg, SheetObject *so)
 	wb_control_update_action_sensitivity (scg_wbc (scg));
 }
 
-void 
+void
 scg_object_select_next	(SheetControlGUI *scg, gboolean reverse)
 {
 	Sheet *sheet = scg_sheet (scg);
@@ -2240,14 +2238,14 @@ scg_object_select_next	(SheetControlGUI *scg, gboolean reverse)
 
 	g_return_if_fail (ptr != NULL);
 
-	if ((scg->selected_objects == NULL) || 
+	if ((scg->selected_objects == NULL) ||
 	    (g_hash_table_size (scg->selected_objects) == 0)) {
 		scg_object_select (scg, ptr->data);
 		return;
 	} else {
 		GSList *prev = NULL;
 		for (; ptr != NULL ; prev = ptr, ptr = ptr->next)
-			if (NULL != g_hash_table_lookup 
+			if (NULL != g_hash_table_lookup
 			    (scg->selected_objects, ptr->data)) {
 				SheetObject *target;
 				if (reverse) {
@@ -3570,7 +3568,6 @@ scg_drag_receive_same_process (SheetControlGUI *scg, GtkWidget *source_widget,
 	}
 }
 
-#ifdef DEBUG_DND
 /*  Keep in sync with gtk_selection_data_targets_include_text() */
 static gboolean
 is_text_target (gchar *target_type)
@@ -3591,7 +3588,6 @@ is_text_target (gchar *target_type)
 	g_free (text_plain_locale);
 	return ret;
 }
-#endif
 
 void
 scg_drag_data_received (SheetControlGUI *scg, GtkWidget *source_widget,
@@ -3610,30 +3606,32 @@ scg_drag_data_received (SheetControlGUI *scg, GtkWidget *source_widget,
 		scg_drag_receive_same_process (scg, source_widget, x, y);
 	} else if (!strcmp (target_type, "application/x-gnumeric")) {
 		scg_drag_receive_cellregion (scg, x, y, sel_data, sel_len);
-#ifdef DEBUG_DND
-	} else if (!strcmp (target_type, "x-special/gnome-copied-files")) {
-		char *cdata = g_strndup (sel_data, sel_len);
-		g_print ("data length: %d, data: %s\n",
-			 (int)sel_len, cdata);
-		g_free (cdata);
-	} else if (!strcmp (target_type, "_NETSCAPE_URL")) {
-		char *cdata = g_strndup (sel_data, sel_len);
-		g_print ("data length: %d, data: %s\n",
-			 (int)sel_len, cdata);
-		g_free (cdata);
-	} else if (is_text_target (target_type)) {
-		char *cdata = g_strndup (sel_data, sel_len);
-		g_print ("data length: %d, data: %s\n",
-			 (int)sel_len, cdata);
-		g_free (cdata);
-	} else if (!strcmp (target_type, "text/html")) {
-		char *cdata = g_strndup (sel_data, sel_len);
-		/* For mozilla, need to convert the encoding */
-		g_print ("data length: %d, data: %s\n", (int)sel_len, cdata);
-		g_free (cdata);
-#endif
 	} else
 		g_warning ("Unknown target type '%s'!", target_type);
+
+	if (gnm_debug_flag ("dnd")) {
+		if (!strcmp (target_type, "x-special/gnome-copied-files")) {
+			char *cdata = g_strndup (sel_data, sel_len);
+			g_print ("data length: %d, data: %s\n",
+				 (int)sel_len, cdata);
+			g_free (cdata);
+		} else if (!strcmp (target_type, "_NETSCAPE_URL")) {
+			char *cdata = g_strndup (sel_data, sel_len);
+			g_print ("data length: %d, data: %s\n",
+				 (int)sel_len, cdata);
+			g_free (cdata);
+		} else if (is_text_target (target_type)) {
+			char *cdata = g_strndup (sel_data, sel_len);
+			g_print ("data length: %d, data: %s\n",
+				 (int)sel_len, cdata);
+			g_free (cdata);
+		} else if (!strcmp (target_type, "text/html")) {
+			char *cdata = g_strndup (sel_data, sel_len);
+			/* For mozilla, need to convert the encoding */
+			g_print ("data length: %d, data: %s\n", (int)sel_len, cdata);
+			g_free (cdata);
+		}
+	}
 
 	g_free (target_type);
 }
@@ -3799,12 +3797,12 @@ scg_delete_sheet_if_possible (SheetControlGUI *scg)
 	}
 }
 
-void 
+void
 scg_reload_item_edits (SheetControlGUI *scg)
 {
 	SCG_FOREACH_PANE (scg, pane, {
 			if (pane->editor != NULL)
-				goc_item_bounds_changed 
+				goc_item_bounds_changed
 					(GOC_ITEM (pane->editor));
 	});
 }

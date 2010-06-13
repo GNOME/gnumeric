@@ -1,3 +1,8 @@
+2010-06-13  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (cb_sheet_visibility_change): Set visibility of
+	both label and page.  Fixes #621463.
+
 2010-06-11 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/expr.c (gnm_insert_unique_value_cmp): new
@@ -13,14 +18,14 @@
 2010-06-11 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gnm-pane-impl.h: make cursor.expr_range into a GSList
-	* src/gnm-pane.h (gnm_pane_expr_cursor_bound_set): add main_colour arg 
-	* src/gnm-pane.c (gnm_pane_expr_cursor_bound_set): add main_colour 
+	* src/gnm-pane.h (gnm_pane_expr_cursor_bound_set): add main_colour arg
+	* src/gnm-pane.c (gnm_pane_expr_cursor_bound_set): add main_colour
 	  arg and don't delete existing cursors
 
 2010-06-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/func-builtin.c (help_if): remove inconsistent period
-	
+
 2010-06-10  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (gnm_sheet_set_property): Mark sheet dirty in more
@@ -34,7 +39,7 @@
 	* src/dead-kittens.h: New file for kittens killed by gtk.
 
 2010-06-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
-	
+
 	* component/Gnumeric-embed.xml.in: add Function Help
 	* src/GNOME_Gnumeric-gtk.xml.in: ditto
 	* src/HILDON_Gnumeric-gtk.xml.in: ditto
@@ -64,10 +69,10 @@
 	(cb_expr_name_check_for_name): new
 	(cb_expr_name_check_for_name_eq): new
 	(expr_name_check_for_name): new
-	
+
 2010-06-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/commands.c (cmd_define_name): be clearer with the error 
+	* src/commands.c (cmd_define_name): be clearer with the error
 	  messages.
 	(cmd_rescope_name_redo): watch out for returned error strings
 

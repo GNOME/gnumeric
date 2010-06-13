@@ -35,6 +35,7 @@ Morten:
 	* GEOMDIST: avoid overflow in extreme cases.
 	* SFTEST: improve extreme-case precision.
 	* Fix RANDLEVY.
+	* Fix hidden-sheet problem.  [#621463]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.5
