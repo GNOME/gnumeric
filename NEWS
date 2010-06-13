@@ -36,6 +36,7 @@ Morten:
 	* SFTEST: improve extreme-case precision.
 	* Fix RANDLEVY.
 	* Fix hidden-sheet problem.  [#621463]
+	* Improve help text sanity checks.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.5

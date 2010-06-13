@@ -1,5 +1,10 @@
 2010-06-13  Morten Welinder  <terra@gnome.org>
 
+	* src/func.c (copy_hash_table_to_ptr_array): Don't test perl
+	samples.
+	(gnm_func_sanity_check1): Check for unwanted space after colon and
+	for unwanted period at end.
+
 	* src/wbc-gtk.c (cb_sheet_visibility_change): Set visibility of
 	both label and page.  Fixes #621463.
 

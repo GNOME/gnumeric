@@ -77,11 +77,19 @@ copy_hash_table_to_ptr_array (gpointer key, gpointer value, gpointer array)
 {
 	Symbol *sym = value;
 	GnmFunc *fd = sym->data;
-	if (sym->type == SYMBOL_FUNCTION && fd->name != NULL) {
-		gnm_func_load_if_stub ((GnmFunc *) fd);
-		if (fd->help != NULL)
-			g_ptr_array_add (array, fd);
-	}
+
+	if (sym->type != SYMBOL_FUNCTION)
+		return;
+
+	if (fd->name == NULL ||
+	    strcmp (fd->name, "perl_adder") == 0 ||
+	    strcmp (fd->name, "perl_date") == 0 ||
+	    strcmp (fd->name, "perl_sed") == 0)
+		return;
+
+	gnm_func_load_if_stub ((GnmFunc *) fd);
+	if (fd->help != NULL)
+		g_ptr_array_add (array, fd);
 }
 
 static int
@@ -505,15 +513,29 @@ gnm_func_sanity_check1 (GnmFunc const *fd)
 				g_printerr ("%s: Invalid NAME record\n",
 					    fd->name);
 				res = 1;
-			}
-			break;
-		case GNM_FUNC_HELP_ARG:
-			if (strchr (h->text, ':') == NULL) {
-				g_printerr ("%s: Invalid ARG record\n",
+			} else if (h->text[nlen + 1] == ' ') {
+				g_printerr ("%s: Unwanted space in NAME record\n",
+					    fd->name);
+				res = 1;
+			} else if (h->text[strlen (h->text) - 1] == '.') {
+				g_printerr ("%s: Unwanted period in NAME record\n",
 					    fd->name);
 				res = 1;
 			}
 			break;
+		case GNM_FUNC_HELP_ARG: {
+			const char *aend = strchr (h->text, ':');
+			if (aend == NULL) {
+				g_printerr ("%s: Invalid ARG record\n",
+					    fd->name);
+				res = 1;
+			} else if (aend[1] == ' ') {
+				g_printerr ("%s: Unwanted space in ARG record\n",
+					    fd->name);
+				res = 1;
+			}
+			break;
+		}
 		case GNM_FUNC_HELP_EXAMPLES:
 			if (h->text[0] == '=') {
 #if 0
