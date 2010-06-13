@@ -3928,12 +3928,10 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float  *xs = NULL, *ys = NULL, *nxs = NULL;
 	GnmValue    *result = NULL;
-	gboolean affine, err;
+	gboolean affine;
 	int      nx, ny, nnx, i, dim;
 	gnm_float  expres[2];
 	GORegressionResult regres;
-
-	affine = TRUE;
 
 	ys = collect_floats_value (argv[0], ei->pos,
 				   COLLECT_IGNORE_STRINGS |
@@ -3942,53 +3940,33 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (result || ny < 1)
 		goto out;
 
-	if (argv[2] != NULL) {
+	if (argv[1] != NULL) {
 		xs = collect_floats_value (argv[1], ei->pos,
 					   COLLECT_IGNORE_STRINGS |
 					   COLLECT_IGNORE_BOOLS,
 					   &nx, &result);
 		if (result)
 			goto out;
+	} else {
+		xs = g_new (gnm_float, ny);
+		for (nx = 0; nx < ny; nx++)
+			xs[nx] = nx + 1;
+	}
 
+	if (argv[2] != NULL) {
 		nxs = collect_floats_value (argv[2], ei->pos,
 					    COLLECT_IGNORE_STRINGS |
 					    COLLECT_IGNORE_BOOLS,
 					    &nnx, &result);
 		if (result)
 			goto out;
-
-		if (argv[3] != NULL) {
-			affine = value_get_as_bool (argv[3], &err);
-			if (err) {
-				result = value_new_error_VALUE (ei->pos);
-				goto out;
-			}
-		}
 	} else {
 		/* @{new_x}'s is assumed to be the same as @{known_x}'s */
-		if (argv[1] != NULL) {
-			xs = collect_floats_value (argv[1], ei->pos,
-						   COLLECT_IGNORE_STRINGS |
-						   COLLECT_IGNORE_BOOLS,
-						   &nx, &result);
-			if (result)
-				goto out;
-
-			nxs = collect_floats_value (argv[1], ei->pos,
-						    COLLECT_IGNORE_STRINGS |
-						    COLLECT_IGNORE_BOOLS,
-						    &nnx, &result);
-			if (result)
-				goto out;
-		} else {
-			xs = g_new (gnm_float, ny);
-			for (nx = 0; nx < ny; nx++)
-				xs[nx] = nx + 1;
-			nxs = g_new (gnm_float, ny);
-			for (nnx = 0; nnx < ny; nnx++)
-				nxs[nnx] = nnx + 1;
-		}
+		nxs = g_memdup (xs, nx * sizeof (gnm_float));
+		nnx = nx;
 	}
+
+	affine = argv[3] ? value_get_as_checked_bool (argv[3]) : TRUE;
 
 	if (nx != ny) {
 		result = value_new_error_NUM (ei->pos);

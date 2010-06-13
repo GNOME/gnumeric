@@ -1,3 +1,7 @@
+2010-06-13  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_growth): Simplify.
+
 2010-06-11  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnm_reg_data_collect, gnm_reg_data_free): New
