@@ -3699,7 +3699,7 @@ static GnmFuncHelp const help_trend[] = {
 	{ GNM_FUNC_HELP_NAME, F_("TREND:estimates future values of a given data set using a least squares approximation")},
 	{ GNM_FUNC_HELP_ARG, F_("known_y's:known y-values")},
 	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.")},
-	{ GNM_FUNC_HELP_ARG, F_("new_x's: x-values for which you want to estimate the y-values; defaults to @{known_x}'s")},
+	{ GNM_FUNC_HELP_ARG, F_("new_x's:x-values for which you want to estimate the y-values; defaults to @{known_x}'s")},
 	{ GNM_FUNC_HELP_ARG, F_("const:if this is false the line will be forced to go through the origin; defaults to TRUE")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{known_y's} and @{known_x's} have unequal number of data points, "
 				 "this function returns a #NUM! error.") },

@@ -625,7 +625,7 @@ static GnmFuncHelp const help_periodogram[] = {
 	{ GNM_FUNC_HELP_ARG, F_("filter:Window function to  be used, defaults to no window function.") },
 	{ GNM_FUNC_HELP_ARG, F_("abscissas:The abscissas of the data to interpolate, defaults to regularly spaced abscissa.") },
 	{ GNM_FUNC_HELP_ARG, F_("interpolation:The method of interpolation to be used, defaults to no interpolation") },
-	{ GNM_FUNC_HELP_ARG, F_("number: Number of interpolated data points to be used.") },
+	{ GNM_FUNC_HELP_ARG, F_("number:Number of interpolated data points to be used.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("If an interpolation method is used, the number of returned values is one less than the number of targets and the targets values must be given in increasing order.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The output consists always of one column of numbers.") },
 	INTERPOLATIONMETHODS,
@@ -867,7 +867,7 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_fourier[] = {
 	{ GNM_FUNC_HELP_NAME, F_("FOURIER:Fourier or inverse Fourier transform") },
-	{ GNM_FUNC_HELP_ARG, F_("Sequence: the data sequence to be transformed") },
+	{ GNM_FUNC_HELP_ARG, F_("Sequence:the data sequence to be transformed") },
 	{ GNM_FUNC_HELP_ARG, F_("Inverse:if false, the inverse Fourier transform is calculated. Defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This array function returns the Fourier or inverse Fourier transform of the given data sequence.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The output consists always of one column of complex numbers.") },

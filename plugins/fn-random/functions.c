@@ -880,7 +880,7 @@ gnumeric_simtable (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_randsnorm[] = {
         { GNM_FUNC_HELP_NAME, F_("RANDSNORM:random variate from a skew normal distribution") },
-        { GNM_FUNC_HELP_ARG, F_("a: amount of skew, defaults to 0") },
+        { GNM_FUNC_HELP_ARG, F_("a:amount of skew, defaults to 0") },
         { GNM_FUNC_HELP_ARG, F_("\xce\xbc:mean of the underlying normal distribution, defaults to 0") },
         { GNM_FUNC_HELP_ARG, F_("\xcf\x83:standard deviation of the underlying normal distribution, defaults to 1") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{\xcf\x83} < 0, RANDSNORM returns #NUM!") },
@@ -920,7 +920,7 @@ gnumeric_randsnorm (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_randstdist[] = {
         { GNM_FUNC_HELP_NAME, F_("RANDSTDIST:random variate from a skew t distribution") },
         { GNM_FUNC_HELP_ARG, F_("df:degrees of freedom") },
-        { GNM_FUNC_HELP_ARG, F_("a: amount of skew, defaults to 0") },
+        { GNM_FUNC_HELP_ARG, F_("a:amount of skew, defaults to 0") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDSTDIST(5,-2)" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDSTDIST(5,2)" },
         { GNM_FUNC_HELP_SEEALSO, "RANDTDIST" },
