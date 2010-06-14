@@ -37,6 +37,7 @@ Morten:
 	* Fix RANDLEVY.
 	* Fix hidden-sheet problem.  [#621463]
 	* Improve help text sanity checks.
+	* Fix minor parsing problem.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.5

@@ -995,6 +995,14 @@ ignore_space_after (gunichar c)
 	}
 }
 
+static gboolean
+open_paren (const char *p)
+{
+	while (g_unichar_isspace (g_utf8_get_char (p)))
+		p = g_utf8_next_char (p);
+	return *p == '(';
+}
+
 static int
 yylex (void)
 {
@@ -1159,7 +1167,14 @@ yylex (void)
 	if (c == state->array_row_sep)
 		return eat_space (state, ARRAY_ROW_SEP);
 
-	if (start != (end = state->convs->input.range_ref (&ref, start, state->pos, state->convs))) {
+	end = state->convs->input.range_ref (&ref, start,
+					     state->pos, state->convs);
+	/*
+	 * In order to parse "LOG10(1024)" in sheets with more than ~8500
+	 * columns we do not consider anything a rangeref if it is followed
+	 * by an opening parenthesis.
+	 */
+	if (start != end && !open_paren (end)) {
 		state->ptr = end;
 		if (state->flags & GNM_EXPR_PARSE_FORCE_ABSOLUTE_REFERENCES) {
 			if (ref.a.col_relative) {

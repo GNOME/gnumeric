@@ -1,5 +1,8 @@
 2010-06-13  Morten Welinder  <terra@gnome.org>
 
+	* src/parser.y (yylex): Fix parsing of calls to LOG2 and LOG10 in
+	sheets with more than ~8500 columns.
+
 	* src/func.c (copy_hash_table_to_ptr_array): Don't test perl
 	samples.
 	(gnm_func_sanity_check1): Check for unwanted space after colon and
