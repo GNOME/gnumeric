@@ -2,6 +2,8 @@
 
 	* functions.c (gnumeric_forecast): Handle missing data properly.
 	Fixes #621417.
+	(gnumeric_binom_dist_range): Fix precision problem when both
+	end-points are near the number of trial.
 
 2010-06-13  Morten Welinder  <terra@gnome.org>
 

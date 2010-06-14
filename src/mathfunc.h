@@ -102,6 +102,7 @@ gnm_float qexp (gnm_float p, gnm_float scale, gboolean lower_tail, gboolean log_
 /* Binomial distribution.  */
 gnm_float dbinom (gnm_float x, gnm_float n, gnm_float p, gboolean give_log);
 gnm_float pbinom (gnm_float x, gnm_float n, gnm_float p, gboolean lower_tail, gboolean log_p);
+gnm_float pbinom2 (gnm_float x0, gnm_float x1, gnm_float n, gnm_float p);
 gnm_float qbinom (gnm_float x, gnm_float n, gnm_float p, gboolean lower_tail, gboolean log_p);
 
 /* Negative binomial distribution.  */

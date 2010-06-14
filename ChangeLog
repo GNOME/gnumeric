@@ -1,3 +1,8 @@
+2010-06-14  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (pbinom2): New function extracted from
+	gnumeric_binom_dist_range and improved.
+
 2010-06-13  Morten Welinder  <terra@gnome.org>
 
 	* src/func.c (check_help_expression): New function.

@@ -39,6 +39,7 @@ Morten:
 	* Improve help text sanity checks.
 	* Fix minor parsing problem.
 	* Handle missing data in FORECAST properly.  [#621417]
+	* Improve BINOM.DIST.RANGE.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.5

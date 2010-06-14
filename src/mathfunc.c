@@ -6314,6 +6314,32 @@ qhyper (gnm_float p, gnm_float NR, gnm_float NB, gnm_float n,
 				  phyper1);
 }
 
+gnm_float
+pbinom2 (gnm_float x0, gnm_float x1, gnm_float n, gnm_float p)
+{
+	gnm_float Pl;
+
+	if (x0 > n || x1 < 0 || x0 > x1)
+		return 0;
+
+	if (x0 == x1)
+		return dbinom (x0, n, p, FALSE);
+
+	if (x1 >= n)
+		return pbinom (x0, n, p, FALSE, FALSE);
+
+	Pl = pbinom (x0 - 1, n, p, TRUE, FALSE);
+	if (Pl > 0.75) {
+		gnm_float PlC = pbinom (x0 - 1, n, p, FALSE, FALSE);
+		gnm_float PrC = pbinom (x1, n, p, FALSE, FALSE);
+		return PlC - PrC;
+	} else {
+		gnm_float Pr = pbinom (x1, n, p, TRUE, FALSE);
+		return Pr - Pl;
+	}
+}
+
+
 /* ------------------------------------------------------------------------- */
 /* http://www.math.keio.ac.jp/matumoto/CODES/MT2002/mt19937ar.c  */
 /* Imported by hand -- MW.  */
