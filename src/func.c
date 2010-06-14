@@ -493,6 +493,40 @@ function_dump_defs (char const *filename, int dump_type)
 
 /* ------------------------------------------------------------------------- */
 
+gboolean
+check_help_expression (const char *text, GnmFunc const *fd)
+{
+	GnmConventions const *convs = gnm_conventions_default;
+	GnmParsePos pp;
+	GnmExprTop const *texpr;
+	Workbook *wb;
+	GnmParseError perr;
+
+	/* Create a dummy workbook with no sheets for interesting effects.  */
+	wb = workbook_new ();
+	parse_pos_init (&pp, wb, NULL, 0, 0);
+
+	parse_error_init (&perr);
+
+	texpr = gnm_expr_parse_str (text, &pp,
+				    GNM_EXPR_PARSE_DEFAULT,
+				    convs,
+				    &perr);
+	if (perr.err) {
+		g_printerr ("Error parsing %s: %s\n",
+			    text, perr.err->message);
+	}
+	parse_error_free (&perr);
+	g_object_unref (wb);
+
+	if (!texpr)
+		return TRUE;
+
+	gnm_expr_top_unref (texpr);
+	return FALSE;
+}
+
+
 static int
 gnm_func_sanity_check1 (GnmFunc const *fd)
 {
@@ -538,15 +572,11 @@ gnm_func_sanity_check1 (GnmFunc const *fd)
 		}
 		case GNM_FUNC_HELP_EXAMPLES:
 			if (h->text[0] == '=') {
-#if 0
-				if (g_ascii_strncasecmp (fd->name,
-							 h->text + 1, nlen) ||
-				    g_ascii_isalnum (h->text[nlen + 1])) {
+				if (check_help_expression (h->text + 1, fd)) {
 					g_printerr ("%s: Invalid EXAMPLES record\n",
 						    fd->name);
 					res = 1;
 				}
-#endif
 			}
 			break;
 		default:

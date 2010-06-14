@@ -1,5 +1,7 @@
 2010-06-13  Morten Welinder  <terra@gnome.org>
 
+	* src/func.c (check_help_expression): New function.
+
 	* src/parser.y (yylex): Fix parsing of calls to LOG2 and LOG10 in
 	sheets with more than ~8500 columns.
 

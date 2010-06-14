@@ -1554,7 +1554,6 @@ static GnmFuncHelp const help_sheets[] = {
         { GNM_FUNC_HELP_ARG, F_("reference:array, reference, or range, defaults to the maximum range")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{reference} is neither an array nor a reference nor a range, "
 				 "SHEETS returns #VALUE!")},
-        { GNM_FUNC_HELP_EXAMPLES, "=SHEETS(Sheet1!H7:Sheet2!I13)" },
         { GNM_FUNC_HELP_EXAMPLES, "=SHEETS()" },
         { GNM_FUNC_HELP_SEEALSO, "COLUMNS,ROWS"},
         { GNM_FUNC_HELP_END}
@@ -1593,8 +1592,6 @@ static GnmFuncHelp const help_sheet[] = {
         { GNM_FUNC_HELP_ARG, F_("reference:reference or literal sheet name, defaults to the current sheet")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{reference} is neither a reference nor a literal sheet name, "
 				 "SHEETS returns #VALUE!")},
-        { GNM_FUNC_HELP_EXAMPLES, "=SHEET(Sheet2!H7)" },
-        { GNM_FUNC_HELP_EXAMPLES, "=SHEET(Sheet2!H7:Z8)" },
         { GNM_FUNC_HELP_EXAMPLES, "=SHEET()" },
         { GNM_FUNC_HELP_EXAMPLES, "=SHEET(\"Sheet1\")" },
         { GNM_FUNC_HELP_SEEALSO, "SHEETS,ROW,COLUMNNUMBER"},
