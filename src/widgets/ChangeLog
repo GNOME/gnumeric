@@ -1,5 +1,14 @@
 2010-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gnumeric-expr-entry.h (gnm_expr_entry_close_tips): new
+	* gnumeric-expr-entry.c (gnm_expr_entry_close_tips): new
+	(gee_check_tooltip): new
+	(cb_entry_changed): connect with gee_check_tooltip
+	(cb_gee_key_press_event): move handling of () into gee_check_tooltip
+	(cb_gee_button_press_event): keep the tool tips
+
+2010-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* gnumeric-expr-entry.c (gee_delete_tooltip): watch 
 	  for disappearing entries 
 	(cb_gee_key_press_event): gee_set_tooltip will ref the fd

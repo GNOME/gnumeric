@@ -100,6 +100,8 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 
 	wbcg_focus_cur_scg (wbcg);
 
+	gnm_expr_entry_close_tips (wbcg_get_entry_logical (wbcg));
+
 	if (showed_dialog != NULL)
 		*showed_dialog = FALSE;
 

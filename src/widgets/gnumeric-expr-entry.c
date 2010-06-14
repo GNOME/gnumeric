@@ -599,6 +599,15 @@ gee_delete_tooltip (GnmExprEntry *gee)
 	}
 }
 
+void    
+gnm_expr_entry_close_tips  (GnmExprEntry *gee)
+{
+	if (gee != NULL)
+		gee_delete_tooltip (gee);
+}
+
+
+
 static gboolean
 cb_gee_configure_event (GtkWidget         *widget,
 			GdkEventConfigure *event,
@@ -704,10 +713,57 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd)
 }
 
 static void
+gee_check_tooltip (GnmExprEntry *gee)
+{
+	GtkEditable *editable = GTK_EDITABLE (gee->entry);
+	gint end;
+	char *str;
+	char *prefix;
+	char *str_end;
+	char last;
+	
+	end = gtk_editable_get_position (editable);
+
+	if (end == 0) {
+		gee_delete_tooltip (gee);
+		return;
+	}
+	
+	str = gtk_editable_get_chars (editable, end, end+1);
+	last = *str;
+	g_free (str);
+
+	if (last == ')') {
+		gee_delete_tooltip (gee);
+		return;		
+	}
+	
+	if (last != '(')
+		return;
+
+	str = gtk_editable_get_chars (editable, 0, end);
+
+	prefix = str_end = str + strlen (str);
+	do {prefix--;} while (prefix >= str && (('a' <= *prefix && *prefix <= 'z') ||
+						('a' <= *prefix && *prefix <= 'z')));
+	prefix++;
+	
+	if (prefix < str_end) {
+		GnmFunc	   *fd = gnm_func_lookup (prefix, NULL);
+		if (fd != NULL)
+			gee_set_tooltip (gee, fd);
+	}
+	
+	g_free (str);
+
+}
+
+static void
 cb_entry_changed (GnmExprEntry *gee)
 {
 	gee_update_env (gee);
 	gee_update_calendar (gee);
+	gee_check_tooltip (gee);
 	g_signal_emit (G_OBJECT (gee), signals[CHANGED], 0);
 }
 
@@ -896,36 +952,6 @@ cb_gee_key_press_event (GtkEntry	*entry,
 		return TRUE;
 	}
 
-	case GDK_parenright: {
-		gee_delete_tooltip (gee);
-		return FALSE;
-	}
-
-	case GDK_parenleft: {
-		/* Create tooltip with the syntax of the current function */
-		GtkEditable *editable = GTK_EDITABLE (entry);
-		gint end;
-		char *str;
-		char *prefix;
-		char *str_end;
-
-		end = gtk_editable_get_position (editable);
-		str = gtk_editable_get_chars (editable, 0, end);
-		prefix = str_end = str + strlen (str);
-		do {prefix--;} while (prefix >= str && (('a' <= *prefix && *prefix <= 'z') ||
-						       ('a' <= *prefix && *prefix <= 'z')));
-		prefix++;
-		
-		if (prefix < str_end) {
-			GnmFunc	   *fd = gnm_func_lookup (prefix, NULL);
-			if (fd != NULL)
-				gee_set_tooltip (gee, fd);
-		}
-
-		g_free (str);
-		return FALSE;
-	}
-
 	default:
 		break;
 	}
@@ -944,7 +970,6 @@ cb_gee_button_press_event (G_GNUC_UNUSED GtkEntry *entry,
 		scg_rangesel_stop (gee->scg, FALSE);
 		gnm_expr_entry_find_range (gee);
 		g_signal_emit (G_OBJECT (gee), signals[CHANGED], 0);
-		gee_delete_tooltip (gee);
 	}
 
 	return FALSE;
