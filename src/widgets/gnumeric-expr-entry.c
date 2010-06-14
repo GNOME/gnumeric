@@ -74,6 +74,7 @@ struct _GnmExprEntry {
 	struct {
 		GtkWidget       *tooltip;
 		GnmFunc         *fd;
+		guint            handlerid;
 	}                        tooltip;
 
 	GOFormat const *constant_format;
@@ -590,6 +591,21 @@ gee_delete_tooltip (GnmExprEntry *gee)
 		gnm_func_unref (gee->tooltip.fd);
 		gee->tooltip.fd = NULL;
 	}
+	if (gee->tooltip.handlerid != 0) {
+		g_signal_handler_disconnect (gtk_widget_get_toplevel 
+					     (GTK_WIDGET (gee->entry)),
+					     gee->tooltip.handlerid);
+		gee->tooltip.handlerid = 0;
+	}
+}
+
+static gboolean
+cb_gee_configure_event (GtkWidget         *widget,
+			GdkEventConfigure *event,
+			gpointer           user_data)
+{
+	gee_delete_tooltip (user_data);
+	return FALSE;
 }
 
 static GtkWidget *
@@ -605,6 +621,12 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str)
 
 	toplevel = GTK_WINDOW (gtk_widget_get_toplevel 
 			       (GTK_WIDGET (gee->entry)));
+	gtk_widget_add_events(GTK_WIDGET(toplevel), GDK_CONFIGURE);
+	if (gee->tooltip.handlerid == 0)
+		gee->tooltip.handlerid = g_signal_connect 
+			(G_OBJECT (toplevel), "configure-event",
+			 G_CALLBACK (cb_gee_configure_event), gee);
+	
 	screen = gtk_window_get_screen (toplevel);
 	
 	gtk_widget_size_request (GTK_WIDGET (gee->entry), &requisition);
@@ -954,6 +976,7 @@ gee_init (GnmExprEntry *gee)
 	gee->feedback_disabled = FALSE;
 	gee->tooltip.tooltip = NULL;
 	gee->tooltip.fd = NULL;
+	gee->tooltip.handlerid = 0;
 	gee_rangesel_reset (gee);
 
 	gee->entry = GTK_ENTRY (gtk_entry_new ());

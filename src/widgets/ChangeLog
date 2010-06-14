@@ -1,5 +1,13 @@
 2010-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gnumeric-expr-entry.c (_GnmExprEntry): add field
+	(gee_init): initalize new field
+	(gee_delete_tooltip): disconnect handler
+	(cb_gee_configure_event): new
+	(gee_create_tooltip): connect handler
+
+2010-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* gnumeric-expr-entry.c (_GnmExprEntry): new fields
 	(gee_delete_tooltip): delete our tooltip window
 	(gee_create_tooltip): new
