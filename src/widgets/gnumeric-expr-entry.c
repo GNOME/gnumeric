@@ -71,6 +71,10 @@ struct _GnmExprEntry {
 	gboolean                 ignore_changes; /* internal mutex */
 
 	gboolean       feedback_disabled;
+	struct {
+		GtkWidget       *tooltip;
+		GnmFunc         *fd;
+	}                        tooltip;
 
 	GOFormat const *constant_format;
 };
@@ -578,8 +582,55 @@ cb_gee_notify_cursor_position (GnmExprEntry *gee)
 static void
 gee_delete_tooltip (GnmExprEntry *gee)
 {
-	if (gee->entry)
-		gtk_widget_set_has_tooltip (GTK_WIDGET (gee->entry), FALSE);
+	if (gee->tooltip.tooltip) {
+		gtk_widget_destroy (gee->tooltip.tooltip);
+		gee->tooltip.tooltip = NULL;
+	}
+	if (gee->tooltip.fd) {
+		gnm_func_unref (gee->tooltip.fd);
+		gee->tooltip.fd = NULL;
+	}
+}
+
+static GtkWidget *
+gee_create_tooltip (GnmExprEntry *gee, gchar const *str)
+{
+	GtkWidget *text, *frame, *tip;
+	GtkTextBuffer *buffer;
+	GtkWindow *toplevel;
+	GdkScreen *screen;
+	gint dest_x = 0, dest_y = 0;
+	gint root_x = 0, root_y = 0;
+	GtkRequisition requisition;
+
+	toplevel = GTK_WINDOW (gtk_widget_get_toplevel 
+			       (GTK_WIDGET (gee->entry)));
+	screen = gtk_window_get_screen (toplevel);
+	
+	gtk_widget_size_request (GTK_WIDGET (gee->entry), &requisition);
+	gtk_widget_translate_coordinates    
+		(GTK_WIDGET (gee->entry), GTK_WIDGET (toplevel),
+		 0, 2 * requisition.height, &dest_x, &dest_y);
+	gtk_window_get_position (toplevel, &root_x, &root_y);
+
+	tip = gtk_window_new (GTK_WINDOW_POPUP);
+	gtk_window_set_screen (GTK_WINDOW (tip), screen);
+	gtk_window_move (GTK_WINDOW (tip), root_x + dest_x, root_y + dest_y);
+
+	text = gtk_text_view_new ();
+	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (text), GTK_WRAP_NONE);
+	gtk_text_view_set_editable  (GTK_TEXT_VIEW (text), FALSE);
+	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text));
+	gtk_text_buffer_set_text (buffer, str, -1);
+
+	frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
+	
+	gtk_container_add (GTK_CONTAINER (tip), frame);
+	gtk_container_add (GTK_CONTAINER (frame), text);
+	gtk_widget_show_all (tip);
+
+	return tip;
 }
 
 static void
@@ -590,7 +641,16 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd)
 	gint min, max, i;
 	gboolean first = TRUE;
 
+	if (gee->tooltip.fd) {
+		if (gee->tooltip.fd == fd)
+			return;
+		gee_delete_tooltip (gee);
+	}
+
 	gnm_func_load_if_stub (fd);
+
+	gee->tooltip.fd = fd;
+	gnm_func_ref (gee->tooltip.fd);   
 
 	str = g_string_new (gnm_func_get_name (fd));
 	g_string_append_c (str, '(');
@@ -615,8 +675,9 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd)
 		g_string_append (str, "\xe2\x80\xa6");
 	}
 	g_string_append_c (str, ')');
-	if (gee->entry)
-		gtk_widget_set_tooltip_text (GTK_WIDGET (gee->entry), str->str);
+
+	gee->tooltip.tooltip = gee_create_tooltip (gee, str->str);
+
 	g_string_free (str, TRUE);
 }
 
@@ -891,6 +952,8 @@ gee_init (GnmExprEntry *gee)
 	gee->update_timeout_id = 0;
 	gee->update_policy = GTK_UPDATE_CONTINUOUS;
 	gee->feedback_disabled = FALSE;
+	gee->tooltip.tooltip = NULL;
+	gee->tooltip.fd = NULL;
 	gee_rangesel_reset (gee);
 
 	gee->entry = GTK_ENTRY (gtk_entry_new ());
@@ -925,6 +988,7 @@ gee_finalize (GObject *obj)
 	GnmExprEntry *gee = (GnmExprEntry *)obj;
 
 	go_format_unref (gee->constant_format);
+	gee_delete_tooltip (gee);
 
 	((GObjectClass *)parent_class)->finalize (obj);
 }
