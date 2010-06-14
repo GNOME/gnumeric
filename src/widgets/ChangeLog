@@ -1,5 +1,11 @@
 2010-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gnumeric-expr-entry.c (gee_delete_tooltip): watch 
+	  for disappearing entries 
+	(cb_gee_key_press_event): gee_set_tooltip will ref the fd
+	
+2010-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* gnumeric-expr-entry.c (_GnmExprEntry): add field
 	(gee_init): initalize new field
 	(gee_delete_tooltip): disconnect handler

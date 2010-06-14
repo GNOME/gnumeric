@@ -591,7 +591,7 @@ gee_delete_tooltip (GnmExprEntry *gee)
 		gnm_func_unref (gee->tooltip.fd);
 		gee->tooltip.fd = NULL;
 	}
-	if (gee->tooltip.handlerid != 0) {
+	if (gee->tooltip.handlerid != 0 && gee->entry != NULL) {
 		g_signal_handler_disconnect (gtk_widget_get_toplevel 
 					     (GTK_WIDGET (gee->entry)),
 					     gee->tooltip.handlerid);
@@ -918,10 +918,8 @@ cb_gee_key_press_event (GtkEntry	*entry,
 		
 		if (prefix < str_end) {
 			GnmFunc	   *fd = gnm_func_lookup (prefix, NULL);
-			gnm_func_ref (fd);
 			if (fd != NULL)
 				gee_set_tooltip (gee, fd);
-			gnm_func_unref (fd);
 		}
 
 		g_free (str);
