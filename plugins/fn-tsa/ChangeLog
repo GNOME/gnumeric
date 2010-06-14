@@ -1,6 +1,10 @@
+2010-06-14 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c: remove inconsistent periods, etc.
+
 2010-06-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* functions.c: remove superfluous spaces, inconsitent periods, etc.
+	* functions.c: remove superfluous spaces, inconsistent periods, etc.
 
 2010-05-30  Morten Welinder <terra@gnome.org>
 

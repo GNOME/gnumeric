@@ -540,6 +540,13 @@ gnm_func_sanity_check1 (GnmFunc const *fd)
 		g_assert (h->type <= GNM_FUNC_HELP_ODF);
 		counts[h->type]++;
 
+		if (!g_utf8_validate (h->text, -1, NULL)) {
+			g_printerr ("%s: Invalid UTF-8 in type %i\n",
+				    fd->name, h->type);
+				res = 1;
+				continue;
+		}
+
 		switch (h->type) {
 		case GNM_FUNC_HELP_NAME:
 			if (g_ascii_strncasecmp (fd->name, h->text, nlen) ||
@@ -565,6 +572,10 @@ gnm_func_sanity_check1 (GnmFunc const *fd)
 				res = 1;
 			} else if (aend[1] == ' ') {
 				g_printerr ("%s: Unwanted space in ARG record\n",
+					    fd->name);
+				res = 1;
+			} else if (h->text[strlen (h->text) - 1] == '.') {
+				g_printerr ("%s: Unwanted period in ARG record\n",
 					    fd->name);
 				res = 1;
 			}

@@ -467,7 +467,7 @@ gnumeric_timevalue (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_hour[] = {
         { GNM_FUNC_HELP_NAME, F_("HOUR:compute hour part of fractional day")},
-        { GNM_FUNC_HELP_ARG, F_("time:time of day as fractional day.")},
+        { GNM_FUNC_HELP_ARG, F_("time:time of day as fractional day")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The HOUR function computes the hour part of the fractional day given by @{time}.") },
         { GNM_FUNC_HELP_EXAMPLES, "=HOUR(TIME(12,30,2))" },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -490,7 +490,7 @@ gnumeric_hour (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_minute[] = {
         { GNM_FUNC_HELP_NAME, F_("MINUTE:compute minute part of fractional day")},
-        { GNM_FUNC_HELP_ARG, F_("time:time of day as fractional day.")},
+        { GNM_FUNC_HELP_ARG, F_("time:time of day as fractional day")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The MINUTE function computes the minute part of the fractional day given by @{time}.") },
         { GNM_FUNC_HELP_EXAMPLES, "=MINUTE(TIME(12,30,2))" },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -513,7 +513,7 @@ gnumeric_minute (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_second[] = {
         { GNM_FUNC_HELP_NAME, F_("SECOND:compute seconds part of fractional day")},
-        { GNM_FUNC_HELP_ARG, F_("time:time of day as fractional day.")},
+        { GNM_FUNC_HELP_ARG, F_("time:time of day as fractional day")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The SECOND function computes the seconds part of the fractional day given by @{time}.") },
         { GNM_FUNC_HELP_EXAMPLES, "=SECOND(TIME(12,30,2))" },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },

@@ -164,10 +164,10 @@ static GnmFuncHelp const help_rank[] = {
 	{ GNM_FUNC_HELP_NAME, F_("RANK:rank of a number in a list of numbers")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number whose rank you want to find")},
 	{ GNM_FUNC_HELP_ARG, F_("ref:list of numbers")},
-	{ GNM_FUNC_HELP_ARG, F_("order:If this is 0, numbers are ranked in descending order, otherwise numbers are ranked in ascending order. Defaults to 0.")},
+	{ GNM_FUNC_HELP_ARG, F_("order:0 (descending order) or non-zero (ascending order); defaults to 0")},
 	{ GNM_FUNC_HELP_NOTE, F_("In case of a tie, RANK returns the largest possible rank.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 25.9.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, \xe2\x80\xa6, A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 25.9.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then RANK(17.3,A1:A5) equals 4.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then RANK(25.9,A1:A5) equals 1.")},
 	{ GNM_FUNC_HELP_SEEALSO, ("PERCENTRANK,RANK.AVG")},
@@ -216,7 +216,7 @@ static GnmFuncHelp const help_rank_avg[] = {
 	{ GNM_FUNC_HELP_NAME, F_("RANK.AVG:rank of a number in a list of numbers")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number whose rank you want to find")},
 	{ GNM_FUNC_HELP_ARG, F_("ref:list of numbers")},
-	{ GNM_FUNC_HELP_ARG, F_("order:If this is 0, numbers are ranked in descending order, otherwise numbers are ranked in ascending order. Defaults to 0.")},
+	{ GNM_FUNC_HELP_ARG, F_("order:0 (descending order) or non-zero (ascending order); defaults to 0")},
 	{ GNM_FUNC_HELP_NOTE, F_("In case of a tie, RANK returns the average rank.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel 2010 compatible.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 25.9.")},
@@ -1191,7 +1191,7 @@ static GnmFuncHelp const help_tdist[] = {
 	{ GNM_FUNC_HELP_NAME, F_("TDIST:survival function of the Student t-distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("x:")},
 	{ GNM_FUNC_HELP_ARG, F_("dof:number of degrees of freedom")},
-	{ GNM_FUNC_HELP_ARG, F_("tails:1 or 2.")},
+	{ GNM_FUNC_HELP_ARG, F_("tails:1 or 2")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The survival function is 1 minus the cumulative distribution function.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{dof} < 1 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{tails} is neither 1 or 2 this function returns a #NUM! error.") },
@@ -2345,9 +2345,9 @@ gnumeric_prob (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_steyx[] = {
 	{ GNM_FUNC_HELP_NAME, F_("STEYX:standard error of the predicted y-value in the regression")},
-	{ GNM_FUNC_HELP_ARG, F_("known_y's:known y-values")},
-	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values")},
-	{ GNM_FUNC_HELP_NOTE, F_("If @{known_y}'s and @{known_x}'s are empty or have a different "
+	{ GNM_FUNC_HELP_ARG, F_("known_ys:known y-values")},
+	{ GNM_FUNC_HELP_ARG, F_("known_xs:known x-values")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{known_ys} and @{known_xs} are empty or have a different "
 				 "number of arguments then this function returns a #N/A error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
@@ -2893,10 +2893,9 @@ gnumeric_percentile (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_quartile[] = {
 	{ GNM_FUNC_HELP_NAME, F_("QUARTILE:the @{k}-th quartile of the data points")},
 	{ GNM_FUNC_HELP_ARG, F_("array:data points")},
-	{ GNM_FUNC_HELP_ARG, F_("quart:A number from 0 to 4, indicating which quartile to calculate. "
-				"A value of 0 causes the smallest value of @{array} to be returned.")},
+	{ GNM_FUNC_HELP_ARG, F_("quart:a number from 0 to 4, indicating which quartile to calculate")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{array} is empty, this function returns a #NUM! error.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{quart} < 0 or @{quart} > 4, this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{quart} < 0 or @{quart} > 4, this function returns a #NUM! error. If @{quart} = 0, the smallest value of @{array} to be returned.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{quart} is not an integer, it is truncated.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
@@ -3379,13 +3378,13 @@ gnm_reg_data_collect (GnmValue const *yval, GnmValue const *xval,
 
 static GnmFuncHelp const help_linest[] = {
 	{ GNM_FUNC_HELP_NAME, F_("LINEST:multiple linear regression coefficients and statistics") },
-	{ GNM_FUNC_HELP_ARG, F_("known_y's:vector of values of dependent variable.") },
-	{ GNM_FUNC_HELP_ARG, F_("known_x's:array of values of independent variables, defaults to a single vector 1,...,n.") },
-	{ GNM_FUNC_HELP_ARG, F_("affine:if true, the model contains a constant term, defaults to true.") },
+	{ GNM_FUNC_HELP_ARG, F_("known_ys:vector of values of dependent variable") },
+	{ GNM_FUNC_HELP_ARG, F_("known_xs:array of values of independent variables, defaults to a single vector {1,\xe2\x80\xa6,n}") },
+	{ GNM_FUNC_HELP_ARG, F_("affine:if true, the model contains a constant term, defaults to true") },
 	{ GNM_FUNC_HELP_ARG, F_("stats:if true, some additional statistics are provided, defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns an array with the first row giving the regression "
 					"coefficients for the independent variables "
-					"x_m, x_(m-1),...,x_2, x_1 followed by the y-intercept if @{affine} is true.")},
+					"x_m, x_(m-1),\xe2\x80\xa6,x_2, x_1 followed by the y-intercept if @{affine} is true.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("If @{stats} is true, the second row contains the corresponding standard "
 					"errors of the regression coefficients."
 					"In this case, the third row contains the R^2 value and the standard error "
@@ -3396,7 +3395,7 @@ static GnmFuncHelp const help_linest[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("If @{affine} is false, R^2 is the uncentered version of the coefficient "
 					"of determination; "
 					"that is the proportion of the sum of squares explained by the model.")},
-	{ GNM_FUNC_HELP_NOTE, F_("If the length of @{known_y's} does not match the corresponding length of @{known_x's}, "
+	{ GNM_FUNC_HELP_NOTE, F_("If the length of @{known_ys} does not match the corresponding length of @{known_xs}, "
 				 "this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_SEEALSO, "LOGEST,TREND" },
 	{ GNM_FUNC_HELP_END }
@@ -3476,13 +3475,13 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_logreg[] = {
 	{ GNM_FUNC_HELP_NAME, F_("LOGREG:the logarithmic regression")},
-	{ GNM_FUNC_HELP_ARG, F_("known_y's:known y-values")},
-	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.")},
-	{ GNM_FUNC_HELP_ARG, F_("const:If this is FALSE, the curve will be forced to go through "
-				"[1; 0], i.e., b will be zero. The default is TRUE.")},
-	{ GNM_FUNC_HELP_ARG, F_("stat:If @{stat} is TRUE, extra statistical information will be returned; defaults to FALSE.")},
+	{ GNM_FUNC_HELP_ARG, F_("known_ys:known y-values")},
+	{ GNM_FUNC_HELP_ARG, F_("known_xs:known x-values; defaults to the array {1, 2, 3, \xe2\x80\xa6}")},
+	{ GNM_FUNC_HELP_ARG, F_("const:if false, the curve will be forced to go through "
+				"[1; 0], i.e., b will be zero; defaults to TRUE")},
+	{ GNM_FUNC_HELP_ARG, F_("stat:if true, extra statistical information will be returned; defaults to FALSE")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("LOGREG function transforms your x's to z=ln(x) and "
-					"applies the ``least squares'' method to fit the linear equation "
+					"applies the \xe2\x80\x9cleast squares\xe2\x80\x9d method to fit the linear equation "
 					"y = m * z + b "
 					"to your y's and z's --- equivalent to fitting the equation "
 					"y = m * ln(x) + b "
@@ -3498,7 +3497,7 @@ static GnmFuncHelp const help_logreg[] = {
 					"degrees of freedom.  The last row contains the regression sum "
 					"of squares and the residual sum of squares."
 					"The default of @{stat} is FALSE.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{known_y}'s and @{known_x}'s have unequal number of data points, "
+	{ GNM_FUNC_HELP_NOTE, F_("If @{known_ys} and @{known_xs} have unequal number of data points, "
 				 "this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_SEEALSO, "LOGFIT,LINEST,LOGEST"},
 	{ GNM_FUNC_HELP_END }
@@ -3593,10 +3592,10 @@ gnumeric_logreg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_logfit[] = {
 	{ GNM_FUNC_HELP_NAME, F_("LOGFIT:logarithmic least square fit (using a trial and error method)")},
-	{ GNM_FUNC_HELP_ARG, F_("known_y's:known y-values")},
-	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values")},
+	{ GNM_FUNC_HELP_ARG, F_("known_ys:known y-values")},
+	{ GNM_FUNC_HELP_ARG, F_("known_xs:known x-values")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_(
-	   "LOGFIT function applies the ``least squares'' method to fit "
+	   "LOGFIT function applies the \xe2\x80\x9cleast squares\xe2\x80\x9d method to fit "
 	   "the logarithmic equation "
 	   "y = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 "
 	   "to your data. The graph of the equation is a logarithmic curve "
@@ -3688,13 +3687,13 @@ numbers */
 
 static GnmFuncHelp const help_trend[] = {
 	{ GNM_FUNC_HELP_NAME, F_("TREND:estimates future values of a given data set using a least squares approximation")},
-	{ GNM_FUNC_HELP_ARG, F_("known_y's:known y-values")},
-	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.")},
-	{ GNM_FUNC_HELP_ARG, F_("new_x's:x-values for which you want to estimate the y-values; defaults to @{known_x}'s")},
+	{ GNM_FUNC_HELP_ARG, F_("known_ys:known y-values")},
+	{ GNM_FUNC_HELP_ARG, F_("known_xs:known x-values; defaults to the array {1, 2, 3, \xe2\x80\xa6}")},
+	{ GNM_FUNC_HELP_ARG, F_("new_xs:x-values for which to estimate the y-values; defaults to @{known_xs}")},
 	{ GNM_FUNC_HELP_ARG, F_("const:if this is false the line will be forced to go through the origin; defaults to TRUE")},
-	{ GNM_FUNC_HELP_NOTE, F_("If @{known_y's} and @{known_x's} have unequal number of data points, "
+	{ GNM_FUNC_HELP_NOTE, F_("If @{known_ys} and @{known_xs} have unequal number of data points, "
 				 "this function returns a #NUM! error.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, \xe2\x80\xa6, A5 contain numbers "
 				     "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
 				     "B5 23.2, 25.8, 29.9, 33.5, and 42.7.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then TREND(A1:A5,B1:B5) equals {12.1, 15.7, 21.6, 26.7, 39.7}.") },
@@ -3800,11 +3799,12 @@ gnumeric_trend (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_logest[] = {
 	{ GNM_FUNC_HELP_NAME, F_("LOGEST:exponential least square fit")},
-	{ GNM_FUNC_HELP_ARG, F_("known_y's:known y-values")},
-	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.")},
-	{ GNM_FUNC_HELP_ARG, F_("const:if this is false the line will be forced to go through (0,1); defaults to TRUE")},
-	{ GNM_FUNC_HELP_ARG, F_("stat:If @{stat} is TRUE, extra statistical information will be returned; defaults to FALSE.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("LOGEST function applies the ``least squares'' method to fit "
+	{ GNM_FUNC_HELP_ARG, F_("known_ys:known y-values")},
+	{ GNM_FUNC_HELP_ARG, F_("known_xs:known x-values; default to an array {1, 2, 3, \xe2\x80\xa6}")},
+	{ GNM_FUNC_HELP_ARG, F_("const:if false the line will be forced to go through (0,1); defaults to TRUE")},
+	{ GNM_FUNC_HELP_ARG, F_("stat:if true, extra statistical information will be returned; defaults to FALSE")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("LOGEST function applies the "
+					"\xe2\x80\x9cleast squares\xe2\x80\x9d method to fit "
 					"an exponential curve of the form\t"
 					"y = b * m{1}^x{1} * m{2}^x{2}... to your data.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("LOGEST returns an array { m{n},m{n-1}, ...,m{1},b }.") },
@@ -3817,7 +3817,7 @@ static GnmFuncHelp const help_logest[] = {
 				 "the F-observed value and the degrees of freedom.  The last row "
 				 "contains the regression sum of squares and the residual sum "
 				 "of squares.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{known_y}'s and @{known_x}'s have unequal number of data points, "
+	{ GNM_FUNC_HELP_NOTE, F_("If @{known_ys} and @{known_xs} have unequal number of data points, "
 				 "this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_SEEALSO, "GROWTH,TREND"},
 	{ GNM_FUNC_HELP_END }
@@ -3897,9 +3897,9 @@ gnumeric_logest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_growth[] = {
 	{ GNM_FUNC_HELP_NAME, F_("GROWTH:exponential growth prediction")},
-	{ GNM_FUNC_HELP_ARG, F_("known_y's:known y-values")},
-	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.")},
-	{ GNM_FUNC_HELP_ARG, F_("new_x's:x-values for which you want to estimate the y-values; defaults to @{known_x}'s")},
+	{ GNM_FUNC_HELP_ARG, F_("known_ys:known y-values")},
+	{ GNM_FUNC_HELP_ARG, F_("known_xs:known x-values; defaults to the array {1, 2, 3, \xe2\x80\xa6}")},
+	{ GNM_FUNC_HELP_ARG, F_("new_xs:x-values for which to estimate the y-values; defaults to @{known_xs}")},
 	{ GNM_FUNC_HELP_ARG, F_("const:if this is false the line will be forced to go through the origin; defaults to TRUE")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("GROWTH function applies the \xe2\x80\x9cleast "
 					"squares\xe2\x80\x9d method to fit an "
@@ -3907,8 +3907,8 @@ static GnmFuncHelp const help_growth[] = {
 					"the exponential "
 					"growth by using this curve.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("GROWTH returns an array having one column and a row for each "
-					"data point in @{new_x}.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{known_y}'s and @{known_x}'s have unequal number of data points, "
+					"data point in @{new_xs}.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{known_ys} and @{known_xs} have unequal number of data points, "
 				 "this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_SEEALSO, "LOGEST,GROWTH,TREND"},
 	{ GNM_FUNC_HELP_END }
@@ -3996,13 +3996,13 @@ static GnmFuncHelp const help_forecast[] = {
 	{ GNM_FUNC_HELP_NAME, F_("FORECAST:estimates a future value according to existing values "
 				 "using simple linear regression")},
 	{ GNM_FUNC_HELP_ARG, F_("x:x-value whose matching y-value should be forecast")},
-	{ GNM_FUNC_HELP_ARG, F_("known_y's:known y-values")},
-	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values")},
+	{ GNM_FUNC_HELP_ARG, F_("known_ys:known y-values")},
+	{ GNM_FUNC_HELP_ARG, F_("known_xs:known x-values")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function estimates a future value according to "
 					"existing values using simple linear regression.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{known_x} or @{known_y} contains no data entries or different "
+	{ GNM_FUNC_HELP_NOTE, F_("If @{known_xs} or @{known_ys} contains no data entries or different "
 				 "number of data entries, this function returns a #N/A error.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If the variance of the @{known_x} is zero, this function returns a #DIV/0 "
+	{ GNM_FUNC_HELP_NOTE, F_("If the variance of the @{known_xs} is zero, this function returns a #DIV/0 "
 				 "error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
@@ -4058,11 +4058,11 @@ gnumeric_forecast (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_intercept[] = {
 	{ GNM_FUNC_HELP_NAME, F_("INTERCEPT:the intercept of a linear regression line")},
-	{ GNM_FUNC_HELP_ARG, F_("known_y's:known y-values")},
-	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values")},
-	{ GNM_FUNC_HELP_NOTE, F_("If @{known_x} or @{known_y} contains no data entries or different "
+	{ GNM_FUNC_HELP_ARG, F_("known_ys:known y-values")},
+	{ GNM_FUNC_HELP_ARG, F_("known_xs:known x-values")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{known_xs} or @{known_ys} contains no data entries or different "
 				 "number of data entries, this function returns a #N/A error.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If the variance of the @{known_x} is zero, this function returns "
+	{ GNM_FUNC_HELP_NOTE, F_("If the variance of the @{known_xs} is zero, this function returns "
 				 "#DIV/0 error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
@@ -4113,12 +4113,12 @@ gnumeric_intercept (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_slope[] = {
 	{ GNM_FUNC_HELP_NAME, F_("SLOPE:the slope of a linear regression line")},
-	{ GNM_FUNC_HELP_ARG, F_("known_y's:known y-values")},
-	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values")},
+	{ GNM_FUNC_HELP_ARG, F_("known_ys:known y-values")},
+	{ GNM_FUNC_HELP_ARG, F_("known_xs:known x-values")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{known_x} or @{known_y} contains no data entries or different "
+	{ GNM_FUNC_HELP_NOTE, F_("If @{known_xs} or @{known_ys} contains no data entries or different "
 				 "number of data entries, this function returns a #N/A error.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If the variance of the @{known_x} is zero, this function returns "
+	{ GNM_FUNC_HELP_NOTE, F_("If the variance of the @{known_xs} is zero, this function returns "
 				 "#DIV/0 error.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
 				     "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "

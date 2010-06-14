@@ -1384,7 +1384,7 @@ opt_complex_chooser(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_opt_complex_chooser[] = {
 	{ GNM_FUNC_HELP_NAME, F_("OPT_COMPLEX_CHOOSER:theoretical price of a complex chooser option")},
 	DEF_ARG_SPOT,
-        { GNM_FUNC_HELP_ARG, F_("strike_call:strike price, if exercised as a call option.")},
+        { GNM_FUNC_HELP_ARG, F_("strike_call:strike price, if exercised as a call option")},
         { GNM_FUNC_HELP_ARG, F_("strike_put:strike price, if exercised as a put option")},
         { GNM_FUNC_HELP_ARG, F_("time:time in years until the holder chooses a put or a call option")},
         { GNM_FUNC_HELP_ARG, F_("time_call:time in years to maturity of the call option if chosen")},
@@ -1484,15 +1484,16 @@ opt_on_options (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_opt_on_options[] = {
 	{ GNM_FUNC_HELP_NAME, F_("OPT_ON_OPTIONS:theoretical price of options on options")},
-        { GNM_FUNC_HELP_ARG, F_("type_flag:'cc' for calls on calls, 'cp' for calls on puts, and so on for 'pc', and 'pp'.")},
+        { GNM_FUNC_HELP_ARG, F_("type_flag:'cc' for calls on calls, 'cp' for calls on puts, and so on for 'pc', and 'pp'")},
 	DEF_ARG_SPOT,
         { GNM_FUNC_HELP_ARG, F_("strike1:strike price at which the option being valued is struck")},
         { GNM_FUNC_HELP_ARG, F_("strike2:strike price at which the underlying option is struck")},
         { GNM_FUNC_HELP_ARG, F_("time1:time in years to maturity of the option")},
         { GNM_FUNC_HELP_ARG, F_("time2:time in years to the maturity of the underlying option")},
 	DEF_ARG_RATE_RISKFREE_ANN,
-        { GNM_FUNC_HELP_ARG, F_("cost_of_carry:net cost of holding the underlying asset of the underlying option (for common stocks, the risk free rate less the dividend yield)")},
+        { GNM_FUNC_HELP_ARG, F_("cost_of_carry:net cost of holding the underlying asset of the underlying option")},
         { GNM_FUNC_HELP_ARG, F_("volatility:annualized volatility in price of the underlying asset of the underlying option")},
+        { GNM_FUNC_HELP_NOTE, F_("For common stocks, @{cost_of_carry} is the risk free rate less the dividend yield.")},
         { GNM_FUNC_HELP_NOTE, F_("@{time2} \xe2\x89\xa5 @{time1}")},
         { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
         { GNM_FUNC_HELP_END}

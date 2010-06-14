@@ -228,8 +228,8 @@ gnumeric_xor (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_iferror[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IFERROR:test for error") },
-	{ GNM_FUNC_HELP_ARG, F_("x:value to test for error.") },
-	{ GNM_FUNC_HELP_ARG, F_("y:alternate value.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:value to test for error") },
+	{ GNM_FUNC_HELP_ARG, F_("y:alternate value") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the first value, unless that is an error, in which case it returns the second.") },
         { GNM_FUNC_HELP_EXAMPLES, "=IFERROR(1/0,14)" },
 	{ GNM_FUNC_HELP_SEEALSO, "IF,ISERROR" },
@@ -246,8 +246,8 @@ gnumeric_iferror (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_ifna[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IFNA:test for #NA! error") },
-	{ GNM_FUNC_HELP_ARG, F_("x:value to test for #NA! error.") },
-	{ GNM_FUNC_HELP_ARG, F_("y:alternate value.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:value to test for #NA! error") },
+	{ GNM_FUNC_HELP_ARG, F_("y:alternate value") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the first value, unless that is #NA!, in which case it returns the second.") },
         { GNM_FUNC_HELP_EXAMPLES, "=IFNA(12,14)" },
         { GNM_FUNC_HELP_EXAMPLES, "=IFNA(1/0,14)" },
