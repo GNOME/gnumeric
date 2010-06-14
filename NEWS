@@ -38,6 +38,7 @@ Morten:
 	* Fix hidden-sheet problem.  [#621463]
 	* Improve help text sanity checks.
 	* Fix minor parsing problem.
+	* Handle missing data in FORECAST properly.  [#621417]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.5

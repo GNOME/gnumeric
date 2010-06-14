@@ -1,3 +1,8 @@
+2010-06-14  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_forecast): Handle missing data properly.
+	Fixes #621417.
+
 2010-06-13  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_growth): Simplify.

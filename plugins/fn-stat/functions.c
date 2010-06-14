@@ -4022,55 +4022,45 @@ static GnmFuncHelp const help_forecast[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-
-static GnmValue *
-gnumeric_forecast (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+static int
+range_forecast (gnm_float const *xs, gnm_float const *ys, int n, gnm_float *res, gpointer user)
 {
-	gnm_float x, *xs = NULL, *ys = NULL;
-	GnmValue *result = NULL;
-	int nx, ny, dim;
+	gnm_float const *px = user;
 	gnm_float linres[2];
+	int dim = 1;
+	gboolean affine = TRUE;
 	GORegressionResult regres;
 
-	x = value_get_as_float (argv[0]);
+	if (n <= 0)
+		return 1;
 
-	ys = collect_floats_value (argv[1], ei->pos,
-				   COLLECT_IGNORE_STRINGS |
-				   COLLECT_IGNORE_BOOLS,
-				   &ny, &result);
-	if (result)
-		goto out;
-
-	xs = collect_floats_value (argv[2], ei->pos,
-				   COLLECT_IGNORE_STRINGS |
-				   COLLECT_IGNORE_BOOLS,
-				   &nx, &result);
-	if (result)
-		goto out;
-
-	if (nx != ny) {
-		result = value_new_error_NUM (ei->pos);
-		goto out;
-	}
-
-	dim = 1;
-
-	regres = gnm_linear_regression (&xs, dim, ys, nx, 1, linres, NULL);
+	regres = gnm_linear_regression ((gnm_float **)&xs, dim,
+					ys, n, affine, linres, NULL);
 	switch (regres) {
 	case GO_REG_ok:
 	case GO_REG_near_singular_good:
 		break;
 	default:
-		result = value_new_error_NUM (ei->pos);
-		goto out;
+		return 1;
 	}
 
-	result = value_new_float (linres[0] + x * linres[1]);
+	*res = linres[0] + (*px) * linres[1];
+	return 0;
+}
 
- out:
-	g_free (xs);
-	g_free (ys);
-	return result;
+static GnmValue *
+gnumeric_forecast (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float x = value_get_as_float (argv[0]);
+
+	return float_range_function2d (argv[2], argv[1],
+				       ei,
+				       range_forecast,
+				       COLLECT_IGNORE_BLANKS |
+				       COLLECT_IGNORE_STRINGS |
+				       COLLECT_IGNORE_BOOLS,
+				       GNM_ERROR_VALUE,
+				       &x);
 }
 
 /***************************************************************************/
