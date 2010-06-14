@@ -493,7 +493,7 @@ function_dump_defs (char const *filename, int dump_type)
 
 /* ------------------------------------------------------------------------- */
 
-gboolean
+static gboolean
 check_help_expression (const char *text, GnmFunc const *fd)
 {
 	GnmConventions const *convs = gnm_conventions_default;
