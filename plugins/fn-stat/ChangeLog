@@ -8,6 +8,7 @@
 	Fixes #621417.
 	(gnumeric_binom_dist_range): Fix precision problem when both
 	end-points are near the number of trial.
+	(gnumeric_steyx): Cleanup.
 
 2010-06-13  Morten Welinder  <terra@gnome.org>
 

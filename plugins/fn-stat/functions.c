@@ -2232,31 +2232,6 @@ gnumeric_small (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***********************************************************************/
 
-typedef struct {
-        GSList *list;
-        int    num;
-} stat_list_t;
-
-static GnmValue *
-cb_list (GnmCellIter const *iter, gpointer user)
-{
-        stat_list_t *mm = user;
-	GnmCell *cell = iter->cell;
-	gnm_float *p;
-
-	gnm_cell_eval (cell);
-	if (cell->value == NULL || !VALUE_IS_NUMBER (cell->value))
-		return NULL;
-
-	p = g_new (gnm_float, 1);
-	*p = value_get_as_float (cell->value);
-	mm->list = g_slist_append (mm->list, p);
-	mm->num++;
-	return NULL;
-}
-
-/***************************************************************************/
-
 static GnmFuncHelp const help_prob[] = {
 	{ GNM_FUNC_HELP_NAME, F_("PROB:probability of an interval for a discrete (and finite) probability distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("x_range:possible values")},
@@ -2358,136 +2333,40 @@ static GnmFuncHelp const help_steyx[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
+static int
+range_steyx (gnm_float const *xs, gnm_float const *ys, int n, gnm_float *res)
+{
+	gnm_float linres[2];
+	int dim = 1;
+	GORegressionResult regres;
+	gnm_regression_stat_t *extra_stat;
+	gboolean affine = TRUE;
+
+	extra_stat = gnm_regression_stat_new ();
+	regres = gnm_linear_regression ((gnm_float **)&xs, dim,
+					ys, n, affine, linres, extra_stat);
+	*res = gnm_sqrt (extra_stat->var);
+	gnm_regression_stat_destroy (extra_stat);
+
+	switch (regres) {
+	case GO_REG_ok:
+	case GO_REG_near_singular_good:
+		return 0;
+	default:
+		return 1;
+	}
+}
+
 static GnmValue *
 gnumeric_steyx (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-        GnmValue const *known_y = argv[0];
-        GnmValue const *known_x = argv[1];
-	stat_list_t items_x, items_y;
-	gnm_float  sum_x, sum_y, sum_xy, sqrsum_x, sqrsum_y;
-	gnm_float  num, den, k, n;
-	GSList      *list1, *list2;
-	GnmValue       *ret;
-
-	items_x.num  = 0;
-	items_x.list = NULL;
-	items_y.num  = 0;
-	items_y.list = NULL;
-
-        if (known_x->type == VALUE_CELLRANGE) {
-		ret = sheet_foreach_cell_in_range (
-			eval_sheet (known_x->v_range.cell.a.sheet, ei->pos->sheet),
-			CELL_ITER_IGNORE_BLANK,
-			known_x->v_range.cell.a.col,
-			known_x->v_range.cell.a.row,
-			known_x->v_range.cell.b.col,
-			known_x->v_range.cell.b.row,
-			cb_list,
-			&items_x);
-		if (ret != NULL) {
-			list1 = items_x.list;
-			list2 = items_y.list;
-			while (list1 != NULL) {
-				g_free (list1->data);
-				list1 = list1->next;
-			}
-			while (list2 != NULL) {
-				g_free (list2->data);
-				list2 = list2->next;
-			}
-			g_slist_free (items_x.list);
-			g_slist_free (items_y.list);
-
-			return value_new_error_VALUE (ei->pos);
-		}
-	} else
-		return value_new_error (ei->pos,
-					_("Array version not implemented!"));
-
-        if (known_y->type == VALUE_CELLRANGE) {
-		ret = sheet_foreach_cell_in_range (
-			eval_sheet (known_y->v_range.cell.a.sheet, ei->pos->sheet),
-			CELL_ITER_IGNORE_BLANK,
-			known_y->v_range.cell.a.col,
-			known_y->v_range.cell.a.row,
-			known_y->v_range.cell.b.col,
-			known_y->v_range.cell.b.row,
-			cb_list,
-			&items_y);
-		if (ret != NULL) {
-			list1 = items_x.list;
-			list2 = items_y.list;
-			while (list1 != NULL) {
-				g_free (list1->data);
-				list1 = list1->next;
-			}
-			while (list2 != NULL) {
-				g_free (list2->data);
-				list2 = list2->next;
-			}
-			g_slist_free (items_x.list);
-			g_slist_free (items_y.list);
-
-			return value_new_error_VALUE (ei->pos);
-		}
-	} else
-		return value_new_error (ei->pos,
-					_("Array version not implemented!"));
-
-	if (items_x.num != items_y.num) {
-		list1 = items_x.list;
-		list2 = items_y.list;
-		while (list1 != NULL) {
-			g_free (list1->data);
-			list1 = list1->next;
-		}
-		while (list2 != NULL) {
-			g_free (list2->data);
-			list2 = list2->next;
-		}
-		g_slist_free (items_x.list);
-		g_slist_free (items_y.list);
-
-		return value_new_error_NA (ei->pos);
-	}
-
-	list1 = items_x.list;
-	list2 = items_y.list;
-	sum_x = sum_y = 0;
-	sqrsum_x = sqrsum_y = 0;
-	sum_xy = 0;
-
-	while (list1 != NULL) {
-		gnm_float  x, y;
-
-		x = *((gnm_float *) list1->data);
-		y = *((gnm_float *) list2->data);
-
-		sum_x += x;
-		sum_y += y;
-		sqrsum_x += x * x;
-		sqrsum_y += y * y;
-		sum_xy += x * y;
-
-		g_free (list1->data);
-		g_free (list2->data);
-		list1 = list1->next;
-		list2 = list2->next;
-	}
-
-	g_slist_free (items_x.list);
-	g_slist_free (items_y.list);
-
-	n = items_x.num;
-	k = 1.0 / (n * (n - 2));
-	num = n * sum_xy - sum_x * sum_y;
-	num *= num;
-	den = n * sqrsum_x - sum_x * sum_x;
-
-	if (den == 0)
-		return value_new_error_NUM (ei->pos);
-
-	return value_new_float (gnm_sqrt (k * (n * sqrsum_y - sum_y * sum_y - num / den)));
+	return float_range_function2 (argv[1], argv[0],
+				      ei,
+				      range_steyx,
+				      COLLECT_IGNORE_BLANKS |
+				      COLLECT_IGNORE_STRINGS |
+				      COLLECT_IGNORE_BOOLS,
+				      GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/
@@ -4022,9 +3901,6 @@ range_forecast (gnm_float const *xs, gnm_float const *ys, int n, gnm_float *res,
 	gboolean affine = TRUE;
 	GORegressionResult regres;
 
-	if (n <= 0)
-		return 1;
-
 	regres = gnm_linear_regression ((gnm_float **)&xs, dim,
 					ys, n, affine, linres, NULL);
 	switch (regres) {
@@ -4080,9 +3956,6 @@ range_intercept (gnm_float const *xs, gnm_float const *ys, int n, gnm_float *res
 	int dim = 1;
 	GORegressionResult regres;
 
-	if (n <= 0)
-		return 1;
-
 	regres = gnm_linear_regression ((gnm_float **)&xs, dim,
 					ys, n, 1, linres, NULL);
 	switch (regres) {
@@ -4134,9 +4007,6 @@ range_slope (gnm_float const *xs, gnm_float const *ys, int n, gnm_float *res)
 	gnm_float linres[2];
 	int dim = 1;
 	GORegressionResult regres;
-
-	if (n <= 0)
-		return 1;
 
 	regres = gnm_linear_regression ((gnm_float **)&xs, dim,
 					ys, n, 1, linres, NULL);
