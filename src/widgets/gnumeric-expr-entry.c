@@ -74,6 +74,7 @@ struct _GnmExprEntry {
 	struct {
 		GtkWidget       *tooltip;
 		GnmFunc         *fd;
+		gint             args;
 		guint            handlerid;
 	}                        tooltip;
 
@@ -574,11 +575,6 @@ gee_update_env (GnmExprEntry *gee)
 	}
 
 }
-static void
-cb_gee_notify_cursor_position (GnmExprEntry *gee)
-{
-	gee_update_env (gee);
-}
 
 static void
 gee_delete_tooltip (GnmExprEntry *gee)
@@ -597,6 +593,7 @@ gee_delete_tooltip (GnmExprEntry *gee)
 					     gee->tooltip.handlerid);
 		gee->tooltip.handlerid = 0;
 	}
+	
 }
 
 void    
@@ -665,7 +662,7 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str)
 }
 
 static void
-gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd)
+gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args)
 {
 	GString *str;
 	gchar sep = go_locale_get_arg_sep ();
@@ -673,7 +670,7 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd)
 	gboolean first = TRUE;
 
 	if (gee->tooltip.fd) {
-		if (gee->tooltip.fd == fd)
+		if (gee->tooltip.fd == fd && gee->tooltip.args == args)
 			return;
 		gee_delete_tooltip (gee);
 	}
@@ -695,7 +692,12 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd)
 				first = FALSE;
 			else
 				g_string_append_c (str, sep);
-			g_string_append (str, arg_name);
+			if (i == args) {
+				g_string_append (str, "\xe2\x9e\xa1");
+				g_string_append (str, arg_name);
+				g_string_append (str, "\xe2\xac\x85");
+			} else
+				g_string_append (str, arg_name);
 			g_free (arg_name);
 		} else
 			break;
@@ -703,11 +705,17 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd)
 	if (i < max) {
 		if (!first)
 			g_string_append_c (str, sep);
-		g_string_append (str, "\xe2\x80\xa6");
+		g_string_append 
+			(str, (args >= i && args < max) ? 
+			 "\xe2\x9e\xa1\xe2\x80\xa6\xe2\xac\x85" 
+			 : "\xe2\x80\xa6");
 	}
+	if (args >= max)
+		g_string_append (str, "\xe2\x9e\xa1\xe2\x98\xa0\xe2\xac\x85");
 	g_string_append_c (str, ')');
 
 	gee->tooltip.tooltip = gee_create_tooltip (gee, str->str);
+	gee->tooltip.args = args;
 
 	g_string_free (str, TRUE);
 }
@@ -716,12 +724,14 @@ static void
 gee_check_tooltip (GnmExprEntry *gee)
 {
 	GtkEditable *editable = GTK_EDITABLE (gee->entry);
-	gint end;
+	gint  end;
 	char *str;
 	char *prefix;
 	char *str_end;
-	char last;
-	
+	int   args = 0;
+	gchar sep = go_locale_get_arg_sep ();
+	gint  para = 0;
+
 	end = gtk_editable_get_position (editable);
 
 	if (end == 0) {
@@ -729,34 +739,50 @@ gee_check_tooltip (GnmExprEntry *gee)
 		return;
 	}
 	
-	str = gtk_editable_get_chars (editable, end, end+1);
-	last = *str;
-	g_free (str);
-
-	if (last == ')') {
-		gee_delete_tooltip (gee);
-		return;		
-	}
-	
-	if (last != '(')
-		return;
-
 	str = gtk_editable_get_chars (editable, 0, end);
+	prefix = str_end = str + strlen (str) - 1;
 
-	prefix = str_end = str + strlen (str);
-	do {prefix--;} while (prefix >= str && (('a' <= *prefix && *prefix <= 'z') ||
-						('a' <= *prefix && *prefix <= 'z') ||
-						('.' == *prefix)));
-	prefix++;
+	while (str < prefix) {
+		if (*prefix == ')') {
+			para--;
+		} else if (*prefix == '(') {
+			para++;
+			if (para == 1) {
+				/* last opened and yet not closed ( */
+				*prefix='\0';
+				
+				do {prefix--;} 
+				while (prefix >= str && 
+				       (('a' <= *prefix && *prefix <= 'z') ||
+					('a' <= *prefix && *prefix <= 'z') ||
+					('.' == *prefix)));
+				prefix++;
 	
-	if (prefix < str_end) {
-		GnmFunc	   *fd = gnm_func_lookup (prefix, NULL);
-		if (fd != NULL)
-			gee_set_tooltip (gee, fd);
+				if (*prefix != '\0') {
+					GnmFunc	*fd = gnm_func_lookup (prefix, NULL);
+					if (fd != NULL) {
+						gee_set_tooltip (gee, fd, args);
+						g_free (str);
+						return;
+					}
+				}
+				break;
+			}
+		} else if (*prefix == sep) {
+			args++;
+		}
+		prefix--;
 	}
-	
 	g_free (str);
+	gee_delete_tooltip (gee);
+	return;
+}
 
+static void
+cb_gee_notify_cursor_position (GnmExprEntry *gee)
+{
+	gee_update_env (gee);
+	gee_check_tooltip (gee);
 }
 
 static void
