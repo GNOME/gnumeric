@@ -1,3 +1,14 @@
+2010-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialogs.h (dialog_formula_guru): change storage class of an arg
+	* dialog-function-select.c (cb_dialog_function_select_ok_clicked):
+	  change call of dialog_formula_guru
+	* dialog-formula-guru.c (dialog_formula_guru_load_fd): remove
+	  unneeded code
+	(cb_dialog_formula_guru_destroy): reenable tips
+	(dialog_formula_guru): change storage class of an arg and disable
+	  tips
+
 2010-06-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-function-select.c 

@@ -1,3 +1,13 @@
+2010-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.h (gnm_expr_entry_enable_tips): new
+	(gnm_expr_entry_disable_tips): new
+	* gnumeric-expr-entry.c (gnm_expr_entry_enable_tips): new
+	(gnm_expr_entry_disable_tips): new
+	(_GnmExprEntry): new field
+	(gee_check_tooltip): only create tooltips if enabled
+	(gee_init): iitalize new fields
+
 2010-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (cb_gee_configure_event): delete

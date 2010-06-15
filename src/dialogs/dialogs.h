@@ -18,7 +18,7 @@ typedef enum {
 	FD_LAST = FD_INPUT_MSG
 } FormatDialogPosition_t;
 
-void	 dialog_formula_guru	(WBCGtk *wbcg, GnmFunc const *func);
+void	 dialog_formula_guru	(WBCGtk *wbcg, GnmFunc *func);
 void	 dialog_plugin_manager	(WBCGtk *wbcg);
 void	 dialog_goto_cell	(WBCGtk *wbcg);
 void	 dialog_cell_format	(WBCGtk *wbcg,

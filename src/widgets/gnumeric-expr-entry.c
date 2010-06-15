@@ -76,6 +76,7 @@ struct _GnmExprEntry {
 		GnmFunc         *fd;
 		gint             args;
 		guint            handlerid;
+		gboolean         enabled;
 	}                        tooltip;
 
 	GOFormat const *constant_format;
@@ -726,6 +727,9 @@ gee_check_tooltip (GnmExprEntry *gee)
 	gchar sep = go_locale_get_arg_sep ();
 	gint  para = 0;
 
+	if (!gee->tooltip.enabled)
+		return;
+
 	end = gtk_editable_get_position (editable);
 
 	if (end == 0) {
@@ -1031,6 +1035,7 @@ gee_init (GnmExprEntry *gee)
 	gee->tooltip.tooltip = NULL;
 	gee->tooltip.fd = NULL;
 	gee->tooltip.handlerid = 0;
+	gee->tooltip.enabled = TRUE;
 	gee_rangesel_reset (gee);
 
 	gee->entry = GTK_ENTRY (gtk_entry_new ());
@@ -2203,5 +2208,22 @@ gnm_expr_entry_enable_highlight (GnmExprEntry *gee)
 {
 	g_return_if_fail (gee != NULL);
 	gee->feedback_disabled = FALSE;
+}
+
+/*****************************************************************************/
+
+void
+gnm_expr_entry_disable_tips (GnmExprEntry *gee)
+{
+	g_return_if_fail (gee != NULL);
+	gee_delete_tooltip (gee);
+	gee->tooltip.enabled = FALSE;
+}
+
+void
+gnm_expr_entry_enable_tips (GnmExprEntry *gee)
+{
+	g_return_if_fail (gee != NULL);
+	gee->tooltip.enabled = TRUE;
 }
 

@@ -370,14 +370,14 @@ dialog_formula_guru_adjust_varargs (GtkTreeIter *iter, FormulaGuruState *state)
 
 
 static gint
-dialog_formula_guru_load_fd (GtkTreePath *path, GnmFunc const *fd,
+dialog_formula_guru_load_fd (GtkTreePath *path, GnmFunc *fd,
 			     FormulaGuruState *state)
 {
 	GtkTreeIter iter;
-	TokenizedHelp *help = tokenized_help_new (fd);
-	char const *f_syntax = tokenized_help_find (help, "SYNTAX");
 	gint min_arg, max_arg;
 	GtkTreePath *new_path;
+
+	gnm_func_load_if_stub (fd);
 
 	if (path == NULL) {
 		gtk_tree_store_clear (state->model);
@@ -405,14 +405,12 @@ dialog_formula_guru_load_fd (GtkTreePath *path, GnmFunc const *fd,
 	function_def_count_args (fd, &min_arg, &max_arg);
 
 	gtk_tree_store_set (state->model, &iter,
-			    FUN_ARG_ENTRY, f_syntax,
+			    FUN_ARG_ENTRY, "",
 			    IS_NON_FUN, FALSE,
 			    FUNCTION, fd,
 			    MIN_ARG, min_arg,
 			    MAX_ARG, max_arg,
 			    -1);
-	tokenized_help_destroy (help);
-
 	dialog_formula_guru_adjust_children (&iter, fd, state);
 	dialog_formula_guru_adjust_varargs (&iter, state);
 
@@ -526,6 +524,7 @@ cb_dialog_formula_guru_destroy (FormulaGuruState *state)
 		g_object_unref (state->editable);
 	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
+	gnm_expr_entry_enable_tips (wbcg_get_entry_logical (state->wbcg));
 	g_free (state);
 }
 
@@ -869,6 +868,7 @@ dialog_formula_guru_init (FormulaGuruState *state)
 	state->column = column;
 	gtk_tree_view_append_column (state->treeview, column);
 	gtk_tree_view_set_headers_visible (state->treeview, TRUE);
+	gtk_tree_view_set_enable_tree_lines (state->treeview, TRUE);
 	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (state->treeview));
 
 	g_signal_connect (state->treeview,
@@ -942,7 +942,7 @@ dialog_formula_guru_show (FormulaGuruState *state)
  * Pop up a function selector then a formula guru.
  */
 void
-dialog_formula_guru (WBCGtk *wbcg, GnmFunc const *fd)
+dialog_formula_guru (WBCGtk *wbcg, GnmFunc *fd)
 {
 	SheetView *sv;
 	GladeXML  *gui;
@@ -994,6 +994,8 @@ dialog_formula_guru (WBCGtk *wbcg, GnmFunc const *fd)
 	state->gui   = gui;
 	state->active_path = NULL;
 	state->pos = g_new (GnmParsePos, 1);
+
+	gnm_expr_entry_disable_tips (wbcg_get_entry_logical (wbcg));
 
 	sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	cell = sheet_cell_get (sv_sheet (sv), sv->edit_pos.col, sv->edit_pos.row);

@@ -342,7 +342,7 @@ cb_dialog_function_select_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 {
 	GtkTreeIter  iter;
 	GtkTreeModel *model;
-	GnmFunc const *func;
+	GnmFunc *func;
 	GtkTreeSelection *the_selection = gtk_tree_view_get_selection (state->treeview);
 
 	if (state->formula_guru_key != NULL && 
