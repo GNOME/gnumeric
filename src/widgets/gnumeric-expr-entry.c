@@ -637,6 +637,11 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str)
 	gtk_window_get_position (toplevel, &root_x, &root_y);
 
 	tip = gtk_window_new (GTK_WINDOW_POPUP);
+	gtk_window_set_type_hint (GTK_WINDOW (tip),
+				  GDK_WINDOW_TYPE_HINT_TOOLTIP);
+	gtk_window_set_resizable (GTK_WINDOW (tip), FALSE);
+	gtk_widget_set_name (tip, "gnumeric-tooltip");
+	
 	gtk_window_set_screen (GTK_WINDOW (tip), screen);
 	gtk_window_move (GTK_WINDOW (tip), root_x + dest_x, root_y + dest_y);
 

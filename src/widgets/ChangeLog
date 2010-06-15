@@ -1,5 +1,10 @@
 2010-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gnumeric-expr-entry.c (gee_create_tooltip): set tooltip
+	  hint and name
+
+2010-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* gnumeric-expr-entry.c (gee_set_tooltip_argument): new
 	(gee_set_tooltip): use gee_set_tooltip_argument
 	
