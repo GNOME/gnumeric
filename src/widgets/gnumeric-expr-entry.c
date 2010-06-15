@@ -766,7 +766,8 @@ gee_check_tooltip (GnmExprEntry *gee)
 						return;
 					}
 				}
-				break;
+				args = 0;
+				para--;
 			}
 		} else if (*prefix == sep) {
 			args++;

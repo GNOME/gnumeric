@@ -1,5 +1,10 @@
 2010-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gnumeric-expr-entry.c (gee_check_tooltip): skip regular
+	  parentheses and unknown functions.
+
+2010-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* gnumeric-expr-entry.c (cb_gee_notify_cursor_position):
 	  check whether a tool tip would be appropriate
 	(gee_set_tooltip): add an args argument and implement
