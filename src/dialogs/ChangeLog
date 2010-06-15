@@ -1,5 +1,11 @@
 2010-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-goto-cell.c (cb_load_names): only load names that are in
+	  fact addresses.
+	(cb_dialog_goto_selection_changed): only try to go to addresses
+
+2010-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-formula-guru.c (dialog_formula_guru_adjust_children): load 
 	  tooltip
 	(dialog_formula_guru_init): set up tooltips

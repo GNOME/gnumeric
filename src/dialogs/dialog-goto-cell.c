@@ -136,20 +136,16 @@ cb_load_names (G_GNUC_UNUSED gpointer key,
 	       GnmNamedExpr *nexpr, LoadNames *user)
 {
 	GtkTreeIter iter;
-	char *expr_name = NULL;
+	gboolean is_address = gnm_expr_top_is_rangeref (nexpr->texpr);
 
-	gtk_tree_store_append (user->state->model, &iter, &user->iter);
-
-	if (nexpr->pos.sheet != NULL)
-		expr_name = g_strdup_printf ("%s!%s",
-					     nexpr->pos.sheet->name_unquoted,
-					     expr_name_name (nexpr));
-	gtk_tree_store_set (user->state->model, &iter,
-			    ITEM_NAME, expr_name ? expr_name : expr_name_name (nexpr),
-			    SHEET_POINTER, nexpr->pos.sheet,
-			    EXPRESSION,	nexpr,
-			    -1);
-	g_free (expr_name);
+	if (is_address) {
+		gtk_tree_store_append (user->state->model, &iter, &user->iter);
+		gtk_tree_store_set (user->state->model, &iter,
+				    ITEM_NAME, expr_name_name (nexpr),
+				    SHEET_POINTER, nexpr->pos.sheet,
+				    EXPRESSION,	nexpr,
+				    -1);
+	}
 }
 
 static void
@@ -204,7 +200,7 @@ cb_dialog_goto_selection_changed (GtkTreeSelection *the_selection, GotoState *st
 				    SHEET_POINTER, &sheet,
 				    EXPRESSION, &name,
 				    -1);
-		if (name) {
+		if (name && gnm_expr_top_is_rangeref (name->texpr)) {
 			GnmParsePos pp;
 			char *where_to;
 
@@ -276,8 +272,9 @@ dialog_goto_init (GotoState *state)
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled),
 					     GTK_SHADOW_ETCHED_IN);
 
-	state->model = gtk_tree_store_new (NUM_COLMNS, G_TYPE_STRING, G_TYPE_STRING,
-					   G_TYPE_POINTER, G_TYPE_POINTER);
+	state->model = gtk_tree_store_new (NUM_COLMNS, G_TYPE_STRING, 
+					   G_TYPE_STRING, G_TYPE_POINTER, 
+					   G_TYPE_POINTER);
 	state->treeview = GTK_TREE_VIEW (
 		gtk_tree_view_new_with_model (GTK_TREE_MODEL (state->model)));
 	state->selection = gtk_tree_view_get_selection (state->treeview);
