@@ -1,5 +1,10 @@
 2010-06-14 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/mathfunc.c (pbinom2): pbinom's right tail calculation
+	  does not include the lower limit.
+
+2010-06-14 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/wbc-gtk-edit.c (wbcg_edit_finish): close the tooltips of
 	  the entry
 

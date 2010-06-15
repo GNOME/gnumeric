@@ -6325,8 +6325,11 @@ pbinom2 (gnm_float x0, gnm_float x1, gnm_float n, gnm_float p)
 	if (x0 == x1)
 		return dbinom (x0, n, p, FALSE);
 
+	if (x0 <= 0)
+		return pbinom (x1, n, p, TRUE, FALSE);
+
 	if (x1 >= n)
-		return pbinom (x0, n, p, FALSE, FALSE);
+		return pbinom (x0 - 1, n, p, FALSE, FALSE);
 
 	Pl = pbinom (x0 - 1, n, p, TRUE, FALSE);
 	if (Pl > 0.75) {
