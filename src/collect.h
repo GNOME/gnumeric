@@ -43,6 +43,10 @@ gnm_float *collect_floats_value_with_info (GnmValue const *val, GnmEvalPos const
 				CollectFlags flags, int *n, GSList **info,
 				GnmValue **error);
 
+GnmValue *collect_float_pairs (GnmValue const *v0, GnmValue const *v1,
+			       GnmEvalPos const *ep, CollectFlags flags,
+			       gnm_float **xs0, gnm_float **xs1, int *n);
+
 GnmValue *float_range_function (int argc, GnmExprConstPtr const *argv,
 				GnmFuncEvalInfo *ei,
 				float_range_function_t func,

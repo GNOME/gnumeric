@@ -8,6 +8,10 @@
 
 2010-06-15  Morten Welinder  <terra@gnome.org>
 
+	* src/collect.c (collect_float_pairs): New function, extracted
+	from float_range_function2d.
+	(float_range_function2d): simplify and plug leak.
+
 	* src/gnm-datetime.c (datetime_value_to_seconds): Improve sanity
 	check.
 

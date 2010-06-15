@@ -570,6 +570,66 @@ gnm_strip_missing (gnm_float *data, int *n, GSList *missing)
 	}
 }
 
+/**
+ * collect_float_pairs:
+ * @v0: value describing first data range
+ * @v1: value describing second data range
+ * @ep: evaluation position
+ * @flags: flags describing how to handle value types
+ * @xs0: return location for first data vector
+ * @xs1: return location for second data vector
+ * @n: return location for number of data points
+ *
+ * If @n is not positive upon return, no data has been allocated.
+ * If @n is negative upon return, the two ranges had different
+ * sizes.
+ */
+GnmValue *
+collect_float_pairs (GnmValue const *v0, GnmValue const *v1,
+		     GnmEvalPos const *ep, CollectFlags flags,
+		     gnm_float **xs0, gnm_float **xs1, int *n)
+{
+	GSList *missing0 = NULL, *missing1 = NULL;
+	GnmValue *error = NULL;
+	int n0, n1;
+
+	*xs0 = *xs1 = NULL;
+	*n = 0;
+
+	*xs0 = collect_floats_value_with_info (v0, ep, flags,
+					       &n0, &missing0, &error);
+	if (error)
+		goto err;
+
+	*xs1 = collect_floats_value_with_info (v1, ep, flags,
+					       &n1, &missing1, &error);
+	if (error)
+		goto err;
+
+	if (n0 != n1) {
+		*n = -1;
+		goto err;
+	}
+
+	if (missing0 || missing1) {
+		missing0 = gnm_slist_sort_merge (missing0, missing1);
+		missing1 = NULL;
+		gnm_strip_missing (*xs0, &n0, missing0);
+		gnm_strip_missing (*xs1, &n1, missing0);
+	}
+
+	*n = n0;
+
+err:
+	if (*n <= 0) {
+		g_free (*xs0); *xs0 = NULL;
+		g_free (*xs1); *xs1 = NULL;
+	}
+	g_slist_free (missing0);
+	g_slist_free (missing1);
+	return error;
+}
+
 GnmValue *
 float_range_function2d (GnmValue const *val0, GnmValue const *val1,
 			GnmFuncEvalInfo *ei,
@@ -579,51 +639,22 @@ float_range_function2d (GnmValue const *val0, GnmValue const *val1,
 			gpointer data)
 {
 	gnm_float *vals0, *vals1;
-	int n0, n1;
-	GnmValue *error = NULL;
+	int n;
 	GnmValue *res;
-	GSList *missing0 = NULL;
-	GSList *missing1 = NULL;
+	gnm_float fres;
 
-	vals0 = collect_floats_value_with_info (val0, ei->pos, flags,
-						&n0, &missing0, &error);
-	if (error) {
-		g_slist_free (missing0);
-		return error;
-	}
+	res = collect_float_pairs (val0, val1, ei->pos, flags,
+				   &vals0, &vals1, &n);
+	if (res)
+		return res;
 
-	vals1 = collect_floats_value_with_info (val1, ei->pos, flags,
-						&n1, &missing1, &error);
-	if (error) {
-		g_slist_free (missing0);
-		g_slist_free (missing1);
-		g_free (vals0);
-		return error;
-	}
+	if (n <= 0)
+		return value_new_error_std (ei->pos, func_error);
 
-	if (n0 != n1 || n0 == 0)
+	if (func (vals0, vals1, n, &fres, data))
 		res = value_new_error_std (ei->pos, func_error);
-	else {
-		gnm_float fres;
-
-		if (missing0 || missing1) {
-			GSList *missing = gnm_slist_sort_merge (missing0, missing1);
-			gnm_strip_missing (vals0, &n0, missing);
-			gnm_strip_missing (vals1, &n1, missing);
-
-			g_slist_free (missing);
-
-			if (n0 != n1) {
-				g_warning ("This should not happen.  n0=%d n1=%d\n",
-					   n0, n1);
-			}
-		}
-
-		if (func (vals0, vals1, n0, &fres, data))
-			res = value_new_error_std (ei->pos, func_error);
-		else
-			res = value_new_float (fres);
-	}
+	else
+		res = value_new_float (fres);
 
 	g_free (vals0);
 	g_free (vals1);

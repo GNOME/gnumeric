@@ -42,6 +42,7 @@ Morten:
 	* Handle missing data in FORECAST properly.  [#621417]
 	* Improve BINOM.DIST.RANGE.
 	* Modernize STEYX.
+	* Plug evaluation leak.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.5
