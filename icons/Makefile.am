@@ -19,11 +19,19 @@ icons_DATA = \
 	gnumeric-about.png	\
 	stf-druid.png
 
-EXTRA_DIST = $(icons_DATA) $(mimeicon_DATA)
+EXTRA_DIST = $(icons_DATA) $(mimeicon_DATA) fake-index-theme
 
 gtk_update_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor
 
-install-data-hook: update-icon-cache
+fake_index_theme_target =
+if WITH_WIN32
+fake_index_theme_target += install-fake-index-theme
+
+install-fake-index-theme: fake-index-theme
+	install -m 0644 fake-index-theme $(datadir)/icons/hicolor/index.theme
+endif
+
+install-data-hook: update-icon-cache $(fake_index_theme_target)
 uninstall-hook: update-icon-cache
 update-icon-cache:
 	@-if test -z "$(DESTDIR)"; then \
