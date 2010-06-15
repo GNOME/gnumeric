@@ -1,3 +1,7 @@
+2010-06-15  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_growth): Handle missing data.
+
 2010-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c: fix empty argument descriptions

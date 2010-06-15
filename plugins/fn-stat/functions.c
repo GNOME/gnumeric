@@ -3795,69 +3795,57 @@ static GnmFuncHelp const help_growth[] = {
 static GnmValue *
 gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float  *xs = NULL, *ys = NULL, *nxs = NULL;
-	GnmValue    *result = NULL;
+	gnm_float *ys, *xs, *nxs;
+	int i, n, nnx;
+	GnmValue *res;
+	int dim = 1;
 	gboolean affine;
-	int      nx, ny, nnx, i, dim;
-	gnm_float  expres[2];
 	GORegressionResult regres;
+	gnm_float expres[2];
 
-	ys = collect_floats_value (argv[0], ei->pos,
+	res = collect_float_pairs (argv[0], argv[1], ei->pos,
+				   COLLECT_IGNORE_BLANKS |
 				   COLLECT_IGNORE_STRINGS |
 				   COLLECT_IGNORE_BOOLS,
-				   &ny, &result);
-	if (result || ny < 1)
-		goto out;
-
-	if (argv[1] != NULL) {
-		xs = collect_floats_value (argv[1], ei->pos,
-					   COLLECT_IGNORE_STRINGS |
-					   COLLECT_IGNORE_BOOLS,
-					   &nx, &result);
-		if (result)
-			goto out;
-	} else {
-		xs = g_new (gnm_float, ny);
-		for (nx = 0; nx < ny; nx++)
-			xs[nx] = nx + 1;
-	}
+				   &ys, &xs, &n);
+	if (res)
+		return res;
 
 	if (argv[2] != NULL) {
 		nxs = collect_floats_value (argv[2], ei->pos,
+					    COLLECT_IGNORE_BLANKS |
 					    COLLECT_IGNORE_STRINGS |
 					    COLLECT_IGNORE_BOOLS,
-					    &nnx, &result);
-		if (result)
+					    &nnx, &res);
+		if (res)
 			goto out;
 	} else {
 		/* @{new_x}'s is assumed to be the same as @{known_x}'s */
-		nxs = g_memdup (xs, nx * sizeof (gnm_float));
-		nnx = nx;
+		nxs = g_memdup (xs, n * sizeof (gnm_float));
+		nnx = n;
 	}
 
 	affine = argv[3] ? value_get_as_checked_bool (argv[3]) : TRUE;
 
-	if (nx != ny) {
-		result = value_new_error_NUM (ei->pos);
+	if (n <= 0) {
+		res = value_new_error_NUM (ei->pos);
 		goto out;
 	}
 
-	dim = 1;
-
 	regres = gnm_exponential_regression (&xs, dim,
-					     ys, nx, affine, expres, NULL);
+					     ys, n, affine, expres, NULL);
 	switch (regres) {
 	case GO_REG_ok:
 	case GO_REG_near_singular_good:
 		break;
 	default:
-		result = value_new_error_NUM (ei->pos);
+		res = value_new_error_NUM (ei->pos);
 		goto out;
 	}
 
-	result = value_new_array (1, nnx);
+	res = value_new_array (1, nnx);
 	for (i = 0; i < nnx; i++)
-		value_array_set (result, 0, i,
+		value_array_set (res, 0, i,
 				 value_new_float (gnm_pow (expres[1], nxs[i]) *
 						  expres[0]));
 
@@ -3865,7 +3853,7 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	g_free (xs);
 	g_free (ys);
 	g_free (nxs);
-	return result;
+	return res;
 }
 
 /***************************************************************************/
