@@ -1,1 +1,33 @@
+#define xstr(s) str(s)
+#define str(s) #s
+
+#include <winver.h>
+
 500 ICON MOVEABLE PURE LOADONCALL DISCARDABLE "../icons/win32-gnumeric.ico"
+
+VS_VERSION_INFO VERSIONINFO
+  FILEVERSION VERSION_NUMBER
+  PRODUCTVERSION VERSION_NUMBER
+  FILEFLAGSMASK 0
+  FILEFLAGS 0
+  FILEOS VOS__WINDOWS32
+  FILETYPE VFT_DLL
+  FILESUBTYPE VFT2_UNKNOWN
+  BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+      BLOCK "040904B0"
+      BEGIN
+	VALUE "CompanyName", "The Gnumeric Team"
+	VALUE "FileDescription", "Gnumeric"
+	VALUE "FileVersion", xstr(VERSION)
+	VALUE "LegalCopyright", "Copyright 2010 by The Gnumeric Team and others"
+	VALUE "ProductName", "Gnumeric"
+	VALUE "ProductVersion", xstr(VERSION)
+      END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+      VALUE "Translation", 0x409, 1200
+    END
+  END
