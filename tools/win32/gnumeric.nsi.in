@@ -109,6 +109,7 @@ Section "Gnumeric (required)" SEC01
     ;File /r "share\libgda-4.1"
     ;File /r /x "demo" "share\gnome-db-3.0"
     File /r "share\pixmaps"
+    File /r "share\icons"
 
     SetOutPath "${GNM_ROOT}\${GNM_HELP_DIR}"
     File "${GNM_HELP}"
