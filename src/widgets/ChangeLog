@@ -1,5 +1,12 @@
 2010-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gnumeric-expr-entry.c (cb_gee_configure_event): delete
+	(cb_gee_focus_out_event): new
+	(gee_create_tooltip): replace  configure-event with
+	  focus-out-event
+
+2010-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* gnumeric-expr-entry.c (gee_check_tooltip): skip regular
 	  parentheses and unknown functions.
 

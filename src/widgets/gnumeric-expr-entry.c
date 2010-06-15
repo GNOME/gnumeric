@@ -593,7 +593,6 @@ gee_delete_tooltip (GnmExprEntry *gee)
 					     gee->tooltip.handlerid);
 		gee->tooltip.handlerid = 0;
 	}
-	
 }
 
 void    
@@ -603,16 +602,10 @@ gnm_expr_entry_close_tips  (GnmExprEntry *gee)
 		gee_delete_tooltip (gee);
 }
 
-
-
 static gboolean
-cb_gee_configure_event (GtkWidget         *widget,
-			GdkEventConfigure *event,
-			gpointer           user_data)
-{
-	gee_delete_tooltip (user_data);
-	return FALSE;
-}
+cb_gee_focus_out_event (GtkWidget         *widget,
+			GdkEventFocus     *event,
+			gpointer           user_data);
 
 static GtkWidget *
 gee_create_tooltip (GnmExprEntry *gee, gchar const *str)
@@ -627,11 +620,12 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str)
 
 	toplevel = GTK_WINDOW (gtk_widget_get_toplevel 
 			       (GTK_WIDGET (gee->entry)));
-	gtk_widget_add_events(GTK_WIDGET(toplevel), GDK_CONFIGURE);
+	gtk_widget_add_events(GTK_WIDGET(toplevel), 
+			      GDK_FOCUS_CHANGE_MASK);
 	if (gee->tooltip.handlerid == 0)
 		gee->tooltip.handlerid = g_signal_connect 
-			(G_OBJECT (toplevel), "configure-event",
-			 G_CALLBACK (cb_gee_configure_event), gee);
+			(G_OBJECT (toplevel), "focus-out-event",
+			 G_CALLBACK (cb_gee_focus_out_event), gee);
 	
 	screen = gtk_window_get_screen (toplevel);
 	
@@ -777,6 +771,15 @@ gee_check_tooltip (GnmExprEntry *gee)
 	g_free (str);
 	gee_delete_tooltip (gee);
 	return;
+}
+
+static gboolean
+cb_gee_focus_out_event (GtkWidget         *widget,
+			GdkEventFocus *event,
+			gpointer           user_data)
+{
+	gee_delete_tooltip (user_data);
+	return FALSE;
 }
 
 static void
