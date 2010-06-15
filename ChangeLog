@@ -1,3 +1,10 @@
+2010-06-15  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-datetime.c (datetime_value_to_seconds): Improve sanity
+	check.
+
+	* src/mathfunc.c (pbeta): Simplify.
+
 2010-06-14 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/mathfunc.c (pbinom2): pbinom's right tail calculation

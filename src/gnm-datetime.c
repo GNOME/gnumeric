@@ -321,7 +321,7 @@ datetime_value_to_seconds (GnmValue const *v, GODateConventions const *conv)
 {
 	int secs;
 	gnm_float d = datetime_value_to_serial_raw (v, conv);
-	if (d == G_MAXINT)
+	if (d >= G_MAXINT || d < G_MININT)
 		return -1;
 
 	/* Add epsilon before we scale and translate because otherwise it

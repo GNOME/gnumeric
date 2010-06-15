@@ -5799,10 +5799,11 @@ binomial (gnm_float ii, gnm_float jj, gnm_float pp, gnm_float qq,
 	return binomialcf (ii, jj, pp, qq, diffFromMean, lower_tail, log_p);
 }
 
-
 gnm_float
 pbeta (gnm_float x, gnm_float a, gnm_float b, gboolean lower_tail, gboolean log_p)
 {
+	gnm_float am1;
+
 	if (gnm_isnan (x) || gnm_isnan (a) || gnm_isnan (b))
 		return x + a + b;
 
@@ -5821,7 +5822,8 @@ pbeta (gnm_float x, gnm_float a, gnm_float b, gboolean lower_tail, gboolean log_
 	if (b < 1)
 		return binomial (-b, a, 1 - x, x, 0, lower_tail, log_p);
 
-	return binomial (a - 1, b, x, 1 - x, (a + b - 1) * x - a + 1,
+	am1 = a - 1;
+	return binomial (am1, b, x, 1 - x, (am1 + b) * x - am1,
 			 !lower_tail, log_p);
 }
 
