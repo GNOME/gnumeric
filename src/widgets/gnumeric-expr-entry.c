@@ -745,7 +745,8 @@ gee_check_tooltip (GnmExprEntry *gee)
 
 	prefix = str_end = str + strlen (str);
 	do {prefix--;} while (prefix >= str && (('a' <= *prefix && *prefix <= 'z') ||
-						('a' <= *prefix && *prefix <= 'z')));
+						('a' <= *prefix && *prefix <= 'z') ||
+						('.' == *prefix)));
 	prefix++;
 	
 	if (prefix < str_end) {

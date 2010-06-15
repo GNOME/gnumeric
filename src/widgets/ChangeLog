@@ -1,5 +1,10 @@
 2010-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gnumeric-expr-entry.c (gee_check_tooltip): function names
+	  may also contain '.'
+
+2010-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* gnumeric-expr-entry.h (gnm_expr_entry_close_tips): new
 	* gnumeric-expr-entry.c (gnm_expr_entry_close_tips): new
 	(gee_check_tooltip): new
