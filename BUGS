@@ -48,9 +48,6 @@ Short term goals
     - undo of cell range cut over clipboard
       http://live.gnome.org/Academic
     - ={A1:A3+rand()}	only calls rand() once.
-    - validate names to ensure that they are not :
-	: simple values (eg TRUE)
-	: Range refs (even in other conventions) eg 'A1' or 'R'
 
 Misc stuff that should be fixed
 -------------------------------
@@ -59,8 +56,7 @@ Misc stuff that should be fixed
     - Freeze panes (tricky this is a view attribute)
     - `Add Scenario' Portion of Solver
     - Workbook attr changes
-    - Adding autofilters
-
+ 
 - cols/rows
     : Make unhide smarter to find hidden regions on either side of
       selected ranges.
@@ -111,9 +107,6 @@ Pending Patches
 
 Blocked Patches
 ---------------
-
-    http://bugzilla.gnome.org/show_bug.cgi?id=84062
-    - XIM menu, blocking on gtk changes
 
 -------------------------------------------------------------------------------
 Architecture Changes
@@ -346,8 +339,8 @@ Architecture Changes
     - Suport >100 style for SUBTOTAL
     - docs
 	: Translate each arg name + description seperately to get better
-	  commonality.
-	: Translate description paragraphs seperately to allow better grouping.
+	  commonality.                                                       (DONE)
+	: Translate description paragraphs seperately to allow better grouping.( DONE)
 	: Make 'func is foo compatible' a flag on the importers
 	: func_help [] = {							(DONE)
 	    { ARG, N_("issue:The issue date of the underlying bond") },

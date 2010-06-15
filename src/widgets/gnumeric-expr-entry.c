@@ -657,6 +657,16 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str)
 }
 
 static void
+gee_set_tooltip_argument (GString *str, char *arg, gboolean optional)
+{
+	if (optional)
+		g_string_append_c (str, '[');
+	g_string_append (str, arg);
+	if (optional)
+		g_string_append_c (str, ']');
+}
+
+static void
 gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args)
 {
 	GString *str;
@@ -689,10 +699,10 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args)
 				g_string_append_c (str, sep);
 			if (i == args) {
 				g_string_append (str, "\xe2\x9e\xa1");
-				g_string_append (str, arg_name);
+				gee_set_tooltip_argument (str, arg_name, i >= min);
 				g_string_append (str, "\xe2\xac\x85");
 			} else
-				g_string_append (str, arg_name);
+				gee_set_tooltip_argument (str, arg_name, i >= min);
 			g_free (arg_name);
 		} else
 			break;
