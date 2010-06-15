@@ -96,6 +96,7 @@ enum {
 	MIN_ARG,
 	MAX_ARG,
 	FUNCTION,
+        ARG_TOOLTIP,
 	NUM_COLMNS
 };
 
@@ -306,6 +307,8 @@ dialog_formula_guru_adjust_children (GtkTreeIter *parent, GnmFunc const *fd,
 					       &iter, parent, args))
 		gtk_tree_store_remove (state->model, &iter);
 	for (i = 0; i < args; i++) {
+		GString *desc;
+		gchar *at;
 		if (!gtk_tree_model_iter_nth_child (GTK_TREE_MODEL(state->model),
 						    &iter, parent, i)) {
 			gtk_tree_store_append (state->model, &iter, parent);
@@ -323,10 +326,26 @@ dialog_formula_guru_adjust_children (GtkTreeIter *parent, GnmFunc const *fd,
 			g_free (arg_name);
 			arg_name = mod_name;
 		}
+		desc = g_string_new (g_markup_escape_text 
+				     (gnm_func_get_arg_description (fd, i), -1));
+		while ((at = strstr (desc->str, "@{"))) {
+#warning In gtk+ 2.14+ we should be using g_string_overwrite rather than g_string_erase
+			gint len = at - desc->str;
+			g_string_erase (desc, len, 2);
+			g_string_insert (desc, len, "<b><u>");
+			if ((at = strstr (desc->str + len, "}"))) {
+				len = at - desc->str;
+				g_string_erase (desc, len, 1);
+				g_string_insert (desc, len, "</u></b>");
+			} else
+				g_string_append (desc, "</u></b>");
+		}
 		gtk_tree_store_set (state->model, &iter,
 				    ARG_NAME, arg_name,
+				    ARG_TOOLTIP, desc->str,
 				    ARG_TYPE, function_def_get_arg_type_string (fd, i),
 				    -1);
+		g_string_free (desc, TRUE);
 		g_free (arg_name);
 	}
 
@@ -358,6 +377,7 @@ dialog_formula_guru_adjust_varargs (GtkTreeIter *iter, FormulaGuruState *state)
 					    IS_NON_FUN, TRUE,
 					    FUNCTION, NULL,
 					    ARG_NAME, arg_name,
+					    ARG_TOOLTIP, "",
 					    ARG_TYPE, arg_type,
 					    MIN_ARG, 0,
 					    MAX_ARG, 0,
@@ -833,7 +853,8 @@ dialog_formula_guru_init (FormulaGuruState *state)
 	scrolled = glade_xml_get_widget (state->gui, "scrolled");
 	state->model = gtk_tree_store_new (NUM_COLMNS, G_TYPE_STRING, G_TYPE_BOOLEAN,
 					   G_TYPE_STRING, G_TYPE_STRING,
-					   G_TYPE_INT, G_TYPE_INT, G_TYPE_POINTER);
+					   G_TYPE_INT, G_TYPE_INT, G_TYPE_POINTER, 
+					   G_TYPE_STRING);
 	state->treeview = GTK_TREE_VIEW (
 		gtk_tree_view_new_with_model (GTK_TREE_MODEL (state->model)));
 	g_signal_connect (state->treeview,
@@ -867,6 +888,8 @@ dialog_formula_guru_init (FormulaGuruState *state)
 							   NULL);
 	state->column = column;
 	gtk_tree_view_append_column (state->treeview, column);
+
+	gtk_tree_view_set_tooltip_column (state->treeview, ARG_TOOLTIP);
 	gtk_tree_view_set_headers_visible (state->treeview, TRUE);
 	gtk_tree_view_set_enable_tree_lines (state->treeview, TRUE);
 	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (state->treeview));

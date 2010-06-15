@@ -1,5 +1,11 @@
 2010-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-formula-guru.c (dialog_formula_guru_adjust_children): load 
+	  tooltip
+	(dialog_formula_guru_init): set up tooltips
+	
+2010-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialogs.h (dialog_formula_guru): change storage class of an arg
 	* dialog-function-select.c (cb_dialog_function_select_ok_clicked):
 	  change call of dialog_formula_guru

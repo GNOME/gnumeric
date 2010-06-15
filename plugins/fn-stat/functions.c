@@ -410,7 +410,7 @@ gnumeric_negbinomdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_normsdist[] = {
 	{ GNM_FUNC_HELP_NAME, F_("NORMSDIST:cumulative density function of the standard normal distribution")},
-	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, F_("NORMSDIST is the OpenFormula function LEGACY.NORMSDIST.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=NORMSDIST(2)" },
@@ -462,7 +462,7 @@ gnumeric_normsinv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_lognormdist[] = {
 	{ GNM_FUNC_HELP_NAME, F_("LOGNORMDIST:cumulative distribution function of the lognormal distribution")},
-	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_ARG, F_("mean:mean")},
 	{ GNM_FUNC_HELP_ARG, F_("stddev:standard deviation")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{stddev} = 0 LOGNORMDIST returns a #DIV/0! error.")},
@@ -523,7 +523,7 @@ gnumeric_loginv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_fisherinv[] = {
 	{ GNM_FUNC_HELP_NAME, F_("FISHERINV:inverse of the Fisher transformation")},
-	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} is a non-number this function returns a #VALUE! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=FISHERINV(2)" },
@@ -843,7 +843,7 @@ gnumeric_skewp (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_expondist[] = {
 	{ GNM_FUNC_HELP_NAME, F_("EXPONDIST:porbaility density or cumulative distribution function of the exponential distribution")},
-	   { GNM_FUNC_HELP_ARG, F_("x:")},
+	   { GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_ARG, F_("y:scale parameter")},
 	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the density function or the cumulative distribution function")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("If @{cumulative} is false it will return:\t"
@@ -876,7 +876,7 @@ gnumeric_expondist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_bernoulli[] = {
 	{ GNM_FUNC_HELP_NAME, F_("BERNOULLI:probability mass function of a Bernoulli distribution")},
-	{ GNM_FUNC_HELP_ARG, F_("k:")},
+	{ GNM_FUNC_HELP_ARG, F_("k:integer")},
 	{ GNM_FUNC_HELP_ARG, F_("p:probability of success")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{k} != 0 and @{k} != 1 this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.")},
@@ -912,7 +912,7 @@ gnumeric_bernoulli (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_gammadist[] = {
 	{ GNM_FUNC_HELP_NAME, F_("GAMMADIST:probability density or cumulative distribution function of the gamma distribution")},
-	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_ARG, F_("alpha:scale parameter")},
 	{ GNM_FUNC_HELP_ARG, F_("beta:scale parameter")},
 	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the density function or the cumulative distribution function")},
@@ -975,7 +975,7 @@ gnumeric_gammainv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_chidist[] = {
 	{ GNM_FUNC_HELP_NAME, F_("CHIDIST:survival function of the chi-squared distribution")},
-	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_ARG, F_("dof:number of degrees of freedom")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The survival function is 1 minus the cumulative distribution function.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{dof} is non-integer it is truncated.") },
@@ -1117,7 +1117,7 @@ gnumeric_chitest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_betadist[] = {
 	{ GNM_FUNC_HELP_NAME, F_("BETADIST:cumulative distribution function of the beta distribution")},
-	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_ARG, F_("alpha:scale parameter")},
 	{ GNM_FUNC_HELP_ARG, F_("beta:scale parameter")},
 	{ GNM_FUNC_HELP_ARG, F_("a:optional lower bound, defaults to 0")},
@@ -1189,7 +1189,7 @@ gnumeric_betainv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_tdist[] = {
 	{ GNM_FUNC_HELP_NAME, F_("TDIST:survival function of the Student t-distribution")},
-	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_ARG, F_("dof:number of degrees of freedom")},
 	{ GNM_FUNC_HELP_ARG, F_("tails:1 or 2")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The survival function is 1 minus the cumulative distribution function.") },
@@ -1276,7 +1276,7 @@ gnumeric_tinv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_fdist[] = {
 	{ GNM_FUNC_HELP_NAME, F_("FDIST:survival function of the F distribution")},
-	   { GNM_FUNC_HELP_ARG, F_("x:")},
+	   { GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_ARG, F_("dof_of_num:numerator degrees of freedom")},
 	{ GNM_FUNC_HELP_ARG, F_("dof_of_denom:denominator degrees of freedom")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The survival function is 1 minus the cumulative distribution function.") },
@@ -1306,7 +1306,7 @@ gnumeric_fdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_landau[] = {
 	{ GNM_FUNC_HELP_NAME, F_("LANDAU:approximate probability density function of the Landau distribution")},
-	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=LANDAU(0.34)" },
 	{ GNM_FUNC_HELP_SEEALSO, "RANDLANDAU"},
 	{ GNM_FUNC_HELP_END }
@@ -1539,7 +1539,7 @@ gnumeric_binom_dist_range (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_cauchy[] = {
 	{ GNM_FUNC_HELP_NAME, F_("CAUCHY:probability density or cumulative distribution function of the Cauchy, "
 				 "Lorentz or Breit-Wigner distribution")},
-	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_ARG, F_("a:scale parameter")},
 	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the density function or the cumulative distribution function")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{a} < 0 this function returns a #NUM! error.") },
@@ -1718,7 +1718,7 @@ gnumeric_standardize (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_weibull[] = {
 	{ GNM_FUNC_HELP_NAME, F_("WEIBULL:probability density or cumulative distribution function of the Weibull distribution")},
-           { GNM_FUNC_HELP_ARG, F_("x:")},
+           { GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_ARG, F_("alpha:scale parameter")},
 	{ GNM_FUNC_HELP_ARG, F_("beta:scale parameter")},
 	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the density function or the cumulative distribution function")},
@@ -1754,7 +1754,7 @@ gnumeric_weibull (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_normdist[] = {
 	{ GNM_FUNC_HELP_NAME, F_("NORMDIST:probability density or cumulative distribution function of a normal distribution")},
-           { GNM_FUNC_HELP_ARG, F_("x:")},
+           { GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_ARG, F_("mean:mean of the distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("stddev:standard deviation of the distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the density function or the cumulative distribution function")},
@@ -1921,7 +1921,7 @@ gnumeric_devsq (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_fisher[] = {
 	{ GNM_FUNC_HELP_NAME, F_("FISHER:Fisher transformation")},
-           { GNM_FUNC_HELP_ARG, F_("x:")},
+           { GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} is not a number, this function returns a #VALUE! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} <= -1 or @{x} >= 1, this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -3356,8 +3356,7 @@ static GnmFuncHelp const help_logreg[] = {
 	{ GNM_FUNC_HELP_NAME, F_("LOGREG:the logarithmic regression")},
 	{ GNM_FUNC_HELP_ARG, F_("known_ys:known y-values")},
 	{ GNM_FUNC_HELP_ARG, F_("known_xs:known x-values; defaults to the array {1, 2, 3, \xe2\x80\xa6}")},
-	{ GNM_FUNC_HELP_ARG, F_("const:if false, the curve will be forced to go through "
-				"[1; 0], i.e., b will be zero; defaults to TRUE")},
+	{ GNM_FUNC_HELP_ARG, F_("affine:if true, the model contains a constant term, defaults to true")},
 	{ GNM_FUNC_HELP_ARG, F_("stat:if true, extra statistical information will be returned; defaults to FALSE")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("LOGREG function transforms your x's to z=ln(x) and "
 					"applies the \xe2\x80\x9cleast squares\xe2\x80\x9d method to fit the linear equation "
@@ -3569,7 +3568,7 @@ static GnmFuncHelp const help_trend[] = {
 	{ GNM_FUNC_HELP_ARG, F_("known_ys:known y-values")},
 	{ GNM_FUNC_HELP_ARG, F_("known_xs:known x-values; defaults to the array {1, 2, 3, \xe2\x80\xa6}")},
 	{ GNM_FUNC_HELP_ARG, F_("new_xs:x-values for which to estimate the y-values; defaults to @{known_xs}")},
-	{ GNM_FUNC_HELP_ARG, F_("const:if this is false the line will be forced to go through the origin; defaults to TRUE")},
+	{ GNM_FUNC_HELP_ARG, F_("affine:if true, the model contains a constant term, defaults to true")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{known_ys} and @{known_xs} have unequal number of data points, "
 				 "this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, \xe2\x80\xa6, A5 contain numbers "
@@ -3680,7 +3679,7 @@ static GnmFuncHelp const help_logest[] = {
 	{ GNM_FUNC_HELP_NAME, F_("LOGEST:exponential least square fit")},
 	{ GNM_FUNC_HELP_ARG, F_("known_ys:known y-values")},
 	{ GNM_FUNC_HELP_ARG, F_("known_xs:known x-values; default to an array {1, 2, 3, \xe2\x80\xa6}")},
-	{ GNM_FUNC_HELP_ARG, F_("const:if false the line will be forced to go through (0,1); defaults to TRUE")},
+	{ GNM_FUNC_HELP_ARG, F_("affine:if true, the model contains a constant term, defaults to true")},
 	{ GNM_FUNC_HELP_ARG, F_("stat:if true, extra statistical information will be returned; defaults to FALSE")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("LOGEST function applies the "
 					"\xe2\x80\x9cleast squares\xe2\x80\x9d method to fit "
@@ -3779,7 +3778,7 @@ static GnmFuncHelp const help_growth[] = {
 	{ GNM_FUNC_HELP_ARG, F_("known_ys:known y-values")},
 	{ GNM_FUNC_HELP_ARG, F_("known_xs:known x-values; defaults to the array {1, 2, 3, \xe2\x80\xa6}")},
 	{ GNM_FUNC_HELP_ARG, F_("new_xs:x-values for which to estimate the y-values; defaults to @{known_xs}")},
-	{ GNM_FUNC_HELP_ARG, F_("const:if this is false the line will be forced to go through the origin; defaults to TRUE")},
+	{ GNM_FUNC_HELP_ARG, F_("affine:if true, the model contains a constant term, defaults to true")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("GROWTH function applies the \xe2\x80\x9cleast "
 					"squares\xe2\x80\x9d method to fit an "
 					"exponential curve to your data and predicts "
@@ -4279,7 +4278,7 @@ gnumeric_geomdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_logistic[] = {
 	{ GNM_FUNC_HELP_NAME, F_("LOGISTIC:probability density function of the logistic distribution")},
-	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_ARG, F_("a:scale parameter")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=LOGISTIC(0.4,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "RANDLOGISTIC"},
@@ -4310,7 +4309,7 @@ gnumeric_logistic (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_pareto[] = {
 	{ GNM_FUNC_HELP_NAME, F_("PARETO:probability density function of the pareto distribution")},
-	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_ARG, F_("a:exponent")},
 	{ GNM_FUNC_HELP_ARG, F_("b:scale parameter")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=PARETO(0.6,1,2)" },
@@ -4344,7 +4343,7 @@ gnumeric_pareto (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_rayleigh[] = {
 	{ GNM_FUNC_HELP_NAME, F_("RAYLEIGH:probability density function of the Rayleigh distribution")},
-	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_ARG, F_("sigma:scale parameter")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=RAYLEIGH(0.4,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "RANDRAYLEIGH"},
@@ -4379,7 +4378,7 @@ gnumeric_rayleigh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_rayleightail[] = {
 	{ GNM_FUNC_HELP_NAME, F_("RAYLEIGHTAIL:probability density function of the Rayleigh tail distribution")},
-	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_ARG, F_("a:lower limit")},
 	{ GNM_FUNC_HELP_ARG, F_("sigma:scale parameter")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=RAYLEIGHTAIL(0.6,0.3,1)" },
@@ -4418,7 +4417,7 @@ gnumeric_rayleightail (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_exppowdist[] = {
 	{ GNM_FUNC_HELP_NAME, F_("EXPPOWDIST:the probability density function of the "
 				 "Exponential Power distribution")},
-	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_ARG, F_("a:scale parameter")},
 	{ GNM_FUNC_HELP_ARG, F_("b:scale parameter")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_(
@@ -4451,7 +4450,7 @@ gnumeric_exppowdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_laplace[] = {
 	{ GNM_FUNC_HELP_NAME, F_("LAPLACE:probability density function of the Laplace distribution")},
-	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_ARG, F_("a:mean")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=LAPLACE(0.4,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "RANDLAPLACE"},

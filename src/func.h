@@ -255,6 +255,8 @@ char const *function_def_get_arg_type_string  (GnmFunc const *fn_def,
                                         gint arg_idx);
 char       *function_def_get_arg_name  (GnmFunc const *fn_def,
                                         guint arg_idx);
+char const *gnm_func_get_arg_description (GnmFunc const *fn_def,
+                                        guint arg_idx);
 
 /*************************************************************************/
 
@@ -282,19 +284,6 @@ GnmValue *function_iterate_do_value	(GnmEvalPos const   *ep,
 					 gboolean            strict,
 					 CellIterFlags	     iter_flags);
 
-/******************************************************************************/
-
-/* Detailed function help */
-typedef struct {
-	GPtrArray *sections;
-	gboolean   help_is_localized;
-	char     *help_copy;
-	GnmFunc const *fndef;
-} TokenizedHelp;
-
-TokenizedHelp *tokenized_help_new     (GnmFunc const *fn_def);
-char const    *tokenized_help_find    (TokenizedHelp *tok, char const *token);
-void           tokenized_help_destroy (TokenizedHelp *tok);
 
 G_END_DECLS
 

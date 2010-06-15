@@ -1194,7 +1194,7 @@ gnumeric_match (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 static GnmFuncHelp const help_indirect[] = {
 	{ GNM_FUNC_HELP_NAME, F_("INDIRECT:contents of the cell pointed to by the @{ref_text} string")},
-        { GNM_FUNC_HELP_ARG, F_("ref_text:")},
+        { GNM_FUNC_HELP_ARG, F_("ref_text:textual reference")},
         { GNM_FUNC_HELP_ARG, F_("format:if true, @{ref_text} is given in A1-style, "
 				"otherwise it is given in R1C1 style; defaults to true")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{ref_text} is not a valid reference in the style determined "
@@ -1232,7 +1232,7 @@ gnumeric_indirect (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 static GnmFuncHelp const help_index[] = {
 	{ GNM_FUNC_HELP_NAME, F_("INDEX:reference to a cell in the given @{array}")},
-        { GNM_FUNC_HELP_ARG, F_("array:")},
+        { GNM_FUNC_HELP_ARG, F_("array:cell or inline array")},
         { GNM_FUNC_HELP_ARG, F_("row:desired row, defaults to 1")},
         { GNM_FUNC_HELP_ARG, F_("col:desired column, defaults to 1")},
         { GNM_FUNC_HELP_ARG, F_("area:from which area to select a cell, defaults to 1")},

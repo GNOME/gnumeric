@@ -1,3 +1,7 @@
+2010-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c: fix empty argument descriptions
+
 2010-06-13  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (help_sheet, help_sheets): Remove help entries that

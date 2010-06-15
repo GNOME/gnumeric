@@ -1,3 +1,11 @@
+2010-06-15 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/func.h (tokenized_help_*): deleted
+	(gnm_func_get_arg_description): new
+	* src/func.c (tokenized_help_*): deleted
+	(gnm_func_get_arg_description): new
+	(gnm_func_sanity_check1): check for empty arg descriptions
+
 2010-06-15  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-datetime.c (datetime_value_to_seconds): Improve sanity

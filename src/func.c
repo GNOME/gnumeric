@@ -574,7 +574,11 @@ gnm_func_sanity_check1 (GnmFunc const *fd)
 				g_printerr ("%s: Unwanted space in ARG record\n",
 					    fd->name);
 				res = 1;
-			} else if (h->text[strlen (h->text) - 1] == '.') {
+			} else if (aend[1] == '\0') {
+				g_printerr ("%s: Empty ARG record\n",
+					    fd->name);
+				res = 1;
+			} if (h->text[strlen (h->text) - 1] == '.') {
 				g_printerr ("%s: Unwanted period in ARG record\n",
 					    fd->name);
 				res = 1;
@@ -1241,6 +1245,37 @@ function_def_get_arg_name (GnmFunc const *fn_def, guint arg_idx)
 	return NULL;
 }
 
+/**
+ * gnm_func_get_arg_description:
+ * @fn_def: the fn defintion
+ * @arg_idx: zero based argument offset
+ *
+ * Return value: the namedescription of the argument
+ **/
+char const*
+gnm_func_get_arg_description (GnmFunc const *fn_def, guint arg_idx)
+{
+	guint arg = 0;
+	gint i;
+	g_return_val_if_fail (fn_def != NULL, NULL);
+
+	gnm_func_load_if_stub ((GnmFunc *)fn_def);
+
+	if (fn_def->help != NULL)
+		for (i = 0;
+		     fn_def->help[i].type != GNM_FUNC_HELP_END;
+		     i++) {
+			if (fn_def->help[i].type == GNM_FUNC_HELP_ARG
+			    && arg++ == arg_idx) {
+				gchar const *desc; 
+				desc = strchr (_(fn_def->help[i].text), ':');
+				return desc ? (desc + 1) : "";
+			}
+		}
+
+	return "";
+}
+
 
 /* ------------------------------------------------------------------------- */
 
@@ -1780,57 +1815,4 @@ function_iterate_argument_values (GnmEvalPos const	*ep,
 		value_release (val);
 	}
 	return result;
-}
-
-/* ------------------------------------------------------------------------- */
-
-TokenizedHelp *
-tokenized_help_new (GnmFunc const *func)
-{
-	TokenizedHelp *tok;
-
-	g_return_val_if_fail (func != NULL, NULL);
-
-	gnm_func_load_if_stub ((GnmFunc *)func);
-
-	tok = g_new (TokenizedHelp, 1);
-	tok->fndef = func;
-	tok->help_copy = NULL;
-	tok->sections = NULL;
-
-	return tok;
-}
-
-/**
- * Use to find a token eg. "FUNCTION"'s value.
- **/
-char const *
-tokenized_help_find (TokenizedHelp *tok, char const *token)
-{
-	int lp;
-
-	if (!tok || !tok->sections)
-		return "Incorrect Function Description.";
-
-	for (lp = 0; lp + 1 < (int)tok->sections->len; lp++) {
-		char const *cmp = g_ptr_array_index (tok->sections, lp);
-
-		if (g_ascii_strcasecmp (cmp, token) == 0){
-			return g_ptr_array_index (tok->sections, lp + 1);
-		}
-	}
-	return "Cannot find token";
-}
-
-void
-tokenized_help_destroy (TokenizedHelp *tok)
-{
-	g_return_if_fail (tok != NULL);
-
-	g_free (tok->help_copy);
-
-	if (tok->sections)
-		g_ptr_array_free (tok->sections, TRUE);
-
-	g_free (tok);
 }
