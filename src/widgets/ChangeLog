@@ -1,3 +1,8 @@
+2010-06-16  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric-expr-entry.c (gee_set_tooltip): Use symbolic name for
+	unicode characters.  Add argument discription to tooltip.
+
 2010-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (gee_create_tooltip): place the

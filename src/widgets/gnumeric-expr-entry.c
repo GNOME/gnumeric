@@ -41,6 +41,11 @@
 #include <gdk/gdkkeysyms.h>
 #include <string.h>
 
+#define UNICODE_LEFT_ARROW "\xe2\xac\x85"
+#define UNICODE_RIGHT_ARROW "\xe2\x9e\xa1"
+#define UNICODE_CROSS_AND_SKULLBONES "\xe2\x98\xa0"
+#define UNICODE_ELLIPSIS "\xe2\x80\xa6"
+
 typedef struct {
 	GnmRangeRef ref;
 	int	    text_start;
@@ -677,6 +682,7 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args)
 	gchar sep = go_locale_get_arg_sep ();
 	gint min, max, i;
 	gboolean first = TRUE;
+	char *extra = NULL;
 
 	if (gee->tooltip.fd) {
 		if (gee->tooltip.fd == fd && gee->tooltip.args == args)
@@ -702,11 +708,15 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args)
 			else
 				g_string_append_c (str, sep);
 			if (i == args) {
-				g_string_append (str, "\xe2\x9e\xa1");
-				gee_set_tooltip_argument (str, arg_name, i >= min);
-				g_string_append (str, "\xe2\xac\x85");
-			} else
-				gee_set_tooltip_argument (str, arg_name, i >= min);
+				extra = g_strdup_printf
+					(_("%s: %s"),
+					 arg_name,
+					 gnm_func_get_arg_description (fd, i));
+				g_string_append (str, UNICODE_RIGHT_ARROW);
+			}
+			gee_set_tooltip_argument (str, arg_name, i >= min);
+			if (i == args)
+				g_string_append (str, UNICODE_LEFT_ARROW);
 			g_free (arg_name);
 		} else
 			break;
@@ -715,13 +725,21 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args)
 		if (!first)
 			g_string_append_c (str, sep);
 		g_string_append 
-			(str, (args >= i && args < max) ? 
-			 "\xe2\x9e\xa1\xe2\x80\xa6\xe2\xac\x85" 
-			 : "\xe2\x80\xa6");
+			(str, (args >= i && args < max)
+			 ? UNICODE_RIGHT_ARROW UNICODE_ELLIPSIS UNICODE_LEFT_ARROW
+			 : UNICODE_ELLIPSIS);
 	}
-	if (args >= max)
-		g_string_append (str, "\xe2\x9e\xa1\xe2\x98\xa0\xe2\xac\x85");
+	if (args >= max) {
+		g_string_append (str, UNICODE_RIGHT_ARROW UNICODE_CROSS_AND_SKULLBONES UNICODE_LEFT_ARROW);
+		extra = g_strdup_printf (_("Too many arguments for %s"),
+					 gnm_func_get_name (fd));
+	}
 	g_string_append_c (str, ')');
+	if (extra) {
+		g_string_append_c (str, '\n');
+		g_string_append (str, extra);
+		g_free (extra);
+	}
 
 	gee->tooltip.tooltip = gee_create_tooltip (gee, str->str);
 	gee->tooltip.args = args;
