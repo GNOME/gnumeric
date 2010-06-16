@@ -19,6 +19,8 @@ Andreas:
 	  tables. [#621227]
 	* Show all ranges while editing. [#166653]
 	* Provide a tool tip showing function syntax. [#56172]
+	* Provide more navigation options. [#15010]
+	* Check with user before hiding all rows or columns. [#316976]
 
 Jean:
 	* Do not ungrab a not grabbed item. [#620369]

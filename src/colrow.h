@@ -93,14 +93,15 @@ gboolean colrow_foreach	   (ColRowCollection const *infos,
 
 void colrow_resize (ColRowCollection *infos, int size);
 
-ColRowIndexList *colrow_index_list_destroy   (ColRowIndexList *list);
+#define colrow_index_list_destroy(l) go_list_free_custom ((l), g_free)
+
 GString         *colrow_index_list_to_string (ColRowIndexList *list,
 					      gboolean is_cols,
 					      gboolean *is_single);
 ColRowIndexList *colrow_get_index_list	     (int first, int last,
 					      ColRowIndexList *list);
 
-ColRowStateList	*colrow_state_list_destroy   (ColRowStateList *list);
+#define colrow_state_list_destroy(l) (go_slist_free_custom ((l), g_free), NULL)
 
 ColRowStateList	*colrow_get_states	     (Sheet *sheet, gboolean is_cols,
 					      int first, int last);
@@ -127,7 +128,8 @@ void		 colrow_set_visibility		(Sheet *sheet, gboolean is_cols,
 						 gboolean visible, int first, int last);
 void		 colrow_get_global_outline	(Sheet const *sheet, gboolean is_cols, int depth,
 						 ColRowVisList	**show, ColRowVisList	**hide);
-ColRowVisList	*colrow_vis_list_destroy	(ColRowVisList *list);
+#define colrow_vis_list_destroy(l) (go_slist_free_custom ((l), g_free), NULL)
+gint             colrow_vis_list_length         (ColRowVisList *list);
 void		 colrow_set_visibility_list	(Sheet *sheet, gboolean is_cols,
 						 gboolean visible,
 						 ColRowVisList *list);

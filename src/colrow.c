@@ -1,4 +1,4 @@
-/* vim: set sw=8: */
+/* vim: set sw=8:  -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * colrow.c: Utilities for Rows and Columns
  *
@@ -34,6 +34,7 @@
 #include "cell.h"
 #include "cellspan.h"
 #include "rendered-value.h"
+#include <goffice/goffice.h>
 
 double
 colrow_compute_pixel_scale (Sheet const *sheet, gboolean horizontal)
@@ -194,14 +195,22 @@ typedef struct _ColRowIndex {
 	int first, last;
 } ColRowIndex;
 
-ColRowStateList *
-colrow_state_list_destroy (ColRowStateList *list)
+
+static void
+cb_colrow_index_counter (gpointer data, gpointer user_data)
 {
-	ColRowStateList *ptr;
-	for (ptr = list; ptr != NULL; ptr = ptr->next)
-		g_free (ptr->data);
-	g_slist_free (list);
-	return NULL;
+	ColRowIndex *index = data;
+	gint *count = user_data;
+	if (data != NULL)
+		*count += index->last - index->first + 1;
+}
+
+gint             
+colrow_vis_list_length (ColRowVisList *list) 
+{
+	gint count = 0;
+	g_slist_foreach (list, cb_colrow_index_counter, &count);
+	return count;
 }
 
 ColRowStateGroup *
@@ -211,16 +220,6 @@ colrow_state_group_destroy (ColRowStateGroup *group)
 	for (ptr = group; ptr != NULL ; ptr = ptr->next)
 		colrow_state_list_destroy (ptr->data);
 	g_slist_free (group);
-	return NULL;
-}
-
-ColRowIndexList *
-colrow_index_list_destroy (ColRowIndexList *list)
-{
-	ColRowIndexList *ptr;
-	for (ptr = list; ptr != NULL ; ptr = ptr->next)
-		g_free (ptr->data);
-	g_list_free (list);
 	return NULL;
 }
 
@@ -871,16 +870,6 @@ colrow_get_visiblity_toggle (SheetView *sv, gboolean is_cols,
 	sv_selection_apply (sv, &cb_colrow_visibility, FALSE, &closure);
 
 	return closure.elements;
-}
-
-ColRowVisList *
-colrow_vis_list_destroy (ColRowVisList *list)
-{
-	ColRowVisList *ptr;
-	for (ptr = list; ptr != NULL ; ptr = ptr->next)
-		g_free (ptr->data);
-	g_slist_free (list);
-	return NULL;
 }
 
 /*

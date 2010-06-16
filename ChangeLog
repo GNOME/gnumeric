@@ -1,3 +1,17 @@
+2010-06-16 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/colrow.h (colrow_index_list_destroy): turn into a define
+	(colrow_state_list_destroy) : ditto
+	(colrow_vis_list_destroy): ditto
+	(colrow_vis_list_length): new
+	* src/colrow.c (colrow_index_list_destroy): delete
+	(colrow_state_list_destroy) : ditto
+	(colrow_vis_list_destroy): ditto
+	(colrow_vis_list_length): new
+	(cb_colrow_index_counter): new
+	* src/commands.c (cmd_selection_colrow_hide): check whether this
+	  would hide the whole sheet.
+
 2010-06-16  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (dependent_managed_init): Zero the right amount

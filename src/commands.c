@@ -2172,18 +2172,62 @@ cmd_selection_colrow_hide (WorkbookControl *wbc,
 {
 	CmdColRowHide *me;
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
+	int n;
+	Sheet *sheet;
+	GSList *show = NULL, *hide = NULL;
+
+	if (visible)
+		show = colrow_get_visiblity_toggle (sv, is_cols, TRUE);
+	else
+		hide = colrow_get_visiblity_toggle (sv, is_cols, FALSE);
+	n = colrow_vis_list_length (hide) + colrow_vis_list_length (show);
+	sheet = sv_sheet (sv);
+
+	if (!visible) {
+		/* If these are the last colrows to hide, check with the user */
+		int count = 0;
+		if (is_cols) {
+			int i, max = gnm_sheet_get_max_cols (sheet);
+			ColRowInfo *ci;
+			for (i = 0 ; i < max ; i++)
+				if (NULL == 
+				    (ci = sheet_col_get (sheet, i)) || 
+				    (ci->visible))
+					count++;
+		} else {
+			int i, max = gnm_sheet_get_max_rows (sheet);
+			ColRowInfo *ci;
+			for (i = 0 ; i < max ; i++)
+				if (NULL == 
+				    (ci = sheet_row_get (sheet, i)) || 
+				    (ci->visible))
+					count++;
+		}
+		if (count <= n) {
+			gchar const *text = is_cols ?
+				_("Are you sure that you want to hide all columns? "
+				  "If you do so you can unhide them with the "
+				  "'Format\xe2\x86\x92""Column\xe2\x86\x92Unhide' "
+				  "menu item.") :
+				_("Are you sure that you want to hide all rows? "
+				  "If you do so you can unhide them with the "
+				  "'Format\xe2\x86\x92Row\xe2\x86\x92Unhide' "
+				  "menu item.");
+			if (!go_gtk_query_yes_no (wbcg_toplevel (WBC_GTK (wbc)), 
+						  FALSE, "%s", text)) {
+				colrow_vis_list_destroy (show);
+				colrow_vis_list_destroy (hide);
+				return TRUE;
+			}
+		} 
+	}
 
 	me = g_object_new (CMD_COLROW_HIDE_TYPE, NULL);
-
+	me->show = show;
+	me->hide = hide;
 	me->is_cols = is_cols;
-	me->hide = me->show = NULL;
-	if (visible)
-		me->show = colrow_get_visiblity_toggle (sv, is_cols, TRUE);
-	else
-		me->hide = colrow_get_visiblity_toggle (sv, is_cols, FALSE);
-
-	me->cmd.sheet = sv_sheet (sv);
-	me->cmd.size = 1 + g_slist_length (me->hide) + g_slist_length (me->show);
+	me->cmd.sheet = sheet;
+	me->cmd.size = 1 + g_slist_length (hide) + g_slist_length (show);
 	me->cmd.cmd_descriptor = g_strdup (is_cols
 		? (visible ? _("Unhide columns") : _("Hide columns"))
 		: (visible ? _("Unhide rows") : _("Hide rows")));

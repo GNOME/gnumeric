@@ -175,7 +175,7 @@ filter_show_all (WorkbookControl *wbc)
 
 	/* FIXME: This is slow. We should probably have a linked list
 	 * containing the filtered rows in the sheet structure. */
-	colrow_foreach (&sheet->rows, FALSE, gnm_sheet_get_max_rows (sheet),
+	colrow_foreach (&sheet->rows, 0, gnm_sheet_get_last_row (sheet),
 			(ColRowHandler) cb_show_all, sheet);
 	sheet->has_filtered_rows = FALSE;
 	sheet_redraw_all (sheet, TRUE);
