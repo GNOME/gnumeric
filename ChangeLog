@@ -1,3 +1,8 @@
+2010-06-16  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (dependent_managed_init): Zero the right amount
+	of data.
+
 2010-06-16 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* configure.in: check for gtk_widget_get_allocation

@@ -1253,7 +1253,7 @@ workbook_unlink_3d_dep (GnmDependent *dep)
 void
 dependent_managed_init (GnmDependent *dep, Sheet *sheet)
 {
-	memset (dep, 0, sizeof (dep));
+	memset (dep, 0, sizeof (*dep));
 	dep->flags = DEPENDENT_MANAGED;
 	dep->sheet = sheet;
 }

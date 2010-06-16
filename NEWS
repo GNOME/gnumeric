@@ -44,6 +44,7 @@ Morten:
 	* Improve BINOM.DIST.RANGE.
 	* Modernize STEYX.
 	* Plug evaluation leak.
+	* Fix memory handling issue for dependents.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.5
