@@ -1276,6 +1276,45 @@ gnm_func_get_arg_description (GnmFunc const *fn_def, guint arg_idx)
 	return "";
 }
 
+/**
+ * gnm_func_convert_markup_to_pango:
+ * @desc: the fn or arg description string
+ *
+ * Return value: the escaped string with @{} markup converted to
+ *               pango markup
+ **/
+char *
+gnm_func_convert_markup_to_pango (char const *desc, char const *highlight)
+{
+	GString *str;
+	gchar *markup, *at;
+
+	markup = g_markup_escape_text (desc, -1);
+	str = g_string_new (markup);
+	g_free (markup);
+
+	while ((at = strstr (str->str, "@{"))) {
+#warning In gtk+ 2.14+ we should be using g_string_overwrite rather than g_string_erase
+		gint len = at - str->str;
+			g_string_erase (str, len, 2);
+			g_string_insert (str, len, 
+					 ">");
+			g_string_insert (str, len, 
+					 highlight);
+			g_string_insert (str, len, 
+					 "<span ");
+			if ((at = strstr 
+			     (str->str + len + 7 + strlen (highlight), "}"))) {
+				len = at - str->str;
+				g_string_erase (str, len, 1);
+				g_string_insert (str, len, "</span>");
+			} else
+				g_string_append (str, "</span>");
+	}
+
+	return g_string_free (str, FALSE);
+}
+
 
 /* ------------------------------------------------------------------------- */
 

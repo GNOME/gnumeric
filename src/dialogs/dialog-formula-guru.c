@@ -307,8 +307,8 @@ dialog_formula_guru_adjust_children (GtkTreeIter *parent, GnmFunc const *fd,
 					       &iter, parent, args))
 		gtk_tree_store_remove (state->model, &iter);
 	for (i = 0; i < args; i++) {
-		GString *desc;
-		gchar *at;
+		gchar *desc;
+
 		if (!gtk_tree_model_iter_nth_child (GTK_TREE_MODEL(state->model),
 						    &iter, parent, i)) {
 			gtk_tree_store_append (state->model, &iter, parent);
@@ -326,26 +326,15 @@ dialog_formula_guru_adjust_children (GtkTreeIter *parent, GnmFunc const *fd,
 			g_free (arg_name);
 			arg_name = mod_name;
 		}
-		desc = g_string_new (g_markup_escape_text 
-				     (gnm_func_get_arg_description (fd, i), -1));
-		while ((at = strstr (desc->str, "@{"))) {
-#warning In gtk+ 2.14+ we should be using g_string_overwrite rather than g_string_erase
-			gint len = at - desc->str;
-			g_string_erase (desc, len, 2);
-			g_string_insert (desc, len, "<b><u>");
-			if ((at = strstr (desc->str + len, "}"))) {
-				len = at - desc->str;
-				g_string_erase (desc, len, 1);
-				g_string_insert (desc, len, "</u></b>");
-			} else
-				g_string_append (desc, "</u></b>");
-		}
+		desc = gnm_func_convert_markup_to_pango 
+			(gnm_func_get_arg_description (fd, i),
+			 "underline=\"low\"");
 		gtk_tree_store_set (state->model, &iter,
 				    ARG_NAME, arg_name,
-				    ARG_TOOLTIP, desc->str,
+				    ARG_TOOLTIP, desc,
 				    ARG_TYPE, function_def_get_arg_type_string (fd, i),
 				    -1);
-		g_string_free (desc, TRUE);
+		g_free (desc);
 		g_free (arg_name);
 	}
 

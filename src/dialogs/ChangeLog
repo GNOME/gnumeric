@@ -1,3 +1,8 @@
+2010-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-formula-guru.c (dialog_formula_guru_adjust_children): use
+	  gnm_func_convert_markup_to_pango
+
 2010-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-goto-cell.c (cb_load_names): only load names that are in

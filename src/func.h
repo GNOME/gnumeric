@@ -257,6 +257,8 @@ char       *function_def_get_arg_name  (GnmFunc const *fn_def,
                                         guint arg_idx);
 char const *gnm_func_get_arg_description (GnmFunc const *fn_def,
                                         guint arg_idx);
+char       *gnm_func_convert_markup_to_pango (char const *desc, 
+					      char const *highlight);
 
 /*************************************************************************/
 

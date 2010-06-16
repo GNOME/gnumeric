@@ -621,6 +621,8 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str)
 	gint root_x = 0, root_y = 0;
 	GtkAllocation allocation;
 	GdkWindow *gdkw;
+	gchar *markup = gnm_func_convert_markup_to_pango 
+		(str,"foreground=\"#0000FF\"");
 
 	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (gee->entry));
 	gtk_widget_add_events(toplevel, GDK_FOCUS_CHANGE_MASK);
@@ -632,8 +634,8 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str)
 	label = gnumeric_create_tooltip (toplevel);
 	tip = gtk_widget_get_toplevel (label);
 
-	/* We could use markup.  */
-	gtk_label_set_text (GTK_LABEL (label), str);
+	gtk_label_set_markup (GTK_LABEL (label), markup);
+	g_free (markup);
 
 	gdkw = gtk_widget_get_window (GTK_WIDGET (gee->entry));
 	gdk_window_get_origin (gdkw, &root_x, &root_y);

@@ -1,5 +1,10 @@
 2010-06-16 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/func.h (gnm_func_convert_markup_to_pango): new
+	* src/func.c (gnm_func_convert_markup_to_pango): new	
+
+2010-06-16 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/commands.c (cmd_paste_copy): check with user if more than
 	  10000 copies are to be pasted.
 
