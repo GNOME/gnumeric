@@ -80,6 +80,7 @@ struct _GnmExprEntry {
 		GtkWidget       *tooltip;
 		GnmFunc         *fd;
 		gint             args;
+		gboolean         had_stuff;
 		guint            handlerid;
 		gboolean         enabled;
 	}                        tooltip;
@@ -656,7 +657,7 @@ gee_set_tooltip_argument (GString *str, char *arg, gboolean optional)
 }
 
 static void
-gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args)
+gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args, gboolean had_stuff)
 {
 	GString *str;
 	gchar sep = go_locale_get_arg_sep ();
@@ -664,13 +665,15 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args)
 	gboolean first = TRUE;
 	char *extra = NULL;
 
+	gnm_func_load_if_stub (fd);
+	function_def_count_args (fd, &min, &max);
+
 	if (gee->tooltip.fd) {
-		if (gee->tooltip.fd == fd && gee->tooltip.args == args)
+		if (gee->tooltip.fd == fd && gee->tooltip.args == args 
+		    && gee->tooltip.had_stuff == (max == 0 && args == 0 && had_stuff))
 			return;
 		gee_delete_tooltip (gee);
 	}
-
-	gnm_func_load_if_stub (fd);
 
 	gee->tooltip.fd = fd;
 	gnm_func_ref (gee->tooltip.fd);   
@@ -678,7 +681,6 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args)
 	str = g_string_new (gnm_func_get_name (fd));
 	g_string_append_c (str, '(');
 
-	function_def_count_args (fd, &min, &max);
 	for (i = 0; i < max; i++) {
 		char *arg_name = function_def_get_arg_name
 			(fd, i);
@@ -709,7 +711,7 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args)
 			 ? UNICODE_RIGHT_ARROW UNICODE_ELLIPSIS UNICODE_LEFT_ARROW
 			 : UNICODE_ELLIPSIS);
 	}
-	if (max == 0 && args == 0) {
+	if (max == 0 && args == 0 && !had_stuff) {
 		extra = g_strdup_printf (_("%s takes no arguments"),
 					 gnm_func_get_name (fd));
 	} else if (args >= max) {
@@ -726,6 +728,7 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args)
 
 	gee->tooltip.tooltip = gee_create_tooltip (gee, str->str);
 	gee->tooltip.args = args;
+	gee->tooltip.had_stuff = (max == 0 && args == 0 && had_stuff);
 
 	g_string_free (str, TRUE);
 }
@@ -740,7 +743,7 @@ gee_check_tooltip (GnmExprEntry *gee)
 	char *str_end;
 	int   args = 0;
 	gchar sep = go_locale_get_arg_sep ();
-	gint  para = 0;
+	gint  para = 0, stuff = 0;
 
 	if (!gee->tooltip.enabled)
 		return;
@@ -774,7 +777,7 @@ gee_check_tooltip (GnmExprEntry *gee)
 				if (*prefix != '\0') {
 					GnmFunc	*fd = gnm_func_lookup (prefix, NULL);
 					if (fd != NULL) {
-						gee_set_tooltip (gee, fd, args);
+						gee_set_tooltip (gee, fd, args, !!stuff);
 						g_free (str);
 						return;
 					}
@@ -782,9 +785,12 @@ gee_check_tooltip (GnmExprEntry *gee)
 				args = 0;
 				para--;
 			}
+			stuff++;
 		} else if (*prefix == sep) {
+			stuff = 0;
 			args++;
-		}
+		} else if (*prefix != ' ')
+			stuff++;
 		prefix--;
 	}
 	g_free (str);

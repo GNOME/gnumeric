@@ -1,3 +1,9 @@
+2010-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (gee_set_tooltip): add argument indicating
+	  whether non-space characters were observed in current argument.
+	(gee_check_tooltip): record non-space characters in current argument
+
 2010-06-16  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-expr-entry.c (gee_set_tooltip): Use symbolic name for
