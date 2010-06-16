@@ -3180,7 +3180,7 @@ gnm_reg_data_collect (GnmValue const *yval, GnmValue const *xval,
 	int ny;
 	GnmValue *result = NULL;
 
-	memset (data, 0, sizeof (data));
+	memset (data, 0, sizeof (*data));
 
 	/* Blanks, bools, strings, errors all are forbidden.  */
 	data->ys = collect_floats_value (yval, ep, 0,
