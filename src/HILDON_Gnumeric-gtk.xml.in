@@ -63,6 +63,10 @@
       <separator name="edit-sep3"/>
       <menuitem action="EditFind"/>
       <menuitem action="EditReplace"/>
+      <menuitem action="EditGotoTop"/>
+      <menuitem action="EditGotoBottom"/>
+      <menuitem action="EditGotoFirst"/>
+      <menuitem action="EditGotoLast"/>
       <menuitem action="EditGoto"/>
       <separator name="edit-sep4"/>
       <menu name="EditSheet" action="MenuEditSheet">

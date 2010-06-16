@@ -2320,6 +2320,74 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 	g_free (target_type);
 }
 
+#ifdef HAVE_GTK_ENTRY_SET_ICON_FROM_STOCK
+
+static void cb_cs_go_up  (WBCGtk *wbcg) 
+{ wb_control_navigate_to_cell (WORKBOOK_CONTROL (wbcg), navigator_top); }
+static void cb_cs_go_down  (WBCGtk *wbcg)
+{ wb_control_navigate_to_cell (WORKBOOK_CONTROL (wbcg), navigator_bottom); }
+static void cb_cs_go_left  (WBCGtk *wbcg)
+{ wb_control_navigate_to_cell (WORKBOOK_CONTROL (wbcg), navigator_first); }
+static void cb_cs_go_right  (WBCGtk *wbcg)
+{ wb_control_navigate_to_cell (WORKBOOK_CONTROL (wbcg), navigator_last); }
+static void cb_cs_go_to_cell  (WBCGtk *wbcg) { dialog_goto_cell (wbcg); }
+
+static void
+wbc_gtk_cell_selector_popup (G_GNUC_UNUSED GtkEntry *entry,
+			     G_GNUC_UNUSED GtkEntryIconPosition icon_pos,
+			     G_GNUC_UNUSED GdkEvent *event,
+			     gpointer data)
+{
+	if (event->type == GDK_BUTTON_PRESS) {
+		WBCGtk *wbcg = data;
+		
+		struct CellSelectorMenu {
+			gchar const *text;
+			gchar const *stock_id;
+			void (*function) (WBCGtk *wbcg);
+		} const cell_selector_actions [] = {
+			{ N_("Go to Top"),      GTK_STOCK_GOTO_TOP,    &cb_cs_go_up      },
+			{ N_("Go to Bottom"),   GTK_STOCK_GOTO_BOTTOM, &cb_cs_go_down    },
+			{ N_("Go to First"),    GTK_STOCK_GOTO_FIRST,  &cb_cs_go_left    },
+			{ N_("Go to Last"),     GTK_STOCK_GOTO_LAST,   &cb_cs_go_right   },
+			{ NULL, NULL, NULL},
+			{ N_("Go to Cell ..."), GTK_STOCK_JUMP_TO,     &cb_cs_go_to_cell }
+		};
+		unsigned int ui;
+		GtkWidget *item, *menu = gtk_menu_new ();
+		gboolean active = (!wbcg_is_editing (wbcg) && 
+				   NULL == wbc_gtk_get_guru (wbcg));
+
+		for (ui = 0; ui < G_N_ELEMENTS (cell_selector_actions); ui++) {
+			const struct CellSelectorMenu *it =
+				cell_selector_actions + ui;
+			if (it->text) {
+				if (it->stock_id) {
+					item = gtk_image_menu_item_new_from_stock  
+						(it->stock_id, NULL);
+					gtk_menu_item_set_label 
+						(GTK_MENU_ITEM (item), _(it->text));
+				} else
+					item = gtk_image_menu_item_new_with_label 
+						(_(it->text));
+			} else
+				item = gtk_separator_menu_item_new ();
+			
+			if (it->function)
+				g_signal_connect_swapped 
+					(G_OBJECT (item), "activate",
+					 G_CALLBACK (it->function), wbcg);
+			gtk_widget_set_sensitive (item, active);
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+			gtk_widget_show (item);
+		}
+		
+		gnumeric_popup_menu (GTK_MENU (menu), &event->button);
+	}
+}
+#endif
+
+
 static void
 wbc_gtk_create_edit_area (WBCGtk *wbcg)
 {
@@ -2395,6 +2463,26 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 	g_signal_connect (G_OBJECT (wbcg->selection_descriptor),
 		"focus-out-event",
 		G_CALLBACK (cb_statusbox_focus), wbcg);
+
+#ifdef HAVE_GTK_ENTRY_SET_ICON_FROM_STOCK
+
+	gtk_entry_set_icon_from_stock 
+		(GTK_ENTRY (wbcg->selection_descriptor),
+		 GTK_ENTRY_ICON_SECONDARY, GTK_STOCK_JUMP_TO);
+	gtk_entry_set_icon_sensitive
+		(GTK_ENTRY (wbcg->selection_descriptor),
+		 GTK_ENTRY_ICON_SECONDARY, TRUE);
+	gtk_entry_set_icon_activatable
+		(GTK_ENTRY (wbcg->selection_descriptor),
+		 GTK_ENTRY_ICON_SECONDARY, TRUE);
+
+	g_signal_connect (G_OBJECT (wbcg->selection_descriptor),
+			  "icon-press",
+			  G_CALLBACK
+			  (wbc_gtk_cell_selector_popup),
+			  wbcg);
+#endif
+
 
 	gtk_widget_show_all (GTK_WIDGET (tb));
 }

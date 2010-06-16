@@ -83,6 +83,16 @@ SheetView    *wb_control_cur_sheet_view	(WorkbookControl const *wbc);
 
 gboolean      wb_control_parse_and_jump (WorkbookControl *wbc, char const *text);
 
+typedef enum {
+	navigator_top,
+	navigator_bottom,
+	navigator_last,
+	navigator_first	
+} wb_control_navigator_t;
+
+void wb_control_navigate_to_cell (WorkbookControl *wbc, wb_control_navigator_t to);
+
+
 G_END_DECLS
 
 #endif /* _GNM_WORKBOOK_CONTROL_H_ */

@@ -601,6 +601,22 @@ static GNM_ACTION_DEF (cb_edit_fill_series)
 	dialog_fill_series (wbcg);
 }
 
+static GNM_ACTION_DEF (cb_edit_goto_top)
+{
+	wb_control_navigate_to_cell (WORKBOOK_CONTROL (wbcg), navigator_top);
+}
+static GNM_ACTION_DEF (cb_edit_goto_bottom)
+{
+	wb_control_navigate_to_cell (WORKBOOK_CONTROL (wbcg), navigator_bottom);
+}
+static GNM_ACTION_DEF (cb_edit_goto_first)
+{
+	wb_control_navigate_to_cell (WORKBOOK_CONTROL (wbcg), navigator_first);
+}
+static GNM_ACTION_DEF (cb_edit_goto_last)
+{
+	wb_control_navigate_to_cell (WORKBOOK_CONTROL (wbcg), navigator_last);
+}
 static GNM_ACTION_DEF (cb_edit_goto)
 {
 	dialog_goto_cell (wbcg);
@@ -1934,6 +1950,18 @@ static GtkActionEntry const actions[] = {
 	  "<control>Tab", N_("Select the next sheet object"),
 		G_CALLBACK (cb_edit_select_object) },
 
+	{ "EditGotoTop", GTK_STOCK_GOTO_TOP, N_("Go to Top"),
+		NULL, N_("Go to the top of the data"),
+		G_CALLBACK (cb_edit_goto_top) },
+	{ "EditGotoBottom", GTK_STOCK_GOTO_BOTTOM, N_("Go to Bottom"),
+		NULL, N_("Go to the bottom of the data"),
+		G_CALLBACK (cb_edit_goto_bottom) },
+	{ "EditGotoFirst", GTK_STOCK_GOTO_FIRST, N_("Go to the First"),
+		NULL, N_("Go to the first data cell"),
+		G_CALLBACK (cb_edit_goto_first) },
+	{ "EditGotoLast", GTK_STOCK_GOTO_LAST, N_("Go to the Last"),
+		NULL, N_("Go to the last data cell"),
+		G_CALLBACK (cb_edit_goto_last) },
 	{ "EditGoto", GTK_STOCK_JUMP_TO, N_("_Goto cell..."),
 		"<control>G", N_("Jump to a specified cell"),
 		G_CALLBACK (cb_edit_goto) },

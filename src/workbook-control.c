@@ -29,6 +29,7 @@
 #include "workbook-priv.h"
 #include "sheet.h"
 #include "sheet-view.h"
+#include "sheet-utils.h"
 #include "selection.h"
 #include "commands.h"
 #include "value.h"
@@ -305,6 +306,56 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 
 	return wb_control_jump (wbc, sheet, &range);
 }
+
+void 
+wb_control_navigate_to_cell (WorkbookControl *wbc, wb_control_navigator_t to)
+{
+	Sheet *sheet = wb_control_cur_sheet (wbc);
+	SheetView *sv = wb_control_cur_sheet_view (wbc);
+	GnmRange region;
+	GnmRange const *first = selection_first_range (sv, NULL, NULL);
+	GnmRangeRef rangeref;
+
+	region = *first;
+	gnm_sheet_guess_data_range (sheet, &region);
+	range_ensure_sanity (&region, sheet);
+	
+	switch (to) {
+	case navigator_top:
+		region.end.row = region.start.row;
+		region.start.col = first->start.col;
+		region.end.col = first->end.col;
+		break;
+	case navigator_bottom:
+		region.start.row = region.end.row;
+		region.start.col = first->start.col;
+		region.end.col = first->end.col;
+		break;
+	case navigator_first:
+		region.end.col = region.start.col;
+		region.start.row = first->start.row;
+		region.end.row = first->end.row;
+		break;
+	case navigator_last:
+		region.start.col = region.end.col;
+		region.start.row = first->start.row;
+		region.end.row = first->end.row;
+		break;
+	default:
+		break;
+	}
+	gnm_cellref_init (&rangeref.a, sheet,
+			  region.start.col, region.start.row, FALSE);
+	gnm_cellref_init (&rangeref.b, sheet,
+			  region.end.col, region.end.row, FALSE);
+
+	wb_control_jump (wbc, sheet, &rangeref);
+
+	return;
+}
+
+
+
 
 static void
 cb_wbc_clipboard_modified (GnmApp *app, WorkbookControl *wbc)

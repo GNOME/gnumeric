@@ -71,6 +71,11 @@
         <menuitem action="EditSelectInputs"/>
         <menuitem action="EditSelectObject"/>
         <separator name="edit-sep5"/>
+	<menuitem action="EditGotoTop"/>
+	<menuitem action="EditGotoBottom"/>
+	<menuitem action="EditGotoFirst"/>
+	<menuitem action="EditGotoLast"/>
+        <separator name="edit-sep6"/>
 	<menuitem action="EditGoto"/>
       </menu>
       <menuitem action="EditRecalc"/>
