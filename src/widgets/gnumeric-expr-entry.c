@@ -615,9 +615,9 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str)
 	GtkTextBuffer *buffer;
 	GtkWindow *toplevel;
 	GdkScreen *screen;
-	gint dest_x = 0, dest_y = 0;
 	gint root_x = 0, root_y = 0;
-	GtkRequisition requisition;
+	GtkAllocation allocation;
+	GdkWindow *gdkw;
 
 	toplevel = GTK_WINDOW (gtk_widget_get_toplevel 
 			       (GTK_WIDGET (gee->entry)));
@@ -630,20 +630,19 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str)
 	
 	screen = gtk_window_get_screen (toplevel);
 	
-	gtk_widget_size_request (GTK_WIDGET (gee->entry), &requisition);
-	gtk_widget_translate_coordinates    
-		(GTK_WIDGET (gee->entry), GTK_WIDGET (toplevel),
-		 0, 2 * requisition.height, &dest_x, &dest_y);
-	gtk_window_get_position (toplevel, &root_x, &root_y);
+	gdkw = gtk_widget_get_window (GTK_WIDGET (gee->entry));
+	gdk_window_get_origin (gdkw, &root_x, &root_y);
+	gtk_widget_get_allocation (GTK_WIDGET (gee->entry), &allocation);
 
 	tip = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_window_set_type_hint (GTK_WINDOW (tip),
 				  GDK_WINDOW_TYPE_HINT_TOOLTIP);
 	gtk_window_set_resizable (GTK_WINDOW (tip), FALSE);
 	gtk_widget_set_name (tip, "gnumeric-tooltip");
+	gtk_window_set_gravity (GTK_WINDOW (tip), GDK_GRAVITY_NORTH_WEST);
 	
 	gtk_window_set_screen (GTK_WINDOW (tip), screen);
-	gtk_window_move (GTK_WINDOW (tip), root_x + dest_x, root_y + dest_y);
+	gtk_window_move (GTK_WINDOW (tip), root_x, root_y + allocation.height);
 
 	text = gtk_text_view_new ();
 	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (text), GTK_WRAP_NONE);

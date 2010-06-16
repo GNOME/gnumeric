@@ -1,3 +1,8 @@
+2010-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (gee_create_tooltip): place the
+	  tooltip correctly
+
 2010-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (gee_create_tooltip): set tooltip

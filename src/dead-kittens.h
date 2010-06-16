@@ -27,4 +27,9 @@
 #define gtk_widget_get_window(w) ((w)->window)
 #endif
 
+#ifndef HAVE_GTK_WIDGET_GET_ALLOCATION
+#define gtk_widget_get_allocation(w,a) (*(a) = (w)->allocation)
+#endif
+
+
 #endif

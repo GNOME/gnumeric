@@ -1,5 +1,10 @@
 2010-06-16 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* configure.in: check for gtk_widget_get_allocation
+	* src/dead-kittens.h (gtk_widget_get_allocation): new
+
+2010-06-16 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/GNOME_Gnumeric-gtk.xml.in: add new menu items
 	* src/HILDON_Gnumeric-gtk.xml.in: ditto
 	* component/Gnumeric-embed.xml.in: ditto
