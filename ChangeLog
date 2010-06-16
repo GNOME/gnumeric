@@ -1,3 +1,8 @@
+2010-06-16  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-util.c (gnumeric_create_tooltip): Set type hint and
+	gravity.
+
 2010-06-16 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/colrow.h (colrow_index_list_destroy): turn into a define

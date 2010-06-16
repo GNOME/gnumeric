@@ -616,50 +616,30 @@ cb_gee_focus_out_event (GtkWidget         *widget,
 static GtkWidget *
 gee_create_tooltip (GnmExprEntry *gee, gchar const *str)
 {
-	GtkWidget *text, *frame, *tip;
-	GtkTextBuffer *buffer;
-	GtkWindow *toplevel;
-	GdkScreen *screen;
+	GtkWidget *toplevel, *label, *tip;
 	gint root_x = 0, root_y = 0;
 	GtkAllocation allocation;
 	GdkWindow *gdkw;
 
-	toplevel = GTK_WINDOW (gtk_widget_get_toplevel 
-			       (GTK_WIDGET (gee->entry)));
-	gtk_widget_add_events(GTK_WIDGET(toplevel), 
-			      GDK_FOCUS_CHANGE_MASK);
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (gee->entry));
+	gtk_widget_add_events(toplevel, GDK_FOCUS_CHANGE_MASK);
 	if (gee->tooltip.handlerid == 0)
 		gee->tooltip.handlerid = g_signal_connect 
 			(G_OBJECT (toplevel), "focus-out-event",
 			 G_CALLBACK (cb_gee_focus_out_event), gee);
-	
-	screen = gtk_window_get_screen (toplevel);
-	
+
+	label = gnumeric_create_tooltip (toplevel);
+	tip = gtk_widget_get_toplevel (label);
+
+	/* We could use markup.  */
+	gtk_label_set_text (GTK_LABEL (label), str);
+
 	gdkw = gtk_widget_get_window (GTK_WIDGET (gee->entry));
 	gdk_window_get_origin (gdkw, &root_x, &root_y);
 	gtk_widget_get_allocation (GTK_WIDGET (gee->entry), &allocation);
 
-	tip = gtk_window_new (GTK_WINDOW_POPUP);
-	gtk_window_set_type_hint (GTK_WINDOW (tip),
-				  GDK_WINDOW_TYPE_HINT_TOOLTIP);
-	gtk_window_set_resizable (GTK_WINDOW (tip), FALSE);
-	gtk_widget_set_name (tip, "gnumeric-tooltip");
-	gtk_window_set_gravity (GTK_WINDOW (tip), GDK_GRAVITY_NORTH_WEST);
-	
-	gtk_window_set_screen (GTK_WINDOW (tip), screen);
 	gtk_window_move (GTK_WINDOW (tip), root_x, root_y + allocation.height);
 
-	text = gtk_text_view_new ();
-	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (text), GTK_WRAP_NONE);
-	gtk_text_view_set_editable  (GTK_TEXT_VIEW (text), FALSE);
-	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text));
-	gtk_text_buffer_set_text (buffer, str, -1);
-
-	frame = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
-	
-	gtk_container_add (GTK_CONTAINER (tip), frame);
-	gtk_container_add (GTK_CONTAINER (frame), text);
 	gtk_widget_show_all (tip);
 
 	return tip;
