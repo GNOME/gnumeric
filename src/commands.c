@@ -2944,7 +2944,7 @@ cmd_paste_copy (WorkbookControl *wbc,
 		GnmPasteTarget const *pt, GnmCellRegion *cr)
 {
 	CmdPasteCopy *me;
-	int n;
+	int n_r = 1, n_c = 1;
 	char *range_name;
 
 	g_return_val_if_fail (pt != NULL, TRUE);
@@ -2974,34 +2974,34 @@ cmd_paste_copy (WorkbookControl *wbc,
                 /* see if we need to do any tiling */
 		GnmRange *r = &me->dst.range;
 		if (pt->paste_flags & PASTE_TRANSPOSE) {
-			n = range_width (r) / cr->rows;
-			if (n < 1) n = 1;
-			r->end.col = r->start.col + n * cr->rows - 1;
+			n_c = range_width (r) / cr->rows;
+			if (n_c < 1) n_c = 1;
+			r->end.col = r->start.col + n_c * cr->rows - 1;
 
-			n = range_height (r) / cr->cols;
-			if (n < 1) n = 1;
-			r->end.row = r->start.row + n * cr->cols - 1;
+			n_r = range_height (r) / cr->cols;
+			if (n_r < 1) n_r = 1;
+			r->end.row = r->start.row + n_r * cr->cols - 1;
 		} else {
 			/* Before looking for tiling if we are not transposing,
 			 * allow pasting a full col or row from a single cell */
-			n = range_width (r);
-			if (n == 1 && cr->cols == gnm_sheet_get_max_cols (me->cmd.sheet)) {
+			n_c = range_width (r);
+			if (n_c == 1 && cr->cols == gnm_sheet_get_max_cols (me->cmd.sheet)) {
 				r->start.col = 0;
 				r->end.col = gnm_sheet_get_last_col (me->cmd.sheet);
 			} else {
-				n /= cr->cols;
-				if (n < 1) n = 1;
-				r->end.col = r->start.col + n * cr->cols - 1;
+				n_c /= cr->cols;
+				if (n_c < 1) n_c = 1;
+				r->end.col = r->start.col + n_c * cr->cols - 1;
 			}
 
-			n = range_height (r);
-			if (n == 1 && cr->rows == gnm_sheet_get_max_rows (me->cmd.sheet)) {
+			n_r = range_height (r);
+			if (n_r == 1 && cr->rows == gnm_sheet_get_max_rows (me->cmd.sheet)) {
 				r->start.row = 0;
 				r->end.row = gnm_sheet_get_last_row (me->cmd.sheet);
 			} else {
-				n /= cr->rows;
-				if (n < 1) n = 1;
-				r->end.row = r->start.row + n * cr->rows - 1;
+				n_r /= cr->rows;
+				if (n_r < 1) n_r = 1;
+				r->end.row = r->start.row + n_r * cr->rows - 1;
 			}
 		}
 
@@ -3024,6 +3024,19 @@ cmd_paste_copy (WorkbookControl *wbc,
 						r->end.row = r->start.row + cr->rows - 1;
 				}
 			}
+		}
+	}
+
+	if (n_c * (gnm_float)n_r > 10000.) {
+		char *number = g_strdup_printf ("%0.0" GNM_FORMAT_f, 
+						(gnm_float)n_c * (gnm_float)n_r);
+		gboolean result = go_gtk_query_yes_no (wbcg_toplevel (WBC_GTK (wbc)), FALSE, 
+						       _("Do you really want to paste "
+							 "%s copies?"), number);
+		g_free (number);
+		if (!result) {
+			g_object_unref (me);
+			return TRUE;
 		}
 	}
 

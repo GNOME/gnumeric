@@ -21,6 +21,7 @@ Andreas:
 	* Provide a tool tip showing function syntax. [#56172]
 	* Provide more navigation options. [#15010]
 	* Check with user before hiding all rows or columns. [#316976]
+	* Check with user before pasting too many copies. [#530956]
 
 Jean:
 	* Do not ungrab a not grabbed item. [#620369]

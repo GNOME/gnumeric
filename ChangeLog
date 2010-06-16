@@ -1,3 +1,8 @@
+2010-06-16 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.c (cmd_paste_copy): check with user if more than
+	  10000 copies are to be pasted.
+
 2010-06-16  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-util.c (gnumeric_create_tooltip): Set type hint and
