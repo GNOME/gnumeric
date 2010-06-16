@@ -709,7 +709,10 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args)
 			 ? UNICODE_RIGHT_ARROW UNICODE_ELLIPSIS UNICODE_LEFT_ARROW
 			 : UNICODE_ELLIPSIS);
 	}
-	if (args >= max) {
+	if (max == 0 && args == 0) {
+		extra = g_strdup_printf (_("%s takes no arguments"),
+					 gnm_func_get_name (fd));
+	} else if (args >= max) {
 		g_string_append (str, UNICODE_RIGHT_ARROW UNICODE_CROSS_AND_SKULLBONES UNICODE_LEFT_ARROW);
 		extra = g_strdup_printf (_("Too many arguments for %s"),
 					 gnm_func_get_name (fd));
