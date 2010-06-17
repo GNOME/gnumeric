@@ -417,6 +417,7 @@ dialog_tool_init (GenericToolState *state,
 
 		table = GTK_TABLE (gtk_widget_get_parent (widget));
 		state->input_entry = gnm_expr_entry_new (state->wbcg, TRUE);
+		gnm_expr_entry_disable_tips (state->input_entry);
 		gnm_expr_entry_set_flags (state->input_entry, flags | GNM_EE_FORCE_ABS_REF,
 					  GNM_EE_MASK);
 
@@ -452,6 +453,7 @@ dialog_tool_init (GenericToolState *state,
 		GtkTableChild *tchild;
 
 		state->input_entry_2 = gnm_expr_entry_new (state->wbcg, TRUE);
+		gnm_expr_entry_disable_tips (state->input_entry_2);
 		gnm_expr_entry_set_flags (state->input_entry_2,
 					  GNM_EE_SINGLE_RANGE | GNM_EE_FORCE_ABS_REF, GNM_EE_MASK);
 		table = GTK_TABLE (gtk_widget_get_parent (widget));

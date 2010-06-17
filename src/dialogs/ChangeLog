@@ -1,5 +1,10 @@
 2010-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-analysis-tools.c (dialog_tool_init): disable tooltips
+	  on input expression entries
+
+2010-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-formula-guru.c (dialog_formula_guru_adjust_children): drop
 	  the last argument of gnm_func_convert_markup_to_pango
 	(cb_dialog_formula_guru_destroy): unref tooltip widgets

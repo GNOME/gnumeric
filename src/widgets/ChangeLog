@@ -1,6 +1,11 @@
 2010-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (gee_check_tooltip): don't create tooltip
+	  in what looks like a range selector
+	
+2010-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (gee_check_tooltip): don't create tooltip
 	  in range selectors or cell renderers yet.
 	(gee_create_tooltip): drop argument from 
 	  gnm_func_convert_markup_to_pango

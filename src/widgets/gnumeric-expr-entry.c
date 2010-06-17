@@ -747,7 +747,8 @@ gee_check_tooltip (GnmExprEntry *gee)
 	gint  para = 0, stuff = 0;
 
 	if (!gee->tooltip.enabled || gee->is_cell_renderer || 
-	    (gee->flags & GNM_EE_SINGLE_RANGE))
+	    (gee->flags & GNM_EE_SINGLE_RANGE) ||
+	    (gee->flags & GNM_EE_FORCE_ABS_REF))
 		return;
 
 	end = gtk_editable_get_position (editable);
