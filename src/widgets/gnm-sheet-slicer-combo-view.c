@@ -163,13 +163,15 @@ sscombo_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible
 	GocGroup *view = GOC_GROUP (sov);
 
 	if (visible) {
+		double scale = goc_canvas_get_pixels_per_unit (GOC_ITEM (view)->canvas);
 		double h = (coords[3] - coords[1]) + 1.;
 		if (h > 20.)	/* clip vertically */
 			h = 20.;
+		h /= scale;
 		goc_item_set (GOC_ITEM (view->children->data),
 			/* put it outside the cell */
-			"x",	  ((coords[2] >= 0.) ? coords[2] : (coords[0]-h+1.)),
-			"y",	  coords [3] - h + 1.,
+			"x",	  ((coords[2] >= 0.) ? coords[2] / scale : (coords[0] / scale - h + 1.)),
+			"y",	  coords [3] / scale - h + 1.,
 			"width",  h,	/* force a square, use h for width too */
 			"height", h,
 			NULL);

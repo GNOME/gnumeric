@@ -1,3 +1,10 @@
+2010-06-17  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* gnm-filter-combo-view.c (filter_view_set_bounds): fixed item position
+	when zoom is not 100% upon creation. [#621817]
+	* gnm-sheet-slicer-combo-view.c (sscombo_set_bounds): ditto.
+	* gnm-validation-combo-view.c (vcombo_set_bounds): ditto.
+
 2010-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (gee_check_tooltip): don't create tooltip
