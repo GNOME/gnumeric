@@ -598,9 +598,17 @@ gui_file_save (WBCGtk *wbcg, WorkbookView *wb_view)
 	if (wb->file_format_level < GO_FILE_FL_AUTO)
 		return gui_file_save_as (wbcg, wb_view);
 	else {
-		gboolean ok = wb_view_save (wb_view, GO_CMD_CONTEXT (wbcg));
+		gboolean ok;
+
+		/* We need a ref because a Ctrl-Q at the wrong time will
+		   cause the workbook to disappear at the end of the
+		   save.  */
+		g_object_ref (wb);
+
+		ok = wb_view_save (wb_view, GO_CMD_CONTEXT (wbcg));
 		if (ok)
 			workbook_update_history (wb);
+		g_object_unref (wb);
 		return ok;
 	}
 }
