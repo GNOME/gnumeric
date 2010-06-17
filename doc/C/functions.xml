@@ -194,7 +194,7 @@
           <function>COMPLEX</function>
         </refname>
         <refpurpose>
-        a complex number of the form <parameter>x</parameter> + <parameter>y</parameter><parameter>i</parameter>.
+        a complex number of the form <parameter>x</parameter> + <parameter>y</parameter><parameter>i</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -204,7 +204,7 @@
         <title>Arguments</title>
         <para><parameter>x</parameter>: real part</para>
         <para><parameter>y</parameter>: imaginary part</para>
-        <para><parameter>i</parameter>: the suffix for the complex number, either "i" or "j"; defaults to "i".</para>
+        <para><parameter>i</parameter>: the suffix for the complex number, either "i" or "j"; defaults to "i"</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -1216,7 +1216,7 @@
           <function>IMPOWER</function>
         </refname>
         <refpurpose>
-         the complex number <parameter>z1</parameter> raised to the <parameter>z2</parameter>th power
+        the complex number <parameter>z1</parameter> raised to the <parameter>z2</parameter>th power
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -1252,7 +1252,7 @@
           <function>IMPRODUCT</function>
         </refname>
         <refpurpose>
-        the product of the given complex numbers.
+        the product of the given complex numbers
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -1494,7 +1494,7 @@
           <function>IMSUB</function>
         </refname>
         <refpurpose>
-        the difference of two complex numbers.
+        the difference of two complex numbers
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -2743,7 +2743,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>time</parameter>: time of day as fractional day.</para>
+        <para><parameter>time</parameter>: time of day as fractional day</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -2852,7 +2852,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>time</parameter>: time of day as fractional day.</para>
+        <para><parameter>time</parameter>: time of day as fractional day</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -3025,7 +3025,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>time</parameter>: time of day as fractional day.</para>
+        <para><parameter>time</parameter>: time of day as fractional day</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -3609,7 +3609,7 @@
           <function>BIN2HEX</function>
         </refname>
         <refpurpose>
-         hexadecimal representation of the binary number <parameter>x</parameter>
+        hexadecimal representation of the binary number <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -3647,7 +3647,7 @@
           <function>BIN2OCT</function>
         </refname>
         <refpurpose>
-         octal representation of the binary number <parameter>x</parameter>
+        octal representation of the binary number <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -3812,7 +3812,7 @@
           <function>DEC2BIN</function>
         </refname>
         <refpurpose>
-         binary representation of the decimal number <parameter>x</parameter>
+        binary representation of the decimal number <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -3850,7 +3850,7 @@
           <function>DEC2HEX</function>
         </refname>
         <refpurpose>
-         hexadecimal representation of the decimal number <parameter>x</parameter>
+        hexadecimal representation of the decimal number <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -3888,7 +3888,7 @@
           <function>DEC2OCT</function>
         </refname>
         <refpurpose>
-         octal representation of the decimal number <parameter>x</parameter>
+        octal representation of the decimal number <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -4066,7 +4066,7 @@
           <function>GESTEP</function>
         </refname>
         <refpurpose>
-        Step function with step at <parameter>x1</parameter> evaluated at <parameter>x0</parameter>
+        step function with step at <parameter>x1</parameter> evaluated at <parameter>x0</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -4515,7 +4515,7 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>ACCRINT</function>(<parameter>issue</parameter>,<parameter>first_interest</parameter>,<parameter>settlement</parameter>,<parameter>rate</parameter>,<parameter>par</parameter>,<parameter>frequency</parameter>,<parameter>basis</parameter>)</synopsis>
+        <synopsis><function>ACCRINT</function>(<parameter>issue</parameter>,<parameter>first_interest</parameter>,<parameter>settlement</parameter>,<parameter>rate</parameter>,<parameter>par</parameter>,<parameter>frequency</parameter>,<parameter>basis</parameter>,<parameter>calc_method</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
@@ -4523,17 +4523,20 @@
         <para><parameter>first_interest</parameter>: date of first interest payment</para>
         <para><parameter>settlement</parameter>: settlement date</para>
         <para><parameter>rate</parameter>: nominal annual interest rate</para>
-        <para><parameter>par</parameter>: par value</para>
+        <para><parameter>par</parameter>: par value, defaults to $1000</para>
         <para><parameter>frequency</parameter>: number of interest payments per year</para>
-        <para><parameter>basis</parameter>: calendar basis</para>
+        <para><parameter>basis</parameter>: calendar basis, defaults to 0</para>
+        <para><parameter>calc_method</parameter>: calculation method, defaults to TRUE</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><function>ACCRINT</function> calculates the accrued interest for a security that pays periodic interest.</para>
+        <para>If <parameter>first_interest</parameter> &lt; <parameter>settlement</parameter> and <parameter>calc_method</parameter> is TRUE, then <function>ACCRINT</function> returns the sum of the interest accrued in all coupon periods from <parameter>issue</parameter>  date until <parameter>settlement</parameter> date.</para>
+        <para>If <parameter>first_interest</parameter> &lt; <parameter>settlement</parameter> and <parameter>calc_method</parameter> is FALSE, then <function>ACCRINT</function> returns the sum of the interest accrued in all coupon periods from <parameter>first_interest</parameter>  date until <parameter>settlement</parameter> date.</para>
+        <para>Otherwise <function>ACCRINT</function> returns the sum of the interest accrued in all coupon periods from <parameter>issue</parameter>  date until <parameter>settlement</parameter> date.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para><parameter>par</parameter> defaults to $1000. <parameter>frequency</parameter> may be 1 (annual), 2 (semi-annual), or 4 (quarterly). If <parameter>basis</parameter> is 0, then the US 30/360 method is used. If <parameter>basis</parameter> is 1, then actual number of days is used. If <parameter>basis</parameter> is 2, then actual number of days is used within a month, but years are considered only 360 days. If <parameter>basis</parameter> is 3, then actual number of days is used within a month, but years are always considered 365 days. If <parameter>basis</parameter> is 4, then the European 30/360 method is used.</para>
+        <para><parameter>frequency</parameter> must be one of 1, 2 or 4, but the exact value does not affect the result. <parameter>issue</parameter> must precede both <parameter>first_interest</parameter> and <parameter>settlement</parameter>. <parameter>frequency</parameter> may be 1 (annual), 2 (semi-annual), or 4 (quarterly). If <parameter>basis</parameter> is 0, then the US 30/360 method is used. If <parameter>basis</parameter> is 1, then actual number of days is used. If <parameter>basis</parameter> is 2, then actual number of days is used within a month, but years are considered only 360 days. If <parameter>basis</parameter> is 3, then actual number of days is used within a month, but years are always considered 365 days. If <parameter>basis</parameter> is 4, then the European 30/360 method is used.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -5317,8 +5320,8 @@
         <para><parameter>n</parameter>: amount</para>
         <para><parameter>source</parameter>: three-letter source currency code</para>
         <para><parameter>target</parameter>: three-letter target currency code</para>
-        <para><parameter>full_precision</parameter>: if true, the result is not rounded; if false the result is rounded to 0 or 2 decimals depending on the target currency; defaults to false.</para>
-        <para><parameter>triangulation_precision</parameter>: number of digits (at least 3) to be rounded to after the source currency has been converted to euro; omitting this argument results in no rounding.</para>
+        <para><parameter>full_precision</parameter>: whether to provide the full precision; defaults to false</para>
+        <para><parameter>triangulation_precision</parameter>: number of digits (at least 3) to be rounded to after conversion of the source currency to euro; defaults to no rounding</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -5326,7 +5329,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para><parameter>source</parameter> and <parameter>target</parameter> must be one of the currencies listed for the EURO function. This function is not likely to be useful anymore.</para>
+        <para>If <parameter>full_precision</parameter> is true, the result is not rounded; if it false the result is rounded to 0 or 2 decimals depending on the target currency; defaults to false. <parameter>source</parameter> and <parameter>target</parameter> must be one of the currencies listed for the EURO function. This function is not likely to be useful anymore.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -6487,7 +6490,7 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>spot</parameter>: spot price</para>
-        <para><parameter>strike_call</parameter>: strike price, if exercised as a call option.</para>
+        <para><parameter>strike_call</parameter>: strike price, if exercised as a call option</para>
         <para><parameter>strike_put</parameter>: strike price, if exercised as a put option</para>
         <para><parameter>time</parameter>: time in years until the holder chooses a put or a call option</para>
         <para><parameter>time_call</parameter>: time in years to maturity of the call option if chosen</para>
@@ -6948,19 +6951,19 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>type_flag</parameter>: 'cc' for calls on calls, 'cp' for calls on puts, and so on for 'pc', and 'pp'.</para>
+        <para><parameter>type_flag</parameter>: 'cc' for calls on calls, 'cp' for calls on puts, and so on for 'pc', and 'pp'</para>
         <para><parameter>spot</parameter>: spot price</para>
         <para><parameter>strike1</parameter>: strike price at which the option being valued is struck</para>
         <para><parameter>strike2</parameter>: strike price at which the underlying option is struck</para>
         <para><parameter>time1</parameter>: time in years to maturity of the option</para>
         <para><parameter>time2</parameter>: time in years to the maturity of the underlying option</para>
         <para><parameter>rate</parameter>: annualized risk-free interest rate</para>
-        <para><parameter>cost_of_carry</parameter>: net cost of holding the underlying asset of the underlying option (for common stocks, the risk free rate less the dividend yield)</para>
+        <para><parameter>cost_of_carry</parameter>: net cost of holding the underlying asset of the underlying option</para>
         <para><parameter>volatility</parameter>: annualized volatility in price of the underlying asset of the underlying option</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para><parameter>time2</parameter> ≥ <parameter>time1</parameter></para>
+        <para>For common stocks, <parameter>cost_of_carry</parameter> is the risk free rate less the dividend yield. <parameter>time2</parameter> ≥ <parameter>time1</parameter></para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -8137,7 +8140,7 @@
           <function>GET.FORMULA</function>
         </refname>
         <refpurpose>
-        The formula in <parameter>cell</parameter> as a string.
+        the formula in <parameter>cell</parameter> as a string
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -8169,7 +8172,7 @@
           <function>GET.LINK</function>
         </refname>
         <refpurpose>
-        The target of the hyperlink attached to <parameter>cell</parameter> as a string.
+        the target of the hyperlink attached to <parameter>cell</parameter> as a string
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -8269,7 +8272,7 @@
           <function>ISBLANK</function>
         </refname>
         <refpurpose>
-        TRUE if <parameter>value</parameter> is blank.
+        TRUE if <parameter>value</parameter> is blank
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -8362,7 +8365,7 @@
           <function>ISEVEN</function>
         </refname>
         <refpurpose>
-        TRUE if <parameter>n</parameter> is even.
+        TRUE if <parameter>n</parameter> is even
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -8393,7 +8396,7 @@
           <function>ISFORMULA</function>
         </refname>
         <refpurpose>
-        TRUE if <parameter>cell</parameter> contains a formula.
+        TRUE if <parameter>cell</parameter> contains a formula
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -8424,7 +8427,7 @@
           <function>ISLOGICAL</function>
         </refname>
         <refpurpose>
-        TRUE if <parameter>value</parameter> is a logical value.
+        TRUE if <parameter>value</parameter> is a logical value
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -8454,7 +8457,7 @@
           <function>ISNA</function>
         </refname>
         <refpurpose>
-        TRUE if <parameter>value</parameter> is the #N/A error value.
+        TRUE if <parameter>value</parameter> is the #N/A error value
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -8485,7 +8488,7 @@
           <function>ISNONTEXT</function>
         </refname>
         <refpurpose>
-        TRUE if <parameter>value</parameter> is not text.
+        TRUE if <parameter>value</parameter> is not text
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -8516,7 +8519,7 @@
           <function>ISNUMBER</function>
         </refname>
         <refpurpose>
-        TRUE if <parameter>value</parameter> is a number.
+        TRUE if <parameter>value</parameter> is a number
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -8546,7 +8549,7 @@
           <function>ISODD</function>
         </refname>
         <refpurpose>
-        TRUE if <parameter>n</parameter> is odd.
+        TRUE if <parameter>n</parameter> is odd
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -8577,7 +8580,7 @@
           <function>ISREF</function>
         </refname>
         <refpurpose>
-        TRUE if <parameter>value</parameter> is a reference.
+        TRUE if <parameter>value</parameter> is a reference
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -8607,7 +8610,7 @@
           <function>ISTEXT</function>
         </refname>
         <refpurpose>
-        TRUE if <parameter>value</parameter> is text.
+        TRUE if <parameter>value</parameter> is text
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -8774,7 +8777,7 @@
           <function>FALSE</function>
         </refname>
         <refpurpose>
-        the value <function>FALSE</function>.
+        the value <function>FALSE</function>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -8806,7 +8809,7 @@
           <function>IF</function>
         </refname>
         <refpurpose>
-        conditional expression.
+        conditional expression
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -8814,9 +8817,9 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>cond</parameter>: condition.</para>
-        <para><parameter>trueval</parameter>: value to use if condition is true.</para>
-        <para><parameter>falseval</parameter>: value to use if condition is false.</para>
+        <para><parameter>cond</parameter>: condition</para>
+        <para><parameter>trueval</parameter>: value to use if condition is true</para>
+        <para><parameter>falseval</parameter>: value to use if condition is false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -8843,7 +8846,7 @@
           <function>IFERROR</function>
         </refname>
         <refpurpose>
-        Test for error.
+        test for error
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -8851,8 +8854,8 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: value to test for error.</para>
-        <para><parameter>y</parameter>: alternate value.</para>
+        <para><parameter>x</parameter>: value to test for error</para>
+        <para><parameter>y</parameter>: alternate value</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -8876,7 +8879,7 @@
           <function>IFNA</function>
         </refname>
         <refpurpose>
-        Test for #NA! error.
+        test for #NA! error
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -8884,8 +8887,8 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: value to test for #NA! error.</para>
-        <para><parameter>y</parameter>: alternate value.</para>
+        <para><parameter>x</parameter>: value to test for #NA! error</para>
+        <para><parameter>y</parameter>: alternate value</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -8993,7 +8996,7 @@
           <function>TRUE</function>
         </refname>
         <refpurpose>
-        the value <function>TRUE</function>.
+        the value <function>TRUE</function>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -9344,7 +9347,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>array</parameter>: </para>
+        <para><parameter>array</parameter>: cell or inline array</para>
         <para><parameter>row</parameter>: desired row, defaults to 1</para>
         <para><parameter>col</parameter>: desired column, defaults to 1</para>
         <para><parameter>area</parameter>: from which area to select a cell, defaults to 1</para>
@@ -9377,7 +9380,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>ref_text</parameter>: </para>
+        <para><parameter>ref_text</parameter>: textual reference</para>
         <para><parameter>format</parameter>: if true, <parameter>ref_text</parameter> is given in A1-style, otherwise it is given in R1C1 style; defaults to true</para>
       </refsect1>
       <refsect1>
@@ -9831,7 +9834,7 @@
           <function>ACOT</function>
         </refname>
         <refpurpose>
-        inverse cotangent of a value
+        inverse cotangent of <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -9859,7 +9862,7 @@
           <function>ACOTH</function>
         </refname>
         <refpurpose>
-        inverse hyperbolic cotangent of a value
+        the inverse hyperbolic cotangent of <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -9887,7 +9890,7 @@
           <function>ARABIC</function>
         </refname>
         <refpurpose>
-        The Roman numeral <parameter>roman</parameter> as number
+        the Roman numeral <parameter>roman</parameter> as number
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -10042,7 +10045,7 @@
           <function>ATAN2</function>
         </refname>
         <refpurpose>
-        arc tangent of the ratio of <parameter>y</parameter> and <parameter>x</parameter>
+        the arc tangent of the ratio of <parameter>y</parameter> and <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -10135,8 +10138,8 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>range</parameter>: cell area</para>
-        <para><parameter>criteria</parameter>:  condition for a cell to be included</para>
-        <para><parameter>actual_range</parameter>:  cell area, defaults to <parameter>range</parameter></para>
+        <para><parameter>criteria</parameter>: condition for a cell to be included</para>
+        <para><parameter>actual_range</parameter>: cell area, defaults to <parameter>range</parameter></para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -10197,7 +10200,7 @@
           <function>BETALN</function>
         </refname>
         <refpurpose>
-        Natural logarithm of the absolute value of the Euler beta function
+        natural logarithm of the absolute value of the Euler beta function
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -10354,7 +10357,7 @@
           <function>COMBIN</function>
         </refname>
         <refpurpose>
-        Binomial coefficient
+        binomial coefficient
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -10425,7 +10428,7 @@
           <function>COS</function>
         </refname>
         <refpurpose>
-        Cosine function
+        the cosine of <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -10462,7 +10465,7 @@
           <function>COSH</function>
         </refname>
         <refpurpose>
-        Hyperbolic cosine function
+        the hyperbolic cosine of <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -10497,7 +10500,7 @@
           <function>COT</function>
         </refname>
         <refpurpose>
-        cotangent of a value
+        the cotangent of <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -10525,7 +10528,7 @@
           <function>COTH</function>
         </refname>
         <refpurpose>
-        hyperbolic cotangent of a value
+        the hyperbolic cotangent of <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -10562,7 +10565,7 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>range</parameter>: cell area</para>
-        <para><parameter>criteria</parameter>:  condition for a cell to be counted</para>
+        <para><parameter>criteria</parameter>: condition for a cell to be counted</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -10586,7 +10589,7 @@
           <function>CSC</function>
         </refname>
         <refpurpose>
-        Cosecant
+        the cosecant of <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -10629,7 +10632,7 @@
           <function>CSCH</function>
         </refname>
         <refpurpose>
-        Hyperbolic cosecant
+        the hyperbolic cosecant of <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -10671,7 +10674,7 @@
           <function>DEGREES</function>
         </refname>
         <refpurpose>
-        Equivalent degrees to <parameter>x</parameter> radians.
+        equivalent degrees to <parameter>x</parameter> radians
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -10927,7 +10930,7 @@
           <function>FLOOR</function>
         </refname>
         <refpurpose>
-        nearest multiple of <parameter>significance</parameter> whose absolute value is at most ABS(<parameter>x</parameter>).
+        nearest multiple of <parameter>significance</parameter> whose absolute value is at most ABS(<parameter>x</parameter>)
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -10935,7 +10938,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: number.</para>
+        <para><parameter>x</parameter>: number</para>
         <para><parameter>significance</parameter>: base multiple (defaults to 1 for <parameter>x</parameter> &gt; 0 and -1 for <parameter>x</parameter> &lt;0)</para>
       </refsect1>
       <refsect1>
@@ -11031,7 +11034,7 @@
           <function>GAMMALN</function>
         </refname>
         <refpurpose>
-        natural logarithm of the Gamma function.
+        natural logarithm of the Gamma function
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -11130,7 +11133,7 @@
           <function>HYPOT</function>
         </refname>
         <refpurpose>
-        the square root of the sum of the squares of the arguments.
+        the square root of the sum of the squares of the arguments
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -11159,7 +11162,7 @@
           <function>INT</function>
         </refname>
         <refpurpose>
-         largest integer not larger than <parameter>x</parameter>
+        largest integer not larger than <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -11234,7 +11237,7 @@
           <function>LN</function>
         </refname>
         <refpurpose>
-        the natural logarithm of <parameter>x</parameter>.
+        the natural logarithm of <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -11312,7 +11315,7 @@
           <function>LOG</function>
         </refname>
         <refpurpose>
-        Logarithm
+        logarithm of <parameter>x</parameter> with base <parameter>base</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -11350,7 +11353,7 @@
           <function>LOG10</function>
         </refname>
         <refpurpose>
-        the base-10 logarithm of <parameter>x</parameter>.
+        the base-10 logarithm of <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -11383,7 +11386,7 @@
           <function>LOG2</function>
         </refname>
         <refpurpose>
-        the base-2 logarithm of <parameter>x</parameter>.
+        the base-2 logarithm of <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -11517,7 +11520,7 @@
           <function>MOD</function>
         </refname>
         <refpurpose>
-         the remainder of <parameter>x</parameter> under division by <parameter>n</parameter>
+        the remainder of <parameter>x</parameter> under division by <parameter>n</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -11599,7 +11602,7 @@
           <function>MULTINOMIAL</function>
         </refname>
         <refpurpose>
-        Multinomial coefficient (<parameter>x1</parameter>+⋯+<parameter>xn</parameter>) choose (<parameter>x1</parameter>,...,<parameter>xn</parameter>)
+        multinomial coefficient (<parameter>x1</parameter>+⋯+<parameter>xn</parameter>) choose (<parameter>x1</parameter>,…,<parameter>xn</parameter>)
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -11723,7 +11726,7 @@
           <function>POWER</function>
         </refname>
         <refpurpose>
-        the value of <parameter>x</parameter> raised to the power <parameter>y</parameter>.
+        the value of <parameter>x</parameter> raised to the power <parameter>y</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -11841,7 +11844,7 @@
           <function>RADIANS</function>
         </refname>
         <refpurpose>
-        the number of radians equivalent to <parameter>x</parameter> degrees.
+        the number of radians equivalent to <parameter>x</parameter> degrees
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -11943,7 +11946,7 @@
         <refname>
           <function>ROUNDDOWN</function>
         </refname>
-        <refpurpose><parameter>x</parameter> rounded towards 0.
+        <refpurpose><parameter>x</parameter> rounded towards 0
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -11981,7 +11984,7 @@
         <refname>
           <function>ROUNDUP</function>
         </refname>
-        <refpurpose><parameter>x</parameter> rounded away from 0.
+        <refpurpose><parameter>x</parameter> rounded away from 0
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -12064,7 +12067,7 @@
           <function>SECH</function>
         </refname>
         <refpurpose>
-        Hyperbolic secant
+        the hyperbolic secant of <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -12176,7 +12179,7 @@
           <function>SIN</function>
         </refname>
         <refpurpose>
-        Sine function
+        the sine of <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -12397,8 +12400,8 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>range</parameter>: cell area</para>
-        <para><parameter>criteria</parameter>:  condition for a cell to be summed</para>
-        <para><parameter>actual_range</parameter>:  cell area, defaults to <parameter>range</parameter></para>
+        <para><parameter>criteria</parameter>: condition for a cell to be summed</para>
+        <para><parameter>actual_range</parameter>: cell area, defaults to <parameter>range</parameter></para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -12422,7 +12425,7 @@
           <function>SUMPRODUCT</function>
         </refname>
         <refpurpose>
-        Multiplies components and adds the results.
+        multiplies components and adds the results
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -12488,7 +12491,7 @@
           <function>SUMX2MY2</function>
         </refname>
         <refpurpose>
-         sum of the difference of squares
+        sum of the difference of squares
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -12525,7 +12528,7 @@
           <function>SUMX2PY2</function>
         </refname>
         <refpurpose>
-         sum of the sum of squares
+        sum of the sum of squares
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -12567,7 +12570,7 @@
           <function>SUMXMY2</function>
         </refname>
         <refpurpose>
-         sum of the squares of differences
+        sum of the squares of differences
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -12610,7 +12613,7 @@
           <function>TAN</function>
         </refname>
         <refpurpose>
-        tangent
+        the tangent of <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -12647,7 +12650,7 @@
           <function>TANH</function>
         </refname>
         <refpurpose>
-        hyperbolic tangent
+        the hyperbolic tangent of <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -12988,7 +12991,7 @@
           <function>RAND</function>
         </refname>
         <refpurpose>
-        a random number between zero and one.
+        a random number between zero and one
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -13700,7 +13703,7 @@
           <function>RANDNORMTAIL</function>
         </refname>
         <refpurpose>
-        a random variates from the upper tail of a normal distribution with mean 0
+        random variate from the upper tail of a normal distribution with mean 0
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -13856,7 +13859,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>a</parameter>:  amount of skew, defaults to 0</para>
+        <para><parameter>a</parameter>: amount of skew, defaults to 0</para>
         <para>@{μ}: mean of the underlying normal distribution, defaults to 0</para>
         <para>@{σ}: standard deviation of the underlying normal distribution, defaults to 1</para>
       </refsect1>
@@ -13890,7 +13893,7 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>df</parameter>: degrees of freedom</para>
-        <para><parameter>a</parameter>:  amount of skew, defaults to 0</para>
+        <para><parameter>a</parameter>: amount of skew, defaults to 0</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -13997,7 +14000,7 @@
           <function>SIMTABLE</function>
         </refname>
         <refpurpose>
-        one of the values in the given argument list depending on the round number of the simulation tool.
+        one of the values in the given argument list depending on the round number of the simulation tool
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -14176,7 +14179,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>k</parameter>: </para>
+        <para><parameter>k</parameter>: integer</para>
         <para><parameter>p</parameter>: probability of success</para>
       </refsect1>
       <refsect1>
@@ -14208,7 +14211,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: </para>
+        <para><parameter>x</parameter>: number</para>
         <para><parameter>alpha</parameter>: scale parameter</para>
         <para><parameter>beta</parameter>: scale parameter</para>
         <para><parameter>a</parameter>: optional lower bound, defaults to 0</para>
@@ -14289,7 +14292,7 @@
         <para><parameter>trials</parameter>: number of trials</para>
         <para><parameter>p</parameter>: probability of success in each trial</para>
         <para><parameter>start</parameter>: start of the interval</para>
-        <para><parameter>end</parameter>: start of the interval, defaults to <parameter>start</parameter></para>
+        <para><parameter>end</parameter>: end of the interval, defaults to <parameter>start</parameter></para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -14297,7 +14300,7 @@
       </refsect1>
       <refsect1>
         <title>OpenDocument Format (ODF) Compatibility</title>
-        <para>This function is the OpenFormula function B</para>
+        <para>This function is OpenFormula compatible.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -14317,7 +14320,7 @@
           <function>BINOMDIST</function>
         </refname>
         <refpurpose>
-        (cumulative) probability mass function of the binomial distribution
+        probability mass of cumulative distribution function of the binomial distribution
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -14355,7 +14358,7 @@
           <function>CAUCHY</function>
         </refname>
         <refpurpose>
-        (cumulative) probability density function of the Cauchy, Lorentz or Breit-Wigner distribution
+        probability density or cumulative distribution function of the Cauchy, Lorentz or Breit-Wigner distribution
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -14363,7 +14366,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: </para>
+        <para><parameter>x</parameter>: number</para>
         <para><parameter>a</parameter>: scale parameter</para>
         <para><parameter>cumulative</parameter>: whether to evaluate the density function or the cumulative distribution function</para>
       </refsect1>
@@ -14396,7 +14399,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: </para>
+        <para><parameter>x</parameter>: number</para>
         <para><parameter>dof</parameter>: number of degrees of freedom</para>
       </refsect1>
       <refsect1>
@@ -14766,7 +14769,7 @@
           <function>CVMTEST</function>
         </refname>
         <refpurpose>
-         Cramér-von Mises Test of Normality
+        Cramér-von Mises Test of Normality
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -14840,7 +14843,7 @@
           <function>EXPONDIST</function>
         </refname>
         <refpurpose>
-        (cumulative)density function of the exponential distribution
+        porbaility density or cumulative distribution function of the exponential distribution
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -14848,7 +14851,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: </para>
+        <para><parameter>x</parameter>: number</para>
         <para><parameter>y</parameter>: scale parameter</para>
         <para><parameter>cumulative</parameter>: whether to evaluate the density function or the cumulative distribution function</para>
       </refsect1>
@@ -14881,7 +14884,7 @@
           <function>EXPPOWDIST</function>
         </refname>
         <refpurpose>
-         the probability density function of the Exponential Power distribution
+        the probability density function of the Exponential Power distribution
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -14889,7 +14892,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: </para>
+        <para><parameter>x</parameter>: number</para>
         <para><parameter>a</parameter>: scale parameter</para>
         <para><parameter>b</parameter>: scale parameter</para>
       </refsect1>
@@ -14922,7 +14925,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: </para>
+        <para><parameter>x</parameter>: number</para>
         <para><parameter>dof_of_num</parameter>: numerator degrees of freedom</para>
         <para><parameter>dof_of_denom</parameter>: denominator degrees of freedom</para>
       </refsect1>
@@ -15012,7 +15015,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: </para>
+        <para><parameter>x</parameter>: number</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -15048,7 +15051,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: </para>
+        <para><parameter>x</parameter>: number</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -15080,13 +15083,13 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>FORECAST</function>(<parameter>x</parameter>,<parameter>known_y</parameter>'s,<parameter>known_x</parameter>'s)</synopsis>
+        <synopsis><function>FORECAST</function>(<parameter>x</parameter>,<parameter>known_ys</parameter>,<parameter>known_xs</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
         <para><parameter>x</parameter>: x-value whose matching y-value should be forecast</para>
-        <para>@{known_y's}: known y-values</para>
-        <para>@{known_x's}: known x-values</para>
+        <para><parameter>known_ys</parameter>: known y-values</para>
+        <para><parameter>known_xs</parameter>: known x-values</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -15094,7 +15097,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>known_x</parameter> or <parameter>known_y</parameter> contains no data entries or different number of data entries, this function returns a #N/A error. If the variance of the <parameter>known_x</parameter> is zero, this function returns a #DIV/0 error.</para>
+        <para>If <parameter>known_xs</parameter> or <parameter>known_ys</parameter> contains no data entries or different number of data entries, this function returns a #N/A error. If the variance of the <parameter>known_xs</parameter> is zero, this function returns a #DIV/0 error.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -15118,7 +15121,7 @@
           <function>FREQUENCY</function>
         </refname>
         <refpurpose>
-        the frequency table
+        frequency table
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -15183,7 +15186,7 @@
           <function>GAMMADIST</function>
         </refname>
         <refpurpose>
-        (cumulative) density function of the gamma distribution
+        probability density or cumulative distribution function of the gamma distribution
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -15191,7 +15194,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: </para>
+        <para><parameter>x</parameter>: number</para>
         <para><parameter>alpha</parameter>: scale parameter</para>
         <para><parameter>beta</parameter>: scale parameter</para>
         <para><parameter>cumulative</parameter>: whether to evaluate the density function or the cumulative distribution function</para>
@@ -15258,7 +15261,7 @@
           <function>GEOMDIST</function>
         </refname>
         <refpurpose>
-        (cumulative) probability mass function of the hypergeometric distribution
+        probability mass or cumulative distribution function of the hypergeometric distribution
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -15331,27 +15334,27 @@
           <function>GROWTH</function>
         </refname>
         <refpurpose>
-         predicts the exponential growth
+        exponential growth prediction
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>GROWTH</function>(<parameter>known_y</parameter>'s,<parameter>known_x</parameter>'s,<parameter>new_x</parameter>'s,<parameter>const</parameter>)</synopsis>
+        <synopsis><function>GROWTH</function>(<parameter>known_ys</parameter>,<parameter>known_xs</parameter>,<parameter>new_xs</parameter>,<parameter>affine</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para>@{known_y's}: known y-values</para>
-        <para>@{known_x's}: known x-values; if <parameter>known_x</parameter>'s is omitted, an array {1, 2, 3, ...} is used.</para>
-        <para>@{new_x's}: x-values for which you want to estimate the y-values; defaults to <parameter>known_x</parameter>'s</para>
-        <para><parameter>const</parameter>: if this is false the line will be forced to go through the origin; defaults to TRUE</para>
+        <para><parameter>known_ys</parameter>: known y-values</para>
+        <para><parameter>known_xs</parameter>: known x-values; defaults to the array {1, 2, 3, …}</para>
+        <para><parameter>new_xs</parameter>: x-values for which to estimate the y-values; defaults to <parameter>known_xs</parameter></para>
+        <para><parameter>affine</parameter>: if true, the model contains a constant term, defaults to true</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><function>GROWTH</function> function applies the ``least squares'' method to fit an exponential curve to your data and predicts the exponential growth by using this curve.</para>
-        <para><function>GROWTH</function> returns an array having one column and a row for each data point in <parameter>new_x</parameter>.</para>
+        <para><function>GROWTH</function> function applies the “least squares” method to fit an exponential curve to your data and predicts the exponential growth by using this curve.</para>
+        <para><function>GROWTH</function> returns an array having one column and a row for each data point in <parameter>new_xs</parameter>.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>known_y</parameter>'s and <parameter>known_x</parameter>'s have unequal number of data points, this function returns a #NUM! error.</para>
+        <para>If <parameter>known_ys</parameter> and <parameter>known_xs</parameter> have unequal number of data points, this function returns a #NUM! error.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -15412,7 +15415,7 @@
           <function>HYPGEOMDIST</function>
         </refname>
         <refpurpose>
-        (cumulative) probability mass function of the hypergeometric distribution
+        probability mass or cumulative distribution function of the hypergeometric distribution
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -15456,16 +15459,16 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>INTERCEPT</function>(<parameter>known_y</parameter>'s,<parameter>known_x</parameter>'s)</synopsis>
+        <synopsis><function>INTERCEPT</function>(<parameter>known_ys</parameter>,<parameter>known_xs</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para>@{known_y's}: known y-values</para>
-        <para>@{known_x's}: known x-values</para>
+        <para><parameter>known_ys</parameter>: known y-values</para>
+        <para><parameter>known_xs</parameter>: known x-values</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>known_x</parameter> or <parameter>known_y</parameter> contains no data entries or different number of data entries, this function returns a #N/A error. If the variance of the <parameter>known_x</parameter> is zero, this function returns #DIV/0 error.</para>
+        <para>If <parameter>known_xs</parameter> or <parameter>known_ys</parameter> contains no data entries or different number of data entries, this function returns a #N/A error. If the variance of the <parameter>known_xs</parameter> is zero, this function returns #DIV/0 error.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -15489,7 +15492,7 @@
           <function>KURT</function>
         </refname>
         <refpurpose>
-        unbiased estimate of the kurtosis of a data set.
+        unbiased estimate of the kurtosis of a data set
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -15579,7 +15582,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: </para>
+        <para><parameter>x</parameter>: number</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -15606,7 +15609,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: </para>
+        <para><parameter>x</parameter>: number</para>
         <para><parameter>a</parameter>: mean</para>
       </refsect1>
       <refsect1>
@@ -15664,28 +15667,28 @@
           <function>LINEST</function>
         </refname>
         <refpurpose>
-        determines multiple linear regression coefficients and statistics.
+        multiple linear regression coefficients and statistics
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>LINEST</function>(<parameter>known_y</parameter>'s,<parameter>known_x</parameter>'s,<parameter>affine</parameter>,<parameter>stats</parameter>)</synopsis>
+        <synopsis><function>LINEST</function>(<parameter>known_ys</parameter>,<parameter>known_xs</parameter>,<parameter>affine</parameter>,<parameter>stats</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para>@{known_y's}: vector of values of dependent variable.</para>
-        <para>@{known_x's}: array of values of independent variables, defaults to a single vector 1,...,n.</para>
-        <para><parameter>affine</parameter>: if true, the model contains a constant term, defaults to true.</para>
+        <para><parameter>known_ys</parameter>: vector of values of dependent variable</para>
+        <para><parameter>known_xs</parameter>: array of values of independent variables, defaults to a single vector {1,…,n}</para>
+        <para><parameter>affine</parameter>: if true, the model contains a constant term, defaults to true</para>
         <para><parameter>stats</parameter>: if true, some additional statistics are provided, defaults to false</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para>This function returns an array with the first row giving the regression coefficients for the independent variables x_m, x_(m-1),...,x_2, x_1 followed by the y-intercept if <parameter>affine</parameter> is true.</para>
+        <para>This function returns an array with the first row giving the regression coefficients for the independent variables x_m, x_(m-1),…,x_2, x_1 followed by the y-intercept if <parameter>affine</parameter> is true.</para>
         <para>If <parameter>stats</parameter> is true, the second row contains the corresponding standard errors of the regression coefficients.In this case, the third row contains the R^2 value and the standard error for the predicted value. The fourth row contains the observed F value and its degrees of freedom. Finally, the fifth row contains the regression sum of squares and the residual sum of squares.</para>
         <para>If <parameter>affine</parameter> is false, R^2 is the uncentered version of the coefficient of determination; that is the proportion of the sum of squares explained by the model.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If the length of @{known_y's} does not match the corresponding length of @{known_x's}, this function returns a #NUM! error.</para>
+        <para>If the length of <parameter>known_ys</parameter> does not match the corresponding length of <parameter>known_xs</parameter>, this function returns a #NUM! error.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -15747,23 +15750,23 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>LOGEST</function>(<parameter>known_y</parameter>'s,<parameter>known_x</parameter>'s,<parameter>const</parameter>,<parameter>stat</parameter>)</synopsis>
+        <synopsis><function>LOGEST</function>(<parameter>known_ys</parameter>,<parameter>known_xs</parameter>,<parameter>affine</parameter>,<parameter>stat</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para>@{known_y's}: known y-values</para>
-        <para>@{known_x's}: known x-values; if <parameter>known_x</parameter>'s is omitted, an array {1, 2, 3, ...} is used.</para>
-        <para><parameter>const</parameter>: if this is false the line will be forced to go through (0,1); defaults to TRUE</para>
-        <para><parameter>stat</parameter>: If <parameter>stat</parameter> is TRUE, extra statistical information will be returned; defaults to FALSE.</para>
+        <para><parameter>known_ys</parameter>: known y-values</para>
+        <para><parameter>known_xs</parameter>: known x-values; default to an array {1, 2, 3, …}</para>
+        <para><parameter>affine</parameter>: if true, the model contains a constant term, defaults to true</para>
+        <para><parameter>stat</parameter>: if true, extra statistical information will be returned; defaults to FALSE</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><function>LOGEST</function> function applies the ``least squares'' method to fit an exponential curve of the form	y = b * m{1}^x{1} * m{2}^x{2}... to your data.</para>
+        <para><function>LOGEST</function> function applies the “least squares” method to fit an exponential curve of the form	y = b * m{1}^x{1} * m{2}^x{2}... to your data.</para>
         <para><function>LOGEST</function> returns an array { m{n},m{n-1}, ...,m{1},b }.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>Extra statistical information is written below the regression line coefficients in the result array.  Extra statistical information consists of four rows of data.  In the first row the standard error values for the coefficients m1, (m2, ...), b are represented.  The second row contains the square of R and the standard error for the y estimate.  The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares. If <parameter>known_y</parameter>'s and <parameter>known_x</parameter>'s have unequal number of data points, this function returns a #NUM! error.</para>
+        <para>Extra statistical information is written below the regression line coefficients in the result array.  Extra statistical information consists of four rows of data.  In the first row the standard error values for the coefficients m1, (m2, ...), b are represented.  The second row contains the square of R and the standard error for the y estimate.  The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares. If <parameter>known_ys</parameter> and <parameter>known_xs</parameter> have unequal number of data points, this function returns a #NUM! error.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -15787,16 +15790,16 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>LOGFIT</function>(<parameter>known_y</parameter>'s,<parameter>known_x</parameter>'s)</synopsis>
+        <synopsis><function>LOGFIT</function>(<parameter>known_ys</parameter>,<parameter>known_xs</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para>@{known_y's}: known y-values</para>
-        <para>@{known_x's}: known x-values</para>
+        <para><parameter>known_ys</parameter>: known y-values</para>
+        <para><parameter>known_xs</parameter>: known x-values</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><function>LOGFIT</function> function applies the ``least squares'' method to fit the logarithmic equation y = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 to your data. The graph of the equation is a logarithmic curve moved horizontally by c and possibly mirrored across the y-axis (if sign = -1).</para>
+        <para><function>LOGFIT</function> function applies the “least squares” method to fit the logarithmic equation y = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 to your data. The graph of the equation is a logarithmic curve moved horizontally by c and possibly mirrored across the y-axis (if sign = -1).</para>
         <para><function>LOGFIT</function> returns an array having five columns and one row. `Sign' is given in the first column, `a', `b', and `c' are given in columns 2 to 4. Column 5 holds the sum of squared residuals.</para>
       </refsect1>
       <refsect1>
@@ -15871,7 +15874,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: </para>
+        <para><parameter>x</parameter>: number</para>
         <para><parameter>a</parameter>: scale parameter</para>
       </refsect1>
       <refsect1>
@@ -15899,7 +15902,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: </para>
+        <para><parameter>x</parameter>: number</para>
         <para><parameter>mean</parameter>: mean</para>
         <para><parameter>stddev</parameter>: standard deviation</para>
       </refsect1>
@@ -15932,23 +15935,23 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>LOGREG</function>(<parameter>known_y</parameter>'s,<parameter>known_x</parameter>'s,<parameter>const</parameter>,<parameter>stat</parameter>)</synopsis>
+        <synopsis><function>LOGREG</function>(<parameter>known_ys</parameter>,<parameter>known_xs</parameter>,<parameter>affine</parameter>,<parameter>stat</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para>@{known_y's}: known y-values</para>
-        <para>@{known_x's}: known x-values; if <parameter>known_x</parameter>'s is omitted, an array {1, 2, 3, ...} is used.</para>
-        <para><parameter>const</parameter>: If this is FALSE, the curve will be forced to go through [1; 0], i.e., b will be zero. The default is TRUE.</para>
-        <para><parameter>stat</parameter>: If <parameter>stat</parameter> is TRUE, extra statistical information will be returned; defaults to FALSE.</para>
+        <para><parameter>known_ys</parameter>: known y-values</para>
+        <para><parameter>known_xs</parameter>: known x-values; defaults to the array {1, 2, 3, …}</para>
+        <para><parameter>affine</parameter>: if true, the model contains a constant term, defaults to true</para>
+        <para><parameter>stat</parameter>: if true, extra statistical information will be returned; defaults to FALSE</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><function>LOGREG</function> function transforms your x's to z=ln(x) and applies the ``least squares'' method to fit the linear equation y = m * z + b to your y's and z's --- equivalent to fitting the equation y = m * ln(x) + b to y's and x's. <function>LOGREG</function> returns an array having two columns and one row. m is given in the first column and b in the second. </para>
+        <para><function>LOGREG</function> function transforms your x's to z=ln(x) and applies the “least squares” method to fit the linear equation y = m * z + b to your y's and z's --- equivalent to fitting the equation y = m * ln(x) + b to y's and x's. <function>LOGREG</function> returns an array having two columns and one row. m is given in the first column and b in the second. </para>
         <para>Any extra statistical information is written below m and b in the result array.  This extra statistical information consists of four rows of data:  In the first row the standard error values for the coefficients m, b are given.  The second row contains the square of R and the standard error for the y estimate. The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares.The default of <parameter>stat</parameter> is FALSE.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>known_y</parameter>'s and <parameter>known_x</parameter>'s have unequal number of data points, this function returns a #NUM! error.</para>
+        <para>If <parameter>known_ys</parameter> and <parameter>known_xs</parameter> have unequal number of data points, this function returns a #NUM! error.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -15969,7 +15972,7 @@
           <function>MAX</function>
         </refname>
         <refpurpose>
-        largest value, with negative numbers considered smaller than positive numbers.
+        largest value, with negative numbers considered smaller than positive numbers
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -16002,7 +16005,7 @@
           <function>MAXA</function>
         </refname>
         <refpurpose>
-        largest value, with negative numbers considered smaller than positive numbers.
+        largest value, with negative numbers considered smaller than positive numbers
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -16234,7 +16237,7 @@
           <function>NORMDIST</function>
         </refname>
         <refpurpose>
-        (cumulative) probability density function of a normal distribution
+        probability density or cumulative distribution function of a normal distribution
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -16242,7 +16245,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: </para>
+        <para><parameter>x</parameter>: number</para>
         <para><parameter>mean</parameter>: mean of the distribution</para>
         <para><parameter>stddev</parameter>: standard deviation of the distribution</para>
         <para><parameter>cumulative</parameter>: whether to evaluate the density function or the cumulative distribution function</para>
@@ -16321,7 +16324,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: </para>
+        <para><parameter>x</parameter>: number</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -16399,7 +16402,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: </para>
+        <para><parameter>x</parameter>: number</para>
         <para><parameter>a</parameter>: exponent</para>
         <para><parameter>b</parameter>: scale parameter</para>
       </refsect1>
@@ -16496,7 +16499,7 @@
           <function>PERCENTRANK</function>
         </refname>
         <refpurpose>
-        rank of a data point in a data set.
+        rank of a data point in a data set
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -16571,7 +16574,7 @@
           <function>PERMUTATIONA</function>
         </refname>
         <refpurpose>
-        the number of permutations of <parameter>y</parameter> objects chosen from <parameter>x</parameter> objects with repetition allowed.
+        the number of permutations of <parameter>y</parameter> objects chosen from <parameter>x</parameter> objects with repetition allowed
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -16607,7 +16610,7 @@
           <function>POISSON</function>
         </refname>
         <refpurpose>
-        (cumulative) probability mass function of the Poisson distribution
+        probability mass or cumulative distribution function of the Poisson distribution
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -16693,11 +16696,11 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>array</parameter>: data points</para>
-        <para><parameter>quart</parameter>: A number from 0 to 4, indicating which quartile to calculate. A value of 0 causes the smallest value of <parameter>array</parameter> to be returned.</para>
+        <para><parameter>quart</parameter>: a number from 0 to 4, indicating which quartile to calculate</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>array</parameter> is empty, this function returns a #NUM! error. If <parameter>quart</parameter> &lt; 0 or <parameter>quart</parameter> &gt; 4, this function returns a #NUM! error. If <parameter>quart</parameter> is not an integer, it is truncated.</para>
+        <para>If <parameter>array</parameter> is empty, this function returns a #NUM! error. If <parameter>quart</parameter> &lt; 0 or <parameter>quart</parameter> &gt; 4, this function returns a #NUM! error. If <parameter>quart</parameter> = 0, the smallest value of <parameter>array</parameter> to be returned. If <parameter>quart</parameter> is not an integer, it is truncated.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -18440,7 +18443,7 @@
         <title>Arguments</title>
         <para><parameter>x</parameter>: number whose rank you want to find</para>
         <para><parameter>ref</parameter>: list of numbers</para>
-        <para><parameter>order</parameter>: If this is 0, numbers are ranked in descending order, otherwise numbers are ranked in ascending order. Defaults to 0.</para>
+        <para><parameter>order</parameter>: 0 (descending order) or non-zero (ascending order); defaults to 0</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -18478,7 +18481,7 @@
         <title>Arguments</title>
         <para><parameter>x</parameter>: number whose rank you want to find</para>
         <para><parameter>ref</parameter>: list of numbers</para>
-        <para><parameter>order</parameter>: If this is 0, numbers are ranked in descending order, otherwise numbers are ranked in ascending order. Defaults to 0.</para>
+        <para><parameter>order</parameter>: 0 (descending order) or non-zero (ascending order); defaults to 0</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -18514,7 +18517,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: </para>
+        <para><parameter>x</parameter>: number</para>
         <para><parameter>sigma</parameter>: scale parameter</para>
       </refsect1>
       <refsect1>
@@ -18542,7 +18545,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: </para>
+        <para><parameter>x</parameter>: number</para>
         <para><parameter>a</parameter>: lower limit</para>
         <para><parameter>sigma</parameter>: scale parameter</para>
       </refsect1>
@@ -18731,16 +18734,16 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>SLOPE</function>(<parameter>known_y</parameter>'s,<parameter>known_x</parameter>'s)</synopsis>
+        <synopsis><function>SLOPE</function>(<parameter>known_ys</parameter>,<parameter>known_xs</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para>@{known_y's}: known y-values</para>
-        <para>@{known_x's}: known x-values</para>
+        <para><parameter>known_ys</parameter>: known y-values</para>
+        <para><parameter>known_xs</parameter>: known x-values</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>known_x</parameter> or <parameter>known_y</parameter> contains no data entries or different number of data entries, this function returns a #N/A error. If the variance of the <parameter>known_x</parameter> is zero, this function returns #DIV/0 error.</para>
+        <para>If <parameter>known_xs</parameter> or <parameter>known_ys</parameter> contains no data entries or different number of data entries, this function returns a #N/A error. If the variance of the <parameter>known_xs</parameter> is zero, this function returns #DIV/0 error.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -18763,7 +18766,7 @@
         <refname>
           <function>SMALL</function>
         </refname>
-        <refpurpose><parameter>k</parameter>-th smallest value in a data set.
+        <refpurpose><parameter>k</parameter>-th smallest value in a data set
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -18917,7 +18920,7 @@
           <function>STDEVA</function>
         </refname>
         <refpurpose>
-        sample standard deviation of the given sample.
+        sample standard deviation of the given sample
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -18994,7 +18997,7 @@
           <function>STDEVPA</function>
         </refname>
         <refpurpose>
-        population standard deviation of an entire population.
+        population standard deviation of an entire population
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -19036,16 +19039,16 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>STEYX</function>(<parameter>known_y</parameter>'s,<parameter>known_x</parameter>'s)</synopsis>
+        <synopsis><function>STEYX</function>(<parameter>known_ys</parameter>,<parameter>known_xs</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para>@{known_y's}: known y-values</para>
-        <para>@{known_x's}: known x-values</para>
+        <para><parameter>known_ys</parameter>: known y-values</para>
+        <para><parameter>known_xs</parameter>: known x-values</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>known_y</parameter>'s and <parameter>known_x</parameter>'s are empty or have a different number of arguments then this function returns a #N/A error.</para>
+        <para>If <parameter>known_ys</parameter> and <parameter>known_xs</parameter> are empty or have a different number of arguments then this function returns a #N/A error.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -19123,9 +19126,9 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: </para>
+        <para><parameter>x</parameter>: number</para>
         <para><parameter>dof</parameter>: number of degrees of freedom</para>
-        <para><parameter>tails</parameter>: 1 or 2.</para>
+        <para><parameter>tails</parameter>: 1 or 2</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -19199,18 +19202,18 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>TREND</function>(<parameter>known_y</parameter>'s,<parameter>known_x</parameter>'s,<parameter>new_x</parameter>'s,<parameter>const</parameter>)</synopsis>
+        <synopsis><function>TREND</function>(<parameter>known_ys</parameter>,<parameter>known_xs</parameter>,<parameter>new_xs</parameter>,<parameter>affine</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para>@{known_y's}: known y-values</para>
-        <para>@{known_x's}: known x-values; if <parameter>known_x</parameter>'s is omitted, an array {1, 2, 3, ...} is used.</para>
-        <para>@{new_x's}:  x-values for which you want to estimate the y-values; defaults to <parameter>known_x</parameter>'s</para>
-        <para><parameter>const</parameter>: if this is false the line will be forced to go through the origin; defaults to TRUE</para>
+        <para><parameter>known_ys</parameter>: known y-values</para>
+        <para><parameter>known_xs</parameter>: known x-values; defaults to the array {1, 2, 3, …}</para>
+        <para><parameter>new_xs</parameter>: x-values for which to estimate the y-values; defaults to <parameter>known_xs</parameter></para>
+        <para><parameter>affine</parameter>: if true, the model contains a constant term, defaults to true</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If @{known_y's} and @{known_x's} have unequal number of data points, this function returns a #NUM! error.</para>
+        <para>If <parameter>known_ys</parameter> and <parameter>known_xs</parameter> have unequal number of data points, this function returns a #NUM! error.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -19467,7 +19470,7 @@
           <function>WEIBULL</function>
         </refname>
         <refpurpose>
-        (cumulative) probability density function of the Weibull distribution
+        probability density or cumulative distribution function of the Weibull distribution
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -19475,7 +19478,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: </para>
+        <para><parameter>x</parameter>: number</para>
         <para><parameter>alpha</parameter>: scale parameter</para>
         <para><parameter>beta</parameter>: scale parameter</para>
         <para><parameter>cumulative</parameter>: whether to evaluate the density function or the cumulative distribution function</para>
@@ -19562,7 +19565,7 @@
           <function>ASC</function>
         </refname>
         <refpurpose>
-        text with full-width katakana and ASCII characters converted to half-width.
+        text with full-width katakana and ASCII characters converted to half-width
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -19606,7 +19609,7 @@
           <function>CHAR</function>
         </refname>
         <refpurpose>
-        the CP1252 (Windows-1252) character for the code point <parameter>x</parameter>.
+        the CP1252 (Windows-1252) character for the code point <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -19712,7 +19715,7 @@
           <function>CONCATENATE</function>
         </refname>
         <refpurpose>
-        the concatenation of the strings <parameter>s1</parameter>, <parameter>s2</parameter>,...
+        the concatenation of the strings <parameter>s1</parameter>, <parameter>s2</parameter>,…
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -19745,7 +19748,7 @@
         <refname>
           <function>DOLLAR</function>
         </refname>
-        <refpurpose><parameter>num</parameter> formatted as currency.
+        <refpurpose><parameter>num</parameter> formatted as currency
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -19936,7 +19939,7 @@
           <function>JIS</function>
         </refname>
         <refpurpose>
-        text with half-width katakana and ASCII characters converted to full-width.
+        text with half-width katakana and ASCII characters converted to full-width
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -20137,7 +20140,7 @@
           <function>LOWER</function>
         </refname>
         <refpurpose>
-        a lower-case version of the string <parameter>text</parameter>.
+        a lower-case version of the string <parameter>text</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -20293,7 +20296,7 @@
         <refname>
           <function>PROPER</function>
         </refname>
-        <refpurpose><parameter>text</parameter> with initial of each word capitalised.
+        <refpurpose><parameter>text</parameter> with initial of each word capitalised
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -20325,7 +20328,7 @@
           <function>REPLACE</function>
         </refname>
         <refpurpose>
-        String <parameter>old</parameter> with <parameter>num</parameter> characters starting at <parameter>start</parameter> replaced by <parameter>new</parameter>
+        string <parameter>old</parameter> with <parameter>num</parameter> characters starting at <parameter>start</parameter> replaced by <parameter>new</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -20720,7 +20723,7 @@
         <refname>
           <function>TRIM</function>
         </refname>
-        <refpurpose><parameter>text</parameter> with only single spaces between words.
+        <refpurpose><parameter>text</parameter> with only single spaces between words
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -20754,7 +20757,7 @@
           <function>UNICHAR</function>
         </refname>
         <refpurpose>
-        the Unicode character represented by the Unicode code point <parameter>x</parameter>.
+        the Unicode character represented by the Unicode code point <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -20812,7 +20815,7 @@
           <function>UPPER</function>
         </refname>
         <refpurpose>
-        an upper-case version of the string <parameter>text</parameter>.
+        an upper-case version of the string <parameter>text</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -20879,7 +20882,7 @@
           <function>FOURIER</function>
         </refname>
         <refpurpose>
-        Fourier or inverse Fourier transform.
+        Fourier or inverse Fourier transform
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -20887,7 +20890,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>Sequence</parameter>:  the data sequence to be transformed</para>
+        <para><parameter>Sequence</parameter>: the data sequence to be transformed</para>
         <para><parameter>Inverse</parameter>: if false, the inverse Fourier transform is calculated. Defaults to false</para>
       </refsect1>
       <refsect1>
@@ -20911,18 +20914,18 @@
           <function>INTERPOLATION</function>
         </refname>
         <refpurpose>
-        interpolated values corresponding to the given abscissa targets.
+        interpolated values corresponding to the given abscissa targets
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>INTERPOLATION</function>(<parameter>abscissas</parameter>,<parameter>ordinates</parameter>,<parameter>targets</parameter>,<parameter>interpolation</parameter>)</synopsis>
+        <synopsis><function>INTERPOLATION</function>(<parameter>abscissae</parameter>,<parameter>ordinates</parameter>,<parameter>targets</parameter>,<parameter>interpolation</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>abscissas</parameter>: The abscissas of the data to interpolate.</para>
-        <para><parameter>ordinates</parameter>: The ordinates of the data to interpolate.</para>
-        <para><parameter>targets</parameter>: The abscissas of the interpolated data.</para>
-        <para><parameter>interpolation</parameter>: The method of interpolation to be used, defaults to no interpolation</para>
+        <para><parameter>abscissae</parameter>: abscissae of the given data points</para>
+        <para><parameter>ordinates</parameter>: ordinates of the given data points</para>
+        <para><parameter>targets</parameter>: abscissae of the interpolated data</para>
+        <para><parameter>interpolation</parameter>: method of interpolation, defaults to none</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -20938,7 +20941,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>Strings and empty cells in <parameter>abscissas</parameter> and <parameter>ordinates</parameter> are ignored. If several target data are provided they must be in the same column in consecutive cells.</para>
+        <para>Strings and empty cells in <parameter>abscissae</parameter> and <parameter>ordinates</parameter> are ignored. If several target data are provided they must be in the same column in consecutive cells.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -20957,19 +20960,19 @@
           <function>PERIODOGRAM</function>
         </refname>
         <refpurpose>
-         Periodogram of the given data.
+        periodogram of the given data
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>PERIODOGRAM</function>(<parameter>ordinates</parameter>,<parameter>filter</parameter>,<parameter>abscissas</parameter>,<parameter>interpolation</parameter>,<parameter>number</parameter>)</synopsis>
+        <synopsis><function>PERIODOGRAM</function>(<parameter>ordinates</parameter>,<parameter>filter</parameter>,<parameter>abscissae</parameter>,<parameter>interpolation</parameter>,<parameter>number</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>ordinates</parameter>: The ordinates of the data to interpolate.</para>
-        <para><parameter>filter</parameter>: Window function to  be used, defaults to no window function.</para>
-        <para><parameter>abscissas</parameter>: The abscissas of the data to interpolate, defaults to regularly spaced abscissa.</para>
-        <para><parameter>interpolation</parameter>: The method of interpolation to be used, defaults to no interpolation</para>
-        <para><parameter>number</parameter>:  Number of interpolated data points to be used.</para>
+        <para><parameter>ordinates</parameter>: ordinates of the given data</para>
+        <para><parameter>filter</parameter>: windowing function to  be used, defaults to no filter</para>
+        <para><parameter>abscissae</parameter>: abscissae of the given data, defaults to regularly spaced abscissae</para>
+        <para><parameter>interpolation</parameter>: method of interpolation, defaults to none</para>
+        <para><parameter>number</parameter>: number of interpolated data points</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -20990,7 +20993,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>Strings and empty cells in <parameter>abscissas</parameter> and <parameter>ordinates</parameter> are ignored. If several target data are provided they must be in the same column in consecutive cells.</para>
+        <para>Strings and empty cells in <parameter>abscissae</parameter> and <parameter>ordinates</parameter> are ignored. If several target data are provided they must be in the same column in consecutive cells.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>

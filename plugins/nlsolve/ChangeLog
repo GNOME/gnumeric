@@ -1,3 +1,7 @@
+2010-06-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.6
+
 2010-06-01  Morten Welinder  <terra@gnome.org>
 
 	* gnm-nlsolve.c (rosenbrock_iter): Only allow first newton

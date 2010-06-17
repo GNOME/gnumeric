@@ -1,3 +1,7 @@
+2010-06-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.6
+
 2010-06-16 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/func.h (gnm_func_convert_markup_to_pango): new

@@ -1,3 +1,7 @@
+2010-06-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.6
+
 2010-06-15  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_growth): Handle missing data.

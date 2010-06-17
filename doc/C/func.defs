@@ -47,11 +47,11 @@
 
 @CATEGORY=Complex
 @FUNCTION=COMPLEX
-@SHORTDESC=a complex number of the form @{x} + @{y}@{i}.
+@SHORTDESC=a complex number of the form @{x} + @{y}@{i}
 @SYNTAX=COMPLEX(x,y,i)
 @ARGUMENTDESCRIPTION=@{x}: real part
 @{y}: imaginary part
-@{i}: the suffix for the complex number, either "i" or "j"; defaults to "i".
+@{i}: the suffix for the complex number, either "i" or "j"; defaults to "i"
 @NOTE=If @{i} is neither "i" nor "j", COMPLEX returns #VALUE!
 @EXCEL=This function is Excel compatible.
 
@@ -308,7 +308,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Complex
 @FUNCTION=IMPOWER
-@SHORTDESC= the complex number @{z1} raised to the @{z2}th power
+@SHORTDESC=the complex number @{z1} raised to the @{z2}th power
 @SYNTAX=IMPOWER(z1,z2)
 @ARGUMENTDESCRIPTION=@{z1}: a complex number
 @{z2}: a complex number
@@ -318,7 +318,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Complex
 @FUNCTION=IMPRODUCT
-@SHORTDESC=the product of the given complex numbers.
+@SHORTDESC=the product of the given complex numbers
 @SYNTAX=IMPRODUCT(z1,z2)
 @ARGUMENTDESCRIPTION=@{z1}: a complex number
 @{z2}: a complex number
@@ -380,7 +380,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Complex
 @FUNCTION=IMSUB
-@SHORTDESC=the difference of two complex numbers.
+@SHORTDESC=the difference of two complex numbers
 @SYNTAX=IMSUB(z1,z2)
 @ARGUMENTDESCRIPTION=@{z1}: a complex number
 @{z2}: a complex number
@@ -751,7 +751,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @FUNCTION=HOUR
 @SHORTDESC=compute hour part of fractional day
 @SYNTAX=HOUR(time)
-@ARGUMENTDESCRIPTION=@{time}: time of day as fractional day.
+@ARGUMENTDESCRIPTION=@{time}: time of day as fractional day
 @DESCRIPTION=The HOUR function computes the hour part of the fractional day given by @{time}.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=TIME,MINUTE,SECOND
@@ -778,7 +778,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @FUNCTION=MINUTE
 @SHORTDESC=compute minute part of fractional day
 @SYNTAX=MINUTE(time)
-@ARGUMENTDESCRIPTION=@{time}: time of day as fractional day.
+@ARGUMENTDESCRIPTION=@{time}: time of day as fractional day
 @DESCRIPTION=The MINUTE function computes the minute part of the fractional day given by @{time}.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=TIME,HOUR,SECOND
@@ -823,7 +823,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @FUNCTION=SECOND
 @SHORTDESC=compute seconds part of fractional day
 @SYNTAX=SECOND(time)
-@ARGUMENTDESCRIPTION=@{time}: time of day as fractional day.
+@ARGUMENTDESCRIPTION=@{time}: time of day as fractional day
 @DESCRIPTION=The SECOND function computes the seconds part of the fractional day given by @{time}.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=TIME,HOUR,MINUTE
@@ -978,7 +978,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Engineering
 @FUNCTION=BIN2HEX
-@SHORTDESC= hexadecimal representation of the binary number @{x}
+@SHORTDESC=hexadecimal representation of the binary number @{x}
 @SYNTAX=BIN2HEX(x,places)
 @ARGUMENTDESCRIPTION=@{x}: a binary number, either as a string or as a number involving only the digits 0 and 1
 @{places}: number of digits
@@ -988,7 +988,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Engineering
 @FUNCTION=BIN2OCT
-@SHORTDESC= octal representation of the binary number @{x}
+@SHORTDESC=octal representation of the binary number @{x}
 @SYNTAX=BIN2OCT(x,places)
 @ARGUMENTDESCRIPTION=@{x}: a binary number, either as a string or as a number involving only the digits 0 and 1
 @{places}: number of digits
@@ -1100,7 +1100,7 @@ For metric units any of the following prefixes can be used:
 
 @CATEGORY=Engineering
 @FUNCTION=DEC2BIN
-@SHORTDESC= binary representation of the decimal number @{x}
+@SHORTDESC=binary representation of the decimal number @{x}
 @SYNTAX=DEC2BIN(x,places)
 @ARGUMENTDESCRIPTION=@{x}: integer
 @{places}: number of digits
@@ -1110,7 +1110,7 @@ For metric units any of the following prefixes can be used:
 
 @CATEGORY=Engineering
 @FUNCTION=DEC2HEX
-@SHORTDESC= hexadecimal representation of the decimal number @{x}
+@SHORTDESC=hexadecimal representation of the decimal number @{x}
 @SYNTAX=DEC2HEX(x,places)
 @ARGUMENTDESCRIPTION=@{x}: integer
 @{places}: number of digits
@@ -1120,7 +1120,7 @@ For metric units any of the following prefixes can be used:
 
 @CATEGORY=Engineering
 @FUNCTION=DEC2OCT
-@SHORTDESC= octal representation of the decimal number @{x}
+@SHORTDESC=octal representation of the decimal number @{x}
 @SYNTAX=DEC2OCT(x,places)
 @ARGUMENTDESCRIPTION=@{x}: integer
 @{places}: number of digits
@@ -1168,7 +1168,7 @@ For metric units any of the following prefixes can be used:
 
 @CATEGORY=Engineering
 @FUNCTION=GESTEP
-@SHORTDESC=Step function with step at @{x1} evaluated at @{x0}
+@SHORTDESC=step function with step at @{x1} evaluated at @{x0}
 @SYNTAX=GESTEP(x0,x1)
 @ARGUMENTDESCRIPTION=@{x0}: number
 @{x1}: number, defaults to 0
@@ -1285,16 +1285,19 @@ If any argument is zero, the result is zero.
 @CATEGORY=Finance
 @FUNCTION=ACCRINT
 @SHORTDESC=accrued interest
-@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency,basis)
+@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency,basis,calc_method)
 @ARGUMENTDESCRIPTION=@{issue}: date of issue
 @{first_interest}: date of first interest payment
 @{settlement}: settlement date
 @{rate}: nominal annual interest rate
-@{par}: par value
+@{par}: par value, defaults to $1000
 @{frequency}: number of interest payments per year
-@{basis}: calendar basis
-@DESCRIPTION=ACCRINT calculates the accrued interest for a security that pays periodic interest.
-@NOTE=@{par} defaults to $1000. @{frequency} may be 1 (annual), 2 (semi-annual), or 4 (quarterly). If @{basis} is 0, then the US 30/360 method is used. If @{basis} is 1, then actual number of days is used. If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days. If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days. If @{basis} is 4, then the European 30/360 method is used.
+@{basis}: calendar basis, defaults to 0
+@{calc_method}: calculation method, defaults to TRUE
+@DESCRIPTION=If @{first_interest} < @{settlement} and @{calc_method} is TRUE, then ACCRINT returns the sum of the interest accrued in all coupon periods from @{issue}  date until @{settlement} date.
+If @{first_interest} < @{settlement} and @{calc_method} is FALSE, then ACCRINT returns the sum of the interest accrued in all coupon periods from @{first_interest}  date until @{settlement} date.
+Otherwise ACCRINT returns the sum of the interest accrued in all coupon periods from @{issue}  date until @{settlement} date.
+@NOTE=@{frequency} must be one of 1, 2 or 4, but the exact value does not affect the result. @{issue} must precede both @{first_interest} and @{settlement}. @{frequency} may be 1 (annual), 2 (semi-annual), or 4 (quarterly). If @{basis} is 0, then the US 30/360 method is used. If @{basis} is 1, then actual number of days is used. If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days. If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days. If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=ACCRINTM
 
 @CATEGORY=Finance
@@ -1549,10 +1552,10 @@ If any argument is zero, the result is zero.
 @ARGUMENTDESCRIPTION=@{n}: amount
 @{source}: three-letter source currency code
 @{target}: three-letter target currency code
-@{full_precision}: if true, the result is not rounded; if false the result is rounded to 0 or 2 decimals depending on the target currency; defaults to false.
-@{triangulation_precision}: number of digits (at least 3) to be rounded to after the source currency has been converted to euro; omitting this argument results in no rounding.
+@{full_precision}: whether to provide the full precision; defaults to false
+@{triangulation_precision}: number of digits (at least 3) to be rounded to after conversion of the source currency to euro; defaults to no rounding
 @DESCRIPTION=EUROCONVERT converts @{n} units of currency @{source} to currency @{target}.  The rates used are the official ones used on the introduction of the Euro.
-@NOTE=@{source} and @{target} must be one of the currencies listed for the EURO function. This function is not likely to be useful anymore.
+@NOTE=If @{full_precision} is true, the result is not rounded; if it false the result is rounded to 0 or 2 decimals depending on the target currency; defaults to false. @{source} and @{target} must be one of the currencies listed for the EURO function. This function is not likely to be useful anymore.
 @SEEALSO=EURO
 
 @CATEGORY=Finance
@@ -1945,7 +1948,7 @@ If any argument is zero, the result is zero.
 @SHORTDESC=theoretical price of a complex chooser option
 @SYNTAX=OPT_COMPLEX_CHOOSER(spot,strike_call,strike_put,time,time_call,time_put,rate,cost_of_carry,volatility)
 @ARGUMENTDESCRIPTION=@{spot}: spot price
-@{strike_call}: strike price, if exercised as a call option.
+@{strike_call}: strike price, if exercised as a call option
 @{strike_put}: strike price, if exercised as a put option
 @{time}: time in years until the holder chooses a put or a call option
 @{time_call}: time in years to maturity of the call option if chosen
@@ -2117,16 +2120,16 @@ If any argument is zero, the result is zero.
 @FUNCTION=OPT_ON_OPTIONS
 @SHORTDESC=theoretical price of options on options
 @SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike2,time1,time2,rate,cost_of_carry,volatility)
-@ARGUMENTDESCRIPTION=@{type_flag}: 'cc' for calls on calls, 'cp' for calls on puts, and so on for 'pc', and 'pp'.
+@ARGUMENTDESCRIPTION=@{type_flag}: 'cc' for calls on calls, 'cp' for calls on puts, and so on for 'pc', and 'pp'
 @{spot}: spot price
 @{strike1}: strike price at which the option being valued is struck
 @{strike2}: strike price at which the underlying option is struck
 @{time1}: time in years to maturity of the option
 @{time2}: time in years to the maturity of the underlying option
 @{rate}: annualized risk-free interest rate
-@{cost_of_carry}: net cost of holding the underlying asset of the underlying option (for common stocks, the risk free rate less the dividend yield)
+@{cost_of_carry}: net cost of holding the underlying asset of the underlying option
 @{volatility}: annualized volatility in price of the underlying asset of the underlying option
-@NOTE=@{time2} ≥ @{time1}
+@NOTE=For common stocks, @{cost_of_carry} is the risk free rate less the dividend yield. @{time2} ≥ @{time1}
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
 @CATEGORY=Finance
@@ -2520,7 +2523,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=GET.FORMULA
-@SHORTDESC=The formula in @{cell} as a string.
+@SHORTDESC=the formula in @{cell} as a string
 @SYNTAX=GET.FORMULA(cell)
 @ARGUMENTDESCRIPTION=@{cell}: the referenced cell
 @ODF=GET.FORMULA is the OpenFormula function FORMULA.
@@ -2528,7 +2531,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=GET.LINK
-@SHORTDESC=The target of the hyperlink attached to @{cell} as a string.
+@SHORTDESC=the target of the hyperlink attached to @{cell} as a string
 @SYNTAX=GET.LINK(cell)
 @ARGUMENTDESCRIPTION=@{cell}: the referenced cell
 @NOTE=The value return is not updated automatically when the link attached to @{cell} changes but requires a recalculation.
@@ -2560,7 +2563,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=ISBLANK
-@SHORTDESC=TRUE if @{value} is blank.
+@SHORTDESC=TRUE if @{value} is blank
 @SYNTAX=ISBLANK(value)
 @ARGUMENTDESCRIPTION=@{value}: a value
 @DESCRIPTION=This function checks if a value is blank.  Empty cells are blank, but empty strings are not.
@@ -2584,7 +2587,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=ISEVEN
-@SHORTDESC=TRUE if @{n} is even.
+@SHORTDESC=TRUE if @{n} is even
 @SYNTAX=ISEVEN(n)
 @ARGUMENTDESCRIPTION=@{n}: number
 @EXCEL=This function is Excel compatible.
@@ -2592,7 +2595,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=ISFORMULA
-@SHORTDESC=TRUE if @{cell} contains a formula.
+@SHORTDESC=TRUE if @{cell} contains a formula
 @SYNTAX=ISFORMULA(cell)
 @ARGUMENTDESCRIPTION=@{cell}: the referenced cell
 @ODF=ISFORMULA is OpenFormula compatible.
@@ -2600,7 +2603,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=ISLOGICAL
-@SHORTDESC=TRUE if @{value} is a logical value.
+@SHORTDESC=TRUE if @{value} is a logical value
 @SYNTAX=ISLOGICAL(value)
 @ARGUMENTDESCRIPTION=@{value}: a value
 @DESCRIPTION=This function checks if a value is either TRUE or FALSE.
@@ -2608,7 +2611,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=ISNA
-@SHORTDESC=TRUE if @{value} is the #N/A error value.
+@SHORTDESC=TRUE if @{value} is the #N/A error value
 @SYNTAX=ISNA(value)
 @ARGUMENTDESCRIPTION=@{value}: a value
 @EXCEL=This function is Excel compatible.
@@ -2616,7 +2619,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=ISNONTEXT
-@SHORTDESC=TRUE if @{value} is not text.
+@SHORTDESC=TRUE if @{value} is not text
 @SYNTAX=ISNONTEXT(value)
 @ARGUMENTDESCRIPTION=@{value}: a value
 @EXCEL=This function is Excel compatible.
@@ -2624,7 +2627,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=ISNUMBER
-@SHORTDESC=TRUE if @{value} is a number.
+@SHORTDESC=TRUE if @{value} is a number
 @SYNTAX=ISNUMBER(value)
 @ARGUMENTDESCRIPTION=@{value}: a value
 @DESCRIPTION=This function checks if a value is a number.  Neither TRUE nor FALSE are numbers for this purpose.
@@ -2632,7 +2635,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=ISODD
-@SHORTDESC=TRUE if @{n} is odd.
+@SHORTDESC=TRUE if @{n} is odd
 @SYNTAX=ISODD(n)
 @ARGUMENTDESCRIPTION=@{n}: number
 @EXCEL=This function is Excel compatible.
@@ -2640,7 +2643,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=ISREF
-@SHORTDESC=TRUE if @{value} is a reference.
+@SHORTDESC=TRUE if @{value} is a reference
 @SYNTAX=ISREF(value)
 @ARGUMENTDESCRIPTION=@{value}: a value
 @DESCRIPTION=This function checks if a value is a cell reference.
@@ -2648,7 +2651,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Information
 @FUNCTION=ISTEXT
-@SHORTDESC=TRUE if @{value} is text.
+@SHORTDESC=TRUE if @{value} is text
 @SYNTAX=ISTEXT(value)
 @ARGUMENTDESCRIPTION=@{value}: a value
 @EXCEL=This function is Excel compatible.
@@ -2695,7 +2698,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Logic
 @FUNCTION=FALSE
-@SHORTDESC=the value FALSE.
+@SHORTDESC=the value FALSE
 @SYNTAX=FALSE()
 @DESCRIPTION=FALSE returns the value FALSE.
 @EXCEL=This function is Excel compatible.
@@ -2703,29 +2706,29 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Logic
 @FUNCTION=IF
-@SHORTDESC=conditional expression.
+@SHORTDESC=conditional expression
 @SYNTAX=IF(cond,trueval,falseval)
-@ARGUMENTDESCRIPTION=@{cond}: condition.
-@{trueval}: value to use if condition is true.
-@{falseval}: value to use if condition is false.
+@ARGUMENTDESCRIPTION=@{cond}: condition
+@{trueval}: value to use if condition is true
+@{falseval}: value to use if condition is false
 @DESCRIPTION=This function first evaluates the condition.  If the result is true, it will then evaluate and return the second argument.  Otherwise, it will evaluate and return the last argument.
 @SEEALSO=AND,OR,XOR,NOT,IFERROR
 
 @CATEGORY=Logic
 @FUNCTION=IFERROR
-@SHORTDESC=Test for error.
+@SHORTDESC=test for error
 @SYNTAX=IFERROR(x,y)
-@ARGUMENTDESCRIPTION=@{x}: value to test for error.
-@{y}: alternate value.
+@ARGUMENTDESCRIPTION=@{x}: value to test for error
+@{y}: alternate value
 @DESCRIPTION=This function returns the first value, unless that is an error, in which case it returns the second.
 @SEEALSO=IF,ISERROR
 
 @CATEGORY=Logic
 @FUNCTION=IFNA
-@SHORTDESC=Test for #NA! error.
+@SHORTDESC=test for #NA! error
 @SYNTAX=IFNA(x,y)
-@ARGUMENTDESCRIPTION=@{x}: value to test for #NA! error.
-@{y}: alternate value.
+@ARGUMENTDESCRIPTION=@{x}: value to test for #NA! error
+@{y}: alternate value
 @DESCRIPTION=This function returns the first value, unless that is #NA!, in which case it returns the second.
 @SEEALSO=IF,ISERROR
 
@@ -2752,7 +2755,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Logic
 @FUNCTION=TRUE
-@SHORTDESC=the value TRUE.
+@SHORTDESC=the value TRUE
 @SYNTAX=TRUE()
 @DESCRIPTION=TRUE returns the value TRUE.
 @EXCEL=This function is Excel compatible.
@@ -2848,7 +2851,7 @@ If any argument is zero, the result is zero.
 @FUNCTION=INDEX
 @SHORTDESC=reference to a cell in the given @{array}
 @SYNTAX=INDEX(array,row,col,area)
-@ARGUMENTDESCRIPTION=@{array}: 
+@ARGUMENTDESCRIPTION=@{array}: cell or inline array
 @{row}: desired row, defaults to 1
 @{col}: desired column, defaults to 1
 @{area}: from which area to select a cell, defaults to 1
@@ -2859,7 +2862,7 @@ If any argument is zero, the result is zero.
 @FUNCTION=INDIRECT
 @SHORTDESC=contents of the cell pointed to by the @{ref_text} string
 @SYNTAX=INDIRECT(ref_text,format)
-@ARGUMENTDESCRIPTION=@{ref_text}: 
+@ARGUMENTDESCRIPTION=@{ref_text}: textual reference
 @{format}: if true, @{ref_text} is given in A1-style, otherwise it is given in R1C1 style; defaults to true
 @NOTE=If @{ref_text} is not a valid reference in the style determined by @{format}, INDIRECT returns #REF!
 @SEEALSO=AREAS,INDEX,CELL
@@ -2979,21 +2982,21 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=ACOT
-@SHORTDESC=inverse cotangent of a value
+@SHORTDESC=inverse cotangent of @{x}
 @SYNTAX=ACOT(x)
 @ARGUMENTDESCRIPTION=@{x}: value
 @SEEALSO=COT,TAN
 
 @CATEGORY=Mathematics
 @FUNCTION=ACOTH
-@SHORTDESC=inverse hyperbolic cotangent of a value
+@SHORTDESC=the inverse hyperbolic cotangent of @{x}
 @SYNTAX=ACOTH(x)
 @ARGUMENTDESCRIPTION=@{x}: number
 @SEEALSO=COTH,TANH
 
 @CATEGORY=Mathematics
 @FUNCTION=ARABIC
-@SHORTDESC=The Roman numeral @{roman} as number
+@SHORTDESC=the Roman numeral @{roman} as number
 @SYNTAX=ARABIC(roman)
 @ARGUMENTDESCRIPTION=@{roman}: Roman numeral
 @DESCRIPTION=Any Roman symbol to the left of a larger symbol (directly or indirectly) reduces the final value by the symbol amount, otherwise, it increases the final amount by the symbol's amount.
@@ -3030,7 +3033,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=ATAN2
-@SHORTDESC=arc tangent of the ratio of @{y} and @{x}
+@SHORTDESC=the arc tangent of the ratio of @{y} and @{x}
 @SYNTAX=ATAN2(y,x)
 @ARGUMENTDESCRIPTION=@{y}: y-coordinate
 @{x}: x-coordinate
@@ -3054,8 +3057,8 @@ If any argument is zero, the result is zero.
 @SHORTDESC=average of the cells in @{actual range} for which the corresponding cells in the range meet the given @{criteria}
 @SYNTAX=AVERAGEIF(range,criteria,actual_range)
 @ARGUMENTDESCRIPTION=@{range}: cell area
-@{criteria}:  condition for a cell to be included
-@{actual_range}:  cell area, defaults to @{range}
+@{criteria}: condition for a cell to be included
+@{actual_range}: cell area, defaults to @{range}
 @EXCEL=This function is Excel compatible.
 @SEEALSO=SUMIF,COUNTIF
 
@@ -3071,7 +3074,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=BETALN
-@SHORTDESC=Natural logarithm of the absolute value of the Euler beta function
+@SHORTDESC=natural logarithm of the absolute value of the Euler beta function
 @SYNTAX=BETALN(x,y)
 @ARGUMENTDESCRIPTION=@{x}: number
 @{y}: number
@@ -3110,7 +3113,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=COMBIN
-@SHORTDESC=Binomial coefficient
+@SHORTDESC=binomial coefficient
 @SYNTAX=COMBIN(n,k)
 @ARGUMENTDESCRIPTION=@{n}: non-negative integer
 @{k}: non-negative integer
@@ -3130,7 +3133,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=COS
-@SHORTDESC=Cosine function
+@SHORTDESC=the cosine of @{x}
 @SYNTAX=COS(x)
 @ARGUMENTDESCRIPTION=@{x}: angle in radians
 @DESCRIPTION=This function is Excel compatible.
@@ -3138,7 +3141,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=COSH
-@SHORTDESC=Hyperbolic cosine function
+@SHORTDESC=the hyperbolic cosine of @{x}
 @SYNTAX=COSH(x)
 @ARGUMENTDESCRIPTION=@{x}: number
 @EXCEL=This function is Excel compatible.
@@ -3146,14 +3149,14 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=COT
-@SHORTDESC=cotangent of a value
+@SHORTDESC=the cotangent of @{x}
 @SYNTAX=COT(x)
 @ARGUMENTDESCRIPTION=@{x}: number
 @SEEALSO=TAN,ACOT
 
 @CATEGORY=Mathematics
 @FUNCTION=COTH
-@SHORTDESC=hyperbolic cotangent of a value
+@SHORTDESC=the hyperbolic cotangent of @{x}
 @SYNTAX=COTH(x)
 @ARGUMENTDESCRIPTION=@{x}: number
 @SEEALSO=TANH,ACOTH
@@ -3163,13 +3166,13 @@ If any argument is zero, the result is zero.
 @SHORTDESC=count of the cells meeting the given @{criteria}
 @SYNTAX=COUNTIF(range,criteria)
 @ARGUMENTDESCRIPTION=@{range}: cell area
-@{criteria}:  condition for a cell to be counted
+@{criteria}: condition for a cell to be counted
 @EXCEL=This function is Excel compatible.
 @SEEALSO=COUNT,SUMIF
 
 @CATEGORY=Mathematics
 @FUNCTION=CSC
-@SHORTDESC=Cosecant
+@SHORTDESC=the cosecant of @{x}
 @SYNTAX=CSC(x)
 @ARGUMENTDESCRIPTION=@{x}: angle in radians
 @EXCEL=This function is not Excel compatible.
@@ -3178,7 +3181,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=CSCH
-@SHORTDESC=Hyperbolic cosecant
+@SHORTDESC=the hyperbolic cosecant of @{x}
 @SYNTAX=CSCH(x)
 @ARGUMENTDESCRIPTION=@{x}: number
 @EXCEL=This function is not Excel compatible.
@@ -3187,7 +3190,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=DEGREES
-@SHORTDESC=Equivalent degrees to @{x} radians.
+@SHORTDESC=equivalent degrees to @{x} radians
 @SYNTAX=DEGREES(x)
 @ARGUMENTDESCRIPTION=@{x}: angle in radians
 @EXCEL=This function is Excel compatible.
@@ -3202,7 +3205,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=EVEN
-@SHORTDESC= @{x} rounded away from 0 to the next even integer
+@SHORTDESC=@{x} rounded away from 0 to the next even integer
 @SYNTAX=EVEN(x)
 @ARGUMENTDESCRIPTION=@{x}: number
 @EXCEL=This function is Excel compatible.
@@ -3253,9 +3256,9 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=FLOOR
-@SHORTDESC=nearest multiple of @{significance} whose absolute value is at most ABS(@{x}).
+@SHORTDESC=nearest multiple of @{significance} whose absolute value is at most ABS(@{x})
 @SYNTAX=FLOOR(x,significance)
-@ARGUMENTDESCRIPTION=@{x}: number.
+@ARGUMENTDESCRIPTION=@{x}: number
 @{significance}: base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} <0)
 @DESCRIPTION=FLOOR(@{x},@{significance}) is the nearest multiple of @{significance} whose absolute value is at most ABS(@{x})
 @EXCEL=This function is Excel compatible.
@@ -3280,7 +3283,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=GAMMALN
-@SHORTDESC=natural logarithm of the Gamma function.
+@SHORTDESC=natural logarithm of the Gamma function
 @SYNTAX=GAMMALN(x)
 @ARGUMENTDESCRIPTION=@{x}: number
 @EXCEL=This function is Excel compatible.
@@ -3306,7 +3309,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=HYPOT
-@SHORTDESC=the square root of the sum of the squares of the arguments.
+@SHORTDESC=the square root of the sum of the squares of the arguments
 @SYNTAX=HYPOT(n0,n1)
 @ARGUMENTDESCRIPTION=@{n0}: number
 @{n1}: number
@@ -3314,7 +3317,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=INT
-@SHORTDESC= largest integer not larger than @{x}
+@SHORTDESC=largest integer not larger than @{x}
 @SYNTAX=INT(x)
 @ARGUMENTDESCRIPTION=@{x}: number
 @EXCEL=This function is Excel compatible.
@@ -3333,7 +3336,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=LN
-@SHORTDESC=the natural logarithm of @{x}.
+@SHORTDESC=the natural logarithm of @{x}
 @SYNTAX=LN(x)
 @ARGUMENTDESCRIPTION=@{x}: positive number
 @NOTE=If @{x} ≤ 0, LN returns #NUM! error.
@@ -3352,7 +3355,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=LOG
-@SHORTDESC=Logarithm
+@SHORTDESC=logarithm of @{x} with base @{base}
 @SYNTAX=LOG(x,base)
 @ARGUMENTDESCRIPTION=@{x}: positive number
 @{base}: base of the logarithm, defaults to 10
@@ -3362,7 +3365,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=LOG10
-@SHORTDESC=the base-10 logarithm of @{x}.
+@SHORTDESC=the base-10 logarithm of @{x}
 @SYNTAX=LOG10(x)
 @ARGUMENTDESCRIPTION=@{x}: positive number
 @NOTE=If @{x} ≤ 0, LOG10 returns #NUM!
@@ -3370,7 +3373,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=LOG2
-@SHORTDESC=the base-2 logarithm of @{x}.
+@SHORTDESC=the base-2 logarithm of @{x}
 @SYNTAX=LOG2(x)
 @ARGUMENTDESCRIPTION=@{x}: positive number
 @NOTE=If @{x} ≤ 0, LOG2 returns #NUM!
@@ -3404,7 +3407,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=MOD
-@SHORTDESC= the remainder of @{x} under division by @{n}
+@SHORTDESC=the remainder of @{x} under division by @{n}
 @SYNTAX=MOD(x,n)
 @ARGUMENTDESCRIPTION=@{x}: integer
 @{n}: integer
@@ -3425,7 +3428,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=MULTINOMIAL
-@SHORTDESC=Multinomial coefficient (@{x1}+⋯+@{xn}) choose (@{x1},...,@{xn})
+@SHORTDESC=multinomial coefficient (@{x1}+⋯+@{xn}) choose (@{x1},…,@{xn})
 @SYNTAX=MULTINOMIAL(x1,x2,xn)
 @ARGUMENTDESCRIPTION=@{x1}: first number
 @{x2}: second number
@@ -3443,7 +3446,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=ODD
-@SHORTDESC= @{x} rounded away from 0 to the next odd integer
+@SHORTDESC=@{x} rounded away from 0 to the next odd integer
 @SYNTAX=ODD(x)
 @ARGUMENTDESCRIPTION=@{x}: number
 @EXCEL=This function is Excel compatible.
@@ -3458,7 +3461,7 @@ If any argument is zero, the result is zero.
 
 @CATEGORY=Mathematics
 @FUNCTION=POWER
-@SHORTDESC=the value of @{x} raised to the power @{y}.
+@SHORTDESC=the value of @{x} raised to the power @{y}
 @SYNTAX=POWER(x,y)
 @ARGUMENTDESCRIPTION=@{x}: number
 @{y}: number
@@ -3490,7 +3493,7 @@ QUOTIENT (@{numerator},@{denominator})⨉@{denominator}+MOD(@{numerator},@{denom
 
 @CATEGORY=Mathematics
 @FUNCTION=RADIANS
-@SHORTDESC=the number of radians equivalent to @{x} degrees.
+@SHORTDESC=the number of radians equivalent to @{x} degrees
 @SYNTAX=RADIANS(x)
 @ARGUMENTDESCRIPTION=@{x}: angle in degrees
 @EXCEL=This function is Excel compatible.
@@ -3521,7 +3524,7 @@ If @{d} is less than zero, @{x} is rounded to the left of the decimal point
 
 @CATEGORY=Mathematics
 @FUNCTION=ROUNDDOWN
-@SHORTDESC=@{x} rounded towards 0.
+@SHORTDESC=@{x} rounded towards 0
 @SYNTAX=ROUNDDOWN(x,d)
 @ARGUMENTDESCRIPTION=@{x}: number
 @{d}: integer, defaults to 0
@@ -3533,7 +3536,7 @@ If @{d} is less than zero, @{x} is rounded toward 0 to the left of the decimal p
 
 @CATEGORY=Mathematics
 @FUNCTION=ROUNDUP
-@SHORTDESC=@{x} rounded away from 0.
+@SHORTDESC=@{x} rounded away from 0
 @SYNTAX=ROUNDUP(x,d)
 @ARGUMENTDESCRIPTION=@{x}: number
 @{d}: integer, defaults to 0
@@ -3554,7 +3557,7 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 
 @CATEGORY=Mathematics
 @FUNCTION=SECH
-@SHORTDESC=Hyperbolic secant
+@SHORTDESC=the hyperbolic secant of @{x}
 @SYNTAX=SECH(x)
 @ARGUMENTDESCRIPTION=@{x}: number
 @EXCEL=This function is not Excel compatible.
@@ -3583,7 +3586,7 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 
 @CATEGORY=Mathematics
 @FUNCTION=SIN
-@SHORTDESC=Sine function
+@SHORTDESC=the sine of @{x}
 @SYNTAX=SIN(x)
 @ARGUMENTDESCRIPTION=@{x}: angle in radians
 @EXCEL=This function is Excel compatible.
@@ -3638,14 +3641,14 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @SHORTDESC=sum of the cells in @{actual_range} for which the corresponding cells in the range meet the given @{criteria}
 @SYNTAX=SUMIF(range,criteria,actual_range)
 @ARGUMENTDESCRIPTION=@{range}: cell area
-@{criteria}:  condition for a cell to be summed
-@{actual_range}:  cell area, defaults to @{range}
+@{criteria}: condition for a cell to be summed
+@{actual_range}: cell area, defaults to @{range}
 @EXCEL=This function is Excel compatible.
 @SEEALSO=SUM,COUNTIF
 
 @CATEGORY=Mathematics
 @FUNCTION=SUMPRODUCT
-@SHORTDESC=Multiplies components and adds the results.
+@SHORTDESC=multiplies components and adds the results
 @SYNTAX=SUMPRODUCT()
 @DESCRIPTION=Multiplies corresponding data entries in the given arrays or ranges, and then returns the sum of those products.
 @NOTE=If an entry is not numeric, the value zero is used instead. If arrays or range arguments do not have the same dimensions, return #VALUE! error. SUMPRODUCTs arguments are arrays or ranges. Attempting to use A1:A5>0 will not work, implicit intersection will kick in. Instead use --(A1:A5>0)
@@ -3662,7 +3665,7 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 
 @CATEGORY=Mathematics
 @FUNCTION=SUMX2MY2
-@SHORTDESC= sum of the difference of squares
+@SHORTDESC=sum of the difference of squares
 @SYNTAX=SUMX2MY2(array0,array1)
 @ARGUMENTDESCRIPTION=@{array0}: first cell area
 @{array1}: second cell area
@@ -3672,7 +3675,7 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 
 @CATEGORY=Mathematics
 @FUNCTION=SUMX2PY2
-@SHORTDESC= sum of the sum of squares
+@SHORTDESC=sum of the sum of squares
 @SYNTAX=SUMX2PY2(array0,array1)
 @ARGUMENTDESCRIPTION=@{array0}: first cell area
 @{array1}: second cell area
@@ -3684,7 +3687,7 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Mathematics
 @FUNCTION=SUMXMY2
-@SHORTDESC= sum of the squares of differences
+@SHORTDESC=sum of the squares of differences
 @SYNTAX=SUMXMY2(array0,array1)
 @ARGUMENTDESCRIPTION=@{array0}: first cell area
 @{array1}: second cell area
@@ -3696,7 +3699,7 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Mathematics
 @FUNCTION=TAN
-@SHORTDESC=tangent
+@SHORTDESC=the tangent of @{x}
 @SYNTAX=TAN(x)
 @ARGUMENTDESCRIPTION=@{x}: angle in radians
 @EXCEL=This function is Excel compatible.
@@ -3704,7 +3707,7 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Mathematics
 @FUNCTION=TANH
-@SHORTDESC=hyperbolic tangent
+@SHORTDESC=the hyperbolic tangent of @{x}
 @SYNTAX=TANH(x)
 @ARGUMENTDESCRIPTION=@{x}: number
 @EXCEL=This function is Excel compatible.
@@ -3787,7 +3790,7 @@ Strings and empty cells are simply ignored.
 
 @CATEGORY=Random Numbers
 @FUNCTION=RAND
-@SHORTDESC=a random number between zero and one.
+@SHORTDESC=a random number between zero and one
 @SYNTAX=RAND()
 @EXCEL=This function is Excel compatible.
 @SEEALSO=RANDBETWEEN
@@ -3982,7 +3985,7 @@ For @{α} = 2, @{β}=0, the Lévy distribution reduces to the normal distributio
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDNORMTAIL
-@SHORTDESC=a random variates from the upper tail of a normal distribution with mean 0
+@SHORTDESC=random variate from the upper tail of a normal distribution with mean 0
 @SYNTAX=RANDNORMTAIL(a,σ)
 @ARGUMENTDESCRIPTION=@{a}: lower limit of the tail
 @{σ}: standard deviation of the normal distribution
@@ -4024,7 +4027,7 @@ For @{α} = 2, @{β}=0, the Lévy distribution reduces to the normal distributio
 @FUNCTION=RANDSNORM
 @SHORTDESC=random variate from a skew normal distribution
 @SYNTAX=RANDSNORM(a,μ,σ)
-@ARGUMENTDESCRIPTION=@{a}:  amount of skew, defaults to 0
+@ARGUMENTDESCRIPTION=@{a}: amount of skew, defaults to 0
 @{μ}: mean of the underlying normal distribution, defaults to 0
 @{σ}: standard deviation of the underlying normal distribution, defaults to 1
 @NOTE=If @{σ} < 0, RANDSNORM returns #NUM!
@@ -4035,7 +4038,7 @@ For @{α} = 2, @{β}=0, the Lévy distribution reduces to the normal distributio
 @SHORTDESC=random variate from a skew t distribution
 @SYNTAX=RANDSTDIST(df,a)
 @ARGUMENTDESCRIPTION=@{df}: degrees of freedom
-@{a}:  amount of skew, defaults to 0
+@{a}: amount of skew, defaults to 0
 @SEEALSO=RANDTDIST
 
 @CATEGORY=Random Numbers
@@ -4064,7 +4067,7 @@ For @{α} = 2, @{β}=0, the Lévy distribution reduces to the normal distributio
 
 @CATEGORY=Random Numbers
 @FUNCTION=SIMTABLE
-@SHORTDESC=one of the values in the given argument list depending on the round number of the simulation tool.
+@SHORTDESC=one of the values in the given argument list depending on the round number of the simulation tool
 @SYNTAX=SIMTABLE(d1,d2)
 @ARGUMENTDESCRIPTION=@{d1}: first value
 @{d2}: second value
@@ -4113,7 +4116,7 @@ The successive use of the simulation tool also requires that you give to the too
 @FUNCTION=BERNOULLI
 @SHORTDESC=probability mass function of a Bernoulli distribution
 @SYNTAX=BERNOULLI(k,p)
-@ARGUMENTDESCRIPTION=@{k}: 
+@ARGUMENTDESCRIPTION=@{k}: integer
 @{p}: probability of success
 @NOTE=If @{k} != 0 and @{k} != 1 this function returns a #NUM! error. If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.
 @SEEALSO=RANDBERNOULLI
@@ -4122,7 +4125,7 @@ The successive use of the simulation tool also requires that you give to the too
 @FUNCTION=BETADIST
 @SHORTDESC=cumulative distribution function of the beta distribution
 @SYNTAX=BETADIST(x,alpha,beta,a,b)
-@ARGUMENTDESCRIPTION=@{x}: 
+@ARGUMENTDESCRIPTION=@{x}: number
 @{alpha}: scale parameter
 @{beta}: scale parameter
 @{a}: optional lower bound, defaults to 0
@@ -4151,14 +4154,14 @@ The successive use of the simulation tool also requires that you give to the too
 @ARGUMENTDESCRIPTION=@{trials}: number of trials
 @{p}: probability of success in each trial
 @{start}: start of the interval
-@{end}: start of the interval, defaults to @{start}
+@{end}: end of the interval, defaults to @{start}
 @NOTE=If @{start}, @{end} or @{trials} are non-integer they are truncated. If @{trials} < 0 this function returns a #NUM! error. If @{p} < 0 or @{p} > 1 this function returns a #NUM! error. If @{start} > @{end} this function returns 0.
-@ODF=This function is the OpenFormula function B
+@ODF=This function is OpenFormula compatible.
 @SEEALSO=BINOMDIST,R.PBINOM
 
 @CATEGORY=Statistics
 @FUNCTION=BINOMDIST
-@SHORTDESC=(cumulative) probability mass function of the binomial distribution
+@SHORTDESC=probability mass of cumulative distribution function of the binomial distribution
 @SYNTAX=BINOMDIST(n,trials,p,cumulative)
 @ARGUMENTDESCRIPTION=@{n}: number of successes
 @{trials}: number of trials
@@ -4170,9 +4173,9 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=CAUCHY
-@SHORTDESC=(cumulative) probability density function of the Cauchy, Lorentz or Breit-Wigner distribution
+@SHORTDESC=probability density or cumulative distribution function of the Cauchy, Lorentz or Breit-Wigner distribution
 @SYNTAX=CAUCHY(x,a,cumulative)
-@ARGUMENTDESCRIPTION=@{x}: 
+@ARGUMENTDESCRIPTION=@{x}: number
 @{a}: scale parameter
 @{cumulative}: whether to evaluate the density function or the cumulative distribution function
 @NOTE=If @{a} < 0 this function returns a #NUM! error. If @{cumulative} is neither TRUE nor FALSE this function returns a #VALUE! error.
@@ -4182,7 +4185,7 @@ The successive use of the simulation tool also requires that you give to the too
 @FUNCTION=CHIDIST
 @SHORTDESC=survival function of the chi-squared distribution
 @SYNTAX=CHIDIST(x,dof)
-@ARGUMENTDESCRIPTION=@{x}: 
+@ARGUMENTDESCRIPTION=@{x}: number
 @{dof}: number of degrees of freedom
 @DESCRIPTION=The survival function is 1 minus the cumulative distribution function.
 @NOTE=If @{dof} is non-integer it is truncated. If @{dof} < 1 this function returns a #NUM! error.
@@ -4283,7 +4286,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=CVMTEST
-@SHORTDESC= Cramér-von Mises Test of Normality
+@SHORTDESC=Cramér-von Mises Test of Normality
 @SYNTAX=CVMTEST(x)
 @ARGUMENTDESCRIPTION=@{x}: array of sample values
 @DESCRIPTION=This function returns an array with the first row giving the p-value of the Cramér-von Mises Test, the second row the test statistic of the test, and the third the number of observations in the sample.
@@ -4302,9 +4305,9 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=EXPONDIST
-@SHORTDESC=(cumulative)density function of the exponential distribution
+@SHORTDESC=porbaility density or cumulative distribution function of the exponential distribution
 @SYNTAX=EXPONDIST(x,y,cumulative)
-@ARGUMENTDESCRIPTION=@{x}: 
+@ARGUMENTDESCRIPTION=@{x}: number
 @{y}: scale parameter
 @{cumulative}: whether to evaluate the density function or the cumulative distribution function
 @DESCRIPTION=If @{cumulative} is false it will return:	@{y} * exp (-@{y}*@{x}),otherwise it will return	1 - exp (-@{y}*@{x}).
@@ -4314,9 +4317,9 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=EXPPOWDIST
-@SHORTDESC= the probability density function of the Exponential Power distribution
+@SHORTDESC=the probability density function of the Exponential Power distribution
 @SYNTAX=EXPPOWDIST(x,a,b)
-@ARGUMENTDESCRIPTION=@{x}: 
+@ARGUMENTDESCRIPTION=@{x}: number
 @{a}: scale parameter
 @{b}: scale parameter
 @DESCRIPTION=This distribution has been recommended for lifetime analysis when a U-shaped hazard function is desired. This corresponds to rapid failure once the product starts to wear out after a period of steady or even improving reliability.
@@ -4326,7 +4329,7 @@ The successive use of the simulation tool also requires that you give to the too
 @FUNCTION=FDIST
 @SHORTDESC=survival function of the F distribution
 @SYNTAX=FDIST(x,dof_of_num,dof_of_denom)
-@ARGUMENTDESCRIPTION=@{x}: 
+@ARGUMENTDESCRIPTION=@{x}: number
 @{dof_of_num}: numerator degrees of freedom
 @{dof_of_denom}: denominator degrees of freedom
 @DESCRIPTION=The survival function is 1 minus the cumulative distribution function.
@@ -4352,7 +4355,7 @@ The successive use of the simulation tool also requires that you give to the too
 @FUNCTION=FISHER
 @SHORTDESC=Fisher transformation
 @SYNTAX=FISHER(x)
-@ARGUMENTDESCRIPTION=@{x}: 
+@ARGUMENTDESCRIPTION=@{x}: number
 @NOTE=If @{x} is not a number, this function returns a #VALUE! error. If @{x} <= -1 or @{x} >= 1, this function returns a #NUM! error.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=FISHERINV,ATANH
@@ -4361,7 +4364,7 @@ The successive use of the simulation tool also requires that you give to the too
 @FUNCTION=FISHERINV
 @SHORTDESC=inverse of the Fisher transformation
 @SYNTAX=FISHERINV(x)
-@ARGUMENTDESCRIPTION=@{x}: 
+@ARGUMENTDESCRIPTION=@{x}: number
 @NOTE=If @{x} is a non-number this function returns a #VALUE! error.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=FISHER,TANH
@@ -4369,18 +4372,18 @@ The successive use of the simulation tool also requires that you give to the too
 @CATEGORY=Statistics
 @FUNCTION=FORECAST
 @SHORTDESC=estimates a future value according to existing values using simple linear regression
-@SYNTAX=FORECAST(x,known_y's,known_x's)
+@SYNTAX=FORECAST(x,known_ys,known_xs)
 @ARGUMENTDESCRIPTION=@{x}: x-value whose matching y-value should be forecast
-@{known_y's}: known y-values
-@{known_x's}: known x-values
+@{known_ys}: known y-values
+@{known_xs}: known x-values
 @DESCRIPTION=This function estimates a future value according to existing values using simple linear regression.
-@NOTE=If @{known_x} or @{known_y} contains no data entries or different number of data entries, this function returns a #N/A error. If the variance of the @{known_x} is zero, this function returns a #DIV/0 error.
+@NOTE=If @{known_xs} or @{known_ys} contains no data entries or different number of data entries, this function returns a #N/A error. If the variance of the @{known_xs} is zero, this function returns a #DIV/0 error.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=INTERCEPT,TREND
 
 @CATEGORY=Statistics
 @FUNCTION=FREQUENCY
-@SHORTDESC=the frequency table
+@SHORTDESC=frequency table
 @SYNTAX=FREQUENCY(data_array,bins_array)
 @ARGUMENTDESCRIPTION=@{data_array}: data values
 @{bins_array}: array of cutoff values
@@ -4399,9 +4402,9 @@ If the @{bin_array} is empty, this function returns the number of data points in
 
 @CATEGORY=Statistics
 @FUNCTION=GAMMADIST
-@SHORTDESC=(cumulative) density function of the gamma distribution
+@SHORTDESC=probability density or cumulative distribution function of the gamma distribution
 @SYNTAX=GAMMADIST(x,alpha,beta,cumulative)
-@ARGUMENTDESCRIPTION=@{x}: 
+@ARGUMENTDESCRIPTION=@{x}: number
 @{alpha}: scale parameter
 @{beta}: scale parameter
 @{cumulative}: whether to evaluate the density function or the cumulative distribution function
@@ -4422,7 +4425,7 @@ If the @{bin_array} is empty, this function returns the number of data points in
 
 @CATEGORY=Statistics
 @FUNCTION=GEOMDIST
-@SHORTDESC=(cumulative) probability mass function of the hypergeometric distribution
+@SHORTDESC=probability mass or cumulative distribution function of the hypergeometric distribution
 @SYNTAX=GEOMDIST(k,p,cumulative)
 @ARGUMENTDESCRIPTION=@{k}: number of trials
 @{p}: probability of success in any trial
@@ -4442,15 +4445,15 @@ If the @{bin_array} is empty, this function returns the number of data points in
 
 @CATEGORY=Statistics
 @FUNCTION=GROWTH
-@SHORTDESC= predicts the exponential growth
-@SYNTAX=GROWTH(known_y's,known_x's,new_x's,const)
-@ARGUMENTDESCRIPTION=@{known_y's}: known y-values
-@{known_x's}: known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.
-@{new_x's}: x-values for which you want to estimate the y-values; defaults to @{known_x}'s
-@{const}: if this is false the line will be forced to go through the origin; defaults to TRUE
-@DESCRIPTION=GROWTH function applies the ``least squares'' method to fit an exponential curve to your data and predicts the exponential growth by using this curve.
-GROWTH returns an array having one column and a row for each data point in @{new_x}.
-@NOTE=If @{known_y}'s and @{known_x}'s have unequal number of data points, this function returns a #NUM! error.
+@SHORTDESC=exponential growth prediction
+@SYNTAX=GROWTH(known_ys,known_xs,new_xs,affine)
+@ARGUMENTDESCRIPTION=@{known_ys}: known y-values
+@{known_xs}: known x-values; defaults to the array {1, 2, 3, …}
+@{new_xs}: x-values for which to estimate the y-values; defaults to @{known_xs}
+@{affine}: if true, the model contains a constant term, defaults to true
+@DESCRIPTION=GROWTH function applies the “least squares” method to fit an exponential curve to your data and predicts the exponential growth by using this curve.
+GROWTH returns an array having one column and a row for each data point in @{new_xs}.
+@NOTE=If @{known_ys} and @{known_xs} have unequal number of data points, this function returns a #NUM! error.
 @SEEALSO=LOGEST,GROWTH,TREND
 
 @CATEGORY=Statistics
@@ -4465,7 +4468,7 @@ GROWTH returns an array having one column and a row for each data point in @{new
 
 @CATEGORY=Statistics
 @FUNCTION=HYPGEOMDIST
-@SHORTDESC=(cumulative) probability mass function of the hypergeometric distribution
+@SHORTDESC=probability mass or cumulative distribution function of the hypergeometric distribution
 @SYNTAX=HYPGEOMDIST(x,n,M,N,cumulative)
 @ARGUMENTDESCRIPTION=@{x}: number of successes
 @{n}: sample size
@@ -4479,16 +4482,16 @@ GROWTH returns an array having one column and a row for each data point in @{new
 @CATEGORY=Statistics
 @FUNCTION=INTERCEPT
 @SHORTDESC=the intercept of a linear regression line
-@SYNTAX=INTERCEPT(known_y's,known_x's)
-@ARGUMENTDESCRIPTION=@{known_y's}: known y-values
-@{known_x's}: known x-values
-@NOTE=If @{known_x} or @{known_y} contains no data entries or different number of data entries, this function returns a #N/A error. If the variance of the @{known_x} is zero, this function returns #DIV/0 error.
+@SYNTAX=INTERCEPT(known_ys,known_xs)
+@ARGUMENTDESCRIPTION=@{known_ys}: known y-values
+@{known_xs}: known x-values
+@NOTE=If @{known_xs} or @{known_ys} contains no data entries or different number of data entries, this function returns a #N/A error. If the variance of the @{known_xs} is zero, this function returns #DIV/0 error.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=FORECAST,TREND
 
 @CATEGORY=Statistics
 @FUNCTION=KURT
-@SHORTDESC=unbiased estimate of the kurtosis of a data set.
+@SHORTDESC=unbiased estimate of the kurtosis of a data set
 @SYNTAX=KURT(number1,number2)
 @ARGUMENTDESCRIPTION=@{number1}: first value
 @{number2}: second value
@@ -4511,14 +4514,14 @@ GROWTH returns an array having one column and a row for each data point in @{new
 @FUNCTION=LANDAU
 @SHORTDESC=approximate probability density function of the Landau distribution
 @SYNTAX=LANDAU(x)
-@ARGUMENTDESCRIPTION=@{x}: 
+@ARGUMENTDESCRIPTION=@{x}: number
 @SEEALSO=RANDLANDAU
 
 @CATEGORY=Statistics
 @FUNCTION=LAPLACE
 @SHORTDESC=probability density function of the Laplace distribution
 @SYNTAX=LAPLACE(x,a)
-@ARGUMENTDESCRIPTION=@{x}: 
+@ARGUMENTDESCRIPTION=@{x}: number
 @{a}: mean
 @SEEALSO=RANDLAPLACE
 
@@ -4534,16 +4537,16 @@ GROWTH returns an array having one column and a row for each data point in @{new
 
 @CATEGORY=Statistics
 @FUNCTION=LINEST
-@SHORTDESC=determines multiple linear regression coefficients and statistics.
-@SYNTAX=LINEST(known_y's,known_x's,affine,stats)
-@ARGUMENTDESCRIPTION=@{known_y's}: vector of values of dependent variable.
-@{known_x's}: array of values of independent variables, defaults to a single vector 1,...,n.
-@{affine}: if true, the model contains a constant term, defaults to true.
+@SHORTDESC=multiple linear regression coefficients and statistics
+@SYNTAX=LINEST(known_ys,known_xs,affine,stats)
+@ARGUMENTDESCRIPTION=@{known_ys}: vector of values of dependent variable
+@{known_xs}: array of values of independent variables, defaults to a single vector {1,…,n}
+@{affine}: if true, the model contains a constant term, defaults to true
 @{stats}: if true, some additional statistics are provided, defaults to false
-@DESCRIPTION=This function returns an array with the first row giving the regression coefficients for the independent variables x_m, x_(m-1),...,x_2, x_1 followed by the y-intercept if @{affine} is true.
+@DESCRIPTION=This function returns an array with the first row giving the regression coefficients for the independent variables x_m, x_(m-1),…,x_2, x_1 followed by the y-intercept if @{affine} is true.
 If @{stats} is true, the second row contains the corresponding standard errors of the regression coefficients.In this case, the third row contains the R^2 value and the standard error for the predicted value. The fourth row contains the observed F value and its degrees of freedom. Finally, the fifth row contains the regression sum of squares and the residual sum of squares.
 If @{affine} is false, R^2 is the uncentered version of the coefficient of determination; that is the proportion of the sum of squares explained by the model.
-@NOTE=If the length of @{known_y's} does not match the corresponding length of @{known_x's}, this function returns a #NUM! error.
+@NOTE=If the length of @{known_ys} does not match the corresponding length of @{known_xs}, this function returns a #NUM! error.
 @SEEALSO=LOGEST,TREND
 
 @CATEGORY=Statistics
@@ -4558,23 +4561,23 @@ If @{affine} is false, R^2 is the uncentered version of the coefficient of deter
 @CATEGORY=Statistics
 @FUNCTION=LOGEST
 @SHORTDESC=exponential least square fit
-@SYNTAX=LOGEST(known_y's,known_x's,const,stat)
-@ARGUMENTDESCRIPTION=@{known_y's}: known y-values
-@{known_x's}: known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.
-@{const}: if this is false the line will be forced to go through (0,1); defaults to TRUE
-@{stat}: If @{stat} is TRUE, extra statistical information will be returned; defaults to FALSE.
-@DESCRIPTION=LOGEST function applies the ``least squares'' method to fit an exponential curve of the form	y = b * m{1}^x{1} * m{2}^x{2}... to your data.
+@SYNTAX=LOGEST(known_ys,known_xs,affine,stat)
+@ARGUMENTDESCRIPTION=@{known_ys}: known y-values
+@{known_xs}: known x-values; default to an array {1, 2, 3, …}
+@{affine}: if true, the model contains a constant term, defaults to true
+@{stat}: if true, extra statistical information will be returned; defaults to FALSE
+@DESCRIPTION=LOGEST function applies the “least squares” method to fit an exponential curve of the form	y = b * m{1}^x{1} * m{2}^x{2}... to your data.
 LOGEST returns an array { m{n},m{n-1}, ...,m{1},b }.
-@NOTE=Extra statistical information is written below the regression line coefficients in the result array.  Extra statistical information consists of four rows of data.  In the first row the standard error values for the coefficients m1, (m2, ...), b are represented.  The second row contains the square of R and the standard error for the y estimate.  The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares. If @{known_y}'s and @{known_x}'s have unequal number of data points, this function returns a #NUM! error.
+@NOTE=Extra statistical information is written below the regression line coefficients in the result array.  Extra statistical information consists of four rows of data.  In the first row the standard error values for the coefficients m1, (m2, ...), b are represented.  The second row contains the square of R and the standard error for the y estimate.  The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares. If @{known_ys} and @{known_xs} have unequal number of data points, this function returns a #NUM! error.
 @SEEALSO=GROWTH,TREND
 
 @CATEGORY=Statistics
 @FUNCTION=LOGFIT
 @SHORTDESC=logarithmic least square fit (using a trial and error method)
-@SYNTAX=LOGFIT(known_y's,known_x's)
-@ARGUMENTDESCRIPTION=@{known_y's}: known y-values
-@{known_x's}: known x-values
-@DESCRIPTION=LOGFIT function applies the ``least squares'' method to fit the logarithmic equation y = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 to your data. The graph of the equation is a logarithmic curve moved horizontally by c and possibly mirrored across the y-axis (if sign = -1).
+@SYNTAX=LOGFIT(known_ys,known_xs)
+@ARGUMENTDESCRIPTION=@{known_ys}: known y-values
+@{known_xs}: known x-values
+@DESCRIPTION=LOGFIT function applies the “least squares” method to fit the logarithmic equation y = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 to your data. The graph of the equation is a logarithmic curve moved horizontally by c and possibly mirrored across the y-axis (if sign = -1).
 LOGFIT returns an array having five columns and one row. `Sign' is given in the first column, `a', `b', and `c' are given in columns 2 to 4. Column 5 holds the sum of squared residuals.
 @NOTE=An error is returned when there are less than 3 different x's or y's, or when the shape of the point cloud is too different from a ``logarithmic'' one. You can use the above formula = a + b * ln(sign * (x - c)) or rearrange it to = (exp((y - a) / b)) / sign + c to compute unknown y's or x's, respectively.  This is non-linear fitting by trial-and-error. The accuracy of `c' is: width of x-range -> rounded to the next smaller (10^integer), times 0.000001. There might be cases in which the returned fit is not the best possible.
 @SEEALSO=LOGREG,LINEST,LOGEST
@@ -4594,7 +4597,7 @@ LOGFIT returns an array having five columns and one row. `Sign' is given in the 
 @FUNCTION=LOGISTIC
 @SHORTDESC=probability density function of the logistic distribution
 @SYNTAX=LOGISTIC(x,a)
-@ARGUMENTDESCRIPTION=@{x}: 
+@ARGUMENTDESCRIPTION=@{x}: number
 @{a}: scale parameter
 @SEEALSO=RANDLOGISTIC
 
@@ -4602,7 +4605,7 @@ LOGFIT returns an array having five columns and one row. `Sign' is given in the 
 @FUNCTION=LOGNORMDIST
 @SHORTDESC=cumulative distribution function of the lognormal distribution
 @SYNTAX=LOGNORMDIST(x,mean,stddev)
-@ARGUMENTDESCRIPTION=@{x}: 
+@ARGUMENTDESCRIPTION=@{x}: number
 @{mean}: mean
 @{stddev}: standard deviation
 @NOTE=If @{stddev} = 0 LOGNORMDIST returns a #DIV/0! error. If @{x} <= 0, @{mean} < 0 or @{stddev} <= 0 this function returns a #NUM! error.
@@ -4612,19 +4615,19 @@ LOGFIT returns an array having five columns and one row. `Sign' is given in the 
 @CATEGORY=Statistics
 @FUNCTION=LOGREG
 @SHORTDESC=the logarithmic regression
-@SYNTAX=LOGREG(known_y's,known_x's,const,stat)
-@ARGUMENTDESCRIPTION=@{known_y's}: known y-values
-@{known_x's}: known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.
-@{const}: If this is FALSE, the curve will be forced to go through [1; 0], i.e., b will be zero. The default is TRUE.
-@{stat}: If @{stat} is TRUE, extra statistical information will be returned; defaults to FALSE.
-@DESCRIPTION=LOGREG function transforms your x's to z=ln(x) and applies the ``least squares'' method to fit the linear equation y = m * z + b to your y's and z's --- equivalent to fitting the equation y = m * ln(x) + b to y's and x's. LOGREG returns an array having two columns and one row. m is given in the first column and b in the second. 
+@SYNTAX=LOGREG(known_ys,known_xs,affine,stat)
+@ARGUMENTDESCRIPTION=@{known_ys}: known y-values
+@{known_xs}: known x-values; defaults to the array {1, 2, 3, …}
+@{affine}: if true, the model contains a constant term, defaults to true
+@{stat}: if true, extra statistical information will be returned; defaults to FALSE
+@DESCRIPTION=LOGREG function transforms your x's to z=ln(x) and applies the “least squares” method to fit the linear equation y = m * z + b to your y's and z's --- equivalent to fitting the equation y = m * ln(x) + b to y's and x's. LOGREG returns an array having two columns and one row. m is given in the first column and b in the second. 
 Any extra statistical information is written below m and b in the result array.  This extra statistical information consists of four rows of data:  In the first row the standard error values for the coefficients m, b are given.  The second row contains the square of R and the standard error for the y estimate. The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares.The default of @{stat} is FALSE.
-@NOTE=If @{known_y}'s and @{known_x}'s have unequal number of data points, this function returns a #NUM! error.
+@NOTE=If @{known_ys} and @{known_xs} have unequal number of data points, this function returns a #NUM! error.
 @SEEALSO=LOGFIT,LINEST,LOGEST
 
 @CATEGORY=Statistics
 @FUNCTION=MAX
-@SHORTDESC=largest value, with negative numbers considered smaller than positive numbers.
+@SHORTDESC=largest value, with negative numbers considered smaller than positive numbers
 @SYNTAX=MAX(number1,number2)
 @ARGUMENTDESCRIPTION=@{number1}: first value
 @{number2}: second value
@@ -4633,7 +4636,7 @@ Any extra statistical information is written below m and b in the result array. 
 
 @CATEGORY=Statistics
 @FUNCTION=MAXA
-@SHORTDESC=largest value, with negative numbers considered smaller than positive numbers.
+@SHORTDESC=largest value, with negative numbers considered smaller than positive numbers
 @SYNTAX=MAXA(number1,number2)
 @ARGUMENTDESCRIPTION=@{number1}: first value
 @{number2}: second value
@@ -4695,9 +4698,9 @@ If the data set does not contain any duplicates this function returns a #N/A err
 
 @CATEGORY=Statistics
 @FUNCTION=NORMDIST
-@SHORTDESC=(cumulative) probability density function of a normal distribution
+@SHORTDESC=probability density or cumulative distribution function of a normal distribution
 @SYNTAX=NORMDIST(x,mean,stddev,cumulative)
-@ARGUMENTDESCRIPTION=@{x}: 
+@ARGUMENTDESCRIPTION=@{x}: number
 @{mean}: mean of the distribution
 @{stddev}: standard deviation of the distribution
 @{cumulative}: whether to evaluate the density function or the cumulative distribution function
@@ -4720,7 +4723,7 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @FUNCTION=NORMSDIST
 @SHORTDESC=cumulative density function of the standard normal distribution
 @SYNTAX=NORMSDIST(x)
-@ARGUMENTDESCRIPTION=@{x}: 
+@ARGUMENTDESCRIPTION=@{x}: number
 @EXCEL=This function is Excel compatible.
 @ODF=NORMSDIST is the OpenFormula function LEGACY.NORMSDIST.
 @SEEALSO=NORMDIST
@@ -4739,7 +4742,7 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @FUNCTION=PARETO
 @SHORTDESC=probability density function of the pareto distribution
 @SYNTAX=PARETO(x,a,b)
-@ARGUMENTDESCRIPTION=@{x}: 
+@ARGUMENTDESCRIPTION=@{x}: number
 @{a}: exponent
 @{b}: scale parameter
 @SEEALSO=RANDPARETO
@@ -4766,7 +4769,7 @@ If the data set does not contain any duplicates this function returns a #N/A err
 
 @CATEGORY=Statistics
 @FUNCTION=PERCENTRANK
-@SHORTDESC=rank of a data point in a data set.
+@SHORTDESC=rank of a data point in a data set
 @SYNTAX=PERCENTRANK(array,x,significance)
 @ARGUMENTDESCRIPTION=@{array}: range of numeric values
 @{x}: data point to be ranked
@@ -4786,7 +4789,7 @@ If the data set does not contain any duplicates this function returns a #N/A err
 
 @CATEGORY=Statistics
 @FUNCTION=PERMUTATIONA
-@SHORTDESC=the number of permutations of @{y} objects chosen from @{x} objects with repetition allowed.
+@SHORTDESC=the number of permutations of @{y} objects chosen from @{x} objects with repetition allowed
 @SYNTAX=PERMUTATIONA(x,y)
 @ARGUMENTDESCRIPTION=@{x}: total number of objects
 @{y}: number of selected objects
@@ -4796,7 +4799,7 @@ If the data set does not contain any duplicates this function returns a #N/A err
 
 @CATEGORY=Statistics
 @FUNCTION=POISSON
-@SHORTDESC=(cumulative) probability mass function of the Poisson distribution
+@SHORTDESC=probability mass or cumulative distribution function of the Poisson distribution
 @SYNTAX=POISSON(x,mean,cumulative)
 @ARGUMENTDESCRIPTION=@{x}: number of events
 @{mean}: mean of the distribution
@@ -4822,8 +4825,8 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @SHORTDESC=the @{k}-th quartile of the data points
 @SYNTAX=QUARTILE(array,quart)
 @ARGUMENTDESCRIPTION=@{array}: data points
-@{quart}: A number from 0 to 4, indicating which quartile to calculate. A value of 0 causes the smallest value of @{array} to be returned.
-@NOTE=If @{array} is empty, this function returns a #NUM! error. If @{quart} < 0 or @{quart} > 4, this function returns a #NUM! error. If @{quart} is not an integer, it is truncated.
+@{quart}: a number from 0 to 4, indicating which quartile to calculate
+@NOTE=If @{array} is empty, this function returns a #NUM! error. If @{quart} < 0 or @{quart} > 4, this function returns a #NUM! error. If @{quart} = 0, the smallest value of @{array} to be returned. If @{quart} is not an integer, it is truncated.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL
 
@@ -5384,7 +5387,7 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @SYNTAX=RANK(x,ref,order)
 @ARGUMENTDESCRIPTION=@{x}: number whose rank you want to find
 @{ref}: list of numbers
-@{order}: If this is 0, numbers are ranked in descending order, otherwise numbers are ranked in ascending order. Defaults to 0.
+@{order}: 0 (descending order) or non-zero (ascending order); defaults to 0
 @NOTE=In case of a tie, RANK returns the largest possible rank.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=PERCENTRANK,RANK.AVG
@@ -5395,7 +5398,7 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @SYNTAX=RANK.AVG(x,ref,order)
 @ARGUMENTDESCRIPTION=@{x}: number whose rank you want to find
 @{ref}: list of numbers
-@{order}: If this is 0, numbers are ranked in descending order, otherwise numbers are ranked in ascending order. Defaults to 0.
+@{order}: 0 (descending order) or non-zero (ascending order); defaults to 0
 @NOTE=In case of a tie, RANK returns the average rank.
 @EXCEL=This function is Excel 2010 compatible.
 @SEEALSO=PERCENTRANK,RANK
@@ -5404,7 +5407,7 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @FUNCTION=RAYLEIGH
 @SHORTDESC=probability density function of the Rayleigh distribution
 @SYNTAX=RAYLEIGH(x,sigma)
-@ARGUMENTDESCRIPTION=@{x}: 
+@ARGUMENTDESCRIPTION=@{x}: number
 @{sigma}: scale parameter
 @SEEALSO=RANDRAYLEIGH
 
@@ -5412,7 +5415,7 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @FUNCTION=RAYLEIGHTAIL
 @SHORTDESC=probability density function of the Rayleigh tail distribution
 @SYNTAX=RAYLEIGHTAIL(x,a,sigma)
-@ARGUMENTDESCRIPTION=@{x}: 
+@ARGUMENTDESCRIPTION=@{x}: number
 @{a}: lower limit
 @{sigma}: scale parameter
 @SEEALSO=RANDRAYLEIGHTAIL
@@ -5460,16 +5463,16 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @CATEGORY=Statistics
 @FUNCTION=SLOPE
 @SHORTDESC=the slope of a linear regression line
-@SYNTAX=SLOPE(known_y's,known_x's)
-@ARGUMENTDESCRIPTION=@{known_y's}: known y-values
-@{known_x's}: known x-values
-@NOTE=If @{known_x} or @{known_y} contains no data entries or different number of data entries, this function returns a #N/A error. If the variance of the @{known_x} is zero, this function returns #DIV/0 error.
+@SYNTAX=SLOPE(known_ys,known_xs)
+@ARGUMENTDESCRIPTION=@{known_ys}: known y-values
+@{known_xs}: known x-values
+@NOTE=If @{known_xs} or @{known_ys} contains no data entries or different number of data entries, this function returns a #N/A error. If the variance of the @{known_xs} is zero, this function returns #DIV/0 error.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=STDEV,STDEVPA
 
 @CATEGORY=Statistics
 @FUNCTION=SMALL
-@SHORTDESC= @{k}-th smallest value in a data set.
+@SHORTDESC=@{k}-th smallest value in a data set
 @SYNTAX=SMALL(data,k)
 @ARGUMENTDESCRIPTION=@{data}: data set
 @{k}: which value to find
@@ -5511,7 +5514,7 @@ To obtain the population standard deviation of a whole population use STDEVP.
 
 @CATEGORY=Statistics
 @FUNCTION=STDEVA
-@SHORTDESC=sample standard deviation of the given sample.
+@SHORTDESC=sample standard deviation of the given sample
 @SYNTAX=STDEVA(area1,area2)
 @ARGUMENTDESCRIPTION=@{area1}: first cell area
 @{area2}: second cell area
@@ -5533,7 +5536,7 @@ Numbers, text and logical values are included in the calculation too. If the cel
 
 @CATEGORY=Statistics
 @FUNCTION=STDEVPA
-@SHORTDESC=population standard deviation of an entire population.
+@SHORTDESC=population standard deviation of an entire population
 @SYNTAX=STDEVPA(area1,area2)
 @ARGUMENTDESCRIPTION=@{area1}: first cell area
 @{area2}: second cell area
@@ -5545,10 +5548,10 @@ Numbers, text and logical values are included in the calculation too. If the cel
 @CATEGORY=Statistics
 @FUNCTION=STEYX
 @SHORTDESC=standard error of the predicted y-value in the regression
-@SYNTAX=STEYX(known_y's,known_x's)
-@ARGUMENTDESCRIPTION=@{known_y's}: known y-values
-@{known_x's}: known x-values
-@NOTE=If @{known_y}'s and @{known_x}'s are empty or have a different number of arguments then this function returns a #N/A error.
+@SYNTAX=STEYX(known_ys,known_xs)
+@ARGUMENTDESCRIPTION=@{known_ys}: known y-values
+@{known_xs}: known x-values
+@NOTE=If @{known_ys} and @{known_xs} are empty or have a different number of arguments then this function returns a #N/A error.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=PEARSON,RSQ,SLOPE
 
@@ -5577,9 +5580,9 @@ Numbers, text and logical values are included in the calculation too. If the cel
 @FUNCTION=TDIST
 @SHORTDESC=survival function of the Student t-distribution
 @SYNTAX=TDIST(x,dof,tails)
-@ARGUMENTDESCRIPTION=@{x}: 
+@ARGUMENTDESCRIPTION=@{x}: number
 @{dof}: number of degrees of freedom
-@{tails}: 1 or 2.
+@{tails}: 1 or 2
 @DESCRIPTION=The survival function is 1 minus the cumulative distribution function.
 This function is Excel compatible for non-negative @{x}.
 @NOTE=If @{dof} < 1 this function returns a #NUM! error. If @{tails} is neither 1 or 2 this function returns a #NUM! error. The parameterization of this function is different from what is used for, e.g., NORMSDIST.  This is a common source of mistakes, but necessary for compatibility.
@@ -5599,12 +5602,12 @@ This function is Excel compatible for non-negative @{x}.
 @CATEGORY=Statistics
 @FUNCTION=TREND
 @SHORTDESC=estimates future values of a given data set using a least squares approximation
-@SYNTAX=TREND(known_y's,known_x's,new_x's,const)
-@ARGUMENTDESCRIPTION=@{known_y's}: known y-values
-@{known_x's}: known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.
-@{new_x's}:  x-values for which you want to estimate the y-values; defaults to @{known_x}'s
-@{const}: if this is false the line will be forced to go through the origin; defaults to TRUE
-@NOTE=If @{known_y's} and @{known_x's} have unequal number of data points, this function returns a #NUM! error.
+@SYNTAX=TREND(known_ys,known_xs,new_xs,affine)
+@ARGUMENTDESCRIPTION=@{known_ys}: known y-values
+@{known_xs}: known x-values; defaults to the array {1, 2, 3, …}
+@{new_xs}: x-values for which to estimate the y-values; defaults to @{known_xs}
+@{affine}: if true, the model contains a constant term, defaults to true
+@NOTE=If @{known_ys} and @{known_xs} have unequal number of data points, this function returns a #NUM! error.
 @SEEALSO=LINEST
 
 @CATEGORY=Statistics
@@ -5675,9 +5678,9 @@ Numbers, text and logical values are included in the calculation too. If the cel
 
 @CATEGORY=Statistics
 @FUNCTION=WEIBULL
-@SHORTDESC=(cumulative) probability density function of the Weibull distribution
+@SHORTDESC=probability density or cumulative distribution function of the Weibull distribution
 @SYNTAX=WEIBULL(x,alpha,beta,cumulative)
-@ARGUMENTDESCRIPTION=@{x}: 
+@ARGUMENTDESCRIPTION=@{x}: number
 @{alpha}: scale parameter
 @{beta}: scale parameter
 @{cumulative}: whether to evaluate the density function or the cumulative distribution function
@@ -5701,7 +5704,7 @@ Numbers, text and logical values are included in the calculation too. If the cel
 
 @CATEGORY=String
 @FUNCTION=ASC
-@SHORTDESC=text with full-width katakana and ASCII characters converted to half-width.
+@SHORTDESC=text with full-width katakana and ASCII characters converted to half-width
 @SYNTAX=ASC(text)
 @ARGUMENTDESCRIPTION=@{text}: string
 @DESCRIPTION=ASC converts full-width katakana and ASCII characters to half-width equivalent characters, copying all others. 
@@ -5713,7 +5716,7 @@ The distinction between half-width and full-width characters is described in htt
 
 @CATEGORY=String
 @FUNCTION=CHAR
-@SHORTDESC=the CP1252 (Windows-1252) character for the code point @{x}.
+@SHORTDESC=the CP1252 (Windows-1252) character for the code point @{x}
 @SYNTAX=CHAR(x)
 @ARGUMENTDESCRIPTION=@{x}: code point
 @DESCRIPTION=CHAR(@{x}) returns the CP1252 (Windows-1252) character with code @{x}.
@@ -5746,7 +5749,7 @@ This function is Excel compatible.
 
 @CATEGORY=String
 @FUNCTION=CONCATENATE
-@SHORTDESC=the concatenation of the strings @{s1}, @{s2},...
+@SHORTDESC=the concatenation of the strings @{s1}, @{s2},…
 @SYNTAX=CONCATENATE(s1,s2)
 @ARGUMENTDESCRIPTION=@{s1}: first string
 @{s2}: second string
@@ -5755,7 +5758,7 @@ This function is Excel compatible.
 
 @CATEGORY=String
 @FUNCTION=DOLLAR
-@SHORTDESC=@{num} formatted as currency.
+@SHORTDESC=@{num} formatted as currency
 @SYNTAX=DOLLAR(num,decimals)
 @ARGUMENTDESCRIPTION=@{num}: number
 @{decimals}: decimals
@@ -5806,7 +5809,7 @@ This function is Excel compatible.
 
 @CATEGORY=String
 @FUNCTION=JIS
-@SHORTDESC=text with half-width katakana and ASCII characters converted to full-width.
+@SHORTDESC=text with half-width katakana and ASCII characters converted to full-width
 @SYNTAX=JIS(text)
 @ARGUMENTDESCRIPTION=@{text}: original text
 @DESCRIPTION=JIS converts half-width katakana and ASCII characters to full-width equivalent characters, copying all others. 
@@ -5856,7 +5859,7 @@ The distinction between half-width and full-width characters is described in htt
 
 @CATEGORY=String
 @FUNCTION=LOWER
-@SHORTDESC=a lower-case version of the string @{text}.
+@SHORTDESC=a lower-case version of the string @{text}
 @SYNTAX=LOWER(text)
 @ARGUMENTDESCRIPTION=@{text}: string
 @EXCEL=This function is Excel compatible.
@@ -5897,7 +5900,7 @@ The distinction between half-width and full-width characters is described in htt
 
 @CATEGORY=String
 @FUNCTION=PROPER
-@SHORTDESC=@{text} with initial of each word capitalised.
+@SHORTDESC=@{text} with initial of each word capitalised
 @SYNTAX=PROPER(text)
 @ARGUMENTDESCRIPTION=@{text}: string
 @EXCEL=This function is Excel compatible.
@@ -5905,7 +5908,7 @@ The distinction between half-width and full-width characters is described in htt
 
 @CATEGORY=String
 @FUNCTION=REPLACE
-@SHORTDESC=String @{old} with @{num} characters starting at @{start} replaced by @{new}
+@SHORTDESC=string @{old} with @{num} characters starting at @{start} replaced by @{new}
 @SYNTAX=REPLACE(old,start,num,new)
 @ARGUMENTDESCRIPTION=@{old}: original text
 @{start}: starting position
@@ -6014,7 +6017,7 @@ The distinction between half-width and full-width characters is described in htt
 
 @CATEGORY=String
 @FUNCTION=TRIM
-@SHORTDESC=@{text} with only single spaces between words.
+@SHORTDESC=@{text} with only single spaces between words
 @SYNTAX=TRIM(text)
 @ARGUMENTDESCRIPTION=@{text}: string
 @EXCEL=This function is Excel compatible.
@@ -6022,7 +6025,7 @@ The distinction between half-width and full-width characters is described in htt
 
 @CATEGORY=String
 @FUNCTION=UNICHAR
-@SHORTDESC=the Unicode character represented by the Unicode code point @{x}.
+@SHORTDESC=the Unicode character represented by the Unicode code point @{x}
 @SYNTAX=UNICHAR(x)
 @ARGUMENTDESCRIPTION=@{x}: Unicode code point
 @SEEALSO=CHAR,UNICODE,CODE
@@ -6036,7 +6039,7 @@ The distinction between half-width and full-width characters is described in htt
 
 @CATEGORY=String
 @FUNCTION=UPPER
-@SHORTDESC=an upper-case version of the string @text.
+@SHORTDESC=an upper-case version of the string @text
 @SYNTAX=UPPER(text)
 @ARGUMENTDESCRIPTION=@{text}: string
 @EXCEL=This function is Excel compatible.
@@ -6052,9 +6055,9 @@ The distinction between half-width and full-width characters is described in htt
 
 @CATEGORY=Time Series Analysis
 @FUNCTION=FOURIER
-@SHORTDESC=Fourier or inverse Fourier transform.
+@SHORTDESC=Fourier or inverse Fourier transform
 @SYNTAX=FOURIER(Sequence,Inverse)
-@ARGUMENTDESCRIPTION=@{Sequence}:  the data sequence to be transformed
+@ARGUMENTDESCRIPTION=@{Sequence}: the data sequence to be transformed
 @{Inverse}: if false, the inverse Fourier transform is calculated. Defaults to false
 @DESCRIPTION=This array function returns the Fourier or inverse Fourier transform of the given data sequence.
 The output consists always of one column of complex numbers.
@@ -6062,12 +6065,12 @@ The output consists always of one column of complex numbers.
 
 @CATEGORY=Time Series Analysis
 @FUNCTION=INTERPOLATION
-@SHORTDESC=interpolated values corresponding to the given abscissa targets.
-@SYNTAX=INTERPOLATION(abscissas,ordinates,targets,interpolation)
-@ARGUMENTDESCRIPTION=@{abscissas}: The abscissas of the data to interpolate.
-@{ordinates}: The ordinates of the data to interpolate.
-@{targets}: The abscissas of the interpolated data.
-@{interpolation}: The method of interpolation to be used, defaults to no interpolation
+@SHORTDESC=interpolated values corresponding to the given abscissa targets
+@SYNTAX=INTERPOLATION(abscissae,ordinates,targets,interpolation)
+@ARGUMENTDESCRIPTION=@{abscissae}: abscissae of the given data points
+@{ordinates}: ordinates of the given data points
+@{targets}: abscissae of the interpolated data
+@{interpolation}: method of interpolation, defaults to none
 @DESCRIPTION=If an interpolation method is used, the number of returned values is one less than the number of targets and the targets values must be given in increasing order.
 The output consists always of one column of numbers.
 Possible interpolation methods are:
@@ -6077,18 +6080,18 @@ Possible interpolation methods are:
 3: staircase with averaging;
 4: natural cubic spline;
 5: natural cubic spline with averaging.
-@NOTE=Strings and empty cells in @{abscissas} and @{ordinates} are ignored. If several target data are provided they must be in the same column in consecutive cells.
+@NOTE=Strings and empty cells in @{abscissae} and @{ordinates} are ignored. If several target data are provided they must be in the same column in consecutive cells.
 @SEEALSO=PERIODOGRAM
 
 @CATEGORY=Time Series Analysis
 @FUNCTION=PERIODOGRAM
-@SHORTDESC= Periodogram of the given data.
-@SYNTAX=PERIODOGRAM(ordinates,filter,abscissas,interpolation,number)
-@ARGUMENTDESCRIPTION=@{ordinates}: The ordinates of the data to interpolate.
-@{filter}: Window function to  be used, defaults to no window function.
-@{abscissas}: The abscissas of the data to interpolate, defaults to regularly spaced abscissa.
-@{interpolation}: The method of interpolation to be used, defaults to no interpolation
-@{number}:  Number of interpolated data points to be used.
+@SHORTDESC=periodogram of the given data
+@SYNTAX=PERIODOGRAM(ordinates,filter,abscissae,interpolation,number)
+@ARGUMENTDESCRIPTION=@{ordinates}: ordinates of the given data
+@{filter}: windowing function to  be used, defaults to no filter
+@{abscissae}: abscissae of the given data, defaults to regularly spaced abscissae
+@{interpolation}: method of interpolation, defaults to none
+@{number}: number of interpolated data points
 @DESCRIPTION=If an interpolation method is used, the number of returned values is one less than the number of targets and the targets values must be given in increasing order.
 The output consists always of one column of numbers.
 Possible interpolation methods are:
@@ -6103,6 +6106,6 @@ Possible window functions are:
 1: Bartlett (triangular window)
 2: Hahn (cosine window)
 3: Welch (parabolic window)
-@NOTE=Strings and empty cells in @{abscissas} and @{ordinates} are ignored. If several target data are provided they must be in the same column in consecutive cells.
+@NOTE=Strings and empty cells in @{abscissae} and @{ordinates} are ignored. If several target data are provided they must be in the same column in consecutive cells.
 @SEEALSO=INTERPOLATION
 
