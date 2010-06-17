@@ -1,3 +1,14 @@
+<<<<<<< HEAD
+2010-06-17 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/func.h (gnm_func_convert_markup_to_pango): drop highlight arg
+	* src/func.c (gnm_func_convert_markup_to_pango): ditto
+	* src/gui-util.h (gnumeric_create_tooltip_rc_style): new
+	(gnumeric_create_tooltip_widget): new
+	* src/gui-util.c  (gnumeric_create_tooltip_rc_style): new
+	(gnumeric_create_tooltip_widget): new
+	(gnumeric_create_tooltip): split off teh above two
+
 2010-06-16  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

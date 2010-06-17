@@ -1,7 +1,15 @@
+2010-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-formula-guru.c (dialog_formula_guru_adjust_children): drop
+	  the last argument of gnm_func_convert_markup_to_pango
+	(cb_dialog_formula_guru_destroy): unref tooltip widgets
+	(cb_dialog_formula_guru_query_tooltip): create our own tooltip
+	(dialog_formula_guru_init): initialize tooltip widgets
+	
 2010-06-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.6
-
+	
 2010-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-formula-guru.c (dialog_formula_guru_adjust_children): use

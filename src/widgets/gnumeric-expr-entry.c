@@ -621,8 +621,7 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str)
 	gint root_x = 0, root_y = 0;
 	GtkAllocation allocation;
 	GdkWindow *gdkw;
-	gchar *markup = gnm_func_convert_markup_to_pango 
-		(str,"foreground=\"#0000FF\"");
+	gchar *markup = gnm_func_convert_markup_to_pango (str);
 
 	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (gee->entry));
 	gtk_widget_add_events(toplevel, GDK_FOCUS_CHANGE_MASK);
@@ -747,7 +746,8 @@ gee_check_tooltip (GnmExprEntry *gee)
 	gchar sep = go_locale_get_arg_sep ();
 	gint  para = 0, stuff = 0;
 
-	if (!gee->tooltip.enabled)
+	if (!gee->tooltip.enabled || gee->is_cell_renderer || 
+	    (gee->flags & GNM_EE_SINGLE_RANGE))
 		return;
 
 	end = gtk_editable_get_position (editable);

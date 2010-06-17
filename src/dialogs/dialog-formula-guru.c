@@ -77,6 +77,8 @@ typedef struct
 
 	GtkTreeStore  *model;
 	GtkTreeView   *treeview;
+	GtkWidget     *tooltip_widget;
+	GtkWidget     *tooltip_label;
 
 	gint old_height;
 	gint old_width;
@@ -327,8 +329,7 @@ dialog_formula_guru_adjust_children (GtkTreeIter *parent, GnmFunc const *fd,
 			arg_name = mod_name;
 		}
 		desc = gnm_func_convert_markup_to_pango 
-			(gnm_func_get_arg_description (fd, i),
-			 "underline=\"low\"");
+			(gnm_func_get_arg_description (fd, i));
 		gtk_tree_store_set (state->model, &iter,
 				    ARG_NAME, arg_name,
 				    ARG_TOOLTIP, desc,
@@ -534,6 +535,10 @@ cb_dialog_formula_guru_destroy (FormulaGuruState *state)
 	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
 	gnm_expr_entry_enable_tips (wbcg_get_entry_logical (state->wbcg));
+	if (state->tooltip_widget) {
+		g_object_unref (G_OBJECT (state->tooltip_widget));
+		g_object_unref (G_OBJECT (state->tooltip_label));
+	}
 	g_free (state);
 }
 
@@ -828,6 +833,55 @@ start_editing_cb (GtkTreeView      *tree_view,
 /* End of bad bad hack*/
 
 static gboolean
+cb_dialog_formula_guru_query_tooltip (GtkWidget  *widget,
+				      gint        x,
+				      gint        y,
+				      gboolean    keyboard_mode,
+				      GtkTooltip *tooltip,
+				      gpointer    user_data)
+{
+	FormulaGuruState *state = user_data;
+	gint x_ = x;
+	gint y_ = y;
+	GtkTreeIter iter;
+	GtkTreePath *path;
+
+	if (gtk_tree_view_get_tooltip_context 
+	    (state->treeview, &x_, &y_, keyboard_mode, NULL, &path, &iter)) {
+		char *markup;
+		GtkRcStyle *rc_style = gnumeric_create_tooltip_rc_style ();
+
+		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
+				    ARG_TOOLTIP, &markup, -1);
+		if (markup == NULL || markup[0]=='\0')
+			return FALSE;
+		if (!state->tooltip_widget) {
+/* For some reason we don't get a reasonable tooltip with the following:          */
+/* 			state->tooltip_label = gnumeric_create_tooltip_widget (); */
+/* 			state->tooltip_widget */
+/* 				= gtk_widget_get_toplevel (state->tooltip_label); */
+			state->tooltip_label = state->tooltip_widget
+				= gtk_label_new (NULL);
+
+			gtk_widget_modify_style /* Applying to label */
+				(state->tooltip_label, rc_style);
+			g_object_ref (G_OBJECT (state->tooltip_widget));
+			g_object_ref (G_OBJECT (state->tooltip_label));
+		}
+		gtk_tooltip_set_custom (tooltip, state->tooltip_widget);
+		gtk_widget_modify_style /* Applying to window */
+			(gtk_widget_get_toplevel (state->tooltip_widget), rc_style);
+		gtk_label_set_markup (GTK_LABEL (state->tooltip_label), markup);
+		g_free (markup);
+		gtk_tree_view_set_tooltip_row (state->treeview,
+					       tooltip, path);
+		gtk_tree_path_free (path);
+		return TRUE;
+	}
+	return FALSE;
+}
+
+static gboolean
 dialog_formula_guru_init (FormulaGuruState *state)
 {
 	GtkWidget *scrolled;
@@ -837,6 +891,8 @@ dialog_formula_guru_init (FormulaGuruState *state)
 
 	g_object_set_data (G_OBJECT (state->dialog), FORMULA_GURU_KEY_DIALOG,
 			   state);
+
+	state->tooltip_widget = NULL;
 
 	/* Set-up treeview */
 	scrolled = glade_xml_get_widget (state->gui, "scrolled");
@@ -878,7 +934,11 @@ dialog_formula_guru_init (FormulaGuruState *state)
 	state->column = column;
 	gtk_tree_view_append_column (state->treeview, column);
 
-	gtk_tree_view_set_tooltip_column (state->treeview, ARG_TOOLTIP);
+	gtk_widget_set_has_tooltip (GTK_WIDGET (state->treeview), TRUE);
+	g_signal_connect (G_OBJECT (state->treeview), "query-tooltip",
+			  G_CALLBACK (cb_dialog_formula_guru_query_tooltip), state);
+
+/* 	gtk_tree_view_set_tooltip_column (state->treeview, ARG_TOOLTIP); */
 	gtk_tree_view_set_headers_visible (state->treeview, TRUE);
 	gtk_tree_view_set_enable_tree_lines (state->treeview, TRUE);
 	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (state->treeview));

@@ -1284,7 +1284,7 @@ gnm_func_get_arg_description (GnmFunc const *fn_def, guint arg_idx)
  *               pango markup
  **/
 char *
-gnm_func_convert_markup_to_pango (char const *desc, char const *highlight)
+gnm_func_convert_markup_to_pango (char const *desc)
 {
 	GString *str;
 	gchar *markup, *at;
@@ -1298,13 +1298,9 @@ gnm_func_convert_markup_to_pango (char const *desc, char const *highlight)
 		gint len = at - str->str;
 			g_string_erase (str, len, 2);
 			g_string_insert (str, len, 
-					 ">");
-			g_string_insert (str, len, 
-					 highlight);
-			g_string_insert (str, len, 
-					 "<span ");
+					 "<span foreground=\"#0000FF\">");
 			if ((at = strstr 
-			     (str->str + len + 7 + strlen (highlight), "}"))) {
+			     (str->str + len + 26, "}"))) {
 				len = at - str->str;
 				g_string_erase (str, len, 1);
 				g_string_insert (str, len, "</span>");
