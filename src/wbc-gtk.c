@@ -693,12 +693,7 @@ cb_sheet_label_drag_begin (GtkWidget *widget, GdkDragContext *context,
 	g_object_unref (pixbuf);
 	gtk_widget_shape_combine_mask (arrow, bitmap, 0, 0);
 	g_object_unref (bitmap);
-#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
 	g_object_ref_sink (arrow);
-#else
-	g_object_ref (arrow);
-	gtk_object_sink (GTK_OBJECT (arrow));
-#endif
 	g_object_set_data (G_OBJECT (widget), "arrow", arrow);
 }
 
