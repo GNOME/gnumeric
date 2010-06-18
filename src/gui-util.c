@@ -467,6 +467,7 @@ gnumeric_create_tooltip (GtkWidget *ref_widget)
 	gtk_window_set_resizable (GTK_WINDOW (tip), FALSE);
 	gtk_window_set_gravity (GTK_WINDOW (tip), GDK_GRAVITY_NORTH_WEST);
 	gtk_window_set_screen (GTK_WINDOW (tip), gtk_widget_get_screen (ref_widget));
+	gtk_widget_set_name (tip, "gnumeric-tooltip");
 	if (rc_style != NULL)
 		gtk_widget_modify_style (tip, rc_style);
 

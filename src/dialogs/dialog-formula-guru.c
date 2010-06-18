@@ -850,27 +850,40 @@ cb_dialog_formula_guru_query_tooltip (GtkWidget  *widget,
 	    (state->treeview, &x_, &y_, keyboard_mode, NULL, &path, &iter)) {
 		char *markup;
 		GtkRcStyle *rc_style = gnumeric_create_tooltip_rc_style ();
+		GtkWidget *parent, *window;
 
 		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
 				    ARG_TOOLTIP, &markup, -1);
 		if (markup == NULL || markup[0]=='\0')
 			return FALSE;
 		if (!state->tooltip_widget) {
-/* For some reason we don't get a reasonable tooltip with the following:          */
-/* 			state->tooltip_label = gnumeric_create_tooltip_widget (); */
-/* 			state->tooltip_widget */
-/* 				= gtk_widget_get_toplevel (state->tooltip_label); */
-			state->tooltip_label = state->tooltip_widget
-				= gtk_label_new (NULL);
-
+			state->tooltip_label = gnumeric_create_tooltip_widget ();
+			state->tooltip_widget
+				= gtk_widget_get_toplevel (state->tooltip_label);
 			gtk_widget_modify_style /* Applying to label */
 				(state->tooltip_label, rc_style);
+			gtk_widget_modify_style /* Applying to widget */
+				(state->tooltip_widget, rc_style);
+			gtk_widget_show_all (state->tooltip_widget);
 			g_object_ref (G_OBJECT (state->tooltip_widget));
 			g_object_ref (G_OBJECT (state->tooltip_label));
-		}
+		} 
 		gtk_tooltip_set_custom (tooltip, state->tooltip_widget);
+		window = gtk_widget_get_toplevel (state->tooltip_widget);
 		gtk_widget_modify_style /* Applying to window */
-			(gtk_widget_get_toplevel (state->tooltip_widget), rc_style);
+			(window, rc_style);
+		gtk_widget_set_name (window, "gnumeric-tooltip");
+		gtk_widget_set_app_paintable (window, FALSE);
+ 
+		parent = gtk_widget_get_parent (state->tooltip_widget);
+		if (parent != NULL && GTK_IS_BOX (parent)) {
+			gtk_box_set_spacing (GTK_BOX (parent),0);
+			parent = gtk_widget_get_parent (parent);
+			if (parent != NULL && GTK_IS_ALIGNMENT (parent))
+				gtk_alignment_set_padding 
+					(GTK_ALIGNMENT (parent),
+					 0,0,0,0);
+		}
 		gtk_label_set_markup (GTK_LABEL (state->tooltip_label), markup);
 		g_free (markup);
 		gtk_tree_view_set_tooltip_row (state->treeview,

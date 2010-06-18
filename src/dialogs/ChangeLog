@@ -1,5 +1,10 @@
 2010-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-formula-guru.c (cb_dialog_formula_guru_query_tooltip): 
+	  adjust tooltip
+
+2010-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-analysis-tools.c (dialog_tool_init): disable tooltips
 	  on input expression entries
 

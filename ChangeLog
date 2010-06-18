@@ -1,3 +1,7 @@
+2010-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gui-util.c (gnumeric_create_tooltip): windows should have names
+
 2010-06-17  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-util.c (gnumeric_popup_menu): We have passed gtk+ 2.8 by
