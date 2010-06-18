@@ -3,6 +3,9 @@ Gnumeric 1.10.7
 Jean:
 	* Fixed autofilter (and other) combos position. [#621817]
 
+Morten:
+	* Improve function syntax tooltips.
+
 --------------------------------------------------------------------------
 Gnumeric 1.10.6
 

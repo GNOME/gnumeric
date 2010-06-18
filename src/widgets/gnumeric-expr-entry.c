@@ -523,7 +523,7 @@ gee_scan_for_range (GnmExprEntry *gee)
 			GnmParsePos pp;
 			GnmExprTop const *texpr;
 			parse_pos_init_sheet (&pp, sheet);
-			if ((texpr = gnm_expr_parse_str 
+			if ((texpr = gnm_expr_parse_str
 			     ((text[0] == '=') ? text+1 : text, &pp, GNM_EXPR_PARSE_DEFAULT,
 			      sheet_get_conventions (sheet), NULL))!= NULL) {
 				GSList *ptr;
@@ -539,14 +539,14 @@ gee_scan_for_range (GnmExprEntry *gee)
 						continue;
 					range_init_rangeref (&r, rr);
 					if (range_is_singleton  (&r) &&
-					    NULL != (merge = gnm_sheet_merge_is_corner 
+					    NULL != (merge = gnm_sheet_merge_is_corner
 						     (sheet, &r.start)))
 						r = *merge;
 					SCG_FOREACH_PANE (gee->scg, pane,
-							  gnm_pane_expr_cursor_bound_set 
+							  gnm_pane_expr_cursor_bound_set
 							  (pane, &r, FALSE););
 				}
-				
+
 				go_slist_free_custom (list, (GFreeFunc)value_release);
 				gnm_expr_top_unref (texpr);
 			}
@@ -554,14 +554,14 @@ gee_scan_for_range (GnmExprEntry *gee)
 		gnm_expr_entry_find_range (gee);
 		if (gnm_expr_entry_get_rangesel (gee, &range, &parse_sheet) &&
 		    parse_sheet == sheet) {
-			GnmRange const *merge; /* [#127415] */			
+			GnmRange const *merge; /* [#127415] */
 			if (range_is_singleton  (&range) &&
-			    NULL != (merge = gnm_sheet_merge_is_corner 
+			    NULL != (merge = gnm_sheet_merge_is_corner
 				     (parse_sheet, &range.start)))
 				range = *merge;
-			
+
 			SCG_FOREACH_PANE (gee->scg, pane,
-					  gnm_pane_expr_cursor_bound_set 
+					  gnm_pane_expr_cursor_bound_set
 					  (pane, &range, TRUE););
 		}
 	}
@@ -595,14 +595,14 @@ gee_delete_tooltip (GnmExprEntry *gee)
 		gee->tooltip.fd = NULL;
 	}
 	if (gee->tooltip.handlerid != 0 && gee->entry != NULL) {
-		g_signal_handler_disconnect (gtk_widget_get_toplevel 
+		g_signal_handler_disconnect (gtk_widget_get_toplevel
 					     (GTK_WIDGET (gee->entry)),
 					     gee->tooltip.handlerid);
 		gee->tooltip.handlerid = 0;
 	}
 }
 
-void    
+void
 gnm_expr_entry_close_tips  (GnmExprEntry *gee)
 {
 	if (gee != NULL)
@@ -626,7 +626,7 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str)
 	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (gee->entry));
 	gtk_widget_add_events(toplevel, GDK_FOCUS_CHANGE_MASK);
 	if (gee->tooltip.handlerid == 0)
-		gee->tooltip.handlerid = g_signal_connect 
+		gee->tooltip.handlerid = g_signal_connect
 			(G_OBJECT (toplevel), "focus-out-event",
 			 G_CALLBACK (cb_gee_focus_out_event), gee);
 
@@ -670,14 +670,14 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args, gboolean had_stuff)
 	function_def_count_args (fd, &min, &max);
 
 	if (gee->tooltip.fd) {
-		if (gee->tooltip.fd == fd && gee->tooltip.args == args 
+		if (gee->tooltip.fd == fd && gee->tooltip.args == args
 		    && gee->tooltip.had_stuff == (max == 0 && args == 0 && had_stuff))
 			return;
 		gee_delete_tooltip (gee);
 	}
 
 	gee->tooltip.fd = fd;
-	gnm_func_ref (gee->tooltip.fd);   
+	gnm_func_ref (gee->tooltip.fd);
 
 	str = g_string_new (gnm_func_get_name (fd));
 	g_string_append_c (str, '(');
@@ -707,7 +707,7 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args, gboolean had_stuff)
 	if (i < max) {
 		if (!first)
 			g_string_append_c (str, sep);
-		g_string_append 
+		g_string_append
 			(str, (args >= i && args < max)
 			 ? UNICODE_RIGHT_ARROW UNICODE_ELLIPSIS UNICODE_LEFT_ARROW
 			 : UNICODE_ELLIPSIS);
@@ -746,7 +746,7 @@ gee_check_tooltip (GnmExprEntry *gee)
 	gchar sep = go_locale_get_arg_sep ();
 	gint  para = 0, stuff = 0;
 
-	if (!gee->tooltip.enabled || gee->is_cell_renderer || 
+	if (!gee->tooltip.enabled || gee->is_cell_renderer ||
 	    (gee->flags & GNM_EE_SINGLE_RANGE) ||
 	    (gee->flags & GNM_EE_FORCE_ABS_REF))
 		return;
@@ -757,7 +757,7 @@ gee_check_tooltip (GnmExprEntry *gee)
 		gee_delete_tooltip (gee);
 		return;
 	}
-	
+
 	str = gtk_editable_get_chars (editable, 0, end);
 	prefix = str_end = str + strlen (str) - 1;
 
@@ -769,14 +769,15 @@ gee_check_tooltip (GnmExprEntry *gee)
 			if (para == 1) {
 				/* last opened and yet not closed ( */
 				*prefix='\0';
-				
-				do {prefix--;} 
-				while (prefix >= str && 
-				       (('a' <= *prefix && *prefix <= 'z') ||
-					('a' <= *prefix && *prefix <= 'z') ||
-					('.' == *prefix)));
+
+				do {
+					prefix--;
+				} while (prefix >= str &&
+					 (g_ascii_isalnum (*prefix) ||
+					  *prefix == '.' ||
+					  *prefix == '_'));
 				prefix++;
-	
+
 				if (*prefix != '\0') {
 					GnmFunc	*fd = gnm_func_lookup (prefix, NULL);
 					if (fd != NULL) {
