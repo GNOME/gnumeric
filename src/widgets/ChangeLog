@@ -1,7 +1,8 @@
 2010-06-18  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-expr-entry.c (gee_check_tooltip): Make this work for
-	"ATAN", "g_product", "log2" and similar functions.
+	"ATAN", "g_product", "log2" and similar functions.  Handle strings
+	and sheet names.
 
 2010-06-17  Jean Brefort  <jean.brefort@normalesup.org>
 

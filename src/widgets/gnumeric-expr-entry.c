@@ -795,8 +795,23 @@ gee_check_tooltip (GnmExprEntry *gee)
 			args++;
 		} else if (*prefix != ' ')
 			stuff++;
+
+		if (*prefix == '\'' || *prefix == '"') {
+			char quote = *prefix--;
+
+			while (*prefix != quote ||
+			       (prefix > str && prefix[-1] == '\\')) {
+				if (prefix == str)
+					goto not_found;
+				prefix--;
+			}
+
+			if (prefix == str)
+				goto not_found;
+		}
 		prefix--;
 	}
+ not_found:
 	g_free (str);
 	gee_delete_tooltip (gee);
 	return;
