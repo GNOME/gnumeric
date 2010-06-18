@@ -1,3 +1,8 @@
+2010-06-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (gee_check_tooltip): Handle strings (and 
+	  sheet names) better.
+
 2010-06-18  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-expr-entry.c (gee_check_tooltip): Make this work for

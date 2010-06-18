@@ -1,5 +1,8 @@
 Gnumeric 1.10.7
 
+Andreas:
+	* Improve function syntax and formula guru tooltips.
+
 Jean:
 	* Fixed autofilter (and other) combos position. [#621817]
 
