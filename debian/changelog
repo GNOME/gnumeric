@@ -1,3 +1,10 @@
+gnumeric (1.10.6-1) unstable; urgency=low
+
+  * New upstream stable release. Changes include:
+    * Improve ACCRINT and its description. (Closes: #560770)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 19 Jun 2010 13:08:11 +0200
+
 gnumeric (1.10.5-1) unstable; urgency=low
 
   * New upstream stable release.
