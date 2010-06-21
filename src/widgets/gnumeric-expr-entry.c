@@ -777,6 +777,7 @@ gee_check_tooltip (GnmExprEntry *gee)
 				prefix = start;
 				if (prefix != str)
 					prefix--;
+				stuff = 1;
 				break;
 			}
 			start = (char *)e;

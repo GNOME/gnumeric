@@ -1,3 +1,7 @@
+2010-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (gee_check_tooltip): small fix
+
 2010-06-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (gee_check_tooltip): Handle strings (and 
