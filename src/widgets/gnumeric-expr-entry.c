@@ -745,7 +745,6 @@ gee_check_tooltip (GnmExprEntry *gee)
 	int   args = 0;
 	gchar sep = go_locale_get_arg_sep ();
 	gint  para = 0, stuff = 0;
-	gboolean in_string = FALSE;
 	char quote;
 
 	if (!gee->tooltip.enabled || gee->is_cell_renderer ||
@@ -762,22 +761,27 @@ gee_check_tooltip (GnmExprEntry *gee)
 
 	str = gtk_editable_get_chars (editable, 0, end);
 	prefix = str_end = str + strlen (str) - 1;
+
+	/*
+	 * If we have an open string at the end of the entry, we
+	 * need to adjust "prefix" to be in front of that.
+	 */
 	start = str;
-	while (*start != '\0') {
-		if ((*start == '"' || *start == '\'') 
-		    && (start == str || start[-1] != '\\')) {
-			in_string = !in_string;
-			quote = *start;
-		}
-		start++;
-	}
-	if (in_string) {
-		stuff = 1;
-		/* note that the first condition should never be false */
-		while (str <= prefix && *prefix != quote) {
-			prefix--;
-		}
-		prefix--;
+	while (*start) {
+		if (*start == '"' || *start == '\'') {
+			GString *dummy = g_string_new (NULL);
+			const char *e = go_strunescape (dummy, start);
+			g_string_free (dummy, TRUE);
+			if (!e) {
+				/* We never saw the end of the string */
+				prefix = start;
+				if (prefix != str)
+					prefix--;
+				break;
+			}
+			start = (char *)e;
+		} else
+			start++;
 	}
 
 	while (str < prefix) {
