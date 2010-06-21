@@ -757,35 +757,6 @@ cb_dialog_formula_guru_editing_started (GtkCellRenderer *cell,
 	state->editable = editable;
 }
 
-/* Bad bad hack to be removed with Gtk2.2 */
-/* The idea to this code is due to Jonathan Blandford */
-
-typedef struct
-{
-	GtkTreePath *path;
-	FormulaGuruState *state;
-} IdleData;
-
-static gboolean
-real_start_editing_cb (IdleData *idle_data)
-{
-	FormulaGuruState *state = idle_data->state;
-	GtkTreePath *path = idle_data->path;
-
-	if (state->editable)
-		gtk_cell_editable_editing_done (state->editable);
-
-	gtk_widget_grab_focus (GTK_WIDGET (state->treeview));
-	gtk_tree_view_set_cursor (state->treeview,
-				  path,
-				  state->column,
-				  TRUE);
-
-	gtk_tree_path_free (path);
-	g_free (idle_data);
-	return FALSE;
-}
-
 static gboolean
 start_editing_cb (GtkTreeView      *tree_view,
 		  GdkEventButton   *event,
@@ -807,7 +778,6 @@ start_editing_cb (GtkTreeView      *tree_view,
 	    gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model),
 				     &iter, path))
 	{
-		IdleData *idle_data;
 		gboolean is_non_fun;
 
 		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
@@ -819,18 +789,21 @@ start_editing_cb (GtkTreeView      *tree_view,
 			return FALSE;
 		}
 
-		idle_data = g_new (IdleData, 1);
-		idle_data->path = path;
-		idle_data->state = state;
-
-		g_signal_stop_emission_by_name (G_OBJECT (tree_view), "button_press_event");
-		g_idle_add ((GSourceFunc) real_start_editing_cb, idle_data);
+		if (state->editable)
+			gtk_cell_editable_editing_done (state->editable);
+		
+		gtk_widget_grab_focus (GTK_WIDGET (state->treeview));
+		gtk_tree_view_set_cursor (state->treeview,
+					  path,
+					  state->column,
+					  TRUE);
+		
+		gtk_tree_path_free (path);
+		
 		return TRUE;
 	}
 	return FALSE;
 }
-
-/* End of bad bad hack*/
 
 static gboolean
 cb_dialog_formula_guru_query_tooltip (GtkWidget  *widget,
@@ -951,7 +924,6 @@ dialog_formula_guru_init (FormulaGuruState *state)
 	g_signal_connect (G_OBJECT (state->treeview), "query-tooltip",
 			  G_CALLBACK (cb_dialog_formula_guru_query_tooltip), state);
 
-/* 	gtk_tree_view_set_tooltip_column (state->treeview, ARG_TOOLTIP); */
 	gtk_tree_view_set_headers_visible (state->treeview, TRUE);
 	gtk_tree_view_set_enable_tree_lines (state->treeview, TRUE);
 	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (state->treeview));

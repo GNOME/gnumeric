@@ -1,3 +1,9 @@
+2010-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-formula-guru.c (real_start_editing_cb): deleted
+	(start_editing_cb): include real_start_editing_cb here 
+	  (removes gtk 2.2 hack)
+
 2010-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-formula-guru.c (cb_dialog_formula_guru_query_tooltip): 
