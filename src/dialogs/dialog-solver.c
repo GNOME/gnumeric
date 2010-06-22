@@ -42,6 +42,7 @@
 #include <ranges.h>
 #include <commands.h>
 #include <clipboard.h>
+#include <selection.h>
 #include <tools/gnm-solver.h>
 #include <widgets/gnumeric-expr-entry.h>
 
@@ -906,6 +907,7 @@ dialog_init (SolverState *state)
 	GnmCell *target_cell;
 	GnmValue const *input;
 	int i;
+	GnmRange const *first;
 
 	param = state->sheet->solver_parameters;
 
@@ -1146,7 +1148,16 @@ dialog_init (SolverState *state)
 			    param->options.scenario_name);
 
 /* Done */
+	first = selection_first_range 
+		(wb_control_cur_sheet_view 
+		 (WORKBOOK_CONTROL (state->wbcg)), NULL, NULL);
+	if (first != NULL) {
+		gnm_expr_entry_load_from_range (state->target_entry,
+						state->sheet, first);
+	}
+	
 	gnm_expr_entry_grab_focus (state->target_entry, FALSE);
+	wbcg_set_entry (state->wbcg, state->target_entry);
 
 	dialog_set_main_button_sensitivity (NULL, state);
 	dialog_set_sec_button_sensitivity (NULL, state);

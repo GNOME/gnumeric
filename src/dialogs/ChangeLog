@@ -1,5 +1,9 @@
 2010-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-solver.c (dialog_init): setup first entry
+
+2010-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-formula-guru.c (real_start_editing_cb): deleted
 	(start_editing_cb): include real_start_editing_cb here 
 	  (removes gtk 2.2 hack)
