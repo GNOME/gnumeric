@@ -1,3 +1,8 @@
+2010-06-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.h (cmd_so_rename): deleted
+	* src/commands.c (cmd_so_rename*): deleted
+
 2010-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gui-util.c (gnumeric_create_tooltip): windows should have names

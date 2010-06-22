@@ -183,6 +183,14 @@ dialog_so_size_load (SOSizeState *state)
 	state->so_pos_needs_restore = FALSE;
 }
 
+static GOUndo *
+set_params (SheetObject *so, char *name)
+{
+	return go_undo_binary_new
+		(g_object_ref (G_OBJECT (so)), name,
+		 (GOUndoBinaryFunc)sheet_object_set_name,
+		 g_object_unref, g_free);
+}
 
 static void
 cb_dialog_so_size_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
@@ -206,11 +214,21 @@ cb_dialog_so_size_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 	name = gtk_entry_get_text (state->nameentry);
 	if (name == NULL)
 		name = "";
-	if (strcmp (name, state->old_name) != 0)
+	if (strcmp (name, state->old_name) != 0) {
+		GOUndo *undo, *redo;
+		char *old_name, *new_name;
+
+		g_object_get (G_OBJECT (state->so), "name", &old_name, NULL);
+		undo = set_params (state->so, old_name);
+
+		new_name = (*name == '\0') ? NULL : g_strdup (name);
+		redo = set_params (state->so, new_name);
+
 		state->so_name_changed 
-			= cmd_so_rename (WORKBOOK_CONTROL (state->wbcg),
-					 state->so, 
-					 (*name == '\0') ? NULL : name);
+			= cmd_generic (WORKBOOK_CONTROL (state->wbcg),
+				       _("Set Object Name"),
+				       undo, redo);
+	}
 
 	dialog_so_size_button_sensitivity (state);
 

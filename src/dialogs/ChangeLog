@@ -1,3 +1,9 @@
+2010-06-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-sheetobject-size.c (set_params): new
+	(cb_dialog_so_size_apply_clicked): use cmd_generic instead of
+	  cmd_so_rename
+	
 2010-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-solver.c (dialog_init): setup first entry
