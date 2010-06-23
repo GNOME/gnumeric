@@ -1,3 +1,10 @@
+2010-06-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.c (make_undo_text): modify to use GString and
+	  change all callers
+	(cmd_resize_colrow): use make_undo_text
+	(cmd_zoom): use make_undo_text
+
 2010-06-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.h (cmd_so_rename): deleted

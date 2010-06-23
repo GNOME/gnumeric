@@ -80,6 +80,9 @@
 #include <gsf/gsf-doc-meta-data.h>
 #include <string.h>
 
+#define UNICODE_ELLIPSIS "\xe2\x80\xa6"
+
+
 /*
  * There are several distinct stages to wrapping each command.
  *
@@ -140,30 +143,28 @@ gnm_command_finalize (GObject *obj)
 
 /******************************************************************/
 
-static char *
-make_undo_text (char const *src, gboolean *truncated)
+static GString *
+make_undo_text (GString *src)
 {
-	char *dst = g_strdup (src);
-	char *p;
-	int len;
 	int max_len = gnm_conf_get_undo_max_descriptor_width ();
-	*truncated = FALSE;
-	for (len = 0, p = dst;
-	     *p;
-	     p = g_utf8_next_char (p), len++) {
-		if (len == max_len) {
-			*p = 0;
-			*truncated = TRUE;
-			break;
-		}
-		if (*p == '\r' || *p == '\n') {
-			*p = 0;
-			*truncated = TRUE;
-			break;
-		}
-	}
+	glong len;
+	char *pos;
 
-	return dst;
+	if (max_len < 5)
+		max_len = 5;
+
+	while ((pos = strchr(src->str, '\n')) != NULL ||
+	       (pos = strchr(src->str, '\r')) != NULL)
+		*pos = ' ';
+	
+	len = g_utf8_strlen (src->str, -1);
+	if (len > max_len) {
+		gchar* last = g_utf8_offset_to_pointer (src->str,
+                                                        max_len - 1);
+		g_string_truncate (src, last - src->str);
+		g_string_append (src, UNICODE_ELLIPSIS);
+	}
+	return src;
 }
 
 
@@ -862,12 +863,12 @@ cmd_set_text (WorkbookControl *wbc,
 	      PangoAttrList *markup)
 {
 	CmdSetText *me;
-	gchar *text, *corrected_text;
+	gchar *corrected_text;
 	GnmCell const *cell;
 	char *where;
-	gboolean truncated;
 	GnmRange r;
 	gboolean same_text = FALSE, same_markup = FALSE;
+	GString *text;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (new_text != NULL, TRUE);
@@ -916,7 +917,7 @@ cmd_set_text (WorkbookControl *wbc,
 	me->old_contents = clipboard_copy_range (sheet, &r);
 	me->first = TRUE;
 
-	text = make_undo_text (corrected_text, &truncated);
+	text = make_undo_text (g_string_new (corrected_text));
 
 	me->cmd.sheet = sheet;
 	me->cmd.size = 1;
@@ -925,12 +926,10 @@ cmd_set_text (WorkbookControl *wbc,
 	me->cmd.cmd_descriptor =
 		same_text
 		? g_strdup_printf (_("Editing style in %s"), where)
-		: g_strdup_printf (_("Typing \"%s%s\" in %s"),
-				   text,
-				   truncated ? "..." : "",
-				   where);
+		: g_strdup_printf (_("Typing \"%s\" in %s"),
+				   text->str, where);
 	g_free (where);
-	g_free (text);
+	g_string_free (text, TRUE);
 
 	me->first_time = TRUE;
 	me->has_user_format = !go_format_is_general (
@@ -1098,8 +1097,7 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 {
 #warning add markup
 	CmdAreaSetText *me;
-	gchar *text;
-	gboolean truncated;
+	GString *text;
 
 	me = g_object_new (CMD_AREA_SET_TEXT_TYPE, NULL);
 
@@ -1123,16 +1121,15 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 	} else
 		parse_pos_init_editpos (&me->pp, sv);
 
-	text = make_undo_text (new_text, &truncated);
+	text = make_undo_text (g_string_new (new_text));
 
 	me->cmd.sheet = me->pp.sheet;
 	me->cmd.size = 1;
 	me->cmd.cmd_descriptor =
-		g_strdup_printf (_("Typing \"%s%s\""),
-				 text,
-				 truncated ? "..." : "");
+		g_strdup_printf (_("Typing \"%s\""),
+				 text->str);
 
-	g_free (text);
+	g_string_free (text, TRUE);
 
 	return gnm_command_push_undo (wbc, G_OBJECT (me));
 }
@@ -1909,7 +1906,6 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 	CmdResizeColRow *me;
 	GString *list;
 	gboolean is_single;
-	guint max_width;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
@@ -1926,11 +1922,7 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 
 	list = colrow_index_list_to_string (selection, is_cols, &is_single);
 	/* Make sure the string doesn't get overly wide */
-	max_width = gnm_conf_get_undo_max_descriptor_width ();
-	if (strlen (list->str) > max_width) {
-		g_string_truncate (list, max_width - 3);
-		g_string_append (list, "...");
-	}
+	make_undo_text (list);
 
 	if (is_single) {
 		if (new_size < 0)
@@ -4384,7 +4376,6 @@ cmd_zoom (WorkbookControl *wbc, GSList *sheets, double factor)
 	GString *namelist;
 	GSList *l;
 	int i;
-	guint max_width;
 
 	g_return_val_if_fail (wbc != NULL, TRUE);
 	g_return_val_if_fail (sheets != NULL, TRUE);
@@ -4408,11 +4399,7 @@ cmd_zoom (WorkbookControl *wbc, GSList *sheets, double factor)
 	}
 
 	/* Make sure the string doesn't get overly wide */
-	max_width = gnm_conf_get_undo_max_descriptor_width ();
-	if (strlen (namelist->str) > max_width) {
-		g_string_truncate (namelist, max_width - 3);
-		g_string_append (namelist, "...");
-	}
+	make_undo_text (namelist);
 
 	me->cmd.sheet = NULL;
 	me->cmd.size = 1;
