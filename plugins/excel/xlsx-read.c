@@ -160,6 +160,10 @@ typedef struct {
 
 	GnmPageBreaks	   *page_breaks;
 
+	/* Rows/Cols state */
+	GnmStyle          *pending_rowcol_style;
+	GnmRange           pending_rowcol_range;
+
 	/* Drawing state */
 	SheetObject	   *so;
 	gint64		    drawing_pos[8];
@@ -2735,6 +2739,21 @@ xlsx_CT_Row (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+xlsx_CT_RowsCols_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+
+	if (!state->pending_rowcol_style)
+		return;
+
+	sheet_style_set_range (state->sheet,
+			       &state->pending_rowcol_range,
+			       state->pending_rowcol_style);
+
+	state->pending_rowcol_style = NULL;
+}
+
+static void
 xlsx_CT_Col (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -2790,8 +2809,26 @@ xlsx_CT_Col (GsfXMLIn *xin, xmlChar const **attrs)
 		r.end.col   = last;
 		r.start.row = 0;
 		r.end.row  = gnm_sheet_get_max_rows (state->sheet) - 1;
-		gnm_style_ref (style);
-		sheet_style_set_range (state->sheet, &r, style);
+
+		/*
+		 * Sometimes we see a lot of columns with the same style.
+		 * We delay applying the style because applying column
+		 * by column leads to style fragmentation.  #622365
+		 */
+
+		if (style != state->pending_rowcol_style ||
+		    state->pending_rowcol_range.start.row != r.start.row ||
+		    state->pending_rowcol_range.end.row != r.end.row ||
+		    state->pending_rowcol_range.end.col + 1 != r.start.col)
+			xlsx_CT_RowsCols_end (xin, NULL);
+
+		if (state->pending_rowcol_style)
+			state->pending_rowcol_range.end.col = r.end.col;
+		else {
+			gnm_style_ref (style);
+			state->pending_rowcol_style = style;
+			state->pending_rowcol_range = r;
+		}
 	}
 	if (hidden > 0)
 		colrow_set_visibility (state->sheet, TRUE, FALSE, first, last);
@@ -3960,7 +3997,7 @@ GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, F
 
   GSF_XML_IN_NODE (SHEET, DEFAULT_FMT, XL_NS_SS, "sheetFormatPr", GSF_XML_NO_CONTENT, &xlsx_CT_SheetFormatPr, NULL),
 
-  GSF_XML_IN_NODE (SHEET, COLS,	XL_NS_SS, "cols", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (SHEET, COLS,	XL_NS_SS, "cols", GSF_XML_NO_CONTENT, NULL, xlsx_CT_RowsCols_end),
     GSF_XML_IN_NODE (COLS, COL,	XL_NS_SS, "col", GSF_XML_NO_CONTENT, &xlsx_CT_Col, NULL),
 
   GSF_XML_IN_NODE (SHEET, CONTENT, XL_NS_SS, "sheetData", GSF_XML_NO_CONTENT, NULL, NULL),

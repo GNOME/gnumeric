@@ -8,6 +8,7 @@ Jean:
 
 Morten:
 	* Improve function syntax tooltips.
+	* Fix excessive memory use problem with xlsx.  [#622365]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.6
