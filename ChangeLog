@@ -1,3 +1,10 @@
+2010-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/stf-parse.h: add field to parseoptions
+	* src/stf-parse.c (stf_parse_options_new): handle new field
+	(stf_parse_options_free): handle new field
+	(stf_parse_sheet): autofit columns
+	
 2010-06-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/validation.h (validation_eval_range): new

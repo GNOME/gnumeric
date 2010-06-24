@@ -151,6 +151,7 @@ stf_parse_options_new (void)
 	parseoptions->sep.str = NULL;
 	parseoptions->sep.chr = NULL;
 
+	parseoptions->col_autofit_array = NULL;
 	parseoptions->col_import_array = NULL;
 	parseoptions->col_import_array_len = 0;
 	parseoptions->formats = NULL;
@@ -173,6 +174,7 @@ stf_parse_options_free (StfParseOptions_t *parseoptions)
 	g_return_if_fail (parseoptions != NULL);
 
 	g_free (parseoptions->col_import_array);
+	g_free (parseoptions->col_autofit_array);
 	g_free (parseoptions->locale);
 	g_free (parseoptions->sep.chr);
 
@@ -1244,6 +1246,8 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 	GStringChunk *lines_chunk;
 	GPtrArray *lines;
 	gboolean result = TRUE;
+	int col;
+	unsigned int lcol;
 
 	SETUP_LOCALE_SWITCH;
 
@@ -1266,9 +1270,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 	     result && lrow < lines->len;
 	     row++, lrow++) {
 		GPtrArray *line;
-		int col;
-		unsigned int lcol;
-
+	
 		if (row >= gnm_sheet_get_max_rows (sheet)) {
 			if (!parseoptions->rows_exceeded) {
 				/* FIXME: What locale?  */
@@ -1311,6 +1313,23 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 		}
 	}
 	END_LOCALE_SWITCH;
+
+	for (lcol = 0, col = start_col; 
+	     lcol < parseoptions->col_import_array_len  && col < gnm_sheet_get_max_cols (sheet); 
+	     lcol++)
+		if (parseoptions->col_import_array == NULL ||
+		    parseoptions->col_import_array_len <= lcol ||
+		    parseoptions->col_import_array[lcol]) {
+			if (parseoptions->col_autofit_array == NULL ||
+			    parseoptions->col_autofit_array[lcol]) {
+				ColRowIndexList *list = colrow_get_index_list (col, col, NULL);
+				ColRowStateGroup  *state = colrow_set_sizes (sheet, TRUE, list, -1);
+				colrow_index_list_destroy (list);
+				g_slist_free (state);
+			}
+			col++;
+		}
+
 
 	if (lines)
 		stf_parse_general_free (lines);

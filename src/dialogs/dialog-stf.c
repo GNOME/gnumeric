@@ -334,6 +334,9 @@ stf_dialog (WBCGtk *wbcg,
 		dialogresult->parseoptions->col_import_array_len
 			=  pagedata.format.col_import_array_len;
 		pagedata.format.col_import_array = NULL;
+		dialogresult->parseoptions->col_autofit_array
+			=  pagedata.format.col_autofit_array;
+		pagedata.format.col_autofit_array = NULL;
 		pagedata.format.col_import_count = 0;
 		pagedata.format.col_import_array_len = 0;
 	} else {

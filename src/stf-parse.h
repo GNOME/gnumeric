@@ -46,6 +46,8 @@ typedef struct {
 
 	int                  rowcount;              /* Number of rows parsed */
 	int                  colcount;              /* Number of columns parsed */
+        gboolean             *col_autofit_array;    /* 0/1 array indicating  */
+	                                            /* which col widths to autofit  */
         gboolean             *col_import_array;     /* 0/1 array indicating  */
 	                                            /* which cols to import  */
 	unsigned int         col_import_array_len;

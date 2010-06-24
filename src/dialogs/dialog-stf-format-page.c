@@ -162,6 +162,8 @@ cb_col_check_clicked (GtkToggleButton *togglebutton, gpointer _i)
 		g_object_get_data (G_OBJECT (togglebutton), "pagedata");
 	gboolean active = gtk_toggle_button_get_active (togglebutton);
 	GtkCellRenderer *renderer;
+	GtkTreeViewColumn* column;
+	GtkWidget *check_autofit;
 
 	g_return_if_fail (i < pagedata->format.col_import_array_len);
 
@@ -194,6 +196,26 @@ cb_col_check_clicked (GtkToggleButton *togglebutton, gpointer _i)
 			g_free (msg);
 		}
 	}
+
+	column = stf_preview_get_column (pagedata->format.renderdata, i);
+	check_autofit = g_object_get_data (G_OBJECT (column), "checkbox-autofit");
+
+	gtk_widget_set_sensitive (check_autofit, active);
+	return;
+}
+
+static void
+cb_col_check_autofit_clicked (GtkToggleButton *togglebutton, gpointer _i)
+{
+	int i = GPOINTER_TO_INT (_i);
+	StfDialogData *pagedata =
+		g_object_get_data (G_OBJECT (togglebutton), "pagedata");
+	gboolean active = gtk_toggle_button_get_active (togglebutton);
+
+	g_return_if_fail (i < pagedata->format.col_import_array_len);
+
+	pagedata->format.col_autofit_array[i] = active;
+
 	return;
 }
 
@@ -494,6 +516,9 @@ format_page_update_preview (StfDialogData *pagedata)
 	col_import_array_len_old = pagedata->format.col_import_array_len;
 	pagedata->format.col_import_array_len = renderdata->colcount;
 
+	pagedata->format.col_autofit_array =
+		g_renew(gboolean, pagedata->format.col_autofit_array,
+			pagedata->format.col_import_array_len);
 	pagedata->format.col_import_array =
 		g_renew(gboolean, pagedata->format.col_import_array,
 			pagedata->format.col_import_array_len);
@@ -505,13 +530,15 @@ format_page_update_preview (StfDialogData *pagedata)
 		if (pagedata->format.col_import_array[i])
 			pagedata->format.col_import_count++;
 	for (i = old_part;
-	     i < pagedata->format.col_import_array_len; i++)
+	     i < pagedata->format.col_import_array_len; i++) {
 		if (pagedata->format.col_import_count < GNM_MAX_COLS) {
 			pagedata->format.col_import_array[i] = TRUE;
 			pagedata->format.col_import_count++;
 		} else {
 			pagedata->format.col_import_array[i] = FALSE;
 		}
+		pagedata->format.col_autofit_array[i] = TRUE;
+	}
 
 	format_page_update_column_selection (pagedata);
 
@@ -525,19 +552,18 @@ format_page_update_preview (StfDialogData *pagedata)
 			stf_preview_get_column (renderdata, i);
 
 		if (NULL == g_object_get_data (G_OBJECT (column), "checkbox")) {
-			GtkWidget *box = gtk_hbox_new (FALSE,5);
 			GtkWidget *vbox = gtk_vbox_new (FALSE,5);
-			GtkWidget *check = gtk_check_button_new ();
+			GtkWidget *check, 
+				*check_autofit = gtk_check_button_new_with_label (_("Auto fit"));
 			char * label_text = g_strdup_printf
 				(pagedata->format.col_header, i+1);
-			GtkWidget *label = gtk_label_new (label_text);
 			GOFormat const *gf = go_format_general ();
 			GtkWidget *format_label = gtk_label_new
 				(go_format_sel_format_classification (gf));
 
+			check = gtk_check_button_new_with_label (label_text);
 			g_free (label_text);
 			gtk_misc_set_alignment (GTK_MISC (format_label), 0, 0);
-			gtk_misc_set_alignment (GTK_MISC (label), 0, 0);
 
 			g_object_set (G_OBJECT (stf_preview_get_cell_renderer
 						(pagedata->format.renderdata, i)),
@@ -546,21 +572,33 @@ format_page_update_preview (StfDialogData *pagedata)
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(check),
 						      pagedata->
 						      format.col_import_array[i]);
+			label_text = g_strdup_printf
+				(_("If this checkbox is selected, "
+				   "column %i will be imported into "
+				   "Gnumeric."), i+1);
 			go_widget_set_tooltip_text
 				(check,
-				 _("If this checkbox is selected, the "
-				   "column will be imported into "
-				   "Gnumeric."));
+				 label_text);
+			go_widget_set_tooltip_text
+				(check_autofit,
+				 _("If this checkbox is selected, "
+				   "the width of the column will be adjusted "
+				   "to the longest entry."));
+			g_free (label_text);
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(check_autofit),
+						      pagedata->
+						      format.col_autofit_array[i]);
 			g_object_set_data (G_OBJECT (check), "pagedata", pagedata);
-			gtk_box_pack_start (GTK_BOX(box), check, FALSE, FALSE, 0);
-			gtk_box_pack_start (GTK_BOX(box), label, TRUE, TRUE, 0);
-			gtk_box_pack_start (GTK_BOX(vbox), box, FALSE, FALSE, 0);
+			g_object_set_data (G_OBJECT (check_autofit), "pagedata", pagedata);
+			gtk_box_pack_start (GTK_BOX(vbox), check, FALSE, FALSE, 0);
 			gtk_box_pack_start (GTK_BOX(vbox), format_label, TRUE, TRUE, 0);
+			gtk_box_pack_start (GTK_BOX(vbox), check_autofit, TRUE, TRUE, 0);
 			gtk_widget_show_all (vbox);
 
 			gtk_tree_view_column_set_widget (column, vbox);
 			g_object_set_data (G_OBJECT (column), "pagedata", pagedata);
 			g_object_set_data (G_OBJECT (column), "checkbox", check);
+			g_object_set_data (G_OBJECT (column), "checkbox-autofit", check_autofit);
 			g_object_set_data (G_OBJECT (column), "formatlabel", format_label);
 			g_object_set_data (G_OBJECT (column->button),
 					   "pagedata", pagedata);
@@ -573,6 +611,10 @@ format_page_update_preview (StfDialogData *pagedata)
 			g_signal_connect (G_OBJECT (check),
 					  "toggled",
 					  G_CALLBACK (cb_col_check_clicked),
+					  GINT_TO_POINTER (i));
+			g_signal_connect (G_OBJECT (check_autofit),
+					  "toggled",
+					  G_CALLBACK (cb_col_check_autofit_clicked),
 					  GINT_TO_POINTER (i));
 			g_signal_connect (G_OBJECT (column->button),
 					  "event",
@@ -684,7 +726,9 @@ stf_dialog_format_page_cleanup (StfDialogData *pagedata)
 
 	stf_preview_free (pagedata->format.renderdata);
 	g_free (pagedata->format.col_import_array);
+	g_free (pagedata->format.col_autofit_array);
 	pagedata->format.col_import_array = NULL;
+	pagedata->format.col_autofit_array = NULL;
 	pagedata->format.col_import_array_len = 0;
 	pagedata->format.col_import_count = 0;
 }
@@ -699,6 +743,7 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 
         /* Create/get object and fill information struct */
 	pagedata->format.col_import_array = NULL;
+	pagedata->format.col_autofit_array = NULL;
 	pagedata->format.col_import_array_len = 0;
 	pagedata->format.col_import_count = 0;
 	pagedata->format.col_header = _("Column %d");

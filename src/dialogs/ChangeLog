@@ -1,3 +1,14 @@
+2010-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-stf.h (FormatInfo_t): add new field 
+	* dialog-stf.c (stf_dialog): transfer autofit array
+	* dialog-stf-format-page.c (cb_col_check_clicked): set
+	  sensitivity of autofit check
+	(cb_col_check_autofit_clicked): new
+	(format_page_update_preview): handle new field
+	(stf_dialog_format_page_cleanup): ditto
+	(stf_dialog_format_page_init): ditto
+	
 2010-06-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-sheetobject-size.c (set_params): new

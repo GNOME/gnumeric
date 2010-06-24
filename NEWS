@@ -4,6 +4,7 @@ Andreas:
 	* Improve function syntax and formula guru tooltips.
 	* Avoid superfluous redo items under validation failure. [#622509]
 	* Fix validation for array and range entry. [#622511]
+	* Autofit column widths in stf import. [#427382]
 
 Jean:
 	* Fixed autofilter (and other) combo positions. [#621817]

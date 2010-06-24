@@ -70,6 +70,7 @@ typedef struct {
 	int                index;
 	gboolean           manual_change;
 	gboolean           sublist_select;
+        gboolean          *col_autofit_array;
         gboolean          *col_import_array;
         int                col_import_count;
         int                col_import_array_len;
