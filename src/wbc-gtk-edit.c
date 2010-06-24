@@ -28,6 +28,7 @@
 #include "workbook-view.h"
 #include "workbook-priv.h"
 #include "application.h"
+#include "clipboard.h"
 #include "complete-sheet.h"
 #include "commands.h"
 #include "gnumeric-gconf.h"
@@ -42,6 +43,8 @@
 #include "gnm-format.h"
 #include "number-match.h"
 #include "parse-util.h"
+#include "ranges.h"
+#include "selection.h"
 #include "validation.h"
 #include "value.h"
 #include "widgets/gnumeric-expr-entry.h"
@@ -132,14 +135,57 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 	if (result != WBC_EDIT_REJECT) {
 		ValidationStatus valid;
 		char *free_txt = NULL;
-		char const *txt = wbcg_edit_get_display_text (wbcg);
-		GnmStyle const *mstyle = sheet_style_get (sheet, sv->edit_pos.col, sv->edit_pos.row);
+		char const *txt;
+		GnmStyle const *mstyle;
 		char const *expr_txt = NULL;
-		GOFormat const *fmt =
-			gnm_cell_get_format (sheet_cell_fetch (sheet, sv->edit_pos.col, sv->edit_pos.row));
+		GOFormat const *fmt;
+		GnmValue *value;
+		GOUndo *u = NULL;
+		GSList	*selection = selection_get_ranges (sv, FALSE);
+		GnmParsePos    pp;
+		GnmExprTop const *texpr = NULL;
 
-		GnmValue *value = format_match (txt, fmt,
-						workbook_date_conv (sheet->workbook));
+		parse_pos_init_editpos (&pp, sv);
+
+		/******* Check whether we would split a range ********/
+		
+		switch (result) {
+		case (WBC_EDIT_ACCEPT_RANGE):
+		case (WBC_EDIT_ACCEPT_ARRAY): {
+			if (sheet_ranges_split_region (sheet, selection,
+						       GO_CMD_CONTEXT (wbc), _("Set Text"))) {
+				range_fragment_free (selection);
+				*showed_dialog = TRUE;
+				return FALSE;
+			}
+			break;
+		}
+		case (WBC_EDIT_ACCEPT): {
+			GnmCell const *cell = sheet_cell_get 
+				(sheet, sv->edit_pos.col, sv->edit_pos.row);
+			if (gnm_cell_is_nonsingleton_array (cell)) {
+				gnm_cmd_context_error_splits_array (GO_CMD_CONTEXT (wbc),
+								    _("Set Text"), NULL);
+				*showed_dialog = TRUE;
+				range_fragment_free (selection);
+				return FALSE;
+			}
+			break;
+		}
+		case (WBC_EDIT_REJECT):
+		default:
+			/* We should not be able to get here! */
+			break;
+		}
+
+		/*****************************************************/
+
+		txt = wbcg_edit_get_display_text (wbcg);
+		mstyle = sheet_style_get (sheet, sv->edit_pos.col, sv->edit_pos.row);
+		fmt = gnm_cell_get_format (sheet_cell_fetch (sheet, sv->edit_pos.col, sv->edit_pos.row));
+
+		value = format_match (txt, fmt,
+				      workbook_date_conv (sheet->workbook));
 		if (value == NULL)
 			expr_txt = gnm_expr_char_start_p (txt);
 		else
@@ -150,10 +196,9 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 		 * it just isn't an expression. */
 		if (expr_txt != NULL && *expr_txt != '\0' && strcmp (expr_txt, "-")) {
 			GnmExprTop const *texpr = NULL;
-			GnmParsePos    pp;
 			GnmParseError  perr;
+			
 
-			parse_pos_init_editpos (&pp, sv);
 			parse_error_init (&perr);
 			texpr = gnm_expr_parse_str (expr_txt,
 				&pp, GNM_EXPR_PARSE_DEFAULT, NULL, &perr);
@@ -199,8 +244,10 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 					*showed_dialog = TRUE;
 
 				parse_error_free (&perr);
-				if (reedit == VALIDATION_STATUS_INVALID_EDIT)
+				if (reedit == VALIDATION_STATUS_INVALID_EDIT) {
+					range_fragment_free (selection);
 					return FALSE;
+				}
 				/* restore focus to sheet , or we'll leave edit
 				 * mode only to jump right back in the new
 				 * cell because it looks like someone just
@@ -211,34 +258,104 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 				gnm_expr_top_unref (texpr);
 		}
 
-		/* NOTE we assign the value BEFORE validating in case
-		 * a validation condition depends on the new value  */
-		if (result == WBC_EDIT_ACCEPT) {
-			/*
-			 * Copy here as callbacks will otherwise mess with
-			 * the list.
-			 */
-			PangoAttrList *res_markup = wbcg->edit_line.markup
-				? pango_attr_list_copy (wbcg->edit_line.markup)
-				: NULL;
-			cmd_set_text (wbc, sheet, &sv->edit_pos, txt, res_markup);
-			if (res_markup) pango_attr_list_unref (res_markup);
-		} else
-			cmd_area_set_text (wbc, sv, txt,
-				result == WBC_EDIT_ACCEPT_ARRAY);
+		/* We only enter an array formula if
+		 *   1) the text is a formula
+		 *   2) It's entered as an array formula
+		 *   3) There is only one 1 selection
+		 */
+
+		if (result == WBC_EDIT_ACCEPT_ARRAY) {
+			if (expr_txt == NULL ||
+			    selection == NULL || selection->next != NULL ||
+			    (texpr = gnm_expr_parse_str
+			     (expr_txt, &pp, GNM_EXPR_PARSE_DEFAULT,
+			      sheet_get_conventions (sheet), NULL)) == NULL)
+				result = WBC_EDIT_ACCEPT_RANGE;	
+		}
+
+		/* We need to save the information that we will temporarily overwrite */
+		/* We then assign the information. No need to worry about formatting */
+
+		switch (result) {
+		case (WBC_EDIT_ACCEPT_RANGE): {
+			GSList	*l;
+
+			for (l = selection; l != NULL; l = l->next) {
+				GnmRange *r = l->data;
+				u = go_undo_combine (u,  clipboard_copy_range_undo (sheet, r));
+			}
+			for (l = selection; l != NULL; l = l->next) {
+				GnmRange *r = l->data;
+				/* We do this separately since there may be overlap between ranges */
+				sheet_range_set_text (&pp, r, txt);
+			}
+			
+			break;
+		}
+		case (WBC_EDIT_ACCEPT_ARRAY): {
+			GnmRange *r = selection->data;
+
+			u = go_undo_combine (u,  clipboard_copy_range_undo (sheet, r));
+			if (texpr) {
+				gnm_cell_set_array_formula (sheet,
+							    r->start.col, r->start.row,
+							    r->end.col, r->end.row,
+							    texpr);
+				sheet_region_queue_recalc (sheet, r);
+			}
+			break;
+		}
+		case (WBC_EDIT_ACCEPT): {
+			GnmRange r;
+			GnmCell *cell;
+
+			range_init_cellpos (&r, &sv->edit_pos);
+			u = clipboard_copy_range_undo (sheet, &r);
+
+			cell = sheet_cell_fetch (sheet,
+						 sv->edit_pos.col,
+						 sv->edit_pos.row);
+			sheet_cell_set_text (cell, txt, NULL);
+			break;
+		}
+		case (WBC_EDIT_REJECT):
+		default:
+			/* We should not be able to get here! */
+			break;
+		}
+
+		range_fragment_free (selection);
+		g_free (free_txt);
+
+		/* Now we can check the validation! */
 
 		valid = validation_eval (wbc, mstyle, sheet, &sv->edit_pos, showed_dialog);
 
-		g_free (free_txt);
+
+		/* We need to rebuild the original info first. */
+
+		go_undo_undo (u);
+		g_object_unref (u);
+
+		/* Now we can respond to our validation information */
 
 		if (valid != VALIDATION_STATUS_VALID) {
 			result = WBC_EDIT_REJECT;
-			command_undo (wbc);
 			if (valid == VALIDATION_STATUS_INVALID_EDIT) {
 				gtk_window_set_focus (wbcg_toplevel (wbcg),
 					(GtkWidget *) wbcg_get_entry (wbcg));
 				return FALSE;
 			}
+		} else {
+			if (result == WBC_EDIT_ACCEPT) {
+				PangoAttrList *res_markup = wbcg->edit_line.markup
+					? pango_attr_list_copy (wbcg->edit_line.markup)
+					: NULL;
+				cmd_set_text (wbc, sheet, &sv->edit_pos, txt, res_markup);
+				if (res_markup) pango_attr_list_unref (res_markup);
+			} else
+				cmd_area_set_text (wbc, sv, txt,
+						   result == WBC_EDIT_ACCEPT_ARRAY);
 		}
 	} else {
 		if (sv == wb_control_cur_sheet_view (wbc)) {

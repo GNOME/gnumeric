@@ -2,9 +2,10 @@ Gnumeric 1.10.7
 
 Andreas:
 	* Improve function syntax and formula guru tooltips.
+	* Avoid superfluous redo items under validation failure. [#622509]
 
 Jean:
-	* Fixed autofilter (and other) combos position. [#621817]
+	* Fixed autofilter (and other) combo positions. [#621817]
 
 Morten:
 	* Improve function syntax tooltips.
