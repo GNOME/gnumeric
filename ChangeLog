@@ -1,3 +1,8 @@
+2010-06-24  Morten Welinder  <terra@gnome.org>
+
+	* src/func.c (gnm_func_convert_markup_to_pango): Remove reference
+	to g_string_overwrite which wouldn't work right.
+
 2010-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/stf-parse.h: add field to parseoptions

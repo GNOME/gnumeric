@@ -357,12 +357,12 @@ function_dump_defs (char const *filename, int dump_type)
 				case GNM_FUNC_HELP_DESCRIPTION:
 					if (desc->len > 0)
 						g_string_append (desc, "\n");
-					g_string_append (desc, _(fd->help[i].text));				
+					g_string_append (desc, _(fd->help[i].text));
 					break;
 				case GNM_FUNC_HELP_NOTE:
 					if (note->len > 0)
 						g_string_append (note, " ");
-					g_string_append (note, _(fd->help[i].text));				
+					g_string_append (note, _(fd->help[i].text));
 					break;
 				case GNM_FUNC_HELP_ARG: {
 					char *argdesc;
@@ -385,12 +385,12 @@ function_dump_defs (char const *filename, int dump_type)
 				case GNM_FUNC_HELP_ODF:
 					if (odf->len > 0)
 						g_string_append (odf, " ");
-					g_string_append (odf, _(fd->help[i].text));				
+					g_string_append (odf, _(fd->help[i].text));
 					break;
 				case GNM_FUNC_HELP_EXCEL:
 					if (excel->len > 0)
 						g_string_append (excel, " ");
-					g_string_append (excel, _(fd->help[i].text));				
+					g_string_append (excel, _(fd->help[i].text));
 					break;
 
 				case GNM_FUNC_HELP_EXTREF:
@@ -403,7 +403,7 @@ function_dump_defs (char const *filename, int dump_type)
 			}
 
 			fprintf (output_file, "@SYNTAX=%s)\n", syntax->str);
-			
+
 			if (arg_desc->len > 0)
 				fprintf (output_file, "@ARGUMENTDESCRIPTION=%s", arg_desc->str);
 			if (desc->len > 0)
@@ -1267,7 +1267,7 @@ gnm_func_get_arg_description (GnmFunc const *fn_def, guint arg_idx)
 		     i++) {
 			if (fn_def->help[i].type == GNM_FUNC_HELP_ARG
 			    && arg++ == arg_idx) {
-				gchar const *desc; 
+				gchar const *desc;
 				desc = strchr (_(fn_def->help[i].text), ':');
 				return desc ? (desc + 1) : "";
 			}
@@ -1294,18 +1294,17 @@ gnm_func_convert_markup_to_pango (char const *desc)
 	g_free (markup);
 
 	while ((at = strstr (str->str, "@{"))) {
-#warning In gtk+ 2.14+ we should be using g_string_overwrite rather than g_string_erase
 		gint len = at - str->str;
-			g_string_erase (str, len, 2);
-			g_string_insert (str, len, 
-					 "<span foreground=\"#0000FF\">");
-			if ((at = strstr 
-			     (str->str + len + 26, "}"))) {
-				len = at - str->str;
-				g_string_erase (str, len, 1);
-				g_string_insert (str, len, "</span>");
-			} else
-				g_string_append (str, "</span>");
+		g_string_erase (str, len, 2);
+		g_string_insert (str, len,
+				 "<span foreground=\"#0000FF\">");
+		if ((at = strstr
+		     (str->str + len + 26, "}"))) {
+			len = at - str->str;
+			g_string_erase (str, len, 1);
+			g_string_insert (str, len, "</span>");
+		} else
+			g_string_append (str, "</span>");
 	}
 
 	return g_string_free (str, FALSE);
