@@ -12,6 +12,7 @@ Jean:
 Morten:
 	* Improve function syntax tooltips.
 	* Fix excessive memory use problem with xlsx.  [#622365]
+	* Make BackSpace work as Delete on pane.  [#622599]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.6

@@ -338,6 +338,17 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 			cmd_paste_to_selection (WORKBOOK_CONTROL (wbcg), sv, PASTE_DEFAULT);
 		break;
 
+	case GDK_BackSpace:
+		if (wbcg_is_editing (wbcg))
+			goto forward;
+		else if (!wbcg_is_editing (wbcg) && (event->state & GDK_CONTROL_MASK) != 0) {
+			/* Re-center the view on the active cell */
+			scg_make_cell_visible (scg, sv->edit_pos.col,
+					       sv->edit_pos.row, FALSE, TRUE);
+			break;
+		}
+		/* Fall through */
+
 	case GDK_KP_Delete:
 	case GDK_Delete:
 		if (wbcg_is_editing (wbcg)) {
@@ -436,47 +447,39 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 		return TRUE;
 
 	case GDK_F2:
-	if (gnm_pane_guru_key (wbcg, event))
-		break;
+		if (gnm_pane_guru_key (wbcg, event))
+			break;
 
-	if (wbcg_is_editing (wbcg)) {
-		GtkWidget *entry = (GtkWidget *) wbcg_get_entry (wbcg);
-		GtkWindow *top   = wbcg_toplevel (wbcg);
-		if (entry != gtk_window_get_focus (top)) {
-			gtk_window_set_focus (top, entry);
-			return TRUE;
+		if (wbcg_is_editing (wbcg)) {
+			GtkWidget *entry = (GtkWidget *) wbcg_get_entry (wbcg);
+			GtkWindow *top   = wbcg_toplevel (wbcg);
+			if (entry != gtk_window_get_focus (top)) {
+				gtk_window_set_focus (top, entry);
+				return TRUE;
+			}
 		}
-	}
-	if (!wbcg_edit_start (wbcg, FALSE, FALSE))
-		return FALSE; /* attempt to edit failed */
-	/* fall through */
-
-	case GDK_BackSpace:
-	/* Re-center the view on the active cell */
-	if (!wbcg_is_editing (wbcg) && (event->state & GDK_CONTROL_MASK) != 0) {
-		scg_make_cell_visible (scg, sv->edit_pos.col,
-				       sv->edit_pos.row, FALSE, TRUE);
-		break;
-	}
-	/* fall through */
+		if (!wbcg_edit_start (wbcg, FALSE, FALSE))
+			return FALSE; /* attempt to edit failed */
+		/* fall through */
 
 	default:
-	if (!wbcg_is_editing (wbcg)) {
-		if ((event->state & (GDK_MOD1_MASK|GDK_CONTROL_MASK)) != 0)
-			return FALSE;
+		if (!wbcg_is_editing (wbcg)) {
+			if ((event->state & (GDK_MOD1_MASK|GDK_CONTROL_MASK)) != 0)
+				return FALSE;
 
-		/* If the character is not printable do not start editing */
-		if (event->length == 0)
-			return FALSE;
+			/* If the character is not printable do not start editing */
+			if (event->length == 0)
+				return FALSE;
 
-		if (!wbcg_edit_start (wbcg, TRUE, TRUE))
-			return FALSE; /* attempt to edit failed */
-	}
-	scg_rangesel_stop (scg, FALSE);
+			if (!wbcg_edit_start (wbcg, TRUE, TRUE))
+				return FALSE; /* attempt to edit failed */
+		}
+		scg_rangesel_stop (scg, FALSE);
 
-	/* Forward the keystroke to the input line */
-	return gtk_widget_event (
-		wbcg_get_entry_underlying (wbcg), (GdkEvent *) event);
+	forward:
+		/* Forward the keystroke to the input line */
+		return gtk_widget_event (wbcg_get_entry_underlying (wbcg),
+					 (GdkEvent *) event);
 	}
 
 	if (!delayed_movement) {

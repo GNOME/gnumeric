@@ -1,5 +1,9 @@
 2010-06-24  Morten Welinder  <terra@gnome.org>
 
+	* src/gnm-pane.c (gnm_pane_key_mode_sheet): Untangle old
+	fall-through mess and make BackSpace work as delete when we are
+	not editing a cell.
+
 	* src/func.c (gnm_func_convert_markup_to_pango): Remove reference
 	to g_string_overwrite which wouldn't work right.
 
