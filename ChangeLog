@@ -1,5 +1,15 @@
 2010-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/commands.h (gnm_cmd_trunc_descriptor): new
+	* src/commands.c (gnm_cmd_trunc_descriptor): publish and add optional
+	  'truncated' argument. Change all callers.
+	* src/ranges.c (max_range_name_width): deleted
+	(undo_range_name): use gnm_cmd_trunc_descriptor
+	(range_list_name_try): change arguments, use gnm_cmd_trunc_descriptor
+	(undo_range_list_name): adjust to changes to range_list_name_try
+	
+2010-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/wbc-gtk-edit.c (wbcg_edit_finish): don't free memory until we
 	  are done with it.
 

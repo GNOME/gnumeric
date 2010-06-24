@@ -12,6 +12,7 @@
 #include "gnumeric.h"
 #include "ranges.h"
 
+#include "commands.h"
 #include "numbers.h"
 #include "expr.h"
 #include "expr-impl.h"
@@ -32,6 +33,7 @@
 #include <stdio.h>
 
 #undef RANGE_DEBUG
+#define UNICODE_ELLIPSIS "\xe2\x80\xa6"
 
 GnmRange *
 range_init_full_sheet (GnmRange *r, Sheet const *sheet)
@@ -892,18 +894,6 @@ global_range_name (Sheet const *sheet, GnmRange const *r)
 	return g_strdup_printf ("%s!%s", sheet->name_quoted, the_range_name);
 }
 
-/* The maximal allowed width of a range.
- * We have max_descriptor_width in the preferences, but who knows how much
- * will be added later?  So we leave 20 chars for the other text...
- */
-static guint
-max_range_name_width (void)
-{
-	guint max_width = gnm_conf_get_undo_max_descriptor_width ();
-
-	return (max_width > 23 ? max_width - 20 : 3);
-}
-
 /**
  * undo_cell_pos_name:
  * @sheet:
@@ -930,20 +920,27 @@ char *
 undo_range_name (Sheet const *sheet, GnmRange const *r)
 {
 	char const *the_range_name = range_as_string (r);
-	guint max_width;
-
-	max_width = max_range_name_width ();
 
 	if (sheet != NULL && gnm_conf_get_undo_show_sheet_name ()) {
-		char *n = g_strdup_printf ("%s!%s", sheet->name_quoted, the_range_name);
+		GString *str  = g_string_new (NULL);
+		gboolean truncated = FALSE;
 
-		if (strlen (n) <= max_width)
-			return n;
-		else
-			g_free (n);
+		g_string_printf (str, "%s!%s", sheet->name_quoted, the_range_name);
+		gnm_cmd_trunc_descriptor (str, &truncated);
+
+		if (!truncated)
+			return g_string_free (str, FALSE);
+
+		g_string_printf (str, UNICODE_ELLIPSIS "!%s", the_range_name);
+		gnm_cmd_trunc_descriptor (str, &truncated);
+
+		if (!truncated)
+			return g_string_free (str, FALSE);
+		g_string_free (str, TRUE);
 	}
 
-	return g_strdup (strlen (the_range_name) <= max_width ? the_range_name : "");
+	return g_string_free 
+		(gnm_cmd_trunc_descriptor (g_string_new (the_range_name), NULL), FALSE);
 }
 
 
@@ -952,43 +949,39 @@ undo_range_name (Sheet const *sheet, GnmRange const *r)
  * Return TRUE iff the name is complete.
  */
 static gboolean
-range_list_name_try (GString *names, Sheet const *sheet, GSList const *ranges,
-		     guint max_width)
+range_list_name_try (GString *names, char const *sheet, GSList const *ranges)
 {
 	GSList const *l;
 	char const *n = range_as_string (ranges->data);
+	gboolean truncated;
 
 	if (sheet == NULL)
 		g_string_assign (names, n);
 	else
-		g_string_printf (names, "%s!%s", sheet->name_quoted, n);
+		g_string_printf (names, "%s!%s", sheet, n);
 
-	if (names->len > max_width) {
-		g_string_truncate (names, 0);
+	gnm_cmd_trunc_descriptor (names, &truncated);
+
+	if (truncated)
 		return FALSE;
-	}
 
 	for (l = ranges->next; l != NULL; l = l->next) {
-		gsize new_len;
-
 		n = range_as_string (l->data);
-
-		/* The string may not get too long. */
-		new_len = names->len + 2 + strlen (n);
-		if (sheet != NULL)
-			new_len += strlen (sheet->name_quoted) + 1;
-		if (new_len > max_width)
-			break;
 
 		if (sheet == NULL)
 			g_string_append_printf (names, ", %s", n);
 		else
 			g_string_append_printf (names, ", %s!%s",
-						sheet->name_quoted, n);
+						sheet, n);
+		
+		gnm_cmd_trunc_descriptor (names, &truncated);
+
+		if (truncated)
+			return FALSE;
 	}
 
 	/* Have we reached the end? */
-	return (l == NULL);
+	return TRUE;
 }
 
 
@@ -1004,47 +997,40 @@ range_list_name_try (GString *names, Sheet const *sheet, GSList const *ranges,
 char *
 undo_range_list_name (Sheet const *sheet, GSList const *ranges)
 {
-	GString *names;
-	GString *trunc_names = NULL;
-	guint max_width;
+	GString *names_with_sheet = NULL, *names_with_ellipsis, *names;
 
 	g_return_val_if_fail (ranges != NULL, NULL);
 
-	max_width = max_range_name_width ();
-
-	names = g_string_new (NULL);
-
 	/* With the sheet name. */
 	if (sheet != NULL && gnm_conf_get_undo_show_sheet_name ()) {
-		if (range_list_name_try (names, sheet, ranges, max_width)) {
+		names_with_sheet = g_string_new (NULL);
+		if (range_list_name_try (names_with_sheet, sheet->name_quoted, ranges)) {
 			/* We have reached the end, return the data from names. */
-			return g_string_free (names, FALSE);
+			return g_string_free (names_with_sheet, FALSE);
 		}
-		/* Store the partial result. */
-		if (names->len > 0) {
-			trunc_names = names;
-			names = g_string_new (NULL);
+		names_with_ellipsis = g_string_new (NULL);
+		if (range_list_name_try (names_with_ellipsis, UNICODE_ELLIPSIS, ranges)) {
+			/* We have reached the end, return the data from names. */
+			g_string_free (names_with_sheet, TRUE);
+			return g_string_free (names_with_ellipsis, FALSE);
 		}
+		g_string_free (names_with_ellipsis, TRUE);
 	}
 
 	/* Without the sheet name. */
-	if (range_list_name_try (names, NULL, ranges, max_width)) {
+	names = g_string_new (NULL);
+	if (range_list_name_try (names, NULL, ranges)) {
 		/* We have reached the end, return the data from names. */
-		if (trunc_names != NULL)
-			g_string_free (trunc_names, TRUE);
+		if (names_with_sheet != NULL)
+			g_string_free (names_with_sheet, TRUE);
 		return g_string_free (names, FALSE);
 	}
 
 	/* We have to use a truncated version. */
-	if (trunc_names != NULL) {
+	if (names_with_sheet != NULL) {
 		g_string_free (names, TRUE);
-		names = trunc_names;
+		return g_string_free (names_with_sheet, FALSE);
 	}
-
-	/* Actually we can get slightly more than max_width here.
-	 * But max_width was computed as an estimate, anyway, so we don't care.
-	 */
-	g_string_append (names, _("..."));
 	return g_string_free (names, FALSE);
 }
 

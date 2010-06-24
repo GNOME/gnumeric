@@ -13,6 +13,12 @@ void command_repeat (WorkbookControl *wbc);
 void command_setup_combos	(WorkbookControl *wbc);
 void command_list_release	(GSList *cmds);
 
+/* utility functions */
+
+GString *gnm_cmd_trunc_descriptor (GString *src, gboolean *truncated);
+
+/* Commands: note that any extensions should ideally use cmd_generic* */
+
 gboolean cmd_generic (WorkbookControl *wbc, const char *text,
 		      GOUndo *undo, GOUndo *redo);
 gboolean cmd_generic_with_size (WorkbookControl *wbc, const char *text,

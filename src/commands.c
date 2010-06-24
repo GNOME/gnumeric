@@ -143,8 +143,8 @@ gnm_command_finalize (GObject *obj)
 
 /******************************************************************/
 
-static GString *
-make_undo_text (GString *src)
+GString *
+gnm_cmd_trunc_descriptor (GString *src, gboolean *truncated)
 {
 	int max_len = gnm_conf_get_undo_max_descriptor_width ();
 	glong len;
@@ -158,6 +158,10 @@ make_undo_text (GString *src)
 		*pos = ' ';
 	
 	len = g_utf8_strlen (src->str, -1);
+
+	if (truncated)
+		*truncated = (len > max_len);
+	
 	if (len > max_len) {
 		gchar* last = g_utf8_offset_to_pointer (src->str,
                                                         max_len - 1);
@@ -917,7 +921,7 @@ cmd_set_text (WorkbookControl *wbc,
 	me->old_contents = clipboard_copy_range (sheet, &r);
 	me->first = TRUE;
 
-	text = make_undo_text (g_string_new (corrected_text));
+	text = gnm_cmd_trunc_descriptor (g_string_new (corrected_text), NULL);
 
 	me->cmd.sheet = sheet;
 	me->cmd.size = 1;
@@ -1121,7 +1125,7 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 	} else
 		parse_pos_init_editpos (&me->pp, sv);
 
-	text = make_undo_text (g_string_new (new_text));
+	text = gnm_cmd_trunc_descriptor (g_string_new (new_text), NULL);
 
 	me->cmd.sheet = me->pp.sheet;
 	me->cmd.size = 1;
@@ -1922,7 +1926,7 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 
 	list = colrow_index_list_to_string (selection, is_cols, &is_single);
 	/* Make sure the string doesn't get overly wide */
-	make_undo_text (list);
+	gnm_cmd_trunc_descriptor (list, NULL);
 
 	if (is_single) {
 		if (new_size < 0)
@@ -4399,7 +4403,7 @@ cmd_zoom (WorkbookControl *wbc, GSList *sheets, double factor)
 	}
 
 	/* Make sure the string doesn't get overly wide */
-	make_undo_text (namelist);
+	gnm_cmd_trunc_descriptor (namelist, NULL);
 
 	me->cmd.sheet = NULL;
 	me->cmd.size = 1;
