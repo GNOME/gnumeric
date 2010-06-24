@@ -1,5 +1,12 @@
 2010-06-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/validation.h (validation_eval_range): new
+	* src/validation.c (validation_eval_range): new
+	(validation_eval_range_cb): new
+	* src/wbc-gtk-edit.c (wbcg_edit_finish): use validation_eval_range
+
+2010-06-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/wbc-gtk-edit.c (wbcg_edit_finish): only call a cmd_...
 	  when we have validated.
 	

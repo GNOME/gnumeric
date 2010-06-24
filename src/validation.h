@@ -69,6 +69,9 @@ GError	   *validation_is_ok    (GnmValidation const *v);
 ValidationStatus validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 				  Sheet *sheet, GnmCellPos const *pos,
 				  gboolean *showed_dialog);
+ValidationStatus validation_eval_range (WorkbookControl *wbc,
+					Sheet *sheet, GnmCellPos const *pos, GnmRange const *r,
+					gboolean *showed_dialog);
 
 G_END_DECLS
 

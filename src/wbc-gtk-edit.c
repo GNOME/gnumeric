@@ -275,6 +275,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 
 		/* We need to save the information that we will temporarily overwrite */
 		/* We then assign the information. No need to worry about formatting */
+		/* Finally we can check the validation! */
 
 		switch (result) {
 		case (WBC_EDIT_ACCEPT_RANGE): {
@@ -288,8 +289,11 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 				GnmRange *r = l->data;
 				/* We do this separately since there may be overlap between ranges */
 				sheet_range_set_text (&pp, r, txt);
+				valid =	validation_eval_range (wbc, sheet, &sv->edit_pos, r,
+							       showed_dialog);
+				if (valid != VALIDATION_STATUS_VALID)
+					break;
 			}
-			
 			break;
 		}
 		case (WBC_EDIT_ACCEPT_ARRAY): {
@@ -302,7 +306,9 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 							    r->end.col, r->end.row,
 							    texpr);
 				sheet_region_queue_recalc (sheet, r);
-			}
+			}			
+			valid =	validation_eval_range (wbc, sheet, &sv->edit_pos, r,
+						       showed_dialog);
 			break;
 		}
 		case (WBC_EDIT_ACCEPT): {
@@ -316,6 +322,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 						 sv->edit_pos.col,
 						 sv->edit_pos.row);
 			sheet_cell_set_text (cell, txt, NULL);
+			valid = validation_eval (wbc, mstyle, sheet, &sv->edit_pos, showed_dialog);
 			break;
 		}
 		case (WBC_EDIT_REJECT):
@@ -327,9 +334,8 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 		range_fragment_free (selection);
 		g_free (free_txt);
 
-		/* Now we can check the validation! */
 
-		valid = validation_eval (wbc, mstyle, sheet, &sv->edit_pos, showed_dialog);
+	
 
 
 		/* We need to rebuild the original info first. */

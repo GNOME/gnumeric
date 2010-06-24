@@ -33,11 +33,13 @@
 #include "sheet.h"
 #include "cell.h"
 #include "value.h"
+#include "workbook.h"
 #include "workbook-control.h"
 #include "parse-util.h"
 
 #include "sheet-view.h"
 #include "sheet-object.h"
+#include "sheet-style.h"
 #include "gnm-validation-combo-view.h"
 #include "gnm-cell-combo-view.h"
 #include <gsf/gsf-impl-utils.h>
@@ -506,3 +508,64 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 }
 
 #undef BARF
+
+typedef struct {
+	WorkbookControl *wbc; 
+	Sheet *sheet;
+	GnmCellPos const *pos;
+	gboolean *showed_dialog;
+	ValidationStatus status;
+} validation_eval_t;
+
+static GnmValue *
+validation_eval_range_cb (GnmCellIter const *iter, validation_eval_t *closure)
+{
+	ValidationStatus status;
+	gboolean showed_dialog;
+	GnmStyle const *mstyle = sheet_style_get 
+		(closure->sheet, iter->pp.eval.col, iter->pp.eval.row);
+
+	if (mstyle != NULL) {
+		status = validation_eval (closure->wbc, mstyle,
+					  closure->sheet, &iter->pp.eval, 
+					  &showed_dialog);
+		if (closure->showed_dialog)
+			*closure->showed_dialog = *closure->showed_dialog || showed_dialog;
+		
+		if (status != VALIDATION_STATUS_VALID) {
+			closure->status = status;
+			return VALUE_TERMINATE;
+		}
+	}
+
+	return NULL;
+}
+
+ValidationStatus 
+validation_eval_range (WorkbookControl *wbc,
+		       Sheet *sheet, GnmCellPos const *pos, GnmRange const *r,
+		       gboolean *showed_dialog)
+{
+	GnmValue *result;
+	validation_eval_t closure;
+	GnmEvalPos ep;
+	GnmValue *cell_range = value_new_cellrange_r (sheet, r);
+
+	closure.wbc = wbc;
+	closure.sheet = sheet;
+	closure.pos = pos;
+	closure.showed_dialog = showed_dialog;
+	closure.status = VALIDATION_STATUS_VALID;
+
+	eval_pos_init_pos (&ep, sheet, pos);
+
+	result = workbook_foreach_cell_in_range (&ep, cell_range, CELL_ITER_ALL,
+						 (CellIterFunc) validation_eval_range_cb,
+						 &closure);
+
+	value_release (cell_range);
+
+	if (result == NULL)
+		return VALIDATION_STATUS_VALID;
+	return closure.status;
+}
