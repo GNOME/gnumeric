@@ -332,11 +332,6 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 		}
 
 		range_fragment_free (selection);
-		g_free (free_txt);
-
-
-	
-
 
 		/* We need to rebuild the original info first. */
 
@@ -363,6 +358,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 				cmd_area_set_text (wbc, sv, txt,
 						   result == WBC_EDIT_ACCEPT_ARRAY);
 		}
+		g_free (free_txt);
 	} else {
 		if (sv == wb_control_cur_sheet_view (wbc)) {
 			/* Redraw the cell contents in case there was a span */

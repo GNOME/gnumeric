@@ -1,3 +1,8 @@
+2010-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/wbc-gtk-edit.c (wbcg_edit_finish): don't free memory until we
+	  are done with it.
+
 2010-06-24  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-pane.c (gnm_pane_key_mode_sheet): Untangle old
