@@ -196,9 +196,11 @@ text_content_received (GtkClipboard *clipboard,  GtkSelectionData *sel,
 			    sel->length,
 			    name);
 		g_free (name);
-		gsf_mem_dump (sel->data, MAX (sel->length, maxlen));
-		if (sel->length > maxlen)
-			g_printerr ("...\n");
+		if (sel->length > 0) {
+			gsf_mem_dump (sel->data, MIN (sel->length, maxlen));
+			if (sel->length > maxlen)
+				g_printerr ("...\n");
+		}
 	}
 
 	/* Nothing on clipboard? */
@@ -347,9 +349,11 @@ image_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 			    sel->length,
 			    name);
 		g_free (name);
-		gsf_mem_dump (sel->data, MAX (sel->length, maxlen));
-		if (sel->length > maxlen)
-			g_printerr ("...\n");
+		if (sel->length > 0) {
+			gsf_mem_dump (sel->data, MIN (sel->length, maxlen));
+			if (sel->length > maxlen)
+				g_printerr ("...\n");
+		}
 	}
 
 	if (sel->length > 0) {
@@ -383,9 +387,11 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 			    sel->length,
 			    name);
 		g_free (name);
-		gsf_mem_dump (sel->data, MAX (sel->length, maxlen));
-		if (sel->length > maxlen)
-			g_printerr ("...\n");
+		if (sel->length > 0) {
+			gsf_mem_dump (sel->data, MIN (sel->length, maxlen));
+			if (sel->length > maxlen)
+				g_printerr ("...\n");
+		}
 	}
 
 	/* Nothing on clipboard? */
