@@ -424,7 +424,7 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 			while (i + 9 < length) {
 				if (memcmp (data + i, "<!DOCTYPE", 9) == 0) {
 					if (debug_clipboard ())
-						g_printerr ("Skipping %d bytes of headers.\n", i);
+						g_printerr ("Skipping %d bytes of headers.\n", (int)i);
 					data += i;
 					length -= i;
 					break;
