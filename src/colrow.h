@@ -100,6 +100,7 @@ GString         *colrow_index_list_to_string (ColRowIndexList *list,
 					      gboolean *is_single);
 ColRowIndexList *colrow_get_index_list	     (int first, int last,
 					      ColRowIndexList *list);
+ColRowIndexList *colrow_index_list_copy	     (ColRowIndexList *list);
 
 #define colrow_state_list_destroy(l) (go_slist_free_custom ((l), g_free), NULL)
 
@@ -110,6 +111,8 @@ void		 colrow_set_states	     (Sheet *sheet, gboolean is_cols,
 
 ColRowStateGroup  *colrow_state_group_destroy	(ColRowStateGroup *set);
 ColRowStateGroup  *colrow_set_sizes		(Sheet *sheet, gboolean is_cols,
+						 ColRowIndexList *src, int new_size);
+ColRowStateGroup  *colrow_get_sizes		(Sheet *sheet, gboolean is_cols,
 						 ColRowIndexList *src, int new_size);
 void		   colrow_restore_state_group	(Sheet *sheet, gboolean is_cols,
 						 ColRowIndexList *selection,

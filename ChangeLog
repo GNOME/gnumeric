@@ -1,3 +1,16 @@
+2010-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/Makefile.am (undo.[ch]): added
+	* src/commands.h: formatting
+	* src/commands.c (cmd_resize_colrow_*): deleted
+	(cmd_resize_colrow): reimplement using GOUndo.
+	* src/colrow.h (colrow_get_sizes): new
+	(colrow_index_list_copy): new
+	* src/colrow.c (colrow_restore_state_group): don't destroy the indexlist.
+	  Adjust all callers
+	(colrow_get_sizes): new
+	(colrow_index_list_copy): new
+
 2010-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.h (gnm_cmd_trunc_descriptor): new

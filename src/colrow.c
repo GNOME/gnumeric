@@ -309,6 +309,21 @@ colrow_get_index_list (int first, int last, ColRowIndexList *list)
 	return list;
 }
 
+ColRowIndexList *
+colrow_index_list_copy (ColRowIndexList *list)
+{
+	GList *copy = NULL, *ptr;
+
+	for (ptr = list ; ptr != NULL ; ptr = ptr->next) {
+		ColRowIndex *tmp = g_new (ColRowIndex, 1);
+		ColRowIndex *ex = ptr->data;
+		tmp->first = ex->first;
+		tmp->last = ex->last;
+		copy = g_list_prepend (copy, tmp);
+	}
+	return g_list_reverse (copy);
+}
+
 static void
 colrow_set_single_state (ColRowState *state,
 			 Sheet *sheet, int i, gboolean is_cols)
@@ -399,6 +414,37 @@ cb_clear_variable_width_content (GnmCellIter const *iter,
 		gnm_cell_unrender (iter->cell);
 	}
 	return NULL;
+}
+
+ColRowStateGroup *
+colrow_get_sizes (Sheet *sheet, gboolean is_cols,
+		  ColRowIndexList *src, int new_size)
+{
+	ColRowStateGroup *res = NULL;
+	ColRowIndexList *ptr;
+
+	for (ptr = src; ptr != NULL ; ptr = ptr->next) {
+		ColRowIndex const *index = ptr->data;
+		res = g_slist_prepend (res, colrow_get_states (sheet, is_cols,
+			index->first, index->last));
+
+		if (new_size > 0 && index->first == 0 &&
+		    (index->last+1) >= colrow_max (is_cols, sheet)) {
+			ColRowRLEState *rles = g_new0 (ColRowRLEState, 1);
+
+			rles->length = -1; /* Flag as changing the default */
+
+			if (is_cols)
+				rles->state.size_pts = sheet_col_get_default_size_pts (sheet);
+			else
+				rles->state.size_pts = sheet_row_get_default_size_pts (sheet);
+
+			/* Result is a magic 'default' record + >= 1 normal */
+			return g_slist_prepend (res, g_slist_append (NULL, rles));
+		}
+	}
+
+	return res;
 }
 
 ColRowStateGroup *
@@ -595,7 +641,6 @@ colrow_restore_state_group (Sheet *sheet, gboolean is_cols,
 
 			/* we are guaranteed to have at least 1 more record */
 			ptr = ptr->next;
-			colrow_state_list_destroy (list);
 		}
 
 		colrow_set_states (sheet, is_cols, index->first, ptr->data);
@@ -604,12 +649,8 @@ colrow_restore_state_group (Sheet *sheet, gboolean is_cols,
 			sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
 				index->first, 0, index->last, gnm_sheet_get_last_row (sheet),
 				(CellIterFunc) &cb_clear_variable_width_content, NULL);
-		colrow_state_list_destroy (ptr->data);
 		selection = selection->prev;
 	}
-
-	/* we clear the list as we go, do not use colrow_state_group_destroy */
-	g_slist_free (state_groups);
 }
 
 /**

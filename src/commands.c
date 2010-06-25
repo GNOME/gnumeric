@@ -75,6 +75,7 @@
 #include "data-shuffling.h"
 #include "tools/tabulate.h"
 #include "wbc-gtk.h"
+#include "undo.h"
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-doc-meta-data.h>
@@ -777,6 +778,7 @@ cmd_set_text_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		colrow_restore_state_group (me->cmd.sheet, TRUE,
 					    me->columns,
 					    me->old_widths);
+		colrow_state_group_destroy (me->old_widths);
 		me->old_widths = NULL;
 		colrow_index_list_destroy (me->columns);
 		me->columns = NULL;
@@ -786,6 +788,7 @@ cmd_set_text_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		colrow_restore_state_group (me->cmd.sheet, FALSE,
 					    me->rows,
 					    me->old_heights);
+		colrow_state_group_destroy (me->old_heights);
 		me->old_heights = NULL;
 		colrow_index_list_destroy (me->rows);
 		me->rows = NULL;
@@ -1664,6 +1667,7 @@ cmd_format_undo (GnmCommand *cmd,
 				colrow_restore_state_group (me->cmd.sheet, FALSE,
 							    os->rows,
 							    os->old_heights);
+				colrow_state_group_destroy (os->old_heights);
 				os->old_heights = NULL;
 				colrow_index_list_destroy (os->rows);
 				os->rows = NULL;
@@ -1841,130 +1845,70 @@ cmd_selection_format (WorkbookControl *wbc,
 
 /******************************************************************/
 
-#define CMD_RESIZE_COLROW_TYPE        (cmd_resize_colrow_get_type ())
-#define CMD_RESIZE_COLROW(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_RESIZE_COLROW_TYPE, CmdResizeColRow))
-
-typedef struct {
-	GnmCommand cmd;
-
-	Sheet		*sheet;
-	gboolean	 is_cols;
-	ColRowIndexList *selection;
-	ColRowStateGroup*saved_sizes;
-	int		 new_size;
-} CmdResizeColRow;
-
-MAKE_GNM_COMMAND (CmdResizeColRow, cmd_resize_colrow, NULL)
-
-static gboolean
-cmd_resize_colrow_undo (GnmCommand *cmd,
-			G_GNUC_UNUSED WorkbookControl *wbc)
-{
-	CmdResizeColRow *me = CMD_RESIZE_COLROW (cmd);
-
-	g_return_val_if_fail (me != NULL, TRUE);
-	g_return_val_if_fail (me->selection != NULL, TRUE);
-	g_return_val_if_fail (me->saved_sizes != NULL, TRUE);
-
-	colrow_restore_state_group (me->sheet, me->is_cols,
-				    me->selection, me->saved_sizes);
-	me->saved_sizes = NULL;
-
-	return FALSE;
-}
-
-static gboolean
-cmd_resize_colrow_redo (GnmCommand *cmd,
-			G_GNUC_UNUSED WorkbookControl *wbc)
-{
-	CmdResizeColRow *me = CMD_RESIZE_COLROW (cmd);
-
-	g_return_val_if_fail (me != NULL, TRUE);
-	g_return_val_if_fail (me->selection != NULL, TRUE);
-	g_return_val_if_fail (me->saved_sizes == NULL, TRUE);
-
-	me->saved_sizes = colrow_set_sizes (me->sheet, me->is_cols,
-					    me->selection, me->new_size);
-	if (me->cmd.size == 1)
-		me->cmd.size += (g_slist_length (me->saved_sizes) +
-				 g_list_length (me->selection));
-
-	return FALSE;
-}
-static void
-cmd_resize_colrow_finalize (GObject *cmd)
-{
-	CmdResizeColRow *me = CMD_RESIZE_COLROW (cmd);
-
-	colrow_index_list_destroy (me->selection);
-	colrow_state_group_destroy (me->saved_sizes);
-
-	gnm_command_finalize (cmd);
-}
 
 gboolean
 cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 		   gboolean is_cols, ColRowIndexList *selection,
 		   int new_size)
 {
-	CmdResizeColRow *me;
+	int size = 1;
+	char *text;
+	GOUndo *undo = NULL;
+	GOUndo *redo = NULL;
+	gboolean is_single, result;
 	GString *list;
-	gboolean is_single;
-
-	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
-
-	me = g_object_new (CMD_RESIZE_COLROW_TYPE, NULL);
-
-	me->sheet = sheet;
-	me->is_cols = is_cols;
-	me->selection = selection;
-	me->saved_sizes = NULL;
-	me->new_size = new_size;
-
-	me->cmd.sheet = sheet;
-	me->cmd.size = 1;  /* Changed in initial redo.  */
+	ColRowStateGroup *saved_state;
 
 	list = colrow_index_list_to_string (selection, is_cols, &is_single);
-	/* Make sure the string doesn't get overly wide */
 	gnm_cmd_trunc_descriptor (list, NULL);
 
 	if (is_single) {
 		if (new_size < 0)
-			me->cmd.cmd_descriptor = is_cols
+			text = is_cols
 				? g_strdup_printf (_("Autofitting column %s"), list->str)
 				: g_strdup_printf (_("Autofitting row %s"), list->str);
 		else if (new_size >  0)
-			me->cmd.cmd_descriptor = is_cols
+			text = is_cols
 				? g_strdup_printf (_("Setting width of column %s to %d pixels"),
 						   list->str, new_size)
 				: g_strdup_printf (_("Setting height of row %s to %d pixels"),
 						   list->str, new_size);
-		else me->cmd.cmd_descriptor = is_cols
+		else text = is_cols
 			     ? g_strdup_printf (_("Setting width of column %s to default"),
 						list->str)
 			     : g_strdup_printf (
 				     _("Setting height of row %s to default"), list->str);
 	} else {
 		if (new_size < 0)
-			me->cmd.cmd_descriptor = is_cols
+			text = is_cols
 				? g_strdup_printf (_("Autofitting columns %s"), list->str)
 				: g_strdup_printf (_("Autofitting rows %s"), list->str);
 		else if (new_size >  0)
-			me->cmd.cmd_descriptor = is_cols
+			text = is_cols
 				? g_strdup_printf (_("Setting width of columns %s to %d pixels"),
 						   list->str, new_size)
 				: g_strdup_printf (_("Setting height of rows %s to %d pixels"),
 						   list->str, new_size);
-		else me->cmd.cmd_descriptor = is_cols
+		else text = is_cols
 			     ? g_strdup_printf (
 				     _("Setting width of columns %s to default"), list->str)
 			     : g_strdup_printf (
 				     _("Setting height of rows %s to default"), list->str);
 	}
-
 	g_string_free (list, TRUE);
-	return gnm_command_push_undo (wbc, G_OBJECT (me));
+
+	saved_state = colrow_get_sizes (sheet, is_cols, selection, new_size);;
+	undo = gnm_undo_colrow_restore_state_group_new 
+		(sheet, is_cols, colrow_index_list_copy (selection), saved_state);
+
+ 	redo = gnm_undo_colrow_set_sizes_new (sheet, is_cols, selection, new_size);
+	
+	result = cmd_generic_with_size (wbc, text, size, undo, redo);
+	g_free (text);
+
+	return result;
 }
+
 
 /******************************************************************/
 
@@ -3113,6 +3057,7 @@ cmd_autofill_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		colrow_restore_state_group (me->cmd.sheet, TRUE,
 					    me->columns,
 					    me->old_widths);
+		colrow_state_group_destroy (me->old_widths);
 		me->old_widths = NULL;
 		colrow_index_list_destroy (me->columns);
 		me->columns = NULL;

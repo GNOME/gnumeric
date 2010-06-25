@@ -217,6 +217,7 @@ src/tools/random-generator-cor.c
 src/tools/scenarios.c
 src/tools/simulation.c
 src/tools/tabulate.c
+src/undo.c
 src/validation.c
 src/value-sheet.c
 src/value.c
