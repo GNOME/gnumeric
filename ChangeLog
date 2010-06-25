@@ -10,6 +10,7 @@
 	  Adjust all callers
 	(colrow_get_sizes): new
 	(colrow_index_list_copy): new
+	* src/undo.[ch]: new
 
 2010-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
