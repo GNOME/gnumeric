@@ -371,6 +371,83 @@ image_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 }
 
 static void
+parse_ms_headers (const char *data, size_t length, size_t *start, size_t *end)
+{
+	GHashTable *headers = g_hash_table_new_full
+		(g_str_hash, g_str_equal, g_free, g_free);
+	size_t limit = length;
+	size_t i = 0;
+	char *key = NULL;
+	char *value = NULL;
+	long sf, ef;
+	const char *v;
+
+	while (i < limit && data[i] != '<') {
+		size_t j, k;
+
+		for (j = i; j < limit; j++) {
+			if (data[j] == ':') {
+				key = g_strndup (data + i, j - i);
+				break;
+			}
+			if (g_ascii_isspace (data[j]))
+				goto bad;
+		}
+		if (j >= limit)
+			goto bad;
+		j++;
+
+		for (k = j; k < limit; k++) {
+			if (data[k] == '\n' || data[k] == '\r') {
+				value = g_strndup (data + j, k - j);
+				break;
+			}
+		}
+		if (k >= limit)
+			goto bad;
+		while (g_ascii_isspace (data[k]))
+			k++;
+
+		i = k;
+
+		if (debug_clipboard ())
+			g_printerr ("MS HTML Header [%s] => [%s]\n", key, value);
+
+		if (strcmp (key, "StartHTML") == 0) {
+			long l = strtol (value, NULL, 10);
+			limit = MIN (limit, MAX (0, l));
+		}
+
+		g_hash_table_replace (headers, key, value);
+		key = value = NULL;
+	}
+
+	v = g_hash_table_lookup (headers, "StartFragment");
+	sf = v ? strtol (v, NULL, 10) : -1;
+	if (sf < (long)limit)
+		goto bad;
+
+	v = g_hash_table_lookup (headers, "EndFragment");
+	ef = v ? strtol (v, NULL, 10) : -1;
+	if (ef < sf || ef > (long)length)
+		goto bad;
+
+	*start = sf;
+	*end = ef;
+	goto out;
+
+ bad:
+	g_free (key);
+	g_free (value);
+	*start = 0;
+	*end = length;
+
+ out:
+	g_hash_table_destroy (headers);
+}
+
+
+static void
 table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 			gpointer closure)
 {
@@ -415,33 +492,18 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 						 sel->length);
 	} else if (sel->target == gdk_atom_intern (HTML_ATOM_NAME_UNIX, FALSE) ||
 		   sel->target == gdk_atom_intern (HTML_ATOM_NAME_WINDOWS, FALSE)) {
-		char *data = sel->data;
 		size_t length = sel->length;
+		size_t start = 0, end = length;
 
 		if (sel->target == gdk_atom_intern (HTML_ATOM_NAME_WINDOWS, FALSE)) {
 			/* See bug 143084 */
-			size_t i = 0;
-			while (i + 9 < length) {
-				if (memcmp (data + i, "<!DOCTYPE", 9) == 0) {
-					if (debug_clipboard ())
-						g_printerr ("Skipping %d bytes of headers.\n", (int)i);
-					data += i;
-					length -= i;
-					break;
-				}
-				while (i < length) {
-					if (data[i] == '\n' || data[i] == '\r') {
-						while (i < length && g_ascii_isspace (data[i]))
-							i++;
-						break;
-					}
-					i++;
-				}
-			}
+			parse_ms_headers (sel->data, length, &start, &end);
 		}
 
 		content = table_cellregion_read (wbc, "Gnumeric_html:html",
-						 pt, data, length);
+						 pt,
+						 sel->data + start,
+						 end - start);
 	} else if ((sel->target == gdk_atom_intern ( BIFF8_ATOM_NAME, FALSE)) ||
 		   (sel->target == gdk_atom_intern ( BIFF8_ATOM_NAME_CITRIX, FALSE)) ||
 		   (sel->target == gdk_atom_intern ( BIFF5_ATOM_NAME, FALSE)) ||

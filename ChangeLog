@@ -7,6 +7,7 @@
 
 	* src/gui-clipboard.c (table_content_received): Skip headers for
 	MS HTML Format.
+	(parse_ms_headers): New function.
 
 2010-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
