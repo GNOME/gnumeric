@@ -195,31 +195,31 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 		 * it _can_ start an expression, which is required for rangesel
 		 * it just isn't an expression. */
 		if (expr_txt != NULL && *expr_txt != '\0' && strcmp (expr_txt, "-")) {
-			GnmExprTop const *texpr = NULL;
+			GnmExprTop const *texpr_test = NULL;
 			GnmParseError  perr;
 			
 
 			parse_error_init (&perr);
-			texpr = gnm_expr_parse_str (expr_txt,
-				&pp, GNM_EXPR_PARSE_DEFAULT, NULL, &perr);
+			texpr_test = gnm_expr_parse_str (expr_txt,
+							 &pp, GNM_EXPR_PARSE_DEFAULT, NULL, &perr);
 			/* Try adding a single extra closing paren to see if it helps */
-			if (texpr == NULL && perr.err != NULL &&
+			if (texpr_test == NULL && perr.err != NULL &&
 			    perr.err->code == PERR_MISSING_PAREN_CLOSE) {
 				GnmParseError tmp_err;
 				char *tmp = g_strconcat (txt, ")", NULL);
 				parse_error_init (&tmp_err);
-				texpr = gnm_expr_parse_str (gnm_expr_char_start_p (tmp),
-					&pp, GNM_EXPR_PARSE_DEFAULT,
-					NULL, &tmp_err);
+				texpr_test = gnm_expr_parse_str (gnm_expr_char_start_p (tmp),
+								 &pp, GNM_EXPR_PARSE_DEFAULT,
+								 NULL, &tmp_err);
 				parse_error_free (&tmp_err);
 
-				if (texpr != NULL)
+				if (texpr_test != NULL)
 					txt = free_txt = tmp;
 				else
 					g_free (tmp);
 			}
 
-			if (texpr == NULL && perr.err != NULL) {
+			if (texpr_test == NULL && perr.err != NULL) {
 				ValidationStatus reedit;
 
 				/* set focus _before_ selection.  gtk2 seems to
@@ -227,19 +227,20 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 				 * (no longer required now that we clear
 				 * gtk-entry-select-on-focus) */
 				gtk_window_set_focus (wbcg_toplevel (wbcg),
-					(GtkWidget *) wbcg_get_entry (wbcg));
+						      (GtkWidget *) wbcg_get_entry (wbcg));
 
 				if (perr.begin_char != 0 || perr.end_char != 0) {
 					int offset = expr_txt - txt;
 					gtk_editable_select_region (GTK_EDITABLE (wbcg_get_entry (wbcg)),
-						offset + perr.begin_char,
-						offset + perr.end_char);
+								    offset + perr.begin_char,
+								    offset + perr.end_char);
 				} else
 					gtk_editable_set_position (
-						GTK_EDITABLE (wbcg_get_entry (wbcg)), -1);
+								   GTK_EDITABLE (wbcg_get_entry (wbcg)), -1);
 
 				reedit = wb_control_validation_msg (WORKBOOK_CONTROL (wbcg),
-					VALIDATION_STYLE_PARSE_ERROR, NULL, perr.err->message);
+								    VALIDATION_STYLE_PARSE_ERROR, NULL, 
+								    perr.err->message);
 				if (showed_dialog != NULL)
 					*showed_dialog = TRUE;
 
@@ -254,8 +255,8 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 				 * focused on the edit line (eg hit F2) */
 				wbcg_focus_cur_scg (wbcg);
 			}
-			if (texpr != NULL)
-				gnm_expr_top_unref (texpr);
+			if (texpr_test != NULL)
+				gnm_expr_top_unref (texpr_test);
 		}
 
 		/* We only enter an array formula if
@@ -345,6 +346,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 			if (valid == VALIDATION_STATUS_INVALID_EDIT) {
 				gtk_window_set_focus (wbcg_toplevel (wbcg),
 					(GtkWidget *) wbcg_get_entry (wbcg));
+				g_free (free_txt);
 				return FALSE;
 			}
 		} else {
