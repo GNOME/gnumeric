@@ -415,9 +415,33 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 						 sel->length);
 	} else if (sel->target == gdk_atom_intern (HTML_ATOM_NAME_UNIX, FALSE) ||
 		   sel->target == gdk_atom_intern (HTML_ATOM_NAME_WINDOWS, FALSE)) {
+		char *data = sel->data;
+		size_t length = sel->length;
+
+		if (sel->target == gdk_atom_intern (HTML_ATOM_NAME_WINDOWS, FALSE)) {
+			/* See bug 143084 */
+			size_t i = 0;
+			while (i + 9 < length) {
+				if (memcmp (data + i, "<!DOCTYPE", 9) == 0) {
+					if (debug_clipboard ())
+						g_printerr ("Skipping %d bytes of headers.\n", i);
+					data += i;
+					length -= i;
+					break;
+				}
+				while (i < length) {
+					if (data[i] == '\n' || data[i] == '\r') {
+						while (i < length && g_ascii_isspace (data[i]))
+							i++;
+						break;
+					}
+					i++;
+				}
+			}
+		}
+
 		content = table_cellregion_read (wbc, "Gnumeric_html:html",
-						 pt, sel->data,
-						 sel->length);
+						 pt, data, length);
 	} else if ((sel->target == gdk_atom_intern ( BIFF8_ATOM_NAME, FALSE)) ||
 		   (sel->target == gdk_atom_intern ( BIFF8_ATOM_NAME_CITRIX, FALSE)) ||
 		   (sel->target == gdk_atom_intern ( BIFF5_ATOM_NAME, FALSE)) ||
