@@ -1,10 +1,15 @@
+2010-06-26  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric-expr-entry.c: Switch to triangles for argument markers.
+	Win32 likes that better, somehow.  Fixes #622776.
+
 2010-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (gee_check_tooltip): small fix
 
 2010-06-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* gnumeric-expr-entry.c (gee_check_tooltip): Handle strings (and 
+	* gnumeric-expr-entry.c (gee_check_tooltip): Handle strings (and
 	  sheet names) better.
 
 2010-06-18  Morten Welinder  <terra@gnome.org>
@@ -24,12 +29,12 @@
 
 	* gnumeric-expr-entry.c (gee_check_tooltip): don't create tooltip
 	  in what looks like a range selector
-	
+
 2010-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (gee_check_tooltip): don't create tooltip
 	  in range selectors or cell renderers yet.
-	(gee_create_tooltip): drop argument from 
+	(gee_create_tooltip): drop argument from
 	  gnm_func_convert_markup_to_pango
 
 2010-06-16  Morten Welinder <terra@gnome.org>
@@ -67,7 +72,7 @@
 
 	* gnumeric-expr-entry.c (gee_set_tooltip_argument): new
 	(gee_set_tooltip): use gee_set_tooltip_argument
-	
+
 2010-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.h (gnm_expr_entry_enable_tips): new
@@ -113,10 +118,10 @@
 
 2010-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* gnumeric-expr-entry.c (gee_delete_tooltip): watch 
-	  for disappearing entries 
+	* gnumeric-expr-entry.c (gee_delete_tooltip): watch
+	  for disappearing entries
 	(cb_gee_key_press_event): gee_set_tooltip will ref the fd
-	
+
 2010-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (_GnmExprEntry): add field

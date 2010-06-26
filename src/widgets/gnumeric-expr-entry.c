@@ -41,8 +41,8 @@
 #include <gdk/gdkkeysyms.h>
 #include <string.h>
 
-#define UNICODE_LEFT_ARROW "\xe2\xac\x85"
-#define UNICODE_RIGHT_ARROW "\xe2\x9e\xa1"
+#define UNICODE_LEFT_TRIANGLE "\xe2\x97\x80"
+#define UNICODE_RIGHT_TRIANGLE "\xe2\x96\xb6"
 #define UNICODE_CROSS_AND_SKULLBONES "\xe2\x98\xa0"
 #define UNICODE_ELLIPSIS "\xe2\x80\xa6"
 
@@ -695,11 +695,11 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args, gboolean had_stuff)
 					(_("%s: %s"),
 					 arg_name,
 					 gnm_func_get_arg_description (fd, i));
-				g_string_append (str, UNICODE_RIGHT_ARROW);
+				g_string_append (str, UNICODE_RIGHT_TRIANGLE);
 			}
 			gee_set_tooltip_argument (str, arg_name, i >= min);
 			if (i == args)
-				g_string_append (str, UNICODE_LEFT_ARROW);
+				g_string_append (str, UNICODE_LEFT_TRIANGLE);
 			g_free (arg_name);
 		} else
 			break;
@@ -709,14 +709,14 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args, gboolean had_stuff)
 			g_string_append_c (str, sep);
 		g_string_append
 			(str, (args >= i && args < max)
-			 ? UNICODE_RIGHT_ARROW UNICODE_ELLIPSIS UNICODE_LEFT_ARROW
+			 ? UNICODE_RIGHT_TRIANGLE UNICODE_ELLIPSIS UNICODE_LEFT_TRIANGLE
 			 : UNICODE_ELLIPSIS);
 	}
 	if (max == 0 && args == 0 && !had_stuff) {
 		extra = g_strdup_printf (_("%s takes no arguments"),
 					 gnm_func_get_name (fd));
 	} else if (args >= max) {
-		g_string_append (str, UNICODE_RIGHT_ARROW UNICODE_CROSS_AND_SKULLBONES UNICODE_LEFT_ARROW);
+		g_string_append (str, UNICODE_RIGHT_TRIANGLE UNICODE_CROSS_AND_SKULLBONES UNICODE_LEFT_TRIANGLE);
 		extra = g_strdup_printf (_("Too many arguments for %s"),
 					 gnm_func_get_name (fd));
 	}
