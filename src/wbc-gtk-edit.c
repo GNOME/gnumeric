@@ -133,7 +133,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 
 	/* Save the results before changing focus */
 	if (result != WBC_EDIT_REJECT) {
-		ValidationStatus valid;
+		ValidationStatus valid = VALIDATION_STATUS_VALID;
 		char *free_txt = NULL;
 		char const *txt;
 		GnmStyle const *mstyle;

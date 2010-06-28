@@ -947,141 +947,6 @@ cmd_set_text (WorkbookControl *wbc,
 
 /******************************************************************/
 
-#define CMD_AREA_SET_TEXT_TYPE        (cmd_area_set_text_get_type ())
-#define CMD_AREA_SET_TEXT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_AREA_SET_TEXT_TYPE, CmdAreaSetText))
-
-typedef struct {
-	GnmCommand cmd;
-
-	GnmParsePos   pp;
-	char	  *text;
-	GSList	*old_contents;
-	GSList	*selection;
-} CmdAreaSetText;
-
-static void
-cmd_area_set_text_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
-{
-	CmdAreaSetText const *orig = (CmdAreaSetText const *) cmd;
-	SheetView *sv = wb_control_cur_sheet_view (wbc);
-	cmd_area_set_text (wbc, sv, orig->text, NULL);
-}
-MAKE_GNM_COMMAND (CmdAreaSetText, cmd_area_set_text, cmd_area_set_text_repeat)
-
-static gboolean
-cmd_area_set_text_undo (GnmCommand *cmd, WorkbookControl *wbc)
-{
-	CmdAreaSetText *me = CMD_AREA_SET_TEXT (cmd);
-	GSList *ranges;
-
-	g_return_val_if_fail (me != NULL, TRUE);
-	g_return_val_if_fail (me->selection != NULL, TRUE);
-	g_return_val_if_fail (me->old_contents != NULL, TRUE);
-
-	for (ranges = me->selection; ranges != NULL ; ranges = ranges->next) {
-		GnmRange const *r = ranges->data;
-		GnmCellRegion * c;
-		GnmPasteTarget pt;
-
-		g_return_val_if_fail (me->old_contents != NULL, TRUE);
-
-		c = me->old_contents->data;
-		clipboard_paste_region (c,
-			paste_target_init (&pt, me->cmd.sheet, r, PASTE_CONTENTS | PASTE_FORMATS),
-			GO_CMD_CONTEXT (wbc));
-		cellregion_unref (c);
-		me->old_contents = g_slist_remove (me->old_contents, c);
-	}
-	g_return_val_if_fail (me->old_contents == NULL, TRUE);
-
-	return FALSE;
-}
-
-static gboolean
-cmd_area_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
-{
-	CmdAreaSetText *me = CMD_AREA_SET_TEXT (cmd);
-	GnmExprTop const *texpr = NULL;
-	GSList *l;
-	GnmStyle *new_style = NULL;
-	char const *expr_txt;
-
-	g_return_val_if_fail (me != NULL, TRUE);
-
-	expr_txt = gnm_expr_char_start_p (me->text);
-	if (expr_txt != NULL)
-		texpr = gnm_expr_parse_str
-			(expr_txt, &me->pp, GNM_EXPR_PARSE_DEFAULT,
-			 sheet_get_conventions (me->cmd.sheet), NULL);
-
-	if (texpr != NULL) {
-		GnmEvalPos ep;
-		GOFormat *sf = auto_style_format_suggest (texpr,
-			eval_pos_init_pos (&ep, me->cmd.sheet, &me->pp.eval));
-		gnm_expr_top_unref (texpr);
-		texpr = NULL;
-		if (sf != NULL) {
-			new_style = gnm_style_new ();
-			gnm_style_set_format (new_style, sf);
-			go_format_unref (sf);
-		}
-	}
-
-	/* Everything is ok. Store previous contents and perform the operation */
-	for (l = me->selection ; l != NULL ; l = l->next) {
-		GnmRange const *r = l->data;
-		me->old_contents = g_slist_prepend (me->old_contents,
-			clipboard_copy_range (me->cmd.sheet, r));
-
-		/* Queue depends of region as a block beforehand */
-		sheet_region_queue_recalc (me->cmd.sheet, r);
-
-		/* If there is an expression then this was an array */
-		if (texpr != NULL) {
-			gnm_cell_set_array_formula (me->cmd.sheet,
-						r->start.col, r->start.row,
-						r->end.col, r->end.row,
-						texpr);
-			sheet_region_queue_recalc (me->cmd.sheet, r);
-		} else {
-			sheet_range_set_text (&me->pp, r, me->text);
-			if (new_style) {
-				gnm_style_ref (new_style);
-				sheet_apply_style (me->cmd.sheet, r, new_style);
-			}
-		}
-
-		/* mark contents as dirty */
-		sheet_flag_status_update_range (me->cmd.sheet, r);
-		sheet_queue_respan (me->cmd.sheet, r->start.row, r->end.row);
-	}
-	me->old_contents = g_slist_reverse (me->old_contents);
-	sheet_redraw_all (me->cmd.sheet, FALSE);
-
-	if (new_style)
-		gnm_style_unref (new_style);
-
-	return FALSE;
-}
-
-static void
-cmd_area_set_text_finalize (GObject *cmd)
-{
-	CmdAreaSetText *me = CMD_AREA_SET_TEXT (cmd);
-
-	g_free (me->text);
-
-	if (me->old_contents != NULL) {
-		GSList *l;
-		for (l = me->old_contents ; l != NULL ; l = g_slist_remove (l, l->data))
-			cellregion_unref (l->data);
-		me->old_contents = NULL;
-	}
-	range_fragment_free (me->selection);
-	me->selection = NULL;
-
-	gnm_command_finalize (cmd);
-}
 
 /*
  * cmd_area_set_text
@@ -1097,29 +962,82 @@ gboolean
 cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 		   char const *new_text, PangoAttrList *markup)
 {
+	GSList	*selection = selection_get_ranges (sv, FALSE), *l;
+	GnmParsePos pp;
+	char const *expr_txt;
+	GnmExprTop const  *texpr = NULL;
+	GOUndo *undo = NULL;
+	GOUndo *redo = NULL;
+	gboolean result;
+	char *text = NULL;
+	Sheet *sheet = sv_sheet (sv);
+	
+	g_return_val_if_fail (selection != NULL , TRUE);
+	
+	parse_pos_init_editpos (&pp, sv);
+	expr_txt = gnm_expr_char_start_p (new_text);
+	if (expr_txt != NULL)
+		texpr = gnm_expr_parse_str
+			(expr_txt, &pp, GNM_EXPR_PARSE_DEFAULT,
+			 sheet_get_conventions (pp.sheet), NULL);
+
+	if (texpr != NULL) {
+		char *name;
+		GOFormat *sf;
+		GnmEvalPos ep;
+		GnmStyle *new_style = NULL;
+
+		name = undo_range_list_name (sheet, selection);
+		text = g_strdup_printf (_("Inserting expression in %s"), name);
+		g_free (name);
+
+		sf = auto_style_format_suggest 
+			(texpr, eval_pos_init_editpos (&ep, sv));
+		if (sf != NULL) {
+			new_style = gnm_style_new ();
+			gnm_style_set_format (new_style, sf);
+			go_format_unref (sf);
+		}
+
+		for (l = selection; l != NULL; l = l->next) {
+			GnmSheetRange *sr;
+			undo = go_undo_combine 
+				(undo, clipboard_copy_range_undo (sheet, l->data));
+			sr = gnm_sheet_range_new (sheet, l->data);
+			redo = go_undo_combine 
+				(redo, sheet_range_set_expr_undo (sr, texpr));
+			if (new_style) {
+				sr = gnm_sheet_range_new (sheet, l->data);
+				redo = go_undo_combine 
+					(redo, sheet_apply_style_undo (sr, new_style));
+			}
+		}
+		if (new_style)
+			gnm_style_unref (new_style);
+		gnm_expr_top_unref (texpr);
+	} else {
 #warning add markup
-	CmdAreaSetText *me;
-	GString *text;
+		GString *text_str;
 
-	me = g_object_new (CMD_AREA_SET_TEXT_TYPE, NULL);
+		text_str = gnm_cmd_trunc_descriptor (g_string_new (new_text), NULL);
+		text = g_strdup_printf (_("Typing \"%s\""), text_str->str);
+		g_string_free (text_str, TRUE);
 
-	me->text        = g_strdup (new_text);
-	me->selection   = selection_get_ranges (sv, FALSE /* No intersection */);
-	me->old_contents = NULL;
+		for (l = selection; l != NULL; l = l->next) {
+			GnmSheetRange *sr;
+			undo = go_undo_combine 
+				(undo, clipboard_copy_range_undo (sheet, l->data));
+			sr = gnm_sheet_range_new (sheet, l->data);
+			redo = go_undo_combine 
+				(redo, sheet_range_set_text_undo (sr, new_text));
+		
+		}
+	}
 
-	parse_pos_init_editpos (&me->pp, sv);
-
-	text = gnm_cmd_trunc_descriptor (g_string_new (new_text), NULL);
-
-	me->cmd.sheet = me->pp.sheet;
-	me->cmd.size = 1;
-	me->cmd.cmd_descriptor =
-		g_strdup_printf (_("Typing \"%s\""),
-				 text->str);
-
-	g_string_free (text, TRUE);
-
-	return gnm_command_push_undo (wbc, G_OBJECT (me));
+	result = cmd_generic (wbc, text, undo, redo);
+	g_free (text);
+	range_fragment_free (selection);
+	return result;	
 }
 
 /*

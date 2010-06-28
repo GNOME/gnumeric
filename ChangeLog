@@ -1,3 +1,20 @@
+2010-06-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.c (CMD_AREA_SET_TEXT): deleted 
+	(cmd_area_set_text_*): deleted
+	(cmd_area_set_text): rewritten using GO_UNDO
+	* src/sheet.h (sheet_range_set_text_undo): new
+	(sheet_range_set_expr_undo): new
+	(sheet_apply_style_undo): new
+	* src/sheet.c (sheet_range_set_text_undo): new
+	(sheet_range_set_expr_undo): new
+	(sheet_apply_style_undo): new
+	(sheet_apply_style_cb): new
+	(sheet_range_set_expr_cb): new
+	(sheet_range_set_text_cb): new
+	* src/wbc-gtk-edit.c (wbcg_edit_finish): provide initialization to
+	  quieten gcc
+
 2010-06-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.h (cmd_area_set_text): change arguments

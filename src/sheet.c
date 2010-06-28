@@ -1530,6 +1530,28 @@ sheet_apply_style (Sheet       *sheet,
 	sheet_range_calc_spans (sheet, range, spanflags);
 }
 
+static void
+sheet_apply_style_cb (GnmSheetRange *sr,
+		      GnmStyle      *style)
+{
+	gnm_style_ref (style);
+	sheet_apply_style (sr->sheet, &sr->range, style);
+}
+
+GOUndo *     
+sheet_apply_style_undo (GnmSheetRange *sr, 
+			GnmStyle      *style)
+{
+	gnm_style_ref (style);
+	return go_undo_binary_new 
+		(sr, (gpointer)style, 
+		 (GOUndoBinaryFunc) sheet_apply_style_cb, 
+		 (GFreeFunc) gnm_sheet_range_free, 
+		 (GFreeFunc) gnm_style_unref);	
+}
+
+
+
 void
 sheet_apply_border (Sheet       *sheet,
 		    GnmRange const *range,
@@ -2429,6 +2451,66 @@ cb_clear_non_corner (GnmCellIter const *iter, GnmRange const *merged)
 }
 
 /**
+ * sheet_range_set_expr_cb :
+ *
+ *
+ * Does NOT check for array division.
+ **/
+static void
+sheet_range_set_expr_cb (GnmSheetRange const *sr, GnmExprTop const *texpr)
+{
+	closure_set_cell_value	closure;
+	GSList *merged, *ptr;
+
+	g_return_if_fail (sr != NULL);
+	g_return_if_fail (texpr != NULL);
+
+	closure.texpr = texpr;
+
+	range_init_full_sheet (&closure.expr_bound, sr->sheet);
+	gnm_expr_top_get_boundingbox (closure.texpr,
+				      sr->sheet,
+				      &closure.expr_bound);
+
+	sheet_region_queue_recalc (sr->sheet, &sr->range);
+	/* Store the parsed result creating any cells necessary */
+	sheet_foreach_cell_in_range 
+		(sr->sheet, CELL_ITER_ALL,
+		 sr->range.start.col, sr->range.start.row, 
+		 sr->range.end.col, sr->range.end.row,
+		 (CellIterFunc)&cb_set_cell_content, &closure);
+	
+	merged = gnm_sheet_merge_get_overlap (sr->sheet, &sr->range);
+	for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
+		GnmRange const *tmp = ptr->data;
+		sheet_foreach_cell_in_range 
+			(sr->sheet, CELL_ITER_ALL,
+			 tmp->start.col, tmp->start.row, 
+			 tmp->end.col, tmp->end.row,
+			 (CellIterFunc)&cb_clear_non_corner, 
+			 (gpointer)tmp);
+	}
+	g_slist_free (merged);
+
+	sheet_region_queue_recalc (sr->sheet, &sr->range);
+	sheet_flag_status_update_range (sr->sheet, &sr->range);
+	sheet_queue_respan (sr->sheet, sr->range.start.row, 
+			    sr->range.end.row);
+}
+
+GOUndo *
+sheet_range_set_expr_undo (GnmSheetRange *sr, GnmExprTop const  *texpr)
+{
+	gnm_expr_top_ref (texpr);
+	return go_undo_binary_new 
+		(sr, (gpointer)texpr, 
+		 (GOUndoBinaryFunc) sheet_range_set_expr_cb, 
+		 (GFreeFunc) gnm_sheet_range_free, 
+		 (GFreeFunc) gnm_expr_top_unref);
+}
+
+
+/**
  * sheet_range_set_text :
  *
  * @pos : The position from which to parse an expression.
@@ -2483,6 +2565,34 @@ sheet_range_set_text (GnmParsePos const *pos, GnmRange const *r, char const *str
 
 	sheet_flag_status_update_range (pos->sheet, r);
 }
+
+static void
+sheet_range_set_text_cb (GnmSheetRange const *sr, gchar const *text)
+{
+	GnmParsePos pos;
+
+	pos.eval = sr->range.start;
+	pos.sheet = sr->sheet;
+	pos.wb = sr->sheet->workbook;
+
+	sheet_range_set_text (&pos, &sr->range, text);
+	sheet_region_queue_recalc (sr->sheet, &sr->range);
+	sheet_flag_status_update_range (sr->sheet, &sr->range);
+	sheet_queue_respan (sr->sheet, sr->range.start.row, 
+			    sr->range.end.row);
+}
+
+GOUndo *     
+sheet_range_set_text_undo (GnmSheetRange *sr, 
+			   char const *text)
+{
+	return go_undo_binary_new 
+		(sr, g_strdup (text), 
+		 (GOUndoBinaryFunc) sheet_range_set_text_cb, 
+		 (GFreeFunc) gnm_sheet_range_free, 
+		 (GFreeFunc) g_free);
+}
+
 
 /**
  * sheet_cell_get_value:
