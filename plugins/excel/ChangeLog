@@ -1,3 +1,7 @@
+2010-06-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.7
+
 2010-06-23  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read.c (xlsx_CT_RowsCols_end): New function.
