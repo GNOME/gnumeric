@@ -971,7 +971,7 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 	gboolean result;
 	char *text = NULL;
 	Sheet *sheet = sv_sheet (sv);
-	
+
 	g_return_val_if_fail (selection != NULL , TRUE);
 	
 	parse_pos_init_editpos (&pp, sv);
@@ -1016,12 +1016,20 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 			gnm_style_unref (new_style);
 		gnm_expr_top_unref (texpr);
 	} else {
-#warning add markup
 		GString *text_str;
+		PangoAttrList *adj_markup = NULL;
 
 		text_str = gnm_cmd_trunc_descriptor (g_string_new (new_text), NULL);
 		text = g_strdup_printf (_("Typing \"%s\""), text_str->str);
 		g_string_free (text_str, TRUE);
+
+		if (go_pango_attr_list_is_empty (markup))
+			markup = NULL;
+
+		if (markup && new_text && new_text[0] == '\'') {
+			markup = adj_markup = pango_attr_list_copy (markup);
+			go_pango_attr_list_erase (adj_markup, 0, 1);
+		}
 
 		for (l = selection; l != NULL; l = l->next) {
 			GnmSheetRange *sr;
@@ -1030,8 +1038,15 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 			sr = gnm_sheet_range_new (sheet, l->data);
 			redo = go_undo_combine 
 				(redo, sheet_range_set_text_undo (sr, new_text));
-		
+			if (markup) {
+				sr = gnm_sheet_range_new (sheet, l->data);
+				/* Note: order of combination matters!! */
+				redo = go_undo_combine 
+					(sheet_range_set_markup_undo (sr, markup), redo);
+			}
 		}
+		if (adj_markup)
+			pango_attr_list_unref (adj_markup);
 	}
 
 	result = cmd_generic (wbc, text, undo, redo);

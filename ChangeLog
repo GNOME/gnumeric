@@ -1,5 +1,15 @@
 2010-06-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/commands.c (cmd_area_set_text): handle markup
+	* src/sheet.h (sheet_range_set_markup_undo): new
+	* src/sheet.c (sheet_range_set_markup_undo): new
+	(cb_set_markup): new
+	(sheet_range_set_markup_cb): new
+	* src/wbc-gtk-edit.c (wbcg_edit_finish): pass the amrkup also to
+	  cmd_area_set_text
+	
+2010-06-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/commands.c (CMD_AREA_SET_TEXT): deleted 
 	(cmd_area_set_text_*): deleted
 	(cmd_area_set_text): rewritten using GO_UNDO

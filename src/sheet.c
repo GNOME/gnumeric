@@ -2594,6 +2594,52 @@ sheet_range_set_text_undo (GnmSheetRange *sr,
 }
 
 
+static GnmValue *
+cb_set_markup (GnmCellIter const *iter, PangoAttrList *markup)
+{
+	GnmCell *cell;
+
+	cell = iter->cell;
+	if (!cell)
+		return NULL;
+
+	if (VALUE_IS_STRING (cell->value)) {
+		GOFormat *fmt;
+
+		fmt = go_format_new_markup (markup, TRUE);
+		value_set_fmt (cell->value, fmt);
+		go_format_unref (fmt);
+	}
+	return NULL;
+}
+
+static void
+sheet_range_set_markup_cb (GnmSheetRange const *sr, PangoAttrList *markup)
+{
+	sheet_foreach_cell_in_range 
+		(sr->sheet, CELL_ITER_ALL,
+		 sr->range.start.col, sr->range.start.row, 
+		 sr->range.end.col, sr->range.end.row,
+		 (CellIterFunc)&cb_set_markup, markup);
+
+	sheet_region_queue_recalc (sr->sheet, &sr->range);
+	sheet_flag_status_update_range (sr->sheet, &sr->range);
+	sheet_queue_respan (sr->sheet, sr->range.start.row, 
+			    sr->range.end.row);
+}
+
+GOUndo *     
+sheet_range_set_markup_undo (GnmSheetRange *sr, PangoAttrList *markup)
+{
+	if (markup == NULL)
+		return NULL;
+	return go_undo_binary_new 
+		(sr, pango_attr_list_ref (markup), 
+		 (GOUndoBinaryFunc) sheet_range_set_markup_cb, 
+		 (GFreeFunc) gnm_sheet_range_free, 
+		 (GFreeFunc) pango_attr_list_unref);
+}
+
 /**
  * sheet_cell_get_value:
  * @sheet: Sheet

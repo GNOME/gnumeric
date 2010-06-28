@@ -7,6 +7,8 @@ Andreas:
 	* Autofit column widths in stf import. [#427382]
 	* Ensure the table range is unlocked before allowing the data
 	  table to be configured.
+	* Also store any markup if entering text in several cells at once.
+	  [#622530]
 
 Jean:
 	* Fixed autofilter (and other) combo positions. [#621817]

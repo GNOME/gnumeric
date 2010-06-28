@@ -397,14 +397,15 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 				cmd_area_set_array_expr (wbc, sv, texpr);
 
 			} else {
-				if (result == WBC_EDIT_ACCEPT) {
-					PangoAttrList *res_markup = wbcg->edit_line.markup
-						? pango_attr_list_copy (wbcg->edit_line.markup)
-						: NULL;
+				PangoAttrList *res_markup = wbcg->edit_line.markup
+					? pango_attr_list_copy (wbcg->edit_line.markup)
+					: NULL;
+				if (result == WBC_EDIT_ACCEPT)
 					cmd_set_text (wbc, sheet, &sv->edit_pos, txt, res_markup);
-					if (res_markup) pango_attr_list_unref (res_markup);
-				} else
-					cmd_area_set_text (wbc, sv, txt, NULL);
+				else
+					cmd_area_set_text (wbc, sv, txt, res_markup);
+				if (res_markup)
+					pango_attr_list_unref (res_markup);
 			}
 		}
 		if (texpr != NULL)
