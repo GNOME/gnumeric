@@ -910,7 +910,7 @@ undo_cell_pos_name (Sheet const *sheet, GnmCellPos const *pos)
 }
 
 /**
- * char const *undo_range_name
+ * char *undo_range_name
  * @sheet:
  * @r:
  *

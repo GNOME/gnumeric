@@ -36,7 +36,7 @@ gboolean cmd_set_text		(WorkbookControl *wbc, Sheet *sheet,
 				 PangoAttrList *markup);
 
 gboolean cmd_area_set_text	(WorkbookControl *wbc, SheetView *sv,
-				 char const *text, gboolean as_array);
+				 char const *text, PangoAttrList *markup);
 
 gboolean cmd_area_set_array_expr (WorkbookControl *wbc, SheetView *sv,
 				  GnmExprTop const  *new_texpr);

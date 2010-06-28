@@ -1,3 +1,8 @@
+2010-06-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-data-table.c (dialog_data_table): check whether the
+	  table range is locked.
+
 2010-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-stf.h (FormatInfo_t): add new field 

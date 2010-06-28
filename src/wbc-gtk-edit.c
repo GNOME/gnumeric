@@ -196,7 +196,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 			GnmRange r;
 			r.end = r.start = pp.eval;
 
-			if (cmd_selection_is_locked_effective (sheet, selection, wbc,
+			if (cmd_cell_range_is_locked_effective (sheet, &r, wbc,
 							       _("Set Text"))) {
 				range_fragment_free (selection);
 				*showed_dialog = TRUE;
@@ -404,7 +404,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 					cmd_set_text (wbc, sheet, &sv->edit_pos, txt, res_markup);
 					if (res_markup) pango_attr_list_unref (res_markup);
 				} else
-					cmd_area_set_text (wbc, sv, txt, FALSE);
+					cmd_area_set_text (wbc, sv, txt, NULL);
 			}
 		}
 		if (texpr != NULL)

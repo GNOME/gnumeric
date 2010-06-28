@@ -955,7 +955,6 @@ typedef struct {
 
 	GnmParsePos   pp;
 	char	  *text;
-	gboolean   as_array;
 	GSList	*old_contents;
 	GSList	*selection;
 } CmdAreaSetText;
@@ -965,8 +964,7 @@ cmd_area_set_text_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 {
 	CmdAreaSetText const *orig = (CmdAreaSetText const *) cmd;
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
-	cmd_area_set_text (wbc, sv,
-		orig->text, orig->as_array);
+	cmd_area_set_text (wbc, sv, orig->text, NULL);
 }
 MAKE_GNM_COMMAND (CmdAreaSetText, cmd_area_set_text, cmd_area_set_text_repeat)
 
@@ -1010,26 +1008,13 @@ cmd_area_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	/* Check for array subdivision */
-	if (sheet_ranges_split_region (me->cmd.sheet, me->selection,
-				       GO_CMD_CONTEXT (wbc), _("Set Text")))
-		return TRUE;
-
-	/* Check for locked cells */
-	if (cmd_selection_is_locked_effective (me->cmd.sheet, me->selection,
-					       wbc, _("Set Text")))
-		return TRUE;
-
 	expr_txt = gnm_expr_char_start_p (me->text);
 	if (expr_txt != NULL)
 		texpr = gnm_expr_parse_str
 			(expr_txt, &me->pp, GNM_EXPR_PARSE_DEFAULT,
 			 sheet_get_conventions (me->cmd.sheet), NULL);
 
-	if (me->as_array) {
-		if (texpr == NULL)
-			return TRUE;
-	} else if (texpr != NULL) {
+	if (texpr != NULL) {
 		GnmEvalPos ep;
 		GOFormat *sf = auto_style_format_suggest (texpr,
 			eval_pos_init_pos (&ep, me->cmd.sheet, &me->pp.eval));
@@ -1098,9 +1083,19 @@ cmd_area_set_text_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/*
+ * cmd_area_set_text
+ *
+ * the caller is expected to have ensured:
+ *
+ * 1) that no array is being split
+ * 2) that the range is not locked.
+ *
+ */
+
 gboolean
 cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
-		   char const *new_text, gboolean as_array)
+		   char const *new_text, PangoAttrList *markup)
 {
 #warning add markup
 	CmdAreaSetText *me;
@@ -1112,21 +1107,7 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 	me->selection   = selection_get_ranges (sv, FALSE /* No intersection */);
 	me->old_contents = NULL;
 
-	/* Only enter an array formula if
-	 *   1) the text is a formula
-	 *   2) It's entered as an array formula
-	 *   3) There is only one 1 selection
-	 */
-	me->as_array = (as_array && gnm_expr_char_start_p (me->text) != NULL &&
-			me->selection != NULL && me->selection->next == NULL);
-	if (me->as_array) {
-		/* parse the array expr relative to the top left */
-		GnmRange const *r = me->selection->data;
-		parse_pos_init (&me->pp, NULL, sv_sheet (sv),
-			MIN (r->start.col, r->end.col),
-			MIN (r->start.row, r->end.row));
-	} else
-		parse_pos_init_editpos (&me->pp, sv);
+	parse_pos_init_editpos (&me->pp, sv);
 
 	text = gnm_cmd_trunc_descriptor (g_string_new (new_text), NULL);
 
@@ -1169,7 +1150,7 @@ cmd_area_set_array_expr (WorkbookControl *wbc, SheetView *sv,
 	g_return_val_if_fail (selection->next == NULL , TRUE);
 
 	name = undo_range_list_name (sheet, selection);
-	text = g_strdup_printf (_("Inserting array expression in \"%s\""), name);
+	text = g_strdup_printf (_("Inserting array expression in %s"), name);
 	g_free (name);
 
 	undo = clipboard_copy_range_undo (sheet, selection->data);
@@ -1183,25 +1164,56 @@ cmd_area_set_array_expr (WorkbookControl *wbc, SheetView *sv,
 	return result;
 }
 
+/*
+ * cmd_create_data_table
+ *
+ * the caller is expected to have ensured:
+ *
+ * 1) that no array is being split
+ * 2) that the range is not locked.
+ *
+ */
 gboolean
 cmd_create_data_table (WorkbookControl *wbc, Sheet *sheet, GnmRange const *r,
 		       char const *col_input, char const *row_input)
 {
-	CmdAreaSetText *me = g_object_new (CMD_AREA_SET_TEXT_TYPE, NULL);
+	GOUndo *undo = NULL;
+	GOUndo *redo = NULL;
+	gboolean result;
+	char *name;
+	char *text;
+	GnmSheetRange *sr;
+	GnmParsePos pp;
+	GnmExprTop const  *texpr;
+	
+	name = undo_range_name (sheet, r);
+	text = g_strdup_printf (_("Creating a Data Table in %s"), name);
+	g_free (name);
 
-	parse_pos_init (&me->pp, NULL, sheet, r->start.col, r->start.row);
-	me->text         = g_strdup_printf ("=TABLE(%s,%s)", row_input, col_input);
-	me->selection    = g_slist_prepend (NULL, gnm_range_dup (r));
-	me->old_contents = NULL;
-	me->as_array	 = TRUE;
-	me->cmd.sheet = sheet;
-	me->cmd.size = 1;
-	me->cmd.cmd_descriptor =
-		g_strdup_printf (_("Creating a Data Table in %s"),
-			range_as_string (r));
+	undo = clipboard_copy_range_undo (sheet, r);
 
-	return gnm_command_push_undo (wbc, G_OBJECT (me));
+	sr = gnm_sheet_range_new (sheet, r);
+	parse_pos_init (&pp, NULL, sheet, r->start.col, r->start.row);
+	name = g_strdup_printf ("TABLE(%s,%s)", row_input, col_input);
+	texpr = gnm_expr_parse_str
+			(name, &pp, GNM_EXPR_PARSE_DEFAULT,
+			 sheet_get_conventions (sheet), NULL);
+	g_free (name);
+
+	if (texpr == NULL) {
+		g_object_unref (G_OBJECT (undo));
+		g_free (text);
+		return TRUE;
+	}
+
+	redo = gnm_cell_set_array_formula_undo (sr, texpr);
+	gnm_expr_top_unref (texpr);
+
+	result = cmd_generic (wbc, text, undo, redo);
+	g_free (text);
+	return result;
 }
+
 /******************************************************************/
 
 #define CMD_INS_DEL_COLROW_TYPE        (cmd_ins_del_colrow_get_type ())

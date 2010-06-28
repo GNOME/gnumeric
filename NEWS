@@ -5,6 +5,8 @@ Andreas:
 	* Avoid superfluous redo items under validation failure. [#622509]
 	* Fix validation for array and range entry. [#622511]
 	* Autofit column widths in stf import. [#427382]
+	* Ensure the table range is unlocked before allowing the data
+	  table to be configured.
 
 Jean:
 	* Fixed autofilter (and other) combo positions. [#621817]

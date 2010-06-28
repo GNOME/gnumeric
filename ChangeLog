@@ -1,5 +1,16 @@
 2010-06-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/commands.h (cmd_area_set_text): change arguments
+	* src/commands.c (cmd_area_set_text): this will not be
+	  called for array functions any longer
+	(cmd_create_data_table): rewrite using cmd_generic
+	* src/ranges.c (undo_cell_pos_name): correct comment
+	* src/test-pango.c (cb_exercise_pango): adjust the cmd_area_set_text
+	  call
+	* src/wbc-gtk-edit.c (wbcg_edit_finish): ditto
+
+2010-06-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/cell.h (gnm_cell_set_array_formula_undo): new
 	* src/cell.c (gnm_cell_set_array_formula_undo): new
 	(gnm_cell_set_array_formula_cb): new
