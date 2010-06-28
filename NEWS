@@ -9,6 +9,7 @@ Andreas:
 	  table to be configured.
 	* Also store any markup if entering text in several cells at once.
 	  [#622530]
+	* Read HTML files with nested tables. [#594789]
 
 Jean:
 	* Fixed autofilter (and other) combo positions. [#621817]

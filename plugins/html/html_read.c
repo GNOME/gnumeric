@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * html_read.c
  *
@@ -58,7 +59,13 @@
 typedef struct {
 	Sheet *sheet;
 	int   row;
+	WorkbookView *wb_view;
 } GnmHtmlTableCtxt;
+
+static void html_read_table (htmlNodePtr cur, htmlDocPtr doc, 
+			     WorkbookView *wb_view,
+			     GnmHtmlTableCtxt *tc);
+
 
 static Sheet *
 html_get_sheet (char const *name, Workbook *wb)
@@ -100,7 +107,7 @@ html_append_text (GString *buf, const xmlChar *text)
 static void
 html_read_content (htmlNodePtr cur, GString *buf, GnmStyle *mstyle,
 		   xmlBufferPtr a_buf, GSList **hrefs, gboolean first,
-		   htmlDocPtr doc)
+		   htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 {
 	htmlNodePtr ptr;
 
@@ -139,8 +146,20 @@ html_read_content (htmlNodePtr cur, GString *buf, GnmStyle *mstyle,
 					props = props->next;
 				}
 			}
-			html_read_content (
-				ptr, buf, mstyle, a_buf, hrefs, first, doc);
+			if (xmlStrEqual (ptr->name, CC2XML ("table"))) {
+				Sheet *last_sheet = tc->sheet;
+				int   last_row = tc->row;
+				tc->sheet = NULL;
+				tc->row   = -1;
+				html_read_table (ptr, doc, tc->wb_view, tc);
+				g_string_append_printf (buf, _("[see sheet %s]"), tc->sheet->name_quoted);
+				xmlBufferAdd (a_buf, CC2XML (_("The original html file is\n"
+							       "using nested tables.")), -1);
+				tc->sheet = last_sheet;
+				tc->row = last_row;
+			} else
+				html_read_content 
+					(ptr, buf, mstyle, a_buf, hrefs, first, doc, tc);
 		}
 		first = FALSE;
 	}
@@ -196,7 +215,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 				gnm_style_set_font_bold (mstyle, TRUE);
 
 			html_read_content (ptr, buf, mstyle, a_buf,
-					   &hrefs, TRUE, doc);
+					   &hrefs, TRUE, doc, tc);
 
 
 			if (g_slist_length (hrefs) >= 1 &&
@@ -541,6 +560,7 @@ html_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 		xmlNodePtr ptr;
 		tc.sheet = NULL;
 		tc.row   = -1;
+		tc.wb_view = wb_view;
 		for (ptr = doc->children; ptr != NULL ; ptr = ptr->next)
 			html_search_for_tables (ptr, doc, wb_view, &tc);
 		xmlFreeDoc (doc);
