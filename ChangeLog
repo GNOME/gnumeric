@@ -1,3 +1,17 @@
+2010-06-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/cell.h (gnm_cell_set_array_formula_undo): new
+	* src/cell.c (gnm_cell_set_array_formula_undo): new
+	(gnm_cell_set_array_formula_cb): new
+	* src/commands.h (cmd_cell_range_is_locked_effective): new
+	(cmd_selection_is_locked_effective): new
+	(cmd_area_set_array_expr): new
+	* src/commands.c (cmd_cell_range_is_locked_effective): publish
+	(cmd_selection_is_locked_effective): publish
+	(cmd_area_set_array_expr): new
+	* src/wbc-gtk-edit.c (wbcg_edit_finish): check whether the range 
+	  is locked; call cmd_area_set_array_expr when appropriate
+	
 2010-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/wbc-gtk-edit.c (wbcg_edit_finish): don't hide a varaible by 

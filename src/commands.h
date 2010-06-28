@@ -16,6 +16,12 @@ void command_list_release	(GSList *cmds);
 /* utility functions */
 
 GString *gnm_cmd_trunc_descriptor (GString *src, gboolean *truncated);
+gboolean cmd_cell_range_is_locked_effective (Sheet *sheet, GnmRange *range,
+					     WorkbookControl *wbc, 
+					     char const *cmd_name);
+gboolean cmd_selection_is_locked_effective (Sheet *sheet, GSList *selection,
+					    WorkbookControl *wbc, 
+					    char const *cmd_name);
 
 /* Commands: note that any extensions should ideally use cmd_generic* */
 
@@ -31,6 +37,10 @@ gboolean cmd_set_text		(WorkbookControl *wbc, Sheet *sheet,
 
 gboolean cmd_area_set_text	(WorkbookControl *wbc, SheetView *sv,
 				 char const *text, gboolean as_array);
+
+gboolean cmd_area_set_array_expr (WorkbookControl *wbc, SheetView *sv,
+				  GnmExprTop const  *new_texpr);
+
 gboolean cmd_create_data_table	(WorkbookControl *wbc,
 				 Sheet *sheet, GnmRange const *r,
 				 char const *col_input, char const *row_input);

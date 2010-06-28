@@ -321,6 +321,30 @@ gnm_cell_set_array_formula (Sheet *sheet,
 	dependent_link (GNM_CELL_TO_DEP (corner));
 }
 
+static void
+gnm_cell_set_array_formula_cb (GnmSheetRange const *sr, GnmExprTop const  *texpr)
+{
+	sheet_region_queue_recalc (sr->sheet, &sr->range);
+	gnm_expr_top_ref (texpr);
+	gnm_cell_set_array_formula (sr->sheet,
+				    sr->range.start.col, sr->range.start.row, 
+				    sr->range.end.col,   sr->range.end.row,
+				    texpr);
+	sheet_region_queue_recalc (sr->sheet, &sr->range);
+	sheet_flag_status_update_range (sr->sheet, &sr->range);
+	sheet_queue_respan (sr->sheet, sr->range.start.row, sr->range.end.row);
+} 
+
+GOUndo *
+gnm_cell_set_array_formula_undo (GnmSheetRange *sr, GnmExprTop const  *texpr)
+{
+	gnm_expr_top_ref (texpr);
+	return go_undo_binary_new (sr, (gpointer)texpr, 
+				   (GOUndoBinaryFunc) gnm_cell_set_array_formula_cb, 
+				   (GFreeFunc) gnm_sheet_range_free, 
+				   (GFreeFunc) gnm_expr_top_unref);
+}
+
 /***************************************************************************/
 
 /**

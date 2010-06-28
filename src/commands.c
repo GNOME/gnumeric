@@ -182,7 +182,7 @@ gnm_cmd_trunc_descriptor (GString *src, gboolean *truncated)
  * Do not use this function unless the sheet is part of the
  * workbook with the given wbc (otherwise the results may be strange)
  */
-static gboolean
+gboolean
 cmd_cell_range_is_locked_effective (Sheet *sheet, GnmRange *range,
 				    WorkbookControl *wbc, char const *cmd_name)
 {
@@ -239,7 +239,7 @@ cmd_dao_is_locked_effective (data_analysis_output_t  *dao,
  * workbook with the given wbcg (otherwise the results may be strange)
  *
  */
-static gboolean
+gboolean
 cmd_selection_is_locked_effective (Sheet *sheet, GSList *selection,
 				   WorkbookControl *wbc, char const *cmd_name)
 {
@@ -1139,6 +1139,48 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 	g_string_free (text, TRUE);
 
 	return gnm_command_push_undo (wbc, G_OBJECT (me));
+}
+
+/*
+ * cmd_area_set_array_expr
+ *
+ * the caller is expected to have ensured:
+ *
+ * 1) that no array is being split
+ * 2) that the selection consists of a single range
+ * 3) that the range is not locked.
+ *
+ */
+
+gboolean
+cmd_area_set_array_expr (WorkbookControl *wbc, SheetView *sv,
+			 GnmExprTop const  *texpr)
+{
+	GSList	*selection = selection_get_ranges (sv, FALSE);
+	GOUndo *undo = NULL;
+	GOUndo *redo = NULL;
+	gboolean result;
+	Sheet *sheet = sv_sheet (sv);
+	char *name;
+	char *text;
+	GnmSheetRange *sr;
+	
+	g_return_val_if_fail (selection != NULL , TRUE);
+	g_return_val_if_fail (selection->next == NULL , TRUE);
+
+	name = undo_range_list_name (sheet, selection);
+	text = g_strdup_printf (_("Inserting array expression in \"%s\""), name);
+	g_free (name);
+
+	undo = clipboard_copy_range_undo (sheet, selection->data);
+
+	sr = gnm_sheet_range_new (sheet, selection->data);
+	redo = gnm_cell_set_array_formula_undo (sr, texpr);
+
+	range_fragment_free (selection);
+	result = cmd_generic (wbc, text, undo, redo);
+	g_free (text);
+	return result;
 }
 
 gboolean

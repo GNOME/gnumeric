@@ -178,11 +178,43 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 			break;
 		}
 
+
+		/******* Check whether the range is locked ********/
+		
+		switch (result) {
+		case (WBC_EDIT_ACCEPT_RANGE):
+		case (WBC_EDIT_ACCEPT_ARRAY): {
+			if (cmd_selection_is_locked_effective (sheet, selection, wbc,
+							       _("Set Text"))) {
+				range_fragment_free (selection);
+				*showed_dialog = TRUE;
+				return FALSE;
+			}
+			break;
+		}
+		case (WBC_EDIT_ACCEPT): {
+			GnmRange r;
+			r.end = r.start = pp.eval;
+
+			if (cmd_selection_is_locked_effective (sheet, selection, wbc,
+							       _("Set Text"))) {
+				range_fragment_free (selection);
+				*showed_dialog = TRUE;
+				return FALSE;
+			}
+			break;
+		}
+		case (WBC_EDIT_REJECT):
+		default:
+			/* We should not be able to get here! */
+			break;
+		}
 		/*****************************************************/
 
 		txt = wbcg_edit_get_display_text (wbcg);
 		mstyle = sheet_style_get (sheet, sv->edit_pos.col, sv->edit_pos.row);
-		fmt = gnm_cell_get_format (sheet_cell_fetch (sheet, sv->edit_pos.col, sv->edit_pos.row));
+		fmt = gnm_cell_get_format (sheet_cell_fetch (sheet, sv->edit_pos.col,
+							     sv->edit_pos.row));
 
 		value = format_match (txt, fmt,
 				      workbook_date_conv (sheet->workbook));
@@ -267,11 +299,19 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 
 		if (result == WBC_EDIT_ACCEPT_ARRAY) {
 			if (expr_txt == NULL ||
-			    selection == NULL || selection->next != NULL ||
-			    (texpr = gnm_expr_parse_str
-			     (expr_txt, &pp, GNM_EXPR_PARSE_DEFAULT,
-			      sheet_get_conventions (sheet), NULL)) == NULL)
-				result = WBC_EDIT_ACCEPT_RANGE;	
+			    selection == NULL || selection->next != NULL)
+				result = WBC_EDIT_ACCEPT_RANGE;
+			else {
+				GnmParsePos    pp_array;
+				GnmRange *r = selection->data;
+				
+				parse_pos_init (&pp_array, sheet->workbook, sheet, r->start.col, r->start.row);
+					
+				if ((texpr = gnm_expr_parse_str
+				     (expr_txt, &pp_array, GNM_EXPR_PARSE_DEFAULT,
+				      sheet_get_conventions (sheet), NULL)) == NULL)
+					result = WBC_EDIT_ACCEPT_RANGE;	
+			}
 		}
 
 		/* We need to save the information that we will temporarily overwrite */
@@ -302,6 +342,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 
 			u = go_undo_combine (u,  clipboard_copy_range_undo (sheet, r));
 			if (texpr) {
+				gnm_expr_top_ref (texpr); 
 				gnm_cell_set_array_formula (sheet,
 							    r->start.col, r->start.row,
 							    r->end.col, r->end.row,
@@ -347,19 +388,27 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 				gtk_window_set_focus (wbcg_toplevel (wbcg),
 					(GtkWidget *) wbcg_get_entry (wbcg));
 				g_free (free_txt);
+				if (texpr != NULL)
+					gnm_expr_top_unref (texpr); 
 				return FALSE;
 			}
 		} else {
-			if (result == WBC_EDIT_ACCEPT) {
-				PangoAttrList *res_markup = wbcg->edit_line.markup
-					? pango_attr_list_copy (wbcg->edit_line.markup)
-					: NULL;
-				cmd_set_text (wbc, sheet, &sv->edit_pos, txt, res_markup);
-				if (res_markup) pango_attr_list_unref (res_markup);
-			} else
-				cmd_area_set_text (wbc, sv, txt,
-						   result == WBC_EDIT_ACCEPT_ARRAY);
+			if (result == WBC_EDIT_ACCEPT_ARRAY) {
+				cmd_area_set_array_expr (wbc, sv, texpr);
+
+			} else {
+				if (result == WBC_EDIT_ACCEPT) {
+					PangoAttrList *res_markup = wbcg->edit_line.markup
+						? pango_attr_list_copy (wbcg->edit_line.markup)
+						: NULL;
+					cmd_set_text (wbc, sheet, &sv->edit_pos, txt, res_markup);
+					if (res_markup) pango_attr_list_unref (res_markup);
+				} else
+					cmd_area_set_text (wbc, sv, txt, FALSE);
+			}
 		}
+		if (texpr != NULL)
+			gnm_expr_top_unref (texpr); 
 		g_free (free_txt);
 	} else {
 		if (sv == wb_control_cur_sheet_view (wbc)) {
