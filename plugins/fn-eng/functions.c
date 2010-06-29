@@ -677,7 +677,9 @@ static GnmFuncHelp const help_convert[] = {
 					"\t'ft'  \t\t\tFoot\n"
 					"\t'yd'  \t\tYard\n"
 					"\t'ang' \t\tAngstrom\n"
-					"\t'Pica'\t\tPica\n\n"
+					"\t'Pica'\t\tPica Points\n\n"
+					"\t'picapt'\t\tPica Points\n\n"
+					"\t'pica'\t\tPica\n\n"
 					"Time:\n"
 					"\t'yr'  \t\t\tYear\n"
 					"\t'day' \t\tDay\n"
@@ -742,7 +744,8 @@ static GnmFuncHelp const help_convert[] = {
 					"\t'a'  \tatto  \t\t1E-18\n"
 					"\t'z'  \tzepto \t\t1E-21\n"
 					"\t'y'  \tyocto \t\t1E-24") },
- 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+ 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible (except \"picapt\").") },
+ 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=CONVERT(3,\"lbm\",\"g\")" },
         { GNM_FUNC_HELP_EXAMPLES, "=CONVERT(5.8,\"m\",\"in\")" },
         { GNM_FUNC_HELP_EXAMPLES, "=CONVERT(7.9,\"cal\",\"J\")" },
@@ -830,7 +833,8 @@ gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 #define one_m_to_ft     (one_m_to_in / 12)
 #define one_m_to_yd     (one_m_to_ft / 3)
 #define one_m_to_ang    GNM_const (1e10)
-#define one_m_to_Pica   2834.645669
+#define one_m_to_pica   236.2204724409449
+#define one_m_to_Pica   one_m_to_pica * 12
 
 	/* Time constants */
 #define one_yr_to_day   365.25
@@ -914,6 +918,8 @@ gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		{ "yd",   one_m_to_yd },
 		{ "ang",  one_m_to_ang },
 		{ "Pica", one_m_to_Pica },
+		{ "picapt", one_m_to_Pica },
+		{ "pica", one_m_to_pica },
 		{ NULL,   0.0 }
 	};
 

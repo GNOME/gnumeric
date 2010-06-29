@@ -1,3 +1,9 @@
+2010-06-29 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_convert): adjust
+	(gnumeric_convert): add "pica" (different from "Pica") and
+	  "picapt" (synonym for "Pica").
+
 2010-06-28  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.7
