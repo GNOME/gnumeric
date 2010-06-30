@@ -137,6 +137,28 @@ gnm_stf_export_options_sheet_list_get (const GnmStfExport *stfe)
 
 /* ------------------------------------------------------------------------- */
 
+
+static char *
+try_auto_float (GnmValue *value, const GOFormat *format,
+	       GODateConventions const *date_conv)
+{
+	gboolean is_date;
+	int is_time;
+
+	if (value->type != VALUE_FLOAT)
+		return NULL;
+
+	format = gnm_format_specialize (format, value);
+	is_date = go_format_is_date (format) > 0;
+	is_time = go_format_is_time (format);
+
+	if (is_date || is_time > 0)
+		return NULL;
+
+	return format_value (go_format_general (), value, NULL, -1, date_conv);
+}
+
+
 static char *
 try_auto_date (GnmValue *value, const GOFormat *format,
 	       GODateConventions const *date_conv)
@@ -220,6 +242,8 @@ stf_export_cell (GnmStfExport *stfe, GnmCell *cell)
 					workbook_date_conv (cell->base.sheet->workbook);
 				GOFormat const *format = gnm_cell_get_format (cell);
 				text = tmp = try_auto_date (cell->value, format, date_conv);
+				if (!text)
+					text = tmp = try_auto_float (cell->value, format, date_conv);
 				if (!text)
 					text = value_peek_string (cell->value);
 			}

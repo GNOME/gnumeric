@@ -1,5 +1,10 @@
 2010-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/stf-export.c (try_auto_float): new
+	(stf_export_cell): call try_auto_float
+	
+2010-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* schemas/gnumeric-dialogs.schemas.in: new preferences for
 	  search and replace dialog
 	* src/gnumeric-gconf.c: add the items generated from the above 
