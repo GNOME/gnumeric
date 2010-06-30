@@ -1,3 +1,10 @@
+2010-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* handle-conf-options: add max & min for 
+	  /apps/gnumeric/searchreplace/scope,
+	  /apps/gnumeric/searchreplace/error-behaviour
+	  /apps/gnumeric/searchreplace/regex
+
 2010-06-28  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.7

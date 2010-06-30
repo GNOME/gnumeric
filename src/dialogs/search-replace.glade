@@ -275,7 +275,7 @@
                 <child>
                   <widget class="GtkTable" id="table2">
                     <property name="visible">True</property>
-                    <property name="n_rows">4</property>
+                    <property name="n_rows">3</property>
                     <property name="n_columns">3</property>
                     <property name="column_spacing">6</property>
                     <property name="row_spacing">6</property>
@@ -372,33 +372,13 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkCheckButton" id="keep_strings">
-                        <property name="label" translatable="yes">_Keep strings as strings</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip" translatable="yes">When set, string values will remain as such after replacement, even if they look like numbers or expressions</property>
-                        <property name="use_underline">True</property>
-                        <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
-                      </widget>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">3</property>
-                        <property name="top_attach">3</property>
-                        <property name="bottom_attach">4</property>
-                        <property name="x_options">GTK_FILL</property>
-                        <property name="y_options"></property>
-                      </packing>
-                    </child>
-                    <child>
                       <widget class="GtkLabel" id="label10">
                         <property name="visible">True</property>
                         <property name="xalign">0</property>
                       </widget>
                       <packing>
                         <property name="top_attach">1</property>
-                        <property name="bottom_attach">4</property>
+                        <property name="bottom_attach">3</property>
                         <property name="x_options"></property>
                         <property name="y_options"></property>
                       </packing>
@@ -492,7 +472,7 @@
                 <child>
                   <widget class="GtkTable" id="table5">
                     <property name="visible">True</property>
-                    <property name="n_rows">2</property>
+                    <property name="n_rows">4</property>
                     <property name="n_columns">3</property>
                     <property name="column_spacing">6</property>
                     <property name="row_spacing">6</property>
@@ -560,6 +540,49 @@
                         <property name="x_options"></property>
                         <property name="y_options"></property>
                       </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkCheckButton" id="keep_strings">
+                        <property name="label" translatable="yes">_Keep strings as strings</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip" translatable="yes">When set, string values will remain as such after replacement, even if they look like numbers or expressions</property>
+                        <property name="use_underline">True</property>
+                        <property name="active">True</property>
+                        <property name="draw_indicator">True</property>
+                      </widget>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">3</property>
+                        <property name="top_attach">2</property>
+                        <property name="bottom_attach">3</property>
+                        <property name="x_options">GTK_FILL</property>
+                        <property name="y_options"></property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkCheckButton" id="save-in-prefs">
+                        <property name="label" translatable="yes">Save the current settings as default settings</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="tooltip" translatable="yes">When set, the current settings will be saved as the default settings for future invocations of this dialog.</property>
+                        <property name="draw_indicator">True</property>
+                      </widget>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">3</property>
+                        <property name="top_attach">3</property>
+                        <property name="bottom_attach">4</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                   </widget>
                   <packing>

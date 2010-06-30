@@ -588,6 +588,149 @@
         <long>Please use the Text Export dialog to edit this value.</long>
         </locale>
       </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/searchreplace/ignore-case</key>
+        <applyto>/apps/gnumeric/searchreplace/ignore-case</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>TRUE</default>
+        <locale name="C">
+        <short>Search &amp; Replace Ignores Case</short>
+        <long>Search &amp; Replace ignores case as default</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/searchreplace/preserve-case</key>
+        <applyto>/apps/gnumeric/searchreplace/preserve-case</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>FALSE</default>
+        <locale name="C">
+        <short>Search &amp; Replace Preserves Case</short>
+        <long>Search &amp; Replace preservess case as default</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/searchreplace/query</key>
+        <applyto>/apps/gnumeric/searchreplace/query</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>FALSE</default>
+        <locale name="C">
+        <short>Search &amp; Replace Poses Query</short>
+        <long>Search &amp; Replace poses query before each change as default</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/searchreplace/whole-words-only</key>
+        <applyto>/apps/gnumeric/searchreplace/whole-words-only</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>FALSE</default>
+        <locale name="C">
+        <short>Search &amp; Replace Whole Words Only</short>
+        <long>Search &amp; Replace replaces whole words only as default</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/searchreplace/scope</key>
+        <applyto>/apps/gnumeric/searchreplace/scope</applyto>
+        <owner>Gnumeric</owner>
+        <type>int</type>
+	<default>0</default>
+        <locale name="C">
+        <short>Search &amp; Replace Scope</short>
+        <long>This is the default scope of Search &amp; Replace. 0: entire workbook; 1: current sheet; 2: range</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/searchreplace/change-cell-strings</key>
+        <applyto>/apps/gnumeric/searchreplace/change-cell-strings</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>TRUE</default>
+        <locale name="C">
+        <short>Search &amp; Replace Changes Strings</short>
+        <long>Search &amp; Replace changes cells containing strings as default</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/searchreplace/change-cell-expressions</key>
+        <applyto>/apps/gnumeric/searchreplace/change-cell-expressions</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>TRUE</default>
+        <locale name="C">
+        <short>Search &amp; Replace Changes Expressions</short>
+        <long>Search &amp; Replace changes cells containing expressions as default</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/searchreplace/change-cell-other</key>
+        <applyto>/apps/gnumeric/searchreplace/change-cell-other</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>TRUE</default>
+        <locale name="C">
+        <short>Search &amp; Replace Changes Other Values</short>
+        <long>Search &amp; Replace changes cells containing other values as default</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/searchreplace/change-comments</key>
+        <applyto>/apps/gnumeric/searchreplace/change-comments</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>FALSE</default>
+        <locale name="C">
+        <short>Search &amp; Replace Changes Comments</short>
+        <long>Search &amp; Replace changes comments as default</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/searchreplace/keep-strings</key>
+        <applyto>/apps/gnumeric/searchreplace/keep-strings</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>TRUE</default>
+        <locale name="C">
+        <short>Search &amp; Replace Keeps Strings as Strings</short>
+        <long>Search &amp; Replace keeps strings as strings even if they look like numbers as default</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/searchreplace/regex</key>
+        <applyto>/apps/gnumeric/searchreplace/regex</applyto>
+        <owner>Gnumeric</owner>
+        <type>int</type>
+	<default>0</default>
+        <locale name="C">
+        <short>Search &amp; Replace Search Type</short>
+        <long>This value determines the input type for Search &amp; Replace. 0: text; 1: regular expression; 2: number</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/searchreplace/columnmajor</key>
+        <applyto>/apps/gnumeric/searchreplace/columnmajor</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>TRUE</default>
+        <locale name="C">
+        <short>Search &amp; Replace Column Major</short>
+        <long>Search &amp; Replace proceeds in column major order as default</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/searchreplace/error-behaviour</key>
+        <applyto>/apps/gnumeric/searchreplace/error-behaviour</applyto>
+        <owner>Gnumeric</owner>
+        <type>int</type>
+	<default>0</default>
+        <locale name="C">
+        <short>Search &amp; Replace Error Behavior</short>
+        <long>This is the default error behavior of Search &amp; Replace indicated by an integer from 0 to 4.</long>
+        </locale>
+      </schema>
    </schemalist>
 </gconfschemafile>
   

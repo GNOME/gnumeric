@@ -1,3 +1,11 @@
+2010-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* schemas/gnumeric-dialogs.schemas.in: new preferences for
+	  search and replace dialog
+	* src/gnumeric-gconf.c: add the items generated from the above 
+	  changes 
+	* src/gnumeric-gconf.h: ditto
+	
 2010-06-28  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

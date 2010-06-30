@@ -1,3 +1,12 @@
+2010-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-search-replace.c (dialog_search_replace_save_in_prefs): new
+	(apply_clicked): call dialog_search_replace_save_in_prefs if 
+	  appropriate
+	(dialog_search_replace): set the current state according to the
+	  preferences
+	* search-replace.glade: add checkbox to save settings as default
+
 2010-06-28  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.7

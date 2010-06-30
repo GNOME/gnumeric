@@ -2,6 +2,7 @@ Gnumeric 1.10.8
 
 Andreas:
 	* Add new Excel and Openformula units ("pica" and "picapt") to CONVERT.
+	* Save default search settings. [#105615]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.7

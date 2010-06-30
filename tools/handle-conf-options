@@ -243,6 +243,21 @@ my %extra_attributes =
 	 'max' => 500,
      },
 
+     '/apps/gnumeric/searchreplace/scope' => {
+	 'min' => 0,
+	 'max' => 2,
+     },
+
+     '/apps/gnumeric/searchreplace/error-behaviour' => {
+	 'min' => 0,
+	 'max' => 4,
+     },
+
+     '/apps/gnumeric/searchreplace/regex' => {
+	 'min' => 0,
+	 'max' => 2,
+     },
+
     );
 
 sub apply_extra_attributes {

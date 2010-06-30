@@ -1,3 +1,5 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * dialog-search-replace.c:
  *   Dialog for entering a search-and-replace query.
@@ -26,6 +28,7 @@
 #include "dialogs.h"
 #include "help.h"
 
+#include <gnumeric-gconf.h>
 #include <gui-util.h>
 #include <search.h>
 #include <widgets/gnumeric-expr-entry.h>
@@ -92,6 +95,32 @@ set_checked (GladeXML *gui, const char *name, gboolean checked)
 }
 
 static void
+dialog_search_replace_save_in_prefs (DialogState *dd)
+{
+	GladeXML *gui = dd->gui;
+
+#define SETW(w,f) f (is_checked (gui, w));
+	SETW("search_expr", gnm_conf_set_searchreplace_change_cell_expressions);
+	SETW("search_other", gnm_conf_set_searchreplace_change_cell_other);
+	SETW("search_string", gnm_conf_set_searchreplace_change_cell_strings);
+	SETW("search_comments", gnm_conf_set_searchreplace_change_comments);
+	SETW("ignore_case", gnm_conf_set_searchreplace_ignore_case);
+	SETW("keep_strings", gnm_conf_set_searchreplace_keep_strings);
+	SETW("preserve_case", gnm_conf_set_searchreplace_preserve_case);
+	SETW("query", gnm_conf_set_searchreplace_query);
+	SETW("match_words", gnm_conf_set_searchreplace_whole_words_only);
+	SETW("column_major", gnm_conf_set_searchreplace_columnmajor);
+#undef SETW
+
+	gnm_conf_set_searchreplace_regex 
+		(gnumeric_glade_group_value (gui, search_type_group));
+	gnm_conf_set_searchreplace_error_behaviour 
+		(gnumeric_glade_group_value (gui, error_group));
+	gnm_conf_set_searchreplace_scope 
+		(gnumeric_glade_group_value (gui, scope_group));	
+}
+
+static void
 apply_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 {
 	GladeXML *gui = dd->gui;
@@ -135,6 +164,10 @@ apply_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 
 	i = gnumeric_glade_group_value (gui, error_group);
 	sr->error_behaviour = (i == -1) ? GNM_SRE_FAIL : (GnmSearchReplaceError)i;
+
+	if  (is_checked (gui, "save-in-prefs"))
+		dialog_search_replace_save_in_prefs (dd);
+	
 
 	err = gnm_search_replace_verify (sr, TRUE);
 	if (err) {
@@ -268,6 +301,40 @@ dialog_search_replace (WBCGtk *wbcg,
 	g_free (selection_text);
 	gtk_widget_show (GTK_WIDGET (dd->rangetext));
 
+#define SETW(w,f) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, w)),  f())
+	SETW("search_expr", gnm_conf_get_searchreplace_change_cell_expressions);
+	SETW("search_other", gnm_conf_get_searchreplace_change_cell_other);
+	SETW("search_string", gnm_conf_get_searchreplace_change_cell_strings);
+	SETW("search_comments", gnm_conf_get_searchreplace_change_comments);
+	SETW("ignore_case", gnm_conf_get_searchreplace_ignore_case);
+	SETW("keep_strings", gnm_conf_get_searchreplace_keep_strings);
+	SETW("preserve_case", gnm_conf_get_searchreplace_preserve_case);
+	SETW("query", gnm_conf_get_searchreplace_query);
+	SETW("match_words", gnm_conf_get_searchreplace_whole_words_only);
+#undef SETW
+
+	gtk_toggle_button_set_active 
+	  (GTK_TOGGLE_BUTTON 
+	   (glade_xml_get_widget 
+	    (gui, 
+	     search_type_group[gnm_conf_get_searchreplace_regex () ? 1 : 0])), TRUE);
+	gtk_toggle_button_set_active 
+	  (GTK_TOGGLE_BUTTON 
+	   (glade_xml_get_widget 
+	    (gui, 
+	     direction_group[gnm_conf_get_searchreplace_columnmajor () ? 1 : 0])), TRUE);
+	gtk_toggle_button_set_active 
+	  (GTK_TOGGLE_BUTTON 
+	   (glade_xml_get_widget 
+	    (gui, 
+	     error_group[gnm_conf_get_searchreplace_error_behaviour ()])), TRUE);
+	gtk_toggle_button_set_active 
+	  (GTK_TOGGLE_BUTTON 
+	   (glade_xml_get_widget 
+	    (gui, 
+	     scope_group[gnm_conf_get_searchreplace_scope ()])), TRUE);
+
+
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "ok_button")),
 		"clicked",
 		G_CALLBACK (ok_clicked), dd);
@@ -323,6 +390,7 @@ dialog_search_replace_query (WBCGtk *wbcg,
 			    old_text);
 	gtk_entry_set_text (GTK_ENTRY (glade_xml_get_widget (gui, "qd_new_text")),
 			    new_text);
+
 	set_checked (gui, "qd_query", sr->query);
 
 	wbcg_set_transient (wbcg, GTK_WINDOW (dialog));

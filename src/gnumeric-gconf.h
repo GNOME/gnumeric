@@ -373,6 +373,58 @@ GOConfNode *gnm_conf_get_printsetup_scale_width_node (void);
 int gnm_conf_get_printsetup_scale_width (void);
 void gnm_conf_set_printsetup_scale_width (int);
 
+GOConfNode *gnm_conf_get_searchreplace_change_cell_expressions_node (void);
+gboolean gnm_conf_get_searchreplace_change_cell_expressions (void);
+void gnm_conf_set_searchreplace_change_cell_expressions (gboolean);
+
+GOConfNode *gnm_conf_get_searchreplace_change_cell_other_node (void);
+gboolean gnm_conf_get_searchreplace_change_cell_other (void);
+void gnm_conf_set_searchreplace_change_cell_other (gboolean);
+
+GOConfNode *gnm_conf_get_searchreplace_change_cell_strings_node (void);
+gboolean gnm_conf_get_searchreplace_change_cell_strings (void);
+void gnm_conf_set_searchreplace_change_cell_strings (gboolean);
+
+GOConfNode *gnm_conf_get_searchreplace_change_comments_node (void);
+gboolean gnm_conf_get_searchreplace_change_comments (void);
+void gnm_conf_set_searchreplace_change_comments (gboolean);
+
+GOConfNode *gnm_conf_get_searchreplace_columnmajor_node (void);
+gboolean gnm_conf_get_searchreplace_columnmajor (void);
+void gnm_conf_set_searchreplace_columnmajor (gboolean);
+
+GOConfNode *gnm_conf_get_searchreplace_error_behaviour_node (void);
+int gnm_conf_get_searchreplace_error_behaviour (void);
+void gnm_conf_set_searchreplace_error_behaviour (int);
+
+GOConfNode *gnm_conf_get_searchreplace_ignore_case_node (void);
+gboolean gnm_conf_get_searchreplace_ignore_case (void);
+void gnm_conf_set_searchreplace_ignore_case (gboolean);
+
+GOConfNode *gnm_conf_get_searchreplace_keep_strings_node (void);
+gboolean gnm_conf_get_searchreplace_keep_strings (void);
+void gnm_conf_set_searchreplace_keep_strings (gboolean);
+
+GOConfNode *gnm_conf_get_searchreplace_preserve_case_node (void);
+gboolean gnm_conf_get_searchreplace_preserve_case (void);
+void gnm_conf_set_searchreplace_preserve_case (gboolean);
+
+GOConfNode *gnm_conf_get_searchreplace_query_node (void);
+gboolean gnm_conf_get_searchreplace_query (void);
+void gnm_conf_set_searchreplace_query (gboolean);
+
+GOConfNode *gnm_conf_get_searchreplace_regex_node (void);
+int gnm_conf_get_searchreplace_regex (void);
+void gnm_conf_set_searchreplace_regex (int);
+
+GOConfNode *gnm_conf_get_searchreplace_scope_node (void);
+int gnm_conf_get_searchreplace_scope (void);
+void gnm_conf_set_searchreplace_scope (int);
+
+GOConfNode *gnm_conf_get_searchreplace_whole_words_only_node (void);
+gboolean gnm_conf_get_searchreplace_whole_words_only (void);
+void gnm_conf_set_searchreplace_whole_words_only (gboolean);
+
 GOConfNode *gnm_conf_get_stf_export_separator_node (void);
 const char *gnm_conf_get_stf_export_separator (void);
 void gnm_conf_set_stf_export_separator (const char *);
@@ -419,6 +471,8 @@ GOConfNode *gnm_conf_get_functionselector_dir_node (void);
 GOConfNode *gnm_conf_get_plugin_latex_dir_node (void);
 GOConfNode *gnm_conf_get_plugins_dir_node (void);
 GOConfNode *gnm_conf_get_printsetup_dir_node (void);
+GOConfNode *gnm_conf_get_searchreplace_dir_node (void);
+GOConfNode *gnm_conf_get_stf_export_dir_node (void);
 GOConfNode *gnm_conf_get_undo_dir_node (void);
 
 /* ----------- AUTOMATICALLY GENERATED CODE ABOVE -- DO NOT EDIT ----------- */
