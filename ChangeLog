@@ -1,5 +1,9 @@
 2010-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/cell-draw.c (cell_calc_layout): HALIGN_FILL overrides wrap_text
+
+2010-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/gnm-format.c (format_value_common): in one-paragraph mode
 	  replace newlines with visible glyphs.
 
