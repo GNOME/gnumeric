@@ -4,6 +4,7 @@ Andreas:
 	* Add new Excel and Openformula units ("pica" and "picapt") to CONVERT.
 	* Save default search settings. [#105615]
 	* Improve configurable text export of numbers. [#126444]
+	* Improve horizontal fill. [#594193, part 2]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.7

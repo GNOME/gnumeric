@@ -33,6 +33,9 @@
 #include <string.h>
 #include <style-font.h>
 
+#define UTF8_NEWLINE "\xe2\x86\xa9" /* unicode U+21A9 */
+#define UTF8_NEWLINE_RTL "\xe2\x86\xaa" /* unicode U+21AA */
+
 static char const *
 format_nonnumber (GnmValue const *value)
 {
@@ -88,6 +91,7 @@ format_value_common (PangoLayout *layout, GString *str,
 	GOFormatNumberError err;
 	gnm_float val;
 	const char *sval;
+	char *sval_free = NULL;
 	char type;
 
 	g_return_val_if_fail (value != NULL, GO_FORMAT_NUMBER_INVALID_FORMAT);
@@ -111,12 +115,38 @@ format_value_common (PangoLayout *layout, GString *str,
 		/* Close enough: */
 		type = VALUE_IS_ERROR (value) ? 'E' : 'S';
 		sval = format_nonnumber (value);
+		if (sval != NULL && layout != NULL && 
+		    pango_layout_get_single_paragraph_mode (layout) 
+		    && strchr (sval, '\n') != NULL) {
+			/* We are in single paragraph mode. This happens in HALIGN_FILL */
+			GString *str = g_string_new (sval);
+			gchar *ptr;
+			PangoDirection dir;
+			gboolean rtl = FALSE;
+			PangoLayoutLine *line;
+
+			pango_layout_set_text (layout, sval, -1);
+			line = pango_layout_get_line (layout, 0);
+			if (line) {
+				dir = line->resolved_dir;
+				rtl = (dir == PANGO_DIRECTION_RTL || dir == PANGO_DIRECTION_TTB_RTL 
+				       || dir == PANGO_DIRECTION_WEAK_RTL);
+			}
+			
+			while ((ptr = strchr (str->str, '\n')) != NULL) {
+				gssize pos = ptr - str->str;
+				g_string_erase (str, pos, 1);
+				g_string_insert (str, pos, rtl ? UTF8_NEWLINE_RTL : UTF8_NEWLINE);
+			}
+			sval = sval_free = g_string_free (str, FALSE);
+		}
 	}
 	err = gnm_format_value_gstring (layout, str, measure, metrics,
 					format,
 					val, type, sval,
 					go_color,
 					col_width, date_conv, unicode_minus);
+	g_free (sval_free);
 
 	switch (err) {
 	case GO_FORMAT_NUMBER_OK:

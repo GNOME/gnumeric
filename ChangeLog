@@ -1,5 +1,10 @@
 2010-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/gnm-format.c (format_value_common): in one-paragraph mode
+	  replace newlines with visible glyphs.
+
+2010-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/stf-export.c (try_auto_float): new
 	(stf_export_cell): call try_auto_float
 	
