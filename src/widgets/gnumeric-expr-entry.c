@@ -814,7 +814,7 @@ gee_check_tooltip (GnmExprEntry *gee)
 				para--;
 			}
 			stuff++;
-		} else if (*prefix == sep) {
+		} else if (*prefix == sep && para == 0) {
 			stuff = 0;
 			args++;
 		} else if (*prefix != ' ')

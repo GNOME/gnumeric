@@ -1,3 +1,8 @@
+2010-07-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (gee_check_tooltip): don't count args
+	  in sub expressions.
+
 2010-06-28  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.7
