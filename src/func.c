@@ -526,6 +526,40 @@ check_help_expression (const char *text, GnmFunc const *fd)
 	return FALSE;
 }
 
+static gboolean
+check_argument_refs (const char *text, GnmFunc const *fd)
+{
+	if (fd->fn_type != GNM_FUNC_TYPE_ARGS)
+		return FALSE;
+
+	while (1) {
+		const char *at = strchr (text, '@');
+		char *argname;
+		int i;
+
+		if (!at)
+			return FALSE;
+		if (at[1] != '{')
+			return TRUE;
+		text = strchr (at + 1, '}');
+		if (!text)
+			return FALSE;
+		argname = g_strndup (at + 1, text - at - 1);
+
+		for (i = 0; TRUE; i++) {
+			char *thisarg = function_def_get_arg_name (fd, i);
+			gboolean found;
+			if (!thisarg)
+				return FALSE;
+			found = strcmp (argname, thisarg) == 0;
+			g_free (thisarg);
+			if (found)
+				break;
+		}
+		g_free (argname);
+	}
+}
+
 
 static int
 gnm_func_sanity_check1 (GnmFunc const *fd)
@@ -570,21 +604,39 @@ gnm_func_sanity_check1 (GnmFunc const *fd)
 				g_printerr ("%s: Invalid ARG record\n",
 					    fd->name);
 				res = 1;
-			} else if (aend[1] == ' ') {
+				break;
+			}
+
+			if (aend[1] == ' ') {
 				g_printerr ("%s: Unwanted space in ARG record\n",
 					    fd->name);
 				res = 1;
-			} else if (aend[1] == '\0') {
+			}
+			if (aend[1] == '\0') {
 				g_printerr ("%s: Empty ARG record\n",
 					    fd->name);
 				res = 1;
-			} if (h->text[strlen (h->text) - 1] == '.') {
+			}
+			if (h->text[strlen (h->text) - 1] == '.') {
 				g_printerr ("%s: Unwanted period in ARG record\n",
+					    fd->name);
+				res = 1;
+			}
+			if (check_argument_refs (aend + 1, fd)) {
+				g_printerr ("%s: Invalid argument reference in argument\n",
 					    fd->name);
 				res = 1;
 			}
 			break;
 		}
+		case GNM_FUNC_HELP_DESCRIPTION:
+			if (check_argument_refs (h->text, fd)) {
+				g_printerr ("%s: Invalid argument reference in description\n",
+					    fd->name);
+				res = 1;
+			}
+			break;
+
 		case GNM_FUNC_HELP_EXAMPLES:
 			if (h->text[0] == '=') {
 				if (check_help_expression (h->text + 1, fd)) {
