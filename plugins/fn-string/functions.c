@@ -531,7 +531,7 @@ gnumeric_rightb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_upper[] = {
-        { GNM_FUNC_HELP_NAME, F_("UPPER:an upper-case version of the string @text")},
+        { GNM_FUNC_HELP_NAME, F_("UPPER:an upper-case version of the string @{text}")},
 	{ GNM_FUNC_HELP_ARG, F_("text:string")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=UPPER(\"Gnumeric\")" },

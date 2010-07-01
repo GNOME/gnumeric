@@ -1494,7 +1494,7 @@ gnumeric_iserr (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_error_type[] = {
-        { GNM_FUNC_HELP_NAME, F_("ERROR.TYPE:the type of @error")},
+        { GNM_FUNC_HELP_NAME, F_("ERROR.TYPE:the type of @{error}")},
         { GNM_FUNC_HELP_ARG, F_("error:an error")},
         { GNM_FUNC_HELP_DESCRIPTION, F_("ERROR.TYPE returns an error number corresponding to the given "
 					"error value.  The error numbers for error values are:\n\n"
