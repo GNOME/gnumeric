@@ -1295,14 +1295,12 @@ gnm_func_convert_markup_to_pango (char const *desc)
 
 	while ((at = strstr (str->str, "@{"))) {
 		gint len = at - str->str;
-		g_string_erase (str, len, 2);
-		g_string_insert (str, len,
-				 "<span foreground=\"#0000FF\">");
+		go_string_replace (str, len, 2,
+				   "<span foreground=\"#0000FF\">", -1);
 		if ((at = strstr
 		     (str->str + len + 26, "}"))) {
 			len = at - str->str;
-			g_string_erase (str, len, 1);
-			g_string_insert (str, len, "</span>");
+			go_string_replace (str, len, 1, "</span>", -1);
 		} else
 			g_string_append (str, "</span>");
 	}

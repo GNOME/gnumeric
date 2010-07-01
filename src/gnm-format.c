@@ -133,11 +133,10 @@ format_value_common (PangoLayout *layout, GString *str,
 				       || dir == PANGO_DIRECTION_WEAK_RTL);
 			}
 			
-			while ((ptr = strchr (str->str, '\n')) != NULL) {
-				gssize pos = ptr - str->str;
-				g_string_erase (str, pos, 1);
-				g_string_insert (str, pos, rtl ? UTF8_NEWLINE_RTL : UTF8_NEWLINE);
-			}
+			while ((ptr = strchr (str->str, '\n')) != NULL)
+				go_string_replace 
+					(str, ptr - str->str, 1, rtl ? UTF8_NEWLINE_RTL : UTF8_NEWLINE, -1);
+
 			sval = sval_free = g_string_free (str, FALSE);
 		}
 	}
