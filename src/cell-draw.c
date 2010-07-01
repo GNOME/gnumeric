@@ -146,6 +146,8 @@ cell_calc_layout (GnmCell const *cell, GnmRenderedValue *rv, int y_direction,
 				size_t len1 = strlen (copy1);
 				GString *multi = g_string_sized_new ((len1 + 6) * copies);
 				int i;
+				PangoAttrList *attr = pango_layout_get_attributes (layout);
+
 				for (i = 0; i < copies; i++) {
 					if (i)
 						g_string_append_unichar (multi, UNICODE_ZERO_WIDTH_SPACE_C);
@@ -153,6 +155,15 @@ cell_calc_layout (GnmCell const *cell, GnmRenderedValue *rv, int y_direction,
 				}
 				pango_layout_set_text (layout, multi->str, multi->len);
 				g_string_free (multi, TRUE);
+
+				if (attr != NULL && !go_pango_attr_list_is_empty (attr)) {
+					PangoAttrList *attr_c = pango_attr_list_copy (attr);
+					size_t len = len1 + UNICODE_ZERO_WIDTH_SPACE_C_UTF8_LENGTH;
+					for (i = 1; i < copies;
+					     i++, len += len1 + UNICODE_ZERO_WIDTH_SPACE_C_UTF8_LENGTH)
+						pango_attr_list_splice (attr, attr_c, len, len1);
+					pango_attr_list_unref (attr_c);
+				}
 			}
 			rv->hfilled = TRUE;
 			break;

@@ -1,5 +1,11 @@
 2010-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/gnm-format.h: add define
+	* src/cell-draw.c (cell_calc_layout): replicate the pango attributes
+	  with the text
+
+2010-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/gnm-format.c (format_value_common): use go_string_replace
 	* src/func.c (gnm_func_convert_markup_to_pango): ditto
 	
