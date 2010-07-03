@@ -733,10 +733,13 @@ static GnmFuncHelp const help_workday[] = {
         { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
         { GNM_FUNC_HELP_ARG, F_("days:number of days to add")},
         { GNM_FUNC_HELP_ARG, F_("holidays:array of holidays")},
+        { GNM_FUNC_HELP_ARG, F_("weekend:array indicating whether a weekday (S, M, T, W, T, F, S) is on the weekend, defaults to {TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE}.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("WORKDAY adjusts @{date} by @{days} skipping over weekends and @{holidays} in the process.") },
 	{ GNM_FUNC_HELP_NOTE, F_("@{days} may be negative.") },
-	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible if the last argument is omitted.") },
+	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=WORKDAY(DATE(2001,12,14),2)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=WORKDAY(DATE(2001,12,14),2,{FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE})" },
         { GNM_FUNC_HELP_SEEALSO, "NETWORKDAYS"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -760,16 +763,36 @@ gnumeric_workday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float days = value_get_as_float (argv[1]);
 	int idays;
 	gnm_float *holidays = NULL;
-	int nholidays;
+	gnm_float *weekends = NULL;
+	gnm_float const default_weekends[] = {1.,0.,0.,0.,0.,0.,1.};
+	int nholidays, nweekends, n_non_weekend;
 	GDateWeekday weekday;
 	int serial;
+	int i;
 
 	datetime_value_to_g (&date, argv[0], conv);
 	if (!g_date_valid (&date))
 		goto bad;
 
+	if (argv[3]) {
+		GnmValue *result = NULL;
+
+		weekends = collect_floats_value (argv[3], ei->pos,
+						 COLLECT_COERCE_STRINGS |
+						 COLLECT_ZEROONE_BOOLS |
+						 COLLECT_IGNORE_BLANKS,
+						 &nweekends, &result);
+		if (result)
+			return result;
+		if (nweekends != 7)
+			return value_new_error_VALUE (ei->pos);
+
+	} else {
+		weekends = (gnm_float *)default_weekends;
+		nweekends = 7;
+	}
 	if (argv[2]) {
-		int i, j;
+		int j;
 		GDate hol;
 		GnmValue *result = NULL;
 
@@ -793,7 +816,7 @@ gnumeric_workday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			go_date_serial_to_g (&hol, hserial, conv);
 			if (!g_date_valid (&hol))
 				goto bad;
-			if (g_date_get_weekday (&hol) >= G_DATE_SATURDAY)
+			if (weekends[g_date_get_weekday (&hol) % 7] != 0.)
 				continue;
 			holidays[j++] = hserial;
 		}
@@ -802,6 +825,12 @@ gnumeric_workday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		holidays = NULL;
 		nholidays = 0;
 	}
+	n_non_weekend = 0;
+	for (i = 0; i < 7; i++)
+		if (weekends[i] == 0)
+			n_non_weekend++;
+	if (n_non_weekend == 0)
+		return value_new_error_VALUE (ei->pos);
 
 	if (days > INT_MAX / 2 || -days > INT_MAX / 2)
 		return value_new_error_NUM (ei->pos);
@@ -813,68 +842,75 @@ gnumeric_workday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (idays > 0) {
 		int h = 0;
 
-		if (weekday >= G_DATE_SATURDAY) {
-			serial -= (weekday - G_DATE_FRIDAY);
-			weekday = G_DATE_FRIDAY;
+		weekday = weekday % 7;
+		while (weekends[weekday]) {
+			weekday = (weekday > 0) ? (weekday - 1) : G_DATE_SATURDAY;
+			serial--;
 		}
 
 		while (idays > 0) {
-			int dm5 = idays % 5;
-			int ds = idays / 5 * 7 + dm5;
+			int dm_part_week = idays % n_non_weekend;
+			int ds = idays / n_non_weekend * 7;
+			int old_serial = serial;
+			
+			serial += ds;
 
-			weekday += dm5;
-			if (weekday >= G_DATE_SATURDAY) {
-				ds += 2;
-				weekday -= 5;
+			while (dm_part_week) {
+				serial++;
+				weekday = (weekday + 1) % 7;
+				if (!weekends[weekday])
+					dm_part_week--;
 			}
 
 			/*
-			 * "ds" is now the number of calendar days to advance
-			 * but we may be passing holiday.
+			 * we may have passed holidays.
 			 */
 			idays = 0;
-			while (h < nholidays && holidays[h] <= serial + ds) {
-				if (holidays[h] > serial)
+			while (h < nholidays && holidays[h] <= serial) {
+				if (holidays[h] > old_serial)
 					idays++;
 				h++;
 			}
-
-			serial += ds;
 		}
 	} else if (idays < 0) {
 		int h = nholidays - 1;
 
-		if (weekday >= G_DATE_SATURDAY) {
-			serial += (G_DATE_SUNDAY - weekday + 1);
-			weekday = G_DATE_MONDAY;
+		weekday = weekday % 7;
+		while (weekends[weekday]) {
+			weekday = (weekday + 1) % 7;
+			serial++;
 		}
 
 		idays = -idays;
 		while (idays > 0) {
-			int dm5 = idays % 5;
-			int ds = idays / 5 * 7 + dm5;
+			int dm_part_week = idays % n_non_weekend;
+			int ds = idays / n_non_weekend * 7;
+			int old_serial = serial;
+			
+			serial -= ds;
 
-			weekday -= dm5;
-			if ((int)weekday < (int)G_DATE_MONDAY) {
-				ds += 2;
-				weekday += 5;
+			while (dm_part_week) {
+				serial--;
+				weekday = (weekday > 0) ? (weekday - 1) 
+					: G_DATE_SATURDAY;
+				if (!weekends[weekday])
+					dm_part_week--;
 			}
-
+			
 			/*
-			 * "ds" is now the number of calendar days to retreat
-			 * but we may be passing holiday.
+			 * we may have passed holidays.
 			 */
 			idays = 0;
-			while (h >= 0 && holidays[h] >= serial + ds) {
-				if (holidays[h] < serial)
+			while (h >= 0 && holidays[h] >= serial) {
+				if (holidays[h] < old_serial)
 					idays++;
 				h--;
 			}
-
-			serial -= ds;
 		}
 	}
 
+	if (weekends != default_weekends)
+		g_free (weekends);
 	g_free (holidays);
 
 	go_date_serial_to_g (&date, serial, conv);
@@ -1244,7 +1280,7 @@ GnmFuncDescriptor const datetime_functions[] = {
 	  gnumeric_weeknum, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "workday",     "ff|?",  help_workday,
+	{ "workday",     "ff|?A",  help_workday,
 	  gnumeric_workday, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_DATE,
 	  GNM_FUNC_IMPL_STATUS_SUBSET, GNM_FUNC_TEST_STATUS_BASIC },
