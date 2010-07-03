@@ -842,31 +842,34 @@ gnumeric_workday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 
 	weekday = g_date_get_weekday (&date);
-	serial = go_date_g_to_serial (&date, conv);
 
 	if (idays > 0) {
 		int h = 0;
+		guint diff = 0;
+		int old_serial;
 
 		weekday = weekday % 7;
 		while (weekends[weekday]) {
 			weekday = (weekday > 0) ? (weekday - 1) : G_DATE_SATURDAY;
-			serial--;
+			diff++;
 		}
+		g_date_subtract_days (&date, diff);
+		old_serial = go_date_g_to_serial (&date, conv);
 
 		while (idays > 0) {
 			int dm_part_week = idays % n_non_weekend;
 			int ds = idays / n_non_weekend * 7;
-			int old_serial = serial;
-			
-			serial += ds;
 
+			g_date_add_days (&date, ds);
+			
 			while (dm_part_week) {
-				serial++;
+				g_date_add_days (&date, 1);
 				weekday = (weekday + 1) % 7;
 				if (!weekends[weekday])
 					dm_part_week--;
 			}
 
+			serial = go_date_g_to_serial (&date, conv);
 			/*
 			 * we may have passed holidays.
 			 */
@@ -876,32 +879,37 @@ gnumeric_workday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 					idays++;
 				h++;
 			}
+			old_serial = serial;
 		}
 	} else if (idays < 0) {
 		int h = nholidays - 1;
+		guint diff = 0;
+		int old_serial;
 
 		weekday = weekday % 7;
 		while (weekends[weekday]) {
 			weekday = (weekday + 1) % 7;
-			serial++;
+			diff++;
 		}
+		g_date_add_days (&date, diff);
+		old_serial = go_date_g_to_serial (&date, conv);
 
 		idays = -idays;
 		while (idays > 0) {
 			int dm_part_week = idays % n_non_weekend;
 			int ds = idays / n_non_weekend * 7;
-			int old_serial = serial;
 			
-			serial -= ds;
-
+			g_date_subtract_days (&date, ds);
+			
 			while (dm_part_week) {
-				serial--;
+				g_date_subtract_days (&date, 1);
 				weekday = (weekday > 0) ? (weekday - 1) 
 					: G_DATE_SATURDAY;
 				if (!weekends[weekday])
 					dm_part_week--;
 			}
 			
+			serial = go_date_g_to_serial (&date, conv);
 			/*
 			 * we may have passed holidays.
 			 */
@@ -911,8 +919,9 @@ gnumeric_workday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 					idays++;
 				h--;
 			}
+			old_serial = serial;
 		}
-	}
+	} else serial = go_date_g_to_serial (&date, conv);
 
 	if (weekends != default_weekends)
 		g_free (weekends);
