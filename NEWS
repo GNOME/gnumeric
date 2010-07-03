@@ -6,7 +6,7 @@ Andreas:
 	* Improve configurable text export of numbers. [#126444]
 	* Improve horizontal fill. [#594193]
 	* Improve function syntax tooltips. [#623317]
-	* Add weekend specifier to WORKDAY. Half of [#172458]
+	* Add weekend specifier to WORKDAY and NETWORKDAYS. [#172458]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.7

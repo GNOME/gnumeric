@@ -1,5 +1,15 @@
 2010-07-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* functions.c (help_networkdays): add new argument description
+	(gnumeric_networkdays): implement weekend extension
+	(gnumeric_workday): don't leak under erros
+	(datetime_functions): add argument to "workday"
+	(help_workday): correct example
+	(get_serial_weekday): delete
+	(cb_networkdays_holiday): delete
+
+2010-07-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c (help_workday): add new argument description
 	(gnumeric_workday): implement weekend extension
 	(datetime_functions): add argument to "workday"
