@@ -2475,15 +2475,34 @@ scg_objects_drag_commit (SheetControlGUI *scg, int drag_type,
 			 gboolean created_objects)
 {
 	CollectObjectsData data;
+	int n;
+	char *text;
+
 	data.objects = data.anchors = NULL;
 	data.scg = scg;
 	g_hash_table_foreach (scg->selected_objects,
 		(GHFunc) cb_collect_objects_to_commit, &data);
+	n = g_slist_length (data.objects);
+	
+	if (created_objects) {
+		if (drag_type == 8)
+			/* xgettext : %d gives the number of objects. This is input to ngettext. */
+			text = g_strdup_printf (ngettext ("Duplicate %d Object", "Duplicate %d Objects", n), n); 
+		else
+			/* xgettext : %d gives the number of objects. This is input to ngettext. */
+			text = g_strdup_printf (ngettext ("Insert %d Object", "Insert %d Objects", n), n); 			
+	} else {
+		if (drag_type == 8)
+			/* xgettext : %d gives the number of objects. This is input to ngettext. */
+			text = g_strdup_printf (ngettext ("Move %d Object", "Move %d Objects", n), n); 
+		else
+			/* xgettext : %d gives the number of objects. This is input to ngettext. */
+			text = g_strdup_printf (ngettext ("Resize %d Object", "Resize %d Objects", n), n); 			
+	}
+	
 	cmd_objects_move (WORKBOOK_CONTROL (scg_wbcg (scg)),
-		data.objects, data.anchors, created_objects,
-		created_objects /* This is somewhat cheesy and should use ngettext */
-			? ((drag_type == 8) ? _("Duplicate Object") : _("Insert Object"))
-			: ((drag_type == 8) ? _("Move Object")	    : _("Resize Object")));
+		data.objects, data.anchors, created_objects, text);
+	g_free (text);
 }
 
 void

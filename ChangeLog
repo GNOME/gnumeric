@@ -1,5 +1,10 @@
 2010-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/sheet-control-gui.c (scg_objects_drag_commit): don't be cheesy, ie.
+	  use ngettext.
+
+2010-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* schemas/gnumeric-dialogs.schemas.in: fix typo
 
 2010-07-01  Morten Welinder  <terra@gnome.org>

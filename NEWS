@@ -7,6 +7,7 @@ Andreas:
 	* Improve horizontal fill. [#594193]
 	* Improve function syntax tooltips. [#623317]
 	* Add weekend specifier to WORKDAY and NETWORKDAYS. [#172458]
+	* Fix ngettext usage.
 
 Morten:
 	* Ask user to locate solver binaries when plain search fails.
