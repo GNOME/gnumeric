@@ -1128,6 +1128,15 @@ dialog_init (SolverState *state)
 	if (target_cell)
 		gnm_expr_entry_load_from_text (state->target_entry,
 					       cell_name (target_cell));
+	else {
+		GnmRange const*first = selection_first_range
+			(wb_control_cur_sheet_view
+			 (WORKBOOK_CONTROL (state->wbcg)), NULL, NULL);
+		if (first != NULL) {
+			gnm_expr_entry_load_from_range (state->target_entry,
+							state->sheet, first);
+		}
+	}
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "max_button")),

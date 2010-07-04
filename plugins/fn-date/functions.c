@@ -963,9 +963,9 @@ static GnmValue *
 gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	int start_serial, old_start_serial;
-	int end_serial;
+	int end_serial, old_end_serial;
 	int res = 0;
-	GDate start_date;
+	GDate start_date, trouble;
 	GODateConventions const *conv = DATE_CONV (ei->pos);
 	gnm_float *holidays = NULL;
 	gnm_float *weekends = NULL;
@@ -991,6 +991,22 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	go_date_serial_to_g (&start_date, start_serial, conv);
 	if (!g_date_valid (&start_date))
 		goto bad;
+
+	old_end_serial = end_serial;
+	old_start_serial = start_serial;
+
+	g_date_set_dmy (&trouble, 1, 3, 1900);
+	if (g_date_compare (&start_date, &trouble) < 0) {
+		GDate end_date;
+		go_date_serial_to_g (&end_date, end_serial, conv);
+		g_date_set_dmy (&trouble, 28, 2, 1900);
+		if (!g_date_valid (&end_date) || g_date_compare (&trouble, &end_date) < 0) {
+			/* time period includes 1900/2/29 */
+			end_serial--;
+		}
+	}
+	
+
 	weekday = g_date_get_weekday (&start_date);
 
 	if (argv[3]) {
@@ -1055,7 +1071,6 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		nholidays = 0;
 	}
 
-	old_start_serial = start_serial;
 	weeks = (end_serial - start_serial)/7;
 	start_serial = start_serial + weeks * 7;
 	res = weeks * n_non_weekend;
@@ -1070,7 +1085,7 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	 * we may have included holidays.
 	 */
 	
-	while (h < nholidays && holidays[h] <= end_serial) {
+	while (h < nholidays && holidays[h] <= old_end_serial) {
 		if (holidays[h] >= old_start_serial)
 			res--;
 		h++;

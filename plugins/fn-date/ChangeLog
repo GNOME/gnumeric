@@ -1,3 +1,7 @@
+2010-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (gnumeric_networkdays): take care of 1900/2/29
+
 2010-07-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (gnumeric_workday): take care of 1900/2/29
