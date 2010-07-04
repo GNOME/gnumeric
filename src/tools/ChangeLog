@@ -1,3 +1,9 @@
+2010-07-03  Morten Welinder  <terra@gnome.org>
+
+	* gnm-solver.c (gnm_sub_solver_locate_binary): New function.
+	(gnm_solver_factory_functional): Take optional WBCGtk argument so
+	we can ask the user.  All callers changed.
+
 2010-06-28  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.7
@@ -21,9 +27,9 @@
 	* analysis-tools.h (analysis_tools_data_regression_t): new field
 	* analysis-tools.c (analysis_tool_regression_engine_run): use
 	  analysis_tool_get_function
-	(analysis_tool_regression_simple_engine_run): use 
-	  analysis_tool_get_function and obey the new multiple-y setting. 
-	
+	(analysis_tool_regression_simple_engine_run): use
+	  analysis_tool_get_function and obey the new multiple-y setting.
+
 2010-06-02  Morten Welinder  <terra@gnome.org>
 
 	* gnm-solver.c (gnm_solver_set_status, gnm_solver_elapsed):
@@ -45,7 +51,7 @@
 	* analysis-tools.h (analysis_tool_get_function): new
 	* analysis-tools.c (analysis_tool_get_function): new
 	* analysis-sign-test.h: minor formatting
-	* analysis-sign-test.c 
+	* analysis-sign-test.c
 	(analysis_tool_sign_test_two_engine_run): fix statistic
 
 2010-05-30  Morten Welinder <terra@gnome.org>

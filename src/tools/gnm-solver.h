@@ -5,6 +5,7 @@
 #include <glib-object.h>
 #include <dependent.h>
 #include <numbers.h>
+#include <wbc-gtk.h>
 
 G_BEGIN_DECLS
 
@@ -292,6 +293,10 @@ GnmCell *gnm_sub_solver_find_cell (GnmSubSolver *subsol, const char *name);
 const char *gnm_sub_solver_get_cell_name (GnmSubSolver *subsol,
 					  GnmCell const *cell);
 
+char *gnm_sub_solver_locate_binary (const char *binary, const char *solver,
+				    const char *url,
+				    WBCGtk *wbcg);
+
 /* ------------------------------------------------------------------------- */
 
 #define GNM_SOLVER_FACTORY_TYPE        (gnm_solver_factory_get_type ())
@@ -300,7 +305,8 @@ const char *gnm_sub_solver_get_cell_name (GnmSubSolver *subsol,
 
 typedef GnmSolver * (*GnmSolverCreator) (GnmSolverFactory *,
 					 GnmSolverParameters *);
-typedef gboolean (*GnmSolverFactoryFunctional) (GnmSolverFactory *);
+typedef gboolean (*GnmSolverFactoryFunctional) (GnmSolverFactory *,
+						WBCGtk *);
 
 struct GnmSolverFactory_ {
 	GObject parent;
@@ -325,7 +331,8 @@ GnmSolverFactory *gnm_solver_factory_new (const char *id,
 					  GnmSolverFactoryFunctional funct);
 GnmSolver *gnm_solver_factory_create (GnmSolverFactory *factory,
 				      GnmSolverParameters *param);
-gboolean gnm_solver_factory_functional (GnmSolverFactory *factory);
+gboolean gnm_solver_factory_functional (GnmSolverFactory *factory,
+					WBCGtk *wbcg);
 
 GSList *gnm_solver_db_get (void);
 void gnm_solver_db_register (GnmSolverFactory *factory);

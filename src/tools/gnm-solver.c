@@ -1526,6 +1526,72 @@ gnm_sub_solver_get_cell_name (GnmSubSolver *subsol,
 	return g_hash_table_lookup (subsol->name_from_cell, (gpointer)cell);
 }
 
+char *
+gnm_sub_solver_locate_binary (const char *binary, const char *solver,
+			      const char *url,
+			      WBCGtk *wbcg)
+{
+	GtkWindow *parent;
+	GtkWidget *dialog;
+	char *path = NULL;
+	int res;
+	GtkFileChooser *fsel;
+	char *title;
+
+	parent = wbcg ? wbcg_toplevel (wbcg) : NULL;
+	dialog = gtk_message_dialog_new_with_markup
+		(parent,
+		 GTK_DIALOG_DESTROY_WITH_PARENT,
+		 GTK_MESSAGE_QUESTION,
+		 GTK_BUTTONS_YES_NO,
+		 "Gnumeric is unable to locate the program <i>%s</i> needed "
+		 "for the <i>%s</i> solver.  For more information see %s.\n\n"
+		 "Would you like to locate it yourself?",
+		 binary, solver, url);
+	title = g_strdup_printf ("Unable to locate %s", binary);
+	g_object_set (G_OBJECT (dialog),
+		      "title", title,
+		      NULL);
+	g_free (title);
+
+	res = go_gtk_dialog_run (GTK_DIALOG (dialog), parent);
+	switch (res) {
+	case GTK_RESPONSE_NO:
+	case GTK_RESPONSE_DELETE_EVENT:
+	default:
+		return NULL;
+	case GTK_RESPONSE_YES:
+		break;
+	}
+
+	title = g_strdup_printf ("Locate the %s program", binary);
+	fsel = GTK_FILE_CHOOSER
+		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
+			       "action", GTK_FILE_CHOOSER_ACTION_OPEN,
+			       "local-only", TRUE,
+			       "title", title,
+			       NULL));
+	g_free (title);
+	gtk_dialog_add_buttons (GTK_DIALOG (fsel),
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GTK_STOCK_EXECUTE, GTK_RESPONSE_OK,
+				NULL);
+	g_object_ref (fsel);
+	if (go_gtk_file_sel_dialog (parent, GTK_WIDGET (fsel))) {
+		path = gtk_file_chooser_get_filename (fsel);
+		if (!g_file_test (path, G_FILE_TEST_IS_EXECUTABLE)) {
+			g_free (path);
+			path = NULL;
+		}
+	}
+
+	gtk_widget_destroy (GTK_WIDGET (fsel));
+	g_object_unref (fsel);
+
+	return path;
+}
+
+
 void
 gnm_sub_solver_flush (GnmSubSolver *subsol)
 {
@@ -1619,13 +1685,14 @@ gnm_solver_factory_create (GnmSolverFactory *factory,
 }
 
 gboolean
-gnm_solver_factory_functional (GnmSolverFactory *factory)
+gnm_solver_factory_functional (GnmSolverFactory *factory,
+			       WBCGtk *wbcg)
 {
 	if (factory == NULL)
 		return FALSE;
 
 	return (factory->functional == NULL ||
-		factory->functional (factory));
+		factory->functional (factory, wbcg));
 }
 
 static int

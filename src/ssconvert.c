@@ -432,13 +432,14 @@ run_solver (Sheet *sheet, WorkbookView *wbv)
 	wb_control_set_view (wbc, wbv, NULL);
 
 	/* Pick a functional algorithm.  */
-	if (!gnm_solver_factory_functional (params->options.algorithm)) {
+	if (!gnm_solver_factory_functional (params->options.algorithm,
+					    NULL)) {
 		GSList *l;
 		for (l = gnm_solver_db_get (); l; l = l->next) {
 			GnmSolverFactory *factory = l->data;
 			if (params->options.model_type != factory->type)
 				continue;
-			if (gnm_solver_factory_functional (factory)) {
+			if (gnm_solver_factory_functional (factory, NULL)) {
 				gnm_solver_param_set_algorithm (params,
 								factory);
 				break;

@@ -513,7 +513,8 @@ cb_load_and_create (GnmSolverFactory *factory, GnmSolverParameters *param)
 }
 
 static gboolean
-cb_load_and_functional (GnmSolverFactory *factory)
+cb_load_and_functional (GnmSolverFactory *factory,
+			WBCGtk *wbcg)
 {
 	PluginServiceSolver *ssol =
 		g_object_get_data (G_OBJECT (factory), "ssol");
@@ -529,7 +530,7 @@ cb_load_and_functional (GnmSolverFactory *factory)
 	}
 
 	functional = ssol->cbs.functional;
-	return (functional == NULL || functional (factory));
+	return (functional == NULL || functional (factory, wbcg));
 }
 
 static void

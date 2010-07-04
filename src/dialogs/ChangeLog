@@ -1,7 +1,12 @@
+2010-07-03  Morten Welinder  <terra@gnome.org>
+
+	* dialog-solver.c (run_solver): Check that the solver is
+	functional.  Fix error message.
+
 2010-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-search-replace.c (dialog_search_replace_save_in_prefs): new
-	(apply_clicked): call dialog_search_replace_save_in_prefs if 
+	(apply_clicked): call dialog_search_replace_save_in_prefs if
 	  appropriate
 	(dialog_search_replace): set the current state according to the
 	  preferences
@@ -18,7 +23,7 @@
 
 2010-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-stf.h (FormatInfo_t): add new field 
+	* dialog-stf.h (FormatInfo_t): add new field
 	* dialog-stf.c (stf_dialog): transfer autofit array
 	* dialog-stf-format-page.c (cb_col_check_clicked): set
 	  sensitivity of autofit check
@@ -26,13 +31,13 @@
 	(format_page_update_preview): handle new field
 	(stf_dialog_format_page_cleanup): ditto
 	(stf_dialog_format_page_init): ditto
-	
+
 2010-06-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-sheetobject-size.c (set_params): new
 	(cb_dialog_so_size_apply_clicked): use cmd_generic instead of
 	  cmd_so_rename
-	
+
 2010-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-solver.c (dialog_init): setup first entry
@@ -40,12 +45,12 @@
 2010-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-formula-guru.c (real_start_editing_cb): deleted
-	(start_editing_cb): include real_start_editing_cb here 
+	(start_editing_cb): include real_start_editing_cb here
 	  (removes gtk 2.2 hack)
 
 2010-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-formula-guru.c (cb_dialog_formula_guru_query_tooltip): 
+	* dialog-formula-guru.c (cb_dialog_formula_guru_query_tooltip):
 	  adjust tooltip
 
 2010-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -60,11 +65,11 @@
 	(cb_dialog_formula_guru_destroy): unref tooltip widgets
 	(cb_dialog_formula_guru_query_tooltip): create our own tooltip
 	(dialog_formula_guru_init): initialize tooltip widgets
-	
+
 2010-06-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.6
-	
+
 2010-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-formula-guru.c (dialog_formula_guru_adjust_children): use
@@ -78,10 +83,10 @@
 
 2010-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-formula-guru.c (dialog_formula_guru_adjust_children): load 
+	* dialog-formula-guru.c (dialog_formula_guru_adjust_children): load
 	  tooltip
 	(dialog_formula_guru_init): set up tooltips
-	
+
 2010-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialogs.h (dialog_formula_guru): change storage class of an arg
@@ -95,25 +100,25 @@
 
 2010-06-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-function-select.c 
+	* dialog-function-select.c
 	(dialog_function_select_get_description): rename to
 	  dialog_function_select_get_description
 	(dialog_function_select_get_description): new
 	(dialog_function_select_load_tree): store the PangoAttrList
-	(dialog_function_select_init): set up new attribute field in 
+	(dialog_function_select_init): set up new attribute field in
 	  the liststore
-	
+
 2010-06-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-function-select.c 
-	(dialog_function_select_erase_search_entry): only include for 
+	* dialog-function-select.c
+	(dialog_function_select_erase_search_entry): only include for
 	  newer gtk
-	
+
 2010-06-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-function-select.c (dialog_function_select_init):
 	  change the dialog title to reflect help mode
-	(dialog_function_select): use a differnt key in help mode to 
+	(dialog_function_select): use a differnt key in help mode to
 	  avoid confusion
 
 2010-06-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -122,7 +127,7 @@
 	* dialog-function-select.c (dialog_function_select_init):
 	  show and hide the appropriate widgets depending on whether
 	  we are in help mode
-	(cb_dialog_function_select_ok_clicked): only called the 
+	(cb_dialog_function_select_ok_clicked): only called the
 	  formula guru if we aren't in help mode
 	(dialog_function_select): don't show the purposefully hidden
 	  widgets
@@ -130,16 +135,16 @@
 2010-06-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-function-select.c (cb_unref): new
-	(cb_dialog_function_select_search_all): handle "in use" 
+	(cb_dialog_function_select_search_all): handle "in use"
 	  selection
 	(dialog_function_select_search): set up "in use" selection
 	(cb_dialog_function_select_destroy): unref funcs
 	(dialog_function_select_load_cb): add "in use" item
 	(dialog_function_select_get_description): load stubs
-	(dialog_function_select_load_tree): ref the funcs when 
+	(dialog_function_select_load_tree): ref the funcs when
 	  storing them in the model
 	(dialog_function_select_init): setup "in use" flag
-	
+
 2010-06-08 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-function-select.c (dialog_function_select_search):
@@ -163,9 +168,9 @@
 
 2010-06-07 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-define-names.c (cb_name_guru_name_edited): the 
+	* dialog-define-names.c (cb_name_guru_name_edited): the
 	  name becomes non-ediatable after it has been set.
-	
+
 2010-06-06 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* regression.glade: add new checkbox and move the selectors for
@@ -186,7 +191,7 @@
 	* dialog-define-names.c (name_guru_parse_pos_init): new
 	(name_guru_check_expression): use name_guru_parse_pos_init
 	(cb_name_guru_name_edited): don't duplicate errorchecks already
-	  in cmd_define_name but make sure that we don't just redefine 
+	  in cmd_define_name but make sure that we don't just redefine
 	  names
 
 2010-06-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -198,13 +203,13 @@
 
 2010-06-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-define-names.c (name_guru_delete): no need to 
+	* dialog-define-names.c (name_guru_delete): no need to
 	  check for in use if it wasn't saved.
 	(name_guru_find_place): new
 	(name_guru_move_record): use name_guru_find_place
 	(cb_name_guru_name_edited): we also need to set the GnmNamedExpr
 	  if we possibly added a new name.
-	
+
 2010-06-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-define-names.c (cb_name_guru_search): make searching
@@ -227,7 +232,7 @@
 	 GtkTreeStore and GtkTreeView and adjust code throughout.
 	(name_guru_store_names): new type adjustment for every name
 	(cb_name_guru_content_edited): don't leak GnmExprTop
-	
+
 2010-06-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-define-names.c (cb_name_guru_switch_scope): use
@@ -245,7 +250,7 @@
 2010-06-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-define-names.c (name_guru_paste): don't overwrite text
-	
+
 2010-06-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* paste-names.glade: deleted
@@ -284,11 +289,11 @@
 	  ditto
 	(dialog_sign_test_tool): ditto
 	* dialog-analysis-tools.c (tool_setup_update): new
-	
+
 2010-05-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialogs.h (dialog_sign_test_two_tool): new
-	* dialog-analysis-tool-sign-test.c 
+	* dialog-analysis-tool-sign-test.c
 	(sign_test_tool_update_common_sensitivity_cb): new
 	(sign_test_tool_update_sensitivity_cb): split
 	(sign_test_two_tool_update_sensitivity_cb): new

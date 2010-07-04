@@ -217,9 +217,17 @@ GOConfNode *gnm_conf_get_functionselector_recentfunctions_node (void);
 GSList *gnm_conf_get_functionselector_recentfunctions (void);
 void gnm_conf_set_functionselector_recentfunctions (GSList *);
 
+GOConfNode *gnm_conf_get_plugin_glpk_glpsol_path_node (void);
+const char *gnm_conf_get_plugin_glpk_glpsol_path (void);
+void gnm_conf_set_plugin_glpk_glpsol_path (const char *);
+
 GOConfNode *gnm_conf_get_plugin_latex_use_utf8_node (void);
 gboolean gnm_conf_get_plugin_latex_use_utf8 (void);
 void gnm_conf_set_plugin_latex_use_utf8 (gboolean);
+
+GOConfNode *gnm_conf_get_plugin_lpsolve_lpsolve_path_node (void);
+const char *gnm_conf_get_plugin_lpsolve_lpsolve_path (void);
+void gnm_conf_set_plugin_lpsolve_lpsolve_path (const char *);
 
 GOConfNode *gnm_conf_get_plugins_activate_new_node (void);
 gboolean gnm_conf_get_plugins_activate_new (void);
@@ -468,7 +476,9 @@ GOConfNode *gnm_conf_get_core_xml_dir_node (void);
 GOConfNode *gnm_conf_get_cut_and_paste_dir_node (void);
 GOConfNode *gnm_conf_get_dialogs_rs_dir_node (void);
 GOConfNode *gnm_conf_get_functionselector_dir_node (void);
+GOConfNode *gnm_conf_get_plugin_glpk_dir_node (void);
 GOConfNode *gnm_conf_get_plugin_latex_dir_node (void);
+GOConfNode *gnm_conf_get_plugin_lpsolve_dir_node (void);
 GOConfNode *gnm_conf_get_plugins_dir_node (void);
 GOConfNode *gnm_conf_get_printsetup_dir_node (void);
 GOConfNode *gnm_conf_get_searchreplace_dir_node (void);

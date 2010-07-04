@@ -11,6 +11,27 @@
         <long>This setting determines whether created LaTeX files use UTF-8 (unicode) or ISO-8859-1 (Latin1). To use the UTF-8 files, you must have the ucs LaTeX package installed.</long>
         </locale>
       </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/plugin/lpsolve/lpsolve-path</key>
+        <applyto>/apps/gnumeric/plugin/lpsolve/lpsolve-path</applyto>
+        <owner>Gnumeric</owner>
+        <type>string</type>
+	<default/>
+        <locale name="C">
+        <short>Full path of lp_solve program to use</short>
+        <long>This is the full path to the lp_solve binary that the lpsolve plugin should use.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/plugin/glpk/glpsol-path</key>
+        <applyto>/apps/gnumeric/plugin/glpk/glpsol-path</applyto>
+        <owner>Gnumeric</owner>
+        <type>string</type>
+	<default/>
+        <locale name="C">
+        <short>Full path of glpsol program to use</short>
+        <long>This is the full path to the glpsol binary that the lpsolve plugin should use.</long>
+        </locale>
+      </schema>
    </schemalist>
 </gconfschemafile>
-  

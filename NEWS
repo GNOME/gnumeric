@@ -8,6 +8,10 @@ Andreas:
 	* Improve function syntax tooltips. [#623317]
 	* Add weekend specifier to WORKDAY and NETWORKDAYS. [#172458]
 
+Morten:
+	* Ask user to locate solver binaries when plain search fails.
+	[#619519]
+
 --------------------------------------------------------------------------
 Gnumeric 1.10.7
 

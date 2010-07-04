@@ -6,6 +6,7 @@
 #include "value.h"
 #include "ranges.h"
 #include "gutils.h"
+#include "gnumeric-gconf.h"
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-input-textline.h>
 #include <gsf/gsf-input-stdio.h>
@@ -259,10 +260,15 @@ gnm_glpk_start (GnmSolver *sol, WorkbookControl *wbc, GError **err,
 	gchar *argv[7];
 	int argc = 0;
 	GnmSolverParameters *param = sol->params;
+	const char *binary;
 
 	g_return_val_if_fail (sol->status == GNM_SOLVER_STATUS_PREPARED, FALSE);
 
-	argv[argc++] = (gchar *)SOLVER_PROGRAM;
+	binary = gnm_conf_get_plugin_glpk_glpsol_path ();
+	if (binary == NULL || *binary == 0)
+		binary = SOLVER_PROGRAM;
+
+	argv[argc++] = (gchar *)binary;
 	argv[argc++] = (gchar *)(param->options.automatic_scaling
 				 ? "--scale"
 				 : "--noscale");
@@ -306,15 +312,39 @@ gnm_glpk_stop (GnmSolver *sol, GError *err, GnmGlpk *lp)
 }
 
 gboolean
-glpk_solver_factory_functional (GnmSolverFactory *factory);
+glpk_solver_factory_functional (GnmSolverFactory *factory,
+				WBCGtk *wbcg);
 
 gboolean
-glpk_solver_factory_functional (GnmSolverFactory *factory)
+glpk_solver_factory_functional (GnmSolverFactory *factory,
+				WBCGtk *wbcg)
 {
-	char *full_path = g_find_program_in_path (SOLVER_PROGRAM);
-	gboolean res= (full_path != NULL);
-	g_free (full_path);
-	return res;
+	const char *full_path = gnm_conf_get_plugin_glpk_glpsol_path ();
+	char *path;
+
+	if (full_path && *full_path)
+		return g_file_test (full_path, G_FILE_TEST_IS_EXECUTABLE);
+
+	path = g_find_program_in_path (SOLVER_PROGRAM);
+	if (path) {
+		g_free (path);
+		return TRUE;
+	}
+
+	if (!wbcg)
+		return FALSE;
+
+	path = gnm_sub_solver_locate_binary (SOLVER_PROGRAM,
+					     "Gnu Linear Programming Kit",
+					     SOLVER_URL,
+					     wbcg);
+	if (path) {
+		gnm_conf_set_plugin_glpk_glpsol_path (path);
+		g_free (path);
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 

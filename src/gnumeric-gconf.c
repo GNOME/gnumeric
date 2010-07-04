@@ -1856,6 +1856,33 @@ gnm_conf_get_functionselector_recentfunctions_node (void)
 	return get_node (watch_functionselector_recentfunctions.key);
 }
 
+static struct cb_watch_string watch_plugin_glpk_glpsol_path = {
+	0, "plugin/glpk/glpk-path", "",
+};
+
+const char *
+gnm_conf_get_plugin_glpk_glpsol_path (void)
+{
+	if (!watch_plugin_glpk_glpsol_path.handler)
+		watch_string (&watch_plugin_glpk_glpsol_path);
+	return watch_plugin_glpk_glpsol_path.var;
+}
+
+void
+gnm_conf_set_plugin_glpk_glpsol_path (const char *x)
+{
+	g_return_if_fail (x != NULL);
+	if (!watch_plugin_glpk_glpsol_path.handler)
+		watch_string (&watch_plugin_glpk_glpsol_path);
+	set_string (&watch_plugin_glpk_glpsol_path, x);
+}
+
+GOConfNode *
+gnm_conf_get_plugin_glpk_glpsol_path_node (void)
+{
+	return get_node (watch_plugin_glpk_glpsol_path.key);
+}
+
 static struct cb_watch_bool watch_plugin_latex_use_utf8 = {
 	0, "plugin/latex/use-utf8", FALSE,
 };
@@ -1880,6 +1907,33 @@ GOConfNode *
 gnm_conf_get_plugin_latex_use_utf8_node (void)
 {
 	return get_node (watch_plugin_latex_use_utf8.key);
+}
+
+static struct cb_watch_string watch_plugin_lpsolve_lpsolve_path = {
+	0, "plugin/lpsolve/lpsolve-path", "",
+};
+
+const char *
+gnm_conf_get_plugin_lpsolve_lpsolve_path (void)
+{
+	if (!watch_plugin_lpsolve_lpsolve_path.handler)
+		watch_string (&watch_plugin_lpsolve_lpsolve_path);
+	return watch_plugin_lpsolve_lpsolve_path.var;
+}
+
+void
+gnm_conf_set_plugin_lpsolve_lpsolve_path (const char *x)
+{
+	g_return_if_fail (x != NULL);
+	if (!watch_plugin_lpsolve_lpsolve_path.handler)
+		watch_string (&watch_plugin_lpsolve_lpsolve_path);
+	set_string (&watch_plugin_lpsolve_lpsolve_path, x);
+}
+
+GOConfNode *
+gnm_conf_get_plugin_lpsolve_lpsolve_path_node (void)
+{
+	return get_node (watch_plugin_lpsolve_lpsolve_path.key);
 }
 
 static struct cb_watch_bool watch_plugins_activate_new = {
@@ -2874,16 +2928,9 @@ gnm_conf_get_printsetup_scale_width_node (void)
 	return get_node (watch_printsetup_scale_width.key);
 }
 
-
 static struct cb_watch_bool watch_searchreplace_change_cell_expressions = {
 	0, "searchreplace/change-cell-expressions", TRUE,
 };
-
-GOConfNode *
-gnm_conf_get_searchreplace_change_cell_expressions_node (void)
-{
-	return get_node (watch_searchreplace_change_cell_expressions.key);
-}
 
 gboolean
 gnm_conf_get_searchreplace_change_cell_expressions (void)
@@ -2901,15 +2948,15 @@ gnm_conf_set_searchreplace_change_cell_expressions (gboolean x)
 	set_bool (&watch_searchreplace_change_cell_expressions, x);
 }
 
+GOConfNode *
+gnm_conf_get_searchreplace_change_cell_expressions_node (void)
+{
+	return get_node (watch_searchreplace_change_cell_expressions.key);
+}
+
 static struct cb_watch_bool watch_searchreplace_change_cell_other = {
 	0, "searchreplace/change-cell-other", TRUE,
 };
-
-GOConfNode *
-gnm_conf_get_searchreplace_change_cell_other_node (void)
-{
-	return get_node (watch_searchreplace_change_cell_other.key);
-}
 
 gboolean
 gnm_conf_get_searchreplace_change_cell_other (void)
@@ -2927,15 +2974,15 @@ gnm_conf_set_searchreplace_change_cell_other (gboolean x)
 	set_bool (&watch_searchreplace_change_cell_other, x);
 }
 
+GOConfNode *
+gnm_conf_get_searchreplace_change_cell_other_node (void)
+{
+	return get_node (watch_searchreplace_change_cell_other.key);
+}
+
 static struct cb_watch_bool watch_searchreplace_change_cell_strings = {
 	0, "searchreplace/change-cell-strings", TRUE,
 };
-
-GOConfNode *
-gnm_conf_get_searchreplace_change_cell_strings_node (void)
-{
-	return get_node (watch_searchreplace_change_cell_strings.key);
-}
 
 gboolean
 gnm_conf_get_searchreplace_change_cell_strings (void)
@@ -2953,15 +3000,15 @@ gnm_conf_set_searchreplace_change_cell_strings (gboolean x)
 	set_bool (&watch_searchreplace_change_cell_strings, x);
 }
 
+GOConfNode *
+gnm_conf_get_searchreplace_change_cell_strings_node (void)
+{
+	return get_node (watch_searchreplace_change_cell_strings.key);
+}
+
 static struct cb_watch_bool watch_searchreplace_change_comments = {
 	0, "searchreplace/change-comments", FALSE,
 };
-
-GOConfNode *
-gnm_conf_get_searchreplace_change_comments_node (void)
-{
-	return get_node (watch_searchreplace_change_comments.key);
-}
 
 gboolean
 gnm_conf_get_searchreplace_change_comments (void)
@@ -2979,15 +3026,15 @@ gnm_conf_set_searchreplace_change_comments (gboolean x)
 	set_bool (&watch_searchreplace_change_comments, x);
 }
 
+GOConfNode *
+gnm_conf_get_searchreplace_change_comments_node (void)
+{
+	return get_node (watch_searchreplace_change_comments.key);
+}
+
 static struct cb_watch_bool watch_searchreplace_columnmajor = {
 	0, "searchreplace/columnmajor", TRUE,
 };
-
-GOConfNode *
-gnm_conf_get_searchreplace_columnmajor_node (void)
-{
-	return get_node (watch_searchreplace_columnmajor.key);
-}
 
 gboolean
 gnm_conf_get_searchreplace_columnmajor (void)
@@ -3005,15 +3052,15 @@ gnm_conf_set_searchreplace_columnmajor (gboolean x)
 	set_bool (&watch_searchreplace_columnmajor, x);
 }
 
+GOConfNode *
+gnm_conf_get_searchreplace_columnmajor_node (void)
+{
+	return get_node (watch_searchreplace_columnmajor.key);
+}
+
 static struct cb_watch_int watch_searchreplace_error_behaviour = {
 	0, "searchreplace/error-behaviour", 0, 4, 0,
 };
-
-GOConfNode *
-gnm_conf_get_searchreplace_error_behaviour_node (void)
-{
-	return get_node (watch_searchreplace_error_behaviour.key);
-}
 
 int
 gnm_conf_get_searchreplace_error_behaviour (void)
@@ -3031,15 +3078,15 @@ gnm_conf_set_searchreplace_error_behaviour (int x)
 	set_int (&watch_searchreplace_error_behaviour, x);
 }
 
+GOConfNode *
+gnm_conf_get_searchreplace_error_behaviour_node (void)
+{
+	return get_node (watch_searchreplace_error_behaviour.key);
+}
+
 static struct cb_watch_bool watch_searchreplace_ignore_case = {
 	0, "searchreplace/ignore-case", TRUE,
 };
-
-GOConfNode *
-gnm_conf_get_searchreplace_ignore_case_node (void)
-{
-	return get_node (watch_searchreplace_ignore_case.key);
-}
 
 gboolean
 gnm_conf_get_searchreplace_ignore_case (void)
@@ -3057,15 +3104,15 @@ gnm_conf_set_searchreplace_ignore_case (gboolean x)
 	set_bool (&watch_searchreplace_ignore_case, x);
 }
 
+GOConfNode *
+gnm_conf_get_searchreplace_ignore_case_node (void)
+{
+	return get_node (watch_searchreplace_ignore_case.key);
+}
+
 static struct cb_watch_bool watch_searchreplace_keep_strings = {
 	0, "searchreplace/keep-strings", TRUE,
 };
-
-GOConfNode *
-gnm_conf_get_searchreplace_keep_strings_node (void)
-{
-	return get_node (watch_searchreplace_keep_strings.key);
-}
 
 gboolean
 gnm_conf_get_searchreplace_keep_strings (void)
@@ -3083,15 +3130,15 @@ gnm_conf_set_searchreplace_keep_strings (gboolean x)
 	set_bool (&watch_searchreplace_keep_strings, x);
 }
 
+GOConfNode *
+gnm_conf_get_searchreplace_keep_strings_node (void)
+{
+	return get_node (watch_searchreplace_keep_strings.key);
+}
+
 static struct cb_watch_bool watch_searchreplace_preserve_case = {
 	0, "searchreplace/preserve-case", FALSE,
 };
-
-GOConfNode *
-gnm_conf_get_searchreplace_preserve_case_node (void)
-{
-	return get_node (watch_searchreplace_preserve_case.key);
-}
 
 gboolean
 gnm_conf_get_searchreplace_preserve_case (void)
@@ -3109,15 +3156,15 @@ gnm_conf_set_searchreplace_preserve_case (gboolean x)
 	set_bool (&watch_searchreplace_preserve_case, x);
 }
 
+GOConfNode *
+gnm_conf_get_searchreplace_preserve_case_node (void)
+{
+	return get_node (watch_searchreplace_preserve_case.key);
+}
+
 static struct cb_watch_bool watch_searchreplace_query = {
 	0, "searchreplace/query", FALSE,
 };
-
-GOConfNode *
-gnm_conf_get_searchreplace_query_node (void)
-{
-	return get_node (watch_searchreplace_query.key);
-}
 
 gboolean
 gnm_conf_get_searchreplace_query (void)
@@ -3135,15 +3182,15 @@ gnm_conf_set_searchreplace_query (gboolean x)
 	set_bool (&watch_searchreplace_query, x);
 }
 
+GOConfNode *
+gnm_conf_get_searchreplace_query_node (void)
+{
+	return get_node (watch_searchreplace_query.key);
+}
+
 static struct cb_watch_int watch_searchreplace_regex = {
 	0, "searchreplace/regex", 0, 2, 0,
 };
-
-GOConfNode *
-gnm_conf_get_searchreplace_regex_node (void)
-{
-	return get_node (watch_searchreplace_regex.key);
-}
 
 int
 gnm_conf_get_searchreplace_regex (void)
@@ -3161,15 +3208,15 @@ gnm_conf_set_searchreplace_regex (int x)
 	set_int (&watch_searchreplace_regex, x);
 }
 
+GOConfNode *
+gnm_conf_get_searchreplace_regex_node (void)
+{
+	return get_node (watch_searchreplace_regex.key);
+}
+
 static struct cb_watch_int watch_searchreplace_scope = {
 	0, "searchreplace/scope", 0, 2, 0,
 };
-
-GOConfNode *
-gnm_conf_get_searchreplace_scope_node (void)
-{
-	return get_node (watch_searchreplace_scope.key);
-}
 
 int
 gnm_conf_get_searchreplace_scope (void)
@@ -3187,15 +3234,15 @@ gnm_conf_set_searchreplace_scope (int x)
 	set_int (&watch_searchreplace_scope, x);
 }
 
+GOConfNode *
+gnm_conf_get_searchreplace_scope_node (void)
+{
+	return get_node (watch_searchreplace_scope.key);
+}
+
 static struct cb_watch_bool watch_searchreplace_whole_words_only = {
 	0, "searchreplace/whole-words-only", FALSE,
 };
-
-GOConfNode *
-gnm_conf_get_searchreplace_whole_words_only_node (void)
-{
-	return get_node (watch_searchreplace_whole_words_only.key);
-}
 
 gboolean
 gnm_conf_get_searchreplace_whole_words_only (void)
@@ -3211,6 +3258,12 @@ gnm_conf_set_searchreplace_whole_words_only (gboolean x)
 	if (!watch_searchreplace_whole_words_only.handler)
 		watch_bool (&watch_searchreplace_whole_words_only);
 	set_bool (&watch_searchreplace_whole_words_only, x);
+}
+
+GOConfNode *
+gnm_conf_get_searchreplace_whole_words_only_node (void)
+{
+	return get_node (watch_searchreplace_whole_words_only.key);
 }
 
 static struct cb_watch_string watch_stf_export_separator = {
@@ -3489,9 +3542,21 @@ gnm_conf_get_functionselector_dir_node (void)
 }
 
 GOConfNode *
+gnm_conf_get_plugin_glpk_dir_node (void)
+{
+	return get_node ("plugin/glpk");
+}
+
+GOConfNode *
 gnm_conf_get_plugin_latex_dir_node (void)
 {
 	return get_node ("plugin/latex");
+}
+
+GOConfNode *
+gnm_conf_get_plugin_lpsolve_dir_node (void)
+{
+	return get_node ("plugin/lpsolve");
 }
 
 GOConfNode *
@@ -3504,6 +3569,18 @@ GOConfNode *
 gnm_conf_get_printsetup_dir_node (void)
 {
 	return get_node ("printsetup");
+}
+
+GOConfNode *
+gnm_conf_get_searchreplace_dir_node (void)
+{
+	return get_node ("searchreplace");
+}
+
+GOConfNode *
+gnm_conf_get_stf_export_dir_node (void)
+{
+	return get_node ("stf/export");
 }
 
 GOConfNode *

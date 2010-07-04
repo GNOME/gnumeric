@@ -628,12 +628,13 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 	GnmSolverResult *res = NULL;
 	int y;
 
-	sol = param->options.algorithm
-		? gnm_solver_factory_create (param->options.algorithm, param)
-		: NULL;
+	sol = gnm_solver_factory_functional (param->options.algorithm,
+					     state->wbcg)
+	    ? gnm_solver_factory_create (param->options.algorithm, param)
+	    : NULL;
 	if (!sol) {
 		go_gtk_notice_dialog (top, GTK_MESSAGE_ERROR,
-				      _("No suitable solver available."));
+				      _("The chosen solver is not functional."));
 		goto fail;
 	}
 
@@ -1189,19 +1190,29 @@ dialog_solver (WBCGtk *wbcg, Sheet *sheet)
 {
         SolverState *state;
 	GnmSolverParameters *old_params = sheet->solver_parameters;
+	gboolean got_it;
+	int pass;
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, SOLVER_KEY))
 		return;
 
-	/* First time around, pick a functional algorithm.  */
-	if (!gnm_solver_factory_functional (old_params->options.algorithm)) {
+	/*
+	 * First time around, pick a functional algorithm preferably one we
+	 * can determine is functional without asking the user anything.
+	 */
+	got_it = gnm_solver_factory_functional (old_params->options.algorithm,
+						NULL);
+	for (pass = 1; !got_it && pass <= 2; pass++) {
 		GSList *l;
+		WBCGtk *wbcg2 = pass == 2 ? wbcg : NULL;
+
 		for (l = gnm_solver_db_get (); l; l = l->next) {
 			GnmSolverFactory *factory = l->data;
 			if (old_params->options.model_type != factory->type)
 				continue;
-			if (gnm_solver_factory_functional (factory)) {
+			if (gnm_solver_factory_functional (factory, wbcg2)) {
+				got_it = TRUE;
 				gnm_solver_param_set_algorithm (old_params,
 								factory);
 				break;
