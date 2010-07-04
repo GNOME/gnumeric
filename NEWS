@@ -11,6 +11,7 @@ Andreas:
 Morten:
 	* Ask user to locate solver binaries when plain search fails.
 	[#619519]
+	* Fix problem with solver target cell entry.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.7
