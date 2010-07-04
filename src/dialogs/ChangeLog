@@ -1,6 +1,11 @@
 2010-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-solver.c (dialog_init): If we have no existing target we
+	should add only the edit position not the whole selection.
+
+2010-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-solver.c (dialog_init): If we have no existing target we
 	should add the selection.
 	
 2010-07-04  Morten Welinder  <terra@gnome.org>

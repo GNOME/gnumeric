@@ -35,6 +35,7 @@
 #include <value.h>
 #include <cell.h>
 #include <sheet.h>
+#include <sheet-view.h>
 #include <expr.h>
 #include <wbc-gtk.h>
 #include <workbook.h>
@@ -1129,12 +1130,12 @@ dialog_init (SolverState *state)
 		gnm_expr_entry_load_from_text (state->target_entry,
 					       cell_name (target_cell));
 	else {
-		GnmRange const*first = selection_first_range
-			(wb_control_cur_sheet_view
-			 (WORKBOOK_CONTROL (state->wbcg)), NULL, NULL);
-		if (first != NULL) {
+		SheetView *sv = wb_control_cur_sheet_view 
+			(WORKBOOK_CONTROL (state->wbcg));
+		if (sv) {
+			GnmRange first = {sv->edit_pos, sv->edit_pos};
 			gnm_expr_entry_load_from_range (state->target_entry,
-							state->sheet, first);
+							state->sheet, &first);
 		}
 	}
 
