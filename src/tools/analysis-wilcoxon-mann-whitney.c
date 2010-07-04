@@ -290,7 +290,7 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 				    GNM_EXPR_OP_MULT,
 				    expr_normdist));
 		dao_set_cell_comment (dao, 1, 8,
-				      _("This p-value is calulated using a\n"
+				      _("This p-value is calculated using a\n"
 					"normal approximation, so it is\n"
 					"only valid for large samples of\n"
 					"at least 15 observations in each\n"

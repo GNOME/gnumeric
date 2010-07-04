@@ -1,3 +1,7 @@
+2010-07-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-wilcoxon-mann-whitney.c: fix typo
+
 2010-07-03  Morten Welinder  <terra@gnome.org>
 
 	* gnm-solver.c (gnm_sub_solver_locate_binary): New function.

@@ -607,7 +607,7 @@
 	<default>FALSE</default>
         <locale name="C">
         <short>Search &amp; Replace Preserves Case</short>
-        <long>Search &amp; Replace preservess case as default</long>
+        <long>Search &amp; Replace preserves case as default</long>
         </locale>
       </schema>
       <schema>
