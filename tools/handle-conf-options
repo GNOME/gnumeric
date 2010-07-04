@@ -358,9 +358,10 @@ sub create_hcfile {
 	    $needs_conf = 1;
 	}
 
+	my $get_conf_code = "";
 	if ($needs_conf) {
 	    &make_get_conf_node ("$watch_name.key", $var, "node",
-				 \$hfile, \$cfile);
+				 \$hfile, \$get_conf_code);
 	}
 	$hfile .= "${ctypes}gnm_conf_get_$var (void);\n";
 	$hfile .= "void gnm_conf_set_$var ($ctype);\n\n";
@@ -470,6 +471,8 @@ sub create_hcfile {
 	} else {
 	    die "$0: Unhandled type $type\n";
 	}
+
+	$cfile .= $get_conf_code;
     }
 
     for my $dir (sort keys %dirs) {
