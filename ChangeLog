@@ -1,5 +1,15 @@
 2010-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/commands.c (cmd_objects_move): simplify
+	* src/sheet-control-gui.h (scg_objects_drag_commit): add arguments
+	* src/sheet-control-gui.c (scg_objects_drag_commit): add arguments 
+	  to return GOUndo items and change all callers
+	(scg_objects_drag_commit_get_undo_text): new (code from
+	  scg_objects_drag_commit)
+	(scg_drag_receive_same_process): combine the undos before committing
+
+2010-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/commands.c (cmd_objects_move): move most code into
 	  sheet_object_move_undo and sheet_object_move_do
 	* src/sheet-object.h (sheet_object_move_undo): new

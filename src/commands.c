@@ -4448,28 +4448,19 @@ cmd_objects_move (WorkbookControl *wbc, GSList *objects, GSList *anchors,
 {
 	GOUndo *undo = NULL;
 	GOUndo *redo = NULL;
-	gboolean result;
+	gboolean result = TRUE;
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
 
 	undo = sheet_object_move_undo (objects, objects_created);
 	redo = sheet_object_move_do (objects, anchors, objects_created);
 
-	if (undo == NULL || redo == NULL) {
-		if (undo) g_object_unref (undo);
-		if (redo) g_object_unref (redo);
-		return TRUE;
-	}
-
 	result = cmd_generic (wbc, name, undo, redo);
 	
-	if (result)
-		return TRUE;
-
 	g_slist_free (objects);
 	go_slist_free_custom (anchors, g_free);
 
-	return FALSE;
+	return result;
 }
 
 /******************************************************************/

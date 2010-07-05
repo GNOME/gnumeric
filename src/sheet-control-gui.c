@@ -2470,20 +2470,11 @@ cb_collect_objects_to_commit (SheetObject *so, double *coords, CollectObjectsDat
 	}
 }
 
-void
-scg_objects_drag_commit (SheetControlGUI *scg, int drag_type,
-			 gboolean created_objects)
+static char *
+scg_objects_drag_commit_get_undo_text (int drag_type, int n, 
+				       gboolean created_objects)
 {
-	CollectObjectsData data;
-	int n;
-	char *text;
 	char const *format;
-
-	data.objects = data.anchors = NULL;
-	data.scg = scg;
-	g_hash_table_foreach (scg->selected_objects,
-		(GHFunc) cb_collect_objects_to_commit, &data);
-	n = g_slist_length (data.objects);
 	
 	if (created_objects) {
 		if (drag_type == 8)
@@ -2501,10 +2492,42 @@ scg_objects_drag_commit (SheetControlGUI *scg, int drag_type,
 			format = ngettext ("Resize %d Object", "Resize %d Objects", n); 			
 	}
 	
-	text = g_strdup_printf (format, n);
-	cmd_objects_move (WORKBOOK_CONTROL (scg_wbcg (scg)),
-		data.objects, data.anchors, created_objects, text);
-	g_free (text);
+	return g_strdup_printf (format, n);
+
+}
+
+void
+scg_objects_drag_commit (SheetControlGUI *scg, int drag_type,
+			 gboolean created_objects,
+			 GOUndo **pundo, GOUndo **predo, gchar **undo_title)
+{
+	CollectObjectsData data;
+	char *text = NULL;
+	GOUndo *undo = NULL;
+	GOUndo *redo = NULL;
+
+	data.objects = data.anchors = NULL;
+	data.scg = scg;
+	g_hash_table_foreach (scg->selected_objects,
+		(GHFunc) cb_collect_objects_to_commit, &data);
+
+	undo = sheet_object_move_undo (data.objects, created_objects);
+	redo = sheet_object_move_do (data.objects, data.anchors, created_objects);
+	text = scg_objects_drag_commit_get_undo_text 
+		(drag_type,  g_slist_length (data.objects), created_objects);
+	
+	if (pundo && predo) {
+		*pundo = undo;
+		*predo = redo;
+		if (undo_title)
+			*undo_title = text;	
+	} else {
+		cmd_generic (WORKBOOK_CONTROL (scg_wbcg (scg)), 
+			     text, undo, redo);
+		g_free (text);
+	}
+	g_slist_free (data.objects);
+	go_slist_free_custom (data.anchors, g_free);
 }
 
 void
@@ -2514,7 +2537,7 @@ scg_objects_nudge (SheetControlGUI *scg, GnmPane *pane,
 	/* no nudging if we are creating an object */
 	if (!scg->wbcg->new_object) {
 		scg_objects_drag (scg, pane, NULL, &dx, &dy, drag_type, symmetric, snap_to_grid, FALSE);
-		scg_objects_drag_commit (scg, drag_type, FALSE);
+		scg_objects_drag_commit (scg, drag_type, FALSE, NULL, NULL, NULL);
 	}
 }
 
@@ -3353,7 +3376,7 @@ scg_image_create (SheetControlGUI *scg, SheetObjectAnchor *anchor,
 	scg_object_select (scg, so);
 	sheet_object_default_size (so, &w, &h);
 	scg_objects_drag (scg, NULL, NULL, &w, &h, 7, FALSE, FALSE, FALSE);
-	scg_objects_drag_commit	(scg, 7, TRUE);
+	scg_objects_drag_commit	(scg, 7, TRUE, NULL, NULL, NULL);
 }
 
 void
@@ -3536,6 +3559,9 @@ scg_drag_receive_same_process (SheetControlGUI *scg, GtkWidget *source_widget,
 		int xx = x, yy = y;
 		int origin_x = 0, origin_y = 0;
 		gboolean make_dup;
+		GOUndo *undo = NULL;
+		GOUndo *redo = NULL;
+		gchar *title = NULL;
 
 		window = gtk_widget_get_parent_window (GTK_WIDGET (pane));
 		gdk_window_get_pointer (window, NULL, NULL, &mask);
@@ -3555,10 +3581,13 @@ scg_drag_receive_same_process (SheetControlGUI *scg, GtkWidget *source_widget,
 				       (mask & GDK_SHIFT_MASK) != 0);
 		pane->drag.origin_x = pane->drag.last_x;
 		pane->drag.origin_y = pane->drag.last_y;
-		scg_objects_drag_commit	(scg, 8, make_dup);
+		scg_objects_drag_commit	(scg, 8, make_dup, &undo, &redo, &title);
 
 		if (make_dup) {
 			GSList *ptr, *objs = go_hash_keys (scg->selected_objects);
+			GOUndo *nudge_undo = NULL;
+			GOUndo *nudge_redo = NULL;
+			double dx, dy;
 
 			for (ptr = objs ; ptr != NULL ; ptr = ptr->next) {
 				SheetObject *dup_obj = sheet_object_dup (ptr->data);
@@ -3570,8 +3599,15 @@ scg_drag_receive_same_process (SheetControlGUI *scg, GtkWidget *source_widget,
 				}
 			}
 			g_slist_free (objs);
-			scg_objects_nudge (scg, pane, 8, x - origin_x, y - origin_y, FALSE, FALSE);
+			dx = x - origin_x;
+			dy = y - origin_y;
+			scg_objects_drag (scg, pane, NULL, &dx, &dy, 8, FALSE, FALSE, FALSE);
+			scg_objects_drag_commit (scg, 8, FALSE, &nudge_undo, &nudge_redo, NULL);
+			undo = go_undo_combine (undo, nudge_undo);
+			redo = go_undo_combine (nudge_redo, redo);
 		}
+		cmd_generic (WORKBOOK_CONTROL (scg_wbcg (scg)), title, undo, redo);
+		g_free (title);
 	} else {
 		GnmCellRegion *content;
 		GSList *objects;
