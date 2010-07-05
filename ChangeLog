@@ -1,5 +1,17 @@
 2010-07-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/commands.c (cmd_autofilter_add_remove): handle extension of
+	  an existing autofilter.
+	* src/sheet-filter.h (gnm_sheet_filter_can_be_extended): new
+	* src/sheet-filter.c (gnm_sheet_filter_can_be_extended): new
+	* src/sheet-view.h (sv_selection_extends_filter): new
+	* src/sheet-view.c (sv_selection_extends_filter): new
+	(sv_selection_intersects_filter_rows): add qualifier
+	* src/wbc-gtk.c (wbcg_menu_state_update): check whether auto filter
+	  can be extended
+
+2010-07-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/commands.c (CMD_AUTOFILTER_ADD_REMOVE): delete
 	(cmd_autofilter_add_remove_*): delete
 	(cmd_autofilter_add_remove): rewrite using cmd_generic (prep for

@@ -693,13 +693,32 @@ sv_editpos_in_filter (SheetView const *sv)
 GnmFilter *
 sv_selection_intersects_filter_rows (SheetView const *sv)
 {
-	GnmRange *r;
+	GnmRange const *r;
 	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
 	r = selection_first_range (sv, NULL, NULL);
 
 	return gnm_sheet_filter_intersect_rows 
 		(sv->sheet, r->start.row, r->end.row);
 }
+
+/**
+ * sv_selection_extends_filter:
+ * @sv : #SheetView
+ *
+ * Returns: %NULL or GnmFilter whose rows intersect the rows
+ *          of the current selectiona range to which the filter can be 
+ *          extended.
+ **/
+GnmRange *
+sv_selection_extends_filter (SheetView const *sv, GnmFilter const *f)
+{
+	GnmRange const *r;
+	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
+	r = selection_first_range (sv, NULL, NULL);
+
+	return gnm_sheet_filter_can_be_extended (sv->sheet, f, r);
+}
+
 
 
 

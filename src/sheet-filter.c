@@ -884,6 +884,20 @@ gnm_sheet_filter_intersect_rows (Sheet const *sheet, int from, int to)
 	return NULL;
 }
 
+GnmRange *
+gnm_sheet_filter_can_be_extended (Sheet const *sheet, GnmFilter const *f,
+				  GnmRange const *r)
+{
+	if (r->start.row < f->r.start.row || r->end.row > f->r.end.row)
+		return NULL;
+	if ((r->end.col > f->r.end.col) ||
+	    (r->start.col < f->r.start.col)) {
+		GnmRange *res = g_new (GnmRange, 1);
+		*res = range_union (&f->r, r);
+		return res;
+	}
+	return NULL;
+}
 
 
 /*************************************************************************/

@@ -1577,14 +1577,31 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 		char const* label;
 		char const *new_tip;
 		gboolean active = TRUE;
+		GnmRange *r = NULL;
 
 		if ((!has_filter) && (NULL != f)) {
-			gchar *nlabel;
-			active = FALSE;
-			nlabel = g_strdup_printf (_("_Auto Filter blocked by %s"), 
-						  range_as_string (&f->r));
-			new_tip = _("The selection intersects an existing auto filter.");
-			wbc_gtk_set_action_label (wbcg, "DataAutoFilter", NULL, nlabel, new_tip);
+			gchar *nlabel = NULL;
+			if (NULL != (r = sv_selection_extends_filter (sv, f))) {
+				active = TRUE;
+				nlabel = g_strdup_printf 
+					(_("Extend _Auto Filter to %s"), 
+					 range_as_string (r));
+				new_tip = _("Extend the existing filter.");
+				wbc_gtk_set_action_label 
+					(wbcg, "DataAutoFilter", NULL, 
+					 nlabel, new_tip);
+				g_free (r);
+			} else {
+				active = FALSE;
+				nlabel = g_strdup_printf 
+					(_("Auto Filter blocked by %s"), 
+					 range_as_string (&f->r));
+				new_tip = _("The selection intersects an"
+					    "existing auto filter.");
+				wbc_gtk_set_action_label 
+					(wbcg, "DataAutoFilter", NULL, 
+					 nlabel, new_tip);
+			}
 			g_free (nlabel);
 		} else {
 			label = has_filter

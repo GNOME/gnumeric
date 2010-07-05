@@ -7536,21 +7536,57 @@ cmd_autofilter_add_remove (WorkbookControl *wbc)
 		GnmRange region;
 		GnmRange const *src = selection_first_range (sv,
 			GO_CMD_CONTEXT (wbc), _("Add Filter"));
+		GnmFilter *f_old = NULL;
 
 		if (src == NULL)
 			return TRUE;
 
-		/* only one row selected -- assume that the user wants to
-		 * filter the region below this row. */
-		region = *src;
-		if (src->start.row == src->end.row)
-			gnm_sheet_guess_region  (sv->sheet, &region);
-		if (region.start.row == region.end.row) {
-			go_cmd_context_error_invalid
-				(GO_CMD_CONTEXT (wbc),
-				 _("AutoFilter"),
-				 _("Requires more than 1 row"));
-			return TRUE;
+		f_old = gnm_sheet_filter_intersect_rows 
+			(sv->sheet, src->start.row, src->end.row);
+
+		if (f_old != NULL) {
+			GnmRange *r = gnm_sheet_filter_can_be_extended 
+				(sv->sheet, f_old, src);
+			if (r == NULL) {
+				char *error;
+				name = undo_range_name (sv->sheet, &(f_old->r));
+				error = g_strdup_printf 
+					(_("Auto Filter blocked by %s"),
+					 name);
+				g_free(name);
+				go_cmd_context_error_invalid
+					(GO_CMD_CONTEXT (wbc),
+					 _("AutoFilter"), error);
+				g_free (error);
+				return TRUE;
+			}
+			/* extending existing filter. */
+			undo = go_undo_binary_new 
+				(gnm_filter_ref (f_old), sv->sheet, 
+				 (GOUndoBinaryFunc) gnm_filter_attach,
+				 (GFreeFunc) gnm_filter_unref,
+				 NULL);
+			redo = go_undo_unary_new
+				(gnm_filter_ref (f_old), 
+				 (GOUndoUnaryFunc) gnm_filter_remove,
+				 (GFreeFunc) gnm_filter_unref);
+			gnm_filter_remove (f_old);
+			region = *r;
+			g_free (r);
+		} else {
+			/* if only one row is selected
+			 * assume that the user wants to
+			 * filter the region below this row. */
+			region = *src;
+			if (src->start.row == src->end.row)
+				gnm_sheet_guess_region  (sv->sheet, &region);
+			if (region.start.row == region.end.row) {
+				go_cmd_context_error_invalid
+					(GO_CMD_CONTEXT (wbc),
+					 _("AutoFilter"),
+					 _("Requires more than 1 row"));
+				return TRUE;
+			}
 		}
 		f = gnm_filter_new (sv->sheet, &region);
 		if (f == NULL) {
@@ -7558,23 +7594,31 @@ cmd_autofilter_add_remove (WorkbookControl *wbc)
 				(GO_CMD_CONTEXT (wbc),
 				 _("AutoFilter"),
 				 _("Unable to create Autofilter"));
+			if (f_old)
+				gnm_filter_attach (f_old, sv->sheet);
 			return TRUE;
 		}
-		gnm_filter_remove (f);
 
-		redo = go_undo_binary_new 
-			(gnm_filter_ref (f), sv->sheet, 
-			 (GOUndoBinaryFunc) gnm_filter_attach,
-			 (GFreeFunc) gnm_filter_unref,
-			 NULL);
-		undo = go_undo_unary_new
-			(f, 
-			 (GOUndoUnaryFunc) gnm_filter_remove,
-			 (GFreeFunc) gnm_filter_unref);
-		
+		gnm_filter_remove (f);
+		if (f_old)
+			gnm_filter_attach (f_old, sv->sheet);
+			
+		redo = go_undo_combine (go_undo_binary_new 
+					(gnm_filter_ref (f), sv->sheet, 
+					 (GOUndoBinaryFunc) gnm_filter_attach,
+					 (GFreeFunc) gnm_filter_unref,
+					 NULL), redo);
+		undo = go_undo_combine (undo,
+					go_undo_unary_new
+					(f, 
+					 (GOUndoUnaryFunc) gnm_filter_remove,
+					 (GFreeFunc) gnm_filter_unref));
+					
 		name = undo_range_name (sv->sheet, &(f->r));
-		descr = g_strdup_printf (_("Add Autofilter to %s"),
-					 name);
+		descr = g_strdup_printf 
+			((f_old == NULL) ? _("Add Autofilter to %s")
+			 : _("Extend Autofilter to %s"),
+			 name);
 	} else {
 		undo = go_undo_binary_new 
 			(gnm_filter_ref (f), sv->sheet, 
