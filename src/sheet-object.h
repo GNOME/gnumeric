@@ -104,6 +104,9 @@ void	sheet_objects_relocate   (GnmExprRelocateInfo const *rinfo,
 				  gboolean update, GOUndo **pundo);
 void    sheet_objects_clear      (Sheet const *sheet, GnmRange const *r,
 				  GType t, GOUndo **pundo);
+GOUndo *sheet_object_move_undo   (GSList *objects, gboolean objects_created);
+GOUndo *sheet_object_move_do     (GSList *objects, GSList *anchors, 
+				  gboolean objects_created);
 GSList *sheet_objects_get        (Sheet const *sheet, GnmRange const *r,
 				  GType t);
 void    sheet_objects_dup	 (Sheet const *src, Sheet *dst, GnmRange *range);

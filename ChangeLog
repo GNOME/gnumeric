@@ -1,5 +1,14 @@
 2010-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/commands.c (cmd_objects_move): move most code into
+	  sheet_object_move_undo and sheet_object_move_do
+	* src/sheet-object.h (sheet_object_move_undo): new
+	(sheet_object_move_do): new
+	* src/sheet-object.c (sheet_object_move_undo): new
+	(sheet_object_move_do): new
+
+2010-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/sheet-control-gui.c (scg_objects_drag_commit): simplify slightly
 	(scg_drag_receive_same_process): pass the correct argument to 
 	  scg_objects_drag_commit

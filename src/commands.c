@@ -4448,56 +4448,28 @@ cmd_objects_move (WorkbookControl *wbc, GSList *objects, GSList *anchors,
 {
 	GOUndo *undo = NULL;
 	GOUndo *redo = NULL;
-	GSList *objs = objects, *anchs = anchors;
+	gboolean result;
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
-	g_return_val_if_fail (NULL != objects, TRUE);
-	g_return_val_if_fail (NULL != anchors, TRUE);
-	g_return_val_if_fail (g_slist_length (objects) == g_slist_length (anchors), TRUE);
 
-	/*
-	 * There is no need to move the object around, because this has
-	 * already happened.
-	 */
+	undo = sheet_object_move_undo (objects, objects_created);
+	redo = sheet_object_move_do (objects, anchors, objects_created);
 
-	for (; objs && anchs; objs = objs->next, anchs = anchs->next) {
-		SheetObject *obj = objs->data;
-		SheetObjectAnchor *anch = anchs->data;
-		SheetObjectAnchor *tmp;
-
-		if (objects_created) {
-			undo = go_undo_combine 
-				(undo, 
-				 go_undo_unary_new 
-				 (g_object_ref (obj), 
-				  (GOUndoUnaryFunc) sheet_object_clear_sheet,
-				  (GFreeFunc) g_object_unref));
-			redo = go_undo_combine 
-				(redo,
-				 go_undo_binary_new (g_object_ref (obj), 
-						     sheet_object_get_sheet (obj),
-						     (GOUndoBinaryFunc) sheet_object_set_sheet,
-						     (GFreeFunc) g_object_unref,
-						     NULL));
-		}
-		
-		tmp = g_new (SheetObjectAnchor, 1);
-		*tmp = *sheet_object_get_anchor (obj);
-		undo = go_undo_combine 
-			(undo, go_undo_binary_new (g_object_ref (obj), tmp, 
-						   (GOUndoBinaryFunc) sheet_object_set_anchor,
-						   (GFreeFunc) g_object_unref,
-						   (GFreeFunc) g_free));
-		redo = go_undo_combine 
-			(go_undo_binary_new (g_object_ref (obj), anch, 
-					     (GOUndoBinaryFunc) sheet_object_set_anchor,
-					     (GFreeFunc) g_object_unref,
-					     (GFreeFunc) g_free), redo);
+	if (undo == NULL || redo == NULL) {
+		if (undo) g_object_unref (undo);
+		if (redo) g_object_unref (redo);
+		return TRUE;
 	}
-	g_slist_free (objects);
-	g_slist_free (anchors);
 
-	return cmd_generic (wbc, name, undo, redo);
+	result = cmd_generic (wbc, name, undo, redo);
+	
+	if (result)
+		return TRUE;
+
+	g_slist_free (objects);
+	go_slist_free_custom (anchors, g_free);
+
+	return FALSE;
 }
 
 /******************************************************************/
