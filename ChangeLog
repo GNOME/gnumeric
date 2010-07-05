@@ -1,5 +1,12 @@
 2010-07-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/commands.c (CMD_AUTOFILTER_ADD_REMOVE): delete
+	(cmd_autofilter_add_remove_*): delete
+	(cmd_autofilter_add_remove): rewrite using cmd_generic (prep for
+	  enhancement request #607086)
+
+2010-07-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/sheet-filter.h (gnm_sheet_filter_intersect_rows): new
 	* src/sheet-filter.c (gnm_sheet_filter_intersect_rows): new
 	* src/sheet-view.h (sv_selection_intersects_filter_rows): new

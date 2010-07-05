@@ -7520,63 +7520,17 @@ cmd_so_set_adjustment (WorkbookControl *wbc,
 
 /******************************************************************/
 
-#define CMD_AUTOFILTER_ADD_REMOVE_TYPE        (cmd_autofilter_add_remove_get_type ())
-#define CMD_AUTOFILTER_ADD_REMOVE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_AUTOFILTER_ADD_REMOVE_TYPE, CmdAutofilterAddRemove))
-
-typedef struct {
-	GnmCommand cmd;
-	
-	GnmFilter *filter;
-	gboolean   add;
-} CmdAutofilterAddRemove;
-
-MAKE_GNM_COMMAND (CmdAutofilterAddRemove, cmd_autofilter_add_remove, NULL)
-
-static gboolean
-cmd_autofilter_add_remove_impl (CmdAutofilterAddRemove *me, gboolean add)
-{
-	if (add)
-		gnm_filter_attach (me->filter, me->cmd.sheet);
-	else
-		gnm_filter_remove (me->filter);	
-
-	return FALSE;
-}
-
-
-static gboolean
-cmd_autofilter_add_remove_undo (GnmCommand *cmd, WorkbookControl *wbc)
-{
-	CmdAutofilterAddRemove *me = CMD_AUTOFILTER_ADD_REMOVE (cmd);
-
-	return cmd_autofilter_add_remove_impl (me, !me->add);
-}
-
-static gboolean
-cmd_autofilter_add_remove_redo (GnmCommand *cmd, WorkbookControl *wbc)
-{
-	CmdAutofilterAddRemove *me = CMD_AUTOFILTER_ADD_REMOVE (cmd);
-
-	return cmd_autofilter_add_remove_impl (me, me->add);
-}
-
-static void
-cmd_autofilter_add_remove_finalize (GObject *cmd)
-{
-	CmdAutofilterAddRemove *me = CMD_AUTOFILTER_ADD_REMOVE (cmd);
-
-	gnm_filter_unref (me->filter);
-	gnm_command_finalize (cmd);
-}
-
 gboolean
 cmd_autofilter_add_remove (WorkbookControl *wbc)
 {
-	CmdAutofilterAddRemove *me;
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	GnmFilter *f = sv_editpos_in_filter (sv);
 	gboolean add = (f == NULL);
-	char *descr;
+	char *descr = NULL, *name = NULL;
+	GOUndo *undo = NULL;
+	GOUndo *redo = NULL;
+	gboolean result;
+	
 
 	if (add) {
 		GnmRange region;
@@ -7608,32 +7562,38 @@ cmd_autofilter_add_remove (WorkbookControl *wbc)
 		}
 		gnm_filter_remove (f);
 
+		redo = go_undo_binary_new 
+			(gnm_filter_ref (f), sv->sheet, 
+			 (GOUndoBinaryFunc) gnm_filter_attach,
+			 (GFreeFunc) gnm_filter_unref,
+			 NULL);
+		undo = go_undo_unary_new
+			(f, 
+			 (GOUndoUnaryFunc) gnm_filter_remove,
+			 (GFreeFunc) gnm_filter_unref);
+		
+		name = undo_range_name (sv->sheet, &(f->r));
 		descr = g_strdup_printf (_("Add Autofilter to %s"),
-					 range_as_string (&(f->r)));
+					 name);
 	} else {
-		/*
-		 * Removing a filter.
-		 * This actual removal is in the redo handler.
-		 */
+		undo = go_undo_binary_new 
+			(gnm_filter_ref (f), sv->sheet, 
+			 (GOUndoBinaryFunc) gnm_filter_attach,
+			 (GFreeFunc) gnm_filter_unref,
+			 NULL);
+		redo = go_undo_unary_new
+			(gnm_filter_ref (f), 
+			 (GOUndoUnaryFunc) gnm_filter_remove,
+			 (GFreeFunc) gnm_filter_unref);
+		name = undo_range_name (sv->sheet, &(f->r));
 		descr = g_strdup_printf (_("Remove Autofilter from %s"),
-					 range_as_string (&(f->r)));
+					 name);
 	}
+	result = cmd_generic (wbc, descr, undo, redo);
+	g_free (name);
+	g_free (descr);
 
-	me = g_object_new (CMD_AUTOFILTER_ADD_REMOVE_TYPE, NULL);
-
-	me->cmd.sheet = sv->sheet;
-	me->cmd.size = 1;
-	me->cmd.cmd_descriptor = descr;
-
-	me->filter = f;
-	me->add = add;
-
-	sheet_redraw_all (sv->sheet, TRUE);
-
-	sheet_mark_dirty (sv->sheet);
-	sheet_update (sv->sheet);
-
-	return gnm_command_push_undo (wbc, G_OBJECT (me));
+	return result;
 }
 
 

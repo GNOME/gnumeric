@@ -826,7 +826,7 @@ clear_sheet (SheetObject *so, GOUndo **pundo)
 			(g_object_ref (so),
 			 so->sheet,
 			 (GOUndoBinaryFunc)sheet_object_set_sheet,
-			 g_object_unref,
+			 (GFreeFunc) g_object_unref,
 			 NULL);
 		*pundo = go_undo_combine (*pundo, u);
 	}
