@@ -372,7 +372,7 @@
 	    <!-- <dep package="lp_solve"/> -->
 	    <!-- <dep package="psiconv"/> -->
 	    <dep package="pxlib"/>
-	    <dep package="pygobject"/>
+	    <!-- <dep package="pygobject"/> -->
 	</suggests>
     </autotools>
 </moduleset>

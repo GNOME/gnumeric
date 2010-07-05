@@ -1,8 +1,8 @@
 #!/bin/sh
 
 # configurable settings
-py_ver=26
-py_pkg_ver=2.6.4
+#py_ver=26
+#py_pkg_ver=2.6.4
 
 ###################################################
 builddir="$1"
@@ -70,19 +70,21 @@ setup_html_help() {
 
     build_mkdir "${archive_dir}"
 
+    if [ "x$py_ver" != "x" ]; then
 # Setup Python
-    py_pkg="${archive_dir}/python-${py_pkg_ver}.msi"
+       py_pkg="${archive_dir}/python-${py_pkg_ver}.msi"
 
-    if [ ! -f "$py_pkg" ]; then
-	( download "http://www.python.org/ftp/python/${py_pkg_ver}/python-${py_pkg_ver}.msi" )
+       if [ ! -f "$py_pkg" ]; then
+	   ( download "http://www.python.org/ftp/python/${py_pkg_ver}/python-${py_pkg_ver}.msi" )
+       fi
+       if [ ! -d "${WINEDIR}/Python${py_ver}" ]; then
+	   echo wine msiexec /i ${py_pkg}
+	   wine msiexec /i ${py_pkg}
+       fi
+       build_ls_s "${WINEDIR}/Python${py_ver}"			 	"Python${py_ver}" 
+       build_ls_s "${WINEDIR}/windows/system32/python${py_ver}.dll" 	"bin/python${py_ver}.dll"
+       build_ls_s "${WINEDIR}/Python${py_ver}/libs/libpython${py_ver}.a"	"lib/libpython${py_ver}.dll.a"
     fi
-    if [ ! -d "${WINEDIR}/Python${py_ver}" ]; then
-	echo wine msiexec /i ${py_pkg}
-	wine msiexec /i ${py_pkg}
-    fi
-    build_ls_s "${WINEDIR}/Python${py_ver}"			 	"Python${py_ver}" 
-    build_ls_s "${WINEDIR}/windows/system32/python${py_ver}.dll" 	"bin/python${py_ver}.dll"
-    build_ls_s "${WINEDIR}/Python${py_ver}/libs/libpython${py_ver}.a"	"lib/libpython${py_ver}.dll.a"
 
 # Download HTML Help
     if [ ! -f "${archive_dir}/htmlhelp.exe" ]; then
