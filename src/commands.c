@@ -4442,67 +4442,13 @@ cmd_objects_delete (WorkbookControl *wbc, GSList *objects,
 
 /******************************************************************/
 
-#define CMD_OBJECTS_MOVE_TYPE (cmd_objects_move_get_type ())
-#define CMD_OBJECTS_MOVE(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_OBJECTS_MOVE_TYPE, CmdObjectsMove))
-
-typedef struct {
-	GnmCommand cmd;
-	GSList *objects;
-	GSList *anchors;
-	gboolean objects_created, first_time;
-} CmdObjectsMove;
-
-MAKE_GNM_COMMAND (CmdObjectsMove, cmd_objects_move, NULL)
-
-static gboolean
-cmd_objects_move_redo (GnmCommand *cmd,
-		       G_GNUC_UNUSED WorkbookControl *wbc)
-{
-	CmdObjectsMove *me = CMD_OBJECTS_MOVE (cmd);
-	GSList *objs = me->objects, *anchs = me->anchors;
-
-	for (; objs && anchs; objs = objs->next, anchs = anchs->next) {
-		SheetObject *obj = objs->data;
-		SheetObjectAnchor *anch = anchs->data;
-		SheetObjectAnchor tmp;
-
-		/* If these were newly created objects remove them on undo and
-		 * re-insert on subsequent redos */
-		if (me->objects_created && !me->first_time) {
-			if (NULL != sheet_object_get_sheet (obj))
-				sheet_object_clear_sheet (obj);
-			else
-				sheet_object_set_sheet (obj, cmd->sheet);
-		}
-		tmp = *sheet_object_get_anchor (obj);
-		sheet_object_set_anchor	(obj, anch);
-		*anch = tmp;
-	}
-	me->first_time = FALSE;
-
-	return FALSE;
-}
-
-static gboolean
-cmd_objects_move_undo (GnmCommand *cmd, WorkbookControl *wbc)
-{
-	return cmd_objects_move_redo (cmd, wbc);
-}
-
-static void
-cmd_objects_move_finalize (GObject *cmd)
-{
-	CmdObjectsMove *me = CMD_OBJECTS_MOVE (cmd);
-	go_slist_free_custom (me->objects, g_object_unref);
-	go_slist_free_custom (me->anchors, g_free);
-	gnm_command_finalize (cmd);
-}
-
 gboolean
 cmd_objects_move (WorkbookControl *wbc, GSList *objects, GSList *anchors,
 		  gboolean objects_created, char const *name)
 {
-	CmdObjectsMove *me;
+	GOUndo *undo = NULL;
+	GOUndo *redo = NULL;
+	GSList *objs = objects, *anchs = anchors;
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
 	g_return_val_if_fail (NULL != objects, TRUE);
@@ -4514,19 +4460,44 @@ cmd_objects_move (WorkbookControl *wbc, GSList *objects, GSList *anchors,
 	 * already happened.
 	 */
 
-	me = g_object_new (CMD_OBJECTS_MOVE_TYPE, NULL);
+	for (; objs && anchs; objs = objs->next, anchs = anchs->next) {
+		SheetObject *obj = objs->data;
+		SheetObjectAnchor *anch = anchs->data;
+		SheetObjectAnchor *tmp;
 
-	me->first_time = TRUE;
-	me->objects_created  = objects_created;
-	me->objects = objects;
-	g_slist_foreach (me->objects, (GFunc) g_object_ref, NULL);
-	me->anchors = anchors;
+		if (objects_created) {
+			undo = go_undo_combine 
+				(undo, 
+				 go_undo_unary_new 
+				 (g_object_ref (obj), 
+				  (GOUndoUnaryFunc) sheet_object_clear_sheet,
+				  (GFreeFunc) g_object_unref));
+			redo = go_undo_combine 
+				(redo,
+				 go_undo_binary_new (g_object_ref (obj), 
+						     sheet_object_get_sheet (obj),
+						     (GOUndoBinaryFunc) sheet_object_set_sheet,
+						     (GFreeFunc) g_object_unref,
+						     NULL));
+		}
+		
+		tmp = g_new (SheetObjectAnchor, 1);
+		*tmp = *sheet_object_get_anchor (obj);
+		undo = go_undo_combine 
+			(undo, go_undo_binary_new (g_object_ref (obj), tmp, 
+						   (GOUndoBinaryFunc) sheet_object_set_anchor,
+						   (GFreeFunc) g_object_unref,
+						   (GFreeFunc) g_free));
+		redo = go_undo_combine 
+			(go_undo_binary_new (g_object_ref (obj), anch, 
+					     (GOUndoBinaryFunc) sheet_object_set_anchor,
+					     (GFreeFunc) g_object_unref,
+					     (GFreeFunc) g_free), redo);
+	}
+	g_slist_free (objects);
+	g_slist_free (anchors);
 
-	me->cmd.sheet = sheet_object_get_sheet (objects->data);
-	me->cmd.size = 1;
-	me->cmd.cmd_descriptor = g_strdup (name);
-
-	return gnm_command_push_undo (wbc, G_OBJECT (me));
+	return cmd_generic (wbc, name, undo, redo);
 }
 
 /******************************************************************/

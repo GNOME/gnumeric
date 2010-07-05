@@ -455,6 +455,10 @@ sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
 {
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+	
+	if (sheet == so->sheet)
+		return FALSE;
+
 	g_return_val_if_fail (so->sheet == NULL, TRUE);
 	g_return_val_if_fail (g_slist_find (sheet->sheet_objects, so) == NULL, TRUE);
 

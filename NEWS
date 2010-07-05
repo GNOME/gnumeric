@@ -8,6 +8,7 @@ Andreas:
 	* Improve function syntax tooltips. [#623317]
 	* Add weekend specifier to WORKDAY and NETWORKDAYS. [#172458]
 	* Fix ngettext usage.
+	* Fix undo text for sheet object duplication. [#623557]
 
 Morten:
 	* Ask user to locate solver binaries when plain search fails.

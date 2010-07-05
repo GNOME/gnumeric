@@ -1,5 +1,16 @@
 2010-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/sheet-control-gui.c (scg_objects_drag_commit): simplify slightly
+	(scg_drag_receive_same_process): pass the correct argument to 
+	  scg_objects_drag_commit
+	* src/sheet-object.c (sheet_object_set_sheet): don't complain if the oject
+	  is already set to this sheet.
+	* src/commands.c (CMD_OBJECTS_MOVE): delete
+	(cmd_objects_move_*): delete
+	(cmd_objects_move): rewrite using GOUndo
+
+2010-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/sheet-control-gui.c (scg_objects_drag_commit): don't be cheesy, ie.
 	  use ngettext.
 

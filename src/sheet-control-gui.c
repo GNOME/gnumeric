@@ -2477,6 +2477,7 @@ scg_objects_drag_commit (SheetControlGUI *scg, int drag_type,
 	CollectObjectsData data;
 	int n;
 	char *text;
+	char const *format;
 
 	data.objects = data.anchors = NULL;
 	data.scg = scg;
@@ -2487,19 +2488,20 @@ scg_objects_drag_commit (SheetControlGUI *scg, int drag_type,
 	if (created_objects) {
 		if (drag_type == 8)
 			/* xgettext : %d gives the number of objects. This is input to ngettext. */
-			text = g_strdup_printf (ngettext ("Duplicate %d Object", "Duplicate %d Objects", n), n); 
+			format = ngettext ("Duplicate %d Object", "Duplicate %d Objects", n); 
 		else
 			/* xgettext : %d gives the number of objects. This is input to ngettext. */
-			text = g_strdup_printf (ngettext ("Insert %d Object", "Insert %d Objects", n), n); 			
+			format = ngettext ("Insert %d Object", "Insert %d Objects", n); 			
 	} else {
 		if (drag_type == 8)
 			/* xgettext : %d gives the number of objects. This is input to ngettext. */
-			text = g_strdup_printf (ngettext ("Move %d Object", "Move %d Objects", n), n); 
+			format = ngettext ("Move %d Object", "Move %d Objects", n); 
 		else
 			/* xgettext : %d gives the number of objects. This is input to ngettext. */
-			text = g_strdup_printf (ngettext ("Resize %d Object", "Resize %d Objects", n), n); 			
+			format = ngettext ("Resize %d Object", "Resize %d Objects", n); 			
 	}
 	
+	text = g_strdup_printf (format, n);
 	cmd_objects_move (WORKBOOK_CONTROL (scg_wbcg (scg)),
 		data.objects, data.anchors, created_objects, text);
 	g_free (text);
@@ -3553,7 +3555,7 @@ scg_drag_receive_same_process (SheetControlGUI *scg, GtkWidget *source_widget,
 				       (mask & GDK_SHIFT_MASK) != 0);
 		pane->drag.origin_x = pane->drag.last_x;
 		pane->drag.origin_y = pane->drag.last_y;
-		scg_objects_drag_commit	(scg, 8, FALSE);
+		scg_objects_drag_commit	(scg, 8, make_dup);
 
 		if (make_dup) {
 			GSList *ptr, *objs = go_hash_keys (scg->selected_objects);
