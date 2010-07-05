@@ -3581,7 +3581,6 @@ scg_drag_receive_same_process (SheetControlGUI *scg, GtkWidget *source_widget,
 				       (mask & GDK_SHIFT_MASK) != 0);
 		pane->drag.origin_x = pane->drag.last_x;
 		pane->drag.origin_y = pane->drag.last_y;
-		scg_objects_drag_commit	(scg, 8, make_dup, &undo, &redo, &title);
 
 		if (make_dup) {
 			GSList *ptr, *objs = go_hash_keys (scg->selected_objects);
@@ -3599,13 +3598,15 @@ scg_drag_receive_same_process (SheetControlGUI *scg, GtkWidget *source_widget,
 				}
 			}
 			g_slist_free (objs);
+			scg_objects_drag_commit	(scg, 8, TRUE, &undo, &redo, &title);
 			dx = x - origin_x;
 			dy = y - origin_y;
 			scg_objects_drag (scg, pane, NULL, &dx, &dy, 8, FALSE, FALSE, FALSE);
 			scg_objects_drag_commit (scg, 8, FALSE, &nudge_undo, &nudge_redo, NULL);
 			undo = go_undo_combine (undo, nudge_undo);
 			redo = go_undo_combine (nudge_redo, redo);
-		}
+		} else
+			scg_objects_drag_commit	(scg, 8, FALSE, &undo, &redo, &title);
 		cmd_generic (WORKBOOK_CONTROL (scg_wbcg (scg)), title, undo, redo);
 		g_free (title);
 	} else {

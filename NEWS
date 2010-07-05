@@ -10,6 +10,7 @@ Andreas:
 	* Fix ngettext usage.
 	* Fix undo text for sheet object duplication. [#623557]
 	* Fix additional undo entry for sheet object duplication. [#623559]
+	* Fix undo of object creation followed by duplication. [#623566]
 
 Morten:
 	* Ask user to locate solver binaries when plain search fails.

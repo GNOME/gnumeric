@@ -1,3 +1,8 @@
+2010-07-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-control-gui.c (scg_drag_receive_same_process): one need to 
+	  first duplicate the sheet before committing that change
+
 2010-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (cmd_objects_move): simplify
