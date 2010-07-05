@@ -86,6 +86,7 @@ gboolean      sv_is_region_empty_or_selected (SheetView const *sv,
 					      GnmRange const *r);
 
 GnmFilter      *sv_editpos_in_filter (SheetView const *sv);
+GnmFilter      *sv_selection_intersects_filter_rows (SheetView const *sv);
 GnmSheetSlicer *sv_editpos_in_slicer (SheetView const *sv);
 
 /* Manipulation */

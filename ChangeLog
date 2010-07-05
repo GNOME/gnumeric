@@ -1,5 +1,14 @@
 2010-07-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/sheet-filter.h (gnm_sheet_filter_intersect_rows): new
+	* src/sheet-filter.c (gnm_sheet_filter_intersect_rows): new
+	* src/sheet-view.h (sv_selection_intersects_filter_rows): new
+	* src/sheet-view.c (sv_selection_intersects_filter_rows): new
+	* src/wbc-gtk.c (wbcg_menu_state_update): check for prohibited
+	  autofilter positions
+
+2010-07-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/sheet-control-gui.c (scg_drag_receive_same_process): one need to 
 	  first duplicate the sheet before committing that change
 
@@ -27,7 +36,7 @@
 	* src/sheet-control-gui.c (scg_objects_drag_commit): simplify slightly
 	(scg_drag_receive_same_process): pass the correct argument to 
 	  scg_objects_drag_commit
-	* src/sheet-object.c (sheet_object_set_sheet): don't complain if the oject
+	* src/sheet-object.c (sheet_object_set_sheet): don't complain if the object
 	  is already set to this sheet.
 	* src/commands.c (CMD_OBJECTS_MOVE): delete
 	(cmd_objects_move_*): delete

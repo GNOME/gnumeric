@@ -684,6 +684,26 @@ sv_editpos_in_filter (SheetView const *sv)
 }
 
 /**
+ * sv_selection_intersects_filter_rows :
+ * @sv : #SheetView
+ *
+ * Returns: %NULL or GnmFilter whose rows intersect the rows
+ *          of the current selection.
+ **/
+GnmFilter *
+sv_selection_intersects_filter_rows (SheetView const *sv)
+{
+	GnmRange *r;
+	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
+	r = selection_first_range (sv, NULL, NULL);
+
+	return gnm_sheet_filter_intersect_rows 
+		(sv->sheet, r->start.row, r->end.row);
+}
+
+
+
+/**
  * sv_editpos_in_slicer :
  * @sv : #SheetView
  *

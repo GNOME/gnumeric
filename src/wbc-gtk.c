@@ -1573,13 +1573,30 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 
 	if (MS_ADD_VS_REMOVE_FILTER & flags) {
 		gboolean const has_filter = (NULL != sv_editpos_in_filter (sv));
-		char const* label = has_filter
-			? _("Remove _Auto Filter")
-			: _("Add _Auto Filter");
-		char const *new_tip = has_filter
-			? _("Remove a filter")
-			: _("Add a filter");
-		wbc_gtk_set_action_label (wbcg, "DataAutoFilter", NULL, label, new_tip);
+		GnmFilter *f = sv_selection_intersects_filter_rows (sv);
+		char const* label;
+		char const *new_tip;
+		gboolean active = TRUE;
+
+		if ((!has_filter) && (NULL != f)) {
+			gchar *nlabel;
+			active = FALSE;
+			nlabel = g_strdup_printf (_("_Auto Filter blocked by %s"), 
+						  range_as_string (&f->r));
+			new_tip = _("The selection intersects an existing auto filter.");
+			wbc_gtk_set_action_label (wbcg, "DataAutoFilter", NULL, nlabel, new_tip);
+			g_free (nlabel);
+		} else {
+			label = has_filter
+				? _("Remove _Auto Filter")
+				: _("Add _Auto Filter");
+			new_tip = has_filter
+				? _("Remove a filter")
+				: _("Add a filter");
+			wbc_gtk_set_action_label (wbcg, "DataAutoFilter", NULL, label, new_tip);
+		}
+
+		wbc_gtk_set_action_sensitivity (wbcg, "DataAutoFilter", active);
 	}
 
 	{

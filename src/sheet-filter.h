@@ -84,6 +84,7 @@ gboolean		  gnm_filter_overlaps_range (GnmFilter const *filter, GnmRange const *
 void                      gnm_filter_reapply        (GnmFilter *filter);
 
 GnmFilter *gnm_sheet_filter_at_pos  (Sheet const *sheet, GnmCellPos const *pos);
+GnmFilter *gnm_sheet_filter_intersect_rows  (Sheet const *sheet, int from, int to);
 void gnm_sheet_filter_insdel_colrow (Sheet *sheet,
 				     gboolean is_cols, gboolean is_insert,
 				     int start, int count,

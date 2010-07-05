@@ -863,6 +863,31 @@ gnm_sheet_filter_at_pos (Sheet const *sheet, GnmCellPos const *pos)
 	return NULL;
 }
 
+/**
+ * gnm_sheet_filter_intersect_rows :
+ * 
+ * Returns: the filter (if any) that intersect the rows from to to
+ **/
+GnmFilter *
+gnm_sheet_filter_intersect_rows (Sheet const *sheet, int from, int to)
+{
+	GSList *ptr;
+	GnmRange r;
+
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+
+	range_init_rows (&r, sheet, from, to);
+	for (ptr = sheet->filters; ptr != NULL ; ptr = ptr->next)
+		if (gnm_filter_overlaps_range (ptr->data, &r))
+			return ptr->data;
+
+	return NULL;
+}
+
+
+
+/*************************************************************************/
+
 struct cb_remove_col_undo {
 	unsigned col;
 	GnmFilterCondition *cond;
