@@ -1,3 +1,11 @@
+2010-07-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gui-util.h (GnumericPopupMenuElement): add field
+	* src/gui-util.c (gnumeric_create_popup_menu): handle new field
+	* src/sheet-control-gui.c (context_menu_handler): handle removal
+	  and cretion of comments
+	(scg_context_menu): add new items for comment addition and removal
+
 2010-07-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/item-edit.c (get_top_left), (item_edit_draw),

@@ -568,11 +568,19 @@ gnumeric_create_popup_menu (GnumericPopupMenuElement const *element,
 		item = NULL;
 
 		if (element->display_filter != 0 &&
-		    !(element->display_filter & display_filter))
+		    !(element->display_filter & display_filter)) {
+			if (element->allocated_name) {
+				g_free (element->allocated_name);
+				*(gchar **)(&element->allocated_name) = NULL;
+			}
 			continue;
+		}
 
 		if (name != NULL && *name != '\0') {
-			trans = _(name);
+			if (element->allocated_name)
+				trans = element->allocated_name;
+			else
+				trans = _(name);
 			item = gtk_image_menu_item_new_with_mnemonic (trans);
 			if (element->sensitive_filter != 0 &&
 			    (element->sensitive_filter & sensitive_filter))
@@ -584,6 +592,10 @@ gnumeric_create_popup_menu (GnumericPopupMenuElement const *element,
 				gtk_image_menu_item_set_image (
 					GTK_IMAGE_MENU_ITEM (item),
 					image);
+			}
+			if (element->allocated_name) {
+				g_free (element->allocated_name);
+				*(gchar **)(&element->allocated_name) = NULL;
 			}
 		} else if (element->index >= 0) {
 			/* separator */

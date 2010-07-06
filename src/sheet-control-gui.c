@@ -1780,6 +1780,8 @@ enum {
 	CONTEXT_ROW_HIDE,
 	CONTEXT_ROW_UNHIDE,
 	CONTEXT_COMMENT_EDIT,
+	CONTEXT_COMMENT_ADD,
+	CONTEXT_COMMENT_REMOVE,
 	CONTEXT_HYPERLINK_EDIT,
 	CONTEXT_HYPERLINK_ADD,
 	CONTEXT_HYPERLINK_REMOVE,
@@ -1844,9 +1846,12 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 		cmd_selection_colrow_hide (wbc, FALSE, TRUE);
 		break;
 	case CONTEXT_COMMENT_EDIT:
+	case CONTEXT_COMMENT_ADD:
 		dialog_cell_comment (wbcg, sheet, &sv->edit_pos);
 		break;
-
+	case CONTEXT_COMMENT_REMOVE:
+		cmd_selection_clear (WORKBOOK_CONTROL (wbcg), CLEAR_COMMENTS);
+		break;
 	case CONTEXT_HYPERLINK_EDIT:
 	case CONTEXT_HYPERLINK_ADD:
 		dialog_hyperlink (wbcg, sc);
@@ -1887,7 +1892,10 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		CONTEXT_DISPLAY_WITHOUT_HYPERLINK	= 1 << 4,
 		CONTEXT_DISPLAY_WITH_DATA_SLICER	= 1 << 5,
 		CONTEXT_DISPLAY_WITH_DATA_SLICER_ROW	= 1 << 6,
-		CONTEXT_DISPLAY_WITH_DATA_SLICER_COL	= 1 << 7
+		CONTEXT_DISPLAY_WITH_DATA_SLICER_COL	= 1 << 7,
+		CONTEXT_DISPLAY_WITH_COMMENT		= 1 << 8,
+		CONTEXT_DISPLAY_WITHOUT_COMMENT	        = 1 << 9,
+		CONTEXT_DISPLAY_WITH_COMMENT_IN_RANGE	= 1 << 10
 	};
 	enum {
 		CONTEXT_DISABLE_PASTE_SPECIAL	= 1,
@@ -1895,7 +1903,31 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		CONTEXT_DISABLE_FOR_COLS	= 4
 	};
 
-	static GnumericPopupMenuElement const popup_elements[] = {
+	/* Note: keep the following two in sync!*/
+	enum {
+		POPUPITEM_CUT = 0,
+		POPUPITEM_COPY,
+		POPUPITEM_PASTE,
+		POPUPITEM_PASTESPECIAL,
+		POPUPITEM_SEP1,
+		POPUPITEM_INSERT_CELL,
+		POPUPITEM_DELETE_CELL,
+		POPUPITEM_INSERT_COLUMN,
+		POPUPITEM_DELETE_COLUMN,
+		POPUPITEM_INSERT_ROW,
+		POPUPITEM_DELETE_ROW,
+		POPUPITEM_CLEAR_CONTENTS,
+		POPUPITEM_SEP2,
+		POPUPITEM_COMMENT_ADD,
+		POPUPITEM_COMMENT_EDIT,
+		POPUPITEM_COMMENT_REMOVE,
+		POPUPITEM_LINK_ADD,
+		POPUPITEM_LINK_EDIT,
+		POPUPITEM_LINK_REMOVE,
+		POPUPITEM_SEP3
+	};
+
+	static GnumericPopupMenuElement popup_elements[] = { 
 		{ N_("Cu_t"),           GTK_STOCK_CUT,
 		    0, 0, CONTEXT_CUT },
 		{ N_("_Copy"),          GTK_STOCK_COPY,
@@ -1929,10 +1961,26 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 
 		{ N_("Clear Co_ntents"), GTK_STOCK_CLEAR,
 		    0, 0, CONTEXT_CLEAR_CONTENT },
-		{ N_("Edit Co_mment..."),"Gnumeric_CommentEdit",
-		    0, 0, CONTEXT_COMMENT_EDIT },
 
-		/* TODO : Add the comment modification elements */
+		{ "", NULL, CONTEXT_DISPLAY_FOR_CELLS, 0, 0 },
+
+		{ N_("Add _Co_mment"),	  "Gnumeric_CommentAdd",
+		    CONTEXT_DISPLAY_WITHOUT_COMMENT, 0, CONTEXT_COMMENT_ADD },
+		{ N_("Edit Co_mment..."),"Gnumeric_CommentEdit",
+		    CONTEXT_DISPLAY_WITH_COMMENT, 0, CONTEXT_COMMENT_EDIT },
+		{ N_("_Remove Comments"),	  "Gnumeric_CommentDelete",
+		    CONTEXT_DISPLAY_WITH_COMMENT_IN_RANGE, 0, CONTEXT_COMMENT_REMOVE },
+
+		{ N_("Add _Hyperlink"),	  "Gnumeric_Link_Add",
+		    CONTEXT_DISPLAY_WITHOUT_HYPERLINK, 0,
+		    CONTEXT_HYPERLINK_ADD },
+		{ N_("Edit _Hyperlink"),	  "Gnumeric_Link_Edit",
+		    CONTEXT_DISPLAY_WITH_HYPERLINK, 0,
+		    CONTEXT_HYPERLINK_EDIT },
+		{ N_("_Remove Hyperlink"),	  "Gnumeric_Link_Delete",
+		    CONTEXT_DISPLAY_WITH_HYPERLINK, 0,
+		    CONTEXT_HYPERLINK_REMOVE },
+
 		{ "", NULL, 0, 0, 0 },
 
 		{ N_("_Edit DataSlicer"),	NULL,
@@ -1980,16 +2028,6 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		{ N_("_Unhide"),	  "Gnumeric_RowUnhide",
 		    CONTEXT_DISPLAY_FOR_ROWS, 0, CONTEXT_ROW_UNHIDE },
 
-		{ N_("_Hyperlink"),	  "Gnumeric_Link_Add",
-		    CONTEXT_DISPLAY_WITHOUT_HYPERLINK, 0,
-		    CONTEXT_HYPERLINK_ADD },
-		{ N_("Edit _Hyperlink"),	  "Gnumeric_Link_Edit",
-		    CONTEXT_DISPLAY_WITH_HYPERLINK, 0,
-		    CONTEXT_HYPERLINK_EDIT },
-		{ N_("_Remove Hyperlink"),	  "Gnumeric_Link_Delete",
-		    CONTEXT_DISPLAY_WITH_HYPERLINK, 0,
-		    CONTEXT_HYPERLINK_REMOVE },
-
 		{ NULL, NULL, 0, 0, 0 },
 	};
 
@@ -2008,7 +2046,8 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		? 0 : CONTEXT_DISABLE_PASTE_SPECIAL;
 
 	GSList *l;
-	gboolean has_link = FALSE;
+	gboolean has_link = FALSE, has_comment = FALSE;
+	int n_comments = 0;
 	GnmSheetSlicer *slicer;
 
 	wbcg_edit_finish (scg->wbcg, WBC_EDIT_REJECT, NULL);
@@ -2019,6 +2058,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 	 */
 	for (l = scg_view (scg)->selections; l != NULL; l = l->next) {
 		GnmRange const *r = l->data;
+		GSList *objs;
 
 		if (r->start.row == 0 && r->end.row == gnm_sheet_get_last_row (sheet))
 			sensitivity_filter |= CONTEXT_DISABLE_FOR_ROWS;
@@ -2028,7 +2068,11 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 
 		if (!has_link && sheet_style_region_contains_link (sheet, r))
 			has_link = TRUE;
+		objs = sheet_objects_get (sheet, r, CELL_COMMENT_TYPE);
+		n_comments += g_slist_length (objs);
+		g_slist_free (objs);
 	}
+	has_comment = (sheet_get_comment (sheet, &sv->edit_pos) != NULL);
 
 	slicer = sv_editpos_in_slicer (scg_view (scg));
 	/* FIXME: disabled for now */
@@ -2044,9 +2088,20 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		display_filter &= ~CONTEXT_DISPLAY_FOR_CELLS;
 	}
 
-	if (display_filter & CONTEXT_DISPLAY_FOR_CELLS)
+	if (display_filter & CONTEXT_DISPLAY_FOR_CELLS) {
+		char const *format;
 		display_filter |= ((has_link) ?
 				   CONTEXT_DISPLAY_WITH_HYPERLINK : CONTEXT_DISPLAY_WITHOUT_HYPERLINK);
+		display_filter |= ((has_comment) ?
+				   CONTEXT_DISPLAY_WITH_COMMENT : CONTEXT_DISPLAY_WITHOUT_COMMENT);
+		display_filter |= ((n_comments > 0) ?
+				   CONTEXT_DISPLAY_WITH_COMMENT_IN_RANGE : CONTEXT_DISPLAY_WITHOUT_COMMENT);
+		if (n_comments > 0) {
+			/* xgettext : %d gives the number of comments. This is input to ngettext. */
+			format = ngettext ("_Remove %d Comment", "_Remove %d Comments", n_comments);
+			popup_elements[POPUPITEM_COMMENT_REMOVE].allocated_name = g_strdup_printf (format, n_comments);
+		}
+	}
 
 	gnumeric_create_popup_menu (popup_elements, &context_menu_handler,
 				    scg, display_filter,

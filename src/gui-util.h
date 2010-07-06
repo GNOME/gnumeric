@@ -55,6 +55,8 @@ typedef struct {
 	int sensitive_filter;
 
 	int index;
+
+	char *allocated_name;
 } GnumericPopupMenuElement;
 
 typedef gboolean (*GnumericPopupMenuHandler) (GnumericPopupMenuElement const *e,
