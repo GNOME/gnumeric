@@ -10,7 +10,7 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
-#define SOLVER_PROGRAM "lp_solveXXX"
+#define SOLVER_PROGRAM "lp_solve"
 #define SOLVER_URL "http://sourceforge.net/projects/lpsolve/"
 #define PRIVATE_KEY "::lpsolve::"
 
