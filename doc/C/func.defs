@@ -770,7 +770,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @SHORTDESC=year corresponding to the ISO week number
 @SYNTAX=ISOYEAR(date)
 @ARGUMENTDESCRIPTION=@{date}: date serial value
-@DESCRIPTION=ISOYEAR calculates the year to go with week number according to the ISE 8601 standard.
+@DESCRIPTION=ISOYEAR calculates the year to go with week number according to the ISO 8601 standard.
 @NOTE=January 1 of a year is sometimes in week 52 or 53 of the previous year.  Similarly, December 31 is sometimes in week 1 of the following year.
 @SEEALSO=ISOWEEKNUM,YEAR
 
@@ -795,12 +795,14 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @CATEGORY=Date/Time
 @FUNCTION=NETWORKDAYS
 @SHORTDESC=number of workdays in range
-@SYNTAX=NETWORKDAYS(start_date,end_date,holidays)
+@SYNTAX=NETWORKDAYS(start_date,end_date,holidays,weekend)
 @ARGUMENTDESCRIPTION=@{start_date}: starting date serial value
 @{end_date}: ending date serial value
 @{holidays}: array of holidays
+@{weekend}: array indicating whether a weekday (S, M, T, W, T, F, S) is on the weekend, defaults to {TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE}.
 @DESCRIPTION=NETWORKDAYS calculates the number of days from @{start_date} to @{end_date} skipping weekends and @{holidays} in the process.
-@EXCEL=This function is Excel compatible.
+@EXCEL=This function is Excel compatible if the last argument is omitted.
+@ODF=This function is OpenFormula compatible.
 @SEEALSO=WORKDAY
 
 @CATEGORY=Date/Time
@@ -871,7 +873,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @ARGUMENTDESCRIPTION=@{date}: date serial value
 @{method}: numbering system
 @DESCRIPTION=The WEEKDAY function returns the day-of-week of @{date}.  The value of @{method} determines how days are numbered.
-@NOTE=If @{method} is 1, then Sunday is 1, Monday is 2, etc. If @{method} is 2, then Monday is 1, Sunday is 2, etc. If @{method} is 3, then Monday is 0, Sunday is 1, etc.
+@NOTE=If @{method} is 1, then Sunday is 1, Monday is 2, etc. If @{method} is 2, then Monday is 1, Tuesday is 2, etc. If @{method} is 3, then Monday is 0, Tuesday is 1, etc.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=DATE,ISOWEEKNUM
 
@@ -888,13 +890,15 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @CATEGORY=Date/Time
 @FUNCTION=WORKDAY
 @SHORTDESC=add working days
-@SYNTAX=WORKDAY(date,days,holidays)
+@SYNTAX=WORKDAY(date,days,holidays,weekend)
 @ARGUMENTDESCRIPTION=@{date}: date serial value
 @{days}: number of days to add
 @{holidays}: array of holidays
+@{weekend}: array indicating whether a weekday (S, M, T, W, T, F, S) is on the weekend, defaults to {TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE}.
 @DESCRIPTION=WORKDAY adjusts @{date} by @{days} skipping over weekends and @{holidays} in the process.
 @NOTE=@{days} may be negative.
-@EXCEL=This function is Excel compatible.
+@EXCEL=This function is Excel compatible if the last argument is omitted.
+@ODF=This function is OpenFormula compatible.
 @SEEALSO=NETWORKDAYS
 
 @CATEGORY=Date/Time
@@ -1021,7 +1025,9 @@ Distance:
 	'ft'  			Foot
 	'yd'  		Yard
 	'ang' 		Angstrom
-	'Pica'		Pica
+	'Pica'		Pica Points
+	'picapt'		Pica Points
+	'pica'		Pica
 
 Time:
 	'yr'  			Year
@@ -1096,7 +1102,8 @@ For metric units any of the following prefixes can be used:
 	'z'  	zepto 		1E-21
 	'y'  	yocto 		1E-24
 @NOTE=If @{from} and @{to} are different types, CONVERT returns #N/A!
-@EXCEL=This function is Excel compatible.
+@EXCEL=This function is Excel compatible (except "picapt").
+@ODF=This function is OpenFormula compatible.
 
 @CATEGORY=Engineering
 @FUNCTION=DEC2BIN
@@ -1342,6 +1349,14 @@ Otherwise ACCRINT returns the sum of the interest accrued in all coupon periods 
 @DESCRIPTION=AMORLINC calculates the depreciation of an asset using French accounting conventions. Assets purchased in the middle of a period take prorated depreciation into account. 
 @NOTE=Named for AMORtissement LINeaire Comptabilite. If @{basis} is 0, then the US 30/360 method is used. If @{basis} is 1, then actual number of days is used. If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days. If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days. If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=AMORDEGRC
+
+@CATEGORY=Finance
+@FUNCTION=ATL_LAST
+@SHORTDESC=sample real-time data source
+@SYNTAX=ATL_LAST(tag)
+@ARGUMENTDESCRIPTION=@{tag}: tag to watch
+@DESCRIPTION=ATL_LAST is a sample implementation of a real time data source.  It takes a string tag and monitors the named pipe ~/atl for changes to the value of that tag.
+@NOTE=This is not intended to be generally enabled and is OFF by default.
 
 @CATEGORY=Finance
 @FUNCTION=COUPDAYBS
@@ -2499,7 +2514,7 @@ Otherwise ACCRINT returns the sum of the interest accrued in all coupon periods 
 
 @CATEGORY=Information
 @FUNCTION=ERROR.TYPE
-@SHORTDESC=the type of @error
+@SHORTDESC=the type of @{error}
 @SYNTAX=ERROR.TYPE(error)
 @ARGUMENTDESCRIPTION=@{error}: an error
 @DESCRIPTION=ERROR.TYPE returns an error number corresponding to the given error value.  The error numbers for error values are:
@@ -6039,7 +6054,7 @@ The distinction between half-width and full-width characters is described in htt
 
 @CATEGORY=String
 @FUNCTION=UPPER
-@SHORTDESC=an upper-case version of the string @text
+@SHORTDESC=an upper-case version of the string @{text}
 @SYNTAX=UPPER(text)
 @ARGUMENTDESCRIPTION=@{text}: string
 @EXCEL=This function is Excel compatible.
