@@ -1,7 +1,8 @@
 2010-07-06  Morten Welinder  <terra@gnome.org>
 
-	* functions.c (help_isoyear): s/ISE/ISO/ typo.  (623669)
+	* functions.c (help_isoyear): s/ISE/ISO/ typo.  (#623669)
 	(help_weekday): Fix days of week.
+	(help_weeknum): Fix argument doc.
 
 2010-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

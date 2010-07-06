@@ -1167,7 +1167,7 @@ gnumeric_isoyear (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_weeknum[] = {
-        { GNM_FUNC_HELP_NAME, F_("WEEKNUM:ISO week number")},
+        { GNM_FUNC_HELP_NAME, F_("WEEKNUM:week number")},
         { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
         { GNM_FUNC_HELP_ARG, F_("method:numbering system")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("WEEKNUM calculates the week number according to @{method} which defaults to 1.") },

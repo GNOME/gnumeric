@@ -879,7 +879,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=WEEKNUM
-@SHORTDESC=ISO week number
+@SHORTDESC=week number
 @SYNTAX=WEEKNUM(date,method)
 @ARGUMENTDESCRIPTION=@{date}: date serial value
 @{method}: numbering system
