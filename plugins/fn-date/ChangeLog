@@ -1,3 +1,8 @@
+2010-07-06  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (help_isoyear): s/ISE/ISO/ typo.  (623669)
+	(help_weekday): Fix days of week.
+
 2010-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (gnumeric_networkdays): take care of 1900/2/29
