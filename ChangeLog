@@ -1,3 +1,10 @@
+2010-07-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/item-edit.c (get_top_left), (item_edit_draw),
+	(item_edit_button_pressed), (item_edit_motion),
+	(item_edit_realize), (item_edit_unrealize): fix strong/weak cursor
+	display. [#623241]
+
 2010-07-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (cmd_autofilter_add_remove): handle extension of

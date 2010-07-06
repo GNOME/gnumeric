@@ -59,7 +59,6 @@ struct _ItemEdit {
 
 	GnmFont   *gfont;
 	GnmStyle  *style;
-	GdkGC    *gc;
 };
 
 typedef GocItemClass ItemEditClass;
@@ -71,12 +70,14 @@ enum {
 };
 
 static void
-get_top_left (ItemEdit const *ie, int *top, int *left)
+get_top_left (ItemEdit const *ie, int *top, int *left, PangoDirection dir)
 {
 	GnmVAlign const align = gnm_style_get_align_v (ie->style);
 	GocItem *item = GOC_ITEM (ie);
 	GocCanvas *canvas = item->canvas;
-	double l = (goc_canvas_get_direction (canvas) == GOC_DIRECTION_RTL)? item->x1 - 1: item->x0;
+	double l = ((goc_canvas_get_direction (canvas) == GOC_DIRECTION_LTR && dir == PANGO_DIRECTION_RTL)
+	            || (goc_canvas_get_direction (canvas) == GOC_DIRECTION_RTL && dir == PANGO_DIRECTION_LTR))?
+			item->x1 - 1: item->x0;
 
 	goc_canvas_c2w (canvas, l, item->y0, left, top);
 
@@ -98,10 +99,11 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 	GOColor color;
 	int x0, y0, x1, y1; /* in widget coordinates */
 	int start, end;
-	PangoRectangle pos;
+	PangoRectangle pos, weak;
 	char const *text = gtk_entry_get_text (ie->entry);
+	PangoDirection dir = pango_find_base_dir (text, -1);
 
-	get_top_left (ie, &top, &left);
+	get_top_left (ie, &top, &left, dir);
 	if (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) {
 		goc_canvas_c2w (item->canvas, item->x1, item->y0, &x0, &y0);
 		goc_canvas_c2w (item->canvas, item->x0, item->y1, &x1, &y1);
@@ -111,65 +113,92 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 	}
 
 	cairo_rectangle (cr, x0, y0, x1 - x0, y1 - y0);
+	/* avoid a weak/strong cursor to extent outside the item,
+	 a better fix would be to have enough room for cursors */
+	cairo_clip_preserve (cr);
 	if (!gnumeric_background_set (ie->style, cr, FALSE))
 		cairo_set_source_rgba (cr, 1., 1., 0.878431373, 1.);
 	cairo_fill (cr);
 
+	/* set the default color */
 	color = GO_COLOR_FROM_GDK (gtk_widget_get_style (GTK_WIDGET (item->canvas))->black);
 	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
+	if (dir == PANGO_DIRECTION_RTL) {
+		pango_layout_get_pixel_extents (ie->layout, NULL, &pos);
+		left -= pos.width;
+	}
 	cairo_move_to (cr, left, top);
 	gtk_editable_get_selection_bounds (GTK_EDITABLE (ie->entry), &start, &end);
-	pango_cairo_show_layout (cr, ie->layout);
+	if (start != end) {
+		unsigned r, g, b;
+		PangoAttribute *attr;
+		PangoAttrList *orig = pango_attr_list_ref (pango_layout_get_attributes (ie->layout)),
+			*attrs = pango_attr_list_copy (orig);
+		start = g_utf8_offset_to_pointer (text, start) - text;
+		end = g_utf8_offset_to_pointer (text, end) - text;
+		color = gnm_style_get_back_color (ie->style)->go_color;
+		r = (GO_COLOR_UINT_R (color) ^ 0xff) * 0x101;
+		g = (GO_COLOR_UINT_G (color) ^ 0xff) * 0x101;
+		b = (GO_COLOR_UINT_B (color) ^ 0xff) * 0x101;
+		attr = pango_attr_background_new (r, g, b);
+		attr->start_index = start;
+		attr->end_index = end;
+		pango_attr_list_change (attrs, attr);
+		color = gnm_style_get_font_color (ie->style)->go_color;
+		r = (GO_COLOR_UINT_R (color) ^ 0xff) * 0x101;
+		g = (GO_COLOR_UINT_G (color) ^ 0xff) * 0x101;
+		b = (GO_COLOR_UINT_B (color) ^ 0xff) * 0x101;
+		attr = pango_attr_foreground_new (r, g, b);
+		attr->start_index = start;
+		attr->end_index = end;
+		pango_attr_list_change (attrs, attr);
+		pango_layout_set_attributes (ie->layout, attrs);
+		pango_attr_list_unref (attrs);
+		pango_cairo_show_layout (cr, ie->layout);
+		pango_layout_set_attributes (ie->layout, orig);
+		pango_attr_list_unref (orig);
+	} else
+		pango_cairo_show_layout (cr, ie->layout);
 	if (ie->cursor_visible) {
 		int cursor_pos = gtk_editable_get_position (GTK_EDITABLE (ie->entry));
-		pango_layout_index_to_pos (ie->layout,
-			g_utf8_offset_to_pointer (text, cursor_pos) - text, &pos);
+		double incr = (dir == PANGO_DIRECTION_RTL)? -.5: .5, x, ytop, ybottom;
+		pango_layout_get_cursor_pos (ie->layout,
+			g_utf8_offset_to_pointer (text, cursor_pos) - text, &pos, &weak);
 		cairo_set_line_width (cr, 1.);
 		cairo_set_dash (cr, NULL, 0, 0.);
 		cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
 		cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
 		cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (gnm_style_get_back_color (ie->style)->go_color ^ 0xffffff00));
-		cairo_move_to (cr, left + PANGO_PIXELS (pos.x) + .5, top + PANGO_PIXELS (pos.y));
-		cairo_line_to (cr, left + PANGO_PIXELS (pos.x) + .5, top + PANGO_PIXELS (pos.y + pos.height) - 1);
+		x = left + PANGO_PIXELS (pos.x) + incr;
+		ytop = top + PANGO_PIXELS (pos.y);
+		ybottom = top + PANGO_PIXELS (pos.y + pos.height) - 1;
+		cairo_move_to (cr, x, ytop);
+		cairo_line_to (cr, x, ybottom);
 		cairo_stroke (cr);
-	}
-	if (start != end) {
-		/* invert selected region */
-		int x, y, w, h;
-		GdkEventExpose *expose = (GdkEventExpose *) goc_canvas_get_cur_event (item->canvas);
-		GdkDrawable *drawable = GDK_DRAWABLE (expose->window);
-		start = g_utf8_offset_to_pointer (text, start) - text;
-		end = g_utf8_offset_to_pointer (text, end) - text;
-		pango_layout_index_to_pos (ie->layout, start, &pos);
-		x = PANGO_PIXELS (pos.x);
-		y = PANGO_PIXELS (pos.y);
-		h = PANGO_PIXELS (pos.height);
-		pango_layout_index_to_pos (ie->layout, end, &pos);
-		if (PANGO_PIXELS (pos.y) != y) {
-			PangoLayoutLine *line;
-			int x_pos, line_no;
-			PangoRectangle rect;
-			pango_layout_index_to_line_x (ie->layout, start, 0, &line_no, &x_pos);
-			line = pango_layout_get_line (ie->layout, line_no);
-			pango_layout_line_get_extents (line, NULL, &rect);
-			while (PANGO_PIXELS (pos.y) > y) {
-				w = PANGO_PIXELS (rect.x + rect.width) - x;
-				gdk_draw_rectangle (drawable, ie->gc, TRUE, left + x, top + y, w, h);
-				line = pango_layout_get_line (ie->layout, line_no);
-				if (!line)
-					break; /* this should not happen */
-				pango_layout_line_get_extents (line, NULL, &rect);
-				x = PANGO_PIXELS (rect.x);
-				h = PANGO_PIXELS (rect.height);
-				y += h; /* seems that PANGO_PIXELS (rect.y) gives some negative insanity */
-			}
+		if (weak.x != pos.x) {
+			double w = (ybottom - ytop) / 4.;
+			GOColor color1 = color ^ 0xffffff00;
+			x += incr;
+			cairo_move_to (cr, x, ybottom);
+			cairo_line_to (cr, x + w * incr, ybottom - w / 2.);
+			cairo_line_to (cr, x, ybottom - w);
+			cairo_close_path (cr);
+			cairo_fill (cr);
+			color = GO_COLOR_INTERPOLATE (color, color1, 0.5);
+			x = left + PANGO_PIXELS (weak.x) - incr;
+			ytop = top + PANGO_PIXELS (weak.y);
+			ybottom = top + PANGO_PIXELS (weak.y + weak.height) - 1;
+			cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
+			cairo_move_to (cr, x, ytop);
+			cairo_line_to (cr, x, ybottom);
+			cairo_stroke (cr);
+			x -= incr;
+			cairo_move_to (cr, x, ybottom);
+			cairo_line_to (cr, x - w * incr, ybottom - w / 2.);
+			cairo_line_to (cr, x, ybottom - w);
+			cairo_close_path (cr);
+			cairo_fill (cr);
 		}
-		w = PANGO_PIXELS (pos.x) - x;
-		if (w < 0) {
-			x += w;
-			w = -w;
-		}
-		gdk_draw_rectangle (drawable, ie->gc, TRUE, left + x, top + y, w, h);
 	}
 }
 
@@ -202,7 +231,7 @@ item_edit_button_pressed (GocItem *item, int button, double x, double y)
 		int top, left;
 		char const *text = pango_layout_get_text (ie->layout);
 
-		get_top_left (ie, &top, &left);
+		get_top_left (ie, &top, &left, pango_find_base_dir (text, -1));
 		y -= top;
 		x -= left;
 
@@ -244,7 +273,7 @@ item_edit_motion (GocItem *item, double x, double y)
 		int top, left;
 		char const *text = pango_layout_get_text (ie->layout);
 
-		get_top_left (ie, &top, &left);
+		get_top_left (ie, &top, &left, pango_find_base_dir (text, -1));
 		y -= top;
 		x -= left;
 
@@ -460,7 +489,6 @@ item_edit_realize (GocItem *item)
 	Sheet const *sheet;
 	GnmPane	*pane;
 	double scale;
-	GdkGCValues values;
 
 	parent_class->realize (item);
 
@@ -520,21 +548,12 @@ item_edit_realize (GocItem *item)
 				    : PANGO_ALIGN_LEFT);
 
 	item_edit_cursor_blink_start (ie);
-
-	ie->gc = gdk_gc_new (GTK_WIDGET (item->canvas)->window);
-	gdk_gc_set_rgb_fg_color (ie->gc, &gs_white);
-	gdk_gc_set_rgb_bg_color (ie->gc, &gs_white);
-	values.function = GDK_XOR;
-	gdk_gc_set_values (ie->gc, &values, GDK_GC_FUNCTION);
 }
 
 static void
 item_edit_unrealize (GocItem *item)
 {
 	ItemEdit *ie = ITEM_EDIT (item);
-
-	g_object_unref (G_OBJECT (ie->gc));
-	ie->gc = NULL;
 
 	item_edit_cursor_blink_stop (ie);
 

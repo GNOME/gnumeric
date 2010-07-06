@@ -13,6 +13,9 @@ Andreas:
 	* Fix undo of object creation followed by duplication. [#623566]
 	* Avoid creating interacting auto filters. [#607086]
 
+Jean:
+	* Fix strong/weak cursor display. [#623241]
+
 Morten:
 	* Ask user to locate solver binaries when plain search fails.
 	[#619519]
