@@ -13,6 +13,7 @@ Andreas:
 	* Fix undo of object creation followed by duplication. [#623566]
 	* Avoid creating interacting auto filters. [#607086]
 	* Improve comment items of in-cell pop-up menu.
+	* Fix date function docs issue.  [#623669]
 
 Jean:
 	* Fix strong/weak cursor display. [#623241]

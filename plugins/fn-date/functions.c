@@ -134,9 +134,9 @@ gnumeric_date (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_unix2date[] = {
-        { GNM_FUNC_HELP_NAME, F_("UNIX2DATE:create a date value from a Unix timestamp")},
+        { GNM_FUNC_HELP_NAME, F_("UNIX2DATE:date value corresponding to the Unix timestamp @{t}")},
         { GNM_FUNC_HELP_ARG, F_("t:Unix time stamp")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("The UNIT2DATE function translates Unix timestamps into date serial values.  Unix timestamps are number of seconds since Midnight 1-Jan-1900.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The UNIX2DATE function translates Unix timestamps into the corresponding date.  A Unix timestamp is the number of seconds since midnight (0:00) of January 1st, 1970 GMT.") },
         { GNM_FUNC_HELP_EXAMPLES, "=UNIX2DATE(1000000000)" },
         { GNM_FUNC_HELP_SEEALSO, "DATE2UNIX,DATE"},
 	{ GNM_FUNC_HELP_END }
@@ -164,9 +164,9 @@ gnumeric_unix2date (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_date2unix[] = {
-        { GNM_FUNC_HELP_NAME, F_("DATE2UNIX:translate a date serial value to a Unix timestamp") },
-        { GNM_FUNC_HELP_ARG, F_("d:date serial value")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("The DATE2UNIX function translates a date serial values into a Unix timestamp.") },
+        { GNM_FUNC_HELP_NAME, F_("DATE2UNIX:the Unix timestamp corresponding to a date @{d}") },
+        { GNM_FUNC_HELP_ARG, F_("d:date")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The DATE2UNIX function translates a date into a Unix timestamp. A Unix timestamp is the number of seconds since midnight (0:00) of January 1st, 1970 GMT.") },
         { GNM_FUNC_HELP_EXAMPLES, "=DATE2UNIX(DATE(2000,1,1))" },
         { GNM_FUNC_HELP_SEEALSO, "UNIX2DATE,DATE"},
 	{ GNM_FUNC_HELP_END }

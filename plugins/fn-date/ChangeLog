@@ -1,3 +1,8 @@
+2010-07-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_unix2date): Correct description.  (#623669)
+	(help_date2unix): Augment description.
+
 2010-07-06  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (help_isoyear): s/ISE/ISO/ typo.  (#623669)
