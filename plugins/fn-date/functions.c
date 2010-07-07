@@ -609,8 +609,8 @@ gnumeric_day (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_weekday[] = {
         { GNM_FUNC_HELP_NAME, F_("WEEKDAY:day-of-week") },
         { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
-        { GNM_FUNC_HELP_ARG, F_("method:numbering system")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("The WEEKDAY function returns the day-of-week of @{date}.  The value of @{method} determines how days are numbered.") },
+        { GNM_FUNC_HELP_ARG, F_("method:numbering system, defaults to 1")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The WEEKDAY function returns the day-of-week of @{date}.  The value of @{method} determines how days are numbered; it defaults to 1. ") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 1, then Sunday is 1, Monday is 2, etc.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 2, then Monday is 1, Tuesday is 2, etc.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 3, then Monday is 0, Tuesday is 1, etc.") },
@@ -1169,7 +1169,7 @@ gnumeric_isoyear (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_weeknum[] = {
         { GNM_FUNC_HELP_NAME, F_("WEEKNUM:week number")},
         { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
-        { GNM_FUNC_HELP_ARG, F_("method:numbering system")},
+        { GNM_FUNC_HELP_ARG, F_("method:numbering system, defaults to 1")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("WEEKNUM calculates the week number according to @{method} which defaults to 1.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 1, then weeks start on Sundays and January 1 is in week 1.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 2, then weeks start on Mondays and January 1 is in week 1.") },

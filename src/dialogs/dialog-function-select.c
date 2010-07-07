@@ -40,6 +40,8 @@
 #include <sheet.h>
 #include <dead-kittens.h>
 #include <gnumeric-gconf.h>
+#include <gnm-format.h>
+#include <auto-format.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glade/glade.h>
@@ -567,11 +569,13 @@ make_expr_example (Sheet *sheet, const char *text, gboolean localized)
 		char *etxt = gnm_expr_top_as_string (texpr, &pp, convs);
 		GnmValue *val = gnm_expr_top_eval
 			(texpr, &ep, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
-		GnmExprTop const *texpr_res = gnm_expr_top_new_constant (val);
-		char *vtxt = gnm_expr_top_as_string (texpr_res, &pp, convs);
+		GOFormat *format = auto_style_format_suggest (texpr, &ep);
+		char *vtxt = format_value(format, val, NULL, -1, 
+					  workbook_date_conv (sheet->workbook));
 
+		go_format_unref (format);
 		gnm_expr_top_unref (texpr);
-		gnm_expr_top_unref (texpr_res);
+		value_release (val);
 
 		res = g_strdup_printf (_("%s evaluates to %s."), etxt, vtxt);
 

@@ -1,3 +1,8 @@
+2010-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_weeknum): state the default for the method
+	(help_weekday): ditto
+
 2010-07-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_unix2date): Correct description.  (#623669)

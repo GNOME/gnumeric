@@ -14,6 +14,8 @@ Andreas:
 	* Avoid creating interacting auto filters. [#607086]
 	* Improve items of the cell context menu. [#74359]
 	* Fix date function docs issue.  [#623669]
+	* Improve the presentation of the examples in the function
+	  documentation. [#623455]
 
 Jean:
 	* Fix strong/weak cursor display. [#623241]
