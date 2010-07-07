@@ -84,7 +84,10 @@ copy_hash_table_to_ptr_array (gpointer key, gpointer value, gpointer array)
 	if (fd->name == NULL ||
 	    strcmp (fd->name, "perl_adder") == 0 ||
 	    strcmp (fd->name, "perl_date") == 0 ||
-	    strcmp (fd->name, "perl_sed") == 0)
+	    strcmp (fd->name, "perl_sed") == 0 ||
+	    strcmp (fd->name, "py_capwords") == 0 ||
+	    strcmp (fd->name, "py_printf") == 0 ||
+	    strcmp (fd->name, "py_bitand") == 0)
 		return;
 
 	gnm_func_load_if_stub ((GnmFunc *) fd);

@@ -1,5 +1,9 @@
 2010-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/func.c (copy_hash_table_to_ptr_array): also exclude py_* functions
+
+2010-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/sheet-control-gui.c (context_menu_handler): enable column and row
 	  width/hide/unhide on cell selections
 
