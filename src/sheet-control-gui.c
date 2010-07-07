@@ -1914,9 +1914,11 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		CONTEXT_DISPLAY_WITH_COMMENT_IN_RANGE	= 1 << 11
 	};
 	enum {
-		CONTEXT_DISABLE_PASTE_SPECIAL	= 1,
-		CONTEXT_DISABLE_FOR_ROWS	= 2,
-		CONTEXT_DISABLE_FOR_COLS	= 4
+		CONTEXT_DISABLE_PASTE_SPECIAL	= 1 << 0,
+		CONTEXT_DISABLE_FOR_ROWS	= 1 << 1,
+		CONTEXT_DISABLE_FOR_COLS	= 1 << 2,
+		CONTEXT_DISABLE_FOR_CELLS        = 1 << 3,
+		CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION = 1 << 4
 	};
 
 	/* Note: keep the following two in sync!*/
@@ -1940,7 +1942,16 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		POPUPITEM_LINK_ADD,
 		POPUPITEM_LINK_EDIT,
 		POPUPITEM_LINK_REMOVE,
-		POPUPITEM_SEP3
+		POPUPITEM_SEP3,
+		POPUPITEM_DATASLICER_EDIT,
+		POPUPITEM_DATASLICER_REFRESH,
+		POPUPITEM_DATASLICER_FIELD_ORDER,
+		POPUPITEM_DATASLICER_LEFT,
+		POPUPITEM_DATASLICER_RIGHT,
+		POPUPITEM_DATASLICER_UP,
+		POPUPITEM_DATASLICER_DOWN,
+		POPUPITEM_DATASLICER_SUBMENU,
+		POPUPITEM_FORMAT
 	};
 
 	static GnumericPopupMenuElement popup_elements[] = { 
@@ -1955,25 +1966,28 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 
 		{ "", NULL, 0, 0, 0 },
 
-		/* TODO : One day make the labels smarter.  Generate them to include
-		 * quantities.
-		 *	eg : Insert 4 rows
-		 *	or : Insert row
-		 * This is hard for now because there is no memory management for the label
-		 * strings, and the logic that knows the count is elsewhere
-		 */
 		{ N_("_Insert Cells..."),	NULL,
-		    CONTEXT_DISPLAY_FOR_CELLS, 0, CONTEXT_INSERT },
+		    CONTEXT_DISPLAY_FOR_CELLS, 
+		  CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION, CONTEXT_INSERT },
 		{ N_("_Delete Cells..."),	GTK_STOCK_DELETE,
-		    CONTEXT_DISPLAY_FOR_CELLS, 0, CONTEXT_DELETE },
+		    CONTEXT_DISPLAY_FOR_CELLS, 
+		  CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION, CONTEXT_DELETE },
 		{ N_("_Insert Column(s)"), "Gnumeric_ColumnAdd",
-		    CONTEXT_DISPLAY_FOR_COLS, CONTEXT_DISABLE_FOR_COLS, CONTEXT_INSERT },
+		    CONTEXT_DISPLAY_FOR_COLS, 
+		  CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION,
+		  CONTEXT_INSERT },
 		{ N_("_Delete Column(s)"), "Gnumeric_ColumnDelete",
-		    CONTEXT_DISPLAY_FOR_COLS, CONTEXT_DISABLE_FOR_COLS, CONTEXT_DELETE },
+		    CONTEXT_DISPLAY_FOR_COLS, 
+		  CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION,
+		  CONTEXT_DELETE },
 		{ N_("_Insert Row(s)"), "Gnumeric_RowAdd",
-		    CONTEXT_DISPLAY_FOR_ROWS, CONTEXT_DISABLE_FOR_ROWS, CONTEXT_INSERT },
+		    CONTEXT_DISPLAY_FOR_ROWS, 
+		  CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION,
+		  CONTEXT_INSERT },
 		{ N_("_Delete Row(s)"), "Gnumeric_RowDelete",
-		    CONTEXT_DISPLAY_FOR_ROWS, CONTEXT_DISABLE_FOR_ROWS, CONTEXT_DELETE },
+		    CONTEXT_DISPLAY_FOR_ROWS, 
+		  CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION,
+		  CONTEXT_DELETE },
 
 		{ N_("Clear Co_ntents"), GTK_STOCK_CLEAR,
 		    0, 0, CONTEXT_CLEAR_CONTENT },
@@ -2025,24 +2039,30 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		     CONTEXT_DISPLAY_WITH_DATA_SLICER_ROW | CONTEXT_DISPLAY_WITH_DATA_SLICER_COL, 0,
 		     -1 },	/* end sub menu */
 
-		{ N_("_Format Cells..."), GTK_STOCK_PROPERTIES,
-		    CONTEXT_DISPLAY_FOR_CELLS, 0, CONTEXT_FORMAT_CELL },
+		{ N_("_Format All Cells..."), GTK_STOCK_PROPERTIES,
+		    0, 0, CONTEXT_FORMAT_CELL },
 
 		/* Column specific (Note some labels duplicate row labels) */
 		{ N_("Column _Width..."), "Gnumeric_ColumnSize",
-		    CONTEXT_DISPLAY_FOR_COLS, 0, CONTEXT_COL_WIDTH },
+		    CONTEXT_DISPLAY_FOR_COLS, 
+		  CONTEXT_DISABLE_FOR_CELLS | CONTEXT_DISABLE_FOR_ROWS, CONTEXT_COL_WIDTH },
 		{ N_("_Hide"),		  "Gnumeric_ColumnHide",
-		    CONTEXT_DISPLAY_FOR_COLS, 0, CONTEXT_COL_HIDE },
+		    CONTEXT_DISPLAY_FOR_COLS, 
+		  CONTEXT_DISABLE_FOR_CELLS | CONTEXT_DISABLE_FOR_ROWS, CONTEXT_COL_HIDE },
 		{ N_("_Unhide"),	  "Gnumeric_ColumnUnhide",
-		    CONTEXT_DISPLAY_FOR_COLS, 0, CONTEXT_COL_UNHIDE },
+		    CONTEXT_DISPLAY_FOR_COLS, 
+		  CONTEXT_DISABLE_FOR_CELLS | CONTEXT_DISABLE_FOR_ROWS, CONTEXT_COL_UNHIDE },
 
 		/* Row specific (Note some labels duplicate col labels) */
 		{ N_("_Row Height..."),	  "Gnumeric_RowSize",
-		    CONTEXT_DISPLAY_FOR_ROWS, 0, CONTEXT_ROW_HEIGHT },
+		    CONTEXT_DISPLAY_FOR_ROWS, 
+		  CONTEXT_DISABLE_FOR_CELLS | CONTEXT_DISABLE_FOR_COLS, CONTEXT_ROW_HEIGHT },
 		{ N_("_Hide"),		  "Gnumeric_RowHide",
-		    CONTEXT_DISPLAY_FOR_ROWS, 0, CONTEXT_ROW_HIDE },
+		    CONTEXT_DISPLAY_FOR_ROWS, 
+		  CONTEXT_DISABLE_FOR_CELLS | CONTEXT_DISABLE_FOR_COLS, CONTEXT_ROW_HIDE },
 		{ N_("_Unhide"),	  "Gnumeric_RowUnhide",
-		    CONTEXT_DISPLAY_FOR_ROWS, 0, CONTEXT_ROW_UNHIDE },
+		    CONTEXT_DISPLAY_FOR_ROWS, 
+		  CONTEXT_DISABLE_FOR_CELLS | CONTEXT_DISABLE_FOR_COLS, CONTEXT_ROW_UNHIDE },
 
 		{ NULL, NULL, 0, 0, 0 },
 	};
@@ -2063,9 +2083,11 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 
 	GSList *l;
 	gboolean has_link = FALSE, has_comment = FALSE;
-	int n_comments = 0, n_links = 0;
+	int n_comments = 0, n_links = 0, n_cols = 0, n_rows = 0, n_cells = 0;
 	GnmSheetSlicer *slicer;
 	GnmRange rge;
+	int n_sel = 0;
+	gboolean full_sheet = FALSE;
 
 	wbcg_edit_finish (scg->wbcg, WBC_EDIT_REJECT, NULL);
 
@@ -2077,12 +2099,35 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		GnmRange const *r = l->data;
 		GSList *objs;
 		GnmStyleList *styles;
+		int h, w;
+		gboolean rfull_h = range_is_full (r, sheet, TRUE);
+		gboolean rfull_v = range_is_full (r, sheet, FALSE);
 
-		if (r->start.row == 0 && r->end.row == gnm_sheet_get_last_row (sheet))
+		n_sel++;
+
+		if (rfull_v) {
+			display_filter |= CONTEXT_DISPLAY_FOR_COLS;
+			display_filter &= ~CONTEXT_DISPLAY_FOR_CELLS;
+		} else
 			sensitivity_filter |= CONTEXT_DISABLE_FOR_ROWS;
+		
 
-		if (r->start.col == 0 && r->end.col == gnm_sheet_get_last_col (sheet))
+		if (rfull_h) {
+			display_filter |= CONTEXT_DISPLAY_FOR_ROWS;
+			display_filter &= ~CONTEXT_DISPLAY_FOR_CELLS;
+		} else
 			sensitivity_filter |= CONTEXT_DISABLE_FOR_COLS;
+
+		if (!(rfull_h || rfull_v))
+			sensitivity_filter |= CONTEXT_DISABLE_FOR_CELLS;
+
+		full_sheet = full_sheet || (rfull_h && rfull_v);
+
+		h = range_height (r);
+		w = range_width (r);
+		n_cols += w;
+		n_rows += h;
+		n_cells += w * h;
 
 		styles = sheet_style_collect_hlinks (sheet, r);
 		n_links += g_slist_length (styles);
@@ -2092,6 +2137,13 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		n_comments += g_slist_length (objs);
 		g_slist_free (objs);
 	}
+
+	if ((display_filter & CONTEXT_DISPLAY_FOR_COLS) && 
+	    (display_filter & CONTEXT_DISPLAY_FOR_ROWS))
+		display_filter = 0;
+	if (n_sel > 1)
+		sensitivity_filter |= CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION;
+
 	has_comment = (sheet_get_comment (sheet, &sv->edit_pos) != NULL);
 	range_init_cellpos (&rge, &sv->edit_pos);
 	has_link = (NULL != sheet_style_region_contains_link (sheet, &rge));
@@ -2130,7 +2182,43 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 			format = ngettext ("_Remove %d Comment", "_Remove %d Comments", n_comments);
 			popup_elements[POPUPITEM_COMMENT_REMOVE].allocated_name = g_strdup_printf (format, n_comments);
 		}
+		format = ngettext ("_Insert %d Cell...", "_Insert %d Cells...", n_cells);
+		popup_elements[POPUPITEM_INSERT_CELL].allocated_name = g_strdup_printf (format, n_cells);
+		format = ngettext ("_Delete %d Cell...", "_Delete %d Cells...", n_cells);
+		popup_elements[POPUPITEM_DELETE_CELL].allocated_name = g_strdup_printf (format, n_cells);
 	}
+
+	if (display_filter & CONTEXT_DISPLAY_FOR_COLS) {
+		char const *format;
+		format = ngettext ("_Insert %d Column", "_Insert %d Columns", n_cols);
+		popup_elements[POPUPITEM_INSERT_COLUMN].allocated_name = g_strdup_printf (format, n_cols);
+		format = ngettext ("_Delete %d Column", "_Delete %d Columns", n_cols);
+		popup_elements[POPUPITEM_DELETE_COLUMN].allocated_name = g_strdup_printf (format, n_cols);
+		if (!(sensitivity_filter & (CONTEXT_DISABLE_FOR_CELLS | CONTEXT_DISABLE_FOR_ROWS))) {
+			format = ngettext ("_Format %d Column", "_Format %d Columns", n_cols);
+			popup_elements[POPUPITEM_FORMAT].allocated_name 
+				= g_strdup_printf (format, n_cols);
+		}
+	}	
+	if (display_filter & CONTEXT_DISPLAY_FOR_ROWS) {
+		char const *format;
+		format = ngettext ("_Insert %d Row", "_Insert %d Rows", n_rows);
+		popup_elements[POPUPITEM_INSERT_ROW].allocated_name = g_strdup_printf (format, n_rows);
+		format = ngettext ("_Delete %d Row", "_Delete %d Rows", n_rows);
+		popup_elements[POPUPITEM_DELETE_ROW].allocated_name = g_strdup_printf (format, n_rows);
+		
+		if (!(sensitivity_filter & (CONTEXT_DISABLE_FOR_CELLS | CONTEXT_DISABLE_FOR_COLS))) {
+			format = ngettext ("_Format %d Row", "_Format %d Rows", n_rows);
+			popup_elements[POPUPITEM_FORMAT].allocated_name 
+				= g_strdup_printf (format, n_rows);
+		}
+	}
+	if (!popup_elements[POPUPITEM_FORMAT].allocated_name && !full_sheet) {
+		char const *format;
+		format = ngettext ("_FORMAT %d Cell...", "_Format %d Cells", n_cells);
+		popup_elements[POPUPITEM_FORMAT].allocated_name = g_strdup_printf (format, n_cells);
+	}
+	
 
 	gnumeric_create_popup_menu (popup_elements, &context_menu_handler,
 				    scg, display_filter,

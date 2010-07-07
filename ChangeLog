@@ -1,5 +1,10 @@
 2010-07-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/sheet-control-gui.c (context_menu_handler): make the items context
+	  sensitive.
+
+2010-07-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/sheet-control-gui.c (context_menu_handler): use the number of links
 	  in the undo string.
 	(scg_context_menu): show the correct hyperlink menu items.
