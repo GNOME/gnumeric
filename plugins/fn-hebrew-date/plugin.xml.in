@@ -17,6 +17,9 @@
 				<function name="hdate_day"/>
 				<function name="hdate_year"/>
 				<function name="hdate_julian"/>
+				<function name="date2hdate"/>
+				<function name="date2hdate_heb"/>
+				<function name="date2julian"/>
 			</functions>
 		</service>
 	</services>

@@ -36,6 +36,7 @@
 #include <mathfunc.h>
 #include <workbook.h>
 #include <sheet.h>
+#include <gnm-datetime.h>
 
 #include <math.h>
 
@@ -45,6 +46,8 @@
 #include <gnm-plugin.h>
 
 GNM_PLUGIN_MODULE_HEADER;
+
+#define DATE_CONV(ep)               workbook_date_conv ((ep)->sheet->workbook)
 
 static void
 gnumeric_hdate_get_date (GnmValue const * const *arg, int *year, int *month, int *day)
@@ -62,6 +65,24 @@ gnumeric_hdate_get_date (GnmValue const * const *arg, int *year, int *month, int
 		g_date_get_day (&date);
 	
 	return;
+}
+
+static GnmValue *
+gnumeric_date_get_date (GnmFuncEvalInfo * ei, GnmValue const * const val, 
+			int *year, int *month, int *day)
+{
+	GDate date;
+
+	if (val == NULL)
+		g_date_set_time_t (&date, time (NULL));
+	else if (!datetime_value_to_g (&date, val, DATE_CONV (ei->pos)))
+		return value_new_error_NUM (ei->pos);
+		
+	*year = g_date_get_year (&date);
+	*month = g_date_get_month (&date);
+	*day = g_date_get_day (&date);
+	
+	return NULL;
 }
 
 /***************************************************************************/
@@ -99,6 +120,42 @@ gnumeric_hdate (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+
+
+static GnmFuncHelp const help_date2hdate[] = {
+	{ GNM_FUNC_HELP_NAME, F_("DATE2HDATE:Hebrew date") },
+        { GNM_FUNC_HELP_ARG, F_("date:Gregorian date, defaults to today")},
+        { GNM_FUNC_HELP_EXAMPLES, "=DATE2HDATE(DATE(2001,3,30))" },
+        { GNM_FUNC_HELP_EXAMPLES, "=DATE2HDATE()" },
+        { GNM_FUNC_HELP_SEEALSO, "HDATE,DATE2HDATE_HEB"},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_date2hdate (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
+{
+	int year, month, day;
+	int hyear, hmonth, hday;
+	char *res;
+	GnmValue *val;
+
+	val = gnumeric_date_get_date (ei,argv[0], &year, &month, &day);
+	if (val != NULL)
+		return val;
+
+	if (0 != hdate_gdate_to_hdate (day, month, year, &hday, &hmonth, &hyear))
+		return value_new_error_VALUE (ei->pos);
+
+	res = g_strdup_printf ("%d %s %d",
+			       hday + 1,
+			       hdate_get_hebrew_month_name (hmonth),
+			       hyear);
+
+	return value_new_string_nocopy (res);
+}
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_hdate_heb[] = {
 	{ GNM_FUNC_HELP_NAME, F_("HDATE_HEB:Hebrew date in Hebrew") },
         { GNM_FUNC_HELP_ARG, F_("year:Gregorian year of date, defaults to the current year")},
@@ -118,6 +175,42 @@ gnumeric_hdate_heb (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 	GString *res;
 
 	gnumeric_hdate_get_date (argv, &year, &month, &day);
+
+	if (0 != hdate_gdate_to_hdate (day, month, year, &hday, &hmonth, &hyear))
+		return value_new_error_VALUE (ei->pos);
+
+	res = g_string_new (NULL);
+	hdate_int_to_hebrew (res, hday + 1);
+	g_string_append_c (res, ' ');
+	g_string_append (res, hdate_get_hebrew_month_name_heb (hmonth));
+	g_string_append_c (res, ' ');
+	hdate_int_to_hebrew (res, hyear);
+
+	return value_new_string_nocopy (g_string_free (res, FALSE));
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_date2hdate_heb[] = {
+	{ GNM_FUNC_HELP_NAME, F_("DATE2HDATE_HEB:Hebrew date in Hebrew") },
+        { GNM_FUNC_HELP_ARG, F_("date:Gregorian date, defaults to today")},
+        { GNM_FUNC_HELP_EXAMPLES, "=DATE2HDATE_HEB(DATE(2001,3,30))" },
+        { GNM_FUNC_HELP_EXAMPLES, "=DATE2HDATE_HEB()" },
+        { GNM_FUNC_HELP_SEEALSO, "DATE2HDATE,HDATE_HEB"},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_date2hdate_heb (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
+{
+	int year, month, day;
+	int hyear, hmonth, hday;
+	GString *res;
+	GnmValue *val;
+
+	val = gnumeric_date_get_date (ei,argv[0], &year, &month, &day);
+	if (val != NULL)
+		return val;
 
 	if (0 != hdate_gdate_to_hdate (day, month, year, &hday, &hmonth, &hyear))
 		return value_new_error_VALUE (ei->pos);
@@ -241,6 +334,33 @@ gnumeric_hdate_julian (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_date2julian[] = {
+	{ GNM_FUNC_HELP_NAME, F_("DATE2JULIAN:Julian day number for given Gregorian date") },
+        { GNM_FUNC_HELP_ARG, F_("date:Gregorian date, defaults to today")},
+        { GNM_FUNC_HELP_EXAMPLES, "=DATE2JULIAN(DATE(2001,3,30))" },
+        { GNM_FUNC_HELP_EXAMPLES, "=DATE2JULIAN()" },
+        { GNM_FUNC_HELP_SEEALSO, "HDATE_JULIAN"},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_date2julian (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
+{
+	int year, month, day;
+	int julian;
+	GnmValue *val;
+
+	val = gnumeric_date_get_date (ei, argv[0], &year, &month, &day);
+	if (val != NULL)
+		return val;
+	
+	julian = hdate_gdate_to_jd (day, month, year);
+
+	return value_new_int (julian);
+}
+
+/***************************************************************************/
+
 GnmFuncDescriptor const datetime_functions[] = {
 	{"hdate", "|fff", help_hdate,
 	 gnumeric_hdate, NULL, NULL, NULL, NULL,
@@ -269,6 +389,21 @@ GnmFuncDescriptor const datetime_functions[] = {
 	 GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
 	 {"hdate_julian", "|fff", help_hdate_julian,
 	 gnumeric_hdate_julian, NULL, NULL, NULL, NULL,
+	 GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
+	 GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
+	 GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
+	 {"date2hdate", "|f", help_date2hdate,
+	 gnumeric_date2hdate, NULL, NULL, NULL, NULL,
+	 GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
+	 GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
+	 GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
+	 {"date2hdate_heb", "|f", help_date2hdate_heb,
+	 gnumeric_date2hdate_heb, NULL, NULL, NULL, NULL,
+	 GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
+	 GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
+	 GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
+	 {"date2julian", "|f", help_date2julian,
+	 gnumeric_date2julian, NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	 GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 	 GNM_FUNC_TEST_STATUS_NO_TESTSUITE},

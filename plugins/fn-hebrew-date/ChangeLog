@@ -1,5 +1,12 @@
 2010-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* plugin.xml.in: new functions DATE2HDATE, DATE2HDATE_HEB, and
+	  DATE2JULIAN
+	* functions.c: ditto
+	(gnumeric_date_get_date): new
+
+2010-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c: update all argument descriptions, defaulting to
 	  the current day. Don 't ignore the return value of hdate_gdate_to_hdate
 

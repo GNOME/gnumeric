@@ -17,6 +17,7 @@ Andreas:
 	* Improve the presentation of the examples in the function
 	  documentation. [#623455]
 	* Fix HDATE and friends. [#623764]
+	* New functions DATE2HDATE, DATE2HDATE_HEB and DATE2JULIAN.
 
 Jean:
 	* Fix strong/weak cursor display. [#623241]
