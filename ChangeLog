@@ -1,3 +1,7 @@
+2010-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-control-gui.c (context_menu_handler): fix capitalization
+
 2010-07-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-control-gui.c (context_menu_handler): make the items context
