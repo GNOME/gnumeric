@@ -232,6 +232,8 @@ gnumeric_hdate_julian (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 	int year, month, day;
 	int julian;
 
+	gnumeric_hdate_get_date (argv, &year, &month, &day);
+
 	julian = hdate_gdate_to_jd (day, month, year);
 
 	return value_new_int (julian);
