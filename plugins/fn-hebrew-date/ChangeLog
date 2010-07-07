@@ -1,3 +1,8 @@
+2010-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c: update all argument descriptions, defaulting to
+	  the current day. Don 't ignore the return value of hdate_gdate_to_hdate
+
 2010-06-28  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.7

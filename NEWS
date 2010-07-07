@@ -16,6 +16,7 @@ Andreas:
 	* Fix date function docs issue.  [#623669]
 	* Improve the presentation of the examples in the function
 	  documentation. [#623455]
+	* Fix HDATE and friends. [#623764]
 
 Jean:
 	* Fix strong/weak cursor display. [#623241]

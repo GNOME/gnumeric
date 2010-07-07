@@ -46,14 +46,33 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
+static void
+gnumeric_hdate_get_date (GnmValue const * const *arg, int *year, int *month, int *day)
+{
+	GDate date;
+
+	if (arg[0] == NULL || arg[1]  == NULL || arg[2] == NULL)
+		g_date_set_time_t (&date, time (NULL));
+
+	*year = (arg[0]) ? value_get_as_int (arg[0])
+		: g_date_get_year (&date);
+	*month = (arg[1]) ? value_get_as_int (arg[1]) :
+		(int)g_date_get_month (&date);
+	*day = (arg[2]) ? value_get_as_int (arg[2]) :
+		g_date_get_day (&date);
+	
+	return;
+}
+
 /***************************************************************************/
 
 static GnmFuncHelp const help_hdate[] = {
 	{ GNM_FUNC_HELP_NAME, F_("HDATE:Hebrew date") },
-        { GNM_FUNC_HELP_ARG, F_("year:year of date")},
-        { GNM_FUNC_HELP_ARG, F_("month:month of year")},
-        { GNM_FUNC_HELP_ARG, F_("day:day of month")},
+        { GNM_FUNC_HELP_ARG, F_("year:Gregorian year of date, defaults to the current year")},
+        { GNM_FUNC_HELP_ARG, F_("month:Gregorian month of year, defaults to the current month")},
+        { GNM_FUNC_HELP_ARG, F_("day:Gregorian day of month, defaults to the current day")},
         { GNM_FUNC_HELP_EXAMPLES, "=HDATE(2001,3,30)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=HDATE()" },
         { GNM_FUNC_HELP_SEEALSO, "HDATE_HEB,DATE"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -65,11 +84,10 @@ gnumeric_hdate (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 	int hyear, hmonth, hday;
 	char *res;
 
-	year = value_get_as_int (argv[0]);
-	month = value_get_as_int (argv[1]);
-	day = value_get_as_int (argv[2]);
+	gnumeric_hdate_get_date (argv, &year, &month, &day);
 
-	hdate_gdate_to_hdate (day, month, year, &hday, &hmonth, &hyear);
+	if (0 != hdate_gdate_to_hdate (day, month, year, &hday, &hmonth, &hyear))
+		return value_new_error_VALUE (ei->pos);
 
 	res = g_strdup_printf ("%d %s %d",
 			       hday + 1,
@@ -83,10 +101,11 @@ gnumeric_hdate (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_hdate_heb[] = {
 	{ GNM_FUNC_HELP_NAME, F_("HDATE_HEB:Hebrew date in Hebrew") },
-        { GNM_FUNC_HELP_ARG, F_("year:year of date")},
-        { GNM_FUNC_HELP_ARG, F_("month:month of year")},
-        { GNM_FUNC_HELP_ARG, F_("day:day of month")},
+        { GNM_FUNC_HELP_ARG, F_("year:Gregorian year of date, defaults to the current year")},
+        { GNM_FUNC_HELP_ARG, F_("month:Gregorian month of year, defaults to the current month")},
+        { GNM_FUNC_HELP_ARG, F_("day:Gregorian day of month, defaults to the current day")},
         { GNM_FUNC_HELP_EXAMPLES, "=HDATE_HEB(2001,3,30)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=HDATE_HEB()" },
         { GNM_FUNC_HELP_SEEALSO, "HDATE,DATE"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -98,11 +117,10 @@ gnumeric_hdate_heb (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 	int hyear, hmonth, hday;
 	GString *res;
 
-	year = value_get_as_int (argv[0]);
-	month = value_get_as_int (argv[1]);
-	day = value_get_as_int (argv[2]);
+	gnumeric_hdate_get_date (argv, &year, &month, &day);
 
-	hdate_gdate_to_hdate (day, month, year, &hday, &hmonth, &hyear);
+	if (0 != hdate_gdate_to_hdate (day, month, year, &hday, &hmonth, &hyear))
+		return value_new_error_VALUE (ei->pos);
 
 	res = g_string_new (NULL);
 	hdate_int_to_hebrew (res, hday + 1);
@@ -118,10 +136,11 @@ gnumeric_hdate_heb (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_hdate_month[] = {
 	{ GNM_FUNC_HELP_NAME, F_("HDATE_MONTH:Hebrew month of Gregorian date") },
-        { GNM_FUNC_HELP_ARG, F_("year:Gregorian year of date")},
-        { GNM_FUNC_HELP_ARG, F_("month:Gregorian month of year")},
-        { GNM_FUNC_HELP_ARG, F_("day:Gregorian day of month")},
+        { GNM_FUNC_HELP_ARG, F_("year:Gregorian year of date, defaults to the current year")},
+        { GNM_FUNC_HELP_ARG, F_("month:Gregorian month of year, defaults to the current month")},
+        { GNM_FUNC_HELP_ARG, F_("day:Gregorian day of month, defaults to the current day")},
         { GNM_FUNC_HELP_EXAMPLES, "=HDATE_MONTH(2001,3,30)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=HDATE_MONTH()" },
         { GNM_FUNC_HELP_SEEALSO, "HDATE_JULIAN"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -132,11 +151,10 @@ gnumeric_hdate_month (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 	int year, month, day;
 	int hyear, hmonth, hday;
 
-	year = value_get_as_int (argv[0]);
-	month = value_get_as_int (argv[1]);
-	day = value_get_as_int (argv[2]);
+	gnumeric_hdate_get_date (argv, &year, &month, &day);
 
-	hdate_gdate_to_hdate (day, month, year, &hday, &hmonth, &hyear);
+	if (0 != hdate_gdate_to_hdate (day, month, year, &hday, &hmonth, &hyear))
+		return value_new_error_VALUE (ei->pos);
 
 	return value_new_int (hmonth);
 }
@@ -145,10 +163,11 @@ gnumeric_hdate_month (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_hdate_day[] = {
 	{ GNM_FUNC_HELP_NAME, F_("HDATE_DAY:Hebrew day of Gregorian date") },
-        { GNM_FUNC_HELP_ARG, F_("year:Gregorian year of date")},
-        { GNM_FUNC_HELP_ARG, F_("month:Gregorian month of year")},
-        { GNM_FUNC_HELP_ARG, F_("day:Gregorian day of month")},
+        { GNM_FUNC_HELP_ARG, F_("year:Gregorian year of date, defaults to the current year")},
+        { GNM_FUNC_HELP_ARG, F_("month:Gregorian month of year, defaults to the current month")},
+        { GNM_FUNC_HELP_ARG, F_("day:Gregorian day of month, defaults to the current day")},
         { GNM_FUNC_HELP_EXAMPLES, "=HDATE_DAY(2001,3,30)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=HDATE_DAY()" },
         { GNM_FUNC_HELP_SEEALSO, "HDATE_JULIAN"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -159,11 +178,10 @@ gnumeric_hdate_day (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 	int year, month, day;
 	int hyear, hmonth, hday;
 
-	year = value_get_as_int (argv[0]);
-	month = value_get_as_int (argv[1]);
-	day = value_get_as_int (argv[2]);
+	gnumeric_hdate_get_date (argv, &year, &month, &day);
 
-	hdate_gdate_to_hdate (day, month, year, &hday, &hmonth, &hyear);
+	if (0 != hdate_gdate_to_hdate (day, month, year, &hday, &hmonth, &hyear))
+		return value_new_error_VALUE (ei->pos);
 
 	return value_new_int (hday + 1);
 }
@@ -172,10 +190,11 @@ gnumeric_hdate_day (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_hdate_year[] = {
 	{ GNM_FUNC_HELP_NAME, F_("HDATE_YEAR:Hebrew year of Gregorian date") },
-        { GNM_FUNC_HELP_ARG, F_("year:Gregorian year of date")},
-        { GNM_FUNC_HELP_ARG, F_("month:Gregorian month of year")},
-        { GNM_FUNC_HELP_ARG, F_("day:Gregorian day of month")},
+        { GNM_FUNC_HELP_ARG, F_("year:Gregorian year of date, defaults to the current year")},
+        { GNM_FUNC_HELP_ARG, F_("month:Gregorian month of year, defaults to the current month")},
+        { GNM_FUNC_HELP_ARG, F_("day:Gregorian day of month, defaults to the current day")},
         { GNM_FUNC_HELP_EXAMPLES, "=HDATE_YEAR(2001,3,30)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=HDATE_YEAR()" },
         { GNM_FUNC_HELP_SEEALSO, "HDATE_JULIAN"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -186,11 +205,10 @@ gnumeric_hdate_year (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 	int year, month, day;
 	int hyear, hmonth, hday;
 
-	year = value_get_as_int (argv[0]);
-	month = value_get_as_int (argv[1]);
-	day = value_get_as_int (argv[2]);
+	gnumeric_hdate_get_date (argv, &year, &month, &day);
 
-	hdate_gdate_to_hdate (day, month, year, &hday, &hmonth, &hyear);
+	if (0 != hdate_gdate_to_hdate (day, month, year, &hday, &hmonth, &hyear))
+		return value_new_error_VALUE (ei->pos);
 
 	return value_new_int (hyear);
 }
@@ -199,10 +217,11 @@ gnumeric_hdate_year (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_hdate_julian[] = {
 	{ GNM_FUNC_HELP_NAME, F_("HDATE_JULIAN:Julian day number for given Gregorian date") },
-        { GNM_FUNC_HELP_ARG, F_("year:Gregorian year of date")},
-        { GNM_FUNC_HELP_ARG, F_("month:Gregorian month of year")},
-        { GNM_FUNC_HELP_ARG, F_("day:Gregorian day of month")},
+        { GNM_FUNC_HELP_ARG, F_("year:Gregorian year of date, defaults to the current year")},
+        { GNM_FUNC_HELP_ARG, F_("month:Gregorian month of year, defaults to the current month")},
+        { GNM_FUNC_HELP_ARG, F_("day:Gregorian day of month, defaults to the current day")},
         { GNM_FUNC_HELP_EXAMPLES, "=HDATE_JULIAN(2001,3,30)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=HDATE_JULIAN()" },
         { GNM_FUNC_HELP_SEEALSO, "HDATE"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -213,10 +232,6 @@ gnumeric_hdate_julian (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 	int year, month, day;
 	int julian;
 
-	year = value_get_as_int (argv[0]);
-	month = value_get_as_int (argv[1]);
-	day = value_get_as_int (argv[2]);
-
 	julian = hdate_gdate_to_jd (day, month, year);
 
 	return value_new_int (julian);
@@ -225,32 +240,32 @@ gnumeric_hdate_julian (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 GnmFuncDescriptor const datetime_functions[] = {
-	{"hdate", "fff", help_hdate,
+	{"hdate", "|fff", help_hdate,
 	 gnumeric_hdate, NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	 GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 	 GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
-	{"hdate_heb", "fff", help_hdate_heb,
+	{"hdate_heb", "|fff", help_hdate_heb,
 	 gnumeric_hdate_heb, NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	 GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 	 GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
-	 {"hdate_day", "fff", help_hdate_day,
+	 {"hdate_day", "|fff", help_hdate_day,
 	 gnumeric_hdate_day, NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	 GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 	 GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
-	 {"hdate_month", "fff", help_hdate_month,
+	 {"hdate_month", "|fff", help_hdate_month,
 	 gnumeric_hdate_month, NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	 GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 	 GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
-	 {"hdate_year", "fff", help_hdate_year,
+	 {"hdate_year", "|fff", help_hdate_year,
 	 gnumeric_hdate_year, NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	 GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 	 GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
-	 {"hdate_julian", "fff", help_hdate_julian,
+	 {"hdate_julian", "|fff", help_hdate_julian,
 	 gnumeric_hdate_julian, NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	 GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
