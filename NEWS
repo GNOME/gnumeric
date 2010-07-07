@@ -12,7 +12,7 @@ Andreas:
 	* Fix additional undo entry for sheet object duplication. [#623559]
 	* Fix undo of object creation followed by duplication. [#623566]
 	* Avoid creating interacting auto filters. [#607086]
-	* Improve comment items of in-cell pop-up menu.
+	* Improve items of in-cell pop-up menu.
 	* Fix date function docs issue.  [#623669]
 
 Jean:

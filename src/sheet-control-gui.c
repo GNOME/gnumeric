@@ -1859,9 +1859,24 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 
 	case CONTEXT_HYPERLINK_REMOVE: {
 		GnmStyle *style = gnm_style_new ();
+		GSList *l;
+		int n_links = 0;
+		gchar const *format;
+		gchar *name;
+
+		for (l = scg_view (scg)->selections; l != NULL; l = l->next) {
+			GnmRange const *r = l->data;
+			GnmStyleList *styles;
+			
+			styles = sheet_style_collect_hlinks (sheet, r);
+			n_links += g_slist_length (styles);
+			style_list_free (styles);
+		}
+		format = ngettext ("Remove %d Link", "Remove %d Links", n_links);
+		name = g_strdup_printf (format, n_links);
 		gnm_style_set_hlink (style, NULL);
-		cmd_selection_format (wbc, style, NULL,
-			_("Remove Hyperlink"));
+		cmd_selection_format (wbc, style, NULL, name);
+		g_free (name);
 		break;
 	}
 	case CONTEXT_DATA_SLICER_REFRESH :
@@ -1890,12 +1905,13 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		CONTEXT_DISPLAY_FOR_COLS		= 1 << 2,
 		CONTEXT_DISPLAY_WITH_HYPERLINK		= 1 << 3,
 		CONTEXT_DISPLAY_WITHOUT_HYPERLINK	= 1 << 4,
-		CONTEXT_DISPLAY_WITH_DATA_SLICER	= 1 << 5,
-		CONTEXT_DISPLAY_WITH_DATA_SLICER_ROW	= 1 << 6,
-		CONTEXT_DISPLAY_WITH_DATA_SLICER_COL	= 1 << 7,
-		CONTEXT_DISPLAY_WITH_COMMENT		= 1 << 8,
-		CONTEXT_DISPLAY_WITHOUT_COMMENT	        = 1 << 9,
-		CONTEXT_DISPLAY_WITH_COMMENT_IN_RANGE	= 1 << 10
+		CONTEXT_DISPLAY_WITH_HYPERLINK_IN_RANGE	= 1 << 5,
+		CONTEXT_DISPLAY_WITH_DATA_SLICER	= 1 << 6,
+		CONTEXT_DISPLAY_WITH_DATA_SLICER_ROW	= 1 << 7,
+		CONTEXT_DISPLAY_WITH_DATA_SLICER_COL	= 1 << 8,
+		CONTEXT_DISPLAY_WITH_COMMENT		= 1 << 9,
+		CONTEXT_DISPLAY_WITHOUT_COMMENT	        = 1 << 10,
+		CONTEXT_DISPLAY_WITH_COMMENT_IN_RANGE	= 1 << 11
 	};
 	enum {
 		CONTEXT_DISABLE_PASTE_SPECIAL	= 1,
@@ -1978,7 +1994,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		    CONTEXT_DISPLAY_WITH_HYPERLINK, 0,
 		    CONTEXT_HYPERLINK_EDIT },
 		{ N_("_Remove Hyperlink"),	  "Gnumeric_Link_Delete",
-		    CONTEXT_DISPLAY_WITH_HYPERLINK, 0,
+		    CONTEXT_DISPLAY_WITH_HYPERLINK_IN_RANGE, 0,
 		    CONTEXT_HYPERLINK_REMOVE },
 
 		{ "", NULL, 0, 0, 0 },
@@ -2047,8 +2063,9 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 
 	GSList *l;
 	gboolean has_link = FALSE, has_comment = FALSE;
-	int n_comments = 0;
+	int n_comments = 0, n_links = 0;
 	GnmSheetSlicer *slicer;
+	GnmRange rge;
 
 	wbcg_edit_finish (scg->wbcg, WBC_EDIT_REJECT, NULL);
 
@@ -2059,6 +2076,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 	for (l = scg_view (scg)->selections; l != NULL; l = l->next) {
 		GnmRange const *r = l->data;
 		GSList *objs;
+		GnmStyleList *styles;
 
 		if (r->start.row == 0 && r->end.row == gnm_sheet_get_last_row (sheet))
 			sensitivity_filter |= CONTEXT_DISABLE_FOR_ROWS;
@@ -2066,13 +2084,17 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		if (r->start.col == 0 && r->end.col == gnm_sheet_get_last_col (sheet))
 			sensitivity_filter |= CONTEXT_DISABLE_FOR_COLS;
 
-		if (!has_link && sheet_style_region_contains_link (sheet, r))
-			has_link = TRUE;
+		styles = sheet_style_collect_hlinks (sheet, r);
+		n_links += g_slist_length (styles);
+		style_list_free (styles);
+
 		objs = sheet_objects_get (sheet, r, CELL_COMMENT_TYPE);
 		n_comments += g_slist_length (objs);
 		g_slist_free (objs);
 	}
 	has_comment = (sheet_get_comment (sheet, &sv->edit_pos) != NULL);
+	range_init_cellpos (&rge, &sv->edit_pos);
+	has_link = (NULL != sheet_style_region_contains_link (sheet, &rge));
 
 	slicer = sv_editpos_in_slicer (scg_view (scg));
 	/* FIXME: disabled for now */
@@ -2092,10 +2114,17 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		char const *format;
 		display_filter |= ((has_link) ?
 				   CONTEXT_DISPLAY_WITH_HYPERLINK : CONTEXT_DISPLAY_WITHOUT_HYPERLINK);
+		display_filter |= ((n_links > 0) ?
+				   CONTEXT_DISPLAY_WITH_HYPERLINK_IN_RANGE : CONTEXT_DISPLAY_WITHOUT_HYPERLINK);
 		display_filter |= ((has_comment) ?
 				   CONTEXT_DISPLAY_WITH_COMMENT : CONTEXT_DISPLAY_WITHOUT_COMMENT);
 		display_filter |= ((n_comments > 0) ?
 				   CONTEXT_DISPLAY_WITH_COMMENT_IN_RANGE : CONTEXT_DISPLAY_WITHOUT_COMMENT);
+		if (n_links > 0) {
+			/* xgettext : %d gives the number of links. This is input to ngettext. */
+			format = ngettext ("_Remove %d Link", "_Remove %d Links", n_links);
+			popup_elements[POPUPITEM_LINK_REMOVE].allocated_name = g_strdup_printf (format, n_links);
+		}
 		if (n_comments > 0) {
 			/* xgettext : %d gives the number of comments. This is input to ngettext. */
 			format = ngettext ("_Remove %d Comment", "_Remove %d Comments", n_comments);

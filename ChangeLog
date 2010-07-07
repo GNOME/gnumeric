@@ -1,5 +1,11 @@
 2010-07-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/sheet-control-gui.c (context_menu_handler): use the number of links
+	  in the undo string.
+	(scg_context_menu): show the correct hyperlink menu items.
+
+2010-07-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/gui-util.h (GnumericPopupMenuElement): add field
 	* src/gui-util.c (gnumeric_create_popup_menu): handle new field
 	* src/sheet-control-gui.c (context_menu_handler): handle removal
