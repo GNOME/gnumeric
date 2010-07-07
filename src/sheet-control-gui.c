@@ -1917,8 +1917,10 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		CONTEXT_DISABLE_PASTE_SPECIAL	= 1 << 0,
 		CONTEXT_DISABLE_FOR_ROWS	= 1 << 1,
 		CONTEXT_DISABLE_FOR_COLS	= 1 << 2,
-		CONTEXT_DISABLE_FOR_CELLS        = 1 << 3,
-		CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION = 1 << 4
+		CONTEXT_DISABLE_FOR_CELLS       = 1 << 3,
+		CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION = 1 << 4,
+		CONTEXT_DISABLE_FOR_ALL_COLS        = 1 << 5,
+		CONTEXT_DISABLE_FOR_ALL_ROWS        = 1 << 6
 	};
 
 	/* Note: keep the following two in sync!*/
@@ -2043,26 +2045,18 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		    0, 0, CONTEXT_FORMAT_CELL },
 
 		/* Column specific (Note some labels duplicate row labels) */
-		{ N_("Column _Width..."), "Gnumeric_ColumnSize",
-		    CONTEXT_DISPLAY_FOR_COLS, 
-		  CONTEXT_DISABLE_FOR_CELLS | CONTEXT_DISABLE_FOR_ROWS, CONTEXT_COL_WIDTH },
-		{ N_("_Hide"),		  "Gnumeric_ColumnHide",
-		    CONTEXT_DISPLAY_FOR_COLS, 
-		  CONTEXT_DISABLE_FOR_CELLS | CONTEXT_DISABLE_FOR_ROWS, CONTEXT_COL_HIDE },
-		{ N_("_Unhide"),	  "Gnumeric_ColumnUnhide",
-		    CONTEXT_DISPLAY_FOR_COLS, 
-		  CONTEXT_DISABLE_FOR_CELLS | CONTEXT_DISABLE_FOR_ROWS, CONTEXT_COL_UNHIDE },
+		{ N_("Column"), NULL, 0, 0, -1},/* start sub menu */
+		{ N_("_Width..."), "Gnumeric_ColumnSize",   0, 0, CONTEXT_COL_WIDTH },
+		{ N_("_Hide"),	   "Gnumeric_ColumnHide",   0, CONTEXT_DISABLE_FOR_ALL_COLS, CONTEXT_COL_HIDE },
+		{ N_("_Unhide"),   "Gnumeric_ColumnUnhide", 0, 0, CONTEXT_COL_UNHIDE },
+		{ N_(""), NULL, 0, 0, -1},/* end sub menu */
 
 		/* Row specific (Note some labels duplicate col labels) */
-		{ N_("_Row Height..."),	  "Gnumeric_RowSize",
-		    CONTEXT_DISPLAY_FOR_ROWS, 
-		  CONTEXT_DISABLE_FOR_CELLS | CONTEXT_DISABLE_FOR_COLS, CONTEXT_ROW_HEIGHT },
-		{ N_("_Hide"),		  "Gnumeric_RowHide",
-		    CONTEXT_DISPLAY_FOR_ROWS, 
-		  CONTEXT_DISABLE_FOR_CELLS | CONTEXT_DISABLE_FOR_COLS, CONTEXT_ROW_HIDE },
-		{ N_("_Unhide"),	  "Gnumeric_RowUnhide",
-		    CONTEXT_DISPLAY_FOR_ROWS, 
-		  CONTEXT_DISABLE_FOR_CELLS | CONTEXT_DISABLE_FOR_COLS, CONTEXT_ROW_UNHIDE },
+		{ N_("Row"), NULL, 0, 0, -1},/* start sub menu */
+		{ N_("Hei_ght..."), "Gnumeric_RowSize",   0, 0, CONTEXT_ROW_HEIGHT },
+		{ N_("_Hide"),	    "Gnumeric_RowHide",   0, CONTEXT_DISABLE_FOR_ALL_ROWS, CONTEXT_ROW_HIDE },
+		{ N_("_Unhide"),    "Gnumeric_RowUnhide", 0, 0, CONTEXT_ROW_UNHIDE },
+		{ N_(""), NULL, 0, 0, -1},/* end sub menu */
 
 		{ NULL, NULL, 0, 0, 0 },
 	};
@@ -2108,6 +2102,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		if (rfull_v) {
 			display_filter |= CONTEXT_DISPLAY_FOR_COLS;
 			display_filter &= ~CONTEXT_DISPLAY_FOR_CELLS;
+			sensitivity_filter |= CONTEXT_DISABLE_FOR_ALL_ROWS;
 		} else
 			sensitivity_filter |= CONTEXT_DISABLE_FOR_ROWS;
 		
@@ -2115,6 +2110,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		if (rfull_h) {
 			display_filter |= CONTEXT_DISPLAY_FOR_ROWS;
 			display_filter &= ~CONTEXT_DISPLAY_FOR_CELLS;
+			sensitivity_filter |= CONTEXT_DISABLE_FOR_ALL_COLS;
 		} else
 			sensitivity_filter |= CONTEXT_DISABLE_FOR_COLS;
 
