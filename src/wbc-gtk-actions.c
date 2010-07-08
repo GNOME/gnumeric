@@ -1708,6 +1708,20 @@ static GNM_ACTION_DEF (cb_copyright)
 	cmd_copyrel (wbc, -1, 0, _("Copy right"));
 }
 
+static GNM_ACTION_DEF (cb_format_cells_auto_fit_height)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	workbook_cmd_autofit_selection 
+		(wbc, wb_control_cur_sheet (wbc), FALSE);	
+}
+
+static GNM_ACTION_DEF (cb_format_cells_auto_fit_width)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	workbook_cmd_autofit_selection 
+		(wbc, wb_control_cur_sheet (wbc), TRUE);	
+}
+
 static GNM_ACTION_DEF (cb_format_column_auto_fit)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
@@ -2122,9 +2136,6 @@ static GtkActionEntry const actions[] = {
 		G_CALLBACK (cb_define_name) },
 
 /* Format */
-	{ "FormatCells", NULL, N_("_Format..."),
-		"<control>1", N_("Modify the formatting of the selected cells"),
-		G_CALLBACK (cb_format_cells) },
 	{ "FormatWorkbook", NULL, N_("View _Properties..."),
 		NULL, N_("Modify the view properties"),
 		G_CALLBACK (cb_workbook_attr) },
@@ -2135,12 +2146,24 @@ static GtkActionEntry const actions[] = {
 		NULL, N_("Toggle sheet direction, left-to-right vs right-to-left"),
 		G_CALLBACK (cb_direction) },
 
+/* Format -> Cells */
+	{ "FormatCells", NULL, N_("_Format..."),
+		"<control>1", N_("Modify the formatting of the selected cells"),
+		G_CALLBACK (cb_format_cells) },
+	{ "FormatCellsFitHeight", NULL, N_("Auto Fit _Height"), NULL, 
+	  N_("Ensure rows are just tall enough to display content of selection"),
+	  G_CALLBACK (cb_format_cells_auto_fit_height) },
+	{ "FormatCellsFitWidth", NULL, N_("Auto Fit _Width"), NULL, 
+	  N_("Ensure columns are just wide enough to display content of selection"),
+	  G_CALLBACK (cb_format_cells_auto_fit_width) },
+	
+
 /* Format -> Col */
 	{ "ColumnSize", "Gnumeric_ColumnSize", N_("_Width..."),
 		NULL, N_("Change width of the selected columns"),
 		G_CALLBACK (cb_set_column_width) },
-	{ "ColumnAutoSize", NULL, N_("_Auto fit selection"),
-		NULL, N_("Ensure columns are just wide enough to display content"),
+	{ "ColumnAutoSize", NULL, N_("_Auto Fit Width"),
+		NULL, N_("Ensure columns are just wide enough to display their content"),
 		G_CALLBACK (cb_format_column_auto_fit) },
 	{ "ColumnHide", "Gnumeric_ColumnHide", N_("_Hide"),
 		"<control>0", N_("Hide the selected columns"),
@@ -2156,8 +2179,8 @@ static GtkActionEntry const actions[] = {
 	{ "RowSize", "Gnumeric_RowSize", N_("H_eight..."),
 		NULL, N_("Change height of the selected rows"),
 		G_CALLBACK (cb_set_row_height) },
-	{ "RowAutoSize", NULL, N_("_Auto fit selection"),
-		NULL, N_("Ensure rows are just tall enough to display content"),
+	{ "RowAutoSize", NULL, N_("_Auto Fit Height"),
+		NULL, N_("Ensure rows are just tall enough to display their content"),
 		G_CALLBACK (cb_format_row_auto_fit) },
 	{ "RowHide", "Gnumeric_RowHide", N_("_Hide"),
 		"<control>9", N_("Hide the selected rows"),

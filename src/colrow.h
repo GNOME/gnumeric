@@ -111,7 +111,8 @@ void		 colrow_set_states	     (Sheet *sheet, gboolean is_cols,
 
 ColRowStateGroup  *colrow_state_group_destroy	(ColRowStateGroup *set);
 ColRowStateGroup  *colrow_set_sizes		(Sheet *sheet, gboolean is_cols,
-						 ColRowIndexList *src, int new_size);
+						 ColRowIndexList *src, int new_size, 
+						 int from, int to);
 ColRowStateGroup  *colrow_get_sizes		(Sheet *sheet, gboolean is_cols,
 						 ColRowIndexList *src, int new_size);
 void		   colrow_restore_state_group	(Sheet *sheet, gboolean is_cols,

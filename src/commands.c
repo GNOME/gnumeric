@@ -1888,11 +1888,41 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 	undo = gnm_undo_colrow_restore_state_group_new 
 		(sheet, is_cols, colrow_index_list_copy (selection), saved_state);
 
- 	redo = gnm_undo_colrow_set_sizes_new (sheet, is_cols, selection, new_size);
+ 	redo = gnm_undo_colrow_set_sizes_new (sheet, is_cols, selection, new_size, NULL);
 
 	result = cmd_generic_with_size (wbc, text, size, undo, redo);
 	g_free (text);
 
+	return result;
+}
+
+gboolean
+cmd_autofit_selection (WorkbookControl *wbc, SheetView *sv, Sheet *sheet, gboolean fit_width, 
+		       ColRowIndexList *selectionlist)
+{
+	GOUndo *undo = NULL;
+	GOUndo *redo = NULL;
+	gboolean result;
+	ColRowStateGroup *saved_state;
+	GSList *l, *selection = selection_get_ranges (sv, TRUE);
+	gchar *names = undo_range_list_name (sheet, selection);
+	gchar const *format = fit_width ? 
+		N_("Autofitting width of %s") : N_("Autofitting height of %s");
+	gchar *text = g_strdup_printf (_(format), names);
+	
+	g_free (names);
+	
+	saved_state = colrow_get_sizes (sheet, fit_width, selectionlist, -1);;
+	undo = gnm_undo_colrow_restore_state_group_new 
+		(sheet, fit_width, colrow_index_list_copy (selectionlist), saved_state);
+
+	for (l = selection; l != NULL; l = l->next)
+		redo = go_undo_combine 
+			(redo, gnm_undo_colrow_set_sizes_new 
+			 (sheet, fit_width, NULL, -1, l->data));
+
+	result = cmd_generic (wbc, text, undo, redo);
+	g_free (text);
 	return result;
 }
 

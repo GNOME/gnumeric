@@ -61,6 +61,18 @@ workbook_cmd_resize_selected_colrow (WorkbookControl *wbc, Sheet *sheet,
 }
 
 void
+workbook_cmd_autofit_selection  (WorkbookControl *wbc, Sheet *sheet,
+			gboolean is_cols)
+{
+	SheetView *sv = sheet_get_view (sheet, wb_control_view (wbc));
+	struct closure_colrow_resize closure;
+	closure.is_cols = is_cols;
+	closure.selection = NULL;
+	sv_selection_foreach (sv, &cb_colrow_collect, &closure);
+	cmd_autofit_selection (wbc, sv, sheet, is_cols, closure.selection);
+}
+
+void
 workbook_cmd_inc_indent (WorkbookControl *wbc)
 {
 	WorkbookView const *wbv = wb_control_view (wbc);

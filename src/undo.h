@@ -53,7 +53,7 @@ struct _GNMUndoColrowSetSizes {
 	Sheet *sheet;
 	gboolean is_cols;
 	ColRowIndexList *selection;
-	int new_size;
+	int new_size, from, to;
 };
 
 struct _GNMUndoColrowSetSizesClass {
@@ -62,7 +62,7 @@ struct _GNMUndoColrowSetSizesClass {
 
 GOUndo *gnm_undo_colrow_set_sizes_new (Sheet *sheet, gboolean is_cols,
 				       ColRowIndexList *selection,
-				       int new_size);
+				       int new_size, GnmRange const *r);
 
 /* ------------------------------------------------------------------------- */
 

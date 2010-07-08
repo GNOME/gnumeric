@@ -1323,7 +1323,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 			if (parseoptions->col_autofit_array == NULL ||
 			    parseoptions->col_autofit_array[lcol]) {
 				ColRowIndexList *list = colrow_get_index_list (col, col, NULL);
-				ColRowStateGroup  *state = colrow_set_sizes (sheet, TRUE, list, -1);
+				ColRowStateGroup  *state = colrow_set_sizes (sheet, TRUE, list, -1, 0, -1);
 				colrow_index_list_destroy (list);
 				g_slist_free (state);
 			}

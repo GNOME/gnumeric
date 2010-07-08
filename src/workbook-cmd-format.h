@@ -7,7 +7,10 @@
 G_BEGIN_DECLS
 
 void workbook_cmd_resize_selected_colrow   (WorkbookControl *wbc, Sheet *sheet,
-					    gboolean is_cols, int new_size_pixels);
+					    gboolean is_cols, 
+					    int new_size_pixels);
+void workbook_cmd_autofit_selection        (WorkbookControl *wbc, Sheet *sheet,
+					    gboolean is_cols);
 void workbook_cmd_inc_indent		   (WorkbookControl *wbc);
 void workbook_cmd_dec_indent		   (WorkbookControl *wbc);
 

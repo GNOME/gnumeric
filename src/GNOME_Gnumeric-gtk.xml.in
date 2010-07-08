@@ -132,6 +132,8 @@
       <menuitem action="FormatCells"/>
       <menuitem action="FormatMergeCells"/>
       <menuitem action="FormatUnmergeCells"/>
+      <menuitem action="FormatCellsFitHeight"/>
+      <menuitem action="FormatCellsFitWidth"/>
       </menu>
       <menu name="FormatColumn" action="MenuFormatColumn">
         <menuitem action="ColumnSize"/>

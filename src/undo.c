@@ -102,7 +102,8 @@ gnm_undo_colrow_set_sizes_undo (GOUndo *u, gpointer data)
 {
 	GNMUndoColrowSetSizes *ua = (GNMUndoColrowSetSizes *)u;
 
-	colrow_set_sizes (ua->sheet, ua->is_cols, ua->selection, ua->new_size);
+	colrow_set_sizes (ua->sheet, ua->is_cols, ua->selection, ua->new_size, 
+			  ua->from, ua->to);
 }
 
 static void
@@ -123,20 +124,46 @@ GSF_CLASS (GNMUndoColrowSetSizes, gnm_undo_colrow_set_sizes,
 /**
  * gnm_undo_colrow_set_sizes_new:
  *
+ * If r is non-null and new_size == -1, selection is ignored.
+ *
  * Returns: a new undo object.
  **/
 
 GOUndo *
 gnm_undo_colrow_set_sizes_new (Sheet *sheet, gboolean is_cols,
 			       ColRowIndexList *selection,
-			       int new_size)
+			       int new_size, GnmRange const *r)
 {
-	GNMUndoColrowSetSizes *ua = g_object_new (GNM_TYPE_UNDO_COLROW_SET_SIZES, NULL);
+	GNMUndoColrowSetSizes *ua;
+
+	g_return_val_if_fail (selection != NULL || (r != NULL && new_size == -1), NULL);
+
+	ua = g_object_new (GNM_TYPE_UNDO_COLROW_SET_SIZES, NULL);
 
 	ua->sheet = sheet;
 	ua->is_cols = is_cols;
-	ua->selection = selection;
 	ua->new_size = new_size;
+	
+	if (r == NULL || new_size != -1) {
+		ua->selection = selection;
+		ua->from = 0;
+		ua->to = -1;
+	} else {
+		int first, last;
+
+		if (is_cols) {
+			first = r->start.col;
+			last = r->end.col;
+			ua->from =  r->start.row;
+			ua->to = r->end.row;
+		} else {
+			first = r->start.row;
+			last = r->end.row;
+			ua->from =  r->start.col;
+			ua->to = r->end.col;
+		}
+		ua->selection = colrow_get_index_list (first, last, NULL);
+	}
 
 	return (GOUndo *)ua;
 }
