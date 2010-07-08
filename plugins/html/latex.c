@@ -800,7 +800,7 @@ latex2e_write_blank_multicolumn_cell (GsfOutput *output, int start_col, int star
 				gsf_output_printf (output, "\t \\addtolength{\\gnumericMultiRowLength}{\\tabcolsep}%%\n");
 		}
 		gsf_output_printf (output, "\t \\multirow{%i}[%i]{\\gnumericMultiRowLength}{%%\n\t ", num_merged_rows, num_merged_rows/2);
-		
+
 		/* Close the multirowtext. */
 		gsf_output_printf (output, "}");
 	}

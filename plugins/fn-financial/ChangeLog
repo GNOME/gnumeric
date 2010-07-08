@@ -58,7 +58,7 @@
 
 	* functions.c (help_npv): there does not seem to be 
 	  a type argument
-	
+
 2010-01-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_euroconvert): fix spelling
@@ -133,7 +133,7 @@
 
 	* functions.c (help_ddb): fix name record
 	(help_amorlinc): fix
-	
+
 2009-08-14  Morten Welinder  <terra@gnome.org>
 
 	* functions.c: Convert to new doc format.
@@ -523,7 +523,7 @@
 
 	* functions.c: spelling fixes
 	* plugin.xml.in: use `Finance'
-	
+
 2003-06-12  Jody Goldberg <jody@gnome.org>
 
 	* functions.c : docs fixes as per

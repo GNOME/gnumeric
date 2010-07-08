@@ -93,11 +93,11 @@
 
 	* functions.c (functions.c): remove remains of description
 	  conversion
-	
+
 2009-07-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c: conversion to new function description
-	
+
 2009-06-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.9
@@ -332,7 +332,7 @@
 2003-07-16  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* function.c: fix randuniform docs ever so slightly
-	
+
 2003-07-16  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=115812
@@ -351,11 +351,11 @@
 2003-06-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* plugin.xml.in: Change to `Random Numbers' category
-	
+
 2003-06-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* functions.c: spelling fixes
-	
+
 2003-06-07  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.19

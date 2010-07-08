@@ -56,7 +56,7 @@ analysis_tool_principal_components_engine_run (data_analysis_output_t *dao,
 	GnmExpr const *expr_count;
 	GnmExpr const *expr_munit;
 	GnmExpr const *expr_and;
-	
+
 	int data_points;
 	GnmExprList *and_args = NULL;
 
@@ -144,7 +144,7 @@ analysis_tool_principal_components_engine_run (data_analysis_output_t *dao,
 
 	for (i = 1, inputdata = info->input; inputdata != NULL; i++, inputdata = inputdata->next) {
 		expr = gnm_expr_new_constant (value_dup (inputdata->data));
-		
+
 		dao_set_cell_expr (dao, i, 3 + l, 
 				   gnm_expr_new_funcall1 (fd_count, gnm_expr_copy (expr)));
 		dao_set_cell_expr (dao, i, 4 + l,  

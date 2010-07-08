@@ -47,7 +47,7 @@
           <menuitem action="RandomGeneratorCorrelated"/>
         </menu>
         <menuitem action="CopyDown"/>
-        <menuitem action="CopyRight"/>	
+        <menuitem action="CopyRight"/>
       </menu>
       <menu name="Clear" action="MenuEditClear">
         <menuitem action="EditClearAll"/>

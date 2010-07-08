@@ -19,7 +19,7 @@
 				<function name="opt_bs_gamma"/>
 				<function name="opt_bs_vega"/>
 				<function name="opt_bs_carrycost"/>
-				<function name="opt_garman_kohlhagen"/>	
+				<function name="opt_garman_kohlhagen"/>
 				<function name="opt_french"/>
 				<function name="opt_jump_diff"/>
 				<function name="opt_bjer_stens"/>

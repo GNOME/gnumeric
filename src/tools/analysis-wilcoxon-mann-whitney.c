@@ -62,7 +62,7 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 	GSList *input = g_slist_append (NULL, value_dup (info->input->data));
 
 	prepare_input_range (&input, info->group_by);
-	
+
 	fd_count = gnm_func_lookup_or_add_placeholder
 		("COUNT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_count);
@@ -139,7 +139,7 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 		 (fd_min,
 		  gnm_expr_copy (expr_total)),
 		 gnm_expr_copy (expr_pop_2));
-	
+
 	dao_set_cell_array_expr (dao, 1, 2,
 				 gnm_expr_new_binary 
 				 (gnm_expr_new_funcall1
@@ -190,7 +190,7 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 			      gnm_expr_new_constant (value_new_int (1)))),
 			    GNM_EXPR_OP_DIV,
 			    gnm_expr_new_constant (value_new_int (2))));
-	
+
 	dao_set_cell_expr (dao, 1, 3,
 			   gnm_expr_new_funcall1
 			   (fd_count,
@@ -272,7 +272,7 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 			  gnm_expr_new_constant (value_new_int (2))),
 			 expr_sqrt,
 			 gnm_expr_new_constant (value_new_bool (TRUE)));
-		
+
 		dao_set_cell_expr (dao, 1, 6, 
 				   gnm_expr_new_funcall2
 				   (fd_min, 
@@ -283,7 +283,7 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 				   (fd_min, 
 				    make_cellref (0,-3),
 				    make_cellref (1,-3)));
-		
+
 		dao_set_cell_expr (dao, 1, 8, 
 				   gnm_expr_new_binary 
 				   (gnm_expr_new_constant (value_new_int (2)),

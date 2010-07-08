@@ -1064,7 +1064,7 @@ gnumeric_numbervalue (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (strlen(sep) != 1 || (*sep != '.' && *sep != ',')) {
 		return value_new_error_VALUE (ei->pos);
 	}
-	
+
 	if (VALUE_IS_EMPTY (argv[0]) || VALUE_IS_NUMBER (argv[0]))
 		return value_dup (argv[0]);
 	else {

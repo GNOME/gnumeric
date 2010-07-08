@@ -157,12 +157,12 @@ gnm_cmd_trunc_descriptor (GString *src, gboolean *truncated)
 	while ((pos = strchr(src->str, '\n')) != NULL ||
 	       (pos = strchr(src->str, '\r')) != NULL)
 		*pos = ' ';
-	
+
 	len = g_utf8_strlen (src->str, -1);
 
 	if (truncated)
 		*truncated = (len > max_len);
-	
+
 	if (len > max_len) {
 		gchar* last = g_utf8_offset_to_pointer (src->str,
                                                         max_len - 1);
@@ -973,7 +973,7 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 	Sheet *sheet = sv_sheet (sv);
 
 	g_return_val_if_fail (selection != NULL , TRUE);
-	
+
 	parse_pos_init_editpos (&pp, sv);
 	expr_txt = gnm_expr_char_start_p (new_text);
 	if (expr_txt != NULL)
@@ -1052,7 +1052,7 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 	result = cmd_generic (wbc, text, undo, redo);
 	g_free (text);
 	range_fragment_free (selection);
-	return result;	
+	return result;
 }
 
 /*
@@ -1078,7 +1078,7 @@ cmd_area_set_array_expr (WorkbookControl *wbc, SheetView *sv,
 	char *name;
 	char *text;
 	GnmSheetRange *sr;
-	
+
 	g_return_val_if_fail (selection != NULL , TRUE);
 	g_return_val_if_fail (selection->next == NULL , TRUE);
 
@@ -1118,7 +1118,7 @@ cmd_create_data_table (WorkbookControl *wbc, Sheet *sheet, GnmRange const *r,
 	GnmSheetRange *sr;
 	GnmParsePos pp;
 	GnmExprTop const  *texpr;
-	
+
 	name = undo_range_name (sheet, r);
 	text = g_strdup_printf (_("Creating a Data Table in %s"), name);
 	g_free (name);
@@ -1889,7 +1889,7 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 		(sheet, is_cols, colrow_index_list_copy (selection), saved_state);
 
  	redo = gnm_undo_colrow_set_sizes_new (sheet, is_cols, selection, new_size);
-	
+
 	result = cmd_generic_with_size (wbc, text, size, undo, redo);
 	g_free (text);
 
@@ -2897,7 +2897,7 @@ cmd_paste_copy (WorkbookControl *wbc,
 		go_slist_map (cr->objects, (GOMapFunc)sheet_object_dup);
 
 	/* If the input is only objects ignore all this range stuff */
-	if (!me->only_objects) {	
+	if (!me->only_objects) {
                 /* see if we need to do any tiling */
 		GnmRange *r = &me->dst.range;
 		if (pt->paste_flags & PASTE_TRANSPOSE) {
@@ -4456,7 +4456,7 @@ cmd_objects_move (WorkbookControl *wbc, GSList *objects, GSList *anchors,
 	redo = sheet_object_move_do (objects, anchors, objects_created);
 
 	result = cmd_generic (wbc, name, undo, redo);
-	
+
 	g_slist_free (objects);
 	go_slist_free_custom (anchors, g_free);
 
@@ -5927,7 +5927,7 @@ cmd_rescope_name_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	CmdRescopeName *me = CMD_RESCOPE_NAME (cmd);
 	Sheet *old_scope = me->nexpr->pos.sheet;
 	char *err;
-	
+
 	err = expr_name_set_scope (me->nexpr, me->scope);
 
 	if (err != NULL) {
@@ -7530,7 +7530,7 @@ cmd_autofilter_add_remove (WorkbookControl *wbc)
 	GOUndo *undo = NULL;
 	GOUndo *redo = NULL;
 	gboolean result;
-	
+
 
 	if (add) {
 		GnmRange region;
@@ -7602,7 +7602,7 @@ cmd_autofilter_add_remove (WorkbookControl *wbc)
 		gnm_filter_remove (f);
 		if (f_old)
 			gnm_filter_attach (f_old, sv->sheet);
-			
+
 		redo = go_undo_combine (go_undo_binary_new 
 					(gnm_filter_ref (f), sv->sheet, 
 					 (GOUndoBinaryFunc) gnm_filter_attach,
@@ -7613,7 +7613,7 @@ cmd_autofilter_add_remove (WorkbookControl *wbc)
 					(f, 
 					 (GOUndoUnaryFunc) gnm_filter_remove,
 					 (GFreeFunc) gnm_filter_unref));
-					
+
 		name = undo_range_name (sv->sheet, &(f->r));
 		descr = g_strdup_printf 
 			((f_old == NULL) ? _("Add Autofilter to %s")

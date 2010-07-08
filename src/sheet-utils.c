@@ -111,7 +111,7 @@ gnm_sheet_guess_data_range (Sheet *sheet, GnmRange *range)
 		if (!sheet_cell_or_one_below_is_not_empty (sheet, col, region.start.row))
 			break;
 	region.start.col = col + 1;
-	
+
 	/* look for next empty column */
 	start = range->end.col;
 	for (col = start + 1; col < gnm_sheet_get_max_cols (sheet); col++)

@@ -58,14 +58,14 @@
 
 	* generate: handle *snorm and *st
 	* extra.h (dsnorm): new
-	(psnorm): new	
+	(psnorm): new
 	(qsnorm): new
 	(dst): new
 	(pst): new
 	(qst): new
 	* extra.c (dsnorm): new
 	(gnm_owent): new
-	(psnorm): new	
+	(psnorm): new
 	(qsnorm): new stub
 	(dst): new stub
 	(pst): new stub

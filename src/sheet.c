@@ -1547,7 +1547,7 @@ sheet_apply_style_undo (GnmSheetRange *sr,
 		(sr, (gpointer)style, 
 		 (GOUndoBinaryFunc) sheet_apply_style_cb, 
 		 (GFreeFunc) gnm_sheet_range_free, 
-		 (GFreeFunc) gnm_style_unref);	
+		 (GFreeFunc) gnm_style_unref);
 }
 
 
@@ -2479,7 +2479,7 @@ sheet_range_set_expr_cb (GnmSheetRange const *sr, GnmExprTop const *texpr)
 		 sr->range.start.col, sr->range.start.row, 
 		 sr->range.end.col, sr->range.end.row,
 		 (CellIterFunc)&cb_set_cell_content, &closure);
-	
+
 	merged = gnm_sheet_merge_get_overlap (sr->sheet, &sr->range);
 	for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
 		GnmRange const *tmp = ptr->data;
@@ -6036,7 +6036,7 @@ gnm_sheet_get_sort_setups (Sheet *sheet)
 			g_hash_table_new_full 
 			(g_str_hash, g_str_equal, 
 			 g_free, (GDestroyNotify)gnm_sort_data_destroy);
-	
+
 	return hash;
 }
 
@@ -6044,7 +6044,7 @@ void
 gnm_sheet_add_sort_setup (Sheet *sheet, char *key, gpointer setup)
 {
 	GHashTable *hash = gnm_sheet_get_sort_setups (sheet);
-	
+
 	g_hash_table_insert (hash, key, setup);
 }
 

@@ -100,7 +100,7 @@ dhl_set_tip (HyperlinkState* state)
 	if (tip != NULL) {
 		char const * const target = gnm_hlink_get_target (state->link);
 		char *default_tip = dhl_get_default_tip (target);
-		
+
 		if (strcmp (tip, default_tip) == 0) {
 			w = glade_xml_get_widget (state->gui, "use-default-tip");
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
@@ -111,7 +111,7 @@ dhl_set_tip (HyperlinkState* state)
 	} 
 	w = glade_xml_get_widget (state->gui, "use-this-tip");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
-	
+
 	tb = gtk_text_view_get_buffer 
 		(GTK_TEXT_VIEW (glade_xml_get_widget (state->gui, "tip-entry")));
 
@@ -473,7 +473,7 @@ dhl_init (HyperlinkState *state)
 	GtkListStore *store;
 	GtkTreeIter iter;
 	GtkCellRenderer *renderer;
-	
+
 #ifdef GNM_NO_MAILTO
 	gtk_widget_hide (glade_xml_get_widget (state->gui, "email-box"));
 #endif
@@ -481,38 +481,38 @@ dhl_init (HyperlinkState *state)
 	for (i = 0 ; i < G_N_ELEMENTS (label); i++)
 		gtk_size_group_add_widget (size_group,
 					   glade_xml_get_widget (state->gui, label[i]));
-	
+
 	w  = glade_xml_get_widget (state->gui, "link-type-image");
 	state->type_image = GTK_IMAGE (w);
 	w  = glade_xml_get_widget (state->gui, "link-type-descriptor");
 	state->type_descriptor = GTK_LABEL (w);
-	
+
 	w = glade_xml_get_widget (state->gui, "internal-link-box");
 	expr_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gtk_box_pack_end (GTK_BOX (w), GTK_WIDGET (expr_entry), TRUE, TRUE, 0);
 	gtk_entry_set_activates_default
 		(gnm_expr_entry_get_entry (expr_entry), TRUE);
 	state->internal_link_ee = expr_entry;
-	
+
 	w = glade_xml_get_widget (state->gui, "cancel_button");
 	g_signal_connect (G_OBJECT (w),
 			  "clicked",
 			  G_CALLBACK (dhl_cb_cancel), state);
-	
+
 	w  = glade_xml_get_widget (state->gui, "ok_button");
 	g_signal_connect (G_OBJECT (w),
 			  "clicked",
 			  G_CALLBACK (dhl_cb_ok), state);
 	gtk_window_set_default (GTK_WINDOW (state->dialog), w);
-	
+
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_HYPERLINK);
-	
+
 	store = gtk_list_store_new (2, GDK_TYPE_PIXBUF, G_TYPE_STRING);
 	w  = glade_xml_get_widget (state->gui, "link-type-menu");
 	gtk_combo_box_set_model (GTK_COMBO_BOX (w), GTK_TREE_MODEL (store));
-	
+
 	for (i = 0 ; i < G_N_ELEMENTS (type); i++) {
 		pixbuf = gtk_widget_render_icon (w, type[i].image_name,
 						 GTK_ICON_SIZE_MENU, NULL);
@@ -521,12 +521,12 @@ dhl_init (HyperlinkState *state)
 				    0, pixbuf,
 				    1, _(type[i].label),
 				    -1);
-		
+
 		if (strcmp (G_OBJECT_TYPE_NAME (state->link),
 			    type [i].name) == 0)
 			select = i;
 	}
-	
+
 	renderer = gtk_cell_renderer_pixbuf_new ();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (w),
 				    renderer,
@@ -534,7 +534,7 @@ dhl_init (HyperlinkState *state)
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (w), renderer,
 					"pixbuf", 0,
 					NULL);
-	
+
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (w),
 				    renderer,
@@ -543,11 +543,11 @@ dhl_init (HyperlinkState *state)
 					"text", 1,
 					NULL);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (w), select);
-	
+
 	g_signal_connect (G_OBJECT (w), "changed",
 			  G_CALLBACK (dhl_cb_menu_changed),
 			  state);
-	
+
 	gnm_link_button_and_entry (glade_xml_get_widget (state->gui, "use-this-tip"),
 				   glade_xml_get_widget (state->gui, "tip-entry"));
 

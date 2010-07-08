@@ -1358,19 +1358,19 @@ BC_R(lineformat)(XLChartHandler const *handle,
 	default: 
 	case 0:
 		s->style->line.dash_type = GO_LINE_SOLID;
-		break;	
+		break;
 	case 1:
 		s->style->line.dash_type = GO_LINE_DASH;
-		break;	
+		break;
 	case 2:
 		s->style->line.dash_type = GO_LINE_DOT;
-		break;	
+		break;
 	case 3:
 		s->style->line.dash_type = GO_LINE_DASH_DOT;
-		break;	
+		break;
 	case 4:
 		s->style->line.dash_type = GO_LINE_DASH_DOT_DOT;
-		break;	
+		break;
 	case 5:
 		s->style->line.dash_type = GO_LINE_NONE;
 		break;
@@ -1380,12 +1380,12 @@ BC_R(lineformat)(XLChartHandler const *handle,
 		s->style->line.dash_type = GO_LINE_SOLID;
 		s->style->line.pattern = GO_PATTERN_GREY25; /* or 75? */
 		s->style->line.fore = GO_COLOR_WHITE;
-		break;	
+		break;
 	case 7:
 		s->style->line.dash_type = GO_LINE_SOLID;
 		s->style->line.pattern = GO_PATTERN_GREY50;
 		s->style->line.fore = GO_COLOR_WHITE;
-		break;	
+		break;
 	case 8:
 		s->style->line.dash_type = GO_LINE_SOLID;
 		s->style->line.pattern = GO_PATTERN_GREY75; /* or 25? */

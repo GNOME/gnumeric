@@ -369,7 +369,7 @@ static GNM_ACTION_DEF (cb_edit_delete_links)
 		for (l = scg_view (scg)->selections; l != NULL; l = l->next) {
 			GnmRange const *r = l->data;
 			GnmStyleList *styles;
-			
+
 			styles = sheet_style_collect_hlinks (sheet, r);
 			n_links += g_slist_length (styles);
 			style_list_free (styles);
@@ -735,14 +735,14 @@ static GNM_ACTION_DEF (cb_view_freeze_panes)
 				}
 			}
 		} 
-			
+
                 /* If edit pos is out of visible range */
 		if (unfrozen_tl.col < pane->first.col ||
 		    unfrozen_tl.col > pane->last_visible.col ||
 		    unfrozen_tl.row < pane->first.row ||
 		    unfrozen_tl.row > pane->last_visible.row)
 			center = TRUE;
-		
+
 		if (unfrozen_tl.col == pane->first.col) {
 			/* or edit pos is in top left visible cell */
 			if (unfrozen_tl.row == pane->first.row)
@@ -751,17 +751,17 @@ static GNM_ACTION_DEF (cb_view_freeze_panes)
 				unfrozen_tl.col = frozen_tl.col = 0;
 		} else if (unfrozen_tl.row == pane->first.row)
 			unfrozen_tl.row = frozen_tl.row = 0;
-		
+
 		if (center) {
 			unfrozen_tl.col = (pane->first.col + 
 					   pane->last_visible.col) / 2;
 			unfrozen_tl.row = (pane->first.row + 
 					   pane->last_visible.row) / 2;
 		}
-		
+
 		g_return_if_fail (unfrozen_tl.col > frozen_tl.col ||
 				  unfrozen_tl.row > frozen_tl.row);
-		
+
 		sv_freeze_panes (sv, &frozen_tl, &unfrozen_tl);
 	} else
 		sv_freeze_panes (sv, NULL, NULL);
@@ -1190,7 +1190,7 @@ sort_by_rows (WBCGtk *wbcg, gboolean descending)
 	} else {
 		sel = gnm_range_dup (tmp);
 		range_clip_to_finite (sel, sv_sheet (sv));
-		
+
 		numclause = range_width (sel);
 		clause = g_new0 (GnmSortClause, numclause);
 		for (i = 0; i < numclause; i++) {

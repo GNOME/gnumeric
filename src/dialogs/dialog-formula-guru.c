@@ -791,15 +791,15 @@ start_editing_cb (GtkTreeView      *tree_view,
 
 		if (state->editable)
 			gtk_cell_editable_editing_done (state->editable);
-		
+
 		gtk_widget_grab_focus (GTK_WIDGET (state->treeview));
 		gtk_tree_view_set_cursor (state->treeview,
 					  path,
 					  state->column,
 					  TRUE);
-		
+
 		gtk_tree_path_free (path);
-		
+
 		return TRUE;
 	}
 	return FALSE;
@@ -1062,7 +1062,7 @@ dialog_formula_guru (WBCGtk *wbcg, GnmFunc *fd)
 			expr = gnm_expr_top_first_funcall (cell->base.texpr);
 	} else
 		parse_pos_init_editpos (state->pos, sv);
-	
+
 
 	if (expr == NULL) {
 		wbcg_edit_start (wbcg, TRUE, TRUE);

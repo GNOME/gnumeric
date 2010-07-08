@@ -122,7 +122,7 @@ cb_dialog_function_select_search_all (GtkTreeModel *model, GtkTreePath *path,
 			    FUNCTION_USED, &used,
 			    FUNCTION_CAT, &cat,
 			    -1);
-	
+
 	if (specs->recent_only && !recent)
 		visible = FALSE;
 	else if (specs->used_only && !used)
@@ -153,7 +153,7 @@ cb_dialog_function_select_search_all (GtkTreeModel *model, GtkTreePath *path,
 
 		g_free (text_n); 
 		g_free (text_cf);
-	
+
 
 		g_free (name);
 		g_free (desc);
@@ -188,7 +188,7 @@ dialog_function_select_search (GtkEntry *entry, gpointer data)
 		if (specs.recent_only || specs.used_only)
 			specs.cat = NULL;
 	}
-	
+
 	gtk_tree_model_foreach (GTK_TREE_MODEL (state->model_functions),
 				cb_dialog_function_select_search_all, 
 				(gpointer) &specs);
@@ -396,7 +396,7 @@ cb_dialog_function_select_load_cb (GtkTreeModel *model,
 			    CAT_NAME, &name,
 			    CATEGORY, &ptr,
 			    -1);
-	
+
 	if (ptr == NULL || ptr == GINT_TO_POINTER(-1) 
 	    || ptr == GINT_TO_POINTER(-2))
 		return FALSE;
@@ -835,7 +835,7 @@ dialog_function_select_find_func (FunctionSelectState *state, char* name)
 			gtk_tree_path_free (data.path);
 		} else
 			g_warning ("Function %s was not found in its category", name);
-		
+
 	} else
 		g_warning ("Function %s was not found", name);
 }
@@ -942,7 +942,7 @@ static const gchar *
 dialog_function_select_peek_description (GnmFunc *func)
 {
 	GnmFuncHelp const *help;
-	
+
 	gnm_func_load_if_stub (func);
 	help = func->help;
 
@@ -1028,7 +1028,7 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 	while ((cat = gnm_func_group_get_nth (i++)) != NULL)
 		funcs = g_slist_concat (funcs,
 					g_slist_copy (cat->functions));
-	
+
 	funcs = g_slist_sort (funcs,
 			      dialog_function_select_by_name);
 
@@ -1054,7 +1054,7 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 
 		}
 	}
-	
+
 	g_slist_free (funcs);
 }
 

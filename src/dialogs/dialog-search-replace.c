@@ -117,7 +117,7 @@ dialog_search_replace_save_in_prefs (DialogState *dd)
 	gnm_conf_set_searchreplace_error_behaviour 
 		(gnumeric_glade_group_value (gui, error_group));
 	gnm_conf_set_searchreplace_scope 
-		(gnumeric_glade_group_value (gui, scope_group));	
+		(gnumeric_glade_group_value (gui, scope_group));
 }
 
 static void
@@ -167,7 +167,7 @@ apply_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 
 	if  (is_checked (gui, "save-in-prefs"))
 		dialog_search_replace_save_in_prefs (dd);
-	
+
 
 	err = gnm_search_replace_verify (sr, TRUE);
 	if (err) {
@@ -195,7 +195,7 @@ static void
 ok_clicked (GtkWidget *widget, DialogState *dd)
 {
         apply_clicked (widget, dd);
-	
+
 	gtk_widget_destroy (GTK_WIDGET (dd->dialog));
 	dd = NULL;  /* Destroyed */
 }

@@ -48,7 +48,7 @@ analysis_tool_auto_expression_engine_run (data_analysis_output_t *dao,
 				 gnm_expr_new_funcall1
 				 (info->func,
 				  gnm_expr_new_constant (value_dup (data->data))));
-		
+
 		if (info->multiple)
 			dao_set_cell_expr
 				(dao, col, 0,
@@ -62,7 +62,7 @@ analysis_tool_auto_expression_engine_run (data_analysis_output_t *dao,
 				 gnm_expr_new_funcall1
 				 (info->func,
 				  gnm_expr_new_constant (value_dup (data->data))));
-		
+
 		if (info->multiple)
 			dao_set_cell_expr
 				(dao, 0, col,
@@ -105,7 +105,7 @@ analysis_tool_auto_expression_engine (data_analysis_output_t *dao, gpointer spec
 				    1);
 		else
 			dao_adjust (dao, 1,
-				    (info->multiple ? 1 : 0)  + g_slist_length (info->base.input));			
+				    (info->multiple ? 1 : 0)  + g_slist_length (info->base.input));
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
 		return analysis_tool_auto_expression_engine_clean (specs);

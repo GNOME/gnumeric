@@ -144,7 +144,7 @@ analysis_tool_signed_rank_test_engine_run (data_analysis_output_t *dao,
 					     expr_diff),
 			 expr,
 			 make_int (1));
-		
+
 		dao_set_cell_array_expr 
 			(dao, col + 1, 4,
 			 gnm_expr_new_funcall1
@@ -160,7 +160,7 @@ analysis_tool_signed_rank_test_engine_run (data_analysis_output_t *dao,
 			     make_cellref (0,-2)),
 			    expr,
 			    make_int (0)))));
-		
+
 		expr = gnm_expr_new_funcall1
 			(fd_sum, gnm_expr_new_binary 
 			 (expr_isnumber, GNM_EXPR_OP_MULT, 
@@ -344,7 +344,7 @@ analysis_tool_signed_rank_test_two_engine_run (data_analysis_output_t *dao,
 		  gnm_expr_copy (expr_1),
 		  gnm_expr_new_constant (value_new_string(""))));
 	dao_set_cell_array_expr (dao, 1, 1, expr);
-	
+
 	expr = gnm_expr_new_funcall1
 		(fd_median,
 		 gnm_expr_new_funcall3
@@ -435,9 +435,9 @@ analysis_tool_signed_rank_test_two_engine_run (data_analysis_output_t *dao,
 		    make_cellref (0,-2)),
 		   expr,
 		   make_int (0))));
-	
+
 	dao_set_cell_array_expr (dao, 1, 5, expr);
-		
+
 	dao_set_cell_expr (dao, 1, 6, 
 			   gnm_expr_new_binary 
 			   (gnm_expr_new_binary 
@@ -502,7 +502,7 @@ analysis_tool_signed_rank_test_two_engine_run (data_analysis_output_t *dao,
 		(dao,  1, 9,
 		 _("This p-value is calculated by a normal approximation.\n"
 		   "It is only valid if the sample size is at least 12."));
-	
+
 	expr = gnm_expr_new_binary (make_int (2),
 				    GNM_EXPR_OP_MULT, make_cellref (0,-1));
 	dao_set_cell_array_expr (dao, 1, 10, expr);

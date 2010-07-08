@@ -1657,7 +1657,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 			(wbcg, "EditClearHyperlinks", has_links);
 		wbc_gtk_set_action_sensitivity 
 			(wbcg, "EditClearComments", has_comments);
-	}		
+	}
 	{
 		gboolean const has_slicer = (NULL != sv_editpos_in_slicer (sv));
 		char const* label = has_slicer
@@ -2411,7 +2411,7 @@ wbc_gtk_cell_selector_popup (G_GNUC_UNUSED GtkEntry *entry,
 {
 	if (event->type == GDK_BUTTON_PRESS) {
 		WBCGtk *wbcg = data;
-		
+
 		struct CellSelectorMenu {
 			gchar const *text;
 			gchar const *stock_id;
@@ -2443,7 +2443,7 @@ wbc_gtk_cell_selector_popup (G_GNUC_UNUSED GtkEntry *entry,
 						(_(it->text));
 			} else
 				item = gtk_separator_menu_item_new ();
-			
+
 			if (it->function)
 				g_signal_connect_swapped 
 					(G_OBJECT (item), "activate",
@@ -2452,7 +2452,7 @@ wbc_gtk_cell_selector_popup (G_GNUC_UNUSED GtkEntry *entry,
 			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 			gtk_widget_show (item);
 		}
-		
+
 		gnumeric_popup_menu (GTK_MENU (menu), &event->button);
 	}
 }
@@ -4409,7 +4409,7 @@ cb_auto_expr_insert_formula (WBCGtk *wbcg, gboolean below)
 		if (use_last_cr)
 			input->end.col--;
 	}
-	
+
 
 	dao = dao_init (NULL, RangeOutput);
 	dao->start_col         = output.start.col;
@@ -5489,7 +5489,7 @@ wbc_gtk_init (GObject *obj)
 	if (extra_actions)
 		gtk_action_group_add_actions (wbcg->actions, extra_actions,
 			                      extra_actions_nb, wbcg);
-		
+
 	uifile = g_build_filename (gnm_sys_data_dir (),
 		(uifilename? uifilename: "GNOME_Gnumeric-gtk.xml"), NULL);
 #endif

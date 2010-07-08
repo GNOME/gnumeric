@@ -82,7 +82,7 @@
 
 	* xlsx-write.c (xlsx_write_cells): use value_get_as_gstring
 	  rather than value_get_as_string. [#610372]
-	
+
 2010-02-13  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.0
@@ -388,11 +388,11 @@
 2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-write.c (xlsx_write_cols): and don't commit debugging code
-	
+
 2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-write.c (xlsx_write_cols): fix off-by-one error [#569862]
-	
+
 2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-write.c (xlsx_write_sheet): write the tags in schema ordering
@@ -3121,7 +3121,7 @@
 2004-08-11  Jon K Hellan  <hellan@acm.org>
 
 	Export images.
-	
+
 	* Makefile.am (excel_la_SOURCES): Add crypt-md4.[ch]
 
 	* crypt-md4.[ch]. New files. MD4 checksum to use as BLIP

@@ -607,7 +607,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 					char *tmpfile;
 					int idx = 0;
 					res = 0;
-					
+
 					for (ptr = workbook_sheets(wb); ptr && !res; ptr = ptr->next, idx++) {
 						wb_view_sheet_focus(wbv, (Sheet *)ptr->data);
 						s = g_string_new (outfile);

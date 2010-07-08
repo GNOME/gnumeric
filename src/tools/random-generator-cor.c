@@ -52,7 +52,7 @@ tool_random_cor_engine_run (data_analysis_output_t *dao,
 	if (info->matrix_type == random_gen_cor_type_cov) {
 		GnmFunc *fd_cholesky;
 		GnmExpr const *expr_cholesky;
-	
+
 		fd_cholesky = gnm_func_lookup_or_add_placeholder 
 			("CHOLESKY", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 		gnm_func_ref (fd_cholesky);
@@ -74,7 +74,7 @@ tool_random_cor_engine_run (data_analysis_output_t *dao,
 	dao_set_merge (dao, 0, 0, info->variables - 1, 0);
 	dao_set_italic (dao, 0, 0, 0, 0);
 	dao_set_cell (dao, 0, 0, _("Uncorrelated Random Variables"));
-	
+
 	fd_rand = gnm_func_lookup_or_add_placeholder 
 			("RANDNORM", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_rand);
@@ -109,7 +109,7 @@ tool_random_cor_engine_run (data_analysis_output_t *dao,
 	for (j = 1; j <= info->count; j++)
 		dao_set_array_expr (dao, 0, j, info->variables, 1, 
 				    gnm_expr_copy (expr_rand));
-	
+
 	gnm_expr_free (expr_rand);
 
 	gnm_func_unref (fd_mmult);

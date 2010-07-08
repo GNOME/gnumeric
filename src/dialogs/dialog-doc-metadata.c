@@ -1401,7 +1401,7 @@ static void
 cb_dialog_doc_metadata_recalc_iteration_changed (G_GNUC_UNUSED GtkWidget *widget, DialogDocMetaData *state)
 {
 	/* FIXME: make undoable */
-	workbook_iteration_enabled (state->wb, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)));	
+	workbook_iteration_enabled (state->wb, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)));
 	gtk_widget_set_sensitive (state->recalc_iteration_table, state->wb->iteration.enabled);
 }
 
@@ -1631,7 +1631,7 @@ dialog_doc_metadata_select_page (DialogDocMetaData *state, int page)
 		gtk_tree_model_foreach (GTK_TREE_MODEL (state->store),
 					(GtkTreeModelForeachFunc) dialog_doc_metadata_select_page_search,
 					&pst);
-	
+
 	if (pst.path == NULL)
 		pst.path = gtk_tree_path_new_from_string ("0");
 
@@ -1707,7 +1707,7 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 	g_signal_connect (selection,
 			  "changed",
 			  G_CALLBACK (cb_dialog_doc_metadata_selection_changed), state);
-	
+
 
 	/* Register g_value_transform functions */
 	g_value_register_transform_func (G_TYPE_STRING,
@@ -1726,7 +1726,7 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 					 G_TYPE_STRING,
 					 dialog_doc_metadata_transform_docprop_vect_to_str);
 
-	
+
 	for (i = 0; page_info[i].page > -1; i++) {
 		const page_info_t *this_page =  &page_info[i];
 		this_page->page_initializer (state);

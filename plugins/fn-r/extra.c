@@ -91,11 +91,11 @@ gnm_owent (gnm_float h, gnm_float a)
 
 	if (fabs(h) < LIM1) return atan(a) * TWOPI_INVERSE;
 	if (fabs(h) > LIM2 || fabs(a) < LIM1) return 0.0;
-	
+
 	hs = -0.5 * h * h;
 	h2 = a;
 	as = a * a;
-	
+
 	if (log(1.0 + as) - hs * as >= LIM3)
 	{
 		gnm_float h1 = 0.5 * a;
@@ -110,7 +110,7 @@ gnm_owent (gnm_float h, gnm_float a)
 			h1 = h2;
 		}
 	}
-		
+
 	rt = 0.0;
 	for (i = 0; i < 10; i++)
 	{
@@ -149,7 +149,7 @@ psnorm (gnm_float x, gnm_float shape, gnm_float location, gnm_float scale, gbool
 
 	if (shape == 0.) 
 		return pnorm (x, location, scale, lower_tail, log_p);
-	
+
 	result = pnorm (x, location, scale, TRUE, FALSE) - 2 * gnm_owent ((x - location)/scale, shape);
 
 	if (!lower_tail)

@@ -1270,7 +1270,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 	     result && lrow < lines->len;
 	     row++, lrow++) {
 		GPtrArray *line;
-	
+
 		if (row >= gnm_sheet_get_max_rows (sheet)) {
 			if (!parseoptions->rows_exceeded) {
 				/* FIXME: What locale?  */
@@ -1335,7 +1335,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 		stf_parse_general_free (lines);
 	g_string_chunk_free (lines_chunk);
 	if (result)
-		stf_read_remember_settings (sheet->workbook, parseoptions);	
+		stf_read_remember_settings (sheet->workbook, parseoptions);
 	return result;
 }
 

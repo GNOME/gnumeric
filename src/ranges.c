@@ -973,7 +973,7 @@ range_list_name_try (GString *names, char const *sheet, GSList const *ranges)
 		else
 			g_string_append_printf (names, ", %s!%s",
 						sheet, n);
-		
+
 		gnm_cmd_trunc_descriptor (names, &truncated);
 
 		if (truncated)

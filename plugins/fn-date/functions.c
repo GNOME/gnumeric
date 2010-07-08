@@ -861,7 +861,7 @@ gnumeric_workday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			int ds = idays / n_non_weekend * 7;
 
 			g_date_add_days (&date, ds);
-			
+
 			while (dm_part_week) {
 				g_date_add_days (&date, 1);
 				weekday = (weekday + 1) % 7;
@@ -898,9 +898,9 @@ gnumeric_workday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		while (idays > 0) {
 			int dm_part_week = idays % n_non_weekend;
 			int ds = idays / n_non_weekend * 7;
-			
+
 			g_date_subtract_days (&date, ds);
-			
+
 			while (dm_part_week) {
 				g_date_subtract_days (&date, 1);
 				weekday = (weekday > 0) ? (weekday - 1) 
@@ -908,7 +908,7 @@ gnumeric_workday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 				if (!weekends[weekday])
 					dm_part_week--;
 			}
-			
+
 			serial = go_date_g_to_serial (&date, conv);
 			/*
 			 * we may have passed holidays.
@@ -1005,7 +1005,7 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			end_serial--;
 		}
 	}
-	
+
 
 	weekday = g_date_get_weekday (&start_date);
 
@@ -1026,7 +1026,7 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		weekends = (gnm_float *)default_weekends;
 		nweekends = 7;
 	}
-	
+
 	for (i = 0; i < 7; i++)
 		if (weekends[i] == 0)
 			n_non_weekend++;
@@ -1084,7 +1084,7 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	/*
 	 * we may have included holidays.
 	 */
-	
+
 	while (h < nholidays && holidays[h] <= old_end_serial) {
 		if (holidays[h] >= old_start_serial)
 			res--;
@@ -1259,7 +1259,7 @@ gnumeric_days (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	date2 = gnm_floor (value_get_as_float (argv [1]));
 
 	go_date_serial_to_g (&d1, date1, conv);
-	go_date_serial_to_g (&d2, date2, conv);	
+	go_date_serial_to_g (&d2, date2, conv);
 
 	return value_new_int (g_date_days_between (&d1, &d2));
 }

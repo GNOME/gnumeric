@@ -163,7 +163,7 @@ cb_gognm_save (GtkAction *a, WBCGtk *wbcg)
 		GOComponent *component = GO_COMPONENT (data);
 		go_component_emit_changed (component);
 	} else
-		gui_file_save (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)));		
+		gui_file_save (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)));
 }
 
 static GtkActionEntry const actions[] = {

@@ -558,7 +558,7 @@ wordlist_pref_create_widget (GOConfNode *node, GtkWidget *table,
 					     GTK_SHADOW_ETCHED_IN);
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (tv), FALSE);
 	gtk_container_add (GTK_CONTAINER (sw), tv);
-	
+
 	gtk_table_attach (GTK_TABLE (table), w,
 		0, 2, row, row + 1,
 		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 5, 2);
@@ -1141,7 +1141,7 @@ dialog_pref_select_page (PrefState *state, int page)
 		gtk_tree_model_foreach (GTK_TREE_MODEL (state->store),
 					(GtkTreeModelForeachFunc) dialog_pref_select_page_search,
 					&pst);
-	
+
 	if (pst.path == NULL)
 		pst.path = gtk_tree_path_new_from_string ("0");
 
@@ -1285,7 +1285,7 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 				      this_page->icon_name, i, 
 				      this_page->parent_path);
 	}
-	
+
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (state->store),
 					      ITEM_NAME, GTK_SORT_ASCENDING);
 

@@ -412,7 +412,7 @@ gnm_solver_param_dup (GnmSolverParameters *src, Sheet *new_sheet)
 	dst->options.add_scenario = src->options.add_scenario;
 
 	g_free (dst->options.scenario_name);
-	dst->options.scenario_name = g_strdup (src->options.scenario_name);	
+	dst->options.scenario_name = g_strdup (src->options.scenario_name);
 
 	gnm_solver_param_set_algorithm (dst, src->options.algorithm);
 

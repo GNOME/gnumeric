@@ -84,7 +84,7 @@ analysis_tool_normality_engine_run (data_analysis_output_t *dao,
 		n_comment = N_("For the Shapiro-Francia Test\n"
 			       "the sample size must be at\n"
 			       "least 5 and at most 5000.");
-		break;		
+		break;
 	}
 
 	fd = gnm_func_lookup_or_add_placeholder 
@@ -97,7 +97,7 @@ analysis_tool_normality_engine_run (data_analysis_output_t *dao,
 	dao_set_italic (dao, 0, 0, 0, 5);
         dao_set_cell (dao, 0, 0, _(testname));
 
-	
+
 	if (info->graph) {
 		GogChart     *chart;
 
@@ -113,7 +113,7 @@ analysis_tool_normality_engine_run (data_analysis_output_t *dao,
 		gog_object_add_by_name (GOG_OBJECT (chart),
 					"Plot", GOG_OBJECT (plot));
 	}
-	
+
 
 	/* xgettext:
 	 * Note to translators: in the following string and others like it,
@@ -169,7 +169,7 @@ analysis_tool_normality_engine_run (data_analysis_output_t *dao,
 	if (info->graph) {
 		so = sheet_object_graph_new (graph);
 		g_object_unref (graph);
-		
+
 		dao_set_sheet_object (dao, 0, 1, so);
 	}
 

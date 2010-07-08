@@ -89,7 +89,7 @@ typedef enum {
 	navigator_top,
 	navigator_bottom,
 	navigator_last,
-	navigator_first	
+	navigator_first
 } wb_control_navigator_t;
 
 void wb_control_navigate_to_cell (WorkbookControl *wbc, wb_control_navigator_t to);

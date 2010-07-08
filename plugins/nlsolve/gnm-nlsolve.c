@@ -235,7 +235,7 @@ compute_gradient (GnmNlsolve *nl, const gnm_float *xs)
 
 	set_vector (nl, xs);
 	y0 = get_value (nl);
-	
+
 	g = g_new (gnm_float, n);
 	for (i = 0; i < n; i++) {
 		gnm_float x0 = xs[i];

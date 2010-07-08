@@ -129,12 +129,12 @@ cb_dialog_so_size_value_changed (G_GNUC_UNUSED GtkSpinButton *spinbutton,
 	int width, height;
 	int new_width, new_height;
 	int dx, dy;
-	
+
 	width = state->coords[2] - state->coords[0];
 	height = state->coords[3] - state->coords[1];
 	if (width < 0) width = - width;
 	if (height < 0) height = - height;
-	
+
 	new_width = gtk_spin_button_get_value_as_int (state->wspin);
 	new_height = gtk_spin_button_get_value_as_int (state->hspin);
 	dx =  gtk_spin_button_get_value_as_int (state->xspin);
@@ -147,7 +147,7 @@ cb_dialog_so_size_value_changed (G_GNUC_UNUSED GtkSpinButton *spinbutton,
 
 	if (state->so_size_needs_restore || state->so_pos_needs_restore) {
 		gdouble new_coords[4];
-		
+
 		new_coords[0] = state->coords[0] + dx;
 		new_coords[1] = state->coords[1] + dy;
 		new_coords[2] = state->coords[2] + dx;
@@ -160,7 +160,7 @@ cb_dialog_so_size_value_changed (G_GNUC_UNUSED GtkSpinButton *spinbutton,
 			new_coords[3] = new_coords[1] + new_height;
 		else
 			new_coords[1] = new_coords[3] + new_height;
-		
+
 		scg_object_coords_to_anchor (state->scg, new_coords, 
 					     state->active_anchor);
 	}
@@ -286,7 +286,7 @@ dialog_so_size (WBCGtk *wbcg, GObject *so)
 
 	state->so = SHEET_OBJECT (so);
 	g_object_ref (so);
-	
+
 	state->nameentry = GTK_ENTRY (glade_xml_get_widget (state->gui, "name-entry"));
 	state->old_anchor = NULL;
 	state->old_name = NULL;

@@ -3094,7 +3094,7 @@ gnumeric_eigen (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 				free_matrix (matrix, cols, rows);
 				return value_new_error_NUM (ei->pos);
 			}
-	
+
 	eigenvectors = new_matrix (rows, cols);
 	eigenvalues = g_new0 (gnm_float, cols);
 

@@ -148,7 +148,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 		parse_pos_init_editpos (&pp, sv);
 
 		/******* Check whether we would split a range ********/
-		
+
 		switch (result) {
 		case (WBC_EDIT_ACCEPT_RANGE):
 		case (WBC_EDIT_ACCEPT_ARRAY): {
@@ -180,7 +180,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 
 
 		/******* Check whether the range is locked ********/
-		
+
 		switch (result) {
 		case (WBC_EDIT_ACCEPT_RANGE):
 		case (WBC_EDIT_ACCEPT_ARRAY): {
@@ -229,7 +229,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 		if (expr_txt != NULL && *expr_txt != '\0' && strcmp (expr_txt, "-")) {
 			GnmExprTop const *texpr_test = NULL;
 			GnmParseError  perr;
-			
+
 
 			parse_error_init (&perr);
 			texpr_test = gnm_expr_parse_str (expr_txt,
@@ -304,13 +304,13 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 			else {
 				GnmParsePos    pp_array;
 				GnmRange *r = selection->data;
-				
+
 				parse_pos_init (&pp_array, sheet->workbook, sheet, r->start.col, r->start.row);
-					
+
 				if ((texpr = gnm_expr_parse_str
 				     (expr_txt, &pp_array, GNM_EXPR_PARSE_DEFAULT,
 				      sheet_get_conventions (sheet), NULL)) == NULL)
-					result = WBC_EDIT_ACCEPT_RANGE;	
+					result = WBC_EDIT_ACCEPT_RANGE;
 			}
 		}
 
@@ -348,7 +348,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 							    r->end.col, r->end.row,
 							    texpr);
 				sheet_region_queue_recalc (sheet, r);
-			}			
+			}
 			valid =	validation_eval_range (wbc, sheet, &sv->edit_pos, r,
 						       showed_dialog);
 			break;

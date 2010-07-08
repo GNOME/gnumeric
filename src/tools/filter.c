@@ -149,7 +149,7 @@ advanced_filter (WorkbookControl        *wbc,
 	sv_selection_reset (sv);
 	sv_selection_add_range (sv, &r);
 	sv_selection_add_range (sv, &s);
-	
+
 	wb_control_menu_state_update (wbc, MS_FILTER_STATE_CHANGED);
 
 	return analysis_tools_noerr;
@@ -231,7 +231,7 @@ analysis_tool_advanced_filter_engine_run (data_analysis_output_t *dao,
 	if (rows == NULL) {
 		err = analysis_tools_no_records_found;
 		goto finish;
-	}		
+	}
 
 	filter (dao, database->v_range.cell.a.sheet, rows,
 		database->v_range.cell.a.col,
@@ -250,7 +250,7 @@ finish:
 		else
 			dao_set_cell_printf (dao, 0, 0, 
 					     _("An unexpected error has occurred: "
-					       "%d."), err);		
+					       "%d."), err);
 	}
 
 	dao_redraw_respan (dao);

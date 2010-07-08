@@ -251,7 +251,7 @@
 2006-11-11  Morten Welinder  <terra@gnome.org>
 
 	* grand-rename: Figure out the replacement text automatically.
-	
+
 2006-11-02  Morten Welinder  <terra@gnome.org>
 
 	* check-gfrees: New checker.

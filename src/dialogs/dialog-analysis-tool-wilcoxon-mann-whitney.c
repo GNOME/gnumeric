@@ -81,7 +81,7 @@ wilcoxon_mann_whitney_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy
 		GnmRangeRef const *rr = value_get_rangeref (input_range);
 		guint len = 0;
 		GnmRange r;
-		
+
 		if (rr != NULL) {
 			group_by_t group_by 
 				= gnumeric_glade_group_value 

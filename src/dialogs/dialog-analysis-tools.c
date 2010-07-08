@@ -2358,7 +2358,7 @@ regression_tool_regression_check_toggled_cb (G_GNUC_UNUSED
 		gtk_label_set_markup_with_mnemonic  (GTK_LABEL (w1),
 						     _("_X variables:"));
 		gtk_label_set_markup_with_mnemonic  (GTK_LABEL (w2),
-						     _("_Y variable:"));		
+						     _("_Y variable:"));
 	}
 	regression_tool_update_sensitivity_cb (NULL, state);
 }

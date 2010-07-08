@@ -136,7 +136,7 @@ analysis_tool_sign_test_engine_run (data_analysis_output_t *dao,
 		expr = gnm_expr_new_funcall2
 			(fd_min, expr_neg, expr_pos);
 		dao_set_cell_array_expr (dao, col + 1, 3, expr);
-		
+
 		expr = gnm_expr_new_funcall1
 			(fd_sum, gnm_expr_new_binary 
 			 (expr_isnumber, GNM_EXPR_OP_MULT, 
@@ -242,7 +242,7 @@ analysis_tool_sign_test_two_engine_run (data_analysis_output_t *dao,
 		(fd_median,
 		 gnm_expr_copy (expr_1));
 	dao_set_cell_expr (dao, 1, 1, expr);
-	
+
 	expr = gnm_expr_new_funcall1
 		(fd_median,
 		 gnm_expr_copy (expr_2));
@@ -251,7 +251,7 @@ analysis_tool_sign_test_two_engine_run (data_analysis_output_t *dao,
 	expr_diff = gnm_expr_new_binary (gnm_expr_copy (expr_1), 
 					 GNM_EXPR_OP_SUB,
 					 gnm_expr_copy (expr_2));
-	
+
 	expr_isnumber_1 = gnm_expr_new_funcall3
 		(fd_if, gnm_expr_new_funcall1
 		 (fd_isnumber, expr_1),
@@ -262,7 +262,7 @@ analysis_tool_sign_test_two_engine_run (data_analysis_output_t *dao,
 		 (fd_isnumber, expr_2),
 		 gnm_expr_new_constant (value_new_int (1)),
 		 gnm_expr_new_constant (value_new_int (0)));
-	
+
 	expr_neg = gnm_expr_new_funcall1
 		(fd_sum,
 		 gnm_expr_new_binary
@@ -294,7 +294,7 @@ analysis_tool_sign_test_two_engine_run (data_analysis_output_t *dao,
 	expr = gnm_expr_new_funcall2
 		(fd_min, expr_neg, expr_pos);
 	dao_set_cell_array_expr (dao, 1, 3, expr);
-		
+
 	expr = gnm_expr_new_funcall1
 		(fd_sum, gnm_expr_new_binary
 		 (expr_isnumber_1, GNM_EXPR_OP_MULT,
@@ -320,7 +320,7 @@ analysis_tool_sign_test_two_engine_run (data_analysis_output_t *dao,
 				  (gnm_expr_new_constant (value_new_int (1)),
 				   GNM_EXPR_OP_SUB,
 				   expr)));
-	
+
 	expr = gnm_expr_new_binary (gnm_expr_new_constant (value_new_int (2)),
 				    GNM_EXPR_OP_MULT, make_cellref (0,-1));
 	dao_set_cell_array_expr (dao, 1, 7, expr);

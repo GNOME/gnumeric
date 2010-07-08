@@ -146,7 +146,7 @@ advanced_filter_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			g_free (data);
 		} else 
 			err = analysis_tools_noerr;
-		
+
 	}
 
 	if (dao->type == InPlaceOutput || err != analysis_tools_noerr) {

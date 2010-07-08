@@ -123,7 +123,7 @@
 	* plugin.xml.in: add COMBINA and ARABIC
 	* functions.c (help_combina): new
 	(gnumeric_combina): new
-	(help_arabic): new	
+	(help_arabic): new
 	(gnumeric_arabic): new
 	(math_functions): add COMBINA and ARABIC
 
@@ -175,7 +175,7 @@
 	(help_sinh): fix
 	(help_tanh): fix name record
 	(help_round): fix name record
-	
+
 2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_*): change x:value to x:number throughout
@@ -188,11 +188,11 @@
 2009-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c: conversion to new function description
-	
+
 2009-06-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c: partial conversion to new function description
-	
+
 2009-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* plugin.xml.in: new csc, csh, sec, sech
@@ -472,7 +472,7 @@
 	(gnumeric_countif) : ditto.
 
 2005-02-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
-	
+
 	* functions.c (help_rounddown): change documentation text
 	(help_roundup): change documentation text
 	(gnumeric_rounddown): change handling of negative numbers to make
@@ -632,7 +632,7 @@
 
 	* functions.c: spelling fixes
 	* plugin.xml.in: trig is part of math
-	
+
 2003-06-07  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.19

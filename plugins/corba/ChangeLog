@@ -260,7 +260,7 @@
 2004-09-24  Jon K Hellan  <hellan@acm.org>
 
 	* TODO: New file. Tell about outstanding issues.
-	
+
 	* GNOME_Gnumeric.idl: Workbook doesn't nedd to inherit from Bonobo
 	after all.
 

@@ -901,7 +901,7 @@ load_repeat_range (char const *str, GnmRange *r, Sheet *sheet)
 
 	if (str == NULL || *str == '\0')
 		return FALSE;
-	
+
 	if (str != rangeref_parse (&res, str, 
 				   parse_pos_init_sheet (&pp, sheet), 
 				   gnm_conventions_default)) {

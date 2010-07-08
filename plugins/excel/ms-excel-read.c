@@ -618,7 +618,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		style->fill.type = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_UNFILLED)
 			? GO_STYLE_FILL_NONE : GO_STYLE_FILL_PATTERN;
 		if (style->fill.type != GO_STYLE_FILL_PATTERN)
-			style->fill.auto_type = FALSE;				
+			style->fill.auto_type = FALSE;
 
 		g_object_set (G_OBJECT (so), "style", style, NULL);
 		g_object_unref (style);

@@ -455,7 +455,7 @@ sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
 {
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
-	
+
 	if (sheet == so->sheet)
 		return FALSE;
 
@@ -1483,7 +1483,7 @@ sheet_object_move_undo (GSList *objects, gboolean objects_created)
 				  (GOUndoUnaryFunc) sheet_object_clear_sheet,
 				  (GFreeFunc) g_object_unref));
 		}
-		
+
 		tmp = g_new (SheetObjectAnchor, 1);
 		*tmp = *sheet_object_get_anchor (obj);
 		undo = go_undo_combine 

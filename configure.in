@@ -977,7 +977,7 @@ Both the DocBook to ConTeXt and the DocBook to LaTeX conversion tool can be
 obtained from
 	http://dblatex.sourceforge.net/
 ])
-		exit 1	
+		exit 1
 	fi
 fi
 AM_CONDITIONAL(ENABLE_PDFDOCS, test x"$enable_pdfdocs" = xyes)

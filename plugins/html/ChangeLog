@@ -139,12 +139,12 @@
 
 	* html.c (html_write_cell_content): make sure there is 
 	  markup before asking for it.
-	
+
 2009-05-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* html.c (html_write_cell_content): remember that not 
 	every string has markup
-	
+
 2009-05-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* html.c (cb_html_add_chars): new
@@ -154,7 +154,7 @@
 	  appropriate
 	(write_cell): don't collapse XHTML and HTML4
 	(html_file_save): update DOCTYPEs
-	
+
 2009-05-06  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.7
@@ -168,12 +168,12 @@
 	* Release 1.9.5
 
 2009-03-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
-	
+
 	* latex.c (latex_file_save): the previous correction used an 
 	  inverted comparison.
 
 2009-03-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
-	
+
 	* latex.c (latex_file_save): don't access styles for cells 
 	  beyond the sheet! Fixes 574125
 
@@ -305,7 +305,7 @@
 	(latex2e_table_write_cell): new
 	(latex2e_table_write_file_header): new
 	* plugin.xml.in: add latex_table file_saver
-	
+
 2006-06-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* latex.c (latex_fputs_latin): fix typo and add
@@ -360,7 +360,7 @@
 	http://bugzilla.gnome.org/show_bug.cgi?id=325656
 	* latex.c (latex_fputs_latin) use "-" as replacement for unicode
 	(latex_math_fputs_latin): ditto
-	
+
 2006-01-04  Jon K Hellan  <hellan@acm.org>
 
 	* html_read.c (html_append_text): Handle whitespace in a unicode
@@ -481,7 +481,7 @@
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=142219
 	* latex.c (latex2e_find_vline) : Undo last patch.
-	
+
 2004-04-02  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=100372
@@ -537,7 +537,7 @@
 2003-06-30  Jon K Hellan  <hellan@acm.org>
 
 	* html_read.c: See yesterday. Now actually commit it.
-	
+
 	* html.c: Revert accidental commit.
 
 2003-06-29  Jon K Hellan  <hellan@acm.org>

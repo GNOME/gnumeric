@@ -53,11 +53,11 @@ static struct {
 	{FALSE, PASTE_COMMENTS},
 };
 static char const * const cell_operation_group[] = {
-	"cell-operation-none",	
-	"cell-operation-add",	
-	"cell-operation-subtract",	
-	"cell-operation-multiply",	
-	"cell-operation-divide",	
+	"cell-operation-none",
+	"cell-operation-add",
+	"cell-operation-subtract",
+	"cell-operation-multiply",
+	"cell-operation-divide",
 	NULL
 };
 static struct {
@@ -158,8 +158,8 @@ dialog_paste_special_type_toggled_cb (GtkWidget *button, PasteSpecialState *stat
 			gtk_widget_set_sensitive (glade_xml_get_widget (state->gui,*group),
 						  permit_cell_ops);
 		paste_link_set_sensitive (state);
-		skip_blanks_set_sensitive (state);		
-		dont_change_formulae_set_sensitive (state);		
+		skip_blanks_set_sensitive (state);
+		dont_change_formulae_set_sensitive (state);
 	}
 }
 
@@ -167,9 +167,9 @@ static void
 dialog_paste_special_cell_op_toggled_cb (GtkWidget *button, PasteSpecialState *state)
 {
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button))) {
-		paste_link_set_sensitive (state);		
-		skip_blanks_set_sensitive (state);		
-		dont_change_formulae_set_sensitive (state);		
+		paste_link_set_sensitive (state);
+		skip_blanks_set_sensitive (state);
+		dont_change_formulae_set_sensitive (state);
 	}
 }
 
@@ -177,13 +177,13 @@ static void
 dialog_paste_special_region_op_toggled_cb (GtkWidget *button, PasteSpecialState *state)
 {
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button))) {
-		paste_link_set_sensitive (state);		
+		paste_link_set_sensitive (state);
 	}
 }
 static void
 dialog_paste_special_skip_blanks_toggled_cb (GtkWidget *button, PasteSpecialState *state)
 {
-		paste_link_set_sensitive (state);		
+		paste_link_set_sensitive (state);
 }
 
 static void
@@ -201,7 +201,7 @@ cb_tool_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	int result;
 	int paste_type = gnumeric_glade_group_value (state->gui, paste_type_group);
 	int region_op_type = gnumeric_glade_group_value (state->gui, region_operation_group);
-		
+
 	result = paste_type_group_props[paste_type].paste_enum 
 		| region_operation_props[region_op_type].paste_enum;
 
@@ -268,7 +268,7 @@ dialog_paste_special (WBCGtk *wbcg)
 	g_signal_connect (G_OBJECT (state->ok_button),
 			  "clicked",
 			  G_CALLBACK (cb_tool_ok_clicked), state);
-	
+
 
 	for (group = paste_type_group; *group != NULL; group++) 
 		g_signal_connect_after (glade_xml_get_widget (state->gui,*group),
@@ -285,7 +285,7 @@ dialog_paste_special (WBCGtk *wbcg)
 	g_signal_connect_after (glade_xml_get_widget (state->gui, "skip-blanks"),
 				"toggled",
 				G_CALLBACK (dialog_paste_special_skip_blanks_toggled_cb), state);
-	paste_link_set_sensitive (state);	
+	paste_link_set_sensitive (state);
 
 	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), wbcg,
 					   GNM_DIALOG_DESTROY_SHEET_REMOVED);

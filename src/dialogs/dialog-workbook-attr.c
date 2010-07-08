@@ -107,7 +107,7 @@ attr_dialog_init_toggle (AttrState *state, char const *name, char const *key)
 
 	g_object_get (G_OBJECT (state->wbv), key, &val, NULL); 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), val);
-	
+
 	g_signal_connect (G_OBJECT (w),
 		"toggled",
 		G_CALLBACK (cb_widget_changed), state);
@@ -218,7 +218,7 @@ attr_dialog_select_page (AttrState *state, int page)
 		gtk_tree_model_foreach (GTK_TREE_MODEL (state->store),
 					(GtkTreeModelForeachFunc) attr_dialog_select_page_search,
 					&pst);
-	
+
 	if (pst.path == NULL)
 		pst.path = gtk_tree_path_new_from_string ("0");
 
@@ -293,7 +293,7 @@ attr_dialog_impl (AttrState *state)
 	}
 
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (state->store), ITEM_NAME, GTK_SORT_ASCENDING);
-	
+
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "close_button")),
 			  "clicked",
 			  G_CALLBACK (cb_attr_dialog_dialog_close), state);

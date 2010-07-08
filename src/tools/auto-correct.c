@@ -168,7 +168,7 @@ autocorrect_first_letter_exception (const char *start, const char *end)
 			return TRUE;
 		}
 	}
-	
+
 	g_free (text);
 	return FALSE;
 }
@@ -199,7 +199,7 @@ autocorrect_first_letter (const char *src)
 		else if ((last_end != NULL) && !g_unichar_isspace (this_char)) {
 			if (seen_white) {
 				gunichar new = g_unichar_totitle (this_char);
-				
+
 				if ((this_char != new) && 
 				    !autocorrect_first_letter_exception (src, last_end)) {
 					if (gstr == NULL)
@@ -214,7 +214,7 @@ autocorrect_first_letter (const char *src)
 			last_end = NULL;
 		}
 	}
-	
+
 	if (gstr != NULL) {
 		g_string_append_len (gstr, last_copy, 
 				     strlen (last_copy));

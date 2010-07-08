@@ -209,7 +209,7 @@ sign_test_two_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	w = glade_xml_get_widget (state->base.gui, "labels_button");
         data->base.labels = gtk_toggle_button_get_active 
 		(GTK_TOGGLE_BUTTON (w));
-	
+
 	err = entry_to_float
 		(GTK_ENTRY (state->median_entry), &data->median, FALSE);
 
@@ -265,7 +265,7 @@ dialog_sign_test_two_tool (WBCGtk *wbcg, Sheet *sheet, signtest_type type)
 			      GNM_EE_SINGLE_RANGE))
 		return 0;
 
-	
+
 	state->alpha_entry = tool_setup_update 
 		(&state->base, "alpha-entry",
 		 G_CALLBACK (sign_test_two_tool_update_sensitivity_cb), 
@@ -318,11 +318,11 @@ sign_test_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 	data->base.group_by = gnumeric_glade_group_value (state->base.gui, grouped_by_group);
-	
+
 	w = glade_xml_get_widget (state->base.gui, "labels_button");
         data->base.labels = gtk_toggle_button_get_active 
 		(GTK_TOGGLE_BUTTON (w));
-	
+
 	err = entry_to_float
 		(GTK_ENTRY (state->median_entry), &data->median, FALSE);
 	data->alpha = gtk_spin_button_get_value
@@ -410,7 +410,7 @@ dialog_sign_test_tool (WBCGtk *wbcg, Sheet *sheet, signtest_type type)
 			      0))
 		return 0;
 
-	
+
 	state->alpha_entry = tool_setup_update 
 		(&state->base, "alpha-entry",
 		 G_CALLBACK (sign_test_two_tool_update_sensitivity_cb), 

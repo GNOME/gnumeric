@@ -52,7 +52,7 @@
 2009-12-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_expression): fix formatting
-	
+
 2009-12-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.17
@@ -100,7 +100,7 @@
 2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_error_type): fix name record
-	
+
 2009-07-5  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_*): change to new format
@@ -422,7 +422,7 @@
 2003-06-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* functions.c: spelling fixes
-	
+
 2003-06-13  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (gnumeric_cell) : fix warning.

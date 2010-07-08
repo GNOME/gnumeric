@@ -625,7 +625,7 @@ cb_toggled_visible (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	update_undo (state, wbc);
 
 	if (is_visible)
-		populate_sheet_list (state);	
+		populate_sheet_list (state);
 }
 
 static gboolean

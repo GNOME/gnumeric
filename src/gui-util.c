@@ -445,7 +445,7 @@ GtkWidget *
 gnumeric_create_tooltip_widget (void)
 {
 	GtkWidget *label, *frame;
-	
+
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
 	label = gtk_label_new ("");

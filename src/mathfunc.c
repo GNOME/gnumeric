@@ -7663,9 +7663,9 @@ random_skew_normal (gnm_float a)
 	gnm_float delta = a / gnm_sqrt(1 + a * a);
 	gnm_float u = random_normal ();
 	gnm_float v = random_normal ();
-	
+
 	result = delta * u + gnm_sqrt (1-delta*delta) * v;
-	
+
 	return ((u < 0.) ? -result : result);
 }
 
@@ -7888,7 +7888,7 @@ gnm_matrix_eigen (gnm_float **matrix, gnm_float **eigenvectors, gnm_float *eigen
 
 	ind = g_new (guint, usize);
 	changed =  g_new (gboolean, usize);
-	
+
 	for (i = 0; i < usize; i++) {
 		guint j;
 		for (j = 0; j < usize; j++)
@@ -7902,7 +7902,7 @@ gnm_matrix_eigen (gnm_float **matrix, gnm_float **eigenvectors, gnm_float *eigen
 	while (usize > 1 && state != 0) {
 		guint k, l, m = 0;
 		gnm_float c, s, y, pivot, t;
-		
+
 		counter++;
 		if (counter > 400000) {
 			g_free (ind);
@@ -7916,7 +7916,7 @@ gnm_matrix_eigen (gnm_float **matrix, gnm_float **eigenvectors, gnm_float *eigen
 		l = ind[m];
 		pivot = matrix[m][l];
 		/* pivot is (m,l) */
-		
+
 		y = (eigenvalues[l] - eigenvalues[m])/2;
 		t = gnm_abs (y) + gnm_sqrt (pivot*pivot+y*y);
 		s = gnm_sqrt (pivot*pivot+t*t);

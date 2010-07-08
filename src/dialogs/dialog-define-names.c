@@ -155,7 +155,7 @@ name_guru_expand_at_iter (NameGuruState *state, GtkTreeIter *iter)
 		(GTK_TREE_MODEL (state->model), iter);
 	gtk_tree_view_expand_to_path 
 		(GTK_TREE_VIEW (state->treeview), path);
-	gtk_tree_path_free (path);	
+	gtk_tree_path_free (path);
 
 }
 
@@ -237,7 +237,7 @@ cb_name_guru_search (GtkTreeModel *model, GtkTreePath *path,
 		g_free (name_n); 
 		g_free (name_cf);
 	}
-	
+
 	if (visible != was_visible)
 		gtk_tree_store_set (GTK_TREE_STORE (model), iter, 
 				    ITEM_VISIBLE, visible,
@@ -262,7 +262,7 @@ name_guru_search (GtkEntry *entry, gpointer data)
 			 data);
 		return;
 	}
-	text = gtk_entry_get_text (entry);	
+	text = gtk_entry_get_text (entry);
 	gtk_tree_model_foreach (GTK_TREE_MODEL (state->model),
 				cb_name_guru_search, (gpointer) text);
 }
@@ -333,7 +333,7 @@ name_guru_set_images (NameGuruState *state, GtkTreeIter	*name_iter,
 			    pastable ?  state->image_paste : NULL,
 			    ITEM_UPDOWN_ACTIVE, button1 != NULL,
 			    ITEM_ADDDELETE_ACTIVE, button2 != NULL,
-			    -1);	
+			    -1);
 }
 
 static void
@@ -356,7 +356,7 @@ name_guru_store_names (GList            *list,
 
 		ispastable = ciseditable = 
 			type == item_type_available_wb_name 
-			|| type == item_type_available_sheet_name;		
+			|| type == item_type_available_sheet_name;
 
 		if (nexpr->is_permanent) {
 			adj_type =  item_type_locked_name;
@@ -381,7 +381,7 @@ name_guru_store_names (GList            *list,
 				    ITEM_VISIBLE, TRUE,
 				    -1);
 		g_free (content);
-		
+
 		name_guru_set_images (state, &name_iter, adj_type, ispastable);
 	}
 	g_list_free (list);
@@ -470,7 +470,7 @@ name_guru_paste (NameGuruState *state, GtkTreeIter *iter)
 			    ITEM_PASTABLE, &is_pastable,
 			    ITEM_NAME, &name,
 			    -1);
-	
+
 	if (!is_pastable)
 		return FALSE;
 
@@ -625,17 +625,17 @@ static void
 name_guru_delete (NameGuruState *state, GtkTreeIter *iter, item_type_t type)
 {
 	GnmNamedExpr *nexpr;
-	
+
 	if (type != item_type_new_unsaved_wb_name &&
 	    type != item_type_new_unsaved_sheet_name) {
 		gtk_tree_model_get (GTK_TREE_MODEL (state->model), 
 				    iter,
 				    ITEM_NAME_POINTER, &nexpr,
 				    -1);
-		
+
 		if (!name_guru_warn (state, nexpr))
 			return;
-		
+
 		cmd_remove_name (WORKBOOK_CONTROL (state->wbcg), nexpr);
 	}
 	gtk_tree_store_remove (state->model, iter);
@@ -689,7 +689,7 @@ name_guru_find_place (NameGuruState *state, GtkTreeIter *iter,
 	    gtk_tree_model_iter_children (GTK_TREE_MODEL (state->model),
 					  &next_iter,
 					  parent_iter)) {
-		do {	
+		do {
 			gtk_tree_model_get (GTK_TREE_MODEL (state->model), 
 					    &next_iter,
 					    ITEM_NAME_POINTER, &next_nexpr,
@@ -705,7 +705,7 @@ name_guru_find_place (NameGuruState *state, GtkTreeIter *iter,
 			}
 		} while (gtk_tree_model_iter_next (GTK_TREE_MODEL (state->model),
 						   &next_iter));
-		
+
 		gtk_tree_store_append (state->model, iter,
 				       parent_iter);
 	} else {
@@ -736,9 +736,9 @@ name_guru_move_record (NameGuruState *state, GtkTreeIter *from_iter,
 			    -1);
 
 	gtk_tree_store_remove (state->model, from_iter);
-		
+
 	name_guru_find_place (state, &new_iter, new_parent_iter, nexpr);
-	
+
 	gtk_tree_store_set (state->model, &new_iter, 
 			    ITEM_NAME, name, 
 			    ITEM_NAME_POINTER, nexpr, 
@@ -809,7 +809,7 @@ cb_name_guru_switch_scope (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 		default:
 			return;
 		}
-		
+
 		if (gtk_tree_model_get_iter_from_string 
 		    (GTK_TREE_MODEL (state->model), 
 		     &new_parent_iter, new_path)) {
@@ -841,7 +841,7 @@ name_guru_parse_pos_init (NameGuruState *state,
 	case item_type_foreign_name:
 	default:
 		return FALSE;
-	}	
+	}
 }
 
 /*
@@ -983,7 +983,7 @@ cb_name_guru_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 			return;
 		}
 	}
-	
+
 	texpr = name_guru_check_expression (state, content, &pp , type);
 	if (texpr == NULL)
 		return;
@@ -992,7 +992,7 @@ cb_name_guru_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 			      new_text, &pp,
 			      texpr, NULL)) {
 		nexpr = expr_name_lookup (&pp, new_text);
-		
+
 		type = (type == item_type_new_unsaved_wb_name) ? 
 			item_type_available_wb_name :
 			item_type_available_sheet_name;
@@ -1006,7 +1006,7 @@ cb_name_guru_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 			 ITEM_NAME_IS_EDITABLE, FALSE,
 			 -1);
 		name_guru_set_images (state, &iter, type, TRUE);
-		
+
 		if (gtk_tree_model_iter_parent (GTK_TREE_MODEL (state->model),
 						&parent_iter, &iter))
 			name_guru_move_record (state, &iter, &parent_iter, type);
@@ -1020,7 +1020,7 @@ name_guru_update_sensitivity (GtkTreeSelection *treeselection,
 	NameGuruState *state = user_data;
 	gboolean is_pastable = FALSE; 
 	GtkTreeIter iter;
-	
+
 	if (gtk_tree_selection_get_selected 
 	    (treeselection, NULL, &iter))
 		gtk_tree_model_get (state->model_f, &iter,
@@ -1028,7 +1028,7 @@ name_guru_update_sensitivity (GtkTreeSelection *treeselection,
 				    -1);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->paste_button),
 				  is_pastable);
-		
+
 } 
 
 static gboolean
@@ -1140,7 +1140,7 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 			 NULL);
 		gtk_tree_view_append_column (GTK_TREE_VIEW (state->treeview), 
 					     column);
-	
+
 		renderer = gnumeric_cell_renderer_toggle_new ();
 		g_signal_connect (G_OBJECT (renderer),
 				  "toggled",
@@ -1263,7 +1263,7 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 			       DEFINE_NAMES_KEY);
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 				   GTK_WINDOW (state->dialog));
-	
+
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_name_guru_destroy);
 

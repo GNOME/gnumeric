@@ -85,11 +85,11 @@
 2009-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_imcsch): fix name record
-	
+
 2009-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c: conversion to new function description
-	
+
 2009-06-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.9

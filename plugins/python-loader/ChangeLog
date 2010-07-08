@@ -484,7 +484,7 @@
 	gnm_py_interpreter_selector_new.
 
 	* gnm-python.[ch] (gnm_python_object_get): Report errors.
-	
+
 	* gnm-python.c (gnm_init_pygobject): Resurrect. This time ask for
 	the gtk2 version of gobject and report errors.
 	(gnm_python_object_get): Remove Python 1.5 compatibility code. Call
@@ -494,11 +494,11 @@
 
 	* py-gnumeric.c (py_Workbook_object_getattr): Reverse accidental
 	commit. 
-	
+
 2003-07-25  Jon K Hellan  <hellan@acm.org>
 
 	* py-gnumeric.[ch]: Make most stuff static.
-	
+
 	* py-gnumeric.c: Rename convert_python_exception_to_gnumeric_value
 	py_exc_to_gnm_value, convert_python_exception_to_string to
 	py_exc_to_string, convert_python_to_gnumeric_value, to

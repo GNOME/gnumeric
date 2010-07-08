@@ -412,7 +412,7 @@ cmd_shift_rows (WorkbookControl *wbc, Sheet *sheet,
 					      _("Inserting these cells would push data off the sheet. "
 						"Please enlarge the sheet first."));
 			return;
-		}		
+		}
 		rinfo.origin.end.col -= count;
 	}
 
@@ -461,7 +461,7 @@ cmd_shift_cols (WorkbookControl *wbc, Sheet *sheet,
 					      _("Inserting these cells would push data off the sheet. "
 						"Please enlarge the sheet first."));
 			return;
-		}		
+		}
 		rinfo.origin.end.row -= count;
 	}
 

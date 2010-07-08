@@ -25,7 +25,7 @@
 	* src/wbc-gtk.c (wbcg_menu_state_update): handle hyperlink and comment 
 	  items
 	* src/workbook-control.h: new MS_* flags
-	
+
 2010-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/func.c (copy_hash_table_to_ptr_array): also exclude py_* functions
@@ -152,7 +152,7 @@
 
 	* src/gnm-format.c (format_value_common): use go_string_replace
 	* src/func.c (gnm_func_convert_markup_to_pango): ditto
-	
+
 2010-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/cell-draw.c (cell_calc_layout): HALIGN_FILL overrides wrap_text
@@ -166,7 +166,7 @@
 
 	* src/stf-export.c (try_auto_float): new
 	(stf_export_cell): call try_auto_float
-	
+
 2010-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* schemas/gnumeric-dialogs.schemas.in: new preferences for
@@ -174,7 +174,7 @@
 	* src/gnumeric-gconf.c: add the items generated from the above 
 	  changes 
 	* src/gnumeric-gconf.h: ditto
-	
+
 2010-06-28  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
@@ -192,7 +192,7 @@
 	(sheet_range_set_markup_cb): new
 	* src/wbc-gtk-edit.c (wbcg_edit_finish): pass the amrkup also to
 	  cmd_area_set_text
-	
+
 2010-06-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (CMD_AREA_SET_TEXT): deleted 
@@ -234,7 +234,7 @@
 	(cmd_area_set_array_expr): new
 	* src/wbc-gtk-edit.c (wbcg_edit_finish): check whether the range 
 	  is locked; call cmd_area_set_array_expr when appropriate
-	
+
 2010-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/wbc-gtk-edit.c (wbcg_edit_finish): don't hide a varaible by 
@@ -269,7 +269,7 @@
 	(undo_range_name): use gnm_cmd_trunc_descriptor
 	(range_list_name_try): change arguments, use gnm_cmd_trunc_descriptor
 	(undo_range_list_name): adjust to changes to range_list_name_try
-	
+
 2010-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/wbc-gtk-edit.c (wbcg_edit_finish): don't free memory until we
@@ -290,7 +290,7 @@
 	* src/stf-parse.c (stf_parse_options_new): handle new field
 	(stf_parse_options_free): handle new field
 	(stf_parse_sheet): autofit columns
-	
+
 2010-06-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/validation.h (validation_eval_range): new
@@ -302,7 +302,7 @@
 
 	* src/wbc-gtk-edit.c (wbcg_edit_finish): only call a cmd_...
 	  when we have validated.
-	
+
 2010-06-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (make_undo_text): modify to use GString and
@@ -396,7 +396,7 @@
 	(wbc_gtk_create_edit_area): connect the above (for gtk 2.16+)
 	* src/workbook-control.h (wb_control_navigate_to_cell): new
 	* src/workbook-control.c (wb_control_navigate_to_cell): new
-	
+
 2010-06-15 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/func.h (tokenized_help_*): deleted

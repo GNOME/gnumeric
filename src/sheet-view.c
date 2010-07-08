@@ -663,7 +663,7 @@ sv_update (SheetView *sv)
 	SHEET_VIEW_FOREACH_CONTROL (sv, sc,
 				    wb_control_menu_state_update 
 				    (sc_wbc (sc), MS_SELECT_OBJECT););
-	
+
 }
 
 static GnmValue *

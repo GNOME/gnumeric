@@ -63,7 +63,7 @@ gnumeric_hdate_get_date (GnmValue const * const *arg, int *year, int *month, int
 		(int)g_date_get_month (&date);
 	*day = (arg[2]) ? value_get_as_int (arg[2]) :
 		g_date_get_day (&date);
-	
+
 	return;
 }
 
@@ -77,11 +77,11 @@ gnumeric_date_get_date (GnmFuncEvalInfo * ei, GnmValue const * const val,
 		g_date_set_time_t (&date, time (NULL));
 	else if (!datetime_value_to_g (&date, val, DATE_CONV (ei->pos)))
 		return value_new_error_NUM (ei->pos);
-		
+
 	*year = g_date_get_year (&date);
 	*month = g_date_get_month (&date);
 	*day = g_date_get_day (&date);
-	
+
 	return NULL;
 }
 
@@ -353,7 +353,7 @@ gnumeric_date2julian (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 	val = gnumeric_date_get_date (ei, argv[0], &year, &month, &day);
 	if (val != NULL)
 		return val;
-	
+
 	julian = hdate_gdate_to_jd (day, month, year);
 
 	return value_new_int (julian);

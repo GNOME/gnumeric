@@ -531,7 +531,7 @@ validation_eval_range_cb (GnmCellIter const *iter, validation_eval_t *closure)
 					  &showed_dialog);
 		if (closure->showed_dialog)
 			*closure->showed_dialog = *closure->showed_dialog || showed_dialog;
-		
+
 		if (status != VALIDATION_STATUS_VALID) {
 			closure->status = status;
 			return VALUE_TERMINATE;

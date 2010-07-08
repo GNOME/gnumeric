@@ -505,14 +505,14 @@ cb_dialog_ok_clicked (SortFlowState *state)
 	data->retain_formats = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->retain_format_check));
 	data->locale = go_locale_sel_get_locale (state->locale_selector);
-	
+
 	data_copy = gnm_sort_data_copy (data);
 	text = gnm_expr_entry_get_text (state->range_entry);
 	gnm_sheet_add_sort_setup
 		(data->sheet, 
 		 g_strdup((text != NULL && text[0] != '\0') ? text : "Other"), 
 		 data_copy);
-	
+
 	cmd_sort (WORKBOOK_CONTROL (state->wbcg), data);
 
 	gtk_widget_destroy (state->dialog);
@@ -536,12 +536,12 @@ dialog_cell_sort_load_sort_setup (SortFlowState *state, GnmSortData const *data)
 
 	if (sheet == NULL)
 		sheet = state->sheet;
-	
+
 	go_locale_sel_set_locale (state->locale_selector, data->locale);
-	
+
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (state->retain_format_check), data->retain_formats);
-	
+
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (state->cell_sort_row_rb), !data->top);
 	state->is_cols = data->top;
@@ -551,7 +551,7 @@ dialog_cell_sort_load_sort_setup (SortFlowState *state, GnmSortData const *data)
 	max = (data->top ? state->sel->v_range.cell.b.col : state->sel->v_range.cell.b.row);
 	gtk_list_store_clear (state->model);
 	state->sort_items = 0;
-	for (i = 0; i < data->num_clause; i++) {		
+	for (i = 0; i < data->num_clause; i++) {
 		if (data->clauses[i].offset <= max ) {
 			GtkTreeIter iter;
 			gchar *str, *header;
@@ -605,14 +605,14 @@ dialog_load_selection (SortFlowState *state, gboolean *col_rb)
 				      sheet_range_has_heading 
 				      (state->sheet, first, *col_rb, FALSE));
 	cb_sort_header_check (state);
-	
+
 	data = gnm_sheet_find_sort_setup (state->sheet, 
 					  gnm_expr_entry_get_text (state->range_entry));
 	if (data != NULL)
 		dialog_cell_sort_load_sort_setup (state, data);
 	else
 		cb_update_to_new_range (state);
-	
+
 	return first;
 }
 

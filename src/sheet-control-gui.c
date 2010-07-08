@@ -1867,7 +1867,7 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 		for (l = scg_view (scg)->selections; l != NULL; l = l->next) {
 			GnmRange const *r = l->data;
 			GnmStyleList *styles;
-			
+
 			styles = sheet_style_collect_hlinks (sheet, r);
 			n_links += g_slist_length (styles);
 			style_list_free (styles);
@@ -2105,7 +2105,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 			sensitivity_filter |= CONTEXT_DISABLE_FOR_ALL_ROWS;
 		} else
 			sensitivity_filter |= CONTEXT_DISABLE_FOR_ROWS;
-		
+
 
 		if (rfull_h) {
 			display_filter |= CONTEXT_DISPLAY_FOR_ROWS;
@@ -2195,14 +2195,14 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 			popup_elements[POPUPITEM_FORMAT].allocated_name 
 				= g_strdup_printf (format, n_cols);
 		}
-	}	
+	}
 	if (display_filter & CONTEXT_DISPLAY_FOR_ROWS) {
 		char const *format;
 		format = ngettext ("_Insert %d Row", "_Insert %d Rows", n_rows);
 		popup_elements[POPUPITEM_INSERT_ROW].allocated_name = g_strdup_printf (format, n_rows);
 		format = ngettext ("_Delete %d Row", "_Delete %d Rows", n_rows);
 		popup_elements[POPUPITEM_DELETE_ROW].allocated_name = g_strdup_printf (format, n_rows);
-		
+
 		if (!(sensitivity_filter & (CONTEXT_DISABLE_FOR_CELLS | CONTEXT_DISABLE_FOR_COLS))) {
 			format = ngettext ("_Format %d Row", "_Format %d Rows", n_rows);
 			popup_elements[POPUPITEM_FORMAT].allocated_name 
@@ -2214,7 +2214,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		format = ngettext ("_Format %d Cell...", "_Format %d Cells", n_cells);
 		popup_elements[POPUPITEM_FORMAT].allocated_name = g_strdup_printf (format, n_cells);
 	}
-	
+
 
 	gnumeric_create_popup_menu (popup_elements, &context_menu_handler,
 				    scg, display_filter,
@@ -2643,23 +2643,23 @@ scg_objects_drag_commit_get_undo_text (int drag_type, int n,
 				       gboolean created_objects)
 {
 	char const *format;
-	
+
 	if (created_objects) {
 		if (drag_type == 8)
 			/* xgettext : %d gives the number of objects. This is input to ngettext. */
 			format = ngettext ("Duplicate %d Object", "Duplicate %d Objects", n); 
 		else
 			/* xgettext : %d gives the number of objects. This is input to ngettext. */
-			format = ngettext ("Insert %d Object", "Insert %d Objects", n); 			
+			format = ngettext ("Insert %d Object", "Insert %d Objects", n); 
 	} else {
 		if (drag_type == 8)
 			/* xgettext : %d gives the number of objects. This is input to ngettext. */
 			format = ngettext ("Move %d Object", "Move %d Objects", n); 
 		else
 			/* xgettext : %d gives the number of objects. This is input to ngettext. */
-			format = ngettext ("Resize %d Object", "Resize %d Objects", n); 			
+			format = ngettext ("Resize %d Object", "Resize %d Objects", n); 
 	}
-	
+
 	return g_strdup_printf (format, n);
 
 }
@@ -2683,12 +2683,12 @@ scg_objects_drag_commit (SheetControlGUI *scg, int drag_type,
 	redo = sheet_object_move_do (data.objects, data.anchors, created_objects);
 	text = scg_objects_drag_commit_get_undo_text 
 		(drag_type,  g_slist_length (data.objects), created_objects);
-	
+
 	if (pundo && predo) {
 		*pundo = undo;
 		*predo = redo;
 		if (undo_title)
-			*undo_title = text;	
+			*undo_title = text;
 	} else {
 		cmd_generic (WORKBOOK_CONTROL (scg_wbcg (scg)), 
 			     text, undo, redo);

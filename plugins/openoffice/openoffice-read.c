@@ -1274,7 +1274,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		return;
 	}
 
-	
+
 
 	merge_cols = MIN (merge_cols, max_cols - state->pos.eval.col);
 	merge_rows = MIN (merge_rows, max_rows - state->pos.eval.row);
@@ -1289,7 +1289,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 		if (style == NULL) {
 			style = g_hash_table_lookup (state->styles.cell, style_name);
-			
+
 			if (((style != NULL) || (state->ver == OOO_VER_1))
 			    && (has_datetime || has_date || has_time)) {
 				if ((style == NULL) ||
@@ -1309,14 +1309,14 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 						format = go_format_default_time ();
 						g_hash_table_replace (state->styles.cell_time,
 								      g_strdup (style_name), style);
-					}	
+					}
 					gnm_style_set_format (style, format);
 				}
 			}
 		}
 		if (style != NULL)
 			gnm_style_ref (style);
-		
+
 		g_free (style_name);
 	}
 
@@ -3113,7 +3113,7 @@ static void
 oo_db_range_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	
+
 	if (state->filter != NULL) {
 		gnm_filter_reapply (state->filter);
 		state->filter = NULL;
@@ -3591,7 +3591,7 @@ oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, int dim_type, char cons
 			state->chart.src_label.end.row = ++state->chart.src_label.start.row;
 		else
 			state->chart.src_label.end.col = ++state->chart.src_label.start.col;
-		
+
 	}
 }
 

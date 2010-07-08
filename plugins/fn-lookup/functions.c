@@ -1572,7 +1572,7 @@ gnumeric_sheets (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 			a = g_slist_index (workbook_sheets (wb), r->a.sheet);
 			b = g_slist_index (workbook_sheets (wb), r->b.sheet);
-			
+
 			ans_min = (a < b) ? a : b;
 			ans_max = (a < b) ? b : a;
 
@@ -1630,7 +1630,7 @@ gnumeric_sheet (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 					(1 + g_slist_index (workbook_sheets (wb), 
 							    sheet));
 		} else
-			return value_new_error_VALUE (ei->pos);	
+			return value_new_error_VALUE (ei->pos);
 	} else
 		return value_new_int (1 + g_slist_index (workbook_sheets (wb), 
 							 ei->pos->sheet));

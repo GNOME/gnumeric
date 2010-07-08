@@ -48,7 +48,7 @@ expr_name_validate_r1c1 (const char *name)
 	for (i = 0; p[0] && g_ascii_isdigit (p[0]); p = g_utf8_next_char (p))
 		i++;
 	if (i==0)
-		return TRUE;	
+		return TRUE;
 	return (p[0] != '\0');
 }
 
@@ -116,7 +116,7 @@ expr_name_validate (const char *name)
 	/* What about R1C1?  */
 	if (!expr_name_validate_r1c1 (name))
 		return FALSE;
-	
+
 	return TRUE;
 }
 
@@ -974,11 +974,11 @@ expr_name_in_use (GnmNamedExpr *nexpr)
 		/* The name is of sheet level scope           */
 		/* It can only be used by another sheet-level */
 		/* name of the same sheet.                    */
-		
+
 		return expr_name_check_for_name 
 			(name, nexpr->pos.sheet->names, FALSE);
 	}
-	
+
 
 	return FALSE;
 }

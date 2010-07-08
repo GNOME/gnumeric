@@ -319,7 +319,7 @@ wb_control_navigate_to_cell (WorkbookControl *wbc, wb_control_navigator_t to)
 	region = *first;
 	gnm_sheet_guess_data_range (sheet, &region);
 	range_ensure_sanity (&region, sheet);
-	
+
 	switch (to) {
 	case navigator_top:
 		region.end.row = region.start.row;

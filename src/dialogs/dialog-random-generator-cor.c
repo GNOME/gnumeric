@@ -89,7 +89,7 @@ static void
 random_cor_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				   RandomCorToolState *state)
 {
-        GnmValue *input_range;	
+        GnmValue *input_range;
 	gint height, width, count;
 
 	input_range = gnm_expr_entry_parse_as_value
@@ -125,7 +125,7 @@ random_cor_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
 				    _("The number of random numbers requested is invalid."));
 		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
-		return;		
+		return;
 	}
 
 	gtk_label_set_text (GTK_LABEL (state->base.warning), "");

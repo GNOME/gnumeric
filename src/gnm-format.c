@@ -132,7 +132,7 @@ format_value_common (PangoLayout *layout, GString *str,
 				rtl = (dir == PANGO_DIRECTION_RTL || dir == PANGO_DIRECTION_TTB_RTL 
 				       || dir == PANGO_DIRECTION_WEAK_RTL);
 			}
-			
+
 			while ((ptr = strchr (str->str, '\n')) != NULL)
 				go_string_replace 
 					(str, ptr - str->str, 1, rtl ? UTF8_NEWLINE_RTL : UTF8_NEWLINE, -1);

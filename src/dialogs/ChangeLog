@@ -12,7 +12,7 @@
 
 	* dialog-solver.c (dialog_init): If we have no existing target we
 	should add the selection.
-	
+
 2010-07-04  Morten Welinder  <terra@gnome.org>
 
 	* dialog-solver.c (dialog_init): Don't add current selection to

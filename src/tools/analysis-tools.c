@@ -579,7 +579,7 @@ analysis_tool_get_function (char const *name,
 			    data_analysis_output_t *dao)
 {
 	GnmFunc *fd;
-	
+
 	fd = gnm_func_lookup_or_add_placeholder 
 		(name, dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd);
@@ -3341,7 +3341,7 @@ analysis_tool_regression_simple_engine_run (data_analysis_output_t *dao,
 	     inputdata = inputdata->next, row++) {
 		GnmValue *val_indep = value_dup (inputdata->data);
 		GnmExpr const *expr_linest;
-		
+
 		dao_set_italic (dao, 0, row, 0, row);
 		analysis_tools_write_a_label (val_indep, dao,
 					      info->base.labels, info->group_by,
@@ -3423,7 +3423,7 @@ analysis_tool_regression_engine (data_analysis_output_t *dao, gpointer specs,
 		range_list_destroy (info->indep_vars);
 		info->indep_vars = NULL;
 		return analysis_tool_generic_b_clean (specs);
-		
+
 	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
 		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:

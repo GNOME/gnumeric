@@ -2423,12 +2423,12 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 				g_free (str);
 			} else {
 				GString *str = g_string_new (NULL);
-				
+
 				gsf_xml_out_add_cstr_unchecked (state->xml,
 								OFFICE "value-type", "float");
 				value_get_as_gstring (cell->value, str, state->conv);
 				gsf_xml_out_add_cstr (state->xml, OFFICE "value", str->str);
-				
+
 				g_string_free (str, TRUE);
 			}
 			break;
