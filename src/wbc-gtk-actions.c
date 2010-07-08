@@ -355,6 +355,31 @@ static GNM_ACTION_DEF (cb_edit_delete_cells)
 {
 	dialog_delete_cells (wbcg);
 }
+static GNM_ACTION_DEF (cb_edit_delete_links)
+	{
+		SheetControlGUI *scg = wbcg_cur_scg (wbcg);
+		GnmStyle *style = gnm_style_new ();
+		GSList *l;
+		int n_links = 0;
+		gchar const *format;
+		gchar *name;
+		WorkbookControl *wbc   = WORKBOOK_CONTROL (wbcg);
+		Sheet *sheet = wb_control_cur_sheet (wbc);;
+
+		for (l = scg_view (scg)->selections; l != NULL; l = l->next) {
+			GnmRange const *r = l->data;
+			GnmStyleList *styles;
+			
+			styles = sheet_style_collect_hlinks (sheet, r);
+			n_links += g_slist_length (styles);
+			style_list_free (styles);
+		}
+		format = ngettext ("Remove %d Link", "Remove %d Links", n_links);
+		name = g_strdup_printf (format, n_links);
+		gnm_style_set_hlink (style, NULL);
+		cmd_selection_format (wbc, style, NULL, name);
+		g_free (name);
+	}
 
 static GNM_ACTION_DEF (cb_edit_select_all)
 {
@@ -1741,13 +1766,13 @@ static GtkActionEntry const permanent_actions[] = {
 	{ "MenuEdit",		NULL, N_("_Edit") },
 		{ "MenuEditClear",	GTK_STOCK_CLEAR, N_("C_lear") },
 		{ "MenuEditDelete",	GTK_STOCK_DELETE, N_("_Delete") },
+		{ "MenuEditItems",	NULL, N_("_Modify") },
 		{ "MenuEditSheet",	NULL, N_("S_heet") },
 		{ "MenuEditSelect",	NULL, N_("_Select") },
 	{ "MenuView",		NULL, N_("_View") },
 		{ "MenuViewWindows",		NULL, N_("_Windows") },
 		{ "MenuViewToolbars",		NULL, N_("_Toolbars") },
 	{ "MenuInsert",		NULL, N_("_Insert") },
-		{ "MenuInsertNames",		NULL, N_("_Names") },
 		{ "MenuInsertSpecial",		NULL, N_("S_pecial") },
 	{ "MenuFormat",		NULL, N_("F_ormat") },
 		{ "MenuFormatColumn",		NULL, N_("C_olumn") },
@@ -1835,8 +1860,8 @@ static GtkActionEntry const permanent_actions[] = {
 		NULL, N_("Redo the undone action"),
 		G_CALLBACK (cb_edit_redo_last) },
 
-	{ "PasteNames", GTK_STOCK_PASTE, N_("_Paste..."),
-	        "F3", N_("Paste the definition of a name or names"),
+	{ "InsertNames", GTK_STOCK_PASTE, N_("_Name..."),
+	        "F3", N_("Insert a defined name"),
 	        G_CALLBACK (cb_paste_names) },
 
 	{ "HelpDocs", GTK_STOCK_HELP, N_("_Contents"),
@@ -1887,16 +1912,13 @@ static GtkActionEntry const actions[] = {
                 G_CALLBACK (cb_file_print_area_show)},
 
 /* Edit -> Clear */
-	{ "EditClearAll", NULL, N_("_All"),
+	{ "EditClearAll", GTK_STOCK_CLEAR, N_("_All"),
 		NULL, N_("Clear the selected cells' formats, comments, and contents"),
 		G_CALLBACK (cb_edit_clear_all) },
 	{ "EditClearFormats", NULL, N_("_Formats"),
 		NULL, N_("Clear the selected cells' formats"),
 		G_CALLBACK (cb_edit_clear_formats) },
-	{ "EditClearComments", NULL, N_("Co_mments"),
-		NULL, N_("Clear the selected cells' comments"),
-		G_CALLBACK (cb_edit_clear_comments) },
-	{ "EditClearContent", NULL, N_("_Contents"),
+	{ "EditClearContent", GTK_STOCK_CLEAR, N_("_Contents"),
 		NULL, N_("Clear the selected cells' contents"),
 		G_CALLBACK (cb_edit_clear_content) },
 
@@ -1910,6 +1932,12 @@ static GtkActionEntry const actions[] = {
 	{ "EditDeleteCells", NULL, N_("C_ells..."),
 		  "<control>minus", N_("Delete the selected cells, shifting others into their place"),
 		  G_CALLBACK (cb_edit_delete_cells) },
+	{ "EditClearComments", "Gnumeric_CommentDelete", N_("Co_mments"),
+		NULL, N_("Delete the selected cells' comments"),
+		G_CALLBACK (cb_edit_clear_comments) },
+	{ "EditClearHyperlinks", "Gnumeric_Link_Delete", N_("_Hyperlinks"),
+		NULL, N_("Delete the selected cells' hyperlinks"),
+		G_CALLBACK (cb_edit_delete_links) },
 	/* A duplicate that should not go into the menus, used only for the accelerator */
 	{ "EditDeleteCellsXL", NULL, N_("C_ells..."),
 		  "<control>KP_Subtract", N_("Delete the selected cells, shifting others into their place"),
@@ -2001,9 +2029,17 @@ static GtkActionEntry const actions[] = {
 		"<shift><control>V", N_("Paste with optional filters and transformations"),
 		G_CALLBACK (cb_edit_paste_special) },
 
-	{ "InsertComment", "Gnumeric_CommentEdit", N_("Co_mment..."),
+	{ "EditComment", "Gnumeric_CommentEdit", N_("Co_mment..."),
 		NULL, N_("Edit the selected cell's comment"),
 		G_CALLBACK (cb_insert_comment) },
+	{ "EditHyperlink", "Gnumeric_Link_Edit", N_("Hyper_link..."),
+		"<control>K", N_("Edit the selected cell's hyperlink"),
+		G_CALLBACK (cb_insert_hyperlink) },
+#if 0
+	{ "EditGenerateName", NULL,  N_("_Auto generate names..."),
+		NULL, N_("Use the current selection to create names"),
+		G_CALLBACK (cb_auto_generate__named_expr) },
+#endif
 
 	{ "EditFind", GTK_STOCK_FIND, N_("S_earch..."),
 		"<control>F", N_("Search for something"),
@@ -2059,6 +2095,9 @@ static GtkActionEntry const actions[] = {
 		NULL, N_("Insert an image"),
 		G_CALLBACK (cb_insert_image) },
 
+	{ "InsertComment", "Gnumeric_CommentAdd", N_("Co_mment..."),
+		NULL, N_("Insert a comment"),
+		G_CALLBACK (cb_insert_comment) },
 	{ "InsertHyperlink", "Gnumeric_Link_Add", N_("Hyper_link..."),
 		"<control>K", N_("Insert a Hyperlink"),
 		G_CALLBACK (cb_insert_hyperlink) },
@@ -2076,14 +2115,9 @@ static GtkActionEntry const actions[] = {
 		G_CALLBACK (cb_insert_current_date_time) },
 
 /* Insert -> Name */
-	{ "EditNames", NULL, N_("_Define..."),
-		"<control>F3", N_("Edit sheet and workbook names"),
+	{ "EditNames", NULL, N_("_Names..."),
+		"<control>F3", N_("Edit defined names for expressions"),
 		G_CALLBACK (cb_define_name) },
-#if 0
-	{ "EditGenerateName", NULL,  N_("_Auto generate names..."),
-		NULL, N_("Use the current selection to create names"),
-		G_CALLBACK (cb_auto_generate__named_expr) },
-#endif
 
 /* Format */
 	{ "FormatCells", NULL, N_("_Cells..."),

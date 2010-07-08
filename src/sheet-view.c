@@ -639,8 +639,12 @@ sv_update (SheetView *sv)
 
 	if (sv->edit_pos_changed.location) {
 		sv->edit_pos_changed.location = FALSE;
-		if (wb_view_cur_sheet_view (sv->sv_wbv) == sv)
+		if (wb_view_cur_sheet_view (sv->sv_wbv) == sv) {
 			wb_view_selection_desc (sv->sv_wbv, TRUE, NULL);
+			SHEET_VIEW_FOREACH_CONTROL 
+				(sv, sc, wb_control_menu_state_update 
+				 (sc_wbc (sc), MS_COMMENT_LINKS););
+		}
 	}
 
 	if (sv->selection_content_changed) {
@@ -652,7 +656,8 @@ sv_update (SheetView *sv)
 				cb_update_auto_expr, (gpointer) sv, NULL);
 		}
 		SHEET_VIEW_FOREACH_CONTROL (sv, sc,
-			wb_control_menu_state_update (sc_wbc (sc), MS_ADD_VS_REMOVE_FILTER););
+			wb_control_menu_state_update (sc_wbc (sc), MS_ADD_VS_REMOVE_FILTER | 
+						      MS_COMMENT_LINKS_RANGE););
 	}
 
 	SHEET_VIEW_FOREACH_CONTROL (sv, sc,

@@ -1,5 +1,20 @@
 2010-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/GNOME_Gnumeric-gtk.xml.in: add and move hyperlink and 
+	  comment items
+	* src/HILDON_Gnumeric-gtk.xml.in: ditto
+	* component/Gnumeric-embed.xml.in: ditto
+	* src/sheet-view.c (sv_update): also check the comment and hyperlink
+	  items
+	* src/wbc-gtk-actions.c (cb_edit_delete_links): new
+	(permanent_actions): new Modify submenu of the Edit menu
+	(actions): add and move hyperlink and comment actions
+	* src/wbc-gtk.c (wbcg_menu_state_update): handle hyperlink and comment 
+	  items
+	* src/workbook-control.h: new MS_* flags
+	
+2010-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/func.c (copy_hash_table_to_ptr_array): also exclude py_* functions
 
 2010-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>

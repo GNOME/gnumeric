@@ -59,6 +59,7 @@
 #include "ranges.h"
 #include "dead-kittens.h"
 #include "tools/analysis-auto-expression.h"
+#include "sheet-object-cell-comment.h"
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
@@ -1541,7 +1542,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 		wbc_gtk_set_action_sensitivity (wbcg, "EditReplace", !has_guru);
 	if (MS_DEFINE_NAME & flags) {
 		wbc_gtk_set_action_sensitivity (wbcg, "EditNames", !has_guru);
-		wbc_gtk_set_action_sensitivity (wbcg, "PasteNames", !has_guru);
+		wbc_gtk_set_action_sensitivity (wbcg, "InsertNames", !has_guru);
 	}
 	if (MS_CONSOLIDATE & flags)
 		wbc_gtk_set_action_sensitivity (wbcg, "DataConsolidate", !has_guru);
@@ -1615,7 +1616,48 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 
 		wbc_gtk_set_action_sensitivity (wbcg, "DataAutoFilter", active);
 	}
+	if (MS_COMMENT_LINKS & flags) {
+		gboolean has_comment 
+			= (sheet_get_comment (sheet, &sv->edit_pos) != NULL);
+		gboolean has_link;
+		GnmRange rge;
+		range_init_cellpos (&rge, &sv->edit_pos);
+		has_link = (NULL != 
+			    sheet_style_region_contains_link (sheet, &rge));
+		wbc_gtk_set_action_sensitivity 
+			(wbcg, "EditComment", has_comment);
+		wbc_gtk_set_action_sensitivity 
+			(wbcg, "EditHyperlink", has_link);
+	}
 
+	if (MS_COMMENT_LINKS_RANGE & flags) {
+		GSList *l;
+		gboolean has_links = FALSE, has_comments = FALSE;
+		for (l = scg_view (scg)->selections; 
+		     l != NULL; l = l->next) {
+			GnmRange const *r = l->data;
+			GSList *objs;
+			GnmStyleList *styles;
+			if (!has_links) {
+				styles = sheet_style_collect_hlinks 
+					(sheet, r);
+				has_links = (styles != NULL);
+				style_list_free (styles);
+			}
+			if (!has_comments) {
+				objs = sheet_objects_get 
+					(sheet, r, CELL_COMMENT_TYPE);
+				has_comments = (objs != NULL);
+				g_slist_free (objs);
+			}
+			if(has_comments && has_links)
+				break;
+		}
+		wbc_gtk_set_action_sensitivity 
+			(wbcg, "EditClearHyperlinks", has_links);
+		wbc_gtk_set_action_sensitivity 
+			(wbcg, "EditClearComments", has_comments);
+	}		
 	{
 		gboolean const has_slicer = (NULL != sv_editpos_in_slicer (sv));
 		char const* label = has_slicer

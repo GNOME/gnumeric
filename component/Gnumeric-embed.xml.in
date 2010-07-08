@@ -40,14 +40,20 @@
       <menu name="Clear" action="MenuEditClear">
         <menuitem action="EditClearAll"/>
         <menuitem action="EditClearFormats"/>
-        <menuitem action="EditClearComments"/>
         <menuitem action="EditClearContent"/>
       </menu>
       <menu name="Delete" action="MenuEditDelete">
 	<menuitem action="EditDeleteColumns"/>
 	<menuitem action="EditDeleteRows"/>
 	<menuitem action="EditDeleteCells"/>
+        <menuitem action="EditClearComments"/>
+        <menuitem action="EditClearHyperlinks"/>
       </menu>
+      <menu name="EditItems" action="MenuEditItems">
+       <menuitem action="EditComment"/>
+       <menuitem action="EditHyperlink"/>
+       <menuitem action="EditNames"/>
+      </menu>      
       <separator name="edit-sep3"/>
       <menuitem action="EditFind"/>
       <menuitem action="EditReplace"/>
@@ -111,10 +117,7 @@
             -->
       <menuitem action="InsertImage"/>
       <menuitem action="InsertFormula"/>
-      <menu name="Names" action="MenuInsertNames">
-        <menuitem action="EditNames"/>
-        <menuitem action="PasteNames"/>
-      </menu>
+      <menuitem action="InsertNames"/>
       <menuitem action="InsertComment"/>
       <menuitem action="InsertHyperlink"/>
       <menu name="Special" action="MenuInsertSpecial">
