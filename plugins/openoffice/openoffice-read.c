@@ -2052,30 +2052,32 @@ static void
 odf_scientific (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	GOFormatDetails details;
+	GOFormatDetails *details;
 	gboolean engineering = FALSE;
 /* 	int min_exp_digits = 1; */
 
 	if (state->cur_format.accum == NULL)
 		return;
 
-	go_format_details_init (&details, GO_FORMAT_SCIENTIFIC);
+	details = go_format_details_new (GO_FORMAT_SCIENTIFIC);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (oo_attr_bool (xin, attrs, OO_NS_NUMBER, "grouping", &details.thousands_sep)) {}
+		if (oo_attr_bool (xin, attrs, OO_NS_NUMBER, "grouping", &details->thousands_sep)) {}
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "decimal-places"))
-		        details.num_decimals = atoi (CXML2C (attrs[1]));
+		        details->num_decimals = atoi (CXML2C (attrs[1]));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,
 					     "min-integer-digits"))
-			details.min_digits = atoi (CXML2C (attrs[1]));
+			details->min_digits = atoi (CXML2C (attrs[1]));
 /* 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,  */
 /* 					     "min-exponent-digits")) */
 /* 			min_exp_digits = atoi (CXML2C (attrs[1])); */
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "engineering",
 				       &engineering));
 	if (engineering)
-		details.exponent_step = 3;
-	go_format_generate_str (state->cur_format.accum, &details);
+		details->exponent_step = 3;
+	go_format_generate_str (state->cur_format.accum, details);
+
+	go_format_details_free (details);
 }
 
 static void

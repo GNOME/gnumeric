@@ -705,7 +705,7 @@ gnumeric_fixed (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GOFormat *fmt;
 	GnmValue *v;
 	char *res;
-	GOFormatDetails details;
+	GOFormatDetails *details;
 
 	decimals = gnm_fake_trunc (decimals);
 	if (decimals >= 128)
@@ -721,11 +721,13 @@ gnumeric_fixed (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	}
 	v = value_new_float (num);
 
-	go_format_details_init (&details, GO_FORMAT_NUMBER);
-	details.num_decimals = decimals;
-	details.thousands_sep = !no_commas;
+	details = go_format_details_new (GO_FORMAT_NUMBER);
+	details->num_decimals = decimals;
+	details->thousands_sep = !no_commas;
 	format = g_string_new (NULL);
-	go_format_generate_str (format, &details);
+	go_format_generate_str (format, details);
+	go_format_details_free (details);
+
 	fmt = go_format_new_from_XL (format->str);
 	g_string_free (format, TRUE);
 

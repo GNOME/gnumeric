@@ -1,3 +1,8 @@
+2010-07-08  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (odf_scientific): Use go_format_details_new
+	and _free.
+
 2010-06-28  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.7
