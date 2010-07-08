@@ -20,6 +20,7 @@ Andreas:
 	* New functions DATE2HDATE, DATE2HDATE_HEB and DATE2JULIAN.
 	* Add hyperlink and comment removal menu items.
 	* Fix undoing of Clear->All. [#623803]
+	* Add merge and unmerge menu items.
 
 Jean:
 	* Fix strong/weak cursor display. [#623241]

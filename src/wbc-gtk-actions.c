@@ -1775,6 +1775,7 @@ static GtkActionEntry const permanent_actions[] = {
 	{ "MenuInsert",		NULL, N_("_Insert") },
 		{ "MenuInsertSpecial",		NULL, N_("S_pecial") },
 	{ "MenuFormat",		NULL, N_("F_ormat") },
+		{ "MenuFormatCells",		NULL, N_("_Cells") },
 		{ "MenuFormatColumn",		NULL, N_("C_olumn") },
 		{ "MenuFormatRow",		NULL, N_("_Row") },
 		{ "MenuFormatSheet",		NULL, N_("_Sheet") },
@@ -2120,7 +2121,7 @@ static GtkActionEntry const actions[] = {
 		G_CALLBACK (cb_define_name) },
 
 /* Format */
-	{ "FormatCells", NULL, N_("_Cells..."),
+	{ "FormatCells", NULL, N_("_Format..."),
 		"<control>1", N_("Modify the formatting of the selected cells"),
 		G_CALLBACK (cb_format_cells) },
 	{ "FormatWorkbook", NULL, N_("View _Properties..."),
@@ -2467,7 +2468,7 @@ static GtkActionEntry const actions[] = {
 	{ "FormatMergeCells", "Gnumeric_MergeCells", N_("Merge"),
 		NULL, N_("Merge a range of cells"),
 		G_CALLBACK (cb_merge_cells) },
-	{ "FormatUnmergeCells", "Gnumeric_SplitCells", N_("Split"),
+	{ "FormatUnmergeCells", "Gnumeric_SplitCells", N_("Unmerge"),
 		NULL, N_("Split merged ranges of cells"),
 		G_CALLBACK (cb_unmerge_cells) },
 

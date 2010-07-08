@@ -1,3 +1,11 @@
+2010-07-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/GNOME_Gnumeric-gtk.xml.in: add merge and unmerge menu items
+	* src/HILDON_Gnumeric-gtk.xml.in: ditto
+	* component/Gnumeric-embed.xml.in: ditto
+	* src/wbc-gtk-actions.c (permanent_actions): add cellformat sub menu
+	(actions): modify menu text
+
 2010-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/wbc-gtk-actions.c (cb_edit_clear_all): include CLEAR_COMMENTS
