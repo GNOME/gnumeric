@@ -1,5 +1,10 @@
 2010-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/wbc-gtk-actions.c (cb_edit_clear_all): include CLEAR_COMMENTS
+	  flag
+
+2010-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/GNOME_Gnumeric-gtk.xml.in: add and move hyperlink and 
 	  comment items
 	* src/HILDON_Gnumeric-gtk.xml.in: ditto

@@ -312,7 +312,7 @@ static GNM_ACTION_DEF (cb_file_quit)
 static GNM_ACTION_DEF (cb_edit_clear_all)
 {
 	cmd_selection_clear (WORKBOOK_CONTROL (wbcg),
-		CLEAR_VALUES | CLEAR_FORMATS | CLEAR_OBJECTS);
+		CLEAR_VALUES | CLEAR_FORMATS | CLEAR_OBJECTS | CLEAR_COMMENTS);
 }
 
 static GNM_ACTION_DEF (cb_edit_clear_formats)
