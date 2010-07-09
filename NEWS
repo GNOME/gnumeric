@@ -32,6 +32,7 @@ Morten:
 	[#619519]
 	* Fix problem with solver target cell entry.
 	* Fix date function docs issues.  [#623669]
+	* Fix gtk_show_uri problem affecting win32.  [#623605]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.7

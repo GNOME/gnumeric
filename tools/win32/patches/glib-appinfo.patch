@@ -1,0 +1,278 @@
+diff -ur glib-2.24.0/gio/gwin32appinfo.c glib-2.24.0-fixed/gio/gwin32appinfo.c
+--- glib-2.24.0/gio/gwin32appinfo.c	2009-03-31 19:04:20.000000000 -0400
++++ glib-2.24.0-fixed/gio/gwin32appinfo.c	2010-07-08 19:52:11.000000000 -0400
+@@ -62,6 +62,7 @@
+   char *executable;
+   char *name;
+   gboolean no_open_with;
++  gboolean supports_uris;
+ };
+ 
+ G_DEFINE_TYPE_WITH_CODE (GWin32AppInfo, g_win32_app_info, G_TYPE_OBJECT,
+@@ -99,7 +100,8 @@
+ 
+ static GAppInfo *
+ g_desktop_app_info_new_from_id (wchar_t *id /* takes ownership */,
+-				gboolean id_is_exename)
++				gboolean id_is_exename,
++				gboolean supports_uris)
+ {
+ #ifdef AssocQueryString
+   ASSOCF flags;
+@@ -113,6 +115,7 @@
+   info->id = id; /* Takes ownership */
+   info->id_utf8 = g_utf16_to_utf8 (id, -1, NULL, NULL, NULL);  
+   info->id_is_exename = id_is_exename;
++  info->supports_uris = supports_uris;
+ 
+ #ifdef AssocQueryString  
+   flags = 0;
+@@ -187,6 +190,7 @@
+   new_info->name = g_strdup (info->name);
+   new_info->executable = g_strdup (info->executable);
+   new_info->no_open_with = info->no_open_with;
++  new_info->supports_uris = info->supports_uris;
+   
+   return G_APP_INFO (new_info);
+ }
+@@ -200,8 +204,14 @@
+ 
+   if (info1->executable == NULL ||
+       info2->executable == NULL)
++    return info1 == info2;
++
++  if (info1->supports_uris != info2->supports_uris)
+     return FALSE;
+-  
++
++  if (info1->id_is_exename != info2->id_is_exename)
++    return FALSE;
++
+   return strcmp (info1->executable, info2->executable) == 0;
+ }
+ 
+@@ -249,50 +259,50 @@
+ }
+ 
+ static gboolean
+-g_win32_app_info_launch (GAppInfo           *appinfo,
+-			 GList              *files,
+-			 GAppLaunchContext  *launch_context,
+-			 GError            **error)
++g_win32_launch (GAppInfo           *appinfo,
++		GList              *files,
++		GAppLaunchContext  *launch_context,
++		GError            **error,
++		gboolean            use_uris)
+ {
+   GWin32AppInfo *info = G_WIN32_APP_INFO (appinfo);
+-#ifdef AssocQueryString
+-  ASSOCF flags;
+-#endif
+-  HKEY class_key;
++  HKEY class_key = 0;
+   SHELLEXECUTEINFOW exec_info = {0};
+   GList *l;
+ 
+   /* TODO:  What might startup_id mean on win32? */
+-#ifdef AssocQueryString  
+-  flags = 0;
+-  if (info->id_is_exename)
+-    flags |= ASSOCF_INIT_BYEXENAME;
+ 
+-  if (AssocQueryKeyW (flags,
+-		      ASSOCKEY_SHELLEXECCLASS,
+-		      info->id,
+-		      NULL,
+-		      &class_key) != S_OK)
+-    {
+-      g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, _("Can't find application"));
+-      return FALSE;
+-    }
++  if (!use_uris) {
++#ifdef AssocQueryString  
++    ASSOCF flags = 0;
++    if (info->id_is_exename)
++      flags |= ASSOCF_INIT_BYEXENAME;
++
++    if (AssocQueryKeyW (flags,
++			ASSOCKEY_SHELLEXECCLASS,
++			info->id,
++			NULL,
++			&class_key) != S_OK)
++      {
++	g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, _("Can't find application"));
++	return FALSE;
++      }
+ #endif
++  }
+ 
+   for (l = files; l != NULL; l = l->next)
+     {
+-      char *path = g_file_get_path (l->data);
++      const char *path = l->data;
+       wchar_t *wfilename = g_utf8_to_utf16 (path, -1, NULL, NULL, NULL);
+ 
+-      g_free (path);
+-      
+       memset (&exec_info, 0, sizeof (exec_info));
+       exec_info.cbSize = sizeof (exec_info);
+-      exec_info.fMask = SEE_MASK_FLAG_DDEWAIT | SEE_MASK_CLASSKEY;
++      exec_info.fMask = SEE_MASK_FLAG_DDEWAIT |
++	(class_key ? SEE_MASK_CLASSKEY : 0);
+       exec_info.lpFile = wfilename;     
+       exec_info.nShow = SW_SHOWNORMAL;
+       exec_info.hkeyClass = class_key;
+-      
++
+       if (!ShellExecuteExW (&exec_info))
+ 	{
+ 	  char *message_utf8 = g_win32_error_message (GetLastError ());
+@@ -301,22 +311,50 @@
+ 	  g_free (message_utf8);
+ 	  
+ 	  g_free (wfilename);
+-	  RegCloseKey (class_key);
++	  if (class_key)
++	    RegCloseKey (class_key);
+ 	  return FALSE;
+ 	}
+       
+       g_free (wfilename);
+     }
+   
+-  RegCloseKey (class_key);
++  if (class_key)
++    RegCloseKey (class_key);
+   
+   return TRUE;
+ }
+ 
+ static gboolean
++g_win32_app_info_launch (GAppInfo           *appinfo,
++			 GList              *files,
++			 GAppLaunchContext  *launch_context,
++			 GError            **error)
++{
++  GList *paths;
++  gboolean res;
++
++  paths = NULL;
++  for (files = g_list_last (files); files; files = files->prev)
++    {
++      GFile *file = files->data;
++      char *path = g_file_get_path (file);
++      paths = g_list_prepend (paths, path);
++    }
++
++  res = g_win32_launch (appinfo, paths, launch_context, error, FALSE);
++
++  g_list_foreach (paths, (GFunc)g_free, NULL);
++  g_list_free (paths);
++  
++  return res;
++}
++
++static gboolean
+ g_win32_app_info_supports_uris (GAppInfo *appinfo)
+ {
+-  return FALSE;
++  GWin32AppInfo *info = G_WIN32_APP_INFO (appinfo);
++  return info->supports_uris;
+ }
+ 
+ static gboolean
+@@ -331,9 +369,12 @@
+ 			      GAppLaunchContext  *launch_context,
+ 			      GError            **error)
+ {
++  if (g_win32_app_info_supports_uris (appinfo))
++    return g_win32_launch (appinfo, uris, launch_context, error, TRUE);
++
+   g_set_error_literal (error, G_IO_ERROR, 
+-                       G_IO_ERROR_NOT_SUPPORTED, 
+-                       _("URIs not supported"));
++		       G_IO_ERROR_NOT_SUPPORTED, 
++		       _("URIs not supported"));
+   return FALSE;
+ }
+ 
+@@ -563,7 +604,7 @@
+       GAppInfo *info;
+ 
+       /* l->data ownership is taken */
+-      info = g_desktop_app_info_new_from_id ((wchar_t *)l->data, TRUE);
++      info = g_desktop_app_info_new_from_id ((wchar_t *)l->data, TRUE, FALSE);
+       if (app_info_in_list (info, infos))
+ 	g_object_unref (info);
+       else
+@@ -576,7 +617,7 @@
+       GAppInfo *info;
+ 
+       /* l->data ownership is taken */
+-      info = g_desktop_app_info_new_from_id ((wchar_t *)l->data, FALSE);
++      info = g_desktop_app_info_new_from_id ((wchar_t *)l->data, FALSE, FALSE);
+       if (app_info_in_list (info, infos))
+ 	g_object_unref (info);
+       else
+@@ -606,9 +647,10 @@
+ 			 wtype,
+ 			 NULL,
+ 			 buffer,
+-			 &buffer_size) == S_OK)
++			 &buffer_size) == S_OK) {
+     /* Takes ownership of wtype */
+-    return g_desktop_app_info_new_from_id (wtype, FALSE);
++    return g_desktop_app_info_new_from_id (wtype, FALSE, FALSE);
++  }
+ #endif
+ 
+   g_free (wtype);
+@@ -618,6 +660,14 @@
+ GAppInfo *
+ g_app_info_get_default_for_uri_scheme (const char *uri_scheme)
+ {
++  g_return_val_if_fail (uri_scheme != NULL, NULL);
++
++  if (g_ascii_strcasecmp (uri_scheme, "file") != 0) {
++    wchar_t *wtype;
++    wtype = g_utf8_to_utf16 (uri_scheme, -1, NULL, NULL, NULL);
++    return g_desktop_app_info_new_from_id (wtype, FALSE, TRUE);
++  }
++
+   /* TODO: Implement */
+   return NULL;
+ }
+@@ -650,7 +700,7 @@
+     {
+       wchar_t *name_dup = g_memdup (name, (name_len+1)*2);
+       /* name_dup ownership is taken */
+-      info = g_desktop_app_info_new_from_id (name_dup, TRUE);
++      info = g_desktop_app_info_new_from_id (name_dup, TRUE, FALSE);
+       infos = g_list_prepend (infos, info);
+       
+       index++;
+diff -ur glib-2.24.0/gio/win32/gwinhttpvfs.c glib-2.24.0-fixed/gio/win32/gwinhttpvfs.c
+--- glib-2.24.0/gio/win32/gwinhttpvfs.c	2010-03-17 16:55:34.000000000 -0400
++++ glib-2.24.0-fixed/gio/win32/gwinhttpvfs.c	2010-07-08 20:50:56.000000000 -0400
+@@ -28,6 +28,7 @@
+ 
+ #include "gioerror.h"
+ #include "giomodule.h"
++#include "gdummyfile.h"
+ #include "gvfs.h"
+ 
+ #include "gwinhttpfile.h"
+@@ -163,6 +164,12 @@
+         uri[strlen (winhttp_uri_schemes[i])] == ':')
+       return _g_winhttp_file_new (winhttp_vfs, uri);
+ 
++  for (i = 0; g_ascii_isalpha (uri[i]); i++)
++	  ; /* Nothing */
++  if (i > 0 &&
++      uri[i] == ':' && uri[i + 1] == '/' && uri[i + 2] == '/')
++    return _g_dummy_file_new (uri);
++
+   /* For other URIs fallback to the wrapped GVfs */
+   return g_vfs_parse_name (winhttp_vfs->wrapped_vfs, uri);
+ }
