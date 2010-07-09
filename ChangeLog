@@ -1,5 +1,11 @@
 2010-07-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/sheet-control-gui.c (context_menu_handler): add autofit actions
+	(scg_context_menu): add autofit items
+	* src/wbc-gtk-actions.c: add some icons to actions
+
+2010-07-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* component/Gnumeric-embed.xml.in: add menu items to Format->Cells
 	* src/GNOME_Gnumeric-gtk.xml.in: ditto
 	* src/HILDON_Gnumeric-gtk.xml.in: ditto

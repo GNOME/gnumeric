@@ -1773,12 +1773,16 @@ enum {
 	CONTEXT_DELETE,
 	CONTEXT_CLEAR_CONTENT,
 	CONTEXT_FORMAT_CELL,
+	CONTEXT_CELL_AUTOFIT_WIDTH,
+	CONTEXT_CELL_AUTOFIT_HEIGHT,
 	CONTEXT_COL_WIDTH,
 	CONTEXT_COL_HIDE,
 	CONTEXT_COL_UNHIDE,
+	CONTEXT_COL_AUTOFIT,
 	CONTEXT_ROW_HEIGHT,
 	CONTEXT_ROW_HIDE,
 	CONTEXT_ROW_UNHIDE,
+	CONTEXT_ROW_AUTOFIT,
 	CONTEXT_COMMENT_EDIT,
 	CONTEXT_COMMENT_ADD,
 	CONTEXT_COMMENT_REMOVE,
@@ -1827,8 +1831,21 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 	case CONTEXT_FORMAT_CELL :
 		dialog_cell_format (wbcg, FD_CURRENT);
 		break;
+	case CONTEXT_CELL_AUTOFIT_HEIGHT :
+		workbook_cmd_autofit_selection 
+			(wbc, wb_control_cur_sheet (wbc), FALSE);
+		break;
+	case CONTEXT_CELL_AUTOFIT_WIDTH :
+		workbook_cmd_autofit_selection 
+			(wbc, wb_control_cur_sheet (wbc), TRUE);
+		break;
+		break;
 	case CONTEXT_COL_WIDTH :
 		dialog_col_width (wbcg, FALSE);
+		break;
+	case CONTEXT_COL_AUTOFIT :
+		workbook_cmd_resize_selected_colrow 
+			(wbc, wb_control_cur_sheet (wbc), TRUE, -1);
 		break;
 	case CONTEXT_COL_HIDE :
 		cmd_selection_colrow_hide (wbc, TRUE, FALSE);
@@ -1838,6 +1855,10 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 		break;
 	case CONTEXT_ROW_HEIGHT :
 		dialog_row_height (wbcg, FALSE);
+		break;
+	case CONTEXT_ROW_AUTOFIT :
+		workbook_cmd_resize_selected_colrow 
+			(wbc, wb_control_cur_sheet (wbc), FALSE, -1);
 		break;
 	case CONTEXT_ROW_HIDE :
 		cmd_selection_colrow_hide (wbc, FALSE, FALSE);
@@ -2043,10 +2064,16 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 
 		{ N_("_Format All Cells..."), GTK_STOCK_PROPERTIES,
 		    0, 0, CONTEXT_FORMAT_CELL },
+		{ N_("Cell"), NULL, 0, 0, -1},/* start sub menu */
+		{ N_("Auto Fit _Width"), "Gnumeric_ColumnSize",   0, 0, CONTEXT_CELL_AUTOFIT_WIDTH },
+		{ N_("Auto Fit _Height"), "Gnumeric_RowSize",   0, 0, CONTEXT_CELL_AUTOFIT_HEIGHT },
+		{ N_(""), NULL, 0, 0, -1},/* end sub menu */
+
 
 		/* Column specific (Note some labels duplicate row labels) */
 		{ N_("Column"), NULL, 0, 0, -1},/* start sub menu */
 		{ N_("_Width..."), "Gnumeric_ColumnSize",   0, 0, CONTEXT_COL_WIDTH },
+		{ N_("_Auto Fit Width"), "Gnumeric_ColumnSize",   0, 0, CONTEXT_COL_AUTOFIT },
 		{ N_("_Hide"),	   "Gnumeric_ColumnHide",   0, CONTEXT_DISABLE_FOR_ALL_COLS, CONTEXT_COL_HIDE },
 		{ N_("_Unhide"),   "Gnumeric_ColumnUnhide", 0, 0, CONTEXT_COL_UNHIDE },
 		{ N_(""), NULL, 0, 0, -1},/* end sub menu */
@@ -2054,6 +2081,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		/* Row specific (Note some labels duplicate col labels) */
 		{ N_("Row"), NULL, 0, 0, -1},/* start sub menu */
 		{ N_("Hei_ght..."), "Gnumeric_RowSize",   0, 0, CONTEXT_ROW_HEIGHT },
+		{ N_("_Auto Fit Height"), "Gnumeric_RowSize",   0, 0, CONTEXT_ROW_AUTOFIT },
 		{ N_("_Hide"),	    "Gnumeric_RowHide",   0, CONTEXT_DISABLE_FOR_ALL_ROWS, CONTEXT_ROW_HIDE },
 		{ N_("_Unhide"),    "Gnumeric_RowUnhide", 0, 0, CONTEXT_ROW_UNHIDE },
 		{ N_(""), NULL, 0, 0, -1},/* end sub menu */
