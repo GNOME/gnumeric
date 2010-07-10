@@ -1,3 +1,8 @@
+2010-07-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c (gnm_go_data_vector_load_len): don't crash with an
+	empty GSList.
+
 2010-07-09  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (cb_graph_dim_editor_update): Use the right enum

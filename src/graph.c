@@ -485,18 +485,20 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 		if (gnm_expr_is_rangeref (vec->dep.texpr->expr)) {
 			GSList *l = gnm_expr_top_get_ranges (vec->dep.texpr);
 			unsigned len = g_slist_length (l);
-			if (l->next == NULL) /* only one range */
-				vec->val = (GnmValue *) l->data;
-			else {
-				GSList *cur = l;
-				unsigned i;
-				vec->val = value_new_array_empty (len, 1);
-				for (i = 0; i < len; i++) {
-					vec->val->v_array.vals[i][0] = (GnmValue *) cur->data;
-					cur = cur->next;
+			if (l) {
+				if (l->next == NULL) /* only one range */
+					vec->val = (GnmValue *) l->data;
+				else {
+					GSList *cur = l;
+					unsigned i;
+					vec->val = value_new_array_empty (len, 1);
+					for (i = 0; i < len; i++) {
+						vec->val->v_array.vals[i][0] = (GnmValue *) cur->data;
+						cur = cur->next;
+					}
 				}
+				g_slist_free (l);
 			}
-			g_slist_free (l);
 		} else {
 			vec->val = gnm_expr_top_eval (vec->dep.texpr, &ep,
 				GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);

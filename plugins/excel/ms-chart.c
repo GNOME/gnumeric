@@ -3114,7 +3114,7 @@ not_a_matrix:
 		GogPlot *plot = GOG_PLOT (gog_object_get_child_by_name (GOG_OBJECT (s->chart), "Plot"));
  		/* check if the chart has an epty title and the plot only one series,
 		 * in that case Excel uses the series label as title */
-		if (g_slist_length (plot->series) == 1) {
+		if (plot && g_slist_length (plot->series) == 1) {
 			GogObject *title = gog_object_get_child_by_name (GOG_OBJECT (s->chart), "Title");
 			if (title) {
 				GOData *dat = gog_dataset_get_dim (GOG_DATASET (title), 0);

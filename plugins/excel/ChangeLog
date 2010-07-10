@@ -1,3 +1,8 @@
+2010-07-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (end): do not crash when a chart has more than one
+	plot. [#623960]
+
 2010-07-09  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_write_SETUP): Avoid right-shift bigger
