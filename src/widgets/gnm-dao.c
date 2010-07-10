@@ -163,7 +163,7 @@ cb_focus_on_entry (GtkWidget *widget, GtkWidget *entry)
 				     (GNM_EXPR_ENTRY (entry))));
 }
 
-const char *dao_group[] = {
+static const char *dao_group[] = {
 	"newsheet-button",
 	"newworkbook-button",
 	"outputrange-button",
