@@ -15,7 +15,7 @@
 
 #include <goffice/utils/go-pattern.h>
 
-GOPatternType patterns[] = {
+static GOPatternType patterns[] = {
 	GO_PATTERN_SOLID,
 	GO_PATTERN_GREY75,
 	GO_PATTERN_GREY50,
