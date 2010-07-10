@@ -1031,7 +1031,7 @@ target_list_to_entries (GtkTargetList *target_list, int *n_entries)
 /* We include bmp in the whitelist because that's the only image format
  * we share with OOo over clipboard (!) */
 static void
-set_clipman_targets (GdkDisplay *disp, GtkTargetEntry *targets, int n_targets)
+set_clipman_targets (GdkDisplay *disp, GtkTargetEntry *targets, guint n_targets)
 {
 	static GtkTargetEntry clipman_whitelist[] = {
 		{ (char *) GNUMERIC_ATOM_NAME, 0, GNUMERIC_ATOM_INFO },
@@ -1045,14 +1045,14 @@ set_clipman_targets (GdkDisplay *disp, GtkTargetEntry *targets, int n_targets)
 		{ (char *)"image/jpeg", 0, 0 },
 		{ (char *)"image/bmp", 0, 0 },
 	};
-	int n_whitelist = G_N_ELEMENTS (clipman_whitelist);
+	guint n_whitelist = G_N_ELEMENTS (clipman_whitelist);
 	int n_allowed;
 	GtkTargetList *tl = gtk_target_list_new (NULL, 0);
 	GtkTargetEntry *t, *wt, *t_allowed;
 
-	for (t = targets; t - targets < n_targets; t++) {
+	for (t = targets; t < targets + n_targets; t++) {
 		for (wt = clipman_whitelist;
-		     wt - clipman_whitelist < n_whitelist; wt++) {
+		     wt < clipman_whitelist + n_whitelist; wt++) {
 			if (strcmp(t->target, wt->target) == 0) {
 				gtk_target_list_add
 					(tl, gdk_atom_intern (t->target, FALSE),
