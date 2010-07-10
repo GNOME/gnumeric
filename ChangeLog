@@ -1,3 +1,8 @@
+2010-07-09  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (cb_graph_dim_editor_update): Use the right enum
+	type for parse flags.
+
 2010-07-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-control-gui.c (context_menu_handler): add autofit actions

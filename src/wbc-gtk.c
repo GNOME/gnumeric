@@ -5035,7 +5035,7 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 		GnmParsePos pos;
 		GnmParseError  perr;
 		GnmExprTop const *texpr;
-		GnmExprEntryFlags flags =
+		GnmExprParseFlags flags =
 			(editor->data_type == GOG_DATA_VECTOR)?
 				GNM_EXPR_PARSE_PERMIT_MULTIPLE_EXPRESSIONS |
 				GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS:
