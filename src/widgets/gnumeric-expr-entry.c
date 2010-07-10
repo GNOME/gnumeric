@@ -1486,9 +1486,9 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 			/* rangerefs cannot start in the middle of a sequence
 			 * of alphanumerics */
 			if (g_unichar_isalnum (g_utf8_get_char (ptr))) {
-				do
+				do {
 					ptr = g_utf8_next_char (ptr);
-				while (ptr <= cursor && g_unichar_isalnum (g_utf8_get_char (ptr)));
+				} while (ptr <= cursor && g_unichar_isalnum (g_utf8_get_char (ptr)));
 			} else
 				ptr = g_utf8_next_char (ptr);
 		}
