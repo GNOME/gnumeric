@@ -1,6 +1,11 @@
+2010-07-09  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-fixed-page.c (calc_char_index): add missing
+	dereference.
+
 2010-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-function-select.c (make_expr_example): use the suggested 
+	* dialog-function-select.c (make_expr_example): use the suggested
 	  format
 
 2010-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>

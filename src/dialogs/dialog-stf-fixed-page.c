@@ -96,7 +96,7 @@ calc_char_index (RenderData_t *renderdata, int col, int *dx)
 	pango_font_description_free (font_desc);
 
 	if (width < 1) width = 1;
-	ci = (dx < 0) ? 0 : (*dx + width / 2) / width;
+	ci = (*dx < 0) ? 0 : (*dx + width / 2) / width;
 	*dx -= ci * width;
 
 	return ci;
