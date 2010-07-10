@@ -96,9 +96,9 @@ enum {
 };
 
 #ifndef HILDON
-char const *uifilename = NULL;
-GtkActionEntry const *extra_actions = NULL;
-int extra_actions_nb;
+static char const *uifilename = NULL;
+static GtkActionEntry const *extra_actions = NULL;
+static int extra_actions_nb;
 #endif
 static guint wbc_gtk_signals[WBC_GTK_LAST_SIGNAL];
 static GObjectClass *parent_class = NULL;
