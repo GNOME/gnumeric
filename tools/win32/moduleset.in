@@ -42,10 +42,10 @@
     <autotools id="zlib"
 	makeargs="-f win32/Makefile.gcc"
 	makeinstallargs="-f win32/Makefile.gcc -e install">
-	<branch repo="zlib.net" module="zlib-1.2.4.tar.gz"
-		version="1.2.4"
-		md5sum="47f6ed51b3c83a8534f9228531effa18">
-	    <patch file="&patch_dir;zlib.patch"/>
+	<branch repo="zlib.net" module="zlib-1.2.5.tar.gz"
+		version="1.2.5"
+		md5sum="c735eab2d659a96e5a594c9e8541ad63">
+	    <patch file="&patch_dir;zlib.patch" strip="1"/>
 	</branch>
     </autotools>
     <tarball id="libbz2" version="1.0.5">

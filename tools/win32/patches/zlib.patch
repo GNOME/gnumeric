@@ -1,7 +1,7 @@
-diff -u win32/Makefile.gcc win32/Makefile.gcc
---- win32/Makefile.gcc	2010-02-23 11:00:23.000000000 -0500
-+++ win32/Makefile.gcc	2010-04-07 22:19:03.000000000 -0400
-@@ -24,14 +24,14 @@
+diff -ur zlib-1.2.5/win32/Makefile.gcc zlib-1.2.5-fixed//win32/Makefile.gcc
+--- zlib-1.2.5/win32/Makefile.gcc	2010-04-18 21:35:55.000000000 -0400
++++ zlib-1.2.5-fixed//win32/Makefile.gcc	2010-07-10 08:31:00.000000000 -0400
+@@ -24,20 +24,20 @@
  # the DLL name should be changed from "zlib1.dll".
  
  STATICLIB = libz.a
@@ -10,26 +10,33 @@ diff -u win32/Makefile.gcc win32/Makefile.gcc
 +SHAREDLIB = libz.dll
 +IMPLIB    = libz.dll.a
  
+ #
+ # Set to 1 if shared object needs to be installed
+ #
+-SHARED_MODE=0
++SHARED_MODE=1
+ 
  #LOC = -DASMV
  #LOC = -DDEBUG -g
  
--CC = gcc
+ PREFIX =
+-CC = $(PREFIX)gcc
 -CFLAGS = $(LOC) -O3 -Wall
-+#CC = gcc
++#CC = $(PREFIX)gcc
 +#CFLAGS = $(LOC) -O3 -Wall
+ EXTRA_CFLAGS = -DNO_VIZ
  
  AS = $(CC)
- ASFLAGS = $(LOC) -Wall
-@@ -42,7 +42,7 @@
- AR = ar
+@@ -49,7 +49,7 @@
+ AR = $(PREFIX)ar
  ARFLAGS = rcs
  
--RC = windres
+-RC = $(PREFIX)windres
 +RC = $(WINDRES)
  RCFLAGS = --define GCC_WINDRES
  
- STRIP = strip
-@@ -52,14 +52,15 @@
+ STRIP = $(PREFIX)strip
+@@ -59,14 +59,16 @@
  INSTALL = $(CP)
  RM = rm -f
  
@@ -38,6 +45,7 @@ diff -u win32/Makefile.gcc win32/Makefile.gcc
 +exec_prefix = $(prefix)/bin
 +INCLUDE_PATH= $(prefix)/include
 +LIBRARY_PATH= $(prefix)/lib
++BINARY_PATH=$(exec_prefix)
  
  OBJS = adler32.o compress.o crc32.o deflate.o gzclose.o gzlib.o gzread.o \
         gzwrite.o infback.o inffast.o inflate.o inftrees.o trees.o uncompr.o zutil.o
@@ -48,14 +56,12 @@ diff -u win32/Makefile.gcc win32/Makefile.gcc
  
  test: example.exe minigzip.exe
  	./example
-@@ -78,12 +79,10 @@
- $(STATICLIB): $(OBJS) $(OBJA)
- 	$(AR) $(ARFLAGS) $@ $(OBJS) $(OBJA)
+@@ -87,10 +89,10 @@
  
--$(IMPLIB): $(SHAREDLIB)
--
+ $(IMPLIB): $(SHAREDLIB)
+ 
 -$(SHAREDLIB): win32/zlib.def $(OBJS) $(OBJA) zlibrc.o
--	$(CC) -shared -Wl,--out-implib,$(IMPLIB) \
+-	$(CC) -shared -Wl,--out-implib,$(IMPLIB) $(LDFLAGS) \
 -	-o $@ win32/zlib.def $(OBJS) $(OBJA) zlibrc.o
 -	$(STRIP) $@
 +$(SHAREDLIB) $(IMPLIB): win32/zlib.def $(OBJS) $(OBJA) zlibrc.o
@@ -65,45 +71,30 @@ diff -u win32/Makefile.gcc win32/Makefile.gcc
  
  example.exe: example.o $(STATICLIB)
  	$(LD) $(LDFLAGS) -o $@ example.o $(STATICLIB)
-@@ -106,18 +105,16 @@
+@@ -116,7 +118,7 @@
+ 
  .PHONY: install uninstall clean
  
- install: zlib.h zconf.h $(LIB)
--	-@if not exist $(INCLUDE_PATH)/nul mkdir $(INCLUDE_PATH)
--	-@if not exist $(LIBRARY_PATH)/nul mkdir $(LIBRARY_PATH)
+-install: zlib.h zconf.h $(STATICLIB) $(IMPLIB)
++install: zlib.h zconf.h $(IMPLIB)
+ 	-@mkdir -p $(INCLUDE_PATH)
+ 	-@mkdir -p $(LIBRARY_PATH)
+ 	-if [ "$(SHARED_MODE)" = "1" ]; then \
+@@ -126,7 +128,7 @@
+ 	fi
  	-$(INSTALL) zlib.h $(INCLUDE_PATH)
  	-$(INSTALL) zconf.h $(INCLUDE_PATH)
 -	-$(INSTALL) $(STATICLIB) $(LIBRARY_PATH)
-+	-$(INSTALL) $(SHAREDLIB) $(exec_prefix)
- 	-$(INSTALL) $(IMPLIB) $(LIBRARY_PATH)
++#	-$(INSTALL) $(STATICLIB) $(LIBRARY_PATH)
  
  uninstall:
+ 	-if [ "$(SHARED_MODE)" = "1" ]; then \
+@@ -135,7 +137,7 @@
+ 	fi
  	-$(RM) $(INCLUDE_PATH)/zlib.h
  	-$(RM) $(INCLUDE_PATH)/zconf.h
 -	-$(RM) $(LIBRARY_PATH)/$(STATICLIB)
--	-$(RM) $(LIBRARY_PATH)/$(IMPLIB)
-+	-$(RM) $(SHAREDLIB) $(exec_prefix)
-+	-$(RM) $(IMPLIB) $(LIBRARY_PATH)
++#	-$(RM) $(LIBRARY_PATH)/$(STATICLIB)
  
  clean:
  	-$(RM) $(STATICLIB)
---- zlib.h~	2010-03-14 12:23:32.000000000 -0400
-+++ zlib.h	2010-04-08 19:40:38.000000000 -0400
-@@ -1556,7 +1556,7 @@
-         inflateBackInit_((strm), (windowBits), (window), \
-                                             ZLIB_VERSION, sizeof(z_stream))
- 
--#ifdef _LARGEFILE64_SOURCE
-+#ifdef NOPE_LARGEFILE64_SOURCE
-    ZEXTERN gzFile ZEXPORT gzopen64 OF((const char *, const char *));
-    ZEXTERN off64_t ZEXPORT gzseek64 OF((gzFile, off64_t, int));
-    ZEXTERN off64_t ZEXPORT gztell64 OF((gzFile));
-@@ -1565,7 +1565,7 @@
-    ZEXTERN uLong ZEXPORT crc32_combine64 OF((uLong, uLong, off64_t));
- #endif
- 
--#if !defined(ZLIB_INTERNAL) && _FILE_OFFSET_BITS == 64
-+#if !defined(ZLIB_INTERNAL) && 0 && _FILE_OFFSET_BITS == 64
- #  define gzopen gzopen64
- #  define gzseek gzseek64
- #  define gztell gztell64
