@@ -94,9 +94,6 @@ make_rangeref (int dx0, int dy0, int dx1, int dy1)
 }
 
 
-static gboolean
-gnm_check_input_range_list_homogeneity (GSList *input_range);
-
 typedef struct {
 	char *format;
 	GPtrArray *data_lists;
@@ -436,7 +433,7 @@ cb_check_hom (gpointer data, gpointer user_data)
  *  Check that all columns have the same size
  *
  */
-gboolean
+static gboolean
 gnm_check_input_range_list_homogeneity (GSList *input_range)
 {
 	homogeneity_check_t state = { FALSE, 0, TRUE };
