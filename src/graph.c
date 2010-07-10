@@ -56,9 +56,9 @@ get_pending_convs (const GOData *data)
 static void
 set_pending_str (const GOData *data, const char *str)
 {
-	return g_object_set_data_full (G_OBJECT (data),
-				       "unserialize", g_strdup (str),
-				       g_free);
+	g_object_set_data_full (G_OBJECT (data),
+				"unserialize", g_strdup (str),
+				g_free);
 }
 
 static void
