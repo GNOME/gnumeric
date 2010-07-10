@@ -397,7 +397,7 @@ gnm_sheet_slicer_set_layout (GnmSheetSlicer *gss, GnmSheetSlicerLayout l)
 }
 
 GType
-gnm_sheet_slicer_layout_get_type ()
+gnm_sheet_slicer_layout_get_type (void)
 {
 	static GType etype = 0;
 	if (etype == 0) {
