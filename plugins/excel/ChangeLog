@@ -1,3 +1,8 @@
+2010-07-09  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_write_SETUP): Avoid right-shift bigger
+	than type.
+
 2010-06-28  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.7

@@ -522,7 +522,7 @@ excel_write_SETUP (BiffPut *bp, ExcelWriteSheet *esheet)
 	GSF_LE_SET_GUINT16 (data +  4, pi ? pi->start_page : 0);
 	GSF_LE_SET_GUINT16 (data +  6, pi ? pi->scaling.dim.cols : 1);
 	GSF_LE_SET_GUINT16 (data +  8, pi ? pi->scaling.dim.rows : 1);
-	GSF_LE_SET_GUINT32 (data + 10, flags);
+	GSF_LE_SET_GUINT32 (data + 10, (guint32)flags);
 	GSF_LE_SET_GUINT32 (data + 12, 600);	/* guess x resolution */
 	GSF_LE_SET_GUINT32 (data + 14, 600);	/* guess y resolution */
 	gsf_le_set_double  (data + 16, header);
