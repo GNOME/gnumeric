@@ -728,7 +728,7 @@ xl_xml_num_fmt (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "Yes/No",		"\"Yes\";\"Yes\";\"No\"" },
 		{ "True/False",		"\"True\";\"True\";\"False\"" },
 		{ "On/Off",		"\"On\";\"On\";\"Off\"" },
-		{ NULL, 0 }
+		{ NULL, NULL }
 	};
 	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)

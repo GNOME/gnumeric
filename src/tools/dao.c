@@ -1168,7 +1168,7 @@ dao_set_sheet_object (data_analysis_output_t *dao, int col, int row, SheetObject
 		    dao->start_col + ((dao->cols < 5) ? dao->cols : 5),
 		    dao->start_row + ((dao->rows < 20) ? dao->rows : 20));
 
-	sheet_object_anchor_init (&anchor, &anchor_r, 0, GOD_ANCHOR_DIR_UNKNOWN);
+	sheet_object_anchor_init (&anchor, &anchor_r, NULL, GOD_ANCHOR_DIR_UNKNOWN);
 	sheet_object_set_anchor (so, &anchor);
 	sheet_object_set_sheet (so, dao->sheet);
 

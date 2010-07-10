@@ -493,7 +493,7 @@ new_gnm_value_from_xloper (const XLOPER*x)
 static GnmValue *
 genericXLLFunction (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	XLOPER x[MAXIMUM_NUMBER_OF_EXCEL_FUNCTION_ARGUMENTS], *r = 0;
+	XLOPER x[MAXIMUM_NUMBER_OF_EXCEL_FUNCTION_ARGUMENTS], *r = NULL;
 	XLLFunctionWithVarArgs func = NULL;
 	GnmValue *g = NULL;
 	guint i,m;
@@ -635,7 +635,7 @@ add_xll_function (const char *exported_function_symbol, XLLFunctionInfo *info)
 	if (NULL != info->xll_function) {
 		XLLFunctionInfo* info_in_map = NULL;
 		GnmFunc *gnm_func = NULL;
-		if (0 == xll_function_info_map)
+		if (NULL == xll_function_info_map)
 			xll_function_info_map = g_tree_new_full (g_strcmp0_with_ignored_data,NULL,NULL,free_xll_function_info);
 		info_in_map = g_tree_lookup (xll_function_info_map,info->gnm_func_descriptor.name);
 		if (NULL != info_in_map)
