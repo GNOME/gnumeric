@@ -125,7 +125,7 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
 	if (dir == PANGO_DIRECTION_RTL) {
 		pango_layout_get_pixel_extents (ie->layout, NULL, &pos);
-		left -= pos.width;
+		left -= pos.width + GNM_COL_MARGIN / goc_canvas_get_pixels_per_unit (item->canvas);
 	}
 	cairo_move_to (cr, left, top);
 	gtk_editable_get_selection_bounds (GTK_EDITABLE (ie->entry), &start, &end);
@@ -228,13 +228,21 @@ item_edit_button_pressed (GocItem *item, int button, double x, double y)
 		ItemEdit *ie = ITEM_EDIT (item);
 		GtkEditable *ed = GTK_EDITABLE (ie->entry);
 		int target_index, trailing;
-		int top, left;
 		char const *text = pango_layout_get_text (ie->layout);
+		PangoDirection dir = pango_find_base_dir (text, -1);
+		PangoRectangle pos;
+		GocDirection cdir = goc_canvas_get_direction (item->canvas);
 
-		get_top_left (ie, &top, &left, pango_find_base_dir (text, -1));
-		y -= top;
-		x -= left;
-
+		if (cdir == GOC_DIRECTION_RTL)
+			x = item->x1 - x - 1;
+		else
+			x = x - item->x0;
+		y = y - item->y0;
+		if (dir == PANGO_DIRECTION_RTL) {
+			pango_layout_get_pixel_extents (ie->layout, NULL, &pos);
+			x -=  item->x1 - item->x0 - pos.width
+				- 2 * GNM_COL_MARGIN / goc_canvas_get_pixels_per_unit (item->canvas);
+		}
 		if (pango_layout_xy_to_index (ie->layout,
 					      x * PANGO_SCALE, y * PANGO_SCALE,
 					      &target_index, &trailing)) {
@@ -249,7 +257,7 @@ item_edit_button_pressed (GocItem *item, int button, double x, double y)
 				} else
 					target_index -= preedit;
 			}
-		} else {
+		} else if (x < 0) {
 			/* the click occured after text end (#388342) */
 			target_index = strlen (text);
 			trailing = 0;
@@ -267,15 +275,24 @@ static gboolean
 item_edit_motion (GocItem *item, double x, double y)
 {
 	ItemEdit *ie = ITEM_EDIT (item);
-	if (ie->sel_start >=0) {
+	if (ie->sel_start >= 0) {
 		GtkEditable *ed = GTK_EDITABLE (ie->entry);
 		int target_index, trailing;
-		int top, left;
 		char const *text = pango_layout_get_text (ie->layout);
+		PangoDirection dir = pango_find_base_dir (text, -1);
+		PangoRectangle pos;
+		GocDirection cdir = goc_canvas_get_direction (item->canvas);
 
-		get_top_left (ie, &top, &left, pango_find_base_dir (text, -1));
-		y -= top;
-		x -= left;
+		if (cdir == GOC_DIRECTION_RTL)
+			x = item->x1 - x - 1;
+		else
+			x = x - item->x0;
+		y = y - item->y0;
+		if (dir == PANGO_DIRECTION_RTL) {
+			pango_layout_get_pixel_extents (ie->layout, NULL, &pos);
+			x -=  item->x1 - item->x0 - pos.width
+				- 2 * GNM_COL_MARGIN / goc_canvas_get_pixels_per_unit (item->canvas);
+		}
 
 		if (pango_layout_xy_to_index (ie->layout,
 					      x * PANGO_SCALE, y * PANGO_SCALE,
@@ -337,10 +354,13 @@ item_edit_update_bounds (GocItem *item)
 		PangoAttrList	*attrs;
 		PangoAttribute  *attr;
 		int cursor_pos = gtk_editable_get_position (GTK_EDITABLE (ie->entry));
+		PangoDirection dir;
+		GocDirection cdir = goc_canvas_get_direction (item->canvas);
 
 		entered_text = gtk_entry_get_text (ie->entry);
 		text = wbcg_edit_get_display_text (scg_wbcg (ie->scg));
 		pango_layout_set_text (ie->layout, text, -1);
+		dir = pango_find_base_dir (text, -1);
 
 		pango_layout_set_font_description (ie->layout, gfont->go.font->desc);
 		pango_layout_set_wrap (ie->layout, PANGO_WRAP_WORD_CHAR);
@@ -403,23 +423,50 @@ item_edit_update_bounds (GocItem *item)
 		if (merged != NULL)
 			col = merged->end.col;
 
-		while (col_size < width &&
-		       col <= pane->last_full.col &&
-		       col < gnm_sheet_get_last_col (sheet)) {
-			ci = sheet_col_get_info (sheet, ++col);
+		if ((dir == PANGO_DIRECTION_RTL && cdir == GOC_DIRECTION_RTL) ||
+		    (dir != PANGO_DIRECTION_RTL && cdir == GOC_DIRECTION_LTR)) {
+			while (col_size < width &&
+			       col <= pane->last_full.col &&
+			       col < gnm_sheet_get_last_col (sheet)) {
+				ci = sheet_col_get_info (sheet, ++col);
 
-			g_return_if_fail (ci != NULL);
+				g_return_if_fail (ci != NULL);
 
-			if (ci->visible)
-				col_size += ci->size_pixels;
-		}
-		tmp = pane->first_offset.x + canvas->allocation.width;
-		item->x1 = item->x0 + (col_size + GNM_COL_MARGIN + GNM_COL_MARGIN + 1) / scale;
+				if (ci->visible)
+					col_size += ci->size_pixels;
+			}
+			tmp = pane->first_offset.x + canvas->allocation.width;
+			item->x1 = item->x0 + (col_size + GNM_COL_MARGIN + GNM_COL_MARGIN + 1) / scale;
 
-		if (item->x1 >= tmp) {
-			item->x1 = tmp;
-			pango_layout_set_width (ie->layout, (item->x1 - item->x0 + 1)*PANGO_SCALE);
-			pango_layout_get_pixel_size (ie->layout, &width, &height);
+			if (item->x1 >= tmp) {
+				item->x1 = tmp;
+				pango_layout_set_width (ie->layout, (item->x1 - item->x0 + 1)*PANGO_SCALE);
+				pango_layout_get_pixel_size (ie->layout, &width, &height);
+			}
+		} else {
+			item->x1 = (1 + pane->first_offset.x +
+				    scg_colrow_distance_get (ie->scg, TRUE,
+							     pane->first.col,
+							     ie->pos.col+1)) / scale;
+			while (col_size < width &&
+			       col > pane->first.col &&
+			       col > 0) {
+				ci = sheet_col_get_info (sheet, --col);
+
+				g_return_if_fail (ci != NULL);
+
+				if (ci->visible)
+					col_size += ci->size_pixels;
+			}
+			if (col_size < width)
+				col_size = width;
+			tmp = pane->first_offset.x;
+			item->x0 = item->x1 - (col_size + GNM_COL_MARGIN + GNM_COL_MARGIN + 1) / scale;
+			if (item->x0 <= tmp) {
+				item->x0 = tmp;
+				pango_layout_set_width (ie->layout, (item->x1 - item->x0 + 1)*PANGO_SCALE);
+				pango_layout_get_pixel_size (ie->layout, &width, &height);
+			}
 		}
 
 		tmp = scg_colrow_distance_get (ie->scg, FALSE, ie->pos.row,
