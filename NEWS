@@ -25,6 +25,7 @@ Andreas:
 	  selection only. [#125595]
 	* Add autofit actions to cell context menu.
 	* Add new function ARRAY. [#570689]
+	* Add new function SORT. [#59144]
 
 Jean:
 	* Fix strong/weak cursor display. [#623241]

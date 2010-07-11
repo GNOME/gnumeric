@@ -1,5 +1,12 @@
 2010-07-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* plugins/fn-lookup/plugin.xml.in: new function SORT
+	* plugins/fn-lookup/functions.c (help_sort): new
+	(gnumeric_sort): new
+	(lookup_functions): add new function SORT
+
+2010-07-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* plugins/fn-lookup/plugin.xml.in: new function ARRAY
 	* plugins/fn-lookup/functions.c (help_array): new
 	(gnumeric_array): new

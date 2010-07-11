@@ -29,6 +29,7 @@
 				<function name="rows"/>
 				<function name="sheet"/>
 				<function name="sheets"/>
+				<function name="sort"/>
 				<function name="transpose"/>
 				<function name="vlookup"/>
 			</functions>

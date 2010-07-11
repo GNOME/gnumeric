@@ -1753,6 +1753,57 @@ gnumeric_array (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_sort[] = {
+	{ GNM_FUNC_HELP_NAME, F_("SORT:sorted list of numbers as vertical array")},
+	{ GNM_FUNC_HELP_ARG, F_("ref:list of numbers")},
+	{ GNM_FUNC_HELP_ARG, F_("order:0 (descending order) or 1 (ascending order); defaults to 0")},
+	{ GNM_FUNC_HELP_NOTE, F_("Strings, booleans, and empty cells are ignored.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("SORT({4,3,5}) evaluates to {5,4,3}")},
+	{ GNM_FUNC_HELP_SEEALSO, ("ARRAY")},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_sort (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float *xs;
+	int i, j, n;
+	GnmValue *result = NULL;
+
+	xs = collect_floats_value (argv[0], ei->pos,
+				   COLLECT_IGNORE_STRINGS |
+				   COLLECT_IGNORE_BOOLS |
+				   COLLECT_IGNORE_BLANKS |
+				   COLLECT_SORT,
+				   &n, &result);
+	if (result)
+		goto out;
+
+	switch (argv[1] ? value_get_as_int (argv[1]) : 0) {
+	case 0:
+		result = value_new_array_empty (1, n);
+		
+		for (i = 0, j = n - 1; i < n; i++, j--)
+			result->v_array.vals[0][i] = value_new_float (xs[j]);
+		break;
+	case 1:
+		result = value_new_array_empty (1, n);
+		
+		for (i = 0; i < n; i++)
+			result->v_array.vals[0][i] = value_new_float (xs[i]);
+		break;
+	default:
+		result = value_new_error_VALUE (ei->pos);
+		break;
+	}
+
+ out:
+	g_free (xs);
+
+	return result;
+}
+/***************************************************************************/
+
 GnmFuncDescriptor const lookup_functions[] = {
 	{ "address",   "ff|fbs",
 	  help_address,  gnumeric_address, NULL, NULL, NULL, NULL,
@@ -1805,6 +1856,9 @@ GnmFuncDescriptor const lookup_functions[] = {
 	{ "sheet",      "|?",
 	  help_sheet,     gnumeric_sheet, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{ "sort",         "r|f",
+	  help_sort, gnumeric_sort, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "transpose", "A",
 	  help_transpose, gnumeric_transpose, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
@@ -1813,7 +1867,7 @@ GnmFuncDescriptor const lookup_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "array", NULL,
 	  help_array, NULL, gnumeric_array, NULL, NULL, NULL,
-	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
         {NULL}
 };
