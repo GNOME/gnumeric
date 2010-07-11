@@ -30,6 +30,7 @@
 #include <parse-util.h>
 #include <dependent.h>
 #include <cell.h>
+#include <collect.h>
 #include <sheet.h>
 #include <value.h>
 #include <ranges.h>
@@ -1696,6 +1697,61 @@ gnumeric_transpose (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 /***************************************************************************/
+static GnmFuncHelp const help_array[] = {
+        { GNM_FUNC_HELP_NAME, F_("ARRAY:vertical array of the arguments")},
+        { GNM_FUNC_HELP_ARG, F_("v:value")},
+        { GNM_FUNC_HELP_SEEALSO, "TRANSPOSE"},
+        { GNM_FUNC_HELP_END}
+};
+
+
+static GnmValue *
+callback_function_array (GnmEvalPos const *ep, GnmValue const *value, void *closure)
+{
+	GSList **list = closure;
+
+	*list = g_slist_prepend (*list, value_dup (value));
+	return NULL;
+}
+
+static GnmValue *
+gnumeric_array (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+{
+	GSList *list = NULL, *l;
+	int len, i;
+	GnmValue *val = function_iterate_argument_values 
+		(ei->pos, callback_function_array, &list,
+		 argc, argv, FALSE, CELL_ITER_ALL);
+
+	if (val != NULL) {
+		go_slist_free_custom (list, (GFreeFunc) value_release);
+		return val;
+	}
+	list = g_slist_reverse (list);
+	len = g_slist_length (list);
+
+	if (len == 0) {
+		go_slist_free_custom (list, (GFreeFunc) value_release);
+		return value_new_error_VALUE (ei->pos);
+	}
+		
+	if (len == 1) {
+		val = list->data;
+		g_slist_free (list);
+		return val;
+	}
+
+	val = value_new_array_empty (1, len);
+	
+	for (l = list, i = 0; l != NULL; l = l->next, i++)
+		val->v_array.vals[0][i] = l->data;
+
+	g_slist_free (list);
+	return val;
+}
+
+
+/***************************************************************************/
 
 GnmFuncDescriptor const lookup_functions[] = {
 	{ "address",   "ff|fbs",
@@ -1755,6 +1811,9 @@ GnmFuncDescriptor const lookup_functions[] = {
 	{ "vlookup",   "EAf|bb",
 	  help_vlookup, gnumeric_vlookup, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "array", NULL,
+	  help_array, NULL, gnumeric_array, NULL, NULL, NULL,
+	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
         {NULL}
 };

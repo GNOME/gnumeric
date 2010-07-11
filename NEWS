@@ -24,6 +24,7 @@ Andreas:
 	* Add menu item to autofit column width or row height based on the 
 	  selection only. [#125595]
 	* Add autofit actions to cell context menu.
+	* Add new function ARRAY. [#570689]
 
 Jean:
 	* Fix strong/weak cursor display. [#623241]

@@ -13,6 +13,7 @@
 			<functions textdomain="gnumeric-functions">
 				<function name="address"/>
 				<function name="areas"/>
+				<function name="array"/>
 				<function name="choose"/>
 				<function name="column"/>
 				<function name="columnnumber"/>
