@@ -14,7 +14,6 @@ libwidgets_la_SOURCES =				\
 	gnm-format-sel.c			\
 	gnm-format-sel.h			\
 	gnm-notebook.c				\
-	gnm-notebook.h				\
 	gnm-radiobutton.c			\
 	gnm-radiobutton.h			\
 	widget-editable-label.c			\
@@ -39,8 +38,12 @@ libwidgets_la_SOURCES =				\
 	gnumeric-dashed-canvas-line.c		\
 	gnumeric-dashed-canvas-line.h		\
 	gnumeric-expr-entry.c			\
-	gnumeric-expr-entry.h			\
 	gnumeric-lazy-list.c			\
 	gnumeric-lazy-list.h			\
 	gnumeric-text-view.c			\
 	gnumeric-text-view.h
+
+libtools_la_includedir = $(includedir)/libspreadsheet-@GNUMERIC_API_VER@/spreadsheet/widgets
+libtools_la_include_HEADERS = 	\
+	gnm-notebook.h				\
+	gnumeric-expr-entry.h

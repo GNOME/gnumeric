@@ -1,3 +1,7 @@
+2010-07-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* Makefile.am: install a self-consistent headers list.
+
 2010-07-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-wilcoxon-mann-whitney.c: fix typo

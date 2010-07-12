@@ -46,7 +46,6 @@ libtools_la_SOURCES =					\
 	random-generator-cor.c				\
 	random-generator-cor.h				\
 	dao.c						\
-	dao.h						\
 	data-shuffling.c				\
 	data-shuffling.h				\
 	auto-correct.c					\
@@ -63,10 +62,11 @@ libtools_la_SOURCES =					\
 	simulation.c					\
 	simulation.h					\
 	tabulate.c					\
-	tabulate.h					\
-	tools.h
+	tabulate.h
 
 libtools_la_includedir = $(includedir)/libspreadsheet-@GNUMERIC_API_VER@/spreadsheet/tools
 libtools_la_include_HEADERS = 	\
-	gnm-solver.h
+	dao.h						\
+	gnm-solver.h				\
+	tools.h
 

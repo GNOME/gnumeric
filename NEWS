@@ -29,7 +29,8 @@ Andreas:
 
 Jean:
 	* Fix strong/weak cursor display. [#623241]
-	* Fix regression in ms_excel_chart_read. [#623960]
+	* Fix regression in ms_excel_chart_read. [#623960]I
+	* Install a self-consistent headers list.
 
 Morten:
 	* Ask user to locate solver binaries when plain search fails.
