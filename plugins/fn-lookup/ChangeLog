@@ -1,3 +1,9 @@
+2010-07-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* plugins/fn-lookup/functions.c (callback_function_array):
+	  make sure we have values, since some functions such as COUNT
+	  can't handle a matrix with NULL values.
+
 2010-07-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* plugins/fn-lookup/plugin.xml.in: new function SORT

@@ -1710,7 +1710,8 @@ callback_function_array (GnmEvalPos const *ep, GnmValue const *value, void *clos
 {
 	GSList **list = closure;
 
-	*list = g_slist_prepend (*list, value_dup (value));
+	*list = g_slist_prepend 
+		(*list, value ? value_dup (value) : value_new_empty ());
 	return NULL;
 }
 
