@@ -127,6 +127,10 @@
             -->
       <menuitem action="InsertImage"/>
       <menuitem action="InsertFormula"/>
+      <menu name="InsertFormulaWrap" action="MenuInsertFormulaWrap">
+        <menuitem action="InsertSortDecreasing"/>
+        <menuitem action="InsertSortIncreasing"/>
+      </menu>
       <menuitem action="InsertNames"/>
       <menuitem action="InsertComment"/>
       <menuitem action="InsertHyperlink"/>

@@ -1156,6 +1156,8 @@ static GNM_ACTION_DEF (cb_insert_image)
 
 static GNM_ACTION_DEF (cb_insert_hyperlink)	{ dialog_hyperlink (wbcg, SHEET_CONTROL (wbcg_cur_scg (wbcg))); }
 static GNM_ACTION_DEF (cb_formula_guru)		{ dialog_formula_guru (wbcg, NULL); }
+static GNM_ACTION_DEF (cb_insert_sort_ascending) { workbook_cmd_wrap_sort (WORKBOOK_CONTROL (wbcg), 1);}
+static GNM_ACTION_DEF (cb_insert_sort_descending){ workbook_cmd_wrap_sort (WORKBOOK_CONTROL (wbcg), 0);}
 
 static void
 sort_by_rows (WBCGtk *wbcg, gboolean descending)
@@ -1789,6 +1791,8 @@ static GtkActionEntry const permanent_actions[] = {
 		{ "MenuViewToolbars",		NULL, N_("_Toolbars") },
 	{ "MenuInsert",		NULL, N_("_Insert") },
 		{ "MenuInsertSpecial",		NULL, N_("S_pecial") },
+		{ "MenuInsertFormulaWrap", "Gnumeric_FormulaGuru", 
+		  N_("Func_tion Wrapper") },
 	{ "MenuFormat",		NULL, N_("F_ormat") },
 		{ "MenuFormatCells",		NULL, N_("_Cells") },
 		{ "MenuFormatColumn",		NULL, N_("C_olumn") },
@@ -2117,6 +2121,13 @@ static GtkActionEntry const actions[] = {
 	{ "InsertHyperlink", "Gnumeric_Link_Add", N_("Hyper_link..."),
 		"<control>K", N_("Insert a Hyperlink"),
 		G_CALLBACK (cb_insert_hyperlink) },
+	{ "InsertSortDecreasing", GTK_STOCK_SORT_DESCENDING, N_("Sort (_Descending)"),
+		NULL, N_("Wrap with SORT (descending)"),
+		G_CALLBACK (cb_insert_sort_descending) },
+	{ "InsertSortIncreasing", GTK_STOCK_SORT_ASCENDING, N_("Sort (_Ascending)"),
+		NULL, N_("Wrap with SORT (ascending)"),
+		G_CALLBACK (cb_insert_sort_ascending) },
+	
 /* Insert -> Special */
 	{ "InsertCurrentDate", NULL, N_("Current _date"),
 		"<control>semicolon", N_("Insert the current date into the selected cell(s)"),
@@ -2436,7 +2447,7 @@ static GtkActionEntry const actions[] = {
 	{ "AutoSum", "Gnumeric_AutoSum", N_("Sum"),
 		"<alt>equal", N_("Sum into the current cell"),
 		G_CALLBACK (cb_autosum) },
-	{ "InsertFormula", "Gnumeric_FormulaGuru", N_("Function"), NULL,
+	{ "InsertFormula", "Gnumeric_FormulaGuru", N_("_Function"), NULL,
 		N_("Edit a function in the current cell"),
 		G_CALLBACK (cb_formula_guru) },
 

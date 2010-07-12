@@ -11,10 +11,16 @@
 #include "gnumeric.h"
 #include "workbook-cmd-format.h"
 
+#include "cell.h"
 #include "dependent.h"
+#include "expr.h"
+#include "func.h"
 #include "ranges.h"
 #include "gui-util.h"
 #include "selection.h"
+#include "sheet-merge.h"
+#include "sheet-view.h"
+#include "value.h"
 #include "workbook-control.h"
 #include "workbook-view.h"
 #include "workbook.h"
@@ -107,4 +113,102 @@ workbook_cmd_dec_indent (WorkbookControl *wbc)
 		gnm_style_set_indent (style, i-1);
 		cmd_selection_format (wbc, style, NULL, _("Decrease Indent"));
 	}
+}
+
+struct workbook_cmd_wrap_sort_t {
+	GnmExprList    *args;
+	GnmRange const *r;
+	Workbook *wb;
+};
+
+static GnmValue *
+cb_get_cell_content (GnmCellIter const *iter, struct workbook_cmd_wrap_sort_t *cl)
+{
+	GnmExpr const *expr;
+
+	if (iter->cell == NULL)
+		expr = gnm_expr_new_constant (value_new_empty ());
+	else if (gnm_cell_has_expr (iter->cell)) {
+		char	 *text;
+		GnmParsePos pp;
+		GnmExprTop const *texpr;
+
+		parse_pos_init (&pp, cl->wb, iter->pp.sheet, 
+				cl->r->start.col, cl->r->start.row);
+		text = gnm_expr_as_string   ((iter->cell)->base.texpr->expr, 
+					     &iter->pp, NULL);
+		texpr = gnm_expr_parse_str (text, &pp, GNM_EXPR_PARSE_DEFAULT,
+					    NULL, NULL);
+		g_free (text);
+		expr = gnm_expr_copy (texpr->expr);
+		gnm_expr_top_unref (texpr);
+		
+	} else if (iter->cell->value != NULL)
+		expr = gnm_expr_new_constant (value_dup (iter->cell->value));
+	else
+		expr = gnm_expr_new_constant (value_new_empty ());
+
+	cl->args = gnm_expr_list_prepend (cl->args, expr);
+	return NULL;
+}
+
+void 
+workbook_cmd_wrap_sort (WorkbookControl *wbc, int type)
+{
+	WorkbookView const *wbv = wb_control_view (wbc);
+	SheetView *sv = wb_view_cur_sheet_view (wbv);
+	GSList *l = sv->selections, *merges;
+	GnmExpr const *expr;
+	GnmFunc	   *fd_sort;
+	GnmFunc	   *fd_array;
+	GnmExprTop const *texpr;
+	struct workbook_cmd_wrap_sort_t cl = {NULL, NULL};
+
+	cl.r = selection_first_range 
+		(sv, GO_CMD_CONTEXT (wbc), _("Wrap SORT"));;
+	cl.wb = wb_control_get_workbook (wbc);
+
+	if (g_slist_length (l) > 1) {
+		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), _("Wrap SORT"),
+			_("A single selection is required."));
+		
+		return;
+	}
+	if (range_height (cl.r) > 1 && range_width (cl.r) > 1) {
+		go_cmd_context_error_invalid 
+			(GO_CMD_CONTEXT (wbc), _("Wrap SORT"),
+			 _("An n\xe2\xa8\xaf""1 or 1\xe2\xa8\xaf"
+			   "n selection is required."));
+		return;
+	}
+	if (range_height (cl.r) == 1 && range_width (cl.r) == 1) {
+		go_cmd_context_error_invalid 
+			(GO_CMD_CONTEXT (wbc), _("Wrap SORT"),
+			 _("There is no point in sorting a single cell."));
+		return;
+	}
+	merges = gnm_sheet_merge_get_overlap (sv->sheet, cl.r);
+	if (merges != NULL) {
+		g_slist_free (merges);
+		go_cmd_context_error_invalid 
+			(GO_CMD_CONTEXT (wbc), _("Wrap SORT"),
+			 _("The range to be sorted may not contain any merged cells."));
+		return;		
+	}
+	fd_sort = gnm_func_lookup_or_add_placeholder ("sort", cl.wb, TRUE);
+	fd_array = gnm_func_lookup_or_add_placeholder ("array", cl.wb, TRUE);
+	
+	sheet_foreach_cell_in_range 
+		(sv->sheet, CELL_ITER_ALL,
+		 cl.r->start.col, cl.r->start.row, 
+		 cl.r->end.col, cl.r->end.row,
+		 (CellIterFunc)&cb_get_cell_content, &cl);
+
+	cl.args = g_slist_reverse (cl.args);
+	expr = gnm_expr_new_funcall (fd_array, cl.args);
+	expr = gnm_expr_new_funcall2 
+		(fd_sort, expr, gnm_expr_new_constant (value_new_int (type))); 
+	texpr = gnm_expr_top_new (expr);
+	cmd_area_set_array_expr (wbc, sv, texpr);
+	gnm_expr_top_unref (texpr);
 }

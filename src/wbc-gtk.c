@@ -1632,8 +1632,11 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 
 	if (MS_COMMENT_LINKS_RANGE & flags) {
 		GSList *l;
+		int count = 0;
 		gboolean has_links = FALSE, has_comments = FALSE;
-		for (l = scg_view (scg)->selections; 
+		gboolean sel_is_vector = FALSE;
+		SheetView *sv = scg_view (scg);
+		for (l = sv->selections; 
 		     l != NULL; l = l->next) {
 			GnmRange const *r = l->data;
 			GSList *objs;
@@ -1650,13 +1653,23 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 				has_comments = (objs != NULL);
 				g_slist_free (objs);
 			}
-			if(has_comments && has_links)
+			if((count++ > 1) && has_comments && has_links)
 				break;
 		}
 		wbc_gtk_set_action_sensitivity 
 			(wbcg, "EditClearHyperlinks", has_links);
 		wbc_gtk_set_action_sensitivity 
 			(wbcg, "EditClearComments", has_comments);
+		if (count == 1) {
+			GnmRange const *r = sv->selections->data;
+			sel_is_vector = (range_width (r) == 1 ||
+					 range_height (r) == 1) &&
+				!range_is_singleton (r);
+ 		}
+		wbc_gtk_set_action_sensitivity 
+			(wbcg, "InsertSortDecreasing", sel_is_vector);
+		wbc_gtk_set_action_sensitivity 
+			(wbcg, "InsertSortIncreasing", sel_is_vector);
 	}
 	{
 		gboolean const has_slicer = (NULL != sv_editpos_in_slicer (sv));

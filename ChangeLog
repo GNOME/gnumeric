@@ -1,3 +1,16 @@
+2010-07-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* component/Gnumeric-embed.xml.in: add submenu to Insert menu
+	* src/GNOME_Gnumeric-gtk.xml.in: add submenu to Insert menu
+	* src/HILDON_Gnumeric-gtk.xml.in: add submenu to Insert menu
+	* src/wbc-gtk-actions.c (cb_insert_sort_*cending): new actions
+	(permanent_actions): add MenuInsertFormulaWrap, InsertSortDecreasing
+	  and InsertSortIncreasing
+	* src/wbc-gtk.c (wbcg_menu_state_update): handle the above new actions
+	* src/workbook-cmd-format.c (workbook_cmd_wrap_sort): new
+	(cb_get_cell_content): new
+	* src/workbook-cmd-format.h (workbook_cmd_wrap_sort): new
+
 2010-07-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/item-edit.c (item_edit_draw), (item_edit_button_pressed),

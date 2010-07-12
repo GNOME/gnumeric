@@ -14,6 +14,8 @@ void workbook_cmd_autofit_selection        (WorkbookControl *wbc, Sheet *sheet,
 void workbook_cmd_inc_indent		   (WorkbookControl *wbc);
 void workbook_cmd_dec_indent		   (WorkbookControl *wbc);
 
+void workbook_cmd_wrap_sort		   (WorkbookControl *wbc, int type);
+
 G_END_DECLS
 
 #endif /* _GNM_WORKBOOK_CMD_FORMAT_H_ */
