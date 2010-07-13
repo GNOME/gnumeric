@@ -193,6 +193,8 @@ gnm_rendered_value_new (GnmCell const *cell,
 	Sheet const     *sheet;
 	gboolean         displayed_formula;
 	GnmStyle const *mstyle;
+	PangoDirection dir;
+	char const *text;
 
 	g_return_val_if_fail (cell != NULL, NULL);
 
@@ -296,44 +298,10 @@ gnm_rendered_value_new (GnmCell const *cell,
 	res->effective_valign = gnm_style_get_align_v (mstyle);
 	res->effective_halign = gnm_style_default_halign (mstyle, cell);
 	res->indent_left = res->indent_right = 0;
-	switch (res->effective_halign) {
-	case HALIGN_LEFT:
-		res->indent_left = calc_indent (context, mstyle);
-		pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
-		break;
-
-	case HALIGN_JUSTIFY:
-		/*
-		 * The code here should work, but pango doesn't:
-		 * http://bugzilla.gnome.org/show_bug.cgi?id=64538
-		 */
-		pango_layout_set_justify (layout, TRUE);
-		pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
-		break;
-
-	case HALIGN_FILL:
-		/*
-		 * A bit weird, but seems to match XL.  The effect is to
-		 * render newlines as visible characters.
-		 */
+	
+	if (res->effective_halign == HALIGN_FILL) {
 		pango_layout_set_single_paragraph_mode (layout, TRUE);
-		pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
 		res->variable_width = TRUE;
-		break;
-
-	case HALIGN_RIGHT:
-		res->indent_right = calc_indent (context, mstyle);
-		pango_layout_set_alignment (layout, PANGO_ALIGN_RIGHT);
-		break;
-
-	case HALIGN_DISTRIBUTED:
-	case HALIGN_CENTER:
-	case HALIGN_CENTER_ACROSS_SELECTION:
-		pango_layout_set_alignment (layout, PANGO_ALIGN_CENTER);
-		break;
-
-	default:
-		g_warning ("Line justification style not supported.");
 	}
 
 	/* ---------------------------------------- */
@@ -421,6 +389,52 @@ gnm_rendered_value_new (GnmCell const *cell,
 	}
 
 	/* ---------------------------------------- */
+
+	text = pango_layout_get_text (layout);
+	dir = (text && *text)? pango_find_base_dir (text, -1): PANGO_DIRECTION_LTR;
+	if (gnm_style_get_align_h (mstyle) == HALIGN_GENERAL && dir == PANGO_DIRECTION_RTL) {
+		switch (res->effective_halign) {
+		case HALIGN_LEFT:
+			res->effective_halign = HALIGN_RIGHT;
+			break;
+		case HALIGN_RIGHT:
+			res->effective_halign = HALIGN_LEFT;
+			break;
+		}
+	}
+	switch (res->effective_halign) {
+	case HALIGN_LEFT:
+		res->indent_left = calc_indent (context, mstyle);
+		pango_layout_set_alignment (layout, (dir == PANGO_DIRECTION_RTL)? PANGO_ALIGN_RIGHT: PANGO_ALIGN_LEFT);
+		break;
+
+	case HALIGN_JUSTIFY:
+		/*
+		 * The code here should work, but pango doesn't:
+		 * http://bugzilla.gnome.org/show_bug.cgi?id=64538
+		 */
+		pango_layout_set_justify (layout, TRUE);
+		pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
+		break;
+
+	case HALIGN_FILL:
+		break;
+
+	case HALIGN_RIGHT:
+		res->indent_right = calc_indent (context, mstyle);
+		pango_layout_set_alignment (layout, (dir == PANGO_DIRECTION_RTL)? PANGO_ALIGN_LEFT: PANGO_ALIGN_RIGHT);
+		break;
+
+	case HALIGN_DISTRIBUTED:
+	case HALIGN_CENTER:
+	case HALIGN_CENTER_ACROSS_SELECTION:
+		pango_layout_set_alignment (layout, PANGO_ALIGN_CENTER);
+		break;
+
+	default:
+		g_warning ("Line justification style not supported.");
+	}
+			 /* ---------------------------------------- */
 
 	/*
 	 * We store the foreground color separately because

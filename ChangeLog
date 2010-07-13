@@ -1,3 +1,12 @@
+2010-07-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/cell-draw.c (cell_calc_layout): fixed alignment in cells with rtl
+	text and rtl sheets. [see #623241]
+	* src/cellspan.c (cell_calc_span): ditto.
+	* src/item-edit.c (get_top_left): ditto.
+	* src/item-grid.c (item_grid_draw_region): ditto.
+	* src/rendered-value.c (gnm_rendered_value_new): ditto.
+
 2010-07-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* component/Gnumeric-embed.xml.in: add submenu to Insert menu
@@ -15,7 +24,7 @@
 
 	* src/item-edit.c (item_edit_draw), (item_edit_button_pressed),
 	(item_edit_motion), (item_edit_update_bounds): fix ItemEdit
-	alignment for RTL text. [see #623241] 
+	alignment for RTL text. [see #623241]
 
 2010-07-10  Jean Brefort  <jean.brefort@normalesup.org>
 

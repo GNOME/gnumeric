@@ -668,10 +668,14 @@ plain_draw : /* a quick hack to deal with 142267 */
 				/* x, y are relative to this cell origin, but the cell
 				 * might be using columns to the left (if it is set to right
 				 * justify or center justify) compute the pixel difference */
-				if (start_span_col != cell->pos.col)
+				if (dir > 0 && start_span_col != cell->pos.col)
 					center_offset += scg_colrow_distance_get (
 						pane->simple.scg, TRUE,
 						start_span_col, cell->pos.col);
+				else if (dir < 0 && end_span_col != cell->pos.col)
+					center_offset += scg_colrow_distance_get (
+						pane->simple.scg, TRUE,
+						cell->pos.col, end_span_col);
 
 				if (start_span_col != col) {
 					offset = scg_colrow_distance_get (
@@ -738,7 +742,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 			ig_cairo_draw_bound (cr, x, start_y, x, y);
 		} else if (canvas->direction == GOC_DIRECTION_LTR && start_x < 1)
 			ig_cairo_draw_bound (cr, 1, start_y, 1, y);
-	    }
+	}
 
 	g_slist_free (merged_used);	   /* merges with bottom in view */
 	g_slist_free (merged_active_seen); /* merges with bottom the view */

@@ -234,6 +234,10 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	row   = cell->pos.row;
 	indented_w = cell_width_pixel = gnm_cell_rendered_width (cell);
 	if (h_align == HALIGN_LEFT || h_align == HALIGN_RIGHT) {
+		GnmRenderedValue *rv = gnm_cell_get_rendered_value (cell);
+		PangoDirection dir = pango_find_base_dir (pango_layout_get_text (rv->layout), -1);
+		if (gnm_style_get_align_h (style) == HALIGN_GENERAL && dir == PANGO_DIRECTION_RTL)
+			h_align = HALIGN_RIGHT;
 		indented_w += gnm_cell_rendered_offset (cell);
 		if (sheet->text_is_rtl)
 			h_align = (h_align == HALIGN_LEFT) ? HALIGN_RIGHT : HALIGN_LEFT;

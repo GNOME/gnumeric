@@ -76,7 +76,7 @@ get_top_left (ItemEdit const *ie, int *top, int *left, PangoDirection dir)
 	GocItem *item = GOC_ITEM (ie);
 	GocCanvas *canvas = item->canvas;
 	double l = ((goc_canvas_get_direction (canvas) == GOC_DIRECTION_LTR && dir == PANGO_DIRECTION_RTL)
-	            || (goc_canvas_get_direction (canvas) == GOC_DIRECTION_RTL && dir == PANGO_DIRECTION_LTR))?
+	            || (goc_canvas_get_direction (canvas) == GOC_DIRECTION_RTL && dir != PANGO_DIRECTION_RTL))?
 			item->x1 - 1: item->x0;
 
 	goc_canvas_c2w (canvas, l, item->y0, left, top);
