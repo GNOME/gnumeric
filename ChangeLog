@@ -1,5 +1,9 @@
 2010-07-13  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* src/cellspan.c (cell_calc_span): fixed crash introduced earlier. [#624274]
+
+2010-07-13  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* src/graph.c (gnm_go_data_vector_load_len): fixed a regression. [#624263]
 
 2010-07-13  Jean Brefort  <jean.brefort@normalesup.org>

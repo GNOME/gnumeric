@@ -235,7 +235,8 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	indented_w = cell_width_pixel = gnm_cell_rendered_width (cell);
 	if (h_align == HALIGN_LEFT || h_align == HALIGN_RIGHT) {
 		GnmRenderedValue *rv = gnm_cell_get_rendered_value (cell);
-		PangoDirection dir = pango_find_base_dir (pango_layout_get_text (rv->layout), -1);
+		char const *text = pango_layout_get_text (rv->layout);
+		PangoDirection dir = (text && *text)? pango_find_base_dir (text, -1): PANGO_DIRECTION_LTR;
 		if (gnm_style_get_align_h (style) == HALIGN_GENERAL && dir == PANGO_DIRECTION_RTL)
 			h_align = HALIGN_RIGHT;
 		indented_w += gnm_cell_rendered_offset (cell);

@@ -33,6 +33,7 @@ Jean:
 	* Fix strong/weak cursor display. [#623241]
 	* Fix regression in ms_excel_chart_read. [#623960]
 	* Fix a regression in chart series evaluation. [#624263]
+	* Fix crash in cell_calc_span. [#624274]
 	* Install a self-consistent headers list.
 
 Morten:
