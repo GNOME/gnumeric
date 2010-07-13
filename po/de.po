@@ -45,7 +45,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&component=general\n"
 "POT-Creation-Date: 2010-07-05 22:34+0000\n"
-"PO-Revision-Date: 2010-07-06 10:55+0100\n"
+"PO-Revision-Date: 2010-07-13 11:51+0200\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -13923,7 +13923,7 @@ msgstr "Ge_paarte Stichproben: T-Test …"
 
 #: ../src/wbc-gtk-actions.c:1766
 msgid "Two Me_dians"
-msgstr "Zwei _Mittelwerte"
+msgstr "Zwei _Medianwerte"
 
 #: ../src/wbc-gtk-actions.c:1767
 msgid "Two _Means"
