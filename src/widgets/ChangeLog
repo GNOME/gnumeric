@@ -1,5 +1,10 @@
 2010-07-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gnumeric-expr-entry.c (gee_dump_lexer): new
+	(gee_check_tooltip): rewrite using gnm_expr_lex_all
+
+2010-07-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* gnm-filter-combo-view.c: show the number of filtered rows in
 	  the progress bar region
 

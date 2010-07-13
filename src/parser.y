@@ -1440,6 +1440,59 @@ yyerror (char const *s)
 	return 0;
 }
 
+static void
+setup_state (ParserState *pstate, const char *str,
+	     GnmParsePos const *pp,
+	     GnmExprParseFlags flags,
+	     GnmConventions const *convs,
+	     GnmParseError *error)
+{
+	pstate->start = pstate->ptr = str;
+	pstate->pos   = pp;
+
+	pstate->flags		= flags;
+	pstate->convs                                    =
+		(NULL != convs) ? convs : ((NULL != pp->sheet) ? pp->sheet->convs : gnm_conventions_default);
+
+
+	pstate->decimal_point = pstate->convs->decimal_sep_dot
+		? '.'
+		: g_utf8_get_char (go_locale_get_decimal ()->str); /* FIXME: one char handled.  */
+
+	if (pstate->convs->arg_sep != 0)
+		pstate->arg_sep = pstate->convs->arg_sep;
+	else
+		pstate->arg_sep = go_locale_get_arg_sep ();
+	if (pstate->convs->array_col_sep != 0)
+		pstate->array_col_sep = pstate->convs->array_col_sep;
+	else
+		pstate->array_col_sep = go_locale_get_col_sep ();
+	if (pstate->convs->array_row_sep != 0)
+		pstate->array_row_sep = pstate->convs->array_row_sep;
+	else
+		pstate->array_row_sep = go_locale_get_row_sep ();
+
+	/* Some locales/conventions have ARG_SEP == ARRAY_ROW_SEP
+	 * 	eg {1\2\3;4\5\6} for XL style with ',' as a decimal
+	 * some have ARG_SEP == ARRAY_COL_SEPARATOR
+	 * 	eg {1,2,3;4,5,6} for XL style with '.' as a decimal
+	 * 	or {1;2;3|4;5;6} for OOo/
+	 * keep track of whether we are in an array to allow the lexer to
+	 * dis-ambiguate. */
+	if (pstate->arg_sep == pstate->array_col_sep)
+		pstate->in_array_sep_is = ARRAY_COL_SEP;
+	else if (pstate->arg_sep == pstate->array_row_sep)
+		pstate->in_array_sep_is = ARRAY_ROW_SEP;
+	else
+		pstate->in_array_sep_is = ARG_SEP;
+	pstate->in_array = 0;
+
+	pstate->result = NULL;
+	pstate->error = error;
+
+	state = pstate;
+}
+
 /**
  * gnm_expr_parse_str:
  *
@@ -1466,56 +1519,12 @@ gnm_expr_parse_str (char const *str, GnmParsePos const *pp,
 
 	g_return_val_if_fail (str != NULL, NULL);
 	g_return_val_if_fail (pp != NULL, NULL);
-
-	pstate.start = pstate.ptr = str;
-	pstate.pos   = pp;
-
-	pstate.flags		= flags;
-	pstate.convs                                    =
-		(NULL != convs) ? convs : ((NULL != pp->sheet) ? pp->sheet->convs : gnm_conventions_default);
-
-
-	pstate.decimal_point = pstate.convs->decimal_sep_dot
-		? '.'
-		: g_utf8_get_char (go_locale_get_decimal ()->str); /* FIXME: one char handled.  */
-
-	if (pstate.convs->arg_sep != 0)
-		pstate.arg_sep = pstate.convs->arg_sep;
-	else
-		pstate.arg_sep = go_locale_get_arg_sep ();
-	if (pstate.convs->array_col_sep != 0)
-		pstate.array_col_sep = pstate.convs->array_col_sep;
-	else
-		pstate.array_col_sep = go_locale_get_col_sep ();
-	if (pstate.convs->array_row_sep != 0)
-		pstate.array_row_sep = pstate.convs->array_row_sep;
-	else
-		pstate.array_row_sep = go_locale_get_row_sep ();
-
-	/* Some locales/conventions have ARG_SEP == ARRAY_ROW_SEP
-	 * 	eg {1\2\3;4\5\6} for XL style with ',' as a decimal
-	 * some have ARG_SEP == ARRAY_COL_SEPARATOR
-	 * 	eg {1,2,3;4,5,6} for XL style with '.' as a decimal
-	 * 	or {1;2;3|4;5;6} for OOo/
-	 * keep track of whether we are in an array to allow the lexer to
-	 * dis-ambiguate. */
-	if (pstate.arg_sep == pstate.array_col_sep)
-		pstate.in_array_sep_is = ARRAY_COL_SEP;
-	else if (pstate.arg_sep == pstate.array_row_sep)
-		pstate.in_array_sep_is = ARRAY_ROW_SEP;
-	else
-		pstate.in_array_sep_is = ARG_SEP;
-	pstate.in_array = 0;
-
-	pstate.result = NULL;
-	pstate.error = error;
+	g_return_val_if_fail (state == NULL, NULL);
 
 	if (deallocate_stack == NULL)
 		deallocate_init ();
 
-	g_return_val_if_fail (state == NULL, NULL);
-
-	state = &pstate;
+	setup_state (&pstate, str, pp, flags, convs, error);
 	yyparse ();
 	state = NULL;
 
@@ -1585,4 +1594,58 @@ gnm_expr_parse_str (char const *str, GnmParsePos const *pp,
 	deallocate_uninit ();
 
 	return gnm_expr_top_new (expr);
+}
+
+GnmLexerItem *
+gnm_expr_lex_all (char const *str, GnmParsePos const *pp,
+		  GnmExprParseFlags flags,
+		  GnmConventions const *convs)
+{
+	GnmLexerItem *res = NULL;
+	int n = 0, alloc = 0;
+	ParserState pstate;
+	GnmParseError *error = NULL;
+
+	g_return_val_if_fail (str != NULL, NULL);
+	g_return_val_if_fail (pp != NULL, NULL);
+
+	if (deallocate_stack == NULL)
+		deallocate_init ();
+
+	setup_state (&pstate, str, pp, flags, convs, error);
+
+	while (1) {
+		int len;
+
+		if (alloc <= n) {
+			alloc = alloc * 2 + 20;
+			res = g_renew (GnmLexerItem, res, alloc);
+		}
+
+		res[n].start = pstate.ptr - pstate.start;
+		res[n].token = yylex ();
+		res[n].end = pstate.ptr - pstate.start;
+
+		if (res[n].token == 0)
+			break;
+
+		len = res[n].end - res[n].start;
+		/* Kill spaces that got eaten, but not a space operator */
+		while (len > 1 && str[res[n].start] == ' ') {
+			res[n].start++;
+			len--;
+		}
+		while (len > 1 && str[res[n].end - 1] == ' ') {
+			res[n].end--;
+			len--;
+		}
+
+		n++;
+	}
+
+	deallocate_all ();
+
+	state = NULL;
+
+	return res;
 }

@@ -735,17 +735,34 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args, gboolean had_stuff)
 }
 
 static void
+gee_dump_lexer (GnmLexerItem *gli) {
+	g_print ("************\n");
+	while (gli->token != 0) {
+		g_print ("%2d to %2d: %d\n", 
+			 gli->start, gli->end, gli->token);
+		gli++;
+	}
+	g_print ("************\n");
+	
+}
+
+#warning We should replace these token names with the correct values
+#define  TOKEN_UNMATCHED_APOSTROPHY 273
+#define  TOKEN_PARENTHESIS_OPEN 40
+#define  TOKEN_PARENTHESIS_CLOSED 41
+#define  TOKEN_BRACE_OPEN 123
+#define  TOKEN_BRACE_CLOSED 125
+#define  TOKEN_SEPARATOR 269
+#define  TOKEN_NAME 258
+
+static void
 gee_check_tooltip (GnmExprEntry *gee)
 {
 	GtkEditable *editable = GTK_EDITABLE (gee->entry);
-	gint  end;
+	gint  end, args = 0;
 	char *str;
-	char *prefix, *start;
-	char *str_end;
-	int   args = 0;
-	gchar sep = go_locale_get_arg_sep ();
-	gint  para = 0, stuff = 0;
-	char quote;
+	gboolean stuff = FALSE;
+	GnmLexerItem *gli, *gli_c;
 
 	if (!gee->tooltip.enabled || gee->is_cell_renderer ||
 	    (gee->flags & GNM_EE_SINGLE_RANGE) ||
@@ -760,83 +777,106 @@ gee_check_tooltip (GnmExprEntry *gee)
 	}
 
 	str = gtk_editable_get_chars (editable, 0, end);
-	prefix = str_end = str + strlen (str) - 1;
 
+	gli = gnm_expr_lex_all (str, &gee->pp,
+				GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
+				NULL);
+	if (gnm_debug_flag ("functooltip"))
+		gee_dump_lexer (gli);
 	/*
 	 * If we have an open string at the end of the entry, we
-	 * need to adjust "prefix" to be in front of that.
+	 * need to adjust
 	 */
-	start = str;
-	while (*start) {
-		if (*start == '"' || *start == '\'') {
-			GString *dummy = g_string_new (NULL);
-			const char *e = go_strunescape (dummy, start);
-			g_string_free (dummy, TRUE);
-			if (!e) {
-				/* We never saw the end of the string */
-				prefix = start;
-				if (prefix != str)
-					prefix--;
-				stuff = 1;
-				break;
-			}
-			start = (char *)e;
-		} else
-			start++;
+
+	for (gli_c = gli; gli->token != 0; gli++) {
+		if (gli->token != TOKEN_UNMATCHED_APOSTROPHY)
+			continue;
+		if (gli->start == 0)
+			goto not_found;
+		end = gli->start - 1;
+		gli->token = 0;
+		stuff = TRUE;
 	}
+	gli--;
 
-	while (str < prefix) {
-		if (*prefix == ')') {
-			para--;
-		} else if (*prefix == '(') {
-			para++;
-			if (para == 1) {
-				/* last opened and yet not closed ( */
-				*prefix='\0';
-
-				do {
-					prefix--;
-				} while (prefix >= str &&
-					 (g_ascii_isalnum (*prefix) ||
-					  *prefix == '.' ||
-					  *prefix == '_'));
-				prefix++;
-
-				if (*prefix != '\0') {
-					GnmFunc	*fd = gnm_func_lookup (prefix, NULL);
-					if (fd != NULL) {
-						gee_set_tooltip (gee, fd, args, !!stuff);
-						g_free (str);
-						return;
-					}
+	while (gli->start > 1) {
+		switch (gli->token) {
+		case TOKEN_PARENTHESIS_OPEN:
+			if ((gli - 1)->token == TOKEN_NAME) {
+				gint start_t = (gli - 1)->start;
+				gint end_t = (gli - 1)->end;
+				char *name = g_strndup (str + start_t, 
+							end_t - start_t);
+				GnmFunc	*fd = gnm_func_lookup (name, NULL);
+				g_free (name);
+				if (fd != NULL) {
+					gee_set_tooltip (gee, fd, args, stuff);
+					g_free (str);
+					g_free (gli_c);
+					return;
 				}
-				args = 0;
-				para--;
 			}
-			stuff++;
-		} else if (*prefix == sep && para == 0) {
-			stuff = 0;
-			args++;
-		} else if (*prefix != ' ')
-			stuff++;
-
-		if (*prefix == '\'' || *prefix == '"') {
-			quote = *prefix--;
-
-			while (*prefix != quote ||
-			       (prefix > str && prefix[-1] == '\\')) {
-				if (prefix == str)
-					goto not_found;
-				prefix--;
+			stuff = TRUE;
+			args = 0;
+			break;
+		case TOKEN_BRACE_OPEN:
+			stuff = (args == 0);
+			args = 0;
+			break;
+		case TOKEN_PARENTHESIS_CLOSED: {
+			gint para = 1;
+			gli--;
+			while (gli->start > 1 && para > 0) {
+				switch (gli->token) {
+				case TOKEN_PARENTHESIS_CLOSED:
+					para++;
+					break;
+				case TOKEN_PARENTHESIS_OPEN:
+					para--; 
+					break;
+				default:
+					break;
+				}
+				gli--;
 			}
-
-			if (prefix == str)
-				goto not_found;
+			gli++;
+			stuff = (args == 0);
+			break;
 		}
-		prefix--;
+		case TOKEN_BRACE_CLOSED: {
+			gint para = 1;
+			gli--;
+			while (gli->start > 1 && para > 0) {
+				switch (gli->token) {
+				case TOKEN_BRACE_CLOSED:
+					para++;
+					break;
+				case TOKEN_BRACE_OPEN:
+					para--; 
+					break;
+				default:
+					break;
+				}
+				gli--;
+			}
+			gli++;
+			stuff = (args == 0);
+			break;
+		}
+		case TOKEN_SEPARATOR:
+			args++;
+			break;
+		default:
+			stuff = (args == 0);
+			break;
+		}
+		if (gli->start > 1)
+			gli--;
 	}
+
  not_found:
 	g_free (str);
+	g_free (gli_c);
 	gee_delete_tooltip (gee);
 	return;
 }

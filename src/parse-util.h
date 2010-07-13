@@ -76,6 +76,11 @@ struct _GnmParseError {
 	int begin_char, end_char;
 };
 
+typedef struct {
+	gsize start, end;
+	int token;
+} GnmLexerItem;
+
 GnmParseError *parse_error_init (GnmParseError *pe);
 void        parse_error_free (GnmParseError *pe);
 
@@ -199,6 +204,11 @@ GnmExprTop const *gnm_expr_parse_str (char const *str, GnmParsePos const *pp,
 				      GnmExprParseFlags flags,
 				      GnmConventions const *convs,
 				      GnmParseError *error);
+
+GnmLexerItem *gnm_expr_lex_all (char const *str, GnmParsePos const *pp,
+				GnmExprParseFlags flags,
+				GnmConventions const *convs);
+
 
 /* Is this string potentially the start of an expression */
 char const *gnm_expr_char_start_p (char const *c);

@@ -28,6 +28,7 @@ Andreas:
 	* Add new function SORT. [#59144]
 	* Add menu item to wrap SORT around an existing range.
 	* Show the number of rows filtered by the auto filter. [#346002]
+	* Improve function tooltips. [#623322]
 
 Jean:
 	* Fix strong/weak cursor display. [#623241]

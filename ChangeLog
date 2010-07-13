@@ -1,3 +1,11 @@
+2010-07-13  Morten Welinder  <terra@gnome.org>
+
+	* src/parse-util.h (gnm_expr_lex_all): new
+	(GnmLexerItem): new type
+	* src/parser.y (setup_state): new (code from gnm_expr_parse_str)
+	(gnm_expr_lex_all): new
+	(gnm_expr_parse_str): use setup_state
+
 2010-07-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/cellspan.c (cell_calc_span): fixed crash introduced earlier. [#624274]
