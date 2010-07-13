@@ -32,16 +32,26 @@
 #include "cell.h"
 #include "sheet.h"
 #include "sheet-object-impl.h"
+#include "wbc-gtk.h"
 #include "workbook.h"
 #include "style-color.h"
 #include "sheet-control-gui.h"
 #include "../dialogs/dialogs.h"
+#include "wbc-gtk-impl.h"
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
+
+static gboolean
+cb_fcombo_count (GnmColRowIter const *iter, gint *count)
+{
+	if (iter->cri->visible)
+		(*count)++;
+	return FALSE;
+}
 
 static gboolean
 fcombo_activate (SheetObject *so, GtkTreeView *list, WBCGtk *wbcg,
@@ -93,9 +103,26 @@ fcombo_activate (SheetObject *so, GtkTreeView *list, WBCGtk *wbcg,
 		}
 
 		if (set_condition) {
+			gint count = 0;
+			char const *format;
+			char *text;
 			gnm_filter_set_condition (fcombo->filter, field_num,
 				cond, TRUE);
 			sheet_update (fcombo->filter->sheet);
+			colrow_foreach (&fcombo->filter->sheet->rows,
+					fcombo->filter->r.start.row + 1,
+					fcombo->filter->r.end.row,
+					(ColRowHandler) cb_fcombo_count,
+					&count);
+			format = ngettext ("%d row of %d match",
+					   "%d rows of %d match",
+					   count);
+			text = g_strdup_printf (format, count, 
+						fcombo->filter->r.end.row - 
+						fcombo->filter->r.start.row);
+			gtk_progress_bar_set_text 
+				(GTK_PROGRESS_BAR (wbcg->progress_bar), text);
+			g_free (text);
 		}
 	}
 	return TRUE;

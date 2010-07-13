@@ -1,3 +1,8 @@
+2010-07-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnm-filter-combo-view.c: show the number of filtered rows in
+	  the progress bar region
+
 2010-07-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* Makefile.am: install a self-consistent headers list.
