@@ -4010,7 +4010,7 @@ chart_write_AREAFORMAT (XLChartWriteState *s, GOStyle const *style, gboolean dis
 			break;
 		}
 
-		if (style->fill.auto_back && !disable_auto)
+		if (style->fill.auto_type && style->fill.auto_fore && style->fill.auto_back && !disable_auto)
 			flags |= 1;
 		if (style->fill.invert_if_negative)
 			flags |= 2;

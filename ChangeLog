@@ -1,5 +1,9 @@
 2010-07-13  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* src/graph.c (gnm_go_data_vector_load_len): fixed a regression. [#624263]
+
+2010-07-13  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* src/cell-draw.c (cell_calc_layout): fixed alignment in cells with rtl
 	text and rtl sheets. [see #623241]
 	* src/cellspan.c (cell_calc_span): ditto.
