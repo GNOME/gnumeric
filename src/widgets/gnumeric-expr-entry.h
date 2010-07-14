@@ -42,7 +42,7 @@ SheetControlGUI *gnm_expr_entry_get_scg	(GnmExprEntry *gee);
 GtkEntry *gnm_expr_entry_get_entry	(GnmExprEntry *gee);
 gboolean  gnm_expr_entry_get_rangesel	(GnmExprEntry const *gee,
 					 GnmRange *r, Sheet **sheet);
-void	  gnm_expr_entry_find_range	(GnmExprEntry *gee);
+gboolean  gnm_expr_entry_find_range	(GnmExprEntry *gee);
 void	  gnm_expr_entry_rangesel_stop	(GnmExprEntry *gee,
 					 gboolean clear_string);
 

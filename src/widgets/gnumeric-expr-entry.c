@@ -46,6 +46,38 @@
 #define UNICODE_CROSS_AND_SKULLBONES "\xe2\x98\xa0"
 #define UNICODE_ELLIPSIS "\xe2\x80\xa6"
 
+#warning We should replace these token names with the correct values
+   enum yytokentype {
+     STRING = 258,
+     QUOTED_STRING = 259,
+     CONSTANT = 260,
+     RANGEREF = 261,
+     tok_GTE = 262,
+     tok_LTE = 263,
+     tok_NE = 264,
+     tok_AND = 265,
+     tok_OR = 266,
+     tok_NOT = 267,
+     INTERSECT = 268,
+     ARG_SEP = 269,
+     ARRAY_COL_SEP = 270,
+     ARRAY_ROW_SEP = 271,
+     SHEET_SEP = 272,
+     INVALID_TOKEN = 273,
+     tok_RIGHT_EXP = 274,
+     tok_LEFT_EXP = 275,
+     tok_PLUS = 276,
+     tok_NEG = 277,
+     RANGE_INTERSECT = 278,
+     RANGE_SEP = 279
+   };
+#define  TOKEN_UNMATCHED_APOSTROPHY INVALID_TOKEN
+#define  TOKEN_PARENTHESIS_OPEN 40
+#define  TOKEN_PARENTHESIS_CLOSED 41
+#define  TOKEN_BRACE_OPEN 123
+#define  TOKEN_BRACE_CLOSED 125
+
+
 typedef struct {
 	GnmRangeRef ref;
 	int	    text_start;
@@ -141,21 +173,6 @@ static GnmConventions const *
 gee_convs (const GnmExprEntry *gee)
 {
 	return sheet_get_conventions (gee->sheet);
-}
-
-static gboolean
-split_char_p (unsigned char const *c)
-{
-	switch (*c) {
-	case ' ':
-	case '=':
-	case '(': case '<': case '>':
-	case '+': case '-': case '*': case '/':
-	case '^': case '&': case '%': case '!':
-		return TRUE;
-	default :
-		return *c == go_locale_get_arg_sep () || *c == go_locale_get_col_sep ();
-	}
 }
 
 static inline void
@@ -746,15 +763,6 @@ gee_dump_lexer (GnmLexerItem *gli) {
 	
 }
 
-#warning We should replace these token names with the correct values
-#define  TOKEN_UNMATCHED_APOSTROPHY 273
-#define  TOKEN_PARENTHESIS_OPEN 40
-#define  TOKEN_PARENTHESIS_CLOSED 41
-#define  TOKEN_BRACE_OPEN 123
-#define  TOKEN_BRACE_CLOSED 125
-#define  TOKEN_SEPARATOR 269
-#define  TOKEN_NAME 258
-
 static void
 gee_check_tooltip (GnmExprEntry *gee)
 {
@@ -802,7 +810,7 @@ gee_check_tooltip (GnmExprEntry *gee)
 	while (gli->start > 1) {
 		switch (gli->token) {
 		case TOKEN_PARENTHESIS_OPEN:
-			if ((gli - 1)->token == TOKEN_NAME) {
+			if ((gli - 1)->token == STRING) {
 				gint start_t = (gli - 1)->start;
 				gint end_t = (gli - 1)->end;
 				char *name = g_strndup (str + start_t, 
@@ -863,7 +871,7 @@ gee_check_tooltip (GnmExprEntry *gee)
 			stuff = (args == 0);
 			break;
 		}
-		case TOKEN_SEPARATOR:
+		case ARG_SEP:
 			args++;
 			break;
 		default:
@@ -1456,6 +1464,38 @@ gee_rangesel_update_text (GnmExprEntry *gee)
 	gee->ignore_changes = FALSE;
 }
 
+static void
+gee_find_lexer_token (GnmLexerItem *gli, guint token_pos, 
+		      GnmLexerItem **gli_before, GnmLexerItem **gli_after)
+{
+	*gli_before = *gli_after = NULL;
+	if (gli->token == 0)
+		return;
+	if (gli->start == token_pos) {
+		*gli_after = gli;
+		return;
+	}
+	while (gli->token != 0) {
+		if (gli->start < token_pos && token_pos < gli->end) {
+			*gli_before = *gli_after = gli;
+			return;
+		}
+		if (gli->start == token_pos) {
+			*gli_before = gli - 1;
+			*gli_after = gli;
+			return;
+		}
+		if (gli->end == token_pos) {
+			*gli_before = gli;
+			*gli_after = ((gli + 1)->token != 0) ? (gli + 1) : NULL;
+			return;
+		}
+		gli++;
+	}
+	*gli_before = gli - 1;
+	return;
+}
+
 /**
  * gnm_expr_entry_find_range
  * @gee:   a #GnmExprEntry
@@ -1463,97 +1503,192 @@ gee_rangesel_update_text (GnmExprEntry *gee)
  * Look at the current selection to see how much of it needs to be changed when
  * selecting a range.
  **/
-void
+gboolean
 gnm_expr_entry_find_range (GnmExprEntry *gee)
 {
 	gboolean  single, formula_only;
 	char const *text, *cursor, *tmp, *ptr;
+	char *rs_text;
 	GnmRangeRef  range;
 	Rangesel *rs;
-	int len;
+	int len, token_pos;
+	GnmLexerItem *gli, *gli_before, *gli_after;
 
-	g_return_if_fail (gee != NULL);
+	g_return_val_if_fail (gee != NULL, FALSE);
 
 	rs     = &gee->rangesel;
 	single = (gee->flags & GNM_EE_SINGLE_RANGE) != 0;
-	formula_only = (gee->flags & GNM_EE_FORMULA_ONLY) != 0;
 
-	text = gtk_entry_get_text (gee->entry);
 
 	rs->ref.a.sheet = rs->ref.b.sheet = NULL;
 	gee_force_abs_rel (gee);
 	rs->is_valid = FALSE;
+	rs->text_start = 0;
+	rs->text_end = 0;
+
+	text = gtk_entry_get_text (gee->entry);
 	if (text == NULL)
-		return;
+		return TRUE;
 
+	formula_only = (gee->flags & GNM_EE_FORMULA_ONLY) != 0;
 	if (formula_only && !gnm_expr_char_start_p (text))
-		return;
+		return FALSE;
 
-	len = strlen (text);
+	len = g_utf8_strlen (text, -1);
 
-	cursor = text + gtk_editable_get_position (GTK_EDITABLE (gee->entry));
+	if (single) {
+		rs->text_start = 0;
+		rs->text_end = len;
+		tmp = rangeref_parse (&range, text, &gee->pp, gee_convs (gee));
+		if (tmp != text) {
+			rs->is_valid = TRUE;
+			rs->ref = range;
+		}
+		return TRUE;
+	}
+
+	cursor = g_utf8_offset_to_pointer 
+		(text, gtk_editable_get_position (GTK_EDITABLE (gee->entry)));
 
 	ptr = gnm_expr_char_start_p (text);
 	if (ptr == NULL)
 		ptr = text;
 
-	while (ptr != NULL && *ptr && ptr <= cursor) {
-		tmp = rangeref_parse (&range, ptr, &gee->pp, gee_convs (gee));
-		if (tmp != ptr) {
-			if (tmp >= cursor) {
-				rs->is_valid = TRUE;
-				rs->ref = range;
-				if (single) {
-					rs->text_start = 0;
-					rs->text_end = len;
-				} else {
-					rs->text_start = ptr - text;
-					rs->text_end = tmp - text;
-				}
-				return;
-			}
-			ptr = tmp;
-		} else if (*ptr == '\'' || *ptr == '\"') {
-			char const quote = *ptr;
-			ptr = g_utf8_next_char (ptr);
-			for (; *ptr && *ptr != quote; ptr = g_utf8_next_char (ptr))
-				if (*ptr == '\\' && ptr[1])
-					ptr = g_utf8_next_char (ptr+1);
-			if (*ptr == quote)
-				ptr = g_utf8_next_char (ptr);
+	if (gnm_debug_flag ("rangeselection"))
+		g_print ("text: >%s< -- cursor: >%s<\n", text, cursor);
 
-		} else {
-			/* rangerefs cannot start in the middle of a sequence
-			 * of alphanumerics */
-			if (g_unichar_isalnum (g_utf8_get_char (ptr))) {
-				do {
-					ptr = g_utf8_next_char (ptr);
-				} while (ptr <= cursor && g_unichar_isalnum (g_utf8_get_char (ptr)));
-			} else
-				ptr = g_utf8_next_char (ptr);
-		}
+	gli = gnm_expr_lex_all (ptr, &gee->pp,
+				GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
+				NULL);
+	if (gnm_debug_flag ("rangeselection"))
+		gee_dump_lexer (gli);
+	token_pos = cursor - ptr;
+	
+	gee_find_lexer_token (gli, (guint)token_pos, &gli_before, &gli_after);
+
+	if (gnm_debug_flag ("rangeselection")) {
+		g_print ("before: %p -- after: %p\n", gli_before, gli_after);
+		if (gli_before)
+			g_print ("before token: %d\n", gli_before->token);
+		if (gli_after)
+			g_print ("after token: %d\n", gli_after->token);
 	}
 
-	if (single) {
-		rs->text_start = 0;
-		rs->text_end = len;
-	} else {
-		for (tmp = cursor; tmp > text; tmp = g_utf8_prev_char (tmp)) {
-			gunichar c = g_utf8_get_char (tmp);
-			if (!g_unichar_isalnum (c)) {
-				tmp = g_utf8_next_char (tmp);
+	if (gli_before == NULL && gli_after == NULL)
+		goto not_possible;
+			
+	if (gli_before == gli_after) {
+		if ((gli_after + 1)->token == TOKEN_PARENTHESIS_OPEN ||
+		    (gli_after + 1)->token == TOKEN_BRACE_OPEN)
+			goto not_possible;
+		if (gli < gli_before &&
+		    ((gli_before - 1)->token == TOKEN_PARENTHESIS_CLOSED ||
+		     (gli_before - 1)->token == TOKEN_BRACE_CLOSED))
+			goto not_possible;
+		rs->text_start = g_utf8_pointer_to_offset 
+			(text, ptr + gli_before->start);
+		rs->text_end   = g_utf8_pointer_to_offset 
+			(text, ptr + gli_before->end);
+	} else if (gli_before != NULL && gli_after != NULL) {
+		switch (gli_before->token) {
+		case STRING:
+		case QUOTED_STRING:
+		case CONSTANT:
+		case RANGEREF:
+		case INVALID_TOKEN:
+			if (gli_after->token == TOKEN_PARENTHESIS_OPEN ||
+			    gli_after->token == TOKEN_BRACE_OPEN)
+				goto not_possible;
+			rs->text_start = g_utf8_pointer_to_offset 
+				(text, ptr + gli_before->start);
+			rs->text_end   = g_utf8_pointer_to_offset 
+				(text, ptr + gli_before->end);
+			break;
+		default:
+			switch (gli_after->token) {
+			case STRING:
+			case QUOTED_STRING:
+			case CONSTANT:
+			case RANGEREF:
+			case INVALID_TOKEN:
+				rs->text_start = g_utf8_pointer_to_offset 
+					(text, ptr + gli_after->start);
+				rs->text_end   = g_utf8_pointer_to_offset 
+					(text, ptr + gli_after->end);
+				break;
+			default:
+				rs->text_start = g_utf8_pointer_to_offset 
+					(text, ptr + gli_before->end);
+				rs->text_end   = g_utf8_pointer_to_offset 
+					(text, ptr + gli_after->start);
 				break;
 			}
 		}
-
-		rs->text_start = ((cursor < tmp) ? cursor : tmp) - text;
-		for (tmp = cursor; tmp < (text + len); tmp = g_utf8_next_char (tmp)) {
-			gunichar c = g_utf8_get_char (tmp);
-			if (!g_unichar_isalnum (c))
-				break;
+	} else if (gli_before == NULL)
+		switch (gli_after->token) {
+		case STRING:
+		case QUOTED_STRING:
+		case CONSTANT:
+		case RANGEREF:
+		case INVALID_TOKEN:
+			if ((gli_after + 1)->token == TOKEN_PARENTHESIS_OPEN ||
+			    (gli_after + 1)->token == TOKEN_BRACE_OPEN)
+				goto not_possible;
+			rs->text_start = g_utf8_pointer_to_offset 
+				(text, ptr + gli_after->start);
+			rs->text_end   = g_utf8_pointer_to_offset 
+				(text, ptr + gli_after->end);
+			break;
+		default:
+			rs->text_end = rs->text_start = 
+				g_utf8_pointer_to_offset 
+				(text, ptr + gli_after->start);
+			break;
 		}
-		rs->text_end = ((cursor < (text+len)) ? tmp : cursor) - text;
+	else switch (gli_before->token) {
+		case STRING:
+		case QUOTED_STRING:
+		case CONSTANT:
+		case RANGEREF:
+		case INVALID_TOKEN:
+			if (gli < gli_before &&
+			    ((gli_before - 1)->token == TOKEN_PARENTHESIS_CLOSED ||
+			     (gli_before - 1)->token == TOKEN_BRACE_CLOSED))
+				goto not_possible;
+			rs->text_start = g_utf8_pointer_to_offset 
+				(text, ptr + gli_before->start);
+			rs->text_end   = g_utf8_pointer_to_offset 
+				(text, ptr + gli_before->end);
+			break;
+		case TOKEN_PARENTHESIS_CLOSED:
+		case TOKEN_BRACE_CLOSED:
+			goto not_possible;
+			break;
+		default:
+			rs->text_end = rs->text_start = 
+				g_utf8_pointer_to_offset 
+				(text, ptr + gli_before->start);
+			break;
+		}
+
+	if (gnm_debug_flag ("rangeselection"))
+		g_print ("characters from %d to %d\n", 
+			 rs->text_start, rs->text_end);
+
+	rs_text = gtk_editable_get_chars (GTK_EDITABLE (gee->entry),
+					  rs->text_start, rs->text_end);
+	tmp = rangeref_parse (&range, rs_text, &gee->pp, gee_convs (gee));
+	g_free (rs_text);
+	if (tmp != rs_text) {
+		rs->is_valid = TRUE;
+		rs->ref = range;
 	}
+	g_free (gli);
+	return TRUE;
+
+ not_possible:
+	g_free (gli);
+	return FALSE;
 }
 
 /**
@@ -2004,26 +2139,10 @@ gnm_expr_entry_get_rangesel (GnmExprEntry const *gee,
  * @gee:   a #GnmExprEntry
  *
  * Returns TRUE if a range selection is meaningful at current position.
- * eg it isn't at '=sum', or 'bob', but it is at '=sum('.
- *
- * NOTE:
- * Removed ')' and ':' from the set of characters where a range selection
- * may start. This is to fix bug report 54828:
- * "1) Start Gnumeric
- *  2) Navigate to cell C5
- *  3) Enter something like "=SUOM(A1:A10)"
- *  4) Try to move backwards with the left arrow key (which normally takes
- *     you backwards through the text you entered)
- *  for some reason you start navigating on the sheet with the
- *  rangesel cursor. I think it's sensible to start rangesel mode if we had
- * typed "=SUOM(", But in this case there is no reason at all to jump into
- * rangesel mode because the expression is closed/finished."
- * 2000-05-22 Jon Kåre Hellan <hellan@acm.org>
  **/
 gboolean
 gnm_expr_entry_can_rangesel (GnmExprEntry *gee)
 {
-	int cursor_pos;
 	char const *text;
 
 	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), FALSE);
@@ -2039,12 +2158,7 @@ gnm_expr_entry_can_rangesel (GnmExprEntry *gee)
 	    gnm_expr_char_start_p (text) == NULL)
 		return FALSE;
 
-	gnm_expr_entry_find_range (gee);
-	if (gee->rangesel.is_valid)
-		return TRUE;
-
-	cursor_pos = gtk_editable_get_position (GTK_EDITABLE (gee->entry));
-	return (cursor_pos <= 0) || split_char_p (text + cursor_pos - 1);
+	return (gnm_expr_entry_find_range (gee));
 }
 
 /**
