@@ -3,9 +3,9 @@
  * gnumeric-gconf.c:
  *
  * Author:
- *	Andreas J. Guelzow <aguelzow@taliesin.ca>
+ *	Andreas J. Guelzow <aguelzow@pyrshep.ca>
  *
- * (C) Copyright 2002-2005 Andreas J. Guelzow <aguelzow@taliesin.ca>
+ * (C) Copyright 2002-2005 Andreas J. Guelzow <aguelzow@pyrshep.ca>
  * (C) Copyright 2009 Morten Welinder <terra@gnome.org>
  *
  * Introduced the concept of "node" and implemented the win32 backend
@@ -1022,6 +1022,32 @@ GOConfNode *
 gnm_conf_get_core_file_save_def_overwrite_node (void)
 {
 	return get_node (watch_core_file_save_def_overwrite.key);
+}
+
+static struct cb_watch_string_list watch_core_file_save_extension_check_disabled = {
+	0, "core/file/save/extension-check-disabled",
+};
+
+GSList *
+gnm_conf_get_core_file_save_extension_check_disabled (void)
+{
+	if (!watch_core_file_save_extension_check_disabled.handler)
+		watch_string_list (&watch_core_file_save_extension_check_disabled);
+	return watch_core_file_save_extension_check_disabled.var;
+}
+
+void
+gnm_conf_set_core_file_save_extension_check_disabled (GSList *x)
+{
+	if (!watch_core_file_save_extension_check_disabled.handler)
+		watch_string_list (&watch_core_file_save_extension_check_disabled);
+	set_string_list (&watch_core_file_save_extension_check_disabled, x);
+}
+
+GOConfNode *
+gnm_conf_get_core_file_save_extension_check_disabled_node (void)
+{
+	return get_node (watch_core_file_save_extension_check_disabled.key);
 }
 
 static struct cb_watch_bool watch_core_file_save_single_sheet = {

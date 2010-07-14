@@ -867,6 +867,63 @@ pref_window_page_initializer (PrefState *state,
 /*                     File/XML Preferences Page                                           */
 /*******************************************************************************************/
 
+static void
+gnm_conf_set_core_file_save_extension_check_disabled_wrap (gboolean val)
+{
+	GSList *list = NULL;
+
+	if (val)
+		list = g_slist_prepend (NULL, (char *)"Gnumeric_stf:stf_assistant");
+	gnm_conf_set_core_file_save_extension_check_disabled (list);
+	g_slist_free (list);
+}
+static gboolean
+gnm_conf_get_core_file_save_extension_check_disabled_wrap (void)
+{
+	GSList *list = gnm_conf_get_core_file_save_extension_check_disabled ();
+	return (NULL != g_slist_find_custom (list, "Gnumeric_stf:stf_assistant", go_str_compare));
+}
+
+static void
+custom_pref_conf_to_widget_ecd (GOConfNode *node, G_GNUC_UNUSED char const *key,
+				GtkToggleButton *button)
+{
+	gboolean val_in_button = gtk_toggle_button_get_active (button);
+
+	/* We can't use the getter here since the main preferences */
+	/* may be notified after us */
+	GSList *list = go_conf_get_str_list (node, NULL);
+	gboolean val_in_conf 
+		= (NULL != g_slist_find_custom (list, "Gnumeric_stf:stf_assistant", go_str_compare));
+
+	if ((!val_in_button) != (!val_in_conf))
+		gtk_toggle_button_set_active (button, val_in_conf);
+}
+static void
+custom_pref_create_widget_ecd (GOConfNode *node, GtkWidget *table,
+			       gint row, gboolean_conf_setter_t setter,
+			       gboolean_conf_getter_t getter,
+			       char const *default_label)
+{
+	GtkWidget *item = gtk_check_button_new_with_label (default_label);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (item), getter ());
+
+	g_object_set_data (G_OBJECT (item), "getter", getter);
+	g_signal_connect (G_OBJECT (item), "toggled",
+			  G_CALLBACK (bool_pref_widget_to_conf),
+			  (gpointer) setter);
+	gtk_table_attach (GTK_TABLE (table), item,
+		0, 2, row, row + 1,
+		GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 5, 5);
+
+	connect_notification (node, (GOConfMonitorFunc)custom_pref_conf_to_widget_ecd,
+			      item, table);
+}
+
+
+
+
 static GtkWidget *
 pref_file_page_initializer (PrefState *state,
 			    G_GNUC_UNUSED gpointer data,
@@ -903,6 +960,11 @@ pref_file_page_initializer (PrefState *state,
 				 gnm_conf_set_plugin_latex_use_utf8,
 				 gnm_conf_get_plugin_latex_use_utf8,
 				 _("Use UTF-8 in LaTeX Export"));
+	custom_pref_create_widget_ecd ( gnm_conf_get_core_file_save_extension_check_disabled_node (),
+					page, row++,
+					gnm_conf_set_core_file_save_extension_check_disabled_wrap,
+					gnm_conf_get_core_file_save_extension_check_disabled_wrap,
+					_("Disable Extension Check for Configurable Text Exporter"));
 
 	gtk_widget_show_all (page);
 	return page;

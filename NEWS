@@ -30,6 +30,8 @@ Andreas:
 	* Show the number of rows filtered by the auto filter. [#346002]
 	* Improve function tooltips. [#623322]
 	* Improve expression entry range selection. [#80725][#624288][#624289]
+	* Add preference setting to disable the extension check for the 
+	  configurable text exporter. [#594151]
 
 Jean:
 	* Fix strong/weak cursor display. [#623241]

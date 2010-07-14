@@ -1,3 +1,12 @@
+2010-07-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* schemas/gnumeric-general.schemas.in 
+	(/schemas/apps/gnumeric/core/file/save/extension-check-disabled): new
+	* src/gnumeric-gconf.h: include above key
+	* src/gnumeric-gconf.c: ditto
+	* src/gui-file.c (extension_check_disabled): new
+	(gui_file_save_as): obey the extension-check-disabled preference
+
 2010-07-13  Morten Welinder  <terra@gnome.org>
 
 	* src/parse-util.h (gnm_expr_lex_all): new

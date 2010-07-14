@@ -372,6 +372,17 @@ they are also processed at that time. If `lag' is negative, then recalculation h
         </locale>
       </schema>
       <schema>
+        <key>/schemas/apps/gnumeric/core/file/save/extension-check-disabled</key>
+        <applyto>/apps/gnumeric/core/file/save/extension-check-disabled</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+	<list_type>string</list_type>
+        <locale name="C">
+        <short>List of file savers with disabled extension check.</short>
+        <long>This list contains the ids of the file savers for which the extension check is disabled.</long>
+        </locale>
+      </schema>
+      <schema>
         <key>/schemas/apps/gnumeric/core/sort/default/by-case</key>
         <applyto>/apps/gnumeric/core/sort/default/by-case</applyto>
         <owner>Gnumeric</owner>

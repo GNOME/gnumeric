@@ -89,6 +89,10 @@ GOConfNode *gnm_conf_get_core_file_save_def_overwrite_node (void);
 gboolean gnm_conf_get_core_file_save_def_overwrite (void);
 void gnm_conf_set_core_file_save_def_overwrite (gboolean);
 
+GOConfNode *gnm_conf_get_core_file_save_extension_check_disabled_node (void);
+GSList *gnm_conf_get_core_file_save_extension_check_disabled (void);
+void gnm_conf_set_core_file_save_extension_check_disabled (GSList *);
+
 GOConfNode *gnm_conf_get_core_file_save_single_sheet_node (void);
 gboolean gnm_conf_get_core_file_save_single_sheet (void);
 void gnm_conf_set_core_file_save_single_sheet (gboolean);

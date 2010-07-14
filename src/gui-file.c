@@ -1,11 +1,11 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * GUI-file.c:
  *
  * Authors:
  *    Jon K Hellan (hellan@acm.org)
  *    Zbigniew Chyla (cyba@gnome.pl)
- *    Andreas J. Guelzow (aguelzow@taliesin.ca)
+ *    Andreas J. Guelzow (aguelzow@pyrshep.ca)
  *
  * Port to Maemo:
  *	Eduardo Lima  (eduardo.lima@indt.org.br)
@@ -397,6 +397,15 @@ check_multiple_sheet_support_if_needed (GOFileSaver *fs,
 	return (ret_val);
 }
 
+static gboolean
+extension_check_disabled (GOFileSaver *fs)
+{
+	GSList *list = gnm_conf_get_core_file_save_extension_check_disabled ();
+	char const *id = go_file_saver_get_id (fs);
+
+	return (NULL != g_slist_find_custom (list, id, go_str_compare));
+}
+
 gboolean
 gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view)
 {
@@ -530,6 +539,7 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view)
 		if (!go_url_check_extension (uri,
 					     go_file_saver_get_extension (fs),
 					     &uri2) &&
+		    !extension_check_disabled (fs) &&
 		    !go_gtk_query_yes_no (GTK_WINDOW (fsel),
 					  TRUE,
 					  _("The given file extension does not match the"

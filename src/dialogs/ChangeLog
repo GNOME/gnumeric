@@ -1,3 +1,11 @@
+2010-07-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-preferences.c (custom_pref_conf_to_widget_ecd): new
+	(gnm_conf_set_core_file_save_extension_check_disabled_wrap): new
+	(gnm_conf_get_core_file_save_extension_check_disabled_wrap): new
+	(custom_pref_create_widget_ecd): new
+	(pref_file_page_initializer): add disable-extension-check check box
+	
 2010-07-09  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-fixed-page.c (calc_char_index): add missing
