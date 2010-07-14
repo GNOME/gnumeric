@@ -186,7 +186,11 @@ documentation for these:
        when you enter a formula and when you type in text.
 
        This means you can use now dates and times in expressions, like
-       this: ="10-Jan"+45.  
+       this: ="10-Jan"+45.  However, just because you can does not
+       mean you should!  If you send a spreadsheet like this to someone
+       else whose computer is set to a different locale, then there
+       is no guarantee that the string will be interpreted in the
+       same way.
 
        Autofill will also work on this.
 

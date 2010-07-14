@@ -377,7 +377,6 @@ Architecture Changes
 
     : tie the custom ui into action sensitivity pools
     : support array evaluation for =LARGE and friends
-    : TRIMEAN is a list function ?
     : ISREF is a list function ?
 
 11) Conditional formats
@@ -491,7 +490,7 @@ Architecture Changes
 	Data -> External -> Import _Text File...
     2.13) Separate guessing of csv/fixed from importer.         (DONE)
     2.14) Implement format guessing.
-    2.15) Put big "best guess" button on from page.
+    2.15) Put big "best guess" button on front page.
     2.16) Fix character set mess on paste                       (DONE)
     2.17) Tabs: handle optional expansion.
     2.18) Kill use of "importlines" and properly find the end.  (DONE)
@@ -818,12 +817,12 @@ Architecture Changes
     41.3) Docs
 	41.3.1) Generation of hhmap 				(DONE)
 	41.3.2) include hhmap with installer			(DONE)
-	41.3.3) Include chm/hhmap build in build process
-	41.3.4) Generate chm package during build
+	41.3.3) Include chm/hhmap build in build process	(DONE)
+	41.3.4) Generate chm package during build		(DONE)
     41.6) long pause between license and screen ?
     41.7) version dll.a the same way the .dll is handled
     41.8) Add MS Office processing instruction hooks for us
-    41.9) Increase stack size
+    41.9) Increase stack size					(DONE)
     41.10) Check registry/gconf wrapper
 
 autoformat
@@ -880,7 +879,7 @@ General Ideas
     - Sugar/OLPC UI & collab
     - Add 'send a frown/smile' button
     - 'fish eye' zoom to around selection
-    - treemap for heirarchical data
+    - treemap for hierarchical data
     - conditional / computed formats
 	: referenced styles (eg for time sheets)
 	: GnmColor computable to move the calculated aspect into the actual
