@@ -47,6 +47,7 @@ Morten:
 	* Fix date function docs issues.  [#623669]
 	* Fix gtk_show_uri problem affecting win32.  [#623605]
 	* Fix mistakes pointed out by sparse.
+	* Fix win32 versioning problem.  [#624171]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.7

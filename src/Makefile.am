@@ -439,7 +439,7 @@ gnumeric-paths.h: Makefile
 	) >$@
 
 if WITH_NATIVE_WIN32
-gnumeric_rc.o: gnumeric.rc
+gnumeric_rc.o: gnumeric.rc gnumeric-config.h
 	$(WINDRES) -DVERSION=$(VERSION) -DVERSION_NUMBER=`echo $(VERSION).0.0.0 | sed 's/\([0-9]*\)[^.]*\.*\([0-9]*\)[^.]*\.*\([0-9]*\)[^.]*\.*\([0-9]*\).*/\1,\2,\3,\4/'` --include-dir $(srcdir) -i $< -o $@
 install-exec-hook:
 else
