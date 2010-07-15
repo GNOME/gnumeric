@@ -16,6 +16,7 @@
             <child>
               <widget class="GtkScrolledWindow" id="scrolledwindow1">
                 <property name="width_request">160</property>
+                <property name="height_request">120</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="hscrollbar_policy">never</property>
@@ -161,7 +162,7 @@
                 <child>
                   <widget class="GtkLabel" id="label2">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">Protection</property>
+                    <property name="label" translatable="no">Protection</property>
                     <property name="justify">center</property>
                   </widget>
                   <packing>
@@ -195,10 +196,44 @@
                 <child>
                   <widget class="GtkLabel" id="label3">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">page 3</property>
+                    <property name="label" translatable="no">page 3</property>
                   </widget>
                   <packing>
                     <property name="position">2</property>
+                    <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkVBox" id="vbox-f-marker">
+                    <property name="visible">True</property>
+                    <child>
+                      <widget class="GtkCheckButton" 
+			      id="WorkbookView::show_function_cell_markers">
+                        <property name="label" translatable="yes">Show _Formula Cell Markers</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_underline">True</property>
+                        <property name="draw_indicator">True</property>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="position">3</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkLabel" id="label4">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="no">page 4</property>
+                  </widget>
+                  <packing>
+                    <property name="position">3</property>
                     <property name="tab_fill">False</property>
                     <property name="type">tab</property>
                   </packing>

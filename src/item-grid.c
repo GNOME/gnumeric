@@ -205,6 +205,36 @@ item_grid_update_bounds (GocItem *item)
 }
 
 static void
+draw_function_marker (GnmCell const *cell, cairo_t *cr, 
+		      double x, double y, double w, double h, int const dir)
+{
+	if (cell == NULL || !gnm_cell_has_expr (cell))
+		return;
+	
+	cairo_save (cr);
+	cairo_new_path (cr);
+	cairo_rectangle (cr, x, y, w+1, h+1);
+	cairo_clip (cr);
+	cairo_new_path (cr);
+	if (dir > 0) {
+		cairo_move_to (cr, x, y);
+		cairo_line_to (cr, x + 10., y);
+		cairo_arc (cr, x, y, 10., 0., M_PI / 2.);
+	} else {
+		cairo_move_to (cr, x + w, y);
+		cairo_line_to (cr, x + w, y + 10.);
+		cairo_arc (cr, x + w, y, 10., M_PI/2., M_PI);
+	}
+	cairo_close_path (cr);
+	cairo_set_source_rgb(cr, 0.0, 1.0, 0.0);
+	cairo_fill_preserve (cr);
+	cairo_set_source_rgb(cr, 0.3, 0.3, 0.3);
+	cairo_set_line_width (cr, 0.5);
+	cairo_stroke (cr);
+	cairo_restore (cr);				
+}
+
+static void
 item_grid_draw_merged_range (cairo_t *cr, ItemGrid *ig,
 			     int start_x, int start_y,
 			     GnmRange const *view, GnmRange const *range,
@@ -212,6 +242,8 @@ item_grid_draw_merged_range (cairo_t *cr, ItemGrid *ig,
 {
 	int l, r, t, b, last;
 	SheetView const *sv = scg_view (ig->scg);
+	WorkbookView *wbv = sv_wbv (sv);
+	gboolean show_function_cell_markers = wbv->show_function_cell_markers;
 	Sheet const *sheet  = sv->sheet;
 	GnmCell  const *cell   = sheet_cell_get (sheet, range->start.col, range->start.row);
 	int const dir = sheet->text_is_rtl ? -1 : 1;
@@ -283,12 +315,19 @@ item_grid_draw_merged_range (cairo_t *cr, ItemGrid *ig,
 		if (ri->needs_respan)
 			row_calc_spans ((ColRowInfo *)ri, cell->pos.row, sheet);
 
-		if (dir > 0)
+		if (dir > 0) {
+			if (show_function_cell_markers)
+				draw_function_marker (cell, cr, l, t, 
+						      r - l, b - t, dir);
 			cell_draw (cell, cr,
-				l, t, r - l, b - t, -1);
-		else
+				   l, t, r - l, b - t, -1);
+		} else {
+			if (show_function_cell_markers)
+				draw_function_marker (cell, cr, r, t, 
+						      l - r, b - t, dir);
 			cell_draw (cell, cr,
-				r, t, l - r, b - t, -1);
+				   r, t, l - r, b - t, -1);
+		}
 	}
 	if (dir > 0)
 		gnm_style_border_draw_diag (style, cr, l, t, r, b);
@@ -358,6 +397,9 @@ item_grid_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0,
 	ItemGrid *ig = ITEM_GRID (item);
 	ColRowInfo const *ri = NULL, *next_ri = NULL;
 	int const dir = sheet->text_is_rtl ? -1 : 1;
+	SheetView const *sv = scg_view (ig->scg);
+	WorkbookView *wbv = sv_wbv (sv);
+	gboolean show_function_cell_markers = wbv->show_function_cell_markers;
 
 	/* To ensure that far and near borders get drawn we pretend to draw +-2
 	 * pixels around the target area which would include the surrounding
@@ -628,6 +670,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 				ci->size_pixels, ri->size_pixels,
 				draw_selection);
 
+
 			/* Is this part of a span?
 			 * 1) There are cells allocated in the row
 			 *       (indicated by ri->spans != NULL)
@@ -642,11 +685,16 @@ plain_draw : /* a quick hack to deal with 142267 */
 				 * box.  Ignore blanks too.
 				 */
 				GnmCell const *cell = sheet_cell_get (sheet, col, row);
-				if (!gnm_cell_is_empty (cell) && cell != edit_cell)
+				if (!gnm_cell_is_empty (cell) && cell != edit_cell) {
+					if (show_function_cell_markers)
+						draw_function_marker (cell, cr, x, y, 
+								      ci->size_pixels,
+								      ri->size_pixels,
+								      dir);	
 					cell_draw (cell, cr,
 						   x, y, ci->size_pixels,
 						   ri->size_pixels, -1);
-
+				}
 			/* Only draw spaning cells after all the backgrounds
 			 * that we are going to draw have been drawn.  No need
 			 * to draw the edit cell, or blanks. */
@@ -695,9 +743,14 @@ plain_draw : /* a quick hack to deal with 142267 */
 						real_x -= offset;
 				}
 
+				if (show_function_cell_markers)
+					draw_function_marker (cell, cr, real_x, y, 
+							      tmp_width,
+							      ri->size_pixels, dir);	
 				cell_draw (cell, cr,
 					   real_x, y, tmp_width,
 					   ri->size_pixels, center_offset);
+
 			} else if (col != span->left)
 				sr.vertical [col] = NULL;
 

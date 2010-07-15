@@ -32,6 +32,7 @@ Andreas:
 	* Improve expression entry range selection. [#80725][#624288][#624289]
 	* Add preference setting to disable the extension check for the 
 	  configurable text exporter. [#594151]
+	* Add optional marker to indicate that a cell contains an expression. [#55124]
 
 Jean:
 	* Fix strong/weak cursor display. [#623241]

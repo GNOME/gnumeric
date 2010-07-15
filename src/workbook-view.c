@@ -1,4 +1,4 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * workbook-view.c: View functions for the workbook
  *
@@ -79,6 +79,7 @@ enum {
 	PROP_SHOW_HORIZONTAL_SCROLLBAR,
 	PROP_SHOW_VERTICAL_SCROLLBAR,
 	PROP_SHOW_NOTEBOOK_TABS,
+	PROP_SHOW_FUNCTION_CELL_MARKERS,
 	PROP_DO_AUTO_COMPLETION,
 	PROP_PROTECTED,
 	PROP_PREFERRED_WIDTH,
@@ -229,6 +230,8 @@ wb_view_set_attribute (WorkbookView *wbv, char const *name, char const *value)
 		g_object_set (obj, "show_vertical_scrollbar", res, NULL);
 	else if (!strcmp (tname , "show_notebook_tabs"))
 		g_object_set (obj, "show_notebook_tabs", res, NULL);
+	else if (!strcmp (tname , "show_function_cell_markers"))
+		g_object_set (obj, "show_function_cell_markers", res, NULL);
 	else if (!strcmp (tname , "do_auto_completion"))
 		g_object_set (obj, "do_auto_completion", res, NULL);
 	else if (!strcmp (tname , "is_protected"))
@@ -701,6 +704,11 @@ wb_view_set_property (GObject *object, guint property_id,
 	case PROP_SHOW_NOTEBOOK_TABS:
 		wbv->show_notebook_tabs = !!g_value_get_boolean (value);
 		break;
+	case PROP_SHOW_FUNCTION_CELL_MARKERS:
+		wbv->show_function_cell_markers = !!g_value_get_boolean (value);
+		if (wbv->current_sheet)
+			sheet_redraw_all (wbv->current_sheet, FALSE);
+		break;
 	case PROP_DO_AUTO_COMPLETION:
 		wbv->do_auto_completion = !!g_value_get_boolean (value);
 		break;
@@ -749,6 +757,9 @@ wb_view_get_property (GObject *object, guint property_id,
 		break;
 	case PROP_SHOW_NOTEBOOK_TABS:
 		g_value_set_boolean (value, wbv->show_notebook_tabs);
+		break;
+	case PROP_SHOW_FUNCTION_CELL_MARKERS:
+		g_value_set_boolean (value, wbv->show_function_cell_markers);
 		break;
 	case PROP_DO_AUTO_COMPLETION:
 		g_value_set_boolean (value, wbv->do_auto_completion);
@@ -918,6 +929,15 @@ workbook_view_class_init (GObjectClass *gobject_class)
 				       G_PARAM_READWRITE));
         g_object_class_install_property
 		(gobject_class,
+		 PROP_SHOW_FUNCTION_CELL_MARKERS,
+		 g_param_spec_boolean ("show-function-cell-markers",
+				       _("Show formula cell markers"),
+				       _("Mark each cell containing a formula"),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+        g_object_class_install_property
+		(gobject_class,
 		 PROP_DO_AUTO_COMPLETION,
 		 g_param_spec_boolean ("do-auto-completion",
 				       _("Do auto completion"),
@@ -976,6 +996,7 @@ workbook_view_new (Workbook *wb)
 	wbv->show_horizontal_scrollbar = TRUE;
 	wbv->show_vertical_scrollbar = TRUE;
 	wbv->show_notebook_tabs = TRUE;
+	wbv->show_function_cell_markers = FALSE;
 	wbv->do_auto_completion = gnm_conf_get_core_gui_editing_autocomplete ();
 	wbv->is_protected = FALSE;
 

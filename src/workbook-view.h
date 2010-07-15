@@ -21,6 +21,7 @@ struct _WorkbookView {
 	gboolean   show_horizontal_scrollbar;
 	gboolean   show_vertical_scrollbar;
 	gboolean   show_notebook_tabs;
+	gboolean   show_function_cell_markers;
 	gboolean   do_auto_completion;
 	gboolean   is_protected;
 
