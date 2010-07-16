@@ -60,7 +60,9 @@ static GnmFuncHelp const help_char[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("CP1252 (Windows-1252) is also known as the \"ANSI code page\", "
 					"but it is not an ANSI standard.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, "
-					"and contains all of its printable characters (but partially at different positions.)")},
+					"and contains all of its printable characters. It also contains all "
+					"of ISO-8859-15's printable characters (but partially at different "
+					"positions.)")},
 	{ GNM_FUNC_HELP_NOTE, F_("In CP1252 (Windows-1252), 129, 141, 143, 144, and 157 do not have matching characters.") },
 	{ GNM_FUNC_HELP_NOTE, F_("For @{x} from 1 to 255 except 129, 141, 143, 144, and 157 we have CODE(CHAR(@{x}))=@{x}.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
