@@ -868,7 +868,7 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_fourier[] = {
 	{ GNM_FUNC_HELP_NAME, F_("FOURIER:Fourier or inverse Fourier transform") },
 	{ GNM_FUNC_HELP_ARG, F_("Sequence:the data sequence to be transformed") },
-	{ GNM_FUNC_HELP_ARG, F_("Inverse:if false, the inverse Fourier transform is calculated. Defaults to false") },
+	{ GNM_FUNC_HELP_ARG, F_("Inverse:if true, the inverse Fourier transform is calculated. Defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This array function returns the Fourier or inverse Fourier transform of the given data sequence.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The output consists always of one column of complex numbers.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns #NUM!") },

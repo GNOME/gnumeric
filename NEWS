@@ -13,7 +13,7 @@ Andreas:
 	* Fix undo of object creation followed by duplication. [#623566]
 	* Avoid creating interacting auto filters. [#607086]
 	* Improve items of the cell context menu. [#74359]
-	* Fix date function docs issue.  [#623669]
+	* Fix various function docs issues.  [#623669][#624559]
 	* Improve the presentation of the examples in the function
 	  documentation. [#623455]
 	* Fix HDATE and friends. [#623764]
