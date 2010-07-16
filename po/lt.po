@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: gnumeric HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-14 01:14+0300\n"
-"PO-Revision-Date: 2010-07-14 01:13+0300\n"
+"PO-Revision-Date: 2010-07-16 15:03+0300\n"
 "Last-Translator: Tomas Kuliavas <tokul@users.sourceforge.net>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
@@ -1493,7 +1493,7 @@ msgstr ""
 
 #: ../plugins/plan-perfect/plugin.xml.in.h:1
 msgid "Imports Plan Perfect Formatted Documents"
-msgstr "Įmportuoja Plan Perfect formato dokumentus"
+msgstr "Importuoja Plan Perfect formato dokumentus"
 
 #: ../plugins/plan-perfect/plugin.xml.in.h:2
 msgid "Plan Perfect"
