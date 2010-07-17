@@ -1,3 +1,8 @@
+2010-07-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-function-select.c (cb_dialog_function_row_activated): new
+	(dialog_function_select_init): connect cb_dialog_function_row_activated
+	
 2010-07-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-workbook-attr.c (attr_dialog_init_cell_marker_page): new

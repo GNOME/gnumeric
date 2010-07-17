@@ -364,6 +364,15 @@ cb_dialog_function_select_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	return;
 }
 
+static void
+cb_dialog_function_row_activated (GtkTreeView *tree_view,
+				  GtkTreePath       *path,
+				  GtkTreeViewColumn *column,
+				  gpointer           user_data)
+{
+	cb_dialog_function_select_ok_clicked (NULL, user_data);
+}
+
 static gint
 dialog_function_select_by_name (gconstpointer _a, gconstpointer _b)
 {
@@ -1072,6 +1081,7 @@ dialog_function_select_init (FunctionSelectState *state)
 
 	g_object_set_data (G_OBJECT (state->dialog), FUNCTION_SELECT_DIALOG_KEY,
 			   state);
+	help_mode = (state->formula_guru_key == NULL);
 
 	/* Set-up combo box */
 	state->cb = GTK_COMBO_BOX 
@@ -1173,6 +1183,11 @@ dialog_function_select_init (FunctionSelectState *state)
 			  "activate",
 			  G_CALLBACK (dialog_function_select_search),
 			  state);
+	if (!help_mode)
+		g_signal_connect (G_OBJECT (state->treeview),
+				  "row-activated",
+				  G_CALLBACK (cb_dialog_function_row_activated),
+				  state);
 
 	gtk_paned_set_position (GTK_PANED (glade_xml_get_widget
 					   (state->gui, "vpaned1")), 300);
@@ -1211,8 +1226,6 @@ dialog_function_select_init (FunctionSelectState *state)
 		(G_OBJECT (state->dialog),
 		 "state", state, 
 		 (GDestroyNotify) cb_dialog_function_select_destroy);
-
-	help_mode = (state->formula_guru_key == NULL);
 
 	gtk_widget_set_visible (close_button, help_mode);
 	gtk_widget_set_visible (glade_xml_get_widget 
