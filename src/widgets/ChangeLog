@@ -1,3 +1,8 @@
+2010-07-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (gnm_expr_entry_find_range): permit
+	  range selection on an empty text.
+
 2010-07-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.h (gnm_expr_entry_find_range): return a 

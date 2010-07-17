@@ -754,11 +754,10 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args, gboolean had_stuff)
 static void
 gee_dump_lexer (GnmLexerItem *gli) {
 	g_print ("************\n");
-	while (gli->token != 0) {
+	do {
 		g_print ("%2d to %2d: %d\n", 
 			 gli->start, gli->end, gli->token);
-		gli++;
-	}
+	} while (gli++->token != 0);
 	g_print ("************\n");
 	
 }
@@ -1557,11 +1556,28 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 	if (gnm_debug_flag ("rangeselection"))
 		g_print ("text: >%s< -- cursor: >%s<\n", text, cursor);
 
+	if (ptr[0] == '\0') {
+		rs->text_end = rs->text_start = 
+			g_utf8_pointer_to_offset 
+			(text, ptr);
+		return TRUE;
+	}
+
 	gli = gnm_expr_lex_all (ptr, &gee->pp,
 				GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
 				NULL);
+
 	if (gnm_debug_flag ("rangeselection"))
 		gee_dump_lexer (gli);
+
+	if (gli->token == 0) {
+		rs->text_start = g_utf8_pointer_to_offset 
+			(text, ptr);
+		rs->text_end   = len;
+		g_free (gli);
+		return TRUE;		
+	}
+
 	token_pos = cursor - ptr;
 	
 	gee_find_lexer_token (gli, (guint)token_pos, &gli_before, &gli_after);
