@@ -1775,6 +1775,8 @@ enum {
 	CONTEXT_FORMAT_CELL,
 	CONTEXT_CELL_AUTOFIT_WIDTH,
 	CONTEXT_CELL_AUTOFIT_HEIGHT,
+	CONTEXT_CELL_MERGE,
+	CONTEXT_CELL_UNMERGE,
 	CONTEXT_COL_WIDTH,
 	CONTEXT_COL_HIDE,
 	CONTEXT_COL_UNHIDE,
@@ -1839,6 +1841,20 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 		workbook_cmd_autofit_selection 
 			(wbc, wb_control_cur_sheet (wbc), TRUE);
 		break;
+	case CONTEXT_CELL_MERGE : {
+		GSList *range_list = selection_get_ranges 
+			(wb_control_cur_sheet_view (wbc), FALSE);
+		cmd_merge_cells (wbc, wb_control_cur_sheet (wbc), range_list, FALSE);
+		range_fragment_free (range_list);
+	}
+		break;
+	case CONTEXT_CELL_UNMERGE : {
+		GSList *range_list = selection_get_ranges 
+			(wb_control_cur_sheet_view (wbc), FALSE);
+		cmd_unmerge_cells (wbc, wb_control_cur_sheet (wbc), range_list);
+		range_fragment_free (range_list);
+		
+	}
 		break;
 	case CONTEXT_COL_WIDTH :
 		dialog_col_width (wbcg, FALSE);
@@ -1941,7 +1957,9 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		CONTEXT_DISABLE_FOR_CELLS       = 1 << 3,
 		CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION = 1 << 4,
 		CONTEXT_DISABLE_FOR_ALL_COLS        = 1 << 5,
-		CONTEXT_DISABLE_FOR_ALL_ROWS        = 1 << 6
+		CONTEXT_DISABLE_FOR_ALL_ROWS        = 1 << 6,
+		CONTEXT_DISABLE_FOR_NOMERGES        = 1 << 7,
+		CONTEXT_DISABLE_FOR_ONLYMERGES        = 1 << 8
 	};
 
 	/* Note: keep the following two in sync!*/
@@ -2065,6 +2083,10 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		{ N_("_Format All Cells..."), GTK_STOCK_PROPERTIES,
 		    0, 0, CONTEXT_FORMAT_CELL },
 		{ N_("Cell"), NULL, 0, 0, -1},/* start sub menu */
+		{ N_("_Merge"), "Gnumeric_MergeCells",   0, 
+		  CONTEXT_DISABLE_FOR_ONLYMERGES, CONTEXT_CELL_MERGE },
+		{ N_("_Unmerge"), "Gnumeric_SplitCells",   0, 
+		  CONTEXT_DISABLE_FOR_NOMERGES, CONTEXT_CELL_UNMERGE },
 		{ N_("Auto Fit _Width"), "Gnumeric_ColumnSize",   0, 0, CONTEXT_CELL_AUTOFIT_WIDTH },
 		{ N_("Auto Fit _Height"), "Gnumeric_RowSize",   0, 0, CONTEXT_CELL_AUTOFIT_HEIGHT },
 		{ N_(""), NULL, 0, 0, -1},/* end sub menu */
@@ -2109,7 +2131,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 	GnmSheetSlicer *slicer;
 	GnmRange rge;
 	int n_sel = 0;
-	gboolean full_sheet = FALSE;
+	gboolean full_sheet = FALSE, only_merges = TRUE, no_merges = TRUE;
 
 	wbcg_edit_finish (scg->wbcg, WBC_EDIT_REJECT, NULL);
 
@@ -2119,13 +2141,25 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 	 */
 	for (l = scg_view (scg)->selections; l != NULL; l = l->next) {
 		GnmRange const *r = l->data;
-		GSList *objs;
+		GnmRange const *merge;
+		GSList *objs, *merges;
 		GnmStyleList *styles;
 		int h, w;
 		gboolean rfull_h = range_is_full (r, sheet, TRUE);
 		gboolean rfull_v = range_is_full (r, sheet, FALSE);
 
 		n_sel++;
+
+		if (!range_is_singleton (r)) {
+			merge = gnm_sheet_merge_is_corner (sheet, &(r->start));
+			if (NULL == merge || !range_equal (merge, r))
+				only_merges = FALSE;
+			merges = gnm_sheet_merge_get_overlap (sheet, r);
+			if (merges != NULL) {
+				no_merges = FALSE;
+				g_slist_free (merges);
+			}
+		}
 
 		if (rfull_v) {
 			display_filter |= CONTEXT_DISPLAY_FOR_COLS;
@@ -2161,6 +2195,12 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		n_comments += g_slist_length (objs);
 		g_slist_free (objs);
 	}
+
+	if (only_merges)
+		sensitivity_filter |= CONTEXT_DISABLE_FOR_ONLYMERGES;
+	if (no_merges)
+		sensitivity_filter |= CONTEXT_DISABLE_FOR_NOMERGES;
+	
 
 	if ((display_filter & CONTEXT_DISPLAY_FOR_COLS) && 
 	    (display_filter & CONTEXT_DISPLAY_FOR_ROWS))

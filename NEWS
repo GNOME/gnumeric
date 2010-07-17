@@ -33,6 +33,7 @@ Andreas:
 	* Add preference setting to disable the extension check for the 
 	  configurable text exporter. [#594151]
 	* Add optional marker to indicate that a cell contains an expression. [#55124]
+	* Add merge and unmerge items to the cell context menu.
 
 Jean:
 	* Fix strong/weak cursor display. [#623241]
