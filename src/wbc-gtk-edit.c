@@ -568,13 +568,13 @@ cb_entry_insert_text (GtkEditable *editable,
 }
 
 static GSList *
-attrs_at_byte (PangoAttrList *alist, guint bytepos)
+attrs_at_byte (PangoAttrList *alist, gint bytepos)
 {
 	PangoAttrIterator *iter = pango_attr_list_get_iterator (alist);
 	GSList *attrs = NULL;
 
 	do {
-		guint start, end;
+		gint start, end;
 		pango_attr_iterator_range (iter, &start, &end);
 		if (start <= bytepos && bytepos < end) {
 			attrs = pango_attr_iterator_get_attrs (iter);
@@ -608,7 +608,7 @@ set_cur_fmt (WBCGtk *wbcg, int target_pos_in_bytes)
 static void
 cb_entry_cursor_pos (WBCGtk *wbcg)
 {
-	guint start, end, target_pos_in_chars, target_pos_in_bytes;
+	gint start, end, target_pos_in_chars, target_pos_in_bytes;
 	GtkEditable *entry = GTK_EDITABLE (wbcg_get_entry (wbcg));
 	char const *str = gtk_entry_get_text (GTK_ENTRY (entry));
 	int edit_pos = gtk_editable_get_position (entry);

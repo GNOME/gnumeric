@@ -234,7 +234,8 @@ cb_icon_clicked (GtkButton *icon,
 		g_assert (GTK_IS_WINDOW (toplevel));
 
 		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (icon))) {
-			int n, width, height;
+			int width, height;
+			guint n;
 
 			/* roll-up request */
 
@@ -264,16 +265,16 @@ cb_icon_clicked (GtkButton *icon,
 					(G_OBJECT_GET_CLASS (old_entry_parent), &n);
 
 			if (container_props_pspec[0] != NULL) {
-				int i;
+				guint ui;
 
 				container_props = g_value_array_new (n);
 
-				for (i = 0; i < n; i++) {
+				for (ui = 0; ui < n; ui++) {
 					GValue value = { 0 };
-					g_value_init (&value, G_PARAM_SPEC_VALUE_TYPE (container_props_pspec[i]));
+					g_value_init (&value, G_PARAM_SPEC_VALUE_TYPE (container_props_pspec[ui]));
 
 					gtk_container_child_get_property (GTK_CONTAINER (old_entry_parent), GTK_WIDGET (entry),
-									  g_param_spec_get_name (container_props_pspec[i]),
+									  g_param_spec_get_name (container_props_pspec[ui]),
 									  &value);
 					g_value_array_append (container_props, &value);
 				}

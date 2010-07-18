@@ -1,10 +1,15 @@
+2010-07-18  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk-edit.c (attrs_at_byte): Fix signedness problem.
+	(cb_entry_cursor_pos): Ditto.
+
 2010-07-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/clipboard.c (clipboard_paste_region): allow single merge to single
 	  merge pasting
 	* src/commands.c (CmdPasteCopy): add field
 	(cmd_paste_copy): allow single merge to single merge pasting
-	
+
 2010-07-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-control-gui.c (context_menu_handler): handle merging and
@@ -22,10 +27,10 @@
 	(workbook_view_new): ditto
 	(wb_view_get_property): ditto
 	* src/workbook-view.h (_WorkbookView): new field
-	
+
 2010-07-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* schemas/gnumeric-general.schemas.in 
+	* schemas/gnumeric-general.schemas.in
 	(/schemas/apps/gnumeric/core/file/save/extension-check-disabled): new
 	* src/gnumeric-gconf.h: include above key
 	* src/gnumeric-gconf.c: ditto
@@ -135,7 +140,7 @@
 
 2010-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/GNOME_Gnumeric-gtk.xml.in: add and move hyperlink and 
+	* src/GNOME_Gnumeric-gtk.xml.in: add and move hyperlink and
 	  comment items
 	* src/HILDON_Gnumeric-gtk.xml.in: ditto
 	* component/Gnumeric-embed.xml.in: ditto
@@ -144,7 +149,7 @@
 	* src/wbc-gtk-actions.c (cb_edit_delete_links): new
 	(permanent_actions): new Modify submenu of the Edit menu
 	(actions): add and move hyperlink and comment actions
-	* src/wbc-gtk.c (wbcg_menu_state_update): handle hyperlink and comment 
+	* src/wbc-gtk.c (wbcg_menu_state_update): handle hyperlink and comment
 	  items
 	* src/workbook-control.h: new MS_* flags
 
@@ -217,14 +222,14 @@
 
 2010-07-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/sheet-control-gui.c (scg_drag_receive_same_process): one need to 
+	* src/sheet-control-gui.c (scg_drag_receive_same_process): one need to
 	  first duplicate the sheet before committing that change
 
 2010-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (cmd_objects_move): simplify
 	* src/sheet-control-gui.h (scg_objects_drag_commit): add arguments
-	* src/sheet-control-gui.c (scg_objects_drag_commit): add arguments 
+	* src/sheet-control-gui.c (scg_objects_drag_commit): add arguments
 	  to return GOUndo items and change all callers
 	(scg_objects_drag_commit_get_undo_text): new (code from
 	  scg_objects_drag_commit)
@@ -242,7 +247,7 @@
 2010-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-control-gui.c (scg_objects_drag_commit): simplify slightly
-	(scg_drag_receive_same_process): pass the correct argument to 
+	(scg_drag_receive_same_process): pass the correct argument to
 	  scg_objects_drag_commit
 	* src/sheet-object.c (sheet_object_set_sheet): don't complain if the object
 	  is already set to this sheet.
@@ -293,8 +298,8 @@
 
 	* schemas/gnumeric-dialogs.schemas.in: new preferences for
 	  search and replace dialog
-	* src/gnumeric-gconf.c: add the items generated from the above 
-	  changes 
+	* src/gnumeric-gconf.c: add the items generated from the above
+	  changes
 	* src/gnumeric-gconf.h: ditto
 
 2010-06-28  Morten Welinder <terra@gnome.org>
@@ -317,7 +322,7 @@
 
 2010-06-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/commands.c (CMD_AREA_SET_TEXT): deleted 
+	* src/commands.c (CMD_AREA_SET_TEXT): deleted
 	(cmd_area_set_text_*): deleted
 	(cmd_area_set_text): rewritten using GO_UNDO
 	* src/sheet.h (sheet_range_set_text_undo): new
@@ -354,12 +359,12 @@
 	* src/commands.c (cmd_cell_range_is_locked_effective): publish
 	(cmd_selection_is_locked_effective): publish
 	(cmd_area_set_array_expr): new
-	* src/wbc-gtk-edit.c (wbcg_edit_finish): check whether the range 
+	* src/wbc-gtk-edit.c (wbcg_edit_finish): check whether the range
 	  is locked; call cmd_area_set_array_expr when appropriate
 
 2010-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/wbc-gtk-edit.c (wbcg_edit_finish): don't hide a varaible by 
+	* src/wbc-gtk-edit.c (wbcg_edit_finish): don't hide a varaible by
 	  using the same name.
 
 2010-06-25  Morten Welinder  <terra@gnome.org>

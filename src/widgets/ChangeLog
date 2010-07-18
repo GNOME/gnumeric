@@ -1,3 +1,7 @@
+2010-07-18  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric-expr-entry.c (cb_icon_clicked): Fix signedness problem.
+
 2010-07-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_find_range): permit
@@ -5,16 +9,16 @@
 
 2010-07-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* gnumeric-expr-entry.h (gnm_expr_entry_find_range): return a 
+	* gnumeric-expr-entry.h (gnm_expr_entry_find_range): return a
 	  boolean indicating that a range selection would make sense
-	* gnumeric-expr-entry.c (gnm_expr_entry_find_range): return a 
+	* gnumeric-expr-entry.c (gnm_expr_entry_find_range): return a
 	  boolean indicating that a range selection would make sense
 	(yytokentype): use the token names from parser.c
 	(split_char_p): deleted
 	(gee_check_tooltip): change the token names
 	(gee_find_lexer_token): new
 	(gnm_expr_entry_find_range): rewrite using gnm_expr_lex_all
-	(gnm_expr_entry_can_rangesel): use the return value of 
+	(gnm_expr_entry_can_rangesel): use the return value of
 	  gnm_expr_entry_find_range
 
 2010-07-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
