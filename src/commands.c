@@ -2725,6 +2725,7 @@ typedef struct {
 	gboolean         has_been_through_cycle;
 	gboolean         only_objects;
 	ColRowStateList *saved_sizes;
+	gboolean single_merge_to_single_merge;
 } CmdPasteCopy;
 
 static void
@@ -2903,6 +2904,7 @@ cmd_paste_copy (WorkbookControl *wbc,
 	CmdPasteCopy *me;
 	int n_r = 1, n_c = 1;
 	char *range_name;
+	GnmRange const *merge_src;
 
 	g_return_val_if_fail (pt != NULL, TRUE);
 	g_return_val_if_fail (IS_SHEET (pt->sheet), TRUE);
@@ -2925,11 +2927,27 @@ cmd_paste_copy (WorkbookControl *wbc,
 	me->pasted_objects = NULL;
 	me->orig_contents_objects =
 		go_slist_map (cr->objects, (GOMapFunc)sheet_object_dup);
+	me->single_merge_to_single_merge = FALSE;
 
 	/* If the input is only objects ignore all this range stuff */
 	if (!me->only_objects) {
                 /* see if we need to do any tiling */
 		GnmRange *r = &me->dst.range;
+		if (g_slist_length (cr->merged) == 1 && 
+		    (NULL != (merge_src = cr->merged->data)) &&
+		    range_height (merge_src) == cr->rows &&
+		    range_width (merge_src) == cr->cols) {
+			/* We are copying from a single merge */
+			GnmRange const *merge = gnm_sheet_merge_is_corner (pt->sheet, &r->start);
+			if (merge != NULL && range_equal (r, merge)) {
+				/* To a single merge */
+				me->single_merge_to_single_merge = TRUE;
+				n_c = n_r = 1;
+				me->dst.paste_flags |= PASTE_DONT_MERGE;
+				goto copy_ready;
+			}
+		}
+
 		if (pt->paste_flags & PASTE_TRANSPOSE) {
 			n_c = range_width (r) / cr->rows;
 			if (n_c < 1) n_c = 1;
@@ -2997,6 +3015,7 @@ cmd_paste_copy (WorkbookControl *wbc,
 		}
 	}
 
+ copy_ready:
 	/* Use translate to do a quiet sanity check */
 	if (range_translate (&me->dst.range, pt->sheet, 0, 0)) {
 		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc),
@@ -3006,8 +3025,9 @@ cmd_paste_copy (WorkbookControl *wbc,
 		return TRUE;
 	}
 
-	/* no need to test if all we have are objects */
-	if ((!me->only_objects) &&
+	/* no need to test if all we have are objects or are copying from */
+	/*a single merge to a single merge*/
+	if ((!me->only_objects) && (!me->single_merge_to_single_merge)&& 
 	    sheet_range_splits_region (pt->sheet, &me->dst.range,
 				       NULL, GO_CMD_CONTEXT (wbc), me->cmd.cmd_descriptor)) {
 		g_object_unref (me);

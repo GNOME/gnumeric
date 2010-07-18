@@ -1,3 +1,10 @@
+2010-07-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/clipboard.c (clipboard_paste_region): allow single merge to single
+	  merge pasting
+	* src/commands.c (CmdPasteCopy): add field
+	(cmd_paste_copy): allow single merge to single merge pasting
+	
 2010-07-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-control-gui.c (context_menu_handler): handle merging and

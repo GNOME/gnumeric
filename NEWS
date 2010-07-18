@@ -37,6 +37,7 @@ Andreas:
 	  [#55124]
 	* Add merge and unmerge items to the cell context menu.
 	* Permit double-clicking of functions in the function selector.
+	* Allow single merge to single merge copying. [#87296]
 
 Jean:
 	* Fix strong/weak cursor display. [#623241]

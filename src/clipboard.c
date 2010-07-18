@@ -380,6 +380,7 @@ clipboard_paste_region (GnmCellRegion const *cr,
 	GnmRange const *r;
 	gboolean has_contents, adjust_merges = TRUE;
 	struct paste_cell_data dat;
+	GnmRange const *merge_src;
 
 	g_return_val_if_fail (pt != NULL, TRUE);
 	g_return_val_if_fail (cr != NULL, TRUE);
@@ -402,13 +403,21 @@ clipboard_paste_region (GnmCellRegion const *cr,
 	src_cols = cr->cols;
 	src_rows = cr->rows;
 
-	/* If the source is a single cell */
+	
+
+	/* If the source is a single cell or a single merge */
 	/* Treat a target of a single merge specially, don't split the merge */
-	if (src_cols == 1 && src_rows == 1) {
+	if ((src_cols == 1 && src_rows == 1) ||
+	    (g_slist_length (cr->merged) == 1 && 
+	     (NULL != (merge_src = cr->merged->data)) &&
+	     range_height (merge_src) == cr->rows &&
+	     range_width (merge_src) == cr->cols)) {
 		GnmRange const *merge = gnm_sheet_merge_is_corner (pt->sheet, &r->start);
 		if (merge != NULL && range_equal (r, merge)) {
 			dst_cols = dst_rows = 1;
 			adjust_merges = FALSE;
+			src_cols = 1;
+			src_rows = 1;
 		}
 	/* Apparently links do not supercede merges */
 	} else if (pt->paste_flags & PASTE_LINK)
