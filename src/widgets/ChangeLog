@@ -1,5 +1,13 @@
 2010-07-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gnumeric-expr-entry.c (gee_set_tooltip): We can have a tooltip without
+	  function descriptor
+	(gee_set_tooltip_completion): new
+	(gee_check_tooltip): if we are typing what might be a function name
+	  provide suggestions
+
+2010-07-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* gnumeric-expr-entry.c (gee_check_tooltip): fix the check for unclosed
 	  strings.
 	

@@ -37,14 +37,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef HAVE_G_SLICE_ALLOC
 #define g_slice_new_array0(T,c) ((T*) g_slice_alloc0 ((sizeof (T))*(c)))
 #define ALLOC_ARRAY(T,c) (g_slice_new_array0 (T,c))
 #define FREE_ARRAY(p,c) (g_slice_free1 (sizeof(*p)*(c),(p)))
-#else
-#define ALLOC_ARRAY(T,c) (g_new0 (T,c))
-#define FREE_ARRAY(p,c)  (g_free ((p)))
-#endif
 
 static char * pascal_string_from_c_string(const char *s){
 	char *o=NULL;

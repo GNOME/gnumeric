@@ -1,3 +1,17 @@
+2010-07-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* configure.in: checks for g_date_set_time_t and g_slice_alloc have
+	  been superceded by the glib 2.12 requirement; check for 
+	  g_hash_table_get_keys
+	* src/dependent.c: remove HAVE_G_SLICE_ALLOC throughout
+	* src/func.c (gnm_func_lookup_prefix): new
+	* src/func.h (gnm_func_lookup_prefix): new
+	* src/rendered-value.c: remove HAVE_G_SLICE_ALLOC throughout
+	* src/symbol.c (symbol_names): new
+	* src/symbol.h (symbol_names): new
+	* src/value.c: remove HAVE_G_SLICE_ALLOC throughout
+
+
 2010-07-18  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk-edit.c (attrs_at_byte): Fix signedness problem.

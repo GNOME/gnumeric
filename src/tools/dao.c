@@ -974,15 +974,8 @@ dao_append_date (GString *buf)
 	gchar     *tmp;
 	time_t    now;
 
-#ifdef HAVE_G_DATE_SET_TIME_T
 	now = time (NULL);
 	g_date_set_time_t (&date, now);
-#else
-	GTimeVal  t;
-	g_get_current_time (&t);
-	now = t.tv_sec;
-	g_date_set_time (&date, t.tv_sec);
-#endif
 	g_date_to_struct_tm (&date, &tm_s);
 	tm_s.tm_sec  = now % 60;
 	tm_s.tm_min  = (now / 60) % 60;

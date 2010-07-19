@@ -230,6 +230,7 @@ char const *gnm_func_get_name	     (GnmFunc const *fn_def);
 gpointer    gnm_func_get_user_data   (GnmFunc const *func);
 void        gnm_func_set_user_data   (GnmFunc *func, gpointer user_data);
 GnmFunc	   *gnm_func_lookup	     (char const *name, Workbook *scope);	/* change scope one day */
+GSList	   *gnm_func_lookup_prefix   (char const *prefix, Workbook *scope);
 GnmFunc    *gnm_func_add	     (GnmFuncGroup *group,
 				      GnmFuncDescriptor const *descriptor,
 				      const char *textdomain);

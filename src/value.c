@@ -34,11 +34,7 @@
 #include <string.h>
 
 #ifndef USE_VALUE_POOLS
-#ifdef HAVE_G_SLICE_ALLOC
 #define USE_VALUE_POOLS 0
-#else
-#define USE_VALUE_POOLS 1
-#endif
 #endif
 
 #if USE_VALUE_POOLS
@@ -51,13 +47,8 @@ static GOMemChunk *value_array_pool;
 #define CHUNK_FREE(p,v) go_mem_chunk_free ((p), (v))
 #else
 static int value_allocations = 0;
-#ifdef HAVE_G_SLICE_ALLOC
 #define CHUNK_ALLOC(T,c) (value_allocations++, g_slice_new (T))
 #define CHUNK_FREE(p,v) (value_allocations--, g_slice_free1 (sizeof(*v),(v)))
-#else
-#define CHUNK_ALLOC(T,c) (value_allocations++, g_new (T,1))
-#define CHUNK_FREE(p,v) (value_allocations--, g_free ((v)))
-#endif
 #endif
 
 

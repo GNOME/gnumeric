@@ -46,11 +46,7 @@
 #undef DEBUG_BOUNDING_BOX
 
 #ifndef USE_RV_POOLS
-#ifdef HAVE_G_SLICE_ALLOC
 #define USE_RV_POOLS 0
-#else
-#define USE_RV_POOLS 1
-#endif
 #endif
 
 #if USE_RV_POOLS
@@ -61,13 +57,8 @@ static GOMemChunk *rendered_rotated_value_pool;
 #define CHUNK_FREE(p,v) go_mem_chunk_free ((p), (v))
 #else
 static int rv_allocations;
-#ifdef HAVE_G_SLICE_ALLOC
 #define CHUNK_ALLOC(T,c) (rv_allocations++, g_slice_new (T))
 #define CHUNK_FREE(p,v) (rv_allocations--, g_slice_free1 (sizeof(*v),(v)))
-#else
-#define CHUNK_ALLOC(T,c) (rv_allocations++, g_new (T,1))
-#define CHUNK_FREE(p,v) (rv_allocations--, g_free ((v)))
-#endif
 #endif
 
 

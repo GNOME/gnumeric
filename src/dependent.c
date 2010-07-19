@@ -52,11 +52,7 @@ static void dependent_changed (GnmDependent *dep);
  */
 
 #ifndef USE_STRING_POOLS
-#ifdef HAVE_G_SLICE_ALLOC
 #define USE_POOLS 0
-#else
-#define USE_POOLS 1
-#endif
 #endif
 
 #if USE_POOLS
@@ -68,19 +64,11 @@ static GOMemChunk *cset_pool;
 #define NEW_FEW CHUNK_ALLOC (gpointer, micro_few_pool)
 #define FREE_FEW(p) CHUNK_FREE (micro_few_pool, p)
 #else
-#ifdef HAVE_G_SLICE_ALLOC
 #define CHUNK_ALLOC(T,c) g_slice_new (T)
 #define CHUNK_FREE(p,v) g_slice_free1 (sizeof(*v),(v))
 #define MICRO_HASH_FEW 4 /* Even and small. */
 #define NEW_FEW (gpointer *)g_slice_alloc (MICRO_HASH_FEW * sizeof (gpointer))
 #define FREE_FEW(p) g_slice_free1 (MICRO_HASH_FEW * sizeof (gpointer), p)
-#else
-#define CHUNK_ALLOC(T,c) g_new (T,1)
-#define CHUNK_FREE(p,v) g_free ((v))
-#define MICRO_HASH_FEW 3 /* Who cares?  */
-#define NEW_FEW g_new (gpointer, MICRO_HASH_FEW)
-#define FREE_FEW(p) CHUNK_FREE (micro_few_pool, p)
-#endif
 #endif
 
 /* ------------------------------------------------------------------------- */

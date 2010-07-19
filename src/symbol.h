@@ -26,6 +26,7 @@ void         symbol_table_destroy  (SymbolTable *st);
 Symbol      *symbol_lookup         (SymbolTable *st, char const *str);
 Symbol      *symbol_install        (SymbolTable *st, char const *str,
 				    SymbolType type, void *data);
+GSList      *symbol_names (SymbolTable *st, GSList *list, char const *prefix);
 
 void         symbol_ref            (Symbol *sym);
 void         symbol_unref          (Symbol *sym);

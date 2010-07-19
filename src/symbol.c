@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Symbol management for the Gnumeric spreadsheet
  *
@@ -29,6 +30,22 @@ symbol_lookup (SymbolTable *st, char const *str)
 	sym = (Symbol *) g_hash_table_lookup (st->hash, str);
 	return sym;
 }
+
+GSList *
+symbol_names (SymbolTable *st, GSList *list, char const *prefix)
+{
+#ifdef HAVE_G_HASH_TABLE_GET_KEYS
+	GList *l = g_hash_table_get_keys (st->hash), *lc;
+
+	for (lc = l; lc != NULL; lc = lc->next) {
+		if (g_str_has_prefix (lc->data, prefix))
+			list = g_slist_prepend (list, lc->data);
+	}
+	g_list_free (l);
+#endif
+	return list;
+}
+
 
 /**
  * symbol_install:

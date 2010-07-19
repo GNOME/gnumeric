@@ -963,6 +963,14 @@ gnm_func_lookup (char const *name, Workbook *scope)
 	return g_hash_table_lookup (scope->sheet_local_functions, (gpointer)name);
 }
 
+GSList *
+gnm_func_lookup_prefix   (char const *prefix, Workbook *scope)
+{
+	GSList *list = symbol_names (global_symbol_table, NULL, prefix);
+	
+	return list;
+}
+
 GnmFunc *
 gnm_func_add (GnmFuncGroup *fn_group,
 	      GnmFuncDescriptor const *desc,

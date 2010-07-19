@@ -1,3 +1,7 @@
+2010-07-19 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dao.c: delete HAVE_G_DATE_SET_TIME_T throughout 
+
 2010-07-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* Makefile.am: install a self-consistent headers list.

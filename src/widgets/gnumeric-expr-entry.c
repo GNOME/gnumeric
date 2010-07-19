@@ -45,6 +45,7 @@
 #define UNICODE_RIGHT_TRIANGLE "\xe2\x96\xb6"
 #define UNICODE_CROSS_AND_SKULLBONES "\xe2\x98\xa0"
 #define UNICODE_ELLIPSIS "\xe2\x80\xa6"
+#define UNICODE_ELLIPSIS_VERT "\xe2\x8b\xae"
 
 #warning We should replace these token names with the correct values
    enum yytokentype {
@@ -687,12 +688,11 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args, gboolean had_stuff)
 	gnm_func_load_if_stub (fd);
 	function_def_count_args (fd, &min, &max);
 
-	if (gee->tooltip.fd) {
-		if (gee->tooltip.fd == fd && gee->tooltip.args == args
-		    && gee->tooltip.had_stuff == (max == 0 && args == 0 && had_stuff))
+	if ((gee->tooltip.fd) 
+	    && (gee->tooltip.fd == fd && gee->tooltip.args == args
+		&& gee->tooltip.had_stuff == (max == 0 && args == 0 && had_stuff)))
 			return;
-		gee_delete_tooltip (gee);
-	}
+	gee_delete_tooltip (gee);
 
 	gee->tooltip.fd = fd;
 	gnm_func_ref (gee->tooltip.fd);
@@ -753,6 +753,32 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args, gboolean had_stuff)
 }
 
 static void
+gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list)
+{
+	GString *str;
+	guint i = 0;
+	guint max = 10;
+
+	gee_delete_tooltip (gee);
+
+	str = g_string_new (NULL);
+	while (list != NULL) {
+		g_string_append (str, list->data);
+		i++;
+		list = list->next;
+		if (list != NULL) {
+			g_string_append_c (str, '\n');
+			if (i == max) {
+				g_string_append (str, UNICODE_ELLIPSIS_VERT);
+				break;
+			}
+		}
+	}
+	gee->tooltip.tooltip = gee_create_tooltip (gee, str->str);
+	g_string_free (str, TRUE);
+}
+
+static void
 gee_dump_lexer (GnmLexerItem *gli) {
 	g_print ("************\n");
 	do {
@@ -806,6 +832,29 @@ gee_check_tooltip (GnmExprEntry *gee)
 		break;
 	}
 	gli--;
+
+	/* This creates the completion tooltip */
+	if (gli->start > 0 && gli->token == STRING) {
+		gint start_t = gli->start;
+		gint end_t = gli->end;
+		if (end_t - start_t > 1) {
+			char *prefix = g_strndup (str + start_t, 
+						  end_t - start_t);
+			GSList *list = gnm_func_lookup_prefix 
+				(prefix, gee->sheet->workbook);
+			g_free (prefix);
+			if (list != NULL) {
+				list = g_slist_sort 
+					(list, 
+					 (GCompareFunc)g_utf8_collate);
+				gee_set_tooltip_completion (gee, list);
+				g_slist_free (list);
+				g_free (str);
+				g_free (gli_c);
+				return;
+			}
+		}
+	}
 
 	while (gli->start > 1) {
 		switch (gli->token) {
