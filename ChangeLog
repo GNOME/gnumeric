@@ -5,6 +5,16 @@
 
 2010-07-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/commands.h (cmd_selection_format_toggle_font_style): new
+	* src/commands.c (cmd_selection_format_toggle_font_style): new
+	(cmd_selection_format_toggle_font_style_cb): new
+	(cmd_selection_format_toggle_font_style_filter): new
+	* src/sheet.c (sheet_apply_style_cb): call sheet_flag_style_update_range
+	* src/wbc-gtk-actions.c (toggle_font_attr): use 
+	  cmd_selection_format_toggle_font_style
+
+2010-07-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/clipboard.c (clipboard_paste_region): allow single merge to single
 	  merge pasting
 	* src/commands.c (CmdPasteCopy): add field

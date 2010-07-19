@@ -1536,6 +1536,7 @@ sheet_apply_style_cb (GnmSheetRange *sr,
 {
 	gnm_style_ref (style);
 	sheet_apply_style (sr->sheet, &sr->range, style);
+	sheet_flag_style_update_range (sr->sheet, &sr->range);
 }
 
 GOUndo *     

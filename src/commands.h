@@ -86,6 +86,8 @@ gboolean cmd_copyrel		(WorkbookControl *wbc,
 gboolean cmd_selection_format		(WorkbookControl *wbc,
 					 GnmStyle *style, GnmBorder **borders,
 					 char const *opt_translated_name);
+gboolean cmd_selection_format_toggle_font_style (WorkbookControl *wbc,
+						 GnmStyle *style, GnmStyleElement t);
 gboolean cmd_selection_clear		(WorkbookControl *wbc, int clear_flags);
 gboolean cmd_selection_colrow_hide	(WorkbookControl *wbc,
 					 gboolean is_cols, gboolean visible);

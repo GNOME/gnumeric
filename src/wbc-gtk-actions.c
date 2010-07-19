@@ -1457,7 +1457,7 @@ toggle_font_attr (WBCGtk *wbcg, GtkToggleAction *act,
 	case MSTYLE_FONT_SCRIPT:	gnm_style_set_font_script (new_style, val); break;
 	}
 
-	cmd_selection_format (wbc, new_style, NULL, _("Set Font Style"));
+	cmd_selection_format_toggle_font_style (wbc, new_style, t);
 }
 
 static void cb_font_bold (GtkToggleAction *act, WBCGtk *wbcg)

@@ -1832,6 +1832,116 @@ cmd_selection_format (WorkbookControl *wbc,
 
 /******************************************************************/
 
+static gboolean
+cmd_selection_format_toggle_font_style_filter (PangoAttribute *attribute, PangoAttrType *pt)
+{
+	return ((attribute->klass->type == *pt) || 
+		((PANGO_ATTR_RISE == *pt) && (attribute->klass->type == PANGO_ATTR_SCALE)));
+}
+
+typedef struct {
+	GOUndo *undo;
+	PangoAttrType pt;
+} csftfs;
+
+static GnmValue *
+cmd_selection_format_toggle_font_style_cb (GnmCellIter const *iter, csftfs *closure)
+{
+	if (iter->cell && iter->cell->value && VALUE_IS_STRING (iter->cell->value)) {
+		const GOFormat *fmt = VALUE_FMT (iter->cell->value);
+		if (fmt && go_format_is_markup (fmt)) {
+			const PangoAttrList *old_markup =
+				go_format_get_markup (fmt);
+			PangoAttrList *new_markup = pango_attr_list_copy ((PangoAttrList *)old_markup);
+			PangoAttrList *other = pango_attr_list_filter 
+				(new_markup,
+				 (PangoAttrFilterFunc) cmd_selection_format_toggle_font_style_filter,
+				 &closure->pt);
+			if (other != NULL) {
+				GnmSheetRange *sr;
+				GnmRange r;
+				range_init_cellpos (&r, &iter->pp.eval);
+				sr = gnm_sheet_range_new (iter->pp.sheet, &r);
+				closure->undo = go_undo_combine (closure->undo, 
+								 sheet_range_set_markup_undo (sr, new_markup));
+			}
+			pango_attr_list_unref (new_markup);
+			pango_attr_list_unref (other);
+		}
+	}
+	return NULL;
+}
+
+gboolean 
+cmd_selection_format_toggle_font_style (WorkbookControl *wbc,
+					GnmStyle *style, GnmStyleElement t)
+{
+	SheetView *sv = wb_control_cur_sheet_view (wbc);
+	Sheet *sheet = sv->sheet;
+	GSList	*selection = selection_get_ranges (sv, FALSE), *l;
+	gboolean result;
+	char *text, *name;
+	GOUndo *undo = NULL;
+	GOUndo *redo = NULL;
+	PangoAttrType pt;
+
+
+	switch (t) {
+	case MSTYLE_FONT_BOLD:
+		pt = PANGO_ATTR_WEIGHT;
+		break;
+	case MSTYLE_FONT_ITALIC:
+		pt = PANGO_ATTR_STYLE;
+		break;
+	case MSTYLE_FONT_UNDERLINE:
+		pt = PANGO_ATTR_UNDERLINE;
+		break;
+	case MSTYLE_FONT_STRIKETHROUGH:
+		pt = PANGO_ATTR_STRIKETHROUGH;
+		break;
+	case MSTYLE_FONT_SCRIPT:
+		pt = PANGO_ATTR_RISE; /* and PANGO_ATTR_SCALE (see  ) */
+		break;
+	default:
+		pt = PANGO_ATTR_INVALID;
+		break;
+	}
+	
+
+	name = undo_range_list_name (sheet, selection);
+	text = g_strdup_printf (_("Setting Font Style of %s"), name);
+	g_free (name);
+
+	for (l = selection; l != NULL; l = l->next) {
+		GnmSheetRange *sr;
+		undo = go_undo_combine 
+			(undo, clipboard_copy_range_undo (sheet, l->data));
+		sr = gnm_sheet_range_new (sheet, l->data);
+		redo = go_undo_combine 
+			(redo, sheet_apply_style_undo (sr, style));
+		if (pt != PANGO_ATTR_INVALID) {
+			csftfs closure;
+			closure.undo = NULL;
+			closure.pt = pt;
+			sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
+						     sr->range.start.col, sr->range.start.row,
+						     sr->range.end.col, sr->range.end.row,
+						     (CellIterFunc) cmd_selection_format_toggle_font_style_cb,
+						     &closure);
+			redo = go_undo_combine (redo, closure.undo);
+		}
+	}
+	gnm_style_unref (style);
+	result = cmd_generic (wbc, text, undo, redo);
+	g_free (text);
+	range_fragment_free (selection);
+
+	return result;
+}
+
+
+/******************************************************************/
+
 
 gboolean
 cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
