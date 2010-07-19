@@ -801,9 +801,9 @@ gee_check_tooltip (GnmExprEntry *gee)
 			continue;
 		if (gli->start == 0)
 			goto not_found;
-		end = gli->start - 1;
 		gli->token = 0;
 		stuff = TRUE;
+		break;
 	}
 	gli--;
 

@@ -55,7 +55,6 @@ Misc stuff that should be fixed
 - Missing undo/redo for
     - Freeze panes (tricky this is a view attribute)
     - `Add Scenario' Portion of Solver
-    - Workbook attr changes
  
 - cols/rows
     : Make unhide smarter to find hidden regions on either side of
@@ -128,16 +127,15 @@ Architecture Changes
 
 2) Font handling (move to GOFont)
 
-3) Function docs
-    4.1) Use multiple tagged paragraphs (DONE)
+3) Function docs                                                (DONE)
 
 4) AutoFilter [share functionality with slicers]
     4.19) Change value entries in expr dialog into combos
     4.4) 2nd value in expr dialog only if 1st is active
-    4.23) undo/redo for creation
+    4.23) undo/redo for creation                                (DONE)
     4.24) undo/redo for condition set change
     4.25) Undo redo support for ins/del col/row with filters
-    4.26) guess initial region if its a singleton
+    4.26) guess initial region if its a singleton               (DONE)
     4.27) combo contains start to end of continuous region
            not just the end of the selected region
     4.28) filter changes should dirty things
