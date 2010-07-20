@@ -1,5 +1,10 @@
 2010-07-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-define-names.c (name_guru_init): set the window title for the 
+	  paste dialog.
+
+2010-07-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-function-select.c (cb_dialog_function_row_activated): 
 	  consider the current mode
 	(dialog_function_select_init): connect cb_dialog_function_row_activated
@@ -14,7 +19,6 @@
 	* dialogs.h (dialog_function_select_help): new
 	(dialog_function_select_paste): new
 	* function-select.glade: add paste button
-
 
 2010-07-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

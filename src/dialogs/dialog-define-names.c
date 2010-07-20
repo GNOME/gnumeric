@@ -1267,9 +1267,11 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_name_guru_destroy);
 
-	if (is_paste_dialog)
+	if (is_paste_dialog) {
+		gtk_window_set_title (GTK_WINDOW (state->dialog),
+				      _("Paste Defined Names"));
 		gtk_widget_show_all (GTK_WIDGET (state->dialog));
-	else {
+	} else {
 		wbc_gtk_attach_guru (state->wbcg, state->dialog);
 		gtk_widget_show (GTK_WIDGET (state->dialog));
 	}
