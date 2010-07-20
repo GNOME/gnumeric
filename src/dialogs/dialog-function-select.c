@@ -1359,7 +1359,7 @@ dialog_function_select_help (WBCGtk *wbcg)
 }
 
 void
-dialog_function_select_paste (WBCGtk *wbcg)
+dialog_function_select_paste (WBCGtk *wbcg, gint from, gint to)
 {
 	dialog_function_select_full (wbcg, NULL, 
 				     FUNCTION_SELECT_PASTE_KEY, PASTE_MODE);

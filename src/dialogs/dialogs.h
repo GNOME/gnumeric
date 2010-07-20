@@ -74,7 +74,7 @@ void dialog_merge		 (WBCGtk *wbcg);
 
 void dialog_function_select	 (WBCGtk *wbcg, char const *key);
 void dialog_function_select_help	 (WBCGtk *wbcg);
-void dialog_function_select_paste	 (WBCGtk *wbcg);
+void dialog_function_select_paste	 (WBCGtk *wbcg, gint from, gint to);
 
 int dialog_correlation_tool	 (WBCGtk *wbcg, Sheet *sheet);
 int dialog_covariance_tool	 (WBCGtk *wbcg, Sheet *sheet);

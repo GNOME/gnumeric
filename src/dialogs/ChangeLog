@@ -1,5 +1,9 @@
 2010-07-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialogs.h (dialog_function_select_paste): add arguments
+	* dialog-function-select.c (dialog_function_select_paste): add arguments
+2010-07-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-define-names.c (name_guru_init): set the window title for the 
 	  paste dialog.
 

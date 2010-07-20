@@ -117,6 +117,7 @@ struct _GnmExprEntry {
 		gboolean         had_stuff;
 		guint            handlerid;
 		gboolean         enabled;
+		gboolean         completion_se_valid;
 		gchar           *completion;
 		guint            completion_start;
 		guint            completion_end;
@@ -623,9 +624,10 @@ gee_delete_tooltip (GnmExprEntry *gee, gboolean remove_completion)
 					     gee->tooltip.handlerid);
 		gee->tooltip.handlerid = 0;
 	}
-	if (remove_completion && gee->tooltip.completion != NULL) {
+	if (remove_completion) {
 		g_free (gee->tooltip.completion);
 		gee->tooltip.completion = NULL;
+		gee->tooltip.completion_se_valid = FALSE;
 	}
 }
 
@@ -786,9 +788,10 @@ gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list, guint start, guint 
 	if (i == 1) {
 		g_free (gee->tooltip.completion);
 		gee->tooltip.completion = g_strdup (list->data);
-		gee->tooltip.completion_start = start;
-		gee->tooltip.completion_end = end;
 	}
+	gee->tooltip.completion_start = start;
+	gee->tooltip.completion_end = end;
+	gee->tooltip.completion_se_valid = TRUE;
 	gee->tooltip.tooltip = gee_create_tooltip (gee, str->str);
 	g_string_free (str, TRUE);
 	g_slist_free (list);	
@@ -879,6 +882,10 @@ gee_check_tooltip (GnmExprEntry *gee)
 			g_free (str);
 			g_free (gli_c);
 			return;
+		} else {
+			gee->tooltip.completion_start = start_t;
+			gee->tooltip.completion_end = end_t;
+			gee->tooltip.completion_se_valid = TRUE;
 		}
 	}
 
@@ -1021,8 +1028,15 @@ cb_gee_key_press_event (GtkEntry	*entry,
 		gboolean c, r;
 
 		if (state == GDK_SHIFT_MASK) {
-			dialog_function_select_paste (gee->wbcg);
-			return;
+			if (gee->tooltip.completion_se_valid)
+				dialog_function_select_paste 
+					(gee->wbcg, 
+					 gee->tooltip.completion_start,
+					 gee->tooltip.completion_end);
+			else
+				dialog_function_select_paste 
+					(gee->wbcg, -1, -1);
+			return TRUE;
 		}
 		if (gee->tooltip.completion != NULL) {
 			guint start = gee->tooltip.completion_start;

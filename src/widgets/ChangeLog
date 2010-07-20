@@ -1,5 +1,16 @@
 2010-07-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gnumeric-expr-entry.c (_GnmExprEntry) add field
+	(gee_delete_tooltip): set the completion invalid even if the text is 
+	  NULL
+	(gee_set_tooltip_completion): set the completion range even if we don't
+	  know the text
+	(gee_check_tooltip): ditto
+	(cb_gee_key_press_event): pass range information to 
+	  dialog_function_select_paste and return a value.
+
+2010-07-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* gnumeric-expr-entry.c (cb_gee_key_press_event) call 
 	  dialog_function_select_paste on Sift-F4
 
