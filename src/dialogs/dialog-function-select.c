@@ -415,9 +415,18 @@ static void
 cb_dialog_function_row_activated (GtkTreeView *tree_view,
 				  GtkTreePath       *path,
 				  GtkTreeViewColumn *column,
-				  gpointer           user_data)
+				  FunctionSelectState *state)
 {
-	cb_dialog_function_select_ok_clicked (NULL, user_data);
+	switch (state->mode) {
+	case GURU_MODE:
+		cb_dialog_function_select_ok_clicked (NULL, state);
+		return;
+	case PASTE_MODE:
+		cb_dialog_function_select_paste_clicked (NULL, state);
+		return;
+	default:
+		return;
+	}
 }
 
 static gint
@@ -1229,7 +1238,7 @@ dialog_function_select_init (FunctionSelectState *state)
 			  "activate",
 			  G_CALLBACK (dialog_function_select_search),
 			  state);
-	if (state->mode == GURU_MODE)
+	if (state->mode != HELP_MODE)
 		g_signal_connect (G_OBJECT (state->treeview),
 				  "row-activated",
 				  G_CALLBACK (cb_dialog_function_row_activated),

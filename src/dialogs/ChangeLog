@@ -1,5 +1,12 @@
 2010-07-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-function-select.c (cb_dialog_function_row_activated): 
+	  consider the current mode
+	(dialog_function_select_init): connect cb_dialog_function_row_activated
+	  also in paste mode
+
+2010-07-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-function-select.c (FunctionSelectState): new fields
 	(cb_dialog_function_select_paste_clicked): new
 	(cb_dialog_function_row_activated): handle paste button
