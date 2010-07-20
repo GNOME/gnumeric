@@ -116,6 +116,9 @@ struct _GnmExprEntry {
 		gboolean         had_stuff;
 		guint            handlerid;
 		gboolean         enabled;
+		gchar           *completion;
+		guint            completion_start;
+		guint            completion_end;
 	}                        tooltip;
 
 	GOFormat const *constant_format;
@@ -603,7 +606,7 @@ gee_update_env (GnmExprEntry *gee)
 }
 
 static void
-gee_delete_tooltip (GnmExprEntry *gee)
+gee_delete_tooltip (GnmExprEntry *gee, gboolean remove_completion)
 {
 	if (gee->tooltip.tooltip) {
 		gtk_widget_destroy (gee->tooltip.tooltip);
@@ -619,13 +622,17 @@ gee_delete_tooltip (GnmExprEntry *gee)
 					     gee->tooltip.handlerid);
 		gee->tooltip.handlerid = 0;
 	}
+	if (remove_completion && gee->tooltip.completion != NULL) {
+		g_free (gee->tooltip.completion);
+		gee->tooltip.completion = NULL;
+	}
 }
 
 void
 gnm_expr_entry_close_tips  (GnmExprEntry *gee)
 {
 	if (gee != NULL)
-		gee_delete_tooltip (gee);
+		gee_delete_tooltip (gee, FALSE);
 }
 
 static gboolean
@@ -692,7 +699,7 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args, gboolean had_stuff)
 	    && (gee->tooltip.fd == fd && gee->tooltip.args == args
 		&& gee->tooltip.had_stuff == (max == 0 && args == 0 && had_stuff)))
 			return;
-	gee_delete_tooltip (gee);
+	gee_delete_tooltip (gee, TRUE);
 
 	gee->tooltip.fd = fd;
 	gnm_func_ref (gee->tooltip.fd);
@@ -753,20 +760,21 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args, gboolean had_stuff)
 }
 
 static void
-gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list)
+gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list, guint start, guint end)
 {
 	GString *str;
 	guint i = 0;
 	guint max = 10;
+	GSList *list_c = list;
 
-	gee_delete_tooltip (gee);
+	gee_delete_tooltip (gee, TRUE);
 
 	str = g_string_new (NULL);
-	while (list != NULL) {
-		g_string_append (str, list->data);
+	while (list_c != NULL) {
+		g_string_append (str, list_c->data);
 		i++;
-		list = list->next;
-		if (list != NULL) {
+		list_c = list_c->next;
+		if (list_c != NULL) {
 			g_string_append_c (str, '\n');
 			if (i == max) {
 				g_string_append (str, UNICODE_ELLIPSIS_VERT);
@@ -774,8 +782,15 @@ gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list)
 			}
 		}
 	}
+	if (i == 1) {
+		g_free (gee->tooltip.completion);
+		gee->tooltip.completion = g_strdup (list->data);
+		gee->tooltip.completion_start = start;
+		gee->tooltip.completion_end = end;
+	}
 	gee->tooltip.tooltip = gee_create_tooltip (gee, str->str);
 	g_string_free (str, TRUE);
+	g_slist_free (list);	
 }
 
 static void
@@ -794,6 +809,7 @@ gee_check_tooltip (GnmExprEntry *gee)
 {
 	GtkEditable *editable = GTK_EDITABLE (gee->entry);
 	gint  end, args = 0;
+	guint end_t;
 	char *str;
 	gboolean stuff = FALSE;
 	GnmLexerItem *gli, *gli_c;
@@ -806,23 +822,32 @@ gee_check_tooltip (GnmExprEntry *gee)
 	end = gtk_editable_get_position (editable);
 
 	if (end == 0) {
-		gee_delete_tooltip (gee);
+		gee_delete_tooltip (gee, TRUE);
 		return;
 	}
 
-	str = gtk_editable_get_chars (editable, 0, end);
+	/* We are not just looking at the text to the left of end */
+	/* since the lexer can make more sense out of everything with */
+	/* more info, especially for the completion. */
+	str = gtk_editable_get_chars (editable, 0, -1);
+	end_t = g_utf8_offset_to_pointer (str, end) - str;
 
-	gli = gnm_expr_lex_all (str, &gee->pp,
+	gli_c = gnm_expr_lex_all (str, &gee->pp,
 				GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
 				NULL);
 	if (gnm_debug_flag ("functooltip"))
-		gee_dump_lexer (gli);
+		gee_dump_lexer (gli_c);
+
 	/*
 	 * If we have an open string at the end of the entry, we
-	 * need to adjust
+	 * need to adjust.
 	 */
-
-	for (gli_c = gli; gli->token != 0; gli++) {
+	
+	for (gli = gli_c; gli->token != 0; gli++) {
+		if (gli->start >= end_t) {
+			gli->token = 0;
+			break;
+		}
 		if (gli->token != TOKEN_UNMATCHED_APOSTROPHY)
 			continue;
 		if (gli->start == 0)
@@ -831,30 +856,35 @@ gee_check_tooltip (GnmExprEntry *gee)
 		stuff = TRUE;
 		break;
 	}
-	gli--;
+	if (gli->start == end_t)
+		gli--;
 
 	/* This creates the completion tooltip */
-	if (gli->start > 0 && gli->token == STRING) {
-		gint start_t = gli->start;
-		gint end_t = gli->end;
-		if (end_t - start_t > 1) {
-			char *prefix = g_strndup (str + start_t, 
-						  end_t - start_t);
-			GSList *list = gnm_func_lookup_prefix 
-				(prefix, gee->sheet->workbook);
-			g_free (prefix);
-			if (list != NULL) {
-				list = g_slist_sort 
-					(list, 
-					 (GCompareFunc)g_utf8_collate);
-				gee_set_tooltip_completion (gee, list);
-				g_slist_free (list);
-				g_free (str);
-				g_free (gli_c);
-				return;
-			}
+	if (!stuff && gli->start > 0 && gli->token == STRING) {
+		guint start_t = gli->start;
+		char *prefix;
+		GSList *list;
+
+		end_t = gli->end;
+		prefix = g_strndup (str + start_t, end_t - start_t);
+		list = gnm_func_lookup_prefix 
+			(prefix, gee->sheet->workbook);
+		g_free (prefix);
+		if (list != NULL) {
+			list = g_slist_sort 
+				(list, 
+				 (GCompareFunc)g_utf8_collate);
+			gee_set_tooltip_completion (gee, list, start_t, end_t);
+			g_free (str);
+			g_free (gli_c);
+			return;
 		}
 	}
+
+	if (gnm_debug_flag ("functooltip"))
+		g_print ("last token consider is %d from %d to %d\n", 
+			 gli->token, gli->start, gli->end);
+	
 
 	while (gli->start > 1) {
 		switch (gli->token) {
@@ -934,7 +964,7 @@ gee_check_tooltip (GnmExprEntry *gee)
  not_found:
 	g_free (str);
 	g_free (gli_c);
-	gee_delete_tooltip (gee);
+	gee_delete_tooltip (gee, TRUE);
 	return;
 }
 
@@ -943,7 +973,7 @@ cb_gee_focus_out_event (GtkWidget         *widget,
 			GdkEventFocus *event,
 			gpointer           user_data)
 {
-	gee_delete_tooltip (user_data);
+	gee_delete_tooltip (user_data, FALSE);
 	return FALSE;
 }
 
@@ -979,7 +1009,8 @@ cb_gee_key_press_event (GtkEntry	*entry,
 			return FALSE;
 		/* Ignore these keys */
 		return TRUE;
-
+		/* GDK_F2 starts editing */
+		/* GDK_F3 opens the paste names dialog */
 	case GDK_F4: {
 		/* Cycle absolute reference mode through the sequence rel/rel,
 		 * abs/abs, rel/abs, abs/rel and back to rel/rel. Update text
@@ -987,6 +1018,22 @@ cb_gee_key_press_event (GtkEntry	*entry,
 		 */
 		Rangesel *rs = &gee->rangesel;
 		gboolean c, r;
+
+		if (gee->tooltip.completion != NULL) {
+			guint start = gee->tooltip.completion_start;
+			guint end = gee->tooltip.completion_end;
+			gint new_start = (gint) start;
+			GtkEditable *editable = GTK_EDITABLE (gee->entry);
+
+			gtk_editable_insert_text (editable,
+						  gee->tooltip.completion,
+						  strlen (gee->tooltip.completion),
+						  &new_start);
+			gtk_editable_delete_text (editable, new_start,
+						  end + new_start - start);
+			gtk_editable_set_position (editable, new_start);
+			return TRUE;
+		}
 
 		/* FIXME: since the range can't have changed we should just be able to */
 		/*        look it up rather than reparse */
@@ -1231,7 +1278,7 @@ gee_finalize (GObject *obj)
 	GnmExprEntry *gee = (GnmExprEntry *)obj;
 
 	go_format_unref (gee->constant_format);
-	gee_delete_tooltip (gee);
+	gee_delete_tooltip (gee, TRUE);
 
 	((GObjectClass *)parent_class)->finalize (obj);
 }
@@ -2030,7 +2077,7 @@ gnm_expr_entry_load_from_text (GnmExprEntry *gee, char const *txt)
 
 	gee_rangesel_reset (gee);
 	gtk_entry_set_text (gee->entry, txt);
-	gee_delete_tooltip (gee);
+	gee_delete_tooltip (gee, TRUE);
 }
 
 /**
@@ -2062,7 +2109,7 @@ gnm_expr_entry_load_from_dep (GnmExprEntry *gee, GnmDependent const *dep)
 		gee->rangesel.text_end = strlen (text);
 
 		g_free (text);
-		gee_delete_tooltip (gee);
+		gee_delete_tooltip (gee, TRUE);
 	} else
 		gnm_expr_entry_load_from_text (gee, "");
 }
@@ -2092,7 +2139,7 @@ gnm_expr_entry_load_from_expr (GnmExprEntry *gee,
 		gtk_entry_set_text (gee->entry, text);
 		gee->rangesel.text_end = strlen (text);
 		g_free (text);
-		gee_delete_tooltip (gee);
+		gee_delete_tooltip (gee, TRUE);
 	} else
 		gnm_expr_entry_load_from_text (gee, "");
 }
@@ -2500,7 +2547,7 @@ void
 gnm_expr_entry_disable_tips (GnmExprEntry *gee)
 {
 	g_return_if_fail (gee != NULL);
-	gee_delete_tooltip (gee);
+	gee_delete_tooltip (gee, TRUE);
 	gee->tooltip.enabled = FALSE;
 }
 

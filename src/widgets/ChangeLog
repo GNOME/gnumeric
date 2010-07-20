@@ -1,5 +1,14 @@
 2010-07-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gnumeric-expr-entry.c (_GnmExprEntry): add field
+	(gee_delete_tooltip): add argument and change all callers; remove
+	  completion info
+	(gee_set_tooltip_completion): add arguments and change all callers
+	(gee_check_tooltip): be a touch more careful when to show completions
+	(cb_gee_key_press_event): perform completion on F4
+
+2010-07-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* gnumeric-expr-entry.c (gee_set_tooltip): We can have a tooltip without
 	  function descriptor
 	(gee_set_tooltip_completion): new
