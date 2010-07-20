@@ -1,3 +1,8 @@
+2010-07-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (cb_gee_key_press_event) call 
+	  dialog_function_select_paste on Sift-F4
+
 2010-07-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (_GnmExprEntry): add field

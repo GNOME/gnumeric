@@ -1,5 +1,10 @@
 2010-07-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/wbc-gtk-actions.c (cb_help_function): use 
+	  dialog_function_select_help instead of dialog_function_select
+
+2010-07-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/wbc-gtk-edit.c (wbcg_edit_finish): check whether showed_dialog
 	  is NULL before using it
 

@@ -1,3 +1,14 @@
+2010-07-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-function-select.c (FunctionSelectState): new fields
+	(cb_dialog_function_select_paste_clicked): new
+	(cb_dialog_function_row_activated): handle paste button
+	(dialog_function_select_init): handle paste button
+	* dialogs.h (dialog_function_select_help): new
+	(dialog_function_select_paste): new
+	* function-select.glade: add paste button
+
+
 2010-07-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-function-select.c (cb_dialog_function_row_activated): new

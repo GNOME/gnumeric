@@ -34,6 +34,7 @@
 #include <gnm-datetime.h>
 #include <gnumeric-gconf.h>
 #include <dead-kittens.h>
+#include <dialogs/dialogs.h>
 #include <goffice/goffice.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -1019,6 +1020,10 @@ cb_gee_key_press_event (GtkEntry	*entry,
 		Rangesel *rs = &gee->rangesel;
 		gboolean c, r;
 
+		if (state == GDK_SHIFT_MASK) {
+			dialog_function_select_paste (gee->wbcg);
+			return;
+		}
 		if (gee->tooltip.completion != NULL) {
 			guint start = gee->tooltip.completion_start;
 			guint end = gee->tooltip.completion_end;

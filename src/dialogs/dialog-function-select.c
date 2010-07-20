@@ -52,7 +52,14 @@
 
 #define FUNCTION_SELECT_KEY "function-selector-dialog"
 #define FUNCTION_SELECT_HELP_KEY "function-selector-dialog-help-mode"
+#define FUNCTION_SELECT_PASTE_KEY "function-selector-dialog-paste-mode"
 #define FUNCTION_SELECT_DIALOG_KEY "function-selector-dialog"
+
+typedef enum {
+	GURU_MODE = 0,
+	HELP_MODE,
+	PASTE_MODE
+} mode_t;
 
 typedef struct {
 	WBCGtk  *wbcg;
@@ -62,6 +69,7 @@ typedef struct {
 	GladeXML  *gui;
 	GtkWidget *dialog;
 	GtkWidget *ok_button;
+	GtkWidget *paste_button;
 	GtkListStore  *model;
 	GtkComboBox   *cb;
 	GtkListStore  *model_functions;
@@ -72,6 +80,7 @@ typedef struct {
 
 	GSList *recent_funcs;
 
+	mode_t      mode;
 	char const *formula_guru_key;
 } FunctionSelectState;
 
@@ -358,6 +367,44 @@ cb_dialog_function_select_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 		gtk_widget_destroy (state->dialog);
 		dialog_formula_guru (wbcg, func);
 		return;
+	}
+
+	gtk_widget_destroy (state->dialog);
+	return;
+}
+
+/**
+ * cb_dialog_function_select_paste_clicked:
+ * @button:
+ * @state:
+ *
+ * Close (destroy) the dialog
+ **/
+static void
+cb_dialog_function_select_paste_clicked (G_GNUC_UNUSED GtkWidget *button,
+				      FunctionSelectState *state)
+{
+	GtkTreeIter  iter;
+	GtkTreeModel *model;
+	GnmFunc *func;
+	GtkTreeSelection *the_selection = gtk_tree_view_get_selection (state->treeview);
+
+	if (gtk_tree_selection_get_selected (the_selection, &model, &iter) &&
+	    wbcg_edit_start (state->wbcg, FALSE, FALSE)) {
+		GtkEditable *entry 
+			= GTK_EDITABLE (wbcg_get_entry (state->wbcg));
+		gint position;
+		gtk_tree_model_get (model, &iter,
+				    FUNCTION, &func,
+				    -1);
+		if (func != NULL) {
+			dialog_function_write_recent_func (state, func);
+			gtk_editable_delete_selection (entry);
+			position = gtk_editable_get_position (entry);
+			gtk_editable_insert_text 
+				(entry, func->name, -1, &position);
+			gtk_editable_set_position (entry, position);
+		}
 	}
 
 	gtk_widget_destroy (state->dialog);
@@ -917,6 +964,7 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *selection,
 	GnmFunc const *func;
 	GtkTextBuffer *description;
 	GtkTextMark *mark;
+	gboolean active = FALSE;
 
 	description =  gtk_text_view_get_buffer (state->description_view);
 
@@ -936,11 +984,11 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *selection,
 			gtk_text_buffer_set_text (description, "?", -1);
 		else
 			describe_new_style (description, func, state->sheet);
-
-		gtk_widget_set_sensitive (state->ok_button, TRUE);
-	} else {
-		gtk_widget_set_sensitive (state->ok_button, FALSE);
+		active = TRUE;
 	}
+	gtk_widget_set_sensitive (state->ok_button, active);
+	gtk_widget_set_sensitive (state->paste_button, active);
+	
 }
 
 /**********************************************************************/
@@ -1077,11 +1125,9 @@ dialog_function_select_init (FunctionSelectState *state)
 	GtkCellRenderer *cell;
 	GtkWidget *cancel_button;
 	GtkWidget *close_button;
-	gboolean help_mode;
 
 	g_object_set_data (G_OBJECT (state->dialog), FUNCTION_SELECT_DIALOG_KEY,
 			   state);
-	help_mode = (state->formula_guru_key == NULL);
 
 	/* Set-up combo box */
 	state->cb = GTK_COMBO_BOX 
@@ -1183,7 +1229,7 @@ dialog_function_select_init (FunctionSelectState *state)
 			  "activate",
 			  G_CALLBACK (dialog_function_select_search),
 			  state);
-	if (!help_mode)
+	if (state->mode == GURU_MODE)
 		g_signal_connect (G_OBJECT (state->treeview),
 				  "row-activated",
 				  G_CALLBACK (cb_dialog_function_row_activated),
@@ -1207,6 +1253,11 @@ dialog_function_select_init (FunctionSelectState *state)
 	g_signal_connect (G_OBJECT (state->ok_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_function_select_ok_clicked), state);
+	state->paste_button = glade_xml_get_widget (state->gui, "paste_button");
+	gtk_widget_set_sensitive (state->paste_button, FALSE);
+	g_signal_connect (G_OBJECT (state->paste_button),
+		"clicked",
+		G_CALLBACK (cb_dialog_function_select_paste_clicked), state);
 	cancel_button = glade_xml_get_widget (state->gui, "cancel_button");
 	g_signal_connect (G_OBJECT (cancel_button), "clicked",
 		G_CALLBACK (cb_dialog_function_select_cancel_clicked), state);
@@ -1226,34 +1277,41 @@ dialog_function_select_init (FunctionSelectState *state)
 		(G_OBJECT (state->dialog),
 		 "state", state, 
 		 (GDestroyNotify) cb_dialog_function_select_destroy);
-
-	gtk_widget_set_visible (close_button, help_mode);
+	
+	gtk_widget_set_visible (close_button, state->mode != GURU_MODE);
 	gtk_widget_set_visible (glade_xml_get_widget 
 				(state->gui, "help_button"), 
-				!help_mode);
-	gtk_widget_set_visible (cancel_button, !help_mode);
-	gtk_widget_set_visible (state->ok_button, !help_mode);
+				state->mode == GURU_MODE);
+	gtk_widget_set_visible (cancel_button, state->mode == GURU_MODE);
+	gtk_widget_set_visible (state->ok_button, state->mode == GURU_MODE);
+	gtk_widget_set_visible (state->paste_button, state->mode == PASTE_MODE);
 	gtk_widget_set_visible (glade_xml_get_widget 
 				(state->gui, "title_label"), 
-				!help_mode);
-	gtk_combo_box_set_active (state->cb, help_mode ? 2 : 0);
-	if (help_mode)
+				state->mode == GURU_MODE);
+	gtk_combo_box_set_active (state->cb, state->mode == HELP_MODE ? 2 : 0);
+	switch (state->mode) {
+	case GURU_MODE:
+		break;
+	case HELP_MODE:
 		gtk_window_set_title (GTK_WINDOW (state->dialog),
 				      _("Gnumeric Function Help Browser"));
+		break;
+	case PASTE_MODE:
+		gtk_window_set_title (GTK_WINDOW (state->dialog),
+				      _("Paste Function Name dialog"));
+		break;
+	}
 }
 
-void
-dialog_function_select (WBCGtk *wbcg, char const *key)
+static void
+dialog_function_select_full (WBCGtk *wbcg, char const *guru_key, char const *key, mode_t mode)
 {
 	FunctionSelectState* state;
 	GladeXML  *gui;
 
-	gchar const *our_key = key ? FUNCTION_SELECT_KEY 
-		: FUNCTION_SELECT_HELP_KEY;
-
 	g_return_if_fail (wbcg != NULL);
 
-	if (gnumeric_dialog_raise_if_exists (wbcg, our_key))
+	if (gnumeric_dialog_raise_if_exists (wbcg, key))
 		return;
 	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"function-select.glade", NULL, NULL);
@@ -1266,12 +1324,34 @@ dialog_function_select (WBCGtk *wbcg, char const *key)
 	state->wb    = state->sheet->workbook;
         state->gui   = gui;
         state->dialog = glade_xml_get_widget (state->gui, "selection_dialog");
-	state->formula_guru_key = key;
+	state->formula_guru_key = guru_key;
         state->recent_funcs = NULL;
+	state->mode  = mode;
 
 	dialog_function_select_init (state);
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
-			       our_key);
+			       key);
 
 	gtk_widget_show (state->dialog);
+}
+
+void
+dialog_function_select (WBCGtk *wbcg, char const *key)
+{
+	dialog_function_select_full (wbcg, key, 
+				     FUNCTION_SELECT_KEY, GURU_MODE);	
+}
+
+void
+dialog_function_select_help (WBCGtk *wbcg)
+{
+	dialog_function_select_full (wbcg, NULL, 
+				     FUNCTION_SELECT_HELP_KEY, HELP_MODE);
+}
+
+void
+dialog_function_select_paste (WBCGtk *wbcg)
+{
+	dialog_function_select_full (wbcg, NULL, 
+				     FUNCTION_SELECT_PASTE_KEY, PASTE_MODE);
 }

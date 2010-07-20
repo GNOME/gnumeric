@@ -1037,7 +1037,7 @@ static GNM_ACTION_DEF (cb_data_show_detail)	{ hide_show_detail (wbcg, TRUE); }
 static GNM_ACTION_DEF (cb_data_group)		{ group_ungroup_colrow (wbcg, TRUE); }
 static GNM_ACTION_DEF (cb_data_ungroup)		{ group_ungroup_colrow (wbcg, FALSE); }
 
-static GNM_ACTION_DEF (cb_help_function)	{ dialog_function_select (wbcg, NULL); }
+static GNM_ACTION_DEF (cb_help_function)	{ dialog_function_select_help (wbcg); }
 static GNM_ACTION_DEF (cb_help_docs)
 {
 	char   *argv[] = { NULL, NULL, NULL };
