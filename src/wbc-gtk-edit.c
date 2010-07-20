@@ -155,7 +155,8 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 			if (sheet_ranges_split_region (sheet, selection,
 						       GO_CMD_CONTEXT (wbc), _("Set Text"))) {
 				range_fragment_free (selection);
-				*showed_dialog = TRUE;
+				if (showed_dialog != NULL)
+					*showed_dialog = TRUE;
 				return FALSE;
 			}
 			break;
@@ -166,7 +167,8 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 			if (gnm_cell_is_nonsingleton_array (cell)) {
 				gnm_cmd_context_error_splits_array (GO_CMD_CONTEXT (wbc),
 								    _("Set Text"), NULL);
-				*showed_dialog = TRUE;
+				if (showed_dialog != NULL)
+					*showed_dialog = TRUE;
 				range_fragment_free (selection);
 				return FALSE;
 			}
@@ -187,7 +189,8 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 			if (cmd_selection_is_locked_effective (sheet, selection, wbc,
 							       _("Set Text"))) {
 				range_fragment_free (selection);
-				*showed_dialog = TRUE;
+				if (showed_dialog != NULL)
+					*showed_dialog = TRUE;
 				return FALSE;
 			}
 			break;
@@ -199,7 +202,8 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 			if (cmd_cell_range_is_locked_effective (sheet, &r, wbc,
 							       _("Set Text"))) {
 				range_fragment_free (selection);
-				*showed_dialog = TRUE;
+				if (showed_dialog != NULL)
+					*showed_dialog = TRUE;
 				return FALSE;
 			}
 			break;

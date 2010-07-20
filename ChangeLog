@@ -1,3 +1,8 @@
+2010-07-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/wbc-gtk-edit.c (wbcg_edit_finish): check whether showed_dialog
+	  is NULL before using it
+
 2010-07-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* configure.in: checks for g_date_set_time_t and g_slice_alloc have
