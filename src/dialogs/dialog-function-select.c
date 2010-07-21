@@ -80,6 +80,11 @@ typedef struct {
 
 	GSList *recent_funcs;
 
+	struct {
+		gint from;
+		gint to;
+	} paste;
+
 	mode_t      mode;
 	char const *formula_guru_key;
 } FunctionSelectState;
@@ -399,6 +404,10 @@ cb_dialog_function_select_paste_clicked (G_GNUC_UNUSED GtkWidget *button,
 				    -1);
 		if (func != NULL) {
 			dialog_function_write_recent_func (state, func);
+			if (state->paste.from >= 0)
+				gtk_editable_select_region 
+					(entry, state->paste.from,
+					 state->paste.to);
 			gtk_editable_delete_selection (entry);
 			position = gtk_editable_get_position (entry);
 			gtk_editable_insert_text 
@@ -1313,7 +1322,8 @@ dialog_function_select_init (FunctionSelectState *state)
 }
 
 static void
-dialog_function_select_full (WBCGtk *wbcg, char const *guru_key, char const *key, mode_t mode)
+dialog_function_select_full (WBCGtk *wbcg, char const *guru_key, 
+			     char const *key, mode_t mode, gint from, gint to)
 {
 	FunctionSelectState* state;
 	GladeXML  *gui;
@@ -1336,6 +1346,8 @@ dialog_function_select_full (WBCGtk *wbcg, char const *guru_key, char const *key
 	state->formula_guru_key = guru_key;
         state->recent_funcs = NULL;
 	state->mode  = mode;
+	state->paste.from = from;
+	state->paste.to = to;
 
 	dialog_function_select_init (state);
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
@@ -1348,19 +1360,19 @@ void
 dialog_function_select (WBCGtk *wbcg, char const *key)
 {
 	dialog_function_select_full (wbcg, key, 
-				     FUNCTION_SELECT_KEY, GURU_MODE);	
+				     FUNCTION_SELECT_KEY, GURU_MODE, -1, -1);	
 }
 
 void
 dialog_function_select_help (WBCGtk *wbcg)
 {
 	dialog_function_select_full (wbcg, NULL, 
-				     FUNCTION_SELECT_HELP_KEY, HELP_MODE);
+				     FUNCTION_SELECT_HELP_KEY, HELP_MODE, -1, -1);
 }
 
 void
 dialog_function_select_paste (WBCGtk *wbcg, gint from, gint to)
 {
 	dialog_function_select_full (wbcg, NULL, 
-				     FUNCTION_SELECT_PASTE_KEY, PASTE_MODE);
+				     FUNCTION_SELECT_PASTE_KEY, PASTE_MODE, from, to);
 }
