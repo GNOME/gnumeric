@@ -83,6 +83,7 @@ typedef struct {
 	struct {
 		gint from;
 		gint to;
+		char *prefix;
 	} paste;
 
 	mode_t      mode;
@@ -327,6 +328,7 @@ cb_dialog_function_select_destroy (FunctionSelectState  *state)
 	gtk_tree_model_foreach (GTK_TREE_MODEL (state->model_functions),
 				cb_unref,
 				NULL);
+	g_free (state->paste.prefix);
 	g_free (state);
 }
 
@@ -1221,6 +1223,10 @@ dialog_function_select_init (FunctionSelectState *state)
 
 	state->search_entry = glade_xml_get_widget (state->gui, 
 						    "search-entry");
+	if (state->paste.prefix != NULL)
+		gtk_entry_set_text (GTK_ENTRY (state->search_entry), 
+				    state->paste.prefix);
+	
 #ifdef HAVE_GTK_ENTRY_SET_ICON_FROM_STOCK
 
 	gtk_entry_set_icon_from_stock 
@@ -1295,6 +1301,10 @@ dialog_function_select_init (FunctionSelectState *state)
 		(G_OBJECT (state->dialog),
 		 "state", state, 
 		 (GDestroyNotify) cb_dialog_function_select_destroy);
+
+	if (state->paste.prefix != NULL)
+		dialog_function_select_search 
+			(GTK_ENTRY (state->search_entry), state);
 	
 	gtk_widget_set_visible (close_button, state->mode != GURU_MODE);
 	gtk_widget_set_visible (glade_xml_get_widget 
@@ -1349,6 +1359,15 @@ dialog_function_select_full (WBCGtk *wbcg, char const *guru_key,
 	state->paste.from = from;
 	state->paste.to = to;
 
+	if (mode == PASTE_MODE && state->paste.from >= 0) {
+		GtkEditable *entry 
+			= GTK_EDITABLE (wbcg_get_entry (state->wbcg));
+		state->paste.prefix = gtk_editable_get_chars
+			(entry, state->paste.from,
+			 state->paste.to);
+	} else
+		state->paste.prefix = NULL;
+
 	dialog_function_select_init (state);
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       key);
@@ -1367,12 +1386,14 @@ void
 dialog_function_select_help (WBCGtk *wbcg)
 {
 	dialog_function_select_full (wbcg, NULL, 
-				     FUNCTION_SELECT_HELP_KEY, HELP_MODE, -1, -1);
+				     FUNCTION_SELECT_HELP_KEY, HELP_MODE, 
+				     -1, -1);
 }
 
 void
 dialog_function_select_paste (WBCGtk *wbcg, gint from, gint to)
 {
 	dialog_function_select_full (wbcg, NULL, 
-				     FUNCTION_SELECT_PASTE_KEY, PASTE_MODE, from, to);
+				     FUNCTION_SELECT_PASTE_KEY, PASTE_MODE, 
+				     from, to);
 }

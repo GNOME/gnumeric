@@ -1,9 +1,15 @@
 2010-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-function-select.c (cb_dialog_function_select_paste_clicked): use the
-	  range passed if appropriate
-	(dialog_function_select_full): add arguments and save the passed range info,
-	  change all callers
+	* dialog-function-select.c (cb_dialog_function_select_destroy): handle
+	  new field of state
+	(dialog_function_select_init): load new field of state
+	
+2010-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-function-select.c (cb_dialog_function_select_paste_clicked): 
+	  use the range passed if appropriate
+	(dialog_function_select_full): add arguments and save the passed range
+	  info, change all callers
 	
 2010-07-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
