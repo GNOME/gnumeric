@@ -50,6 +50,7 @@ Jean:
 	* Fix a regression in chart series evaluation. [#624263]
 	* Fix crash in cell_calc_span. [#624274]
 	* Install a self-consistent headers list.
+	* Fixed borders display in cell format dialog.
 
 Morten:
 	* Ask user to locate solver binaries when plain search fails.

@@ -1,3 +1,10 @@
+2010-07-21  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* gnumeric-dashed-canvas-line.c
+	(gnumeric_dashed_canvas_line_update_bounds),
+	(gnumeric_dashed_canvas_line_class_init): fixed bounds so that the
+	borders are always fully displayed.
+
 2010-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (gee_create_tooltip): add argument

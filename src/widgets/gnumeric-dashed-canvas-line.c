@@ -13,6 +13,8 @@
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
 
+static GocItemClass *parent_class;
+
 static void gnumeric_dashed_canvas_line_draw (GocItem const *item,
 					      cairo_t *cr);
 
@@ -150,15 +152,27 @@ gnumeric_dashed_canvas_line_draw (GocItem const *item, cairo_t *cr)
 }
 
 static void
+gnumeric_dashed_canvas_line_update_bounds (GocItem *item)
+{
+	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
+	double saved_width = style->line.width;
+	style->line.width = 10.;	/* larger than any border */
+	parent_class->update_bounds (item);
+	style->line.width = saved_width;
+}
+
+static void
 gnumeric_dashed_canvas_line_class_init (GnumericDashedCanvasLineClass *klass)
 {
 	GocItemClass *item_class;
 
+	parent_class = g_type_class_peek_parent (klass);
 	gnumeric_dashed_canvas_line_class = klass;
 
 	item_class = (GocItemClass *) klass;
 
-	item_class->draw = &gnumeric_dashed_canvas_line_draw;
+	item_class->draw = gnumeric_dashed_canvas_line_draw;
+	item_class->update_bounds = gnumeric_dashed_canvas_line_update_bounds;
 }
 
 static void
