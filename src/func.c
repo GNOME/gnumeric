@@ -1163,6 +1163,34 @@ gnm_func_get_name (GnmFunc const *func)
 }
 
 /**
+ * gnm_func_get_description:
+ * @fn_def: the fn defintion
+ *
+ * Return value: the description of the function
+ *
+ **/
+char const*
+gnm_func_get_description (GnmFunc const *fn_def)
+{
+	gint i;
+	g_return_val_if_fail (fn_def != NULL, NULL);
+
+	gnm_func_load_if_stub ((GnmFunc *)fn_def);
+
+	if (fn_def->help != NULL)
+		for (i = 0;
+		     fn_def->help[i].type != GNM_FUNC_HELP_END;
+		     i++) {
+			if (fn_def->help[i].type == GNM_FUNC_HELP_NAME) {
+				gchar const *desc;
+				desc = strchr (_(fn_def->help[i].text), ':');
+				return desc ? (desc + 1) : "";
+			}
+		}
+	return "";
+}
+
+/**
  * function_def_count_args:
  * @func: pointer to function definition
  * @min: pointer to min. args

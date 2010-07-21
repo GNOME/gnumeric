@@ -47,6 +47,7 @@
 #define UNICODE_CROSS_AND_SKULLBONES "\xe2\x98\xa0"
 #define UNICODE_ELLIPSIS "\xe2\x80\xa6"
 #define UNICODE_ELLIPSIS_VERT "\xe2\x8b\xae"
+#define UNICODE_ARROW_UP "\xe2\x87\xa7"
 
 #warning We should replace these token names with the correct values
    enum yytokentype {
@@ -644,13 +645,15 @@ cb_gee_focus_out_event (GtkWidget         *widget,
 			gpointer           user_data);
 
 static GtkWidget *
-gee_create_tooltip (GnmExprEntry *gee, gchar const *str)
+gee_create_tooltip (GnmExprEntry *gee, gchar const *str, 
+		    gchar const *marked_str)
 {
 	GtkWidget *toplevel, *label, *tip;
 	gint root_x = 0, root_y = 0;
 	GtkAllocation allocation;
 	GdkWindow *gdkw;
-	gchar *markup = gnm_func_convert_markup_to_pango (str);
+	gchar *markup = NULL;
+	GString *string;
 
 	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (gee->entry));
 	gtk_widget_add_events(toplevel, GDK_FOCUS_CHANGE_MASK);
@@ -662,8 +665,14 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str)
 	label = gnumeric_create_tooltip (toplevel);
 	tip = gtk_widget_get_toplevel (label);
 
-	gtk_label_set_markup (GTK_LABEL (label), markup);
+	if (str) 
+		markup = gnm_func_convert_markup_to_pango (str);
+	string = g_string_new (markup);
+	if (marked_str)
+		g_string_append (string, marked_str);
+	gtk_label_set_markup (GTK_LABEL (label), string->str);
 	g_free (markup);
+	g_string_free (string, TRUE);
 
 	gdkw = gtk_widget_get_window (GTK_WIDGET (gee->entry));
 	gdk_window_get_origin (gdkw, &root_x, &root_y);
@@ -755,7 +764,7 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args, gboolean had_stuff)
 		g_free (extra);
 	}
 
-	gee->tooltip.tooltip = gee_create_tooltip (gee, str->str);
+	gee->tooltip.tooltip = gee_create_tooltip (gee, str->str, NULL);
 	gee->tooltip.args = args;
 	gee->tooltip.had_stuff = (max == 0 && args == 0 && had_stuff);
 
@@ -766,6 +775,7 @@ static void
 gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list, guint start, guint end)
 {
 	GString *str;
+	GString *str_marked;
 	guint i = 0;
 	guint max = 10;
 	GSList *list_c = list;
@@ -773,28 +783,35 @@ gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list, guint start, guint 
 	gee_delete_tooltip (gee, TRUE);
 
 	str = g_string_new (NULL);
-	while (list_c != NULL) {
-		g_string_append (str, list_c->data);
-		i++;
-		list_c = list_c->next;
-		if (list_c != NULL) {
-			g_string_append_c (str, '\n');
-			if (i == max) {
-				g_string_append (str, UNICODE_ELLIPSIS_VERT);
-				break;
-			}
-		}
+	for (; list_c != NULL && i < max; list_c = list_c->next, i++) {
+		GnmFunc *fd = list_c->data;
+		/* xgettext: the first %s is a function name and */
+		/* the second %s the function description */
+		g_string_append_printf (str, _("%s : %s\n"), 
+					gnm_func_get_name (fd), 
+					gnm_func_get_description (fd));
 	}
+
+	str_marked = g_string_new (NULL);
+	if (i == max)
+		g_string_append (str_marked, UNICODE_ELLIPSIS_VERT "\n");
 	if (i == 1) {
 		g_free (gee->tooltip.completion);
-		gee->tooltip.completion = g_strdup (list->data);
-	}
+		gee->tooltip.completion 
+			= g_strdup (gnm_func_get_name (list->data));
+		/*xgettext: short form for: "type F4-key to complete the name"*/
+		g_string_append (str_marked, _("\n<i>F4 to complete</i>"));
+	} else 
+		/*xgettext: short form for: "type shift-F4-keys to select the completion"*/
+		g_string_append (str_marked, _("\n<i>" UNICODE_ARROW_UP "F4 to select</i>"));
 	gee->tooltip.completion_start = start;
 	gee->tooltip.completion_end = end;
 	gee->tooltip.completion_se_valid = TRUE;
-	gee->tooltip.tooltip = gee_create_tooltip (gee, str->str);
+	gee->tooltip.tooltip = gee_create_tooltip 
+		(gee, str->str, str_marked->str);
 	g_string_free (str, TRUE);
-	g_slist_free (list);	
+	g_string_free (str_marked, TRUE);
+	go_slist_free_custom (list, (GFreeFunc) gnm_func_unref);	
 }
 
 static void
@@ -806,6 +823,13 @@ gee_dump_lexer (GnmLexerItem *gli) {
 	} while (gli++->token != 0);
 	g_print ("************\n");
 	
+}
+
+static  int
+func_def_cmp (gconstpointer a, gconstpointer b)
+{
+	return g_utf8_collate (gnm_func_get_name (a), 
+			       gnm_func_get_name (b));
 }
 
 static void
@@ -877,7 +901,7 @@ gee_check_tooltip (GnmExprEntry *gee)
 		if (list != NULL) {
 			list = g_slist_sort 
 				(list, 
-				 (GCompareFunc)g_utf8_collate);
+				 (GCompareFunc)func_def_cmp);
 			gee_set_tooltip_completion (gee, list, start_t, end_t);
 			g_free (str);
 			g_free (gli_c);

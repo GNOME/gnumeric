@@ -1,3 +1,10 @@
+2010-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/func.c (gnm_func_get_description): new
+	* src/func.h (gnm_func_get_description): new
+	* src/symbol.c (symbol_names_cb): new
+	(symbol_names): rewrite to work in gtk 2.12 and to provide more info
+	
 2010-07-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/wbc-gtk-actions.c (cb_help_function): use 
@@ -20,7 +27,6 @@
 	* src/symbol.c (symbol_names): new
 	* src/symbol.h (symbol_names): new
 	* src/value.c: remove HAVE_G_SLICE_ALLOC throughout
-
 
 2010-07-18  Morten Welinder  <terra@gnome.org>
 

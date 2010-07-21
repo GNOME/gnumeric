@@ -248,6 +248,7 @@ GnmFunc	   *gnm_func_lookup_or_add_placeholder
 				       gboolean copy_name);
 
 /* TODO */
+char const *gnm_func_get_description (GnmFunc const *fn_def);
 void        function_def_count_args    (GnmFunc const *fn_def,
                                         gint *min, int *max);
 char        function_def_get_arg_type  (GnmFunc const *fn_def,

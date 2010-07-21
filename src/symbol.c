@@ -8,6 +8,7 @@
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "symbol.h"
+#include "func.h"
 
 #include "gutils.h"
 
@@ -31,19 +32,32 @@ symbol_lookup (SymbolTable *st, char const *str)
 	return sym;
 }
 
+typedef struct {
+	char const *prefix;
+	GSList *list;
+} symbol_names_cb_t;
+
+static void
+symbol_names_cb (char const * key, Symbol *symbol, symbol_names_cb_t *data)
+{
+	if (g_str_has_prefix (key, data->prefix)) {
+		gnm_func_ref ((GnmFunc*)symbol->data);
+		data->list = g_slist_prepend (data->list, symbol->data);
+	}
+}
+
+/* returns a list of reffed GnmFunc* */
 GSList *
 symbol_names (SymbolTable *st, GSList *list, char const *prefix)
 {
-#ifdef HAVE_G_HASH_TABLE_GET_KEYS
-	GList *l = g_hash_table_get_keys (st->hash), *lc;
+	symbol_names_cb_t data;
 
-	for (lc = l; lc != NULL; lc = lc->next) {
-		if (g_str_has_prefix (lc->data, prefix))
-			list = g_slist_prepend (list, lc->data);
-	}
-	g_list_free (l);
-#endif
-	return list;
+	data.list = list;
+	data.prefix = prefix;
+	g_hash_table_foreach (st->hash,
+			      (GHFunc) symbol_names_cb,
+			      &data);
+	return data.list;
 }
 
 

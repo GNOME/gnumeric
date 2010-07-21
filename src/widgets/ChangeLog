@@ -1,3 +1,10 @@
+2010-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (gee_create_tooltip): add argument
+	(gee_set_tooltip_completion): create the tooltip in 2 parts, function 
+	  names with description and instructions
+	(gee_check_tooltip): the list now contains function descriptors
+
 2010-07-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (_GnmExprEntry) add field
