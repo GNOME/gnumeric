@@ -1,5 +1,9 @@
 2010-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gnumeric-expr-entry.c (gee_check_tooltip): zero teh correct token
+
+2010-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* gnumeric-expr-entry.c (gee_create_tooltip): add argument,
 	  set tabs if required, change all callers
 	(gee_set_tooltip_completion): no need to autocomplete a complete

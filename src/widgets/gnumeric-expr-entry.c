@@ -906,8 +906,7 @@ gee_check_tooltip (GnmExprEntry *gee)
 		stuff = TRUE;
 		break;
 	}
-	if (gli->start == end_t)
-		gli--;
+	gli--;
 
 	/* This creates the completion tooltip */
 	if (!stuff && gli->start > 0 && gli->token == STRING) {
