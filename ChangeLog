@@ -1,5 +1,9 @@
 2010-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/func.h (GNM_FUNC_RECALC_ONLOAD): not used
+
+2010-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/func.c (gnm_func_get_description): new
 	* src/func.h (gnm_func_get_description): new
 	* src/symbol.c (symbol_names_cb): new

@@ -81,7 +81,7 @@ typedef enum {
 	 * unexpectedly when we recalc later.  This probably needs to be done
 	 * on a per import format basis.  It may not belong here.
 	 */
-	GNM_FUNC_RECALC_ONLOAD		= 1 << 2,
+/* 	GNM_FUNC_RECALC_ONLOAD		= 1 << 2, */
 
 	/* an unknown function that will hopefully be defined later */
 	GNM_FUNC_IS_PLACEHOLDER		= 1 << 3,

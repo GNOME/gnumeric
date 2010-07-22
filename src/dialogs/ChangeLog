@@ -1,5 +1,10 @@
 2010-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-function-select.c (dialog_function_select_load_tree): dont load
+	  placeholders
+
+2010-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-function-select.c (cb_dialog_function_select_destroy): handle
 	  new field of state
 	(dialog_function_select_init): load new field of state

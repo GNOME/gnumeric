@@ -1111,7 +1111,8 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 
 	for (ptr = funcs; ptr; ptr = ptr->next) {
 		func = ptr->data;
-		if (!(func->flags & GNM_FUNC_INTERNAL)) {
+		if (!(func->flags & 
+		      (GNM_FUNC_INTERNAL | GNM_FUNC_IS_PLACEHOLDER))) {
 			gtk_list_store_append (state->model_functions, &iter);
 			gnm_func_ref (func);
 			desc = dialog_function_select_get_description (func, &pal);
