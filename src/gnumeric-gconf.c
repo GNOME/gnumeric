@@ -1128,6 +1128,58 @@ gnm_conf_get_core_gui_editing_enter_moves_dir_node (void)
 	return get_node (watch_core_gui_editing_enter_moves_dir.key);
 }
 
+static struct cb_watch_bool watch_core_gui_editing_function_argument_tooltips = {
+	0, "core/gui/editing/function-argument-tooltips", TRUE,
+};
+
+gboolean
+gnm_conf_get_core_gui_editing_function_argument_tooltips (void)
+{
+	if (!watch_core_gui_editing_function_argument_tooltips.handler)
+		watch_bool (&watch_core_gui_editing_function_argument_tooltips);
+	return watch_core_gui_editing_function_argument_tooltips.var;
+}
+
+void
+gnm_conf_set_core_gui_editing_function_argument_tooltips (gboolean x)
+{
+	if (!watch_core_gui_editing_function_argument_tooltips.handler)
+		watch_bool (&watch_core_gui_editing_function_argument_tooltips);
+	set_bool (&watch_core_gui_editing_function_argument_tooltips, x);
+}
+
+GOConfNode *
+gnm_conf_get_core_gui_editing_function_argument_tooltips_node (void)
+{
+	return get_node (watch_core_gui_editing_function_argument_tooltips.key);
+}
+
+static struct cb_watch_bool watch_core_gui_editing_function_name_tooltips = {
+	0, "core/gui/editing/function-name-tooltips", TRUE,
+};
+
+gboolean
+gnm_conf_get_core_gui_editing_function_name_tooltips (void)
+{
+	if (!watch_core_gui_editing_function_name_tooltips.handler)
+		watch_bool (&watch_core_gui_editing_function_name_tooltips);
+	return watch_core_gui_editing_function_name_tooltips.var;
+}
+
+void
+gnm_conf_set_core_gui_editing_function_name_tooltips (gboolean x)
+{
+	if (!watch_core_gui_editing_function_name_tooltips.handler)
+		watch_bool (&watch_core_gui_editing_function_name_tooltips);
+	set_bool (&watch_core_gui_editing_function_name_tooltips, x);
+}
+
+GOConfNode *
+gnm_conf_get_core_gui_editing_function_name_tooltips_node (void)
+{
+	return get_node (watch_core_gui_editing_function_name_tooltips.key);
+}
+
 static struct cb_watch_bool watch_core_gui_editing_livescrolling = {
 	0, "core/gui/editing/livescrolling", TRUE,
 };

@@ -1,6 +1,14 @@
+2010-07-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (gee_set_tooltip): don't remove the completion
+	(gee_set_tooltip_completion): return whether the tool tip was shown, 
+	  check the preference setting.
+	(gee_check_tooltip): check the preference setting and watch the return
+	  value of gee_set_tooltip_completion
+
 2010-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* gnumeric-expr-entry.c (gee_check_tooltip): zero teh correct token
+	* gnumeric-expr-entry.c (gee_check_tooltip): zero the correct token
 
 2010-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

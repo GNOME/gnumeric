@@ -105,6 +105,14 @@ GOConfNode *gnm_conf_get_core_gui_editing_enter_moves_dir_node (void);
 GODirection gnm_conf_get_core_gui_editing_enter_moves_dir (void);
 void gnm_conf_set_core_gui_editing_enter_moves_dir (GODirection);
 
+GOConfNode *gnm_conf_get_core_gui_editing_function_argument_tooltips_node (void);
+gboolean gnm_conf_get_core_gui_editing_function_argument_tooltips (void);
+void gnm_conf_set_core_gui_editing_function_argument_tooltips (gboolean);
+
+GOConfNode *gnm_conf_get_core_gui_editing_function_name_tooltips_node (void);
+gboolean gnm_conf_get_core_gui_editing_function_name_tooltips (void);
+void gnm_conf_set_core_gui_editing_function_name_tooltips (gboolean);
+
 GOConfNode *gnm_conf_get_core_gui_editing_livescrolling_node (void);
 gboolean gnm_conf_get_core_gui_editing_livescrolling (void);
 void gnm_conf_set_core_gui_editing_livescrolling (gboolean);

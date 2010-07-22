@@ -722,7 +722,7 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args, gboolean had_stuff)
 	    && (gee->tooltip.fd == fd && gee->tooltip.args == args
 		&& gee->tooltip.had_stuff == (max == 0 && args == 0 && had_stuff)))
 			return;
-	gee_delete_tooltip (gee, TRUE);
+	gee_delete_tooltip (gee, FALSE);
 
 	gee->tooltip.fd = fd;
 	gnm_func_ref (gee->tooltip.fd);
@@ -782,7 +782,7 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args, gboolean had_stuff)
 	g_string_free (str, TRUE);
 }
 
-static void
+static gboolean
 gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list, guint start, guint end)
 {
 	GString *str;
@@ -791,6 +791,7 @@ gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list, guint start, guint 
 	gint max = 10;
 	GSList *list_c = list;
 	gchar const *name;
+	gboolean show_tool_tip;
 
 	gee_delete_tooltip (gee, TRUE);
 
@@ -816,7 +817,6 @@ gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list, guint start, guint 
 	if (i == max)
 		g_string_append (str_marked, UNICODE_ELLIPSIS_VERT "\n");
 	if (i == 1) {
-		g_free (gee->tooltip.completion);
 		gee->tooltip.completion 
 			= g_strdup (name);
 		/*xgettext: short form for: "type F4-key to complete the name"*/
@@ -829,11 +829,14 @@ gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list, guint start, guint 
 	gee->tooltip.completion_start = start;
 	gee->tooltip.completion_end = end;
 	gee->tooltip.completion_se_valid = TRUE;
-	gee->tooltip.tooltip = gee_create_tooltip 
-		(gee, str->str, str_marked->str, TRUE);
+	show_tool_tip = gnm_conf_get_core_gui_editing_function_name_tooltips ();
+	if (show_tool_tip)
+		gee->tooltip.tooltip = gee_create_tooltip 
+			(gee, str->str, str_marked->str, TRUE);
 	g_string_free (str, TRUE);
 	g_string_free (str_marked, TRUE);
-	go_slist_free_custom (list, (GFreeFunc) gnm_func_unref);	
+	go_slist_free_custom (list, (GFreeFunc) gnm_func_unref);
+	return show_tool_tip;
 }
 
 static void
@@ -861,7 +864,7 @@ gee_check_tooltip (GnmExprEntry *gee)
 	gint  end, args = 0;
 	guint end_t;
 	char *str;
-	gboolean stuff = FALSE;
+	gboolean stuff = FALSE, completion_se_set = FALSE;
 	GnmLexerItem *gli, *gli_c;
 
 	if (!gee->tooltip.enabled || gee->is_cell_renderer ||
@@ -923,16 +926,29 @@ gee_check_tooltip (GnmExprEntry *gee)
 			list = g_slist_sort 
 				(list, 
 				 (GCompareFunc)func_def_cmp);
-			gee_set_tooltip_completion (gee, list, start_t, end_t);
-			g_free (str);
-			g_free (gli_c);
-			return;
+			if (gee_set_tooltip_completion 
+			    (gee, list, start_t, end_t)) {
+				g_free (str);
+				g_free (gli_c);
+				return;
+			}
 		} else {
+			g_free (gee->tooltip.completion);
+			gee->tooltip.completion = NULL;
 			gee->tooltip.completion_start = start_t;
 			gee->tooltip.completion_end = end_t;
 			gee->tooltip.completion_se_valid = TRUE;
 		}
+		completion_se_set = TRUE; 
+	} else {
+		g_free (gee->tooltip.completion);
+		gee->tooltip.completion = NULL;
+		gee->tooltip.completion_se_valid = FALSE;		
 	}
+		
+
+	if (!gnm_conf_get_core_gui_editing_function_argument_tooltips ())
+		goto not_found;
 
 	if (gnm_debug_flag ("functooltip"))
 		g_print ("last token consider is %d from %d to %d\n", 
@@ -1017,7 +1033,7 @@ gee_check_tooltip (GnmExprEntry *gee)
  not_found:
 	g_free (str);
 	g_free (gli_c);
-	gee_delete_tooltip (gee, TRUE);
+	gee_delete_tooltip (gee, !completion_se_set);
 	return;
 }
 

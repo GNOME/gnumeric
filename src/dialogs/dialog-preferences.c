@@ -1027,6 +1027,16 @@ pref_tool_page_initializer (PrefState *state,
 				 gnm_conf_set_core_gui_editing_autocomplete,
 				 gnm_conf_get_core_gui_editing_autocomplete,
 				_("Autocomplete"));
+	bool_pref_create_widget (gnm_conf_get_core_gui_editing_function_name_tooltips_node (),
+				 page, row++,
+				 gnm_conf_set_core_gui_editing_function_name_tooltips,
+				 gnm_conf_get_core_gui_editing_function_name_tooltips,
+				_("Show Function Name Tooltips"));
+	bool_pref_create_widget (gnm_conf_get_core_gui_editing_function_argument_tooltips_node (),
+				 page, row++,
+				 gnm_conf_set_core_gui_editing_function_argument_tooltips,
+				 gnm_conf_get_core_gui_editing_function_argument_tooltips,
+				_("Show Function Argument Tooltips"));
 	bool_pref_create_widget (gnm_conf_get_dialogs_rs_unfocused_node (),
 				 page, row++,
 				 gnm_conf_set_dialogs_rs_unfocused,

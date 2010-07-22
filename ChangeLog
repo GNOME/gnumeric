@@ -1,3 +1,11 @@
+2010-07-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* schemas/gnumeric-general.schemas.in: add tooltip preferences
+	* src/gnumeric-gconf.h
+	(gnm_conf_*et_core_gui_editing_function_argument_tooltips*): new
+	* src/gnumeric-gconf.c
+	(gnm_conf_*et_core_gui_editing_function_name_tooltips*): new
+
 2010-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/func.h (GNM_FUNC_RECALC_ONLOAD): not used

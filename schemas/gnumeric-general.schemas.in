@@ -267,6 +267,28 @@
         </locale>
       </schema>
       <schema>
+        <key>/schemas/apps/gnumeric/core/gui/editing/function-name-tooltips</key>
+        <applyto>/apps/gnumeric/core/gui/editing/function-name-tooltips</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>TRUE</default>
+        <locale name="C">
+        <short>Show Function Name Tooltips</short>
+        <long>This variable determines whether to show function name tooltips.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/core/gui/editing/function-argument-tooltips</key>
+        <applyto>/apps/gnumeric/core/gui/editing/function-argument-tooltips</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>TRUE</default>
+        <locale name="C">
+        <short>Show Function Argument Tooltips</short>
+        <long>This variable determines whether to show function argument tooltips.</long>
+        </locale>
+      </schema>
+      <schema>
         <key>/schemas/apps/gnumeric/core/gui/editing/enter_moves_dir</key>
         <applyto>/apps/gnumeric/core/gui/editing/enter_moves_dir</applyto>
         <owner>Gnumeric</owner>

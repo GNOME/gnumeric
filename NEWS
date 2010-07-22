@@ -41,8 +41,10 @@ Andreas:
 	* Make the font style buttons override the character attributes. 
 	  [#163410]
 	* Provide name completion (F4) when entering functions. [#587084]
-	* Implement access to the function selector to paste function names
-	  while editing cells (Shift-F4).
+	* Implement access to the function selector to paste function
+	  names while editing cells (Shift-F4).
+	* Add preference settings whether to show function name and/or
+	  argument tooltips.
 
 Jean:
 	* Fix strong/weak cursor display. [#623241]
