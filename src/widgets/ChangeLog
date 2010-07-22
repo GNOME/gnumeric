@@ -1,3 +1,10 @@
+2010-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (gee_create_tooltip): add argument,
+	  set tabs if required, change all callers
+	(gee_set_tooltip_completion): no need to autocomplete a complete
+	  function name
+
 2010-07-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* gnumeric-dashed-canvas-line.c

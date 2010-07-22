@@ -646,7 +646,7 @@ cb_gee_focus_out_event (GtkWidget         *widget,
 
 static GtkWidget *
 gee_create_tooltip (GnmExprEntry *gee, gchar const *str, 
-		    gchar const *marked_str)
+		    gchar const *marked_str, gboolean set_tabs)
 {
 	GtkWidget *toplevel, *label, *tip;
 	gint root_x = 0, root_y = 0;
@@ -673,6 +673,17 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str,
 	gtk_label_set_markup (GTK_LABEL (label), string->str);
 	g_free (markup);
 	g_string_free (string, TRUE);
+
+	if (set_tabs) {
+		PangoLayout *pl = gtk_label_get_layout (GTK_LABEL (label));
+		PangoTabArray *tabs;
+		tabs = pango_tab_array_new_with_positions 
+			(2, TRUE, 
+			 PANGO_TAB_LEFT, 120, 
+			 PANGO_TAB_LEFT, 140);
+		pango_layout_set_tabs (pl, tabs);
+		pango_tab_array_free (tabs);
+	}
 
 	gdkw = gtk_widget_get_window (GTK_WIDGET (gee->entry));
 	gdk_window_get_origin (gdkw, &root_x, &root_y);
@@ -764,7 +775,7 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args, gboolean had_stuff)
 		g_free (extra);
 	}
 
-	gee->tooltip.tooltip = gee_create_tooltip (gee, str->str, NULL);
+	gee->tooltip.tooltip = gee_create_tooltip (gee, str->str, NULL, FALSE);
 	gee->tooltip.args = args;
 	gee->tooltip.had_stuff = (max == 0 && args == 0 && had_stuff);
 
@@ -776,20 +787,29 @@ gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list, guint start, guint 
 {
 	GString *str;
 	GString *str_marked;
-	guint i = 0;
-	guint max = 10;
+	gint i = 0;
+	gint max = 10;
 	GSList *list_c = list;
+	gchar const *name;
 
 	gee_delete_tooltip (gee, TRUE);
 
 	str = g_string_new (NULL);
-	for (; list_c != NULL && i < max; list_c = list_c->next, i++) {
+	for (; list_c != NULL && ++i < max; list_c = list_c->next) {
 		GnmFunc *fd = list_c->data;
-		/* xgettext: the first %s is a function name and */
-		/* the second %s the function description */
-		g_string_append_printf (str, _("%s : %s\n"), 
-					gnm_func_get_name (fd), 
-					gnm_func_get_description (fd));
+		name = gnm_func_get_name (fd);
+		if ((end - start) < (guint) g_utf8_strlen (name, -1))
+			/* xgettext: the first %s is a function name and */
+			/* the second %s the function description */
+			g_string_append_printf (str, _("%s : \t%s\n"), name, 
+						gnm_func_get_description (fd));
+		else {
+			/* xgettext: the first %s is a function name and */
+			/* the second %s the function description */
+			g_string_append_printf (str, _("[%s : \t%s]\n"), name, 
+						gnm_func_get_description (fd));
+			i--;
+		}
 	}
 
 	str_marked = g_string_new (NULL);
@@ -798,17 +818,19 @@ gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list, guint start, guint 
 	if (i == 1) {
 		g_free (gee->tooltip.completion);
 		gee->tooltip.completion 
-			= g_strdup (gnm_func_get_name (list->data));
+			= g_strdup (name);
 		/*xgettext: short form for: "type F4-key to complete the name"*/
 		g_string_append (str_marked, _("\n<i>F4 to complete</i>"));
-	} else 
+	} else if (i > 1)
 		/*xgettext: short form for: "type shift-F4-keys to select the completion"*/
 		g_string_append (str_marked, _("\n<i>" UNICODE_ARROW_UP "F4 to select</i>"));
+	else
+		g_string_truncate (str, str->len - 1);
 	gee->tooltip.completion_start = start;
 	gee->tooltip.completion_end = end;
 	gee->tooltip.completion_se_valid = TRUE;
 	gee->tooltip.tooltip = gee_create_tooltip 
-		(gee, str->str, str_marked->str);
+		(gee, str->str, str_marked->str, TRUE);
 	g_string_free (str, TRUE);
 	g_string_free (str_marked, TRUE);
 	go_slist_free_custom (list, (GFreeFunc) gnm_func_unref);	
