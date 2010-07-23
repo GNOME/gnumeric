@@ -1334,9 +1334,9 @@ static GnmFuncHelp const help_searchb[] = {
 					"string including the empty string. To search for "
 					"* or ?, precede the symbol with ~.")},
 	{ GNM_FUNC_HELP_NOTE, F_("This search is not case sensitive.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{search} is not found, SEARCH returns #VALUE!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{search} is not found, SEARCHB returns #VALUE!") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{start} is less than one or it is greater than "
-				 "the byte length of @{text}, SEARCH returns #VALUE!") },
+				 "the byte length of @{text}, SEARCHB returns #VALUE!") },
 	{ GNM_FUNC_HELP_NOTE, F_("The semantics of this function is subject to change as various applications implement it.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("While this function is syntactically Excel compatible, "
 				  "the differences in the underlying text encoding will usually yield different results.")},

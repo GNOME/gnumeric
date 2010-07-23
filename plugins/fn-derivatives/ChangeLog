@@ -1,3 +1,9 @@
+2010-07-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* options.c (help_opt_bs_gamma): fix description
+	(help_opt_bs_vega): ditto
+	(help_opt_bs_rho): ditto
+
 2010-06-28  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.7

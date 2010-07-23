@@ -1,5 +1,9 @@
 2010-07-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* functions.c (help_error): fix description
+
+2010-07-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c (help_error_type): fix argument mark-up
 
 2010-06-28  Morten Welinder <terra@gnome.org>

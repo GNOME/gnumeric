@@ -1,3 +1,7 @@
+2010-07-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_trunc): fix argument description
+
 2010-06-28  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.7

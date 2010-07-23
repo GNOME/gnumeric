@@ -348,7 +348,7 @@ static GnmFuncHelp const help_opt_bs_gamma[] = {
 	DEF_ARG_RATE_RISKFREE,
 	DEF_ARG_VOLATILITY,
 	DEF_ARG_CC_OPT,
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_BS_DELTA uses the Black-Scholes model to calculate "
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_BS_GAMMA uses the Black-Scholes model to calculate "
 					"the 'gamma' of a European option struck at @{strike} "
 					"on an asset with spot price @{spot}. The gamma of an "
 					"option is the second derivative of its price "
@@ -449,7 +449,7 @@ static GnmFuncHelp const help_opt_bs_vega[] = {
 	DEF_ARG_RATE_RISKFREE,
 	DEF_ARG_VOLATILITY,
 	DEF_ARG_CC_OPT,
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_BS_DELTA uses the Black-Scholes model to calculate "
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_BS_VEGA uses the Black-Scholes model to calculate "
 					"the 'vega' of a European option struck at @{strike} "
 					"on an asset with spot price @{spot}. The vega of an "
 					"option is the rate of change of its price with "
@@ -515,7 +515,7 @@ static GnmFuncHelp const help_opt_bs_rho[] = {
 	DEF_ARG_RATE_RISKFREE,
 	DEF_ARG_VOLATILITY,
 	DEF_ARG_CC_OPT,
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_BS_DELTA uses the Black-Scholes model to calculate "
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_BS_RHO uses the Black-Scholes model to calculate "
 					"the 'rho' of a European option struck at @{strike} "
 					"on an asset with spot price @{spot}. The rho of an "
 					"option is the rate of change of its price with "

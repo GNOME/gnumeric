@@ -1,20 +1,24 @@
+2010-07-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* plugins/fn-lookup/functions.c (help_sheet): fix description
+
 2010-07-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* plugins/fn-lookup/functions.c (callback_function_array):
+	* functions.c (callback_function_array):
 	  make sure we have values, since some functions such as COUNT
 	  can't handle a matrix with NULL values.
 
 2010-07-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* plugins/fn-lookup/plugin.xml.in: new function SORT
-	* plugins/fn-lookup/functions.c (help_sort): new
+	* plugin.xml.in: new function SORT
+	* functions.c (help_sort): new
 	(gnumeric_sort): new
 	(lookup_functions): add new function SORT
 
 2010-07-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* plugins/fn-lookup/plugin.xml.in: new function ARRAY
-	* plugins/fn-lookup/functions.c (help_array): new
+	* plugin.xml.in: new function ARRAY
+	* functions.c (help_array): new
 	(gnumeric_array): new
 	(callback_function_array): new
 	(lookup_functions): add new function ARRAY

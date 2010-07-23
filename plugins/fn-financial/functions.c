@@ -3271,7 +3271,7 @@ static GnmFuncHelp const help_vdb[] = {
         { GNM_FUNC_HELP_ARG, F_("end_period:last period to accumulate for")},
         { GNM_FUNC_HELP_ARG, F_("factor:factor at which the balance declines")},
         { GNM_FUNC_HELP_ARG, F_("no_switch:do not switch to straight-line depreciation")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("VDB calculates the depreciation of an asset for a given period range using the double-declining balance method.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("VDB calculates the depreciation of an asset for a given period range using the variable-rate declining balance method.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{no_switch} is FALSE, the calculation switches to straight-line depreciation when depreciation is greater than the declining balance calculation.") },
         { GNM_FUNC_HELP_SEEALSO, "DB,DDB"},
 	{ GNM_FUNC_HELP_END }

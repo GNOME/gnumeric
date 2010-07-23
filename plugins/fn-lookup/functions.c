@@ -1591,8 +1591,9 @@ gnumeric_sheets (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 static GnmFuncHelp const help_sheet[] = {
 	{ GNM_FUNC_HELP_NAME, F_("SHEET:sheet number of @{reference}")},
         { GNM_FUNC_HELP_ARG, F_("reference:reference or literal sheet name, defaults to the current sheet")},
-	{ GNM_FUNC_HELP_NOTE, F_("If @{reference} is neither a reference nor a literal sheet name, "
-				 "SHEETS returns #VALUE!")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{reference} is neither a reference "
+				 "nor a literal sheet name, "
+				 "SHEET returns #VALUE!")},
         { GNM_FUNC_HELP_EXAMPLES, "=SHEET()" },
         { GNM_FUNC_HELP_EXAMPLES, "=SHEET(\"Sheet1\")" },
         { GNM_FUNC_HELP_SEEALSO, "SHEETS,ROW,COLUMNNUMBER"},

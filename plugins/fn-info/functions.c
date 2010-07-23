@@ -1548,7 +1548,7 @@ gnumeric_na (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_error[] = {
-        { GNM_FUNC_HELP_NAME, F_("ERROR:the error with name @{text}")},
+        { GNM_FUNC_HELP_NAME, F_("ERROR:the error with the given @{name}")},
         { GNM_FUNC_HELP_ARG, F_("name:string")},
         { GNM_FUNC_HELP_EXAMPLES, "=ERROR(\"#N/A\")" },
         { GNM_FUNC_HELP_EXAMPLES, "=ISNA(ERROR(\"#N/A\"))" },
