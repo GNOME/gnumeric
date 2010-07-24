@@ -637,7 +637,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 
 #if 0
 				/* FIXME : Add these to gnumeric ? */
-				case 'GR0' : Graph ?  Seems like a truncated integer histogram
+				case "GR0" : Graph ?  Seems like a truncated integer histogram
 					     /* looks like crap, no need to support */
 
 #endif
