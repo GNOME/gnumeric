@@ -62,6 +62,7 @@ Morten:
 	* Fix gtk_show_uri problem affecting win32.  [#623605]
 	* Fix mistakes pointed out by sparse.
 	* Fix win32 versioning problem.  [#624171]
+	* Improve function doc checks.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.7

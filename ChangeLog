@@ -1,3 +1,8 @@
+2010-07-23  Morten Welinder  <terra@gnome.org>
+
+	* src/func.c (gnm_func_sanity_check1): Make sure argument names,
+	as documented, are unique.
+
 2010-07-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* schemas/gnumeric-general.schemas.in: add tooltip preferences
@@ -16,10 +21,10 @@
 	* src/func.h (gnm_func_get_description): new
 	* src/symbol.c (symbol_names_cb): new
 	(symbol_names): rewrite to work in gtk 2.12 and to provide more info
-	
+
 2010-07-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/wbc-gtk-actions.c (cb_help_function): use 
+	* src/wbc-gtk-actions.c (cb_help_function): use
 	  dialog_function_select_help instead of dialog_function_select
 
 2010-07-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -30,7 +35,7 @@
 2010-07-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* configure.in: checks for g_date_set_time_t and g_slice_alloc have
-	  been superceded by the glib 2.12 requirement; check for 
+	  been superceded by the glib 2.12 requirement; check for
 	  g_hash_table_get_keys
 	* src/dependent.c: remove HAVE_G_SLICE_ALLOC throughout
 	* src/func.c (gnm_func_lookup_prefix): new
@@ -52,7 +57,7 @@
 	(cmd_selection_format_toggle_font_style_cb): new
 	(cmd_selection_format_toggle_font_style_filter): new
 	* src/sheet.c (sheet_apply_style_cb): call sheet_flag_style_update_range
-	* src/wbc-gtk-actions.c (toggle_font_attr): use 
+	* src/wbc-gtk-actions.c (toggle_font_attr): use
 	  cmd_selection_format_toggle_font_style
 
 2010-07-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>

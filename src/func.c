@@ -571,6 +571,10 @@ gnm_func_sanity_check1 (GnmFunc const *fd)
 	int counts[(int)GNM_FUNC_HELP_ODF + 1];
 	int res = 0;
 	size_t nlen = strlen (fd->name);
+	GHashTable *allargs;
+
+	allargs = g_hash_table_new_full
+		(g_str_hash, g_str_equal, (GDestroyNotify)g_free, NULL);
 
 	memset (counts, 0, sizeof (counts));
 	for (h = fd->help; h->type != GNM_FUNC_HELP_END; h++) {
@@ -603,7 +607,9 @@ gnm_func_sanity_check1 (GnmFunc const *fd)
 			break;
 		case GNM_FUNC_HELP_ARG: {
 			const char *aend = strchr (h->text, ':');
-			if (aend == NULL) {
+			char *argname;
+
+			if (aend == NULL || aend == h->text) {
 				g_printerr ("%s: Invalid ARG record\n",
 					    fd->name);
 				res = 1;
@@ -630,6 +636,15 @@ gnm_func_sanity_check1 (GnmFunc const *fd)
 					    fd->name);
 				res = 1;
 			}
+			argname = g_strndup (h->text, aend - h->text);
+			if (g_hash_table_lookup (allargs, argname)) {
+				g_printerr ("%s: Duplicate argument name %s\n",
+					    fd->name, argname);
+				res = 1;
+				g_free (argname);
+				g_printerr ("%s\n", h->text);
+			} else
+				g_hash_table_insert (allargs, argname, argname);
 			break;
 		}
 		case GNM_FUNC_HELP_DESCRIPTION:
@@ -653,6 +668,8 @@ gnm_func_sanity_check1 (GnmFunc const *fd)
 			; /* Nothing */
 		}
 	}
+
+	g_hash_table_destroy (allargs);
 
 	if (fd->fn_type == GNM_FUNC_TYPE_ARGS) {
 		int n = counts[GNM_FUNC_HELP_ARG];
