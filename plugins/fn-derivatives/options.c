@@ -1617,7 +1617,7 @@ static GnmFuncHelp const help_opt_2_asset_correlation[] = {
         { GNM_FUNC_HELP_ARG, F_("spot1:spot price of the underlying asset of the first option")},
         { GNM_FUNC_HELP_ARG, F_("spot2:spot price of the underlying asset of the second option")},
         { GNM_FUNC_HELP_ARG, F_("strike1:strike prices of the first option")},
-        { GNM_FUNC_HELP_ARG, F_("strike1:strike prices of the second option")},
+        { GNM_FUNC_HELP_ARG, F_("strike2:strike prices of the second option")},
 	DEF_ARG_TIME_MATURITY_Y,
         { GNM_FUNC_HELP_ARG, F_("cost_of_carry1:net cost of holding the underlying asset of the first option "
 				"(for common stocks, the risk free rate less the dividend yield)")},
