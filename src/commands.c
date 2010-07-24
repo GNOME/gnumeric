@@ -1417,154 +1417,42 @@ cmd_delete_rows (WorkbookControl *wbc,
 
 /******************************************************************/
 
-#define CMD_CLEAR_TYPE        (cmd_clear_get_type ())
-#define CMD_CLEAR(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_CLEAR_TYPE, CmdClear))
-
-typedef struct {
-	GnmCommand cmd;
-
-	int	 clear_flags;
-	int	 paste_flags;
-	GSList	  *old_contents;
-	GSList	  *selection;
-} CmdClear;
-
-static void
-cmd_clear_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
-{
-	CmdClear const *orig = (CmdClear const *) cmd;
-	cmd_selection_clear (wbc, orig->clear_flags);
-}
-MAKE_GNM_COMMAND (CmdClear, cmd_clear, cmd_clear_repeat)
-
-static gboolean
-cmd_clear_undo (GnmCommand *cmd, WorkbookControl *wbc)
-{
-	CmdClear *me = CMD_CLEAR (cmd);
-	GSList *ranges;
-
-	g_return_val_if_fail (me != NULL, TRUE);
-	g_return_val_if_fail (me->selection != NULL, TRUE);
-	g_return_val_if_fail (me->old_contents != NULL, TRUE);
-
-	for (ranges = me->selection; ranges != NULL ; ranges = ranges->next) {
-		GnmRange const *r = ranges->data;
-		GnmCellRegion  *c;
-		GnmPasteTarget pt;
-
-		g_return_val_if_fail (me->old_contents != NULL, TRUE);
-
-		c = me->old_contents->data;
-
-		if (me->clear_flags)
-			clipboard_paste_region (c,
-				paste_target_init (&pt, me->cmd.sheet, r, me->paste_flags),
-				GO_CMD_CONTEXT (wbc));
-
-		cellregion_unref (c);
-		me->old_contents = g_slist_remove (me->old_contents, c);
-	}
-	g_return_val_if_fail (me->old_contents == NULL, TRUE);
-
-	select_selection (me->cmd.sheet, me->selection, wbc);
-
-	return FALSE;
-}
-
-static gboolean
-cmd_clear_redo (GnmCommand *cmd, WorkbookControl *wbc)
-{
-	CmdClear *me = CMD_CLEAR (cmd);
-	GSList *l;
-
-	g_return_val_if_fail (me != NULL, TRUE);
-	g_return_val_if_fail (me->selection != NULL, TRUE);
-	g_return_val_if_fail (me->old_contents == NULL, TRUE);
-
-	/* Check for array subdivision */
-	if (sheet_ranges_split_region (me->cmd.sheet, me->selection,
-				       GO_CMD_CONTEXT (wbc), _("Clear")))
-		return TRUE;
-
-	/* Check for locked cells */
-	if (cmd_selection_is_locked_effective (me->cmd.sheet, me->selection, wbc, _("Clear")))
-		return TRUE;
-
-	for (l = me->selection ; l != NULL ; l = l->next) {
-		GnmRange const *r = l->data;
-		me->old_contents =
-			g_slist_prepend (me->old_contents,
-				clipboard_copy_range (me->cmd.sheet, r));
-
-		/* We have already checked the arrays */
-		sheet_clear_region (me->cmd.sheet,
-			r->start.col, r->start.row, r->end.col, r->end.row,
-			me->clear_flags|CLEAR_NOCHECKARRAY|CLEAR_RECALC_DEPS,
-			GO_CMD_CONTEXT (wbc));
-	}
-	me->old_contents = g_slist_reverse (me->old_contents);
-
-	select_selection (me->cmd.sheet, me->selection, wbc);
-
-	return FALSE;
-}
-
-static void
-cmd_clear_finalize (GObject *cmd)
-{
-	CmdClear *me = CMD_CLEAR (cmd);
-
-	if (me->old_contents != NULL) {
-		GSList *l;
-		for (l = me->old_contents ; l != NULL ; l = g_slist_remove (l, l->data))
-			cellregion_unref (l->data);
-		me->old_contents = NULL;
-	}
-	range_fragment_free (me->selection);
-	me->selection = NULL;
-
-	gnm_command_finalize (cmd);
-}
 
 gboolean
 cmd_selection_clear (WorkbookControl *wbc, int clear_flags)
 {
-	CmdClear *me;
-	char *names;
+	char *names, *descriptor;
 	GString *types;
-	int paste_flags;
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
+	GSList	  *selection = selection_get_ranges (sv, FALSE /* No intersection */);
+	Sheet *sheet = sv_sheet (sv);
+	gboolean result;
+	int size;
+	GOUndo *undo = NULL;
+	GOUndo *redo = NULL;
+	GSList *ranges;
 
-	paste_flags = 0;
-	if (clear_flags & CLEAR_VALUES)
-		paste_flags |= PASTE_CONTENTS;
-	if (clear_flags & CLEAR_FORMATS)
-		paste_flags |= PASTE_FORMATS;
-	if (clear_flags & CLEAR_COMMENTS)
-		paste_flags |= PASTE_COMMENTS;
+	/* We should first determine whether we break anything by clearing */
+	/* Check for array subdivision *//* Check for locked cells */
+	if (sheet_ranges_split_region (sheet, selection,
+				       GO_CMD_CONTEXT (wbc), _("Clear")) || 
+	    cmd_selection_is_locked_effective (sheet, selection, wbc, _("Clear"))) {
+		range_fragment_free (selection);
+		return TRUE;
+	}
 
-	me = g_object_new (CMD_CLEAR_TYPE, NULL);
 
-	me->clear_flags = clear_flags;
-	me->paste_flags = paste_flags;
-	me->old_contents = NULL;
-	me->selection = selection_get_ranges (sv, FALSE /* No intersection */);
-
-	me->cmd.sheet = sv_sheet (sv);
-	me->cmd.size = 1;  /* FIXME?  */
-
+	/* We now need to build the descriptor */
 	/* Collect clear types for descriptor */
 	if (clear_flags != (CLEAR_VALUES | CLEAR_FORMATS | CLEAR_COMMENTS)) {
 		GSList *m, *l = NULL;
 		types = g_string_new (NULL);
-
 		if (clear_flags & CLEAR_VALUES)
 			l = g_slist_append (l, g_string_new (_("contents")));
 		if (clear_flags & CLEAR_FORMATS)
 			l = g_slist_append (l, g_string_new (_("formats")));
 		if (clear_flags & CLEAR_COMMENTS)
 			l = g_slist_append (l, g_string_new (_("comments")));
-
 		/* Using a list for this may seem overkill, but is really the only
 		 * right way to do this
 		 */
@@ -1580,18 +1468,34 @@ cmd_selection_clear (WorkbookControl *wbc, int clear_flags)
 		g_slist_free (l);
 	} else
 		types = g_string_new (_("all"));
-
 	/* The range name string will automatically be truncated, we don't
 	 * need to truncate the "types" list because it will not grow
 	 * indefinitely
 	 */
-	names = undo_range_list_name (me->cmd.sheet, me->selection);
-	me->cmd.cmd_descriptor = g_strdup_printf (_("Clearing %s in %s"), types->str, names);
-
+	names = undo_range_list_name (sheet, selection);
+	descriptor = g_strdup_printf (_("Clearing %s in %s"), types->str, names);
 	g_free (names);
 	g_string_free (types, TRUE);
+	size = g_slist_length (selection);
 
-	return gnm_command_push_undo (wbc, G_OBJECT (me));
+	
+	/* We are now ready to build the redo and undo items */
+	for (ranges = selection; ranges != NULL ; ranges = ranges->next) {
+		GnmRange const *r = ranges->data;
+		GnmSheetRange *sr = gnm_sheet_range_new (sheet, r);
+
+		undo = go_undo_combine (undo, clipboard_copy_range_undo (sheet, r));
+		redo =  go_undo_combine 
+			(redo, sheet_clear_region_undo 
+			 (sr, clear_flags | CLEAR_NOCHECKARRAY | CLEAR_RECALC_DEPS));
+	}
+
+	range_fragment_free (selection);
+
+	result = cmd_generic_with_size (wbc, descriptor, size, undo, redo);
+	g_free (descriptor);
+
+	return result;
 }
 
 /******************************************************************/

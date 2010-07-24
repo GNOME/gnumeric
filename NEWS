@@ -45,6 +45,7 @@ Andreas:
 	  names while editing cells (Shift-F4).
 	* Add preference settings whether to show function name and/or
 	  argument tooltips.
+	* Fix undo of Clear->All and Clear->Comments. [#625151]
 
 Jean:
 	* Fix strong/weak cursor display. [#623241]

@@ -687,7 +687,8 @@ cb_clipboard_copy_range_undo (GnmCellRegion *cr, GnmSheetRange *sr,
 		 paste_target_init (&pt,
 				    sr->sheet,
 				    &sr->range,
-				    PASTE_CONTENTS | PASTE_FORMATS),
+				    PASTE_CONTENTS | PASTE_FORMATS | 
+				    PASTE_OBJECTS | PASTE_COMMENTS),
 		 cc);
 }
 

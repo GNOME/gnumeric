@@ -4293,6 +4293,27 @@ sheet_clear_region (Sheet *sheet,
 	sheet_redraw_all (sheet, FALSE);
 }
 
+static void
+sheet_clear_region_cb (GnmSheetRange *sr, int *flags)
+{
+	sheet_clear_region (sr->sheet,
+			  sr->range.start.col, sr->range.start.row,
+			  sr->range.end.col, sr->range.end.row,
+			  *flags | CLEAR_NOCHECKARRAY, NULL);
+}
+
+GOUndo *sheet_clear_region_undo (GnmSheetRange *sr, int clear_flags)
+{
+	int *flags = g_new(int, 1);
+	*flags = clear_flags;
+	return go_undo_binary_new 
+		(sr, (gpointer)flags, 
+		 (GOUndoBinaryFunc) sheet_clear_region_cb, 
+		 (GFreeFunc) gnm_sheet_range_free, 
+		 (GFreeFunc) g_free);
+}
+
+
 /*****************************************************************************/
 
 void

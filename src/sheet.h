@@ -367,6 +367,9 @@ void  sheet_clear_region (Sheet *sheet,
 			  int end_col, int end_row,
 			  int clear_flags, GOCmdContext *cc);
 
+GOUndo *sheet_clear_region_undo (GnmSheetRange *sr, 
+				 int clear_flags);
+
 SheetView *sheet_get_view (Sheet const *sheet, WorkbookView const *wbv);
 
 #define SHEET_FOREACH_VIEW(sheet, view, code)					\

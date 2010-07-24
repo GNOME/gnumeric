@@ -1,3 +1,12 @@
+2010-07-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/clipboard.c (cb_clipboard_copy_range_undo): paste everything back
+	* src/commands.c (cmd_clear_*): delete
+	(cmd_selection_clear): rewrite using GOUndo
+	* src/sheet.c (sheet_clear_region_undo): new
+	(sheet_clear_region_cb): new
+	* src/sheet.h (sheet_clear_region_undo): new
+
 2010-07-23  Morten Welinder  <terra@gnome.org>
 
 	* src/func.c (gnm_func_sanity_check1): Make sure argument names,
