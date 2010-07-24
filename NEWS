@@ -46,6 +46,7 @@ Andreas:
 	* Add preference settings whether to show function name and/or
 	  argument tooltips.
 	* Fix undo of Clear->All and Clear->Comments. [#625151]
+	* Add menu items to allow clearing of filtered rows only.
 
 Jean:
 	* Fix strong/weak cursor display. [#623241]

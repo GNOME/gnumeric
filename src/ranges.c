@@ -466,17 +466,6 @@ range_fragment (GnmRange const *a, GnmRange const *b)
 	return ans;
 }
 
-void
-range_fragment_free (GSList *fragments)
-{
-	GSList *l = fragments;
-
-	for (l = fragments; l; l = l->next)
-		g_free (l->data);
-
-	g_slist_free (fragments);
-}
-
 /**
  * range_intersection:
  * @r: intersection range

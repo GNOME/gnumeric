@@ -1,3 +1,17 @@
+2010-07-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* component/Gnumeric-embed.xml.in: add "clear filtered" menu items
+	* src/GNOME_Gnumeric-gtk.xml.in: ditto
+	* src/HILDON_Gnumeric-gtk.xml.in: ditto
+	* src/commands.c (cmd_selection_clear_row_handler): new
+	(cmd_selection_clear): adjust selection if only considering filtered rows
+	* src/ranges.c (range_fragment_free): delete
+	* src/ranges.h (range_fragment_free): change into a define using 
+	  go_slist_custom
+	* src/sheet.h (SheetClearFlags): add CLEAR_FILTERED_ONLY
+	* src/wbc-gtk-actions.c (cb_edit_clear_*_filtered): new
+	(EditClear*Filtered): new actions
+
 2010-07-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/clipboard.c (cb_clipboard_copy_range_undo): paste everything back

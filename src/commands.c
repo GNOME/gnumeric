@@ -1417,6 +1417,22 @@ cmd_delete_rows (WorkbookControl *wbc,
 
 /******************************************************************/
 
+typedef struct {
+	GSList	  *selection;
+	GnmRange const *r;	
+} cmd_selection_clear_row_handler_t;
+
+static gboolean
+cmd_selection_clear_row_handler (GnmColRowIter const *iter, 
+				 cmd_selection_clear_row_handler_t *data)
+{
+	if ((!iter->cri->in_filter) || iter->cri->visible) {
+		GnmRange *r = gnm_range_dup (data->r);
+		r->start.row = r->end.row = iter->pos;
+		data->selection = g_slist_prepend (data->selection, r);
+	}
+	return FALSE;
+}
 
 gboolean
 cmd_selection_clear (WorkbookControl *wbc, int clear_flags)
@@ -1431,6 +1447,25 @@ cmd_selection_clear (WorkbookControl *wbc, int clear_flags)
 	GOUndo *undo = NULL;
 	GOUndo *redo = NULL;
 	GSList *ranges;
+
+	if ((clear_flags & CLEAR_FILTERED_ONLY) != 0 && sheet->filters != NULL) {
+		/* We need to modify the selection to only include filtered rows. */
+		cmd_selection_clear_row_handler_t data;
+		data.selection = selection;
+		for (ranges = selection; ranges != NULL ; ranges = ranges->next) {
+			GnmFilter *filter;
+			data.r = ranges->data;
+			filter = gnm_sheet_filter_intersect_rows  
+				(sheet, data.r->start.row, data.r->end.row);
+			if (filter) {
+				colrow_foreach (&sheet->rows, data.r->start.row, data.r->end.row,
+						(ColRowHandler) cmd_selection_clear_row_handler, &data);
+				g_free (ranges->data);
+				ranges->data = NULL;
+			}
+		}
+		selection = g_slist_remove_all (data.selection, NULL);
+	}
 
 	/* We should first determine whether we break anything by clearing */
 	/* Check for array subdivision *//* Check for locked cells */

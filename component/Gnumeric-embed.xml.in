@@ -40,7 +40,13 @@
       <menu name="Clear" action="MenuEditClear">
         <menuitem action="EditClearAll"/>
         <menuitem action="EditClearFormats"/>
+        <menuitem action="EditClearComments"/>
         <menuitem action="EditClearContent"/>
+	<separator name="clear-sep1"/>
+        <menuitem action="EditClearAllFiltered"/>
+        <menuitem action="EditClearFormatsFiltered"/>
+        <menuitem action="EditClearCommentsFiltered"/>
+        <menuitem action="EditClearContentFiltered"/>
       </menu>
       <menu name="Delete" action="MenuEditDelete">
 	<menuitem action="EditDeleteColumns"/>

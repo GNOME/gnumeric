@@ -61,6 +61,8 @@ guint	  gnm_range_hash  (GnmRange const *r);
 #define range_valid(r)          ((r)->start.col <= (r)->end.col && \
 				 (r)->start.row <= (r)->end.row)
 
+#define range_fragment_free(f) go_slist_free_custom ((f), g_free)
+
 GnmRange   *range_init_full_sheet   (GnmRange *r, Sheet const *sheet);
 GnmRange   *range_init_cols   	    (GnmRange *r, Sheet const *sheet,
 				     int start_col, int end_col);
@@ -102,7 +104,6 @@ void        range_dump		(GnmRange const *r, char const *suffix);
 
 GSList     *range_split_ranges    (GnmRange const *hard, GnmRange const *soft);
 GSList     *range_fragment        (GnmRange const *a, GnmRange const *b);
-void        range_fragment_free   (GSList *fragments);
 
 GnmSheetRange *gnm_sheet_range_new	  (Sheet *sheet, GnmRange const *r);
 void           gnm_sheet_range_free       (GnmSheetRange *r);

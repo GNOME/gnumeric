@@ -359,7 +359,8 @@ typedef enum {
 	CLEAR_NORESPAN	   = 0x10,
 	CLEAR_RECALC_DEPS  = 0x20,
 	CLEAR_MERGES	   = 0x40,
-	CLEAR_OBJECTS	   = 0x80
+	CLEAR_OBJECTS	   = 0x80,
+	CLEAR_FILTERED_ONLY = 0x100
 } SheetClearFlags;
 
 void  sheet_clear_region (Sheet *sheet,

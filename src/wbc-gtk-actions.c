@@ -321,6 +321,18 @@ static GNM_ACTION_DEF (cb_edit_clear_comments)
 	{ cmd_selection_clear (WORKBOOK_CONTROL (wbcg), CLEAR_COMMENTS); }
 static GNM_ACTION_DEF (cb_edit_clear_content)
 	{ cmd_selection_clear (WORKBOOK_CONTROL (wbcg), CLEAR_VALUES); }
+static GNM_ACTION_DEF (cb_edit_clear_all_filtered)
+{
+	cmd_selection_clear (WORKBOOK_CONTROL (wbcg),
+		CLEAR_VALUES | CLEAR_FORMATS | CLEAR_OBJECTS | CLEAR_COMMENTS | CLEAR_FILTERED_ONLY);
+}
+
+static GNM_ACTION_DEF (cb_edit_clear_formats_filtered)
+	{ cmd_selection_clear (WORKBOOK_CONTROL (wbcg), CLEAR_FORMATS | CLEAR_FILTERED_ONLY); }
+static GNM_ACTION_DEF (cb_edit_clear_comments_filtered)
+	{ cmd_selection_clear (WORKBOOK_CONTROL (wbcg), CLEAR_COMMENTS | CLEAR_FILTERED_ONLY); }
+static GNM_ACTION_DEF (cb_edit_clear_content_filtered)
+	{ cmd_selection_clear (WORKBOOK_CONTROL (wbcg), CLEAR_VALUES | CLEAR_FILTERED_ONLY); }
 
 static GNM_ACTION_DEF (cb_edit_delete_rows)
 {
@@ -1935,12 +1947,27 @@ static GtkActionEntry const actions[] = {
 	{ "EditClearAll", GTK_STOCK_CLEAR, N_("_All"),
 		NULL, N_("Clear the selected cells' formats, comments, and contents"),
 		G_CALLBACK (cb_edit_clear_all) },
-	{ "EditClearFormats", NULL, N_("_Formats"),
-		NULL, N_("Clear the selected cells' formats"),
+	{ "EditClearFormats", NULL, N_("_Formats & Hyperlinks"),
+		NULL, N_("Clear the selected cells' formats and hyperlinks"),
 		G_CALLBACK (cb_edit_clear_formats) },
+	{ "EditClearComments", "Gnumeric_CommentDelete", N_("Co_mments"),
+		NULL, N_("Delete the selected cells' comments"),
+		G_CALLBACK (cb_edit_clear_comments) },
 	{ "EditClearContent", GTK_STOCK_CLEAR, N_("_Contents"),
 		NULL, N_("Clear the selected cells' contents"),
 		G_CALLBACK (cb_edit_clear_content) },
+	{ "EditClearAllFiltered", GTK_STOCK_CLEAR, N_("A_ll Filtered Rows"),
+		NULL, N_("Clear the selected cells' formats, comments, and contents in the filtered rows"),
+		G_CALLBACK (cb_edit_clear_all_filtered) },
+	{ "EditClearFormatsFiltered", NULL, N_("F_ormats & Hyperlinks in Filtered Rows"),
+		NULL, N_("Clear the selected cells' formats and hyperlinks in the filtered rows"),
+		G_CALLBACK (cb_edit_clear_formats_filtered) },
+	{ "EditClearCommentsFiltered", "Gnumeric_CommentDelete", N_("Comme_nts in Filtered Rows"),
+		NULL, N_("Delete the selected cells' comments in the filtered rows"),
+		G_CALLBACK (cb_edit_clear_comments_filtered) },
+	{ "EditClearContentFiltered", GTK_STOCK_CLEAR, N_("Content_s of Filtered Rows"),
+		NULL, N_("Clear the selected cells' contents in the filtered rows"),
+		G_CALLBACK (cb_edit_clear_content_filtered) },
 
 /* Edit -> Delete */
 	{ "EditDeleteRows", "Gnumeric_RowDelete", N_("_Rows"),
@@ -1952,9 +1979,6 @@ static GtkActionEntry const actions[] = {
 	{ "EditDeleteCells", NULL, N_("C_ells..."),
 		  "<control>minus", N_("Delete the selected cells, shifting others into their place"),
 		  G_CALLBACK (cb_edit_delete_cells) },
-	{ "EditClearComments", "Gnumeric_CommentDelete", N_("Co_mments"),
-		NULL, N_("Delete the selected cells' comments"),
-		G_CALLBACK (cb_edit_clear_comments) },
 	{ "EditClearHyperlinks", "Gnumeric_Link_Delete", N_("_Hyperlinks"),
 		NULL, N_("Delete the selected cells' hyperlinks"),
 		G_CALLBACK (cb_edit_delete_links) },
