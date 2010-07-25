@@ -1,3 +1,12 @@
+2010-07-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (build_hdate): new
+	(gnumeric_hdate_heb): use build_hdate
+	(gnumeric_date2hdate_heb): use build_hdate
+	* hdate_strings.c (hdate_int_to_hebrew): fix character/byte confusion and
+	  use hebrew quotes
+	(hdate_get_hebrew_month_name_heb): use the complete names
+
 2010-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* plugin.xml.in: new functions DATE2HDATE, DATE2HDATE_HEB, and

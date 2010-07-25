@@ -48,6 +48,7 @@
 GNM_PLUGIN_MODULE_HEADER;
 
 #define DATE_CONV(ep)               workbook_date_conv ((ep)->sheet->workbook)
+#define UNICODE_MONTH_PREFIX "\xd7\x91\xd6\xbc\xd6\xb0"
 
 static void
 gnumeric_hdate_get_date (GnmValue const * const *arg, int *year, int *month, int *day)
@@ -167,6 +168,16 @@ static GnmFuncHelp const help_hdate_heb[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
+static void
+build_hdate (GString *res, int hyear, int hmonth, int hday)
+{
+	hdate_int_to_hebrew (res, hday + 1);
+	g_string_append (res, " " UNICODE_MONTH_PREFIX);
+	g_string_append (res, hdate_get_hebrew_month_name_heb (hmonth));
+	g_string_append_c (res, ' ');
+	hdate_int_to_hebrew (res, hyear);
+}
+
 static GnmValue *
 gnumeric_hdate_heb (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 {
@@ -180,11 +191,7 @@ gnumeric_hdate_heb (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 		return value_new_error_VALUE (ei->pos);
 
 	res = g_string_new (NULL);
-	hdate_int_to_hebrew (res, hday + 1);
-	g_string_append_c (res, ' ');
-	g_string_append (res, hdate_get_hebrew_month_name_heb (hmonth));
-	g_string_append_c (res, ' ');
-	hdate_int_to_hebrew (res, hyear);
+	build_hdate (res, hyear, hmonth, hday);
 
 	return value_new_string_nocopy (g_string_free (res, FALSE));
 }
@@ -216,11 +223,7 @@ gnumeric_date2hdate_heb (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 		return value_new_error_VALUE (ei->pos);
 
 	res = g_string_new (NULL);
-	hdate_int_to_hebrew (res, hday + 1);
-	g_string_append_c (res, ' ');
-	g_string_append (res, hdate_get_hebrew_month_name_heb (hmonth));
-	g_string_append_c (res, ' ');
-	hdate_int_to_hebrew (res, hyear);
+	build_hdate (res, hyear, hmonth, hday);
 
 	return value_new_string_nocopy (g_string_free (res, FALSE));
 }

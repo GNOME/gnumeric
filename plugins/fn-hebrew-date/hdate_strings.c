@@ -2,8 +2,9 @@
 /*
  * hdate_strings.c: convert libhdate internal numbers to readable hebrew strings.
  *
- * Author:
+ * Authors:
  *   Yaacov Zamir <kzamir@walla.co.il>
+ *   Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +29,9 @@
 #include <string.h>
 
 #include "hdate.h"
+
+#define UNICODE_GERESH "\xd7\xb3"
+#define UNICODE_GERSHAYIM "\xd7\xb4"
 
 /**
  @brief convert an integer to hebrew string UTF-8 (logical)
@@ -80,11 +84,17 @@ hdate_int_to_hebrew (GString *res, int n)
 
 	length = g_utf8_strlen (res->str + oldlen, -1);
 
+	/* Note: length is in characters */
+
 	/* add the ' and " to hebrew numbers */
-	if (length <= 2)
-		g_string_append_c (res, '\'');
+	if (length < 2)
+		g_string_append (res, UNICODE_GERESH);
 	else
-		g_string_insert_c (res, length - 2, '"');
+		g_string_insert
+			(res, 
+			 g_utf8_offset_to_pointer (res->str + oldlen,
+						   length - 1) - res->str, 
+			 UNICODE_GERSHAYIM);
 }
 
 /**
@@ -123,9 +133,20 @@ const char *
 hdate_get_hebrew_month_name_heb (int month)
 {
 	static const char *h_heb_months[] = {
-		"תשרי", "חשון", "כסלו", "טבת", "שבט", "אדר",
-		"ניסן", "איר", "סיון", "תמוז", "אב", "אלול", 
-		"אדר א", "אדר ב"
+		"ת\xd6\xbc\xd6\xb4ש\xd7\x81\xd6\xb0ר\xd6\xb5י", /* Tishri */
+		"ח\xd6\xb6ש\xd7\x81\xd6\xb0ו\xd7\x87ן",         /* Heshwan */ 
+		"כ\xd6\xbc\xd6\xb4ס\xd6\xb0ל\xd6\xb5ו",         /* Kislev */
+		"ט\xd6\xb5ב\xd6\xb5ת",                          /* Tebet */
+		"ש\xd7\x81\xd6\xb0ב\xd7\x87ט",                  /* Shebat */
+		"א\xd6\xb7ד\xd7\x87ר",                          /* Adar */
+		"נ\xd6\xb4יס\xd7\x87ן",                         /* Nissan */
+		"א\xd6\xb4י\xd7\x87יר",                         /* Iyar */
+		"ס\xd6\xb4יו\xd7\x87ן",                         /* Sivan */
+		"ת\xd6\xbc\xd7\x87מו\xd6\xbcז",                 /* Tammuz */
+		"א\xd6\xb8ב",                                   /* Ab */
+		"א\xd6\xb1לו\xd6\xbcל",                         /* Elul */
+		"א\xd6\xb7ד\xd7\x87ר א\xd7\xb3",                /* Adar I*/
+		"א\xd6\xb7ד\xd7\x87ר ב\xd7\xb3"                 /* Adar II*/
 	};
 
 	if (month < 0 || month > 13)

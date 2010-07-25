@@ -16,7 +16,7 @@ Andreas:
 	* Fix various function docs issues.  [#623669][#624559][#625102]
 	* Improve the presentation of the examples in the function
 	  documentation. [#623455]
-	* Fix HDATE and friends. [#623764]
+	* Fix HDATE and friends. [#623764][#625177]
 	* New functions DATE2HDATE, DATE2HDATE_HEB and DATE2JULIAN.
 	* Add hyperlink and comment removal menu items.
 	* Add merge and unmerge menu items.
