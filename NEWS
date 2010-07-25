@@ -19,7 +19,6 @@ Andreas:
 	* Fix HDATE and friends. [#623764]
 	* New functions DATE2HDATE, DATE2HDATE_HEB and DATE2JULIAN.
 	* Add hyperlink and comment removal menu items.
-	* Fix undoing of Clear->All. [#623803]
 	* Add merge and unmerge menu items.
 	* Add menu item to autofit column width or row height based on the 
 	  selection only. [#125595]
@@ -45,7 +44,7 @@ Andreas:
 	  names while editing cells (Shift-F4).
 	* Add preference settings whether to show function name and/or
 	  argument tooltips.
-	* Fix undo of Clear->All and Clear->Comments. [#625151]
+	* Fix undo of Clear->All and Clear->Comments. [#625151][#623803]
 	* Add menu items to allow clearing of filtered rows only.
 
 Jean:
