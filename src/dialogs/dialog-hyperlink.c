@@ -590,15 +590,19 @@ dialog_hyperlink (WBCGtk *wbcg, SheetControl *sc)
 		if (NULL != (link = sheet_style_region_contains_link (sheet, ptr->data)))
 			break;
 
-	if (link == NULL) {
-		link = g_object_new (gnm_hlink_url_get_type (), NULL);
+	/* We are creating a new link since the existing link */
+	/* may be used in many places. */
+	/* We are duplicating it here rather than in an ok handler in case */
+	/* The link is changed for a differnt cell in a different view. */
+	state->link = g_object_new (gnm_hlink_url_get_type (), NULL);
+	if (link == NULL)
 		state->is_new = TRUE;
-	} else {
-		g_object_ref (link);
+	else {
 		state->is_new = FALSE;
+		gnm_hlink_set_target (state->link, gnm_hlink_get_target (link));
+		gnm_hlink_set_tip (state->link, gnm_hlink_get_tip (link));
 	}
 
-	state->link = link;
 	if (dhl_init (state)) {
 		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
 				 _("Could not create the hyperlink dialog."));

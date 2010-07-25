@@ -46,6 +46,7 @@ Andreas:
 	  argument tooltips.
 	* Fix undo of Clear->All and Clear->Comments. [#625151][#623803]
 	* Add menu items to allow clearing of filtered rows only.
+	* Fix editing of hyperlinks.
 
 Jean:
 	* Fix strong/weak cursor display. [#623241]
