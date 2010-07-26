@@ -28,6 +28,7 @@
 #include "help.h"
 
 #include <gui-util.h>
+#include <gnumeric-gconf.h>
 #include <search.h>
 #include <sheet.h>
 #include <sheet-view.h>
@@ -238,6 +239,29 @@ is_checked (GtkBuilder *gui, const char *name)
 }
 
 static void
+dialog_search_save_in_prefs (DialogState *dd)
+{
+	GladeXML *gui = dd->gui;
+
+#define SETW(w,f) f (is_checked (gui, w));
+	SETW("search_expr", gnm_conf_set_searchreplace_change_cell_expressions);
+	SETW("search_other", gnm_conf_set_searchreplace_change_cell_other);
+	SETW("search_string", gnm_conf_set_searchreplace_change_cell_strings);
+	SETW("search_comments", gnm_conf_set_searchreplace_change_comments);
+	SETW("search_expr_results", gnm_conf_set_searchreplace_search_results);
+	SETW("ignore_case", gnm_conf_set_searchreplace_ignore_case);
+	SETW("match_words", gnm_conf_set_searchreplace_whole_words_only);
+	SETW("column_major", gnm_conf_set_searchreplace_columnmajor);
+#undef SETW
+
+	gnm_conf_set_searchreplace_regex 
+		(go_gtk_builder_group_value (gui, search_type_group));
+	gnm_conf_set_searchreplace_scope 
+		(go_gtk_builder_group_value (gui, scope_group));
+}
+
+
+static void
 cursor_change (GtkTreeView *tree_view, DialogState *dd)
 {
 	int matchno;
@@ -337,6 +361,9 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 		return;
 	}
 
+	if  (is_checked (gui, "save-in-prefs"))
+		dialog_search_save_in_prefs (dd);
+	
 	{
 		GnumericLazyList *ll;
 		GPtrArray *cells;
@@ -525,6 +552,34 @@ dialog_search (WBCGtk *wbcg)
 
 	/* Set sensitivity of buttons.  */
 	cursor_change (dd->matches_table, dd);
+
+#define SETW(w,f) gtk_toggle_button_set_active				\
+	     (GTK_TOGGLE_BUTTON (gtk_builder_get_object (gui, w)),  f())
+	SETW("search_expr", gnm_conf_get_searchreplace_change_cell_expressions);
+	SETW("search_other", gnm_conf_get_searchreplace_change_cell_other);
+	SETW("search_string", gnm_conf_get_searchreplace_change_cell_strings);
+	SETW("search_comments", gnm_conf_get_searchreplace_change_comments);
+	SETW("search_expr_results", gnm_conf_get_searchreplace_search_results);
+	SETW("ignore_case", gnm_conf_get_searchreplace_ignore_case);
+	SETW("match_words", gnm_conf_get_searchreplace_whole_words_only);
+#undef SETW
+
+	gtk_toggle_button_set_active 
+	  (GTK_TOGGLE_BUTTON 
+	   (gtk_builder_get_object
+	    (gui, 
+	     search_type_group[gnm_conf_get_searchreplace_regex ()])), TRUE);
+	gtk_toggle_button_set_active 
+	  (GTK_TOGGLE_BUTTON 
+	   (gtk_builder_get_object 
+	    (gui, 
+	     direction_group
+	     [gnm_conf_get_searchreplace_columnmajor () ? 1 : 0])), TRUE);
+	gtk_toggle_button_set_active 
+	  (GTK_TOGGLE_BUTTON 
+	   (gtk_builder_get_object
+	    (gui, 
+	     scope_group[gnm_conf_get_searchreplace_scope ()])), TRUE);
 
 	g_signal_connect (G_OBJECT (dd->matches_table), "cursor_changed",
 		G_CALLBACK (cursor_change), dd);

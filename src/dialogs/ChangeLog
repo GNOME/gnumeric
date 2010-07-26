@@ -1,5 +1,13 @@
 2010-07-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-search.c (dialog_search_save_in_prefs): new
+	(dialog_search): use preferences
+	(search_clicked): save preferences if appropriate
+	* search-replace.glade: some minor adjustments
+	* search.ui: add save as defaults checkbox
+
+2010-07-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-hyperlink.c (dialog_hyperlink): duplicate the hyperlink, it 
 	  may be used in many cells and we want to change it only here.
 	

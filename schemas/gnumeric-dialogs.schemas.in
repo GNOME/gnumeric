@@ -688,6 +688,17 @@
         </locale>
       </schema>
       <schema>
+        <key>/schemas/apps/gnumeric/searchreplace/search-results</key>
+        <applyto>/apps/gnumeric/searchreplace/search-results</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>TRUE</default>
+        <locale name="C">
+        <short>Search searches in results</short>
+        <long>Search searches in results as default</long>
+        </locale>
+      </schema>
+      <schema>
         <key>/schemas/apps/gnumeric/searchreplace/keep-strings</key>
         <applyto>/apps/gnumeric/searchreplace/keep-strings</applyto>
         <owner>Gnumeric</owner>

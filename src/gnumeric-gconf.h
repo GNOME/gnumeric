@@ -441,6 +441,10 @@ GOConfNode *gnm_conf_get_searchreplace_scope_node (void);
 int gnm_conf_get_searchreplace_scope (void);
 void gnm_conf_set_searchreplace_scope (int);
 
+GOConfNode *gnm_conf_get_searchreplace_search_results_node (void);
+gboolean gnm_conf_get_searchreplace_search_results (void);
+void gnm_conf_set_searchreplace_search_results (gboolean);
+
 GOConfNode *gnm_conf_get_searchreplace_whole_words_only_node (void);
 gboolean gnm_conf_get_searchreplace_whole_words_only (void);
 void gnm_conf_set_searchreplace_whole_words_only (gboolean);

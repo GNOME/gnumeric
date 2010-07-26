@@ -3318,6 +3318,32 @@ gnm_conf_get_searchreplace_scope_node (void)
 	return get_node (watch_searchreplace_scope.key);
 }
 
+static struct cb_watch_bool watch_searchreplace_search_results = {
+	0, "searchreplace/search-results", TRUE,
+};
+
+gboolean
+gnm_conf_get_searchreplace_search_results (void)
+{
+	if (!watch_searchreplace_search_results.handler)
+		watch_bool (&watch_searchreplace_search_results);
+	return watch_searchreplace_search_results.var;
+}
+
+void
+gnm_conf_set_searchreplace_search_results (gboolean x)
+{
+	if (!watch_searchreplace_search_results.handler)
+		watch_bool (&watch_searchreplace_search_results);
+	set_bool (&watch_searchreplace_search_results, x);
+}
+
+GOConfNode *
+gnm_conf_get_searchreplace_search_results_node (void)
+{
+	return get_node (watch_searchreplace_search_results.key);
+}
+
 static struct cb_watch_bool watch_searchreplace_whole_words_only = {
 	0, "searchreplace/whole-words-only", FALSE,
 };
