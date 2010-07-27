@@ -47,7 +47,9 @@ Andreas:
 	* Fix undo of Clear->All and Clear->Comments. [#625151][#623803]
 	* Add menu items to allow clearing of filtered rows only.
 	* Fix editing of hyperlinks.
-	* Work around OOo's failure to correctly define its named ranges. [#625332]
+	* Work around OOo's failure to correctly define its named ranges. 
+	  [#625332]
+	* Remove range hightlighting while not editing expressions. [#625361]
 
 Jean:
 	* Fix strong/weak cursor display. [#623241]

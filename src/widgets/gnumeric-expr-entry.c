@@ -542,39 +542,37 @@ gee_scan_for_range (GnmExprEntry *gee)
 
 	parse_pos_init_editpos (&gee->pp, scg_view (gee->scg));
 	gee_destroy_feedback_range (gee);
-	if (!gee->feedback_disabled) {
-		if (gee_is_editing (gee)) {
-			char const *text = gtk_entry_get_text (gee->entry);
-			GnmParsePos pp;
-			GnmExprTop const *texpr;
-			parse_pos_init_sheet (&pp, sheet);
-			if ((texpr = gnm_expr_parse_str
-			     ((text[0] == '=') ? text+1 : text, &pp, GNM_EXPR_PARSE_DEFAULT,
-			      sheet_get_conventions (sheet), NULL))!= NULL) {
-				GSList *ptr;
-				GSList *list = gnm_expr_top_get_ranges (texpr);
-				for (ptr = list ; ptr != NULL ; ptr = ptr->next) {
-					GnmValue *v = ptr->data;
-					GnmRange  r;
-					GnmRangeRef const *rr = value_get_rangeref (v);
-					GnmRange const *merge; /* [#127415] */
-					if (rr->a.sheet != NULL && rr->a.sheet != sheet)
-						continue;
-					if (rr->b.sheet != NULL && rr->b.sheet != sheet)
-						continue;
-					range_init_rangeref (&r, rr);
-					if (range_is_singleton  (&r) &&
-					    NULL != (merge = gnm_sheet_merge_is_corner
-						     (sheet, &r.start)))
-						r = *merge;
-					SCG_FOREACH_PANE (gee->scg, pane,
-							  gnm_pane_expr_cursor_bound_set
-							  (pane, &r, FALSE););
-				}
-
-				go_slist_free_custom (list, (GFreeFunc)value_release);
-				gnm_expr_top_unref (texpr);
+	if (!gee->feedback_disabled && gee_is_editing (gee)) {
+		char const *text = gtk_entry_get_text (gee->entry);
+		GnmParsePos pp;
+		GnmExprTop const *texpr;
+		parse_pos_init_sheet (&pp, sheet);
+		if ((texpr = gnm_expr_parse_str
+		     ((text[0] == '=') ? text+1 : text, &pp, GNM_EXPR_PARSE_DEFAULT,
+		      sheet_get_conventions (sheet), NULL))!= NULL) {
+			GSList *ptr;
+			GSList *list = gnm_expr_top_get_ranges (texpr);
+			for (ptr = list ; ptr != NULL ; ptr = ptr->next) {
+				GnmValue *v = ptr->data;
+				GnmRange  r;
+				GnmRangeRef const *rr = value_get_rangeref (v);
+				GnmRange const *merge; /* [#127415] */
+				if (rr->a.sheet != NULL && rr->a.sheet != sheet)
+					continue;
+				if (rr->b.sheet != NULL && rr->b.sheet != sheet)
+					continue;
+				range_init_rangeref (&r, rr);
+				if (range_is_singleton  (&r) &&
+				    NULL != (merge = gnm_sheet_merge_is_corner
+					     (sheet, &r.start)))
+					r = *merge;
+				SCG_FOREACH_PANE (gee->scg, pane,
+						  gnm_pane_expr_cursor_bound_set
+						  (pane, &r, FALSE););
 			}
+			
+			go_slist_free_custom (list, (GFreeFunc)value_release);
+			gnm_expr_top_unref (texpr);
 		}
 		gnm_expr_entry_find_range (gee);
 		if (gnm_expr_entry_get_rangesel (gee, &range, &parse_sheet) &&
@@ -584,7 +582,7 @@ gee_scan_for_range (GnmExprEntry *gee)
 			    NULL != (merge = gnm_sheet_merge_is_corner
 				     (parse_sheet, &range.start)))
 				range = *merge;
-
+			
 			SCG_FOREACH_PANE (gee->scg, pane,
 					  gnm_pane_expr_cursor_bound_set
 					  (pane, &range, TRUE););

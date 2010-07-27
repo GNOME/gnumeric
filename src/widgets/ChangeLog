@@ -1,3 +1,7 @@
+2010-07-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (gee_scan_for_range): show all ranges or none.
+	
 2010-07-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (gee_set_tooltip): don't remove the completion
