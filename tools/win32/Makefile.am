@@ -8,7 +8,7 @@ debug:: all
 release:: all
 	$(abs_srcdir)/build $(abs_builddir) $(abs_srcdir) release
 
-clean:
+distclean:
 	rm -rf debug release
 
 EXTRA_DIST = gnumeric.nsi.in gtkrc moduleset.in \

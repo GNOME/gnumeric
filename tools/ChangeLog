@@ -1,6 +1,11 @@
+2010-07-26  Morten Welinder <terra@gnome.org>
+
+	* win32/Makefile.am: Don't delete "debug" and "release" and a
+	simple "make clean".
+
 2010-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* handle-conf-options: add max & min for 
+	* handle-conf-options: add max & min for
 	  /apps/gnumeric/searchreplace/scope,
 	  /apps/gnumeric/searchreplace/error-behaviour
 	  /apps/gnumeric/searchreplace/regex
