@@ -29,11 +29,19 @@ addpath('PKG_CONFIG_PATH', os.path.join(os.sep, prefix, 'lib64', 'pkgconfig'))
 addpath('PKG_CONFIG_PATH', os.path.join(os.sep, prefix, 'share', 'pkgconfig'))
 
 #Prefix for all the tools
-mingw_tool_prefix = '/usr/bin/i586-mingw32msvc-'
-if os.path.exists(mingw_tool_prefix + 'gcc'):
-    0# Nothing
+mingw_tool_prefix1 = '/usr/bin/i586-mingw32msvc-'
+mingw_tool_prefix2 = '/usr/bin/i686-pc-mingw32-'
+mingw_tool_prefix3 = '/opt/cross/bin/i386-mingw32msvc-'
+
+if os.path.exists(mingw_tool_prefix1 + 'gcc'):
+    mingw_tool_prefix = mingw_tool_prefix1
+elif os.path.exists(mingw_tool_prefix2 + 'gcc'):
+    mingw_tool_prefix = mingw_tool_prefix2
+elif os.path.exists(mingw_tool_prefix3 + 'gcc'):
+    mingw_tool_prefix = mingw_tool_prefix3
 else:
-    mingw_tool_prefix = '/usr/bin/i686-pc-mingw32-'
+    print "Unable to find mingw"
+    sys.exit (1)
 
 mingw_tools = {'ADDR2LINE': 'addr2line',
 	'AS': 'as', 'CC': 'gcc', 'CPP': 'cpp',
