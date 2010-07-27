@@ -1,6 +1,6 @@
 --- gtk+-2.20.0/gtk/gtkprintoperation-win32.c	2010-03-22 08:44:12.000000000 -0400
 +++ gtk+-2.20.0.new/gtk/gtkprintoperation-win32.c	2010-04-14 22:40:57.000000000 -0400
-@@ -72,8 +72,9 @@
+@@ -72,8 +72,10 @@
  
  static const GUID myIID_IPrintDialogCallback  = {0x5852a2c3,0x6530,0x11d1,{0xb6,0xa3,0x0,0x0,0xf8,0x75,0x7b,0xf9}};
  
@@ -8,6 +8,7 @@
 +#if 1
  #undef INTERFACE
 +#define IPrintDialogCallback MyIPrintDialogCallback
++#define IPrintDialogCallbackVtbl MyIPrintDialogCallbackVtbl
  #define INTERFACE IPrintDialogCallback
  DECLARE_INTERFACE_ (IPrintDialogCallback, IUnknown)
  {
