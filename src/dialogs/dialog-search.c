@@ -241,7 +241,7 @@ is_checked (GtkBuilder *gui, const char *name)
 static void
 dialog_search_save_in_prefs (DialogState *dd)
 {
-	GladeXML *gui = dd->gui;
+	GtkBuilder *gui = dd->gui;
 
 #define SETW(w,f) f (is_checked (gui, w));
 	SETW("search_expr", gnm_conf_set_searchreplace_change_cell_expressions);
