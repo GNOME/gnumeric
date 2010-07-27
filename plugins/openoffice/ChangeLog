@@ -1,3 +1,9 @@
+2010-07-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_db_range_start): If this filter range 
+	  has a name define it as a named-range. Some files created
+	  by OOo depend on it.
+
 2010-07-08  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (odf_scientific): Use go_format_details_new

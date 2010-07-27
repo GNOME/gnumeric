@@ -3096,6 +3096,9 @@ oo_db_range_start (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean buttons = TRUE;
 	GnmRangeRef ref;
 	GnmRange r;
+	char const *name = NULL;
+	GnmExpr const *expr = NULL;
+	GnmParsePos   pp;
 
 	g_return_if_fail (state->filter == NULL);
 
@@ -3103,12 +3106,30 @@ oo_db_range_start (GsfXMLIn *xin, xmlChar const **attrs)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "target-range-address")) {
 			char const *ptr = oo_cellref_parse (&ref.a, CXML2C (attrs[1]), &state->pos);
 			if (':' == *ptr &&
-			    '\0' == *oo_cellref_parse (&ref.b, ptr+1, &state->pos))
+			    '\0' == *oo_cellref_parse (&ref.b, ptr+1, &state->pos)) {
 				state->filter = gnm_filter_new (ref.a.sheet, range_init_rangeref (&r, &ref));
-			else
+				expr = gnm_expr_new_constant (value_new_cellrange_r (ref.a.sheet, &r));
+			} else
 				oo_warning (xin, _("Invalid DB range '%s'"), attrs[1]);
 		} else if (oo_attr_bool (xin, attrs, OO_NS_TABLE, "display-filter-buttons", &buttons))
 			/* ignore this */;
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "name"))
+			name = CXML2C (attrs[1]);
+
+	/* It appears that OOo likes to use the names it assigned to filters as named-ranges */
+	/* This really violates ODF/OpenFormula. So we make sure that there isn't already a named */
+	/* expression or range with that name. */
+	if (expr != NULL) {
+		GnmNamedExpr *nexpr = NULL;
+		if (name != NULL 
+		    && (NULL == (nexpr = expr_name_lookup 
+				 (parse_pos_init (&pp, state->pos.wb, NULL, 0, 0), name)) || 
+			nexpr->is_placeholder)) {
+			GnmExprTop const *texpr = gnm_expr_top_new (expr);
+			expr_name_add (&pp, name, texpr, NULL, TRUE, NULL);
+		} else 
+			gnm_expr_free (expr);
+	}
 }
 
 static void
