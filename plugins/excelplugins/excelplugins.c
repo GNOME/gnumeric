@@ -151,7 +151,6 @@ gnm_value_type_name (const GnmValue*g)
 		switch (g->type) {
 		CASE(VALUE_EMPTY);
 		CASE(VALUE_BOOLEAN);
-		CASE(VALUE_INTEGER);
 		CASE(VALUE_FLOAT);
 		CASE(VALUE_ERROR);
 		CASE(VALUE_STRING);
@@ -286,7 +285,6 @@ copy_construct_xloper_from_gnm_value (XLOPER*out, const GnmValue*in,
 			out->xltype = xltypeBool;
 			out->val.boolean = (WORD)in->v_bool.val;
 			break;
-		case VALUE_INTEGER:
 		case VALUE_FLOAT:
 			out->xltype = xltypeNum;
 			out->val.num = in->v_float.val;

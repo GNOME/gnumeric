@@ -1,0 +1,4 @@
+2010-07-26  Morten Welinder  <terra@gnome.org>
+
+	* excelplugins.c (gnm_value_type_name): Remove references to
+	VALUE_INTEGER.
