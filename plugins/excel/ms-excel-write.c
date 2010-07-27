@@ -4569,7 +4569,7 @@ excel_write_widget_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 
 static void
 write_arrow (GOArrow const *arrow, GString *escher, gsize optmark,
-	     MSObjAttrID id)
+	     guint id)
 {
 	int typ = 0;
 	int l = 0, w = 0;

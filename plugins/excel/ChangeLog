@@ -1,6 +1,11 @@
+2010-07-26  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (write_arrow): Fix argument type for "id".
+
 2010-07-13  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* ms-chart.c (chart_write_AREAFORMAT): fixed the auto flag. [see #624263]
+	* ms-chart.c (chart_write_AREAFORMAT): fixed the auto flag. [see
+	#624263]
 
 2010-07-10  Jean Brefort  <jean.brefort@normalesup.org>
 
