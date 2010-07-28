@@ -62,7 +62,6 @@ struct _GnmBorder {
 
 	/* Private */
 	GdkGC	        *gc;
-	GdkScreen       *gc_screen;
 	gint	        ref_count;
 };
 

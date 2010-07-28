@@ -1,3 +1,8 @@
+2010-07-28  Morten Welinder  <terra@gnome.org>
+
+	* src/style-border.h (struct _GnmBorder): Eliminate unused
+	gc_screen.
+
 2010-07-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/mstyle.c (gnm_style_get_pango_attrs): use 

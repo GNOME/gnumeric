@@ -72,6 +72,7 @@ Morten:
 	* Fix mistakes pointed out by sparse.
 	* Fix win32 versioning problem.  [#624171]
 	* Improve function doc checks.
+	* Eliminate parts of GdkGC usage.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.7

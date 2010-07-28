@@ -238,7 +238,6 @@ gnm_style_border_fetch (GnmStyleBorderType		 line_type,
 	g_hash_table_insert (border_hash, border, border);
 	border->ref_count = 1;
 	border->gc = NULL;
-	border->gc_screen = NULL;
 	border->width = gnm_style_border_get_width (line_type);
 	if (border->line_type == GNM_STYLE_BORDER_DOUBLE) {
 		border->begin_margin = 1;
@@ -326,11 +325,6 @@ gnm_style_border_unref (GnmBorder *border)
 	if (border->gc) {
 		g_object_unref (G_OBJECT (border->gc));
 		border->gc = NULL;
-	}
-
-	if (border->gc_screen) {
-		g_object_unref (G_OBJECT (border->gc_screen));
-		border->gc_screen = NULL;
 	}
 
 	g_free (border);
