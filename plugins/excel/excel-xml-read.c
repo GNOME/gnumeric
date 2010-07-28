@@ -502,9 +502,9 @@ xl_xml_font (GsfXMLIn *xin, xmlChar const **attrs)
 	static EnumVal const underlines[] = {
 		{ "None",		UNDERLINE_NONE },
 		{ "Single",		UNDERLINE_SINGLE },
-		{ "SingleAccounting",	UNDERLINE_SINGLE },
+		{ "SingleAccounting",	UNDERLINE_SINGLE_LOW },
 		{ "Double",		UNDERLINE_DOUBLE },
-		{ "DoubleAccounting",	UNDERLINE_DOUBLE },
+		{ "DoubleAccounting",	UNDERLINE_DOUBLE_LOW },
 		{ NULL, 0 }
 	};
 	static EnumVal const scripts[] = {

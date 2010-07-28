@@ -1,3 +1,7 @@
+2010-07-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-cell-format.c (underline_types): add low underlines
+
 2010-07-28  Morten Welinder  <terra@gnome.org>
 
 	* dialog-about.c (text_item_renderer): Draw with pango.

@@ -513,3 +513,43 @@ gnm_style_default_halign (GnmStyle const *mstyle, GnmCell const *c)
 		}
 	return HALIGN_RIGHT;
 }
+
+PangoUnderline   
+gnm_translate_underline_to_pango (GnmUnderline ul)
+{
+	g_return_val_if_fail (ul >= UNDERLINE_NONE, PANGO_UNDERLINE_NONE);
+	g_return_val_if_fail (ul <= UNDERLINE_DOUBLE_LOW, PANGO_UNDERLINE_NONE);
+	
+	switch (ul) {
+	case UNDERLINE_SINGLE:
+		return PANGO_UNDERLINE_SINGLE;
+	case UNDERLINE_DOUBLE:
+	case UNDERLINE_DOUBLE_LOW:
+		return PANGO_UNDERLINE_DOUBLE;
+	case UNDERLINE_SINGLE_LOW:
+		return PANGO_UNDERLINE_LOW;
+	case UNDERLINE_NONE:
+	default:
+		return PANGO_UNDERLINE_NONE;
+	}
+}
+
+GnmUnderline   
+gnm_translate_underline_from_pango (PangoUnderline pul)
+{
+	g_return_val_if_fail (pul >= PANGO_UNDERLINE_NONE, UNDERLINE_NONE);
+	g_return_val_if_fail (pul <= PANGO_UNDERLINE_LOW, UNDERLINE_NONE);
+	
+	switch (pul) {
+	case PANGO_UNDERLINE_SINGLE:
+		return UNDERLINE_SINGLE;
+	case PANGO_UNDERLINE_DOUBLE:
+		return UNDERLINE_DOUBLE;
+	case PANGO_UNDERLINE_LOW:
+		return UNDERLINE_SINGLE_LOW;
+	case PANGO_UNDERLINE_NONE:
+	default:
+		return UNDERLINE_NONE;
+	}
+	
+}

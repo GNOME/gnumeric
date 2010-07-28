@@ -4563,8 +4563,8 @@ xlsx_font_uline (GsfXMLIn *xin, xmlChar const **attrs)
 	static EnumVal const types[] = {
 		{ "single", UNDERLINE_SINGLE },
 		{ "double", UNDERLINE_DOUBLE },
-		{ "singleAccounting", UNDERLINE_SINGLE },
-		{ "doubleAccounting", UNDERLINE_DOUBLE },
+		{ "singleAccounting", UNDERLINE_SINGLE_LOW },
+		{ "doubleAccounting", UNDERLINE_DOUBLE_LOW },
 		{ "none", UNDERLINE_NONE },
 		{ NULL, 0 }
 	};
@@ -4587,7 +4587,7 @@ xlsx_font_valign (GsfXMLIn *xin, xmlChar const **attrs)
 		{ NULL, 0 }
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int val = UNDERLINE_SINGLE;
+	int val = GO_FONT_SCRIPT_STANDARD;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_enum (xin, attrs, "val", types, &val))

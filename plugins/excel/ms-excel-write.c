@@ -886,15 +886,25 @@ write_border (ExcelWriteSheet const *esheet,
 }
 
 static int
-map_underline_to_xl (GnmStyle const *style)
+map_underline_to_xl (GnmUnderline const ul)
 {
-	switch (gnm_style_get_font_uline (style)) {
+	switch (ul) {
 	default :
 	case UNDERLINE_NONE :   return 0;
 	case UNDERLINE_SINGLE : return 1;
 	case UNDERLINE_DOUBLE : return 2;
+	case UNDERLINE_SINGLE_LOW : return 0x21;
+	case UNDERLINE_DOUBLE_LOW : return 0x22;
 	}
 }
+
+static int
+map_style_underline_to_xl (GnmStyle const *style)
+{
+	return map_underline_to_xl (gnm_style_get_font_uline (style));
+}
+
+
 
 static int
 map_script_to_xl (GnmStyle const *style)
@@ -988,7 +998,7 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 			GSF_LE_SET_GUINT32 (fbuf+68, tmp);
 
 			if (gnm_style_is_element_set (s, MSTYLE_FONT_UNDERLINE)) {
-				tmp = map_underline_to_xl (s);
+				tmp = map_style_underline_to_xl (s);
 				GSF_LE_SET_GUINT32 (fbuf+76, tmp);
 			} else
 				GSF_LE_SET_GUINT32 (fbuf+96, 1); /* flag as unused */
@@ -1917,6 +1927,12 @@ excel_font_to_string (ExcelWriteFont const *f)
 		else if ((GnmUnderline) f->underline == UNDERLINE_DOUBLE)
 			nused += snprintf (buf + nused, sizeof buf - nused,
 					   ", %s", "double underline");
+		else if ((GnmUnderline) f->underline == UNDERLINE_SINGLE_LOW)
+			nused += snprintf (buf + nused, sizeof buf - nused,
+					   ", %s", "single low underline");
+		else if ((GnmUnderline) f->underline == UNDERLINE_DOUBLE_LOW)
+			nused += snprintf (buf + nused, sizeof buf - nused,
+					   ", %s", "double low underline");
 	}
 	if (nused < sizeof buf && f->strikethrough)
 		nused += snprintf (buf + nused, sizeof buf - nused, ", %s",
@@ -2001,17 +2017,8 @@ excel_font_overlay_pango (ExcelWriteFont *efont, GSList *pango)
 			break;
 
 		case PANGO_ATTR_UNDERLINE :
-			switch (((PangoAttrInt *)attr)->value) {
-			case PANGO_UNDERLINE_NONE :
-				efont->underline = UNDERLINE_NONE;
-				break;
-			case PANGO_UNDERLINE_SINGLE :
-				efont->underline = UNDERLINE_SINGLE;
-				break;
-			case PANGO_UNDERLINE_DOUBLE :
-				efont->underline = UNDERLINE_DOUBLE;
-				break;
-			}
+			efont->underline = gnm_translate_underline_from_pango 
+				(((PangoAttrInt *)attr)->value);
 			break;
 
 		case PANGO_ATTR_FOREGROUND :
@@ -2126,7 +2133,7 @@ excel_font_from_go_font (XLExportBase *ewb, GOFont const *font)
 	efont->is_bold		= pango_font_description_get_weight (font->desc) > PANGO_WEIGHT_NORMAL;
 	efont->is_italic	= pango_font_description_get_style (font->desc) != PANGO_STYLE_NORMAL;
 	/* FIXME: implement when supported */
-	efont->underline	= FALSE;
+	efont->underline	= UNDERLINE_NONE;
 	efont->strikethrough	= FALSE;
 	efont->script		= 0;
 	efont->color = go_color_to_bgr (GO_COLOR_BLACK);
@@ -2154,8 +2161,7 @@ excel_write_FONT (ExcelWriteState *ewb, ExcelWriteFont const *f)
 	/* 0: Normal, 1; Super, 2: Sub script*/
 	guint16 subsuper  = f->script;
 
-	/* 0: None, 1: Single, 2: Double */
-	guint8  underline = (guint8) f->underline;
+	guint8  underline = (guint8) map_underline_to_xl (f->underline);
 
 	guint8  family    = 0;
 	guint8  charset   = 0;	 /* Seems OK. */

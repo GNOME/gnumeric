@@ -1617,6 +1617,9 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 		case 2:	   fd->underline = XLS_ULINE_DOUBLE; break;
 		case 0x21: fd->underline = XLS_ULINE_SINGLE_ACC; break;	/* single accounting */
 		case 0x22: fd->underline = XLS_ULINE_DOUBLE_ACC; break;	/* double accounting */
+		default:
+			g_printerr ("Unknown uline %#x\n", (int)data1);
+			break;			
 		}
 		fd->fontname = excel_biff_text_1 (importer, q, 14);
 	}
@@ -1925,6 +1928,28 @@ excel_get_xf (ExcelReadSheet *esheet, unsigned xfidx)
 	return g_ptr_array_index (p, xfidx);
 }
 
+static GnmUnderline
+xls_uline_to_gnm_underline (MsBiffFontUnderline mul)
+{
+	g_return_val_if_fail (mul >= XLS_ULINE_NONE, UNDERLINE_NONE);
+	g_return_val_if_fail (mul <= XLS_ULINE_DOUBLE_ACC, UNDERLINE_NONE);
+	
+	switch (mul) {
+	case XLS_ULINE_SINGLE:
+		return UNDERLINE_SINGLE;
+	case XLS_ULINE_DOUBLE:
+		return UNDERLINE_DOUBLE;
+	case XLS_ULINE_SINGLE_ACC:
+		return UNDERLINE_SINGLE_LOW;
+	case XLS_ULINE_DOUBLE_ACC:
+		return UNDERLINE_DOUBLE_LOW;
+	case XLS_ULINE_NONE:
+	default:
+		return UNDERLINE_NONE;
+	}
+	
+}
+
 /* Adds a ref the result */
 static GnmStyle *
 excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
@@ -1967,28 +1992,14 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 	/* Font */
 	fd = excel_font_get (esheet->container.importer, xf->font_idx);
 	if (fd != NULL) {
-		GnmUnderline underline = UNDERLINE_NONE;
-
 		gnm_style_set_font_name   (mstyle, fd->fontname);
 		gnm_style_set_font_size   (mstyle, fd->height / 20.0);
 		gnm_style_set_font_bold   (mstyle, fd->boldness >= 0x2bc);
 		gnm_style_set_font_italic (mstyle, fd->italic);
 		gnm_style_set_font_strike (mstyle, fd->struck_out);
 		gnm_style_set_font_script (mstyle, fd->script);
-
-		switch (fd->underline) {
-		case XLS_ULINE_SINGLE:
-		case XLS_ULINE_SINGLE_ACC:
-			underline = UNDERLINE_SINGLE;
-			break;
-		case XLS_ULINE_DOUBLE:
-		case XLS_ULINE_DOUBLE_ACC:
-			underline = UNDERLINE_DOUBLE;
-			break;
-		default: break;
-		}
-		gnm_style_set_font_uline  (mstyle, underline);
-
+		gnm_style_set_font_uline  
+			(mstyle, xls_uline_to_gnm_underline (fd->underline));
 		font_index = fd->color_idx;
 	} else
 		font_index = 127; /* Default to Black */
@@ -3062,21 +3073,8 @@ ms_wb_get_font_markup (MSContainer const *c, unsigned indx)
 
 	if (fd->attrs == NULL) {
 		PangoAttrList *attrs;
-		PangoUnderline underline = PANGO_UNDERLINE_NONE;
-
-		switch (fd->underline) {
-		case XLS_ULINE_SINGLE:
-		case XLS_ULINE_SINGLE_ACC:
-			underline = PANGO_UNDERLINE_SINGLE;
-			break;
-
-		case XLS_ULINE_DOUBLE:
-		case XLS_ULINE_DOUBLE_ACC:
-			underline = PANGO_UNDERLINE_DOUBLE;
-			break;
-
-		default: break;
-		}
+		PangoUnderline underline = gnm_translate_underline_to_pango 
+			(xls_uline_to_gnm_underline (fd->underline));
 
 		attrs = pango_attr_list_new ();
 		add_attr (attrs, pango_attr_family_new (fd->fontname));
@@ -5050,21 +5048,28 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 			}
 		}
 		if (0 == GSF_LE_GET_GUINT8  (data + 32)) {
+			MsBiffFontUnderline mul;
 			switch (GSF_LE_GET_GUINT8  (data + 12)) {
 			default :
 			case 0:
-				gnm_style_set_font_uline  (cond.overlay,
-					UNDERLINE_NONE);
+				mul = XLS_ULINE_NONE;
 				break;
-			case 1: case 0x21:
-				gnm_style_set_font_uline  (cond.overlay,
-					UNDERLINE_SINGLE);
+			case 1:
+				mul = XLS_ULINE_SINGLE;
 				break;
-			case 2: case 0x22:
-				gnm_style_set_font_uline  (cond.overlay,
-					UNDERLINE_DOUBLE);
+			case 2:
+				mul = XLS_ULINE_DOUBLE;
+				break;
+			case 0x21:
+				mul = XLS_ULINE_SINGLE_ACC;
+				break;
+			case 0x22:
+				mul = XLS_ULINE_DOUBLE_ACC;
 				break;
 			}
+			gnm_style_set_font_uline 
+				(cond.overlay,
+				 xls_uline_to_gnm_underline (mul));
 		}
 
 		d (3, {

@@ -1,3 +1,21 @@
+2010-07-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* excel-xml-read.c (xl_xml_font): add UNDERLINE_*_LOW
+	* ms-excel-read.c (xls_uline_to_gnm_underline): new
+	(excel_get_style_from_xf): use xls_uline_to_gnm_underline
+	(ms_wb_get_font_markup): use gnm_translate_underline_to_pango
+	(excel_read_CF): use xls_uline_to_gnm_underline
+	* ms-excel-write.c (map_underline_to_xl) rename
+	  to map_style_underline_to_xl and use new map_underline_to_xl,
+	  change all callers
+	(map_underline_to_xl): new
+	(excel_font_to_string): add UNDERLINE_*_LOW
+	(excel_font_overlay_pango): use gnm_translate_underline_from_pango
+	(excel_font_from_go_font): fix typo
+	(excel_write_FONT): use map_underline_to_xl
+	* xlsx-read.c (xlsx_font_uline): add UNDERLINE_*_LOW
+	(xlsx_font_valign): fix typo
+
 2010-07-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* ms-excel-read.h (ExcelFont): change underline field from PangoUnderline 

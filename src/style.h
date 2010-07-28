@@ -35,7 +35,9 @@ typedef enum {
 typedef enum {
 	UNDERLINE_NONE   = 0,
 	UNDERLINE_SINGLE = 1,
-	UNDERLINE_DOUBLE = 2
+	UNDERLINE_DOUBLE = 2,
+	UNDERLINE_SINGLE_LOW = 3,
+	UNDERLINE_DOUBLE_LOW = 4
 } GnmUnderline;
 
 typedef enum {
@@ -55,6 +57,8 @@ typedef enum {
 GnmSpanCalcFlags gnm_style_required_spanflags (GnmStyle const *style);
 GnmHAlign	 gnm_style_default_halign     (GnmStyle const *style,
 					       GnmCell const *c);
+PangoUnderline   gnm_translate_underline_to_pango (GnmUnderline ul);
+GnmUnderline   gnm_translate_underline_from_pango (PangoUnderline pul);
 
 G_END_DECLS
 

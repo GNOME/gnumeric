@@ -2564,14 +2564,15 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 			gnm_float size;
 			if (1 == sscanf (CXML2C (attrs[1]), "%" GNM_SCANF_g "pt", &size))
 				gnm_style_set_font_size (style, size);
-
-		/* TODO : get specs on how these relate */
-		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "text-underline-style") ||
-			   gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "text-underline-type") ||
-			   gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "text-underline"))
-			/* cheesy simple support for now */
-			gnm_style_set_font_uline (style, attr_eq (attrs[1], "none") ? UNDERLINE_NONE : UNDERLINE_SINGLE);
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "font-style"))
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "text-underline-type") ||
+			   gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "text-underline")) {
+			if (attr_eq (attrs[1], "none"))
+				gnm_style_set_font_uline (style, UNDERLINE_NONE);
+			else if (attr_eq (attrs[1], "single"))
+				gnm_style_set_font_uline (style, UNDERLINE_SINGLE);
+			else if (attr_eq (attrs[1], "double"))
+				gnm_style_set_font_uline (style, UNDERLINE_DOUBLE);
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "font-style"))
 			gnm_style_set_font_italic (style, attr_eq (attrs[1], "italic"));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "font-weight")) {
 			int weight = atoi (CXML2C (attrs[1]));

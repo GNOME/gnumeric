@@ -53,6 +53,7 @@ Andreas:
 	* Reduce the size of the text import dialog. [#625281]
 	* Fix import of underlined/double underlined comments from xls.
 	  Part of [#405951]
+	* Improve xl import of underlines.
 
 Jean:
 	* Fix strong/weak cursor display. [#623241]

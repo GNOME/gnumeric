@@ -72,7 +72,11 @@ static struct {
 } const underline_types[] = {
 	{ N_("None"), UNDERLINE_NONE },
 	{ N_("Single"), UNDERLINE_SINGLE },
-	{ N_("Double"), UNDERLINE_DOUBLE }
+	{ N_("Double"), UNDERLINE_DOUBLE },
+	/* xgettext: This refers to a "single low underline" */
+	{ N_("Single Low"), UNDERLINE_SINGLE_LOW },
+	/* xgettext: This refers to a "double low underline" */
+	{ N_("Double Low"), UNDERLINE_DOUBLE_LOW }
 };
 
 /* The order corresponds to border_preset_buttons */

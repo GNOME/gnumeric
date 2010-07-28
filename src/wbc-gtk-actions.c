@@ -1441,8 +1441,8 @@ toggle_font_attr (WBCGtk *wbcg, GtkToggleAction *act,
 			attr = pango_attr_style_new (val ?  PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL);
 			break;
 		case MSTYLE_FONT_UNDERLINE:
-			attr = pango_attr_underline_new ((val == UNDERLINE_SINGLE) ? PANGO_UNDERLINE_SINGLE
-				: ((val == UNDERLINE_DOUBLE) ? PANGO_UNDERLINE_DOUBLE : PANGO_UNDERLINE_NONE));
+			attr = pango_attr_underline_new 
+				(gnm_translate_underline_to_pango (val));
 			break;
 		case MSTYLE_FONT_STRIKETHROUGH:
 			attr = pango_attr_strikethrough_new (val);
@@ -1480,6 +1480,10 @@ static void cb_font_underline (GtkToggleAction *act, WBCGtk *wbcg)
 	{ toggle_font_attr (wbcg, act, MSTYLE_FONT_UNDERLINE, UNDERLINE_SINGLE, UNDERLINE_NONE); }
 static void cb_font_double_underline (GtkToggleAction *act, WBCGtk *wbcg)
 	{ toggle_font_attr (wbcg, act, MSTYLE_FONT_UNDERLINE, UNDERLINE_DOUBLE, UNDERLINE_NONE); }
+static void cb_font_underline_low (GtkToggleAction *act, WBCGtk *wbcg)
+	{ toggle_font_attr (wbcg, act, MSTYLE_FONT_UNDERLINE, UNDERLINE_SINGLE_LOW, UNDERLINE_NONE); }
+static void cb_font_double_underline_low (GtkToggleAction *act, WBCGtk *wbcg)
+	{ toggle_font_attr (wbcg, act, MSTYLE_FONT_UNDERLINE, UNDERLINE_DOUBLE_LOW, UNDERLINE_NONE); }
 static void cb_font_strikethrough (GtkToggleAction *act, WBCGtk *wbcg)
 	{ toggle_font_attr (wbcg, act, MSTYLE_FONT_STRIKETHROUGH, TRUE, FALSE); }
 static void cb_font_subscript (GtkToggleAction *act, WBCGtk *wbcg)
@@ -2689,12 +2693,18 @@ static GtkToggleActionEntry const font_toggle_actions[] = {
 	{ "FontUnderline", GTK_STOCK_UNDERLINE,
 		N_("_Underline"), "<control>u",	/* ALSO "<control>4" */
 		N_("Underline"), G_CALLBACK (cb_font_underline), FALSE },
-	{ "FontStrikeThrough", GTK_STOCK_STRIKETHROUGH,
-		N_("_Strike Through"), "<control>5",
-		N_("Strike Through"), G_CALLBACK (cb_font_strikethrough), FALSE },
 	{ "FontDoubleUnderline", "stock_text_underlined-double",	/* from icon theme */
 		N_("_Double Underline"), "<control><shift>d",
 		N_("Double Underline"), G_CALLBACK (cb_font_double_underline), FALSE },
+	{ "FontSingleLowUnderline", NULL,	/* from icon theme */
+		N_("_Single Low Underline"), "<control><shift>l",
+		N_("Single Low Underline"), G_CALLBACK (cb_font_underline_low), FALSE },
+	{ "FontDoubleLowUnderline", NULL,	/* from icon theme */
+		N_("_Double Low Underline"), NULL,
+		N_("Double Low Underline"), G_CALLBACK (cb_font_double_underline_low), FALSE },
+	{ "FontStrikeThrough", GTK_STOCK_STRIKETHROUGH,
+		N_("_Strike Through"), "<control>5",
+		N_("Strike Through"), G_CALLBACK (cb_font_strikethrough), FALSE },
 	{ "FontSuperscript", "stock_superscript",	/* from icon theme */
 		N_("Su_perscript"), "<control>asciicircum",
 		N_("Superscript"), G_CALLBACK (cb_font_superscript), FALSE },

@@ -121,7 +121,8 @@ struct _WBCGtk {
 	GtkAction               *zoom_vaction;
 	GOActionComboPixmaps	*borders, *halignment, *valignment;
 	struct {
-		GtkToggleAction	 *bold, *italic, *underline, *d_underline;
+		GtkToggleAction	 *bold, *italic, *underline, *d_underline,
+			*sl_underline, *dl_underline;
 		GtkToggleAction	 *superscript, *subscript, *strikethrough;
 	} font;
 	struct {

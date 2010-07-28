@@ -3338,6 +3338,10 @@ wbc_gtk_style_feedback_real (WorkbookControl *wbc, GnmStyle const *changes)
 			gnm_style_get_font_uline (changes) == UNDERLINE_SINGLE);
 		gtk_toggle_action_set_active (wbcg->font.d_underline,
 			gnm_style_get_font_uline (changes) == UNDERLINE_DOUBLE);
+		gtk_toggle_action_set_active (wbcg->font.sl_underline,
+			gnm_style_get_font_uline (changes) == UNDERLINE_SINGLE_LOW);
+		gtk_toggle_action_set_active (wbcg->font.dl_underline,
+			gnm_style_get_font_uline (changes) == UNDERLINE_DOUBLE_LOW);
 	}
 	if (gnm_style_is_element_set (changes, MSTYLE_FONT_STRIKETHROUGH))
 		gtk_toggle_action_set_active (wbcg->font.strikethrough,
@@ -5370,6 +5374,8 @@ wbc_gtk_init (GObject *obj)
 		{ "FontItalic",		   TRUE, G_STRUCT_OFFSET (WBCGtk, font.italic) },
 		{ "FontUnderline",	   TRUE, G_STRUCT_OFFSET (WBCGtk, font.underline) },
 		{ "FontDoubleUnderline",   TRUE, G_STRUCT_OFFSET (WBCGtk, font.d_underline) },
+		{ "FontSingleLowUnderline",TRUE, G_STRUCT_OFFSET (WBCGtk, font.sl_underline) },
+		{ "FontDoubleLowUnderline",TRUE, G_STRUCT_OFFSET (WBCGtk, font.dl_underline) },
 		{ "FontSuperscript",	   TRUE, G_STRUCT_OFFSET (WBCGtk, font.superscript) },
 		{ "FontSubscript",	   TRUE, G_STRUCT_OFFSET (WBCGtk, font.subscript) },
 		{ "FontStrikeThrough",	   TRUE, G_STRUCT_OFFSET (WBCGtk, font.strikethrough) },

@@ -922,6 +922,12 @@ odf_write_style_text_properties (GnmOOExport *state, GnmStyle const *style)
 		case UNDERLINE_DOUBLE:
 			UNDERLINESPECS("double", "solid", "auto");
 			break;
+		case UNDERLINE_SINGLE_LOW:
+			UNDERLINESPECS("single", "solid", "auto");
+			break;
+		case UNDERLINE_DOUBLE_LOW:
+			UNDERLINESPECS("double", "solid", "auto");
+			break;
 		}
 /* Superscript/Subscript */
 	if (gnm_style_is_element_set (style, MSTYLE_FONT_SCRIPT))
