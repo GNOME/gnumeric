@@ -24,17 +24,14 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include <func.h>
-#include <parse-util.h>
 #include <mathfunc.h>
 #include <rangefunc.h>
 #include <regression.h>
 #include <sheet.h>
-#include <cell.h>
 #include <collect.h>
 #include <value.h>
 #include <expr.h>
 #include <expr-impl.h>
-#include <func-builtin.h>
 #include <gnm-i18n.h>
 #include <goffice/goffice.h>
 #include <gnm-plugin.h>
