@@ -82,7 +82,7 @@ typedef struct {
 	int color_idx;
 	int boldness;       /* 100->1000 dec, normal = 0x190, bold = 0x2bc */
 	GOFontScript script;
-	PangoUnderline underline;
+	MsBiffFontUnderline underline;
 	char *fontname;
 	PangoAttrList *attrs;
 	GOFont const  *go_font;

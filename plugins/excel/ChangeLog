@@ -1,3 +1,12 @@
+2010-07-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* ms-excel-read.h (ExcelFont): change underline field from PangoUnderline 
+	  to MsBiffFontUnderline
+	* ms-excel-read.c (excel_read_FONT): underline field of ExcelFont is not
+	  a GnmUnderline but (now) a MsBiffFontUnderline
+	(excel_get_style_from_xf): convert underline from MsBiffFontUnderline
+	  to GnmUnderline
+
 2010-07-26  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (write_arrow): Fix argument type for "id".

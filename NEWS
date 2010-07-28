@@ -51,6 +51,8 @@ Andreas:
 	  [#625332]
 	* Remove range hightlighting while not editing expressions. [#625361]
 	* Reduce the size of the text import dialog. [#625281]
+	* Fix import of underlined/double underlined comments from xls.
+	  Part of [#405951]
 
 Jean:
 	* Fix strong/weak cursor display. [#623241]
