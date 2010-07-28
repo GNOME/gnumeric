@@ -36,7 +36,6 @@ struct _ItemBar {
 	GocItem	 base;
 
 	GnmPane		*pane;
-	GdkGC           *text_gc, *filter_gc, *lines, *shade;
 	GdkCursor       *normal_cursor;
 	GdkCursor       *change_cursor;
 	PangoFont	*normal_font, *bold_font;
