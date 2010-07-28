@@ -66,13 +66,6 @@ struct _ItemGrid {
 
 	ItemGridSelectionType selecting;
 
-	struct {
-		GdkGC      *fill;	/* Default background fill gc */
-		GdkGC      *cell;	/* Color used for the cell */
-		GdkGC      *empty;	/* GC used for drawing empty cells */
-		GdkGC      *bound;	/* the dark line at the edge */
-	} gc;
-
 	GnmRange bound;
 
 	/* information for the cursor motion handler */
@@ -1156,7 +1149,6 @@ item_grid_init (ItemGrid *ig)
 	item->y1 = 0;
 
 	ig->selecting = ITEM_GRID_NO_SELECTION;
-	ig->gc.fill = ig->gc.cell = ig->gc.empty = ig->gc.bound = NULL;
 	/* We need something at least as big as any sheet.  */
 	ig->bound.start.col = ig->bound.start.row = 0;
 	ig->bound.end.col = GNM_MAX_COLS - 1;
