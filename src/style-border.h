@@ -61,7 +61,6 @@ struct _GnmBorder {
 	int		 begin_margin, end_margin, width;
 
 	/* Private */
-	GdkGC	        *gc;
 	gint	        ref_count;
 };
 

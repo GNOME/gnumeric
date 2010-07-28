@@ -179,13 +179,6 @@ gnm_style_border_none_set_color (GnmColor *color)
 	nc = none->color;
 	none->color = color;
 	style_color_unref (nc);
-
-	if (none->gc) {
-		GdkColor c;
-		gdk_gc_set_rgb_fg_color (none->gc,
-					 go_color_to_gdk (none->color->go_color,
-							  &c));
-	}
 }
 
 /**
@@ -237,7 +230,6 @@ gnm_style_border_fetch (GnmStyleBorderType		 line_type,
 	*border = key;
 	g_hash_table_insert (border_hash, border, border);
 	border->ref_count = 1;
-	border->gc = NULL;
 	border->width = gnm_style_border_get_width (line_type);
 	if (border->line_type == GNM_STYLE_BORDER_DOUBLE) {
 		border->begin_margin = 1;
@@ -320,11 +312,6 @@ gnm_style_border_unref (GnmBorder *border)
 	if (border->color) {
 		style_color_unref (border->color);
 		border->color = NULL;
-	}
-
-	if (border->gc) {
-		g_object_unref (G_OBJECT (border->gc));
-		border->gc = NULL;
 	}
 
 	g_free (border);
