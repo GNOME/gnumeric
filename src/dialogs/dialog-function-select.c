@@ -59,7 +59,7 @@ typedef enum {
 	GURU_MODE = 0,
 	HELP_MODE,
 	PASTE_MODE
-} mode_t;
+} DialogMode;
 
 typedef struct {
 	WBCGtk  *wbcg;
@@ -86,7 +86,7 @@ typedef struct {
 		char *prefix;
 	} paste;
 
-	mode_t      mode;
+	DialogMode      mode;
 	char const *formula_guru_key;
 } FunctionSelectState;
 
@@ -1334,7 +1334,7 @@ dialog_function_select_init (FunctionSelectState *state)
 
 static void
 dialog_function_select_full (WBCGtk *wbcg, char const *guru_key, 
-			     char const *key, mode_t mode, gint from, gint to)
+			     char const *key, DialogMode mode, gint from, gint to)
 {
 	FunctionSelectState* state;
 	GladeXML  *gui;
