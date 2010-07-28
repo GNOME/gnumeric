@@ -4587,11 +4587,12 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 
 	wbcg->auto_expr_label = tmp = gtk_label_new ("");
 	g_object_ref (wbcg->auto_expr_label);
+	gtk_label_set_ellipsize (GTK_LABEL (tmp), PANGO_ELLIPSIZE_START);
 	GTK_WIDGET_UNSET_FLAGS (tmp, GTK_CAN_FOCUS);
 	gtk_widget_ensure_style (tmp);
 	gtk_widget_set_size_request (tmp, go_pango_measure_string (
 		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
-		tmp->style->font_desc, "W") * 15, -1);
+		tmp->style->font_desc, "Sumerage=-012345678901234"), -1);
 	tmp = gtk_event_box_new ();
 	gtk_container_add (GTK_CONTAINER (tmp), wbcg->auto_expr_label);
 	g_signal_connect (G_OBJECT (tmp),

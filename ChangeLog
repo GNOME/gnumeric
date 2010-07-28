@@ -1,3 +1,10 @@
+2010-07-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/wbc-gtk.c (wbc_gtk_create_status_area): size the autoexpr label to contain
+	  about 25 typical characters and ellipsize it on the left
+	* src/workbook-view.c (wb_view_auto_expr_recalc): format teh autoexpression to an
+	  appropriate length
+	
 2010-07-28  Morten Welinder  <terra@gnome.org>
 
 	* src/style-border.h (struct _GnmBorder): Eliminate unused

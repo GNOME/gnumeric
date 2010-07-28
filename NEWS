@@ -54,6 +54,7 @@ Andreas:
 	* Fix import of underlined/double underlined comments from xls.
 	  Part of [#405951]
 	* Improve xl import of underlines.
+	* Correctly size the autoexpressions. [#625521]
 
 Jean:
 	* Fix strong/weak cursor display. [#623241]

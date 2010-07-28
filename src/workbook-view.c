@@ -534,7 +534,10 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 			gsize old_len = str->len;
 
 			format_value_gstring (str, format, v, &color,
-					      -1, workbook_date_conv (wb_view_get_workbook (wbv)));
+					      /* Note that we created a label large enough for */
+					      /* "Sumerage=-012345678901234" */
+					      25 - g_utf8_strlen (str->str, -1), 
+					      workbook_date_conv (wb_view_get_workbook (wbv)));
 			go_format_unref (tmp_format);
 
 			attrs = pango_attr_list_new ();
