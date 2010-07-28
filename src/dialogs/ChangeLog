@@ -1,3 +1,18 @@
+2010-07-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-about.c (dialog_about): use gtk_dialog_get_content_area from
+	  dead-kittens
+	* dialog-stf-format-page.c (cb_format_clicked): new
+	(cb_popup_menu_extend_format): format label has become a button
+	(format_page_update_preview): ditto, no need to create a format selector here
+	(activate_column): no need to handle the format selector any longer
+	(locale_changed_cb): ditto
+	(stf_dialog_format_page_prepare): ditto
+	(stf_dialog_format_page_init): ditto
+	(cb_number_format_changed): deleted, code moved to cb_format_clicked
+	* dialog-stf.glade: no need for a format selector
+	* dialog-stf.h: reove unneeded fields
+	
 2010-07-27  Morten Welinder  <terra@gnome.org>
 
 	* dialog-function-select.c (mode_t): Rename to DialogMode since

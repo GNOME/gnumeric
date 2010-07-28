@@ -1,3 +1,7 @@
+2010-07-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/dead-kittens.h (gtk_dialog_get_content_area): new
+	
 2010-07-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* schemas/gnumeric-dialogs.schemas.in: new item search-results

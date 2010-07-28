@@ -60,7 +60,6 @@ typedef struct {
 typedef struct {
 	GtkWidget         *format_data_container;
         GtkWidget	  *format_trim;
-	GOFormatSel	  *format_selector;
 	GtkWidget         *column_selection_label;
 
 	/* Page members that are created at run-time */
@@ -75,7 +74,6 @@ typedef struct {
         int                col_import_count;
         int                col_import_array_len;
         char              *col_header;
-        gulong             format_changed_handler_id;
 } FormatInfo_t;
 
 

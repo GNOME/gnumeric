@@ -32,6 +32,7 @@
 #include <gnm-format.h>
 #include <goffice/goffice.h>
 #include <gtk/gtk.h>
+#include <dead-kittens.h>
 
 #define ABOUT_KEY          "about-dialog"
 
@@ -576,11 +577,7 @@ dialog_about (WBCGtk *wbcg)
 	g_signal_connect_swapped (w, "destroy",
 				  G_CALLBACK (free_state), state);
 
-#ifdef HAVE_GTK_DIALOG_GET_CONTENT_AREA
 	c = gtk_dialog_get_content_area (GTK_DIALOG (w));
-#else
-	c = GTK_DIALOG (w)->vbox;
-#endif
 	children = gtk_container_get_children (GTK_CONTAINER (c));
 
 	if (children && GTK_IS_VBOX (children->data)) {

@@ -31,5 +31,9 @@
 #define gtk_widget_get_allocation(w,a) (*(a) = (w)->allocation)
 #endif
 
+#ifndef  HAVE_GTK_DIALOG_GET_CONTENT_AREA
+#define gtk_dialog_get_content_area(w) ((w)->vbox)
+#endif
+
 
 #endif

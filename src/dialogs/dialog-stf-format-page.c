@@ -112,7 +112,6 @@ tree_view_clamp_column_visible (GtkTreeView       *tree_view,
 static void
 activate_column (StfDialogData *pagedata, int i)
 {
-	GOFormat *colformat;
 	GtkCellRenderer *cell;
 	GtkTreeViewColumn *column;
 	RenderData_t *renderdata = pagedata->format.renderdata;
@@ -141,17 +140,6 @@ activate_column (StfDialogData *pagedata, int i)
 	}
 
 	/* FIXME: warp focus away from the header.  */
-
-	colformat = g_ptr_array_index (pagedata->format.formats, pagedata->format.index);
-	if (colformat) {
-	     g_signal_handler_block(pagedata->format.format_selector,
-				    pagedata->format.format_changed_handler_id);
-	     go_format_sel_set_style_format
-		  (pagedata->format.format_selector, colformat);
-	     g_signal_handler_unblock(pagedata->format.format_selector,
-				      pagedata->format.format_changed_handler_id);
-	}
-
 }
 
 static void
@@ -201,6 +189,55 @@ cb_col_check_clicked (GtkToggleButton *togglebutton, gpointer _i)
 	check_autofit = g_object_get_data (G_OBJECT (column), "checkbox-autofit");
 
 	gtk_widget_set_sensitive (check_autofit, active);
+	return;
+}
+
+static void            
+cb_format_clicked (GtkButton *widget, gpointer _i)
+{
+	int i = GPOINTER_TO_INT (_i);
+	StfDialogData *pagedata =
+		g_object_get_data (G_OBJECT (widget), "pagedata");
+	gint result;
+	GOFormat *sf;
+	GtkWidget *dialog = gtk_dialog_new_with_buttons 
+		(_("Format Selector"),
+		 GTK_WINDOW (pagedata->dialog),
+		 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+		 GTK_STOCK_OK,      GTK_RESPONSE_ACCEPT,
+		 GTK_STOCK_CANCEL,  GTK_RESPONSE_REJECT,
+		 NULL);
+	GOFormatSel *format_selector = GO_FORMAT_SEL (go_format_sel_new ());
+	GtkWidget *w = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	GtkTreeViewColumn* column;
+	GtkWidget *format_label;
+
+	sf = g_ptr_array_index (pagedata->format.formats, i);
+	go_format_sel_set_style_format (format_selector, sf);
+	go_format_sel_set_locale (format_selector, pagedata->locale);
+	gtk_box_pack_start (GTK_BOX (w), GTK_WIDGET (format_selector),
+			    FALSE, TRUE, 5);
+	gtk_widget_show (GTK_WIDGET (format_selector));
+
+	result = gtk_dialog_run (GTK_DIALOG (dialog));
+	switch (result)
+		{
+		case GTK_RESPONSE_ACCEPT:
+			column = stf_preview_get_column (pagedata->format.renderdata, i);
+			format_label = g_object_get_data (G_OBJECT (column),
+							  "formatlabel");
+			sf = g_ptr_array_index (pagedata->format.formats, i);
+			go_format_unref (sf);
+			
+			sf = go_format_ref (go_format_sel_get_fmt (format_selector));
+			gtk_button_set_label (GTK_BUTTON (format_label),
+					      go_format_sel_format_classification (sf));
+			g_ptr_array_index (pagedata->format.formats, i) = sf;
+			format_page_update_preview (pagedata);
+		default:
+			break;
+		}
+	gtk_widget_destroy (dialog);
 	return;
 }
 
@@ -321,7 +358,7 @@ cb_popup_menu_extend_format (GtkWidget *widget, gpointer data)
 		go_format_unref (sf);
 		g_ptr_array_index (pagedata->format.formats, index)
 			= go_format_ref (colformat);
-		gtk_label_set_text (GTK_LABEL (w),
+		gtk_button_set_label (GTK_BUTTON (w),
 				    go_format_sel_format_classification (colformat));
 	}
 
@@ -558,12 +595,14 @@ format_page_update_preview (StfDialogData *pagedata)
 			char * label_text = g_strdup_printf
 				(pagedata->format.col_header, i+1);
 			GOFormat const *gf = go_format_general ();
-			GtkWidget *format_label = gtk_label_new
+			GtkWidget *format_label = gtk_button_new_with_label
 				(go_format_sel_format_classification (gf));
+			GtkWidget *format_icon 
+				= gtk_image_new_from_stock (GTK_STOCK_INFO, GTK_ICON_SIZE_BUTTON);
 
 			check = gtk_check_button_new_with_label (label_text);
 			g_free (label_text);
-			gtk_misc_set_alignment (GTK_MISC (format_label), 0, 0);
+			gtk_button_set_image (GTK_BUTTON (format_label), format_icon);
 
 			g_object_set (G_OBJECT (stf_preview_get_cell_renderer
 						(pagedata->format.renderdata, i)),
@@ -590,6 +629,7 @@ format_page_update_preview (StfDialogData *pagedata)
 						      format.col_autofit_array[i]);
 			g_object_set_data (G_OBJECT (check), "pagedata", pagedata);
 			g_object_set_data (G_OBJECT (check_autofit), "pagedata", pagedata);
+			g_object_set_data (G_OBJECT (format_label), "pagedata", pagedata);
 			gtk_box_pack_start (GTK_BOX(vbox), check, FALSE, FALSE, 0);
 			gtk_box_pack_start (GTK_BOX(vbox), format_label, TRUE, TRUE, 0);
 			gtk_box_pack_start (GTK_BOX(vbox), check_autofit, TRUE, TRUE, 0);
@@ -616,6 +656,10 @@ format_page_update_preview (StfDialogData *pagedata)
 					  "toggled",
 					  G_CALLBACK (cb_col_check_autofit_clicked),
 					  GINT_TO_POINTER (i));
+			g_signal_connect (G_OBJECT (format_label),
+					  "clicked",
+					  G_CALLBACK (cb_format_clicked),
+					  GINT_TO_POINTER (i));
 			g_signal_connect (G_OBJECT (column->button),
 					  "event",
 					  G_CALLBACK (cb_col_event),
@@ -635,48 +679,6 @@ locale_changed_cb (GOLocaleSel *ls, char const *new_locale,
 {
 	g_free (pagedata->locale);
 	pagedata->locale = g_strdup (new_locale);
-
-	go_format_sel_set_locale (pagedata->format.format_selector,
-					   new_locale);
-}
-
-
-/**
- * cb_number_format_changed
- * @widget : NumberFormatSelector which emitted the signal
- * @fmt : current selected format
- * @data : Dialog "mother" record
- *
- * Updates the selected column on the sheet with the new
- * format the user choose/entered.
- *
- * returns : nothing
- **/
-static void
-cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget,
-			  const char *fmt,
-			  StfDialogData *data)
-{
-	if (data->format.index >= 0) {
-		GOFormat *sf;
-		GtkTreeViewColumn* column =
-			stf_preview_get_column (data->format.renderdata,
-						data->format.index);
-		GtkWidget *w = g_object_get_data (G_OBJECT (column),
-						  "formatlabel");
-
-		sf = g_ptr_array_index (data->format.formats,
-					data->format.index);
-		go_format_unref (sf);
-
-		sf = go_format_new_from_XL (fmt);
-		gtk_label_set_text (GTK_LABEL (w),
-				    go_format_sel_format_classification (sf));
-		g_ptr_array_index (data->format.formats, data->format.index) =
-			sf;
-	}
-
-	format_page_update_preview (data);
 }
 
 /**
@@ -691,7 +693,6 @@ cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget,
 void
 stf_dialog_format_page_prepare (StfDialogData *data)
 {
-	GOFormat *sf;
 	GOFormat *general = go_format_general ();
 
 	/* Set the trim.  */
@@ -704,9 +705,6 @@ stf_dialog_format_page_prepare (StfDialogData *data)
 	data->format.manual_change = TRUE;
 	activate_column (data, 0);
 
-	sf = g_ptr_array_index (data->format.formats, 0);
-	go_format_sel_set_style_format (data->format.format_selector,
-						 sf);
 }
 
 /*************************************************************************************************
@@ -736,7 +734,7 @@ stf_dialog_format_page_cleanup (StfDialogData *pagedata)
 void
 stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 {
-	GtkWidget * format_hbox;
+/* 	GtkWidget * format_hbox; */
 
 	g_return_if_fail (gui != NULL);
 	g_return_if_fail (pagedata != NULL);
@@ -748,16 +746,9 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 	pagedata->format.col_import_count = 0;
 	pagedata->format.col_header = _("Column %d");
 
-	pagedata->format.format_selector      = GO_FORMAT_SEL( go_format_sel_new ());
-
 	pagedata->format.format_data_container = glade_xml_get_widget (gui, "format_data_container");
 	pagedata->format.format_trim   = glade_xml_get_widget (gui, "format_trim");
 	pagedata->format.column_selection_label   = glade_xml_get_widget (gui, "column_selection_label");
-
-	format_hbox = glade_xml_get_widget (gui, "format_hbox");
-	gtk_box_pack_end (GTK_BOX (format_hbox),
-		GTK_WIDGET (pagedata->format.format_selector), TRUE, TRUE, 0);
-	gtk_widget_show (GTK_WIDGET (pagedata->format.format_selector));
 
 	pagedata->format.locale_selector =
 		GO_LOCALE_SEL (go_locale_sel_new ());
@@ -788,10 +779,6 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 	format_page_update_column_selection (pagedata);
 
 	/* Connect signals */
-	pagedata->format.format_changed_handler_id =
-	     g_signal_connect (G_OBJECT (pagedata->format.format_selector),
-		    "format_changed",
-		    G_CALLBACK (cb_number_format_changed), pagedata);
 	g_signal_connect (G_OBJECT (pagedata->format.locale_selector),
 			  "locale_changed",
 			  G_CALLBACK (locale_changed_cb), pagedata);
