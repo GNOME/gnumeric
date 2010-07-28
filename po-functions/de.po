@@ -10,6 +10,7 @@
 # Christian Neumair <chris@gnome-de.org>, 2002.
 # Hendrik Richter <hendrik@gnome-de.org>, 2005.
 # Mario Blättermann <mariobl@gnome.org>, 2009, 2010.
+# Christian Kirbach <Christian.Kirbach@googlemail.com>, 2010.
 # Paul Seyfert <pseyfert@mathphys.fsk.uni-heidelberg.de>, 2010.
 #
 # Thanks for improvements to "Andreas J. Guelzow" <aguelzow@taliesin.ca>, 2001.
@@ -30,15 +31,14 @@
 # TODO:
 #
 # - translate all functions (the untranslated ones are translated with LATER)
-# Christian Kirbach <Christian.Kirbach@googlemail.com>, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&component=general\n"
-"POT-Creation-Date: 2010-06-29 23:36+0000\n"
-"PO-Revision-Date: 2010-06-30 20:47+0100\n"
+"POT-Creation-Date: 2010-07-24 01:31+0000\n"
+"PO-Revision-Date: 2010-07-28 23:06+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -188,7 +188,6 @@ msgstr "Falls @{i} weder »i« noch »j« ist, gibt COMPLEX  #WERT! zurück"
 #: ../plugins/fn-date/functions.c:541 ../plugins/fn-date/functions.c:565
 #: ../plugins/fn-date/functions.c:589 ../plugins/fn-date/functions.c:617
 #: ../plugins/fn-date/functions.c:658 ../plugins/fn-date/functions.c:696
-#: ../plugins/fn-date/functions.c:738 ../plugins/fn-date/functions.c:901
 #: ../plugins/fn-eng/functions.c:238 ../plugins/fn-eng/functions.c:263
 #: ../plugins/fn-eng/functions.c:287 ../plugins/fn-eng/functions.c:312
 #: ../plugins/fn-eng/functions.c:336 ../plugins/fn-eng/functions.c:359
@@ -272,19 +271,19 @@ msgstr "Falls @{i} weder »i« noch »j« ist, gibt COMPLEX  #WERT! zurück"
 #: ../plugins/fn-stat/functions.c:2820 ../plugins/fn-stat/functions.c:2886
 #: ../plugins/fn-stat/functions.c:3055 ../plugins/fn-stat/functions.c:3873
 #: ../plugins/fn-stat/functions.c:3930 ../plugins/fn-stat/functions.c:3978
-#: ../plugins/fn-stat/functions.c:4043 ../plugins/fn-string/functions.c:66
-#: ../plugins/fn-string/functions.c:138 ../plugins/fn-string/functions.c:200
-#: ../plugins/fn-string/functions.c:219 ../plugins/fn-string/functions.c:236
-#: ../plugins/fn-string/functions.c:256 ../plugins/fn-string/functions.c:320
-#: ../plugins/fn-string/functions.c:340 ../plugins/fn-string/functions.c:467
-#: ../plugins/fn-string/functions.c:536 ../plugins/fn-string/functions.c:556
-#: ../plugins/fn-string/functions.c:578 ../plugins/fn-string/functions.c:622
-#: ../plugins/fn-string/functions.c:653 ../plugins/fn-string/functions.c:691
-#: ../plugins/fn-string/functions.c:746 ../plugins/fn-string/functions.c:792
-#: ../plugins/fn-string/functions.c:893 ../plugins/fn-string/functions.c:917
-#: ../plugins/fn-string/functions.c:970 ../plugins/fn-string/functions.c:1017
-#: ../plugins/fn-string/functions.c:1113 ../plugins/fn-string/functions.c:1184
-#: ../plugins/fn-string/functions.c:1267
+#: ../plugins/fn-stat/functions.c:4043 ../plugins/fn-string/functions.c:68
+#: ../plugins/fn-string/functions.c:140 ../plugins/fn-string/functions.c:202
+#: ../plugins/fn-string/functions.c:221 ../plugins/fn-string/functions.c:238
+#: ../plugins/fn-string/functions.c:258 ../plugins/fn-string/functions.c:322
+#: ../plugins/fn-string/functions.c:342 ../plugins/fn-string/functions.c:469
+#: ../plugins/fn-string/functions.c:538 ../plugins/fn-string/functions.c:558
+#: ../plugins/fn-string/functions.c:580 ../plugins/fn-string/functions.c:624
+#: ../plugins/fn-string/functions.c:655 ../plugins/fn-string/functions.c:693
+#: ../plugins/fn-string/functions.c:750 ../plugins/fn-string/functions.c:796
+#: ../plugins/fn-string/functions.c:897 ../plugins/fn-string/functions.c:921
+#: ../plugins/fn-string/functions.c:974 ../plugins/fn-string/functions.c:1021
+#: ../plugins/fn-string/functions.c:1117 ../plugins/fn-string/functions.c:1188
+#: ../plugins/fn-string/functions.c:1271
 msgid "This function is Excel compatible."
 msgstr "Diese Funktion ist mit Excel kompatibel."
 
@@ -833,7 +832,6 @@ msgid "DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247."
 msgstr "DPRODUCT(A1:C7, \"Alter\", A9:B11) ist gleich 1247."
 
 #: ../plugins/fn-database/functions.c:568
-#, fuzzy
 msgid ""
 "DSTDEV:sample standard deviation of the values in @{field} in @{database} "
 "belonging to records that match @{criteria}"
@@ -930,18 +928,15 @@ msgstr ""
 msgid "DATE:create a date serial value"
 msgstr "DATE:erstellt einen seriellen Datumswert"
 
-#: ../plugins/fn-date/functions.c:75 ../plugins/fn-hebrew-date/functions.c:53
-#: ../plugins/fn-hebrew-date/functions.c:86
+#: ../plugins/fn-date/functions.c:75
 msgid "year:year of date"
 msgstr "year:Jahr des Datums"
 
-#: ../plugins/fn-date/functions.c:76 ../plugins/fn-hebrew-date/functions.c:54
-#: ../plugins/fn-hebrew-date/functions.c:87
+#: ../plugins/fn-date/functions.c:76
 msgid "month:month of year"
 msgstr "month:Monat des Jahres"
 
-#: ../plugins/fn-date/functions.c:77 ../plugins/fn-hebrew-date/functions.c:55
-#: ../plugins/fn-hebrew-date/functions.c:88
+#: ../plugins/fn-date/functions.c:77
 msgid "day:day of month"
 msgstr "day:Tag des Monats"
 
@@ -973,8 +968,8 @@ msgstr ""
 "bezeichnet die serielle 1 den 1. Januar 1904."
 
 #: ../plugins/fn-date/functions.c:137
-msgid "UNIX2DATE:create a date value from a Unix timestamp"
-msgstr "UNIX2DATE:einen Datumswert von einem Unix-Zeitstempel erstellen"
+msgid "UNIX2DATE:date value corresponding to the Unix timestamp @{t}"
+msgstr "UNIX2DATE:einen Datumswert von einem Unix-Zeitstempel @{t} erstellen"
 
 #: ../plugins/fn-date/functions.c:138
 msgid "t:Unix time stamp"
@@ -982,28 +977,31 @@ msgstr "t:Unix-Zeitstempel"
 
 #: ../plugins/fn-date/functions.c:139
 msgid ""
-"The UNIT2DATE function translates Unix timestamps into date serial values.  "
-"Unix timestamps are number of seconds since Midnight 1-Jan-1900."
+"The UNIX2DATE function translates Unix timestamps into the corresponding "
+"date.  A Unix timestamp is the number of seconds since midnight (0:00) of "
+"January 1st, 1970 GMT."
 msgstr ""
-"Die Funktion UNIT2DATE wandelt Unix-Zeitstempel in serielle Datumswerte um. "
-"Der Unix-Zeitstempel zeigt die Anzahl der Sekunden seit dem 1. Januar 1900, "
-"0.00 Uhr."
+"Die Funktion UNIX2DATE wandelt Unix-Zeitstempel in serielle Datumswerte um. "
+"Der Unix-Zeitstempel zeigt die Anzahl der Sekunden seit dem 1. Januar 1970, "
+"0.00 Uhr GMT."
 
 #: ../plugins/fn-date/functions.c:167
-msgid "DATE2UNIX:translate a date serial value to a Unix timestamp"
-msgstr ""
-"DATE2UNIX wandelt einen seriellen Datumswert in einen Unix-Zeitstempel um"
+msgid "DATE2UNIX:the Unix timestamp corresponding to a date @{d}"
+msgstr "DATE2UNIX:Der Unix-Zeitstempel zum Datum @{d}"
 
 #: ../plugins/fn-date/functions.c:168
-msgid "d:date serial value"
-msgstr "d:serieller Datumswert"
+msgid "d:date"
+msgstr "d:Datum"
 
 #: ../plugins/fn-date/functions.c:169
 msgid ""
-"The DATE2UNIX function translates a date serial values into a Unix timestamp."
+"The DATE2UNIX function translates a date into a Unix timestamp. A Unix "
+"timestamp is the number of seconds since midnight (0:00) of January 1st, 1970 "
+"GMT."
 msgstr ""
-"Die Funktion DATE2UNIX wandelt einen seriellen Datumswert in einen Unix-"
-"Zeitstempel um."
+"Die Funktion DATE2UNIX wandelt serielle Datumswerte in Unix-Zeitstempel um. "
+"Der Unix-Zeitstempel zeigt die Anzahl der Sekunden seit dem 1. Januar 1970, "
+"0.00 Uhr GMT."
 
 #: ../plugins/fn-date/functions.c:193
 msgid "DATEVALUE:the date part of a date and time serial value"
@@ -1024,14 +1022,14 @@ msgid "DATEDIF:difference between dates"
 msgstr "DATEDIF:Differenz zwischen Daten"
 
 #: ../plugins/fn-date/functions.c:212 ../plugins/fn-date/functions.c:651
-#: ../plugins/fn-date/functions.c:897 ../plugins/fn-date/functions.c:1115
-#: ../plugins/fn-date/functions.c:1144
+#: ../plugins/fn-date/functions.c:949 ../plugins/fn-date/functions.c:1210
+#: ../plugins/fn-date/functions.c:1239
 msgid "start_date:starting date serial value"
 msgstr "start_date:Startdatum des seriellen Wertes"
 
 #: ../plugins/fn-date/functions.c:213 ../plugins/fn-date/functions.c:652
-#: ../plugins/fn-date/functions.c:898 ../plugins/fn-date/functions.c:1116
-#: ../plugins/fn-date/functions.c:1145
+#: ../plugins/fn-date/functions.c:950 ../plugins/fn-date/functions.c:1211
+#: ../plugins/fn-date/functions.c:1240
 msgid "end_date:ending date serial value"
 msgstr "end_date:Enddatum des seriellen Wertes"
 
@@ -1079,8 +1077,8 @@ msgstr "EDATE:Ein Datum um eine Anzahl Monate anpassen"
 #: ../plugins/fn-date/functions.c:353 ../plugins/fn-date/functions.c:539
 #: ../plugins/fn-date/functions.c:563 ../plugins/fn-date/functions.c:587
 #: ../plugins/fn-date/functions.c:611 ../plugins/fn-date/functions.c:693
-#: ../plugins/fn-date/functions.c:733 ../plugins/fn-date/functions.c:1016
-#: ../plugins/fn-date/functions.c:1040 ../plugins/fn-date/functions.c:1076
+#: ../plugins/fn-date/functions.c:733 ../plugins/fn-date/functions.c:1111
+#: ../plugins/fn-date/functions.c:1135 ../plugins/fn-date/functions.c:1171
 msgid "date:date serial value"
 msgstr "date:serieller Datumswert"
 
@@ -1222,29 +1220,29 @@ msgstr "Die Funktion DAY gibt den Tag des Monats von @{date} zurück."
 msgid "WEEKDAY:day-of-week"
 msgstr "WEEKDAY:Tag der Woche"
 
-#: ../plugins/fn-date/functions.c:612 ../plugins/fn-date/functions.c:1077
-msgid "method:numbering system"
-msgstr "method:Nummerierungssystem"
+#: ../plugins/fn-date/functions.c:612 ../plugins/fn-date/functions.c:1172
+msgid "method:numbering system, defaults to 1"
+msgstr "method:Nummerierungssystem, Vorgabe ist 1"
 
 #: ../plugins/fn-date/functions.c:613
 msgid ""
 "The WEEKDAY function returns the day-of-week of @{date}.  The value of @"
-"{method} determines how days are numbered."
+"{method} determines how days are numbered; it defaults to 1. "
 msgstr ""
 "Die Funktion WEEKDAY gibt den Tag der Woche zu @{date} zurück. Der Wert von @"
-"{method} bwstimmt, wie die Tage der Woche nummeriert werden."
+"{method} bestimmt, wie die Tage der Woche nummeriert werden, Vorgabe ist 1."
 
 #: ../plugins/fn-date/functions.c:614
 msgid "If @{method} is 1, then Sunday is 1, Monday is 2, etc."
 msgstr "Falls @{method} 1 ist, dann ist Sonntag 1, Montag 2 usw."
 
 #: ../plugins/fn-date/functions.c:615
-msgid "If @{method} is 2, then Monday is 1, Sunday is 2, etc."
-msgstr "Falls @{method} 2 ist, dann ist Montag 1, Sonntag 2 usw."
+msgid "If @{method} is 2, then Monday is 1, Tuesday is 2, etc."
+msgstr "Falls @{method} 2 ist, dann ist Montag 1, Dienstag 2 usw."
 
 #: ../plugins/fn-date/functions.c:616
-msgid "If @{method} is 3, then Monday is 0, Sunday is 1, etc."
-msgstr "Falls @{method} 3 ist , dann ist Montag 0, Sonntag 1 usw."
+msgid "If @{method} is 3, then Monday is 0, Tuesday is 1, etc."
+msgstr "Falls @{method} 3 ist , dann ist Montag 0, Dienstag 1 usw."
 
 #: ../plugins/fn-date/functions.c:650
 msgid "DAYS360:days between dates"
@@ -1306,11 +1304,17 @@ msgstr "WORKDAY:Arbeitstage hinzufügen"
 msgid "days:number of days to add"
 msgstr "days:Anzahl der hinzuzufügenden Tage"
 
-#: ../plugins/fn-date/functions.c:735 ../plugins/fn-date/functions.c:899
+#: ../plugins/fn-date/functions.c:735 ../plugins/fn-date/functions.c:951
 msgid "holidays:array of holidays"
 msgstr "holidays:Feld von Urlaubstagen"
 
-#: ../plugins/fn-date/functions.c:736
+#: ../plugins/fn-date/functions.c:736 ../plugins/fn-date/functions.c:952
+msgid ""
+"weekend:array indicating whether a weekday (S, M, T, W, T, F, S) is on the "
+"weekend, defaults to {TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE}"
+msgstr ""
+
+#: ../plugins/fn-date/functions.c:737
 msgid ""
 "WORKDAY adjusts @{date} by @{days} skipping over weekends and @{holidays} in "
 "the process."
@@ -1318,15 +1322,35 @@ msgstr ""
 "WORKDAY passt @{date} um @{days} an, wobei Wochenenden und @{holidays} "
 "übersprungen werden."
 
-#: ../plugins/fn-date/functions.c:737
+#: ../plugins/fn-date/functions.c:738
 msgid "@{days} may be negative."
 msgstr "@{days} kann negativ sein."
 
-#: ../plugins/fn-date/functions.c:896
+#: ../plugins/fn-date/functions.c:739 ../plugins/fn-date/functions.c:954
+msgid "This function is Excel compatible if the last argument is omitted."
+msgstr ""
+"Diese Funktion ist mit Excel kompatibel, wenn das letzte Argument weggelassen "
+"wird."
+
+#: ../plugins/fn-date/functions.c:740 ../plugins/fn-date/functions.c:955
+#: ../plugins/fn-date/functions.c:1242 ../plugins/fn-eng/functions.c:213
+#: ../plugins/fn-eng/functions.c:380 ../plugins/fn-eng/functions.c:748
+#: ../plugins/fn-financial/functions.c:1312 ../plugins/fn-math/functions.c:1012
+#: ../plugins/fn-math/functions.c:1039 ../plugins/fn-math/functions.c:1356
+#: ../plugins/fn-math/functions.c:1376 ../plugins/fn-math/functions.c:2041
+#: ../plugins/fn-math/functions.c:2774 ../plugins/fn-stat/functions.c:1518
+#: ../plugins/fn-stat/functions.c:2386 ../plugins/fn-stat/functions.c:4469
+#: ../plugins/fn-string/functions.c:259 ../plugins/fn-string/functions.c:343
+#: ../plugins/fn-string/functions.c:470 ../plugins/fn-string/functions.c:1058
+#: ../plugins/fn-string/functions.c:1400 ../plugins/fn-string/functions.c:1530
+msgid "This function is OpenFormula compatible."
+msgstr "Diese Funktion ist OpenFormula-kompatibel."
+
+#: ../plugins/fn-date/functions.c:948
 msgid "NETWORKDAYS:number of workdays in range"
 msgstr "NETWORKDAYS:Anzahl der Arbeitstage in einem Zeitraum"
 
-#: ../plugins/fn-date/functions.c:900
+#: ../plugins/fn-date/functions.c:953
 msgid ""
 "NETWORKDAYS calculates the number of days from @{start_date} to @{end_date} "
 "skipping weekends and @{holidays} in the process."
@@ -1334,11 +1358,11 @@ msgstr ""
 "NETWORKDAYS berechnet die Anzahl der Tage von @{start_date} bis @{end_date}, "
 "wobei Wochenenden und @{holidays} übersprungen werden."
 
-#: ../plugins/fn-date/functions.c:1015
+#: ../plugins/fn-date/functions.c:1110
 msgid "ISOWEEKNUM:ISO week number"
 msgstr "ISOWEEKNUM:Wochennummer nach ISO-Standard"
 
-#: ../plugins/fn-date/functions.c:1017
+#: ../plugins/fn-date/functions.c:1112
 msgid ""
 "ISOWEEKNUM calculates the week number according to the ISO 8601 standard.  "
 "Weeks start on Mondays and week 1 contains the first Thursday of the year."
@@ -1346,7 +1370,7 @@ msgstr ""
 "ISOWEEKNUM berechnet die Wochennummer nach dem Standard ISO 8601.  Wochen "
 "beginnen Montags und Woche 1 enthält den ersten Donnerstag des Jahres."
 
-#: ../plugins/fn-date/functions.c:1018 ../plugins/fn-date/functions.c:1042
+#: ../plugins/fn-date/functions.c:1113 ../plugins/fn-date/functions.c:1137
 msgid ""
 "January 1 of a year is sometimes in week 52 or 53 of the previous year.  "
 "Similarly, December 31 is sometimes in week 1 of the following year."
@@ -1355,49 +1379,49 @@ msgstr ""
 "vorhergehenden Jahres.  Ähnlich ist der 31.Dezember manchmal in Woche 1 des "
 "folgenden Jahres."
 
-#: ../plugins/fn-date/functions.c:1039
+#: ../plugins/fn-date/functions.c:1134
 msgid "ISOYEAR:year corresponding to the ISO week number"
 msgstr "ISOYEAR:das Jahr entsprechend der ISO-Wochenzahl"
 
-#: ../plugins/fn-date/functions.c:1041
+#: ../plugins/fn-date/functions.c:1136
 msgid ""
-"ISOYEAR calculates the year to go with week number according to the ISE 8601 "
+"ISOYEAR calculates the year to go with week number according to the ISO 8601 "
 "standard."
 msgstr "ISOYEAR berechnet das Jahr mit Wochennummer nach dem Standard ISE 8601."
 
-#: ../plugins/fn-date/functions.c:1075
-msgid "WEEKNUM:ISO week number"
-msgstr "WEEKNUM:Wochennummer nach ISO-Standard"
+#: ../plugins/fn-date/functions.c:1170
+msgid "WEEKNUM:week number"
+msgstr "WEEKNUM:Wochennummer"
 
-#: ../plugins/fn-date/functions.c:1078
+#: ../plugins/fn-date/functions.c:1173
 msgid ""
 "WEEKNUM calculates the week number according to @{method} which defaults to 1."
 msgstr "WEEKNUM berechnet die Wochennummer gemäß @{method}, Vorgabe ist 1."
 
-#: ../plugins/fn-date/functions.c:1079
+#: ../plugins/fn-date/functions.c:1174
 msgid ""
 "If @{method} is 1, then weeks start on Sundays and January 1 is in week 1."
 msgstr ""
 "Falls @{method} 1 ist, dann beginnt die Woche am Sonntag und der 1.Januar ist "
 "in Kalenderwoche 1."
 
-#: ../plugins/fn-date/functions.c:1080
+#: ../plugins/fn-date/functions.c:1175
 msgid ""
 "If @{method} is 2, then weeks start on Mondays and January 1 is in week 1."
 msgstr ""
 "Falls @{method} 2 ist, dann beginnt die Woche am Montag und der 1.Januar ist "
 "in Kalenderwoche 1."
 
-#: ../plugins/fn-date/functions.c:1081
+#: ../plugins/fn-date/functions.c:1176
 msgid "If @{method} is 150, then the ISO 8601 numbering is used."
 msgstr ""
 "Falls @{method} 150 ist, dann geschieht die Nummerierung gemäß ISO 8601."
 
-#: ../plugins/fn-date/functions.c:1114
+#: ../plugins/fn-date/functions.c:1209
 msgid "YEARFRAC:fractional number of years between dates"
 msgstr "YEARFRAC:anteilige Anzahl Jahre zwischen Daten"
 
-#: ../plugins/fn-date/functions.c:1117 ../plugins/fn-financial/functions.c:454
+#: ../plugins/fn-date/functions.c:1212 ../plugins/fn-financial/functions.c:454
 #: ../plugins/fn-financial/functions.c:492
 #: ../plugins/fn-financial/functions.c:530
 #: ../plugins/fn-financial/functions.c:571
@@ -1424,7 +1448,7 @@ msgstr "YEARFRAC:anteilige Anzahl Jahre zwischen Daten"
 msgid "basis:calendar basis"
 msgstr "basis:Kalenderbasis"
 
-#: ../plugins/fn-date/functions.c:1118
+#: ../plugins/fn-date/functions.c:1213
 msgid ""
 "YEARFRAC calculates the number of days from @{start_date} to @{end_date} "
 "according to the calendar specified by @{basis}, which defaults to 0, and "
@@ -1434,30 +1458,17 @@ msgstr ""
 "entsprechend dem in @{basis} festgelegten Kalender, der auf 0 voreingestellt "
 "ist. Das Ergebnis wird als gebrochene Zahl in Jahren angegeben."
 
-#: ../plugins/fn-date/functions.c:1143
+#: ../plugins/fn-date/functions.c:1238
 msgid "DAYS:difference between dates in days"
 msgstr "DAYS:Differenz zwischen Daten in Tagen"
 
-#: ../plugins/fn-date/functions.c:1146
+#: ../plugins/fn-date/functions.c:1241
 msgid ""
 "DAYS returns the positive or negative number of days from @{start_date} to @"
 "{end_date}."
 msgstr ""
 "DAYS gibt die positive oder negative Anzahl der Tage von @{start_date} bis @"
 "{end_date} zurück."
-
-#: ../plugins/fn-date/functions.c:1147 ../plugins/fn-eng/functions.c:213
-#: ../plugins/fn-eng/functions.c:380 ../plugins/fn-eng/functions.c:748
-#: ../plugins/fn-financial/functions.c:1312 ../plugins/fn-math/functions.c:1012
-#: ../plugins/fn-math/functions.c:1039 ../plugins/fn-math/functions.c:1356
-#: ../plugins/fn-math/functions.c:1376 ../plugins/fn-math/functions.c:2041
-#: ../plugins/fn-math/functions.c:2774 ../plugins/fn-stat/functions.c:1518
-#: ../plugins/fn-stat/functions.c:2386 ../plugins/fn-stat/functions.c:4469
-#: ../plugins/fn-string/functions.c:257 ../plugins/fn-string/functions.c:341
-#: ../plugins/fn-string/functions.c:468 ../plugins/fn-string/functions.c:1054
-#: ../plugins/fn-string/functions.c:1396 ../plugins/fn-string/functions.c:1526
-msgid "This function is OpenFormula compatible."
-msgstr "Diese Funktion ist OpenFormula-kompatibel."
 
 #. Some common decriptors
 #: ../plugins/fn-derivatives/options.c:46
@@ -1583,7 +1594,7 @@ msgstr "OPT_BS_GAMMA:Gamma einer europäischen Kaufoption"
 
 #: ../plugins/fn-derivatives/options.c:351
 msgid ""
-"OPT_BS_DELTA uses the Black-Scholes model to calculate the 'gamma' of a "
+"OPT_BS_GAMMA uses the Black-Scholes model to calculate the 'gamma' of a "
 "European option struck at @{strike} on an asset with spot price @{spot}. The "
 "gamma of an option is the second derivative of its price with respect to the "
 "price of the underlying asset."
@@ -1622,7 +1633,7 @@ msgstr "OPT_BS_VEGA:Vega einer europäischen Kaufoption"
 
 #: ../plugins/fn-derivatives/options.c:452
 msgid ""
-"OPT_BS_DELTA uses the Black-Scholes model to calculate the 'vega' of a "
+"OPT_BS_VEGA uses the Black-Scholes model to calculate the 'vega' of a "
 "European option struck at @{strike} on an asset with spot price @{spot}. The "
 "vega of an option is the rate of change of its price with respect to "
 "volatility."
@@ -1644,10 +1655,10 @@ msgstr "OPT_BS_RHO:Rho einer europäischen Kaufoption"
 
 #: ../plugins/fn-derivatives/options.c:518
 msgid ""
-"OPT_BS_DELTA uses the Black-Scholes model to calculate the 'rho' of a "
-"European option struck at @{strike} on an asset with spot price @{spot}. The "
-"rho of an option is the rate of change of its price with respect to the risk "
-"free interest rate."
+"OPT_BS_RHO uses the Black-Scholes model to calculate the 'rho' of a European "
+"option struck at @{strike} on an asset with spot price @{spot}. The rho of an "
+"option is the rate of change of its price with respect to the risk free "
+"interest rate."
 msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:524
@@ -2005,7 +2016,7 @@ msgid "strike1:strike prices of the first option"
 msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1620
-msgid "strike1:strike prices of the second option"
+msgid "strike2:strike prices of the second option"
 msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1622
@@ -2508,13 +2519,13 @@ msgid "to:unit (string)"
 msgstr "to:Einheit (Zeichenkette)"
 
 #: ../plugins/fn-eng/functions.c:662
-#, fuzzy
 msgid ""
 "CONVERT returns a conversion from one measurement system to another. @{x} is "
 "a value in @{from} units that is to be converted into @{to} units."
 msgstr ""
 "CONVERT gibt die Umrechnung von einem Einheitensystem in ein anderes zurück. @"
-"{x} ist der Wert in @{from}, der in @{to} umgerechnet werden soll."
+"{x} ist der Wert in @{from} Einheiten, der in @{to} Einheiten umgerechnet "
+"werden soll."
 
 #: ../plugins/fn-eng/functions.c:664
 msgid "If @{from} and @{to} are different types, CONVERT returns #N/A!"
@@ -2522,7 +2533,6 @@ msgstr ""
 "Falls @{from} und @{to} verschiedenen Typs sind, gibt CONVERT #N/A! zurück."
 
 #: ../plugins/fn-eng/functions.c:665
-#, fuzzy
 msgid ""
 "@{from} and @{to} can be any of the following:\n"
 "\n"
@@ -2618,7 +2628,7 @@ msgid ""
 "\t'z'  \tzepto \t\t1E-21\n"
 "\t'y'  \tyocto \t\t1E-24"
 msgstr ""
-"@Ausgangseinheit und @Zieleinheit können eines der folgenden sein:\n"
+"@{from} und @{to} können eines der folgenden sein:\n"
 "\n"
 "Gewicht und Masse:\n"
 "\t'g'  \t\t\tGramm\n"
@@ -2711,9 +2721,8 @@ msgstr ""
 "\t'y'  \tyocto \t\t1E-24"
 
 #: ../plugins/fn-eng/functions.c:747
-#, fuzzy
 msgid "This function is Excel compatible (except \"picapt\")."
-msgstr "Diese Funktion ist mit Excel kompatibel."
+msgstr "Diese Funktion ist mit Excel kompatibel (außer »picapt«)."
 
 #: ../plugins/fn-eng/functions.c:1070
 msgid "ERF:Gauss error function"
@@ -3946,7 +3955,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:3274
 msgid ""
 "VDB calculates the depreciation of an asset for a given period range using "
-"the double-declining balance method."
+"the variable-rate declining balance method."
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:3275
@@ -3956,51 +3965,76 @@ msgid ""
 "calculation."
 msgstr ""
 
-#: ../plugins/fn-hebrew-date/functions.c:52
+#: ../plugins/fn-hebrew-date/functions.c:91
 msgid "HDATE:Hebrew date"
 msgstr "HDATE:Hebräisches Datum"
 
-#: ../plugins/fn-hebrew-date/functions.c:85
+#: ../plugins/fn-hebrew-date/functions.c:92
+#: ../plugins/fn-hebrew-date/functions.c:161
+#: ../plugins/fn-hebrew-date/functions.c:232
+#: ../plugins/fn-hebrew-date/functions.c:259
+#: ../plugins/fn-hebrew-date/functions.c:286
+#: ../plugins/fn-hebrew-date/functions.c:313
+msgid "year:Gregorian year of date, defaults to the current year"
+msgstr "year:Gregorianisches Jahr des Datums, Vorgabe ist das aktuelle Jahr"
+
+#: ../plugins/fn-hebrew-date/functions.c:93
+#: ../plugins/fn-hebrew-date/functions.c:162
+#: ../plugins/fn-hebrew-date/functions.c:233
+#: ../plugins/fn-hebrew-date/functions.c:260
+#: ../plugins/fn-hebrew-date/functions.c:287
+#: ../plugins/fn-hebrew-date/functions.c:314
+msgid "month:Gregorian month of year, defaults to the current month"
+msgstr "month:Gregorianischer Monat des Jahres, Vorgabe ist der aktuelle Monat"
+
+#: ../plugins/fn-hebrew-date/functions.c:94
+#: ../plugins/fn-hebrew-date/functions.c:163
+#: ../plugins/fn-hebrew-date/functions.c:234
+#: ../plugins/fn-hebrew-date/functions.c:261
+#: ../plugins/fn-hebrew-date/functions.c:288
+#: ../plugins/fn-hebrew-date/functions.c:315
+msgid "day:Gregorian day of month, defaults to the current day"
+msgstr "day:Gregorianischer Tag des Monats, Vorgabe ist der heutige Tag"
+
+#: ../plugins/fn-hebrew-date/functions.c:126
+msgid "DATE2HDATE:Hebrew date"
+msgstr "DATE2HDATE:Hebräisches Datum"
+
+#: ../plugins/fn-hebrew-date/functions.c:127
+#: ../plugins/fn-hebrew-date/functions.c:196
+#: ../plugins/fn-hebrew-date/functions.c:339
+msgid "date:Gregorian date, defaults to today"
+msgstr "date:Gregorianisches Datum, Vorgabe ist der heutige Tag"
+
+#: ../plugins/fn-hebrew-date/functions.c:160
 msgid "HDATE_HEB:Hebrew date in Hebrew"
 msgstr "HDATE_HEB:Hebräisches Datum in Hebräisch"
 
-#: ../plugins/fn-hebrew-date/functions.c:120
+#: ../plugins/fn-hebrew-date/functions.c:195
+msgid "DATE2HDATE_HEB:Hebrew date in Hebrew"
+msgstr "DATE2HDATE_HEB:Hebräisches Datum in Hebräisch"
+
+#: ../plugins/fn-hebrew-date/functions.c:231
 msgid "HDATE_MONTH:Hebrew month of Gregorian date"
 msgstr "HDATE_MONTH:Hebräischer Monat des Gregorianischen Datums"
 
-#: ../plugins/fn-hebrew-date/functions.c:121
-#: ../plugins/fn-hebrew-date/functions.c:148
-#: ../plugins/fn-hebrew-date/functions.c:175
-#: ../plugins/fn-hebrew-date/functions.c:202
-msgid "year:Gregorian year of date"
-msgstr "year:Gregorianisches Jahr des Datums"
-
-#: ../plugins/fn-hebrew-date/functions.c:122
-#: ../plugins/fn-hebrew-date/functions.c:149
-#: ../plugins/fn-hebrew-date/functions.c:176
-#: ../plugins/fn-hebrew-date/functions.c:203
-msgid "month:Gregorian month of year"
-msgstr "month:Gregorianischer Monat des Jahres"
-
-#: ../plugins/fn-hebrew-date/functions.c:123
-#: ../plugins/fn-hebrew-date/functions.c:150
-#: ../plugins/fn-hebrew-date/functions.c:177
-#: ../plugins/fn-hebrew-date/functions.c:204
-msgid "day:Gregorian day of month"
-msgstr "day:Gregorianischer Tag des Monats"
-
-#: ../plugins/fn-hebrew-date/functions.c:147
+#: ../plugins/fn-hebrew-date/functions.c:258
 msgid "HDATE_DAY:Hebrew day of Gregorian date"
 msgstr "HDATE_DAY:Hebräischer Tag des Gregorianischen Datums"
 
-#: ../plugins/fn-hebrew-date/functions.c:174
+#: ../plugins/fn-hebrew-date/functions.c:285
 msgid "HDATE_YEAR:Hebrew year of Gregorian date"
 msgstr "HDATE_YEAR:Hebräisches Jahr des Gregorianischen Datums"
 
-#: ../plugins/fn-hebrew-date/functions.c:201
+#: ../plugins/fn-hebrew-date/functions.c:312
 msgid "HDATE_JULIAN:Julian day number for given Gregorian date"
 msgstr ""
 "HDATE_JULIAN:Julianische Tagesnummer des angegebenen Gregorianischen Datums"
+
+#: ../plugins/fn-hebrew-date/functions.c:338
+msgid "DATE2JULIAN:Julian day number for given Gregorian date"
+msgstr ""
+"DATE2JULIAN:Julianische Tagesnummer des angegebenen Gregorianischen Datums"
 
 #: ../plugins/fn-info/functions.c:68
 msgid "CELL:information of @{type} about @{cell}"
@@ -4181,8 +4215,8 @@ msgid "ISERR:TRUE if @{value} is any error value except #N/A"
 msgstr ""
 
 #: ../plugins/fn-info/functions.c:1497
-msgid "ERROR.TYPE:the type of @error"
-msgstr "ERROR.TYPE:Der Typ von @error"
+msgid "ERROR.TYPE:the type of @{error}"
+msgstr "ERROR.TYPE:Der Typ von @{error}"
 
 #: ../plugins/fn-info/functions.c:1498
 msgid "error:an error"
@@ -4215,8 +4249,8 @@ msgid "NA:the error value #N/A"
 msgstr "NA:der Fehlerwert #N/A"
 
 #: ../plugins/fn-info/functions.c:1551
-msgid "ERROR:the error with name @{text}"
-msgstr "ERROR:Der Fehler mit dem Namen @{text}"
+msgid "ERROR:the error with the given @{name}"
+msgstr "ERROR:Der Fehler mit dem Namen @{name}"
 
 #: ../plugins/fn-info/functions.c:1552
 msgid "name:string"
@@ -4286,11 +4320,11 @@ msgstr "ISTEXT:WAHR, falls @{value} ein Text ist."
 msgid "N:@{text} converted to a number"
 msgstr "N:@{text} in eine Zahl umgewandelt"
 
-#: ../plugins/fn-info/functions.c:1720 ../plugins/fn-string/functions.c:319
-#: ../plugins/fn-string/functions.c:535 ../plugins/fn-string/functions.c:576
-#: ../plugins/fn-string/functions.c:620 ../plugins/fn-string/functions.c:745
-#: ../plugins/fn-string/functions.c:969 ../plugins/fn-string/functions.c:1016
-#: ../plugins/fn-string/functions.c:1049 ../plugins/fn-string/functions.c:1391
+#: ../plugins/fn-info/functions.c:1720 ../plugins/fn-string/functions.c:321
+#: ../plugins/fn-string/functions.c:537 ../plugins/fn-string/functions.c:578
+#: ../plugins/fn-string/functions.c:622 ../plugins/fn-string/functions.c:749
+#: ../plugins/fn-string/functions.c:973 ../plugins/fn-string/functions.c:1020
+#: ../plugins/fn-string/functions.c:1053 ../plugins/fn-string/functions.c:1395
 msgid "text:string"
 msgstr "text:Zeichenkette"
 
@@ -4506,106 +4540,106 @@ msgstr "FALSE:Der Wert FALSCH."
 msgid "FALSE returns the value FALSE."
 msgstr "FALSE gibt den Wert FALSCH zurück."
 
-#: ../plugins/fn-lookup/functions.c:713
+#: ../plugins/fn-lookup/functions.c:714
 msgid "ADDRESS:cell address as text"
 msgstr "ADDRESS:Zellenadresse als Text"
 
-#: ../plugins/fn-lookup/functions.c:714
+#: ../plugins/fn-lookup/functions.c:715
 msgid "row_num:row number"
 msgstr "row_num:Zeilennummer"
 
-#: ../plugins/fn-lookup/functions.c:715
+#: ../plugins/fn-lookup/functions.c:716
 msgid "col_num:column number"
 msgstr "col_num:Spaltennummer"
 
-#: ../plugins/fn-lookup/functions.c:716
+#: ../plugins/fn-lookup/functions.c:717
 msgid ""
 "abs_num:1 for an absolute, 2 for a row absolute and column relative, 3 for a "
 "row relative and column absolute, and 4 for a relative reference; defaults to "
 "1"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:719
+#: ../plugins/fn-lookup/functions.c:720
 msgid ""
 "a1:if TRUE, an A1-style reference is provided, otherwise an R1C1-style "
 "reference; defaults to TRUE"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:721
+#: ../plugins/fn-lookup/functions.c:722
 msgid "text:name of the worksheet, defaults to no sheet"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:722
+#: ../plugins/fn-lookup/functions.c:723
 msgid "If @{row_num} or @{col_num} is less than one, ADDRESS returns #VALUE!"
 msgstr ""
 "Falls @{row_num} oder @{col_num} kleiner als 1 ist, gibt ADDRESS #WERT! "
 "zurück."
 
-#: ../plugins/fn-lookup/functions.c:724
+#: ../plugins/fn-lookup/functions.c:725
 msgid "If @{abs_num} is greater than 4 ADDRESS returns #VALUE!"
 msgstr "Falls @{abs_num} größer als 4 ist, gibt ADDRESS #WERT! zurück."
 
-#: ../plugins/fn-lookup/functions.c:798
+#: ../plugins/fn-lookup/functions.c:799
 msgid "AREAS:number of areas in @{reference}"
 msgstr "AREAS:Anzahl der Bereiche in @{reference}"
 
-#: ../plugins/fn-lookup/functions.c:799
+#: ../plugins/fn-lookup/functions.c:800
 msgid "reference:range"
 msgstr "reference:Bereich"
 
-#: ../plugins/fn-lookup/functions.c:866
+#: ../plugins/fn-lookup/functions.c:867
 msgid "CHOOSE:the (@{index}+1)th argument"
 msgstr "CHOOSE:Das (@{index}+1)-te Argument"
 
-#: ../plugins/fn-lookup/functions.c:867
+#: ../plugins/fn-lookup/functions.c:868
 msgid "index:positive number"
 msgstr "index:positive Zahl"
 
-#: ../plugins/fn-lookup/functions.c:868
+#: ../plugins/fn-lookup/functions.c:869
 msgid "value1:first value"
 msgstr "value1:Erster Wert"
 
-#: ../plugins/fn-lookup/functions.c:869
+#: ../plugins/fn-lookup/functions.c:870
 msgid "value2:second value"
 msgstr "value2:Zweiter Wert"
 
-#: ../plugins/fn-lookup/functions.c:870
+#: ../plugins/fn-lookup/functions.c:871
 msgid "CHOOSE returns its (@{index}+1)th argument."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:871
+#: ../plugins/fn-lookup/functions.c:872
 msgid ""
 "@{index} is truncated to an integer. If @{index} < 1 or the truncated @"
 "{index} > number of values, CHOOSE returns #VALUE!"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:913
+#: ../plugins/fn-lookup/functions.c:914
 msgid "VLOOKUP:search the first column of @{range} for @{value}"
 msgstr "VLOOKUP:die erste Spalte in @{range} nach @{value} durchsuchen"
 
-#: ../plugins/fn-lookup/functions.c:914 ../plugins/fn-lookup/functions.c:975
+#: ../plugins/fn-lookup/functions.c:915 ../plugins/fn-lookup/functions.c:976
 msgid "value:search value"
 msgstr "value:Suchwert"
 
-#: ../plugins/fn-lookup/functions.c:915 ../plugins/fn-lookup/functions.c:976
+#: ../plugins/fn-lookup/functions.c:916 ../plugins/fn-lookup/functions.c:977
 msgid "range:range to search"
 msgstr "range:Suchbereich"
 
-#: ../plugins/fn-lookup/functions.c:916
+#: ../plugins/fn-lookup/functions.c:917
 msgid "column:1-based column offset indicating the return values"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:917 ../plugins/fn-lookup/functions.c:978
+#: ../plugins/fn-lookup/functions.c:918 ../plugins/fn-lookup/functions.c:979
 msgid ""
 "approximate:if false, an exact match of @{value} must be found; defaults to "
 "TRUE"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:919 ../plugins/fn-lookup/functions.c:980
+#: ../plugins/fn-lookup/functions.c:920 ../plugins/fn-lookup/functions.c:981
 msgid "as_index:if true, the 0-based row offset is returned; defaults to FALSE"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:921
+#: ../plugins/fn-lookup/functions.c:922
 msgid ""
 "VLOOKUP function finds the row in @{range} that has a first cell similar to @"
 "{value}.  If @{approximate} is not true it finds the row with an exact "
@@ -4614,7 +4648,7 @@ msgid ""
 "is returned."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:928 ../plugins/fn-lookup/functions.c:989
+#: ../plugins/fn-lookup/functions.c:929 ../plugins/fn-lookup/functions.c:990
 msgid ""
 "If @{approximate} is true, then the values must be sorted in order of "
 "ascending value."
@@ -4622,19 +4656,19 @@ msgstr ""
 "Falls @{approximate} WAHR ist, dann müssen die Werte aufsteigend sortiert "
 "werden."
 
-#: ../plugins/fn-lookup/functions.c:930
+#: ../plugins/fn-lookup/functions.c:931
 msgid "VLOOKUP returns #REF! if @{row} falls outside @{range}."
 msgstr "VLOOKUP gibt #BEZUG! zurück, falls @{row} außerhalb von @{range} liegt."
 
-#: ../plugins/fn-lookup/functions.c:974
+#: ../plugins/fn-lookup/functions.c:975
 msgid "HLOOKUP:search the first row of @{range} for @{value}"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:977
+#: ../plugins/fn-lookup/functions.c:978
 msgid "row:1-based column offset indicating the return values "
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:982
+#: ../plugins/fn-lookup/functions.c:983
 msgid ""
 "HLOOKUP function finds the row in @{range} that has a first cell similar to @"
 "{value}.  If @{approximate} is not true it finds the row with an exact "
@@ -4643,106 +4677,106 @@ msgid ""
 "is returned."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:991
+#: ../plugins/fn-lookup/functions.c:992
 msgid "HLOOKUP returns #REF! if @{row} falls outside @{range}."
 msgstr "HLOOKUP gibt #BEZUG! zurück, falls @{row} außerhalb von @{range} liegt."
 
-#: ../plugins/fn-lookup/functions.c:1035
+#: ../plugins/fn-lookup/functions.c:1036
 msgid ""
 "LOOKUP:contents of @{vector2} at the corresponding location to @{value} in @"
 "{vector1}"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1037
+#: ../plugins/fn-lookup/functions.c:1038
 msgid "value:value to look up"
 msgstr "value:nachzuschlagender Wert"
 
-#: ../plugins/fn-lookup/functions.c:1038
+#: ../plugins/fn-lookup/functions.c:1039
 msgid "vector1:range to search:"
 msgstr "vector1:Zu durchsuchender Bereich:"
 
-#: ../plugins/fn-lookup/functions.c:1039
+#: ../plugins/fn-lookup/functions.c:1040
 msgid "vector2:range of return values"
 msgstr "vector2:Bereich der Rückgabewerte"
 
-#: ../plugins/fn-lookup/functions.c:1040
+#: ../plugins/fn-lookup/functions.c:1041
 msgid ""
 "If  @{vector1} has more rows than columns, LOOKUP searches the first row of @"
 "{vector1}, otherwise the first column. If @{vector2} is omitted the return "
 "value is taken from the last row or column of @{vector1}."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1044
+#: ../plugins/fn-lookup/functions.c:1045
 msgid ""
 "If LOOKUP can't find @{value} it uses the largest value less than @{value}."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1046
+#: ../plugins/fn-lookup/functions.c:1047
 msgid "The data must be sorted."
 msgstr "Die Daten müssen sortiert sein."
 
-#: ../plugins/fn-lookup/functions.c:1047
+#: ../plugins/fn-lookup/functions.c:1048
 msgid "If @{value} is smaller than the first value it returns #N/A."
 msgstr "Falls @{value} kleiner als der erste Wert ist, wird #N/A zurückgegeben."
 
-#: ../plugins/fn-lookup/functions.c:1048
+#: ../plugins/fn-lookup/functions.c:1049
 msgid ""
 "If the corresponding location does not exist in @{vector2}, it returns #N/A."
 msgstr ""
 "Falls der korrespondierende Ort in @{vector2} nicht existiert, wird #N/A "
 "zurückgegeben."
 
-#: ../plugins/fn-lookup/functions.c:1135
+#: ../plugins/fn-lookup/functions.c:1136
 msgid "MATCH:the index of @{seek} in @{vector}"
 msgstr "MATCH:Der Index von @{seek} in @{vector}"
 
-#: ../plugins/fn-lookup/functions.c:1136
+#: ../plugins/fn-lookup/functions.c:1137
 msgid "seek:value to find"
 msgstr "seek:Zu findender Wert"
 
-#: ../plugins/fn-lookup/functions.c:1137
+#: ../plugins/fn-lookup/functions.c:1138
 msgid "vector:n by 1 or 1 by n range to be searched"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1138
+#: ../plugins/fn-lookup/functions.c:1139
 msgid ""
 "type:+1 (the default) to find the largest value ≤ @{seek}, 0 to find the "
 "first value = @{seek}, or-1 to find the smallest value ≥ @{seek}"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1141
+#: ../plugins/fn-lookup/functions.c:1142
 msgid "MATCH searches @{vector} for @{seek} and returns the 1-based index."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1142
+#: ../plugins/fn-lookup/functions.c:1143
 msgid ""
 " For @{type} = -1 the data must be sorted in descending order; for @{type} = "
 "+1 the data must be sorted in ascending order."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1144
+#: ../plugins/fn-lookup/functions.c:1145
 msgid "If @{seek} could not be found, #N/A is returned."
 msgstr "Falls @{seek} nicht gefunden werden kann, wird #N/A zurückgegeben."
 
-#: ../plugins/fn-lookup/functions.c:1145
+#: ../plugins/fn-lookup/functions.c:1146
 msgid "If @{vector} is neither n by 1 nor 1 by n, #N/A is returned."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1196
+#: ../plugins/fn-lookup/functions.c:1197
 msgid "INDIRECT:contents of the cell pointed to by the @{ref_text} string"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1197
+#: ../plugins/fn-lookup/functions.c:1198
 msgid "ref_text:textual reference"
 msgstr "ref_text:Textreferenz"
 
-#: ../plugins/fn-lookup/functions.c:1198
+#: ../plugins/fn-lookup/functions.c:1199
 msgid ""
 "format:if true, @{ref_text} is given in A1-style, otherwise it is given in "
 "R1C1 style; defaults to true"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1200
+#: ../plugins/fn-lookup/functions.c:1201
 msgid ""
 "If @{ref_text} is not a valid reference in the style determined by @{format}, "
 "INDIRECT returns #REF!"
@@ -4750,60 +4784,60 @@ msgstr ""
 "Falls @{ref_text} keine gültige Referenz im von @{format} angegebenen Stil "
 "ist, gibt INDIRECT #BEZUG! zurück."
 
-#: ../plugins/fn-lookup/functions.c:1234
+#: ../plugins/fn-lookup/functions.c:1235
 msgid "INDEX:reference to a cell in the given @{array}"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1235
+#: ../plugins/fn-lookup/functions.c:1236
 msgid "array:cell or inline array"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1236
+#: ../plugins/fn-lookup/functions.c:1237
 msgid "row:desired row, defaults to 1"
 msgstr "row:Gewünschte Zeile, Vorgabe ist 1"
 
-#: ../plugins/fn-lookup/functions.c:1237
+#: ../plugins/fn-lookup/functions.c:1238
 msgid "col:desired column, defaults to 1"
 msgstr "col:Gewünschte Spalte, Vorgabe ist 1"
 
-#: ../plugins/fn-lookup/functions.c:1238
+#: ../plugins/fn-lookup/functions.c:1239
 msgid "area:from which area to select a cell, defaults to 1"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1239
+#: ../plugins/fn-lookup/functions.c:1240
 msgid ""
 "INDEX gives a reference to a cell in the given @{array}. The cell is selected "
 "by @{row} and @{col}, which count the rows and columns in the array."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1244
+#: ../plugins/fn-lookup/functions.c:1245
 msgid ""
 "If the reference falls outside the range of @{array}, INDEX returns #REF!"
 msgstr ""
 "Falls die Referenz außerhalb des Bereichs von @{array} liegt, gibt INDEX "
 "#BEZUG! zurück."
 
-#: ../plugins/fn-lookup/functions.c:1246
+#: ../plugins/fn-lookup/functions.c:1247
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25.9"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1335
+#: ../plugins/fn-lookup/functions.c:1336
 msgid "COLUMN:vector of column numbers"
 msgstr "COLUMN:Vektor aus Spaltennummern"
 
-#: ../plugins/fn-lookup/functions.c:1336 ../plugins/fn-lookup/functions.c:1488
+#: ../plugins/fn-lookup/functions.c:1337 ../plugins/fn-lookup/functions.c:1489
 msgid "x:reference, defaults to the position of the current expression"
 msgstr "x:Referenz, Vorgabe ist die Position des aktuellen Ausdrucks"
 
-#: ../plugins/fn-lookup/functions.c:1337
+#: ../plugins/fn-lookup/functions.c:1338
 msgid ""
 "COLUMN function returns a Nx1 array containing the sequence of integers from "
 "the first column to the last column of @{reference}."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1340 ../plugins/fn-lookup/functions.c:1492
+#: ../plugins/fn-lookup/functions.c:1341 ../plugins/fn-lookup/functions.c:1493
 msgid ""
 "If @{reference} is neither an array nor a reference nor a range, returns "
 "#VALUE!"
@@ -4811,31 +4845,31 @@ msgstr ""
 "Falls @{reference} weder ein Feld, eine Referenz noch ein Bereich ist, wird "
 "#WERT! zurückgegeben."
 
-#: ../plugins/fn-lookup/functions.c:1344
+#: ../plugins/fn-lookup/functions.c:1345
 msgid "column() in G13 equals 7."
 msgstr "column() in G13 ist gleich 7."
 
-#: ../plugins/fn-lookup/functions.c:1384
+#: ../plugins/fn-lookup/functions.c:1385
 msgid "COLUMNNUMBER:column number for the given column called @{name}"
 msgstr "COLUMNNUMBER:Spaltennummer für gegebene Spalte namens @{name}"
 
-#: ../plugins/fn-lookup/functions.c:1385
+#: ../plugins/fn-lookup/functions.c:1386
 msgid "name:column name such as \"IV\""
 msgstr "name:Spaltenname, z.B. »IV«"
 
-#: ../plugins/fn-lookup/functions.c:1386
+#: ../plugins/fn-lookup/functions.c:1387
 msgid "If @{name} is invalid, COLUMNNUMBER returns #VALUE!"
 msgstr "Falls @{name} ungültig ist, gibt COLUMNNUMBER #WERT! zurück."
 
-#: ../plugins/fn-lookup/functions.c:1411
+#: ../plugins/fn-lookup/functions.c:1412
 msgid "COLUMNS:number of columns in @{reference}"
 msgstr "COLUMNS:Anzahl der Spalten in @{reference}"
 
-#: ../plugins/fn-lookup/functions.c:1412
+#: ../plugins/fn-lookup/functions.c:1413
 msgid "reference:array or area"
 msgstr "reference:Feld oder Bereich"
 
-#: ../plugins/fn-lookup/functions.c:1413
+#: ../plugins/fn-lookup/functions.c:1414
 msgid ""
 "If @{reference} is neither an array nor a reference nor a range, COLUMNS "
 "returns #VALUE!"
@@ -4843,61 +4877,61 @@ msgstr ""
 "Falls @{reference} weder ein Feld, eine Referenz noch ein Bereich ist, gibt "
 "COLUMNS #WERT! zurück."
 
-#: ../plugins/fn-lookup/functions.c:1429
+#: ../plugins/fn-lookup/functions.c:1430
 msgid "OFFSET:an offset cell range"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1430
+#: ../plugins/fn-lookup/functions.c:1431
 msgid "range:reference or range"
 msgstr "range:Referenz oder Bereich"
 
-#: ../plugins/fn-lookup/functions.c:1431
+#: ../plugins/fn-lookup/functions.c:1432
 msgid "row:number of rows to offset @{range}"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1432
+#: ../plugins/fn-lookup/functions.c:1433
 msgid "col:number of columns to offset @{range}"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1433
+#: ../plugins/fn-lookup/functions.c:1434
 msgid "height:height of the offset range, defaults to height of @{range}"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1434
+#: ../plugins/fn-lookup/functions.c:1435
 msgid "width:width of the offset range, defaults to width of @{range}"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1435
+#: ../plugins/fn-lookup/functions.c:1436
 msgid ""
 "OFFSET returns the cell range starting at offset (@{row},@{col}) from @"
 "{range} of height @{height} and width @{width}."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1438
+#: ../plugins/fn-lookup/functions.c:1439
 msgid "If @{range} is neither a reference nor a range, OFFSET returns #VALUE!"
 msgstr ""
 "Falls @{range} weder eine Referenz noch ein Bereich ist, gibt OFFSET #WERT! "
 "zurück."
 
-#: ../plugins/fn-lookup/functions.c:1487
+#: ../plugins/fn-lookup/functions.c:1488
 msgid "ROW:vector of row numbers"
 msgstr "ROW:Vektor aus Zeilennummern"
 
-#: ../plugins/fn-lookup/functions.c:1489
+#: ../plugins/fn-lookup/functions.c:1490
 msgid ""
 "ROW function returns a 1xN array containing the sequence of integers from the "
 "first row to the last row of @{reference}."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1535
+#: ../plugins/fn-lookup/functions.c:1536
 msgid "ROWS:number of rows in @{reference}"
 msgstr "ROW:Anzahl der Zeilen in @{reference}"
 
-#: ../plugins/fn-lookup/functions.c:1536
+#: ../plugins/fn-lookup/functions.c:1537
 msgid "reference:array, reference, or range"
 msgstr "reference:Feld, Referenz oder Bereich"
 
-#: ../plugins/fn-lookup/functions.c:1537
+#: ../plugins/fn-lookup/functions.c:1538
 msgid ""
 "If @{reference} is neither an array nor a reference nor a range, ROWS returns "
 "#VALUE!"
@@ -4905,15 +4939,15 @@ msgstr ""
 "Falls @{reference} weder eine Referenz noch ein Bereich ist, gibt ROWS #WERT! "
 "zurück."
 
-#: ../plugins/fn-lookup/functions.c:1553
+#: ../plugins/fn-lookup/functions.c:1554
 msgid "SHEETS:number of sheets in @{reference}"
 msgstr "SHEETS:Anzahl der Blätter in @{reference}"
 
-#: ../plugins/fn-lookup/functions.c:1554
+#: ../plugins/fn-lookup/functions.c:1555
 msgid "reference:array, reference, or range, defaults to the maximum range"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1555
+#: ../plugins/fn-lookup/functions.c:1556
 msgid ""
 "If @{reference} is neither an array nor a reference nor a range, SHEETS "
 "returns #VALUE!"
@@ -4921,48 +4955,77 @@ msgstr ""
 "Falls @{reference} weder ein Feld, eine Referenz noch ein Bereich ist, gibt "
 "SHEETS #WERT! zurück."
 
-#: ../plugins/fn-lookup/functions.c:1591
+#: ../plugins/fn-lookup/functions.c:1592
 msgid "SHEET:sheet number of @{reference}"
 msgstr "SHEET:Blattnummer von @{reference}"
 
-#: ../plugins/fn-lookup/functions.c:1592
+#: ../plugins/fn-lookup/functions.c:1593
 msgid "reference:reference or literal sheet name, defaults to the current sheet"
 msgstr ""
 "reference:Referenz oder wörtlicher Blattname, Vorgabe ist das aktuelle Blatt"
 
-#: ../plugins/fn-lookup/functions.c:1593
+#: ../plugins/fn-lookup/functions.c:1594
 msgid ""
-"If @{reference} is neither a reference nor a literal sheet name, SHEETS "
+"If @{reference} is neither a reference nor a literal sheet name, SHEET "
 "returns #VALUE!"
 msgstr ""
 "Falls @{reference} weder eine Referenz noch ein wörtlicher Blattname ist, "
 "gibt SHEETS #WERT! zurück."
 
-#: ../plugins/fn-lookup/functions.c:1641
+#: ../plugins/fn-lookup/functions.c:1643
 msgid "HYPERLINK:second or first arguments"
 msgstr "HYPERLINK:zweite oder erste Argumente"
 
-#: ../plugins/fn-lookup/functions.c:1642
+#: ../plugins/fn-lookup/functions.c:1644
 msgid "link_location:string"
 msgstr "link_location:Zeichenkette"
 
-#: ../plugins/fn-lookup/functions.c:1643
+#: ../plugins/fn-lookup/functions.c:1645
 msgid "label:string, optional"
 msgstr "label:Zeichenkette, optional"
 
-#: ../plugins/fn-lookup/functions.c:1644
+#: ../plugins/fn-lookup/functions.c:1646
 msgid ""
 "HYPERLINK function currently returns its 2nd argument, or if that is omitted "
 "the 1st argument."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1663
+#: ../plugins/fn-lookup/functions.c:1665
 msgid "TRANSPOSE:the transpose of @{matrix}"
 msgstr "TRANSPOSE:die transponierte Matrix der Matrix @{matrix}"
 
-#: ../plugins/fn-lookup/functions.c:1664
+#: ../plugins/fn-lookup/functions.c:1666
 msgid "matrix:range"
 msgstr "matrix:Bereich"
+
+#: ../plugins/fn-lookup/functions.c:1702
+msgid "ARRAY:vertical array of the arguments"
+msgstr ""
+
+#: ../plugins/fn-lookup/functions.c:1703
+msgid "v:value"
+msgstr "v:Wert"
+
+#: ../plugins/fn-lookup/functions.c:1759
+msgid "SORT:sorted list of numbers as vertical array"
+msgstr ""
+
+#: ../plugins/fn-lookup/functions.c:1760 ../plugins/fn-stat/functions.c:166
+#: ../plugins/fn-stat/functions.c:218
+msgid "ref:list of numbers"
+msgstr "ref:Liste von Zahlen"
+
+#: ../plugins/fn-lookup/functions.c:1761
+msgid "order:0 (descending order) or 1 (ascending order); defaults to 0"
+msgstr ""
+
+#: ../plugins/fn-lookup/functions.c:1762
+msgid "Strings, booleans, and empty cells are ignored."
+msgstr "Zeichenketten, boolesche Werte und leere Zellen werden ignoriert."
+
+#: ../plugins/fn-lookup/functions.c:1763
+msgid "SORT({4,3,5}) evaluates to {5,4,3}"
+msgstr ""
 
 #: ../plugins/fn-math/functions.c:48
 msgid ""
@@ -5045,7 +5108,6 @@ msgid "ABS:absolute value"
 msgstr "ABS:absoluter Wert"
 
 #: ../plugins/fn-math/functions.c:224
-#, fuzzy
 msgid ""
 "ABS gives the absolute value of @{x}, i.e. the non-negative number of the "
 "same magnitude as @{x}."
@@ -5205,7 +5267,6 @@ msgstr ""
 "Bereich das gegebene Kriterium @{criteria} erfüllt."
 
 #: ../plugins/fn-math/functions.c:534
-#, fuzzy
 msgid "criteria:condition for a cell to be summed"
 msgstr "criteria:Bedingung für eine zu erfassende Zelle"
 
@@ -5214,7 +5275,6 @@ msgid "actual_range:cell area, defaults to @{range}"
 msgstr "actual_range:Zellenbereich, Vorgabe ist @{range}"
 
 #: ../plugins/fn-math/functions.c:644
-#, fuzzy
 msgid ""
 "AVERAGEIF:average of the cells in @{actual range} for which the corresponding "
 "cells in the range meet the given @{criteria}"
@@ -5701,8 +5761,8 @@ msgid "TRUNC:@{x} truncated to @{d} digits"
 msgstr "TRUNC:@{x} auf @{d} Stellen abgeschnitten"
 
 #: ../plugins/fn-math/functions.c:1618
-msgid "x:non-negative integer, defaults to 0"
-msgstr "x:nicht-negative Zahl, Vorgabe ist 0"
+msgid "d:non-negative integer, defaults to 0"
+msgstr "d:nicht-negative Ganzzahl, Vorgabe ist 0"
 
 #: ../plugins/fn-math/functions.c:1619
 msgid ""
@@ -5877,7 +5937,6 @@ msgid "type:0,1,2,3,or 4, defaults to 0"
 msgstr "type:0,1,2,3,oder 4, Vorgabe ist 0"
 
 #: ../plugins/fn-math/functions.c:2116
-#, fuzzy
 msgid ""
 "ROMAN returns the arabic number @{n} as a roman numeral text.\n"
 "If @{type} is 0 or it is omitted, ROMAN returns classic roman numbers.\n"
@@ -7456,9 +7515,8 @@ msgid "RANDSNORM:random variate from a skew normal distribution"
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:883 ../plugins/fn-random/functions.c:923
-#, fuzzy
 msgid "a:amount of skew, defaults to 0"
-msgstr "d:Ganzzahl, Vorgabe ist 0"
+msgstr "a:Betrag der Verschiebung, Vorgabe ist 0"
 
 #: ../plugins/fn-random/functions.c:884
 msgid "μ:mean of the underlying normal distribution, defaults to 0"
@@ -7605,10 +7663,6 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:165 ../plugins/fn-stat/functions.c:217
 msgid "x:number whose rank you want to find"
 msgstr ""
-
-#: ../plugins/fn-stat/functions.c:166 ../plugins/fn-stat/functions.c:218
-msgid "ref:list of numbers"
-msgstr "ref:Liste von Zahlen"
 
 #: ../plugins/fn-stat/functions.c:167 ../plugins/fn-stat/functions.c:219
 msgid "order:0 (descending order) or non-zero (ascending order); defaults to 0"
@@ -8755,12 +8809,15 @@ msgstr "k:Zu findender Wert"
 #: ../plugins/fn-stat/functions.c:2152 ../plugins/fn-stat/functions.c:2195
 msgid "If data set is empty this function returns a #NUM! error."
 msgstr ""
+"Falls der Datensatz leer ist, gibt diese Funktion einen #ZAHL!-Fehler zurück."
 
 #: ../plugins/fn-stat/functions.c:2153 ../plugins/fn-stat/functions.c:2196
 msgid ""
 "If @{k} <= 0 or @{k} is greater than the number of data items given this "
 "function returns a #NUM! error."
 msgstr ""
+"Falls @{k} <= 0 oder @{k} größer als die Anzahl der gegebenen Datenobjekte "
+"ist, gibt diese Funktion einen #ZAHL!-Fehler zurück."
 
 #: ../plugins/fn-stat/functions.c:2158
 msgid "Then LARGE(A1:A5,2) equals 25.9.LARGE(A1:A5,4) equals 17.3."
@@ -8874,6 +8931,8 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:2383
 msgid "If @{ref} contains less than two data items ZTEST returns #DIV/0! error."
 msgstr ""
+"Falls @{ref} weniger als zwei Datenobjekte enthält, gibt ZTEST einen #DIV/0!-"
+"Fehler zurück."
 
 #: ../plugins/fn-stat/functions.c:2389
 msgid "Then ZTEST(A1:A5,20) equals 0.254717826."
@@ -8996,6 +9055,8 @@ msgstr ""
 msgid ""
 "If @{significance} is less than one, this function returns a #NUM! error."
 msgstr ""
+"Falls @{significance} kleiner als 1 ist, gibt diese Funktion einen #ZAHL!-"
+"Fehler zurück."
 
 #: ../plugins/fn-stat/functions.c:2642
 msgid ""
@@ -9025,6 +9086,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:2735
 msgid "If @{k} < 0 or @{k} > 1, this function returns a #NUM! error."
 msgstr ""
+"Falls @{k} < 0 oder @{k} > 1, gibt diese Funktion einen #ZAHL!-Fehler zurück."
 
 #: ../plugins/fn-stat/functions.c:2738
 msgid "Then PERCENTILE(A1:A5,0.42) equals 20.02."
@@ -9043,10 +9105,12 @@ msgid ""
 "If @{quart} < 0 or @{quart} > 4, this function returns a #NUM! error. If @"
 "{quart} = 0, the smallest value of @{array} to be returned."
 msgstr ""
+"Falls @{quart} < 0 oder @{quart} > 4, gibt diese Funktion einen #ZAHL!-Fehler "
+"zurück. Falls @{quart} = 0, wird der kleinste Wert von @{array} zurückgegeben."
 
 #: ../plugins/fn-stat/functions.c:2778
 msgid "If @{quart} is not an integer, it is truncated."
-msgstr ""
+msgstr "Falls @{quart} keine Ganzzahl ist, wird es abgeschnitten."
 
 #: ../plugins/fn-stat/functions.c:2781
 msgid "Then QUARTILE(A1:A5,1) equals 17.3."
@@ -9288,6 +9352,8 @@ msgstr ""
 msgid ""
 "new_xs:x-values for which to estimate the y-values; defaults to @{known_xs}"
 msgstr ""
+"new_xs:x--Werte als Grundlage zur Schätzung der y-Werte; Vorgabe ist @"
+"{known_xs}"
 
 #: ../plugins/fn-stat/functions.c:3574
 msgid ""
@@ -9305,7 +9371,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3681
 msgid "known_xs:known x-values; default to an array {1, 2, 3, …}"
-msgstr ""
+msgstr "known_xs:Bekannte x-Werte; Vorgabe ist ein Array {1, 2, 3, …}"
 
 #: ../plugins/fn-stat/functions.c:3684
 msgid ""
@@ -9403,7 +9469,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3975
 msgid "SLOPE:the slope of a linear regression line"
-msgstr ""
+msgstr "SLOPE:Die Neigung einer linearen Regressionskurve"
 
 #: ../plugins/fn-stat/functions.c:3986
 msgid "Then SLOPE(A1:A5,B1:B5) equals 1.417959936."
@@ -9547,7 +9613,7 @@ msgstr "LAPLACE:Wahrscheinlichkeitsdichtefunktion der Laplace-Verteilung"
 
 #: ../plugins/fn-stat/functions.c:4442
 msgid "a:mean"
-msgstr ""
+msgstr "a:Mittel"
 
 #: ../plugins/fn-stat/functions.c:4463
 msgid ""
@@ -9677,25 +9743,26 @@ msgstr ""
 msgid "@{x} must be in the range 1 to 255."
 msgstr "@{x} muss im Bereich zwischen 1 und 255 liegen."
 
-#: ../plugins/fn-string/functions.c:60 ../plugins/fn-string/functions.c:134
+#: ../plugins/fn-string/functions.c:60 ../plugins/fn-string/functions.c:136
 msgid ""
 "CP1252 (Windows-1252) is also known as the \"ANSI code page\", but it is not "
 "an ANSI standard."
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:62 ../plugins/fn-string/functions.c:135
+#: ../plugins/fn-string/functions.c:62
 msgid ""
 "CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, and contains "
-"all of its printable characters (but partially at different positions.)"
+"all of its printable characters. It also contains all of ISO-8859-15's "
+"printable characters (but partially at different positions.)"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:64 ../plugins/fn-string/functions.c:136
+#: ../plugins/fn-string/functions.c:66 ../plugins/fn-string/functions.c:138
 msgid ""
 "In CP1252 (Windows-1252), 129, 141, 143, 144, and 157 do not have matching "
 "characters."
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:65 ../plugins/fn-string/functions.c:137
+#: ../plugins/fn-string/functions.c:67 ../plugins/fn-string/functions.c:139
 msgid ""
 "For @{x} from 1 to 255 except 129, 141, 143, 144, and 157 we have CODE(CHAR(@"
 "{x}))=@{x}."
@@ -9703,94 +9770,100 @@ msgstr ""
 "Für @{x} von 1 bis 255 außer 129, 141, 143, 144 und 157 ist CODE(CHAR(@{x}))=@"
 "{x}."
 
-#: ../plugins/fn-string/functions.c:103
+#: ../plugins/fn-string/functions.c:105
 msgid "UNICHAR:the Unicode character represented by the Unicode code point @{x}"
 msgstr ""
 "UNICHAR:Das Unicode-Zeichen, durch die Unicode-Zeichennummer @{x} "
 "repräsentiert."
 
-#: ../plugins/fn-string/functions.c:104
+#: ../plugins/fn-string/functions.c:106
 msgid "x:Unicode code point"
 msgstr "x:Unicode-Zeichennummer"
 
-#: ../plugins/fn-string/functions.c:131
+#: ../plugins/fn-string/functions.c:133
 msgid "CODE:the CP1252 (Windows-1252) code point for the character @{c}"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:132 ../plugins/fn-string/functions.c:177
+#: ../plugins/fn-string/functions.c:134 ../plugins/fn-string/functions.c:179
 msgid "c:character"
 msgstr "c:Zeichen"
 
-#: ../plugins/fn-string/functions.c:133
+#: ../plugins/fn-string/functions.c:135
 msgid "@{c} must be a valid CP1252 (Windows-1252) character."
 msgstr "@{c} muss ein gültiges CP1252- (Windows-1252)-Zeichen sein."
 
-#: ../plugins/fn-string/functions.c:176
+#: ../plugins/fn-string/functions.c:137
+msgid ""
+"CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, and contains "
+"all of its printable characters (but partially at different positions.)"
+msgstr ""
+
+#: ../plugins/fn-string/functions.c:178
 msgid "UNICODE:the Unicode code point for the character @{c}"
 msgstr "UNICODE:Die Unicode-Zeichennummer für das Zeichen @{c}"
 
-#: ../plugins/fn-string/functions.c:197
+#: ../plugins/fn-string/functions.c:199
 msgid "EXACT:TRUE if @{string1} is exactly equal to @{string2}"
 msgstr "EXACT:WAHR, falls @{string1} exakt gleich @{string2} ist"
 
-#: ../plugins/fn-string/functions.c:198
+#: ../plugins/fn-string/functions.c:200
 msgid "string1:first string"
 msgstr "string1:erste Zeichenkette"
 
-#: ../plugins/fn-string/functions.c:199
+#: ../plugins/fn-string/functions.c:201
 msgid "string2:second string"
 msgstr "string2:zweite Zeichenkette"
 
-#: ../plugins/fn-string/functions.c:217
+#: ../plugins/fn-string/functions.c:219
 msgid "LEN:the number of characters of the string @{s}"
 msgstr "LEN:die Anzahl der Zeichen in der Zeichenkette @{s}"
 
-#: ../plugins/fn-string/functions.c:218 ../plugins/fn-string/functions.c:235
-#: ../plugins/fn-string/functions.c:253 ../plugins/fn-string/functions.c:285
-#: ../plugins/fn-string/functions.c:337 ../plugins/fn-string/functions.c:377
-#: ../plugins/fn-string/functions.c:464 ../plugins/fn-string/functions.c:500
+#: ../plugins/fn-string/functions.c:220 ../plugins/fn-string/functions.c:237
+#: ../plugins/fn-string/functions.c:255 ../plugins/fn-string/functions.c:287
+#: ../plugins/fn-string/functions.c:339 ../plugins/fn-string/functions.c:379
+#: ../plugins/fn-string/functions.c:466 ../plugins/fn-string/functions.c:502
 msgid "s:the string"
 msgstr "s:die Zeichenkette"
 
-#: ../plugins/fn-string/functions.c:234
+#: ../plugins/fn-string/functions.c:236
 msgid "LENB:the number of bytes in the string @{s}"
 msgstr "LENB:die Anzahl der Bytes in der Zeichenkette @{s}"
 
-#: ../plugins/fn-string/functions.c:252
+#: ../plugins/fn-string/functions.c:254
 msgid "LEFT:the first @{num_chars} characters of the string @{s}"
 msgstr "LEFT:Die ersten @{num_chars} Zeichen der Zeichenkette @{s}"
 
-#: ../plugins/fn-string/functions.c:254 ../plugins/fn-string/functions.c:465
+#: ../plugins/fn-string/functions.c:256 ../plugins/fn-string/functions.c:467
 msgid "num_chars:the number of characters to return (defaults to 1)"
 msgstr "num_chars:die Anzahl der zurückzugebenden Zeichen (Vorgabe ist 1)"
 
-#: ../plugins/fn-string/functions.c:255
+#: ../plugins/fn-string/functions.c:257
 msgid ""
 "If the string @{s} is in a right-to-left script, the returned first "
 "characters are from the right of the string."
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:284
+#: ../plugins/fn-string/functions.c:286
 msgid ""
 "LEFTB:the first characters  of the string @{s} comprising at most @"
 "{num_bytes} bytes"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:286 ../plugins/fn-string/functions.c:379
-#: ../plugins/fn-string/functions.c:501
+#: ../plugins/fn-string/functions.c:288 ../plugins/fn-string/functions.c:381
+#: ../plugins/fn-string/functions.c:503
 msgid "num_bytes:the maximum number of bytes to return (defaults to 1)"
 msgstr ""
 "num_bytes:Die maximale Anzahl der zurückzugebenden Bytes (Vorgabe ist 1)"
 
-#: ../plugins/fn-string/functions.c:287 ../plugins/fn-string/functions.c:380
-#: ../plugins/fn-string/functions.c:502 ../plugins/fn-string/functions.c:845
-#: ../plugins/fn-string/functions.c:1336
+#: ../plugins/fn-string/functions.c:289 ../plugins/fn-string/functions.c:382
+#: ../plugins/fn-string/functions.c:504 ../plugins/fn-string/functions.c:849
+#: ../plugins/fn-string/functions.c:1340
 msgid ""
 "The semantics of this function is subject to change as various applications "
 "implement it."
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:288
+#: ../plugins/fn-string/functions.c:290
 msgid ""
 "If the string is in a right-to-left script, the returned first characters are "
 "from the right of the string."
@@ -9798,17 +9871,17 @@ msgstr ""
 "Falls die Schreibrichtung dieser Zeichenkette linksläufig ist, dann werden "
 "die zurückzugebenden ersten Zeichen von rechts nach links gelesen."
 
-#: ../plugins/fn-string/functions.c:289 ../plugins/fn-string/functions.c:381
-#: ../plugins/fn-string/functions.c:425 ../plugins/fn-string/functions.c:504
-#: ../plugins/fn-string/functions.c:846 ../plugins/fn-string/functions.c:1337
+#: ../plugins/fn-string/functions.c:291 ../plugins/fn-string/functions.c:383
+#: ../plugins/fn-string/functions.c:427 ../plugins/fn-string/functions.c:506
+#: ../plugins/fn-string/functions.c:850 ../plugins/fn-string/functions.c:1341
 msgid ""
 "While this function is syntactically Excel compatible, the differences in the "
 "underlying text encoding will usually yield different results."
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:290 ../plugins/fn-string/functions.c:383
-#: ../plugins/fn-string/functions.c:427 ../plugins/fn-string/functions.c:505
-#: ../plugins/fn-string/functions.c:848 ../plugins/fn-string/functions.c:1339
+#: ../plugins/fn-string/functions.c:292 ../plugins/fn-string/functions.c:385
+#: ../plugins/fn-string/functions.c:429 ../plugins/fn-string/functions.c:507
+#: ../plugins/fn-string/functions.c:852 ../plugins/fn-string/functions.c:1343
 msgid ""
 "While this function is OpenFormula compatible, most of its behavior is, at "
 "this time, implementation specific."
@@ -9816,61 +9889,61 @@ msgstr ""
 "Zwar ist diese Funktion zu OpenFormula kompatibel, aber derzeit ist das "
 "Verhalten weitgehend abhängig von der Implementation."
 
-#: ../plugins/fn-string/functions.c:318
+#: ../plugins/fn-string/functions.c:320
 msgid "LOWER:a lower-case version of the string @{text}"
 msgstr "LOWER:Die in Kleinbuchstaben geschriebene Version von @text."
 
-#: ../plugins/fn-string/functions.c:336
+#: ../plugins/fn-string/functions.c:338
 msgid ""
 "MID:the substring of the string @{s} starting at position @{position} "
 "consisting of @{length} characters"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:338
+#: ../plugins/fn-string/functions.c:340
 msgid "position:the starting position"
 msgstr "position:die Startposition"
 
-#: ../plugins/fn-string/functions.c:339
+#: ../plugins/fn-string/functions.c:341
 msgid "length:the number of characters to return"
 msgstr "length:Die Anzahl der zurückzugebenden Zeichen"
 
-#: ../plugins/fn-string/functions.c:376
+#: ../plugins/fn-string/functions.c:378
 msgid ""
 "MIDB:the characters following the first @{start_pos} bytes comprising at most "
 "@{num_bytes} bytes"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:378
+#: ../plugins/fn-string/functions.c:380
 msgid "start_pos:the number of the byte with which to start (defaults to 1)"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:420
+#: ../plugins/fn-string/functions.c:422
 msgid ""
 "FINDB:first byte position of @{string1} in @{string2} following byte position "
 "@{start}"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:421 ../plugins/fn-string/functions.c:649
+#: ../plugins/fn-string/functions.c:423 ../plugins/fn-string/functions.c:651
 msgid "string1:search string"
 msgstr "string1:Suchzeichenkette"
 
-#: ../plugins/fn-string/functions.c:422 ../plugins/fn-string/functions.c:650
+#: ../plugins/fn-string/functions.c:424 ../plugins/fn-string/functions.c:652
 msgid "string2:search field"
 msgstr "string2:Suchfeld"
 
-#: ../plugins/fn-string/functions.c:423 ../plugins/fn-string/functions.c:1326
+#: ../plugins/fn-string/functions.c:425 ../plugins/fn-string/functions.c:1330
 msgid "start:starting byte position, defaults to 1"
 msgstr "start:Startbyte-Position, Vorgabe ist 1"
 
-#: ../plugins/fn-string/functions.c:424 ../plugins/fn-string/functions.c:652
+#: ../plugins/fn-string/functions.c:426 ../plugins/fn-string/functions.c:654
 msgid "This search is case-sensitive."
 msgstr "Für diese Suche wird Groß-/Kleinschreibung berücksichtigt."
 
-#: ../plugins/fn-string/functions.c:463
+#: ../plugins/fn-string/functions.c:465
 msgid "RIGHT:the last @{num_chars} characters of the string @{s}"
 msgstr "RIGHT:Die letzten @{num_chars} Zeichen der Zeichenkette @{s}"
 
-#: ../plugins/fn-string/functions.c:466 ../plugins/fn-string/functions.c:503
+#: ../plugins/fn-string/functions.c:468 ../plugins/fn-string/functions.c:505
 msgid ""
 "If the string @{s} is in a right-to-left script, the returned last characters "
 "are from the left of the string."
@@ -9879,41 +9952,41 @@ msgstr ""
 "zurückegegebenen letzten Zeichen von der linken Seite der Zeichenkette "
 "entnommen."
 
-#: ../plugins/fn-string/functions.c:499
+#: ../plugins/fn-string/functions.c:501
 msgid ""
 "RIGHTB:the last characters of the string @{s} comprising at most @{num_bytes} "
 "bytes"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:534
-msgid "UPPER:an upper-case version of the string @text"
+#: ../plugins/fn-string/functions.c:536
+msgid "UPPER:an upper-case version of the string @{text}"
 msgstr "UPPER:Die in Großbuchstaben geschriebene Version von @text."
 
-#: ../plugins/fn-string/functions.c:553
+#: ../plugins/fn-string/functions.c:555
 msgid "CONCATENATE:the concatenation of the strings @{s1}, @{s2},…"
-msgstr ""
+msgstr "CONCATENATE:Die Zusammenführung der Zeichenketten @{s1}, @{s2},…"
 
-#: ../plugins/fn-string/functions.c:554
+#: ../plugins/fn-string/functions.c:556
 msgid "s1:first string"
 msgstr "s1:erste Zeichenkette"
 
-#: ../plugins/fn-string/functions.c:555
+#: ../plugins/fn-string/functions.c:557
 msgid "s2:second string"
 msgstr "s2:zweite Zeichenkette"
 
-#: ../plugins/fn-string/functions.c:575
-msgid "REPT:@{num} repetitions of string @{text}"
-msgstr ""
-
 #: ../plugins/fn-string/functions.c:577
+msgid "REPT:@{num} repetitions of string @{text}"
+msgstr "REPT:@{num} Wiederholungen der Zeichenkette @{text}"
+
+#: ../plugins/fn-string/functions.c:579
 msgid "num:non-negative integer"
 msgstr "num:nicht-negative Ganzzahl"
 
-#: ../plugins/fn-string/functions.c:619
+#: ../plugins/fn-string/functions.c:621
 msgid "CLEAN:@{text} with any non-printable characters removed"
 msgstr "CLEAN:@{text}, aus dem nicht druckbare Zeichen entfernt wurden"
 
-#: ../plugins/fn-string/functions.c:621
+#: ../plugins/fn-string/functions.c:623
 msgid ""
 "CLEAN removes non-printable characters from its argument leaving only regular "
 "characters and white-space."
@@ -9921,180 +9994,183 @@ msgstr ""
 "CLEAN entfernt nicht druckbare Zeichen aus dem Argument, wobei nur reguläre "
 "Zeichen und Leerzeichen verbleiben."
 
-#: ../plugins/fn-string/functions.c:648
+#: ../plugins/fn-string/functions.c:650
 msgid ""
 "FIND:first position of @{string1} in @{string2} following position @{start}"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:651 ../plugins/fn-string/functions.c:1257
+#: ../plugins/fn-string/functions.c:653 ../plugins/fn-string/functions.c:1261
 msgid "start:starting position, defaults to 1"
 msgstr "start:Startposition, Vorgabe ist 1"
 
-#: ../plugins/fn-string/functions.c:686
+#: ../plugins/fn-string/functions.c:688
 msgid "FIXED:formatted string representation of @{num}"
 msgstr "FIXED:als Zeichenkette formatierte Repräsentation von @{num}"
 
-#: ../plugins/fn-string/functions.c:687 ../plugins/fn-string/functions.c:1182
+#: ../plugins/fn-string/functions.c:689 ../plugins/fn-string/functions.c:1186
 msgid "num:number"
 msgstr "num:Zahl"
 
-#: ../plugins/fn-string/functions.c:688
+#: ../plugins/fn-string/functions.c:690
 msgid "decimals:number of decimals"
 msgstr "decimals:Anzahl der Dezimalstellen"
 
-#: ../plugins/fn-string/functions.c:689
+#: ../plugins/fn-string/functions.c:691
 msgid ""
 "no_commas:TRUE if no thousand separators should be used, defaults to FALSE"
 msgstr ""
 "no_commas:WAHR, wenn Tausender-Trenner benutzt werden sollen, Vorgabe ist "
 "UNWAHR"
 
-#: ../plugins/fn-string/functions.c:744
+#: ../plugins/fn-string/functions.c:748
 msgid "PROPER:@{text} with initial of each word capitalised"
 msgstr "PROPER:@{text} mit dem Anfangsbuchstaben jedes Worts als Großbuchstabe"
 
-#: ../plugins/fn-string/functions.c:786
+#: ../plugins/fn-string/functions.c:790
 msgid ""
 "REPLACE:string @{old} with @{num} characters starting at @{start} replaced by "
 "@{new}"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:788 ../plugins/fn-string/functions.c:839
+#: ../plugins/fn-string/functions.c:792 ../plugins/fn-string/functions.c:843
 msgid "old:original text"
 msgstr "old:Originaltext"
 
-#: ../plugins/fn-string/functions.c:789
+#: ../plugins/fn-string/functions.c:793
 msgid "start:starting position"
 msgstr "start:Startposition"
 
-#: ../plugins/fn-string/functions.c:790
+#: ../plugins/fn-string/functions.c:794
 msgid "num:number of characters to be replaced"
 msgstr "num:Anzahl der zu ersetzenden Zeichen"
 
-#: ../plugins/fn-string/functions.c:791 ../plugins/fn-string/functions.c:842
-#: ../plugins/fn-string/functions.c:1110
+#: ../plugins/fn-string/functions.c:795 ../plugins/fn-string/functions.c:846
+#: ../plugins/fn-string/functions.c:1114
 msgid "new:replacement string"
 msgstr "new:Ersetzungszeichenkette"
 
-#: ../plugins/fn-string/functions.c:837
+#: ../plugins/fn-string/functions.c:841
 msgid ""
 "REPLACEB:string @{old} with up to @{num} bytes starting at @{start} replaced "
 "by @{new}"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:840
+#: ../plugins/fn-string/functions.c:844
 msgid "start:starting byte position"
 msgstr "start:Startbyte-Position"
 
-#: ../plugins/fn-string/functions.c:841
+#: ../plugins/fn-string/functions.c:845
 msgid "num:number of bytes to be replaced"
 msgstr "num:Anzahl der zu ersetzenden Bytes"
 
-#: ../plugins/fn-string/functions.c:843
+#: ../plugins/fn-string/functions.c:847
 msgid ""
 "REPLACEB replaces the string of valid unicode characters starting at the byte "
 "@{start} and ending at @{start}+@{num}-1 with the string @{new}."
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:891
+#: ../plugins/fn-string/functions.c:895
 msgid "T:@{value} if and only if @{value} is text, otherwise empty"
-msgstr ""
+msgstr "T:@{value}, genau dann, wenn @{value} Text ist, anderenfalls leer"
 
-#: ../plugins/fn-string/functions.c:892
+#: ../plugins/fn-string/functions.c:896
 msgid "value:original value"
 msgstr "value:Originalwert"
 
-#: ../plugins/fn-string/functions.c:914
+#: ../plugins/fn-string/functions.c:918
 msgid "TEXT:@{value} as a string formatted as @{format}"
-msgstr ""
+msgstr "TEXT:@{value} als Zeichenkette, formatiert in @{format}"
 
-#: ../plugins/fn-string/functions.c:915
+#: ../plugins/fn-string/functions.c:919
 msgid "value:value to be formatted"
 msgstr "value:zu formatierender Wert"
 
-#: ../plugins/fn-string/functions.c:916
+#: ../plugins/fn-string/functions.c:920
 msgid "format:desired format"
 msgstr "format:gewünschtes Format"
 
-#: ../plugins/fn-string/functions.c:968
+#: ../plugins/fn-string/functions.c:972
 msgid "TRIM:@{text} with only single spaces between words"
 msgstr ""
 "TRIM:@{text} mit ausschließlich einzelnen Leerzeichen zwischen den Wörtern."
 
-#: ../plugins/fn-string/functions.c:1015
+#: ../plugins/fn-string/functions.c:1019
 msgid "VALUE:numeric value of @{text}"
 msgstr "VALUE:numerischer Wert von @{text}"
 
-#: ../plugins/fn-string/functions.c:1048
+#: ../plugins/fn-string/functions.c:1052
 msgid "NUMBERVALUE:numeric value of @{text}"
 msgstr "NUMBERVALUE:numerischer Wert von @{text}"
 
-#: ../plugins/fn-string/functions.c:1050
+#: ../plugins/fn-string/functions.c:1054
 msgid "separator:decimal separator"
 msgstr "separator:Dezimaltrenner"
 
-#: ../plugins/fn-string/functions.c:1051
+#: ../plugins/fn-string/functions.c:1055
 msgid ""
 "If @{text} does not look like a decimal number, NUMBERVALUE returns the value "
 "VALUE would return (ignoring the given @{separator})."
 msgstr ""
+"Falls @{text} keine Dezimalzahl zu sein scheint, gibt NUMBERVALUE den Wert "
+"zurück, den VALUE zurückgeben würde (wobei der angegebene @{separator} "
+"ignoriert wird)."
 
-#: ../plugins/fn-string/functions.c:1107
+#: ../plugins/fn-string/functions.c:1111
 msgid "SUBSTITUTE:@{text} with all occurrences of @{old} replaced by @{new}"
 msgstr "SUBSTITUTE:@{text} mit allen Vorkommen von @{old}, ersetzt durch @{new}"
 
-#: ../plugins/fn-string/functions.c:1108 ../plugins/fn-string/functions.c:1518
+#: ../plugins/fn-string/functions.c:1112 ../plugins/fn-string/functions.c:1522
 msgid "text:original text"
 msgstr "text:Originaltext"
 
-#: ../plugins/fn-string/functions.c:1109
+#: ../plugins/fn-string/functions.c:1113
 msgid "old:string to be replaced"
 msgstr "old:zu ersetzende Zeichenkette"
 
-#: ../plugins/fn-string/functions.c:1111
+#: ../plugins/fn-string/functions.c:1115
 msgid ""
 "num:if @{num} is specified and a number only the @{num}th occurrence of @"
 "{old} is replaced"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:1181
+#: ../plugins/fn-string/functions.c:1185
 msgid "DOLLAR:@{num} formatted as currency"
 msgstr "DOLLAR:@{num}, als Währung formatiert."
 
-#: ../plugins/fn-string/functions.c:1183
+#: ../plugins/fn-string/functions.c:1187
 msgid "decimals:decimals"
 msgstr "decimals:Dezimalstellen"
 
-#: ../plugins/fn-string/functions.c:1253
+#: ../plugins/fn-string/functions.c:1257
 msgid ""
 "SEARCH:the location of the @{search} string within @{text} after position @"
 "{start}"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:1255 ../plugins/fn-string/functions.c:1324
+#: ../plugins/fn-string/functions.c:1259 ../plugins/fn-string/functions.c:1328
 msgid "search:search string"
 msgstr "search:Suchzeichenkette"
 
-#: ../plugins/fn-string/functions.c:1256 ../plugins/fn-string/functions.c:1325
+#: ../plugins/fn-string/functions.c:1260 ../plugins/fn-string/functions.c:1329
 msgid "text:search field"
 msgstr "text:Suchfeld"
 
-#: ../plugins/fn-string/functions.c:1258 ../plugins/fn-string/functions.c:1327
+#: ../plugins/fn-string/functions.c:1262 ../plugins/fn-string/functions.c:1331
 msgid ""
 "@{search} may contain wildcard characters (*) and question marks (?). A "
 "question mark matches any single character, and a wildcard matches any string "
 "including the empty string. To search for * or ?, precede the symbol with ~."
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:1263 ../plugins/fn-string/functions.c:1332
+#: ../plugins/fn-string/functions.c:1267 ../plugins/fn-string/functions.c:1336
 msgid "This search is not case sensitive."
 msgstr "Für diese Suche wird Groß-/Kleinschreibung nicht berücksichtigt."
 
-#: ../plugins/fn-string/functions.c:1264 ../plugins/fn-string/functions.c:1333
+#: ../plugins/fn-string/functions.c:1268
 msgid "If @{search} is not found, SEARCH returns #VALUE!"
 msgstr "Falls @{search} nicht gefunden wird, gibt SEARCH #WERT! zurück."
 
-#: ../plugins/fn-string/functions.c:1265
+#: ../plugins/fn-string/functions.c:1269
 msgid ""
 "If @{start} is less than one or it is greater than the length of @{text}, "
 "SEARCH returns #VALUE!"
@@ -10102,30 +10178,38 @@ msgstr ""
 "Falls @{start} kleiner als 1 oder größer als die Länge von @{text} ist, gibt "
 "SEARCH #WERT! zurück."
 
-#: ../plugins/fn-string/functions.c:1322
+#: ../plugins/fn-string/functions.c:1326
 msgid ""
 "SEARCHB:the location of the @{search} string within @{text} after byte "
 "position @{start}"
 msgstr ""
+"SEARCHB:Der Ort der @{search}-Zeichenkette innerhalb von @{text} nach der "
+"Byte-Position @{start}"
 
-#: ../plugins/fn-string/functions.c:1334
+#: ../plugins/fn-string/functions.c:1337
+msgid "If @{search} is not found, SEARCHB returns #VALUE!"
+msgstr "Falls @{search} nicht gefunden wird, gibt SEARCHB #WERT! zurück."
+
+#: ../plugins/fn-string/functions.c:1338
 msgid ""
 "If @{start} is less than one or it is greater than the byte length of @"
-"{text}, SEARCH returns #VALUE!"
+"{text}, SEARCHB returns #VALUE!"
 msgstr ""
+"Falls @{start} kleiner als 1 oder größer als die Byte-Länge von @{text} ist, "
+"gibt SEARCHB #WERT! zurück."
 
-#: ../plugins/fn-string/functions.c:1390
+#: ../plugins/fn-string/functions.c:1394
 msgid ""
 "ASC:text with full-width katakana and ASCII characters converted to half-width"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:1392
+#: ../plugins/fn-string/functions.c:1396
 msgid ""
 "ASC converts full-width katakana and ASCII characters to half-width "
 "equivalent characters, copying all others. "
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:1393 ../plugins/fn-string/functions.c:1521
+#: ../plugins/fn-string/functions.c:1397 ../plugins/fn-string/functions.c:1525
 msgid ""
 "The distinction between half-width and full-width characters is described in "
 "http://www.unicode.org/reports/tr11/."
@@ -10133,30 +10217,30 @@ msgstr ""
 "Der Unterschied zwischen Zeichen halber Breite und voller Breite wird in "
 "http://www.unicode.org/reports/tr11/ beschrieben."
 
-#: ../plugins/fn-string/functions.c:1394 ../plugins/fn-string/functions.c:1523
+#: ../plugins/fn-string/functions.c:1398 ../plugins/fn-string/functions.c:1527
 msgid "For most strings, this function has the same effect as in Excel."
 msgstr ""
 "Für die meisten Zeichenketten hat diese Funktion den gleichen Effekt wie in "
 "Excel."
 
-#: ../plugins/fn-string/functions.c:1395
+#: ../plugins/fn-string/functions.c:1399
 msgid ""
 "While in obsolete encodings ASC used to translate between 2-byte and 1-byte "
 "characters, this is not the case in UTF-8."
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:1517
+#: ../plugins/fn-string/functions.c:1521
 msgid ""
 "JIS:text with half-width katakana and ASCII characters converted to full-width"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:1519
+#: ../plugins/fn-string/functions.c:1523
 msgid ""
 "JIS converts half-width katakana and ASCII characters to full-width "
 "equivalent characters, copying all others. "
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:1524
+#: ../plugins/fn-string/functions.c:1528
 msgid ""
 "While in obsolete encodings JIS used to translate between 1-byte and 2-byte "
 "characters, this is not the case in UTF-8."
@@ -10269,7 +10353,7 @@ msgstr "Sequence:Die umzuwandelnde Datensequenz"
 
 #: ../plugins/fn-tsa/functions.c:871
 msgid ""
-"Inverse:if false, the inverse Fourier transform is calculated. Defaults to "
+"Inverse:if true, the inverse Fourier transform is calculated, defaults to "
 "false"
 msgstr ""
 
@@ -10349,6 +10433,20 @@ msgid "This is not intended to be generally enabled and is OFF by default."
 msgstr ""
 "Die allgemeine Aktivierung ist nicht beabsichtigt und ist daher per Vorgabe "
 "ausgeschaltet."
+
+#~ msgid "DATE2UNIX:translate a date serial value to a Unix timestamp"
+#~ msgstr ""
+#~ "DATE2UNIX wandelt einen seriellen Datumswert in einen Unix-Zeitstempel um"
+
+#~ msgid "d:date serial value"
+#~ msgstr "d:serieller Datumswert"
+
+#~ msgid ""
+#~ "The DATE2UNIX function translates a date serial values into a Unix "
+#~ "timestamp."
+#~ msgstr ""
+#~ "Die Funktion DATE2UNIX wandelt einen seriellen Datumswert in einen Unix-"
+#~ "Zeitstempel um."
 
 #~ msgid "ref_text:"
 #~ msgstr "ref_text:"
