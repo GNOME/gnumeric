@@ -788,7 +788,7 @@ gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list, guint start, guint 
 	gint i = 0;
 	gint max = 10;
 	GSList *list_c = list;
-	gchar const *name;
+	gchar const *name = NULL;
 	gboolean show_tool_tip;
 
 	gee_delete_tooltip (gee, TRUE);
