@@ -841,7 +841,7 @@ static void
 gee_dump_lexer (GnmLexerItem *gli) {
 	g_print ("************\n");
 	do {
-		g_print ("%2d to %2d: %d\n", 
+		g_print ("%2" G_GSIZE_FORMAT " to %2" G_GSIZE_FORMAT ": %d\n", 
 			 gli->start, gli->end, gli->token);
 	} while (gli++->token != 0);
 	g_print ("************\n");
@@ -949,7 +949,8 @@ gee_check_tooltip (GnmExprEntry *gee)
 		goto not_found;
 
 	if (gnm_debug_flag ("functooltip"))
-		g_print ("last token consider is %d from %d to %d\n", 
+		g_print ("last token consider is %d from %2" 
+			 G_GSIZE_FORMAT " to %2" G_GSIZE_FORMAT "\n", 
 			 gli->token, gli->start, gli->end);
 	
 
