@@ -234,13 +234,10 @@ text_item_renderer (AboutRenderer *r, AboutState *state)
 	double rage = CLAMP (age / (double)r->duration, 0.0, 1.0);
 	GtkWidget *widget = state->anim_area;
 	GdkDrawable *drawable = widget->window;
-	GdkScreen *screen = gdk_drawable_get_screen (drawable);
-	PangoRenderer *renderer = gdk_pango_renderer_get_default (screen);
-	GdkPangoRenderer *gdk_renderer = GDK_PANGO_RENDERER (renderer);
 	GtkStyle *style;
-	GdkGC *text_gc;
 	const int fade = 500;
 	int x, y, width, height;
+	cairo_t *cr;
 
 	if (age >= r->duration)
 		return FALSE;
@@ -251,7 +248,6 @@ text_item_renderer (AboutRenderer *r, AboutState *state)
 		set_fade (r, state, (r->duration - age) / (double)fade);
 
 	style = gtk_widget_get_style (widget);
-	text_gc = style->text_gc[GTK_STATE_NORMAL];
 
 	x = (int)(PANGO_SCALE * widget->allocation.width *
 		  (r->start.x + rage * (r->end.x - r->start.x)));
@@ -289,14 +285,11 @@ text_item_renderer (AboutRenderer *r, AboutState *state)
 	x -= width / 2;
 	y -= height / 2;
 
-	/*
-	 * This is more or less like gdk_draw_layout, but without the
-	 * implied round-to-pixel which is awful for expanding and
-	 * sliding text.
-	 */
-	gdk_pango_renderer_set_drawable (gdk_renderer, drawable);
-	gdk_pango_renderer_set_gc (gdk_renderer, text_gc);
-	pango_renderer_draw_layout (renderer, layout, x, y);
+	cr = gdk_cairo_create (drawable);
+	gdk_cairo_set_source_color (cr, &style->text[GTK_STATE_NORMAL]);
+	cairo_move_to (cr, x / (double)PANGO_SCALE, y / (double)PANGO_SCALE);
+	pango_cairo_show_layout (cr, layout);
+	cairo_destroy (cr);
 
 	return TRUE;
 }

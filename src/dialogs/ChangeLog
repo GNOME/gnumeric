@@ -1,3 +1,7 @@
+2010-07-28  Morten Welinder  <terra@gnome.org>
+
+	* dialog-about.c (text_item_renderer): Draw with pango.
+
 2010-07-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-about.c (dialog_about): use gtk_dialog_get_content_area from
