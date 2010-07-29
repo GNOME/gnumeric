@@ -1912,6 +1912,203 @@ cb_accept_input (WBCGtk *wbcg)
 	wbcg_edit_finish (wbcg, WBC_EDIT_ACCEPT, NULL);
 }
 
+static void
+cb_accept_input_array (WBCGtk *wbcg)
+{
+	wbcg_edit_finish (wbcg, WBC_EDIT_ACCEPT_ARRAY, NULL);
+}
+
+static void
+cb_accept_input_selected_cells (WBCGtk *wbcg)
+{
+	wbcg_edit_finish (wbcg, WBC_EDIT_ACCEPT_RANGE, NULL);
+}
+
+static void
+cb_accept_input_selected_merged (WBCGtk *wbcg)
+{
+	Sheet *sheet = wbcg->editing_sheet;
+
+#warning FIXME: this creates 2 undo items!
+	if (wbcg_is_editing (wbcg) && 
+	    wbcg_edit_finish (wbcg, WBC_EDIT_ACCEPT, NULL)) {
+		WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+		WorkbookView	*wbv = wb_control_view (wbc);
+		SheetView *sv = sheet_get_view (sheet, wbv);
+		GnmRange sel = *(selection_first_range (sv, NULL, NULL));
+		GSList *selection = g_slist_prepend (NULL, &sel);
+
+		cmd_merge_cells	(wbc, sheet, selection, FALSE);
+		g_slist_free (selection);
+	}
+}
+
+/* static void */
+/* cb_accept_input_sheets_collector (Sheet *sheet, GSList **n) */
+/* { */
+/* 	if (sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE) */
+/* 		(*n) = g_slist_prepend (*n, sheet); */
+/* } */
+
+/* static void */
+/* cb_accept_input_sheets (WBCGtk *wbcg) */
+/* { */
+/* 	GSList *sheets = workbook_sheets  */
+/* 		(wb_control_get_workbook (WORKBOOK_CONTROL (wbcg))); */
+/* 	GSList *vis_sheets = NULL; */
+	
+/* 	g_slist_foreach (sheets,  */
+/* 			 (GFunc) cb_accept_input_sheets_collector, */
+/* 			 &vis_sheets); */
+
+/* 	wbcg_edit_multisheet_finish (wbcg, WBC_EDIT_ACCEPT, NULL, vis_sheets); */
+	
+/* 	g_slist_free (sheets); */
+/* 	g_slist_free (vis_sheets); */
+/* } */
+
+/* static void */
+/* cb_accept_input_menu_sensitive_sheets_counter (Sheet *sheet, gint *n) */
+/* { */
+/* 	if (sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE) */
+/* 		(*n)++; */
+/* } */
+
+/* static gboolean  */
+/* cb_accept_input_menu_sensitive_sheets (WBCGtk *wbcg)  */
+/* { */
+/* 	GSList *sheets = workbook_sheets  */
+/* 		(wb_control_get_workbook (WORKBOOK_CONTROL (wbcg))); */
+/* 	gint n = 0; */
+
+/* 	g_slist_foreach (sheets,  */
+/* 			 (GFunc) cb_accept_input_menu_sensitive_sheets_counter, */
+/* 			 &n); */
+/* 	g_slist_free (sheets); */
+/* 	return (n > 1); */
+/* } */
+
+/* static gboolean  */
+/* cb_accept_input_menu_sensitive_selected_sheets (WBCGtk *wbcg)  */
+/* { */
+/* 	GSList *sheets = workbook_sheets  */
+/* 		(wb_control_get_workbook (WORKBOOK_CONTROL (wbcg))); */
+/* 	gint n = 0; */
+
+/* 	g_slist_foreach (sheets,  */
+/* 			 (GFunc) cb_accept_input_menu_sensitive_sheets_counter, */
+/* 			 &n); */
+/* 	g_slist_free (sheets); */
+/* 	return (n > 2); */
+/* } */
+
+static gboolean 
+cb_accept_input_menu_sensitive_selected_cells (WBCGtk *wbcg) 
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookView	*wbv = wb_control_view (wbc);
+	SheetView *sv = sheet_get_view (wbcg->editing_sheet, wbv);
+	gboolean result = TRUE;
+	GSList	*selection = selection_get_ranges (sv, FALSE), *l;
+
+	for (l = selection; l != NULL; l = l->next) {
+		GnmRange const *sel = l->data;
+		if (sheet_range_splits_array 
+		    (wbcg->editing_sheet, sel, NULL, NULL, NULL)) {
+			result = FALSE;
+			break;
+		}
+	}
+	range_fragment_free (selection);
+	return result;
+}
+
+static gboolean 
+cb_accept_input_menu_sensitive_selected_merged (WBCGtk *wbcg) 
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookView	*wbv = wb_control_view (wbc);
+	SheetView *sv = sheet_get_view (wbcg->editing_sheet, wbv);
+	GnmRange const *sel = selection_first_range (sv, NULL, NULL);
+	
+	return (sel && !range_is_singleton (sel) && 
+		sv->edit_pos.col == sel->start.col && 
+		sv->edit_pos.row == sel->start.row &&
+		!sheet_range_splits_array 
+		(wbcg->editing_sheet, sel, NULL, NULL, NULL));
+}
+
+static void
+cb_accept_input_menu (GtkMenuToolButton *button, WBCGtk *wbcg)
+{
+	GtkWidget *menu = gtk_menu_tool_button_get_menu (button);
+	GList     *l, *children 
+		= gtk_container_get_children (GTK_CONTAINER (menu));
+
+	struct AcceptInputMenu {
+		gchar const *text;
+		void (*function) (WBCGtk *wbcg);
+		gboolean (*sensitive) (WBCGtk *wbcg);
+	} const accept_input_actions [] = {
+		{ N_("Enter in current cell"),       cb_accept_input, 
+		  NULL },
+/* 		{ N_("Enter on all non-hidden sheets"), cb_accept_input_sheets,  */
+/* 		  cb_accept_input_menu_sensitive_sheets}, */
+/* 		{ N_("Enter on multiple sheets..."), cb_accept_input_selected_sheets,  */
+/* 		  cb_accept_input_menu_sensitive_selected_sheets }, */
+		{ NULL,                              NULL, NULL },
+		{ N_("Enter in current range merged"), cb_accept_input_selected_merged,
+		  cb_accept_input_menu_sensitive_selected_merged },
+		{ NULL,                              NULL, NULL },
+		{ N_("Enter in selected ranges"), cb_accept_input_selected_cells,
+		  cb_accept_input_menu_sensitive_selected_cells },
+		{ N_("Enter in selected ranges as array"), cb_accept_input_array, 
+		  cb_accept_input_menu_sensitive_selected_cells },
+	};
+	unsigned int ui;
+	GtkWidget *item;
+	const struct AcceptInputMenu *it;
+
+	if (children == NULL)
+		for (ui = 0; ui < G_N_ELEMENTS (accept_input_actions); ui++) {
+			it = accept_input_actions + ui;
+				
+			if (it->text) {
+				item = gtk_image_menu_item_new_with_label 
+					(_(it->text));
+				if (it->function)
+					g_signal_connect_swapped 
+						(G_OBJECT (item), "activate",
+						 G_CALLBACK (it->function), 
+						 wbcg);
+				if (it->sensitive)
+					gtk_widget_set_sensitive 
+						(item, (it->sensitive) (wbcg));
+				else
+					gtk_widget_set_sensitive (item, TRUE);
+			} else
+				item = gtk_separator_menu_item_new ();
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+			gtk_widget_show (item);
+		}
+	else
+		for (ui = 0, l = children; 
+		     ui < G_N_ELEMENTS (accept_input_actions) && l != NULL; 
+		     ui++, l = l->next) {
+			it = accept_input_actions + ui;
+			if (it->sensitive)
+				gtk_widget_set_sensitive 
+					(GTK_WIDGET (l->data), 
+					 (it->sensitive) (wbcg));
+				else
+					gtk_widget_set_sensitive 
+						(GTK_WIDGET (l->data), TRUE);
+		}
+
+
+	g_list_free (children);
+}
+
 static gboolean
 cb_editline_focus_in (GtkWidget *w, GdkEventFocus *event,
 		      WBCGtk *wbcg)
@@ -2016,6 +2213,31 @@ edit_area_button (WBCGtk *wbcg, GtkToolbar *tb,
 	go_tool_item_set_tooltip_text (GTK_TOOL_ITEM (button), tip);
 	g_signal_connect_swapped (button, "clicked", func, wbcg);
 	gtk_toolbar_insert (tb, GTK_TOOL_ITEM (button), -1);
+
+	return GTK_WIDGET (button);
+}
+
+static GtkWidget *
+edit_area_button_menu (WBCGtk *wbcg, GtkToolbar *tb,
+		       gboolean sensitive,
+		       GCallback func, GCallback menu_func, char const *stock_id,
+		       char const *tip, char const *menu_tip)
+{
+	GObject *button =
+		g_object_new (GTK_TYPE_MENU_TOOL_BUTTON,
+			      "stock-id", stock_id,
+			      "sensitive", sensitive,
+			      "can-focus", FALSE,
+			      NULL);
+	go_tool_item_set_tooltip_text (GTK_TOOL_ITEM (button), tip);
+	g_signal_connect_swapped (button, "clicked", func, wbcg);
+	gtk_toolbar_insert (tb, GTK_TOOL_ITEM (button), -1);
+	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (button),
+				      gtk_menu_new ());
+	if (menu_func != NULL)
+		g_signal_connect (button, "show-menu", menu_func, wbcg);
+	gtk_menu_tool_button_set_arrow_tooltip_text
+		(GTK_MENU_TOOL_BUTTON (button), menu_tip);
 
 	return GTK_WIDGET (button);
 }
@@ -2507,10 +2729,11 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 		(wbcg, tb, FALSE,
 		 G_CALLBACK (cb_cancel_input), GTK_STOCK_CANCEL,
 		 _("Cancel change"));
-	wbcg->ok_button = edit_area_button
+	wbcg->ok_button = edit_area_button_menu
 		(wbcg, tb, FALSE,
-		 G_CALLBACK (cb_accept_input), GTK_STOCK_OK,
-		 _("Accept change"));
+		 G_CALLBACK (cb_accept_input), 
+		 G_CALLBACK (cb_accept_input_menu), GTK_STOCK_OK,
+		 _("Accept change"), _("Accept change in multiple cells"));
 	wbcg->func_button = edit_area_button
 		(wbcg, tb, TRUE,
 		 G_CALLBACK (cb_autofunction), "Gnumeric_Equal",

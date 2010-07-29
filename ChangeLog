@@ -1,5 +1,16 @@
 2010-07-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/wbc-gtk.c (cb_accept_input_array): new
+	(cb_accept_input_selected_cells): new
+	(cb_accept_input_selected_merged): new
+	(cb_accept_input_menu_sensitive_selected_cells): new
+	(cb_accept_input_menu_sensitive_selected_merged): new
+	(cb_accept_input_menu): new
+	(edit_area_button_menu): new
+	(wbc_gtk_create_edit_area): use edit_area_button_menu for ok_button
+
+2010-07-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/commands.c (cmd_reorganize_sheets_delete_cmp_f): rename
 	  to cmd_tabulate_cmp_f and change caller (which is cmd_tabulate_undo)
 

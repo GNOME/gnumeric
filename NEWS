@@ -56,6 +56,8 @@ Andreas:
 	* Improve xl import of underlines.
 	* Correctly size the autoexpressions. [#625521]
 	* Fix row height dialog. [#625543]
+	* Add menu to specify whether to enter as array, into multiple cells,
+	  etc. Part of [#53733]
 
 Jean:
 	* Fix strong/weak cursor display. [#623241]
