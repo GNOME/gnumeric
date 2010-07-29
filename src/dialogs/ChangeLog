@@ -1,3 +1,8 @@
+2010-07-29  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-fixed-page.c (cb_treeview_expose): Draw using cairo.
+	Fix event argument type.
+
 2010-07-28  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf.h (FixedInfo_t): Remove unused GdkGC.

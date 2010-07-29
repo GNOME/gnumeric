@@ -525,29 +525,24 @@ cb_treeview_motion (GtkWidget *widget,
 
 static gboolean
 cb_treeview_expose (GtkWidget *widget,
-		    GdkEventMotion *event,
+		    GdkEventExpose *event,
 		    StfDialogData *pagedata)
 {
 	int ruler_x = pagedata->fixed.ruler_x;
-	GdkGCValues values;
-	GdkGC *gc;
+	int height = widget->allocation.height;
+	cairo_t *cr;
 
 	if (ruler_x < 0)
 		return FALSE;
 
-	gc = gdk_gc_new (event->window);
-
-	values.foreground.red = 0xffff;
-	values.foreground.green = 0;
-	values.foreground.blue = 0;
-	gdk_rgb_find_color (gdk_gc_get_colormap (gc), &values.foreground);
-	values.fill = GDK_SOLID;
-	gdk_gc_set_values (gc, &values, GDK_GC_FILL | GDK_GC_FOREGROUND);
-
-	gdk_draw_line (event->window, gc,
-		       ruler_x, 0,
-		       ruler_x, widget->allocation.height);
-	g_object_unref (gc);
+	cr = gdk_cairo_create (event->window);
+	cairo_rectangle (cr, ruler_x, 0, ruler_x + 1, height);
+	cairo_clip (cr);
+	cairo_set_source_rgb (cr, 1.0, 0, 0);
+	cairo_move_to (cr, ruler_x, 0);
+	cairo_line_to (cr, ruler_x, height);
+	cairo_stroke (cr);
+	cairo_destroy (cr);
 
 	return FALSE;
 }
