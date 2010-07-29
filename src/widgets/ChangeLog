@@ -1,16 +1,21 @@
+2010-07-28  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric-cell-renderer-text.c (gnumeric_cell_renderer_text_render):
+	Draw with cairo.
+
 2010-07-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (gee_dump_lexer): fix format warning
 	(gee_check_tooltip): ditto
-	
+
 2010-07-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (gee_scan_for_range): show all ranges or none.
-	
+
 2010-07-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (gee_set_tooltip): don't remove the completion
-	(gee_set_tooltip_completion): return whether the tool tip was shown, 
+	(gee_set_tooltip_completion): return whether the tool tip was shown,
 	  check the preference setting.
 	(gee_check_tooltip): check the preference setting and watch the return
 	  value of gee_set_tooltip_completion
@@ -36,24 +41,24 @@
 2010-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (gee_create_tooltip): add argument
-	(gee_set_tooltip_completion): create the tooltip in 2 parts, function 
+	(gee_set_tooltip_completion): create the tooltip in 2 parts, function
 	  names with description and instructions
 	(gee_check_tooltip): the list now contains function descriptors
 
 2010-07-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (_GnmExprEntry) add field
-	(gee_delete_tooltip): set the completion invalid even if the text is 
+	(gee_delete_tooltip): set the completion invalid even if the text is
 	  NULL
 	(gee_set_tooltip_completion): set the completion range even if we don't
 	  know the text
 	(gee_check_tooltip): ditto
-	(cb_gee_key_press_event): pass range information to 
+	(cb_gee_key_press_event): pass range information to
 	  dialog_function_select_paste and return a value.
 
 2010-07-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* gnumeric-expr-entry.c (cb_gee_key_press_event) call 
+	* gnumeric-expr-entry.c (cb_gee_key_press_event) call
 	  dialog_function_select_paste on Sift-F4
 
 2010-07-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -77,7 +82,7 @@
 
 	* gnumeric-expr-entry.c (gee_check_tooltip): fix the check for unclosed
 	  strings.
-	
+
 2010-07-18  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-expr-entry.c (cb_icon_clicked): Fix signedness problem.

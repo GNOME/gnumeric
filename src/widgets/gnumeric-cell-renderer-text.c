@@ -62,59 +62,55 @@ gnumeric_cell_renderer_text_render (GtkCellRenderer     *cell,
 
 {
 	GtkCellRendererText *celltext = (GtkCellRendererText *) cell;
-	GtkStateType state;
-	GdkGC *gc = gdk_gc_new (window);
+	GtkStateType state, frame_state;
+	cairo_t *cr = gdk_cairo_create (window);
 
 	if ((flags & GTK_CELL_RENDERER_SELECTED) == GTK_CELL_RENDERER_SELECTED)	{
+		frame_state = GTK_STATE_ACTIVE;
 		if (GTK_WIDGET_HAS_FOCUS (widget))
 			state = GTK_STATE_SELECTED;
 		else
 			state = GTK_STATE_ACTIVE;
 	} else {
+		frame_state = GTK_STATE_INSENSITIVE;
 		if (gtk_widget_get_state (widget) == GTK_STATE_INSENSITIVE)
 			state = GTK_STATE_INSENSITIVE;
 		else
 			state = GTK_STATE_NORMAL;
 	}
 
-	if (celltext->background_set)
-	{
-		GdkColor color;
+	if (celltext->background_set) {
+		cairo_set_source_rgb (cr,
+				      celltext->background.red / 65535.,
+				      celltext->background.green / 65535.,
+				      celltext->background.blue / 65535.);
 
-		color.red = celltext->background.red;
-		color.green = celltext->background.green;
-		color.blue = celltext->background.blue;
+		if (expose_area) {
+			gdk_cairo_rectangle (cr, background_area);
+			cairo_clip (cr);
+		}
 
-		gdk_gc_set_rgb_fg_color (gc, &color);
+		cairo_rectangle (cr,
+				 background_area->x,
+				 background_area->y + cell->ypad,
+				 background_area->width,
+				 background_area->height - 2 * cell->ypad);
+		cairo_fill (cr);
 
 		if (expose_area)
-			gdk_gc_set_clip_rectangle (gc, expose_area);
-		gdk_draw_rectangle (window,
-				    gc,
-				    TRUE,
-				    background_area->x,
-				    background_area->y + cell->ypad,
-				    background_area->width,
-				    background_area->height - 2 * cell->ypad);
-		if (expose_area)
-			gdk_gc_set_clip_rectangle (gc, NULL);
+			cairo_reset_clip (cr);
 	}
-
-	gdk_gc_set_rgb_fg_color (gc, &widget->style->bg[
-		     ((flags & GTK_CELL_RENDERER_SELECTED) == GTK_CELL_RENDERER_SELECTED) ?
-					 GTK_STATE_ACTIVE : GTK_STATE_INSENSITIVE]);
 
 	if (celltext->editable) {
-		gdk_draw_rectangle (window, gc, FALSE,
-				    background_area->x,
-				    background_area->y,
-				    background_area->width - 1,
-				    background_area->height - 1);
-
+		GtkStyle *style = gtk_widget_get_style (widget);
+		gdk_cairo_set_source_color (cr, &style->bg[frame_state]);
+		gdk_cairo_rectangle (cr, background_area);
+		cairo_clip (cr);
+		gdk_cairo_rectangle (cr, background_area);
+		cairo_stroke (cr);
 	}
 
-	g_object_unref (G_OBJECT (gc));
-
+	cairo_destroy (cr);
 
 	if (celltext->foreground_set) {
 		GTK_CELL_RENDERER_CLASS (parent_class)->render
