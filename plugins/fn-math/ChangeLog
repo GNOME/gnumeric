@@ -2,6 +2,10 @@
 
 	* Release 1.10.8
 
+2010-07-29  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_munit): Protect against overflow.
+
 2010-07-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_trunc): fix argument description

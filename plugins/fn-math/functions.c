@@ -2780,13 +2780,20 @@ static GnmValue *
 gnumeric_munit (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float n = value_get_as_float (argv[0]);
-	gint ni = (int) n, c;
-
+	gint c, ni;
 	GnmValue *res;
 
 	if (n <= 0)
-		return value_new_error_NUM (ei->pos);;
+		return value_new_error_NUM (ei->pos);
 
+	/*
+	 * This provides some protection against bogus sizes and
+	 * running out of memory.
+	 */
+	if (n * n >= G_MAXINT)
+		return value_new_error_NUM (ei->pos);
+
+	ni = (int)n;
 	res = value_new_array (ni, ni);
 	for (c = 0; c < ni; ++c) {
 		value_release (res->v_array.vals[c][c]);
