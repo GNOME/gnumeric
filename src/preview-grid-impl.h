@@ -12,14 +12,6 @@ struct _PreviewGrid {
 
 	Sheet *sheet;
 
-#if 0
-	struct { /* Gc's */
-		GdkGC *fill;	/* Default background fill gc */
-		GdkGC *cell;	/* Color used for the cell */
-		GdkGC *empty;	/* GC used for drawing empty cells */
-	} gc;
-#endif
-
 	struct {
 		int     col_width;
 		int     row_height;

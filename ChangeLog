@@ -1,10 +1,16 @@
+2010-07-28  Morten Welinder  <terra@gnome.org>
+
+	* src/preview-grid-impl.h (_PreviewGrid): Get rid of unused GdkGC
+	fields.
+
 2010-07-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/wbc-gtk.c (wbc_gtk_create_status_area): size the autoexpr label to contain
-	  about 25 typical characters and ellipsize it on the left
-	* src/workbook-view.c (wb_view_auto_expr_recalc): format teh autoexpression to an
-	  appropriate length
-	
+	* src/wbc-gtk.c (wbc_gtk_create_status_area): size the autoexpr
+	label to contain about 25 typical characters and ellipsize it on
+	the left
+	* src/workbook-view.c (wb_view_auto_expr_recalc): format the
+	autoexpression to an appropriate length
+
 2010-07-28  Morten Welinder  <terra@gnome.org>
 
 	* src/style-border.h (struct _GnmBorder): Eliminate unused
@@ -12,7 +18,7 @@
 
 2010-07-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/mstyle.c (gnm_style_get_pango_attrs): use 
+	* src/mstyle.c (gnm_style_get_pango_attrs): use
 	  gnm_translate_underline_to_pango
 	(gnm_style_generate_attrs_full): use gnm_translate_underline_to_pango
 	(gnm_style_set_from_pango_attribute): use
@@ -29,7 +35,7 @@
 	* src/wbc-gtk.c (wbc_gtk_style_feedback_real): handle
 	  UNDERLINE_*_LOW
 	(wbc_gtk_init): add Font*LowUnderline
-	
+
 2010-07-28  Morten Welinder  <terra@gnome.org>
 
 	* src/item-grid.c (item_grid_init): Kill all GdkGCs which aren't
@@ -38,14 +44,14 @@
 2010-07-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/dead-kittens.h (gtk_dialog_get_content_area): new
-	
+
 2010-07-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* schemas/gnumeric-dialogs.schemas.in: new item search-results
 	* schemas/gnumeric-general.schemas.in: fix typo
 	* src/gnumeric-gconf.c (gnm_conf_*et_searchreplace_search_results*): new
 	* src/gnumeric-gconf.h (gnm_conf_*et_searchreplace_search_results*): new
-	
+
 2010-07-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* component/Gnumeric-embed.xml.in: add "clear filtered" menu items
@@ -54,7 +60,7 @@
 	* src/commands.c (cmd_selection_clear_row_handler): new
 	(cmd_selection_clear): adjust selection if only considering filtered rows
 	* src/ranges.c (range_fragment_free): delete
-	* src/ranges.h (range_fragment_free): change into a define using 
+	* src/ranges.h (range_fragment_free): change into a define using
 	  go_slist_custom
 	* src/sheet.h (SheetClearFlags): add CLEAR_FILTERED_ONLY
 	* src/wbc-gtk-actions.c (cb_edit_clear_*_filtered): new
