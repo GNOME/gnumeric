@@ -3131,7 +3131,7 @@ gnumeric_coupnum (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_cumipmt[] = {
         { GNM_FUNC_HELP_NAME, F_("CUMIPMT:cumulative interest payment")},
-        { GNM_FUNC_HELP_ARG, F_("rate:effective annual interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("rate:interest rate per period")},
         { GNM_FUNC_HELP_ARG, F_("nper:number of periods")},
         { GNM_FUNC_HELP_ARG, F_("pv:present value")},
         { GNM_FUNC_HELP_ARG, F_("start_period:first period to accumulate for")},
@@ -3175,7 +3175,7 @@ gnumeric_cumipmt (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_cumprinc[] = {
         { GNM_FUNC_HELP_NAME, F_("CUMPRINC:cumulative principal")},
-        { GNM_FUNC_HELP_ARG, F_("rate:effective annual interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("rate:interest rate per period")},
         { GNM_FUNC_HELP_ARG, F_("nper:number of periods")},
         { GNM_FUNC_HELP_ARG, F_("pv:present value")},
         { GNM_FUNC_HELP_ARG, F_("start_period:first period to accumulate for")},

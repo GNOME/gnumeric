@@ -1,3 +1,8 @@
+2010-07-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_cumipmt): fix argument description
+	(help_cumprinc): fix argument description
+
 2010-07-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_vdb): fix description
