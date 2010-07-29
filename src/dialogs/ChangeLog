@@ -1,3 +1,8 @@
+2010-07-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-row-height.c (dialog_row_height): make sure the spin 
+	  box is at least 1, since 0 stands for "default".
+
 2010-07-29  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-fixed-page.c (cb_treeview_expose): Draw using cairo.
