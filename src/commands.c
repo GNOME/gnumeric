@@ -6618,7 +6618,7 @@ typedef struct {
 MAKE_GNM_COMMAND (CmdTabulate, cmd_tabulate, NULL)
 
 static gint
-cmd_reorganize_sheets_delete_cmp_f (gconstpointer a,
+cmd_tabulate_cmp_f (gconstpointer a,
 				    gconstpointer b)
 {
 	guint const a_val = GPOINTER_TO_INT (a);
@@ -6639,7 +6639,7 @@ cmd_tabulate_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	gboolean res = TRUE;
 
 	me->sheet_idx  = g_slist_sort (me->sheet_idx,
-				       cmd_reorganize_sheets_delete_cmp_f);
+				       cmd_tabulate_cmp_f);
 
 	for (l = me->sheet_idx; l != NULL; l = l->next) {
 		int i = GPOINTER_TO_INT (l->data);

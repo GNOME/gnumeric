@@ -1,3 +1,8 @@
+2010-07-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.c (cmd_reorganize_sheets_delete_cmp_f): rename
+	  to cmd_tabulate_cmp_f and change caller (which is cmd_tabulate_undo)
+
 2010-07-28  Morten Welinder  <terra@gnome.org>
 
 	* src/preview-grid-impl.h (_PreviewGrid): Get rid of unused GdkGC
