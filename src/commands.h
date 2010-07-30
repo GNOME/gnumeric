@@ -163,6 +163,9 @@ gboolean cmd_tabulate (WorkbookControl *wbc, gpointer data);
 gboolean cmd_toggle_rtl (WorkbookControl *wbc, Sheet *sheet);
 
 gboolean cmd_autofilter_add_remove (WorkbookControl *wbc);
+gboolean cmd_autofilter_set_condition (WorkbookControl *wbc, 
+				       GnmFilter *filter, unsigned i, 
+				       GnmFilterCondition *cond);
 
 /**************************  Sheet Objects **************************************/
 

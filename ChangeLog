@@ -1,3 +1,14 @@
+2010-07-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.c (cmd_autofilter_set_condition): new
+	* src/commands.h (cmd_autofilter_set_condition): new
+	* src/sheet-filter.c (gnm_filter_condition_dup): publish
+	(gnm_filter_condition_free): publish
+	* src/sheet-filter.h (gnm_filter_condition_dup): new
+	(gnm_filter_condition_free): new
+	* src/undo.c (GNM_UNDO_FILTER_SET_CONDITION): new object
+	* src/undo.h (GNM_UNDO_FILTER_SET_CONDITION): new object
+
 2010-07-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/wbc-gtk.c (cb_accept_input_array): new

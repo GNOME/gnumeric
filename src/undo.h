@@ -5,6 +5,7 @@
 #include "gnumeric.h"
 #include "sheet.h"
 #include "colrow.h"
+#include "sheet-filter.h"
 #include <goffice/goffice.h>
 #include <glib-object.h>
 
@@ -63,6 +64,32 @@ struct _GNMUndoColrowSetSizesClass {
 GOUndo *gnm_undo_colrow_set_sizes_new (Sheet *sheet, gboolean is_cols,
 				       ColRowIndexList *selection,
 				       int new_size, GnmRange const *r);
+
+/* ------------------------------------------------------------------------- */
+
+#define GNM_TYPE_UNDO_FILTER_SET_CONDITION  (gnm_undo_filter_set_condition_get_type ())
+#define GNM_UNDO_FILTER_SET_CONDITION(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_UNDO_FILTER_SET_CONDITION, GNMUndoFilterSetCondition))
+#define GNM_IS_UNDO_FILTER_SET_CONDITION(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_UNDO_FILTER_SET_CONDITION))
+
+GType gnm_undo_filter_set_condition_get_type (void);
+
+typedef struct _GNMUndoFilterSetCondition GNMUndoFilterSetCondition;
+typedef struct _GNMUndoFilterSetConditionClass GNMUndoFilterSetConditionClass;
+
+struct _GNMUndoFilterSetCondition {
+	GOUndo base;
+	GnmFilter *filter; 
+	unsigned i;
+	GnmFilterCondition *cond;
+};
+
+struct _GNMUndoFilterSetConditionClass {
+	GOUndoClass base;
+};
+
+GOUndo *gnm_undo_filter_set_condition_new (GnmFilter *filter, unsigned i, 
+					   GnmFilterCondition *cond, 
+					   gboolean retrieve_from_filter);
 
 /* ------------------------------------------------------------------------- */
 

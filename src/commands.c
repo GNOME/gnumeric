@@ -7741,3 +7741,40 @@ cmd_autofilter_add_remove (WorkbookControl *wbc)
 
 
 /******************************************************************/
+
+gboolean cmd_autofilter_set_condition (WorkbookControl *wbc, 
+				       GnmFilter *filter, unsigned i, 
+				       GnmFilterCondition *cond)
+{
+	char *descr = NULL, *name = NULL;
+	GOUndo *undo = NULL;
+	GOUndo *redo = NULL;
+	gboolean result;
+	
+	undo = gnm_undo_filter_set_condition_new (filter, i, 
+						  NULL, TRUE);
+	g_return_val_if_fail (undo != NULL, TRUE);
+	redo = gnm_undo_filter_set_condition_new (filter, i, 
+						 cond, FALSE);
+	g_return_val_if_fail (redo != NULL, TRUE);
+
+	name = undo_range_name (filter->sheet, &(filter->r));
+	descr = g_strdup_printf (_("Change filter condition for %s"),
+				 name);
+	
+	result = cmd_generic (wbc, descr, undo, redo);
+	g_free (name);
+	g_free (descr);
+
+	return result;
+}
+
+
+
+
+
+
+
+
+
+/******************************************************************/

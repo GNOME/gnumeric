@@ -61,6 +61,8 @@ struct _GnmFilter {
 	gboolean   is_active;
 };
 
+GnmFilterCondition *gnm_filter_condition_dup        (GnmFilterCondition const *src);
+void                gnm_filter_condition_free       (GnmFilterCondition *cond);
 GnmFilterCondition *gnm_filter_condition_new_single (GnmFilterOp op, GnmValue *v);
 GnmFilterCondition *gnm_filter_condition_new_double (GnmFilterOp op1, GnmValue *v1,
 						     gboolean join_with_and,

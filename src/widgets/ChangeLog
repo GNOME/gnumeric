@@ -1,5 +1,10 @@
 2010-07-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gnm-filter-combo-view.c (cb_fcombo_count): deleted
+	(fcombo_activate): use cmd_autofilter_set_condition
+
+2010-07-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* gnumeric-expr-entry.c (gee_finalize): fix warning on NULL expr_top
 
 2010-07-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>

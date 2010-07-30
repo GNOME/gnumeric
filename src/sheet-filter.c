@@ -93,7 +93,7 @@ gnm_filter_condition_new_bucket (gboolean top, gboolean absolute, double n)
 	return res;
 }
 
-static GnmFilterCondition *
+GnmFilterCondition *
 gnm_filter_condition_dup (GnmFilterCondition const *src)
 {
 	GnmFilterCondition *dst;
@@ -111,7 +111,7 @@ gnm_filter_condition_dup (GnmFilterCondition const *src)
 	return dst;
 }
 
-static void
+void
 gnm_filter_condition_free (GnmFilterCondition *cond)
 {
 	if (cond == NULL)

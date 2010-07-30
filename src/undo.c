@@ -22,8 +22,18 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <gnumeric-config.h>
+
 #include "undo.h"
+#include "sheet.h"
+#include "sheet-view.h"
+#include "sheet-control-gui.h"
+#include "wbc-gtk.h"
+#include "wbc-gtk-impl.h"
+#include "colrow.h"
+
 #include <gsf/gsf-impl-utils.h>
+#include <glib/gi18n-lib.h>
 
 /* ------------------------------------------------------------------------- */
 
@@ -168,4 +178,111 @@ gnm_undo_colrow_set_sizes_new (Sheet *sheet, gboolean is_cols,
 	return (GOUndo *)ua;
 }
 
+/* ------------------------------------------------------------------------- */
+
+static GObjectClass *gnm_undo_filter_set_condition_parent_class;
+
+static void
+gnm_undo_filter_set_condition_finalize (GObject *o)
+{
+	GNMUndoFilterSetCondition *ua = (GNMUndoFilterSetCondition *)o;
+
+	gnm_filter_condition_free (ua->cond);
+	ua->cond = NULL;
+}
+
+static gboolean
+cb_filter_set_condition_undo (GnmColRowIter const *iter, gint *count)
+{
+	if (iter->cri->visible)
+		(*count)++;
+	return FALSE;
+}
+
+static void
+cb_filter_set_condition_undo_set_pb (SheetControl *control, char *text)
+{
+	SheetControlGUI *scg = (SheetControlGUI *) control;
+	WBCGtk *wbcg = scg_wbcg (scg);
+	if (wbcg != NULL)
+		gtk_progress_bar_set_text 
+			(GTK_PROGRESS_BAR (wbcg->progress_bar), text);
+}
+
+static void
+gnm_undo_filter_set_condition_undo (GOUndo *u, gpointer data)
+{
+	GNMUndoFilterSetCondition *ua = (GNMUndoFilterSetCondition *)u;
+	gint count = 0;
+	char const *format;
+	char *text;
+
+	gnm_filter_set_condition (ua->filter, ua->i, 
+				  gnm_filter_condition_dup (ua->cond), TRUE);
+	sheet_update (ua->filter->sheet);
+
+	colrow_foreach (&ua->filter->sheet->rows,
+			ua->filter->r.start.row + 1,
+			ua->filter->r.end.row,
+			(ColRowHandler) cb_filter_set_condition_undo,
+			&count);
+	format = ngettext ("%d row of %d match",
+			   "%d rows of %d match",
+			   count);
+	text = g_strdup_printf (format, count, 
+				ua->filter->r.end.row - 
+				ua->filter->r.start.row);
+
+	SHEET_FOREACH_CONTROL (ua->filter->sheet, view, control, cb_filter_set_condition_undo_set_pb (control, text););
+	
+	g_free (text);
+}
+
+static void
+gnm_undo_filter_set_condition_class_init (GObjectClass *gobject_class)
+{
+	GOUndoClass *uclass = (GOUndoClass *)gobject_class;
+
+	gnm_undo_filter_set_condition_parent_class = g_type_class_peek_parent 
+		(gobject_class);
+
+	gobject_class->finalize = gnm_undo_filter_set_condition_finalize;
+	uclass->undo = gnm_undo_filter_set_condition_undo;
+}
+
+
+GSF_CLASS (GNMUndoFilterSetCondition, gnm_undo_filter_set_condition,
+	   gnm_undo_filter_set_condition_class_init, NULL, GO_TYPE_UNDO)
+
+/**
+ * gnm_undo_filter_set_condition_new:
+ *
+ * if (retrieve_from_filter), cond is ignored
+ *
+ * Returns: a new undo object.
+ **/
+
+GOUndo *
+gnm_undo_filter_set_condition_new (GnmFilter *filter, unsigned i, 
+				   GnmFilterCondition *cond, 
+				   gboolean retrieve_from_filter)
+{
+	GNMUndoFilterSetCondition *ua;
+
+	g_return_val_if_fail (filter != NULL, NULL);
+	g_return_val_if_fail (i < filter->fields->len , NULL);
+
+	ua = g_object_new (GNM_TYPE_UNDO_FILTER_SET_CONDITION, NULL);
+
+	ua->filter = filter;
+	ua->i = i;
+
+	if (retrieve_from_filter)
+		ua->cond = gnm_filter_condition_dup 
+			(gnm_filter_get_condition (filter, i));
+	else
+		ua->cond = cond;
+
+	return (GOUndo *)ua;
+}
 /* ------------------------------------------------------------------------- */

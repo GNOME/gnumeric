@@ -34,6 +34,7 @@
 #include <value.h>
 #include <sheet-filter.h>
 #include <number-match.h>
+#include <undo.h>
 
 #include <glade/glade.h>
 #include <gtk/gtk.h>
@@ -152,11 +153,10 @@ cb_autofilter_ok (G_GNUC_UNUSED GtkWidget *button,
 			cond = gnm_filter_condition_new_bucket (
 					!bottom, !percentage, count);
 	}
-	if (cond != NULL) {
-		gnm_filter_set_condition (state->filter, state->field,
-			cond, TRUE);
-		sheet_update (state->filter->sheet);
-	}
+	if (cond != NULL)
+		cmd_autofilter_set_condition (WORKBOOK_CONTROL (state->wbcg), 
+					      state->filter, state->field, 
+					      cond);
 
 	gtk_widget_destroy (state->dialog);
 }

@@ -58,6 +58,7 @@ Andreas:
 	* Fix row height dialog. [#625543]
 	* Add menu to specify whether to enter as array, into multiple cells,
 	  etc. Part of [#53733]
+	* Make autofilter condition changes undoable. [#625143]
 
 Jean:
 	* Fix strong/weak cursor display. [#623241]
