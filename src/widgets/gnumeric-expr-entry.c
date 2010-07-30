@@ -110,7 +110,9 @@ struct _GnmExprEntry {
 	gboolean                 editing_canceled;  /* as cell_editable */
 	gboolean                 ignore_changes; /* internal mutex */
 
-	gboolean       feedback_disabled;
+	gboolean                 feedback_disabled;
+	GnmLexerItem            *lexer_items;
+	GnmExprTop const        *texpr;
 	struct {
 		GtkWidget       *tooltip;
 		GnmFunc         *fd;
@@ -543,15 +545,9 @@ gee_scan_for_range (GnmExprEntry *gee)
 	parse_pos_init_editpos (&gee->pp, scg_view (gee->scg));
 	gee_destroy_feedback_range (gee);
 	if (!gee->feedback_disabled && gee_is_editing (gee)) {
-		char const *text = gtk_entry_get_text (gee->entry);
-		GnmParsePos pp;
-		GnmExprTop const *texpr;
-		parse_pos_init_sheet (&pp, sheet);
-		if ((texpr = gnm_expr_parse_str
-		     ((text[0] == '=') ? text+1 : text, &pp, GNM_EXPR_PARSE_DEFAULT,
-		      sheet_get_conventions (sheet), NULL))!= NULL) {
+		if (gee->texpr != NULL) {
 			GSList *ptr;
-			GSList *list = gnm_expr_top_get_ranges (texpr);
+			GSList *list = gnm_expr_top_get_ranges (gee->texpr);
 			for (ptr = list ; ptr != NULL ; ptr = ptr->next) {
 				GnmValue *v = ptr->data;
 				GnmRange  r;
@@ -572,7 +568,6 @@ gee_scan_for_range (GnmExprEntry *gee)
 			}
 			
 			go_slist_free_custom (list, (GFreeFunc)value_release);
-			gnm_expr_top_unref (texpr);
 		}
 		gnm_expr_entry_find_range (gee);
 		if (gnm_expr_entry_get_rangesel (gee, &range, &parse_sheet) &&
@@ -855,6 +850,55 @@ func_def_cmp (gconstpointer a, gconstpointer b)
 			       gnm_func_get_name (b));
 }
 
+
+static void
+gee_update_lexer_items (GnmExprEntry *gee)
+{
+	GtkEditable *editable = GTK_EDITABLE (gee->entry);
+	char *str = gtk_editable_get_chars (editable, 0, -1);
+	GnmParsePos pp;
+	Sheet *sheet = scg_sheet (gee->scg);
+
+	g_free (gee->lexer_items);
+	gee->lexer_items = NULL;
+
+	if (gee->texpr != NULL) {
+		gnm_expr_top_unref (gee->texpr);
+		gee->texpr = NULL;
+	}
+
+	if (!gee->feedback_disabled) {
+		parse_pos_init_sheet (&pp, sheet);
+		gee->texpr = gnm_expr_parse_str
+			((str[0] == '=') ? str+1 : str, &pp, GNM_EXPR_PARSE_DEFAULT,
+			 sheet_get_conventions (sheet), NULL);
+	}
+
+	if (!(gee->flags & GNM_EE_SINGLE_RANGE)) {
+		gee->lexer_items = gnm_expr_lex_all 
+			(str, &gee->pp,
+			 GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
+			 NULL);
+		if (gnm_debug_flag ("functooltip"))
+			gee_dump_lexer (gee->lexer_items);
+	}
+	g_free (str);	
+}
+
+static GnmLexerItem *
+gee_duplicate_lexer_items (GnmLexerItem *gli)
+{
+	int n = 1;
+	GnmLexerItem *gli_c = gli;
+
+	while (gli_c->token != 0) {
+		gli_c++;
+		n++;
+	}
+
+	return g_memdup (gli, n * sizeof (GnmLexerItem));
+}
+
 static void
 gee_check_tooltip (GnmExprEntry *gee)
 {
@@ -865,10 +909,10 @@ gee_check_tooltip (GnmExprEntry *gee)
 	gboolean stuff = FALSE, completion_se_set = FALSE;
 	GnmLexerItem *gli, *gli_c;
 
-	if (!gee->tooltip.enabled || gee->is_cell_renderer ||
-	    (gee->flags & GNM_EE_SINGLE_RANGE) ||
-	    (gee->flags & GNM_EE_FORCE_ABS_REF))
+	if (gee->lexer_items == NULL) {
+		gee_delete_tooltip (gee, TRUE);
 		return;
+	}
 
 	end = gtk_editable_get_position (editable);
 
@@ -877,24 +921,18 @@ gee_check_tooltip (GnmExprEntry *gee)
 		return;
 	}
 
-	/* We are not just looking at the text to the left of end */
-	/* since the lexer can make more sense out of everything with */
-	/* more info, especially for the completion. */
 	str = gtk_editable_get_chars (editable, 0, -1);
 	end_t = g_utf8_offset_to_pointer (str, end) - str;
 
-	gli_c = gnm_expr_lex_all (str, &gee->pp,
-				GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
-				NULL);
-	if (gnm_debug_flag ("functooltip"))
-		gee_dump_lexer (gli_c);
+
+	gli_c = gli = gee_duplicate_lexer_items (gee->lexer_items);
 
 	/*
 	 * If we have an open string at the end of the entry, we
 	 * need to adjust.
 	 */
 	
-	for (gli = gli_c; gli->token != 0; gli++) {
+	for (; gli->token != 0; gli++) {
 		if (gli->start >= end_t) {
 			gli->token = 0;
 			break;
@@ -907,7 +945,8 @@ gee_check_tooltip (GnmExprEntry *gee)
 		stuff = TRUE;
 		break;
 	}
-	gli--;
+	if (gli > gli_c)
+		gli--;
 
 	/* This creates the completion tooltip */
 	if (!stuff && gli->start > 0 && gli->token == STRING) {
@@ -1055,6 +1094,7 @@ cb_gee_notify_cursor_position (GnmExprEntry *gee)
 static void
 cb_entry_changed (GnmExprEntry *gee)
 {
+	gee_update_lexer_items (gee);
 	gee_update_env (gee);
 	gee_update_calendar (gee);
 	gee_check_tooltip (gee);
@@ -1319,6 +1359,8 @@ gee_init (GnmExprEntry *gee)
 	gee->update_timeout_id = 0;
 	gee->update_policy = GTK_UPDATE_CONTINUOUS;
 	gee->feedback_disabled = FALSE;
+	gee->lexer_items = NULL;
+	gee->texpr = NULL;
 	gee->tooltip.tooltip = NULL;
 	gee->tooltip.fd = NULL;
 	gee->tooltip.handlerid = 0;
@@ -1358,6 +1400,8 @@ gee_finalize (GObject *obj)
 
 	go_format_unref (gee->constant_format);
 	gee_delete_tooltip (gee, TRUE);
+	g_free (gee->lexer_items);
+	gnm_expr_top_unref (gee->texpr);
 
 	((GObjectClass *)parent_class)->finalize (obj);
 }
@@ -1640,8 +1684,8 @@ gee_rangesel_update_text (GnmExprEntry *gee)
 }
 
 static void
-gee_find_lexer_token (GnmLexerItem *gli, guint token_pos, 
-		      GnmLexerItem **gli_before, GnmLexerItem **gli_after)
+gee_find_lexer_token (GnmLexerItem const *gli, guint token_pos, 
+		      GnmLexerItem const **gli_before, GnmLexerItem const **gli_after)
 {
 	*gli_before = *gli_after = NULL;
 	if (gli->token == 0)
@@ -1687,7 +1731,7 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 	GnmRangeRef  range;
 	Rangesel *rs;
 	int len, token_pos;
-	GnmLexerItem *gli, *gli_before, *gli_after;
+	GnmLexerItem const *gli, *gli_before, *gli_after;
 
 	g_return_val_if_fail (gee != NULL, FALSE);
 
@@ -1739,22 +1783,18 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 		return TRUE;
 	}
 
-	gli = gnm_expr_lex_all (ptr, &gee->pp,
-				GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
-				NULL);
-
-	if (gnm_debug_flag ("rangeselection"))
-		gee_dump_lexer (gli);
+	gli = gee->lexer_items;
+	while (gli->token != 0 && gli->start < (guint) (ptr - text))
+		gli++;
 
 	if (gli->token == 0) {
 		rs->text_start = g_utf8_pointer_to_offset 
 			(text, ptr);
 		rs->text_end   = len;
-		g_free (gli);
 		return TRUE;		
 	}
 
-	token_pos = cursor - ptr;
+	token_pos = cursor - text;
 	
 	gee_find_lexer_token (gli, (guint)token_pos, &gli_before, &gli_after);
 
@@ -1767,20 +1807,20 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 	}
 
 	if (gli_before == NULL && gli_after == NULL)
-		goto not_possible;
+		return FALSE;
 			
 	if (gli_before == gli_after) {
 		if ((gli_after + 1)->token == TOKEN_PARENTHESIS_OPEN ||
 		    (gli_after + 1)->token == TOKEN_BRACE_OPEN)
-			goto not_possible;
+			return FALSE;
 		if (gli < gli_before &&
 		    ((gli_before - 1)->token == TOKEN_PARENTHESIS_CLOSED ||
 		     (gli_before - 1)->token == TOKEN_BRACE_CLOSED))
-			goto not_possible;
+			return FALSE;
 		rs->text_start = g_utf8_pointer_to_offset 
-			(text, ptr + gli_before->start);
+			(text, text + gli_before->start);
 		rs->text_end   = g_utf8_pointer_to_offset 
-			(text, ptr + gli_before->end);
+			(text, text + gli_before->end);
 	} else if (gli_before != NULL && gli_after != NULL) {
 		switch (gli_before->token) {
 		case STRING:
@@ -1790,11 +1830,11 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 		case INVALID_TOKEN:
 			if (gli_after->token == TOKEN_PARENTHESIS_OPEN ||
 			    gli_after->token == TOKEN_BRACE_OPEN)
-				goto not_possible;
+				return FALSE;
 			rs->text_start = g_utf8_pointer_to_offset 
-				(text, ptr + gli_before->start);
+				(text, text + gli_before->start);
 			rs->text_end   = g_utf8_pointer_to_offset 
-				(text, ptr + gli_before->end);
+				(text, text + gli_before->end);
 			break;
 		default:
 			switch (gli_after->token) {
@@ -1804,15 +1844,15 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 			case RANGEREF:
 			case INVALID_TOKEN:
 				rs->text_start = g_utf8_pointer_to_offset 
-					(text, ptr + gli_after->start);
+					(text, text + gli_after->start);
 				rs->text_end   = g_utf8_pointer_to_offset 
-					(text, ptr + gli_after->end);
+					(text, text + gli_after->end);
 				break;
 			default:
 				rs->text_start = g_utf8_pointer_to_offset 
-					(text, ptr + gli_before->end);
+					(text, text + gli_before->end);
 				rs->text_end   = g_utf8_pointer_to_offset 
-					(text, ptr + gli_after->start);
+					(text, text + gli_after->start);
 				break;
 			}
 		}
@@ -1825,16 +1865,16 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 		case INVALID_TOKEN:
 			if ((gli_after + 1)->token == TOKEN_PARENTHESIS_OPEN ||
 			    (gli_after + 1)->token == TOKEN_BRACE_OPEN)
-				goto not_possible;
+				return FALSE;
 			rs->text_start = g_utf8_pointer_to_offset 
-				(text, ptr + gli_after->start);
+				(text, text + gli_after->start);
 			rs->text_end   = g_utf8_pointer_to_offset 
-				(text, ptr + gli_after->end);
+				(text, text + gli_after->end);
 			break;
 		default:
 			rs->text_end = rs->text_start = 
 				g_utf8_pointer_to_offset 
-				(text, ptr + gli_after->start);
+				(text, text + gli_after->start);
 			break;
 		}
 	else switch (gli_before->token) {
@@ -1846,20 +1886,19 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 			if (gli < gli_before &&
 			    ((gli_before - 1)->token == TOKEN_PARENTHESIS_CLOSED ||
 			     (gli_before - 1)->token == TOKEN_BRACE_CLOSED))
-				goto not_possible;
+				return FALSE;
 			rs->text_start = g_utf8_pointer_to_offset 
-				(text, ptr + gli_before->start);
+				(text, text + gli_before->start);
 			rs->text_end   = g_utf8_pointer_to_offset 
-				(text, ptr + gli_before->end);
+				(text, text + gli_before->end);
 			break;
 		case TOKEN_PARENTHESIS_CLOSED:
 		case TOKEN_BRACE_CLOSED:
-			goto not_possible;
-			break;
+			return FALSE;
 		default:
 			rs->text_end = rs->text_start = 
 				g_utf8_pointer_to_offset 
-				(text, ptr + gli_before->start);
+				(text, text + gli_before->start);
 			break;
 		}
 
@@ -1875,12 +1914,7 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 		rs->is_valid = TRUE;
 		rs->ref = range;
 	}
-	g_free (gli);
 	return TRUE;
-
- not_possible:
-	g_free (gli);
-	return FALSE;
 }
 
 /**
@@ -2618,6 +2652,7 @@ gnm_expr_entry_enable_highlight (GnmExprEntry *gee)
 {
 	g_return_if_fail (gee != NULL);
 	gee->feedback_disabled = FALSE;
+	gee_update_lexer_items (gee);
 }
 
 /*****************************************************************************/

@@ -1,3 +1,15 @@
+2010-07-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (gee_scan_for_range): use the saved expr_top
+	(gee_update_lexer_items): new
+	(gee_duplicate_lexer_items): new
+	(gee_check_tooltip): use the saved lexer_items
+	(cb_entry_changed): call gee_update_lexer_items
+	(gee_finalize): delete saved expr_top and lexer_items
+	(gee_find_lexer_token): make arguments pointers to const
+	(gnm_expr_entry_find_range): use the saved lexer_items
+	(gnm_expr_entry_enable_highlight): call gee_update_lexer_items
+
 2010-07-28  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-cell-renderer-text.c (gnumeric_cell_renderer_text_render):
