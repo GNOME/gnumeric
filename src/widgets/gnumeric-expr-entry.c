@@ -1401,7 +1401,8 @@ gee_finalize (GObject *obj)
 	go_format_unref (gee->constant_format);
 	gee_delete_tooltip (gee, TRUE);
 	g_free (gee->lexer_items);
-	gnm_expr_top_unref (gee->texpr);
+	if (gee->texpr != NULL)
+		gnm_expr_top_unref (gee->texpr);
 
 	((GObjectClass *)parent_class)->finalize (obj);
 }

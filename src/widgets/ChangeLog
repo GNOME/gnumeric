@@ -1,5 +1,9 @@
 2010-07-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gnumeric-expr-entry.c (gee_finalize): fix warning on NULL expr_top
+
+2010-07-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* gnumeric-expr-entry.c (gee_scan_for_range): use the saved expr_top
 	(gee_update_lexer_items): new
 	(gee_duplicate_lexer_items): new
