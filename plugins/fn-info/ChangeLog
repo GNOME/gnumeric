@@ -1,3 +1,7 @@
+2010-07-30  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.8
+
 2010-07-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_error): fix description

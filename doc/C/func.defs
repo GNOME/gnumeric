@@ -597,11 +597,32 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @SEEALSO=TODAY,YEAR,MONTH,DAY
 
 @CATEGORY=Date/Time
+@FUNCTION=DATE2HDATE
+@SHORTDESC=Hebrew date
+@SYNTAX=DATE2HDATE(date)
+@ARGUMENTDESCRIPTION=@{date}: Gregorian date, defaults to today
+@SEEALSO=HDATE,DATE2HDATE_HEB
+
+@CATEGORY=Date/Time
+@FUNCTION=DATE2HDATE_HEB
+@SHORTDESC=Hebrew date in Hebrew
+@SYNTAX=DATE2HDATE_HEB(date)
+@ARGUMENTDESCRIPTION=@{date}: Gregorian date, defaults to today
+@SEEALSO=DATE2HDATE,HDATE_HEB
+
+@CATEGORY=Date/Time
+@FUNCTION=DATE2JULIAN
+@SHORTDESC=Julian day number for given Gregorian date
+@SYNTAX=DATE2JULIAN(date)
+@ARGUMENTDESCRIPTION=@{date}: Gregorian date, defaults to today
+@SEEALSO=HDATE_JULIAN
+
+@CATEGORY=Date/Time
 @FUNCTION=DATE2UNIX
-@SHORTDESC=translate a date serial value to a Unix timestamp
+@SHORTDESC=the Unix timestamp corresponding to a date @{d}
 @SYNTAX=DATE2UNIX(d)
-@ARGUMENTDESCRIPTION=@{d}: date serial value
-@DESCRIPTION=The DATE2UNIX function translates a date serial values into a Unix timestamp.
+@ARGUMENTDESCRIPTION=@{d}: date
+@DESCRIPTION=The DATE2UNIX function translates a date into a Unix timestamp. A Unix timestamp is the number of seconds since midnight (0:00) of January 1st, 1970 GMT.
 @SEEALSO=UNIX2DATE,DATE
 
 @CATEGORY=Date/Time
@@ -697,54 +718,54 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @FUNCTION=HDATE
 @SHORTDESC=Hebrew date
 @SYNTAX=HDATE(year,month,day)
-@ARGUMENTDESCRIPTION=@{year}: year of date
-@{month}: month of year
-@{day}: day of month
+@ARGUMENTDESCRIPTION=@{year}: Gregorian year of date, defaults to the current year
+@{month}: Gregorian month of year, defaults to the current month
+@{day}: Gregorian day of month, defaults to the current day
 @SEEALSO=HDATE_HEB,DATE
 
 @CATEGORY=Date/Time
 @FUNCTION=HDATE_DAY
 @SHORTDESC=Hebrew day of Gregorian date
 @SYNTAX=HDATE_DAY(year,month,day)
-@ARGUMENTDESCRIPTION=@{year}: Gregorian year of date
-@{month}: Gregorian month of year
-@{day}: Gregorian day of month
+@ARGUMENTDESCRIPTION=@{year}: Gregorian year of date, defaults to the current year
+@{month}: Gregorian month of year, defaults to the current month
+@{day}: Gregorian day of month, defaults to the current day
 @SEEALSO=HDATE_JULIAN
 
 @CATEGORY=Date/Time
 @FUNCTION=HDATE_HEB
 @SHORTDESC=Hebrew date in Hebrew
 @SYNTAX=HDATE_HEB(year,month,day)
-@ARGUMENTDESCRIPTION=@{year}: year of date
-@{month}: month of year
-@{day}: day of month
+@ARGUMENTDESCRIPTION=@{year}: Gregorian year of date, defaults to the current year
+@{month}: Gregorian month of year, defaults to the current month
+@{day}: Gregorian day of month, defaults to the current day
 @SEEALSO=HDATE,DATE
 
 @CATEGORY=Date/Time
 @FUNCTION=HDATE_JULIAN
 @SHORTDESC=Julian day number for given Gregorian date
 @SYNTAX=HDATE_JULIAN(year,month,day)
-@ARGUMENTDESCRIPTION=@{year}: Gregorian year of date
-@{month}: Gregorian month of year
-@{day}: Gregorian day of month
+@ARGUMENTDESCRIPTION=@{year}: Gregorian year of date, defaults to the current year
+@{month}: Gregorian month of year, defaults to the current month
+@{day}: Gregorian day of month, defaults to the current day
 @SEEALSO=HDATE
 
 @CATEGORY=Date/Time
 @FUNCTION=HDATE_MONTH
 @SHORTDESC=Hebrew month of Gregorian date
 @SYNTAX=HDATE_MONTH(year,month,day)
-@ARGUMENTDESCRIPTION=@{year}: Gregorian year of date
-@{month}: Gregorian month of year
-@{day}: Gregorian day of month
+@ARGUMENTDESCRIPTION=@{year}: Gregorian year of date, defaults to the current year
+@{month}: Gregorian month of year, defaults to the current month
+@{day}: Gregorian day of month, defaults to the current day
 @SEEALSO=HDATE_JULIAN
 
 @CATEGORY=Date/Time
 @FUNCTION=HDATE_YEAR
 @SHORTDESC=Hebrew year of Gregorian date
 @SYNTAX=HDATE_YEAR(year,month,day)
-@ARGUMENTDESCRIPTION=@{year}: Gregorian year of date
-@{month}: Gregorian month of year
-@{day}: Gregorian day of month
+@ARGUMENTDESCRIPTION=@{year}: Gregorian year of date, defaults to the current year
+@{month}: Gregorian month of year, defaults to the current month
+@{day}: Gregorian day of month, defaults to the current day
 @SEEALSO=HDATE_JULIAN
 
 @CATEGORY=Date/Time
@@ -799,7 +820,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @ARGUMENTDESCRIPTION=@{start_date}: starting date serial value
 @{end_date}: ending date serial value
 @{holidays}: array of holidays
-@{weekend}: array indicating whether a weekday (S, M, T, W, T, F, S) is on the weekend, defaults to {TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE}.
+@{weekend}: array indicating whether a weekday (S, M, T, W, T, F, S) is on the weekend, defaults to {TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE}
 @DESCRIPTION=NETWORKDAYS calculates the number of days from @{start_date} to @{end_date} skipping weekends and @{holidays} in the process.
 @EXCEL=This function is Excel compatible if the last argument is omitted.
 @ODF=This function is OpenFormula compatible.
@@ -860,10 +881,10 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 
 @CATEGORY=Date/Time
 @FUNCTION=UNIX2DATE
-@SHORTDESC=create a date value from a Unix timestamp
+@SHORTDESC=date value corresponding to the Unix timestamp @{t}
 @SYNTAX=UNIX2DATE(t)
 @ARGUMENTDESCRIPTION=@{t}: Unix time stamp
-@DESCRIPTION=The UNIT2DATE function translates Unix timestamps into date serial values.  Unix timestamps are number of seconds since Midnight 1-Jan-1900.
+@DESCRIPTION=The UNIX2DATE function translates Unix timestamps into the corresponding date.  A Unix timestamp is the number of seconds since midnight (0:00) of January 1st, 1970 GMT.
 @SEEALSO=DATE2UNIX,DATE
 
 @CATEGORY=Date/Time
@@ -871,8 +892,8 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @SHORTDESC=day-of-week
 @SYNTAX=WEEKDAY(date,method)
 @ARGUMENTDESCRIPTION=@{date}: date serial value
-@{method}: numbering system
-@DESCRIPTION=The WEEKDAY function returns the day-of-week of @{date}.  The value of @{method} determines how days are numbered.
+@{method}: numbering system, defaults to 1
+@DESCRIPTION=The WEEKDAY function returns the day-of-week of @{date}.  The value of @{method} determines how days are numbered; it defaults to 1. 
 @NOTE=If @{method} is 1, then Sunday is 1, Monday is 2, etc. If @{method} is 2, then Monday is 1, Tuesday is 2, etc. If @{method} is 3, then Monday is 0, Tuesday is 1, etc.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=DATE,ISOWEEKNUM
@@ -882,7 +903,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @SHORTDESC=week number
 @SYNTAX=WEEKNUM(date,method)
 @ARGUMENTDESCRIPTION=@{date}: date serial value
-@{method}: numbering system
+@{method}: numbering system, defaults to 1
 @DESCRIPTION=WEEKNUM calculates the week number according to @{method} which defaults to 1.
 @NOTE=If @{method} is 1, then weeks start on Sundays and January 1 is in week 1. If @{method} is 2, then weeks start on Mondays and January 1 is in week 1. If @{method} is 150, then the ISO 8601 numbering is used.
 @SEEALSO=ISOWEEKNUM
@@ -894,7 +915,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @ARGUMENTDESCRIPTION=@{date}: date serial value
 @{days}: number of days to add
 @{holidays}: array of holidays
-@{weekend}: array indicating whether a weekday (S, M, T, W, T, F, S) is on the weekend, defaults to {TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE}.
+@{weekend}: array indicating whether a weekday (S, M, T, W, T, F, S) is on the weekend, defaults to {TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE}
 @DESCRIPTION=WORKDAY adjusts @{date} by @{days} skipping over weekends and @{holidays} in the process.
 @NOTE=@{days} may be negative.
 @EXCEL=This function is Excel compatible if the last argument is omitted.
@@ -1351,14 +1372,6 @@ Otherwise ACCRINT returns the sum of the interest accrued in all coupon periods 
 @SEEALSO=AMORDEGRC
 
 @CATEGORY=Finance
-@FUNCTION=ATL_LAST
-@SHORTDESC=sample real-time data source
-@SYNTAX=ATL_LAST(tag)
-@ARGUMENTDESCRIPTION=@{tag}: tag to watch
-@DESCRIPTION=ATL_LAST is a sample implementation of a real time data source.  It takes a string tag and monitors the named pipe ~/atl for changes to the value of that tag.
-@NOTE=This is not intended to be generally enabled and is OFF by default.
-
-@CATEGORY=Finance
 @FUNCTION=COUPDAYBS
 @SHORTDESC=number of days from coupon period to settlement
 @SYNTAX=COUPDAYBS(settlement,maturity,frequency,basis,eom)
@@ -1449,7 +1462,7 @@ Otherwise ACCRINT returns the sum of the interest accrued in all coupon periods 
 @FUNCTION=CUMIPMT
 @SHORTDESC=cumulative interest payment
 @SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)
-@ARGUMENTDESCRIPTION=@{rate}: effective annual interest rate
+@ARGUMENTDESCRIPTION=@{rate}: interest rate per period
 @{nper}: number of periods
 @{pv}: present value
 @{start_period}: first period to accumulate for
@@ -1463,7 +1476,7 @@ Otherwise ACCRINT returns the sum of the interest accrued in all coupon periods 
 @FUNCTION=CUMPRINC
 @SHORTDESC=cumulative principal
 @SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)
-@ARGUMENTDESCRIPTION=@{rate}: effective annual interest rate
+@ARGUMENTDESCRIPTION=@{rate}: interest rate per period
 @{nper}: number of periods
 @{pv}: present value
 @{start_period}: first period to accumulate for
@@ -1779,12 +1792,12 @@ Otherwise ACCRINT returns the sum of the interest accrued in all coupon periods 
 @CATEGORY=Finance
 @FUNCTION=OPT_2_ASSET_CORRELATION
 @SHORTDESC=theoretical price of options on 2 assets with correlation @{rho}
-@SYNTAX=OPT_2_ASSET_CORRELATION(call_put_flag,spot1,spot2,strike1,strike1,time,cost_of_carry1,cost_of_carry2,rate,volatility1,volatility2,rho)
+@SYNTAX=OPT_2_ASSET_CORRELATION(call_put_flag,spot1,spot2,strike1,strike2,time,cost_of_carry1,cost_of_carry2,rate,volatility1,volatility2,rho)
 @ARGUMENTDESCRIPTION=@{call_put_flag}: 'c' for a call and 'p' for a put
 @{spot1}: spot price of the underlying asset of the first option
 @{spot2}: spot price of the underlying asset of the second option
 @{strike1}: strike prices of the first option
-@{strike1}: strike prices of the second option
+@{strike2}: strike prices of the second option
 @{time}: time to maturity in years
 @{cost_of_carry1}: net cost of holding the underlying asset of the first option (for common stocks, the risk free rate less the dividend yield)
 @{cost_of_carry2}: net cost of holding the underlying asset of the second option (for common stocks, the risk free rate less the dividend yield)
@@ -1910,7 +1923,7 @@ Otherwise ACCRINT returns the sum of the interest accrued in all coupon periods 
 @{rate}: risk-free interest rate to the exercise date in percent
 @{volatility}: annualized volatility of the asset in percent for the period through to the exercise date
 @{cost_of_carry}: net cost of holding the underlying asset (for common stocks, the risk free rate less the dividend yield), defaults to 0
-@DESCRIPTION=OPT_BS_DELTA uses the Black-Scholes model to calculate the 'gamma' of a European option struck at @{strike} on an asset with spot price @{spot}. The gamma of an option is the second derivative of its price with respect to the price of the underlying asset.
+@DESCRIPTION=OPT_BS_GAMMA uses the Black-Scholes model to calculate the 'gamma' of a European option struck at @{strike} on an asset with spot price @{spot}. The gamma of an option is the second derivative of its price with respect to the price of the underlying asset.
 @NOTE=Gamma is expressed as the rate of change of delta per unit change in @{spot}. Gamma is the same for calls and puts.
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_VEGA
 
@@ -1925,7 +1938,7 @@ Otherwise ACCRINT returns the sum of the interest accrued in all coupon periods 
 @{rate}: risk-free interest rate to the exercise date in percent
 @{volatility}: annualized volatility of the asset in percent for the period through to the exercise date
 @{cost_of_carry}: net cost of holding the underlying asset (for common stocks, the risk free rate less the dividend yield), defaults to 0
-@DESCRIPTION=OPT_BS_DELTA uses the Black-Scholes model to calculate the 'rho' of a European option struck at @{strike} on an asset with spot price @{spot}. The rho of an option is the rate of change of its price with respect to the risk free interest rate.
+@DESCRIPTION=OPT_BS_RHO uses the Black-Scholes model to calculate the 'rho' of a European option struck at @{strike} on an asset with spot price @{spot}. The rho of an option is the rate of change of its price with respect to the risk free interest rate.
 @NOTE=Rho is expressed as the rate of change of the option value, per 100% change in @{rate}.
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_THETA,OPT_BS_VEGA,OPT_BS_GAMMA
 
@@ -1954,7 +1967,7 @@ Otherwise ACCRINT returns the sum of the interest accrued in all coupon periods 
 @{rate}: risk-free interest rate to the exercise date in percent
 @{volatility}: annualized volatility of the asset in percent for the period through to the exercise date
 @{cost_of_carry}: net cost of holding the underlying asset (for common stocks, the risk free rate less the dividend yield), defaults to 0
-@DESCRIPTION=OPT_BS_DELTA uses the Black-Scholes model to calculate the 'vega' of a European option struck at @{strike} on an asset with spot price @{spot}. The vega of an option is the rate of change of its price with respect to volatility.
+@DESCRIPTION=OPT_BS_VEGA uses the Black-Scholes model to calculate the 'vega' of a European option struck at @{strike} on an asset with spot price @{spot}. The vega of an option is the rate of change of its price with respect to volatility.
 @NOTE=Vega is the same for calls and puts. Vega is expressed as the rate of change of option value, per 100% volatility.
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA
 
@@ -2388,7 +2401,7 @@ Otherwise ACCRINT returns the sum of the interest accrued in all coupon periods 
 @{end_period}: last period to accumulate for
 @{factor}: factor at which the balance declines
 @{no_switch}: do not switch to straight-line depreciation
-@DESCRIPTION=VDB calculates the depreciation of an asset for a given period range using the double-declining balance method.
+@DESCRIPTION=VDB calculates the depreciation of an asset for a given period range using the variable-rate declining balance method.
 @NOTE=If @{no_switch} is FALSE, the calculation switches to straight-line depreciation when depreciation is greater than the declining balance calculation.
 @SEEALSO=DB,DDB
 
@@ -2507,7 +2520,7 @@ Otherwise ACCRINT returns the sum of the interest accrued in all coupon periods 
 
 @CATEGORY=Information
 @FUNCTION=ERROR
-@SHORTDESC=the error with name @{text}
+@SHORTDESC=the error with the given @{name}
 @SYNTAX=ERROR(name)
 @ARGUMENTDESCRIPTION=@{name}: string
 @SEEALSO=ISERROR
@@ -2806,6 +2819,13 @@ Otherwise ACCRINT returns the sum of the interest accrued in all coupon periods 
 @SEEALSO=ADDRESS,INDEX,INDIRECT,OFFSET
 
 @CATEGORY=Lookup
+@FUNCTION=ARRAY
+@SHORTDESC=vertical array of the arguments
+@SYNTAX=ARRAY(v)
+@ARGUMENTDESCRIPTION=@{v}: value
+@SEEALSO=TRANSPOSE
+
+@CATEGORY=Lookup
 @FUNCTION=CHOOSE
 @SHORTDESC=the (@{index}+1)th argument
 @SYNTAX=CHOOSE(index,value1,value2)
@@ -2939,7 +2959,7 @@ Otherwise ACCRINT returns the sum of the interest accrued in all coupon periods 
 @SHORTDESC=sheet number of @{reference}
 @SYNTAX=SHEET(reference)
 @ARGUMENTDESCRIPTION=@{reference}: reference or literal sheet name, defaults to the current sheet
-@NOTE=If @{reference} is neither a reference nor a literal sheet name, SHEETS returns #VALUE!
+@NOTE=If @{reference} is neither a reference nor a literal sheet name, SHEET returns #VALUE!
 @SEEALSO=SHEETS,ROW,COLUMNNUMBER
 
 @CATEGORY=Lookup
@@ -2949,6 +2969,15 @@ Otherwise ACCRINT returns the sum of the interest accrued in all coupon periods 
 @ARGUMENTDESCRIPTION=@{reference}: array, reference, or range, defaults to the maximum range
 @NOTE=If @{reference} is neither an array nor a reference nor a range, SHEETS returns #VALUE!
 @SEEALSO=COLUMNS,ROWS
+
+@CATEGORY=Lookup
+@FUNCTION=SORT
+@SHORTDESC=sorted list of numbers as vertical array
+@SYNTAX=SORT(ref,order)
+@ARGUMENTDESCRIPTION=@{ref}: list of numbers
+@{order}: 0 (descending order) or 1 (ascending order); defaults to 0
+@NOTE=Strings, booleans, and empty cells are ignored.
+@SEEALSO=ARRAY
 
 @CATEGORY=Lookup
 @FUNCTION=TRANSPOSE
@@ -3731,9 +3760,9 @@ Strings and empty cells are simply ignored.
 @CATEGORY=Mathematics
 @FUNCTION=TRUNC
 @SHORTDESC=@{x} truncated to @{d} digits
-@SYNTAX=TRUNC(x,x)
+@SYNTAX=TRUNC(x,d)
 @ARGUMENTDESCRIPTION=@{x}: number
-@{x}: non-negative integer, defaults to 0
+@{d}: non-negative integer, defaults to 0
 @NOTE=If @{d} is omitted or negative then it defaults to zero. If it is not an integer then it is truncated to an integer.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=INT
@@ -5737,7 +5766,7 @@ The distinction between half-width and full-width characters is described in htt
 @DESCRIPTION=CHAR(@{x}) returns the CP1252 (Windows-1252) character with code @{x}.
 @{x} must be in the range 1 to 255.
 CP1252 (Windows-1252) is also known as the "ANSI code page", but it is not an ANSI standard.
-CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, and contains all of its printable characters (but partially at different positions.)
+CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, and contains all of its printable characters. It also contains all of ISO-8859-15's printable characters (but partially at different positions.)
 This function is Excel compatible.
 @NOTE=In CP1252 (Windows-1252), 129, 141, 143, 144, and 157 do not have matching characters. For @{x} from 1 to 255 except 129, 141, 143, 144, and 157 we have CODE(CHAR(@{x}))=@{x}.
 @SEEALSO=CODE
@@ -5997,7 +6026,7 @@ The distinction between half-width and full-width characters is described in htt
 @{text}: search field
 @{start}: starting byte position, defaults to 1
 @DESCRIPTION=@{search} may contain wildcard characters (*) and question marks (?). A question mark matches any single character, and a wildcard matches any string including the empty string. To search for * or ?, precede the symbol with ~.
-@NOTE=This search is not case sensitive. If @{search} is not found, SEARCH returns #VALUE! If @{start} is less than one or it is greater than the byte length of @{text}, SEARCH returns #VALUE! The semantics of this function is subject to change as various applications implement it.
+@NOTE=This search is not case sensitive. If @{search} is not found, SEARCHB returns #VALUE! If @{start} is less than one or it is greater than the byte length of @{text}, SEARCHB returns #VALUE! The semantics of this function is subject to change as various applications implement it.
 @EXCEL=While this function is syntactically Excel compatible, the differences in the underlying text encoding will usually yield different results.
 @ODF=While this function is OpenFormula compatible, most of its behavior is, at this time, implementation specific.
 @SEEALSO=FINDB,SEARCH
@@ -6073,7 +6102,7 @@ The distinction between half-width and full-width characters is described in htt
 @SHORTDESC=Fourier or inverse Fourier transform
 @SYNTAX=FOURIER(Sequence,Inverse)
 @ARGUMENTDESCRIPTION=@{Sequence}: the data sequence to be transformed
-@{Inverse}: if false, the inverse Fourier transform is calculated. Defaults to false
+@{Inverse}: if true, the inverse Fourier transform is calculated, defaults to false
 @DESCRIPTION=This array function returns the Fourier or inverse Fourier transform of the given data sequence.
 The output consists always of one column of complex numbers.
 @NOTE=If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns #NUM!
