@@ -397,13 +397,19 @@ sog_xml_finish (GogObject *graph, SheetObject *so)
 	g_object_unref (graph);
 }
 
+static void gnm_sogg_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
+                                      xmlChar const **attrs,
+                                      GnmConventions const *convs);
 static void
 gnm_sog_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs,
 			 GnmConventions const *convs)
 {
-	gog_object_sax_push_parser (xin, attrs,
-				    (GogObjectSaxHandler) sog_xml_finish,
-				    (gpointer)convs, so);
+	if (strcmp (xin->node->name, "GnmGraph"))
+		gog_object_sax_push_parser (xin, attrs,
+					    (GogObjectSaxHandler) sog_xml_finish,
+					    (gpointer)convs, so);
+	else
+		gnm_sogg_prep_sax_parser (so, xin, attrs, convs);
 }
 
 static void
@@ -757,4 +763,272 @@ sheet_object_graph_ensure_size (SheetObject *so)
 		cb_post_new_view (GOC_ITEM (GOC_GROUP (ptr->data)->children->data));
 		ptr = ptr->next;
 	}
+}
+
+/*****************************************************************************/
+/* Support for Guppi graphs */
+
+typedef struct {
+	GnmConventions const *convs;
+	GogGraph *graph;
+	GogObject *chart;
+	GogPlot *plot;
+	GogObject *cur;
+	GogStyle *style;
+	GPtrArray *data;
+	unsigned cur_index, max_data;
+} GuppiReadState;
+
+static void
+vector_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	GuppiReadState *state = (GuppiReadState *) xin->user_state;
+	int i;
+	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
+		if (0 == strcmp (attrs[i], "ID"))
+			state->cur_index = atoi (attrs[i+1]);
+	if (state->cur_index >= state->max_data) {
+		state->max_data += 10;
+		g_ptr_array_set_size (state->data, state->max_data);
+	}
+}
+
+static void
+vector_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
+{
+	GuppiReadState *state = (GuppiReadState *) xin->user_state;
+	GOData *data;
+	data = g_object_new (GNM_GO_DATA_VECTOR_TYPE, NULL);
+	go_data_unserialize (data, xin->content->str, (void*) state->convs);
+	g_ptr_array_index (state->data, state->cur_index) = data;
+}
+
+static void
+plot_type_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	GuppiReadState *state = (GuppiReadState *) xin->user_state;
+	int i;
+	char const *name = NULL;
+	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
+		if (0 == strcmp (attrs[i], "name"))
+			name = attrs[i+1];
+	if (name) {
+		if (0 == strcmp (name, "Scatter")) {
+			state->plot = gog_plot_new_by_name ("GogXYPlot");
+			g_object_set (G_OBJECT (state->plot),
+			              "default-style-has-markers", FALSE,
+			              "default-style-has-lines", FALSE,
+			              NULL);
+			gog_object_add_by_name (state->chart, "Backplane", NULL);
+		}
+		else if (0 == strcmp (name, "Pie"))
+			state->plot = gog_plot_new_by_name ("GogPiePlot");
+		else if (0 == strcmp (name, "Bar")) {
+			state->plot = gog_plot_new_by_name ("GogBarColPlot");
+			gog_object_add_by_name (state->chart, "Backplane", NULL);
+		} else if (0 == strcmp (name, "Line")) {
+			state->plot = gog_plot_new_by_name ("GogLinePlot");
+			g_object_set (G_OBJECT (state->plot),
+			              "default-style-has-markers", FALSE,
+			              NULL);
+			gog_object_add_by_name (state->chart, "Backplane", NULL);
+		}
+		if (state->plot)
+			gog_object_add_by_name (GOG_OBJECT (state->chart), "Plot", GOG_OBJECT (state->plot));
+	}
+}
+
+static void
+series_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	GuppiReadState *state = (GuppiReadState *) xin->user_state;
+	int i;
+	char *name = NULL;
+	GError *err = NULL;
+	GOData *data;
+
+	state->cur = GOG_OBJECT (gog_plot_new_series (state->plot));
+	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
+		if (0 == strcmp (attrs[i], "name"))
+			name = g_strdup_printf ("\"%s\"", attrs[i+1]);
+	if (name) {
+		data = g_object_new (GNM_GO_DATA_SCALAR_TYPE, NULL);
+		go_data_unserialize (data, name, (void*) state->convs);
+		gog_dataset_set_dim (GOG_DATASET (state->cur), -1,
+		                     data, &err);
+		g_free (name);
+	}
+	if (err)
+		g_error_free (err);
+}
+
+static void
+dim_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	GuppiReadState *state = (GuppiReadState *) xin->user_state;
+	unsigned i, id = 0;
+	char const *name = NULL;
+	GogMSDimType type = GOG_MS_DIM_LABELS;
+	GogPlotDesc const *desc = gog_plot_description (state->plot);
+	GError *err = NULL;
+	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
+		if (0 == strcmp (attrs[i], "dim_name"))
+			name = attrs[i+1];
+		else if (0 == strcmp (attrs[i], "ID"))
+			id = atoi (attrs[i+1]);
+	if (0 == strcmp (name, "values"))
+		type = GOG_MS_DIM_VALUES;
+	else if (0 == strcmp (name, "categories"))
+		type = GOG_MS_DIM_CATEGORIES;
+	else if (0 == strcmp (name, "bubbles"))
+		type = GOG_MS_DIM_BUBBLES;
+	for (i = 0; i < desc->series.num_dim; i++)
+		if (desc->series.dim[i].ms_type == type) {
+			GOData *data = g_object_ref (g_ptr_array_index (state->data, id));
+			gog_dataset_set_dim (GOG_DATASET (state->cur), i,data,
+			                     //g_object_ref (g_ptr_array_index (state->data, id)),
+			                     &err);
+			break;
+		}
+	if (err)
+		g_error_free (err);
+}
+	
+static void
+marker_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
+{
+	GuppiReadState *state = (GuppiReadState *)xin->user_state;
+	if (xin->content->str && 0 == strcmp (xin->content->str, "true"))
+		g_object_set (G_OBJECT (state->plot), "default-style-has-markers", TRUE, NULL);
+}
+
+static void
+linear_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	GuppiReadState *state = (GuppiReadState *)xin->user_state;
+	g_object_set (G_OBJECT (state->plot),
+	              "default-style-has-lines", TRUE,
+	              NULL);
+}
+
+static void
+cubic_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	GuppiReadState *state = (GuppiReadState *)xin->user_state;
+	g_object_set (G_OBJECT (state->plot),
+	              "default-style-has-lines", TRUE,
+	              "use-splines", TRUE,
+	              NULL);
+}
+
+static void
+horiz_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
+{
+	GuppiReadState *state = (GuppiReadState *)xin->user_state;
+	if (xin->content->str)
+		g_object_set (G_OBJECT (state->plot), "horizontal", 0 == strcmp (xin->content->str, "true"), NULL);
+}
+	
+static void
+stacked_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
+{
+	GuppiReadState *state = (GuppiReadState *)xin->user_state;
+	if (xin->content->str && 0 == strcmp (xin->content->str, "true"))
+		g_object_set (G_OBJECT (state->plot), "type", "stacked", NULL);
+}
+	
+static void
+percent_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
+{
+	GuppiReadState *state = (GuppiReadState *)xin->user_state;
+	if (xin->content->str && 0 == strcmp (xin->content->str, "true"))
+		g_object_set (G_OBJECT (state->plot), "type", "as_percentage", NULL);
+}
+
+static void
+separation_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
+{
+	GuppiReadState *state = (GuppiReadState *)xin->user_state;
+	if (xin->content->str) {
+		double separation = g_ascii_strtod (xin->content->str, NULL);
+		g_object_set (G_OBJECT (state->plot),
+			      "default-separation", separation / 100.,
+			      NULL);
+	}
+}
+	
+static void
+bubble_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
+{
+	GuppiReadState *state = (GuppiReadState *)xin->user_state;
+	if (xin->content->str && 0 == strcmp (xin->content->str, "true")) {
+		g_object_unref (state->plot);
+		state->plot = gog_plot_new_by_name ("GogBubblePlot");
+		gog_object_add_by_name (state->chart, "Backplane", NULL);
+	}
+}
+
+static void
+gnm_sogg_sax_parser_done (GsfXMLIn *xin, GuppiReadState *state)
+{
+	unsigned i;
+	GObject *obj;
+	g_object_unref (state->graph);
+	for (i = 0; i < state->max_data; i++) {
+		obj = (GObject *) g_ptr_array_index (state->data, i);
+		if (obj)
+			g_object_unref (obj);
+	}
+	g_free (state);
+}
+
+static void
+gnm_sogg_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs,
+			 GnmConventions const *convs)
+{
+	static GsfXMLInNode const dtd[] = {
+	  GSF_XML_IN_NODE (GRAPH, GRAPH, -1, "GmrGraph", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (GRAPH, GUPPI_VECTORS, -1, "gmr:Vectors", GSF_XML_NO_CONTENT, NULL, NULL),
+	      GSF_XML_IN_NODE (GUPPI_VECTORS, GUPPI_VECTOR, -1, "gmr:Vector", GSF_XML_CONTENT, vector_start, vector_end),
+	    GSF_XML_IN_NODE (GRAPH, GUPPI_GRAPH, -1, "graph:Graph", GSF_XML_NO_CONTENT, NULL, NULL),
+	      GSF_XML_IN_NODE (GUPPI_GRAPH, GUPPI_LEGEND, -1, "graph:Legend", GSF_XML_NO_CONTENT, NULL, NULL),
+	        GSF_XML_IN_NODE (GUPPI_LEGEND, GUPPI_LEGEND_POS, -1, "graph:Position", GSF_XML_NO_CONTENT, NULL, NULL),
+	      GSF_XML_IN_NODE (GUPPI_GRAPH, GUPPI_PLOTS, -1, "graph:Plots", GSF_XML_NO_CONTENT, NULL, NULL),
+	        GSF_XML_IN_NODE (GUPPI_PLOTS, GUPPI_PLOT, -1, "graph:Plot", GSF_XML_NO_CONTENT, NULL, NULL),
+	          GSF_XML_IN_NODE (GUPPI_PLOT, GUPPI_PLOT_TYPE, -1, "Type", GSF_XML_NO_CONTENT, plot_type_start, NULL),
+	  	    GSF_XML_IN_NODE (GUPPI_PLOT_TYPE, GUPPI_MARKER, -1, "with_marker", GSF_XML_CONTENT, NULL, marker_end),
+	  	    GSF_XML_IN_NODE (GUPPI_PLOT_TYPE, GUPPI_MARKERS, -1, "with_markers", GSF_XML_CONTENT, NULL, marker_end),
+	  	    GSF_XML_IN_NODE (GUPPI_PLOT_TYPE, GUPPI_LINES, -1, "with_line", GSF_XML_NO_CONTENT, NULL, NULL),
+	  	      GSF_XML_IN_NODE (GUPPI_LINES, GUPPI_PLOT_LINEAR, -1, "Linear", GSF_XML_NO_CONTENT, linear_start, NULL),
+	  	      GSF_XML_IN_NODE (GUPPI_LINES, GUPPI_PLOT_CUBIC, -1, "Cubic", GSF_XML_NO_CONTENT, cubic_start, NULL),
+	  	    GSF_XML_IN_NODE (GUPPI_PLOT_TYPE, GUPPI_HORIZONTAL, -1, "horizontal", GSF_XML_CONTENT, NULL, horiz_end),
+	  	    GSF_XML_IN_NODE (GUPPI_PLOT_TYPE, GUPPI_STACKED, -1, "stacked", GSF_XML_CONTENT, NULL, stacked_end),
+	  	    GSF_XML_IN_NODE (GUPPI_PLOT_TYPE, GUPPI_AS_PERCENT, -1, "as_percentage", GSF_XML_CONTENT, NULL, percent_end),
+	  	    GSF_XML_IN_NODE (GUPPI_PLOT_TYPE, GUPPI_SEPARATION, -1, "separation_percent_of_radius", GSF_XML_CONTENT, NULL, separation_end),
+	  	    GSF_XML_IN_NODE (GUPPI_PLOT_TYPE, GUPPI_BUBBLE, -1, "auto_allocate_bubble_size", GSF_XML_CONTENT, NULL, bubble_end),
+	          GSF_XML_IN_NODE (GUPPI_PLOT, GUPPI_DATA, -1, "graph:Data", GSF_XML_NO_CONTENT, NULL, NULL),
+	            GSF_XML_IN_NODE (GUPPI_DATA, GUPPI_SERIES, -1, "graph:Series", GSF_XML_NO_CONTENT, series_start, NULL),
+	            GSF_XML_IN_NODE (GUPPI_SERIES, GUPPI_SERIES_DIM, -1, "graph:Dimension", GSF_XML_NO_CONTENT, dim_start, NULL),
+	          GSF_XML_IN_NODE (GUPPI_PLOT, GUPPI_DATA_LAYOUT, -1, "graph:DataLayout", GSF_XML_NO_CONTENT, NULL, NULL),
+	            GSF_XML_IN_NODE (GUPPI_DATA_LAYOUT, GUPPI_DIMENSION, -1, "graph:Dimension", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE_END
+	};
+	static GsfXMLInDoc *doc = NULL;
+	GuppiReadState *state;
+	GogTheme *theme = gog_theme_registry_lookup ("Guppi");
+
+	if (NULL == doc)
+		doc = gsf_xml_in_doc_new (dtd, NULL);
+	state = g_new0 (GuppiReadState, 1);
+	state->graph = g_object_new (GOG_TYPE_GRAPH, NULL);
+	gog_graph_set_theme (state->graph, theme);
+	state->chart = gog_object_add_by_name (GOG_OBJECT (state->graph), "Chart", NULL);
+	state->convs = convs;
+	state->data = g_ptr_array_new ();
+	state->max_data = 10;
+	g_ptr_array_set_size (state->data, state->max_data);
+	
+	sheet_object_graph_set_gog (so, state->graph);
+	gsf_xml_in_push_state (xin, doc, state,
+		(GsfXMLInExtDtor) gnm_sogg_sax_parser_done, attrs);
 }

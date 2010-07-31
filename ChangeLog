@@ -1,3 +1,13 @@
+2010-07-31  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-graph.c (gnm_sog_prep_sax_parser),
+	(sheet_object_graph_ensure_size), (vector_start), (vector_end),
+	(plot_type_start), (series_start), (dim_start), (marker_end),
+	(linear_start), (cubic_start), (horiz_end), (stacked_end),
+	(percent_end), (separation_end), (bubble_end),
+	(gnm_sogg_sax_parser_done), (gnm_sogg_prep_sax_parser): import Guppi
+	graphs from gnumeric-1.0.x files. [#567953]
+
 2010-07-30  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

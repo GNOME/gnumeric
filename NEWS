@@ -3,6 +3,9 @@ Gnumeric 1.10.9
 Andreas:
 	* Clarify autofilter dialog. [#625688]
 
+Jean:
+	* Import Guppi graphs from gnumeric-1.0.x files. [#567953]
+
 --------------------------------------------------------------------------
 Gnumeric 1.10.8
 
