@@ -786,7 +786,7 @@ vector_start (GsfXMLIn *xin, xmlChar const **attrs)
 	int i;
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
 		if (0 == strcmp (attrs[i], "ID"))
-			state->cur_index = atoi (attrs[i+1]);
+			state->cur_index = strtoul (attrs[i+1], NULL, 10);
 	if (state->cur_index >= state->max_data) {
 		state->max_data += 10;
 		g_ptr_array_set_size (state->data, state->max_data);
@@ -875,7 +875,7 @@ dim_start (GsfXMLIn *xin, xmlChar const **attrs)
 		if (0 == strcmp (attrs[i], "dim_name"))
 			name = attrs[i+1];
 		else if (0 == strcmp (attrs[i], "ID"))
-			id = atoi (attrs[i+1]);
+			id = strtoul (attrs[i+1], NULL, 10);
 	if (0 == strcmp (name, "values"))
 		type = GOG_MS_DIM_VALUES;
 	else if (0 == strcmp (name, "categories"))
