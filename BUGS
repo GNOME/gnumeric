@@ -68,8 +68,6 @@ Worries
     : range_translate in stf.c looks suspicous.
     : Add bounds checking of integers on the xml based importers
     : do bounds check in excel_get_text
-    : provide undo for dropped objects from sheet_objects_clear
-    : undo of pasting copy/cut of objects
     : Select graph, Copy, and paste to Emacs: used to crash, but now it
       just g_barfs and pastes empty string.
 
@@ -133,12 +131,12 @@ Architecture Changes
     4.19) Change value entries in expr dialog into combos
     4.4) 2nd value in expr dialog only if 1st is active
     4.23) undo/redo for creation                                (DONE)
-    4.24) undo/redo for condition set change
+    4.24) undo/redo for condition set change                    (DONE)
     4.25) Undo redo support for ins/del col/row with filters
     4.26) guess initial region if its a singleton               (DONE)
     4.27) combo contains start to end of continuous region
            not just the end of the selected region
-    4.28) filter changes should dirty things
+    4.28) filter changes should dirty things                    (DONE)
     4.34) Tooltip on combo with the current filter details
     4.35) Change icon in combo from arrow to filter instead
 	    of changing colour
@@ -333,7 +331,7 @@ Architecture Changes
 10) Functions
     - Function range_min_k uses an O(n*log n) algorithm.  It should use O(n)
       algorithm, see Knuth.
-    - WORKDAY	Add holiday support (Leonard is working on this)
+    - WORKDAY	Add holiday support                             (DONE)
     - Suport >100 style for SUBTOTAL
     - docs
 	: Translate each arg name + description seperately to get better
