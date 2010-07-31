@@ -1,5 +1,9 @@
 2010-07-30  Morten Welinder <terra@gnome.org>
 
+	* configure.in: Post-release bump.
+
+2010-07-30  Morten Welinder <terra@gnome.org>
+
 	* Release 1.10.8
 
 2010-07-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
