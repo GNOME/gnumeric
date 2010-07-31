@@ -8,8 +8,7 @@ debug:: all
 release:: all
 	$(abs_srcdir)/build $(abs_builddir) $(abs_srcdir) release
 
-distclean:
-	rm -rf debug release
+DISTCLEANFILES = debug release
 
 EXTRA_DIST = gnumeric.nsi.in gtkrc moduleset.in \
 	build jhbuildrc.py
