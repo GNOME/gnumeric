@@ -1,5 +1,10 @@
 2010-07-31  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* src/sheet-object-graph.c (dim_start): survive malformed guppi graphs.
+	[#625726]
+
+2010-07-31  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* src/sheet-object-graph.c (gnm_sog_prep_sax_parser),
 	(sheet_object_graph_ensure_size), (vector_start), (vector_end),
 	(plot_type_start), (series_start), (dim_start), (marker_end),

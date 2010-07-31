@@ -5,6 +5,7 @@ Andreas:
 
 Jean:
 	* Import Guppi graphs from gnumeric-1.0.x files. [#567953]
+	* Survive malformed guppi graphs. [#625726]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.8
