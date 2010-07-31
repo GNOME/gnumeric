@@ -787,7 +787,7 @@ vector_start (GsfXMLIn *xin, xmlChar const **attrs)
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
 		if (0 == strcmp (attrs[i], "ID"))
 			state->cur_index = strtoul (attrs[i+1], NULL, 10);
-	if (cur_index < 256 && state->cur_index >= state->max_data) {
+	if (state->cur_index < 256 && state->cur_index >= state->max_data) {
 		state->max_data += 10;
 		g_ptr_array_set_size (state->data, state->max_data);
 	}
