@@ -34,6 +34,20 @@
 }
 
 {
+   Leak/g_type_add_interface_static
+   Memcheck:Leak
+   ...
+   fun:g_type_add_interface_static
+}
+
+{
+   Leak/g_type_add_interface_dynamic
+   Memcheck:Leak
+   ...
+   fun:g_type_add_interface_dynamic
+}
+
+{
    Leak/g_type_init_with_debug_flags
    Memcheck:Leak
    ...
