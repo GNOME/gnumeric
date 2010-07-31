@@ -51,6 +51,7 @@ typedef struct {
 } AutoFilterState;
 
 #define DIALOG_KEY "autofilter"
+#define DIALOG_KEY_EXPRESSION "autofilter-expression"
 #define UNICODE_ELLIPSIS "\xe2\x80\xa6"
 
 static void
@@ -236,10 +237,12 @@ dialog_auto_filter (WBCGtk *wbcg,
 	int col;
 	gchar *label;
 	GnmCell *cell;
+	int len = is_expr ? 15 : 30;
 
 	g_return_if_fail (wbcg != NULL);
 
-	if (gnumeric_dialog_raise_if_exists (wbcg, DIALOG_KEY))
+	if (gnumeric_dialog_raise_if_exists 
+	    (wbcg, is_expr ? DIALOG_KEY_EXPRESSION : DIALOG_KEY))
 		return;
 	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 			(is_expr ? "autofilter-expression.glade" : "autofilter-top10.glade"),
@@ -256,35 +259,37 @@ dialog_auto_filter (WBCGtk *wbcg,
 
 	g_return_if_fail (state->gui != NULL);
 
-	if (is_expr) {
-		col = filter->r.start.col + field;
+	col = filter->r.start.col + field;
 
-		cell = sheet_cell_get (filter->sheet, col, filter->r.start.row);
+	cell = sheet_cell_get (filter->sheet, col, filter->r.start.row);
 
-		if (cell == NULL || gnm_cell_is_blank (cell))
-			label = g_strdup_printf (_("Column %s"), col_name (col));
-		else {
-			char *content = gnm_cell_get_rendered_text (cell);
-			if (g_utf8_strlen (content, -1) > 15) {
-				char *end = g_utf8_find_prev_char (content, content + 16 - strlen (UNICODE_ELLIPSIS));
-				strcpy (end, UNICODE_ELLIPSIS);
-			}
-			label = g_strdup_printf (_("Column %s (\"%s\")"), 
-						 col_name (col), content);
-			g_free (content);
+	if (cell == NULL || gnm_cell_is_blank (cell))
+		label = g_strdup_printf (_("Column %s"), col_name (col));
+	else {
+		char *content = gnm_cell_get_rendered_text (cell);
+		if (g_utf8_strlen (content, -1) > len) {
+			char *end = g_utf8_find_prev_char (content, content + len + 1 - strlen (UNICODE_ELLIPSIS));
+			strcpy (end, UNICODE_ELLIPSIS);
 		}
+		label = g_strdup_printf (_("Column %s (\"%s\")"), 
+					 col_name (col), content);
+		g_free (content);
+	}
 
+	if (is_expr) {
 		gtk_label_set_text 
 			(GTK_LABEL (glade_xml_get_widget (state->gui, "col-label1")), label);
 		gtk_label_set_text 
 			(GTK_LABEL (glade_xml_get_widget (state->gui, "col-label2")), label);
-		g_free (label);
 	} else {
+		gtk_label_set_text 
+			(GTK_LABEL (glade_xml_get_widget (state->gui, "col-label")), label);
 		w = glade_xml_get_widget (state->gui, "item_vs_percentage_option_menu");
 		g_signal_connect (G_OBJECT (w),
 			"changed",
 			G_CALLBACK (cb_top10_type_changed), state);
 	}
+	g_free (label);
 
 	state->dialog = glade_xml_get_widget (state->gui, "dialog");
 	if (cond != NULL) {
@@ -346,6 +351,7 @@ dialog_auto_filter (WBCGtk *wbcg,
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_autofilter_destroy);
 
-	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog), DIALOG_KEY);
+	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog), 
+			       is_expr ? DIALOG_KEY_EXPRESSION : DIALOG_KEY);
 	gtk_widget_show (state->dialog);
 }
