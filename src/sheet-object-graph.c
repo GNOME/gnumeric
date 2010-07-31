@@ -787,7 +787,7 @@ vector_start (GsfXMLIn *xin, xmlChar const **attrs)
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
 		if (0 == strcmp (attrs[i], "ID"))
 			state->cur_index = strtoul (attrs[i+1], NULL, 10);
-	if (state->cur_index >= state->max_data) {
+	if (cur_index < 256 && state->cur_index >= state->max_data) {
 		state->max_data += 10;
 		g_ptr_array_set_size (state->data, state->max_data);
 	}
@@ -798,6 +798,8 @@ vector_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 {
 	GuppiReadState *state = (GuppiReadState *) xin->user_state;
 	GOData *data;
+	if (state->cur_index > 255)
+		return;
 	data = g_object_new (GNM_GO_DATA_VECTOR_TYPE, NULL);
 	go_data_unserialize (data, xin->content->str, (void*) state->convs);
 	g_ptr_array_index (state->data, state->cur_index) = data;
@@ -876,6 +878,8 @@ dim_start (GsfXMLIn *xin, xmlChar const **attrs)
 			name = attrs[i+1];
 		else if (0 == strcmp (attrs[i], "ID"))
 			id = strtoul (attrs[i+1], NULL, 10);
+	if (id > 255)
+		return;
 	if (0 == strcmp (name, "values"))
 		type = GOG_MS_DIM_VALUES;
 	else if (0 == strcmp (name, "categories"))
