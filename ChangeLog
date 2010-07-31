@@ -1,5 +1,10 @@
 2010-07-31  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* src/sheet-object-graph.c (legend_start), (position_end),
+	(gnm_sogg_prep_sax_parser): import the legend from guppi graph.
+
+2010-07-31  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* src/sheet-object-graph.c (dim_start): survive malformed guppi graphs.
 	[#625726]
 

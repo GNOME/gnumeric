@@ -841,6 +841,29 @@ plot_type_start (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+legend_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	GuppiReadState *state = (GuppiReadState *) xin->user_state;
+	state->cur = gog_object_add_by_name (state->chart, "Legend", NULL);
+}
+	
+static void
+position_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
+{
+	GuppiReadState *state = (GuppiReadState *)xin->user_state;
+	if (!xin->content->str)
+		return;
+	if (0 == strcmp (xin->content->str, "east"))
+		g_object_set (G_OBJECT (state->cur), "compass", "right", NULL);
+	if (0 == strcmp (xin->content->str, "west"))
+		g_object_set (G_OBJECT (state->cur), "compass", "left", NULL);
+	if (0 == strcmp (xin->content->str, "north"))
+		g_object_set (G_OBJECT (state->cur), "compass", "top", NULL);
+	if (0 == strcmp (xin->content->str, "south"))
+		g_object_set (G_OBJECT (state->cur), "compass", "bottom", NULL);
+}
+	
+static void
 series_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	GuppiReadState *state = (GuppiReadState *) xin->user_state;
@@ -995,8 +1018,8 @@ gnm_sogg_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs,
 	    GSF_XML_IN_NODE (GRAPH, GUPPI_VECTORS, -1, "gmr:Vectors", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (GUPPI_VECTORS, GUPPI_VECTOR, -1, "gmr:Vector", GSF_XML_CONTENT, vector_start, vector_end),
 	    GSF_XML_IN_NODE (GRAPH, GUPPI_GRAPH, -1, "graph:Graph", GSF_XML_NO_CONTENT, NULL, NULL),
-	      GSF_XML_IN_NODE (GUPPI_GRAPH, GUPPI_LEGEND, -1, "graph:Legend", GSF_XML_NO_CONTENT, NULL, NULL),
-	        GSF_XML_IN_NODE (GUPPI_LEGEND, GUPPI_LEGEND_POS, -1, "graph:Position", GSF_XML_NO_CONTENT, NULL, NULL),
+	      GSF_XML_IN_NODE (GUPPI_GRAPH, GUPPI_LEGEND, -1, "graph:Legend", GSF_XML_NO_CONTENT, legend_start, NULL),
+	        GSF_XML_IN_NODE (GUPPI_LEGEND, GUPPI_LEGEND_POS, -1, "graph:Position", GSF_XML_CONTENT, NULL, position_end),
 	      GSF_XML_IN_NODE (GUPPI_GRAPH, GUPPI_PLOTS, -1, "graph:Plots", GSF_XML_NO_CONTENT, NULL, NULL),
 	        GSF_XML_IN_NODE (GUPPI_PLOTS, GUPPI_PLOT, -1, "graph:Plot", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (GUPPI_PLOT, GUPPI_PLOT_TYPE, -1, "Type", GSF_XML_NO_CONTENT, plot_type_start, NULL),
