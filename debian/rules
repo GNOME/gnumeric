@@ -141,6 +141,8 @@ clean:
 		fi; \
 	done
 
+	debconf-updatepo
+
 	-find -type f -name 'Makefile.in' | sed -e 's/\.in$$//' | xargs rm -f
 	-rm -f po/*.gmo
 
@@ -249,7 +251,7 @@ binary-indep: build install
 	dh_compress -i
 	dh_fixperms -i
 	dh_installdeb -i
-#	dh_perl -i
+	dh_perl -i
 	dh_gencontrol -v -i -- -VUpstream-Version=$(upstreamversion)
 	dh_md5sums -i
 	dh_builddeb -i
@@ -287,7 +289,7 @@ binary-arch: build install
 	dh_fixperms -a
 	dh_makeshlibs -a
 	dh_installdeb -a
-#	dh_perl -a
+	dh_perl -a
 
 	dh_shlibdeps -v -a
 

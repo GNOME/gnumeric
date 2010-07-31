@@ -14,36 +14,44 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric_1.7.91-1\n"
-"Report-Msgid-Bugs-To: Source: gnumeric@packages.debian.org\n"
-"POT-Creation-Date: 2007-11-02 12:26+0100\n"
+"Report-Msgid-Bugs-To: gnumeric@packages.debian.org\n"
+"POT-Creation-Date: 2010-07-31 12:15+0200\n"
 "PO-Revision-Date: 2007-12-09 12:58+0100\n"
 "Last-Translator: Johannes Starosta <feedback-an-johannes@arcor.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: title
+#. Description
+#: ../gnumeric.templates:2001
+msgid "Detected a running gnumeric process"
+msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../gnumeric.templates:2001
+#: ../gnumeric.templates:3001
 msgid "Really upgrade gnumeric?"
 msgstr "Wirklich eine Aktualisierung von Gnumeric durchführen?"
 
 #. Type: boolean
 #. Description
-#: ../gnumeric.templates:2001
+#: ../gnumeric.templates:3001
 msgid ""
 "An instance of gnumeric is currently running. If you upgrade now, it may no "
 "longer be able to save its data."
-msgstr "Eine Instanz von Gnumeric läuft gerade. Falls Sie Gnumeric jetzt "
+msgstr ""
+"Eine Instanz von Gnumeric läuft gerade. Falls Sie Gnumeric jetzt "
 "aktualisieren, können die Daten dieser Instanz nicht mehr gespeichert werden."
 
 #. Type: boolean
 #. Description
-#: ../gnumeric.templates:2001
+#: ../gnumeric.templates:3001
 msgid ""
 "You should close the running instances of gnumeric before upgrading this "
 "package."
-msgstr "Vor der Aktualisierung dieses Paketes sollten Sie die laufenden "
-"Instanzen von Gnumeric schließen."
-
+msgstr ""
+"Vor der Aktualisierung dieses Paketes sollten Sie die laufenden Instanzen "
+"von Gnumeric schließen."

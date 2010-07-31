@@ -3,30 +3,43 @@
 # This file is distributed under the same license as the gnumeric package.
 # Eder L. Marques <frolic@debian-ce.org>, 2007.
 msgid ""
-msgstr "pt_BR utf-8\n"
+msgstr ""
 "Project-Id-Version: gnumeric 1.6.3-5\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-13 04:31+0100\n"
+"Report-Msgid-Bugs-To: gnumeric@packages.debian.org\n"
+"POT-Creation-Date: 2010-07-31 12:15+0200\n"
 "PO-Revision-Date: 2007-03-27 10:05-0300\n"
 "Last-Translator: Eder L. Marques <frolic@debian-ce.org>\n"
 "Language-Team: l10n Portuguese <debian-l10n-portuguese@lists.debian.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"pt_BR utf-8\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#. Type: boolean
+#. Type: title
 #. Description
-#: ../gnumeric.templates:1001
-msgid "Are you sure you want to upgrade gnumeric right now?"
-msgstr "Você tem certeza de que você quer atualizar o gnumeric agora?"
+#: ../gnumeric.templates:2001
+msgid "Detected a running gnumeric process"
+msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../gnumeric.templates:1001
+#: ../gnumeric.templates:3001
+msgid "Really upgrade gnumeric?"
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:3001
+#, fuzzy
+#| msgid ""
+#| "It appears there is an instance of gnumeric running currently. If you "
+#| "upgrade gnumeric now, that instance may not be able to save its data "
+#| "anymore."
 msgid ""
-"It appears there is an instance of gnumeric running currently. If you "
-"upgrade gnumeric now, that instance may not be able to save its data anymore."
+"An instance of gnumeric is currently running. If you upgrade now, it may no "
+"longer be able to save its data."
 msgstr ""
 "Parece que existe uma instância do gnumeric sendo atualmente executada. Se "
 "você atualizar o gnumeric agora, esta instância pode não ser mais capaz de "
@@ -34,10 +47,17 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../gnumeric.templates:1001
+#: ../gnumeric.templates:3001
+#, fuzzy
+#| msgid ""
+#| "You are strongly recommended to close the running instances of gnumeric "
+#| "prior to upgrading this package."
 msgid ""
-"You are strongly recommended to close the running instances of gnumeric "
-"prior to upgrading this package."
+"You should close the running instances of gnumeric before upgrading this "
+"package."
 msgstr ""
 "Você é fortemente recomendado a fechar as instâncias em execução do gnumeric "
 "antes de atualizar este pacote."
+
+#~ msgid "Are you sure you want to upgrade gnumeric right now?"
+#~ msgstr "Você tem certeza de que você quer atualizar o gnumeric agora?"
