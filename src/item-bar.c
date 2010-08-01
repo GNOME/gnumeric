@@ -244,7 +244,7 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 	GtkWidget   *widget = GTK_WIDGET (canvas);
 	PangoFont	*font;
 	PangoRectangle   size;
-	GOColor color;
+	GOColor color, font_color;
 	int shadow, ascent;
 
 	switch (type) {
@@ -253,6 +253,7 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 		shadow = GTK_SHADOW_OUT;
 		font   = ib->normal_font;
 		color = GO_COLOR_FROM_GDK (widget->style->bg[GTK_STATE_ACTIVE]);
+		font_color = GO_COLOR_FROM_GDK (widget->style->fg[GTK_STATE_ACTIVE]);
 		ascent = ib->normal_font_ascent;
 		break;
 
@@ -260,6 +261,7 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 		shadow = GTK_SHADOW_OUT;
 		font   = ib->bold_font;
 		color = GO_COLOR_FROM_GDK (widget->style->dark[GTK_STATE_PRELIGHT]);
+		font_color = GO_COLOR_FROM_GDK (widget->style->fg[GTK_STATE_PRELIGHT]);
 		ascent = ib->bold_font_ascent;
 		break;
 
@@ -267,6 +269,7 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 		shadow = GTK_SHADOW_IN;
 		font   = ib->bold_font;
 		color = GO_COLOR_FROM_GDK (widget->style->dark[GTK_STATE_NORMAL]);
+		font_color = GO_COLOR_FROM_GDK (widget->style->fg[GTK_STATE_NORMAL]);
 		ascent = ib->bold_font_ascent;
 		break;
 	}
@@ -300,7 +303,7 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 
 	cairo_save (cr);
 	cairo_clip (cr);
-	cairo_set_source_rgb (cr, 0., 0., 0.);
+	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (font_color));
 	cairo_translate (cr,
 					 rect->x + (rect->width - PANGO_PIXELS (size.width)) / 2,
 					 rect->y  + (rect->height - PANGO_PIXELS (size.height)) / 2 + ascent);

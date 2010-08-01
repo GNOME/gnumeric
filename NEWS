@@ -6,6 +6,7 @@ Andreas:
 Jean:
 	* Import Guppi graphs from gnumeric-1.0.x files. [#567953]
 	* Survive malformed guppi graphs. [#625726]
+	* Use theme foreground color for row and column headers. [#625727]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.8
