@@ -27,6 +27,7 @@
 #include <gnumeric.h>
 #include <func.h>
 #include <mathfunc.h>
+#include <gnm-random.h>
 #include <rangefunc.h>
 #include <value.h>
 #include <expr.h>

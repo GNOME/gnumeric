@@ -15,8 +15,8 @@
 #include "numbers.h"
 #include "gnumeric.h"
 #include "goal-seek.h"
+#include "gnm-random.h"
 
-#include "mathfunc.h"
 #include <stdlib.h>
 #include <math.h>
 #include <limits.h>

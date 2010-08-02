@@ -27,7 +27,7 @@
 #include <string.h>
 
 #include <gui-util.h>
-#include <mathfunc.h>
+#include <gnm-random.h>
 #include <wbc-gtk.h>
 #include <gnm-format.h>
 #include <goffice/goffice.h>

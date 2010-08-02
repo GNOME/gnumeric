@@ -29,7 +29,7 @@
 #include "gnumeric.h"
 #include "random-generator.h"
 
-#include "mathfunc.h"
+#include "gnm-random.h"
 #include "rangefunc.h"
 #include "tools.h"
 #include "value.h"

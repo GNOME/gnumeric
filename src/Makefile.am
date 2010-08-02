@@ -117,6 +117,7 @@ libspreadsheet_la_SOURCES =			\
 	gnm-graph-window.c			\
 	gnm-pane.c				\
 	gnm-pane-impl.h				\
+	gnm-random.c				\
 	gnumeric-simple-canvas.c		\
 	graph.c					\
 	gutils.c				\
@@ -228,6 +229,7 @@ libspreadsheet_include_HEADERS = 	\
 	gnm-format.h				\
 	gnm-graph-window.h			\
 	gnm-pane.h				\
+	gnm-random.h				\
 	gnm-sheet-slicer.h			\
 	gnm-style-impl.h			\
 	gnumeric.h				\

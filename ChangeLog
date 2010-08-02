@@ -1,3 +1,7 @@
+2010-08-02  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-random.c: Split from src/mathfunc.c.
+
 2010-08-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/item-bar.c (ib_draw_cell): use theme foreground color for row and

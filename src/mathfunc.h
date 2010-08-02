@@ -21,6 +21,7 @@ G_BEGIN_DECLS
 #define M_LN2gnum   GNM_const(0.693147180559945309417232121458176568075500134360255254120680009493393621969694715605863326996419)
 #define M_LN10gnum  GNM_const(2.302585092994045684017991454684364207601101488628772976033327900967572609677352480235997205089598)
 #define M_SQRT2gnum GNM_const(1.414213562373095048801688724209698078569671875376948073176679737990732478462107038850387534327642)
+#define	M_Egnum         GNM_const(2.718281828459045235360287471352662497757247)
 
 /* ------------------------------------------------------------------------- */
 
@@ -123,41 +124,6 @@ gnm_float qgeom (gnm_float p, gnm_float prob, gboolean lower_tail, gboolean log_
 /* Cauchy distribution.  */
 gnm_float dcauchy (gnm_float x, gnm_float location, gnm_float scale, gboolean give_log);
 gnm_float pcauchy (gnm_float x, gnm_float location, gnm_float scale, gboolean lower_tail, gboolean log_p);
-
-/* Random number generation. */
-gnm_float random_01             (void);
-gnm_float random_poisson        (gnm_float lambda);
-gnm_float random_binomial       (gnm_float p, gnm_float trials);
-gnm_float random_negbinom       (gnm_float p, gnm_float f);
-gnm_float random_exponential    (gnm_float b);
-gnm_float random_bernoulli      (gnm_float p);
-gnm_float random_normal         (void);
-gnm_float random_cauchy         (gnm_float a);
-gnm_float random_lognormal      (gnm_float zeta, gnm_float sigma);
-gnm_float random_weibull        (gnm_float a, gnm_float b);
-gnm_float random_laplace        (gnm_float a);
-gnm_float random_rayleigh       (gnm_float sigma);
-gnm_float random_rayleigh_tail  (gnm_float a, gnm_float sigma);
-gnm_float random_gamma          (gnm_float a, gnm_float b);
-gnm_float random_pareto         (gnm_float a, gnm_float b);
-gnm_float random_fdist          (gnm_float nu1, gnm_float nu2);
-gnm_float random_beta           (gnm_float a, gnm_float b);
-gnm_float random_logistic       (gnm_float a);
-gnm_float random_geometric      (gnm_float p);
-gnm_float random_hypergeometric (gnm_float n1, gnm_float n2, gnm_float t);
-gnm_float random_logarithmic    (gnm_float p);
-gnm_float random_chisq          (gnm_float nu);
-gnm_float random_tdist          (gnm_float nu);
-gnm_float random_gumbel1        (gnm_float a, gnm_float b);
-gnm_float random_gumbel2        (gnm_float a, gnm_float b);
-gnm_float random_levy           (gnm_float c, gnm_float alpha);
-gnm_float random_levy_skew      (gnm_float c, gnm_float alpha,
-				 gnm_float beta);
-gnm_float random_exppow         (gnm_float a, gnm_float b);
-gnm_float random_landau         (void);
-gnm_float random_gaussian_tail  (gnm_float a, gnm_float sigma);
-gnm_float random_skew_normal    (gnm_float a);
-gnm_float random_skew_tdist     (gnm_float nu, gnm_float a);
 
 /* The probability density functions. */
 gnm_float random_exppow_pdf     (gnm_float x, gnm_float a, gnm_float b);

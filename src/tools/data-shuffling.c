@@ -35,7 +35,7 @@
 #include <command-context.h>
 #include <goffice/goffice.h>
 
-#include "mathfunc.h"
+#include "gnm-random.h"
 #include "data-shuffling.h"
 #include "dao.h"
 #include "expr.h"
