@@ -1,6 +1,7 @@
 2010-08-02  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-random.c: Split from src/mathfunc.c.
+	(random_01): Split into manageable pieces.
 
 2010-08-01  Jean Brefort  <jean.brefort@normalesup.org>
 

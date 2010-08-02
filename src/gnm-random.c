@@ -239,88 +239,120 @@ int main(void)
 
 /* ------------------------------------------------------------------------ */
 
-/* FIXME: we need something that catches partials and EAGAIN.  */
-#define fullread read
-
-#define RANDOM_DEVICE "/dev/urandom"
-
-/*
- * Conservative random number generator.  The result is (supposedly) uniform
- * and between 0 and 1.	 (0 possible, 1 not.)  The result should have about
- * 64 bits randomness.
- */
-gnm_float
-random_01 (void)
+static void
+mt_setup_seed (const char *seed)
 {
-	static int device_fd = -2;
-	static int seeded = -2;
+	int len = strlen (seed);
+	int i;
+	unsigned long *longs = g_new (unsigned long, len + 1);
 
-	while (seeded) {
-		if (seeded == -2) {
-			char const *seed = g_getenv ("GNUMERIC_PRNG_SEED");
-			if (seed) {
-				int len = strlen (seed);
-				int i;
-				unsigned long *longs = g_new (unsigned long, len + 1);
+	/* We drop only one character into each long.  */
+	for (i = 0; i < len; i++)
+		longs[i] = (unsigned char)seed[i];
+	mt_init_by_array (longs, len);
+	g_free (longs);
+}
 
-				/* We drop only one character into each long.  */
-				for (i = 0; i < len; i++)
-					longs[i] = (unsigned char)seed[i];
-				mt_init_by_array (longs, len);
-				g_free (longs);
-				seeded = 1;
-
-				g_warning ("Using pseudo-random numbers.");
-			} else {
-				seeded = 0;
-				break;
-			}
-		}
-
-		/*
-		 * Only 52-bit precision.  But hey, if you are using pseudo
-		 * random numbers that ought to be good enough to you.
-		 */
-		return genrand_res53 ();
-	}
-
-	if (device_fd == -2) {
-		device_fd = g_open (RANDOM_DEVICE, O_RDONLY, 0);
-		/*
-		 * We could check that we really have a device, but it hard
-		 * to come up with a non-paranoid reason to.
-		 */
-	}
-
-	if (device_fd >= 0) {
-		static ssize_t bytes_left = 0;
-		static unsigned char data[32 * sizeof (gnm_float)];
-		gnm_float res = 0;
-		size_t i;
-
-		if (bytes_left < (ssize_t)sizeof (gnm_float)) {
-			ssize_t got = fullread (device_fd, &data, sizeof (data));
-			if (got < (ssize_t)sizeof (gnm_float))
-				goto failure;
-			bytes_left += got;
-		}
-
-		bytes_left -= sizeof (gnm_float);
-		for (i = 0; i < sizeof (gnm_float); i++)
-			res = (res + data[bytes_left + i]) / 256;
-		return res;
-
-	failure:
-		/* It failed when it shouldn't.	 Disable.  */
-		g_warning ("Reading from %s failed; reverting to pseudo-random.",
-			   RANDOM_DEVICE);
-		close (device_fd);
-		device_fd = -1;
-	}
-
+static gnm_float
+random_01_mersenne (void)
+{
+	/*
+	 * Only 52-bit precision.  But hey, if you are using pseudo
+	 * random numbers that ought to be good enough to you.
+	 */
 	return genrand_res53 ();
 }
 
+/* ------------------------------------------------------------------------ */
+
+static gnm_float
+random_01_data (const unsigned char *data)
+{
+	unsigned ui;
+	gnm_float res = 0;
+
+	for (ui = 0; ui < sizeof (gnm_float); ui++)
+		res = (res + data[ui]) / 256;
+	return res;
+}
+
+/* ------------------------------------------------------------------------ */
+
+static FILE *random_device_file = NULL;
+#define RANDOM_DEVICE "/dev/urandom"
+
+static gnm_float
+random_01_device (void)
+{
+	static size_t bytes_left = 0;
+	static unsigned char data[32 * sizeof (gnm_float)];
+
+	while (bytes_left < sizeof (gnm_float)) {
+		gssize items = fread (data + bytes_left, 1, sizeof (data),
+				      random_device_file);
+		if (items <= 0) {
+			g_warning ("Reading from %s failed; reverting to pseudo-random.",
+				   RANDOM_DEVICE);
+			return random_01_mersenne ();
+		}
+		bytes_left += items;
+	}
+
+	bytes_left -= sizeof (gnm_float);
+	return random_01_data (data + bytes_left);
+}
+
+/* ------------------------------------------------------------------------ */
+
+typedef enum {
+	RS_UNDETERMINED,
+	RS_MERSENNE,
+	RS_DEVICE
+} RandomSource;
+
+static RandomSource random_src = RS_UNDETERMINED;
+
+static void
+random_01_determine (void)
+{
+	char const *seed = g_getenv ("GNUMERIC_PRNG_SEED");
+	if (seed) {
+		mt_setup_seed (seed);
+		g_warning ("Using pseudo-random numbers.");
+		random_src = RS_MERSENNE;
+		return;
+	}
+
+	random_device_file = g_fopen (RANDOM_DEVICE, "rb");
+	if (random_device_file) {
+		random_src = RS_DEVICE;
+		return;
+	}
+
+	/* Fallback.  */
+	g_warning ("Using pseudo-random numbers.");
+	random_src = RS_MERSENNE;
+	return;
+}
+
+gnm_float
+random_01 (void)
+{
+	if (random_src == RS_UNDETERMINED)
+		random_01_determine ();
+
+	switch (random_src) {
+	case RS_UNDETERMINED:
+	default:
+		g_assert_not_reached ();
+	case RS_MERSENNE:
+		return random_01_mersenne ();
+	case RS_DEVICE:
+		return random_01_device ();
+	}
+}
+
+/* ------------------------------------------------------------------------ */
 /*
  * Generate a N(0,1) distributed number.
  */
