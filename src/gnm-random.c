@@ -288,7 +288,8 @@ random_01_device (void)
 	static unsigned char data[32 * sizeof (gnm_float)];
 
 	while (bytes_left < sizeof (gnm_float)) {
-		gssize items = fread (data + bytes_left, 1, sizeof (data),
+		gssize items = fread (data + bytes_left, 1,
+				      sizeof (data) - bytes_left,
 				      random_device_file);
 		if (items <= 0) {
 			g_warning ("Reading from %s failed; reverting to pseudo-random.",
@@ -1369,7 +1370,7 @@ random_landau (void)
  * Generate a skew-normal distributed random number. 
  * 
  * based on the information provided at
- * http://azzalini.stat.unipd.it/SN/faq.html
+ * http://azzalini.stat.unipd.it/SN/faq-r.html
  *
  */
 
@@ -1393,7 +1394,7 @@ random_skew_normal (gnm_float a)
  * Generate a skew-t distributed random number. 
  * 
  * based on the information provided at
- * http://azzalini.stat.unipd.it/SN/faq.html
+ * http://azzalini.stat.unipd.it/SN/faq-r.html
  *
  */
 
