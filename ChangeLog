@@ -1,3 +1,8 @@
+2010-08-04  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/dependent.c (gnm_cell_eval_content): force columns span recalculation
+	when switching between number and error. [#625994]
+
 2010-08-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gui-util.c (gnumeric_create_tooltip_rc_style): set all colours
