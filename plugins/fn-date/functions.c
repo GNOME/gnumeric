@@ -733,13 +733,15 @@ static GnmFuncHelp const help_workday[] = {
         { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
         { GNM_FUNC_HELP_ARG, F_("days:number of days to add")},
         { GNM_FUNC_HELP_ARG, F_("holidays:array of holidays")},
-        { GNM_FUNC_HELP_ARG, F_("weekend:array indicating whether a weekday (S, M, T, W, T, F, S) is on the weekend, defaults to {TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE}")},
+        { GNM_FUNC_HELP_ARG, F_("weekend:array of 0s and 1s, indicating whether a weekday "
+				"(S, M, T, W, T, F, S) is on the weekend, defaults to {1,0,0,0,0,0,1}")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("WORKDAY adjusts @{date} by @{days} skipping over weekends and @{holidays} in the process.") },
 	{ GNM_FUNC_HELP_NOTE, F_("@{days} may be negative.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If an entry of @{weekend} is non-zero, the corresponding weekday is not a work day.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible if the last argument is omitted.") },
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=WORKDAY(DATE(2001,12,14),2)" },
-        { GNM_FUNC_HELP_EXAMPLES, "=WORKDAY(DATE(2001,12,14),2,,{FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE})" },
+        { GNM_FUNC_HELP_EXAMPLES, "=WORKDAY(DATE(2001,12,14),2,,{0,0,0,0,0,1,1})" },
         { GNM_FUNC_HELP_SEEALSO, "NETWORKDAYS"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -799,8 +801,13 @@ gnumeric_workday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	for (i = 0; i < 7; i++)
 		if (weekends[i] == 0)
 			n_non_weekend++;
-	if (n_non_weekend == 0)
+	if (n_non_weekend == 0 && idays != 0)
 		goto bad;
+	if (n_non_weekend == 0 && idays == 0) {
+		if (weekends != default_weekends)
+			g_free (weekends);
+		return make_date (value_new_int (go_date_g_to_serial (&date, conv)));
+	}	
 
 	if (argv[2]) {
 		int j;
@@ -949,8 +956,10 @@ static GnmFuncHelp const help_networkdays[] = {
         { GNM_FUNC_HELP_ARG, F_("start_date:starting date serial value")},
         { GNM_FUNC_HELP_ARG, F_("end_date:ending date serial value")},
         { GNM_FUNC_HELP_ARG, F_("holidays:array of holidays")},
-        { GNM_FUNC_HELP_ARG, F_("weekend:array indicating whether a weekday (S, M, T, W, T, F, S) is on the weekend, defaults to {TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE}")},
+        { GNM_FUNC_HELP_ARG, F_("weekend:array of 0s and 1s, indicating whether a weekday "
+				"(S, M, T, W, T, F, S) is on the weekend, defaults to {1,0,0,0,0,0,1}")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("NETWORKDAYS calculates the number of days from @{start_date} to @{end_date} skipping weekends and @{holidays} in the process.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If an entry of @{weekend} is non-zero, the corresponding weekday is not a work day.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible if the last argument is omitted.") },
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=NETWORKDAYS(DATE(2001,1,2),DATE(2001,2,15))" },
@@ -1030,8 +1039,11 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	for (i = 0; i < 7; i++)
 		if (weekends[i] == 0)
 			n_non_weekend++;
-	if (n_non_weekend == 0)
-		goto bad;
+	if (n_non_weekend == 0) {
+		if (weekends != default_weekends)
+			g_free (weekends);
+		return value_new_int (0);
+	}
 
 	if (argv[2]) {
 		int j;
