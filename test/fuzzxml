@@ -11,8 +11,9 @@ use Getopt::Long;
 my $base_prob = 1 / 1000;
 my $seed = undef;
 
-&GetOptions ("seed=i" => \$seed,
-	     "rate=f" => \$base_prob,
+Getopt::Long::Configure ("bundling");
+&GetOptions ("s|seed=i" => \$seed,
+	     "r|rate=f" => \$base_prob,
     );
 srand ($seed) if defined $seed;
 

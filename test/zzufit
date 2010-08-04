@@ -8,10 +8,12 @@ my $n = 0;
 my $rate = .0001;
 my $LOG = "zzuf.log";
 my $DIR = "zzuftmp";
+my $xml = 0;
 
 &GetOptions ("rate=f" => \$rate,
 	     "seed=i" => \$n,
 	     "victim=s" => \$file,
+	     'xml' => \$xml,
 	     )
     or die &usage (1);
 
@@ -32,7 +34,11 @@ while (1) {
     }
 
     my $zzuffile = "$DIR/${filebase}-${n}${fileext}";
-    system ("zzuf -s$n -r$rate <'$file' >'$zzuffile'");
+    if ($xml) {
+	system ("./fuzzxml -s$n -r$rate '$file' '$zzuffile'");
+    } else {
+	system ("zzuf -s$n -r$rate <'$file' >'$zzuffile'");
+    }
 
     my $outfile = "$DIR/${filebase}-${n}.gnumeric";
     system ("../src/ssconvert '$zzuffile' '$outfile' >>'$LOG' 2>&1");
