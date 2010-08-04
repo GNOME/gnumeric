@@ -4,16 +4,25 @@ use strict;
 use XML::Parser;
 use XML::Writer;
 use IO::File;
+use Getopt::Long;
+
+# -----------------------------------------------------------------------------
+
+my $base_prob = 1 / 1000;
+my $seed = undef;
+
+&GetOptions ("seed=i" => \$seed,
+	     "rate=f" => \$base_prob,
+    );
+srand ($seed) if defined $seed;
 
 my $infile = shift @ARGV;
 my $outfile = shift @ARGV;
 
-# -----------------------------------------------------------------------------
-
-my $remove_tag_prob = 1 / 1000;
-my $remove_attr_prob = 1 / 1000;
-my $change_int_prob = 1 / 1000;
-my $copy_attr_value_prob = 1 / 1000;
+my $remove_tag_prob = 0.1 * $base_prob;
+my $remove_attr_prob = 0.1 * $base_prob;
+my $change_int_prob = $base_prob;
+my $copy_attr_value_prob = $base_prob;
 
 my %attr_range;
 
