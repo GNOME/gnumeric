@@ -430,11 +430,13 @@ gnumeric_create_tooltip_rc_style (void)
 		int i;
 		rc_style = gtk_rc_style_new ();
 
-		for (i = 5; --i >= 0 ; ) {
-			rc_style->color_flags[i] = (GTK_RC_FG | GTK_RC_BG | GTK_RC_TEXT);
+		for (i = 0; i < 5 ; i++) {
+			rc_style->color_flags[i] = (GTK_RC_FG | GTK_RC_BG |
+						    GTK_RC_TEXT | GTK_RC_BASE);
 			rc_style->bg[i] = gs_yellow;
 			rc_style->fg[i] = gs_black;
 			rc_style->text[i] = gs_black;
+			rc_style->base[i] = gs_black;
 		}
 	}
 	return rc_style;
@@ -468,13 +470,16 @@ gnumeric_create_tooltip (GtkWidget *ref_widget)
 	gtk_window_set_gravity (GTK_WINDOW (tip), GDK_GRAVITY_NORTH_WEST);
 	gtk_window_set_screen (GTK_WINDOW (tip), gtk_widget_get_screen (ref_widget));
 	gtk_widget_set_name (tip, "gnumeric-tooltip");
-	if (rc_style != NULL)
-		gtk_widget_modify_style (tip, rc_style);
 
 	label = gnumeric_create_tooltip_widget ();
 	frame = gtk_widget_get_toplevel (label);
 
 	gtk_container_add (GTK_CONTAINER (tip), frame);
+
+	if (rc_style != NULL) {
+		gtk_widget_modify_style (tip, rc_style);
+		gtk_widget_modify_style (label, rc_style);
+	}
 
 	return label;
 }
