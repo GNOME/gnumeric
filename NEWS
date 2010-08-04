@@ -12,6 +12,9 @@ Jean:
 	* Force column span recalculation when switching between number and
 	  error. [#625994]
 
+Morten:
+	* Survive malformed xml files.
+
 --------------------------------------------------------------------------
 Gnumeric 1.10.8
 

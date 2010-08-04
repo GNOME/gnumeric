@@ -1,3 +1,15 @@
+2010-08-04  Morten Welinder  <terra@gnome.org>
+
+	* src/cell.c (gnm_cell_set_array_formula): Improve preconditions.
+	(gnm_cell_cleanout): Add precondition.
+
+	* src/mstyle.c (gnm_style_set_font_italic,
+	gnm_style_set_font_bold, gnm_style_set_font_strike,
+	gnm_style_set_wrap_text, gnm_style_set_shrink_to_fit,
+	gnm_style_set_contents_locked, gnm_style_set_contents_hidden):
+	Normalize gboolean.
+	(gnm_style_set_font_strike): Fix argument type.
+
 2010-08-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/dependent.c (gnm_cell_eval_content): force columns span recalculation

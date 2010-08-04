@@ -1162,10 +1162,11 @@ static void
 xml_sax_selection (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	Sheet *sheet = state->sheet;
 
 	int col = -1, row = -1;
 
-	sv_selection_reset (sheet_get_view (state->sheet, state->wb_view));
+	sv_selection_reset (sheet_get_view (sheet, state->wb_view));
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gnm_xml_attr_int (attrs, "CursorCol", &col)) ;
@@ -1173,10 +1174,16 @@ xml_sax_selection (GsfXMLIn *xin, xmlChar const **attrs)
 		else
 			unknown_attr (xin, attrs);
 
-	g_return_if_fail (col >= 0);
-	g_return_if_fail (row >= 0);
-	g_return_if_fail (state->cell.col < 0);
-	g_return_if_fail (state->cell.row < 0);
+	XML_CHECK (state->cell.col < 0);
+	XML_CHECK (state->cell.row < 0);
+
+	/* Default in case of error.  */
+	state->cell.col = 0;
+	state->cell.row = 0;
+
+	XML_CHECK (col >= 0 && col < gnm_sheet_get_max_cols (sheet));
+	XML_CHECK (row >= 0 && row < gnm_sheet_get_max_rows (sheet));
+
 	state->cell.col = col;
 	state->cell.row = row;
 }
@@ -1431,16 +1438,19 @@ xml_sax_style_font (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (state->style != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (gnm_xml_attr_double (attrs, "Unit", &size_pts))
-			gnm_style_set_font_size (state->style, size_pts);
-		else if (gnm_xml_attr_int (attrs, "Bold", &val))
+		if (gnm_xml_attr_double (attrs, "Unit", &size_pts)) {
+			if (!(size_pts >= 1.0))
+				xml_sax_barf (G_STRFUNC, "size_pts >= 1");
+			else
+				gnm_style_set_font_size (state->style, size_pts);
+		} else if (gnm_xml_attr_int (attrs, "Bold", &val))
 			gnm_style_set_font_bold (state->style, val);
 		else if (gnm_xml_attr_int (attrs, "Italic", &val))
 			gnm_style_set_font_italic (state->style, val);
 		else if (gnm_xml_attr_int (attrs, "Underline", &val))
 			gnm_style_set_font_uline (state->style, (GnmUnderline)val);
 		else if (gnm_xml_attr_int (attrs, "StrikeThrough", &val))
-			gnm_style_set_font_strike (state->style, val ? TRUE : FALSE);
+			gnm_style_set_font_strike (state->style, val);
 		else if (gnm_xml_attr_int (attrs, "Script", &val)) {
 			if (val == 0)
 				gnm_style_set_font_script (state->style, GO_FONT_SCRIPT_STANDARD);

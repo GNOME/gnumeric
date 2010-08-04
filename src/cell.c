@@ -49,6 +49,8 @@
 void
 gnm_cell_cleanout (GnmCell *cell)
 {
+	g_return_if_fail (cell != NULL);
+
 	/* A cell can have either an expression or entered text */
 	if (gnm_cell_has_expr (cell)) {
 		/* Clipboard cells, e.g., are not attached to a sheet.  */
@@ -288,11 +290,14 @@ gnm_cell_set_array_formula (Sheet *sheet,
 	GnmCell *corner;
 	GnmExprTop const *wrapper;
 
-	g_return_if_fail (num_cols > 0);
-	g_return_if_fail (num_rows > 0);
+	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (texpr != NULL);
+	g_return_if_fail (0 <= col_a);
 	g_return_if_fail (col_a <= col_b);
+	g_return_if_fail (col_b < gnm_sheet_get_max_cols (sheet));
+	g_return_if_fail (0 <= row_a);
 	g_return_if_fail (row_a <= row_b);
+	g_return_if_fail (row_b < gnm_sheet_get_max_rows (sheet));
 
 	corner = sheet_cell_fetch (sheet, col_a, row_a);
 	g_return_if_fail (corner != NULL);

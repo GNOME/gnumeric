@@ -1189,7 +1189,7 @@ gnm_style_set_font_bold (GnmStyle *style, gboolean bold)
 
 	elem_changed (style, MSTYLE_FONT_BOLD);
 	elem_set (style, MSTYLE_FONT_BOLD);
-	style->font_detail.bold = bold;
+	style->font_detail.bold = !!bold;
 	gnm_style_clear_font (style);
 	gnm_style_clear_pango (style);
 }
@@ -1210,7 +1210,7 @@ gnm_style_set_font_italic (GnmStyle *style, gboolean italic)
 
 	elem_changed (style, MSTYLE_FONT_ITALIC);
 	elem_set (style, MSTYLE_FONT_ITALIC);
-	style->font_detail.italic = italic;
+	style->font_detail.italic = !!italic;
 	gnm_style_clear_font (style);
 	gnm_style_clear_pango (style);
 }
@@ -1244,13 +1244,13 @@ gnm_style_get_font_uline (GnmStyle const *style)
 }
 
 void
-gnm_style_set_font_strike (GnmStyle *style, gboolean const strikethrough)
+gnm_style_set_font_strike (GnmStyle *style, gboolean strikethrough)
 {
 	g_return_if_fail (style != NULL);
 
 	elem_changed (style, MSTYLE_FONT_STRIKETHROUGH);
 	elem_set (style, MSTYLE_FONT_STRIKETHROUGH);
-	style->font_detail.strikethrough = strikethrough;
+	style->font_detail.strikethrough = !!strikethrough;
 	gnm_style_clear_pango (style);
 }
 
@@ -1445,7 +1445,7 @@ gnm_style_set_wrap_text (GnmStyle *style, gboolean f)
 
 	elem_changed (style, MSTYLE_WRAP_TEXT);
 	elem_set (style, MSTYLE_WRAP_TEXT);
-	style->wrap_text = f;
+	style->wrap_text = !!f;
 }
 
 gboolean
@@ -1482,7 +1482,7 @@ gnm_style_set_shrink_to_fit (GnmStyle *style, gboolean f)
 
 	elem_changed (style, MSTYLE_SHRINK_TO_FIT);
 	elem_set (style, MSTYLE_SHRINK_TO_FIT);
-	style->shrink_to_fit = f;
+	style->shrink_to_fit = !!f;
 }
 
 gboolean
@@ -1501,7 +1501,7 @@ gnm_style_set_contents_locked (GnmStyle *style, gboolean f)
 
 	elem_changed (style, MSTYLE_CONTENTS_LOCKED);
 	elem_set (style, MSTYLE_CONTENTS_LOCKED);
-	style->contents_locked = f;
+	style->contents_locked = !!f;
 }
 
 gboolean
@@ -1520,7 +1520,7 @@ gnm_style_set_contents_hidden (GnmStyle *style, gboolean f)
 
 	elem_changed (style, MSTYLE_CONTENTS_HIDDEN);
 	elem_set (style, MSTYLE_CONTENTS_HIDDEN);
-	style->contents_hidden = f;
+	style->contents_hidden = !!f;
 }
 
 gboolean
