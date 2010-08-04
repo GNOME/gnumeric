@@ -1,5 +1,8 @@
 2010-08-04  Morten Welinder  <terra@gnome.org>
 
+	* src/expr.c (gnm_expr_eval): Catch when the alleged array corner
+	isn't a corner.  See bug 626034.
+
 	* src/cell.c (gnm_cell_set_array_formula): Improve preconditions.
 	(gnm_cell_cleanout): Add precondition.
 
@@ -12,8 +15,8 @@
 
 2010-08-04  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* src/dependent.c (gnm_cell_eval_content): force columns span recalculation
-	when switching between number and error. [#625994]
+	* src/dependent.c (gnm_cell_eval_content): force columns span
+	recalculation when switching between number and error. [#625994]
 
 2010-08-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

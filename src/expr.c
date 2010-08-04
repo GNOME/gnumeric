@@ -1494,8 +1494,11 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		/* The upper left corner manages the recalc of the expr */
 		GnmCell *corner = array_elem_get_corner (&expr->array_elem,
 			pos->sheet, &pos->eval);
-		if (corner == NULL)
+		if (!corner ||
+		    !gnm_expr_top_is_array_corner (corner->base.texpr)) {
+			g_warning ("Funky array setup.");
 			return handle_empty (NULL, flags);
+		}
 
 		gnm_cell_eval (corner);
 		a = corner->base.texpr->expr->array_corner.value;
