@@ -730,7 +730,8 @@ Sheet *
 workbook_sheet_by_index (Workbook const *wb, int i)
 {
 	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
-	g_return_val_if_fail ((int)wb->sheets->len > i, NULL);
+	g_return_val_if_fail (i < (int)wb->sheets->len, NULL);
+	g_return_val_if_fail (i >= -1, NULL);
 
 	/* i = -1 is special, return NULL */
 
