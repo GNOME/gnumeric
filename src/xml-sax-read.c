@@ -78,6 +78,27 @@
 #include <string.h>
 #include <errno.h>
 
+static void
+xml_sax_barf (const char *locus, const char *reason)
+{
+	g_warning ("File is most likely corrupted.\n"
+		   "The problem was detected in %s.\n"
+		   "The failed check was: %s",
+		   locus, reason);
+}
+
+#define XML_CHECK2(_cond_,_code_)			\
+  do {							\
+	  if (G_UNLIKELY(!(_cond_))) {			\
+		  xml_sax_barf (G_STRFUNC, #_cond_);	\
+		  _code_;				\
+		  return;				\
+	  }						\
+  } while (0)
+
+#define XML_CHECK(_cond_) XML_CHECK2(_cond_,{})
+
+
 #define CXML2C(s) ((char const *)(s))
 
 static inline gboolean
@@ -1736,6 +1757,7 @@ static void
 xml_sax_cell (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	Sheet *sheet = state->sheet;
 
 	int row = -1, col = -1;
 	int rows = -1, cols = -1;
@@ -1763,13 +1785,15 @@ xml_sax_cell (GsfXMLIn *xin, xmlChar const **attrs)
 			unknown_attr (xin, attrs);
 	}
 
-	g_return_if_fail (col >= 0);
-	g_return_if_fail (row >= 0);
+	XML_CHECK2 (col >= 0 && col < gnm_sheet_get_max_cols (sheet),
+		    go_format_unref (value_fmt));
+	XML_CHECK2 (row >= 0 && row < gnm_sheet_get_max_rows (sheet),
+		    go_format_unref (value_fmt));
 
 	if (cols > 0 || rows > 0) {
 		/* Both must be valid */
-		g_return_if_fail (cols > 0);
-		g_return_if_fail (rows > 0);
+		XML_CHECK2 (cols > 0 && rows > 0,
+			    go_format_unref (value_fmt));
 
 		state->array_cols = cols;
 		state->array_rows = rows;
@@ -1870,6 +1894,7 @@ static void
 xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	Sheet *sheet = state->sheet;
 
 	gboolean is_new_cell = FALSE, is_post_52_array = FALSE;
 
@@ -1898,8 +1923,8 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (seen_contents)
 		return;
 
-	g_return_if_fail (col >= 0);
-	g_return_if_fail (row >= 0);
+	XML_CHECK (col >= 0 && col < gnm_sheet_get_max_cols (sheet));
+	XML_CHECK (row >= 0 && row < gnm_sheet_get_max_rows (sheet));
 
 	maybe_update_progress (xin);
 
@@ -1907,12 +1932,12 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		cc = gnm_cell_copy_new (cr,
 					col - cr->base.col,
 					row - cr->base.row);
-		parse_pos_init (&pos, NULL, state->sheet, col, row);
+		parse_pos_init (&pos, NULL, sheet, col, row);
 	} else {
-		cell = sheet_cell_get (state->sheet, col, row);
+		cell = sheet_cell_get (sheet, col, row);
 		is_new_cell = (cell == NULL);
 		if (is_new_cell) {
-			cell = sheet_cell_create (state->sheet, col, row);
+			cell = sheet_cell_create (sheet, col, row);
 			if (cell == NULL)
 				return;
 		}
@@ -1996,9 +2021,10 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	} else if (expr_id > 0) {
 		GnmExprTop const *texpr = g_hash_table_lookup (state->expr_map,
 			GINT_TO_POINTER (expr_id));
+		GnmExprTop const *dummy = NULL;
 
 		if (!texpr) {
-			texpr = gnm_expr_top_new_constant (value_new_int (0));
+			texpr = dummy = gnm_expr_top_new_constant (value_new_int (0));
 			g_warning ("XML-IO : Missing shared expression");
 		}
 
@@ -2008,6 +2034,8 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			cc->texpr = texpr;
 			gnm_expr_top_ref (texpr);
 		}
+		if (dummy)
+			gnm_expr_top_unref (dummy);
 	} else if (is_new_cell) {
 		/*
 		 * Only set to empty if this is a new cell.

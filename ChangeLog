@@ -1,5 +1,8 @@
 2010-08-03  Morten Welinder  <terra@gnome.org>
 
+	* src/xml-sax-read.c (xml_sax_cell, xml_sax_cell_content): Don't
+	check data with g_return_if_fail.  Plug leaks.
+
 	* src/workbook.c (workbook_sheet_by_index): Fix crash.  [#625985]
 
 	* src/gnm-random.c (random_01_device): Read the right number of
