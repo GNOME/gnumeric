@@ -1987,8 +1987,11 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			if (value_type > 0) {
 				GnmValue *v = value_new_from_string (value_type, content, value_fmt, FALSE);
 				if (v == NULL) {
-					g_warning ("Unable to parse \"%s\" as type %d.",
-						   content, value_type);
+					char *msg = g_strdup_printf
+						("Parsing \"%s\" as type 0x%x",
+						 content, value_type);
+					xml_sax_barf (G_STRFUNC, msg);
+					g_free (msg);
 					v = value_new_string (content);
 				}
 				if (cell)
@@ -2052,8 +2055,13 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		GnmExprTop const *dummy = NULL;
 
 		if (!texpr) {
+			char *msg = g_strdup_printf
+				("Looking up shared expression id %d",
+				 expr_id);
+			xml_sax_barf (G_STRFUNC, msg);
+			g_free (msg);
 			texpr = dummy = gnm_expr_top_new_constant (value_new_int (0));
-			g_warning ("XML-IO : Missing shared expression");
+
 		}
 
 		if (cell)

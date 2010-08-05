@@ -509,11 +509,10 @@ value_new_from_string (GnmValueType t, char const *str, GOFormat *sf,
 		res = value_new_string (str);
 		break;
 
-	/* Should not happen.  */
 	case VALUE_ARRAY:
 	case VALUE_CELLRANGE:
 	default:
-		g_warning ("value_new_from_string problem.");
+		/* This happen with corrupted files.  */
 		return NULL;
 	}
 

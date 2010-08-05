@@ -1,5 +1,7 @@
 2010-08-05  Morten Welinder  <terra@gnome.org>
 
+	* src/value.c (value_new_from_string): Quiet warning.
+
 	* src/xml-sax-read.c (xml_sax_must_have_sheet): New function.  Use
 	heavily throughout the parser.  Fixes #626043.
 	(xml_sax_colrow): Avoid near-infinite loop.
