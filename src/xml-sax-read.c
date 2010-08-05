@@ -1273,8 +1273,7 @@ xml_sax_colrow (GsfXMLIn *xin, xmlChar const **attrs)
 	int hidden = 0, hard_size = 0, is_collapsed = 0, outline_level = 0;
 	int count = 1;
 	gboolean const is_col = xin->node->user_data.v_bool;
-
-	xml_sax_must_have_sheet (state);
+	Sheet *sheet = xml_sax_must_have_sheet (state);
 
 	maybe_update_progress (xin);
 
@@ -1300,6 +1299,10 @@ xml_sax_colrow (GsfXMLIn *xin, xmlChar const **attrs)
 				unknown_attr (xin, attrs);
 		}
 	}
+
+	XML_CHECK (pos >= 0 && pos < colrow_max (is_col, sheet));
+	XML_CHECK (count >= 1);
+	XML_CHECK (count <= colrow_max (is_col, sheet) - pos);
 
 	g_return_if_fail (cri != NULL && size > -1.);
 	cri->hard_size = hard_size;
