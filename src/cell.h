@@ -73,6 +73,9 @@ void gnm_cell_set_array_formula	(Sheet *sheet,
 				 GnmExprTop const *texpr);
 GOUndo *gnm_cell_set_array_formula_undo (GnmSheetRange *sr, 
 					 GnmExprTop const  *texpr);
+gboolean gnm_cell_set_array     (Sheet *sheet,
+				 const GnmRange *r,
+				 GnmExprTop const *texpr);
 void gnm_cell_cleanout		(GnmCell *cell);
 void gnm_cell_convert_expr_to_value	(GnmCell *cell);
 

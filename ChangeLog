@@ -1,5 +1,10 @@
 2010-08-04  Morten Welinder  <terra@gnome.org>
 
+	* src/xml-sax-read.c (xml_cell_set_array_expr): Use
+	gnm_cell_set_array.  Fixes #626034's original problem.
+
+	* src/cell.c (gnm_cell_set_array): New, somewhat saner variant.
+
 	* src/expr.c (gnm_expr_eval): Catch when the alleged array corner
 	isn't a corner.  See bug 626034.
 

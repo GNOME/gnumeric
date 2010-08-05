@@ -266,7 +266,7 @@ gnm_cell_set_expr (GnmCell *cell, GnmExprTop const *texpr)
  * @row_a:   The top row in the destination region.
  * @col_b:   The right column in the destination region.
  * @row_b:   The bottom row in the destination region.
- * @expr:    an expression (the inner expression, not a corner or element)
+ * @texpr:   an expression (the inner expression, not a corner or element)
  *
  * Uses cell_set_expr_internal to store the expr as an
  * 'array-formula'.  The supplied expression is wrapped in an array
@@ -348,6 +348,45 @@ gnm_cell_set_array_formula_undo (GnmSheetRange *sr, GnmExprTop const  *texpr)
 				   (GOUndoBinaryFunc) gnm_cell_set_array_formula_cb, 
 				   (GFreeFunc) gnm_sheet_range_free, 
 				   (GFreeFunc) gnm_expr_top_unref);
+}
+
+/**
+ * gnm_cell_set_array: set an array expression for a range.
+ * @sheet:   The sheet to set the expr in.
+ * @r:       The range to set.
+ * @texpr:   an expression (the inner expression, not a corner or element)
+ *
+ * Uses cell_set_expr_internal to store the expr as an
+ * 'array-formula'.  The supplied expression is wrapped in an array
+ * operator for each cell in the range and scheduled for recalc.
+ *
+ * Returns: TRUE if the operation succeded.
+ *
+ * NOTE : This adds a reference to the expression.
+ *
+ * Does not regenerate spans, dimensions or autosize cols/rows.
+ *
+ * DOES CHECK for array partitioning.
+ */
+
+gboolean
+gnm_cell_set_array (Sheet *sheet,
+		    const GnmRange *r,
+		    GnmExprTop const *texpr)
+{
+	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (range_is_sane (r), FALSE);
+	g_return_val_if_fail (texpr != NULL, FALSE);
+
+	if (sheet_range_splits_array (sheet, r, NULL, NULL, NULL))
+		return FALSE;
+
+	gnm_expr_top_ref (texpr);
+	gnm_cell_set_array_formula (sheet,
+				    r->start.col, r->start.row,
+				    r->end.col, r->end.row,
+				    texpr);
+	return TRUE;
 }
 
 /***************************************************************************/

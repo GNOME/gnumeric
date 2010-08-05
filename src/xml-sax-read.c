@@ -87,16 +87,17 @@ xml_sax_barf (const char *locus, const char *reason)
 		   locus, reason);
 }
 
-#define XML_CHECK2(_cond_,_code_)			\
+#define XML_CHECK3(_cond_,_code_,_reason_)		\
   do {							\
 	  if (G_UNLIKELY(!(_cond_))) {			\
-		  xml_sax_barf (G_STRFUNC, #_cond_);	\
+		  xml_sax_barf (G_STRFUNC, _reason_);	\
 		  _code_;				\
 		  return;				\
 	  }						\
   } while (0)
 
-#define XML_CHECK(_cond_) XML_CHECK2(_cond_,{})
+#define XML_CHECK(_cond_) XML_CHECK3(_cond_,{},#_cond_)
+#define XML_CHECK2(_cond_,_code_) XML_CHECK3(_cond_,_code_,#_cond_)
 
 
 #define CXML2C(s) ((char const *)(s))
@@ -1837,17 +1838,24 @@ xml_cell_set_array_expr (XMLSaxParseState *state,
 				    GNM_EXPR_PARSE_DEFAULT,
 				    state->convs,
 				    NULL);
+	GnmRange r;
 
 	g_return_if_fail (texpr != NULL);
 
-	if (cell)
-		gnm_cell_set_array_formula (cell->base.sheet,
-					    cell->pos.col, cell->pos.row,
-					    cell->pos.col + cols - 1,
-					    cell->pos.row + rows - 1,
-					    texpr);
-	else
+	if (!cell) {
 		cc->texpr = texpr;
+		return;
+	}
+
+	r.start = r.end = cell->pos;
+	r.end.col += (cols - 1);
+	r.end.row += (rows - 1);
+
+	if (!gnm_cell_set_array (cell->base.sheet, &r, texpr)) {
+		xml_sax_barf (G_STRFUNC, "target area empty");
+	}
+
+	gnm_expr_top_unref (texpr);
 }
 
 /**
