@@ -716,12 +716,29 @@ xml_sax_sheet_start (GsfXMLIn *xin, xmlChar const **attrs)
 			unknown_attr (xin, attrs);
 }
 
+static Sheet *
+xml_sax_must_have_sheet (XMLSaxParseState *state)
+{
+	if (!state->sheet) {
+		int columns = 256;
+		int rows = 65536;
+
+		xml_sax_barf (G_STRFUNC, "sheet should have been named");
+
+		state->sheet = workbook_sheet_add (state->wb, -1,
+						   columns, rows);
+	}
+
+	return state->sheet;
+}
+
+
 static void
 xml_sax_sheet_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
-	g_return_if_fail (state->sheet != NULL);
+	xml_sax_must_have_sheet (state);
 
 	/* Init ColRowInfo's size_pixels and force a full respan */
 	g_object_set (state->sheet, "zoom-factor", state->sheet_zoom, NULL);
@@ -802,7 +819,7 @@ xml_sax_sheet_zoom (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	char const * content = xin->content->str;
 	double zoom;
 
-	g_return_if_fail (state->sheet != NULL);
+	xml_sax_must_have_sheet (state);
 
 	if (xml_sax_double ((xmlChar *)content, &zoom))
 		state->sheet_zoom = zoom;
@@ -831,8 +848,7 @@ xml_sax_print_margins (GsfXMLIn *xin, xmlChar const **attrs)
 	PrintInformation *pi;
 	double points = -1.;
 
-	g_return_if_fail (state->sheet != NULL);
-	g_return_if_fail (state->sheet->print_info != NULL);
+	xml_sax_must_have_sheet (state);
 
 	pi = state->sheet->print_info;
 	switch (xin->node->user_data.v_int) {
@@ -903,6 +919,7 @@ static void
 xml_sax_page_breaks_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	xml_sax_must_have_sheet (state);
 	g_return_if_fail (state->page_breaks == NULL);
 	state->page_breaks = gnm_page_breaks_new (xin->node->user_data.v_int);
 }
@@ -928,8 +945,7 @@ xml_sax_print_scale (GsfXMLIn *xin, xmlChar const **attrs)
 	double percentage;
 	int cols, rows;
 
-	g_return_if_fail (state->sheet != NULL);
-	g_return_if_fail (state->sheet->print_info != NULL);
+	xml_sax_must_have_sheet (state);
 
 	pi = state->sheet->print_info;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
@@ -952,8 +968,7 @@ xml_sax_print_vcenter (GsfXMLIn *xin, xmlChar const **attrs)
 	PrintInformation *pi;
 	int val;
 
-	g_return_if_fail (state->sheet != NULL);
-	g_return_if_fail (state->sheet->print_info != NULL);
+	xml_sax_must_have_sheet (state);
 
 	pi = state->sheet->print_info;
 
@@ -969,8 +984,7 @@ xml_sax_print_hcenter (GsfXMLIn *xin, xmlChar const **attrs)
 	PrintInformation *pi;
 	int val;
 
-	g_return_if_fail (state->sheet != NULL);
-	g_return_if_fail (state->sheet->print_info != NULL);
+	xml_sax_must_have_sheet (state);
 
 	pi = state->sheet->print_info;
 
@@ -986,8 +1000,7 @@ xml_sax_print_grid (GsfXMLIn *xin, xmlChar const **attrs)
 	PrintInformation *pi;
 	int val;
 
-	g_return_if_fail (state->sheet != NULL);
-	g_return_if_fail (state->sheet->print_info != NULL);
+	xml_sax_must_have_sheet (state);
 
 	pi = state->sheet->print_info;
 
@@ -1003,8 +1016,7 @@ xml_sax_print_do_not_print (GsfXMLIn *xin, xmlChar const **attrs)
         PrintInformation *pi;
         int val;
 
-        g_return_if_fail (state->sheet != NULL);
-        g_return_if_fail (state->sheet->print_info != NULL);
+	xml_sax_must_have_sheet (state);
 
 	pi = state->sheet->print_info;
 
@@ -1022,8 +1034,7 @@ xml_sax_monochrome (GsfXMLIn *xin, xmlChar const **attrs)
 	PrintInformation *pi;
 	int val;
 
-	g_return_if_fail (state->sheet != NULL);
-	g_return_if_fail (state->sheet->print_info != NULL);
+	xml_sax_must_have_sheet (state);
 
 	pi = state->sheet->print_info;
 
@@ -1039,8 +1050,7 @@ xml_sax_print_titles (GsfXMLIn *xin, xmlChar const **attrs)
 	PrintInformation *pi;
 	int val;
 
-	g_return_if_fail (state->sheet != NULL);
-	g_return_if_fail (state->sheet->print_info != NULL);
+	xml_sax_must_have_sheet (state);
 
 	pi = state->sheet->print_info;
 
@@ -1055,8 +1065,7 @@ xml_sax_repeat_top (GsfXMLIn *xin, xmlChar const **attrs)
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	PrintInformation *pi;
 
-	g_return_if_fail (state->sheet != NULL);
-	g_return_if_fail (state->sheet->print_info != NULL);
+	xml_sax_must_have_sheet (state);
 
 	pi = state->sheet->print_info;
 
@@ -1074,8 +1083,7 @@ xml_sax_repeat_left (GsfXMLIn *xin, xmlChar const **attrs)
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	PrintInformation *pi;
 
-	g_return_if_fail (state->sheet != NULL);
-	g_return_if_fail (state->sheet->print_info != NULL);
+	xml_sax_must_have_sheet (state);
 
 	pi = state->sheet->print_info;
 
@@ -1094,8 +1102,7 @@ xml_sax_print_hf (GsfXMLIn *xin, xmlChar const **attrs)
 	PrintInformation *pi;
 	PrintHF *hf;
 
-	g_return_if_fail (state->sheet != NULL);
-	g_return_if_fail (state->sheet->print_info != NULL);
+	xml_sax_must_have_sheet (state);
 
 	pi = state->sheet->print_info;
 
@@ -1135,8 +1142,7 @@ xml_sax_even_if_only_styles (GsfXMLIn *xin, xmlChar const **attrs)
 	PrintInformation *pi;
 	int val;
 
-	g_return_if_fail (state->sheet != NULL);
-	g_return_if_fail (state->sheet->print_info != NULL);
+	xml_sax_must_have_sheet (state);
 
 	pi = state->sheet->print_info;
 
@@ -1152,8 +1158,9 @@ static void
 xml_sax_selection_range (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-
 	GnmRange r;
+
+	xml_sax_must_have_sheet (state);
 	if (xml_sax_attr_range (attrs, &r))
 		sv_selection_add_range (
 			sheet_get_view (state->sheet, state->wb_view), &r);
@@ -1163,8 +1170,7 @@ static void
 xml_sax_selection (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-	Sheet *sheet = state->sheet;
-
+	Sheet *sheet = xml_sax_must_have_sheet (state);
 	int col = -1, row = -1;
 
 	sv_selection_reset (sheet_get_view (sheet, state->wb_view));
@@ -1203,8 +1209,9 @@ static void
 xml_sax_sheet_layout (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-
 	GnmCellPos tmp;
+
+	xml_sax_must_have_sheet (state);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (xml_sax_attr_cellpos (attrs, "TopLeft", &tmp, state->sheet))
@@ -1219,9 +1226,10 @@ static void
 xml_sax_sheet_freezepanes (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-
 	GnmCellPos frozen_tl, unfrozen_tl;
 	int flags = 0;
+
+	xml_sax_must_have_sheet (state);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (xml_sax_attr_cellpos (attrs, "FrozenTopLeft", &frozen_tl, state->sheet))
@@ -1240,11 +1248,10 @@ static void
 xml_sax_cols_rows (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-
 	double def_size;
 	gboolean const is_col = xin->node->user_data.v_bool;
 
-	g_return_if_fail (state->sheet != NULL);
+	xml_sax_must_have_sheet (state);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gnm_xml_attr_double (attrs, "DefaultSizePts", &def_size)) {
@@ -1267,7 +1274,7 @@ xml_sax_colrow (GsfXMLIn *xin, xmlChar const **attrs)
 	int count = 1;
 	gboolean const is_col = xin->node->user_data.v_bool;
 
-	g_return_if_fail (state->sheet != NULL);
+	xml_sax_must_have_sheet (state);
 
 	maybe_update_progress (xin);
 
@@ -1346,7 +1353,7 @@ xml_sax_style_region_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	g_return_if_fail (state->style_range_init);
 	g_return_if_fail (state->style != NULL);
-	g_return_if_fail (state->sheet != NULL);
+	xml_sax_must_have_sheet (state);
 
 	if (state->clipboard) {
 		GnmCellRegion *cr = state->clipboard;
@@ -2177,6 +2184,7 @@ xml_sax_filter_start (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmRange   r;
 	int i;
 
+	xml_sax_must_have_sheet (state);
 	g_return_if_fail (state->filter == NULL);
 
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i + 1] ; i += 2)
@@ -2459,6 +2467,8 @@ xml_sax_scenario_start (GsfXMLIn *xin, xmlChar const **attrs)
 	const char *name = "scenario";
 	const char *comment = NULL;
 
+	xml_sax_must_have_sheet (state);
+
 	for (; attrs && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_eq (attrs[0], "Name")) {
 			name = CXML2C (attrs[1]);
@@ -2617,9 +2627,7 @@ xml_sax_print_order (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
-	g_return_if_fail (state != NULL);
-	g_return_if_fail (state->sheet != NULL);
-	g_return_if_fail (state->sheet->print_info != NULL);
+	xml_sax_must_have_sheet (state);
 
 	state->sheet->print_info->print_across_then_down =
 		(strcmp (xin->content->str, "r_then_d") == 0);
@@ -2633,8 +2641,7 @@ xml_sax_orientation (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	PrintInformation *pi;
 	GtkPageOrientation orient = GTK_PAGE_ORIENTATION_PORTRAIT;
 
-	g_return_if_fail (state->sheet != NULL);
-	g_return_if_fail (state->sheet->print_info != NULL);
+	xml_sax_must_have_sheet (state);
 
 	pi = state->sheet->print_info;
 
@@ -2652,8 +2659,7 @@ xml_sax_paper (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
-	g_return_if_fail (state->sheet != NULL);
-	g_return_if_fail (state->sheet->print_info != NULL);
+	xml_sax_must_have_sheet (state);
 
 	print_info_set_paper (state->sheet->print_info, xin->content->str);
 }
