@@ -1346,6 +1346,8 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 						  state->pos.eval.row);
 
 		if (array_cols > 0 || array_rows > 0) {
+			GnmRange r;
+
 			if (array_cols <= 0) {
 				array_cols = 1;
 				oo_warning (xin, _("Invalid array expression does not specify number of columns."));
@@ -1353,11 +1355,16 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				array_rows = 1;
 				oo_warning (xin, _("Invalid array expression does not specify number of rows."));
 			}
-			gnm_cell_set_array_formula (state->pos.sheet,
-				state->pos.eval.col, state->pos.eval.row,
-				state->pos.eval.col + array_cols-1,
-				state->pos.eval.row + array_rows-1,
-				texpr);
+
+			r.start = state->pos.eval;
+			r.end = r.start;
+			r.end.col += array_cols - 1;
+			r.end.row += array_rows - 1;
+
+			gnm_cell_set_array (state->pos.sheet,
+					    &r,
+					    texpr);
+			gnm_expr_top_unref (texpr);
 			if (val != NULL)
 				gnm_cell_assign_value (cell, val);
 			oo_update_data_extent (state, array_cols, array_rows);

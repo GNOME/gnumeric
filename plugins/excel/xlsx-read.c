@@ -2673,12 +2673,10 @@ xlsx_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			gnm_expr_top_unref (state->texpr);
 	} else if (NULL != state->texpr) {
 		if (state->array.start.col >= 0) {
-			gnm_cell_set_array_formula (state->sheet,
-				state->array.start.col,
-				state->array.start.row,
-				state->array.end.col,
-				state->array.end.row,
-				state->texpr);
+			gnm_cell_set_array (state->sheet,
+					    &state->array,
+					    state->texpr);
+			gnm_expr_top_unref (state->texpr);
 			if (NULL != state->val)
 				gnm_cell_assign_value (cell, state->val);
 		} else if (NULL != state->val) {

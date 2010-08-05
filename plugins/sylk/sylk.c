@@ -309,10 +309,16 @@ sylk_rtd_c_parse (SylkReader *state, char *str)
 			state->pp.eval.col, state->pp.eval.row);
 
 		if (is_array) {
-			if (NULL != texpr)
-				gnm_cell_set_array_formula (state->pp.sheet,
-					state->pp.eval.col, state->pp.eval.row,
-					c-1, r-1, texpr);
+			if (texpr) {
+				GnmRange rg;
+				rg.start = state->pp.eval;
+				rg.end.col = c - 1;
+				rg.end.row = r - 1;
+
+				gnm_cell_set_array (state->pp.sheet,
+						    &rg,
+						    texpr);
+			}
 			if (NULL != val)
 				gnm_cell_assign_value (cell, val);
 		} else if (NULL != texpr) {

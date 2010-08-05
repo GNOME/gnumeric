@@ -2644,10 +2644,8 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 					   : gnm_expr_list_prepend (args, missing);
 		}
 		texpr = gnm_expr_top_new (gnm_expr_new_funcall (gnm_func_lookup ("table", NULL), args));
-		gnm_cell_set_array_formula (esheet->sheet,
-			r.start.col, r.start.row,
-			r.end.col,   r.end.row,
-			texpr);
+		gnm_cell_set_array (esheet->sheet, &r, texpr);
+		gnm_expr_top_unref (texpr);
 		return NULL;
 	}
 
@@ -2687,10 +2685,8 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 	g_return_val_if_fail (texpr != NULL, NULL);
 
 	if (is_array) {
-		gnm_cell_set_array_formula (esheet->sheet,
-					    r.start.col, r.start.row,
-					    r.end.col,   r.end.row,
-					    texpr);
+		gnm_cell_set_array (esheet->sheet, &r, texpr);
+		gnm_expr_top_unref (texpr);
 		return NULL;
 	} else
 		return texpr;

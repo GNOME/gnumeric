@@ -1214,11 +1214,9 @@ applix_read_cells (ApplixReadState *state)
 					parse_error_free (&perr);
 					texpr = gnm_expr_top_new_constant (value_new_string (expr_string));
 				} else if (is_array) {
-					gnm_expr_top_ref (texpr);
-					gnm_cell_set_array_formula (sheet,
-								r.start.col, r.start.row,
-								r.end.col, r.end.row,
-								texpr);
+					gnm_cell_set_array (sheet,
+							    &r,
+							    texpr);
 					gnm_cell_assign_value (cell, val);
 					/* Leak? */
 				} else {
