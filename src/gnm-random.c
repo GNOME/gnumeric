@@ -7,6 +7,9 @@
 #include "gnm-random.h"
 #include "mathfunc.h"
 #include <glib/gstdio.h>
+#ifdef G_OS_WIN32
+#include <windows.h>
+#endif
 
 #include <fcntl.h>
 #include <unistd.h>
@@ -200,7 +203,6 @@ double genrand_real3(void)
     return (((double)genrand_int32()) + 0.5)*(1.0/4294967296.0);
     /* divided by 2^32 */
 }
-#endif
 
 /* generates a random number on [0,1) with 53-bit resolution*/
 static double genrand_res53(void)
@@ -209,6 +211,7 @@ static double genrand_res53(void)
     return(a*67108864.0+b)*(1.0/9007199254740992.0);
 }
 /* These real versions are due to Isaku Wada, 2002/01/09 added */
+#endif
 
 #if 0
 int main(void)
@@ -253,14 +256,58 @@ mt_setup_seed (const char *seed)
 	g_free (longs);
 }
 
+#ifdef G_OS_WIN32
+
+static gboolean
+mt_setup_win32 (void)
+{
+	/* See http://msdn.microsoft.com/en-us/library/Aa387694 */
+	typedef BOOLEAN (CALLBACK* LPFNRTLGENRANDOM) (void*,ULONG);
+	LPFNRTLGENRANDOM MyRtlGenRandom;
+	unsigned long buffer[256];
+	HMODULE hmod;
+	gboolean res = FALSE;
+
+	hmod = GetModuleHandle ("ADVAPI32.DLL");
+	if (!hmod)
+		return FALSE;
+
+	MyRtlGenRandom = (LPFNRTLGENRANDOM)
+		GetProcAddress(hmod, "SystemFunction036");
+	if (MyRtlGenRandom &&
+	    MyRtlGenRandom (buffer, sizeof (buffer))) {
+		mt_init_by_array (buffer, G_N_ELEMENTS (buffer));
+		res = TRUE;
+	}
+
+	FreeLibrary (hmod);
+
+	return res;
+}
+
+#endif
+
+/* ------------------------------------------------------------------------ */
+
 static gnm_float
 random_01_mersenne (void)
 {
-	/*
-	 * Only 52-bit precision.  But hey, if you are using pseudo
-	 * random numbers that ought to be good enough to you.
-	 */
-	return genrand_res53 ();
+	size_t N = (sizeof (gnm_float) + sizeof (guint32) - 1) / sizeof (guint32);
+	gnm_float res;
+
+	do {
+		size_t n;
+
+		res = 0;
+		for (n = 0; n < N; n++)
+			res = (res + genrand_int32()) / 4294967296.0;
+		/*
+		 * It is conceivable that rounding turned the result
+		 * into 1, so repeat in that case.
+		 */		   
+	} while (res >= 1);
+
+	return res;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -323,6 +370,13 @@ random_01_determine (void)
 		random_src = RS_MERSENNE;
 		return;
 	}
+
+#ifdef G_OS_WIN32
+	if (mt_setup_win32 ()) {
+		random_src = RS_MERSENNE;
+		return;
+	}
+#endif
 
 	random_device_file = g_fopen (RANDOM_DEVICE, "rb");
 	if (random_device_file) {

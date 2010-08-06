@@ -1,3 +1,11 @@
+2010-08-06  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-random.c (random_01_mersenne): Produce full precision
+	for long double case.
+	(mt_setup_win32): New function.
+	(random_01_determine): Try mt_setup_win32 on Win32.  Might fix
+	533779.
+
 2010-08-05  Morten Welinder  <terra@gnome.org>
 
 	* src/value.c (value_new_from_string): Quiet warning.
