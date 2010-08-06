@@ -1,6 +1,9 @@
 2010-08-06  Morten Welinder  <terra@gnome.org>
 
-	* fuzzxml: Write empty tags in the short form.
+	* zzufit: Log the name of the corrupted file.
+
+	* fuzzxml: Write empty tags in the short form.  Carry over xml
+	declaration, at least as far as encoding goes.
 
 2010-07-30  Morten Welinder <terra@gnome.org>
 

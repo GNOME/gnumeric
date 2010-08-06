@@ -39,6 +39,7 @@ while (1) {
     } else {
 	system ("zzuf -s$n -r$rate <'$file' >'$zzuffile'");
     }
+    &append_log ("Corrupted file is $zzuffile\n");
 
     my $outfile = "$DIR/${filebase}-${n}.gnumeric";
     system ("../src/ssconvert '$zzuffile' '$outfile' >>'$LOG' 2>&1");

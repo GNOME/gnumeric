@@ -30,9 +30,14 @@ my %attr_range;
 # -----------------------------------------------------------------------------
 
 my $tree;
+my $encoding;
 {
     my $parser = new XML::Parser ('Style' => 'Tree');
-    $parser->setHandlers('Start' => \&MyStart);
+    $parser->setHandlers('Start' => \&MyStart,
+			 'XMLDecl' => sub {
+			     my ($expat,$ver,$enc,$standalone) = @_;
+			     $encoding = $enc;
+			 });
     $tree = $parser->parsefile ($infile);
 }
 
@@ -45,7 +50,11 @@ foreach my $key (sort keys %attr_range) {
 
 {
     my $f = new IO::File ($outfile, "w");
-    my $writer = new XML::Writer(OUTPUT => $f);
+    my $writer = new XML::Writer(OUTPUT => $f,
+				 ENCODING => $encoding);
+    if (defined $encoding) {
+	$writer->xmlDecl();
+    }
     &write_xml ($writer, $tree);
 }
 
@@ -184,10 +193,10 @@ sub looks_like_int {
 # Just like XML::Parse::Style::Tree::start, except attrs as list.
 
 sub MyStart {
-  my $expat = shift;
-  my $tag = shift;
-  my $newlist = [ [ @_ ] ];
-  push @{ $expat->{Lists} }, $expat->{Curlist};
-  push @{ $expat->{Curlist} }, $tag => $newlist;
-  $expat->{Curlist} = $newlist;
+    my $expat = shift;
+    my $tag = shift;
+    my $newlist = [ [ @_ ] ];
+    push @{ $expat->{Lists} }, $expat->{Curlist};
+    push @{ $expat->{Curlist} }, $tag => $newlist;
+    $expat->{Curlist} = $newlist;
 }
