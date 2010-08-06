@@ -155,9 +155,13 @@ sub write_xml {
 	    $writer->characters($cont);
 	} else {
 	    my ($attrs,@l) = @$cont;
-	    $writer->startTag($tag, @$attrs);
-	    &write_xml ($writer, \@l);
-	    $writer->endTag($tag);
+	    if (@l == 0) {
+		$writer->emptyTag($tag, @$attrs);
+	    } else {
+		$writer->startTag($tag, @$attrs);
+		&write_xml ($writer, \@l);
+		$writer->endTag($tag);
+	    }
 	}	
     }
 }
