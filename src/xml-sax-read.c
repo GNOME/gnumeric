@@ -732,6 +732,20 @@ xml_sax_must_have_sheet (XMLSaxParseState *state)
 	return state->sheet;
 }
 
+static GnmStyle *
+xml_sax_must_have_style (XMLSaxParseState *state)
+{
+	if (!state->style) {
+		xml_sax_barf (G_STRFUNC, "style should have been started");
+		state->style = (state->version >= GNM_XML_V6 ||
+				state->version <= GNM_XML_V2)
+			? gnm_style_new_default ()
+			: gnm_style_new ();
+	}
+
+	return state->style;
+}
+
 
 static void
 xml_sax_sheet_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
@@ -1354,8 +1368,13 @@ xml_sax_style_region_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
-	g_return_if_fail (state->style_range_init);
-	g_return_if_fail (state->style != NULL);
+	if (!state->style_range_init) {
+		xml_sax_barf (G_STRFUNC, "style region must have range");
+		range_init (&state->style_range, 0, 0, 0, 0);
+		state->style_range_init = TRUE;
+	}
+
+	xml_sax_must_have_style (state);
 	xml_sax_must_have_sheet (state);
 
 	if (state->clipboard) {
@@ -1387,7 +1406,7 @@ xml_sax_style_start (GsfXMLIn *xin, xmlChar const **attrs)
 	int val;
 	GnmColor *colour;
 
-	g_return_if_fail (state->style != NULL);
+	xml_sax_must_have_style (state);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gnm_xml_attr_int (attrs, "HAlign", &val))
@@ -1446,7 +1465,7 @@ xml_sax_style_font (GsfXMLIn *xin, xmlChar const **attrs)
 	double size_pts = 10.;
 	int val;
 
-	g_return_if_fail (state->style != NULL);
+	xml_sax_must_have_style (state);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gnm_xml_attr_double (attrs, "Unit", &size_pts)) {
@@ -1525,6 +1544,8 @@ xml_sax_style_font_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
+	xml_sax_must_have_style (state);
+
 	if (xin->content->len > 0) {
 		char const * content = xin->content->str;
 		if (*content == '-')
@@ -1578,7 +1599,7 @@ xml_sax_validation_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
-	g_return_if_fail (state->style != NULL);
+	xml_sax_must_have_style (state);
 
 	gnm_style_set_validation (state->style,
 		validation_new (state->validation.style,
@@ -1631,6 +1652,8 @@ xml_sax_condition (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (state->cond.texpr[1] == NULL);
 	g_return_if_fail (state->cond_save_style == NULL);
 
+	xml_sax_must_have_style (state);
+
 	state->cond_save_style = state->style;
 	state->style = gnm_style_new ();
 
@@ -1648,7 +1671,7 @@ xml_sax_condition_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	GnmStyleConditions *sc;
 
-	g_return_if_fail (state->style != NULL);
+	xml_sax_must_have_style (state);
 	g_return_if_fail (state->cond_save_style != NULL);
 
 	state->cond.overlay = state->style;
@@ -1694,7 +1717,7 @@ xml_sax_hlink (GsfXMLIn *xin, xmlChar const **attrs)
 	char *target = NULL;
 	char *tip = NULL;
 
-	g_return_if_fail (state->style != NULL);
+	xml_sax_must_have_style (state);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_eq (attrs[0], "type"))
@@ -1727,7 +1750,7 @@ xml_sax_input_msg (GsfXMLIn *xin, xmlChar const **attrs)
 	char *title = NULL;
 	char *msg = NULL;
 
-	g_return_if_fail (state->style != NULL);
+	xml_sax_must_have_style (state);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_eq (attrs[0], "Title"))
@@ -1753,7 +1776,7 @@ xml_sax_style_border (GsfXMLIn *xin, xmlChar const **attrs)
 	int pattern = -1;
 	GnmColor *colour = NULL;
 
-	g_return_if_fail (state->style != NULL);
+	xml_sax_must_have_style (state);
 
 	/* Colour is optional */
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {

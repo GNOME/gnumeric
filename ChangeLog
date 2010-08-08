@@ -1,3 +1,8 @@
+2010-08-08  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-read.c (xml_sax_must_have_style): New function.  Use
+	throughout.
+
 2010-08-08  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-control-gui.c (gnm_pane_make_cell_visible): fix scroll when
