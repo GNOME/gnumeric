@@ -870,6 +870,7 @@ gnm_pane_make_cell_visible (GnmPane *pane, int col, int row,
 	GocCanvas *canvas;
 	Sheet *sheet;
 	int   new_first_col, new_first_row;
+	GnmRange range;
 
 	g_return_if_fail (IS_GNM_PANE (pane));
 
@@ -887,16 +888,19 @@ gnm_pane_make_cell_visible (GnmPane *pane, int col, int row,
 	g_return_if_fail (row < gnm_sheet_get_max_rows (sheet));
 
 	canvas = GOC_CANVAS (pane);
+	range.start.col = range.end.col = col;
+	range.start.row = range.end.row = row;
+	gnm_sheet_merge_find_container (sheet, &range);
 
 	/* Find the new pane->first.col */
-	if (col < pane->first.col) {
-		new_first_col = col;
-	} else if (col > pane->last_full.col) {
+	if (range.start.col < pane->first.col) {
+		new_first_col = range.start.col;
+	} else if (range.end.col > pane->last_full.col) {
 		int width = GTK_WIDGET (canvas)->allocation.width;
-		ColRowInfo const * const ci = sheet_col_get_info (sheet, col);
+		ColRowInfo const * const ci = sheet_col_get_info (sheet, range.end.col);
 		if (ci->size_pixels < width) {
 			int first_col = (pane->last_visible.col == pane->first.col)
-				? pane->first.col : col;
+				? pane->first.col : range.end.col;
 
 			for (; first_col > 0; --first_col) {
 				ColRowInfo const * const ci = sheet_col_get_info (sheet, first_col);
@@ -907,20 +911,22 @@ gnm_pane_make_cell_visible (GnmPane *pane, int col, int row,
 				}
 			}
 			new_first_col = first_col+1;
+			if (new_first_col > range.start.col)
+				new_first_col = range.start.col;
 		} else
 			new_first_col = col;
 	} else
 		new_first_col = pane->first.col;
 
 	/* Find the new pane->first.row */
-	if (row < pane->first.row) {
-		new_first_row = row;
-	} else if (row > pane->last_full.row) {
+	if (range.start.row < pane->first.row) {
+		new_first_row = range.start.row;
+	} else if (range.end.row > pane->last_full.row) {
 		int height = GTK_WIDGET (canvas)->allocation.height;
-		ColRowInfo const * const ri = sheet_row_get_info (sheet, row);
+		ColRowInfo const * const ri = sheet_row_get_info (sheet, range.end.row);
 		if (ri->size_pixels < height) {
 			int first_row = (pane->last_visible.row == pane->first.row)
-				? pane->first.row : row;
+				? pane->first.row : range.end.row;
 
 			for (; first_row > 0; --first_row) {
 				ColRowInfo const * const ri = sheet_row_get_info (sheet, first_row);
@@ -931,6 +937,8 @@ gnm_pane_make_cell_visible (GnmPane *pane, int col, int row,
 				}
 			}
 			new_first_row = first_row+1;
+			if (new_first_row > range.start.row)
+				new_first_row = range.start.row;
 		} else
 			new_first_row = row;
 	} else
