@@ -34,12 +34,11 @@ while (1) {
     }
 
     my $zzuffile = "$DIR/${filebase}-${n}${fileext}";
-    if ($xml) {
-	system ("./fuzzxml -s$n -r$rate '$file' '$zzuffile'");
-    } else {
-	system ("zzuf -s$n -r$rate <'$file' >'$zzuffile'");
-    }
-    &append_log ("Corrupted file is $zzuffile\n");
+    my $fuzzcmd = $xml
+	? "./fuzzxml -s$n -r$rate '$file' '$zzuffile'"
+	: "zzuf -s$n -r$rate <'$file' >'$zzuffile'";
+    &append_log ("Fuzz command $fuzzcmd\n");
+    system ($fuzzcmd);
 
     my $outfile = "$DIR/${filebase}-${n}.gnumeric";
     system ("../src/ssconvert '$zzuffile' '$outfile' >>'$LOG' 2>&1");
