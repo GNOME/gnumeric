@@ -12,6 +12,7 @@ Jean:
 	* Force column span recalculation when switching between number and
 	  error. [#625994]
 	* Fix scroll when selecting a merged cell. [#626065]
+	* Fix objecs dragging when zoomed. [#626484]
 
 Morten:
 	* Survive malformed xml files.

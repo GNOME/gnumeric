@@ -1,3 +1,10 @@
+2010-08-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gnm-pane-impl.h: update comment.
+	* src/gnm-pane.c (cb_pane_drag_motion): fixed objects dragging when zoomed.
+	[#626484]
+	* src/sheet-control-gui.c (scg_drag_receive_same_process): ditto.
+
 2010-08-08  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-read.c (xml_sax_must_have_style): New function.  Use

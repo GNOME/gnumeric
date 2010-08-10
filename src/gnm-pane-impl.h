@@ -70,7 +70,7 @@ struct _GnmPane {
 		int		 button;	  /* the button that intiated the object drag */
 		gboolean	 created_objects;
 		gboolean	 had_motion;	  /* while dragging did we actually move */
-		GHashTable	*ctrl_pts;	  /* arrays of FooCanvasItems hashed by sheet object */
+		GHashTable	*ctrl_pts;	  /* arrays of GocItems hashed by sheet object */
 		double		 last_x, last_y, origin_x, origin_y;
 	} drag;
 

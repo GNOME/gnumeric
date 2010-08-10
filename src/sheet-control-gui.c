@@ -3796,12 +3796,14 @@ scg_drag_receive_same_process (SheetControlGUI *scg, GtkWidget *source_widget,
 	g_return_if_fail (IS_GNM_PANE (source_widget));
 
 	pane = GNM_PANE (source_widget);
+	x *= goc_canvas_get_pixels_per_unit (GOC_CANVAS (pane));
+	y *= goc_canvas_get_pixels_per_unit (GOC_CANVAS (pane));
 	source_scg = pane->simple.scg;
 	if (source_scg == scg) {
 		GdkWindow *window;
 		GdkModifierType mask;
-		int xx = x, yy = y;
-		int origin_x = 0, origin_y = 0;
+		gint64 xx = x, yy = y;
+		gint64 origin_x = 0, origin_y = 0;
 		gboolean make_dup;
 		GOUndo *undo = NULL;
 		GOUndo *redo = NULL;

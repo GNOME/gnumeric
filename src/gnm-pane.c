@@ -1056,13 +1056,15 @@ cb_pane_drag_motion (GtkWidget *widget, GdkDragContext *context,
 	if ((IS_GNM_PANE (source_widget) &&
 	     GNM_PANE (source_widget)->simple.scg == scg)) {
 		/* same scg */
-		GnmPane *pane = GNM_PANE (widget);
+		GocCanvas *canvas = GOC_CANVAS (widget);
 		GdkModifierType mask;
 		double wx, wy;
 
 		g_object_set_data (&context->parent_instance,
 			"wbcg", scg_wbcg (scg));
-		goc_canvas_w2c (GOC_CANVAS (pane), x, y, &wx, &wy);
+		goc_canvas_w2c (canvas, x, y, &wx, &wy);
+		wx *= goc_canvas_get_pixels_per_unit (canvas);
+		wy *= goc_canvas_get_pixels_per_unit (canvas);
 
 		gdk_window_get_pointer (gtk_widget_get_parent_window (source_widget),
 			NULL, NULL, &mask);
