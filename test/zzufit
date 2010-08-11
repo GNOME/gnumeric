@@ -9,13 +9,18 @@ my $rate = .0001;
 my $LOG = "zzuf.log";
 my $DIR = "zzuftmp";
 my $xml = 0;
+my $ods = 0;
 
 &GetOptions ("rate=f" => \$rate,
 	     "seed=i" => \$n,
 	     "victim=s" => \$file,
 	     'xml' => \$xml,
+	     'ods' => \$ods,
 	     )
     or die &usage (1);
+
+die "$0: Only one of --xml and --ods may be specified.\n"
+    if $xml + $ods > 1;
 
 if (!-d $DIR) {
     mkdir ($DIR, 0777) or die "$0: Cannot create $DIR: $!\n";
@@ -36,7 +41,9 @@ while (1) {
     my $zzuffile = "$DIR/${filebase}-${n}${fileext}";
     my $fuzzcmd = $xml
 	? "./fuzzxml -s$n -r$rate '$file' '$zzuffile'"
-	: "zzuf -s$n -r$rate <'$file' >'$zzuffile'";
+	: ($ods
+	   ? "./fuzzzip --subfuzzer='./fuzzxml -s$n -r$rate %i %o' --subfile content.xml --subfile styles.xml '$file' '$zzuffile'"
+	   : "zzuf -s$n -r$rate <'$file' >'$zzuffile'");
     &append_log ("Fuzz command $fuzzcmd\n");
     system ($fuzzcmd);
 

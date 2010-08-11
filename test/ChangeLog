@@ -1,5 +1,6 @@
 2010-08-11  Morten Welinder  <terra@gnome.org>
 
+	* test/zzufit: Add new --ods option.
 	* fuzzzip: New fuzzer that works inside zip files.
 
 2010-08-06  Morten Welinder  <terra@gnome.org>
