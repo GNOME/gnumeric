@@ -3803,9 +3803,13 @@ oo_plot_area_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		odf_create_stock_plot (xin);
 		go_slist_free_custom (state->chart.list, g_free);
 		state->chart.list = NULL;
-	} else if (state->chart.series != NULL) {
-		oo_plot_assign_dim (xin, NULL, GOG_MS_DIM_VALUES, NULL);
-		state->chart.series = NULL;
+	} else {
+		if (state->chart.series_count == 0 && state->chart.series == NULL)
+			state->chart.series = gog_plot_new_series (state->chart.plot);
+		if (state->chart.series != NULL) {
+			oo_plot_assign_dim (xin, NULL, GOG_MS_DIM_VALUES, NULL);
+			state->chart.series = NULL;
+		}
 	}
 	state->chart.plot = NULL;
 	g_slist_free (state->chart.these_plot_styles);
