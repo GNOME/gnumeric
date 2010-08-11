@@ -4,6 +4,7 @@ Andreas:
 	* Clarify autofilter dialog. [#625688]
 	* Make the tooltips theme-independent. [#625966]
 	* Adjust and fix WORKDAY and NETWORKDAY.
+	* Fix crash on certain handcrafted ODF files. [#626632]
 
 Jean:
 	* Import Guppi graphs from gnumeric-1.0.x files. [#567953]

@@ -3495,7 +3495,8 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 		oo_prop_list_apply (style->axis_props, G_OBJECT (state->chart.axis));
 	}
 
-	if (NULL != (style = g_hash_table_lookup (state->chart.graph_styles, style_name))) {
+	if (NULL != style_name &&
+	    NULL != (style = g_hash_table_lookup (state->chart.graph_styles, style_name))) {
 		if (NULL != state->chart.axis)
 			oo_prop_list_apply (style->axis_props, G_OBJECT (state->chart.axis));
 
