@@ -1784,6 +1784,9 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 		return TRUE;
 	}
 
+	if (gee->lexer_items == NULL)
+		gee_update_lexer_items (gee);
+
 	gli = gee->lexer_items;
 	while (gli->token != 0 && gli->start < (guint) (ptr - text))
 		gli++;
