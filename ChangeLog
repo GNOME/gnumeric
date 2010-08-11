@@ -1,3 +1,8 @@
+2010-08-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gnm-pane.c (cb_update_ctrl_pts), (set_item_x_y),
+	(set_acetate_coords): make control points zoom correctly. [see #626404]
+
 2010-08-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-pane-impl.h: update comment.

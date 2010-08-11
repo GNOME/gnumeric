@@ -2061,6 +2061,9 @@ gnm_pane_size_guide_motion (GnmPane *pane, gboolean vert, gint64 guide_pos)
 static void
 cb_update_ctrl_pts (SheetObject *so, GocItem **ctrl_pts, GnmPane *pane)
 {
+	double *coords = g_hash_table_lookup (
+		pane->simple.scg->selected_objects, so);
+	scg_object_anchor_to_coords (pane->simple.scg, sheet_object_get_anchor (so), coords);
 	gnm_pane_object_update_bbox (pane, so);
 }
 
@@ -2857,7 +2860,8 @@ set_item_x_y (GnmPane *pane, SheetObject *so, GocItem **ctrl_pts,
 	if (ctrl_pts [idx] == NULL)
 		ctrl_pts [idx] = new_control_point (pane, so, idx, x / scale, y / scale, CTRL_PT_SIZE / scale);
 	else
-		goc_item_set (ctrl_pts [idx], "x", x / scale, "y", y / scale, NULL);
+		goc_item_set (ctrl_pts [idx], "x", x / scale, "y", y / scale,
+		              "radius", CTRL_PT_SIZE / scale, NULL);
 	if (visible)
 		goc_item_show (ctrl_pts [idx]);
 	else
@@ -2881,7 +2885,7 @@ set_acetate_coords (GnmPane *pane, SheetObject *so, GocItem **ctrl_pts,
 			style->fill.auto_fore = FALSE;
 			style->fill.pattern.fore = 0;
 			style->line.pattern = GO_PATTERN_THIN_DIAG;
-			style->line.width = 1.;
+			style->line.width = 0.;
 			style->line.auto_color = FALSE;
 			style->line.color = 0;
 			style->line.fore = GO_COLOR_BLACK;
