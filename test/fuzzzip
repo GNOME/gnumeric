@@ -1,0 +1,112 @@
+#!/usr/bin/perl -w
+
+use strict;
+use Getopt::Long;
+use File::Temp ();
+use File::Find ();
+use File::Copy ();
+use File::Spec;
+
+my $me = $0;
+$me =~ s{^.*/}{};
+
+# -----------------------------------------------------------------------------
+
+my @subfile;
+my $subfuzzer = 'fuzzxml %i %o';
+my $verbose = 0;
+
+Getopt::Long::Configure ("bundling");
+&GetOptions ("subfile=s" => \@subfile,
+	     "subfuzzer=s" => \$subfuzzer,
+	     "v|verbose" => \$verbose,
+    ) or die;
+
+my $infile = shift @ARGV;
+my $outfile = shift @ARGV;
+die "$me: usage [options] infile outfile\n" unless defined $outfile;
+
+$outfile = File::Spec->rel2abs ($outfile);
+
+die "$me: one or more subfiles should be specified with --subfile\n"
+    unless @subfile;
+
+my @quiet = $verbose ? () : ("-q");
+
+# -----------------------------------------------------------------------------
+
+my $tmpdir = File::Temp::tempdir ("fuzzzip.XXXXXX",
+				  TMPDIR => 1,
+				  CLEANUP => 1);
+
+{
+    my @cmd = ("unzip", @quiet, $infile, "-d", $tmpdir);
+    print STDERR "@cmd\n" if $verbose;
+    my $res = system (@cmd);
+    die "$me: unzipping failed.\n" unless $res == 0;
+}
+
+# -----------------------------------------------------------------------------
+
+foreach my $file (@subfile) {
+    die "Archive has no $file" unless -f "$tmpdir/$file";
+
+    my $tmpfile = "$file.tmp";
+
+    my $cmd = $subfuzzer;
+    $cmd =~ s{\%i}{$tmpdir/$file};
+    $cmd =~ s{\%o}{$tmpdir/$tmpfile};
+
+    print STDERR "$cmd\n" if $verbose;
+    my $res = system ($cmd);
+    die "$me: fuzzing failed.\n" unless $res == 0;
+
+    # system ("diff -uw $tmpdir/$tmpfile $tmpdir/$file");
+
+    rename "$tmpdir/$tmpfile", "$tmpdir/$file" or
+	die "$me: cannot renamed $tmpfile into place: $!\n";
+}
+
+# -----------------------------------------------------------------------------
+
+print STDERR "chdir $tmpdir\n" if $verbose;
+chdir $tmpdir || die "$me: cannot chdir to $tmpdir: $!\n";
+
+my @stored_files;
+my @files;
+File::Find::find (
+    sub {
+	if (-f $_) {
+	    my $name = $File::Find::name;
+	    $name =~ s{^\./}{};
+	    if ($name eq 'mimetype') {
+		push @stored_files, $name;
+	    } else {
+		push @files, $name;
+	    }
+	}
+	return 1;
+    },
+    ".");
+
+{
+    my $archive = "foo.zip";
+
+    if (@stored_files) {
+	my @cmd = ("zip", @quiet, $archive, "-0", @stored_files);
+	print STDERR "@cmd\n" if $verbose;
+	my $res = system (@cmd);
+	die "$me: zipping failed.\n" unless $res == 0;
+    }
+
+    if (@files) {
+	my @cmd = ("zip", @quiet, $archive, "-9", @files);
+	print STDERR "@cmd\n" if $verbose;
+	my $res = system (@cmd);
+	die "$me: zipping failed.\n" unless $res == 0;
+    }
+
+    &File::Copy::move ($archive, $outfile);
+}
+
+# -----------------------------------------------------------------------------
