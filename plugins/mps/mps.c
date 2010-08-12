@@ -254,6 +254,12 @@ mps_parse_rows (MpsState *state)
 			is_objfunc = TRUE;
 			seen_objfunc = TRUE;
 			g_ptr_array_index (state->rows, 0) = row;
+		} else {
+			mps_mark_error (state,
+					_("Invalid row type %s"),
+					type);
+			ignore_section (state);
+			return;
 		}
 
 		row->name = g_strdup (name);

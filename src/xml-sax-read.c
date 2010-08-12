@@ -1283,7 +1283,7 @@ xml_sax_colrow (GsfXMLIn *xin, xmlChar const **attrs)
 
 	ColRowInfo *cri = NULL;
 	double size = -1.;
-	int pos, val;
+	int pos = -1, val;
 	int hidden = 0, hard_size = 0, is_collapsed = 0, outline_level = 0;
 	int count = 1;
 	gboolean const is_col = xin->node->user_data.v_bool;

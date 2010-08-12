@@ -1,3 +1,7 @@
+2010-08-11  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-read.c (xml_sax_colrow): Set "pos" initially.
+
 2010-08-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-pane.c (cb_update_ctrl_pts), (set_item_x_y),
