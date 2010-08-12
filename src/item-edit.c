@@ -435,7 +435,7 @@ item_edit_update_bounds (GocItem *item)
 				if (ci->visible)
 					col_size += ci->size_pixels;
 			}
-			tmp = pane->first_offset.x + canvas->allocation.width;
+			tmp = (pane->first_offset.x + canvas->allocation.width) / scale;
 			item->x1 = item->x0 + (col_size + GNM_COL_MARGIN + GNM_COL_MARGIN + 1) / scale;
 
 			if (item->x1 >= tmp) {
@@ -460,7 +460,7 @@ item_edit_update_bounds (GocItem *item)
 			}
 			if (col_size < width)
 				col_size = width;
-			tmp = pane->first_offset.x;
+			tmp = pane->first_offset.x / scale;
 			item->x0 = item->x1 - (col_size + GNM_COL_MARGIN + GNM_COL_MARGIN + 1) / scale;
 			if (item->x0 <= tmp) {
 				item->x0 = tmp;

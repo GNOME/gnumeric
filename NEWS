@@ -18,6 +18,7 @@ Jean:
 	* Fix scroll when selecting a merged cell. [#626065]
 	* Fix objects dragging when zoomed. [#626484]
 	* Fix control points behavior when zooming.
+	* Fix in-cell editing when zoom < 100%. [#662679] 
 
 Morten:
 	* Survive malformed xml files.

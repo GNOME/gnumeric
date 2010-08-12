@@ -1,3 +1,8 @@
+2010-08-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/item-edit.c (item_edit_update_bounds): fix in-cell editing when
+	zoom < 100%. [#626679]
+
 2010-08-11  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-read.c (xml_sax_colrow): Set "pos" initially.
