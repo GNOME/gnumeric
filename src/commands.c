@@ -971,9 +971,11 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 	gboolean result;
 	char *text = NULL;
 	Sheet *sheet = sv_sheet (sv);
+	char *name;
 
 	g_return_val_if_fail (selection != NULL , TRUE);
 
+	name = undo_range_list_name (sheet, selection);
 	parse_pos_init_editpos (&pp, sv);
 	expr_txt = gnm_expr_char_start_p (new_text);
 	if (expr_txt != NULL)
@@ -982,14 +984,11 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 			 sheet_get_conventions (pp.sheet), NULL);
 
 	if (texpr != NULL) {
-		char *name;
 		GOFormat *sf;
 		GnmEvalPos ep;
 		GnmStyle *new_style = NULL;
 
-		name = undo_range_list_name (sheet, selection);
 		text = g_strdup_printf (_("Inserting expression in %s"), name);
-		g_free (name);
 
 		sf = auto_style_format_suggest 
 			(texpr, eval_pos_init_editpos (&ep, sv));
@@ -1018,15 +1017,17 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 	} else {
 		GString *text_str;
 		PangoAttrList *adj_markup = NULL;
+		char *corrected = (new_text != NULL) ? 
+			autocorrect_tool (new_text) : NULL;
 
-		text_str = gnm_cmd_trunc_descriptor (g_string_new (new_text), NULL);
-		text = g_strdup_printf (_("Typing \"%s\""), text_str->str);
+		text_str = gnm_cmd_trunc_descriptor (g_string_new (corrected), NULL);
+		text = g_strdup_printf (_("Typing \"%s\" in %s"), text_str->str, name);
 		g_string_free (text_str, TRUE);
 
 		if (go_pango_attr_list_is_empty (markup))
 			markup = NULL;
 
-		if (markup && new_text && new_text[0] == '\'') {
+		if (markup && corrected && corrected[0] == '\'') {
 			markup = adj_markup = pango_attr_list_copy (markup);
 			go_pango_attr_list_erase (adj_markup, 0, 1);
 		}
@@ -1035,9 +1036,12 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 			GnmSheetRange *sr;
 			undo = go_undo_combine 
 				(undo, clipboard_copy_range_undo (sheet, l->data));
-			sr = gnm_sheet_range_new (sheet, l->data);
-			redo = go_undo_combine 
-				(redo, sheet_range_set_text_undo (sr, new_text));
+			if (corrected) {
+				sr = gnm_sheet_range_new (sheet, l->data);
+				redo = go_undo_combine 
+					(redo, sheet_range_set_text_undo 
+					 (sr, corrected));
+			}
 			if (markup) {
 				sr = gnm_sheet_range_new (sheet, l->data);
 				/* Note: order of combination matters!! */
@@ -1047,7 +1051,9 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 		}
 		if (adj_markup)
 			pango_attr_list_unref (adj_markup);
+		g_free (corrected);
 	}
+	g_free (name);
 
 	result = cmd_generic (wbc, text, undo, redo);
 	g_free (text);

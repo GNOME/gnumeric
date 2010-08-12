@@ -1,3 +1,7 @@
+2010-08-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.c (cmd_area_set_text): use autocorrection
+
 2010-08-12  Morten Welinder  <terra@gnome.org>
 
 	* src/cell.c (gnm_cell_set_expr_and_value, gnm_cell_set_value):

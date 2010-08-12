@@ -9,6 +9,7 @@ Andreas:
 	* Fix crash on paste into an empty expression entry. [#626648]
 	* Import and export boxplots to and from ODF files. [#626653]
 	* Improve handling of corrupted ODF files. [#626654][#626655]
+	* Fix autocorrection when entering in ranges. [#626781]
 
 Jean:
 	* Import Guppi graphs from gnumeric-1.0.x files. [#567953]
