@@ -24,6 +24,7 @@ my $remove_tag_prob = 0.1 * $base_prob;
 my $remove_attr_prob = 0.1 * $base_prob;
 my $change_int_prob = $base_prob;
 my $copy_attr_value_prob = $base_prob;
+my $permute_attrs_prob = $base_prob;
 
 my %attr_range;
 
@@ -100,6 +101,14 @@ sub fuzz_attrs {
     my ($pa) = @_;
 
     my @l = @$pa;
+    if (@l > 2 && &doit ($permute_attrs_prob)) {
+	my @p = &random_permutation (@l / 2);
+	my @l2 = ();
+	foreach my $i (@p) {
+	    push @l2, $l[$i * 2], $l[$i * 2 + 1];
+	}
+	@l = @l2;
+    }
     for (my $i = 0; $i + 1 < @l; $i += 2) {
 	if (&doit ($remove_attr_prob)) {
 	    splice @l, $i, 2;
@@ -187,6 +196,22 @@ sub doit {
 sub looks_like_int {
     my ($t) = @_;
     return ($t =~ /^[-+]?\d+$/) ? 1 : 0;
+}
+
+# -----------------------------------------------------------------------------
+# Return a random permutation of (0 ... $n-1)
+
+sub random_permutation {
+    my ($n) = @_;
+
+    my @src = (0 ... $n-1);
+    my @dst;
+    while (@src) {
+	my $i = int (rand() * @src);
+	push @dst, $src[$i];
+	splice @src, $i, 1;
+    }
+    return @dst;
 }
 
 # -----------------------------------------------------------------------------
