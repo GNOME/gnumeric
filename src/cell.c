@@ -151,7 +151,10 @@ gnm_cell_set_value (GnmCell *cell, GnmValue *v)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (v != NULL);
-	g_return_if_fail (!gnm_cell_is_nonsingleton_array (cell));
+	if (gnm_cell_is_nonsingleton_array (cell)) {
+		value_release (v);
+		g_return_if_fail (!gnm_cell_is_nonsingleton_array (cell));
+	}
 
 	gnm_cell_cleanout (cell);
 	cell->value = v;
@@ -175,7 +178,10 @@ gnm_cell_set_expr_and_value (GnmCell *cell, GnmExprTop const *texpr, GnmValue *v
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (texpr != NULL);
-	g_return_if_fail (!gnm_cell_is_nonsingleton_array (cell));
+	if (gnm_cell_is_nonsingleton_array (cell)) {
+		value_release (v);
+		g_return_if_fail (!gnm_cell_is_nonsingleton_array (cell));
+	}
 
 	/* Repeat after me.  Ref before unref. */
 	gnm_expr_top_ref (texpr);

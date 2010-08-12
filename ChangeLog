@@ -1,3 +1,8 @@
+2010-08-12  Morten Welinder  <terra@gnome.org>
+
+	* src/cell.c (gnm_cell_set_expr_and_value, gnm_cell_set_value):
+	Plug leaks in case preconditions fail.
+
 2010-08-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/item-edit.c (item_edit_update_bounds): fix in-cell editing when
