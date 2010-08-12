@@ -1,3 +1,8 @@
+2010-08-11 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-normality.c (analysis_tool_normality_engine_run):
+	  quieten clang
+
 2010-07-30  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.8

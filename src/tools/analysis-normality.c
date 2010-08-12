@@ -53,8 +53,8 @@ analysis_tool_normality_engine_run (data_analysis_output_t *dao,
 	char const *testname;
 	char const *n_comment;
 
-	GogGraph     *graph;
-	GogPlot	     *plot;
+	GogGraph     *graph = NULL;
+	GogPlot	     *plot = NULL;
 	SheetObject *so;
 
 	switch (info->type) {
