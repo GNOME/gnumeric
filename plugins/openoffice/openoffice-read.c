@@ -273,6 +273,7 @@ typedef struct {
 	} page_breaks;
 
 	gsf_off_t last_progress_update;
+	gboolean  debug;
 } OOParseState;
 
 static void
@@ -742,12 +743,32 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 			if (NULL == state->pos.sheet) {
 				state->pos.sheet = sheet_new (state->pos.wb, name, 256, 65536);
 				workbook_sheet_attach (state->pos.wb, state->pos.sheet);
+			} else {
+				/* We either have a corrupted file with a duplicate */
+				/* sheet name or the sheet was created implicitly.  */
+				if (NULL != g_slist_find (state->sheet_order, state->pos.sheet)) {
+					/* corrupted file! */
+					int i = 1;
+					char *new_name;
+					do {
+						new_name = g_strdup_printf ("%s_CORRUPTED_%i", name, i);
+					} while (NULL != workbook_sheet_by_name 
+					       (state->pos.wb, new_name));
+					oo_warning (xin, _("This file is corrupted with a "
+							   "duplicate sheet name \"%s\", "
+							   "now renamed to \"%s\"."), 
+						    name, new_name);
+					state->pos.sheet = sheet_new (state->pos.wb, new_name, 
+								      256, 65536);
+					workbook_sheet_attach (state->pos.wb, state->pos.sheet);
+					g_free (new_name);
+				}
 			}
 
 			/* Store sheets in correct order in case we implicitly
 			 * created one out of order */
-			state->sheet_order = g_slist_prepend (
-				state->sheet_order, state->pos.sheet);
+			state->sheet_order = g_slist_prepend 
+				(state->sheet_order, state->pos.sheet);
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))  {
 			OOSheetStyle const *style = g_hash_table_lookup (state->styles.sheet, attrs[1]);
 			if (style)
@@ -1416,7 +1437,10 @@ oo_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 					if (j > 0 || i > 0) {
 						next = sheet_cell_fetch (state->pos.sheet,
 							state->pos.eval.col + i, state->pos.eval.row + j);
-						gnm_cell_set_value (next, value_dup (cell->value));
+						if (gnm_cell_is_nonsingleton_array (next))
+							gnm_cell_assign_value (next, value_dup (cell->value));
+						else
+							gnm_cell_set_value (next, value_dup (cell->value));
 					}
 			oo_update_data_extent (state, state->col_inc, state->row_inc);
 		}
@@ -3362,9 +3386,8 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 		name_len--;
 	name = g_strndup (name_start, name_len);
 
-#ifdef OO_DEBUG_OBJS
-	g_print ("START %s\n", name);
-#endif
+	if (state->debug)
+		g_print ("START %s\n", name);
 	content = gsf_infile_child_by_vname (state->zip, name, "content.xml", NULL);
 
 	if (content != NULL) {
@@ -3374,9 +3397,8 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 		gsf_xml_in_doc_free (doc);
 		g_object_unref (content);
 	}
-#ifdef OO_DEBUG_OBJS
-	g_print ("END %s\n", name);
-#endif
+	if (state->debug)
+		g_print ("END %s\n", name);
 	g_free (name);
 
 	if (state->cur_style_type == OO_STYLE_CHART)
@@ -3585,9 +3607,8 @@ oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, int dim_type, char cons
 		if (ptr == CXML2C (range))
 			return;
 		v = value_new_cellrange (&ref.a, &ref.b, 0, 0);
-#ifdef OO_DEBUG_OBJS
-		g_print ("%d = rangeref (%s)\n", dim, range);
-#endif
+		if (state->debug)
+			g_print ("%d = rangeref (%s)\n", dim, range);
 	} else if (NULL != gog_dataset_get_dim (GOG_DATASET (state->chart.series), dim))
 		return;	/* implicit does not overwrite existing */
 	else if (state->chart.src_n_vectors <= 0) {
@@ -3599,9 +3620,9 @@ oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, int dim_type, char cons
 			   state->chart.src_sheet,
 			   &state->chart.src_range);
 
-#ifdef OO_DEBUG_OBJS
-		g_print ("%d = implicit (%s)\n", dim, range_as_string (&state->chart.src_range));
-#endif
+		if (state->debug)
+			g_print ("%d = implicit (%s)\n", dim, 
+				 range_as_string (&state->chart.src_range));
 
 		state->chart.src_n_vectors--;
 		if (state->chart.src_in_rows)
@@ -3843,9 +3864,9 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 
-#ifdef OO_DEBUG_OBJS
-	g_print ("<<<<< Start\n");
-#endif
+	if (state->debug)
+		g_print ("<<<<< Start\n");
+
 	state->chart.series_count++;
 	state->chart.domain_count = 0;
 
@@ -3920,9 +3941,8 @@ oo_plot_series_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		state->chart.series = NULL;
 		break;
 	}
-#ifdef OO_DEBUG_OBJS
-	g_print (">>>>> end\n");
-#endif
+	if (state->debug)
+		g_print (">>>>> end\n");
 }
 
 static void
@@ -5380,6 +5400,7 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	locale = gnm_push_C_locale ();
 
 	/* init */
+	state.debug = gnm_debug_flag ("opendocumentimport");
 	state.context	= io_context;
 	state.wb_view	= wb_view;
 	state.pos.wb	= wb_view_get_workbook (wb_view);
@@ -5466,24 +5487,21 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 		/* get the sheet in the right order (in case something was
 		 * created out of order implictly) */
 		state.sheet_order = g_slist_reverse (state.sheet_order);
-#if 0
-		{
+
+		if (state.debug) {
 			GSList *l;
 			g_printerr ("Order we desire:\n");
 			for (l = state.sheet_order; l; l = l->next) {
 				Sheet *sheet = l->data;
 				g_printerr ("Sheet %s\n", sheet->name_unquoted);
 			}
-		}
-		{
-			GSList *l;
 			g_printerr ("Order we have:\n");
 			for (l = workbook_sheets (state.pos.wb); l; l = l->next) {
 				Sheet *sheet = l->data;
 				g_printerr ("Sheet %s\n", sheet->name_unquoted);
 			}
 		}
-#endif
+
 		workbook_sheet_reorder (state.pos.wb, state.sheet_order);
 		g_slist_free (state.sheet_order);
 
