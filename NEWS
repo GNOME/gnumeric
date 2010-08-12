@@ -7,6 +7,7 @@ Andreas:
 	* Fix crash on certain handcrafted ODF files. [#626632]
 	* Fix import of some ODF 1.0 charts. [#626632]
 	* Fix crash on paste into an empty expression entry. [#626648]
+	* Import and export boxplots to and from ODF files. [#626653]
 
 Jean:
 	* Import Guppi graphs from gnumeric-1.0.x files. [#567953]

@@ -38,3 +38,13 @@ gnm:input-title
 gnm:input-msg
 These are attributes of the <style:table-cell-properties> giving the input title and the input message  [These are currently ignored on import.]
 
+gnm:outliers
+gnm:radius-ratio
+These are attributes for the plot-style gnm:boxplot
+
+3) Plot Styles added by Gnumeric:
+
+gnm:box
+gnm:scatter-color
+gnm:xyz-surface
+gnm:polar

@@ -1,5 +1,16 @@
 2010-08-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_chart_type_t): add ODF_GNM_BOX
+	(odf_write_box_series): new
+	(odf_write_box_plot_style): new
+	(odf_write_plot): add ODF_GNM_BOX
+	* openoffice-read.c (oo_prop_new_float): new
+	(od_style_prop_chart): add new properties
+	(oo_plot_area): handle OO_PLOT_BOX
+	(oo_chart): add gnm:box
+
+2010-08-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_plot_area_end): fall back to 
 	  chart:plot-area table:cell-range-address if no series were 
 	  directly specified.

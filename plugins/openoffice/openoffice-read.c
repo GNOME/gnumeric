@@ -129,6 +129,7 @@ typedef enum {
 	OO_PLOT_XYZ_SURFACE,
 	OO_PLOT_SURFACE,
 	OO_PLOT_XL_SURFACE,
+	OO_PLOT_BOX,
 	OO_PLOT_UNKNOWN
 } OOPlotType;
 
@@ -2851,6 +2852,15 @@ oo_style_map (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static OOProp *
+oo_prop_new_float (char const *name, gnm_float val)
+{
+	OOProp *res = g_new0 (OOProp, 1);
+	res->name = name;
+	g_value_init (&res->value, G_TYPE_DOUBLE);
+	g_value_set_double (&res->value, val);
+	return res;
+}
+static OOProp *
 oo_prop_new_bool (char const *name, gboolean val)
 {
 	OOProp *res = g_new0 (OOProp, 1);
@@ -2966,6 +2976,7 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	OOChartStyle *style = state->chart.cur_graph_style;
 	gboolean btmp;
 	int	  tmp;
+	gnm_float ftmp;
 	gboolean default_style_has_lines_set = FALSE;
 	gboolean draw_stroke_set = FALSE;
 	gboolean draw_stroke;
@@ -2983,6 +2994,15 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			/* This is backwards from my intuition */
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_bool ("horizontal", btmp));
+			/* This is for BoxPlots */
+			style->plot_props = g_slist_prepend (style->plot_props,
+				oo_prop_new_bool ("vertical", btmp));
+		} else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "outliers", &btmp)) {
+			style->plot_props = g_slist_prepend (style->plot_props,
+				oo_prop_new_bool ("outliers", btmp));
+		} else if (oo_attr_float (xin, attrs, OO_GNUM_NS_EXT, "radius-ratio", &ftmp)) {
+			style->plot_props = g_slist_prepend (style->plot_props,
+				oo_prop_new_float ("radius-ratio", ftmp));
 		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "reverse-direction", &btmp)) {
 			style->axis_props = g_slist_prepend (style->axis_props,
 				oo_prop_new_bool ("invert-axis", btmp));
@@ -3750,6 +3770,7 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	case OO_PLOT_SURFACE: type = "GogSurfacePlot"; break;
 	case OO_PLOT_SCATTER_COLOUR: type = "GogXYColorPlot";	break;
 	case OO_PLOT_XL_SURFACE: type = "XLSurfacePlot";	break;
+	case OO_PLOT_BOX: type = "GogBoxPlot";	break;
 	default: return;
 	}
 
@@ -3963,6 +3984,7 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "gnm:polar",  	OO_PLOT_POLAR },
 		{ "gnm:xyz-surface", 	OO_PLOT_XYZ_SURFACE },
 		{ "gnm:scatter-color", 	OO_PLOT_SCATTER_COLOUR },
+		{ "gnm:box", 	        OO_PLOT_BOX },
 		{ NULL,	0 },
 	};
 	OOParseState *state = (OOParseState *)xin->user_state;
