@@ -733,6 +733,22 @@ command_undo_sheet_delete (Sheet* sheet)
 	return (TRUE);
 }
 
+static void
+cmd_set_text_full_autofit_row (Sheet *sheet, GnmRange *r)
+{
+	colrow_autofit (sheet, r, FALSE, FALSE,
+			TRUE, FALSE, NULL, NULL);
+}
+
+static void
+cmd_set_text_full_autofit_col (Sheet *sheet, GnmRange *r)
+{
+	colrow_autofit (sheet, r, TRUE, TRUE,
+			TRUE, FALSE, NULL, NULL);
+}
+
+
+
 /******************************************************************/
 
 /*
@@ -757,7 +773,7 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 	GnmExprTop const  *texpr = NULL;
 	GOUndo *undo = NULL;
 	GOUndo *redo = NULL;
-	gboolean result;
+	gboolean result, autofit_row = TRUE;
 	char *text = NULL;
 	char *name;
 	Sheet *sheet = ep->sheet;
@@ -827,6 +843,7 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 		if (new_style)
 			gnm_style_unref (new_style);
 		gnm_expr_top_unref (texpr);
+		autofit_row = FALSE;
 	} else {
 		GString *text_str;
 		PangoAttrList *adj_markup = NULL;
@@ -871,30 +888,44 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 	
 	for (l = selection; l != NULL; l = l->next) {
 		GnmRange *r = l->data;
+		GnmRange *new_r;
 
-		cri_col_list = colrow_get_index_list 
-			(r->start.col, r->end.col, cri_col_list);
-		cri_row_list = colrow_get_index_list 
-			(r->start.row, r->end.row, cri_row_list);
+		new_r = g_new (GnmRange, 1);
+		*new_r = *r;		
+		if (autofit_row) {
+			redo  = go_undo_combine 
+				(go_undo_binary_new 
+				 (sheet, new_r, 
+				  (GOUndoBinaryFunc) cmd_set_text_full_autofit_row,
+				  NULL, g_free),
+				 redo);
+			cri_row_list = colrow_get_index_list 
+				(r->start.row, r->end.row, cri_row_list);
+		} else {
+			redo  = go_undo_combine 
+				(go_undo_binary_new 
+				 (sheet, new_r, 
+				  (GOUndoBinaryFunc) cmd_set_text_full_autofit_col,
+				  NULL, g_free),
+				 redo);
+			cri_col_list = colrow_get_index_list 
+				(r->start.col, r->end.col, cri_col_list);
+		}
+
 	}
 	undo = go_undo_combine (undo,
 				gnm_undo_colrow_restore_state_group_new 
 				(sheet, TRUE, 
-				 colrow_index_list_copy (cri_col_list), 
+				 cri_col_list, 
 				 colrow_get_sizes (sheet, TRUE,
-						   cri_col_list, -2)));
+						   cri_col_list, -1)));
 	undo = go_undo_combine (undo,
 				gnm_undo_colrow_restore_state_group_new 
 				(sheet, FALSE, 
-				 colrow_index_list_copy (cri_row_list), 
+				 cri_row_list, 
 				 colrow_get_sizes (sheet, FALSE,
-						   cri_row_list, -2)));
-	redo  = go_undo_combine (gnm_undo_colrow_set_sizes_new 
-				 (sheet, TRUE, cri_col_list, -2, NULL),
-				 redo);
-	redo  = go_undo_combine (gnm_undo_colrow_set_sizes_new 
-				 (sheet, FALSE, cri_row_list, -2, NULL),
-				 redo);
+						   cri_row_list, -1)));
+	
 
 	result = cmd_generic (wbc, text, undo, redo);
 	g_free (text);
