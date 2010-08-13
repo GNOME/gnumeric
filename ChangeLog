@@ -1,3 +1,10 @@
+2010-08-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.c (cmd_set_text_*): deleted
+	(cmd_set_text_full): new
+	(cmd_set_text): use cmd_set_text_full
+	(cmd_area_set_text): use cmd_set_text_full
+	
 2010-08-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (cmd_area_set_text): use autocorrection

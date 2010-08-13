@@ -735,263 +735,76 @@ command_undo_sheet_delete (Sheet* sheet)
 
 /******************************************************************/
 
-#define CMD_SET_TEXT_TYPE        (cmd_set_text_get_type ())
-#define CMD_SET_TEXT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SET_TEXT_TYPE, CmdSetText))
-
-typedef struct {
-	GnmCommand cmd;
-
-	GnmEvalPos pos;
-	gchar *text;
-	PangoAttrList *markup;
-	gboolean has_user_format, first_time;
-	GnmCellRegion *old_contents;
-	ColRowIndexList *columns, *rows;
-	ColRowStateGroup *old_widths, *old_heights;
-	gboolean first;
-} CmdSetText;
-
-static void
-cmd_set_text_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
-{
-	CmdSetText const *orig = (CmdSetText const *) cmd;
-	SheetView *sv = wb_control_cur_sheet_view (wbc);
-	cmd_set_text (wbc, sv_sheet (sv), &sv->edit_pos,
-		orig->text, orig->markup);
-#warning validation from workbook-edit
-}
-MAKE_GNM_COMMAND (CmdSetText, cmd_set_text, cmd_set_text_repeat)
-
-static gboolean
-cmd_set_text_undo (GnmCommand *cmd, WorkbookControl *wbc)
-{
-	CmdSetText *me = CMD_SET_TEXT (cmd);
-	GnmRange r;
-	GnmPasteTarget pt;
-
-	r.start = r.end = me->pos.eval;
-	clipboard_paste_region (me->old_contents,
-		paste_target_init (&pt, me->cmd.sheet, &r, PASTE_CONTENTS | PASTE_FORMATS),
-		GO_CMD_CONTEXT (wbc));
-
-	if (me->old_widths) {
-		colrow_restore_state_group (me->cmd.sheet, TRUE,
-					    me->columns,
-					    me->old_widths);
-		colrow_state_group_destroy (me->old_widths);
-		me->old_widths = NULL;
-		colrow_index_list_destroy (me->columns);
-		me->columns = NULL;
-	}
-
-	if (me->old_heights) {
-		colrow_restore_state_group (me->cmd.sheet, FALSE,
-					    me->rows,
-					    me->old_heights);
-		colrow_state_group_destroy (me->old_heights);
-		me->old_heights = NULL;
-		colrow_index_list_destroy (me->rows);
-		me->rows = NULL;
-	}
-
-	select_range (me->cmd.sheet, &r, wbc);
-
-	return FALSE;
-}
-
-static gboolean
-cmd_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
-{
-	CmdSetText *me = CMD_SET_TEXT (cmd);
-	GnmRange r;
-	GnmExprTop const *texpr;
-	GnmCell *cell = sheet_cell_fetch (me->pos.sheet,
-					  me->pos.eval.col,
-					  me->pos.eval.row);
-	sheet_cell_set_text (cell, me->text, me->markup);
-	texpr = cell->base.texpr;
-
-	if (!me->has_user_format && texpr) {
-		GnmEvalPos ep;
-		GOFormat *sf = auto_style_format_suggest
-			(texpr,
-			 eval_pos_init_pos (&ep,
-					    me->cmd.sheet,
-					    &me->pos.eval));
-		if (sf) {
-			GnmStyle *new_style = gnm_style_new ();
-			GnmRange r;
-
-			gnm_style_set_format (new_style, sf);
-			go_format_unref (sf);
-			r.start = r.end = me->pos.eval;
-			sheet_apply_style (me->cmd.sheet, &r, new_style);
-		}
-	}
-
-	range_init_cellpos (&r, &me->pos.eval);
-	if (texpr || !VALUE_IS_STRING (cell->value))
-		colrow_autofit (me->cmd.sheet, &r, TRUE, TRUE,
-				TRUE, FALSE,
-				&me->columns, &me->old_widths);
-	else
-		colrow_autofit (me->cmd.sheet, &r, FALSE, FALSE,
-				TRUE, FALSE,
-				&me->rows, &me->old_heights);
-
-	if (me->first)
-		me->first = FALSE;
-	else
-		select_range (me->cmd.sheet, &r, wbc);
-
-	return FALSE;
-}
-
-static void
-cmd_set_text_finalize (GObject *cmd)
-{
-	CmdSetText *me = CMD_SET_TEXT (cmd);
-	if (me->old_contents)
-		cellregion_unref (me->old_contents);
-	if (me->markup)
-		pango_attr_list_unref (me->markup);
-	g_free (me->text);
-	colrow_index_list_destroy (me->columns);
-	colrow_index_list_destroy (me->rows);
-	colrow_state_group_destroy (me->old_widths);
-	colrow_state_group_destroy (me->old_heights);
-	gnm_command_finalize (cmd);
-}
-
-gboolean
-cmd_set_text (WorkbookControl *wbc,
-	      Sheet *sheet, GnmCellPos const *pos,
-	      char const *new_text,
-	      PangoAttrList *markup)
-{
-	CmdSetText *me;
-	gchar *corrected_text;
-	GnmCell const *cell;
-	char *where;
-	GnmRange r;
-	gboolean same_text = FALSE, same_markup = FALSE;
-	GString *text;
-
-	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
-	g_return_val_if_fail (new_text != NULL, TRUE);
-
-	/* Ensure that we are not splitting up an array */
-	cell = sheet_cell_get (sheet, pos->col, pos->row);
-	if (gnm_cell_is_nonsingleton_array (cell)) {
-		gnm_cmd_context_error_splits_array (GO_CMD_CONTEXT (wbc),
-			_("Set Text"), NULL);
-		return TRUE;
-	}
-
-	corrected_text = autocorrect_tool (new_text);
-
-	if (go_pango_attr_list_is_empty (markup))
-		markup = NULL;
-
-	if (cell) {
-		char *old_text = gnm_cell_get_entered_text (cell);
-		same_text = strcmp (old_text, corrected_text) == 0;
-		g_free (old_text);
-
-		if (same_text && cell->value && VALUE_IS_STRING (cell->value)) {
-			const GOFormat *fmt = VALUE_FMT (cell->value);
-			if (fmt && go_format_is_markup (fmt)) {
-				const PangoAttrList *old_markup =
-					go_format_get_markup (fmt);
-				same_markup = gnm_pango_attr_list_equal (old_markup, markup);
-			}
-		}
-	}
-
-	if (same_text && same_markup) {
-		g_free (corrected_text);
-		return TRUE;
-	}
-
-	me = g_object_new (CMD_SET_TEXT_TYPE, NULL);
-
-	me->pos.sheet = sheet;
-	me->pos.eval = *pos;
-	me->text = corrected_text;
-	if (NULL != (me->markup = markup))
-		pango_attr_list_ref (me->markup);
-	r.start = r.end = *pos;
-	me->old_contents = clipboard_copy_range (sheet, &r);
-	me->first = TRUE;
-
-	text = gnm_cmd_trunc_descriptor (g_string_new (corrected_text), NULL);
-
-	me->cmd.sheet = sheet;
-	me->cmd.size = 1;
-	where = undo_cell_pos_name (sheet, pos);
-
-	me->cmd.cmd_descriptor =
-		same_text
-		? g_strdup_printf (_("Editing style in %s"), where)
-		: g_strdup_printf (_("Typing \"%s\" in %s"),
-				   text->str, where);
-	g_free (where);
-	g_string_free (text, TRUE);
-
-	me->first_time = TRUE;
-	me->has_user_format = !go_format_is_general (
-		gnm_style_get_format (sheet_style_get (sheet, pos->col, pos->row)));
-
-	return gnm_command_push_undo (wbc, G_OBJECT (me));
-}
-
-/******************************************************************/
-
-
 /*
- * cmd_area_set_text
+ * cmd_set_text_full
  *
  * the caller is expected to have ensured:
  *
  * 1) that no array is being split
  * 2) that the range is not locked.
  *
+ * Note:
+ * We will free the selection but nothing else.
+ *
  */
 
-gboolean
-cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
+static gboolean
+cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 		   char const *new_text, PangoAttrList *markup)
 {
-	GSList	*selection = selection_get_ranges (sv, FALSE), *l;
-	GnmParsePos pp;
+	GSList	*l;
 	char const *expr_txt;
 	GnmExprTop const  *texpr = NULL;
 	GOUndo *undo = NULL;
 	GOUndo *redo = NULL;
 	gboolean result;
 	char *text = NULL;
-	Sheet *sheet = sv_sheet (sv);
 	char *name;
+	Sheet *sheet = ep->sheet;
+	GnmParsePos pp;
+	ColRowIndexList *cri_col_list = NULL, *cri_row_list = NULL;
 
 	g_return_val_if_fail (selection != NULL , TRUE);
 
+	/* We should check whether we are in fact changing anything: */
+
+/* 	if (cell) { */
+/* 		char *old_text = gnm_cell_get_entered_text (cell); */
+/* 		same_text = strcmp (old_text, corrected_text) == 0; */
+/* 		g_free (old_text); */
+
+/* 		if (same_text && cell->value && VALUE_IS_STRING (cell->value)) { */
+/* 			const GOFormat *fmt = VALUE_FMT (cell->value); */
+/* 			if (fmt && go_format_is_markup (fmt)) { */
+/* 				const PangoAttrList *old_markup = */
+/* 					go_format_get_markup (fmt); */
+/* 				same_markup = gnm_pango_attr_list_equal 
+				(old_markup, markup); */
+/* 			} */
+/* 		} */
+/* 	} */
+
+/* 	if (same_text && same_markup) { */
+/* 		g_free (corrected_text); */
+/* 		return TRUE; */
+/* 	} */
+
+	
+	parse_pos_init_evalpos (&pp, ep);
 	name = undo_range_list_name (sheet, selection);
-	parse_pos_init_editpos (&pp, sv);
 	expr_txt = gnm_expr_char_start_p (new_text);
 	if (expr_txt != NULL)
 		texpr = gnm_expr_parse_str
 			(expr_txt, &pp, GNM_EXPR_PARSE_DEFAULT,
-			 sheet_get_conventions (pp.sheet), NULL);
+			 sheet_get_conventions (sheet), NULL);
 
 	if (texpr != NULL) {
 		GOFormat *sf;
-		GnmEvalPos ep;
 		GnmStyle *new_style = NULL;
 
 		text = g_strdup_printf (_("Inserting expression in %s"), name);
 
-		sf = auto_style_format_suggest 
-			(texpr, eval_pos_init_editpos (&ep, sv));
+		sf = auto_style_format_suggest (texpr, ep);
 		if (sf != NULL) {
 			new_style = gnm_style_new ();
 			gnm_style_set_format (new_style, sf);
@@ -1055,11 +868,96 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 	}
 	g_free (name);
 
+	
+	for (l = selection; l != NULL; l = l->next) {
+		GnmRange *r = l->data;
+
+		cri_col_list = colrow_get_index_list 
+			(r->start.col, r->end.col, cri_col_list);
+		cri_row_list = colrow_get_index_list 
+			(r->start.row, r->end.row, cri_row_list);
+	}
+	undo = go_undo_combine (undo,
+				gnm_undo_colrow_restore_state_group_new 
+				(sheet, TRUE, 
+				 colrow_index_list_copy (cri_col_list), 
+				 colrow_get_sizes (sheet, TRUE,
+						   cri_col_list, -1)));
+	undo = go_undo_combine (undo,
+				gnm_undo_colrow_restore_state_group_new 
+				(sheet, FALSE, 
+				 colrow_index_list_copy (cri_row_list), 
+				 colrow_get_sizes (sheet, FALSE,
+						   cri_row_list, -1)));
+	redo  = go_undo_combine (gnm_undo_colrow_set_sizes_new 
+				 (sheet, TRUE, cri_col_list, -1, NULL),
+				 redo);
+	redo  = go_undo_combine (gnm_undo_colrow_set_sizes_new 
+				 (sheet, FALSE, cri_row_list, -1, NULL),
+				 redo);
+
 	result = cmd_generic (wbc, text, undo, redo);
 	g_free (text);
 	range_fragment_free (selection);
 	return result;
 }
+
+/*
+ * cmd_area_set_text
+ *
+ * the caller is expected to have ensured:
+ *
+ * 1) that no array is being split
+ * 2) that the range is not locked.
+ *
+ */
+
+gboolean
+cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
+		   char const *new_text, PangoAttrList *markup)
+{
+	GnmEvalPos ep;
+	gboolean result;
+	GSList *selection = selection_get_ranges (sv, FALSE);
+
+	eval_pos_init_editpos (&ep, sv);
+	result = cmd_set_text_full (wbc, selection, &ep,
+				    new_text, markup);
+	return result;
+}
+
+gboolean
+cmd_set_text (WorkbookControl *wbc,
+	      Sheet *sheet, GnmCellPos const *pos,
+	      char const *new_text,
+	      PangoAttrList *markup)
+{
+	GnmCell const *cell;
+	GnmEvalPos ep;
+	gboolean result;
+	GSList *selection;
+	GnmRange *r;
+
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+	g_return_val_if_fail (new_text != NULL, TRUE);
+
+	/* Ensure that we are not splitting up an array */
+	cell = sheet_cell_get (sheet, pos->col, pos->row);
+	if (gnm_cell_is_nonsingleton_array (cell)) {
+		gnm_cmd_context_error_splits_array (GO_CMD_CONTEXT (wbc),
+			_("Set Text"), NULL);
+		return TRUE;
+	}
+
+	eval_pos_init_pos (&ep, sheet, pos);
+	r = g_new (GnmRange, 1);
+	r->start = r->end = *pos;
+	selection = g_slist_prepend (NULL, r);
+	result = cmd_set_text_full (wbc, selection, &ep,
+				    new_text, markup);
+	return result;
+}
+
 
 /*
  * cmd_area_set_array_expr

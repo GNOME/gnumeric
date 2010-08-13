@@ -10,6 +10,8 @@ Andreas:
 	* Import and export boxplots to and from ODF files. [#626653]
 	* Improve handling of corrupted ODF files. [#626654][#626655]
 	* Fix autocorrection when entering in ranges. [#626781]
+	* Fix column wdth and row height adjustments when entering in ranges.
+	  [#626789]
 
 Jean:
 	* Import Guppi graphs from gnumeric-1.0.x files. [#567953]
