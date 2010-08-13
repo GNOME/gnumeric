@@ -1,3 +1,7 @@
+2010-08-13  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric.1: Don't mention options not intended for users.
+
 2010-07-30  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.8
@@ -1523,4 +1527,3 @@
 2003-06-01 Adrian Custer <acuster@nature.berkeley.edu>
 
 	* New ChangeLog 
-
