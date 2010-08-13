@@ -134,7 +134,7 @@ GSF_CLASS (GNMUndoColrowSetSizes, gnm_undo_colrow_set_sizes,
 /**
  * gnm_undo_colrow_set_sizes_new:
  *
- * If r is non-null and new_size == -1, selection is ignored.
+ * If r is non-null and new_size == -1 or -2, selection is ignored.
  *
  * Returns: a new undo object.
  **/
@@ -154,7 +154,7 @@ gnm_undo_colrow_set_sizes_new (Sheet *sheet, gboolean is_cols,
 	ua->is_cols = is_cols;
 	ua->new_size = new_size;
 	
-	if (r == NULL || new_size != -1) {
+	if (r == NULL || new_size > -1) {
 		ua->selection = selection;
 		ua->from = 0;
 		ua->to = -1;

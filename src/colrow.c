@@ -451,7 +451,7 @@ ColRowStateGroup *
 colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 		  ColRowIndexList *src, int new_size, int from, int to)
 /* from & to are used to restrict fitting to that range. Pass 0, -1 if you want to use the */
-/*whole row/column */
+/* whole row/column */
 {
 	int i;
 	ColRowStateGroup *res = NULL;
@@ -529,8 +529,8 @@ colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 					from = to;
 				/* Fall back to assigning the default if it is empty */
 				tmp = (is_cols)
-					? sheet_col_size_fit_pixels (sheet, i, from, to, FALSE)
-					: sheet_row_size_fit_pixels (sheet, i, from, to, FALSE);
+					? sheet_col_size_fit_pixels (sheet, i, from, to, tmp == -2)
+					: sheet_row_size_fit_pixels (sheet, i, from, to, tmp == -2);
 			}
 			if (tmp > 0) {
 				if (is_cols)

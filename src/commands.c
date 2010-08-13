@@ -882,18 +882,18 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 				(sheet, TRUE, 
 				 colrow_index_list_copy (cri_col_list), 
 				 colrow_get_sizes (sheet, TRUE,
-						   cri_col_list, -1)));
+						   cri_col_list, -2)));
 	undo = go_undo_combine (undo,
 				gnm_undo_colrow_restore_state_group_new 
 				(sheet, FALSE, 
 				 colrow_index_list_copy (cri_row_list), 
 				 colrow_get_sizes (sheet, FALSE,
-						   cri_row_list, -1)));
+						   cri_row_list, -2)));
 	redo  = go_undo_combine (gnm_undo_colrow_set_sizes_new 
-				 (sheet, TRUE, cri_col_list, -1, NULL),
+				 (sheet, TRUE, cri_col_list, -2, NULL),
 				 redo);
 	redo  = go_undo_combine (gnm_undo_colrow_set_sizes_new 
-				 (sheet, FALSE, cri_row_list, -1, NULL),
+				 (sheet, FALSE, cri_row_list, -2, NULL),
 				 redo);
 
 	result = cmd_generic (wbc, text, undo, redo);

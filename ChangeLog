@@ -1,5 +1,12 @@
 2010-08-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/colrow.c (colrow_set_sizes): use -2 as an indicator only to auto-fit 
+	  non-strings
+	* src/commands.c (cmd_set_text_full): use size -2
+	* src/undo.c (gnm_undo_colrow_set_sizes_new): use -1 and -2 as autofit markers.
+
+2010-08-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/commands.c (cmd_set_text_*): deleted
 	(cmd_set_text_full): new
 	(cmd_set_text): use cmd_set_text_full
