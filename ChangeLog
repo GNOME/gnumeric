@@ -1,5 +1,10 @@
 2010-08-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/commands.c (cmd_set_text_full): always autofit the rows and also
+	  autofit the columns for non-strings.
+
+2010-08-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/colrow.c (colrow_set_sizes): revert last change
 	* src/commands.c (cmd_set_text_full_autofit_*): new
 	(cmd_set_text_full): don't use colrow_set_sizes but colrow_autofit

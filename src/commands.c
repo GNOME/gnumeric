@@ -773,7 +773,7 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 	GnmExprTop const  *texpr = NULL;
 	GOUndo *undo = NULL;
 	GOUndo *redo = NULL;
-	gboolean result, autofit_row = TRUE;
+	gboolean result, autofit_col = FALSE;
 	char *text = NULL;
 	char *name;
 	Sheet *sheet = ep->sheet;
@@ -843,7 +843,7 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 		if (new_style)
 			gnm_style_unref (new_style);
 		gnm_expr_top_unref (texpr);
-		autofit_row = FALSE;
+		autofit_col = TRUE;
 	} else {
 		GString *text_str;
 		PangoAttrList *adj_markup = NULL;
@@ -885,23 +885,31 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 	}
 	g_free (name);
 
-	
+	if (!autofit_col) {
+		GnmCell *cell = sheet_cell_fetch 
+			(sheet, ep->eval.col, ep->eval.row);
+		go_undo_undo (redo);
+		autofit_col = !VALUE_IS_STRING (cell->value);
+		go_undo_undo (undo);
+	}
 	for (l = selection; l != NULL; l = l->next) {
 		GnmRange *r = l->data;
 		GnmRange *new_r;
 
 		new_r = g_new (GnmRange, 1);
 		*new_r = *r;		
-		if (autofit_row) {
-			redo  = go_undo_combine 
-				(go_undo_binary_new 
-				 (sheet, new_r, 
-				  (GOUndoBinaryFunc) cmd_set_text_full_autofit_row,
-				  NULL, g_free),
-				 redo);
-			cri_row_list = colrow_get_index_list 
-				(r->start.row, r->end.row, cri_row_list);
-		} else {
+		redo  = go_undo_combine 
+			(go_undo_binary_new 
+			 (sheet, new_r, 
+			  (GOUndoBinaryFunc) cmd_set_text_full_autofit_row,
+			  NULL, g_free),
+			 redo);
+		cri_row_list = colrow_get_index_list 
+			(r->start.row, r->end.row, cri_row_list);
+
+		if (autofit_col) {
+			new_r = g_new (GnmRange, 1);
+			*new_r = *r;		
 			redo  = go_undo_combine 
 				(go_undo_binary_new 
 				 (sheet, new_r, 

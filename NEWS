@@ -12,6 +12,7 @@ Andreas:
 	* Fix autocorrection when entering in ranges. [#626781]
 	* Fix column wdth and row height adjustments when entering in ranges.
 	  [#626789]
+	* Fix autofitting on data entry. [#626861]
 
 Jean:
 	* Import Guppi graphs from gnumeric-1.0.x files. [#567953]
