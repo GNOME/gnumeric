@@ -748,6 +748,14 @@ cmd_set_text_full_autofit_col (Sheet *sheet, GnmRange *r)
 }
 
 
+static GnmValue *
+cmd_set_text_full_check_texpr (GnmCellIter const *iter, GnmExprTop const  *texpr)
+{
+	if (iter->cell == NULL || 
+	    !gnm_expr_top_equal (iter->cell->base.texpr, texpr))
+		return VALUE_TERMINATE;
+	return NULL;
+}
 
 /******************************************************************/
 
@@ -817,6 +825,30 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 	if (texpr != NULL) {
 		GOFormat *sf;
 		GnmStyle *new_style = NULL;
+		gboolean same_texpr = TRUE;
+
+		/* We should check whether we are in fact changing anything: */
+		for (l = selection; l != NULL && same_texpr; l = l->next) {
+			GnmRange *r = l->data;
+			GnmValue *val =
+				sheet_foreach_cell_in_range 
+				(sheet, CELL_ITER_ALL,
+				 r->start.col, r->start.row,
+				 r->end.col, r->end.row,
+				 (CellIterFunc) cmd_set_text_full_check_texpr, 
+				 (gpointer) texpr);
+			
+			same_texpr = (val != VALUE_TERMINATE);
+			if (val != NULL && same_texpr)
+				value_release (val);
+		}
+
+		if (same_texpr) {
+			gnm_expr_top_unref (texpr);
+			g_free (name);
+			range_fragment_free (selection);			
+			return TRUE;
+		}
 
 		text = g_strdup_printf (_("Inserting expression in %s"), name);
 

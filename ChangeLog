@@ -1,5 +1,11 @@
 2010-08-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/commands.c (cmd_set_text_full_check_texpr): new
+	(cmd_set_text_full): check whether we are entering the same expression
+	  already in all cells.
+
+2010-08-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/commands.c (cmd_set_text_full): always autofit the rows and also
 	  autofit the columns for non-strings.
 
