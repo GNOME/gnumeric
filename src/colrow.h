@@ -102,7 +102,7 @@ ColRowIndexList *colrow_get_index_list	     (int first, int last,
 					      ColRowIndexList *list);
 ColRowIndexList *colrow_index_list_copy	     (ColRowIndexList *list);
 
-#define colrow_state_list_destroy(l) (go_slist_free_custom ((l), g_free), NULL)
+ColRowStateList *colrow_state_list_destroy   (ColRowStateList *list);
 
 ColRowStateList	*colrow_get_states	     (Sheet *sheet, gboolean is_cols,
 					      int first, int last);

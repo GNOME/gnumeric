@@ -1,5 +1,7 @@
 2010-08-13  Morten Welinder  <terra@gnome.org>
 
+	* src/colrow.c (colrow_state_list_destroy): Make this a function.
+
 	* src/commands.c (cmd_set_text_full): Restore check for actual
 	changes.  Fixes #626797.
 

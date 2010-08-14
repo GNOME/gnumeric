@@ -338,6 +338,13 @@ colrow_set_single_state (ColRowState *state,
 }
 
 ColRowStateList *
+colrow_state_list_destroy (ColRowStateList *list)
+{
+	go_slist_free_custom (list, g_free);
+	return NULL;
+}
+
+ColRowStateList *
 colrow_get_states (Sheet *sheet, gboolean is_cols, int first, int last)
 {
 	ColRowStateList *list = NULL;
