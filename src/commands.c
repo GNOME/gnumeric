@@ -772,12 +772,9 @@ cmd_set_text_full_check_text (GnmCellIter const *iter, char *text)
 	old_text = gnm_cell_get_entered_text (iter->cell);
 	same = strcmp (old_text, text) == 0;
 
-	/* We do not recognize that entering "a" and "'a" is the same thing */
-	/* nor that "'a" and "'a" is the same thing */
-	/* We could do: */
-/* 	if (!same && text[0] == '\'') */
-/* 		same = strcmp (old_text, text + 1) == 0; */
-	/* but we would then think that "1" and "'1" are the same (which they aren't. */
+	if (!same && iter->cell->value && VALUE_IS_STRING (iter->cell->value) 
+	    && text[0] == '\'')
+		same = strcmp (old_text, text + 1) == 0;
  
 	g_free (old_text);
 

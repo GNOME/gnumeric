@@ -1,5 +1,10 @@
 2010-08-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/commands.c (cmd_set_text_full_check_text): if we have already
+	  have a string in the cell, we can ignore a leading '
+
+2010-08-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/commands.c (cmd_set_text_full_check_text): new
 	(cmd_set_text_full_check_markup): new
 	(cmd_set_text_full): check for changed text and markup
