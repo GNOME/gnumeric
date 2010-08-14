@@ -787,32 +787,48 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 	Sheet *sheet = ep->sheet;
 	GnmParsePos pp;
 	ColRowIndexList *cri_col_list = NULL, *cri_row_list = NULL;
+	GnmCell *cell = NULL;
+	gboolean same_text = FALSE, same_markup = FALSE;
 
 	g_return_val_if_fail (selection != NULL , TRUE);
 
-	/* We should check whether we are in fact changing anything: */
+	if (go_pango_attr_list_is_empty (markup))
+		markup = NULL;
 
-/* 	if (cell) { */
-/* 		char *old_text = gnm_cell_get_entered_text (cell); */
-/* 		same_text = strcmp (old_text, corrected_text) == 0; */
-/* 		g_free (old_text); */
+	/*
+	 * We should check whether we are in fact changing anything.  In order
+	 * to keep it simple, we only try when a single cell is selected.
+	 */
+	if (selection->next == NULL &&
+	    range_is_singleton (selection->data)) {
+		GnmCellPos const *pos = &((GnmRange*)(selection->data))->start;
+		cell = sheet_cell_get (sheet, pos->col, pos->row);
+	}
 
-/* 		if (same_text && cell->value && VALUE_IS_STRING (cell->value)) { */
-/* 			const GOFormat *fmt = VALUE_FMT (cell->value); */
-/* 			if (fmt && go_format_is_markup (fmt)) { */
-/* 				const PangoAttrList *old_markup = */
-/* 					go_format_get_markup (fmt); */
-/* 				same_markup = gnm_pango_attr_list_equal 
-				(old_markup, markup); */
-/* 			} */
-/* 		} */
-/* 	} */
+	if (cell) {
+		const PangoAttrList *old_markup = NULL;
+		char *old_text;
 
-/* 	if (same_text && same_markup) { */
-/* 		g_free (corrected_text); */
-/* 		return TRUE; */
-/* 	} */
+		old_text = gnm_cell_get_entered_text (cell);
+		same_text = strcmp (old_text, new_text) == 0;
+		g_free (old_text);
 
+		if (cell->value && VALUE_IS_STRING (cell->value)) {
+			const GOFormat *fmt = VALUE_FMT (cell->value);
+			if (fmt && go_format_is_markup (fmt)) {
+				old_markup = go_format_get_markup (fmt);
+				if (go_pango_attr_list_is_empty (old_markup))
+					old_markup = NULL;
+			}
+		}
+
+		same_markup = gnm_pango_attr_list_equal (old_markup, markup);
+	}
+
+	if (same_text && same_markup) {
+		range_fragment_free (selection);
+		return TRUE;
+	}
 	
 	parse_pos_init_evalpos (&pp, ep);
 	name = undo_range_list_name (sheet, selection);
