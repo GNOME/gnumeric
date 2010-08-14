@@ -14,7 +14,8 @@ Andreas:
 	  [#626789]
 	* Fix autofitting on data entry. [#626861]
 	* Avoid some of the multiple undos when entering existing text in
-	  ranges. [#626797] 
+	  ranges. [#626797]
+	* Adjust formats wehn autofitting new entries. [#626903]
 
 Jean:
 	* Import Guppi graphs from gnumeric-1.0.x files. [#567953]

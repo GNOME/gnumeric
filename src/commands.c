@@ -735,21 +735,6 @@ command_undo_sheet_delete (Sheet* sheet)
 
 /******************************************************************/
 
-static void
-cmd_set_text_full_autofit_row (Sheet *sheet, GnmRange *r)
-{
-	colrow_autofit (sheet, r, FALSE, FALSE,
-			TRUE, FALSE, NULL, NULL);
-}
-
-static void
-cmd_set_text_full_autofit_col (Sheet *sheet, GnmRange *r)
-{
-	colrow_autofit (sheet, r, TRUE, TRUE,
-			TRUE, FALSE, NULL, NULL);
-}
-
-
 static GnmValue *
 cmd_set_text_full_check_texpr (GnmCellIter const *iter, GnmExprTop const  *texpr)
 {
@@ -1026,7 +1011,7 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 		redo  = go_undo_combine 
 			(go_undo_binary_new 
 			 (sheet, new_r, 
-			  (GOUndoBinaryFunc) cmd_set_text_full_autofit_row,
+			  (GOUndoBinaryFunc) colrow_autofit_row,
 			  NULL, g_free),
 			 redo);
 		cri_row_list = colrow_get_index_list 
@@ -1038,13 +1023,12 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 			redo  = go_undo_combine 
 				(go_undo_binary_new 
 				 (sheet, new_r, 
-				  (GOUndoBinaryFunc) cmd_set_text_full_autofit_col,
+				  (GOUndoBinaryFunc) colrow_autofit_col,
 				  NULL, g_free),
 				 redo);
 			cri_col_list = colrow_get_index_list 
 				(r->start.col, r->end.col, cri_col_list);
 		}
-
 	}
 	undo = go_undo_combine (undo,
 				gnm_undo_colrow_restore_state_group_new 

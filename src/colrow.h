@@ -155,6 +155,8 @@ void             colrow_autofit                 (Sheet *sheet,
 						 gboolean min_default,
 						 ColRowIndexList **indices,
 						 ColRowStateList **sizes);
+void             colrow_autofit_col             (Sheet *sheet, GnmRange *r);
+void             colrow_autofit_row             (Sheet *sheet, GnmRange *r);
 
 G_END_DECLS
 

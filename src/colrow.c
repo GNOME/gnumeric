@@ -808,6 +808,25 @@ colrow_autofit (Sheet *sheet, const GnmRange *range, gboolean is_cols,
 	colrow_foreach (crs, a, b, handler, &data);
 }
 
+void
+colrow_autofit_col (Sheet *sheet, GnmRange *r)
+{
+	colrow_autofit (sheet, r, TRUE, TRUE,
+			TRUE, FALSE, NULL, NULL);
+	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
+				     r->start.col, 0, 
+				     r->end.col, gnm_sheet_get_last_row (sheet),
+				     (CellIterFunc) &cb_clear_variable_width_content, 
+				     NULL);
+}
+
+void
+colrow_autofit_row (Sheet *sheet, GnmRange *r)
+{
+	colrow_autofit (sheet, r, FALSE, FALSE,
+			TRUE, FALSE, NULL, NULL);
+}
+
 /*****************************************************************************/
 
 typedef struct
