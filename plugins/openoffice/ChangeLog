@@ -1,3 +1,15 @@
+2010-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (GnmOOExport): rename objects field to graphs 
+	  and change throughout; add images field
+	(odf_write_frame): handle images
+	(odf_write_content): write images
+	(odf_write_image_manifest): new
+	(odf_write_manifest): connect odf_write_image_manifest
+	(odf_write_images): new
+	(openoffice_file_save_real): initialize and finalize  new hash and 
+	  cause images to be written
+	
 2010-08-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (OOParseState): add debug field and use

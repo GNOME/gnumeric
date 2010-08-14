@@ -159,7 +159,7 @@ Architecture Changes
     4.46) ODF
 	4.46.1) import
 	4.46.2) export
-    4.50) #346002 : tooltip of matching rows
+    4.50) #346002 : tooltip of matching rows  (using progress bar) (DONE)
     4.51) #383400 : '95' should match 95
     22.52) Clipboard ?? do we want this ?
     4.53) Support Office 2007 toggle date based buckets

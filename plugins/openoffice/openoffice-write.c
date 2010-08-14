@@ -64,6 +64,7 @@
 #include <sheet-object.h>
 #include <sheet-object-graph.h>
 #include <sheet-object-cell-comment.h>
+#include <sheet-object-image.h>
 #include <gnm-so-filled.h>
 #include <sheet-filter-combo.h>
 
@@ -113,7 +114,8 @@ typedef struct {
 	GnmStyle *default_style;
 	ColRowInfo const *row_default;
 	ColRowInfo const *column_default;
-	GHashTable *objects;
+	GHashTable *graphs;
+	GHashTable *images;
 	gboolean with_extension;
 	GOFormat const *time_fmt;
 	GOFormat const *date_fmt;
@@ -2205,7 +2207,7 @@ odf_write_frame (GnmOOExport *state, SheetObject *so)
 	g_free (formula);
 
 	if (IS_SHEET_OBJECT_GRAPH (so)) {
-		char const *name = g_hash_table_lookup (state->objects, so);
+		char const *name = g_hash_table_lookup (state->graphs, so);
 		if (name != NULL) {
 			char *full_name = g_strdup_printf ("%s/", name);
 			gsf_xml_out_start_element (state->xml, DRAW "object");
@@ -2219,7 +2221,7 @@ odf_write_frame (GnmOOExport *state, SheetObject *so)
 					      full_name);
 			g_free (full_name);
 			gsf_xml_out_end_element (state->xml); /*  DRAW "object" */
-			full_name = g_strdup_printf ("./Pictures/%s", name);
+			full_name = g_strdup_printf ("Pictures/%s", name);
 			gsf_xml_out_start_element (state->xml, DRAW "image");
 			gsf_xml_out_add_cstr (state->xml, XLINK "href", full_name);
 			g_free (full_name);
@@ -2227,7 +2229,7 @@ odf_write_frame (GnmOOExport *state, SheetObject *so)
 			gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
 			gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
 			gsf_xml_out_end_element (state->xml); /*  DRAW "image" */
-			full_name = g_strdup_printf ("./Pictures/%s.png", name);
+			full_name = g_strdup_printf ("Pictures/%s.png", name);
 			gsf_xml_out_start_element (state->xml, DRAW "image");
 			gsf_xml_out_add_cstr (state->xml, XLINK "href", full_name);
 			g_free (full_name);
@@ -2247,6 +2249,28 @@ odf_write_frame (GnmOOExport *state, SheetObject *so)
 		gsf_xml_out_end_element (state->xml); /*  DRAW "text-box" */
 
 		g_free (text);
+	} else if (IS_SHEET_OBJECT_IMAGE (so)) {
+		char const *name = g_hash_table_lookup (state->images, so);
+		if (name != NULL) {
+			char *image_type;
+			char *fullname;
+			g_object_get (G_OBJECT (so), 
+				      "image-type", &image_type, 
+				      NULL);
+			fullname = g_strdup_printf ("Pictures/%s.%s", name, image_type);
+
+			gsf_xml_out_start_element (state->xml, DRAW "image");
+			gsf_xml_out_add_cstr (state->xml, XLINK "href", fullname);
+			gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
+			gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
+			gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
+			gsf_xml_out_end_element (state->xml); /*  DRAW "image" */
+			
+			g_free(fullname);
+			g_free (image_type);
+		} else
+			g_warning ("Image is missing from hash.");
+		
 	} else {
 		gsf_xml_out_start_element (state->xml, DRAW "text-box");
 		gsf_xml_out_simple_element (state->xml, TEXT "p", "Missing Sheet Object");
@@ -2954,6 +2978,7 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 {
 	int i;
 	int graph_n = 1;
+	int image_n = 1;
 	gboolean has_autofilters = FALSE;
 
 	state->xml = gsf_xml_out_new (child);
@@ -2987,15 +3012,21 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 		Sheet *sheet = workbook_sheet_by_index (state->wb, i);
 		char *style_name;
 		GnmRange    *p_area;
-		GSList *l, *graphs;
+		GSList *l, *graphs, *images;
 
 		state->sheet = sheet;
 
 		graphs = sheet_objects_get (sheet, NULL, SHEET_OBJECT_GRAPH_TYPE);
 		for (l = graphs; l != NULL; l = l->next)
-			g_hash_table_insert (state->objects, l->data,
+			g_hash_table_insert (state->graphs, l->data,
 					     g_strdup_printf ("Graph%i", graph_n++));
 		g_slist_free (graphs);
+
+		images = sheet_objects_get (sheet, NULL, SHEET_OBJECT_IMAGE_TYPE);
+		for (l = images; l != NULL; l = l->next)
+			g_hash_table_insert (state->images, l->data,
+					     g_strdup_printf ("Image%i", image_n++));
+		g_slist_free (images);
 
 		gsf_xml_out_start_element (state->xml, TABLE "table");
 		gsf_xml_out_add_cstr (state->xml, TABLE "name", sheet->name_unquoted);
@@ -3261,6 +3292,24 @@ odf_write_graph_manifest (G_GNUC_UNUSED SheetObject *graph, char const *name, Gn
 }
 
 static void
+odf_write_image_manifest (SheetObject *image, char const *name, GnmOOExport *state)
+{
+	char *image_type;
+	char *fullname;
+	char *mime;
+
+	g_object_get (G_OBJECT (image), "image-type", &image_type, NULL);
+	mime =  g_strdup_printf ("image/%s", image_type);
+	fullname = g_strdup_printf ("Pictures/%s.%s", name, image_type);
+	odf_file_entry (state->xml, mime, fullname);
+
+	g_free (mime);
+	g_free(fullname);
+	g_free (image_type);
+		
+}
+
+static void
 odf_write_manifest (GnmOOExport *state, GsfOutput *child)
 {
 	GsfXMLOut *xml = gsf_xml_out_new (child);
@@ -3274,12 +3323,14 @@ odf_write_manifest (GnmOOExport *state, GsfOutput *child)
 	odf_file_entry (xml, "text/xml", "meta.xml");
 	odf_file_entry (xml, "text/xml", "settings.xml");
 
-	if (g_hash_table_size (state->objects) > 0) {
+	if (g_hash_table_size (state->graphs) > 0 ||
+	    g_hash_table_size (state->images) > 0)
 		odf_file_entry (xml, "", "Pictures/");
-		state->xml = xml;
-		g_hash_table_foreach (state->objects, (GHFunc) odf_write_graph_manifest, state);
-		state->xml = NULL;
-	}
+
+	state->xml = xml;
+	g_hash_table_foreach (state->graphs, (GHFunc) odf_write_graph_manifest, state);
+	g_hash_table_foreach (state->images, (GHFunc) odf_write_image_manifest, state);
+	state->xml = NULL;
 
 	gsf_xml_out_end_element (xml); /* </manifest:manifest> */
 	g_object_unref (xml);
@@ -3933,6 +3984,33 @@ odf_write_graph_content (GnmOOExport *state, GsfOutput *child, SheetObject *so)
 /**********************************************************************************/
 
 static void
+odf_write_images (SheetObjectImage *image, char const *name, GnmOOExport *state)
+{
+	char *image_type;
+	char *fullname;
+	GsfOutput  *child;
+	GByteArray *bytes;
+
+	g_object_get (G_OBJECT (image), 
+		      "image-type", &image_type, 
+		      "image-data", &bytes, 
+		      NULL);
+	fullname = g_strdup_printf ("Pictures/%s.%s", name, image_type);
+
+	child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
+							"compression-level", GSF_ZIP_DEFLATED,
+							NULL);
+	if (NULL != child) {
+		gsf_output_write (child, bytes->len, bytes->data);
+		gsf_output_close (child);
+		g_object_unref (G_OBJECT (child));
+	}
+
+	g_free(fullname);
+	g_free (image_type);
+}
+
+static void
 odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 {
 	GsfOutput  *child;
@@ -4031,7 +4109,9 @@ openoffice_file_save_real (GOFileSaver const *fs, GOIOContext *ioc,
 	state.wbv = wbv;
 	state.wb  = wb_view_get_workbook (wbv);
 	state.conv = odf_expr_conventions_new ();
-	state.objects = g_hash_table_new_full (g_direct_hash, g_direct_equal,
+	state.graphs = g_hash_table_new_full (g_direct_hash, g_direct_equal,
+					       NULL, (GDestroyNotify) g_free);
+	state.images = g_hash_table_new_full (g_direct_hash, g_direct_equal,
 					       NULL, (GDestroyNotify) g_free);
 	state.named_cell_styles = g_hash_table_new_full (g_direct_hash, g_direct_equal,
 						   NULL, (GDestroyNotify) g_free);
@@ -4077,7 +4157,8 @@ openoffice_file_save_real (GOFileSaver const *fs, GOIOContext *ioc,
         pictures = gsf_outfile_new_child_full (state.outfile, "Pictures", TRUE,
 								"compression-level", GSF_ZIP_DEFLATED,
 								NULL);
-	g_hash_table_foreach (state.objects, (GHFunc) odf_write_graphs, &state);
+	g_hash_table_foreach (state.graphs, (GHFunc) odf_write_graphs, &state);
+	g_hash_table_foreach (state.images, (GHFunc) odf_write_images, &state);
 	if (NULL != pictures) {
 		gsf_output_close (pictures);
 		g_object_unref (G_OBJECT (pictures));
@@ -4090,7 +4171,8 @@ openoffice_file_save_real (GOFileSaver const *fs, GOIOContext *ioc,
 	g_object_unref (G_OBJECT (state.outfile));
 
 	gnm_pop_C_locale (locale);
-	g_hash_table_unref (state.objects);
+	g_hash_table_unref (state.graphs);
+	g_hash_table_unref (state.images);
 	g_hash_table_unref (state.named_cell_styles);
 	g_hash_table_unref (state.cell_styles);
 	g_hash_table_unref (state.xl_styles);
