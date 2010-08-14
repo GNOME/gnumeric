@@ -1,5 +1,10 @@
 2010-08-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/commands.c (cmd_set_text_full): check whether the same-text and 
+	  not same-markup situation in fact applies.
+
+2010-08-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/commands.c (cmd_set_text_full_check_text): if we have already
 	  have a string in the cell, we can ignore a leading '
 

@@ -733,6 +733,8 @@ command_undo_sheet_delete (Sheet* sheet)
 	return (TRUE);
 }
 
+/******************************************************************/
+
 static void
 cmd_set_text_full_autofit_row (Sheet *sheet, GnmRange *r)
 {
@@ -803,8 +805,6 @@ cmd_set_text_full_check_markup (GnmCellIter const *iter, PangoAttrList *markup)
 	return same_markup ? NULL : VALUE_TERMINATE;
 }
 
-/******************************************************************/
-
 /*
  * cmd_set_text_full
  *
@@ -827,7 +827,7 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 	GnmExprTop const  *texpr = NULL;
 	GOUndo *undo = NULL;
 	GOUndo *redo = NULL;
-	gboolean result, autofit_col = FALSE;
+	gboolean result, autofit_col = FALSE, same_text_and_not_same_markup = FALSE;
 	char *text = NULL;
 	char *name;
 	Sheet *sheet = ep->sheet;
@@ -988,15 +988,34 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 		if (adj_markup)
 			pango_attr_list_unref (adj_markup);
 		g_free (corrected);
+
+		same_text_and_not_same_markup = (same_text && !same_markup);
 	}
 	g_free (name);
-
-	if (!autofit_col) {
+	
+	/* We are combining this since we don't want to apply and undo twice.*/
+	if (same_text_and_not_same_markup || !autofit_col) {
 		GnmCell *cell = sheet_cell_fetch 
 			(sheet, ep->eval.col, ep->eval.row);
+		gboolean nvis;
+
 		go_undo_undo (redo);
-		autofit_col = !VALUE_IS_STRING (cell->value);
+		nvis = !VALUE_IS_STRING (cell->value);
+		if (!autofit_col)
+			autofit_col = nvis;
+		if (same_text_and_not_same_markup)
+			/* We only have to do something if at least one cell           */
+			/* now contains a string, but they contain all the same thing. */
+			same_text_and_not_same_markup = nvis;
 		go_undo_undo (undo);
+	}
+	if (same_text_and_not_same_markup) {
+		/*We had the same text and differnt markup but we are not entering strings. */
+		g_object_unref (G_OBJECT (undo));
+		g_object_unref (G_OBJECT (redo));
+		g_free (text);
+		range_fragment_free (selection);
+		return TRUE;
 	}
 	for (l = selection; l != NULL; l = l->next) {
 		GnmRange *r = l->data;
