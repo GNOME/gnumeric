@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&component=general\n"
 "POT-Creation-Date: 2010-08-05 02:42+0000\n"
-"PO-Revision-Date: 2010-08-05 13:49+0100\n"
+"PO-Revision-Date: 2010-08-14 21:14+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -20,6 +20,11 @@ msgstr ""
 "X-Poedit-Language: Slovenian\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
+# area - podatkovno področije
+# array - polje
+# range - podatkovna vrsta
+# string - niz
+# set - set (ni nujno, da je le ena oz zgornjih vrednosti, zato je set, set)
 #: ../plugins/fn-christian-date/functions.c:140
 msgid "EASTERSUNDAY:Easter Sunday in the Gregorian calendar according to the Roman rite of the Christian Church"
 msgstr ""
@@ -4468,9 +4473,8 @@ msgid "ROWS:number of rows in @{reference}"
 msgstr "Število vrstic v igri po meri"
 
 #: ../plugins/fn-lookup/functions.c:1537
-#, fuzzy
 msgid "reference:array, reference, or range"
-msgstr "Izbriši ali razdeli polje"
+msgstr "sklic:polje,sklic ali podatkovna vrsta"
 
 #: ../plugins/fn-lookup/functions.c:1538
 msgid "If @{reference} is neither an array nor a reference nor a range, ROWS returns #VALUE!"
@@ -6700,9 +6704,8 @@ msgstr "Nadgradnja distribucije"
 
 #: ../plugins/fn-random/functions.c:326
 #: ../plugins/fn-random/functions.c:374
-#, fuzzy
 msgid "σ:standard deviation of the distribution"
-msgstr "Na voljo je posodobitev distribucije"
+msgstr "σ:standardni odklon (deviacija) distribucije"
 
 #: ../plugins/fn-random/functions.c:327
 #, fuzzy
@@ -8140,9 +8143,8 @@ msgstr "Nadgradnja distribucije"
 
 #: ../plugins/fn-stat/functions.c:1756
 #: ../plugins/fn-stat/functions.c:1789
-#, fuzzy
 msgid "stddev:standard deviation of the distribution"
-msgstr "Izračuna standardni odmik celotne matrike"
+msgstr "stddev:standardni odklon (deviacija) distribucije"
 
 #: ../plugins/fn-stat/functions.c:1786
 msgid "NORMINV:inverse of the cumulative distribution function of a normal distribution"
@@ -8197,9 +8199,8 @@ msgid "Then DEVSQ(A1:A5) equals 470.56."
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1920
-#, fuzzy
 msgid "FISHER:Fisher transformation"
-msgstr "Pretvorba ni uspela."
+msgstr "FISHER:Fisherjeva transformacija"
 
 #: ../plugins/fn-stat/functions.c:1922
 msgid "If @{x} is not a number, this function returns a #VALUE! error."
@@ -8215,9 +8216,8 @@ msgid "POISSON:probability mass or cumulative distribution function of the Poiss
 msgstr "Normalizirana Gaussova distribucijska funkcija (normalna krivulja)"
 
 #: ../plugins/fn-stat/functions.c:1950
-#, fuzzy
 msgid "x:number of events"
-msgstr "Število vklopov"
+msgstr "x:število dogodkov"
 
 #: ../plugins/fn-stat/functions.c:1953
 #, fuzzy
@@ -8260,23 +8260,20 @@ msgid "Then MEDIAN(A1:A5) equals 21.3."
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2034
-#, fuzzy
 msgid "wiki:en:Median"
-msgstr "http://en.wikipedia.org/wiki/{0}"
+msgstr "wiki:en:Median"
 
 #: ../plugins/fn-stat/functions.c:2035
-#, fuzzy
 msgid "wolfram:StatisticalMedian.html"
-msgstr "<b>HTML možnosti izvoza:</b>"
+msgstr "wolfram:StatisticalMedian.html"
 
 #: ../plugins/fn-stat/functions.c:2054
 msgid "SSMEDIAN:median for grouped data as commonly determined in the social sciences"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2055
-#, fuzzy
 msgid "array:data set"
-msgstr "Določeni podatki skladišča"
+msgstr "polje: podatkovni set"
 
 #: ../plugins/fn-stat/functions.c:2056
 msgid "interval:length of each grouping interval, defaults to 1"
@@ -8310,9 +8307,8 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2147
 #: ../plugins/fn-stat/functions.c:2190
-#, fuzzy
 msgid "data:data set"
-msgstr "Določeni podatki skladišča"
+msgstr "podatki: podatkovni set"
 
 #: ../plugins/fn-stat/functions.c:2148
 #: ../plugins/fn-stat/functions.c:2191
@@ -8347,18 +8343,16 @@ msgid "PROB:probability of an interval for a discrete (and finite) probability d
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2234
-#, fuzzy
 msgid "x_range:possible values"
-msgstr "Mogoči vrednosti sta: točke, odstotek"
+msgstr "x_range:mogoče vrednosti"
 
 #: ../plugins/fn-stat/functions.c:2235
 msgid "prob_range:probabilities of the corresponding values"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2236
-#, fuzzy
 msgid "lower_limit:lower interval limit"
-msgstr "Časovni razmik večkratnega klika"
+msgstr "lower_limit:spodnji limit intervala"
 
 #: ../plugins/fn-stat/functions.c:2237
 msgid "upper_limit:upper interval limit, defaults to @{lower_limit}"
@@ -8389,18 +8383,16 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:3862
 #: ../plugins/fn-stat/functions.c:3921
 #: ../plugins/fn-stat/functions.c:3973
-#, fuzzy
 msgid "known_ys:known y-values"
-msgstr "Natisni delne vrednosti"
+msgstr "known_ys:znane vrednosti y"
 
 #: ../plugins/fn-stat/functions.c:2321
 #: ../plugins/fn-stat/functions.c:3471
 #: ../plugins/fn-stat/functions.c:3863
 #: ../plugins/fn-stat/functions.c:3922
 #: ../plugins/fn-stat/functions.c:3974
-#, fuzzy
 msgid "known_xs:known x-values"
-msgstr "Natisni delne vrednosti"
+msgstr "known_xs:znane vrednosti x"
 
 #: ../plugins/fn-stat/functions.c:2322
 msgid "If @{known_ys} and @{known_xs} are empty or have a different number of arguments then this function returns a #N/A error."
@@ -8415,14 +8407,12 @@ msgid "ZTEST:the probability of observing a sample mean as large as or larger th
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2374
-#, fuzzy
 msgid "ref:data set (sample)"
-msgstr "Preglednica podatkovne zbirke:"
+msgstr "sklic: podatkovni set (vzorec)"
 
 #: ../plugins/fn-stat/functions.c:2375
-#, fuzzy
 msgid "x:population mean"
-msgstr "Srednja bitna hitrost"
+msgstr "x:srednja vrednost populacije"
 
 #: ../plugins/fn-stat/functions.c:2376
 msgid "stddev:population standard deviation, defaults to the sample standard deviation"
@@ -8567,9 +8557,8 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2729
 #: ../plugins/fn-stat/functions.c:2771
-#, fuzzy
 msgid "array:data points"
-msgstr "Pokaži podatkovne točke"
+msgstr "polje:podatkovne točke"
 
 #: ../plugins/fn-stat/functions.c:2730
 #, fuzzy
@@ -8656,14 +8645,12 @@ msgid "Then TTEST(A1:A5,B1:B5,1,1) equals 0.003127619.TTEST(A1:A5,B1:B5,2,1) equ
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3045
-#, fuzzy
 msgid "FREQUENCY:frequency table"
-msgstr "<b>Podrobnosti preglednice</b>"
+msgstr "FREQUENCY:preglednica frekvence"
 
 #: ../plugins/fn-stat/functions.c:3046
-#, fuzzy
 msgid "data_array:data values"
-msgstr "Pričakovan <gda_array_data> v <gda_array>"
+msgstr "podatkovno_polje:podatkovne vrednosti"
 
 #: ../plugins/fn-stat/functions.c:3047
 msgid "bins_array:array of cutoff values"
@@ -8894,14 +8881,12 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4038
-#, fuzzy
 msgid "ref1:first value"
-msgstr "Vrednost je izven območja.\n"
+msgstr "sklic2:prva vrednost"
 
 #: ../plugins/fn-stat/functions.c:4039
-#, fuzzy
 msgid "ref2:second value"
-msgstr "Vrednost je izven območja.\n"
+msgstr "sklic2:druga vrednost"
 
 #: ../plugins/fn-stat/functions.c:4041
 msgid "Let us assume that the cells A1, A2, ..., A5 contain numbers 23, 27, 28, 33, and 39."
@@ -8912,19 +8897,16 @@ msgid "Then SUBTOTAL(1,A1:A5) equals 30.SUBTOTAL(6,A1:A5) equals 22378356.SUBTOT
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4121
-#, fuzzy
 msgid "CRONBACH:Cronbach's alpha"
-msgstr "Uporabi alfa barve"
+msgstr "CRONBACH:Cronbachova alpha ali test notranje skladnosti ali zanesljivosti"
 
 #: ../plugins/fn-stat/functions.c:4122
-#, fuzzy
 msgid "ref1:first data set"
-msgstr "Preglednica podatkovne zbirke:"
+msgstr "sklic1:prvi podatkovni set"
 
 #: ../plugins/fn-stat/functions.c:4123
-#, fuzzy
 msgid "ref2:second data set"
-msgstr "Preglednica podatkovne zbirke:"
+msgstr "sklic2:drugi podatkovni set"
 
 #: ../plugins/fn-stat/functions.c:4234
 #, fuzzy
@@ -8932,9 +8914,8 @@ msgid "GEOMDIST:probability mass or cumulative distribution function of the hype
 msgstr "Normalizirana Gaussova distribucijska funkcija (normalna krivulja)"
 
 #: ../plugins/fn-stat/functions.c:4235
-#, fuzzy
 msgid "k:number of trials"
-msgstr "Število sider"
+msgstr "k:število poskusov"
 
 #: ../plugins/fn-stat/functions.c:4236
 msgid "p:probability of success in any trial"
@@ -8953,9 +8934,8 @@ msgid "PARETO:probability density function of the pareto distribution"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4298
-#, fuzzy
 msgid "a:exponent"
-msgstr "Potenca"
+msgstr "a:potenca"
 
 #: ../plugins/fn-stat/functions.c:4299
 #: ../plugins/fn-stat/functions.c:4407
@@ -8978,14 +8958,12 @@ msgid "RAYLEIGHTAIL:probability density function of the Rayleigh tail distributi
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4367
-#, fuzzy
 msgid "a:lower limit"
-msgstr "Brez omejitev"
+msgstr "a:spodnja limita"
 
 #: ../plugins/fn-stat/functions.c:4403
-#, fuzzy
 msgid "EXPPOWDIST:the probability density function of the Exponential Power distribution"
-msgstr "Normalizirana Gaussova distribucijska funkcija (normalna krivulja)"
+msgstr "EXPPOWDIST:funkcija gostote verjetnosti distribucije potence"
 
 #: ../plugins/fn-stat/functions.c:4409
 msgid "This distribution has been recommended for lifetime analysis when a U-shaped hazard function is desired. This corresponds to rapid failure once the product starts to wear out after a period of steady or even improving reliability."
@@ -8996,23 +8974,20 @@ msgid "LAPLACE:probability density function of the Laplace distribution"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4439
-#, fuzzy
 msgid "a:mean"
-msgstr "Srednja bitna hitrost"
+msgstr "a:srednja vrednost"
 
 #: ../plugins/fn-stat/functions.c:4460
 msgid "PERMUTATIONA:the number of permutations of @{y} objects chosen from @{x} objects with repetition allowed"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4461
-#, fuzzy
 msgid "x:total number of objects"
-msgstr "Skupno število naslovov URI"
+msgstr "x:skupno število predmetov"
 
 #: ../plugins/fn-stat/functions.c:4462
-#, fuzzy
 msgid "y:number of selected objects"
-msgstr "Brisanje izbranih predmetov"
+msgstr "y:število izbranih predmetov"
 
 #: ../plugins/fn-stat/functions.c:4463
 msgid "If both @{x} and @{y} equal 0, PERMUTATIONA returns 1."
@@ -9034,9 +9009,8 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:4611
 #: ../plugins/fn-stat/functions.c:4695
 #: ../plugins/fn-stat/functions.c:4780
-#, fuzzy
 msgid "x:array of sample values"
-msgstr "Natisni delne vrednosti"
+msgstr "x:polje vzorčnih vrednosti"
 
 #: ../plugins/fn-stat/functions.c:4495
 msgid "This function returns an array with the first row giving the p-value of the Lilliefors (Kolmogorov-Smirnov) Test, the second row the test statistic of the test, and the third the number of observations in the sample."
@@ -9047,9 +9021,8 @@ msgid "If there are less than 5 sample values, LKSTEST returns #VALUE!"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4499
-#, fuzzy
 msgid "wiki:en:Lilliefors_test"
-msgstr "http://en.wikipedia.org/wiki/{0}"
+msgstr "wiki:en:Lilliefors_test"
 
 #: ../plugins/fn-stat/functions.c:4610
 msgid "SFTEST:Shapiro-Francia Test of Normality"
@@ -9092,27 +9065,24 @@ msgid "If there are less than 8 sample values, ADTEST returns #VALUE!"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4785
-#, fuzzy
 msgid "wiki:en:Anderson–Darling_test"
-msgstr "http://en.wikipedia.org/wiki/{0}"
+msgstr "wiki:en:Anderson–Darling_test"
 
 #: ../plugins/fn-string/functions.c:56
 msgid "CHAR:the CP1252 (Windows-1252) character for the code point @{x}"
 msgstr ""
 
 #: ../plugins/fn-string/functions.c:57
-#, fuzzy
 msgid "x:code point"
-msgstr "Točka sidrišča"
+msgstr "x:točka kode"
 
 #: ../plugins/fn-string/functions.c:58
 msgid "CHAR(@{x}) returns the CP1252 (Windows-1252) character with code @{x}."
 msgstr ""
 
 #: ../plugins/fn-string/functions.c:59
-#, fuzzy
 msgid "@{x} must be in the range 1 to 255."
-msgstr "Za uvoz  predmeta'%s' mora biti ta odklenjen"
+msgstr "Vrednost @{x} mora biti v območju od 1 do 255."
 
 #: ../plugins/fn-string/functions.c:60
 #: ../plugins/fn-string/functions.c:136
@@ -9138,9 +9108,8 @@ msgid "UNICHAR:the Unicode character represented by the Unicode code point @{x}"
 msgstr ""
 
 #: ../plugins/fn-string/functions.c:106
-#, fuzzy
 msgid "x:Unicode code point"
-msgstr "Dodaj točko razdeljevanja"
+msgstr "x:točka kode Unicode"
 
 #: ../plugins/fn-string/functions.c:133
 msgid "CODE:the CP1252 (Windows-1252) code point for the character @{c}"
@@ -9148,9 +9117,8 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:134
 #: ../plugins/fn-string/functions.c:179
-#, fuzzy
 msgid "c:character"
-msgstr "Znak"
+msgstr "c:znak"
 
 #: ../plugins/fn-string/functions.c:135
 msgid "@{c} must be a valid CP1252 (Windows-1252) character."
@@ -9169,19 +9137,16 @@ msgid "EXACT:TRUE if @{string1} is exactly equal to @{string2}"
 msgstr ""
 
 #: ../plugins/fn-string/functions.c:200
-#, fuzzy
 msgid "string1:first string"
-msgstr "Uporabi prilagojeni niz"
+msgstr "niz1:prvi niz"
 
 #: ../plugins/fn-string/functions.c:201
-#, fuzzy
 msgid "string2:second string"
-msgstr "Uporabi prilagojeni niz"
+msgstr "niz2:drugi niz"
 
 #: ../plugins/fn-string/functions.c:219
-#, fuzzy
 msgid "LEN:the number of characters of the string @{s}"
-msgstr "Število prikazanih prvih znakov:"
+msgstr "LEN:število znakov niza @{s}"
 
 #: ../plugins/fn-string/functions.c:220
 #: ../plugins/fn-string/functions.c:237
@@ -9191,9 +9156,8 @@ msgstr "Število prikazanih prvih znakov:"
 #: ../plugins/fn-string/functions.c:379
 #: ../plugins/fn-string/functions.c:466
 #: ../plugins/fn-string/functions.c:502
-#, fuzzy
 msgid "s:the string"
-msgstr "Niz"
+msgstr "s:niz"
 
 #: ../plugins/fn-string/functions.c:236
 msgid "LENB:the number of bytes in the string @{s}"
@@ -9253,23 +9217,20 @@ msgid "While this function is OpenFormula compatible, most of its behavior is, a
 msgstr ""
 
 #: ../plugins/fn-string/functions.c:320
-#, fuzzy
 msgid "LOWER:a lower-case version of the string @{text}"
-msgstr "Spremeni izbrano besedilo v male črke"
+msgstr "LOWER:vrednost niza @{besedila} zapisanega z malimi črkami"
 
 #: ../plugins/fn-string/functions.c:338
 msgid "MID:the substring of the string @{s} starting at position @{position} consisting of @{length} characters"
 msgstr ""
 
 #: ../plugins/fn-string/functions.c:340
-#, fuzzy
 msgid "position:the starting position"
-msgstr "_Začetna ravni: "
+msgstr "položaj:začetni položaj"
 
 #: ../plugins/fn-string/functions.c:341
-#, fuzzy
 msgid "length:the number of characters to return"
-msgstr "Število prikazanih prvih znakov:"
+msgstr "length:število vrnjenih znakov"
 
 #: ../plugins/fn-string/functions.c:378
 msgid "MIDB:the characters following the first @{start_pos} bytes comprising at most @{num_bytes} bytes"
@@ -9285,15 +9246,13 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:423
 #: ../plugins/fn-string/functions.c:651
-#, fuzzy
 msgid "string1:search string"
-msgstr "Poišči niz"
+msgstr "niz1:iskalni niz"
 
 #: ../plugins/fn-string/functions.c:424
 #: ../plugins/fn-string/functions.c:652
-#, fuzzy
 msgid "string2:search field"
-msgstr "Izpolnite polje: %s"
+msgstr "niz2:iskalno polje"
 
 #: ../plugins/fn-string/functions.c:425
 #: ../plugins/fn-string/functions.c:1330
@@ -9302,9 +9261,8 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:426
 #: ../plugins/fn-string/functions.c:654
-#, fuzzy
 msgid "This search is case-sensitive."
-msgstr "Ali je to dejanje občutljivo"
+msgstr "Iskalnik upošteva velikost črk."
 
 #: ../plugins/fn-string/functions.c:465
 msgid "RIGHT:the last @{num_chars} characters of the string @{s}"
@@ -9320,32 +9278,28 @@ msgid "RIGHTB:the last characters of the string @{s} comprising at most @{num_by
 msgstr ""
 
 #: ../plugins/fn-string/functions.c:536
-#, fuzzy
 msgid "UPPER:an upper-case version of the string @{text}"
-msgstr "Spremeni izbrano besedilo v velike črke"
+msgstr "UPPER:vrednost niza @{besedila} zapisanega z velikimi črkami"
 
 #: ../plugins/fn-string/functions.c:555
 msgid "CONCATENATE:the concatenation of the strings @{s1}, @{s2},…"
 msgstr ""
 
 #: ../plugins/fn-string/functions.c:556
-#, fuzzy
 msgid "s1:first string"
-msgstr "Uporabi prilagojeni niz"
+msgstr "s1:prvi niz"
 
 #: ../plugins/fn-string/functions.c:557
-#, fuzzy
 msgid "s2:second string"
-msgstr "Uporabi prilagojeni niz"
+msgstr "s2:drugi niz"
 
 #: ../plugins/fn-string/functions.c:577
 msgid "REPT:@{num} repetitions of string @{text}"
 msgstr ""
 
 #: ../plugins/fn-string/functions.c:579
-#, fuzzy
 msgid "num:non-negative integer"
-msgstr "Ni mogoče narediti naključnega celega števila iz ne-celega števila"
+msgstr "num:ne-negativno celo število"
 
 #: ../plugins/fn-string/functions.c:621
 msgid "CLEAN:@{text} with any non-printable characters removed"
@@ -9370,14 +9324,12 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:689
 #: ../plugins/fn-string/functions.c:1186
-#, fuzzy
 msgid "num:number"
-msgstr "Število sider"
+msgstr "num:število"
 
 #: ../plugins/fn-string/functions.c:690
-#, fuzzy
 msgid "decimals:number of decimals"
-msgstr "Število decimalnih mest"
+msgstr "decimalke:število decimalnih mest"
 
 #: ../plugins/fn-string/functions.c:691
 msgid "no_commas:TRUE if no thousand separators should be used, defaults to FALSE"
@@ -9393,14 +9345,12 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:792
 #: ../plugins/fn-string/functions.c:843
-#, fuzzy
 msgid "old:original text"
-msgstr "_Vnesite novo besedilo:"
+msgstr "taro:izvorno besedilo"
 
 #: ../plugins/fn-string/functions.c:793
-#, fuzzy
 msgid "start:starting position"
-msgstr "Začni, ko bo miška v položaju:"
+msgstr "start:začetni položaj"
 
 #: ../plugins/fn-string/functions.c:794
 msgid "num:number of characters to be replaced"
@@ -9417,9 +9367,8 @@ msgid "REPLACEB:string @{old} with up to @{num} bytes starting at @{start} repla
 msgstr ""
 
 #: ../plugins/fn-string/functions.c:844
-#, fuzzy
 msgid "start:starting byte position"
-msgstr "Začni, ko bo miška v položaju:"
+msgstr "start:začetni bitni položaj"
 
 #: ../plugins/fn-string/functions.c:845
 msgid "num:number of bytes to be replaced"
@@ -9442,28 +9391,24 @@ msgid "TEXT:@{value} as a string formatted as @{format}"
 msgstr ""
 
 #: ../plugins/fn-string/functions.c:919
-#, fuzzy
 msgid "value:value to be formatted"
-msgstr "Uporabljena hitrost"
+msgstr "vrednost:vrednost za oblikovanje"
 
 #: ../plugins/fn-string/functions.c:920
-#, fuzzy
 msgid "format:desired format"
-msgstr "Izhodna vrsta datoteke"
+msgstr "oblika:želena oblika"
 
 #: ../plugins/fn-string/functions.c:972
 msgid "TRIM:@{text} with only single spaces between words"
 msgstr ""
 
 #: ../plugins/fn-string/functions.c:1019
-#, fuzzy
 msgid "VALUE:numeric value of @{text}"
-msgstr "_Vnesite novo besedilo:"
+msgstr "VALUE:številčna vrednost @{besedila}"
 
 #: ../plugins/fn-string/functions.c:1052
-#, fuzzy
 msgid "NUMBERVALUE:numeric value of @{text}"
-msgstr "Vpišite besedilo za možnost iskanja \"%s\"."
+msgstr "NUMBERVALUE:številčna vrednost @{besedila}"
 
 #: ../plugins/fn-string/functions.c:1054
 msgid "separator:decimal separator"
@@ -9592,19 +9537,16 @@ msgid "INTERPOLATION:interpolated values corresponding to the given abscissa tar
 msgstr ""
 
 #: ../plugins/fn-tsa/functions.c:372
-#, fuzzy
 msgid "abscissae:abscissae of the given data points"
-msgstr "Kazalnik na oddaljene podatke (%s)"
+msgstr "abscise:vodoravne koordinate podanih podatkovnih točk"
 
 #: ../plugins/fn-tsa/functions.c:373
-#, fuzzy
 msgid "ordinates:ordinates of the given data points"
-msgstr "Kazalnik na oddaljene podatke (%s)"
+msgstr "ordinate:navpične koordinate podanih podatkovnih točk"
 
 #: ../plugins/fn-tsa/functions.c:374
-#, fuzzy
 msgid "targets:abscissae of the interpolated data"
-msgstr "Kazalnik na oddaljene podatke (%s)"
+msgstr "cilji:vodoravne koordinate interpoliranih podatkov"
 
 #: ../plugins/fn-tsa/functions.c:375
 #: ../plugins/fn-tsa/functions.c:627
@@ -9632,14 +9574,12 @@ msgid "If several target data are provided they must be in the same column in co
 msgstr ""
 
 #: ../plugins/fn-tsa/functions.c:623
-#, fuzzy
 msgid "PERIODOGRAM:periodogram of the given data"
-msgstr "Pripni prenesene podatke"
+msgstr "PERIODOGRAM:periodogram (ocena spektralne gostote signala) podanih podatkov"
 
 #: ../plugins/fn-tsa/functions.c:624
-#, fuzzy
 msgid "ordinates:ordinates of the given data"
-msgstr "Pripni prenesene podatke"
+msgstr "ordinate:navpične koordinate podanih podatkov"
 
 #: ../plugins/fn-tsa/functions.c:625
 msgid "filter:windowing function to  be used, defaults to no filter"
@@ -9650,9 +9590,8 @@ msgid "abscissae:abscissae of the given data, defaults to regularly spaced absci
 msgstr ""
 
 #: ../plugins/fn-tsa/functions.c:628
-#, fuzzy
 msgid "number:number of interpolated data points"
-msgstr "Podatkovni modeli morajo imeti enako število stolpcev"
+msgstr "številka: število interpoliranih podatkovnih točk"
 
 #: ../plugins/fn-tsa/functions.c:632
 msgid ""
@@ -9668,9 +9607,8 @@ msgid "FOURIER:Fourier or inverse Fourier transform"
 msgstr ""
 
 #: ../plugins/fn-tsa/functions.c:870
-#, fuzzy
 msgid "Sequence:the data sequence to be transformed"
-msgstr "Predogled podatkov za uvoz"
+msgstr "zaporedje:zaporedje podatkov za preoblikovanje"
 
 #: ../plugins/fn-tsa/functions.c:871
 msgid "Inverse:if true, the inverse Fourier transform is calculated, defaults to false"
@@ -9699,9 +9637,8 @@ msgstr "dsn:libgda podatkovni vir"
 
 #: ../plugins/gda/plugin-gda.c:308
 #: ../plugins/gda/plugin-gda.c:385
-#, fuzzy
 msgid "username:user name to access @{dsn}"
-msgstr "Uporabniško ime, ki bo uporabljeno pri dostopu do zapisa."
+msgstr "uporabniško-ime: uporabniško ime za dostop do @{dsn}"
 
 #: ../plugins/gda/plugin-gda.c:309
 #: ../plugins/gda/plugin-gda.c:386
@@ -9722,18 +9659,16 @@ msgid "READDBTABLE:all rows of the table @{table} in @{dsn}"
 msgstr ""
 
 #: ../plugins/gda/plugin-gda.c:387
-#, fuzzy
 msgid "table:SQL table to retrieve"
-msgstr "Ni mogoče pridobiti podatkov hitrosti"
+msgstr "preglednica:preglednica SQL za pridobivanje"
 
 #: ../plugins/sample_datasource/sample_datasource.c:278
 msgid "ATL_LAST:sample real-time data source"
 msgstr ""
 
 #: ../plugins/sample_datasource/sample_datasource.c:279
-#, fuzzy
 msgid "tag:tag to watch"
-msgstr "Vrednosti za opazovanje"
+msgstr "oznaka: opazovana oznaka"
 
 #: ../plugins/sample_datasource/sample_datasource.c:280
 msgid "ATL_LAST is a sample implementation of a real time data source.  It takes a string tag and monitors the named pipe ~/atl for changes to the value of that tag."
@@ -9806,7 +9741,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "TANH:hyperbolic tangent"
 #~ msgstr "Funkcija hiperbolični tangens"
-
 #~ msgid "x:"
 #~ msgstr "x:"
 
@@ -9817,3 +9751,4 @@ msgstr ""
 #, fuzzy
 #~ msgid "This function is ODF compatible."
 #~ msgstr "To je funkcija poskusnega vstavka\n"
+
