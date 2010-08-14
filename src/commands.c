@@ -1130,6 +1130,9 @@ cmd_area_set_array_expr (WorkbookControl *wbc, SheetView *sv,
 	char *name;
 	char *text;
 	GnmSheetRange *sr;
+	GnmRange *r_1, *r_2, *r;
+	ColRowIndexList *cri_col_list;
+	ColRowIndexList *cri_row_list;
 
 	g_return_val_if_fail (selection != NULL , TRUE);
 	g_return_val_if_fail (selection->next == NULL , TRUE);
@@ -1138,10 +1141,44 @@ cmd_area_set_array_expr (WorkbookControl *wbc, SheetView *sv,
 	text = g_strdup_printf (_("Inserting array expression in %s"), name);
 	g_free (name);
 
-	undo = clipboard_copy_range_undo (sheet, selection->data);
+	r = selection->data;
 
-	sr = gnm_sheet_range_new (sheet, selection->data);
+	cri_row_list = colrow_get_index_list 
+		(r->start.row, r->end.row, NULL);
+	cri_col_list = colrow_get_index_list 
+		(r->start.col, r->end.col, NULL);
+	undo = clipboard_copy_range_undo (sheet, selection->data);
+	undo = go_undo_combine (undo,
+				gnm_undo_colrow_restore_state_group_new 
+				(sheet, TRUE, 
+				 cri_col_list, 
+				 colrow_get_sizes (sheet, TRUE,
+						   cri_col_list, -1)));
+	undo = go_undo_combine (undo,
+				gnm_undo_colrow_restore_state_group_new 
+				(sheet, FALSE, 
+				 cri_row_list, 
+				 colrow_get_sizes (sheet, FALSE,
+						   cri_row_list, -1)));
+	
+	sr = gnm_sheet_range_new (sheet, r);
+	r_1 = g_new (GnmRange, 1);
+	*r_1 = *r;
+	r_2 = g_new (GnmRange, 1);
+	*r_2 = *r;
 	redo = gnm_cell_set_array_formula_undo (sr, texpr);
+	redo = go_undo_combine 
+		(go_undo_binary_new 
+		 (sheet, r_1, 
+		  (GOUndoBinaryFunc) colrow_autofit_col,
+		  NULL, g_free),
+		 redo);
+	redo  = go_undo_combine 
+		(go_undo_binary_new 
+		 (sheet, r_2, 
+		  (GOUndoBinaryFunc) colrow_autofit_row,
+		  NULL, g_free),
+		 redo);
 
 	range_fragment_free (selection);
 	result = cmd_generic (wbc, text, undo, redo);

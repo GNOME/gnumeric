@@ -1,5 +1,9 @@
 2010-08-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/commands.c (cmd_area_set_array_expr): autofit rows and columns.
+
+2010-08-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/colrow.h (colrow_autofit_col): new
 	(colrow_autofit_row): new
 	* src/colrow.c (colrow_autofit_col): new
