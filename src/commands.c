@@ -757,6 +757,55 @@ cmd_set_text_full_check_texpr (GnmCellIter const *iter, GnmExprTop const  *texpr
 	return NULL;
 }
 
+static GnmValue *
+cmd_set_text_full_check_text (GnmCellIter const *iter, char *text)
+{
+	char *old_text;
+	gboolean same;
+
+	if (gnm_cell_is_blank (iter->cell))
+		return ((text == NULL || text[0] == '\0') ? NULL : VALUE_TERMINATE);
+
+	if (text == NULL || text[0] == '\0')
+		return VALUE_TERMINATE;
+
+	old_text = gnm_cell_get_entered_text (iter->cell);
+	same = strcmp (old_text, text) == 0;
+
+	/* We do not recognize that entering "a" and "'a" is the same thing */
+	/* nor that "'a" and "'a" is the same thing */
+	/* We could do: */
+/* 	if (!same && text[0] == '\'') */
+/* 		same = strcmp (old_text, text + 1) == 0; */
+	/* but we would then think that "1" and "'1" are the same (which they aren't. */
+ 
+	g_free (old_text);
+
+	return (same ? NULL : VALUE_TERMINATE);
+}
+
+static GnmValue *
+cmd_set_text_full_check_markup (GnmCellIter const *iter, PangoAttrList *markup)
+{
+	PangoAttrList const *old_markup = NULL;
+	gboolean same_markup;
+
+	g_return_val_if_fail (iter->cell != NULL, NULL);
+
+	if (iter->cell->value && VALUE_IS_STRING (iter->cell->value)) {
+		const GOFormat *fmt = VALUE_FMT (iter->cell->value);
+		if (fmt && go_format_is_markup (fmt)) {
+			old_markup = go_format_get_markup (fmt);
+			if (go_pango_attr_list_is_empty (old_markup))
+				old_markup = NULL;
+		}
+	}
+
+	same_markup = gnm_pango_attr_list_equal (old_markup, markup);
+
+	return same_markup ? NULL : VALUE_TERMINATE;
+}
+
 /******************************************************************/
 
 /*
@@ -787,49 +836,9 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 	Sheet *sheet = ep->sheet;
 	GnmParsePos pp;
 	ColRowIndexList *cri_col_list = NULL, *cri_row_list = NULL;
-	GnmCell *cell = NULL;
-	gboolean same_text = FALSE, same_markup = FALSE;
 
 	g_return_val_if_fail (selection != NULL , TRUE);
 
-	if (go_pango_attr_list_is_empty (markup))
-		markup = NULL;
-
-	/*
-	 * We should check whether we are in fact changing anything.  In order
-	 * to keep it simple, we only try when a single cell is selected.
-	 */
-	if (selection->next == NULL &&
-	    range_is_singleton (selection->data)) {
-		GnmCellPos const *pos = &((GnmRange*)(selection->data))->start;
-		cell = sheet_cell_get (sheet, pos->col, pos->row);
-	}
-
-	if (cell) {
-		const PangoAttrList *old_markup = NULL;
-		char *old_text;
-
-		old_text = gnm_cell_get_entered_text (cell);
-		same_text = strcmp (old_text, new_text) == 0;
-		g_free (old_text);
-
-		if (cell->value && VALUE_IS_STRING (cell->value)) {
-			const GOFormat *fmt = VALUE_FMT (cell->value);
-			if (fmt && go_format_is_markup (fmt)) {
-				old_markup = go_format_get_markup (fmt);
-				if (go_pango_attr_list_is_empty (old_markup))
-					old_markup = NULL;
-			}
-		}
-
-		same_markup = gnm_pango_attr_list_equal (old_markup, markup);
-	}
-
-	if (same_text && same_markup) {
-		range_fragment_free (selection);
-		return TRUE;
-	}
-	
 	parse_pos_init_evalpos (&pp, ep);
 	name = undo_range_list_name (sheet, selection);
 	expr_txt = gnm_expr_char_start_p (new_text);
@@ -897,17 +906,68 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 		PangoAttrList *adj_markup = NULL;
 		char *corrected = (new_text != NULL) ? 
 			autocorrect_tool (new_text) : NULL;
+		gboolean same_text = TRUE;
+		gboolean same_markup = TRUE;
 
-		text_str = gnm_cmd_trunc_descriptor (g_string_new (corrected), NULL);
-		text = g_strdup_printf (_("Typing \"%s\" in %s"), text_str->str, name);
-		g_string_free (text_str, TRUE);
+		if (corrected && (corrected[0] == '\'') && corrected[1] == '\0') {
+			g_free (corrected);
+			corrected = g_strdup ("");
+		}
+
+		/* We should check whether we are in fact changing anything: */
+		/* We'll handle */
+		for (l = selection; l != NULL && same_text; l = l->next) {
+			GnmRange *r = l->data;
+			GnmValue *val =
+				sheet_foreach_cell_in_range 
+				(sheet, CELL_ITER_ALL,
+				 r->start.col, r->start.row,
+				 r->end.col, r->end.row,
+				 (CellIterFunc) cmd_set_text_full_check_text, 
+				 (gpointer) corrected);
+			
+			same_text = (val != VALUE_TERMINATE);
+			if (val != NULL && same_text)
+				value_release (val);
+		}
 
 		if (go_pango_attr_list_is_empty (markup))
 			markup = NULL;
-
 		if (markup && corrected && corrected[0] == '\'') {
 			markup = adj_markup = pango_attr_list_copy (markup);
 			go_pango_attr_list_erase (adj_markup, 0, 1);
+		}
+		
+		if (same_text) {
+			for (l = selection; l != NULL && same_text; l = l->next) {
+				GnmRange *r = l->data;
+				GnmValue *val =
+					sheet_foreach_cell_in_range 
+					(sheet, CELL_ITER_IGNORE_BLANK,
+					 r->start.col, r->start.row,
+					 r->end.col, r->end.row,
+					 (CellIterFunc) cmd_set_text_full_check_markup, 
+					 (gpointer) markup);
+				
+				same_markup = (val != VALUE_TERMINATE);
+				if (val != NULL && same_markup)
+					value_release (val);
+			}
+
+			if (same_markup) {
+				g_free (corrected);
+				g_free (name);
+				range_fragment_free (selection);
+				if (adj_markup)
+					pango_attr_list_unref (adj_markup);
+				return TRUE;
+			}
+
+			text = g_strdup_printf (_("Editing style of %s"), name);
+		} else {
+			text_str = gnm_cmd_trunc_descriptor (g_string_new (corrected), NULL);
+			text = g_strdup_printf (_("Typing \"%s\" in %s"), text_str->str, name);
+			g_string_free (text_str, TRUE);
 		}
 
 		for (l = selection; l != NULL; l = l->next) {
@@ -927,6 +987,7 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 					(sheet_range_set_markup_undo (sr, markup), redo);
 			}
 		}
+
 		if (adj_markup)
 			pango_attr_list_unref (adj_markup);
 		g_free (corrected);
