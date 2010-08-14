@@ -2862,7 +2862,10 @@ typedef struct {
 	GnmPasteTarget   dst;
 	gboolean         has_been_through_cycle;
 	gboolean         only_objects;
-	ColRowStateList *saved_sizes;
+	ColRowStateGroup *saved_sizes_rows;
+	ColRowStateGroup *saved_sizes_cols;
+	ColRowIndexList  *saved_list_rows;;
+	ColRowIndexList  *saved_list_cols;;
 	gboolean single_merge_to_single_merge;
 } CmdPasteCopy;
 
@@ -2969,14 +2972,25 @@ cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 	}
 
 	if (is_undo) {
-		colrow_set_states (me->dst.sheet, FALSE,
-			me->dst.range.start.row, me->saved_sizes);
-		colrow_state_list_destroy (me->saved_sizes);
-		me->saved_sizes = NULL;
+		colrow_restore_state_group (me->dst.sheet, FALSE,
+			me->saved_list_rows, me->saved_sizes_rows);
+		colrow_state_group_destroy (me->saved_sizes_rows);
+		me->saved_sizes_rows = NULL;
+		colrow_index_list_destroy (me->saved_list_rows);
+		me->saved_list_rows = NULL;
+		colrow_restore_state_group (me->dst.sheet, TRUE,
+			me->saved_list_cols, me->saved_sizes_cols);
+		colrow_state_group_destroy (me->saved_sizes_cols);
+		me->saved_sizes_cols = NULL;
+		colrow_index_list_destroy (me->saved_list_cols);
+		me->saved_list_cols = NULL;
 	} else {
-		me->saved_sizes = colrow_get_states (me->dst.sheet,
-			FALSE, me->dst.range.start.row, me->dst.range.end.row);
-		rows_height_update (me->dst.sheet, &me->dst.range, FALSE);
+		colrow_autofit (me->dst.sheet, &me->dst.range, FALSE, FALSE,
+				TRUE, FALSE,
+				&me->saved_list_rows, &me->saved_sizes_rows);
+		colrow_autofit (me->dst.sheet, &me->dst.range, TRUE, TRUE,
+				TRUE, FALSE,
+				&me->saved_list_cols, &me->saved_sizes_cols);
 	}
 
 	/*
@@ -3023,8 +3037,14 @@ cmd_paste_copy_finalize (GObject *cmd)
 {
 	CmdPasteCopy *me = CMD_PASTE_COPY (cmd);
 
-	if (me->saved_sizes)
-		me->saved_sizes = colrow_state_list_destroy (me->saved_sizes);
+	me->saved_sizes_rows = colrow_state_group_destroy 
+		(me->saved_sizes_rows);
+	colrow_index_list_destroy (me->saved_list_rows);
+	me->saved_list_rows = NULL;
+	me->saved_sizes_cols = colrow_state_group_destroy 
+		(me->saved_sizes_cols);
+	colrow_index_list_destroy (me->saved_list_cols);
+	me->saved_list_cols = NULL;
 	if (me->contents) {
 		if (me->has_been_through_cycle)
 			cellregion_unref (me->contents);
@@ -3061,7 +3081,10 @@ cmd_paste_copy (WorkbookControl *wbc,
 	me->contents = cr;
 	me->has_been_through_cycle = FALSE;
 	me->only_objects = (cr->cols < 1 || cr->rows < 1);
-	me->saved_sizes = NULL;
+	me->saved_sizes_rows = NULL;
+	me->saved_sizes_cols = NULL;
+	me->saved_list_rows = NULL;
+	me->saved_list_cols = NULL;
 	me->pasted_objects = NULL;
 	me->orig_contents_objects =
 		go_slist_map (cr->objects, (GOMapFunc)sheet_object_dup);

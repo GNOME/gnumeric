@@ -17,6 +17,7 @@ Andreas:
 	  ranges. [#626797]
 	* Adjust formats when autofitting new entries. [#626903]
 	* Autofit rows and columns when entering an array expression. [#626904]
+	* Fix column and row fitting on paste. [#359404][#611181]
 
 Jean:
 	* Import Guppi graphs from gnumeric-1.0.x files. [#567953]

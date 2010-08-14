@@ -1,3 +1,10 @@
+2010-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.c (CmdPasteCopy): new fields
+	(cmd_paste_copy_impl): store sizes for rows and columns and restore them
+	(cmd_paste_copy_finalize): finalize new fields
+	(cmd_paste_copy): iitalize new fields
+	
 2010-08-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (cmd_area_set_array_expr): autofit rows and columns.
