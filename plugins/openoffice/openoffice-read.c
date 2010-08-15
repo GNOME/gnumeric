@@ -161,7 +161,7 @@ typedef struct {
 typedef struct {
 	GogGraph	*graph;
 	GogChart	*chart;
-	SheetObject     *so;   /* used by text box */
+	SheetObject     *so;
 	GSList          *list; /* used by Stock plot and textbox*/
 
 	/* set in plot-area */
@@ -3285,7 +3285,7 @@ oo_filter_cond (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-od_draw_frame (GsfXMLIn *xin, xmlChar const **attrs)
+od_draw_frame_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 /* Note that in ODF spreadsheet files svg:height and svg:width should be ignored. We should be considering */
 /* table:end-x and table:end-y together with table:end-cell-address */
@@ -3352,6 +3352,20 @@ od_draw_frame (GsfXMLIn *xin, xmlChar const **attrs)
 		gnm_expr_top_unref (texpr);
 	sheet_object_anchor_init (&state->chart.anchor, &cell_base, frame_offset,
 				  GOD_ANCHOR_DIR_DOWN_RIGHT);
+	state->chart.so = NULL;
+}
+
+static void
+od_draw_frame_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	if (state->chart.so != NULL) {
+		sheet_object_set_anchor (state->chart.so, &state->chart.anchor);
+		sheet_object_set_sheet (state->chart.so, state->pos.sheet);
+		g_object_unref (state->chart.so);
+		state->chart.so = NULL;
+	}
 }
 
 static void
@@ -3362,12 +3376,20 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	gchar * name;
 	gint name_len;
 	GsfInput	*content = NULL;
-	SheetObject *sog = sheet_object_graph_new (NULL);
 
-	state->chart.graph = sheet_object_graph_get_gog (sog);
-	sheet_object_set_anchor (sog, &state->chart.anchor);
-	sheet_object_set_sheet (sog, state->pos.sheet);
-	g_object_unref (sog);
+	if (state->chart.so != NULL) {
+		if (IS_SHEET_OBJECT_GRAPH (state->chart.so))
+			/* Only one object per frame! */
+			return;
+		/* We prefer objects over images etc. */
+		/* We probably should figure out though whetehr */
+		/* we in fact understand this object. */
+		g_object_unref (state->chart.so);
+		state->chart.so = NULL;
+	}
+
+	state->chart.so    = sheet_object_graph_new (NULL);
+	state->chart.graph = sheet_object_graph_get_gog (state->chart.so);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_XLINK, "href")) {
@@ -3415,8 +3437,9 @@ od_draw_image (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	gchar const *file = NULL;
 
-	SheetObjectImage *soi;
-	SheetObject *so;
+	if (state->chart.so != NULL)
+		/* We only use images if there is no object available. */
+		return;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_XLINK, "href") &&
@@ -3431,15 +3454,13 @@ od_draw_image (GsfXMLIn *xin, xmlChar const **attrs)
 	input = gsf_infile_child_by_vname (state->zip, "Pictures", file, NULL);
 
 	if (input != NULL) {
+		SheetObjectImage *soi;
 		gsf_off_t len = gsf_input_size (input);
 		guint8 const *data = gsf_input_read (input, len, NULL);
 		soi = g_object_new (SHEET_OBJECT_IMAGE_TYPE, NULL);
 		sheet_object_image_set_image (soi, "", (void *)data, len, TRUE);
 
-		so = SHEET_OBJECT (soi);
-		sheet_object_set_anchor (so, &state->chart.anchor);
-		sheet_object_set_sheet (so, state->pos.sheet);
-		g_object_unref (input);
+		state->chart.so = SHEET_OBJECT (soi);
 	}
 }
 
@@ -3447,7 +3468,13 @@ static void
 od_draw_text_box (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	GOStyle  *style = go_style_new ();
+	GOStyle  *style;
+
+	if (state->chart.so != NULL)
+		/* We have already created frame content */
+		return;
+
+	style = go_style_new ();
 
 	style->line.width = 0;
 	style->line.dash_type = GO_LINE_NONE;
@@ -3457,18 +3484,6 @@ od_draw_text_box (GsfXMLIn *xin, xmlChar const **attrs)
 
 	state->chart.so = g_object_new (GNM_SO_FILLED_TYPE, "is-oval", FALSE, "style", style, NULL);
 	g_object_unref (style);
-
-	sheet_object_set_anchor (state->chart.so, &state->chart.anchor);
-	sheet_object_set_sheet (state->chart.so, state->pos.sheet);
-}
-
-static void
-od_draw_text_box_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
-{
-	OOParseState *state = (OOParseState *)xin->user_state;
-
-	g_object_unref (state->chart.so);
-	state->chart.so = NULL;
 }
 
 static void
@@ -3476,6 +3491,10 @@ od_draw_text_box_p_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	gchar *text_old, *text_new;
+
+	if (!IS_GNM_SO_FILLED (state->chart.so))
+		/* We are intentionally ignoring this frame content */
+		return;
 
 	g_object_get (state->chart.so, "text", &text_old, NULL);
 
@@ -4512,11 +4531,13 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		    GSF_XML_IN_NODE (CELL_GRAPHIC, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd def */
 		    GSF_XML_IN_NODE (CELL_GRAPHIC, DRAW_POLYLINE, OO_NS_DRAW, "polyline", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd def */
 	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_CONTROL, OO_NS_DRAW, "control", GSF_XML_NO_CONTENT, NULL, NULL),
-		  GSF_XML_IN_NODE (TABLE_CELL, DRAW_FRAME, OO_NS_DRAW, "frame", GSF_XML_NO_CONTENT, &od_draw_frame, NULL),
+		  GSF_XML_IN_NODE (TABLE_CELL, DRAW_FRAME, OO_NS_DRAW, "frame", GSF_XML_NO_CONTENT, &od_draw_frame_start, &od_draw_frame_end),
 		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_OBJECT, OO_NS_DRAW, "object", GSF_XML_NO_CONTENT, &od_draw_object, NULL),
+	            GSF_XML_IN_NODE (DRAW_OBJECT, DRAW_OBJECT_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, NULL),
+
 		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_IMAGE, OO_NS_DRAW, "image", GSF_XML_NO_CONTENT, &od_draw_image, NULL),
 		    GSF_XML_IN_NODE (DRAW_FRAME, SVG_DESC, OO_NS_SVG, "desc", GSF_XML_NO_CONTENT, NULL, NULL),
-		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_TEXT_BOX, OO_NS_DRAW, "text-box", GSF_XML_NO_CONTENT, &od_draw_text_box, &od_draw_text_box_end),
+		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_TEXT_BOX, OO_NS_DRAW, "text-box", GSF_XML_NO_CONTENT, &od_draw_text_box, NULL),
 		    GSF_XML_IN_NODE (DRAW_TEXT_BOX, DRAW_TEXT_BOX_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, &od_draw_text_box_p_end),
 	          GSF_XML_IN_NODE (TABLE_CELL, CELL_ANNOTATION, OO_NS_OFFICE, "annotation", GSF_XML_NO_CONTENT, &odf_annotation_start, &odf_annotation_end),
 	            GSF_XML_IN_NODE (CELL_ANNOTATION, CELL_ANNOTATION_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, &odf_annotation_content_end),

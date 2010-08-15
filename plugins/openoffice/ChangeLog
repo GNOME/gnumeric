@@ -1,5 +1,16 @@
 2010-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (od_draw_frame): rename to od_draw_frame_start, 
+	  initialize chart.so
+	(od_draw_frame_end): add frame content to sheet
+	(od_draw_object): check whether we already have frame content
+	(od_draw_image): ditto
+	(od_draw_text_box): ditto
+	(od_draw_text_box_end): deleted and code moved to od_draw_frame_end
+	(opendoc_content_dtd): add od_draw_frame_end and delete od_draw_text_box_end
+	
+2010-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (GnmOOExport): rename objects field to graphs 
 	  and change throughout; add images field
 	(odf_write_frame): handle images
