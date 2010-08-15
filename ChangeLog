@@ -1,3 +1,8 @@
+2010-08-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* samples/chart-tests.gnumeric: make sure the images match the graphs
+	  (and fix the data to make it more likely to stay in this way.)
+	
 2010-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (CmdPasteCopy): new fields
