@@ -1,5 +1,7 @@
 2010-08-16  Morten Welinder  <terra@gnome.org>
 
+	* src/collect.c (collect_floats): Fix #627079 (FMR).
+
 	* src/complex.c (complex_pow): Special-case a=0 which the general
 	formula bungles.  Fixes #627014.
 

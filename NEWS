@@ -38,6 +38,7 @@ Morten:
 	* Fix win32 random problem.  [#533779]
 	* Fix IMPOWER problem.  [#627014]
 	* Avoid criticals in ODS import.
+	* Fix problem with collect cache.  [#627079]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.8

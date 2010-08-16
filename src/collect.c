@@ -419,6 +419,7 @@ collect_floats (int argc, GnmExprConstPtr const *argv,
 
 	if (key) {
 		SingleFloatsCacheEntry *ce = g_new (SingleFloatsCacheEntry, 1);
+		SingleFloatsCacheEntry *ce2;
 		ce->value = key;
 		ce->flags = keyflags;
 		ce->n = *n;
@@ -431,7 +432,18 @@ collect_floats (int argc, GnmExprConstPtr const *argv,
 		} else
 			ce->data = g_memdup (cl.data, MAX (1, *n) * sizeof (gnm_float));
 		prune_caches ();
-		g_hash_table_insert (single_floats_cache, ce, ce);
+
+		/*
+		 * We looked for the entry earlier and it was not there.
+		 * However, sub-calculation might have added it so be careful
+		 * to adjust sizes and replace the not-so-old entry.
+		 * See bug 627079.
+		 */
+		ce2 = g_hash_table_lookup (single_floats_cache, ce);
+		if (ce2)
+			total_cache_size -= 1 + ce2->n;
+
+		g_hash_table_replace (single_floats_cache, ce, ce);
 		total_cache_size += 1 + *n;
 	}
 	return cl.data;
