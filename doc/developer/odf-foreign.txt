@@ -40,7 +40,10 @@ These are attributes of the <style:table-cell-properties> giving the input title
 
 gnm:outliers
 gnm:radius-ratio
-These are attributes for the plot-style gnm:boxplot
+These are attributes for the plot-style gnm:box
+
+gnm:default-separation
+This is an attribute for the plot-style chart:circle
 
 3) Plot Styles added by Gnumeric:
 

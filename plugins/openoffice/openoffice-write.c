@@ -3581,6 +3581,20 @@ odf_write_bar_col_plot_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const 
 }
 
 static void
+odf_write_pie_plot_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, GogObject const *plot)
+{
+	double default_separation = 0.;
+	g_object_get (G_OBJECT (plot), 
+		      "default-separation", &default_separation, 
+		      NULL);
+	if (state->with_extension)
+		 odf_add_percent (state->xml, GNMSTYLE "default-separation",
+				  default_separation);
+}
+
+
+
+static void
 odf_write_box_plot_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, GogObject const *plot)
 {
 	gboolean vertical = FALSE;
@@ -3605,7 +3619,19 @@ odf_write_box_plot_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *cha
 static void
 odf_write_ring_plot_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, G_GNUC_UNUSED GogObject const *plot)
 {
-	odf_add_percent (state->xml, CHART "hole-size", 0.5);
+	double default_separation, centre_size;
+
+	g_object_get (G_OBJECT (plot), 
+		      "default-separation", &default_separation, 
+		      "center-size", &centre_size,
+		      NULL);
+
+	if (state->with_extension)	
+		odf_add_percent (state->xml, 
+				 GNMSTYLE "default-separation", 
+				 default_separation);
+	
+	odf_add_percent (state->xml, CHART "hole-size", centre_size);
 }
 
 static void
@@ -3795,7 +3821,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		  NULL, NULL, odf_write_min_max_series, NULL},
 		{ "GogPiePlot", CHART "circle", ODF_CIRCLE,
 		  5., "X-Axis", "Y-Axis", NULL, odf_write_circle_axes_styles,
-		  NULL, NULL, odf_write_standard_series, NULL},
+		  odf_write_pie_plot_style, NULL, odf_write_standard_series, NULL},
 		{ "GogRadarPlot", CHART "radar", ODF_RADAR,
 		  10., "Circular-Axis", "Radial-Axis", NULL, odf_write_radar_axes_styles,
 		  NULL, NULL, odf_write_standard_series, NULL},

@@ -20,6 +20,7 @@ Andreas:
 	* Fix column and row fitting on paste. [#359404][#611181]
 	* Export images to ODF.
 	* Fix import of graphs from rich ODF files. [#626961]
+	* Some ring and pie plot ODF export improvements.
 
 Jean:
 	* Import Guppi graphs from gnumeric-1.0.x files. [#567953]
