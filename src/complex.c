@@ -226,8 +226,11 @@ complex_angle_pi (complex_t const *src)
 void
 complex_pow (complex_t *dst, complex_t const *a, complex_t const *b)
 {
-	if (complex_zero_p (a) && complex_zero_p (b)) {
-		complex_invalid (dst);
+	if (complex_zero_p (a) && complex_real_p (b)) {
+		if (b->re <= 0)
+			complex_invalid (dst);
+		else
+			complex_real (dst, 0);
 	} else {
 		gnm_float res_r, res_a1, res_a2, res_a2_pi, r, arg;
 		complex_t F;
