@@ -3782,7 +3782,8 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 	double res_pts[4] = {0.,0.,0.,0.};
 	GSList const *series, *l;
 	int i;
-	GogObject *wall = gog_object_get_child_by_name (plot, "Backplane");
+	GogObject const *wall = gog_object_get_child_by_name (plot, "Backplane");
+	GogObject const *legend = gog_object_get_child_by_name (chart, "Legend");
 
 	static struct {
 		char const * type;
@@ -3928,7 +3929,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 	gsf_xml_out_start_element (state->xml, OFFICE "chart");
 	gsf_xml_out_start_element (state->xml, CHART "chart");
 
-	sheet_object_anchor_to_pts (anchor, state->sheet, res_pts);
+       	sheet_object_anchor_to_pts (anchor, state->sheet, res_pts);
 	odf_add_pt (state->xml, SVG "width", res_pts[2] - res_pts[0] - 2 * this_plot->pad);
 	odf_add_pt (state->xml, SVG "height", res_pts[3] - res_pts[1] - 2 * this_plot->pad);
 
@@ -3972,6 +3973,15 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		gsf_xml_out_end_element (state->xml); /* </chart:wall> */
 	}
 	gsf_xml_out_end_element (state->xml); /* </chart:plot_area> */
+
+	/* Set up legend if appropriate*/
+
+	if (legend != NULL) {
+		gsf_xml_out_start_element (state->xml, CHART "legend");
+		
+		gsf_xml_out_end_element (state->xml); /* </chart:legend> */
+	}
+
 	gsf_xml_out_end_element (state->xml); /* </chart:chart> */
 	gsf_xml_out_end_element (state->xml); /* </office:chart> */
 	gsf_xml_out_end_element (state->xml); /* </office:body> */

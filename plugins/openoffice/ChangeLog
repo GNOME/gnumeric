@@ -1,3 +1,7 @@
+2010-08-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_plot): export legend
+
 2010-08-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (od_style_prop_chart): add chart:pie-offset
