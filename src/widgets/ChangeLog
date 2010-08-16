@@ -1,3 +1,7 @@
+2010-08-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.9
+
 2010-08-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_find_range): make sure we lexed

@@ -1,3 +1,7 @@
+2010-08-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.9
+
 2010-07-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-autofilter.c (dialog_auto_filter): set up column label for 

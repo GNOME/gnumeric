@@ -820,8 +820,9 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @ARGUMENTDESCRIPTION=@{start_date}: starting date serial value
 @{end_date}: ending date serial value
 @{holidays}: array of holidays
-@{weekend}: array indicating whether a weekday (S, M, T, W, T, F, S) is on the weekend, defaults to {TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE}
+@{weekend}: array of 0s and 1s, indicating whether a weekday (S, M, T, W, T, F, S) is on the weekend, defaults to {1,0,0,0,0,0,1}
 @DESCRIPTION=NETWORKDAYS calculates the number of days from @{start_date} to @{end_date} skipping weekends and @{holidays} in the process.
+@NOTE=If an entry of @{weekend} is non-zero, the corresponding weekday is not a work day.
 @EXCEL=This function is Excel compatible if the last argument is omitted.
 @ODF=This function is OpenFormula compatible.
 @SEEALSO=WORKDAY
@@ -915,9 +916,9 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @ARGUMENTDESCRIPTION=@{date}: date serial value
 @{days}: number of days to add
 @{holidays}: array of holidays
-@{weekend}: array indicating whether a weekday (S, M, T, W, T, F, S) is on the weekend, defaults to {TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE}
+@{weekend}: array of 0s and 1s, indicating whether a weekday (S, M, T, W, T, F, S) is on the weekend, defaults to {1,0,0,0,0,0,1}
 @DESCRIPTION=WORKDAY adjusts @{date} by @{days} skipping over weekends and @{holidays} in the process.
-@NOTE=@{days} may be negative.
+@NOTE=@{days} may be negative. If an entry of @{weekend} is non-zero, the corresponding weekday is not a work day.
 @EXCEL=This function is Excel compatible if the last argument is omitted.
 @ODF=This function is OpenFormula compatible.
 @SEEALSO=NETWORKDAYS

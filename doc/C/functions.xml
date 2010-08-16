@@ -3012,11 +3012,15 @@
         <para><parameter>start_date</parameter>: starting date serial value</para>
         <para><parameter>end_date</parameter>: ending date serial value</para>
         <para><parameter>holidays</parameter>: array of holidays</para>
-        <para><parameter>weekend</parameter>: array indicating whether a weekday (S, M, T, W, T, F, S) is on the weekend, defaults to {TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE}</para>
+        <para><parameter>weekend</parameter>: array of 0s and 1s, indicating whether a weekday (S, M, T, W, T, F, S) is on the weekend, defaults to {1,0,0,0,0,0,1}</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
         <para><function>NETWORKDAYS</function> calculates the number of days from <parameter>start_date</parameter> to <parameter>end_date</parameter> skipping weekends and <parameter>holidays</parameter> in the process.</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If an entry of <parameter>weekend</parameter> is non-zero, the corresponding weekday is not a work day.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -3368,7 +3372,7 @@
         <para><parameter>date</parameter>: date serial value</para>
         <para><parameter>days</parameter>: number of days to add</para>
         <para><parameter>holidays</parameter>: array of holidays</para>
-        <para><parameter>weekend</parameter>: array indicating whether a weekday (S, M, T, W, T, F, S) is on the weekend, defaults to {TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE}</para>
+        <para><parameter>weekend</parameter>: array of 0s and 1s, indicating whether a weekday (S, M, T, W, T, F, S) is on the weekend, defaults to {1,0,0,0,0,0,1}</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -3376,7 +3380,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para><parameter>days</parameter> may be negative.</para>
+        <para><parameter>days</parameter> may be negative. If an entry of <parameter>weekend</parameter> is non-zero, the corresponding weekday is not a work day.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>

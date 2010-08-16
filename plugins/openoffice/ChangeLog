@@ -1,3 +1,7 @@
+2010-08-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.9
+
 2010-08-16  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (oo_extent_sheet_rows, oo_extent_sheet_cols):

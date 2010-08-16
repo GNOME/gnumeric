@@ -1,3 +1,7 @@
+2010-08-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.9
+
 2010-08-13  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric.1: Don't mention options not intended for users.
