@@ -3587,9 +3587,9 @@ odf_write_pie_plot_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *cha
 	g_object_get (G_OBJECT (plot), 
 		      "default-separation", &default_separation, 
 		      NULL);
-	if (state->with_extension)
-		 odf_add_percent (state->xml, GNMSTYLE "default-separation",
-				  default_separation);
+	gsf_xml_out_add_int (state->xml, 
+			     CHART "pie-offset", 
+			     (default_separation * 100. + 0.5));
 }
 
 

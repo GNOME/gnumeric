@@ -1,5 +1,10 @@
 2010-08-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (od_style_prop_chart): add chart:pie-offset
+	* openoffice-write.c (odf_write_pie_plot_style): use chart:pie-offset
+
+2010-08-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_attr_percent): new
 	(od_style_prop_chart): add more attributes
 	* openoffice-write.c (odf_write_pie_plot_style): new

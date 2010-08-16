@@ -3053,6 +3053,9 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (oo_attr_percent (xin, attrs, OO_GNUM_NS_EXT, "default-separation", &ftmp)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_float ("default-separation", ftmp));
+		} else if (oo_attr_int (xin, attrs, OO_NS_CHART, "pie-offset", &tmp)) {
+			style->plot_props = g_slist_prepend (style->plot_props,
+				oo_prop_new_float ("default-separation", tmp/100.));
 		} else if (oo_attr_percent (xin, attrs, OO_NS_CHART, "hole-size", &ftmp)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_float ("center-size", ftmp));
