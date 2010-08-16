@@ -37,6 +37,7 @@ Morten:
 	* Survive malformed xml files.
 	* Fix win32 random problem.  [#533779]
 	* Fix IMPOWER problem.  [#627014]
+	* Avoid criticals in ODS import.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.8

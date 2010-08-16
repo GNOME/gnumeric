@@ -1,3 +1,8 @@
+2010-08-16  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_extent_sheet_rows, oo_extent_sheet_cols):
+	Avoid criticals.
+
 2010-08-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_plot): export legend position

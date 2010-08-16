@@ -986,7 +986,7 @@ oo_extent_sheet_cols (Sheet *sheet, int cols)
 	gnm_sheet_suggest_size (&new_cols, &new_rows);
 
 	goundo = gnm_sheet_resize (sheet, new_cols, new_rows, NULL, &err);
-	g_object_unref (G_OBJECT (goundo));
+	if (goundo) g_object_unref (goundo);
 
 	return gnm_sheet_get_max_cols (sheet);
 }
@@ -1076,7 +1076,7 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 static int
 oo_extent_sheet_rows (Sheet *sheet, int rows)
 {
-	GOUndo   * goundo;
+	GOUndo * goundo;
 	int new_cols, new_rows;
 	gboolean err;
 
@@ -1085,7 +1085,7 @@ oo_extent_sheet_rows (Sheet *sheet, int rows)
 	gnm_sheet_suggest_size (&new_cols, &new_rows);
 
 	goundo = gnm_sheet_resize (sheet, new_cols, new_rows, NULL, &err);
-	g_object_unref (G_OBJECT (goundo));
+	if (goundo) g_object_unref (goundo);
 
 	return gnm_sheet_get_max_rows (sheet);
 }
