@@ -1,5 +1,9 @@
 2010-08-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_plot): export legend position
+
+2010-08-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_plot): export legend
 
 2010-08-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>

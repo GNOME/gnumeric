@@ -3977,8 +3977,35 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 	/* Set up legend if appropriate*/
 
 	if (legend != NULL) {
+		GogObjectPosition flags;
+
+		flags = gog_object_get_position_flags 
+			(legend, GOG_POSITION_COMPASS);
+
 		gsf_xml_out_start_element (state->xml, CHART "legend");
-		
+
+		if (flags) {
+			GString *compass = g_string_new (NULL);
+			
+			if (flags & GOG_POSITION_N)
+				g_string_append (compass, "top");
+			if (flags & GOG_POSITION_S)
+				g_string_append (compass, "bottom");
+			if ((flags & (GOG_POSITION_S | GOG_POSITION_N)) && 
+			    (flags & (GOG_POSITION_E | GOG_POSITION_W)))
+				g_string_append (compass, "-");
+			if (flags & GOG_POSITION_E)
+				g_string_append (compass, "end");
+			if (flags & GOG_POSITION_W)
+				g_string_append (compass, "start");
+			
+			gsf_xml_out_add_cstr (state->xml, 
+					      CHART "legend-position", 
+					      compass->str);
+
+			g_string_free (compass, TRUE);
+		}
+
 		gsf_xml_out_end_element (state->xml); /* </chart:legend> */
 	}
 
