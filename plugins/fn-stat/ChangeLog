@@ -1,3 +1,7 @@
+2010-08-17  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (help_expondist): Fix typo.
+
 2010-08-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.9

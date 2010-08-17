@@ -839,7 +839,7 @@ gnumeric_skewp (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_expondist[] = {
-	{ GNM_FUNC_HELP_NAME, F_("EXPONDIST:porbaility density or cumulative distribution function of the exponential distribution")},
+	{ GNM_FUNC_HELP_NAME, F_("EXPONDIST:probability density or cumulative distribution function of the exponential distribution")},
 	   { GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_ARG, F_("y:scale parameter")},
 	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the density function or the cumulative distribution function")},
