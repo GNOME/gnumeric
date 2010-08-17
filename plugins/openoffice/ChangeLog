@@ -1,3 +1,10 @@
+2010-08-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_axis): add argument
+	(odf_write_axis_ring): new
+	(odf_write_title): be more careful with picking a sheet
+	(odf_write_plot): attach odf_write_axis_ring
+
 2010-08-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_chart_title): renamed to 
