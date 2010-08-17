@@ -9,6 +9,10 @@
 
 2010-08-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_plot): export chart title
+
+2010-08-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_plot): export legend position
 
 2010-08-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>

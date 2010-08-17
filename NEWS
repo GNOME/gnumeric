@@ -24,6 +24,7 @@ Andreas:
 	* Export images to ODF.
 	* Fix import of graphs from rich ODF files. [#626961]
 	* Some ring and pie plot ODF export improvements.
+	* Export legends and chart titles to ODF.
 
 Jean:
 	* Import Guppi graphs from gnumeric-1.0.x files. [#567953]

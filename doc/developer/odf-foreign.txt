@@ -45,6 +45,9 @@ These are attributes for the plot-style gnm:box
 gnm:default-separation
 This is an attribute for the plot-style chart:circle
 
+gnm:expression
+Attribute used where ODF restricts expressions to be cell references via table:cell-range-address fore xample chart titles.
+
 3) Plot Styles added by Gnumeric:
 
 gnm:box
