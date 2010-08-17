@@ -1969,8 +1969,10 @@ oo_date_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	int elapsed = state->cur_format.elapsed_set;
 
 	if (state->cur_format.name == NULL) {
-		if (state->cur_format.accum) 
+		if (state->cur_format.accum) {
 			g_string_free (state->cur_format.accum, TRUE);
+			state->cur_format.accum = NULL;
+		}
 		oo_warning (xin, _("Corrupted file: unnamed date style ignored."));
 	} else {
 		if (state->cur_format.magic != GO_FORMAT_MAGIC_NONE)
@@ -2228,7 +2230,6 @@ odf_number_style (GsfXMLIn *xin, xmlChar const **attrs)
 			name = CXML2C (attrs[1]);
 
 	g_return_if_fail (state->cur_format.accum == NULL);
-	g_return_if_fail (name != NULL);
 
 	state->cur_format.accum = g_string_new (NULL);
 	state->cur_format.name = g_strdup (name);
@@ -2242,6 +2243,13 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	OOParseState *state = (OOParseState *)xin->user_state;
 
 	g_return_if_fail (state->cur_format.accum != NULL);
+
+	if (state->cur_format.name == NULL) {
+		g_string_free (state->cur_format.accum, TRUE);
+		state->cur_format.accum = NULL;
+		oo_warning (xin, _("Corrupted file: unnamed number style ignored."));
+		return;
+	}
 
 	if (state->conditions != NULL) {
 		/* We have conditional formats */
