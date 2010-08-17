@@ -1,3 +1,8 @@
+2010-08-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (gee_set_tooltip_completion): fix gettext/macro
+	  conflict. Fixes #627086.
+
 2010-08-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.9
