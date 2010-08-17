@@ -1,5 +1,14 @@
 2010-08-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (oo_attr_pos_int): new
+	(oo_col_start): use oo_attr_pos_int inistead of oo_attr_int for repeat 
+	  counts
+	(oo_row_start): ditto
+	(oo_cell_start): ditto
+	(oo_covered_cell_start): ditto
+
+2010-08-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_axis_ring): strip brackets
 	(odf_write_plot): make sure we export the elements in the correct order.
 

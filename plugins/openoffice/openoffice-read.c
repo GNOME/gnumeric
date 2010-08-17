@@ -368,6 +368,21 @@ oo_attr_int (GsfXMLIn *xin, xmlChar const * const *attrs,
 }
 
 static gboolean
+oo_attr_pos_int (GsfXMLIn *xin, xmlChar const * const *attrs,
+	     int ns_id, char const *name, int *res)
+{
+	int tmp;
+	if (!oo_attr_int (xin, attrs, ns_id, name, &tmp))
+		return FALSE;
+	if (tmp < 1)
+		return oo_warning (xin, "Invalid integer '%s', for '%s'",
+				   attrs[1], name);
+	*res = tmp;
+	return TRUE;
+}
+
+
+static gboolean
 oo_attr_float (GsfXMLIn *xin, xmlChar const * const *attrs,
 	       int ns_id, char const *name, gnm_float *res)
 {
@@ -1011,7 +1026,7 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 			style = g_hash_table_lookup (state->styles.cell, attrs[1]);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))
 			col_info = g_hash_table_lookup (state->styles.col, attrs[1]);
-		else if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &repeat_count))
+		else if (oo_attr_pos_int (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &repeat_count))
 			;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "visibility"))
 			hidden = !attr_eq (attrs[1], "visible");
@@ -1118,7 +1133,7 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))
 			row_info = g_hash_table_lookup (state->styles.row, attrs[1]);
-		else if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-rows-repeated", &repeat_count))
+		else if (oo_attr_pos_int (xin, attrs, OO_NS_TABLE, "number-rows-repeated", &repeat_count))
 			;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "visibility"))
 			hidden = !attr_eq (attrs[1], "visible");
@@ -1212,7 +1227,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->col_inc = 1;
 	state->content_is_error = FALSE;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &state->col_inc))
+		if (oo_attr_pos_int (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &state->col_inc))
 			;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "formula")) {
 			OOFormula f_type = FORMULA_OPENFORMULA;
@@ -1540,7 +1555,7 @@ oo_covered_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	state->col_inc = 1;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &state->col_inc))
+		if (oo_attr_pos_int (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &state->col_inc))
 			;
 #if 0
 		/* why bother it is covered ? */
