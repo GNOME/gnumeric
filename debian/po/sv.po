@@ -1,26 +1,29 @@
 # Swedish translation for gnumeric debconf.
-# Copyright (C) 2007 Free Software Foundation, Inc.
+# Copyright (C) 2007-2010 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gnumeric package.
-# Daniel Nylander <po@danielnylander.se>, 2007.
 #
+# Daniel Nylander <po@danielnylander.se>, 2007.
+# Martin Bagge <brother@bsnet.se>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.6.2-1\n"
 "Report-Msgid-Bugs-To: gnumeric@packages.debian.org\n"
 "POT-Creation-Date: 2010-07-31 12:15+0200\n"
-"PO-Revision-Date: 2007-11-02 13:30+0100\n"
-"Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
+"PO-Revision-Date: 2010-08-07 04:55+0100\n"
+"Last-Translator: Martin Bagge / brother <brother@bsnet.se>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Swedish\n"
+"X-Poedit-Country: Sweden\n"
 
 #. Type: title
 #. Description
 #: ../gnumeric.templates:2001
 msgid "Detected a running gnumeric process"
-msgstr ""
+msgstr "Upptäckte en gnumeric-process som körs"
 
 #. Type: boolean
 #. Description
