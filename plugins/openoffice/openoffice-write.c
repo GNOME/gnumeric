@@ -3794,7 +3794,8 @@ odf_write_axis_ring (GnmOOExport *state, GogObject const *chart, char const *axi
 				char *cra = gnm_expr_top_as_string (texpr, &pp, state->conv);
 
 				gsf_xml_out_start_element (state->xml, CHART "categories");
-				gsf_xml_out_add_cstr (state->xml, TABLE "cell-range-address", cra);
+				gsf_xml_out_add_cstr (state->xml, TABLE "cell-range-address", 
+						      odf_strip_brackets (cra));
 				gsf_xml_out_end_element (state->xml); /* </chart:categories> */
 
 				g_free (cra);
@@ -4043,51 +4044,6 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		gsf_xml_out_add_cstr (state->xml, XLINK "href", "..");
 	gsf_xml_out_add_cstr (state->xml, CHART "class", this_plot->odf_plot_type);
 	gsf_xml_out_add_cstr (state->xml, CHART "style-name", "plotstyle");
-	gsf_xml_out_start_element (state->xml, CHART "plot-area");
-	gsf_xml_out_add_cstr (state->xml, CHART "style-name", "plotarea");
-	if (get_gsf_odf_version () <= 101) {
-		for ( l = series; NULL != l ; l = l->next) {
-			GOData const *dat = gog_dataset_get_dim
-				(GOG_DATASET (l->data), GOG_MS_DIM_VALUES);
-			if (NULL != dat) {
-				GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
-				if (NULL != texpr) {
-					GnmParsePos pp;
-					char *str;
-					parse_pos_init (&pp, WORKBOOK (state->wb), NULL, 0,0 );
-					str = gnm_expr_top_as_string (texpr, &pp, state->conv);
-					gsf_xml_out_add_cstr (state->xml, TABLE "cell-range-address",
-							      odf_strip_brackets (str));
-					g_free (str);
-					break;
-				}
-			}
-		}
-	}
-
-	if (this_plot->odf_write_z_axis)
-		this_plot->odf_write_z_axis 
-			(state, chart, this_plot->z_axis_name, "zaxis", "z", 
-			 this_plot->gtype, series);
-	if (this_plot->odf_write_y_axis)
-		this_plot->odf_write_y_axis 
-			(state, chart, this_plot->y_axis_name, "yaxis", "y", 
-			 this_plot->gtype, series);
-	if (this_plot->odf_write_x_axis)
-		this_plot->odf_write_x_axis 
-			(state, chart, this_plot->x_axis_name, "xaxis", "x", 
-			 this_plot->gtype, series);
-
-	if (this_plot->odf_write_series != NULL)
-		this_plot->odf_write_series (state, series);
-
-	if (wall != NULL) {
-		gsf_xml_out_start_element (state->xml, CHART "wall");
-		odf_add_pt (state->xml, SVG "width", res_pts[2] - res_pts[0] - 2 * this_plot->pad);
-		gsf_xml_out_add_cstr (state->xml, CHART "style-name", "wallstyle");
-		gsf_xml_out_end_element (state->xml); /* </chart:wall> */
-	}
-	gsf_xml_out_end_element (state->xml); /* </chart:plot_area> */
 
 	/* Set up title */
 
@@ -4139,6 +4095,53 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 
 		gsf_xml_out_end_element (state->xml); /* </chart:legend> */
 	}
+
+	gsf_xml_out_start_element (state->xml, CHART "plot-area");
+	gsf_xml_out_add_cstr (state->xml, CHART "style-name", "plotarea");
+	if (get_gsf_odf_version () <= 101) {
+		for ( l = series; NULL != l ; l = l->next) {
+			GOData const *dat = gog_dataset_get_dim
+				(GOG_DATASET (l->data), GOG_MS_DIM_VALUES);
+			if (NULL != dat) {
+				GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
+				if (NULL != texpr) {
+					GnmParsePos pp;
+					char *str;
+					parse_pos_init (&pp, WORKBOOK (state->wb), NULL, 0,0 );
+					str = gnm_expr_top_as_string (texpr, &pp, state->conv);
+					gsf_xml_out_add_cstr (state->xml, TABLE "cell-range-address",
+							      odf_strip_brackets (str));
+					g_free (str);
+					break;
+				}
+			}
+		}
+	}
+
+	if (this_plot->odf_write_z_axis)
+		this_plot->odf_write_z_axis 
+			(state, chart, this_plot->z_axis_name, "zaxis", "z", 
+			 this_plot->gtype, series);
+	if (this_plot->odf_write_y_axis)
+		this_plot->odf_write_y_axis 
+			(state, chart, this_plot->y_axis_name, "yaxis", "y", 
+			 this_plot->gtype, series);
+	if (this_plot->odf_write_x_axis)
+		this_plot->odf_write_x_axis 
+			(state, chart, this_plot->x_axis_name, "xaxis", "x", 
+			 this_plot->gtype, series);
+
+	if (this_plot->odf_write_series != NULL)
+		this_plot->odf_write_series (state, series);
+
+	if (wall != NULL) {
+		gsf_xml_out_start_element (state->xml, CHART "wall");
+		odf_add_pt (state->xml, SVG "width", res_pts[2] - res_pts[0] - 2 * this_plot->pad);
+		gsf_xml_out_add_cstr (state->xml, CHART "style-name", "wallstyle");
+		gsf_xml_out_end_element (state->xml); /* </chart:wall> */
+	}
+	gsf_xml_out_end_element (state->xml); /* </chart:plot_area> */
+
 
 	gsf_xml_out_end_element (state->xml); /* </chart:chart> */
 	gsf_xml_out_end_element (state->xml); /* </office:chart> */
