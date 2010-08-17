@@ -816,7 +816,7 @@ gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list, guint start, guint 
 		g_string_append (str_marked, _("\n<i>F4 to complete</i>"));
 	} else if (i > 1)
 		/*xgettext: short form for: "type shift-F4-keys to select the completion"*/
-		g_string_append (str_marked, _("\n<i>\xe2\x87\xa7F4 to select</i>"));
+		g_string_append (str_marked, _("\n<i>\xe2\x87\xa7""F4 to select</i>"));
 	else
 		g_string_truncate (str, str->len - 1);
 	gee->tooltip.completion_start = start;
