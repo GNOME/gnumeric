@@ -1394,6 +1394,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 		if (array_cols > 0 || array_rows > 0) {
 			GnmRange r;
+			Sheet *sheet = state->pos.sheet;
 
 			if (array_cols <= 0) {
 				array_cols = 1;
@@ -1408,13 +1409,36 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			r.end.col += array_cols - 1;
 			r.end.row += array_rows - 1;
 
-			gnm_cell_set_array (state->pos.sheet,
-					    &r,
-					    texpr);
+			if (r.end.col > gnm_sheet_get_last_col (sheet))
+				oo_extent_sheet_cols (sheet, r.end.col + 1);
+			if (r.end.row > gnm_sheet_get_last_row (sheet))
+				oo_extent_sheet_rows (sheet, r.end.row + 1);
+
+			if (r.end.col > gnm_sheet_get_last_col (sheet)) {
+				oo_warning 
+					(xin, 
+					 _("Content past the maximum number "
+					   "of columns (%i) supported."), 
+					 gnm_sheet_get_max_cols (sheet));
+				r.end.col = gnm_sheet_get_last_col (sheet);
+			}
+			if (r.end.row > gnm_sheet_get_last_row (sheet)) {
+				oo_warning 
+					(xin, 
+					 _("Content past the maximum number "
+					   "of rows (%i) supported."), 
+					 gnm_sheet_get_max_rows (sheet));
+				r.end.row = gnm_sheet_get_last_row (sheet);
+			}
+
+			gnm_cell_set_array (sheet, &r, texpr);
 			gnm_expr_top_unref (texpr);
 			if (val != NULL)
 				gnm_cell_assign_value (cell, val);
-			oo_update_data_extent (state, array_cols, array_rows);
+			oo_update_data_extent 
+				(state, 
+				 r.end.col - r.start.col + 1,
+				 r.end.row - r.start.row + 1);
 		} else {
 			if (val != NULL)
 				gnm_cell_set_expr_and_value (cell, texpr, val,
