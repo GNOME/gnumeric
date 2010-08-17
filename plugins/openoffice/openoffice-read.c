@@ -181,6 +181,7 @@ typedef struct {
 	unsigned	 data_pt_count;	/* reset for each series */
 
 	GogObject	*axis;
+	xmlChar         *cat_expr;
 
 	GnmExprTop const        *title_expr;
 
@@ -3660,6 +3661,21 @@ oo_chart_title_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
+od_chart_axis_categories (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					OO_NS_TABLE, "cell-range-address")) {
+			if (state->chart.cat_expr == NULL)
+				state->chart.cat_expr 
+					= g_strdup (CXML2C (attrs[1]));
+		}
+}
+
+
+static void
 oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static OOEnum const types[] = {
@@ -4055,8 +4071,14 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 							    gnm_go_data_matrix_new_expr (state->pos.sheet, texpr), NULL);
 			}
 	default:
-		if (state->chart.series == NULL)
+		if (state->chart.series == NULL) {
 			state->chart.series = gog_plot_new_series (state->chart.plot);
+			if (state->chart.cat_expr != NULL) {
+				oo_plot_assign_dim 
+					(xin, state->chart.cat_expr, 
+					 GOG_MS_DIM_CATEGORIES, NULL);
+			}
+		}
 		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 			if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "values-cell-range-address")) {
 				int dim;
@@ -4144,6 +4166,15 @@ oo_series_pt (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+oo_chart_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	g_free (state->chart.cat_expr);
+	state->chart.cat_expr = NULL;
+}
+
+static void
 oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static OOEnum const types[] = {
@@ -4185,6 +4216,7 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	state->chart.plot = NULL;
 	state->chart.series = NULL;
 	state->chart.axis = NULL;
+	state->chart.cat_expr = NULL;
 	if (NULL != style)
 		state->chart.src_in_rows = style->src_in_rows;
 
@@ -4609,7 +4641,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	      GSF_XML_IN_NODE (CALC_SETTINGS, DATE_CONVENTION, OO_NS_TABLE, "null-date", GSF_XML_NO_CONTENT, oo_date_convention, NULL),
 	    GSF_XML_IN_NODE (SPREADSHEET, CHART, OO_NS_CHART, "chart", GSF_XML_NO_CONTENT, NULL, NULL),
 	  GSF_XML_IN_NODE (OFFICE_BODY, OFFICE_CHART, OO_NS_OFFICE, "chart", GSF_XML_NO_CONTENT, NULL, NULL),
-	    GSF_XML_IN_NODE (OFFICE_CHART, CHART_CHART, OO_NS_CHART, "chart", GSF_XML_NO_CONTENT, &oo_chart, NULL),
+	    GSF_XML_IN_NODE (OFFICE_CHART, CHART_CHART, OO_NS_CHART, "chart", GSF_XML_NO_CONTENT, &oo_chart, &oo_chart_end),
 	      GSF_XML_IN_NODE (CHART_CHART, CHART_TABLE, OO_NS_TABLE, "table", GSF_XML_NO_CONTENT, NULL, NULL),
 	        GSF_XML_IN_NODE (CHART_TABLE, CHART_TABLE_ROWS, OO_NS_TABLE, "table-rows", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (CHART_TABLE_ROWS, CHART_TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -4638,7 +4670,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_FLOOR, OO_NS_CHART, "floor", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_AXIS, OO_NS_CHART, "axis", GSF_XML_NO_CONTENT, &oo_chart_axis, NULL),
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_GRID, OO_NS_CHART, "grid", GSF_XML_NO_CONTENT, &oo_chart_grid, NULL),
-		  GSF_XML_IN_NODE (CHART_AXIS, CHART_AXIS_CAT,   OO_NS_CHART, "categories", GSF_XML_NO_CONTENT, NULL, NULL),
+		  GSF_XML_IN_NODE (CHART_AXIS, CHART_AXIS_CAT,   OO_NS_CHART, "categories", GSF_XML_NO_CONTENT, &od_chart_axis_categories, NULL),
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_TITLE, OO_NS_CHART, "title", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
 
 	    GSF_XML_IN_NODE (SPREADSHEET, TABLE, OO_NS_TABLE, "table", GSF_XML_NO_CONTENT, &oo_table_start, &oo_table_end),
