@@ -1940,7 +1940,6 @@ oo_date_style (GsfXMLIn *xin, xmlChar const **attrs)
 				       "truncate-on-overflow", &truncate_hour_on_overflow));
 
 	g_return_if_fail (state->cur_format.accum == NULL);
-	g_return_if_fail (name != NULL);
 
 	/* We always save a magic number with source language, so if that is gone somebody may have changed formats */
 	state->cur_format.magic = format_source_is_language ? magic : GO_FORMAT_MAGIC_NONE;
@@ -1969,33 +1968,39 @@ oo_date_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	int elapsed = state->cur_format.elapsed_set;
 
-	if (state->cur_format.magic != GO_FORMAT_MAGIC_NONE)
-		g_hash_table_insert (state->formats, state->cur_format.name,
-				     go_format_new_magic (state->cur_format.magic));
-	else {
-		g_return_if_fail (state->cur_format.accum != NULL);
-
-		while (elapsed != 0 && elapsed != ODF_ELAPSED_SET_SECONDS
-		       && elapsed != ODF_ELAPSED_SET_MINUTES
-		       && elapsed != ODF_ELAPSED_SET_HOURS) {
-			/*We need to fix the format string since several times are set as "elapsed". */
-			if (0 != (elapsed & ODF_ELAPSED_SET_SECONDS)) {
-				oo_date_style_end_rm_elapsed (state->cur_format.accum,
-							      state->cur_format.pos_seconds);
-				if (state->cur_format.pos_seconds < state->cur_format.pos_minutes)
-					state->cur_format.pos_minutes -= 2;
-				elapsed -= ODF_ELAPSED_SET_SECONDS;
-			} else {
-				oo_date_style_end_rm_elapsed (state->cur_format.accum,
-							      state->cur_format.pos_minutes);
-				elapsed -= ODF_ELAPSED_SET_MINUTES;
-				break;
+	if (state->cur_format.name == NULL) {
+		if (state->cur_format.accum) 
+			g_string_free (state->cur_format.accum, TRUE);
+		oo_warning (xin, _("Corrupted file: unnamed date style ignored."));
+	} else {
+		if (state->cur_format.magic != GO_FORMAT_MAGIC_NONE)
+			g_hash_table_insert (state->formats, state->cur_format.name,
+					     go_format_new_magic (state->cur_format.magic));
+		else {
+			g_return_if_fail (state->cur_format.accum != NULL);
+			
+			while (elapsed != 0 && elapsed != ODF_ELAPSED_SET_SECONDS
+			       && elapsed != ODF_ELAPSED_SET_MINUTES
+			       && elapsed != ODF_ELAPSED_SET_HOURS) {
+				/*We need to fix the format string since several times are set as "elapsed". */
+				if (0 != (elapsed & ODF_ELAPSED_SET_SECONDS)) {
+					oo_date_style_end_rm_elapsed (state->cur_format.accum,
+								      state->cur_format.pos_seconds);
+					if (state->cur_format.pos_seconds < state->cur_format.pos_minutes)
+						state->cur_format.pos_minutes -= 2;
+					elapsed -= ODF_ELAPSED_SET_SECONDS;
+				} else {
+					oo_date_style_end_rm_elapsed (state->cur_format.accum,
+								      state->cur_format.pos_minutes);
+					elapsed -= ODF_ELAPSED_SET_MINUTES;
+					break;
+				}
 			}
-		}
 
-		g_hash_table_insert (state->formats, state->cur_format.name,
-				     go_format_new_from_XL (state->cur_format.accum->str));
-		g_string_free (state->cur_format.accum, TRUE);
+			g_hash_table_insert (state->formats, state->cur_format.name,
+					     go_format_new_from_XL (state->cur_format.accum->str));
+			g_string_free (state->cur_format.accum, TRUE);
+		}
 	}
 	state->cur_format.accum = NULL;
 	state->cur_format.name = NULL;

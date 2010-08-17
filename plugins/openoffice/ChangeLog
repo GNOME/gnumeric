@@ -1,5 +1,10 @@
 2010-08-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_date_style): set all fields
+	(oo_date_style_end): check for NULL name
+
+2010-08-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_plot): export chart title
 
 2010-08-16  Morten Welinder <terra@gnome.org>
