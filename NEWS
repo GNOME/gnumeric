@@ -1,5 +1,8 @@
 Gnumeric 1.10.10
 
+Andreas:
+	* Export chart titles to ODF.
+
 --------------------------------------------------------------------------
 Gnumeric 1.10.9
 
@@ -24,7 +27,7 @@ Andreas:
 	* Export images to ODF.
 	* Fix import of graphs from rich ODF files. [#626961]
 	* Some ring and pie plot ODF export improvements.
-	* Export legends and chart titles to ODF.
+	* Export legends to ODF.
 
 Jean:
 	* Import Guppi graphs from gnumeric-1.0.x files. [#567953]
