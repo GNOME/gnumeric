@@ -3775,6 +3775,49 @@ odf_write_axis (GnmOOExport *state, GogObject const *chart, char const *axis_rol
 }
 
 static void
+odf_write_title (GnmOOExport *state, GogObject const *title, char const *id)
+{
+	if (title != NULL && id != NULL) {
+		GOData const *dat = gog_dataset_get_dim (GOG_DATASET(title),0);
+		if (dat != NULL) {
+			GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
+			if (texpr != NULL) {
+				GnmParsePos pp;
+				char *formula;
+				parse_pos_init_sheet (&pp, state->sheet);
+				formula = gnm_expr_top_as_string (texpr, &pp, state->conv);
+
+				gsf_xml_out_start_element (state->xml, id);
+
+				if (gnm_expr_top_is_rangeref (texpr)) {
+					gsf_xml_out_add_cstr (state->xml, TABLE "cell-address",
+								      odf_strip_brackets (formula));
+				} else if (GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_CONSTANT 
+					   && texpr->expr->constant.value->type == VALUE_STRING) {
+					gboolean white_written = TRUE;
+					char const *str;
+					gsf_xml_out_start_element (state->xml, TEXT "p");
+					str = value_peek_string (texpr->expr->constant.value);
+					odf_add_chars (state, str, strlen (str), &white_written);	
+					gsf_xml_out_end_element (state->xml); /* </text:p> */
+				} else {
+					gboolean white_written = TRUE;
+					if (state->with_extension)
+						gsf_xml_out_add_cstr (state->xml, GNMSTYLE "expression",
+								      formula);
+					gsf_xml_out_start_element (state->xml, TEXT "p");
+					odf_add_chars (state, formula, strlen (formula), 
+						       &white_written);	
+					gsf_xml_out_end_element (state->xml); /* </text:p> */	
+				}
+				gsf_xml_out_end_element (state->xml); /* </chart:title> */
+				g_free (formula);
+			}
+		}
+	}	
+}
+
+static void
 odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, GogObject const *plot)
 {
 	char const *plot_type = G_OBJECT_TYPE_NAME (plot);
@@ -3784,7 +3827,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 	int i;
 	GogObject const *wall = gog_object_get_child_by_name (plot, "Backplane");
 	GogObject const *legend = gog_object_get_child_by_name (chart, "Legend");
-	GogObject const *title = gog_object_get_child_by_name (chart, "Title");
+	GSList *titles = gog_object_get_children (chart, gog_object_find_role_by_name (chart, "Title"));
 
 	static struct {
 		char const * type;
@@ -3977,44 +4020,19 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 
 	/* Set up title */
 
-	if (title != NULL) {
-		GOData const *dat = gog_dataset_get_dim (GOG_DATASET(title),0);
-		if (dat != NULL) {
-			GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
-			if (texpr != NULL) {
-				GnmParsePos pp;
-				char *formula;
-				parse_pos_init_sheet (&pp, state->sheet);
-				formula = gnm_expr_top_as_string (texpr, &pp, state->conv);
+	if (titles != NULL) {
+		GogObject const *title = NULL;
 
-				gsf_xml_out_start_element (state->xml, CHART "title");
-
-				if (gnm_expr_top_is_rangeref (texpr)) {
-					gsf_xml_out_add_cstr (state->xml, TABLE "cell-range-address",
-								      odf_strip_brackets (formula));
-				} else if (GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_CONSTANT 
-					   && texpr->expr->constant.value->type == VALUE_STRING) {
-					gboolean white_written = TRUE;
-					char const *str;
-					gsf_xml_out_start_element (state->xml, TEXT "p");
-					str = value_peek_string (texpr->expr->constant.value);
-					odf_add_chars (state, str, strlen (str), &white_written);	
-					gsf_xml_out_end_element (state->xml); /* </text:p> */
-				} else {
-					gboolean white_written = TRUE;
-					if (state->with_extension)
-						gsf_xml_out_add_cstr (state->xml, GNMSTYLE "expression",
-								      formula);
-					gsf_xml_out_start_element (state->xml, TEXT "p");
-					odf_add_chars (state, formula, strlen (formula), 
-						       &white_written);	
-					gsf_xml_out_end_element (state->xml); /* </text:p> */	
-				}
-				gsf_xml_out_end_element (state->xml); /* </chart:title> */
-				g_free (formula);
-			}
+		title = titles->data;
+		odf_write_title (state, title, CHART "title");
+		if (titles->next != NULL) {
+			title = titles->next->data;
+			odf_write_title (state, title, CHART "subtitle");			
 		}
+
+		g_slist_free (titles);
 	}
+
 
 	/* Set up legend if appropriate*/
 

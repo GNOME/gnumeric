@@ -182,6 +182,8 @@ typedef struct {
 
 	GogObject	*axis;
 
+	GnmExprTop const        *title_expr;
+
 	OOChartStyle		*cur_graph_style;
 	GHashTable		*graph_styles;	/* contain links to OOChartStyle GSLists */
 	GSList                  *these_plot_styles;  /* currently active styles */
@@ -3554,15 +3556,68 @@ od_draw_text_box_p_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-oo_chart_title (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+oo_chart_title (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	GogObject *label = NULL;
+	OOParseState *state = (OOParseState *)xin->user_state;
+	state->chart.title_expr = NULL;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2){
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					OO_NS_TABLE, "cell-address")
+		    && state->chart.title_expr == NULL) {
+			GnmParsePos   pp;
+			char *end_str = g_strconcat ("[", CXML2C (attrs[1]), "]", NULL);
+			parse_pos_init_sheet (&pp, state->chart.src_sheet);
+			state->chart.title_expr 
+				= oo_expr_parse_str 
+				(xin, end_str, &pp,
+				 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
+				 FORMULA_OPENFORMULA);
+			g_free (end_str);
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					       OO_GNUM_NS_EXT, "expression")) {
+			GnmParsePos   pp;
+
+			if (state->chart.title_expr != NULL)
+				gnm_expr_top_unref (state->chart.title_expr);
+
+			parse_pos_init_sheet (&pp, state->chart.src_sheet);
+			state->chart.title_expr 
+				= oo_expr_parse_str 
+				(xin, CXML2C (attrs[1]), &pp,
+				 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
+				 FORMULA_OPENFORMULA);
+		}
+	}
+}
+
+static void
+oo_chart_title_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	if (state->chart.title_expr) {
+		GOData *data = gnm_go_data_scalar_new_expr 
+			(state->chart.src_sheet, state->chart.title_expr);
+		GogObject *label = NULL;
+		label = gog_object_add_by_name 
+			((GogObject *)state->chart.chart, "Title", NULL);
+		gog_dataset_set_dim (GOG_DATASET (label), 0,
+				     data,
+				     NULL);
+		state->chart.title_expr = NULL;
+	}
+		
+}
+
+static void
+oo_chart_title_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
 	OOParseState *state = (OOParseState *)xin->user_state;
 
-	label = gog_object_add_by_name ((GogObject *)state->chart.chart, "Title", NULL);
-	gog_dataset_set_dim (GOG_DATASET (label), 0,
-			     go_data_scalar_str_new (g_strdup (xin->content->str), TRUE),
-			     NULL);
+	if (state->chart.title_expr == NULL)
+		state->chart.title_expr = 
+			gnm_expr_top_new_constant 
+			(value_new_string (xin->content->str));
 }
 
 static void
@@ -4530,8 +4585,10 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	          GSF_XML_IN_NODE (CHART_TABLE_HCOLS, CHART_TABLE_HCOL, OO_NS_TABLE, "table-header-column", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (CHART_TABLE_HCOLS, CHART_TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
 
-	      GSF_XML_IN_NODE (CHART_CHART, CHART_TITLE, OO_NS_CHART, "title", GSF_XML_NO_CONTENT, NULL, NULL),
-		GSF_XML_IN_NODE (CHART_TITLE, TITLE_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, &oo_chart_title),
+	      GSF_XML_IN_NODE (CHART_CHART, CHART_TITLE, OO_NS_CHART, "title", GSF_XML_NO_CONTENT,  &oo_chart_title, &oo_chart_title_end),
+		GSF_XML_IN_NODE (CHART_TITLE, TITLE_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, &oo_chart_title_text),
+	      GSF_XML_IN_NODE (CHART_CHART, CHART_SUBTITLE, OO_NS_CHART, "subtitle", GSF_XML_NO_CONTENT, &oo_chart_title, &oo_chart_title_end),	
+	        GSF_XML_IN_NODE (CHART_SUBTITLE, TITLE_TEXT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),                                     /* 2nd Def */
 	      GSF_XML_IN_NODE (CHART_CHART, CHART_LEGEND, OO_NS_CHART, "legend", GSF_XML_NO_CONTENT, &oo_legend, NULL),
 	      GSF_XML_IN_NODE (CHART_CHART, CHART_PLOT_AREA, OO_NS_CHART, "plot-area", GSF_XML_NO_CONTENT, &oo_plot_area, &oo_plot_area_end),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_SERIES, OO_NS_CHART, "series", GSF_XML_NO_CONTENT, &oo_plot_series, &oo_plot_series_end),

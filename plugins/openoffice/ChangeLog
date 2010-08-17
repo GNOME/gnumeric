@@ -1,6 +1,17 @@
 2010-08-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (oo_date_style_end): set accum to NULL after freeing
+	* openoffice-read.c (oo_chart_title): renamed to 
+	  oo_chart_title_text
+	(oo_chart_title): new
+	(oo_chart_title_end): new
+	(opendoc_content_dtd): connect the above
+	* openoffice-write.c (odf_write_title): new
+	(odf_write_plot): use odf_write_title for title and subtitle
+
+2010-08-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_date_style_end): set accum to NULL 
+	  after freeing
 	(odf_number_style): set all fields
 	(odf_number_style_end): check for NULL name
 

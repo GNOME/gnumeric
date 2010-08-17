@@ -1,7 +1,7 @@
 Gnumeric 1.10.10
 
 Andreas:
-	* Export chart titles to ODF.
+	* Export and import chart titles and subtitles to and from ODF.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.9
