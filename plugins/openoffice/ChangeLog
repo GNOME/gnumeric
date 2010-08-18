@@ -1,5 +1,13 @@
 2010-08-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_scatter_series_style): expand
+	* openoffice-read.c (oo_prop_list_to_series): new
+	(od_style_prop_chart): save series properties
+	(oo_plot_series): reorganize
+	(oo_chart_style_free): ispose of series properties
+
+2010-08-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_axis_grid): check for NULL axis
 	(odf_write_axis): only consider non-NULL axes
 	(odf_write_generic_axis): NULL-axes case

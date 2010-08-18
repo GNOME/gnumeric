@@ -3668,11 +3668,22 @@ odf_write_contour_chart_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const
 }
 
 static void
-odf_write_scatter_series_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *series)
+odf_write_scatter_series_style (GnmOOExport *state, GogObject const *series)
 {
-	gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "none");
-	odf_add_bool (state->xml, CHART "lines", FALSE);
+	GOStyle const *style = NULL;
+
+	g_object_get (G_OBJECT (series), "style", &style, NULL);
+
+	if (go_style_is_line_visible (style)) {
+		gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "solid");
+		odf_add_bool (state->xml, CHART "lines", TRUE);
+	} else {
+		gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "none");
+		odf_add_bool (state->xml, CHART "lines", FALSE);
+	}
 	gsf_xml_out_add_cstr (state->xml, CHART "symbol-type", "automatic");
+
+	g_object_unref (G_OBJECT (style));
 }
 
 static void

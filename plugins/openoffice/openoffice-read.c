@@ -155,6 +155,7 @@ typedef struct {
 	gboolean src_in_rows;	/* orientation of graph data: rows or columns */
 	GSList	*axis_props;	/* axis properties */
 	GSList	*plot_props;	/* plot properties */
+	GSList	*series_props;	/* any other properties */
 	GSList	*other_props;	/* any other properties */
 } OOChartStyle;
 
@@ -1685,6 +1686,7 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 			cur_style = g_new0(OOChartStyle, 1);
 			cur_style->axis_props = NULL;
 			cur_style->plot_props = NULL;
+			cur_style->series_props = NULL;
 			cur_style->other_props = NULL;
 			state->chart.cur_graph_style = cur_style;
 			g_hash_table_replace (state->chart.graph_styles,
@@ -3006,6 +3008,31 @@ oo_prop_list_free (GSList *props)
 }
 
 static void
+oo_prop_list_to_series (GSList *props, GObject *obj)
+{
+	GOStyle *style = NULL;
+	GSList *l;
+
+	g_object_get (obj, "style", &style, NULL);
+
+	if (style != NULL)
+		for (l = props; l != NULL; l = l->next) {
+			OOProp *prop = l->data;
+			if (0 == strcmp (prop->name, "lines")) {
+				style->line.auto_color = g_value_get_boolean (&prop->value);
+			} else if (0 == strcmp (prop->name, "stroke")) {
+				if (0 == strcmp (g_value_get_string (&prop->value), "solid")) {
+					style->line.dash_type = GO_LINE_SOLID;
+					style->line.auto_dash = FALSE;
+				}
+			}
+				
+		}
+	g_object_set (obj, "style", style, NULL);
+	g_object_unref (G_OBJECT (style));
+}
+
+static void
 oo_prop_list_apply (GSList *props, GObject *obj)
 {
 	GSList *ptr;
@@ -3139,7 +3166,14 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "stroke")) {
 			draw_stroke = !attr_eq (attrs[1], "none");
 			draw_stroke_set = TRUE;
+			style->series_props = g_slist_prepend
+				(style->series_props,
+				 oo_prop_new_string ("stroke",
+						     attrs[1]));
 		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "lines", &btmp)) {
+			style->series_props = g_slist_prepend
+				(style->series_props,
+				 oo_prop_new_bool ("lines", btmp));
 			style->plot_props = g_slist_prepend
 				(style->plot_props,
 				 oo_prop_new_bool ("default-style-has-lines", btmp));
@@ -4044,32 +4078,16 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 	state->chart.series_count++;
 	state->chart.domain_count = 0;
 
+
+	/* Create the series */
 	switch (state->chart.plot_type) {
-	case OO_PLOT_STOCK:
-		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-			if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "values-cell-range-address"))
-				state->chart.list = g_slist_append (state->chart.list,
-									    g_strdup (attrs[1]));
+	case OO_PLOT_STOCK: /* We need to construct the series later. */
 		break;
 	case OO_PLOT_SURFACE:
 	case OO_PLOT_CONTOUR:
-		state->chart.series = gog_plot_new_series (state->chart.plot);
-		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-			if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "values-cell-range-address")) {
-				GnmRangeRef ref;
-				GnmValue *v;
-				GnmExprTop const *texpr;
-				GnmParsePos pp;
-				char const *ptr = oo_rangeref_parse (&ref, CXML2C (attrs[1]),
-								     parse_pos_init_sheet (&pp, state->pos.sheet));
-				if (ptr == CXML2C (attrs[1]))
-					return;
-				v = value_new_cellrange (&ref.a, &ref.b, 0, 0);
-				texpr = gnm_expr_top_new_constant (v);
-				if (NULL != texpr)
-					gog_series_set_dim (state->chart.series, 2,
-							    gnm_go_data_matrix_new_expr (state->pos.sheet, texpr), NULL);
-			}
+		if (state->chart.series == NULL)
+			state->chart.series = gog_plot_new_series (state->chart.plot);
+		break;
 	default:
 		if (state->chart.series == NULL) {
 			state->chart.series = gog_plot_new_series (state->chart.plot);
@@ -4079,27 +4097,59 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 					 GOG_MS_DIM_CATEGORIES, NULL);
 			}
 		}
-		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-			if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "values-cell-range-address")) {
-				int dim;
-				switch (state->chart.plot_type) {
-				case OO_PLOT_GANTT:
-					dim = (state->chart.series_count % 2 == 1) ? GOG_MS_DIM_START : GOG_MS_DIM_END;
-					break;
-				case OO_PLOT_BUBBLE:
-					dim = GOG_MS_DIM_BUBBLES;
-					break;
-				case OO_PLOT_SCATTER_COLOUR:
-					dim = GOG_MS_DIM_EXTRA1;
-					break;
-				default:
-					dim = GOG_MS_DIM_VALUES;
-					break;
+	}
+
+	/* Now check the attributes */
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "values-cell-range-address")) {
+			switch (state->chart.plot_type) {
+			case OO_PLOT_STOCK:
+				state->chart.list = g_slist_append (state->chart.list,
+								    g_strdup (attrs[1]));
+				break;
+			case OO_PLOT_SURFACE:
+			case OO_PLOT_CONTOUR: 
+				{
+					GnmRangeRef ref;
+					GnmValue *v;
+					GnmExprTop const *texpr;
+					GnmParsePos pp;
+					char const *ptr = oo_rangeref_parse (&ref, CXML2C (attrs[1]),
+									     parse_pos_init_sheet (&pp, state->pos.sheet));
+					if (ptr == CXML2C (attrs[1]))
+						return;
+					v = value_new_cellrange (&ref.a, &ref.b, 0, 0);
+					texpr = gnm_expr_top_new_constant (v);
+					if (NULL != texpr)
+						gog_series_set_dim (state->chart.series, 2,
+								    gnm_go_data_matrix_new_expr 
+								    (state->pos.sheet, texpr), NULL);
 				}
-				oo_plot_assign_dim (xin, attrs[1], dim, NULL);
-			} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "label-cell-address"))
+				break;
+			case OO_PLOT_GANTT:
+				oo_plot_assign_dim (xin, attrs[1], 
+						    (state->chart.series_count % 2 == 1) ? GOG_MS_DIM_START : GOG_MS_DIM_END, 
+						    NULL);
+				break;
+			case OO_PLOT_BUBBLE:
+				oo_plot_assign_dim (xin, attrs[1], GOG_MS_DIM_BUBBLES, NULL);
+				break;
+			case OO_PLOT_SCATTER_COLOUR:
+				oo_plot_assign_dim (xin, attrs[1], GOG_MS_DIM_EXTRA1, NULL);
+				break;
+			default:
+				oo_plot_assign_dim (xin, attrs[1], GOG_MS_DIM_VALUES, NULL);
+				break;
+			}
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "label-cell-address"))
 				oo_plot_assign_dim (xin, attrs[1], GOG_MS_DIM_LABELS, NULL);
-		break;
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					     OO_NS_CHART, "style-name")) {
+			OOChartStyle *style = NULL;
+			style = g_hash_table_lookup
+				(state->chart.graph_styles, CXML2C (attrs[1]));
+			oo_prop_list_to_series (style->series_props, G_OBJECT (state->chart.series));
+		}
 	}
 }
 
@@ -4293,6 +4343,7 @@ static void
 oo_chart_style_free (OOChartStyle *cstyle)
 {
 	oo_prop_list_free (cstyle->axis_props);
+	oo_prop_list_free (cstyle->series_props);
 	oo_prop_list_free (cstyle->plot_props);
 	oo_prop_list_free (cstyle->other_props);
 	g_free (cstyle);
