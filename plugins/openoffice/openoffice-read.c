@@ -3031,13 +3031,21 @@ oo_prop_list_apply (GSList *props, GObject *obj)
 	}
 }
 
+static GOLineDashType
+odf_match_dash_type (OOParseState *state, gchar const *dash_style)
+{
+	GOLineDashType t = go_line_dash_from_str (dash_style);
+	return ((t == GO_LINE_NONE)? GO_LINE_DOT : t );
+}
+
 static void
-oo_prop_list_to_series (GSList *props, GObject *obj)
+oo_prop_list_to_series (OOParseState *state, GSList *props, GObject *obj)
 {
 	GOStyle *style = NULL;
 	GSList *l;
 	int symbol_type = -1, symbol_name = GO_MARKER_DIAMOND;
 	GOMarker *m;
+	gboolean line_is_not_dash = FALSE;
 
 	oo_prop_list_apply (props, obj);
 
@@ -3054,12 +3062,22 @@ oo_prop_list_to_series (GSList *props, GObject *obj)
 				if (0 == strcmp (g_value_get_string (&prop->value), "solid")) {
 					style->line.dash_type = GO_LINE_SOLID;
 					style->line.auto_dash = FALSE;
+					line_is_not_dash = TRUE;
+				} else if (0 == strcmp (g_value_get_string (&prop->value), "dash")) {
+					style->line.auto_dash = FALSE;
+					line_is_not_dash = FALSE;
+				} else {
+					style->line.dash_type = GO_LINE_NONE;
+					style->line.auto_dash = FALSE;
+					line_is_not_dash = TRUE;
 				}
+			} else if (0 == strcmp (prop->name, "stroke-dash") && !line_is_not_dash) {
+				style->line.dash_type = odf_match_dash_type 
+					(state, g_value_get_string (&prop->value));
 			} else if (0 == strcmp (prop->name, "symbol-type"))
 				symbol_type = g_value_get_int (&prop->value);
 			else if (0 == strcmp (prop->name, "symbol-name"))
 				symbol_name = g_value_get_int (&prop->value);
-				
 		}
 	
 	switch (symbol_type) {
@@ -3258,6 +3276,12 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			style->series_props = g_slist_prepend
 				(style->series_props,
 				 oo_prop_new_string ("stroke",
+						     CXML2C(attrs[1])));
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					       OO_NS_DRAW, "stroke-dash")) {
+			style->series_props = g_slist_prepend
+				(style->series_props,
+				 oo_prop_new_string ("stroke-dash",
 						     CXML2C(attrs[1])));
 		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "lines", &btmp)) {
 			style->series_props = g_slist_prepend
@@ -4237,7 +4261,7 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 			OOChartStyle *style = NULL;
 			style = g_hash_table_lookup
 				(state->chart.graph_styles, CXML2C (attrs[1]));
-			oo_prop_list_to_series (style->series_props, G_OBJECT (state->chart.series));
+			oo_prop_list_to_series (state, style->series_props, G_OBJECT (state->chart.series));
 		}
 	}
 }

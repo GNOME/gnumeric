@@ -1,5 +1,13 @@
 2010-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_scatter_series_style_graphic): write 
+	  dash info
+	* openoffice-read.c (odf_match_dash_type): new (stub)
+	(oo_prop_list_to_series): handle dashes, add argument and change all 
+	  callers
+
+2010-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_scatter_chart_style): split into
 	odf_write_scatter_chart_style and odf_write_scatter_chart_style_graphic
 	(odf_write_scatter_series_style): split into

@@ -3802,7 +3802,19 @@ odf_write_scatter_series_style_graphic (GnmOOExport *state, GogObject const *plo
 	g_object_get (G_OBJECT (series), "style", &style, NULL);
 
 	if (go_style_is_line_visible (style)) {
-		gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "solid");
+		GOLineDashType dash_type = style->line.dash_type;
+		
+		if (dash_type == GO_LINE_SOLID)
+			gsf_xml_out_add_cstr (state->xml, 
+					      DRAW "stroke", "solid");
+		else {
+			gsf_xml_out_add_cstr (state->xml, 
+					      DRAW "stroke", "dash");
+			gsf_xml_out_add_cstr 
+				(state->xml, 
+				 DRAW "stroke-dash", 
+				 go_line_dash_as_str (dash_type));
+		}
 	} else {
 		gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "none");
 	}
