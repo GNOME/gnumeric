@@ -3689,8 +3689,13 @@ odf_write_scatter_chart_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const
 
 	odf_write_interpolation_attribute (state, plot);
 
-	gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "none");
 	odf_add_bool (state->xml, CHART "lines", FALSE);
+}
+
+static void
+odf_write_scatter_chart_style_graphic (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, GogObject const *plot)
+{
+	gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "none");
 }
 
 static void
@@ -3757,10 +3762,8 @@ odf_write_scatter_series_style (GnmOOExport *state, GogObject const *plot, GogOb
 	g_object_get (G_OBJECT (series), "style", &style, NULL);
 
 	if (go_style_is_line_visible (style)) {
-		gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "solid");
 		odf_add_bool (state->xml, CHART "lines", TRUE);
 	} else {
-		gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "none");
 		odf_add_bool (state->xml, CHART "lines", FALSE);
 	}
 
@@ -3786,6 +3789,22 @@ odf_write_scatter_series_style (GnmOOExport *state, GogObject const *plot, GogOb
 			gsf_xml_out_add_cstr 
 				(state->xml, CHART "symbol-name", odf_get_marker (m));
 		}
+	}
+
+	g_object_unref (G_OBJECT (style));
+}
+
+static void
+odf_write_scatter_series_style_graphic (GnmOOExport *state, GogObject const *plot, GogObject const *series)
+{
+	GOStyle *style = NULL;
+
+	g_object_get (G_OBJECT (series), "style", &style, NULL);
+
+	if (go_style_is_line_visible (style)) {
+		gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "solid");
+	} else {
+		gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "none");
 	}
 
 	g_object_unref (G_OBJECT (style));
@@ -4019,107 +4038,152 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		char const * x_axis_name;
 		char const * y_axis_name;
 		char const * z_axis_name;
-		void (*odf_write_axes_styles) (GnmOOExport *state, GogObject const *chart,
-					       GogObject const *plot);
-		void (*odf_write_chart_styles) (GnmOOExport *state, GogObject const *chart,
+		void (*odf_write_axes_styles)  (GnmOOExport *state, 
+					        GogObject const *chart,
 						GogObject const *plot);
-		void (*odf_write_plot_styles) (GnmOOExport *state, GogObject const *chart,
-					       GogObject const *plot);
-		void (*odf_write_series) (GnmOOExport *state, GSList const *series);
-		void (*odf_write_series_style) (GnmOOExport *state, GogObject const * plot, GogObject const *series);
-		void (*odf_write_x_axis) (GnmOOExport *state, GogObject const *chart, 
-					  char const *axis_role, char const *style_label,
-					  char const *dimension, odf_chart_type_t gtype, 
+		void (*odf_write_chart_styles) (GnmOOExport *state, 
+						GogObject const *chart,
+						GogObject const *plot);
+		void (*odf_write_plot_styles)  (GnmOOExport *state, 
+						GogObject const *chart,
+						GogObject const *plot);
+		void (*odf_write_series)       (GnmOOExport *state, 
+						GSList const *series);
+		void (*odf_write_series_style) (GnmOOExport *state, 
+						GogObject const * plot, 
+						GogObject const *series);
+		void (*odf_write_chart_styles_graphic) (GnmOOExport *state, 
+							GogObject const *chart,
+							GogObject const *plot);
+		void (*odf_write_plot_styles_graphic) (GnmOOExport *state, 
+						       GogObject const *chart,
+						       GogObject const *plot);
+		void (*odf_write_series_style_graphic) (GnmOOExport *state, 
+							GogObject const * plot, 
+							GogObject const *series);		
+		void (*odf_write_x_axis) (GnmOOExport *state, 
+					  GogObject const *chart, 
+					  char const *axis_role, 
+					  char const *style_label,
+					  char const *dimension, 
+					  odf_chart_type_t gtype, 
 					  GSList const *series);
-		void (*odf_write_y_axis) (GnmOOExport *state, GogObject const *chart, 
-					  char const *axis_role, char const *style_label,
-					  char const *dimension, odf_chart_type_t gtype, 
+		void (*odf_write_y_axis) (GnmOOExport *state, 
+					  GogObject const *chart, 
+					  char const *axis_role, 
+					  char const *style_label,
+					  char const *dimension, 
+					  odf_chart_type_t gtype, 
 					  GSList const *series);
-		void (*odf_write_z_axis) (GnmOOExport *state, GogObject const *chart, 
-					  char const *axis_role, char const *style_label,
-					  char const *dimension, odf_chart_type_t gtype, 
+		void (*odf_write_z_axis) (GnmOOExport *state, 
+					  GogObject const *chart, 
+					  char const *axis_role, 
+					  char const *style_label,
+					  char const *dimension, 
+					  odf_chart_type_t gtype, 
 					  GSList const *series);
 	} *this_plot, plots[] = {
 		{ "GogBarColPlot", CHART "bar", ODF_BARCOL,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
 		  NULL, odf_write_bar_col_plot_style, odf_write_standard_series, NULL,
+		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogLinePlot", CHART "line", ODF_LINE,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
 		  odf_write_line_chart_style, NULL, odf_write_standard_series, NULL,
+		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogPolarPlot", GNMSTYLE "polar", ODF_POLAR,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
 		  NULL, NULL, odf_write_standard_series, NULL,
+		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogAreaPlot", CHART "area", ODF_AREA,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
 		  NULL, NULL, odf_write_standard_series, NULL,
+		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogDropBarPlot", CHART "gantt", ODF_DROPBAR,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_dropbar_axes_styles,
 		  NULL, odf_write_bar_col_plot_style, odf_write_gantt_series, NULL,
+		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogMinMaxPlot", CHART "stock", ODF_MINMAX,
 		  10., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
 		  NULL, NULL, odf_write_min_max_series, NULL,
+		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogPiePlot", CHART "circle", ODF_CIRCLE,
 		  5., "X-Axis", "Y-Axis", NULL, odf_write_circle_axes_styles,
 		  odf_write_pie_plot_style, NULL, odf_write_standard_series, NULL,
+		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_generic_axis, odf_write_axis},
 		{ "GogRadarPlot", CHART "radar", ODF_RADAR,
 		  10., "Circular-Axis", "Radial-Axis", NULL, odf_write_radar_axes_styles,
 		  NULL, NULL, odf_write_standard_series, NULL,
+		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogRadarAreaPlot", CHART "filled-radar", ODF_RADARAREA,
 		  10., "X-Axis", "Y-Axis", NULL, odf_write_radar_axes_styles,
 		  NULL, NULL, odf_write_standard_series, NULL,
+		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogRingPlot", CHART "ring", ODF_RING,
 		  10., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
 		  NULL, odf_write_ring_plot_style, odf_write_standard_series, NULL,
+		  NULL, NULL, NULL,
 		  odf_write_axis_ring, odf_write_generic_axis, NULL},
 		{ "GogXYPlot", CHART "scatter", ODF_SCATTER,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
 		  odf_write_scatter_chart_style, NULL, odf_write_standard_series, 
 		  odf_write_scatter_series_style,
+		  odf_write_scatter_chart_style_graphic, NULL,
+		  odf_write_scatter_series_style_graphic,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogContourPlot", CHART "surface", ODF_SURF,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
 		  odf_write_contour_chart_style, NULL, odf_write_bubble_series, NULL,
+		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogXYZContourPlot", GNMSTYLE "xyz-surface", ODF_XYZ_SURF,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
 		  odf_write_contour_chart_style, NULL, odf_write_bubble_series, NULL,
+		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogXYZSurfacePlot", GNMSTYLE "xyz-surface", ODF_XYZ_GNM_SURF,
 		  20., "X-Axis", "Y-Axis", "Z-Axis", odf_write_surface_axes_styles,
 		  odf_write_surface_chart_style, NULL, odf_write_bubble_series, NULL,
+		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogSurfacePlot", CHART "surface", ODF_GNM_SURF,
 		  20., "X-Axis", "Y-Axis", "Z-Axis", odf_write_surface_axes_styles,
 		  odf_write_surface_chart_style, NULL, odf_write_bubble_series, NULL,
+		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogBubblePlot", CHART "bubble", ODF_BUBBLE,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
 		  NULL, NULL, odf_write_bubble_series, NULL,
+		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogXYColorPlot", GNMSTYLE "scatter-color", ODF_SCATTER_COLOUR,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
 		  NULL, NULL, odf_write_bubble_series, NULL,
+		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "XLSurfacePlot", CHART "surface", ODF_GNM_SURF,
 		  20., "X-Axis", "Y-Axis", "Z-Axis", odf_write_surface_axes_styles,
 		  odf_write_xl_surface_chart_style, NULL, odf_write_standard_series, NULL,
+		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogBoxPlot", GNMSTYLE "box", ODF_GNM_BOX,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
 		  NULL, odf_write_box_plot_style, odf_write_box_series, NULL,
+		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ NULL, NULL, 0,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
 		  NULL, NULL, odf_write_standard_series, NULL,
+		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis}
 	};
 
@@ -4147,6 +4211,13 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		this_plot->odf_write_chart_styles (state, chart, plot);
 
 	gsf_xml_out_end_element (state->xml); /* </style:chart-properties> */
+
+	if (this_plot->odf_write_chart_styles_graphic != NULL) {
+		gsf_xml_out_start_element (state->xml, STYLE "graphic-properties");
+		this_plot->odf_write_chart_styles_graphic (state, chart, plot);
+		gsf_xml_out_end_element (state->xml); /* </style:graphic-properties> */
+	}
+
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
 
 	odf_start_style (state->xml, "plotarea", "chart");
@@ -4157,16 +4228,32 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		this_plot->odf_write_plot_styles (state, chart, plot);
 
 	gsf_xml_out_end_element (state->xml); /* </style:chart-properties> */
-	gsf_xml_out_end_element (state->xml); /* </style:style> */
+
+	if (this_plot->odf_write_plot_styles_graphic != NULL) {
+		gsf_xml_out_start_element (state->xml, STYLE "graphic-properties");
+		this_plot->odf_write_plot_styles_graphic (state, chart, plot);
+		gsf_xml_out_end_element (state->xml); /* </style:graphic-properties> */
+	}
+
+	gsf_xml_out_end_element (state->xml); /* </style:style> */	
 
 	for (l = series, i = 1; l != NULL; l = l->next) {
 		char *name = g_strdup_printf ("series%i", i++);
 		odf_start_style (state->xml, name, "chart");
+
 		gsf_xml_out_start_element (state->xml, STYLE "chart-properties");
 		odf_add_bool (state->xml, CHART "auto-size", TRUE);
 		if (this_plot->odf_write_series_style != NULL)
 			this_plot->odf_write_series_style (state, plot, l->data);
 		gsf_xml_out_end_element (state->xml); /* </style:chart-properties> */
+
+		if (this_plot->odf_write_series_style_graphic != NULL) {
+			gsf_xml_out_start_element (state->xml, 
+						   STYLE "graphic-properties");
+			this_plot->odf_write_series_style_graphic (state, plot, l->data);
+			gsf_xml_out_end_element (state->xml); /* </style:graphic-properties> */
+		}
+
 		gsf_xml_out_end_element (state->xml); /* </style:style> */
 		g_free (name);
 	}

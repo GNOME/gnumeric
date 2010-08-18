@@ -48,7 +48,20 @@ This is an attribute for the plot-style chart:circle
 gnm:expression
 Attribute used where ODF restricts expressions to be cell references via table:cell-range-address fore xample chart titles.
 
-3) Plot Styles added by Gnumeric:
+3) Attribute _values_ added by Gnumeric. 
+Since these are not eleemnts or new attributes they are used in all ODF exports.
+
+gnm:closed-spline
+gnm:parabolic-cspline
+gnm:cubic-cspline
+gnm:clamped-cspline
+gnm:step-start
+gnm:step-end
+gnm:step-center-x
+gnm:step-center-y
+various attribute values specifying chart:interpolation types
+
+3a) Plot Styles added by Gnumeric (these are technically also attribute values)
 
 gnm:box
 gnm:scatter-color

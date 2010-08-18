@@ -1,5 +1,15 @@
 2010-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_scatter_chart_style): split into
+	odf_write_scatter_chart_style and odf_write_scatter_chart_style_graphic
+	(odf_write_scatter_series_style): split into
+	  odf_write_scatter_series_style and 
+	  odf_write_scatter_series_style_graphic
+	(odf_write_plot): we need to separate chart-properties and 
+	  graphic-properties
+	
+2010-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_prop_list_to_series): also set properties
 	(oo_prop_list_has): new
 	(oo_prop_list_has_three_dimensional): replace with oo_prop_list_has
