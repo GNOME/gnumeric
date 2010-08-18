@@ -3014,12 +3014,34 @@ oo_prop_list_free (GSList *props)
 }
 
 static void
+oo_prop_list_apply (GSList *props, GObject *obj)
+{
+	GSList *ptr;
+	OOProp *prop;
+	GObjectClass *klass;
+
+	if (NULL == obj)
+		return;
+	klass = G_OBJECT_GET_CLASS (obj);
+
+	for (ptr = props; ptr; ptr = ptr->next) {
+		prop = ptr->data;
+		if (NULL != g_object_class_find_property (klass, prop->name))
+			g_object_set_property (obj, prop->name, &prop->value);
+	}
+}
+
+static void
 oo_prop_list_to_series (GSList *props, GObject *obj)
 {
 	GOStyle *style = NULL;
 	GSList *l;
 	int symbol_type = -1, symbol_name = GO_MARKER_DIAMOND;
 	GOMarker *m;
+
+	oo_prop_list_apply (props, obj);
+
+	/* There are properties that apply to subitems: */
 
 	g_object_get (obj, "style", &style, NULL);
 
@@ -3065,30 +3087,13 @@ oo_prop_list_to_series (GSList *props, GObject *obj)
 }
 
 static void
-oo_prop_list_apply (GSList *props, GObject *obj)
-{
-	GSList *ptr;
-	OOProp *prop;
-	GObjectClass *klass;
-
-	if (NULL == obj)
-		return;
-	klass = G_OBJECT_GET_CLASS (obj);
-
-	for (ptr = props; ptr; ptr = ptr->next) {
-		prop = ptr->data;
-		if (NULL != g_object_class_find_property (klass, prop->name))
-			g_object_set_property (obj, prop->name, &prop->value);
-	}
-}
-
-static void
-oo_prop_list_has_three_dimensional (GSList *props, gboolean *threed)
+oo_prop_list_has (GSList *props, gboolean *threed, char const *tag)
 {
 	GSList *ptr;
 	for (ptr = props; ptr; ptr = ptr->next) {
 		OOProp *prop = ptr->data;
-		if (0 == strcmp (prop->name, "three-dimensional") && g_value_get_boolean (&prop->value))
+		if (0 == strcmp (prop->name, tag) && 
+		    g_value_get_boolean (&prop->value))
 			*threed = TRUE;
 	}
 }
@@ -3100,21 +3105,11 @@ oo_style_have_three_dimensional (GSList *styles)
 	gboolean is_three_dimensional = FALSE;
 	for (l = styles; l != NULL; l = l->next) {
 		OOChartStyle *style = l->data;
-		oo_prop_list_has_three_dimensional (style->other_props,
-						    &is_three_dimensional);
+		oo_prop_list_has (style->other_props,
+				   &is_three_dimensional,
+				   "three-dimensional");
 	}
 	return is_three_dimensional;
-}
-
-static void
-oo_prop_list_has_multi_series (GSList *props, gboolean *threed)
-{
-	GSList *ptr;
-	for (ptr = props; ptr; ptr = ptr->next) {
-		OOProp *prop = ptr->data;
-		if (0 == strcmp (prop->name, "multi-series") && g_value_get_boolean (&prop->value))
-			*threed = TRUE;
-	}
 }
 
 static gboolean
@@ -3124,8 +3119,9 @@ oo_style_have_multi_series (GSList *styles)
 	gboolean is_multi_series = FALSE;
 	for (l = styles; l != NULL; l = l->next) {
 		OOChartStyle *style = l->data;
-		oo_prop_list_has_multi_series (style->other_props,
-						    &is_multi_series);
+		oo_prop_list_has (style->other_props,
+				  &is_multi_series,
+				  "multi-series");
 	}
 	return is_multi_series;
 }
@@ -3225,17 +3221,44 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->series_props,
 				 oo_prop_new_int ("symbol-type", tmp));
 		} else if (oo_attr_enum (xin, attrs, OO_NS_CHART, "symbol-name", 
-				       named_symbols, &tmp)) {
+					 named_symbols, &tmp)) {
 			style->series_props = g_slist_prepend
 				(style->series_props,
 				 oo_prop_new_int ("symbol-name", tmp));
-		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "stroke")) {
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					       OO_NS_CHART, "interpolation")) {
+			char const *interpolation = NULL; 
+
+			if (attr_eq (attrs[1], "none"))
+				interpolation = "linear";
+			else if (attr_eq (attrs[1], "b-spline"))
+				interpolation = "spline";
+			else if (attr_eq (attrs[1], "cubic-spline"))
+				interpolation = "cspline";
+			else if (g_str_has_prefix (CXML2C(attrs[1]), "gnm:"))
+				interpolation = CXML2C(attrs[1]) + 4;
+			else oo_warning 
+				     (xin, _("Unknown interpolation type "
+					     "encountered: %s"), CXML2C(attrs[1]));
+
+			if (interpolation != NULL) {
+				style->series_props = g_slist_prepend
+					(style->series_props,
+					 oo_prop_new_string 
+					 ("interpolation", interpolation));
+				style->plot_props = g_slist_prepend
+					(style->plot_props,
+					 oo_prop_new_string 
+					 ("interpolation", interpolation));
+			}
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					       OO_NS_DRAW, "stroke")) {
 			draw_stroke = !attr_eq (attrs[1], "none");
 			draw_stroke_set = TRUE;
 			style->series_props = g_slist_prepend
 				(style->series_props,
 				 oo_prop_new_string ("stroke",
-						     attrs[1]));
+						     CXML2C(attrs[1])));
 		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "lines", &btmp)) {
 			style->series_props = g_slist_prepend
 				(style->series_props,

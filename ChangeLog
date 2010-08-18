@@ -1,3 +1,8 @@
+2010-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* samples/chart-tests.gnumeric: test plot types separately from our
+	  ability to combine them.
+
 2010-08-16  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

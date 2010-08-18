@@ -3646,6 +3646,38 @@ odf_write_line_chart_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *c
 }
 
 static void
+odf_write_interpolation_attribute (GnmOOExport *state, GogObject const *series) 
+{
+	gchar *interpolation = NULL;
+
+	g_object_get (G_OBJECT (series), "interpolation", 
+		      &interpolation, NULL);
+
+	if (interpolation != NULL) {
+		if (0 == strcmp (interpolation, "linear"))
+			gsf_xml_out_add_cstr 
+				(state->xml, CHART "interpolation", "none");
+		else if (0 == strcmp (interpolation, "spline"))
+			gsf_xml_out_add_cstr 
+				(state->xml, CHART "interpolation", "b-spline");
+		else if (0 == strcmp (interpolation, "cspline"))
+			gsf_xml_out_add_cstr 
+				(state->xml, CHART "interpolation", 
+				 "cubic-spline");
+		else {
+			char *tag = g_strdup_printf ("gnm:%s", interpolation);
+			gsf_xml_out_add_cstr 
+				(state->xml, CHART "interpolation", tag);
+			g_free (tag);
+		}
+	}
+
+	g_free (interpolation);
+}
+
+
+
+static void
 odf_write_scatter_chart_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, GogObject const *plot)
 {
 	gboolean has_marker = TRUE;
@@ -3654,6 +3686,8 @@ odf_write_scatter_chart_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const
 	
 	gsf_xml_out_add_cstr (state->xml, CHART "symbol-type", 
 			      has_marker ? "automatic" : "none");
+
+	odf_write_interpolation_attribute (state, plot);
 
 	gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "none");
 	odf_add_bool (state->xml, CHART "lines", FALSE);
@@ -3717,6 +3751,8 @@ static void
 odf_write_scatter_series_style (GnmOOExport *state, GogObject const *plot, GogObject const *series)
 {
 	GOStyle *style = NULL;
+
+	odf_write_interpolation_attribute (state, series);
 
 	g_object_get (G_OBJECT (series), "style", &style, NULL);
 
