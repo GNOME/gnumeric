@@ -1,0 +1,3 @@
+2010-08-18  Morten Welinder <terra@gnome.org>
+
+	* jhbuildrc.py: Compile goffice without long-double support.
