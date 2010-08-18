@@ -3772,6 +3772,7 @@ odf_write_one_axis_grid (GnmOOExport *state, GogObject const *axis,
 static void
 odf_write_axis_grid (GnmOOExport *state, GogObject const *axis)
 {
+	g_return_if_fail (axis != NULL);
 	odf_write_one_axis_grid (state, axis, "MajorGrid", "major");
 	odf_write_one_axis_grid (state, axis, "MinorGrid", "minor");
 }
@@ -3788,7 +3789,7 @@ odf_write_axis (GnmOOExport *state, GogObject const *chart, char const *axis_rol
 		return;
 
 	axis = gog_object_get_child_by_name (chart, axis_role);
-	if (axis != NULL || (gtype == ODF_CIRCLE && *dimension == 'y') || (gtype == ODF_RING)) {
+	if (axis != NULL) {
 		gsf_xml_out_start_element (state->xml, CHART "axis");
 		gsf_xml_out_add_cstr (state->xml, CHART "dimension", dimension);
 		gsf_xml_out_add_cstr (state->xml, CHART "style-name", style_label);
@@ -3796,6 +3797,18 @@ odf_write_axis (GnmOOExport *state, GogObject const *chart, char const *axis_rol
 		gsf_xml_out_end_element (state->xml); /* </chart:axis> */
 	}
 }
+
+static void
+odf_write_generic_axis (GnmOOExport *state, GogObject const *chart, char const *axis_role, 
+			char const *style_label,
+			char const *dimension, odf_chart_type_t gtype, GSList const *series)
+{
+	gsf_xml_out_start_element (state->xml, CHART "axis");
+	gsf_xml_out_add_cstr (state->xml, CHART "dimension", dimension);
+	gsf_xml_out_add_cstr (state->xml, CHART "style-name", style_label);
+	gsf_xml_out_end_element (state->xml); /* </chart:axis> */	
+}
+
 
 static void
 odf_write_axis_ring (GnmOOExport *state, GogObject const *chart, char const *axis_role, 
@@ -3938,7 +3951,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		{ "GogPiePlot", CHART "circle", ODF_CIRCLE,
 		  5., "X-Axis", "Y-Axis", NULL, odf_write_circle_axes_styles,
 		  odf_write_pie_plot_style, NULL, odf_write_standard_series, NULL,
-		  odf_write_axis, odf_write_axis, odf_write_axis},
+		  odf_write_axis, odf_write_generic_axis, odf_write_axis},
 		{ "GogRadarPlot", CHART "radar", ODF_RADAR,
 		  10., "Circular-Axis", "Radial-Axis", NULL, odf_write_radar_axes_styles,
 		  NULL, NULL, odf_write_standard_series, NULL,
@@ -3950,7 +3963,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		{ "GogRingPlot", CHART "ring", ODF_RING,
 		  10., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
 		  NULL, odf_write_ring_plot_style, odf_write_standard_series, NULL,
-		  odf_write_axis_ring, odf_write_axis, NULL},
+		  odf_write_axis_ring, odf_write_generic_axis, NULL},
 		{ "GogXYPlot", CHART "scatter", ODF_SCATTER,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
 		  odf_write_scatter_chart_style, NULL, odf_write_standard_series, 
