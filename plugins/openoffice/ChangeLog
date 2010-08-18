@@ -1,5 +1,11 @@
 2010-08-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_one_axis_grid): new
+	(odf_write_axis_grid): new
+	(odf_write_axis): call odf_write_axis_grid
+
+2010-08-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (od_chart_axis_categories): new
 	(oo_plot_series): use the chart:categories
 	(oo_chart_end): new

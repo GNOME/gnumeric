@@ -3755,6 +3755,27 @@ odf_write_surface_axes_styles (GnmOOExport *state, GogObject const *chart,
 	odf_write_standard_axes_styles (state, chart, plot);
 }
 
+static void
+odf_write_one_axis_grid (GnmOOExport *state, GogObject const *axis, 
+			 char const *role, char const *class)
+{
+	GogObject const *grid;
+
+	grid = gog_object_get_child_by_name (axis, role);
+	if (grid) {
+		gsf_xml_out_start_element (state->xml, CHART "grid");
+		gsf_xml_out_add_cstr (state->xml, CHART "class", class);
+		gsf_xml_out_end_element (state->xml); /* </chart:grid> */
+	}	
+}
+
+static void
+odf_write_axis_grid (GnmOOExport *state, GogObject const *axis)
+{
+	odf_write_one_axis_grid (state, axis, "MajorGrid", "major");
+	odf_write_one_axis_grid (state, axis, "MinorGrid", "minor");
+}
+
 
 static void
 odf_write_axis (GnmOOExport *state, GogObject const *chart, char const *axis_role, 
@@ -3771,6 +3792,7 @@ odf_write_axis (GnmOOExport *state, GogObject const *chart, char const *axis_rol
 		gsf_xml_out_start_element (state->xml, CHART "axis");
 		gsf_xml_out_add_cstr (state->xml, CHART "dimension", dimension);
 		gsf_xml_out_add_cstr (state->xml, CHART "style-name", style_label);
+		odf_write_axis_grid (state, axis);
 		gsf_xml_out_end_element (state->xml); /* </chart:axis> */
 	}
 }
