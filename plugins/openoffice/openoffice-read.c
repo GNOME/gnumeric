@@ -84,6 +84,12 @@ attr_eq (xmlChar const *a, char const *s)
 	return !strcmp (CXML2C (a), s);
 }
 
+enum {
+	OO_SYMBOL_TYPE_AUTO = 1,
+	OO_SYMBOL_TYPE_NONE = 2,
+	OO_SYMBOL_TYPE_NAMED = 3
+};
+
 /* Filter Type */
 typedef enum {
 	OOO_VER_UNKNOWN	= -1,
@@ -3012,6 +3018,8 @@ oo_prop_list_to_series (GSList *props, GObject *obj)
 {
 	GOStyle *style = NULL;
 	GSList *l;
+	int symbol_type = -1, symbol_name = GO_MARKER_DIAMOND;
+	GOMarker *m;
 
 	g_object_get (obj, "style", &style, NULL);
 
@@ -3025,9 +3033,33 @@ oo_prop_list_to_series (GSList *props, GObject *obj)
 					style->line.dash_type = GO_LINE_SOLID;
 					style->line.auto_dash = FALSE;
 				}
-			}
+			} else if (0 == strcmp (prop->name, "symbol-type"))
+				symbol_type = g_value_get_int (&prop->value);
+			else if (0 == strcmp (prop->name, "symbol-name"))
+				symbol_name = g_value_get_int (&prop->value);
 				
 		}
+	
+	switch (symbol_type) {
+	case OO_SYMBOL_TYPE_AUTO:
+		style->marker.auto_shape = TRUE;
+		break;
+	case OO_SYMBOL_TYPE_NONE:
+		style->marker.auto_shape = FALSE;
+		m = go_marker_new ();
+		go_marker_set_shape (m, GO_MARKER_NONE); 
+		go_style_set_marker (style, m);
+		break;
+	case OO_SYMBOL_TYPE_NAMED:
+		style->marker.auto_shape = FALSE;
+		m = go_marker_new ();
+		go_marker_set_shape (m, symbol_name); 
+		go_style_set_marker (style, m);	
+		break;
+	default:
+		break;
+	}
+
 	g_object_set (obj, "style", style, NULL);
 	g_object_unref (G_OBJECT (style));
 }
@@ -3101,6 +3133,31 @@ oo_style_have_multi_series (GSList *styles)
 static void
 od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 {
+	static OOEnum const symbol_type [] = {
+		{"automatic"   , OO_SYMBOL_TYPE_AUTO},
+		{"none"        , OO_SYMBOL_TYPE_NONE},
+		{"named-symbol", OO_SYMBOL_TYPE_NAMED},
+		{NULL          , 0},
+	};
+	static OOEnum const named_symbols [] = {
+		{ "square", GO_MARKER_SQUARE},
+		{ "diamond", GO_MARKER_DIAMOND},
+		{ "arrow-down", GO_MARKER_TRIANGLE_DOWN},
+		{ "arrow-up", GO_MARKER_TRIANGLE_UP},
+		{ "arrow-right", GO_MARKER_TRIANGLE_RIGHT},
+		{ "arrow-left", GO_MARKER_TRIANGLE_LEFT},
+		{ "circle", GO_MARKER_CIRCLE},
+		{ "x", GO_MARKER_X},
+		{ "plus", GO_MARKER_CROSS},
+		{ "asterisk", GO_MARKER_ASTERISK},
+		{ "horizontal-bar", GO_MARKER_BAR},
+		{ "bow-tie", GO_MARKER_BUTTERFLY},
+		{ "hourglass", GO_MARKER_HOURGLASS},
+		{ "star", GO_MARKER_LEFT_HALF_BAR},
+		{ "vertical-bar", GO_MARKER_HALF_BAR},
+		{ NULL, 0},
+	};
+		
 	OOParseState *state = (OOParseState *)xin->user_state;
 	OOChartStyle *style = state->chart.cur_graph_style;
 	gboolean btmp;
@@ -3158,12 +3215,21 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (oo_attr_int (xin, attrs, OO_NS_CHART, "gap-width", &tmp))
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_int ("gap-percentage", tmp));
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "symbol-type"))
+		else if (oo_attr_enum (xin, attrs, OO_NS_CHART, "symbol-type", 
+				       symbol_type, &tmp)) {
 			style->plot_props = g_slist_prepend
 				(style->plot_props,
 				 oo_prop_new_bool ("default-style-has-markers",
-						   !attr_eq (attrs[1], "none")));
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "stroke")) {
+						   tmp != OO_SYMBOL_TYPE_NONE));
+			style->series_props = g_slist_prepend
+				(style->series_props,
+				 oo_prop_new_int ("symbol-type", tmp));
+		} else if (oo_attr_enum (xin, attrs, OO_NS_CHART, "symbol-name", 
+				       named_symbols, &tmp)) {
+			style->series_props = g_slist_prepend
+				(style->series_props,
+				 oo_prop_new_int ("symbol-name", tmp));
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "stroke")) {
 			draw_stroke = !attr_eq (attrs[1], "none");
 			draw_stroke_set = TRUE;
 			style->series_props = g_slist_prepend

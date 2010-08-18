@@ -1,3 +1,15 @@
+2010-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_line_chart_style): check the plot
+	(odf_write_scatter_chart_style): ditto
+	(odf_get_marker): new
+	(odf_write_scatter_series_style): handle symbol-type
+	  and symbol-name
+	(odf_write_plot): add argument to odf_write_series_style
+	* openoffice-read.c (oo_prop_list_to_series): handle symbol-type
+	  and symbol-name
+	(od_style_prop_chart): ditto
+	
 2010-08-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_scatter_series_style): expand

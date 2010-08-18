@@ -3635,14 +3635,26 @@ odf_write_ring_plot_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *ch
 }
 
 static void
-odf_write_line_chart_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, G_GNUC_UNUSED GogObject const *plot)
+odf_write_line_chart_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, GogObject const *plot)
 {
-	gsf_xml_out_add_cstr (state->xml, CHART "symbol-type", "none");
+	gboolean has_marker = TRUE;
+	g_object_get (G_OBJECT (plot), "default-style-has-markers", 
+		      &has_marker, NULL);
+	
+	gsf_xml_out_add_cstr (state->xml, CHART "symbol-type", 
+			      has_marker ? "automatic" : "none");
 }
 
 static void
-odf_write_scatter_chart_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, G_GNUC_UNUSED GogObject const *plot)
+odf_write_scatter_chart_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, GogObject const *plot)
 {
+	gboolean has_marker = TRUE;
+	g_object_get (G_OBJECT (plot), "default-style-has-markers", 
+		      &has_marker, NULL);
+	
+	gsf_xml_out_add_cstr (state->xml, CHART "symbol-type", 
+			      has_marker ? "automatic" : "none");
+
 	gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "none");
 	odf_add_bool (state->xml, CHART "lines", FALSE);
 }
@@ -3667,10 +3679,44 @@ odf_write_contour_chart_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const
 	odf_add_bool (state->xml, CHART "three-dimensional", FALSE);
 }
 
-static void
-odf_write_scatter_series_style (GnmOOExport *state, GogObject const *series)
+static char const *
+odf_get_marker (GOMarkerShape m) 
 {
-	GOStyle const *style = NULL;
+	static struct {
+		guint m; 
+		char const *str; 
+	} marks [] = 
+		  {{GO_MARKER_NONE, "none"},
+		   {GO_MARKER_SQUARE, "square"},
+		   {GO_MARKER_DIAMOND,"diamond"},
+		   {GO_MARKER_TRIANGLE_DOWN,"arrow-down"},
+		   {GO_MARKER_TRIANGLE_UP,"arrow-up"},
+		   {GO_MARKER_TRIANGLE_RIGHT,"arrow-right"},
+		   {GO_MARKER_TRIANGLE_LEFT,"arrow-left"},
+		   {GO_MARKER_CIRCLE,"circle"},
+		   {GO_MARKER_X,"x"},
+		   {GO_MARKER_CROSS,"plus"},
+		   {GO_MARKER_ASTERISK,"asterisk"},
+		   {GO_MARKER_BAR,"horizontal-bar"},
+		   {GO_MARKER_HALF_BAR,"vertical-bar"}, /* Not ODF */
+		   {GO_MARKER_BUTTERFLY,"bow-tie"},
+		   {GO_MARKER_HOURGLASS,"hourglass"},
+		   {GO_MARKER_LEFT_HALF_BAR,"star"},/* Not ODF */
+		   {GO_MARKER_MAX, "star"}, /* not used by us */
+		   {GO_MARKER_MAX + 1, "vertical-bar"},/* not used by us */
+		   {0, NULL}
+		  };
+	int i;
+	for (i = 0; marks[i].str != NULL; i++)
+		if (marks[i].m == m)
+			return marks[i].str;
+	return "diamond";
+}
+
+static void
+odf_write_scatter_series_style (GnmOOExport *state, GogObject const *plot, GogObject const *series)
+{
+	GOStyle *style = NULL;
 
 	g_object_get (G_OBJECT (series), "style", &style, NULL);
 
@@ -3681,7 +3727,30 @@ odf_write_scatter_series_style (GnmOOExport *state, GogObject const *series)
 		gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "none");
 		odf_add_bool (state->xml, CHART "lines", FALSE);
 	}
-	gsf_xml_out_add_cstr (state->xml, CHART "symbol-type", "automatic");
+
+	if (style->marker.auto_shape) {
+		gboolean has_marker = TRUE;
+		g_object_get (G_OBJECT (plot), "default-style-has-markers", 
+			      &has_marker, NULL);
+		if (has_marker)
+			gsf_xml_out_add_cstr (state->xml, CHART "symbol-type", 
+					      "automatic");
+		else
+			gsf_xml_out_add_cstr (state->xml, CHART "symbol-type", 
+					      "none");			
+	} else {
+		GOMarkerShape m	
+			= go_marker_get_shape (go_style_get_marker (style));
+		if (m == GO_MARKER_NONE)
+			gsf_xml_out_add_cstr (state->xml, CHART "symbol-type", 
+					      "none");
+		else {
+			gsf_xml_out_add_cstr (state->xml, CHART "symbol-type", 
+					      "named-symbol");
+			gsf_xml_out_add_cstr 
+				(state->xml, CHART "symbol-name", odf_get_marker (m));
+		}
+	}
 
 	g_object_unref (G_OBJECT (style));
 }
@@ -3921,7 +3990,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		void (*odf_write_plot_styles) (GnmOOExport *state, GogObject const *chart,
 					       GogObject const *plot);
 		void (*odf_write_series) (GnmOOExport *state, GSList const *series);
-		void (*odf_write_series_style) (GnmOOExport *state, GogObject const *series);
+		void (*odf_write_series_style) (GnmOOExport *state, GogObject const * plot, GogObject const *series);
 		void (*odf_write_x_axis) (GnmOOExport *state, GogObject const *chart, 
 					  char const *axis_role, char const *style_label,
 					  char const *dimension, odf_chart_type_t gtype, 
@@ -4060,7 +4129,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		gsf_xml_out_start_element (state->xml, STYLE "chart-properties");
 		odf_add_bool (state->xml, CHART "auto-size", TRUE);
 		if (this_plot->odf_write_series_style != NULL)
-			this_plot->odf_write_series_style (state, l->data);
+			this_plot->odf_write_series_style (state, plot, l->data);
 		gsf_xml_out_end_element (state->xml); /* </style:chart-properties> */
 		gsf_xml_out_end_element (state->xml); /* </style:style> */
 		g_free (name);
