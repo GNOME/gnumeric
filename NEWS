@@ -3,6 +3,8 @@ Gnumeric 1.10.10
 Andreas:
 	* Export and import chart titles and subtitles to and from ODF.
 	* Some chart export and import to and from ODF fixes.
+	* Handle grids, dashes etc. in the ODF import/export.
+	* Improve handling of corrupted ODF files.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.9

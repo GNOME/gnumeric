@@ -252,8 +252,9 @@ typedef struct {
 		GnmStyle	*cells;
 		OOColRowStyle	*col_rows;
 		OOSheetStyle	*sheets;
+		gboolean         requires_disposal;
+		OOStyleType      type;
 	} cur_style;
-	OOStyleType	 cur_style_type;
 
 	gboolean	 h_align_is_valid, repeat_content;
 	int              text_align, gnm_halign;
@@ -1639,11 +1640,11 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 	int tmp;
 	OOChartStyle *cur_style;
 
-	g_return_if_fail (state->cur_style_type == OO_STYLE_UNKNOWN);
+	g_return_if_fail (state->cur_style.type == OO_STYLE_UNKNOWN);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "family", style_types, &tmp))
-			state->cur_style_type = tmp;
+			state->cur_style.type = tmp;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "name"))
 			name = CXML2C (attrs[1]);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "parent-style-name"))
@@ -1654,13 +1655,14 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 				fmt = tmp;
 		}
 
-	switch (state->cur_style_type) {
+	switch (state->cur_style.type) {
 	case OO_STYLE_CELL:
 		style = (parent_name != NULL)
 			? g_hash_table_lookup (state->styles.cell, parent_name)
 			: NULL;
 		state->cur_style.cells = (style != NULL)
 			? gnm_style_dup (style) : gnm_style_new_default ();
+		gnm_style_ref (state->cur_style.cells);
 		state->h_align_is_valid = state->repeat_content = FALSE;
 		state->text_align = -2;
 		state->gnm_halign = -2;
@@ -1675,7 +1677,8 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 			 if (state->default_style.cells)
 				 gnm_style_unref (state->default_style.cells);
 			 state->default_style.cells = state->cur_style.cells;
-		}
+		} else
+			gnm_style_unref (state->cur_style.cells);
 		break;
 
 	case OO_STYLE_COL:
@@ -1690,7 +1693,8 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 				g_free (state->default_style.columns);
 			}
 			state->default_style.columns = state->cur_style.col_rows;
-		}
+		} else
+			state->cur_style.requires_disposal = TRUE;
 		break;
 
 	case OO_STYLE_ROW:
@@ -1705,7 +1709,8 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 				g_free (state->default_style.rows);
 			}
 			state->default_style.rows = state->cur_style.col_rows;
-		}
+		} else
+			state->cur_style.requires_disposal = TRUE;
 		break;
 
 	case OO_STYLE_SHEET:
@@ -1713,6 +1718,8 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 		if (name)
 			g_hash_table_replace (state->styles.sheet,
 				g_strdup (name), state->cur_style.sheets);
+		else
+			state->cur_style.requires_disposal = TRUE;
 		break;
 
 	case OO_STYLE_CHART:
@@ -1741,21 +1748,31 @@ oo_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 
-	switch (state->cur_style_type) {
-	case OO_STYLE_CELL : state->cur_style.cells = NULL;
+	switch (state->cur_style.type) {
+	case OO_STYLE_CELL : 
+		gnm_style_unref (state->cur_style.cells);
+		state->cur_style.cells = NULL;
 		break;
 	case OO_STYLE_COL :
-	case OO_STYLE_ROW : state->cur_style.col_rows = NULL;
+	case OO_STYLE_ROW : 
+		if (state->cur_style.requires_disposal)
+			g_free (state->cur_style.col_rows);
+		state->cur_style.col_rows = NULL;
 		break;
-	case OO_STYLE_SHEET : state->cur_style.sheets = NULL;
+	case OO_STYLE_SHEET : 
+		if (state->cur_style.requires_disposal)
+			g_free (state->cur_style.sheets);
+		state->cur_style.sheets = NULL;
 		break;
-	case OO_STYLE_CHART : state->chart.cur_graph_style = NULL;
+	case OO_STYLE_CHART : 
+		state->chart.cur_graph_style = NULL;
 		break;
 
 	default :
 		break;
 	}
-	state->cur_style_type = OO_STYLE_UNKNOWN;
+	state->cur_style.type = OO_STYLE_UNKNOWN;
+	state->cur_style.requires_disposal = FALSE;
 }
 
 static void
@@ -2806,9 +2823,9 @@ static void
 oo_style_prop_col_row (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	char const * const size_tag = (state->cur_style_type == OO_STYLE_COL)
+	char const * const size_tag = (state->cur_style.type == OO_STYLE_COL)
 		? "column-width" :  "row-height";
-	char const * const use_optimal = (state->cur_style_type == OO_STYLE_COL)
+	char const * const use_optimal = (state->cur_style.type == OO_STYLE_COL)
 		? "use-optimal-column-width" : "use-optimal-row-height";
 	double pts;
 	gboolean auto_size;
@@ -3387,7 +3404,7 @@ static void
 oo_style_prop (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	switch (state->cur_style_type) {
+	switch (state->cur_style.type) {
 	case OO_STYLE_CELL  : oo_style_prop_cell (xin, attrs); break;
 	case OO_STYLE_COL   :
 	case OO_STYLE_ROW   : oo_style_prop_col_row (xin, attrs); break;
@@ -3733,8 +3750,8 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 		g_print ("END %s\n", name);
 	g_free (name);
 
-	if (state->cur_style_type == OO_STYLE_CHART)
-		state->cur_style_type = OO_STYLE_UNKNOWN;
+	if (state->cur_style.type == OO_STYLE_CHART)
+		state->cur_style.type = OO_STYLE_UNKNOWN;
 	state->chart.cur_graph_style = NULL;
 	g_hash_table_remove_all (state->chart.graph_styles);
 }
@@ -5877,7 +5894,8 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	state.default_style.cells = NULL;
 	state.default_style.rows = NULL;
 	state.default_style.columns = NULL;
-	state.cur_style_type   = OO_STYLE_UNKNOWN;
+	state.cur_style.type   = OO_STYLE_UNKNOWN;
+	state.cur_style.requires_disposal = FALSE;
 	state.sheet_order = NULL;
 	for (i = 0; i<NUM_FORMULAE_SUPPORTED; i++)
 		state.convs[i] = NULL;

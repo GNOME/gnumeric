@@ -1,7 +1,16 @@
 2010-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_style): don't ignore non-default styles without
+	  name
+	(oo_style_end): dispose of them here
+	(cur_style): include the type in the struct and change the references 
+	  throughout
+
+2010-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_number_style_end): check the return value
-	   of the style hash searches, some styles might be missing.
+	  of the style hash searches, some styles might be missing.
+	
 2010-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_table_start): don't expect the attributes to
