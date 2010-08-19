@@ -49,6 +49,7 @@
 #include <xml-sax.h>
 #include <sheet-object-cell-comment.h>
 #include <style-conditions.h>
+#include <gnumeric-gconf.h>
 
 
 #include <goffice/goffice.h>
@@ -778,6 +779,8 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	/* <table:table table:name="Result" table:style-name="ta1"> */
 	OOParseState *state = (OOParseState *)xin->user_state;
+	gchar *style_name = NULL;
+	gchar *table_name = NULL;
 
 	state->pos.eval.col = 0;
 	state->pos.eval.row = 0;
@@ -786,45 +789,71 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "name")) {
-			char const *name = CXML2C (attrs[1]);
-			state->pos.sheet = workbook_sheet_by_name (state->pos.wb, name);
-			if (NULL == state->pos.sheet) {
-				state->pos.sheet = sheet_new (state->pos.wb, name, 256, 65536);
-				workbook_sheet_attach (state->pos.wb, state->pos.sheet);
-			} else {
-				/* We either have a corrupted file with a duplicate */
-				/* sheet name or the sheet was created implicitly.  */
-				if (NULL != g_slist_find (state->sheet_order, state->pos.sheet)) {
-					/* corrupted file! */
-					int i = 1;
-					char *new_name;
-					do {
-						new_name = g_strdup_printf ("%s_CORRUPTED_%i", name, i);
-					} while (NULL != workbook_sheet_by_name 
-					       (state->pos.wb, new_name));
-					oo_warning (xin, _("This file is corrupted with a "
-							   "duplicate sheet name \"%s\", "
-							   "now renamed to \"%s\"."), 
-						    name, new_name);
-					state->pos.sheet = sheet_new (state->pos.wb, new_name, 
-								      256, 65536);
-					workbook_sheet_attach (state->pos.wb, state->pos.sheet);
-					g_free (new_name);
-				}
-			}
-
-			/* Store sheets in correct order in case we implicitly
-			 * created one out of order */
-			state->sheet_order = g_slist_prepend 
-				(state->sheet_order, state->pos.sheet);
+			table_name = g_strdup (CXML2C (attrs[1]));	
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))  {
-			OOSheetStyle const *style = g_hash_table_lookup (state->styles.sheet, attrs[1]);
-			if (style)
-				g_object_set (state->pos.sheet,
-					      "visibility", style->visibility,
-					      "text-is-rtl", style->is_rtl,
-					      NULL);
+			style_name = g_strdup (CXML2C (attrs[1]));
 		}
+
+	if (table_name != NULL) {
+		state->pos.sheet = workbook_sheet_by_name (state->pos.wb, table_name);
+		if (NULL == state->pos.sheet) {
+			state->pos.sheet = sheet_new (state->pos.wb, table_name, 256, 65536);
+			workbook_sheet_attach (state->pos.wb, state->pos.sheet);
+		} else {
+			/* We either have a corrupted file with a duplicate */
+			/* sheet name or the sheet was created implicitly.  */
+			if (NULL != g_slist_find (state->sheet_order, state->pos.sheet)) {
+				/* corrupted file! */
+				char *new_name, *base;
+				
+				base = g_strdup_printf (_("%s_IN_CORRUPTED_FILE"), table_name);
+				new_name =  workbook_sheet_get_free_name (state->pos.wb,
+							   base, FALSE, FALSE);
+				g_free (base);
+				
+				oo_warning (xin, _("This file is corrupted with a "
+						   "duplicate sheet name \"%s\", "
+						   "now renamed to \"%s\"."), 
+					    table_name, new_name);
+				state->pos.sheet = sheet_new (state->pos.wb, new_name, 
+							      gnm_conf_get_core_workbook_n_cols (), 
+							      gnm_conf_get_core_workbook_n_rows ());
+				workbook_sheet_attach (state->pos.wb, state->pos.sheet);
+				g_free (new_name);
+			}
+		}
+	} else {
+		table_name = workbook_sheet_get_free_name (state->pos.wb,
+							   _("SHEET_IN_CORRUPTED_FILE"),
+							   TRUE, FALSE);
+		state->pos.sheet = sheet_new (state->pos.wb, table_name,  
+					      gnm_conf_get_core_workbook_n_cols (), 
+					      gnm_conf_get_core_workbook_n_rows ());
+		workbook_sheet_attach (state->pos.wb, state->pos.sheet);
+		
+		/* We are missing the table name. This is bad! */
+		oo_warning (xin, _("This file is corrupted with an "
+				   "unnamed sheet"
+				   "now named \"%s\"."), 
+			    table_name);
+	}
+
+	g_free (table_name);
+
+	/* Store sheets in correct order in case we implicitly
+	 * created one out of order */
+	state->sheet_order = g_slist_prepend 
+		(state->sheet_order, state->pos.sheet);
+	
+	if (style_name != NULL) {
+		OOSheetStyle const *style = g_hash_table_lookup (state->styles.sheet, style_name);
+		if (style)
+			g_object_set (state->pos.sheet,
+				      "visibility", style->visibility,
+				      "text-is-rtl", style->is_rtl,
+				      NULL);
+		g_free (style_name);
+	}
 	if (state->default_style.rows != NULL)
 		sheet_row_set_default_size_pts (state->pos.sheet,
 							state->default_style.rows->size_pts);
