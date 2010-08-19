@@ -125,4 +125,7 @@ File::Find::find (
     &File::Copy::move ($archive, $outfile);
 }
 
+# Some versions need this for tmpdir cleanup.
+chdir "/" or chdir $ENV{'HOME'};
+
 # -----------------------------------------------------------------------------
