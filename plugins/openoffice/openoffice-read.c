@@ -833,7 +833,7 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 		
 		/* We are missing the table name. This is bad! */
 		oo_warning (xin, _("This file is corrupted with an "
-				   "unnamed sheet"
+				   "unnamed sheet "
 				   "now named \"%s\"."), 
 			    table_name);
 	}
@@ -2348,13 +2348,20 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		while (lc && lf) {
 			char *cond = lc->data;
 			if (cond != NULL && *cond == '>') {
+				GOFormat const *fmt;
 				char *val = cond + strcspn (cond, "0123456789.");
 				if ((*(cond+1) != '=') || (strtod (val, NULL) != 0.))
 					g_string_append_printf
 						(state->cur_format.accum,
 						 (*(cond+1) == '=') ? "[>=%s]" : "[>%s]", val);
-				g_string_append (state->cur_format.accum, go_format_as_XL
-					 (g_hash_table_lookup (state->formats, lf->data)));
+				fmt = g_hash_table_lookup (state->formats, lf->data);
+				if (fmt != NULL)
+					g_string_append (state->cur_format.accum, go_format_as_XL (fmt));
+				else {
+					g_string_append (state->cur_format.accum, "\"\"");
+					oo_warning (xin, _("This file appears corrupted, required "
+							   "formats are missing."));
+				}
 				parts++;
 				g_free (lc->data);
 				lc->data = NULL;
@@ -2370,10 +2377,18 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			while (lc && lf) {
 				char *cond = lc->data;
 				if (cond != NULL && *cond == '=') {
+					GOFormat const *fmt;
 					char *val = cond + strcspn (cond, "0123456789.");
 					g_string_append_printf (state->cur_format.accum, "[=%s]", val);
-					g_string_append (state->cur_format.accum, go_format_as_XL
-							 (g_hash_table_lookup (state->formats, lf->data)));
+					fmt = g_hash_table_lookup (state->formats, lf->data);
+					if (fmt != NULL)
+						g_string_append (state->cur_format.accum, 
+								 go_format_as_XL (fmt));
+					else {
+						g_string_append (state->cur_format.accum, "\"\"");
+						oo_warning (xin, _("This file appears corrupted, required "
+								   "formats are missing."));
+					}
 					parts++;
 					g_free (lc->data);
 					lc->data = NULL;
@@ -2390,10 +2405,18 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			while (lc && lf) {
 				char *cond = lc->data;
 				if (cond != NULL && *cond == '<' && *(cond + 1) == '>') {
+					GOFormat const *fmt;
 					char *val = cond + strcspn (cond, "0123456789.");
 					g_string_append_printf (state->cur_format.accum, "[<>%s]", val);
-					g_string_append (state->cur_format.accum, go_format_as_XL
-							 (g_hash_table_lookup (state->formats, lf->data)));
+					fmt = g_hash_table_lookup (state->formats, lf->data);
+					if (fmt != NULL)
+						g_string_append (state->cur_format.accum, 
+								 go_format_as_XL (fmt));
+					else {
+						g_string_append (state->cur_format.accum, "\"\"");
+						oo_warning (xin, _("This file appears corrupted, required "
+								   "formats are missing."));
+					}
 					parts++;
 					g_free (lc->data);
 					lc->data = NULL;
@@ -2414,6 +2437,7 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		while (lc && lf) {
 			char *cond = lc->data;
 			if (cond != NULL && *cond == '<' && *(cond + 1) != '>') {
+				GOFormat const *fmt;
 				char *val = cond + strcspn (cond, "0123456789.");
 				if (parts > 0)
 					g_string_append_c (state->cur_format.accum, ';');
@@ -2421,8 +2445,15 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 					g_string_append_printf
 						(state->cur_format.accum,
 						 (*(cond+1) == '=') ? "[<=%s]" : "[<%s]", val);
-				g_string_append (state->cur_format.accum, go_format_as_XL
-					 (g_hash_table_lookup (state->formats, lf->data)));
+				fmt = g_hash_table_lookup (state->formats, lf->data);
+				if (fmt != NULL)
+					g_string_append (state->cur_format.accum, 
+							 go_format_as_XL (fmt));
+				else {
+					g_string_append (state->cur_format.accum, "\"\"");
+					oo_warning (xin, _("This file appears corrupted, required "
+							   "formats are missing."));
+				}
 				parts++;
 			}
 			lc = lc->next;
@@ -2435,12 +2466,20 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			while (lc && lf) {
 				char *cond = lc->data;
 				if (cond != NULL && *cond == '=') {
+					GOFormat const *fmt;
 					char *val = cond + strcspn (cond, "0123456789.");
 					if (parts > 0)
 						g_string_append_c (state->cur_format.accum, ';');
 					g_string_append_printf (state->cur_format.accum, "[=%s]", val);
-					g_string_append (state->cur_format.accum, go_format_as_XL
-							 (g_hash_table_lookup (state->formats, lf->data)));
+					fmt = g_hash_table_lookup (state->formats, lf->data);
+					if (fmt != NULL)
+						g_string_append (state->cur_format.accum, 
+								 go_format_as_XL (fmt));
+					else {
+						g_string_append (state->cur_format.accum, "\"\"");
+						oo_warning (xin, _("This file appears corrupted, required "
+								   "formats are missing."));
+					}
 					parts++;
 					break;
 				}
@@ -2453,14 +2492,22 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			lc = state->conditions;
 			lf = state->cond_formats;
 			while (lc && lf) {
+				GOFormat const *fmt;
 				char *cond = lc->data;
 				if (cond != NULL && *cond == '<' && *(cond + 1) == '>') {
 					char *val = cond + strcspn (cond, "0123456789.");
 					if (parts > 0)
 						g_string_append_c (state->cur_format.accum, ';');
 					g_string_append_printf (state->cur_format.accum, "[<>%s]", val);
-					g_string_append (state->cur_format.accum, go_format_as_XL
-							 (g_hash_table_lookup (state->formats, lf->data)));
+					fmt = g_hash_table_lookup (state->formats, lf->data);
+					if (fmt != NULL)
+						g_string_append (state->cur_format.accum, 
+								 go_format_as_XL (fmt));
+					else {
+						g_string_append (state->cur_format.accum, "\"\"");
+						oo_warning (xin, _("This file appears corrupted, required "
+								   "formats are missing."));
+					}
 					parts++;
 					break;
 				}

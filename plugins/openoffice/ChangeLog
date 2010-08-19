@@ -1,5 +1,9 @@
 2010-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_number_style_end): check the return value
+	   of the style hash searches, some styles might be missing.
+2010-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_table_start): don't expect the attributes to
 	  appear in a nice order. In fact don't expect the table name to 
 	  appear at all!
