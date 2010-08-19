@@ -409,6 +409,15 @@ odf_add_pt (GsfXMLOut *xml, char const *id, double l)
 	g_string_free (str, TRUE);
 }
 
+static char *
+odf_go_color_to_string (GOColor color)
+{
+	return g_strdup_printf ("#%.2x%.2x%.2x",
+					 GO_COLOR_UINT_R (color),
+					 GO_COLOR_UINT_G (color),
+					 GO_COLOR_UINT_B (color));
+}
+
 static void
 gnm_xml_out_add_hex_color (GsfXMLOut *o, char const *id, GnmColor const *c, int pattern)
 {
@@ -418,10 +427,7 @@ gnm_xml_out_add_hex_color (GsfXMLOut *o, char const *id, GnmColor const *c, int 
 		gsf_xml_out_add_cstr_unchecked (o, id, "transparent");
 	else {
 		char *color;
-		color = g_strdup_printf ("#%.2x%.2x%.2x",
-					 GO_COLOR_UINT_R (c->go_color),
-					 GO_COLOR_UINT_G (c->go_color),
-					 GO_COLOR_UINT_B (c->go_color));
+		color = odf_go_color_to_string (c->go_color);
 		gsf_xml_out_add_cstr_unchecked (o, id, color);
 		g_free (color);
 	}
@@ -4146,7 +4152,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 	double res_pts[4] = {0.,0.,0.,0.};
 	GSList const *series, *l;
 	int i;
-	GogObject const *wall = gog_object_get_child_by_name (plot, "Backplane");
+	GogObject const *wall = gog_object_get_child_by_name (chart, "Backplane");
 	GogObject const *legend = gog_object_get_child_by_name (chart, "Legend");
 	GSList *titles = gog_object_get_children (chart, gog_object_find_role_by_name (chart, "Title"));
 
@@ -4379,13 +4385,25 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 	}
 
 	if (wall != NULL) {
+		GOStyle *style = NULL;
+		g_object_get (G_OBJECT (wall), "style", &style, NULL);
+
 		odf_start_style (state->xml, "wallstyle", "chart");
 		gsf_xml_out_start_element (state->xml, STYLE "graphic-properties");
-		gsf_xml_out_add_cstr (state->xml, DRAW "fill", "solid");
-/* 	gnm_xml_out_add_hex_color (state->xml, DRAW "fill-color", GnmColor const *c, 1) */
-		gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", "#D0D0D0");
+
+		if (style->fill.type == GO_STYLE_FILL_PATTERN) {
+			char *color;
+			color = odf_go_color_to_string (style->fill.pattern.back);
+			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "solid");
+			gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
+			g_free (color);
+		} else
+			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "none");
+
 		gsf_xml_out_end_element (state->xml); /* </style:graphic-properties> */
 		gsf_xml_out_end_element (state->xml); /* </style:style> */
+
+		g_object_unref (G_OBJECT (style));
 	}
 
 	gsf_xml_out_end_element (state->xml); /* </office:automatic-styles> */

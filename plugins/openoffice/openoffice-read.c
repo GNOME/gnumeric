@@ -163,6 +163,7 @@ typedef struct {
 	GSList	*axis_props;	/* axis properties */
 	GSList	*plot_props;	/* plot properties */
 	GSList	*series_props;	/* any other properties */
+	GSList	*style_props;	/* any other properties */
 	GSList	*other_props;	/* any other properties */
 } OOChartStyle;
 
@@ -1729,6 +1730,7 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 			cur_style->axis_props = NULL;
 			cur_style->plot_props = NULL;
 			cur_style->series_props = NULL;
+			cur_style->style_props = NULL;
 			cur_style->other_props = NULL;
 			state->chart.cur_graph_style = cur_style;
 			g_hash_table_replace (state->chart.graph_styles,
@@ -3392,6 +3394,16 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "multi-series", &btmp))
 			style->other_props = g_slist_prepend (style->other_props,
 				oo_prop_new_bool ("multi-series", btmp));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "fill"))
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_string ("fill",
+						     CXML2C(attrs[1])));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "fill-color"))
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_string ("fill-color",
+						     CXML2C(attrs[1])));
 	}
 
 	if (draw_stroke_set && !default_style_has_lines_set)
@@ -4549,15 +4561,52 @@ oo_chart_grid (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+odf_apply_style_props (GSList *props, GOStyle *style)
+{
+	GSList *l;
+	for (l = props; l != NULL; l = l->next) {
+		OOProp *prop = l->data;
+		if (0 == strcmp (prop->name, "fill")) {
+			if (0 == strcmp (g_value_get_string (&prop->value), "solid")) {
+				style->fill.type = GO_STYLE_FILL_PATTERN;
+				style->fill.pattern.pattern = GO_PATTERN_SOLID;
+			} else {
+				style->fill.type = GO_STYLE_FILL_NONE;
+			}
+		} else if (0 == strcmp (prop->name, "fill-color")) {
+			GdkColor gdk_color;
+			gchar const *color = g_value_get_string (&prop->value);
+			if (gdk_color_parse (color, &gdk_color))
+				style->fill.pattern.back = GO_COLOR_FROM_GDK (gdk_color);
+		}
+	}
+}
+
+
+static void
 oo_chart_wall (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-/* 	GOStyle *style = NULL; */
-/* 	GogObject *backplane; */
+	GogObject *backplane;
+	gchar *style_name = NULL;
 
-	/* backplane =  */gog_object_add_by_name (GOG_OBJECT (state->chart.chart), "Backplane", NULL);
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name"))
+			style_name = g_strdup (CXML2C (attrs[1]));
 
-/* 	g_object_get (G_OBJECT (backplane), "style", &style, NULL); */
+	backplane = gog_object_add_by_name (GOG_OBJECT (state->chart.chart), "Backplane", NULL);
+
+	if (style_name != NULL && backplane != NULL) {
+		GOStyle *style = NULL;
+		g_object_get (G_OBJECT (backplane), "style", &style, NULL);
+		
+		if (style != NULL) {
+			OOChartStyle *chart_style = g_hash_table_lookup
+				(state->chart.graph_styles, style_name);
+			odf_apply_style_props (chart_style->style_props, style);
+			g_object_unref (style);
+		}
+	}
 }
 
 static void
@@ -4565,6 +4614,7 @@ oo_chart_style_free (OOChartStyle *cstyle)
 {
 	oo_prop_list_free (cstyle->axis_props);
 	oo_prop_list_free (cstyle->series_props);
+	oo_prop_list_free (cstyle->style_props);
 	oo_prop_list_free (cstyle->plot_props);
 	oo_prop_list_free (cstyle->other_props);
 	g_free (cstyle);
