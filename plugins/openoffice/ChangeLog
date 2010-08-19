@@ -1,5 +1,12 @@
 2010-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_dash_info): new
+	(odf_write_graph_styles): new
+	(odf_write_scatter_series_style_graphic): save dash information
+	(odf_write_graphs): write styles.xml for each graph
+
+2010-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_scatter_series_style_graphic): write 
 	  dash info
 	* openoffice-read.c (odf_match_dash_type): new (stub)

@@ -115,6 +115,7 @@ typedef struct {
 	ColRowInfo const *row_default;
 	ColRowInfo const *column_default;
 	GHashTable *graphs;
+	GHashTable *graph_dashes;
 	GHashTable *images;
 	gboolean with_extension;
 	GOFormat const *time_fmt;
@@ -3245,6 +3246,90 @@ odf_write_meta_graph (GnmOOExport *state, GsfOutput *child)
 /*****************************************************************************/
 
 static void
+odf_write_dash_info (char const *name, gpointer data, GnmOOExport *state)
+{
+	GOLineDashType type = GPOINTER_TO_INT (data);
+	GOLineDashSequence *lds;
+	double scale;
+	gboolean new = (get_gsf_odf_version () > 101);
+
+	gsf_xml_out_start_element (state->xml, DRAW "stroke-dash");
+	gsf_xml_out_add_cstr_unchecked (state->xml, DRAW "name", name);
+	gsf_xml_out_add_cstr_unchecked (state->xml, DRAW "display-name", 
+					go_line_dash_as_label (type));
+	gsf_xml_out_add_cstr_unchecked (state->xml, DRAW "style", "rect");
+
+	scale = new ? 1 : 0.5;
+
+	lds = go_line_dash_get_sequence (type, scale);
+	if (lds != NULL) {
+		double dot_1 = lds->dash [0];
+		guint n_1 = 1;
+		guint i = 2;
+			
+		if (new)
+			odf_add_percent (state->xml, DRAW "distance", 
+				    (lds->n_dash > 1) ? lds->dash[1] : 1.);
+		else
+			odf_add_pt (state->xml, DRAW "distance", 
+				    (lds->n_dash > 1) ? lds->dash[1] : 1.);
+			
+		for (; lds->n_dash > i && lds->dash[i] == dot_1; i += 2);
+		gsf_xml_out_add_int (state->xml, DRAW "dots1", n_1);
+		if (dot_1 == 0.)
+			dot_1 = scale * 0.2;
+		if (new)
+			odf_add_percent (state->xml, DRAW "dots1-length", dot_1);
+		else
+			odf_add_pt (state->xml, DRAW "dots1-length", dot_1);
+		if (lds->n_dash > i) {
+			dot_1 = lds->dash [i];
+			n_1 = 1;
+			for (i += 2; lds->n_dash > i 
+				     && lds->dash[i] == dot_1; i += 2);
+			gsf_xml_out_add_int (state->xml, DRAW "dots2", n_1);
+			if (dot_1 == 0.)
+				dot_1 = scale * 0.2;
+			if (new)
+				odf_add_percent (state->xml, DRAW "dots2-length", 
+					    dot_1);
+			else
+				odf_add_pt (state->xml, DRAW "dots2-length", 
+					    dot_1);	
+		}
+	}
+
+	gsf_xml_out_end_element (state->xml); /* </draw:stroke-dash> */
+
+	go_line_dash_sequence_free (lds);
+}
+
+static void
+odf_write_graph_styles (GnmOOExport *state, GsfOutput *child)
+{
+	int i;
+
+	state->xml = gsf_xml_out_new (child);
+	gsf_xml_out_start_element (state->xml, OFFICE "document-styles");
+	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
+		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
+	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version",
+					get_gsf_odf_version_string ());
+	gsf_xml_out_start_element (state->xml, OFFICE "styles");
+
+	g_hash_table_foreach (state->graph_dashes, (GHFunc) odf_write_dash_info, state);
+
+	gsf_xml_out_end_element (state->xml); /* </office:styles> */
+	gsf_xml_out_end_element (state->xml); /* </office:document-styles> */
+
+	g_object_unref (state->xml);
+	state->xml = NULL;
+}
+
+
+/*****************************************************************************/
+
+static void
 odf_write_settings (GnmOOExport *state, GsfOutput *child)
 {
 	int i;
@@ -3281,6 +3366,9 @@ odf_write_graph_manifest (G_GNUC_UNUSED SheetObject *graph, char const *name, Gn
 	odf_file_entry (state->xml, "text/xml", fullname);
 	g_free(fullname);
 	fullname = g_strdup_printf ("%s/meta.xml", name);
+	odf_file_entry (state->xml, "text/xml", fullname);
+	g_free(fullname);
+	fullname = g_strdup_printf ("%s/styles.xml", name);
 	odf_file_entry (state->xml, "text/xml", fullname);
 	g_free(fullname);
 	fullname = g_strdup_printf ("Pictures/%s", name);
@@ -3808,12 +3896,14 @@ odf_write_scatter_series_style_graphic (GnmOOExport *state, GogObject const *plo
 			gsf_xml_out_add_cstr (state->xml, 
 					      DRAW "stroke", "solid");
 		else {
+			char const *dash = go_line_dash_as_str (dash_type);
 			gsf_xml_out_add_cstr (state->xml, 
 					      DRAW "stroke", "dash");
 			gsf_xml_out_add_cstr 
 				(state->xml, 
-				 DRAW "stroke-dash", 
-				 go_line_dash_as_str (dash_type));
+				 DRAW "stroke-dash", dash);
+			g_hash_table_insert (state->graph_dashes, g_strdup (dash), 
+					     GINT_TO_POINTER (dash_type));
 		}
 	} else {
 		gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "none");
@@ -4467,7 +4557,13 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 					    NULL);
 	if (NULL != child) {
 		char *fullname = g_strdup_printf ("%s/content.xml", name);
-		GsfOutput  *sec_child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
+		GsfOutput  *sec_child;
+
+		state->graph_dashes = g_hash_table_new_full (g_str_hash, g_str_equal,
+							     (GDestroyNotify) g_free, 
+							     NULL);
+
+		sec_child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
 							"compression-level", GSF_ZIP_DEFLATED,
 							NULL);
 		if (NULL != sec_child) {
@@ -4487,6 +4583,19 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 			g_object_unref (G_OBJECT (sec_child));
 		}
 		g_free (fullname);
+
+		fullname = g_strdup_printf ("%s/styles.xml", name);
+		sec_child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
+							"compression-level", GSF_ZIP_DEFLATED,
+							NULL);
+		if (NULL != sec_child) {
+			odf_write_graph_styles (state, sec_child);
+			gsf_output_close (sec_child);
+			g_object_unref (G_OBJECT (sec_child));
+		}
+		g_free (fullname);
+		g_hash_table_unref (state->graph_dashes);
+		state->graph_dashes = NULL;
 
 		gsf_output_close (child);
 		g_object_unref (G_OBJECT (child));
