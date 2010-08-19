@@ -4014,6 +4014,65 @@ odf_write_axis_grid (GnmOOExport *state, GogObject const *axis)
 	odf_write_one_axis_grid (state, axis, "MinorGrid", "minor");
 }
 
+static void
+odf_write_title (GnmOOExport *state, GogObject const *title, char const *id)
+{
+	if (title != NULL && id != NULL) {
+		GOData const *dat = gog_dataset_get_dim (GOG_DATASET(title),0);
+		if (dat != NULL) {
+			GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
+			if (texpr != NULL) {
+				GnmParsePos pp;
+				char *formula;
+				parse_pos_init (&pp, WORKBOOK (state->wb), NULL, 0,0 );
+				formula = gnm_expr_top_as_string (texpr, &pp, state->conv);
+
+				gsf_xml_out_start_element (state->xml, id);
+
+				if (gnm_expr_top_is_rangeref (texpr)) {
+					gsf_xml_out_add_cstr (state->xml, TABLE "cell-address",
+								      odf_strip_brackets (formula));
+				} else if (GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_CONSTANT 
+					   && texpr->expr->constant.value->type == VALUE_STRING) {
+					gboolean white_written = TRUE;
+					char const *str;
+					gsf_xml_out_start_element (state->xml, TEXT "p");
+					str = value_peek_string (texpr->expr->constant.value);
+					odf_add_chars (state, str, strlen (str), &white_written);	
+					gsf_xml_out_end_element (state->xml); /* </text:p> */
+				} else {
+					gboolean white_written = TRUE;
+					if (state->with_extension)
+						gsf_xml_out_add_cstr (state->xml, GNMSTYLE "expression",
+								      formula);
+					gsf_xml_out_start_element (state->xml, TEXT "p");
+					odf_add_chars (state, formula, strlen (formula), 
+						       &white_written);	
+					gsf_xml_out_end_element (state->xml); /* </text:p> */	
+				}
+				gsf_xml_out_end_element (state->xml); /* </chart:title> */
+				g_free (formula);
+			}
+		}
+	}	
+}
+
+static void
+odf_write_label (GnmOOExport *state, GogObject const *axis)
+{
+	GSList *labels = gog_object_get_children 
+		(axis, gog_object_find_role_by_name (axis, "Label"));
+
+	if (labels != NULL) {
+		GogObject const *label = NULL;
+		
+		label = labels->data;
+		odf_write_title (state, label, CHART "title");
+		g_slist_free (labels);
+	}
+
+
+}
 
 static void
 odf_write_axis (GnmOOExport *state, GogObject const *chart, char const *axis_role, 
@@ -4030,6 +4089,7 @@ odf_write_axis (GnmOOExport *state, GogObject const *chart, char const *axis_rol
 		gsf_xml_out_start_element (state->xml, CHART "axis");
 		gsf_xml_out_add_cstr (state->xml, CHART "dimension", dimension);
 		gsf_xml_out_add_cstr (state->xml, CHART "style-name", style_label);
+		odf_write_label (state, axis);
 		odf_write_axis_grid (state, axis);
 		gsf_xml_out_end_element (state->xml); /* </chart:axis> */
 	}
@@ -4077,48 +4137,6 @@ odf_write_axis_ring (GnmOOExport *state, GogObject const *chart, char const *axi
 	gsf_xml_out_end_element (state->xml); /* </chart:axis> */
 }
 
-static void
-odf_write_title (GnmOOExport *state, GogObject const *title, char const *id)
-{
-	if (title != NULL && id != NULL) {
-		GOData const *dat = gog_dataset_get_dim (GOG_DATASET(title),0);
-		if (dat != NULL) {
-			GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
-			if (texpr != NULL) {
-				GnmParsePos pp;
-				char *formula;
-				parse_pos_init (&pp, WORKBOOK (state->wb), NULL, 0,0 );
-				formula = gnm_expr_top_as_string (texpr, &pp, state->conv);
-
-				gsf_xml_out_start_element (state->xml, id);
-
-				if (gnm_expr_top_is_rangeref (texpr)) {
-					gsf_xml_out_add_cstr (state->xml, TABLE "cell-address",
-								      odf_strip_brackets (formula));
-				} else if (GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_CONSTANT 
-					   && texpr->expr->constant.value->type == VALUE_STRING) {
-					gboolean white_written = TRUE;
-					char const *str;
-					gsf_xml_out_start_element (state->xml, TEXT "p");
-					str = value_peek_string (texpr->expr->constant.value);
-					odf_add_chars (state, str, strlen (str), &white_written);	
-					gsf_xml_out_end_element (state->xml); /* </text:p> */
-				} else {
-					gboolean white_written = TRUE;
-					if (state->with_extension)
-						gsf_xml_out_add_cstr (state->xml, GNMSTYLE "expression",
-								      formula);
-					gsf_xml_out_start_element (state->xml, TEXT "p");
-					odf_add_chars (state, formula, strlen (formula), 
-						       &white_written);	
-					gsf_xml_out_end_element (state->xml); /* </text:p> */	
-				}
-				gsf_xml_out_end_element (state->xml); /* </chart:title> */
-				g_free (formula);
-			}
-		}
-	}	
-}
 
 static void
 odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, GogObject const *plot)

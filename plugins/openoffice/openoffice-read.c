@@ -3878,12 +3878,20 @@ oo_chart_title_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (state->chart.title_expr) {
 		GOData *data = gnm_go_data_scalar_new_expr 
 			(state->chart.src_sheet, state->chart.title_expr);
-		GogObject *label = NULL;
-		label = gog_object_add_by_name 
-			((GogObject *)state->chart.chart, "Title", NULL);
-		gog_dataset_set_dim (GOG_DATASET (label), 0,
-				     data,
-				     NULL);
+		GogObject *label;
+		GogObject *obj;
+		gchar const *tag;
+
+		if (state->chart.axis == NULL) {
+			obj = (GogObject *)state->chart.chart;
+			tag = "Title";
+		} else {
+			obj = (GogObject *)state->chart.axis;
+			tag = "Label";
+		}
+
+		label = gog_object_add_by_name (obj, tag, NULL);
+		gog_dataset_set_dim (GOG_DATASET (label), 0, data, NULL);
 		state->chart.title_expr = NULL;
 	}
 		
@@ -3961,6 +3969,13 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 		if (NULL != state->chart.plot && (state->ver == OOO_VER_1))
 			oo_prop_list_apply (style->plot_props, G_OBJECT (state->chart.plot));
 	}
+}
+
+static void
+oo_chart_axis_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	state->chart.axis = NULL;
 }
 
 static int
@@ -4925,7 +4940,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_DATA_ERR, OO_NS_CHART, "error-indicator", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_WALL, OO_NS_CHART, "wall", GSF_XML_NO_CONTENT, &oo_chart_wall, NULL),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_FLOOR, OO_NS_CHART, "floor", GSF_XML_NO_CONTENT, NULL, NULL),
-		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_AXIS, OO_NS_CHART, "axis", GSF_XML_NO_CONTENT, &oo_chart_axis, NULL),
+		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_AXIS, OO_NS_CHART, "axis", GSF_XML_NO_CONTENT, &oo_chart_axis, &oo_chart_axis_end),
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_GRID, OO_NS_CHART, "grid", GSF_XML_NO_CONTENT, &oo_chart_grid, NULL),
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_AXIS_CAT,   OO_NS_CHART, "categories", GSF_XML_NO_CONTENT, &od_chart_axis_categories, NULL),
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_TITLE, OO_NS_CHART, "title", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */

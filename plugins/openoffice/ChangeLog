@@ -1,5 +1,14 @@
 2010-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_chart_title_end): add to the correct object. That
+	  might be an axis.
+	(oo_chart_axis_end): new
+	(opendoc_content_dtd): connect oo_chart_axis_end
+	* openoffice-write.c (odf_write_label): new
+	(odf_write_axis): also write label
+
+2010-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_style): don't ignore non-default styles without
 	  name
 	(oo_style_end): dispose of them here
