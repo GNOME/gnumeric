@@ -1,5 +1,12 @@
 2010-08-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_date_text_end_append): new
+	(oo_date_text_end): take care of %-signs if we are in a percentage style
+	(odf_number_percentage_style): new
+	(opendoc_content_dtd): connect odf_number_percentage_style
+
+2010-08-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c: mark all oo_warning texts for translation
 	(oo_attr_non_neg_int): don't ignore excess values but clamp to max.
 	(odf_apply_style_props): moved and handle text-rotation-angle

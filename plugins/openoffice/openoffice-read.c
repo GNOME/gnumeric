@@ -276,6 +276,8 @@ typedef struct {
 		int      elapsed_set; /* using a sum of odf_elapsed_set_t */
 		guint      pos_seconds;
 		guint      pos_minutes;
+		gboolean percentage;
+		gboolean percent_sign_seen;
 	} cur_format;
 	GSList          *conditions;
 	GSList          *cond_formats;
@@ -2054,6 +2056,15 @@ oo_date_am_pm (GsfXMLIn *xin, xmlChar const **attrs)
 		g_string_append (state->cur_format.accum, "AM/PM");
 
 }
+
+static void
+oo_date_text_end_append (GString *accum, char const *text, int n) {
+	g_string_append_c (accum, '"');
+	g_string_append_len (accum, text, n);
+	g_string_append_c (accum, '"');
+}
+
+/* date_text_end is also used for non-date formats */ 
 static void
 oo_date_text_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
@@ -2062,12 +2073,38 @@ oo_date_text_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (state->cur_format.accum == NULL)
 		return;
 
-	if (xin->content->len == 1 && NULL != strchr (" /-(),",*xin->content->str))
-		g_string_append (state->cur_format.accum, xin->content->str);
-	else if (xin->content->len >0) {
-		g_string_append_c (state->cur_format.accum, '"');
-		g_string_append (state->cur_format.accum, xin->content->str);
-		g_string_append_c (state->cur_format.accum, '"');
+	if (xin->content->len == 1) {
+		if (NULL != strchr (" /-(),",*xin->content->str)) {
+			g_string_append_c (state->cur_format.accum, *xin->content->str);
+			return;
+		}
+		if (state->cur_format.percentage && *xin->content->str == '%') {
+			g_string_append_c (state->cur_format.accum, '%');
+			state->cur_format.percent_sign_seen = TRUE;
+			return;
+		}
+	}
+	if (xin->content->len > 0) {
+		if (state->cur_format.percentage) {
+			int len = xin->content->len;
+			char const *text = xin->content->str;
+			char const *percent_sign;
+			while ((percent_sign = strchr (xin->content->str, '%')) != NULL) {
+				if (percent_sign > text) {
+					oo_date_text_end_append	
+						(state->cur_format.accum, text, 
+						 percent_sign - text);
+					len -= (percent_sign - text);
+				}
+				text = percent_sign + 1;
+				len--;
+				g_string_append_c (state->cur_format.accum, '%');
+			}
+			if (len > 0)
+				oo_date_text_end_append	(state->cur_format.accum, text, len);
+		} else 
+			oo_date_text_end_append	(state->cur_format.accum, 
+						 xin->content->str, xin->content->len);
 	}
 }
 
@@ -2100,6 +2137,7 @@ oo_date_style (GsfXMLIn *xin, xmlChar const **attrs)
 	state->cur_format.magic = format_source_is_language ? magic : GO_FORMAT_MAGIC_NONE;
 	state->cur_format.accum = (state->cur_format.magic == GO_FORMAT_MAGIC_NONE) ?  g_string_new (NULL) : NULL;
 	state->cur_format.name = g_strdup (name);
+	state->cur_format.percentage = FALSE;
 	state->cur_format.truncate_hour_on_overflow = truncate_hour_on_overflow;
 	state->cur_format.elapsed_set = 0;
 	state->cur_format.pos_seconds = 0;
@@ -2307,7 +2345,7 @@ odf_currency_symbol_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		return;
 	}
 	g_string_append (state->cur_format.accum, "[$");
-	g_string_append (state->cur_format.accum, xin->content->str);
+	go_string_append_gstring (state->cur_format.accum, xin->content);
 	g_string_append_c (state->cur_format.accum, ']');
 }
 
@@ -2386,8 +2424,19 @@ odf_number_style (GsfXMLIn *xin, xmlChar const **attrs)
 
 	state->cur_format.accum = g_string_new (NULL);
 	state->cur_format.name = g_strdup (name);
+	state->cur_format.percentage = FALSE;
+	state->cur_format.percent_sign_seen = FALSE;
 	state->conditions = NULL;
 	state->cond_formats = NULL;
+}
+
+static void
+odf_number_percentage_style (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	odf_number_style (xin, attrs);
+	state->cur_format.percentage = TRUE;
 }
 
 static void
@@ -2396,6 +2445,10 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	OOParseState *state = (OOParseState *)xin->user_state;
 
 	g_return_if_fail (state->cur_format.accum != NULL);
+
+	if (state->cur_format.percentage && !state->cur_format.percent_sign_seen)
+		g_string_append_c (state->cur_format.accum, '%');
+	state->cur_format.percentage = FALSE;
 
 	if (state->cur_format.name == NULL) {
 		g_string_free (state->cur_format.accum, TRUE);
@@ -4797,7 +4850,7 @@ GSF_XML_IN_NODE (START, OFFICE_STYLES, OO_NS_OFFICE, "styles", GSF_XML_NO_CONTEN
     GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_TEXT, OO_NS_NUMBER,	"text", GSF_XML_CONTENT, NULL, &oo_date_text_end),
     GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_TEXT_PROP, OO_NS_STYLE,	"text-properties", GSF_XML_NO_CONTENT, &odf_number_color, NULL),
 
-  GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_PERCENTAGE, OO_NS_NUMBER, "percentage-style", GSF_XML_NO_CONTENT, &odf_number_style, &odf_number_style_end),
+  GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_PERCENTAGE, OO_NS_NUMBER, "percentage-style", GSF_XML_NO_CONTENT, &odf_number_percentage_style, &odf_number_style_end),
     GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_STYLE_PROP, OO_NS_NUMBER,	"number", GSF_XML_NO_CONTENT, &odf_number, NULL),
     GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_TEXT, OO_NS_NUMBER,		"text", GSF_XML_CONTENT, NULL, &oo_date_text_end),
     GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_MAP, OO_NS_STYLE,		"map", GSF_XML_NO_CONTENT, &odf_map, NULL),
@@ -5000,7 +5053,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	      GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_SYMBOL, OO_NS_NUMBER,	"currency-symbol", GSF_XML_CONTENT, NULL, &odf_currency_symbol_end),
 	      GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_TEXT, OO_NS_NUMBER,	"text", GSF_XML_CONTENT, NULL, &oo_date_text_end),
 	      GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_TEXT_PROP, OO_NS_STYLE,	"text-properties", GSF_XML_NO_CONTENT, &odf_number_color, NULL),
-	    GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_PERCENTAGE, OO_NS_NUMBER, "percentage-style", GSF_XML_NO_CONTENT, &odf_number_style, &odf_number_style_end),
+	    GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_PERCENTAGE, OO_NS_NUMBER, "percentage-style", GSF_XML_NO_CONTENT, &odf_number_percentage_style, &odf_number_style_end),
 	      GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_STYLE_PROP, OO_NS_NUMBER,	"number", GSF_XML_NO_CONTENT, &odf_number, NULL),
 	      GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_TEXT, OO_NS_NUMBER,		"text", GSF_XML_CONTENT, NULL, &oo_date_text_end),
 	      GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_MAP, OO_NS_STYLE,		"map", GSF_XML_NO_CONTENT, &odf_map, NULL),
@@ -6041,6 +6094,7 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	for (i = 0; i<NUM_FORMULAE_SUPPORTED; i++)
 		state.convs[i] = NULL;
 	state.cur_format.accum = NULL;
+	state.cur_format.percentage = FALSE;
 	state.filter = NULL;
 	state.page_breaks.h = state.page_breaks.v = NULL;
 	state.last_progress_update = 0;
