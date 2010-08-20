@@ -6,6 +6,7 @@
  * Copyright (C) 2002-2007 Jody Goldberg (jody@gnome.org)
  * Copyright (C) 2006 Luciano Miguel Wolf (luciano.wolf@indt.org.br)
  * Copyright (C) 2007 Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2010 Andreas J. Guelzow (aguelzow@pyrshep.ca)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public

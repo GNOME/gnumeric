@@ -1,3 +1,7 @@
+2010-08-20 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_interpolation): clarify the description
+
 2010-08-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.9

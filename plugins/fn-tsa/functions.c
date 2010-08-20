@@ -67,7 +67,7 @@ enum {
 };
 
 enum {
-	INTERPOLATION_LINEAR,
+	INTERPOLATION_LINEAR = 0,
 	INTERPOLATION_LINEAR_AVG,
 	INTERPOLATION_STAIRCASE,
 	INTERPOLATION_STAIRCASE_AVG,
@@ -369,13 +369,16 @@ spline_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 
 static GnmFuncHelp const help_interpolation[] = {
 	{ GNM_FUNC_HELP_NAME, F_("INTERPOLATION:interpolated values corresponding to the given abscissa targets") },
-	{ GNM_FUNC_HELP_ARG, F_("abscissae:abscissae of the given data points") },
+	{ GNM_FUNC_HELP_ARG, F_("abscissae:ordered abscissae of the given data points") },
 	{ GNM_FUNC_HELP_ARG, F_("ordinates:ordinates of the given data points") },
 	{ GNM_FUNC_HELP_ARG, F_("targets:abscissae of the interpolated data") },
-	{ GNM_FUNC_HELP_ARG, F_("interpolation:method of interpolation, defaults to none") },
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("If an interpolation method is used, the number of returned values is one less than the number of targets and the targets values must be given in increasing order.") },
+	{ GNM_FUNC_HELP_ARG, F_("interpolation:method of interpolation, defaults to 0 (\'linear\')") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The output consists always of one column of numbers.") },
 	INTERPOLATIONMETHODS,
+	{ GNM_FUNC_HELP_NOTE, F_("The @{abscissae} must be given in increasing order.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If an interpolation method other than \'linear\' (0) is used, the number "
+				 "of returned values is one less than the number of targets and the targets "
+				 "values must be given in increasing order.") },
 	{ GNM_FUNC_HELP_NOTE, F_("Strings and empty cells in @{abscissae} and @{ordinates} are ignored.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If several target data are provided they must be in the same column in consecutive cells.") },
 	{ GNM_FUNC_HELP_SEEALSO, "PERIODOGRAM" },

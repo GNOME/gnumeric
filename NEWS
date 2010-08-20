@@ -6,6 +6,7 @@ Andreas:
 	* Handle grids, dashes etc. in the ODF import/export.
 	* Improve handling of corrupted ODF files.
 	* Fix percentage style import from ODF. [#627517]
+	* Fix INTERPOLATION documentation. [#627461]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.9
