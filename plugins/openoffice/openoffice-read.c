@@ -290,6 +290,13 @@ typedef struct {
 } OOParseState;
 
 static void
+odf_go_string_append_c_n (GString *target, char c, int n)
+{
+	if (n > 0)
+		odf_go_string_append_c_n (target, c, (gsize) n);
+}
+
+static void
 maybe_update_progress (GsfXMLIn *xin)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -386,6 +393,23 @@ oo_attr_pos_int (GsfXMLIn *xin, xmlChar const * const *attrs,
 	if (!oo_attr_int (xin, attrs, ns_id, name, &tmp))
 		return FALSE;
 	if (tmp < 1)
+		return oo_warning (xin, "Invalid integer '%s', for '%s'",
+				   attrs[1], name);
+	*res = tmp;
+	return TRUE;
+}
+
+/* max = -1 means max is INT_MAX*/
+static gboolean
+oo_attr_non_neg_int (GsfXMLIn *xin, xmlChar const * const *attrs,
+		     int ns_id, char const *name, int *res, int max)
+{
+	int tmp;
+	if (!oo_attr_int (xin, attrs, ns_id, name, &tmp))
+		return FALSE;
+	if (max == -1) 
+		max = INT_MAX;
+	if (tmp < 0 || tmp > max)
 		return oo_warning (xin, "Invalid integer '%s', for '%s'",
 				   attrs[1], name);
 	*res = tmp;
@@ -1932,9 +1956,8 @@ oo_date_minutes (GsfXMLIn *xin, xmlChar const **attrs)
 		if (digits > 0) {					\
 			g_string_append_c (state->cur_format.accum,	\
 					   '.');			\
-			while (digits-- > 0)				\
-				g_string_append_c			\
-					(state->cur_format.accum, '0');	\
+			odf_go_string_append_c_n			\
+				(state->cur_format.accum, '0', digits);	\
 		}							\
 	}
 
@@ -1954,9 +1977,9 @@ oo_date_seconds (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "style"))
 			is_short = attr_eq (attrs[1], "short");
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,
-					     "decimal-places"))
-			digits = atoi (attrs[1]);
+		else if (oo_attr_non_neg_int (xin, attrs, OO_NS_NUMBER, 
+					      "decimal-places", &digits, 9))
+			;
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT,
 				       "truncate-on-overflow",
 				       &truncate_hour_on_overflow))
@@ -2029,9 +2052,9 @@ oo_date_style (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "family") &&
 			 !attr_eq (attrs[1], "data-style"))
 			return;
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT,
-					     "format-magic"))
-			magic = atoi (attrs[1]);
+		else if (oo_attr_int (xin, attrs, OO_GNUM_NS_EXT,
+				      "format-magic", &magic))
+			;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "format-source"))
 			format_source_is_language = attr_eq (attrs[1], "language");
 		else if (oo_attr_bool (xin, attrs, OO_NS_NUMBER,
@@ -2127,32 +2150,30 @@ odf_fraction (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_bool (xin, attrs, OO_NS_NUMBER, "grouping", &grouping)) {}
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "denominator-value")) {
+		else if (oo_attr_int (xin, attrs, OO_NS_NUMBER, "denominator-value", &denominator))
 			denominator_fixed = TRUE;
-			denominator = atoi (CXML2C (attrs[1]));
-		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,
-					       "min-denominator-digits"))
-			min_d_digits = atoi (CXML2C (attrs[1]));
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT,
-					       "max-denominator-digits"))
-			max_d_digits = atoi (CXML2C (attrs[1]));
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,
-					       "min-integer-digits"))
-			min_i_digits = atoi (CXML2C (attrs[1]));
+		else if (oo_attr_non_neg_int (xin, attrs, OO_NS_NUMBER,
+						"min-denominator-digits", &min_d_digits, 30))
+			;
+		else if (oo_attr_non_neg_int (xin, attrs, OO_GNUM_NS_EXT,
+					      "max-denominator-digits", &max_d_digits, 30))
+			;
+		else if (oo_attr_non_neg_int (xin, attrs, OO_NS_NUMBER,
+					      "min-integer-digits", &min_i_digits, 30))
+			;
 		else if  (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "no-integer-part", &no_int_part)) {}
-		else if  (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,
-					       "min-numerator-digits"))
-			min_n_digits = atoi (CXML2C (attrs[1]));
+		else if  (oo_attr_non_neg_int (xin, attrs, OO_NS_NUMBER,
+					       "min-numerator-digits", &min_n_digits, 30))
+			;
 
 	if (!no_int_part) {
 		g_string_append_c (state->cur_format.accum, '#');
-		while (min_i_digits-- > 0)
-			g_string_append_c (state->cur_format.accum, '0');
+		odf_go_string_append_c_n (state->cur_format.accum, '0', 
+					  min_i_digits);
 		g_string_append_c (state->cur_format.accum, ' ');
 	}
 	g_string_append_c (state->cur_format.accum, '?');
-	while (min_n_digits-- > 0)
-		g_string_append_c (state->cur_format.accum, '0');
+	odf_go_string_append_c_n (state->cur_format.accum, '0', min_n_digits);
 	g_string_append_c (state->cur_format.accum, '/');
 	if (denominator_fixed) {
 		int denom = denominator;
@@ -2162,15 +2183,15 @@ odf_fraction (GsfXMLIn *xin, xmlChar const **attrs)
 			count ++;
 		}
 		min_d_digits -= count;
-		while (min_d_digits-- > 0)
-			g_string_append_c (state->cur_format.accum, '0');
+		odf_go_string_append_c_n (state->cur_format.accum, '0', 
+					  min_d_digits);
 		g_string_append_printf (state->cur_format.accum, "%i", denominator);
 	} else {
 		max_d_digits -= min_d_digits;
-		while (max_d_digits-- > 0)
-			g_string_append_c (state->cur_format.accum, '?');
-		while (min_d_digits-- > 0)
-			g_string_append_c (state->cur_format.accum, '0');
+		odf_go_string_append_c_n (state->cur_format.accum, '?', 
+					  max_d_digits);
+		odf_go_string_append_c_n (state->cur_format.accum, '0', 
+					  min_d_digits);
 	}
 }
 
@@ -2191,15 +2212,14 @@ odf_number (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_bool (xin, attrs, OO_NS_NUMBER, "grouping", &grouping)) {}
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "decimal-places")) {
-			decimal_places = atoi (CXML2C (attrs[1]));
+		else if (oo_attr_non_neg_int (xin, attrs, OO_NS_NUMBER, "decimal-places", &decimal_places, 30)) {
 			decimal_places_specified = TRUE;
 		} /* else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,  */
 /* 					       "display-factor")) */
 /* 			display_factor = gnm_strto (CXML2C (attrs[1]), NULL); */
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,
-					       "min-integer-digits"))
-			min_i_digits = atoi (CXML2C (attrs[1]));
+		else if (oo_attr_non_neg_int (xin, attrs, OO_NS_NUMBER,
+					      "min-integer-digits", &min_i_digits, 30))
+			;
 
 	if (decimal_places_specified)
 		go_format_generate_number_str (state->cur_format.accum,  min_i_digits, decimal_places,
@@ -2223,11 +2243,12 @@ odf_scientific (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_bool (xin, attrs, OO_NS_NUMBER, "grouping", &details->thousands_sep)) {}
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "decimal-places"))
-		        details->num_decimals = atoi (CXML2C (attrs[1]));
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,
-					     "min-integer-digits"))
-			details->min_digits = atoi (CXML2C (attrs[1]));
+		else if (oo_attr_non_neg_int (xin, attrs, OO_NS_NUMBER, "decimal-places", 
+					      &details->num_decimals, 30))
+		        ;
+		else if (oo_attr_non_neg_int (xin, attrs, OO_NS_NUMBER, "min-integer-digits",
+					      &details->min_digits, 30))
+			;
 /* 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,  */
 /* 					     "min-exponent-digits")) */
 /* 			min_exp_digits = atoi (CXML2C (attrs[1])); */
@@ -2788,9 +2809,11 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "font-style"))
 			gnm_style_set_font_italic (style, attr_eq (attrs[1], "italic"));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "font-weight")) {
-			int weight = atoi (CXML2C (attrs[1]));
+			int weight = 0;
 			if (attr_eq (attrs[1], "bold"))
 				weight = 700;
+			else
+				oo_attr_non_neg_int (xin, attrs, OO_NS_FO, "font-weight", &weight, 1000); 
 			gnm_style_set_font_bold (style, weight >= PANGO_WEIGHT_SEMIBOLD);
 		}
 #if 0
@@ -4953,6 +4976,19 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 
 	GSF_XML_IN_NODE (OFFICE, OFFICE_BODY, OO_NS_OFFICE, "body", GSF_XML_NO_CONTENT, NULL, NULL),
 	  GSF_XML_IN_NODE (OFFICE_BODY, SPREADSHEET, OO_NS_OFFICE, "spreadsheet", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (SPREADSHEET, DATA_PILOT_TABLES, OO_NS_TABLE, "data-pilot-tables", GSF_XML_NO_CONTENT, NULL, NULL),
+	      GSF_XML_IN_NODE (DATA_PILOT_TABLES, DATA_PILOT_TABLE, OO_NS_TABLE, "data-pilot-table", GSF_XML_NO_CONTENT, NULL, NULL),
+	        GSF_XML_IN_NODE (DATA_PILOT_TABLE, DPT_SOURCE_CELL_RANGE, OO_NS_TABLE, "source-cell-range", GSF_XML_NO_CONTENT, NULL, NULL),
+	        GSF_XML_IN_NODE (DATA_PILOT_TABLE, DATA_PILOT_FIELD, OO_NS_TABLE, "data-pilot-field", GSF_XML_NO_CONTENT, NULL, NULL),
+	          GSF_XML_IN_NODE (DATA_PILOT_FIELD, DATA_PILOT_LEVEL, OO_NS_TABLE, "data-pilot-level", GSF_XML_NO_CONTENT, NULL, NULL),
+	            GSF_XML_IN_NODE (DATA_PILOT_LEVEL, DATA_PILOT_LAYOUT_INFO, OO_NS_TABLE, "data-pilot-layout-info", GSF_XML_NO_CONTENT, NULL, NULL),
+	            GSF_XML_IN_NODE (DATA_PILOT_LEVEL, DATA_PILOT_SORT_INFO, OO_NS_TABLE, "data-pilot-sort-info", GSF_XML_NO_CONTENT, NULL, NULL),
+	            GSF_XML_IN_NODE (DATA_PILOT_LEVEL, DATA_PILOT_DISPLAY_INFO, OO_NS_TABLE, "data-pilot-display-info", GSF_XML_NO_CONTENT, NULL, NULL),
+	            GSF_XML_IN_NODE (DATA_PILOT_LEVEL, DATA_PILOT_MEMBERS, OO_NS_TABLE, "data-pilot-members", GSF_XML_NO_CONTENT, NULL, NULL),
+	              GSF_XML_IN_NODE (DATA_PILOT_MEMBERS, DATA_PILOT_MEMBER, OO_NS_TABLE, "data-pilot-member", GSF_XML_NO_CONTENT, NULL, NULL),
+	            GSF_XML_IN_NODE (DATA_PILOT_LEVEL, DATA_PILOT_SUBTOTALS, OO_NS_TABLE, "data-pilot-subtotals", GSF_XML_NO_CONTENT, NULL, NULL),
+	            GSF_XML_IN_NODE (DATA_PILOT_SUBTOTALS, DATA_PILOT_SUBTOTAL, OO_NS_TABLE, "data-pilot-subtotal", GSF_XML_NO_CONTENT, NULL, NULL),
+	          GSF_XML_IN_NODE (DATA_PILOT_FIELD, DATA_PILOT_GROUPS, OO_NS_TABLE, "data-pilot-groups", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (SPREADSHEET, CONTENT_VALIDATIONS, OO_NS_TABLE, "content-validations", GSF_XML_NO_CONTENT, NULL, NULL),
  	      GSF_XML_IN_NODE (CONTENT_VALIDATIONS, CONTENT_VALIDATION, OO_NS_TABLE, "content-validation", GSF_XML_NO_CONTENT, NULL, NULL),
  	        GSF_XML_IN_NODE (CONTENT_VALIDATION, ERROR_MESSAGE, OO_NS_TABLE, "error-message", GSF_XML_NO_CONTENT, NULL, NULL),
