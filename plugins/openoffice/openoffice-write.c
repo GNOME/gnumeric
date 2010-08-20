@@ -4020,6 +4020,31 @@ odf_write_axis_grid (GnmOOExport *state, GogObject const *axis)
 	odf_write_one_axis_grid (state, axis, "MinorGrid", "minor");
 }
 
+static gchar*
+odf_get_gog_style_name (GOStyle const *style)
+{
+	if (style == NULL)
+		return NULL;
+	else
+		return g_strdup_printf ("GogStyle-%p", style);
+}
+
+static gchar*
+odf_get_gog_style_name_from_obj (GogObject const *obj)
+{
+	GObjectClass *klass = G_OBJECT_GET_CLASS (G_OBJECT (obj));
+
+	if (NULL != g_object_class_find_property (klass, "style")) {
+		GOStyle const *style = NULL;
+		gchar *name;
+		g_object_get (G_OBJECT (obj), "style", &style, NULL);
+		name = odf_get_gog_style_name (style);
+		g_object_unref (G_OBJECT (style));
+		return name;
+	}
+	return NULL;
+}
+
 static void
 odf_write_title (GnmOOExport *state, GogObject const *title, char const *id)
 {
@@ -4030,14 +4055,25 @@ odf_write_title (GnmOOExport *state, GogObject const *title, char const *id)
 			if (texpr != NULL) {
 				GnmParsePos pp;
 				char *formula;
-				parse_pos_init (&pp, WORKBOOK (state->wb), NULL, 0,0 );
-				formula = gnm_expr_top_as_string (texpr, &pp, state->conv);
+				char *name;
 
 				gsf_xml_out_start_element (state->xml, id);
 
+				name = odf_get_gog_style_name_from_obj (title);
+		      
+				if (name != NULL) {
+					gsf_xml_out_add_cstr (state->xml, CHART "style-name",
+								      name);
+					g_free (name);
+				}
+
+				parse_pos_init (&pp, WORKBOOK (state->wb), NULL, 0,0 );
+				formula = gnm_expr_top_as_string (texpr, &pp, state->conv);
+
 				if (gnm_expr_top_is_rangeref (texpr)) {
-					gsf_xml_out_add_cstr (state->xml, TABLE "cell-address",
-								      odf_strip_brackets (formula));
+					char *f = odf_strip_brackets (formula);
+					gsf_xml_out_add_cstr (state->xml, TABLE "cell-address", f);
+					gsf_xml_out_add_cstr (state->xml, TABLE "cell-range", f);
 				} else if (GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_CONSTANT 
 					   && texpr->expr->constant.value->type == VALUE_STRING) {
 					gboolean white_written = TRUE;
@@ -4078,6 +4114,73 @@ odf_write_label (GnmOOExport *state, GogObject const *axis)
 	}
 
 
+}
+
+static void
+odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style)
+{
+		if (style->fill.type == GO_STYLE_FILL_PATTERN) {
+			char *color;
+			color = odf_go_color_to_string (style->fill.pattern.back);
+			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "solid");
+			gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
+			g_free (color);
+		} else
+			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "none");	
+}
+
+static void
+odf_write_gog_style_text (GnmOOExport *state, GOStyle const *style)
+{
+	int val = style->text_layout.angle;
+	odf_add_angle (state->xml,  STYLE "text-rotation-angle", val);
+}
+
+static void
+odf_write_gog_style (GnmOOExport *state, GOStyle const *style)
+{
+	char *name = odf_get_gog_style_name (style);
+	if (name != NULL) {
+		odf_start_style (state->xml, name, "chart");
+
+		gsf_xml_out_start_element (state->xml, STYLE "chart-properties");
+		gsf_xml_out_end_element (state->xml); /* </style:chart-properties> */
+
+		gsf_xml_out_start_element (state->xml, STYLE "graphic-properties");
+		odf_write_gog_style_graphic (state, style);
+		gsf_xml_out_end_element (state->xml); /* </style:graphic-properties> */
+       
+		gsf_xml_out_start_element (state->xml, STYLE "paragraph-properties");
+		gsf_xml_out_end_element (state->xml); /* </style:paragraph-properties> */
+       
+		gsf_xml_out_start_element (state->xml, STYLE "text-properties");
+		odf_write_gog_style_text (state, style);
+		gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
+
+		gsf_xml_out_end_element (state->xml); /* </style:style> */
+		
+		g_free (name);
+	}
+}
+
+static void
+odf_write_gog_styles (GogObject const *obj, GnmOOExport *state)
+{
+	GObjectClass *klass = G_OBJECT_GET_CLASS (G_OBJECT (obj));
+	GSList *children;
+				
+	if (NULL != g_object_class_find_property (klass, "style")) {
+		GOStyle const *style = NULL;
+		g_object_get (G_OBJECT (obj), "style", &style, NULL);
+		if (style != NULL) {
+			odf_write_gog_style (state, style);
+			g_object_unref (G_OBJECT (style));
+		}
+	}
+
+	children = gog_object_get_children (obj, NULL);
+	g_slist_foreach (children, (GFunc) odf_write_gog_styles, state);
+	g_slist_free (children);
 }
 
 static void
@@ -4384,27 +4487,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		g_free (name);
 	}
 
-	if (wall != NULL) {
-		GOStyle *style = NULL;
-		g_object_get (G_OBJECT (wall), "style", &style, NULL);
-
-		odf_start_style (state->xml, "wallstyle", "chart");
-		gsf_xml_out_start_element (state->xml, STYLE "graphic-properties");
-
-		if (style->fill.type == GO_STYLE_FILL_PATTERN) {
-			char *color;
-			color = odf_go_color_to_string (style->fill.pattern.back);
-			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "solid");
-			gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
-			g_free (color);
-		} else
-			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "none");
-
-		gsf_xml_out_end_element (state->xml); /* </style:graphic-properties> */
-		gsf_xml_out_end_element (state->xml); /* </style:style> */
-
-		g_object_unref (G_OBJECT (style));
-	}
+	odf_write_gog_styles (chart, state);
 
 	gsf_xml_out_end_element (state->xml); /* </office:automatic-styles> */
 
@@ -4511,10 +4594,15 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		this_plot->odf_write_series (state, series);
 
 	if (wall != NULL) {
+		char *name = odf_get_gog_style_name_from_obj (wall);
+		
 		gsf_xml_out_start_element (state->xml, CHART "wall");
 		odf_add_pt (state->xml, SVG "width", res_pts[2] - res_pts[0] - 2 * this_plot->pad);
-		gsf_xml_out_add_cstr (state->xml, CHART "style-name", "wallstyle");
+		if (name != NULL)
+			gsf_xml_out_add_cstr (state->xml, CHART "style-name", name);
 		gsf_xml_out_end_element (state->xml); /* </chart:wall> */
+
+		g_free (name);
 	}
 	gsf_xml_out_end_element (state->xml); /* </chart:plot_area> */
 

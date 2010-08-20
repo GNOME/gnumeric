@@ -193,6 +193,7 @@ typedef struct {
 	xmlChar         *cat_expr;
 
 	GnmExprTop const        *title_expr;
+	gchar                   *title_style;
 
 	OOChartStyle		*cur_graph_style;
 	GHashTable		*graph_styles;	/* contain links to OOChartStyle GSLists */
@@ -293,7 +294,7 @@ static void
 odf_go_string_append_c_n (GString *target, char c, int n)
 {
 	if (n > 0)
-		odf_go_string_append_c_n (target, c, (gsize) n);
+		go_string_append_c_n (target, c, (gsize) n);
 }
 
 static void
@@ -378,7 +379,7 @@ oo_attr_int (GsfXMLIn *xin, xmlChar const * const *attrs,
 	errno = 0; /* strtol sets errno, but does not clear it.  */
 	tmp = strtol (CXML2C (attrs[1]), &end, 10);
 	if (*end || errno != 0 || tmp < INT_MIN || tmp > INT_MAX)
-		return oo_warning (xin, "Invalid integer '%s', for '%s'",
+		return oo_warning (xin, _("Invalid integer '%s', for '%s'"),
 				   attrs[1], name);
 
 	*res = tmp;
@@ -393,7 +394,7 @@ oo_attr_pos_int (GsfXMLIn *xin, xmlChar const * const *attrs,
 	if (!oo_attr_int (xin, attrs, ns_id, name, &tmp))
 		return FALSE;
 	if (tmp < 1)
-		return oo_warning (xin, "Invalid integer '%s', for '%s'",
+		return oo_warning (xin, _("Invalid integer '%s', for '%s'"),
 				   attrs[1], name);
 	*res = tmp;
 	return TRUE;
@@ -409,9 +410,12 @@ oo_attr_non_neg_int (GsfXMLIn *xin, xmlChar const * const *attrs,
 		return FALSE;
 	if (max == -1) 
 		max = INT_MAX;
-	if (tmp < 0 || tmp > max)
-		return oo_warning (xin, "Invalid integer '%s', for '%s'",
+	if (tmp < 0 || tmp > max) {
+		oo_warning (xin, _("Possible corrupted integer '%s', for '%s'"),
 				   attrs[1], name);
+		*res = max;
+		return TRUE;
+	}
 	*res = tmp;
 	return TRUE;
 }
@@ -433,7 +437,7 @@ oo_attr_float (GsfXMLIn *xin, xmlChar const * const *attrs,
 
 	tmp = gnm_strto (CXML2C (attrs[1]), &end);
 	if (*end)
-		return oo_warning (xin, "Invalid attribute '%s', expected number, received '%s'",
+		return oo_warning (xin, _("Invalid attribute '%s', expected number, received '%s'"),
 				   name, attrs[1]);
 	*res = tmp;
 	return TRUE;
@@ -456,8 +460,8 @@ oo_attr_percent (GsfXMLIn *xin, xmlChar const * const *attrs,
 	tmp = gnm_strto (CXML2C (attrs[1]), &end);
 	if (*end != '%' || *(end + 1))
 		return oo_warning (xin, 
-				   "Invalid attribute '%s', expected percentage,"
-				   " received '%s'",
+				   _("Invalid attribute '%s', expected percentage,"
+				     " received '%s'"),
 				   name, attrs[1]);
 	*res = tmp/100.;
 	return TRUE;
@@ -477,7 +481,7 @@ oo_parse_color (GsfXMLIn *xin, xmlChar const *str, char const *name)
 	if (0 == strcmp (CXML2C (str), "transparent"))
 		return style_color_ref (magic_transparent);
 
-	oo_warning (xin, "Invalid attribute '%s', expected color, received '%s'",
+	oo_warning (xin, _("Invalid attribute '%s', expected color, received '%s'"),
 		    name, str);
 	return NULL;
 }
@@ -492,6 +496,36 @@ oo_attr_color (GsfXMLIn *xin, xmlChar const * const *attrs,
 		return NULL;
 	return oo_parse_color (xin, attrs[1], name);
 }
+
+static void
+odf_apply_style_props (GSList *props, GOStyle *style)
+{
+	GSList *l;
+	for (l = props; l != NULL; l = l->next) {
+		OOProp *prop = l->data;
+		if (0 == strcmp (prop->name, "fill")) {
+			if (0 == strcmp (g_value_get_string (&prop->value), "solid")) {
+				style->fill.type = GO_STYLE_FILL_PATTERN;
+				style->fill.pattern.pattern = GO_PATTERN_SOLID;
+			} else {
+				style->fill.type = GO_STYLE_FILL_NONE;
+			}
+		} else if (0 == strcmp (prop->name, "fill-color")) {
+			GdkColor gdk_color;
+			gchar const *color = g_value_get_string (&prop->value);
+			if (gdk_color_parse (color, &gdk_color))
+				style->fill.pattern.back = GO_COLOR_FROM_GDK (gdk_color);
+		} else if (0 == strcmp (prop->name, "text-rotation-angle")) {
+			int angle = g_value_get_int (&prop->value);
+			go_style_set_text_angle (style, angle);
+		}
+	}
+}
+
+
+
+
+
 /* returns pts */
 static char const *
 oo_parse_distance (GsfXMLIn *xin, xmlChar const *str,
@@ -539,12 +573,12 @@ oo_parse_distance (GsfXMLIn *xin, xmlChar const *str,
 			num = GO_IN_TO_PT (num);
 			end += 2;
 		} else {
-			oo_warning (xin, "Invalid attribute '%s', unknown unit '%s'",
+			oo_warning (xin, _("Invalid attribute '%s', unknown unit '%s'"),
 				    name, str);
 			return NULL;
 		}
 	} else {
-		oo_warning (xin, "Invalid attribute '%s', expected distance, received '%s'",
+		oo_warning (xin, _("Invalid attribute '%s', expected distance, received '%s'"),
 			    name, str);
 		return NULL;
 	}
@@ -588,7 +622,7 @@ oo_attr_enum (GsfXMLIn *xin, xmlChar const * const *attrs,
 			*res = enums->val;
 			return TRUE;
 		}
-	return oo_warning (xin, "Invalid attribute '%s', unknown enum value '%s'",
+	return oo_warning (xin, _("Invalid attribute '%s', unknown enum value '%s'"),
 			   name, attrs[1]);
 }
 
@@ -3427,6 +3461,10 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->style_props,
 				 oo_prop_new_string ("fill-color",
 						     CXML2C(attrs[1])));
+		else if (oo_attr_int (xin, attrs, OO_NS_STYLE, "text-rotation-angle", &tmp))
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_int ("text-rotation-angle", tmp));
 	}
 
 	if (draw_stroke_set && !default_style_has_lines_set)
@@ -3875,10 +3913,13 @@ oo_chart_title (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	state->chart.title_expr = NULL;
+	state->chart.title_style = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2){
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
-					OO_NS_TABLE, "cell-address")
+		if ((gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					 OO_NS_TABLE, "cell-address" ) || 
+		     gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					 OO_NS_TABLE, "cell-range" ))
 		    && state->chart.title_expr == NULL) {
 			GnmParsePos   pp;
 			char *end_str = g_strconcat ("[", CXML2C (attrs[1]), "]", NULL);
@@ -3902,6 +3943,9 @@ oo_chart_title (GsfXMLIn *xin, xmlChar const **attrs)
 				(xin, CXML2C (attrs[1]), &pp,
 				 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
 				 FORMULA_OPENFORMULA);
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					       OO_NS_CHART, "style-name")) {
+			state->chart.title_style = g_strdup (CXML2C (attrs[1]));
 		}
 	}
 }
@@ -3928,6 +3972,21 @@ oo_chart_title_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		label = gog_object_add_by_name (obj, tag, NULL);
 		gog_dataset_set_dim (GOG_DATASET (label), 0, data, NULL);
 		state->chart.title_expr = NULL;
+		if (state->chart.title_style != NULL) {
+			OOChartStyle *oostyle = g_hash_table_lookup 
+				(state->chart.graph_styles, state->chart.title_style);
+			if (oostyle != NULL) {
+				GOStyle *style;
+				g_object_get (G_OBJECT (label), "style", &style, NULL);
+		
+				if (style != NULL) {
+					odf_apply_style_props (oostyle->style_props, style);
+					g_object_unref (style);
+				}
+			}
+			g_free (state->chart.title_style);
+			state->chart.title_style = NULL;
+		}
 	}
 		
 }
@@ -4077,7 +4136,7 @@ oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, int dim_type, char cons
 		return;	/* implicit does not overwrite existing */
 	else if (state->chart.src_n_vectors <= 0) {
 		oo_warning (xin,
-			"Not enough data in the supplied range for all the requests");
+			    _("Not enough data in the supplied range (%s) for all the requests"), CXML2C (range));
 		return;
 	} else {
 		v = value_new_cellrange_r (
@@ -4584,29 +4643,6 @@ oo_chart_grid (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-odf_apply_style_props (GSList *props, GOStyle *style)
-{
-	GSList *l;
-	for (l = props; l != NULL; l = l->next) {
-		OOProp *prop = l->data;
-		if (0 == strcmp (prop->name, "fill")) {
-			if (0 == strcmp (g_value_get_string (&prop->value), "solid")) {
-				style->fill.type = GO_STYLE_FILL_PATTERN;
-				style->fill.pattern.pattern = GO_PATTERN_SOLID;
-			} else {
-				style->fill.type = GO_STYLE_FILL_NONE;
-			}
-		} else if (0 == strcmp (prop->name, "fill-color")) {
-			GdkColor gdk_color;
-			gchar const *color = g_value_get_string (&prop->value);
-			if (gdk_color_parse (color, &gdk_color))
-				style->fill.pattern.back = GO_COLOR_FROM_GDK (gdk_color);
-		}
-	}
-}
-
-
-static void
 oo_chart_wall (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -5051,12 +5087,14 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		  GSF_XML_IN_NODE (TABLE_CELL, CELL_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, &oo_cell_content_end),
 		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),
 		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_ADDR, OO_NS_TEXT, "a", GSF_XML_SHARED_CONTENT, NULL, NULL),
-		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_SHARED_CONTENT, NULL, NULL),
-		    GSF_XML_IN_NODE (CELL_TEXT_SPAN, CELL_TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-		    GSF_XML_IN_NODE (CELL_TEXT_SPAN, CELL_TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_LINE_BREAK,    OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, NULL, NULL),
-		    GSF_XML_IN_NODE (CELL_TEXT_SPAN, CELL_TEXT_LINE_BREAK,    OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+	            GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_TAB, OO_NS_TEXT, "tab", GSF_XML_SHARED_CONTENT, NULL, NULL),
+		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_SHARED_CONTENT, NULL, NULL),
+		      GSF_XML_IN_NODE (CELL_TEXT_SPAN, CELL_TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+		      GSF_XML_IN_NODE (CELL_TEXT_SPAN, CELL_TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+		      GSF_XML_IN_NODE (CELL_TEXT_SPAN, CELL_TEXT_LINE_BREAK,    OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 		      GSF_XML_IN_NODE (CELL_TEXT_SPAN, CELL_TEXT_SPAN_ADDR, OO_NS_TEXT, "a", GSF_XML_SHARED_CONTENT, NULL, NULL),
+		      GSF_XML_IN_NODE (CELL_TEXT_SPAN, CELL_TEXT_TAB, OO_NS_TEXT, "tab", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 		  GSF_XML_IN_NODE (TABLE_CELL, CELL_OBJECT, OO_NS_DRAW, "object", GSF_XML_NO_CONTENT, NULL, NULL),		/* ignore for now */
 		  GSF_XML_IN_NODE (TABLE_CELL, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),			/* ignore for now */
 		    GSF_XML_IN_NODE (CELL_GRAPHIC, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd def */
@@ -5073,9 +5111,11 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	          GSF_XML_IN_NODE (TABLE_CELL, CELL_ANNOTATION, OO_NS_OFFICE, "annotation", GSF_XML_NO_CONTENT, &odf_annotation_start, &odf_annotation_end),
 	            GSF_XML_IN_NODE (CELL_ANNOTATION, CELL_ANNOTATION_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, &odf_annotation_content_end),
   		      GSF_XML_IN_NODE (CELL_ANNOTATION_TEXT, CELL_ANNOTATION_TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),
+  		      GSF_XML_IN_NODE (CELL_ANNOTATION_TEXT, CELL_ANNOTATION_TEXT_TAB,  OO_NS_TEXT, "tab", GSF_XML_NO_CONTENT, NULL, NULL),
 		      GSF_XML_IN_NODE (CELL_ANNOTATION_TEXT, CELL_ANNOTATION_TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_SHARED_CONTENT, NULL, NULL),
 		        GSF_XML_IN_NODE (CELL_ANNOTATION_TEXT_SPAN, CELL_ANNOTATION_TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 		        GSF_XML_IN_NODE (CELL_ANNOTATION_TEXT_SPAN, CELL_ANNOTATION_TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+		        GSF_XML_IN_NODE (CELL_ANNOTATION_TEXT_SPAN, CELL_ANNOTATION_TEXT_TAB,  OO_NS_TEXT, "tab", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 	            GSF_XML_IN_NODE (CELL_ANNOTATION, CELL_ANNOTATION_AUTHOR, OO_NS_DC, "creator", GSF_XML_CONTENT, NULL, &odf_annotation_author_end),
 	            GSF_XML_IN_NODE (CELL_ANNOTATION, CELL_ANNOTATION_DATE, OO_NS_DC, "date", GSF_XML_NO_CONTENT, NULL, NULL),
 

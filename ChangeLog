@@ -1,5 +1,10 @@
 2010-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* samples/chart-tests.gnumeric: add tab colours to indicate ODF support
+	  for those pages (in round trip)
+
+2010-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* samples/chart-tests.gnumeric: test plot types separately from our
 	  ability to combine them.
 
