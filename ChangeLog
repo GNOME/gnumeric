@@ -1,3 +1,7 @@
+2010-08-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* samples/chart-tests.gnumeric: update tab colours
+
 2010-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* samples/chart-tests.gnumeric: add tab colours to indicate ODF support

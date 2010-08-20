@@ -521,6 +521,12 @@ odf_apply_style_props (GSList *props, GOStyle *style)
 		} else if (0 == strcmp (prop->name, "text-rotation-angle")) {
 			int angle = g_value_get_int (&prop->value);
 			go_style_set_text_angle (style, angle);
+		} else if (0 == strcmp (prop->name, "font-size")) {
+			PangoFontDescription *desc;
+			
+			desc = pango_font_description_copy (style->font.font->desc);
+			pango_font_description_set_size (desc, PANGO_SCALE * g_value_get_double (&prop->value));
+			go_style_set_font_desc	(style, desc);
 		}
 	}
 }
@@ -532,7 +538,7 @@ odf_apply_style_props (GSList *props, GOStyle *style)
 /* returns pts */
 static char const *
 oo_parse_distance (GsfXMLIn *xin, xmlChar const *str,
-		  char const *name, double *pts)
+		  char const *name, gnm_float *pts)
 {
 	double num;
 	char *end = NULL;
@@ -593,7 +599,7 @@ oo_parse_distance (GsfXMLIn *xin, xmlChar const *str,
 /* returns pts */
 static char const *
 oo_attr_distance (GsfXMLIn *xin, xmlChar const * const *attrs,
-		  int ns_id, char const *name, double *pts)
+		  int ns_id, char const *name, gnm_float *pts)
 {
 	g_return_val_if_fail (attrs != NULL, NULL);
 	g_return_val_if_fail (attrs[0] != NULL, NULL);
@@ -2940,7 +2946,7 @@ oo_style_prop_col_row (GsfXMLIn *xin, xmlChar const **attrs)
 		? "column-width" :  "row-height";
 	char const * const use_optimal = (state->cur_style.type == OO_STYLE_COL)
 		? "use-optimal-column-width" : "use-optimal-row-height";
-	double pts;
+	gnm_float pts;
 	gboolean auto_size;
 
 	g_return_if_fail (state->cur_style.col_rows != NULL);
@@ -3519,6 +3525,10 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			style->style_props = g_slist_prepend
 				(style->style_props,
 				 oo_prop_new_int ("text-rotation-angle", tmp));
+		else if (NULL != oo_attr_distance (xin, attrs, OO_NS_FO, "font-size", &ftmp))
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_float ("font-size", ftmp));
 	}
 
 	if (draw_stroke_set && !default_style_has_lines_set)

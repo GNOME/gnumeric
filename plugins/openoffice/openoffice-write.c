@@ -4133,7 +4133,12 @@ static void
 odf_write_gog_style_text (GnmOOExport *state, GOStyle const *style)
 {
 	int val = style->text_layout.angle;
-	odf_add_angle (state->xml,  STYLE "text-rotation-angle", val);
+	odf_add_angle (state->xml, STYLE "text-rotation-angle", val);
+
+	odf_add_pt (state->xml, FOSTYLE "font-size",
+		    pango_font_description_get_size (style->font.font->desc) 
+		    / (double)PANGO_SCALE);
+
 }
 
 static void
