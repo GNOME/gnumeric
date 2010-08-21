@@ -8,6 +8,9 @@ Andreas:
 	* Fix percentage style import from ODF. [#627517]
 	* Fix INTERPOLATION documentation. [#627461]
 
+Jean:
+	* Fix some interpolation and periodogram issues.
+
 --------------------------------------------------------------------------
 Gnumeric 1.10.9
 

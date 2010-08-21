@@ -204,15 +204,15 @@ linear_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 {
 	int i, j, k, jmax = nb_knots - 1;
 	gnm_float slope, *res, x0, x1;
-	if (nb_knots < 2 || !gnm_range_increasing (targets, nb_targets))
+	if (nb_knots < 2 || !gnm_range_increasing (targets, nb_targets + 1))
 		return NULL;
-	res = g_new (gnm_float, nb_targets - 1);
+	res = g_new (gnm_float, nb_targets);
 	j = 1;
 	while (j < jmax && targets[0] > absc[j])
 		j++;
 	k = j - 1;
 	slope = (ord[j] - ord[k]) / (absc[j] - absc[k]) / 2.;
-	for (i = 1; i < nb_targets; i++) {
+	for (i = 1; i <= nb_targets; i++) {
 		if (targets[i] < absc[j] || j == jmax) {
 			x0 = targets[i - 1] - absc[k];
 			x1 = targets[i] - absc[k];
@@ -290,13 +290,13 @@ staircase_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 {
 	int i, j, jmax = nb_knots - 1;
 	gnm_float *res;
-	if (!gnm_range_increasing (targets, nb_targets))
+	if (!gnm_range_increasing (targets, nb_targets + 1))
 		return NULL;
-	res = g_new (gnm_float, nb_targets - 1);
+	res = g_new (gnm_float, nb_targets);
 	j = 1;
 	while (j <= jmax && targets[0] >= absc[j])
 		j++;
-	for (i = 1; i < nb_targets; i++) {
+	for (i = 1; i <= nb_targets; i++) {
 		if (targets[i] < absc[j] || j > jmax) {
 			res[i - 1] = ord[j - 1];
 			continue;
@@ -344,14 +344,14 @@ spline_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 	gnm_float *res;
 	int i, imax;
 	GnmCSpline *sp;
-	if (!gnm_range_increasing (targets, nb_targets))
+	if (!gnm_range_increasing (targets, nb_targets + 1))
 		return NULL;
 	sp = gnm_cspline_init (absc, ord, nb_knots,
 			       GO_CSPLINE_NATURAL, 0., 0.);
 	if (!sp)
 		return NULL;
-	res = gnm_cspline_get_integrals (sp, targets, nb_targets);
-	imax = nb_targets - 1;
+	res = gnm_cspline_get_integrals (sp, targets, nb_targets + 1);
+	imax = nb_targets;
 	for (i = 0; i < imax; i++)
 		res[i] /= targets[i + 1] - targets[i];
 	gnm_cspline_destroy (sp);
@@ -360,8 +360,8 @@ spline_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 
 /*******Interpolation procedure********/
 
-#define INTERPPROC(x) gnm_float* (*x) (const gnm_float*, const gnm_float*, \
-				       int, const gnm_float*, int)
+typedef  gnm_float* (*INTERPPROC) (const gnm_float*, const gnm_float*,
+				       int, const gnm_float*, int);
 
 /******************************************************************************/
 /*                    INTERPOLATION FUNCTION                               */
@@ -385,110 +385,25 @@ static GnmFuncHelp const help_interpolation[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-typedef struct {
-	guint		alloc_count;
-	guint		count;
-	guint		data_count;
-	gnm_float	*data;
-	guint		values_allocated;
-	guint		values_count;
-	GnmValue	**values;
-} collect_floats_t;
-
-static GnmValue *
-callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
-			   void *closure)
-{
-	gnm_float x;
-	GnmValue *val = NULL;
-	collect_floats_t *cl = (collect_floats_t *) closure;
-
-	if (value == NULL) {
-		cl->count++;
-		return NULL;
-	} else switch (value->type) {
-		case VALUE_EMPTY:
-			cl->count++;
-			return NULL;
-
-		case VALUE_ERROR:
-			val = value_dup (value);
-			break;
-
-		case VALUE_FLOAT:
-			x = value_get_as_float (value);
-			if (cl->data_count == cl->alloc_count) {
-				cl->alloc_count *= 2;
-				cl->data = g_realloc (cl->data, cl->alloc_count * sizeof (gnm_float));
-			}
-
-			cl->data[cl->data_count++] = x;
-			break;
-
-		default:
-			val = value_new_error_VALUE (ep);
-		}
-
-	while (cl->count >= cl->values_allocated) {
-		cl->values_allocated *= 2;
-		cl->values = g_realloc (cl->values, cl->values_allocated * sizeof (GnmValue*));
-	}
-	while (cl->count > cl->values_count)
-		cl->values[cl->values_count++] = value_new_error_NA (ep);
-	cl->values[cl->values_count++] = val;
-	cl->count++;
-
-	return NULL;
-}
-
-static gnm_float *
-_collect_floats (int argc, GnmExprConstPtr const *argv,
-		 GnmEvalPos const *ep, int *n, int *max, GnmValue ***values)
-{
-	collect_floats_t cl;
-	CellIterFlags iter_flags = CELL_ITER_ALL;
-
-	cl.alloc_count = 20;
-	cl.data = g_new (gnm_float, cl.alloc_count);
-	cl.count = cl.data_count = cl.values_count = 0;
-	cl.values_allocated = 20;
-	cl.values = g_new (GnmValue*, cl.values_allocated);
-
-	function_iterate_argument_values
-		(ep, &callback_function_collect, &cl,
-		 argc, argv,
-		 FALSE, iter_flags);
-
-	*n = cl.data_count;
-	*values = cl.values;
-	*max = cl.values_count;
-	return cl.data;
-}
-
 static GnmValue *
 gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float *vals0, *vals1, *vals2, *fres;
-	int n0, n1, n2, nb;
+	int n0, n1, n2;
 	int interp;
 	GnmValue *error = NULL;
 	GnmValue *res;
-	GnmValue **values;
 	CollectFlags flags;
 	GnmEvalPos const * const ep = ei->pos;
 	GnmValue const * const PtInterpolation = argv[2];
-	int	r, i;
+	unsigned r, i;
 	GSList *missing0 = NULL;
 	GSList *missing1 = NULL;
-	INTERPPROC(interpproc) = NULL;
+	GSList *missing2 = NULL;
+	INTERPPROC interpproc = NULL;
 
 	int const cols = value_area_get_width (PtInterpolation, ep);
 	int const rows = value_area_get_height (PtInterpolation, ep);
-
-	/* Collect related variables */
-	GnmExpr expr_val;
-	GnmExprConstPtr argv_[1] = { &expr_val };
-	/* end of collect related variables */
 
 	if (rows == 0 || cols != 1) {
 		res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
@@ -517,9 +432,9 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	flags |= COLLECT_IGNORE_ERRORS;
 
 	/* start collecting targets */
-	gnm_expr_constant_init (&expr_val.constant, argv[2]);
-	vals2 = _collect_floats (1, argv_, ei->pos, &n2, &nb, &values);
-
+	vals2 = collect_floats_value_with_info (argv[2], ei->pos, flags,
+						&n2, &missing2, &error);
+	                                        
 	if (argv[3]) {
 		interp = (int) gnm_floor (value_get_as_float (argv[3]));
 		if (interp < 0 || interp > INTERPOLATION_SPLINE_AVG) {
@@ -527,8 +442,6 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			g_slist_free (missing1);
 			g_free (vals0);
 			g_free (vals1);
-			for (i = 0; i < nb; i++)
-				value_release (values[i]);
 			return value_new_error_VALUE (ei->pos);
 		}
 	} else
@@ -559,9 +472,9 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	}
 
 	if (n0 != n1 || n0 == 0 || n2 <= 0) {
+		g_slist_free (missing0);
+		g_slist_free (missing1);
 		res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
-		for (i = 0; i < nb; i++)
-			value_release (values[i]);
 	} else {
 		if (missing0 || missing1) {
 			GSList *missing = gnm_slist_sort_merge (missing0, missing1);
@@ -579,37 +492,34 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		   an error is returned */
 		if (!gnm_range_increasing (vals0, n0) || n2==0) {
 			res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
-			for (i = 0; i < nb; i++)
-				value_release (values[i]);
-			g_free (values);
+			g_slist_free (missing2);
 			g_free (vals0);
 			g_free (vals1);
 			g_free (vals2);
 			return res;
 		}
-		res = value_new_array_non_init (1 , nb);
+		res = value_new_array_non_init (1 , n2);
 		i = 0;
 
-		res->v_array.vals[0] = g_new (GnmValue *, nb);
+		res->v_array.vals[0] = g_new (GnmValue *, n2);
 
 		fres = interpproc (vals0, vals1, n0, vals2, n2);
+		missing0 = missing2;
 		if (fres) {
 			i = 0;
-			for( r = 0 ; r < nb; ++r)
-				if (values[r])
-					res->v_array.vals[0][r] = values[r];
-				else {
+			for( r = 0 ; r < n2; ++r)
+				if (missing0 && r == GPOINTER_TO_UINT (missing0->data)) {
+					missing0 = missing0->next;
+					res->v_array.vals[0][r] = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
+				} else
 					res->v_array.vals[0][r] = value_new_float (fres[i++]);
-				}
 			g_free (fres);
 		} else {
-			for( r = 0 ; r < nb; ++r)
+			for( r = 0 ; r < n2; ++r)
 				res->v_array.vals[0][r] = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
-			for (i = 0; i < nb; i++)
-				value_release (values[i]);
 		}
 	}
-	g_free (values);
+	g_slist_free (missing2);
 	g_free (vals0);
 	g_free (vals1);
 	g_free (vals2);
@@ -701,10 +611,16 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		filter = FILTER_NONE;
 
 	if (argv[2]) {
-		gnm_float *interpolated, start, incr;
+		gnm_float *interpolated, *new_ord, start, incr;
+		int n2;
 		INTERPPROC(interpproc) = NULL;
 		absc = collect_floats_value_with_info (argv[2], ei->pos, flags,
 						       &n1, &missing1, &error);
+		if (n1 == 1) {
+			g_slist_free (missing1);
+			g_free (absc);
+			goto no_absc;
+		}
 		if (error) {
 			g_slist_free (missing0);
 			g_slist_free (missing1);
@@ -740,9 +656,10 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 				g_warning ("This should not happen. n0=%d n1=%d\n",
 					   n0, n1);
 		}
+		n0 = n1 = MIN (n0, n1);
 		/* here we test if there is abscissas are always increasing, if not,
 		   an error is returned */
-		if (!gnm_range_increasing (absc, n0) || n0 == 0) {
+		if (n0 < 2 || !gnm_range_increasing (absc, n0) || n0 == 0) {
 			g_free (absc);
 			g_free (ord);
 			return value_new_error_std (ei->pos, GNM_ERROR_VALUE);
@@ -768,29 +685,32 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		case INTERPOLATION_LINEAR:
 			interpproc = linear_interpolation;
 			start = absc[0];
+			n2 = n1;
 			break;
 		case INTERPOLATION_LINEAR_AVG:
 			interpproc = linear_averaging;
 			start = absc[0] - incr / 2.;
-			n1++;
+			n2 = n1 + 1;
 			break;
 		case INTERPOLATION_STAIRCASE:
 			interpproc = staircase_interpolation;
 			start = absc[0];
+			n2 = n1;
 			break;
 		case INTERPOLATION_STAIRCASE_AVG:
-			interpproc = linear_averaging;
+			interpproc = staircase_averaging;
 			start = absc[0] - incr / 2.;
-			n1++;
+			n2 = n1 + 1;
 			break;
 		case INTERPOLATION_SPLINE:
 			interpproc = spline_interpolation;
 			start = absc[0];
+			n2 = n1;
 			break;
 		case INTERPOLATION_SPLINE_AVG:
-			interpproc = linear_averaging;
+			interpproc = spline_averaging;
 			start = absc[0] - incr / 2.;
-			n1++;
+			n2 = n1 + 1;
 			break;
 		default:
 			g_free (absc);
@@ -798,17 +718,19 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			return value_new_error_std (ei->pos, GNM_ERROR_NA);
 		}
 		interpolated = g_new (gnm_float, n1);
-		for (i = 0; i < n1; i++)
+		for (i = 0; i < n2; i++)
 			interpolated[i] = start + i * incr;
+		new_ord = interpproc (absc, ord, n0, interpolated, n1);
 		g_free (ord);
-		ord = interpproc (absc, ord, n0, interpolated, n1);
+		ord = new_ord;
 		if (ord == NULL) {
 			g_free (absc);
 			g_free (interpolated);
 			return value_new_error_std (ei->pos, GNM_ERROR_NA);
 		}
-		n0 = nb;
+		n0 = n1;
 	} else {
+no_absc:
 		/* we have no interpolation to apply, so just take the values */
 		if (missing0) {
 			gnm_strip_missing (ord, &n0, missing0);
@@ -843,8 +765,9 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	/* Transform and return the result */
 	in = g_new0 (complex_t, nb);
-	for (i = 0; i < n0; i++)
+	for (i = 0; i < n0; i++){
 		in[i].re = ord[i];
+	}
 	g_free (ord);
 	gnm_fourier_fft (in, nb, 1, &out, FALSE);
 	g_free (in);

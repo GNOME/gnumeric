@@ -1,3 +1,9 @@
+2010-08-21  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* moduleset.in:
+
 2010-08-18  Morten Welinder <terra@gnome.org>
 
 	* jhbuildrc.py: Compile goffice without long-double support.
