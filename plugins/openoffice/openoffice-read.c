@@ -425,6 +425,21 @@ oo_attr_non_neg_int (GsfXMLIn *xin, xmlChar const * const *attrs,
 
 
 static gboolean
+oo_attr_font_weight (GsfXMLIn *xin, xmlChar const * const *attrs,
+		     int *res)
+{
+	if (!gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "font-weight"))
+		return FALSE;
+	if (attr_eq (attrs[1], "bold")) {
+		*res = 700;
+		return TRUE;
+	}
+	return oo_attr_non_neg_int (xin, attrs, OO_NS_FO, "font-weight", 
+				    res, 1000);
+}
+
+
+static gboolean
 oo_attr_float (GsfXMLIn *xin, xmlChar const * const *attrs,
 	       int ns_id, char const *name, gnm_float *res)
 {
@@ -503,7 +518,10 @@ oo_attr_color (GsfXMLIn *xin, xmlChar const * const *attrs,
 static void
 odf_apply_style_props (GSList *props, GOStyle *style)
 {
+	PangoFontDescription *desc;
 	GSList *l;
+	gboolean desc_changed = FALSE;
+	desc = pango_font_description_copy (style->font.font->desc);
 	for (l = props; l != NULL; l = l->next) {
 		OOProp *prop = l->data;
 		if (0 == strcmp (prop->name, "fill")) {
@@ -522,13 +540,40 @@ odf_apply_style_props (GSList *props, GOStyle *style)
 			int angle = g_value_get_int (&prop->value);
 			go_style_set_text_angle (style, angle);
 		} else if (0 == strcmp (prop->name, "font-size")) {
-			PangoFontDescription *desc;
-			
-			desc = pango_font_description_copy (style->font.font->desc);
-			pango_font_description_set_size (desc, PANGO_SCALE * g_value_get_double (&prop->value));
-			go_style_set_font_desc	(style, desc);
+			pango_font_description_set_size 
+				(desc, PANGO_SCALE * g_value_get_double 
+				 (&prop->value));
+			desc_changed = TRUE;
+		} else if (0 == strcmp (prop->name, "font-weight")) {
+			pango_font_description_set_weight 
+				(desc, g_value_get_int (&prop->value));
+			desc_changed = TRUE;
+		} else if (0 == strcmp (prop->name, "font-variant")) {
+			pango_font_description_set_variant 
+				(desc, g_value_get_int (&prop->value));
+			desc_changed = TRUE;
+		} else if (0 == strcmp (prop->name, "font-style")) {
+			pango_font_description_set_style 
+				(desc, g_value_get_int (&prop->value));
+			desc_changed = TRUE;
+		} else if (0 == strcmp (prop->name, "font-stretch-pango")) {
+			pango_font_description_set_stretch 
+				(desc, g_value_get_int (&prop->value));
+			desc_changed = TRUE;
+		} else if (0 == strcmp (prop->name, "font-gravity-pango")) {
+			pango_font_description_set_gravity
+				(desc, g_value_get_int (&prop->value));
+			desc_changed = TRUE;
+		} else if (0 == strcmp (prop->name, "font-family")) {
+			pango_font_description_set_family
+				(desc, g_value_get_string (&prop->value));
+			desc_changed = TRUE;
 		}
 	}
+	if (desc_changed)
+		go_style_set_font_desc	(style, desc);
+	else
+		pango_font_description_free (desc);
 }
 
 
@@ -2902,14 +2947,9 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 				gnm_style_set_font_uline (style, UNDERLINE_DOUBLE);
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "font-style"))
 			gnm_style_set_font_italic (style, attr_eq (attrs[1], "italic"));
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "font-weight")) {
-			int weight = 0;
-			if (attr_eq (attrs[1], "bold"))
-				weight = 700;
-			else
-				oo_attr_non_neg_int (xin, attrs, OO_NS_FO, "font-weight", &weight, 1000); 
-			gnm_style_set_font_bold (style, weight >= PANGO_WEIGHT_SEMIBOLD);
-		}
+		else if (oo_attr_font_weight (xin, attrs, &tmp))
+			gnm_style_set_font_bold (style, tmp >= PANGO_WEIGHT_SEMIBOLD);
+		
 #if 0
 		else if (!strcmp (attrs[0], OO_NS_FO, "font-weight")) {
 				gnm_style_set_font_bold (style, TRUE);
@@ -3383,6 +3423,19 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "vertical-bar", GO_MARKER_HALF_BAR},
 		{ NULL, 0},
 	};
+
+	static  OOEnum const font_variants [] = {
+		{"normal", PANGO_VARIANT_NORMAL},
+		{"small-caps", PANGO_VARIANT_SMALL_CAPS},
+		{ NULL, 0},
+	};
+
+	static  OOEnum const font_styles [] = {
+		{ "normal", PANGO_STYLE_NORMAL},
+		{ "oblique", PANGO_STYLE_OBLIQUE},
+		{  "italic", PANGO_STYLE_ITALIC},
+		{ NULL, 0},
+	};
 		
 	OOParseState *state = (OOParseState *)xin->user_state;
 	OOChartStyle *style = state->chart.cur_graph_style;
@@ -3521,14 +3574,47 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->style_props,
 				 oo_prop_new_string ("fill-color",
 						     CXML2C(attrs[1])));
-		else if (oo_attr_int (xin, attrs, OO_NS_STYLE, "text-rotation-angle", &tmp))
+		else if (oo_attr_int (xin, attrs, OO_NS_STYLE, "text-rotation-angle", &tmp)) {
+			tmp = tmp % 360;
 			style->style_props = g_slist_prepend
 				(style->style_props,
 				 oo_prop_new_int ("text-rotation-angle", tmp));
-		else if (NULL != oo_attr_distance (xin, attrs, OO_NS_FO, "font-size", &ftmp))
+		} else if (NULL != oo_attr_distance (xin, attrs, OO_NS_FO, "font-size", &ftmp))
 			style->style_props = g_slist_prepend
 				(style->style_props,
 				 oo_prop_new_float ("font-size", ftmp));
+		else if (oo_attr_font_weight (xin, attrs, &tmp))
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_int ("font-weight", tmp));
+		else if (oo_attr_enum (xin, attrs, OO_NS_FO, "font-variant", 
+					 font_variants, &tmp))
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_int ("font_variant", tmp));
+		else if (oo_attr_enum (xin, attrs, OO_NS_FO, "font-style", 
+					 font_styles, &tmp))
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_int ("font_style", tmp));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "font-family"))
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_string ("font-family",
+						     CXML2C(attrs[1])));
+		else if (oo_attr_non_neg_int (xin, attrs, OO_GNUM_NS_EXT, 
+					      "font-stretch-pango", &tmp, 
+					      PANGO_STRETCH_ULTRA_EXPANDED))
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_int ("font-stretch-pango", tmp));
+		else if (oo_attr_non_neg_int (xin, attrs, OO_GNUM_NS_EXT, 
+					      "font-gravity-pango", &tmp, 
+					      PANGO_GRAVITY_WEST))
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_int ("font-gravity-pango", tmp));
+
 	}
 
 	if (draw_stroke_set && !default_style_has_lines_set)

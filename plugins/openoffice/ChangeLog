@@ -1,5 +1,14 @@
 2010-08-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_attr_font_weight): new
+	(odf_apply_style_props): apply additional props
+	(oo_style_prop_cell): use oo_attr_font_weight
+	(od_style_prop_chart): handle additional props
+	* openoffice-write.c (odf_write_gog_style_text): write more
+	  attributes
+
+2010-08-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_apply_style_props): handle font-size
 	(oo_parse_distance): change argument to gnm_float and change all callers
 	(od_style_prop_chart): handle font-size

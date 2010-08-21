@@ -4132,12 +4132,72 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style)
 static void
 odf_write_gog_style_text (GnmOOExport *state, GOStyle const *style)
 {
+	PangoFontDescription const *desc = style->font.font->desc;
+	PangoFontMask mask = pango_font_description_get_set_fields (desc);
 	int val = style->text_layout.angle;
+
 	odf_add_angle (state->xml, STYLE "text-rotation-angle", val);
 
-	odf_add_pt (state->xml, FOSTYLE "font-size",
-		    pango_font_description_get_size (style->font.font->desc) 
-		    / (double)PANGO_SCALE);
+	if (mask & PANGO_FONT_MASK_SIZE)
+		odf_add_pt (state->xml, FOSTYLE "font-size",
+			    pango_font_description_get_size 
+			    (style->font.font->desc) 
+			    / (double)PANGO_SCALE);
+
+	if (mask & PANGO_FONT_MASK_VARIANT) {
+		PangoVariant var = pango_font_description_get_variant (desc);
+		switch (var) {
+		case PANGO_VARIANT_NORMAL:
+			gsf_xml_out_add_cstr (state->xml, 
+					      FOSTYLE "font-variant", "normal");
+			break;
+		case PANGO_VARIANT_SMALL_CAPS:
+			gsf_xml_out_add_cstr (state->xml, 
+					      FOSTYLE "font-variant", 
+					      "small-caps");
+			break;
+		default:
+			break;
+		}
+	}
+	/*Note that we should be using style:font-name instead of fo:font-family*/
+	if (mask & PANGO_FONT_MASK_FAMILY)
+		gsf_xml_out_add_cstr 
+			(state->xml, 
+			 FOSTYLE "font-family", 
+			 pango_font_description_get_family (desc));
+	if (mask & PANGO_FONT_MASK_STYLE) {
+		PangoStyle s = pango_font_description_get_style (desc);
+		switch (s) {
+		case PANGO_STYLE_NORMAL:
+			gsf_xml_out_add_cstr (state->xml, 
+					      FOSTYLE "font-style", "normal");
+			break;
+		case PANGO_STYLE_OBLIQUE:
+			gsf_xml_out_add_cstr (state->xml, 
+					      FOSTYLE "font-style", "oblique");
+			break;
+		case PANGO_STYLE_ITALIC:
+			gsf_xml_out_add_cstr (state->xml, 
+					      FOSTYLE "font-style", "italic");
+			break;
+		default:
+			break;
+		}
+	}
+	if (mask & PANGO_FONT_MASK_WEIGHT) {
+		PangoWeight w = pango_font_description_get_weight (desc);
+		if (w > 900)
+			w = 900;
+		gsf_xml_out_add_int (state->xml, FOSTYLE "font-weight", w);
+	}
+
+	if ((mask & PANGO_FONT_MASK_STRETCH) && state->with_extension)
+		gsf_xml_out_add_int (state->xml, GNMSTYLE "font-stretch-pango", 
+				     pango_font_description_get_stretch (desc));
+	if ((mask & PANGO_FONT_MASK_GRAVITY) && state->with_extension)
+		gsf_xml_out_add_int (state->xml, GNMSTYLE "font-gravity-pango", 
+				     pango_font_description_get_gravity (desc));
 
 }
 
