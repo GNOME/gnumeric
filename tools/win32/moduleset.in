@@ -351,13 +351,6 @@
 	</dependencies>
     </autotools>
 
-    <autotools id="librsvg">
-	<branch repo="gnome.org" module="sources/librsvg/2.26/librsvg-2.26.3.tar.bz2" version="2.26.3"/>
-	<dependencies>
-	    <dep package="gtk+"/>
-	</dependencies>
-    </autotools>
-
     <autotools id="goffice">
 	<branch/>
 	<dependencies>
@@ -366,7 +359,6 @@
 	    <dep package="pcre"/>
 	    <dep package="libxml2"/>
 	    <dep package="pango"/>
-	    <dep package="librsvg"/> <!-- not really true for now but we need it -->
 	    <!-- <dep package="lasem"/> -->
 	</dependencies>
     </autotools>
