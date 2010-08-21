@@ -48,6 +48,10 @@ This is an attribute for the plot-style chart:circle
 gnm:expression
 Attribute used where ODF restricts expressions to be cell references via table:cell-range-address fore xample chart titles.
 
+gnm:font-stretch-pango
+gnm:font-gravity-pango
+Attributes to chart:text-properties
+
 3) Attribute _values_ added by Gnumeric. 
 Since these are not eleemnts or new attributes they are used in all ODF exports.
 
