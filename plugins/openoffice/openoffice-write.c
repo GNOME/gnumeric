@@ -3665,109 +3665,79 @@ odf_write_min_max_series (GnmOOExport *state, GSList const *orig_series)
 }
 
 static void
-odf_write_bar_col_plot_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, GogObject const *plot)
+odf_write_plot_style_int (GsfXMLOut *xml, GogObject const *plot, 
+			  GObjectClass *klass, char const *property,
+			  char const *id)
 {
-	gboolean horizontal = FALSE;
-	gchar *type = NULL;
-	int gap, overlap;
-
-	g_object_get (G_OBJECT (plot), 
-		      "horizontal", &horizontal, 
-		      "type", &type,
-		      "gap-percentage", &gap,
-		      "overlap-percentage", &overlap,
-		      NULL);
-
-	/* Note: horizontal refers to the bars and vertical to the x-axis */
-	odf_add_bool (state->xml, CHART "vertical", horizontal);
-
-	gsf_xml_out_add_int (state->xml, CHART "gap-width", gap);
-	gsf_xml_out_add_int (state->xml, CHART "overlap", overlap);
-
-	if (type != NULL) {
-		 odf_add_bool (state->xml, CHART "stacked", 
-			       (0== strcmp (type, "stacked")));
-		 odf_add_bool (state->xml, CHART "percentage", 
-			       (0== strcmp (type, "as_percentage")));
-		 g_free (type);
-	}
+	GParamSpec *spec;
+	if (NULL != (spec = g_object_class_find_property (klass, property)) 
+	    && spec->value_type == G_TYPE_INT 
+	    && (G_PARAM_READABLE & spec->flags)) {
+		int i;
+		g_object_get (G_OBJECT (plot), property, &i, NULL);
+		gsf_xml_out_add_int (xml, id, i);
+	}	
 }
 
 static void
-odf_write_pie_plot_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, GogObject const *plot)
+odf_write_plot_style_double (GsfXMLOut *xml, GogObject const *plot, 
+			     GObjectClass *klass, char const *property,
+			     char const *id)
 {
-	double default_separation = 0.;
-	g_object_get (G_OBJECT (plot), 
-		      "default-separation", &default_separation, 
-		      NULL);
-	gsf_xml_out_add_int (state->xml, 
-			     CHART "pie-offset", 
-			     (default_separation * 100. + 0.5));
-}
-
-
-
-static void
-odf_write_box_plot_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, GogObject const *plot)
-{
-	gboolean vertical = FALSE;
-	int gap = 0;
-
-	g_object_get (G_OBJECT (plot), 
-		      "vertical", &vertical,  
-		      "gap-percentage", &gap, NULL);
-	odf_add_bool (state->xml, CHART "vertical", vertical);
-	gsf_xml_out_add_int (state->xml, CHART "gap-width", gap);
-	if (state->with_extension) {
-		gboolean outliers = FALSE;
-		double radius = 0.;
-
-		g_object_get (G_OBJECT (plot), "outliers", &outliers, 
-			      "radius-ratio", &radius, NULL);
-		odf_add_bool (state->xml, GNMSTYLE "outliers", outliers);
-		gsf_xml_out_add_float (state->xml, GNMSTYLE "radius-ratio", radius, -1);
-	}
+	GParamSpec *spec;
+	if (NULL != (spec = g_object_class_find_property (klass, property)) 
+	    && spec->value_type == G_TYPE_DOUBLE 
+	    && (G_PARAM_READABLE & spec->flags)) {
+		double d;
+		g_object_get (G_OBJECT (plot), property, &d, NULL);
+		gsf_xml_out_add_float (xml, id, d, -1);
+	}	
 }
 
 static void
-odf_write_ring_plot_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, G_GNUC_UNUSED GogObject const *plot)
+odf_write_plot_style_double_percent (GsfXMLOut *xml, GogObject const *plot, 
+				     GObjectClass *klass, char const *property,
+				     char const *id)
 {
-	double default_separation, centre_size;
-
-	g_object_get (G_OBJECT (plot), 
-		      "default-separation", &default_separation, 
-		      "center-size", &centre_size,
-		      NULL);
-
-	if (state->with_extension)	
-		odf_add_percent (state->xml, 
-				 GNMSTYLE "default-separation", 
-				 default_separation);
-	
-	odf_add_percent (state->xml, CHART "hole-size", centre_size);
+	GParamSpec *spec;
+	if (NULL != (spec = g_object_class_find_property (klass, property)) 
+	    && spec->value_type == G_TYPE_DOUBLE 
+	    && (G_PARAM_READABLE & spec->flags)) {
+		double d;
+		g_object_get (G_OBJECT (plot), property, &d, NULL);
+		odf_add_percent (xml, id, d);
+	}	
 }
 
 static void
-odf_write_line_plot_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, GogObject const *plot)
+odf_write_plot_style_bool (GsfXMLOut *xml, GogObject const *plot, 
+			  GObjectClass *klass, char const *property,
+			  char const *id)
 {
-	gboolean has_marker = TRUE;
-	gchar *type = NULL;
+	GParamSpec *spec;
+	if (NULL != (spec = g_object_class_find_property (klass, property)) 
+	    && spec->value_type == G_TYPE_BOOLEAN 
+	    && (G_PARAM_READABLE & spec->flags)) {
+		gboolean b;
+		g_object_get (G_OBJECT (plot), property, &b, NULL);
+		odf_add_bool (xml, id, b);
+	}	
+}
 
-	g_object_get (G_OBJECT (plot), 
-		      "default-style-has-markers", &has_marker, 
-		      "type", &type,
-		      NULL);
-	
-	gsf_xml_out_add_cstr (state->xml, CHART "symbol-type", 
-			      has_marker ? "automatic" : "none");
-
-	if (type != NULL) {
-		 odf_add_bool (state->xml, CHART "stacked", 
-			       (0== strcmp (type, "stacked")));
-		 odf_add_bool (state->xml, CHART "percentage", 
-			       (0== strcmp (type, "as_percentage")));
-		 g_free (type);
-	}
+static void
+odf_write_plot_style_from_bool (GsfXMLOut *xml, GogObject const *plot, 
+				GObjectClass *klass, char const *property,
+				char const *id,
+				char const *t_val, char const *f_val)
+{
+	GParamSpec *spec;
+	if (NULL != (spec = g_object_class_find_property (klass, property)) 
+	    && spec->value_type == G_TYPE_BOOLEAN 
+	    && (G_PARAM_READABLE & spec->flags)) {
+		gboolean b;
+		g_object_get (G_OBJECT (plot), property, &b, NULL);
+		gsf_xml_out_add_cstr (xml, id, b ? t_val : f_val);
+	}	
 }
 
 static void
@@ -3800,47 +3770,89 @@ odf_write_interpolation_attribute (GnmOOExport *state, GogObject const *series)
 	g_free (interpolation);
 }
 
-
-
 static void
-odf_write_scatter_chart_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, GogObject const *plot)
+odf_write_plot_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, GogObject const *plot)
 {
-	gboolean has_marker = TRUE;
-	g_object_get (G_OBJECT (plot), "default-style-has-markers", 
-		      &has_marker, NULL);
+	GObjectClass *klass = G_OBJECT_GET_CLASS (plot);
+		
+	if (NULL != g_object_class_find_property (klass, "type")) {
+		gchar *type = NULL;
+		g_object_get (G_OBJECT (plot), "type", &type, NULL);
+		if (type != NULL) {
+			odf_add_bool (state->xml, CHART "stacked", 
+				      (0== strcmp (type, "stacked")));
+			odf_add_bool (state->xml, CHART "percentage", 
+				      (0== strcmp (type, "as_percentage")));
+			g_free (type);
+		}
+	}
+
+	if (NULL != g_object_class_find_property (klass, "default-separation")) {
+		double default_separation = 0.;
+		g_object_get (G_OBJECT (plot), 
+			      "default-separation", &default_separation, 
+			      NULL);
+		if (0 == strcmp ("GogRingPlot", G_OBJECT_TYPE_NAME (plot))) {
+			if (state->with_extension)	
+				odf_add_percent (state->xml, 
+						 GNMSTYLE "default-separation", 
+						 default_separation);
+		} else
+			gsf_xml_out_add_int (state->xml, 
+					     CHART "pie-offset", 
+					     (default_separation * 100. + 0.5));
+	}
 	
-	gsf_xml_out_add_cstr (state->xml, CHART "symbol-type", 
-			      has_marker ? "automatic" : "none");
 
-	odf_write_interpolation_attribute (state, plot);
+	/* Note: horizontal refers to the bars and vertical to  the x-axis */
+	odf_write_plot_style_bool (state->xml, plot, klass,
+				   "horizontal", CHART "vertical");
 
+	odf_write_plot_style_bool (state->xml, plot, klass,
+				   "vertical", CHART "vertical");
+
+	if (state->with_extension)
+		odf_write_plot_style_bool (state->xml, plot, klass,
+				   "outliers", GNMSTYLE "outliers");
+
+	odf_write_plot_style_from_bool 
+		(state->xml, plot, klass,
+		 "default-style-has-markers", CHART "symbol-type",
+		 "automatic", "none");
+
+	odf_write_plot_style_int (state->xml, plot, klass,
+				  "gap-percentage", CHART "gap-width");
+		
+	odf_write_plot_style_int (state->xml, plot, klass,
+				  "overlap-percentage", CHART "overlap");
+
+	odf_write_plot_style_double (state->xml, plot, klass,
+				     "radius-ratio", GNMSTYLE "radius-ratio");
+
+	odf_write_plot_style_double_percent (state->xml, plot, klass,
+					     "center-size", 
+					     CHART "hole-size");
+
+	if (NULL != g_object_class_find_property (klass, "interpolation"))
+		odf_write_interpolation_attribute (state, plot);
+
+	odf_add_bool (state->xml, CHART "three-dimensional", FALSE);
 	odf_add_bool (state->xml, CHART "lines", FALSE);
+
 }
 
 static void
-odf_write_scatter_chart_style_graphic (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, GogObject const *plot)
-{
-	gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "none");
-}
-
-static void
-odf_write_surface_chart_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, G_GNUC_UNUSED GogObject const *plot)
+odf_write_surface_plot_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, G_GNUC_UNUSED GogObject const *plot)
 {
 	odf_add_bool (state->xml, CHART "three-dimensional", TRUE);
 }
 
 static void
-odf_write_xl_surface_chart_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, G_GNUC_UNUSED GogObject const *plot)
+odf_write_xl_surface_plot_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, G_GNUC_UNUSED GogObject const *plot)
 {
 	odf_add_bool (state->xml, CHART "three-dimensional", TRUE);
 	if (state->with_extension)
 		odf_add_bool (state->xml, GNMSTYLE "multi-series", TRUE);
-}
-
-static void
-odf_write_contour_chart_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, G_GNUC_UNUSED GogObject const *plot)
-{
-	odf_add_bool (state->xml, CHART "three-dimensional", FALSE);
 }
 
 static char const *
@@ -4410,12 +4422,12 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 	} *this_plot, plots[] = {
 		{ "GogBarColPlot", CHART "bar", ODF_BARCOL,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
-		  NULL, odf_write_bar_col_plot_style, odf_write_standard_series, NULL,
+		  NULL, odf_write_plot_style, odf_write_standard_series, NULL,
 		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogLinePlot", CHART "line", ODF_LINE,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
-		  NULL, odf_write_line_plot_style, odf_write_standard_series, NULL,
+		  NULL, odf_write_plot_style, odf_write_standard_series, NULL,
 		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogPolarPlot", GNMSTYLE "polar", ODF_POLAR,
@@ -4425,12 +4437,12 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogAreaPlot", CHART "area", ODF_AREA,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
-		  NULL, NULL, odf_write_standard_series, NULL,
+		  NULL, odf_write_plot_style, odf_write_standard_series, NULL,
 		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogDropBarPlot", CHART "gantt", ODF_DROPBAR,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_dropbar_axes_styles,
-		  NULL, odf_write_bar_col_plot_style, odf_write_gantt_series, NULL,
+		  NULL, odf_write_plot_style, odf_write_gantt_series, NULL,
 		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogMinMaxPlot", CHART "stock", ODF_MINMAX,
@@ -4440,7 +4452,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogPiePlot", CHART "circle", ODF_CIRCLE,
 		  5., "X-Axis", "Y-Axis", NULL, odf_write_circle_axes_styles,
-		  odf_write_pie_plot_style, NULL, odf_write_standard_series, NULL,
+		  NULL, odf_write_plot_style, odf_write_standard_series, NULL,
 		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_generic_axis, odf_write_axis},
 		{ "GogRadarPlot", CHART "radar", ODF_RADAR,
@@ -4455,34 +4467,34 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogRingPlot", CHART "ring", ODF_RING,
 		  10., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
-		  NULL, odf_write_ring_plot_style, odf_write_standard_series, NULL,
+		  NULL, odf_write_plot_style, odf_write_standard_series, NULL,
 		  NULL, NULL, NULL,
 		  odf_write_axis_ring, odf_write_generic_axis, NULL},
 		{ "GogXYPlot", CHART "scatter", ODF_SCATTER,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
-		  odf_write_scatter_chart_style, NULL, odf_write_standard_series, 
+		  NULL, odf_write_plot_style, odf_write_standard_series, 
 		  odf_write_scatter_series_style,
-		  odf_write_scatter_chart_style_graphic, NULL,
+		   NULL, NULL,
 		  odf_write_scatter_series_style_graphic,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogContourPlot", CHART "surface", ODF_SURF,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
-		  odf_write_contour_chart_style, NULL, odf_write_bubble_series, NULL,
+		  NULL, odf_write_plot_style, odf_write_bubble_series, NULL,
 		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogXYZContourPlot", GNMSTYLE "xyz-surface", ODF_XYZ_SURF,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
-		  odf_write_contour_chart_style, NULL, odf_write_bubble_series, NULL,
+		  NULL, odf_write_plot_style, odf_write_bubble_series, NULL,
 		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogXYZSurfacePlot", GNMSTYLE "xyz-surface", ODF_XYZ_GNM_SURF,
 		  20., "X-Axis", "Y-Axis", "Z-Axis", odf_write_surface_axes_styles,
-		  odf_write_surface_chart_style, NULL, odf_write_bubble_series, NULL,
+		  NULL, odf_write_surface_plot_style, odf_write_bubble_series, NULL,
 		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogSurfacePlot", CHART "surface", ODF_GNM_SURF,
 		  20., "X-Axis", "Y-Axis", "Z-Axis", odf_write_surface_axes_styles,
-		  odf_write_surface_chart_style, NULL, odf_write_bubble_series, NULL,
+		   NULL, odf_write_surface_plot_style,odf_write_bubble_series, NULL,
 		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogBubblePlot", CHART "bubble", ODF_BUBBLE,
@@ -4497,12 +4509,12 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "XLSurfacePlot", CHART "surface", ODF_GNM_SURF,
 		  20., "X-Axis", "Y-Axis", "Z-Axis", odf_write_surface_axes_styles,
-		  odf_write_xl_surface_chart_style, NULL, odf_write_standard_series, NULL,
+		  NULL, odf_write_xl_surface_plot_style, odf_write_standard_series, NULL,
 		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogBoxPlot", GNMSTYLE "box", ODF_GNM_BOX,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
-		  NULL, odf_write_box_plot_style, odf_write_box_series, NULL,
+		  NULL, odf_write_plot_style, odf_write_box_series, NULL,
 		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ NULL, NULL, 0,
