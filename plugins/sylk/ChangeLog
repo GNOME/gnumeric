@@ -1,3 +1,7 @@
+2010-08-21  Morten Welinder  <terra@gnome.org>
+
+	* sylk.c (sylk_rtd_c_parse): Plug leak.
+
 2010-08-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.9

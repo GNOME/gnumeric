@@ -11,6 +11,9 @@ Andreas:
 Jean:
 	* Fix some interpolation and periodogram issues.
 
+Morten:
+	* Plug sylk importer leak.
+
 --------------------------------------------------------------------------
 Gnumeric 1.10.9
 

@@ -318,6 +318,7 @@ sylk_rtd_c_parse (SylkReader *state, char *str)
 				gnm_cell_set_array (state->pp.sheet,
 						    &rg,
 						    texpr);
+				gnm_expr_top_unref (texpr);
 			}
 			if (NULL != val)
 				gnm_cell_assign_value (cell, val);
