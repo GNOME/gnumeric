@@ -1,5 +1,25 @@
 2010-08-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_plot_style): new
+	(odf_write_plot_style_int): new
+	(odf_write_plot_style_double): new
+	(odf_write_plot_style_double_percent): new
+	(odf_write_plot_style_bool): new
+	(odf_write_plot_style_from_bool): new
+	(odf_write_scatter_chart_style_graphic): deleted
+	(odf_write_surface_chart_style): renamed odf_write_surface_plot_style
+	(odf_write_xl_surface_chart_style): renamed odf_write_xl_surface_plot_style
+	(odf_write_bar_col_plot_style): replaced by odf_write_plot_style
+	(odf_write_pie_plot_style): ditto
+	(odf_write_box_plot_style): ditto
+	(odf_write_ring_plot_styl): ditto
+	(odf_write_line_plot_style): ditto
+	(df_write_scatter_chart_style): ditto
+	(odf_write_contour_chart_style): ditto
+	(odf_write_plot): some adjustments
+	
+2010-08-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_attr_int_range): new
 	(oo_attr_pos_int): delete and replace all of its occurrences by 
 	  oo_attr_int_range
