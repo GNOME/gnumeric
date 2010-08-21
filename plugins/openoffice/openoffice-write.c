@@ -3668,10 +3668,29 @@ static void
 odf_write_bar_col_plot_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, GogObject const *plot)
 {
 	gboolean horizontal = FALSE;
+	gchar *type = NULL;
+	int gap, overlap;
 
-	g_object_get (G_OBJECT (plot), "horizontal", &horizontal, NULL);
+	g_object_get (G_OBJECT (plot), 
+		      "horizontal", &horizontal, 
+		      "type", &type,
+		      "gap-percentage", &gap,
+		      "overlap-percentage", &overlap,
+		      NULL);
+
 	/* Note: horizontal refers to the bars and vertical to the x-axis */
 	odf_add_bool (state->xml, CHART "vertical", horizontal);
+
+	gsf_xml_out_add_int (state->xml, CHART "gap-width", gap);
+	gsf_xml_out_add_int (state->xml, CHART "overlap", overlap);
+
+	if (type != NULL) {
+		 odf_add_bool (state->xml, CHART "stacked", 
+			       (0== strcmp (type, "stacked")));
+		 odf_add_bool (state->xml, CHART "percentage", 
+			       (0== strcmp (type, "as_percentage")));
+		 g_free (type);
+	}
 }
 
 static void
@@ -3729,14 +3748,26 @@ odf_write_ring_plot_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *ch
 }
 
 static void
-odf_write_line_chart_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, GogObject const *plot)
+odf_write_line_plot_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, GogObject const *plot)
 {
 	gboolean has_marker = TRUE;
-	g_object_get (G_OBJECT (plot), "default-style-has-markers", 
-		      &has_marker, NULL);
+	gchar *type = NULL;
+
+	g_object_get (G_OBJECT (plot), 
+		      "default-style-has-markers", &has_marker, 
+		      "type", &type,
+		      NULL);
 	
 	gsf_xml_out_add_cstr (state->xml, CHART "symbol-type", 
 			      has_marker ? "automatic" : "none");
+
+	if (type != NULL) {
+		 odf_add_bool (state->xml, CHART "stacked", 
+			       (0== strcmp (type, "stacked")));
+		 odf_add_bool (state->xml, CHART "percentage", 
+			       (0== strcmp (type, "as_percentage")));
+		 g_free (type);
+	}
 }
 
 static void
@@ -4384,7 +4415,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogLinePlot", CHART "line", ODF_LINE,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
-		  odf_write_line_chart_style, NULL, odf_write_standard_series, NULL,
+		  NULL, odf_write_line_plot_style, odf_write_standard_series, NULL,
 		  NULL, NULL, NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogPolarPlot", GNMSTYLE "polar", ODF_POLAR,

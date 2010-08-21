@@ -1,3 +1,13 @@
+2010-08-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_attr_int_range): new
+	(oo_attr_pos_int): delete and replace all of its occurrences by 
+	  oo_attr_int_range
+	(oo_attr_non_neg_int): ditto
+	* openoffice-write.c (odf_write_bar_col_plot_style): more properties
+	(odf_write_line_chart_style): add properties and rename to
+	  odf_write_line_plot_style
+
 2010-08-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_attr_font_weight): new

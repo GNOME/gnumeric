@@ -390,33 +390,16 @@ oo_attr_int (GsfXMLIn *xin, xmlChar const * const *attrs,
 }
 
 static gboolean
-oo_attr_pos_int (GsfXMLIn *xin, xmlChar const * const *attrs,
-	     int ns_id, char const *name, int *res)
+oo_attr_int_range (GsfXMLIn *xin, xmlChar const * const *attrs,
+		     int ns_id, char const *name, int *res, int min, int max)
 {
 	int tmp;
 	if (!oo_attr_int (xin, attrs, ns_id, name, &tmp))
 		return FALSE;
-	if (tmp < 1)
-		return oo_warning (xin, _("Invalid integer '%s', for '%s'"),
-				   attrs[1], name);
-	*res = tmp;
-	return TRUE;
-}
-
-/* max = -1 means max is INT_MAX*/
-static gboolean
-oo_attr_non_neg_int (GsfXMLIn *xin, xmlChar const * const *attrs,
-		     int ns_id, char const *name, int *res, int max)
-{
-	int tmp;
-	if (!oo_attr_int (xin, attrs, ns_id, name, &tmp))
-		return FALSE;
-	if (max == -1) 
-		max = INT_MAX;
-	if (tmp < 0 || tmp > max) {
+	if (tmp < min || tmp > max) {
 		oo_warning (xin, _("Possible corrupted integer '%s', for '%s'"),
 				   attrs[1], name);
-		*res = max;
+		*res = (tmp < min) ? min :  max;
 		return TRUE;
 	}
 	*res = tmp;
@@ -434,8 +417,8 @@ oo_attr_font_weight (GsfXMLIn *xin, xmlChar const * const *attrs,
 		*res = 700;
 		return TRUE;
 	}
-	return oo_attr_non_neg_int (xin, attrs, OO_NS_FO, "font-weight", 
-				    res, 1000);
+	return oo_attr_int_range (xin, attrs, OO_NS_FO, "font-weight", 
+				    res, 0, 1000);
 }
 
 
@@ -1177,7 +1160,7 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 			style = g_hash_table_lookup (state->styles.cell, attrs[1]);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))
 			col_info = g_hash_table_lookup (state->styles.col, attrs[1]);
-		else if (oo_attr_pos_int (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &repeat_count))
+		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &repeat_count, 0, INT_MAX))
 			;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "visibility"))
 			hidden = !attr_eq (attrs[1], "visible");
@@ -1284,7 +1267,7 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))
 			row_info = g_hash_table_lookup (state->styles.row, attrs[1]);
-		else if (oo_attr_pos_int (xin, attrs, OO_NS_TABLE, "number-rows-repeated", &repeat_count))
+		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-rows-repeated", &repeat_count, 0, INT_MAX))
 			;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "visibility"))
 			hidden = !attr_eq (attrs[1], "visible");
@@ -1378,7 +1361,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->col_inc = 1;
 	state->content_is_error = FALSE;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (oo_attr_pos_int (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &state->col_inc))
+		if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &state->col_inc, 0, INT_MAX))
 			;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "formula")) {
 			OOFormula f_type = FORMULA_OPENFORMULA;
@@ -1464,13 +1447,13 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			(state->ver == OOO_VER_OPENDOC) ? OO_NS_OFFICE : OO_NS_TABLE,
 			"value", &float_val))
 			val = value_new_float (float_val);
-		else if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-matrix-columns-spanned", &array_cols))
+		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-matrix-columns-spanned", &array_cols, 0, INT_MAX))
 			;
-		else if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-matrix-rows-spanned", &array_rows))
+		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-matrix-rows-spanned", &array_rows, 0, INT_MAX))
 			;
-		else if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-columns-spanned", &merge_cols))
+		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-spanned", &merge_cols, 0, INT_MAX))
 			;
-		else if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-rows-spanned", &merge_rows))
+		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-rows-spanned", &merge_rows, 0, INT_MAX))
 			;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name")) {
 			g_free (style_name);
@@ -1706,7 +1689,7 @@ oo_covered_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	state->col_inc = 1;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (oo_attr_pos_int (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &state->col_inc))
+		if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &state->col_inc, 0, INT_MAX))
 			;
 #if 0
 		/* why bother it is covered ? */
@@ -2065,8 +2048,8 @@ oo_date_seconds (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "style"))
 			is_short = attr_eq (attrs[1], "short");
-		else if (oo_attr_non_neg_int (xin, attrs, OO_NS_NUMBER, 
-					      "decimal-places", &digits, 9))
+		else if (oo_attr_int_range (xin, attrs, OO_NS_NUMBER, 
+					      "decimal-places", &digits, 0, 9))
 			;
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT,
 				       "truncate-on-overflow",
@@ -2276,18 +2259,18 @@ odf_fraction (GsfXMLIn *xin, xmlChar const **attrs)
 		if (oo_attr_bool (xin, attrs, OO_NS_NUMBER, "grouping", &grouping)) {}
 		else if (oo_attr_int (xin, attrs, OO_NS_NUMBER, "denominator-value", &denominator))
 			denominator_fixed = TRUE;
-		else if (oo_attr_non_neg_int (xin, attrs, OO_NS_NUMBER,
-						"min-denominator-digits", &min_d_digits, 30))
+		else if (oo_attr_int_range (xin, attrs, OO_NS_NUMBER,
+					      "min-denominator-digits", &min_d_digits, 0, 30))
 			;
-		else if (oo_attr_non_neg_int (xin, attrs, OO_GNUM_NS_EXT,
-					      "max-denominator-digits", &max_d_digits, 30))
+		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT,
+					      "max-denominator-digits", &max_d_digits, 0, 30))
 			;
-		else if (oo_attr_non_neg_int (xin, attrs, OO_NS_NUMBER,
-					      "min-integer-digits", &min_i_digits, 30))
+		else if (oo_attr_int_range (xin, attrs, OO_NS_NUMBER,
+					      "min-integer-digits", &min_i_digits, 0, 30))
 			;
 		else if  (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "no-integer-part", &no_int_part)) {}
-		else if  (oo_attr_non_neg_int (xin, attrs, OO_NS_NUMBER,
-					       "min-numerator-digits", &min_n_digits, 30))
+		else if  (oo_attr_int_range (xin, attrs, OO_NS_NUMBER,
+					       "min-numerator-digits", &min_n_digits, 0, 30))
 			;
 
 	if (!no_int_part) {
@@ -2336,13 +2319,13 @@ odf_number (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_bool (xin, attrs, OO_NS_NUMBER, "grouping", &grouping)) {}
-		else if (oo_attr_non_neg_int (xin, attrs, OO_NS_NUMBER, "decimal-places", &decimal_places, 30)) {
+		else if (oo_attr_int_range (xin, attrs, OO_NS_NUMBER, "decimal-places", &decimal_places, 0, 30)) {
 			decimal_places_specified = TRUE;
 		} /* else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,  */
 /* 					       "display-factor")) */
 /* 			display_factor = gnm_strto (CXML2C (attrs[1]), NULL); */
-		else if (oo_attr_non_neg_int (xin, attrs, OO_NS_NUMBER,
-					      "min-integer-digits", &min_i_digits, 30))
+		else if (oo_attr_int_range (xin, attrs, OO_NS_NUMBER,
+					      "min-integer-digits", &min_i_digits, 0, 30))
 			;
 
 	if (decimal_places_specified)
@@ -2367,11 +2350,11 @@ odf_scientific (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_bool (xin, attrs, OO_NS_NUMBER, "grouping", &details->thousands_sep)) {}
-		else if (oo_attr_non_neg_int (xin, attrs, OO_NS_NUMBER, "decimal-places", 
-					      &details->num_decimals, 30))
+		else if (oo_attr_int_range (xin, attrs, OO_NS_NUMBER, "decimal-places", 
+					      &details->num_decimals, 0, 30))
 		        ;
-		else if (oo_attr_non_neg_int (xin, attrs, OO_NS_NUMBER, "min-integer-digits",
-					      &details->min_digits, 30))
+		else if (oo_attr_int_range (xin, attrs, OO_NS_NUMBER, "min-integer-digits",
+					      &details->min_digits, 0, 30))
 			;
 /* 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,  */
 /* 					     "min-exponent-digits")) */
@@ -2931,9 +2914,10 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 			gnm_style_set_shrink_to_fit (style, btmp);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "direction"))
 			gnm_style_set_text_dir (style, attr_eq (attrs[1], "rtl") ? GNM_TEXT_DIR_RTL : GNM_TEXT_DIR_LTR);
-		else if (oo_attr_int (xin, attrs, OO_NS_STYLE, "rotation-angle", &tmp))
+		else if (oo_attr_int (xin, attrs, OO_NS_STYLE, "rotation-angle", &tmp)) {
+			tmp = tmp % 360;
 			gnm_style_set_rotation	(style, tmp);
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "font-size")) {
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "font-size")) {
 			gnm_float size;
 			if (1 == sscanf (CXML2C (attrs[1]), "%" GNM_SCANF_g "pt", &size))
 				gnm_style_set_font_size (style, size);
@@ -3471,7 +3455,7 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (oo_attr_percent (xin, attrs, OO_GNUM_NS_EXT, "default-separation", &ftmp)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_float ("default-separation", ftmp));
-		} else if (oo_attr_int (xin, attrs, OO_NS_CHART, "pie-offset", &tmp)) {
+		} else if (oo_attr_int_range (xin, attrs, OO_NS_CHART, "pie-offset", &tmp, 0, 500)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_float ("default-separation", tmp/100.));
 		} else if (oo_attr_percent (xin, attrs, OO_NS_CHART, "hole-size", &ftmp)) {
@@ -3488,10 +3472,12 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			if (btmp)
 				style->plot_props = g_slist_prepend (style->plot_props,
 					oo_prop_new_string ("type", "as_percentage"));
-		} else if (oo_attr_int (xin, attrs, OO_NS_CHART, "overlap", &tmp)) {
+		} else if (oo_attr_int_range (xin, attrs, OO_NS_CHART, 
+					      "overlap", &tmp, -150, 150)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_int ("overlap-percentage", tmp));
-		} else if (oo_attr_int (xin, attrs, OO_NS_CHART, "gap-width", &tmp))
+		} else if (oo_attr_int_range (xin, attrs, OO_NS_CHART, 
+						"gap-width", &tmp, 0, 500))
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_int ("gap-percentage", tmp));
 		else if (oo_attr_enum (xin, attrs, OO_NS_CHART, "symbol-type", 
@@ -3602,15 +3588,15 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->style_props,
 				 oo_prop_new_string ("font-family",
 						     CXML2C(attrs[1])));
-		else if (oo_attr_non_neg_int (xin, attrs, OO_GNUM_NS_EXT, 
+		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, 
 					      "font-stretch-pango", &tmp, 
-					      PANGO_STRETCH_ULTRA_EXPANDED))
+					      0, PANGO_STRETCH_ULTRA_EXPANDED))
 			style->style_props = g_slist_prepend
 				(style->style_props,
 				 oo_prop_new_int ("font-stretch-pango", tmp));
-		else if (oo_attr_non_neg_int (xin, attrs, OO_GNUM_NS_EXT, 
+		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, 
 					      "font-gravity-pango", &tmp, 
-					      PANGO_GRAVITY_WEST))
+					      0, PANGO_GRAVITY_WEST))
 			style->style_props = g_slist_prepend
 				(style->style_props,
 				 oo_prop_new_int ("font-gravity-pango", tmp));
@@ -3780,7 +3766,7 @@ oo_filter_cond (GsfXMLIn *xin, xmlChar const **attrs)
 		return;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (oo_attr_int (xin, attrs, OO_NS_TABLE, "field-number", &field_num)) ;
+		if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "field-number", &field_num, 0, INT_MAX)) ;
 		else if (oo_attr_enum (xin, attrs, OO_NS_TABLE, "data-type", datatypes, &type)) ;
 		else if (oo_attr_enum (xin, attrs, OO_NS_TABLE, "operator", operators, &op)) ;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "value"))
