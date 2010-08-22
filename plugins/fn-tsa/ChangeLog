@@ -1,3 +1,7 @@
+2010-08-22 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_interpolation): correct the description
+
 2010-08-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* functions.c (linear_averaging), (staircase_averaging),

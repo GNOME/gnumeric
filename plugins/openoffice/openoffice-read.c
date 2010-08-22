@@ -4594,6 +4594,8 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "label-cell-address"))
 				oo_plot_assign_dim (xin, attrs[1], GOG_MS_DIM_LABELS, NULL);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "label-cell-expression"))
+				oo_plot_assign_dim (xin, attrs[1], GOG_MS_DIM_LABELS, NULL);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					     OO_NS_CHART, "style-name")) {
 			OOChartStyle *style = NULL;

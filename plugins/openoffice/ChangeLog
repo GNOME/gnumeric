@@ -1,3 +1,21 @@
+2010-08-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_plot_series): Also read gnm:label-cell-expression
+	* openoffice-write.c (odf_update_progress): new
+	(odf_write_content): call odf_update_progress
+	(odf_write_label_cell_address): new
+	(odf_write_standard_series): use odf_write_label_cell_address
+	(odf_write_box_series): ditto
+	(odf_write_plot_style): make sure we are using the correct type, add attributes
+	(odf_write_surface_plot_style): replace with odf_write_plot_style
+	(odf_write_xl_surface_plot_style): ditto
+	(odf_write_plot): simplify
+	(odf_write_graph_content): make sure we are finding a chart and plot, and write a fake
+	  if there is none.
+	(odf_write_images): update progress
+	(odf_write_graphs): update progress
+	(openoffice_file_save_real): setup progress
+
 2010-08-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_plot_style): new

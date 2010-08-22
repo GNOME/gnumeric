@@ -376,7 +376,9 @@ static GnmFuncHelp const help_interpolation[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The output consists always of one column of numbers.") },
 	INTERPOLATIONMETHODS,
 	{ GNM_FUNC_HELP_NOTE, F_("The @{abscissae} must be given in increasing order.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If an interpolation method other than \'linear\' (0) is used, the number "
+	{ GNM_FUNC_HELP_NOTE, F_("If any of interpolation methods 1 ('linear with averaging'), 3 "
+				 "('staircase with averaging'), and 5 ('natural cubic spline with "
+				 "averaging') is used, the number "
 				 "of returned values is one less than the number of targets and the targets "
 				 "values must be given in increasing order.") },
 	{ GNM_FUNC_HELP_NOTE, F_("Strings and empty cells in @{abscissae} and @{ordinates} are ignored.") },
