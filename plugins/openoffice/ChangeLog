@@ -1,5 +1,11 @@
 2010-08-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_plot_area): handle OO_PLOT_UNKNOWN:
+	(oo_chart): set type to OO_PLOT_UNKNOWN on unknown charts and raise a warning
+	(oo_warning): make sure we are showing the first error
+
+2010-08-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_plot_series): Also read gnm:label-cell-expression
 	* openoffice-write.c (odf_update_progress): new
 	(odf_write_content): call odf_update_progress

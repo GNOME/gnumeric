@@ -326,6 +326,9 @@ oo_warning (GsfXMLIn *xin, char const *fmt, ...)
 	char *msg;
 	va_list args;
 
+	if (state->context->warning_occurred)
+		return;
+
 	va_start (args, fmt);
 	msg = g_strdup_vprintf (fmt, args);
 	va_end (args);
@@ -4451,6 +4454,9 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	case OO_PLOT_SCATTER_COLOUR: type = "GogXYColorPlot";	break;
 	case OO_PLOT_XL_SURFACE: type = "XLSurfacePlot";	break;
 	case OO_PLOT_BOX: type = "GogBoxPlot";	break;
+	case OO_PLOT_UNKNOWN: type = "GogLinePlot";
+		/* It is simpler to create a plot than to check that we don't have one */
+		 break;
 	default: return;
 	}
 
@@ -4697,11 +4703,12 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "gnm:xyz-surface", 	OO_PLOT_XYZ_SURFACE },
 		{ "gnm:scatter-color", 	OO_PLOT_SCATTER_COLOUR },
 		{ "gnm:box", 	        OO_PLOT_BOX },
+		{ "gnm:none", 	        OO_PLOT_UNKNOWN },
 		{ NULL,	0 },
 	};
 	OOParseState *state = (OOParseState *)xin->user_state;
 	int tmp;
-	OOPlotType type = OO_PLOT_SCATTER; /* arbitrary default */
+	OOPlotType type = OO_PLOT_UNKNOWN;
 	OOChartStyle	*style = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -4722,6 +4729,10 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	state->chart.cat_expr = NULL;
 	if (NULL != style)
 		state->chart.src_in_rows = style->src_in_rows;
+
+	if (type == OO_PLOT_UNKNOWN)
+		oo_warning (xin , _("Encountered an unknown chart type, "
+				    "trying to create a line plot."));
 
 	/* if (NULL != style) we also need to save the style for later use in oo_plot_area */
 
