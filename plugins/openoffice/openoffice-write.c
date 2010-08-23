@@ -4753,11 +4753,10 @@ odf_write_graph_content (GnmOOExport *state, GsfOutput *child, SheetObject *so)
 	graph = sheet_object_graph_get_gog (so);
 	if (graph != NULL) {
 		GogObjectRole const *role = 
-			gog_object_find_role_by_name (GOG_OBJECT (graph), "chart");
+			gog_object_find_role_by_name (GOG_OBJECT (graph), "Chart");
 		if (role != NULL) {
 			GSList *charts = gog_object_get_children 
-				(GOG_OBJECT (graph), 
-				 gog_object_find_role_by_name (GOG_OBJECT (graph), "chart"));
+				(GOG_OBJECT (graph), role);
 			
 			if (charts != NULL && charts->data != NULL) {
 				GogObject const	*chart = charts->data;

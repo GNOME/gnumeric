@@ -326,7 +326,8 @@ oo_warning (GsfXMLIn *xin, char const *fmt, ...)
 	char *msg;
 	va_list args;
 
-	if (state->context->warning_occurred)
+	if (go_io_error_occurred (state->context) || 
+	    go_io_warning_occurred (state->context))
 		return;
 
 	va_start (args, fmt);
