@@ -1,3 +1,7 @@
+2010-08-23  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_impower): Extend domain.
+
 2010-08-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.9

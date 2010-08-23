@@ -541,10 +541,13 @@ gnumeric_impower (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (value_get_as_complex (argv[1], &b, &imunit))
 		return value_new_error_VALUE (ei->pos);
 
-	if (complex_real_p (&a) && a.re <= 0 && !complex_real_p (&b))
+	if (complex_zero_p (&a) && complex_zero_p (&b))
 		return value_new_error_DIV0 (ei->pos);
 
 	complex_pow (&res, &a, &b);
+	if (complex_invalid_p (&res))
+		return value_new_error_VALUE (ei->pos);
+
 	return value_new_complex (&res, imunit);
 }
 
