@@ -1,6 +1,7 @@
 2010-08-23  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-read.c (xml_sax_colrow): Simplify and plug leak.
+	(xml_sax_finish_parse_wb_attr): Plug leak.
 
 2010-08-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

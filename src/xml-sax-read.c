@@ -626,11 +626,13 @@ xml_sax_finish_parse_wb_attr (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
-	g_return_if_fail (state->attribute.name != NULL);
-	g_return_if_fail (state->attribute.value != NULL);
-
-	wb_view_set_attribute (state->wb_view,
-		state->attribute.name, state->attribute.value);
+	if (state->attribute.name && state->attribute.value) {
+		wb_view_set_attribute (state->wb_view,
+				       state->attribute.name,
+				       state->attribute.value);
+	} else {
+		xml_sax_barf (G_STRFUNC, "workbook view attributes complete");
+	}
 
 	g_free (state->attribute.value);	state->attribute.value = NULL;
 	g_free (state->attribute.name);		state->attribute.name = NULL;
