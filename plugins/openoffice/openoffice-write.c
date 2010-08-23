@@ -116,6 +116,7 @@ typedef struct {
 	ColRowInfo const *column_default;
 	GHashTable *graphs;
 	GHashTable *graph_dashes;
+	GHashTable *chart_props_hash;
 	GHashTable *images;
 	gboolean with_extension;
 	GOFormat const *time_fmt;
@@ -486,6 +487,32 @@ table_style_name (Sheet const *sheet)
 	return g_strdup_printf ("ta-%c-%s",
 		(sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE) ? 'v' : 'h',
 		sheet->text_is_rtl ? "rl" : "lr");
+}
+
+static gchar*
+odf_get_gog_style_name (GOStyle const *style, GogObject const *obj)
+{
+	if (style == NULL)
+		return g_strdup_printf ("GogStyle--%p", obj);
+	else
+		return g_strdup_printf ("GogStyle-%p", style);
+}
+
+static gchar*
+odf_get_gog_style_name_from_obj (GogObject const *obj)
+{
+	GObjectClass *klass = G_OBJECT_GET_CLASS (G_OBJECT (obj));
+
+	if (NULL != g_object_class_find_property (klass, "style")) {
+		GOStyle const *style = NULL;
+		gchar *name;
+		g_object_get (G_OBJECT (obj), "style", &style, NULL);
+		name = odf_get_gog_style_name (style, obj);
+		g_object_unref (G_OBJECT (style));
+		return name;
+	} else
+		return odf_get_gog_style_name (NULL, obj);
+	return NULL;
 }
 
 static const char*
@@ -3500,6 +3527,28 @@ odf_write_label_cell_address (GnmOOExport *state, GOData const *dat)
 	}
 }
 
+static void
+odf_write_drop_line (GnmOOExport *state, GogObject const *series, char const *drop, 
+		     gboolean vertical)
+{
+	GogObjectRole const *role = gog_object_find_role_by_name (series, drop);	
+
+	if (role != NULL) {
+		GSList *drops = gog_object_get_children 
+			(series, role);
+		if (drops != NULL && drops->data != NULL) {
+			char *style = odf_get_gog_style_name_from_obj (GOG_OBJECT (drops->data));
+
+			gsf_xml_out_start_element (state->xml, GNMSTYLE "droplines");
+			gsf_xml_out_add_cstr (state->xml, CHART "style-name", style);
+			gsf_xml_out_end_element (state->xml); /* </gnm:droplines> */
+
+			g_free (style);
+		}
+		g_slist_free (drops);
+	}
+}
+
 
 static void
 odf_write_standard_series (GnmOOExport *state, GSList const *series)
@@ -3514,7 +3563,8 @@ odf_write_standard_series (GnmOOExport *state, GSList const *series)
 			GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
 			if (NULL != texpr) {
 				char *str = gnm_expr_top_as_string (texpr, &pp, state->conv);
-				GOData const *cat = gog_dataset_get_dim (GOG_DATASET (series->data), GOG_MS_DIM_LABELS);
+				GOData const *cat = gog_dataset_get_dim (GOG_DATASET (series->data), 
+									 GOG_MS_DIM_LABELS);
 				gsf_xml_out_start_element (state->xml, CHART "series");
 				gsf_xml_out_add_cstr (state->xml, CHART "values-cell-range-address",
 						      odf_strip_brackets (str));
@@ -3536,6 +3586,15 @@ odf_write_standard_series (GnmOOExport *state, GSList const *series)
 						gsf_xml_out_end_element (state->xml); /* </chart:domain> */
 						g_free (str);
 					}
+				}
+
+				if (state->with_extension) {
+					odf_write_drop_line (state, GOG_OBJECT (series->data), 
+							     "Horizontal drop lines", FALSE);
+					odf_write_drop_line (state, GOG_OBJECT (series->data), 
+							     "Vertical drop lines", TRUE);
+					odf_write_drop_line (state, GOG_OBJECT (series->data), 
+							     "Drop lines", TRUE);
 				}
 				gsf_xml_out_end_element (state->xml); /* </chart:series> */
 			}
@@ -4103,31 +4162,6 @@ odf_write_axis_grid (GnmOOExport *state, GogObject const *axis)
 	odf_write_one_axis_grid (state, axis, "MinorGrid", "minor");
 }
 
-static gchar*
-odf_get_gog_style_name (GOStyle const *style)
-{
-	if (style == NULL)
-		return NULL;
-	else
-		return g_strdup_printf ("GogStyle-%p", style);
-}
-
-static gchar*
-odf_get_gog_style_name_from_obj (GogObject const *obj)
-{
-	GObjectClass *klass = G_OBJECT_GET_CLASS (G_OBJECT (obj));
-
-	if (NULL != g_object_class_find_property (klass, "style")) {
-		GOStyle const *style = NULL;
-		gchar *name;
-		g_object_get (G_OBJECT (obj), "style", &style, NULL);
-		name = odf_get_gog_style_name (style);
-		g_object_unref (G_OBJECT (style));
-		return name;
-	}
-	return NULL;
-}
-
 static void
 odf_write_title (GnmOOExport *state, GogObject const *title, char const *id)
 {
@@ -4285,13 +4319,27 @@ odf_write_gog_style_text (GnmOOExport *state, GOStyle const *style)
 }
 
 static void
-odf_write_gog_style (GnmOOExport *state, GOStyle const *style)
+odf_write_gog_style_chart (GnmOOExport *state, GOStyle const *style, GogObject const *obj)
 {
-	char *name = odf_get_gog_style_name (style);
+	gchar const *type = G_OBJECT_TYPE_NAME (G_OBJECT (obj));
+
+	void (*func) (GnmOOExport *state, GOStyle const *style, GogObject const *obj) 
+		= g_hash_table_lookup (state->chart_props_hash, type);
+
+	if (func != NULL)
+		func (state, style, obj);
+}
+
+static void
+odf_write_gog_style (GnmOOExport *state, GOStyle const *style, 
+		     GogObject const *obj)
+{
+	char *name = odf_get_gog_style_name (style, obj);
 	if (name != NULL) {
 		odf_start_style (state->xml, name, "chart");
 
 		gsf_xml_out_start_element (state->xml, STYLE "chart-properties");
+		odf_write_gog_style_chart (state, style, obj);
 		gsf_xml_out_end_element (state->xml); /* </style:chart-properties> */
 
 		gsf_xml_out_start_element (state->xml, STYLE "graphic-properties");
@@ -4321,7 +4369,7 @@ odf_write_gog_styles (GogObject const *obj, GnmOOExport *state)
 		GOStyle const *style = NULL;
 		g_object_get (G_OBJECT (obj), "style", &style, NULL);
 		if (style != NULL) {
-			odf_write_gog_style (state, style);
+			odf_write_gog_style (state, style, obj);
 			g_object_unref (G_OBJECT (style));
 		}
 	}
@@ -4822,6 +4870,35 @@ odf_write_images (SheetObjectImage *image, char const *name, GnmOOExport *state)
 }
 
 static void
+odf_write_drop(GnmOOExport *state, GOStyle const *style, GogObject const *obj) 
+{
+	GogObjectRole const *h_role = gog_object_find_role_by_name 
+		(obj->parent, "Horizontal drop lines");
+	gboolean vertical = !(h_role == obj->role);
+
+	odf_add_bool (state->xml, CHART "vertical", vertical);
+}
+
+
+static void
+odf_fill_chart_props_hash (GnmOOExport *state)
+{
+	int i;
+	static struct {
+		gchar const *type;
+		void (*odf_write_property) (GnmOOExport *state, 
+					    GOStyle const *style, 
+					    GogObject const *obj);
+	} props[] = {
+		{"GogSeriesLines", odf_write_drop}
+	};
+		
+	for (i = 0 ; i < (int)G_N_ELEMENTS (props) ; i++)
+		g_hash_table_insert (state->chart_props_hash, (gpointer) props[i].type, 
+				     props[i].odf_write_property);
+}
+
+static void
 odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 {
 	GsfOutput  *child;
@@ -4836,6 +4913,9 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 		state->graph_dashes = g_hash_table_new_full (g_str_hash, g_str_equal,
 							     (GDestroyNotify) g_free, 
 							     NULL);
+		state->chart_props_hash = g_hash_table_new_full (g_str_hash, g_str_equal,
+							     NULL, NULL);
+		odf_fill_chart_props_hash (state);
 
 		sec_child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
 							"compression-level", GSF_ZIP_DEFLATED,
@@ -4847,7 +4927,7 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 		}
 		g_free (fullname);
 
-		odf_update_progress (state, state->graph_progress);
+		odf_update_progress (state, 4 * state->graph_progress);
 
 		fullname = g_strdup_printf ("%s/meta.xml", name);
 		sec_child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
@@ -4859,7 +4939,7 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 			g_object_unref (G_OBJECT (sec_child));
 		}
 		g_free (fullname);
-		odf_update_progress (state, state->graph_progress / 8);
+		odf_update_progress (state, state->graph_progress / 2);
 
 		fullname = g_strdup_printf ("%s/styles.xml", name);
 		sec_child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
@@ -4873,7 +4953,9 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 		g_free (fullname);
 		g_hash_table_unref (state->graph_dashes);
 		state->graph_dashes = NULL;
-		odf_update_progress (state, state->graph_progress * (3./8.));
+		g_hash_table_unref (state->chart_props_hash);
+		state->chart_props_hash = NULL;
+		odf_update_progress (state, state->graph_progress * (3./2.));
 
 		gsf_output_close (child);
 		g_object_unref (G_OBJECT (child));
@@ -4890,7 +4972,7 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 			g_object_unref (G_OBJECT (sec_child));
 		}
 		g_free (fullname);
-		odf_update_progress (state, state->graph_progress / 4);
+		odf_update_progress (state, state->graph_progress);
 
 		fullname = g_strdup_printf ("Pictures/%s.png", name);
 		sec_child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
@@ -4904,7 +4986,7 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 			g_object_unref (G_OBJECT (sec_child));
 		}
 		g_free (fullname);
-		odf_update_progress (state, state->graph_progress / 4);
+		odf_update_progress (state, state->graph_progress);
 	}
 }
 
@@ -5001,7 +5083,7 @@ openoffice_file_save_real (GOFileSaver const *fs, GOIOContext *ioc,
 	}
 
 	state.graph_progress = ((float) PROGRESS_STEPS) / 2 /
-		(2 * g_hash_table_size (state.graphs) + g_hash_table_size (state.images) + 1);
+		(8 * g_hash_table_size (state.graphs) + g_hash_table_size (state.images) + 1);
 	go_io_progress_message (state.ioc, _("Writing Sheet Objects..."));
 
         pictures = gsf_outfile_new_child_full (state.outfile, "Pictures", TRUE,
@@ -5014,9 +5096,9 @@ openoffice_file_save_real (GOFileSaver const *fs, GOIOContext *ioc,
 		g_object_unref (G_OBJECT (pictures));
 	}
 
-
 	g_free (state.conv);
 
+	go_io_value_progress_update (state.ioc, PROGRESS_STEPS);
 	go_io_progress_unset (state.ioc);
 	gsf_output_close (GSF_OUTPUT (state.outfile));
 	g_object_unref (G_OBJECT (state.outfile));
