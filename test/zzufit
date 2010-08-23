@@ -10,12 +10,14 @@ my $LOG = "zzuf.log";
 my $DIR = "zzuftmp";
 my $xml = 0;
 my $ods = 0;
+my $valgrind = 0;
 
 &GetOptions ("rate=f" => \$rate,
 	     "seed=i" => \$n,
 	     "victim=s" => \$file,
 	     'xml' => \$xml,
 	     'ods' => \$ods,
+	     'valgrind' => \$valgrind,
 	     )
     or die &usage (1);
 
@@ -48,7 +50,11 @@ while (1) {
     system ($fuzzcmd);
 
     my $outfile = "$DIR/${filebase}-${n}.gnumeric";
-    system ("../src/ssconvert '$zzuffile' '$outfile' >>'$LOG' 2>&1");
+    my $cmd = "../src/ssconvert '$zzuffile' '$outfile' >>'$LOG' 2>&1";
+    if ($valgrind) {
+	$cmd = "../libtool --mode=execute valgrind --num-callers=20 $cmd";
+    }
+    system ($cmd);
     my $code = $?;
     my $sig = $code & 0x7f;
     if ($sig) {
