@@ -1292,33 +1292,29 @@ xml_sax_colrow (GsfXMLIn *xin, xmlChar const **attrs)
 	maybe_update_progress (xin);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (gnm_xml_attr_int (attrs, "No", &pos)) {
-			g_return_if_fail (cri == NULL);
-
-			cri = is_col
-				? sheet_col_fetch (state->sheet, pos)
-				: sheet_row_fetch (state->sheet, pos);
-		} else {
-			if (gnm_xml_attr_double (attrs, "Unit", &size)) ;
-			else if (gnm_xml_attr_int (attrs, "Count", &count)) ;
-			else if (gnm_xml_attr_int (attrs, "HardSize", &hard_size)) ;
-			else if (gnm_xml_attr_int (attrs, "Hidden", &hidden)) ;
-			else if (gnm_xml_attr_int (attrs, "Collapsed", &is_collapsed)) ;
-			else if (gnm_xml_attr_int (attrs, "OutlineLevel", &outline_level)) ;
-			else if (gnm_xml_attr_int (attrs, "MarginA", &val))
-				; /* deprecated in 1.7.1 */
-			else if (gnm_xml_attr_int (attrs, "MarginB", &val))
-				; /* deprecated in 1.7.1 */
-			else
-				unknown_attr (xin, attrs);
-		}
+		if (gnm_xml_attr_int (attrs, "No", &pos)) ;
+		else if (gnm_xml_attr_double (attrs, "Unit", &size)) ;
+		else if (gnm_xml_attr_int (attrs, "Count", &count)) ;
+		else if (gnm_xml_attr_int (attrs, "HardSize", &hard_size)) ;
+		else if (gnm_xml_attr_int (attrs, "Hidden", &hidden)) ;
+		else if (gnm_xml_attr_int (attrs, "Collapsed", &is_collapsed)) ;
+		else if (gnm_xml_attr_int (attrs, "OutlineLevel", &outline_level)) ;
+		else if (gnm_xml_attr_int (attrs, "MarginA", &val))
+			; /* deprecated in 1.7.1 */
+		else if (gnm_xml_attr_int (attrs, "MarginB", &val))
+			; /* deprecated in 1.7.1 */
+		else
+			unknown_attr (xin, attrs);
 	}
 
+	XML_CHECK (size > -1);
 	XML_CHECK (pos >= 0 && pos < colrow_max (is_col, sheet));
 	XML_CHECK (count >= 1);
 	XML_CHECK (count <= colrow_max (is_col, sheet) - pos);
 
-	g_return_if_fail (cri != NULL && size > -1.);
+	cri = is_col
+		? sheet_col_fetch (state->sheet, pos)
+		: sheet_row_fetch (state->sheet, pos);
 	cri->hard_size = hard_size;
 	cri->visible = !hidden;
 	cri->is_collapsed = is_collapsed;

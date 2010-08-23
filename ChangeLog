@@ -1,3 +1,7 @@
+2010-08-23  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-read.c (xml_sax_colrow): Simplify and plug leak.
+
 2010-08-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* samples/chart-tests.gnumeric: update tab colours
@@ -31,14 +35,14 @@
 
 	* samples/chart-tests.gnumeric: make sure the images match the graphs
 	  (and fix the data to make it more likely to stay in this way.)
-	
+
 2010-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (CmdPasteCopy): new fields
 	(cmd_paste_copy_impl): store sizes for rows and columns and restore them
 	(cmd_paste_copy_finalize): finalize new fields
 	(cmd_paste_copy): iitalize new fields
-	
+
 2010-08-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (cmd_area_set_array_expr): autofit rows and columns.
@@ -57,7 +61,7 @@
 
 2010-08-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/commands.c (cmd_set_text_full): check whether the same-text and 
+	* src/commands.c (cmd_set_text_full): check whether the same-text and
 	  not same-markup situation in fact applies.
 
 2010-08-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
