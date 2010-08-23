@@ -15,6 +15,7 @@ Jean:
 Morten:
 	* Plug sylk importer leak.
 	* Plug xml importer leak.
+	* Plug odf importer leak.  [#627759]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.9

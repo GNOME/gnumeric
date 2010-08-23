@@ -4001,6 +4001,7 @@ od_draw_image (GsfXMLIn *xin, xmlChar const **attrs)
 		sheet_object_image_set_image (soi, "", (void *)data, len, TRUE);
 
 		state->chart.so = SHEET_OBJECT (soi);
+		g_object_unref (input);
 	}
 }
 

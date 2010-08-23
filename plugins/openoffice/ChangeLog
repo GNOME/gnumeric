@@ -1,3 +1,8 @@
+2010-08-23  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (od_draw_image): Unref the image zip member.
+	Fixes part of #627759.
+
 2010-08-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_warning): fix return value
@@ -15,31 +20,31 @@
 
 2010-08-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (odf_write_graph_content): fix role request 
+	* openoffice-write.c (odf_write_graph_content): fix role request
 	  (capitalization of role name)
 
 2010-08-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_plot_area): handle OO_PLOT_UNKNOWN:
-	(oo_chart): set type to OO_PLOT_UNKNOWN on unknown charts and raise 
+	(oo_chart): set type to OO_PLOT_UNKNOWN on unknown charts and raise
 	  a warning
 	(oo_warning): make sure we are showing the first error
 
 2010-08-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (oo_plot_series): Also read 
+	* openoffice-read.c (oo_plot_series): Also read
 	  gnm:label-cell-expression
 	* openoffice-write.c (odf_update_progress): new
 	(odf_write_content): call odf_update_progress
 	(odf_write_label_cell_address): new
 	(odf_write_standard_series): use odf_write_label_cell_address
 	(odf_write_box_series): ditto
-	(odf_write_plot_style): make sure we are using the correct type, 
+	(odf_write_plot_style): make sure we are using the correct type,
 	  add attributes
 	(odf_write_surface_plot_style): replace with odf_write_plot_style
 	(odf_write_xl_surface_plot_style): ditto
 	(odf_write_plot): simplify
-	(odf_write_graph_content): make sure we are finding a chart and plot, 
+	(odf_write_graph_content): make sure we are finding a chart and plot,
 	  and write a fake if there is none.
 	(odf_write_images): update progress
 	(odf_write_graphs): update progress
@@ -64,11 +69,11 @@
 	(df_write_scatter_chart_style): ditto
 	(odf_write_contour_chart_style): ditto
 	(odf_write_plot): some adjustments
-	
+
 2010-08-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_attr_int_range): new
-	(oo_attr_pos_int): delete and replace all of its occurrences by 
+	(oo_attr_pos_int): delete and replace all of its occurrences by
 	  oo_attr_int_range
 	(oo_attr_non_neg_int): ditto
 	* openoffice-write.c (odf_write_bar_col_plot_style): more properties
@@ -104,7 +109,7 @@
 	(oo_attr_non_neg_int): don't ignore excess values but clamp to max.
 	(odf_apply_style_props): moved and handle text-rotation-angle
 	(od_style_prop_chart): handle text-rotation-angle
-	(oo_chart_title): handle style and ODF 1.0 bug 
+	(oo_chart_title): handle style and ODF 1.0 bug
 	(oo_chart_title_end): handle style
 	(opendoc_content_dtd): add text:tab
 	* openoffice-write.c (odf_get_gog_style_name): new
@@ -140,7 +145,7 @@
 	* openoffice-write.c (odf_go_color_to_string): new
 	(gnm_xml_out_add_hex_color): use odf_go_color_to_string
 	(odf_write_plot): Backplane belongs to chart, write wallstyle
-	
+
 2010-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_chart_title_end): add to the correct object. That
@@ -155,18 +160,18 @@
 	* openoffice-read.c (oo_style): don't ignore non-default styles without
 	  name
 	(oo_style_end): dispose of them here
-	(cur_style): include the type in the struct and change the references 
+	(cur_style): include the type in the struct and change the references
 	  throughout
 
 2010-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_number_style_end): check the return value
 	  of the style hash searches, some styles might be missing.
-	
+
 2010-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_table_start): don't expect the attributes to
-	  appear in a nice order. In fact don't expect the table name to 
+	  appear in a nice order. In fact don't expect the table name to
 	  appear at all!
 
 2010-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -178,10 +183,10 @@
 
 2010-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (odf_write_scatter_series_style_graphic): write 
+	* openoffice-write.c (odf_write_scatter_series_style_graphic): write
 	  dash info
 	* openoffice-read.c (odf_match_dash_type): new (stub)
-	(oo_prop_list_to_series): handle dashes, add argument and change all 
+	(oo_prop_list_to_series): handle dashes, add argument and change all
 	  callers
 
 2010-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -189,11 +194,11 @@
 	* openoffice-write.c (odf_write_scatter_chart_style): split into
 	odf_write_scatter_chart_style and odf_write_scatter_chart_style_graphic
 	(odf_write_scatter_series_style): split into
-	  odf_write_scatter_series_style and 
+	  odf_write_scatter_series_style and
 	  odf_write_scatter_series_style_graphic
-	(odf_write_plot): we need to separate chart-properties and 
+	(odf_write_plot): we need to separate chart-properties and
 	  graphic-properties
-	
+
 2010-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_prop_list_to_series): also set properties
@@ -216,7 +221,7 @@
 	* openoffice-read.c (oo_prop_list_to_series): handle symbol-type
 	  and symbol-name
 	(od_style_prop_chart): ditto
-	
+
 2010-08-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_scatter_series_style): expand
@@ -248,7 +253,7 @@
 2010-08-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (oo_attr_pos_int): new
-	(oo_col_start): use oo_attr_pos_int instead of oo_attr_int for repeat 
+	(oo_col_start): use oo_attr_pos_int instead of oo_attr_int for repeat
 	  counts
 	(oo_row_start): ditto
 	(oo_cell_start): ditto
@@ -262,7 +267,7 @@
 2010-08-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_cell_start): be more careful with the
-	  size of array functions. They could reach beyond the current 
+	  size of array functions. They could reach beyond the current
 	  sheet size.
 
 2010-08-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -274,7 +279,7 @@
 
 2010-08-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (oo_chart_title): renamed to 
+	* openoffice-read.c (oo_chart_title): renamed to
 	  oo_chart_title_text
 	(oo_chart_title): new
 	(oo_chart_title_end): new
@@ -284,7 +289,7 @@
 
 2010-08-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (oo_date_style_end): set accum to NULL 
+	* openoffice-read.c (oo_date_style_end): set accum to NULL
 	  after freeing
 	(odf_number_style): set all fields
 	(odf_number_style_end): check for NULL name
@@ -330,7 +335,7 @@
 
 2010-08-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (od_draw_frame): rename to od_draw_frame_start, 
+	* openoffice-read.c (od_draw_frame): rename to od_draw_frame_start,
 	  initialize chart.so
 	(od_draw_frame_end): add frame content to sheet
 	(od_draw_object): check whether we already have frame content
@@ -338,19 +343,19 @@
 	(od_draw_text_box): ditto
 	(od_draw_text_box_end): deleted and code moved to od_draw_frame_end
 	(opendoc_content_dtd): add od_draw_frame_end and delete od_draw_text_box_end
-	
+
 2010-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (GnmOOExport): rename objects field to graphs 
+	* openoffice-write.c (GnmOOExport): rename objects field to graphs
 	  and change throughout; add images field
 	(odf_write_frame): handle images
 	(odf_write_content): write images
 	(odf_write_image_manifest): new
 	(odf_write_manifest): connect odf_write_image_manifest
 	(odf_write_images): new
-	(openoffice_file_save_real): initialize and finalize  new hash and 
+	(openoffice_file_save_real): initialize and finalize  new hash and
 	  cause images to be written
-	
+
 2010-08-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (OOParseState): add debug field and use
@@ -371,8 +376,8 @@
 
 2010-08-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (oo_plot_area_end): fall back to 
-	  chart:plot-area table:cell-range-address if no series were 
+	* openoffice-read.c (oo_plot_area_end): fall back to
+	  chart:plot-area table:cell-range-address if no series were
 	  directly specified.
 
 2010-08-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -385,14 +390,14 @@
 
 2010-07-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (oo_style_prop_cell): handle 
+	* openoffice-read.c (oo_style_prop_cell): handle
 	  style:text-underline-type
 	* openoffice-write.c (odf_write_style_text_properties): add
 	  UNDERLINE_*_LOW
 
 2010-07-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (oo_db_range_start): If this filter range 
+	* openoffice-read.c (oo_db_range_start): If this filter range
 	  has a name define it as a named-range. Some files created
 	  by OOo depend on it.
 
@@ -430,13 +435,13 @@
 
 	* openoffice-write.c (odf_write_cell): only retrieve the value
 	  as gnm_float if we really need to.
-	* openoffice-read.c (oo_cell_start): handle dates and times in 
+	* openoffice-read.c (oo_cell_start): handle dates and times in
 	  GENERAL format
 	(openoffice_file_open): setup and destroy new hashes
 
 2010-04-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (odf_write_cell): write times and dates 
+	* openoffice-write.c (odf_write_cell): write times and dates
 	  correctly as time-value or date-value
 	(openoffice_file_save_real): fix  time_fmt and setup
 	  date_long_fmt
@@ -470,7 +475,7 @@
 
 2010-04-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (odf_write_style_cell_properties): 
+	* openoffice-write.c (odf_write_style_cell_properties):
 	  style:writing-mode in cell styles requires ODF 1.2
 	  style:text-align-source needs to be set here
 	(odf_write_style_paragraph_properties): not here
@@ -549,7 +554,7 @@
 2009-12-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_plot_assign_dim): also set default labels
-	(oo_plot_area): store info on labels that are part of 
+	(oo_plot_area): store info on labels that are part of
 	  cell-range-address
 
 2009-12-15  Morten Welinder <terra@gnome.org>
@@ -563,7 +568,7 @@
 
 2009-12-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (gnm_xml_out_add_hex_color): use the 
+	* openoffice-write.c (gnm_xml_out_add_hex_color): use the
 	  pattern to determine transparency, add pattern argument
 	  and change all callers
 	(odf_write_link_start): new
@@ -578,7 +583,7 @@
 2009-11-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c: don't use float or atof throughout.
-	(odf_number_style_end): no need to translate strings into 
+	(odf_number_style_end): no need to translate strings into
 	  floats and back.
 
 2009-11-17  Morten Welinder  <terra@gnome.org>
@@ -617,7 +622,7 @@
 
 2009-10-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (oo_func_map_in): we had COMBINA and ARABIC 
+	* openoffice-read.c (oo_func_map_in): we had COMBINA and ARABIC
 	  for a while
 	* openoffice-write.c (odf_expr_func_handler): ditto
 
@@ -738,20 +743,20 @@
 2009-08-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_func_map_in): no need to map SEARCHB
-	* openoffice-write.c (odf_expr_func_handler): we now have 
+	* openoffice-write.c (odf_expr_func_handler): we now have
 	  SEARCHB
 
 2009-08-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_func_map_in): no need to map REPLACEB
-	* openoffice-write.c (odf_expr_func_handler): we now have 
+	* openoffice-write.c (odf_expr_func_handler): we now have
 	  REPLACEB
 
 2009-08-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (oo_func_map_in): no need to map GAMMA and 
+	* openoffice-read.c (oo_func_map_in): no need to map GAMMA and
 	  PERMUTATIONA
-	* openoffice-write.c (odf_expr_func_handler): we now have 
+	* openoffice-write.c (odf_expr_func_handler): we now have
 	  GAMMA and PERMUTATIONA
 
 2009-08-17 Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -823,7 +828,7 @@
 
 2009-07-16 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (oo_plot_assign_dim): allow for 
+	* openoffice-read.c (oo_plot_assign_dim): allow for
 	  dim_type pass through.
 	(oo_plot_series): handle contour matrix
 	(oo_plot_series_end): we are already done for OO_PLOT_SURF
@@ -832,12 +837,12 @@
 
 2009-07-16 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (oo_plot_area): set up series handling for 
+	* openoffice-read.c (oo_plot_area): set up series handling for
 	  Stock plot
 	(oo_plot_area_end): handle stock plot series
 	(odf_create_stock_plot): new
 	(oo_plot_series): for Stock plot just save the info
-	(oo_plot_series_end): for Stock plots we don't want to do 
+	(oo_plot_series_end): for Stock plots we don't want to do
 	  anything here
 	(oo_chart): set up reading of more chart types
 	* openoffice-write.c (odf_write_bubble_series): fix style name
@@ -847,10 +852,10 @@
 
 2009-07-15 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (od_style_prop_chart): handle 
-	  chart:reverse-direction, chart:symbol-type, 
+	* openoffice-read.c (od_style_prop_chart): handle
+	  chart:reverse-direction, chart:symbol-type,
 	  draw:stroke, chart:lines
-	(oo_chart_axis): in ODF proper the axis style should not affect 
+	(oo_chart_axis): in ODF proper the axis style should not affect
 	  the overall graph.
 	(oo_plot_area): handle double series for Gantt charts
 	(oo_plot_area_end): ditto
@@ -872,12 +877,12 @@
 
 2009-07-13 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (od_draw_frame): use table:end-x and 
+	* openoffice-read.c (od_draw_frame): use table:end-x and
 	  table:end-y together with table:end-cell-address if provided
 
 2009-07-12 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (oo_chart_axis): use more of the 
+	* openoffice-read.c (oo_chart_axis): use more of the
 	  applicable styles
 	(oo_plot_area): ditto
 	(oo_plot_area_end): free GSList
@@ -888,7 +893,7 @@
 	(odf_write_bar_col_plot_styles): deleted
 	(odf_write_plot): try to implement basic support for all
 	  plot types
-	(odf_write_bar_col_plot): deleted and incorporated in 
+	(odf_write_bar_col_plot): deleted and incorporated in
 	  odf_write_plot
 
 2009-07-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -908,7 +913,7 @@
 	(odf_write_axis_style): new
 	(odf_write_axis): new
 	(odf_write_bar_col_plot_styles): new
-	(odf_write_bar_col_plot): move some of the chart 
+	(odf_write_bar_col_plot): move some of the chart
 	  construction here
 	(odf_write_graph_content): from here and
 	(odf_write_plot): from here, so that we write styles here
@@ -926,7 +931,7 @@
 	(odf_write_graph_manifest): add svg image file
 	(odf_write_manifest): write Pictures directory
 	(odf_write_graph_content): new stub
-	(odf_write_graphs): call odf_write_graph_content and 
+	(odf_write_graphs): call odf_write_graph_content and
 	  write image of graph to image file
 	(openoffice_file_save_real): create Pictures directory
 
@@ -951,7 +956,7 @@
 	(odf_write_objects): new
 	(odf_write_empty_cell): rather than calling
 	  odf_write_comment, call odf_write_objects
-	(odf_write_covered_cell): change argument, and 
+	(odf_write_covered_cell): change argument, and
 	  change all callers
 	(odf_sheet_objects_get): new
 	(odf_write_content_rows): handle all sheet objects,
@@ -965,7 +970,7 @@
 
 	* openoffice-read.c: split styles.col_row into
 	  split styles.col and split styles.row, change users
-	(oo_table_start): use default 
+	(oo_table_start): use default
 	  row/column styles
 	(cb_find_default_colrow_style): simplify
 	(oo_colrow_reset_defaults): split into oo_col_reset_defaults
@@ -978,9 +983,9 @@
 
 2009-07-08 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (opendoc_content_dtd): add 
+	* openoffice-read.c (opendoc_content_dtd): add
 	  style:tab-stops to style:paragraph-properties
-	(od_draw_object): handle both "Object 1/" and 
+	(od_draw_object): handle both "Object 1/" and
 	  "./Object 1".
 
 2009-07-08 Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -1009,7 +1014,7 @@
 	(odf_store_this_named_style): new
 	(odf_save_this_style): styles referenced in style:map
 	  must be named
-	(odf_write_styles): write named styles and reorder to 
+	(odf_write_styles): write named styles and reorder to
 	  write referenced styles before referencing styles.
 	(openoffice_file_save_real): handle new hashes and make sure
 	  styles referenced by the default cell style will be written
@@ -1022,7 +1027,7 @@
 	(odf_save_style_map_double_f): new
 	(odf_save_style_map): new
 	(odf_write_style): also write style:maps
-	(odf_write_character_styles): split into 
+	(odf_write_character_styles): split into
 	  odf_write_character_styles and odf_write_cell_styles
 	(odf_write_cell_styles): new
 	(odf_write_sheet): use the sheet stored in the state
@@ -1064,7 +1069,7 @@
 
 2009-06-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (oo_cell_start): do not overwrite formats 
+	* openoffice-read.c (oo_cell_start): do not overwrite formats
 	  from the file
 
 2009-06-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -1079,12 +1084,12 @@
 
 2009-06-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (odf_currency_symbol_end): mark the 
+	* openoffice-read.c (odf_currency_symbol_end): mark the
 	  currency symbol as such.
 
 2009-06-21 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (xl_find_format): We may not use '+' inside a 
+	* openoffice-write.c (xl_find_format): We may not use '+' inside a
 	  style name.
 
 2009-06-21 Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -1155,8 +1160,8 @@
 
 2009-06-17 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (xl_find_format): use easier to follow style 
-	  names 
+	* openoffice-write.c (xl_find_format): use easier to follow style
+	  names
 	(odf_write_styles): write styles in a more natural order
 
 2009-06-17 Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -1175,9 +1180,9 @@
 
 2009-06-17 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (oo_func_map_in): perform some function name 
+	* openoffice-read.c (oo_func_map_in): perform some function name
 	  translation
-	* openoffice-write.c (odf_expr_func_handler): perform some function 
+	* openoffice-write.c (odf_expr_func_handler): perform some function
 	  name translation
 
 2009-06-17 Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -1216,7 +1221,7 @@
 
 	* openoffice-write.c (cell_styles_free): deleted
 	(odf_compare_style): deleted
-	(odf_find_style): just look in the hash. remove 
+	(odf_find_style): just look in the hash. remove
 	  unnecessary arguments and change all callers
 	(odf_save_automatic_character_styles): deleted
 	(odf_save_this_style): write an individual style and
@@ -1232,11 +1237,11 @@
 
 2009-06-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (odf_write_content): export print area to ODF 
+	* openoffice-write.c (odf_write_content): export print area to ODF
 
 2009-06-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (opendoc_content_dtd): include 
+	* openoffice-read.c (opendoc_content_dtd): include
 	  text:soft-page-break
 	* openoffice-write.c (odf_write_formatted_empty_rows):
 	  write text:soft-page-break also in empty territory
@@ -1244,7 +1249,7 @@
 2009-06-08 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_append_page_break): soft pagebreaks are
-	  stored as text:soft-page-breaks tag (and at this time can only 
+	  stored as text:soft-page-breaks tag (and at this time can only
 	  be included between rows). The "auto" value for break-after
 	  and break-before reflects only the potential of a pagebreak.
 	(oo_page_break_type): ditto
@@ -1261,8 +1266,8 @@
 
 2009-06-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (oo_cell_content_end): Since we may be 
-	  assigning the result of an array calculation we should not 
+	* openoffice-read.c (oo_cell_content_end): Since we may be
+	  assigning the result of an array calculation we should not
 	  check for array splits.
 
 2009-06-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -1289,13 +1294,13 @@
 2009-06-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_date_text_end): don't quote single ()
-	(odf_format_generate_number_str): delete (this is now handled by 
+	(odf_format_generate_number_str): delete (this is now handled by
 	  go_format_generate_number_str
 	(odf_number): use go_format_generate_number_str
 	(odf_scientific): use GOFormatDetails directly
-	(odf_map): already check whether we may understand this and strip 
+	(odf_map): already check whether we may understand this and strip
 	  "value()"
-	(odf_number_style_end): save the conditions in the order we might 
+	(odf_number_style_end): save the conditions in the order we might
 	  expect them
 
 2009-06-02  Morten Welinder  <terra@gnome.org>
@@ -1316,7 +1321,7 @@
 2009-06-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_map): new
-	(oo_date_style): only use our magic if the format source is still 
+	(oo_date_style): only use our magic if the format source is still
 	  set to language
 	(odf_number_style_end): handle conditional number formats
 	(styles_dtd): hook-up odf_map
@@ -1324,7 +1329,7 @@
 
 2009-06-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (odf_number): default minimum integer digits 
+	* openoffice-read.c (odf_number): default minimum integer digits
 	  should be 1
 	(odf_scientific): handle scientific numbers
 	(odf_currency_symbol_end): handle currency symbols
@@ -1342,7 +1347,7 @@
 
 	* plugin.xml.in: add a second filesaver to allow the choice
 	  of with or without foreign elements
-	* openoffice-write.c : throughout bracket all uses of 
+	* openoffice-write.c : throughout bracket all uses of
 	  foreign elements with a test whether they are permitted.
 
 2009-06-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -1363,7 +1368,7 @@
 
 	* openoffice-write.c (odf_print_spreadsheet_content_prelude):
 	  give the correct null-date
-	* openoffice-read.c (oo_date_text_end): we need to use 
+	* openoffice-read.c (oo_date_text_end): we need to use
 	  apostrophes
 	(oo_date_style): handle magic formats
 
@@ -1381,14 +1386,14 @@
 
 2009-05-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (odf_attrs_as_string): hadnle super and 
+	* openoffice-write.c (odf_attrs_as_string): hadnle super and
 	  subscripts
 	(odf_write_character_styles): create super and subscript styles
 
 2009-05-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (odf_write_cell): the office:annotation must 
-	  precede the text:p of the cell content. The text inside the 
+	* openoffice-write.c (odf_write_cell): the office:annotation must
+	  precede the text:p of the cell content. The text inside the
 	  annotation must be contained inside a text:p.
 
 2009-05-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -1414,9 +1419,9 @@
 
 2009-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (xl_find_format): if the format is not simple 
+	* openoffice-write.c (xl_find_format): if the format is not simple
 	  also include the simple portions in the hash
-	(odf_print_spreadsheet_content_prelude): use accessor functions for 
+	(odf_print_spreadsheet_content_prelude): use accessor functions for
 	  odf version
 	(odf_write_styles): ditto
 	(odf_write_settings): ditto
@@ -1426,7 +1431,7 @@
 2009-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c: replace xl_styles GSList with a GHashTable
-	  and remove unnecessary counter field in cell_styles_t and 
+	  and remove unnecessary counter field in cell_styles_t and
 	  col_row_styles_t
 	(xl_styles_free): deleted
 	(xl_compare_style): deleted
@@ -1442,7 +1447,7 @@
 
 2009-05-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (odf_write_style_paragraph_properties): Since 
+	* openoffice-write.c (odf_write_style_paragraph_properties): Since
 	  OOo ignores style:text-align-source we have to avoid setting
 	  fo:text-align in this case.
 	(odf_write_number_style): write at least a default style
@@ -1493,7 +1498,7 @@
 
 2009-05-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (odf_write_style): added more style info and split 
+	* openoffice-write.c (odf_write_style): added more style info and split
 	  into 3 sections:
 	(odf_write_style_cell_properties): new
 	(odf_write_style_paragraph_properties): new
@@ -1514,7 +1519,7 @@
 
 	* openoffice-write.c (odf_write_style): write horizontal and
 	  vertical alignment
-	(odf_print_spreadsheet_content_prelude): in ODF 1.0 date-value is 
+	(odf_print_spreadsheet_content_prelude): in ODF 1.0 date-value is
 	  incorrectly expected as date-value-type
 
 2009-05-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -1531,7 +1536,7 @@
 
 2009-05-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (gnm_xml_out_add_hex_color): make our background 
+	* openoffice-write.c (gnm_xml_out_add_hex_color): make our background
 	  transparent.
 
 2009-05-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -1573,18 +1578,18 @@
 	(odf_add_pt): new
 	(odf_compare_ci): new
 	(odf_find_col_style): new
-	(odf_save_automatic_character_styles): rename 
+	(odf_save_automatic_character_styles): rename
 	  odf_load_required_automatic_styles to this more appropriate
 	  name and change all callers
 	(odf_write_column_styles): new
-	(write_col_style): rename from write_last_col_style and change all 
+	(write_col_style): rename from write_last_col_style and change all
 	  callers
 	(odf_write_sheet): write column info for all columns
 	(openoffice_file_save): initialize and dispose of state.col_styles
 
 2009-05-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (odf_write_character_styles): also write the 
+	* openoffice-write.c (odf_write_character_styles): also write the
 	  default style
 	(equal_style): new
 	(filter_style): new
@@ -1593,7 +1598,7 @@
 
 2009-05-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (odf_find_style): make sure that we would 
+	* openoffice-write.c (odf_find_style): make sure that we would
 	  correctly handle the case that we are trying to find a style we
 	  did not write.
 
@@ -1605,7 +1610,7 @@
 
 2009-05-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (odf_write_style): change argument types and 
+	* openoffice-write.c (odf_write_style): change argument types and
 	  adjust all callers
 	(odf_find_style) wrap and element around odf_write_style
 	(odf_load_required_automatic_styles): load primary column cell styles
@@ -1623,7 +1628,7 @@
 
 2009-05-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (odf_write_cell): export border styles for 
+	* openoffice-write.c (odf_write_cell): export border styles for
 	  non-empty cells
 	(ns): add a gnumeric namespace to handle export of specifications
 	  currently not supported in ODF.
@@ -1634,12 +1639,12 @@
 
 2009-05-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (odf_write_cell): watch for string values 
+	* openoffice-write.c (odf_write_cell): watch for string values
 	  without markup
 
 2009-05-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (odf_write_cell): watch for empty rendered 
+	* openoffice-write.c (odf_write_cell): watch for empty rendered
 	  strings
 
 2009-05-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -1662,7 +1667,7 @@
 
 2009-05-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (opendoc_content_dtd): add text:line-break and 
+	* openoffice-read.c (opendoc_content_dtd): add text:line-break and
 	  a second insertion of text:s
 
 2009-05-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -1698,7 +1703,7 @@
 
 2009-05-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (styles_dtd): there can be column and row 
+	* openoffice-read.c (styles_dtd): there can be column and row
 	  properties in the default style
 	* plugin.xml.in: remove the UNFINISHED label to see what aspects
 	  people are in fact trying to use
@@ -1712,7 +1717,7 @@
 
 2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (opendoc_content_dtd): TABLE_ROW can also be contained 
+	* openoffice-read.c (opendoc_content_dtd): TABLE_ROW can also be contained
 	  in TABLE_ROWS
 
 2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -2138,7 +2143,7 @@
 
 2006-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (oo_write_cell): We will also be called for 
+	* openoffice-write.c (oo_write_cell): We will also be called for
 	  empty cells with attached cell comment.
 	(oo_write_sheet): we may not collapse empty cells that have comments
 	  attached to them
@@ -2164,8 +2169,8 @@
 
 	* openoffice-write.c (od_write_cell): handle matrix functions and
 	  be careful with checking unkown strings. Remove some duplicated code.
-	(oo_write_sheet): extent is 0 based 
-	(oo_write_content): We are writing opendocument. We should be checking the 
+	(oo_write_sheet): extent is 0 based
+	(oo_write_content): We are writing opendocument. We should be checking the
 	  standard rather than OOo limitations.
 
 2006-07-14  Jody Goldberg <jody@gnome.org>
@@ -2196,15 +2201,15 @@
 	  field
 	(oo_expr_conventions_new): new
 	(od_write_cell): try to write some formulas
-	(oo_write_content): fix some spelling, temporarily skip writing 
+	(oo_write_content): fix some spelling, temporarily skip writing
 	  styles, don't use the office:spreadsheet element until we
 	  know why openoffice doesn't like it.
-	(openoffice_file_save): initialize GnmExprConventions in 
+	(openoffice_file_save): initialize GnmExprConventions in
 	  GnmOOExport
 
 2006-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (od_write_empty_cell): don't write 
+	* openoffice-write.c (od_write_empty_cell): don't write
 	  number-columns-repeated if value is 1
 	(od_write_covered_cell): ditto
 	(od_write_cell): handle various value types
@@ -2225,7 +2230,7 @@
 	(od_write_empty_cell): new
 	(od_write_covered_cell): new
 	(od_write_cell): new
-	(oo_write_sheet): use the above and drop the check for whether the 
+	(oo_write_sheet): use the above and drop the check for whether the
 	  extent is to large for openoffice. OpenDocument has no limit
 	(openoffice_file_save): use new ur[ln]s
 
