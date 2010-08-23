@@ -1,7 +1,7 @@
 2010-08-23  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (od_draw_image): Unref the image zip member.
-	Fixes part of #627759.
+	(openoffice_file_open): Plug leak.  Fixes part of #627759.
 
 2010-08-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

@@ -6259,6 +6259,7 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 				go_doc_set_meta_data (GO_DOC (state.pos.wb), meta_data);
 
 			g_object_unref (meta_data);
+			g_object_unref (meta_file);
 		}
 	}
 
