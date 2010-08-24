@@ -18,6 +18,7 @@ Morten:
 	* Plug odf importer leak.  [#627759]
 	* Extend domain of IMPOWER.  [#627775]
 	* Allow use of glib's memory profiler.
+	* Fix some confusion of char vs. xmlChar.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.9

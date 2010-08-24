@@ -22,6 +22,14 @@
 #define CXML2C(s) ((char const *)(s))
 #define CC2XML(s) ((xmlChar const *)(s))
 
+static char *
+xml2c (xmlChar *src)
+{
+	char *dst = g_strdup (CXML2C (src));
+	xmlFree (src);
+	return dst;
+}
+
 typedef GOPluginServiceSimpleClass	PluginServiceFunctionGroupClass;
 struct _PluginServiceFunctionGroup {
 	GOPluginServiceSimple	base;
@@ -75,35 +83,35 @@ plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree,
 	}
 	translated_category_node = go_xml_get_child_by_name_by_lang (tree, "category");
 	if (translated_category_node != NULL) {
-		gchar *lang;
+		xmlChar *lang;
 
 		lang = go_xml_node_get_cstr (translated_category_node, "lang");
 		if (lang != NULL) {
-			xmlChar *val;
-
-			val = xmlNodeGetContent (translated_category_node);
-			translated_category_name = g_strdup (CXML2C (val));
-			xmlFree (val);
-			g_free (lang);
+			translated_category_name =
+				xml2c (xmlNodeGetContent (translated_category_node));
+			xmlFree (lang);
 		} else {
 			translated_category_name = NULL;
 		}
 	} else {
 		translated_category_name = NULL;
 	}
-	functions_node = go_xml_get_child_by_name (tree, (xmlChar *)"functions");
+	functions_node = go_xml_get_child_by_name (tree, CC2XML ("functions"));
 	if (functions_node != NULL) {
 		xmlNode *node;
 
-		textdomain = go_xml_node_get_cstr (functions_node, "textdomain");
+		textdomain = xml2c (go_xml_node_get_cstr (functions_node, "textdomain"));
 
 		for (node = functions_node->xmlChildrenNode; node != NULL; node = node->next) {
 			gchar *func_name;
 
-			if (strcmp (CXML2C (node->name), "function") != 0 ||
-			    (func_name = go_xml_node_get_cstr (node, "name")) == NULL) {
+			if (strcmp (CXML2C (node->name), "function") != 0)
 				continue;
-			}
+
+			func_name = xml2c (go_xml_node_get_cstr (node, "name"));
+			if (!func_name)
+				continue;
+
 			GO_SLIST_PREPEND (function_name_list, func_name);
 		}
 		GO_SLIST_REVERSE (function_name_list);
@@ -330,7 +338,7 @@ plugin_service_ui_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo
 	GSList *actions = NULL;
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	file_name = go_xml_node_get_cstr (tree, "file");
+	file_name = xml2c (go_xml_node_get_cstr (tree, "file"));
 	if (file_name == NULL) {
 		*ret_error = go_error_info_new_str (
 		             _("Missing file name."));
@@ -352,13 +360,10 @@ plugin_service_ui_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo
 //			label = go_xml_node_get_cstr (ptr, "label");
 /*****************************************************************************************/
 			label_node = go_xml_get_child_by_name_no_lang (ptr, "label");
-			if (label_node != NULL) {
-				xmlChar *val = xmlNodeGetContent (label_node);
-				label = g_strdup (CXML2C (val));
-				xmlFree (val);
-			} else {
-				label = NULL;
-			}
+			label = label_node
+				? xml2c (xmlNodeGetContent (label_node))
+				: NULL;
+
 			label_node = go_xml_get_child_by_name_by_lang (ptr, "label");
 			if (label_node != NULL) {
 				gchar *lang;
@@ -382,7 +387,7 @@ plugin_service_ui_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo
 				(GnmActionHandler) cb_ui_service_activate);
 			if (NULL != name) xmlFree (name);
 			g_free (label);
-			if (NULL != name) xmlFree (icon);
+			if (NULL != icon) xmlFree (icon);
 			if (NULL != action)
 				GO_SLIST_PREPEND (actions, action);
 		}

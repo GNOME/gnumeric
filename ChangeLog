@@ -1,5 +1,8 @@
 2010-08-24  Morten Welinder  <terra@gnome.org>
 
+	* src/gnm-plugin.c (plugin_service_function_group_read_xml)
+	(plugin_service_ui_read_xml): Fix char-xmlChar confusion.
+
 	* src/libgnumeric.c (gnm_pre_parse_init): Make it possible to turn
 	on glib memory profiler.
 
