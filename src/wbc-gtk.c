@@ -5494,6 +5494,14 @@ wbcg_error_error_info (GOCmdContext *cc, GOErrorInfo *error)
 	gnumeric_go_error_info_dialog_show (
 		wbcg_toplevel (WBC_GTK (cc)), error);
 }
+
+static void
+wbcg_error_error_info_list (GOCmdContext *cc, GSList *errs)
+{
+	gnumeric_go_error_info_list_dialog_show 
+		(wbcg_toplevel (WBC_GTK (cc)), errs);
+}
+
 static void
 wbcg_progress_set (GOCmdContext *cc, double val)
 {
@@ -5513,6 +5521,7 @@ wbcg_gnm_cmd_context_init (GOCmdContextClass *iface)
 	iface->set_sensitive	    = wbcg_set_sensitive;
 	iface->error.error	    = wbcg_error_error;
 	iface->error.error_info	    = wbcg_error_error_info;
+	iface->error_info_list	    = wbcg_error_error_info_list;
 	iface->progress_set	    = wbcg_progress_set;
 	iface->progress_message_set = wbcg_progress_message_set;
 }

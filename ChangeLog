@@ -1,3 +1,18 @@
+2010-08-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gui-util.h (gnumeric_go_error_info_list_dialog_new): new
+	(gnumeric_go_error_info_list_dialog_show): new
+	* src/gui-util.c (gnumeric_go_error_info_list_dialog_new): new
+	(gnumeric_go_error_info_list_dialog_show): new, maily code from
+	  gnumeric_go_error_info_dialog_new
+	(gnumeric_go_error_info_dialog_new): use 
+	  gnumeric_go_error_info_list_dialog_show
+	* src/io-context-gtk.c (icg_error_error_info_list): new
+	(icg_set_num_files): connect icg_error_error_info_list
+	* src/wbc-gtk.c (wbcg_error_error_info_list): new
+	(wbcg_gnm_cmd_context_init): connect wbcg_error_error_info_list
+	* src/workbook-control.c (wbc_cmd_context_init): insert reminder stub
+	
 2010-08-24  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-plugin.c (plugin_service_function_group_read_xml)

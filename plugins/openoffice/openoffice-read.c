@@ -397,7 +397,7 @@ oo_attr_int_range (GsfXMLIn *xin, xmlChar const * const *attrs,
 	if (!oo_attr_int (xin, attrs, ns_id, name, &tmp))
 		return FALSE;
 	if (tmp < min || tmp > max) {
-		oo_warning (xin, _("Possible corrupted integer '%s', for '%s'"),
+		oo_warning (xin, _("Possible corrupted integer '%s' for '%s'"),
 				   attrs[1], name);
 		*res = (tmp < min) ? min :  max;
 		return TRUE;
@@ -843,7 +843,7 @@ oo_expr_parse_str (GsfXMLIn *xin, char const *str,
 	texpr = gnm_expr_parse_str (str, pp, flags,
 				    state->convs[type], &perr);
 	if (texpr == NULL) {
-		oo_warning (xin, _("Unable to parse\n\t'%s'\nbecause '%s'"),
+		oo_warning (xin, _("Unable to parse '%s' ('%s')"),
 			    str, perr.err->message);
 		parse_error_free (&perr);
 	}
@@ -2204,7 +2204,7 @@ oo_date_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			g_string_free (state->cur_format.accum, TRUE);
 			state->cur_format.accum = NULL;
 		}
-		oo_warning (xin, _("Corrupted file: unnamed date style ignored."));
+		oo_warning (xin, _("Unnamed date style ignored."));
 	} else {
 		if (state->cur_format.magic != GO_FORMAT_MAGIC_NONE)
 			g_hash_table_insert (state->formats, state->cur_format.name,

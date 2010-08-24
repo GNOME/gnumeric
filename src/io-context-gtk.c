@@ -271,6 +271,19 @@ icg_error_error_info (GOCmdContext *cc, GOErrorInfo *error)
 }
 
 static void
+icg_error_error_info_list (GOCmdContext *cc, GSList *error)
+{
+	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
+	if (icg->show_warnings && error != NULL && error->data != NULL) {
+		GtkWidget *dialog = gnumeric_go_error_info_dialog_new 
+			(error->data);
+		gtk_widget_show_all (GTK_WIDGET (dialog));
+		gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
+	}
+}
+
+static void
 icg_set_num_files (GOIOContext *icg, guint files_total)
 {
 	IO_CONTEXT_GTK (icg)->files_total = files_total;
@@ -369,6 +382,7 @@ icg_gnm_cmd_context_init (GOCmdContextClass *cc_class)
 	cc_class->progress_set         = icg_progress_set;
 	cc_class->progress_message_set = icg_progress_message_set;
 	cc_class->error.error_info     = icg_error_error_info;
+	cc_class->error_info_list      = icg_error_error_info_list;
 }
 
 static void

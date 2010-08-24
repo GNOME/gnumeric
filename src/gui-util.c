@@ -70,26 +70,36 @@ insert_error_info (GtkTextBuffer* text, GOErrorInfo *error, gint level)
  * SHOULD BE IN GOFFICE
  */
 GtkWidget *
-gnumeric_go_error_info_dialog_new (GOErrorInfo *error)
+gnumeric_go_error_info_list_dialog_new (GSList *errs)
 {
 	GtkWidget *dialog;
 	GtkWidget *scrolled_window;
 	GtkTextView *view;
 	GtkTextBuffer *text;
 	GtkMessageType mtype;
-	gchar *message;
 	gint bf_lim = 1;
 	gint i;
 	GdkScreen *screen;
+	GSList *l, *lf;
+	int severity = 0, this_severity;
+	gboolean message_null = TRUE;
 
-	g_return_val_if_fail (error != NULL, NULL);
+	for (l = errs; l != NULL; l = l->next) {
+		GOErrorInfo *err = l->data;
+		if (go_error_info_peek_message (err)!= NULL)
+			message_null = FALSE;
+		this_severity = go_error_info_peek_severity (err);
+		if (this_severity > severity)
+			severity = this_severity;
+	}
+	lf = g_slist_copy (errs);
+	lf = g_slist_reverse (lf);
 
-	message = (gchar *) go_error_info_peek_message (error);
-	if (message == NULL)
+	if (message_null)
 		bf_lim++;
 
 	mtype = GTK_MESSAGE_ERROR;
-	if (go_error_info_peek_severity (error) < GO_ERROR)
+	if (severity < GO_ERROR)
 		mtype = GTK_MESSAGE_WARNING;
 	dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
 					 mtype, GTK_BUTTONS_CLOSE, " ");
@@ -124,7 +134,11 @@ gnumeric_go_error_info_dialog_new (GOErrorInfo *error)
 			 NULL);
 		g_free (tag_name);
 	}
-	insert_error_info (text, error, 0);
+	for (l = lf; l != NULL; l = l->next) { 
+		GOErrorInfo *err = l->data;
+		insert_error_info (text, err, 0);
+	}
+	g_slist_free (lf);
 
 	gtk_container_add (GTK_CONTAINER (scrolled_window), GTK_WIDGET (view));
 	gtk_widget_show_all (GTK_WIDGET (scrolled_window));
@@ -132,6 +146,15 @@ gnumeric_go_error_info_dialog_new (GOErrorInfo *error)
 
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_CLOSE);
 	return dialog;
+}
+
+GtkWidget *
+gnumeric_go_error_info_dialog_new (GOErrorInfo *error)
+{
+	GSList *l = g_slist_append (NULL, error);
+	GtkWidget *w = gnumeric_go_error_info_list_dialog_new (l);
+	g_slist_free (l);
+	return w;
 }
 
 /**
@@ -144,6 +167,15 @@ gnumeric_go_error_info_dialog_show (GtkWindow *parent, GOErrorInfo *error)
 	GtkWidget *dialog = gnumeric_go_error_info_dialog_new (error);
 	go_gtk_dialog_run (GTK_DIALOG (dialog), parent);
 }
+
+void       
+gnumeric_go_error_info_list_dialog_show (GtkWindow *parent,
+					 GSList *errs)
+{
+	GtkWidget *dialog = gnumeric_go_error_info_list_dialog_new (errs);
+	go_gtk_dialog_run (GTK_DIALOG (dialog), parent);
+}
+
 
 typedef struct {
 	WBCGtk *wbcg;

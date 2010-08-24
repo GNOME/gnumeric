@@ -457,6 +457,7 @@ wbc_cmd_context_init (GOCmdContextClass *iface)
 	iface->set_sensitive	    = ;
 	iface->error.error	    = ;
 	iface->error.error_info	    = ;
+	iface->error.error_info_list= ;
 	iface->progress_set	    = ;
 	iface->progress_message_set = ;
 #endif

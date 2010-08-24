@@ -17,8 +17,11 @@ G_BEGIN_DECLS
 	void name (GtkAction *a, WBCGtk *wbcg)
 
 GtkWidget* gnumeric_go_error_info_dialog_new (GOErrorInfo *error);
+GtkWidget* gnumeric_go_error_info_list_dialog_new (GSList *errs);
 void       gnumeric_go_error_info_dialog_show (GtkWindow *parent,
                                             GOErrorInfo *error);
+void       gnumeric_go_error_info_list_dialog_show (GtkWindow *parent,
+						    GSList *errs);
 void       gnumeric_restore_window_geometry (GtkWindow *dialog,
 					     const char *key);
 void       gnumeric_keyed_dialog (WBCGtk *wbcg,
