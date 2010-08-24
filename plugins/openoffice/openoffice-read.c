@@ -326,10 +326,6 @@ oo_warning (GsfXMLIn *xin, char const *fmt, ...)
 	char *msg;
 	va_list args;
 
-	if (go_io_error_occurred (state->context) || 
-	    go_io_warning_occurred (state->context))
-		return FALSE;
-
 	va_start (args, fmt);
 	msg = g_strdup_vprintf (fmt, args);
 	va_end (args);
@@ -418,9 +414,12 @@ oo_attr_font_weight (GsfXMLIn *xin, xmlChar const * const *attrs,
 	if (!gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "font-weight"))
 		return FALSE;
 	if (attr_eq (attrs[1], "bold")) {
-		*res = 700;
+		*res = PANGO_WEIGHT_BOLD;
 		return TRUE;
-	}
+	} else if (attr_eq (attrs[1], "normal")) {
+		*res = PANGO_WEIGHT_NORMAL;
+		return TRUE;
+	}  
 	return oo_attr_int_range (xin, attrs, OO_NS_FO, "font-weight", 
 				    res, 0, 1000);
 }

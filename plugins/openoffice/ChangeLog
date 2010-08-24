@@ -1,5 +1,10 @@
 2010-08-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_warning): assuming a new goffice, all
+	  errors can be filed
+	
+2010-08-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (od_style_prop_chart): add attributes
 	* openoffice-write.c (odf_get_gog_style_name): shorten names
 	(odf_write_plot_style): drop unused argument and add attributes
