@@ -398,7 +398,7 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	CollectFlags flags;
 	GnmEvalPos const * const ep = ei->pos;
 	GnmValue const * const PtInterpolation = argv[2];
-	unsigned r, i;
+	int r, i;
 	GSList *missing0 = NULL;
 	GSList *missing1 = NULL;
 	GSList *missing2 = NULL;
@@ -509,8 +509,8 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		missing0 = missing2;
 		if (fres) {
 			i = 0;
-			for( r = 0 ; r < n2; ++r)
-				if (missing0 && r == GPOINTER_TO_UINT (missing0->data)) {
+			for (r = 0 ; r < n2; ++r)
+				if (missing0 && r == GPOINTER_TO_INT (missing0->data)) {
 					missing0 = missing0->next;
 					res->v_array.vals[0][r] = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
 				} else

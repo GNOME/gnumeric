@@ -1,3 +1,7 @@
+2010-08-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* functions.c (gnumeric_interpolation): do not compare signed and unsigned.
+
 2010-08-22 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_interpolation): correct the description
