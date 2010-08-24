@@ -74,13 +74,10 @@ plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree,
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	category_node = go_xml_get_child_by_name_no_lang (tree, "category");
-	if (category_node != NULL) {
-		xmlChar *val = xmlNodeGetContent (category_node);
-		category_name = g_strdup (CXML2C (val));
-		xmlFree (val);
-	} else {
-		category_name = NULL;
-	}
+	category_name = category_node
+		? xml2c (xmlNodeGetContent (category_node))
+		: NULL;
+
 	translated_category_node = go_xml_get_child_by_name_by_lang (tree, "category");
 	if (translated_category_node != NULL) {
 		xmlChar *lang;
@@ -370,13 +367,8 @@ plugin_service_ui_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo
 
 				lang = go_xml_node_get_cstr (label_node, "lang");
 				if (lang != NULL) {
-					xmlChar *val;
-
-					val = xmlNodeGetContent (label_node);
-					g_free (label);
-					label = g_strdup (CXML2C (val));
-					xmlFree (val);
-					g_free (lang);
+					label = xml2c (xmlNodeGetContent (label_node));
+					xmlFree (lang);
 				}
 			}
 /*****************************************************************************************/
