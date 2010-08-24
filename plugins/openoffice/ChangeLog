@@ -1,3 +1,13 @@
+2010-08-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (od_style_prop_chart): add attributes
+	* openoffice-write.c (odf_get_gog_style_name): shorten names
+	(odf_write_plot_style): drop unused argument and add attributes
+	(odf_write_gog_style_graphic): check for NULL style
+	(odf_write_gog_style_text): ditto
+	(odf_write_gog_style_chart): handle plots
+	(odf_write_plot): use the plot syle written elsewhere
+
 2010-08-23  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (od_draw_image): Unref the image zip member.

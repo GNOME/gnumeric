@@ -3453,19 +3453,31 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "outliers", &btmp)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_bool ("outliers", btmp));
-		} else if (oo_attr_float (xin, attrs, OO_GNUM_NS_EXT, "radius-ratio", &ftmp)) {
+		} else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, 
+					 "vary-style-by-element", &btmp)) {
+			style->plot_props = g_slist_prepend (style->plot_props,
+				oo_prop_new_bool ("vary-style-by-element", btmp));
+		} else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, 
+					 "show-negatives", &btmp)) {
+			style->plot_props = g_slist_prepend (style->plot_props,
+				oo_prop_new_bool ("show-negatives", btmp));
+		} else if (oo_attr_float (xin, attrs, OO_GNUM_NS_EXT, 
+					  "radius-ratio", &ftmp)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_float ("radius-ratio", ftmp));
-		} else if (oo_attr_percent (xin, attrs, OO_GNUM_NS_EXT, "default-separation", &ftmp)) {
+		} else if (oo_attr_percent (xin, attrs, OO_GNUM_NS_EXT, 
+					    "default-separation", &ftmp)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_float ("default-separation", ftmp));
-		} else if (oo_attr_int_range (xin, attrs, OO_NS_CHART, "pie-offset", &tmp, 0, 500)) {
+		} else if (oo_attr_int_range (xin, attrs, OO_NS_CHART, 
+					      "pie-offset", &tmp, 0, 500)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_float ("default-separation", tmp/100.));
 		} else if (oo_attr_percent (xin, attrs, OO_NS_CHART, "hole-size", &ftmp)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_float ("center-size", ftmp));
-		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "reverse-direction", &btmp)) {
+		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, 
+					 "reverse-direction", &btmp)) {
 			style->axis_props = g_slist_prepend (style->axis_props,
 				oo_prop_new_bool ("invert-axis", btmp));
 		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "stacked", &btmp)) {

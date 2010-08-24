@@ -493,9 +493,9 @@ static gchar*
 odf_get_gog_style_name (GOStyle const *style, GogObject const *obj)
 {
 	if (style == NULL)
-		return g_strdup_printf ("GogStyle--%p", obj);
+		return g_strdup_printf ("GOG--%p", obj);
 	else
-		return g_strdup_printf ("GogStyle-%p", style);
+		return g_strdup_printf ("GOG-%p", style);
 }
 
 static gchar*
@@ -3865,11 +3865,13 @@ odf_write_interpolation_attribute (GnmOOExport *state, GogObject const *series)
 }
 
 static void
-odf_write_plot_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, GogObject const *plot)
+odf_write_plot_style (GnmOOExport *state, GogObject const *plot)
 {
 	GObjectClass *klass = G_OBJECT_GET_CLASS (plot);
 	gchar const *plot_type = G_OBJECT_TYPE_NAME (plot);
 	GParamSpec *spec;
+
+	odf_add_bool (state->xml, CHART "auto-size", TRUE);
 
 	if (NULL != (spec = g_object_class_find_property (klass, "type"))  
 	    && spec->value_type == G_TYPE_STRING 
@@ -3922,9 +3924,6 @@ odf_write_plot_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, 
 	odf_write_plot_style_int (state->xml, plot, klass,
 				  "overlap-percentage", CHART "overlap");
 
-	odf_write_plot_style_double (state->xml, plot, klass,
-				     "radius-ratio", GNMSTYLE "radius-ratio");
-
 	odf_write_plot_style_double_percent (state->xml, plot, klass,
 					     "center-size", 
 					     CHART "hole-size");
@@ -3949,6 +3948,14 @@ odf_write_plot_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, 
 		odf_write_plot_style_bool (state->xml, plot, klass,
 				   "outliers", GNMSTYLE "outliers");
 
+	odf_write_plot_style_double (state->xml, plot, klass,
+				     "radius-ratio", GNMSTYLE "radius-ratio");
+
+	odf_write_plot_style_bool (state->xml, plot, klass,
+				   "vary-style-by-element", GNMSTYLE "vary-style-by-element");
+
+	odf_write_plot_style_bool (state->xml, plot, klass,
+				   "show-negatives", GNMSTYLE "show-negatives");
 	}
 		
 		
@@ -4236,6 +4243,7 @@ odf_write_label (GnmOOExport *state, GogObject const *axis)
 static void
 odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style)
 {
+	if (style != NULL) {
 		if (style->fill.type == GO_STYLE_FILL_PATTERN) {
 			char *color;
 			color = odf_go_color_to_string (style->fill.pattern.back);
@@ -4244,88 +4252,93 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style)
 			g_free (color);
 		} else
 			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "none");	
+	}
 }
 
 static void
 odf_write_gog_style_text (GnmOOExport *state, GOStyle const *style)
 {
-	PangoFontDescription const *desc = style->font.font->desc;
-	PangoFontMask mask = pango_font_description_get_set_fields (desc);
-	int val = style->text_layout.angle;
+	if (style != NULL) {
+		PangoFontDescription const *desc = style->font.font->desc;
+		PangoFontMask mask = pango_font_description_get_set_fields (desc);
+		int val = style->text_layout.angle;
+		
+		odf_add_angle (state->xml, STYLE "text-rotation-angle", val);
+		
+		if (mask & PANGO_FONT_MASK_SIZE)
+			odf_add_pt (state->xml, FOSTYLE "font-size",
+				    pango_font_description_get_size 
+				    (style->font.font->desc) 
+				    / (double)PANGO_SCALE);
 
-	odf_add_angle (state->xml, STYLE "text-rotation-angle", val);
-
-	if (mask & PANGO_FONT_MASK_SIZE)
-		odf_add_pt (state->xml, FOSTYLE "font-size",
-			    pango_font_description_get_size 
-			    (style->font.font->desc) 
-			    / (double)PANGO_SCALE);
-
-	if (mask & PANGO_FONT_MASK_VARIANT) {
-		PangoVariant var = pango_font_description_get_variant (desc);
-		switch (var) {
-		case PANGO_VARIANT_NORMAL:
-			gsf_xml_out_add_cstr (state->xml, 
-					      FOSTYLE "font-variant", "normal");
-			break;
-		case PANGO_VARIANT_SMALL_CAPS:
-			gsf_xml_out_add_cstr (state->xml, 
-					      FOSTYLE "font-variant", 
-					      "small-caps");
-			break;
-		default:
-			break;
+		if (mask & PANGO_FONT_MASK_VARIANT) {
+			PangoVariant var = pango_font_description_get_variant (desc);
+			switch (var) {
+			case PANGO_VARIANT_NORMAL:
+				gsf_xml_out_add_cstr (state->xml, 
+						      FOSTYLE "font-variant", "normal");
+				break;
+			case PANGO_VARIANT_SMALL_CAPS:
+				gsf_xml_out_add_cstr (state->xml, 
+						      FOSTYLE "font-variant", 
+						      "small-caps");
+				break;
+			default:
+				break;
+			}
 		}
-	}
-	/*Note that we should be using style:font-name instead of fo:font-family*/
-	if (mask & PANGO_FONT_MASK_FAMILY)
-		gsf_xml_out_add_cstr 
-			(state->xml, 
-			 FOSTYLE "font-family", 
-			 pango_font_description_get_family (desc));
-	if (mask & PANGO_FONT_MASK_STYLE) {
-		PangoStyle s = pango_font_description_get_style (desc);
-		switch (s) {
-		case PANGO_STYLE_NORMAL:
-			gsf_xml_out_add_cstr (state->xml, 
-					      FOSTYLE "font-style", "normal");
-			break;
-		case PANGO_STYLE_OBLIQUE:
-			gsf_xml_out_add_cstr (state->xml, 
-					      FOSTYLE "font-style", "oblique");
-			break;
-		case PANGO_STYLE_ITALIC:
-			gsf_xml_out_add_cstr (state->xml, 
-					      FOSTYLE "font-style", "italic");
-			break;
-		default:
-			break;
+		/*Note that we should be using style:font-name instead of fo:font-family*/
+		if (mask & PANGO_FONT_MASK_FAMILY)
+			gsf_xml_out_add_cstr 
+				(state->xml, 
+				 FOSTYLE "font-family", 
+				 pango_font_description_get_family (desc));
+		if (mask & PANGO_FONT_MASK_STYLE) {
+			PangoStyle s = pango_font_description_get_style (desc);
+			switch (s) {
+			case PANGO_STYLE_NORMAL:
+				gsf_xml_out_add_cstr (state->xml, 
+						      FOSTYLE "font-style", "normal");
+				break;
+			case PANGO_STYLE_OBLIQUE:
+				gsf_xml_out_add_cstr (state->xml, 
+						      FOSTYLE "font-style", "oblique");
+				break;
+			case PANGO_STYLE_ITALIC:
+				gsf_xml_out_add_cstr (state->xml, 
+						      FOSTYLE "font-style", "italic");
+				break;
+			default:
+				break;
+			}
 		}
+		if (mask & PANGO_FONT_MASK_WEIGHT) {
+			PangoWeight w = pango_font_description_get_weight (desc);
+			if (w > 900)
+				w = 900;
+			gsf_xml_out_add_int (state->xml, FOSTYLE "font-weight", w);
+		}
+		
+		if ((mask & PANGO_FONT_MASK_STRETCH) && state->with_extension)
+			gsf_xml_out_add_int (state->xml, GNMSTYLE "font-stretch-pango", 
+					     pango_font_description_get_stretch (desc));
+		if ((mask & PANGO_FONT_MASK_GRAVITY) && state->with_extension)
+			gsf_xml_out_add_int (state->xml, GNMSTYLE "font-gravity-pango", 
+					     pango_font_description_get_gravity (desc));
 	}
-	if (mask & PANGO_FONT_MASK_WEIGHT) {
-		PangoWeight w = pango_font_description_get_weight (desc);
-		if (w > 900)
-			w = 900;
-		gsf_xml_out_add_int (state->xml, FOSTYLE "font-weight", w);
-	}
-
-	if ((mask & PANGO_FONT_MASK_STRETCH) && state->with_extension)
-		gsf_xml_out_add_int (state->xml, GNMSTYLE "font-stretch-pango", 
-				     pango_font_description_get_stretch (desc));
-	if ((mask & PANGO_FONT_MASK_GRAVITY) && state->with_extension)
-		gsf_xml_out_add_int (state->xml, GNMSTYLE "font-gravity-pango", 
-				     pango_font_description_get_gravity (desc));
-
 }
 
 static void
 odf_write_gog_style_chart (GnmOOExport *state, GOStyle const *style, GogObject const *obj)
 {
 	gchar const *type = G_OBJECT_TYPE_NAME (G_OBJECT (obj));
+	void (*func) (GnmOOExport *state, GOStyle const *style, GogObject const *obj);
 
-	void (*func) (GnmOOExport *state, GOStyle const *style, GogObject const *obj) 
-		= g_hash_table_lookup (state->chart_props_hash, type);
 
+	if (GOG_IS_PLOT (obj))
+		odf_write_plot_style (state, obj);
+
+	func = g_hash_table_lookup (state->chart_props_hash, type);
 	if (func != NULL)
 		func (state, style, obj);
 }
@@ -4368,11 +4381,12 @@ odf_write_gog_styles (GogObject const *obj, GnmOOExport *state)
 	if (NULL != g_object_class_find_property (klass, "style")) {
 		GOStyle const *style = NULL;
 		g_object_get (G_OBJECT (obj), "style", &style, NULL);
+		odf_write_gog_style (state, style, obj);
 		if (style != NULL) {
-			odf_write_gog_style (state, style, obj);
 			g_object_unref (G_OBJECT (style));
 		}
-	}
+	} else
+		odf_write_gog_style (state, NULL, obj);
 
 	children = gog_object_get_children (obj, NULL);
 	g_slist_foreach (children, (GFunc) odf_write_gog_styles, state);
@@ -4454,6 +4468,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 	GogObject const *wall = gog_object_get_child_by_name (chart, "Backplane");
 	GogObject const *legend = gog_object_get_child_by_name (chart, "Legend");
 	GSList *titles = gog_object_get_children (chart, gog_object_find_role_by_name (chart, "Title"));
+	char *name;
 
 	static struct {
 		char const * type;
@@ -4621,20 +4636,6 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 	gsf_xml_out_end_element (state->xml); /* </style:chart-properties> */
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
 
-	odf_start_style (state->xml, "plotarea", "chart");
-	gsf_xml_out_start_element (state->xml, STYLE "chart-properties");
-	odf_add_bool (state->xml, CHART "auto-size", TRUE);
-
-	odf_write_plot_style (state, chart, plot);
-
-	gsf_xml_out_end_element (state->xml); /* </style:chart-properties> */
-
-	gsf_xml_out_start_element (state->xml, STYLE "graphic-properties");
-/* 	odf_write_plot_style_graphic (state, chart, plot); */
-	gsf_xml_out_end_element (state->xml); /* </style:graphic-properties> */
-
-	gsf_xml_out_end_element (state->xml); /* </style:style> */	
-
 	for (l = series, i = 1; l != NULL; l = l->next) {
 		char *name = g_strdup_printf ("series%i", i++);
 		odf_start_style (state->xml, name, "chart");
@@ -4725,7 +4726,13 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 	}
 
 	gsf_xml_out_start_element (state->xml, CHART "plot-area");
-	gsf_xml_out_add_cstr (state->xml, CHART "style-name", "plotarea");
+	
+	name = odf_get_gog_style_name_from_obj (plot);
+	if (name != NULL) {
+		gsf_xml_out_add_cstr (state->xml, CHART "style-name", name);
+		g_free (name);
+	}
+
 	if (get_gsf_odf_version () <= 101) {
 		for ( l = series; NULL != l ; l = l->next) {
 			GOData const *dat = gog_dataset_get_dim
