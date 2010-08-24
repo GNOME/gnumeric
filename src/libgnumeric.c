@@ -156,6 +156,7 @@ gnm_get_option_group (void)
 gchar const **
 gnm_pre_parse_init (int argc, gchar const **argv)
 {
+	const char *gnm_debug;
 /*
  * NO CODE BEFORE THIS POINT, PLEASE!
  *
@@ -179,6 +180,12 @@ gnm_pre_parse_init (int argc, gchar const **argv)
 		}
 	}
 #endif
+
+	/* We cannot use gnm_debug_flag yet.  See 627840.  */
+	gnm_debug = getenv ("GNM_DEBUG");
+	if (gnm_debug && strstr (gnm_debug, "gmemdebug")) {
+		g_mem_set_vtable (glib_mem_profiler_table);		
+	}
 
 	g_thread_init (NULL);
 	g_type_init ();

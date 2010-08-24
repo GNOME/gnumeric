@@ -17,6 +17,7 @@ Morten:
 	* Plug xml importer leak.
 	* Plug odf importer leak.  [#627759]
 	* Extend domain of IMPOWER.  [#627775]
+	* Allow use of glib's memory profiler.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.9
