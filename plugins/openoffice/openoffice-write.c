@@ -4065,8 +4065,27 @@ odf_write_scatter_series_style_graphic (GnmOOExport *state, GogObject const *plo
 }
 
 static void
-odf_write_axis_style (GnmOOExport *state, GogObject const *chart,
-		      char const *style_label, GogObject const *axis, gboolean reverse)
+odf_write_axis_style (GnmOOExport *state, GOStyle const *style, GogObject const *axis)
+{
+	char const *type = NULL;
+	double minima = 0., maxima = 0.;
+
+	gsf_xml_out_add_cstr (state->xml, CHART "axis-position", "start");
+	odf_add_bool (state->xml, CHART "display-label", TRUE);
+
+	g_object_get (G_OBJECT (axis), "map-name", &type, NULL);
+	odf_add_bool (state->xml, CHART "logarithmic", 0 != strcmp (type, "Linear"));
+	if (gog_axis_get_bounds (GOG_AXIS (axis), &minima, &maxima)) {
+		gsf_xml_out_add_float (state->xml, CHART "minimum", minima, -1);
+		gsf_xml_out_add_float (state->xml, CHART "maximum", maxima, -1);
+	}
+
+	/* 	if (get_gsf_odf_version () > 101) */
+	/* 		odf_add_bool (state->xml, CHART "reverse-direction", reverse); */
+}
+
+static void
+odf_write_generic_axis_style (GnmOOExport *state, char const *style_label)
 {
 	odf_start_style (state->xml, style_label, "chart");
 	gsf_xml_out_start_element (state->xml, STYLE "chart-properties");
@@ -4074,74 +4093,80 @@ odf_write_axis_style (GnmOOExport *state, GogObject const *chart,
 	gsf_xml_out_add_cstr (state->xml, CHART "axis-position", "start");
 	odf_add_bool (state->xml, CHART "display-label", TRUE);
 
-	if (axis != NULL) {
-		char const *type = NULL;
-		double minima = 0., maxima = 0.;
-
-		g_object_get (G_OBJECT (axis), "map-name", &type, NULL);
-		odf_add_bool (state->xml, CHART "logarithmic", 0 != strcmp (type, "Linear"));
-		if (gog_axis_get_bounds (GOG_AXIS (axis), &minima, &maxima)) {
-			gsf_xml_out_add_float (state->xml, CHART "minimum", minima, -1);
-			gsf_xml_out_add_float (state->xml, CHART "maximum", maxima, -1);
-		}
-	}
-
 	if (get_gsf_odf_version () > 101)
-		odf_add_bool (state->xml, CHART "reverse-direction", reverse);
+		odf_add_bool (state->xml, CHART "reverse-direction", TRUE);
 	gsf_xml_out_end_element (state->xml); /* </style:chart-properties> */
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
 }
 
 static void
 odf_write_circle_axes_styles (GnmOOExport *state, GogObject const *chart,
-			     G_GNUC_UNUSED GogObject const *plot)
+			     G_GNUC_UNUSED GogObject const *plot,
+			       gchar **x_style,
+			       gchar **y_style,
+			       gchar **z_style)
 {
-	odf_write_axis_style (state, chart, "yaxis", gog_object_get_child_by_name (chart, "Y-Axis"), TRUE);
-	odf_write_axis_style (state, chart, "xaxis", gog_object_get_child_by_name (chart, "X-Axis"), TRUE);
+	odf_write_generic_axis_style (state, "yaxis");
+	*x_style = g_strdup ("yaxis");
+
+	odf_write_generic_axis_style (state, "xaxis");
+	*y_style = g_strdup ("xaxis");
 }
 
 static void
 odf_write_radar_axes_styles (GnmOOExport *state, GogObject const *chart,
-			     G_GNUC_UNUSED GogObject const *plot)
+			     G_GNUC_UNUSED GogObject const *plot,
+			       gchar **x_style,
+			       gchar **y_style,
+			       gchar **z_style)
 {
-	odf_write_axis_style (state, chart, "yaxis", gog_object_get_child_by_name (chart, "Radial-Axis"), FALSE);
-	odf_write_axis_style (state, chart, "xaxis", gog_object_get_child_by_name (chart, "Circular-Axis"), FALSE);
-}
+	GogObject const *axis;
 
-static void
-odf_write_dropbar_axes_styles (GnmOOExport *state, GogObject const *chart,
-				 GogObject const *plot)
-{
-	GObjectClass *klass = G_OBJECT_GET_CLASS (G_OBJECT (plot));
-	gboolean horizontal = FALSE;
-	if (NULL != g_object_class_find_property (klass,  "horizontal"))
-		g_object_get (G_OBJECT (plot), "horizontal", &horizontal, NULL);
-	odf_write_axis_style (state, chart, horizontal ? "xaxis" : "yaxis",
-			      gog_object_get_child_by_name (chart, "Y-Axis"), horizontal);
-	odf_write_axis_style (state, chart, horizontal ? "yaxis" : "xaxis",
-			      gog_object_get_child_by_name (chart, "X-Axis"), FALSE);
+	axis = gog_object_get_child_by_name (chart, "Radial-Axis");
+	if (axis != NULL)
+		*y_style = odf_get_gog_style_name_from_obj (axis);
+
+	axis = gog_object_get_child_by_name (chart, "Circular-Axis");
+	if (axis != NULL)
+		*x_style = odf_get_gog_style_name_from_obj (axis);
 }
 
 static void
 odf_write_standard_axes_styles (GnmOOExport *state, GogObject const *chart,
-				GogObject const *plot)
+				GogObject const *plot,
+				gchar **x_style,
+				gchar **y_style,
+				gchar **z_style)
 {
+	GogObject const *axis;
 	GObjectClass *klass = G_OBJECT_GET_CLASS (G_OBJECT (plot));
 	gboolean horizontal = FALSE;
 	if (NULL != g_object_class_find_property (klass,  "horizontal"))
 		g_object_get (G_OBJECT (plot), "horizontal", &horizontal, NULL);
-	odf_write_axis_style (state, chart, horizontal ? "xaxis" : "yaxis",
-			      gog_object_get_child_by_name (chart, "Y-Axis"), FALSE);
-	odf_write_axis_style (state, chart, horizontal ? "yaxis" : "xaxis",
-			      gog_object_get_child_by_name (chart, "X-Axis"), FALSE);
+
+	axis = gog_object_get_child_by_name (chart, horizontal ? "Y-Axis" : "X-Axis");
+	if (axis != NULL)
+		*x_style = odf_get_gog_style_name_from_obj (axis);
+
+	axis = gog_object_get_child_by_name (chart, horizontal ? "X-Axis" : "Y-Axis");
+	if (axis != NULL)
+		*y_style = odf_get_gog_style_name_from_obj (axis);
 }
 
 static void
 odf_write_surface_axes_styles (GnmOOExport *state, GogObject const *chart,
-			       GogObject const *plot)
+			       GogObject const *plot,
+				gchar **x_style,
+				gchar **y_style,
+				gchar **z_style)
 {
-	odf_write_axis_style (state, chart, "zaxis", gog_object_get_child_by_name (chart, "Z-Axis"), FALSE);
-	odf_write_standard_axes_styles (state, chart, plot);
+	GogObject const *axis;
+
+	odf_write_standard_axes_styles (state, chart, plot, x_style, y_style, z_style);
+
+	axis = gog_object_get_child_by_name (chart, "Z-Axis");
+	if (axis != NULL)
+		*z_style = odf_get_gog_style_name_from_obj (axis);
 }
 
 static void
@@ -4466,6 +4491,9 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 	GogObject const *legend = gog_object_get_child_by_name (chart, "Legend");
 	GSList *titles = gog_object_get_children (chart, gog_object_find_role_by_name (chart, "Title"));
 	char *name;
+	gchar *x_style = NULL;
+	gchar *y_style = NULL;
+	gchar *z_style = NULL;
 
 	static struct {
 		char const * type;
@@ -4477,7 +4505,10 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		char const * z_axis_name;
 		void (*odf_write_axes_styles)  (GnmOOExport *state, 
 					        GogObject const *chart,
-						GogObject const *plot);
+						GogObject const *plot,
+						gchar **x_style,
+						gchar **y_style,
+						gchar **z_style);
 		void (*odf_write_series)       (GnmOOExport *state, 
 						GSList const *series);
 		void (*odf_write_series_style) (GnmOOExport *state, 
@@ -4529,7 +4560,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		  NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogDropBarPlot", CHART "gantt", ODF_DROPBAR,
-		  20., "X-Axis", "Y-Axis", NULL, odf_write_dropbar_axes_styles,
+		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
 		  odf_write_gantt_series, NULL,
 		  NULL,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
@@ -4625,7 +4656,8 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 	gsf_xml_out_start_element (state->xml, OFFICE "automatic-styles");
 
 	if (this_plot->odf_write_axes_styles != NULL)
-		this_plot->odf_write_axes_styles (state, chart, plot);
+		this_plot->odf_write_axes_styles (state, chart, plot,
+						  &x_style, &y_style, &z_style);
 
 	odf_start_style (state->xml, "plotstyle", "chart");
 	gsf_xml_out_start_element (state->xml, STYLE "chart-properties");
@@ -4752,15 +4784,15 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 
 	if (this_plot->odf_write_z_axis)
 		this_plot->odf_write_z_axis 
-			(state, chart, this_plot->z_axis_name, "zaxis", "z", 
+			(state, chart, this_plot->z_axis_name, z_style, "z", 
 			 this_plot->gtype, series);
 	if (this_plot->odf_write_y_axis)
 		this_plot->odf_write_y_axis 
-			(state, chart, this_plot->y_axis_name, "yaxis", "y", 
+			(state, chart, this_plot->y_axis_name, y_style, "y", 
 			 this_plot->gtype, series);
 	if (this_plot->odf_write_x_axis)
 		this_plot->odf_write_x_axis 
-			(state, chart, this_plot->x_axis_name, "xaxis", "x", 
+			(state, chart, this_plot->x_axis_name, x_style, "x", 
 			 this_plot->gtype, series);
 
 	if (this_plot->odf_write_series != NULL)
@@ -4778,11 +4810,13 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		g_free (name);
 	}
 	gsf_xml_out_end_element (state->xml); /* </chart:plot_area> */
-
-
 	gsf_xml_out_end_element (state->xml); /* </chart:chart> */
 	gsf_xml_out_end_element (state->xml); /* </office:chart> */
 	gsf_xml_out_end_element (state->xml); /* </office:body> */
+
+	g_free (x_style);
+	g_free (y_style);
+	g_free (z_style);
 }
 
 
@@ -4894,7 +4928,8 @@ odf_fill_chart_props_hash (GnmOOExport *state)
 					    GOStyle const *style, 
 					    GogObject const *obj);
 	} props[] = {
-		{"GogSeriesLines", odf_write_drop}
+		{"GogSeriesLines", odf_write_drop},
+		{"GogAxis", odf_write_axis_style}
 	};
 		
 	for (i = 0 ; i < (int)G_N_ELEMENTS (props) ; i++)

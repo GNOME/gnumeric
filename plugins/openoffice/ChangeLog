@@ -1,3 +1,15 @@
+2010-08-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_axis_style): split into
+	  odf_write_axis_style and df_write_generic_axis_style
+	(odf_write_dropbar_axes_styles): delete
+	(odf_write_circle_axes_styles): just determine the style names
+	(odf_write_radar_axes_styles): ditto
+	(odf_write_standard_axes_styles): ditto
+	(odf_write_surface_axes_styles): ditto
+	(odf_write_plot): adjust switch board and use the gog_styles
+	(odf_fill_chart_props_hash): add GogAxis
+	
 2010-08-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_chart_axis): radar plots have different types
