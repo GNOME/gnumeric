@@ -1,5 +1,9 @@
 2010-08-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* configure.in: raise goffice requirement to 0.8.10
+
+2010-08-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/gui-util.h (gnumeric_go_error_info_list_dialog_new): new
 	(gnumeric_go_error_info_list_dialog_show): new
 	* src/gui-util.c (gnumeric_go_error_info_list_dialog_new): new
