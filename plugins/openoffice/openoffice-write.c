@@ -5,7 +5,7 @@
  *
  * Copyright (C) 2004-2006 Jody Goldberg (jody@gnome.org)
  *
- * Copyright (C) 2006-2009 Andreas J. Guelzow (aguelzow@pyrshep.ca)
+ * Copyright (C) 2006-2010 Andreas J. Guelzow (aguelzow@pyrshep.ca)
  *
  * Copyright (C) 2005 INdT - Instituto Nokia de Tecnologia
  *               Author: Luciano Wolf (luciano.wolf@indt.org.br)
@@ -26,9 +26,6 @@
  */
 
 /*****************************************************************************/
-
-/* change the following to 12 to switch to ODF 1.2 creation. Note that this is not tested and */
-/* changes in GOFFICE are also required. */
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>

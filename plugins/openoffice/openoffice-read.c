@@ -6,7 +6,7 @@
  * Copyright (C) 2002-2007 Jody Goldberg (jody@gnome.org)
  * Copyright (C) 2006 Luciano Miguel Wolf (luciano.wolf@indt.org.br)
  * Copyright (C) 2007 Morten Welinder (terra@gnome.org)
- * Copyright (C) 2010 Andreas J. Guelzow (aguelzow@pyrshep.ca)
+ * Copyright (C) 2006-2010 Andreas J. Guelzow (aguelzow@pyrshep.ca)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -290,6 +290,7 @@ typedef struct {
 	} page_breaks;
 
 	gsf_off_t last_progress_update;
+	char *last_error;
 	gboolean  debug;
 } OOParseState;
 
@@ -316,6 +317,24 @@ maybe_update_progress (GsfXMLIn *xin)
 static GsfXMLInNode const * get_dtd (void);
 static void oo_chart_style_free (OOChartStyle *pointer);
 
+static GOErrorInfo *oo_go_error_info_new_vprintf (GOSeverity severity,
+					  char const *msg_format, ...)
+	G_GNUC_PRINTF (2, 3);
+
+static GOErrorInfo *
+oo_go_error_info_new_vprintf (GOSeverity severity,
+			      char const *msg_format, ...)
+{
+	va_list args;
+	GOErrorInfo *ei;
+
+	va_start (args, msg_format);
+	ei = go_error_info_new_vprintf (severity, msg_format, args);
+	va_end (args);
+
+	return ei;
+}
+
 static gboolean oo_warning (GsfXMLIn *xin, char const *fmt, ...)
 	G_GNUC_PRINTF (2, 3);
 
@@ -324,27 +343,38 @@ oo_warning (GsfXMLIn *xin, char const *fmt, ...)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	char *msg;
+	char *detail;
 	va_list args;
 
 	va_start (args, fmt);
-	msg = g_strdup_vprintf (fmt, args);
+	detail = g_strdup_vprintf (fmt, args);
 	va_end (args);
 
 	if (IS_SHEET (state->pos.sheet)) {
-		char *tmp;
 		if (state->pos.eval.col >= 0 && state->pos.eval.row >= 0)
-			tmp = g_strdup_printf ("%s!%s : %s",
-				state->pos.sheet->name_quoted,
-				cellpos_as_string (&state->pos.eval), msg);
+			msg = g_strdup_printf ("%s!%s",
+					       state->pos.sheet->name_quoted,
+					       cellpos_as_string (&state->pos.eval));
 		else
-			tmp = g_strdup_printf ("%s : %s",
-				state->pos.sheet->name_quoted, msg);
-		g_free (msg);
-		msg = tmp;
-	}
+			msg = g_strdup(state->pos.sheet->name_quoted);
+	} else
+		msg = g_strdup (_("General ODF error"));
 
-	go_io_warning (state->context, "%s", msg);
-	g_free (msg);
+	if (0 != go_str_compare (msg, state->last_error)) {
+		GOErrorInfo *ei = oo_go_error_info_new_vprintf
+			(GO_WARNING, "%s", msg);
+		
+		go_io_error_info_set (state->context, ei);
+		g_free (state->last_error);
+		state->last_error = msg;
+	} else
+		g_free (msg);
+
+	go_error_info_add_details 
+		(state->context->info->data,
+		 oo_go_error_info_new_vprintf (GO_WARNING, "%s", detail));
+
+	g_free (detail);
 
 	return FALSE; /* convenience */
 }
@@ -6253,6 +6283,7 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	state.filter = NULL;
 	state.page_breaks.h = state.page_breaks.v = NULL;
 	state.last_progress_update = 0;
+	state.last_error = NULL;
 
 	go_io_progress_message (state.context, _("Reading file..."));
 	go_io_value_progress_set (state.context, gsf_input_size (contents), 0);
@@ -6323,6 +6354,7 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	gsf_xml_in_doc_free (doc);
 
 	go_io_progress_unset (state.context);
+	g_free (state.last_error);
 
 	if (state.default_style.cells)
 		gnm_style_unref (state.default_style.cells);

@@ -7,7 +7,8 @@ Andreas:
 	* Improve handling of corrupted ODF files.
 	* Fix percentage style import from ODF. [#627517]
 	* Fix INTERPOLATION documentation. [#627461]
-	* Provide progress info in ODF export and show all warnings.
+	* Provide progress info in ODF export.
+	* Improve warnings dialog in ODF import.
 
 Jean:
 	* Fix some interpolation and periodogram issues.

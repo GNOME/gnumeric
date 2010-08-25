@@ -1,5 +1,11 @@
 2010-08-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_go_error_info_new_vprintf): new
+	(oo_warning): create hierachical error information
+	(openoffice_file_open): initialize and finalize error info
+
+2010-08-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c: minor adjustments to oo_warning error strings.
 
 2010-08-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
