@@ -4069,19 +4069,32 @@ odf_write_axis_style (GnmOOExport *state, GOStyle const *style, GogObject const 
 {
 	char const *type = NULL;
 	double minima = 0., maxima = 0.;
+	GObjectClass *klass = G_OBJECT_GET_CLASS (axis);
+	GParamSpec *spec;
 
 	gsf_xml_out_add_cstr (state->xml, CHART "axis-position", "start");
 	odf_add_bool (state->xml, CHART "display-label", TRUE);
 
-	g_object_get (G_OBJECT (axis), "map-name", &type, NULL);
-	odf_add_bool (state->xml, CHART "logarithmic", 0 != strcmp (type, "Linear"));
+	if (NULL != (spec = g_object_class_find_property (klass, "map-name"))
+	    && spec->value_type == G_TYPE_STRING 
+	    && (G_PARAM_READABLE & spec->flags)) {
+		g_object_get (G_OBJECT (axis), "map-name", &type, NULL);
+		odf_add_bool (state->xml, CHART "logarithmic", 
+			      0 != strcmp (type, "Linear"));
+	}
 	if (gog_axis_get_bounds (GOG_AXIS (axis), &minima, &maxima)) {
 		gsf_xml_out_add_float (state->xml, CHART "minimum", minima, -1);
 		gsf_xml_out_add_float (state->xml, CHART "maximum", maxima, -1);
 	}
 
-	/* 	if (get_gsf_odf_version () > 101) */
-	/* 		odf_add_bool (state->xml, CHART "reverse-direction", reverse); */
+	if (get_gsf_odf_version () > 101)
+		odf_write_plot_style_bool 
+			(state->xml, axis, klass,
+			 "invert-axis", CHART "reverse-direction");
+	else
+		odf_write_plot_style_bool 
+			(state->xml, axis, klass,
+			 "invert-axis", GNMSTYLE "reverse-direction");
 }
 
 static void

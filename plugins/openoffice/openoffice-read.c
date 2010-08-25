@@ -3482,6 +3482,12 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "outliers", &btmp)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_bool ("outliers", btmp));
+		} else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "reverse-direction", &btmp)) {
+			style->axis_props = g_slist_prepend (style->axis_props,
+				oo_prop_new_bool ("invert-axis", btmp));
+		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "reverse-direction", &btmp)) {
+			style->axis_props = g_slist_prepend (style->axis_props,
+				oo_prop_new_bool ("invert-axis", btmp));
 		} else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, 
 					 "vary-style-by-element", &btmp)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
