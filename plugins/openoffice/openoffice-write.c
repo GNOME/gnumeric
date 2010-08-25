@@ -4542,7 +4542,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		  5., "X-Axis", "Y-Axis", NULL, odf_write_circle_axes_styles,
 		  odf_write_standard_series, NULL,
 		  NULL,
-		  odf_write_axis, odf_write_generic_axis, odf_write_axis},
+		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogRadarPlot", CHART "radar", ODF_RADAR,
 		  10., "Circular-Axis", "Radial-Axis", NULL, odf_write_radar_axes_styles,
 		  odf_write_standard_series, NULL,

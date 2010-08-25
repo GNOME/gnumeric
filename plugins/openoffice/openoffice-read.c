@@ -4208,6 +4208,11 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "z",	GOG_AXIS_Z },
 		{ NULL,	0 },
 	};
+	static OOEnum const types_radar[] = {
+		{ "x",	GOG_AXIS_CIRCULAR },
+		{ "y",	GOG_AXIS_RADIAL },
+		{ NULL,	0 },
+	};
 	GSList	*axes;
 
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -4221,7 +4226,8 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name"))
 			style_name = CXML2C (attrs[1]);
-		else if (oo_attr_enum (xin, attrs, OO_NS_CHART, "dimension", types, &tmp))
+		else if (oo_attr_enum (xin, attrs, OO_NS_CHART, "dimension", 
+				       (state->chart.plot_type == OO_PLOT_RADAR)? types_radar :  types, &tmp))
 			axis_type = tmp;
 
 	axes = gog_chart_get_axes (state->chart.chart, axis_type);
