@@ -1,5 +1,16 @@
 2010-08-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (od_style_prop_chart); new properties
+	(od_series_regression): new
+	(opendoc_content_dtd): connect od_series_regression
+	* openoffice-write.c (odf_write_standard_series): write regression
+	(odf_write_plot_style_uint): new
+	(odf_write_standard_axes_styles): remove unused varaible
+	(odf_write_*_reg): new
+	(odf_fill_chart_props_hash): add various regression method objects
+
+2010-08-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_prop_list_apply_to_axis): new
 	(od_style_prop_chart): new attributes
 	(oo_chart_axis): call oo_prop_list_apply_to_axis instead of

@@ -3680,6 +3680,22 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			style->style_props = g_slist_prepend
 				(style->style_props,
 				 oo_prop_new_int ("font-gravity-pango", tmp));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, 
+					     "regression-type"))
+			style->other_props = g_slist_prepend
+				(style->other_props,
+				 oo_prop_new_string ("regression-type",
+						     CXML2C(attrs[1])));
+		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, 
+					      "regression-polynomial-dims", &tmp, 
+					      1, 100))
+			style->other_props = g_slist_prepend
+				(style->other_props,
+				 oo_prop_new_int ("dims", tmp));
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "regression-affine", 
+				       &btmp))
+			style->other_props = g_slist_prepend (style->other_props,
+				oo_prop_new_bool ("regression-affine", btmp));
 
 	}
 
@@ -4760,6 +4776,64 @@ oo_series_pt (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	char const *style_name = NULL;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name"))
+			style_name = CXML2C (attrs[1]);
+	if (style_name != NULL) {
+		GSList *l;
+		OOChartStyle *chart_style = g_hash_table_lookup
+			(state->chart.graph_styles, style_name);
+		GOStyle *style = NULL;
+		GogObject *regression;
+		gchar const *type_name = "GogLinRegCurve";
+		
+		for (l = chart_style->other_props; l != NULL; l = l->next) {
+			OOProp *prop = l->data;
+			if (0 == strcmp ("regression-type", prop->name)) {
+				char const *reg_type = g_value_get_string (&prop->value);
+				if (0 == strcmp (reg_type, "linear")) 
+					type_name = "GogLinRegCurve";
+				else if (0 == strcmp (reg_type, "power")) 
+					type_name = "GogPowerRegCurve";
+				else if (0 == strcmp (reg_type, "exponential")) 
+					type_name = "GogExpRegCurve";
+				else if (0 == strcmp (reg_type, "logarithmic")) 
+					type_name = "GogLogRegCurve";
+				else if (0 == strcmp 
+					 (reg_type, "gnm:exponential-smoothing"))
+					type_name = "GogExpSmooth";
+				else if (0 == strcmp 
+					 (reg_type, "gnm:logfit")) 
+					type_name = "GogLogFitCurve";
+				else if (0 == strcmp 
+					 (reg_type, "gnm:polynomial")) 
+					type_name = "GogPolynomRegCurve";
+				else if (0 == strcmp 
+					 (reg_type, "gnm:moving-average")) 
+					type_name = "GogMovingAvg";
+			}
+		}
+		
+		regression = GOG_OBJECT (gog_trend_line_new_by_name (type_name));
+		regression = gog_object_add_by_name (GOG_OBJECT (state->chart.series), 
+						     "Regression curve", regression);
+		oo_prop_list_apply (chart_style->other_props, G_OBJECT (regression));
+
+		g_object_get (G_OBJECT (regression), "style", &style, NULL);
+		if (style != NULL) {
+			odf_apply_style_props (chart_style->style_props, style);
+			g_object_unref (style);			
+		}
+	}	
+}
+
+
+static void
 oo_series_droplines (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -5339,6 +5413,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_DOMAIN, OO_NS_CHART, "domain", GSF_XML_NO_CONTENT, &oo_series_domain, NULL),
 		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_DATA_PT, OO_NS_CHART, "data-point", GSF_XML_NO_CONTENT, &oo_series_pt, NULL),
 		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_DATA_ERR, OO_NS_CHART, "error-indicator", GSF_XML_NO_CONTENT, NULL, NULL),
+		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_REGRESSION, OO_NS_CHART, "regression-curve", GSF_XML_NO_CONTENT,  &od_series_regression, NULL),
 		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_DROPLINES, OO_GNUM_NS_EXT, "droplines", GSF_XML_NO_CONTENT, &oo_series_droplines, NULL),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_WALL, OO_NS_CHART, "wall", GSF_XML_NO_CONTENT, &oo_chart_wall, NULL),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_FLOOR, OO_NS_CHART, "floor", GSF_XML_NO_CONTENT, NULL, NULL),
