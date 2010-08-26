@@ -3300,6 +3300,27 @@ oo_prop_list_apply (GSList *props, GObject *obj)
 	}
 }
 
+static void
+oo_prop_list_apply_to_axis (GSList *props, GObject *obj)
+{
+	GSList *ptr;
+	OOProp *prop;
+
+	double minimum = go_ninf, maximum = go_pinf;
+
+	oo_prop_list_apply (props, obj);
+
+	for (ptr = props; ptr; ptr = ptr->next) {
+		prop = ptr->data;
+		if (0 == strcmp ("minimum", prop->name))
+			minimum = g_value_get_double (&prop->value);
+		else if (0 == strcmp ("maximum", prop->name))
+			maximum = g_value_get_double (&prop->value);
+	}
+
+	gog_axis_set_bounds (GOG_AXIS (obj), minimum, maximum);
+}
+
 static GOLineDashType
 odf_match_dash_type (OOParseState *state, gchar const *dash_style)
 {
@@ -3496,6 +3517,14 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 					 "show-negatives", &btmp)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_bool ("show-negatives", btmp));
+		} else if (oo_attr_float (xin, attrs, OO_NS_CHART, 
+					  "minimum", &ftmp)) {
+			style->axis_props = g_slist_prepend (style->axis_props,
+				oo_prop_new_float ("minimum", ftmp));
+		} else if (oo_attr_float (xin, attrs, OO_NS_CHART, 
+					  "maximum", &ftmp)) {
+			style->axis_props = g_slist_prepend (style->axis_props,
+				oo_prop_new_float ("maximum", ftmp));
 		} else if (oo_attr_float (xin, attrs, OO_GNUM_NS_EXT, 
 					  "radius-ratio", &ftmp)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
@@ -4250,7 +4279,8 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 	if (NULL != style_name &&
 	    NULL != (style = g_hash_table_lookup (state->chart.graph_styles, style_name))) {
 		if (NULL != state->chart.axis)
-			oo_prop_list_apply (style->axis_props, G_OBJECT (state->chart.axis));
+			oo_prop_list_apply_to_axis (style->axis_props, G_OBJECT (state->chart.axis));
+
 
 		/* AAARRRGGGHH : why would they do this.  The axis style impact
 		 * the plot ?? */

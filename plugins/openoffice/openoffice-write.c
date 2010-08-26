@@ -4153,15 +4153,12 @@ odf_write_standard_axes_styles (GnmOOExport *state, GogObject const *chart,
 {
 	GogObject const *axis;
 	GObjectClass *klass = G_OBJECT_GET_CLASS (G_OBJECT (plot));
-	gboolean horizontal = FALSE;
-	if (NULL != g_object_class_find_property (klass,  "horizontal"))
-		g_object_get (G_OBJECT (plot), "horizontal", &horizontal, NULL);
 
-	axis = gog_object_get_child_by_name (chart, horizontal ? "Y-Axis" : "X-Axis");
+	axis = gog_object_get_child_by_name (chart, "X-Axis");
 	if (axis != NULL)
 		*x_style = odf_get_gog_style_name_from_obj (axis);
 
-	axis = gog_object_get_child_by_name (chart, horizontal ? "X-Axis" : "Y-Axis");
+	axis = gog_object_get_child_by_name (chart, "Y-Axis");
 	if (axis != NULL)
 		*y_style = odf_get_gog_style_name_from_obj (axis);
 }

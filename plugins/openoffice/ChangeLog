@@ -1,5 +1,15 @@
 2010-08-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_prop_list_apply_to_axis): new
+	(od_style_prop_chart): new attributes
+	(oo_chart_axis): call oo_prop_list_apply_to_axis instead of
+	  (oo_prop_list_apply
+	* openoffice-write.c (odf_write_standard_axes_styles): don't switch
+	  axes (otherwise we switch them twice: when we write teh style and 
+	  when we write the axes proper).
+
+2010-08-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (od_style_prop_chart): new attributes
 	* openoffice-write.c (odf_write_axis_style): new attributes
 
