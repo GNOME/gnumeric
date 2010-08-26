@@ -192,6 +192,7 @@ typedef struct {
 
 	GogObject	*axis;
 	xmlChar         *cat_expr;
+	GogObject	*regression;
 
 	GnmExprTop const        *title_expr;
 	gchar                   *title_style;
@@ -4776,10 +4777,64 @@ oo_series_pt (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+od_series_reg_equation (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	char const *style_name = NULL;
+	GogObject *equation;
+	gboolean automatic_content = TRUE;
+	gboolean dispay_equation = TRUE;
+	gboolean display_r_square = TRUE;
+	
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name"))
+			style_name = CXML2C (attrs[1]);
+		else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "automatic-content", 
+				       &automatic_content));
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "automatic-content", 
+				       &automatic_content));
+		else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "display-equation", 
+				       &dispay_equation));
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "display-equation", 
+				       &dispay_equation));
+		else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "display-r-square", 
+				       &display_r_square));
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "display-r-square", 
+				       &display_r_square));
+	
+	equation = gog_object_add_by_name (GOG_OBJECT (state->chart.regression), 
+						     "Equation", NULL);
+
+	g_object_set (G_OBJECT (equation), 
+		      "show-eq", dispay_equation, 
+		      "show-r2", display_r_square,
+		      NULL);
+
+	if (!automatic_content)
+		oo_warning (xin, _("Gnumeric does not support non-automatic"
+				   " regression equations. Using automatic"
+				   " equation instead."));
+
+	if (style_name != NULL) {
+		OOChartStyle *chart_style = g_hash_table_lookup
+			(state->chart.graph_styles, style_name);
+		GOStyle *style = NULL;
+		g_object_get (G_OBJECT (equation), "style", &style, NULL);
+		if (style != NULL) {
+			odf_apply_style_props (chart_style->style_props, style);
+			g_object_unref (style);			
+		}
+	}	
+}
+
+static void
 od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	char const *style_name = NULL;
+
+	state->chart.regression = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name"))
@@ -4819,7 +4874,8 @@ od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 		}
 		
-		regression = GOG_OBJECT (gog_trend_line_new_by_name (type_name));
+		state->chart.regression = regression = 
+			GOG_OBJECT (gog_trend_line_new_by_name (type_name));
 		regression = gog_object_add_by_name (GOG_OBJECT (state->chart.series), 
 						     "Regression curve", regression);
 		oo_prop_list_apply (chart_style->other_props, G_OBJECT (regression));
@@ -5414,6 +5470,11 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_DATA_PT, OO_NS_CHART, "data-point", GSF_XML_NO_CONTENT, &oo_series_pt, NULL),
 		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_DATA_ERR, OO_NS_CHART, "error-indicator", GSF_XML_NO_CONTENT, NULL, NULL),
 		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_REGRESSION, OO_NS_CHART, "regression-curve", GSF_XML_NO_CONTENT,  &od_series_regression, NULL),
+	            GSF_XML_IN_NODE (SERIES_REGRESSION, SERIES_REG_EQ, OO_NS_CHART, "equation", GSF_XML_NO_CONTENT,  &od_series_reg_equation, NULL),
+	            GSF_XML_IN_NODE (SERIES_REGRESSION, SERIES_REG_EQ_GNM, OO_GNUM_NS_EXT, "equation", GSF_XML_NO_CONTENT,  &od_series_reg_equation, NULL),
+		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_REGRESSION_MULTIPLE, OO_GNUM_NS_EXT, "regression-curve", GSF_XML_NO_CONTENT,  &od_series_regression, NULL),
+	            GSF_XML_IN_NODE (SERIES_REGRESSION_MULTIPLE, SERIES_REG_EQ, OO_NS_CHART, "equation", GSF_XML_NO_CONTENT,  NULL, NULL),/* 2nd Def */
+	            GSF_XML_IN_NODE (SERIES_REGRESSION_MULTIPLE, SERIES_REG_EQ_GNM, OO_GNUM_NS_EXT, "equation", GSF_XML_NO_CONTENT,  NULL, NULL), /* 2nd Def */
 		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_DROPLINES, OO_GNUM_NS_EXT, "droplines", GSF_XML_NO_CONTENT, &oo_series_droplines, NULL),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_WALL, OO_NS_CHART, "wall", GSF_XML_NO_CONTENT, &oo_chart_wall, NULL),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_FLOOR, OO_NS_CHART, "floor", GSF_XML_NO_CONTENT, NULL, NULL),

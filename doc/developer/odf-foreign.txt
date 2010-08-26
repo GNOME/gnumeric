@@ -46,11 +46,41 @@ gnm:default-separation
 This is an attribute for the plot-style chart:circle
 
 gnm:expression
-Attribute used where ODF restricts expressions to be cell references via table:cell-range-address fore xample chart titles.
+Attribute used where ODF restricts expressions to be cell references via table:cell-range-address for example chart titles.
 
 gnm:font-stretch-pango
 gnm:font-gravity-pango
 Attributes to chart:text-properties
+
+gnm:label-cell-expression
+used instead of chart:label-cell-address if that isn't just a range reference
+
+gnm:droplines
+element to add droplines to charts
+
+gnm:regression-curve
+element used instead of chart:regression-curve for any second or later regression curve in a plot
+
+gnm:multi-series
+flag to recognize an XLSurfacePlot export
+
+gnm:vary-style-by-element
+plot property
+
+gnm:show-negatives
+property of bubble plots
+
+gnm:reverse-direction
+gnm:automatic-content
+gnm:display-equation
+gnm:display-r-square
+used instead of the ODF1.2 attribute chart:...
+
+gnm:regression-affine
+whether a given regression is affine or not
+
+gnm:regression-polynomial-dims
+dimension for a polynomial regression
 
 3) Attribute _values_ added by Gnumeric. 
 Since these are not eleemnts or new attributes they are used in all ODF exports.
@@ -64,6 +94,12 @@ gnm:step-end
 gnm:step-center-x
 gnm:step-center-y
 various attribute values specifying chart:interpolation types
+
+gnm:polynomial
+gnm:log-fit
+gnm:moving-average
+gnm:exponential-smoothed
+various attributes for chart:regression-type
 
 3a) Plot Styles added by Gnumeric (these are technically also attribute values)
 

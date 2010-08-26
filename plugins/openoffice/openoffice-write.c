@@ -455,6 +455,97 @@ gnm_xml_out_add_hex_color (GsfXMLOut *o, char const *id, GnmColor const *c, int 
 }
 
 static void
+odf_write_plot_style_int (GsfXMLOut *xml, GogObject const *plot, 
+			  GObjectClass *klass, char const *property,
+			  char const *id)
+{
+	GParamSpec *spec;
+	if (NULL != (spec = g_object_class_find_property (klass, property)) 
+	    && spec->value_type == G_TYPE_INT 
+	    && (G_PARAM_READABLE & spec->flags)) {
+		int i;
+		g_object_get (G_OBJECT (plot), property, &i, NULL);
+		gsf_xml_out_add_int (xml, id, i);
+	}	
+}
+
+static void
+odf_write_plot_style_uint (GsfXMLOut *xml, GogObject const *plot, 
+			  GObjectClass *klass, char const *property,
+			  char const *id)
+{
+	GParamSpec *spec;
+	if (NULL != (spec = g_object_class_find_property (klass, property)) 
+	    && spec->value_type == G_TYPE_UINT 
+	    && (G_PARAM_READABLE & spec->flags)) {
+		unsigned int i;
+		g_object_get (G_OBJECT (plot), property, &i, NULL);
+		gsf_xml_out_add_uint (xml, id, i);
+	}	
+}
+
+static void
+odf_write_plot_style_double (GsfXMLOut *xml, GogObject const *plot, 
+			     GObjectClass *klass, char const *property,
+			     char const *id)
+{
+	GParamSpec *spec;
+	if (NULL != (spec = g_object_class_find_property (klass, property)) 
+	    && spec->value_type == G_TYPE_DOUBLE 
+	    && (G_PARAM_READABLE & spec->flags)) {
+		double d;
+		g_object_get (G_OBJECT (plot), property, &d, NULL);
+		gsf_xml_out_add_float (xml, id, d, -1);
+	}	
+}
+
+static void
+odf_write_plot_style_double_percent (GsfXMLOut *xml, GogObject const *plot, 
+				     GObjectClass *klass, char const *property,
+				     char const *id)
+{
+	GParamSpec *spec;
+	if (NULL != (spec = g_object_class_find_property (klass, property)) 
+	    && spec->value_type == G_TYPE_DOUBLE 
+	    && (G_PARAM_READABLE & spec->flags)) {
+		double d;
+		g_object_get (G_OBJECT (plot), property, &d, NULL);
+		odf_add_percent (xml, id, d);
+	}	
+}
+
+static void
+odf_write_plot_style_bool (GsfXMLOut *xml, GogObject const *plot, 
+			  GObjectClass *klass, char const *property,
+			  char const *id)
+{
+	GParamSpec *spec;
+	if (NULL != (spec = g_object_class_find_property (klass, property)) 
+	    && spec->value_type == G_TYPE_BOOLEAN 
+	    && (G_PARAM_READABLE & spec->flags)) {
+		gboolean b;
+		g_object_get (G_OBJECT (plot), property, &b, NULL);
+		odf_add_bool (xml, id, b);
+	}	
+}
+
+static void
+odf_write_plot_style_from_bool (GsfXMLOut *xml, GogObject const *plot, 
+				GObjectClass *klass, char const *property,
+				char const *id,
+				char const *t_val, char const *f_val)
+{
+	GParamSpec *spec;
+	if (NULL != (spec = g_object_class_find_property (klass, property)) 
+	    && spec->value_type == G_TYPE_BOOLEAN 
+	    && (G_PARAM_READABLE & spec->flags)) {
+		gboolean b;
+		g_object_get (G_OBJECT (plot), property, &b, NULL);
+		gsf_xml_out_add_cstr (xml, id, b ? t_val : f_val);
+	}	
+}
+
+static void
 odf_start_style (GsfXMLOut *xml, char const *name, char const *family)
 {
 	gsf_xml_out_start_element (xml, STYLE "style");
@@ -3595,10 +3686,43 @@ odf_write_standard_series (GnmOOExport *state, GSList const *series)
 						(GOG_OBJECT (series->data), role);
 					for (l = regressions; l != NULL && l->data != NULL; l = l->next) {
 						GogObject const *regression = l->data;
+						GogObject const *equation 
+							= gog_object_get_child_by_name (regression, "Equation");
 						str = odf_get_gog_style_name_from_obj 
 							(GOG_OBJECT (regression));
-						gsf_xml_out_start_element (state->xml, CHART "regression-curve");
+						gsf_xml_out_start_element 
+							(state->xml, 
+							 (l == regressions) ? CHART "regression-curve" 
+							 : GNMSTYLE "regression-curve");
 						gsf_xml_out_add_cstr (state->xml, CHART "style-name", str);
+						
+						if (equation != NULL) {
+							GObjectClass *klass = G_OBJECT_GET_CLASS (equation);
+							char const *eq_element, *eq_automatic, *eq_display, *eq_r;
+							if (get_gsf_odf_version () > 101) {
+								eq_element = CHART "equation";
+								eq_automatic = CHART "automatic-content";
+								eq_display = CHART "display-equation";
+								eq_r = CHART "display-r-square";
+							} else {
+								eq_element = GNMSTYLE "equation";
+								eq_automatic = GNMSTYLE "automatic-content";
+								eq_display = GNMSTYLE "display-equation";
+								eq_r = GNMSTYLE "display-r-square";
+							}
+							gsf_xml_out_start_element 
+								(state->xml, eq_element);
+							odf_add_bool (state->xml, eq_automatic, TRUE);
+							odf_write_plot_style_bool (state->xml, equation, klass,
+										   "show-eq", eq_display);
+							odf_write_plot_style_bool (state->xml, equation, klass,
+										   "show-r2", eq_r);
+							str = odf_get_gog_style_name_from_obj 
+								(GOG_OBJECT (equation));
+							gsf_xml_out_add_cstr (state->xml, CHART "style-name", str);
+							gsf_xml_out_end_element (state->xml); /* </chart:equation> */
+						}
+
 						gsf_xml_out_end_element (state->xml); /* </chart:regression-curve> */
 						g_free (str);
 					}
@@ -3774,96 +3898,6 @@ odf_write_min_max_series (GnmOOExport *state, GSList const *orig_series)
 	}
 }
 
-static void
-odf_write_plot_style_int (GsfXMLOut *xml, GogObject const *plot, 
-			  GObjectClass *klass, char const *property,
-			  char const *id)
-{
-	GParamSpec *spec;
-	if (NULL != (spec = g_object_class_find_property (klass, property)) 
-	    && spec->value_type == G_TYPE_INT 
-	    && (G_PARAM_READABLE & spec->flags)) {
-		int i;
-		g_object_get (G_OBJECT (plot), property, &i, NULL);
-		gsf_xml_out_add_int (xml, id, i);
-	}	
-}
-
-static void
-odf_write_plot_style_uint (GsfXMLOut *xml, GogObject const *plot, 
-			  GObjectClass *klass, char const *property,
-			  char const *id)
-{
-	GParamSpec *spec;
-	if (NULL != (spec = g_object_class_find_property (klass, property)) 
-	    && spec->value_type == G_TYPE_UINT 
-	    && (G_PARAM_READABLE & spec->flags)) {
-		unsigned int i;
-		g_object_get (G_OBJECT (plot), property, &i, NULL);
-		gsf_xml_out_add_uint (xml, id, i);
-	}	
-}
-
-static void
-odf_write_plot_style_double (GsfXMLOut *xml, GogObject const *plot, 
-			     GObjectClass *klass, char const *property,
-			     char const *id)
-{
-	GParamSpec *spec;
-	if (NULL != (spec = g_object_class_find_property (klass, property)) 
-	    && spec->value_type == G_TYPE_DOUBLE 
-	    && (G_PARAM_READABLE & spec->flags)) {
-		double d;
-		g_object_get (G_OBJECT (plot), property, &d, NULL);
-		gsf_xml_out_add_float (xml, id, d, -1);
-	}	
-}
-
-static void
-odf_write_plot_style_double_percent (GsfXMLOut *xml, GogObject const *plot, 
-				     GObjectClass *klass, char const *property,
-				     char const *id)
-{
-	GParamSpec *spec;
-	if (NULL != (spec = g_object_class_find_property (klass, property)) 
-	    && spec->value_type == G_TYPE_DOUBLE 
-	    && (G_PARAM_READABLE & spec->flags)) {
-		double d;
-		g_object_get (G_OBJECT (plot), property, &d, NULL);
-		odf_add_percent (xml, id, d);
-	}	
-}
-
-static void
-odf_write_plot_style_bool (GsfXMLOut *xml, GogObject const *plot, 
-			  GObjectClass *klass, char const *property,
-			  char const *id)
-{
-	GParamSpec *spec;
-	if (NULL != (spec = g_object_class_find_property (klass, property)) 
-	    && spec->value_type == G_TYPE_BOOLEAN 
-	    && (G_PARAM_READABLE & spec->flags)) {
-		gboolean b;
-		g_object_get (G_OBJECT (plot), property, &b, NULL);
-		odf_add_bool (xml, id, b);
-	}	
-}
-
-static void
-odf_write_plot_style_from_bool (GsfXMLOut *xml, GogObject const *plot, 
-				GObjectClass *klass, char const *property,
-				char const *id,
-				char const *t_val, char const *f_val)
-{
-	GParamSpec *spec;
-	if (NULL != (spec = g_object_class_find_property (klass, property)) 
-	    && spec->value_type == G_TYPE_BOOLEAN 
-	    && (G_PARAM_READABLE & spec->flags)) {
-		gboolean b;
-		g_object_get (G_OBJECT (plot), property, &b, NULL);
-		gsf_xml_out_add_cstr (xml, id, b ? t_val : f_val);
-	}	
-}
 
 static void
 odf_write_interpolation_attribute (GnmOOExport *state, GogObject const *series) 
