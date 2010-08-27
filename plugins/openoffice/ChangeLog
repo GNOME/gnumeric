@@ -1,3 +1,13 @@
+2010-08-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_store_data): new
+	(od_series_regression): handle upper and lower bounds of 
+	  regression line
+	* openoffice-write.c (odf_write_data_element): new
+	(odf_write_data_attribute): new
+	(odf_write_standard_series): use the above and write upper and
+	  lower bounds of regression line
+	
 2010-08-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_prop_list_free): use go_slist_free_custom

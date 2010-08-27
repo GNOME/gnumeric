@@ -4902,16 +4902,45 @@ od_series_reg_equation (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+odf_store_data (OOParseState *state, gchar const *str, GogObject *obj, int dim)
+{
+	if (str != NULL) {
+		GnmParsePos pp;
+		GnmRangeRef ref;
+		char const *ptr = oo_rangeref_parse 
+			(&ref, CXML2C (str),
+			 parse_pos_init (&pp, state->pos.wb, NULL, 0, 0));
+		if (ptr != CXML2C (str)) {
+			GnmValue *v = value_new_cellrange (&ref.a, &ref.b, 0, 0);
+			GnmExprTop const *texpr = gnm_expr_top_new_constant (v);
+			if (NULL != texpr) {
+				gog_dataset_set_dim (GOG_DATASET (obj), dim,
+						     gnm_go_data_scalar_new_expr 
+						     (state->pos.sheet, texpr),
+						     NULL);
+			}
+		}
+	}
+}
+
+static void
 od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	char const *style_name = NULL;
+	gchar const *lower_bd = NULL;
+	gchar const *upper_bd = NULL;
 
 	state->chart.regression = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name"))
 			style_name = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "lower-bound"))
+			lower_bd = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "upper-bound"))
+			upper_bd = CXML2C (attrs[1]);
+
 	if (style_name != NULL) {
 		GSList *l;
 		OOChartStyle *chart_style = g_hash_table_lookup
@@ -4958,6 +4987,9 @@ od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 			odf_apply_style_props (chart_style->style_props, style);
 			g_object_unref (style);			
 		}
+
+		odf_store_data (state, lower_bd, regression , 0);
+		odf_store_data (state, upper_bd, regression , 1);
 	}	
 }
 
