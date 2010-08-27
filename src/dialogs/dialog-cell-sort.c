@@ -209,7 +209,7 @@ cb_sort_field_menu_activate(GtkWidget *item, AddSortFieldMenuState *menu_state)
 }
 
 static void
-set_ok_button_sensitivity(SortFlowState *state)
+set_button_sensitivity(SortFlowState *state)
 {
 	int items;
 
@@ -227,6 +227,7 @@ set_ok_button_sensitivity(SortFlowState *state)
 	gtk_widget_set_sensitive (state->ok_button,
 				  (state->sort_items != 0) &&
 				  (items > 1));
+	gtk_widget_set_sensitive (state->clear_button, state->sort_items != 0);
 }
 
 static void
@@ -268,7 +269,7 @@ cb_sort_field_selection(GtkWidget *item, AddSortFieldMenuState *menu_state)
 		    menu_state->index);
 	/* Update sensitivity if this is the first sort item. */
 	if (menu_state->state->sort_items == 1)
-		set_ok_button_sensitivity(menu_state->state);
+		set_button_sensitivity(menu_state->state);
 }
 
 static void
@@ -407,7 +408,7 @@ cb_sort_header_check(SortFlowState *state)
 		GTK_TOGGLE_BUTTON (state->cell_sort_header_check));
 
 	gtk_tree_view_column_set_visible (state->header_column, state->header);
-	set_ok_button_sensitivity (state);
+	set_button_sensitivity (state);
 }
 
 static void
@@ -424,13 +425,9 @@ cb_update_to_new_range (SortFlowState *state)
 			gtk_list_store_clear (state->model);
 			state->sort_items = 0;
 		}
-		gtk_widget_set_sensitive (state->ok_button, FALSE);
-	} else {
+	} else
 		translate_range (range, state);
-		set_ok_button_sensitivity(state);
-	}
-
-	gtk_widget_set_sensitive (state->clear_button, state->sort_items != 0);
+	set_button_sensitivity(state);
 }
 
 static void
@@ -645,6 +642,7 @@ cb_sort_selection_changed (SortFlowState *state)
 					   &test));
 
 	gtk_widget_set_sensitive (state->delete_button, TRUE);
+	set_button_sensitivity (state);
 }
 
 static void
@@ -718,7 +716,7 @@ cb_delete_clicked (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
 
 	gtk_list_store_remove (state->model, &iter);
 	state->sort_items--;
-	set_ok_button_sensitivity (state);
+	set_button_sensitivity (state);
 }
 
 
@@ -727,7 +725,7 @@ cb_clear_clicked (SortFlowState *state)
 {
 	state->sort_items = 0;
 	gtk_list_store_clear (state->model);
-	set_ok_button_sensitivity (state);
+	set_button_sensitivity (state);
 }
 
 static GtkMenu *
@@ -841,7 +839,7 @@ cb_add_clicked (SortFlowState *state)
 			}
 		}
 		if (!had_items && (state->sort_items > 0))
-			set_ok_button_sensitivity(state);
+			set_button_sensitivity(state);
 	} else
 		show_add_menu (state);
 	gnm_expr_entry_load_from_text (GNM_EXPR_ENTRY (state->add_entry), "");

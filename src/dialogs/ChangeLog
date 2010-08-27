@@ -1,3 +1,10 @@
+2010-08-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-cell-sort.c (set_ok_button_sensitivity): renamed to
+	  set_button_sensitivity and change all callers. Also handle
+	  clear button
+	(cb_update_to_new_range): always use set_button_sensitivity
+
 2010-08-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.9
