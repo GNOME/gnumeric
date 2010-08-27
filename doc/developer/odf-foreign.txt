@@ -82,6 +82,11 @@ whether a given regression is affine or not
 gnm:regression-polynomial-dims
 dimension for a polynomial regression
 
+gnm:is-position-manual
+gnm:position
+gnm:anchor
+position of GogObject
+
 3) Attribute _values_ added by Gnumeric. 
 Since these are not eleemnts or new attributes they are used in all ODF exports.
 

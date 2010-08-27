@@ -1,4 +1,4 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* vm: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
  * openoffice-read.c : import open/star calc files
@@ -3277,10 +3277,7 @@ oo_prop_free (OOProp *prop)
 static void
 oo_prop_list_free (GSList *props)
 {
-	GSList *ptr;
-	for (ptr = props; NULL != ptr; ptr = ptr->next)
-		oo_prop_free (ptr->data);
-	g_slist_free (props);
+	go_slist_free_custom (props, (GFreeFunc) oo_prop_free);
 }
 
 static void
@@ -3507,13 +3504,15 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "reverse-direction", &btmp)) {
 			style->axis_props = g_slist_prepend (style->axis_props,
 				oo_prop_new_bool ("invert-axis", btmp));
-		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "reverse-direction", &btmp)) {
+		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, 
+					 "reverse-direction", &btmp)) {
 			style->axis_props = g_slist_prepend (style->axis_props,
 				oo_prop_new_bool ("invert-axis", btmp));
 		} else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, 
 					 "vary-style-by-element", &btmp)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
-				oo_prop_new_bool ("vary-style-by-element", btmp));
+				oo_prop_new_bool ("vary-style-by-element", 
+						  btmp));
 		} else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, 
 					 "show-negatives", &btmp)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
@@ -3537,22 +3536,30 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (oo_attr_int_range (xin, attrs, OO_NS_CHART, 
 					      "pie-offset", &tmp, 0, 500)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
-				oo_prop_new_float ("default-separation", tmp/100.));
-		} else if (oo_attr_percent (xin, attrs, OO_NS_CHART, "hole-size", &ftmp)) {
+				oo_prop_new_float ("default-separation", 
+						   tmp/100.));
+		} else if (oo_attr_percent (xin, attrs, OO_NS_CHART, 
+					    "hole-size", &ftmp)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_float ("center-size", ftmp));
 		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, 
 					 "reverse-direction", &btmp)) {
 			style->axis_props = g_slist_prepend (style->axis_props,
 				oo_prop_new_bool ("invert-axis", btmp));
-		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "stacked", &btmp)) {
+		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "stacked", 
+					 &btmp)) {
 			if (btmp)
-				style->plot_props = g_slist_prepend (style->plot_props,
-					oo_prop_new_string ("type", "stacked"));
-		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "percentage", &btmp)) {
+				style->plot_props = g_slist_prepend 
+					(style->plot_props,
+					 oo_prop_new_string ("type", 
+							     "stacked"));
+		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "percentage",
+					 &btmp)) {
 			if (btmp)
-				style->plot_props = g_slist_prepend (style->plot_props,
-					oo_prop_new_string ("type", "as_percentage"));
+				style->plot_props = g_slist_prepend 
+					(style->plot_props,
+					oo_prop_new_string ("type", 
+							    "as_percentage"));
 		} else if (oo_attr_int_range (xin, attrs, OO_NS_CHART, 
 					      "overlap", &tmp, -150, 150)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
@@ -3570,7 +3577,8 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			style->series_props = g_slist_prepend
 				(style->series_props,
 				 oo_prop_new_int ("symbol-type", tmp));
-		} else if (oo_attr_enum (xin, attrs, OO_NS_CHART, "symbol-name", 
+		} else if (oo_attr_enum (xin, attrs, OO_NS_CHART, 
+					 "symbol-name", 
 					 named_symbols, &tmp)) {
 			style->series_props = g_slist_prepend
 				(style->series_props,
@@ -3589,8 +3597,8 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				interpolation = CXML2C(attrs[1]) + 4;
 			else oo_warning 
 				     (xin, _("Unknown interpolation type "
-					     "encountered: %s"), CXML2C(attrs[1]));
-
+					     "encountered: %s"), 
+				      CXML2C(attrs[1]));
 			if (interpolation != NULL) {
 				style->series_props = g_slist_prepend
 					(style->series_props,
@@ -3697,6 +3705,27 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				       &btmp))
 			style->other_props = g_slist_prepend (style->other_props,
 				oo_prop_new_bool ("regression-affine", btmp));
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, 
+				       "is-position-manual", 
+				       &btmp))
+			style->plot_props = g_slist_prepend
+					(style->plot_props,
+					 oo_prop_new_bool 
+					 ("is-position-manual", btmp));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					     OO_GNUM_NS_EXT, 
+					     "position"))
+			style->plot_props = g_slist_prepend
+					(style->plot_props,
+					 oo_prop_new_string
+					 ("position", CXML2C(attrs[1])));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					     OO_GNUM_NS_EXT, 
+					     "anchor"))
+			style->plot_props = g_slist_prepend
+					(style->plot_props,
+					 oo_prop_new_string
+					 ("anchor", CXML2C(attrs[1])));
 
 	}
 
@@ -4433,6 +4462,37 @@ oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, int dim_type, char cons
 }
 
 static void
+odf_gog_check_position (GsfXMLIn *xin, xmlChar const **attrs, GSList **list)
+{
+	gboolean b;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "is-position-manual", &b))
+			*list = g_slist_prepend (*list, oo_prop_new_bool("is-position-manual",
+									 b));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "position"))
+			*list = g_slist_prepend (*list, oo_prop_new_string ("position", 
+									    CXML2C(attrs[1])));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "anchor"))
+			*list = g_slist_prepend (*list, oo_prop_new_string ("anchor", 
+									    CXML2C(attrs[1])));
+}
+
+static void
+odf_gog_plot_area_check_position (GsfXMLIn *xin, xmlChar const **attrs, GSList **list)
+{
+	gboolean b;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "is-position-manual", &b))
+			*list = g_slist_prepend (*list, oo_prop_new_bool("is-plot-area-manual",
+									 b));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "position"))
+			*list = g_slist_prepend (*list, oo_prop_new_string ("plot-area", 
+									    CXML2C(attrs[1])));
+}
+
+static void
 oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static OOEnum const labels[] = {
@@ -4449,6 +4509,9 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	xmlChar const   *source_range_str = NULL;
 	int label_flags = 0;
 	GSList *l;
+	GSList *prop_list = NULL;
+	
+	odf_gog_plot_area_check_position (xin, attrs, &prop_list);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
@@ -4565,6 +4628,10 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	state->chart.plot = gog_plot_new_by_name (type);
 	gog_object_add_by_name (GOG_OBJECT (state->chart.chart),
 		"Plot", GOG_OBJECT (state->chart.plot));
+
+	oo_prop_list_apply (prop_list, G_OBJECT (state->chart.chart));
+	oo_prop_list_free (prop_list);
+
 	for (l = state->chart.these_plot_styles; l != NULL; l = l->next) {
 		style = l->data;
 		oo_prop_list_apply (style->plot_props, G_OBJECT (state->chart.plot));
@@ -4785,7 +4852,9 @@ od_series_reg_equation (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean automatic_content = TRUE;
 	gboolean dispay_equation = TRUE;
 	gboolean display_r_square = TRUE;
+	GSList *prop_list = NULL;
 	
+	odf_gog_check_position (xin, attrs, &prop_list);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name"))
@@ -4800,8 +4869,7 @@ od_series_reg_equation (GsfXMLIn *xin, xmlChar const **attrs)
 				       &dispay_equation));
 		else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "display-r-square", 
 				       &display_r_square));
-		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "display-r-square", 
-				       &display_r_square));
+
 	
 	equation = gog_object_add_by_name (GOG_OBJECT (state->chart.regression), 
 						     "Equation", NULL);
@@ -4810,7 +4878,10 @@ od_series_reg_equation (GsfXMLIn *xin, xmlChar const **attrs)
 		      "show-eq", dispay_equation, 
 		      "show-r2", display_r_square,
 		      NULL);
-
+	
+	oo_prop_list_apply (prop_list, G_OBJECT (equation));
+	oo_prop_list_free (prop_list);
+	
 	if (!automatic_content)
 		oo_warning (xin, _("Gnumeric does not support non-automatic"
 				   " regression equations. Using automatic"
@@ -4825,6 +4896,8 @@ od_series_reg_equation (GsfXMLIn *xin, xmlChar const **attrs)
 			odf_apply_style_props (chart_style->style_props, style);
 			g_object_unref (style);			
 		}
+		/* In the moment we don't need this. */
+/* 		oo_prop_list_apply (chart_style->plot_props, G_OBJECT (equation)); */
 	}	
 }
 

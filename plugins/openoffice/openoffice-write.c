@@ -683,6 +683,52 @@ odf_write_table_styles (GnmOOExport *state)
 	}
 }
 
+static void
+odf_write_gog_position (GnmOOExport *state, GogObject const *obj)
+{
+	gboolean is_position_manual = TRUE;
+	gchar *position = NULL, *anchor = NULL;
+
+	if (!state->with_extension)
+		return;
+
+	g_object_get (G_OBJECT (obj), 
+		      "is-position-manual", &is_position_manual,
+		      "position", &position,
+		      "anchor", &anchor, 
+		      NULL);
+	odf_add_bool (state->xml, GNMSTYLE "is-position-manual", is_position_manual);
+	if (is_position_manual) {
+		if (position)
+			gsf_xml_out_add_cstr (state->xml, GNMSTYLE "position", position);
+		if (anchor)
+			gsf_xml_out_add_cstr (state->xml, GNMSTYLE "anchor", anchor);
+	}
+
+	g_free (position);
+	g_free (anchor);
+}
+
+static void
+odf_write_gog_plot_area_position (GnmOOExport *state, GogObject const *obj)
+{
+	gboolean is_position_manual = TRUE;
+	gchar *position = NULL;
+
+	if (!state->with_extension)
+		return;
+
+	g_object_get (G_OBJECT (obj), 
+		      "is-plot-area-manual", &is_position_manual,
+		      "plot-area", &position,
+		      NULL);
+	odf_add_bool (state->xml, GNMSTYLE "is-position-manual", is_position_manual);
+	if (is_position_manual && position)
+			gsf_xml_out_add_cstr (state->xml, GNMSTYLE "position", position);
+
+	g_free (position);
+}
+
 static char *
 odf_get_border_format (GnmBorder   *border)
 {
@@ -3720,6 +3766,7 @@ odf_write_standard_series (GnmOOExport *state, GSList const *series)
 							str = odf_get_gog_style_name_from_obj 
 								(GOG_OBJECT (equation));
 							gsf_xml_out_add_cstr (state->xml, CHART "style-name", str);
+							odf_write_gog_position (state, equation);
 							gsf_xml_out_end_element (state->xml); /* </chart:equation> */
 						}
 
@@ -4858,6 +4905,8 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 			}
 		}
 	}
+
+	odf_write_gog_plot_area_position (state, chart);
 
 	if (this_plot->odf_write_z_axis)
 		this_plot->odf_write_z_axis 
