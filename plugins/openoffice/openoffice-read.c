@@ -4308,7 +4308,9 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name"))
 			style_name = CXML2C (attrs[1]);
 		else if (oo_attr_enum (xin, attrs, OO_NS_CHART, "dimension", 
-				       (state->chart.plot_type == OO_PLOT_RADAR)? types_radar :  types, &tmp))
+				       (state->chart.plot_type == OO_PLOT_RADAR || 
+					state->chart.plot_type == OO_PLOT_RADARAREA ||
+					state->chart.plot_type == OO_PLOT_POLAR)? types_radar :  types, &tmp))
 			axis_type = tmp;
 
 	axes = gog_chart_get_axes (state->chart.chart, axis_type);

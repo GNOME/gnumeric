@@ -1,5 +1,12 @@
 2010-08-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_chart_axis): OO_PLOT_RADARAREA and 
+	  OO_PLOT_POLAR behave like OO_PLOT_RADAR
+	* openoffice-write.c (odf_write_plot): fix axis names for
+	  GogPolarPlot
+	
+2010-08-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_store_data): new
 	(od_series_regression): handle upper and lower bounds of 
 	  regression line
