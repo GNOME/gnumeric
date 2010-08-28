@@ -1,3 +1,8 @@
+2010-08-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_plot): write marker info for
+	  polar plots 
+	
 2010-08-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_chart_axis): OO_PLOT_RADARAREA and 
