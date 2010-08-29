@@ -1,3 +1,11 @@
+2010-08-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric.xml: update the statistical analysis tools intro
+	* analysis-statistical.xml: restructure to match the new menu 
+	  structure
+	* doc/C/figures/analysistools-tools.png: updated to show the
+	  ew menu structure
+
 2010-08-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.9

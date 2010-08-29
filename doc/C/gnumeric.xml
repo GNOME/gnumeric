@@ -607,13 +607,12 @@
     </para>
 
   <para>
-    The data analysis tools package contains tools for statistical
+    &gnum; includes various tools for statistical
     data analysis and data sampling.  To use
-    these tools select the <guilabel>Data Analysis...</guilabel> item
-    in the <guilabel>Tools</guilabel> menu.  This yields a list of
-    tools to choose from.  Select one of the tools from the list and
-    press the OK button or double-click on the tool.  The tools are
-    described below.
+    these tools select them from the <guilabel>Statistics</guilabel> menu 
+    and its submenus.  The tools are described below. In this description as
+    well as in the <guilabel>Statistics</guilabel> menu these tools are 
+    classified into six categories.
   </para>
 
   <figure id="fig-statistical-analysistools">

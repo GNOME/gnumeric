@@ -95,215 +95,9 @@
 
 </sect1>
 
-
-
-<sect1 id="anova">
-  <title>Analysis of Variance</title>
-
-  <sect2 id="anova-single-factor-tool">
-     <title>ANOVA: Single Factor Tool</title>
-
-     <para>
-       Use this tool to perform a single factor analysis of the
-       variances of given variables. The variables are specified by
-       the <quote><guilabel>Input Range:</guilabel></quote> entry.
-       The given range can be grouped into the variables either by
-       columns, by rows or by areas.  The
-       <quote><guilabel>Alpha:</guilabel></quote> entry specifies the
-       significance level which is by default 5&#037;.
-     </para>
-
-     <para>If the first row or first column of the given range, or the 
-     first field of each area contains labels, select the <quote><guibutton>Labels
-     </guibutton></quote> option. The names of 
-     the variables will be included in the  output table.</para>
-
-     <para>The results of this analysis of variance are presented in 
-     a standard ANOVA table. The <quote><guilabel>F critical</guilabel></quote>
-     value is the largest value of F that is statistically significant
-     using the given significance level (<quote><guilabel>Alpha</guilabel></quote>).</para>
-
-     <para>This tool also calculates the count, sum, average,
-     and the variance of each variable.</para>
-
-   <figure id="anova-one-factor-tool-ex1">
-    <title>1-factor ANOVA Dialog and Example Data</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-ANOVA1-ex1.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of a multilevel single factor ANOVA
-              analysis.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-<example id="usinganovaonefactortool">
- <title>Using the single factor ANOVA</title>
-     <para>See <xref linkend="anova-one-factor-tool-ex1" /> for an example 
-     of a completed dialog and <xref
-     linkend="anova-one-factor-tool-ex2" />
-     for the corresponding output.
-     </para>
- </example>
-  <figure id="anova-one-factor-tool-ex2">
-    <title>Output From a 1-factor ANOVA</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-ANOVA1-ex2.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the output from a multilevel single
-              factor ANOVA analysis.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-     
-
-  </sect2>
-
-  <sect2 id="anova-two-factor-tool">
-     <title>ANOVA: Two-Factor Tool</title>
-
-     <para>&gnum; can perform two factor fixed effects ANOVAs with and 
-     without replication. The same dialog is used and the 
-     appropriate tool is selected depending on whether the number of rows 
-     per sample is 1 or larger than 1.</para> 
-
-  <sect3 id="anova-two-factor-without-tool">
-     <title>ANOVA: Two-Factor Without Replication Tool</title>
-
-     <para>If the number of rows per sample is given as 1, &gnum; 
-     performs a two factor fixed effects ANOVA without replication. Each
-     column of the input range is interpreted as a level of the first 
-     factor while each row is interpreted as a level of the second factor.
-     </para>
-     <para>The first row and column of the range may contain labels for 
-     these levels. In this case the <quote><guibutton>Labels</guibutton></quote> option should be selected.
-     </para>
-     <para> The <quote><guilabel>Alpha:</guilabel></quote> entry specifies the 
-     significance level which is by default 5&#037;.</para>
- <example id="usinganovatwofactorwotool">
- <title>Using the 2-factor ANOVA Without Replication Tool</title>
-     <para>See <xref linkend="anova-two-factor-without-tool-ex1" /> for an example 
-     of a completed dialog and <xref
-     linkend="anova-two-factor-without-tool-ex2" />
-     for the corresponding output.
-     </para>
- </example>
-  <figure id="anova-two-factor-without-tool-ex1">
-    <title>2-factor ANOVA Without Replication Dialog</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-ANOVA2wo-ex1.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of a two factor ANOVA without
-              replication analysis.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-  <figure id="anova-two-factor-without-tool-ex2">
-    <title>Output From a 2-factor ANOVA Without Replication</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-ANOVA2wo-ex2.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the output from a two factor ANOVA without
-              replication analysis.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-  </sect3>
-
-  <sect3 id="anova-two-factor-with-tool">
-     <title>ANOVA: Two-Factor With Replication Tool</title>
-     <para>If the number of rows per sample is larger than 1, &gnum; 
-     performs a two factor fixed effects ANOVA with replication. Each
-     column of the input range is interpreted as a level of the first 
-     factor while groups of rows (the number of rows in each group given 
-     by the <quote><guilabel>number of rows per sample</guilabel></quote> value) are interpreted as levels 
-     of the second factor.
-     </para>
-     <para>The first row and column of the range may contain labels for 
-     these levels. In this case the <quote><guibutton>Labels</guibutton></quote> option should be selected.
-     </para>
-     <para> The <quote><guilabel>Alpha:</guilabel></quote> entry specifies the 
-     significance level which is by default 5&#037;.</para>
-     <para>See <xref linkend="anova-two-factor-with-tool-ex1" /> for an example 
-     of a completed dialog and <xref
-     linkend="anova-two-factor-with-tool-ex2" />
-     for the corresponding output.
-     </para>
-  <figure id="anova-two-factor-with-tool-ex1">
-    <title>2-factor ANOVA With Replication Dialog</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-ANOVA2w-ex1.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of a two factor ANOVA with replication
-              analysis.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-  <figure id="anova-two-factor-with-tool-ex2">
-    <title>Output From a 2-factor ANOVA With Replication</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-ANOVA2w-ex2.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the output from a two factor ANOVA
-              with replication analysis.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-     
-     <para>&gnum; will estimate missing
-     values for each level combination as the mean of the existing
-     values in that combination. The degrees of freedom are adjusted
-     appropriately. </para>
-
-  </sect3>
-  </sect2>
-
-</sect1>
-
-  <sect1 id="chi-square-tool">
-      <title>Tests for a Contingency Table</title>
-
-  <sect2 id="homogeneity-tool">
-      <title>Test of Homogeneity</title>
-      <para></para>
-  </sect2>
-  <sect2 id="independence-tool">
-      <title>Test of Independence</title>
-      <para></para>
-  </sect2>
-
-  </sect1>
-
-  <sect1 id="correlation-tool">
+<sect1 id="descriptive_statistics">
+  <title>Descriptive Statistics</title>
+  <sect2 id="correlation-tool">
      <title>Correlation Tool</title>
 
   <figure id="correlation-tool-dialog">
@@ -412,9 +206,9 @@
            </mediaobject>
     </screenshot>
   </figure>
-  </sect1>
+  </sect2>
 
-  <sect1 id="covariance-tool">
+  <sect2 id="covariance-tool">
      <title>Covariance Tool</title>
 
   <figure id="covariance-tool-dialog">
@@ -508,10 +302,10 @@
            </mediaobject>
     </screenshot>
   </figure>
-  </sect1>
+  </sect2>
 
 
-  <sect1 id="descriptive-statistics-tool">
+  <sect2 id="descriptive-statistics-tool">
      <title>Descriptive Statistics Tool</title>
 
   <figure id="descriptive-statistics-tool-dialog">
@@ -623,1073 +417,9 @@
            </mediaobject>
     </screenshot>
   </figure>
-  </sect1>
-
- <sect1 id="forecast-tools">
-     <title>Forecast Tools</title>
-  <sect2 id="exp-smoothing-tool">
-     <title>Exponential Smoothing Tool</title>
-
-  <figure id="smoothing-tool-dialog">
-    <title>Exponential Smoothing Tool Dialog</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-smoothing.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the exponential smoothing
-              dialog.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-
-     <para>The Exponential Smoothing tool performs the exponential
-       smoothing for the given set or sets of values. It provides the choice of 5
-       different exponential smoothing methods: 
-     </para>
-     <itemizedlist>
-     <listitem>
-       <para>Simple exponential smoothing according to (Hunter, 1968).</para>
-     </listitem>
-     <listitem>
-       <para>Simple exponential smoothing according to (Roberts, 1959).</para>
-     </listitem>
-     <listitem>
-       <para>Holt's trend corrected exponential smoothing (occasionally also 
-	 referred to as double exponential smoothing)</para>
-     </listitem>
-     <listitem>
-       <para>Additive Holt-Winters exponential smoothing</para>
-     </listitem>
-     <listitem>
-       <para>Multiplicative Holt-Winters exponential smoothing (occasionally also 
-	 referred to as triple exponential smoothing)</para>
-     </listitem>
-     </itemizedlist>
-
-     <para>Since the kind of options available depend on the type of exponential 
-       smoothing desired, you can choose the type on the <quote><guilabel>Input
-       </guilabel></quote>
-       page.
-     </para>
-
-     <sect3 id="exp-smoothing-tool-common">
- <title>Common Options of the Exponential Smoothing Tool</title>
-
-     <para>Specify the cells containing the datasets in the <quote><guilabel>Input
-     Range</guilabel></quote> entry. The entered range or ranges are grouped into 
-     datasets either by rows or by columns.</para> 
-
-     <para>If you have labels
-     in the first cell of each data set, select the
-     <quote><guilabel>Labels</guilabel></quote> option.</para>
-
-     <para> If you select the <quote><guilabel>Include chart</guilabel></quote> 
-       option, &gnum;
-       will also create a chart showing both the data and corresponding smoothed 
-       values.
-     </para>
-     </sect3>
-
-  <sect3 id="exp-smoothing-tool-hunter">
- <title>Exponential Smoothing According to Hunter</title>
-
-    <para>  Each value in the
-     smoothed set is predicted based on the forecast for the prior
-     period.  The formula is given in <xref linkend="exp-smoothing-tool-formula-hunter" />. 
-     &#x03b1; is the value given as <quote><guilabel>Damping factor</guilabel></quote>.
-     <parameter>y<subscript>t</subscript></parameter> is the <parameter>t</parameter>th
-     value in the original data set and <parameter>l<subscript>t</subscript></parameter>
-     the corresponding smoothed value.</para>
-
-  <figure id="exp-smoothing-tool-formula-hunter">
-    <title>Exponential Smoothing Formula According To Hunter</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-exp-smoothing-hunter-formula.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>The formula used in exponential smoothing according to Hunter.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-
-     <para>For example, a value for &#x03b1;  between 0.2 and 0.3 represents 20 to 30 percent error
-       adjustment in the prior forecast.
-     </para>
-
-     <note><para>
-	 If you choose to have the tool enter formulas rather than values into the output region, 
-	 then you can modify the damping factor &#x03b1; even after you executed the tool. 
-     </para></note>
-
-     <para>To have the standard errors output as well, check the 
-       <quote><guilabel>Standard error</guilabel></quote> check box. The formula 
-       used is given in  <xref linkend="exp-smoothing-tool-formula-hunter-stderr" />.  
-       The denominator can be adjusted by selecting the appropriate radio button. Since 
-       there are <parameter>t&#x2212;1</parameter> terms in the sum of the denominator, 
-       selecting <quote><guilabel>n&#x2212;1</guilabel></quote> means that the denominator 
-       will be <parameter>t&#x2212;2</parameter>.
-     </para>
-
-
-  <figure id="exp-smoothing-tool-formula-hunter-stderr">
-    <title>The Standard Error Formula For Exponential Smoothing According To Hunter</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-exp-smoothing-hunter-stderr.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>The formula used to calculate the standard error of exponential 
-		smoothing according to Hunter
-	      </phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
- 
-   <para>If you check the <quote><guilabel>Include chart</guilabel></quote> check box, a line
-    graph showing the observations <parameter>y<subscript>t</subscript></parameter> and the 
-    predicted values <parameter>l<subscript>t</subscript></parameter> will also be created.
-  </para>
-
- <example id="usingsmoothingtool"><title>Using the Exponential Smoothing Tool</title>
-     <para><xref linkend="smoothing-example-1" /> shows some example data, <xref linkend="smoothing-example-2" /> the selected options and 
-     <xref linkend="smoothing-example-3" /> the corresponding output.
-     </para>
-</example>
-  <figure id="smoothing-example-1">
-    <title>Some Example Data for the Exponential Smoothing Tool</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-smoothing-ex1.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of example data for exponential
-              smoothing.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-   <figure id="smoothing-example-2">
-    <title>The Options for the Exponential Smoothing Tool</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-smoothing-ex3.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the options tab of the exponential smoothing tool.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-  <figure id="smoothing-example-3">
-    <title>Exponential Smoothing Tool Output (Hunter)</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-smoothing-ex2.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the output of an exponential
-              smoothing analysis according to Hunter.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-
-  </sect3>
-
-  <sect3 id="exp-smoothing-tool-roberts">
-<title>Exponential Smoothing According to Roberts</title>
-
-  <para>The simple exponential smoothing method according to Roberts is used for 
-    forecasting a time series without a trend or seasonal pattern, but for which 
-    the level is nevertheless slowly changing over time. The predicted values are 
-    calculated according to the formula given in 
-    <xref linkend="exp-smoothing-tool-formula-roberts" />. &#x03b1; is the value 
-    given as <quote><guilabel>Damping factor</guilabel></quote>.
-    <parameter>y<subscript>t</subscript></parameter> is the <parameter>t</parameter>th
-    value in the original data set and <parameter>l<subscript>t</subscript></parameter>
-    the predicted value. <parameter>l<subscript>0</subscript></parameter> is the 
-    predicted value at time 0 and must be estimated. This tool uses the average 
-    value of the first 5 observations as estimate.  
-  </para>
-
-     <note><para>
-	 If you choose to have the tool enter formulas rather than values into 
-	 the output region, 
-	 then you can modify the damping factor &#x03b1; and the estimated value
-	 at time 0 after executing the tool. 
-     </para></note>
-
-  <figure id="exp-smoothing-tool-formula-roberts">
-    <title>Exponential Smoothing Formula According To Roberts</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-exp-smoothing-roberts-formula.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>The formula used in exponential smoothing according to Roberts.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-
-     <para>To have the standard errors output as well, check the 
-       <quote><guilabel>Standard error</guilabel></quote> check box. The formula used is 
-       given in  <xref linkend="exp-smoothing-tool-formula-roberts-stderr" />.  The 
-       denominator can be adjusted by selecting the appropriate radio button.
-     </para>
-
-  <figure id="exp-smoothing-tool-formula-roberts-stderr">
-    <title>The Standard Error Formula For Exponential Smoothing According To Roberts</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-exp-smoothing-roberts-stderr.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>The formula used to calculate the standard error of exponential 
-		smoothing according to Roberts
-	      </phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-
-  <para>If you check the <quote><guilabel>Include chart</guilabel></quote> check box, a line
-    graph showing the observations <parameter>y<subscript>t</subscript></parameter> and the 
-    predicted values <parameter>l<subscript>t</subscript></parameter> will also be created.
-  </para>
-
-  <example id="usingsmoothingtool-roberts"><title>Using the Exponential Smoothing Tool</title>
-     <para> 
-     <xref linkend="smoothing-example-4" /> shows example output for the exponential smoothing
-     tool using the formula according to Roberts. Cell A4 contains the estimated level at time 0.
-     If you requested to have formulas rather than values entered into the sheet, then changing 
-     the estimate in A4 and/or the value for &#x03b1; in A2 will result in an immediate change to 
-     the predicted values.
-     </para>
-</example>
-
-
-  <figure id="smoothing-example-4">
-    <title>Exponential Smoothing Tool Output (Roberts)</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-smoothing-ex4.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the output of an exponential
-              smoothing analysis according to Roberts.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-  </sect3>
-
-  <sect3 id="exp-smoothing-tool-holt">
-<title>Holt's Trend Corrected Exponential Smoothing</title>
-
-  <para>Holt's trend corrected exponential smoothing is appropriate when both the level and the growth rate of a time series are changing. (If the time series has a fixed growth rate and therefore exhibits a linear trend, a linear regression model is more appropriate.) 
-  </para>
-
-  <para><parameter>y<subscript>t</subscript></parameter> is the true value at time 
-    <parameter>t</parameter>, <parameter>l<subscript>t</subscript></parameter>
-    is the estimated level at time <parameter>t</parameter> and <parameter>b<subscript>t
-    </subscript></parameter>
-    is the estimated growth rate at time <parameter>t</parameter>. We use the two smoothing equations
-    given in <xref linkend="exp-smoothing-tool-formula-holt" /> to update our estimates.
-    &#x03b1; is the value 
-    given as <quote><guilabel>Damping factor</guilabel></quote> and &#x03b3; is the value 
-    given as <quote><guilabel>Growth damping factor</guilabel></quote>. 
-  </para>
-
-  <para>This tool obtains initial (time 0) estimates for the level and growth rate by performing
-    a linear regression using the first 5 data values.
-  </para>
-
-  <figure id="exp-smoothing-tool-formula-holt">
-    <title>Formulae Of Holt's Trend Corrected Exponential Smoothing</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-exp-smoothing-holt-formula.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>The formulae used in Holt's trend corrected exponential smoothing.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-
-     <note><para>
-	 If you choose to have the tool enter formulas rather than values into 
-	 the output region, 
-	 then you can modify the damping factors &#x03b1; and &#x03b3; as well as the estimated level and growth rate
-	 at time 0 after executing the tool. 
-     </para></note>
-
-
-     <para>To have the standard errors output as well, check the 
-       <quote><guilabel>Standard error</guilabel></quote> check box. The formula used is 
-       given in  <xref linkend="exp-smoothing-tool-formula-holt-stderr" />.  The 
-       denominator can be adjusted by selecting the appropriate radio button.
-     </para>
-
-  <figure id="exp-smoothing-tool-formula-holt-stderr">
-    <title>The Standard Error Formula For Holt's Trend Corrected Exponential Smoothing</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-exp-smoothing-holt-stderr.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>The formula used to calculate the standard error for Holt's trend
-		corrected exponential smoothing.
-	      </phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-
-  <para>If you check the <quote><guilabel>Include chart</guilabel></quote> check box, a line
-    graph showing the observations <parameter>y<subscript>t</subscript></parameter> and the 
-    estimated level values <parameter>l<subscript>t</subscript></parameter> will also be created.
-  </para>
-
-  <example id="usingsmoothingtool-holt"><title>Using the Exponential Smoothing Tool</title>
-     <para> 
-     <xref linkend="smoothing-example-5" /> shows example output for Holt's trend corrected 
-     exponential smoothing. Cell A4 contains the estimated level at time 0 and B4 the estimated 
-     growth rate at time 0.
-     If you requested to have formulas rather than values entered into the sheet, then changing 
-     the estimates in A4, B4, the values for &#x03b1; in A2 and/or for &#x03b3; in B2 will result 
-     in an immediate change to 
-     the predicted values.
-     </para>
-</example>
-
-
-  <figure id="smoothing-example-5">
-    <title>Exponential Smoothing Tool Output (Holt's)</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-smoothing-ex5.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the output of Holt's trend corrected exponential
-              smoothing.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-  </sect3>
-
-
-  <sect3 id="exp-smoothing-tool-additive-holt-winters">
-<title>Additive Holt-Winters Method</title>
-
-  <para>The additive Holt-Winters method of exponential smoothing is appropriate when a time 
-    series with a linear trend has an additive seasonal pattern for which the level, the growth 
-    rate and the seasonal pattern may be changing. An additive seasonal pattern is a pattern in 
-    which the seasonal variation can be explained by the addition of a seasonal constant 
-    (although we allow for this constant to change slowly.) 
-  </para>
-
-   <para><parameter>y<subscript>t</subscript></parameter> is the true value at time 
-    <parameter>t</parameter>, <parameter>l<subscript>t</subscript></parameter>
-    is the estimated level at time <parameter>t</parameter>, <parameter>b<subscript>t
-    </subscript></parameter>
-    is the estimated growth rate at time <parameter>t</parameter> and <parameter>s<subscript>t
-    </subscript></parameter>
-    is the estimated seasonal adjustment for time <parameter>t</parameter>.
-    We use the three smoothing equations
-    given in <xref linkend="exp-smoothing-tool-formula-a-holt-winters" /> to update our estimates.
-    &#x03b1; is the value 
-    given as <quote><guilabel>Damping factor</guilabel></quote>, &#x03b3; is the value 
-    given as <quote><guilabel>Growth damping factor</guilabel></quote> and &#x03b4; is the value 
-    given as <quote><guilabel>Seasonal damping factor</guilabel></quote>. <parameter>L</parameter>
-    is the value 
-    given as <quote><guilabel>Seasonal period</guilabel></quote>. If your data consist of monthly 
-    values, then  <parameter>L</parameter> should be 12, if it consist of quarterly values then 
-    <parameter>L</parameter> should be 4.
-  </para>
-
-  <para>This tool obtains initial (time 0) estimates for the level and growth rate by performing
-    a linear regression using all data values. It obtains estimates 
-    for the seasonal adjustments by averaging the appropriate seasonal differences from values 
-    predicted by linear regression alone.  
-  </para>
-
-
- <figure id="exp-smoothing-tool-formula-a-holt-winters">
-    <title>Exponential Smoothing Formulae Of The Additive Holt-Winters Method</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-exp-smoothing-a-holt-winters-formula.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>The formulae used in the additive Holt-Winters Method.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-
-     <note><para>
-	 If you choose to have the tool enter formulas rather than values into 
-	 the output region, 
-	 then you can modify the damping factors &#x03b1;, &#x03b3;  and  &#x03b4; as well as all
-	 estimates after executing the tool. 
-     </para></note>
-
-     <para>To have the standard errors output as well, check the 
-       <quote><guilabel>Standard error</guilabel></quote> check box. The formula used is 
-       given in  <xref linkend="exp-smoothing-tool-formula-a-holt-winters-stderr" />.  
-       The denominator can be adjusted by selecting the appropriate radio button.
-     </para>
-
-  <figure id="exp-smoothing-tool-formula-a-holt-winters-stderr">
-    <title>The Standard Error Formula Of The Additive Holt-Winters Method</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-exp-smoothing-a-holt-winters-stderr.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>The formula used to calculate the standard error in the additive 
-		Holt-Winters Method
-	      </phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-
-   <para>If you check the <quote><guilabel>Include chart</guilabel></quote> check box, a line
-    graph showing the observations <parameter>y<subscript>t</subscript></parameter> and the 
-    estimated level values <parameter>l<subscript>t</subscript></parameter> will also be created.
-  </para>
-
- <example id="usingsmoothingtool-ahw"><title>Using the Exponential Smoothing Tool</title>
-     <para> 
-     <xref linkend="smoothing-example-6" /> shows the options' tab of the exponential smoothing 
-     tool for the additive Holt-Winters method. The data is expected to have a seasonal period 
-     of 4 (this would for example happen if we have a data value for each quarter of a year). 
-     <xref linkend="smoothing-example-7" /> shows the corresponding example output for the
-     additive Holt-Winters method. Cell C7 contains the estimated level at time 0, D7 the 
-     estimated growth rate at time 0, and E4 to E7 the initial seasonal adjustments for each 
-     of the 4 seasons preceding our data time period.
-     If you requested to have formulas rather than values entered into the sheet, then changing
-     any of these estimates, the values for &#x03b1; in A2, for &#x03b3; in B2 and/or for &#x03b4; 
-     in C2 will result in an immediate change to the estimated values.
-     </para>
-</example>
-
-  <figure id="smoothing-example-6">
-    <title>Exponential Smoothing Tool Options (Additive Holt-Winters))</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-smoothing-ex6.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the options' tab for the additive Holt-Winters method.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-
-  <figure id="smoothing-example-7">
-    <title>Exponential Smoothing Tool Output (Additive Holt-Winters)</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-smoothing-ex7.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the output of the additive Holt-Winters method.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-
-    </sect3>
-
-  <sect3 id="exp-smoothing-tool-multiplicative-holt-winters">
-<title>Multiplicative Holt-Winters Method</title>
-
-  <para>The multiplicative Holt-Winters method of exponential smoothing is appropriate when a time 
-    series with a linear trend has a multiplicative seasonal pattern for which the level, the growth 
-    rate and the seasonal pattern may be changing. A multiplicative seasonal pattern is a pattern in 
-    which the seasonal variation can be explained by the multiplication of a seasonal constant 
-    (although we allow for this constant to change slowly.) 
-  </para>
-
-   <para><parameter>y<subscript>t</subscript></parameter> is the true value at time 
-    <parameter>t</parameter>, <parameter>l<subscript>t</subscript></parameter>
-    is the estimated level at time <parameter>t</parameter>, <parameter>b<subscript>t
-    </subscript></parameter>
-    is the estimated growth rate at time <parameter>t</parameter> and <parameter>s<subscript>t
-    </subscript></parameter>
-    is the estimated seasonal adjustment for time <parameter>t</parameter>.
-    We use the three smoothing equations
-    given in <xref linkend="exp-smoothing-tool-formula-m-holt-winters" /> to update our estimates.
-    &#x03b1; is the value 
-    given as <quote><guilabel>Damping factor</guilabel></quote>, &#x03b3; is the value 
-    given as <quote><guilabel>Growth damping factor</guilabel></quote> and &#x03b4; is the value 
-    given as <quote><guilabel>Seasonal damping factor</guilabel></quote>. <parameter>L</parameter>
-    is the value 
-    given as <quote><guilabel>Seasonal period</guilabel></quote>. If your data consist of monthly 
-    values, then  <parameter>L</parameter> should be 12, if it consist of quarterly values then 
-    <parameter>L</parameter> should be 4.
-  </para>
-
-  <para>This tool obtains initial (time 0) estimates for the level and growth rate by performing
-    a linear regression using the data values of the first 4 seasonal periods. It obtains estimates 
-    for the seasonal adjustments by averaging the appropriate seasonal differences from values 
-    predicted by linear regression alone during the first 4 seasonal periods.  
-  </para>
-
-  <figure id="exp-smoothing-tool-formula-m-holt-winters">
-    <title>Exponential Smoothing Formulae Of The Multiplicative Holt-Winters Method</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-exp-smoothing-m-holt-winters-formula.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>The formulae used in the multiplicative Holt-Winters Method</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-
-     <note><para>
-	 If you choose to have the tool enter formulas rather than values into 
-	 the output region, 
-	 then you can modify the damping factors &#x03b1;, &#x03b3;  and  &#x03b4; as well as all
-	 estimates after executing the tool. 
-     </para></note>
-
-  <para>To have the standard errors output as well, check the 
-    <quote><guilabel>Standard error</guilabel></quote> check box. The formula used is given in  
-    <xref linkend="exp-smoothing-tool-formula-m-holt-winters-stderr" />.  The denominator 
-    can be adjusted by selecting the appropriate radio button.
-  </para>
-
-  <figure id="exp-smoothing-tool-formula-m-holt-winters-stderr">
-    <title>The Standard Error Formula Of The Multiplicative Holt-Winters Method</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-exp-smoothing-m-holt-winters-stderr.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>The formula used to calculate the standard error in the multiplicative 
-		Holt-Winters Method
-	      </phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-
-  <para>If you check the <quote><guilabel>Include chart</guilabel></quote> check box, a line
-    graph showing the observations <parameter>y<subscript>t</subscript></parameter> and the 
-    estimated level values <parameter>l<subscript>t</subscript></parameter> will also be created.
-  </para>
-
-  <example id="usingsmoothingtool-mhw"><title>Using the Exponential Smoothing Tool</title>
-     <para> 
-     <xref linkend="smoothing-example-8" /> shows the example output for the
-     multiplicative Holt-Winters method, assuming 4 seasons. Cell C7 contains the estimated level 
-     at time 0, D7 the estimated growth rate at time 0, and E4 to E7 the initial seasonal 
-     adjustments for each of the 4 seasons preceding our data time period.
-     If you requested to have formulas rather than values entered into the sheet, then changing
-     any of these estimates, the values for &#x03b1; in A2, for &#x03b3; in B2 and/or for &#x03b4; 
-     in C2 will result in an immediate change to the estimated values.
-     </para>
-</example>
-
- <figure id="smoothing-example-8">
-    <title>Exponential Smoothing Tool Output (Multiplicative Holt-Winters)</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-smoothing-ex8.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the output of the multiplicative Holt-Winters method.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-
-  </sect3>
   </sect2>
 
-  <sect2 id="moving-average-tool">
-     <title>Moving Average Tool</title>
-
-  <figure id="moving-tool-dialog">
-    <title>Moving Average Tool Dialog</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-moving-average.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the dialog for the moving average
-              analysis tool.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-
-     <para>Use the moving average tool to calculate moving averages of
-     one or more data sets.  A moving average provides useful trend
-     information of the data that is lost in a simple average.  In
-     addition, moving averages can be used to eliminate random
-     variance.  For example, use this tool to create a smoother curve
-     of a stock prize.</para>
-
-     <para>Specify the cells containing the datasets in the
-     <quote><guilabel>Input Range</guilabel></quote> entry. The
-     entered range or ranges are grouped into datasets either by rows
-     or by columns.</para>
-
-     <para>If you have labels in the first cell of each data set,
-     select the <quote><guilabel>Labels</guilabel></quote>
-     option.</para>
-
-     <para>Choose the type of moving average you would like to calculate. The tool can
-       determine 4 types of moving averages:
-     </para>
-     <orderedlist>
-       <listitem><para>
-	   Simple moving average
-       </para></listitem>
-       <listitem><para>
-	   Cumulative moving average
-       </para></listitem>
-       <listitem><para>
-	   Weighted moving average
-       </para></listitem>
-       <listitem><para>
-	   Spencer's 15 point moving average
-       </para></listitem>
-     </orderedlist>
-
-  <figure id="moving-tool-dialog-options">
-    <title>
-      Moving Average Tool Dialog: The 
-      <quote><guilabel>Options</guilabel></quote> Tab
-    </title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-moving-average-options.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the <quote><guilabel>Options</guilabel></quote> 
-		tab of the moving average
-		analysis tool.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-
-  <para>Specify the <quote><guilabel>Interval</guilabel></quote>
-    for the moving average.  The interval <parameter>i</parameter> is
-    the number of consecutive values to be included in each moving
-    average. This options is only available for the simple and weighted 
-    moving averages.
-  </para>
-
-  <para>Check the <quote><guilabel>Standard errors</guilabel></quote>
-    checkbox if you would also like the standard error to be calculated.  
-    Since there is no general agreement on the denominator for the standard 
-    error you can choose the appropriate radio button.
-  </para>
-
-  <para>In the case of the simple moving average, you can also choose between 
-    a prior moving average and a central moving average, or you may even specify 
-    any other desired offset.
-  </para>
-     <orderedlist>
-       <listitem><para>
-	   <quote><guilabel>Prior moving average</guilabel></quote>: Each average 
-	   takes into account the current observation and the most recent prior 
-	   observations for a total of <parameter>i</parameter> observations.
-       </para></listitem>
-       <listitem><para>
-	   <quote><guilabel>Central moving average</guilabel></quote>
-	   with <parameter>i</parameter> being odd: Each average 
-	   takes into account the current observation and the same number of most recent prior 
-	   observations and closest future observations for a total of 
-	   <parameter>i</parameter> observations.
-       </para></listitem>
-       <listitem><para>
-	   <quote><guilabel>Central moving average</guilabel></quote>
-	   with <parameter>i</parameter> being even:
-	   This is calculated according to the formula given in 
-	   <xref linkend="moving-formula-central" />. 
-	   <parameter>a<subscript>t</subscript></parameter> is the moving average
-	   at time <parameter>t</parameter> and 
-	   <parameter>y<subscript>t</subscript></parameter> is the observation at
-	   time <parameter>t</parameter>.
-       </para></listitem>
-       <listitem><para>
-	   <quote><guilabel>Other offset</guilabel></quote>: If the offset is 0,
-	   this is just the prior moving average. Otherwise the offset indicates 
-	   the number of closest future observations to include in the average. 
-	   Correspondingly, the number of most recent past observations is decreased.
-       </para></listitem>
-     </orderedlist>
-
-       <figure id="moving-formula-central">
-	 <title>Formula For The Central Moving Average With Even Interval</title>
-	 <screenshot>
-	   <mediaobject>
-             <imageobject>
-               <imagedata fileref="figures/analysistools-moving-average-formula-central.png" 
-			  format="PNG" />
-             </imageobject>
-             <textobject>
-               <phrase>The formula for the central moving average if the interval 
-		 length is even.</phrase>
-             </textobject>
-           </mediaobject>
-	 </screenshot>
-       </figure>
-
-
-  <para>The results are given in one column for each dataset (with a second 
-    column added if you have chosen standard errors to be calculated). Each
-    row represents the moving average of the corresponding row or
-    column in the input range.  Depending on the type of average and 
-    the offset, the moving average cannot be
-    calculated for the first rows in the
-    input range.
-  </para>
-
-     <sect3 id="moving-averages-simple">
-       <title>Simple Moving Average</title>
-       <para>
-	 A simple moving average is the unweighted average of a collection of 
-	 observations. Exactly which observations are included depends on whether 
-	 a prior or central moving average is calculated.  
-       </para>
-     </sect3>
-     <sect3 id="moving-averages-cumulative">
-       <title>Cumulative Moving Average</title>
-       <para>A cumulative moving average is a prior moving average in which the current 
-       and all prior observations are included.</para>
-     </sect3>
-     <sect3 id="moving-averages-weighted">
-       <title>Weighted Moving Average</title>
-       <para>A weighted moving average with an interval <parameter>i</parameter> is a prior 
-	 moving average calculated according to formula 
-	 <xref linkend="moving-formula-central" />. 
-	 <parameter>a<subscript>t</subscript></parameter> is the moving average
-	 at time <parameter>t</parameter> and 
-	 <parameter>y<subscript>t</subscript></parameter> is the observation at
-	 time <parameter>t</parameter>.
-       </para>
-
-       <figure id="moving-averages-weighted-formula">
-	 <title>Formula For The Weighted Moving Average With Interval 
-	   <parameter>i</parameter></title>
-	 <screenshot>
-	   <mediaobject>
-             <imageobject>
-               <imagedata fileref="figures/analysistools-moving-average-formula-weighted.png" 
-			  format="PNG" />
-             </imageobject>
-             <textobject>
-               <phrase>The formula for the weighted moving average if the interval 
-		 length is <parameter>i</parameter>.</phrase>
-             </textobject>
-           </mediaobject>
-	 </screenshot>
-       </figure>
-     </sect3>
-   
-
-     <sect3 id="moving-averages-spencer">
-       <title>Spencer's 15 Point Moving Average</title>
-       <para>Spencer's 15 point moving average is a central moving average calculated 
-	 according to formula 
-       <xref linkend="moving-formula-spencer" />. 
-       <parameter>a<subscript>t</subscript></parameter> is the moving average
-       at time <parameter>t</parameter> and 
-       <parameter>y<subscript>t</subscript></parameter> is the observation at
-       time <parameter>t</parameter>.
-       </para>
-
-       <figure id="moving-formula-spencer">
-	 <title>Formula For Spencer's 15 Point Moving Average</title>
-	 <screenshot>
-	   <mediaobject>
-             <imageobject>
-               <imagedata fileref="figures/analysistools-moving-average-formula-spencer.png" 
-			  format="PNG" />
-             </imageobject>
-             <textobject>
-               <phrase>The formula for the Spencer's 15 point moving average.</phrase>
-             </textobject>
-           </mediaobject>
-	 </screenshot>
-       </figure>
-     </sect3>
-
-     <sect3 id="moving-averages-example">
-       <title>A Moving Average Example</title>
-       <figure id="moving-example-1">
-	 <title>Some Example Data for the Moving Average Tool</title>
-	 <screenshot>
-	   <mediaobject>
-             <imageobject>
-               <imagedata fileref="figures/analysistools-moving-average-ex1.png" 
-			  format="PNG" />
-             </imageobject>
-             <textobject>
-               <phrase>An image of some example data for use with the
-		 moving average analysis tool.</phrase>
-             </textobject>
-           </mediaobject>
-	 </screenshot>
-       </figure>
-       <example id="usingmovingtool"><title>Using the Moving Average Tool</title>
-	 <para><xref linkend="moving-example-1" /> shows some example data,  
-	   <xref linkend="moving-example-2" /> shows the option settings, and 
-	   <xref linkend="moving-example-3" /> the corresponding output.
-	 </para>
-       </example>
-       <figure id="moving-example-2">
-	 <title>Moving Averages Tool Options</title>
-	 <screenshot>
-	   <mediaobject>
-             <imageobject>
-               <imagedata fileref="figures/analysistools-moving-average-ex2.png" 
-			  format="PNG" />
-             </imageobject>
-             <textobject>
-               <phrase>An image of the option settings of the moving averages 
-		 example.</phrase>
-             </textobject>
-           </mediaobject>
-	 </screenshot>
-       </figure>
-       <figure id="moving-example-3">
-	 <title>Moving Averages Tool Output</title>
-	 <screenshot>
-	   <mediaobject>
-             <imageobject>
-               <imagedata fileref="figures/analysistools-moving-average-ex3.png" 
-			  format="PNG" />
-             </imageobject>
-             <textobject>
-               <phrase>An image of the output from the moving average
-		 analysis tool.</phrase>
-             </textobject>
-           </mediaobject>
-	 </screenshot>
-       </figure>
-     </sect3>
-  </sect2>
-  </sect1>
-
-  <sect1 id="fourier-analysis-tool">
-     <title>Fourier Analysis Tool</title>
-
-  <figure id="fourier-tool-dialog">
-    <title>Fourier Analysis Tool Dialog</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-fourier.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the fourier analysis
-              dialog.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-
-     <para>
-       The Fourier Analysis tool normally performs a Fast Fourier
-       Transform to obtain the discrete fourier transform
-       F<subscript>s</subscript> of the given sequence
-       f<subscript>t</subscript> of real numbers according to the
-       formula given in <xref linkend="fourier-tool-formula"
-       />.</para> <para>Select the
-       <quote><guilabel>Inverse</guilabel></quote> option to calculate
-       the inverse discrete fourier transform
-       f<subscript>t</subscript> of the given sequence
-       F<subscript>s</subscript> of real numbers</para> <note><para>If
-       the number of terms in the given sequence is not
-       a power of 2 (i.e.  2, 4, 8, 16, 32, 64, 128, etc.), this tool
-       will append zeros to reach such a power of 2!</para></note>
-     
-     <para>Specify the cells containing the datasets in the
-     <quote><guilabel>Input Range</guilabel></quote> entry. The
-     entered range or ranges are grouped into sequences either by rows
-     or by columns.</para>
-
-     <para>If you have labels
-     in the first cell of each data set, select the
-     <quote><guilabel>Labels</guilabel></quote> option.</para>
-
-  <figure id="fourier-tool-formula">
-    <title>Fourier Analysis Formulae</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-fourier-formula.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>The formulae used in a fourier analysis.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-
-     <note>
-       <para>Before using the numbers obtained by this tool, ensure
-       that these are in fact the correct formulae for your
-       discipline. In the physical sciences this fourier transform
-       tends to be called the inverse fourier transform and vice
-       versa. Moreover, frequently the scaling factor varies.</para>
-       <para>For example <application>Mathematica</application> uses
-       the terms fourier transform and inverse fourier transform with
-       the reversed meaning than &gnum;
-       and it uses a scaling factor of
-       <parameter>1/SQRT(N)</parameter> rather than
-       <parameter>1/N</parameter>.</para></note>
-  </sect1>
-
-  <sect1 id="ftest-two-sample-for-variances-tool">
-     <title>F-Test: Two-Sample for Variances Tool</title>
-
-  <figure id="ftest-tool-dialog">
-    <title>F-Test Tool Dialog</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-ftest.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the dialog for an F-test analysis of
-              the equality of two variances.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-     <para>Use the F-Test tool to test whether two population  
-     variances are different against the null hypothesis that
-     they are not.</para>
-
-     <para>Specify the variables in the <quote><guilabel>Variable 1 Range:</guilabel></quote>
-     and <quote><guilabel>Variable 2 Range:</guilabel></quote> entries. The <quote><guilabel>Alpha:</guilabel></quote> 
-     entry contains the 
-     significance level which is by default 5&#037;.</para>
-
-     <para>If the first field of each range contains labels, 
-     select the <quote><guibutton>Labels</guibutton></quote> option. The names of 
-     the variables will be included in the  output table.</para>
-
-     <para>The results are given in a table.  This table contains
-     the mean, variance, count of observations and the degree
-     of freedom for both variables. The output table also includes the F-value,
-     the one-tailed probability for the F-value, and the F Critical
-     value for one-tailed test and the corresponding values for a two 
-     tailed test. The one-tailed probability for the
-     F-value (<quote><guilabel>P(F&lt;=f) one-tail</guilabel></quote> row) is the probability of making a
-     Type I error in the one-tailed test. Similarly, the two-tailed 
-     probability for the F-value (<quote><guilabel>P two-tail</guilabel></quote> row)
-     is the probability of making a Type I error in the two-tailed test.
-     Since in the two-tailed F-Test both critical values are positive, the
-     <quote><guilabel>F Critical two-tail</guilabel></quote> row contains two numbers.</para>
-
-     <para>If the output is directed into a specific output range, that
-     range should contain at least three columns and eight rows.</para>
-
-   <figure id="ftest-example-1">
-    <title>Some Example Data</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-ftest-ex1.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of some example data for an F-test of
-              the equality of two variances.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
- <example id="usingftesttool"><title>Using the F-Test Tool</title>
-     <para><xref linkend="ftest-example-1" /> shows some example data and 
-     <xref linkend="ftest-example-2" /> the corresponding output.
-     </para>
-</example>
-  <figure id="ftest-example-2">
-    <title>F-Test Tool Output</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-ftest-ex2.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the output of an F-test analysis of
-              the equality of two variances.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-    
-  </sect1>
-
-  <sect1 id="frequencies-tools">
+  <sect2 id="frequencies-tools">
       <title>Frequency Tables</title>
       <para>
 	&gnum; provides two types of frequencies tables:
@@ -1705,10 +435,10 @@
      </para></listitem>
      </itemizedlist>
 
-    <sect2 id="frequency-tool">
+    <sect3 id="frequency-tool">
       <title>Frequency Tables Tool</title>
 
-      <sect3 id="frequency-tool-intro">
+      <sect4 id="frequency-tool-intro">
 	<title>Introduction</title>
 	
 	<para> The frequency tool can be used to create frequency tables for 
@@ -1742,9 +472,9 @@
 	  frequency table dialog has four tabs. We will introduce them in
 	  sequence.
 	</para>
-      </sect3>
+      </sect4>
       
-      <sect3 id="frequency-tool-inputtab">
+      <sect4 id="frequency-tool-inputtab">
 	<title>The <quote><guilabel>Input</guilabel></quote> Tab</title>
 	
 	<para>The <quote><guilabel>Input</guilabel></quote> tab shown in 
@@ -1763,9 +493,9 @@
 	  If the input is grouped by areas and the top left cell contains a label, the
 	  other cells in the first row are being ignored.
 	</para>
-      </sect3>
+      </sect4>
       
-      <sect3 id="frequency-tool-catstab">
+      <sect4 id="frequency-tool-catstab">
 	<title>The <quote><guilabel>Categories</guilabel></quote> Tab</title>
 	
 	<para>The <quote><guilabel>Categories</guilabel></quote> tab permits the specification
@@ -1792,10 +522,10 @@
             </mediaobject>
 	  </screenshot>
 	</figure>
-      </sect3>
+      </sect4>
       
       
-      <sect3 id="frequency-tool-optionstab">
+      <sect4 id="frequency-tool-optionstab">
 	<title>The <quote><guilabel>Graphs &amp;  Options</guilabel></quote> Tab</title>
 	
 	<para>The <quote><guilabel>Graphs &amp;  Options</guilabel></quote> tab allows various 
@@ -1834,10 +564,10 @@
             </mediaobject>
 	  </screenshot>
 	</figure>
-      </sect3>
+      </sect4>
       
       
-      <sect3 id="frequency-tool-results-sect">
+      <sect4 id="frequency-tool-results-sect">
 	<title>Frequency Tool Results</title>
 	<figure id="frequency-tool-results">
 	  <title>Frequency Tool Results</title>
@@ -1853,13 +583,13 @@
 	    </mediaobject>
 	  </screenshot>
 	</figure>
-      </sect3>
-    </sect2>
+      </sect4>
+    </sect3>
     
-    <sect2 id="histogram-tool">
+    <sect3 id="histogram-tool">
       <title>Histogram Tool</title>
       
-      <sect3 id="histogram-tool-intro">
+      <sect4 id="histogram-tool-intro">
 	<title>Introduction</title>
 	
 	
@@ -1894,9 +624,9 @@
 	  histogram dialog has five tabs. We will introduce them in
 	  sequence.
 	</para>
-      </sect3>
+      </sect4>
 
-  <sect3 id="histogram-tool-inputtab">
+  <sect4 id="histogram-tool-inputtab">
      <title>The <quote><guilabel>Input</guilabel></quote> Tab</title>
 
      <para>The <quote><guilabel>Input</guilabel></quote> tab shown in 
@@ -1915,9 +645,9 @@
        If the input is grouped by areas and the top left cell contains a label, the
        other cells in the first row are being ignored.
      </para>
-  </sect3>
+  </sect4>
   
-  <sect3 id="histogram-tool-cutoffsstab">
+  <sect4 id="histogram-tool-cutoffsstab">
      <title>The <quote><guilabel>Cutoffs</guilabel></quote> Tab</title>
   <figure id="histogram-tool-dialog-cutoffs">
     <title>Histogram Tool Dialog <quote><guilabel>Cutoffs</guilabel></quote> Tab</title>
@@ -1956,9 +686,9 @@
     and <quote><guilabel>Maximum cutoff</guilabel></quote> entries. If the minimum or maximum
     cutoff is not specified, the tool will use the minimum and/or maximum of the current data. 
   </para>
-  </sect3>
+  </sect4>
   
-  <sect3 id="histogram-tool-binstab">
+  <sect4 id="histogram-tool-binstab">
      <title>The <quote><guilabel>Bins</guilabel></quote> Tab</title>
   <figure id="histogram-tool-dialog-bins">
     <title>Histogram Tool Dialog <quote><guilabel>Bins Tab</guilabel></quote></title>
@@ -1991,9 +721,9 @@
     indicates that the first bin starts at the first cutoff while the last bin ends at &#x221e;. Moreover,
     each cutoff value belongs to the bin on its right.
   </para>
-    </sect3>
+    </sect4>
 
-  <sect3 id="histogram-tool-optionstab">
+  <sect4 id="histogram-tool-optionstab">
      <title>The <quote><guilabel>Graphs &amp; Options</guilabel></quote> Tab</title>
  <figure id="histogram-tool-dialog-options">
     <title>Histogram Tool Dialog <quote><guilabel>Graphs &amp; Options Tab</guilabel></quote></title>
@@ -2043,10 +773,10 @@
      </listitem>
      </itemizedlist>
 
-  </sect3>
+  </sect4>
 
 
-  <sect3 id="histogram-tool-outputtab">
+  <sect4 id="histogram-tool-outputtab">
      <title>The <quote><guilabel>Output</guilabel></quote> Tab</title>
 
       <para>
@@ -2054,10 +784,10 @@
         described in <xref
         linkend="sect-stat-analysis-overview" />.
       </para>
-  </sect3>
+  </sect4>
 
 
-  <sect3 id="histogram-tool-example">
+  <sect4 id="histogram-tool-example">
     <title>A Histogram Example</title>
 
     <figure id="histogram-example-1">
@@ -2217,219 +947,11 @@
            </mediaobject>
     </screenshot>
   </figure>
+  </sect4>
   </sect3>
   </sect2>
-  </sect1>
 
-  <sect1 id="kaplan-meier-tool">
-      <title>Kaplan Meier Estimates Tool</title>
-      <para/>
-
-  <sect2 id="kaplan-meier-tool-inputtab">
-     <title>The <quote><guilabel>Input</guilabel></quote> Tab</title>
-
-     <para>The <quote><guilabel>Input</guilabel></quote> tab shown in 
-        <xref linkend="kaplan-meier-tool-dialog" /> contains
-        the fields specifying the data to be used for the
-        Kaplan Meier Estimates. The time column contains the times or dates 
-        at which the subjects died or were censored. If any of the subjects
-        were censored, the <guilabel>Permit censorship</guilabel> checkbox is
-        checked and the Censor column contained the censorship marks. Censorship
-        marks are typically 0s or 1s. The range of censor marks or labels can be 
-        set using the the 
-        remaining two spinboxes.</para>
-
- <figure id="kaplan-meier-tool-dialog">
-    <title>Kaplan-Meier Tool Dialog</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-kaplan.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the .Kaplan-Meier tool dialog.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-  </sect2>
-
-  <sect2 id="kaplan-meier-tool-group-tab">
-     <title>The <quote><guilabel>Groups</guilabel></quote> Tab</title>
-
-    <para>
-        If the subjects belong to several groups and the groups are supposed to be
-        analyzed separately, the groups tab can be used. 
-    </para>
-
- <figure id="kaplan-meier-tool-dialog-groups">
-    <title>Kaplan-Meier Tool Dialog Groups Tab</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-kaplan-groups.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the Kaplan-Meier tool dialog groups tab.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-
-    <para>
-        The groups tab can be enabled via the <guilabel>Define multiple groups
-        </guilabel> checkbox. The groups column entry contains the address of 
-        the column specifying the group membership. Groups can then be defined 
-        or deleted via the <guilabel>Add</guilabel> and <guilabel>Remove
-        </guilabel> buttons.
-    </para>
-
-  </sect2>
-
-  <sect2 id="kaplan-meier-tool-optionstab">
-     <title>The <quote><guilabel>Options</guilabel></quote> Tab</title>
-
-    <para>The options tab of the Kaplan-Meier tools dialog is used to set 
-        various options of the Kaplan-Meier tool.
-    </para>
-
- <figure id="kaplan-meier-tool-dialog-options">
-    <title>Kaplan-Meier Tool Dialog Options Tab</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-kaplan-options.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the Kaplan-Meier tool dialog options tab.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-  </sect2>
-
-  <sect2 id="kaplan-meier-tool-outputtab">
-     <title>The <quote><guilabel>Output</guilabel></quote> Tab</title>
-
-      <para>
-        The Output tab contains the standard output options and fields
-        described in <xref linkend="sect-stat-analysis-overview" />.
-      </para>
-  </sect2>
-
-  <sect2 id="kaplan-meier-tool-example">
-    <title>A Kaplan-Meier Example</title>
-
-      <figure id="kaplan-meier-tool-example-1">
-	<title>Kaplan-Meier Tool Example Input</title>
-	<screenshot>
-	    <mediaobject>
-		<imageobject>
-		  <imagedata fileref="figures/analysistools-kaplan-ex1.png" 
-		      format="PNG" />
-		</imageobject>
-		<textobject>
-		  <phrase>An image of the input to the Kaplan-Meier estimate example 
-            and of the input 
-		  tab of the Kaplan-Meier analysis tool.</phrase>
-		</textobject>
-	       </mediaobject>
-	</screenshot>
-      </figure>
-
-    <example id="usingkaplan-meiertool">
-      <title>Using the Kaplan-Meier Tool</title>
-      <para>
-        Suppose you want to calculate Kaplan-Meier Estimates 
-        for the as given in <xref linkend="kaplan-meier-tool-example-1" />. Each 
-        row contains the data for one subject. Column A contains the survival time,
-        i.e. the time until death or censure. Column B contains the group number, 
-        we are considering two groups of subjects. Column C indicates whether the 
-        subject died (0) or was censured (1).
-        </para>
-        <para>
-        We complete the fields of the <guilabel>Input</guilabel> tab as shown in 
-        <xref linkend="kaplan-meier-tool-example-1" />. The time column is A2:A21
-        and the censure column is C2:C21.
-        </para>
-        <para>
-        Since we have two groups of subjects, on the <guilabel>Groups</guilabel> 
-        tab we check the  <guilabel>Define multiple groups</guilabel> check box and 
-        set up two groups with identifiers 1 and 2 in column B2:B21:
-      <figure id="kaplan-meier-tool-tool-example-3">
-	 <title>Kaplan-Meier Tool Example Group Tab</title>
-	 <screenshot>
-	     <mediaobject>
-		 <imageobject>
-		   <imagedata fileref="figures/analysistools-kaplan-ex3.png" 
-		       format="PNG" />
-		 </imageobject>
-		 <textobject>
-		   <phrase>An image of the group tab of the Kaplan-Meier
-		   analysis tool.</phrase>
-		 </textobject>
-		</mediaobject>
-	 </screenshot>
-       </figure>
-      </para>
-    <para>On the <guilabel>Options</guilabel> tab all checkboxes are pre-checked
-     and we leave them that way to obtain a maximum amount of information.
-    </para>
-    <para>On the output tab we choose where we would like the output to be placed. For 
-    the purposes of this example we retain the <guilabel>New Sheet</guilabel> target. 
-    After clicking <guilabel>OK</guilabel> we get the output shown in 
-    <xref linkend="kaplan-meier-tool-example-2" />. Note that the graph initially 
-        always appears on top of the numerical result and was moved for the 
-        screen shot.
-    </para>
-    <para>
-        B1:F17 shows the results of the first group, G1 to K17 the results of the 
-        second group. The graph shows the Kaplan-Meier survival curves for both 
-        groups.
-    </para>
-    <para>
-        M4:N7 shows the result of the Mantel-Haenszel Log-Rank Test. In this case 
-        the p-value is larger than 0.3 and we would fail to reject the Null 
-        hypothesis. There is no evidence that the survival times differ.
-    </para>
-    </example>
-
-      <figure id="kaplan-meier-tool-example-2">
-	 <title>Kaplan-Meier Tool Example Output</title>
-	 <screenshot>
-	     <mediaobject>
-		 <imageobject>
-		   <imagedata fileref="figures/analysistools-kaplan-ex2.png" 
-		       format="PNG" />
-		 </imageobject>
-		 <textobject>
-		   <phrase>An image of the output of the Kaplan-Meier
-		   analysis tool.</phrase>
-		 </textobject>
-		</mediaobject>
-	 </screenshot>
-       </figure>
-
-
-    
-  </sect2>
-  
-  </sect1>
-  
-  <sect1 id="normality-tool">
-      <title>Normality Tests</title>
-      <para></para>
-  </sect1>
-
-  <sect1 id="principal-component-tool">
-      <title>Principal Component Analysis</title>
-      <para></para>
-  </sect1>
-
-  <sect1 id="rank-and-percentile-tool">
+  <sect2 id="rank-and-percentile-tool">
      <title>Rank and Percentile Tool</title>
 
   <figure id="rank-and-percentile-tool-dialog">
@@ -2514,9 +1036,9 @@
   is normally used to determine placements. The two values 10 would therefore each receive
   a rank of 2.   
   </para></note>
-  </sect1>
+  </sect2>
 
-  <sect1 id="regression-tool">
+  <sect2 id="regression-tool">
      <title>Regression Tool</title>
   <figure id="regression-tool-dialog">
     <title>Regression Tool Dialog</title>
@@ -2623,7 +1145,8 @@
            </mediaobject>
     </screenshot>
   </figure>
-  </sect1>
+  </sect2>
+</sect1>
 
   <sect1 id="sampling-tool">
      <title>Sampling Tool</title>
@@ -2719,14 +1242,1219 @@
   </sect1>
 
 
-  <sect1 id="sign-test-tool">
-      <title>Sign Tests</title>
+<sect1 id="dependent_observations">
+  <title>Dependent Observations</title>
+ <sect2 id="forecast-tools">
+     <title>Forecast Tools</title>
+  <sect3 id="exp-smoothing-tool">
+     <title>Exponential Smoothing Tool</title>
+
+  <figure id="smoothing-tool-dialog">
+    <title>Exponential Smoothing Tool Dialog</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-smoothing.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the exponential smoothing
+              dialog.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+     <para>The Exponential Smoothing tool performs the exponential
+       smoothing for the given set or sets of values. It provides the choice of 5
+       different exponential smoothing methods: 
+     </para>
+     <itemizedlist>
+     <listitem>
+       <para>Simple exponential smoothing according to (Hunter, 1968).</para>
+     </listitem>
+     <listitem>
+       <para>Simple exponential smoothing according to (Roberts, 1959).</para>
+     </listitem>
+     <listitem>
+       <para>Holt's trend corrected exponential smoothing (occasionally also 
+	 referred to as double exponential smoothing)</para>
+     </listitem>
+     <listitem>
+       <para>Additive Holt-Winters exponential smoothing</para>
+     </listitem>
+     <listitem>
+       <para>Multiplicative Holt-Winters exponential smoothing (occasionally also 
+	 referred to as triple exponential smoothing)</para>
+     </listitem>
+     </itemizedlist>
+
+     <para>Since the kind of options available depend on the type of exponential 
+       smoothing desired, you can choose the type on the <quote><guilabel>Input
+       </guilabel></quote>
+       page.
+     </para>
+
+     <sect4 id="exp-smoothing-tool-common">
+ <title>Common Options of the Exponential Smoothing Tool</title>
+
+     <para>Specify the cells containing the datasets in the <quote><guilabel>Input
+     Range</guilabel></quote> entry. The entered range or ranges are grouped into 
+     datasets either by rows or by columns.</para> 
+
+     <para>If you have labels
+     in the first cell of each data set, select the
+     <quote><guilabel>Labels</guilabel></quote> option.</para>
+
+     <para> If you select the <quote><guilabel>Include chart</guilabel></quote> 
+       option, &gnum;
+       will also create a chart showing both the data and corresponding smoothed 
+       values.
+     </para>
+     </sect4>
+
+  <sect4 id="exp-smoothing-tool-hunter">
+ <title>Exponential Smoothing According to Hunter</title>
+
+    <para>  Each value in the
+     smoothed set is predicted based on the forecast for the prior
+     period.  The formula is given in <xref linkend="exp-smoothing-tool-formula-hunter" />. 
+     &#x03b1; is the value given as <quote><guilabel>Damping factor</guilabel></quote>.
+     <parameter>y<subscript>t</subscript></parameter> is the <parameter>t</parameter>th
+     value in the original data set and <parameter>l<subscript>t</subscript></parameter>
+     the corresponding smoothed value.</para>
+
+  <figure id="exp-smoothing-tool-formula-hunter">
+    <title>Exponential Smoothing Formula According To Hunter</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-exp-smoothing-hunter-formula.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>The formula used in exponential smoothing according to Hunter.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+     <para>For example, a value for &#x03b1;  between 0.2 and 0.3 represents 20 to 30 percent error
+       adjustment in the prior forecast.
+     </para>
+
+     <note><para>
+	 If you choose to have the tool enter formulas rather than values into the output region, 
+	 then you can modify the damping factor &#x03b1; even after you executed the tool. 
+     </para></note>
+
+     <para>To have the standard errors output as well, check the 
+       <quote><guilabel>Standard error</guilabel></quote> check box. The formula 
+       used is given in  <xref linkend="exp-smoothing-tool-formula-hunter-stderr" />.  
+       The denominator can be adjusted by selecting the appropriate radio button. Since 
+       there are <parameter>t&#x2212;1</parameter> terms in the sum of the denominator, 
+       selecting <quote><guilabel>n&#x2212;1</guilabel></quote> means that the denominator 
+       will be <parameter>t&#x2212;2</parameter>.
+     </para>
+
+
+  <figure id="exp-smoothing-tool-formula-hunter-stderr">
+    <title>The Standard Error Formula For Exponential Smoothing According To Hunter</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-exp-smoothing-hunter-stderr.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>The formula used to calculate the standard error of exponential 
+		smoothing according to Hunter
+	      </phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+ 
+   <para>If you check the <quote><guilabel>Include chart</guilabel></quote> check box, a line
+    graph showing the observations <parameter>y<subscript>t</subscript></parameter> and the 
+    predicted values <parameter>l<subscript>t</subscript></parameter> will also be created.
+  </para>
+
+ <example id="usingsmoothingtool"><title>Using the Exponential Smoothing Tool</title>
+     <para><xref linkend="smoothing-example-1" /> shows some example data, <xref linkend="smoothing-example-2" /> the selected options and 
+     <xref linkend="smoothing-example-3" /> the corresponding output.
+     </para>
+</example>
+  <figure id="smoothing-example-1">
+    <title>Some Example Data for the Exponential Smoothing Tool</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-smoothing-ex1.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of example data for exponential
+              smoothing.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+   <figure id="smoothing-example-2">
+    <title>The Options for the Exponential Smoothing Tool</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-smoothing-ex3.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the options tab of the exponential smoothing tool.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+  <figure id="smoothing-example-3">
+    <title>Exponential Smoothing Tool Output (Hunter)</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-smoothing-ex2.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the output of an exponential
+              smoothing analysis according to Hunter.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+  </sect4>
+
+  <sect4 id="exp-smoothing-tool-roberts">
+<title>Exponential Smoothing According to Roberts</title>
+
+  <para>The simple exponential smoothing method according to Roberts is used for 
+    forecasting a time series without a trend or seasonal pattern, but for which 
+    the level is nevertheless slowly changing over time. The predicted values are 
+    calculated according to the formula given in 
+    <xref linkend="exp-smoothing-tool-formula-roberts" />. &#x03b1; is the value 
+    given as <quote><guilabel>Damping factor</guilabel></quote>.
+    <parameter>y<subscript>t</subscript></parameter> is the <parameter>t</parameter>th
+    value in the original data set and <parameter>l<subscript>t</subscript></parameter>
+    the predicted value. <parameter>l<subscript>0</subscript></parameter> is the 
+    predicted value at time 0 and must be estimated. This tool uses the average 
+    value of the first 5 observations as estimate.  
+  </para>
+
+     <note><para>
+	 If you choose to have the tool enter formulas rather than values into 
+	 the output region, 
+	 then you can modify the damping factor &#x03b1; and the estimated value
+	 at time 0 after executing the tool. 
+     </para></note>
+
+  <figure id="exp-smoothing-tool-formula-roberts">
+    <title>Exponential Smoothing Formula According To Roberts</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-exp-smoothing-roberts-formula.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>The formula used in exponential smoothing according to Roberts.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+     <para>To have the standard errors output as well, check the 
+       <quote><guilabel>Standard error</guilabel></quote> check box. The formula used is 
+       given in  <xref linkend="exp-smoothing-tool-formula-roberts-stderr" />.  The 
+       denominator can be adjusted by selecting the appropriate radio button.
+     </para>
+
+  <figure id="exp-smoothing-tool-formula-roberts-stderr">
+    <title>The Standard Error Formula For Exponential Smoothing According To Roberts</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-exp-smoothing-roberts-stderr.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>The formula used to calculate the standard error of exponential 
+		smoothing according to Roberts
+	      </phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+  <para>If you check the <quote><guilabel>Include chart</guilabel></quote> check box, a line
+    graph showing the observations <parameter>y<subscript>t</subscript></parameter> and the 
+    predicted values <parameter>l<subscript>t</subscript></parameter> will also be created.
+  </para>
+
+  <example id="usingsmoothingtool-roberts"><title>Using the Exponential Smoothing Tool</title>
+     <para> 
+     <xref linkend="smoothing-example-4" /> shows example output for the exponential smoothing
+     tool using the formula according to Roberts. Cell A4 contains the estimated level at time 0.
+     If you requested to have formulas rather than values entered into the sheet, then changing 
+     the estimate in A4 and/or the value for &#x03b1; in A2 will result in an immediate change to 
+     the predicted values.
+     </para>
+</example>
+
+
+  <figure id="smoothing-example-4">
+    <title>Exponential Smoothing Tool Output (Roberts)</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-smoothing-ex4.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the output of an exponential
+              smoothing analysis according to Roberts.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+  </sect4>
+
+  <sect4 id="exp-smoothing-tool-holt">
+<title>Holt's Trend Corrected Exponential Smoothing</title>
+
+  <para>Holt's trend corrected exponential smoothing is appropriate when both the level and the growth rate of a time series are changing. (If the time series has a fixed growth rate and therefore exhibits a linear trend, a linear regression model is more appropriate.) 
+  </para>
+
+  <para><parameter>y<subscript>t</subscript></parameter> is the true value at time 
+    <parameter>t</parameter>, <parameter>l<subscript>t</subscript></parameter>
+    is the estimated level at time <parameter>t</parameter> and <parameter>b<subscript>t
+    </subscript></parameter>
+    is the estimated growth rate at time <parameter>t</parameter>. We use the two smoothing equations
+    given in <xref linkend="exp-smoothing-tool-formula-holt" /> to update our estimates.
+    &#x03b1; is the value 
+    given as <quote><guilabel>Damping factor</guilabel></quote> and &#x03b3; is the value 
+    given as <quote><guilabel>Growth damping factor</guilabel></quote>. 
+  </para>
+
+  <para>This tool obtains initial (time 0) estimates for the level and growth rate by performing
+    a linear regression using the first 5 data values.
+  </para>
+
+  <figure id="exp-smoothing-tool-formula-holt">
+    <title>Formulae Of Holt's Trend Corrected Exponential Smoothing</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-exp-smoothing-holt-formula.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>The formulae used in Holt's trend corrected exponential smoothing.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+     <note><para>
+	 If you choose to have the tool enter formulas rather than values into 
+	 the output region, 
+	 then you can modify the damping factors &#x03b1; and &#x03b3; as well as the estimated level and growth rate
+	 at time 0 after executing the tool. 
+     </para></note>
+
+
+     <para>To have the standard errors output as well, check the 
+       <quote><guilabel>Standard error</guilabel></quote> check box. The formula used is 
+       given in  <xref linkend="exp-smoothing-tool-formula-holt-stderr" />.  The 
+       denominator can be adjusted by selecting the appropriate radio button.
+     </para>
+
+  <figure id="exp-smoothing-tool-formula-holt-stderr">
+    <title>The Standard Error Formula For Holt's Trend Corrected Exponential Smoothing</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-exp-smoothing-holt-stderr.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>The formula used to calculate the standard error for Holt's trend
+		corrected exponential smoothing.
+	      </phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+  <para>If you check the <quote><guilabel>Include chart</guilabel></quote> check box, a line
+    graph showing the observations <parameter>y<subscript>t</subscript></parameter> and the 
+    estimated level values <parameter>l<subscript>t</subscript></parameter> will also be created.
+  </para>
+
+  <example id="usingsmoothingtool-holt"><title>Using the Exponential Smoothing Tool</title>
+     <para> 
+     <xref linkend="smoothing-example-5" /> shows example output for Holt's trend corrected 
+     exponential smoothing. Cell A4 contains the estimated level at time 0 and B4 the estimated 
+     growth rate at time 0.
+     If you requested to have formulas rather than values entered into the sheet, then changing 
+     the estimates in A4, B4, the values for &#x03b1; in A2 and/or for &#x03b3; in B2 will result 
+     in an immediate change to 
+     the predicted values.
+     </para>
+</example>
+
+
+  <figure id="smoothing-example-5">
+    <title>Exponential Smoothing Tool Output (Holt's)</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-smoothing-ex5.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the output of Holt's trend corrected exponential
+              smoothing.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+  </sect4>
+
+
+  <sect4 id="exp-smoothing-tool-additive-holt-winters">
+<title>Additive Holt-Winters Method</title>
+
+  <para>The additive Holt-Winters method of exponential smoothing is appropriate when a time 
+    series with a linear trend has an additive seasonal pattern for which the level, the growth 
+    rate and the seasonal pattern may be changing. An additive seasonal pattern is a pattern in 
+    which the seasonal variation can be explained by the addition of a seasonal constant 
+    (although we allow for this constant to change slowly.) 
+  </para>
+
+   <para><parameter>y<subscript>t</subscript></parameter> is the true value at time 
+    <parameter>t</parameter>, <parameter>l<subscript>t</subscript></parameter>
+    is the estimated level at time <parameter>t</parameter>, <parameter>b<subscript>t
+    </subscript></parameter>
+    is the estimated growth rate at time <parameter>t</parameter> and <parameter>s<subscript>t
+    </subscript></parameter>
+    is the estimated seasonal adjustment for time <parameter>t</parameter>.
+    We use the three smoothing equations
+    given in <xref linkend="exp-smoothing-tool-formula-a-holt-winters" /> to update our estimates.
+    &#x03b1; is the value 
+    given as <quote><guilabel>Damping factor</guilabel></quote>, &#x03b3; is the value 
+    given as <quote><guilabel>Growth damping factor</guilabel></quote> and &#x03b4; is the value 
+    given as <quote><guilabel>Seasonal damping factor</guilabel></quote>. <parameter>L</parameter>
+    is the value 
+    given as <quote><guilabel>Seasonal period</guilabel></quote>. If your data consist of monthly 
+    values, then  <parameter>L</parameter> should be 12, if it consist of quarterly values then 
+    <parameter>L</parameter> should be 4.
+  </para>
+
+  <para>This tool obtains initial (time 0) estimates for the level and growth rate by performing
+    a linear regression using all data values. It obtains estimates 
+    for the seasonal adjustments by averaging the appropriate seasonal differences from values 
+    predicted by linear regression alone.  
+  </para>
+
+
+ <figure id="exp-smoothing-tool-formula-a-holt-winters">
+    <title>Exponential Smoothing Formulae Of The Additive Holt-Winters Method</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-exp-smoothing-a-holt-winters-formula.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>The formulae used in the additive Holt-Winters Method.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+     <note><para>
+	 If you choose to have the tool enter formulas rather than values into 
+	 the output region, 
+	 then you can modify the damping factors &#x03b1;, &#x03b3;  and  &#x03b4; as well as all
+	 estimates after executing the tool. 
+     </para></note>
+
+     <para>To have the standard errors output as well, check the 
+       <quote><guilabel>Standard error</guilabel></quote> check box. The formula used is 
+       given in  <xref linkend="exp-smoothing-tool-formula-a-holt-winters-stderr" />.  
+       The denominator can be adjusted by selecting the appropriate radio button.
+     </para>
+
+  <figure id="exp-smoothing-tool-formula-a-holt-winters-stderr">
+    <title>The Standard Error Formula Of The Additive Holt-Winters Method</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-exp-smoothing-a-holt-winters-stderr.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>The formula used to calculate the standard error in the additive 
+		Holt-Winters Method
+	      </phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+   <para>If you check the <quote><guilabel>Include chart</guilabel></quote> check box, a line
+    graph showing the observations <parameter>y<subscript>t</subscript></parameter> and the 
+    estimated level values <parameter>l<subscript>t</subscript></parameter> will also be created.
+  </para>
+
+ <example id="usingsmoothingtool-ahw"><title>Using the Exponential Smoothing Tool</title>
+     <para> 
+     <xref linkend="smoothing-example-6" /> shows the options' tab of the exponential smoothing 
+     tool for the additive Holt-Winters method. The data is expected to have a seasonal period 
+     of 4 (this would for example happen if we have a data value for each quarter of a year). 
+     <xref linkend="smoothing-example-7" /> shows the corresponding example output for the
+     additive Holt-Winters method. Cell C7 contains the estimated level at time 0, D7 the 
+     estimated growth rate at time 0, and E4 to E7 the initial seasonal adjustments for each 
+     of the 4 seasons preceding our data time period.
+     If you requested to have formulas rather than values entered into the sheet, then changing
+     any of these estimates, the values for &#x03b1; in A2, for &#x03b3; in B2 and/or for &#x03b4; 
+     in C2 will result in an immediate change to the estimated values.
+     </para>
+</example>
+
+  <figure id="smoothing-example-6">
+    <title>Exponential Smoothing Tool Options (Additive Holt-Winters))</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-smoothing-ex6.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the options' tab for the additive Holt-Winters method.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+  <figure id="smoothing-example-7">
+    <title>Exponential Smoothing Tool Output (Additive Holt-Winters)</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-smoothing-ex7.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the output of the additive Holt-Winters method.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+    </sect4>
+
+  <sect4 id="exp-smoothing-tool-multiplicative-holt-winters">
+<title>Multiplicative Holt-Winters Method</title>
+
+  <para>The multiplicative Holt-Winters method of exponential smoothing is appropriate when a time 
+    series with a linear trend has a multiplicative seasonal pattern for which the level, the growth 
+    rate and the seasonal pattern may be changing. A multiplicative seasonal pattern is a pattern in 
+    which the seasonal variation can be explained by the multiplication of a seasonal constant 
+    (although we allow for this constant to change slowly.) 
+  </para>
+
+   <para><parameter>y<subscript>t</subscript></parameter> is the true value at time 
+    <parameter>t</parameter>, <parameter>l<subscript>t</subscript></parameter>
+    is the estimated level at time <parameter>t</parameter>, <parameter>b<subscript>t
+    </subscript></parameter>
+    is the estimated growth rate at time <parameter>t</parameter> and <parameter>s<subscript>t
+    </subscript></parameter>
+    is the estimated seasonal adjustment for time <parameter>t</parameter>.
+    We use the three smoothing equations
+    given in <xref linkend="exp-smoothing-tool-formula-m-holt-winters" /> to update our estimates.
+    &#x03b1; is the value 
+    given as <quote><guilabel>Damping factor</guilabel></quote>, &#x03b3; is the value 
+    given as <quote><guilabel>Growth damping factor</guilabel></quote> and &#x03b4; is the value 
+    given as <quote><guilabel>Seasonal damping factor</guilabel></quote>. <parameter>L</parameter>
+    is the value 
+    given as <quote><guilabel>Seasonal period</guilabel></quote>. If your data consist of monthly 
+    values, then  <parameter>L</parameter> should be 12, if it consist of quarterly values then 
+    <parameter>L</parameter> should be 4.
+  </para>
+
+  <para>This tool obtains initial (time 0) estimates for the level and growth rate by performing
+    a linear regression using the data values of the first 4 seasonal periods. It obtains estimates 
+    for the seasonal adjustments by averaging the appropriate seasonal differences from values 
+    predicted by linear regression alone during the first 4 seasonal periods.  
+  </para>
+
+  <figure id="exp-smoothing-tool-formula-m-holt-winters">
+    <title>Exponential Smoothing Formulae Of The Multiplicative Holt-Winters Method</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-exp-smoothing-m-holt-winters-formula.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>The formulae used in the multiplicative Holt-Winters Method</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+     <note><para>
+	 If you choose to have the tool enter formulas rather than values into 
+	 the output region, 
+	 then you can modify the damping factors &#x03b1;, &#x03b3;  and  &#x03b4; as well as all
+	 estimates after executing the tool. 
+     </para></note>
+
+  <para>To have the standard errors output as well, check the 
+    <quote><guilabel>Standard error</guilabel></quote> check box. The formula used is given in  
+    <xref linkend="exp-smoothing-tool-formula-m-holt-winters-stderr" />.  The denominator 
+    can be adjusted by selecting the appropriate radio button.
+  </para>
+
+  <figure id="exp-smoothing-tool-formula-m-holt-winters-stderr">
+    <title>The Standard Error Formula Of The Multiplicative Holt-Winters Method</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-exp-smoothing-m-holt-winters-stderr.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>The formula used to calculate the standard error in the multiplicative 
+		Holt-Winters Method
+	      </phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+  <para>If you check the <quote><guilabel>Include chart</guilabel></quote> check box, a line
+    graph showing the observations <parameter>y<subscript>t</subscript></parameter> and the 
+    estimated level values <parameter>l<subscript>t</subscript></parameter> will also be created.
+  </para>
+
+  <example id="usingsmoothingtool-mhw"><title>Using the Exponential Smoothing Tool</title>
+     <para> 
+     <xref linkend="smoothing-example-8" /> shows the example output for the
+     multiplicative Holt-Winters method, assuming 4 seasons. Cell C7 contains the estimated level 
+     at time 0, D7 the estimated growth rate at time 0, and E4 to E7 the initial seasonal 
+     adjustments for each of the 4 seasons preceding our data time period.
+     If you requested to have formulas rather than values entered into the sheet, then changing
+     any of these estimates, the values for &#x03b1; in A2, for &#x03b3; in B2 and/or for &#x03b4; 
+     in C2 will result in an immediate change to the estimated values.
+     </para>
+</example>
+
+ <figure id="smoothing-example-8">
+    <title>Exponential Smoothing Tool Output (Multiplicative Holt-Winters)</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-smoothing-ex8.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the output of the multiplicative Holt-Winters method.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+  </sect4>
+  </sect3>
+
+  <sect3 id="moving-average-tool">
+     <title>Moving Average Tool</title>
+
+  <figure id="moving-tool-dialog">
+    <title>Moving Average Tool Dialog</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-moving-average.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the dialog for the moving average
+              analysis tool.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+     <para>Use the moving average tool to calculate moving averages of
+     one or more data sets.  A moving average provides useful trend
+     information of the data that is lost in a simple average.  In
+     addition, moving averages can be used to eliminate random
+     variance.  For example, use this tool to create a smoother curve
+     of a stock prize.</para>
+
+     <para>Specify the cells containing the datasets in the
+     <quote><guilabel>Input Range</guilabel></quote> entry. The
+     entered range or ranges are grouped into datasets either by rows
+     or by columns.</para>
+
+     <para>If you have labels in the first cell of each data set,
+     select the <quote><guilabel>Labels</guilabel></quote>
+     option.</para>
+
+     <para>Choose the type of moving average you would like to calculate. The tool can
+       determine 4 types of moving averages:
+     </para>
+     <orderedlist>
+       <listitem><para>
+	   Simple moving average
+       </para></listitem>
+       <listitem><para>
+	   Cumulative moving average
+       </para></listitem>
+       <listitem><para>
+	   Weighted moving average
+       </para></listitem>
+       <listitem><para>
+	   Spencer's 15 point moving average
+       </para></listitem>
+     </orderedlist>
+
+  <figure id="moving-tool-dialog-options">
+    <title>
+      Moving Average Tool Dialog: The 
+      <quote><guilabel>Options</guilabel></quote> Tab
+    </title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-moving-average-options.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the <quote><guilabel>Options</guilabel></quote> 
+		tab of the moving average
+		analysis tool.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+  <para>Specify the <quote><guilabel>Interval</guilabel></quote>
+    for the moving average.  The interval <parameter>i</parameter> is
+    the number of consecutive values to be included in each moving
+    average. This options is only available for the simple and weighted 
+    moving averages.
+  </para>
+
+  <para>Check the <quote><guilabel>Standard errors</guilabel></quote>
+    checkbox if you would also like the standard error to be calculated.  
+    Since there is no general agreement on the denominator for the standard 
+    error you can choose the appropriate radio button.
+  </para>
+
+  <para>In the case of the simple moving average, you can also choose between 
+    a prior moving average and a central moving average, or you may even specify 
+    any other desired offset.
+  </para>
+     <orderedlist>
+       <listitem><para>
+	   <quote><guilabel>Prior moving average</guilabel></quote>: Each average 
+	   takes into account the current observation and the most recent prior 
+	   observations for a total of <parameter>i</parameter> observations.
+       </para></listitem>
+       <listitem><para>
+	   <quote><guilabel>Central moving average</guilabel></quote>
+	   with <parameter>i</parameter> being odd: Each average 
+	   takes into account the current observation and the same number of most recent prior 
+	   observations and closest future observations for a total of 
+	   <parameter>i</parameter> observations.
+       </para></listitem>
+       <listitem><para>
+	   <quote><guilabel>Central moving average</guilabel></quote>
+	   with <parameter>i</parameter> being even:
+	   This is calculated according to the formula given in 
+	   <xref linkend="moving-formula-central" />. 
+	   <parameter>a<subscript>t</subscript></parameter> is the moving average
+	   at time <parameter>t</parameter> and 
+	   <parameter>y<subscript>t</subscript></parameter> is the observation at
+	   time <parameter>t</parameter>.
+       </para></listitem>
+       <listitem><para>
+	   <quote><guilabel>Other offset</guilabel></quote>: If the offset is 0,
+	   this is just the prior moving average. Otherwise the offset indicates 
+	   the number of closest future observations to include in the average. 
+	   Correspondingly, the number of most recent past observations is decreased.
+       </para></listitem>
+     </orderedlist>
+
+       <figure id="moving-formula-central">
+	 <title>Formula For The Central Moving Average With Even Interval</title>
+	 <screenshot>
+	   <mediaobject>
+             <imageobject>
+               <imagedata fileref="figures/analysistools-moving-average-formula-central.png" 
+			  format="PNG" />
+             </imageobject>
+             <textobject>
+               <phrase>The formula for the central moving average if the interval 
+		 length is even.</phrase>
+             </textobject>
+           </mediaobject>
+	 </screenshot>
+       </figure>
+
+
+  <para>The results are given in one column for each dataset (with a second 
+    column added if you have chosen standard errors to be calculated). Each
+    row represents the moving average of the corresponding row or
+    column in the input range.  Depending on the type of average and 
+    the offset, the moving average cannot be
+    calculated for the first rows in the
+    input range.
+  </para>
+
+     <sect4 id="moving-averages-simple">
+       <title>Simple Moving Average</title>
+       <para>
+	 A simple moving average is the unweighted average of a collection of 
+	 observations. Exactly which observations are included depends on whether 
+	 a prior or central moving average is calculated.  
+       </para>
+     </sect4>
+     <sect4 id="moving-averages-cumulative">
+       <title>Cumulative Moving Average</title>
+       <para>A cumulative moving average is a prior moving average in which the current 
+       and all prior observations are included.</para>
+     </sect4>
+     <sect4 id="moving-averages-weighted">
+       <title>Weighted Moving Average</title>
+       <para>A weighted moving average with an interval <parameter>i</parameter> is a prior 
+	 moving average calculated according to formula 
+	 <xref linkend="moving-formula-central" />. 
+	 <parameter>a<subscript>t</subscript></parameter> is the moving average
+	 at time <parameter>t</parameter> and 
+	 <parameter>y<subscript>t</subscript></parameter> is the observation at
+	 time <parameter>t</parameter>.
+       </para>
+
+       <figure id="moving-averages-weighted-formula">
+	 <title>Formula For The Weighted Moving Average With Interval 
+	   <parameter>i</parameter></title>
+	 <screenshot>
+	   <mediaobject>
+             <imageobject>
+               <imagedata fileref="figures/analysistools-moving-average-formula-weighted.png" 
+			  format="PNG" />
+             </imageobject>
+             <textobject>
+               <phrase>The formula for the weighted moving average if the interval 
+		 length is <parameter>i</parameter>.</phrase>
+             </textobject>
+           </mediaobject>
+	 </screenshot>
+       </figure>
+     </sect4>
+   
+
+     <sect4 id="moving-averages-spencer">
+       <title>Spencer's 15 Point Moving Average</title>
+       <para>Spencer's 15 point moving average is a central moving average calculated 
+	 according to formula 
+       <xref linkend="moving-formula-spencer" />. 
+       <parameter>a<subscript>t</subscript></parameter> is the moving average
+       at time <parameter>t</parameter> and 
+       <parameter>y<subscript>t</subscript></parameter> is the observation at
+       time <parameter>t</parameter>.
+       </para>
+
+       <figure id="moving-formula-spencer">
+	 <title>Formula For Spencer's 15 Point Moving Average</title>
+	 <screenshot>
+	   <mediaobject>
+             <imageobject>
+               <imagedata fileref="figures/analysistools-moving-average-formula-spencer.png" 
+			  format="PNG" />
+             </imageobject>
+             <textobject>
+               <phrase>The formula for the Spencer's 15 point moving average.</phrase>
+             </textobject>
+           </mediaobject>
+	 </screenshot>
+       </figure>
+     </sect4>
+
+     <sect4 id="moving-averages-example">
+       <title>A Moving Average Example</title>
+       <figure id="moving-example-1">
+	 <title>Some Example Data for the Moving Average Tool</title>
+	 <screenshot>
+	   <mediaobject>
+             <imageobject>
+               <imagedata fileref="figures/analysistools-moving-average-ex1.png" 
+			  format="PNG" />
+             </imageobject>
+             <textobject>
+               <phrase>An image of some example data for use with the
+		 moving average analysis tool.</phrase>
+             </textobject>
+           </mediaobject>
+	 </screenshot>
+       </figure>
+       <example id="usingmovingtool"><title>Using the Moving Average Tool</title>
+	 <para><xref linkend="moving-example-1" /> shows some example data,  
+	   <xref linkend="moving-example-2" /> shows the option settings, and 
+	   <xref linkend="moving-example-3" /> the corresponding output.
+	 </para>
+       </example>
+       <figure id="moving-example-2">
+	 <title>Moving Averages Tool Options</title>
+	 <screenshot>
+	   <mediaobject>
+             <imageobject>
+               <imagedata fileref="figures/analysistools-moving-average-ex2.png" 
+			  format="PNG" />
+             </imageobject>
+             <textobject>
+               <phrase>An image of the option settings of the moving averages 
+		 example.</phrase>
+             </textobject>
+           </mediaobject>
+	 </screenshot>
+       </figure>
+       <figure id="moving-example-3">
+	 <title>Moving Averages Tool Output</title>
+	 <screenshot>
+	   <mediaobject>
+             <imageobject>
+               <imagedata fileref="figures/analysistools-moving-average-ex3.png" 
+			  format="PNG" />
+             </imageobject>
+             <textobject>
+               <phrase>An image of the output from the moving average
+		 analysis tool.</phrase>
+             </textobject>
+           </mediaobject>
+	 </screenshot>
+       </figure>
+     </sect4>
+  </sect3>
+  </sect2>
+
+  <sect2 id="fourier-analysis-tool">
+     <title>Fourier Analysis Tool</title>
+
+  <figure id="fourier-tool-dialog">
+    <title>Fourier Analysis Tool Dialog</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-fourier.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the fourier analysis
+              dialog.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+     <para>
+       The Fourier Analysis tool normally performs a Fast Fourier
+       Transform to obtain the discrete fourier transform
+       F<subscript>s</subscript> of the given sequence
+       f<subscript>t</subscript> of real numbers according to the
+       formula given in <xref linkend="fourier-tool-formula"
+       />.</para> <para>Select the
+       <quote><guilabel>Inverse</guilabel></quote> option to calculate
+       the inverse discrete fourier transform
+       f<subscript>t</subscript> of the given sequence
+       F<subscript>s</subscript> of real numbers</para> <note><para>If
+       the number of terms in the given sequence is not
+       a power of 2 (i.e.  2, 4, 8, 16, 32, 64, 128, etc.), this tool
+       will append zeros to reach such a power of 2!</para></note>
+     
+     <para>Specify the cells containing the datasets in the
+     <quote><guilabel>Input Range</guilabel></quote> entry. The
+     entered range or ranges are grouped into sequences either by rows
+     or by columns.</para>
+
+     <para>If you have labels
+     in the first cell of each data set, select the
+     <quote><guilabel>Labels</guilabel></quote> option.</para>
+
+  <figure id="fourier-tool-formula">
+    <title>Fourier Analysis Formulae</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-fourier-formula.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>The formulae used in a fourier analysis.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+     <note>
+       <para>Before using the numbers obtained by this tool, ensure
+       that these are in fact the correct formulae for your
+       discipline. In the physical sciences this fourier transform
+       tends to be called the inverse fourier transform and vice
+       versa. Moreover, frequently the scaling factor varies.</para>
+       <para>For example <application>Mathematica</application> uses
+       the terms fourier transform and inverse fourier transform with
+       the reversed meaning than &gnum;
+       and it uses a scaling factor of
+       <parameter>1/SQRT(N)</parameter> rather than
+       <parameter>1/N</parameter>.</para></note>
+  </sect2>
+
+  <sect2 id="kaplan-meier-tool">
+      <title>Kaplan Meier Estimates Tool</title>
+      <para/>
+
+  <sect3 id="kaplan-meier-tool-inputtab">
+     <title>The <quote><guilabel>Input</guilabel></quote> Tab</title>
+
+     <para>The <quote><guilabel>Input</guilabel></quote> tab shown in 
+        <xref linkend="kaplan-meier-tool-dialog" /> contains
+        the fields specifying the data to be used for the
+        Kaplan Meier Estimates. The time column contains the times or dates 
+        at which the subjects died or were censored. If any of the subjects
+        were censored, the <guilabel>Permit censorship</guilabel> checkbox is
+        checked and the Censor column contained the censorship marks. Censorship
+        marks are typically 0s or 1s. The range of censor marks or labels can be 
+        set using the the 
+        remaining two spinboxes.</para>
+
+ <figure id="kaplan-meier-tool-dialog">
+    <title>Kaplan-Meier Tool Dialog</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-kaplan.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the .Kaplan-Meier tool dialog.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+  </sect3>
+
+  <sect3 id="kaplan-meier-tool-group-tab">
+     <title>The <quote><guilabel>Groups</guilabel></quote> Tab</title>
+
+    <para>
+        If the subjects belong to several groups and the groups are supposed to be
+        analyzed separately, the groups tab can be used. 
+    </para>
+
+ <figure id="kaplan-meier-tool-dialog-groups">
+    <title>Kaplan-Meier Tool Dialog Groups Tab</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-kaplan-groups.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the Kaplan-Meier tool dialog groups tab.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+    <para>
+        The groups tab can be enabled via the <guilabel>Define multiple groups
+        </guilabel> checkbox. The groups column entry contains the address of 
+        the column specifying the group membership. Groups can then be defined 
+        or deleted via the <guilabel>Add</guilabel> and <guilabel>Remove
+        </guilabel> buttons.
+    </para>
+
+  </sect3>
+
+  <sect3 id="kaplan-meier-tool-optionstab">
+     <title>The <quote><guilabel>Options</guilabel></quote> Tab</title>
+
+    <para>The options tab of the Kaplan-Meier tools dialog is used to set 
+        various options of the Kaplan-Meier tool.
+    </para>
+
+ <figure id="kaplan-meier-tool-dialog-options">
+    <title>Kaplan-Meier Tool Dialog Options Tab</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-kaplan-options.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the Kaplan-Meier tool dialog options tab.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+  </sect3>
+
+  <sect3 id="kaplan-meier-tool-outputtab">
+     <title>The <quote><guilabel>Output</guilabel></quote> Tab</title>
+
+      <para>
+        The Output tab contains the standard output options and fields
+        described in <xref linkend="sect-stat-analysis-overview" />.
+      </para>
+  </sect3>
+
+  <sect3 id="kaplan-meier-tool-example">
+    <title>A Kaplan-Meier Example</title>
+
+      <figure id="kaplan-meier-tool-example-1">
+	<title>Kaplan-Meier Tool Example Input</title>
+	<screenshot>
+	    <mediaobject>
+		<imageobject>
+		  <imagedata fileref="figures/analysistools-kaplan-ex1.png" 
+		      format="PNG" />
+		</imageobject>
+		<textobject>
+		  <phrase>An image of the input to the Kaplan-Meier estimate example 
+            and of the input 
+		  tab of the Kaplan-Meier analysis tool.</phrase>
+		</textobject>
+	       </mediaobject>
+	</screenshot>
+      </figure>
+
+    <example id="usingkaplan-meiertool">
+      <title>Using the Kaplan-Meier Tool</title>
+      <para>
+        Suppose you want to calculate Kaplan-Meier Estimates 
+        for the as given in <xref linkend="kaplan-meier-tool-example-1" />. Each 
+        row contains the data for one subject. Column A contains the survival time,
+        i.e. the time until death or censure. Column B contains the group number, 
+        we are considering two groups of subjects. Column C indicates whether the 
+        subject died (0) or was censured (1).
+        </para>
+        <para>
+        We complete the fields of the <guilabel>Input</guilabel> tab as shown in 
+        <xref linkend="kaplan-meier-tool-example-1" />. The time column is A2:A21
+        and the censure column is C2:C21.
+        </para>
+        <para>
+        Since we have two groups of subjects, on the <guilabel>Groups</guilabel> 
+        tab we check the  <guilabel>Define multiple groups</guilabel> check box and 
+        set up two groups with identifiers 1 and 2 in column B2:B21:
+      <figure id="kaplan-meier-tool-tool-example-3">
+	 <title>Kaplan-Meier Tool Example Group Tab</title>
+	 <screenshot>
+	     <mediaobject>
+		 <imageobject>
+		   <imagedata fileref="figures/analysistools-kaplan-ex3.png" 
+		       format="PNG" />
+		 </imageobject>
+		 <textobject>
+		   <phrase>An image of the group tab of the Kaplan-Meier
+		   analysis tool.</phrase>
+		 </textobject>
+		</mediaobject>
+	 </screenshot>
+       </figure>
+      </para>
+    <para>On the <guilabel>Options</guilabel> tab all checkboxes are pre-checked
+     and we leave them that way to obtain a maximum amount of information.
+    </para>
+    <para>On the output tab we choose where we would like the output to be placed. For 
+    the purposes of this example we retain the <guilabel>New Sheet</guilabel> target. 
+    After clicking <guilabel>OK</guilabel> we get the output shown in 
+    <xref linkend="kaplan-meier-tool-example-2" />. Note that the graph initially 
+        always appears on top of the numerical result and was moved for the 
+        screen shot.
+    </para>
+    <para>
+        B1:F17 shows the results of the first group, G1 to K17 the results of the 
+        second group. The graph shows the Kaplan-Meier survival curves for both 
+        groups.
+    </para>
+    <para>
+        M4:N7 shows the result of the Mantel-Haenszel Log-Rank Test. In this case 
+        the p-value is larger than 0.3 and we would fail to reject the Null 
+        hypothesis. There is no evidence that the survival times differ.
+    </para>
+    </example>
+
+      <figure id="kaplan-meier-tool-example-2">
+	 <title>Kaplan-Meier Tool Example Output</title>
+	 <screenshot>
+	     <mediaobject>
+		 <imageobject>
+		   <imagedata fileref="figures/analysistools-kaplan-ex2.png" 
+		       format="PNG" />
+		 </imageobject>
+		 <textobject>
+		   <phrase>An image of the output of the Kaplan-Meier
+		   analysis tool.</phrase>
+		 </textobject>
+		</mediaobject>
+	 </screenshot>
+       </figure>
+  </sect3>
+  </sect2>
+
+  <sect2 id="principal-component-tool">
+      <title>Principal Component Analysis</title>
       <para></para>
-  </sect1>
+  </sect2>
+
+</sect1>
+
+<sect1 id="one_sample_tests">
+  <title>One Sample Tests</title>
+
+  <sect2 id="normality-tool">
+      <title>Normality Tests</title>
+      <para></para>
+  </sect2>
 
 
+  <sect2 id="sign-test-tool">
+      <title>One Median</title>
+      
+      
+  <sect3 id="sign-test-tool">
+      <title>Sign Test</title>
+      <para></para>
+  </sect3>
 
-<sect1 id="t-test-tool">
+  <sect3 id="sign-test-tool">
+      <title>Wilcoxon SIgned Rank Test</title>
+      <para></para>
+  </sect3>
+
+  </sect2>
+
+</sect1>
+
+<sect1 id="two_sample_tests">
+  <title>Two Sample Tests</title>
+
+<sect2 id="t-test-tool">
      <title>Comparing Means of 2 Populations</title>
      <para>&gnum; provides 4 similar
      tools to test whether the difference of two population means is
@@ -2795,7 +2523,7 @@
      </varlistentry>
      </variablelist>
 
-  <sect2 id="t-test-paired-two-samples-for-means-tool">
+  <sect3 id="t-test-paired-two-samples-for-means-tool">
      <title><parameter>t</parameter>-Test: Paired Two Sample for Means Tool</title>
   <figure id="ttest-dialog-paired">
     <title><parameter>t</parameter>-Test (Paired) Tool Dialog Options</title>
@@ -2852,9 +2580,9 @@
     </screenshot>
   </figure>
 
-  </sect2>
+  </sect3>
 
-  <sect2 id="t-test-two-sample-equal-variances-tool">
+  <sect3 id="t-test-two-sample-equal-variances-tool">
      <title><parameter>t</parameter>-Test: Two-Sample Assuming Equal Variances Tool</title>
   <figure id="ttest-dialog-equal">
     <title><parameter>t</parameter>-Test (Equal Variances) Tool Dialog
@@ -2914,9 +2642,9 @@
            </mediaobject>
     </screenshot>
   </figure>
-  </sect2>
+  </sect3>
 
-  <sect2 id="t-test-two-samples-unequal-variances">
+  <sect3 id="t-test-two-samples-unequal-variances">
      <title><parameter>t</parameter>-Test: Two-Sample Assuming Unequal Variances Tool</title>
   <figure id="ttest-dialog-unequal">
     <title><parameter>t</parameter>-Test (Unknown and Unequal Variances) Tool 
@@ -2980,9 +2708,9 @@
            </mediaobject>
     </screenshot>
   </figure>
-  </sect2>
+  </sect3>
 
-  <sect2 id="ztest-two-samples-for-means-tool">
+  <sect3 id="ztest-two-samples-for-means-tool">
      <title><parameter>z</parameter>-Test: Two Samples for Means Tool</title>
   <figure id="ztest-dialog">
     <title><parameter>z</parameter>-Test Tool Dialog Options</title>
@@ -3046,5 +2774,319 @@
       </mediaobject>
     </screenshot>
   </figure>
+  </sect3>
+</sect2>
+
+  <sect2 id="sign-test-tool">
+      <title>Sign Tests</title>
+      <para></para>
+  </sect2>
+
+  <sect2 id="ftest-two-sample-for-variances-tool">
+     <title>F-Test: Two-Sample for Variances Tool</title>
+
+  <figure id="ftest-tool-dialog">
+    <title>F-Test Tool Dialog</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-ftest.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the dialog for an F-test analysis of
+              the equality of two variances.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+     <para>Use the F-Test tool to test whether two population  
+     variances are different against the null hypothesis that
+     they are not.</para>
+
+     <para>Specify the variables in the <quote><guilabel>Variable 1 Range:</guilabel></quote>
+     and <quote><guilabel>Variable 2 Range:</guilabel></quote> entries. The <quote><guilabel>Alpha:</guilabel></quote> 
+     entry contains the 
+     significance level which is by default 5&#037;.</para>
+
+     <para>If the first field of each range contains labels, 
+     select the <quote><guibutton>Labels</guibutton></quote> option. The names of 
+     the variables will be included in the  output table.</para>
+
+     <para>The results are given in a table.  This table contains
+     the mean, variance, count of observations and the degree
+     of freedom for both variables. The output table also includes the F-value,
+     the one-tailed probability for the F-value, and the F Critical
+     value for one-tailed test and the corresponding values for a two 
+     tailed test. The one-tailed probability for the
+     F-value (<quote><guilabel>P(F&lt;=f) one-tail</guilabel></quote> row) is the probability of making a
+     Type I error in the one-tailed test. Similarly, the two-tailed 
+     probability for the F-value (<quote><guilabel>P two-tail</guilabel></quote> row)
+     is the probability of making a Type I error in the two-tailed test.
+     Since in the two-tailed F-Test both critical values are positive, the
+     <quote><guilabel>F Critical two-tail</guilabel></quote> row contains two numbers.</para>
+
+     <para>If the output is directed into a specific output range, that
+     range should contain at least three columns and eight rows.</para>
+
+   <figure id="ftest-example-1">
+    <title>Some Example Data</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-ftest-ex1.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of some example data for an F-test of
+              the equality of two variances.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+ <example id="usingftesttool"><title>Using the F-Test Tool</title>
+     <para><xref linkend="ftest-example-1" /> shows some example data and 
+     <xref linkend="ftest-example-2" /> the corresponding output.
+     </para>
+</example>
+  <figure id="ftest-example-2">
+    <title>F-Test Tool Output</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-ftest-ex2.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the output of an F-test analysis of
+              the equality of two variances.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+    
+  </sect2>
+
+</sect1>
+
+<sect1 id="multiple_sample_tests">
+  <title>Multiple Sample Tests</title>
+<sect2 id="anova">
+  <title>Analysis of Variance</title>
+
+  <sect3 id="anova-single-factor-tool">
+     <title>ANOVA: Single Factor Tool</title>
+
+     <para>
+       Use this tool to perform a single factor analysis of the
+       variances of given variables. The variables are specified by
+       the <quote><guilabel>Input Range:</guilabel></quote> entry.
+       The given range can be grouped into the variables either by
+       columns, by rows or by areas.  The
+       <quote><guilabel>Alpha:</guilabel></quote> entry specifies the
+       significance level which is by default 5&#037;.
+     </para>
+
+     <para>If the first row or first column of the given range, or the 
+     first field of each area contains labels, select the <quote><guibutton>Labels
+     </guibutton></quote> option. The names of 
+     the variables will be included in the  output table.</para>
+
+     <para>The results of this analysis of variance are presented in 
+     a standard ANOVA table. The <quote><guilabel>F critical</guilabel></quote>
+     value is the largest value of F that is statistically significant
+     using the given significance level (<quote><guilabel>Alpha</guilabel></quote>).</para>
+
+     <para>This tool also calculates the count, sum, average,
+     and the variance of each variable.</para>
+
+   <figure id="anova-one-factor-tool-ex1">
+    <title>1-factor ANOVA Dialog and Example Data</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-ANOVA1-ex1.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of a multilevel single factor ANOVA
+              analysis.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+<example id="usinganovaonefactortool">
+ <title>Using the single factor ANOVA</title>
+     <para>See <xref linkend="anova-one-factor-tool-ex1" /> for an example 
+     of a completed dialog and <xref
+     linkend="anova-one-factor-tool-ex2" />
+     for the corresponding output.
+     </para>
+ </example>
+  <figure id="anova-one-factor-tool-ex2">
+    <title>Output From a 1-factor ANOVA</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-ANOVA1-ex2.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the output from a multilevel single
+              factor ANOVA analysis.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+     
+
+  </sect3>
+
+  <sect3 id="anova-two-factor-tool">
+     <title>ANOVA: Two-Factor Tool</title>
+
+     <para>&gnum; can perform two factor fixed effects ANOVAs with and 
+     without replication. The same dialog is used and the 
+     appropriate tool is selected depending on whether the number of rows 
+     per sample is 1 or larger than 1.</para> 
+
+  <sect4 id="anova-two-factor-without-tool">
+     <title>ANOVA: Two-Factor Without Replication Tool</title>
+
+     <para>If the number of rows per sample is given as 1, &gnum; 
+     performs a two factor fixed effects ANOVA without replication. Each
+     column of the input range is interpreted as a level of the first 
+     factor while each row is interpreted as a level of the second factor.
+     </para>
+     <para>The first row and column of the range may contain labels for 
+     these levels. In this case the <quote><guibutton>Labels</guibutton></quote> option should be selected.
+     </para>
+     <para> The <quote><guilabel>Alpha:</guilabel></quote> entry specifies the 
+     significance level which is by default 5&#037;.</para>
+ <example id="usinganovatwofactorwotool">
+ <title>Using the 2-factor ANOVA Without Replication Tool</title>
+     <para>See <xref linkend="anova-two-factor-without-tool-ex1" /> for an example 
+     of a completed dialog and <xref
+     linkend="anova-two-factor-without-tool-ex2" />
+     for the corresponding output.
+     </para>
+ </example>
+  <figure id="anova-two-factor-without-tool-ex1">
+    <title>2-factor ANOVA Without Replication Dialog</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-ANOVA2wo-ex1.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of a two factor ANOVA without
+              replication analysis.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+  <figure id="anova-two-factor-without-tool-ex2">
+    <title>Output From a 2-factor ANOVA Without Replication</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-ANOVA2wo-ex2.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the output from a two factor ANOVA without
+              replication analysis.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+  </sect4>
+
+  <sect4 id="anova-two-factor-with-tool">
+     <title>ANOVA: Two-Factor With Replication Tool</title>
+     <para>If the number of rows per sample is larger than 1, &gnum; 
+     performs a two factor fixed effects ANOVA with replication. Each
+     column of the input range is interpreted as a level of the first 
+     factor while groups of rows (the number of rows in each group given 
+     by the <quote><guilabel>number of rows per sample</guilabel></quote> value) are interpreted as levels 
+     of the second factor.
+     </para>
+     <para>The first row and column of the range may contain labels for 
+     these levels. In this case the <quote><guibutton>Labels</guibutton></quote> option should be selected.
+     </para>
+     <para> The <quote><guilabel>Alpha:</guilabel></quote> entry specifies the 
+     significance level which is by default 5&#037;.</para>
+     <para>See <xref linkend="anova-two-factor-with-tool-ex1" /> for an example 
+     of a completed dialog and <xref
+     linkend="anova-two-factor-with-tool-ex2" />
+     for the corresponding output.
+     </para>
+  <figure id="anova-two-factor-with-tool-ex1">
+    <title>2-factor ANOVA With Replication Dialog</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-ANOVA2w-ex1.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of a two factor ANOVA with replication
+              analysis.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+  <figure id="anova-two-factor-with-tool-ex2">
+    <title>Output From a 2-factor ANOVA With Replication</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-ANOVA2w-ex2.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the output from a two factor ANOVA
+              with replication analysis.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+     
+     <para>&gnum; will estimate missing
+     values for each level combination as the mean of the existing
+     values in that combination. The degrees of freedom are adjusted
+     appropriately. </para>
+
+  </sect4>
+  </sect3>
+
+</sect2>
+
+  <sect2 id="chi-square-tool">
+      <title>Tests for a Contingency Table</title>
+
+  <sect3 id="homogeneity-tool">
+      <title>Test of Homogeneity</title>
+      <para></para>
+  </sect3>
+  <sect3 id="independence-tool">
+      <title>Test of Independence</title>
+      <para></para>
+  </sect3>
+
   </sect2>
 </sect1>
+
+
+
+
+
+
+
+
+  
+
+
+
+
