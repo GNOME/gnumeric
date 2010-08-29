@@ -3715,6 +3715,20 @@ odf_write_data_attribute (GnmOOExport *state, GOData const *data, GnmParsePos *p
 	}
 }
 
+static gint
+cmp_data_points (GObject *a, GObject *b)
+{
+	int ind_a = 0, ind_b = 0;
+	
+	g_object_get (a, "index", &ind_a, NULL); 
+	g_object_get (b, "index", &ind_b, NULL);
+	
+	if (ind_a < ind_b)
+		return -1;
+	else if (ind_a > ind_b)
+		return 1;
+	else return 0;
+}
 
 static void
 odf_write_standard_series (GnmOOExport *state, GSList const *series)
@@ -3730,7 +3744,7 @@ odf_write_standard_series (GnmOOExport *state, GSList const *series)
 			GogObjectRole const *role = 
 				gog_object_find_role_by_name 
 				(GOG_OBJECT (series->data), "Regression curve");
-			
+			GSList *points;
 			GOData const *cat = gog_dataset_get_dim (GOG_DATASET (series->data), 
 								 GOG_MS_DIM_LABELS);
 			char *str = g_strdup_printf ("series%i", i);
@@ -3802,6 +3816,38 @@ odf_write_standard_series (GnmOOExport *state, GSList const *series)
 					gsf_xml_out_end_element (state->xml); /* </chart:regression-curve> */
 					g_free (str);
 				}
+			}
+
+			/* Write data points if any */
+
+			role = gog_object_find_role_by_name 
+				(GOG_OBJECT (series->data), "Point");
+			if (role != NULL && NULL != (points = gog_object_get_children 
+						     (GOG_OBJECT (series->data), role))) {
+				int index = 0, next_index = 0;
+				GSList *l;
+				points = g_slist_sort (points, (GCompareFunc) cmp_data_points);
+				
+				for (l = points; l != NULL; l = l->next) {
+					char *style = odf_get_gog_style_name_from_obj 
+						(GOG_OBJECT (l->data));
+					g_object_get (G_OBJECT (l->data), "index", &index, NULL);
+					if (index > next_index) {
+						gsf_xml_out_start_element (state->xml, 
+									   CHART "data-point");
+						gsf_xml_out_add_int (state->xml, CHART "repeated", 
+								     index - next_index);
+						gsf_xml_out_end_element (state->xml); 
+						/* CHART "data-point" */
+					}
+					gsf_xml_out_start_element (state->xml, 
+								   CHART "data-point");
+					gsf_xml_out_add_cstr (state->xml, CHART "style-name", style);
+					gsf_xml_out_end_element (state->xml); 
+					/* CHART "data-point" */
+					g_free (style);
+				}
+				g_slist_free (points);
 			}
 			
 			if (state->with_extension) {
@@ -5064,7 +5110,7 @@ odf_write_images (SheetObjectImage *image, char const *name, GnmOOExport *state)
 }
 
 static void
-odf_write_drop(GnmOOExport *state, GOStyle const *style, GogObject const *obj) 
+odf_write_drop (GnmOOExport *state, GOStyle const *style, GogObject const *obj) 
 {
 	GogObjectRole const *h_role = gog_object_find_role_by_name 
 		(obj->parent, "Horizontal drop lines");
@@ -5074,7 +5120,7 @@ odf_write_drop(GnmOOExport *state, GOStyle const *style, GogObject const *obj)
 }
 
 static void
-odf_write_lin_reg(GnmOOExport *state, GOStyle const *style, GogObject const *obj) 
+odf_write_lin_reg (GnmOOExport *state, GOStyle const *style, GogObject const *obj) 
 {
 	gsf_xml_out_add_cstr (state->xml, CHART "regression-type",  "linear");
 	if (state->with_extension) {
@@ -5087,7 +5133,7 @@ odf_write_lin_reg(GnmOOExport *state, GOStyle const *style, GogObject const *obj
 }
 
 static void
-odf_write_polynom_reg(GnmOOExport *state, GOStyle const *style, GogObject const *obj) 
+odf_write_polynom_reg (GnmOOExport *state, GOStyle const *style, GogObject const *obj) 
 {
 	if (state->with_extension) {
 		GObjectClass *klass = G_OBJECT_GET_CLASS (G_OBJECT (obj));
@@ -5102,25 +5148,25 @@ odf_write_polynom_reg(GnmOOExport *state, GOStyle const *style, GogObject const 
 }
 
 static void
-odf_write_exp_reg(GnmOOExport *state, GOStyle const *style, GogObject const *obj) 
+odf_write_exp_reg (GnmOOExport *state, GOStyle const *style, GogObject const *obj) 
 {
 	gsf_xml_out_add_cstr (state->xml, CHART "regression-type",  "exponential");
 }
 
 static void
-odf_write_power_reg(GnmOOExport *state, GOStyle const *style, GogObject const *obj) 
+odf_write_power_reg (GnmOOExport *state, GOStyle const *style, GogObject const *obj) 
 {
 	gsf_xml_out_add_cstr (state->xml, CHART "regression-type",  "power");
 }
 
 static void
-odf_write_log_reg(GnmOOExport *state, GOStyle const *style, GogObject const *obj) 
+odf_write_log_reg (GnmOOExport *state, GOStyle const *style, GogObject const *obj) 
 {
 	gsf_xml_out_add_cstr (state->xml, CHART "regression-type",  "logarithmic");
 }
 
 static void
-odf_write_log_fit_reg(GnmOOExport *state, GOStyle const *style, GogObject const *obj) 
+odf_write_log_fit_reg (GnmOOExport *state, GOStyle const *style, GogObject const *obj) 
 {
 	if (state->with_extension)
 		gsf_xml_out_add_cstr (state->xml, CHART "regression-type", 
@@ -5128,7 +5174,7 @@ odf_write_log_fit_reg(GnmOOExport *state, GOStyle const *style, GogObject const 
 }
 
 static void
-odf_write_movig_avg_reg(GnmOOExport *state, GOStyle const *style, GogObject const *obj) 
+odf_write_movig_avg_reg (GnmOOExport *state, GOStyle const *style, GogObject const *obj) 
 {
 	if (state->with_extension)
 		gsf_xml_out_add_cstr (state->xml, CHART "regression-type", 
@@ -5136,11 +5182,31 @@ odf_write_movig_avg_reg(GnmOOExport *state, GOStyle const *style, GogObject cons
 }
 
 static void
-odf_write_exp_smooth_reg(GnmOOExport *state, GOStyle const *style, GogObject const *obj) 
+odf_write_exp_smooth_reg (GnmOOExport *state, GOStyle const *style, GogObject const *obj) 
 {
 	if (state->with_extension)
 		gsf_xml_out_add_cstr (state->xml, CHART "regression-type", 
 				      GNMSTYLE "exponential-smoothed");
+}
+
+static void
+odf_write_pie_point (GnmOOExport *state, GOStyle const *style, GogObject const *obj) 
+{
+	GObjectClass *klass = G_OBJECT_GET_CLASS (obj);
+	GParamSpec *spec;
+
+	if (NULL != (spec = g_object_class_find_property (klass, "separation"))   
+	    && spec->value_type == G_TYPE_DOUBLE
+	    && (G_PARAM_READABLE & spec->flags)) {
+		double separation = 0.;
+		g_object_get (G_OBJECT (obj), 
+			      "separation", &separation, 
+			      NULL);
+		gsf_xml_out_add_int (state->xml, 
+				     CHART "pie-offset", 
+				     (separation * 100. + 0.5));
+	}
+
 }
 
 static void
@@ -5163,6 +5229,7 @@ odf_fill_chart_props_hash (GnmOOExport *state)
 		{"GogLogFitCurve", odf_write_log_fit_reg},
 		{"GogMovingAvg", odf_write_movig_avg_reg},
 		{"GogExpSmooth", odf_write_exp_smooth_reg},
+		{"GogPieSeriesElement", odf_write_pie_point},
 	};
 		
 	for (i = 0 ; i < (int)G_N_ELEMENTS (props) ; i++)

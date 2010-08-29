@@ -1384,7 +1384,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	int array_cols = -1, array_rows = -1;
 	int merge_cols = 1, merge_rows = 1;
 	GnmStyle *style = NULL;
-	char *style_name = NULL;
+	char const *style_name = NULL;
 	char const *expr_string;
 	GnmRange tmp;
 	int max_cols = gnm_sheet_get_max_cols (state->pos.sheet);
@@ -1490,8 +1490,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-rows-spanned", &merge_rows, 0, INT_MAX))
 			;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name")) {
-			g_free (style_name);
-			style_name = g_strdup (attrs[1]);
+			style_name = attrs[1];
 		}
 	}
 
@@ -1500,7 +1499,6 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		if (texpr)
 			gnm_expr_top_unref (texpr);
 		value_release (val);
-		g_free (style_name);
 		return;
 	}
 
@@ -1546,8 +1544,6 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 		if (style != NULL)
 			gnm_style_ref (style);
-
-		g_free (style_name);
 	}
 
 	if (style != NULL) {
@@ -3538,6 +3534,9 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_float ("default-separation", 
 						   tmp/100.));
+			style->plot_props = g_slist_prepend (style->plot_props,
+				oo_prop_new_float ("separation", 
+						   tmp/100.));
 		} else if (oo_attr_percent (xin, attrs, OO_NS_CHART, 
 					    "hole-size", &ftmp)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
@@ -4705,6 +4704,7 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 
 	state->chart.series_count++;
 	state->chart.domain_count = 0;
+	state->chart.data_pt_count = 0;
 
 
 	/* Create the series */
@@ -4839,10 +4839,39 @@ oo_series_domain (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 oo_series_pt (GsfXMLIn *xin, xmlChar const **attrs)
 {
-#if 0
 	OOParseState *state = (OOParseState *)xin->user_state;
-	/* <chart:data-point chart:repeated="3"/> */
-#endif
+	char const *style_name = NULL;
+	guint repeat_count = 1;
+	OOChartStyle *style = NULL;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (oo_attr_int_range (xin, attrs, OO_NS_CHART, "repeated", &repeat_count, 0, INT_MAX))
+			;
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name")) {
+			style_name = attrs[1];
+		}
+	if (repeat_count == 0)
+		return; /* Why does ODF allow repeat counts of 0 ??*/
+
+	if (style_name != NULL &&
+	    NULL != (style = g_hash_table_lookup (state->chart.graph_styles, style_name))) {
+		guint index = state->chart.data_pt_count;
+		state->chart.data_pt_count += repeat_count;
+		for (; index < state->chart.data_pt_count; index++) {
+			GogObject *element = gog_object_add_by_name (GOG_OBJECT (state->chart.series), "Point", NULL);
+			if (element != NULL) {
+				GOStyle *gostyle;
+				g_object_set (G_OBJECT (element), "index", index, NULL);
+				oo_prop_list_apply (style->plot_props, G_OBJECT (element));
+				g_object_get (G_OBJECT (element), "style", &gostyle, NULL);
+				if (gostyle != NULL) {
+					odf_apply_style_props (style->style_props, gostyle);
+					g_object_unref (gostyle);
+				}
+			}
+		}
+	} else
+		state->chart.data_pt_count += repeat_count;
 }
 
 static void

@@ -1,4 +1,15 @@
-2010-08-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2010-08-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_cell_start): no need to duplicate the style name
+	(od_style_prop_chart): new atribute
+	(oo_plot_series): zero the data point count
+	(oo_series_pt): implement
+	* openoffice-write.c (cmp_data_points): new
+	(odf_write_standard_series): write data points
+	(odf_write_pie_point): new
+	(odf_fill_chart_props_hash): connect odf_write_pie_point
+
+2010-08-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_plot): write marker info for
 	  polar plots 
