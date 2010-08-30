@@ -1,5 +1,16 @@
 2010-08-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c: change these_plot_styles GSList into 2 style fields
+	  and change access throughout.
+	(oo_chart_style_to_series): check for null style
+	(oo_chart_axis): do not use any inherited style
+	(oo_plot_area): chnage access to styles
+	(oo_plot_series): store style for data point
+	(oo_plot_series_end): drop remembered style
+	(oo_chart): this style does not participate in the inheritance
+	
+2010-08-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (get_styles_dtd): new
 	(odf_apply_style_props): drop gnm-back-color
 	(od_style_prop_chart): drop gnm:back-color

@@ -92,6 +92,12 @@ enum {
 	OO_SYMBOL_TYPE_NAMED = 3
 };
 
+enum {
+	OO_CHART_STYLE_PLOTAREA = 0,
+	OO_CHART_STYLE_SERIES = 1,
+	OO_CHART_STYLE_INHERITANCE = 2 
+};
+
 /* Filter Type */
 typedef enum {
 	OOO_VER_UNKNOWN	= -1,
@@ -118,6 +124,8 @@ typedef enum {
 #define OD_BORDER_THIN		1
 #define OD_BORDER_MEDIUM	2.5
 #define OD_BORDER_THICK		5
+
+
 
 typedef enum {
 	OO_PLOT_AREA,
@@ -196,9 +204,12 @@ typedef struct {
 	GnmExprTop const        *title_expr;
 	gchar                   *title_style;
 
-	OOChartStyle		*cur_graph_style;
+	OOChartStyle		*cur_graph_style; /* for reading of styles */
 	GHashTable		*graph_styles;	/* contain links to OOChartStyle GSLists */
-	GSList                  *these_plot_styles;  /* currently active styles */
+	
+	OOChartStyle            *i_plot_styles[OO_CHART_STYLE_INHERITANCE];  
+	                                          /* currently active styles at plot-area, */
+	                                                /* series level*/
 	OOPlotType		 plot_type;
 	SheetObjectAnchor	 anchor;	/* anchor to draw the frame (images or graphs) */
 } OOChartInfo;
@@ -3395,6 +3406,9 @@ oo_chart_style_to_series (GsfXMLIn *xin, OOChartStyle *oostyle, GObject *obj)
 {
 	GOStyle *style = NULL;
 
+	if (oostyle == NULL)
+		return;
+
 	oo_prop_list_apply (oostyle->plot_props, obj);
 
 	g_object_get (obj, "style", &style, NULL);
@@ -3417,30 +3431,28 @@ oo_prop_list_has (GSList *props, gboolean *threed, char const *tag)
 }
 
 static gboolean
-oo_style_have_three_dimensional (GSList *styles)
+oo_style_have_three_dimensional (OOChartStyle **style)
 {
-	GSList *l;
+	int i;
 	gboolean is_three_dimensional = FALSE;
-	for (l = styles; l != NULL; l = l->next) {
-		OOChartStyle *style = l->data;
-		oo_prop_list_has (style->other_props,
-				   &is_three_dimensional,
-				   "three-dimensional");
-	}
+	for (i = 0; i < OO_CHART_STYLE_INHERITANCE; i++)
+		if (style[i] != NULL)
+			oo_prop_list_has (style[i]->other_props,
+					  &is_three_dimensional,
+					  "three-dimensional");
 	return is_three_dimensional;
 }
 
 static gboolean
-oo_style_have_multi_series (GSList *styles)
+oo_style_have_multi_series (OOChartStyle **style)
 {
-	GSList *l;
+	int i;
 	gboolean is_multi_series = FALSE;
-	for (l = styles; l != NULL; l = l->next) {
-		OOChartStyle *style = l->data;
-		oo_prop_list_has (style->other_props,
-				  &is_multi_series,
-				  "multi-series");
-	}
+	for (i = 0; i < OO_CHART_STYLE_INHERITANCE; i++)
+		if (style[i] != NULL)
+			oo_prop_list_has (style[i]->other_props,
+					  &is_multi_series,
+					  "multi-series");
 	return is_multi_series;
 }
 
@@ -4341,7 +4353,6 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 	gchar const *style_name = NULL;
 	GogAxisType  axis_type;
 	int tmp;
-	GSList *l;
 
 	axis_type = GOG_AXIS_UNKNOWN;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -4359,19 +4370,11 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 		g_slist_free (axes);
 	}
 
-	for (l = state->chart.these_plot_styles; l != NULL; l = l->next) {
-		style = l->data;
-		oo_prop_list_apply (style->axis_props, G_OBJECT (state->chart.axis));
-	}
-
 	if (NULL != style_name &&
 	    NULL != (style = g_hash_table_lookup (state->chart.graph_styles, style_name))) {
 		if (NULL != state->chart.axis)
 			oo_prop_list_apply_to_axis (style->axis_props, G_OBJECT (state->chart.axis));
 
-
-		/* AAARRRGGGHH : why would they do this.  The axis style impact
-		 * the plot ?? */
 		if (NULL != state->chart.plot && (state->ver == OOO_VER_1))
 			oo_prop_list_apply (style->plot_props, G_OBJECT (state->chart.plot));
 	}
@@ -4547,10 +4550,8 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 
 	OOParseState *state = (OOParseState *)xin->user_state;
 	gchar const *type = NULL;
-	OOChartStyle	*style = NULL;
 	xmlChar const   *source_range_str = NULL;
 	int label_flags = 0;
-	GSList *l;
 	GSList *prop_list = NULL;
 	
 	odf_gog_plot_area_check_position (xin, attrs, &prop_list);
@@ -4558,10 +4559,8 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					OO_NS_CHART, "style-name"))
-			state->chart.these_plot_styles = g_slist_append
-				(state->chart.these_plot_styles,
-				 g_hash_table_lookup
-				 (state->chart.graph_styles, CXML2C (attrs[1])));
+			state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA] = g_hash_table_lookup
+				(state->chart.graph_styles, CXML2C (attrs[1]));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "cell-range-address"))
 			source_range_str = attrs[1];
 		else if (oo_attr_enum (xin, attrs, OO_NS_CHART, "data-source-has-labels", labels, &label_flags))
@@ -4592,10 +4591,10 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 			if (label_flags & 2)
 				state->chart.src_range.start.col++;
 
-			for (l = state->chart.these_plot_styles; l != NULL; l = l->next) {
-				style = l->data;
-				state->chart.src_in_rows = style->src_in_rows;
-			}
+			if (state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA] != NULL)
+				state->chart.src_in_rows = state->chart.i_plot_styles
+					[OO_CHART_STYLE_PLOTAREA]->src_in_rows;
+
 			if (state->chart.src_in_rows) {
 				state->chart.src_n_vectors = range_height (&state->chart.src_range);
 				state->chart.src_range.end.row  = state->chart.src_range.start.row;
@@ -4639,10 +4638,10 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	case OO_PLOT_SCATTER:	type = "GogXYPlot";	break;
 	case OO_PLOT_STOCK:	type = "GogMinMaxPlot";	break;  /* This is not quite right! */
 	case OO_PLOT_CONTOUR:
-		if (oo_style_have_multi_series (state->chart.these_plot_styles)) {
+		if (oo_style_have_multi_series (state->chart.i_plot_styles)) {
 			type = "XLSurfacePlot";
 			state->chart.plot_type = OO_PLOT_XL_SURFACE;
-		} else if (oo_style_have_three_dimensional (state->chart.these_plot_styles)) {
+		} else if (oo_style_have_three_dimensional (state->chart.i_plot_styles)) {
 			type = "GogSurfacePlot";
 			state->chart.plot_type = OO_PLOT_SURFACE;
 		} else
@@ -4652,7 +4651,7 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	case OO_PLOT_GANTT:	type = "GogDropBarPlot"; break;
 	case OO_PLOT_POLAR:	type = "GogPolarPlot"; break;
 	case OO_PLOT_XYZ_SURFACE:
-		if (oo_style_have_three_dimensional (state->chart.these_plot_styles))
+		if (oo_style_have_three_dimensional (state->chart.i_plot_styles))
 			type = "GogXYZSurfacePlot";
 		else
 			type = "GogXYZContourPlot";
@@ -4674,10 +4673,10 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	oo_prop_list_apply (prop_list, G_OBJECT (state->chart.chart));
 	oo_prop_list_free (prop_list);
 
-	for (l = state->chart.these_plot_styles; l != NULL; l = l->next) {
-		style = l->data;
-		oo_prop_list_apply (style->plot_props, G_OBJECT (state->chart.plot));
-	}
+	if (state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA] != NULL)
+		oo_prop_list_apply (state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA]->
+				    plot_props, G_OBJECT (state->chart.plot));
+
 	if (state->chart.plot_type == OO_PLOT_GANTT) {
 		GogObject *yaxis = gog_object_get_child_by_name (GOG_OBJECT (state->chart.chart),
 								 "Y-Axis");
@@ -4730,8 +4729,7 @@ oo_plot_area_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		}
 	}
 	state->chart.plot = NULL;
-	g_slist_free (state->chart.these_plot_styles);
-	state->chart.these_plot_styles = NULL;
+	state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA] = NULL;
 }
 
 
@@ -4815,13 +4813,14 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "label-cell-expression"))
 				oo_plot_assign_dim (xin, attrs[1], GOG_MS_DIM_LABELS, NULL);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
-					     OO_NS_CHART, "style-name")) {
-			OOChartStyle *style = NULL;
-			style = g_hash_table_lookup
+					     OO_NS_CHART, "style-name"))
+			state->chart.i_plot_styles[OO_CHART_STYLE_SERIES] = g_hash_table_lookup
 				(state->chart.graph_styles, CXML2C (attrs[1]));
-			oo_chart_style_to_series (xin, style, G_OBJECT (state->chart.series));
-		}
 	}
+	oo_chart_style_to_series (xin, state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA], 
+				  G_OBJECT (state->chart.series));
+	oo_chart_style_to_series (xin, state->chart.i_plot_styles[OO_CHART_STYLE_SERIES], 
+				  G_OBJECT (state->chart.series));
 }
 
 static void
@@ -4842,6 +4841,7 @@ oo_plot_series_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		state->chart.series = NULL;
 		break;
 	}
+	state->chart.i_plot_styles[OO_CHART_STYLE_SERIES] = NULL;
 	if (state->debug)
 		g_print (">>>>> end\n");
 }
@@ -4906,6 +4906,14 @@ oo_series_pt (GsfXMLIn *xin, xmlChar const **attrs)
 				oo_prop_list_apply (style->plot_props, G_OBJECT (element));
 				g_object_get (G_OBJECT (element), "style", &gostyle, NULL);
 				if (gostyle != NULL) {
+					OOChartStyle *astyle = state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA];
+					if (astyle != NULL)
+						odf_apply_style_props 
+							(xin, astyle->style_props, gostyle);
+					astyle = state->chart.i_plot_styles[OO_CHART_STYLE_SERIES];
+					if (astyle != NULL)
+						odf_apply_style_props 
+							(xin, astyle->style_props, gostyle);	
 					odf_apply_style_props (xin, style->style_props, gostyle);
 					g_object_unref (gostyle);
 				}
@@ -5153,10 +5161,8 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			type = tmp;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					     OO_NS_CHART, "style-name"))
-			state->chart.these_plot_styles = g_slist_append
-				(state->chart.these_plot_styles,
-				 g_hash_table_lookup
-				 (state->chart.graph_styles, CXML2C (attrs[1])));
+			style = g_hash_table_lookup
+				(state->chart.graph_styles, CXML2C (attrs[1]));
 	state->chart.plot_type = type;
 	state->chart.chart = GOG_CHART (gog_object_add_by_name (
 		GOG_OBJECT (state->chart.graph), "Chart", NULL));
@@ -5170,9 +5176,6 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	if (type == OO_PLOT_UNKNOWN)
 		oo_warning (xin , _("Encountered an unknown chart type, "
 				    "trying to create a line plot."));
-
-	/* if (NULL != style) we also need to save the style for later use in oo_plot_area */
-
 }
 
 static void
@@ -6596,7 +6599,8 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	state.pos.eval.col	= -1;
 	state.pos.eval.row	= -1;
 	state.cell_comment      = NULL;
-	state.chart.these_plot_styles = NULL;
+	state.chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA] = NULL;
+	state.chart.i_plot_styles[OO_CHART_STYLE_SERIES] = NULL;
 	state.styles.sheet = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_free);
