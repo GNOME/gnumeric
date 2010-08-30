@@ -113,6 +113,7 @@ typedef struct {
 	ColRowInfo const *column_default;
 	GHashTable *graphs;
 	GHashTable *graph_dashes;
+	GHashTable *graph_hatches;
 	GHashTable *chart_props_hash;
 	GHashTable *images;
 	gboolean with_extension;
@@ -3437,6 +3438,61 @@ odf_write_meta_graph (GnmOOExport *state, GsfOutput *child)
 /*****************************************************************************/
 
 static void
+odf_write_hatch_info (char const *name, gpointer data, GnmOOExport *state)
+{
+	struct {
+		unsigned int type;
+		char const *style;
+		int angle;
+		double distance;
+	} info[] = {
+		{GO_PATTERN_GREY75, "double", 0, 1.0},
+		{GO_PATTERN_GREY50, "double", 0, 2.0},
+		{GO_PATTERN_GREY25, "double", 0, 3.0},
+		{GO_PATTERN_GREY125, "double", 0, 4.0},
+		{GO_PATTERN_GREY625, "double", 0, 5.0},
+		{GO_PATTERN_HORIZ, "single", 0, 2.0},
+		{GO_PATTERN_VERT, "single", 90, 2.0},
+		{GO_PATTERN_REV_DIAG, "single", -45, 2.0},
+		{GO_PATTERN_DIAG, "single", 45, 2.0},
+		{GO_PATTERN_DIAG_CROSS, "double", 45, 2.0},
+		{GO_PATTERN_THICK_DIAG_CROSS, "double", 45, 1.0},
+		{GO_PATTERN_THIN_HORIZ, "single", 0, 3.0},
+		{GO_PATTERN_THIN_VERT, "single", 90, 3.0},
+		{GO_PATTERN_THIN_REV_DIAG, "single", -45, 3.0},
+		{GO_PATTERN_THIN_DIAG, "single", 45, 3.0},
+		{GO_PATTERN_THIN_HORIZ_CROSS, "double", 0, 3.0},
+		{GO_PATTERN_THIN_DIAG_CROSS, "double", 45, 3.0},
+		{GO_PATTERN_SMALL_CIRCLES, "triple", 0, 2.0},
+		{GO_PATTERN_SEMI_CIRCLES, "triple", 45, 2.0},
+		{GO_PATTERN_THATCH, "triple", 90, 2.0},
+		{GO_PATTERN_LARGE_CIRCLES, "triple", 0, 3.0},
+		{GO_PATTERN_BRICKS, "triple", 45, 3.0},
+		{GO_PATTERN_MAX, "single", 0, 2.0}
+	};
+	GOPattern *pattern = data;
+	char *color = odf_go_color_to_string (pattern->fore);
+	int i;
+
+	gsf_xml_out_start_element (state->xml, DRAW "hatch");
+	gsf_xml_out_add_cstr_unchecked (state->xml, DRAW "name", name);
+	gsf_xml_out_add_cstr_unchecked (state->xml, DRAW "display-name", name);
+	gsf_xml_out_add_cstr_unchecked (state->xml, DRAW "color", color);
+	g_free (color);
+
+	for (i = 0; info[i].type != GO_PATTERN_MAX; i++)
+		if (info[i].type == pattern->pattern)
+			break;
+
+	gsf_xml_out_add_cstr_unchecked (state->xml, DRAW "style", 
+					info[i].style);
+	odf_add_angle (state->xml, DRAW "rotation", info[i].angle);
+	odf_add_pt (state->xml, DRAW "distance", info[i].distance);
+
+	gsf_xml_out_end_element (state->xml); /* </draw:hatch> */
+}
+
+static void
 odf_write_dash_info (char const *name, gpointer data, GnmOOExport *state)
 {
 	GOLineDashType type = GPOINTER_TO_INT (data);
@@ -3509,6 +3565,7 @@ odf_write_graph_styles (GnmOOExport *state, GsfOutput *child)
 	gsf_xml_out_start_element (state->xml, OFFICE "styles");
 
 	g_hash_table_foreach (state->graph_dashes, (GHFunc) odf_write_dash_info, state);
+	g_hash_table_foreach (state->graph_hatches, (GHFunc) odf_write_hatch_info, state);
 
 	gsf_xml_out_end_element (state->xml); /* </office:styles> */
 	gsf_xml_out_end_element (state->xml); /* </office:document-styles> */
@@ -4460,18 +4517,82 @@ odf_write_label (GnmOOExport *state, GogObject const *axis)
 
 }
 
+static gboolean
+odf_match_pattern (gchar const *key, GOPattern const *old, GOPattern const *new)
+{
+	return (old->pattern == new->pattern &&
+		old->back == new->back &&
+		old->fore == new->fore);
+}
+
+static gchar *
+odf_get_pattern_name (GnmOOExport *state, GOStyle const* style)
+{
+	gchar const *hatch = g_hash_table_find (state->graph_hatches, 
+						(GHRFunc) odf_match_pattern,
+						(gpointer) &style->fill.pattern);
+	gchar *new_name;
+	if (hatch != NULL)
+		return g_strdup (hatch);
+	
+	new_name =  g_strdup_printf ("Pattern-%i-%i", style->fill.pattern.pattern, 
+				     g_hash_table_size (state->graph_hatches));
+	g_hash_table_insert (state->graph_hatches, g_strdup (new_name), 
+			     (gpointer) &style->fill.pattern);
+	return new_name;
+}
+
 static void
 odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style)
 {
 	if (style != NULL) {
-		if (style->fill.type == GO_STYLE_FILL_PATTERN) {
-			char *color;
-			color = odf_go_color_to_string (style->fill.pattern.back);
-			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "solid");
-			gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
+		char *color;
+		switch (style->fill.type) {
+		case GO_STYLE_FILL_NONE:
+			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "none");
+			break;
+		case GO_STYLE_FILL_PATTERN:
+			if (style->fill.pattern.pattern == GO_PATTERN_SOLID) {
+				color = odf_go_color_to_string (style->fill.pattern.back);
+				gsf_xml_out_add_cstr (state->xml, DRAW "fill", "solid");
+				gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
+			} else if (style->fill.pattern.pattern == GO_PATTERN_FOREGROUND_SOLID) {
+				color = odf_go_color_to_string (style->fill.pattern.fore);
+				gsf_xml_out_add_cstr (state->xml, DRAW "fill", "solid");
+				gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
+			} else {
+				gchar *hatch;
+				hatch = odf_get_pattern_name (state, style);
+				gsf_xml_out_add_cstr (state->xml, DRAW "fill", "hatch");
+				gsf_xml_out_add_cstr (state->xml, DRAW "fill-hatch-name",
+						      hatch);
+				g_free (hatch);
+				odf_add_bool (state->xml, DRAW "fill-hatch-solid", TRUE);
+				if (state->with_extension) {
+					color = odf_go_color_to_string (style->fill.pattern.back);
+					gsf_xml_out_add_cstr (state->xml, 
+							      GNMSTYLE "back-color", color);
+					g_free (color);
+					color = odf_go_color_to_string 
+						(style->fill.pattern.fore);
+					gsf_xml_out_add_cstr (state->xml, 
+							      GNMSTYLE "fore-color", color);
+					gsf_xml_out_add_int (state->xml,
+							     GNMSTYLE "pattern",
+							     style->fill.pattern.pattern);
+				}
+			}
 			g_free (color);
-		} else
-			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "none");	
+			break;
+		case GO_STYLE_FILL_GRADIENT:
+			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "none");
+/* 			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "gradient"); */
+			break;
+		case GO_STYLE_FILL_IMAGE:
+			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "none");
+/* 			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "bitmap"); */
+			break;
+		}
 	}
 }
 
@@ -5252,6 +5373,9 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 		state->graph_dashes = g_hash_table_new_full (g_str_hash, g_str_equal,
 							     (GDestroyNotify) g_free, 
 							     NULL);
+		state->graph_hatches = g_hash_table_new_full (g_str_hash, g_str_equal,
+							     (GDestroyNotify) g_free, 
+							     NULL);
 		state->chart_props_hash = g_hash_table_new_full (g_str_hash, g_str_equal,
 							     NULL, NULL);
 		odf_fill_chart_props_hash (state);
@@ -5292,6 +5416,8 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 		g_free (fullname);
 		g_hash_table_unref (state->graph_dashes);
 		state->graph_dashes = NULL;
+		g_hash_table_unref (state->graph_hatches);
+		state->graph_hatches = NULL;
 		g_hash_table_unref (state->chart_props_hash);
 		state->chart_props_hash = NULL;
 		odf_update_progress (state, state->graph_progress * (3./2.));

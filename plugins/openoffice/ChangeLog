@@ -1,3 +1,12 @@
+2010-08-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_hatch_info): new
+	(odf_write_graph_styles): write hatches
+	(odf_match_pattern): new
+	(odf_get_pattern_name): new
+	(odf_write_gog_style_graphic): consider the true fill type
+	(odf_write_graphs): initialize and finalize hatch hash
+	
 2010-08-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_cell_start): no need to duplicate the style name
