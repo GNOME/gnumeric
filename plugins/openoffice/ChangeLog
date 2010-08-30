@@ -1,5 +1,15 @@
 2010-08-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (get_styles_dtd): new
+	(odf_apply_style_props): drop gnm-back-color
+	(od_style_prop_chart): drop gnm:back-color
+	(od_draw_object): read the object's styles.xml
+	(styles_dtd): add "stroke-dash" and "hatch"
+	* openoffice-write.c (odf_write_gog_style_graphic): background color 
+	  can be stored in draw:fill-color
+	
+2010-08-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_match_dash_type): move
 	(odf_apply_style_props): more attirbutes
 	(oo_prop_list_to_series): rename to oo_chart_style_to_series and

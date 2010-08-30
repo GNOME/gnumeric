@@ -294,6 +294,14 @@ typedef struct {
 	gboolean  debug;
 } OOParseState;
 
+
+/* Some  prototypes */
+static GsfXMLInNode const * get_dtd (void);
+static GsfXMLInNode const * get_styles_dtd (void);
+static void oo_chart_style_free (OOChartStyle *pointer);
+
+
+/* Implementations */
 static void
 odf_go_string_append_c_n (GString *target, char c, int n)
 {
@@ -313,9 +321,6 @@ maybe_update_progress (GsfXMLIn *xin)
 		state->last_progress_update = pos;
 	}
 }
-
-static GsfXMLInNode const * get_dtd (void);
-static void oo_chart_style_free (OOChartStyle *pointer);
 
 static GOErrorInfo *oo_go_error_info_new_vprintf (GOSeverity severity,
 					  char const *msg_format, ...)
@@ -566,8 +571,7 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 			} else {
 				style->fill.type = GO_STYLE_FILL_NONE;
 			}
-		} else if (0 == strcmp (prop->name, "fill-color") ||
-			   0 == strcmp (prop->name, "gnm-back-color")) {
+		} else if (0 == strcmp (prop->name, "fill-color")) {
 			GdkColor gdk_color;
 			gchar const *color = g_value_get_string (&prop->value);
 			if (gdk_color_parse (color, &gdk_color))
@@ -3668,11 +3672,6 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->style_props,
 				 oo_prop_new_string ("gnm-fore-color",
 						     CXML2C(attrs[1])));
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "back-color"))
-			style->style_props = g_slist_prepend
-				(style->style_props,
-				 oo_prop_new_string ("gnm-back-color",
-						     CXML2C(attrs[1])));
 		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, 
 					      "pattern", &tmp, 
 					      GO_PATTERN_GREY75, GO_PATTERN_MAX - 1))
@@ -4102,8 +4101,19 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (state->debug)
 		g_print ("START %s\n", name);
-	content = gsf_infile_child_by_vname (state->zip, name, "content.xml", NULL);
 
+	/* We should be saving/protecting some info to avoid it being overwritten. */
+
+	content = gsf_infile_child_by_vname (state->zip, name, "styles.xml", NULL);
+	if (content != NULL) {
+		GsfXMLInDoc *doc =
+			gsf_xml_in_doc_new (get_styles_dtd (), gsf_ooo_ns);
+		gsf_xml_in_doc_parse (doc, content, state);
+		gsf_xml_in_doc_free (doc);
+		g_object_unref (content);
+	}
+	
+	content = gsf_infile_child_by_vname (state->zip, name, "content.xml", NULL);
 	if (content != NULL) {
 		GsfXMLInDoc *doc =
 			gsf_xml_in_doc_new (get_dtd (), gsf_ooo_ns);
@@ -5306,6 +5316,8 @@ GSF_XML_IN_NODE (START, OFFICE_FONTS, OO_NS_OFFICE, "font-face-decls", GSF_XML_N
   GSF_XML_IN_NODE (OFFICE_FONTS, FONT_DECL, OO_NS_STYLE, "font-face", GSF_XML_NO_CONTENT, NULL, NULL),
 
 GSF_XML_IN_NODE (START, OFFICE_STYLES, OO_NS_OFFICE, "styles", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (OFFICE_STYLES, DASH, OO_NS_DRAW, "stroke-dash", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (OFFICE_STYLES, HATCH, OO_NS_DRAW, "hatch", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (OFFICE_STYLES, MARKER, OO_NS_DRAW, "marker", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (OFFICE_STYLES, STYLE, OO_NS_STYLE, "style", GSF_XML_NO_CONTENT, &oo_style, &oo_style_end),
     GSF_XML_IN_NODE (STYLE, TABLE_CELL_PROPS, OO_NS_STYLE,	"table-cell-properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
@@ -5728,6 +5740,7 @@ GSF_XML_IN_NODE_END
 };
 
 static GsfXMLInNode const *get_dtd () { return opendoc_content_dtd; }
+static GsfXMLInNode const *get_styles_dtd () { return styles_dtd; }
 
 /****************************************************************************/
 

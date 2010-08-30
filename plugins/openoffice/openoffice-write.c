@@ -4489,17 +4489,15 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style)
 				gsf_xml_out_add_cstr (state->xml, DRAW "fill", "solid");
 				gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
 			} else {
-				gchar *hatch;
-				hatch = odf_get_pattern_name (state, style);
+				gchar *hatch = odf_get_pattern_name (state, style);
+				color = odf_go_color_to_string (style->fill.pattern.back);
 				gsf_xml_out_add_cstr (state->xml, DRAW "fill", "hatch");
 				gsf_xml_out_add_cstr (state->xml, DRAW "fill-hatch-name",
 						      hatch);
+				gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
 				g_free (hatch);
 				odf_add_bool (state->xml, DRAW "fill-hatch-solid", TRUE);
 				if (state->with_extension) {
-					color = odf_go_color_to_string (style->fill.pattern.back);
-					gsf_xml_out_add_cstr (state->xml, 
-							      GNMSTYLE "back-color", color);
 					g_free (color);
 					color = odf_go_color_to_string 
 						(style->fill.pattern.fore);
