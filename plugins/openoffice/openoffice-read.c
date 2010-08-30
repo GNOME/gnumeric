@@ -163,7 +163,6 @@ typedef struct {
 	gboolean src_in_rows;	/* orientation of graph data: rows or columns */
 	GSList	*axis_props;	/* axis properties */
 	GSList	*plot_props;	/* plot properties */
-	GSList	*series_props;	/* any other properties */
 	GSList	*style_props;	/* any other properties */
 	GSList	*other_props;	/* any other properties */
 } OOChartStyle;
@@ -532,15 +531,27 @@ oo_attr_color (GsfXMLIn *xin, xmlChar const * const *attrs,
 	return oo_parse_color (xin, attrs[1], name);
 }
 
+static GOLineDashType
+odf_match_dash_type (OOParseState *state, gchar const *dash_style)
+{
+	GOLineDashType t = go_line_dash_from_str (dash_style);
+	return ((t == GO_LINE_NONE)? GO_LINE_DOT : t );
+}
+
 static void
 odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 {
+	OOParseState *state = (OOParseState *)xin->user_state;
 	PangoFontDescription *desc;
 	GSList *l;
 	gboolean desc_changed = FALSE;
 	char const *hatch_name;
 	gboolean has_hatch = FALSE;
 	unsigned int gnm_hatch = 0;
+	int symbol_type = -1, symbol_name = GO_MARKER_DIAMOND;
+	GOMarker *m;
+	gboolean line_is_not_dash = FALSE;
+
 	desc = pango_font_description_copy (style->font.font->desc);
 	for (l = props; l != NULL; l = l->next) {
 		OOProp *prop = l->data;
@@ -602,7 +613,28 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 			pango_font_description_set_family
 				(desc, g_value_get_string (&prop->value));
 			desc_changed = TRUE;
-		}
+		} else if (0 == strcmp (prop->name, "lines")) {
+			style->line.auto_color = g_value_get_boolean (&prop->value);
+		} else if (0 == strcmp (prop->name, "stroke")) {
+			if (0 == strcmp (g_value_get_string (&prop->value), "solid")) {
+				style->line.dash_type = GO_LINE_SOLID;
+				style->line.auto_dash = FALSE;
+				line_is_not_dash = TRUE;
+			} else if (0 == strcmp (g_value_get_string (&prop->value), "dash")) {
+				style->line.auto_dash = FALSE;
+				line_is_not_dash = FALSE;
+			} else {
+				style->line.dash_type = GO_LINE_NONE;
+				style->line.auto_dash = FALSE;
+				line_is_not_dash = TRUE;
+			}
+		} else if (0 == strcmp (prop->name, "stroke-dash") && !line_is_not_dash) {
+			style->line.dash_type = odf_match_dash_type 
+				(state, g_value_get_string (&prop->value));
+		} else if (0 == strcmp (prop->name, "symbol-type"))
+			symbol_type = g_value_get_int (&prop->value);
+		else if (0 == strcmp (prop->name, "symbol-name"))
+			symbol_name = g_value_get_int (&prop->value);
 	}
 	if (desc_changed)
 		go_style_set_font_desc	(style, desc);
@@ -614,6 +646,25 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 		else if (hatch_name != NULL) {
 			style->fill.pattern.pattern = GO_PATTERN_SOLID;
 		} else oo_warning (xin, _("Hatch fill without hatch name encountered!"));
+	}
+	switch (symbol_type) {
+	case OO_SYMBOL_TYPE_AUTO:
+		style->marker.auto_shape = TRUE;
+		break;
+	case OO_SYMBOL_TYPE_NONE:
+		style->marker.auto_shape = FALSE;
+		m = go_marker_new ();
+		go_marker_set_shape (m, GO_MARKER_NONE); 
+		go_style_set_marker (style, m);
+		break;
+	case OO_SYMBOL_TYPE_NAMED:
+		style->marker.auto_shape = FALSE;
+		m = go_marker_new ();
+		go_marker_set_shape (m, symbol_name); 
+		go_style_set_marker (style, m);	
+		break;
+	default:
+		break;
 	}
 }
 
@@ -1875,7 +1926,6 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 			cur_style = g_new0(OOChartStyle, 1);
 			cur_style->axis_props = NULL;
 			cur_style->plot_props = NULL;
-			cur_style->series_props = NULL;
 			cur_style->style_props = NULL;
 			cur_style->other_props = NULL;
 			state->chart.cur_graph_style = cur_style;
@@ -3336,77 +3386,18 @@ oo_prop_list_apply_to_axis (GSList *props, GObject *obj)
 	gog_axis_set_bounds (GOG_AXIS (obj), minimum, maximum);
 }
 
-static GOLineDashType
-odf_match_dash_type (OOParseState *state, gchar const *dash_style)
-{
-	GOLineDashType t = go_line_dash_from_str (dash_style);
-	return ((t == GO_LINE_NONE)? GO_LINE_DOT : t );
-}
-
 static void
-oo_prop_list_to_series (OOParseState *state, GSList *props, GObject *obj)
+oo_chart_style_to_series (GsfXMLIn *xin, OOChartStyle *oostyle, GObject *obj)
 {
 	GOStyle *style = NULL;
-	GSList *l;
-	int symbol_type = -1, symbol_name = GO_MARKER_DIAMOND;
-	GOMarker *m;
-	gboolean line_is_not_dash = FALSE;
 
-	oo_prop_list_apply (props, obj);
-
-	/* There are properties that apply to subitems: */
+	oo_prop_list_apply (oostyle->plot_props, obj);
 
 	g_object_get (obj, "style", &style, NULL);
-
-	if (style != NULL)
-		for (l = props; l != NULL; l = l->next) {
-			OOProp *prop = l->data;
-			if (0 == strcmp (prop->name, "lines")) {
-				style->line.auto_color = g_value_get_boolean (&prop->value);
-			} else if (0 == strcmp (prop->name, "stroke")) {
-				if (0 == strcmp (g_value_get_string (&prop->value), "solid")) {
-					style->line.dash_type = GO_LINE_SOLID;
-					style->line.auto_dash = FALSE;
-					line_is_not_dash = TRUE;
-				} else if (0 == strcmp (g_value_get_string (&prop->value), "dash")) {
-					style->line.auto_dash = FALSE;
-					line_is_not_dash = FALSE;
-				} else {
-					style->line.dash_type = GO_LINE_NONE;
-					style->line.auto_dash = FALSE;
-					line_is_not_dash = TRUE;
-				}
-			} else if (0 == strcmp (prop->name, "stroke-dash") && !line_is_not_dash) {
-				style->line.dash_type = odf_match_dash_type 
-					(state, g_value_get_string (&prop->value));
-			} else if (0 == strcmp (prop->name, "symbol-type"))
-				symbol_type = g_value_get_int (&prop->value);
-			else if (0 == strcmp (prop->name, "symbol-name"))
-				symbol_name = g_value_get_int (&prop->value);
-		}
-	
-	switch (symbol_type) {
-	case OO_SYMBOL_TYPE_AUTO:
-		style->marker.auto_shape = TRUE;
-		break;
-	case OO_SYMBOL_TYPE_NONE:
-		style->marker.auto_shape = FALSE;
-		m = go_marker_new ();
-		go_marker_set_shape (m, GO_MARKER_NONE); 
-		go_style_set_marker (style, m);
-		break;
-	case OO_SYMBOL_TYPE_NAMED:
-		style->marker.auto_shape = FALSE;
-		m = go_marker_new ();
-		go_marker_set_shape (m, symbol_name); 
-		go_style_set_marker (style, m);	
-		break;
-	default:
-		break;
+	if (style != NULL) {
+		odf_apply_style_props (xin, oostyle->style_props, style);
+		g_object_unref (G_OBJECT (style));
 	}
-
-	g_object_set (obj, "style", style, NULL);
-	g_object_unref (G_OBJECT (style));
 }
 
 static void
@@ -3594,14 +3585,14 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->plot_props,
 				 oo_prop_new_bool ("default-style-has-markers",
 						   tmp != OO_SYMBOL_TYPE_NONE));
-			style->series_props = g_slist_prepend
-				(style->series_props,
+			style->style_props = g_slist_prepend
+				(style->style_props,
 				 oo_prop_new_int ("symbol-type", tmp));
 		} else if (oo_attr_enum (xin, attrs, OO_NS_CHART, 
 					 "symbol-name", 
 					 named_symbols, &tmp)) {
-			style->series_props = g_slist_prepend
-				(style->series_props,
+			style->style_props = g_slist_prepend
+				(style->style_props,
 				 oo_prop_new_int ("symbol-name", tmp));
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
 					       OO_NS_CHART, "interpolation")) {
@@ -3619,33 +3610,28 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				     (xin, _("Unknown interpolation type "
 					     "encountered: %s"), 
 				      CXML2C(attrs[1]));
-			if (interpolation != NULL) {
-				style->series_props = g_slist_prepend
-					(style->series_props,
-					 oo_prop_new_string 
-					 ("interpolation", interpolation));
+			if (interpolation != NULL)
 				style->plot_props = g_slist_prepend
 					(style->plot_props,
 					 oo_prop_new_string 
 					 ("interpolation", interpolation));
-			}
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
 					       OO_NS_DRAW, "stroke")) {
 			draw_stroke = !attr_eq (attrs[1], "none");
 			draw_stroke_set = TRUE;
-			style->series_props = g_slist_prepend
-				(style->series_props,
+			style->style_props = g_slist_prepend
+				(style->style_props,
 				 oo_prop_new_string ("stroke",
 						     CXML2C(attrs[1])));
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
 					       OO_NS_DRAW, "stroke-dash")) {
-			style->series_props = g_slist_prepend
-				(style->series_props,
+			style->style_props = g_slist_prepend
+				(style->style_props,
 				 oo_prop_new_string ("stroke-dash",
 						     CXML2C(attrs[1])));
 		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "lines", &btmp)) {
-			style->series_props = g_slist_prepend
-				(style->series_props,
+			style->style_props = g_slist_prepend
+				(style->style_props,
 				 oo_prop_new_bool ("lines", btmp));
 			style->plot_props = g_slist_prepend
 				(style->plot_props,
@@ -4823,7 +4809,7 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 			OOChartStyle *style = NULL;
 			style = g_hash_table_lookup
 				(state->chart.graph_styles, CXML2C (attrs[1]));
-			oo_prop_list_to_series (state, style->series_props, G_OBJECT (state->chart.series));
+			oo_chart_style_to_series (xin, style, G_OBJECT (state->chart.series));
 		}
 	}
 }
@@ -5262,7 +5248,6 @@ static void
 oo_chart_style_free (OOChartStyle *cstyle)
 {
 	oo_prop_list_free (cstyle->axis_props);
-	oo_prop_list_free (cstyle->series_props);
 	oo_prop_list_free (cstyle->style_props);
 	oo_prop_list_free (cstyle->plot_props);
 	oo_prop_list_free (cstyle->other_props);
