@@ -533,27 +533,44 @@ oo_attr_color (GsfXMLIn *xin, xmlChar const * const *attrs,
 }
 
 static void
-odf_apply_style_props (GSList *props, GOStyle *style)
+odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 {
 	PangoFontDescription *desc;
 	GSList *l;
 	gboolean desc_changed = FALSE;
+	char const *hatch_name;
+	gboolean has_hatch = FALSE;
+	unsigned int gnm_hatch = 0;
 	desc = pango_font_description_copy (style->font.font->desc);
 	for (l = props; l != NULL; l = l->next) {
 		OOProp *prop = l->data;
 		if (0 == strcmp (prop->name, "fill")) {
-			if (0 == strcmp (g_value_get_string (&prop->value), "solid")) {
+			char const *val_string = g_value_get_string (&prop->value);
+			if (0 == strcmp (val_string, "solid")) {
 				style->fill.type = GO_STYLE_FILL_PATTERN;
 				style->fill.pattern.pattern = GO_PATTERN_SOLID;
+			} else if (0 == strcmp (val_string, "hatch")) {
+				style->fill.type = GO_STYLE_FILL_PATTERN;
+				has_hatch = TRUE;
 			} else {
 				style->fill.type = GO_STYLE_FILL_NONE;
 			}
-		} else if (0 == strcmp (prop->name, "fill-color")) {
+		} else if (0 == strcmp (prop->name, "fill-color") ||
+			   0 == strcmp (prop->name, "gnm-back-color")) {
 			GdkColor gdk_color;
 			gchar const *color = g_value_get_string (&prop->value);
 			if (gdk_color_parse (color, &gdk_color))
 				style->fill.pattern.back = GO_COLOR_FROM_GDK (gdk_color);
-		} else if (0 == strcmp (prop->name, "text-rotation-angle")) {
+		} else if (0 == strcmp (prop->name, "gnm-fore-color")) {
+			GdkColor gdk_color;
+			gchar const *color = g_value_get_string (&prop->value);
+			if (gdk_color_parse (color, &gdk_color))
+				style->fill.pattern.fore = GO_COLOR_FROM_GDK (gdk_color);
+		} else if (0 == strcmp (prop->name, "fill-hatch-name="))
+			hatch_name = g_value_get_string (&prop->value);
+		else if (0 == strcmp (prop->name, "gnm-pattern"))
+			gnm_hatch = g_value_get_int (&prop->value);
+		else if (0 == strcmp (prop->name, "text-rotation-angle")) {
 			int angle = g_value_get_int (&prop->value);
 			go_style_set_text_angle (style, angle);
 		} else if (0 == strcmp (prop->name, "font-size")) {
@@ -591,10 +608,14 @@ odf_apply_style_props (GSList *props, GOStyle *style)
 		go_style_set_font_desc	(style, desc);
 	else
 		pango_font_description_free (desc);
+	if (has_hatch) {
+		if (gnm_hatch > 0)
+			style->fill.pattern.pattern = gnm_hatch;
+		else if (hatch_name != NULL) {
+			style->fill.pattern.pattern = GO_PATTERN_SOLID;
+		} else oo_warning (xin, _("Hatch fill without hatch name encountered!"));
+	}
 }
-
-
-
 
 
 /* returns pts */
@@ -3648,6 +3669,30 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->style_props,
 				 oo_prop_new_string ("fill-color",
 						     CXML2C(attrs[1])));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "fill-hatch-name"))
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_string ("fill-hatch-name",
+						     CXML2C(attrs[1])));
+		else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "fill-hatch-solid", &btmp))
+			style->other_props = g_slist_prepend (style->other_props,
+				oo_prop_new_bool ("fill-hatch-solid", btmp));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "fore-color"))
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_string ("gnm-fore-color",
+						     CXML2C(attrs[1])));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "back-color"))
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_string ("gnm-back-color",
+						     CXML2C(attrs[1])));
+		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, 
+					      "pattern", &tmp, 
+					      GO_PATTERN_GREY75, GO_PATTERN_MAX - 1))
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_int ("gnm-pattern", tmp));
 		else if (oo_attr_int (xin, attrs, OO_NS_STYLE, "text-rotation-angle", &tmp)) {
 			tmp = tmp % 360;
 			style->style_props = g_slist_prepend
@@ -4242,7 +4287,7 @@ oo_chart_title_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 				g_object_get (G_OBJECT (label), "style", &style, NULL);
 		
 				if (style != NULL) {
-					odf_apply_style_props (oostyle->style_props, style);
+					odf_apply_style_props (xin, oostyle->style_props, style);
 					g_object_unref (style);
 				}
 			}
@@ -4865,7 +4910,7 @@ oo_series_pt (GsfXMLIn *xin, xmlChar const **attrs)
 				oo_prop_list_apply (style->plot_props, G_OBJECT (element));
 				g_object_get (G_OBJECT (element), "style", &gostyle, NULL);
 				if (gostyle != NULL) {
-					odf_apply_style_props (style->style_props, gostyle);
+					odf_apply_style_props (xin, style->style_props, gostyle);
 					g_object_unref (gostyle);
 				}
 			}
@@ -4924,7 +4969,7 @@ od_series_reg_equation (GsfXMLIn *xin, xmlChar const **attrs)
 		GOStyle *style = NULL;
 		g_object_get (G_OBJECT (equation), "style", &style, NULL);
 		if (style != NULL) {
-			odf_apply_style_props (chart_style->style_props, style);
+			odf_apply_style_props (xin, chart_style->style_props, style);
 			g_object_unref (style);			
 		}
 		/* In the moment we don't need this. */
@@ -5015,7 +5060,7 @@ od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 
 		g_object_get (G_OBJECT (regression), "style", &style, NULL);
 		if (style != NULL) {
-			odf_apply_style_props (chart_style->style_props, style);
+			odf_apply_style_props (xin, chart_style->style_props, style);
 			g_object_unref (style);			
 		}
 
@@ -5064,7 +5109,7 @@ oo_series_droplines (GsfXMLIn *xin, xmlChar const **attrs)
 
 		g_object_get (G_OBJECT (lines), "style", &style, NULL);
 		if (style != NULL) {
-			odf_apply_style_props (chart_style->style_props, style);
+			odf_apply_style_props (xin, chart_style->style_props, style);
 			g_object_unref (style);			
 		}
 	}
@@ -5207,7 +5252,7 @@ oo_chart_wall (GsfXMLIn *xin, xmlChar const **attrs)
 		if (style != NULL) {
 			OOChartStyle *chart_style = g_hash_table_lookup
 				(state->chart.graph_styles, style_name);
-			odf_apply_style_props (chart_style->style_props, style);
+			odf_apply_style_props (xin, chart_style->style_props, style);
 			g_object_unref (style);
 		}
 	}
