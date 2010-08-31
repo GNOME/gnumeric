@@ -449,11 +449,33 @@ fixup_hour_ampm (gnm_float *hour, const GORegmatch *pm)
 }
 
 static gboolean
-valid_hms (gnm_float h, gnm_float m, gnm_float s, gboolean allow_elapsed)
+valid_hms (gnm_float h, gnm_float m, gnm_float s,
+	   gboolean allow_elapsed, char *elapsed)
 {
-	return h >= 0 && (allow_elapsed || h < 24) &&
-		m >= 0 && m < 60 &&
-		s >= 0 && s < 60;
+	gboolean h_ok = h >= 0 && h < 24;
+	gboolean m_ok = m >= 0 && m < 60;
+	gboolean s_ok = s >= 0 && s < 60;
+
+	/* Boring old clock time.  */
+	if (h_ok && m_ok && s_ok) {
+		if (elapsed)
+			*elapsed = 0;
+		return TRUE;
+	}
+
+	if (!allow_elapsed)
+		return FALSE;
+
+	if (*elapsed == 'h' && m_ok && s_ok)
+		return TRUE;
+
+	if (*elapsed == 'm' && h == 0 && s_ok)
+		return TRUE;
+
+	if (*elapsed == 's' && h == 0 && m == 0)
+		return TRUE;
+
+	return FALSE;
 }
 
 #define DO_SIGN(sign,uc,action)					\
@@ -496,7 +518,7 @@ format_match_time (char const *text, gboolean allow_elapsed,
 		fixup_hour_ampm (&hour, match + 8);
 		minute = handle_float (text, match + 3);
 		second = handle_float (text, match + 5);
-		if (valid_hms (hour, minute, second, FALSE)) {
+		if (valid_hms (hour, minute, second, FALSE, NULL)) {
 			time_format = "h:mm:ss AM/PM";
 			goto got_time;
 		}
@@ -513,11 +535,19 @@ format_match_time (char const *text, gboolean allow_elapsed,
 	/* ^(((\d+):)?(\d+):)?(\d+.\d*)\s*$ */
 	/*  123       4       5             */
 	if (go_regexec (&datetime_locale.re_hhmmssds, text, G_N_ELEMENTS (match), match, 0) == 0) {
+		char elapsed =
+			match[3].rm_so != match[3].rm_eo
+			? 'h'
+			: (match[4].rm_so != match[4].rm_eo
+			   ? 'm'
+			   : 's');
+
 		hour = handle_float (text, match + 3);
 		minute = handle_float (text, match + 4);
 		second = handle_float (text, match + 5);
-		if (valid_hms (hour, minute, second, allow_elapsed)) {
-			time_format = "h:mm:ss";
+		
+		if (valid_hms (hour, minute, second, allow_elapsed, &elapsed)) {
+			time_format = elapsed ? "[h]:mm:ss" : "h:mm:ss";
 			goto got_time;
 		}
 	}
@@ -526,21 +556,30 @@ format_match_time (char const *text, gboolean allow_elapsed,
 	/*  1     2    3 4           */
 	if (go_regexec (&datetime_locale.re_hhmmss1, text, G_N_ELEMENTS (match), match, 0) == 0) {
 		gboolean has_all = (match[4].rm_so != match[4].rm_eo);
+		char elapsed;
+		const char *time_format_elapsed;
 
 		if (prefer_hour || has_all) {
 			hour = handle_float (text, match + 1);
 			minute = handle_float (text, match + 2);
 			second = handle_float (text, match + 4);
 			time_format = has_all ? "h:mm:ss" : "h:mm";
+			time_format_elapsed = has_all ? "[h]:mm:ss" : "[h]:mm";
+			elapsed = 'h';
 		} else {
 			hour = 0;
 			minute = handle_float (text, match + 1);
 			second = handle_float (text, match + 2);
 			time_format = "mm:ss";
+			time_format_elapsed = "[m]:ss";
+			elapsed = 'm';
 		}
 
-		if (valid_hms (hour, minute, second, allow_elapsed))
+		if (valid_hms (hour, minute, second, allow_elapsed, &elapsed)) {
+			if (elapsed)
+				time_format = time_format_elapsed;
 			goto got_time;
+		}
 	}
 
 	/* ^(\d\d)(\d\d)(\d\d)?(\.\d*)?\s*$   */
@@ -548,21 +587,30 @@ format_match_time (char const *text, gboolean allow_elapsed,
 	if (go_regexec (&datetime_locale.re_hhmmss2, text, G_N_ELEMENTS (match), match, 0) == 0) {
 		gboolean has3 = (match[3].rm_so != match[3].rm_eo);
 		gboolean hasfrac = (match[4].rm_so != match[4].rm_eo);
+		char elapsed;
+		const char *time_format_elapsed;
 
 		if ((prefer_hour && !hasfrac) || has3) {
 			hour = handle_float (text, match + 1);
 			minute = handle_float (text, match + 2);
 			second = handle_float (text, match + 3) + handle_float (text, match + 4);
 			time_format = "h:mm:ss";
+			time_format_elapsed = "[h]:mm:ss";
+			elapsed = 'h';
 		} else {
 			hour = 0;
 			minute = handle_float (text, match + 1);
 			second = handle_float (text, match + 2) + handle_float (text, match + 4);
 			time_format = "mm:ss";
+			time_format_elapsed = "[m]:ss";
+			elapsed = 'm';
 		}
 
-		if (valid_hms (hour, minute, second, allow_elapsed))
+		if (valid_hms (hour, minute, second, allow_elapsed, &elapsed)) {
+			if (elapsed)
+				time_format = time_format_elapsed;
 			goto got_time;
+		}
 	}
 
 	return NULL;
@@ -570,7 +618,7 @@ format_match_time (char const *text, gboolean allow_elapsed,
  got_time:
 	time_val = (second + 60 * (minute + 60 * hour)) / (24 * 60 * 60);
 	if (sign == '-')
-		time_val = -time_val;
+		time_val = 0 - time_val;
 	v = value_new_float (time_val);
 
 	if (add_format) {

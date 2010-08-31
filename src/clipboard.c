@@ -247,7 +247,7 @@ paste_cell (int target_col, int target_row,
 				GOFormat const *fmt = VALUE_FMT (oldval)
 					? VALUE_FMT (oldval)
 					: gnm_style_get_format (gnm_cell_get_style (dst));
-				if (go_format_is_date (fmt) == +1) {
+				if (go_format_is_date (fmt) > 0) {
 					gnm_float fnew = go_date_conv_translate
 						(value_get_as_float (oldval),
 						 dat->cr->date_conv,

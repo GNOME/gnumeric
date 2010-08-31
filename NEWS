@@ -19,6 +19,7 @@ Morten:
 	* Extend domain of IMPOWER.  [#627775]
 	* Allow use of glib's memory profiler.
 	* Fix some confusion of char vs. xmlChar.
+	* Fix elapsed-time entry.  [#628082]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.9

@@ -1,3 +1,15 @@
+2010-08-30  Morten Welinder  <terra@gnome.org>
+
+	* src/clipboard.c (paste_cell): Also translate dates with
+	time-of-day.
+
+2010-08-27  Morten Welinder  <terra@gnome.org>
+
+	* src/number-match.c (valid_hms): Fix the case of elapsed minutes
+	and second.  Take extra argument identifying what kind of elapsed
+	format might be used.  Communicate whether the format needs to be
+	elapsed back to caller.  All callers changed.
+
 2010-08-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* configure.in: raise goffice requirement to 0.8.10
@@ -9,14 +21,14 @@
 	* src/gui-util.c (gnumeric_go_error_info_list_dialog_new): new
 	(gnumeric_go_error_info_list_dialog_show): new, maily code from
 	  gnumeric_go_error_info_dialog_new
-	(gnumeric_go_error_info_dialog_new): use 
+	(gnumeric_go_error_info_dialog_new): use
 	  gnumeric_go_error_info_list_dialog_show
 	* src/io-context-gtk.c (icg_error_error_info_list): new
 	(icg_set_num_files): connect icg_error_error_info_list
 	* src/wbc-gtk.c (wbcg_error_error_info_list): new
 	(wbcg_gnm_cmd_context_init): connect wbcg_error_error_info_list
 	* src/workbook-control.c (wbc_cmd_context_init): insert reminder stub
-	
+
 2010-08-24  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-plugin.c (plugin_service_function_group_read_xml)
