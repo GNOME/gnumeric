@@ -3903,6 +3903,7 @@ odf_write_standard_series (GnmOOExport *state, GSList const *series)
 					gsf_xml_out_end_element (state->xml); 
 					/* CHART "data-point" */
 					g_free (style);
+					next_index = index + 1;
 				}
 				g_slist_free (points);
 			}

@@ -584,18 +584,23 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 			char const *val_string = g_value_get_string (&prop->value);
 			if (0 == strcmp (val_string, "solid")) {
 				style->fill.type = GO_STYLE_FILL_PATTERN;
+				style->fill.auto_type = FALSE;
 				style->fill.pattern.pattern = GO_PATTERN_SOLID;
 			} else if (0 == strcmp (val_string, "hatch")) {
 				style->fill.type = GO_STYLE_FILL_PATTERN;
+				style->fill.auto_type = FALSE;
 				has_hatch = TRUE;
 			} else {
 				style->fill.type = GO_STYLE_FILL_NONE;
+				style->fill.auto_type = FALSE;
 			}
 		} else if (0 == strcmp (prop->name, "fill-color")) {
 			GdkColor gdk_color;
 			gchar const *color = g_value_get_string (&prop->value);
-			if (gdk_color_parse (color, &gdk_color))
+			if (gdk_color_parse (color, &gdk_color)) {
 				style->fill.pattern.back = GO_COLOR_FROM_GDK (gdk_color);
+				style->fill.auto_back = FALSE;
+			}
 		} else if (0 == strcmp (prop->name, "fill-hatch-name"))
 			hatch_name = g_value_get_string (&prop->value);
 		else if (0 == strcmp (prop->name, "gnm-pattern"))
@@ -669,6 +674,7 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 				oo_warning (xin, _("Unknown hatch name encountered!"));
 			else {
 				style->fill.pattern.fore = pat->fore;
+				style->fill.auto_fore = FALSE;
 				style->fill.pattern.pattern =  (gnm_hatch > 0) ? 
 					gnm_hatch : pat->pattern;
 			}
