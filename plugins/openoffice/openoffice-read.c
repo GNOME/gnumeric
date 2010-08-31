@@ -208,6 +208,7 @@ typedef struct {
 	OOChartStyle		*cur_graph_style; /* for reading of styles */
 	GHashTable		*graph_styles;	/* contain links to OOChartStyle GSLists */
 	GHashTable              *hatches;
+	GHashTable              *dash_styles;
 	
 	OOChartStyle            *i_plot_styles[OO_CHART_STYLE_INHERITANCE];  
 	                                          /* currently active styles at plot-area, */
@@ -553,6 +554,12 @@ static GOLineDashType
 odf_match_dash_type (OOParseState *state, gchar const *dash_style)
 {
 	GOLineDashType t = go_line_dash_from_str (dash_style);
+	if (t == GO_LINE_NONE) {
+		gpointer res = g_hash_table_lookup 
+			(state->chart.dash_styles, dash_style);
+		if (res != NULL)
+			t = GPOINTER_TO_UINT(res);
+	}
 	return ((t == GO_LINE_NONE)? GO_LINE_DOT : t );
 }
 
@@ -777,19 +784,25 @@ oo_parse_angle (GsfXMLIn *xin, xmlChar const *str,
 
 	num = go_strtod (CXML2C (str), &end);
 	if (CXML2C (str) != end) {
-		if (0 == strncmp (end, "deg", 3)) {
-			end += 3;
-		} else if (0 == strncmp (end, "grad", 4)) {
-			num = num / 9. * 10.;
-			end += 4;
-		} else if (0 == strncmp (end, "rad", 2)) {
-			num = num * 180. / M_PIgnum;
-			end += 3;
-		} else {
-			oo_warning (xin, _("Invalid attribute '%s', unknown unit '%s'"),
-				    name, str);
-			return NULL;
+		if (*end != '\0') {
+			if (0 == strncmp (end, "deg", 3)) {
+				end += 3;
+			} else if (0 == strncmp (end, "grad", 4)) {
+				num = num / 9. * 10.;
+				end += 4;
+			} else if (0 == strncmp (end, "rad", 2)) {
+				num = num * 180. / M_PIgnum;
+				end += 3;
+			} else {
+				oo_warning (xin, _("Invalid attribute '%s', unknown unit '%s'"),
+					    name, str);
+				return NULL;
+			}
 		}
+	} else {
+		oo_warning (xin, _("Invalid attribute '%s', expected angle, received '%s'"),
+			    name, str);
+		return NULL;
 	}
 
 	*angle = ((int) num) % 360;
@@ -1883,6 +1896,73 @@ oo_covered_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 
 static void
+oo_dash (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	GOLineDashType t = GO_LINE_DOT;
+	char const *name = NULL;
+	gnm_float distance = 0., len_dot1 = 0., len_dot2 = 0.;
+	int n_dots1 = 0, n_dots2 = 2;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "name"))
+			name = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "style"))
+			/* rect or round, ignored */;
+		else if (NULL != oo_attr_distance (xin, attrs, OO_NS_DRAW, "distance", 
+						   &distance))
+			/* FIXME: this ould be a percentage in 1.2 */;
+		else if (NULL != oo_attr_distance (xin, attrs, OO_NS_DRAW, "dots1-length", 
+						   &len_dot1))
+			/* FIXME: this ould be a percentage in 1.2 */;
+		else if (NULL != oo_attr_distance (xin, attrs, OO_NS_DRAW, "dots2-length", 
+						   &len_dot2))
+			/* FIXME: this ould be a percentage in 1.2 */;
+		else if (oo_attr_int_range (xin, attrs, OO_NS_DRAW, 
+					    "dots1", &n_dots1, 0, 10));
+		else if (oo_attr_int_range (xin, attrs, OO_NS_DRAW, 
+					    "dots2", &n_dots2, 0, 10));
+	
+	/* We need to figure out the best matching dot style */
+
+	if (n_dots2 == 0) {
+		/* only one type of dots */
+		if (len_dot1 <  1.5)
+			t = GO_LINE_S_DOT;
+		else if (len_dot1 <  4.5)
+			t = GO_LINE_DOT;
+		else if (len_dot1 <  9)
+			t = GO_LINE_S_DASH;
+		else if (len_dot1 <  15)
+			t = GO_LINE_DASH;
+		else 
+			t = GO_LINE_LONG_DASH;
+	} else if (n_dots2 > 1 && n_dots1 > 1 )
+		t = GO_LINE_DASH_DOT_DOT_DOT; /* no matching dashing available */
+	else if ( n_dots2 == 1 && n_dots2 == 1) {
+		gnm_float max = (len_dot1 < len_dot2) ? len_dot2 : len_dot1;
+		if (max > 7.5)
+			t = GO_LINE_DASH_DOT;
+		else
+			t = GO_LINE_S_DASH_DOT;
+	} else {
+		gnm_float max = (len_dot1 < len_dot2) ? len_dot2 : len_dot1;
+		int max_dots = (n_dots1 < n_dots2) ? n_dots2 : n_dots1;
+
+		if (max_dots > 2)
+			t = GO_LINE_DASH_DOT_DOT_DOT;
+		else if (max > 7.5)
+			t = GO_LINE_DASH_DOT_DOT;
+		else
+			t = GO_LINE_S_DASH_DOT_DOT;
+	}
+
+	if (name != NULL)
+		g_hash_table_replace (state->chart.dash_styles, 
+				      g_strdup (name), GUINT_TO_POINTER (t));
+}
+
+static void
 oo_hatch (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -1899,9 +1979,9 @@ oo_hatch (GsfXMLIn *xin, xmlChar const **attrs)
 				hatch->fore = GO_COLOR_FROM_GDK (gdk_color);
 			else
 				oo_warning (xin, _("Unable to parse hatch color: %s"), CXML2C (attrs[1]));
-		} else if (NULL != oo_attr_distance (xin, attrs, OO_NS_CHART, "distance", &distance))
+		} else if (NULL != oo_attr_distance (xin, attrs, OO_NS_DRAW, "distance", &distance))
 			;
-		else if (NULL != oo_attr_angle (xin, attrs, OO_NS_CHART, "rotation", &angle))
+		else if (NULL != oo_attr_angle (xin, attrs, OO_NS_DRAW, "rotation", &angle))
 			;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "name"))
 			hatch_name = CXML2C (attrs[1]);
@@ -4293,6 +4373,7 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	state->chart.cur_graph_style = NULL;
 	g_hash_table_remove_all (state->chart.graph_styles);
 	g_hash_table_remove_all (state->chart.hatches);
+	g_hash_table_remove_all (state->chart.dash_styles);
 }
 
 static void
@@ -5471,7 +5552,7 @@ GSF_XML_IN_NODE (START, OFFICE_FONTS, OO_NS_OFFICE, "font-face-decls", GSF_XML_N
   GSF_XML_IN_NODE (OFFICE_FONTS, FONT_DECL, OO_NS_STYLE, "font-face", GSF_XML_NO_CONTENT, NULL, NULL),
 
 GSF_XML_IN_NODE (START, OFFICE_STYLES, OO_NS_OFFICE, "styles", GSF_XML_NO_CONTENT, NULL, NULL),
-  GSF_XML_IN_NODE (OFFICE_STYLES, DASH, OO_NS_DRAW, "stroke-dash", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (OFFICE_STYLES, DASH, OO_NS_DRAW, "stroke-dash", GSF_XML_NO_CONTENT, &oo_dash, NULL),
   GSF_XML_IN_NODE (OFFICE_STYLES, HATCH, OO_NS_DRAW, "hatch", GSF_XML_NO_CONTENT, &oo_hatch, NULL),
   GSF_XML_IN_NODE (OFFICE_STYLES, MARKER, OO_NS_DRAW, "marker", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (OFFICE_STYLES, STYLE, OO_NS_STYLE, "style", GSF_XML_NO_CONTENT, &oo_style, &oo_style_end),
@@ -6777,12 +6858,18 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	state.formats = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) go_format_unref);
-	state.chart.graph_styles = g_hash_table_new_full (g_str_hash, g_str_equal,
+	state.chart.graph_styles = g_hash_table_new_full 
+		(g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) oo_chart_style_free);
-	state.chart.hatches = g_hash_table_new_full (g_str_hash, g_str_equal,
+	state.chart.hatches = g_hash_table_new_full 
+		(g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_free);
+	state.chart.dash_styles = g_hash_table_new_full 
+		(g_str_hash, g_str_equal,
+		 (GDestroyNotify) g_free,
+		 NULL);
 	state.cur_style.cells    = NULL;
 	state.cur_style.col_rows = NULL;
 	state.cur_style.sheets   = NULL;
@@ -6885,6 +6972,7 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	g_hash_table_destroy (state.styles.cell_time);
 	g_hash_table_destroy (state.chart.graph_styles);
 	g_hash_table_destroy (state.chart.hatches);
+	g_hash_table_destroy (state.chart.dash_styles);
 	g_hash_table_destroy (state.formats);
 	g_object_unref (contents);
 
