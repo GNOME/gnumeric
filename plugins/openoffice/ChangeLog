@@ -1,5 +1,13 @@
 2010-08-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_apply_style_props): new attribute stroke-width
+	(oo_hatch): use gnm_float, not double
+	(oo_prop_new_float): rename to oo_prop_new_double and change all callers
+	(od_style_prop_chart): handle stroke-width
+	* openoffice-write.c (odf_write_gog_style_graphic): write stroke-width
+	
+2010-08-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_apply_style_props): don't use gnm-fore-color,
 	  use the stored hatch description
 	(oo_parse_angle): new

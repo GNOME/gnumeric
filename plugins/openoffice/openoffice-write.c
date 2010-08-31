@@ -4475,6 +4475,7 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style)
 {
 	if (style != NULL) {
 		char *color;
+
 		switch (style->fill.type) {
 		case GO_STYLE_FILL_NONE:
 			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "none");
@@ -4507,16 +4508,16 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style)
 			break;
 		case GO_STYLE_FILL_GRADIENT:
 			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "none");
-/* 			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "gradient"); */
+			/* 			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "gradient"); */
 			break;
 		case GO_STYLE_FILL_IMAGE:
 			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "none");
-/* 			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "bitmap"); */
+			/* 			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "bitmap"); */
 			break;
 		}
 		if (go_style_is_line_visible (style)) {
 			GOLineDashType dash_type = style->line.dash_type;
-			
+				
 			if (dash_type == GO_LINE_SOLID)
 				gsf_xml_out_add_cstr (state->xml, 
 						      DRAW "stroke", "solid");
@@ -4530,6 +4531,10 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style)
 				g_hash_table_insert (state->graph_dashes, g_strdup (dash), 
 						     GINT_TO_POINTER (dash_type));
 			}
+			if (style->line.width == 0.0)
+				odf_add_pt (state->xml, SVG "stroke-width", 1.);
+			else if (style->line.width > 0.0)
+				odf_add_pt (state->xml, SVG "stroke-width", style->line.width);
 		} else {
 			gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "none");
 		}

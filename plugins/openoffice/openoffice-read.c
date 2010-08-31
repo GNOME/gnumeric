@@ -647,6 +647,8 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 			symbol_type = g_value_get_int (&prop->value);
 		else if (0 == strcmp (prop->name, "symbol-name"))
 			symbol_name = g_value_get_int (&prop->value);
+		else if (0 == strcmp (prop->name, "stroke-width"))
+		        style->line.width = g_value_get_double (&prop->value);
 	}
 	if (desc_changed)
 		go_style_set_font_desc	(style, desc);
@@ -1886,7 +1888,7 @@ oo_hatch (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GOPattern *hatch = g_new (GOPattern, 1);
 	char const *hatch_name = NULL;
-	double distance = -1.0;
+	gnm_float distance = -1.0;
 	int angle = 0;
 	char const *style = NULL;
 
@@ -3462,7 +3464,7 @@ oo_style_map (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static OOProp *
-oo_prop_new_float (char const *name, gnm_float val)
+oo_prop_new_double (char const *name, gnm_float val)
 {
 	OOProp *res = g_new0 (OOProp, 1);
 	res->name = name;
@@ -3692,31 +3694,31 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (oo_attr_float (xin, attrs, OO_NS_CHART, 
 					  "minimum", &ftmp)) {
 			style->axis_props = g_slist_prepend (style->axis_props,
-				oo_prop_new_float ("minimum", ftmp));
+				oo_prop_new_double ("minimum", ftmp));
 		} else if (oo_attr_float (xin, attrs, OO_NS_CHART, 
 					  "maximum", &ftmp)) {
 			style->axis_props = g_slist_prepend (style->axis_props,
-				oo_prop_new_float ("maximum", ftmp));
+				oo_prop_new_double ("maximum", ftmp));
 		} else if (oo_attr_float (xin, attrs, OO_GNUM_NS_EXT, 
 					  "radius-ratio", &ftmp)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
-				oo_prop_new_float ("radius-ratio", ftmp));
+				oo_prop_new_double ("radius-ratio", ftmp));
 		} else if (oo_attr_percent (xin, attrs, OO_GNUM_NS_EXT, 
 					    "default-separation", &ftmp)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
-				oo_prop_new_float ("default-separation", ftmp));
+				oo_prop_new_double ("default-separation", ftmp));
 		} else if (oo_attr_int_range (xin, attrs, OO_NS_CHART, 
 					      "pie-offset", &tmp, 0, 500)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
-				oo_prop_new_float ("default-separation", 
+				oo_prop_new_double ("default-separation", 
 						   tmp/100.));
 			style->plot_props = g_slist_prepend (style->plot_props,
-				oo_prop_new_float ("separation", 
+				oo_prop_new_double ("separation", 
 						   tmp/100.));
 		} else if (oo_attr_percent (xin, attrs, OO_NS_CHART, 
 					    "hole-size", &ftmp)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
-				oo_prop_new_float ("center-size", ftmp));
+				oo_prop_new_double ("center-size", ftmp));
 		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, 
 					 "reverse-direction", &btmp)) {
 			style->axis_props = g_slist_prepend (style->axis_props,
@@ -3793,7 +3795,13 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->style_props,
 				 oo_prop_new_string ("stroke-dash",
 						     CXML2C(attrs[1])));
-		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "lines", &btmp)) {
+		} else if (NULL != oo_attr_distance (xin, attrs, OO_NS_SVG, 
+						     "stroke-width", &ftmp))
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_double ("stroke-width",
+						    ftmp));
+		else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "lines", &btmp)) {
 			style->style_props = g_slist_prepend
 				(style->style_props,
 				 oo_prop_new_bool ("lines", btmp));
@@ -3841,7 +3849,7 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (NULL != oo_attr_distance (xin, attrs, OO_NS_FO, "font-size", &ftmp))
 			style->style_props = g_slist_prepend
 				(style->style_props,
-				 oo_prop_new_float ("font-size", ftmp));
+				 oo_prop_new_double ("font-size", ftmp));
 		else if (oo_attr_font_weight (xin, attrs, &tmp))
 			style->style_props = g_slist_prepend
 				(style->style_props,
