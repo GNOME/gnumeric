@@ -51,6 +51,7 @@
 #include <sheet-object-cell-comment.h>
 #include <style-conditions.h>
 #include <gnumeric-gconf.h>
+#include <mathfunc.h>
 
 
 #include <goffice/goffice.h>
@@ -206,6 +207,7 @@ typedef struct {
 
 	OOChartStyle		*cur_graph_style; /* for reading of styles */
 	GHashTable		*graph_styles;	/* contain links to OOChartStyle GSLists */
+	GHashTable              *hatches;
 	
 	OOChartStyle            *i_plot_styles[OO_CHART_STYLE_INHERITANCE];  
 	                                          /* currently active styles at plot-area, */
@@ -561,7 +563,7 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 	PangoFontDescription *desc;
 	GSList *l;
 	gboolean desc_changed = FALSE;
-	char const *hatch_name;
+	char const *hatch_name = NULL;
 	gboolean has_hatch = FALSE;
 	unsigned int gnm_hatch = 0;
 	int symbol_type = -1, symbol_name = GO_MARKER_DIAMOND;
@@ -587,12 +589,7 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 			gchar const *color = g_value_get_string (&prop->value);
 			if (gdk_color_parse (color, &gdk_color))
 				style->fill.pattern.back = GO_COLOR_FROM_GDK (gdk_color);
-		} else if (0 == strcmp (prop->name, "gnm-fore-color")) {
-			GdkColor gdk_color;
-			gchar const *color = g_value_get_string (&prop->value);
-			if (gdk_color_parse (color, &gdk_color))
-				style->fill.pattern.fore = GO_COLOR_FROM_GDK (gdk_color);
-		} else if (0 == strcmp (prop->name, "fill-hatch-name="))
+		} else if (0 == strcmp (prop->name, "fill-hatch-name"))
 			hatch_name = g_value_get_string (&prop->value);
 		else if (0 == strcmp (prop->name, "gnm-pattern"))
 			gnm_hatch = g_value_get_int (&prop->value);
@@ -656,12 +653,19 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 	else
 		pango_font_description_free (desc);
 	if (has_hatch) {
-		if (gnm_hatch > 0)
-			style->fill.pattern.pattern = gnm_hatch;
-		else if (hatch_name != NULL) {
-			style->fill.pattern.pattern = GO_PATTERN_SOLID;
+		if (hatch_name != NULL) {
+			GOPattern *pat = g_hash_table_lookup 
+				(state->chart.hatches, hatch_name);
+			if (pat == NULL)
+				oo_warning (xin, _("Unknown hatch name encountered!"));
+			else {
+				style->fill.pattern.fore = pat->fore;
+				style->fill.pattern.pattern =  (gnm_hatch > 0) ? 
+					gnm_hatch : pat->pattern;
+			}
 		} else oo_warning (xin, _("Hatch fill without hatch name encountered!"));
 	}
+
 	switch (symbol_type) {
 	case OO_SYMBOL_TYPE_AUTO:
 		style->marker.auto_shape = TRUE;
@@ -757,6 +761,51 @@ oo_attr_distance (GsfXMLIn *xin, xmlChar const * const *attrs,
 	if (!gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), ns_id, name))
 		return NULL;
 	return oo_parse_distance (xin, attrs[1], name, pts);
+}
+
+/* returns pts */
+static char const *
+oo_parse_angle (GsfXMLIn *xin, xmlChar const *str,
+		  char const *name, int *angle)
+{
+	double num;
+	char *end = NULL;
+
+	g_return_val_if_fail (str != NULL, NULL);
+
+	num = go_strtod (CXML2C (str), &end);
+	if (CXML2C (str) != end) {
+		if (0 == strncmp (end, "deg", 3)) {
+			end += 3;
+		} else if (0 == strncmp (end, "grad", 4)) {
+			num = num / 9. * 10.;
+			end += 4;
+		} else if (0 == strncmp (end, "rad", 2)) {
+			num = num * 180. / M_PIgnum;
+			end += 3;
+		} else {
+			oo_warning (xin, _("Invalid attribute '%s', unknown unit '%s'"),
+				    name, str);
+			return NULL;
+		}
+	}
+
+	*angle = ((int) num) % 360;
+	return end;
+}
+
+/* returns degree */
+static char const *
+oo_attr_angle (GsfXMLIn *xin, xmlChar const * const *attrs,
+		  int ns_id, char const *name, int *deg)
+{
+	g_return_val_if_fail (attrs != NULL, NULL);
+	g_return_val_if_fail (attrs[0] != NULL, NULL);
+	g_return_val_if_fail (attrs[1] != NULL, NULL);
+
+	if (!gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), ns_id, name))
+		return NULL;
+	return oo_parse_angle (xin, attrs[1], name, deg);
 }
 
 typedef struct {
@@ -1827,6 +1876,105 @@ oo_covered_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	state->pos.eval.col += state->col_inc;
+}
+
+
+
+static void
+oo_hatch (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	GOPattern *hatch = g_new (GOPattern, 1);
+	char const *hatch_name = NULL;
+	double distance = -1.0;
+	int angle = 0;
+	char const *style = NULL;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "color")) {
+			GdkColor gdk_color;
+			if (gdk_color_parse (CXML2C (attrs[1]), &gdk_color))
+				hatch->fore = GO_COLOR_FROM_GDK (gdk_color);
+			else
+				oo_warning (xin, _("Unable to parse hatch color: %s"), CXML2C (attrs[1]));
+		} else if (NULL != oo_attr_distance (xin, attrs, OO_NS_CHART, "distance", &distance))
+			;
+		else if (NULL != oo_attr_angle (xin, attrs, OO_NS_CHART, "rotation", &angle))
+			;
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "name"))
+			hatch_name = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "style"))
+			style = CXML2C (attrs[1]);
+
+	if (style == NULL)
+		hatch->pattern = GO_PATTERN_THATCH;
+	else if (0 == strcmp (style, "single")) {
+		while (angle < 0)
+			angle = angle + 180;
+		angle = (angle + 22) / 45;
+		switch (angle) {
+		case 0:
+			hatch->pattern = (distance < 2.5) ? GO_PATTERN_HORIZ : GO_PATTERN_THIN_HORIZ;
+			break;
+		case 1:
+			hatch->pattern = (distance < 2.5) ? GO_PATTERN_DIAG : GO_PATTERN_THIN_DIAG;
+			break;
+		case 2:
+			hatch->pattern = (distance < 2.5) ? GO_PATTERN_VERT : GO_PATTERN_THIN_VERT;
+			break;
+		default:
+			hatch->pattern = (distance < 2.5) ? GO_PATTERN_REV_DIAG : GO_PATTERN_THIN_REV_DIAG;
+			break;
+		}
+	} else  if (0 == strcmp (style, "double")) {
+		if (angle < 0)
+			angle = - angle;
+		angle = (angle + 22) / 45;
+		angle = angle & 2;
+		switch ((int)(distance + 0.5)) {
+		case 0:
+		case 1:
+			hatch->pattern = (angle == 0) ? GO_PATTERN_GREY75 : GO_PATTERN_THICK_DIAG_CROSS;
+			break;
+		case 2:
+			hatch->pattern = (angle == 0) ? GO_PATTERN_GREY50 : GO_PATTERN_DIAG_CROSS;
+			break;
+		case 3:
+			hatch->pattern = (angle == 0) ? GO_PATTERN_THIN_HORIZ_CROSS : GO_PATTERN_THIN_DIAG_CROSS;
+			break;
+		case 4:
+			hatch->pattern = GO_PATTERN_GREY125;
+			break;
+		default:
+			hatch->pattern = GO_PATTERN_GREY625;
+			break;
+		}
+		hatch->pattern = GO_PATTERN_THATCH;
+	} else  if (0 == strcmp (style, "triple")) {
+		while (angle < 0)
+			angle += 180;
+		angle = angle % 180;
+		angle = (angle + 22)/45;
+		switch (angle) {
+		case 0:
+			hatch->pattern = (distance < 2.5) ? GO_PATTERN_SMALL_CIRCLES : GO_PATTERN_LARGE_CIRCLES;
+			break;
+		case 1:
+			hatch->pattern = (distance < 2.5) ? GO_PATTERN_SEMI_CIRCLES : GO_PATTERN_BRICKS;
+			break;
+		default:
+			hatch->pattern = GO_PATTERN_THATCH;
+			break;
+		}
+	}
+
+	if (hatch_name == NULL) {
+		g_free (hatch);
+		oo_warning (xin, _("Unnamed hatch encountered!"));
+	} else
+		g_hash_table_replace (state->chart.hatches,
+				      g_strdup (hatch_name), hatch);
+
 }
 
 static void
@@ -3679,11 +3827,6 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "fill-hatch-solid", &btmp))
 			style->other_props = g_slist_prepend (style->other_props,
 				oo_prop_new_bool ("fill-hatch-solid", btmp));
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "fore-color"))
-			style->style_props = g_slist_prepend
-				(style->style_props,
-				 oo_prop_new_string ("gnm-fore-color",
-						     CXML2C(attrs[1])));
 		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, 
 					      "pattern", &tmp, 
 					      GO_PATTERN_GREY75, GO_PATTERN_MAX - 1))
@@ -4141,6 +4284,7 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 		state->cur_style.type = OO_STYLE_UNKNOWN;
 	state->chart.cur_graph_style = NULL;
 	g_hash_table_remove_all (state->chart.graph_styles);
+	g_hash_table_remove_all (state->chart.hatches);
 }
 
 static void
@@ -5320,7 +5464,7 @@ GSF_XML_IN_NODE (START, OFFICE_FONTS, OO_NS_OFFICE, "font-face-decls", GSF_XML_N
 
 GSF_XML_IN_NODE (START, OFFICE_STYLES, OO_NS_OFFICE, "styles", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (OFFICE_STYLES, DASH, OO_NS_DRAW, "stroke-dash", GSF_XML_NO_CONTENT, NULL, NULL),
-  GSF_XML_IN_NODE (OFFICE_STYLES, HATCH, OO_NS_DRAW, "hatch", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (OFFICE_STYLES, HATCH, OO_NS_DRAW, "hatch", GSF_XML_NO_CONTENT, &oo_hatch, NULL),
   GSF_XML_IN_NODE (OFFICE_STYLES, MARKER, OO_NS_DRAW, "marker", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (OFFICE_STYLES, STYLE, OO_NS_STYLE, "style", GSF_XML_NO_CONTENT, &oo_style, &oo_style_end),
     GSF_XML_IN_NODE (STYLE, TABLE_CELL_PROPS, OO_NS_STYLE,	"table-cell-properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
@@ -6628,6 +6772,9 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	state.chart.graph_styles = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) oo_chart_style_free);
+	state.chart.hatches = g_hash_table_new_full (g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) g_free);
 	state.cur_style.cells    = NULL;
 	state.cur_style.col_rows = NULL;
 	state.cur_style.sheets   = NULL;
@@ -6729,6 +6876,7 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	g_hash_table_destroy (state.styles.cell_date);
 	g_hash_table_destroy (state.styles.cell_time);
 	g_hash_table_destroy (state.chart.graph_styles);
+	g_hash_table_destroy (state.chart.hatches);
 	g_hash_table_destroy (state.formats);
 	g_object_unref (contents);
 
