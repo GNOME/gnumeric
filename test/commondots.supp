@@ -98,3 +98,17 @@
    ...
    fun:gtk_recent_manager_set_property
 }
+
+{
+   Leak/FcInit
+   Memcheck:Leak
+   ...
+   fun:FcInit
+}
+
+{
+   Leak/FcConfigParseAndLoad
+   Memcheck:Leak
+   ...
+   fun:FcConfigParseAndLoad
+}
