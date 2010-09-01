@@ -552,8 +552,10 @@ check_argument_refs (const char *text, GnmFunc const *fd)
 		for (i = 0; TRUE; i++) {
 			char *thisarg = function_def_get_arg_name (fd, i);
 			gboolean found;
-			if (!thisarg)
+			if (!thisarg) {
+				g_free (argname);
 				return FALSE;
+			}
 			found = strcmp (argname, thisarg) == 0;
 			g_free (thisarg);
 			if (found)
