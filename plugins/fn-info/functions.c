@@ -1750,7 +1750,7 @@ gnumeric_n (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_type[] = {
         { GNM_FUNC_HELP_NAME, F_("TYPE:a number indicating the data type of @{value}")},
         { GNM_FUNC_HELP_ARG, F_("value:a value")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("TYPE returns a number indicating the data type of @{ value}:\n"
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("TYPE returns a number indicating the data type of @{value}:\n"
 					"1  \t= number\n"
 					"2  \t= text\n"
 					"4  \t= boolean\n"

@@ -1162,7 +1162,7 @@ For metric units any of the following prefixes can be used:
 @SHORTDESC=decimal representation of @{x}
 @SYNTAX=DECIMAL(x,base)
 @ARGUMENTDESCRIPTION=@{x}: number in base @{base}
-@{base}: base of @{x}, (2 ≤ @{b} ≤ 36)
+@{base}: base of @{x}, (2 ≤ @{base} ≤ 36)
 @ODF=This function is OpenFormula compatible.
 @SEEALSO=BASE
 
@@ -1371,6 +1371,14 @@ Otherwise ACCRINT returns the sum of the interest accrued in all coupon periods 
 @DESCRIPTION=AMORLINC calculates the depreciation of an asset using French accounting conventions. Assets purchased in the middle of a period take prorated depreciation into account. 
 @NOTE=Named for AMORtissement LINeaire Comptabilite. If @{basis} is 0, then the US 30/360 method is used. If @{basis} is 1, then actual number of days is used. If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days. If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days. If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=AMORDEGRC
+
+@CATEGORY=Finance
+@FUNCTION=ATL_LAST
+@SHORTDESC=sample real-time data source
+@SYNTAX=ATL_LAST(tag)
+@ARGUMENTDESCRIPTION=@{tag}: tag to watch
+@DESCRIPTION=ATL_LAST is a sample implementation of a real time data source.  It takes a string tag and monitors the named pipe ~/atl for changes to the value of that tag.
+@NOTE=This is not intended to be generally enabled and is OFF by default.
 
 @CATEGORY=Finance
 @FUNCTION=COUPDAYBS
@@ -2706,7 +2714,7 @@ Otherwise ACCRINT returns the sum of the interest accrued in all coupon periods 
 @SHORTDESC=a number indicating the data type of @{value}
 @SYNTAX=TYPE(value)
 @ARGUMENTDESCRIPTION=@{value}: a value
-@DESCRIPTION=TYPE returns a number indicating the data type of @{ value}:
+@DESCRIPTION=TYPE returns a number indicating the data type of @{value}:
 1  	= number
 2  	= text
 4  	= boolean
@@ -2842,8 +2850,8 @@ Otherwise ACCRINT returns the sum of the interest accrued in all coupon periods 
 @SHORTDESC=vector of column numbers
 @SYNTAX=COLUMN(x)
 @ARGUMENTDESCRIPTION=@{x}: reference, defaults to the position of the current expression
-@DESCRIPTION=COLUMN function returns a Nx1 array containing the sequence of integers from the first column to the last column of @{reference}.
-@NOTE=If @{reference} is neither an array nor a reference nor a range, returns #VALUE!
+@DESCRIPTION=COLUMN function returns a Nx1 array containing the sequence of integers from the first column to the last column of @{x}.
+@NOTE=If @{x} is neither an array nor a reference nor a range, returns #VALUE!
 @SEEALSO=COLUMNS,ROW,ROWS
 
 @CATEGORY=Lookup
@@ -2943,8 +2951,8 @@ Otherwise ACCRINT returns the sum of the interest accrued in all coupon periods 
 @SHORTDESC=vector of row numbers
 @SYNTAX=ROW(x)
 @ARGUMENTDESCRIPTION=@{x}: reference, defaults to the position of the current expression
-@DESCRIPTION=ROW function returns a 1xN array containing the sequence of integers from the first row to the last row of @{reference}.
-@NOTE=If @{reference} is neither an array nor a reference nor a range, returns #VALUE!
+@DESCRIPTION=ROW function returns a 1xN array containing the sequence of integers from the first row to the last row of @{x}.
+@NOTE=If @{x} is neither an array nor a reference nor a range, returns #VALUE!
 @SEEALSO=COLUMN,COLUMNS,ROWS
 
 @CATEGORY=Lookup
@@ -4350,7 +4358,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=EXPONDIST
-@SHORTDESC=porbaility density or cumulative distribution function of the exponential distribution
+@SHORTDESC=probability density or cumulative distribution function of the exponential distribution
 @SYNTAX=EXPONDIST(x,y,cumulative)
 @ARGUMENTDESCRIPTION=@{x}: number
 @{y}: scale parameter
@@ -4433,7 +4441,7 @@ The successive use of the simulation tool also requires that you give to the too
 @ARGUMENTDESCRIPTION=@{data_array}: data values
 @{bins_array}: array of cutoff values
 @DESCRIPTION=The results are given as an array.
-If the @{bin_array} is empty, this function returns the number of data points in @{data_array}.
+If the @{bins_array} is empty, this function returns the number of data points in @{data_array}.
 @EXCEL=This function is Excel compatible.
 
 @CATEGORY=Statistics
@@ -6112,12 +6120,11 @@ The output consists always of one column of complex numbers.
 @FUNCTION=INTERPOLATION
 @SHORTDESC=interpolated values corresponding to the given abscissa targets
 @SYNTAX=INTERPOLATION(abscissae,ordinates,targets,interpolation)
-@ARGUMENTDESCRIPTION=@{abscissae}: abscissae of the given data points
+@ARGUMENTDESCRIPTION=@{abscissae}: ordered abscissae of the given data points
 @{ordinates}: ordinates of the given data points
 @{targets}: abscissae of the interpolated data
-@{interpolation}: method of interpolation, defaults to none
-@DESCRIPTION=If an interpolation method is used, the number of returned values is one less than the number of targets and the targets values must be given in increasing order.
-The output consists always of one column of numbers.
+@{interpolation}: method of interpolation, defaults to 0 ('linear')
+@DESCRIPTION=The output consists always of one column of numbers.
 Possible interpolation methods are:
 0: linear;
 1: linear with averaging;
@@ -6125,7 +6132,7 @@ Possible interpolation methods are:
 3: staircase with averaging;
 4: natural cubic spline;
 5: natural cubic spline with averaging.
-@NOTE=Strings and empty cells in @{abscissae} and @{ordinates} are ignored. If several target data are provided they must be in the same column in consecutive cells.
+@NOTE=The @{abscissae} must be given in increasing order. If any of interpolation methods 1 ('linear with averaging'), 3 ('staircase with averaging'), and 5 ('natural cubic spline with averaging') is used, the number of returned values is one less than the number of targets and the targets values must be given in increasing order. Strings and empty cells in @{abscissae} and @{ordinates} are ignored. If several target data are provided they must be in the same column in consecutive cells.
 @SEEALSO=PERIODOGRAM
 
 @CATEGORY=Time Series Analysis

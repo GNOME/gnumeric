@@ -376,7 +376,7 @@ gnumeric_dec2hex (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_decimal[] = {
         { GNM_FUNC_HELP_NAME, F_("DECIMAL:decimal representation of @{x}") },
         { GNM_FUNC_HELP_ARG, F_("x:number in base @{base}") },
-        { GNM_FUNC_HELP_ARG, F_("base:base of @{x}, (2 \xe2\x89\xa4 @{b} \xe2\x89\xa4 36)") },
+        { GNM_FUNC_HELP_ARG, F_("base:base of @{x}, (2 \xe2\x89\xa4 @{base} \xe2\x89\xa4 36)") },
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=DECIMAL(\"A1\",16)" },
         { GNM_FUNC_HELP_EXAMPLES, "=DECIMAL(\"A1\",15)" },

@@ -4038,7 +4038,7 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>x</parameter>: number in base <parameter>base</parameter></para>
-        <para><parameter>base</parameter>: base of <parameter>x</parameter>, (2 ≤ <parameter>b</parameter> ≤ 36)</para>
+        <para><parameter>base</parameter>: base of <parameter>x</parameter>, (2 ≤ <parameter>base</parameter> ≤ 36)</para>
       </refsect1>
       <refsect1>
         <title>OpenDocument Format (ODF) Compatibility</title>
@@ -4766,6 +4766,36 @@
         <title>See also</title>
         <para><link linkend="gnumeric-AMORDEGRC"><function>AMORDEGRC</function></link>.
       </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-ATL_LAST">
+      <refmeta>
+        <refentrytitle>
+          <function>ATL_LAST</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>ATL_LAST</function>
+        </refname>
+        <refpurpose>
+        sample real-time data source
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>ATL_LAST</function>(<parameter>tag</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>tag</parameter>: tag to watch</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para><function>ATL_LAST</function> is a sample implementation of a real time data source.  It takes a string tag and monitors the named pipe ~/atl for changes to the value of that tag.</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>This is not intended to be generally enabled and is OFF by default.</para>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-COUPDAYBS">
@@ -8812,7 +8842,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><function>TYPE</function> returns a number indicating the data type of @{ value}:</para>
+        <para><function>TYPE</function> returns a number indicating the data type of <parameter>value</parameter>:</para>
         <para>1  	= number</para>
         <para>2  	= text</para>
         <para>4  	= boolean</para>
@@ -9314,11 +9344,11 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><function>COLUMN</function> function returns a Nx1 array containing the sequence of integers from the first column to the last column of <parameter>reference</parameter>.</para>
+        <para><function>COLUMN</function> function returns a Nx1 array containing the sequence of integers from the first column to the last column of <parameter>x</parameter>.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>reference</parameter> is neither an array nor a reference nor a range, returns #VALUE!</para>
+        <para>If <parameter>x</parameter> is neither an array nor a reference nor a range, returns #VALUE!</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -9667,11 +9697,11 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><function>ROW</function> function returns a 1xN array containing the sequence of integers from the first row to the last row of <parameter>reference</parameter>.</para>
+        <para><function>ROW</function> function returns a 1xN array containing the sequence of integers from the first row to the last row of <parameter>x</parameter>.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>reference</parameter> is neither an array nor a reference nor a range, returns #VALUE!</para>
+        <para>If <parameter>x</parameter> is neither an array nor a reference nor a range, returns #VALUE!</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -15005,7 +15035,7 @@
           <function>EXPONDIST</function>
         </refname>
         <refpurpose>
-        porbaility density or cumulative distribution function of the exponential distribution
+        probability density or cumulative distribution function of the exponential distribution
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -15297,7 +15327,7 @@
       <refsect1>
         <title>Description</title>
         <para>The results are given as an array.</para>
-        <para>If the <parameter>bin_array</parameter> is empty, this function returns the number of data points in <parameter>data_array</parameter>.</para>
+        <para>If the <parameter>bins_array</parameter> is empty, this function returns the number of data points in <parameter>data_array</parameter>.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -21084,14 +21114,13 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>abscissae</parameter>: abscissae of the given data points</para>
+        <para><parameter>abscissae</parameter>: ordered abscissae of the given data points</para>
         <para><parameter>ordinates</parameter>: ordinates of the given data points</para>
         <para><parameter>targets</parameter>: abscissae of the interpolated data</para>
-        <para><parameter>interpolation</parameter>: method of interpolation, defaults to none</para>
+        <para><parameter>interpolation</parameter>: method of interpolation, defaults to 0 ('linear')</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para>If an interpolation method is used, the number of returned values is one less than the number of targets and the targets values must be given in increasing order.</para>
         <para>The output consists always of one column of numbers.</para>
         <para>Possible interpolation methods are:</para>
         <para>0: linear;</para>
@@ -21103,7 +21132,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>Strings and empty cells in <parameter>abscissae</parameter> and <parameter>ordinates</parameter> are ignored. If several target data are provided they must be in the same column in consecutive cells.</para>
+        <para>The <parameter>abscissae</parameter> must be given in increasing order. If any of interpolation methods 1 ('linear with averaging'), 3 ('staircase with averaging'), and 5 ('natural cubic spline with averaging') is used, the number of returned values is one less than the number of targets and the targets values must be given in increasing order. Strings and empty cells in <parameter>abscissae</parameter> and <parameter>ordinates</parameter> are ignored. If several target data are provided they must be in the same column in consecutive cells.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>

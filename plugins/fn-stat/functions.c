@@ -3046,7 +3046,7 @@ static GnmFuncHelp const help_frequency[] = {
 	{ GNM_FUNC_HELP_ARG, F_("data_array:data values")},
 	{ GNM_FUNC_HELP_ARG, F_("bins_array:array of cutoff values")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The results are given as an array.") },
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("If the @{bin_array} is empty, this function "
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("If the @{bins_array} is empty, this function "
 					"returns the number of data points "
 					"in @{data_array}.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },

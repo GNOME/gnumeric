@@ -1337,8 +1337,8 @@ static GnmFuncHelp const help_column[] = {
 	{ GNM_FUNC_HELP_ARG, F_("x:reference, defaults to the position of the current expression") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("COLUMN function returns a Nx1 array containing the sequence "
 					"of integers "
-					"from the first column to the last column of @{reference}.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{reference} is neither an array nor a reference nor a range, "
+					"from the first column to the last column of @{x}.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} is neither an array nor a reference nor a range, "
 				 "returns #VALUE!") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=COLUMN(A1:C4)" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=COLUMN(A:C)" },
@@ -1489,8 +1489,8 @@ static GnmFuncHelp const help_row[] = {
 	{ GNM_FUNC_HELP_ARG, F_("x:reference, defaults to the position of the current expression") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("ROW function returns a 1xN array containing the "
 					"sequence of integers "
-					"from the first row to the last row of @{reference}.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{reference} is neither an array nor a reference nor a range, "
+					"from the first row to the last row of @{x}.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} is neither an array nor a reference nor a range, "
 				 "returns #VALUE!") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=ROW(A1:D3)" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=ROW(1:3)" },
