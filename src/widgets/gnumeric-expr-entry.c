@@ -93,6 +93,7 @@ struct _GnmExprEntry {
 
 	GtkEntry		*entry;
 	GtkWidget               *calendar_combo;
+	gulong                   calendar_combo_changed;
 	GtkWidget		*icon;
 	SheetControlGUI		*scg;	/* the source of the edit */
 	Sheet			*sheet;	/* from scg */
@@ -118,7 +119,7 @@ struct _GnmExprEntry {
 		GnmFunc         *fd;
 		gint             args;
 		gboolean         had_stuff;
-		guint            handlerid;
+		gulong           handlerid;
 		gboolean         enabled;
 		gboolean         completion_se_valid;
 		gchar           *completion;
@@ -368,10 +369,15 @@ gee_update_calendar (GnmExprEntry *gee)
 	if (!v)
 		return;
 
-	if (datetime_value_to_g (&date, v, date_conv))
+	if (datetime_value_to_g (&date, v, date_conv)) {
+		g_signal_handler_block (gee->calendar_combo,
+					gee->calendar_combo_changed);
 		go_calendar_button_set_date
 			(GO_CALENDAR_BUTTON (gee->calendar_combo),
 			 &date);
+		g_signal_handler_unblock (gee->calendar_combo,
+					  gee->calendar_combo_changed);
+	}
 
 	value_release (v);
 }
@@ -412,18 +418,18 @@ gee_set_format (GnmExprEntry *gee, GOFormat const *fmt)
 			gtk_widget_show (gee->calendar_combo);
 			gtk_box_pack_start (GTK_BOX (gee), gee->calendar_combo,
 					    FALSE, TRUE, 0);
+			gee->calendar_combo_changed =
+				g_signal_connect (G_OBJECT (gee->calendar_combo),
+						  "changed",
+						  G_CALLBACK (cb_calendar_changed),
+						  gee);
 			gee_update_calendar (gee);
-
-
-			g_signal_connect (G_OBJECT (gee->calendar_combo),
-					  "changed",
-					  G_CALLBACK (cb_calendar_changed),
-					  gee);
 		}
 	} else {
 		if (gee->calendar_combo) {
 			gtk_widget_destroy (gee->calendar_combo);
 			gee->calendar_combo = NULL;
+			gee->calendar_combo_changed = 0;
 		}
 	}
 
