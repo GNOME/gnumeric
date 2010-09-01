@@ -21,6 +21,7 @@ Morten:
 	* Fix some confusion of char vs. xmlChar.
 	* Fix elapsed-time entry.  [#628082]
 	* Fix problems with limits for date axes.
+	* Improve function docs self test.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.9

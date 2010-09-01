@@ -544,17 +544,17 @@ check_argument_refs (const char *text, GnmFunc const *fd)
 			return FALSE;
 		if (at[1] != '{')
 			return TRUE;
-		text = strchr (at + 1, '}');
+		text = strchr (at + 2, '}');
 		if (!text)
 			return FALSE;
-		argname = g_strndup (at + 1, text - at - 1);
+		argname = g_strndup (at + 2, text - at - 2);
 
 		for (i = 0; TRUE; i++) {
 			char *thisarg = function_def_get_arg_name (fd, i);
 			gboolean found;
 			if (!thisarg) {
 				g_free (argname);
-				return FALSE;
+				return TRUE;
 			}
 			found = strcmp (argname, thisarg) == 0;
 			g_free (thisarg);

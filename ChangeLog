@@ -1,6 +1,7 @@
 2010-09-01  Morten Welinder  <terra@gnome.org>
 
-	* src/func.c (check_argument_refs): Plug leak.
+	* src/func.c (check_argument_refs): Plug leak.  Fix the actual
+	test.
 
 2010-08-31  Morten Welinder  <terra@gnome.org>
 
