@@ -209,6 +209,7 @@ typedef struct {
 	GHashTable		*graph_styles;	/* contain links to OOChartStyle GSLists */
 	GHashTable              *hatches;
 	GHashTable              *dash_styles;
+	GHashTable              *gradient_styles;
 	
 	OOChartStyle            *i_plot_styles[OO_CHART_STYLE_INHERITANCE];  
 	                                          /* currently active styles at plot-area, */
@@ -307,6 +308,13 @@ typedef struct {
 	char *last_error;
 	gboolean  debug;
 } OOParseState;
+
+typedef struct {
+	GOColor from;
+	GOColor to;
+	gnm_float brightness;
+	unsigned int dir;
+} gradient_info_t;
 
 
 /* Some  prototypes */
@@ -571,7 +579,8 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 	GSList *l;
 	gboolean desc_changed = FALSE;
 	char const *hatch_name = NULL;
-	gboolean has_hatch = FALSE;
+	char const *gradient_name = NULL;
+	gboolean has_hatch = FALSE, has_gradient = FALSE;
 	unsigned int gnm_hatch = 0;
 	int symbol_type = -1, symbol_name = GO_MARKER_DIAMOND;
 	GOMarker *m;
@@ -590,6 +599,10 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 				style->fill.type = GO_STYLE_FILL_PATTERN;
 				style->fill.auto_type = FALSE;
 				has_hatch = TRUE;
+			} else if (0 == strcmp (val_string, "gradient")) {
+				style->fill.type = GO_STYLE_FILL_GRADIENT;
+				style->fill.auto_type = FALSE;
+				has_gradient = TRUE;
 			} else {
 				style->fill.type = GO_STYLE_FILL_NONE;
 				style->fill.auto_type = FALSE;
@@ -601,7 +614,9 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 				style->fill.pattern.back = GO_COLOR_FROM_GDK (gdk_color);
 				style->fill.auto_back = FALSE;
 			}
-		} else if (0 == strcmp (prop->name, "fill-hatch-name"))
+		} else if (0 == strcmp (prop->name, "fill-gradient-name"))
+			gradient_name = g_value_get_string (&prop->value);
+		else if (0 == strcmp (prop->name, "fill-hatch-name"))
 			hatch_name = g_value_get_string (&prop->value);
 		else if (0 == strcmp (prop->name, "gnm-pattern"))
 			gnm_hatch = g_value_get_int (&prop->value);
@@ -671,7 +686,7 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 			GOPattern *pat = g_hash_table_lookup 
 				(state->chart.hatches, hatch_name);
 			if (pat == NULL)
-				oo_warning (xin, _("Unknown hatch name encountered!"));
+				oo_warning (xin, _("Unknown hatch name \'%s\' encountered!"), hatch_name);
 			else {
 				style->fill.pattern.fore = pat->fore;
 				style->fill.auto_fore = FALSE;
@@ -679,6 +694,24 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 					gnm_hatch : pat->pattern;
 			}
 		} else oo_warning (xin, _("Hatch fill without hatch name encountered!"));
+	}
+	if (has_gradient) {
+		if (gradient_name != NULL) {
+			gradient_info_t *info =  g_hash_table_lookup 
+				(state->chart.gradient_styles, gradient_name);
+			if (info == NULL)
+				oo_warning (xin, _("Unknown gradient name \'%s\' encountered!"), gradient_name);
+			else {
+				style->fill.auto_fore = FALSE;
+				style->fill.auto_back = FALSE;
+				style->fill.pattern.back = info->from;
+				style->fill.pattern.fore = info->to;
+				style->fill.gradient.dir = info->dir;
+				style->fill.gradient.brightness = -1.0;
+				if (info->brightness >= 0)
+					go_style_set_fill_brightness (style, info->brightness);
+			}
+		} else oo_warning (xin, _("Gradient fill without gradient name encountered!"));
 	}
 
 	switch (symbol_type) {
@@ -1966,6 +1999,68 @@ oo_dash (GsfXMLIn *xin, xmlChar const **attrs)
 	if (name != NULL)
 		g_hash_table_replace (state->chart.dash_styles, 
 				      g_strdup (name), GUINT_TO_POINTER (t));
+	else
+		oo_warning (xin, _("Unnamed dash style encountered."));
+}
+
+static void
+oo_gradient (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	gradient_info_t *info = g_new0 (gradient_info_t, 1);
+	char const *name = NULL;
+	int angle = 0;
+	char const *style = NULL;
+	unsigned int axial_types[] =
+		{GO_GRADIENT_S_TO_N_MIRRORED, GO_GRADIENT_SE_TO_NW_MIRRORED,
+		 GO_GRADIENT_E_TO_W_MIRRORED, GO_GRADIENT_NE_TO_SW_MIRRORED, 
+		 GO_GRADIENT_N_TO_S_MIRRORED, GO_GRADIENT_NW_TO_SE_MIRRORED, 
+		 GO_GRADIENT_W_TO_E_MIRRORED, GO_GRADIENT_SW_TO_NE_MIRRORED};
+	unsigned int linear_types[] =
+		{GO_GRADIENT_S_TO_N, GO_GRADIENT_SE_TO_NW,
+		 GO_GRADIENT_E_TO_W, GO_GRADIENT_NE_TO_SW,
+		 GO_GRADIENT_N_TO_S, GO_GRADIENT_NW_TO_SE,
+		 GO_GRADIENT_W_TO_E, GO_GRADIENT_SW_TO_NE};
+
+	info->brightness = -1.;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "name"))
+			name = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "start-color")) {
+			GdkColor gdk_color;
+			if (gdk_color_parse (CXML2C (attrs[1]), &gdk_color))
+				info->from = GO_COLOR_FROM_GDK (gdk_color);
+			else
+				oo_warning (xin, _("Unable to parse gradient color: %s"), CXML2C (attrs[1]));
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "end-color")) {
+			GdkColor gdk_color;
+			if (gdk_color_parse (CXML2C (attrs[1]), &gdk_color))
+				info->to = GO_COLOR_FROM_GDK (gdk_color);
+			else
+				oo_warning (xin, _("Unable to parse gradient color: %s"), CXML2C (attrs[1]));
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "style"))
+			style = CXML2C (attrs[1]);
+		else if (oo_attr_float (xin, attrs, OO_GNUM_NS_EXT, 
+					"brightness", &info->brightness));
+		else if (NULL != oo_attr_angle (xin, attrs, OO_NS_DRAW, "angle", &angle));
+
+	if (name != NULL) {
+		if (angle < 0)
+			angle += 360;
+		angle = ((angle + 22)/45) % 8; /* angle is now 0,1,2,...,7*/
+		
+		if (style != NULL && 0 == strcmp (style, "axial"))
+			info->dir = axial_types[angle];
+		else /* linear */
+			info->dir = linear_types[angle];
+		
+		g_hash_table_replace (state->chart.gradient_styles, 
+				      g_strdup (name), info);
+	} else {
+		oo_warning (xin, _("Unnamed gradient style encountered."));
+		g_free (info);
+	}
 }
 
 static void
@@ -3918,6 +4013,11 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->style_props,
 				 oo_prop_new_string ("fill-hatch-name",
 						     CXML2C(attrs[1])));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "fill-gradient-name"))
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_string ("fill-gradient-name",
+						     CXML2C(attrs[1])));
 		else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "fill-hatch-solid", &btmp))
 			style->other_props = g_slist_prepend (style->other_props,
 				oo_prop_new_bool ("fill-hatch-solid", btmp));
@@ -3927,8 +4027,7 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			style->style_props = g_slist_prepend
 				(style->style_props,
 				 oo_prop_new_int ("gnm-pattern", tmp));
-		else if (oo_attr_int (xin, attrs, OO_NS_STYLE, "text-rotation-angle", &tmp)) {
-			tmp = tmp % 360;
+		else if (oo_attr_angle (xin, attrs, OO_NS_STYLE, "text-rotation-angle", &tmp)) {
 			style->style_props = g_slist_prepend
 				(style->style_props,
 				 oo_prop_new_int ("text-rotation-angle", tmp));
@@ -4380,6 +4479,7 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	g_hash_table_remove_all (state->chart.graph_styles);
 	g_hash_table_remove_all (state->chart.hatches);
 	g_hash_table_remove_all (state->chart.dash_styles);
+	g_hash_table_remove_all (state->chart.gradient_styles);
 }
 
 static void
@@ -5560,6 +5660,7 @@ GSF_XML_IN_NODE (START, OFFICE_FONTS, OO_NS_OFFICE, "font-face-decls", GSF_XML_N
 GSF_XML_IN_NODE (START, OFFICE_STYLES, OO_NS_OFFICE, "styles", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (OFFICE_STYLES, DASH, OO_NS_DRAW, "stroke-dash", GSF_XML_NO_CONTENT, &oo_dash, NULL),
   GSF_XML_IN_NODE (OFFICE_STYLES, HATCH, OO_NS_DRAW, "hatch", GSF_XML_NO_CONTENT, &oo_hatch, NULL),
+  GSF_XML_IN_NODE (OFFICE_STYLES, GRADIENT, OO_NS_DRAW, "gradient", GSF_XML_NO_CONTENT, &oo_gradient, NULL),
   GSF_XML_IN_NODE (OFFICE_STYLES, MARKER, OO_NS_DRAW, "marker", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (OFFICE_STYLES, STYLE, OO_NS_STYLE, "style", GSF_XML_NO_CONTENT, &oo_style, &oo_style_end),
     GSF_XML_IN_NODE (STYLE, TABLE_CELL_PROPS, OO_NS_STYLE,	"table-cell-properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
@@ -6876,6 +6977,10 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 		(g_str_hash, g_str_equal,
 		 (GDestroyNotify) g_free,
 		 NULL);
+	state.chart.gradient_styles = g_hash_table_new_full 
+		(g_str_hash, g_str_equal,
+		 (GDestroyNotify) g_free,
+		 (GDestroyNotify) g_free);
 	state.cur_style.cells    = NULL;
 	state.cur_style.col_rows = NULL;
 	state.cur_style.sheets   = NULL;
@@ -6979,6 +7084,7 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	g_hash_table_destroy (state.chart.graph_styles);
 	g_hash_table_destroy (state.chart.hatches);
 	g_hash_table_destroy (state.chart.dash_styles);
+	g_hash_table_destroy (state.chart.gradient_styles);
 	g_hash_table_destroy (state.formats);
 	g_object_unref (contents);
 

@@ -114,6 +114,7 @@ typedef struct {
 	GHashTable *graphs;
 	GHashTable *graph_dashes;
 	GHashTable *graph_hatches;
+	GHashTable *graph_gradients;
 	GHashTable *chart_props_hash;
 	GHashTable *images;
 	gboolean with_extension;
@@ -3438,6 +3439,65 @@ odf_write_meta_graph (GnmOOExport *state, GsfOutput *child)
 /*****************************************************************************/
 
 static void
+odf_write_gradient_info (char const *name, gpointer data, GnmOOExport *state)
+{
+	GOStyle const *style = data;
+	char *color;
+	char const *type = "linear";
+	int angle = 0;
+	struct {
+		unsigned int dir;
+		char const *type;
+		int angle;
+	} gradients[] = {
+		{GO_GRADIENT_N_TO_S,"linear", 180},
+		{GO_GRADIENT_S_TO_N, "linear", 0},
+		{GO_GRADIENT_N_TO_S_MIRRORED, "axial", 180},
+		{GO_GRADIENT_S_TO_N_MIRRORED, "axial", 0},
+		{GO_GRADIENT_W_TO_E, "linear", -90},
+		{GO_GRADIENT_E_TO_W, "linear", 90},
+		{GO_GRADIENT_W_TO_E_MIRRORED, "axial", -90},
+		{GO_GRADIENT_E_TO_W_MIRRORED, "axial", 90},
+		{GO_GRADIENT_NW_TO_SE, "linear", -135},
+		{GO_GRADIENT_SE_TO_NW, "linear", 45},
+		{GO_GRADIENT_NW_TO_SE_MIRRORED, "axial", -135 },
+		{GO_GRADIENT_SE_TO_NW_MIRRORED, "axial", 45},
+		{GO_GRADIENT_NE_TO_SW, "linear", 135},
+		{GO_GRADIENT_SW_TO_NE, "linear", -45},
+		{GO_GRADIENT_SW_TO_NE_MIRRORED, "axial", -45},
+		{GO_GRADIENT_NE_TO_SW_MIRRORED, "axial", 135},
+	};
+	int i;
+
+	gsf_xml_out_start_element (state->xml, DRAW "gradient");
+	gsf_xml_out_add_cstr_unchecked (state->xml, DRAW "name", name);
+
+	color = odf_go_color_to_string (style->fill.pattern.back);
+	gsf_xml_out_add_cstr_unchecked (state->xml, DRAW "start-color", color);
+	g_free (color);
+
+	if (style->fill.gradient.brightness >= 0.0 && state->with_extension)
+		gsf_xml_out_add_float (state->xml, GNMSTYLE "brightness", 
+				       style->fill.gradient.brightness, -1);
+		
+	color = odf_go_color_to_string (style->fill.pattern.fore);
+	gsf_xml_out_add_cstr_unchecked (state->xml, DRAW "end-color", color);
+	g_free (color);
+
+	for (i = 0; i < (int)G_N_ELEMENTS (gradients); i++) {
+		if (gradients[i].dir == style->fill.gradient.dir) {
+			type = gradients[i].type;
+			angle = gradients[i].angle;
+			break;
+		}
+	}
+	gsf_xml_out_add_cstr_unchecked (state->xml, DRAW "style", type);
+	gsf_xml_out_add_int (state->xml, DRAW "angle", angle);
+	
+	gsf_xml_out_end_element (state->xml); /* </draw:gradient> */
+}
+
+static void
 odf_write_hatch_info (char const *name, gpointer data, GnmOOExport *state)
 {
 	struct {
@@ -3566,6 +3626,7 @@ odf_write_graph_styles (GnmOOExport *state, GsfOutput *child)
 
 	g_hash_table_foreach (state->graph_dashes, (GHFunc) odf_write_dash_info, state);
 	g_hash_table_foreach (state->graph_hatches, (GHFunc) odf_write_hatch_info, state);
+	g_hash_table_foreach (state->graph_gradients, (GHFunc) odf_write_gradient_info, state);
 
 	gsf_xml_out_end_element (state->xml); /* </office:styles> */
 	gsf_xml_out_end_element (state->xml); /* </office:document-styles> */
@@ -3573,7 +3634,6 @@ odf_write_graph_styles (GnmOOExport *state, GsfOutput *child)
 	g_object_unref (state->xml);
 	state->xml = NULL;
 }
-
 
 /*****************************************************************************/
 
@@ -4447,6 +4507,39 @@ odf_write_label (GnmOOExport *state, GogObject const *axis)
 }
 
 static gboolean
+odf_match_gradient (gchar const *key, GOStyle const *old, GOStyle const *new)
+{
+	gboolean result;
+
+	if (old->fill.gradient.brightness != new->fill.gradient.brightness)
+		return FALSE;
+
+	if (old->fill.gradient.brightness >= 0.)
+		result = (old->fill.gradient.brightness == new->fill.gradient.brightness);
+	else
+		result = (old->fill.pattern.fore == new->fill.pattern.fore);
+
+	return (result && (old->fill.gradient.dir == new->fill.gradient.dir) &&
+		(old->fill.pattern.back == new->fill.pattern.back));
+}
+
+static gchar *
+odf_get_gradient_name (GnmOOExport *state, GOStyle const* style)
+{
+	gchar const *grad = g_hash_table_find (state->graph_gradients, 
+						(GHRFunc) odf_match_gradient,
+						(gpointer) style);
+	gchar *new_name;
+	if (grad != NULL)
+		return g_strdup (grad);
+	
+	new_name =  g_strdup_printf ("Gradient-%i", g_hash_table_size (state->graph_gradients));
+	g_hash_table_insert (state->graph_gradients, g_strdup (new_name), 
+			     (gpointer) style);
+	return new_name;	
+}
+
+static gboolean
 odf_match_pattern (gchar const *key, GOPattern const *old, GOPattern const *new)
 {
 	return (old->pattern == new->pattern &&
@@ -4475,7 +4568,7 @@ static void
 odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style)
 {
 	if (style != NULL) {
-		char *color;
+		char *color = NULL;
 
 		switch (style->fill.type) {
 		case GO_STYLE_FILL_NONE:
@@ -4483,20 +4576,26 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style)
 			break;
 		case GO_STYLE_FILL_PATTERN:
 			if (style->fill.pattern.pattern == GO_PATTERN_SOLID) {
-				color = odf_go_color_to_string (style->fill.pattern.back);
 				gsf_xml_out_add_cstr (state->xml, DRAW "fill", "solid");
-				gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
+				if (!style->fill.auto_back) {
+					color = odf_go_color_to_string (style->fill.pattern.back);
+					gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
+				}
 			} else if (style->fill.pattern.pattern == GO_PATTERN_FOREGROUND_SOLID) {
-				color = odf_go_color_to_string (style->fill.pattern.fore);
 				gsf_xml_out_add_cstr (state->xml, DRAW "fill", "solid");
-				gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
+				if (!style->fill.auto_fore) {
+					color = odf_go_color_to_string (style->fill.pattern.fore);
+					gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
+				}
 			} else {
 				gchar *hatch = odf_get_pattern_name (state, style);
-				color = odf_go_color_to_string (style->fill.pattern.back);
 				gsf_xml_out_add_cstr (state->xml, DRAW "fill", "hatch");
 				gsf_xml_out_add_cstr (state->xml, DRAW "fill-hatch-name",
 						      hatch);
-				gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
+				if (!style->fill.auto_back) {
+					color = odf_go_color_to_string (style->fill.pattern.back);
+					gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
+				}
 				g_free (hatch);
 				odf_add_bool (state->xml, DRAW "fill-hatch-solid", TRUE);
 				if (state->with_extension)
@@ -4507,10 +4606,13 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style)
 			}
 			g_free (color);
 			break;
-		case GO_STYLE_FILL_GRADIENT:
-			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "none");
-			/* 			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "gradient"); */
+		case GO_STYLE_FILL_GRADIENT: {
+			gchar *grad = odf_get_gradient_name (state, style);
+			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "gradient");
+			gsf_xml_out_add_cstr (state->xml, DRAW "fill-gradient-name", grad);
+			g_free (grad);
 			break;
+		}
 		case GO_STYLE_FILL_IMAGE:
 			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "none");
 			/* 			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "bitmap"); */
@@ -5311,6 +5413,9 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 		state->graph_hatches = g_hash_table_new_full (g_str_hash, g_str_equal,
 							     (GDestroyNotify) g_free, 
 							     NULL);
+		state->graph_gradients = g_hash_table_new_full (g_str_hash, g_str_equal,
+							     (GDestroyNotify) g_free, 
+							     NULL);
 		state->chart_props_hash = g_hash_table_new_full (g_str_hash, g_str_equal,
 							     NULL, NULL);
 		odf_fill_chart_props_hash (state);
@@ -5353,6 +5458,8 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 		state->graph_dashes = NULL;
 		g_hash_table_unref (state->graph_hatches);
 		state->graph_hatches = NULL;
+		g_hash_table_unref (state->graph_gradients);
+		state->graph_gradients = NULL;
 		g_hash_table_unref (state->chart_props_hash);
 		state->chart_props_hash = NULL;
 		odf_update_progress (state, state->graph_progress * (3./2.));
