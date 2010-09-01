@@ -1,3 +1,8 @@
+2010-08-31  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric-expr-entry.c (gee_set_property): Don't do anything for
+	text changes that do not change anything.
+
 2010-08-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (gee_set_tooltip_completion): fix gettext/macro

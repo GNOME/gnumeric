@@ -5362,13 +5362,19 @@ cb_graph_dim_entry_changed (GraphDimEditor *editor)
 static void
 set_entry_contents (GnmExprEntry *entry, GOData *val)
 {
-	SheetControlGUI *scg = gnm_expr_entry_get_scg (entry);
-	Sheet const *sheet = scg_sheet (scg);
-	char *txt;
-
-	txt = go_data_serialize (val, (gpointer)sheet->convs);
-	gnm_expr_entry_load_from_text (entry, txt);
-	g_free (txt);
+	if (go_data_get_n_dimensions (val) == 0 &&
+	    go_data_get_n_values (val) == 1) {
+		double d = go_data_get_scalar_value (val);
+		GODateConventions const *date_conv = go_data_date_conv (val);
+		gog_data_editor_set_value_double (GOG_DATA_EDITOR (entry),
+						  d, date_conv);
+	} else {
+		SheetControlGUI *scg = gnm_expr_entry_get_scg (entry);
+		Sheet const *sheet = scg_sheet (scg);
+		char *txt = go_data_serialize (val, (gpointer)sheet->convs);
+		gnm_expr_entry_load_from_text (entry, txt);
+		g_free (txt);
+	}
 }
 
 static void

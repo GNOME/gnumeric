@@ -458,10 +458,15 @@ gee_set_property (GObject      *object,
 			gtk_object_destroy (GTK_OBJECT (gee->icon));
 		break;
 
-	case PROP_TEXT:
-		gnm_expr_entry_load_from_text (gee, g_value_get_string (value));
-		gnm_expr_entry_signal_update (gee, FALSE);
+	case PROP_TEXT: {
+		const char *new_txt = g_value_get_string (value);
+		const char *old_txt = gnm_expr_entry_get_text (gee);
+		if (go_str_compare (new_txt, old_txt)) {
+			gnm_expr_entry_load_from_text (gee, new_txt);
+			gnm_expr_entry_signal_update (gee, FALSE);
+		}
 		break;
+	}
 
 	case PROP_FLAGS:
 		gnm_expr_entry_set_flags (gee,
@@ -1775,7 +1780,7 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 		ptr = text;
 
 	if (gnm_debug_flag ("rangeselection"))
-		g_print ("text: >%s< -- cursor: >%s<\n", text, cursor);
+		g_printerr ("text: >%s< -- cursor: >%s<\n", text, cursor);
 
 	if (ptr[0] == '\0') {
 		rs->text_end = rs->text_start = 

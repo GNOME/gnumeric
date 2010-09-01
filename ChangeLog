@@ -1,3 +1,8 @@
+2010-08-31  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (set_entry_contents): Set scalar values using the
+	editor's method for that.  That helps with formats.
+
 2010-08-30  Morten Welinder  <terra@gnome.org>
 
 	* src/clipboard.c (paste_cell): Also translate dates with

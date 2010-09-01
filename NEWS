@@ -20,6 +20,7 @@ Morten:
 	* Allow use of glib's memory profiler.
 	* Fix some confusion of char vs. xmlChar.
 	* Fix elapsed-time entry.  [#628082]
+	* Fix problems with limits for date axes.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.9
