@@ -5288,7 +5288,7 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 			&perr, TRUE, flags);
 
 		/* TODO : add some error dialogs split out
-		 * the code in workbok_edit to add parens.  */
+		 * the code in workbook_edit to add parens.  */
 		if (texpr == NULL) {
 			if (editor->data_type == GOG_DATA_SCALAR)
 				texpr = gnm_expr_top_new_constant (
