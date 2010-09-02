@@ -114,6 +114,7 @@ typedef struct {
 	GHashTable *graphs;
 	GHashTable *graph_dashes;
 	GHashTable *graph_hatches;
+	GHashTable *graph_fill_images;
 	GHashTable *graph_gradients;
 	GHashTable *chart_props_hash;
 	GHashTable *images;
@@ -121,6 +122,11 @@ typedef struct {
 	GOFormat const *time_fmt;
 	GOFormat const *date_fmt;
 	GOFormat const *date_long_fmt;
+
+	char const *object_name;
+
+	/* for the manifest */
+	GSList *fill_image_files; /* image/png */
 
 	float last_progress;
 	float graph_progress;
@@ -3439,6 +3445,25 @@ odf_write_meta_graph (GnmOOExport *state, GsfOutput *child)
 /*****************************************************************************/
 
 static void
+odf_write_fill_images_info (char const *name, gpointer data, GnmOOExport *state)
+{
+	GOImage *image = data;
+	char const *display_name = go_image_get_name (image);
+	char *href = g_strdup_printf ("Pictures/%s.png", name);
+
+	gsf_xml_out_start_element (state->xml, DRAW "fill-image");
+	gsf_xml_out_add_cstr_unchecked (state->xml, DRAW "name", name);
+	gsf_xml_out_add_cstr (state->xml, DRAW "display-name", display_name);
+	gsf_xml_out_add_cstr_unchecked (state->xml, XLINK "type", "simple");
+	gsf_xml_out_add_cstr_unchecked (state->xml, XLINK "show", "embed");
+	gsf_xml_out_add_cstr_unchecked (state->xml, XLINK "actuate", "onLoad");
+	gsf_xml_out_add_cstr (state->xml, XLINK "href", href);
+	gsf_xml_out_end_element (state->xml); /* </draw:fill-image> */
+
+	g_free (href);
+}
+
+static void
 odf_write_gradient_info (char const *name, gpointer data, GnmOOExport *state)
 {
 	GOStyle const *style = data;
@@ -3627,6 +3652,7 @@ odf_write_graph_styles (GnmOOExport *state, GsfOutput *child)
 	g_hash_table_foreach (state->graph_dashes, (GHFunc) odf_write_dash_info, state);
 	g_hash_table_foreach (state->graph_hatches, (GHFunc) odf_write_hatch_info, state);
 	g_hash_table_foreach (state->graph_gradients, (GHFunc) odf_write_gradient_info, state);
+	g_hash_table_foreach (state->graph_fill_images, (GHFunc) odf_write_fill_images_info, state);
 
 	gsf_xml_out_end_element (state->xml); /* </office:styles> */
 	gsf_xml_out_end_element (state->xml); /* </office:document-styles> */
@@ -3709,6 +3735,8 @@ static void
 odf_write_manifest (GnmOOExport *state, GsfOutput *child)
 {
 	GsfXMLOut *xml = gsf_xml_out_new (child);
+	GSList *l;
+
 	gsf_xml_out_set_doc_type (xml, "\n");
 	gsf_xml_out_start_element (xml, MANIFEST "manifest");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:manifest",
@@ -3726,6 +3754,12 @@ odf_write_manifest (GnmOOExport *state, GsfOutput *child)
 	state->xml = xml;
 	g_hash_table_foreach (state->graphs, (GHFunc) odf_write_graph_manifest, state);
 	g_hash_table_foreach (state->images, (GHFunc) odf_write_image_manifest, state);
+
+	for (l = state->fill_image_files; l != NULL; l = l->next)
+		odf_file_entry (xml, "image/png", l->data);
+	go_slist_free_custom (state->fill_image_files, g_free);
+	state->fill_image_files = NULL;
+
 	state->xml = NULL;
 
 	gsf_xml_out_end_element (xml); /* </manifest:manifest> */
@@ -4540,6 +4574,30 @@ odf_get_gradient_name (GnmOOExport *state, GOStyle const* style)
 }
 
 static gboolean
+odf_match_image (gchar const *key, GOImage *old, GOImage *new)
+{
+	return go_image_same_pixbuf (old, new);
+}
+
+
+static gchar *
+odf_get_image_name (GnmOOExport *state, GOStyle const* style)
+{
+	gchar const *image = g_hash_table_find (state->graph_fill_images, 
+						(GHRFunc) odf_match_image,
+						(gpointer) style->fill.image.image);
+	gchar *new_name;
+	if (image != NULL)
+		return g_strdup (image);
+
+	new_name =  g_strdup_printf ("Fill-Image-%i",
+				     g_hash_table_size (state->graph_fill_images));
+	g_hash_table_insert (state->graph_fill_images, g_strdup (new_name), 
+			     (gpointer) style->fill.image.image);
+	return new_name;
+}
+
+static gboolean
 odf_match_pattern (gchar const *key, GOPattern const *old, GOPattern const *new)
 {
 	return (old->pattern == new->pattern &&
@@ -4567,6 +4625,8 @@ odf_get_pattern_name (GnmOOExport *state, GOStyle const* style)
 static void
 odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style)
 {
+	char const *image_types[] =
+		{"stretch", "repeat", "no-repeat"};
 	if (style != NULL) {
 		char *color = NULL;
 
@@ -4613,10 +4673,18 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style)
 			g_free (grad);
 			break;
 		}
-		case GO_STYLE_FILL_IMAGE:
-			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "none");
-			/* 			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "bitmap"); */
+		case GO_STYLE_FILL_IMAGE: {
+			gchar *image = odf_get_image_name (state, style);
+			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "bitmap");
+			gsf_xml_out_add_cstr (state->xml, DRAW "fill-image-name", image);
+			g_free (image);
+			if (0 <= style->fill.image.type && 
+			    style->fill.image.type < (int)G_N_ELEMENTS (image_types))
+				gsf_xml_out_add_cstr (state->xml, STYLE "repeat", 
+						      image_types [style->fill.image.type]);
+			else g_warning ("Unexpected GOImageType value");
 			break;
+		}
 		}
 		if (go_style_is_line_visible (style)) {
 			GOLineDashType dash_type = style->line.dash_type;
@@ -5395,10 +5463,60 @@ odf_fill_chart_props_hash (GnmOOExport *state)
 				     props[i].odf_write_property);
 }
 
+static gboolean
+_gsf_gdk_pixbuf_save (const gchar *buf,
+		      gsize count,
+		      GError **error,
+		      gpointer data)
+{
+	GsfOutput *output = GSF_OUTPUT (data);
+	gboolean ok = gsf_output_write (output, count, buf);
+
+	if (!ok && error)
+		*error = g_error_copy (gsf_output_error (output));
+
+	return ok;
+}
+
+static void
+odf_write_fill_images (char const *name, GOImage *image, GnmOOExport *state)
+{
+	GsfOutput  *child;
+	char *manifest_name = g_strdup_printf ("%s/Pictures/%s.png",
+					       state->object_name, name);
+
+	child = gsf_outfile_new_child_full (state->outfile, manifest_name, 
+					    FALSE,
+					    "compression-level", GSF_ZIP_DEFLATED,
+					    NULL);
+
+	if (child != NULL) {
+		GdkPixbuf *output_pixbuf;
+
+		state->fill_image_files 
+			= g_slist_prepend (state->fill_image_files,
+					   manifest_name);
+		output_pixbuf = go_image_get_pixbuf (image);
+
+		gdk_pixbuf_save_to_callback (output_pixbuf,
+					     _gsf_gdk_pixbuf_save,
+					     child, "png",
+					     NULL, NULL);
+		gsf_output_close (child);
+		g_object_unref (G_OBJECT (child));
+	} else
+		g_free (manifest_name);
+
+	
+
+}
+
 static void
 odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 {
 	GsfOutput  *child;
+
+	state->object_name = name;
 
 	child = gsf_outfile_new_child_full (state->outfile, name, TRUE,
 				"compression-level", GSF_ZIP_DEFLATED,
@@ -5414,6 +5532,9 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 							     (GDestroyNotify) g_free, 
 							     NULL);
 		state->graph_gradients = g_hash_table_new_full (g_str_hash, g_str_equal,
+							     (GDestroyNotify) g_free, 
+							     NULL);
+		state->graph_fill_images = g_hash_table_new_full (g_str_hash, g_str_equal,
 							     (GDestroyNotify) g_free, 
 							     NULL);
 		state->chart_props_hash = g_hash_table_new_full (g_str_hash, g_str_equal,
@@ -5454,12 +5575,17 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 			g_object_unref (G_OBJECT (sec_child));
 		}
 		g_free (fullname);
+
+		g_hash_table_foreach (state->graph_fill_images, (GHFunc) odf_write_fill_images, state);
+
 		g_hash_table_unref (state->graph_dashes);
 		state->graph_dashes = NULL;
 		g_hash_table_unref (state->graph_hatches);
 		state->graph_hatches = NULL;
 		g_hash_table_unref (state->graph_gradients);
 		state->graph_gradients = NULL;
+		g_hash_table_unref (state->graph_fill_images);
+		state->graph_fill_images = NULL;
 		g_hash_table_unref (state->chart_props_hash);
 		state->chart_props_hash = NULL;
 		odf_update_progress (state, state->graph_progress * (3./2.));
@@ -5479,6 +5605,7 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 			g_object_unref (G_OBJECT (sec_child));
 		}
 		g_free (fullname);
+
 		odf_update_progress (state, state->graph_progress);
 
 		fullname = g_strdup_printf ("Pictures/%s.png", name);
@@ -5495,6 +5622,8 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 		g_free (fullname);
 		odf_update_progress (state, state->graph_progress);
 	}
+
+	state->object_name = NULL;
 }
 
 
@@ -5515,7 +5644,6 @@ openoffice_file_save_real (GOFileSaver const *fs, GOIOContext *ioc,
 		{ odf_write_styles,	"styles.xml" },
 		{ odf_write_meta,	"meta.xml" },
 		{ odf_write_settings,	"settings.xml" },
-		{ odf_write_manifest,	"META-INF/manifest.xml" }
 	};
 
 	GnmOOExport state;
@@ -5524,6 +5652,7 @@ openoffice_file_save_real (GOFileSaver const *fs, GOIOContext *ioc,
 	unsigned i;
 	Sheet *sheet;
 	GsfOutput  *pictures;
+	GsfOutput  *child;
 
 	locale  = gnm_push_C_locale ();
 
@@ -5557,6 +5686,8 @@ openoffice_file_save_real (GOFileSaver const *fs, GOIOContext *ioc,
 	state.date_fmt = go_format_new_from_XL ("yyyy-mm-dd");
 	state.time_fmt = go_format_new_from_XL ("\"PT0\"[h]\"H\"mm\"M\"ss\"S\"");
 
+	state.fill_image_files = NULL;
+
 	state.last_progress = 0;
 	state.sheet_progress = ((float) PROGRESS_STEPS) / 2 / 
 		(workbook_sheet_count (state.wb) + G_N_ELEMENTS (streams));
@@ -5576,7 +5707,6 @@ openoffice_file_save_real (GOFileSaver const *fs, GOIOContext *ioc,
 		odf_store_this_named_style (state.default_style, "Gnumeric-default", &state);
 
 	for (i = 0 ; i < G_N_ELEMENTS (streams); i++) {
-		GsfOutput  *child;
 		child = gsf_outfile_new_child_full (state.outfile, streams[i].name, FALSE,
 				/* do not compress the mimetype */
 				"compression-level", ((0 == i) ? GSF_ZIP_STORED : GSF_ZIP_DEFLATED),
@@ -5602,6 +5732,17 @@ openoffice_file_save_real (GOFileSaver const *fs, GOIOContext *ioc,
 		gsf_output_close (pictures);
 		g_object_unref (G_OBJECT (pictures));
 	}
+
+	/* Need to write the manifest */
+	child = gsf_outfile_new_child_full (state.outfile, "META-INF/manifest.xml", FALSE,
+					    "compression-level", GSF_ZIP_DEFLATED,
+					    NULL);
+	if (NULL != child) {
+		odf_write_manifest (&state, child);
+		gsf_output_close (child);
+		g_object_unref (G_OBJECT (child));
+	}
+	/* manifest written */
 
 	g_free (state.conv);
 

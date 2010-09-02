@@ -1,3 +1,16 @@
+2010-09-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_fill_images_info): new
+	(odf_write_graph_styles): connect odf_write_fill_images_info
+	(odf_write_manifest): include fill-image files
+	(odf_match_image): new
+	(odf_get_image_name): new
+	(odf_write_gog_style_graphic): write image fill
+	(_gsf_gdk_pixbuf_save): new
+	(odf_write_fill_images): new
+	(odf_write_graphs): connect odf_write_fill_images
+	(openoffice_file_save_real): delay writing of manifest until we know 
+	  all files to be included
 2010-09-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_apply_style_props): new gradient attributes
