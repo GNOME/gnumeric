@@ -1,5 +1,11 @@
 2010-09-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (od_draw_image): don't assume that we know the
+	  directory name
+	(opendoc_content_dtd): OOo's images contain a blank <text:p\> element
+
+2010-09-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_apply_style_props): more attributes, handle
 	  image fill
 	(oo_fill_image): new

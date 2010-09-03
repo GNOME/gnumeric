@@ -4636,22 +4636,25 @@ od_draw_image (GsfXMLIn *xin, xmlChar const **attrs)
 
 	OOParseState *state = (OOParseState *)xin->user_state;
 	gchar const *file = NULL;
+	char **path;
 
 	if (state->chart.so != NULL)
 		/* We only use images if there is no object available. */
 		return;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_XLINK, "href") &&
-		    strncmp (CXML2C (attrs[1]), "Pictures/", 9) == 0) {
-			file = CXML2C (attrs[1]) + 9;
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					OO_NS_XLINK, "href")) {
+			file = CXML2C (attrs[1]);
 			break;
 		}
 
 	if (!file)
 		return;
 
-	input = gsf_infile_child_by_vname (state->zip, "Pictures", file, NULL);
+	path = g_strsplit (file, "/", -1);
+	input = gsf_infile_child_by_aname (state->zip, (const char **) path);
+	g_strfreev (path);
 
 	if (input != NULL) {
 		SheetObjectImage *soi;
@@ -4662,7 +4665,11 @@ od_draw_image (GsfXMLIn *xin, xmlChar const **attrs)
 
 		state->chart.so = SHEET_OBJECT (soi);
 		g_object_unref (input);
-	}
+	} else
+		oo_warning (xin, _("Unable to load "
+				   "the file \'%s\'."),
+			    file);
+
 }
 
 static void
@@ -6190,6 +6197,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	            GSF_XML_IN_NODE (DRAW_OBJECT, DRAW_OBJECT_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, NULL),
 
 		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_IMAGE, OO_NS_DRAW, "image", GSF_XML_NO_CONTENT, &od_draw_image, NULL),
+	              GSF_XML_IN_NODE (DRAW_IMAGE, DRAW_IMAGE_TEXT,OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),
 		    GSF_XML_IN_NODE (DRAW_FRAME, SVG_DESC, OO_NS_SVG, "desc", GSF_XML_NO_CONTENT, NULL, NULL),
 		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_TEXT_BOX, OO_NS_DRAW, "text-box", GSF_XML_NO_CONTENT, &od_draw_text_box, NULL),
 		    GSF_XML_IN_NODE (DRAW_TEXT_BOX, DRAW_TEXT_BOX_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, &od_draw_text_box_p_end),
