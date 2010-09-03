@@ -242,6 +242,10 @@ typedef struct {
 typedef struct {
 	GnmSheetVisibility visibility;
 	gboolean is_rtl;
+	gboolean tab_color_set;
+	GOColor tab_color;
+	gboolean tab_text_color_set;
+	GOColor tab_text_color;
 } OOSheetStyle;
 
 typedef enum {
@@ -1282,11 +1286,33 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 	
 	if (style_name != NULL) {
 		OOSheetStyle const *style = g_hash_table_lookup (state->styles.sheet, style_name);
-		if (style)
+		if (style) {
 			g_object_set (state->pos.sheet,
 				      "visibility", style->visibility,
 				      "text-is-rtl", style->is_rtl,
 				      NULL);
+			if (style->tab_color_set) {
+				GnmColor *color 
+					= style_color_new_go (style->tab_color);
+				g_object_set 
+					(state->pos.sheet,
+					 "tab-background",
+					 color,
+					 NULL);
+				style_color_unref (color);
+			}
+			if (style->tab_text_color_set){
+				GnmColor *color 
+					= style_color_new_go 
+					(style->tab_text_color);
+				g_object_set 
+					(state->pos.sheet,
+					 "tab-foreground",
+					 color,
+					 NULL);
+				style_color_unref (color);
+			}
+		}
 		g_free (style_name);
 	}
 	if (state->default_style.rows != NULL)
@@ -3604,6 +3630,31 @@ oo_style_prop_table (GsfXMLIn *xin, xmlChar const **attrs)
 				style->visibility = GNM_SHEET_VISIBILITY_HIDDEN;
 		} else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "writing-mode", modes, &tmp_i))
 			style->is_rtl = tmp_i;
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					       OO_GNUM_NS_EXT, "tab-color")) {
+			GdkColor gdk_color;
+			if (gdk_color_parse (CXML2C (attrs[1]), &gdk_color)) {
+				style->tab_color 
+					= GO_COLOR_FROM_GDK (gdk_color);
+				style->tab_color_set = TRUE;
+			} else
+				oo_warning (xin, _("Unable to parse "
+						   "tab color \'%s\'"), 
+					    CXML2C (attrs[1]));			
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					       OO_GNUM_NS_EXT, 
+					       "tab-text-color")) {
+			GdkColor gdk_color;
+			if (gdk_color_parse (CXML2C (attrs[1]), &gdk_color)) {
+				style->tab_text_color 
+					= GO_COLOR_FROM_GDK (gdk_color);
+				style->tab_text_color_set = TRUE;
+			} else
+				oo_warning (xin, _("Unable to parse tab "
+						   "text color \'%s\'"), 
+					    CXML2C (attrs[1]));
+		}
+
 }
 
 static gboolean

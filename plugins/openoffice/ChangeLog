@@ -1,5 +1,14 @@
 2010-09-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (OOSheetStyle): add tab colors
+	(oo_table_start): handle tab colors
+	(oo_style_prop_table): ditto
+	* openoffice-write.c (odf_write_table_style): write tab colors (as
+	  foreign elements)
+	(table_style_name): give each table its own style.
+	
+2010-09-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_apply_style_props): stroke-color attribute 
 	  added
 	(od_style_prop_chart): ditto

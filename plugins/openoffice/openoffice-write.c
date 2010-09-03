@@ -572,6 +572,17 @@ odf_write_table_style (GnmOOExport *state,
 		sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE);
 	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "writing-mode",
 		sheet->text_is_rtl ? "rl-tb" : "lr-tb");
+	if (state->with_extension) {
+		if (sheet->tab_color && !sheet->tab_color->is_auto) {
+			gnm_xml_out_add_hex_color (state->xml, GNMSTYLE "tab-color",
+						   sheet->tab_color, 1);
+		}
+		if (sheet->tab_text_color && !sheet->tab_text_color->is_auto) {
+			gnm_xml_out_add_hex_color (state->xml, 
+						   GNMSTYLE "tab-text-color",
+						   sheet->tab_text_color, 1);
+		}
+	}
 	gsf_xml_out_end_element (state->xml); /* </style:table-properties> */
 
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
@@ -580,9 +591,7 @@ odf_write_table_style (GnmOOExport *state,
 static char *
 table_style_name (Sheet const *sheet)
 {
-	return g_strdup_printf ("ta-%c-%s",
-		(sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE) ? 'v' : 'h',
-		sheet->text_is_rtl ? "rl" : "lr");
+	return g_strdup_printf ("ta-%p", sheet);
 }
 
 static gchar*
