@@ -99,6 +99,15 @@ enum {
 	OO_CHART_STYLE_INHERITANCE = 2 
 };
 
+enum {
+	OO_FILL_TYPE_UNKNOWN = 0,
+	OO_FILL_TYPE_SOLID,
+	OO_FILL_TYPE_HATCH,
+	OO_FILL_TYPE_GRADIENT,
+	OO_FILL_TYPE_BITMAP,
+	OO_FILL_TYPE_NONE
+};
+
 /* Filter Type */
 typedef enum {
 	OOO_VER_UNKNOWN	= -1,
@@ -209,6 +218,7 @@ typedef struct {
 	GHashTable		*graph_styles;	/* contain links to OOChartStyle GSLists */
 	GHashTable              *hatches;
 	GHashTable              *dash_styles;
+	GHashTable              *fill_image_styles;
 	GHashTable              *gradient_styles;
 	
 	OOChartStyle            *i_plot_styles[OO_CHART_STYLE_INHERITANCE];  
@@ -303,6 +313,8 @@ typedef struct {
 	struct {
 		GnmPageBreaks *h, *v;
 	} page_breaks;
+
+	char const *object_name;
 
 	gsf_off_t last_progress_update;
 	char *last_error;
@@ -580,11 +592,12 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 	gboolean desc_changed = FALSE;
 	char const *hatch_name = NULL;
 	char const *gradient_name = NULL;
-	gboolean has_hatch = FALSE, has_gradient = FALSE;
+	char const *fill_image_name = NULL;
 	unsigned int gnm_hatch = 0;
 	int symbol_type = -1, symbol_name = GO_MARKER_DIAMOND;
 	GOMarker *m;
 	gboolean line_is_not_dash = FALSE;
+	unsigned int fill_type = OO_FILL_TYPE_UNKNOWN;
 
 	desc = pango_font_description_copy (style->font.font->desc);
 	for (l = props; l != NULL; l = l->next) {
@@ -595,17 +608,23 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 				style->fill.type = GO_STYLE_FILL_PATTERN;
 				style->fill.auto_type = FALSE;
 				style->fill.pattern.pattern = GO_PATTERN_SOLID;
+				fill_type = OO_FILL_TYPE_SOLID;
 			} else if (0 == strcmp (val_string, "hatch")) {
 				style->fill.type = GO_STYLE_FILL_PATTERN;
 				style->fill.auto_type = FALSE;
-				has_hatch = TRUE;
+				fill_type = OO_FILL_TYPE_HATCH;
 			} else if (0 == strcmp (val_string, "gradient")) {
 				style->fill.type = GO_STYLE_FILL_GRADIENT;
 				style->fill.auto_type = FALSE;
-				has_gradient = TRUE;
-			} else {
+				fill_type = OO_FILL_TYPE_GRADIENT;
+			} else if (0 == strcmp (val_string, "bitmap")) {
+				style->fill.type = GO_STYLE_FILL_IMAGE;
+				style->fill.auto_type = FALSE;
+				fill_type = OO_FILL_TYPE_BITMAP;
+			} else { /* "none" */
 				style->fill.type = GO_STYLE_FILL_NONE;
 				style->fill.auto_type = FALSE;
+				fill_type = OO_FILL_TYPE_NONE;
 			}
 		} else if (0 == strcmp (prop->name, "fill-color")) {
 			GdkColor gdk_color;
@@ -618,6 +637,8 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 			gradient_name = g_value_get_string (&prop->value);
 		else if (0 == strcmp (prop->name, "fill-hatch-name"))
 			hatch_name = g_value_get_string (&prop->value);
+		else if (0 == strcmp (prop->name, "fill-image-name"))
+			fill_image_name = g_value_get_string (&prop->value);
 		else if (0 == strcmp (prop->name, "gnm-pattern"))
 			gnm_hatch = g_value_get_int (&prop->value);
 		else if (0 == strcmp (prop->name, "text-rotation-angle")) {
@@ -676,31 +697,40 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 			symbol_name = g_value_get_int (&prop->value);
 		else if (0 == strcmp (prop->name, "stroke-width"))
 		        style->line.width = g_value_get_double (&prop->value);
+		else if (0 == strcmp (prop->name, "repeat"))
+			style->fill.image.type = g_value_get_int (&prop->value);
+
 	}
 	if (desc_changed)
 		go_style_set_font_desc	(style, desc);
 	else
 		pango_font_description_free (desc);
-	if (has_hatch) {
+
+
+	switch (fill_type) {
+	case OO_FILL_TYPE_HATCH:
 		if (hatch_name != NULL) {
 			GOPattern *pat = g_hash_table_lookup 
 				(state->chart.hatches, hatch_name);
 			if (pat == NULL)
-				oo_warning (xin, _("Unknown hatch name \'%s\' encountered!"), hatch_name);
+				oo_warning (xin, _("Unknown hatch name \'%s\'"
+						   " encountered!"), hatch_name);
 			else {
 				style->fill.pattern.fore = pat->fore;
 				style->fill.auto_fore = FALSE;
 				style->fill.pattern.pattern =  (gnm_hatch > 0) ? 
 					gnm_hatch : pat->pattern;
 			}
-		} else oo_warning (xin, _("Hatch fill without hatch name encountered!"));
-	}
-	if (has_gradient) {
+		} else oo_warning (xin, _("Hatch fill without hatch name "
+					  "encountered!"));
+		break;
+	case OO_FILL_TYPE_GRADIENT:
 		if (gradient_name != NULL) {
 			gradient_info_t *info =  g_hash_table_lookup 
 				(state->chart.gradient_styles, gradient_name);
 			if (info == NULL)
-				oo_warning (xin, _("Unknown gradient name \'%s\' encountered!"), gradient_name);
+				oo_warning (xin, _("Unknown gradient name \'%s\'"
+						   " encountered!"), gradient_name);
 			else {
 				style->fill.auto_fore = FALSE;
 				style->fill.auto_back = FALSE;
@@ -709,9 +739,81 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 				style->fill.gradient.dir = info->dir;
 				style->fill.gradient.brightness = -1.0;
 				if (info->brightness >= 0)
-					go_style_set_fill_brightness (style, info->brightness);
+					go_style_set_fill_brightness 
+						(style, info->brightness);
 			}
-		} else oo_warning (xin, _("Gradient fill without gradient name encountered!"));
+		} else oo_warning (xin, _("Gradient fill without gradient "
+					  "name encountered!"));
+		break;
+	case OO_FILL_TYPE_BITMAP:
+		if (fill_image_name != NULL) {
+			char const *href = g_hash_table_lookup 
+				(state->chart.fill_image_styles, fill_image_name);
+			if (href == NULL)
+				oo_warning (xin, _("Unknown image fill name \'%s\'"
+						   " encountered!"), fill_image_name);
+			else {
+				GsfInput *input;
+				char *href_complete;
+				char **path;
+
+				if (strncmp (href, "./", 2) == 0)
+					href += 2;
+				if (strncmp (href, "/", 1) == 0) {
+					oo_warning (xin, _("Invalid absolute file "
+							   "specification \'%s\' "
+							   "encountered."), href);
+					break;
+				}
+
+				href_complete = g_strconcat (state->object_name, 
+							     "/", href, NULL);
+				path = g_strsplit (href_complete, "/", -1);
+				input = gsf_infile_child_by_aname 
+					(state->zip, (const char **) path);
+				g_strfreev (path);
+				if (input == NULL)
+					oo_warning (xin, _("Unable to open \'%s\'."), 
+						    href_complete);
+				else {
+					gsf_off_t len = gsf_input_size (input);
+					guint8 const *data = gsf_input_read 
+						(input, len, NULL);
+					GdkPixbufLoader *loader 
+						= gdk_pixbuf_loader_new ();
+					GdkPixbuf *pixbuf = NULL;
+
+					if (gdk_pixbuf_loader_write (loader,
+								     (guchar *)data,
+								     (gsize)len,
+								     NULL)) {
+						gdk_pixbuf_loader_close (loader, NULL);
+						pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
+						g_object_ref (G_OBJECT (pixbuf));
+						if (style->fill.image.image != NULL)
+							g_object_set 
+								(G_OBJECT (style->fill.image.image),
+								 "pixbuf", pixbuf, NULL);
+						else
+							style->fill.image.image =
+								go_image_new_from_pixbuf (pixbuf);
+						go_image_set_name (style->fill.image.image, 
+								   fill_image_name);
+						g_object_unref (G_OBJECT (loader));
+					} else {
+						oo_warning (xin, _("Unable to load "
+								   "the file \'%s\'."),
+							    href_complete);
+					}
+					g_object_unref (input);
+				}
+				g_free (href_complete);
+			}
+		} else oo_warning (xin, _("Image fill without image "
+					  "name encountered!"));
+		break;
+	default:
+		break;
 	}
 
 	switch (symbol_type) {
@@ -2001,6 +2103,31 @@ oo_dash (GsfXMLIn *xin, xmlChar const **attrs)
 				      g_strdup (name), GUINT_TO_POINTER (t));
 	else
 		oo_warning (xin, _("Unnamed dash style encountered."));
+}
+
+
+static void
+oo_fill_image (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	char const *name = NULL;
+	char const *href = NULL;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "name"))
+			name = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					     OO_NS_XLINK, "href"))
+			href = CXML2C (attrs[1]);
+	if (name == NULL)
+		oo_warning (xin, _("Unnamed image fill style encountered."));
+	else if (href == NULL)
+		oo_warning (xin, _("Image fill style \'%s\' has no attached image."),
+			    name);
+	else {
+		g_hash_table_replace (state->chart.fill_image_styles, 
+				      g_strdup (name), g_strdup (href));
+	}
 }
 
 static void
@@ -3828,6 +3955,13 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		{ NULL, 0},
 	};
 		
+	static OOEnum const image_fill_types [] = {
+		{"stretch", GO_IMAGE_STRETCHED },
+		{"repeat", GO_IMAGE_WALLPAPER },
+		{"no-repeat", GO_IMAGE_CENTERED },		
+		{ NULL,	0 },
+	};
+
 	OOParseState *state = (OOParseState *)xin->user_state;
 	OOChartStyle *style = state->chart.cur_graph_style;
 	gboolean btmp;
@@ -4013,6 +4147,11 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->style_props,
 				 oo_prop_new_string ("fill-hatch-name",
 						     CXML2C(attrs[1])));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "fill-image-name"))
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_string ("fill-image-name",
+						     CXML2C(attrs[1])));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "fill-gradient-name"))
 			style->style_props = g_slist_prepend
 				(style->style_props,
@@ -4103,6 +4242,11 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 					(style->plot_props,
 					 oo_prop_new_string
 					 ("anchor", CXML2C(attrs[1])));
+		else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "repeat", 
+					 image_fill_types, &tmp))
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_int ("repeat", tmp));
 
 	}
 
@@ -4446,6 +4590,7 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	if (*(name_start + name_len - 1) == '/') /* OOo does not append a / */
 		name_len--;
 	name = g_strndup (name_start, name_len);
+	state->object_name = name;
 
 	if (state->debug)
 		g_print ("START %s\n", name);
@@ -4471,6 +4616,7 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 	if (state->debug)
 		g_print ("END %s\n", name);
+	state->object_name = NULL;
 	g_free (name);
 
 	if (state->cur_style.type == OO_STYLE_CHART)
@@ -4479,6 +4625,7 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	g_hash_table_remove_all (state->chart.graph_styles);
 	g_hash_table_remove_all (state->chart.hatches);
 	g_hash_table_remove_all (state->chart.dash_styles);
+	g_hash_table_remove_all (state->chart.fill_image_styles);
 	g_hash_table_remove_all (state->chart.gradient_styles);
 }
 
@@ -5658,6 +5805,7 @@ GSF_XML_IN_NODE (START, OFFICE_FONTS, OO_NS_OFFICE, "font-face-decls", GSF_XML_N
   GSF_XML_IN_NODE (OFFICE_FONTS, FONT_DECL, OO_NS_STYLE, "font-face", GSF_XML_NO_CONTENT, NULL, NULL),
 
 GSF_XML_IN_NODE (START, OFFICE_STYLES, OO_NS_OFFICE, "styles", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (OFFICE_STYLES, FILLIMAGE, OO_NS_DRAW, "fill-image", GSF_XML_NO_CONTENT, &oo_fill_image, NULL),
   GSF_XML_IN_NODE (OFFICE_STYLES, DASH, OO_NS_DRAW, "stroke-dash", GSF_XML_NO_CONTENT, &oo_dash, NULL),
   GSF_XML_IN_NODE (OFFICE_STYLES, HATCH, OO_NS_DRAW, "hatch", GSF_XML_NO_CONTENT, &oo_hatch, NULL),
   GSF_XML_IN_NODE (OFFICE_STYLES, GRADIENT, OO_NS_DRAW, "gradient", GSF_XML_NO_CONTENT, &oo_gradient, NULL),
@@ -6977,6 +7125,10 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 		(g_str_hash, g_str_equal,
 		 (GDestroyNotify) g_free,
 		 NULL);
+	state.chart.fill_image_styles = g_hash_table_new_full 
+		(g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) g_free);
 	state.chart.gradient_styles = g_hash_table_new_full 
 		(g_str_hash, g_str_equal,
 		 (GDestroyNotify) g_free,
@@ -7084,6 +7236,7 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	g_hash_table_destroy (state.chart.graph_styles);
 	g_hash_table_destroy (state.chart.hatches);
 	g_hash_table_destroy (state.chart.dash_styles);
+	g_hash_table_destroy (state.chart.fill_image_styles);
 	g_hash_table_destroy (state.chart.gradient_styles);
 	g_hash_table_destroy (state.formats);
 	g_object_unref (contents);

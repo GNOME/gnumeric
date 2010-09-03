@@ -1,3 +1,12 @@
+2010-09-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_apply_style_props): more attributes, handle
+	  image fill
+	(oo_fill_image): new
+	(od_style_prop_chart): new attributes
+	(od_draw_object): store object directory name
+	(openoffice_file_open): new hash
+
 2010-09-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_fill_images_info): new
@@ -11,6 +20,7 @@
 	(odf_write_graphs): connect odf_write_fill_images
 	(openoffice_file_save_real): delay writing of manifest until we know 
 	  all files to be included
+	
 2010-09-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_apply_style_props): new gradient attributes
