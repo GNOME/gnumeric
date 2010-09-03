@@ -598,6 +598,7 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 	GOMarker *m;
 	gboolean line_is_not_dash = FALSE;
 	unsigned int fill_type = OO_FILL_TYPE_UNKNOWN;
+	gboolean stroke_colour_set = FALSE;
 
 	desc = pango_font_description_copy (style->font.font->desc);
 	for (l = props; l != NULL; l = l->next) {
@@ -633,7 +634,20 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 				style->fill.pattern.back = GO_COLOR_FROM_GDK (gdk_color);
 				style->fill.auto_back = FALSE;
 			}
-		} else if (0 == strcmp (prop->name, "fill-gradient-name"))
+		} else if (0 == strcmp (prop->name, "stroke-color")) {
+			GdkColor gdk_color;
+			gchar const *color = g_value_get_string (&prop->value);
+			if (gdk_color_parse (color, &gdk_color)) {
+				style->line.color = GO_COLOR_FROM_GDK (gdk_color);
+				style->line.fore = GO_COLOR_FROM_GDK (gdk_color);
+				style->line.auto_color = FALSE;
+				style->line.auto_fore = FALSE;
+				style->line.pattern = GO_PATTERN_SOLID;
+				stroke_colour_set = TRUE;
+			}
+		} else if (0 == strcmp (prop->name, "lines") && !stroke_colour_set) {
+			style->line.auto_color = g_value_get_boolean (&prop->value);
+ 		} else if (0 == strcmp (prop->name, "fill-gradient-name"))
 			gradient_name = g_value_get_string (&prop->value);
 		else if (0 == strcmp (prop->name, "fill-hatch-name"))
 			hatch_name = g_value_get_string (&prop->value);
@@ -673,8 +687,6 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 			pango_font_description_set_family
 				(desc, g_value_get_string (&prop->value));
 			desc_changed = TRUE;
-		} else if (0 == strcmp (prop->name, "lines")) {
-			style->line.auto_color = g_value_get_boolean (&prop->value);
 		} else if (0 == strcmp (prop->name, "stroke")) {
 			if (0 == strcmp (g_value_get_string (&prop->value), "solid")) {
 				style->line.dash_type = GO_LINE_SOLID;
@@ -4109,6 +4121,12 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			style->style_props = g_slist_prepend
 				(style->style_props,
 				 oo_prop_new_string ("stroke-dash",
+						     CXML2C(attrs[1])));
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					       OO_NS_SVG, "stroke-color")) {
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_string ("stroke-color",
 						     CXML2C(attrs[1])));
 		} else if (NULL != oo_attr_distance (xin, attrs, OO_NS_SVG, 
 						     "stroke-width", &ftmp))

@@ -4705,7 +4705,14 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style)
 			if (style->line.width == 0.0)
 				odf_add_pt (state->xml, SVG "stroke-width", 1.);
 			else if (style->line.width > 0.0)
-				odf_add_pt (state->xml, SVG "stroke-width", style->line.width);
+				odf_add_pt (state->xml, SVG "stroke-width", 
+					    style->line.width);
+			if (!style->line.auto_color) {
+				color = odf_go_color_to_string (style->line.color);
+				gsf_xml_out_add_cstr (state->xml, SVG "stroke-color", 
+						      color);
+	
+			}
 		} else {
 			gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "none");
 		}

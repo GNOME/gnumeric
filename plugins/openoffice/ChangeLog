@@ -1,5 +1,13 @@
 2010-09-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_apply_style_props): stroke-color attribute 
+	  added
+	(od_style_prop_chart): ditto
+	* openoffice-write.c (odf_write_gog_style_graphic): write stroke-color 
+	  attribute
+
+2010-09-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (od_draw_image): don't assume that we know the
 	  directory name
 	(opendoc_content_dtd): OOo's images contain a blank <text:p\> element
