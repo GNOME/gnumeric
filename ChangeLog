@@ -1,5 +1,9 @@
 2010-09-04  Morten Welinder <terra@gnome.org>
 
+	* configure.in: Post-release bump.
+
+2010-09-04  Morten Welinder <terra@gnome.org>
+
 	* Release 1.10.10
 
 2010-09-04  Jean Brefort  <jean.brefort@normalesup.org>
