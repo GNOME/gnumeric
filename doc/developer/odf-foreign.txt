@@ -87,6 +87,10 @@ gnm:position
 gnm:anchor
 position of GogObject
 
+gnm:tab-color
+gnm:tab-text-color 
+attributes to the style:table-properties
+
 3) Attribute _values_ added by Gnumeric. 
 Since these are not eleemnts or new attributes they are used in all ODF exports.
 

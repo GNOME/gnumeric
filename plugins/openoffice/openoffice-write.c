@@ -90,6 +90,8 @@
 #define CHART	 "chart:"
 #define SVG	 "svg:"
 #define XLINK	 "xlink:"
+#define CONFIG   "config:"
+#define OOO      "ooo:"
 #define GNMSTYLE "gnm:"  /* We use this for attributes and elements not supported by ODF */
 
 typedef struct {
@@ -155,6 +157,7 @@ static struct {
 	{ "xmlns:svg",		"urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0" },
 	{ "xmlns:chart",	"urn:oasis:names:tc:opendocument:xmlns:chart:1.0" },
 	{ "xmlns:dr3d",		"urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0" },
+	{ "xmlns:config",       "urn:oasis:names:tc:opendocument:xmlns:config:1.0"},
 	{ "xmlns:math",		"http://www.w3.org/1998/Math/MathML" },
 	{ "xmlns:form",		"urn:oasis:names:tc:opendocument:xmlns:form:1.0" },
 	{ "xmlns:script",	"urn:oasis:names:tc:opendocument:xmlns:script:1.0" },
@@ -3673,6 +3676,52 @@ odf_write_graph_styles (GnmOOExport *state, GsfOutput *child)
 /*****************************************************************************/
 
 static void
+odf_write_ooo_settings (GnmOOExport *state)
+{
+	GSList *l;
+
+	gsf_xml_out_start_element (state->xml, CONFIG "config-item-set");
+	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", OOO "view-settings");
+	gsf_xml_out_start_element (state->xml, CONFIG "config-item-map-indexed");
+	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "Views");
+	gsf_xml_out_start_element (state->xml, CONFIG "config-item-map-entry");
+	gsf_xml_out_start_element (state->xml, CONFIG "config-item");
+	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "ViewId");
+	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "string");
+	gsf_xml_out_add_cstr (state->xml, NULL, "View1");
+	gsf_xml_out_end_element (state->xml); /* </config:config-item> */
+	gsf_xml_out_start_element (state->xml, 
+				   CONFIG "config-item-map-named");
+	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name",
+				        "Tables");
+
+	for (l = workbook_sheets (state->wb); l != NULL; l = l->next) {
+		Sheet *sheet = l->data;
+		gsf_xml_out_start_element (state->xml, CONFIG "config-item-map-entry");
+		gsf_xml_out_add_cstr (state->xml, CONFIG "name", sheet->name_unquoted);
+		if (sheet->tab_color != NULL && !sheet->tab_color->is_auto) {
+			gsf_xml_out_start_element (state->xml, CONFIG "config-item");
+			gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "TabColor");
+			gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "int");
+			gsf_xml_out_add_int (state->xml, NULL, sheet->tab_color->go_color >> 8);
+			gsf_xml_out_end_element (state->xml); /* </config:config-item> */
+		}
+		gsf_xml_out_start_element (state->xml, CONFIG "config-item");
+		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "ShowGrid");
+		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "boolean");
+		gsf_xml_out_add_cstr_unchecked (state->xml, NULL, "true");
+		gsf_xml_out_end_element (state->xml); /* </config:config-item> */
+		
+		gsf_xml_out_end_element (state->xml); /* </config:config-item-map-entry> */
+	}	
+	
+	gsf_xml_out_end_element (state->xml); /* </config:config-item-map-named> */
+	gsf_xml_out_end_element (state->xml); /* </config:config-item-map-entry> */
+	gsf_xml_out_end_element (state->xml); /* </config:config-item-map-indexed> */
+	gsf_xml_out_end_element (state->xml); /* </config:config-item-set> */
+}
+
+static void
 odf_write_settings (GnmOOExport *state, GsfOutput *child)
 {
 	int i;
@@ -3683,6 +3732,12 @@ odf_write_settings (GnmOOExport *state, GsfOutput *child)
 		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
 	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version",
 					get_gsf_odf_version_string ());
+
+	gsf_xml_out_start_element (state->xml, OFFICE "settings");
+
+	odf_write_ooo_settings (state);
+
+	gsf_xml_out_end_element (state->xml); /* </office:settings> */
 	gsf_xml_out_end_element (state->xml); /* </office:document-settings> */
 	g_object_unref (state->xml);
 	state->xml = NULL;
