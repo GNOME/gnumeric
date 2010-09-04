@@ -1,5 +1,12 @@
 2010-09-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_get_gradient_name): create a new name for each 
+	item
+	(odf_get_image_name): ditto
+	(odf_get_pattern_name): ditto
+
+2010-09-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_ooo_settings): new
 	(odf_write_settings): call odf_write_ooo_settings
 
