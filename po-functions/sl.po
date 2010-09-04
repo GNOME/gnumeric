@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&component=general\n"
-"POT-Creation-Date: 2010-08-05 02:42+0000\n"
-"PO-Revision-Date: 2010-08-16 14:11+0100\n"
+"POT-Creation-Date: 2010-09-04 19:34+0000\n"
+"PO-Revision-Date: 2010-09-04 22:15+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -20,20 +20,13 @@ msgstr ""
 "X-Poedit-Language: Slovenian\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-# area - podatkovno področje
-# array - polje
-# range - podatkovna vrsta
-# string - niz
-# set - set (ni nujno, da je le ena oz zgornjih vrednosti, zato je set, set)
-# rank - red???
-# slope - naklon????
 #: ../plugins/fn-christian-date/functions.c:140
 msgid "EASTERSUNDAY:Easter Sunday in the Gregorian calendar according to the Roman rite of the Christian Church"
-msgstr ""
+msgstr "EASTERSUNDAY:dan Velike noči po Gregorianskem koledarju (prva nedelja po prvi spomladanski polni Luni), kot ga praznuje po rimskem obredu Rimskokatoliška Cerkev."
 
 #: ../plugins/fn-christian-date/functions.c:142
 msgid "year:year between 1582 and 9956, defaults to the year of the next Easter Sunday"
-msgstr ""
+msgstr "leto:leto med letom 1582 in 9956, privzeto pa je določeno kot leto naslednje Velikonočne nedelje."
 
 #: ../plugins/fn-christian-date/functions.c:143
 #: ../plugins/fn-christian-date/functions.c:166
@@ -41,43 +34,43 @@ msgstr ""
 #: ../plugins/fn-christian-date/functions.c:205
 #: ../plugins/fn-christian-date/functions.c:224
 msgid "Two digit years are adjusted as elsewhere in Gnumeric. Dates before 1904 may also be prohibited."
-msgstr ""
+msgstr "Dvomestna vrednost leta je prilagojena enako, kot povsod v programu Gnumeric. Zaradi značilnosti funkcije, so datumi pred letom 1904 lahko prepovedani."
 
 #: ../plugins/fn-christian-date/functions.c:146
 msgid "The 1-argument version of EASTERSUNDAY is compatible with OpenOffice for years after 1904. This function is not specified in ODF/OpenFormula."
-msgstr ""
+msgstr "Različica funkcije EASTERSUNDAY z enim argumentom je skladna s funkcijo programa OpenOffice za leta po letu 1904. Funkcija ni določena v programu ODF/OpenFormula."
 
 #: ../plugins/fn-christian-date/functions.c:163
 msgid "ASHWEDNESDAY:Ash Wednesday in the Gregorian calendar according to the Roman rite of the Christian Church"
-msgstr ""
+msgstr "ASHWEDNESDAY:dan Pepelníčne sréde ali Pepelníce po Gregorianskem koledarju (sreda, 46 dni pred veliko nočjo uvedena po letu 1091), kot ga praznuje po rimskem obredu Rimskokatoliška Cerkev."
 
 #: ../plugins/fn-christian-date/functions.c:165
 msgid "year:year between 1582 and 9956, defaults to the year of the next Ash Wednesday"
-msgstr ""
+msgstr "leto:leto med leti 1582 in 9956, privzeto določeno kot leto naslednje Pepelníce."
 
 #: ../plugins/fn-christian-date/functions.c:183
 msgid "PENTECOSTSUNDAY:Pentecost Sunday in the Gregorian calendar according to the Roman rite of the Christian Church"
-msgstr ""
+msgstr "PENTECOSTSUNDAY:dan Binkošti ali praznik Svetega Duha (tudi praznik tednov) po Gregorianskem koledarju (50. dan po Veliki noči), kot ga praznuje po rimskem obredu Rimskokatoliška Cerkev."
 
 #: ../plugins/fn-christian-date/functions.c:185
 msgid "year:year between 1582 and 9956, defaults to the year of the next Pentecost Sunday"
-msgstr ""
+msgstr "leto:leto med leti 1582 in 9956, privzeto določeno kot leto naslednje Binkošti."
 
 #: ../plugins/fn-christian-date/functions.c:202
 msgid "GOODFRIDAY:Good Friday in the Gregorian calendar according to the Roman rite of the Christian Church"
-msgstr ""
+msgstr "GOODFRIDAY:dan Velikega ali svetega petka (dan križanja in smrti Jezusa Kristusa) po Gregorianskem koledarju (petek pred Veliko nočjo), kot ga praznuje po rimskem obredu Rimskokatoliška Cerkev."
 
 #: ../plugins/fn-christian-date/functions.c:204
 msgid "year:year between 1582 and 9956, defaults to the year of the next Good Friday"
-msgstr ""
+msgstr "leto:leto med leti 1582 in 9956, privzeto določeno kot leto naslednjega Velikega petka."
 
 #: ../plugins/fn-christian-date/functions.c:221
 msgid "ASCENSIONTHURSDAY:Ascension Thursday in the Gregorian calendar according to the Roman rite of the Christian Church"
-msgstr ""
+msgstr "ASCENSIONTHURSDAY:dan Maríjinega vnebovzétja ali véliki šmáren po Gregorianskem koledarju (na 15. avgust), kot ga praznuje po rimskem obredu Rimskokatoliška Cerkev."
 
 #: ../plugins/fn-christian-date/functions.c:223
 msgid "year:year between 1582 and 9956, defaults to the year of the next Ascension Thursday"
-msgstr ""
+msgstr "leto:leto med leti 1582 in 9956, privzeto določeno kot leto naslednjega Maríjinega vnebovzétja."
 
 #: ../plugins/fn-complex/functions.c:81
 msgid "COMPLEX:a complex number of the form @{x} + @{y}@{i}"
@@ -97,7 +90,7 @@ msgstr "i:pripona kompleksnega števila ali \"i\" ali \"j\"; privzeto je določe
 
 #: ../plugins/fn-complex/functions.c:85
 msgid "If @{i} is neither \"i\" nor \"j\", COMPLEX returns #VALUE!"
-msgstr "V kolikor @{i} ni niti \"i\" niti \"j\" ukaz vrne napako #VALUE!."
+msgstr "V kolikor @{i} ni niti \"i\" niti \"j\" funkcija COMPLEX vrne napako #VALUE!."
 
 #: ../plugins/fn-complex/functions.c:86
 #: ../plugins/fn-complex/functions.c:114
@@ -112,12 +105,12 @@ msgstr "V kolikor @{i} ni niti \"i\" niti \"j\" ukaz vrne napako #VALUE!."
 #: ../plugins/fn-complex/functions.c:472
 #: ../plugins/fn-complex/functions.c:499
 #: ../plugins/fn-complex/functions.c:526
-#: ../plugins/fn-complex/functions.c:558
-#: ../plugins/fn-complex/functions.c:590
-#: ../plugins/fn-complex/functions.c:1073
-#: ../plugins/fn-complex/functions.c:1100
-#: ../plugins/fn-complex/functions.c:1130
-#: ../plugins/fn-complex/functions.c:1199
+#: ../plugins/fn-complex/functions.c:561
+#: ../plugins/fn-complex/functions.c:593
+#: ../plugins/fn-complex/functions.c:1076
+#: ../plugins/fn-complex/functions.c:1103
+#: ../plugins/fn-complex/functions.c:1133
+#: ../plugins/fn-complex/functions.c:1202
 #: ../plugins/fn-date/functions.c:84
 #: ../plugins/fn-date/functions.c:197
 #: ../plugins/fn-date/functions.c:219
@@ -349,26 +342,26 @@ msgstr "IMAGINARY:imaginarni del kompleksnega števila @{z}"
 #: ../plugins/fn-complex/functions.c:442
 #: ../plugins/fn-complex/functions.c:470
 #: ../plugins/fn-complex/functions.c:497
-#: ../plugins/fn-complex/functions.c:588
-#: ../plugins/fn-complex/functions.c:613
-#: ../plugins/fn-complex/functions.c:637
-#: ../plugins/fn-complex/functions.c:662
-#: ../plugins/fn-complex/functions.c:687
-#: ../plugins/fn-complex/functions.c:711
-#: ../plugins/fn-complex/functions.c:736
-#: ../plugins/fn-complex/functions.c:760
-#: ../plugins/fn-complex/functions.c:787
-#: ../plugins/fn-complex/functions.c:814
-#: ../plugins/fn-complex/functions.c:841
-#: ../plugins/fn-complex/functions.c:865
-#: ../plugins/fn-complex/functions.c:890
-#: ../plugins/fn-complex/functions.c:914
-#: ../plugins/fn-complex/functions.c:941
-#: ../plugins/fn-complex/functions.c:969
-#: ../plugins/fn-complex/functions.c:997
-#: ../plugins/fn-complex/functions.c:1021
-#: ../plugins/fn-complex/functions.c:1046
-#: ../plugins/fn-complex/functions.c:1071
+#: ../plugins/fn-complex/functions.c:591
+#: ../plugins/fn-complex/functions.c:616
+#: ../plugins/fn-complex/functions.c:640
+#: ../plugins/fn-complex/functions.c:665
+#: ../plugins/fn-complex/functions.c:690
+#: ../plugins/fn-complex/functions.c:714
+#: ../plugins/fn-complex/functions.c:739
+#: ../plugins/fn-complex/functions.c:763
+#: ../plugins/fn-complex/functions.c:790
+#: ../plugins/fn-complex/functions.c:817
+#: ../plugins/fn-complex/functions.c:844
+#: ../plugins/fn-complex/functions.c:868
+#: ../plugins/fn-complex/functions.c:893
+#: ../plugins/fn-complex/functions.c:917
+#: ../plugins/fn-complex/functions.c:944
+#: ../plugins/fn-complex/functions.c:972
+#: ../plugins/fn-complex/functions.c:1000
+#: ../plugins/fn-complex/functions.c:1024
+#: ../plugins/fn-complex/functions.c:1049
+#: ../plugins/fn-complex/functions.c:1074
 msgid "z:a complex number"
 msgstr "z:kompleksno število"
 
@@ -388,28 +381,28 @@ msgstr "z:kompleksno število"
 #: ../plugins/fn-complex/functions.c:446
 #: ../plugins/fn-complex/functions.c:471
 #: ../plugins/fn-complex/functions.c:498
-#: ../plugins/fn-complex/functions.c:589
-#: ../plugins/fn-complex/functions.c:614
-#: ../plugins/fn-complex/functions.c:638
-#: ../plugins/fn-complex/functions.c:663
-#: ../plugins/fn-complex/functions.c:688
-#: ../plugins/fn-complex/functions.c:712
-#: ../plugins/fn-complex/functions.c:737
-#: ../plugins/fn-complex/functions.c:763
-#: ../plugins/fn-complex/functions.c:790
-#: ../plugins/fn-complex/functions.c:817
-#: ../plugins/fn-complex/functions.c:842
-#: ../plugins/fn-complex/functions.c:866
-#: ../plugins/fn-complex/functions.c:891
-#: ../plugins/fn-complex/functions.c:917
-#: ../plugins/fn-complex/functions.c:945
-#: ../plugins/fn-complex/functions.c:973
-#: ../plugins/fn-complex/functions.c:998
-#: ../plugins/fn-complex/functions.c:1022
-#: ../plugins/fn-complex/functions.c:1047
-#: ../plugins/fn-complex/functions.c:1072
+#: ../plugins/fn-complex/functions.c:592
+#: ../plugins/fn-complex/functions.c:617
+#: ../plugins/fn-complex/functions.c:641
+#: ../plugins/fn-complex/functions.c:666
+#: ../plugins/fn-complex/functions.c:691
+#: ../plugins/fn-complex/functions.c:715
+#: ../plugins/fn-complex/functions.c:740
+#: ../plugins/fn-complex/functions.c:766
+#: ../plugins/fn-complex/functions.c:793
+#: ../plugins/fn-complex/functions.c:820
+#: ../plugins/fn-complex/functions.c:845
+#: ../plugins/fn-complex/functions.c:869
+#: ../plugins/fn-complex/functions.c:894
+#: ../plugins/fn-complex/functions.c:920
+#: ../plugins/fn-complex/functions.c:948
+#: ../plugins/fn-complex/functions.c:976
+#: ../plugins/fn-complex/functions.c:1001
+#: ../plugins/fn-complex/functions.c:1025
+#: ../plugins/fn-complex/functions.c:1050
+#: ../plugins/fn-complex/functions.c:1075
 msgid "If @{z} is not a valid complex number, #VALUE! is returned."
-msgstr "V kolikor @{z} ni veljavno kompleksno število, ukaz vrne napako #VALUE!."
+msgstr "V kolikor @{z} ni veljavno kompleksno število, funkcija vrne napako #VALUE!."
 
 #: ../plugins/fn-complex/functions.c:138
 msgid "IMABS:the absolute value of the complex number @{z}"
@@ -471,9 +464,16 @@ msgstr "IMEXP:potenc kompleksnega števila @{z}"
 msgid "IMARGUMENT:the argument theta of the complex number @{z} "
 msgstr "IMARGUMENT:argument theta kompleksnega števila @{z}"
 
+# area - podatkovno področje
+# array - polje
+# range - podatkovna vrsta
+# string - niz
+# set - set (ni nujno, da je le ena oz zgornjih vrednosti, zato je set, set)
+# rank - red???
+# slope - naklon????
 #: ../plugins/fn-complex/functions.c:419
 msgid "The argument theta of a complex number is its angle in radians from the real axis."
-msgstr ""
+msgstr "Argument theta kompleksnega števila je njegov kot v radianih merjen od realne osi."
 
 #: ../plugins/fn-complex/functions.c:441
 msgid "IMLN:the natural logarithm of the complex number @{z}"
@@ -484,6 +484,8 @@ msgid ""
 "The result will have an imaginary part between -π and +π.\n"
 "The natural logarithm is not uniquely defined on complex numbers. You may need to add or subtract an even multiple of π to the imaginary part."
 msgstr ""
+"Rezultat bo določen kot imaginardi del -π in +π.\n"
+"Naravni logaritem ni enotno določen med kompleksnimi števili. Treba je prišteti ali odšteti sodi večkratnik števila π imaginarnega dela."
 
 #: ../plugins/fn-complex/functions.c:469
 msgid "IMLOG2:the base-2 logarithm of the complex number @{z}"
@@ -498,155 +500,155 @@ msgid "IMPOWER:the complex number @{z1} raised to the @{z2}th power"
 msgstr "IMPOWER:kompleksno število @{z1} na @{z2}to potenco"
 
 #: ../plugins/fn-complex/functions.c:523
-#: ../plugins/fn-complex/functions.c:555
-#: ../plugins/fn-complex/functions.c:1097
-#: ../plugins/fn-complex/functions.c:1127
-#: ../plugins/fn-complex/functions.c:1196
+#: ../plugins/fn-complex/functions.c:558
+#: ../plugins/fn-complex/functions.c:1100
+#: ../plugins/fn-complex/functions.c:1130
+#: ../plugins/fn-complex/functions.c:1199
 msgid "z1:a complex number"
 msgstr "z1:kompleksno število"
 
 #: ../plugins/fn-complex/functions.c:524
-#: ../plugins/fn-complex/functions.c:556
-#: ../plugins/fn-complex/functions.c:1098
-#: ../plugins/fn-complex/functions.c:1128
-#: ../plugins/fn-complex/functions.c:1197
+#: ../plugins/fn-complex/functions.c:559
+#: ../plugins/fn-complex/functions.c:1101
+#: ../plugins/fn-complex/functions.c:1131
+#: ../plugins/fn-complex/functions.c:1200
 msgid "z2:a complex number"
 msgstr "z2:kompleksno število"
 
 #: ../plugins/fn-complex/functions.c:525
-#: ../plugins/fn-complex/functions.c:557
-#: ../plugins/fn-complex/functions.c:1099
+#: ../plugins/fn-complex/functions.c:560
+#: ../plugins/fn-complex/functions.c:1102
 msgid "If @{z1} or @{z2} is not a valid complex number, #VALUE! is returned."
-msgstr "V kolikor @{z1} ali @{z2} ni veljavno kompleksno število, ukaz vrne napako #VALUE!."
+msgstr "V kolikor @{z1} ali @{z2} ni veljavno kompleksno število, funkcija vrne napako #VALUE!."
 
-#: ../plugins/fn-complex/functions.c:554
+#: ../plugins/fn-complex/functions.c:557
 msgid "IMDIV:the quotient of two complex numbers @{z1}/@{z2}"
 msgstr "IMDIV:kvocient dveh kompleksnih števil @{z1}/@{z2}"
 
-#: ../plugins/fn-complex/functions.c:587
+#: ../plugins/fn-complex/functions.c:590
 msgid "IMSIN:the sine of the complex number @{z}"
 msgstr "IMSIN:sinus kompleksnega števila @{z}"
 
-#: ../plugins/fn-complex/functions.c:612
+#: ../plugins/fn-complex/functions.c:615
 msgid "IMSINH:the hyperbolic sine of the complex number @{z}"
 msgstr "IMSINH:hiperbolični sinus kompleksnega števila @{z}"
 
-#: ../plugins/fn-complex/functions.c:636
+#: ../plugins/fn-complex/functions.c:639
 msgid "IMCOSH:the hyperbolic cosine of the complex number @{z}"
 msgstr "IMCOSH:hiperbolični kosinus kompleksnega števila @{z}"
 
-#: ../plugins/fn-complex/functions.c:661
+#: ../plugins/fn-complex/functions.c:664
 msgid "IMTANH:the hyperbolic tangent of the complex number @{z}"
 msgstr "IMTANH:hiperbolični tangens kompleksnega števila @{z}"
 
-#: ../plugins/fn-complex/functions.c:686
+#: ../plugins/fn-complex/functions.c:689
 msgid "IMSECH:the hyperbolic secant of the complex number @{z}"
 msgstr "IMCSCH:hiperbolični sekant kompleksnega števila @{z}"
 
-#: ../plugins/fn-complex/functions.c:710
+#: ../plugins/fn-complex/functions.c:713
 msgid "IMCSCH:the hyperbolic cosecant of the complex number @{z}"
 msgstr "IMCSCH:hiperbolični kosekans kompleksnega števila @{z}"
 
-#: ../plugins/fn-complex/functions.c:735
+#: ../plugins/fn-complex/functions.c:738
 msgid "IMCOTH:the hyperbolic cotangent of the complex number @{z}"
 msgstr "IMCOTH:hiperbolični kotangens kompleksnega števila @{z}"
 
-#: ../plugins/fn-complex/functions.c:759
+#: ../plugins/fn-complex/functions.c:762
 msgid "IMARCSIN:the complex arcsine of the complex number @{z}"
 msgstr "IMARCSIN:kompleksni arkus sinus kompleksnega števila @{z}"
 
-#: ../plugins/fn-complex/functions.c:761
+#: ../plugins/fn-complex/functions.c:764
 msgid "IMARCSIN returns the complex arcsine of the complex number @{z}. The branch cuts are on the real axis, less than -1 and greater than 1."
-msgstr ""
+msgstr "Funkcija IMARCSIN vrne kompleksno vrednost arkus sinus kompleksnega števila @{z}. Rezi veje so na realni osi z vrednostmi manj kot -1 in več kot 1."
 
-#: ../plugins/fn-complex/functions.c:786
+#: ../plugins/fn-complex/functions.c:789
 msgid "IMARCCOS:the complex arccosine of the complex number "
 msgstr "IMARCCOS:kompleksni arkus kosinus kompleksnega števila @{z}"
 
-#: ../plugins/fn-complex/functions.c:788
+#: ../plugins/fn-complex/functions.c:791
 msgid "IMARCCOS returns the complex arccosine of the complex number @{z}. The branch cuts are on the real axis, less than -1 and greater than 1."
-msgstr ""
+msgstr "Funkcija IMARCCOS vrne kompleksno vrednost arkus kosinus kompleksnega števila @{z}. Rezi veje so na realni osi z vrednostmi manj kot -1 in več kot 1."
 
-#: ../plugins/fn-complex/functions.c:813
+#: ../plugins/fn-complex/functions.c:816
 msgid "IMARCTAN:the complex arctangent of the complex number "
 msgstr "IMARCTAN:kompleksni arkus tangens kompleksnega števila @{z}"
 
-#: ../plugins/fn-complex/functions.c:815
+#: ../plugins/fn-complex/functions.c:818
 msgid "IMARCTAN returns the complex arctangent of the complex number @{z}. The branch cuts are on the imaginary axis, below -i and above i."
-msgstr ""
+msgstr "Funkcija IMARCTAN vrne kompleksno vrednost arkus tangens kompleksnega števila @{z}. Rezi veje so na imaginarni osi z vrednostmi pod -i in nad i."
 
-#: ../plugins/fn-complex/functions.c:840
+#: ../plugins/fn-complex/functions.c:843
 msgid "IMARCSEC:the complex arcsecant of the complex number @{z}"
 msgstr "IMARCSEC:kompleksni arkus sekans kompleksnega števila @{z}"
 
-#: ../plugins/fn-complex/functions.c:864
+#: ../plugins/fn-complex/functions.c:867
 msgid "IMARCCSC:the complex arccosecant of the complex number @{z}"
 msgstr "IMARCCSC:kompleksni arkus kosekans kompleksnega števila @{z}"
 
-#: ../plugins/fn-complex/functions.c:889
+#: ../plugins/fn-complex/functions.c:892
 msgid "IMARCCOT:the complex arccotangent of the complex number @{z}"
 msgstr "IMARCCOT:kompleksni arkus kotangens kompleksnega števila @{z}"
 
-#: ../plugins/fn-complex/functions.c:913
+#: ../plugins/fn-complex/functions.c:916
 msgid "IMARCSINH:the complex hyperbolic arcsine of the complex number @{z}"
 msgstr "IMARCSINH:kompleksni hiperbolični arkus sinus kompleksnega števila @{z}"
 
-#: ../plugins/fn-complex/functions.c:915
+#: ../plugins/fn-complex/functions.c:918
 msgid "IMARCSINH returns the complex hyperbolic arcsine of the complex number @{z}.  The branch cuts are on the imaginary axis, below -i and above i."
-msgstr ""
+msgstr "Funkcija IMARCSINH vrne kompleksno hiperbolično vrednost arkus sinusa kompleksnega števila @{z}. Rezi veje so na imaginarni osi z vrednostmi pod -i in nad i."
 
-#: ../plugins/fn-complex/functions.c:940
+#: ../plugins/fn-complex/functions.c:943
 msgid "IMARCCOSH:the complex hyperbolic arccosine of the complex number @{z}"
 msgstr "IMARCCOSH:kompleksni hiperbolični arkus kosinus kompleksnega števila @{z}"
 
-#: ../plugins/fn-complex/functions.c:942
+#: ../plugins/fn-complex/functions.c:945
 msgid "IMARCCOSH returns the complex hyperbolic arccosine of the complex number @{z}. The branch cut is on the real axis, less than 1."
-msgstr ""
+msgstr "Funkcija IMARCCOSH vrne kompleksno hiperbolično vrednost arkus kosinusa kompleksnega števila @{z}. Rezi veje so na realni osi z vrednostmi manjšimi od 1."
 
-#: ../plugins/fn-complex/functions.c:968
+#: ../plugins/fn-complex/functions.c:971
 msgid "IMARCTANH:the complex hyperbolic arctangent of the complex number @{z}"
 msgstr "IMARCTANH:kompleksni hiperbolični arkus tangens kompleksnega števila @{z}"
 
-#: ../plugins/fn-complex/functions.c:970
+#: ../plugins/fn-complex/functions.c:973
 msgid "IMARCTANH returns the complex hyperbolic arctangent of the complex number @{z}. The branch cuts are on the real axis, less than -1 and greater than 1."
-msgstr ""
+msgstr "Funkcija IMARCTANH vrne kompleksno hiperbolično vrednost arkus tangens kompleksnega števila @{z}. Rezi veje so na realni osi z vrednostmi manj kot -1 in več kot 1."
 
-#: ../plugins/fn-complex/functions.c:996
+#: ../plugins/fn-complex/functions.c:999
 msgid "IMARCSECH:the complex hyperbolic arcsecant of the complex number @{z}"
 msgstr "IMARCSECH:kompleksni hiperbolični arkus sekans kompleksnega števila @{z}"
 
-#: ../plugins/fn-complex/functions.c:1020
+#: ../plugins/fn-complex/functions.c:1023
 msgid "IMARCCSCH:the complex hyperbolic arccosecant of the complex number @{z}"
 msgstr "IMARCCSCH:kompleksni hiperbolični arkus kosekans kompleksnega števila @{z}"
 
-#: ../plugins/fn-complex/functions.c:1045
+#: ../plugins/fn-complex/functions.c:1048
 msgid "IMARCCOTH:the complex hyperbolic arccotangent of the complex number @{z}"
 msgstr "IMARCCOTH:kompleksni hiperbolični arkus kotangens kompleksnega števila @{z}"
 
-#: ../plugins/fn-complex/functions.c:1070
+#: ../plugins/fn-complex/functions.c:1073
 msgid "IMSQRT:the square root of the complex number @{z}"
 msgstr "IMSQRT:kvadratni koren kompleksnega števila @{z}"
 
-#: ../plugins/fn-complex/functions.c:1096
+#: ../plugins/fn-complex/functions.c:1099
 msgid "IMSUB:the difference of two complex numbers"
 msgstr "IMSUB:vrednost razlike dveh kompleksnih števil"
 
-#: ../plugins/fn-complex/functions.c:1126
+#: ../plugins/fn-complex/functions.c:1129
 msgid "IMPRODUCT:the product of the given complex numbers"
 msgstr "IMPRODUCT:zmnožek dveh podatnih kompleksnih števil"
 
-#: ../plugins/fn-complex/functions.c:1129
-#: ../plugins/fn-complex/functions.c:1198
+#: ../plugins/fn-complex/functions.c:1132
+#: ../plugins/fn-complex/functions.c:1201
 msgid "If any of @{z1}, @{z2},... is not a valid complex number, #VALUE! is returned."
 msgstr "V kolikor katerokoli število @{z1}, @{z2},... ni veljavno kompleksno število, sistem vrne napako števila #VALUE!."
 
-#: ../plugins/fn-complex/functions.c:1195
+#: ../plugins/fn-complex/functions.c:1198
 msgid "IMSUM:the sum of the given complex numbers"
 msgstr "IMSUM:vsota podanih kompleksnih števil"
 
 #: ../plugins/fn-database/functions.c:45
 msgid "database:a range in which rows of related information are records and columns of data are fields"
-msgstr ""
+msgstr "podatkovna zbirka:podatkovna vrsta v kateri so podatki vrstice vrednosti, stolpci pa so polja."
 
 #: ../plugins/fn-database/functions.c:48
 msgid "field:a string or integer specifying which field is to be used"
@@ -658,15 +660,15 @@ msgstr "kriterij:podatkovna vrsta, ki vsebuje pogoje"
 
 #: ../plugins/fn-database/functions.c:52
 msgid "@{database} is a range in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column."
-msgstr ""
+msgstr "@{podatkovna zbirka} je podatkovna vrsta v kateri so vrstice podatkov zapisi, stolpci podatkov pa polja. Prva vrstica podatkovne zbirke vsebuje naslove vsakega stolpca"
 
 #: ../plugins/fn-database/functions.c:57
 msgid "@{field} is a string or integer specifying which field is to be used. If @{field} is an integer n then the nth column will be used. If @{field} is a string, then the column with the matching label will be used."
-msgstr ""
+msgstr "@{polje} je niz ali celo število, ki določa uporabo polja. V kolikor je @{polje} celo število n, to določa n-ti stolpec za uporabo. V kolikor je @{polje} niz, potem bo uporabljen stolpec z s tem naslovom."
 
 #: ../plugins/fn-database/functions.c:62
 msgid "@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as \">3\" or \"<9\". An equality condition can be given by simply specifying a value, e. g. \"3\" or \"Jody\". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}."
-msgstr ""
+msgstr "@{kriterij} je podatkovna vrsta, ki določa pogoje. Prva vrstica @{kriterija} mora vsebovati naslov. Vsak naslov določa polje, na katerem bo uveljavljen podan pogoj. Vsaka celica pod naslovom določa pogoj kot je \">3\" ali \"<9\". Pogoj enakosti je mogoče podati enostavno z enoznačno vrednostjo, na primer \"3\" ali \"Jera\". Z upoštevanje vpisa, mora ta zadostiti vsem pogojem v vsaj eni vrstici @{kriterija}."
 
 #: ../plugins/fn-database/functions.c:73
 msgid ""
@@ -744,11 +746,11 @@ msgstr "DGET:vrednost @{polja} v @{podatkovni zbirki}, ki pripada zapisom skladn
 
 #: ../plugins/fn-database/functions.c:434
 msgid "If none of the records match the conditions, DGET returns #VALUE!"
-msgstr "V kolikor ni skladnega zadetka s pogoji kriterija, ukaz vrne vrednost #VALUE!"
+msgstr "V kolikor ni skladnega zadetka s pogoji kriterija, funkcija vrne vrednost #VALUE!"
 
 #: ../plugins/fn-database/functions.c:435
 msgid "If more than one record match the conditions, DGET returns #NUM!"
-msgstr ""
+msgstr "V kolikor je več kot en zapis skladen s pogoji, funkcija DGET vrne napako #NUM!"
 
 #: ../plugins/fn-database/functions.c:436
 msgid "DGET(A1:C7, \"Salary\", A9:A10) equals 34323."
@@ -864,15 +866,15 @@ msgstr ""
 
 #: ../plugins/fn-database/functions.c:738
 msgid "field_name:name of the field for which the summary data is requested"
-msgstr ""
+msgstr "ime_polja:ime polja za katerega je zahtevan povzetek podatkov"
 
 #: ../plugins/fn-database/functions.c:739
 msgid "If the summary data is unavailable, GETPIVOTDATA returns #REF!"
-msgstr ""
+msgstr "V kolikor povzetek podatkov ni na voljo, funkcija GETPIVOTDATA vrne napako #REF!"
 
 #: ../plugins/fn-date/functions.c:74
 msgid "DATE:create a date serial value"
-msgstr ""
+msgstr "DATE:ustvari zaporedno vrednost datuma"
 
 #: ../plugins/fn-date/functions.c:75
 msgid "year:year of date"
@@ -896,7 +898,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:80
 msgid "For spreadsheets created with the Mac version of Excel, serial 1 is 1-Jan-1904."
-msgstr ""
+msgstr "Za razpredelnice ustvarjene z Mac različico programa Excel, zaporedna vrednost 1 določa datum 01. januar 1904."
 
 #: ../plugins/fn-date/functions.c:137
 msgid "UNIX2DATE:date value corresponding to the Unix timestamp @{t}"
@@ -929,7 +931,7 @@ msgstr ""
 #: ../plugins/fn-date/functions.c:194
 #: ../plugins/fn-date/functions.c:451
 msgid "serial:date and time serial value"
-msgstr ""
+msgstr "zaporedje:zaporedna vrednost datuma in časa"
 
 #: ../plugins/fn-date/functions.c:195
 msgid "DATEVALUE returns the date serial value part of a date and time serial value."
@@ -937,7 +939,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:211
 msgid "DATEDIF:difference between dates"
-msgstr ""
+msgstr "DATEDIF:razlika med datumi"
 
 #: ../plugins/fn-date/functions.c:212
 #: ../plugins/fn-date/functions.c:651
@@ -945,7 +947,7 @@ msgstr ""
 #: ../plugins/fn-date/functions.c:1222
 #: ../plugins/fn-date/functions.c:1251
 msgid "start_date:starting date serial value"
-msgstr ""
+msgstr "začetni_datum:zaporedna vrednost začetnega datuma"
 
 #: ../plugins/fn-date/functions.c:213
 #: ../plugins/fn-date/functions.c:652
@@ -953,15 +955,15 @@ msgstr ""
 #: ../plugins/fn-date/functions.c:1223
 #: ../plugins/fn-date/functions.c:1252
 msgid "end_date:ending date serial value"
-msgstr ""
+msgstr "končni_datum:zaporedna vrednost končnega datuma"
 
 #: ../plugins/fn-date/functions.c:214
 msgid "interval:counting unit"
-msgstr ""
+msgstr "interval:enota štetja"
 
 #: ../plugins/fn-date/functions.c:215
 msgid "DATEDIF returns the distance from @{start_date} to @{end_date} according to the unit specified by @{interval}."
-msgstr ""
+msgstr "Dunkcija DATEDIF vrne razliko oziroma razmik med @{začetnim_datumom} in @{končnim_datumom} glede na enoto določeno z @{intervalom}."
 
 #: ../plugins/fn-date/functions.c:216
 msgid "If @{interval} is \"y\", \"m\", or \"d\" then the distance is measured in complete years, months, or days respectively."
@@ -990,12 +992,12 @@ msgstr ""
 #: ../plugins/fn-date/functions.c:1147
 #: ../plugins/fn-date/functions.c:1183
 msgid "date:date serial value"
-msgstr ""
+msgstr "date:zaporedna vrednost datuma"
 
 #: ../plugins/fn-date/functions.c:354
 #: ../plugins/fn-date/functions.c:694
 msgid "months:signed number of months"
-msgstr ""
+msgstr "meseci:vpisano število mesecev"
 
 #: ../plugins/fn-date/functions.c:355
 msgid "EDATE returns @{date} moved forward or backward the number of months specified by @{months}."
@@ -1003,7 +1005,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:389
 msgid "TODAY:the date serial value of today"
-msgstr ""
+msgstr "TODAY:zaporedna vrednost današnjega datuma"
 
 #: ../plugins/fn-date/functions.c:390
 msgid "The TODAY function returns the date serial value of the day it is computed.  Recomputing on a later date will produce a different value."
@@ -1053,7 +1055,7 @@ msgstr ""
 #: ../plugins/fn-date/functions.c:493
 #: ../plugins/fn-date/functions.c:516
 msgid "time:time of day as fractional day"
-msgstr ""
+msgstr "čas:čas dneva kot del dneva"
 
 #: ../plugins/fn-date/functions.c:471
 msgid "The HOUR function computes the hour part of the fractional day given by @{time}."
@@ -1077,27 +1079,27 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:538
 msgid "YEAR:the year part of a date serial value"
-msgstr ""
+msgstr "YEAR:leto vpisane vrednosti datuma"
 
 #: ../plugins/fn-date/functions.c:540
 msgid "The YEAR function returns the year part of @{date}."
-msgstr ""
+msgstr "Funkcija YEAR vrne leto vpisanega @{datuma}."
 
 #: ../plugins/fn-date/functions.c:562
 msgid "MONTH:the month part of a date serial value"
-msgstr ""
+msgstr "MONTH:mesec vpisane vrednosti datuma"
 
 #: ../plugins/fn-date/functions.c:564
 msgid "The MONTH function returns the month part of @{date}."
-msgstr ""
+msgstr "Funkcija MONTH vrne mesec vpisanega @{datuma}."
 
 #: ../plugins/fn-date/functions.c:586
 msgid "DAY:the day-of-month part of a date serial value"
-msgstr ""
+msgstr "DAY:dan meseca vpisane vrednosti datuma"
 
 #: ../plugins/fn-date/functions.c:588
 msgid "The DAY function returns the day-of-month part of @{date}."
-msgstr ""
+msgstr "Funkcija DAY vrne dan meseca vpisanega @{datuma}."
 
 #: ../plugins/fn-date/functions.c:610
 msgid "WEEKDAY:day-of-week"
@@ -1130,7 +1132,7 @@ msgstr "DAYS360:tevilo dni med dvema datumoma"
 
 #: ../plugins/fn-date/functions.c:653
 msgid "method:counting method"
-msgstr ""
+msgstr "način:način štetja"
 
 #: ../plugins/fn-date/functions.c:654
 msgid "DAYS360 returns the number of days from @{start_date} to @{end_date}."
@@ -1167,7 +1169,7 @@ msgstr "dni:število dni za dodajanje"
 #: ../plugins/fn-date/functions.c:735
 #: ../plugins/fn-date/functions.c:958
 msgid "holidays:array of holidays"
-msgstr ""
+msgstr "prazniki:polje podatkov o praznikih"
 
 #: ../plugins/fn-date/functions.c:736
 #: ../plugins/fn-date/functions.c:959
@@ -1176,7 +1178,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:738
 msgid "WORKDAY adjusts @{date} by @{days} skipping over weekends and @{holidays} in the process."
-msgstr ""
+msgstr "Funkcija WORKDAY pretvori @{datum} v @{dni} in medtem preskoči vikende in @{praznike}."
 
 #: ../plugins/fn-date/functions.c:739
 msgid "@{days} may be negative."
@@ -1185,7 +1187,7 @@ msgstr "vrednost @{dni} je lahko negativna"
 #: ../plugins/fn-date/functions.c:740
 #: ../plugins/fn-date/functions.c:962
 msgid "If an entry of @{weekend} is non-zero, the corresponding weekday is not a work day."
-msgstr ""
+msgstr "V kolikor vnos @{vikenda} ni enak nič, dan tedna ni delovni dan"
 
 #: ../plugins/fn-date/functions.c:741
 #: ../plugins/fn-date/functions.c:963
@@ -1223,7 +1225,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:961
 msgid "NETWORKDAYS calculates the number of days from @{start_date} to @{end_date} skipping weekends and @{holidays} in the process."
-msgstr ""
+msgstr "Funkcija NETWORKDAYS izračuna število dni med @{začetnim_datumom} in @{končnim_datumom}, pri tem pa preskoči vikende in @{praznike}."
 
 #: ../plugins/fn-date/functions.c:1122
 msgid "ISOWEEKNUM:ISO week number"
@@ -1934,7 +1936,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:210
 msgid "length:minimum length of the resulting string"
-msgstr ""
+msgstr "dolžina:najmanjša dolžina končnega niza"
 
 #: ../plugins/fn-eng/functions.c:211
 msgid "BASE converts @{n} to its string representation in base @{b}. Leading zeroes will be added to reach the minimum length given by @{length}."
@@ -1964,7 +1966,7 @@ msgstr ""
 #: ../plugins/fn-eng/functions.c:473
 #: ../plugins/fn-eng/functions.c:496
 msgid "places:number of digits"
-msgstr ""
+msgstr "mesta:število številčnih mest"
 
 #: ../plugins/fn-eng/functions.c:261
 msgid "If @{places} is given, BIN2OCT pads the result with zeros to achieve exactly @{places} digits. If this is not possible, BIN2OCT returns #NUM!"
@@ -2018,8 +2020,8 @@ msgid "x:number in base @{base}"
 msgstr "x:številka osnove @{osnova}"
 
 #: ../plugins/fn-eng/functions.c:379
-msgid "base:base of @{x}, (2 ≤ @{b} ≤ 36)"
-msgstr "osnova:osnova @{x}, (2 ≤ @{b} ≤ 36)"
+msgid "base:base of @{x}, (2 ≤ @{base} ≤ 36)"
+msgstr "osnova:osnova @{x}, (2 ≤ @{osnova} ≤ 36)"
 
 #: ../plugins/fn-eng/functions.c:401
 msgid "OCT2DEC:decimal representation of the octal number @{x}"
@@ -2103,7 +2105,7 @@ msgstr ""
 #: ../plugins/fn-eng/functions.c:585
 #: ../plugins/fn-eng/functions.c:611
 msgid "wiki:en:Bessel_function"
-msgstr ""
+msgstr "wiki:en:Bessel_function"
 
 #: ../plugins/fn-eng/functions.c:578
 msgid "BESSELK:Modified Bessel function of the second kind of order @{α} at @{x}"
@@ -2129,7 +2131,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:658
 msgid "CONVERT:a converted measurement"
-msgstr ""
+msgstr "CONVERT:pretvorjena meritev"
 
 #: ../plugins/fn-eng/functions.c:659
 #: ../plugins/fn-eng/functions.c:1103
@@ -2343,7 +2345,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:1122
 msgid "DELTA:Kronecker delta function"
-msgstr ""
+msgstr "DELTA:Kroneckerjeva funkcija delta"
 
 #: ../plugins/fn-eng/functions.c:1123
 #: ../plugins/fn-eng/functions.c:1146
@@ -2401,7 +2403,7 @@ msgstr ""
 #: ../plugins/fn-erlang/functions.c:106
 #: ../plugins/fn-erlang/functions.c:191
 msgid "traffic:number of calls"
-msgstr ""
+msgstr "promet:število klicev"
 
 #: ../plugins/fn-erlang/functions.c:107
 #: ../plugins/fn-erlang/functions.c:132
@@ -2445,7 +2447,7 @@ msgstr ""
 
 #: ../plugins/fn-erlang/functions.c:228
 msgid "OFFCAP:traffic capacity"
-msgstr ""
+msgstr "OFFCAP:zmogljivost prometa"
 
 #: ../plugins/fn-erlang/functions.c:231
 msgid "OFFCAP returns the traffic capacity given @{circuits} circuits with grade of service @{gos}."
@@ -2543,7 +2545,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:369
 msgid "basis:calendar basis, defaults to 0"
-msgstr ""
+msgstr "osnova:koledarska osnova, privzeto določena kot 0"
 
 #: ../plugins/fn-financial/functions.c:370
 msgid "calc_method:calculation method, defaults to TRUE"
@@ -2615,7 +2617,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:487
 msgid "INTRATE:interest rate"
-msgstr ""
+msgstr "INTRATE:obrestna mera"
 
 #: ../plugins/fn-financial/functions.c:490
 #: ../plugins/fn-financial/functions.c:528
@@ -2826,7 +2828,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:827
 msgid "DDB calculates the depreciation of an asset for a given period using the double-declining balance method."
-msgstr ""
+msgstr " metodo."
 
 #: ../plugins/fn-financial/functions.c:870
 msgid "SLN:depreciation of an asset"
@@ -2956,7 +2958,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:3139
 #: ../plugins/fn-financial/functions.c:3183
 msgid "type:payment type"
-msgstr ""
+msgstr "vrsta:vrsta plačila"
 
 #: ../plugins/fn-financial/functions.c:1197
 #: ../plugins/fn-financial/functions.c:1342
@@ -3132,7 +3134,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2002
 msgid "EURO:equivalent of 1 EUR"
-msgstr ""
+msgstr "EURO:pretvorjena vrednost 1 EUR"
 
 #: ../plugins/fn-financial/functions.c:2003
 msgid "currency:three-letter currency code"
@@ -3424,7 +3426,7 @@ msgstr ""
 
 #: ../plugins/fn-hebrew-date/functions.c:92
 msgid "HDATE:Hebrew date"
-msgstr ""
+msgstr "HDATE:datum po Hebrejskem koledarju"
 
 #: ../plugins/fn-hebrew-date/functions.c:93
 #: ../plugins/fn-hebrew-date/functions.c:162
@@ -3455,7 +3457,7 @@ msgstr ""
 
 #: ../plugins/fn-hebrew-date/functions.c:127
 msgid "DATE2HDATE:Hebrew date"
-msgstr ""
+msgstr "DATE2HDATE:datum po Hebrejskem koledarju"
 
 #: ../plugins/fn-hebrew-date/functions.c:128
 #: ../plugins/fn-hebrew-date/functions.c:203
@@ -3535,7 +3537,7 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:1173
 msgid "EXPRESSION:expression in @{cell} as a string"
-msgstr ""
+msgstr "EXPRESSION:izraz v @{celici} določen kot niz"
 
 #: ../plugins/fn-info/functions.c:1174
 msgid "cell:a cell reference"
@@ -3634,7 +3636,7 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:1497
 msgid "ERROR.TYPE:the type of @{error}"
-msgstr ""
+msgstr "ERROR.TYPE:vrsta @{napake}"
 
 #: ../plugins/fn-info/functions.c:1498
 msgid "error:an error"
@@ -3654,11 +3656,11 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:1533
 msgid "NA:the error value #N/A"
-msgstr ""
+msgstr "NA:vrednost napake #N/A"
 
 #: ../plugins/fn-info/functions.c:1551
 msgid "ERROR:the error with the given @{name}"
-msgstr ""
+msgstr "ERROR:napaka s podanim @{imenom}"
 
 #: ../plugins/fn-info/functions.c:1552
 msgid "name:string"
@@ -3719,7 +3721,7 @@ msgstr "ISTEXT:funkcija vrne PRAV, v kolikor je @{vrednost} besedilo"
 
 #: ../plugins/fn-info/functions.c:1719
 msgid "N:@{text} converted to a number"
-msgstr ""
+msgstr "N:@{besedilo} pretvorjeno v številčno vrednost"
 
 #: ../plugins/fn-info/functions.c:1720
 #: ../plugins/fn-string/functions.c:321
@@ -3748,7 +3750,7 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:1753
 msgid ""
-"TYPE returns a number indicating the data type of @{ value}:\n"
+"TYPE returns a number indicating the data type of @{value}:\n"
 "1  \t= number\n"
 "2  \t= text\n"
 "4  \t= boolean\n"
@@ -3762,7 +3764,7 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:1793
 msgid "name:the name of the environment variable"
-msgstr ""
+msgstr "ime:ime okoljske spremenljivke"
 
 #: ../plugins/fn-info/functions.c:1794
 msgid "If a variable called @{name} does not exist, #N/A! will be returned."
@@ -3770,7 +3772,7 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:1795
 msgid "Variable names are case sensitive."
-msgstr ""
+msgstr "Pri imenih spremenljivk je pomembna velikost črk"
 
 #: ../plugins/fn-info/functions.c:1815
 msgid "GET.LINK:the target of the hyperlink attached to @{cell} as a string"
@@ -3782,7 +3784,7 @@ msgstr ""
 
 #: ../plugins/fn-logical/functions.c:44
 msgid "AND:logical conjunction"
-msgstr ""
+msgstr "AND:logična konjunkcija (IN)"
 
 #: ../plugins/fn-logical/functions.c:45
 #: ../plugins/fn-logical/functions.c:124
@@ -3827,15 +3829,15 @@ msgstr ""
 
 #: ../plugins/fn-logical/functions.c:57
 msgid "wiki:en:Logical_conjunction"
-msgstr ""
+msgstr "wiki:en:Logical_conjunction"
 
 #: ../plugins/fn-logical/functions.c:98
 msgid "NOT:logical negation"
-msgstr ""
+msgstr "NOT:logična zavrnitev"
 
 #: ../plugins/fn-logical/functions.c:99
 msgid "b:logical value"
-msgstr ""
+msgstr "b:logična vrednost"
 
 #: ../plugins/fn-logical/functions.c:100
 msgid "NOT calculates the logical negation of its argument."
@@ -3851,7 +3853,7 @@ msgstr "wiki:en:Negation"
 
 #: ../plugins/fn-logical/functions.c:123
 msgid "OR:logical disjunction"
-msgstr ""
+msgstr "OR:logična disjunkcija (ALI)"
 
 #: ../plugins/fn-logical/functions.c:126
 msgid "OR calculates the logical disjunction of its arguments @{b0},@{b1},..."
@@ -3875,16 +3877,16 @@ msgstr "wiki:en:Exclusive_disjunction"
 
 #: ../plugins/fn-logical/functions.c:230
 msgid "IFERROR:test for error"
-msgstr ""
+msgstr "IFERROR:preizkus napake"
 
 #: ../plugins/fn-logical/functions.c:231
 msgid "x:value to test for error"
-msgstr ""
+msgstr "x:vrednost za preizkus napake"
 
 #: ../plugins/fn-logical/functions.c:232
 #: ../plugins/fn-logical/functions.c:250
 msgid "y:alternate value"
-msgstr ""
+msgstr "y:drugotna vrednost"
 
 #: ../plugins/fn-logical/functions.c:233
 msgid "This function returns the first value, unless that is an error, in which case it returns the second."
@@ -3925,7 +3927,7 @@ msgstr "Vrednost NAPAK vrne odgovor NAPAK"
 
 #: ../plugins/fn-lookup/functions.c:714
 msgid "ADDRESS:cell address as text"
-msgstr ""
+msgstr "ADDRESS:naslov celice kot besedilo"
 
 #: ../plugins/fn-lookup/functions.c:715
 msgid "row_num:row number"
@@ -4050,7 +4052,7 @@ msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1038
 msgid "value:value to look up"
-msgstr ""
+msgstr "vrednost:vrednost za iskanje"
 
 #: ../plugins/fn-lookup/functions.c:1039
 msgid "vector1:range to search:"
@@ -4130,7 +4132,7 @@ msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1235
 msgid "INDEX:reference to a cell in the given @{array}"
-msgstr ""
+msgstr "INDEX:sklic do celice v podanem @{podatkovnem polju}"
 
 #: ../plugins/fn-lookup/functions.c:1236
 msgid "array:cell or inline array"
@@ -4138,11 +4140,11 @@ msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1237
 msgid "row:desired row, defaults to 1"
-msgstr ""
+msgstr "vrst:želena vrstica, privzeto določena kot 1"
 
 #: ../plugins/fn-lookup/functions.c:1238
 msgid "col:desired column, defaults to 1"
-msgstr ""
+msgstr "stol:želen stolpec, privzeto določen kot 1"
 
 #: ../plugins/fn-lookup/functions.c:1239
 msgid "area:from which area to select a cell, defaults to 1"
@@ -4162,7 +4164,7 @@ msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1336
 msgid "COLUMN:vector of column numbers"
-msgstr ""
+msgstr "COLUMN:vektor številk stolpca"
 
 #: ../plugins/fn-lookup/functions.c:1337
 #: ../plugins/fn-lookup/functions.c:1489
@@ -4170,37 +4172,37 @@ msgid "x:reference, defaults to the position of the current expression"
 msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1338
-msgid "COLUMN function returns a Nx1 array containing the sequence of integers from the first column to the last column of @{reference}."
+msgid "COLUMN function returns a Nx1 array containing the sequence of integers from the first column to the last column of @{x}."
 msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1341
 #: ../plugins/fn-lookup/functions.c:1493
-msgid "If @{reference} is neither an array nor a reference nor a range, returns #VALUE!"
+msgid "If @{x} is neither an array nor a reference nor a range, returns #VALUE!"
 msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1345
 msgid "column() in G13 equals 7."
-msgstr ""
+msgstr "stolpec() celice G13 je enak 7."
 
 #: ../plugins/fn-lookup/functions.c:1385
 msgid "COLUMNNUMBER:column number for the given column called @{name}"
-msgstr ""
+msgstr "COLUMNNUMBER:številka stolpca @{ime}"
 
 #: ../plugins/fn-lookup/functions.c:1386
 msgid "name:column name such as \"IV\""
-msgstr ""
+msgstr "ime:ime stolpca kot je \"IV\""
 
 #: ../plugins/fn-lookup/functions.c:1387
 msgid "If @{name} is invalid, COLUMNNUMBER returns #VALUE!"
-msgstr ""
+msgstr "V kolikor je vrednost @{name} neveljavna, funkcija vrne vrednost #VALUE!"
 
 #: ../plugins/fn-lookup/functions.c:1412
 msgid "COLUMNS:number of columns in @{reference}"
-msgstr ""
+msgstr "COLUMNS:število stolpcev v @{sklicu}"
 
 #: ../plugins/fn-lookup/functions.c:1413
 msgid "reference:array or area"
-msgstr ""
+msgstr "sklic:podatkovno polje podatkovnega področja"
 
 #: ../plugins/fn-lookup/functions.c:1414
 msgid "If @{reference} is neither an array nor a reference nor a range, COLUMNS returns #VALUE!"
@@ -4240,15 +4242,15 @@ msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1488
 msgid "ROW:vector of row numbers"
-msgstr ""
+msgstr "ROW:vektor številk vrstice"
 
 #: ../plugins/fn-lookup/functions.c:1490
-msgid "ROW function returns a 1xN array containing the sequence of integers from the first row to the last row of @{reference}."
+msgid "ROW function returns a 1xN array containing the sequence of integers from the first row to the last row of @{x}."
 msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1536
 msgid "ROWS:number of rows in @{reference}"
-msgstr ""
+msgstr "ROWS:število vrstic v @{sklicu}"
 
 #: ../plugins/fn-lookup/functions.c:1537
 msgid "reference:array, reference, or range"
@@ -4334,7 +4336,7 @@ msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1763
 msgid "SORT({4,3,5}) evaluates to {5,4,3}"
-msgstr ""
+msgstr "SORT({4,3,5}) vrne razvrstitev {5,4,3}"
 
 #: ../plugins/fn-math/functions.c:48
 msgid "Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1)."
@@ -4391,7 +4393,7 @@ msgstr "wiki:en:Gudermannian_function"
 
 #: ../plugins/fn-math/functions.c:199
 msgid "HYPOT:the square root of the sum of the squares of the arguments"
-msgstr ""
+msgstr "HYPOT:kvadratni koren vsote kvadratov argumentov"
 
 #: ../plugins/fn-math/functions.c:200
 msgid "n0:number"
@@ -4403,7 +4405,7 @@ msgstr "n1:število"
 
 #: ../plugins/fn-math/functions.c:222
 msgid "ABS:absolute value"
-msgstr "ABS:absolutna vrednosti"
+msgstr "ABS:absolutna vrednost"
 
 #: ../plugins/fn-math/functions.c:224
 msgid "ABS gives the absolute value of @{x}, i.e. the non-negative number of the same magnitude as @{x}."
@@ -4456,7 +4458,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:327
 msgid "If @{x} falls outside the range -1 to 1, ASIN returns #NUM!"
-msgstr "V kolikor je vrednost @{x} izven podatkovne vrste od -1 do 1, ukaz ASIN vrne napako #NUM!"
+msgstr "V kolikor je vrednost @{x} izven podatkovne vrste od -1 do 1, funkcija vrne napako #NUM!"
 
 #: ../plugins/fn-math/functions.c:348
 msgid "ASINH:the inverse hyperbolic sine of @{x}"
@@ -4484,7 +4486,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:390
 msgid "If the absolute value of @{x} is greater than 1.0, ATANH returns #NUM!"
-msgstr "V kolikor je absolutna vrednost @{x} večja od 1.0, ukaz ATANH vrne napako #NUM!"
+msgstr "V kolikor je absolutna vrednost @{x} večja od 1.0, funkcija vrne napako #NUM!"
 
 #: ../plugins/fn-math/functions.c:411
 msgid "ATAN2:the arc tangent of the ratio of @{y} and @{x}"
@@ -4508,11 +4510,11 @@ msgstr "Rezultat je v območju vrednosti π in +π."
 
 #: ../plugins/fn-math/functions.c:416
 msgid "The order of the arguments may be unexpected."
-msgstr ""
+msgstr "Razvrstitev argumentov je lahko nepričakovana."
 
 #: ../plugins/fn-math/functions.c:439
 msgid "CEIL:smallest integer larger than or equal to @{x}"
-msgstr ""
+msgstr "CEIL:najmanjše celo število, ki je večje ali enako vrednosti @{x}"
 
 #: ../plugins/fn-math/functions.c:441
 msgid "CEIL(@{x}) is the smallest integer that is at least as large as @{x}."
@@ -4627,7 +4629,7 @@ msgstr "wiki:en:Hyperbolic_function"
 
 #: ../plugins/fn-math/functions.c:817
 msgid "DEGREES:equivalent degrees to @{x} radians"
-msgstr ""
+msgstr "DEGREES:stopinje v @{x} radianih"
 
 #: ../plugins/fn-math/functions.c:835
 msgid "EXP:e raised to the power of @{x}"
@@ -4655,7 +4657,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:901
 msgid "GAMMA:the Gamma function"
-msgstr ""
+msgstr "GAMMA:funkcija gama"
 
 #: ../plugins/fn-math/functions.c:931
 msgid "GAMMALN:natural logarithm of the Gamma function"
@@ -4749,7 +4751,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:1118
 msgid "LOG:logarithm of @{x} with base @{base}"
-msgstr ""
+msgstr "LOG:logaritem vrednosti @{x} z osnovo @{osnova}"
 
 #: ../plugins/fn-math/functions.c:1119
 #: ../plugins/fn-math/functions.c:1149
@@ -4801,7 +4803,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:1199
 msgid "If @{x} = 0 and @{y} < 0, POWER returns #DIV/0!"
-msgstr "V kolikor je vrednost @{x} = 0 in je @{y} < 0, ukaz POWER vrne napako #DIV/0!"
+msgstr "V kolikor je vrednost @{x} = 0 in je @{y} < 0, funkcija vrne napako #DIV/0!"
 
 #: ../plugins/fn-math/functions.c:1200
 msgid "If @{x} < 0 and @{y} is not an integer, POWER returns #NUM!"
@@ -4813,7 +4815,7 @@ msgstr "LOG2:dvojiški logaritem vrednosti @{x}"
 
 #: ../plugins/fn-math/functions.c:1228
 msgid "If @{x} ≤ 0, LOG2 returns #NUM!"
-msgstr "V kolikor je vrednost @{x} ≤ 0, ukaz LOG2 vrne napako #NUM!"
+msgstr "V kolikor je vrednost @{x} ≤ 0, funkcija vrne napako #NUM!"
 
 #: ../plugins/fn-math/functions.c:1248
 msgid "LOG10:the base-10 logarithm of @{x}"
@@ -4821,7 +4823,7 @@ msgstr "LOG10:desetiški logaritem vrednosti @{x}"
 
 #: ../plugins/fn-math/functions.c:1250
 msgid "If @{x} ≤ 0, LOG10 returns #NUM!"
-msgstr "V kolikor je vrednost @{x} ≤ 0, ukaz LOG10 vrne napako #NUM!"
+msgstr "V kolikor je vrednost @{x} ≤ 0, funkcija vrne napako #NUM!"
 
 #: ../plugins/fn-math/functions.c:1270
 msgid "MOD:the remainder of @{x} under division by @{n}"
@@ -4833,7 +4835,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:1274
 msgid "If @{n} is 0, MOD returns #DIV/0!"
-msgstr "V kolikor je vrednost @{n} enaka 0, ukaz MOD vrne napako #DIV/0!"
+msgstr "V kolikor je vrednost @{n} enaka 0, funkcija vrne napako #DIV/0!"
 
 #: ../plugins/fn-math/functions.c:1316
 msgid "RADIANS:the number of radians equivalent to @{x} degrees"
@@ -5093,7 +5095,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:1901
 msgid "ROUND:rounded @{x}"
-msgstr ""
+msgstr "ROUND:zaokrožena vrednost @{x}"
 
 #: ../plugins/fn-math/functions.c:1904
 msgid ""
@@ -5115,7 +5117,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:1989
 msgid "MROUND:@{x} rounded to a multiple of @{m}"
-msgstr ""
+msgstr "MROUND:vrednost @{x} zaokrožena na večkratnik vrednosti @{m}"
 
 #: ../plugins/fn-math/functions.c:1991
 msgid "m:number"
@@ -5131,7 +5133,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:2036
 msgid "roman:Roman numeral"
-msgstr ""
+msgstr "rimsko:rimska številka"
 
 #: ../plugins/fn-math/functions.c:2037
 msgid "Any Roman symbol to the left of a larger symbol (directly or indirectly) reduces the final value by the symbol amount, otherwise, it increases the final amount by the symbol's amount."
@@ -5139,7 +5141,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:2113
 msgid "ROMAN:@{n} as a roman numeral text"
-msgstr ""
+msgstr "ROMAN:število @{n} zapisano kot rimska številka"
 
 #: ../plugins/fn-math/functions.c:2115
 msgid "type:0,1,2,3,or 4, defaults to 0"
@@ -5259,7 +5261,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:2773
 msgid "n:size of the matrix"
-msgstr ""
+msgstr "n:velikost matrike"
 
 #: ../plugins/fn-math/functions.c:2809
 msgid "MMULT:the matrix product of @{mat1} and @{mat2}"
@@ -5267,15 +5269,15 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:2810
 msgid "mat1:a matrix"
-msgstr ""
+msgstr "mat1:matrika 1"
 
 #: ../plugins/fn-math/functions.c:2811
 msgid "mat2:a matrix"
-msgstr ""
+msgstr "mat2:matrika 2"
 
 #: ../plugins/fn-math/functions.c:2876
 msgid "MDETERM:the determinant of the matrix @{matrix}"
-msgstr ""
+msgstr "MDETERM:determinanta @{matrike}"
 
 #: ../plugins/fn-math/functions.c:2912
 msgid "SUMPRODUCT:multiplies components and adds the results"
@@ -5303,7 +5305,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:3035
 msgid "matrix:a symmetric matrix"
-msgstr ""
+msgstr "matrika:simetrična matrika"
 
 #: ../plugins/fn-math/functions.c:3036
 msgid "If @{matrix} is not symmetric, EIGEN returns #NUM!"
@@ -5323,7 +5325,7 @@ msgstr ""
 
 #: ../plugins/fn-numtheory/numtheory.c:223
 msgid "wiki:en:Euler's_totient_function"
-msgstr ""
+msgstr "wiki:en:Euler's_totient_function"
 
 #: ../plugins/fn-numtheory/numtheory.c:252
 msgid "NT_MU:Möbius mu function"
@@ -5980,7 +5982,7 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:894
 #: ../plugins/fn-r/functions.c:921
 msgid "n:the number of trials"
-msgstr ""
+msgstr "n:število poskusov"
 
 #: ../plugins/fn-r/functions.c:791
 #: ../plugins/fn-r/functions.c:816
@@ -6046,19 +6048,19 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:975
 #: ../plugins/fn-r/functions.c:1004
 msgid "r:the number of red balls"
-msgstr ""
+msgstr "r:število rdečih kroglic"
 
 #: ../plugins/fn-r/functions.c:949
 #: ../plugins/fn-r/functions.c:976
 #: ../plugins/fn-r/functions.c:1005
 msgid "b:the number of black balls"
-msgstr ""
+msgstr "b:število črnih kroglic"
 
 #: ../plugins/fn-r/functions.c:950
 #: ../plugins/fn-r/functions.c:977
 #: ../plugins/fn-r/functions.c:1006
 msgid "n:the number of balls drawn"
-msgstr ""
+msgstr "n:število izvlečenih kroglic"
 
 #: ../plugins/fn-r/functions.c:952
 msgid "This function returns the probability density function of the hypergeometric distribution."
@@ -6243,7 +6245,7 @@ msgstr ""
 
 #: ../plugins/fn-random/functions.c:220
 msgid "n:number of trials"
-msgstr ""
+msgstr "n:število poskusov"
 
 #: ../plugins/fn-random/functions.c:221
 msgid "If @{p} < 0 or @{p} > 1 RANDBINOM returns #NUM!"
@@ -6275,7 +6277,7 @@ msgstr ""
 
 #: ../plugins/fn-random/functions.c:277
 msgid "n:number of failures"
-msgstr ""
+msgstr "n:število neuspešnih poskusov"
 
 #: ../plugins/fn-random/functions.c:278
 msgid "If @{p} < 0 or @{p} > 1 RANDNEGBINOM returns #NUM!"
@@ -6292,7 +6294,7 @@ msgstr ""
 #: ../plugins/fn-random/functions.c:301
 #: ../plugins/fn-stat/functions.c:877
 msgid "p:probability of success"
-msgstr ""
+msgstr "p:verjetnost uspeha"
 
 #: ../plugins/fn-random/functions.c:302
 msgid "If @{p} < 0 or @{p} > 1 RANDBERNOULLI returns #NUM!"
@@ -6895,7 +6897,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:381
 msgid "f:number of failures"
-msgstr ""
+msgstr "f:število neuspešnih poskusov"
 
 #: ../plugins/fn-stat/functions.c:382
 msgid "t:threshold number of successes"
@@ -6903,7 +6905,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:383
 msgid "p:probability of a success"
-msgstr ""
+msgstr "p:verjetnost uspeha"
 
 #: ../plugins/fn-stat/functions.c:384
 msgid "If @{f} or @{t} is a non-integer it is truncated."
@@ -6976,7 +6978,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:470
 #: ../plugins/fn-stat/functions.c:499
 msgid "wiki:en:Log-normal_distribution"
-msgstr ""
+msgstr "wiki:en:Log-normal_distribution"
 
 #: ../plugins/fn-stat/functions.c:471
 #: ../plugins/fn-stat/functions.c:500
@@ -7186,7 +7188,7 @@ msgid "Then SKEWP(A1:A5) equals 0.655256198."
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:842
-msgid "EXPONDIST:porbaility density or cumulative distribution function of the exponential distribution"
+msgid "EXPONDIST:probability density or cumulative distribution function of the exponential distribution"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:844
@@ -7439,13 +7441,13 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1472
 msgid "n:number of successes"
-msgstr ""
+msgstr "n:število uspešnih poskusov"
 
 #: ../plugins/fn-stat/functions.c:1473
 #: ../plugins/fn-stat/functions.c:1507
 #: ../plugins/fn-stat/functions.c:1569
 msgid "trials:number of trials"
-msgstr ""
+msgstr "poskusi:število poskusov"
 
 #: ../plugins/fn-stat/functions.c:1474
 #: ../plugins/fn-stat/functions.c:1508
@@ -7806,7 +7808,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2064
 msgid "Then SSMEDIAN(A1:A3, 1) equals 7.75."
-msgstr ""
+msgstr "Potem je vrednost SSMEDIAN(A1:A3, 1) enaka 7.75."
 
 #: ../plugins/fn-stat/functions.c:2146
 msgid "LARGE:@{k}-th largest value in a data set"
@@ -8162,7 +8164,7 @@ msgid "The results are given as an array."
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3049
-msgid "If the @{bin_array} is empty, this function returns the number of data points in @{data_array}."
+msgid "If the @{bins_array} is empty, this function returns the number of data points in @{data_array}."
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3256
@@ -8542,7 +8544,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4700
 msgid "wiki:en:Cramér–von-Mises_criterion"
-msgstr ""
+msgstr "wiki:en:Cramér–von-Mises_criterion"
 
 #: ../plugins/fn-stat/functions.c:4779
 msgid "ADTEST:Anderson-Darling Test of Normality"
@@ -9029,8 +9031,8 @@ msgid "INTERPOLATION:interpolated values corresponding to the given abscissa tar
 msgstr ""
 
 #: ../plugins/fn-tsa/functions.c:372
-msgid "abscissae:abscissae of the given data points"
-msgstr "abscisa:vodoravne koordinate podanih podatkovnih točk"
+msgid "abscissae:ordered abscissae of the given data points"
+msgstr ""
 
 #: ../plugins/fn-tsa/functions.c:373
 msgid "ordinates:ordinates of the given data points"
@@ -9041,51 +9043,61 @@ msgid "targets:abscissae of the interpolated data"
 msgstr "cilji:vodoravne koordinate interpoliranih podatkov"
 
 #: ../plugins/fn-tsa/functions.c:375
-#: ../plugins/fn-tsa/functions.c:627
-msgid "interpolation:method of interpolation, defaults to none"
+msgid "interpolation:method of interpolation, defaults to 0 ('linear')"
 msgstr ""
 
 #: ../plugins/fn-tsa/functions.c:376
-#: ../plugins/fn-tsa/functions.c:629
-msgid "If an interpolation method is used, the number of returned values is one less than the number of targets and the targets values must be given in increasing order."
-msgstr ""
-
-#: ../plugins/fn-tsa/functions.c:377
-#: ../plugins/fn-tsa/functions.c:630
+#: ../plugins/fn-tsa/functions.c:545
 msgid "The output consists always of one column of numbers."
 msgstr ""
 
+#: ../plugins/fn-tsa/functions.c:378
+msgid "The @{abscissae} must be given in increasing order."
+msgstr ""
+
 #: ../plugins/fn-tsa/functions.c:379
-#: ../plugins/fn-tsa/functions.c:637
+msgid "If any of interpolation methods 1 ('linear with averaging'), 3 ('staircase with averaging'), and 5 ('natural cubic spline with averaging') is used, the number of returned values is one less than the number of targets and the targets values must be given in increasing order."
+msgstr ""
+
+#: ../plugins/fn-tsa/functions.c:384
+#: ../plugins/fn-tsa/functions.c:552
 msgid "Strings and empty cells in @{abscissae} and @{ordinates} are ignored."
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:380
-#: ../plugins/fn-tsa/functions.c:638
+#: ../plugins/fn-tsa/functions.c:385
+#: ../plugins/fn-tsa/functions.c:553
 msgid "If several target data are provided they must be in the same column in consecutive cells."
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:623
+#: ../plugins/fn-tsa/functions.c:538
 msgid "PERIODOGRAM:periodogram of the given data"
 msgstr "PERIODOGRAM:periodogram (ocena spektralne gostote signala) podanih podatkov"
 
-#: ../plugins/fn-tsa/functions.c:624
+#: ../plugins/fn-tsa/functions.c:539
 msgid "ordinates:ordinates of the given data"
 msgstr "ordinata:navpične koordinate podanih podatkov"
 
-#: ../plugins/fn-tsa/functions.c:625
+#: ../plugins/fn-tsa/functions.c:540
 msgid "filter:windowing function to  be used, defaults to no filter"
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:626
+#: ../plugins/fn-tsa/functions.c:541
 msgid "abscissae:abscissae of the given data, defaults to regularly spaced abscissae"
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:628
+#: ../plugins/fn-tsa/functions.c:542
+msgid "interpolation:method of interpolation, defaults to none"
+msgstr ""
+
+#: ../plugins/fn-tsa/functions.c:543
 msgid "number:number of interpolated data points"
 msgstr "število:število interpoliranih podatkovnih točk"
 
-#: ../plugins/fn-tsa/functions.c:632
+#: ../plugins/fn-tsa/functions.c:544
+msgid "If an interpolation method is used, the number of returned values is one less than the number of targets and the targets values must be given in increasing order."
+msgstr ""
+
+#: ../plugins/fn-tsa/functions.c:547
 msgid ""
 "Possible window functions are:\n"
 "0: no filter (rectangular window)\n"
@@ -9094,27 +9106,27 @@ msgid ""
 "3: Welch (parabolic window)"
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:869
+#: ../plugins/fn-tsa/functions.c:797
 msgid "FOURIER:Fourier or inverse Fourier transform"
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:870
+#: ../plugins/fn-tsa/functions.c:798
 msgid "Sequence:the data sequence to be transformed"
 msgstr "zaporedje:zaporedje podatkov za preoblikovanje"
 
-#: ../plugins/fn-tsa/functions.c:871
+#: ../plugins/fn-tsa/functions.c:799
 msgid "Inverse:if true, the inverse Fourier transform is calculated, defaults to false"
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:872
+#: ../plugins/fn-tsa/functions.c:800
 msgid "This array function returns the Fourier or inverse Fourier transform of the given data sequence."
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:873
+#: ../plugins/fn-tsa/functions.c:801
 msgid "The output consists always of one column of complex numbers."
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:874
+#: ../plugins/fn-tsa/functions.c:802
 msgid "If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns #NUM!"
 msgstr ""
 
