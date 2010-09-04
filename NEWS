@@ -11,6 +11,7 @@ Andreas:
 
 Jean:
 	* Fix some interpolation and periodogram issues.
+	* Fixed graph scalar data editor behavior. [#628721]
 
 Morten:
 	* Plug sylk importer leak.
