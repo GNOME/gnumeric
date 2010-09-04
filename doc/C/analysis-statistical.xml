@@ -2433,7 +2433,7 @@
   </sect2>
 
 
-  <sect2 id="sign-test-tool">
+  <sect2 id="one-median-tool">
       <title>One Median</title>
       
       
@@ -2442,8 +2442,8 @@
       <para></para>
   </sect3>
 
-  <sect3 id="sign-test-tool">
-      <title>Wilcoxon SIgned Rank Test</title>
+  <sect3 id="wilcoxon-sign-test-tool">
+      <title>Wilcoxon Signed Rank Test</title>
       <para></para>
   </sect3>
 
@@ -2777,10 +2777,12 @@
   </sect3>
 </sect2>
 
+  <!--
   <sect2 id="sign-test-tool">
       <title>Sign Tests</title>
       <para></para>
   </sect2>
+  -->
 
   <sect2 id="ftest-two-sample-for-variances-tool">
      <title>F-Test: Two-Sample for Variances Tool</title>
