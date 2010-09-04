@@ -3457,9 +3457,8 @@ odf_write_meta_graph (GnmOOExport *state, GsfOutput *child)
 /*****************************************************************************/
 
 static void
-odf_write_fill_images_info (char const *name, gpointer data, GnmOOExport *state)
+odf_write_fill_images_info (GOImage *image, char const *name, GnmOOExport *state)
 {
-	GOImage *image = data;
 	char const *display_name = go_image_get_name (image);
 	char *href = g_strdup_printf ("Pictures/%s.png", name);
 
@@ -3476,9 +3475,8 @@ odf_write_fill_images_info (char const *name, gpointer data, GnmOOExport *state)
 }
 
 static void
-odf_write_gradient_info (char const *name, gpointer data, GnmOOExport *state)
+odf_write_gradient_info (GOStyle const *style, char const *name, GnmOOExport *state)
 {
-	GOStyle const *style = data;
 	char *color;
 	char const *type = "linear";
 	int angle = 0;
@@ -3535,7 +3533,7 @@ odf_write_gradient_info (char const *name, gpointer data, GnmOOExport *state)
 }
 
 static void
-odf_write_hatch_info (char const *name, gpointer data, GnmOOExport *state)
+odf_write_hatch_info (GOPattern *pattern, char const *name, GnmOOExport *state)
 {
 	struct {
 		unsigned int type;
@@ -3567,7 +3565,6 @@ odf_write_hatch_info (char const *name, gpointer data, GnmOOExport *state)
 		{GO_PATTERN_BRICKS, "triple", 45, 3.0},
 		{GO_PATTERN_MAX, "single", 0, 2.0}
 	};
-	GOPattern *pattern = data;
 	char *color = odf_go_color_to_string (pattern->fore);
 	int i;
 
@@ -4604,85 +4601,82 @@ odf_write_label (GnmOOExport *state, GogObject const *axis)
 
 }
 
-/* static gboolean */
-/* odf_match_gradient (gchar const *key, GOStyle const *old, GOStyle const *new) */
-/* { */
-/* 	gboolean result; */
+static gboolean
+odf_match_gradient (GOStyle const *old, GOStyle const *new)
+{
+	gboolean result;
 
-/* 	if (old->fill.gradient.brightness != new->fill.gradient.brightness) */
-/* 		return FALSE; */
+	if (old->fill.gradient.brightness != new->fill.gradient.brightness)
+		return FALSE;
 
-/* 	if (old->fill.gradient.brightness >= 0.) */
-/* 		result = (old->fill.gradient.brightness == new->fill.gradient.brightness); */
-/* 	else */
-/* 		result = (old->fill.pattern.fore == new->fill.pattern.fore); */
+	if (old->fill.gradient.brightness >= 0.)
+		result = (old->fill.gradient.brightness == new->fill.gradient.brightness);
+	else
+		result = (old->fill.pattern.fore == new->fill.pattern.fore);
 
-/* 	return (result && (old->fill.gradient.dir == new->fill.gradient.dir) && */
-/* 		(old->fill.pattern.back == new->fill.pattern.back)); */
-/* } */
+	return (result && (old->fill.gradient.dir == new->fill.gradient.dir) &&
+		(old->fill.pattern.back == new->fill.pattern.back));
+}
 
 static gchar *
 odf_get_gradient_name (GnmOOExport *state, GOStyle const* style)
 {
-/* 	gchar const *grad = g_hash_table_find (state->graph_gradients,  */
-/* 						(GHRFunc) odf_match_gradient, */
-/* 						(gpointer) style); */
+	gchar const *grad = g_hash_table_lookup (state->graph_gradients,
+						(gpointer) style);
 	gchar *new_name;
-/* 	if (grad != NULL) */
-/* 		return g_strdup (grad); */
+	if (grad != NULL)
+		return g_strdup (grad);
 	
 	new_name =  g_strdup_printf ("Gradient-%i", g_hash_table_size (state->graph_gradients));
-	g_hash_table_insert (state->graph_gradients, g_strdup (new_name), 
-			     (gpointer) style);
+	g_hash_table_insert (state->graph_gradients, 
+			     (gpointer) style, g_strdup (new_name));
 	return new_name;	
 }
 
-/* static gboolean */
-/* odf_match_image (gchar const *key, GOImage *old, GOImage *new) */
-/* { */
-/* 	return go_image_same_pixbuf (old, new); */
-/* } */
+static gboolean
+odf_match_image (GOImage *old, GOImage *new)
+{
+	return go_image_same_pixbuf (old, new);
+}
 
 
 static gchar *
 odf_get_image_name (GnmOOExport *state, GOStyle const* style)
 {
-/* 	gchar const *image = g_hash_table_find (state->graph_fill_images,  */
-/* 						(GHRFunc) odf_match_image, */
-/* 						(gpointer) style->fill.image.image); */
+	gchar const *image = g_hash_table_lookup (state->graph_fill_images,
+						  (gpointer) style->fill.image.image);
 	gchar *new_name;
-/* 	if (image != NULL) */
-/* 		return g_strdup (image); */
+	if (image != NULL)
+		return g_strdup (image);
 
 	new_name =  g_strdup_printf ("Fill-Image-%i",
 				     g_hash_table_size (state->graph_fill_images));
-	g_hash_table_insert (state->graph_fill_images, g_strdup (new_name), 
-			     (gpointer) style->fill.image.image);
+	g_hash_table_insert (state->graph_fill_images, 
+			     (gpointer) style->fill.image.image, g_strdup (new_name));
 	return new_name;
 }
 
-/* static gboolean */
-/* odf_match_pattern (gchar const *key, GOPattern const *old, GOPattern const *new) */
-/* { */
-/* 	return (old->pattern == new->pattern && */
-/* 		old->back == new->back && */
-/* 		old->fore == new->fore); */
-/* } */
+static gboolean
+odf_match_pattern (GOPattern const *old, GOPattern const *new)
+{
+	return (old->pattern == new->pattern &&
+		old->back == new->back &&
+		old->fore == new->fore);
+}
 
 static gchar *
 odf_get_pattern_name (GnmOOExport *state, GOStyle const* style)
 {
-/* 	gchar const *hatch = g_hash_table_find (state->graph_hatches,  */
-/* 						(GHRFunc) odf_match_pattern, */
-/* 						(gpointer) &style->fill.pattern); */
+	gchar const *hatch = g_hash_table_lookup (state->graph_hatches,
+						  (gpointer) &style->fill.pattern);
 	gchar *new_name;
-/* 	if (hatch != NULL) */
-/* 		return g_strdup (hatch); */
+	if (hatch != NULL)
+		return g_strdup (hatch);
 	
 	new_name =  g_strdup_printf ("Pattern-%i-%i", style->fill.pattern.pattern, 
 				     g_hash_table_size (state->graph_hatches));
-	g_hash_table_insert (state->graph_hatches, g_strdup (new_name), 
-			     (gpointer) &style->fill.pattern);
+	g_hash_table_insert (state->graph_hatches, 
+			     (gpointer) &style->fill.pattern, g_strdup (new_name));
 	return new_name;
 }
 
@@ -5550,7 +5544,7 @@ _gsf_gdk_pixbuf_save (const gchar *buf,
 }
 
 static void
-odf_write_fill_images (char const *name, GOImage *image, GnmOOExport *state)
+odf_write_fill_images (GOImage *image, char const *name, GnmOOExport *state)
 {
 	GsfOutput  *child;
 	char *manifest_name = g_strdup_printf ("%s/Pictures/%s.png",
@@ -5599,15 +5593,18 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 		state->graph_dashes = g_hash_table_new_full (g_str_hash, g_str_equal,
 							     (GDestroyNotify) g_free, 
 							     NULL);
-		state->graph_hatches = g_hash_table_new_full (g_str_hash, g_str_equal,
-							     (GDestroyNotify) g_free, 
-							     NULL);
-		state->graph_gradients = g_hash_table_new_full (g_str_hash, g_str_equal,
-							     (GDestroyNotify) g_free, 
-							     NULL);
-		state->graph_fill_images = g_hash_table_new_full (g_str_hash, g_str_equal,
-							     (GDestroyNotify) g_free, 
-							     NULL);
+		state->graph_hatches = g_hash_table_new_full (g_direct_hash, 
+							      (GEqualFunc)odf_match_pattern,
+							      NULL,
+							     (GDestroyNotify) g_free);
+		state->graph_gradients = g_hash_table_new_full (g_direct_hash, 
+								(GEqualFunc)odf_match_gradient,
+								NULL,
+								(GDestroyNotify) g_free);
+		state->graph_fill_images = g_hash_table_new_full (g_direct_hash, 
+								  (GEqualFunc)odf_match_image,
+								  NULL,
+								  (GDestroyNotify) g_free);
 		state->chart_props_hash = g_hash_table_new_full (g_str_hash, g_str_equal,
 							     NULL, NULL);
 		odf_fill_chart_props_hash (state);

@@ -1,3 +1,17 @@
+2010-09-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_fill_images_info): switch order of arguments
+	(odf_write_gradient_info): switch order of arguments
+	(odf_write_hatch_info): switch order of arguments
+	(odf_write_fill_images): switch order of arguments
+	(odf_match_gradient): turn into GEqualFunc
+	(odf_match_image): ditto
+	(odf_match_pattern): ditto
+	(odf_get_gradient_name): switch keys and values in hatch
+	(odf_get_image_name): ditto
+	(odf_get_pattern_name): ditto
+	(odf_write_graphs):  change gradinet image-fill and pattern hashes
+
 2010-09-04  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.10

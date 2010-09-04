@@ -1,5 +1,8 @@
 Gnumeric 1.10.11
 
+Andreas:
+	* Fix image-fill, pattern and gradient export. [#628762]
+
 --------------------------------------------------------------------------
 Gnumeric 1.10.10
 
