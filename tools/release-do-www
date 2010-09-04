@@ -1,0 +1,55 @@
+#!/usr/bin/perl -w
+
+use strict;
+
+die "$0: must be run from top-level directory.\n"
+    unless -d "gnumeric" && -d "goffice" && -d "gnomeweb-wml";
+
+my $newgnumeric = $ARGV[0];
+my $newgoffice = $ARGV[1];
+die "$0: you must supply the new versions as arguments.\n"
+    unless $newgnumeric && $newgoffice;
+
+my $newgnumeric2 = $newgnumeric;
+$newgnumeric2 =~ s/^(\d+\.\d+)\..*/$1/;
+
+my $wwwdir = "gnomeweb-wml/projects.gnome.org/gnumeric";
+my $makenews = "gnumeric/tools/news-to-html";
+my $annfile = "announcements/$newgnumeric2/gnumeric-$newgnumeric.shtml";
+
+# -----------------------------------------------------------------------------
+
+system ("perl -pi -e '\$_ .= \"\tgnumeric-$newgnumeric.shtml \\\\\n\" if /^page_SCRIPTS/;' $wwwdir/announcements/$newgnumeric2/Makefile.am");
+system ("perl -pi -e '\$_ .= \"  <li><a href=\\\"gnumeric-$newgnumeric.shtml\\\">$newgnumeric</a></li>\n\" if /^<ul>/;' $wwwdir/announcements/$newgnumeric2/index.shtml");
+
+chdir "gnumeric";
+system ("perl ../$makenews $newgnumeric >../$wwwdir/$annfile");
+chdir "..";
+
+chdir "goffice";
+system ("perl ../$makenews $newgoffice >>../$wwwdir/$annfile");
+chdir "..";
+
+# -----------------------------------------------------------------------------
+
+system ("perl -pi -e '\$_ .= \"\tchangelog-$newgnumeric.txt\t\\\\\n\" if /^page_SCRIPTS/;' $wwwdir/changelogs/$newgnumeric2/Makefile.am");
+system ("perl -pi -e '\$_ .= \"  <li><a href=\\\"changelog-$newgnumeric.txt\\\">$newgnumeric</a></li>\n\" if /new entries go on top/;' $wwwdir/changelogs/$newgnumeric2/index.shtml");
+
+my $v = $newgnumeric;
+$v =~ s/\./\\./;
+system ("perl -e '\$/=undef; \$_=<STDIN>; s{^.*\n(\\S(\\S| |\t)+\n\n\t\\* Release $v\n)}{\$1}s; s{(Post-release bump\\.).*}{\$1\n}s; print;' <gnumeric/ChangeLog >$wwwdir/changelogs/$newgnumeric2/changelog-$newgnumeric.txt");
+
+# -----------------------------------------------------------------------------
+
+my $v2 = $newgnumeric2;
+$v2 =~ s/\./\\./;
+print STDERR "$v2\n";
+system ("perl -pi -e 's{$v2\\.\\d+\\.tar\\.}{$newgnumeric.tar.} if m{ftp\.gnome\.org/pub/GNOME/sources};' $wwwdir/header-end.shtml");
+
+system ("perl -pi -e 's{$v2\\.\\d+\\.tar\\.}{$newgnumeric.tar.} if m{ftp\.gnome\.org/pub/GNOME/sources}; s{$v2\\.\\d+}{$newgnumeric} if m{current stable version} || m {gnumeric-$v2\\.\\d+.shtml};' $wwwdir/downloads.shtml");
+
+# -----------------------------------------------------------------------------
+
+print "cd $wwwdir\n";
+print "git add changelogs/$newgnumeric2/changelog-$newgnumeric.txt\n";
+print "git add $annfile\n";
