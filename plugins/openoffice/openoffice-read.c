@@ -248,6 +248,13 @@ typedef struct {
 	GOColor tab_text_color;
 } OOSheetStyle;
 
+typedef struct {
+	GHashTable *settings;
+	GSList *stack;
+	GType type;
+	char *config_item_name;
+} OOSettings;
+
 typedef enum {
 	ODF_ELAPSED_SET_SECONDS = 1 << 0,
 	ODF_ELAPSED_SET_MINUTES = 1 << 1,
@@ -319,6 +326,8 @@ typedef struct {
 	} page_breaks;
 
 	char const *object_name;
+
+	OOSettings settings;
 
 	gsf_off_t last_progress_update;
 	char *last_error;
@@ -5869,6 +5878,242 @@ odf_annotation_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->cell_comment = NULL;
 }
 
+/*********************************************************************************************/
+/******************************** settings.xml             ***********************************/
+
+static void
+unset_gvalue (gpointer data, G_GNUC_UNUSED gpointer user_data)
+{
+	g_value_unset (data);
+}
+
+static void
+destroy_gvalue (gpointer data)
+{
+	g_value_unset (data);
+	g_free (data);
+}
+
+static void
+odf_config_item_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	GHashTable *parent_hash;
+
+	if (state->settings.stack == NULL)
+		parent_hash = state->settings.settings;
+	else 
+		parent_hash = state->settings.stack->data;
+
+	if (parent_hash != NULL && state->settings.config_item_name != NULL) {
+		GValue *val = NULL;
+		switch (state->settings.type) {
+		case G_TYPE_BOOLEAN: {
+			gboolean b = (g_ascii_strcasecmp (xin->content->str, "false") &&
+				      strcmp (xin->content->str, "0"));
+			val = g_value_init (g_new0 (GValue, 1), G_TYPE_BOOLEAN);
+			g_value_set_boolean (val, b);
+			break;
+		}
+		case G_TYPE_INT: {
+			long n;
+			char *end;
+
+			errno = 0; /* strtol sets errno, but does not clear it.  */
+			n = strtol (xin->content->str, &end, 10);
+			if (!(*end || errno != 0 || n < INT_MIN || n > INT_MAX)) {
+				val = g_value_init (g_new0 (GValue, 1), G_TYPE_INT);
+				g_value_set_int (val, (int)n);
+			}
+			break;
+		}
+		case G_TYPE_LONG: {
+			long n;
+			char *end;
+
+			errno = 0; /* strtol sets errno, but does not clear it.  */
+			n = strtol (xin->content->str, &end, 10);
+			if (!(*end || errno != 0)) {
+				val = g_value_init (g_new0 (GValue, 1), G_TYPE_LONG);
+				g_value_set_long (val, n);
+			}
+			break;
+		}
+		default:
+			break;
+		}
+		if (val != NULL)
+			g_hash_table_replace 
+				(parent_hash, g_strdup (state->settings.config_item_name), 
+				 val);
+	}
+
+	g_free (state->settings.config_item_name);
+	state->settings.config_item_name = NULL;
+}
+
+
+static void
+odf_config_item (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static OOEnum const config_types [] = {
+		{"base64Binary", G_TYPE_INVALID},
+		{"boolean", G_TYPE_BOOLEAN},
+		{"datetime", G_TYPE_INVALID},
+		{"double", G_TYPE_INVALID},
+		{"int", G_TYPE_INT},
+		{"long", G_TYPE_LONG},
+		{"short", G_TYPE_INVALID},
+		{"string", G_TYPE_INVALID},
+		{ NULL,	0},
+	};
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	state->settings.config_item_name = NULL;
+	state->settings.type = G_TYPE_INVALID;
+	
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CONFIG, "name"))
+			state->settings.config_item_name = g_strdup (CXML2C (attrs[1]));
+		else if (oo_attr_enum (xin, attrs, OO_NS_CONFIG, "type", config_types, &state->settings.type));
+}
+
+static void
+odf_config_stack_pop (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	g_return_if_fail (state->settings.stack != NULL);
+	
+	g_hash_table_unref (state->settings.stack->data);
+	state->settings.stack = g_slist_delete_link 
+		(state->settings.stack, state->settings.stack);
+}
+
+static void
+odf_config_item_set (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	GHashTable *set = g_hash_table_new_full (g_str_hash, g_str_equal,
+						 (GDestroyNotify) g_free,
+						 (GDestroyNotify) destroy_gvalue);
+	GHashTable *parent_hash;
+	gchar *name = NULL;
+	GValue *val;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CONFIG, "name"))
+			name = g_strdup (CXML2C (attrs[1]));
+
+	if (state->settings.stack == NULL)
+		parent_hash = state->settings.settings;
+	else 
+		parent_hash = state->settings.stack->data;
+
+	if (name == NULL) {
+		int i = 0;
+		do {
+			g_free (name);
+			name = g_strdup_printf ("Unnamed_Config_Set-%i", i++);
+		} while (NULL != g_hash_table_lookup (parent_hash, name));
+	}
+
+	state->settings.stack = g_slist_prepend (state->settings.stack, set);
+
+	val = g_value_init (g_new0 (GValue, 1), G_TYPE_HASH_TABLE);
+	g_value_set_boxed (val, set);
+
+	g_hash_table_replace (parent_hash, name, val);
+}
+
+static void
+dump_settings_hash (char const *key, GValue *val, char const *prefix)
+{
+	gchar *content = g_strdup_value_contents (val);
+	g_print ("%s Settings \'%s\' has \'%s\'\n", prefix, key, content);
+	g_free (content);
+
+	if (G_VALUE_HOLDS(val,G_TYPE_HASH_TABLE)) {
+		char *pre = g_strconcat (prefix, ">>", NULL);
+		GHashTable *hash = g_value_get_boxed (val);
+		g_hash_table_foreach (hash, (GHFunc)dump_settings_hash, pre);
+		g_free (pre);
+	}
+
+	
+}
+
+static gboolean
+odf_has_gnm_foreign (OOParseState *state)
+{
+	GValue *val;
+	if ((state->settings.settings != NULL) && 
+	    NULL != (val = g_hash_table_lookup (state->settings.settings, "gnm:settings")) &&
+	    G_VALUE_HOLDS(val,G_TYPE_HASH_TABLE)) {
+		GHashTable *hash =  g_value_get_boxed (val);
+		val = g_hash_table_lookup (hash, "gnm:has_foreign");
+		if (val != NULL && G_VALUE_HOLDS(val, G_TYPE_BOOLEAN))
+			return g_value_get_boolean (val);
+	}
+	return FALSE;
+}
+
+static void
+odf_apply_ooo_table_config (char const *key, GValue *val, OOParseState *state) 
+{
+	if (G_VALUE_HOLDS(val,G_TYPE_HASH_TABLE)) {
+		GHashTable *hash = g_value_get_boxed (val);
+		Sheet *sheet = workbook_sheet_by_name (state->pos.wb, key);
+		if (hash != NULL && sheet != NULL) {
+			GValue *tab = g_hash_table_lookup (hash, "TabColor");
+			if (tab != NULL && G_VALUE_HOLDS(tab, G_TYPE_INT)) {
+				GOColor color = g_value_get_int (tab);
+				color = color << 8;
+				sheet->tab_color = style_color_new_go (color);
+			}
+		}
+	}
+}
+
+
+static void
+odf_apply_ooo_config (OOParseState *state)
+{
+	GValue *val;
+	GHashTable *hash;
+
+	if ((state->settings.settings == NULL) || 
+	    NULL == (val = g_hash_table_lookup (state->settings.settings, "ooo:view-settings")) ||
+	    !G_VALUE_HOLDS(val,G_TYPE_HASH_TABLE))
+		return;
+	hash =  g_value_get_boxed (val);
+
+	if ((hash == NULL) || 
+	    NULL == (val = g_hash_table_lookup (hash, "Views")) ||
+	    !G_VALUE_HOLDS(val,G_TYPE_HASH_TABLE))
+		return;
+	hash =  g_value_get_boxed (val);
+
+	if ((hash == NULL) || 
+	    NULL == (val = g_hash_table_lookup (hash, "Unnamed_Config_Set-0")) ||
+	    !G_VALUE_HOLDS(val,G_TYPE_HASH_TABLE))
+		return;
+	hash =  g_value_get_boxed (val);
+	
+	if ((hash == NULL) || 
+	    NULL == (val = g_hash_table_lookup (hash, "Tables")) ||
+	    !G_VALUE_HOLDS(val,G_TYPE_HASH_TABLE))
+		return;
+	hash =  g_value_get_boxed (val);
+	
+	if (hash == NULL)
+		return;
+
+	g_hash_table_foreach (hash, (GHFunc) odf_apply_ooo_table_config, state);
+}
+
+/*********************************************************************************************/
+
 static GsfXMLInNode const styles_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 
@@ -6066,28 +6311,21 @@ GSF_XML_IN_NODE_END
 
 /****************************************************************************/
 
-typedef GValue		OOConfigItem;
-typedef GHashTable	OOConfigItemSet;
-typedef GHashTable	OOConfigItemMapNamed;
-typedef GPtrArray	OOConfigItemMapIndexed;
-
-#if 0
-static GHashTable *
-oo_config_item_set ()
-{
-	return NULL;
-}
-#endif
-
-static GsfXMLInNode const opencalc_settings_dtd [] = {
+static GsfXMLInNode const opendoc_settings_dtd [] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-settings", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (OFFICE, SETTINGS, OO_NS_OFFICE, "settings", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (SETTINGS, CONFIG_ITEM_SET, OO_NS_CONFIG, "config-item-set", GSF_XML_NO_CONTENT, NULL, NULL),
-      GSF_XML_IN_NODE_FULL (CONFIG_ITEM_SET, CONFIG_ITEM,		OO_NS_CONFIG, "config-item",		GSF_XML_NO_CONTENT,  TRUE, FALSE, NULL, NULL, 0),
-      GSF_XML_IN_NODE_FULL (CONFIG_ITEM_SET, CONFIG_ITEM_MAP_INDEXED,	OO_NS_CONFIG, "config-item-map-indexed", GSF_XML_NO_CONTENT, TRUE, FALSE, NULL, NULL, 1),
-      GSF_XML_IN_NODE_FULL (CONFIG_ITEM_SET, CONFIG_ITEM_MAP_ENTRY,	OO_NS_CONFIG, "config-item-map-entry",	GSF_XML_NO_CONTENT,  TRUE, FALSE, NULL, NULL, 2),
-      GSF_XML_IN_NODE_FULL (CONFIG_ITEM_SET, CONFIG_ITEM_MAP_NAMED,	OO_NS_CONFIG, "config-item-map-named",	GSF_XML_NO_CONTENT,  TRUE, FALSE, NULL, NULL, 3),
+    GSF_XML_IN_NODE (SETTINGS, CONFIG_ITEM_SET, OO_NS_CONFIG, "config-item-set", GSF_XML_NO_CONTENT, &odf_config_item_set, &odf_config_stack_pop),
+      GSF_XML_IN_NODE (CONFIG_ITEM_SET, CONFIG_ITEM_SET, OO_NS_CONFIG, "config-item-set", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd */
+      GSF_XML_IN_NODE (CONFIG_ITEM_SET, CONFIG_ITEM, OO_NS_CONFIG, "config-item", GSF_XML_CONTENT, &odf_config_item, &odf_config_item_end),
+      GSF_XML_IN_NODE (CONFIG_ITEM_SET, CONFIG_ITEM_MAP_INDEXED, OO_NS_CONFIG, "config-item-map-indexed", GSF_XML_NO_CONTENT, &odf_config_item_set, &odf_config_stack_pop),
+        GSF_XML_IN_NODE (CONFIG_ITEM_MAP_INDEXED, CONFIG_ITEM_MAP_ENTRY, OO_NS_CONFIG, "config-item-map-entry",	GSF_XML_NO_CONTENT, &odf_config_item_set, &odf_config_stack_pop),
+          GSF_XML_IN_NODE (CONFIG_ITEM_MAP_ENTRY, CONFIG_ITEM_MAP_INDEXED, OO_NS_CONFIG, "config-item-map-indexed", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd */
+          GSF_XML_IN_NODE (CONFIG_ITEM_MAP_ENTRY, CONFIG_ITEM, OO_NS_CONFIG, "config-item", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd */
+          GSF_XML_IN_NODE (CONFIG_ITEM_MAP_ENTRY, CONFIG_ITEM_MAP_NAMED, OO_NS_CONFIG, "config-item-map-named", GSF_XML_NO_CONTENT, &odf_config_item_set, &odf_config_stack_pop),
+          GSF_XML_IN_NODE (CONFIG_ITEM_MAP_ENTRY, CONFIG_ITEM_SET, OO_NS_CONFIG, "config-item-set", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd */
+      GSF_XML_IN_NODE (CONFIG_ITEM_SET, CONFIG_ITEM_MAP_NAMED, OO_NS_CONFIG, "config-item-map-named", GSF_XML_NO_CONTENT,  NULL, NULL),/* 2nd */
+        GSF_XML_IN_NODE (CONFIG_ITEM_MAP_NAMED, CONFIG_ITEM_MAP_ENTRY, OO_NS_CONFIG, "config-item-map-entry", GSF_XML_NO_CONTENT,  NULL, NULL),/* 2nd */
 
 GSF_XML_IN_NODE_END
 };
@@ -7283,15 +7521,38 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 		g_slist_free (state.sheet_order);
 
 		/* look for the view settings */
-		if (state.ver == OOO_VER_1) {
-			settings = gsf_infile_child_by_name (zip, "settings.xml");
-			if (settings != NULL) {
-				GsfXMLInDoc *sdoc = gsf_xml_in_doc_new (opencalc_settings_dtd, gsf_ooo_ns);
-				gsf_xml_in_doc_parse (sdoc, settings, &state);
-				gsf_xml_in_doc_free (sdoc);
-				g_object_unref (settings);
-			}
+		state.settings.settings 
+			= g_hash_table_new_full (g_str_hash, g_str_equal,
+						 (GDestroyNotify) g_free,
+						 (GDestroyNotify) destroy_gvalue);
+		state.settings.stack = NULL;
+		settings = gsf_infile_child_by_name (zip, "settings.xml");
+		if (settings != NULL) {
+			GsfXMLInDoc *sdoc = gsf_xml_in_doc_new 
+				(opendoc_settings_dtd, gsf_ooo_ns);
+			gsf_xml_in_doc_parse (sdoc, settings, &state);
+			gsf_xml_in_doc_free (sdoc);
+			g_object_unref (settings);
 		}
+		if (state.settings.stack != NULL) {
+			go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
+						     _("settings.xml stream is malformed!"));
+			g_slist_foreach (state.settings.stack,
+					 (GFunc)unset_gvalue,
+					 NULL);
+			go_slist_free_custom (state.settings.stack, g_free);
+			state.settings.stack = NULL;
+		}
+
+		/* Use the settings here! */
+		if (state.debug)
+			g_hash_table_foreach (state.settings.settings, 
+					      (GHFunc)dump_settings_hash, (char *)"");
+		if (!odf_has_gnm_foreign (&state))
+			odf_apply_ooo_config (&state);
+
+		g_hash_table_destroy (state.settings.settings);
+		state.settings.settings = NULL;
 	} else
 		go_io_error_string (io_context, _("XML document not well formed!"));
 	gsf_xml_in_doc_free (doc);
