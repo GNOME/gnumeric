@@ -1,15 +1,16 @@
 # translation of fr.po to French
 # This file is distributed under the same license as the gnumeric package.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
+# Copyright (C) 2010
+# Translators
 # severine lombardo <severine.lombardo@free.fr>, 2006.
-#
+# Steve Petruzzello <dlist@bluewin.ch>, 2010
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric\n"
+"Project-Id-Version: gnumeric_1.10.8-1\n"
 "Report-Msgid-Bugs-To: gnumeric@packages.debian.org\n"
 "POT-Creation-Date: 2010-07-31 12:15+0200\n"
 "PO-Revision-Date: 2007-11-11 19:09+0100\n"
-"Last-Translator: severine lombardo <severine.lombardo@free.fr>\n"
+"Last-Translator: Steve Petruzzello <dlist@bluewin.ch>\n"
 "Language-Team: French <debian-l10n-french@debian.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +21,7 @@ msgstr ""
 #. Description
 #: ../gnumeric.templates:2001
 msgid "Detected a running gnumeric process"
-msgstr ""
+msgstr "Détection d'un processus actif de gnumeric"
 
 #. Type: boolean
 #. Description

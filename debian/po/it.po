@@ -1,26 +1,25 @@
 # Italian (it) translation of debconf templates for gnumeric
-# Copyright (C) 2006 Software in the Public Interest
 # This file is distributed under the same license as the gnumeric package.
-# Luca Monducci <luca.mo@tiscali.it>, 2006, 2007.
+# Luca Monducci <luca.mo@tiscali.it>, 2006-2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 1.6.3 italian debconf templates\n"
+"Project-Id-Version: gnumeric 1.10.9 italian debconf templates\n"
 "Report-Msgid-Bugs-To: gnumeric@packages.debian.org\n"
 "POT-Creation-Date: 2010-07-31 12:15+0200\n"
-"PO-Revision-Date: 2007-11-05 20:04+0100\n"
+"PO-Revision-Date: 2010-08-22 17:04+0200\n"
 "Last-Translator: Luca Monducci <luca.mo@tiscali.it>\n"
 "Language-Team: Italian <debian-l10n-italian@lists.debian.org>\n"
-"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: it\n"
 
 #. Type: title
 #. Description
 #: ../gnumeric.templates:2001
 msgid "Detected a running gnumeric process"
-msgstr ""
+msgstr "Rilevato un processo gnumeric in esecuzione"
 
 #. Type: boolean
 #. Description

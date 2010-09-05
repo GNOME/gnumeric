@@ -1,6 +1,6 @@
-diff -ru gnumeric-1.10.9.orig/config.guess gnumeric-1.10.9/config.guess
---- gnumeric-1.10.9.orig/config.guess	2010-08-14 02:17:07.000000000 +0200
-+++ gnumeric-1.10.9/config.guess	2010-08-17 19:35:34.000000000 +0200
+diff -ru gnumeric-1.10.10.orig/config.guess gnumeric-1.10.10/config.guess
+--- gnumeric-1.10.10.orig/config.guess	2010-08-19 01:59:33.000000000 +0200
++++ gnumeric-1.10.10/config.guess	2010-09-05 08:10:35.000000000 +0200
 @@ -1,10 +1,10 @@
  #! /bin/sh
  # Attempt to guess a canonical system name.
@@ -409,9 +409,9 @@ diff -ru gnumeric-1.10.9.orig/config.guess gnumeric-1.10.9/config.guess
  	exit ;;
      *:*VMS:*:*)
      	UNAME_MACHINE=`(uname -p) 2>/dev/null`
-diff -ru gnumeric-1.10.9.orig/config.sub gnumeric-1.10.9/config.sub
---- gnumeric-1.10.9.orig/config.sub	2010-08-14 02:17:07.000000000 +0200
-+++ gnumeric-1.10.9/config.sub	2010-08-17 19:35:34.000000000 +0200
+diff -ru gnumeric-1.10.10.orig/config.sub gnumeric-1.10.10/config.sub
+--- gnumeric-1.10.10.orig/config.sub	2010-08-19 01:59:33.000000000 +0200
++++ gnumeric-1.10.10/config.sub	2010-09-05 08:10:35.000000000 +0200
 @@ -1,10 +1,10 @@
  #! /bin/sh
  # Configuration validation subroutine script.
