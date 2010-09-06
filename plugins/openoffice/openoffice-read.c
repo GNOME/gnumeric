@@ -128,7 +128,8 @@ typedef enum {
 	FORMULA_OPENFORMULA = 0,
 	FORMULA_OLD_OPENOFFICE,
 	FORMULA_MICROSOFT,
-	NUM_FORMULAE_SUPPORTED
+	NUM_FORMULAE_SUPPORTED,
+	FORMULA_NOT_SUPPORTED
 } OOFormula;
 
 #define OD_BORDER_THIN		1
@@ -1710,6 +1711,32 @@ oo_row_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->pos.eval.row += state->row_inc;
 }
 
+static OOFormula
+odf_get_formula_type (GsfXMLIn *xin, char const **str)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	OOFormula f_type = FORMULA_NOT_SUPPORTED;
+	if (state->ver == OOO_VER_OPENDOC) {
+		if (strncmp (*str, "msoxl:", 6) == 0) {
+			*str += 6;
+			f_type = FORMULA_MICROSOFT;
+		} else if (strncmp (*str, "oooc:", 5) == 0) {
+			*str += 5;
+			f_type = FORMULA_OLD_OPENOFFICE;
+		} else if (strncmp (*str, "of:", 3) == 0) {
+			*str += 3;
+			f_type = FORMULA_OPENFORMULA;
+		} else {
+			/* They really should include a namespace */
+			/* We assume that it is an OpenFormula expression */
+			*str += 0;
+			f_type = FORMULA_OPENFORMULA;
+		}
+	} else if (state->ver == OOO_VER_1)
+		f_type = FORMULA_OLD_OPENOFFICE;
+
+	return f_type;
+}
 
 static void
 oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
@@ -1737,7 +1764,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &state->col_inc, 0, INT_MAX))
 			;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "formula")) {
-			OOFormula f_type = FORMULA_OPENFORMULA;
+			OOFormula f_type;
 
 			if (attrs[1] == NULL) {
 				oo_warning (xin, _("Missing expression"));
@@ -1745,25 +1772,9 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 
 			expr_string = CXML2C (attrs[1]);
-			if (state->ver == OOO_VER_OPENDOC) {
-				if (strncmp (expr_string, "msoxl:", 6) == 0) {
-					expr_string += 6;
-					f_type = FORMULA_MICROSOFT;
-				} else if (strncmp (expr_string, "oooc:", 5) == 0) {
-					expr_string += 5;
-					f_type = FORMULA_OLD_OPENOFFICE;
-				} else if (strncmp (expr_string, "of:", 3) == 0)
-					expr_string += 3;
-				else if (strncmp (expr_string, "=", 1) == 0)
-					/* They really should include a namespace */
-					/* We assume that it is an OpenFormula expression */
-					expr_string += 0;
-				else {
-					oo_warning (xin, _("Missing or unknown expression namespace: %s"), expr_string);
-					continue;
-				}
-			} else if (state->ver == OOO_VER_1)
-				f_type = FORMULA_OLD_OPENOFFICE;
+			f_type = odf_get_formula_type (xin, &expr_string);
+			if (f_type == FORMULA_NOT_SUPPORTED)
+				continue;
 
 			expr_string = gnm_expr_char_start_p (expr_string);
 			if (expr_string == NULL)
@@ -5073,7 +5084,6 @@ oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, int dim_type, char cons
 			state->chart.src_label.end.row = ++state->chart.src_label.start.row;
 		else
 			state->chart.src_label.end.col = ++state->chart.src_label.start.col;
-
 	}
 }
 
@@ -5308,6 +5318,7 @@ static void
 oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
+	xmlChar const *label = NULL;
 
 	if (state->debug)
 		g_print ("<<<<< Start\n");
@@ -5379,14 +5390,42 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 				oo_plot_assign_dim (xin, attrs[1], GOG_MS_DIM_VALUES, NULL);
 				break;
 			}
-		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "label-cell-address"))
-				oo_plot_assign_dim (xin, attrs[1], GOG_MS_DIM_LABELS, NULL);
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "label-cell-expression"))
-				oo_plot_assign_dim (xin, attrs[1], GOG_MS_DIM_LABELS, NULL);
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "label-cell-address")) {
+			if (label == NULL)
+				label = attrs[1];
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "label-cell-expression"))
+			label = attrs[1];
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					     OO_NS_CHART, "style-name"))
 			state->chart.i_plot_styles[OO_CHART_STYLE_SERIES] = g_hash_table_lookup
 				(state->chart.graph_styles, CXML2C (attrs[1]));
+	}
+
+	if (label != NULL) {
+		GnmExprTop const *texpr;
+		OOFormula f_type = odf_get_formula_type (xin, (char const **)&label);
+
+		if (f_type != FORMULA_NOT_SUPPORTED) {
+			GnmParsePos pp;
+			GnmRangeRef ref;
+			char const *ptr = oo_rangeref_parse 
+				(&ref, CXML2C (label),
+				 parse_pos_init_sheet (&pp, state->pos.sheet));
+			if (ptr == CXML2C (label))
+				texpr = oo_expr_parse_str (xin, label,
+							   &state->pos, 
+							   GNM_EXPR_PARSE_DEFAULT, 
+							   f_type);
+			else {
+				GnmValue *v = value_new_cellrange (&ref.a, &ref.b, 0, 0);
+				texpr = gnm_expr_top_new_constant (v);
+			}
+			if (texpr != NULL)
+				gog_series_set_name (state->chart.series,
+						     GO_DATA_SCALAR (gnm_go_data_scalar_new_expr 
+								     (state->pos.sheet, texpr)),
+						     NULL);
+		}
 	}
 	oo_chart_style_to_series (xin, state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA], 
 				  G_OBJECT (state->chart.series));

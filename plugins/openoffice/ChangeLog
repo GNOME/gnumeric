@@ -1,3 +1,9 @@
+2010-09-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_get_formula_type): new
+	(oo_cell_start): use odf_get_formula_type
+	(oo_plot_series): fix handling of series label
+
 2010-09-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_gnm_settings): new
