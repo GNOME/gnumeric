@@ -1,5 +1,10 @@
 2010-09-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_gnm_settings): new
+	(odf_write_settings): call odf_write_gnm_settings
+	
+2010-09-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (unset_gvalue): new
 	(destroy_gvalue): new
 	(odf_config_item_end): new

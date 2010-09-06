@@ -3673,6 +3673,19 @@ odf_write_graph_styles (GnmOOExport *state, GsfOutput *child)
 /*****************************************************************************/
 
 static void
+odf_write_gnm_settings (GnmOOExport *state)
+{
+	gsf_xml_out_start_element (state->xml, CONFIG "config-item-set");
+	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", GNMSTYLE "settings");
+	gsf_xml_out_start_element (state->xml, CONFIG "config-item");
+	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", GNMSTYLE "has_foreign");
+	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "boolean");
+	gsf_xml_out_add_cstr_unchecked (state->xml, NULL, state->with_extension ? "true" : "false");
+	gsf_xml_out_end_element (state->xml); /* </config:config-item> */
+	gsf_xml_out_end_element (state->xml); /* </config:config-item-set> */
+}
+
+static void
 odf_write_ooo_settings (GnmOOExport *state)
 {
 	GSList *l;
@@ -3732,6 +3745,7 @@ odf_write_settings (GnmOOExport *state, GsfOutput *child)
 
 	gsf_xml_out_start_element (state->xml, OFFICE "settings");
 
+	odf_write_gnm_settings (state);
 	odf_write_ooo_settings (state);
 
 	gsf_xml_out_end_element (state->xml); /* </office:settings> */
