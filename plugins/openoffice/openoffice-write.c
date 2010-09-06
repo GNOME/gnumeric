@@ -5227,11 +5227,17 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 
 	if (legend != NULL) {
 		GogObjectPosition flags;
+		char *style_name = odf_get_gog_style_name_from_obj
+			(legend);
 
 		flags = gog_object_get_position_flags 
 			(legend, GOG_POSITION_COMPASS);
 
 		gsf_xml_out_start_element (state->xml, CHART "legend");
+		gsf_xml_out_add_cstr (state->xml, 
+					      CHART "style-name", 
+					      style_name);
+		g_free (style_name);
 
 		if (flags) {
 			GString *compass = g_string_new (NULL);

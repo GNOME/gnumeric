@@ -5813,16 +5813,32 @@ oo_legend (GsfXMLIn *xin, xmlChar const **attrs)
 	GogObjectPosition align = GOG_POSITION_ALIGN_CENTER;
 	GogObject *legend;
 	int tmp;
+	char const *style_name;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_enum (xin, attrs, OO_NS_CHART, "legend-position", positions, &tmp))
 			pos = tmp;
 		else if (oo_attr_enum (xin, attrs, OO_NS_CHART, "legend-align", alignments, &tmp))
 			align = tmp;
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name"))
+			style_name = g_strdup (CXML2C (attrs[1]));
 
 	legend = gog_object_add_by_name ((GogObject *)state->chart.chart, "Legend", NULL);
-	gog_object_set_position_flags (legend, pos | align,
-		GOG_POSITION_COMPASS | GOG_POSITION_ALIGNMENT);
+	if (legend != NULL) {
+		gog_object_set_position_flags (legend, pos | align,
+					       GOG_POSITION_COMPASS | GOG_POSITION_ALIGNMENT);
+		if (style_name) {
+			GOStyle *style = NULL;
+			g_object_get (G_OBJECT (legend), "style", &style, NULL);
+			if (style != NULL) {
+				OOChartStyle *chart_style = g_hash_table_lookup
+					(state->chart.graph_styles, style_name);
+				odf_apply_style_props (xin, chart_style->style_props, style);
+				g_object_unref (style);
+			}
+		}
+	}
+
 }
 
 static void
