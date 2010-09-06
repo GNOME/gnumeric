@@ -4545,7 +4545,8 @@ odf_write_axis_grid (GnmOOExport *state, GogObject const *axis)
 }
 
 static void
-odf_write_title (GnmOOExport *state, GogObject const *title, char const *id)
+odf_write_title (GnmOOExport *state, GogObject const *title, 
+		 char const *id, gboolean allow_content)
 {
 	if (title != NULL && id != NULL) {
 		GOData const *dat = gog_dataset_get_dim (GOG_DATASET(title),0);
@@ -4571,25 +4572,36 @@ odf_write_title (GnmOOExport *state, GogObject const *title, char const *id)
 
 				if (gnm_expr_top_is_rangeref (texpr)) {
 					char *f = odf_strip_brackets (formula);
-					gsf_xml_out_add_cstr (state->xml, TABLE "cell-address", f);
-					gsf_xml_out_add_cstr (state->xml, TABLE "cell-range", f);
-				} else if (GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_CONSTANT 
-					   && texpr->expr->constant.value->type == VALUE_STRING) {
+					gsf_xml_out_add_cstr (state->xml, 
+							      TABLE "cell-address", f);
+					gsf_xml_out_add_cstr (state->xml, 
+							      TABLE "cell-range", f);
+				} else if (GNM_EXPR_GET_OPER (texpr->expr) 
+					   == GNM_EXPR_OP_CONSTANT 
+					   && texpr->expr->constant.value->type == VALUE_STRING
+					   && allow_content) {
 					gboolean white_written = TRUE;
 					char const *str;
 					gsf_xml_out_start_element (state->xml, TEXT "p");
 					str = value_peek_string (texpr->expr->constant.value);
-					odf_add_chars (state, str, strlen (str), &white_written);	
+					odf_add_chars (state, str, strlen (str), 
+						       &white_written);	
 					gsf_xml_out_end_element (state->xml); /* </text:p> */
 				} else {
 					gboolean white_written = TRUE;
 					if (state->with_extension)
-						gsf_xml_out_add_cstr (state->xml, GNMSTYLE "expression",
+						gsf_xml_out_add_cstr (state->xml, 
+								      GNMSTYLE "expression",
 								      formula);
-					gsf_xml_out_start_element (state->xml, TEXT "p");
-					odf_add_chars (state, formula, strlen (formula), 
-						       &white_written);	
-					gsf_xml_out_end_element (state->xml); /* </text:p> */	
+					if (allow_content) {
+						gsf_xml_out_start_element 
+							(state->xml, TEXT "p");
+						odf_add_chars (state, formula, 
+							       strlen (formula), 
+							       &white_written);	
+						gsf_xml_out_end_element (state->xml); 
+						/* </text:p> */	
+					}
 				}
 				gsf_xml_out_end_element (state->xml); /* </chart:title> */
 				g_free (formula);
@@ -4608,7 +4620,7 @@ odf_write_label (GnmOOExport *state, GogObject const *axis)
 		GogObject const *label = NULL;
 		
 		label = labels->data;
-		odf_write_title (state, label, CHART "title");
+		odf_write_title (state, label, CHART "title", TRUE);
 		g_slist_free (labels);
 	}
 
@@ -5210,13 +5222,11 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 	/* Set up title */
 
 	if (titles != NULL) {
-		GogObject const *title = NULL;
-
-		title = titles->data;
-		odf_write_title (state, title, CHART "title");
+		GogObject const *title = titles->data;
+		odf_write_title (state, title, CHART "title", TRUE);
 		if (titles->next != NULL) {
 			title = titles->next->data;
-			odf_write_title (state, title, CHART "subtitle");			
+			odf_write_title (state, title, CHART "subtitle", TRUE);			
 		}
 
 		g_slist_free (titles);
@@ -5229,7 +5239,10 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		GogObjectPosition flags;
 		char *style_name = odf_get_gog_style_name_from_obj
 			(legend);
-
+		GSList *ltitles = gog_object_get_children 
+			(legend, gog_object_find_role_by_name 
+			 (legend, "Title"));
+		
 		flags = gog_object_get_position_flags 
 			(legend, GOG_POSITION_COMPASS);
 
@@ -5259,6 +5272,36 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 					      compass->str);
 
 			g_string_free (compass, TRUE);
+		}
+
+		if (ltitles != NULL) {
+			GogObject const *title = ltitles->data;
+
+			if (state->with_extension)
+				odf_write_title (state, title, 
+						 GNMSTYLE "title", get_gsf_odf_version () > 101);
+			else if (get_gsf_odf_version () > 101) {
+				GOData const *dat =
+					gog_dataset_get_dim (GOG_DATASET(title),0);
+
+				if (dat != NULL) {
+					GnmExprTop const *texpr
+						= gnm_go_data_get_expr (dat);
+					if (texpr != NULL &&
+					    GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_CONSTANT
+					    && texpr->expr->constant.value->type == VALUE_STRING) {
+						gboolean white_written = TRUE;
+						char const *str;
+						gsf_xml_out_start_element (state->xml, TEXT "p");
+						str = value_peek_string (texpr->expr->constant.value);
+						odf_add_chars (state, str, strlen (str), 
+							       &white_written);
+						gsf_xml_out_end_element (state->xml); /* </text:p> */
+					}
+				}
+
+			}
+			g_slist_free (ltitles);
 		}
 
 		gsf_xml_out_end_element (state->xml); /* </chart:legend> */

@@ -1,5 +1,11 @@
 2010-09-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_title): add argument whether to allow
+	  subelements; change all callers
+	(odf_write_plot): write legend title
+	
+2010-09-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_legend): read style-name
 	* openoffice-write.c (odf_write_plot): write style-name
 
