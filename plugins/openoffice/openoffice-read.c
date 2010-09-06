@@ -211,6 +211,7 @@ typedef struct {
 	GogObject	*axis;
 	xmlChar         *cat_expr;
 	GogObject	*regression;
+	GogObject	*legend;
 
 	GnmExprTop const        *title_expr;
 	gchar                   *title_style;
@@ -4805,6 +4806,7 @@ od_draw_text_box_p_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	}
 }
 
+/* oo_chart_title is used both for chart titles and legend titles */
 static void
 oo_chart_title (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -4820,7 +4822,8 @@ oo_chart_title (GsfXMLIn *xin, xmlChar const **attrs)
 		    && state->chart.title_expr == NULL) {
 			GnmParsePos   pp;
 			char *end_str = g_strconcat ("[", CXML2C (attrs[1]), "]", NULL);
-			parse_pos_init_sheet (&pp, state->chart.src_sheet);
+
+			parse_pos_init (&pp, state->pos.wb, NULL, 0, 0);
 			state->chart.title_expr 
 				= oo_expr_parse_str 
 				(xin, end_str, &pp,
@@ -4834,7 +4837,7 @@ oo_chart_title (GsfXMLIn *xin, xmlChar const **attrs)
 			if (state->chart.title_expr != NULL)
 				gnm_expr_top_unref (state->chart.title_expr);
 
-			parse_pos_init_sheet (&pp, state->chart.src_sheet);
+			parse_pos_init (&pp, state->pos.wb, NULL, 0, 0);
 			state->chart.title_expr 
 				= oo_expr_parse_str 
 				(xin, CXML2C (attrs[1]), &pp,
@@ -4858,12 +4861,15 @@ oo_chart_title_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		GogObject *obj;
 		gchar const *tag;
 
-		if (state->chart.axis == NULL) {
-			obj = (GogObject *)state->chart.chart;
-			tag = "Title";
-		} else {
+		if (state->chart.axis != NULL) {
 			obj = (GogObject *)state->chart.axis;
 			tag = "Label";
+		} else if (state->chart.legend != NULL) {
+			obj = (GogObject *)state->chart.legend;
+			tag = "Title";
+		} else {
+			obj = (GogObject *)state->chart.chart;
+			tag = "Title";
 		}
 
 		label = gog_object_add_by_name (obj, tag, NULL);
@@ -5779,6 +5785,7 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	state->chart.plot = NULL;
 	state->chart.series = NULL;
 	state->chart.axis = NULL;
+	state->chart.legend = NULL;
 	state->chart.cat_expr = NULL;
 	if (NULL != style)
 		state->chart.src_in_rows = style->src_in_rows;
@@ -5824,6 +5831,7 @@ oo_legend (GsfXMLIn *xin, xmlChar const **attrs)
 			style_name = g_strdup (CXML2C (attrs[1]));
 
 	legend = gog_object_add_by_name ((GogObject *)state->chart.chart, "Legend", NULL);
+	state->chart.legend = legend;
 	if (legend != NULL) {
 		gog_object_set_position_flags (legend, pos | align,
 					       GOG_POSITION_COMPASS | GOG_POSITION_ALIGNMENT);
@@ -5840,6 +5848,14 @@ oo_legend (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 
 }
+
+static void
+oo_legend_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	state->chart.legend = NULL;
+}
+
 
 static void
 oo_chart_grid (GsfXMLIn *xin, xmlChar const **attrs)
@@ -6501,7 +6517,8 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		GSF_XML_IN_NODE (CHART_TITLE, TITLE_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, &oo_chart_title_text),
 	      GSF_XML_IN_NODE (CHART_CHART, CHART_SUBTITLE, OO_NS_CHART, "subtitle", GSF_XML_NO_CONTENT, &oo_chart_title, &oo_chart_title_end),	
 	        GSF_XML_IN_NODE (CHART_SUBTITLE, TITLE_TEXT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),                                     /* 2nd Def */
-	      GSF_XML_IN_NODE (CHART_CHART, CHART_LEGEND, OO_NS_CHART, "legend", GSF_XML_NO_CONTENT, &oo_legend, NULL),
+	      GSF_XML_IN_NODE (CHART_CHART, CHART_LEGEND, OO_NS_CHART, "legend", GSF_XML_NO_CONTENT, &oo_legend, &oo_legend_end),
+	        GSF_XML_IN_NODE (CHART_LEGEND, CHART_LEGEND_TITLE, OO_GNUM_NS_EXT, "title", GSF_XML_NO_CONTENT,  &oo_chart_title, &oo_chart_title_end),
 	      GSF_XML_IN_NODE (CHART_CHART, CHART_PLOT_AREA, OO_NS_CHART, "plot-area", GSF_XML_NO_CONTENT, &oo_plot_area, &oo_plot_area_end),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_SERIES, OO_NS_CHART, "series", GSF_XML_NO_CONTENT, &oo_plot_series, &oo_plot_series_end),
 		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_DOMAIN, OO_NS_CHART, "domain", GSF_XML_NO_CONTENT, &oo_series_domain, NULL),
