@@ -1,3 +1,11 @@
+2010-09-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (od_draw_control_start): new
+	(oo_control_free): new
+	(odf_form_value_range): new
+	(opendoc_content_dtd): connect od_draw_control_start
+	(openoffice_file_open): initialize and finalize controls hash
+	
 2010-09-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_chart_title): also handle legend titles

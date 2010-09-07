@@ -49,6 +49,7 @@
 #include <gutils.h>
 #include <xml-sax.h>
 #include <sheet-object-cell-comment.h>
+#include "sheet-object-widget.h"
 #include <style-conditions.h>
 #include <gnumeric-gconf.h>
 #include <mathfunc.h>
@@ -178,6 +179,17 @@ typedef struct {
 } OOProp;
 
 typedef struct {
+	GType t;
+	gboolean horizontal;
+	int min;
+	int max;
+	int step;
+	int page_step;
+	gnm_float value;
+	char *linked_cell;
+} OOControl;
+
+typedef struct {
 	gboolean grid;		/* graph has grid? */
 	gboolean src_in_rows;	/* orientation of graph data: rows or columns */
 	GSList	*axis_props;	/* axis properties */
@@ -279,6 +291,7 @@ typedef struct {
 	gboolean	 content_is_error;
 
 	GHashTable	*formats;
+	GHashTable	*controls;
 
 	struct {
 		GHashTable	*cell;
@@ -4642,6 +4655,68 @@ od_draw_frame_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
+od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	char const *name;
+
+	od_draw_frame_start (xin, attrs);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "control"))
+			name = CXML2C (attrs[1]);
+
+	if (name != NULL) {
+		OOControl *oc = g_hash_table_lookup (state->controls, name);
+		if (oc != NULL) {
+			SheetObject *so;
+			GtkAdjustment *adj;
+			int min_real = (oc->min < oc->max) ? oc->min : oc->max; 
+			int max_real = (oc->min < oc->max) ? oc->max : oc->min;
+			gnm_float value_real = oc->value;
+			if (value_real < (gnm_float)min_real)
+				value_real = min_real;
+			if (value_real > (gnm_float)max_real)
+				value_real = max_real;
+			
+			so = state->chart.so = g_object_new 
+				(oc->t, "horizontal", oc->horizontal, NULL);
+			adj = sheet_widget_adjustment_get_adjustment (so);
+			
+			gtk_adjustment_configure (adj,
+						  value_real,
+						  min_real,
+						  max_real,
+						  oc->step,
+						  oc->page_step,
+						  0);
+
+			od_draw_frame_end (xin, NULL);
+
+			if (oc->linked_cell) {
+				GnmParsePos pp;
+				GnmRangeRef ref;
+				char const *ptr = oo_rangeref_parse 
+					(&ref, oc->linked_cell,
+					 parse_pos_init_sheet (&pp, state->pos.sheet));
+				if (ptr != oc->linked_cell) {
+					GnmValue *v = value_new_cellrange 
+						(&ref.a, &ref.a, 0, 0);
+					GnmExprTop const *texpr 
+						= gnm_expr_top_new_constant (v);
+					if (texpr != NULL) {
+						sheet_widget_adjustment_set_link 
+							(so, texpr);
+						gnm_expr_top_unref (texpr);
+					}
+				}
+			}
+		}
+	} else 
+		od_draw_frame_end (xin, NULL);
+}
+
+static void
 od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -5910,6 +5985,13 @@ oo_chart_style_free (OOChartStyle *cstyle)
 }
 
 static void
+oo_control_free (OOControl *ctrl)
+{
+	g_free (ctrl->linked_cell);
+	g_free (ctrl);
+}
+
+static void
 odf_annotation_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -5948,9 +6030,62 @@ odf_annotation_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	state->cell_comment = NULL;
 }
+/****************************************************************************/
+/******************************** controls     ******************************/
 
-/*********************************************************************************************/
-/******************************** settings.xml             ***********************************/
+static void
+odf_form_value_range (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOControl *oc = g_new0 (OOControl, 1);
+	OOParseState *state = (OOParseState *)xin->user_state;
+	char *name = NULL;
+	static OOEnum const orientations [] = {
+		{ "vertical",	0},
+		{ "horizontal",	1},
+		{ NULL,	0 },
+	};
+	int tmp;
+
+	oc->step = oc->page_step = 1;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		/* ODF does not declare an xml: namespace but uses this attribute */
+		if (0 == strcmp (CXML2C (attrs[0]), "xml:id")) {
+			g_free (name);
+			name = g_strdup (CXML2C (attrs[1]));
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					       OO_NS_FORM, "id")) {
+			if (name == NULL)
+				name = g_strdup (CXML2C (attrs[1]));
+		} else if (oo_attr_enum (xin, attrs, OO_NS_FORM, "vertical", orientations, 
+					 &tmp))
+					       oc->horizontal = (tmp != 0);
+		else if (oo_attr_int (xin, attrs, OO_NS_FORM, "min-value", 
+				      &(oc->min)));
+		else if (oo_attr_int (xin, attrs, OO_NS_FORM, "max-value", 
+				      &(oc->max)));
+		else if (oo_attr_int_range (xin, attrs, OO_NS_FORM, "step-size", 
+					    &(oc->step), 0, INT_MAX));
+		else if (oo_attr_int_range (xin, attrs, OO_NS_FORM, "page-step-size", 
+					    &(oc->page_step), 0, INT_MAX));
+		else if (oo_attr_float (xin, attrs, OO_NS_FORM, "value", 
+					&(oc->value)));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					     OO_NS_FORM, "linked-cell")) {
+			g_free (oc->linked_cell);
+			oc->linked_cell =  g_strdup (CXML2C (attrs[1]));
+		}
+
+	if (name != NULL) {
+		oc->t = sheet_widget_scrollbar_get_type ();
+		g_hash_table_replace (state->controls, name, oc);
+	} else
+		oo_control_free (oc);
+}
+
+
+/****************************************************************************/
+/******************************** settings.xml ******************************/
 
 static void
 unset_gvalue (gpointer data, G_GNUC_UNUSED gpointer user_data)
@@ -6519,6 +6654,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	        GSF_XML_IN_NODE (CHART_SUBTITLE, TITLE_TEXT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),                                     /* 2nd Def */
 	      GSF_XML_IN_NODE (CHART_CHART, CHART_LEGEND, OO_NS_CHART, "legend", GSF_XML_NO_CONTENT, &oo_legend, &oo_legend_end),
 	        GSF_XML_IN_NODE (CHART_LEGEND, CHART_LEGEND_TITLE, OO_GNUM_NS_EXT, "title", GSF_XML_NO_CONTENT,  &oo_chart_title, &oo_chart_title_end),
+		  GSF_XML_IN_NODE (CHART_LEGEND_TITLE, TITLE_TEXT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd Def */
 	      GSF_XML_IN_NODE (CHART_CHART, CHART_PLOT_AREA, OO_NS_CHART, "plot-area", GSF_XML_NO_CONTENT, &oo_plot_area, &oo_plot_area_end),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_SERIES, OO_NS_CHART, "series", GSF_XML_NO_CONTENT, &oo_plot_series, &oo_plot_series_end),
 		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_DOMAIN, OO_NS_CHART, "domain", GSF_XML_NO_CONTENT, &oo_series_domain, NULL),
@@ -6547,6 +6683,8 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	            GSF_XML_IN_NODE (FORM_BUTTON, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
 	            GSF_XML_IN_NODE (FORM_BUTTON, FORM_EVENT_LISTENERS, OO_NS_OFFICE, "event-listeners", GSF_XML_NO_CONTENT, NULL, NULL),
 	              GSF_XML_IN_NODE (FORM_EVENT_LISTENERS, SCRIPT_LISTENER, OO_NS_SCRIPT, "event-listener", GSF_XML_NO_CONTENT, NULL, NULL),
+	          GSF_XML_IN_NODE (FORM, FORM_VALUE_RANGE, OO_NS_FORM, "value-range", GSF_XML_NO_CONTENT, &odf_form_value_range, NULL),
+	            GSF_XML_IN_NODE (FORM_VALUE_RANGE, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
 	      GSF_XML_IN_NODE (TABLE, TABLE_ROWS, OO_NS_TABLE, "table-rows", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, &oo_col_start, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, &oo_row_start, &oo_row_end),
@@ -6570,7 +6708,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		  GSF_XML_IN_NODE (TABLE_CELL, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),			/* ignore for now */
 		    GSF_XML_IN_NODE (CELL_GRAPHIC, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd def */
 		    GSF_XML_IN_NODE (CELL_GRAPHIC, DRAW_POLYLINE, OO_NS_DRAW, "polyline", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd def */
-	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_CONTROL, OO_NS_DRAW, "control", GSF_XML_NO_CONTENT, NULL, NULL),
+	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_CONTROL, OO_NS_DRAW, "control", GSF_XML_NO_CONTENT, &od_draw_control_start, NULL),
 		  GSF_XML_IN_NODE (TABLE_CELL, DRAW_FRAME, OO_NS_DRAW, "frame", GSF_XML_NO_CONTENT, &od_draw_frame_start, &od_draw_frame_end),
 		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_OBJECT, OO_NS_DRAW, "object", GSF_XML_NO_CONTENT, &od_draw_object, NULL),
 	            GSF_XML_IN_NODE (DRAW_OBJECT, DRAW_OBJECT_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, NULL),
@@ -7520,6 +7658,10 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 		(g_str_hash, g_str_equal,
 		 (GDestroyNotify) g_free,
 		 (GDestroyNotify) g_free);
+	state.controls = g_hash_table_new_full 
+		(g_str_hash, g_str_equal,
+		 (GDestroyNotify) g_free,
+		 (GDestroyNotify) oo_control_free);
 	state.cur_style.cells    = NULL;
 	state.cur_style.col_rows = NULL;
 	state.cur_style.sheets   = NULL;
@@ -7649,6 +7791,7 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	g_hash_table_destroy (state.chart.fill_image_styles);
 	g_hash_table_destroy (state.chart.gradient_styles);
 	g_hash_table_destroy (state.formats);
+	g_hash_table_destroy (state.controls);
 	g_object_unref (contents);
 
 	g_object_unref (zip);
