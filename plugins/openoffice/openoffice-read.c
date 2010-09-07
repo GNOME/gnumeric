@@ -5820,7 +5820,7 @@ oo_legend (GsfXMLIn *xin, xmlChar const **attrs)
 	GogObjectPosition align = GOG_POSITION_ALIGN_CENTER;
 	GogObject *legend;
 	int tmp;
-	char const *style_name;
+	char const *style_name = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_enum (xin, attrs, OO_NS_CHART, "legend-position", positions, &tmp))
