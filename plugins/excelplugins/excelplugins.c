@@ -409,8 +409,8 @@ destruct_xloper (XLOPER*x)
 		default:
 			unsupported_xloper_type (x);
 		}
+		x->xltype = xltypeNil;
 	}
-	x->xltype = xltypeNil;
 }
 
 static GnmValue *
