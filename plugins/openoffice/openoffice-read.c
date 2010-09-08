@@ -187,6 +187,7 @@ typedef struct {
 	int page_step;
 	gnm_float value;
 	char *linked_cell;
+	char *label;
 } OOControl;
 
 typedef struct {
@@ -4670,28 +4671,34 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 		OOControl *oc = g_hash_table_lookup (state->controls, name);
 		if (oc != NULL) {
 			SheetObject *so;
-			GtkAdjustment *adj;
-			int min_real = (oc->min < oc->max) ? oc->min : oc->max; 
-			int max_real = (oc->min < oc->max) ? oc->max : oc->min;
-			gnm_float value_real = oc->value;
-			if (value_real < (gnm_float)min_real)
-				value_real = min_real;
-			if (value_real > (gnm_float)max_real)
-				value_real = max_real;
+			if (oc->t == sheet_widget_scrollbar_get_type ()) {
+				GtkAdjustment *adj;
+				int min_real = (oc->min < oc->max) ? oc->min : oc->max; 
+				int max_real = (oc->min < oc->max) ? oc->max : oc->min;
+				gnm_float value_real = oc->value;
+				if (value_real < (gnm_float)min_real)
+					value_real = min_real;
+				if (value_real > (gnm_float)max_real)
+					value_real = max_real;
 			
-			so = state->chart.so = g_object_new 
-				(oc->t, "horizontal", oc->horizontal, NULL);
-			adj = sheet_widget_adjustment_get_adjustment (so);
+				so = state->chart.so = g_object_new 
+					(oc->t, "horizontal", oc->horizontal, NULL);
+				adj = sheet_widget_adjustment_get_adjustment (so);
 			
-			gtk_adjustment_configure (adj,
-						  value_real,
-						  min_real,
-						  max_real,
-						  oc->step,
-						  oc->page_step,
-						  0);
+				gtk_adjustment_configure (adj,
+							  value_real,
+							  min_real,
+							  max_real,
+							  oc->step,
+							  oc->page_step,
+							  0);
+			} else if (oc->t == sheet_widget_checkbox_get_type ()) {
+				so = state->chart.so = g_object_new 
+					(oc->t, "text", oc->label, NULL);
+			}
 
 			od_draw_frame_end (xin, NULL);
+			
 
 			if (oc->linked_cell) {
 				GnmParsePos pp;
@@ -4705,8 +4712,12 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 					GnmExprTop const *texpr 
 						= gnm_expr_top_new_constant (v);
 					if (texpr != NULL) {
-						sheet_widget_adjustment_set_link 
-							(so, texpr);
+						if (oc->t == sheet_widget_scrollbar_get_type ())
+							sheet_widget_adjustment_set_link 
+								(so, texpr);
+						else if (oc->t == sheet_widget_checkbox_get_type ())
+							sheet_widget_checkbox_set_link
+								(so, texpr);
 						gnm_expr_top_unref (texpr);
 					}
 				}
@@ -5987,6 +5998,7 @@ oo_chart_style_free (OOChartStyle *cstyle)
 static void
 oo_control_free (OOControl *ctrl)
 {
+	g_free (ctrl->label);
 	g_free (ctrl->linked_cell);
 	g_free (ctrl);
 }
@@ -6034,7 +6046,7 @@ odf_annotation_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 /******************************** controls     ******************************/
 
 static void
-odf_form_value_range (GsfXMLIn *xin, xmlChar const **attrs)
+odf_form_control (GsfXMLIn *xin, xmlChar const **attrs, GType t)
 {
 	OOControl *oc = g_new0 (OOControl, 1);
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -6078,15 +6090,31 @@ odf_form_value_range (GsfXMLIn *xin, xmlChar const **attrs)
 					     OO_GNUM_NS_EXT, "linked-cell")) {
 			g_free (oc->linked_cell);
 			oc->linked_cell =  g_strdup (CXML2C (attrs[1]));
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					     OO_NS_FORM, "label")) {
+			g_free (oc->label);
+			oc->label =  g_strdup (CXML2C (attrs[1]));
 		}
 
 	if (name != NULL) {
-		oc->t = sheet_widget_scrollbar_get_type ();
+		oc->t = t;
 		g_hash_table_replace (state->controls, name, oc);
 	} else
 		oo_control_free (oc);
 }
 
+
+static void
+odf_form_value_range (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	odf_form_control (xin, attrs, sheet_widget_scrollbar_get_type ());
+}
+
+static void
+odf_form_checkbox (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	odf_form_control (xin, attrs, sheet_widget_checkbox_get_type ());
+}
 
 /****************************************************************************/
 /******************************** settings.xml ******************************/
@@ -6689,6 +6717,8 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	              GSF_XML_IN_NODE (FORM_EVENT_LISTENERS, SCRIPT_LISTENER, OO_NS_SCRIPT, "event-listener", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (FORM, FORM_VALUE_RANGE, OO_NS_FORM, "value-range", GSF_XML_NO_CONTENT, &odf_form_value_range, NULL),
 	            GSF_XML_IN_NODE (FORM_VALUE_RANGE, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+	          GSF_XML_IN_NODE (FORM, FORM_CHECKBOX, OO_NS_FORM, "checkbox", GSF_XML_NO_CONTENT, &odf_form_checkbox, NULL),
+	            GSF_XML_IN_NODE (FORM_CHECKBOX, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
 	      GSF_XML_IN_NODE (TABLE, TABLE_ROWS, OO_NS_TABLE, "table-rows", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, &oo_col_start, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, &oo_row_start, &oo_row_end),

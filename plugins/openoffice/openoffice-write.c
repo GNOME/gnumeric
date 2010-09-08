@@ -3084,6 +3084,26 @@ odf_write_sheet_controls_get_id (GnmOOExport *state, SheetObject *so)
 }
 
 static void
+odf_write_sheet_control_linked_cell (GnmOOExport *state, GnmExprTop const *texpr)
+{
+	if (texpr && gnm_expr_top_is_rangeref (texpr)) {
+		char *link = NULL;
+		GnmParsePos pp;
+
+		parse_pos_init_sheet (&pp, state->sheet);
+		link = gnm_expr_top_as_string (texpr, &pp, state->conv);
+		
+		if (get_gsf_odf_version () > 101)
+			gsf_xml_out_add_cstr (state->xml, FORM "linked-cell", 
+					      odf_strip_brackets (link));
+		else
+			gsf_xml_out_add_cstr (state->xml, GNMSTYLE "linked-cell", 
+					      odf_strip_brackets (link));
+		g_free (link);
+	}
+}
+
+static void
 odf_write_sheet_control_scrollbar (GnmOOExport *state, SheetObject *so)
 {
 	char const *id = odf_write_sheet_controls_get_id (state, so);
@@ -3110,25 +3130,36 @@ odf_write_sheet_control_scrollbar (GnmOOExport *state, SheetObject *so)
 	/* crashes OOo */
 /* 	gsf_xml_out_add_cstr (state->xml, FORM "control-implementation",  */
 /* 			      OOO "com.sun.star.form.component.ScrollBar"); */
-	if (texpr && gnm_expr_top_is_rangeref (texpr)) {
-		char *link = NULL;
-		GnmParsePos pp;
 
-		parse_pos_init_sheet (&pp, state->sheet);
-		link = gnm_expr_top_as_string (texpr, &pp, state->conv);
-		
-		if (get_gsf_odf_version () > 101)
-			gsf_xml_out_add_cstr (state->xml, FORM "linked-cell", 
-					      odf_strip_brackets (link));
-		else
-			gsf_xml_out_add_cstr (state->xml, GNMSTYLE "linked-cell", 
-					      odf_strip_brackets (link));
-		g_free (link);
-	}
+	odf_write_sheet_control_linked_cell (state, texpr);
 	gnm_expr_top_unref (texpr);
 	
 	gsf_xml_out_end_element (state->xml); /* form:value-range */
 }
+
+static void
+odf_write_sheet_control_checkbox (GnmOOExport *state, SheetObject *so)
+{
+	char const *id = odf_write_sheet_controls_get_id (state, so);
+	GnmExprTop const *texpr = sheet_widget_checkbox_get_link (so);
+	char *label;
+
+	g_object_get (G_OBJECT (so), "text", &label, NULL);
+
+	gsf_xml_out_start_element (state->xml, FORM "checkbox");
+	gsf_xml_out_add_cstr (state->xml, XML "id", id);
+	gsf_xml_out_add_cstr (state->xml, FORM "id", id);
+	gsf_xml_out_add_cstr (state->xml, FORM "label", label);
+
+	odf_write_sheet_control_linked_cell (state, texpr);
+	gnm_expr_top_unref (texpr);
+	
+	gsf_xml_out_end_element (state->xml); /* form:checkbox */
+
+	g_free (label);
+}
+
+
 
 static void
 odf_write_sheet_controls (GnmOOExport *state)
@@ -3146,6 +3177,8 @@ odf_write_sheet_controls (GnmOOExport *state)
 
 		if (GNM_IS_SOW_SCROLLBAR (so))
 		    odf_write_sheet_control_scrollbar (state, so);
+		else if (GNM_IS_SOW_CHECKBOX (so))
+			odf_write_sheet_control_checkbox (state, so);
 	}
 
 	gsf_xml_out_end_element (state->xml); /* form:form */
