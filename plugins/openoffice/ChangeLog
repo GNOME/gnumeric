@@ -1,3 +1,13 @@
+2010-09-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_form_value_range): fix attribute name and
+	  also read gnm:linked_cell
+	* openoffice-write.c (odf_write_frame): write frame or control
+	(odf_write_sheet_controls_get_id): new
+	(odf_write_sheet_control_scrollbar): new
+	(odf_write_sheet_controls): new
+	(openoffice_file_save_real): initialize and finalize controls hash
+	
 2010-09-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (od_draw_control_start): new

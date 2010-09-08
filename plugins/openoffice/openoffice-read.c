@@ -6057,7 +6057,7 @@ odf_form_value_range (GsfXMLIn *xin, xmlChar const **attrs)
 					       OO_NS_FORM, "id")) {
 			if (name == NULL)
 				name = g_strdup (CXML2C (attrs[1]));
-		} else if (oo_attr_enum (xin, attrs, OO_NS_FORM, "vertical", orientations, 
+		} else if (oo_attr_enum (xin, attrs, OO_NS_FORM, "orientation", orientations, 
 					 &tmp))
 					       oc->horizontal = (tmp != 0);
 		else if (oo_attr_int (xin, attrs, OO_NS_FORM, "min-value", 
@@ -6072,6 +6072,10 @@ odf_form_value_range (GsfXMLIn *xin, xmlChar const **attrs)
 					&(oc->value)));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
 					     OO_NS_FORM, "linked-cell")) {
+			g_free (oc->linked_cell);
+			oc->linked_cell =  g_strdup (CXML2C (attrs[1]));
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					     OO_GNUM_NS_EXT, "linked-cell")) {
 			g_free (oc->linked_cell);
 			oc->linked_cell =  g_strdup (CXML2C (attrs[1]));
 		}

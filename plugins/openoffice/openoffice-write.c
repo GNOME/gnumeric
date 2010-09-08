@@ -62,6 +62,7 @@
 #include <sheet-object-graph.h>
 #include <sheet-object-cell-comment.h>
 #include <sheet-object-image.h>
+#include <sheet-object-widget.h>
 #include <gnm-so-filled.h>
 #include <sheet-filter-combo.h>
 
@@ -91,7 +92,9 @@
 #define SVG	 "svg:"
 #define XLINK	 "xlink:"
 #define CONFIG   "config:"
+#define FORM     "form:"
 #define OOO      "ooo:"
+#define XML      "xml:"
 #define GNMSTYLE "gnm:"  /* We use this for attributes and elements not supported by ODF */
 
 typedef struct {
@@ -120,6 +123,8 @@ typedef struct {
 	GHashTable *graph_gradients;
 	GHashTable *chart_props_hash;
 	GHashTable *images;
+	GHashTable *controls;
+
 	gboolean with_extension;
 	GOFormat const *time_fmt;
 	GOFormat const *date_fmt;
@@ -2394,10 +2399,11 @@ odf_write_frame (GnmOOExport *state, SheetObject *so)
 	GnmExprTop const *texpr;
 	GnmParsePos pp;
 	char *formula;
+	char const *id = g_hash_table_lookup (state->controls, so);
 
 	sheet_object_anchor_to_offset_pts (anchor, state->sheet, res_pts);
 
-	gsf_xml_out_start_element (state->xml, DRAW "frame");
+	gsf_xml_out_start_element (state->xml, id ? DRAW "control" : DRAW "frame");
 	odf_add_pt (state->xml, SVG "x", res_pts[0]);
 	odf_add_pt (state->xml, SVG "y", res_pts[1]);
 	odf_add_pt (state->xml, TABLE "end-x", res_pts[2]);
@@ -2417,7 +2423,9 @@ odf_write_frame (GnmOOExport *state, SheetObject *so)
 	gsf_xml_out_add_cstr (state->xml, TABLE "end-cell-address", odf_strip_brackets (formula));
 	g_free (formula);
 
-	if (IS_SHEET_OBJECT_GRAPH (so)) {
+	if (id != NULL) {
+		gsf_xml_out_add_cstr (state->xml, DRAW "control", id);
+	} else if (IS_SHEET_OBJECT_GRAPH (so)) {
 		char const *name = g_hash_table_lookup (state->graphs, so);
 		if (name != NULL) {
 			char *full_name = g_strdup_printf ("%s/", name);
@@ -3067,6 +3075,82 @@ odf_write_sheet (GnmOOExport *state)
 
 }
 
+static char const *
+odf_write_sheet_controls_get_id (GnmOOExport *state, SheetObject *so)
+{
+	char *id = g_strdup_printf ("CTRL%.4i",g_hash_table_size (state->controls));
+	g_hash_table_replace (state->controls, so, id);
+	return id;
+}
+
+static void
+odf_write_sheet_control_scrollbar (GnmOOExport *state, SheetObject *so)
+{
+	char const *id = odf_write_sheet_controls_get_id (state, so);
+	GtkAdjustment *adj = sheet_widget_adjustment_get_adjustment (so);
+	GnmExprTop const *texpr = sheet_widget_adjustment_get_link (so);
+
+	gsf_xml_out_start_element (state->xml, FORM "value-range");
+	gsf_xml_out_add_cstr (state->xml, XML "id", id);
+	gsf_xml_out_add_cstr (state->xml, FORM "id", id);
+	gsf_xml_out_add_cstr (state->xml, FORM "orientation", 
+			      sheet_widget_adjustment_get_horizontal (so) ? 
+			      "horizontal" : "vertical");
+	gsf_xml_out_add_float (state->xml, FORM "value", 
+		       gtk_adjustment_get_value (adj), -1);
+	gsf_xml_out_add_float (state->xml, FORM "min-value", 
+		       gtk_adjustment_get_lower (adj), -1);
+	gsf_xml_out_add_float (state->xml, FORM "max-value", 
+		       gtk_adjustment_get_upper (adj), -1);
+	gsf_xml_out_add_int (state->xml, FORM "step-size",
+			     (int)(gtk_adjustment_get_step_increment (adj) + 0.5));
+	gsf_xml_out_add_int (state->xml, FORM "page-step-size",
+			     (int)(gtk_adjustment_get_page_increment (adj) + 0.5));
+	/* OOo fails to import this control, but adding its control-implementation */
+	/* crashes OOo */
+/* 	gsf_xml_out_add_cstr (state->xml, FORM "control-implementation",  */
+/* 			      OOO "com.sun.star.form.component.ScrollBar"); */
+	if (texpr && gnm_expr_top_is_rangeref (texpr)) {
+		char *link = NULL;
+		GnmParsePos pp;
+
+		parse_pos_init_sheet (&pp, state->sheet);
+		link = gnm_expr_top_as_string (texpr, &pp, state->conv);
+		
+		if (get_gsf_odf_version () > 101)
+			gsf_xml_out_add_cstr (state->xml, FORM "linked-cell", 
+					      odf_strip_brackets (link));
+		else
+			gsf_xml_out_add_cstr (state->xml, GNMSTYLE "linked-cell", 
+					      odf_strip_brackets (link));
+		g_free (link);
+	}
+	gnm_expr_top_unref (texpr);
+	
+	gsf_xml_out_end_element (state->xml); /* form:value-range */
+}
+
+static void
+odf_write_sheet_controls (GnmOOExport *state)
+{
+	Sheet const *sheet = state->sheet;
+	GSList *objects = sheet->sheet_objects, *l;
+
+	gsf_xml_out_start_element (state->xml, OFFICE "forms");
+	odf_add_bool (state->xml, FORM "automatic-focus", FALSE);
+	odf_add_bool (state->xml, FORM "apply-design-mode", FALSE);
+	gsf_xml_out_start_element (state->xml, FORM "form");
+
+	for (l = objects; l != NULL; l = l->next) {
+		SheetObject *so = l->data;
+
+		if (GNM_IS_SOW_SCROLLBAR (so))
+		    odf_write_sheet_control_scrollbar (state, so);
+	}
+
+	gsf_xml_out_end_element (state->xml); /* form:form */
+	gsf_xml_out_end_element (state->xml); /* office:forms */
+}
 
 static void
 odf_write_filter_cond (GnmOOExport *state, GnmFilter const *filter, int i)
@@ -3273,6 +3357,7 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 			g_free (formula);
 		}
 
+		odf_write_sheet_controls (state);
 		odf_write_sheet (state);
 		gsf_xml_out_end_element (state->xml); /* </table:table> */
 
@@ -3867,7 +3952,6 @@ static void
 odf_write_label_cell_address (GnmOOExport *state, GOData const *dat)
 {
 	GnmExprTop const *texpr;
-	GnmParsePos pp;
 
 	if (dat == NULL)
 		return;
@@ -3875,6 +3959,7 @@ odf_write_label_cell_address (GnmOOExport *state, GOData const *dat)
 	texpr = gnm_go_data_get_expr (dat);
 	if (texpr != NULL) {
 		char *str;
+		GnmParsePos pp;
 		parse_pos_init (&pp, WORKBOOK (state->wb), NULL, 0,0 );
 		str = gnm_expr_top_as_string (texpr, &pp, state->conv);
 		if (gnm_expr_top_is_rangeref (texpr))
@@ -5798,6 +5883,8 @@ openoffice_file_save_real (GOFileSaver const *fs, GOIOContext *ioc,
 					       NULL, (GDestroyNotify) g_free);
 	state.images = g_hash_table_new_full (g_direct_hash, g_direct_equal,
 					       NULL, (GDestroyNotify) g_free);
+	state.controls = g_hash_table_new_full (g_direct_hash, g_direct_equal,
+					       NULL, (GDestroyNotify) g_free);
 	state.named_cell_styles = g_hash_table_new_full (g_direct_hash, g_direct_equal,
 						   NULL, (GDestroyNotify) g_free);
 	state.cell_styles = g_hash_table_new_full (g_direct_hash, g_direct_equal,
@@ -5885,6 +5972,7 @@ openoffice_file_save_real (GOFileSaver const *fs, GOIOContext *ioc,
 	gnm_pop_C_locale (locale);
 	g_hash_table_unref (state.graphs);
 	g_hash_table_unref (state.images);
+	g_hash_table_unref (state.controls);
 	g_hash_table_unref (state.named_cell_styles);
 	g_hash_table_unref (state.cell_styles);
 	g_hash_table_unref (state.xl_styles);
