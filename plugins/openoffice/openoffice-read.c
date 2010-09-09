@@ -185,7 +185,7 @@ typedef struct {
 	int max;
 	int step;
 	int page_step;
-	gnm_float value;
+	char *value;
 	char *linked_cell;
 	char *label;
 } OOControl;
@@ -4675,7 +4675,18 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 				GtkAdjustment *adj;
 				int min_real = (oc->min < oc->max) ? oc->min : oc->max; 
 				int max_real = (oc->min < oc->max) ? oc->max : oc->min;
-				gnm_float value_real = oc->value;
+				gnm_float value_real;
+				
+				if (oc->value != NULL) {
+					char *end;
+					value_real = gnm_strto (oc->value, &end);
+					if (*end) {
+						oo_warning (xin, _("Invalid attribute 'form:value', "
+							   "expected number, received '%s'"), oc->value);
+						value_real = 0.;
+					}
+				} else value_real = 0.;
+
 				if (value_real < (gnm_float)min_real)
 					value_real = min_real;
 				if (value_real > (gnm_float)max_real)
@@ -4692,6 +4703,14 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 							  oc->step,
 							  oc->page_step,
 							  0);
+			} else if (oc->t == sheet_widget_radio_button_get_type ()) {
+				so = state->chart.so = g_object_new 
+					(oc->t, "text", oc->label, NULL);
+				if (oc->value != NULL) {
+					GnmValue *val = value_new_string (oc->value);
+					sheet_widget_radio_button_set_value (so, val);
+					value_release (val);
+				}
 			} else if (oc->t == sheet_widget_checkbox_get_type ()) {
 				so = state->chart.so = g_object_new 
 					(oc->t, "text", oc->label, NULL);
@@ -4717,6 +4736,9 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 								(so, texpr);
 						else if (oc->t == sheet_widget_checkbox_get_type ())
 							sheet_widget_checkbox_set_link
+								(so, texpr);
+						else if (oc->t == sheet_widget_radio_button_get_type ())
+							sheet_widget_radio_button_set_link
 								(so, texpr);
 						gnm_expr_top_unref (texpr);
 					}
@@ -5998,6 +6020,7 @@ oo_chart_style_free (OOChartStyle *cstyle)
 static void
 oo_control_free (OOControl *ctrl)
 {
+	g_free (ctrl->value);
 	g_free (ctrl->label);
 	g_free (ctrl->linked_cell);
 	g_free (ctrl);
@@ -6080,9 +6103,11 @@ odf_form_control (GsfXMLIn *xin, xmlChar const **attrs, GType t)
 					    &(oc->step), 0, INT_MAX));
 		else if (oo_attr_int_range (xin, attrs, OO_NS_FORM, "page-step-size", 
 					    &(oc->page_step), 0, INT_MAX));
-		else if (oo_attr_float (xin, attrs, OO_NS_FORM, "value", 
-					&(oc->value)));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+						OO_NS_FORM, "value")) {
+			g_free (oc->value);
+			oc->value = g_strdup (CXML2C (attrs[1]));
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
 					     OO_NS_FORM, "linked-cell")) {
 			g_free (oc->linked_cell);
 			oc->linked_cell =  g_strdup (CXML2C (attrs[1]));
@@ -6114,6 +6139,12 @@ static void
 odf_form_checkbox (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	odf_form_control (xin, attrs, sheet_widget_checkbox_get_type ());
+}
+
+static void
+odf_form_radio (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	odf_form_control (xin, attrs, sheet_widget_radio_button_get_type ());
 }
 
 /****************************************************************************/
@@ -6719,6 +6750,8 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	            GSF_XML_IN_NODE (FORM_VALUE_RANGE, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
 	          GSF_XML_IN_NODE (FORM, FORM_CHECKBOX, OO_NS_FORM, "checkbox", GSF_XML_NO_CONTENT, &odf_form_checkbox, NULL),
 	            GSF_XML_IN_NODE (FORM_CHECKBOX, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+	          GSF_XML_IN_NODE (FORM, FORM_RADIO, OO_NS_FORM, "radio", GSF_XML_NO_CONTENT, &odf_form_radio, NULL),
+	            GSF_XML_IN_NODE (FORM_RADIO, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
 	      GSF_XML_IN_NODE (TABLE, TABLE_ROWS, OO_NS_TABLE, "table-rows", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, &oo_col_start, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, &oo_row_start, &oo_row_end),
