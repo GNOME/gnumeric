@@ -4670,7 +4670,7 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 	if (name != NULL) {
 		OOControl *oc = g_hash_table_lookup (state->controls, name);
 		if (oc != NULL) {
-			SheetObject *so;
+			SheetObject *so = NULL;
 			if (oc->t == sheet_widget_scrollbar_get_type ()) {
 				GtkAdjustment *adj;
 				int min_real = (oc->min < oc->max) ? oc->min : oc->max; 
