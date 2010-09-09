@@ -1,3 +1,8 @@
+2010-09-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-object-widget.c: add "value" property to radio_button
+	  widget
+
 2010-09-04  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

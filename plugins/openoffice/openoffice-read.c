@@ -186,6 +186,7 @@ typedef struct {
 	int step;
 	int page_step;
 	char *value;
+	char *value_type;
 	char *linked_cell;
 	char *label;
 } OOControl;
@@ -4685,6 +4686,11 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 							   "expected number, received '%s'"), oc->value);
 						value_real = 0.;
 					}
+					if (oc->value_type != NULL && 0 != strcmp (oc->value_type, "float"))
+						oo_warning (xin, _("Invalid value-type '%s' advertised for "
+								   "'form:value' attribute in 'form:value-range' "
+								   "element."), 
+							    oc->value_type);
 				} else value_real = 0.;
 
 				if (value_real < (gnm_float)min_real)
@@ -4707,9 +4713,27 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 				so = state->chart.so = g_object_new 
 					(oc->t, "text", oc->label, NULL);
 				if (oc->value != NULL) {
-					GnmValue *val = value_new_string (oc->value);
+					GnmValue *val = NULL;
+					if (oc->value_type == NULL || 
+					    0 == strcmp (oc->value_type, "string"))
+						val = value_new_string (oc->value);
+					else if (0 == strcmp (oc->value_type, "float")) {
+						char *end;
+						gnm_float value_real = gnm_strto (oc->value, &end);
+						if (*end) {
+							oo_warning (xin, _("Invalid attribute 'form:value', "
+									   "expected number, received '%s'"), oc->value);
+							val = value_new_string (oc->value);
+						} else
+							val = value_new_float (value_real);
+					} else if (0 == strcmp (oc->value_type, "boolean")) {
+						gboolean b = (g_ascii_strcasecmp (oc->value, "false") &&
+							      strcmp (oc->value, "0"));
+						val = value_new_bool (b);
+					} else
+						val = value_new_string (oc->value);
 					sheet_widget_radio_button_set_value (so, val);
-					value_release (val);
+					value_release (val);					
 				}
 			} else if (oc->t == sheet_widget_checkbox_get_type ()) {
 				so = state->chart.so = g_object_new 
@@ -6021,6 +6045,7 @@ static void
 oo_control_free (OOControl *ctrl)
 {
 	g_free (ctrl->value);
+	g_free (ctrl->value_type);
 	g_free (ctrl->label);
 	g_free (ctrl->linked_cell);
 	g_free (ctrl);
@@ -6107,6 +6132,10 @@ odf_form_control (GsfXMLIn *xin, xmlChar const **attrs, GType t)
 						OO_NS_FORM, "value")) {
 			g_free (oc->value);
 			oc->value = g_strdup (CXML2C (attrs[1]));
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+						OO_GNUM_NS_EXT, "value-type")) {
+			g_free (oc->value_type);
+			oc->value_type = g_strdup (CXML2C (attrs[1]));
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
 					     OO_NS_FORM, "linked-cell")) {
 			g_free (oc->linked_cell);

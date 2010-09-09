@@ -2250,7 +2250,8 @@ enum {
 	SOR_PROP_0 = 0,
 	SOR_PROP_ACTIVE,
 	SOR_PROP_TEXT,
-	SOR_PROP_MARKUP
+	SOR_PROP_MARKUP,
+	SOR_PROP_VALUE
 };
 
 static GnmValue *
@@ -2275,6 +2276,9 @@ sheet_widget_radio_button_get_property (GObject *obj, guint param_id,
 		break;
 	case SOR_PROP_MARKUP:
 		g_value_set_boxed (value, NULL); /* swrb->markup */
+		break;
+	case SOR_PROP_VALUE:
+		g_value_set_pointer (value, swrb->value);
 		break;
 	default :
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -2301,6 +2305,10 @@ sheet_widget_radio_button_set_property (GObject *obj, guint param_id,
 		sheet_widget_radio_button_set_markup (SHEET_OBJECT (swrb),
 						      g_value_peek_pointer (value));
 #endif
+		break;
+	case SOR_PROP_VALUE:
+		sheet_widget_radio_button_set_value (SHEET_OBJECT (swrb),
+						      g_value_peek_pointer (value));
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -2792,6 +2800,10 @@ SOW_MAKE_TYPE (radio_button, RadioButton,
 		       g_object_class_install_property
 			       (object_class, SOR_PROP_MARKUP,
 				g_param_spec_boxed ("markup", NULL, NULL, PANGO_TYPE_ATTR_LIST,
+						    GSF_PARAM_STATIC | G_PARAM_READWRITE));
+		       g_object_class_install_property
+			       (object_class, SOR_PROP_VALUE,
+				g_param_spec_pointer ("value", NULL, NULL,
 						    GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	       })
 

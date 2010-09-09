@@ -3142,7 +3142,7 @@ odf_write_sheet_control_checkbox (GnmOOExport *state, SheetObject *so)
 {
 	char const *id = odf_write_sheet_controls_get_id (state, so);
 	GnmExprTop const *texpr = sheet_widget_checkbox_get_link (so);
-	char *label;
+	char *label = NULL;
 
 	g_object_get (G_OBJECT (so), "text", &label, NULL);
 
@@ -3150,6 +3150,73 @@ odf_write_sheet_control_checkbox (GnmOOExport *state, SheetObject *so)
 	gsf_xml_out_add_cstr (state->xml, XML "id", id);
 	gsf_xml_out_add_cstr (state->xml, FORM "id", id);
 	gsf_xml_out_add_cstr (state->xml, FORM "label", label);
+
+	odf_write_sheet_control_linked_cell (state, texpr);
+	gnm_expr_top_unref (texpr);
+	
+	gsf_xml_out_end_element (state->xml); /* form:checkbox */
+
+	g_free (label);
+}
+
+static void
+odf_write_sheet_control_radio_button (GnmOOExport *state, SheetObject *so)
+{
+	char const *id = odf_write_sheet_controls_get_id (state, so);
+	GnmExprTop const *texpr = sheet_widget_radio_button_get_link (so);
+	char *label = NULL;
+	GnmValue *val = NULL;
+
+	g_object_get (G_OBJECT (so), "text", &label, "value", &val, NULL);
+
+	gsf_xml_out_start_element (state->xml, FORM "radio");
+	gsf_xml_out_add_cstr (state->xml, XML "id", id);
+	gsf_xml_out_add_cstr (state->xml, FORM "id", id);
+	gsf_xml_out_add_cstr (state->xml, FORM "label", label);
+
+	if (val != NULL) {
+		switch (val->type) {
+		case VALUE_EMPTY:
+			break;
+		case VALUE_BOOLEAN:
+			if (state->with_extension)
+				gsf_xml_out_add_cstr_unchecked 
+					(state->xml,
+					 GNMSTYLE "value-type", 
+					 "boolean");
+			odf_add_bool (state->xml, FORM "value",
+				      value_get_as_bool (val, NULL));
+			break;
+		case VALUE_FLOAT: {
+			GString *str = g_string_new (NULL);
+			if (state->with_extension)
+				gsf_xml_out_add_cstr_unchecked 
+					(state->xml,
+					 GNMSTYLE "value-type", 
+					 "float");
+			value_get_as_gstring (val, str, state->conv);
+			gsf_xml_out_add_cstr (state->xml, FORM "value", 
+					      str->str);
+			g_string_free (str, TRUE);
+			break;
+		}
+		case VALUE_ERROR:
+		case VALUE_STRING:
+			if (state->with_extension)
+				gsf_xml_out_add_cstr_unchecked 
+					(state->xml,
+					 GNMSTYLE "value-type", 
+					 "string");
+			gsf_xml_out_add_cstr (state->xml,
+					      FORM "value",
+					      value_peek_string (val));
+			break;
+		case VALUE_CELLRANGE:
+		case VALUE_ARRAY:
+		default:
+			break;
+		}
+	}
 
 	odf_write_sheet_control_linked_cell (state, texpr);
 	gnm_expr_top_unref (texpr);
@@ -3179,6 +3246,8 @@ odf_write_sheet_controls (GnmOOExport *state)
 		    odf_write_sheet_control_scrollbar (state, so);
 		else if (GNM_IS_SOW_CHECKBOX (so))
 			odf_write_sheet_control_checkbox (state, so);
+		else if (GNM_IS_SOW_RADIO_BUTTON (so))
+			odf_write_sheet_control_radio_button (state, so);
 	}
 
 	gsf_xml_out_end_element (state->xml); /* form:form */

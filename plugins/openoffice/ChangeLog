@@ -1,3 +1,12 @@
+2010-09-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (od_draw_control_start): use gnm:value-type
+	  if available
+	(oo_control_free): free value_type field
+	(odf_form_control): read gnm:value-type
+	* openoffice-write.c (odf_write_sheet_control_radio_button): new
+	(odf_write_sheet_controls): connect odf_write_sheet_control_radio_button
+	
 2010-09-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (od_draw_control_start): oc->value must be a 
