@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&component=general\n"
 "POT-Creation-Date: 2010-09-04 19:34+0000\n"
-"PO-Revision-Date: 2010-09-04 22:15+0100\n"
+"PO-Revision-Date: 2010-09-10 22:07+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -20,9 +20,16 @@ msgstr ""
 "X-Poedit-Language: Slovenian\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
+# area - podatkovno področje
+# array - polje
+# range - podatkovna vrsta
+# string - niz
+# set - set (ni nujno, da je le ena oz zgornjih vrednosti, zato je set, set)
+# rank - red???
+# slope - naklon????
 #: ../plugins/fn-christian-date/functions.c:140
 msgid "EASTERSUNDAY:Easter Sunday in the Gregorian calendar according to the Roman rite of the Christian Church"
-msgstr "EASTERSUNDAY:dan Velike noči po Gregorianskem koledarju (prva nedelja po prvi spomladanski polni Luni), kot ga praznuje po rimskem obredu Rimskokatoliška Cerkev."
+msgstr "EASTERSUNDAY:dan velike noči po gregorijanskem koledarju (prva nedelja po prvi spomladanski polni Luni), kot ga praznuje po rimskem obredu Rimskokatoliška Cerkev."
 
 #: ../plugins/fn-christian-date/functions.c:142
 msgid "year:year between 1582 and 9956, defaults to the year of the next Easter Sunday"
@@ -42,7 +49,7 @@ msgstr "Različica funkcije EASTERSUNDAY z enim argumentom je skladna s funkcijo
 
 #: ../plugins/fn-christian-date/functions.c:163
 msgid "ASHWEDNESDAY:Ash Wednesday in the Gregorian calendar according to the Roman rite of the Christian Church"
-msgstr "ASHWEDNESDAY:dan Pepelníčne sréde ali Pepelníce po Gregorianskem koledarju (sreda, 46 dni pred veliko nočjo uvedena po letu 1091), kot ga praznuje po rimskem obredu Rimskokatoliška Cerkev."
+msgstr "ASHWEDNESDAY:dan pepelníčne sréde ali pepelníce po gregorijanskem koledarju (sreda, 46 dni pred veliko nočjo uvedena po letu 1091), kot ga praznuje po rimskem obredu Rimskokatoliška Cerkev."
 
 #: ../plugins/fn-christian-date/functions.c:165
 msgid "year:year between 1582 and 9956, defaults to the year of the next Ash Wednesday"
@@ -50,7 +57,7 @@ msgstr "leto:leto med leti 1582 in 9956, privzeto določeno kot leto naslednje P
 
 #: ../plugins/fn-christian-date/functions.c:183
 msgid "PENTECOSTSUNDAY:Pentecost Sunday in the Gregorian calendar according to the Roman rite of the Christian Church"
-msgstr "PENTECOSTSUNDAY:dan Binkošti ali praznik Svetega Duha (tudi praznik tednov) po Gregorianskem koledarju (50. dan po Veliki noči), kot ga praznuje po rimskem obredu Rimskokatoliška Cerkev."
+msgstr "PENTECOSTSUNDAY:dan Binkošti ali praznik Svetega Duha (tudi praznik tednov) po gregorijanskem koledarju (50. dan po Veliki noči), kot ga praznuje po rimskem obredu Rimskokatoliška Cerkev."
 
 #: ../plugins/fn-christian-date/functions.c:185
 msgid "year:year between 1582 and 9956, defaults to the year of the next Pentecost Sunday"
@@ -58,7 +65,7 @@ msgstr "leto:leto med leti 1582 in 9956, privzeto določeno kot leto naslednje B
 
 #: ../plugins/fn-christian-date/functions.c:202
 msgid "GOODFRIDAY:Good Friday in the Gregorian calendar according to the Roman rite of the Christian Church"
-msgstr "GOODFRIDAY:dan Velikega ali svetega petka (dan križanja in smrti Jezusa Kristusa) po Gregorianskem koledarju (petek pred Veliko nočjo), kot ga praznuje po rimskem obredu Rimskokatoliška Cerkev."
+msgstr "GOODFRIDAY:dan Velikega ali svetega petka (dan križanja in smrti Jezusa Kristusa) po gregorijanskem koledarju (petek pred Veliko nočjo), kot ga praznuje po rimskem obredu Rimskokatoliška Cerkev."
 
 #: ../plugins/fn-christian-date/functions.c:204
 msgid "year:year between 1582 and 9956, defaults to the year of the next Good Friday"
@@ -66,7 +73,7 @@ msgstr "leto:leto med leti 1582 in 9956, privzeto določeno kot leto naslednjega
 
 #: ../plugins/fn-christian-date/functions.c:221
 msgid "ASCENSIONTHURSDAY:Ascension Thursday in the Gregorian calendar according to the Roman rite of the Christian Church"
-msgstr "ASCENSIONTHURSDAY:dan Maríjinega vnebovzétja ali véliki šmáren po Gregorianskem koledarju (na 15. avgust), kot ga praznuje po rimskem obredu Rimskokatoliška Cerkev."
+msgstr "ASCENSIONTHURSDAY:dan Maríjinega vnebovzétja ali véliki šmáren po gregorijanskem koledarju (na 15. avgust), kot ga praznuje po rimskem obredu Rimskokatoliška Cerkev."
 
 #: ../plugins/fn-christian-date/functions.c:223
 msgid "year:year between 1582 and 9956, defaults to the year of the next Ascension Thursday"
@@ -464,13 +471,6 @@ msgstr "IMEXP:potenc kompleksnega števila @{z}"
 msgid "IMARGUMENT:the argument theta of the complex number @{z} "
 msgstr "IMARGUMENT:argument theta kompleksnega števila @{z}"
 
-# area - podatkovno področje
-# array - polje
-# range - podatkovna vrsta
-# string - niz
-# set - set (ni nujno, da je le ena oz zgornjih vrednosti, zato je set, set)
-# rank - red???
-# slope - naklon????
 #: ../plugins/fn-complex/functions.c:419
 msgid "The argument theta of a complex number is its angle in radians from the real axis."
 msgstr "Argument theta kompleksnega števila je njegov kot v radianih merjen od realne osi."
@@ -3435,7 +3435,7 @@ msgstr "HDATE:datum po Hebrejskem koledarju"
 #: ../plugins/fn-hebrew-date/functions.c:289
 #: ../plugins/fn-hebrew-date/functions.c:316
 msgid "year:Gregorian year of date, defaults to the current year"
-msgstr ""
+msgstr "leto:privzeto določeno trenutno leto datuma po gregorijanskem koledarju"
 
 #: ../plugins/fn-hebrew-date/functions.c:94
 #: ../plugins/fn-hebrew-date/functions.c:163
@@ -3444,7 +3444,7 @@ msgstr ""
 #: ../plugins/fn-hebrew-date/functions.c:290
 #: ../plugins/fn-hebrew-date/functions.c:317
 msgid "month:Gregorian month of year, defaults to the current month"
-msgstr ""
+msgstr "mesec:privzeto določen trenutni mesec trenutnega leta po gregorijanskem koledarju"
 
 #: ../plugins/fn-hebrew-date/functions.c:95
 #: ../plugins/fn-hebrew-date/functions.c:164
@@ -3453,7 +3453,7 @@ msgstr ""
 #: ../plugins/fn-hebrew-date/functions.c:291
 #: ../plugins/fn-hebrew-date/functions.c:318
 msgid "day:Gregorian day of month, defaults to the current day"
-msgstr ""
+msgstr "dan:privzeto določen današnji dan meseca po gregorijanskem koledarju"
 
 #: ../plugins/fn-hebrew-date/functions.c:127
 msgid "DATE2HDATE:Hebrew date"
@@ -3463,43 +3463,43 @@ msgstr "DATE2HDATE:datum po Hebrejskem koledarju"
 #: ../plugins/fn-hebrew-date/functions.c:203
 #: ../plugins/fn-hebrew-date/functions.c:342
 msgid "date:Gregorian date, defaults to today"
-msgstr ""
+msgstr "datum:privzeti današnji datum po gregorijanskem koledarju"
 
 #: ../plugins/fn-hebrew-date/functions.c:161
 msgid "HDATE_HEB:Hebrew date in Hebrew"
-msgstr ""
+msgstr "HDATE_HEB:datum po hebrejskem koledarju v hebrejščini"
 
 #: ../plugins/fn-hebrew-date/functions.c:202
 msgid "DATE2HDATE_HEB:Hebrew date in Hebrew"
-msgstr ""
+msgstr "DATE2HDATE_HEB:datum po hebrejskem koledarju v hebrejščini"
 
 #: ../plugins/fn-hebrew-date/functions.c:234
 msgid "HDATE_MONTH:Hebrew month of Gregorian date"
-msgstr ""
+msgstr "HDATE_MONTH:hebrejski mesec datuma po gregorijanskem koledarju"
 
 #: ../plugins/fn-hebrew-date/functions.c:261
 msgid "HDATE_DAY:Hebrew day of Gregorian date"
-msgstr ""
+msgstr "HDATE_DAY:hebrejski dan datuma po gregorijanskem koledarju"
 
 #: ../plugins/fn-hebrew-date/functions.c:288
 msgid "HDATE_YEAR:Hebrew year of Gregorian date"
-msgstr ""
+msgstr "HDATE_YEAR:hebrejsko leto datuma po gregorijanskem koledarju"
 
 #: ../plugins/fn-hebrew-date/functions.c:315
 msgid "HDATE_JULIAN:Julian day number for given Gregorian date"
-msgstr ""
+msgstr "HDATE_JULIAN:julijanska številka dneva datuma po gregorijanskem koledarju"
 
 #: ../plugins/fn-hebrew-date/functions.c:341
 msgid "DATE2JULIAN:Julian day number for given Gregorian date"
-msgstr ""
+msgstr "DATE2JULIAN:julijanska številka dneva datuma po gregorijanskem koledarju"
 
 #: ../plugins/fn-info/functions.c:68
 msgid "CELL:information of @{type} about @{cell}"
-msgstr ""
+msgstr "CELL:podrobnosti @{vrste} @{celice}"
 
 #: ../plugins/fn-info/functions.c:69
 msgid "type:string specifying the type of information requested"
-msgstr ""
+msgstr "vrsta:niz določila zahtevane podrobnosti"
 
 #: ../plugins/fn-info/functions.c:70
 msgid "cell:cell reference"
@@ -3545,7 +3545,7 @@ msgstr "celica:sklic celice"
 
 #: ../plugins/fn-info/functions.c:1175
 msgid "If @{cell} contains no expression, EXPRESSION returns empty."
-msgstr ""
+msgstr "V kolikor @{celica} ne vsebuje izraza, funkcija EXPRESSION vrne prazno vrednost."
 
 #: ../plugins/fn-info/functions.c:1210
 msgid "GET.FORMULA:the formula in @{cell} as a string"
@@ -3746,7 +3746,7 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:1751
 msgid "TYPE:a number indicating the data type of @{value}"
-msgstr ""
+msgstr "TYPE:številka, ki določa vrsto @{vrednosti} podatka"
 
 #: ../plugins/fn-info/functions.c:1753
 msgid ""
@@ -3757,6 +3757,12 @@ msgid ""
 "16 \t= error\n"
 "64 \t= array"
 msgstr ""
+"Funkcija TYPE vrne številko, ki določa vrsto @{vrednosti} podatka:\n"
+"1  \t= število\n"
+"2  \t= besedilo\n"
+"4  \t= logična vrednost\n"
+"16 \t= napaka\n"
+"64 \t= polje"
 
 #: ../plugins/fn-info/functions.c:1792
 msgid "GETENV:the value of execution environment variable @{name}"
@@ -3894,15 +3900,15 @@ msgstr ""
 
 #: ../plugins/fn-logical/functions.c:248
 msgid "IFNA:test for #NA! error"
-msgstr ""
+msgstr "IFNA:preizkus vrnjene napake #NA!."
 
 #: ../plugins/fn-logical/functions.c:249
 msgid "x:value to test for #NA! error"
-msgstr ""
+msgstr "x:vrednost za preizkus napake #NA!"
 
 #: ../plugins/fn-logical/functions.c:251
 msgid "This function returns the first value, unless that is #NA!, in which case it returns the second."
-msgstr ""
+msgstr "Funkcija vrne prvo vrednost, če to ni napaka #NA!, ko vrne drugo vrednost."
 
 #: ../plugins/fn-logical/functions.c:267
 msgid "TRUE:the value TRUE"
@@ -3935,7 +3941,7 @@ msgstr "št_vrstice:številka vrstice"
 
 #: ../plugins/fn-lookup/functions.c:716
 msgid "col_num:column number"
-msgstr ""
+msgstr "št_st:številka stolpca"
 
 #: ../plugins/fn-lookup/functions.c:717
 msgid "abs_num:1 for an absolute, 2 for a row absolute and column relative, 3 for a row relative and column absolute, and 4 for a relative reference; defaults to 1"
@@ -4557,7 +4563,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:646
 msgid "criteria:condition for a cell to be included"
-msgstr ""
+msgstr "kriterij:pogoj za vključitev celice"
 
 #: ../plugins/fn-math/functions.c:710
 msgid "CEILING:nearest multiple of @{significance} whose absolute value is at least ABS(@{x})"
@@ -5381,7 +5387,7 @@ msgstr "ISPRIME:ali je vrednost @{n} praštevilo"
 
 #: ../plugins/fn-numtheory/numtheory.c:387
 msgid "ISPRIME returns TRUE if @{n} is prime and FALSE otherwise."
-msgstr ""
+msgstr "Funkcija ISPRIME vrne vrednost PRAV, v kolikor je @{n} prafaktor števila in NAPAK, če ni."
 
 #: ../plugins/fn-numtheory/numtheory.c:390
 msgid "wolfram:PrimeNumber.html"
@@ -5389,31 +5395,32 @@ msgstr "wolfram:PrimeNumber.html"
 
 #: ../plugins/fn-numtheory/numtheory.c:441
 msgid "PFACTOR:smallest prime factor"
-msgstr ""
+msgstr "PFACTOR:najmanjši prafaktor števila"
 
 #: ../plugins/fn-numtheory/numtheory.c:443
 msgid "PFACTOR finds the smallest prime factor of its argument."
-msgstr ""
+msgstr "Funkcija PFACTOR poišče najmanjši prafaktor številskega argumentov."
 
 #: ../plugins/fn-numtheory/numtheory.c:444
 msgid "The argument @{n} must be at least 2. Otherwise a #VALUE! error is returned."
-msgstr ""
+msgstr "Argument @{n} mora biti vsaj 2, sicer funkcija vrne napako #VALUE!."
 
 #: ../plugins/fn-numtheory/numtheory.c:472
 msgid "NT_PI:number of primes upto @{n}"
-msgstr ""
+msgstr "NT_PI:število prafaktorjev do številske vrednosti @{n}"
 
 #: ../plugins/fn-numtheory/numtheory.c:474
 msgid "NT_PI returns the number of primes less than or equal to @{n}."
-msgstr ""
+msgstr "Funkcija NT_PI vrne število prafaktorjev, ki so manjši ali enaki vrednosti @{n}"
 
 #: ../plugins/fn-numtheory/numtheory.c:477
 msgid "wolfram:PrimeCountingFunction.html"
 msgstr "wolfram:PrimeCountingFunction.html"
 
 #: ../plugins/fn-numtheory/numtheory.c:503
+#, fuzzy
 msgid "BITOR:bitwise or"
-msgstr ""
+msgstr "BITOR:bitni logičniwise or"
 
 #: ../plugins/fn-numtheory/numtheory.c:504
 #: ../plugins/fn-numtheory/numtheory.c:528
@@ -9108,7 +9115,7 @@ msgstr ""
 
 #: ../plugins/fn-tsa/functions.c:797
 msgid "FOURIER:Fourier or inverse Fourier transform"
-msgstr ""
+msgstr "FOURIER:Fourierjeva transformacija ali njena inverzna vrednost "
 
 #: ../plugins/fn-tsa/functions.c:798
 msgid "Sequence:the data sequence to be transformed"
@@ -9116,23 +9123,23 @@ msgstr "zaporedje:zaporedje podatkov za preoblikovanje"
 
 #: ../plugins/fn-tsa/functions.c:799
 msgid "Inverse:if true, the inverse Fourier transform is calculated, defaults to false"
-msgstr ""
+msgstr "Inverzna vrednost:izbrana možnost vrne inverzno vrednost Fourierjeve transformacije"
 
 #: ../plugins/fn-tsa/functions.c:800
 msgid "This array function returns the Fourier or inverse Fourier transform of the given data sequence."
-msgstr ""
+msgstr "Funkcija polja vrne Fourierjevo transformacijo ali njeno inverzno vrednost podanega zaporedja podatkov."
 
 #: ../plugins/fn-tsa/functions.c:801
 msgid "The output consists always of one column of complex numbers."
-msgstr ""
+msgstr "Odvod je vedno zapisan kot en stolpec kompleksnih števil."
 
 #: ../plugins/fn-tsa/functions.c:802
 msgid "If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns #NUM!"
-msgstr ""
+msgstr "V kolikor vrednost @{zaporedja} ni niti polje n z 1 niti 1 z n, funkcija vrne napako #NUM!"
 
 #: ../plugins/gda/plugin-gda.c:305
 msgid "EXECSQL:result of executing @{sql} in the libgda data source @{dsn}"
-msgstr ""
+msgstr "EXECSQL:rezultat izvajanja @{sql} s podatkovnim virom libgda @{dsn}"
 
 #: ../plugins/gda/plugin-gda.c:307
 #: ../plugins/gda/plugin-gda.c:384
@@ -9147,7 +9154,7 @@ msgstr "uporabniško-ime: uporabniško ime za dostop do @{dsn}"
 #: ../plugins/gda/plugin-gda.c:309
 #: ../plugins/gda/plugin-gda.c:386
 msgid "password:password to access @{dsn} as @{username}"
-msgstr ""
+msgstr "geslo:geslo za dostop do @{dsn} kot @{uporabnik}"
 
 #: ../plugins/gda/plugin-gda.c:310
 msgid "sql:SQL command"
@@ -9156,11 +9163,11 @@ msgstr "sql:SQL ukaz"
 #: ../plugins/gda/plugin-gda.c:311
 #: ../plugins/gda/plugin-gda.c:388
 msgid "Before using EXECSQL, you need to set up a libgda data source."
-msgstr ""
+msgstr "Pred uporabo ukaza EXECSQL je treba nastaviti podatkovni vir libgda."
 
 #: ../plugins/gda/plugin-gda.c:383
 msgid "READDBTABLE:all rows of the table @{table} in @{dsn}"
-msgstr ""
+msgstr "READDBTABLE:vse vrstice v @{preglednici} v @{dsn}"
 
 #: ../plugins/gda/plugin-gda.c:387
 msgid "table:SQL table to retrieve"
@@ -9168,7 +9175,7 @@ msgstr "preglednica:preglednica SQL za pridobivanje"
 
 #: ../plugins/sample_datasource/sample_datasource.c:278
 msgid "ATL_LAST:sample real-time data source"
-msgstr ""
+msgstr "ATL_LAST:vzorčni realno-časovni podatkovni vir"
 
 #: ../plugins/sample_datasource/sample_datasource.c:279
 msgid "tag:tag to watch"
@@ -9176,9 +9183,9 @@ msgstr "oznaka: opazovana oznaka"
 
 #: ../plugins/sample_datasource/sample_datasource.c:280
 msgid "ATL_LAST is a sample implementation of a real time data source.  It takes a string tag and monitors the named pipe ~/atl for changes to the value of that tag."
-msgstr ""
+msgstr "ATL_LAST je enostavna izvedba realno-časovnega podatkovnega vira. Ta zahteva oznako niza in nadzira cevovod ~/atl za spremembe vrednosti določene oznake."
 
 #: ../plugins/sample_datasource/sample_datasource.c:281
 msgid "This is not intended to be generally enabled and is OFF by default."
-msgstr ""
+msgstr "Možnost je privzeto onemogočena."
 
