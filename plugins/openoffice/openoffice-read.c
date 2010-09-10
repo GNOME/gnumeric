@@ -190,6 +190,7 @@ typedef struct {
 	char *linked_cell;
 	char *label;
 	char *implementation;
+	char *source_cell_range;
 } OOControl;
 
 typedef struct {
@@ -4671,6 +4672,7 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (name != NULL) {
 		OOControl *oc = g_hash_table_lookup (state->controls, name);
+		GnmExprTop const *result_texpr = NULL;
 		if (oc != NULL) {
 			SheetObject *so = NULL;
 			if (oc->t == sheet_widget_scrollbar_get_type () ||
@@ -4741,6 +4743,9 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 			} else if (oc->t == sheet_widget_checkbox_get_type ()) {
 				so = state->chart.so = g_object_new 
 					(oc->t, "text", oc->label, NULL);
+			} else if (oc->t == sheet_widget_list_get_type ()) {
+				so = state->chart.so = g_object_new 
+					(oc->t, NULL);
 			}
 
 			od_draw_frame_end (xin, NULL);
@@ -4769,9 +4774,36 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 						else if (oc->t == sheet_widget_radio_button_get_type ())
 							sheet_widget_radio_button_set_link
 								(so, texpr);
+						else if (oc->t == sheet_widget_list_get_type ()) {
+							gnm_expr_top_ref ((result_texpr = texpr));
+							sheet_widget_list_base_set_links (so, texpr, NULL);
+						}
 						gnm_expr_top_unref (texpr);
 					}
 				}
+			}
+			if (oc->t == sheet_widget_list_get_type ()) {
+				if (oc->source_cell_range) {
+					GnmParsePos pp;
+					GnmRangeRef ref;
+					char const *ptr = oo_rangeref_parse 
+						(&ref, oc->source_cell_range,
+						 parse_pos_init_sheet (&pp, state->pos.sheet));
+					if (ptr != oc->source_cell_range) {
+						GnmValue *v = value_new_cellrange 
+							(&ref.a, &ref.b, 0, 0);
+						GnmExprTop const *texpr 
+							= gnm_expr_top_new_constant (v);
+						if (texpr != NULL) {
+							sheet_widget_list_base_set_links 
+								(so, 
+								 result_texpr, texpr);
+							gnm_expr_top_unref (texpr);
+						}
+					}				
+				} 
+				if (result_texpr != NULL)
+					gnm_expr_top_unref (result_texpr);
 			}
 		}
 	} else 
@@ -6054,6 +6086,7 @@ oo_control_free (OOControl *ctrl)
 	g_free (ctrl->label);
 	g_free (ctrl->linked_cell);
 	g_free (ctrl->implementation);
+	g_free (ctrl->source_cell_range);
 	g_free (ctrl);
 }
 
@@ -6158,8 +6191,29 @@ odf_form_control (GsfXMLIn *xin, xmlChar const **attrs, GType t)
 					     OO_NS_FORM, "control-implementation")) {
 			g_free (oc->implementation);
 			oc->implementation =  g_strdup (CXML2C (attrs[1]));
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					       OO_NS_FORM, "list-linkage-type")) {
+			if (0 != strcmp (CXML2C (attrs[1]),"selection-indexes") &&
+			    0 != strcmp (CXML2C (attrs[1]),"selection-indices") ) 
+				oo_warning (xin, _("Attribute '%s' has "
+						   "the unsupported value '%s'."), 
+					    "form:list-linkage-type", CXML2C (attrs[1]));
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					     OO_NS_FORM, "source-cell-range")) {
+			g_free (oc->source_cell_range);
+			oc->source_cell_range =  g_strdup (CXML2C (attrs[1]));
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					     OO_GNUM_NS_EXT, "source-cell-range")) {
+			if (oc->source_cell_range == NULL)
+				oc->source_cell_range =  g_strdup (CXML2C (attrs[1]));
+		} else if (oo_attr_int (xin, attrs, OO_NS_FORM, "bound-column", 
+					&tmp)) {
+			if (tmp != 1)
+				oo_warning (xin, _("Attribute '%s' has "
+						   "the unsupported value '%s'."), 
+					    "form:bound-column", CXML2C (attrs[1]));
 		}
-
+		
 	if (name != NULL) {
 		if (oc->implementation != NULL && 
 		    t == sheet_widget_slider_get_type ()) {
@@ -6200,6 +6254,12 @@ static void
 odf_form_radio (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	odf_form_control (xin, attrs, sheet_widget_radio_button_get_type ());
+}
+
+static void
+odf_form_listbox (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	odf_form_control (xin, attrs, sheet_widget_list_get_type ());
 }
 
 /****************************************************************************/
@@ -6807,6 +6867,9 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	            GSF_XML_IN_NODE (FORM_CHECKBOX, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
 	          GSF_XML_IN_NODE (FORM, FORM_RADIO, OO_NS_FORM, "radio", GSF_XML_NO_CONTENT, &odf_form_radio, NULL),
 	            GSF_XML_IN_NODE (FORM_RADIO, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+	          GSF_XML_IN_NODE (FORM, FORM_LISTBOX, OO_NS_FORM, "listbox", GSF_XML_NO_CONTENT, &odf_form_listbox, NULL),
+	            GSF_XML_IN_NODE (FORM_LISTBOX, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+	              GSF_XML_IN_NODE (FORM_PROPERTIES, FORM_LIST_PROPERTY, OO_NS_FORM, "list-property", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_ROWS, OO_NS_TABLE, "table-rows", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, &oo_col_start, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, &oo_row_start, &oo_row_end),

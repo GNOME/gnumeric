@@ -3084,6 +3084,28 @@ odf_write_sheet_controls_get_id (GnmOOExport *state, SheetObject *so)
 }
 
 static void
+odf_write_sheet_control_content (GnmOOExport *state, GnmExprTop const *texpr)
+{
+	if (texpr && gnm_expr_top_is_rangeref (texpr)) {
+		char *link = NULL;
+		GnmParsePos pp;
+
+		parse_pos_init_sheet (&pp, state->sheet);
+		link = gnm_expr_top_as_string (texpr, &pp, state->conv);
+		
+		if (get_gsf_odf_version () > 101)
+			gsf_xml_out_add_cstr (state->xml, 
+					      FORM "source-cell-range", 
+					      odf_strip_brackets (link));
+		else
+			gsf_xml_out_add_cstr (state->xml, 
+					      GNMSTYLE "source-cell-range", 
+					      odf_strip_brackets (link));
+		g_free (link);
+	}
+}
+
+static void
 odf_write_sheet_control_linked_cell (GnmOOExport *state, GnmExprTop const *texpr)
 {
 	if (texpr && gnm_expr_top_is_rangeref (texpr)) {
@@ -3162,6 +3184,31 @@ odf_write_sheet_control_checkbox (GnmOOExport *state, SheetObject *so)
 	gsf_xml_out_end_element (state->xml); /* form:checkbox */
 
 	g_free (label);
+}
+
+static void
+odf_write_sheet_control_list (GnmOOExport *state, SheetObject *so)
+{
+	char const *id = odf_write_sheet_controls_get_id (state, so);
+	GnmExprTop const *texpr = sheet_widget_list_base_get_result_link (so);
+
+	gsf_xml_out_start_element (state->xml, FORM "listbox");
+	gsf_xml_out_add_cstr (state->xml, XML "id", id);
+	gsf_xml_out_add_cstr (state->xml, FORM "id", id);
+
+	odf_write_sheet_control_linked_cell (state, texpr);
+	gnm_expr_top_unref (texpr);
+
+	texpr = sheet_widget_list_base_get_content_link (so);
+	odf_write_sheet_control_content (state, texpr);
+	gnm_expr_top_unref (texpr);
+
+	if (get_gsf_odf_version () > 101)
+		gsf_xml_out_add_cstr_unchecked 
+			(state->xml, FORM "list-linkage-type", 
+			 "selection-indexes");
+	gsf_xml_out_add_int (state->xml, FORM "bound-column", 1);
+	gsf_xml_out_end_element (state->xml); /* form:checkbox */
 }
 
 static void
@@ -3260,6 +3307,8 @@ odf_write_sheet_controls (GnmOOExport *state)
 			odf_write_sheet_control_checkbox (state, so);
 		else if (GNM_IS_SOW_RADIO_BUTTON (so))
 			odf_write_sheet_control_radio_button (state, so);
+		else if (GNM_IS_SOW_LIST (so))
+			odf_write_sheet_control_list (state, so);
 	}
 
 	gsf_xml_out_end_element (state->xml); /* form:form */

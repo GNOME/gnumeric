@@ -1,10 +1,25 @@
 2010-09-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (od_draw_control_start): handle spinbuttons and sliders
+	* openoffice-read.c (od_draw_control_start): handle listboxes
+	(oo_control_free): free new source_cell_range field
+	(odf_form_control): handle new attributes
+	(odf_form_listbox): new
+	(opendoc_content_dtd): connect odf_form_listbox
+	* openoffice-write.c (odf_write_sheet_control_conten): new
+	(odf_write_sheet_control_list): new
+	(odf_write_sheet_controls): also write listboxes
+	
+2010-09-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (od_draw_control_start): handle spinbuttons 
+	  and sliders
 	(oo_control_free): free new implementation field
 	(odf_form_control): handle spinbuttons and sliders
 	(odf_form_value_range): ditto
-	* openoffice-write.c
+	* openoffice-write.c (odf_write_sheet_control_scrollbar): 
+	  write the form:control-implementation and add argument 
+	  indicating the control type
+	(odf_write_sheet_controls): also write sliders and spinbuttons
 
 2010-09-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
