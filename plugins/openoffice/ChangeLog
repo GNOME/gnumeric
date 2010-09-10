@@ -1,3 +1,11 @@
+2010-09-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (od_draw_control_start): handle spinbuttons and sliders
+	(oo_control_free): free new implementation field
+	(odf_form_control): handle spinbuttons and sliders
+	(odf_form_value_range): ditto
+	* openoffice-write.c
+
 2010-09-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (od_draw_control_start): use gnm:value-type

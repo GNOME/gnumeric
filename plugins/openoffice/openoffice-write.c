@@ -3104,7 +3104,8 @@ odf_write_sheet_control_linked_cell (GnmOOExport *state, GnmExprTop const *texpr
 }
 
 static void
-odf_write_sheet_control_scrollbar (GnmOOExport *state, SheetObject *so)
+odf_write_sheet_control_scrollbar (GnmOOExport *state, SheetObject *so, 
+				   char const *implementation)
 {
 	char const *id = odf_write_sheet_controls_get_id (state, so);
 	GtkAdjustment *adj = sheet_widget_adjustment_get_adjustment (so);
@@ -3113,6 +3114,10 @@ odf_write_sheet_control_scrollbar (GnmOOExport *state, SheetObject *so)
 	gsf_xml_out_start_element (state->xml, FORM "value-range");
 	gsf_xml_out_add_cstr (state->xml, XML "id", id);
 	gsf_xml_out_add_cstr (state->xml, FORM "id", id);
+	if (implementation != NULL)
+		gsf_xml_out_add_cstr (state->xml, 
+				      FORM "control-implementation", 
+				      implementation);
 	gsf_xml_out_add_cstr (state->xml, FORM "orientation", 
 			      sheet_widget_adjustment_get_horizontal (so) ? 
 			      "horizontal" : "vertical");
@@ -3243,7 +3248,14 @@ odf_write_sheet_controls (GnmOOExport *state)
 		SheetObject *so = l->data;
 
 		if (GNM_IS_SOW_SCROLLBAR (so))
-		    odf_write_sheet_control_scrollbar (state, so);
+			odf_write_sheet_control_scrollbar 
+				(state, so, GNMSTYLE "scrollbar");
+		else if (GNM_IS_SOW_SLIDER (so))
+			odf_write_sheet_control_scrollbar 
+				(state, so, GNMSTYLE "slider");
+		else if (GNM_IS_SOW_SPINBUTTON (so))
+			odf_write_sheet_control_scrollbar 
+				(state, so, GNMSTYLE "spinbutton");
 		else if (GNM_IS_SOW_CHECKBOX (so))
 			odf_write_sheet_control_checkbox (state, so);
 		else if (GNM_IS_SOW_RADIO_BUTTON (so))

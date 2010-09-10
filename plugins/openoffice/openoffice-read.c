@@ -189,6 +189,7 @@ typedef struct {
 	char *value_type;
 	char *linked_cell;
 	char *label;
+	char *implementation;
 } OOControl;
 
 typedef struct {
@@ -4672,7 +4673,9 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 		OOControl *oc = g_hash_table_lookup (state->controls, name);
 		if (oc != NULL) {
 			SheetObject *so = NULL;
-			if (oc->t == sheet_widget_scrollbar_get_type ()) {
+			if (oc->t == sheet_widget_scrollbar_get_type () ||
+			    oc->t == sheet_widget_spinbutton_get_type () ||
+			    oc->t == sheet_widget_slider_get_type ()) {
 				GtkAdjustment *adj;
 				int min_real = (oc->min < oc->max) ? oc->min : oc->max; 
 				int max_real = (oc->min < oc->max) ? oc->max : oc->min;
@@ -4755,7 +4758,9 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 					GnmExprTop const *texpr 
 						= gnm_expr_top_new_constant (v);
 					if (texpr != NULL) {
-						if (oc->t == sheet_widget_scrollbar_get_type ())
+						if (oc->t == sheet_widget_scrollbar_get_type () ||
+						    oc->t == sheet_widget_spinbutton_get_type () ||
+						    oc->t == sheet_widget_slider_get_type ())
 							sheet_widget_adjustment_set_link 
 								(so, texpr);
 						else if (oc->t == sheet_widget_checkbox_get_type ())
@@ -6048,6 +6053,7 @@ oo_control_free (OOControl *ctrl)
 	g_free (ctrl->value_type);
 	g_free (ctrl->label);
 	g_free (ctrl->linked_cell);
+	g_free (ctrl->implementation);
 	g_free (ctrl);
 }
 
@@ -6148,10 +6154,29 @@ odf_form_control (GsfXMLIn *xin, xmlChar const **attrs, GType t)
 					     OO_NS_FORM, "label")) {
 			g_free (oc->label);
 			oc->label =  g_strdup (CXML2C (attrs[1]));
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					     OO_NS_FORM, "control-implementation")) {
+			g_free (oc->implementation);
+			oc->implementation =  g_strdup (CXML2C (attrs[1]));
 		}
 
 	if (name != NULL) {
-		oc->t = t;
+		if (oc->implementation != NULL && 
+		    t == sheet_widget_slider_get_type ()) {
+			if (0 == strcmp (oc->implementation, "gnm:scrollbar"))
+				oc->t = sheet_widget_scrollbar_get_type ();
+			else if (0 == strcmp (oc->implementation, 
+					      "gnm:spinbutton"))
+				oc->t = sheet_widget_spinbutton_get_type ();
+			else if (0 == strcmp (oc->implementation, 
+					      "gnm:slider"))
+				oc->t = sheet_widget_slider_get_type ();
+			else if (0 == strcmp (oc->implementation, 
+					      "ooo:com.sun.star.form."
+					      "component.ScrollBar"))
+				oc->t = sheet_widget_scrollbar_get_type ();
+		} else
+			oc->t = t;
 		g_hash_table_replace (state->controls, name, oc);
 	} else
 		oo_control_free (oc);
@@ -6161,7 +6186,8 @@ odf_form_control (GsfXMLIn *xin, xmlChar const **attrs, GType t)
 static void
 odf_form_value_range (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	odf_form_control (xin, attrs, sheet_widget_scrollbar_get_type ());
+	
+	odf_form_control (xin, attrs, sheet_widget_slider_get_type ());
 }
 
 static void
