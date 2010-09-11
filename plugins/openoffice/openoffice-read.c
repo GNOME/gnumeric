@@ -345,6 +345,7 @@ typedef struct {
 	} page_breaks;
 
 	char const *object_name;
+	OOControl *cur_control;
 
 	OOSettings settings;
 
@@ -4747,6 +4748,9 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 				   oc->t == sheet_widget_combo_get_type ()) {
 				so = state->chart.so = g_object_new 
 					(oc->t, NULL);
+			} else if (oc->t == sheet_widget_button_get_type ()) {
+				so = state->chart.so = g_object_new 
+					(oc->t, "text", oc->label, NULL);
 			}
 
 			od_draw_frame_end (xin, NULL);
@@ -4774,6 +4778,9 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 								(so, texpr);
 						else if (oc->t == sheet_widget_radio_button_get_type ())
 							sheet_widget_radio_button_set_link
+								(so, texpr);
+						else if (oc->t == sheet_widget_button_get_type ())
+							sheet_widget_button_set_link
 								(so, texpr);
 						else if (oc->t == sheet_widget_list_get_type () ||
 							 oc->t == sheet_widget_combo_get_type ()) {
@@ -6235,8 +6242,16 @@ odf_form_control (GsfXMLIn *xin, xmlChar const **attrs, GType t)
 		} else
 			oc->t = t;
 		g_hash_table_replace (state->controls, name, oc);
-	} else
+	} else {
 		oo_control_free (oc);
+		oc = NULL;
+	}
+
+	if (t == sheet_widget_button_get_type ())
+		state->cur_control = oc;
+	else
+		state->cur_control = NULL;
+
 }
 
 
@@ -6270,6 +6285,48 @@ odf_form_combobox (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	odf_form_control (xin, attrs, sheet_widget_combo_get_type ());
 }
+
+static void
+odf_form_button (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	odf_form_control (xin, attrs, sheet_widget_button_get_type ());
+}
+
+static void
+odf_form_button_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	state->cur_control = NULL;
+}
+
+static void
+odf_button_event_listener (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	char const *event_name = NULL;
+	char const *language = NULL;
+	char const *macro_name = NULL;
+
+	if (state->cur_control == NULL)
+		return;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					OO_NS_SCRIPT, "event-name"))
+			event_name = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					OO_NS_SCRIPT, "language"))
+			language = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					OO_NS_SCRIPT, "macro-name"))
+			macro_name = CXML2C (attrs[1]);
+
+	if (0 == strcmp (event_name, "dom:mousedown") &&
+	    0 == strcmp (language, "gnm:short-macro") &&
+	    g_str_has_prefix (macro_name, "set-to-TRUE:"))
+		state->cur_control->linked_cell = g_strdup (macro_name + 12);
+}
+
 
 /****************************************************************************/
 /******************************** settings.xml ******************************/
@@ -6867,10 +6924,10 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	          GSF_XML_IN_NODE (FORM, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),
 	            GSF_XML_IN_NODE (FORM_PROPERTIES, FORM_PROPERTY, OO_NS_FORM, "property", GSF_XML_NO_CONTENT, NULL, NULL),
 	              GSF_XML_IN_NODE (FORM_PROPERTIES, FORM_LIST_PROPERTY, OO_NS_FORM, "list-property", GSF_XML_NO_CONTENT, NULL, NULL),
-	          GSF_XML_IN_NODE (FORM, FORM_BUTTON, OO_NS_FORM, "button", GSF_XML_NO_CONTENT, NULL, NULL),
+	          GSF_XML_IN_NODE (FORM, FORM_BUTTON, OO_NS_FORM, "button", GSF_XML_NO_CONTENT, &odf_form_button, &odf_form_button_end),
 	            GSF_XML_IN_NODE (FORM_BUTTON, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
-	            GSF_XML_IN_NODE (FORM_BUTTON, FORM_EVENT_LISTENERS, OO_NS_OFFICE, "event-listeners", GSF_XML_NO_CONTENT, NULL, NULL),
-	              GSF_XML_IN_NODE (FORM_EVENT_LISTENERS, SCRIPT_LISTENER, OO_NS_SCRIPT, "event-listener", GSF_XML_NO_CONTENT, NULL, NULL),
+	            GSF_XML_IN_NODE (FORM_BUTTON, BUTTON_OFFICE_EVENT_LISTENERS, OO_NS_OFFICE, "event-listeners", GSF_XML_NO_CONTENT, NULL, NULL),
+	              GSF_XML_IN_NODE (BUTTON_OFFICE_EVENT_LISTENERS, BUTTON_EVENT_LISTENER, OO_NS_SCRIPT, "event-listener", GSF_XML_NO_CONTENT, &odf_button_event_listener, NULL),
 	          GSF_XML_IN_NODE (FORM, FORM_VALUE_RANGE, OO_NS_FORM, "value-range", GSF_XML_NO_CONTENT, &odf_form_value_range, NULL),
 	            GSF_XML_IN_NODE (FORM_VALUE_RANGE, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
 	          GSF_XML_IN_NODE (FORM, FORM_CHECKBOX, OO_NS_FORM, "checkbox", GSF_XML_NO_CONTENT, &odf_form_checkbox, NULL),

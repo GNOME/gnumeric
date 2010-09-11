@@ -1,5 +1,19 @@
 2010-09-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (od_draw_control_start): handle button
+	(odf_form_control): save OOControl for subelements
+	(odf_form_button): new
+	(odf_form_button_end): new
+	(odf_button_event_listener): new
+	(opendoc_content_dtd): connect the above
+	* openoffice-write.c (odf_write_sheet_control_content): assume the
+	  GnmExprTop reference; change all callers
+	(odf_write_sheet_control_linked_cell): ditto
+	(odf_write_sheet_control_button): new
+	(odf_write_sheet_controls): write toggle button
+
+2010-09-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (od_draw_control_start): handle combobox
 	(odf_form_combobox): new
 	(opendoc_content_dtd): connect odf_form_combobox

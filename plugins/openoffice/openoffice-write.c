@@ -93,6 +93,7 @@
 #define XLINK	 "xlink:"
 #define CONFIG   "config:"
 #define FORM     "form:"
+#define SCRIPT   "script:"
 #define OOO      "ooo:"
 #define XML      "xml:"
 #define GNMSTYLE "gnm:"  /* We use this for attributes and elements not supported by ODF */
@@ -3102,6 +3103,7 @@ odf_write_sheet_control_content (GnmOOExport *state, GnmExprTop const *texpr)
 					      GNMSTYLE "source-cell-range", 
 					      odf_strip_brackets (link));
 		g_free (link);
+		gnm_expr_top_unref (texpr);
 	}
 }
 
@@ -3122,6 +3124,7 @@ odf_write_sheet_control_linked_cell (GnmOOExport *state, GnmExprTop const *texpr
 			gsf_xml_out_add_cstr (state->xml, GNMSTYLE "linked-cell", 
 					      odf_strip_brackets (link));
 		g_free (link);
+		gnm_expr_top_unref (texpr);
 	}
 }
 
@@ -3168,8 +3171,6 @@ odf_write_sheet_control_scrollbar (GnmOOExport *state, SheetObject *so,
 /* 			      OOO "com.sun.star.form.component.ScrollBar"); */
 
 	odf_write_sheet_control_linked_cell (state, texpr);
-	gnm_expr_top_unref (texpr);
-	
 	gsf_xml_out_end_element (state->xml); /* form:value-range */
 }
 
@@ -3186,7 +3187,6 @@ odf_write_sheet_control_checkbox (GnmOOExport *state, SheetObject *so)
 	gsf_xml_out_add_cstr (state->xml, FORM "label", label);
 
 	odf_write_sheet_control_linked_cell (state, texpr);
-	gnm_expr_top_unref (texpr);
 	
 	gsf_xml_out_end_element (state->xml); /* form:checkbox */
 
@@ -3202,11 +3202,9 @@ odf_write_sheet_control_list (GnmOOExport *state, SheetObject *so,
 	odf_sheet_control_start_element (state, so, element);
 
 	odf_write_sheet_control_linked_cell (state, texpr);
-	gnm_expr_top_unref (texpr);
 
 	texpr = sheet_widget_list_base_get_content_link (so);
 	odf_write_sheet_control_content (state, texpr);
-	gnm_expr_top_unref (texpr);
 
 	if (get_gsf_odf_version () > 101)
 		gsf_xml_out_add_cstr_unchecked 
@@ -3274,14 +3272,61 @@ odf_write_sheet_control_radio_button (GnmOOExport *state, SheetObject *so)
 	}
 
 	odf_write_sheet_control_linked_cell (state, texpr);
-	gnm_expr_top_unref (texpr);
-	
+
 	gsf_xml_out_end_element (state->xml); /* form:checkbox */
 
 	g_free (label);
 }
 
+static void
+odf_write_sheet_control_button (GnmOOExport *state, SheetObject *so)
+{
+	GnmExprTop const *texpr = sheet_widget_button_get_link (so);
+	char *label = NULL;
+	
+	g_object_get (G_OBJECT (so), "text", &label, NULL);
 
+	odf_sheet_control_start_element (state, so, FORM "button");
+	gsf_xml_out_add_cstr (state->xml, FORM "label", label);
+	gsf_xml_out_add_cstr_unchecked (state->xml, FORM "button-type", "push");
+
+	if (texpr != NULL ) {
+		char *link = NULL, *name = NULL;
+		GnmParsePos pp;
+
+		parse_pos_init_sheet (&pp, state->sheet);
+		link = gnm_expr_top_as_string (texpr, &pp, state->conv);
+
+		gsf_xml_out_start_element (state->xml, OFFICE "event-listeners");
+
+		gsf_xml_out_start_element (state->xml, SCRIPT "event-listener");
+		gsf_xml_out_add_cstr_unchecked (state->xml, SCRIPT "event-name",
+						"dom:mousedown");
+		gsf_xml_out_add_cstr_unchecked (state->xml, SCRIPT "language",
+						GNMSTYLE "short-macro");
+		name = g_strdup_printf ("set-to-TRUE:%s", odf_strip_brackets (link));
+		gsf_xml_out_add_cstr (state->xml, SCRIPT "macro-name", name);
+		g_free (name);
+		gsf_xml_out_end_element (state->xml); /* script:event-listener */
+
+		gsf_xml_out_start_element (state->xml, SCRIPT "event-listener");
+		gsf_xml_out_add_cstr_unchecked (state->xml, SCRIPT "event-name",
+						"dom:mouseup");
+		gsf_xml_out_add_cstr_unchecked (state->xml, SCRIPT "language",
+						GNMSTYLE "short-macro");
+		name = g_strdup_printf ("set-to-FALSE:%s", odf_strip_brackets (link));
+		gsf_xml_out_add_cstr (state->xml, SCRIPT "macro-name", name);
+		g_free (name);
+		gsf_xml_out_end_element (state->xml); /* script:event-listener */
+
+		gsf_xml_out_end_element (state->xml); /* office:event-listeners */
+
+		g_free (link);
+		gnm_expr_top_unref (texpr);
+
+	}
+	gsf_xml_out_end_element (state->xml); /* form:checkbox */
+}
 
 static void
 odf_write_sheet_controls (GnmOOExport *state)
@@ -3316,6 +3361,8 @@ odf_write_sheet_controls (GnmOOExport *state)
 		else if (GNM_IS_SOW_COMBO (so))
 			odf_write_sheet_control_list (state, so,
 						      FORM "combobox");
+		else if (GNM_IS_SOW_BUTTON (so))
+			odf_write_sheet_control_button (state, so);
 	}
 
 	gsf_xml_out_end_element (state->xml); /* form:form */
