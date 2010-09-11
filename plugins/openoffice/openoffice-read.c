@@ -4743,7 +4743,8 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 			} else if (oc->t == sheet_widget_checkbox_get_type ()) {
 				so = state->chart.so = g_object_new 
 					(oc->t, "text", oc->label, NULL);
-			} else if (oc->t == sheet_widget_list_get_type ()) {
+			} else if (oc->t == sheet_widget_list_get_type () ||
+				   oc->t == sheet_widget_combo_get_type ()) {
 				so = state->chart.so = g_object_new 
 					(oc->t, NULL);
 			}
@@ -4774,7 +4775,8 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 						else if (oc->t == sheet_widget_radio_button_get_type ())
 							sheet_widget_radio_button_set_link
 								(so, texpr);
-						else if (oc->t == sheet_widget_list_get_type ()) {
+						else if (oc->t == sheet_widget_list_get_type () ||
+							 oc->t == sheet_widget_combo_get_type ()) {
 							gnm_expr_top_ref ((result_texpr = texpr));
 							sheet_widget_list_base_set_links (so, texpr, NULL);
 						}
@@ -4782,7 +4784,8 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 					}
 				}
 			}
-			if (oc->t == sheet_widget_list_get_type ()) {
+			if (oc->t == sheet_widget_list_get_type () ||
+			    oc->t == sheet_widget_combo_get_type ()) {
 				if (oc->source_cell_range) {
 					GnmParsePos pp;
 					GnmRangeRef ref;
@@ -6262,6 +6265,12 @@ odf_form_listbox (GsfXMLIn *xin, xmlChar const **attrs)
 	odf_form_control (xin, attrs, sheet_widget_list_get_type ());
 }
 
+static void
+odf_form_combobox (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	odf_form_control (xin, attrs, sheet_widget_combo_get_type ());
+}
+
 /****************************************************************************/
 /******************************** settings.xml ******************************/
 
@@ -6857,6 +6866,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	        GSF_XML_IN_NODE (FORMS, FORM, OO_NS_FORM, "form", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (FORM, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),
 	            GSF_XML_IN_NODE (FORM_PROPERTIES, FORM_PROPERTY, OO_NS_FORM, "property", GSF_XML_NO_CONTENT, NULL, NULL),
+	              GSF_XML_IN_NODE (FORM_PROPERTIES, FORM_LIST_PROPERTY, OO_NS_FORM, "list-property", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (FORM, FORM_BUTTON, OO_NS_FORM, "button", GSF_XML_NO_CONTENT, NULL, NULL),
 	            GSF_XML_IN_NODE (FORM_BUTTON, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
 	            GSF_XML_IN_NODE (FORM_BUTTON, FORM_EVENT_LISTENERS, OO_NS_OFFICE, "event-listeners", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -6869,7 +6879,8 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	            GSF_XML_IN_NODE (FORM_RADIO, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
 	          GSF_XML_IN_NODE (FORM, FORM_LISTBOX, OO_NS_FORM, "listbox", GSF_XML_NO_CONTENT, &odf_form_listbox, NULL),
 	            GSF_XML_IN_NODE (FORM_LISTBOX, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
-	              GSF_XML_IN_NODE (FORM_PROPERTIES, FORM_LIST_PROPERTY, OO_NS_FORM, "list-property", GSF_XML_NO_CONTENT, NULL, NULL),
+	          GSF_XML_IN_NODE (FORM, FORM_COMBOBOX, OO_NS_FORM, "combobox", GSF_XML_NO_CONTENT, &odf_form_combobox, NULL),
+	            GSF_XML_IN_NODE (FORM_COMBOBOX, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
 	      GSF_XML_IN_NODE (TABLE, TABLE_ROWS, OO_NS_TABLE, "table-rows", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, &oo_col_start, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, &oo_row_start, &oo_row_end),

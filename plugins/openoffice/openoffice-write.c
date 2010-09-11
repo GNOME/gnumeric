@@ -3126,16 +3126,25 @@ odf_write_sheet_control_linked_cell (GnmOOExport *state, GnmExprTop const *texpr
 }
 
 static void
+odf_sheet_control_start_element (GnmOOExport *state, SheetObject *so,
+				 char const *element)
+{
+	char const *id = odf_write_sheet_controls_get_id (state, so);
+	gsf_xml_out_start_element (state->xml, element);
+	gsf_xml_out_add_cstr (state->xml, XML "id", id);
+	gsf_xml_out_add_cstr (state->xml, FORM "id", id);
+	
+}
+
+static void
 odf_write_sheet_control_scrollbar (GnmOOExport *state, SheetObject *so, 
 				   char const *implementation)
 {
-	char const *id = odf_write_sheet_controls_get_id (state, so);
 	GtkAdjustment *adj = sheet_widget_adjustment_get_adjustment (so);
 	GnmExprTop const *texpr = sheet_widget_adjustment_get_link (so);
 
-	gsf_xml_out_start_element (state->xml, FORM "value-range");
-	gsf_xml_out_add_cstr (state->xml, XML "id", id);
-	gsf_xml_out_add_cstr (state->xml, FORM "id", id);
+	odf_sheet_control_start_element (state, so, FORM "value-range");
+
 	if (implementation != NULL)
 		gsf_xml_out_add_cstr (state->xml, 
 				      FORM "control-implementation", 
@@ -3167,15 +3176,13 @@ odf_write_sheet_control_scrollbar (GnmOOExport *state, SheetObject *so,
 static void
 odf_write_sheet_control_checkbox (GnmOOExport *state, SheetObject *so)
 {
-	char const *id = odf_write_sheet_controls_get_id (state, so);
 	GnmExprTop const *texpr = sheet_widget_checkbox_get_link (so);
 	char *label = NULL;
 
 	g_object_get (G_OBJECT (so), "text", &label, NULL);
 
-	gsf_xml_out_start_element (state->xml, FORM "checkbox");
-	gsf_xml_out_add_cstr (state->xml, XML "id", id);
-	gsf_xml_out_add_cstr (state->xml, FORM "id", id);
+	odf_sheet_control_start_element (state, so, FORM "checkbox");
+
 	gsf_xml_out_add_cstr (state->xml, FORM "label", label);
 
 	odf_write_sheet_control_linked_cell (state, texpr);
@@ -3187,14 +3194,12 @@ odf_write_sheet_control_checkbox (GnmOOExport *state, SheetObject *so)
 }
 
 static void
-odf_write_sheet_control_list (GnmOOExport *state, SheetObject *so)
+odf_write_sheet_control_list (GnmOOExport *state, SheetObject *so,
+			      char const *element)
 {
-	char const *id = odf_write_sheet_controls_get_id (state, so);
 	GnmExprTop const *texpr = sheet_widget_list_base_get_result_link (so);
 
-	gsf_xml_out_start_element (state->xml, FORM "listbox");
-	gsf_xml_out_add_cstr (state->xml, XML "id", id);
-	gsf_xml_out_add_cstr (state->xml, FORM "id", id);
+	odf_sheet_control_start_element (state, so, element);
 
 	odf_write_sheet_control_linked_cell (state, texpr);
 	gnm_expr_top_unref (texpr);
@@ -3214,16 +3219,14 @@ odf_write_sheet_control_list (GnmOOExport *state, SheetObject *so)
 static void
 odf_write_sheet_control_radio_button (GnmOOExport *state, SheetObject *so)
 {
-	char const *id = odf_write_sheet_controls_get_id (state, so);
 	GnmExprTop const *texpr = sheet_widget_radio_button_get_link (so);
 	char *label = NULL;
 	GnmValue *val = NULL;
 
 	g_object_get (G_OBJECT (so), "text", &label, "value", &val, NULL);
 
-	gsf_xml_out_start_element (state->xml, FORM "radio");
-	gsf_xml_out_add_cstr (state->xml, XML "id", id);
-	gsf_xml_out_add_cstr (state->xml, FORM "id", id);
+	odf_sheet_control_start_element (state, so, FORM "radio");
+
 	gsf_xml_out_add_cstr (state->xml, FORM "label", label);
 
 	if (val != NULL) {
@@ -3308,7 +3311,11 @@ odf_write_sheet_controls (GnmOOExport *state)
 		else if (GNM_IS_SOW_RADIO_BUTTON (so))
 			odf_write_sheet_control_radio_button (state, so);
 		else if (GNM_IS_SOW_LIST (so))
-			odf_write_sheet_control_list (state, so);
+			odf_write_sheet_control_list (state, so, 
+						      FORM "listbox");
+		else if (GNM_IS_SOW_COMBO (so))
+			odf_write_sheet_control_list (state, so,
+						      FORM "combobox");
 	}
 
 	gsf_xml_out_end_element (state->xml); /* form:form */

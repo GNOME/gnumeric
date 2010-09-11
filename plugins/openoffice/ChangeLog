@@ -1,5 +1,14 @@
 2010-09-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (od_draw_control_start): handle combobox
+	(odf_form_combobox): new
+	(opendoc_content_dtd): connect odf_form_combobox
+	* openoffice-write.c (odf_sheet_control_start_element): new
+	(odf_write_sheet_control_*): use odf_sheet_control_start_element
+	(odf_write_sheet_controls): write combo boxes
+
+2010-09-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (od_draw_control_start): handle listboxes
 	(oo_control_free): free new source_cell_range field
 	(odf_form_control): handle new attributes
