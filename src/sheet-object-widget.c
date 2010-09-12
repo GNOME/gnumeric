@@ -323,6 +323,45 @@ typedef struct {
 } SheetWidgetFrame;
 typedef SheetObjectWidgetClass SheetWidgetFrameClass;
 
+enum {
+	SOF_PROP_0 = 0,
+	SOF_PROP_TEXT
+};
+
+static void
+sheet_widget_frame_get_property (GObject *obj, guint param_id,
+				  GValue *value, GParamSpec *pspec)
+{
+	SheetWidgetFrame *swf = SHEET_WIDGET_FRAME (obj);
+
+	switch (param_id) {
+	case SOF_PROP_TEXT:
+		g_value_set_string (value, swf->label);
+		break;
+	default :
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		break;
+	}
+}
+
+static void
+sheet_widget_frame_set_property (GObject *obj, guint param_id,
+				 GValue const *value, GParamSpec *pspec)
+{
+	SheetWidgetFrame *swf = SHEET_WIDGET_FRAME (obj);
+
+	switch (param_id) {
+	case SOF_PROP_TEXT:
+		sheet_widget_frame_set_label (SHEET_OBJECT (swf),
+					       g_value_get_string (value));
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		return;
+	}
+}
+
+
 static void
 sheet_widget_frame_init_full (SheetWidgetFrame *swf, char const *text)
 {
@@ -518,16 +557,21 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 }
 
 SOW_MAKE_TYPE (frame, Frame,
-	       &sheet_widget_frame_user_config,
+	       sheet_widget_frame_user_config,
 	       NULL,
 	       NULL,
 	       NULL,
-	       &sheet_widget_frame_copy,
-	       &sheet_widget_frame_write_xml_sax,
-	       &sheet_widget_frame_prep_sax_parser,
-	       NULL,
-	       NULL,
-	       {})
+	       sheet_widget_frame_copy,
+	       sheet_widget_frame_write_xml_sax,
+	       sheet_widget_frame_prep_sax_parser,
+	       sheet_widget_frame_get_property,
+	       sheet_widget_frame_set_property,
+	       {
+		       g_object_class_install_property
+			       (object_class, SOF_PROP_TEXT,
+				g_param_spec_string ("text", NULL, NULL, NULL,
+						     GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	       })
 
 /****************************************************************************/
 #define SHEET_WIDGET_BUTTON_TYPE     (sheet_widget_button_get_type ())

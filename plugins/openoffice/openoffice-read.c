@@ -6938,6 +6938,8 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	            GSF_XML_IN_NODE (FORM_LISTBOX, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
 	          GSF_XML_IN_NODE (FORM, FORM_COMBOBOX, OO_NS_FORM, "combobox", GSF_XML_NO_CONTENT, &odf_form_combobox, NULL),
 	            GSF_XML_IN_NODE (FORM_COMBOBOX, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+	          GSF_XML_IN_NODE (FORM, FORM_GENERIC, OO_NS_FORM, "generic-control", GSF_XML_NO_CONTENT, NULL, NULL),
+	            GSF_XML_IN_NODE (FORM_GENERIC, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
 	      GSF_XML_IN_NODE (TABLE, TABLE_ROWS, OO_NS_TABLE, "table-rows", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, &oo_col_start, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, &oo_row_start, &oo_row_end),
@@ -6962,6 +6964,11 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		    GSF_XML_IN_NODE (CELL_GRAPHIC, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd def */
 		    GSF_XML_IN_NODE (CELL_GRAPHIC, DRAW_POLYLINE, OO_NS_DRAW, "polyline", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd def */
 	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_CONTROL, OO_NS_DRAW, "control", GSF_XML_NO_CONTENT, &od_draw_control_start, NULL),
+	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_RECT, OO_NS_DRAW, "rect", GSF_XML_NO_CONTENT, NULL, NULL),
+	            GSF_XML_IN_NODE (DRAW_RECT, SHEET_OBJECT_TEXT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),
+	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_LINE, OO_NS_DRAW, "line", GSF_XML_NO_CONTENT, NULL, NULL),
+	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_ELLIPSE, OO_NS_DRAW, "ellipse", GSF_XML_NO_CONTENT, NULL, NULL),
+	            GSF_XML_IN_NODE (DRAW_ELLIPSE, SHEET_OBJECT_TEXT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 		  GSF_XML_IN_NODE (TABLE_CELL, DRAW_FRAME, OO_NS_DRAW, "frame", GSF_XML_NO_CONTENT, &od_draw_frame_start, &od_draw_frame_end),
 		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_OBJECT, OO_NS_DRAW, "object", GSF_XML_NO_CONTENT, &od_draw_object, NULL),
 	            GSF_XML_IN_NODE (DRAW_OBJECT, DRAW_OBJECT_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, NULL),

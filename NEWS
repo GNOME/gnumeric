@@ -5,6 +5,7 @@ Andreas:
 	* Read tab colors from OOo config in ODF files.
 	* Improve some ODF chart import/export.
 	* Import/export various form controls from and to ODF files.
+	* Export all sheet objects to ODF files.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.10

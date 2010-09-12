@@ -1,5 +1,20 @@
 2010-09-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (opendoc_content_dtd): add more elements
+	* openoffice-write.c (odf_write_frame_size): new (and use it where
+	  appropriate)
+	(odf_write_image): new
+	(odf_write_graph): new
+	(odf_write_frame): restrict to frames
+	(odf_write_control): new
+	(odf_write_so_filled): new
+	(odf_write_line): new
+	(odf_write_objects): call the above
+	(odf_write_sheet_control_frame): new
+	(odf_write_sheet_controls): write frames
+	
+2010-09-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (od_draw_control_start): handle button
 	(odf_form_control): save OOControl for subelements
 	(odf_form_button): new

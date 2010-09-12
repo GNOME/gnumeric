@@ -64,6 +64,7 @@
 #include <sheet-object-image.h>
 #include <sheet-object-widget.h>
 #include <gnm-so-filled.h>
+#include <gnm-so-line.h>
 #include <sheet-filter-combo.h>
 
 #include <gsf/gsf-libxml.h>
@@ -2391,20 +2392,18 @@ odf_graph_get_series (GnmOOExport *state, GogGraph *sog, GnmParsePos *pp)
 }
 
 static void
-odf_write_frame (GnmOOExport *state, SheetObject *so)
+odf_write_frame_size (GnmOOExport *state, SheetObject *so)
 {
 	SheetObjectAnchor const *anchor = sheet_object_get_anchor (so);
 	double res_pts[4] = {0.,0.,0.,0.};
-	GnmCellRef ref;
 	GnmRange const *r = &anchor->cell_bound;
+	GnmCellRef ref;
 	GnmExprTop const *texpr;
 	GnmParsePos pp;
 	char *formula;
-	char const *id = g_hash_table_lookup (state->controls, so);
-
+	
 	sheet_object_anchor_to_offset_pts (anchor, state->sheet, res_pts);
 
-	gsf_xml_out_start_element (state->xml, id ? DRAW "control" : DRAW "frame");
 	odf_add_pt (state->xml, SVG "x", res_pts[0]);
 	odf_add_pt (state->xml, SVG "y", res_pts[1]);
 	odf_add_pt (state->xml, TABLE "end-x", res_pts[2]);
@@ -2421,83 +2420,183 @@ odf_write_frame (GnmOOExport *state, SheetObject *so)
 	parse_pos_init_sheet (&pp, state->sheet);
 	formula = gnm_expr_top_as_string (texpr, &pp, state->conv);
 	gnm_expr_top_unref (texpr);
-	gsf_xml_out_add_cstr (state->xml, TABLE "end-cell-address", odf_strip_brackets (formula));
+	gsf_xml_out_add_cstr (state->xml, TABLE "end-cell-address", 
+			      odf_strip_brackets (formula));
 	g_free (formula);
+}
 
-	if (id != NULL) {
-		gsf_xml_out_add_cstr (state->xml, DRAW "control", id);
-	} else if (IS_SHEET_OBJECT_GRAPH (so)) {
-		char const *name = g_hash_table_lookup (state->graphs, so);
-		if (name != NULL) {
-			char *full_name = g_strdup_printf ("%s/", name);
-			gsf_xml_out_start_element (state->xml, DRAW "object");
-			gsf_xml_out_add_cstr (state->xml, XLINK "href", full_name);
-			g_free (full_name);
-			gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
-			gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
-			gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
-			full_name = odf_graph_get_series (state, sheet_object_graph_get_gog (so), &pp);
-			gsf_xml_out_add_cstr (state->xml, DRAW "notify-on-update-of-ranges",
-					      full_name);
-			g_free (full_name);
-			gsf_xml_out_end_element (state->xml); /*  DRAW "object" */
-			full_name = g_strdup_printf ("Pictures/%s", name);
-			gsf_xml_out_start_element (state->xml, DRAW "image");
-			gsf_xml_out_add_cstr (state->xml, XLINK "href", full_name);
-			g_free (full_name);
-			gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
-			gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
-			gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
-			gsf_xml_out_end_element (state->xml); /*  DRAW "image" */
-			full_name = g_strdup_printf ("Pictures/%s.png", name);
-			gsf_xml_out_start_element (state->xml, DRAW "image");
-			gsf_xml_out_add_cstr (state->xml, XLINK "href", full_name);
-			g_free (full_name);
-			gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
-			gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
-			gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
-			gsf_xml_out_end_element (state->xml); /*  DRAW "image" */
-		} else
-			g_warning ("Graph is missing from hash.");
-	} else if (IS_GNM_SO_FILLED (so)) {
-		gchar *text = NULL;
+static void
+odf_write_graph (GnmOOExport *state, SheetObject *so, char const *name)
+{
+	GnmParsePos pp;
+	parse_pos_init_sheet (&pp, state->sheet);
 
-		g_object_get (G_OBJECT (so), "text", &text, NULL);
+	if (name != NULL) {
+		char *full_name = g_strdup_printf ("%s/", name);
+		gsf_xml_out_start_element (state->xml, DRAW "object");
+		gsf_xml_out_add_cstr (state->xml, XLINK "href", full_name);
+		g_free (full_name);
+		gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
+		gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
+		gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
+		full_name = odf_graph_get_series (state, sheet_object_graph_get_gog (so), &pp);
+		gsf_xml_out_add_cstr (state->xml, DRAW "notify-on-update-of-ranges",
+				      full_name);
+		g_free (full_name);
+		gsf_xml_out_end_element (state->xml); /*  DRAW "object" */
+		full_name = g_strdup_printf ("Pictures/%s", name);
+		gsf_xml_out_start_element (state->xml, DRAW "image");
+		gsf_xml_out_add_cstr (state->xml, XLINK "href", full_name);
+		g_free (full_name);
+		gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
+		gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
+		gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
+		gsf_xml_out_end_element (state->xml); /*  DRAW "image" */
+		full_name = g_strdup_printf ("Pictures/%s.png", name);
+		gsf_xml_out_start_element (state->xml, DRAW "image");
+		gsf_xml_out_add_cstr (state->xml, XLINK "href", full_name);
+		g_free (full_name);
+		gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
+		gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
+		gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
+		gsf_xml_out_end_element (state->xml); /*  DRAW "image" */
+	} else
+		g_warning ("Graph is missing from hash.");
+}
 
-		gsf_xml_out_start_element (state->xml, DRAW "text-box");
-		gsf_xml_out_simple_element (state->xml, TEXT "p", text);
-		gsf_xml_out_end_element (state->xml); /*  DRAW "text-box" */
+static void
+odf_write_image (GnmOOExport *state, SheetObject *so, char const *name)
+{
+	if (name != NULL) {
+		char *image_type;
+		char *fullname;
+		g_object_get (G_OBJECT (so), 
+			      "image-type", &image_type, 
+			      NULL);
+		fullname = g_strdup_printf ("Pictures/%s.%s", name, image_type);
 
-		g_free (text);
-	} else if (IS_SHEET_OBJECT_IMAGE (so)) {
-		char const *name = g_hash_table_lookup (state->images, so);
-		if (name != NULL) {
-			char *image_type;
-			char *fullname;
-			g_object_get (G_OBJECT (so), 
-				      "image-type", &image_type, 
-				      NULL);
-			fullname = g_strdup_printf ("Pictures/%s.%s", name, image_type);
-
-			gsf_xml_out_start_element (state->xml, DRAW "image");
-			gsf_xml_out_add_cstr (state->xml, XLINK "href", fullname);
-			gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
-			gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
-			gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
-			gsf_xml_out_end_element (state->xml); /*  DRAW "image" */
+		gsf_xml_out_start_element (state->xml, DRAW "image");
+		gsf_xml_out_add_cstr (state->xml, XLINK "href", fullname);
+		gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
+		gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
+		gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
+		gsf_xml_out_end_element (state->xml); /*  DRAW "image" */
 			
-			g_free(fullname);
-			g_free (image_type);
-		} else
-			g_warning ("Image is missing from hash.");
-		
-	} else {
+		g_free(fullname);
+		g_free (image_type);
+	} else
+		g_warning ("Image is missing from hash.");
+}
+
+static void
+odf_write_frame (GnmOOExport *state, SheetObject *so)
+{
+	gsf_xml_out_start_element (state->xml, DRAW "frame");
+
+	odf_write_frame_size (state, so);
+
+	if (IS_SHEET_OBJECT_GRAPH (so))
+		odf_write_graph (state, so, g_hash_table_lookup (state->graphs, so));
+	else if (IS_SHEET_OBJECT_IMAGE (so))
+		odf_write_image (state, so, g_hash_table_lookup (state->images, so));
+	else {
 		gsf_xml_out_start_element (state->xml, DRAW "text-box");
-		gsf_xml_out_simple_element (state->xml, TEXT "p", "Missing Sheet Object");
+		gsf_xml_out_simple_element (state->xml, TEXT "p", 
+					    "Missing Framed Sheet Object");
 		gsf_xml_out_end_element (state->xml); /*  DRAW "text-box" */
 	}
 
 	gsf_xml_out_end_element (state->xml); /*  DRAW "frame" */
+}
+
+static void
+odf_write_control (GnmOOExport *state, SheetObject *so, char const *id)
+{
+	gsf_xml_out_start_element (state->xml, DRAW "control");
+	odf_write_frame_size (state, so);
+	gsf_xml_out_add_cstr (state->xml, DRAW "control", id);
+	gsf_xml_out_end_element (state->xml); /*  DRAW "control" */
+}
+
+static void
+odf_write_so_filled (GnmOOExport *state, SheetObject *so)
+{
+	char const *element;
+	gboolean is_oval = FALSE;
+	gchar *text = NULL;
+
+	g_object_get (G_OBJECT (so), "is-oval", &is_oval, "text", &text, NULL);
+	element = is_oval ? DRAW "ellipse" : DRAW "rect";
+
+	gsf_xml_out_start_element (state->xml, element);
+	odf_write_frame_size (state, so);
+	gsf_xml_out_simple_element (state->xml, TEXT "p", text);
+	g_free (text);
+	gsf_xml_out_end_element (state->xml); /*  DRAW "rect" or "ellipse" */
+}
+
+static void
+odf_write_line (GnmOOExport *state, SheetObject *so)
+{
+	SheetObjectAnchor const *anchor = sheet_object_get_anchor (so);
+	double res_pts[4] = {0.,0.,0.,0.};
+	GnmRange const *r = &anchor->cell_bound;
+	GnmCellRef ref;
+	GnmExprTop const *texpr;
+	GnmParsePos pp;
+	char *formula;
+	double x1, y1, x2, y2;
+	
+	gsf_xml_out_start_element (state->xml, DRAW "line");
+
+	sheet_object_anchor_to_offset_pts (anchor, state->sheet, res_pts);
+	odf_add_pt (state->xml, TABLE "end-x", res_pts[2]);
+	odf_add_pt (state->xml, TABLE "end-y", res_pts[3]);
+	sheet_object_anchor_to_pts (anchor, state->sheet, res_pts);
+
+	switch (anchor->base.direction) {
+	case GOD_ANCHOR_DIR_UNKNOWN:
+	case GOD_ANCHOR_DIR_UP_RIGHT:
+		x1 = res_pts[0];
+		x2 = res_pts[2];
+		y1 = res_pts[3];
+		y2 = res_pts[1];
+		break;
+	case GOD_ANCHOR_DIR_DOWN_RIGHT:
+		x1 = res_pts[0];
+		x2 = res_pts[2];
+		y1 = res_pts[1];
+		y2 = res_pts[3];
+		break;
+	case GOD_ANCHOR_DIR_UP_LEFT:
+		x1 = res_pts[2];
+		x2 = res_pts[1];
+		y1 = res_pts[3];
+		y2 = res_pts[1];
+		break;
+	case GOD_ANCHOR_DIR_DOWN_LEFT:
+		x1 = res_pts[2];
+		x2 = res_pts[1];
+		y1 = res_pts[1];
+		y2 = res_pts[3];
+		break;
+	}
+
+	odf_add_pt (state->xml, SVG "x1", x1);
+	odf_add_pt (state->xml, SVG "y1", y1);
+	odf_add_pt (state->xml, SVG "x2", x2);
+	odf_add_pt (state->xml, SVG "y2", y2);
+
+	gnm_cellref_init (&ref, (Sheet *) state->sheet, r->end.col, r->end.row, TRUE);
+	texpr =  gnm_expr_top_new (gnm_expr_new_cellref (&ref));
+	parse_pos_init_sheet (&pp, state->sheet);
+	formula = gnm_expr_top_as_string (texpr, &pp, state->conv);
+	gnm_expr_top_unref (texpr);
+	gsf_xml_out_add_cstr (state->xml, TABLE "end-cell-address", 
+			      odf_strip_brackets (formula));
+	g_free (formula);
+
+	gsf_xml_out_end_element (state->xml); /*  DRAW "line" */
 }
 
 static void
@@ -2507,14 +2606,24 @@ odf_write_objects (GnmOOExport *state, GSList *objects)
 
 	for (l = objects; l != NULL; l = l->next) {
 		SheetObject *so = l->data;
+		char const *id = g_hash_table_lookup (state->controls, so);
 		if (so == NULL) {
 			g_warning ("NULL sheet object encountered.");
 			continue;
 		}
-		if (IS_CELL_COMMENT (so))
+		if (IS_GNM_FILTER_COMBO (so))
+			continue;
+		if (id != NULL)
+			odf_write_control (state, so, id);
+		else if (IS_CELL_COMMENT (so))
 			odf_write_comment (state, CELL_COMMENT (so));
-		else if (!IS_GNM_FILTER_COMBO (so))
+		else if (IS_GNM_SO_FILLED (so))
+			odf_write_so_filled (state, so);
+		else if (IS_GNM_SO_LINE (so))
+			odf_write_line (state, so);
+		else 
 			odf_write_frame (state, so);
+		
 	}
 }
 
@@ -3194,6 +3303,32 @@ odf_write_sheet_control_checkbox (GnmOOExport *state, SheetObject *so)
 }
 
 static void
+odf_write_sheet_control_frame (GnmOOExport *state, SheetObject *so)
+{
+	char *label = NULL;
+
+	g_object_get (G_OBJECT (so), "text", &label, NULL);
+
+	odf_sheet_control_start_element (state, so, FORM "generic-control");
+	gsf_xml_out_add_cstr_unchecked (state->xml, 
+					FORM "control-implementation", 
+					GNMSTYLE "frame");
+
+	gsf_xml_out_start_element (state->xml, FORM "properties");
+	gsf_xml_out_start_element (state->xml, FORM "property");
+	
+	gsf_xml_out_add_cstr_unchecked (state->xml, FORM "property-name", GNMSTYLE "label");
+	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "value-type", "string");
+	gsf_xml_out_add_cstr (state->xml, OFFICE "string-value", label);
+	gsf_xml_out_end_element (state->xml); /* form:property */
+	gsf_xml_out_end_element (state->xml); /* form:properties */
+
+	gsf_xml_out_end_element (state->xml); /* form:generic-control */
+
+	g_free (label);
+}
+
+static void
 odf_write_sheet_control_list (GnmOOExport *state, SheetObject *so,
 			      char const *element)
 {
@@ -3363,6 +3498,8 @@ odf_write_sheet_controls (GnmOOExport *state)
 						      FORM "combobox");
 		else if (GNM_IS_SOW_BUTTON (so))
 			odf_write_sheet_control_button (state, so);
+		else if (GNM_IS_SOW_FRAME (so))
+			odf_write_sheet_control_frame (state, so);
 	}
 
 	gsf_xml_out_end_element (state->xml); /* form:form */
