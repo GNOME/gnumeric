@@ -1,5 +1,14 @@
 2010-09-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_so_filled): new
+	(odf_rect): new
+	(odf_ellipse): new
+	(odf_line): new
+	(opendoc_content_dtd): connect the above
+	* openoffice-write.c (odf_write_line): fix the placement of the line
+	
+2010-09-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (od_draw_control_start): handle frames
 	(odf_form_control): handle form:generic-control (our frames)
 	(odf_form_generic): new

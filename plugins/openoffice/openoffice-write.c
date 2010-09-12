@@ -2570,13 +2570,13 @@ odf_write_line (GnmOOExport *state, SheetObject *so)
 		break;
 	case GOD_ANCHOR_DIR_UP_LEFT:
 		x1 = res_pts[2];
-		x2 = res_pts[1];
+		x2 = res_pts[0];
 		y1 = res_pts[3];
 		y2 = res_pts[1];
 		break;
 	case GOD_ANCHOR_DIR_DOWN_LEFT:
 		x1 = res_pts[2];
-		x2 = res_pts[1];
+		x2 = res_pts[0];
 		y1 = res_pts[1];
 		y2 = res_pts[3];
 		break;

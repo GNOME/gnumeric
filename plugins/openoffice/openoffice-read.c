@@ -53,6 +53,11 @@
 #include <style-conditions.h>
 #include <gnumeric-gconf.h>
 #include <mathfunc.h>
+#include <sheet-object-graph.h>
+#include <sheet-object-image.h>
+#include <graph.h>
+#include <gnm-so-filled.h>
+#include <gnm-so-line.h>
 
 
 #include <goffice/goffice.h>
@@ -66,11 +71,6 @@
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-utils.h>
 #include <glib/gi18n-lib.h>
-
-#include <sheet-object-graph.h>
-#include <sheet-object-image.h>
-#include <graph.h>
-#include <gnm-so-filled.h>
 
 #include <string.h>
 #include <errno.h>
@@ -2129,13 +2129,13 @@ oo_dash (GsfXMLIn *xin, xmlChar const **attrs)
 			/* rect or round, ignored */;
 		else if (NULL != oo_attr_distance (xin, attrs, OO_NS_DRAW, "distance", 
 						   &distance))
-			/* FIXME: this ould be a percentage in 1.2 */;
+			/* FIXME: this could be a percentage in 1.2 */;
 		else if (NULL != oo_attr_distance (xin, attrs, OO_NS_DRAW, "dots1-length", 
 						   &len_dot1))
-			/* FIXME: this ould be a percentage in 1.2 */;
+			/* FIXME: this could be a percentage in 1.2 */;
 		else if (NULL != oo_attr_distance (xin, attrs, OO_NS_DRAW, "dots2-length", 
 						   &len_dot2))
-			/* FIXME: this ould be a percentage in 1.2 */;
+			/* FIXME: this could be a percentage in 1.2 */;
 		else if (oo_attr_int_range (xin, attrs, OO_NS_DRAW, 
 					    "dots1", &n_dots1, 0, 10));
 		else if (oo_attr_int_range (xin, attrs, OO_NS_DRAW, 
@@ -4578,8 +4578,9 @@ oo_filter_cond (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 od_draw_frame_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
-/* Note that in ODF spreadsheet files svg:height and svg:width should be ignored. We should be considering */
-/* table:end-x and table:end-y together with table:end-cell-address */
+	/* Note that in ODF spreadsheet files svg:height and svg:width are */
+	/* ignored. We only consider */
+	/* table:end-x and table:end-y together with table:end-cell-address */
 
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GnmRange cell_base;
@@ -6142,6 +6143,120 @@ odf_annotation_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	state->cell_comment = NULL;
 }
+
+/****************************************************************************/
+/******************************** graphic sheet objects *********************/
+
+static void
+odf_so_filled (GsfXMLIn *xin, xmlChar const **attrs, gboolean is_oval)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	od_draw_frame_start (xin, attrs);
+	state->chart.so = g_object_new (GNM_SO_FILLED_TYPE, 
+					"is-oval", is_oval, NULL);
+}
+
+static void
+odf_rect (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	odf_so_filled (xin, attrs, FALSE);
+}
+
+static void
+odf_ellipse (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	odf_so_filled (xin, attrs, TRUE);
+}
+
+static void
+odf_line (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	gnm_float x1 = 0., x2 = 0., y1 = 0., y2 = 0.;
+	ColRowInfo const *col, *row;
+	GODrawingAnchorDir direction;
+	GnmRange cell_base;
+	double frame_offset[4];
+
+	cell_base.start.col = cell_base.end.col = state->pos.eval.col;
+	cell_base.start.row = cell_base.end.row = state->pos.eval.row;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (NULL != oo_attr_distance (xin, attrs, 
+					      OO_NS_SVG, "x1", 
+					      &x1));
+		else if (NULL != oo_attr_distance (xin, attrs, 
+					      OO_NS_SVG, "x2", 
+					      &x2));
+		else if (NULL != oo_attr_distance (xin, attrs, 
+					      OO_NS_SVG, "y1", 
+					      &y1));
+		else if (NULL != oo_attr_distance (xin, attrs, 
+					      OO_NS_SVG, "y2", 
+					      &y2));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					     OO_NS_TABLE, "end-cell-address")) {
+			GnmParsePos pp;
+			GnmRangeRef ref;
+			char const *ptr = oo_rangeref_parse 
+				(&ref, CXML2C (attrs[1]),
+				 parse_pos_init_sheet (&pp, state->pos.sheet));
+			if (ptr != CXML2C (attrs[1])) {
+				cell_base.end.col = ref.a.col;
+				cell_base.end.row = ref.a.row;
+			}
+		}
+
+	if (x1 < x2) {
+		if (y1 < y2) 
+			direction = GOD_ANCHOR_DIR_DOWN_RIGHT;
+		else
+			direction = GOD_ANCHOR_DIR_UP_RIGHT;
+		frame_offset[0] = x1;
+		frame_offset[2] = x2;
+	} else {
+		if (y1 < y2) 
+			direction = GOD_ANCHOR_DIR_DOWN_LEFT;
+		else
+			direction = GOD_ANCHOR_DIR_UP_LEFT;
+		frame_offset[0] = x2;
+		frame_offset[2] = x1;
+	}
+	if (y1 < y2) {
+		frame_offset[1] = y1;
+		frame_offset[3] = y2;
+	} else {
+		frame_offset[1] = y2;
+		frame_offset[3] = y1;
+	}
+
+	frame_offset[0] -= sheet_col_get_distance_pts (state->pos.sheet, 0,
+						       cell_base.start.col);
+	frame_offset[1] -= sheet_row_get_distance_pts (state->pos.sheet, 0,
+						       cell_base.start.row);
+	frame_offset[2] -= sheet_col_get_distance_pts (state->pos.sheet, 0,
+						       cell_base.end.col);
+	frame_offset[3] -= sheet_row_get_distance_pts (state->pos.sheet, 0,
+						       cell_base.end.row);
+
+	col = sheet_col_get_info (state->pos.sheet, cell_base.start.col);
+	row = sheet_row_get_info (state->pos.sheet, cell_base.start.row);
+	frame_offset[0] /= col->size_pts;
+	frame_offset[1] /= row->size_pts;
+
+	col = sheet_col_get_info (state->pos.sheet, cell_base.end.col);
+	row = sheet_row_get_info (state->pos.sheet, cell_base.end.row);
+	frame_offset[2] /= col->size_pts;
+	frame_offset[3] /= row->size_pts;
+
+
+	sheet_object_anchor_init (&state->chart.anchor, &cell_base, 
+				  frame_offset,
+				  direction);
+	state->chart.so = g_object_new (GNM_SO_LINE_TYPE, NULL);	
+}
+
 /****************************************************************************/
 /******************************** controls     ******************************/
 
@@ -7002,11 +7117,11 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		    GSF_XML_IN_NODE (CELL_GRAPHIC, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd def */
 		    GSF_XML_IN_NODE (CELL_GRAPHIC, DRAW_POLYLINE, OO_NS_DRAW, "polyline", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd def */
 	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_CONTROL, OO_NS_DRAW, "control", GSF_XML_NO_CONTENT, &od_draw_control_start, NULL),
-	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_RECT, OO_NS_DRAW, "rect", GSF_XML_NO_CONTENT, NULL, NULL),
-	            GSF_XML_IN_NODE (DRAW_RECT, SHEET_OBJECT_TEXT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),
-	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_LINE, OO_NS_DRAW, "line", GSF_XML_NO_CONTENT, NULL, NULL),
-	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_ELLIPSE, OO_NS_DRAW, "ellipse", GSF_XML_NO_CONTENT, NULL, NULL),
-	            GSF_XML_IN_NODE (DRAW_ELLIPSE, SHEET_OBJECT_TEXT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
+	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_RECT, OO_NS_DRAW, "rect", GSF_XML_NO_CONTENT, &odf_rect, &od_draw_frame_end),
+	            GSF_XML_IN_NODE (DRAW_RECT, DRAW_TEXT_BOX_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, &od_draw_text_box_p_end),
+	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_LINE, OO_NS_DRAW, "line", GSF_XML_NO_CONTENT, &odf_line, &od_draw_frame_end),
+	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_ELLIPSE, OO_NS_DRAW, "ellipse", GSF_XML_NO_CONTENT, &odf_ellipse, &od_draw_frame_end),
+	            GSF_XML_IN_NODE (DRAW_ELLIPSE, DRAW_TEXT_BOX_TEXT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 		  GSF_XML_IN_NODE (TABLE_CELL, DRAW_FRAME, OO_NS_DRAW, "frame", GSF_XML_NO_CONTENT, &od_draw_frame_start, &od_draw_frame_end),
 		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_OBJECT, OO_NS_DRAW, "object", GSF_XML_NO_CONTENT, &od_draw_object, NULL),
 	            GSF_XML_IN_NODE (DRAW_OBJECT, DRAW_OBJECT_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, NULL),
@@ -7015,7 +7130,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	              GSF_XML_IN_NODE (DRAW_IMAGE, DRAW_IMAGE_TEXT,OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),
 		    GSF_XML_IN_NODE (DRAW_FRAME, SVG_DESC, OO_NS_SVG, "desc", GSF_XML_NO_CONTENT, NULL, NULL),
 		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_TEXT_BOX, OO_NS_DRAW, "text-box", GSF_XML_NO_CONTENT, &od_draw_text_box, NULL),
-		    GSF_XML_IN_NODE (DRAW_TEXT_BOX, DRAW_TEXT_BOX_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, &od_draw_text_box_p_end),
+		    GSF_XML_IN_NODE (DRAW_TEXT_BOX, DRAW_TEXT_BOX_TEXT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (TABLE_CELL, CELL_ANNOTATION, OO_NS_OFFICE, "annotation", GSF_XML_NO_CONTENT, &odf_annotation_start, &odf_annotation_end),
 	            GSF_XML_IN_NODE (CELL_ANNOTATION, CELL_ANNOTATION_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, &odf_annotation_content_end),
   		      GSF_XML_IN_NODE (CELL_ANNOTATION_TEXT, CELL_ANNOTATION_TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),
