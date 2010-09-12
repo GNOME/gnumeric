@@ -4,7 +4,7 @@ Andreas:
 	* Fix image-fill, pattern and gradient export. [#628762]
 	* Read tab colors from OOo config in ODF files.
 	* Improve some ODF chart import/export.
-	* Import/export various form controls from and to ODF files.
+	* Import/export all form controls from and to ODF files.
 	* Export all sheet objects to ODF files.
 
 --------------------------------------------------------------------------
