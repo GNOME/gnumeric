@@ -111,6 +111,7 @@ typedef struct {
 	GSList *col_styles;
 	GHashTable *cell_styles;
 	GHashTable *named_cell_styles;
+	GHashTable *so_styles;
 	GHashTable *xl_styles;
 	GHashTable *xl_styles_neg;
 	GHashTable *xl_styles_zero;
@@ -178,6 +179,17 @@ static struct {
 	{ "xmlns:xsi",		"http://www.w3.org/2001/XMLSchema-instance" },
 	{ "xmlns:gnm",		"http://www.gnumeric.org/odf-extension/1.0"},
 };
+
+/*****************************************************************************/
+
+static void odf_write_fill_images_info (GOImage *image, char const *name, GnmOOExport *state);
+static void odf_write_gradient_info (GOStyle const *style, char const *name, GnmOOExport *state);
+static void odf_write_hatch_info (GOPattern *pattern, char const *name, GnmOOExport *state);
+static void odf_write_dash_info (char const *name, gpointer data, GnmOOExport *state);
+
+static void odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style);
+static void odf_write_gog_style_text (GnmOOExport *state, GOStyle const *style);
+
 
 /*****************************************************************************/
 
@@ -696,17 +708,52 @@ static void
 odf_write_table_styles (GnmOOExport *state)
 {
 	int i;
-	GHashTable *known = g_hash_table_new_full (g_str_hash, g_str_equal,
-		(GDestroyNotify) g_free, NULL);
 
 	for (i = 0; i < workbook_sheet_count (state->wb); i++) {
 		Sheet const *sheet = workbook_sheet_by_index (state->wb, i);
 		char *name = table_style_name (sheet);
-		if (NULL == g_hash_table_lookup (known, name)) {
-			g_hash_table_replace (known, name, name);
-			odf_write_table_style (state, sheet, name);
-		} else
-			g_free (name);
+		odf_write_table_style (state, sheet, name);
+		g_free (name);
+	}
+}
+
+static char *
+odf_write_sheet_object_style (GnmOOExport *state, SheetObject *so)
+{
+	char *name = g_strdup_printf ("so-f-%p", so);
+	GOStyle const *style = NULL;
+	GObjectClass *klass = G_OBJECT_GET_CLASS (G_OBJECT (so));
+	if (NULL != g_object_class_find_property (klass, "style"))
+		g_object_get (G_OBJECT (so), "style", &style, NULL);
+
+	odf_start_style (state->xml, name, "graphic");
+	gsf_xml_out_start_element (state->xml, STYLE "graphic-properties");
+	odf_write_gog_style_graphic (state, style);
+	gsf_xml_out_end_element (state->xml); /* </style:graphic-properties> */
+	gsf_xml_out_start_element (state->xml, STYLE "text-properties");
+	odf_write_gog_style_text (state, style);
+	gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
+	gsf_xml_out_end_element (state->xml); /* </style:style> */
+
+	if (style != NULL)
+		g_object_unref (G_OBJECT (style));
+	return name;
+}
+
+static void
+odf_write_sheet_object_styles (GnmOOExport *state)
+{
+	int i;
+
+	for (i = 0; i < workbook_sheet_count (state->wb); i++) {
+		Sheet const *sheet = workbook_sheet_by_index (state->wb, i);
+		GSList *objects = sheet_objects_get (sheet, NULL, GNM_SO_FILLED_TYPE), *l;
+		for (l = objects; l != NULL; l = l->next) {
+			SheetObject *so = SHEET_OBJECT (l->data);
+			char *name = odf_write_sheet_object_style (state, so);
+			g_hash_table_replace (state->so_styles, so, name);
+		}
+		g_slist_free (objects);
 	}
 }
 
@@ -2524,11 +2571,14 @@ odf_write_so_filled (GnmOOExport *state, SheetObject *so)
 	char const *element;
 	gboolean is_oval = FALSE;
 	gchar *text = NULL;
-
+	gchar const *style_name = g_hash_table_lookup (state->so_styles, so);
+ 
 	g_object_get (G_OBJECT (so), "is-oval", &is_oval, "text", &text, NULL);
 	element = is_oval ? DRAW "ellipse" : DRAW "rect";
 
 	gsf_xml_out_start_element (state->xml, element);
+	if (style_name != NULL)
+		gsf_xml_out_add_cstr (state->xml, DRAW "style-name", style_name);
 	odf_write_frame_size (state, so);
 	gsf_xml_out_simple_element (state->xml, TEXT "p", text);
 	g_free (text);
@@ -3650,6 +3700,7 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 	odf_write_cell_styles (state);
 	odf_write_column_styles (state);
 	odf_write_row_styles (state);
+	odf_write_sheet_object_styles (state);
 	gsf_xml_out_end_element (state->xml); /* </office:automatic-styles> */
 
 	gsf_xml_out_start_element (state->xml, OFFICE "body");
@@ -3848,6 +3899,16 @@ odf_write_styles (GnmOOExport *state, GsfOutput *child)
 		odf_write_row_style (state, state->row_default);
 		gsf_xml_out_end_element (state->xml); /* </style:default-style */
 	}
+
+	g_hash_table_foreach (state->graph_dashes, (GHFunc) odf_write_dash_info, state);
+	g_hash_table_foreach (state->graph_hatches, (GHFunc) odf_write_hatch_info, state);
+	g_hash_table_foreach (state->graph_gradients, (GHFunc) odf_write_gradient_info, state);
+	g_hash_table_foreach (state->graph_fill_images, (GHFunc) odf_write_fill_images_info, state);
+	
+	g_hash_table_remove_all (state->graph_dashes);
+	g_hash_table_remove_all (state->graph_hatches);
+	g_hash_table_remove_all (state->graph_gradients);
+	g_hash_table_remove_all (state->graph_fill_images);	
 
 	gsf_xml_out_end_element (state->xml); /* </office:styles> */
 	gsf_xml_out_end_element (state->xml); /* </office:document-styles> */
@@ -6092,21 +6153,6 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 		char *fullname = g_strdup_printf ("%s/content.xml", name);
 		GsfOutput  *sec_child;
 
-		state->graph_dashes = g_hash_table_new_full (g_str_hash, g_str_equal,
-							     (GDestroyNotify) g_free, 
-							     NULL);
-		state->graph_hatches = g_hash_table_new_full (g_direct_hash, 
-							      (GEqualFunc)odf_match_pattern,
-							      NULL,
-							     (GDestroyNotify) g_free);
-		state->graph_gradients = g_hash_table_new_full (g_direct_hash, 
-								(GEqualFunc)odf_match_gradient,
-								NULL,
-								(GDestroyNotify) g_free);
-		state->graph_fill_images = g_hash_table_new_full (g_direct_hash, 
-								  (GEqualFunc)odf_match_image,
-								  NULL,
-								  (GDestroyNotify) g_free);
 		state->chart_props_hash = g_hash_table_new_full (g_str_hash, g_str_equal,
 							     NULL, NULL);
 		odf_fill_chart_props_hash (state);
@@ -6148,14 +6194,11 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 
 		g_hash_table_foreach (state->graph_fill_images, (GHFunc) odf_write_fill_images, state);
 
-		g_hash_table_unref (state->graph_dashes);
-		state->graph_dashes = NULL;
-		g_hash_table_unref (state->graph_hatches);
-		state->graph_hatches = NULL;
-		g_hash_table_unref (state->graph_gradients);
-		state->graph_gradients = NULL;
-		g_hash_table_unref (state->graph_fill_images);
-		state->graph_fill_images = NULL;
+		g_hash_table_remove_all (state->graph_dashes);
+		g_hash_table_remove_all (state->graph_hatches);
+		g_hash_table_remove_all (state->graph_gradients);
+		g_hash_table_remove_all (state->graph_fill_images);
+
 		g_hash_table_unref (state->chart_props_hash);
 		state->chart_props_hash = NULL;
 		odf_update_progress (state, state->graph_progress * (3./2.));
@@ -6243,6 +6286,8 @@ openoffice_file_save_real (GOFileSaver const *fs, GOIOContext *ioc,
 						   NULL, (GDestroyNotify) g_free);
 	state.cell_styles = g_hash_table_new_full (g_direct_hash, g_direct_equal,
 						   NULL, (GDestroyNotify) g_free);
+	state.so_styles = g_hash_table_new_full (g_direct_hash, g_direct_equal,
+						   NULL, (GDestroyNotify) g_free);
 	state.xl_styles =  g_hash_table_new_full (g_str_hash, g_str_equal,
 						  (GDestroyNotify) g_free, (GDestroyNotify) g_free);
 	state.xl_styles_neg =  g_hash_table_new_full (g_str_hash, g_str_equal,
@@ -6251,6 +6296,21 @@ openoffice_file_save_real (GOFileSaver const *fs, GOIOContext *ioc,
 						  (GDestroyNotify) g_free, (GDestroyNotify) g_free);
 	state.xl_styles_conditional =  g_hash_table_new_full (g_str_hash, g_str_equal,
 						  (GDestroyNotify) g_free, (GDestroyNotify) g_free);
+	state.graph_dashes = g_hash_table_new_full (g_str_hash, g_str_equal,
+						    (GDestroyNotify) g_free, 
+						    NULL);
+	state.graph_hatches = g_hash_table_new_full (g_direct_hash, 
+						     (GEqualFunc)odf_match_pattern,
+						     NULL,
+						     (GDestroyNotify) g_free);
+	state.graph_gradients = g_hash_table_new_full (g_direct_hash, 
+						       (GEqualFunc)odf_match_gradient,
+						       NULL,
+						       (GDestroyNotify) g_free);
+	state.graph_fill_images = g_hash_table_new_full (g_direct_hash, 
+							 (GEqualFunc)odf_match_image,
+							 NULL,
+							 (GDestroyNotify) g_free);
 	state.col_styles = NULL;
 	state.row_styles = NULL;
 
@@ -6329,10 +6389,15 @@ openoffice_file_save_real (GOFileSaver const *fs, GOIOContext *ioc,
 	g_hash_table_unref (state.controls);
 	g_hash_table_unref (state.named_cell_styles);
 	g_hash_table_unref (state.cell_styles);
+	g_hash_table_unref (state.so_styles);
 	g_hash_table_unref (state.xl_styles);
 	g_hash_table_unref (state.xl_styles_neg);
 	g_hash_table_unref (state.xl_styles_zero);
 	g_hash_table_unref (state.xl_styles_conditional);
+	g_hash_table_unref (state.graph_dashes);
+	g_hash_table_unref (state.graph_hatches);
+	g_hash_table_unref (state.graph_gradients);
+	g_hash_table_unref (state.graph_fill_images);
 	g_slist_free (state.col_styles);
 	g_slist_free (state.row_styles);
 	gnm_style_unref (state.default_style);

@@ -1,5 +1,17 @@
 2010-09-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_table_styles): fix leak
+	(odf_write_sheet_object_style): new
+	(odf_write_sheet_object_styles): new
+	(odf_write_so_filled): write style name
+	(odf_write_content): cause sheet object styles to be written
+	(odf_write_styles): write gradient, hatch, etc. info
+	(odf_write_graphs): we create the hashes elsewhere and later 
+	  just empty, don't delete these hashes
+	(openoffice_file_save_real): create and delete the ahshes here.
+
+2010-09-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_so_filled): new
 	(odf_rect): new
 	(odf_ellipse): new
