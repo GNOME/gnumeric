@@ -4082,9 +4082,10 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean draw_stroke_set = FALSE;
 	gboolean draw_stroke;
 
-	if (style == NULL)
-		return;
-	/* FIXME: we just ignored a default style of family graphic */
+	if (style == NULL && state->default_style.cells != NULL) {
+		style = g_new (OOChartStyle, 1);
+	}
+		
 
 	style->grid = FALSE;
 	style->src_in_rows = FALSE;
@@ -4387,6 +4388,12 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		style->plot_props = g_slist_prepend
 			(style->plot_props,
 			 oo_prop_new_bool ("default-style-has-lines", draw_stroke));
+
+	if (state->chart.cur_graph_style == NULL && state->default_style.cells != NULL) {
+		/* odf_apply_style_props (xin, style->style_props, state->default_style.cells);*/
+		/* We should apply the styles to this GnmStyle */
+		oo_chart_style_free (style);
+	}
 }
 
 static void
