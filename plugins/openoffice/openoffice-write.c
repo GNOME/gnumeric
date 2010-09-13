@@ -2685,6 +2685,7 @@ odf_write_line (GnmOOExport *state, SheetObject *so)
 	sheet_object_anchor_to_pts (anchor, state->sheet, res_pts);
 
 	switch (anchor->base.direction) {
+	default:
 	case GOD_ANCHOR_DIR_UNKNOWN:
 	case GOD_ANCHOR_DIR_UP_RIGHT:
 		x1 = res_pts[0];
@@ -2710,10 +2711,6 @@ odf_write_line (GnmOOExport *state, SheetObject *so)
 		y1 = res_pts[1];
 		y2 = res_pts[3];
 		break;
-	default:
-		/* This really shouldn't happen */
-		g_error ("How can we get here?");
-		g_assert(0);
 	}
 
 	odf_add_pt (state->xml, SVG "x1", x1);

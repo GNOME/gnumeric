@@ -1,4 +1,10 @@
 2010-09-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (od_style_prop_chart): check for NULL
+	* openoffice-write.c (odf_write_line): an unknown 
+	  anchor->base.direction should behave like GOD_ANCHOR_DIR_UNKNOWN
+	
+2010-09-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	
 	* openoffice-read.c (oo_marker_free): new
 	(odf_get_arrow_marker): use the imported markers

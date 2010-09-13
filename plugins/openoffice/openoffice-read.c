@@ -4089,6 +4089,9 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean draw_stroke_set = FALSE;
 	gboolean draw_stroke;
 
+	g_return_if_fail (style != NULL || 
+			  state->default_style.cells != NULL);
+
 	if (style == NULL && state->default_style.cells != NULL) {
 		style = g_new (OOChartStyle, 1);
 	}
