@@ -4082,7 +4082,9 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean draw_stroke_set = FALSE;
 	gboolean draw_stroke;
 
-	g_return_if_fail (style != NULL);
+	if (style == NULL)
+		return;
+	/* FIXME: we just ignored a default style of family graphic */
 
 	style->grid = FALSE;
 	style->src_in_rows = FALSE;
@@ -4364,6 +4366,20 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			style->style_props = g_slist_prepend
 				(style->style_props,
 				 oo_prop_new_int ("repeat", tmp));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					     OO_NS_DRAW, 
+					     "marker-start"))
+			style->other_props = g_slist_prepend
+				(style->other_props,
+				 oo_prop_new_string
+				 ("marker-start", CXML2C(attrs[1])));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					     OO_NS_DRAW, 
+					     "marker-end"))
+			style->other_props = g_slist_prepend
+				(style->other_props,
+				 oo_prop_new_string
+				 ("marker-end", CXML2C(attrs[1])));
 
 	}
 
@@ -6254,6 +6270,16 @@ odf_ellipse (GsfXMLIn *xin, xmlChar const **attrs)
 	odf_so_filled (xin, attrs, TRUE);
 }
 
+static GOArrow *
+odf_get_arrow_marker (OOParseState *state, char const *name)
+{
+	GOArrow *arrow = g_new0 (GOArrow, 1);
+
+	go_arrow_init_kite (arrow, 8, 10, 3);
+
+	return arrow;
+}
+
 static void
 odf_line (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -6350,6 +6376,10 @@ odf_line (GsfXMLIn *xin, xmlChar const **attrs)
 			(state->chart.graph_styles, style_name);
 		if (oostyle != NULL) {
 			GOStyle *style;
+			char const *start_marker = NULL;
+			char const *end_marker = NULL;
+			GSList *l;
+
 			g_object_get (G_OBJECT (state->chart.so), 
 				      "style", &style, NULL);
 			
@@ -6357,6 +6387,33 @@ odf_line (GsfXMLIn *xin, xmlChar const **attrs)
 				odf_apply_style_props (xin, oostyle->style_props, 
 						       style);
 				g_object_unref (style);
+			}
+			
+			for (l = oostyle->other_props; l != NULL; l = l->next) {
+				OOProp *prop = l->data;
+				if (0 == strcmp ("marker-start", prop->name))
+					start_marker = g_value_get_string (&prop->value);
+				else if (0 == strcmp ("marker-end", prop->name))
+					end_marker = g_value_get_string (&prop->value);
+			}
+
+			if (start_marker != NULL) {
+				GOArrow *arrow = odf_get_arrow_marker (state, start_marker);
+				
+				if (arrow != NULL) {
+					g_object_set (G_OBJECT (state->chart.so),
+						      "start-arrow", arrow, NULL);
+					g_free (arrow);
+				}
+			}
+			if (end_marker != NULL) {
+				GOArrow *arrow = odf_get_arrow_marker (state, end_marker);
+				
+				if (arrow != NULL) {
+					g_object_set (G_OBJECT (state->chart.so),
+						      "end-arrow", arrow, NULL);
+					g_free (arrow);
+				}
 			}
 		}
 	}
