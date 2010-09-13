@@ -194,6 +194,12 @@ typedef struct {
 } OOControl;
 
 typedef struct {
+	char *view_box;
+	char * d;
+	GOArrow *arrow;
+} OOMarker;
+
+typedef struct {
 	gboolean grid;		/* graph has grid? */
 	gboolean src_in_rows;	/* orientation of graph data: rows or columns */
 	GSList	*axis_props;	/* axis properties */
@@ -245,6 +251,7 @@ typedef struct {
 	GHashTable              *dash_styles;
 	GHashTable              *fill_image_styles;
 	GHashTable              *gradient_styles;
+	GHashTable              *arrow_markers;
 	
 	OOChartStyle            *i_plot_styles[OO_CHART_STYLE_INHERITANCE];  
 	                                          /* currently active styles at plot-area, */
@@ -6191,6 +6198,15 @@ oo_control_free (OOControl *ctrl)
 }
 
 static void
+oo_marker_free (OOMarker *m)
+{
+	g_free (m->view_box);
+	g_free (m->d);
+	g_free (m->arrow);
+	g_free (m);
+}
+
+static void
 odf_annotation_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -6280,11 +6296,19 @@ odf_ellipse (GsfXMLIn *xin, xmlChar const **attrs)
 static GOArrow *
 odf_get_arrow_marker (OOParseState *state, char const *name)
 {
-	GOArrow *arrow = g_new0 (GOArrow, 1);
+	OOMarker *m = g_hash_table_lookup (state->chart.arrow_markers, name);
 
-	go_arrow_init_kite (arrow, 8, 10, 3);
-
-	return arrow;
+	if (m != NULL) {
+		if (m->arrow == NULL) {
+			m->arrow = g_new0 (GOArrow, 1);
+			go_arrow_init_kite (m->arrow, 8, 10, 3);
+		}
+		return go_arrow_dup (m->arrow);
+	} else {
+		GOArrow *arrow = g_new0 (GOArrow, 1);
+		go_arrow_init_kite (arrow, 8, 10, 3);
+		return arrow;
+	}
 }
 
 static void
@@ -6885,7 +6909,48 @@ odf_apply_ooo_config (OOParseState *state)
 	g_hash_table_foreach (hash, (GHFunc) odf_apply_ooo_table_config, state);
 }
 
-/*********************************************************************************************/
+/**************************************************************************/
+
+static void
+oo_marker (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	OOMarker *marker = g_new0 (OOMarker, 1);
+        int type = GO_ARROW_NONE;
+	double a = 0., b = 0., c = 0.;
+	char const *name = NULL;
+	
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					OO_NS_DRAW, "name"))
+			name = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					     OO_NS_SVG, "viewBox"))
+			marker->view_box = g_strdup (CXML2C (attrs[1]));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					     OO_NS_SVG, "d"))
+			marker->d = g_strdup (CXML2C (attrs[1]));
+		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, "arrow-type", &type, 
+					    GO_ARROW_KITE, GO_ARROW_OVAL));
+		else if (oo_attr_float (xin, attrs, OO_GNUM_NS_EXT, 
+					"arrow-a", &a));
+		else if (oo_attr_float (xin, attrs, OO_GNUM_NS_EXT, 
+					"arrow-b", &b));
+		else if (oo_attr_float (xin, attrs, OO_GNUM_NS_EXT, 
+					"arrow-c", &c));
+	if (type != GO_ARROW_NONE) {
+		marker->arrow = g_new0 (GOArrow, 1);
+		go_arrow_init (marker->arrow, type, a, b, c);
+	}
+	if (name != NULL) {
+		g_hash_table_replace (state->chart.arrow_markers,
+				      g_strdup (name), marker);
+	} else
+		oo_marker_free (marker);
+
+}
+
+/**************************************************************************/
 
 static GsfXMLInNode const styles_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
@@ -6903,7 +6968,7 @@ GSF_XML_IN_NODE (START, OFFICE_STYLES, OO_NS_OFFICE, "styles", GSF_XML_NO_CONTEN
   GSF_XML_IN_NODE (OFFICE_STYLES, DASH, OO_NS_DRAW, "stroke-dash", GSF_XML_NO_CONTENT, &oo_dash, NULL),
   GSF_XML_IN_NODE (OFFICE_STYLES, HATCH, OO_NS_DRAW, "hatch", GSF_XML_NO_CONTENT, &oo_hatch, NULL),
   GSF_XML_IN_NODE (OFFICE_STYLES, GRADIENT, OO_NS_DRAW, "gradient", GSF_XML_NO_CONTENT, &oo_gradient, NULL),
-  GSF_XML_IN_NODE (OFFICE_STYLES, MARKER, OO_NS_DRAW, "marker", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (OFFICE_STYLES, MARKER, OO_NS_DRAW, "marker", GSF_XML_NO_CONTENT, &oo_marker, NULL),
   GSF_XML_IN_NODE (OFFICE_STYLES, STYLE, OO_NS_STYLE, "style", GSF_XML_NO_CONTENT, &oo_style, &oo_style_end),
     GSF_XML_IN_NODE (STYLE, TABLE_CELL_PROPS, OO_NS_STYLE,	"table-cell-properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
     GSF_XML_IN_NODE (STYLE, TEXT_PROP, OO_NS_STYLE,		"text-properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
@@ -8250,6 +8315,10 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 		(g_str_hash, g_str_equal,
 		 (GDestroyNotify) g_free,
 		 (GDestroyNotify) oo_control_free);
+	state.chart.arrow_markers = g_hash_table_new_full 
+		(g_str_hash, g_str_equal,
+		 (GDestroyNotify) g_free,
+		 (GDestroyNotify) oo_marker_free);
 	state.cur_style.cells    = NULL;
 	state.cur_style.col_rows = NULL;
 	state.cur_style.sheets   = NULL;
@@ -8382,6 +8451,7 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	g_hash_table_destroy (state.chart.gradient_styles);
 	g_hash_table_destroy (state.formats);
 	g_hash_table_destroy (state.controls);
+	g_hash_table_destroy (state.chart.arrow_markers);
 	g_object_unref (contents);
 
 	g_object_unref (zip);
