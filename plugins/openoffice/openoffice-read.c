@@ -4093,7 +4093,7 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			  state->default_style.cells != NULL);
 
 	if (style == NULL && state->default_style.cells != NULL) {
-		style = g_new (OOChartStyle, 1);
+		style = g_new0 (OOChartStyle, 1);
 	}
 		
 
@@ -7359,6 +7359,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_RECT, OO_NS_DRAW, "rect", GSF_XML_NO_CONTENT, &odf_rect, &od_draw_frame_end),
 	            GSF_XML_IN_NODE (DRAW_RECT, DRAW_TEXT_BOX_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, &od_draw_text_box_p_end),
 	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_LINE, OO_NS_DRAW, "line", GSF_XML_NO_CONTENT, &odf_line, &od_draw_frame_end),
+	            GSF_XML_IN_NODE (DRAW_LINE, DRAW_LINE_TEXT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_ELLIPSE, OO_NS_DRAW, "ellipse", GSF_XML_NO_CONTENT, &odf_ellipse, &od_draw_frame_end),
 	            GSF_XML_IN_NODE (DRAW_ELLIPSE, DRAW_TEXT_BOX_TEXT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 		  GSF_XML_IN_NODE (TABLE_CELL, DRAW_FRAME, OO_NS_DRAW, "frame", GSF_XML_NO_CONTENT, &od_draw_frame_start, &od_draw_frame_end),
