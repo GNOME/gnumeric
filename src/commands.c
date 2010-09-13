@@ -859,11 +859,15 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 
 		text = g_strdup_printf (_("Inserting expression in %s"), name);
 
-		sf = auto_style_format_suggest (texpr, ep);
-		if (sf != NULL) {
-			new_style = gnm_style_new ();
-			gnm_style_set_format (new_style, sf);
-			go_format_unref (sf);
+		if (go_format_is_general 
+		    (gnm_style_get_format 
+		     (sheet_style_get (sheet, ep->eval.col, ep->eval.row)))) {
+			sf = auto_style_format_suggest (texpr, ep);
+			if (sf != NULL) {
+				new_style = gnm_style_new ();
+				gnm_style_set_format (new_style, sf);
+				go_format_unref (sf);
+			}
 		}
 
 		for (l = selection; l != NULL; l = l->next) {
