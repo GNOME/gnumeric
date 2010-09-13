@@ -233,7 +233,14 @@ typedef struct {
 	gchar                   *title_style;
 
 	OOChartStyle		*cur_graph_style; /* for reading of styles */
-	GHashTable		*graph_styles;	/* contain links to OOChartStyle GSLists */
+
+	GSList		        *saved_graph_styles; 
+	GSList		        *saved_hatches; 
+	GSList		        *saved_dash_styles; 
+	GSList		        *saved_fill_image_styles; 
+	GSList		        *saved_gradient_styles;
+ 
+	GHashTable		*graph_styles;
 	GHashTable              *hatches;
 	GHashTable              *dash_styles;
 	GHashTable              *fill_image_styles;
@@ -2471,6 +2478,7 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 		break;
 
 	case OO_STYLE_CHART:
+	case OO_STYLE_GRAPHICS:
 		state->chart.plot_type = OO_PLOT_UNKNOWN;
 		if (name != NULL){
 			cur_style = g_new0(OOChartStyle, 1);
@@ -2512,7 +2520,8 @@ oo_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			g_free (state->cur_style.sheets);
 		state->cur_style.sheets = NULL;
 		break;
-	case OO_STYLE_CHART : 
+	case OO_STYLE_CHART :
+	case OO_STYLE_GRAPHICS :
 		state->chart.cur_graph_style = NULL;
 		break;
 
@@ -4373,7 +4382,9 @@ oo_style_prop (GsfXMLIn *xin, xmlChar const **attrs)
 	case OO_STYLE_COL   :
 	case OO_STYLE_ROW   : oo_style_prop_col_row (xin, attrs); break;
 	case OO_STYLE_SHEET : oo_style_prop_table (xin, attrs); break;
-	case OO_STYLE_CHART : od_style_prop_chart (xin, attrs); break;
+	case OO_STYLE_CHART : 
+	case OO_STYLE_GRAPHICS :
+		od_style_prop_chart (xin, attrs); break;
 
 	default :
 		break;
@@ -4825,6 +4836,18 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+pop_hash (GSList **list, GHashTable **hash)
+{
+	g_hash_table_destroy (*hash);
+	if (*list == NULL)
+		*hash = NULL;
+	else {
+		*hash = (*list)->data;
+		*list = g_slist_delete_link (*list, *list);
+	}
+}
+
+static void
 od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -4846,6 +4869,43 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 
 	state->chart.so    = sheet_object_graph_new (NULL);
 	state->chart.graph = sheet_object_graph_get_gog (state->chart.so);
+
+	state->chart.saved_graph_styles 
+		= g_slist_prepend (state->chart.saved_graph_styles,
+				   state->chart.graph_styles);
+	state->chart.saved_hatches
+		= g_slist_prepend (state->chart.saved_hatches,
+				   state->chart.hatches);
+	state->chart.saved_dash_styles 
+		= g_slist_prepend (state->chart.saved_dash_styles,
+				   state->chart.dash_styles);
+	state->chart.saved_fill_image_styles 
+		= g_slist_prepend (state->chart.saved_fill_image_styles,
+				   state->chart.fill_image_styles);
+	state->chart.saved_gradient_styles 
+		= g_slist_prepend (state->chart.saved_gradient_styles,
+				   state->chart.gradient_styles);
+
+	state->chart.graph_styles = g_hash_table_new_full 
+		(g_str_hash, g_str_equal,
+		 (GDestroyNotify) g_free,
+		 (GDestroyNotify) oo_chart_style_free);
+	state->chart.hatches = g_hash_table_new_full 
+		(g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) g_free);
+	state->chart.dash_styles = g_hash_table_new_full 
+		(g_str_hash, g_str_equal,
+		 (GDestroyNotify) g_free,
+		 NULL);
+	state->chart.fill_image_styles = g_hash_table_new_full 
+		(g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) g_free);
+	state->chart.gradient_styles = g_hash_table_new_full 
+		(g_str_hash, g_str_equal,
+		 (GDestroyNotify) g_free,
+		 (GDestroyNotify) g_free);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_XLINK, "href")) {
@@ -4895,11 +4955,14 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	if (state->cur_style.type == OO_STYLE_CHART)
 		state->cur_style.type = OO_STYLE_UNKNOWN;
 	state->chart.cur_graph_style = NULL;
-	g_hash_table_remove_all (state->chart.graph_styles);
-	g_hash_table_remove_all (state->chart.hatches);
-	g_hash_table_remove_all (state->chart.dash_styles);
-	g_hash_table_remove_all (state->chart.fill_image_styles);
-	g_hash_table_remove_all (state->chart.gradient_styles);
+
+	pop_hash (&state->chart.saved_graph_styles, &state->chart.graph_styles);
+	pop_hash (&state->chart.saved_hatches, &state->chart.hatches);
+	pop_hash (&state->chart.saved_dash_styles, &state->chart.dash_styles);
+	pop_hash (&state->chart.saved_fill_image_styles, 
+		  &state->chart.fill_image_styles);
+	pop_hash (&state->chart.saved_gradient_styles, 
+		  &state->chart.gradient_styles);
 }
 
 static void
@@ -6151,10 +6214,32 @@ static void
 odf_so_filled (GsfXMLIn *xin, xmlChar const **attrs, gboolean is_oval)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
+	char const *style_name = NULL;
 
 	od_draw_frame_start (xin, attrs);
 	state->chart.so = g_object_new (GNM_SO_FILLED_TYPE, 
 					"is-oval", is_oval, NULL);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					OO_NS_DRAW, "style-name"))
+			style_name = CXML2C (attrs[1]);
+	
+	if (style_name != NULL) {
+		OOChartStyle *oostyle = g_hash_table_lookup 
+			(state->chart.graph_styles, style_name);
+		if (oostyle != NULL) {
+			GOStyle *style;
+			g_object_get (G_OBJECT (state->chart.so), 
+				      "style", &style, NULL);
+			
+			if (style != NULL) {
+				odf_apply_style_props (xin, oostyle->style_props, 
+						       style);
+				g_object_unref (style);
+			}
+		}
+	}
 }
 
 static void
@@ -6178,12 +6263,16 @@ odf_line (GsfXMLIn *xin, xmlChar const **attrs)
 	GODrawingAnchorDir direction;
 	GnmRange cell_base;
 	double frame_offset[4];
+	char const *style_name = NULL;
 
 	cell_base.start.col = cell_base.end.col = state->pos.eval.col;
 	cell_base.start.row = cell_base.end.row = state->pos.eval.row;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (NULL != oo_attr_distance (xin, attrs, 
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					OO_NS_DRAW, "style-name"))
+			style_name = CXML2C (attrs[1]);
+		else if (NULL != oo_attr_distance (xin, attrs, 
 					      OO_NS_SVG, "x1", 
 					      &x1));
 		else if (NULL != oo_attr_distance (xin, attrs, 
@@ -6254,7 +6343,24 @@ odf_line (GsfXMLIn *xin, xmlChar const **attrs)
 	sheet_object_anchor_init (&state->chart.anchor, &cell_base, 
 				  frame_offset,
 				  direction);
-	state->chart.so = g_object_new (GNM_SO_LINE_TYPE, NULL);	
+	state->chart.so = g_object_new (GNM_SO_LINE_TYPE, NULL);
+
+	if (style_name != NULL) {
+		OOChartStyle *oostyle = g_hash_table_lookup 
+			(state->chart.graph_styles, style_name);
+		if (oostyle != NULL) {
+			GOStyle *style;
+			g_object_get (G_OBJECT (state->chart.so), 
+				      "style", &style, NULL);
+			
+			if (style != NULL) {
+				odf_apply_style_props (xin, oostyle->style_props, 
+						       style);
+				g_object_unref (style);
+			}
+		}
+	}
+	
 }
 
 /****************************************************************************/
@@ -8051,6 +8157,11 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	state.formats = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) go_format_unref);
+	state.chart.saved_graph_styles = NULL;
+	state.chart.saved_hatches = NULL;
+	state.chart.saved_dash_styles = NULL;
+	state.chart.saved_fill_image_styles = NULL;
+	state.chart.saved_gradient_styles = NULL;
 	state.chart.graph_styles = g_hash_table_new_full 
 		(g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
@@ -8198,6 +8309,8 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	g_hash_table_destroy (state.styles.cell_datetime);
 	g_hash_table_destroy (state.styles.cell_date);
 	g_hash_table_destroy (state.styles.cell_time);
+	go_slist_free_custom (state.chart.saved_graph_styles, 
+			      (GFreeFunc) g_hash_table_destroy);
 	g_hash_table_destroy (state.chart.graph_styles);
 	g_hash_table_destroy (state.chart.hatches);
 	g_hash_table_destroy (state.chart.dash_styles);
