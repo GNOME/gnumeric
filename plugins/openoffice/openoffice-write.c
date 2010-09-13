@@ -2710,6 +2710,10 @@ odf_write_line (GnmOOExport *state, SheetObject *so)
 		y1 = res_pts[1];
 		y2 = res_pts[3];
 		break;
+	default:
+		/* This really shouldn't happen */
+		g_error ("How can we get here?");
+		g_assert(0);
 	}
 
 	odf_add_pt (state->xml, SVG "x1", x1);
