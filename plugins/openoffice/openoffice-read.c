@@ -6645,8 +6645,8 @@ odf_button_event_listener (GsfXMLIn *xin, xmlChar const **attrs)
 					OO_NS_SCRIPT, "macro-name"))
 			macro_name = CXML2C (attrs[1]);
 
-	if (0 == strcmp (event_name, "dom:mousedown") &&
-	    0 == strcmp (language, "gnm:short-macro") &&
+	if (event_name && (0 == strcmp (event_name, "dom:mousedown")) &&
+	    language && (0 == strcmp (language, "gnm:short-macro")) &&
 	    g_str_has_prefix (macro_name, "set-to-TRUE:"))
 		state->cur_control->linked_cell = g_strdup (macro_name + 12);
 }
@@ -6669,8 +6669,9 @@ odf_control_property (GsfXMLIn *xin, xmlChar const **attrs)
 					OO_NS_OFFICE, "string-value"))
 			value = CXML2C (attrs[1]);
 
-	if (0 == strcmp (property_name, "gnm:label") &&
-	    NULL != value)
+	if ((property_name != NULL) &&
+	    (0 == strcmp (property_name, "gnm:label")) &&
+	    (NULL != value))
 		state->cur_control->label = g_strdup (value);
 }
 
