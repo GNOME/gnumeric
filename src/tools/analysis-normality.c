@@ -85,8 +85,8 @@ analysis_tool_normality_engine_run (data_analysis_output_t *dao,
 			       "the sample size must be at\n"
 			       "least 5 and at most 5000.");
 		break;
-	default: /* NOTREACHED */
-		g_assert(0);
+	default:
+		g_assert_not_reached();
 	}
 
 	fd = gnm_func_lookup_or_add_placeholder 
