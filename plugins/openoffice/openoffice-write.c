@@ -125,6 +125,7 @@ typedef struct {
 	GHashTable *graph_fill_images;
 	GHashTable *graph_gradients;
 	GHashTable *chart_props_hash;
+	GHashTable *arrow_markers;
 	GHashTable *images;
 	GHashTable *controls;
 
@@ -186,6 +187,7 @@ static void odf_write_fill_images_info (GOImage *image, char const *name, GnmOOE
 static void odf_write_gradient_info (GOStyle const *style, char const *name, GnmOOExport *state);
 static void odf_write_hatch_info (GOPattern *pattern, char const *name, GnmOOExport *state);
 static void odf_write_dash_info (char const *name, gpointer data, GnmOOExport *state);
+static void odf_write_arrow_marker_info (GOArrow const *arrow, char const *name, GnmOOExport *state);
 
 static void odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style);
 static void odf_write_gog_style_text (GnmOOExport *state, GOStyle const *style);
@@ -717,10 +719,40 @@ odf_write_table_styles (GnmOOExport *state)
 	}
 }
 
+static gboolean
+odf_match_arrow_markers (GOArrow const *old, GOArrow const *new)
+{
+	return (old->typ == new->typ &&
+		old->a == new->a &&
+		old->b == new->b &&
+		old->c == new->c);
+}
+
+static gchar const*
+odf_get_arrow_marker_name (GnmOOExport *state, GOArrow *arrow)
+{
+	gchar const *name = g_hash_table_lookup (state->arrow_markers,
+						 (gpointer) arrow);
+	gchar *new_name;
+	if (name != NULL)
+		return name;
+	
+	new_name =  g_strdup_printf ("gnm-arrow-%i-%.2f-%.2f-%.2f-%i",
+				     arrow->typ,
+				     arrow->a,
+				     arrow->b,
+				     arrow->c,
+				     g_hash_table_size (state->arrow_markers));
+	g_hash_table_insert (state->arrow_markers, 
+			     (gpointer) arrow, new_name);
+	return new_name;	
+}
+
+
 static char *
 odf_write_sheet_object_style (GnmOOExport *state, SheetObject *so)
 {
-	char *name = g_strdup_printf ("so-f-%p", so);
+	char *name = g_strdup_printf ("so-g-%p", so);
 	GOStyle const *style = NULL;
 	GObjectClass *klass = G_OBJECT_GET_CLASS (G_OBJECT (so));
 	if (NULL != g_object_class_find_property (klass, "style"))
@@ -740,6 +772,44 @@ odf_write_sheet_object_style (GnmOOExport *state, SheetObject *so)
 	return name;
 }
 
+static char *
+odf_write_sheet_object_line_style (GnmOOExport *state, SheetObject *so)
+{
+	char *name = g_strdup_printf ("so-g-l-%p", so);
+	GOStyle const *style = NULL;
+	GOArrow *start = NULL, *end = NULL;
+	char const *start_arrow_name = NULL;
+	char const *end_arrow_name = NULL;
+
+	g_object_get (G_OBJECT (so), 
+		      "style", &style, 
+		      "start-arrow", &start,
+		      "end-arrow", &end, NULL);
+	
+	if (start != NULL && start->typ !=  GO_ARROW_NONE)
+		start_arrow_name = odf_get_arrow_marker_name (state, start);
+	else
+		g_free (start);
+	if (end != NULL && end->typ !=  GO_ARROW_NONE)
+		end_arrow_name = odf_get_arrow_marker_name (state, end);
+	else
+		g_free (end);
+
+	odf_start_style (state->xml, name, "graphic");
+	gsf_xml_out_start_element (state->xml, STYLE "graphic-properties");
+	if (start_arrow_name != NULL)
+		gsf_xml_out_add_cstr (state->xml, DRAW "marker-start", start_arrow_name);
+	if (end_arrow_name != NULL)
+		gsf_xml_out_add_cstr (state->xml, DRAW "marker-end", end_arrow_name);	
+	odf_write_gog_style_graphic (state, style);
+	gsf_xml_out_end_element (state->xml); /* </style:graphic-properties> */
+	gsf_xml_out_end_element (state->xml); /* </style:style> */
+
+	if (style != NULL)
+		g_object_unref (G_OBJECT (style));
+	return name;
+}
+
 static void
 odf_write_sheet_object_styles (GnmOOExport *state)
 {
@@ -751,6 +821,13 @@ odf_write_sheet_object_styles (GnmOOExport *state)
 		for (l = objects; l != NULL; l = l->next) {
 			SheetObject *so = SHEET_OBJECT (l->data);
 			char *name = odf_write_sheet_object_style (state, so);
+			g_hash_table_replace (state->so_styles, so, name);
+		}
+		g_slist_free (objects);
+		objects = sheet_objects_get (sheet, NULL, GNM_SO_LINE_TYPE);
+		for (l = objects; l != NULL; l = l->next) {
+			SheetObject *so = SHEET_OBJECT (l->data);
+			char *name = odf_write_sheet_object_line_style (state, so);
 			g_hash_table_replace (state->so_styles, so, name);
 		}
 		g_slist_free (objects);
@@ -2596,8 +2673,11 @@ odf_write_line (GnmOOExport *state, SheetObject *so)
 	GnmParsePos pp;
 	char *formula;
 	double x1, y1, x2, y2;
+	gchar const *style_name = g_hash_table_lookup (state->so_styles, so);
 	
 	gsf_xml_out_start_element (state->xml, DRAW "line");
+	if (style_name != NULL)
+		gsf_xml_out_add_cstr (state->xml, DRAW "style-name", style_name);
 
 	sheet_object_anchor_to_offset_pts (anchor, state->sheet, res_pts);
 	odf_add_pt (state->xml, TABLE "end-x", res_pts[2]);
@@ -3904,11 +3984,13 @@ odf_write_styles (GnmOOExport *state, GsfOutput *child)
 	g_hash_table_foreach (state->graph_hatches, (GHFunc) odf_write_hatch_info, state);
 	g_hash_table_foreach (state->graph_gradients, (GHFunc) odf_write_gradient_info, state);
 	g_hash_table_foreach (state->graph_fill_images, (GHFunc) odf_write_fill_images_info, state);
+	g_hash_table_foreach (state->arrow_markers, (GHFunc) odf_write_arrow_marker_info, state);
 	
 	g_hash_table_remove_all (state->graph_dashes);
 	g_hash_table_remove_all (state->graph_hatches);
 	g_hash_table_remove_all (state->graph_gradients);
 	g_hash_table_remove_all (state->graph_fill_images);	
+	g_hash_table_remove_all (state->arrow_markers);	
 
 	gsf_xml_out_end_element (state->xml); /* </office:styles> */
 	gsf_xml_out_end_element (state->xml); /* </office:document-styles> */
@@ -3972,6 +4054,25 @@ odf_write_fill_images_info (GOImage *image, char const *name, GnmOOExport *state
 	gsf_xml_out_end_element (state->xml); /* </draw:fill-image> */
 
 	g_free (href);
+}
+
+static void
+odf_write_arrow_marker_info (GOArrow const *arrow, char const *name, GnmOOExport *state)
+{
+	gsf_xml_out_start_element (state->xml, DRAW "marker");
+	gsf_xml_out_add_cstr_unchecked (state->xml, DRAW "name", name);
+
+	if (state->with_extension) {
+		gsf_xml_out_add_int (state->xml, GNMSTYLE "arrow-type", arrow->typ);
+		gsf_xml_out_add_float (state->xml, GNMSTYLE "arrow-a", arrow->a, -1);
+		gsf_xml_out_add_float (state->xml, GNMSTYLE "arrow-b", arrow->b, -1);
+		gsf_xml_out_add_float (state->xml, GNMSTYLE "arrow-c", arrow->c, -1);
+	}
+
+	gsf_xml_out_add_cstr (state->xml, SVG "viewBox", "0 0 20 30");
+	gsf_xml_out_add_cstr (state->xml, SVG "d", "m10 0-10 30h20z");
+	
+	gsf_xml_out_end_element (state->xml); /* </draw:marker> */
 }
 
 static void
@@ -6311,6 +6412,10 @@ openoffice_file_save_real (GOFileSaver const *fs, GOIOContext *ioc,
 							 (GEqualFunc)odf_match_image,
 							 NULL,
 							 (GDestroyNotify) g_free);
+	state.arrow_markers = g_hash_table_new_full (g_direct_hash, 
+						     (GEqualFunc)odf_match_arrow_markers,
+						     NULL,
+						     (GDestroyNotify) g_free);
 	state.col_styles = NULL;
 	state.row_styles = NULL;
 
@@ -6398,6 +6503,7 @@ openoffice_file_save_real (GOFileSaver const *fs, GOIOContext *ioc,
 	g_hash_table_unref (state.graph_hatches);
 	g_hash_table_unref (state.graph_gradients);
 	g_hash_table_unref (state.graph_fill_images);
+	g_hash_table_unref (state.arrow_markers);
 	g_slist_free (state.col_styles);
 	g_slist_free (state.row_styles);
 	gnm_style_unref (state.default_style);

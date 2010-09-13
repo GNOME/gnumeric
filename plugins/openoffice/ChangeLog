@@ -1,5 +1,16 @@
 2010-09-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_match_arrow_markers): new
+	(odf_get_arrow_marker_name): new
+	(odf_write_sheet_object_line_style): new
+	(odf_write_sheet_object_styles): write line styles
+	(odf_write_line): write marker info
+	(odf_write_styles): write arrow marker info
+	(odf_write_arrow_marker_info): new
+	(openoffice_file_save_real): create and delete the arrow hashes
+
+2010-09-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_table_styles): fix leak
 	(odf_write_sheet_object_style): new
 	(odf_write_sheet_object_styles): new
@@ -8,7 +19,7 @@
 	(odf_write_styles): write gradient, hatch, etc. info
 	(odf_write_graphs): we create the hashes elsewhere and later 
 	  just empty, don't delete these hashes
-	(openoffice_file_save_real): create and delete the ahshes here.
+	(openoffice_file_save_real): create and delete the hashes here.
 
 2010-09-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
