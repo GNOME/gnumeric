@@ -2,7 +2,7 @@
 \\$2 \(laURL: \\$1 \(ra\\$3
 ..
 .if \n[.g] .mso www.tmac
-.TH SSCONVERT 1 "2009-02-08" gnumeric "GNOME"
+.TH SSCONVERT 1 "2010-09-14" "gnumeric" "GNOME"
 .SH NAME
 ssconvert \- a command line spreadsheet format converter
 
@@ -21,9 +21,6 @@ project.
 \fIoutfile\fR. The special URIs \fIfd://0\fR and \fIfd://1\fR can be
 used for standard input and standard output respectively.
 
-
-.\".SH RETURN VALUE
-.\".SH EXIT STATUS
 .SH OPTIONS
 This program follows the usual GNU command line syntax, with single
 letter options starting with a single dash (`-') and longer options
@@ -32,10 +29,10 @@ starting with two dashes (`--').
 .SS "Main options"
 .TP
 .B \-\-recalc
-Recalculate all formulas before writing.
+Recalculate all cells before writing the result.
 .TP
 .B \-\-list\-exporters
-List the available exporters (file formats).
+List the available exporters (file formats that can be written).
 .TP
 .B \-T, \-\-export\-type=\fIID\fR
 Specify which exporter to use; see below for a list. This is only
@@ -50,8 +47,8 @@ The parameter names and values allowed are specific to the exporter and are
 documented below. Multiple parameters can be specified
 .TP
 .B \-\-list\-importers
-List the available importers (file formats).
-.B \-T, \-\-import\-type=\fIID\fR
+List the available importers (file formats that can be read).
+.B \-I, \-\-import\-type=\fIID\fR
 Specify which importer to use; see below for a list. This is only
 necessary when the right format does not follow from the input file
 name.
@@ -64,6 +61,10 @@ Merge a collection of workbooks into one.  Sheet size will expand
 to the largest in all the workbooks.  Names in the scope of
 individual workbooks will end up in the scope of the merged
 workbook.  The merge will be aborted if there are name conflicts.
+.TP
+.B \-S, \-\-export\-file\-per\-sheet
+Export a file for each sheet if the exporter only supports one sheet at a
+time.
 
 .SS "Help options"
 .TP
@@ -72,6 +73,12 @@ Display ssconvert's version.
 .TP
 .B \-h, \-\-help, \-\-usage
 Display a brief usage message.
+.TP
+.B \-\-help\-all
+Show all help options.
+.TP
+.B \-\-help\-libspreadsheet
+Show Gnumeric options.
 
 .SS "Path options"
 .TP
@@ -81,88 +88,154 @@ Set the root library directory.
 .B \-D, \-\-data\-dir=STRING
 Adjust the root data directory.
 
-.SH LIST OF IMPORTANT IDS
+.SH LIST OF IMPORTER/EXPORTER IDS
+The following IDs can be can be used both for import (reading) and export
+(writing).
 .TP
-Gnumeric_XmlIO:sax
-Gnumeric's XML file format
+.B Gnumeric_XmlIO:sax
+Gnumeric's XML file format (*.gnumeric)
 .TP
-Gnumeric_Excel:excel_dsf
-Microsoft Excel (tm) 97/2000/XP & 5.0/95 format
-.TP
-Gnumeric_Excel:xlsx
-Microsoft Excel (tm) 2007 ("Office Open XML",
-.URL "http://en.wikipedia.org/wiki/XLSX" "OOXML"
-) format
-.TP
-Gnumeric_pdf:pdf_assistant
-Portable Document Format
-.TP
-Gnumeric_stf:stf_assistant
-Text export (configurable) (*.txt)
-.TP
-Gnumeric_stf:stf_csv
-Comma Separated Values
-
-.SH LIST OF LESS IMPORTANT IDS
-.TP
-.\"Gnumeric_GnomeGlossary:po    | Gnome Glossary PO file format
-Gnumeric_sylk:sylk
-.URL "http://en.wikipedia.org/wiki/SYmbolic_LinK_(SYLK)" "SYmbolic LinK (SYLK)"
-or Multiplan format
-.TP
-Gnumeric_Excel:excel_biff8
-Microsoft Excel (tm) 97/2000/XP format
-.TP
-Gnumeric_Excel:excel_biff7
-Microsoft Excel (tm) 5.0/95 format
-.TP
-Gnumeric_dif:dif
-.URL "http://en.wikipedia.org/wiki/Data_Interchange_Format" "Data Interchange Format"
-(*.dif)
-.TP
-Gnumeric_html:roff
-.URL "http://en.wikipedia.org/wiki/Troff" "TROFF"
-(*.me) format.
-.TP
-Gnumeric_html:latex_table
-LaTeX 2e (*.tex) table fragment
-.TP
-Gnumeric_html:latex
-LaTeX 2e (*.tex)
-.TP
-Gnumeric_html:xhtml_range
-XHTML range - for export to clipboard
-.TP
-Gnumeric_html:xhtml
-XHTML (*.html)
-.TP
-Gnumeric_html:html40frag
-HTML (*.html) fragment
-.TP
-Gnumeric_html:html40
-HTML 4.0 (*.html)
-.TP
-Gnumeric_html:html32
-HTML 3.2 (*.html)
-.TP
-Gnumeric_OpenCalc:openoffice
+.B Gnumeric_OpenCalc:openoffice
 .URL "http://en.wikipedia.org/wiki/OpenDocument" "OpenDocument"
 or
 .URL "http://en.wikipedia.org/wiki/OpenOffice.org_Calc" "OpenOffice Calc"
-(*.ods) format
+(*.sxc, *.ods) format.
+As an exporter, this is ODF/OpenOffice without foreign elements (*.ods).
 .TP
-Gnumeric_paradox:paradox
-.URL "http://en.wikipedia.org/wiki/Paradox_(database)" "Paradox database"
-(*.db) format
+.B Gnumeric_dif:dif
+.URL "http://en.wikipedia.org/wiki/Data_Interchange_Format" "Data Interchange Format"
+(*.dif)
+.TP
+.B Gnumeric_paradox:paradox
+.URL "http://en.wikipedia.org/wiki/Paradox_%28database%29" "Paradox database"
+or primary index file (*.db, *.px)
+.TP
+.B Gnumeric_stf:stf_assistant
+Text (configurable)
+.TP
+.B Gnumeric_sylk:sylk
+.URL "http://en.wikipedia.org/wiki/Multiplan" "MultiPlan"
+.URL "http://en.wikipedia.org/wiki/SYmbolic_LinK_%28SYLK%29" "Symbolic Link (SYLK)"
+(*.slk)
+.TP
+.B Gnumeric_Excel:xlsx
+Microsoft Excel (tm) 2007 ("Office Open XML",
+.URL "http://en.wikipedia.org/wiki/XLSX" "OOXML"
+) format
+
+.SH LIST OF IMPORTANT IMPORTER IDS
+.TP
+.B Gnumeric_stf:stf_csvtab
+Comma or tab separated values (CSV/TSV) (*.csv)
+.TP
+.B Gnumeric_html:html
+HTML (*.html, *.htm)
+.TP
+.B Gnumeric_Excel:excel
+Microsoft Excel (tm) (*.xls)
+.TP
+.B Gnumeric_Excel:excel_xml
+Microsoft Excel (tm) 2003 SpreadsheetML
+
+.SH LIST OF OTHER IMPORTER IDS
+.TP
+.B Gnumeric_QPro:qpro
+.URL "http://en.wikipedia.org/wiki/Quattro_Pro" "Quattro Pro"
+(*.wb1, *.wb2, *.wb3)
+.TP
+.B Gnumeric_applix:applix
+Applix (*.as)
+.TP
+.B Gnumeric_lotus:lotus
+.URL "http://en.wikipedia.org/wiki/Lotus_1-2-3" "Lotus 1-2-3"
+(*.wk1, *.wks, *.123)
+.TP
+.B Gnumeric_mps:mps
+.URL "http://en.wikipedia.org/wiki/MPS_%28format%29" "MPS (Mathematical Programming System) format"
+Linear programming and mixed integer programming file format (*.mps)
+.TP
+.B Gnumeric_oleo:oleo
+.URL "http://en.wikipedia.org/wiki/GNU_Oleo" "GNU Oleo"
+(*.oleo)
+.TP
+.B Gnumeric_plan_perfect:pln
+PlanPerfect Format (PLN)
+.TP
+.B Gnumeric_psiconv:psiconv
+Psion (*.psisheet)
+.TP
+.B Gnumeric_sc:sc
+SC/xspread
+.TP
+.B Gnumeric_xbase:xbase
+.URL "http://en.wikipedia.org/wiki/XBase" "xBase"
+(*.dbf) file format
+
+.SH LIST OF IMPORTANT EXPORTER IDS
+.TP
+.B Gnumeric_OpenCalc:odf
+ODF/OpenOffice with foreign elements (*.ods)
+.TP
+.B Gnumeric_glpk:glpk
+GLPK Linear Program Solver
+.TP
+.B Gnumeric_html:html40
+HTML 4.0 (*.html)
+.TP
+.B Gnumeric_html:html40frag
+HTML (*.html) fragment
+.TP
+.B Gnumeric_html:xhtml
+XHTML (*.html)
+.TP
+.B Gnumeric_html:xhtml_range
+XHTML range - for export to clipboard
+.TP
+.B Gnumeric_pdf:pdf_assistant
+Portable Document Format (*.PDF)
+.TP
+.B Gnumeric_stf:stf_csv
+Comma separated values (CSV)
+.TP
+.B Gnumeric_Excel:excel_dsf
+Microsoft Excel (tm) 97/2000/XP & 5.0/95
+
+.SH LIST OF OTHER EXPORTER IDS
+.TP
+.B Gnumeric_Excel:excel_biff7
+Microsoft Excel (tm) 5.0/95
+.TP
+.B Gnumeric_Excel:excel_biff8
+Microsoft S Excel (tm) 97/2000/XP
+.TP
+.B Gnumeric_GnomeGlossary:po
+Gnome Glossary PO file format
+.TP
+.B Gnumeric_html:html32
+HTML 3.2 (*.html)
+.TP
+.B Gnumeric_html:latex
+LaTeX 2e (*.tex)
+.TP
+.B Gnumeric_html:latex_table
+LaTeX 2e (*.tex) table fragment
+.TP
+.B Gnumeric_html:roff
+.URL "http://en.wikipedia.org/wiki/Troff" "TROFF"
+(*.me) format.
+.TP
+.B Gnumeric_lpsolve:lpsolve
+.URL "http://sourceforge.net/projects/lpsolve/" "LPSolve"
+Mixed Integer Linear Programming (MILP) solver
 
 .SH OPTIONS FOR THE PORTABLE DOCUMENT FORMAT (*.pdf) EXPORTER
 
 .TP
-sheet
+.B sheet
 Name of the workbook sheet to operate on.
 
 .TP
-paper
+.B paper
 Paper size. Valid values include "\fBA4\fR" for ISO A4 and
 "\fBna_letter_8.5x11in\fR" for US Letter.
 .\" FIXME Is there a convenient way to list all valid paper sizes?
@@ -170,65 +243,91 @@ Paper size. Valid values include "\fBA4\fR" for ISO A4 and
 .\" paper_size_table[] are supported.
 
 .SH OPTIONS FOR THE CONFIGURABLE TEXT (*.txt) EXPORTER
+.\" Cf. "g_object_class_install_property" calls in src/stf-export.c 
 
 .TP
-sheet
+.B sheet
 Name of the workbook sheet to operate on.
 
 .TP
-eol
+.B eol
 End Of Line convention; how lines are terminated.
 "\fBunix\fR" for linefeed,
 "\fBmac\fR" for carriage return;
 "\fBwindows\fR" for carriage return plus linefeed.
 
 .TP
-charset
+.B charset
 The character encoding of the output. Defaults to UTF-8.
 
 .TP
-locale
+.B locale
+The locale to use for number and date formatting.
+Defaults to the current locale as reported by \fBlocale\fR(1).
+Consult \fBlocale -a\fR output for acceptable values.
 
 .TP
-quote
+.B quote
 The character or string used for quoting fields. Defaults to "\fB\\"\fR"
 (quotation mark / double quote).
 
 .TP
-separator
+.B separator
 The string used to separate fields. Defaults to space.
 
 .TP
-format
+.B format
+How cells should be formatted.
 Acceptable values:
-"\fBautomatic\fR",
-"\fBraw\fR", or
-"\fBpreserve\fR".
+"\fBautomatic\fR" (apply automatic formatting; default),
+"\fBraw\fR" (output data raw, unformatted), or
+"\fBpreserve\fR" (preserve the formatting from the source document).
+
+This deals with the difference between a cell's contents and the way those
+contents are formatted.
+
+Consider a cell in a Gnumeric input document that was
+input as "4/19/73" in a US locale, with a format set to "d-mmm-yyyy" and
+thus formatted as "19-Apr-1973".
+
+With the default \fBformat\fR setting of "\fBautomatic\fR" it will be output
+as "1973/04/19". With "\fBpreserve\fR", the formatting will be preserved and
+it will be output as "19-Apr-1973". With "\fBraw\fR" it will be output as
+"26773" (Gnumeric's internal representation: days since an epoch).
 
 .TP
-transliterate-mode
-How to handle characters that cannot be represented in the chosen output
-character set.
+.B transliterate-mode
+How to handle unrepresentable characters (characters that cannot be
+represented in the chosen output character set).
 Acceptable values:
 "\fBtransliterate\fR", or
 "\fBescape\fR".
 
 .TP
-quoting-mode
+.B quoting-mode
 When does data need to be quoted?
 "\fBnever\fR",
 "\fBauto\fR" (puts quotes where needed), or
 "\fBalways\fR". Defaults to "\fBnever\fR".
 
 .TP
-quoting-on-whitespace
+.B quoting-on-whitespace
 Controls whether initial or terminal whitespace forces quoting. Defaults to
 \fBTRUE\fR.
 
 
+.\".SH EXIT STATUS
+.\".SH RETURN VALUE
+.\".SH ERRORS
+.\".SH ENVIRONMENT
+.\".SH FILES
+.\".SH VERSIONS
+.\".SH CONFORMING TO
+.\".SH NOTES
+.\".SH BUGS
 .\".SH USAGE
-.SH EXAMPLES
-To convert the gnumeric file \fIfoo.gnumeric\fR to a Microsoft Excel(TM)
+.SH EXAMPLE
+To convert the Gnumeric file \fIfoo.gnumeric\fR to a Microsoft Excel(TM)
 format file
 \fIfoo.xls\fR:
 .PP
@@ -246,16 +345,6 @@ specifying the semicolon as the separator character:
 \fBssconvert\fR \fB-O 'separator=; format=raw'\fR \fIsamples/excel/statfuns.xls\fR \fIstatfuns.txt\fR
 .PP
 
-.\".SH ENVIRONMENT
-.\".SH DIAGNOSTICS
-.\".SH SECURITY
-.\".SH CONFORMING TO
-.\".SH NOTES
-.\".SH BUGS
-.\"
-.\"\fBssconvert\fR is a recent addition to Gnumeric. Its main limitation is
-.\"that there is currently no provision for importer or exporter specific flags.
-
 .SH LICENSE
 
 \fBssconvert\fR is licensed under the terms of the General Public
@@ -265,21 +354,21 @@ source code that came with the software or see the
 
 .SH COPYRIGHT
 
-The copyright on the \fBgnumeric\fR software and source code is held
+The copyright on the \fBGnumeric\fR software and source code is held
 by the individual authors as is documented in the source code.
 
 .SH AUTHOR
 
 \fBssconvert\fR's primary author is Jody Goldberg <jody@gnome.org>;
-\fBssconvert\fR builds on the \fBgnumeric\fR codebase.
+\fBssconvert\fR builds on the \fBGnumeric\fR codebase.
 
 The initial version of this manpage was written by J.H.M. Dassen (Ray)
 <jdassen@debian.org>.
 
 .SH SEE ALSO
-\fBgnumeric\fR(1),
-\fBssgrep\fR(1),
-\fBssindex\fR(1)
+.BR gnumeric(1),
+.BR ssgrep(1),
+.BR ssindex(1)
 
 .URL "http://www.gnome.org/projects/gnumeric/" "The Gnumeric Homepage" .
 
