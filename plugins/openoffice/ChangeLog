@@ -1,3 +1,7 @@
+2010-09-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_chart_axis): apply style info to gostyle
+
 2010-09-15  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (od_draw_control_start): Fix UMR.

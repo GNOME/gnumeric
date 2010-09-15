@@ -5239,8 +5239,15 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (NULL != style_name &&
 	    NULL != (style = g_hash_table_lookup (state->chart.graph_styles, style_name))) {
-		if (NULL != state->chart.axis)
-			oo_prop_list_apply_to_axis (style->axis_props, G_OBJECT (state->chart.axis));
+		if (NULL != state->chart.axis) {
+			GOStyle *gostyle;
+			g_object_get (G_OBJECT (state->chart.axis), "style", &gostyle, NULL);
+
+			oo_prop_list_apply_to_axis (style->axis_props, 
+						    G_OBJECT (state->chart.axis));
+			odf_apply_style_props (xin, style->style_props, gostyle);
+			g_object_unref (gostyle);
+		}
 
 		if (NULL != state->chart.plot && (state->ver == OOO_VER_1))
 			oo_prop_list_apply (style->plot_props, G_OBJECT (state->chart.plot));
