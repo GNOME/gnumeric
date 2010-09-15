@@ -5581,6 +5581,30 @@ odf_write_gog_styles (GogObject const *obj, GnmOOExport *state)
 }
 
 static void
+odf_write_axis_categories (GnmOOExport *state, GSList const *series)
+{
+	if (series != NULL && series->data != NULL) {
+		GOData const *cat = gog_dataset_get_dim (GOG_DATASET (series->data), GOG_MS_DIM_LABELS);
+		if (NULL != cat) {		
+			GnmExprTop const *texpr = gnm_go_data_get_expr (cat);
+			if (NULL != texpr) {
+				char *cra;
+				GnmParsePos pp;
+				parse_pos_init (&pp, WORKBOOK (state->wb), NULL, 0,0 );
+				cra = gnm_expr_top_as_string (texpr, &pp, state->conv);
+
+				gsf_xml_out_start_element (state->xml, CHART "categories");
+				gsf_xml_out_add_cstr (state->xml, TABLE "cell-range-address", 
+						      odf_strip_brackets (cra));
+				gsf_xml_out_end_element (state->xml); /* </chart:categories> */
+
+				g_free (cra);
+			}
+		}
+	}
+}
+
+static void
 odf_write_axis (GnmOOExport *state, GogObject const *chart, char const *axis_role, 
 		char const *style_label,
 		char const *dimension, odf_chart_type_t gtype, GSList const *series)
@@ -5597,52 +5621,24 @@ odf_write_axis (GnmOOExport *state, GogObject const *chart, char const *axis_rol
 		gsf_xml_out_add_cstr (state->xml, CHART "style-name", style_label);
 		odf_write_label (state, axis);
 		odf_write_axis_grid (state, axis);
+		odf_write_axis_categories (state, series);
 		gsf_xml_out_end_element (state->xml); /* </chart:axis> */
 	}
 }
 
 static void
-odf_write_generic_axis (GnmOOExport *state, GogObject const *chart, char const *axis_role, 
+odf_write_generic_axis (GnmOOExport *state, GogObject const *chart, 
+			char const *axis_role, 
 			char const *style_label,
-			char const *dimension, odf_chart_type_t gtype, GSList const *series)
+			char const *dimension, odf_chart_type_t gtype, 
+			GSList const *series)
 {
 	gsf_xml_out_start_element (state->xml, CHART "axis");
 	gsf_xml_out_add_cstr (state->xml, CHART "dimension", dimension);
 	gsf_xml_out_add_cstr (state->xml, CHART "style-name", style_label);
+	odf_write_axis_categories (state, series);
 	gsf_xml_out_end_element (state->xml); /* </chart:axis> */	
 }
-
-
-static void
-odf_write_axis_ring (GnmOOExport *state, GogObject const *chart, char const *axis_role, 
-		     char const *style_label,
-		     char const *dimension, odf_chart_type_t gtype, GSList const *series)
-{
-	GnmParsePos pp;
-	parse_pos_init (&pp, WORKBOOK (state->wb), NULL, 0,0 );
-
-	gsf_xml_out_start_element (state->xml, CHART "axis");
-	gsf_xml_out_add_cstr (state->xml, CHART "dimension", dimension);
-	gsf_xml_out_add_cstr (state->xml, CHART "style-name", style_label);
-	if (series != NULL && series->data != NULL) {
-		GOData const *cat = gog_dataset_get_dim (GOG_DATASET (series->data), GOG_MS_DIM_LABELS);
-		if (NULL != cat) {
-			GnmExprTop const *texpr = gnm_go_data_get_expr (cat);
-			if (NULL != texpr) {
-				char *cra = gnm_expr_top_as_string (texpr, &pp, state->conv);
-
-				gsf_xml_out_start_element (state->xml, CHART "categories");
-				gsf_xml_out_add_cstr (state->xml, TABLE "cell-range-address", 
-						      odf_strip_brackets (cra));
-				gsf_xml_out_end_element (state->xml); /* </chart:categories> */
-
-				g_free (cra);
-			}
-		}
-	}
-	gsf_xml_out_end_element (state->xml); /* </chart:axis> */
-}
-
 
 static void
 odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, GogObject const *plot)
@@ -5738,7 +5734,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		{ "GogRingPlot", CHART "ring", ODF_RING,
 		  10., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
 		  odf_write_standard_series,
-		  odf_write_axis_ring, odf_write_generic_axis, NULL},
+		  odf_write_generic_axis, odf_write_generic_axis, NULL},
 		{ "GogXYPlot", CHART "scatter", ODF_SCATTER,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
 		  odf_write_standard_series, 

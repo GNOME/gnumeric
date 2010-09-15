@@ -4296,10 +4296,19 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			style->style_props = g_slist_prepend
 				(style->style_props,
 				 oo_prop_new_int ("gnm-pattern", tmp));
-		else if (oo_attr_angle (xin, attrs, OO_NS_STYLE, "text-rotation-angle", &tmp)) {
+		else if (oo_attr_angle (xin, attrs, OO_NS_STYLE, 
+					"text-rotation-angle", &tmp)) {
 			style->style_props = g_slist_prepend
 				(style->style_props,
 				 oo_prop_new_int ("text-rotation-angle", tmp));
+		} else if (oo_attr_angle (xin, attrs, OO_NS_STYLE, 
+					  "rotation-angle", &tmp)) {
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_int ("text-rotation-angle", tmp));
+			style->plot_props = g_slist_prepend
+				(style->plot_props,
+				 oo_prop_new_int ("rotation-angle", tmp));
 		} else if (NULL != oo_attr_distance (xin, attrs, OO_NS_FO, "font-size", &ftmp))
 			style->style_props = g_slist_prepend
 				(style->style_props,
@@ -7320,6 +7329,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_GRID, OO_NS_CHART, "grid", GSF_XML_NO_CONTENT, &oo_chart_grid, NULL),
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_AXIS_CAT,   OO_NS_CHART, "categories", GSF_XML_NO_CONTENT, &od_chart_axis_categories, NULL),
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_TITLE, OO_NS_CHART, "title", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
+	        GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_OOO_COORDINATE_REGION, OO_NS_CHART_OOO, "coordinate-region", GSF_XML_NO_CONTENT, NULL, NULL),
 
 	    GSF_XML_IN_NODE (SPREADSHEET, TABLE, OO_NS_TABLE, "table", GSF_XML_NO_CONTENT, &oo_table_start, &oo_table_end),
 	      GSF_XML_IN_NODE (TABLE, FORMS, OO_NS_OFFICE, "forms", GSF_XML_NO_CONTENT, NULL, NULL),
