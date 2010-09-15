@@ -7,6 +7,9 @@ Andreas:
 	* Import/export all sheet objects from and to ODF files.
 	* Fix reformatting of cells on expression entry. [#629303]
 
+Jean
+	* Export/import tick label rotation angle. [#629675]
+
 --------------------------------------------------------------------------
 Gnumeric 1.10.10
 

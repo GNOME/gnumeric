@@ -2266,6 +2266,16 @@ BC_R(tick)(XLChartHandler const *handle,
 		break;
 	}
 
+	if ((!(flags & 0x20)) && BC_R(ver)(s) >= MS_BIFF_V8) {
+		guint16 trot = GSF_LE_GET_GUINT16 (q->data+28);
+		if (trot <= 0x5a)
+			s->style->text_layout.angle = trot;
+		else if (trot <= 0xb4)
+			s->style->text_layout.angle = 90 - (int) trot;
+		else
+			; // FIXME: not supported for now
+	}
+	
 	d (1, {
 	switch (major) {
 	case 0: g_printerr ("no major tick;\n"); break;
@@ -4991,14 +5001,21 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 		flags = (style->font.color == GO_COLOR_BLACK)? 0x03: 0x02;
 		if (style->text_layout.auto_angle)
 			flags |= 0x20;
-		else if (style->text_layout.angle < -45)
-			flags |= 0x0C;
-		else if (style->text_layout.angle > 45)
-			flags |= 0x08;
+		else if (s->bp->version < MS_BIFF_V8) {
+			if (style->text_layout.angle < -45)
+				flags |= 0x0C;
+			else if (style->text_layout.angle > 45)
+				flags |= 0x08;
+		}
 		GSF_LE_SET_GUINT16 (data+24, flags);
 		if (s->bp->version >= MS_BIFF_V8) {
 			GSF_LE_SET_GUINT16 (data+26, tick_color_index);
-			GSF_LE_SET_GUINT16 (data+28, 0);
+			if (style->text_layout.auto_angle)
+				GSF_LE_SET_GUINT16 (data+28, 0);
+			else if (style->text_layout.angle >= 0)
+				GSF_LE_SET_GUINT16 (data+28, (int) style->text_layout.angle);
+			else
+				GSF_LE_SET_GUINT16 (data+28, 90 - (int) style->text_layout.angle);
 		}
 		ms_biff_put_commit (s->bp);
 		font = excel_font_from_go_font (&s->ewb->base, style->font.font);

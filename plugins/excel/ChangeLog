@@ -1,3 +1,8 @@
+2010-09-15  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (tick), (chart_write_axis): export/import tick label rotation
+	angle. [#629675]
+
 2010-09-04  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.10
