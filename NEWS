@@ -8,7 +8,7 @@ Andreas:
 	* Fix reformatting of cells on expression entry. [#629303]
 	* Allow multiple selection in manage sheet dialog.
 
-Jean
+Jean:
 	* Export/import tick label rotation angle. [#629675]
 
 --------------------------------------------------------------------------
