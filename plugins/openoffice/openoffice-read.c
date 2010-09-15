@@ -4708,7 +4708,7 @@ static void
 od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	char const *name;
+	char const *name = NULL;
 
 	od_draw_frame_start (xin, attrs);
 
@@ -6773,10 +6773,14 @@ odf_config_item (GsfXMLIn *xin, xmlChar const **attrs)
 	state->settings.config_item_name = NULL;
 	state->settings.type = G_TYPE_INVALID;
 	
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		int i;
+
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CONFIG, "name"))
 			state->settings.config_item_name = g_strdup (CXML2C (attrs[1]));
-		else if (oo_attr_enum (xin, attrs, OO_NS_CONFIG, "type", config_types, &state->settings.type));
+		else if (oo_attr_enum (xin, attrs, OO_NS_CONFIG, "type", config_types, &i))
+			state->settings.type = i;
+	}
 }
 
 static void
