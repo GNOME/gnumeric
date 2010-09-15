@@ -1,3 +1,15 @@
+2010-09-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-sheet-order.c (cb_color_changed_fore): handle multiple 
+	  selection
+	(cb_color_changed_back): ditto
+	(cb_selection_changed): ditto
+	(cb_delete_clicked): ditto
+	(create_sheet_list): allow multiple selection
+	(cb_item_move): gtk_tree_selection_get_selected is now unusable
+	(cb_add_clicked): ditto
+	(cb_duplicate_clicked): ditto
+
 2010-09-04  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.10
