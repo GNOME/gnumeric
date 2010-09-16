@@ -407,9 +407,10 @@ mps_parse_bounds (MpsState *state)
 			 strcmp (bt, "PL") == 0 ||
 			 strcmp (bt, "MI") == 0)
 			continue;
-		else if (strcmp (bt, "BV") == 0)
+		else if (strcmp (bt, "BV") == 0) {
+			type = GNM_SOLVER_BOOLEAN;
 			integer = TRUE;
-		else {
+		} else {
 			mps_mark_error (state,
 					_("Invalid bounds type %s"),
 					type);
