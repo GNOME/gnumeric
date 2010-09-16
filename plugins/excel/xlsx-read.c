@@ -3843,7 +3843,7 @@ static void
 xlsx_CT_Pane (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	GnmCellPos topLeft;
+	GnmCellPos topLeft = { 0, 0 };
 	int tmp;
 	gnm_float xSplit = -1., ySplit = -1.;
 	gboolean frozen = FALSE;
