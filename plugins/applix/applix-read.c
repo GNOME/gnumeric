@@ -1196,6 +1196,7 @@ applix_read_cells (ApplixReadState *state)
 				 * rest of the sheet can be parsed. If we quit, then trailing
 				 * 'Formula ' lines confuse the parser
 				 */
+				(void) parse_error_init(&perr);
 				if (*expr_string != '=' && *expr_string != '+') {
 					applix_parse_error (state, _("Expression did not start with '=' ? '%s'"),
 								   expr_string);
@@ -1205,13 +1206,12 @@ applix_read_cells (ApplixReadState *state)
 						parse_pos_init_cell (&pos, cell),
 								   GNM_EXPR_PARSE_DEFAULT,
 								   state->convs,
-								   parse_error_init (&perr));
+								   &perr);
 
 				if (texpr == NULL) {
 					applix_parse_error (state, _("%s!%s : unable to parse '%s'\n     %s"),
 								   sheet->name_quoted, cell_name (cell),
 								   expr_string, perr.err->message);
-					parse_error_free (&perr);
 					texpr = gnm_expr_top_new_constant (value_new_string (expr_string));
 				} else if (is_array) {
 					gnm_cell_set_array (sheet,
@@ -1236,6 +1236,8 @@ applix_read_cells (ApplixReadState *state)
 				g_hash_table_insert (state->exprs,
 						     g_strdup (ptr),
 						     (gpointer)texpr);
+
+				parse_error_free (&perr);
 			} else {
 				GnmExprTop const *texpr;
 				char const *key = expr_string + strlen (expr_string);
