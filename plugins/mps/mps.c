@@ -413,7 +413,7 @@ mps_parse_bounds (MpsState *state)
 		} else {
 			mps_mark_error (state,
 					_("Invalid bounds type %s"),
-					type);
+					bt);
 			continue;
 		}
 
