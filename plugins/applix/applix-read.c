@@ -1232,7 +1232,7 @@ applix_read_cells (ApplixReadState *state)
 
 				ptr = state->buffer + 9;
 
-				/* Store the newly parsed expresion along with its descriptor */
+				/* Store the newly parsed expression along with its descriptor */
 				g_hash_table_insert (state->exprs,
 						     g_strdup (ptr),
 						     (gpointer)texpr);
