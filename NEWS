@@ -11,6 +11,11 @@ Andreas:
 Jean:
 	* Export/import tick label rotation angle. [#629675]
 
+J.H.M. Dassen (Ray):
+	* Revised ssconvert man page.
+	* Fix several potential and actual problems highlighted by
+	  LLVM/clang static analysis.
+
 --------------------------------------------------------------------------
 Gnumeric 1.10.10
 
