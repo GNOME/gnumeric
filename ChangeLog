@@ -1,3 +1,8 @@
+2010-09-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/wbc-gtk-actions.c (sort_by_rows): allow specification of cols/rows
+	  when sorting via toolbar button
+
 2010-09-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (cmd_set_text_full): Only auto format if no user style

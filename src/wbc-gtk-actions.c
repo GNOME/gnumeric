@@ -1176,33 +1176,87 @@ sort_by_rows (WBCGtk *wbcg, gboolean descending)
 {
 	SheetView *sv;
 	GnmRange *sel;
-	GnmRange const *tmp;
+	GnmRange tmp_ns, tmp_s;
 	GnmSortData *data;
 	GnmSortClause *clause;
 	int numclause, i;
+	GSList *l;
+	int cnt_singletons = 0, cnt_non_singletons = 0;
+	gboolean top_to_bottom = TRUE;
+	gboolean not_acceptable = FALSE;
 
 	g_return_if_fail (IS_WBC_GTK (wbcg));
 
 	sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	for (l = sv->selections; l != NULL; l = l->next) {
+		GnmRange const *r = l->data;
+		if (range_is_singleton (r)) {
+			cnt_singletons++;
+			tmp_s = *r;
+		} else {
+			cnt_non_singletons++;
+			tmp_ns = *r;
+		}
+	}
 
-	if (!(tmp = selection_first_range (sv, GO_CMD_CONTEXT (wbcg), _("Sort"))))
+	not_acceptable = (cnt_non_singletons > 1 || 
+			  (cnt_non_singletons == 0 && cnt_singletons > 1));
+
+	if (!not_acceptable && cnt_singletons > 0 && cnt_non_singletons == 1) {
+		gboolean first = TRUE;
+		for (l = sv->selections; l != NULL; l = l->next) {
+			GnmRange const *r = l->data;
+			gboolean t_b = FALSE, l_r = FALSE;
+
+			if (!range_is_singleton (r))
+				continue;
+			t_b = r->start.col >= tmp_ns.start.col &&
+				r->end.col <= tmp_ns.end.col;
+			l_r = r->start.row >= tmp_ns.start.row &&
+				r->end.row <= tmp_ns.end.row;
+			if (!t_b && !l_r) {
+				not_acceptable = TRUE;
+				break;
+			}
+			if (!t_b || !l_r) {
+				if (first) {
+					first = FALSE;
+					top_to_bottom = t_b;	
+				} else {
+					if ((top_to_bottom && !t_b) ||
+					    (!top_to_bottom && !l_r)) {
+						not_acceptable = TRUE;
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	if (not_acceptable) {
+		GError *msg = g_error_new (go_error_invalid(), 0,
+					   _("%s does not support multiple ranges"), 
+					   _("Sort"));
+		go_cmd_context_error (GO_CMD_CONTEXT (wbcg), msg);
+		g_error_free (msg);
 		return;
+	}
 
-	if (range_is_singleton (tmp)) {
+	if (cnt_singletons == 1 && cnt_non_singletons == 0) {
 		Sheet *sheet = sv_sheet (sv);
 
 		sel = g_new0 (GnmRange, 1);
 		range_init_full_sheet (sel, sheet);
-		sel->start.row = tmp->start.row;
+		sel->start.row = tmp_s.start.row;
 		range_clip_to_finite (sel, sheet);
 		numclause = 1;
 		clause = g_new0 (GnmSortClause, 1);
-		clause[0].offset = tmp->start.col - sel->start.col;
+		clause[0].offset = tmp_s.start.col - sel->start.col;
 		clause[0].asc = descending;
 		clause[0].cs = gnm_conf_get_core_sort_default_by_case ();
 		clause[0].val = TRUE;
-	} else {
-		sel = gnm_range_dup (tmp);
+	} else if (cnt_singletons == 0) {
+		sel = gnm_range_dup (&tmp_ns);
 		range_clip_to_finite (sel, sv_sheet (sv));
 
 		numclause = range_width (sel);
@@ -1212,6 +1266,26 @@ sort_by_rows (WBCGtk *wbcg, gboolean descending)
 			clause[i].asc = descending;
 			clause[i].cs = gnm_conf_get_core_sort_default_by_case ();
 			clause[i].val = TRUE;
+		}
+	} else /* cnt_singletons > 0 &&  cnt_non_singletons == 1*/ {
+		sel = gnm_range_dup (&tmp_ns);
+		range_clip_to_finite (sel, sv_sheet (sv));
+		numclause = cnt_singletons;
+		clause = g_new0 (GnmSortClause, numclause);
+		i = numclause - 1;
+		for (l = sv->selections; l != NULL; l = l->next) {
+			GnmRange const *r = l->data;
+			if (!range_is_singleton (r))
+				continue;
+			if (i >= 0) {
+				clause[i].offset = (top_to_bottom) ? 
+					r->start.col - sel->start.col
+					: r->start.row - sel->start.row;
+				clause[i].asc = descending;
+				clause[i].cs = gnm_conf_get_core_sort_default_by_case ();
+				clause[i].val = TRUE;
+			}
+			i--;
 		}
 	}
 
@@ -1230,7 +1304,10 @@ sort_by_rows (WBCGtk *wbcg, gboolean descending)
 	 * - that the icon matches the behavior
 	 * - XL does this.
 	 */
-	data->top = TRUE;
+
+	/* Note that if the user specified rows by singleton selection we switch */
+	/* to column sorting */
+	data->top = top_to_bottom;
 
 	if (sheet_range_has_heading (data->sheet, data->range, data->top, FALSE))
 		data->range->start.row += 1;
