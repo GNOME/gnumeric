@@ -3357,8 +3357,10 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 
 	parse_pos_init (&pp, importer->wb, sheet, 0, 0);
 
-	/* expr_len == 0 seems to indicate a placeholder for an unknown name */
-	if (expr_len != 0) {
+	if (expr_len == 0) {
+		/* This seems to indicate a placeholder for an unknown name */
+		texpr = gnm_expr_top_new_constant (value_new_error_NAME (NULL));
+	} else {
 		texpr = excel_parse_formula (&importer->container, NULL, 0, 0,
 					     expr_data, expr_len, 0 /* FIXME? */,
 					     TRUE, NULL);
