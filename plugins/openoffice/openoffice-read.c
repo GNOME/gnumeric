@@ -6868,9 +6868,12 @@ odf_created_by_gnumeric (OOParseState *state)
 	GsfDocMetaData *meta_data = go_doc_get_meta_data (GO_DOC (state->pos.wb));
 	GsfDocProp *prop = gsf_doc_meta_data_lookup  (meta_data,
 						      "meta:generator");
-	char const *str = g_value_get_string (gsf_doc_prop_get_val (prop));
-	gboolean res = g_str_has_prefix (str, "gnumeric");
-	return res;
+	char const *str;
+
+	return (prop != NULL && 
+		(NULL != (str = g_value_get_string 
+			  (gsf_doc_prop_get_val (prop)))) &&
+		g_str_has_prefix (str, "gnumeric"));
 }
 
 static gboolean
