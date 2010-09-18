@@ -8,6 +8,7 @@ Andreas:
 	* Fix reformatting of cells on expression entry. [#629303]
 	* Allow multiple selection in manage sheet dialog.
 	* Permit ctrl-click specification of sort columns.
+	* Set ODF files to save by default as ODF files. [#629962]
 
 Jean:
 	* Export/import tick label rotation angle. [#629675]

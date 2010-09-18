@@ -6860,8 +6860,17 @@ dump_settings_hash (char const *key, GValue *val, char const *prefix)
 		g_hash_table_foreach (hash, (GHFunc)dump_settings_hash, pre);
 		g_free (pre);
 	}
+}
 
-	
+static gboolean
+odf_created_by_gnumeric (OOParseState *state)
+{
+	GsfDocMetaData *meta_data = go_doc_get_meta_data (GO_DOC (state->pos.wb));
+	GsfDocProp *prop = gsf_doc_meta_data_lookup  (meta_data,
+						      "meta:generator");
+	char const *str = g_value_get_string (gsf_doc_prop_get_val (prop));
+	gboolean res = g_str_has_prefix (str, "gnumeric");
+	return res;
 }
 
 static gboolean
@@ -8395,6 +8404,7 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 		gsf_ooo_ns);
 	if (gsf_xml_in_doc_parse (doc, contents, &state)) {
 		GsfInput *settings;
+		char const *filesaver;
 
 		/* get the sheet in the right order (in case something was
 		 * created out of order implictly) */
@@ -8445,8 +8455,17 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 		if (state.debug)
 			g_hash_table_foreach (state.settings.settings, 
 					      (GHFunc)dump_settings_hash, (char *)"");
-		if (!odf_has_gnm_foreign (&state))
+		if (!odf_has_gnm_foreign (&state)) {
 			odf_apply_ooo_config (&state);
+			filesaver = odf_created_by_gnumeric (&state) ? 
+				"Gnumeric_OpenCalc:openoffice"
+				: "Gnumeric_OpenCalc:odf";
+		} else
+			filesaver = "Gnumeric_OpenCalc:odf";
+		
+		workbook_set_saveinfo (state.pos.wb, GO_FILE_FL_AUTO,
+				       go_file_saver_for_id 
+				       (filesaver));
 
 		g_hash_table_destroy (state.settings.settings);
 		state.settings.settings = NULL;
