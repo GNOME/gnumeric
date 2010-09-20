@@ -1176,7 +1176,7 @@ sort_by_rows (WBCGtk *wbcg, gboolean descending)
 {
 	SheetView *sv;
 	GnmRange *sel;
-	GnmRange tmp_ns, tmp_s;
+	GnmRange tmp_ns ={{0,0},{0,0}}, tmp_s ={{0,0},{0,0}};
 	GnmSortData *data;
 	GnmSortClause *clause;
 	int numclause, i;
