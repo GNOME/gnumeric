@@ -1,3 +1,8 @@
+2010-09-20  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_range_set_text): Get a format for matching
+	from upper left corner of range.  Mostly fixes #630177.
+
 2010-09-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/wbc-gtk-actions.c (sort_by_rows): quieten spurious warning
@@ -15,7 +20,7 @@
 2010-09-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-object-widget.c (sheet_widget_frame_*et_property): new
-	
+
 2010-09-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-object-widget.c: add "value" property to radio_button

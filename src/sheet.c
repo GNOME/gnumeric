@@ -2527,44 +2527,54 @@ sheet_range_set_text (GnmParsePos const *pos, GnmRange const *r, char const *str
 {
 	closure_set_cell_value	closure;
 	GSList *merged, *ptr;
+	GOFormat const *fmt;
+	Sheet *sheet;
+	GnmCell *cell;
 
 	g_return_if_fail (pos != NULL);
 	g_return_if_fail (r != NULL);
 	g_return_if_fail (str != NULL);
 
+	sheet = pos->sheet;
+
+	/* Arbitrarily Use the format from upper left cell.  */
+	cell = sheet_cell_get (sheet, r->start.col, r->start.row);
+	fmt = cell ? gnm_cell_get_format (cell) : NULL;
+
 	parse_text_value_or_expr (pos, str,
-		&closure.val, &closure.texpr,
-		NULL /* TODO : Use edit_pos format ?? */,
-		workbook_date_conv (pos->sheet->workbook));
+				  &closure.val, &closure.texpr,
+				  fmt,
+				  workbook_date_conv (sheet->workbook));
 
 	if (closure.texpr) {
-		range_init_full_sheet (&closure.expr_bound, pos->sheet);
+		range_init_full_sheet (&closure.expr_bound, sheet);
 		gnm_expr_top_get_boundingbox (closure.texpr,
-					      pos->sheet,
+					      sheet,
 					      &closure.expr_bound);
 	}
 
 	/* Store the parsed result creating any cells necessary */
-	sheet_foreach_cell_in_range (pos->sheet, CELL_ITER_ALL,
+	sheet_foreach_cell_in_range (sheet, CELL_ITER_ALL,
 		r->start.col, r->start.row, r->end.col, r->end.row,
 		(CellIterFunc)&cb_set_cell_content, &closure);
 
-	merged = gnm_sheet_merge_get_overlap (pos->sheet, r);
+	merged = gnm_sheet_merge_get_overlap (sheet, r);
 	for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
 		GnmRange const *tmp = ptr->data;
-		sheet_foreach_cell_in_range (pos->sheet, CELL_ITER_ALL,
-			tmp->start.col, tmp->start.row, tmp->end.col, tmp->end.row,
+		sheet_foreach_cell_in_range (sheet, CELL_ITER_ALL,
+			tmp->start.col, tmp->start.row,
+			tmp->end.col, tmp->end.row,
 			(CellIterFunc)&cb_clear_non_corner, (gpointer)tmp);
 	}
 	g_slist_free (merged);
 
-	sheet_region_queue_recalc (pos->sheet, r);
+	sheet_region_queue_recalc (sheet, r);
 
 	value_release (closure.val);
 	if (closure.texpr)
 		gnm_expr_top_unref (closure.texpr);
 
-	sheet_flag_status_update_range (pos->sheet, r);
+	sheet_flag_status_update_range (sheet, r);
 }
 
 static void
