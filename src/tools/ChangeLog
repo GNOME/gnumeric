@@ -1,3 +1,8 @@
+2010-09-20 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* auto-correct.c (autocorrect_first_letter_trigger): new
+	(autocorrect_first_letter): use autocorrect_first_letter_trigger
+
 2010-09-04  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.10

@@ -174,6 +174,46 @@ autocorrect_first_letter_exception (const char *start, const char *end)
 }
 
 
+static gboolean
+autocorrect_first_letter_trigger (gunichar this_char)
+{
+	if (!g_unichar_ispunct (this_char))
+		return FALSE;
+
+	return (
+		this_char == 0x0021 ||
+		this_char == 0x002e ||
+		this_char == 0x003f ||
+		this_char == 0x037e ||
+		this_char == 0x0589 ||
+		this_char == 0x061f ||
+		this_char == 0x0700 ||
+		this_char == 0x0701 ||
+		this_char == 0x0702 ||
+		this_char == 0x1362 ||
+		this_char == 0x1367 ||
+		this_char == 0x1368 ||
+		this_char == 0x166e ||
+		this_char == 0x1803 ||
+		this_char == 0x1809 ||
+		this_char == 0x1944 ||
+		this_char == 0x1945 ||
+		this_char == 0x203c ||
+		this_char == 0x203d ||
+		this_char == 0x2047 ||
+		this_char == 0x2048 ||
+		this_char == 0x2049 ||
+		this_char == 0x3002 ||
+		this_char == 0xfe52 ||
+		this_char == 0xfe56 ||
+		this_char == 0xfe57 ||
+		this_char == 0xff01 ||
+		this_char == 0xff0e ||
+		this_char == 0xff1f ||
+		this_char == 0xff61
+		);
+}
+
 static char *
 autocorrect_first_letter (const char *src)
 {
@@ -186,13 +226,10 @@ autocorrect_first_letter (const char *src)
 
 	for (this = src; '\0' != *this; this = g_utf8_next_char (this)) {
 		gunichar this_char = g_utf8_get_char (this);
-		GUnicodeBreakType type = g_unichar_break_type (this_char);
 
 		seen_text = seen_text || g_unichar_isalpha (this_char);
 
-		if (seen_text && ( g_unichar_ispunct (this_char) || 
-				   type == G_UNICODE_BREAK_CLOSE_PUNCTUATION ||
-				   type == G_UNICODE_BREAK_EXCLAMATION))
+		if (seen_text && autocorrect_first_letter_trigger (this_char))
 			last_end = this;
 		else if ((last_end != NULL) && g_unichar_isspace (this_char))
 			seen_white = TRUE;
