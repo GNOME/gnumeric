@@ -885,7 +885,8 @@ gee_update_lexer_items (GnmExprEntry *gee)
 			 sheet_get_conventions (sheet), NULL);
 	}
 
-	if (!(gee->flags & GNM_EE_SINGLE_RANGE)) {
+	if ((NULL != gnm_expr_char_start_p (str) || gee->is_cell_renderer) 
+	    && !(gee->flags & GNM_EE_SINGLE_RANGE)) {
 		gee->lexer_items = gnm_expr_lex_all 
 			(str, &gee->pp,
 			 GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
