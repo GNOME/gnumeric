@@ -1,7 +1,12 @@
+2010-09-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_style_prop_cell): read strike-through 
+	  info
+
 2010-09-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (odf_created_by_gnumeric): avoid null pointer
-	  on incomplete ODF file.
+	* openoffice-read.c (odf_created_by_gnumeric): avoid null 
+	  pointer on incomplete ODF file.
 
 2010-09-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

@@ -3465,6 +3465,23 @@ odf_style_set_align_h (GnmStyle *style, gboolean h_align_is_valid, gboolean repe
 static void
 oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 {
+	static OOEnum const text_line_through_styles [] = {
+		{ "none",	0 },
+		{ "dash",	1 },
+		{ "dot-dash",	1 },
+		{ "dot-dot-dash", 1 },
+		{ "dotted",	1 },
+		{ "long-dash",	1 },
+		{ "solid",	1 },
+		{ "wave",	1 },
+		{ NULL,	0 },
+	};
+	static OOEnum const text_line_through_types [] = {
+		{ "none",	0 },
+		{ "single",	1 },
+		{ "double",	1 },
+		{ NULL,	0 },
+	};
 	static OOEnum const h_alignments [] = {
 		{ "start",	-1 },            /* see below, we may have a gnm:GnmHAlign attribute */
 		{ "left",	HALIGN_LEFT },
@@ -3497,6 +3514,7 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean  btmp;
 	int	  tmp;
 	gboolean  v_alignment_is_fixed = FALSE;
+	int  strike_through_type = 0, strike_through_style = 0;
 
 	g_return_if_fail (style != NULL);
 
@@ -3600,6 +3618,10 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 			gnm_style_set_font_italic (style, attr_eq (attrs[1], "italic"));
 		else if (oo_attr_font_weight (xin, attrs, &tmp))
 			gnm_style_set_font_bold (style, tmp >= PANGO_WEIGHT_SEMIBOLD);
+		else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "text-line-through-style", 
+				       text_line_through_styles, &strike_through_type));
+		else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "text-line-through-type", 
+				       text_line_through_types, &strike_through_style));
 		
 #if 0
 		else if (!strcmp (attrs[0], OO_NS_FO, "font-weight")) {
@@ -3611,6 +3633,9 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 				gnm_style_set_font_italic (style, TRUE);
 		}
 #endif
+
+	gnm_style_set_font_strike (style, strike_through_type == 1 && strike_through_style == 1);
+
 }
 
 static OOPageBreakType
