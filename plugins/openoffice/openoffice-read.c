@@ -7366,8 +7366,9 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_GRID, OO_NS_CHART, "grid", GSF_XML_NO_CONTENT, &oo_chart_grid, NULL),
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_AXIS_CAT,   OO_NS_CHART, "categories", GSF_XML_NO_CONTENT, &od_chart_axis_categories, NULL),
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_TITLE, OO_NS_CHART, "title", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
+#ifdef HAVE_OO_NS_CHART_OOO
 	        GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_OOO_COORDINATE_REGION, OO_NS_CHART_OOO, "coordinate-region", GSF_XML_NO_CONTENT, NULL, NULL),
-
+#endif
 	    GSF_XML_IN_NODE (SPREADSHEET, TABLE, OO_NS_TABLE, "table", GSF_XML_NO_CONTENT, &oo_table_start, &oo_table_end),
 	      GSF_XML_IN_NODE (TABLE, FORMS, OO_NS_OFFICE, "forms", GSF_XML_NO_CONTENT, NULL, NULL),
 	        GSF_XML_IN_NODE (FORMS, FORM, OO_NS_FORM, "form", GSF_XML_NO_CONTENT, NULL, NULL),

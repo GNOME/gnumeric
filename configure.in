@@ -147,7 +147,7 @@ PKG_PROG_PKG_CONFIG(0.18)
 dnl *****************************
 libspreadsheet_reqs="
 	libgoffice-${GOFFICE_API_VER}	>= 0.8.10
-	libgsf-1		>= 1.14.19
+	libgsf-1		>= 1.14.18
 	libxml-2.0		>= 2.4.12
 "
 gnumeric_reqs="$libspreadsheet_reqs
@@ -698,6 +698,13 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <pango/pango.h>]],
 				(void)(PANGO_WEIGHT_MEDIUM == 42);
 				(void)(PANGO_WEIGHT_ULTRAHEAVY == 42);]])],
                [AC_DEFINE(HAVE_PANGO_WEIGHT_THIN_ETC, 1, [Define if PANGO_WEIGHT_THIN etc are available])
+		AC_MSG_RESULT(yes)],
+	       [AC_MSG_RESULT(no)])
+
+AC_MSG_CHECKING([for OO_NS_CHART_OOO])
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <gsf/gsf-opendoc-utils.h>]],
+				[[(void)((int)OO_NS_CHART_OOO == 42);]])],
+               [AC_DEFINE(HAVE_OO_NS_CHART_OOO, 1, [Define if OO_NS_CHART_OOO is available])
 		AC_MSG_RESULT(yes)],
 	       [AC_MSG_RESULT(no)])
 

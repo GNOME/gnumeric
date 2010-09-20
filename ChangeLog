@@ -1,5 +1,8 @@
 2010-09-20  Morten Welinder  <terra@gnome.org>
 
+	* configure.in (libspreadsheet_reqs): Downgrade libgsf
+	requirement.  Check for OO_NS_CHART_OOO.
+
 	* src/sheet.c (sheet_range_set_text): Get a format for matching
 	from upper left corner of range.  Mostly fixes #630177.
 

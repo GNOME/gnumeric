@@ -1,11 +1,15 @@
+2010-09-20  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c: Use OO_NS_CHART_OOO only conditionally.
+
 2010-09-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (oo_style_prop_cell): read strike-through 
+	* openoffice-read.c (oo_style_prop_cell): read strike-through
 	  info
 
 2010-09-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (odf_created_by_gnumeric): avoid null 
+	* openoffice-read.c (odf_created_by_gnumeric): avoid null
 	  pointer on incomplete ODF file.
 
 2010-09-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -15,7 +19,7 @@
 
 2010-09-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (od_style_prop_chart): add 
+	* openoffice-read.c (od_style_prop_chart): add
 	   OO_NS_STYLE "rotation-angle"
 	* openoffice-write.c (odf_write_axis_categories): new
 	(odf_write_axis): call odf_write_axis_categories
