@@ -2,15 +2,16 @@
 # Copyright (C) 2006 THE gnumeric'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnumeric package.
 # Ricardo Silva <ardoric@gmail.com>, 2006.
+# Pedro Ribeiro <p.m42.ribeiro@gmail.com>, 2010
 #
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 1.6.3-7\n"
+"Project-Id-Version: gnumeric 1.10.10-1\n"
 "Report-Msgid-Bugs-To: gnumeric@packages.debian.org\n"
 "POT-Creation-Date: 2010-07-31 12:15+0200\n"
-"PO-Revision-Date: 2007-11-02 12:41+0000\n"
-"Last-Translator: Ricardo Silva <ardoric@gmail.com>\n"
+"PO-Revision-Date: 2010-09-12 22:41+0000\n"
+"Last-Translator: Pedro Ribeiro <p.m42.ribeiro@gmail.com>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +22,7 @@ msgstr ""
 #. Description
 #: ../gnumeric.templates:2001
 msgid "Detected a running gnumeric process"
-msgstr ""
+msgstr "Foi detectado um processo gnumeric em execução"
 
 #. Type: boolean
 #. Description
