@@ -1,5 +1,12 @@
 2010-09-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gnumeric-expr-entry.c (gee_update_lexer_items): we need to lex even
+	  if it isn't an expression, but remember whether we have one!
+	(gee_check_tooltip): check whether itis sensible to create a tooltip
+	(gnm_expr_entry_find_range): check for null pointer
+
+2010-09-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* gnumeric-expr-entry.c (gee_update_lexer_items): don't bother to lex
 	  if it isn't an expression
 

@@ -121,6 +121,7 @@ struct _GnmExprEntry {
 		gboolean         had_stuff;
 		gulong           handlerid;
 		gboolean         enabled;
+		gboolean         is_expr;
 		gboolean         completion_se_valid;
 		gchar           *completion;
 		guint            completion_start;
@@ -885,8 +886,8 @@ gee_update_lexer_items (GnmExprEntry *gee)
 			 sheet_get_conventions (sheet), NULL);
 	}
 
-	if ((NULL != gnm_expr_char_start_p (str) || gee->is_cell_renderer) 
-	    && !(gee->flags & GNM_EE_SINGLE_RANGE)) {
+	gee->tooltip.is_expr = (NULL != gnm_expr_char_start_p (str));
+	if (!(gee->flags & GNM_EE_SINGLE_RANGE)) {
 		gee->lexer_items = gnm_expr_lex_all 
 			(str, &gee->pp,
 			 GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
@@ -921,7 +922,8 @@ gee_check_tooltip (GnmExprEntry *gee)
 	gboolean stuff = FALSE, completion_se_set = FALSE;
 	GnmLexerItem *gli, *gli_c;
 
-	if (gee->lexer_items == NULL) {
+	if (gee->lexer_items == NULL || !gee->tooltip.enabled || 
+	    (!gee->tooltip.is_expr && !gee->is_cell_renderer)) {
 		gee_delete_tooltip (gee, TRUE);
 		return;
 	}
@@ -961,7 +963,7 @@ gee_check_tooltip (GnmExprEntry *gee)
 		gli--;
 
 	/* This creates the completion tooltip */
-	if (!stuff && gli->start > 0 && gli->token == STRING) {
+	if (!stuff && gli->token == STRING) {
 		guint start_t = gli->start;
 		char *prefix;
 		GSList *list;
@@ -1798,6 +1800,7 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 
 	if (gee->lexer_items == NULL)
 		gee_update_lexer_items (gee);
+	g_return_val_if_fail (gee->lexer_items != NULL, FALSE);
 
 	gli = gee->lexer_items;
 	while (gli->token != 0 && gli->start < (guint) (ptr - text))
