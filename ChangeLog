@@ -1,5 +1,8 @@
 2010-09-21  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (wbc_gtk_reload_templates): Look for templates in
+	user directory too.  Fixes #630247.
+
 	* src/graph.c (set_pending_convs): Keep track of convs'
 	life-cycles.
 

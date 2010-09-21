@@ -4950,13 +4950,40 @@ cb_new_from_template (GObject *action, WBCGtk *wbcg)
 }
 
 static void
+add_template_dir (const char *path, GHashTable *h)
+{
+	GDir *dir;
+	const char *name;
+
+	dir = g_dir_open (path, 0, NULL);
+	if (!dir)
+		return;
+
+	while ((name = g_dir_read_name (dir))) {
+		char *fullname = g_build_filename (path, name, NULL);
+
+		/*
+		 * Unconditionally remove, so we can link to /dev/null
+		 * and cause a system file to be hidden.
+		 */
+		g_hash_table_remove (h, name);
+
+		if (g_file_test (fullname, G_FILE_TEST_IS_REGULAR)) {
+			char *uri = go_filename_to_uri (fullname);
+			g_hash_table_insert (h, g_strdup (name), uri);
+		}
+		g_free (fullname);
+	}
+	g_dir_close (dir);
+}
+
+static void
 wbc_gtk_reload_templates (WBCGtk *gtk)
 {
 	unsigned i;
-	GDir *dir;
-	const char *name;
 	GSList *l, *names;
 	char *path;
+	GHashTable *h;
 
 	if (gtk->templates.merge_id != 0)
 		gtk_ui_manager_remove_ui (gtk->ui, gtk->templates.merge_id);
@@ -4971,29 +4998,21 @@ wbc_gtk_reload_templates (WBCGtk *gtk)
 
 	gtk_ui_manager_insert_action_group (gtk->ui, gtk->templates.actions, 0);
 
+	h = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+
 	path = g_build_filename (gnm_sys_data_dir (), "templates", NULL);
-	dir = g_dir_open (path, 0, NULL);
-	if (!dir) {
-		g_free (path);
-		return;
-	}
-
-	names = NULL;
-	while ((name = g_dir_read_name (dir))) {
-		char *fullname = g_build_filename (path, name, NULL);
-		if (g_file_test (fullname, G_FILE_TEST_IS_REGULAR)) {
-			char *uri = go_filename_to_uri (fullname);
-			names = g_slist_prepend (names, uri);
-		}
-		g_free (fullname);
-	}
+	add_template_dir (path, h);
 	g_free (path);
-	g_dir_close (dir);
 
-	names = g_slist_sort (names, (GCompareFunc)g_utf8_collate);
+	/* Let user override system templates by doing this last.  */
+	path = g_build_filename (gnm_usr_dir (), "templates", NULL);
+	add_template_dir (path, h);
+	g_free (path);
+
+	names = g_slist_sort (go_hash_keys (h), (GCompareFunc)g_utf8_collate);
 
 	for (i = 1, l = names; l; l = l->next) {
-		const char *uri = l->data;
+		const char *uri = g_hash_table_lookup (h, l->data);
 		GString *label = g_string_new (NULL);
 		GtkActionEntry entry;
 		char *gname;
@@ -5043,7 +5062,9 @@ wbc_gtk_reload_templates (WBCGtk *gtk)
 		g_free (basename);
 		i++;
 	}
-	go_slist_free_custom (names, (GFreeFunc)g_free);
+
+	g_slist_free (names);
+	g_hash_table_destroy (h);
 }
 
 gboolean

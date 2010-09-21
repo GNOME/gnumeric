@@ -22,6 +22,7 @@ Morten:
 	* Fix date entry problem.  [#630177]
 	* Fix problem with inter-process empty-value paste.  [#629302]
 	* Fix problem with inter-process object paste.  [#629302]
+	* Allow user-defined templates.  [#630247]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.10
