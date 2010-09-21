@@ -8537,7 +8537,7 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 
 	for (i = 0; i < NUM_FORMULAE_SUPPORTED; i++)
 		if (state.convs[i] != NULL)
-			gnm_conventions_free (state.convs[i]);
+			gnm_conventions_unref (state.convs[i]);
 
 	gnm_pop_C_locale (locale);
 }

@@ -149,7 +149,7 @@ xlsx_conventions_free (GnmConventions *convs)
 	XLSXExprConventions *xconv = (XLSXExprConventions *)convs;
 	g_hash_table_destroy (xconv->extern_id_by_wb);
 	g_hash_table_destroy (xconv->extern_wb_by_id);
-	gnm_conventions_free (convs);
+	gnm_conventions_unref (convs);
 }
 
 /**

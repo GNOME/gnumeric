@@ -1,5 +1,12 @@
 2010-09-21  Morten Welinder  <terra@gnome.org>
 
+	* src/graph.c (set_pending_convs): Keep track of convs'
+	life-cycles.
+
+	* src/parse-util.c (gnm_conventions_unref): Renamed from
+	gnm_conventions_free.  Change to handle ref-counting.
+	(gnm_conventions_ref): New function.
+
 	* src/xml-sax-read.c (xml_sax_cell_content): Handle empty values
 	in inter-process paste.  Part of #629302.
 

@@ -3095,14 +3095,20 @@ static void
 read_file_free_state (XMLSaxParseState *state, gboolean self)
 {
 	g_hash_table_destroy (state->expr_map);
+	state->expr_map = NULL;
 
-	gnm_conventions_free (state->convs);
+	gnm_conventions_unref (state->convs);
+	state->convs = NULL;
 
-	if (state->style)
+	if (state->style) {
 		gnm_style_unref (state->style);
+		state->style = NULL;
+	}
 
-	if (state->style_handler_doc)
+	if (state->style_handler_doc) {
 		gsf_xml_in_doc_free (state->style_handler_doc);
+		state->style_handler_doc = NULL;
+	}
 
 	if (self)
 		g_free (state);

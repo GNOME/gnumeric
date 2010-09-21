@@ -95,6 +95,8 @@ typedef enum {
 } GnmExprParseFlags;
 
 struct _GnmConventions {
+	int ref_count;
+
 #if 0
 	/* Not yet.  */
 	gboolean force_absolute_col_references;
@@ -190,7 +192,10 @@ struct _GnmConventions {
 };
 GnmConventions *gnm_conventions_new	 (void);
 GnmConventions *gnm_conventions_new_full (unsigned size);
-void		gnm_conventions_free	 (GnmConventions *c);
+
+GnmConventions *gnm_conventions_ref	 (GnmConventions *c);
+void		gnm_conventions_unref	 (GnmConventions *c);
+
 
 GNM_VAR_DECL GnmConventions const *gnm_conventions_default;
 GNM_VAR_DECL GnmConventions const *gnm_conventions_xls_r1c1;

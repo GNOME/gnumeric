@@ -1704,5 +1704,5 @@ applix_read (GOIOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	if (state.parse_error != NULL)
 		go_io_error_info_set (io_context, state.parse_error);
 
-	gnm_conventions_free (state.convs);
+	gnm_conventions_unref (state.convs);
 }

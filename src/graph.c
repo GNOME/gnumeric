@@ -64,8 +64,10 @@ set_pending_str (const GOData *data, const char *str)
 static void
 set_pending_convs (GOData *data, const GnmConventions *convs)
 {
-	g_object_set_data (G_OBJECT (data),
-			   "unserialize-convs", (gpointer)convs);
+	g_object_set_data_full (G_OBJECT (data),
+				"unserialize-convs",
+				gnm_conventions_ref ((gpointer)convs),
+				(GDestroyNotify)gnm_conventions_unref);
 }
 
 /* ------------------------------------------------------------------------- */

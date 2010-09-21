@@ -1342,6 +1342,7 @@ gnm_conventions_new_full (unsigned size)
 	g_return_val_if_fail (size >= sizeof (GnmConventions), NULL);
 
 	convs = g_malloc0 (size);
+	convs->ref_count = 1;
 
 	convs->sheet_name_sep		= '!';
 	convs->intersection_char	= ' ';
@@ -1379,15 +1380,32 @@ gnm_conventions_new (void)
 }
 
 /**
- * gnm_conventions_free :
+ * gnm_conventions_unref :
  * @c : #GnmConventions
  *
  * Release a convention
  **/
 void
-gnm_conventions_free (GnmConventions *c)
+gnm_conventions_unref (GnmConventions *c)
 {
+	if (c == NULL)
+		return;
+
+	g_return_if_fail (c->ref_count > 0);
+
+	c->ref_count--;
+	if (c->ref_count > 0)
+		return;
+
 	g_free (c);
+}
+
+GnmConventions *
+gnm_conventions_ref (GnmConventions *c)
+{
+	if (c)
+		c->ref_count++;
+	return c;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1414,9 +1432,9 @@ parse_util_init (void)
 void
 parse_util_shutdown (void)
 {
-	gnm_conventions_free ((GnmConventions *)gnm_conventions_default);
+	gnm_conventions_unref ((GnmConventions *)gnm_conventions_default);
 	gnm_conventions_default = NULL;
-	gnm_conventions_free ((GnmConventions *)gnm_conventions_xls_r1c1);
+	gnm_conventions_unref ((GnmConventions *)gnm_conventions_xls_r1c1);
 	gnm_conventions_xls_r1c1 = NULL;
 }
 

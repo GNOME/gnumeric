@@ -1395,7 +1395,7 @@ gnm_xml_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 
 	g_hash_table_destroy (state.expr_map);
 	g_string_free (state.cell_str, TRUE);
-	gnm_conventions_free (state.convs);
+	gnm_conventions_unref (state.convs);
 	g_object_unref (G_OBJECT (state.output));
 
 	if (gzout) {
@@ -1518,7 +1518,7 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 
 	g_hash_table_destroy (state.state.expr_map);
 	g_string_free (state.state.cell_str, TRUE);
-	gnm_conventions_free (state.state.convs);
+	gnm_conventions_unref (state.state.convs);
 	g_object_unref (G_OBJECT (state.state.output));
 
 	gsf_output_close (buf);

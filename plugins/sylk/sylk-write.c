@@ -240,5 +240,5 @@ sylk_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 	sylk_write_sheet (&state);
 	gsf_output_puts (output, "E\r\n");
 	gnm_pop_C_locale (locale);
-	gnm_conventions_free (state.convs);
+	gnm_conventions_unref (state.convs);
 }
