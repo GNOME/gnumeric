@@ -2108,6 +2108,8 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		}
 
 		gnm_cell_set_value (cell, v);
+	} else if (cr) {
+		cc->val = value_new_empty ();
 	}
 
 	go_format_unref (value_fmt);

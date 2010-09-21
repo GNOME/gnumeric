@@ -1,3 +1,8 @@
+2010-09-21  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-read.c (xml_sax_cell_content): Handle empty values
+	in inter-process paste.  Part of #629302.
+
 2010-09-20  Morten Welinder  <terra@gnome.org>
 
 	* configure.in (libspreadsheet_reqs): Downgrade libgsf
