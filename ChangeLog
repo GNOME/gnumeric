@@ -1,3 +1,8 @@
+2010-09-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-object-widget.c (sheet_widget_draw_cairo): avoid dereferencing
+	  NULL pointer
+
 2010-09-21  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbc_gtk_reload_templates): Look for templates in

@@ -3333,7 +3333,8 @@ sheet_widget_draw_cairo (SheetObject const *so, cairo_t *cr,
 
 	SheetObjectWidget *sow = SHEET_OBJECT_WIDGET (so);
 
-	if ((sow->so.realized_list->data != NULL)) {
+	if ((sow->so.realized_list != NULL) && 
+	    (sow->so.realized_list->data != NULL)) {
 		SheetObjectView *view = sow->so.realized_list->data;
 		GocWidget *item = get_goc_widget (view);
 		GtkWidget *w = GTK_WIDGET (item->widget);
@@ -3359,7 +3360,8 @@ sheet_widget_draw_cairo (SheetObject const *so, cairo_t *cr,
 		cairo_fill (cr);
 		cairo_restore (cr);
 		g_object_unref(G_OBJECT (ss));
-	}
+	} else 
+		g_warning ("Failed to draw sheet object widget.");
 
 #endif
 }
