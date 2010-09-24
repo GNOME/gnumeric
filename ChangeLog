@@ -1,7 +1,14 @@
 2010-09-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/sheet-object-widget.c (sheet_widget_draw_cairo): avoid dereferencing
-	  NULL pointer
+	* src/sheet-object-widget.c (SOW_MAKE_TYPE): add fn_draw_cairo and 
+	  change all usages using sheet_widget_draw_cairo as default
+	(sheet_widget_checkbox_draw_cairo): new
+	(sheet_widget_radio_button_draw_cairo): new
+
+2010-09-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-object-widget.c (sheet_widget_draw_cairo): avoid 
+	  dereferencing NULL pointer
 
 2010-09-21  Morten Welinder  <terra@gnome.org>
 

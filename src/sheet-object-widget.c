@@ -23,6 +23,7 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
 #include "gnumeric.h"
+#include "application.h"
 #include "sheet-object-widget-impl.h"
 #include "widgets/gnm-radiobutton.h"
 #include "gnm-pane.h"
@@ -179,7 +180,8 @@ static GSF_CLASS (SOWidgetView, so_widget_view,
 
 #define SOW_MAKE_TYPE(n1, n2, fn_config, fn_set_sheet, fn_clear_sheet, fn_foreach_dep, \
 		      fn_copy, fn_write_sax, fn_prep_sax_parser,	\
-		      fn_get_property, fn_set_property, class_init_code) \
+		      fn_get_property, fn_set_property,                 \
+		      fn_draw_cairo, class_init_code)				\
 									\
 static void								\
 sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)		\
@@ -197,7 +199,7 @@ sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)		\
 	so_class->copy			= fn_copy;			\
 	so_class->write_xml_sax		= fn_write_sax;			\
 	so_class->prep_sax_parser	= fn_prep_sax_parser;		\
-	so_class->draw_cairo	        = &sheet_widget_draw_cairo;     \
+	so_class->draw_cairo	        = fn_draw_cairo;     \
 	sow_class->create_widget	= &sheet_widget_ ## n1 ## _create_widget; \
         { class_init_code; }						\
 }									\
@@ -566,6 +568,7 @@ SOW_MAKE_TYPE (frame, Frame,
 	       sheet_widget_frame_prep_sax_parser,
 	       sheet_widget_frame_get_property,
 	       sheet_widget_frame_set_property,
+	       sheet_widget_draw_cairo,
 	       {
 		       g_object_class_install_property
 			       (object_class, SOF_PROP_TEXT,
@@ -1040,6 +1043,7 @@ SOW_MAKE_TYPE (button, Button,
 	       sheet_widget_button_prep_sax_parser,
 	       sheet_widget_button_get_property,
 	       sheet_widget_button_set_property,
+	       sheet_widget_draw_cairo,
 	       {
 		       g_object_class_install_property
 			       (object_class, SOB_PROP_TEXT,
@@ -1608,6 +1612,7 @@ SOW_MAKE_TYPE (adjustment, Adjustment,
 	       sheet_widget_adjustment_prep_sax_parser,
 	       sheet_widget_adjustment_get_property,
 	       sheet_widget_adjustment_set_property,
+	       sheet_widget_draw_cairo,
 	       {
 		       g_object_class_install_property
 			       (object_class, SWA_PROP_HORIZONTAL,
@@ -2222,6 +2227,59 @@ sheet_widget_checkbox_set_label	(SheetObject *so, char const *str)
 	}
 }
 
+static void
+sheet_widget_checkbox_draw_cairo (SheetObject const *so, cairo_t *cr,
+			 double width, double height)
+{
+	SheetWidgetCheckbox const *swc = SHEET_WIDGET_CHECKBOX (so);
+	double halfheight = height/2;
+	PangoLayout *layout = pango_cairo_create_layout (cr);
+	PangoFontDescription *desc;
+	double const scale_h = 72. / gnm_app_display_dpi_get (TRUE);
+	double const scale_v = 72. / gnm_app_display_dpi_get (FALSE);
+
+	cairo_save (cr);
+	cairo_set_line_width (cr, 0.5);
+	cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
+
+	cairo_new_path (cr);
+	cairo_move_to (cr, 4, halfheight - 4);
+	cairo_rel_line_to (cr, 0, 8);
+	cairo_rel_line_to (cr, 8., 0);
+	cairo_rel_line_to (cr, 0., -8.);
+	cairo_rel_line_to (cr, -8., 0.);
+	cairo_close_path (cr);
+	cairo_fill_preserve (cr);
+	cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
+	cairo_stroke (cr);
+
+	if (swc->value) {
+		cairo_new_path (cr);
+		cairo_move_to (cr, 4, halfheight - 4);
+		cairo_rel_line_to (cr, 8., 8.);
+		cairo_rel_line_to (cr, -8., 0.);
+		cairo_rel_line_to (cr, 8., -8.);
+		cairo_rel_line_to (cr, -8., 0.);
+		cairo_close_path (cr);
+		cairo_stroke (cr);
+	}
+
+	cairo_move_to (cr, 4. + 8. + 4, halfheight - 5.5);
+	desc = pango_font_description_from_string ("sans 10");
+	pango_context_set_font_description 
+		(pango_layout_get_context (layout), desc);
+	pango_layout_set_single_paragraph_mode (layout, TRUE);
+	pango_layout_set_text (layout, swc->label, -1);
+	cairo_scale (cr, scale_h, scale_v);
+	pango_cairo_show_layout (cr, layout);
+	g_object_unref (G_OBJECT (layout));
+	pango_font_description_free (desc);
+	cairo_new_path (cr);
+	cairo_restore (cr);
+}
+
+
+
 SOW_MAKE_TYPE (checkbox, Checkbox,
 	       sheet_widget_checkbox_user_config,
 	       sheet_widget_checkbox_set_sheet,
@@ -2232,6 +2290,7 @@ SOW_MAKE_TYPE (checkbox, Checkbox,
 	       sheet_widget_checkbox_prep_sax_parser,
 	       sheet_widget_checkbox_get_property,
 	       sheet_widget_checkbox_set_property,
+	       sheet_widget_checkbox_draw_cairo,
 	       {
 		       g_object_class_install_property
 			       (object_class, SOC_PROP_ACTIVE,
@@ -2821,6 +2880,51 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
  	gtk_widget_show (state->dialog);
 }
 
+static void
+sheet_widget_radio_button_draw_cairo (SheetObject const *so, cairo_t *cr,
+			 double width, double height)
+{
+	SheetWidgetRadioButton const *swr = SHEET_WIDGET_RADIO_BUTTON (so);
+	double halfheight = height/2;
+	PangoLayout *layout = pango_cairo_create_layout (cr);
+	PangoFontDescription *desc;
+	double const scale_h = 72. / gnm_app_display_dpi_get (TRUE);
+	double const scale_v = 72. / gnm_app_display_dpi_get (FALSE);
+
+	cairo_save (cr);
+	cairo_set_line_width (cr, 0.5);
+	cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
+
+	cairo_new_path (cr);
+	cairo_move_to (cr, 4. + 8., halfheight);
+	cairo_arc (cr, 4. + 4., halfheight, 4., 0., 2*M_PI); 
+	cairo_close_path (cr);
+	cairo_fill_preserve (cr);
+	cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
+	cairo_stroke (cr);
+
+	if (swr->active) {
+		cairo_new_path (cr);
+		cairo_move_to (cr, 4. + 6.5, halfheight);
+		cairo_arc (cr, 4. + 4., halfheight, 2.5, 0., 2*M_PI); 
+		cairo_close_path (cr);
+		cairo_fill (cr);
+	}
+
+	cairo_move_to (cr, 4. + 8. + 4, halfheight - 5.5);
+	desc = pango_font_description_from_string ("sans 10");
+	pango_context_set_font_description 
+		(pango_layout_get_context (layout), desc);
+	pango_layout_set_single_paragraph_mode (layout, TRUE);
+	pango_layout_set_text (layout, swr->label, -1);
+	cairo_scale (cr, scale_h, scale_v);
+	pango_cairo_show_layout (cr, layout);
+	g_object_unref (G_OBJECT (layout));
+	pango_font_description_free (desc);
+	cairo_new_path (cr);
+	cairo_restore (cr);
+}
+
 SOW_MAKE_TYPE (radio_button, RadioButton,
  	       sheet_widget_radio_button_user_config,
   	       sheet_widget_radio_button_set_sheet,
@@ -2831,6 +2935,7 @@ SOW_MAKE_TYPE (radio_button, RadioButton,
  	       sheet_widget_radio_button_prep_sax_parser,
   	       sheet_widget_radio_button_get_property,
   	       sheet_widget_radio_button_set_property,
+	       sheet_widget_radio_button_draw_cairo,
 	       {
 		       g_object_class_install_property
 			       (object_class, SOR_PROP_ACTIVE,
@@ -3081,6 +3186,7 @@ SOW_MAKE_TYPE (list_base, ListBase,
 	       sheet_widget_list_base_prep_sax_parser,
 	       NULL,
 	       NULL,
+	       sheet_widget_draw_cairo,
 	       {
 	       list_base_signals[LIST_BASE_MODEL_CHANGED] = g_signal_new ("model-changed",
 			SHEET_WIDGET_LIST_BASE_TYPE,
