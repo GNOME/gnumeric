@@ -2261,6 +2261,7 @@ sheet_widget_checkbox_draw_cairo (SheetObject const *so, cairo_t *cr,
 		cairo_rel_line_to (cr, 8., -8.);
 		cairo_rel_line_to (cr, -8., 0.);
 		cairo_close_path (cr);
+		cairo_set_line_join (cr, CAIRO_LINE_JOIN_BEVEL);
 		cairo_stroke (cr);
 	}
 
