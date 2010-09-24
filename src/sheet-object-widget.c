@@ -2234,9 +2234,9 @@ sheet_widget_checkbox_draw_cairo (SheetObject const *so, cairo_t *cr,
 	SheetWidgetCheckbox const *swc = SHEET_WIDGET_CHECKBOX (so);
 	double halfheight = height/2;
 	PangoLayout *layout = pango_cairo_create_layout (cr);
-	PangoFontDescription *desc;
 	double const scale_h = 72. / gnm_app_display_dpi_get (TRUE);
 	double const scale_v = 72. / gnm_app_display_dpi_get (FALSE);
+	GtkStyle *style = gtk_style_new ();
 
 	cairo_save (cr);
 	cairo_set_line_width (cr, 0.5);
@@ -2265,16 +2265,15 @@ sheet_widget_checkbox_draw_cairo (SheetObject const *so, cairo_t *cr,
 		cairo_stroke (cr);
 	}
 
-	cairo_move_to (cr, 4. + 8. + 4, halfheight - 5.5);
-	desc = pango_font_description_from_string ("sans 10");
-	pango_context_set_font_description 
-		(pango_layout_get_context (layout), desc);
+	pango_layout_set_font_description (layout, style->font_desc);
 	pango_layout_set_single_paragraph_mode (layout, TRUE);
 	pango_layout_set_text (layout, swc->label, -1);
+
+	cairo_move_to (cr, 4. + 8. + 4, halfheight - 5.5);
 	cairo_scale (cr, scale_h, scale_v);
 	pango_cairo_show_layout (cr, layout);
-	g_object_unref (G_OBJECT (layout));
-	pango_font_description_free (desc);
+	g_object_unref (layout);
+	g_object_unref (style);
 	cairo_new_path (cr);
 	cairo_restore (cr);
 }
