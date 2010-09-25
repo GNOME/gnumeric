@@ -1,3 +1,9 @@
+2010-09-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-object-widget.c (draw_cairo_text): new
+	(sheet_widget_checkbox_draw_cairo): use draw_cairo_text
+	(sheet_widget_radio_button_draw_cairo): use draw_cairo_text
+	
 2010-09-24  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object-widget.c (sheet_widget_checkbox_draw_cairo):
@@ -5,7 +11,7 @@
 
 2010-09-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/sheet-object-widget.c ( sheet_widget_checkbox_draw_cairo):
+	* src/sheet-object-widget.c (sheet_widget_checkbox_draw_cairo):
 	  fix line join for checked box.
 
 2010-09-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
