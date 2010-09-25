@@ -26,10 +26,18 @@ my $date = sprintf ("%04d-%02d-%02d", $y, $m, $d);
     local (*SRC);
     local (*DST);
 
+    my $seen_epoch = 0;
+
     open (*SRC, "<$filename") || die "$0: failed to read $filename: $!\n";
     open (*DST, ">$filename.tmp") || die "$0: failed to write $filename.tmp: $!\n";
     foreach (<SRC>) {
-	if (/^(\s*m4_define\(\[\S*_version_minor\],\s*\[)(\d+)(\]\).*)/) {
+	if (/version_epoch/) {
+	    $seen_epoch = 1;
+	    next;
+	}
+	if ($seen_epoch
+	    ? /^(\s*m4_define\(\[\S*_version_minor\],\s*\[)(\d+)(\]\).*)/
+	    : /^(\s*m4_define\(\[\S*_version_micro\],\s*\[)(\d+)(\]\).*)/) {
 	    $_ = $1 . ($2 + 1) . $3 . "\n";
 	}
 	print DST;
