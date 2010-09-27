@@ -31,7 +31,7 @@ hu
 id
 it
 ja
-kk
+# "kk" can go back when there is a po-function translation too.
 ko
 lt
 lv
