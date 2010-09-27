@@ -3468,10 +3468,11 @@ sheet_widget_draw_cairo (SheetObject const *so, cairo_t *cr,
 		cairo_fill (cr);
 		cairo_restore (cr);
 		g_object_unref(G_OBJECT (ss));
-	} else 
-		g_warning ("Failed to draw sheet object widget.");
-
+		return;
+	}
 #endif
+	g_warning ("Failed to draw sheet object widget of type %s",
+		   g_type_name_from_instance ((gpointer)sow));
 }
 
 
