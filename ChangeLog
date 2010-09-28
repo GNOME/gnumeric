@@ -1,10 +1,22 @@
 2010-09-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* schemas/gnumeric-general.schemas.in: fix tooltip for column and row
-	  numbers
-	* src/sheet-object-widget.c (sheet_widget_slider_*_draw_cairo): new
+	* src/sheet-object-widget.c  
+	(sheet_widget_scrollbar_*_draw_cairo): new
+	(sheet_widget_scrollbar_draw_cairo): new
+	(sheet_widget_scrollbar_class_init): connect 
+	  sheet_widget_slider_draw_cairo
+	(sheet_widget_slider_vertical_draw_cairo): use 
+	  sheet_widget_slider_horizontal_draw_cairo
+	
+2010-09-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* schemas/gnumeric-general.schemas.in: fix tooltip for column 
+	  and row numbers
+	* src/sheet-object-widget.c (sheet_widget_slider_*_draw_cairo): 
+	  new
 	(sheet_widget_slider_draw_cairo): new
-	(sheet_widget_slider_class_init): connect sheet_widget_slider_draw_cairo
+	(sheet_widget_slider_class_init): connect 
+	  sheet_widget_slider_draw_cairo
 
 2010-09-28  Morten Welinder  <terra@gnome.org>
 

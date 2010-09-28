@@ -1677,11 +1677,66 @@ sheet_widget_scrollbar_user_config (SheetObject *so, SheetControl *sc)
 						  N_("Scrollbar Properties"));
 }
 
+static void sheet_widget_slider_horizontal_draw_cairo 
+(SheetObject const *so, cairo_t *cr, double width, double height);
+
+static void
+sheet_widget_scrollbar_horizontal_draw_cairo (SheetObject const *so, cairo_t *cr,
+			 double width, double height)
+{
+	cairo_save (cr);
+	cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
+
+	cairo_new_path (cr);
+	cairo_move_to (cr, 0., height/2);
+	cairo_rel_line_to (cr, 15., 7.5);
+	cairo_rel_line_to (cr, 0, -15);
+	cairo_close_path (cr);
+	cairo_fill (cr);
+
+	cairo_new_path (cr);
+	cairo_move_to (cr, width, height/2);
+	cairo_rel_line_to (cr, -15., 7.5);
+	cairo_rel_line_to (cr, 0, -15);
+	cairo_close_path (cr);
+	cairo_fill (cr);
+
+	cairo_new_path (cr);
+	cairo_translate (cr, 20., 0.);
+	sheet_widget_slider_horizontal_draw_cairo (so, cr, width - 30, height);
+	cairo_restore (cr);
+}
+
+static void
+sheet_widget_scrollbar_vertical_draw_cairo (SheetObject const *so, cairo_t *cr,
+			 double width, double height)
+{
+	cairo_save (cr);
+	cairo_rotate (cr, M_PI/2);
+	cairo_translate (cr, 0., -width);
+	sheet_widget_scrollbar_horizontal_draw_cairo (so, cr, height, width);
+	cairo_restore (cr);
+}
+
+static void
+sheet_widget_scrollbar_draw_cairo (SheetObject const *so, cairo_t *cr,
+			 double width, double height)
+{
+	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
+	if (swa->horizontal)
+		sheet_widget_scrollbar_horizontal_draw_cairo 
+			(so, cr, width, height);
+	else
+		sheet_widget_scrollbar_vertical_draw_cairo 
+			(so, cr, width, height);
+}
 static void
 sheet_widget_scrollbar_class_init (SheetObjectWidgetClass *sow_class)
 {
 	SheetWidgetAdjustmentClass *swa_class = (SheetWidgetAdjustmentClass *)sow_class;
+	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (sow_class);
 
+	so_class->draw_cairo = &sheet_widget_scrollbar_draw_cairo;
         sow_class->create_widget = &sheet_widget_scrollbar_create_widget;
 	SHEET_OBJECT_CLASS (sow_class)->user_config = &sheet_widget_scrollbar_user_config;
 	swa_class->htype = GTK_TYPE_HSCROLLBAR;
@@ -1816,34 +1871,10 @@ static void
 sheet_widget_slider_vertical_draw_cairo (SheetObject const *so, cairo_t *cr,
 			 double width, double height)
 {
-	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
-	GtkAdjustment *adjustment = swa->adjustment;
-	double value = gtk_adjustment_get_value (adjustment);
-	double upper = gtk_adjustment_get_upper (adjustment);
-	double lower = gtk_adjustment_get_lower (adjustment);
-	double fraction = (upper == lower) ? 0.0 : (value - lower)/(upper- lower); 
-
 	cairo_save (cr);
-	cairo_set_line_width (cr, 5);
-	cairo_set_source_rgb(cr, 0.8, 0.8, 0.8);
-	cairo_set_line_cap (cr, CAIRO_LINE_CAP_ROUND);
-
-	cairo_new_path (cr);
-	cairo_move_to (cr, width/2, 4.);
-	cairo_rel_line_to (cr, 0, height - 8.);
-	cairo_stroke (cr);
-
-	cairo_set_line_width (cr, 15);
-	cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
-	cairo_set_line_cap (cr, CAIRO_LINE_CAP_ROUND);
-
-	cairo_new_path (cr);
-	cairo_move_to (cr, width/2, fraction * (height - 8. - 20. - 5. - 5. + 2.5 + 2.5) 
-		       - 10. + 10. + 4. + 5. - 2.5);
-	cairo_rel_line_to (cr, 0, 20);
-	cairo_stroke (cr);
-
-	cairo_new_path (cr);
+	cairo_rotate (cr, M_PI/2);
+	cairo_translate (cr, 0., -width);
+	sheet_widget_slider_horizontal_draw_cairo (so, cr, height, width);
 	cairo_restore (cr);
 }
 

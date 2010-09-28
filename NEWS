@@ -10,7 +10,7 @@ Andreas:
 	* Permit ctrl-click specification of sort columns.
 	* Set ODF files to save by default as ODF files. [#629962]
 	* Fix ssconvert crash on form controls. [#630335]
-	* Improve printing of checkboxes, radio buttons and sliders.
+	* Improve printing of the form controls.
 
 Jean:
 	* Export/import tick label rotation angle. [#629675]
