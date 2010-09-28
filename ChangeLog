@@ -5902,7 +5902,7 @@
 2008-03-10  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk-actions.c (inc_dec): New function to do something
-	vaugely sensible when inc/dec decimals is requested for General.
+	vaguely sensible when inc/dec decimals is requested for General.
 	Fixes #510252.
 
 	* configure.in (ALL_LINGUAS): Undo last change.  It breaks the
