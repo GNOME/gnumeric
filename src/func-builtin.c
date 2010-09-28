@@ -34,6 +34,8 @@
 #include <sheet.h>
 #include <cell.h>
 #include <application.h>
+#include <number-match.h>
+#include <gutils.h>
 
 /***************************************************************************/
 
@@ -346,6 +348,38 @@ gnumeric_if2 (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_number_match[] = {
+	/* Not for public consumption. */
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_number_match (GnmFuncEvalInfo *ei, GnmValue const * const *args)
+{
+	const char *text = value_peek_string (args[0]);
+	const char *fmttxt = args[1] ? value_peek_string (args[1]) : NULL;
+	GOFormat *fmt = NULL;
+	GnmValue *v;
+	GODateConventions const *date_conv = NULL;
+
+	if (fmttxt && *fmttxt != 0) {
+		fmt = go_format_new_from_XL (fmttxt);
+		if (go_format_is_invalid (fmt)) {
+			v = value_new_error_VALUE (ei->pos);
+			goto out;
+		}
+	}
+
+	v = format_match (text, fmt, date_conv);
+	if (!v) v = value_new_string (text);
+
+ out:
+	go_format_unref (fmt);
+	return v;
+}
+
+/***************************************************************************/
+
 static GnmFuncGroup *math_group = NULL;
 static GnmFuncGroup *gnumeric_group = NULL;
 static GnmFuncGroup *logic_group = NULL;
@@ -355,8 +389,10 @@ func_builtin_init (void)
 {
 	const char *gname;
 	const char *textdomain = GETTEXT_PACKAGE;
+	int i = 0;
 
 	static GnmFuncDescriptor const builtins [] = {
+		/* --- Math --- */
 		{	"sum",		NULL,
 			help_sum,	NULL,	gnumeric_sum,
 			NULL, NULL, NULL, GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
@@ -369,6 +405,7 @@ func_builtin_init (void)
 			GNM_FUNC_IMPL_STATUS_COMPLETE,
 			GNM_FUNC_TEST_STATUS_BASIC
 		},
+		/* --- Gnumeric --- */
 		{	"gnumeric_version",	"",
 			help_gnumeric_version,	gnumeric_version, NULL,
 			NULL, NULL, NULL, GNM_FUNC_SIMPLE,
@@ -382,6 +419,13 @@ func_builtin_init (void)
 			GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 			GNM_FUNC_TEST_STATUS_EXHAUSTIVE
 		},
+		{	"number_match", "s|s",
+			help_number_match, gnumeric_number_match, NULL,
+			NULL, NULL, NULL,
+			GNM_FUNC_SIMPLE,
+			GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
+			GNM_FUNC_TEST_STATUS_BASIC },
+		/* --- Logic --- */
 		{	"if", "b|EE",
 			help_if, gnumeric_if, NULL,
 			NULL, NULL, NULL,
@@ -393,17 +437,20 @@ func_builtin_init (void)
 
 	gname = N_("Mathematics");
 	math_group = gnm_func_group_fetch (gname, _(gname));
-	gnm_func_add (math_group, builtins + 0, textdomain);
-	gnm_func_add (math_group, builtins + 1, textdomain);
+	gnm_func_add (math_group, builtins + i++, textdomain);
+	gnm_func_add (math_group, builtins + i++, textdomain);
 
 	gname = N_("Gnumeric");
 	gnumeric_group = gnm_func_group_fetch (gname, _(gname));
-	gnm_func_add (gnumeric_group, builtins + 2, textdomain);
-	gnm_func_add (gnumeric_group, builtins + 3, textdomain);
+	gnm_func_add (gnumeric_group, builtins + i++, textdomain);
+	gnm_func_add (gnumeric_group, builtins + i++, textdomain);
+	if (gnm_debug_flag ("testsuite"))
+		gnm_func_add (gnumeric_group, builtins + i, textdomain);
+	i++;
 
 	gname = N_("Logic");
 	logic_group = gnm_func_group_fetch (gname, _(gname));
-	gnm_func_add (logic_group, builtins + 4, textdomain);
+	gnm_func_add (logic_group, builtins + i++, textdomain);
 }
 
 static void
