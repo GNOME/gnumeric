@@ -1038,9 +1038,9 @@ gnm_sheet_type_get_type (void)
   static GType etype = 0;
   if (etype == 0) {
 	  static const GEnumValue values[] = {
-		  { GNM_SHEET_DATA,   (char *)"GNM_SHEET_DATA",   (char *)"data"   },
-		  { GNM_SHEET_OBJECT, (char *)"GNM_SHEET_OBJECT", (char *)"object" },
-		  { GNM_SHEET_XLM,    (char *)"GNM_SHEET_XLM",    (char *)"xlm"    },
+		  { GNM_SHEET_DATA,   "GNM_SHEET_DATA",   "data"   },
+		  { GNM_SHEET_OBJECT, "GNM_SHEET_OBJECT", "object" },
+		  { GNM_SHEET_XLM,    "GNM_SHEET_XLM",    "xlm"    },
 		  { 0, NULL, NULL }
 	  };
 	  etype = g_enum_register_static ("GnmSheetType", values);
@@ -1054,9 +1054,9 @@ gnm_sheet_visibility_get_type (void)
   static GType etype = 0;
   if (etype == 0) {
 	  static GEnumValue const values[] = {
-		  { GNM_SHEET_VISIBILITY_VISIBLE, (char*)"GNM_SHEET_VISIBILITY_VISIBLE", (char*)"visible" },
-		  { GNM_SHEET_VISIBILITY_HIDDEN, (char*)"GNM_SHEET_VISIBILITY_HIDDEN", (char*)"hidden" },
-		  { GNM_SHEET_VISIBILITY_VERY_HIDDEN, (char*)"GNM_SHEET_VISIBILITY_VERY_HIDDEN", (char*)"very-hidden" },
+		  { GNM_SHEET_VISIBILITY_VISIBLE, "GNM_SHEET_VISIBILITY_VISIBLE", "visible" },
+		  { GNM_SHEET_VISIBILITY_HIDDEN, "GNM_SHEET_VISIBILITY_HIDDEN", "hidden" },
+		  { GNM_SHEET_VISIBILITY_VERY_HIDDEN, "GNM_SHEET_VISIBILITY_VERY_HIDDEN", "very-hidden" },
 		  { 0, NULL, NULL }
 	  };
 	  etype = g_enum_register_static ("GnmSheetVisibility", values);
@@ -1118,14 +1118,11 @@ gnm_sheet_suggest_size (int *cols, int *rows)
 static void gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 				   GOCmdContext *cc, GOUndo **pundo);
 
-struct cb_sheet_resize {
-	int cols, rows;
-};
-
 static void
-cb_sheet_resize (Sheet *sheet, const struct cb_sheet_resize *data, GOCmdContext *cc)
+cb_sheet_resize (Sheet *sheet, const GnmSheetSize *data, GOCmdContext *cc)
 {
-	gnm_sheet_resize_main (sheet, data->cols, data->rows, cc, NULL);
+	gnm_sheet_resize_main (sheet, data->max_cols, data->max_rows,
+			       cc, NULL);
 }
 
 static void
@@ -1249,12 +1246,11 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 		g_object_notify (G_OBJECT (sheet), "rows");
 
 	if (pundo) {
-		struct cb_sheet_resize *data =
-			g_new (struct cb_sheet_resize, 1);
+		GnmSheetSize *data = g_new (GnmSheetSize, 1);
 		GOUndo *u;
 
-		data->cols = old_cols;
-		data->rows = old_rows;
+		data->max_cols = old_cols;
+		data->max_rows = old_rows;
 		u = go_undo_binary_new (sheet, data,
 					(GOUndoBinaryFunc)cb_sheet_resize,
 					NULL, g_free);

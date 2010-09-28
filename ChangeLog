@@ -1,3 +1,10 @@
+2010-09-28  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (struct cb_sheet_resize): Eliminate.  This was the
+	same as GnmSheetSize.
+	(gnm_sheet_type_get_type, gnm_sheet_visibility_get_type):
+	Eliminate casts no-longer needed.
+
 2010-09-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-object-widget.c (draw_cairo_text): new
