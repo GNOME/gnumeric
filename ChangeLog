@@ -1,5 +1,10 @@
 2010-09-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/sheet-object-widget.c (sheet_widget_combo_draw_cairo): new
+	(sheet_widget_combo_class_init): connect the above
+
+2010-09-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/sheet-object-widget.c (sheet_widget_button_draw_cairo): new
 
 2010-09-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>

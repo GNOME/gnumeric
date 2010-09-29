@@ -3680,8 +3680,62 @@ sheet_widget_combo_create_widget (SheetObjectWidget *sow)
 }
 
 static void
+sheet_widget_combo_draw_cairo (SheetObject const *so, cairo_t *cr,
+			 double width, double height)
+{
+	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);	
+	double halfheight = height/2;
+	
+	cairo_save (cr);
+	cairo_set_line_width (cr, 0.5);
+	cairo_set_source_rgb(cr, 0, 0, 0);
+
+	cairo_new_path (cr);
+	cairo_move_to (cr, 0, 0);
+	cairo_line_to (cr, width, 0);
+	cairo_line_to (cr, width, height);
+	cairo_line_to (cr, 0, height);
+	cairo_close_path (cr);
+	cairo_stroke (cr);
+
+	cairo_new_path (cr);
+	cairo_move_to (cr, width - 10, 0);
+	cairo_rel_line_to (cr, 0, height);
+	cairo_stroke (cr);
+
+	cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
+
+	cairo_new_path (cr);
+	cairo_move_to (cr, width - 5 -3, halfheight - 4);
+	cairo_rel_line_to (cr, 6, 0);
+	cairo_rel_line_to (cr, -3, 8);
+	cairo_close_path (cr);
+	cairo_fill (cr);
+	
+	cairo_set_source_rgb(cr, 0, 0, 0);
+	cairo_move_to (cr, 4., halfheight);
+
+	if (swl->model != NULL) {
+		GtkTreeIter iter;
+		if (gtk_tree_model_iter_nth_child (swl->model, &iter, NULL, 
+						   swl->selection - 1)) {
+			char *str = NULL;
+			gtk_tree_model_get (swl->model, &iter, 0, &str, -1);
+			draw_cairo_text (cr, str, NULL, NULL, TRUE);
+			g_free (str);
+		}
+	}
+
+	cairo_new_path (cr);
+	cairo_restore (cr);	
+}
+
+static void
 sheet_widget_combo_class_init (SheetObjectWidgetClass *sow_class)
 {
+	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (sow_class);
+
+	so_class->draw_cairo = &sheet_widget_combo_draw_cairo;
         sow_class->create_widget = &sheet_widget_combo_create_widget;
 }
 
