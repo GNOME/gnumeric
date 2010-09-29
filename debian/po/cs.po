@@ -1,14 +1,14 @@
 # Czech translation of gnumeric debconf messages.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnumeric package.
-# Miroslav Kure <kurem@debian.cz>, 2006,2007.
+# Miroslav Kure <kurem@debian.cz>, 2006-2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: gnumeric@packages.debian.org\n"
 "POT-Creation-Date: 2010-07-31 12:15+0200\n"
-"PO-Revision-Date: 2007-11-04 16:32+0100\n"
+"PO-Revision-Date: 2010-09-28 13:16+0200\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
 "Language: cs\n"
@@ -20,7 +20,7 @@ msgstr ""
 #. Description
 #: ../gnumeric.templates:2001
 msgid "Detected a running gnumeric process"
-msgstr ""
+msgstr "Rozpoznán běžící gnumeric"
 
 #. Type: boolean
 #. Description
