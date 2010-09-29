@@ -1,5 +1,11 @@
-2010-09-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2010-09-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/sheet-object-widget.c (draw_cairo_text): add aguments and change
+	  all callers
+	(sheet_widget_frame_draw_cairo): new
+	(sheet_widget_scrollbar_horizontal_draw_cairo): fix alignment
+	
+2010-09-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	* src/sheet-object-widget.c  
 	(sheet_widget_scrollbar_*_draw_cairo): new
 	(sheet_widget_scrollbar_draw_cairo): new

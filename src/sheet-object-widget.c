@@ -75,7 +75,8 @@ sheet_widget_draw_cairo (SheetObject const *so, cairo_t *cr,
 			 double width, double height);
 
 static void
-draw_cairo_text (cairo_t *cr, char const *text)
+draw_cairo_text (cairo_t *cr, char const *text, int *pwidth, int *pheight,
+		 gboolean centered)
 {
 	PangoLayout *layout = pango_cairo_create_layout (cr);
 	GtkStyle *style = gtk_style_new ();
@@ -89,10 +90,16 @@ draw_cairo_text (cairo_t *cr, char const *text)
 	pango_layout_get_pixel_size (layout, &width, &height);
 
 	cairo_scale (cr, scale_h, scale_v);
-	cairo_rel_move_to (cr, 0., 0.5 - ((double)height)/2.);
+	if (centered)
+		cairo_rel_move_to (cr, 0., 0.5 - ((double)height)/2.);
 	pango_cairo_show_layout (cr, layout);
 	g_object_unref (layout);
 	g_object_unref (style);
+	
+	if (pwidth)
+		*pwidth = width * scale_h;
+	if (pheight)
+		*pheight = height * scale_v;
 }
 
 static void
@@ -579,6 +586,46 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 	gtk_widget_show (state->dialog);
 }
 
+static void
+sheet_widget_frame_draw_cairo (SheetObject const *so, cairo_t *cr,
+			 double width, double height)
+{
+	SheetWidgetFrame *swf = SHEET_WIDGET_FRAME (so);
+
+	int theight = 0, twidth = 0;
+	cairo_save (cr);
+	cairo_move_to (cr, 10, 0);
+
+	cairo_save (cr);
+	draw_cairo_text (cr, swf->label, &twidth, &theight, FALSE);
+	cairo_restore (cr);
+
+	cairo_set_line_width (cr, 1);
+	cairo_set_line_cap (cr, CAIRO_LINE_CAP_ROUND);
+	cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
+	cairo_new_path (cr);
+	cairo_move_to (cr, 6, theight/2);
+	cairo_line_to (cr, 0, theight/2);
+	cairo_line_to (cr, 0, height);
+	cairo_line_to (cr, width, height);
+	cairo_line_to (cr, width, theight/2);
+	cairo_line_to (cr, 14 + twidth, theight/2);
+	cairo_stroke (cr);
+
+	cairo_set_source_rgb(cr, 0.8, 0.8, 0.8);
+	cairo_new_path (cr);
+	cairo_move_to (cr, 6, theight/2 + 1);
+	cairo_line_to (cr, 1, theight/2 + 1);
+	cairo_line_to (cr, 1, height - 1);
+	cairo_line_to (cr, width - 1, height - 1);
+	cairo_line_to (cr, width - 1, theight/2 + 1);
+	cairo_line_to (cr, 14 + twidth, theight/2 + 1);
+	cairo_stroke (cr);
+
+	cairo_new_path (cr);
+	cairo_restore (cr);
+}
+
 SOW_MAKE_TYPE (frame, Frame,
 	       sheet_widget_frame_user_config,
 	       NULL,
@@ -589,7 +636,7 @@ SOW_MAKE_TYPE (frame, Frame,
 	       sheet_widget_frame_prep_sax_parser,
 	       sheet_widget_frame_get_property,
 	       sheet_widget_frame_set_property,
-	       sheet_widget_draw_cairo,
+	       sheet_widget_frame_draw_cairo,
 	       {
 		       g_object_class_install_property
 			       (object_class, SOF_PROP_TEXT,
@@ -1702,7 +1749,7 @@ sheet_widget_scrollbar_horizontal_draw_cairo (SheetObject const *so, cairo_t *cr
 	cairo_fill (cr);
 
 	cairo_new_path (cr);
-	cairo_translate (cr, 20., 0.);
+	cairo_translate (cr, 15., 0.);
 	sheet_widget_slider_horizontal_draw_cairo (so, cr, width - 30, height);
 	cairo_restore (cr);
 }
@@ -2398,7 +2445,7 @@ sheet_widget_checkbox_draw_cairo (SheetObject const *so, cairo_t *cr,
 
 	cairo_move_to (cr, 4. + 8. + 4, halfheight);
 	
-	draw_cairo_text (cr, swc->label);
+	draw_cairo_text (cr, swc->label, NULL, NULL, TRUE);
 
 	cairo_new_path (cr);
 	cairo_restore (cr);
@@ -3035,7 +3082,7 @@ sheet_widget_radio_button_draw_cairo (SheetObject const *so, cairo_t *cr,
 
 	cairo_move_to (cr, 4. + 8. + 4, halfheight);
 
-	draw_cairo_text (cr, swr->label);
+	draw_cairo_text (cr, swr->label, NULL, NULL, TRUE);
 
 	cairo_new_path (cr);
 	cairo_restore (cr);
