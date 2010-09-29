@@ -1101,6 +1101,52 @@ sheet_widget_button_set_markup (SheetObject *so, PangoAttrList *markup)
 	}
 }
 
+static void
+sheet_widget_button_draw_cairo (SheetObject const *so, cairo_t *cr,
+			 double width, double height)
+{
+	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
+	PangoLayout *layout = pango_cairo_create_layout (cr);
+	GtkStyle *style = gtk_style_new ();
+	double const scale_h = 72. / gnm_app_display_dpi_get (TRUE);
+	double const scale_v = 72. / gnm_app_display_dpi_get (FALSE);
+	int twidth, theight;
+	int const half_line = 1.5;
+	int const radius = 10;
+	
+	cairo_save (cr);
+	cairo_set_line_width (cr, 2 * half_line);
+	cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
+
+	cairo_new_path (cr);
+	cairo_arc (cr, radius + half_line, radius + half_line, radius, M_PI, - M_PI/2);
+	cairo_arc (cr, width - (radius + half_line), radius + half_line, 
+		   radius, - M_PI/2, 0);
+	cairo_arc (cr, width - (radius + half_line), height - (radius + half_line), 
+		   radius, 0, M_PI/2);
+	cairo_arc (cr, (radius + half_line), height - (radius + half_line), 
+		   radius, M_PI/2, M_PI);
+	cairo_close_path (cr);
+	cairo_stroke (cr);
+
+	cairo_set_source_rgb(cr, 0, 0, 0);
+	pango_layout_set_font_description (layout, style->font_desc);
+	pango_layout_set_single_paragraph_mode (layout, TRUE);
+	pango_layout_set_text (layout, swb->label, -1);
+	pango_layout_set_attributes (layout, swb->markup);
+	pango_layout_get_pixel_size (layout, &twidth, &theight);
+
+	cairo_move_to (cr, width/2., height/2.);
+	cairo_scale (cr, scale_h, scale_v);
+	cairo_rel_move_to (cr, - twidth/2., - theight/2.);
+	pango_cairo_show_layout (cr, layout);
+	g_object_unref (layout);
+	g_object_unref (style);
+
+	cairo_new_path (cr);
+	cairo_restore (cr);
+}
+
 SOW_MAKE_TYPE (button, Button,
 	       sheet_widget_button_user_config,
 	       sheet_widget_button_set_sheet,
@@ -1111,7 +1157,7 @@ SOW_MAKE_TYPE (button, Button,
 	       sheet_widget_button_prep_sax_parser,
 	       sheet_widget_button_get_property,
 	       sheet_widget_button_set_property,
-	       sheet_widget_draw_cairo,
+	       sheet_widget_button_draw_cairo,
 	       {
 		       g_object_class_install_property
 			       (object_class, SOB_PROP_TEXT,
