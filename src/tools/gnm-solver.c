@@ -52,32 +52,32 @@ gnm_solver_status_get_type (void)
 	if (etype == 0) {
 		static GEnumValue const values[] = {
 			{ GNM_SOLVER_STATUS_READY,
-			  (char *)"GNM_SOLVER_STATUS_READY",
-			  (char *)"ready"
+			  "GNM_SOLVER_STATUS_READY",
+			  "ready"
 			},
 			{ GNM_SOLVER_STATUS_PREPARING,
-			  (char *)"GNM_SOLVER_STATUS_PREPARING",
-			  (char *)"preparing"
+			  "GNM_SOLVER_STATUS_PREPARING",
+			  "preparing"
 			},
 			{ GNM_SOLVER_STATUS_PREPARED,
-			  (char *)"GNM_SOLVER_STATUS_PREPARED",
-			  (char *)"prepared"
+			  "GNM_SOLVER_STATUS_PREPARED",
+			  "prepared"
 			},
 			{ GNM_SOLVER_STATUS_RUNNING,
-			  (char *)"GNM_SOLVER_STATUS_RUNNING",
-			  (char *)"running"
+			  "GNM_SOLVER_STATUS_RUNNING",
+			  "running"
 			},
 			{ GNM_SOLVER_STATUS_DONE,
-			  (char *)"GNM_SOLVER_STATUS_DONE",
-			  (char *)"done"
+			  "GNM_SOLVER_STATUS_DONE",
+			  "done"
 			},
 			{ GNM_SOLVER_STATUS_ERROR,
-			  (char *)"GNM_SOLVER_STATUS_ERROR",
-			  (char *)"error"
+			  "GNM_SOLVER_STATUS_ERROR",
+			  "error"
 			},
 			{ GNM_SOLVER_STATUS_CANCELLED,
-			  (char *)"GNM_SOLVER_STATUS_CANCELLED",
-			  (char *)"cancelled"
+			  "GNM_SOLVER_STATUS_CANCELLED",
+			  "cancelled"
 			},
 			{ 0, NULL, NULL }
 		};
@@ -93,12 +93,12 @@ gnm_solver_problem_type_get_type (void)
 	if (etype == 0) {
 		static GEnumValue const values[] = {
 			{ GNM_SOLVER_MINIMIZE,
-			  (char *)"GNM_SOLVER_MINIMIZE",
-			  (char *)"minimize"
+			  "GNM_SOLVER_MINIMIZE",
+			  "minimize"
 			},
 			{ GNM_SOLVER_MAXIMIZE,
-			  (char *)"GNM_SOLVER_MAXIMIZE",
-			  (char *)"maximize"
+			  "GNM_SOLVER_MAXIMIZE",
+			  "maximize"
 			},
 			{ 0, NULL, NULL }
 		};

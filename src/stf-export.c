@@ -418,8 +418,8 @@ gnm_stf_transliterate_mode_get_type (void)
   static GType etype = 0;
   if (etype == 0) {
 	  static GEnumValue const values[] = {
-		  { GNM_STF_TRANSLITERATE_MODE_TRANS,  (char*)"GNM_STF_TRANSLITERATE_MODE_TRANS",  (char*)"transliterate" },
-		  { GNM_STF_TRANSLITERATE_MODE_ESCAPE, (char*)"GNM_STF_TRANSLITERATE_MODE_ESCAPE", (char*)"escape" },
+		  { GNM_STF_TRANSLITERATE_MODE_TRANS,  "GNM_STF_TRANSLITERATE_MODE_TRANS",  "transliterate" },
+		  { GNM_STF_TRANSLITERATE_MODE_ESCAPE, "GNM_STF_TRANSLITERATE_MODE_ESCAPE", "escape" },
 		  { 0, NULL, NULL }
 	  };
 	  etype = g_enum_register_static ("GnmStfTransliterateMode", values);
@@ -435,9 +435,9 @@ gnm_stf_format_mode_get_type (void)
   static GType etype = 0;
   if (etype == 0) {
 	  static GEnumValue const values[] = {
-		  { GNM_STF_FORMAT_AUTO,     (char*)"GNM_STF_FORMAT_AUTO",     (char*)"automatic" },
-		  { GNM_STF_FORMAT_RAW,      (char*)"GNM_STF_FORMAT_RAW",      (char*)"raw" },
-		  { GNM_STF_FORMAT_PRESERVE, (char*)"GNM_STF_FORMAT_PRESERVE", (char*)"preserve" },
+		  { GNM_STF_FORMAT_AUTO,     "GNM_STF_FORMAT_AUTO",     "automatic" },
+		  { GNM_STF_FORMAT_RAW,      "GNM_STF_FORMAT_RAW",      "raw" },
+		  { GNM_STF_FORMAT_PRESERVE, "GNM_STF_FORMAT_PRESERVE", "preserve" },
 		  { 0, NULL, NULL }
 	  };
 	  etype = g_enum_register_static ("GnmStfFormatMode", values);

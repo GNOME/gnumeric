@@ -484,9 +484,9 @@ gnm_search_replace_scope_get_type (void)
   static GType etype = 0;
   if (etype == 0) {
     static const GEnumValue values[] = {
-      { GNM_SRS_WORKBOOK, (char *)"GNM_SRS_WORKBOOK", (char *)"workbook" },
-      { GNM_SRS_SHEET,    (char *)"GNM_SRS_SHEET",    (char *)"sheet" },
-      { GNM_SRS_RANGE,    (char *)"GNM_SRS_RANGE",    (char *)"range" },
+      { GNM_SRS_WORKBOOK, "GNM_SRS_WORKBOOK", "workbook" },
+      { GNM_SRS_SHEET,    "GNM_SRS_SHEET",    "sheet" },
+      { GNM_SRS_RANGE,    "GNM_SRS_RANGE",    "range" },
       { 0, NULL, NULL }
     };
     etype = g_enum_register_static ("GnmSearchReplaceScope", values);

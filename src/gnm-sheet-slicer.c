@@ -402,9 +402,9 @@ gnm_sheet_slicer_layout_get_type (void)
 	static GType etype = 0;
 	if (etype == 0) {
 		static GEnumValue const values[] = {
-			{ GSS_Layout_XL_outline, (char *)"GSS_Layout_XL_outline", (char *)"xl-outline" },
-			{ GSS_Layout_XL_compact, (char *)"GSS_Layout_XL_compact", (char *)"xl-compact" },
-			{ GSS_Layout_XL_tabular, (char *)"GSS_Layout_XL_tabular", (char *)"xl-tabular" },
+			{ GSS_Layout_XL_outline, "GSS_Layout_XL_outline", "xl-outline" },
+			{ GSS_Layout_XL_compact, "GSS_Layout_XL_compact", "xl-compact" },
+			{ GSS_Layout_XL_tabular, "GSS_Layout_XL_tabular", "xl-tabular" },
 			{ 0, NULL, NULL }
 		};
 		etype = g_enum_register_static ("GnmSheetSlicerLayout", values);
