@@ -1,3 +1,10 @@
+2010-09-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-object-widget.c (sheet_widget_draw_cairo): warn always
+	(draw_cairo_text): adjust coner radius for small buttons
+	(sheet_widget_list_draw_cairo): new
+	(sheet_widget_list_class_init): connect sheet_widget_list_draw_cairo
+
 2010-09-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-object-widget.c (sheet_widget_combo_draw_cairo): new

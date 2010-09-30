@@ -72,7 +72,11 @@ attr_eq (const xmlChar *a, const char *s)
 
 static void
 sheet_widget_draw_cairo (SheetObject const *so, cairo_t *cr,
-			 double width, double height);
+			 double width, double height)
+{
+	g_warning ("Failed to draw sheet object widget of type %s",
+		   g_type_name_from_instance ((gpointer)so));
+}
 
 static void
 draw_cairo_text (cairo_t *cr, char const *text, int *pwidth, int *pheight,
@@ -1112,7 +1116,14 @@ sheet_widget_button_draw_cairo (SheetObject const *so, cairo_t *cr,
 	double const scale_v = 72. / gnm_app_display_dpi_get (FALSE);
 	int twidth, theight;
 	int const half_line = 1.5;
-	int const radius = 10;
+	int radius = 10;
+
+	if (height < 3 * radius)
+		radius = height / 3.;
+	if (width < 3 * radius)
+		radius = width / 3.;
+	if (radius < 1)
+		radius = 1;
 	
 	cairo_save (cr);
 	cairo_set_line_width (cr, 2 * half_line);
@@ -3604,8 +3615,120 @@ sheet_widget_list_create_widget (SheetObjectWidget *sow)
 }
 
 static void
+sheet_widget_list_draw_cairo (SheetObject const *so, cairo_t *cr,
+			 double width, double height)
+{
+	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);	
+	
+	cairo_save (cr);
+	cairo_set_line_width (cr, 0.5);
+	cairo_set_source_rgb(cr, 0, 0, 0);
+
+	cairo_new_path (cr);
+	cairo_move_to (cr, 0, 0);
+	cairo_line_to (cr, width, 0);
+	cairo_line_to (cr, width, height);
+	cairo_line_to (cr, 0, height);
+	cairo_close_path (cr);
+	cairo_stroke (cr);
+
+	cairo_new_path (cr);
+	cairo_move_to (cr, width - 10, 0);
+	cairo_rel_line_to (cr, 0, height);
+	cairo_stroke (cr);
+
+	cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
+
+	cairo_new_path (cr);
+	cairo_move_to (cr, width - 5 -3, height - 12);
+	cairo_rel_line_to (cr, 6, 0);
+	cairo_rel_line_to (cr, -3, 8);
+	cairo_close_path (cr);
+	cairo_fill (cr);
+	
+	cairo_new_path (cr);
+	cairo_move_to (cr, width - 5 -3, 12);
+	cairo_rel_line_to (cr, 6, 0);
+	cairo_rel_line_to (cr, -3, -8);
+	cairo_close_path (cr);
+	cairo_fill (cr);
+
+
+	if (swl->model != NULL) {
+		GtkTreeIter iter;
+		GString*str = g_string_new (NULL);
+		PangoLayout *layout = pango_cairo_create_layout (cr);
+		GtkStyle *style = gtk_style_new ();
+		double const scale_h = 72. / gnm_app_display_dpi_get (TRUE);
+		double const scale_v = 72. / gnm_app_display_dpi_get (FALSE);
+		int twidth = 0, theight = 0;
+		PangoLayoutIter *pliter;
+		int y0, y1, i;
+		double dy0 = 0, dy1 = 0;
+		gboolean got_line = TRUE;
+
+		cairo_new_path (cr);
+		cairo_rectangle (cr, 2, 1, width - 2 - 12, height - 2);
+		cairo_clip (cr);
+
+		if (gtk_tree_model_get_iter_first (swl->model, &iter))
+			do {
+				char *astr = NULL, *newline;
+				gtk_tree_model_get (swl->model, &iter, 0, &astr, -1);
+				while (NULL != (newline = strchr (astr, '\n')))
+					*newline = ' ';
+				g_string_append (str, astr);
+				g_string_append_c (str, '\n');
+				g_free (astr);
+			} while (gtk_tree_model_iter_next (swl->model, &iter));
+		
+		pango_layout_set_font_description (layout, style->font_desc);
+		pango_layout_set_single_paragraph_mode (layout, FALSE);
+		pango_layout_set_spacing (layout, 3 * PANGO_SCALE);
+		pango_layout_set_text (layout, str->str, -1);
+		pango_layout_get_pixel_size (layout, &twidth, &theight);
+
+		cairo_translate (cr, 4., 2.);
+		cairo_scale (cr, scale_h, scale_v);
+
+		pliter =   pango_layout_get_iter (layout);
+		for (i = 1; i < swl->selection; i++)
+			got_line = pango_layout_iter_next_line (pliter);
+
+		if (got_line) {
+			pango_layout_iter_get_line_yrange (pliter, &y0, &y1);
+			dy0 = y0 / (double)PANGO_SCALE;
+			dy1 = y1 / (double)PANGO_SCALE;
+
+			if (dy1 > (height - 4)/scale_v)
+				cairo_translate (cr, 0, (height - 4)/scale_v - dy1);
+
+			cairo_new_path (cr);
+			cairo_rectangle (cr, -4/scale_h, dy0, 
+					 width/scale_h, dy1 - dy0);
+			cairo_set_source_rgb(cr, 0.8, 0.8, 0.8);
+			cairo_fill (cr);
+       		}
+		pango_layout_iter_free (pliter);
+		cairo_set_source_rgb(cr, 0, 0, 0);
+		pango_cairo_show_layout (cr, layout);
+		g_object_unref (layout);
+		g_object_unref (style);
+		
+		
+		g_string_free (str, TRUE);
+	}
+
+	cairo_new_path (cr);
+	cairo_restore (cr);	
+}
+
+static void
 sheet_widget_list_class_init (SheetObjectWidgetClass *sow_class)
 {
+	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (sow_class);
+
+	so_class->draw_cairo = &sheet_widget_list_draw_cairo;
         sow_class->create_widget = &sheet_widget_list_create_widget;
 }
 
@@ -3744,53 +3867,6 @@ GSF_CLASS (SheetWidgetCombo, sheet_widget_combo,
 	   SHEET_WIDGET_LIST_BASE_TYPE)
 
 
-/**************************************************************************/
-
-static void
-sheet_widget_draw_cairo (SheetObject const *so, cairo_t *cr,
-			 double width, double height)
-{
-#ifdef HAVE_GTK_ENTRY_GET_BUFFER
-/* In gtk 2.14 or later gtk_widget_get_snapshot is available */
-/* Since we have only tested this for 2.18 or later, we are  */
-/* checking for gtk_entry_get_buffer that became available   */
-/* with 2.18                                                 */
-
-	SheetObjectWidget *sow = SHEET_OBJECT_WIDGET (so);
-
-	if ((sow->so.realized_list != NULL) && 
-	    (sow->so.realized_list->data != NULL)) {
-		SheetObjectView *view = sow->so.realized_list->data;
-		GocWidget *item = get_goc_widget (view);
-		GtkWidget *w = GTK_WIDGET (item->widget);
-		GdkPixmap *ss = gtk_widget_get_snapshot (w, NULL);
-		double hscale, vscale;
-		GtkAllocation allocation;
-
-		gtk_widget_get_allocation (w, &allocation);
-		hscale = width / (allocation.width - 1.);
-		vscale = height / (allocation.height - 1.);
-
-		cairo_save (cr);
-		cairo_scale (cr, hscale, vscale);
-		gdk_cairo_set_source_pixmap (cr, ss, -0.5, -0.5);
-                /* We probably need to scale the drawing slightly! */
-		cairo_new_path (cr);
-		cairo_move_to (cr, 0., 0.);
-		cairo_line_to (cr, width/hscale, 0.);
-		cairo_line_to (cr, width/hscale, height/vscale);
-		cairo_line_to (cr, 0., height/vscale);
-		cairo_line_to (cr, 0., 0.);
-		cairo_close_path (cr);
-		cairo_fill (cr);
-		cairo_restore (cr);
-		g_object_unref(G_OBJECT (ss));
-		return;
-	}
-#endif
-	g_warning ("Failed to draw sheet object widget of type %s",
-		   g_type_name_from_instance ((gpointer)sow));
-}
 
 
 
