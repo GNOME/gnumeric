@@ -48,6 +48,7 @@
 #include "gutils.h"
 #include "graph.h"
 #include "sheet-object-graph.h"
+#include "sheet-object-cell-comment.h"
 #include "gnm-sheet-slicer.h"
 
 #include <goffice/goffice.h>
@@ -124,6 +125,7 @@ typedef struct {
 
 	GArray		*sst;
 	PangoAttrList	*rich_attrs;
+	PangoAttrList	*run_attrs;
 
 	GHashTable	*num_fmts;
 	GOFormat	*date_fmt;
@@ -212,6 +214,11 @@ typedef struct {
 		unsigned int	   field_count, record_count;
 		char		  *cache_record_part_id;
 	} pivot;
+
+	/* Comment state */
+	GPtrArray	*authors;
+	GObject		*comment;
+	GString		*comment_text;
 } XLSXReadState;
 typedef struct {
 	GOString	*str;
@@ -2461,7 +2468,7 @@ elem_color (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	int indx;
-	GOColor c;
+	GOColor c = GO_COLOR_BLACK;
 	gnm_float tint = 0.;
 	gboolean has_color = FALSE;
 
@@ -4262,12 +4269,272 @@ xlsx_wb_external_ref (GsfXMLIn *xin, xmlChar const **attrs)
 /**************************************************************************************************/
 
 static void
+xlsx_run_weight (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "val")) {
+			PangoAttribute *attr = pango_attr_weight_new (strcmp (attrs[1], "true")? PANGO_WEIGHT_NORMAL: PANGO_WEIGHT_BOLD);
+			if (state->run_attrs == NULL)
+				state->run_attrs = pango_attr_list_new ();
+			pango_attr_list_insert (state->run_attrs, attr);
+			
+		}
+}
+
+static void
+xlsx_run_style (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "val")) {
+			PangoAttribute *attr = pango_attr_style_new (strcmp (attrs[1], "true")? PANGO_STYLE_NORMAL: PANGO_STYLE_ITALIC);
+			if (state->run_attrs == NULL)
+				state->run_attrs = pango_attr_list_new ();
+			pango_attr_list_insert (state->run_attrs, attr);
+			
+		}
+}
+
+static void
+xlsx_run_family (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "val")) {
+			PangoAttribute *attr = pango_attr_family_new (attrs[1]);
+			if (state->run_attrs == NULL)
+				state->run_attrs = pango_attr_list_new ();
+			pango_attr_list_insert (state->run_attrs, attr);
+			
+		}
+}
+
+static void
+xlsx_run_size (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "val")) {
+			PangoAttribute *attr = pango_attr_size_new (atoi (attrs[1]) * PANGO_SCALE);
+			if (state->run_attrs == NULL)
+				state->run_attrs = pango_attr_list_new ();
+			pango_attr_list_insert (state->run_attrs, attr);
+			
+		}
+}
+
+static void
+xlsx_run_strikethrough (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "val")) {
+			PangoAttribute *attr = pango_attr_strikethrough_new (!strcmp (attrs[1], "true"));
+			if (state->run_attrs == NULL)
+				state->run_attrs = pango_attr_list_new ();
+			pango_attr_list_insert (state->run_attrs, attr);
+			
+		}
+}
+
+static void
+xlsx_run_underline (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "val")) {
+			PangoAttribute *attr;
+			if (!strcmp (attrs[1], "single"))
+			    attr = pango_attr_underline_new (PANGO_UNDERLINE_SINGLE);
+			else if (!strcmp (attrs[1], "singleAccounting"))
+			    attr = pango_attr_underline_new (PANGO_UNDERLINE_LOW);
+			else if (!strcmp (attrs[1], "double") || !strcmp (attrs[1], "doubleAccounting"))
+			    attr = pango_attr_underline_new (PANGO_UNDERLINE_DOUBLE);
+			else
+			    attr = pango_attr_underline_new (PANGO_UNDERLINE_NONE);
+			if (state->run_attrs == NULL)
+				state->run_attrs = pango_attr_list_new ();
+			pango_attr_list_insert (state->run_attrs, attr);
+			
+		}
+}
+
+static void
+xlsx_run_color (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "rgb")) {
+			PangoAttribute *attr;
+			unsigned a, r = 0, g = 0, b = 0;
+			if (4 != sscanf (attrs[1], "%02x%02x%02x%02x", &a, &r, &g, &b)) {
+				xlsx_warning (xin,
+					_("Invalid color '%s' for attribute rgb"),
+					attrs[1]);
+			}
+			attr = pango_attr_foreground_new (r, g, b);
+			if (state->run_attrs == NULL)
+				state->run_attrs = pango_attr_list_new ();
+			pango_attr_list_insert (state->run_attrs, attr);
+			
+		}
+}
+
+static void
+xlsx_comments_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	state->authors = g_ptr_array_new_with_free_func ((GDestroyNotify) g_free);
+}
+
+static void
+xlsx_comments_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	g_ptr_array_unref (state->authors);
+	state->authors = NULL;
+}
+
+static void
+xlsx_comment_author_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	int i = strlen (xin->content->str);
+	char *name = xin->content->str;
+	/* remove any trailing white space */
+	/* not sure this is correct, we might be careful about encoding */
+	while (i > 0 && g_ascii_isspace (name[i-1]))
+		i--;
+	name = g_new (char, i + 1);
+	memcpy (name, xin->content->str, i);
+	name[i] = 0;
+	g_ptr_array_add (state->authors, name);
+}
+
+static void
+xlsx_comment_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	SheetObject *so;
+	GnmRange anchor_r;
+	SheetObjectAnchor	anchor;
+
+	state->comment = g_object_new (cell_comment_get_type (), NULL);
+	so = SHEET_OBJECT (state->comment);
+	anchor_r = sheet_object_get_anchor (so)->cell_bound;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "ref"))
+			range_parse (&anchor_r, attrs[1], gnm_sheet_get_size (state->sheet));
+		else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "authorId")) {
+			unsigned id = atoi (attrs[1]);
+			char const *name;
+			if (id < state->authors->len) {
+				name = g_ptr_array_index (state->authors, id);
+				if (*name) /* do not set an empty name */
+					g_object_set (state->comment, "author", name, NULL);
+			}
+		}
+
+	sheet_object_anchor_init (&anchor, &anchor_r, NULL, GOD_ANCHOR_DIR_UNKNOWN);
+	sheet_object_set_anchor (so, &anchor);
+	state->comment_text = g_string_new ("");
+}
+
+static void
+xlsx_comment_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	char *text = g_string_free (state->comment_text, FALSE);
+	state->comment_text = NULL;
+	g_object_set (state->comment, "text", text, NULL);
+	g_free (text);
+	if (state->rich_attrs) {
+		g_object_set (state->comment, "markup", state->rich_attrs, NULL);
+		pango_attr_list_unref (state->rich_attrs);
+		state->rich_attrs = NULL;
+	}
+	sheet_object_set_sheet (SHEET_OBJECT (state->comment), state->sheet);
+	state->comment = NULL;
+	
+}
+
+static void
+xlsx_comment_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	g_string_append (state->comment_text, xin->content->str);
+}
+
+static void
+xlsx_comment_rich_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	if (state->run_attrs) {
+		unsigned start, end;
+		start = state->comment_text->len;
+		end = start + strlen (xin->content->str);
+		if (state->rich_attrs == NULL)
+			state->rich_attrs = pango_attr_list_new ();
+		pango_attr_list_splice (state->rich_attrs, state->run_attrs, start, end);
+		pango_attr_list_unref (state->run_attrs);
+		state->run_attrs = NULL;
+	}
+	g_string_append (state->comment_text, xin->content->str);
+}
+
+static GsfXMLInNode const xlsx_comments_dtd[] = {
+GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
+GSF_XML_IN_NODE_FULL (START, COMMENTS, XL_NS_SS, "comments", GSF_XML_NO_CONTENT, TRUE, TRUE, xlsx_comments_start, xlsx_comments_end, 0),
+  GSF_XML_IN_NODE (COMMENTS, AUTHORS, XL_NS_SS, "authors", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (AUTHORS, AUTHOR, XL_NS_SS, "author", GSF_XML_CONTENT, NULL, xlsx_comment_author_end),
+  GSF_XML_IN_NODE (COMMENTS, COMMENTLIST, XL_NS_SS, "commentList", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (COMMENTLIST, COMMENT, XL_NS_SS, "comment", GSF_XML_NO_CONTENT, xlsx_comment_start, xlsx_comment_end),
+      GSF_XML_IN_NODE (COMMENT, TEXTITEM, XL_NS_SS, "text", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (TEXTITEM, TEXT, XL_NS_SS, "t", GSF_XML_CONTENT, NULL, xlsx_comment_text),
+        GSF_XML_IN_NODE (TEXTITEM, RICH, XL_NS_SS, "r", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (RICH, RICH_TEXT, XL_NS_SS, "t", GSF_XML_CONTENT, NULL, xlsx_comment_rich_text),
+          GSF_XML_IN_NODE (RICH, RICH_PROPS, XL_NS_SS, "rPr", GSF_XML_NO_CONTENT, NULL, NULL),
+#if 0
+	GSF_XML_IN_NODE (RICH_PROPS, RICH_FONT, XL_NS_SS, "font", GSF_XML_NO_CONTENT, NULL, NULL),
+	/* docs say 'font' xl is generating rFont */
+#endif
+    	  GSF_XML_IN_NODE (RICH_PROPS, RICH_FONT, XL_NS_SS, "rFont", GSF_XML_NO_CONTENT, NULL, NULL),
+/* Are all these really used by excel? */
+	    GSF_XML_IN_NODE (RICH_PROPS, RICH_CHARSET, XL_NS_SS, "charset", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (RICH_PROPS, RICH_FAMILY, XL_NS_SS, "family", GSF_XML_NO_CONTENT, xlsx_run_family, NULL),
+	    GSF_XML_IN_NODE (RICH_PROPS, RICH_BOLD, XL_NS_SS, "b", GSF_XML_NO_CONTENT, xlsx_run_weight, NULL),
+	    GSF_XML_IN_NODE (RICH_PROPS, RICH_ITALIC, XL_NS_SS, "i", GSF_XML_NO_CONTENT, xlsx_run_style, NULL),
+	    GSF_XML_IN_NODE (RICH_PROPS, RICH_STRIKE, XL_NS_SS, "strike", GSF_XML_NO_CONTENT, xlsx_run_strikethrough, NULL),
+	    GSF_XML_IN_NODE (RICH_PROPS, RICH_OUTLINE, XL_NS_SS, "outline", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (RICH_PROPS, RICH_SHADOW, XL_NS_SS, "shadow", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (RICH_PROPS, RICH_CONDENSE, XL_NS_SS, "condense", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (RICH_PROPS, RICH_EXTEND, XL_NS_SS, "extend", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (RICH_PROPS, RICH_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, xlsx_run_color, NULL),
+	    GSF_XML_IN_NODE (RICH_PROPS, RICH_SZ, XL_NS_SS, "sz", GSF_XML_NO_CONTENT, xlsx_run_size, NULL),
+	    GSF_XML_IN_NODE (RICH_PROPS, RICH_ULINE, XL_NS_SS, "u", GSF_XML_NO_CONTENT, xlsx_run_underline, NULL),
+	    GSF_XML_IN_NODE (RICH_PROPS, RICH_VALIGN, XL_NS_SS, "vertAlign", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (RICH_PROPS, RICH_SCHEME, XL_NS_SS, "scheme", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (RICH, RICH_PROPS, XL_NS_SS, "rPr", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (TEXTITEM, ITEM_PHONETIC_RUN, XL_NS_SS, "rPh", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (ITEM_PHONETIC_RUN, PHONETIC_TEXT, XL_NS_SS, "t", GSF_XML_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (TEXTITEM, ITEM_PHONETIC, XL_NS_SS, "phoneticPr", GSF_XML_NO_CONTENT, NULL, NULL),
+	
+GSF_XML_IN_NODE_END
+};
+
+/**************************************************************************************************/
+
+static void
 xlsx_wb_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int i, n = workbook_sheet_count (state->wb);
 	char const *part_id;
 	GnmStyle *style;
+	GsfInput *sin, *cin;
+	GError *err = NULL;
 
 	/* Load sheets after setting up the workbooks to give us time to create
 	 * all of them and parse names */
@@ -4288,7 +4555,21 @@ xlsx_wb_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			sheet_style_set_range (state->sheet, &r, style);
 		}
 
-		xlsx_parse_rel_by_id (xin, part_id, xlsx_sheet_dtd, xlsx_ns);
+		sin = gsf_open_pkg_open_rel_by_id (gsf_xml_in_get_input (xin), part_id, &err);
+		if (NULL != err) {
+			XLSXReadState *state = (XLSXReadState *)xin->user_state;
+			go_io_warning (state->context, "%s", err->message);
+			g_error_free (err);
+			err = NULL;
+			continue;
+		}
+		/* load comments */
+		
+		cin = gsf_open_pkg_open_rel_by_type (sin,
+			"http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments", NULL);
+		xlsx_parse_stream (state, sin, xlsx_sheet_dtd);
+		if (cin != NULL)
+			xlsx_parse_stream (state, cin, xlsx_comments_dtd);
 
 		/* Flag a respan here in case nothing else does */
 		sheet_flag_recompute_spans (state->sheet);
@@ -5169,6 +5450,8 @@ xlsx_file_open (GOFileOpener const *fo, GOIOContext *context,
 	state.wb_view	= wb_view;
 	state.wb	= wb_view_get_workbook (wb_view);
 	state.sheet	= NULL;
+	state.run_attrs	= NULL;
+	state.rich_attrs = NULL;
 	state.sst = g_array_new (FALSE, TRUE, sizeof (XLSXStr));
 	state.shared_exprs = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify)g_free, (GDestroyNotify) gnm_expr_top_unref);

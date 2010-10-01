@@ -46,6 +46,7 @@
 #include "print-info.h"
 #include "gutils.h"
 #include "sheet-object.h"
+#include "sheet-object-cell-comment.h"
 #include "sheet-object-graph.h"
 #include "graph.h"
 
@@ -71,6 +72,7 @@ static char const *ns_rel	 = "http://schemas.openxmlformats.org/officeDocument/2
 static char const *ns_rel_hlink	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink";
 static char const *ns_rel_draw	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing";
 static char const *ns_rel_chart	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart";
+static char const *ns_rel_com	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments";
 
 typedef struct {
 	XLExportBase base;
@@ -86,6 +88,7 @@ typedef struct {
 		unsigned int	count;
 		GsfOutfile	*dir;
 	} chart, drawing, pivotCache, pivotTable;
+	unsigned comment;
 	GOFormat *date_fmt;
 } XLSXWriteState;
 
@@ -1242,6 +1245,145 @@ xlsx_write_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList *object
 	return rId;
 }
 
+static void
+xlsx_write_rich_text (GsfXMLOut *xml, char const *text, PangoAttrList *attrs)
+{
+	PangoAttrIterator *iter =  pango_attr_list_get_iterator (attrs);
+	PangoAttribute *attr;
+	int start, end, max = strlen (text);
+	char *buf;
+	do {
+		gsf_xml_out_start_element (xml, "r");
+		gsf_xml_out_start_element (xml, "rPr");
+		gsf_xml_out_start_element (xml, "rFont");
+		attr = pango_attr_iterator_get (iter, PANGO_ATTR_FAMILY);
+		gsf_xml_out_add_cstr_unchecked (xml, "val", (attr)? ((PangoAttrString *) attr)->value: "Calibri");
+		gsf_xml_out_end_element (xml); /* </rFont> */
+		gsf_xml_out_start_element (xml, "b");
+		attr = pango_attr_iterator_get (iter, PANGO_ATTR_WEIGHT);
+		gsf_xml_out_add_cstr_unchecked (xml, "val", (attr && ((PangoAttrInt *) attr)->value > PANGO_WEIGHT_NORMAL)? "true": "false");
+		gsf_xml_out_end_element (xml); /* </b> */
+		gsf_xml_out_start_element (xml, "i");
+		attr = pango_attr_iterator_get (iter, PANGO_ATTR_STYLE);
+		gsf_xml_out_add_cstr_unchecked (xml, "val", (attr && ((PangoAttrInt *) attr)->value != PANGO_STYLE_NORMAL)? "true": "false");
+		gsf_xml_out_end_element (xml); /* </i> */
+		gsf_xml_out_start_element (xml, "strike");
+		attr = pango_attr_iterator_get (iter, PANGO_ATTR_STRIKETHROUGH);
+		gsf_xml_out_add_cstr_unchecked (xml, "val", (attr && ((PangoAttrInt *) attr)->value)? "true": "false");
+		gsf_xml_out_end_element (xml); /* </strike> */
+		gsf_xml_out_start_element (xml, "color");
+		attr = pango_attr_iterator_get (iter, PANGO_ATTR_FOREGROUND);
+		if (attr) {
+			PangoColor *color = &((PangoAttrColor *) attr)->color;
+			g_strdup_printf("FF%2x%2x%2x", color->red >> 8, color->green >> 8, color->blue >> 8);
+			gsf_xml_out_add_cstr_unchecked (xml, "rgb", buf);
+			g_free (buf);
+		} else
+			gsf_xml_out_add_cstr_unchecked (xml, "rgb", "FF000000");
+		gsf_xml_out_end_element (xml); /* </color> */
+		gsf_xml_out_start_element (xml, "sz");
+		attr = pango_attr_iterator_get (iter, PANGO_ATTR_SIZE);
+		gsf_xml_out_add_uint (xml, "val", (attr)? ((PangoAttrInt *) attr)->value / PANGO_SCALE: 8);
+		gsf_xml_out_end_element (xml); /* </sz> */
+		gsf_xml_out_start_element (xml, "u");
+		attr = pango_attr_iterator_get (iter, PANGO_ATTR_UNDERLINE);
+		if (attr) {
+			PangoUnderline u = ((PangoAttrInt *) attr)->value;
+			switch (u) {
+			case PANGO_UNDERLINE_NONE:
+			default:
+				gsf_xml_out_add_cstr_unchecked (xml, "val", "none");
+				break;
+			case PANGO_UNDERLINE_ERROR: /* not supported by OpenXML */
+			case PANGO_UNDERLINE_SINGLE:
+				gsf_xml_out_add_cstr_unchecked (xml, "val", "single");
+			case PANGO_UNDERLINE_DOUBLE:
+				gsf_xml_out_add_cstr_unchecked (xml, "val", "double");
+			case PANGO_UNDERLINE_LOW:
+				gsf_xml_out_add_cstr_unchecked (xml, "val", "singleAccounting");
+			}
+		} else
+			gsf_xml_out_add_cstr_unchecked (xml, "val", "none");
+		gsf_xml_out_end_element (xml); /* </u> */
+		gsf_xml_out_end_element (xml); /* </rPr> */
+		gsf_xml_out_start_element (xml, "t");
+		gsf_xml_out_add_cstr_unchecked (xml, "xml:space", "preserve");
+		pango_attr_iterator_range (iter, &start, &end);
+		if (end > max)
+		    end = max;
+		buf = g_strndup (text + start, end - start);
+		gsf_xml_out_add_cstr_unchecked (xml, NULL, buf);
+		g_free (buf);
+		gsf_xml_out_end_element (xml); /* </t> */
+		gsf_xml_out_end_element (xml); /* </r> */
+	} while (pango_attr_iterator_next (iter));
+	pango_attr_iterator_destroy (iter);
+}
+
+static void
+write_comment_author (gpointer key, G_GNUC_UNUSED gpointer value, GsfXMLOut *xml)
+{
+	gsf_xml_out_start_element (xml, "author");
+	gsf_xml_out_add_cstr_unchecked (xml, NULL, (char const *) key);
+	gsf_xml_out_end_element (xml);
+}
+
+static void
+xlsx_write_comments (XLSXWriteState *state, GsfOutput *sheet_part, GSList *objects)
+{
+	GsfXMLOut *xml;
+	GHashTable *authors;
+	unsigned author = 0;
+	char const *authorname;
+	GSList *ptr;
+	SheetObjectAnchor const *anchor;
+	PangoAttrList *attrs;
+	char *name = g_strdup_printf ("comments%u.xml", ++state->comment);
+	GsfOutput *comments_part = gsf_outfile_new_child_full (state->xl_dir, name, FALSE,
+		"content-type", "application/vnd.openxmlformats-officedocument.spreadsheetml.comments+xml",
+		NULL);
+	g_free (name);
+	gsf_outfile_open_pkg_relate (GSF_OUTFILE_OPEN_PKG (comments_part),
+		GSF_OUTFILE_OPEN_PKG (sheet_part), ns_rel_com);
+	xml = gsf_xml_out_new (comments_part);
+	gsf_xml_out_start_element (xml, "comments");
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns", ns_ss);
+	/* search for comments authors */
+	authors = g_hash_table_new (g_str_hash, g_str_equal);
+	for (ptr = objects; ptr; ptr = ptr->next) {
+		authorname = cell_comment_author_get (CELL_COMMENT (ptr->data));
+		if (!g_hash_table_lookup_extended (authors, authorname, NULL, NULL))
+			g_hash_table_insert (authors, (gpointer) authorname, GUINT_TO_POINTER (author++));
+	}
+	/* save authors */
+	gsf_xml_out_start_element (xml, "authors");
+	g_hash_table_foreach (authors, (GHFunc) write_comment_author, xml);
+	gsf_xml_out_end_element (xml); /* </authors> */
+	/* save comments */
+	gsf_xml_out_start_element (xml, "commentList");
+	for (ptr = objects; ptr; ptr = ptr->next) {
+		gsf_xml_out_start_element (xml, "comment");
+		anchor = sheet_object_get_anchor (ptr->data);
+		gsf_xml_out_add_cstr_unchecked (xml, "ref", range_as_string (&anchor->cell_bound));
+		gsf_xml_out_add_uint (xml, "authorId", GPOINTER_TO_UINT (g_hash_table_lookup (authors, cell_comment_author_get (CELL_COMMENT (ptr->data)))));
+		gsf_xml_out_start_element (xml, "text");
+		/* Save text as rich text */
+		g_object_get (ptr->data, "text", &name, "markup", &attrs, NULL);
+		if (name && *name)
+			xlsx_write_rich_text (xml, name, attrs);
+		g_free (name);
+		pango_attr_list_unref (attrs);
+		gsf_xml_out_end_element (xml); /* </text> */
+		gsf_xml_out_end_element (xml); /* </comment> */
+	}
+	gsf_xml_out_end_element (xml); /* </commentList> */
+	g_hash_table_destroy (authors);
+	gsf_xml_out_end_element (xml); /* </comments> */
+	g_object_unref (xml);
+	gsf_output_close (comments_part);
+	g_object_unref (comments_part);
+}
+
 static char const *
 xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, unsigned i)
 {
@@ -1265,6 +1407,14 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 		MIN (XLSX_MAX_COLS, gnm_sheet_get_max_cols (state->sheet)),
 		MIN (XLSX_MAX_ROWS, gnm_sheet_get_max_rows (state->sheet)), state->io_context);
 
+/*   comments   */
+	charts = sheet_objects_get (state->sheet, NULL, CELL_COMMENT_TYPE);
+	if (NULL != charts) {
+		xlsx_write_comments (state, sheet_part, charts);
+		g_slist_free (charts);
+	}
+	                                               
+/*   charts   */
 	charts = sheet_objects_get (state->sheet, NULL, SHEET_OBJECT_GRAPH_TYPE);
 	if (NULL != charts) {
 		chart_drawing_rel_id = xlsx_write_objects (state, sheet_part, charts);
@@ -1357,12 +1507,13 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 /*   element extLst { CT_ExtensionList }?     */
 	gsf_xml_out_end_element (xml); /* </worksheet> */
 
-	state->sheet = NULL;
 	g_object_unref (xml);
 	gsf_output_close (sheet_part);
 	g_object_unref (sheet_part);
 	g_free (name);
 	g_free (col_styles);
+
+	state->sheet = NULL;
 
 	return rId;
 }
@@ -1508,6 +1659,7 @@ xlsx_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 
 	state.io_context	= io_context;
 	state.base.wb		= wb_view_get_workbook (wb_view);
+	state.comment		= 0;
 	root_part = gsf_outfile_open_pkg_new (
 		gsf_outfile_zip_new (output, NULL));
 

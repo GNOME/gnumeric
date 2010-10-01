@@ -1,3 +1,15 @@
+2010-10-01  Jean Brefort  <jean.brefort@normalesup.org>
+	* xlsx-read.c (elem_color), (xlsx_run_weight), (xlsx_run_style),
+	(xlsx_run_family), (xlsx_run_size), (xlsx_run_strikethrough),
+	(xlsx_run_underline), (xlsx_run_color), (xlsx_comments_start),
+	(xlsx_comments_end), (xlsx_comment_author_end),
+	(xlsx_comment_start), (xlsx_comment_end), (xlsx_comment_text),
+	(xlsx_comment_rich_text), (xlsx_wb_end), (xlsx_file_open): read cell
+	comments. [#630627]
+	* xlsx-write.c (xlsx_write_rich_text), (write_comment_author),
+	(xlsx_write_comments), (xlsx_write_sheet), (xlsx_file_save): write cell
+	comments.
+
 2010-09-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c (tick), (chart_write_axis): export/import tick label rotation
