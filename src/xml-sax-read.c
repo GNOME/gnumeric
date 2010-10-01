@@ -2325,12 +2325,15 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 			anchor_offset = f_tmp;
 		else if (gnm_xml_attr_int (attrs+i, "Direction", &tmp_int))
 			anchor_dir = tmp_int;
+		else if (gnm_xml_attr_int (attrs+i, "Print", &tmp_int)) {
+			gboolean b = (tmp_int != 0);
+			sheet_object_set_print_flag (so, &b);
+		}
 #if 0
 		/* Deprecated in 1.7.7 */
-		else if (attr_eq (attrs[i], "ObjectAnchorType"))
+		else if (attr_eq (attrs[i], "ObjectAnchorType")) {
+		}
 		/* There may be extra attributes that are handled by the objects */
-		else
-			unknown_attr (xin, attrs+i);
 #endif
 	}
 

@@ -63,6 +63,16 @@ static GObjectClass *parent_klass;
 static GQuark	sov_so_quark;
 static GQuark	sov_container_quark;
 
+void          
+sheet_object_set_print_flag (SheetObject *so, gboolean *print)
+{
+	if (*print)
+		so->flags = (so->flags | SHEET_OBJECT_PRINT);
+	else
+		so->flags = (so->flags & ~SHEET_OBJECT_PRINT);
+}
+
+
 static void
 cb_so_size_position (SheetObject *so, SheetControl *sc)
 {

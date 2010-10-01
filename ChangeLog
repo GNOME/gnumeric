@@ -1,3 +1,14 @@
+2010-10-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* sheet-object-widget.c (sheet_widget_button_init_full: disable 
+	  printing by default
+	(sheet_widget_adjustment_init_full): ditto
+	(sheet_widget_list_base_init): ditto
+	* sheet-object.c (sheet_object_set_print_flag): new
+	* sheet-object.h (sheet_object_set_print_flag): new
+	* xml-sax-read.c (xml_sax_read_obj): read print flag
+	* xml-sax-write.c (xml_write_objects): write print flag
+
 2010-09-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-object-widget.c (sheet_widget_draw_cairo): warn always

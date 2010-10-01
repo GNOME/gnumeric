@@ -1,3 +1,14 @@
+2010-10-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* sheetobject-size.glade: add "Do not print" checkbox
+	* dialog-sheetobject-size.c (dialog_so_size_button_sensitivity):
+	  handle do-not-print
+	(cb_dialog_so_size_apply_clicked): ditto
+	(cb_dialog_so_size_ok_clicked): ditto
+	(cb_dialog_so_size_print_check_toggled): new
+	(set_print_flag): new
+	(dialog_so_size): connect do-not-print checkbox
+
 2010-09-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-sheet-order.c (cb_color_changed_fore): handle multiple 

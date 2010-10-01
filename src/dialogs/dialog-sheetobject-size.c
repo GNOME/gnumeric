@@ -39,6 +39,7 @@
 #include <application.h>
 #include <workbook-cmd-format.h>
 #include <sheet-object-widget.h>
+#include <sheet-object-impl.h>
 #include <sheet-control-gui.h>
 
 #include <glade/glade.h>
@@ -65,6 +66,7 @@ typedef struct {
 	GtkWidget          *ypoints;
 	GtkSpinButton      *yspin;
 	GtkEntry           *nameentry;
+	GtkWidget          *print_check;
 
 	SheetObject        *so;
 	SheetObjectAnchor  *old_anchor;
@@ -74,6 +76,7 @@ typedef struct {
 	gboolean            so_size_needs_restore;
 	gboolean            so_pos_needs_restore;
 	gboolean            so_name_changed;
+	gboolean            so_print_check_changed;
 } SOSizeState;
 
 static void
@@ -92,7 +95,8 @@ dialog_so_size_button_sensitivity (SOSizeState *state)
 {
 	gboolean sensitive = state->so_size_needs_restore || 
 		state->so_pos_needs_restore || 
-		state->so_name_changed;
+		state->so_name_changed ||
+		state->so_print_check_changed;
 	gtk_widget_set_sensitive 
 		(state->ok_button, sensitive);
 	gtk_widget_set_sensitive 
@@ -192,11 +196,26 @@ set_params (SheetObject *so, char *name)
 		 g_object_unref, g_free);
 }
 
+static GOUndo *
+set_print_flag (SheetObject *so, gboolean print)
+{
+	gboolean *p_print = g_new (gboolean, 1);
+
+	*p_print = print;
+	return go_undo_binary_new
+		(g_object_ref (G_OBJECT (so)), p_print,
+		 (GOUndoBinaryFunc)sheet_object_set_print_flag,
+		 g_object_unref, g_free);
+}
+
 static void
 cb_dialog_so_size_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 				   SOSizeState *state)
 {
 	char const *name;
+	GOUndo *undo = NULL, *redo = NULL;
+	char const *undo_name = NULL;
+	int cnt = 0;
 
 	if (state->so_size_needs_restore || state->so_pos_needs_restore) {
 		char const *label = state->so_pos_needs_restore ?
@@ -215,21 +234,34 @@ cb_dialog_so_size_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 	if (name == NULL)
 		name = "";
 	if (strcmp (name, state->old_name) != 0) {
-		GOUndo *undo, *redo;
 		char *old_name, *new_name;
 
 		g_object_get (G_OBJECT (state->so), "name", &old_name, NULL);
-		undo = set_params (state->so, old_name);
+		undo = go_undo_combine (undo, set_params (state->so, old_name));
 
 		new_name = (*name == '\0') ? NULL : g_strdup (name);
-		redo = set_params (state->so, new_name);
+		redo = go_undo_combine (redo, set_params (state->so, new_name));
 
-		state->so_name_changed 
-			= cmd_generic (WORKBOOK_CONTROL (state->wbcg),
-				       _("Set Object Name"),
-				       undo, redo);
+		undo_name = _("Set Object Name");
+		cnt++;
+	}
+	if (state->so_print_check_changed) {
+		gboolean val = ((state->so->flags & SHEET_OBJECT_PRINT) != 0);
+		undo = go_undo_combine (undo, set_print_flag 
+					(state->so,  val));
+		redo = go_undo_combine (redo, set_print_flag 
+					(state->so, !val));
+		undo_name =  _("Set Object Print Property");
+		cnt++;
 	}
 
+	if (cnt > 0) {
+		if (cnt > 1)
+			undo_name =  _("Set Object Properties");
+		state->so_name_changed = state->so_print_check_changed =
+			cmd_generic (WORKBOOK_CONTROL (state->wbcg),
+				     undo_name, undo, redo);
+	}
 	dialog_so_size_button_sensitivity (state);
 
 	return;
@@ -240,7 +272,7 @@ cb_dialog_so_size_ok_clicked (GtkWidget *button, SOSizeState *state)
 {
 	cb_dialog_so_size_apply_clicked (button, state);
 	if (!state->so_size_needs_restore && !state->so_pos_needs_restore &&
-	    !state->so_name_changed)
+	    !state->so_name_changed && !state->so_print_check_changed)
 		gtk_widget_destroy (state->dialog);
 	return;
 }
@@ -259,6 +291,18 @@ cb_dialog_so_size_name_changed (GtkEntry *entry,
 	return FALSE;
 }
 
+static void
+cb_dialog_so_size_print_check_toggled (GtkToggleButton *togglebutton,
+				       SOSizeState *state)
+{
+	gboolean new_print = !gtk_toggle_button_get_active (togglebutton);
+	gboolean old_print = ((state->so->flags & SHEET_OBJECT_PRINT) != 0);
+
+	state->so_print_check_changed 
+		= (new_print != old_print); 
+	dialog_so_size_button_sensitivity (state);
+	return;	
+}
 
 void
 dialog_so_size (WBCGtk *wbcg, GObject *so)
@@ -299,6 +343,7 @@ dialog_so_size (WBCGtk *wbcg, GObject *so)
 			  "focus-out-event",
 			  G_CALLBACK (cb_dialog_so_size_name_changed),
 			  state);
+	state->so_print_check_changed = FALSE;
 
 	state->wpoints = GTK_WIDGET (glade_xml_get_widget (state->gui, "w-pts-label"));
 	state->wspin  = GTK_SPIN_BUTTON (glade_xml_get_widget (state->gui, "w-spin"));
@@ -308,9 +353,11 @@ dialog_so_size (WBCGtk *wbcg, GObject *so)
 	state->xspin  = GTK_SPIN_BUTTON (glade_xml_get_widget (state->gui, "x-spin"));
 	state->ypoints = GTK_WIDGET (glade_xml_get_widget (state->gui, "y-pts-label"));
 	state->yspin  = GTK_SPIN_BUTTON (glade_xml_get_widget (state->gui, "y-spin"));
-
+	state->print_check = GTK_WIDGET (glade_xml_get_widget (state->gui, 
+							       "print-check"));
 	dialog_so_size_load (state);
-	state->active_anchor = sheet_object_anchor_dup (sheet_object_get_anchor (state->so));
+	state->active_anchor = sheet_object_anchor_dup (sheet_object_get_anchor 
+							(state->so));
 	width = state->coords[2] - state->coords[0];
 	height = state->coords[3] - state->coords[1];
 
@@ -318,6 +365,8 @@ dialog_so_size (WBCGtk *wbcg, GObject *so)
 	gtk_spin_button_set_value (state->hspin, (height < 0) ? - height : height);
 	gtk_spin_button_set_value (state->xspin, 0.);
 	gtk_spin_button_set_value (state->yspin, 0.);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->print_check),
+				      !(state->so->flags & SHEET_OBJECT_PRINT));
 	g_signal_connect (G_OBJECT (state->wspin),
 			  "value-changed",
 			  G_CALLBACK (cb_dialog_so_size_value_changed_update_points),
@@ -334,6 +383,11 @@ dialog_so_size (WBCGtk *wbcg, GObject *so)
 			  "value-changed",
 			  G_CALLBACK (cb_dialog_so_size_value_changed_update_points),
 			  state->ypoints);
+	g_signal_connect (G_OBJECT (state->print_check),
+			  "toggled",
+			  G_CALLBACK (cb_dialog_so_size_print_check_toggled),
+			  state);
+	
 	cb_dialog_so_size_value_changed_update_points (state->wspin, GTK_LABEL (state->wpoints));
 	cb_dialog_so_size_value_changed_update_points (state->hspin, GTK_LABEL (state->hpoints));
 	cb_dialog_so_size_value_changed_update_points (state->xspin, GTK_LABEL (state->xpoints));

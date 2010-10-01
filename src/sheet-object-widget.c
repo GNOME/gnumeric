@@ -742,6 +742,9 @@ sheet_widget_button_init_full (SheetWidgetButton *swb,
 			       char const *text,
 			       PangoAttrList *markup)
 {
+	SheetObject *so = SHEET_OBJECT (swb);
+
+	so->flags &= ~SHEET_OBJECT_PRINT;
 	swb->label = g_strdup (text);
 	swb->markup = markup;
 	swb->value = FALSE;
@@ -1366,7 +1369,11 @@ sheet_widget_adjustment_init_full (SheetWidgetAdjustment *swa,
 				   GnmCellRef const *ref,
 				   gboolean horizontal)
 {
+	SheetObject *so;
 	g_return_if_fail (swa != NULL);
+	
+	so = SHEET_OBJECT (swa);
+	so->flags &= ~SHEET_OBJECT_PRINT;
 
 	swa->adjustment = GTK_ADJUSTMENT (gtk_adjustment_new (0., 0., 100., 1., 10., 0.));
 	g_object_ref_sink (swa->adjustment);
@@ -3370,6 +3377,9 @@ static void
 sheet_widget_list_base_init (SheetObjectWidget *sow)
 {
 	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (sow);
+	SheetObject *so = SHEET_OBJECT (sow);
+
+	so->flags &= ~SHEET_OBJECT_PRINT;
 
 	swl->content_dep.sheet = NULL;
 	swl->content_dep.flags = list_content_get_dep_type ();
