@@ -11,7 +11,7 @@ Andreas:
 	* Set ODF files to save by default as ODF files. [#629962]
 	* Fix ssconvert crash on form controls. [#630335]
 	* Improve printing of the form controls.
-	* Permit choice whether to print sheet objejcts.
+	* Permit choice whether to print sheet objects.
 
 Jean:
 	* Export/import tick label rotation angle. [#629675]
