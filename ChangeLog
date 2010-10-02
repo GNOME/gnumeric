@@ -1,3 +1,7 @@
+2010-10-01  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.11
+
 2010-10-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* sheet-object-widget.c (sheet_widget_button_init_full: disable 
