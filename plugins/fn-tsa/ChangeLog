@@ -1,3 +1,9 @@
+2010-10-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_fourier): add description of new argumen
+	(gnumeric_fourier): handle new argument
+	(TimeSeriesAnalysis_functions): add new argument to FOURIER
+
 2010-10-01  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.11

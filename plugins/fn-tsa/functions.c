@@ -797,8 +797,10 @@ static GnmFuncHelp const help_fourier[] = {
 	{ GNM_FUNC_HELP_NAME, F_("FOURIER:Fourier or inverse Fourier transform") },
 	{ GNM_FUNC_HELP_ARG, F_("Sequence:the data sequence to be transformed") },
 	{ GNM_FUNC_HELP_ARG, F_("Inverse:if true, the inverse Fourier transform is calculated, defaults to false") },
+	{ GNM_FUNC_HELP_ARG, F_("Separate:if true, the real and imaginary parts are given separately, defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This array function returns the Fourier or inverse Fourier transform of the given data sequence.") },
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("The output consists always of one column of complex numbers.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The output consists of one column of complex numbers if @{Separate} is false and of two columns of real numbers if @{Separate} is true.") },
+{ GNM_FUNC_HELP_DESCRIPTION, F_("If @{Separate} is true the first output column contains the real parts and the second column the imaginary parts.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns #NUM!") },
 	{ GNM_FUNC_HELP_END }
 };
@@ -808,6 +810,7 @@ gnumeric_fourier (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float *ord;
 	gboolean inverse = FALSE;
+	gboolean sep_columns = FALSE;
 	int n0, nb;
 	GnmValue *error = NULL;
 	GnmValue *res;
@@ -844,6 +847,10 @@ gnumeric_fourier (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	if (argv[1]) {
 		inverse = 0 != (int) gnm_floor (value_get_as_float (argv[1]));
+		if (argv[2]) {
+			sep_columns = (0 != (int) 
+				       gnm_floor (value_get_as_float (argv[2])));
+		}
 	}
 
 	if (missing0) {
@@ -863,12 +870,19 @@ gnumeric_fourier (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_fourier_fft (in, nb, 1, &out, inverse);
 	g_free (in);
 
-	if (out) {
+	if (out && !sep_columns) {
 		res = value_new_array_empty (1 , nb);
 		sprintf (f, "%%.%d" GNM_FORMAT_g, GNM_DIG);
 		for (i = 0; i < nb; i++)
 			res->v_array.vals[0][i] = value_new_string_nocopy
 				(complex_to_string (&(out[i]), f, f, 'i'));
+		g_free (out);
+	} else if (out && sep_columns) {
+		res = value_new_array_empty (2 , nb);
+		for (i = 0; i < nb; i++) {
+			res->v_array.vals[0][i] = value_new_float (out[i].re);
+			res->v_array.vals[1][i] = value_new_float (out[i].im);
+		}		
 		g_free (out);
 	} else
 		res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
@@ -887,7 +901,7 @@ const GnmFuncDescriptor TimeSeriesAnalysis_functions[] = {
 	  help_periodogram, gnumeric_periodogram, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-	{ "fourier",       "A|b",
+	{ "fourier",       "A|bb",
 	  help_fourier, gnumeric_fourier, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
