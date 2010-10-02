@@ -48,6 +48,13 @@
 }
 
 {
+   Leak/g_type_register_dynamic
+   Memcheck:Leak
+   ...
+   fun:g_type_register_dynamic
+}
+
+{
    Leak/g_type_init_with_debug_flags
    Memcheck:Leak
    ...
@@ -111,4 +118,11 @@
    Memcheck:Leak
    ...
    fun:FcConfigParseAndLoad
+}
+
+{
+   Leak/type_iface_vtable_base_init_Wm
+   Memcheck:Leak
+   ...
+   fun:type_iface_vtable_base_init_Wm
 }
