@@ -1,3 +1,8 @@
+2010-10-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-tools.c (analysis_tool_fourier_engine_run): use new 
+	  FOURIER argument 
+
 2010-10-01  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.11

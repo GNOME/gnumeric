@@ -4339,16 +4339,9 @@ analysis_tool_fourier_engine_run (data_analysis_output_t *dao,
 	int col = 0;
 
 	GnmFunc *fd_fourier;
-	GnmFunc *fd_imaginary;
-	GnmFunc *fd_imreal;
 
 	fd_fourier = gnm_func_lookup_or_add_placeholder ("FOURIER", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_fourier);
-	fd_imaginary = gnm_func_lookup_or_add_placeholder ("IMAGINARY", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	gnm_func_ref (fd_imaginary);
-	fd_imreal = gnm_func_lookup_or_add_placeholder ("IMREAL", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	gnm_func_ref (fd_imreal);
-
 
 	dao_set_merge (dao, 0, 0, 1, 0);
 	dao_set_italic (dao, 0, 0, 0, 0);
@@ -4372,23 +4365,18 @@ analysis_tool_fourier_engine_run (data_analysis_output_t *dao,
 		while (rows < n)
 			rows *= 2;
 
-		expr_fourier = gnm_expr_new_funcall2
+		expr_fourier = gnm_expr_new_funcall3
 			(fd_fourier,
 			 gnm_expr_new_constant (val_org),
-			 gnm_expr_new_constant (value_new_bool (info->inverse)));
+			 gnm_expr_new_constant (value_new_bool (info->inverse)),
+			 gnm_expr_new_constant (value_new_bool (TRUE)));
 
-		dao_set_array_expr (dao, 0, 3, 1, rows,
-				    gnm_expr_new_funcall1 (fd_imreal,
-							   gnm_expr_copy (expr_fourier)));
-		dao_set_array_expr (dao, 1, 3, 1, rows,
-				    gnm_expr_new_funcall1 (fd_imaginary,
-							   expr_fourier));
+		dao_set_array_expr (dao, 0, 3, 2, rows, expr_fourier);
+
 		dao->offset_col += 2;
 	}
 
 	gnm_func_unref (fd_fourier);
-	gnm_func_unref (fd_imaginary);
-	gnm_func_unref (fd_imreal);
 
 	dao_redraw_respan (dao);
 
