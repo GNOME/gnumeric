@@ -1,5 +1,9 @@
 2010-10-01  Morten Welinder <terra@gnome.org>
 
+	* release-do-bump: Avoid corrupting configure.in
+
+2010-10-01  Morten Welinder <terra@gnome.org>
+
 	* Release 1.10.11
 
 2010-09-25  Morten Welinder  <terra@gnome.org>

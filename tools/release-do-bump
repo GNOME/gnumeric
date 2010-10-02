@@ -33,7 +33,6 @@ my $date = sprintf ("%04d-%02d-%02d", $y, $m, $d);
     foreach (<SRC>) {
 	if (/version_epoch/) {
 	    $seen_epoch = 1;
-	    next;
 	}
 	if ($seen_epoch
 	    ? /^(\s*m4_define\(\[\S*_version_minor\],\s*\[)(\d+)(\]\).*)/
