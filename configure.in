@@ -3,12 +3,10 @@ dnl We require Automake 1.7.2, which requires Autoconf 2.54.
 dnl (It needs _AC_AM_CONFIG_HEADER_HOOK, for example.)
 AC_PREREQ(2.54)
 
-m4_define([gnumeric_version_epoch], [1])
 m4_define([gnumeric_version_major], [10])
-m4_define([gnumeric_version_minor], [11])
+m4_define([gnumeric_version_minor], [12])
 m4_define([gnumeric_version_extra], [])
 m4_define([gnumeric_version_full],
-    [gnumeric_version_epoch.gnumeric_version_major.gnumeric_version_minor[]gnumeric_version_extra])
 
 dnl Emphasize some of the checks.
 m4_define([BIG_CHECKING], [AC_MSG_CHECKING([
@@ -31,7 +29,6 @@ dnl the whole x.*.*.
 dnl The easiest way is to declare no ABI compatibility, ie. AGE is always 0.
 dnl
 m4_define([version_iface],
-        m4_eval(100 * gnumeric_version_epoch + gnumeric_version_major))
 
 AC_SUBST([VERSION_INFO], [version_iface:gnumeric_version_minor:0])
 AC_SUBST([VERSION_IFACE], [version_iface])
@@ -1033,7 +1030,6 @@ AC_SUBST(YYYYMMDD, `date +%Y%m%d`)
 dnl Export to gnumeric-config.h
 AC_DEFINE(GNM_VERSION_FULL, "gnumeric_version_full",
 	[The version number of this release, with optional extra suffix])
-AC_DEFINE(GNM_VERSION_EPOCH, gnumeric_version_epoch,
 	[The Epoch of this release])
 AC_DEFINE(GNM_VERSION_MAJOR, gnumeric_version_major,
 	[The Major version number of this release])
