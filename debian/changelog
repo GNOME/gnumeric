@@ -1,3 +1,17 @@
+gnumeric (1.10.11-1) unstable; urgency=low
+
+  * New upstream stable release. Changes include:
+    * Revised ssconvert man page. (Closes: #569497)
+    * Auto-correction no longer upper-cases after a comma. (Closes: #597494)
+  * Translation updates: 
+    * [debian/po/cs.po] Updated Czech translation courtesy of Miroslav Kure
+      <kurem@debian.cz> (Closes: #598340)
+    * Ensure all recent translation updates are in.
+  * [debian/control]
+    * Bumped libgsf build dependency as per configure.in .
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 02 Oct 2010 10:39:03 +0200
+
 gnumeric (1.10.10-1) unstable; urgency=low
 
   * New upstream stable release.
