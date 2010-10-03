@@ -2899,7 +2899,15 @@ static GnmFuncHelp const help_amordegrc[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_(
 			"AMORDEGRC calculates the depreciation of an asset using French accounting conventions. "
 			"Assets purchased in the middle of a period take prorated depreciation into account. "
-			"This is similar to AMORLINC, except that a depreciation coefficient is applied in the calculation depending on the life of the assets.") },
+			"This is similar to AMORLINC, except that a depreciation coefficient is applied in the "
+			"calculation depending on the life of the assets.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The depreciation coefficient used is:\n"
+					"1.0 for an expected lifetime less than 3 years,\n"
+					"1.5 for an expected lifetime of at least 3 years but less than 5 years,\n"
+					"2.0 for an expected lifetime of at least 5 years but at most 6 years,\n"
+					"2.5 for an expected lifetime of more than 6 years.") },
+	{ GNM_FUNC_HELP_NOTE, F_("Special depreciation rules are applied for the last two periods resulting in a possible total "
+				 "depreciation exceeding the difference of @{cost} - @{salvage}.") },	
 	{ GNM_FUNC_HELP_NOTE, F_("Named for AMORtissement DEGRessif Comptabilite.") },
 	GNM_DATE_BASIS_HELP
 	{ GNM_FUNC_HELP_EXAMPLES, "=AMORDEGRC(2400,DATE(1998,8,19),DATE(1998,12,30),300,1,0.14,1)" },

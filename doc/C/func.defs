@@ -1354,7 +1354,12 @@ Otherwise ACCRINT returns the sum of the interest accrued in all coupon periods 
 @{rate}: depreciation rate
 @{basis}: calendar basis
 @DESCRIPTION=AMORDEGRC calculates the depreciation of an asset using French accounting conventions. Assets purchased in the middle of a period take prorated depreciation into account. This is similar to AMORLINC, except that a depreciation coefficient is applied in the calculation depending on the life of the assets.
-@NOTE=Named for AMORtissement DEGRessif Comptabilite. If @{basis} is 0, then the US 30/360 method is used. If @{basis} is 1, then actual number of days is used. If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days. If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days. If @{basis} is 4, then the European 30/360 method is used.
+The depreciation coefficient used is:
+1   for an expected lifetime less than 3 years,
+1.5 for an expected lifetime of at least 3 years but less than 5 years,
+2   for an expected lifetime of at least 5 years but at most 6 years,
+2.5 for an expected lifetime of more than 6 years.
+@NOTE=Special depreciation rules are applied for the last two periods resulting in a possible total depreciation exceeding the difference of @{cost} - @{salvage}. Named for AMORtissement DEGRessif Comptabilite. If @{basis} is 0, then the US 30/360 method is used. If @{basis} is 1, then actual number of days is used. If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days. If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days. If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=AMORLINC
 
 @CATEGORY=Finance
