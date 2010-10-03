@@ -1,3 +1,8 @@
+2010-10-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* xlsx-write.c (xlsx_write_rich_text): really assign the buffer before
+	using it.
+
 2010-10-01  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.11
