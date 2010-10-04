@@ -1597,7 +1597,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 				nlabel = g_strdup_printf 
 					(_("Auto Filter blocked by %s"), 
 					 range_as_string (&f->r));
-				new_tip = _("The selection intersects an"
+				new_tip = _("The selection intersects an "
 					    "existing auto filter.");
 				wbc_gtk_set_action_label 
 					(wbcg, "DataAutoFilter", NULL, 
