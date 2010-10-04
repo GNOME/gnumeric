@@ -3122,11 +3122,18 @@ gnumeric_frequency (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
  * be contiguous so far as I can tell.
  */
 
+typedef enum {
+	gnm_reg_type_rect = 0,
+	gnm_reg_type_vertical,
+	gnm_reg_type_horizontal
+} GnmRegType_t;
+
 typedef struct {
 	gnm_float *ys;
 	int n;
 	gnm_float **xss;
 	int dim;
+	GnmRegType_t type;
 } GnmRegData;
 
 static void
@@ -3192,6 +3199,7 @@ gnm_reg_data_collect (GnmValue const *yval, GnmValue const *xval,
 		data->dim = 1;
 		data->xss = g_new (gnm_float *, data->dim);
 		data->xss[0] = g_new (gnm_float, ny);
+		data->type = gnm_reg_type_rect;
 		for (i = 0; i < ny; i++)
 			data->xss[0][i] = i + 1;
 	} else {
@@ -3205,6 +3213,7 @@ gnm_reg_data_collect (GnmValue const *yval, GnmValue const *xval,
 				goto ref_error;
 			data->dim = xw;
 			data->xss = g_new0 (gnm_float *, data->dim);
+			data->type = gnm_reg_type_vertical;
 			for (i = 0; i < data->dim; i++) {
 				data->xss[i] = gnm_reg_get_var
 					(xval, i, 0, 0, +1, xh, ep);
@@ -3217,6 +3226,7 @@ gnm_reg_data_collect (GnmValue const *yval, GnmValue const *xval,
 				goto ref_error;
 			data->dim = xh;
 			data->xss = g_new0 (gnm_float *, data->dim);
+			data->type = gnm_reg_type_horizontal;
 			for (i = 0; i < data->dim; i++) {
 				data->xss[i] = gnm_reg_get_var
 					(xval, 0, i, +1, 0, xw, ep);
@@ -3230,6 +3240,7 @@ gnm_reg_data_collect (GnmValue const *yval, GnmValue const *xval,
 			data->xss = g_new0 (gnm_float *, data->dim);
 			data->xss[0] = collect_floats_value (xval, ep, 0,
 							     &nx, &result);
+			data->type = gnm_reg_type_rect;
 			if (result)
 				goto error;
 		}
@@ -3562,11 +3573,11 @@ numbers */
 
 static GnmFuncHelp const help_trend[] = {
 	{ GNM_FUNC_HELP_NAME, F_("TREND:estimates future values of a given data set using a least squares approximation")},
-	{ GNM_FUNC_HELP_ARG, F_("known_ys:known y-values")},
-	{ GNM_FUNC_HELP_ARG, F_("known_xs:known x-values; defaults to the array {1, 2, 3, \xe2\x80\xa6}")},
-	{ GNM_FUNC_HELP_ARG, F_("new_xs:x-values for which to estimate the y-values; defaults to @{known_xs}")},
+	{ GNM_FUNC_HELP_ARG, F_("known_ys:vector of values of dependent variable")},
+	{ GNM_FUNC_HELP_ARG, F_("known_xs:array of values of independent variables, defaults to a single vector {1,\xe2\x80\xa6,n}")},
+	{ GNM_FUNC_HELP_ARG, F_("new_xs:array of x-values for which to estimate the y-values; defaults to @{known_xs}")},
 	{ GNM_FUNC_HELP_ARG, F_("affine:if true, the model contains a constant term, defaults to true")},
-	{ GNM_FUNC_HELP_NOTE, F_("If @{known_ys} and @{known_xs} have unequal number of data points, "
+	{ GNM_FUNC_HELP_NOTE, F_("If the length of @{known_ys} does not match the corresponding length of @{known_xs}, "
 				 "this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, \xe2\x80\xa6, A5 contain numbers "
 				     "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
@@ -3579,76 +3590,28 @@ static GnmFuncHelp const help_trend[] = {
 static GnmValue *
 gnumeric_trend (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float  *xs = NULL, *ys = NULL, *nxs = NULL;
-	GnmValue    *result = NULL;
-	int      nx, ny, nnx, i, dim;
-	gboolean affine, err;
-	gnm_float  linres[2];
+	GnmRegData data;
+	gnm_regression_stat_t *extra_stat = NULL;
 	GORegressionResult regres;
+	GnmValue *result;
+	gnm_float *linres = NULL;
+	gboolean affine;
+	int i, j, dim, new_x_n, new_x_m;
+	GnmValue const *new_x = NULL;
+	gnm_float *new_x_val = NULL;
 
-	ys = collect_floats_value (argv[0], ei->pos,
-				   COLLECT_IGNORE_STRINGS |
-				   COLLECT_IGNORE_BOOLS,
-				   &ny, &result);
+	result = gnm_reg_data_collect (argv[0], argv[1], &data, ei->pos);
 	if (result)
-		goto out;
+		return result;
+	dim = data.dim;
 
-	affine = TRUE;
+	affine = argv[3] ? value_get_as_checked_bool (argv[3]) : TRUE;
 
-	if (argv[2] != NULL) {
-		xs = collect_floats_value (argv[1], ei->pos,
-					   COLLECT_IGNORE_STRINGS |
-					   COLLECT_IGNORE_BOOLS,
-					   &nx, &result);
-		if (result)
-			goto out;
-
-		nxs = collect_floats_value (argv[2], ei->pos,
-					    COLLECT_IGNORE_STRINGS |
-					    COLLECT_IGNORE_BOOLS,
-					    &nnx, &result);
-		if (result)
-			goto out;
-
-		if (argv[3] != NULL) {
-			affine = value_get_as_bool (argv[3], &err);
-			if (err) {
-				result = value_new_error_VALUE (ei->pos);
-				goto out;
-			}
-		}
-	} else {
-		if (argv[1] != NULL) {
-			xs = collect_floats_value (argv[1], ei->pos,
-						   COLLECT_IGNORE_STRINGS |
-						   COLLECT_IGNORE_BOOLS,
-						   &nx, &result);
-			if (result)
-				goto out;
-		} else {
-			xs = g_new (gnm_float, ny);
-			for (nx = 0; nx < ny; nx++)
-				xs[nx] = nx + 1;
-		}
-
-		/* @{new_x}'s is assumed to be the same as @{known_x}'s */
-		nnx = nx;
-		nxs = g_memdup (xs, nnx * sizeof (*xs));
-	}
-
-	if (ny < 1 || nnx < 1) {
-		result = value_new_error_NUM (ei->pos);
-		goto out;
-	}
-
-	if (nx != ny) {
-		result = value_new_error_NUM (ei->pos);
-		goto out;
-	}
-
-	dim = 1;
-
-	regres = gnm_linear_regression (&xs, dim, ys, nx, affine, linres, NULL);
+	linres = g_new (gnm_float, dim + 1);
+	extra_stat = gnm_regression_stat_new ();
+	regres = gnm_linear_regression (data.xss, dim,
+					data.ys, data.n, affine,
+					linres, extra_stat);
 	switch (regres) {
 	case GO_REG_ok:
 	case GO_REG_near_singular_good:
@@ -3658,15 +3621,98 @@ gnumeric_trend (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		goto out;
 	}
 
-	result = value_new_array (1, nnx);
-	for (i = 0; i < nnx; i++)
-		value_array_set (result, 0, i,
-				 value_new_float (linres[1] * nxs[i] + linres[0]));
+	if (argv[2] != NULL)
+		new_x = argv[2];
+	else if (argv[1] != NULL)
+		new_x = argv[1];
+
+	if (dim == 1)
+		data.type = gnm_reg_type_rect;
+
+	if (new_x == NULL) {
+		result = value_new_array (1, data.n);
+		for (i = 0; i < data.n; i++) {
+			gnm_float res = linres[0];
+			res += (i + 1) * linres[1];
+			value_array_set (result, 0, i,
+					 value_new_float (res));
+		}
+	} else 
+		switch (data.type) {
+		case gnm_reg_type_rect:
+			new_x_n = value_area_get_height (new_x, ei->pos);
+			new_x_m = value_area_get_width (new_x, ei->pos);
+			result = value_new_array (new_x_m, new_x_n);
+			for (i = 0; i < new_x_n; i++) {
+				for (j = 0; j < new_x_m; j++) {
+					gnm_float res = linres[0];
+					new_x_val = gnm_reg_get_var
+							(new_x, j, i, 0, 0, 1, ei->pos);
+					if (new_x_val != NULL) {
+						res += new_x_val[0] * linres[1];
+						value_array_set 
+							(result, j, i,
+							 value_new_float (res));
+						g_free (new_x_val);
+					} else
+						value_array_set 
+							(result, j, i,
+							 value_new_error_NA (ei->pos));
+				}
+			}
+			break;
+		case gnm_reg_type_vertical:
+			if (dim != value_area_get_width (new_x, ei->pos)) {
+				result = value_new_error_NUM (ei->pos);
+				goto out;
+			}
+			new_x_n = value_area_get_height (new_x, ei->pos);
+			result = value_new_array (1, new_x_n);
+			for (i = 0; i < new_x_n; i++) {
+				gnm_float res = linres[0];
+				new_x_val = gnm_reg_get_var
+					(new_x, 0, i, +1, 0, dim, ei->pos);
+				if (new_x_val != NULL) {
+					for (j = 0; j < dim; j++)
+						res += new_x_val[j] * linres[j+1];
+					value_array_set (result, 0, i,
+							 value_new_float (res));
+					g_free (new_x_val);
+				} else
+					value_array_set (result, 0, i,
+							 value_new_error_NA (ei->pos));
+			}
+			break;
+		case gnm_reg_type_horizontal:
+			if (dim != value_area_get_height (new_x, ei->pos)) {
+				result = value_new_error_NUM (ei->pos);
+				goto out;
+			}
+			new_x_n = value_area_get_width (new_x, ei->pos);
+			result = value_new_array (new_x_n, 1);
+			for (i = 0; i < new_x_n; i++) {
+				gnm_float res = linres[0];
+				new_x_val = gnm_reg_get_var
+					(new_x, i, 0, 0, +1, dim, ei->pos);
+				if (new_x_val != NULL) {
+					for (j = 0; j < dim; j++)
+						res += new_x_val[j] * linres[j+1];
+					value_array_set (result, i, 0,
+							 value_new_float (res));
+					g_free (new_x_val);
+				} else
+					value_array_set (result, i, 0,
+							 value_new_error_NA (ei->pos));
+			}
+			break;
+		} 
+
 
  out:
-	g_free (xs);
-	g_free (ys);
-	g_free (nxs);
+	gnm_reg_data_free (&data);
+	g_free (linres);
+	gnm_regression_stat_destroy (extra_stat);
+
 	return result;
 }
 
