@@ -1,5 +1,13 @@
 2010-10-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/sheet-object-widget.c (cb_list_model_changed): save current 
+	  selection and flag selection as saved.
+	(cb_selection_changed): don't bother if the selection was saved
+	(sheet_widget_list_create_widget): try to set the selection only if 
+	  we have one.
+	
+2010-10-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/sheet-object-widget.c (sheet_widget_list_create_widget): set the
 	  correct selection
 	(sheet_widget_combo_create_widget): ditto

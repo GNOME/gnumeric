@@ -3570,7 +3570,10 @@ cb_list_selection_changed (SheetWidgetListBase *swl,
 static void
 cb_list_model_changed (SheetWidgetListBase *swl, GtkTreeView *list)
 {
+	int old_selection = swl->selection;
+	swl->selection = -1;
 	gtk_tree_view_set_model (GTK_TREE_VIEW (list), swl->model);
+	sheet_widget_list_base_set_selection (swl, old_selection, NULL);
 }
 static void
 cb_selection_changed (GtkTreeSelection *selection,
@@ -3580,15 +3583,18 @@ cb_selection_changed (GtkTreeSelection *selection,
 	GtkTreeModel *model;
 	GtkTreeIter   iter;
 	int	      pos = 0;
-	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-		GtkTreePath *path = gtk_tree_model_get_path (model, &iter);
-		if (NULL != path) {
-			pos = *gtk_tree_path_get_indices (path) + 1;
-			gtk_tree_path_free (path);
+	if (swl->selection != -1) {
+		if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
+			GtkTreePath *path = gtk_tree_model_get_path (model, &iter);
+			if (NULL != path) {
+				pos = *gtk_tree_path_get_indices (path) + 1;
+				gtk_tree_path_free (path);
+			}
 		}
+		sheet_widget_list_base_set_selection 
+			(swl, pos,
+			 scg_wbc (GNM_SIMPLE_CANVAS (view->parent->parent->parent)->scg));
 	}
-	sheet_widget_list_base_set_selection (swl, pos,
-		scg_wbc (GNM_SIMPLE_CANVAS (view->parent->parent->parent)->scg));
 }
 
 static GtkWidget *
@@ -3618,7 +3624,7 @@ sheet_widget_list_create_widget (SheetObjectWidget *sow)
 		G_CALLBACK (cb_list_model_changed), list, 0);
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (list));
-	if ((swl->model != NULL) &&
+	if ((swl->model != NULL) && (swl->selection > 0) &&
 	    gtk_tree_model_iter_nth_child (swl->model, &iter, NULL, swl->selection - 1))
 		gtk_tree_selection_select_iter (selection, &iter);
 	g_signal_connect_object (G_OBJECT (swl), "selection-changed",

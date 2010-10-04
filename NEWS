@@ -4,6 +4,8 @@ Andreas:
 	* Add argument to FOURIER to separate parts.
 	* Extend TREND function to handle multiple regression. [#630085]
 	* Fix selection for sheet object lists and combos. [#631322]
+	* Preserve selection for sheet object lists when we change 
+	  content. [#631327]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.11
