@@ -3596,6 +3596,7 @@ sheet_widget_list_create_widget (SheetObjectWidget *sow)
 {
 	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (sow);
 	GtkTreeSelection *selection;
+	GtkTreeIter iter;
 	GtkWidget *frame = g_object_new (GTK_TYPE_FRAME, NULL);
 	GtkWidget *list = gtk_tree_view_new_with_model (swl->model);
 	GtkWidget *sw = gtk_scrolled_window_new (
@@ -3617,6 +3618,9 @@ sheet_widget_list_create_widget (SheetObjectWidget *sow)
 		G_CALLBACK (cb_list_model_changed), list, 0);
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (list));
+	if ((swl->model != NULL) &&
+	    gtk_tree_model_iter_nth_child (swl->model, &iter, NULL, swl->selection - 1))
+		gtk_tree_selection_select_iter (selection, &iter);
 	g_signal_connect_object (G_OBJECT (swl), "selection-changed",
 		G_CALLBACK (cb_list_selection_changed), selection, 0);
 	g_signal_connect (selection, "changed",
@@ -3800,6 +3804,7 @@ sheet_widget_combo_create_widget (SheetObjectWidget *sow)
 		g_object_set (G_OBJECT (combo),
                       "model",		swl->model,
                       "text-column",	0,
+                      "active",	swl->selection - 1,
                       NULL);
 
 	g_signal_connect_object (G_OBJECT (swl), "model-changed",
