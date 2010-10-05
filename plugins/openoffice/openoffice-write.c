@@ -3464,6 +3464,7 @@ odf_write_sheet_control_list (GnmOOExport *state, SheetObject *so,
 			      char const *element)
 {
 	GnmExprTop const *texpr = sheet_widget_list_base_get_result_link (so);
+	gboolean as_index = sheet_widget_list_base_result_type_is_index (so);
 
 	odf_sheet_control_start_element (state, so, element);
 
@@ -3475,7 +3476,12 @@ odf_write_sheet_control_list (GnmOOExport *state, SheetObject *so,
 	if (get_gsf_odf_version () > 101)
 		gsf_xml_out_add_cstr_unchecked 
 			(state->xml, FORM "list-linkage-type", 
-			 "selection-indexes");
+			 as_index ? "selection-indexes" : "selection");
+	else if (state->with_extension)
+		gsf_xml_out_add_cstr_unchecked 
+			(state->xml, GNMSTYLE "list-linkage-type", 
+			 as_index ? "selection-indices" : "selection");
+		
 	gsf_xml_out_add_int (state->xml, FORM "bound-column", 1);
 	gsf_xml_out_end_element (state->xml); /* form:checkbox */
 }

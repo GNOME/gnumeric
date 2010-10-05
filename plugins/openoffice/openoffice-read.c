@@ -191,6 +191,7 @@ typedef struct {
 	char *label;
 	char *implementation;
 	char *source_cell_range;
+	gboolean as_index;
 } OOControl;
 
 typedef struct {
@@ -4896,6 +4897,7 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 				} 
 				if (result_texpr != NULL)
 					gnm_expr_top_unref (result_texpr);
+				sheet_widget_list_base_set_result_type (so, oc->as_index);
 			}
 		}
 	} else 
@@ -6509,10 +6511,17 @@ odf_form_control (GsfXMLIn *xin, xmlChar const **attrs, GType t)
 		{ "horizontal",	1},
 		{ NULL,	0 },
 	};
+	static OOEnum const list_linkages [] = {
+		{ "selection",	0},
+		{ "selection-indexes",	1},
+		{ "selection-indices",	1},
+		{ NULL,	0 },
+	};
 	int tmp;
 
 	state->cur_control = NULL;
 	oc->step = oc->page_step = 1;
+	oc->as_index = TRUE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		/* ODF does not declare an xml: namespace but uses this attribute */
@@ -6558,14 +6567,13 @@ odf_form_control (GsfXMLIn *xin, xmlChar const **attrs, GType t)
 					     OO_NS_FORM, "control-implementation")) {
 			g_free (oc->implementation);
 			oc->implementation =  g_strdup (CXML2C (attrs[1]));
-		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
-					       OO_NS_FORM, "list-linkage-type")) {
-			if (0 != strcmp (CXML2C (attrs[1]),"selection-indexes") &&
-			    0 != strcmp (CXML2C (attrs[1]),"selection-indices") ) 
-				oo_warning (xin, _("Attribute '%s' has "
-						   "the unsupported value '%s'."), 
-					    "form:list-linkage-type", CXML2C (attrs[1]));
-		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+		} else if (oo_attr_enum (xin, attrs, OO_NS_FORM, "list-linkage-type", list_linkages, 
+					 &tmp))
+			oc->as_index = (tmp != 0);
+		else if (oo_attr_enum (xin, attrs, OO_GNUM_NS_EXT, "list-linkage-type", list_linkages, 
+				       &tmp))
+			oc->as_index = (tmp != 0);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
 					     OO_NS_FORM, "source-cell-range")) {
 			g_free (oc->source_cell_range);
 			oc->source_cell_range =  g_strdup (CXML2C (attrs[1]));
