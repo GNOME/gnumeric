@@ -84,7 +84,9 @@ void sheet_widget_frame_set_label        (SheetObject *so, char const *str);
 void  sheet_widget_list_base_set_links	 (SheetObject *so,
 					  GnmExprTop const *result_link,
 					  GnmExprTop const *content);
+void  sheet_widget_list_base_set_result_type (SheetObject *so, gboolean as_index);
 GnmExprTop const *sheet_widget_list_base_get_result_link (SheetObject const *so);
+gboolean sheet_widget_list_base_result_type_is_index (SheetObject const *so);
 GnmExprTop const *sheet_widget_list_base_get_content_link (SheetObject const *so);
 GtkAdjustment *sheet_widget_list_base_get_adjustment (SheetObject *so);
 

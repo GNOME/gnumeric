@@ -44,6 +44,7 @@
 typedef struct {
 	GladeXML	*gui;
 	GtkWidget	*dialog;
+	GtkWidget	*as_index_radio;
 	GnmExprEntry	*content_entry, *link_entry;
 
 	WBCGtk	*wbcg;
@@ -99,7 +100,9 @@ cb_so_list_response (GtkWidget *dialog, gint response_id, GnmDialogSOList *state
 					       &pp, NULL, FALSE, GNM_EE_FORCE_ABS_REF);
 		content = gnm_expr_entry_parse (state->content_entry,
 						&pp, NULL, FALSE, GNM_EE_FORCE_ABS_REF);
-		cmd_so_set_links (WORKBOOK_CONTROL (state->wbcg), state->so, output, content);
+		cmd_so_set_links (WORKBOOK_CONTROL (state->wbcg), state->so, output, content,
+				  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON 
+								(state->as_index_radio)));
 	}
 
 	gtk_object_destroy (GTK_OBJECT (dialog));
@@ -128,6 +131,10 @@ so_list_init (GnmDialogSOList *state, WBCGtk *wbcg, SheetObject *so)
 	texpr = sheet_widget_list_base_get_result_link (so);
 	state->link_entry = init_entry (state, "link-entry", texpr);
 	if (texpr) gnm_expr_top_unref (texpr);
+
+	state->as_index_radio = glade_xml_get_widget (state->gui, "as-index-radio");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->as_index_radio), 
+				      sheet_widget_list_base_result_type_is_index (so));
 
 	g_signal_connect (G_OBJECT (state->dialog), "response",
 		G_CALLBACK (cb_so_list_response), state);

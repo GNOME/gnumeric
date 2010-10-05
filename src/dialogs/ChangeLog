@@ -1,3 +1,9 @@
+2010-10-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* so-list.glade: add radio buttons
+	* dialog-so-list.c (cb_so_list_response): handle as-value radios
+	(so_list_init): set up as-value radios
+
 2010-10-01  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.11

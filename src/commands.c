@@ -7244,6 +7244,7 @@ typedef struct {
 	SheetObject *so;
 	GnmExprTop const *output;
 	GnmExprTop const *content;
+	gboolean as_index;
 } CmdSOSetLink;
 
 MAKE_GNM_COMMAND (CmdSOSetLink, cmd_so_set_links, NULL)
@@ -7254,12 +7255,18 @@ cmd_so_set_links_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
 	CmdSOSetLink *me = CMD_SO_SET_LINKS (cmd);
 	GnmExprTop const *old_output;
 	GnmExprTop const *old_content;
+	gboolean old_as_index;
 
 	old_content = sheet_widget_list_base_get_content_link (me->so);
 	old_output = sheet_widget_list_base_get_result_link (me->so);
+	old_as_index = sheet_widget_list_base_result_type_is_index (me->so);
 
 	sheet_widget_list_base_set_links
 		(me->so, me->output, me->content);
+	if (old_as_index != me->as_index) {
+		sheet_widget_list_base_set_result_type (me->so, me->as_index);
+		me->as_index = old_as_index;
+	}
 	if (me->output)
 		gnm_expr_top_unref (me->output);
 	if (me->content)
@@ -7292,7 +7299,8 @@ gboolean
 cmd_so_set_links (WorkbookControl *wbc,
 		  SheetObject *so,
 		  GnmExprTop const *output,
-		  GnmExprTop const *content)
+		  GnmExprTop const *content,
+		  gboolean as_index)
 {
 	CmdSOSetLink *me;
 
@@ -7305,6 +7313,7 @@ cmd_so_set_links (WorkbookControl *wbc,
 	me->so = so;
 	me->output = output;
 	me->content = content;
+	me->as_index = as_index;
 
 	return gnm_command_push_undo (wbc, G_OBJECT (me));
 }

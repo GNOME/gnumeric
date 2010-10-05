@@ -3254,6 +3254,7 @@ typedef struct {
 
 	GtkTreeModel	*model;
 	int		 selection;
+	gboolean        result_as_index;
 } SheetWidgetListBase;
 typedef struct {
 	SheetObjectWidgetClass base;
@@ -3287,12 +3288,52 @@ sheet_widget_list_base_set_selection (SheetWidgetListBase *swl, int selection,
 	if (swl->selection != selection) {
 		swl->selection = selection;
 		if (NULL!= wbc &&
-		    so_get_ref (SHEET_OBJECT (swl), &ref, TRUE) != NULL)
-			cmd_so_set_value (wbc,
-				_("Clicking in list"),
-					  &ref, value_new_int (swl->selection),
+		    so_get_ref (SHEET_OBJECT (swl), &ref, TRUE) != NULL) {
+			GnmValue *v;
+			if (swl->result_as_index)
+				v = value_new_int (swl->selection);
+			else if (selection != 0) {
+				GtkTreeIter iter;
+				char *content;
+				gtk_tree_model_iter_nth_child 
+					(swl->model, &iter, NULL, selection - 1);
+				gtk_tree_model_get (swl->model, &iter,
+						    0, &content, -1);
+				v = value_new_string_nocopy (content);
+			} else
+				v = value_new_string ("");
+			cmd_so_set_value (wbc, _("Clicking in list"), &ref, v,
 					  sheet_object_get_sheet (SHEET_OBJECT (swl)));
+		}
+		g_signal_emit (G_OBJECT (swl),
+			list_base_signals [LIST_BASE_SELECTION_CHANGED], 0);
+	}
+}
 
+static void
+sheet_widget_list_base_set_selection_value (SheetWidgetListBase *swl, GnmValue *v)
+{
+	char const *str = value_get_as_string (v);
+	GtkTreeIter iter;
+	int selection = 0, i = 1;
+
+	if (swl->model != NULL && gtk_tree_model_get_iter_first (swl->model, &iter))
+		do {
+			char *content;
+			gboolean match;
+			gtk_tree_model_get (swl->model, &iter,
+					    0, &content, -1);
+			match = 0 == g_ascii_strcasecmp (str, content);
+			g_free (content);
+			if (match) {
+				selection = i;
+				break;
+			}
+			i++;
+		} while (gtk_tree_model_iter_next (swl->model, &iter));
+
+	if (swl->selection != selection) {
+		swl->selection = selection;
 		g_signal_emit (G_OBJECT (swl),
 			list_base_signals [LIST_BASE_SELECTION_CHANGED], 0);
 	}
@@ -3305,8 +3346,13 @@ list_output_eval (GnmDependent *dep)
 	GnmValue *v = gnm_expr_top_eval (dep->texpr,
 		eval_pos_init_dep (&pos, dep),
 		GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-	sheet_widget_list_base_set_selection (DEP_TO_LIST_BASE_OUTPUT (dep),
-		floor (value_get_as_float (v)), NULL);
+	SheetWidgetListBase *swl = DEP_TO_LIST_BASE_OUTPUT (dep);
+	
+	if (swl->result_as_index)
+		sheet_widget_list_base_set_selection 
+			(swl, floor (value_get_as_float (v)), NULL);
+	else
+		sheet_widget_list_base_set_selection_value (swl, v);
 	value_release (v);
 }
 
@@ -3391,6 +3437,7 @@ sheet_widget_list_base_init (SheetObjectWidget *sow)
 
 	swl->model = NULL;
 	swl->selection = 0;
+	swl->result_as_index = TRUE;
 }
 
 static void
@@ -3441,6 +3488,7 @@ sheet_widget_list_base_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 	SheetWidgetListBase const *swl = SHEET_WIDGET_LIST_BASE (so);
 	sax_write_dep (output, &swl->content_dep, "Content", convs);
 	sax_write_dep (output, &swl->output_dep, "Output", convs);
+	gsf_xml_out_add_int (output, "OutputAsIndex", swl->result_as_index ? 1 : 0);
 }
 
 static void
@@ -3453,6 +3501,7 @@ sheet_widget_list_base_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (sax_read_dep (attrs, "Content", &swl->content_dep, xin, convs)) ;
 		else if (sax_read_dep (attrs, "Output", &swl->output_dep, xin, convs)) ;
+		else if (gnm_xml_attr_bool (attrs, "OutputAsIndex", &swl->result_as_index));
 }
 
 static GtkWidget *
@@ -3527,6 +3576,26 @@ sheet_widget_list_base_get_content_link (SheetObject const *so)
 		gnm_expr_top_ref (texpr);
 
  	return texpr;
+}
+
+gboolean 
+sheet_widget_list_base_result_type_is_index (SheetObject const *so)
+{
+	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);
+
+	return swl->result_as_index;
+}
+
+void  
+sheet_widget_list_base_set_result_type (SheetObject *so, gboolean as_index)
+{
+	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);
+
+	if (swl->result_as_index == as_index)
+		return;
+
+	swl->result_as_index = as_index;
+	
 }
 
 /* Note: allocates a new adjustment.  */

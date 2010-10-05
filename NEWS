@@ -6,6 +6,8 @@ Andreas:
 	* Fix selection for sheet object lists and combos. [#631322]
 	* Preserve selection for sheet object lists when we change 
 	  content. [#631327]
+	* Add option to sheet object lists and combos to enter values
+	  rather than index. [#629333]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.11

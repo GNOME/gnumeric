@@ -196,7 +196,8 @@ gboolean cmd_so_set_value (WorkbookControl *wbc,
 			   Sheet *sheet);
 
 gboolean cmd_so_set_links (WorkbookControl *wbc, SheetObject *so,
-			   GnmExprTop const *output, GnmExprTop const *content);
+			   GnmExprTop const *output, GnmExprTop const *content,
+			   gboolean as_index);
 
 gboolean cmd_so_set_frame_label (WorkbookControl *wbc, SheetObject *so,
 				 char *old_label, char *new_label);

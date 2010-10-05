@@ -1,5 +1,20 @@
 2010-10-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/commands.h (cmd_so_set_links): add argument
+	* src/commands.c (cmd_so_set_links): add argument
+	(cmd_so_set_links_redo): handle output ttpe
+	* src/sheet-object-widget.h 
+	(sheet_widget_list_base_set_result_type): new
+	(sheet_widget_list_base_result_type_is_index): new
+	* src/sheet-object-widget.c
+	(sheet_widget_list_base_set_result_type): new
+	(sheet_widget_list_base_result_type_is_index): new
+	(sheet_widget_list_base_set_selection): consider swl->result_as_index
+	(sheet_widget_list_base_set_selection_value): new
+	(sheet_widget_list_base_init): initialize swl->result_as_index
+
+2010-10-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/sheet-object-widget.c (cb_list_model_changed): save current 
 	  selection and flag selection as saved.
 	(cb_selection_changed): don't bother if the selection was saved
