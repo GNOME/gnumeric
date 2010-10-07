@@ -1003,7 +1003,7 @@ compute_sheet_pages (GtkPrintContext   *context,
 					    col_header_height,
 					    repeat_top_use,
 					    repeat_top_start, repeat_top_end,
-					    pi->ignore_pb ? NULL : pinfo->page_breaks.v);
+					    pi->ignore_pb ? NULL : pinfo->page_breaks.h);
 		pxy = compute_scale_fit_to (sheet, print_area.start.col, print_area.end.col,
 					    page_width, sheet_col_get_info,
 					    sheet_col_get_distance_pts,
@@ -1011,7 +1011,7 @@ compute_sheet_pages (GtkPrintContext   *context,
 					    row_header_width,
 					    repeat_left_use,
 					    repeat_left_start, repeat_left_end,
-					    pi->ignore_pb ? NULL : pinfo->page_breaks.h);
+					    pi->ignore_pb ? NULL : pinfo->page_breaks.v);
 
 		pinfo->scaling.percentage.x = pxy * 100.;
 		pinfo->scaling.percentage.y = pxy * 100.;
@@ -1032,12 +1032,12 @@ compute_sheet_pages (GtkPrintContext   *context,
 		  usable_x - row_header_width,
 		  repeat_left_use, repeat_left_start, repeat_left_end,
 		  sheet_col_get_distance_pts, sheet_col_get_info,
-		  pi->ignore_pb ? NULL : pinfo->page_breaks.h, !pi->ignore_pb);
+		  pi->ignore_pb ? NULL : pinfo->page_breaks.v, !pi->ignore_pb);
 	paginate (&row_pagination, sheet, print_area.start.row, print_area.end.row,
 		  usable_y - col_header_height,
 		  repeat_top_use, repeat_top_start, repeat_top_end,
 		  sheet_row_get_distance_pts, sheet_row_get_info,
-		  pi->ignore_pb ? NULL : pinfo->page_breaks.v, !pi->ignore_pb);
+		  pi->ignore_pb ? NULL : pinfo->page_breaks.h, !pi->ignore_pb);
 
 	if (sheet->print_info->print_across_then_down)
 		compute_sheet_pages_across_then_down (pi, sheet,

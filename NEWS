@@ -8,6 +8,7 @@ Andreas:
 	  content. [#631327]
 	* Add option to sheet object lists and combos to enter values
 	  rather than index. [#629333]
+	* Fix manual pagebreak handling when printing. [#631570]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.11

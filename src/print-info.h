@@ -87,7 +87,8 @@ struct _PrintInformation {
 	} error_display;
 
 	struct {
-		GnmPageBreaks *h, *v;
+		GnmPageBreaks *h,  /* between rows */
+			      *v;  /* between columns */
 	} page_breaks;
 	PrintHF		*header, *footer;
 

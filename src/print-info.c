@@ -1211,7 +1211,6 @@ print_info_set_paper_orientation (PrintInformation *pi,
  * print_info_set_breaks :
  * @pi : #PrintInformation
  * @breaks : #GnmPageBreaks
- * @is_col : Do @breaks split between columns or rows ?
  *
  * NOTE : Takes ownership of @breaks.  DO NOT FREE after calling.
  **/
