@@ -52,6 +52,37 @@ typedef enum {
 	RIGHTSTRING
 } sc_string_cmd_t;
 
+static GnmCell  *
+sc_sheet_cell_fetch (Sheet *sheet, int col, int row)
+{
+	GnmSheetSize const *size = gnm_sheet_get_size (sheet);
+	gboolean err = FALSE;
+
+	if (col >= size->max_cols
+	    || row >= size->max_rows) {
+		GOUndo   * goundo;
+		int cols_needed = (col >= size->max_cols) ? col + 1 
+			: size->max_cols;
+		int rows_needed = (row >= size->max_rows) ? row + 1 
+			: size->max_rows;
+		gnm_sheet_suggest_size (&cols_needed, &rows_needed);
+
+		goundo = gnm_sheet_resize 
+			(sheet, cols_needed, rows_needed, NULL, &err);
+		if (goundo) g_object_unref (goundo);
+	}
+	
+	if (err) {
+		g_warning (_("The cell in row %i and column %i is beyond "
+			     "Gnumeric's maximum sheet size."),
+			   row, col);
+
+		return NULL;
+	} else
+		return sheet_cell_fetch (sheet, col, row);
+}
+
+
 
 /* we can't use cellpos_parse b/c it doesn't support 0 bases (A0, B0, ...) */
 static gboolean
@@ -200,7 +231,7 @@ sc_parse_label (ScParseState *state, char const *cmd, char const *str,
 	tmpout--;
 	*tmpout = 0;
 
-	cell = sheet_cell_fetch (state->sheet, pos->col, pos->row);
+	cell = sc_sheet_cell_fetch (state->sheet, pos->col, pos->row);
 	if (!cell)
 		goto err_out;
 
@@ -254,8 +285,9 @@ sc_parse_cell_name_list (Sheet *sheet, char const *cell_name_str,
 				return NULL;
 			}
 
-			cell = sheet_cell_fetch (sheet, pos.col, pos.row);
-			cells = g_slist_append (cells, (gpointer) cell);
+			cell = sc_sheet_cell_fetch (sheet, pos.col, pos.row);
+			if (cell != NULL)
+				cells = g_slist_append (cells, (gpointer) cell);
 			n = 0;
 		} else
 		        buf [n++] = cell_name_str [i];
@@ -384,7 +416,7 @@ sc_parse_let (ScParseState *state, char const *cmd, char const *str,
 	g_return_val_if_fail (cmd, FALSE);
 	g_return_val_if_fail (str, FALSE);
 
-	cell = sheet_cell_fetch (state->sheet, pos->col, pos->row);
+	cell = sc_sheet_cell_fetch (state->sheet, pos->col, pos->row);
 	if (!cell)
 		return FALSE;
 

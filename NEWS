@@ -10,6 +10,7 @@ Andreas:
 	  rather than index. [#629333]
 	* Fix manual pagebreak handling when printing. [#631570]
 	* Add menu items to remove and add manual page breaks.
+	* Permit the sc import of tables with many rows and columns.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.11

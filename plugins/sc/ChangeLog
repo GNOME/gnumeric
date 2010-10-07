@@ -1,3 +1,9 @@
+2010-10-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* sc.c: pass all calls to sheet_cell_fetch via sc_sheet_cell_fetch
+	(sc_sheet_cell_fetch): new
+	(sc_parse_cell_name_list): check for NULL cell
+
 2010-10-01  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.11
