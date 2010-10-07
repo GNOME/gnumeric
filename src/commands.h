@@ -222,6 +222,8 @@ gboolean cmd_so_set_adjustment (WorkbookControl *wbc, SheetObject *so,
 				int step, int page,
 				char const *undo_label);
 
+gboolean cmd_page_breaks_clear (WorkbookControl *wbc, Sheet *sheet);
+gboolean cmd_page_break_toggle (WorkbookControl *wbc, Sheet *sheet, gboolean is_vert);
 
 /********************************************************************************/
 

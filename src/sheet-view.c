@@ -643,7 +643,8 @@ sv_update (SheetView *sv)
 			wb_view_selection_desc (sv->sv_wbv, TRUE, NULL);
 			SHEET_VIEW_FOREACH_CONTROL 
 				(sv, sc, wb_control_menu_state_update 
-				 (sc_wbc (sc), MS_COMMENT_LINKS););
+				 (sc_wbc (sc), 
+				  MS_COMMENT_LINKS | MS_PAGE_BREAKS););
 		}
 	}
 

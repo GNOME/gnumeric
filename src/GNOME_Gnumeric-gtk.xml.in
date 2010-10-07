@@ -15,6 +15,9 @@
         <menuitem action="FilePrintAreaSet"/>
         <menuitem action="FilePrintAreaClear"/>
         <menuitem action="FilePrintAreaShow"/>
+        <menuitem action="FilePrintAreaToggleColPageBreak"/>
+        <menuitem action="FilePrintAreaToggleRowPageBreak"/>
+        <menuitem action="FilePrintAreaClearAllPageBreak"/>
       </menu>
       <menuitem action="FilePrintPreview"/>
       <menuitem action="FilePrint"/>

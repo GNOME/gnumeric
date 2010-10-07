@@ -172,6 +172,8 @@ void        print_info_set_edge_to_below_header (PrintInformation *pi,
 						 double e_h);
 void        print_info_set_breaks (PrintInformation *pi, GnmPageBreaks *breaks);
 
+gboolean        print_info_has_manual_breaks (PrintInformation *pi);
+
 GnmPageBreaks	*gnm_page_breaks_new		(gboolean is_vert);
 GnmPageBreaks	*gnm_page_breaks_dup		(GnmPageBreaks const *src);
 void		 gnm_page_breaks_free		(GnmPageBreaks *breaks);

@@ -60,6 +60,7 @@
 #include "dead-kittens.h"
 #include "tools/analysis-auto-expression.h"
 #include "sheet-object-cell-comment.h"
+#include "print-info.h"
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
@@ -1554,6 +1555,40 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 		g_free (print_area);
 		wbc_gtk_set_action_sensitivity (wbcg, "FilePrintAreaClear", has_print_area);
 		wbc_gtk_set_action_sensitivity (wbcg, "FilePrintAreaShow", has_print_area);
+	}
+	if (MS_PAGE_BREAKS & flags) {
+		gint col = sv->edit_pos.col;
+		gint row = sv->edit_pos.row;
+		PrintInformation *pi = sheet->print_info;
+		char const* new_label = NULL;
+		char const *new_tip = NULL;
+
+		if (pi->page_breaks.v != NULL &&
+		    gnm_page_breaks_get_break (pi->page_breaks.v, col) == GNM_PAGE_BREAK_MANUAL) {
+			new_label = _("Remove Column Page Break");
+			new_tip = _("Remove the page break to the left of the current column");
+		} else {
+			new_label = _("Add Column Page Break");
+			new_tip = _("Add a page break to the left of the current column");
+		}
+		wbc_gtk_set_action_label (wbcg, "FilePrintAreaToggleColPageBreak", 
+					  NULL, new_label, new_tip);
+		if (pi->page_breaks.h != NULL &&
+		    gnm_page_breaks_get_break (pi->page_breaks.h, col) == GNM_PAGE_BREAK_MANUAL) {
+			new_label = _("Remove Row Page Break");
+			new_tip = _("Remove the page break above the current row");
+		} else {
+			new_label = _("Add Row Page Break");
+			new_tip = _("Add a page break above current row");
+		}
+		wbc_gtk_set_action_label (wbcg, "FilePrintAreaToggleRowPageBreak", 
+					  NULL, new_label, new_tip);
+		wbc_gtk_set_action_sensitivity (wbcg, "FilePrintAreaToggleRowPageBreak", 
+						row != 0);
+		wbc_gtk_set_action_sensitivity (wbcg, "FilePrintAreaToggleColPageBreak", 
+						col != 0);
+		wbc_gtk_set_action_sensitivity (wbcg, "FilePrintAreaClearAllPageBreak", 
+						print_info_has_manual_breaks (sheet->print_info));
 	}
 	if (MS_SELECT_OBJECT & flags) {
 		wbc_gtk_set_action_sensitivity (wbcg, "EditSelectObject", 

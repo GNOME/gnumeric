@@ -1,5 +1,26 @@
 2010-10-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* component/Gnumeric-embed.xml.in: add menu items
+	* src/GNOME_Gnumeric-gtk.xml.in: add menu items
+	* src/HILDON_Gnumeric-gtk.xml.in: add menu items
+	* src/commands.c(cmd_page_breaks_clear): new
+	(cmd_page_break_toggle): new
+	(cmd_page_breaks_set_breaks): new
+	* src/commands.h (cmd_page_breaks_clear): new
+	(cmd_page_break_toggle): new
+	* src/print-info.c (print_info_has_manual_breaks): new
+	* src/print-info.h (print_info_has_manual_breaks): new
+	* src/sheet-view.c (sv_update): add MS_PAGE_BREAKS
+	* src/wbc-gtk-actions.c (cb_file_print_area_toggle_col): new
+	(cb_file_print_area_toggle_row): new
+	(cb_file_print_area_clear_pagebreaks): new
+	(permanent_actions): change meu item title
+	(actions): connect the above
+	* src/wbc-gtk.c (wbcg_menu_state_update): handle MS_PAGE_BREAKS
+	* src/workbook-control.h (MS_PAGE_BREAKS): new
+	
+2010-10-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/print-info.c (print_info_set_paper_orientation): correct
 	  argument description
 	* src/print-info.h (page_breaks): add comment

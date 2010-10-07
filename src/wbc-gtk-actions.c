@@ -276,6 +276,24 @@ static GNM_ACTION_DEF (cb_file_print_area_show)
 	}
 }
 
+static GNM_ACTION_DEF (cb_file_print_area_toggle_col)
+{
+	cmd_page_break_toggle (WORKBOOK_CONTROL (wbcg), 
+			       wbcg_cur_sheet (wbcg),
+			       TRUE);
+}
+static GNM_ACTION_DEF (cb_file_print_area_toggle_row)
+{
+	cmd_page_break_toggle (WORKBOOK_CONTROL (wbcg), 
+			       wbcg_cur_sheet (wbcg),
+			       FALSE);
+}
+
+static GNM_ACTION_DEF (cb_file_print_area_clear_pagebreaks)
+{
+	cmd_page_breaks_clear (WORKBOOK_CONTROL (wbcg), wbcg_cur_sheet (wbcg));
+}
+
 static GNM_ACTION_DEF (cb_file_print)
 {
 	gnm_print_sheet (WORKBOOK_CONTROL (wbcg),
@@ -1930,7 +1948,7 @@ static GtkActionEntry const permanent_actions[] = {
 	{ "FileSend", "Gnumeric_Link_EMail", N_("Sen_d To..."),
 		NULL, N_("Send the current file via email"),
 		G_CALLBACK (cb_file_sendto) },
-	{ "FilePrintArea",      NULL, N_("Print Area")},
+	{ "FilePrintArea",      NULL, N_("Print Area & Breaks")},
 #ifdef HAVE_GTK_ADJUSTMENT_CONFIGURE
 	/* gtk_adjustment_configure implies gtk 2.14 or later */
 	/* that is required for GTK_STOCK_PAGE_SETUP */
@@ -2023,6 +2041,15 @@ static GtkActionEntry const actions[] = {
         { "FilePrintAreaShow", NULL, N_("Show Print Area"),
                 NULL, N_("Select the print area"),
                 G_CALLBACK (cb_file_print_area_show)},
+        { "FilePrintAreaToggleColPageBreak", NULL, N_("Set Column Page Break"),
+                NULL, N_("Split the page to the left of this column"),
+                G_CALLBACK (cb_file_print_area_toggle_col)},
+        { "FilePrintAreaToggleRowPageBreak", NULL, N_("Set Row Page Break"),
+                NULL, N_("Split the page above this row"),
+                G_CALLBACK (cb_file_print_area_toggle_row)},
+        { "FilePrintAreaClearAllPageBreak", NULL, N_("Clear All Page Breaks"),
+                NULL, N_("Remove all manual pagebreaks from this sheet"),
+                G_CALLBACK (cb_file_print_area_clear_pagebreaks)},
 
 /* Edit -> Clear */
 	{ "EditClearAll", GTK_STOCK_CLEAR, N_("_All"),

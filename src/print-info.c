@@ -1231,6 +1231,14 @@ print_info_set_breaks (PrintInformation *pi,
 	*target = breaks;
 }
 
+gboolean        
+print_info_has_manual_breaks (PrintInformation *pi)
+{
+	if (gnm_page_breaks_get_next_manual_break (pi->page_breaks.v, 0) > -1)
+		return TRUE;
+	return (gnm_page_breaks_get_next_manual_break (pi->page_breaks.h, 0) > -1);
+}
+
 /********************************************************************
  * Simple data structure to store page breaks defined as a wrapper in case we
  * need something more extensive later. */

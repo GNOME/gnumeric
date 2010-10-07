@@ -7895,11 +7895,111 @@ gboolean cmd_autofilter_set_condition (WorkbookControl *wbc,
 }
 
 
+/******************************************************************/
 
+static void 
+cmd_page_breaks_set_breaks (Sheet *sheet, 
+				       GnmPageBreaks const *breaks)
+{
+	print_info_set_breaks (sheet->print_info, gnm_page_breaks_dup (breaks));
 
+	SHEET_FOREACH_CONTROL (sheet, sv, sc, wb_control_menu_state_update (sc_wbc (sc), MS_PAGE_BREAKS););
+}
 
+gboolean
+cmd_page_breaks_clear (WorkbookControl *wbc, Sheet *sheet)
+{
+	GOUndo *undo = NULL;
+	GOUndo *redo = NULL;
 
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (sheet != NULL, TRUE);
 
+	if (sheet->print_info->page_breaks.v != NULL) {
+		redo = go_undo_binary_new 
+			(sheet, 
+			 gnm_page_breaks_new (TRUE), 
+			 (GOUndoBinaryFunc) cmd_page_breaks_set_breaks,
+			 NULL, 
+			 (GFreeFunc) gnm_page_breaks_free);
+		undo = go_undo_binary_new 
+			(sheet, 
+			 gnm_page_breaks_dup 
+			 (sheet->print_info->page_breaks.v), 
+			 (GOUndoBinaryFunc) cmd_page_breaks_set_breaks,
+			 NULL, 
+			 (GFreeFunc) gnm_page_breaks_free);
+	}
 
+	if (sheet->print_info->page_breaks.h != NULL) {
+		redo = go_undo_combine 
+			(redo, 
+			 go_undo_binary_new 
+			 (sheet, 
+			  gnm_page_breaks_new (FALSE), 
+			  (GOUndoBinaryFunc) cmd_page_breaks_set_breaks,
+			  NULL, 
+			  (GFreeFunc) gnm_page_breaks_free));
+		
+		undo = go_undo_combine 
+			(undo,
+			 go_undo_binary_new 
+			 (sheet, 
+			  gnm_page_breaks_dup 
+			  (sheet->print_info->page_breaks.h), 
+			  (GOUndoBinaryFunc) cmd_page_breaks_set_breaks,
+			  NULL, 
+			  (GFreeFunc) gnm_page_breaks_free));
+	}
+
+	if (undo != NULL)
+		return cmd_generic (wbc, _("Clear All Page Breaks"), undo, redo);
+	else
+		return TRUE;
+}
+
+gboolean 
+cmd_page_break_toggle (WorkbookControl *wbc, Sheet *sheet, gboolean is_vert)
+{
+	SheetView const *sv  = wb_control_cur_sheet_view (wbc);
+	gint col = sv->edit_pos.col;
+	gint row = sv->edit_pos.row;
+	int rc = is_vert ? col : row;
+	GnmPageBreaks *old, *new, *target;
+	GnmPageBreakType type;
+	char const *label;
+	GOUndo *undo;
+	GOUndo *redo;
+
+	target = is_vert ? sheet->print_info->page_breaks.v 
+		: sheet->print_info->page_breaks.h;
+
+	old = (target == NULL) ? gnm_page_breaks_new (is_vert)
+		: gnm_page_breaks_dup (target);
+	new = gnm_page_breaks_dup (old);
+
+	if (gnm_page_breaks_get_break (new, rc) != GNM_PAGE_BREAK_MANUAL) {
+		type = GNM_PAGE_BREAK_MANUAL;
+		label = is_vert ? _("Remove Column Page Break") : _("Remove Row Page Break");
+	} else {
+		type = GNM_PAGE_BREAK_NONE;
+		label = is_vert ? _("Add Column Page Break") : _("Add Row Page Break");
+	}
+
+	gnm_page_breaks_set_break (new, rc, type);
+
+	redo = go_undo_binary_new 
+		(sheet, new, 
+		 (GOUndoBinaryFunc) cmd_page_breaks_set_breaks,
+		 NULL, 
+		 (GFreeFunc) gnm_page_breaks_free);
+	undo = go_undo_binary_new 
+		(sheet, old, 
+		 (GOUndoBinaryFunc) cmd_page_breaks_set_breaks,
+		 NULL, 
+		 (GFreeFunc) gnm_page_breaks_free);
+	
+	return cmd_generic (wbc, label, undo, redo);
+}
 
 /******************************************************************/

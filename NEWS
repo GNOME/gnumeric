@@ -9,6 +9,7 @@ Andreas:
 	* Add option to sheet object lists and combos to enter values
 	  rather than index. [#629333]
 	* Fix manual pagebreak handling when printing. [#631570]
+	* Add menu items to remove and add manual page breaks.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.11
