@@ -1,0 +1,10 @@
+--- glib-2.24.0/gio/gnetworkingprivate.h~	2010-03-13 14:22:54.000000000 -0500
++++ glib-2.24.0/gio/gnetworkingprivate.h	2010-10-05 18:53:45.000000000 -0400
+@@ -28,6 +28,7 @@
+ #undef interface
+ #include <ws2tcpip.h>
+ #include <windns.h>
++#define DNS_TYPE_SRV 33 
+ #include <mswsock.h>
+ 
+ #ifdef HAVE_WSPIAPI_H

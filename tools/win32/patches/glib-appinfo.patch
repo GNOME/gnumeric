@@ -256,10 +256,10 @@ diff -ur glib-2.24.0/gio/gwin32appinfo.c glib-2.24.0-fixed/gio/gwin32appinfo.c
 +++ glib-2.24.0-fixed/gio/win32/gwinhttpvfs.c	2010-07-11 20:32:36.000000000 -0400
 @@ -28,6 +28,7 @@
  
- #include "gioerror.h"
- #include "giomodule.h"
-+#include "gdummyfile.h"
- #include "gvfs.h"
+ #include "gio/gioerror.h"
+ #include "gio/giomodule.h"
++#include "gio/gdummyfile.h"
+ #include "gio/gvfs.h"
  
  #include "gwinhttpfile.h"
 @@ -163,6 +164,18 @@
@@ -268,14 +268,14 @@ diff -ur glib-2.24.0/gio/gwin32appinfo.c glib-2.24.0-fixed/gio/gwin32appinfo.c
  
 +  /* The only other kind of URI we handle is file:// and we do that
 +     by shipping it off to the wrapped vfs.  Anything else that looks
-+     plonk:// is turned into a dummy file.  That leaves anything that
-+     looks, more or less, like a filename.  We ship that off to the
++     like plonk:... is turned into a dummy file.  That leaves anything
++     that looks, more or less, like a filename.  We ship that off to the
 +     wrapped vfs because we used to.  */
 +  for (i = 0; g_ascii_isalpha (uri[i]); i++)
 +	  ; /* Nothing */
-+  if (i > 0 &&
-+      uri[i] == ':' && uri[i + 1] == '/' && uri[i + 2] == '/' &&
-+      !(i == 4 && g_ascii_strncasecmp (uri, "file", 4) == 0))
++  if (i > 0 && uri[i] == ':' &&
++      !(i == 4 && uri[i + 1] == '/' && uri[i + 2] == '/' &&
++	g_ascii_strncasecmp (uri, "file", 4) == 0))
 +    return _g_dummy_file_new (uri);
 +
    /* For other URIs fallback to the wrapped GVfs */
