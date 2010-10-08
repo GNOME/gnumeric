@@ -1,5 +1,13 @@
 2010-10-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* sc.c (sc_parse_set): new
+	(sc_parse_format): new stub
+	(sc_parse_format_definition): new stub
+	(sc_cmd_list): connect sc_parse_set and sc_parse_format
+	(sc_parse_set_handle_option): new
+
+2010-10-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* sc.c (sc_parse_goto): new
 	(sc_cmd_list): connect sc_parse_goto
 

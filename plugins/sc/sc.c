@@ -287,6 +287,36 @@ set_h_align (Sheet *sheet, GnmCellPos const *pos, GnmHAlign ha)
 	sheet_style_apply_range	(sheet, &r, style);
 }
 
+static void
+sc_parse_set_handle_option (ScParseState *state, char const *option)
+{
+	if (g_str_has_prefix (option, "iterations=")) {
+		int it = atoi (option + 11);
+		if (it > 0) {
+			workbook_iteration_enabled (state->sheet->workbook, TRUE);
+			workbook_iteration_max_number (state->sheet->workbook, it);
+		}
+	} else if (g_str_has_prefix (option, "autocalc"))
+		workbook_set_recalcmode	(state->sheet->workbook, TRUE);
+	else if (g_str_has_prefix (option, "!autocalc"))
+		workbook_set_recalcmode (state->sheet->workbook, FALSE);
+}
+
+static gboolean
+sc_parse_set (ScParseState *state, char const *cmd, char const *str,
+	      GnmCellPos const *cpos)
+{
+	gchar** options = g_strsplit (str, " ", -1), **tmp;
+
+	if (options != NULL)
+		for (tmp = options; *tmp != NULL; tmp++)
+			sc_parse_set_handle_option (state, *tmp);
+	g_strfreev(options);
+
+	/* Most of these settings are not applicable to Gnumeric */
+	return TRUE;
+}
+
 static gboolean
 sc_parse_goto (ScParseState *state, char const *cmd, char const *str,
 		GnmCellPos const *cpos)
@@ -302,6 +332,23 @@ sc_parse_goto (ScParseState *state, char const *cmd, char const *str,
 			   sv_selection_set 
 			   (sv, &pos, pos.col, pos.row, pos.col, pos.row););
 
+	return TRUE;
+}
+
+static gboolean
+sc_parse_format_definition (ScParseState *state, char const *cmd, char const *str)
+{
+	sc_warning (state, "Ignoring column format definition: %s", str);
+	return TRUE;
+}
+
+static gboolean
+sc_parse_format (ScParseState *state, char const *cmd, char const *str,
+		 GnmCellPos const *cpos)
+{
+	if (g_ascii_isdigit ((gchar) *str))
+		return sc_parse_format_definition (state, cmd, str);
+	sc_warning (state, "Ignoring column formatting: %s", str);
 	return TRUE;
 }
 
@@ -632,7 +679,9 @@ static sc_cmd_t const sc_cmd_list[] = {
 	{ "let", 3,		sc_parse_let,	 TRUE },
 	{ "define", 6,          sc_parse_define, FALSE },
 	{ "fmt", 3,             sc_parse_fmt,    FALSE },
-	{ "goto", 4,             sc_parse_goto,    FALSE },
+	{ "format", 6,          sc_parse_format, FALSE },
+	{ "set", 3,             sc_parse_set,    FALSE },
+	{ "goto", 4,            sc_parse_goto,   FALSE },
 	{ NULL, 0, NULL, 0 },
 };
 
