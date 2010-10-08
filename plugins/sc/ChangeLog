@@ -1,3 +1,11 @@
+2010-10-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* sc.c (ScParseState): add fields
+	(sc_go_error_info_new_vprintf): new
+	(sc_warning): new; replace all g_warnings with calls to sc_warning
+	(sc_sheet_cell_fetch): change first argument and change all call
+	(sc_file_open): initalize and finalize new fields of ScParseState
+
 2010-10-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* sc.c: pass all calls to sheet_cell_fetch via sc_sheet_cell_fetch

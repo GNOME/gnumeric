@@ -2,8 +2,22 @@
 /*
  * sc.c - file import of SC/xspread files
  * Copyright 1999 Jeff Garzik <jgarzik@mandrakesoft.com>
+ * Copyright (C) 2010 Andreas J. Guelzow <aguelzow@pyrshep.ca> All Rights Reserved
  *
  * With some code from sylk.c
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
  */
 
 #include <gnumeric-config.h>
@@ -44,6 +58,8 @@ typedef struct {
 	Sheet            *sheet;
 	GIConv            converter;
 	GnmConventions	 *convs;
+	GOIOContext	 *context;	/* The IOcontext managing things */
+	char             *last_error;
 } ScParseState;
 
 typedef enum {
@@ -52,10 +68,67 @@ typedef enum {
 	RIGHTSTRING
 } sc_string_cmd_t;
 
-static GnmCell  *
-sc_sheet_cell_fetch (Sheet *sheet, int col, int row)
+
+static GOErrorInfo *sc_go_error_info_new_vprintf (GOSeverity severity,
+					  char const *msg_format, ...)
+	G_GNUC_PRINTF (2, 3);
+
+static GOErrorInfo *
+sc_go_error_info_new_vprintf (GOSeverity severity,
+			      char const *msg_format, ...)
 {
-	GnmSheetSize const *size = gnm_sheet_get_size (sheet);
+	va_list args;
+	GOErrorInfo *ei;
+
+	va_start (args, msg_format);
+	ei = go_error_info_new_vprintf (severity, msg_format, args);
+	va_end (args);
+
+	return ei;
+}
+
+static gboolean sc_warning (ScParseState *state, char const *fmt, ...)
+	G_GNUC_PRINTF (2, 3);
+
+static gboolean
+sc_warning (ScParseState *state, char const *fmt, ...)
+{
+	char *msg;
+	char *detail;
+	va_list args;
+
+	va_start (args, fmt);
+	detail = g_strdup_vprintf (fmt, args);
+	va_end (args);
+
+	if (IS_SHEET (state->sheet))
+		msg = g_strdup_printf (_("On worksheet %s:"),state->sheet->name_quoted);
+	else
+		msg = g_strdup (_("General SC import error"));
+
+	if (0 != go_str_compare (msg, state->last_error)) {
+		GOErrorInfo *ei = sc_go_error_info_new_vprintf
+			(GO_WARNING, "%s", msg);
+		
+		go_io_error_info_set (state->context, ei);
+		g_free (state->last_error);
+		state->last_error = msg;
+	} else
+		g_free (msg);
+
+	go_error_info_add_details 
+		(state->context->info->data,
+		 sc_go_error_info_new_vprintf (GO_WARNING, "%s", detail));
+
+	g_free (detail);
+
+	return FALSE; /* convenience */
+}
+
+static GnmCell  *
+sc_sheet_cell_fetch (ScParseState *state, int col, int row)
+{
+	GnmSheetSize const *size = gnm_sheet_get_size (state->sheet);
 	gboolean err = FALSE;
 
 	if (col >= size->max_cols
@@ -68,18 +141,18 @@ sc_sheet_cell_fetch (Sheet *sheet, int col, int row)
 		gnm_sheet_suggest_size (&cols_needed, &rows_needed);
 
 		goundo = gnm_sheet_resize 
-			(sheet, cols_needed, rows_needed, NULL, &err);
+			(state->sheet, cols_needed, rows_needed, NULL, &err);
 		if (goundo) g_object_unref (goundo);
 	}
 	
 	if (err) {
-		g_warning (_("The cell in row %i and column %i is beyond "
-			     "Gnumeric's maximum sheet size."),
+		sc_warning (state, _("The cell in row %i and column %i is beyond "
+				     "Gnumeric's maximum sheet size."),
 			   row, col);
 
 		return NULL;
 	} else
-		return sheet_cell_fetch (sheet, col, row);
+		return sheet_cell_fetch (state->sheet, col, row);
 }
 
 
@@ -231,7 +304,7 @@ sc_parse_label (ScParseState *state, char const *cmd, char const *str,
 	tmpout--;
 	*tmpout = 0;
 
-	cell = sc_sheet_cell_fetch (state->sheet, pos->col, pos->row);
+	cell = sc_sheet_cell_fetch (state, pos->col, pos->row);
 	if (!cell)
 		goto err_out;
 
@@ -257,7 +330,7 @@ sc_parse_label (ScParseState *state, char const *cmd, char const *str,
 
 #if 0
 static GSList *
-sc_parse_cell_name_list (Sheet *sheet, char const *cell_name_str,
+sc_parse_cell_name_list (ScParseState *state, char const *cell_name_str,
 		         int *error_flag)
 {
         char     *buf;
@@ -266,8 +339,8 @@ sc_parse_cell_name_list (Sheet *sheet, char const *cell_name_str,
 	GnmCellPos   pos;
 	int      i, n;
 
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (state->sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (state->sheet), NULL);
 	g_return_val_if_fail (cell_name_str != NULL, NULL);
 	g_return_val_if_fail (error_flag != NULL, NULL);
 
@@ -285,7 +358,7 @@ sc_parse_cell_name_list (Sheet *sheet, char const *cell_name_str,
 				return NULL;
 			}
 
-			cell = sc_sheet_cell_fetch (sheet, pos.col, pos.row);
+			cell = sc_sheet_cell_fetch (state, pos.col, pos.row);
 			if (cell != NULL)
 				cells = g_slist_append (cells, (gpointer) cell);
 			n = 0;
@@ -416,7 +489,7 @@ sc_parse_let (ScParseState *state, char const *cmd, char const *str,
 	g_return_val_if_fail (cmd, FALSE);
 	g_return_val_if_fail (str, FALSE);
 
-	cell = sc_sheet_cell_fetch (state->sheet, pos->col, pos->row);
+	cell = sc_sheet_cell_fetch (state, pos->col, pos->row);
 	if (!cell)
 		return FALSE;
 
@@ -424,7 +497,7 @@ sc_parse_let (ScParseState *state, char const *cmd, char const *str,
 			       parse_pos_init_cell (&pp, cell));
 
 	if (!texpr) {
-		g_warning ("cannot parse cmd='%s', str='%s', col=%d, row=%d.",
+		sc_warning (state, _("Unable to parse cmd='%s', str='%s', col=%d, row=%d."),
 			   cmd, str, pos->col, pos->row);
 		return TRUE;
 	}
@@ -460,7 +533,7 @@ sc_parse_define (ScParseState *state, char const *cmd, char const *str,
 	texpr = sc_parse_expr (state, str,
 			       parse_pos_init (&pp, NULL, state->sheet, 0, 0));
 	if (!texpr) {
-		g_warning ("cannot parse cmd='%s', str='%s'.", cmd, str);
+		sc_warning (state, "Unable to parse cmd='%s', str='%s'.", cmd, str);
 		goto out;
 	}
 
@@ -533,11 +606,8 @@ sc_parse_line (ScParseState *state, char *buf)
 		}
 	}
 
-#if 1
-	g_warning ("sc importer: unhandled directive: '%-.*s'",
+	sc_warning (state, "Unhandled directive: '%-.*s'",
 		   cmdlen, buf);
-#endif
-
 	return TRUE;
 }
 
@@ -645,6 +715,8 @@ sc_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	state.converter = g_iconv_open ("UTF-8", "ISO-8859-1");
 
 	state.convs = sc_conventions ();
+	state.context = io_context;
+	state.last_error = NULL;
 	state.textline = (GsfInputTextline *) gsf_input_textline_new (input);
 	error = sc_parse_sheet (&state);
 	if (error != NULL) {
@@ -654,6 +726,7 @@ sc_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	g_object_unref (G_OBJECT (state.textline));
 	g_iconv_close (state.converter);
 	gnm_conventions_unref (state.convs);
+	g_free (state.last_error);
 }
 
 
