@@ -39,6 +39,8 @@
 #include "expr.h"
 #include "expr-name.h"
 #include "func.h"
+#include "sheet-view.h"
+#include "selection.h"
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-input-textline.h>
@@ -283,6 +285,24 @@ set_h_align (Sheet *sheet, GnmCellPos const *pos, GnmHAlign ha)
 	gnm_style_set_align_h (style, ha);
 	r.start = r.end = *pos;
 	sheet_style_apply_range	(sheet, &r, style);
+}
+
+static gboolean
+sc_parse_goto (ScParseState *state, char const *cmd, char const *str,
+		GnmCellPos const *cpos)
+{
+	GnmCellPos pos = { -1, -1 };
+	gboolean res;
+
+	res = sc_parse_coord_real (state, str, &pos, strlen (str));
+	if (!res)
+		return FALSE;
+
+	SHEET_FOREACH_VIEW(state->sheet, sv,
+			   sv_selection_set 
+			   (sv, &pos, pos.col, pos.row, pos.col, pos.row););
+
+	return TRUE;
 }
 
 static gboolean
@@ -612,6 +632,7 @@ static sc_cmd_t const sc_cmd_list[] = {
 	{ "let", 3,		sc_parse_let,	 TRUE },
 	{ "define", 6,          sc_parse_define, FALSE },
 	{ "fmt", 3,             sc_parse_fmt,    FALSE },
+	{ "goto", 4,             sc_parse_goto,    FALSE },
 	{ NULL, 0, NULL, 0 },
 };
 
