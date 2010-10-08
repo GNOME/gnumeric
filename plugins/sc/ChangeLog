@@ -1,5 +1,12 @@
 2010-10-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* sc.c (sc_parse_coord_real): new, former part of sc_parse_coord
+	(sc_parse_coord): use sc_parse_coord_real
+	(sc_parse_fmt): new
+	(sc_cmd_list): connect sc_parse_fmt
+
+2010-10-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* sc.c (ScParseState): add fields
 	(sc_go_error_info_new_vprintf): new
 	(sc_warning): new; replace all g_warnings with calls to sc_warning

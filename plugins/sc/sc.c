@@ -204,39 +204,25 @@ err_out:
 }
 
 
+
 static gboolean
-sc_parse_coord (ScParseState *state, char const **strdata, GnmCellPos *pos)
+sc_parse_coord_real (ScParseState *state, char const *strdata, GnmCellPos *pos,
+		     size_t tmplen)
 {
-	char const *s = *strdata, *eq;
-	int len = strlen (s);
-	char tmpstr[16];
-	size_t tmplen;
+	char *tmpstr;
 	GnmNamedExpr *nexpr;
 	GnmParsePos pp;
 	GnmValue *v;
 
 	g_return_val_if_fail (strdata, FALSE);
 
-	eq = strstr (s, " = ");
-	if (!eq)
-		return FALSE;
-
-	tmplen = eq - s;
-	if (tmplen >= sizeof (tmpstr))
-		return FALSE;
-
-	memcpy (tmpstr, s, tmplen);
-	tmpstr [tmplen] = 0;
+	tmpstr = g_strndup (strdata, tmplen);
 
 	/* It ought to be a cellref.  */
 	if (sc_cellname_to_coords (tmpstr, pos)) {
 		g_return_val_if_fail (pos->col >= 0, FALSE);
 		g_return_val_if_fail (pos->row >= 0, FALSE);
-
-		if ((eq - s + 1 + 3) > len)
-			return FALSE;
-
-		*strdata = eq + 3;
+		g_free (tmpstr);
 		return TRUE;
 	}
 
@@ -253,15 +239,41 @@ sc_parse_coord (ScParseState *state, char const **strdata, GnmCellPos *pos)
 			pos->col = gnm_cellref_get_col (cr, &ep);
 			pos->row = gnm_cellref_get_row (cr, &ep);
 			value_release (v);
+			g_free (tmpstr);
 			return TRUE;
 		}
 
 		value_release (v);
 	}
-
+	g_free (tmpstr);
 	return FALSE;
 }
 
+static gboolean
+sc_parse_coord (ScParseState *state, char const **strdata, GnmCellPos *pos)
+{
+	char const *s, *eq;
+	gboolean res;
+
+	g_return_val_if_fail (strdata, FALSE);
+	g_return_val_if_fail (*strdata, FALSE);
+
+	s = *strdata;
+
+	eq = strstr (s, " = ");
+	if (!eq)
+		return FALSE;
+
+	res = sc_parse_coord_real (state, s, pos, eq - s);
+
+	if (res) {
+		if ((eq - s + 1 + 3) > (int) strlen (s))
+			res = FALSE;
+		else
+			*strdata = eq + 3;
+	}
+	return res;
+}
 
 static void
 set_h_align (Sheet *sheet, GnmCellPos const *pos, GnmHAlign ha)
@@ -271,6 +283,42 @@ set_h_align (Sheet *sheet, GnmCellPos const *pos, GnmHAlign ha)
 	gnm_style_set_align_h (style, ha);
 	r.start = r.end = *pos;
 	sheet_style_apply_range	(sheet, &r, style);
+}
+
+static gboolean
+sc_parse_fmt (ScParseState *state, char const *cmd, char const *str,
+		GnmCellPos const *cpos)
+{
+	char const *s = str, *space;
+	char *fmt;
+	gboolean res;
+	GOFormat *gfmt;
+	GnmStyle *style;
+	GnmCellPos pos = { -1, -1 };
+
+	space = strstr (s, "\"");
+	space--;
+	if (!space)
+		return FALSE;
+
+	res = sc_parse_coord_real (state, s, &pos, space - s);
+	if (!res)
+		return FALSE;
+	s = space + 2;
+	space = strstr (s, "\"");
+	if (!space)
+		return FALSE;
+	fmt = g_strndup (s, space - s);
+	gfmt = go_format_new_from_XL (fmt);
+	style = gnm_style_new_default ();
+	gnm_style_set_format (style, gfmt);
+
+	sheet_style_apply_pos (state->sheet, pos.col, pos.row, style);
+	/* gnm_style_unref (style); reference has been absorbed */
+	go_format_unref (gfmt);
+	g_free (fmt);
+
+	return TRUE;
 }
 
 static gboolean
@@ -563,6 +611,7 @@ static sc_cmd_t const sc_cmd_list[] = {
 	{ "label", 5,		sc_parse_label,	 TRUE },
 	{ "let", 3,		sc_parse_let,	 TRUE },
 	{ "define", 6,          sc_parse_define, FALSE },
+	{ "fmt", 3,             sc_parse_fmt,    FALSE },
 	{ NULL, 0, NULL, 0 },
 };
 
