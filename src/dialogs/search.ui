@@ -10,6 +10,7 @@
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkNotebook" id="notebook">
@@ -20,6 +21,7 @@
               <object class="GtkVBox" id="vbox2">
                 <property name="visible">True</property>
                 <property name="border_width">12</property>
+                <property name="orientation">vertical</property>
                 <property name="spacing">4</property>
                 <child>
                   <object class="GtkTable" id="page1-table">
@@ -187,6 +189,7 @@
               <object class="GtkVBox" id="vbox4">
                 <property name="visible">True</property>
                 <property name="border_width">4</property>
+                <property name="orientation">vertical</property>
                 <property name="spacing">4</property>
                 <child>
                   <object class="GtkTable" id="page2-table">
@@ -491,6 +494,7 @@
             <child>
               <object class="GtkVBox" id="matches_vbox">
                 <property name="visible">True</property>
+                <property name="orientation">vertical</property>
               </object>
               <packing>
                 <property name="position">2</property>

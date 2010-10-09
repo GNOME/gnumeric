@@ -98,7 +98,7 @@ init_scale (GtkWidget *scale, int N, int lo, int hi)
 	GtkAdjustment *adj = gtk_range_get_adjustment (GTK_RANGE (scale));
 	g_object_set (G_OBJECT (adj),
 		      "lower", (double)mylog2 (lo),
-		      "upper", (double)mylog2 (hi),
+		      "upper", (double)mylog2 (hi) + 1.,
 		      NULL);
 	gtk_adjustment_set_value (adj, mylog2 (N));
 }
