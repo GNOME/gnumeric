@@ -1,5 +1,10 @@
 2010-10-10  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* Makefile.am: use GtkBuilder in dialog-so-list.c.
+	* dialog-so-list.c (init_entry), (so_list_init): ditto.
+
+2010-10-10  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* Makefile.am: use sheet-resize.ui instead of .glade.
 	* dialog-sheet-resize.c (dialog_sheet_resize): ditto and fixed maximum
 	col/row number. [#631702]

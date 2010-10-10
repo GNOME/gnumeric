@@ -42,7 +42,6 @@
 #define DIALOG_SO_LIST_KEY "so-list"
 
 typedef struct {
-	GladeXML	*gui;
 	GtkWidget	*dialog;
 	GtkWidget	*as_index_radio;
 	GnmExprEntry	*content_entry, *link_entry;
@@ -51,30 +50,19 @@ typedef struct {
 	SheetObject		*so;
 } GnmDialogSOList;
 
-static void
-cb_so_list_destroy (GnmDialogSOList *state)
-{
-	if (state->gui != NULL)
-		g_object_unref (G_OBJECT (state->gui));
-	g_free (state);
-}
-
 static GnmExprEntry *
-init_entry (GnmDialogSOList *state, char const *name,
+init_entry (GnmDialogSOList *state, GtkBuilder *gui, int col, int row,
 	    GnmExprTop const *texpr)
 {
-	GnmExprEntry *gee;
-	GtkWidget *w = glade_xml_get_widget (state->gui, name);
+	GnmExprEntry *gee = gnm_expr_entry_new (state->wbcg, TRUE);
+	GtkWidget *w = GTK_WIDGET (gee);
+	GtkTable *table = GTK_TABLE (gtk_builder_get_object (gui, "table"));
 	Sheet *sheet = sheet_object_get_sheet (state->so);
 	GnmParsePos pp;
 
 	g_return_val_if_fail (w != NULL, NULL);
 
-	gee = GNM_EXPR_ENTRY (w);
-	g_object_set (G_OBJECT (w),
-		"scg", wbcg_cur_scg (state->wbcg),
-		"with-icon", TRUE,
-		NULL);
+	gtk_table_attach (table, w, col, col + 1, row, row + 1, GTK_FILL, GTK_FILL, 0, 0);
 	gnm_expr_entry_set_flags (gee, GNM_EE_FORCE_ABS_REF |
 				  GNM_EE_SHEET_OPTIONAL |
 				  GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
@@ -113,44 +101,48 @@ so_list_init (GnmDialogSOList *state, WBCGtk *wbcg, SheetObject *so)
 {
 	GtkTable *table;
 	GnmExprTop const *texpr;
+	GtkBuilder *gui;
+	char *f;
 
-	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"so-list.glade", NULL, NULL);
-        if (state->gui == NULL)
+	f = g_build_filename (gnm_sys_data_dir (), "ui", "so-list.ui", NULL);
+	gui = go_gtk_builder_new (f, NULL, GO_CMD_CONTEXT (wbcg));
+	g_free (f);
+	if (gui == NULL)
                 return TRUE;
 
 	state->wbcg   = wbcg;
 	state->so     = so;
-	state->dialog = glade_xml_get_widget (state->gui, "SOList");
-	table = GTK_TABLE (glade_xml_get_widget (state->gui, "table"));
+	state->dialog = go_gtk_builder_get_widget (gui, "SOList");
+	table = GTK_TABLE (go_gtk_builder_get_widget (gui, "table"));
 
 	texpr = sheet_widget_list_base_get_content_link (so);
-	state->content_entry = init_entry (state, "content-entry", texpr);
+	state->content_entry = init_entry (state, gui, 1, 4, texpr);
 	if (texpr) gnm_expr_top_unref (texpr);
 
 	texpr = sheet_widget_list_base_get_result_link (so);
-	state->link_entry = init_entry (state, "link-entry", texpr);
+	state->link_entry = init_entry (state, gui, 1, 0, texpr);
 	if (texpr) gnm_expr_top_unref (texpr);
 
-	state->as_index_radio = glade_xml_get_widget (state->gui, "as-index-radio");
+	state->as_index_radio = go_gtk_builder_get_widget (gui, "as-index-radio");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->as_index_radio), 
 				      sheet_widget_list_base_result_type_is_index (so));
 
 	g_signal_connect (G_OBJECT (state->dialog), "response",
 		G_CALLBACK (cb_so_list_response), state);
 	gnumeric_init_help_button (
-		glade_xml_get_widget (state->gui, "help"),
+		go_gtk_builder_get_widget (gui, "help"),
 		GNUMERIC_HELP_LINK_SO_LIST);
 
 	/* a candidate for merging into attach guru */
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 		DIALOG_SO_LIST_KEY);
 	g_object_set_data_full (G_OBJECT (state->dialog),
-		"state", state, (GDestroyNotify)cb_so_list_destroy);
+		"state", state, g_free);
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 		GTK_WINDOW (state->dialog));
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));
+	g_object_unref (gui);
 
 	return FALSE;
 }
