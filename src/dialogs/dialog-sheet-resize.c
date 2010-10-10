@@ -40,7 +40,6 @@ typedef struct {
 	WBCGtk *wbcg;
 	Sheet *sheet;
 	GtkWidget *dialog;
-	GladeXML *gui;
 	GtkWidget *columns_scale, *rows_scale;
 	GtkWidget *columns_label, *rows_label;
 	GtkWidget *ok_button, *cancel_button;
@@ -104,15 +103,6 @@ init_scale (GtkWidget *scale, int N, int lo, int hi)
 }
 
 static void
-cb_destroy (ResizeState *state)
-{
-	if (state->gui != NULL)
-		g_object_unref (G_OBJECT (state->gui));
-
-	g_free (state);
-}
-
-static void
 cb_ok_clicked (ResizeState *state)
 {
 	GSList *sheets, *l;
@@ -153,21 +143,22 @@ cb_ok_clicked (ResizeState *state)
 void
 dialog_sheet_resize (WBCGtk *wbcg)
 {
-	GladeXML *gui;
+	GtkBuilder *gui;
 	ResizeState *state;
 	int slider_width;
+	char *f;
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, RESIZE_DIALOG_KEY))
 		return;
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"sheet-resize.glade", NULL, NULL);
+	f = g_build_filename (gnm_sys_data_dir (), "ui", "sheet-resize.ui", NULL);
+	gui = go_gtk_builder_new (f, NULL, GO_CMD_CONTEXT (wbcg));
+	g_free (f);
 	if (gui == NULL)
 		return;
 
 	state = g_new (ResizeState, 1);
 	state->wbcg   = wbcg;
-	state->gui    = gui;
-	state->dialog = glade_xml_get_widget (state->gui, "Resize");
+	state->dialog = go_gtk_builder_get_widget (gui, "Resize");
 	state->sheet = wbcg_cur_sheet (wbcg);
 	g_return_if_fail (state->dialog != NULL);
 
@@ -178,15 +169,15 @@ dialog_sheet_resize (WBCGtk *wbcg)
 		(gtk_widget_get_pango_context (GTK_WIDGET (wbcg_toplevel (wbcg))),
 		 state->dialog->style->font_desc, "00");
 
-	state->columns_scale = glade_xml_get_widget (state->gui, "columns_scale");
+	state->columns_scale = go_gtk_builder_get_widget (gui, "columns_scale");
 	gtk_widget_set_size_request (state->columns_scale, slider_width, -1);
-	state->columns_label = glade_xml_get_widget (state->gui, "columns_label");
-	state->rows_scale = glade_xml_get_widget (state->gui, "rows_scale");
+	state->columns_label = go_gtk_builder_get_widget (gui, "columns_label");
+	state->rows_scale = go_gtk_builder_get_widget (gui, "rows_scale");
 	gtk_widget_set_size_request (state->rows_scale, slider_width, -1);
-	state->rows_label = glade_xml_get_widget (state->gui, "rows_label");
-	state->all_sheets_button = glade_xml_get_widget (state->gui, "all_sheets_button");
-	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
-	state->cancel_button = glade_xml_get_widget (state->gui, "cancel_button");
+	state->rows_label = go_gtk_builder_get_widget (gui, "rows_label");
+	state->all_sheets_button = go_gtk_builder_get_widget (gui, "all_sheets_button");
+	state->ok_button = go_gtk_builder_get_widget (gui, "ok_button");
+	state->cancel_button = go_gtk_builder_get_widget (gui, "cancel_button");
 
 	g_signal_connect_swapped (G_OBJECT (state->columns_scale),
 				  "value-changed", G_CALLBACK (cb_scale_changed),
@@ -219,8 +210,9 @@ dialog_sheet_resize (WBCGtk *wbcg)
 			       RESIZE_DIALOG_KEY);
 
 	g_object_set_data_full (G_OBJECT (state->dialog),
-				"state", state,
-				(GDestroyNotify) cb_destroy);
+	                        "state", state,
+	                        (GDestroyNotify) g_free);
+	g_object_unref (gui);
 
 	gtk_widget_show (state->dialog);
 }

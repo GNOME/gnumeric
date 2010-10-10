@@ -153,7 +153,6 @@ glade_DATA = 				\
 	scenario-manager.glade		\
 	search-replace.glade		\
 	sheet-order.glade		\
-	sheet-resize.glade              \
 	sheetobject-size.glade          \
 	shuffle.glade			\
 	sign-test.glade			\
@@ -175,6 +174,7 @@ glade_DATA = 				\
 
 uidir   = $(gnumeric_datadir)/ui
 ui_DATA = 				\
-	search.ui
+	search.ui			\
+	sheet-resize.ui
 
 EXTRA_DIST = $(glade_DATA) $(ui_DATA)

@@ -1,3 +1,9 @@
+2010-10-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* Makefile.am: use sheet-resize.ui instead of .glade.
+	* dialog-sheet-resize.c (dialog_sheet_resize): ditto and fixed maximum
+	col/row number. [#631702]
+
 2010-10-09  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* *.ui: converted from glade files.

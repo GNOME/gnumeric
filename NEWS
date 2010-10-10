@@ -12,6 +12,9 @@ Andreas:
 	* Add menu items to remove and add manual page breaks.
 	* Improve the sc import.
 
+Jean:
+	* Fixed maximum for col/row number in sheet resize dialog. [#631702]
+
 --------------------------------------------------------------------------
 Gnumeric 1.10.11
 
