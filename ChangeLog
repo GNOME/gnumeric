@@ -1,3 +1,7 @@
+2010-10-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/undo.c (gnm_undo_colrow_set_sizes_undo): plug leak
+	
 2010-10-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* component/Gnumeric-embed.xml.in: add menu items

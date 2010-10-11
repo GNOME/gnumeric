@@ -34,6 +34,7 @@
 #include "parse-util.h"
 #include "value.h"
 #include "cell.h"
+#include "ranges.h"
 #include "style.h"
 #include "sheet.h"
 #include "expr.h"
@@ -41,6 +42,8 @@
 #include "func.h"
 #include "sheet-view.h"
 #include "selection.h"
+#include "rendered-value.h"
+#include "gnm-style-impl.h"
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-input-textline.h>
@@ -62,6 +65,8 @@ typedef struct {
 	GnmConventions	 *convs;
 	GOIOContext	 *context;	/* The IOcontext managing things */
 	char             *last_error;
+	GArray           *precision;
+	GPtrArray        *formats;
 } ScParseState;
 
 typedef enum {
@@ -157,36 +162,51 @@ sc_sheet_cell_fetch (ScParseState *state, int col, int row)
 		return sheet_cell_fetch (state->sheet, col, row);
 }
 
+static gint
+sc_colname_to_coords (char const *colname, gint *m)
+{
+	int mult;
+	int digits = 1;
+
+	g_return_val_if_fail (colname, FALSE);
+
+	if (!colname || !*colname || !g_ascii_isalpha (*colname))
+		return 0;
+
+	mult = g_ascii_toupper (*colname) - 'A';
+	if (mult < 0 || mult > 25)
+		return 0;
+
+	colname++;
+
+	if (g_ascii_isalpha (*colname)) {
+		int ofs = g_ascii_toupper (*colname) - 'A';
+		if (ofs < 0 || ofs > 25)
+			return 0;
+		mult = ((mult + 1) * 26) + ofs;
+		digits++;
+	}
+
+	*m = mult;
+
+	return digits;
+}
 
 
 /* we can't use cellpos_parse b/c it doesn't support 0 bases (A0, B0, ...) */
 static gboolean
 sc_cellname_to_coords (char const *cellname, GnmCellPos *pos)
 {
-	int mult;
+	int mult, digits;
 
 	g_return_val_if_fail (cellname, FALSE);
 
-	if (!cellname || !*cellname || !g_ascii_isalpha (*cellname))
+	digits = sc_colname_to_coords (cellname, &mult);
+	if (digits == 0)
 		goto err_out;
 
-	mult = g_ascii_toupper (*cellname) - 'A';
-	if (mult < 0 || mult > 25)
-		goto err_out;
-
-	cellname++;
-
-	if (g_ascii_isalpha (*cellname)) {
-		int ofs = g_ascii_toupper (*cellname) - 'A';
-		if (ofs < 0 || ofs > 25)
-			goto err_out;
-		pos->col = ((mult + 1) * 26) + ofs;
-		cellname++;
-	}
-
-	else {
-		pos->col = mult;
-	}
+	pos->col = mult;
+	cellname += digits;
 
 	/* XXX need to replace this block with strtol+error checking */
 	if (1) {
@@ -342,14 +362,159 @@ sc_parse_format_definition (ScParseState *state, char const *cmd, char const *st
 	return TRUE;
 }
 
+static void
+sc_parse_format_set_width (ScParseState *state, int len, int col_from, int col_to)
+{
+	GnmFont *style_font;
+	int width;
+	int col;
+	GnmStyle *mstyle;
+
+	if (len < 1)
+		return;
+
+	mstyle = gnm_style_new_default ();
+	style_font = gnm_style_get_font 
+		(mstyle, state->sheet->rendered_values->context);
+	width = PANGO_PIXELS (len * style_font->go.metrics->avg_digit_width) + 4;
+	gnm_style_unref (mstyle);
+
+	for (col = col_from; col <= col_to; col++)
+		sheet_col_set_size_pixels (state->sheet, col, width, TRUE);
+}
+
+static void
+sc_parse_format_free_precision (ScParseState *state)
+{
+	if (state->precision != NULL)
+		g_array_free (state->precision, TRUE);
+}
+
+static int
+sc_parse_format_get_precision (ScParseState *state, int col)
+{
+	if (state->precision != NULL &&
+	    col < (int)state->precision->len) {
+		return (g_array_index(state->precision, int, col) - 1 );
+	} else return -1;
+}
+
+static void
+sc_parse_format_save_precision (ScParseState *state, int precision, 
+				int col_from, int col_to)
+{
+	int col;
+
+	if (state->precision == NULL)
+		state->precision = g_array_new (FALSE, TRUE, sizeof (int));
+
+	if (!(col_to < (int)state->precision->len))
+		state->precision = g_array_set_size (state->precision, col_to + 1);
+
+	for (col = col_from; col <= col_to; col++)
+		g_array_index(state->precision, int, col) = precision + 1;
+}
+
+static char *
+sc_parse_format_apply_precision (ScParseState *state, char *format, int col) 
+{
+	if (strchr (format, '&')) {
+		GString* str = g_string_new (format);
+		char *amp = str->str;
+		int off = 0;
+
+		g_free (format);
+		while (NULL != (amp = strchr (str->str + off, '&'))) {
+			off = amp - str->str + 1;
+			if (amp == str->str || *(amp - 1) != '\\') {
+				int p = sc_parse_format_get_precision (state, col);
+				int i;
+				if (p == -1) {
+					p = 0;
+					sc_warning (state, _("Encountered precision dependent format without set precision."));
+				}
+				off--;
+				g_string_erase (str, off, 1);
+				for (i = 0; i < p; i++)
+					g_string_insert_c (str, off, '0');
+			}
+			
+		}
+		format = g_string_free (str, FALSE);
+	}
+	return format;
+} 
+
+static void
+sc_parse_format_set_type (ScParseState *state, int type, int col_from, int col_to)
+{
+	char const *o_format = g_ptr_array_index(state->formats, type);
+	int col;
+
+	if (o_format == NULL) {
+		sc_warning (state, _("Column format %i is undefined."), type);
+		return;
+	}
+	for (col = col_from; col <= col_to; col++) {
+		char *fmt = g_strdup (o_format);
+		GOFormat *gfmt;
+		GnmStyle *style;
+		GnmRange range;
+		range_init_cols (&range, state->sheet, col, col);
+		fmt = sc_parse_format_apply_precision (state, fmt, col);
+		gfmt = go_format_new_from_XL (fmt);
+		style = gnm_style_new_default ();
+		gnm_style_set_format (style, gfmt);
+		sheet_style_apply_range (state->sheet, &range, style);
+		/* gnm_style_unref (style); reference has been absorbed */
+		go_format_unref (gfmt);
+		g_free (fmt);
+	}
+	
+}
+
 static gboolean
 sc_parse_format (ScParseState *state, char const *cmd, char const *str,
 		 GnmCellPos const *cpos)
 {
+	char const *s = str;
+	int col_from = -1, col_to = -1, d;
+	int len = 0, precision = 0, format_type = 0;
+
 	if (g_ascii_isdigit ((gchar) *str))
 		return sc_parse_format_definition (state, cmd, str);
-	sc_warning (state, "Ignoring column formatting: %s", str);
+	
+	d = sc_colname_to_coords (s, &col_from);
+
+	if (d == 0) 
+		goto cannotparse;
+
+	s += d;
+	if (*s == ':') {
+		s++;
+		d = sc_colname_to_coords (s, &col_to);
+		if (d == 0) 
+			goto cannotparse;
+		s += d;
+	} else
+		col_to= col_from;
+	while (*s == ' ')
+		s++;
+
+	d = sscanf(s, "%i %i %i", &len, &precision, &format_type);
+	
+	if (d != 3)
+		goto cannotparse;
+
+	if (len > 0)
+		sc_parse_format_set_width (state, len, col_from, col_to);
+	sc_parse_format_save_precision (state, precision, col_from, col_to);
+	sc_parse_format_set_type (state, format_type, col_from, col_to);
+	
 	return TRUE;
+ cannotparse:
+		sc_warning (state, "Unable to parse: %s %s", cmd, str);
+	return FALSE;
 }
 
 static gboolean
@@ -376,6 +541,7 @@ sc_parse_fmt (ScParseState *state, char const *cmd, char const *str,
 	if (!space)
 		return FALSE;
 	fmt = g_strndup (s, space - s);
+	fmt = sc_parse_format_apply_precision (state, fmt, pos.col);
 	gfmt = go_format_new_from_XL (fmt);
 	style = gnm_style_new_default ();
 	gnm_style_set_format (style, gfmt);
@@ -714,7 +880,7 @@ sc_parse_line (ScParseState *state, char *buf)
 
 			if (cmd->have_coord) {
 				if (!sc_parse_coord (state, &strdata, &pos)) {
-					g_printerr ("Cannot parse %s\n",
+					sc_warning (state, "Cannot parse %s\n",
 						    buf);
 					return FALSE;
 				}
@@ -814,6 +980,11 @@ sc_conventions (void)
 	return conv;
 }
 
+static void
+sc_format_free (gpointer data,  gpointer user_data)
+{
+	g_free (data);
+}
 
 void
 sc_file_open (GOFileOpener const *fo, GOIOContext *io_context,
@@ -836,6 +1007,15 @@ sc_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	state.convs = sc_conventions ();
 	state.context = io_context;
 	state.last_error = NULL;
+	state.precision = NULL;
+	state.formats = g_ptr_array_sized_new (10);
+	g_ptr_array_add (state.formats, g_strdup ("#.&")); /* 0 */
+	g_ptr_array_add (state.formats, g_strdup ("0.&E+00")); /* 1 */
+	g_ptr_array_add (state.formats, g_strdup ("##0.&E+00")); /* 2 */
+	g_ptr_array_add (state.formats, g_strdup ("[$-f8f2]m/d/yy")); /* 3 */
+	g_ptr_array_add (state.formats, g_strdup ("[$-f800]dddd, mmmm dd, yyyy")); /* 4 */
+	g_ptr_array_set_size (state.formats, 10);
+
 	state.textline = (GsfInputTextline *) gsf_input_textline_new (input);
 	error = sc_parse_sheet (&state);
 	if (error != NULL) {
@@ -846,6 +1026,11 @@ sc_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	g_iconv_close (state.converter);
 	gnm_conventions_unref (state.convs);
 	g_free (state.last_error);
+	sc_parse_format_free_precision (&state);
+
+	/*In glib 2.22 or later we could use g_ptr_array_set_free_func */
+	g_ptr_array_foreach (state.formats, (GFunc) sc_format_free, NULL);
+	g_ptr_array_unref (state.formats);
 }
 
 

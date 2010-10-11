@@ -1,3 +1,19 @@
+2010-10-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* sc.c (sc_colname_to_coords): new
+	(sc_cellname_to_coords): use sc_colname_to_coords
+	(sc_parse_format_set_width): new
+	(sc_parse_format_free_precision): new
+	(sc_parse_format_get_precision): new
+	(sc_parse_format_save_precision): new
+	(sc_parse_format_apply_precision): new
+	(sc_parse_format_set_type): new
+	(sc_parse_format): implement
+	(sc_parse_fmt): apply precision
+	(sc_parse_line): use sc_warning
+	(sc_format_free): new
+	(sc_file_open): initialize and finalize new fields
+
 2010-10-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* sc.c (sc_parse_set): new

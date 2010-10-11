@@ -111,9 +111,11 @@ static void
 gnm_undo_colrow_set_sizes_undo (GOUndo *u, gpointer data)
 {
 	GNMUndoColrowSetSizes *ua = (GNMUndoColrowSetSizes *)u;
+	ColRowStateGroup *group;
 
-	colrow_set_sizes (ua->sheet, ua->is_cols, ua->selection, ua->new_size, 
-			  ua->from, ua->to);
+	group = colrow_set_sizes (ua->sheet, ua->is_cols, ua->selection, ua->new_size, 
+				  ua->from, ua->to);
+	colrow_state_group_destroy (group);
 }
 
 static void
