@@ -157,11 +157,6 @@ glade_DATA = 				\
 	shuffle.glade			\
 	sign-test.glade			\
 	sign-test-two.glade		\
-	so-button.glade			\
-	so-radiobutton.glade		\
-	so-checkbox.glade		\
-	so-frame.glade			\
-	so-scrollbar.glade		\
 	simulation.glade		\
 	solver.glade			\
 	tabulate.glade			\
@@ -175,6 +170,11 @@ uidir   = $(gnumeric_datadir)/ui
 ui_DATA = 				\
 	search.ui			\
 	sheet-resize.ui			\
-	so-list.ui
+	so-button.ui			\
+	so-radiobutton.ui		\
+	so-checkbox.ui		\
+	so-frame.ui			\
+	so-list.ui		\
+	so-scrollbar.ui
 
 EXTRA_DIST = $(glade_DATA) $(ui_DATA)

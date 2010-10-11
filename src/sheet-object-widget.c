@@ -454,7 +454,6 @@ sheet_widget_frame_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 }
 
 typedef struct {
-	GladeXML           *gui;
 	GtkWidget          *dialog;
 	GtkWidget          *label;
 
@@ -470,11 +469,6 @@ static void
 cb_frame_config_destroy (FrameConfigState *state)
 {
 	g_return_if_fail (state != NULL);
-
-	if (state->gui != NULL) {
-		g_object_unref (G_OBJECT (state->gui));
-		state->gui = NULL;
-	}
 
 	g_free (state->old_label);
 	state->old_label = NULL;
@@ -538,6 +532,8 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 	WBCGtk   *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
 	FrameConfigState *state;
 	GtkWidget *table;
+	GtkBuilder *gui;
+	char *f;
 
 	g_return_if_fail (swf != NULL);
 
@@ -545,19 +541,20 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
 		return;
 
+	f = g_build_filename (gnm_sys_data_dir (), "ui", "so-frame.ui", NULL);
+	gui = go_gtk_builder_new (f, NULL, GO_CMD_CONTEXT (wbcg));
+	g_free (f);
 	state = g_new (FrameConfigState, 1);
 	state->swf = swf;
 	state->wbcg = wbcg;
 	state->sheet = sc_sheet	(sc);
 	state->old_focus = NULL;
 	state->old_label = g_strdup(swf->label);
-	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"so-frame.glade", NULL, NULL);
-	state->dialog = glade_xml_get_widget (state->gui, "so_frame");
+	state->dialog = go_gtk_builder_get_widget (gui, "so_frame");
 
-	table = glade_xml_get_widget(state->gui, "table");
+	table = go_gtk_builder_get_widget (gui, "table");
 
-	state->label = glade_xml_get_widget (state->gui, "entry");
+	state->label = go_gtk_builder_get_widget (gui, "entry");
 	gtk_entry_set_text (GTK_ENTRY(state->label), swf->label);
 	gtk_editable_select_region (GTK_EDITABLE(state->label), 0, -1);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
@@ -566,17 +563,17 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 	g_signal_connect (G_OBJECT(state->label),
 			  "changed",
 			  G_CALLBACK (cb_frame_label_changed), state);
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui,
+	g_signal_connect (G_OBJECT (go_gtk_builder_get_widget (gui,
 							  "ok_button")),
 			  "clicked",
 			  G_CALLBACK (cb_frame_config_ok_clicked), state);
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui,
+	g_signal_connect (G_OBJECT (go_gtk_builder_get_widget (gui,
 							  "cancel_button")),
 			  "clicked",
 			  G_CALLBACK (cb_frame_config_cancel_clicked), state);
 
 	gnumeric_init_help_button (
-		glade_xml_get_widget (state->gui, "help_button"),
+		go_gtk_builder_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_SO_FRAME);
 
 
@@ -586,6 +583,7 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_frame_config_destroy);
+	g_object_unref (gui);
 
 	gtk_widget_show (state->dialog);
 }
@@ -841,7 +839,6 @@ sheet_widget_button_copy (SheetObject *dst, SheetObject const *src)
 }
 
 typedef struct {
-	GladeXML           *gui;
 	GtkWidget *dialog;
 	GnmExprEntry *expression;
 	GtkWidget *label;
@@ -880,11 +877,6 @@ static void
 cb_button_config_destroy (ButtonConfigState *state)
 {
 	g_return_if_fail (state != NULL);
-
-	if (state->gui != NULL) {
-		g_object_unref (G_OBJECT (state->gui));
-		state->gui = NULL;
-	}
 
 	g_free (state->old_label);
 	state->old_label = NULL;
@@ -930,6 +922,8 @@ sheet_widget_button_user_config (SheetObject *so, SheetControl *sc)
 	WBCGtk  *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
 	ButtonConfigState *state;
 	GtkWidget *table;
+	GtkBuilder *gui;
+	char *f;
 
 	g_return_if_fail (swb != NULL);
 
@@ -937,24 +931,25 @@ sheet_widget_button_user_config (SheetObject *so, SheetControl *sc)
 	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
 		return;
 
+	f = g_build_filename (gnm_sys_data_dir (), "ui", "so-button.ui", NULL);
+	gui = go_gtk_builder_new (f, NULL, GO_CMD_CONTEXT (wbcg));
+	g_free (f);
 	state = g_new (ButtonConfigState, 1);
 	state->swb = swb;
 	state->wbcg = wbcg;
 	state->sheet = sc_sheet	(sc);
 	state->old_focus = NULL;
 	state->old_label = g_strdup (swb->label);
-	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"so-button.glade", NULL, NULL);
-	state->dialog = glade_xml_get_widget (state->gui, "SO-Button");
+	state->dialog = go_gtk_builder_get_widget (gui, "SO-Button");
 
-	table = glade_xml_get_widget (state->gui, "table");
+	table = go_gtk_builder_get_widget (gui, "table");
 
 	state->expression = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->expression,
 		GNM_EE_FORCE_ABS_REF | GNM_EE_SHEET_OPTIONAL | GNM_EE_SINGLE_RANGE,
 		GNM_EE_MASK);
 	gnm_expr_entry_load_from_dep (state->expression, &swb->dep);
-	go_atk_setup_label (glade_xml_get_widget (state->gui, "label_linkto"),
+	go_atk_setup_label (go_gtk_builder_get_widget (gui, "label_linkto"),
 			     GTK_WIDGET (state->expression));
 	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (state->expression),
 			  1, 2, 0, 1,
@@ -962,7 +957,7 @@ sheet_widget_button_user_config (SheetObject *so, SheetControl *sc)
 			  0, 0);
 	gtk_widget_show (GTK_WIDGET (state->expression));
 
-	state->label = glade_xml_get_widget (state->gui, "label_entry");
+	state->label = go_gtk_builder_get_widget (gui, "label_entry");
 	gtk_entry_set_text (GTK_ENTRY (state->label), swb->label);
 	gtk_editable_select_region (GTK_EDITABLE(state->label), 0, -1);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
@@ -973,15 +968,15 @@ sheet_widget_button_user_config (SheetObject *so, SheetControl *sc)
 	g_signal_connect (G_OBJECT (state->label),
 		"changed",
 		G_CALLBACK (cb_button_label_changed), state);
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "ok_button")),
+	g_signal_connect (G_OBJECT (go_gtk_builder_get_widget (gui, "ok_button")),
 		"clicked",
 		G_CALLBACK (cb_button_config_ok_clicked), state);
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "cancel_button")),
+	g_signal_connect (G_OBJECT (go_gtk_builder_get_widget (gui, "cancel_button")),
 		"clicked",
 		G_CALLBACK (cb_button_config_cancel_clicked), state);
 
 	gnumeric_init_help_button (
-		glade_xml_get_widget (state->gui, "help_button"),
+		go_gtk_builder_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_SO_BUTTON);
 
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
@@ -995,6 +990,7 @@ sheet_widget_button_user_config (SheetObject *so, SheetControl *sc)
 	/*        callback installed by wbc_gtk_attach_guru */
 	g_signal_connect (G_OBJECT (state->dialog), "set-focus",
 		G_CALLBACK (cb_button_set_focus), state);
+	g_object_unref (gui);
 
 	gtk_widget_show (state->dialog);
 }
@@ -1433,7 +1429,6 @@ sheet_widget_adjustment_copy (SheetObject *dst, SheetObject const *src)
 }
 
 typedef struct {
-	GladeXML           *gui;
 	GtkWidget          *dialog;
 	GnmExprEntry       *expression;
 	GtkWidget          *min;
@@ -1478,10 +1473,6 @@ cb_adjustment_config_destroy (AdjustmentConfigState *state)
 {
 	g_return_if_fail (state != NULL);
 
-	if (state->gui != NULL) {
-		g_object_unref (G_OBJECT (state->gui));
-		state->gui = NULL;
-	}
 	g_free (state->undo_label);
 
 	state->dialog = NULL;
@@ -1532,6 +1523,8 @@ sheet_widget_adjustment_user_config_impl (SheetObject *so, SheetControl *sc, cha
 	WBCGtk *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
 	AdjustmentConfigState *state;
 	GtkWidget *table;
+	GtkBuilder *gui;
+	char *f;
 	gboolean has_directions = (swa_class->htype != G_TYPE_NONE &&
 				   swa_class->vtype != G_TYPE_NONE);
 
@@ -1539,27 +1532,28 @@ sheet_widget_adjustment_user_config_impl (SheetObject *so, SheetControl *sc, cha
 	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
 		return;
 
+	f = g_build_filename (gnm_sys_data_dir (), "ui", "so-scrollbar.ui", NULL);
+	gui = go_gtk_builder_new (f, NULL, GO_CMD_CONTEXT (wbcg));
+	g_free (f);
 	state = g_new (AdjustmentConfigState, 1);
 	state->swa = swa;
 	state->wbcg = wbcg;
 	state->sheet = sc_sheet	(sc);
 	state->old_focus = NULL;
 	state->undo_label = (undo_label == NULL) ? NULL : g_strdup (undo_label);
-	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"so-scrollbar.glade", NULL, NULL);
-	state->dialog = glade_xml_get_widget (state->gui, "SO-Scrollbar");
+	state->dialog = go_gtk_builder_get_widget (gui, "SO-Scrollbar");
 
 	if (dialog_label != NULL)
 		gtk_window_set_title (GTK_WINDOW (state->dialog), dialog_label);
 
-	table = glade_xml_get_widget (state->gui, "table");
+	table = go_gtk_builder_get_widget (gui, "table");
 
 	state->expression = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->expression,
 		GNM_EE_FORCE_ABS_REF | GNM_EE_SHEET_OPTIONAL | GNM_EE_SINGLE_RANGE,
 		GNM_EE_MASK);
 	gnm_expr_entry_load_from_dep (state->expression, &swa->dep);
-	go_atk_setup_label (glade_xml_get_widget (state->gui, "label_linkto"),
+	go_atk_setup_label (go_gtk_builder_get_widget (gui, "label_linkto"),
 			     GTK_WIDGET (state->expression));
 	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (state->expression),
 			  1, 2, 0, 1,
@@ -1568,8 +1562,8 @@ sheet_widget_adjustment_user_config_impl (SheetObject *so, SheetControl *sc, cha
 	gtk_widget_show (GTK_WIDGET (state->expression));
 
 	if (has_directions) {
-		state->direction_h = glade_xml_get_widget (state->gui, "direction_h");
-		state->direction_v = glade_xml_get_widget (state->gui, "direction_v");
+		state->direction_h = go_gtk_builder_get_widget (gui, "direction_h");
+		state->direction_v = go_gtk_builder_get_widget (gui, "direction_v");
 		gtk_toggle_button_set_active
 			(GTK_TOGGLE_BUTTON (swa->horizontal
 					    ? state->direction_h
@@ -1578,18 +1572,18 @@ sheet_widget_adjustment_user_config_impl (SheetObject *so, SheetControl *sc, cha
 	} else {
 		state->direction_h = NULL;
 		state->direction_v = NULL;
-		gtk_widget_destroy (glade_xml_get_widget (state->gui, "direction_label"));
-		gtk_widget_destroy (glade_xml_get_widget (state->gui, "direction_box"));
+		gtk_widget_destroy (go_gtk_builder_get_widget (gui, "direction_label"));
+		gtk_widget_destroy (go_gtk_builder_get_widget (gui, "direction_box"));
 	}
 
 	/* TODO : This is silly, no need to be similar to XL here. */
-	state->min = glade_xml_get_widget (state->gui, "spin_min");
+	state->min = go_gtk_builder_get_widget (gui, "spin_min");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->min), swa->adjustment->lower);
-	state->max = glade_xml_get_widget (state->gui, "spin_max");
+	state->max = go_gtk_builder_get_widget (gui, "spin_max");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->max), swa->adjustment->upper);
-	state->inc = glade_xml_get_widget (state->gui, "spin_increment");
+	state->inc = go_gtk_builder_get_widget (gui, "spin_increment");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->inc), swa->adjustment->step_increment);
-	state->page = glade_xml_get_widget (state->gui, "spin_page");
+	state->page = go_gtk_builder_get_widget (gui, "spin_page");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->page), swa->adjustment->page_increment);
 
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
@@ -1602,15 +1596,15 @@ sheet_widget_adjustment_user_config_impl (SheetObject *so, SheetControl *sc, cha
 				  GTK_WIDGET (state->inc));
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->page));
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "ok_button")),
+	g_signal_connect (G_OBJECT (go_gtk_builder_get_widget (gui, "ok_button")),
 		"clicked",
 		G_CALLBACK (cb_adjustment_config_ok_clicked), state);
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "cancel_button")),
+	g_signal_connect (G_OBJECT (go_gtk_builder_get_widget (gui, "cancel_button")),
 		"clicked",
 		G_CALLBACK (cb_adjustment_config_cancel_clicked), state);
 
 	gnumeric_init_help_button (
-		glade_xml_get_widget (state->gui, "help_button"),
+		go_gtk_builder_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_SO_ADJUSTMENT);
 
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
@@ -1624,6 +1618,7 @@ sheet_widget_adjustment_user_config_impl (SheetObject *so, SheetControl *sc, cha
 	/*        callback installed by wbc_gtk_attach_guru           */
 	g_signal_connect (G_OBJECT (state->dialog), "set-focus",
 		G_CALLBACK (cb_adjustment_set_focus), state);
+	g_object_unref (gui);
 
 	gtk_widget_show (state->dialog);
 }
@@ -2281,7 +2276,6 @@ sheet_widget_checkbox_copy (SheetObject *dst, SheetObject const *src)
 }
 
 typedef struct {
-	GladeXML           *gui;
 	GtkWidget *dialog;
 	GnmExprEntry *expression;
 	GtkWidget *label;
@@ -2320,11 +2314,6 @@ static void
 cb_checkbox_config_destroy (CheckboxConfigState *state)
 {
 	g_return_if_fail (state != NULL);
-
-	if (state->gui != NULL) {
-		g_object_unref (G_OBJECT (state->gui));
-		state->gui = NULL;
-	}
 
 	g_free (state->old_label);
 	state->old_label = NULL;
@@ -2370,6 +2359,8 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 	WBCGtk  *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
 	CheckboxConfigState *state;
 	GtkWidget *table;
+	GtkBuilder *gui;
+	char *f;
 
 	g_return_if_fail (swc != NULL);
 
@@ -2377,24 +2368,25 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
 		return;
 
+	f = g_build_filename (gnm_sys_data_dir (), "ui", "so-checkbox.ui", NULL);
+	gui = go_gtk_builder_new (f, NULL, GO_CMD_CONTEXT (wbcg));
+	g_free (f);
 	state = g_new (CheckboxConfigState, 1);
 	state->swc = swc;
 	state->wbcg = wbcg;
 	state->sheet = sc_sheet	(sc);
 	state->old_focus = NULL;
 	state->old_label = g_strdup (swc->label);
-	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"so-checkbox.glade", NULL, NULL);
-	state->dialog = glade_xml_get_widget (state->gui, "SO-Checkbox");
+	state->dialog = go_gtk_builder_get_widget (gui, "SO-Checkbox");
 
-	table = glade_xml_get_widget (state->gui, "table");
+	table = go_gtk_builder_get_widget (gui, "table");
 
 	state->expression = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->expression,
 		GNM_EE_FORCE_ABS_REF | GNM_EE_SHEET_OPTIONAL | GNM_EE_SINGLE_RANGE,
 		GNM_EE_MASK);
 	gnm_expr_entry_load_from_dep (state->expression, &swc->dep);
-	go_atk_setup_label (glade_xml_get_widget (state->gui, "label_linkto"),
+	go_atk_setup_label (go_gtk_builder_get_widget (gui, "label_linkto"),
 			     GTK_WIDGET (state->expression));
 	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (state->expression),
 			  1, 2, 0, 1,
@@ -2402,7 +2394,7 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 			  0, 0);
 	gtk_widget_show (GTK_WIDGET (state->expression));
 
-	state->label = glade_xml_get_widget (state->gui, "label_entry");
+	state->label = go_gtk_builder_get_widget (gui, "label_entry");
 	gtk_entry_set_text (GTK_ENTRY (state->label), swc->label);
 	gtk_editable_select_region (GTK_EDITABLE(state->label), 0, -1);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
@@ -2413,15 +2405,15 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 	g_signal_connect (G_OBJECT (state->label),
 		"changed",
 		G_CALLBACK (cb_checkbox_label_changed), state);
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "ok_button")),
+	g_signal_connect (G_OBJECT (go_gtk_builder_get_widget (gui, "ok_button")),
 		"clicked",
 		G_CALLBACK (cb_checkbox_config_ok_clicked), state);
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "cancel_button")),
+	g_signal_connect (G_OBJECT (go_gtk_builder_get_widget (gui, "cancel_button")),
 		"clicked",
 		G_CALLBACK (cb_checkbox_config_cancel_clicked), state);
 
 	gnumeric_init_help_button (
-		glade_xml_get_widget (state->gui, "help_button"),
+		go_gtk_builder_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_SO_CHECKBOX);
 
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
@@ -2435,6 +2427,7 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 	/*        callback installed by wbc_gtk_attach_guru */
 	g_signal_connect (G_OBJECT (state->dialog), "set-focus",
 		G_CALLBACK (cb_checkbox_set_focus), state);
+	g_object_unref (gui);
 
 	gtk_widget_show (state->dialog);
 }
@@ -2977,7 +2970,6 @@ sheet_widget_radio_button_set_label (SheetObject *so, char const *str)
 
 
 typedef struct {
- 	GladeXML           *gui;
  	GtkWidget *dialog;
  	GnmExprEntry *expression;
  	GtkWidget *label, *value;
@@ -3017,11 +3009,6 @@ static void
 cb_radio_button_config_destroy (RadioButtonConfigState *state)
 {
  	g_return_if_fail (state != NULL);
-
- 	if (state->gui != NULL) {
- 		g_object_unref (G_OBJECT (state->gui));
- 		state->gui = NULL;
-  	}
 
  	g_free (state->old_label);
  	state->old_label = NULL;
@@ -3091,6 +3078,8 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
  	RadioButtonConfigState *state;
  	GtkWidget *table;
 	GString *valstr;
+	GtkBuilder *gui;
+	char *f;
 
  	g_return_if_fail (swrb != NULL);
 
@@ -3098,6 +3087,9 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
  	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
  		return;
 
+	f = g_build_filename (gnm_sys_data_dir (), "ui", "so-radiobutton.ui", NULL);
+	gui = go_gtk_builder_new (f, NULL, GO_CMD_CONTEXT (wbcg));
+	g_free (f);
  	state = g_new (RadioButtonConfigState, 1);
  	state->swrb = swrb;
  	state->wbcg = wbcg;
@@ -3105,18 +3097,16 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
  	state->old_focus = NULL;
 	state->old_label = g_strdup (swrb->label);
  	state->old_value = value_dup (swrb->value);
- 	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-					"so-radiobutton.glade", NULL, NULL);
- 	state->dialog = glade_xml_get_widget (state->gui, "SO-Radiobutton");
+ 	state->dialog = go_gtk_builder_get_widget (gui, "SO-Radiobutton");
 
- 	table = glade_xml_get_widget (state->gui, "table");
+ 	table = go_gtk_builder_get_widget (gui, "table");
 
  	state->expression = gnm_expr_entry_new (wbcg, TRUE);
  	gnm_expr_entry_set_flags (state->expression,
 				  GNM_EE_FORCE_ABS_REF | GNM_EE_SHEET_OPTIONAL | GNM_EE_SINGLE_RANGE,
 				  GNM_EE_MASK);
  	gnm_expr_entry_load_from_dep (state->expression, &swrb->dep);
- 	go_atk_setup_label (glade_xml_get_widget (state->gui, "label_linkto"),
+ 	go_atk_setup_label (go_gtk_builder_get_widget (gui, "label_linkto"),
 			    GTK_WIDGET (state->expression));
  	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (state->expression),
  			  1, 2, 0, 1,
@@ -3124,10 +3114,10 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
  			  0, 0);
  	gtk_widget_show (GTK_WIDGET (state->expression));
 
- 	state->label = glade_xml_get_widget (state->gui, "label_entry");
+ 	state->label = go_gtk_builder_get_widget (gui, "label_entry");
  	gtk_entry_set_text (GTK_ENTRY (state->label), swrb->label);
  	gtk_editable_select_region (GTK_EDITABLE(state->label), 0, -1);
- 	state->value = glade_xml_get_widget (state->gui, "value_entry");
+ 	state->value = go_gtk_builder_get_widget (gui, "value_entry");
 
 	valstr = g_string_new (NULL);
 	value_get_as_gstring (swrb->value, valstr, so->sheet->convs);
@@ -3147,15 +3137,15 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
  	g_signal_connect (G_OBJECT (state->value),
 			  "changed",
 			  G_CALLBACK (cb_radio_button_value_changed), state);
- 	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "ok_button")),
+ 	g_signal_connect (G_OBJECT (go_gtk_builder_get_widget (gui, "ok_button")),
 			  "clicked",
 			  G_CALLBACK (cb_radio_button_config_ok_clicked), state);
- 	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "cancel_button")),
+ 	g_signal_connect (G_OBJECT (go_gtk_builder_get_widget (gui, "cancel_button")),
 			  "clicked",
 			  G_CALLBACK (cb_radio_button_config_cancel_clicked), state);
 
  	gnumeric_init_help_button (
- 		glade_xml_get_widget (state->gui, "help_button"),
+ 		go_gtk_builder_get_widget (gui, "help_button"),
  		GNUMERIC_HELP_LINK_SO_RADIO_BUTTON);
 
  	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
@@ -3164,6 +3154,7 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
  	wbc_gtk_attach_guru (state->wbcg, state->dialog);
  	g_object_set_data_full (G_OBJECT (state->dialog),
 				"state", state, (GDestroyNotify) cb_radio_button_config_destroy);
+	g_object_unref (gui);
 
 	/* Note:  half of the set-focus action is handle by the default */
  	/*        callback installed by wbc_gtk_attach_guru */
