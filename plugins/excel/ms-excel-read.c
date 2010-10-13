@@ -4190,6 +4190,10 @@ excel_read_SELECTION (BiffQuery *q, ExcelReadSheet *esheet)
 	if (pane_number != esheet->active_pane)
 		return;
 
+	/* FIXME: docs say that consequtive records with the same pane
+	   number should be treated as one.  No file with this has been
+	   observed.  */
+
 	d (5, g_printerr ("Start selection in pane #%d\n", pane_number););
 	d (5, g_printerr ("Cursor: %s in Ref #%d\n", cellpos_as_string (&edit_pos),
 		      j););
@@ -4210,6 +4214,7 @@ excel_read_SELECTION (BiffQuery *q, ExcelReadSheet *esheet)
 	}
 
 	if (sv->selections == NULL) {
+		/* See bug 632050 */
 		sv_selection_add_pos (sv, 0, 0);
 		d (5, g_printerr ("No selection\n"););
 	}
