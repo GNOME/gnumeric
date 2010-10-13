@@ -2,6 +2,7 @@
 
 	* ms-excel-read.c (excel_read_SELECTION): Work around missing
 	selection.  Fixes #632050.
+	(excel_parse_name): Treat global Print_Area a tad better.
 
 2010-10-03  Jean Brefort  <jean.brefort@normalesup.org>
 

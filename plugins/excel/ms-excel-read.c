@@ -3381,14 +3381,44 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 		if (val != NULL && val->type == VALUE_CELLRANGE) {
 			GnmEvalPos ep;
 			int height, width;
+
+			if (sheet == NULL) {
+				Sheet *start_sheet, *end_sheet;
+				GnmRange dest;
+
+				/* Turn a global Print_Area name into a local
+				   name for the sheet it specifies.  This
+				   triggers on the file from 632050.  */
+				gnm_rangeref_normalize_pp (value_get_rangeref (val),
+							   
+							   &pp,
+							   
+							   &start_sheet,
+							   &end_sheet,
+							   &dest);
+				if (start_sheet && end_sheet == start_sheet) {
+					sheet = start_sheet;
+					pp.sheet = sheet;
+					gnm_expr_top_unref (texpr);
+					texpr = gnm_expr_top_new_constant (value_new_cellrange_r (NULL, &dest));
+				}
+			}
+
 			eval_pos_init_sheet (&ep, sheet);
 			height = value_area_get_height (val, &ep);
 			width = value_area_get_width (val, &ep);
-			value_release (val);
-			if ((height == 65536) && (width == 256)) {
+			if (height == gnm_sheet_get_max_rows (sheet) &&
+			    width == gnm_sheet_get_max_cols (sheet)) {
 				gnm_expr_top_unref (texpr);
-				texpr = gnm_expr_top_new_constant (value_new_error_REF (&ep));
+				texpr = NULL;
 			}
+		}
+		value_release (val);
+
+		/* Completely ignore Print_Area settings of #REF!  */
+		if (texpr == NULL || gnm_expr_top_is_err (texpr, GNM_ERROR_REF)) {
+			if (texpr) gnm_expr_top_unref (texpr);
+			return NULL;
 		}
 	}
 

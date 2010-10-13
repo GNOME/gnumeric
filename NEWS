@@ -17,6 +17,7 @@ Jean:
 
 Morten:
 	* Fix crash related to broken xls.  [#632050]
+	* Fix print area problem from broken xls.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.11
