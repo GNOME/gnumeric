@@ -4209,6 +4209,11 @@ excel_read_SELECTION (BiffQuery *q, ExcelReadSheet *esheet)
 			r.end.col, r.end.row);
 	}
 
+	if (sv->selections == NULL) {
+		sv_selection_add_pos (sv, 0, 0);
+		d (5, g_printerr ("No selection\n"););
+	}
+
 	d (5, g_printerr ("Done selection\n"););
 }
 

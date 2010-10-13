@@ -15,6 +15,9 @@ Andreas:
 Jean:
 	* Fixed maximum for col/row number in sheet resize dialog. [#631702]
 
+Morten:
+	* Fix crash related to broken xls.  [#632050]
+
 --------------------------------------------------------------------------
 Gnumeric 1.10.11
 
