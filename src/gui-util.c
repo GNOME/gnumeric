@@ -571,6 +571,22 @@ gnm_glade_xml_new (GOCmdContext *cc, char const *gladefile,
 	return gui;
 }
 
+GtkBuilder *
+gnm_gtk_builder_new (char const *uifile, char const *domain, GOCmdContext *cc)
+{
+	GtkBuilder *gui;
+
+	char *f = g_path_is_absolute (uifile)
+		? g_strdup (uifile)
+		: g_build_filename (gnm_sys_data_dir (), "ui", uifile, NULL);
+
+	gui = go_gtk_builder_new (f, domain, cc);
+	g_free (f);
+
+	return gui;
+}
+
+
 static void
 popup_item_activate (GtkWidget *item, gpointer *user_data)
 {

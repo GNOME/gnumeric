@@ -146,13 +146,10 @@ dialog_sheet_resize (WBCGtk *wbcg)
 	GtkBuilder *gui;
 	ResizeState *state;
 	int slider_width;
-	char *f;
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, RESIZE_DIALOG_KEY))
 		return;
-	f = g_build_filename (gnm_sys_data_dir (), "ui", "sheet-resize.ui", NULL);
-	gui = go_gtk_builder_new (f, NULL, GO_CMD_CONTEXT (wbcg));
-	g_free (f);
+	gui = gnm_gtk_builder_new ("sheet-resize.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

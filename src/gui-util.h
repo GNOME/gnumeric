@@ -50,6 +50,8 @@ GtkWidget  *gnumeric_create_tooltip (GtkWidget *ref_widget);
 
 GladeXML   *gnm_glade_xml_new (GOCmdContext *cc, char const *gladefile,
 			       char const *root, char const *domain);
+GtkBuilder *gnm_gtk_builder_new (char const *uifile, char const *domain,
+				 GOCmdContext *cc);
 
 typedef struct {
 	char const *name;

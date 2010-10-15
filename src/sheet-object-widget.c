@@ -533,7 +533,6 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 	FrameConfigState *state;
 	GtkWidget *table;
 	GtkBuilder *gui;
-	char *f;
 
 	g_return_if_fail (swf != NULL);
 
@@ -541,9 +540,9 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
 		return;
 
-	f = g_build_filename (gnm_sys_data_dir (), "ui", "so-frame.ui", NULL);
-	gui = go_gtk_builder_new (f, NULL, GO_CMD_CONTEXT (wbcg));
-	g_free (f);
+	gui = gnm_gtk_builder_new ("so-frame.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	if (!gui)
+		return;
 	state = g_new (FrameConfigState, 1);
 	state->swf = swf;
 	state->wbcg = wbcg;
@@ -923,7 +922,6 @@ sheet_widget_button_user_config (SheetObject *so, SheetControl *sc)
 	ButtonConfigState *state;
 	GtkWidget *table;
 	GtkBuilder *gui;
-	char *f;
 
 	g_return_if_fail (swb != NULL);
 
@@ -931,9 +929,9 @@ sheet_widget_button_user_config (SheetObject *so, SheetControl *sc)
 	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
 		return;
 
-	f = g_build_filename (gnm_sys_data_dir (), "ui", "so-button.ui", NULL);
-	gui = go_gtk_builder_new (f, NULL, GO_CMD_CONTEXT (wbcg));
-	g_free (f);
+	gui = gnm_gtk_builder_new ("so-button.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	if (!gui)
+		return;
 	state = g_new (ButtonConfigState, 1);
 	state->swb = swb;
 	state->wbcg = wbcg;
@@ -1524,7 +1522,6 @@ sheet_widget_adjustment_user_config_impl (SheetObject *so, SheetControl *sc, cha
 	AdjustmentConfigState *state;
 	GtkWidget *table;
 	GtkBuilder *gui;
-	char *f;
 	gboolean has_directions = (swa_class->htype != G_TYPE_NONE &&
 				   swa_class->vtype != G_TYPE_NONE);
 
@@ -1532,9 +1529,9 @@ sheet_widget_adjustment_user_config_impl (SheetObject *so, SheetControl *sc, cha
 	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
 		return;
 
-	f = g_build_filename (gnm_sys_data_dir (), "ui", "so-scrollbar.ui", NULL);
-	gui = go_gtk_builder_new (f, NULL, GO_CMD_CONTEXT (wbcg));
-	g_free (f);
+	gui = gnm_gtk_builder_new ("so-scrollbar.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	if (!gui)
+		return;
 	state = g_new (AdjustmentConfigState, 1);
 	state->swa = swa;
 	state->wbcg = wbcg;
@@ -2360,7 +2357,6 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 	CheckboxConfigState *state;
 	GtkWidget *table;
 	GtkBuilder *gui;
-	char *f;
 
 	g_return_if_fail (swc != NULL);
 
@@ -2368,9 +2364,9 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
 		return;
 
-	f = g_build_filename (gnm_sys_data_dir (), "ui", "so-checkbox.ui", NULL);
-	gui = go_gtk_builder_new (f, NULL, GO_CMD_CONTEXT (wbcg));
-	g_free (f);
+	gui = gnm_gtk_builder_new ("so-checkbox.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	if (!gui)
+		return;
 	state = g_new (CheckboxConfigState, 1);
 	state->swc = swc;
 	state->wbcg = wbcg;
@@ -3079,7 +3075,6 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
  	GtkWidget *table;
 	GString *valstr;
 	GtkBuilder *gui;
-	char *f;
 
  	g_return_if_fail (swrb != NULL);
 
@@ -3087,9 +3082,9 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
  	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
  		return;
 
-	f = g_build_filename (gnm_sys_data_dir (), "ui", "so-radiobutton.ui", NULL);
-	gui = go_gtk_builder_new (f, NULL, GO_CMD_CONTEXT (wbcg));
-	g_free (f);
+	gui = gnm_gtk_builder_new ("so-radiobutton.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	if (!gui)
+		return;
  	state = g_new (RadioButtonConfigState, 1);
  	state->swrb = swrb;
  	state->wbcg = wbcg;

@@ -1,7 +1,15 @@
+2010-10-15  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-widget.c (sheet_widget_frame_user_config): Use
+	gnm_gtk_builder_new and handle failures.
+
+	* src/gui-util.c (gnm_gtk_builder_new): New function that knows
+	about Gnumeric's directory structure.
+
 2010-10-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/undo.c (gnm_undo_colrow_set_sizes_undo): plug leak
-	
+
 2010-10-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-widget.c (cb_frame_config_destroy),
@@ -32,7 +40,7 @@
 	(actions): connect the above
 	* src/wbc-gtk.c (wbcg_menu_state_update): handle MS_PAGE_BREAKS
 	* src/workbook-control.h (MS_PAGE_BREAKS): new
-	
+
 2010-10-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print-info.c (print_info_set_paper_orientation): correct
@@ -46,7 +54,7 @@
 	* src/commands.h (cmd_so_set_links): add argument
 	* src/commands.c (cmd_so_set_links): add argument
 	(cmd_so_set_links_redo): handle output ttpe
-	* src/sheet-object-widget.h 
+	* src/sheet-object-widget.h
 	(sheet_widget_list_base_set_result_type): new
 	(sheet_widget_list_base_result_type_is_index): new
 	* src/sheet-object-widget.c
@@ -58,12 +66,12 @@
 
 2010-10-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/sheet-object-widget.c (cb_list_model_changed): save current 
+	* src/sheet-object-widget.c (cb_list_model_changed): save current
 	  selection and flag selection as saved.
 	(cb_selection_changed): don't bother if the selection was saved
-	(sheet_widget_list_create_widget): try to set the selection only if 
+	(sheet_widget_list_create_widget): try to set the selection only if
 	  we have one.
-	
+
 2010-10-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-object-widget.c (sheet_widget_list_create_widget): set the
@@ -80,7 +88,7 @@
 
 2010-10-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* sheet-object-widget.c (sheet_widget_button_init_full: disable 
+	* sheet-object-widget.c (sheet_widget_button_init_full: disable
 	  printing by default
 	(sheet_widget_adjustment_init_full): ditto
 	(sheet_widget_list_base_init): ditto
@@ -116,24 +124,24 @@
 	  all callers
 	(sheet_widget_frame_draw_cairo): new
 	(sheet_widget_scrollbar_horizontal_draw_cairo): fix alignment
-	
+
 2010-09-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
-	* src/sheet-object-widget.c  
+	* src/sheet-object-widget.c
 	(sheet_widget_scrollbar_*_draw_cairo): new
 	(sheet_widget_scrollbar_draw_cairo): new
-	(sheet_widget_scrollbar_class_init): connect 
+	(sheet_widget_scrollbar_class_init): connect
 	  sheet_widget_slider_draw_cairo
-	(sheet_widget_slider_vertical_draw_cairo): use 
+	(sheet_widget_slider_vertical_draw_cairo): use
 	  sheet_widget_slider_horizontal_draw_cairo
-	
+
 2010-09-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* schemas/gnumeric-general.schemas.in: fix tooltip for column 
+	* schemas/gnumeric-general.schemas.in: fix tooltip for column
 	  and row numbers
-	* src/sheet-object-widget.c (sheet_widget_slider_*_draw_cairo): 
+	* src/sheet-object-widget.c (sheet_widget_slider_*_draw_cairo):
 	  new
 	(sheet_widget_slider_draw_cairo): new
-	(sheet_widget_slider_class_init): connect 
+	(sheet_widget_slider_class_init): connect
 	  sheet_widget_slider_draw_cairo
 
 2010-09-28  Morten Welinder  <terra@gnome.org>

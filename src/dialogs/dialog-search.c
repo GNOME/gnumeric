@@ -479,7 +479,6 @@ dialog_search (WBCGtk *wbcg)
 	GtkDialog *dialog;
 	DialogState *dd;
 	GtkTable *table;
-	char *f;
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -489,9 +488,7 @@ dialog_search (WBCGtk *wbcg)
 		return;
 #endif
 
-	f = g_build_filename (gnm_sys_data_dir (), "ui", "search.ui", NULL);
-	gui = go_gtk_builder_new (f, NULL, GO_CMD_CONTEXT (wbcg));
-	g_free (f);
+	gui = gnm_gtk_builder_new ("search.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 
