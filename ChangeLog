@@ -1,3 +1,8 @@
+2010-10-18  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-image.c (gnm_soi_draw_cairo): Fix printing
+	crash.  [#632439]
+
 2010-10-15  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object-widget.c (sheet_widget_frame_user_config): Use

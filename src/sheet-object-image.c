@@ -550,6 +550,7 @@ gnm_soi_draw_cairo (SheetObject const *so, cairo_t *cr,
 	pixbuf = soi_get_pixbuf (SHEET_OBJECT_IMAGE (so), 1.);
 	if (!pixbuf || width == 0. || height == 0.)
 		return;
+	cairo_save (cr);
 	img = go_image_new_from_pixbuf (pixbuf);
 	cr_pattern = go_image_create_cairo_pattern (img);
 
@@ -562,6 +563,11 @@ gnm_soi_draw_cairo (SheetObject const *so, cairo_t *cr,
 	cairo_rectangle (cr, 0., 0., width, height);
 	cairo_set_source (cr, cr_pattern);
 	cairo_fill (cr);
+	/*
+	 * We need to unset the source before we destroy the pattern.
+	 * cairo_restore will do that.  See #632439.
+	 */
+	cairo_restore (cr);
 	cairo_pattern_destroy (cr_pattern);
 	g_object_unref (img);
 	g_object_unref (pixbuf);
