@@ -1,5 +1,10 @@
 2010-10-18  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-util.c (gnumeric_glade_group_value): Make this work for
+	gtk builder guis too.
+	(gnm_xml_get_widget): New function wrapping
+	go_gtk_builder_get_widget and glade_xml_get_widget.
+
 	* src/sheet-object-image.c (gnm_soi_draw_cairo): Fix printing
 	crash.  [#632439]
 

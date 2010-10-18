@@ -236,8 +236,8 @@ dialog_data_slicer (WBCGtk *wbcg, gboolean create)
 	state->sv	= wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	state->gui	= gui;
 
-	state->dialog	= glade_xml_get_widget (state->gui, "dialog_data_slicer");
-	state->notebook = glade_xml_get_widget (state->gui, "notebook");
+	state->dialog	= gnm_xml_get_widget (state->gui, "dialog_data_slicer");
+	state->notebook = gnm_xml_get_widget (state->gui, "notebook");
 	state->slicer	= create ? NULL : sv_editpos_in_slicer (state->sv);
 	state->cache	= NULL;
 	state->source	= NULL;
@@ -257,18 +257,18 @@ dialog_data_slicer (WBCGtk *wbcg, gboolean create)
 		GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
 	g_signal_connect_swapped (G_OBJECT (state->source_expr),
 		"changed", G_CALLBACK (cb_source_expr_changed), state);
-	w = glade_xml_get_widget (state->gui, "source_vbox");
+	w = gnm_xml_get_widget (state->gui, "source_vbox");
 	gtk_box_pack_start (GTK_BOX (w), GTK_WIDGET (state->source_expr), FALSE, FALSE, 0);
 	gtk_widget_show (GTK_WIDGET (state->source_expr));
 
-	w = glade_xml_get_widget (state->gui, "ok_button");
+	w = gnm_xml_get_widget (state->gui, "ok_button");
 	g_signal_connect (G_OBJECT (w), "clicked",
 		G_CALLBACK (cb_dialog_data_slicer_ok), state);
-	w = glade_xml_get_widget (state->gui, "cancel_button");
+	w = gnm_xml_get_widget (state->gui, "cancel_button");
 	g_signal_connect (G_OBJECT (w), "clicked",
 		G_CALLBACK (cb_dialog_data_slicer_cancel), state);
 
-	state->treeview = GTK_TREE_VIEW (glade_xml_get_widget (state->gui, "field_tree"));
+	state->treeview = GTK_TREE_VIEW (gnm_xml_get_widget (state->gui, "field_tree"));
 	gtk_tree_view_enable_model_drag_source (GTK_TREE_VIEW (state->treeview), GDK_BUTTON1_MASK,
 		row_targets, G_N_ELEMENTS (row_targets), GDK_ACTION_MOVE);
 	gtk_tree_view_enable_model_drag_dest (GTK_TREE_VIEW (state->treeview),
@@ -288,7 +288,7 @@ dialog_data_slicer (WBCGtk *wbcg, gboolean create)
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (state->notebook), create ? 0 : 1);
 
 	/* a candidate for merging into attach guru */
-	gnumeric_init_help_button (glade_xml_get_widget (state->gui, "help_button"),
+	gnumeric_init_help_button (gnm_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_DATA_SLICER);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_dialog_data_slicer_destroy);

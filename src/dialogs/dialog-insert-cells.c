@@ -68,7 +68,7 @@ cb_insert_cell_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	int  cols, rows;
 	int i;
 
-	radio_0 = glade_xml_get_widget (state->gui, "radio_0");
+	radio_0 = gnm_xml_get_widget (state->gui, "radio_0");
 	g_return_if_fail (radio_0 != NULL);
 
 	i = gtk_radio_group_get_selected
@@ -150,7 +150,7 @@ dialog_insert_cells (WBCGtk *wbcg)
 	state->sel   = sel;
 	state->sheet = sv_sheet (sv);
 	state->gui   = gui;
-	state->dialog = glade_xml_get_widget (state->gui, "Insert_cells");
+	state->dialog = gnm_xml_get_widget (state->gui, "Insert_cells");
 	if (state->dialog == NULL) {
 		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
 				 _("Could not create the Insert Cell dialog."));
@@ -158,21 +158,21 @@ dialog_insert_cells (WBCGtk *wbcg)
 		return ;
 	}
 
-	state->ok_button = glade_xml_get_widget (state->gui, "okbutton");
+	state->ok_button = gnm_xml_get_widget (state->gui, "okbutton");
 	g_signal_connect (G_OBJECT (state->ok_button),
 		"clicked",
 		G_CALLBACK (cb_insert_cell_ok_clicked), state);
 
-	state->cancel_button = glade_xml_get_widget (state->gui, "cancelbutton");
+	state->cancel_button = gnm_xml_get_widget (state->gui, "cancelbutton");
 	g_signal_connect (G_OBJECT (state->cancel_button),
 		"clicked",
 		G_CALLBACK (cb_insert_cell_cancel_clicked), state);
 
 	gnumeric_init_help_button (
-		glade_xml_get_widget (state->gui, "helpbutton"),
+		gnm_xml_get_widget (state->gui, "helpbutton"),
 		GNUMERIC_HELP_LINK_INSERT_CELS);
 	gtk_toggle_button_set_active
-		(GTK_TOGGLE_BUTTON (glade_xml_get_widget
+		(GTK_TOGGLE_BUTTON (gnm_xml_get_widget
 				    (state->gui, cols < rows
 				     ? "radio_0" : "radio_1")),
 		 TRUE);

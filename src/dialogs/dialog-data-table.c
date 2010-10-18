@@ -62,7 +62,7 @@ cb_data_table_destroy (GnmDialogDataTable *state)
 static GnmExprEntry *
 init_entry (GnmDialogDataTable *state, char const *name)
 {
-	GtkWidget *w = glade_xml_get_widget (state->gui, name);
+	GtkWidget *w = gnm_xml_get_widget (state->gui, name);
 
 	g_return_val_if_fail (w != NULL, NULL);
 
@@ -99,8 +99,8 @@ data_table_init (GnmDialogDataTable *state, WBCGtk *wbcg)
         if (state->gui == NULL)
                 return TRUE;
 
-	state->dialog = glade_xml_get_widget (state->gui, "DataTable");
-	table = GTK_TABLE (glade_xml_get_widget (state->gui, "table"));
+	state->dialog = gnm_xml_get_widget (state->gui, "DataTable");
+	table = GTK_TABLE (gnm_xml_get_widget (state->gui, "table"));
 
 	state->row_entry = init_entry (state, "row-entry");
 	state->col_entry = init_entry (state, "col-entry");
@@ -108,7 +108,7 @@ data_table_init (GnmDialogDataTable *state, WBCGtk *wbcg)
 	g_signal_connect (G_OBJECT (state->dialog), "response",
 		G_CALLBACK (cb_data_table_response), state);
 	gnumeric_init_help_button (
-		glade_xml_get_widget (state->gui, "help"),
+		gnm_xml_get_widget (state->gui, "help"),
 		GNUMERIC_HELP_LINK_DATA_TABLE);
 
 	/* a candidate for merging into attach guru */

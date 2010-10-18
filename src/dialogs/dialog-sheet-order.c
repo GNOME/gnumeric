@@ -674,7 +674,7 @@ create_sheet_list (SheetManager *state)
 {
 	GtkTreeViewColumn *column;
 	GtkTreeSelection  *selection;
-	GtkWidget *scrolled = glade_xml_get_widget (state->gui, "scrolled");
+	GtkWidget *scrolled = gnm_xml_get_widget (state->gui, "scrolled");
 	GtkCellRenderer *renderer;
 
 	state->model = gtk_list_store_new (NUM_COLUMNS,
@@ -1446,21 +1446,21 @@ dialog_sheet_order (WBCGtk *wbcg)
 	state = g_new0 (SheetManager, 1);
 	state->gui = gui;
 	state->wbcg = wbcg;
-	state->dialog     = glade_xml_get_widget (gui, "sheet-order-dialog");
-	state->warning     = glade_xml_get_widget (gui, "warning");
-	state->up_btn     = glade_xml_get_widget (gui, "up_button");
-	state->down_btn   = glade_xml_get_widget (gui, "down_button");
-	state->add_btn   = glade_xml_get_widget (gui, "add_button");
-	state->append_btn   = glade_xml_get_widget (gui, "append_button");
-	state->duplicate_btn   = glade_xml_get_widget (gui, "duplicate_button");
-	state->delete_btn   = glade_xml_get_widget (gui, "delete_button");
+	state->dialog     = gnm_xml_get_widget (gui, "sheet-order-dialog");
+	state->warning     = gnm_xml_get_widget (gui, "warning");
+	state->up_btn     = gnm_xml_get_widget (gui, "up_button");
+	state->down_btn   = gnm_xml_get_widget (gui, "down_button");
+	state->add_btn   = gnm_xml_get_widget (gui, "add_button");
+	state->append_btn   = gnm_xml_get_widget (gui, "append_button");
+	state->duplicate_btn   = gnm_xml_get_widget (gui, "duplicate_button");
+	state->delete_btn   = gnm_xml_get_widget (gui, "delete_button");
 
-	state->apply_names_btn  = glade_xml_get_widget (gui, "ok_button");
-	state->sort_asc_btn  = glade_xml_get_widget (gui, "sort-asc-button");
-	state->sort_desc_btn  = glade_xml_get_widget (gui, "sort-desc-button");
-	state->undo_btn  = glade_xml_get_widget (gui, "undo-button");
-	state->cancel_btn  = glade_xml_get_widget (gui, "cancel_button");
-	state->advanced_check  = glade_xml_get_widget (gui, "advanced-check");
+	state->apply_names_btn  = gnm_xml_get_widget (gui, "ok_button");
+	state->sort_asc_btn  = gnm_xml_get_widget (gui, "sort-asc-button");
+	state->sort_desc_btn  = gnm_xml_get_widget (gui, "sort-desc-button");
+	state->undo_btn  = gnm_xml_get_widget (gui, "undo-button");
+	state->cancel_btn  = gnm_xml_get_widget (gui, "cancel_button");
+	state->advanced_check  = gnm_xml_get_widget (gui, "advanced-check");
 	state->initial_colors_set = FALSE;
 	state->image_padlock =  gtk_widget_render_icon (state->dialog,
                                              "Gnumeric_Protection_Yes",
@@ -1493,7 +1493,7 @@ dialog_sheet_order (WBCGtk *wbcg)
 		"sheet_deleted", G_CALLBACK (cb_sheet_deleted),
 		state);
 
-	table = GTK_TABLE (glade_xml_get_widget (gui,"sheet_order_buttons_table"));
+	table = GTK_TABLE (gnm_xml_get_widget (gui,"sheet_order_buttons_table"));
 	cg = go_color_group_fetch ("back_color_group",
 		wb_control_view (WORKBOOK_CONTROL (wbcg)));
 	state->ccombo_back = go_combo_color_new (
@@ -1540,7 +1540,7 @@ dialog_sheet_order (WBCGtk *wbcg)
 	cb_adv_check_toggled (NULL, state);
 
 	gnumeric_init_help_button (
-		glade_xml_get_widget (state->gui, "help_button"),
+		gnm_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_SHEET_MANAGER);
 
 	gtk_widget_set_sensitive (state->undo_btn, wb->undo_commands != NULL);

@@ -311,7 +311,7 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		gnm_expr_entry_grab_focus (state->base.input_entry, TRUE);
 		goto out;
 	}
-	entry = glade_xml_get_widget (state->base.gui, "name_entry");
+	entry = gnm_xml_get_widget (state->base.gui, "name_entry");
 
 	name = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
 	if (scenario_name_used (state->base.sheet->scenarios, name)) {
@@ -328,7 +328,7 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		goto out;
 	}
 
-	comment_view = glade_xml_get_widget (state->base.gui, "comment_view");
+	comment_view = gnm_xml_get_widget (state->base.gui, "comment_view");
 	buf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (comment_view));
 	gtk_text_buffer_get_start_iter (buf, &start);
 	gtk_text_buffer_get_end_iter (buf, &end);
@@ -399,11 +399,11 @@ dialog_scenario_add (WBCGtk *wbcg)
 			      GNM_EE_SHEET_OPTIONAL))
 		return;
 
-	state->name_entry = glade_xml_get_widget (state->base.gui, "name_entry");
+	state->name_entry = gnm_xml_get_widget (state->base.gui, "name_entry");
 	if (state->name_entry == NULL)
 	        return;
 
-	comment_view = glade_xml_get_widget (state->base.gui, "comment_view");
+	comment_view = gnm_xml_get_widget (state->base.gui, "comment_view");
 	if (comment_view == NULL)
 	        return;
 	buf = g_string_new (NULL);
@@ -437,11 +437,11 @@ update_comment (ScenariosState *state, const gchar *cells,
 	GtkTextBuffer *buf;
 
 	/* Update changing cells box */
-	w = glade_xml_get_widget (state->base.gui, "changing_cells_entry");
+	w = gnm_xml_get_widget (state->base.gui, "changing_cells_entry");
 	gtk_entry_set_text (GTK_ENTRY (w), cells);
 
 	/* Update comment text view */
-	w = glade_xml_get_widget (state->base.gui, "comment_view");
+	w = gnm_xml_get_widget (state->base.gui, "comment_view");
 	buf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (w));
 
 	gtk_text_buffer_set_text (buf, comment, strlen (comment));
@@ -736,7 +736,7 @@ init_scenario_buttons (ScenariosState *state)
 {
 	/* Show button */
 	state->show_button =
-	        glade_xml_get_widget (state->base.gui, "show_button");
+	        gnm_xml_get_widget (state->base.gui, "show_button");
 	if (state->show_button == NULL)
 	        return TRUE;
 	g_signal_connect (G_OBJECT (state->show_button),
@@ -745,7 +745,7 @@ init_scenario_buttons (ScenariosState *state)
 
 	/* Delete button */
 	state->delete_button =
-	        glade_xml_get_widget (state->base.gui, "delete_button");
+	        gnm_xml_get_widget (state->base.gui, "delete_button");
 	if (state->delete_button == NULL)
 	        return TRUE;
 	g_signal_connect (G_OBJECT (state->delete_button),
@@ -754,7 +754,7 @@ init_scenario_buttons (ScenariosState *state)
 
 	/* Summary button */
 	state->summary_button =
-	        glade_xml_get_widget (state->base.gui, "summary_button");
+	        gnm_xml_get_widget (state->base.gui, "summary_button");
 	if (state->summary_button == NULL)
 	        return TRUE;
 	g_signal_connect (G_OBJECT (state->summary_button),
@@ -801,16 +801,16 @@ dialog_scenarios (WBCGtk *wbcg)
 	if (init_scenario_buttons (state))
 		goto error_out;
 
-	state->scenarios_treeview = glade_xml_get_widget
+	state->scenarios_treeview = gnm_xml_get_widget
 	        (state->base.gui, "scenarios_treeview");
 	if (state->scenarios_treeview == NULL)
 	        goto error_out;
 
-	w = glade_xml_get_widget (state->base.gui, "changing_cells_entry");
+	w = gnm_xml_get_widget (state->base.gui, "changing_cells_entry");
 	if (w == NULL)
 	        goto error_out;
 	gtk_widget_set_sensitive (w, FALSE);
-	w = glade_xml_get_widget (state->base.gui, "comment_view");
+	w = gnm_xml_get_widget (state->base.gui, "comment_view");
 
 	if (w == NULL)
 	        goto error_out;

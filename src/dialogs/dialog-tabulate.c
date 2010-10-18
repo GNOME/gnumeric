@@ -279,7 +279,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	}
 
 	{
-		int i = gnumeric_glade_group_value (dd->gui, mode_group);
+		int i = gnm_gui_group_value (dd->gui, mode_group);
 		with_coordinates = (i == -1) ? TRUE : (gboolean)i;
 	}
 
@@ -326,7 +326,7 @@ dialog_tabulate (WBCGtk *wbcg, Sheet *sheet)
         if (gui == NULL)
                 return;
 
-	dialog = GTK_DIALOG (glade_xml_get_widget (gui, "tabulate_dialog"));
+	dialog = GTK_DIALOG (gnm_xml_get_widget (gui, "tabulate_dialog"));
 
 	dd = g_new (DialogState, 1);
 	dd->wbcg = wbcg;
@@ -339,7 +339,7 @@ dialog_tabulate (WBCGtk *wbcg, Sheet *sheet)
 		"allow-grow",	TRUE,
 		NULL);
 
-	dd->source_table = GTK_TABLE (glade_xml_get_widget (gui, "source_table"));
+	dd->source_table = GTK_TABLE (gnm_xml_get_widget (gui, "source_table"));
 	for (i = 1; i < dd->source_table->nrows; i++) {
 		GnmExprEntry *ge = gnm_expr_entry_new (wbcg, TRUE);
 		gnm_expr_entry_set_flags (ge,
@@ -359,21 +359,21 @@ dialog_tabulate (WBCGtk *wbcg, Sheet *sheet)
 	gnm_expr_entry_set_flags (dd->resultrangetext,
 		GNM_EE_SINGLE_RANGE | GNM_EE_SHEET_OPTIONAL,
 		GNM_EE_MASK);
-	gtk_box_pack_start (GTK_BOX (glade_xml_get_widget (gui, "result_hbox")),
+	gtk_box_pack_start (GTK_BOX (gnm_xml_get_widget (gui, "result_hbox")),
 			    GTK_WIDGET (dd->resultrangetext),
 			    TRUE, TRUE, 0);
 	gtk_widget_show (GTK_WIDGET (dd->resultrangetext));
 
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "ok_button")),
+	g_signal_connect (G_OBJECT (gnm_xml_get_widget (gui, "ok_button")),
 		"clicked",
 		G_CALLBACK (tabulate_ok_clicked), dd);
 
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "cancel_button")),
+	g_signal_connect (G_OBJECT (gnm_xml_get_widget (gui, "cancel_button")),
 		"clicked",
 		G_CALLBACK (cancel_clicked), dd);
 /* FIXME: Add correct helpfile address */
 	gnumeric_init_help_button (
-		glade_xml_get_widget (gui, "help_button"),
+		gnm_xml_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_TABULATE);
 	g_object_set_data_full (G_OBJECT (dialog),
 		"state", dd, (GDestroyNotify) cb_dialog_destroy);

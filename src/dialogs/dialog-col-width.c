@@ -267,39 +267,39 @@ dialog_col_width (WBCGtk *wbcg, gboolean use_default)
 	state->sheet = sv_sheet (state->sv);
 	state->adjusting = FALSE;
 	state->gui    = gui;
-	state->dialog = glade_xml_get_widget (state->gui, "dialog");
+	state->dialog = gnm_xml_get_widget (state->gui, "dialog");
 
-	state->description = GTK_WIDGET (glade_xml_get_widget (state->gui, "description"));
-	state->points = GTK_WIDGET (glade_xml_get_widget (state->gui, "pts-label"));
+	state->description = GTK_WIDGET (gnm_xml_get_widget (state->gui, "description"));
+	state->points = GTK_WIDGET (gnm_xml_get_widget (state->gui, "pts-label"));
 
-	state->spin  = GTK_SPIN_BUTTON (glade_xml_get_widget (state->gui, "spin"));
+	state->spin  = GTK_SPIN_BUTTON (gnm_xml_get_widget (state->gui, "spin"));
 	gtk_spin_button_get_adjustment (state->spin)->lower =
 		GNM_COL_MARGIN + GNM_COL_MARGIN;
 	g_signal_connect (G_OBJECT (state->spin),
 		"value-changed",
 		G_CALLBACK (cb_dialog_col_width_value_changed), state);
 
-	state->default_check  = GTK_WIDGET (glade_xml_get_widget (state->gui, "default_check"));
+	state->default_check  = GTK_WIDGET (gnm_xml_get_widget (state->gui, "default_check"));
 	g_signal_connect (G_OBJECT (state->default_check),
 		"clicked",
 		G_CALLBACK (cb_dialog_col_width_default_check_toggled), state);
 
-	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
+	state->ok_button = gnm_xml_get_widget (state->gui, "ok_button");
 	g_signal_connect (G_OBJECT (state->ok_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_col_width_ok_clicked), state);
-	state->apply_button = glade_xml_get_widget (state->gui, "apply_button");
+	state->apply_button = gnm_xml_get_widget (state->gui, "apply_button");
 	g_signal_connect (G_OBJECT (state->apply_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_col_width_apply_clicked), state);
 
-	state->cancel_button = glade_xml_get_widget (state->gui, "cancel_button");
+	state->cancel_button = gnm_xml_get_widget (state->gui, "cancel_button");
 	g_signal_connect (G_OBJECT (state->cancel_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_col_width_cancel_clicked), state);
 
 	gnumeric_init_help_button (
-		glade_xml_get_widget (state->gui, "help_button"),
+		gnm_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_COL_WIDTH);
 
 	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog),

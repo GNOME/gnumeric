@@ -71,7 +71,7 @@ map_op (AutoFilterState *state, GnmFilterOp *op,
 	char const *op_widget, char const *val_widget)
 {
 	int i;
-	GtkWidget *w = glade_xml_get_widget (state->gui, val_widget);
+	GtkWidget *w = gnm_xml_get_widget (state->gui, val_widget);
 	char const *txt = gtk_entry_get_text (GTK_ENTRY (w));
 	GnmValue *v = NULL;
 
@@ -79,7 +79,7 @@ map_op (AutoFilterState *state, GnmFilterOp *op,
 	if (txt == NULL || *txt == '\0')
 		return NULL;
 
-	w = glade_xml_get_widget (state->gui, op_widget);
+	w = gnm_xml_get_widget (state->gui, op_widget);
 	i = gtk_combo_box_get_active (GTK_COMBO_BOX (w));
 	switch (i) {
 	case 0: return NULL;
@@ -134,7 +134,7 @@ cb_autofilter_ok (G_GNUC_UNUSED GtkWidget *button,
 			GnmFilterOp op1;
 			GnmValue *v1 = map_op (state, &op1, "op1", "value1");
 			if (op1 != GNM_FILTER_UNUSED) {
-				w = glade_xml_get_widget (state->gui, "and_button");
+				w = gnm_xml_get_widget (state->gui, "and_button");
 				cond = gnm_filter_condition_new_double (op0, v0,
 						gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)),
 						op1, v1);
@@ -144,13 +144,13 @@ cb_autofilter_ok (G_GNUC_UNUSED GtkWidget *button,
 	} else {
 		int bottom, percentage, count;
 
-		w = glade_xml_get_widget (state->gui, "top_vs_bottom_option_menu");
+		w = gnm_xml_get_widget (state->gui, "top_vs_bottom_option_menu");
 		bottom = gtk_combo_box_get_active (GTK_COMBO_BOX (w));
 
-		w = glade_xml_get_widget (state->gui, "item_vs_percentage_option_menu");
+		w = gnm_xml_get_widget (state->gui, "item_vs_percentage_option_menu");
 		percentage = gtk_combo_box_get_active (GTK_COMBO_BOX (w));
 
-		w = glade_xml_get_widget (state->gui, "item_count");
+		w = gnm_xml_get_widget (state->gui, "item_count");
 		count = gtk_spin_button_get_value (GTK_SPIN_BUTTON (w));
 		if (bottom >= 0 && percentage >= 0)
 			cond = gnm_filter_condition_new_bucket (
@@ -175,7 +175,7 @@ static void
 cb_top10_type_changed (GtkComboBox *menu,
 		       AutoFilterState *state)
 {
-	GtkWidget *spin = glade_xml_get_widget (state->gui, "item_count");
+	GtkWidget *spin = gnm_xml_get_widget (state->gui, "item_count");
 
 	gtk_spin_button_set_range (GTK_SPIN_BUTTON (spin), 1.,
 		(gtk_combo_box_get_active (menu) > 0) ? 100. : 500.);
@@ -185,7 +185,7 @@ static void
 init_operator (AutoFilterState *state, GnmFilterOp op, GnmValue const *v,
 	       char const *op_widget, char const *val_widget)
 {
-	GtkWidget *w = glade_xml_get_widget (state->gui, op_widget);
+	GtkWidget *w = gnm_xml_get_widget (state->gui, op_widget);
 	char const *str = v ? value_peek_string (v) : NULL;
 	char *content = NULL;
 	int i;
@@ -218,7 +218,7 @@ init_operator (AutoFilterState *state, GnmFilterOp op, GnmValue const *v,
 	}
 	gtk_combo_box_set_active (GTK_COMBO_BOX (w), i);
 
-	w = glade_xml_get_widget (state->gui, val_widget);
+	w = gnm_xml_get_widget (state->gui, val_widget);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog), w);
 	if (v != NULL)
 		gtk_entry_set_text (GTK_ENTRY (w), content ? content : str);
@@ -278,20 +278,20 @@ dialog_auto_filter (WBCGtk *wbcg,
 
 	if (is_expr) {
 		gtk_label_set_text 
-			(GTK_LABEL (glade_xml_get_widget (state->gui, "col-label1")), label);
+			(GTK_LABEL (gnm_xml_get_widget (state->gui, "col-label1")), label);
 		gtk_label_set_text 
-			(GTK_LABEL (glade_xml_get_widget (state->gui, "col-label2")), label);
+			(GTK_LABEL (gnm_xml_get_widget (state->gui, "col-label2")), label);
 	} else {
 		gtk_label_set_text 
-			(GTK_LABEL (glade_xml_get_widget (state->gui, "col-label")), label);
-		w = glade_xml_get_widget (state->gui, "item_vs_percentage_option_menu");
+			(GTK_LABEL (gnm_xml_get_widget (state->gui, "col-label")), label);
+		w = gnm_xml_get_widget (state->gui, "item_vs_percentage_option_menu");
 		g_signal_connect (G_OBJECT (w),
 			"changed",
 			G_CALLBACK (cb_top10_type_changed), state);
 	}
 	g_free (label);
 
-	state->dialog = glade_xml_get_widget (state->gui, "dialog");
+	state->dialog = gnm_xml_get_widget (state->gui, "dialog");
 	if (cond != NULL) {
 		GnmFilterOp const op = cond->op[0];
 		if (is_expr && 0 == (op & GNM_FILTER_OP_TYPE_MASK)) {
@@ -300,46 +300,46 @@ dialog_auto_filter (WBCGtk *wbcg,
 			if (cond->op[1] != GNM_FILTER_UNUSED)
 				init_operator (state, cond->op[1],
 					       cond->value[1], "op1", "value1");
-			w = glade_xml_get_widget (state->gui,
+			w = gnm_xml_get_widget (state->gui,
 				cond->is_and ? "and_button" : "or_button");
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 		} else if (!is_expr &&
 			   GNM_FILTER_OP_TOP_N == (op & GNM_FILTER_OP_TYPE_MASK)) {
-			w = glade_xml_get_widget (state->gui, "top_vs_bottom_option_menu");
+			w = gnm_xml_get_widget (state->gui, "top_vs_bottom_option_menu");
 			gtk_combo_box_set_active (GTK_COMBO_BOX (w), (op & 1) ? 1 : 0);
-			w = glade_xml_get_widget (state->gui, "item_vs_percentage_option_menu");
+			w = gnm_xml_get_widget (state->gui, "item_vs_percentage_option_menu");
 			gtk_combo_box_set_active (GTK_COMBO_BOX (w), (op & 2) ? 1 : 0);
-			w = glade_xml_get_widget (state->gui, "item_count");
+			w = gnm_xml_get_widget (state->gui, "item_count");
 			gtk_spin_button_set_value (GTK_SPIN_BUTTON (w),
 						   cond->count);
 		}
 	} else {
 		/* initialize the combo boxes (not done by libglade) */
 		if (is_expr) {
-			w = glade_xml_get_widget (state->gui, "op0");
+			w = gnm_xml_get_widget (state->gui, "op0");
 			gtk_combo_box_set_active (GTK_COMBO_BOX (w), 0);
-			w = glade_xml_get_widget (state->gui, "op1");
+			w = gnm_xml_get_widget (state->gui, "op1");
 			gtk_combo_box_set_active (GTK_COMBO_BOX (w), 0);
 		} else {
-			w = glade_xml_get_widget (state->gui, "top_vs_bottom_option_menu");
+			w = gnm_xml_get_widget (state->gui, "top_vs_bottom_option_menu");
 			gtk_combo_box_set_active (GTK_COMBO_BOX (w), 0);
-			w = glade_xml_get_widget (state->gui, "item_vs_percentage_option_menu");
+			w = gnm_xml_get_widget (state->gui, "item_vs_percentage_option_menu");
 			gtk_combo_box_set_active (GTK_COMBO_BOX (w), 0);
 		}
 	}
 
-	w = glade_xml_get_widget (state->gui, "ok_button");
+	w = gnm_xml_get_widget (state->gui, "ok_button");
 	g_signal_connect (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (cb_autofilter_ok), state);
-	w = glade_xml_get_widget (state->gui, "cancel_button");
+	w = gnm_xml_get_widget (state->gui, "cancel_button");
 	g_signal_connect (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (cb_autofilter_cancel), state);
 
 	/* a candidate for merging into attach guru */
 	gnumeric_init_help_button (
-		glade_xml_get_widget (state->gui, "help_button"),
+		gnm_xml_get_widget (state->gui, "help_button"),
 		is_expr ? GNUMERIC_HELP_LINK_AUTOFILTER_CUSTOM :
 		GNUMERIC_HELP_LINK_AUTOFILTER_TOP_TEN);
 

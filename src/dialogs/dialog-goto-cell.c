@@ -257,7 +257,7 @@ dialog_goto_init (GotoState *state)
 	GtkWidget *scrolled;
 	GtkTreeViewColumn *column;
 
-	table = GTK_TABLE (glade_xml_get_widget (state->gui, "names"));
+	table = GTK_TABLE (gnm_xml_get_widget (state->gui, "names"));
 	state->goto_text = GTK_ENTRY (gtk_entry_new ());
 	gtk_table_attach (table, GTK_WIDGET (state->goto_text),
 			  0, 1, 2, 3,
@@ -268,7 +268,7 @@ dialog_goto_init (GotoState *state)
 		G_CALLBACK (cb_dialog_goto_update_sensitivity), state);
 
 	/* Set-up treeview */
-	scrolled = glade_xml_get_widget (state->gui, "scrolled");
+	scrolled = gnm_xml_get_widget (state->gui, "scrolled");
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled),
 					     GTK_SHADOW_ETCHED_IN);
 
@@ -310,19 +310,19 @@ dialog_goto_init (GotoState *state)
 		"sheet_deleted", G_CALLBACK (cb_sheet_deleted),
 		state);
 
-	state->close_button  = glade_xml_get_widget (state->gui, "close_button");
+	state->close_button  = gnm_xml_get_widget (state->gui, "close_button");
 	g_signal_connect (G_OBJECT (state->close_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_goto_close_clicked), state);
 
-	state->go_button  = glade_xml_get_widget (state->gui, "go_button");
+	state->go_button  = gnm_xml_get_widget (state->gui, "go_button");
 	g_signal_connect (G_OBJECT (state->go_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_goto_go_clicked), state);
 	gtk_window_set_default (GTK_WINDOW (state->dialog), state->go_button);
 
 	gnumeric_init_help_button (
-		glade_xml_get_widget (state->gui, "help_button"),
+		gnm_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_GOTO_CELL);
 
 	cb_dialog_goto_update_sensitivity (NULL, state);
@@ -354,7 +354,7 @@ dialog_goto_cell (WBCGtk *wbcg)
 	state->wbcg   = wbcg;
 	state->wb     = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 	state->gui    = gui;
-        state->dialog = glade_xml_get_widget (state->gui, "goto_dialog");
+        state->dialog = gnm_xml_get_widget (state->gui, "goto_dialog");
 
 	if (dialog_goto_init (state)) {
 		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,

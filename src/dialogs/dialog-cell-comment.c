@@ -70,7 +70,7 @@ cb_cell_comment_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	char const *author;
 
 	author = gtk_entry_get_text
-		(GTK_ENTRY (glade_xml_get_widget
+		(GTK_ENTRY (gnm_xml_get_widget
 			    (state->gui, "new-author-entry")));
 	g_object_get (G_OBJECT (state->gtv), "text", &text,
 		      "attributes", &attr, NULL);
@@ -119,10 +119,10 @@ dialog_cell_comment (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 	state->pos   = pos;
 	state->gui   = gui;
 
-	state->dialog = glade_xml_get_widget (state->gui, "comment_dialog");
+	state->dialog = gnm_xml_get_widget (state->gui, "comment_dialog");
 	g_return_if_fail (state->dialog != NULL);
 
-	box = glade_xml_get_widget (state->gui, "dialog-vbox");
+	box = gnm_xml_get_widget (state->gui, "dialog-vbox");
 	g_return_if_fail (box != NULL);
 	state->gtv = gnm_text_view_new ();
 	gtk_widget_show_all (GTK_WIDGET (state->gtv));
@@ -138,8 +138,8 @@ dialog_cell_comment (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 	cellref_as_string (&out, &ref, FALSE);
 	cell_name = g_string_free (out.accum, FALSE);
 
-	old_author = glade_xml_get_widget (state->gui, "old-author-entry");
-	new_author = glade_xml_get_widget (state->gui, "new-author-entry");
+	old_author = gnm_xml_get_widget (state->gui, "old-author-entry");
+	new_author = gnm_xml_get_widget (state->gui, "new-author-entry");
 
 	real_user = g_get_real_name ();
 	if ((real_user != NULL) && g_utf8_validate (real_user, -1, NULL)) {
@@ -168,30 +168,30 @@ dialog_cell_comment (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 		title = g_strdup_printf (_("New Cell Comment (%s)"),
 					 cell_name);
 		gtk_widget_hide (old_author);
-		gtk_widget_hide (glade_xml_get_widget (state->gui,
+		gtk_widget_hide (gnm_xml_get_widget (state->gui,
 						       "old-author-label"));
 	}
 	gtk_window_set_title (GTK_WINDOW (state->dialog), title);
 	g_free (title);
 
-	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
+	state->ok_button = gnm_xml_get_widget (state->gui, "ok_button");
 	g_signal_connect (G_OBJECT (state->ok_button),
 		"clicked",
 		G_CALLBACK (cb_cell_comment_ok_clicked), state);
 
-	state->cancel_button = glade_xml_get_widget (state->gui, "cancel_button");
+	state->cancel_button = gnm_xml_get_widget (state->gui, "cancel_button");
 	g_signal_connect (G_OBJECT (state->cancel_button),
 		"clicked",
 		G_CALLBACK (cb_cell_comment_cancel_clicked), state);
 
-	check = glade_xml_get_widget (state->gui, "wrap-check");
+	check = gnm_xml_get_widget (state->gui, "wrap-check");
 	g_signal_connect (G_OBJECT (check),
 			  "toggled",
 			  G_CALLBACK (cb_wrap_toggled), state->gtv);
 	cb_wrap_toggled (GTK_TOGGLE_BUTTON (check), G_OBJECT (state->gtv));
 
 	gnumeric_init_help_button (
-		glade_xml_get_widget (state->gui, "help_button"),
+		gnm_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_CELL_COMMENT);
 
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);

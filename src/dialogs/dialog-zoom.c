@@ -177,12 +177,12 @@ dialog_zoom (WBCGtk *wbcg, Sheet *sheet)
 	state = g_new (ZoomState, 1);
 	state->wbcg   = wbcg;
 	state->gui    = gui;
-	state->dialog = glade_xml_get_widget (state->gui, "Zoom");
+	state->dialog = gnm_xml_get_widget (state->gui, "Zoom");
 	g_return_if_fail (state->dialog != NULL);
 
 	/* Get the list of sheets */
 	state->sheet_list_model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
-	state->sheet_list = GTK_TREE_VIEW (glade_xml_get_widget (state->gui, "sheet_list"));
+	state->sheet_list = GTK_TREE_VIEW (gnm_xml_get_widget (state->gui, "sheet_list"));
 	gtk_tree_view_set_headers_visible (state->sheet_list, FALSE);
 	gtk_tree_view_set_model (state->sheet_list, GTK_TREE_MODEL (state->sheet_list_model));
 	state->sheet_list_selection = gtk_tree_view_get_selection (state->sheet_list);
@@ -220,9 +220,9 @@ dialog_zoom (WBCGtk *wbcg, Sheet *sheet)
 		gtk_tree_path_free (path);
 	}
 
-	state->zoom  = GTK_SPIN_BUTTON (glade_xml_get_widget (state->gui, "zoom"));
+	state->zoom  = GTK_SPIN_BUTTON (gnm_xml_get_widget (state->gui, "zoom"));
 	g_return_if_fail (state->zoom != NULL);
-	state->custom = GTK_RADIO_BUTTON (glade_xml_get_widget (state->gui, "radio_custom"));
+	state->custom = GTK_RADIO_BUTTON (gnm_xml_get_widget (state->gui, "radio_custom"));
 	g_return_if_fail (state->custom != NULL);
 	focus_target = GTK_WIDGET (state->custom);
 	g_signal_connect (G_OBJECT (state->custom),
@@ -233,7 +233,7 @@ dialog_zoom (WBCGtk *wbcg, Sheet *sheet)
 		G_CALLBACK (custom_selected), state);
 
 	for (i = 0; buttons[i].name != NULL; i++) {
-		radio  = GTK_RADIO_BUTTON (glade_xml_get_widget (state->gui, buttons[i].name));
+		radio  = GTK_RADIO_BUTTON (gnm_xml_get_widget (state->gui, buttons[i].name));
 		g_return_if_fail (radio != NULL);
 
 		g_object_set_data (G_OBJECT (radio), ZOOM_DIALOG_FACTOR_KEY,
@@ -255,12 +255,12 @@ dialog_zoom (WBCGtk *wbcg, Sheet *sheet)
 		gtk_spin_button_set_value (state->zoom,
 					   (int)(sheet->last_zoom_factor_used * 100. + .5));
 	}
-	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
+	state->ok_button = gnm_xml_get_widget (state->gui, "ok_button");
 	g_signal_connect (G_OBJECT (state->ok_button),
 		"clicked",
 		G_CALLBACK (cb_zoom_ok_clicked), state);
 
-	state->cancel_button = glade_xml_get_widget (state->gui, "cancel_button");
+	state->cancel_button = gnm_xml_get_widget (state->gui, "cancel_button");
 	g_signal_connect (G_OBJECT (state->cancel_button),
 		"clicked",
 		G_CALLBACK (cb_zoom_cancel_clicked), state);
@@ -269,7 +269,7 @@ dialog_zoom (WBCGtk *wbcg, Sheet *sheet)
 				  GTK_WIDGET (&state->zoom->entry));
 
 	gnumeric_init_help_button (
-		glade_xml_get_widget (state->gui, "help_button"),
+		gnm_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_ZOOM);
 
 	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), wbcg,

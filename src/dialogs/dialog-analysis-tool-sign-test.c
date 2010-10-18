@@ -206,7 +206,7 @@ sign_test_two_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->base.range_2 = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
 
-	w = glade_xml_get_widget (state->base.gui, "labels_button");
+	w = gnm_xml_get_widget (state->base.gui, "labels_button");
         data->base.labels = gtk_toggle_button_get_active 
 		(GTK_TOGGLE_BUTTON (w));
 
@@ -216,7 +216,7 @@ sign_test_two_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->base.alpha = gtk_spin_button_get_value
 		(GTK_SPIN_BUTTON (state->alpha_entry));
 
-	w =  glade_xml_get_widget (state->base.gui, "signtest");
+	w =  gnm_xml_get_widget (state->base.gui, "signtest");
 	engine =  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w))
 		? analysis_tool_sign_test_two_engine 
 		: analysis_tool_signed_rank_test_two_engine;
@@ -278,7 +278,7 @@ dialog_sign_test_two_tool (WBCGtk *wbcg, Sheet *sheet, signtest_type type)
 		 state); 
 	int_to_entry (GTK_ENTRY (state->median_entry), 0);
 
-	w =  glade_xml_get_widget (state->base.gui,
+	w =  gnm_xml_get_widget (state->base.gui,
 				   (type == SIGNTEST) ? "signtest" 
 				   : "signedranktest");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
@@ -317,9 +317,9 @@ sign_test_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	data->base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
-	data->base.group_by = gnumeric_glade_group_value (state->base.gui, grouped_by_group);
+	data->base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
 
-	w = glade_xml_get_widget (state->base.gui, "labels_button");
+	w = gnm_xml_get_widget (state->base.gui, "labels_button");
         data->base.labels = gtk_toggle_button_get_active 
 		(GTK_TOGGLE_BUTTON (w));
 
@@ -328,7 +328,7 @@ sign_test_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->alpha = gtk_spin_button_get_value
 		(GTK_SPIN_BUTTON (state->alpha_entry));
 
-	w =  glade_xml_get_widget (state->base.gui, "signtest");
+	w =  gnm_xml_get_widget (state->base.gui, "signtest");
 	engine =  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w))
 		? analysis_tool_sign_test_engine 
 		: analysis_tool_signed_rank_test_engine;
@@ -423,7 +423,7 @@ dialog_sign_test_tool (WBCGtk *wbcg, Sheet *sheet, signtest_type type)
 	int_to_entry (GTK_ENTRY (state->median_entry), 0);
 	float_to_entry (GTK_ENTRY (state->alpha_entry), 0.05);
 
-	w =  glade_xml_get_widget (state->base.gui,
+	w =  gnm_xml_get_widget (state->base.gui,
 				   (type == SIGNTEST) ? "signtest" 
 				   : "signedranktest");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);

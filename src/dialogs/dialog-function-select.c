@@ -1152,7 +1152,7 @@ dialog_function_select_init (FunctionSelectState *state)
 
 	/* Set-up combo box */
 	state->cb = GTK_COMBO_BOX 
-		(glade_xml_get_widget (state->gui, "category-box"));
+		(gnm_xml_get_widget (state->gui, "category-box"));
 	state->model = gtk_list_store_new 
 		(NUM_COLMNS, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_BOOLEAN);
 
@@ -1193,7 +1193,7 @@ dialog_function_select_init (FunctionSelectState *state)
 		(GTK_TREE_MODEL_FILTER (state->model_filter), FUNCTION_VISIBLE);
 
 	state->treeview= GTK_TREE_VIEW 
-		(glade_xml_get_widget (state->gui, "function-list"));
+		(gnm_xml_get_widget (state->gui, "function-list"));
 	gtk_tree_view_set_model (state->treeview, 
 				 state->model_filter);
 
@@ -1222,7 +1222,7 @@ dialog_function_select_init (FunctionSelectState *state)
 	dialog_function_select_load_tree (state);
 	dialog_function_load_recent_funcs (state);
 
-	state->search_entry = glade_xml_get_widget (state->gui, 
+	state->search_entry = gnm_xml_get_widget (state->gui, 
 						    "search-entry");
 	if (state->paste.prefix != NULL)
 		gtk_entry_set_text (GTK_ENTRY (state->search_entry), 
@@ -1260,10 +1260,10 @@ dialog_function_select_init (FunctionSelectState *state)
 				  G_CALLBACK (cb_dialog_function_row_activated),
 				  state);
 
-	gtk_paned_set_position (GTK_PANED (glade_xml_get_widget
+	gtk_paned_set_position (GTK_PANED (gnm_xml_get_widget
 					   (state->gui, "vpaned1")), 300);
 
-	state->description_view = GTK_TEXT_VIEW (glade_xml_get_widget 
+	state->description_view = GTK_TEXT_VIEW (gnm_xml_get_widget 
 						 (state->gui, "description"));
 	description = gtk_text_view_get_buffer (state->description_view);
 	gtk_text_buffer_get_start_iter (description, &where);
@@ -1273,20 +1273,20 @@ dialog_function_select_init (FunctionSelectState *state)
 		"mark-set",
 		G_CALLBACK (cb_description_clicked), state);
 
-	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
+	state->ok_button = gnm_xml_get_widget (state->gui, "ok_button");
 	gtk_widget_set_sensitive (state->ok_button, FALSE);
 	g_signal_connect (G_OBJECT (state->ok_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_function_select_ok_clicked), state);
-	state->paste_button = glade_xml_get_widget (state->gui, "paste_button");
+	state->paste_button = gnm_xml_get_widget (state->gui, "paste_button");
 	gtk_widget_set_sensitive (state->paste_button, FALSE);
 	g_signal_connect (G_OBJECT (state->paste_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_function_select_paste_clicked), state);
-	cancel_button = glade_xml_get_widget (state->gui, "cancel_button");
+	cancel_button = gnm_xml_get_widget (state->gui, "cancel_button");
 	g_signal_connect (G_OBJECT (cancel_button), "clicked",
 		G_CALLBACK (cb_dialog_function_select_cancel_clicked), state);
-	close_button = glade_xml_get_widget (state->gui, "close_button");
+	close_button = gnm_xml_get_widget (state->gui, "close_button");
 	g_signal_connect (G_OBJECT (close_button), "clicked",
 		G_CALLBACK (cb_dialog_function_select_cancel_clicked), state);
 
@@ -1296,7 +1296,7 @@ dialog_function_select_init (FunctionSelectState *state)
 		 GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
 
 	gnumeric_init_help_button (
-		glade_xml_get_widget (state->gui, "help_button"),
+		gnm_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_FUNCTION_SELECT);
 	g_object_set_data_full 
 		(G_OBJECT (state->dialog),
@@ -1308,13 +1308,13 @@ dialog_function_select_init (FunctionSelectState *state)
 			(GTK_ENTRY (state->search_entry), state);
 	
 	gtk_widget_set_visible (close_button, state->mode != GURU_MODE);
-	gtk_widget_set_visible (glade_xml_get_widget 
+	gtk_widget_set_visible (gnm_xml_get_widget 
 				(state->gui, "help_button"), 
 				state->mode == GURU_MODE);
 	gtk_widget_set_visible (cancel_button, state->mode == GURU_MODE);
 	gtk_widget_set_visible (state->ok_button, state->mode == GURU_MODE);
 	gtk_widget_set_visible (state->paste_button, state->mode == PASTE_MODE);
-	gtk_widget_set_visible (glade_xml_get_widget 
+	gtk_widget_set_visible (gnm_xml_get_widget 
 				(state->gui, "title_label"), 
 				state->mode == GURU_MODE);
 	gtk_combo_box_set_active (state->cb, state->mode == HELP_MODE ? 2 : 0);
@@ -1353,7 +1353,7 @@ dialog_function_select_full (WBCGtk *wbcg, char const *guru_key,
 	state->sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	state->wb    = state->sheet->workbook;
         state->gui   = gui;
-        state->dialog = glade_xml_get_widget (state->gui, "selection_dialog");
+        state->dialog = gnm_xml_get_widget (state->gui, "selection_dialog");
 	state->formula_guru_key = guru_key;
         state->recent_funcs = NULL;
 	state->mode  = mode;

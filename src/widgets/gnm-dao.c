@@ -75,23 +75,23 @@ gnm_dao_init (GnmDao *gdao)
 	if (gdao->gui == NULL)
 		return;
 
-	toplevel = glade_xml_get_widget (gdao->gui, "dao_box");
+	toplevel = gnm_xml_get_widget (gdao->gui, "dao_box");
 
-	gdao->new_sheet  = glade_xml_get_widget (gdao->gui,
+	gdao->new_sheet  = gnm_xml_get_widget (gdao->gui,
 						 "newsheet-button");
-	gdao->new_workbook  = glade_xml_get_widget (gdao->gui,
+	gdao->new_workbook  = gnm_xml_get_widget (gdao->gui,
 						    "newworkbook-button");
-	gdao->output_range  = glade_xml_get_widget (gdao->gui,
+	gdao->output_range  = gnm_xml_get_widget (gdao->gui,
 						    "outputrange-button");
-	gdao->in_place  = glade_xml_get_widget (gdao->gui,
+	gdao->in_place  = gnm_xml_get_widget (gdao->gui,
 						    "inplace-button");
-	gdao->clear_outputrange_button = glade_xml_get_widget
+	gdao->clear_outputrange_button = gnm_xml_get_widget
 		(gdao->gui, "clear_outputrange_button");
-	gdao->retain_format_button = glade_xml_get_widget
+	gdao->retain_format_button = gnm_xml_get_widget
 		(gdao->gui, "retain_format_button");
-	gdao->retain_comments_button = glade_xml_get_widget
+	gdao->retain_comments_button = gnm_xml_get_widget
 		(gdao->gui, "retain_comments_button");
-	gdao->put_menu = glade_xml_get_widget
+	gdao->put_menu = gnm_xml_get_widget
 		(gdao->gui, "put_menu");
 	gtk_combo_box_set_active
 		(GTK_COMBO_BOX (gdao->put_menu), 1);
@@ -186,7 +186,7 @@ cb_emit_activate (G_GNUC_UNUSED GtkWidget *dummy, GnmDao *gdao)
 static void
 cb_set_sensitivity (G_GNUC_UNUSED GtkWidget *dummy, GnmDao *gdao)
 {
-	int grp_val = gnumeric_glade_group_value (gdao->gui, dao_group);
+	int grp_val = gnm_gui_group_value (gdao->gui, dao_group);
 
 	gtk_widget_set_sensitive (gdao->clear_outputrange_button,
 				  (grp_val == 2));
@@ -238,7 +238,7 @@ gnm_dao_new (WBCGtk *wbcg, gchar *inplace_str)
 	gdao->wbcg = wbcg;
 
 	/* Create the output range expression entry */
-	table = GTK_TABLE (glade_xml_get_widget (gdao->gui, "output-table"));
+	table = GTK_TABLE (gnm_xml_get_widget (gdao->gui, "output-table"));
 	gdao->output_entry = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (gdao->output_entry,
 				  GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
@@ -279,7 +279,7 @@ gnm_dao_get_data (GnmDao *gdao, data_analysis_output_t **dao)
 
 	g_return_val_if_fail (gdao != NULL, FALSE);
 
-	grp_val = gnumeric_glade_group_value (gdao->gui, dao_group);
+	grp_val = gnm_gui_group_value (gdao->gui, dao_group);
 
 	dao_ready =  ((grp_val  != 2) ||
 		      gnm_expr_entry_is_cell_ref
@@ -315,7 +315,7 @@ gnm_dao_get_data (GnmDao *gdao, data_analysis_output_t **dao)
 			break;
 		}
 
-		button = glade_xml_get_widget (gdao->gui, "autofit_button");
+		button = gnm_xml_get_widget (gdao->gui, "autofit_button");
 		(*dao)->autofit_flag = gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (button));
 
@@ -348,7 +348,7 @@ gnm_dao_is_finite (GnmDao *gdao)
 
 	g_return_val_if_fail (gdao != NULL, FALSE);
 
-	grp_val = gnumeric_glade_group_value (gdao->gui, dao_group);
+	grp_val = gnm_gui_group_value (gdao->gui, dao_group);
 	return ((grp_val == 2) || (grp_val == 3));
 }
 

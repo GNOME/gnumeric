@@ -958,7 +958,7 @@ dialog_init (SortFlowState *state)
 	gboolean col_rb;
 	GnmRange const *range;
 
-	table = GTK_TABLE (glade_xml_get_widget (state->gui, "cell_sort_options_table"));
+	table = GTK_TABLE (gnm_xml_get_widget (state->gui, "cell_sort_options_table"));
 	/* setup range entry */
 	state->range_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->range_entry,
@@ -983,7 +983,7 @@ dialog_init (SortFlowState *state)
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
 
-	table = GTK_TABLE (glade_xml_get_widget (state->gui, "cell_sort_spec_table"));
+	table = GTK_TABLE (gnm_xml_get_widget (state->gui, "cell_sort_spec_table"));
 	/* setup add entry */
 	state->add_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->add_entry,
@@ -998,7 +998,7 @@ dialog_init (SortFlowState *state)
 	gtk_widget_show (GTK_WIDGET (state->add_entry));
 
 	/* Set-up tree view */
-	scrolled = glade_xml_get_widget (state->gui, "scrolled_cell_sort_list");
+	scrolled = gnm_xml_get_widget (state->gui, "scrolled_cell_sort_list");
 	state->model = gtk_list_store_new (NUM_COLMNS, G_TYPE_STRING,
 					   G_TYPE_STRING, G_TYPE_BOOLEAN,
 					   GDK_TYPE_PIXBUF, G_TYPE_BOOLEAN,
@@ -1069,45 +1069,45 @@ dialog_init (SortFlowState *state)
 	gtk_widget_show (GTK_WIDGET (state->treeview));
 
 	/* Set-up other widgets */
-	state->cell_sort_row_rb = glade_xml_get_widget (state->gui, "cell_sort_row_rb");
-	state->cell_sort_col_rb = glade_xml_get_widget (state->gui, "cell_sort_col_rb");
+	state->cell_sort_row_rb = gnm_xml_get_widget (state->gui, "cell_sort_row_rb");
+	state->cell_sort_col_rb = gnm_xml_get_widget (state->gui, "cell_sort_col_rb");
 	g_signal_connect_swapped (G_OBJECT (state->cell_sort_row_rb),
 				  "toggled",
 				  G_CALLBACK (cb_update_to_new_range), state);
 
-	state->cell_sort_header_check = glade_xml_get_widget (state->gui,
+	state->cell_sort_header_check = gnm_xml_get_widget (state->gui,
 							      "cell_sort_header_check");
 	g_signal_connect_swapped (G_OBJECT (state->cell_sort_header_check),
 				  "toggled",
 				  G_CALLBACK (cb_sort_header_check), state);
 
-	state->retain_format_check = glade_xml_get_widget (state->gui,
+	state->retain_format_check = gnm_xml_get_widget (state->gui,
 							   "retain_format_button");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->retain_format_check),
 				      gnm_conf_get_core_sort_default_retain_formats ());
 
 
 	/* Set-up buttons */
-	state->up_button = glade_xml_get_widget (state->gui, "up_button");
+	state->up_button = gnm_xml_get_widget (state->gui, "up_button");
 	g_signal_connect_swapped (G_OBJECT (state->up_button),
 				  "clicked",
 				  G_CALLBACK (cb_up), state);
-	state->down_button = glade_xml_get_widget (state->gui, "down_button");
+	state->down_button = gnm_xml_get_widget (state->gui, "down_button");
 	g_signal_connect_swapped (G_OBJECT (state->down_button),
 				  "clicked",
 				  G_CALLBACK (cb_down), state);
-	state->add_button = glade_xml_get_widget (state->gui, "add_button");
+	state->add_button = gnm_xml_get_widget (state->gui, "add_button");
 	g_signal_connect_swapped (G_OBJECT (state->add_button),
 				  "clicked",
 				  G_CALLBACK (cb_add_clicked), state);
 	gtk_widget_set_sensitive (state->add_button, TRUE);
-	state->delete_button = glade_xml_get_widget (state->gui, "delete_button");
+	state->delete_button = gnm_xml_get_widget (state->gui, "delete_button");
 	g_signal_connect (G_OBJECT (state->delete_button),
 			  "clicked",
 			  G_CALLBACK (cb_delete_clicked), state);
 	gtk_widget_set_sensitive (state->delete_button, FALSE);
 
-	state->clear_button = glade_xml_get_widget (state->gui, "clear_button");
+	state->clear_button = gnm_xml_get_widget (state->gui, "clear_button");
 	g_signal_connect_swapped (G_OBJECT (state->clear_button),
 				  "clicked",
 				  G_CALLBACK (cb_clear_clicked), state);
@@ -1119,14 +1119,14 @@ dialog_init (SortFlowState *state)
 	gtk_button_set_alignment (GTK_BUTTON (state->delete_button), 0., .5);
 	gtk_button_set_alignment (GTK_BUTTON (state->clear_button), 0., .5);
 	gnumeric_init_help_button (
-		glade_xml_get_widget (state->gui, "help_button"),
+		gnm_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_CELL_SORT);
 
-	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
+	state->ok_button = gnm_xml_get_widget (state->gui, "ok_button");
 	g_signal_connect_swapped (G_OBJECT (state->ok_button),
 				  "clicked",
 				  G_CALLBACK (cb_dialog_ok_clicked), state);
-	state->cancel_button = glade_xml_get_widget (state->gui, "cancel_button");
+	state->cancel_button = gnm_xml_get_widget (state->gui, "cancel_button");
 	g_signal_connect (G_OBJECT (state->cancel_button),
 			  "clicked",
 			  G_CALLBACK (cb_dialog_cancel_clicked), state);
@@ -1174,7 +1174,7 @@ dialog_cell_sort (WBCGtk *wbcg)
 	state->sel = NULL;
 	state->sort_items = 0;
 	state->gui = gui;
-        state->dialog = glade_xml_get_widget (state->gui, "CellSort");
+        state->dialog = gnm_xml_get_widget (state->gui, "CellSort");
 
 	state->image_ascending =
 		gtk_widget_render_icon (state->dialog,

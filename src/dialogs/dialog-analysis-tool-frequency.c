@@ -160,12 +160,12 @@ frequency_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	data->base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
-	data->base.group_by = gnumeric_glade_group_value (state->base.gui, grouped_by_group);
+	data->base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
 
 	data->predetermined = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->predetermined_button));
 	if (data->predetermined) {
-		w = glade_xml_get_widget (state->base.gui, "labels_2_button");
+		w = gnm_xml_get_widget (state->base.gui, "labels_2_button");
 		data->bin = gnm_expr_entry_parse_as_value
 			(GNM_EXPR_ENTRY (state->base.input_entry_2),
 			 state->base.sheet);
@@ -174,13 +174,13 @@ frequency_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		data->bin = NULL;
 	}
 
-	data->chart = gnumeric_glade_group_value (state->base.gui, chart_group);
+	data->chart = gnm_gui_group_value (state->base.gui, chart_group);
 
-	w = glade_xml_get_widget (state->base.gui, "labels_button");
+	w = gnm_xml_get_widget (state->base.gui, "labels_button");
 	data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
-	w = glade_xml_get_widget (state->base.gui, "percentage-button");
+	w = gnm_xml_get_widget (state->base.gui, "percentage-button");
 	data->percentage = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
-	w = glade_xml_get_widget (state->base.gui, "exact-button");
+	w = gnm_xml_get_widget (state->base.gui, "exact-button");
 	data->exact = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,

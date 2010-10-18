@@ -747,9 +747,9 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 	pagedata->format.col_import_count = 0;
 	pagedata->format.col_header = _("Column %d");
 
-	pagedata->format.format_data_container = glade_xml_get_widget (gui, "format_data_container");
-	pagedata->format.format_trim   = glade_xml_get_widget (gui, "format_trim");
-	pagedata->format.column_selection_label   = glade_xml_get_widget (gui, "column_selection_label");
+	pagedata->format.format_data_container = gnm_xml_get_widget (gui, "format_data_container");
+	pagedata->format.format_trim   = gnm_xml_get_widget (gui, "format_trim");
+	pagedata->format.column_selection_label   = gnm_xml_get_widget (gui, "column_selection_label");
 
 	pagedata->format.locale_selector =
 		GO_LOCALE_SEL (go_locale_sel_new ());
@@ -758,7 +758,7 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 		pagedata->locale = go_locale_sel_get_locale (pagedata->format.locale_selector);
 	}
 	gtk_table_attach (
-		GTK_TABLE (glade_xml_get_widget (gui, "locale_table")),
+		GTK_TABLE (gnm_xml_get_widget (gui, "locale_table")),
 		GTK_WIDGET (pagedata->format.locale_selector),
 		3, 4, 0, 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	gtk_widget_show_all (GTK_WIDGET (pagedata->format.locale_selector));

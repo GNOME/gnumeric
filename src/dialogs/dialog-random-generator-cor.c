@@ -159,7 +159,7 @@ random_cor_tool_ok_clicked_cb (GtkWidget *button, RandomCorToolState *state)
 	data->variables = data->matrix->v_range.cell.b.row - 
 		data->matrix->v_range.cell.a.row + 1;
 
-	data->matrix_type = gnumeric_glade_group_value 
+	data->matrix_type = gnm_gui_group_value 
 		(state->base.gui, matrix_group);
 
 
@@ -181,7 +181,7 @@ random_cor_tool_ok_clicked_cb (GtkWidget *button, RandomCorToolState *state)
 static void
 dialog_random_cor_tool_init (RandomCorToolState *state)
 {
-	state->count_entry = glade_xml_get_widget (state->base.gui, "count_entry");
+	state->count_entry = gnm_xml_get_widget (state->base.gui, "count_entry");
 	int_to_entry (GTK_ENTRY (state->count_entry), 2);
 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->count_entry));

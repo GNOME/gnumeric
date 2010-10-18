@@ -105,7 +105,7 @@ shuffle_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button, ShuffleState *state)
 	input = gnm_expr_entry_parse_as_value (
 		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
 
-	type = gnumeric_glade_group_value (state->gui, shuffle_by);
+	type = gnm_gui_group_value (state->gui, shuffle_by);
 
 	ds = data_shuffling (WORKBOOK_CONTROL (state->wbcg), dao,
 			     state->sheet, input, type);
@@ -165,7 +165,7 @@ dialog_shuffle (WBCGtk *wbcg)
 		type = "shuffle_rows";
 	else
 		type = "shuffle_area";
-	w = glade_xml_get_widget (state->gui, type);
+	w = gnm_xml_get_widget (state->gui, type);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 
 	gtk_widget_show (state->dialog);

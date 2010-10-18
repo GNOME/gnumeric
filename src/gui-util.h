@@ -34,7 +34,7 @@ void       gnumeric_editable_enters	(GtkWindow *window, GtkWidget *w);
 /* Utility routine as Gtk does not have any decent routine to do this */
 int gtk_radio_group_get_selected (GSList *radio_group);
 /* Utility routine as libglade does not have any decent routine to do this */
-int gnumeric_glade_group_value (GladeXML *gui, char const * const group[]);
+int gnm_gui_group_value (gpointer gui, char const * const group[]);
 
 /* Use this on menus that are popped up */
 void gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event);
@@ -52,6 +52,8 @@ GladeXML   *gnm_glade_xml_new (GOCmdContext *cc, char const *gladefile,
 			       char const *root, char const *domain);
 GtkBuilder *gnm_gtk_builder_new (char const *uifile, char const *domain,
 				 GOCmdContext *cc);
+
+GtkWidget *gnm_xml_get_widget (gpointer gui, char const *widget_name);
 
 typedef struct {
 	char const *name;

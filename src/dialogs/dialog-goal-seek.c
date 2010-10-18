@@ -503,42 +503,42 @@ dialog_init (GoalSeekState *state)
 {
 	GtkTable *table;
 
-	state->dialog = glade_xml_get_widget (state->gui, "GoalSeek");
+	state->dialog = gnm_xml_get_widget (state->gui, "GoalSeek");
         if (state->dialog == NULL)
                 return TRUE;
 
-	state->close_button     = glade_xml_get_widget (state->gui, "closebutton");
+	state->close_button     = gnm_xml_get_widget (state->gui, "closebutton");
 	g_signal_connect (G_OBJECT (state->close_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_close_clicked), state);
 
-	state->cancel_button  = glade_xml_get_widget (state->gui, "cancelbutton");
+	state->cancel_button  = gnm_xml_get_widget (state->gui, "cancelbutton");
 	g_signal_connect (G_OBJECT (state->cancel_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_cancel_clicked), state);
-	state->apply_button     = glade_xml_get_widget (state->gui, "applybutton");
+	state->apply_button     = gnm_xml_get_widget (state->gui, "applybutton");
 	g_signal_connect (G_OBJECT (state->apply_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_apply_clicked), state);
 
 	gnumeric_init_help_button (
-		glade_xml_get_widget (state->gui, "helpbutton"),
+		gnm_xml_get_widget (state->gui, "helpbutton"),
 		GNUMERIC_HELP_LINK_GOAL_SEEK);
 
-	state->to_value_entry = glade_xml_get_widget (state->gui, "to_value_entry");
-	state->at_least_entry = glade_xml_get_widget (state->gui, "at_least-entry");
-	state->at_most_entry = glade_xml_get_widget (state->gui, "at_most-entry");
-	state->target_value_label = glade_xml_get_widget (state->gui, "target-value");
+	state->to_value_entry = gnm_xml_get_widget (state->gui, "to_value_entry");
+	state->at_least_entry = gnm_xml_get_widget (state->gui, "at_least-entry");
+	state->at_most_entry = gnm_xml_get_widget (state->gui, "at_most-entry");
+	state->target_value_label = gnm_xml_get_widget (state->gui, "target-value");
 	gtk_label_set_justify (GTK_LABEL (state->target_value_label), GTK_JUSTIFY_RIGHT);
-	state->current_value_label = glade_xml_get_widget (state->gui, "current-value");
+	state->current_value_label = gnm_xml_get_widget (state->gui, "current-value");
 	gtk_label_set_justify (GTK_LABEL (state->current_value_label), GTK_JUSTIFY_RIGHT);
-	state->solution_label = glade_xml_get_widget (state->gui, "solution");
+	state->solution_label = gnm_xml_get_widget (state->gui, "solution");
 	gtk_label_set_justify (GTK_LABEL (state->solution_label), GTK_JUSTIFY_RIGHT);
 
-	state->result_label = glade_xml_get_widget (state->gui, "result-label");
-	state->result_table = glade_xml_get_widget (state->gui, "result-table");
+	state->result_label = gnm_xml_get_widget (state->gui, "result-label");
+	state->result_table = gnm_xml_get_widget (state->gui, "result-table");
 
-	table = GTK_TABLE (glade_xml_get_widget (state->gui, "goal-table"));
+	table = GTK_TABLE (gnm_xml_get_widget (state->gui, "goal-table"));
 	state->set_cell_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->set_cell_entry,
 				  GNM_EE_SINGLE_RANGE |

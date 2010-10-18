@@ -161,7 +161,7 @@ update_log (SimulationState *state, simulation_t *sim)
 	GString      *buf;
 	int          i;
 
-	view = glade_xml_get_widget (state->gui, "last-run-view");
+	view = gnm_xml_get_widget (state->gui, "last-run-view");
 
 	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
 
@@ -257,11 +257,11 @@ prev_button_cb (G_GNUC_UNUSED GtkWidget *button,
 		--results_sim_index;
 
 	if (results_sim_index == current_sim->first_round) {
-		w = glade_xml_get_widget (state->gui, "prev-button");
+		w = gnm_xml_get_widget (state->gui, "prev-button");
 		gtk_widget_set_sensitive (w, FALSE);
 	}
 
-	w = glade_xml_get_widget (state->gui, "next-button");
+	w = gnm_xml_get_widget (state->gui, "next-button");
 	gtk_widget_set_sensitive (w, TRUE);
 	update_results_view (current_sim);
 }
@@ -276,11 +276,11 @@ next_button_cb (G_GNUC_UNUSED GtkWidget *button,
 		++results_sim_index;
 
 	if (results_sim_index == current_sim->last_round) {
-		w = glade_xml_get_widget (state->gui, "next-button");
+		w = gnm_xml_get_widget (state->gui, "next-button");
 		gtk_widget_set_sensitive (w, FALSE);
 	}
 
-	w = glade_xml_get_widget (state->gui, "prev-button");
+	w = gnm_xml_get_widget (state->gui, "prev-button");
 	gtk_widget_set_sensitive (w, TRUE);
 	update_results_view (current_sim);
 }
@@ -318,13 +318,13 @@ simulation_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		goto out;
 	}
 
-	w = glade_xml_get_widget (state->gui, "iterations");
+	w = gnm_xml_get_widget (state->gui, "iterations");
 	sim.n_iterations = gtk_spin_button_get_value (GTK_SPIN_BUTTON (w));
 
-	w = glade_xml_get_widget (state->gui, "first_round");
+	w = gnm_xml_get_widget (state->gui, "first_round");
 	sim.first_round = gtk_spin_button_get_value (GTK_SPIN_BUTTON (w)) - 1;
 
-	w = glade_xml_get_widget (state->gui, "last_round");
+	w = gnm_xml_get_widget (state->gui, "last_round");
 	sim.last_round = gtk_spin_button_get_value (GTK_SPIN_BUTTON (w)) - 1;
 
 	if (sim.first_round > sim.last_round) {
@@ -336,7 +336,7 @@ simulation_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	current_sim = &sim;
 
-	w = glade_xml_get_widget (state->gui, "max-time");
+	w = gnm_xml_get_widget (state->gui, "max-time");
 	sim.max_time = gtk_spin_button_get_value (GTK_SPIN_BUTTON (w)) - 1;
 
 	g_get_current_time (&sim.start);
@@ -350,7 +350,7 @@ simulation_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		update_results_view (&sim);
 
 		if (sim.last_round > results_sim_index) {
-			w = glade_xml_get_widget (state->gui, "next-button");
+			w = gnm_xml_get_widget (state->gui, "next-button");
 			gtk_widget_set_sensitive (w, TRUE);
 		}
 	}
@@ -388,7 +388,7 @@ init_results_view (SimulationState *state)
 
 	tag_table      = gtk_text_tag_table_new ();
 	results_buffer = gtk_text_buffer_new (tag_table);
-	view = GTK_TEXT_VIEW (glade_xml_get_widget (state->gui,
+	view = GTK_TEXT_VIEW (gnm_xml_get_widget (state->gui,
 						    "results-view"));
 	gtk_text_view_set_buffer (view, results_buffer);
 }
@@ -431,18 +431,18 @@ dialog_simulation (WBCGtk *wbcg, G_GNUC_UNUSED Sheet *sheet)
 	init_results_view (state);
 	current_sim = NULL;
 
-	w = glade_xml_get_widget (state->gui, "prev-button");
+	w = gnm_xml_get_widget (state->gui, "prev-button");
 	gtk_widget_set_sensitive (w, FALSE);
 	g_signal_connect_after (G_OBJECT (w), "clicked",
 				G_CALLBACK (prev_button_cb), state);
-	w = glade_xml_get_widget (state->gui, "next-button");
+	w = gnm_xml_get_widget (state->gui, "next-button");
 	g_signal_connect_after (G_OBJECT (w), "clicked",
 				G_CALLBACK (next_button_cb), state);
 	gtk_widget_set_sensitive (w, FALSE);
-	w = glade_xml_get_widget (state->gui, "min-button");
+	w = gnm_xml_get_widget (state->gui, "min-button");
 	gtk_widget_set_sensitive (w, FALSE);
 	gtk_widget_hide (w);
-	w = glade_xml_get_widget (state->gui, "max-button");
+	w = gnm_xml_get_widget (state->gui, "max-button");
 	gtk_widget_set_sensitive (w, FALSE);
 	gtk_widget_hide (w);
 

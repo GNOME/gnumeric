@@ -326,12 +326,12 @@ dialog_so_size (WBCGtk *wbcg, GObject *so)
 	state->sheet = sv_sheet (state->sv);
 	state->scg = wbcg_get_nth_scg (wbcg, state->sheet->index_in_wb);
 	state->gui    = gui;
-	state->dialog = glade_xml_get_widget (state->gui, "object-size");
+	state->dialog = gnm_xml_get_widget (state->gui, "object-size");
 
 	state->so = SHEET_OBJECT (so);
 	g_object_ref (so);
 
-	state->nameentry = GTK_ENTRY (glade_xml_get_widget (state->gui, "name-entry"));
+	state->nameentry = GTK_ENTRY (gnm_xml_get_widget (state->gui, "name-entry"));
 	state->old_anchor = NULL;
 	state->old_name = NULL;
 	g_object_get (so, "name", &state->old_name, NULL);
@@ -345,15 +345,15 @@ dialog_so_size (WBCGtk *wbcg, GObject *so)
 			  state);
 	state->so_print_check_changed = FALSE;
 
-	state->wpoints = GTK_WIDGET (glade_xml_get_widget (state->gui, "w-pts-label"));
-	state->wspin  = GTK_SPIN_BUTTON (glade_xml_get_widget (state->gui, "w-spin"));
-	state->hpoints = GTK_WIDGET (glade_xml_get_widget (state->gui, "h-pts-label"));
-	state->hspin  = GTK_SPIN_BUTTON (glade_xml_get_widget (state->gui, "h-spin"));
-	state->xpoints = GTK_WIDGET (glade_xml_get_widget (state->gui, "x-pts-label"));
-	state->xspin  = GTK_SPIN_BUTTON (glade_xml_get_widget (state->gui, "x-spin"));
-	state->ypoints = GTK_WIDGET (glade_xml_get_widget (state->gui, "y-pts-label"));
-	state->yspin  = GTK_SPIN_BUTTON (glade_xml_get_widget (state->gui, "y-spin"));
-	state->print_check = GTK_WIDGET (glade_xml_get_widget (state->gui, 
+	state->wpoints = GTK_WIDGET (gnm_xml_get_widget (state->gui, "w-pts-label"));
+	state->wspin  = GTK_SPIN_BUTTON (gnm_xml_get_widget (state->gui, "w-spin"));
+	state->hpoints = GTK_WIDGET (gnm_xml_get_widget (state->gui, "h-pts-label"));
+	state->hspin  = GTK_SPIN_BUTTON (gnm_xml_get_widget (state->gui, "h-spin"));
+	state->xpoints = GTK_WIDGET (gnm_xml_get_widget (state->gui, "x-pts-label"));
+	state->xspin  = GTK_SPIN_BUTTON (gnm_xml_get_widget (state->gui, "x-spin"));
+	state->ypoints = GTK_WIDGET (gnm_xml_get_widget (state->gui, "y-pts-label"));
+	state->yspin  = GTK_SPIN_BUTTON (gnm_xml_get_widget (state->gui, "y-spin"));
+	state->print_check = GTK_WIDGET (gnm_xml_get_widget (state->gui, 
 							       "print-check"));
 	dialog_so_size_load (state);
 	state->active_anchor = sheet_object_anchor_dup (sheet_object_get_anchor 
@@ -407,22 +407,22 @@ dialog_so_size (WBCGtk *wbcg, GObject *so)
 		"value-changed",
 		G_CALLBACK (cb_dialog_so_size_value_changed), state);
 
-	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
+	state->ok_button = gnm_xml_get_widget (state->gui, "ok_button");
 	g_signal_connect (G_OBJECT (state->ok_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_so_size_ok_clicked), state);
-	state->apply_button = glade_xml_get_widget (state->gui, "apply_button");
+	state->apply_button = gnm_xml_get_widget (state->gui, "apply_button");
 	g_signal_connect (G_OBJECT (state->apply_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_so_size_apply_clicked), state);
 
-	state->cancel_button = glade_xml_get_widget (state->gui, "cancel_button");
+	state->cancel_button = gnm_xml_get_widget (state->gui, "cancel_button");
 	g_signal_connect (G_OBJECT (state->cancel_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_so_size_cancel_clicked), state);
 
 	gnumeric_init_help_button (
-		glade_xml_get_widget (state->gui, "help_button"),
+		gnm_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_SO_SIZE);
 
 	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog),

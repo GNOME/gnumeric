@@ -1497,64 +1497,64 @@ dialog_doc_metadata_free (DialogDocMetaData *state)
 static void
 dialog_doc_metadata_init_widgets (DialogDocMetaData *state)
 {
-	state->dialog = glade_xml_get_widget (state->gui, "GOMetadataDialog");
+	state->dialog = gnm_xml_get_widget (state->gui, "GOMetadataDialog");
 
-	state->notebook     = GTK_NOTEBOOK (glade_xml_get_widget (state->gui, "notebook"));
-	state->help_button  = GTK_BUTTON (glade_xml_get_widget (state->gui, "help_button"));
-	state->close_button = GTK_BUTTON (glade_xml_get_widget (state->gui, "close_button"));
+	state->notebook     = GTK_NOTEBOOK (gnm_xml_get_widget (state->gui, "notebook"));
+	state->help_button  = GTK_BUTTON (gnm_xml_get_widget (state->gui, "help_button"));
+	state->close_button = GTK_BUTTON (gnm_xml_get_widget (state->gui, "close_button"));
 
 	/* File Information Page */
-	state->file_name = GTK_LABEL (glade_xml_get_widget (state->gui, "file_name"));
-	state->location  = GTK_LABEL (glade_xml_get_widget (state->gui, "location"));
-	state->created   = GTK_LABEL (glade_xml_get_widget (state->gui, "created"));
-	state->modified  = GTK_LABEL (glade_xml_get_widget (state->gui, "modified"));
-	state->accessed  = GTK_LABEL (glade_xml_get_widget (state->gui, "accessed"));
-	state->owner     = GTK_LABEL (glade_xml_get_widget (state->gui, "owner"));
-	state->group     = GTK_LABEL (glade_xml_get_widget (state->gui, "group"));
+	state->file_name = GTK_LABEL (gnm_xml_get_widget (state->gui, "file_name"));
+	state->location  = GTK_LABEL (gnm_xml_get_widget (state->gui, "location"));
+	state->created   = GTK_LABEL (gnm_xml_get_widget (state->gui, "created"));
+	state->modified  = GTK_LABEL (gnm_xml_get_widget (state->gui, "modified"));
+	state->accessed  = GTK_LABEL (gnm_xml_get_widget (state->gui, "accessed"));
+	state->owner     = GTK_LABEL (gnm_xml_get_widget (state->gui, "owner"));
+	state->group     = GTK_LABEL (gnm_xml_get_widget (state->gui, "group"));
 
-	state->owner_read  = GTK_CHECK_BUTTON (glade_xml_get_widget (state->gui, "owner_read"));
-	state->owner_write = GTK_CHECK_BUTTON (glade_xml_get_widget (state->gui, "owner_write"));
+	state->owner_read  = GTK_CHECK_BUTTON (gnm_xml_get_widget (state->gui, "owner_read"));
+	state->owner_write = GTK_CHECK_BUTTON (gnm_xml_get_widget (state->gui, "owner_write"));
 
-	state->group_read  = GTK_CHECK_BUTTON (glade_xml_get_widget (state->gui, "group_read"));
-	state->group_write = GTK_CHECK_BUTTON (glade_xml_get_widget (state->gui, "group_write"));
+	state->group_read  = GTK_CHECK_BUTTON (gnm_xml_get_widget (state->gui, "group_read"));
+	state->group_write = GTK_CHECK_BUTTON (gnm_xml_get_widget (state->gui, "group_write"));
 
-	state->others_read  = GTK_CHECK_BUTTON (glade_xml_get_widget (state->gui, "others_read"));
-	state->others_write = GTK_CHECK_BUTTON (glade_xml_get_widget (state->gui, "others_write"));
+	state->others_read  = GTK_CHECK_BUTTON (gnm_xml_get_widget (state->gui, "others_read"));
+	state->others_write = GTK_CHECK_BUTTON (gnm_xml_get_widget (state->gui, "others_write"));
 
 	/* Description Page */
-	state->title    = GTK_ENTRY (glade_xml_get_widget (state->gui, "title"));
-	state->subject  = GTK_ENTRY (glade_xml_get_widget (state->gui, "subject"));
-	state->author   = GTK_ENTRY (glade_xml_get_widget (state->gui, "author"));
-	state->manager  = GTK_ENTRY (glade_xml_get_widget (state->gui, "manager"));
-	state->company  = GTK_ENTRY (glade_xml_get_widget (state->gui, "company"));
-	state->category = GTK_ENTRY (glade_xml_get_widget (state->gui, "category"));
-	state->keywords = GTK_ENTRY (glade_xml_get_widget (state->gui, "keywords"));
+	state->title    = GTK_ENTRY (gnm_xml_get_widget (state->gui, "title"));
+	state->subject  = GTK_ENTRY (gnm_xml_get_widget (state->gui, "subject"));
+	state->author   = GTK_ENTRY (gnm_xml_get_widget (state->gui, "author"));
+	state->manager  = GTK_ENTRY (gnm_xml_get_widget (state->gui, "manager"));
+	state->company  = GTK_ENTRY (gnm_xml_get_widget (state->gui, "company"));
+	state->category = GTK_ENTRY (gnm_xml_get_widget (state->gui, "category"));
+	state->keywords = GTK_ENTRY (gnm_xml_get_widget (state->gui, "keywords"));
 
-	state->comments = GTK_TEXT_VIEW (glade_xml_get_widget (state->gui, "comments"));
+	state->comments = GTK_TEXT_VIEW (gnm_xml_get_widget (state->gui, "comments"));
 
 	/* Properties Page */
-	state->properties = GTK_TREE_VIEW (glade_xml_get_widget (state->gui, "properties"));
+	state->properties = GTK_TREE_VIEW (gnm_xml_get_widget (state->gui, "properties"));
 
-	state->ppt_name  = GTK_COMBO_BOX_ENTRY (glade_xml_get_widget (state->gui, "ppt_name"));
-	state->ppt_value = GTK_ENTRY (glade_xml_get_widget (state->gui, "ppt_value"));
-	state->ppt_link  = GTK_ENTRY (glade_xml_get_widget (state->gui, "ppt_link"));
+	state->ppt_name  = GTK_COMBO_BOX_ENTRY (gnm_xml_get_widget (state->gui, "ppt_name"));
+	state->ppt_value = GTK_ENTRY (gnm_xml_get_widget (state->gui, "ppt_value"));
+	state->ppt_link  = GTK_ENTRY (gnm_xml_get_widget (state->gui, "ppt_link"));
 
-	state->add_button    = GTK_BUTTON (glade_xml_get_widget (state->gui, "add_button"));
-	state->remove_button = GTK_BUTTON (glade_xml_get_widget (state->gui, "remove_button"));
-	state->apply_button  = GTK_BUTTON (glade_xml_get_widget (state->gui, "apply_button"));
+	state->add_button    = GTK_BUTTON (gnm_xml_get_widget (state->gui, "add_button"));
+	state->remove_button = GTK_BUTTON (gnm_xml_get_widget (state->gui, "remove_button"));
+	state->apply_button  = GTK_BUTTON (gnm_xml_get_widget (state->gui, "apply_button"));
 
 	/* Statistics Page */
-	state->sheets = GTK_LABEL (glade_xml_get_widget (state->gui, "sheets"));
-	state->cells  = GTK_LABEL (glade_xml_get_widget (state->gui, "cells"));
-	state->pages  = GTK_LABEL (glade_xml_get_widget (state->gui, "pages"));
+	state->sheets = GTK_LABEL (gnm_xml_get_widget (state->gui, "sheets"));
+	state->cells  = GTK_LABEL (gnm_xml_get_widget (state->gui, "cells"));
+	state->pages  = GTK_LABEL (gnm_xml_get_widget (state->gui, "pages"));
 
 	/* Calculations Page */
-	state->recalc_auto = GTK_CHECK_BUTTON (glade_xml_get_widget (state->gui, "recalc_auto"));
-	state->recalc_manual = GTK_CHECK_BUTTON (glade_xml_get_widget (state->gui, "recalc_manual"));
-	state->recalc_iteration = GTK_CHECK_BUTTON (glade_xml_get_widget (state->gui, "iteration_enabled"));
-	state->recalc_max  = GTK_ENTRY (glade_xml_get_widget (state->gui, "max_iterations"));
-	state->recalc_tolerance  = GTK_ENTRY (glade_xml_get_widget (state->gui, "iteration_tolerance"));
-	state->recalc_iteration_table = glade_xml_get_widget (state->gui, "iteration_table");
+	state->recalc_auto = GTK_CHECK_BUTTON (gnm_xml_get_widget (state->gui, "recalc_auto"));
+	state->recalc_manual = GTK_CHECK_BUTTON (gnm_xml_get_widget (state->gui, "recalc_manual"));
+	state->recalc_iteration = GTK_CHECK_BUTTON (gnm_xml_get_widget (state->gui, "iteration_enabled"));
+	state->recalc_max  = GTK_ENTRY (gnm_xml_get_widget (state->gui, "max_iterations"));
+	state->recalc_tolerance  = GTK_ENTRY (gnm_xml_get_widget (state->gui, "iteration_tolerance"));
+	state->recalc_iteration_table = gnm_xml_get_widget (state->gui, "iteration_table");
 }
 
 static void
@@ -1684,7 +1684,7 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 
 	dialog_doc_metadata_init_widgets (state);
 
-	state->view = GTK_TREE_VIEW(glade_xml_get_widget (state->gui, "itemlist"));
+	state->view = GTK_TREE_VIEW(gnm_xml_get_widget (state->gui, "itemlist"));
 	state->store = gtk_tree_store_new (NUM_COLUMNS,
 					   GDK_TYPE_PIXBUF,
 					   G_TYPE_STRING,

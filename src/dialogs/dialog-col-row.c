@@ -70,7 +70,7 @@ cb_dialog_col_row_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 {
 	state->callback (state->wbcg,
 			 gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
-						       (glade_xml_get_widget (state->gui,
+						       (gnm_xml_get_widget (state->gui,
 									      "cols"))),
 			 state->data);
 	gtk_widget_destroy (state->dialog);
@@ -99,20 +99,20 @@ dialog_col_row (WBCGtk *wbcg,  char const *operation,
 	state->data = data;
 	state->gui = gui;
 
-	state->dialog = glade_xml_get_widget (state->gui, "dialog");
+	state->dialog = gnm_xml_get_widget (state->gui, "dialog");
 
-	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
+	state->ok_button = gnm_xml_get_widget (state->gui, "ok_button");
 	g_signal_connect (G_OBJECT (state->ok_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_col_row_ok_clicked), state);
 
-	state->cancel_button = glade_xml_get_widget (state->gui, "cancel_button");
+	state->cancel_button = gnm_xml_get_widget (state->gui, "cancel_button");
 	g_signal_connect (G_OBJECT (state->cancel_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_col_row_cancel_clicked), state);
 
 	gnumeric_init_help_button (
-		glade_xml_get_widget (state->gui, "help_button"),
+		gnm_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_GROUP_UNGROUP);
 
 	gtk_window_set_title (GTK_WINDOW (state->dialog), operation);

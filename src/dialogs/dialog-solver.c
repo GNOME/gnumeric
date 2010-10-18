@@ -340,7 +340,7 @@ cb_dialog_model_type_clicked (G_GNUC_UNUSED GtkWidget *button,
 	GnmSolverModelType type;
 	gboolean any;
 
-	type = gnumeric_glade_group_value (state->gui, model_type_group);
+	type = gnm_gui_group_value (state->gui, model_type_group);
 	any = fill_algorithm_combo (state, type);
 
 	if (!any) {
@@ -373,7 +373,7 @@ set_params (Sheet *sheet, GnmSolverParameters *params)
 
 #define GET_BOOL_ENTRY(name_, field_)					\
 	do {								\
-		GtkWidget *w_ = glade_xml_get_widget (state->gui, (name_)); \
+		GtkWidget *w_ = gnm_xml_get_widget (state->gui, (name_)); \
 		param->field_ = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w_)); \
 	} while (0)
 
@@ -401,9 +401,9 @@ extract_settings (SolverState *state)
 	target_cell = gnm_solver_param_get_target_cell (param);
 
 	param->problem_type =
-		gnumeric_glade_group_value (state->gui, problem_type_group);
+		gnm_gui_group_value (state->gui, problem_type_group);
 	param->options.model_type =
-		gnumeric_glade_group_value (state->gui, model_type_group);
+		gnm_gui_group_value (state->gui, model_type_group);
 
 	if (gtk_combo_box_get_active_iter (state->algorithm_combo, &iter)) {
 		gtk_tree_model_get (gtk_combo_box_get_model (state->algorithm_combo),
@@ -884,7 +884,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 #define INIT_BOOL_ENTRY(name_, field_)					\
 do {									\
-	GtkWidget *w_ = glade_xml_get_widget (state->gui, (name_));	\
+	GtkWidget *w_ = gnm_xml_get_widget (state->gui, (name_));	\
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w_),		\
 				      param->field_);			\
 } while (0)
@@ -917,41 +917,41 @@ dialog_init (SolverState *state)
         if (state->gui == NULL)
                 return TRUE;
 
-	state->dialog = glade_xml_get_widget (state->gui, "Solver");
+	state->dialog = gnm_xml_get_widget (state->gui, "Solver");
         if (state->dialog == NULL)
                 return TRUE;
 
 /*  buttons  */
-	state->solve_button  = glade_xml_get_widget (state->gui, "solvebutton");
+	state->solve_button  = gnm_xml_get_widget (state->gui, "solvebutton");
 	g_signal_connect (G_OBJECT (state->solve_button), "clicked",
 			  G_CALLBACK (cb_dialog_solve_clicked), state);
 
-	state->close_button  = glade_xml_get_widget (state->gui, "closebutton");
+	state->close_button  = gnm_xml_get_widget (state->gui, "closebutton");
 	g_signal_connect (G_OBJECT (state->close_button), "clicked",
 			  G_CALLBACK (cb_dialog_close_clicked), state);
 
-	gnumeric_init_help_button (glade_xml_get_widget (state->gui,
+	gnumeric_init_help_button (gnm_xml_get_widget (state->gui,
 							 "helpbutton"),
 				   GNUMERIC_HELP_LINK_SOLVER);
 
-	state->add_button  = glade_xml_get_widget (state->gui, "addbutton");
+	state->add_button  = gnm_xml_get_widget (state->gui, "addbutton");
 	gtk_button_set_alignment (GTK_BUTTON (state->add_button), 0.5, .5);
 	g_signal_connect_swapped (G_OBJECT (state->add_button), "clicked",
 		G_CALLBACK (cb_dialog_add_clicked), state);
 
-	state->change_button = glade_xml_get_widget (state->gui,
+	state->change_button = gnm_xml_get_widget (state->gui,
 						     "changebutton");
 	g_signal_connect (G_OBJECT (state->change_button), "clicked",
 			  G_CALLBACK (cb_dialog_change_clicked), state);
 
-	state->delete_button = glade_xml_get_widget (state->gui,
+	state->delete_button = gnm_xml_get_widget (state->gui,
 						     "deletebutton");
 	gtk_button_set_alignment (GTK_BUTTON (state->delete_button), 0.5, .5);
 	g_signal_connect (G_OBJECT (state->delete_button), "clicked",
 			  G_CALLBACK (cb_dialog_delete_clicked), state);
 
 	/* target_entry */
-	table = GTK_TABLE (glade_xml_get_widget (state->gui,
+	table = GTK_TABLE (gnm_xml_get_widget (state->gui,
 						 "parameter_table"));
 	state->target_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->target_entry,
@@ -969,7 +969,7 @@ dialog_init (SolverState *state)
 				state);
 
 	/* change_cell_entry */
-	table = GTK_TABLE (glade_xml_get_widget (state->gui,
+	table = GTK_TABLE (gnm_xml_get_widget (state->gui,
 						 "parameter_table"));
 	state->change_cell_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->change_cell_entry,
@@ -987,7 +987,7 @@ dialog_init (SolverState *state)
 
 	/* Algorithm */
 	state->algorithm_combo = GTK_COMBO_BOX
-		(glade_xml_get_widget (state->gui, "algorithm_combo"));
+		(gnm_xml_get_widget (state->gui, "algorithm_combo"));
 	renderer = (GtkCellRenderer*) gtk_cell_renderer_text_new();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (state->algorithm_combo), renderer, TRUE);
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (state->algorithm_combo), renderer,
@@ -997,7 +997,7 @@ dialog_init (SolverState *state)
 
 	for (i = 0; model_type_group[i]; i++) {
 		const char *bname = model_type_group[i];
-		GtkWidget *w = glade_xml_get_widget(state->gui, bname);
+		GtkWidget *w = gnm_xml_get_widget(state->gui, bname);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
 					      param->options.model_type ==
 					      (GnmSolverModelType)i);
@@ -1006,18 +1006,18 @@ dialog_init (SolverState *state)
 	}
 
 	/* Options */
-	state->max_iter_entry = glade_xml_get_widget (state->gui,
+	state->max_iter_entry = gnm_xml_get_widget (state->gui,
 						      "max_iter_entry");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->max_iter_entry),
 				   param->options.max_iter);
 
-	state->max_time_entry = glade_xml_get_widget (state->gui,
+	state->max_time_entry = gnm_xml_get_widget (state->gui,
 						      "max_time_entry");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->max_time_entry),
 				   param->options.max_time_sec);
 
 /* lhs_entry */
-	table = GTK_TABLE (glade_xml_get_widget (state->gui, "edit-table"));
+	table = GTK_TABLE (gnm_xml_get_widget (state->gui, "edit-table"));
 	state->lhs.entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->lhs.entry,
 		GNM_EE_SINGLE_RANGE |
@@ -1027,7 +1027,7 @@ dialog_init (SolverState *state)
 			  0, 1, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
-	state->lhs.label = glade_xml_get_widget (state->gui, "lhs_label");
+	state->lhs.label = gnm_xml_get_widget (state->gui, "lhs_label");
 	gtk_label_set_mnemonic_widget (GTK_LABEL (state->lhs.label),
 		GTK_WIDGET (state->lhs.entry));
 	gtk_widget_show (GTK_WIDGET (state->lhs.entry));
@@ -1039,7 +1039,7 @@ dialog_init (SolverState *state)
 		"activate", G_CALLBACK (cb_dialog_add_clicked), state);
 
 /* rhs_entry */
-	table = GTK_TABLE (glade_xml_get_widget (state->gui, "edit-table"));
+	table = GTK_TABLE (gnm_xml_get_widget (state->gui, "edit-table"));
 	state->rhs.entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->rhs.entry,
 				  GNM_EE_SINGLE_RANGE |
@@ -1051,7 +1051,7 @@ dialog_init (SolverState *state)
 			  2, 3, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	gtk_widget_show (GTK_WIDGET (state->rhs.entry));
-	state->rhs.label = glade_xml_get_widget (state->gui, "rhs_label");
+	state->rhs.label = gnm_xml_get_widget (state->gui, "rhs_label");
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (state->rhs.label), GTK_WIDGET (state->rhs.entry));
 	g_signal_connect_after (G_OBJECT (state->rhs.entry),
@@ -1063,14 +1063,14 @@ dialog_init (SolverState *state)
 
 /* type_menu */
 	state->type_combo = GTK_COMBO_BOX
-		(glade_xml_get_widget (state->gui, "type_menu"));
+		(gnm_xml_get_widget (state->gui, "type_menu"));
 	gtk_combo_box_set_active (state->type_combo, 0);
 	g_signal_connect (state->type_combo, "changed",
 			  G_CALLBACK (dialog_set_sec_button_sensitivity),
 			  state);
 
 /* constraint_list */
-	state->constraint_list = GTK_TREE_VIEW (glade_xml_get_widget
+	state->constraint_list = GTK_TREE_VIEW (gnm_xml_get_widget
 					    (state->gui, "constraint_list"));
 
 	state->constr = NULL;
@@ -1140,19 +1140,19 @@ dialog_init (SolverState *state)
 	}
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
-		glade_xml_get_widget(state->gui, "max_button")),
+		gnm_xml_get_widget(state->gui, "max_button")),
 			param->problem_type == GNM_SOLVER_MAXIMIZE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
-		glade_xml_get_widget(state->gui, "min_button")),
+		gnm_xml_get_widget(state->gui, "min_button")),
 			param->problem_type == GNM_SOLVER_MINIMIZE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
-		glade_xml_get_widget(state->gui, "no_scenario")),
+		gnm_xml_get_widget(state->gui, "no_scenario")),
 			! param->options.add_scenario);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
-		glade_xml_get_widget(state->gui, "optimal_scenario")),
+		gnm_xml_get_widget(state->gui, "optimal_scenario")),
 			param->options.add_scenario);
 
-	state->scenario_name_entry = glade_xml_get_widget
+	state->scenario_name_entry = gnm_xml_get_widget
 		(state->gui, "scenario_name_entry");
 	gtk_entry_set_text (GTK_ENTRY (state->scenario_name_entry),
 			    param->options.scenario_name);

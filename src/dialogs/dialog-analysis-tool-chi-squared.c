@@ -93,7 +93,7 @@ chi_squared_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->alpha = gtk_spin_button_get_value
 		(GTK_SPIN_BUTTON (state->alpha_entry));
 
-	w = glade_xml_get_widget (state->base.gui, "test-of-independence");
+	w = gnm_xml_get_widget (state->base.gui, "test-of-independence");
 	data->independence = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	data->n_c = (data->input->v_range.cell.b.col - data->input->v_range.cell.a.col + 1);
@@ -229,7 +229,7 @@ dialog_chi_square_tool (WBCGtk *wbcg, Sheet *sheet, gboolean independence)
 	else
 		type ="test-of-homogeneity";
 	gtk_toggle_button_set_active 
-		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->base.gui, 
+		(GTK_TOGGLE_BUTTON (gnm_xml_get_widget (state->base.gui, 
 							  type)),
 		 TRUE);
 

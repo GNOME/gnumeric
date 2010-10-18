@@ -59,7 +59,7 @@ cb_view_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	GdkScreen *screen;
 	GSList *buttons = gtk_radio_button_get_group (state->location_elsewhere);
 
-	shared = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "view_shared")));
+	shared = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (gnm_xml_get_widget (state->gui, "view_shared")));
 
 	while (buttons)
 		if (gtk_toggle_button_get_active (buttons->data))
@@ -138,16 +138,16 @@ dialog_new_view (WBCGtk *wbcg)
 	state = g_new (ViewState, 1);
 	state->wbcg = wbcg;
 	state->gui = gui;
-	state->dialog = glade_xml_get_widget (gui, "View");
-	state->location_elsewhere = GTK_RADIO_BUTTON (glade_xml_get_widget (gui, "location_elsewhere"));
-	state->location_display_name = GTK_ENTRY (glade_xml_get_widget (gui, "location_display_name"));
+	state->dialog = gnm_xml_get_widget (gui, "View");
+	state->location_elsewhere = GTK_RADIO_BUTTON (gnm_xml_get_widget (gui, "location_elsewhere"));
+	state->location_display_name = GTK_ENTRY (gnm_xml_get_widget (gui, "location_display_name"));
 	g_return_if_fail (state->dialog != NULL);
 
 	{
 		GdkScreen *this_screen = gtk_window_get_screen (wbcg_toplevel (wbcg));
 		GdkDisplay *this_display = gdk_screen_get_display (this_screen);
 		int n_screens = gdk_display_get_n_screens (this_display);
-		GtkBox *box = GTK_BOX (glade_xml_get_widget (gui, "location_screens_vbox"));
+		GtkBox *box = GTK_BOX (gnm_xml_get_widget (gui, "location_screens_vbox"));
 		int i;
 
 		for (i = 0; i < n_screens; i++) {
@@ -175,10 +175,10 @@ dialog_new_view (WBCGtk *wbcg)
 		}
 	}
 
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "ok_button")),
+	g_signal_connect (G_OBJECT (gnm_xml_get_widget (gui, "ok_button")),
 			  "clicked",
 			  G_CALLBACK (cb_view_ok_clicked), state);
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "cancel_button")),
+	g_signal_connect (G_OBJECT (gnm_xml_get_widget (gui, "cancel_button")),
 			  "clicked",
 			  G_CALLBACK (cb_view_cancel_clicked), state);
 
@@ -189,7 +189,7 @@ dialog_new_view (WBCGtk *wbcg)
 				  GTK_WIDGET (state->location_display_name));
 
 	gnumeric_init_help_button (
-		glade_xml_get_widget (gui, "help_button"),
+		gnm_xml_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_VIEW);
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
 			       VIEW_DIALOG_KEY);

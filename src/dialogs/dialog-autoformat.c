@@ -500,7 +500,7 @@ cb_gridlines_item_toggled (G_GNUC_UNUSED GtkCheckMenuItem *item,
 static GtkCheckMenuItem *
 setup_check_item (GladeXML *gui, AutoFormatState *state, char const *name)
 {
-	GtkCheckMenuItem *item = GTK_CHECK_MENU_ITEM (glade_xml_get_widget (gui, name));
+	GtkCheckMenuItem *item = GTK_CHECK_MENU_ITEM (gnm_xml_get_widget (gui, name));
 	g_signal_connect (G_OBJECT (item),
 		"toggled",
 		G_CALLBACK (cb_check_item_toggled), state);
@@ -556,18 +556,18 @@ dialog_autoformat (WBCGtk *wbcg)
 	state->more_down         = FALSE;
 	state->selected_template = NULL;
 
-	state->dialog     = GTK_DIALOG (glade_xml_get_widget (gui, "dialog"));
-	state->category   = GTK_COMBO_BOX (glade_xml_get_widget (gui, "format_category"));
-	state->scroll     = GTK_VSCROLLBAR (glade_xml_get_widget (gui, "format_scroll"));
-	state->gridlines  = GTK_CHECK_MENU_ITEM  (glade_xml_get_widget (gui, "format_gridlines"));
+	state->dialog     = GTK_DIALOG (gnm_xml_get_widget (gui, "dialog"));
+	state->category   = GTK_COMBO_BOX (gnm_xml_get_widget (gui, "format_category"));
+	state->scroll     = GTK_VSCROLLBAR (gnm_xml_get_widget (gui, "format_scroll"));
+	state->gridlines  = GTK_CHECK_MENU_ITEM  (gnm_xml_get_widget (gui, "format_gridlines"));
 
-	state->info_name   = GTK_ENTRY (glade_xml_get_widget (gui, "format_info_name"));
-	state->info_author = GTK_ENTRY (glade_xml_get_widget (gui, "format_info_author"));
-	state->info_cat    = GTK_ENTRY (glade_xml_get_widget (gui, "format_info_cat"));
-	state->info_descr  = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "format_info_descr"));
+	state->info_name   = GTK_ENTRY (gnm_xml_get_widget (gui, "format_info_name"));
+	state->info_author = GTK_ENTRY (gnm_xml_get_widget (gui, "format_info_author"));
+	state->info_cat    = GTK_ENTRY (gnm_xml_get_widget (gui, "format_info_cat"));
+	state->info_descr  = GTK_TEXT_VIEW (gnm_xml_get_widget (gui, "format_info_descr"));
 
-	state->ok     = GTK_BUTTON (glade_xml_get_widget (gui, "format_ok"));
-	state->cancel = GTK_BUTTON (glade_xml_get_widget (gui, "format_cancel"));
+	state->ok     = GTK_BUTTON (gnm_xml_get_widget (gui, "format_ok"));
+	state->cancel = GTK_BUTTON (gnm_xml_get_widget (gui, "format_cancel"));
 
 	state->number      = setup_check_item (gui, state, "format_number");
 	state->border      = setup_check_item (gui, state, "format_border");
@@ -584,7 +584,7 @@ dialog_autoformat (WBCGtk *wbcg)
 		char *name;
 
 		name = g_strdup_printf ("format_frame%d", i+1);
-		state->frame[i] = GTK_FRAME (glade_xml_get_widget (gui, name));
+		state->frame[i] = GTK_FRAME (gnm_xml_get_widget (gui, name));
 		g_free (name);
 
 		state->canvas[i] = GOC_CANVAS (g_object_new (GOC_TYPE_CANVAS, NULL));
@@ -657,7 +657,7 @@ dialog_autoformat (WBCGtk *wbcg)
 	}
 
 	gnumeric_init_help_button (
-		glade_xml_get_widget (state->gui, "help_button"),
+		gnm_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_AUTOFORMAT);
 
 	gtk_dialog_set_default_response (state->dialog, GTK_RESPONSE_OK);

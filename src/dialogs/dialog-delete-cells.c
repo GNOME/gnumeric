@@ -67,7 +67,7 @@ cb_delete_cell_ok_clicked (DeleteCellState *state)
 	int  cols, rows;
 	int i;
 
-	radio_0 = glade_xml_get_widget (state->gui, "radio_0");
+	radio_0 = gnm_xml_get_widget (state->gui, "radio_0");
 	g_return_if_fail (radio_0 != NULL);
 
 	i = gtk_radio_group_get_selected
@@ -149,7 +149,7 @@ dialog_delete_cells (WBCGtk *wbcg)
 	state->gui   = gui;
 	state->sheet = sv_sheet (sv);
 
-	state->dialog = glade_xml_get_widget (state->gui, "Delete_cells");
+	state->dialog = gnm_xml_get_widget (state->gui, "Delete_cells");
 	if (state->dialog == NULL) {
 		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
 				 _("Could not create the Delete Cell dialog."));
@@ -157,10 +157,10 @@ dialog_delete_cells (WBCGtk *wbcg)
 		return ;
 	}
 
-	w = glade_xml_get_widget (state->gui, "okbutton");
+	w = gnm_xml_get_widget (state->gui, "okbutton");
 	g_signal_connect_swapped (G_OBJECT (w), "clicked",
 		G_CALLBACK (cb_delete_cell_ok_clicked), state);
-	w = glade_xml_get_widget (state->gui, "cancelbutton");
+	w = gnm_xml_get_widget (state->gui, "cancelbutton");
 	g_signal_connect (G_OBJECT (w), "clicked",
 		G_CALLBACK (cb_delete_cell_cancel_clicked), state);
 
@@ -169,11 +169,11 @@ dialog_delete_cells (WBCGtk *wbcg)
 					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
 
 	gnumeric_init_help_button (
-		glade_xml_get_widget (state->gui, "helpbutton"),
+		gnm_xml_get_widget (state->gui, "helpbutton"),
 		GNUMERIC_HELP_LINK_DELETE_CELLS);
 
 	gtk_toggle_button_set_active
-		(GTK_TOGGLE_BUTTON (glade_xml_get_widget
+		(GTK_TOGGLE_BUTTON (gnm_xml_get_widget
 				    (state->gui, cols < rows
 				     ? "radio_0" : "radio_1")),
 		 TRUE);

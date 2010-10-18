@@ -102,7 +102,7 @@ cb_attr_dialog_dialog_destroy (AttrState *state)
 static void
 attr_dialog_init_toggle (AttrState *state, char const *name, char const *key)
 {
-	GtkWidget *w = glade_xml_get_widget (state->gui, name);
+	GtkWidget *w = gnm_xml_get_widget (state->gui, name);
 	gboolean val = FALSE;
 
 	g_object_get (G_OBJECT (state->wbv), key, &val, NULL); 
@@ -258,7 +258,7 @@ cb_attr_dialog_selection_changed (GtkTreeSelection *selection,
 static void
 attr_dialog_impl (AttrState *state)
 {
-	GtkWidget *dialog = glade_xml_get_widget (state->gui, "WorkbookAttr");
+	GtkWidget *dialog = gnm_xml_get_widget (state->gui, "WorkbookAttr");
 	GtkTreeViewColumn *column;
 	GtkTreeSelection  *selection;
 	int i;
@@ -267,10 +267,10 @@ attr_dialog_impl (AttrState *state)
 
 	/* Initialize */
 	state->dialog			= dialog;
-	state->notebook                 = glade_xml_get_widget (state->gui, "notebook");
+	state->notebook                 = gnm_xml_get_widget (state->gui, "notebook");
 	state->destroying               = FALSE;
 
-	state->tview = GTK_TREE_VIEW(glade_xml_get_widget (state->gui, "itemlist"));
+	state->tview = GTK_TREE_VIEW(gnm_xml_get_widget (state->gui, "itemlist"));
 	state->store = gtk_tree_store_new (NUM_COLUMNS,
 					   GDK_TYPE_PIXBUF,
 					   G_TYPE_STRING,
@@ -303,12 +303,12 @@ attr_dialog_impl (AttrState *state)
 
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (state->store), ITEM_NAME, GTK_SORT_ASCENDING);
 
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "close_button")),
+	g_signal_connect (G_OBJECT (gnm_xml_get_widget (state->gui, "close_button")),
 			  "clicked",
 			  G_CALLBACK (cb_attr_dialog_dialog_close), state);
 
 	gnumeric_init_help_button (
-		glade_xml_get_widget (state->gui, "help_button"),
+		gnm_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_WORKBOOK_ATTRIBUTE);
 
 	/* a candidate for merging into attach guru */
