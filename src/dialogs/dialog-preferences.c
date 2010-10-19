@@ -1257,8 +1257,6 @@ cb_preferences_destroy (PrefState *state)
 		state->app_wb_removed_sig = 0;
 	}
 	g_object_set_data (gnm_app_get_app (), PREF_DIALOG_KEY, NULL);
-
-	g_free (state);
 }
 
 static void
@@ -1332,9 +1330,13 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 	gnumeric_init_help_button (
 		gnm_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_PREFERENCES);
+	g_signal_connect_swapped (G_OBJECT (state->dialog),
+				  "destroy",
+				  G_CALLBACK(cb_preferences_destroy),
+				  state);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 				"state", state,
-				(GDestroyNotify)cb_preferences_destroy);
+				(GDestroyNotify)g_free);
 
 	g_object_set_data (gnm_app_get_app (), PREF_DIALOG_KEY, state->dialog);
 
