@@ -42,7 +42,6 @@
 #include <sheet-object-impl.h>
 #include <sheet-control-gui.h>
 
-#include <glade/glade.h>
 #include <gtk/gtk.h>
 
 #define SO_SIZE_DIALOG_KEY "so-size-dialog"

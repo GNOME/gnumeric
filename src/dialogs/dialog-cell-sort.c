@@ -46,7 +46,6 @@
 #include <widgets/gnumeric-expr-entry.h>
 #include <value.h>
 
-#include <glade/glade.h>
 #include <gtk/gtk.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gdk/gdkkeysyms.h>

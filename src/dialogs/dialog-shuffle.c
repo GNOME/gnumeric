@@ -40,7 +40,6 @@
 #include <commands.h>
 #include <selection.h>
 
-#include <glade/glade.h>
 #include <gtk/gtk.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include "data-shuffling.h"

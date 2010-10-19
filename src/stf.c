@@ -52,7 +52,6 @@
 
 #include <gsf/gsf-input.h>
 #include <string.h>
-#include <glade/glade.h>
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-output-memory.h>
 #include <gsf/gsf-utils.h>

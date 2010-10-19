@@ -34,7 +34,6 @@
 #include <goffice/goffice.h>
 #include <glib/gi18n-lib.h>
 
-#include <glade/glade.h>
 #include <gtk/gtk.h>
 
 typedef struct {

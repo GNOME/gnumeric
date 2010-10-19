@@ -41,7 +41,6 @@
 #include <dao.h>
 #include "scenarios.h"
 
-#include <glade/glade.h>
 #include <gtk/gtk.h>
 #include <goffice/goffice.h>
 #include <string.h>

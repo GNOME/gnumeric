@@ -25,7 +25,6 @@
 #include <goffice/canvas/goc-item.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtk.h>
-#include <glade/glade.h>
 #include <glib/gi18n-lib.h>
 #include <stdlib.h>
 #include <string.h>

@@ -40,7 +40,6 @@
 
 #include <goffice/goffice.h>
 
-#include <glade/glade.h>
 #include <gtk/gtk.h>
 
 #include <glib-object.h>

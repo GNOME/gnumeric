@@ -46,7 +46,6 @@
 #include <ranges.h>
 
 #include <goffice/goffice.h>
-#include <glade/glade.h>
 #include <gtk/gtk.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>

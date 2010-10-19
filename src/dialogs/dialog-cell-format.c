@@ -59,7 +59,6 @@
 #include <goffice/canvas/goc-canvas.h>
 #include <goffice/canvas/goc-item.h>
 #include <goffice/canvas/goc-rectangle.h>
-#include <glade/glade.h>
 #include <gtk/gtk.h>
 
 #include <string.h>

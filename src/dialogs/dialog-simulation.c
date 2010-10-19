@@ -34,7 +34,6 @@
 #include <value.h>
 #include <wbc-gtk.h>
 
-#include <glade/glade.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <widgets/gnm-dao.h>
 #include "simulation.h"

@@ -44,7 +44,6 @@
 #include <auto-format.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <glade/glade.h>
 #include <gtk/gtk.h>
 #include <string.h>
 

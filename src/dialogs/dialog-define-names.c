@@ -46,7 +46,6 @@
 #include <widgets/gnumeric-cell-renderer-expr-entry.h>
 #include <widgets/gnumeric-cell-renderer-toggle.h>
 
-#include <glade/glade.h>
 #include <gtk/gtk.h>
 #include <string.h>
 

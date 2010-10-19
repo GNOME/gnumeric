@@ -40,7 +40,6 @@
 #include <selection.h>
 #include <widgets/gnumeric-expr-entry.h>
 
-#include <glade/glade.h>
 #include <gtk/gtk.h>
 
 #define MERGE_KEY            "merge-dialog"

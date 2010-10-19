@@ -36,7 +36,6 @@
 #include <go-data-slicer-field.h>
 #include <go-data-cache.h>
 
-#include <glade/glade.h>
 
 typedef struct {
 	GtkWidget		*dialog;

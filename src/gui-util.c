@@ -27,7 +27,6 @@
 #include "widgets/gnumeric-expr-entry.h"
 
 #include <goffice/goffice.h>
-#include <glade/glade.h>
 #include <gtk/gtk.h>
 #include <atk/atkrelation.h>
 #include <atk/atkrelationset.h>

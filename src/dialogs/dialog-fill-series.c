@@ -47,7 +47,6 @@
 
 #include <dao-gui-utils.h>
 
-#include <glade/glade.h>
 #include <gtk/gtk.h>
 #include "fill-series.h"
 

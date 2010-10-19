@@ -50,7 +50,6 @@
 #include <widgets/gnm-dao.h>
 #include <widgets/gnumeric-expr-entry.h>
 
-#include <glade/glade.h>
 #include <string.h>
 #include <gtk/gtk.h>
 

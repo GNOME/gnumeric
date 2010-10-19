@@ -32,7 +32,6 @@
 #include <wbc-gtk.h>
 #include <sheet.h>
 
-#include <glade/glade.h>
 #include <gtk/gtk.h>
 
 #define ZOOM_DIALOG_KEY "zoom-dialog"

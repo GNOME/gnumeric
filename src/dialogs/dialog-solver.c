@@ -47,7 +47,6 @@
 #include <tools/gnm-solver.h>
 #include <widgets/gnumeric-expr-entry.h>
 
-#include <glade/glade.h>
 #include <gtk/gtk.h>
 #include <goffice/goffice.h>
 #include <string.h>

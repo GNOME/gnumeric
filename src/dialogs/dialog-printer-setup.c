@@ -41,7 +41,6 @@
 #include <style.h>
 #include <gnumeric-gconf.h>
 
-#include <glade/glade.h>
 #include <gdk/gdkkeysyms.h>
 #include <goffice/goffice.h>
 #include <string.h>

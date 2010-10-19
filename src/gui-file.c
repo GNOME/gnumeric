@@ -29,7 +29,6 @@
 #include <goffice/goffice.h>
 
 #include <gtk/gtk.h>
-#include <glade/glade.h>
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>

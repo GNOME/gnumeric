@@ -29,7 +29,6 @@
 #include "help.h"
 
 #include <gui-util.h>
-#include <glade/glade.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <tools/tabulate.h>
 #include <wbc-gtk.h>

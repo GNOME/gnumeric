@@ -24,7 +24,6 @@
 #include "dialogs.h"
 #include "help.h"
 #include "application.h"
-#include <glade/glade.h>
 #include <gui-util.h>
 #include <wbc-gtk.h>
 

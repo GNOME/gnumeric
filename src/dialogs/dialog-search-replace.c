@@ -35,7 +35,6 @@
 #include <wbc-gtk.h>
 #include <selection.h>
 
-#include <glade/glade.h>
 #include <goffice/goffice.h>
 #include <gtk/gtk.h>
 #include <string.h>

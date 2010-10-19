@@ -31,7 +31,6 @@
 #include "gnumeric.h"
 #include "numbers.h"
 #include <widgets/gnumeric-expr-entry.h>
-#include <glade/glade.h>
 #include "tool-dialogs.h"
 #include "tools/dao.h"
 

@@ -37,7 +37,6 @@
 #include <number-match.h>
 #include <undo.h>
 
-#include <glade/glade.h>
 #include <gtk/gtk.h>
 #include <string.h>
 
