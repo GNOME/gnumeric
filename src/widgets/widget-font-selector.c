@@ -31,7 +31,7 @@
 
 struct _FontSelector {
 	GtkHBox box;
-	GladeXML *gui;
+	GtkBuilder *gui;
 
 	GtkWidget *font_name_entry;
 	GtkWidget *font_style_entry;
@@ -366,7 +366,7 @@ fs_init (FontSelector *fs)
 {
 	GtkWidget *w;
 
-	fs->gui = gnm_glade_xml_new (NULL, "font-sel.glade", "toplevel-table", NULL);
+	fs->gui = gnm_gtk_builder_new ("font-sel.ui", "toplevel-table", NULL);
 	if (fs->gui == NULL)
                 return;
 

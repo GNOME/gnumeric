@@ -35,7 +35,7 @@
 typedef struct {
 	WBCGtk *wbcg;
 	GtkWidget          *dialog;
-	GladeXML           *gui;
+	GtkBuilder         *gui;
 	GtkRadioButton     *location_elsewhere;
 	GtkEntry           *location_display_name;
 } ViewState;
@@ -125,12 +125,11 @@ void
 dialog_new_view (WBCGtk *wbcg)
 {
 	ViewState *state;
-	GladeXML *gui;
+	GtkBuilder *gui;
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, VIEW_DIALOG_KEY))
 		return;
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-				 "view.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("view.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

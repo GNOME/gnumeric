@@ -37,7 +37,7 @@
 #define COL_ROW_DIALOG_KEY "col-row-dialog"
 
 typedef struct {
-	GladeXML           *gui;
+	GtkBuilder         *gui;
 	GtkWidget          *dialog;
 	GtkWidget          *ok_button;
 	GtkWidget          *cancel_button;
@@ -80,15 +80,14 @@ dialog_col_row (WBCGtk *wbcg,  char const *operation,
 		ColRowCallback_t callback,
 		gpointer data)
 {
-	GladeXML	*gui;
+	GtkBuilder	*gui;
 	ColRowState	*state;
 
 	g_return_if_fail (wbcg != NULL);
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, COL_ROW_DIALOG_KEY))
 		return;
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"colrow.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("colrow.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

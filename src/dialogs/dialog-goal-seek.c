@@ -58,7 +58,7 @@ static const gnm_float max_range_val = GNM_const(1e24);
 #define GOALSEEK_KEY            "goal-seek-dialog"
 
 typedef struct {
-	GladeXML  *gui;
+	GtkBuilder *gui;
 	GtkWidget *dialog;
 	GnmExprEntry *set_cell_entry;
 	GnmExprEntry *change_cell_entry;
@@ -651,7 +651,7 @@ void
 dialog_goal_seek (WBCGtk *wbcg, Sheet *sheet)
 {
         GoalSeekState *state;
-	GladeXML *gui;
+	GtkBuilder *gui;
 
 	g_return_if_fail (IS_SHEET (sheet));
 
@@ -680,8 +680,7 @@ dialog_goal_seek (WBCGtk *wbcg, Sheet *sheet)
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, GOALSEEK_KEY))
 		return;
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"goalseek.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("goalseek.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 

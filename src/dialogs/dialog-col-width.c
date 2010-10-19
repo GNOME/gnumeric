@@ -42,7 +42,6 @@
 #define COL_WIDTH_DIALOG_KEY "col-width-dialog"
 
 typedef struct {
-	GladeXML           *gui;
 	WBCGtk *wbcg;
 	Sheet              *sheet;
 	SheetView	   *sv;
@@ -96,14 +95,6 @@ dialog_col_width_button_sensitivity (ColWidthState *state)
 	gtk_widget_set_sensitive (state->apply_button, changed_info);
 
 	dialog_col_width_update_points (state);
-}
-
-static void
-cb_dialog_col_width_destroy (ColWidthState *state)
-{
-	if (state->gui != NULL)
-		g_object_unref (G_OBJECT (state->gui));
-	g_free (state);
 }
 
 static void
@@ -248,15 +239,14 @@ dialog_col_width_set_mode (gboolean set_default, ColWidthState *state)
 void
 dialog_col_width (WBCGtk *wbcg, gboolean use_default)
 {
-	GladeXML *gui;
+	GtkBuilder *gui;
 	ColWidthState *state;
 
 	g_return_if_fail (wbcg != NULL);
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, COL_WIDTH_DIALOG_KEY))
 		return;
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"col-width.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("col-width.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 
@@ -265,40 +255,39 @@ dialog_col_width (WBCGtk *wbcg, gboolean use_default)
 	state->sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sv_sheet (state->sv);
 	state->adjusting = FALSE;
-	state->gui    = gui;
-	state->dialog = gnm_xml_get_widget (state->gui, "dialog");
+	state->dialog = gnm_xml_get_widget (gui, "dialog");
 
-	state->description = GTK_WIDGET (gnm_xml_get_widget (state->gui, "description"));
-	state->points = GTK_WIDGET (gnm_xml_get_widget (state->gui, "pts-label"));
+	state->description = GTK_WIDGET (gnm_xml_get_widget (gui, "description"));
+	state->points = GTK_WIDGET (gnm_xml_get_widget (gui, "pts-label"));
 
-	state->spin  = GTK_SPIN_BUTTON (gnm_xml_get_widget (state->gui, "spin"));
+	state->spin  = GTK_SPIN_BUTTON (gnm_xml_get_widget (gui, "spin"));
 	gtk_spin_button_get_adjustment (state->spin)->lower =
 		GNM_COL_MARGIN + GNM_COL_MARGIN;
 	g_signal_connect (G_OBJECT (state->spin),
 		"value-changed",
 		G_CALLBACK (cb_dialog_col_width_value_changed), state);
 
-	state->default_check  = GTK_WIDGET (gnm_xml_get_widget (state->gui, "default_check"));
+	state->default_check  = GTK_WIDGET (gnm_xml_get_widget (gui, "default_check"));
 	g_signal_connect (G_OBJECT (state->default_check),
 		"clicked",
 		G_CALLBACK (cb_dialog_col_width_default_check_toggled), state);
 
-	state->ok_button = gnm_xml_get_widget (state->gui, "ok_button");
+	state->ok_button = gnm_xml_get_widget (gui, "ok_button");
 	g_signal_connect (G_OBJECT (state->ok_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_col_width_ok_clicked), state);
-	state->apply_button = gnm_xml_get_widget (state->gui, "apply_button");
+	state->apply_button = gnm_xml_get_widget (gui, "apply_button");
 	g_signal_connect (G_OBJECT (state->apply_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_col_width_apply_clicked), state);
 
-	state->cancel_button = gnm_xml_get_widget (state->gui, "cancel_button");
+	state->cancel_button = gnm_xml_get_widget (gui, "cancel_button");
 	g_signal_connect (G_OBJECT (state->cancel_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_col_width_cancel_clicked), state);
 
 	gnumeric_init_help_button (
-		gnm_xml_get_widget (state->gui, "help_button"),
+		gnm_xml_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_COL_WIDTH);
 
 	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog),
@@ -309,9 +298,10 @@ dialog_col_width (WBCGtk *wbcg, gboolean use_default)
 
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
-		"state", state, (GDestroyNotify) cb_dialog_col_width_destroy);
+				"state", state, (GDestroyNotify)g_free);
 
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
 			       COL_WIDTH_DIALOG_KEY);
 	gtk_widget_show (state->dialog);
+	g_object_unref (gui);
 }

@@ -43,7 +43,7 @@ typedef struct {
 	GtkWidget          *ok_button;
 	GtkWidget          *cancel_button;
 	GnmTextView        *gtv;
-	GladeXML           *gui;
+	GtkBuilder         *gui;
 } CommentState;
 
 static void
@@ -95,7 +95,7 @@ dialog_cell_comment (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 	CommentState	*state;
 	GtkWidget	*box, *check, *old_author, *new_author;
 	GnmComment	*comment;
-	GladeXML	*gui;
+	GtkBuilder	*gui;
 	char *title, *cell_name;
 	char const*real_user;
 	GnmCellRef ref;
@@ -108,8 +108,7 @@ dialog_cell_comment (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, COMMENT_DIALOG_KEY))
 		return;
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"cell-comment.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("cell-comment.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

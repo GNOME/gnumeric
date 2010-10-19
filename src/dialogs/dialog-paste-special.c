@@ -86,7 +86,7 @@ static struct {
 };
 
 typedef struct {
-	GladeXML  *gui;
+	GtkBuilder *gui;
 	GtkWidget *dialog;
 	GtkWidget *ok_button;
 	GtkWidget *cancel_button;
@@ -235,13 +235,12 @@ void
 dialog_paste_special (WBCGtk *wbcg)
 {
 	PasteSpecialState *state;
-	GladeXML *gui;
+	GtkBuilder *gui;
 	char const * const *group;
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, GNM_PASTE_SPECIAL_KEY))
 		return;
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"paste-special.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("paste-special.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

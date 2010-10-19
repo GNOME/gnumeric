@@ -108,7 +108,7 @@ typedef struct {
 struct _PrinterSetupState {
 	WBCGtk  *wbcg;
 	Sheet            *sheet;
-	GladeXML         *gui;
+	GtkBuilder       *gui;
 	PrintInformation *pi;
 	GtkWidget        *dialog;
 	GtkWidget        *sheet_selector;
@@ -162,7 +162,7 @@ typedef struct _HFCustomizeState HFCustomizeState;
 typedef struct _HFDTFormatState HFDTFormatState;
 struct _HFDTFormatState {
 	GtkWidget        *dialog;
-	GladeXML         *gui;
+	GtkBuilder       *gui;
 	HFCustomizeState *hf_state;
 	char             *format_string;
 	GtkWidget        *format_sel;
@@ -170,7 +170,7 @@ struct _HFDTFormatState {
 
 struct _HFCustomizeState {
 	GtkWidget        *dialog;
-	GladeXML         *gui;
+	GtkBuilder       *gui;
 	PrinterSetupState *printer_setup_state;
 	PrintHF          **hf;
 	gboolean         is_header;
@@ -1414,7 +1414,7 @@ hf_customize_ok (HFCustomizeState *hf_state)
 }
 
 static gboolean
-cb_hf_changed (GladeXML *gui)
+cb_hf_changed (GtkBuilder *gui)
 {
 	gtk_widget_set_sensitive (gnm_xml_get_widget (gui, "apply_button"), TRUE);
 	gtk_widget_set_sensitive (gnm_xml_get_widget (gui, "ok_button"), TRUE);
@@ -1671,7 +1671,7 @@ hf_attach_insert_cell_menu (GtkMenuToolButton *button, HFCustomizeState* hf_stat
 static void
 do_hf_customize (gboolean header, PrinterSetupState *state)
 {
-	GladeXML *gui;
+	GtkBuilder *gui;
 	GtkTextView *left, *middle, *right;
 	GtkTextBuffer *left_buffer, *middle_buffer, *right_buffer;
 
@@ -1691,8 +1691,7 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 		return;
 	}
 
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (state->wbcg),
-		"hf-config.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("hf-config.ui", NULL, GO_CMD_CONTEXT (state->wbcg));
         if (gui == NULL)
                 return;
 
@@ -1827,6 +1826,7 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 
 
 	gtk_widget_show_all (dialog);
+	g_object_unref (gui);
 }
 
 /*************  Header Footer Customization *********** End *************/
@@ -1844,15 +1844,15 @@ hf_dt_customize_ok (HFDTFormatState *hf_dt_state)
 static char *
 do_hf_dt_format_customize (gboolean date, HFCustomizeState *hf_state)
 {
-	GladeXML *gui;
+	GtkBuilder *gui;
 
 	GtkWidget *dialog, *format_sel, *table;
 	HFDTFormatState* hf_dt_state;
 	gint result;
 	char *result_string = NULL;
 
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (hf_state->printer_setup_state->wbcg),
-		"hf-dt-format.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("hf-dt-format.ui", NULL,
+	                         GO_CMD_CONTEXT (hf_state->printer_setup_state->wbcg));
         if (gui == NULL)
                 return NULL;
 
@@ -1904,6 +1904,8 @@ do_hf_dt_format_customize (gboolean date, HFCustomizeState *hf_state)
 		return NULL;
 	}
 	gtk_widget_destroy (dialog);
+	g_object_unref (hf_dt_state->gui);
+	hf_dt_state->gui = NULL;
 	return result_string;
 }
 
@@ -2267,7 +2269,7 @@ static void
 do_update_page (PrinterSetupState *state)
 {
 	PrintInformation *pi = state->pi;
-	GladeXML *gui;
+	GtkBuilder *gui;
 	double top, bottom;
 	double left, right;
 	double edge_to_below_header, edge_to_above_footer;
@@ -2372,7 +2374,7 @@ orientation_changed_cb (PrinterSetupState *state)
 static void
 do_setup_page (PrinterSetupState *state)
 {
-	GladeXML *gui;
+	GtkBuilder *gui;
 
 	gui = state->gui;
 
@@ -2463,7 +2465,7 @@ do_setup_scale (PrinterSetupState *state)
 {
 	PrintInformation *pi = state->pi;
 	GtkWidget *scale_percent_spin, *scale_width_spin, *scale_height_spin;
-	GladeXML *gui;
+	GtkBuilder *gui;
 
 	gui = state->gui;
 
@@ -2704,10 +2706,9 @@ static PrinterSetupState *
 printer_setup_state_new (WBCGtk *wbcg, Sheet *sheet)
 {
 	PrinterSetupState *state;
-	GladeXML *gui;
+	GtkBuilder *gui;
 
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"print.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("print.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return NULL;
 
@@ -2756,7 +2757,7 @@ static void
 do_fetch_scale (PrinterSetupState *state)
 {
 	GtkWidget *w;
-	GladeXML *gui = state->gui;
+	GtkBuilder *gui = state->gui;
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->scale_no_radio))) {
 		state->pi->scaling.percentage.x = state->pi->scaling.percentage.y = 100.;

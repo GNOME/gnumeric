@@ -61,7 +61,7 @@ typedef struct {
 	SheetView *sv;
 	Sheet     *sheet;
 
-	GladeXML  *gui;
+	GtkBuilder *gui;
 	GtkWidget *dialog;
 	GtkWidget *warning_dialog;
 	GtkWidget *cancel_button;
@@ -1152,17 +1152,16 @@ void
 dialog_cell_sort (WBCGtk *wbcg)
 {
 	SortFlowState *state;
-	GladeXML *gui;
+	GtkBuilder *gui;
 
 	g_return_if_fail (wbcg != NULL);
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, CELL_SORT_KEY))
 		return;
 
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-				 "cell-sort.glade", NULL, NULL);
-        if (gui == NULL)
-                return;
+	gui = gnm_gtk_builder_new ("cell-sort.ui", NULL, GO_CMD_CONTEXT (wbcg));
+    if (gui == NULL)
+            return;
 
 	state = g_new (SortFlowState, 1);
 	state->wbcg  = wbcg;

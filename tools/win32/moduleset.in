@@ -367,7 +367,6 @@
 	<branch/>
 	<dependencies>
 	    <dep package="goffice"/>
-	    <dep package="libglade"/>
 	</dependencies>
 	<suggests>
 	    <!-- <dep package="libgda"/> -->

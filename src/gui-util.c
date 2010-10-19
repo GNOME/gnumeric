@@ -552,37 +552,12 @@ gnumeric_position_tooltip (GtkWidget *tip, int px, int py, gboolean horizontal)
 }
 
 /**
- * gnm_glade_xml_new :
+ * gnm_gtk_builder_new :
  * @cc : #GOCmdContext
- * @gladefile :
+ * @uifile :
  *
- * Simple utility to open glade files
+ * Simple utility to open ui files
  **/
-GladeXML *
-gnm_glade_xml_new (GOCmdContext *cc, char const *gladefile,
-		   char const *root, char const *domain)
-{
-	GladeXML *gui;
-	char *f;
-
-	g_return_val_if_fail (gladefile != NULL, NULL);
-
-	if (g_path_is_absolute (gladefile))
-		f = g_strdup (gladefile);
-	else
-		f = g_build_filename (gnm_sys_data_dir (), "glade", gladefile, NULL);
-
-	gui = glade_xml_new (f, root, domain);
-	if (gui == NULL && cc != NULL) {
-		char *msg = g_strdup_printf (_("Unable to open file '%s'"), f);
-		go_cmd_context_error_system (cc, msg);
-		g_free (msg);
-	}
-	g_free (f);
-
-	return gui;
-}
-
 GtkBuilder *
 gnm_gtk_builder_new (char const *uifile, char const *domain, GOCmdContext *cc)
 {
@@ -603,8 +578,6 @@ gnm_xml_get_widget (gpointer gui, char const *widget_name)
 {
 	if (GTK_IS_BUILDER (gui))
 		return go_gtk_builder_get_widget (gui, widget_name);
-	if (GLADE_IS_XML (gui))
-		return glade_xml_get_widget (gui, widget_name);
 	abort ();
 }
 

@@ -53,7 +53,7 @@
 #define PASTE_NAMES_KEY "paste-names-dialog"
 
 typedef struct {
-	GladeXML		*gui;
+	GtkBuilder		*gui;
 	GtkWidget		*dialog;
 	GtkWidget		*treeview;
 	GtkTreeStore		*model;
@@ -1065,8 +1065,8 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 	state->is_paste_dialog = is_paste_dialog;
 	state->has_pasted = FALSE;
 
-	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"define-name.glade", NULL, NULL);
+	state->gui = gnm_gtk_builder_new ("define-name.ui", NULL,
+	                                  GO_CMD_CONTEXT (wbcg));
         if (state->gui == NULL)
                 return TRUE;
 
@@ -1221,7 +1221,7 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 			 "Gnumeric-Define-Names-Dialog");
 	}
 
-	state->search_entry = gnm_xml_get_widget (state->gui, 
+	state->search_entry = gnm_xml_get_widget (state->gui,
 						    "search_entry");
 #ifdef HAVE_GTK_ENTRY_SET_ICON_FROM_STOCK
 

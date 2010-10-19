@@ -65,7 +65,7 @@ typedef struct {
 	Workbook *wb;
 	Sheet *sheet;
 
-	GladeXML  *gui;
+	GtkBuilder  *gui;
 	GtkWidget *dialog;
 	GtkWidget *ok_button;
 	GtkWidget *paste_button;
@@ -1336,14 +1336,13 @@ dialog_function_select_full (WBCGtk *wbcg, char const *guru_key,
 			     char const *key, DialogMode mode, gint from, gint to)
 {
 	FunctionSelectState* state;
-	GladeXML  *gui;
+	GtkBuilder *gui;
 
 	g_return_if_fail (wbcg != NULL);
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, key))
 		return;
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"function-select.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("function-select.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
 		return;
 

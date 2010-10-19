@@ -47,7 +47,7 @@
 #define SO_SIZE_DIALOG_KEY "so-size-dialog"
 
 typedef struct {
-	GladeXML           *gui;
+	GtkBuilder         *gui;
 	WBCGtk *wbcg;
 	Sheet              *sheet;
 	SheetView	   *sv;
@@ -306,7 +306,7 @@ cb_dialog_so_size_print_check_toggled (GtkToggleButton *togglebutton,
 void
 dialog_so_size (WBCGtk *wbcg, GObject *so)
 {
-	GladeXML *gui;
+	GtkBuilder *gui;
 	SOSizeState *state;
 	int width, height;
 
@@ -314,8 +314,7 @@ dialog_so_size (WBCGtk *wbcg, GObject *so)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, SO_SIZE_DIALOG_KEY))
 		return;
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"sheetobject-size.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("sheetobject-size.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

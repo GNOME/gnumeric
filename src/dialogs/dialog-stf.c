@@ -175,7 +175,7 @@ back_clicked (G_GNUC_UNUSED GtkWidget *widget, StfDialogData *data)
 
 /**
  * stf_dialog_attach_page_signals
- * @gui: the glade gui of the dialog
+ * @gui: the GtkBuilder gui of the dialog
  * @pagedata: mother struct
  *
  * Connects all signals to all pages and fills the mother struct
@@ -187,7 +187,7 @@ back_clicked (G_GNUC_UNUSED GtkWidget *widget, StfDialogData *data)
  * returns: nothing
  **/
 static void
-stf_dialog_attach_page_signals (GladeXML *gui, StfDialogData *pagedata)
+stf_dialog_attach_page_signals (GtkBuilder *gui, StfDialogData *pagedata)
 {
 	frob_buttons (pagedata);
 	/* Signals for individual pages */
@@ -255,7 +255,7 @@ stf_dialog (WBCGtk *wbcg,
 	    const char *data,
 	    int data_len)
 {
-	GladeXML *gui;
+	GtkBuilder *gui;
 	DialogStfResult_t *dialogresult;
 	StfDialogData pagedata;
 	GtkResponseType resp;
@@ -265,8 +265,7 @@ stf_dialog (WBCGtk *wbcg,
 	g_return_val_if_fail (source != NULL, NULL);
 	g_return_val_if_fail (data != NULL, NULL);
 
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"dialog-stf.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("dialog-stf.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return NULL;
 

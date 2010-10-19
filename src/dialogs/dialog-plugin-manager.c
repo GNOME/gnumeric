@@ -48,7 +48,7 @@
 typedef struct {
 	GOCmdContext	*cc;
 	GtkWindow	*parent_window;
-	GladeXML *gui;
+	GtkBuilder *gui;
 	GtkDialog *dialog_pm;
 	GtkNotebook *gnotebook;
 	GtkListStore  *model_plugins;
@@ -641,7 +641,7 @@ void
 dialog_plugin_manager (WBCGtk *wbcg)
 {
 	PluginManagerGUI *pm_gui;
-	GladeXML *gui;
+	GtkBuilder *gui;
 	GtkWidget *scrolled;
 	GtkWidget *scrolled_directories;
 	GtkWidget *hbox;
@@ -655,7 +655,7 @@ dialog_plugin_manager (WBCGtk *wbcg)
 	if (gnumeric_dialog_raise_if_exists (wbcg, PLUGIN_MANAGER_DIALOG_KEY))
 		return;
 
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg), "plugin-manager.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("plugin-manager.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 
@@ -669,7 +669,7 @@ dialog_plugin_manager (WBCGtk *wbcg)
 
 	pm_gui->button_activate_all =
 		GTK_BUTTON (gnm_xml_get_widget (gui, "button_activate_all"));
-	/* If we add the following image in glade it does */
+	/* If we add the following image in.ui it does */
         /* not obey gtk-button-images = 0 */
 	image = g_object_ref (gtk_image_new_from_stock (GTK_STOCK_EXECUTE,
 							GTK_ICON_SIZE_BUTTON));

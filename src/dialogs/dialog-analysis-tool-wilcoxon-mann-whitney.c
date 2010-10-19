@@ -189,7 +189,7 @@ dialog_wilcoxon_m_w_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_WILCOXON_MANN_WHITNEY,
-			      "wilcoxon-mann-whitney.glade", "WilcoxonMannWhitney",
+			      "wilcoxon-mann-whitney.ui", "WilcoxonMannWhitney",
 			      _("Could not create the Wilcoxon-Mann-Whitney Analysis Tool dialog."),
 			      WILCOXON_MANN_WHITNEY_KEY,
 			      G_CALLBACK (wilcoxon_mann_whitney_tool_ok_clicked_cb), NULL,

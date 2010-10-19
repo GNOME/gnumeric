@@ -56,7 +56,7 @@ enum {
 };
 
 typedef struct {
-	GladeXML	*gui;
+	GtkBuilder	*gui;
 	GtkWidget	*dialog;
 	GtkNotebook	*notebook;
 	GtkTreeStore    *store;
@@ -1248,7 +1248,7 @@ cb_preferences_destroy (PrefState *state)
 		state->store = NULL;
 	}
 	if (state->gui != NULL) {
-		g_object_unref (G_OBJECT (state->gui));
+		g_object_unref (state->gui);
 		state->gui = NULL;
 	}
 	if (state->app_wb_removed_sig) {
@@ -1257,6 +1257,8 @@ cb_preferences_destroy (PrefState *state)
 		state->app_wb_removed_sig = 0;
 	}
 	g_object_set_data (gnm_app_get_app (), PREF_DIALOG_KEY, NULL);
+
+	g_free (state);
 }
 
 static void
@@ -1272,12 +1274,11 @@ cb_workbook_removed (PrefState *state)
 		cb_close_clicked (state);
 }
 
-
 void
 dialog_preferences (WBCGtk *wbcg, gint page)
 {
 	PrefState *state;
-	GladeXML *gui;
+	GtkBuilder *gui;
 	GtkWidget *w;
 	gint i;
 	GtkTreeViewColumn *column;
@@ -1290,8 +1291,7 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 		return;
 	}
 
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"preferences.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("preferences.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 
@@ -1332,11 +1332,9 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 	gnumeric_init_help_button (
 		gnm_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_PREFERENCES);
-	g_signal_connect_swapped (G_OBJECT (state->dialog), "destroy",
-				  G_CALLBACK (cb_preferences_destroy),
-				  state);
 	g_object_set_data_full (G_OBJECT (state->dialog),
-				"state", state,	(GDestroyNotify)g_free);
+				"state", state,
+				(GDestroyNotify)cb_preferences_destroy);
 
 	g_object_set_data (gnm_app_get_app (), PREF_DIALOG_KEY, state->dialog);
 

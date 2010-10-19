@@ -206,7 +206,7 @@ dialog_advanced_filter (WBCGtk *wbcg)
 
 	if (dialog_tool_init (state, wbcg, wb_control_cur_sheet (wbc),
 			      GNUMERIC_HELP_LINK_ADVANCED_FILTER,
-			      "advanced-filter.glade", "Filter",
+			      "advanced-filter.ui", "Filter",
 			      _("Could not create the Advanced Filter dialog."),
 			      ADVANCED_FILTER_KEY,
 			      G_CALLBACK (advanced_filter_ok_clicked_cb), NULL,

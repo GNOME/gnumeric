@@ -61,7 +61,7 @@ typedef struct
 	WBCGtk  *wbcg;
 	Workbook  *wb;
 
-	GladeXML  *gui;
+	GtkBuilder *gui;
 	GtkWidget *dialog;
 	GtkWidget *ok_button;
 	GtkWidget *selector_button;
@@ -1002,7 +1002,7 @@ void
 dialog_formula_guru (WBCGtk *wbcg, GnmFunc *fd)
 {
 	SheetView *sv;
-	GladeXML  *gui;
+	GtkBuilder *gui;
 	GnmCell	  *cell;
 	GtkWidget *dialog;
 	FormulaGuruState *state;
@@ -1040,8 +1040,7 @@ dialog_formula_guru (WBCGtk *wbcg, GnmFunc *fd)
 	}
 
 	/* Get the dialog and check for errors */
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"formula-guru.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("formula-guru.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

@@ -52,7 +52,7 @@ enum {
 typedef struct {
 	Workbook		*wb;
 
-	GladeXML		*gui;
+	GtkBuilder		*gui;
 	WBCGtk	*wbcg;
 	GtkWindow		*window;
 	GtkWidget		*notebook;
@@ -718,8 +718,7 @@ stf_export_dialog (WBCGtk *wbcg, GnmStfExport *stfe, Workbook *wb)
 	g_return_val_if_fail (IS_WORKBOOK (wb), TRUE);
 	g_return_val_if_fail (IS_GNM_STF_EXPORT (stfe), TRUE);
 
-	state.gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"dialog-stf-export.glade", NULL, NULL);
+	state.gui = gnm_gtk_builder_new ("dialog-stf-export.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (state.gui == NULL)
 		return TRUE;
 

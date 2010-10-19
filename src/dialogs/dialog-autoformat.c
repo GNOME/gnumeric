@@ -78,7 +78,6 @@ demotable[PREVIEW_ROWS][PREVIEW_COLS] = {
 typedef struct {
 	Workbook           *wb;                              /* Workbook we are working on */
 	WBCGtk *wbcg;
-	GladeXML	   *gui;
 	GocItem		   *grid[NUM_PREVIEWS];              /* Previewgrid's */
 	GocItem		   *selrect;                         /* Selection rectangle */
 	GSList             *templates;                       /* List of GnmFormatTemplate's */
@@ -381,8 +380,6 @@ cb_autoformat_destroy (AutoFormatState *state)
 {
 	templates_free (state);
 	category_group_list_free (state->category_groups);
-	g_object_unref (G_OBJECT (state->gui));
-	state->gui = NULL;
 	g_free (state);
 }
 
@@ -496,15 +493,57 @@ cb_gridlines_item_toggled (G_GNUC_UNUSED GtkCheckMenuItem *item,
  * MAIN
  ********************************************************************************/
 
-static GtkCheckMenuItem *
-setup_check_item (GladeXML *gui, AutoFormatState *state, char const *name)
-{
-	GtkCheckMenuItem *item = GTK_CHECK_MENU_ITEM (gnm_xml_get_widget (gui, name));
-	g_signal_connect (G_OBJECT (item),
-		"toggled",
-		G_CALLBACK (cb_check_item_toggled), state);
-	return item;
-}
+/*      Menus   */
+static GtkActionEntry entries[] = {
+	{ "settings", NULL, N_("_Settings"), NULL, NULL, NULL },
+		{ "edges", NULL, N_("_Edges"), NULL, NULL, NULL }
+};
+
+/* Toggle items */
+static GtkToggleActionEntry toggle_entries[] = {
+	{ "number", NULL, N_("Apply _Number Formats"), NULL,
+		NULL, G_CALLBACK (cb_check_item_toggled), TRUE},
+	{ "border", NULL, N_("Apply _Borders"), NULL,
+		NULL, G_CALLBACK (cb_check_item_toggled), TRUE },
+	{ "font", NULL, N_("Apply _Fonts"), NULL,
+		NULL, G_CALLBACK (cb_check_item_toggled), TRUE },
+	{ "patterns", NULL, N_("Apply _Patterns"), NULL,
+		NULL, G_CALLBACK (cb_check_item_toggled), TRUE },
+	{ "alignment", NULL, N_("Apply _Alignment"), NULL,
+		NULL, G_CALLBACK (cb_check_item_toggled), TRUE },
+	{ "left", NULL, N_("_Left"), NULL,
+		NULL, G_CALLBACK (cb_check_item_toggled), TRUE },
+	{ "right", NULL, N_("_Right"), NULL,
+		NULL, G_CALLBACK (cb_check_item_toggled), TRUE },
+	{ "top", NULL, N_("_Top"), NULL,
+		NULL, G_CALLBACK (cb_check_item_toggled), TRUE },
+	{ "bottom", NULL, N_("_Bottom"), NULL,
+		NULL, G_CALLBACK (cb_check_item_toggled), TRUE },
+	{ "gridlines", NULL, N_("_Show Gridlines"), NULL,
+		NULL, G_CALLBACK (cb_gridlines_item_toggled), FALSE }
+};
+
+static const char *ui_description =
+"<ui>"
+"  <menubar name='bar'>"
+"    <menu action='settings'>"
+"      <menuitem action='number'/>"
+"      <menuitem action='border'/>"
+"      <menuitem action='font'/>"
+"      <menuitem action='patterns'/>"
+"      <menuitem action='alignment'/>"
+"      <separator name='settings-sep1'/>"
+"      <menu action='edges'>"
+"        <menuitem action='left'/>"
+"        <menuitem action='right'/>"
+"        <menuitem action='top'/>"
+"        <menuitem action='bottom'/>"
+"      </menu>"
+"      <separator name='settings-sep2'/>"
+"      <menuitem action='gridlines'/>"
+"    </menu>"
+"  </menubar>"
+"</ui>";
 
 static gboolean
 cb_canvas_focus (GtkWidget *canvas, GtkDirectionType direction,
@@ -529,19 +568,19 @@ cb_canvas_focus (GtkWidget *canvas, GtkDirectionType direction,
 void
 dialog_autoformat (WBCGtk *wbcg)
 {
-	GladeXML *gui;
+	GtkBuilder *gui;
 	AutoFormatState *state;
 	int i;
+	GtkUIManager *ui_manager;
+	GtkActionGroup *action_group;
 
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"autoformat.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("autoformat.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 
 	state = g_new0 (AutoFormatState, 1);
 	state->wb              = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 	state->wbcg            = wbcg;
-	state->gui             = gui;
 	state->templates       = NULL;
 	state->category_groups = NULL;
 	state->selrect         = NULL;
@@ -568,17 +607,31 @@ dialog_autoformat (WBCGtk *wbcg)
 	state->ok     = GTK_BUTTON (gnm_xml_get_widget (gui, "format_ok"));
 	state->cancel = GTK_BUTTON (gnm_xml_get_widget (gui, "format_cancel"));
 
-	state->number      = setup_check_item (gui, state, "format_number");
-	state->border      = setup_check_item (gui, state, "format_border");
-	state->font        = setup_check_item (gui, state, "format_font");
-	state->patterns    = setup_check_item (gui, state, "format_patterns");
-	state->alignment   = setup_check_item (gui, state, "format_alignment");
+	action_group = gtk_action_group_new ("settings-actions");
+	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
+	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), state);
+	gtk_action_group_add_toggle_actions (action_group, toggle_entries, G_N_ELEMENTS (toggle_entries), state);
 
-	state->edges.left   = setup_check_item (gui, state, "format_edges_left");
-	state->edges.right  = setup_check_item (gui, state, "format_edges_right");
-	state->edges.top    = setup_check_item (gui, state, "format_edges_top");
-	state->edges.bottom = setup_check_item (gui, state, "format_edges_bottom");
+	ui_manager = gtk_ui_manager_new ();
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+	g_object_unref (action_group);
+	gtk_ui_manager_add_ui_from_string (ui_manager, ui_description, -1, NULL);
+	state->number      = GTK_CHECK_MENU_ITEM  (gtk_ui_manager_get_widget (ui_manager, "/bar/settings/number"));
+	state->border      = GTK_CHECK_MENU_ITEM  (gtk_ui_manager_get_widget (ui_manager, "/bar/settings/border"));
+	state->font        = GTK_CHECK_MENU_ITEM  (gtk_ui_manager_get_widget (ui_manager, "/bar/settings/font"));
+	state->patterns    = GTK_CHECK_MENU_ITEM  (gtk_ui_manager_get_widget (ui_manager, "/bar/settings/patterns"));
+	state->alignment   = GTK_CHECK_MENU_ITEM  (gtk_ui_manager_get_widget (ui_manager, "/bar/settings/alignment"));
 
+	state->edges.left   = GTK_CHECK_MENU_ITEM  (gtk_ui_manager_get_widget (ui_manager, "/bar/settings/edges/left"));
+	state->edges.right  = GTK_CHECK_MENU_ITEM  (gtk_ui_manager_get_widget (ui_manager, "/bar/settings/edges/right"));
+	state->edges.top    = GTK_CHECK_MENU_ITEM  (gtk_ui_manager_get_widget (ui_manager, "/bar/settings/edges/top"));
+	state->edges.bottom = GTK_CHECK_MENU_ITEM  (gtk_ui_manager_get_widget (ui_manager, "/bar/settings/edges/bottom"));
+
+	state->gridlines  = GTK_CHECK_MENU_ITEM  (gtk_ui_manager_get_widget (ui_manager, "/bar/settings/gridlines"));
+
+	gtk_box_pack_start (GTK_BOX (gnm_xml_get_widget (gui, "category-box")),
+	                    gtk_ui_manager_get_widget (ui_manager, "/bar"),
+	                    FALSE, TRUE, 0);
 	for (i = 0; i < NUM_PREVIEWS; i++) {
 		char *name;
 
@@ -656,7 +709,7 @@ dialog_autoformat (WBCGtk *wbcg)
 	}
 
 	gnumeric_init_help_button (
-		gnm_xml_get_widget (state->gui, "help_button"),
+		gnm_xml_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_AUTOFORMAT);
 
 	gtk_dialog_set_default_response (state->dialog, GTK_RESPONSE_OK);
@@ -670,4 +723,6 @@ dialog_autoformat (WBCGtk *wbcg)
 
 	/* not show all or the scrollbars will appear */
 	gtk_widget_show (GTK_WIDGET (state->dialog));
+	g_object_unref (gui);
+	g_object_unref (ui_manager);
 }

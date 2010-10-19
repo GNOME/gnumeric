@@ -47,7 +47,7 @@ typedef struct {
 	GtkWidget          *cancel_button;
 	GnmRange const     *sel;
 	Sheet              *sheet;
-	GladeXML           *gui;
+	GtkBuilder         *gui;
 } DeleteCellState;
 
 static void
@@ -115,7 +115,7 @@ dialog_delete_cells (WBCGtk *wbcg)
 	SheetView	*sv  = wb_control_cur_sheet_view (wbc);
 	Sheet *sheet = sv_sheet (sv);
 	GnmRange const *sel;
-	GladeXML    *gui;
+	GtkBuilder *gui;
 	GtkWidget   *w;
 	int  cols, rows;
 
@@ -137,8 +137,7 @@ dialog_delete_cells (WBCGtk *wbcg)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, DELETE_CELL_DIALOG_KEY))
 		return;
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"delete-cells.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("delete-cells.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

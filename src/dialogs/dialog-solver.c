@@ -55,7 +55,7 @@
 #define SOLVER_KEY            "solver-dialog"
 
 typedef struct {
-	GladeXML            *gui;
+	GtkBuilder          *gui;
 	GtkWidget           *dialog;
 	GnmExprEntry	    *target_entry;
 	GnmExprEntry	    *change_cell_entry;
@@ -911,8 +911,7 @@ dialog_init (SolverState *state)
 
 	param = state->sheet->solver_parameters;
 
-	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (state->wbcg),
-		"solver.glade", NULL, NULL);
+	state->gui = gnm_gtk_builder_new ("solver.ui", NULL, GO_CMD_CONTEXT (state->wbcg));
         if (state->gui == NULL)
                 return TRUE;
 

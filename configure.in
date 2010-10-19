@@ -159,7 +159,6 @@ gnumeric_reqs="$libspreadsheet_reqs
 	pangocairo		>= 1.10.0
 "
 libspreadsheet_gtk_reqs="
-	libglade-2.0		>= 2.3.6
 	gtk+-2.0		>= 2.12.0
 "
 

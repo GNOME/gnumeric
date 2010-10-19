@@ -49,7 +49,7 @@ typedef struct {
 	Workbook  *wb;
 	SheetControl *sc;
 
-	GladeXML  *gui;
+	GtkBuilder *gui;
 	GtkWidget *dialog;
 
 	GtkImage  *type_image;
@@ -562,7 +562,7 @@ dhl_init (HyperlinkState *state)
 void
 dialog_hyperlink (WBCGtk *wbcg, SheetControl *sc)
 {
-	GladeXML *gui;
+	GtkBuilder *gui;
 	HyperlinkState* state;
 	GnmHLink	*link = NULL;
 	Sheet		*sheet;
@@ -573,8 +573,7 @@ dialog_hyperlink (WBCGtk *wbcg, SheetControl *sc)
 	if (gnumeric_dialog_raise_if_exists (wbcg, DIALOG_KEY))
 		return;
 
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"hyperlink.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("hyperlink.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 

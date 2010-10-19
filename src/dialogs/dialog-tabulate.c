@@ -65,7 +65,7 @@ typedef struct {
 	WBCGtk *wbcg;
 	Sheet *sheet;
 
-	GladeXML *gui;
+	GtkBuilder *gui;
 	GtkDialog *dialog;
 
 	GtkTable *source_table;
@@ -307,7 +307,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 void
 dialog_tabulate (WBCGtk *wbcg, Sheet *sheet)
 {
-	GladeXML *gui;
+	GtkBuilder *gui;
 	GtkDialog *dialog;
 	DialogState *dd;
 	int i;
@@ -320,8 +320,7 @@ dialog_tabulate (WBCGtk *wbcg, Sheet *sheet)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, TABULATE_KEY))
 		return;
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"tabulate.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("tabulate.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 

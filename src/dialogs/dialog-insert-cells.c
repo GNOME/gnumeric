@@ -47,7 +47,7 @@ typedef struct {
 	GtkWidget          *cancel_button;
 	GnmRange const     *sel;
 	Sheet              *sheet;
-	GladeXML           *gui;
+	GtkBuilder         *gui;
 } InsertCellState;
 
 static void
@@ -112,7 +112,7 @@ cb_insert_cell_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 void
 dialog_insert_cells (WBCGtk *wbcg)
 {
-	GladeXML *gui;
+	GtkBuilder *gui;
 	InsertCellState *state;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView       *sv = wb_control_cur_sheet_view (wbc);
@@ -139,8 +139,7 @@ dialog_insert_cells (WBCGtk *wbcg)
 	if (gnumeric_dialog_raise_if_exists (wbcg, INSERT_CELL_DIALOG_KEY))
 		return;
 
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"insert-cells.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("insert-cells.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

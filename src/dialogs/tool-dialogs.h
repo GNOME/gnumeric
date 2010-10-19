@@ -20,7 +20,6 @@
 #include "gnumeric.h"
 #include "numbers.h"
 #include "widgets/gnumeric-expr-entry.h"
-#include <glade/glade-xml.h>
 
 typedef struct _scenario_state scenario_state_t;
 
@@ -28,7 +27,7 @@ typedef struct _GenericToolState GenericToolState;
 typedef void (*state_destroy_t) (GenericToolState *state);
 
 struct _GenericToolState {
-	GladeXML  *gui;
+	GtkBuilder  *gui;
 	GtkWidget *dialog;
 	GnmExprEntry *input_entry;
 	GnmExprEntry *input_entry_2;

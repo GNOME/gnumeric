@@ -418,7 +418,7 @@ dialog_simulation (WBCGtk *wbcg, G_GNUC_UNUSED Sheet *sheet)
 	state = g_new (SimulationState, 1);
 	if (dialog_tool_init (state, wbcg, wb_control_cur_sheet (wbc),
 			      GNUMERIC_HELP_LINK_SIMULATION,
-			      "simulation.glade", "Simulation",
+			      "simulation.ui", "Simulation",
 			      _("Could not create the Simulation dialog."),
 			      SIMULATION_KEY,
 			      G_CALLBACK (simulation_ok_clicked_cb),

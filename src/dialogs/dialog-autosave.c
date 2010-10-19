@@ -37,7 +37,6 @@
 #include <gtk/gtk.h>
 
 typedef struct {
-	GladeXML  *gui;
 	GtkWidget *dialog;
         GtkWidget *minutes_entry;
         GtkWidget *prompt_cb;
@@ -84,14 +83,6 @@ dialog_autosave_prompt (WBCGtk *wbcg)
 }
 
 static void
-cb_dialog_autosave_destroy (autosave_t  *state)
-{
-	if (state->gui != NULL)
-		g_object_unref (G_OBJECT (state->gui));
-	g_free (state);
-}
-
-static void
 cb_autosave_cancel (G_GNUC_UNUSED GtkWidget *button,
 		    autosave_t *state)
 {
@@ -124,7 +115,7 @@ cb_autosave_ok (G_GNUC_UNUSED GtkWidget *button, autosave_t *state)
 void
 dialog_autosave (WBCGtk *wbcg)
 {
-	GladeXML *gui;
+	GtkBuilder *gui;
 	autosave_t *state;
 	int secs;
 	gboolean prompt;
@@ -133,8 +124,7 @@ dialog_autosave (WBCGtk *wbcg)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, AUTOSAVE_KEY))
 		return;
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"autosave.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("autosave.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 
@@ -146,14 +136,13 @@ dialog_autosave (WBCGtk *wbcg)
 	state = g_new (autosave_t, 1);
 	state->wbcg = wbcg;
 	state->wb   = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
-	state->gui  = gui;
 
-	state->dialog = gnm_xml_get_widget (state->gui, "AutoSave");
-	state->minutes_entry = gnm_xml_get_widget (state->gui, "minutes");
-	state->prompt_cb = gnm_xml_get_widget (state->gui, "prompt_on_off");
-	state->autosave_on_off = gnm_xml_get_widget (state->gui, "autosave_on_off");
-	state->ok_button = gnm_xml_get_widget (state->gui, "button1");
-	state->cancel_button = gnm_xml_get_widget (state->gui, "button2");
+	state->dialog = gnm_xml_get_widget (gui, "AutoSave");
+	state->minutes_entry = gnm_xml_get_widget (gui, "minutes");
+	state->prompt_cb = gnm_xml_get_widget (gui, "prompt_on_off");
+	state->autosave_on_off = gnm_xml_get_widget (gui, "autosave_on_off");
+	state->ok_button = gnm_xml_get_widget (gui, "button1");
+	state->cancel_button = gnm_xml_get_widget (gui, "button2");
 
 	if (!state->dialog || !state->minutes_entry || !state->prompt_cb ||
 	    !state->autosave_on_off) {
@@ -183,9 +172,9 @@ dialog_autosave (WBCGtk *wbcg)
 		G_CALLBACK (cb_autosave_cancel), state);
 
 	g_object_set_data_full (G_OBJECT (state->dialog),
-		"state", state, (GDestroyNotify) cb_dialog_autosave_destroy);
+		"state", state, (GDestroyNotify)g_free);
 	gnumeric_init_help_button (
-		gnm_xml_get_widget (state->gui, "button3"),
+		gnm_xml_get_widget (gui, "button3"),
 		GNUMERIC_HELP_LINK_AUTOSAVE);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->autosave_on_off),
@@ -197,4 +186,6 @@ dialog_autosave (WBCGtk *wbcg)
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       AUTOSAVE_KEY);
 	gtk_widget_show (state->dialog);
+
+	g_object_unref (gui);
 }

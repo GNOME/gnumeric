@@ -196,7 +196,7 @@ dialog_normality_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_NORMALITY,
-			      "normality-tests.glade", "Normality-Tests",
+			      "normality-tests.ui", "Normality-Tests",
 			      _("Could not create the Normality Test Tool dialog."),
 			      NORMALITY_KEY,
 			      G_CALLBACK (normality_tool_ok_clicked_cb), NULL,

@@ -217,7 +217,7 @@ dialog_random_cor_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_RANDOM_GENERATOR_COR,
-			      "random-generation-cor.glade", "CorRandom",
+			      "random-generation-cor.ui", "CorRandom",
 			      _("Could not create the Correlated Random Tool dialog."),
 			      RANDOM_COR_KEY,
 			      G_CALLBACK (random_cor_tool_ok_clicked_cb), NULL,

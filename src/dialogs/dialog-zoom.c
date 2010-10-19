@@ -49,7 +49,7 @@ typedef struct {
 	GtkWidget          *ok_button;
 	GtkWidget          *cancel_button;
 	GtkRadioButton     *custom;
-	GladeXML           *gui;
+	GtkBuilder         *gui;
 
 	GtkSpinButton  *zoom;
 	GtkTreeView        *sheet_list;
@@ -160,7 +160,7 @@ dialog_zoom (WBCGtk *wbcg, Sheet *sheet)
 	gboolean is_custom = TRUE;
 	GtkRadioButton *radio;
 	GtkWidget *focus_target;
-	GladeXML     *gui;
+	GtkBuilder *gui;
 	GtkTreeViewColumn *column;
 
 	g_return_if_fail (wbcg != NULL);
@@ -168,8 +168,7 @@ dialog_zoom (WBCGtk *wbcg, Sheet *sheet)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, ZOOM_DIALOG_KEY))
 		return;
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"dialog-zoom.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("dialog-zoom.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

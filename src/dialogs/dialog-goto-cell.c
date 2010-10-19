@@ -47,7 +47,7 @@ typedef struct {
 	WBCGtk  *wbcg;
 	Workbook  *wb;
 
-	GladeXML  *gui;
+	GtkBuilder *gui;
 	GtkWidget *dialog;
 	GtkWidget *close_button;
 	GtkWidget *go_button;
@@ -339,14 +339,13 @@ void
 dialog_goto_cell (WBCGtk *wbcg)
 {
 	GotoState* state;
-	GladeXML *gui;
+	GtkBuilder *gui;
 
 	g_return_if_fail (wbcg != NULL);
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, GOTO_KEY))
 		return;
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"goto.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("goto.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 

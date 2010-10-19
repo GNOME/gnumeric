@@ -54,7 +54,7 @@
 typedef struct {
 	WBCGtk  *wbcg;
 
-	GladeXML  *gui;
+	GtkBuilder *gui;
 	GtkWidget *dialog;
 	GtkTreeView *sheet_list;
 	GtkListStore *model;
@@ -1418,15 +1418,14 @@ void
 dialog_sheet_order (WBCGtk *wbcg)
 {
 	SheetManager *state;
-	GladeXML *gui;
+	GtkBuilder *gui;
 	GtkTable *table;
 	GOColorGroup *cg;
 	Workbook *wb;
 
 	g_return_if_fail (wbcg != NULL);
 
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"sheet-order.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("sheet-order.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 

@@ -41,7 +41,7 @@
 #include <string.h>
 
 typedef struct {
-	GladeXML           *gui;
+	GtkBuilder         *gui;
 	WBCGtk *wbcg;
 	GtkWidget          *dialog;
 	GnmFilter	   *filter;
@@ -232,7 +232,7 @@ dialog_auto_filter (WBCGtk *wbcg,
 {
 	AutoFilterState *state;
 	GtkWidget *w;
-	GladeXML *gui;
+	GtkBuilder *gui;
 	int col;
 	gchar *label;
 	GnmCell *cell;
@@ -243,9 +243,8 @@ dialog_auto_filter (WBCGtk *wbcg,
 	if (gnumeric_dialog_raise_if_exists 
 	    (wbcg, is_expr ? DIALOG_KEY_EXPRESSION : DIALOG_KEY))
 		return;
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-			(is_expr ? "autofilter-expression.glade" : "autofilter-top10.glade"),
-			NULL, NULL);
+	gui = gnm_gtk_builder_new ((is_expr ? "autofilter-expression.ui" : "autofilter-top10.ui"),
+				   NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 
@@ -313,7 +312,7 @@ dialog_auto_filter (WBCGtk *wbcg,
 						   cond->count);
 		}
 	} else {
-		/* initialize the combo boxes (not done by libglade) */
+		/* initialize the combo boxes (not done by li.ui) */
 		if (is_expr) {
 			w = gnm_xml_get_widget (state->gui, "op0");
 			gtk_combo_box_set_active (GTK_COMBO_BOX (w), 0);

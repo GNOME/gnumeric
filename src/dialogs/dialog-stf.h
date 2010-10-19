@@ -149,10 +149,10 @@ void    stf_dialog_result_attach_formats_to_cr (DialogStfResult_t *dialogresult,
  * each page the opportunity to connect signal handlers and set the contents
  * of their Info_t record
  */
-void    stf_dialog_main_page_init                       (GladeXML *gui, StfDialogData *pagedata);
-void    stf_dialog_csv_page_init                        (GladeXML *gui, StfDialogData *pagedata);
-void    stf_dialog_fixed_page_init                      (GladeXML *gui, StfDialogData *pagedata);
-void    stf_dialog_format_page_init                     (GladeXML *gui, StfDialogData *pagedata);
+void    stf_dialog_main_page_init                       (GtkBuilder *gui, StfDialogData *pagedata);
+void    stf_dialog_csv_page_init                        (GtkBuilder *gui, StfDialogData *pagedata);
+void    stf_dialog_fixed_page_init                      (GtkBuilder *gui, StfDialogData *pagedata);
+void    stf_dialog_format_page_init                     (GtkBuilder *gui, StfDialogData *pagedata);
 
 /* CLEANUP functions
  *

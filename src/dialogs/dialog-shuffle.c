@@ -145,7 +145,7 @@ dialog_shuffle (WBCGtk *wbcg)
 
 	if (dialog_tool_init (state, wbcg, wb_control_cur_sheet (wbc),
 			      GNUMERIC_HELP_LINK_DATA_SHUFFLE,
-			      "shuffle.glade", "Shuffling",
+			      "shuffle.ui", "Shuffling",
 			      _("Could not create the Data Shuffling dialog."),
 			      SHUFFLE_KEY,
 			      G_CALLBACK (shuffle_ok_clicked_cb), NULL,

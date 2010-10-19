@@ -43,7 +43,7 @@
 
 typedef struct {
 	WBCGtk *wbcg;
-	GladeXML *gui;
+	GtkBuilder *gui;
 	GtkDialog *dialog;
 	GtkEntry *search_text;
 	GtkEntry *replace_text;
@@ -80,14 +80,14 @@ static const char * const direction_group[] = {
 };
 
 static gboolean
-is_checked (GladeXML *gui, const char *name)
+is_checked (GtkBuilder *gui, const char *name)
 {
 	GtkWidget *w = gnm_xml_get_widget (gui, name);
 	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 }
 
 static void
-set_checked (GladeXML *gui, const char *name, gboolean checked)
+set_checked (GtkBuilder *gui, const char *name, gboolean checked)
 {
 	GtkWidget *w = gnm_xml_get_widget (gui, name);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), checked);
@@ -96,7 +96,7 @@ set_checked (GladeXML *gui, const char *name, gboolean checked)
 static void
 dialog_search_replace_save_in_prefs (DialogState *dd)
 {
-	GladeXML *gui = dd->gui;
+	GtkBuilder *gui = dd->gui;
 
 #define SETW(w,f) f (is_checked (gui, w));
 	SETW("search_expr", gnm_conf_set_searchreplace_change_cell_expressions);
@@ -122,7 +122,7 @@ dialog_search_replace_save_in_prefs (DialogState *dd)
 static void
 apply_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 {
-	GladeXML *gui = dd->gui;
+	GtkBuilder *gui = dd->gui;
 	GtkDialog *dialog = dd->dialog;
 	WBCGtk *wbcg = dd->wbcg;
 	SearchDialogCallback cb = dd->cb;
@@ -241,7 +241,7 @@ void
 dialog_search_replace (WBCGtk *wbcg,
 		       SearchDialogCallback cb)
 {
-	GladeXML *gui;
+	GtkBuilder *gui;
 	GtkDialog *dialog;
 	DialogState *dd;
 	GtkTable *table;
@@ -256,8 +256,7 @@ dialog_search_replace (WBCGtk *wbcg,
 	if (gnumeric_dialog_raise_if_exists (wbcg, SEARCH_REPLACE_KEY))
 		return;
 
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"search-replace.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("search-replace.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 
@@ -370,14 +369,13 @@ dialog_search_replace_query (WBCGtk *wbcg,
 			     const char *old_text,
 			     const char *new_text)
 {
-	GladeXML *gui;
+	GtkBuilder *gui;
 	GtkDialog *dialog;
 	int res;
 
 	g_return_val_if_fail (wbcg != NULL, 0);
 
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"search-replace.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("search-replace.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return 0;
 

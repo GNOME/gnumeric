@@ -47,7 +47,7 @@
 typedef struct {
 	WBCGtk  *wbcg;
 	Sheet *sheet;
-	GladeXML  *gui;
+	GtkBuilder *gui;
 	GtkWidget *dialog;
 	GtkWidget *warning_dialog;
 	GtkTreeView *list;
@@ -311,7 +311,7 @@ void
 dialog_merge (WBCGtk *wbcg)
 {
 	MergeState *state;
-	GladeXML *gui;
+	GtkBuilder *gui;
 	GtkTable *table;
 	GtkWidget *scrolled;
 	GtkTreeViewColumn *column;
@@ -322,8 +322,7 @@ dialog_merge (WBCGtk *wbcg)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, MERGE_KEY))
 		return;
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"merge.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("merge.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 

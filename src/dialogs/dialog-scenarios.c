@@ -390,7 +390,7 @@ dialog_scenario_add (WBCGtk *wbcg)
 
 	if (dialog_tool_init (&state->base, wbcg, wb_control_cur_sheet (wbc),
 			      GNUMERIC_HELP_LINK_SCENARIOS_ADD,
-			      "scenario-add.glade", "ScenarioAdd",
+			      "scenario-add.ui", "ScenarioAdd",
 			      error_str,
 			      "ScenarioAdd",
 			      G_CALLBACK (scenario_add_ok_clicked_cb), NULL,
@@ -789,7 +789,7 @@ dialog_scenarios (WBCGtk *wbcg)
 
 	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_SCENARIOS_VIEW,
-			      "scenario-manager.glade", "Scenarios",
+			      "scenario-manager.ui", "Scenarios",
 			      error_str, "Scenarios",
 			      G_CALLBACK (scenarios_ok_clicked_cb),
 			      G_CALLBACK (scenarios_cancel_clicked_cb),

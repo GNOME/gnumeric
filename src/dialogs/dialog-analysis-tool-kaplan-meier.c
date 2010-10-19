@@ -615,7 +615,7 @@ dialog_kaplan_meier_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_KAPLAN_MEIER,
-			      "kaplan-meier.glade", "KaplanMeier",
+			      "kaplan-meier.ui", "KaplanMeier",
 			      _("Could not create the Kaplan Meier Tool dialog."),
 			      KAPLAN_MEIER_KEY,
 			      G_CALLBACK (kaplan_meier_tool_ok_clicked_cb), NULL,

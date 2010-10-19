@@ -56,7 +56,6 @@
 #include "hlink.h"
 #include "wbc-gtk-impl.h"
 #include <goffice/goffice.h>
-#include <glade/glade.h>
 
 #ifdef HAVE_SYS_RESOURCE_H
 #include <sys/resource.h>
@@ -295,8 +294,6 @@ gnm_init (void)
 	gnm_xml_sax_read_init ();
 	gnm_xml_sax_write_init ();
 	stf_init ();
-
-	glade_init ();
 }
 
 /**

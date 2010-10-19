@@ -36,10 +36,8 @@
 #include <go-data-slicer-field.h>
 #include <go-data-cache.h>
 
-
 typedef struct {
 	GtkWidget		*dialog;
-	GladeXML		*gui;
 	WBCGtk			*wbcg;
 	SheetView		*sv;
 
@@ -66,7 +64,6 @@ enum {
 static void
 cb_dialog_data_slicer_destroy (DialogDataSlicer *state)
 {
-	if (NULL != state->gui)		{ g_object_unref (G_OBJECT (state->gui));	state->gui = NULL; }
 	if (NULL != state->slicer)	{ g_object_unref (G_OBJECT (state->slicer));	state->slicer = NULL; }
 	if (NULL != state->cache)	{ g_object_unref (G_OBJECT (state->cache));	state->cache = NULL; }
 	if (NULL != state->source)	{ g_object_unref (G_OBJECT (state->source));	state->source = NULL; }
@@ -211,6 +208,32 @@ cb_source_expr_changed (DialogDataSlicer *state)
 		(GNM_EXPR_ENTRY (state->source_expr), sv_sheet (state->sv));
 }
 
+/*      Menus   */
+static GtkActionEntry entries[] = {
+	{ "format", NULL, N_("_Format"), NULL, NULL, NULL },
+		{ "style", NULL, N_("_Style"), NULL, NULL, NULL },
+		{ "aggregation", NULL, N_("_Aggregation"), NULL, NULL, NULL },
+	{ "layout", NULL, N_("_Layout"), NULL, NULL, NULL },
+		{ "up", GTK_STOCK_GO_UP, N_("_Up"), NULL, NULL, NULL },
+		{ "down", GTK_STOCK_GO_DOWN, N_("_Down"), NULL, NULL, NULL },
+		{ "remove", GTK_STOCK_REMOVE, N_("_Remove"), NULL, NULL, NULL }
+};
+
+static const char *ui_description =
+"<ui>"
+"  <menubar name='bar'>"
+"    <menu action='format'>"
+"      <menuitem action='style'/>"
+"      <menuitem action='aggregation'/>"
+"    </menu>"
+"    <menu action='layout'>"
+"      <menuitem action='up'/>"
+"      <menuitem action='down'/>"
+"      <menuitem action='remove'/>"
+"    </menu>"
+"  </menubar>"
+"</ui>";
+
 void
 dialog_data_slicer (WBCGtk *wbcg, gboolean create)
 {
@@ -218,25 +241,26 @@ dialog_data_slicer (WBCGtk *wbcg, gboolean create)
 		{ (char *)"GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_APP, 0 }
 	};
 	DialogDataSlicer *state;
-	GladeXML *gui;
+	GtkBuilder *gui;
 	GtkWidget *w;
+	GtkUIManager *ui_manager;
+	GtkActionGroup *action_group;
 
 	g_return_if_fail (wbcg != NULL);
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, DIALOG_KEY))
 		return;
 
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg), "data-slicer.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("data-slicer.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (NULL == gui)
 		return;
 
 	state = g_new0 (DialogDataSlicer, 1);
 	state->wbcg	= wbcg;
 	state->sv	= wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
-	state->gui	= gui;
 
-	state->dialog	= gnm_xml_get_widget (state->gui, "dialog_data_slicer");
-	state->notebook = gnm_xml_get_widget (state->gui, "notebook");
+	state->dialog	= gnm_xml_get_widget (gui, "dialog_data_slicer");
+	state->notebook = gnm_xml_get_widget (gui, "notebook");
 	state->slicer	= create ? NULL : sv_editpos_in_slicer (state->sv);
 	state->cache	= NULL;
 	state->source	= NULL;
@@ -256,18 +280,18 @@ dialog_data_slicer (WBCGtk *wbcg, gboolean create)
 		GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
 	g_signal_connect_swapped (G_OBJECT (state->source_expr),
 		"changed", G_CALLBACK (cb_source_expr_changed), state);
-	w = gnm_xml_get_widget (state->gui, "source_vbox");
+	w = gnm_xml_get_widget (gui, "source_vbox");
 	gtk_box_pack_start (GTK_BOX (w), GTK_WIDGET (state->source_expr), FALSE, FALSE, 0);
 	gtk_widget_show (GTK_WIDGET (state->source_expr));
 
-	w = gnm_xml_get_widget (state->gui, "ok_button");
+	w = gnm_xml_get_widget (gui, "ok_button");
 	g_signal_connect (G_OBJECT (w), "clicked",
 		G_CALLBACK (cb_dialog_data_slicer_ok), state);
-	w = gnm_xml_get_widget (state->gui, "cancel_button");
+	w = gnm_xml_get_widget (gui, "cancel_button");
 	g_signal_connect (G_OBJECT (w), "clicked",
 		G_CALLBACK (cb_dialog_data_slicer_cancel), state);
 
-	state->treeview = GTK_TREE_VIEW (gnm_xml_get_widget (state->gui, "field_tree"));
+	state->treeview = GTK_TREE_VIEW (gnm_xml_get_widget (gui, "field_tree"));
 	gtk_tree_view_enable_model_drag_source (GTK_TREE_VIEW (state->treeview), GDK_BUTTON1_MASK,
 		row_targets, G_N_ELEMENTS (row_targets), GDK_ACTION_MOVE);
 	gtk_tree_view_enable_model_drag_dest (GTK_TREE_VIEW (state->treeview),
@@ -286,13 +310,27 @@ dialog_data_slicer (WBCGtk *wbcg, gboolean create)
 
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (state->notebook), create ? 0 : 1);
 
+	/* menus */
+	action_group = gtk_action_group_new ("settings-actions");
+	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
+	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), state);
+	ui_manager = gtk_ui_manager_new ();
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+	g_object_unref (action_group);
+	gtk_ui_manager_add_ui_from_string (ui_manager, ui_description, -1, NULL);
+	gtk_box_pack_start (GTK_BOX (gnm_xml_get_widget (gui, "format-box")),
+	                    gtk_ui_manager_get_widget (ui_manager, "/bar"),
+	                    FALSE, TRUE, 0);
+
 	/* a candidate for merging into attach guru */
-	gnumeric_init_help_button (gnm_xml_get_widget (state->gui, "help_button"),
+	gnumeric_init_help_button (gnm_xml_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_DATA_SLICER);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_dialog_data_slicer_destroy);
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog), DIALOG_KEY);
 	gtk_widget_show (state->dialog);
+	g_object_unref (gui);
+	g_object_unref (ui_manager);
 }
 

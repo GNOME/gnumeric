@@ -58,7 +58,7 @@ enum {
 };
 
 typedef struct {
-	GladeXML		*gui;
+	GtkBuilder		*gui;
 	GtkWidget		*dialog;
 
 	/*pointer to the document metadata*/
@@ -1673,10 +1673,8 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 
 	g_return_val_if_fail (state->metadata  != NULL, TRUE);
 
-	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-					"doc-meta-data.glade",
-					NULL,
-					NULL);
+	state->gui = gnm_gtk_builder_new ("doc-meta-data.ui", NULL,
+	                                  GO_CMD_CONTEXT (wbcg));
 
         if (state->gui == NULL)
                 return TRUE;

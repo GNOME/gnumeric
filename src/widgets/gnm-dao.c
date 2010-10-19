@@ -32,7 +32,7 @@
 
 struct  _GnmDao {
 	GtkHBox		box;
-	GladeXML	*gui;
+	GtkBuilder      *gui;
 
 	GtkWidget *new_sheet;
 	GtkWidget *new_workbook;
@@ -71,7 +71,7 @@ gnm_dao_init (GnmDao *gdao)
 	GtkWidget *toplevel;
 	GtkWidget *old_parent;
 
-	gdao->gui = gnm_glade_xml_new (NULL, "dao.glade", NULL, NULL);
+	gdao->gui = gnm_gtk_builder_new ("dao.ui", NULL, NULL);
 	if (gdao->gui == NULL)
 		return;
 

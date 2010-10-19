@@ -42,7 +42,7 @@
 #define ROW_HEIGHT_DIALOG_KEY "row-height-dialog"
 
 typedef struct {
-	GladeXML           *gui;
+	GtkBuilder         *gui;
 	WBCGtk *wbcg;
 	Sheet              *sheet;
 	SheetView	   *sv;
@@ -255,8 +255,7 @@ dialog_row_height (WBCGtk *wbcg, gboolean use_default)
 	state->sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sv_sheet (state->sv);
 	state->adjusting = FALSE;
-	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"row-height.glade", NULL, NULL);
+	state->gui = gnm_gtk_builder_new ("row-height.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	g_return_if_fail (state->gui != NULL);
 
 	state->dialog = gnm_xml_get_widget (state->gui, "dialog");

@@ -9,7 +9,6 @@
 #include <goffice/goffice.h>
 #include "numbers.h"
 #include <gtk/gtk.h>
-#include <glade/glade-xml.h>
 
 G_BEGIN_DECLS
 
@@ -48,8 +47,6 @@ GtkRcStyle *gnumeric_create_tooltip_rc_style (void);
 GtkWidget  *gnumeric_create_tooltip_widget (void);
 GtkWidget  *gnumeric_create_tooltip (GtkWidget *ref_widget);
 
-GladeXML   *gnm_glade_xml_new (GOCmdContext *cc, char const *gladefile,
-			       char const *root, char const *domain);
 GtkBuilder *gnm_gtk_builder_new (char const *uifile, char const *domain,
 				 GOCmdContext *cc);
 

@@ -42,7 +42,7 @@
 #define DIALOG_DATA_TABLE_KEY "dialog-data-table"
 
 typedef struct {
-	GladeXML	*gui;
+	GtkBuilder	*gui;
 	GtkWidget	*dialog;
 	GnmExprEntry	*row_entry, *col_entry;
 
@@ -60,20 +60,20 @@ cb_data_table_destroy (GnmDialogDataTable *state)
 }
 
 static GnmExprEntry *
-init_entry (GnmDialogDataTable *state, char const *name)
+init_entry (GnmDialogDataTable *state, int row)
 {
-	GtkWidget *w = gnm_xml_get_widget (state->gui, name);
+	GnmExprEntry *gee = gnm_expr_entry_new (state->wbcg, TRUE);
+	GtkWidget *table = gnm_xml_get_widget (state->gui, "table");
 
-	g_return_val_if_fail (w != NULL, NULL);
+	g_return_val_if_fail (table != NULL, NULL);
 
-	gnm_expr_entry_set_flags (GNM_EXPR_ENTRY (w),
+	gnm_expr_entry_set_flags (gee,
 		GNM_EE_SINGLE_RANGE | GNM_EE_SHEET_OPTIONAL | GNM_EE_FORCE_REL_REF,
 		GNM_EE_MASK);
-	g_object_set (G_OBJECT (w),
-		"scg", wbcg_cur_scg (state->wbcg),
-		"with-icon", TRUE,
-		NULL);
-	return GNM_EXPR_ENTRY (w);
+	g_object_set (G_OBJECT (gee), "with-icon", TRUE, NULL);
+	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (gee), 1, 2,
+	                  row, row + 1, GTK_FILL, GTK_FILL, 0, 0);
+	return gee;
 }
 
 static void
@@ -94,16 +94,15 @@ data_table_init (GnmDialogDataTable *state, WBCGtk *wbcg)
 {
 	GtkTable *table;
 
-	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"data-table.glade", NULL, NULL);
+	state->gui = gnm_gtk_builder_new ("data-table.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (state->gui == NULL)
                 return TRUE;
 
 	state->dialog = gnm_xml_get_widget (state->gui, "DataTable");
 	table = GTK_TABLE (gnm_xml_get_widget (state->gui, "table"));
 
-	state->row_entry = init_entry (state, "row-entry");
-	state->col_entry = init_entry (state, "col-entry");
+	state->row_entry = init_entry (state, 0);
+	state->col_entry = init_entry (state, 1);
 
 	g_signal_connect (G_OBJECT (state->dialog), "response",
 		G_CALLBACK (cb_data_table_response), state);

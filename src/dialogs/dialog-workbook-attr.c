@@ -42,7 +42,7 @@ enum {
 };
 
 typedef struct {
-	GladeXML	*gui;
+	GtkBuilder	*gui;
 	GtkWidget	*dialog;
 	GtkWidget	*notebook;
 	GtkWidget	*ok_button;
@@ -323,7 +323,7 @@ attr_dialog_impl (AttrState *state)
 void
 dialog_workbook_attr (WBCGtk *wbcg)
 {
-	GladeXML     *gui;
+	GtkBuilder   *gui;
 	AttrState    *state;
 
 	g_return_if_fail (wbcg != NULL);
@@ -331,8 +331,7 @@ dialog_workbook_attr (WBCGtk *wbcg)
 	if (gnumeric_dialog_raise_if_exists (wbcg, WORKBOOK_ATTRIBUTE_KEY))
 		return;
 
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"workbook-attr.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("workbook-attr.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 

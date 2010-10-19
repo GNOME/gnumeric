@@ -221,7 +221,7 @@ stf_dialog_csv_page_cleanup (StfDialogData *pagedata)
 }
 
 void
-stf_dialog_csv_page_init (GladeXML *gui, StfDialogData *pagedata)
+stf_dialog_csv_page_init (GtkBuilder *gui, StfDialogData *pagedata)
 {
 	g_return_if_fail (gui != NULL);
 	g_return_if_fail (pagedata != NULL);

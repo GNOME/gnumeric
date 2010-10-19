@@ -122,7 +122,7 @@ typedef struct {
 } ExprEntry;
 
 typedef struct _FormatState {
-	GladeXML	*gui;
+	GtkBuilder	*gui;
 	WBCGtk	*wbcg;
 	GtkDialog	*dialog;
 	GtkNotebook	*notebook;
@@ -307,7 +307,7 @@ cb_toggle_changed (GtkToggleButton *button, PatternPicker *picker)
  */
 static void
 setup_pattern_button (GdkScreen *screen,
-		      GladeXML  *gui,
+		      GtkBuilder  *gui,
 		      char const *const name,
 		      PatternPicker *picker,
 		      gboolean const flag,
@@ -348,7 +348,7 @@ setup_pattern_button (GdkScreen *screen,
 						      TRUE);
 		}
 	} else
-		g_warning ("CellFormat: Unexpected missing glade widget");
+		g_warning ("CellFormat: Unexpected missing widget");
 }
 
 static void
@@ -432,7 +432,7 @@ setup_color_pickers (FormatState *state,
  * button of the same name.
  */
 static GtkWidget *
-init_button_image (GladeXML *gui, char const *name)
+init_button_image (GtkBuilder *gui, char const *name)
 {
 	GtkWidget *tmp = gnm_xml_get_widget (gui, name);
 	if (tmp != NULL) {
@@ -688,8 +688,9 @@ fmt_dialog_init_align_page (FormatState *state)
 			r -= 360;
 	} else
 		r = 0;
-	state->align.rotation = (GORotationSel *)
-		gnm_xml_get_widget (state->gui, "rotation_selector");
+	state->align.rotation = (GORotationSel *) go_rotation_sel_new ();
+	gtk_box_pack_start (GTK_BOX (gnm_xml_get_widget (state->gui, "alignment_box")),
+	                    GTK_WIDGET (state->align.rotation), TRUE, TRUE, 0);
 	go_rotation_sel_set_rotation (state->align.rotation, r);
 	g_signal_connect (G_OBJECT (state->align.rotation), "rotation-changed",
 		G_CALLBACK (cb_rotation_changed), state);
@@ -811,7 +812,7 @@ fmt_dialog_init_font_page (FormatState *state)
 	GtkWidget *tmp = font_selector_new ();
 	FontSelector *font_widget = FONT_SELECTOR (tmp);
 	GtkWidget *container = gnm_xml_get_widget (state->gui, "font_box");
-	GtkWidget *uline = gnm_xml_get_widget (state->gui, "underline_combo");
+	GtkWidget *uline = go_combo_text_new_default ();
 	char const *uline_str;
 	GtkWidget *strike = gnm_xml_get_widget (state->gui, "strikethrough_button");
 	gboolean   strikethrough = FALSE;
@@ -860,6 +861,8 @@ fmt_dialog_init_font_page (FormatState *state)
 		"entry_changed",
 		G_CALLBACK (cb_font_underline_changed), state);
 	gtk_widget_show_all (uline);
+	gtk_box_pack_start (GTK_BOX (gnm_xml_get_widget (state->gui, "underline-box")),
+	                    uline, TRUE, TRUE, 0);
 
 	tmp = gnm_xml_get_widget (state->gui, "underline_label");
 	gtk_label_set_mnemonic_widget (GTK_LABEL (tmp), uline);
@@ -2729,14 +2732,13 @@ fmt_dialog_selection_type (SheetView *sv,
 void
 dialog_cell_format (WBCGtk *wbcg, FormatDialogPosition_t pageno)
 {
-	GladeXML     *gui;
+	GtkBuilder     *gui;
 	GnmCell	     *edit_cell;
 	FormatState  *state;
 
 	g_return_if_fail (wbcg != NULL);
 
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"cell-format.glade", NULL, NULL);
+	gui = gnm_gtk_builder_new ("cell-format.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 

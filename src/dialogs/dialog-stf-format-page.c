@@ -733,7 +733,7 @@ stf_dialog_format_page_cleanup (StfDialogData *pagedata)
 }
 
 void
-stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
+stf_dialog_format_page_init (GtkBuilder *gui, StfDialogData *pagedata)
 {
 /* 	GtkWidget * format_hbox; */
 
