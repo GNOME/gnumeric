@@ -38,7 +38,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkVBox" id="vbox1">
+              <object class="GtkVBox" id="format-box">
                 <property name="visible">True</property>
                 <property name="orientation">vertical</property>
                 <child>
@@ -61,6 +61,7 @@
                   </object>
                   <packing>
                     <property name="padding">5</property>
+                    <property name="pack_type">end</property>
                     <property name="position">1</property>
                   </packing>
                 </child>

@@ -25,7 +25,7 @@
                 <property name="orientation">vertical</property>
                 <property name="spacing">4</property>
                 <child>
-                  <object class="GtkHBox" id="hbox3">
+                  <object class="GtkHBox" id="category-box">
                     <property name="visible">True</property>
                     <property name="spacing">5</property>
                     <child>
