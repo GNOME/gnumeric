@@ -200,12 +200,23 @@ cb_free_keyed_dialog_context (KeyedDialogContext *ctxt)
 	g_free (ctxt);
 }
 
+static void
+cb_keyed_dialog_destroy (GtkDialog *dialog)
+{
+	/*
+	 * gtk-builder likes to hold refs on objects.  That interferes
+	 * with the way we handle finalization of dialogs' state.
+	 * Trigger this now.
+	 */
+	g_object_set_data (G_OBJECT (dialog), "state", NULL);
+}
+
 static gint
 cb_keyed_dialog_keypress (GtkWidget *dialog, GdkEventKey *event,
 			  G_GNUC_UNUSED gpointer user)
 {
 	if (event->keyval == GDK_Escape) {
-		gtk_object_destroy (GTK_OBJECT (dialog));
+		gtk_widget_destroy (GTK_WIDGET (dialog));
 		return TRUE;
 	}
 	return FALSE;
@@ -305,6 +316,8 @@ gnumeric_keyed_dialog (WBCGtk *wbcg, GtkWindow *dialog, char const *key)
 				(GDestroyNotify)cb_free_keyed_dialog_context);
 	g_signal_connect (G_OBJECT (dialog), "key_press_event",
 			  G_CALLBACK (cb_keyed_dialog_keypress), NULL);
+	g_signal_connect (G_OBJECT (dialog), "destroy",
+			  G_CALLBACK (cb_keyed_dialog_destroy), NULL);
 
 	gnumeric_restore_window_geometry (dialog, key);
 }

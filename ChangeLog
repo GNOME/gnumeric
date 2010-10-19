@@ -1,3 +1,9 @@
+2010-10-19  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-util.c (gnumeric_keyed_dialog): When dialog is
+	destroyed, clear "state" to trigger the tear-down even if someone
+	(i.e., gtkbuilder) holds a ref.
+
 2010-10-18  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-util.c (gnumeric_glade_group_value): Make this work for
