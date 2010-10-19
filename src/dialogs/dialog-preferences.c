@@ -1360,7 +1360,8 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (state->store),
 					      ITEM_NAME, GTK_SORT_ASCENDING);
 
-	wbcg_set_transient (wbcg, GTK_WINDOW (state->dialog));
+	go_gtk_nonmodal_dialog (wbcg_toplevel (wbcg),
+				GTK_WINDOW (state->dialog));
 	gtk_widget_show (GTK_WIDGET (state->dialog));
 
 	dialog_pref_select_page (state, page);
