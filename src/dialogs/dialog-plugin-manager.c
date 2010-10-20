@@ -663,21 +663,21 @@ dialog_plugin_manager (WBCGtk *wbcg)
 	pm_gui->cc = GO_CMD_CONTEXT (wbcg);
 	pm_gui->parent_window = wbcg_toplevel (wbcg);
 	pm_gui->gui = gui;
-	pm_gui->dialog_pm = GTK_DIALOG (gnm_xml_get_widget (gui, "dialog_plugin_manager"));
+	pm_gui->dialog_pm = GTK_DIALOG (go_gtk_builder_get_widget (gui, "dialog_plugin_manager"));
 
 	/* Set-up plugin list  page */
 
 	pm_gui->button_activate_all =
-		GTK_BUTTON (gnm_xml_get_widget (gui, "button_activate_all"));
+		GTK_BUTTON (go_gtk_builder_get_widget (gui, "button_activate_all"));
 	/* If we add the following image in.ui it does */
         /* not obey gtk-button-images = 0 */
 	image = g_object_ref (gtk_image_new_from_stock (GTK_STOCK_EXECUTE,
 							GTK_ICON_SIZE_BUTTON));
 	gtk_button_set_image (pm_gui->button_activate_all, image);
 
-	pm_gui->button_rescan_directories = GTK_BUTTON (gnm_xml_get_widget
+	pm_gui->button_rescan_directories = GTK_BUTTON (go_gtk_builder_get_widget
 						    (gui, "button_rescan_directories"));
-	pm_gui->checkbutton_install_new = GTK_CHECK_BUTTON (gnm_xml_get_widget
+	pm_gui->checkbutton_install_new = GTK_CHECK_BUTTON (go_gtk_builder_get_widget
 							    (gui, "checkbutton_install_new"));
 
 	pm_gui->model_plugins = gtk_list_store_new (
@@ -704,14 +704,14 @@ dialog_plugin_manager (WBCGtk *wbcg)
 							   "text", PLUGIN_NAME, NULL);
 	gtk_tree_view_column_set_sort_column_id (column, PLUGIN_NAME);
 	gtk_tree_view_append_column (pm_gui->list_plugins, column);
-	scrolled = gnm_xml_get_widget (gui, "scrolled_plugin_list");
+	scrolled = go_gtk_builder_get_widget (gui, "scrolled_plugin_list");
 	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (pm_gui->list_plugins));
 
 	/* Set-up plugin details page */
 
 	pm_gui->text_description = gtk_text_view_get_buffer (GTK_TEXT_VIEW (
-				           gnm_xml_get_widget (gui, "textview_plugin_description")));
-	pm_gui->entry_directory = GTK_ENTRY (gnm_xml_get_widget (gui, "entry_directory"));
+				           go_gtk_builder_get_widget (gui, "textview_plugin_description")));
+	pm_gui->entry_directory = GTK_ENTRY (go_gtk_builder_get_widget (gui, "entry_directory"));
 
 	pm_gui->model_details = gtk_tree_store_new (
 		DETAILS_NUM_COLMNS, G_TYPE_STRING, G_TYPE_STRING);
@@ -725,17 +725,17 @@ dialog_plugin_manager (WBCGtk *wbcg)
 		_("ID"), gtk_cell_renderer_text_new (),
 		"text", DETAILS_ID, NULL);
 	gtk_tree_view_append_column (pm_gui->view_details, column);
-	scrolled = gnm_xml_get_widget (gui, "scrolled_plugin_details");
+	scrolled = go_gtk_builder_get_widget (gui, "scrolled_plugin_details");
 	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (pm_gui->view_details));
 
 	pm_gui->frame_mark_for_deactivation =
-		gnm_xml_get_widget (gui, "frame_mark_for_deactivation");
+		go_gtk_builder_get_widget (gui, "frame_mark_for_deactivation");
 	pm_gui->checkbutton_mark_for_deactivation =
-		gnm_xml_get_widget (gui, "checkbutton_mark_for_deactivation");
+		go_gtk_builder_get_widget (gui, "checkbutton_mark_for_deactivation");
 
 	/* Set-up directories page */
 
-	hbox = gnm_xml_get_widget (gui, "directory-box");
+	hbox = go_gtk_builder_get_widget (gui, "directory-box");
 	pm_gui->model_directories = gtk_list_store_new (DIR_NUM_COLMNS, G_TYPE_STRING,
 							G_TYPE_BOOLEAN);
 	pm_gui->list_directories = GTK_TREE_VIEW (
@@ -748,14 +748,14 @@ dialog_plugin_manager (WBCGtk *wbcg)
 							   NULL);
 	gtk_tree_view_column_set_sort_column_id (column, DIR_NAME);
 	gtk_tree_view_append_column (pm_gui->list_directories, column);
-	scrolled_directories = gnm_xml_get_widget (gui, "scrolled_directories");
+	scrolled_directories = go_gtk_builder_get_widget (gui, "scrolled_directories");
 	gtk_container_add (GTK_CONTAINER (scrolled_directories),
 			   GTK_WIDGET (pm_gui->list_directories));
 
-	pm_gui->button_directory_add = GTK_BUTTON (gnm_xml_get_widget
+	pm_gui->button_directory_add = GTK_BUTTON (go_gtk_builder_get_widget
 						  (gui, "button_directory_add"));
 	gtk_button_set_alignment (GTK_BUTTON (pm_gui->button_directory_add), 0., .5);
-	pm_gui->button_directory_delete = GTK_BUTTON (gnm_xml_get_widget
+	pm_gui->button_directory_delete = GTK_BUTTON (go_gtk_builder_get_widget
 						  (gui, "button_directory_delete"));
 	gtk_button_set_alignment (GTK_BUTTON (pm_gui->button_directory_delete), 0., .5);
 
@@ -766,16 +766,16 @@ dialog_plugin_manager (WBCGtk *wbcg)
 
 	/* Done setting up pages */
 
-	pm_gui->gnotebook = GTK_NOTEBOOK (gnm_xml_get_widget (gui, "notebook1"));
+	pm_gui->gnotebook = GTK_NOTEBOOK (go_gtk_builder_get_widget (gui, "notebook1"));
 	gtk_widget_show_all (GTK_WIDGET (pm_gui->gnotebook));
 
 	pm_gui_load_directory_page (pm_gui);
 
 	pm_dialog_init (pm_gui);
 	gnumeric_init_help_button (
-		gnm_xml_get_widget (gui, "help_button"),
+		go_gtk_builder_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_PLUGIN_MANAGER);
-	g_signal_connect_swapped (gnm_xml_get_widget (gui, "button_close_manager"),
+	g_signal_connect_swapped (go_gtk_builder_get_widget (gui, "button_close_manager"),
 		"clicked",
 		G_CALLBACK (cb_pm_close_clicked), pm_gui);
 

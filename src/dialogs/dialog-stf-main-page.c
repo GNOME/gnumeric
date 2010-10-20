@@ -349,15 +349,15 @@ stf_dialog_main_page_init (GtkBuilder *gui, StfDialogData *pagedata)
 					    "ASCII",
 					    NULL);
 
-	pagedata->main.main_separated = GTK_RADIO_BUTTON (gnm_xml_get_widget (gui, "main_separated"));
-	pagedata->main.main_fixed     = GTK_RADIO_BUTTON (gnm_xml_get_widget (gui, "main_fixed"));
-	pagedata->main.main_startrow  = GTK_SPIN_BUTTON  (gnm_xml_get_widget (gui, "main_startrow"));
-	pagedata->main.main_stoprow   = GTK_SPIN_BUTTON  (gnm_xml_get_widget (gui, "main_stoprow"));
-	pagedata->main.main_lines     = GTK_LABEL        (gnm_xml_get_widget (gui, "main_lines"));
-	pagedata->main.main_data_container =              gnm_xml_get_widget (gui, "main_data_container");
-	pagedata->main.line_break_unix    = GTK_CHECK_BUTTON (gnm_xml_get_widget (gui, "line_break_unix"));
-	pagedata->main.line_break_windows = GTK_CHECK_BUTTON (gnm_xml_get_widget (gui, "line_break_windows"));
-	pagedata->main.line_break_mac     = GTK_CHECK_BUTTON (gnm_xml_get_widget (gui, "line_break_mac"));
+	pagedata->main.main_separated = GTK_RADIO_BUTTON (go_gtk_builder_get_widget (gui, "main_separated"));
+	pagedata->main.main_fixed     = GTK_RADIO_BUTTON (go_gtk_builder_get_widget (gui, "main_fixed"));
+	pagedata->main.main_startrow  = GTK_SPIN_BUTTON  (go_gtk_builder_get_widget (gui, "main_startrow"));
+	pagedata->main.main_stoprow   = GTK_SPIN_BUTTON  (go_gtk_builder_get_widget (gui, "main_stoprow"));
+	pagedata->main.main_lines     = GTK_LABEL        (go_gtk_builder_get_widget (gui, "main_lines"));
+	pagedata->main.main_data_container =              go_gtk_builder_get_widget (gui, "main_data_container");
+	pagedata->main.line_break_unix    = GTK_CHECK_BUTTON (go_gtk_builder_get_widget (gui, "line_break_unix"));
+	pagedata->main.line_break_windows = GTK_CHECK_BUTTON (go_gtk_builder_get_widget (gui, "line_break_windows"));
+	pagedata->main.line_break_mac     = GTK_CHECK_BUTTON (go_gtk_builder_get_widget (gui, "line_break_mac"));
 
 	pagedata->main.charmap_selector = GO_CHARMAP_SEL (go_charmap_sel_new (GO_CHARMAP_SEL_TO_UTF8));
 	if (!main_page_set_encoding (pagedata, pagedata->encoding) &&
@@ -366,7 +366,7 @@ stf_dialog_main_page_init (GtkBuilder *gui, StfDialogData *pagedata)
 		pagedata->raw_data_len = 0;
 		main_page_set_encoding (pagedata, "ASCII");
 	}
-	gtk_container_add (GTK_CONTAINER (gnm_xml_get_widget (gui, "encoding_hbox")),
+	gtk_container_add (GTK_CONTAINER (go_gtk_builder_get_widget (gui, "encoding_hbox")),
 			   GTK_WIDGET (pagedata->main.charmap_selector));
 	gtk_widget_show_all (GTK_WIDGET (pagedata->main.charmap_selector));
 	gtk_widget_set_sensitive (GTK_WIDGET (pagedata->main.charmap_selector),
@@ -410,7 +410,7 @@ stf_dialog_main_page_init (GtkBuilder *gui, StfDialogData *pagedata)
 	gtk_spin_button_set_value (pagedata->main.main_stoprow, renderdata->lines->len);
 
 	{
-		GtkFrame *main_frame = GTK_FRAME (gnm_xml_get_widget (gui, "main_frame"));
+		GtkFrame *main_frame = GTK_FRAME (go_gtk_builder_get_widget (gui, "main_frame"));
 		char *label = g_strdup_printf (_("Data (from %s)"), pagedata->source);
 		gtk_frame_set_label (main_frame, label);
 		g_free (label);

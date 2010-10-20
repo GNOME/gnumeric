@@ -324,12 +324,12 @@ dialog_tool_init_buttons (GenericToolState *state,
 			  GCallback ok_function,
 			  GCallback close_function)
 {
-	state->ok_button = gnm_xml_get_widget (state->gui, "okbutton");
+	state->ok_button = go_gtk_builder_get_widget (state->gui, "okbutton");
 	g_signal_connect (G_OBJECT (state->ok_button),
 		"clicked",
 		G_CALLBACK (ok_function), state);
 
-	state->cancel_button = gnm_xml_get_widget (state->gui,
+	state->cancel_button = go_gtk_builder_get_widget (state->gui,
 						     "cancelbutton");
 	if (close_function == NULL)
 		g_signal_connect (G_OBJECT (state->cancel_button),
@@ -340,12 +340,12 @@ dialog_tool_init_buttons (GenericToolState *state,
 				  "clicked",
 				  G_CALLBACK (close_function), state);
 
-	state->apply_button = gnm_xml_get_widget (state->gui, "applybutton");
+	state->apply_button = go_gtk_builder_get_widget (state->gui, "applybutton");
 	if (state->apply_button != NULL )
 		g_signal_connect (G_OBJECT (state->apply_button),
 				  "clicked",
 				  G_CALLBACK (ok_function), state);
-	state->help_button = gnm_xml_get_widget (state->gui, "helpbutton");
+	state->help_button = go_gtk_builder_get_widget (state->gui, "helpbutton");
 	if (state->help_button != NULL )
 		gnumeric_init_help_button (state->help_button,
 					   state->help_link);
@@ -399,14 +399,14 @@ dialog_tool_init (GenericToolState *state,
         if (state->gui == NULL)
 		goto dialog_tool_init_error;
 
-	state->dialog = gnm_xml_get_widget (state->gui, dialog_name);
+	state->dialog = go_gtk_builder_get_widget (state->gui, dialog_name);
         if (state->dialog == NULL)
 		goto dialog_tool_init_error;
 
 
 	dialog_tool_init_buttons (state, ok_function, close_function);
 
-	widget = gnm_xml_get_widget (state->gui, "var1-label");
+	widget = go_gtk_builder_get_widget (state->gui, "var1-label");
 	if (widget == NULL) {
 		state->input_entry = NULL;
 	} else {
@@ -443,7 +443,7 @@ dialog_tool_init (GenericToolState *state,
 /*                                                        */
 /* If there is a var2-label, we need a second input field */
 /*                                                        */
-	widget = gnm_xml_get_widget (state->gui, "var2-label");
+	widget = go_gtk_builder_get_widget (state->gui, "var2-label");
 	if (widget == NULL) {
 		state->input_entry_2 = NULL;
 	} else {
@@ -476,7 +476,7 @@ dialog_tool_init (GenericToolState *state,
 		gtk_widget_show (GTK_WIDGET (state->input_entry_2));
 	}
 
-	state->warning = gnm_xml_get_widget (state->gui, "warnings");
+	state->warning = go_gtk_builder_get_widget (state->gui, "warnings");
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_tool_destroy);
@@ -536,7 +536,7 @@ GtkWidget *
 tool_setup_update (GenericToolState* state, char const *name, GCallback cb,
 		   gpointer closure)
 {
-	GtkWidget *w = gnm_xml_get_widget (state->gui, name);
+	GtkWidget *w = go_gtk_builder_get_widget (state->gui, name);
 	if (GTK_IS_SPIN_BUTTON (w)) {
 		g_signal_connect_after (w, "value-changed", cb, closure);
 		gnumeric_editable_enters (GTK_WINDOW (state->dialog), w);
@@ -641,7 +641,7 @@ corr_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
 	data->group_by = gnm_gui_group_value (state->gui, grouped_by_group);
 
-	w = gnm_xml_get_widget (state->gui, "labels_button");
+	w = go_gtk_builder_get_widget (state->gui, "labels_button");
         data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
@@ -761,7 +761,7 @@ cov_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
 	data->group_by = gnm_gui_group_value (state->gui, grouped_by_group);
 
-	w = gnm_xml_get_widget (state->gui, "labels_button");
+	w = go_gtk_builder_get_widget (state->gui, "labels_button");
         data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
@@ -877,10 +877,10 @@ rank_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
 	data->base.group_by = gnm_gui_group_value (state->gui, grouped_by_group);
 
-	w = gnm_xml_get_widget (state->gui, "labels_button");
+	w = go_gtk_builder_get_widget (state->gui, "labels_button");
         data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	w = gnm_xml_get_widget (state->gui, "rank_button");
+	w = go_gtk_builder_get_widget (state->gui, "rank_button");
         data->av_ties = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 
@@ -970,10 +970,10 @@ fourier_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
 	data->base.group_by = gnm_gui_group_value (state->gui, grouped_by_group);
 
-	w = gnm_xml_get_widget (state->gui, "labels_button");
+	w = go_gtk_builder_get_widget (state->gui, "labels_button");
         data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	w = gnm_xml_get_widget (state->gui, "inverse_button");
+	w = go_gtk_builder_get_widget (state->gui, "inverse_button");
 	data->inverse = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)) != 0;
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
@@ -1083,7 +1083,7 @@ cb_desc_stat_tool_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	if (data->kth_smallest == 1)
 		err = entry_to_int (GTK_ENTRY (state->s_entry), &data->k_smallest, TRUE);
 
-	w = gnm_xml_get_widget (state->base.gui, "labels_button");
+	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
         data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
@@ -1235,21 +1235,21 @@ dialog_descriptive_stat_tool (WBCGtk *wbcg, Sheet *sheet)
 			      0))
 		return 0;
 
-	state->summary_stats_button  = gnm_xml_get_widget
+	state->summary_stats_button  = go_gtk_builder_get_widget
 		(state->base.gui, "summary_stats_button");
-	state->ss_button  = gnm_xml_get_widget
+	state->ss_button  = go_gtk_builder_get_widget
 		(state->base.gui, "ss_button");
-	state->mean_stats_button  = gnm_xml_get_widget
+	state->mean_stats_button  = go_gtk_builder_get_widget
 		(state->base.gui, "mean_stats_button");
-	state->kth_largest_button  = gnm_xml_get_widget
+	state->kth_largest_button  = go_gtk_builder_get_widget
 		(state->base.gui, "kth_largest_button");
-	state->kth_smallest_button  = gnm_xml_get_widget
+	state->kth_smallest_button  = go_gtk_builder_get_widget
 		(state->base.gui, "kth_smallest_button");
-	state->c_entry  = gnm_xml_get_widget (state->base.gui, "c_entry");
+	state->c_entry  = go_gtk_builder_get_widget (state->base.gui, "c_entry");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->c_entry), 0.95);
-	state->l_entry  = gnm_xml_get_widget (state->base.gui, "l_entry");
+	state->l_entry  = go_gtk_builder_get_widget (state->base.gui, "l_entry");
 	int_to_entry (GTK_ENTRY (state->l_entry), 1);
-	state->s_entry  = gnm_xml_get_widget (state->base.gui, "s_entry");
+	state->s_entry  = go_gtk_builder_get_widget (state->base.gui, "s_entry");
 	int_to_entry (GTK_ENTRY (state->s_entry), 1);
 
 
@@ -1331,7 +1331,7 @@ ttest_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->base.range_2 = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
 
-	w = gnm_xml_get_widget (state->base.gui, "labels_button");
+	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
         data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->paired_button)) == 1) {
@@ -1609,23 +1609,23 @@ dialog_ttest_tool (WBCGtk *wbcg, Sheet *sheet, ttest_type test)
 			      GNM_EE_SINGLE_RANGE))
 		return 0;
 
-	state->paired_button  = gnm_xml_get_widget (state->base.gui, "paired-button");
-	state->unpaired_button  = gnm_xml_get_widget (state->base.gui, "unpaired-button");
-	state->variablespaired_label = gnm_xml_get_widget (state->base.gui, "variablespaired-label");
-	state->known_button  = gnm_xml_get_widget (state->base.gui, "known-button");
-	state->unknown_button  = gnm_xml_get_widget (state->base.gui, "unknown-button");
-	state->varianceknown_label = gnm_xml_get_widget (state->base.gui, "varianceknown-label");
-	state->equal_button  = gnm_xml_get_widget (state->base.gui, "equal-button");
-	state->unequal_button  = gnm_xml_get_widget (state->base.gui, "unequal-button");
-	state->varianceequal_label = gnm_xml_get_widget (state->base.gui, "varianceequal-label");
-	state->options_table = gnm_xml_get_widget (state->base.gui, "options-table");
-	state->var1_variance_label = gnm_xml_get_widget (state->base.gui, "var1_variance-label");
-	state->var1_variance = gnm_xml_get_widget (state->base.gui, "var1-variance");
-	state->var2_variance_label = gnm_xml_get_widget (state->base.gui, "var2_variance-label");
-	state->var2_variance = gnm_xml_get_widget (state->base.gui, "var2-variance");
-	state->mean_diff_entry = gnm_xml_get_widget (state->base.gui, "meandiff");
+	state->paired_button  = go_gtk_builder_get_widget (state->base.gui, "paired-button");
+	state->unpaired_button  = go_gtk_builder_get_widget (state->base.gui, "unpaired-button");
+	state->variablespaired_label = go_gtk_builder_get_widget (state->base.gui, "variablespaired-label");
+	state->known_button  = go_gtk_builder_get_widget (state->base.gui, "known-button");
+	state->unknown_button  = go_gtk_builder_get_widget (state->base.gui, "unknown-button");
+	state->varianceknown_label = go_gtk_builder_get_widget (state->base.gui, "varianceknown-label");
+	state->equal_button  = go_gtk_builder_get_widget (state->base.gui, "equal-button");
+	state->unequal_button  = go_gtk_builder_get_widget (state->base.gui, "unequal-button");
+	state->varianceequal_label = go_gtk_builder_get_widget (state->base.gui, "varianceequal-label");
+	state->options_table = go_gtk_builder_get_widget (state->base.gui, "options-table");
+	state->var1_variance_label = go_gtk_builder_get_widget (state->base.gui, "var1_variance-label");
+	state->var1_variance = go_gtk_builder_get_widget (state->base.gui, "var1-variance");
+	state->var2_variance_label = go_gtk_builder_get_widget (state->base.gui, "var2_variance-label");
+	state->var2_variance = go_gtk_builder_get_widget (state->base.gui, "var2-variance");
+	state->mean_diff_entry = go_gtk_builder_get_widget (state->base.gui, "meandiff");
 	float_to_entry (GTK_ENTRY (state->mean_diff_entry), 0);
-	state->alpha_entry = gnm_xml_get_widget (state->base.gui, "one_alpha");
+	state->alpha_entry = go_gtk_builder_get_widget (state->base.gui, "one_alpha");
 	float_to_entry (GTK_ENTRY (state->alpha_entry), 0.05);
 
 	g_signal_connect_after (G_OBJECT (state->paired_button),
@@ -1708,7 +1708,7 @@ ftest_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->range_2 =  gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
 
-	w = gnm_xml_get_widget (state->base.gui, "labels_button");
+	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
         data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	err = entry_to_float (GTK_ENTRY (state->alpha_entry), &data->alpha, TRUE);
@@ -1797,7 +1797,7 @@ dialog_ftest_tool (WBCGtk *wbcg, Sheet *sheet)
 			      GNM_EE_SINGLE_RANGE))
 		return 0;
 
-	state->alpha_entry = gnm_xml_get_widget (state->base.gui, "one_alpha");
+	state->alpha_entry = go_gtk_builder_get_widget (state->base.gui, "one_alpha");
 	float_to_entry (GTK_ENTRY (state->alpha_entry), 0.05);
 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->alpha_entry));
@@ -1926,7 +1926,7 @@ sampling_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 	data->base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
 
-	w = gnm_xml_get_widget (state->base.gui, "labels_button");
+	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
         data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
         data->periodic = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->periodic_button));
@@ -2047,20 +2047,20 @@ dialog_sampling_tool (WBCGtk *wbcg, Sheet *sheet)
 			      0))
 		return 0;
 
-	state->periodic_button  = gnm_xml_get_widget (state->base.gui, "periodic-button");
-	state->random_button  = gnm_xml_get_widget (state->base.gui, "random-button");
-	state->method_label = gnm_xml_get_widget (state->base.gui, "method-label");
-	state->options_table = gnm_xml_get_widget (state->base.gui, "options-table");
-	state->period_label = gnm_xml_get_widget (state->base.gui, "period-label");
-	state->random_label = gnm_xml_get_widget (state->base.gui, "random-label");
-	state->period_entry = gnm_xml_get_widget (state->base.gui, "period-entry");
-	state->random_entry = gnm_xml_get_widget (state->base.gui, "random-entry");
-	state->number_entry = gnm_xml_get_widget (state->base.gui, "number-entry");
-	state->offset_label = gnm_xml_get_widget (state->base.gui, "offset-label");
-	state->offset_entry = gnm_xml_get_widget (state->base.gui, "offset-entry");
-	state->major_label = gnm_xml_get_widget (state->base.gui, "pdir-label");
-	state->row_major_button = gnm_xml_get_widget (state->base.gui, "row-major-button");
-	state->col_major_button = gnm_xml_get_widget (state->base.gui, "col-major-button");
+	state->periodic_button  = go_gtk_builder_get_widget (state->base.gui, "periodic-button");
+	state->random_button  = go_gtk_builder_get_widget (state->base.gui, "random-button");
+	state->method_label = go_gtk_builder_get_widget (state->base.gui, "method-label");
+	state->options_table = go_gtk_builder_get_widget (state->base.gui, "options-table");
+	state->period_label = go_gtk_builder_get_widget (state->base.gui, "period-label");
+	state->random_label = go_gtk_builder_get_widget (state->base.gui, "random-label");
+	state->period_entry = go_gtk_builder_get_widget (state->base.gui, "period-entry");
+	state->random_entry = go_gtk_builder_get_widget (state->base.gui, "random-entry");
+	state->number_entry = go_gtk_builder_get_widget (state->base.gui, "number-entry");
+	state->offset_label = go_gtk_builder_get_widget (state->base.gui, "offset-label");
+	state->offset_entry = go_gtk_builder_get_widget (state->base.gui, "offset-entry");
+	state->major_label = go_gtk_builder_get_widget (state->base.gui, "pdir-label");
+	state->row_major_button = go_gtk_builder_get_widget (state->base.gui, "row-major-button");
+	state->col_major_button = go_gtk_builder_get_widget (state->base.gui, "col-major-button");
 
 	int_to_entry (GTK_ENTRY (state->number_entry), 1);
 	int_to_entry (GTK_ENTRY (state->offset_entry), 0);
@@ -2164,13 +2164,13 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	data->group_by = (y_h == 1) ? GROUPED_BY_ROW : GROUPED_BY_COL;
 
-	w = gnm_xml_get_widget (state->base.gui, "labels_button");
+	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
         data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	err = entry_to_float (GTK_ENTRY (state->confidence_entry), &confidence, TRUE);
 	data->base.alpha = 1 - confidence;
 
-	w = gnm_xml_get_widget (state->base.gui, "intercept-button");
+	w = go_gtk_builder_get_widget (state->base.gui, "intercept-button");
 	data->intercept = 1 - gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	data->multiple_regression 
@@ -2337,8 +2337,8 @@ regression_tool_regression_check_toggled_cb (G_GNUC_UNUSED
 {
 	GtkWidget *w1, *w2;
 
-	w1 = gnm_xml_get_widget (state->base.gui, "var1-label");
-	w2 = gnm_xml_get_widget (state->base.gui, "var2-label");
+	w1 = go_gtk_builder_get_widget (state->base.gui, "var1-label");
+	w2 = go_gtk_builder_get_widget (state->base.gui, "var2-label");
 
 	if (gtk_toggle_button_get_active 
 	    (GTK_TOGGLE_BUTTON (state->switch_variables_check))) {
@@ -2399,7 +2399,7 @@ dialog_regression_tool (WBCGtk *wbcg, Sheet *sheet)
 			      GNM_EE_SINGLE_RANGE))
 		return 0;
 
-	state->confidence_entry = gnm_xml_get_widget (state->base.gui, "confidence-entry");
+	state->confidence_entry = go_gtk_builder_get_widget (state->base.gui, "confidence-entry");
 	float_to_entry (GTK_ENTRY (state->confidence_entry), 0.95);
 	g_signal_connect_after (G_OBJECT (state->confidence_entry),
 		"changed",
@@ -2408,10 +2408,10 @@ dialog_regression_tool (WBCGtk *wbcg, Sheet *sheet)
 				  GTK_WIDGET (state->confidence_entry));
 
 	state->simple_linear_regression_radio 
-		= gnm_xml_get_widget 
+		= go_gtk_builder_get_widget 
 		(state->base.gui, "simple-regression-button");
 	state->switch_variables_check 
-		= gnm_xml_get_widget 
+		= go_gtk_builder_get_widget 
 		(state->base.gui, "multiple-independent-check");
 	gtk_toggle_button_set_active 
 		(GTK_TOGGLE_BUTTON (state->simple_linear_regression_radio),
@@ -2471,7 +2471,7 @@ exp_smoothing_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 	data->base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
 
-	w = gnm_xml_get_widget (state->base.gui, "labels_button");
+	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
         data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	err = entry_to_float (GTK_ENTRY (state->damping_fact_entry), &data->damp_fact, TRUE);
@@ -2702,34 +2702,34 @@ dialog_exp_smoothing_tool (WBCGtk *wbcg, Sheet *sheet)
 			      0))
 		return 0;
 
-	state->damping_fact_entry = gnm_xml_get_widget (state->base.gui,
+	state->damping_fact_entry = go_gtk_builder_get_widget (state->base.gui,
 							  "damping-fact-spin");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->damping_fact_entry), 0.2);
 	float_to_entry (GTK_ENTRY (state->damping_fact_entry), 0.2);
-	state->g_damping_fact_entry = gnm_xml_get_widget (state->base.gui,
+	state->g_damping_fact_entry = go_gtk_builder_get_widget (state->base.gui,
 							  "g-damping-fact-spin");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->g_damping_fact_entry), 0.25);
-	state->s_damping_fact_entry = gnm_xml_get_widget (state->base.gui,
+	state->s_damping_fact_entry = go_gtk_builder_get_widget (state->base.gui,
 							  "s-damping-fact-spin");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->s_damping_fact_entry), 0.3);
-	state->s_period_entry = gnm_xml_get_widget (state->base.gui,
+	state->s_period_entry = go_gtk_builder_get_widget (state->base.gui,
 							  "s-period-spin");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->s_period_entry), 12.);
 
 
-	state->n_button = gnm_xml_get_widget (state->base.gui, "n-button");
-	state->nm1_button = gnm_xml_get_widget (state->base.gui, "nm1-button");
-	state->nm2_button = gnm_xml_get_widget (state->base.gui, "nm2-button");
-	state->nm3_button = gnm_xml_get_widget (state->base.gui, "nm3-button");
+	state->n_button = go_gtk_builder_get_widget (state->base.gui, "n-button");
+	state->nm1_button = go_gtk_builder_get_widget (state->base.gui, "nm1-button");
+	state->nm2_button = go_gtk_builder_get_widget (state->base.gui, "nm2-button");
+	state->nm3_button = go_gtk_builder_get_widget (state->base.gui, "nm3-button");
 
-	state->show_std_errors = gnm_xml_get_widget (state->base.gui, "std-errors-button");
-	state->graph_button = gnm_xml_get_widget (state->base.gui, "graph-check");
+	state->show_std_errors = go_gtk_builder_get_widget (state->base.gui, "std-errors-button");
+	state->graph_button = go_gtk_builder_get_widget (state->base.gui, "graph-check");
 
-	state->ses_h_button = gnm_xml_get_widget (state->base.gui, "ses-h-button");
-	state->ses_r_button = gnm_xml_get_widget (state->base.gui, "ses-r-button");
-	state->des_button = gnm_xml_get_widget (state->base.gui, "des-button");
-	state->ates_button = gnm_xml_get_widget (state->base.gui, "ates-button");
-	state->mtes_button = gnm_xml_get_widget (state->base.gui, "mtes-button");
+	state->ses_h_button = go_gtk_builder_get_widget (state->base.gui, "ses-h-button");
+	state->ses_r_button = go_gtk_builder_get_widget (state->base.gui, "ses-r-button");
+	state->des_button = go_gtk_builder_get_widget (state->base.gui, "des-button");
+	state->ates_button = go_gtk_builder_get_widget (state->base.gui, "ates-button");
+	state->mtes_button = go_gtk_builder_get_widget (state->base.gui, "mtes-button");
 
 	g_signal_connect_after (G_OBJECT (state->n_button),
 		"toggled",
@@ -2814,7 +2814,7 @@ average_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 	data->base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
 
-	w = gnm_xml_get_widget (state->base.gui, "labels_button");
+	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
         data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	err = entry_to_int (GTK_ENTRY (state->interval_entry), &data->interval, TRUE);
@@ -3069,21 +3069,21 @@ dialog_average_tool (WBCGtk *wbcg, Sheet *sheet)
 			      0))
 		return 0;
 
-	state->interval_entry = gnm_xml_get_widget (state->base.gui, "interval-entry");
+	state->interval_entry = go_gtk_builder_get_widget (state->base.gui, "interval-entry");
 	int_to_entry (GTK_ENTRY (state->interval_entry), 3);
-	state->n_button = gnm_xml_get_widget (state->base.gui, "n-button");
-	state->nm1_button = gnm_xml_get_widget (state->base.gui, "nm1-button");
-	state->nm2_button = gnm_xml_get_widget (state->base.gui, "nm2-button");
-	state->prior_button = gnm_xml_get_widget (state->base.gui, "prior-button");
-	state->central_button = gnm_xml_get_widget (state->base.gui, "central-button");
-	state->offset_button = gnm_xml_get_widget (state->base.gui, "offset-button");
-	state->offset_spin = gnm_xml_get_widget (state->base.gui, "offset-spinbutton");
-	state->show_std_errors = gnm_xml_get_widget (state->base.gui, "std-errors-button");
-	state->graph_button = gnm_xml_get_widget (state->base.gui, "graph-check");
-	state->sma_button = gnm_xml_get_widget (state->base.gui, "sma-button");
-	state->cma_button = gnm_xml_get_widget (state->base.gui, "cma-button");
-	state->wma_button = gnm_xml_get_widget (state->base.gui, "wma-button");
-	state->spencer_button = gnm_xml_get_widget (state->base.gui, "spencer-ma-button");
+	state->n_button = go_gtk_builder_get_widget (state->base.gui, "n-button");
+	state->nm1_button = go_gtk_builder_get_widget (state->base.gui, "nm1-button");
+	state->nm2_button = go_gtk_builder_get_widget (state->base.gui, "nm2-button");
+	state->prior_button = go_gtk_builder_get_widget (state->base.gui, "prior-button");
+	state->central_button = go_gtk_builder_get_widget (state->base.gui, "central-button");
+	state->offset_button = go_gtk_builder_get_widget (state->base.gui, "offset-button");
+	state->offset_spin = go_gtk_builder_get_widget (state->base.gui, "offset-spinbutton");
+	state->show_std_errors = go_gtk_builder_get_widget (state->base.gui, "std-errors-button");
+	state->graph_button = go_gtk_builder_get_widget (state->base.gui, "graph-check");
+	state->sma_button = go_gtk_builder_get_widget (state->base.gui, "sma-button");
+	state->cma_button = go_gtk_builder_get_widget (state->base.gui, "cma-button");
+	state->wma_button = go_gtk_builder_get_widget (state->base.gui, "wma-button");
+	state->spencer_button = go_gtk_builder_get_widget (state->base.gui, "spencer-ma-button");
 
 
 	g_signal_connect_after (G_OBJECT (state->n_button),
@@ -3233,7 +3233,7 @@ histogram_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->predetermined = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->predetermined_button));
 	if (data->predetermined) {
-		w = gnm_xml_get_widget (state->base.gui, "labels_2_button");
+		w = go_gtk_builder_get_widget (state->base.gui, "labels_2_button");
 		data->bin = gnm_expr_entry_parse_as_value
 			(GNM_EXPR_ENTRY (state->base.input_entry_2),
 			 state->base.sheet);
@@ -3249,11 +3249,11 @@ histogram_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->bin_type = gnm_gui_group_value (state->base.gui, bin_type_group);
 	data->chart = gnm_gui_group_value (state->base.gui, chart_group);
 
-	w = gnm_xml_get_widget (state->base.gui, "labels_button");
+	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
 	data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
-	w = gnm_xml_get_widget (state->base.gui, "percentage-button");
+	w = go_gtk_builder_get_widget (state->base.gui, "percentage-button");
 	data->percentage = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
-	w = gnm_xml_get_widget (state->base.gui, "cum-button");
+	w = go_gtk_builder_get_widget (state->base.gui, "cum-button");
 	data->cumulative = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
@@ -3334,17 +3334,17 @@ dialog_histogram_tool (WBCGtk *wbcg, Sheet *sheet)
 			      0))
 		return 0;
 
-	state->predetermined_button = GTK_WIDGET (gnm_xml_get_widget
+	state->predetermined_button = GTK_WIDGET (go_gtk_builder_get_widget
 						  (state->base.gui,
 						   "pre_determined_button"));
-	state->calculated_button = GTK_WIDGET (gnm_xml_get_widget
+	state->calculated_button = GTK_WIDGET (go_gtk_builder_get_widget
 					       (state->base.gui,
 						"calculated_button"));
-	state->n_entry = GTK_ENTRY(gnm_xml_get_widget (state->base.gui,
+	state->n_entry = GTK_ENTRY(go_gtk_builder_get_widget (state->base.gui,
 							  "n_entry"));
-	state->max_entry = GTK_ENTRY(gnm_xml_get_widget (state->base.gui,
+	state->max_entry = GTK_ENTRY(go_gtk_builder_get_widget (state->base.gui,
 							    "max_entry"));
-	state->min_entry = GTK_ENTRY(gnm_xml_get_widget (state->base.gui,
+	state->min_entry = GTK_ENTRY(go_gtk_builder_get_widget (state->base.gui,
 							    "min_entry"));
 
 	g_signal_connect_after (G_OBJECT (state->predetermined_button),
@@ -3411,7 +3411,7 @@ anova_single_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 	data->base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
 
-	w = gnm_xml_get_widget (state->base.gui, "labels_button");
+	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
         data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 	data->alpha = gtk_spin_button_get_value
 		(GTK_SPIN_BUTTON (state->alpha_entry));
@@ -3513,7 +3513,7 @@ dialog_anova_single_factor_tool (WBCGtk *wbcg, Sheet *sheet)
 			      0))
 		return 0;
 
-	state->alpha_entry = gnm_xml_get_widget (state->base.gui,
+	state->alpha_entry = go_gtk_builder_get_widget (state->base.gui,
 						   "alpha-entry");
 	float_to_entry (GTK_ENTRY (state->alpha_entry), 0.05);
 	g_signal_connect_after (G_OBJECT (state->alpha_entry),
@@ -3569,7 +3569,7 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->err = analysis_tools_noerr;
 	data->wbc = WORKBOOK_CONTROL (state->base.wbcg);
 
-	w = gnm_xml_get_widget (state->base.gui, "labels_button");
+	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
         data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	data->alpha = gtk_spin_button_get_value
@@ -3743,10 +3743,10 @@ dialog_anova_two_factor_tool (WBCGtk *wbcg, Sheet *sheet)
 			      GNM_EE_SINGLE_RANGE))
 		return 0;
 
-	state->alpha_entry = gnm_xml_get_widget (state->base.gui,
+	state->alpha_entry = go_gtk_builder_get_widget (state->base.gui,
 						   "alpha-entry");
 	float_to_entry (GTK_ENTRY(state->alpha_entry), 0.05);
-	state->replication_entry = gnm_xml_get_widget (state->base.gui,
+	state->replication_entry = go_gtk_builder_get_widget (state->base.gui,
 							 "replication-entry");
 	int_to_entry (GTK_ENTRY(state->replication_entry), 1);
 

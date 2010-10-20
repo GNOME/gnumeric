@@ -65,7 +65,7 @@ dialog_tool_preset_to_range (GenericToolState *state)
 	gnm_dao_load_range (GNM_DAO (state->gdao), sel);
 	gnm_dao_focus_output_range (GNM_DAO (state->gdao));
 
-	w = gnm_xml_get_widget (state->gui, "notebook1");
+	w = go_gtk_builder_get_widget (state->gui, "notebook1");
 	g_return_if_fail (w && GTK_IS_NOTEBOOK (w));
 	gtk_notebook_set_current_page (GTK_NOTEBOOK(w), 0);
 }
@@ -84,7 +84,7 @@ dialog_tool_init_outputs (GenericToolState *state, GCallback sensitivity_cb)
 {
 	GtkWidget *dao_box;
 
-	dao_box = gnm_xml_get_widget (state->gui, "dao");
+	dao_box = go_gtk_builder_get_widget (state->gui, "dao");
 
 	if (dao_box == NULL) {
 		state->gdao = NULL;

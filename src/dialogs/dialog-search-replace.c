@@ -82,14 +82,14 @@ static const char * const direction_group[] = {
 static gboolean
 is_checked (GtkBuilder *gui, const char *name)
 {
-	GtkWidget *w = gnm_xml_get_widget (gui, name);
+	GtkWidget *w = go_gtk_builder_get_widget (gui, name);
 	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 }
 
 static void
 set_checked (GtkBuilder *gui, const char *name, gboolean checked)
 {
-	GtkWidget *w = gnm_xml_get_widget (gui, name);
+	GtkWidget *w = go_gtk_builder_get_widget (gui, name);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), checked);
 }
 
@@ -221,7 +221,7 @@ range_focused (G_GNUC_UNUSED GtkWidget *widget,
 	       G_GNUC_UNUSED GdkEventFocus *event,
 	       DialogState *dd)
 {
-	GtkWidget *scope_range = gnm_xml_get_widget (dd->gui, "scope_range");
+	GtkWidget *scope_range = go_gtk_builder_get_widget (dd->gui, "scope_range");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (scope_range), TRUE);
 	return FALSE;
 }
@@ -260,7 +260,7 @@ dialog_search_replace (WBCGtk *wbcg,
         if (gui == NULL)
                 return;
 
-	dialog = GTK_DIALOG (gnm_xml_get_widget (gui, "search_replace_dialog"));
+	dialog = GTK_DIALOG (go_gtk_builder_get_widget (gui, "search_replace_dialog"));
 
 	dd = g_new (DialogState, 1);
 	dd->wbcg = wbcg;
@@ -268,7 +268,7 @@ dialog_search_replace (WBCGtk *wbcg,
 	dd->cb = cb;
 	dd->dialog = dialog;
 
-	table = GTK_TABLE (gnm_xml_get_widget (gui, "search_table"));
+	table = GTK_TABLE (go_gtk_builder_get_widget (gui, "search_table"));
 	dd->search_text = GTK_ENTRY (gtk_entry_new ());
 	gtk_table_attach (table, GTK_WIDGET (dd->search_text),
 			  1, 4, 0, 1,
@@ -285,7 +285,7 @@ dialog_search_replace (WBCGtk *wbcg,
 	gnumeric_editable_enters (GTK_WINDOW (dialog),
 				  GTK_WIDGET (dd->replace_text));
 
-	table = GTK_TABLE (gnm_xml_get_widget (gui, "scope_table"));
+	table = GTK_TABLE (go_gtk_builder_get_widget (gui, "scope_table"));
 	dd->rangetext = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (dd->rangetext, 0, GNM_EE_MASK);
 	gtk_table_attach (table, GTK_WIDGET (dd->rangetext),
@@ -299,7 +299,7 @@ dialog_search_replace (WBCGtk *wbcg,
 	g_free (selection_text);
 	gtk_widget_show (GTK_WIDGET (dd->rangetext));
 
-#define SETW(w,f) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gnm_xml_get_widget (gui, w)),  f())
+#define SETW(w,f) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (gui, w)),  f())
 	SETW("search_expr", gnm_conf_get_searchreplace_change_cell_expressions);
 	SETW("search_other", gnm_conf_get_searchreplace_change_cell_other);
 	SETW("search_string", gnm_conf_get_searchreplace_change_cell_strings);
@@ -313,33 +313,33 @@ dialog_search_replace (WBCGtk *wbcg,
 
 	gtk_toggle_button_set_active 
 	  (GTK_TOGGLE_BUTTON 
-	   (gnm_xml_get_widget 
+	   (go_gtk_builder_get_widget 
 	    (gui, 
 	     search_type_group[gnm_conf_get_searchreplace_regex () ? 1 : 0])), TRUE);
 	gtk_toggle_button_set_active 
 	  (GTK_TOGGLE_BUTTON 
-	   (gnm_xml_get_widget 
+	   (go_gtk_builder_get_widget 
 	    (gui, 
 	     direction_group[gnm_conf_get_searchreplace_columnmajor () ? 1 : 0])), TRUE);
 	gtk_toggle_button_set_active 
 	  (GTK_TOGGLE_BUTTON 
-	   (gnm_xml_get_widget 
+	   (go_gtk_builder_get_widget 
 	    (gui, 
 	     error_group[gnm_conf_get_searchreplace_error_behaviour ()])), TRUE);
 	gtk_toggle_button_set_active 
 	  (GTK_TOGGLE_BUTTON 
-	   (gnm_xml_get_widget 
+	   (go_gtk_builder_get_widget 
 	    (gui, 
 	     scope_group[gnm_conf_get_searchreplace_scope ()])), TRUE);
 
 
-	g_signal_connect (G_OBJECT (gnm_xml_get_widget (gui, "ok_button")),
+	g_signal_connect (G_OBJECT (go_gtk_builder_get_widget (gui, "ok_button")),
 		"clicked",
 		G_CALLBACK (ok_clicked), dd);
-	g_signal_connect (G_OBJECT (gnm_xml_get_widget (gui, "apply_button")),
+	g_signal_connect (G_OBJECT (go_gtk_builder_get_widget (gui, "apply_button")),
 		"clicked",
 		G_CALLBACK (apply_clicked), dd);
-	g_signal_connect (G_OBJECT (gnm_xml_get_widget (gui, "cancel_button")),
+	g_signal_connect (G_OBJECT (go_gtk_builder_get_widget (gui, "cancel_button")),
 		"clicked",
 		G_CALLBACK (cancel_clicked), dd);
 	g_signal_connect (GTK_OBJECT (gnm_expr_entry_get_entry (dd->rangetext)),
@@ -347,7 +347,7 @@ dialog_search_replace (WBCGtk *wbcg,
 		G_CALLBACK (range_focused), dd);
 
 	gnumeric_init_help_button (
-		gnm_xml_get_widget (gui, "help_button"),
+		go_gtk_builder_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_SEARCH_REPLACE);
 	g_object_set_data_full (G_OBJECT (dialog),
 		"state", dd, (GDestroyNotify) cb_dialog_destroy);
@@ -379,13 +379,13 @@ dialog_search_replace_query (WBCGtk *wbcg,
         if (gui == NULL)
                 return 0;
 
-	dialog = GTK_DIALOG (gnm_xml_get_widget (gui, "query_dialog"));
+	dialog = GTK_DIALOG (go_gtk_builder_get_widget (gui, "query_dialog"));
 
-	gtk_entry_set_text (GTK_ENTRY (gnm_xml_get_widget (gui, "qd_location")),
+	gtk_entry_set_text (GTK_ENTRY (go_gtk_builder_get_widget (gui, "qd_location")),
 			    location);
-	gtk_entry_set_text (GTK_ENTRY (gnm_xml_get_widget (gui, "qd_old_text")),
+	gtk_entry_set_text (GTK_ENTRY (go_gtk_builder_get_widget (gui, "qd_old_text")),
 			    old_text);
-	gtk_entry_set_text (GTK_ENTRY (gnm_xml_get_widget (gui, "qd_new_text")),
+	gtk_entry_set_text (GTK_ENTRY (go_gtk_builder_get_widget (gui, "qd_new_text")),
 			    new_text);
 
 	set_checked (gui, "qd_query", sr->query);

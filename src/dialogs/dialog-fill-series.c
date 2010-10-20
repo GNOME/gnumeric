@@ -96,17 +96,17 @@ cb_fill_series_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	dao  = parse_output ((GenericToolState *)state, NULL);
 
 	/* Read the `Series in' radio buttons. */
-	radio = gnm_xml_get_widget (state->base.gui, "series_in_rows");
+	radio = go_gtk_builder_get_widget (state->base.gui, "series_in_rows");
 	fs->series_in_rows = ! gtk_radio_group_get_selected
 	        (GTK_RADIO_BUTTON (radio)->group);
 
 	/* Read the `Type' radio buttons. */
-	radio = gnm_xml_get_widget (state->base.gui, "type_linear");
+	radio = go_gtk_builder_get_widget (state->base.gui, "type_linear");
 	fs->type = gtk_radio_group_get_selected
 	        (GTK_RADIO_BUTTON (radio)->group);
 
 	/* Read the `Date unit' radio buttons. */
-	radio = gnm_xml_get_widget (state->base.gui, "unit_day");
+	radio = go_gtk_builder_get_widget (state->base.gui, "unit_day");
 	fs->date_unit = gtk_radio_group_get_selected
 	        (GTK_RADIO_BUTTON (radio)->group);
 
@@ -132,7 +132,7 @@ cb_type_button_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 
 	/* Read the `Type' radio buttons. */
-	radio = gnm_xml_get_widget (state->base.gui, "type_linear");
+	radio = go_gtk_builder_get_widget (state->base.gui, "type_linear");
 	type = gtk_radio_group_get_selected (GTK_RADIO_BUTTON (radio)->group);
 
 	if (type == FillSeriesTypeDate)
@@ -159,26 +159,26 @@ dialog_fill_series_tool_init (FillSeriesState *state)
 	sel = selection_first_range (state->base.sv, NULL, NULL);
 
 	/* Set the sensitivity of Unit day. */
-	radio = gnm_xml_get_widget (state->base.gui,
+	radio = go_gtk_builder_get_widget (state->base.gui,
 				      "type_date");
 	g_signal_connect (G_OBJECT (radio), "clicked",
 			  G_CALLBACK (cb_type_button_clicked), state);
 
-	state->stop_entry = gnm_xml_get_widget (state->base.gui, "stop_entry");
+	state->stop_entry = go_gtk_builder_get_widget (state->base.gui, "stop_entry");
 	g_signal_connect_after (G_OBJECT (state->stop_entry),
 		"changed",
 		G_CALLBACK (cb_fill_series_update_sensitivity), state);
-	state->step_entry = gnm_xml_get_widget (state->base.gui, "step_entry");
+	state->step_entry = go_gtk_builder_get_widget (state->base.gui, "step_entry");
 	g_signal_connect_after (G_OBJECT (state->step_entry),
 		"changed",
 		G_CALLBACK (cb_fill_series_update_sensitivity), state);
-	state->start_entry = gnm_xml_get_widget (state->base.gui, "start_entry");
+	state->start_entry = go_gtk_builder_get_widget (state->base.gui, "start_entry");
 	g_signal_connect_after (G_OBJECT (state->start_entry),
 		"changed",
 		G_CALLBACK (cb_fill_series_update_sensitivity), state);
 
 
-	state->date_steps_type  = gnm_xml_get_widget (state->base.gui,
+	state->date_steps_type  = go_gtk_builder_get_widget (state->base.gui,
 							"table_date_unit");
 	gtk_widget_set_sensitive (state->date_steps_type, FALSE);
 
@@ -187,7 +187,7 @@ dialog_fill_series_tool_init (FillSeriesState *state)
 		   (range_width (sel) >= range_height (sel))))
 		? "series_in_rows"
 		: "series_in_cols";
-	radio = gnm_xml_get_widget (state->base.gui, button);
+	radio = go_gtk_builder_get_widget (state->base.gui, button);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio), TRUE);
 
 	if (sel != NULL) {

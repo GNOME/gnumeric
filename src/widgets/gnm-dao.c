@@ -75,23 +75,23 @@ gnm_dao_init (GnmDao *gdao)
 	if (gdao->gui == NULL)
 		return;
 
-	toplevel = gnm_xml_get_widget (gdao->gui, "dao_box");
+	toplevel = go_gtk_builder_get_widget (gdao->gui, "dao_box");
 
-	gdao->new_sheet  = gnm_xml_get_widget (gdao->gui,
+	gdao->new_sheet  = go_gtk_builder_get_widget (gdao->gui,
 						 "newsheet-button");
-	gdao->new_workbook  = gnm_xml_get_widget (gdao->gui,
+	gdao->new_workbook  = go_gtk_builder_get_widget (gdao->gui,
 						    "newworkbook-button");
-	gdao->output_range  = gnm_xml_get_widget (gdao->gui,
+	gdao->output_range  = go_gtk_builder_get_widget (gdao->gui,
 						    "outputrange-button");
-	gdao->in_place  = gnm_xml_get_widget (gdao->gui,
+	gdao->in_place  = go_gtk_builder_get_widget (gdao->gui,
 						    "inplace-button");
-	gdao->clear_outputrange_button = gnm_xml_get_widget
+	gdao->clear_outputrange_button = go_gtk_builder_get_widget
 		(gdao->gui, "clear_outputrange_button");
-	gdao->retain_format_button = gnm_xml_get_widget
+	gdao->retain_format_button = go_gtk_builder_get_widget
 		(gdao->gui, "retain_format_button");
-	gdao->retain_comments_button = gnm_xml_get_widget
+	gdao->retain_comments_button = go_gtk_builder_get_widget
 		(gdao->gui, "retain_comments_button");
-	gdao->put_menu = gnm_xml_get_widget
+	gdao->put_menu = go_gtk_builder_get_widget
 		(gdao->gui, "put_menu");
 	gtk_combo_box_set_active
 		(GTK_COMBO_BOX (gdao->put_menu), 1);
@@ -238,7 +238,7 @@ gnm_dao_new (WBCGtk *wbcg, gchar *inplace_str)
 	gdao->wbcg = wbcg;
 
 	/* Create the output range expression entry */
-	table = GTK_TABLE (gnm_xml_get_widget (gdao->gui, "output-table"));
+	table = GTK_TABLE (go_gtk_builder_get_widget (gdao->gui, "output-table"));
 	gdao->output_entry = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (gdao->output_entry,
 				  GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
@@ -315,7 +315,7 @@ gnm_dao_get_data (GnmDao *gdao, data_analysis_output_t **dao)
 			break;
 		}
 
-		button = gnm_xml_get_widget (gdao->gui, "autofit_button");
+		button = go_gtk_builder_get_widget (gdao->gui, "autofit_button");
 		(*dao)->autofit_flag = gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (button));
 

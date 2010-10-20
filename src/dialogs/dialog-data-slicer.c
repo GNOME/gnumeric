@@ -259,8 +259,8 @@ dialog_data_slicer (WBCGtk *wbcg, gboolean create)
 	state->wbcg	= wbcg;
 	state->sv	= wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 
-	state->dialog	= gnm_xml_get_widget (gui, "dialog_data_slicer");
-	state->notebook = gnm_xml_get_widget (gui, "notebook");
+	state->dialog	= go_gtk_builder_get_widget (gui, "dialog_data_slicer");
+	state->notebook = go_gtk_builder_get_widget (gui, "notebook");
 	state->slicer	= create ? NULL : sv_editpos_in_slicer (state->sv);
 	state->cache	= NULL;
 	state->source	= NULL;
@@ -280,18 +280,18 @@ dialog_data_slicer (WBCGtk *wbcg, gboolean create)
 		GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
 	g_signal_connect_swapped (G_OBJECT (state->source_expr),
 		"changed", G_CALLBACK (cb_source_expr_changed), state);
-	w = gnm_xml_get_widget (gui, "source_vbox");
+	w = go_gtk_builder_get_widget (gui, "source_vbox");
 	gtk_box_pack_start (GTK_BOX (w), GTK_WIDGET (state->source_expr), FALSE, FALSE, 0);
 	gtk_widget_show (GTK_WIDGET (state->source_expr));
 
-	w = gnm_xml_get_widget (gui, "ok_button");
+	w = go_gtk_builder_get_widget (gui, "ok_button");
 	g_signal_connect (G_OBJECT (w), "clicked",
 		G_CALLBACK (cb_dialog_data_slicer_ok), state);
-	w = gnm_xml_get_widget (gui, "cancel_button");
+	w = go_gtk_builder_get_widget (gui, "cancel_button");
 	g_signal_connect (G_OBJECT (w), "clicked",
 		G_CALLBACK (cb_dialog_data_slicer_cancel), state);
 
-	state->treeview = GTK_TREE_VIEW (gnm_xml_get_widget (gui, "field_tree"));
+	state->treeview = GTK_TREE_VIEW (go_gtk_builder_get_widget (gui, "field_tree"));
 	gtk_tree_view_enable_model_drag_source (GTK_TREE_VIEW (state->treeview), GDK_BUTTON1_MASK,
 		row_targets, G_N_ELEMENTS (row_targets), GDK_ACTION_MOVE);
 	gtk_tree_view_enable_model_drag_dest (GTK_TREE_VIEW (state->treeview),
@@ -318,12 +318,12 @@ dialog_data_slicer (WBCGtk *wbcg, gboolean create)
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 	g_object_unref (action_group);
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui_description, -1, NULL);
-	gtk_box_pack_start (GTK_BOX (gnm_xml_get_widget (gui, "format-box")),
+	gtk_box_pack_start (GTK_BOX (go_gtk_builder_get_widget (gui, "format-box")),
 	                    gtk_ui_manager_get_widget (ui_manager, "/bar"),
 	                    FALSE, TRUE, 0);
 
 	/* a candidate for merging into attach guru */
-	gnumeric_init_help_button (gnm_xml_get_widget (gui, "help_button"),
+	gnumeric_init_help_button (go_gtk_builder_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_DATA_SLICER);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_dialog_data_slicer_destroy);

@@ -164,7 +164,7 @@ dialog_shuffle (WBCGtk *wbcg)
 		type = "shuffle_rows";
 	else
 		type = "shuffle_area";
-	w = gnm_xml_get_widget (state->gui, type);
+	w = go_gtk_builder_get_widget (state->gui, type);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 
 	gtk_widget_show (state->dialog);

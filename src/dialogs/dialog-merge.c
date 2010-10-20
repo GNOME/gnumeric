@@ -330,26 +330,26 @@ dialog_merge (WBCGtk *wbcg)
 	state->gui = gui;
 	state->wbcg = wbcg;
 	state->sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg));
-	state->dialog     = gnm_xml_get_widget (gui, "Merge");
+	state->dialog     = go_gtk_builder_get_widget (gui, "Merge");
 	state->warning_dialog = NULL;
 
-	state->add_btn   = gnm_xml_get_widget (gui, "add_button");
-	state->delete_btn   = gnm_xml_get_widget (gui, "remove_button");
-	state->merge_btn  = gnm_xml_get_widget (gui, "merge_button");
-	state->change_btn  = gnm_xml_get_widget (gui, "change_button");
-	state->cancel_btn  = gnm_xml_get_widget (gui, "cancel_button");
+	state->add_btn   = go_gtk_builder_get_widget (gui, "add_button");
+	state->delete_btn   = go_gtk_builder_get_widget (gui, "remove_button");
+	state->merge_btn  = go_gtk_builder_get_widget (gui, "merge_button");
+	state->change_btn  = go_gtk_builder_get_widget (gui, "change_button");
+	state->cancel_btn  = go_gtk_builder_get_widget (gui, "cancel_button");
 	gtk_widget_set_size_request (state->delete_btn, 100, -1);
 
 	gtk_button_set_alignment (GTK_BUTTON (state->add_btn),    0., .5);
 	gtk_button_set_alignment (GTK_BUTTON (state->delete_btn), 0., .5);
 	gtk_button_set_alignment (GTK_BUTTON (state->change_btn), 0., .5);
 
-	table = GTK_TABLE (gnm_xml_get_widget (gui, "main_table"));
+	table = GTK_TABLE (go_gtk_builder_get_widget (gui, "main_table"));
 	state->zone = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->zone, GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->zone));
-	gtk_label_set_mnemonic_widget (GTK_LABEL (gnm_xml_get_widget (gui, "var1-label")),
+	gtk_label_set_mnemonic_widget (GTK_LABEL (go_gtk_builder_get_widget (gui, "var1-label")),
 				       GTK_WIDGET (state->zone));
 	gtk_table_attach (table, GTK_WIDGET (state->zone),
 			  1, 3, 0, 1,
@@ -375,7 +375,7 @@ dialog_merge (WBCGtk *wbcg)
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
 
-	scrolled = gnm_xml_get_widget (state->gui, "scrolled");
+	scrolled = go_gtk_builder_get_widget (state->gui, "scrolled");
 	state->model = gtk_list_store_new (NUM_COLMNS, G_TYPE_STRING, G_TYPE_STRING);
 	state->list = GTK_TREE_VIEW (gtk_tree_view_new_with_model
 					   (GTK_TREE_MODEL (state->model)));
@@ -436,7 +436,7 @@ dialog_merge (WBCGtk *wbcg)
 					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
 
 	gnumeric_init_help_button (
-		gnm_xml_get_widget (state->gui, "help_button"),
+		go_gtk_builder_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_DATA_MERGE);
 
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),

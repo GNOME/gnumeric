@@ -282,7 +282,7 @@ kaplan_meier_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	}
 
 	data->median = gtk_toggle_button_get_active (
-		GTK_TOGGLE_BUTTON (gnm_xml_get_widget
+		GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget
 				   (state->base.gui,
 				    "median-button")));
 	data->chart = gtk_toggle_button_get_active (
@@ -494,10 +494,10 @@ dialog_kaplan_meier_tool_setup_treeview (KaplanMeierToolState *state)
 {
 	guint i;
 	GtkCellRenderer *renderer;
-	GtkWidget *scrolled = gnm_xml_get_widget (state->base.gui, "groups-scrolled");
+	GtkWidget *scrolled = go_gtk_builder_get_widget (state->base.gui, "groups-scrolled");
 	GtkTreeSelection  *selection;
 
-	state->groups_treeview = GTK_TREE_VIEW (gnm_xml_get_widget
+	state->groups_treeview = GTK_TREE_VIEW (go_gtk_builder_get_widget
 						(state->base.gui,
 						 "groups-tree"));
 	state->groups_list = gtk_list_store_new (GROUP_COLUMNS,
@@ -625,40 +625,40 @@ dialog_kaplan_meier_tool (WBCGtk *wbcg, Sheet *sheet)
 
 
 
-	state->censorship_button = GTK_WIDGET (gnm_xml_get_widget
+	state->censorship_button = GTK_WIDGET (go_gtk_builder_get_widget
 						  (state->base.gui,
 						   "censor-button"));
-	state->censor_spin_from = GTK_WIDGET (gnm_xml_get_widget
+	state->censor_spin_from = GTK_WIDGET (go_gtk_builder_get_widget
 					      (state->base.gui,
 					       "censored-spinbutton1"));
 	gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->censor_spin_from), 0.,G_MAXSHORT);
-	state->censor_spin_to = GTK_WIDGET (gnm_xml_get_widget
+	state->censor_spin_to = GTK_WIDGET (go_gtk_builder_get_widget
 					    (state->base.gui,
 					     "censored-spinbutton2"));
 	gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->censor_spin_to), 0.,G_MAXSHORT);
-	state->graph_button = GTK_WIDGET (gnm_xml_get_widget
+	state->graph_button = GTK_WIDGET (go_gtk_builder_get_widget
 						  (state->base.gui,
 						   "graph-button"));
-	state->tick_button = GTK_WIDGET (gnm_xml_get_widget
+	state->tick_button = GTK_WIDGET (go_gtk_builder_get_widget
 						  (state->base.gui,
 						   "tick-button"));
-	state->add_group_button = GTK_WIDGET (gnm_xml_get_widget
+	state->add_group_button = GTK_WIDGET (go_gtk_builder_get_widget
 						  (state->base.gui,
 						   "add-button"));
-	state->remove_group_button = GTK_WIDGET (gnm_xml_get_widget
+	state->remove_group_button = GTK_WIDGET (go_gtk_builder_get_widget
 						  (state->base.gui,
 						   "remove-button"));
-	state->std_error_button = GTK_WIDGET (gnm_xml_get_widget
+	state->std_error_button = GTK_WIDGET (go_gtk_builder_get_widget
 						  (state->base.gui,
 						   "std-error-button"));
-	state->logrank_button = GTK_WIDGET (gnm_xml_get_widget
+	state->logrank_button = GTK_WIDGET (go_gtk_builder_get_widget
 						  (state->base.gui,
 						   "logrank-button"));
 
-	state->groups_check = GTK_WIDGET (gnm_xml_get_widget
+	state->groups_check = GTK_WIDGET (go_gtk_builder_get_widget
 						  (state->base.gui,
 						   "groups-check"));
-	state->groups_table = GTK_WIDGET (gnm_xml_get_widget
+	state->groups_table = GTK_WIDGET (go_gtk_builder_get_widget
 						  (state->base.gui,
 						   "groups-table"));
 	state->groups_input = gnm_expr_entry_new (state->base.wbcg, TRUE);
@@ -718,7 +718,7 @@ dialog_kaplan_meier_tool (WBCGtk *wbcg, Sheet *sheet)
 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 					  GTK_WIDGET (state->groups_input));
 
-	widget = gnm_xml_get_widget (state->base.gui, "groups-label");
+	widget = go_gtk_builder_get_widget (state->base.gui, "groups-label");
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget),
 				       GTK_WIDGET (state->groups_input));
 	go_atk_setup_label (widget, GTK_WIDGET (state->groups_input));

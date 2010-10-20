@@ -140,7 +140,7 @@ wilcoxon_mann_whitney_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
 	data->group_by = gnm_gui_group_value (state->gui, grouped_by_group);
 
-	w = gnm_xml_get_widget (state->gui, "labels_button");
+	w = go_gtk_builder_get_widget (state->gui, "labels_button");
         data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
@@ -198,7 +198,7 @@ dialog_wilcoxon_m_w_tool (WBCGtk *wbcg, Sheet *sheet)
 		return 0;
 
 	g_signal_connect_after 
-		(G_OBJECT (gnm_xml_get_widget
+		(G_OBJECT (go_gtk_builder_get_widget
 			   (state->gui,
 			    "grouped_by_row")), "toggled",
 		 G_CALLBACK (wilcoxon_mann_whitney_tool_update_sensitivity_cb),

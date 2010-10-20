@@ -280,13 +280,13 @@ stf_dialog (WBCGtk *wbcg,
 	pagedata.utf8_data = NULL;
 	pagedata.cur = NULL;
 
-	pagedata.dialog         = GTK_DIALOG  (gnm_xml_get_widget (gui, "stf_dialog"));
-	pagedata.notebook       = GTK_NOTEBOOK (gnm_xml_get_widget (gui, "stf_notebook"));
-	pagedata.next_button    = gnm_xml_get_widget (gui, "forward_button");
-	pagedata.back_button    = gnm_xml_get_widget (gui, "back_button");
-	pagedata.cancel_button    = gnm_xml_get_widget (gui, "cancel_button");
-	pagedata.help_button    = gnm_xml_get_widget (gui, "help_button");
-	pagedata.finish_button    = gnm_xml_get_widget (gui, "finish_button");
+	pagedata.dialog         = GTK_DIALOG  (go_gtk_builder_get_widget (gui, "stf_dialog"));
+	pagedata.notebook       = GTK_NOTEBOOK (go_gtk_builder_get_widget (gui, "stf_notebook"));
+	pagedata.next_button    = go_gtk_builder_get_widget (gui, "forward_button");
+	pagedata.back_button    = go_gtk_builder_get_widget (gui, "back_button");
+	pagedata.cancel_button    = go_gtk_builder_get_widget (gui, "cancel_button");
+	pagedata.help_button    = go_gtk_builder_get_widget (gui, "help_button");
+	pagedata.finish_button    = go_gtk_builder_get_widget (gui, "finish_button");
 	pagedata.parseoptions = NULL;
 
 	stf_dialog_main_page_init   (gui, &pagedata);

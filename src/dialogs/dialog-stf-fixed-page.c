@@ -574,9 +574,9 @@ stf_dialog_fixed_page_init (GtkBuilder *gui, StfDialogData *pagedata)
 	g_return_if_fail (pagedata != NULL);
 
         /* Create/get object and fill information struct */
-	pagedata->fixed.fixed_clear   = GTK_BUTTON      (gnm_xml_get_widget (gui, "fixed_clear"));
-	pagedata->fixed.fixed_auto    = GTK_BUTTON      (gnm_xml_get_widget (gui, "fixed_auto"));
-	pagedata->fixed.fixed_data_container =          (gnm_xml_get_widget (gui, "fixed_data_container"));
+	pagedata->fixed.fixed_clear   = GTK_BUTTON      (go_gtk_builder_get_widget (gui, "fixed_clear"));
+	pagedata->fixed.fixed_auto    = GTK_BUTTON      (go_gtk_builder_get_widget (gui, "fixed_auto"));
+	pagedata->fixed.fixed_data_container =          (go_gtk_builder_get_widget (gui, "fixed_data_container"));
 
 	/* Set properties */
 	renderdata = pagedata->fixed.renderdata =

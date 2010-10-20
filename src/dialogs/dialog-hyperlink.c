@@ -92,7 +92,7 @@ dhl_set_tip (HyperlinkState* state)
 	GtkWidget *w;
 
 	if (state->is_new) {
-			w = gnm_xml_get_widget (state->gui, "use-default-tip");
+			w = go_gtk_builder_get_widget (state->gui, "use-default-tip");
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 			return;
 	}
@@ -102,18 +102,18 @@ dhl_set_tip (HyperlinkState* state)
 		char *default_tip = dhl_get_default_tip (target);
 
 		if (strcmp (tip, default_tip) == 0) {
-			w = gnm_xml_get_widget (state->gui, "use-default-tip");
+			w = go_gtk_builder_get_widget (state->gui, "use-default-tip");
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 			g_free (default_tip);
 			return;
 		} else
 			g_free (default_tip);
 	} 
-	w = gnm_xml_get_widget (state->gui, "use-this-tip");
+	w = go_gtk_builder_get_widget (state->gui, "use-this-tip");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 
 	tb = gtk_text_view_get_buffer 
-		(GTK_TEXT_VIEW (gnm_xml_get_widget (state->gui, "tip-entry")));
+		(GTK_TEXT_VIEW (go_gtk_builder_get_widget (state->gui, "tip-entry")));
 
 	gtk_text_buffer_set_text (tb, (tip == NULL) ? "" : tip, -1);
 }
@@ -121,14 +121,14 @@ dhl_set_tip (HyperlinkState* state)
 static char *
 dhl_get_tip (HyperlinkState *state, char const *target)
 {
-	GtkWidget *w = gnm_xml_get_widget (state->gui, "use-default-tip");
+	GtkWidget *w = go_gtk_builder_get_widget (state->gui, "use-default-tip");
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)))
 		return dhl_get_default_tip (target);
 	else {
 		char *tip;
 		GtkTextBuffer *tb = gtk_text_view_get_buffer 
-			(GTK_TEXT_VIEW (gnm_xml_get_widget (state->gui, "tip-entry")));
+			(GTK_TEXT_VIEW (go_gtk_builder_get_widget (state->gui, "tip-entry")));
 		GtkTextIter start_iter, end_iter;
 
 		gtk_text_buffer_get_start_iter (tb, &start_iter);
@@ -192,7 +192,7 @@ dhl_get_target_cur_wb (HyperlinkState *state, gboolean *success)
 static void
 dhl_set_target_external (HyperlinkState *state, const char* const target)
 {
-	GtkWidget *w = gnm_xml_get_widget (state->gui, "external-link");
+	GtkWidget *w = go_gtk_builder_get_widget (state->gui, "external-link");
 
 	gtk_entry_set_text (GTK_ENTRY (w), target);
 }
@@ -200,7 +200,7 @@ dhl_set_target_external (HyperlinkState *state, const char* const target)
 static char *
 dhl_get_target_external (HyperlinkState *state, gboolean *success)
 {
-	GtkWidget *w = gnm_xml_get_widget (state->gui, "external-link");
+	GtkWidget *w = go_gtk_builder_get_widget (state->gui, "external-link");
 	const char *target = gtk_entry_get_text (GTK_ENTRY (w));
 
 	*success = TRUE;
@@ -210,8 +210,8 @@ dhl_get_target_external (HyperlinkState *state, gboolean *success)
 static void
 dhl_set_target_email (HyperlinkState *state, const char* const target)
 {
-	GtkWidget *w = gnm_xml_get_widget (state->gui, "email-address");
-	GtkWidget *w2 = gnm_xml_get_widget (state->gui, "email-subject");
+	GtkWidget *w = go_gtk_builder_get_widget (state->gui, "email-address");
+	GtkWidget *w2 = go_gtk_builder_get_widget (state->gui, "email-subject");
 	gchar* cursor;
 	gchar* subject;
 	gchar* guitext;
@@ -243,8 +243,8 @@ dhl_set_target_email (HyperlinkState *state, const char* const target)
 static char*
 dhl_get_target_email (HyperlinkState *state, gboolean *success)
 {
-	GtkWidget *w = gnm_xml_get_widget (state->gui, "email-address");
-	GtkWidget *w2 = gnm_xml_get_widget (state->gui, "email-subject");
+	GtkWidget *w = go_gtk_builder_get_widget (state->gui, "email-address");
+	GtkWidget *w2 = go_gtk_builder_get_widget (state->gui, "email-subject");
 	const char *address = gtk_entry_get_text (GTK_ENTRY (w));
 	const char *subject = gtk_entry_get_text (GTK_ENTRY (w2));
 	gchar* enc_subj, *enc_addr;
@@ -274,7 +274,7 @@ dhl_get_target_email (HyperlinkState *state, gboolean *success)
 static void
 dhl_set_target_url (HyperlinkState *state, const char* const target)
 {
-	GtkWidget *w = gnm_xml_get_widget (state->gui, "url");
+	GtkWidget *w = go_gtk_builder_get_widget (state->gui, "url");
 
 	gtk_entry_set_text (GTK_ENTRY (w), target);
 }
@@ -282,7 +282,7 @@ dhl_set_target_url (HyperlinkState *state, const char* const target)
 static char *
 dhl_get_target_url (HyperlinkState *state, gboolean *success)
 {
-	GtkWidget *w = gnm_xml_get_widget (state->gui, "url");
+	GtkWidget *w = go_gtk_builder_get_widget (state->gui, "url");
 	const char *target = gtk_entry_get_text (GTK_ENTRY (w));
 
 	*success = TRUE;
@@ -418,7 +418,7 @@ dhl_setup_type (HyperlinkState *state)
 	unsigned i;
 
 	for (i = 0 ; i < G_N_ELEMENTS (type); i++) {
-		w = gnm_xml_get_widget (state->gui, type[i].widget_name);
+		w = go_gtk_builder_get_widget (state->gui, type[i].widget_name);
 
 		if (!strcmp (name, type[i].name)) {
 			gtk_widget_show_all (w);
@@ -475,42 +475,42 @@ dhl_init (HyperlinkState *state)
 	GtkCellRenderer *renderer;
 
 #ifdef GNM_NO_MAILTO
-	gtk_widget_hide (gnm_xml_get_widget (state->gui, "email-box"));
+	gtk_widget_hide (go_gtk_builder_get_widget (state->gui, "email-box"));
 #endif
 	size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 	for (i = 0 ; i < G_N_ELEMENTS (label); i++)
 		gtk_size_group_add_widget (size_group,
-					   gnm_xml_get_widget (state->gui, label[i]));
+					   go_gtk_builder_get_widget (state->gui, label[i]));
 
-	w  = gnm_xml_get_widget (state->gui, "link-type-image");
+	w  = go_gtk_builder_get_widget (state->gui, "link-type-image");
 	state->type_image = GTK_IMAGE (w);
-	w  = gnm_xml_get_widget (state->gui, "link-type-descriptor");
+	w  = go_gtk_builder_get_widget (state->gui, "link-type-descriptor");
 	state->type_descriptor = GTK_LABEL (w);
 
-	w = gnm_xml_get_widget (state->gui, "internal-link-box");
+	w = go_gtk_builder_get_widget (state->gui, "internal-link-box");
 	expr_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gtk_box_pack_end (GTK_BOX (w), GTK_WIDGET (expr_entry), TRUE, TRUE, 0);
 	gtk_entry_set_activates_default
 		(gnm_expr_entry_get_entry (expr_entry), TRUE);
 	state->internal_link_ee = expr_entry;
 
-	w = gnm_xml_get_widget (state->gui, "cancel_button");
+	w = go_gtk_builder_get_widget (state->gui, "cancel_button");
 	g_signal_connect (G_OBJECT (w),
 			  "clicked",
 			  G_CALLBACK (dhl_cb_cancel), state);
 
-	w  = gnm_xml_get_widget (state->gui, "ok_button");
+	w  = go_gtk_builder_get_widget (state->gui, "ok_button");
 	g_signal_connect (G_OBJECT (w),
 			  "clicked",
 			  G_CALLBACK (dhl_cb_ok), state);
 	gtk_window_set_default (GTK_WINDOW (state->dialog), w);
 
 	gnumeric_init_help_button (
-		gnm_xml_get_widget (state->gui, "help_button"),
+		go_gtk_builder_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_HYPERLINK);
 
 	store = gtk_list_store_new (2, GDK_TYPE_PIXBUF, G_TYPE_STRING);
-	w  = gnm_xml_get_widget (state->gui, "link-type-menu");
+	w  = go_gtk_builder_get_widget (state->gui, "link-type-menu");
 	gtk_combo_box_set_model (GTK_COMBO_BOX (w), GTK_TREE_MODEL (store));
 
 	for (i = 0 ; i < G_N_ELEMENTS (type); i++) {
@@ -548,8 +548,8 @@ dhl_init (HyperlinkState *state)
 			  G_CALLBACK (dhl_cb_menu_changed),
 			  state);
 
-	gnm_link_button_and_entry (gnm_xml_get_widget (state->gui, "use-this-tip"),
-				   gnm_xml_get_widget (state->gui, "tip-entry"));
+	gnm_link_button_and_entry (go_gtk_builder_get_widget (state->gui, "use-this-tip"),
+				   go_gtk_builder_get_widget (state->gui, "tip-entry"));
 
 	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog),
 					   state->wbcg,
@@ -582,7 +582,7 @@ dialog_hyperlink (WBCGtk *wbcg, SheetControl *sc)
 	state->wb   = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sc   = sc;
 	state->gui  = gui;
-        state->dialog = gnm_xml_get_widget (state->gui, "hyperlink-dialog");
+        state->dialog = go_gtk_builder_get_widget (state->gui, "hyperlink-dialog");
 
 	sheet = sc_sheet (sc);
 	for (ptr = sc_view (sc)->selections; ptr != NULL; ptr = ptr->next)

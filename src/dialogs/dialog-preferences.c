@@ -1296,10 +1296,10 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 	state = g_new0 (PrefState, 1);
 	state->root = gnm_conf_get_root ();
 	state->gui = gui;
-	state->dialog = gnm_xml_get_widget (gui, "preferences");
-	state->notebook = (GtkNotebook*)gnm_xml_get_widget (gui, "notebook");
+	state->dialog = go_gtk_builder_get_widget (gui, "preferences");
+	state->notebook = (GtkNotebook*)go_gtk_builder_get_widget (gui, "notebook");
 
-	state->view = GTK_TREE_VIEW(gnm_xml_get_widget (gui, "itemlist"));
+	state->view = GTK_TREE_VIEW(go_gtk_builder_get_widget (gui, "itemlist"));
 	state->store = gtk_tree_store_new (NUM_COLUMNS,
 					   GDK_TYPE_PIXBUF,
 					   G_TYPE_STRING,
@@ -1323,12 +1323,12 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 			  "changed",
 			  G_CALLBACK (cb_dialog_pref_selection_changed), state);
 
-	g_signal_connect_swapped (G_OBJECT (gnm_xml_get_widget (gui, "close_button")),
+	g_signal_connect_swapped (G_OBJECT (go_gtk_builder_get_widget (gui, "close_button")),
 		"clicked",
 		G_CALLBACK (cb_close_clicked), state);
 
 	gnumeric_init_help_button (
-		gnm_xml_get_widget (state->gui, "help_button"),
+		go_gtk_builder_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_PREFERENCES);
 	g_signal_connect_swapped (G_OBJECT (state->dialog),
 				  "destroy",

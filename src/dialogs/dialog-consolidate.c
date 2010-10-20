@@ -409,7 +409,7 @@ setup_widgets (ConsolidateState *state, GtkBuilder *gui)
 	gtk_combo_box_set_active (state->function, 0);
 
 /* Begin: Source Areas View*/
-	state->source_view = GTK_TREE_VIEW (gnm_xml_get_widget
+	state->source_view = GTK_TREE_VIEW (go_gtk_builder_get_widget
 						(gui,
 						 "source_treeview"));
 	state->source_areas = GTK_TREE_MODEL(gtk_list_store_new
@@ -442,12 +442,12 @@ setup_widgets (ConsolidateState *state, GtkBuilder *gui)
 	gtk_tree_view_append_column (state->source_view, column);
 /* End: Source Areas View*/
 
-	state->clear       = GTK_BUTTON          (gnm_xml_get_widget (gui, "clear"));
-	state->delete      = GTK_BUTTON          (gnm_xml_get_widget (gui, "delete"));
+	state->clear       = GTK_BUTTON          (go_gtk_builder_get_widget (gui, "clear"));
+	state->delete      = GTK_BUTTON          (go_gtk_builder_get_widget (gui, "delete"));
 
-	state->labels_row  = GTK_CHECK_BUTTON (gnm_xml_get_widget (gui, "labels_row"));
-	state->labels_col  = GTK_CHECK_BUTTON (gnm_xml_get_widget (gui, "labels_col"));
-	state->labels_copy = GTK_CHECK_BUTTON (gnm_xml_get_widget (gui, "labels_copy"));
+	state->labels_row  = GTK_CHECK_BUTTON (go_gtk_builder_get_widget (gui, "labels_row"));
+	state->labels_col  = GTK_CHECK_BUTTON (go_gtk_builder_get_widget (gui, "labels_col"));
+	state->labels_copy = GTK_CHECK_BUTTON (go_gtk_builder_get_widget (gui, "labels_copy"));
 
 	cb_selection_changed (NULL, state);
 	g_signal_connect (selection,

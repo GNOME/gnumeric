@@ -151,14 +151,14 @@ normality_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 	data->base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
 
-	w = gnm_xml_get_widget (state->base.gui, "labels_button");
+	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
         data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 	data->alpha = gtk_spin_button_get_value
 		(GTK_SPIN_BUTTON (state->alpha_entry));
 
 	data->type = gnm_gui_group_value (state->base.gui, test_group);
 
-	w = gnm_xml_get_widget (state->base.gui, "normalprobabilityplot");
+	w = go_gtk_builder_get_widget (state->base.gui, "normalprobabilityplot");
 	data->graph = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,

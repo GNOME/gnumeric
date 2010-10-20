@@ -164,7 +164,7 @@ frequency_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->predetermined = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->predetermined_button));
 	if (data->predetermined) {
-		w = gnm_xml_get_widget (state->base.gui, "labels_2_button");
+		w = go_gtk_builder_get_widget (state->base.gui, "labels_2_button");
 		data->bin = gnm_expr_entry_parse_as_value
 			(GNM_EXPR_ENTRY (state->base.input_entry_2),
 			 state->base.sheet);
@@ -175,11 +175,11 @@ frequency_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	data->chart = gnm_gui_group_value (state->base.gui, chart_group);
 
-	w = gnm_xml_get_widget (state->base.gui, "labels_button");
+	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
 	data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
-	w = gnm_xml_get_widget (state->base.gui, "percentage-button");
+	w = go_gtk_builder_get_widget (state->base.gui, "percentage-button");
 	data->percentage = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
-	w = gnm_xml_get_widget (state->base.gui, "exact-button");
+	w = go_gtk_builder_get_widget (state->base.gui, "exact-button");
 	data->exact = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,

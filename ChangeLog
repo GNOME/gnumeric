@@ -1,3 +1,10 @@
+2010-10-20  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-util.c (gnm_xml_get_widget): Elminate.  Change all
+	callers to go_gtk_builder_get_widget.  ("The light that burns
+	twice as bright burns for half as long - and you have burned so
+	very, very brightly, Roy.")
+
 2010-10-19  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-util.c (gnumeric_keyed_dialog): When dialog is

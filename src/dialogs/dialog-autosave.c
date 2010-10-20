@@ -137,12 +137,12 @@ dialog_autosave (WBCGtk *wbcg)
 	state->wbcg = wbcg;
 	state->wb   = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 
-	state->dialog = gnm_xml_get_widget (gui, "AutoSave");
-	state->minutes_entry = gnm_xml_get_widget (gui, "minutes");
-	state->prompt_cb = gnm_xml_get_widget (gui, "prompt_on_off");
-	state->autosave_on_off = gnm_xml_get_widget (gui, "autosave_on_off");
-	state->ok_button = gnm_xml_get_widget (gui, "button1");
-	state->cancel_button = gnm_xml_get_widget (gui, "button2");
+	state->dialog = go_gtk_builder_get_widget (gui, "AutoSave");
+	state->minutes_entry = go_gtk_builder_get_widget (gui, "minutes");
+	state->prompt_cb = go_gtk_builder_get_widget (gui, "prompt_on_off");
+	state->autosave_on_off = go_gtk_builder_get_widget (gui, "autosave_on_off");
+	state->ok_button = go_gtk_builder_get_widget (gui, "button1");
+	state->cancel_button = go_gtk_builder_get_widget (gui, "button2");
 
 	if (!state->dialog || !state->minutes_entry || !state->prompt_cb ||
 	    !state->autosave_on_off) {
@@ -174,7 +174,7 @@ dialog_autosave (WBCGtk *wbcg)
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)g_free);
 	gnumeric_init_help_button (
-		gnm_xml_get_widget (gui, "button3"),
+		go_gtk_builder_get_widget (gui, "button3"),
 		GNUMERIC_HELP_LINK_AUTOSAVE);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->autosave_on_off),

@@ -315,7 +315,7 @@ setup_pattern_button (GdkScreen *screen,
 		      int const select_index,
 		      unsigned size)
 {
-	GtkWidget *tmp = gnm_xml_get_widget (gui, name);
+	GtkWidget *tmp = go_gtk_builder_get_widget (gui, name);
 	if (tmp != NULL) {
 		GtkButton *button = GTK_BUTTON (tmp);
 		if (flag) {
@@ -411,11 +411,11 @@ setup_color_pickers (FormatState *state,
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
 	gtk_container_add (GTK_CONTAINER (frame), combo);
 
-	w = gnm_xml_get_widget (state->gui, container);
+	w = go_gtk_builder_get_widget (state->gui, container);
 	gtk_box_pack_start (GTK_BOX (w), frame, FALSE, FALSE, 0);
 	gtk_widget_show_all (frame);
 
-	w = gnm_xml_get_widget (state->gui, label);
+	w = go_gtk_builder_get_widget (state->gui, label);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (w), combo);
 
 	if (def_sc)
@@ -434,7 +434,7 @@ setup_color_pickers (FormatState *state,
 static GtkWidget *
 init_button_image (GtkBuilder *gui, char const *name)
 {
-	GtkWidget *tmp = gnm_xml_get_widget (gui, name);
+	GtkWidget *tmp = go_gtk_builder_get_widget (gui, name);
 	if (tmp != NULL) {
 		GdkScreen *screen = gtk_widget_get_screen (tmp);
 		GdkPixbuf *pixbuf = gtk_icon_theme_load_icon (
@@ -570,7 +570,7 @@ fmt_dialog_init_align_radio (char const *const name,
 			     FormatState *state,
 			     GCallback handler)
 {
-	GtkWidget *tmp = gnm_xml_get_widget (state->gui, name);
+	GtkWidget *tmp = go_gtk_builder_get_widget (state->gui, name);
 	if (tmp != NULL) {
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tmp),
 					      val == target);
@@ -648,7 +648,7 @@ fmt_dialog_init_align_page (FormatState *state)
 	if (0 == (state->conflicts & (1 << MSTYLE_WRAP_TEXT)))
 		wrap = gnm_style_get_wrap_text (state->style);
 
-	w = gnm_xml_get_widget (state->gui, "align_wrap");
+	w = go_gtk_builder_get_widget (state->gui, "align_wrap");
 	state->align.wrap = GTK_CHECK_BUTTON (w);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), wrap);
 	g_signal_connect (G_OBJECT (w),
@@ -662,8 +662,8 @@ fmt_dialog_init_align_page (FormatState *state)
 		state->align.indent = gnm_style_get_indent (state->style);
 
 	state->align.indent_label =
-		gnm_xml_get_widget (state->gui, "halign_indent_label");
-	w = gnm_xml_get_widget (state->gui, "halign_indent");
+		go_gtk_builder_get_widget (state->gui, "halign_indent_label");
+	w = go_gtk_builder_get_widget (state->gui, "halign_indent");
 	state->align.indent_button = GTK_SPIN_BUTTON (w);
 	gtk_spin_button_set_value (state->align.indent_button, state->align.indent);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->align.indent_button),
@@ -689,7 +689,7 @@ fmt_dialog_init_align_page (FormatState *state)
 	} else
 		r = 0;
 	state->align.rotation = (GORotationSel *) go_rotation_sel_new ();
-	gtk_box_pack_start (GTK_BOX (gnm_xml_get_widget (state->gui, "alignment_box")),
+	gtk_box_pack_start (GTK_BOX (go_gtk_builder_get_widget (state->gui, "alignment_box")),
 	                    GTK_WIDGET (state->align.rotation), TRUE, TRUE, 0);
 	go_rotation_sel_set_rotation (state->align.rotation, r);
 	g_signal_connect (G_OBJECT (state->align.rotation), "rotation-changed",
@@ -811,10 +811,10 @@ fmt_dialog_init_font_page (FormatState *state)
 {
 	GtkWidget *tmp = font_selector_new ();
 	FontSelector *font_widget = FONT_SELECTOR (tmp);
-	GtkWidget *container = gnm_xml_get_widget (state->gui, "font_box");
+	GtkWidget *container = go_gtk_builder_get_widget (state->gui, "font_box");
 	GtkWidget *uline = go_combo_text_new_default ();
 	char const *uline_str;
-	GtkWidget *strike = gnm_xml_get_widget (state->gui, "strikethrough_button");
+	GtkWidget *strike = go_gtk_builder_get_widget (state->gui, "strikethrough_button");
 	gboolean   strikethrough = FALSE;
 	GOFontScript script = GO_FONT_SCRIPT_STANDARD;
 	int i;
@@ -861,10 +861,10 @@ fmt_dialog_init_font_page (FormatState *state)
 		"entry_changed",
 		G_CALLBACK (cb_font_underline_changed), state);
 	gtk_widget_show_all (uline);
-	gtk_box_pack_start (GTK_BOX (gnm_xml_get_widget (state->gui, "underline-box")),
+	gtk_box_pack_start (GTK_BOX (go_gtk_builder_get_widget (state->gui, "underline-box")),
 	                    uline, TRUE, TRUE, 0);
 
-	tmp = gnm_xml_get_widget (state->gui, "underline_label");
+	tmp = go_gtk_builder_get_widget (state->gui, "underline_label");
 	gtk_label_set_mnemonic_widget (GTK_LABEL (tmp), uline);
 
 	if (0 == (state->conflicts & (1 << MSTYLE_FONT_STRIKETHROUGH)))
@@ -878,14 +878,14 @@ fmt_dialog_init_font_page (FormatState *state)
 	if (0 == (state->conflicts & (1 << MSTYLE_FONT_SCRIPT)))
 		script = gnm_style_get_font_script (state->style);
 	font_selector_set_script (state->font.selector, script);
-	if (NULL != (tmp = gnm_xml_get_widget (state->gui, "superscript_button"))) {
+	if (NULL != (tmp = go_gtk_builder_get_widget (state->gui, "superscript_button"))) {
 		state->font.superscript = GTK_TOGGLE_BUTTON (tmp);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tmp),
 			script == GO_FONT_SCRIPT_SUPER);
 		g_signal_connect (G_OBJECT (tmp), "toggled",
 			G_CALLBACK (cb_font_script_toggle), state);
 	}
-	if (NULL != (tmp =  gnm_xml_get_widget (state->gui, "subscript_button"))) {
+	if (NULL != (tmp =  go_gtk_builder_get_widget (state->gui, "subscript_button"))) {
 		state->font.subscript = GTK_TOGGLE_BUTTON (tmp);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tmp),
 			script == GO_FONT_SCRIPT_SUB);
@@ -980,7 +980,7 @@ fmt_dialog_init_background_page (FormatState *state)
 	state->back.canvas = GOC_CANVAS (widget);
 	gtk_widget_set_size_request (widget, w, h);
 
-	widget = gnm_xml_get_widget (state->gui, "back_sample_frame");
+	widget = go_gtk_builder_get_widget (state->gui, "back_sample_frame");
 	gtk_container_add (GTK_CONTAINER (widget),
 		GTK_WIDGET (state->back.canvas));
 	gtk_widget_show_all (widget);
@@ -1265,7 +1265,7 @@ draw_border_preview (FormatState *state)
 		gtk_widget_show (GTK_WIDGET (state->border.canvas));
 		gtk_widget_set_size_request (GTK_WIDGET (state->border.canvas),
 					     150, 100);
-		gtk_container_add (GTK_CONTAINER (gnm_xml_get_widget (state->gui, "border_sample_container")),
+		gtk_container_add (GTK_CONTAINER (go_gtk_builder_get_widget (state->gui, "border_sample_container")),
 				   GTK_WIDGET (state->border.canvas));
 		group = GOC_GROUP (goc_canvas_get_root (state->border.canvas));
 
@@ -1517,7 +1517,7 @@ fmt_dialog_init_protection_page (FormatState *state)
 
 	flag = (state->conflicts & (1 << MSTYLE_CONTENTS_LOCKED))
 		? FALSE : gnm_style_get_contents_locked (state->style);
-	w = gnm_xml_get_widget (state->gui, "protection_locked");
+	w = go_gtk_builder_get_widget (state->gui, "protection_locked");
 	state->protection.locked = GTK_CHECK_BUTTON (w);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), flag);
 	g_signal_connect (G_OBJECT (w),
@@ -1526,7 +1526,7 @@ fmt_dialog_init_protection_page (FormatState *state)
 
 	flag = (state->conflicts & (1 << MSTYLE_CONTENTS_HIDDEN))
 		? FALSE : gnm_style_get_contents_hidden (state->style);
-	w = gnm_xml_get_widget (state->gui, "protection_hidden");
+	w = go_gtk_builder_get_widget (state->gui, "protection_hidden");
 	state->protection.hidden = GTK_CHECK_BUTTON (w);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), flag);
 	g_signal_connect (G_OBJECT (w),
@@ -1535,7 +1535,7 @@ fmt_dialog_init_protection_page (FormatState *state)
 
 	state->protection.sheet_protected_changed = FALSE;
 	flag = state->sheet->is_protected;
-	w = gnm_xml_get_widget (state->gui, "protection_sheet_protected");
+	w = go_gtk_builder_get_widget (state->gui, "protection_sheet_protected");
 	state->protection.sheet_protected = GTK_CHECK_BUTTON (w);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), flag);
 	g_signal_connect (G_OBJECT (w),
@@ -1735,7 +1735,7 @@ static void
 fmt_dialog_init_validation_expr_entry (FormatState *state, ExprEntry *entry,
 				       char const *name, int i)
 {
-	entry->name  = GTK_LABEL (gnm_xml_get_widget (state->gui, name));
+	entry->name  = GTK_LABEL (go_gtk_builder_get_widget (state->gui, name));
 	entry->entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gtk_table_attach (state->validation.criteria_table,
 		GTK_WIDGET (entry->entry),
@@ -1824,23 +1824,23 @@ fmt_dialog_init_validation_page (FormatState *state)
 	/* Setup widgets */
 	state->validation.changed	  = FALSE;
 	state->validation.valid		  = 1;
-	state->validation.criteria_table  = GTK_TABLE          (gnm_xml_get_widget (state->gui, "validation_criteria_table"));
-	state->validation.constraint_type = GTK_COMBO_BOX    (gnm_xml_get_widget (state->gui, "validation_constraint_type"));
+	state->validation.criteria_table  = GTK_TABLE          (go_gtk_builder_get_widget (state->gui, "validation_criteria_table"));
+	state->validation.constraint_type = GTK_COMBO_BOX    (go_gtk_builder_get_widget (state->gui, "validation_constraint_type"));
 	gtk_combo_box_set_active (state->validation.constraint_type, 0);
-	state->validation.operator_label  = GTK_LABEL          (gnm_xml_get_widget (state->gui, "validation_operator_label"));
-	state->validation.op		     = GTK_COMBO_BOX    (gnm_xml_get_widget (state->gui, "validation_operator"));
+	state->validation.operator_label  = GTK_LABEL          (go_gtk_builder_get_widget (state->gui, "validation_operator_label"));
+	state->validation.op		     = GTK_COMBO_BOX    (go_gtk_builder_get_widget (state->gui, "validation_operator"));
 	gtk_combo_box_set_active (state->validation.op, 0);
-	state->validation.allow_blank	     = GTK_TOGGLE_BUTTON(gnm_xml_get_widget (state->gui, "validation_ignore_blank"));
-	state->validation.use_dropdown       = GTK_TOGGLE_BUTTON(gnm_xml_get_widget (state->gui, "validation_in_dropdown"));
-	state->validation.error.action_label = GTK_LABEL       (gnm_xml_get_widget (state->gui, "validation_error_action_label"));
-	state->validation.error.title_label  = GTK_LABEL       (gnm_xml_get_widget (state->gui, "validation_error_title_label"));
-	state->validation.error.msg_label    = GTK_LABEL       (gnm_xml_get_widget (state->gui, "validation_error_msg_label"));
-	state->validation.error.action       = GTK_COMBO_BOX (gnm_xml_get_widget (state->gui, "validation_error_action"));
+	state->validation.allow_blank	     = GTK_TOGGLE_BUTTON(go_gtk_builder_get_widget (state->gui, "validation_ignore_blank"));
+	state->validation.use_dropdown       = GTK_TOGGLE_BUTTON(go_gtk_builder_get_widget (state->gui, "validation_in_dropdown"));
+	state->validation.error.action_label = GTK_LABEL       (go_gtk_builder_get_widget (state->gui, "validation_error_action_label"));
+	state->validation.error.title_label  = GTK_LABEL       (go_gtk_builder_get_widget (state->gui, "validation_error_title_label"));
+	state->validation.error.msg_label    = GTK_LABEL       (go_gtk_builder_get_widget (state->gui, "validation_error_msg_label"));
+	state->validation.error.action       = GTK_COMBO_BOX (go_gtk_builder_get_widget (state->gui, "validation_error_action"));
 	build_validation_error_combo (state->validation.error.action);
 	gtk_combo_box_set_active (state->validation.error.action, 0);
-	state->validation.error.title        = GTK_ENTRY       (gnm_xml_get_widget (state->gui, "validation_error_title"));
-	state->validation.error.msg          = GTK_TEXT_VIEW   (gnm_xml_get_widget (state->gui, "validation_error_msg"));
-	state->validation.error.image        = GTK_IMAGE       (gnm_xml_get_widget (state->gui, "validation_error_image"));
+	state->validation.error.title        = GTK_ENTRY       (go_gtk_builder_get_widget (state->gui, "validation_error_title"));
+	state->validation.error.msg          = GTK_TEXT_VIEW   (go_gtk_builder_get_widget (state->gui, "validation_error_msg"));
+	state->validation.error.image        = GTK_IMAGE       (go_gtk_builder_get_widget (state->gui, "validation_error_image"));
 
 	gnumeric_editable_enters (
 		GTK_WINDOW (state->dialog),
@@ -1931,11 +1931,11 @@ fmt_dialog_init_input_msg_page (FormatState *state)
 #endif
 
 	/* Setup widgets */
-	state->input_msg.flag        = GTK_TOGGLE_BUTTON (gnm_xml_get_widget (state->gui, "input_msg_flag"));
-	state->input_msg.title_label = GTK_LABEL         (gnm_xml_get_widget (state->gui, "input_msg_title_label"));
-	state->input_msg.msg_label   = GTK_LABEL         (gnm_xml_get_widget (state->gui, "input_msg_msg_label"));
-	state->input_msg.title       = GTK_ENTRY         (gnm_xml_get_widget (state->gui, "input_msg_title"));
-	state->input_msg.msg         = GTK_TEXT_VIEW     (gnm_xml_get_widget (state->gui, "input_msg_msg"));
+	state->input_msg.flag        = GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui, "input_msg_flag"));
+	state->input_msg.title_label = GTK_LABEL         (go_gtk_builder_get_widget (state->gui, "input_msg_title_label"));
+	state->input_msg.msg_label   = GTK_LABEL         (go_gtk_builder_get_widget (state->gui, "input_msg_msg_label"));
+	state->input_msg.title       = GTK_ENTRY         (go_gtk_builder_get_widget (state->gui, "input_msg_title"));
+	state->input_msg.msg         = GTK_TEXT_VIEW     (go_gtk_builder_get_widget (state->gui, "input_msg_msg"));
 
 	gnumeric_editable_enters (
 		GTK_WINDOW (state->dialog),
@@ -2189,26 +2189,26 @@ fmt_dialog_init_conditions_page (FormatState *state)
 
 	g_return_if_fail (state != NULL);
 
-	state->conditions.add = GTK_BUTTON (gnm_xml_get_widget (state->gui,
+	state->conditions.add = GTK_BUTTON (go_gtk_builder_get_widget (state->gui,
 								     "conditions_add"));
 	gtk_widget_set_sensitive (GTK_WIDGET (state->conditions.add), FALSE);
-	state->conditions.remove = GTK_BUTTON (gnm_xml_get_widget (state->gui,
+	state->conditions.remove = GTK_BUTTON (go_gtk_builder_get_widget (state->gui,
 								     "conditions_remove"));
 	gtk_widget_set_sensitive (GTK_WIDGET (state->conditions.remove), FALSE);
-	state->conditions.clear = GTK_BUTTON (gnm_xml_get_widget (state->gui,
+	state->conditions.clear = GTK_BUTTON (go_gtk_builder_get_widget (state->gui,
 								     "conditions_clear"));
 	gtk_widget_set_sensitive (GTK_WIDGET (state->conditions.clear), FALSE);
-	state->conditions.expand = GTK_BUTTON (gnm_xml_get_widget (state->gui,
+	state->conditions.expand = GTK_BUTTON (go_gtk_builder_get_widget (state->gui,
 								     "conditions_expand"));
 	gtk_widget_set_sensitive (GTK_WIDGET (state->conditions.expand), FALSE);
-	state->conditions.edit = GTK_BUTTON (gnm_xml_get_widget (state->gui,
+	state->conditions.edit = GTK_BUTTON (go_gtk_builder_get_widget (state->gui,
 								     "conditions_edit"));
 	gtk_widget_set_sensitive (GTK_WIDGET (state->conditions.edit), FALSE);
 
 	state->conditions.model = gtk_tree_store_new (CONDITIONS_NUM_COLUMNS,
 						      G_TYPE_STRING,
 						      G_TYPE_STRING);
-	treeview = GTK_TREE_VIEW (gnm_xml_get_widget (state->gui, "conditions_treeview"));
+	treeview = GTK_TREE_VIEW (go_gtk_builder_get_widget (state->gui, "conditions_treeview"));
 	gtk_tree_view_set_fixed_height_mode (treeview, FALSE);
 	gtk_tree_view_set_model (treeview, GTK_TREE_MODEL (state->conditions.model));
 	renderer = gtk_cell_renderer_text_new ();
@@ -2221,7 +2221,7 @@ fmt_dialog_init_conditions_page (FormatState *state)
 	gtk_tree_view_insert_column (treeview, column, -1);
 	gtk_tree_view_set_expander_column (treeview, column);
 
-	state->conditions.label = GTK_LABEL (gnm_xml_get_widget (state->gui,
+	state->conditions.label = GTK_LABEL (go_gtk_builder_get_widget (state->gui,
 								   "conditions_label"));
 	if (state->conflicts & (1 << MSTYLE_CONDITIONS)) {
 		gtk_label_set_markup (state->conditions.label,
@@ -2363,13 +2363,13 @@ set_initial_focus (FormatState *s)
 		go_format_sel_set_focus (GO_FORMAT_SEL (s->format_sel));
 		return;
 	} else if (strcmp (name, "alignment_box") == 0)
-	      focus_widget = gnm_xml_get_widget (s->gui, "halign_left");
+	      focus_widget = go_gtk_builder_get_widget (s->gui, "halign_left");
 	else if (strcmp (name, "font_box") == 0)
 	      focus_widget = GTK_WIDGET (s->font.selector);
 	else if (strcmp (name, "border_box") == 0)
-	      focus_widget = gnm_xml_get_widget (s->gui, "outline_border");
+	      focus_widget = go_gtk_builder_get_widget (s->gui, "outline_border");
 	else if (strcmp (name, "background_box") == 0)
-	      focus_widget = gnm_xml_get_widget (s->gui, "back_color_auto");
+	      focus_widget = go_gtk_builder_get_widget (s->gui, "back_color_auto");
 	else if (strcmp (name, "protection_box") == 0)
 	      focus_widget = GTK_WIDGET (s->protection.locked);
 	else
@@ -2469,14 +2469,14 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	GOColor default_border_color;
 	int default_border_style = GNM_STYLE_BORDER_THIN;
 
-	GtkWidget *tmp, *dialog = gnm_xml_get_widget (state->gui, "CellFormat");
+	GtkWidget *tmp, *dialog = go_gtk_builder_get_widget (state->gui, "CellFormat");
 	g_return_if_fail (dialog != NULL);
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Format Cells"));
 
 	/* Initialize */
 	state->dialog	   = GTK_DIALOG (dialog);
-	state->notebook	   = GTK_NOTEBOOK (gnm_xml_get_widget (state->gui, "notebook"));
+	state->notebook	   = GTK_NOTEBOOK (go_gtk_builder_get_widget (state->gui, "notebook"));
 
 	state->enable_edit = FALSE;  /* Enable below */
 
@@ -2607,19 +2607,19 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	draw_border_preview (state);
 
 	gnumeric_init_help_button (
-		gnm_xml_get_widget (state->gui, "helpbutton"),
+		go_gtk_builder_get_widget (state->gui, "helpbutton"),
 		GNUMERIC_HELP_LINK_CELL_FORMAT);
 
-	state->ok_button = gnm_xml_get_widget (state->gui, "okbutton");
+	state->ok_button = go_gtk_builder_get_widget (state->gui, "okbutton");
 	g_signal_connect (G_OBJECT (state->ok_button),
 		"clicked",
 		G_CALLBACK (cb_fmt_dialog_dialog_buttons), state);
-	state->apply_button = gnm_xml_get_widget (state->gui, "applybutton");
+	state->apply_button = go_gtk_builder_get_widget (state->gui, "applybutton");
 	gtk_widget_set_sensitive (state->apply_button, FALSE);
 	g_signal_connect (G_OBJECT (state->apply_button),
 		"clicked",
 		G_CALLBACK (cb_fmt_dialog_dialog_buttons), state);
-	tmp = gnm_xml_get_widget (state->gui, "cancelbutton");
+	tmp = go_gtk_builder_get_widget (state->gui, "cancelbutton");
 	g_signal_connect (G_OBJECT (tmp),
 		"clicked",
 		G_CALLBACK (cb_fmt_dialog_dialog_buttons), state);

@@ -537,7 +537,7 @@ cb_name_guru_clicked (GtkWidget *button, NameGuruState *state)
 static GtkWidget *
 name_guru_init_button (NameGuruState *state, char const *name)
 {
-	GtkWidget *tmp = gnm_xml_get_widget (state->gui, name);
+	GtkWidget *tmp = go_gtk_builder_get_widget (state->gui, name);
 
 	g_return_val_if_fail (tmp != NULL, NULL);
 
@@ -1076,7 +1076,7 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 	state->sheet = sv_sheet (state->sv);
 	parse_pos_init_editpos (&state->pp, state->sv);
 
-	state->dialog = gnm_xml_get_widget (state->gui, "NameGuru");
+	state->dialog = go_gtk_builder_get_widget (state->gui, "NameGuru");
 
 	state->model	 = gtk_tree_store_new 
 		(NUM_COLMNS, 
@@ -1086,7 +1086,7 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 		 G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN,
 		 GDK_TYPE_PIXBUF, G_TYPE_BOOLEAN);
 
-	state->treeview  = gnm_xml_get_widget (state->gui, "name_list");
+	state->treeview  = go_gtk_builder_get_widget (state->gui, "name_list");
 
 	state->model_f = gtk_tree_model_filter_new 
 		(GTK_TREE_MODEL (state->model), NULL);
@@ -1221,7 +1221,7 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 			 "Gnumeric-Define-Names-Dialog");
 	}
 
-	state->search_entry = gnm_xml_get_widget (state->gui,
+	state->search_entry = go_gtk_builder_get_widget (state->gui,
 						    "search_entry");
 #ifdef HAVE_GTK_ENTRY_SET_ICON_FROM_STOCK
 
@@ -1253,7 +1253,7 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 	name_guru_update_sensitivity (selection, state);
 
 	gnumeric_init_help_button (
-		gnm_xml_get_widget (state->gui, "help_button"),
+		go_gtk_builder_get_widget (state->gui, "help_button"),
 		is_paste_dialog ? GNUMERIC_HELP_LINK_PASTE_NAMES
 		: GNUMERIC_HELP_LINK_DEFINE_NAMES);
 

@@ -126,7 +126,7 @@ stf_export_dialog_format_page_init (TextExportState *state)
 		char *eol;
 		int i;
 
-		state->format.termination = GTK_COMBO_BOX (gnm_xml_get_widget (state->gui, "format_termination"));
+		state->format.termination = GTK_COMBO_BOX (go_gtk_builder_get_widget (state->gui, "format_termination"));
 		g_object_get (sobj, "eol", &eol, NULL);
 		if (strcmp (eol, "\r") == 0)
 			i = 1;
@@ -143,8 +143,8 @@ stf_export_dialog_format_page_init (TextExportState *state)
 		unsigned ui;
 		gint pos = 0;
 
-		state->format.separator = GTK_COMBO_BOX (gnm_xml_get_widget (state->gui, "format_separator"));
-		state->format.custom = gnm_xml_get_widget (state->gui, "format_custom");
+		state->format.separator = GTK_COMBO_BOX (go_gtk_builder_get_widget (state->gui, "format_separator"));
+		state->format.custom = go_gtk_builder_get_widget (state->gui, "format_custom");
 		g_object_get (sobj, "separator", &s, NULL);
 		for (ui = 0; ui < G_N_ELEMENTS (format_seps) - 1; ui++)
 			if (strcmp (s, format_seps[ui]) == 0)
@@ -166,7 +166,7 @@ stf_export_dialog_format_page_init (TextExportState *state)
 		GsfOutputCsvQuotingMode	quotingmode;
 		int i;
 
-		state->format.quote = GTK_COMBO_BOX (gnm_xml_get_widget (state->gui, "format_quote"));
+		state->format.quote = GTK_COMBO_BOX (go_gtk_builder_get_widget (state->gui, "format_quote"));
 		g_object_get (sobj, "quoting-mode", &quotingmode, NULL);
 		switch (quotingmode) {
 		default:
@@ -181,7 +181,7 @@ stf_export_dialog_format_page_init (TextExportState *state)
 		char *s;
 		gint pos;
 
-		state->format.quotechar = GTK_COMBO_BOX_ENTRY (gnm_xml_get_widget (state->gui, "format_quotechar"));
+		state->format.quotechar = GTK_COMBO_BOX_ENTRY (go_gtk_builder_get_widget (state->gui, "format_quotechar"));
 		g_object_get (sobj, "quote", &s, NULL);
 
 #ifdef HAVE_GTK_ENTRY_GET_BUFFER
@@ -198,7 +198,7 @@ stf_export_dialog_format_page_init (TextExportState *state)
 		GnmStfFormatMode format;
 		int i;
 
-		state->format.format = GTK_COMBO_BOX (gnm_xml_get_widget (state->gui, "format"));
+		state->format.format = GTK_COMBO_BOX (go_gtk_builder_get_widget (state->gui, "format"));
 		g_object_get (sobj, "format", &format, NULL);
 		switch (format) {
 		default:
@@ -235,7 +235,7 @@ stf_export_dialog_format_page_init (TextExportState *state)
 		GnmStfTransliterateMode mode;
 		int i;
 
-		state->format.transliterate = GTK_COMBO_BOX (gnm_xml_get_widget (state->gui, "format_transliterate"));
+		state->format.transliterate = GTK_COMBO_BOX (go_gtk_builder_get_widget (state->gui, "format_transliterate"));
 		g_object_get (sobj, "transliterate-mode", &mode, NULL);
 		if (!gnm_stf_export_can_transliterate ()) {
 			if (mode == GNM_STF_TRANSLITERATE_MODE_TRANS)
@@ -261,7 +261,7 @@ stf_export_dialog_format_page_init (TextExportState *state)
 	gnumeric_editable_enters (state->window,
 			gtk_bin_get_child (GTK_BIN (state->format.quotechar)));
 
-	table = gnm_xml_get_widget (state->gui, "format_table");
+	table = go_gtk_builder_get_widget (state->gui, "format_table");
 	gtk_table_attach_defaults (GTK_TABLE (table), state->format.charset,
 				   1, 2, 5, 6);
 	gtk_table_attach_defaults (GTK_TABLE (table), state->format.locale,
@@ -368,7 +368,7 @@ stf_export_dialog_finish (TextExportState *state)
 		      NULL);
 
 	if (gtk_toggle_button_get_active 
-	    (GTK_TOGGLE_BUTTON (gnm_xml_get_widget (state->gui, 
+	    (GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui, 
 						      "save-as-default-check")))) {
 		gnm_conf_set_stf_export_separator (separator);
 		gnm_conf_set_stf_export_stringindicator (quote);
@@ -570,12 +570,12 @@ stf_export_dialog_sheet_page_init (TextExportState *state)
 	GtkCellRenderer *renderer;
 	GSList *sheet_list;
 
-	state->sheets.select_all  = gnm_xml_get_widget (state->gui, "sheet_select_all");
-	state->sheets.select_none = gnm_xml_get_widget (state->gui, "sheet_select_none");
-	state->sheets.up	  = gnm_xml_get_widget (state->gui, "sheet_up");
-	state->sheets.down	  = gnm_xml_get_widget (state->gui, "sheet_down");
-	state->sheets.top	  = gnm_xml_get_widget (state->gui, "sheet_top");
-	state->sheets.bottom	  = gnm_xml_get_widget (state->gui, "sheet_bottom");
+	state->sheets.select_all  = go_gtk_builder_get_widget (state->gui, "sheet_select_all");
+	state->sheets.select_none = go_gtk_builder_get_widget (state->gui, "sheet_select_none");
+	state->sheets.up	  = go_gtk_builder_get_widget (state->gui, "sheet_up");
+	state->sheets.down	  = go_gtk_builder_get_widget (state->gui, "sheet_down");
+	state->sheets.top	  = go_gtk_builder_get_widget (state->gui, "sheet_top");
+	state->sheets.bottom	  = go_gtk_builder_get_widget (state->gui, "sheet_bottom");
 	gtk_button_set_alignment (GTK_BUTTON (state->sheets.up), 0., .5);
 	gtk_button_set_alignment (GTK_BUTTON (state->sheets.down), 0., .5);
 	gtk_button_set_alignment (GTK_BUTTON (state->sheets.top), 0., .5);
@@ -584,7 +584,7 @@ stf_export_dialog_sheet_page_init (TextExportState *state)
 	state->sheets.model	  = gtk_list_store_new (STF_EXPORT_COL_MAX,
 		G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_OBJECT, G_TYPE_BOOLEAN);
 	state->sheets.view	  = GTK_TREE_VIEW (
-		gnm_xml_get_widget (state->gui, "sheet_list"));
+		go_gtk_builder_get_widget (state->gui, "sheet_list"));
 	gtk_tree_view_set_model (state->sheets.view, GTK_TREE_MODEL (state->sheets.model));
 
 	renderer = gtk_cell_renderer_toggle_new ();
@@ -724,11 +724,11 @@ stf_export_dialog (WBCGtk *wbcg, GnmStfExport *stfe, Workbook *wb)
 
 	state.wb	  = wb;
 	state.wbcg	  = wbcg;
-	state.window	  = GTK_WINDOW (gnm_xml_get_widget (state.gui, "text-export"));
-	state.notebook	  = gnm_xml_get_widget (state.gui, "text-export-notebook");
-	state.back_button = gnm_xml_get_widget (state.gui, "button-back");
-	state.next_button = gnm_xml_get_widget (state.gui, "button-next");
-	state.finish_button = gnm_xml_get_widget (state.gui, "button-finish");
+	state.window	  = GTK_WINDOW (go_gtk_builder_get_widget (state.gui, "text-export"));
+	state.notebook	  = go_gtk_builder_get_widget (state.gui, "text-export-notebook");
+	state.back_button = go_gtk_builder_get_widget (state.gui, "button-back");
+	state.next_button = go_gtk_builder_get_widget (state.gui, "button-next");
+	state.finish_button = go_gtk_builder_get_widget (state.gui, "button-finish");
 	state.cancelled = TRUE;
 	state.stfe	  = stfe;
 	stf_export_dialog_sheet_page_init (&state);

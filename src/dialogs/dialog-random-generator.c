@@ -718,16 +718,16 @@ dialog_random_tool_init (RandomToolState *state)
 
 	state->distribution = UniformDistribution;
 
-	state->distribution_table = gnm_xml_get_widget (state->base.gui,
+	state->distribution_table = go_gtk_builder_get_widget (state->base.gui,
 							  "distribution_table");
-	state->distribution_combo = gnm_xml_get_widget (state->base.gui,
+	state->distribution_combo = go_gtk_builder_get_widget (state->base.gui,
 							  "distribution_combo");
-	state->par1_entry = gnm_xml_get_widget (state->base.gui, "par1_entry");
-	state->par1_label = gnm_xml_get_widget (state->base.gui, "par1_label");
-	state->par2_label = gnm_xml_get_widget (state->base.gui, "par2_label");
-	state->par2_entry = gnm_xml_get_widget (state->base.gui, "par2_entry");
-	state->vars_entry = gnm_xml_get_widget (state->base.gui, "vars_entry");
-	state->count_entry = gnm_xml_get_widget (state->base.gui, "count_entry");
+	state->par1_entry = go_gtk_builder_get_widget (state->base.gui, "par1_entry");
+	state->par1_label = go_gtk_builder_get_widget (state->base.gui, "par1_label");
+	state->par2_label = go_gtk_builder_get_widget (state->base.gui, "par2_label");
+	state->par2_entry = go_gtk_builder_get_widget (state->base.gui, "par2_entry");
+	state->vars_entry = go_gtk_builder_get_widget (state->base.gui, "vars_entry");
+	state->count_entry = go_gtk_builder_get_widget (state->base.gui, "count_entry");
 	int_to_entry (GTK_ENTRY (state->count_entry), 1);
 
 	renderer = (GtkCellRenderer*) gtk_cell_renderer_text_new();
@@ -760,7 +760,7 @@ dialog_random_tool_init (RandomToolState *state)
 		"changed",
 		G_CALLBACK (random_tool_update_sensitivity_cb), state);
 
-	table = GTK_TABLE (gnm_xml_get_widget (state->base.gui, "distribution_table"));
+	table = GTK_TABLE (go_gtk_builder_get_widget (state->base.gui, "distribution_table"));
 	state->par1_expr_entry = GTK_WIDGET (gnm_expr_entry_new (state->base.wbcg, TRUE));
 	gnm_expr_entry_set_flags (GNM_EXPR_ENTRY (state->par1_expr_entry),
 				  GNM_EE_SINGLE_RANGE, GNM_EE_MASK);

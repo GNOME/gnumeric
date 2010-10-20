@@ -50,8 +50,6 @@ GtkWidget  *gnumeric_create_tooltip (GtkWidget *ref_widget);
 GtkBuilder *gnm_gtk_builder_new (char const *uifile, char const *domain,
 				 GOCmdContext *cc);
 
-GtkWidget *gnm_xml_get_widget (gpointer gui, char const *widget_name);
-
 typedef struct {
 	char const *name;
 	char const *pixmap;

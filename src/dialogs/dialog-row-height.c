@@ -258,39 +258,39 @@ dialog_row_height (WBCGtk *wbcg, gboolean use_default)
 	state->gui = gnm_gtk_builder_new ("row-height.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	g_return_if_fail (state->gui != NULL);
 
-	state->dialog = gnm_xml_get_widget (state->gui, "dialog");
+	state->dialog = go_gtk_builder_get_widget (state->gui, "dialog");
 
-	state->description = GTK_WIDGET (gnm_xml_get_widget (state->gui, "description"));
-	state->points = GTK_WIDGET (gnm_xml_get_widget (state->gui, "pts-label"));
+	state->description = GTK_WIDGET (go_gtk_builder_get_widget (state->gui, "description"));
+	state->points = GTK_WIDGET (go_gtk_builder_get_widget (state->gui, "pts-label"));
 
-	state->spin  = GTK_SPIN_BUTTON (gnm_xml_get_widget (state->gui, "spin"));
+	state->spin  = GTK_SPIN_BUTTON (go_gtk_builder_get_widget (state->gui, "spin"));
 	gtk_spin_button_get_adjustment (state->spin)->lower =
 		GNM_ROW_MARGIN + GNM_ROW_MARGIN + 1;
 	g_signal_connect (G_OBJECT (state->spin),
 		"value-changed",
 		G_CALLBACK (cb_dialog_row_height_value_changed), state);
 
-	state->default_check  = GTK_WIDGET (gnm_xml_get_widget (state->gui, "default_check"));
+	state->default_check  = GTK_WIDGET (go_gtk_builder_get_widget (state->gui, "default_check"));
 	g_signal_connect (G_OBJECT (state->default_check),
 		"clicked",
 		G_CALLBACK (cb_dialog_row_height_default_check_toggled), state);
 
-	state->ok_button = gnm_xml_get_widget (state->gui, "ok_button");
+	state->ok_button = go_gtk_builder_get_widget (state->gui, "ok_button");
 	g_signal_connect (G_OBJECT (state->ok_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_row_height_ok_clicked), state);
-	state->apply_button = gnm_xml_get_widget (state->gui, "apply_button");
+	state->apply_button = go_gtk_builder_get_widget (state->gui, "apply_button");
 	g_signal_connect (G_OBJECT (state->apply_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_row_height_apply_clicked), state);
 
-	state->cancel_button = gnm_xml_get_widget (state->gui, "cancel_button");
+	state->cancel_button = go_gtk_builder_get_widget (state->gui, "cancel_button");
 	g_signal_connect (G_OBJECT (state->cancel_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_row_height_cancel_clicked), state);
 
 	gnumeric_init_help_button (
-		gnm_xml_get_widget (state->gui, "help_button"),
+		go_gtk_builder_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_ROW_HEIGHT);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_dialog_row_height_destroy);

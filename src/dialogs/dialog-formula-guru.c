@@ -881,7 +881,7 @@ dialog_formula_guru_init (FormulaGuruState *state)
 	state->tooltip_widget = NULL;
 
 	/* Set-up treeview */
-	scrolled = gnm_xml_get_widget (state->gui, "scrolled");
+	scrolled = go_gtk_builder_get_widget (state->gui, "scrolled");
 	state->model = gtk_tree_store_new (NUM_COLMNS, G_TYPE_STRING, G_TYPE_BOOLEAN,
 					   G_TYPE_STRING, G_TYPE_STRING,
 					   G_TYPE_INT, G_TYPE_INT, G_TYPE_POINTER, 
@@ -933,44 +933,44 @@ dialog_formula_guru_init (FormulaGuruState *state)
 			  G_CALLBACK (start_editing_cb), state);
 	/* Finished set-up of treeview */
 
-	state->quote_button = gnm_xml_get_widget (state->gui,
+	state->quote_button = go_gtk_builder_get_widget (state->gui,
 						    "quote-button");
-	state->array_button = gnm_xml_get_widget (state->gui,
+	state->array_button = go_gtk_builder_get_widget (state->gui,
 						    "array_button");
 	gtk_widget_set_sensitive (state->array_button, TRUE);
 
-	state->ok_button = gnm_xml_get_widget (state->gui, "ok_button");
+	state->ok_button = go_gtk_builder_get_widget (state->gui, "ok_button");
 	gtk_widget_set_sensitive (state->ok_button, TRUE);
 	g_signal_connect (G_OBJECT (state->ok_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_formula_guru_ok_clicked), state);
 
-	state->selector_button = gnm_xml_get_widget (state->gui, "select_func");
+	state->selector_button = go_gtk_builder_get_widget (state->gui, "select_func");
 	gtk_widget_set_sensitive (state->selector_button, FALSE);
 	g_signal_connect (G_OBJECT (state->selector_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_formula_guru_selector_clicked), state);
 
-	state->clear_button = gnm_xml_get_widget (state->gui, "trash");
+	state->clear_button = go_gtk_builder_get_widget (state->gui, "trash");
 	gtk_widget_set_sensitive (state->clear_button, FALSE);
 	g_signal_connect (G_OBJECT (state->clear_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_formula_guru_clear_clicked), state);
 
-	state->zoom_button = gnm_xml_get_widget (state->gui, "zoom");
+	state->zoom_button = go_gtk_builder_get_widget (state->gui, "zoom");
 	gtk_widget_set_sensitive (state->zoom_button, TRUE);
 	g_signal_connect (G_OBJECT (state->zoom_button),
 		"toggled",
 		G_CALLBACK (cb_dialog_formula_guru_zoom_toggled), state);
 
-	state->main_button_area = gnm_xml_get_widget (state->gui, "dialog-action_area2");
+	state->main_button_area = go_gtk_builder_get_widget (state->gui, "dialog-action_area2");
 
-	g_signal_connect_swapped (G_OBJECT (gnm_xml_get_widget (state->gui, "cancel_button")),
+	g_signal_connect_swapped (G_OBJECT (go_gtk_builder_get_widget (state->gui, "cancel_button")),
 		"clicked",
 		G_CALLBACK (cb_dialog_formula_guru_cancel_clicked), state);
 
 	gnumeric_init_help_button (
-		gnm_xml_get_widget (state->gui, "help_button"),
+		go_gtk_builder_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_FORMULA_GURU);
 
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);
@@ -1088,7 +1088,7 @@ dialog_formula_guru (WBCGtk *wbcg, GnmFunc *fd)
 		g_free (func_str);
 	}
 
-	state->dialog = gnm_xml_get_widget (state->gui, "formula_guru");
+	state->dialog = go_gtk_builder_get_widget (state->gui, "formula_guru");
 
 	if (dialog_formula_guru_init (state)) {
 		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,

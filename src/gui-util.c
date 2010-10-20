@@ -416,7 +416,7 @@ gnm_gui_group_value (gpointer gui, char const * const group[])
 {
 	int i;
 	for (i = 0; group[i]; i++) {
-		GtkWidget *w = gnm_xml_get_widget (gui, group[i]);
+		GtkWidget *w = go_gtk_builder_get_widget (gui, group[i]);
 		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)))
 			return i;
 	}
@@ -571,14 +571,6 @@ gnm_gtk_builder_new (char const *uifile, char const *domain, GOCmdContext *cc)
 	g_free (f);
 
 	return gui;
-}
-
-GtkWidget *
-gnm_xml_get_widget (gpointer gui, char const *widget_name)
-{
-	if (GTK_IS_BUILDER (gui))
-		return go_gtk_builder_get_widget (gui, widget_name);
-	abort ();
 }
 
 

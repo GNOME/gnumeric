@@ -376,20 +376,20 @@ fs_init (FontSelector *fs)
 	gnm_style_set_font_size (fs->mstyle, 10);
 
 	gtk_box_pack_start (GTK_BOX (fs),
-		gnm_xml_get_widget (fs->gui, "toplevel-table"), TRUE, TRUE, 0);
+		go_gtk_builder_get_widget (fs->gui, "toplevel-table"), TRUE, TRUE, 0);
 
-	fs->font_name_entry  = gnm_xml_get_widget (fs->gui, "font-name-entry");
-	fs->font_style_entry = gnm_xml_get_widget (fs->gui, "font-style-entry");
-	fs->font_size_entry  = gnm_xml_get_widget (fs->gui, "font-size-entry");
-	fs->font_name_list  = GTK_TREE_VIEW (gnm_xml_get_widget (fs->gui, "font-name-list"));
-	fs->font_style_list = GTK_TREE_VIEW (gnm_xml_get_widget (fs->gui, "font-style-list"));
-	fs->font_size_list  = GTK_TREE_VIEW (gnm_xml_get_widget (fs->gui, "font-size-list"));
+	fs->font_name_entry  = go_gtk_builder_get_widget (fs->gui, "font-name-entry");
+	fs->font_style_entry = go_gtk_builder_get_widget (fs->gui, "font-style-entry");
+	fs->font_size_entry  = go_gtk_builder_get_widget (fs->gui, "font-size-entry");
+	fs->font_name_list  = GTK_TREE_VIEW (go_gtk_builder_get_widget (fs->gui, "font-name-list"));
+	fs->font_style_list = GTK_TREE_VIEW (go_gtk_builder_get_widget (fs->gui, "font-style-list"));
+	fs->font_size_list  = GTK_TREE_VIEW (go_gtk_builder_get_widget (fs->gui, "font-size-list"));
 
 	w = g_object_new (GOC_TYPE_CANVAS, NULL);
 	fs->font_preview_canvas = GOC_CANVAS (w);
 	goc_canvas_scroll_to (fs->font_preview_canvas, 0, 0);
 	gtk_widget_show_all (w);
-	w = gnm_xml_get_widget (fs->gui, "font-preview-frame");
+	w = go_gtk_builder_get_widget (fs->gui, "font-preview-frame");
 	gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (fs->font_preview_canvas));
 	fs->font_preview_grid = GOC_ITEM (goc_item_new (
 		goc_canvas_get_root (fs->font_preview_canvas),

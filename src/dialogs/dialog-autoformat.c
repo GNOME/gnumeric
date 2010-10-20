@@ -594,18 +594,18 @@ dialog_autoformat (WBCGtk *wbcg)
 	state->more_down         = FALSE;
 	state->selected_template = NULL;
 
-	state->dialog     = GTK_DIALOG (gnm_xml_get_widget (gui, "dialog"));
-	state->category   = GTK_COMBO_BOX (gnm_xml_get_widget (gui, "format_category"));
-	state->scroll     = GTK_VSCROLLBAR (gnm_xml_get_widget (gui, "format_scroll"));
-	state->gridlines  = GTK_CHECK_MENU_ITEM  (gnm_xml_get_widget (gui, "format_gridlines"));
+	state->dialog     = GTK_DIALOG (go_gtk_builder_get_widget (gui, "dialog"));
+	state->category   = GTK_COMBO_BOX (go_gtk_builder_get_widget (gui, "format_category"));
+	state->scroll     = GTK_VSCROLLBAR (go_gtk_builder_get_widget (gui, "format_scroll"));
+	state->gridlines  = GTK_CHECK_MENU_ITEM  (go_gtk_builder_get_widget (gui, "format_gridlines"));
 
-	state->info_name   = GTK_ENTRY (gnm_xml_get_widget (gui, "format_info_name"));
-	state->info_author = GTK_ENTRY (gnm_xml_get_widget (gui, "format_info_author"));
-	state->info_cat    = GTK_ENTRY (gnm_xml_get_widget (gui, "format_info_cat"));
-	state->info_descr  = GTK_TEXT_VIEW (gnm_xml_get_widget (gui, "format_info_descr"));
+	state->info_name   = GTK_ENTRY (go_gtk_builder_get_widget (gui, "format_info_name"));
+	state->info_author = GTK_ENTRY (go_gtk_builder_get_widget (gui, "format_info_author"));
+	state->info_cat    = GTK_ENTRY (go_gtk_builder_get_widget (gui, "format_info_cat"));
+	state->info_descr  = GTK_TEXT_VIEW (go_gtk_builder_get_widget (gui, "format_info_descr"));
 
-	state->ok     = GTK_BUTTON (gnm_xml_get_widget (gui, "format_ok"));
-	state->cancel = GTK_BUTTON (gnm_xml_get_widget (gui, "format_cancel"));
+	state->ok     = GTK_BUTTON (go_gtk_builder_get_widget (gui, "format_ok"));
+	state->cancel = GTK_BUTTON (go_gtk_builder_get_widget (gui, "format_cancel"));
 
 	action_group = gtk_action_group_new ("settings-actions");
 	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
@@ -629,14 +629,14 @@ dialog_autoformat (WBCGtk *wbcg)
 
 	state->gridlines  = GTK_CHECK_MENU_ITEM  (gtk_ui_manager_get_widget (ui_manager, "/bar/settings/gridlines"));
 
-	gtk_box_pack_start (GTK_BOX (gnm_xml_get_widget (gui, "category-box")),
+	gtk_box_pack_start (GTK_BOX (go_gtk_builder_get_widget (gui, "category-box")),
 	                    gtk_ui_manager_get_widget (ui_manager, "/bar"),
 	                    FALSE, TRUE, 0);
 	for (i = 0; i < NUM_PREVIEWS; i++) {
 		char *name;
 
 		name = g_strdup_printf ("format_frame%d", i+1);
-		state->frame[i] = GTK_FRAME (gnm_xml_get_widget (gui, name));
+		state->frame[i] = GTK_FRAME (go_gtk_builder_get_widget (gui, name));
 		g_free (name);
 
 		state->canvas[i] = GOC_CANVAS (g_object_new (GOC_TYPE_CANVAS, NULL));
@@ -709,7 +709,7 @@ dialog_autoformat (WBCGtk *wbcg)
 	}
 
 	gnumeric_init_help_button (
-		gnm_xml_get_widget (gui, "help_button"),
+		go_gtk_builder_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_AUTOFORMAT);
 
 	gtk_dialog_set_default_response (state->dialog, GTK_RESPONSE_OK);

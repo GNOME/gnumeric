@@ -227,21 +227,21 @@ stf_dialog_csv_page_init (GtkBuilder *gui, StfDialogData *pagedata)
 	g_return_if_fail (pagedata != NULL);
 
 	/* Create/get object and fill information struct */
-	pagedata->csv.csv_tab             = GTK_CHECK_BUTTON (gnm_xml_get_widget (gui, "csv_tab"));
-	pagedata->csv.csv_colon           = GTK_CHECK_BUTTON (gnm_xml_get_widget (gui, "csv_colon"));
-	pagedata->csv.csv_comma           = GTK_CHECK_BUTTON (gnm_xml_get_widget (gui, "csv_comma"));
-	pagedata->csv.csv_space           = GTK_CHECK_BUTTON (gnm_xml_get_widget (gui, "csv_space"));
-	pagedata->csv.csv_semicolon       = GTK_CHECK_BUTTON (gnm_xml_get_widget (gui, "csv_semicolon"));
-	pagedata->csv.csv_hyphen          = GTK_CHECK_BUTTON (gnm_xml_get_widget (gui, "csv_hyphen"));
-	pagedata->csv.csv_custom          = GTK_CHECK_BUTTON (gnm_xml_get_widget (gui, "csv_custom"));
-	pagedata->csv.csv_customseparator = GTK_ENTRY        (gnm_xml_get_widget (gui, "csv_customseparator"));
-	pagedata->csv.csv_2x_indicator    = GTK_CHECK_BUTTON (gnm_xml_get_widget (gui, "csv_2x_indicator"));
-	pagedata->csv.csv_textindicator   = gnm_xml_get_widget (gui, "csv_textindicator");
-	pagedata->csv.csv_textfield       = GTK_ENTRY    (gnm_xml_get_widget (gui, "csv_textfield"));
+	pagedata->csv.csv_tab             = GTK_CHECK_BUTTON (go_gtk_builder_get_widget (gui, "csv_tab"));
+	pagedata->csv.csv_colon           = GTK_CHECK_BUTTON (go_gtk_builder_get_widget (gui, "csv_colon"));
+	pagedata->csv.csv_comma           = GTK_CHECK_BUTTON (go_gtk_builder_get_widget (gui, "csv_comma"));
+	pagedata->csv.csv_space           = GTK_CHECK_BUTTON (go_gtk_builder_get_widget (gui, "csv_space"));
+	pagedata->csv.csv_semicolon       = GTK_CHECK_BUTTON (go_gtk_builder_get_widget (gui, "csv_semicolon"));
+	pagedata->csv.csv_hyphen          = GTK_CHECK_BUTTON (go_gtk_builder_get_widget (gui, "csv_hyphen"));
+	pagedata->csv.csv_custom          = GTK_CHECK_BUTTON (go_gtk_builder_get_widget (gui, "csv_custom"));
+	pagedata->csv.csv_customseparator = GTK_ENTRY        (go_gtk_builder_get_widget (gui, "csv_customseparator"));
+	pagedata->csv.csv_2x_indicator    = GTK_CHECK_BUTTON (go_gtk_builder_get_widget (gui, "csv_2x_indicator"));
+	pagedata->csv.csv_textindicator   = go_gtk_builder_get_widget (gui, "csv_textindicator");
+	pagedata->csv.csv_textfield       = GTK_ENTRY    (go_gtk_builder_get_widget (gui, "csv_textfield"));
 
-	pagedata->csv.csv_duplicates      = GTK_CHECK_BUTTON (gnm_xml_get_widget (gui, "csv_duplicates"));
-	pagedata->csv.csv_trim_seps       = GTK_CHECK_BUTTON (gnm_xml_get_widget (gui, "csv_trim_seps"));
-	pagedata->csv.csv_data_container  =                   gnm_xml_get_widget (gui, "csv_data_container");
+	pagedata->csv.csv_duplicates      = GTK_CHECK_BUTTON (go_gtk_builder_get_widget (gui, "csv_duplicates"));
+	pagedata->csv.csv_trim_seps       = GTK_CHECK_BUTTON (go_gtk_builder_get_widget (gui, "csv_trim_seps"));
+	pagedata->csv.csv_data_container  =                   go_gtk_builder_get_widget (gui, "csv_data_container");
 
 	/* Set properties */
 	pagedata->csv.renderdata    =

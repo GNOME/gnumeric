@@ -411,12 +411,12 @@ margin_preview_page_available_size(PrinterSetupState *state,
 	available_size->width = 0;
 	available_size->height = 0;
 
-	table = GTK_TABLE (gnm_xml_get_widget (state->gui, "table-paper-selector"));
+	table = GTK_TABLE (go_gtk_builder_get_widget (state->gui, "table-paper-selector"));
 
 	widths = g_new0(guint, table->ncols);
 	heights = g_new0(guint, table->nrows);
 
-	container = GTK_BOX (gnm_xml_get_widget (state->gui,
+	container = GTK_BOX (go_gtk_builder_get_widget (state->gui,
 						   "container-paper-sample"));
 
 	align = GTK_ALIGNMENT (gtk_widget_get_parent(GTK_WIDGET(container)));
@@ -711,7 +711,7 @@ margin_spin_configure (UnitInfo *target, PrinterSetupState *state,
 {
 	target->value = 0.;
 	target->pi = &state->preview;
-	target->spin = GTK_SPIN_BUTTON (gnm_xml_get_widget (state->gui, spin_name));
+	target->spin = GTK_SPIN_BUTTON (go_gtk_builder_get_widget (state->gui, spin_name));
 	target->state = state;
 	gtk_spin_button_set_update_policy (target->spin, GTK_UPDATE_IF_VALID);
 	g_signal_connect_swapped (G_OBJECT (target->spin),
@@ -822,7 +822,7 @@ do_setup_margin (PrinterSetupState *state)
 
 		gtk_combo_box_set_active_iter (GTK_COMBO_BOX (state->unit_selector), &current);
 	}
-	table = gnm_xml_get_widget (state->gui, "table-paper-selector");
+	table = go_gtk_builder_get_widget (state->gui, "table-paper-selector");
 	gtk_table_attach (GTK_TABLE (table), state->unit_selector, 3, 4, 8, 9,
 					GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
@@ -843,9 +843,9 @@ do_setup_margin (PrinterSetupState *state)
 	margin_spin_configure  (&state->margins.right, state, "spin-right",
 				value_changed_right_cb);
 
-	state->check_center_h = gnm_xml_get_widget (state->gui,
+	state->check_center_h = go_gtk_builder_get_widget (state->gui,
 						      "check_center_h");
-	state->check_center_v = gnm_xml_get_widget (state->gui,
+	state->check_center_v = go_gtk_builder_get_widget (state->gui,
 						      "check_center_v");
 	gtk_toggle_button_set_active (
 				      GTK_TOGGLE_BUTTON (state->check_center_v),
@@ -854,7 +854,7 @@ do_setup_margin (PrinterSetupState *state)
 				      GTK_TOGGLE_BUTTON (state->check_center_h),
 				      state->pi->center_horizontally == 1);
 
-	container = GTK_BOX (gnm_xml_get_widget (state->gui,
+	container = GTK_BOX (go_gtk_builder_get_widget (state->gui,
 						   "container-paper-sample"));
 	gtk_box_pack_start (container, state->preview.canvas, TRUE, TRUE, 0);
 
@@ -1044,8 +1044,8 @@ do_setup_hf_menus (PrinterSetupState *state)
 
 	g_return_if_fail (state != NULL);
 
-	header = GTK_COMBO_BOX (gnm_xml_get_widget (state->gui, "option-menu-header"));
-	footer = GTK_COMBO_BOX (gnm_xml_get_widget (state->gui, "option-menu-footer"));
+	header = GTK_COMBO_BOX (go_gtk_builder_get_widget (state->gui, "option-menu-header"));
+	footer = GTK_COMBO_BOX (go_gtk_builder_get_widget (state->gui, "option-menu-footer"));
 
 	if (state->header)
 		print_hf_register (state->header);
@@ -1401,8 +1401,8 @@ hf_customize_apply (HFCustomizeState *hf_state)
 	gtk_text_buffer_set_modified (hf_state->middle_buffer, FALSE);
 	gtk_text_buffer_set_modified (hf_state->right_buffer, FALSE);
 
-	gtk_widget_set_sensitive (gnm_xml_get_widget (hf_state->gui, "apply_button"), FALSE);
-	gtk_widget_set_sensitive (gnm_xml_get_widget (hf_state->gui, "ok_button"), FALSE);
+	gtk_widget_set_sensitive (go_gtk_builder_get_widget (hf_state->gui, "apply_button"), FALSE);
+	gtk_widget_set_sensitive (go_gtk_builder_get_widget (hf_state->gui, "ok_button"), FALSE);
 }
 
 
@@ -1416,8 +1416,8 @@ hf_customize_ok (HFCustomizeState *hf_state)
 static gboolean
 cb_hf_changed (GtkBuilder *gui)
 {
-	gtk_widget_set_sensitive (gnm_xml_get_widget (gui, "apply_button"), TRUE);
-	gtk_widget_set_sensitive (gnm_xml_get_widget (gui, "ok_button"), TRUE);
+	gtk_widget_set_sensitive (go_gtk_builder_get_widget (gui, "apply_button"), TRUE);
+	gtk_widget_set_sensitive (go_gtk_builder_get_widget (gui, "ok_button"), TRUE);
 	return FALSE;
 }
 
@@ -1700,11 +1700,11 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	hf_state->printer_setup_state = state;
 	hf_state->is_header = header;
 
-	left   = GTK_TEXT_VIEW (gnm_xml_get_widget (gui, "left-format"));
-	middle = GTK_TEXT_VIEW (gnm_xml_get_widget (gui, "middle-format"));
-	right  = GTK_TEXT_VIEW (gnm_xml_get_widget (gui, "right-format"));
+	left   = GTK_TEXT_VIEW (go_gtk_builder_get_widget (gui, "left-format"));
+	middle = GTK_TEXT_VIEW (go_gtk_builder_get_widget (gui, "middle-format"));
+	right  = GTK_TEXT_VIEW (go_gtk_builder_get_widget (gui, "right-format"));
 
-	dialog = gnm_xml_get_widget (gui, "hf-config");
+	dialog = go_gtk_builder_get_widget (gui, "hf-config");
 	hf_state->dialog = dialog;
 
 	if (header) {
@@ -1737,15 +1737,15 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	g_signal_connect (G_OBJECT (right_buffer), "delete-range",
 			  G_CALLBACK (buffer_delete_range_cb), hf_state);
 
-	g_signal_connect_swapped (G_OBJECT (gnm_xml_get_widget (gui, "apply_button")),
+	g_signal_connect_swapped (G_OBJECT (go_gtk_builder_get_widget (gui, "apply_button")),
 		"clicked", G_CALLBACK (hf_customize_apply), hf_state);
-	g_signal_connect_swapped (G_OBJECT (gnm_xml_get_widget (gui, "ok_button")),
+	g_signal_connect_swapped (G_OBJECT (go_gtk_builder_get_widget (gui, "ok_button")),
 		"clicked", G_CALLBACK (hf_customize_ok), hf_state);
 	g_signal_connect_swapped
-		(G_OBJECT (gnm_xml_get_widget (gui, "cancel_button")),
+		(G_OBJECT (go_gtk_builder_get_widget (gui, "cancel_button")),
 		 "clicked", G_CALLBACK (gtk_widget_destroy), dialog);
-	gtk_widget_set_sensitive (gnm_xml_get_widget (gui, "apply_button"), FALSE);
-	gtk_widget_set_sensitive (gnm_xml_get_widget (gui, "ok_button"), FALSE);
+	gtk_widget_set_sensitive (go_gtk_builder_get_widget (gui, "apply_button"), FALSE);
+	gtk_widget_set_sensitive (go_gtk_builder_get_widget (gui, "ok_button"), FALSE);
 
 	if (header)
 		g_signal_connect (G_OBJECT (dialog), "destroy",
@@ -1768,49 +1768,49 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	g_signal_connect_swapped (G_OBJECT (right_buffer),
 		"modified-changed", G_CALLBACK (cb_hf_changed), gui);
 
-	gnumeric_init_help_button (gnm_xml_get_widget (gui, "help_button"),
+	gnumeric_init_help_button (go_gtk_builder_get_widget (gui, "help_button"),
 		header  ? GNUMERIC_HELP_LINK_PRINTER_SETUP_HEADER_CUSTOMIZATION
 			: GNUMERIC_HELP_LINK_PRINTER_SETUP_FOOTER_CUSTOMIZATION);
 
 	g_signal_connect_swapped
-		(G_OBJECT (gnm_xml_get_widget (gui, "delete-button")),
+		(G_OBJECT (go_gtk_builder_get_widget (gui, "delete-button")),
 		 "clicked", G_CALLBACK (hf_delete_tag_cb), hf_state);
 
-	button = GTK_TOOL_BUTTON (gnm_xml_get_widget (gui, "insert-date-button"));
+	button = GTK_TOOL_BUTTON (go_gtk_builder_get_widget (gui, "insert-date-button"));
 	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Date");
 	hf_attach_insert_date_menu (GTK_MENU_TOOL_BUTTON (button), hf_state);
 
-	button = GTK_TOOL_BUTTON (gnm_xml_get_widget (gui, "insert-page-button"));
+	button = GTK_TOOL_BUTTON (go_gtk_builder_get_widget (gui, "insert-page-button"));
 	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Page");
 	g_signal_connect_swapped
 		(G_OBJECT (button),
 		 "clicked", G_CALLBACK (hf_insert_page_cb), hf_state);
 
-	button = GTK_TOOL_BUTTON (gnm_xml_get_widget (gui, "insert-pages-button"));
+	button = GTK_TOOL_BUTTON (go_gtk_builder_get_widget (gui, "insert-pages-button"));
 	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Pages");
 	g_signal_connect_swapped
 		(G_OBJECT (button),
 		 "clicked", G_CALLBACK (hf_insert_pages_cb), hf_state);
 
-	button = GTK_TOOL_BUTTON (gnm_xml_get_widget (gui, "insert-sheet-button"));
+	button = GTK_TOOL_BUTTON (go_gtk_builder_get_widget (gui, "insert-sheet-button"));
 	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Sheet");
 	g_signal_connect_swapped
 		(G_OBJECT (button),
 		 "clicked", G_CALLBACK (hf_insert_sheet_cb), hf_state);
 
-	button = GTK_TOOL_BUTTON (gnm_xml_get_widget (gui, "insert-time-button"));
+	button = GTK_TOOL_BUTTON (go_gtk_builder_get_widget (gui, "insert-time-button"));
 	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Time");
 	hf_attach_insert_time_menu (GTK_MENU_TOOL_BUTTON (button), hf_state);
 
 	g_signal_connect_swapped
-		(G_OBJECT (gnm_xml_get_widget (gui, "insert-file-button")),
+		(G_OBJECT (go_gtk_builder_get_widget (gui, "insert-file-button")),
 		 "clicked", G_CALLBACK (hf_insert_file_cb), hf_state);
 
 	g_signal_connect_swapped
-		(G_OBJECT (gnm_xml_get_widget (gui, "insert-path-button")),
+		(G_OBJECT (go_gtk_builder_get_widget (gui, "insert-path-button")),
 		 "clicked", G_CALLBACK (hf_insert_path_cb), hf_state);
 
-	button = GTK_TOOL_BUTTON (gnm_xml_get_widget (gui, "insert-cell-button"));
+	button = GTK_TOOL_BUTTON (go_gtk_builder_get_widget (gui, "insert-cell-button"));
 	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Cell");
 	hf_attach_insert_cell_menu (GTK_MENU_TOOL_BUTTON (button), hf_state);
 
@@ -1861,7 +1861,7 @@ do_hf_dt_format_customize (gboolean date, HFCustomizeState *hf_state)
 	hf_dt_state->hf_state = hf_state;
 	hf_dt_state->format_string = NULL;
 
-	dialog = gnm_xml_get_widget (gui, "hf-dt-format");
+	dialog = go_gtk_builder_get_widget (gui, "hf-dt-format");
 	hf_dt_state->dialog = dialog;
 
 	if (date) {
@@ -1870,16 +1870,16 @@ do_hf_dt_format_customize (gboolean date, HFCustomizeState *hf_state)
 		gtk_window_set_title (GTK_WINDOW (dialog), _("Time format selection"));
 	}
 
-	g_signal_connect_swapped (G_OBJECT (gnm_xml_get_widget (gui, "ok_button")),
+	g_signal_connect_swapped (G_OBJECT (go_gtk_builder_get_widget (gui, "ok_button")),
 		"clicked", G_CALLBACK (hf_dt_customize_ok), hf_dt_state);
 
 	g_object_set_data_full (G_OBJECT (dialog),
 		"hfdtstate", hf_dt_state, (GDestroyNotify) g_free);
 
-	gnumeric_init_help_button (gnm_xml_get_widget (gui, "help_button"),
+	gnumeric_init_help_button (go_gtk_builder_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_PRINTER_SETUP_GENERAL);
 
-	table = gnm_xml_get_widget (gui, "layout-table");
+	table = go_gtk_builder_get_widget (gui, "layout-table");
 	if (table == NULL) {
 		gtk_widget_destroy (dialog);
 		return NULL;
@@ -2046,12 +2046,12 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		g_signal_connect (G_OBJECT (pi->canvas),
 			"event",
 			G_CALLBACK (header_preview_event), state);
-		wid = gnm_xml_get_widget (state->gui, "container-header-sample");
+		wid = go_gtk_builder_get_widget (state->gui, "container-header-sample");
 	} else {
 		g_signal_connect (G_OBJECT (pi->canvas),
 			"event",
 			G_CALLBACK (footer_preview_event), state);
-		wid = gnm_xml_get_widget (state->gui, "container-footer-sample");
+		wid = go_gtk_builder_get_widget (state->gui, "container-footer-sample");
 	}
 	gtk_widget_set_size_request (wid, width, height);
 
@@ -2074,13 +2074,13 @@ do_setup_hf (PrinterSetupState *state)
 
 	g_return_if_fail (state != NULL);
 
-	header = GTK_COMBO_BOX (gnm_xml_get_widget (state->gui, "option-menu-header"));
+	header = GTK_COMBO_BOX (go_gtk_builder_get_widget (state->gui, "option-menu-header"));
 	renderer = (GtkCellRenderer*) gtk_cell_renderer_text_new();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (header), renderer, TRUE);
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (header), renderer,
                                         "text", 0,
                                         NULL);
-	footer = GTK_COMBO_BOX (gnm_xml_get_widget (state->gui, "option-menu-footer"));
+	footer = GTK_COMBO_BOX (go_gtk_builder_get_widget (state->gui, "option-menu-footer"));
 	renderer = (GtkCellRenderer*) gtk_cell_renderer_text_new();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (footer), renderer, TRUE);
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (footer), renderer,
@@ -2094,11 +2094,11 @@ do_setup_hf (PrinterSetupState *state)
 
 	do_setup_hf_menus (state);
 
-	w = gnm_xml_get_widget (state->gui, "configure-header-button");
+	w = go_gtk_builder_get_widget (state->gui, "configure-header-button");
 	g_signal_connect_swapped (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (do_header_customize), state);
-	w = gnm_xml_get_widget (state->gui, "configure-footer-button");
+	w = go_gtk_builder_get_widget (state->gui, "configure-footer-button");
 	g_signal_connect_swapped (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (do_footer_customize), state);
@@ -2151,18 +2151,18 @@ load_print_area (PrinterSetupState *state)
 static void
 do_setup_page_info (PrinterSetupState *state)
 {
-	GtkWidget *pa_hbox   = gnm_xml_get_widget (state->gui,
+	GtkWidget *pa_hbox   = go_gtk_builder_get_widget (state->gui,
 						     "print-area-hbox");
-	GtkWidget *repeat_table = gnm_xml_get_widget (state->gui,
+	GtkWidget *repeat_table = go_gtk_builder_get_widget (state->gui,
 							"repeat-table");
-	GtkWidget *gridlines = gnm_xml_get_widget (state->gui, "check-grid-lines");
-	GtkWidget *onlystyles= gnm_xml_get_widget (state->gui, "check-only-styles");
-	GtkWidget *bw        = gnm_xml_get_widget (state->gui, "check-black-white");
-	GtkWidget *titles    = gnm_xml_get_widget (state->gui, "check-print-titles");
-	GtkWidget *do_not_print = gnm_xml_get_widget (state->gui, "check-do-not-print");
-	GtkWidget *order_rd  = gnm_xml_get_widget (state->gui, "radio-order-right");
-	GtkWidget *order_dr  = gnm_xml_get_widget (state->gui, "radio-order-down");
-	GtkWidget *order_table = gnm_xml_get_widget (state->gui, "page-order-table");
+	GtkWidget *gridlines = go_gtk_builder_get_widget (state->gui, "check-grid-lines");
+	GtkWidget *onlystyles= go_gtk_builder_get_widget (state->gui, "check-only-styles");
+	GtkWidget *bw        = go_gtk_builder_get_widget (state->gui, "check-black-white");
+	GtkWidget *titles    = go_gtk_builder_get_widget (state->gui, "check-print-titles");
+	GtkWidget *do_not_print = go_gtk_builder_get_widget (state->gui, "check-do-not-print");
+	GtkWidget *order_rd  = go_gtk_builder_get_widget (state->gui, "radio-order-right");
+	GtkWidget *order_dr  = go_gtk_builder_get_widget (state->gui, "radio-order-down");
+	GtkWidget *order_table = go_gtk_builder_get_widget (state->gui, "page-order-table");
 	GtkWidget *order;
 
 	state->area_entry = gnm_expr_entry_new (state->wbcg, TRUE);
@@ -2230,7 +2230,7 @@ do_setup_page_info (PrinterSetupState *state)
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (gnm_expr_entry_get_entry (state->left_entry)));
 /*	gnumeric_editable_enters (GTK_WINDOW (state->dialog), */
-/*		gtk_bin_get_child (GTK_BIN (gnm_xml_get_widget (state->gui, "comments-combo")))); */
+/*		gtk_bin_get_child (GTK_BIN (go_gtk_builder_get_widget (state->gui, "comments-combo")))); */
 
 	gnm_expr_entry_load_from_text (state->top_entry,
 				       state->pi->repeat_top);
@@ -2279,7 +2279,7 @@ do_update_page (PrinterSetupState *state)
 
 	gui = state->gui;
 
-	gtk_label_set_text (GTK_LABEL (gnm_xml_get_widget (gui,
+	gtk_label_set_text (GTK_LABEL (go_gtk_builder_get_widget (gui,
 							     "paper-type-label")),
 			    print_info_get_paper_display_name (pi));
 	state->height = print_info_get_paper_height (pi,state->display_unit);
@@ -2302,7 +2302,7 @@ do_update_page (PrinterSetupState *state)
 		break;
 	}
 	text = g_strdup_printf (format, state->width, state->height);
-	gtk_label_set_text (GTK_LABEL (gnm_xml_get_widget (gui,
+	gtk_label_set_text (GTK_LABEL (go_gtk_builder_get_widget (gui,
 							     "paper-size-label")),
 			    text);
 	g_free (text);
@@ -2378,14 +2378,14 @@ do_setup_page (PrinterSetupState *state)
 
 	gui = state->gui;
 
-	g_signal_connect_swapped (G_OBJECT (gnm_xml_get_widget (gui, "paper-button")),
+	g_signal_connect_swapped (G_OBJECT (go_gtk_builder_get_widget (gui, "paper-button")),
 		"clicked",
 		G_CALLBACK (dialog_gtk_printer_setup_cb), state);
 
-	state->portrait_radio = gnm_xml_get_widget (gui, "portrait-button");
-	state->landscape_radio = gnm_xml_get_widget (gui, "landscape-button");
-	state->rev_portrait_radio = gnm_xml_get_widget (gui, "r-portrait-button");
-	state->rev_landscape_radio = gnm_xml_get_widget (gui, "r-landscape-button");
+	state->portrait_radio = go_gtk_builder_get_widget (gui, "portrait-button");
+	state->landscape_radio = go_gtk_builder_get_widget (gui, "landscape-button");
+	state->rev_portrait_radio = go_gtk_builder_get_widget (gui, "r-portrait-button");
+	state->rev_landscape_radio = go_gtk_builder_get_widget (gui, "r-landscape-button");
 
 	g_signal_connect_swapped (G_OBJECT (state->portrait_radio), "toggled",
 				  G_CALLBACK (orientation_changed_cb), state);
@@ -2406,8 +2406,8 @@ scaling_percent_changed (GtkToggleButton *toggle, PrinterSetupState *state)
 {
 	gboolean scale_percent = gtk_toggle_button_get_active (toggle);
 
-	gtk_widget_set_sensitive (GTK_WIDGET (gnm_xml_get_widget (state->gui, "scale-percent-spin")), scale_percent);
-	gtk_widget_set_sensitive (GTK_WIDGET (gnm_xml_get_widget (state->gui, "scale-percent-label")), scale_percent);
+	gtk_widget_set_sensitive (GTK_WIDGET (go_gtk_builder_get_widget (state->gui, "scale-percent-spin")), scale_percent);
+	gtk_widget_set_sensitive (GTK_WIDGET (go_gtk_builder_get_widget (state->gui, "scale-percent-label")), scale_percent);
 }
 
 static void
@@ -2415,10 +2415,10 @@ scaling_fit_to_h_changed (GtkToggleButton *toggle, PrinterSetupState *state)
 {
 	gboolean scale_fit_to_h   = gtk_toggle_button_get_active (toggle);
 	gtk_widget_set_sensitive
-		(GTK_WIDGET (gnm_xml_get_widget (state->gui, "scale-h-spin")),
+		(GTK_WIDGET (go_gtk_builder_get_widget (state->gui, "scale-h-spin")),
 		 scale_fit_to_h);
 	gtk_widget_set_sensitive
-		(GTK_WIDGET (gnm_xml_get_widget (state->gui, "fit-h-check-label")),
+		(GTK_WIDGET (go_gtk_builder_get_widget (state->gui, "fit-h-check-label")),
 		 scale_fit_to_h);
 }
 
@@ -2427,10 +2427,10 @@ scaling_fit_to_v_changed (GtkToggleButton *toggle, PrinterSetupState *state)
 {
 	gboolean scale_fit_to_v   = gtk_toggle_button_get_active (toggle);
         gtk_widget_set_sensitive
-                (GTK_WIDGET (gnm_xml_get_widget (state->gui, "scale-v-spin")),
+                (GTK_WIDGET (go_gtk_builder_get_widget (state->gui, "scale-v-spin")),
                  scale_fit_to_v);
         gtk_widget_set_sensitive
-                (GTK_WIDGET (gnm_xml_get_widget (state->gui, "fit-v-check-label")),
+                (GTK_WIDGET (go_gtk_builder_get_widget (state->gui, "fit-v-check-label")),
                  scale_fit_to_v);
 }
 
@@ -2441,23 +2441,23 @@ scaling_fit_to_changed (GtkToggleButton *toggle, PrinterSetupState *state)
 
 	if (scale_fit_to) {
 		scaling_fit_to_h_changed (GTK_TOGGLE_BUTTON
-					  (gnm_xml_get_widget (state->gui, "fit-h-check")), state);
+					  (go_gtk_builder_get_widget (state->gui, "fit-h-check")), state);
 		scaling_fit_to_v_changed (GTK_TOGGLE_BUTTON
-					  (gnm_xml_get_widget (state->gui, "fit-v-check")), state);
+					  (go_gtk_builder_get_widget (state->gui, "fit-v-check")), state);
 	} else {
 		gtk_widget_set_sensitive
-			(GTK_WIDGET (gnm_xml_get_widget (state->gui, "scale-v-spin")), FALSE);
+			(GTK_WIDGET (go_gtk_builder_get_widget (state->gui, "scale-v-spin")), FALSE);
 		gtk_widget_set_sensitive
-			(GTK_WIDGET (gnm_xml_get_widget (state->gui, "fit-v-check-label")), FALSE);
+			(GTK_WIDGET (go_gtk_builder_get_widget (state->gui, "fit-v-check-label")), FALSE);
 		gtk_widget_set_sensitive
-			(GTK_WIDGET (gnm_xml_get_widget (state->gui, "scale-h-spin")), FALSE);
+			(GTK_WIDGET (go_gtk_builder_get_widget (state->gui, "scale-h-spin")), FALSE);
 		gtk_widget_set_sensitive
-			(GTK_WIDGET (gnm_xml_get_widget (state->gui, "fit-h-check-label")), FALSE);
+			(GTK_WIDGET (go_gtk_builder_get_widget (state->gui, "fit-h-check-label")), FALSE);
 	}
 	gtk_widget_set_sensitive
-		(GTK_WIDGET (gnm_xml_get_widget (state->gui, "fit-h-check")), scale_fit_to);
+		(GTK_WIDGET (go_gtk_builder_get_widget (state->gui, "fit-h-check")), scale_fit_to);
 	gtk_widget_set_sensitive
-		(GTK_WIDGET (gnm_xml_get_widget (state->gui, "fit-v-check")), scale_fit_to);
+		(GTK_WIDGET (go_gtk_builder_get_widget (state->gui, "fit-v-check")), scale_fit_to);
 }
 
 static void
@@ -2469,17 +2469,17 @@ do_setup_scale (PrinterSetupState *state)
 
 	gui = state->gui;
 
-	state->scale_percent_radio = gnm_xml_get_widget (gui, "scale-percent-radio");
-	state->scale_fit_to_radio = gnm_xml_get_widget (gui, "scale-fit-to-radio");
-	state->scale_no_radio = gnm_xml_get_widget (gui, "scale-no-radio");
+	state->scale_percent_radio = go_gtk_builder_get_widget (gui, "scale-percent-radio");
+	state->scale_fit_to_radio = go_gtk_builder_get_widget (gui, "scale-fit-to-radio");
+	state->scale_no_radio = go_gtk_builder_get_widget (gui, "scale-no-radio");
 
 	g_signal_connect (G_OBJECT (state->scale_percent_radio), "toggled",
 			  G_CALLBACK (scaling_percent_changed), state);
 	g_signal_connect (G_OBJECT (state->scale_fit_to_radio), "toggled",
 			  G_CALLBACK (scaling_fit_to_changed), state);
-	g_signal_connect (G_OBJECT (gnm_xml_get_widget (state->gui, "fit-h-check")),
+	g_signal_connect (G_OBJECT (go_gtk_builder_get_widget (state->gui, "fit-h-check")),
 			  "toggled", G_CALLBACK (scaling_fit_to_h_changed), state);
-	g_signal_connect (G_OBJECT (gnm_xml_get_widget (state->gui, "fit-v-check")),
+	g_signal_connect (G_OBJECT (go_gtk_builder_get_widget (state->gui, "fit-v-check")),
 			  "toggled", G_CALLBACK (scaling_fit_to_v_changed), state);
 
 	scaling_percent_changed (GTK_TOGGLE_BUTTON (state->scale_percent_radio), state);
@@ -2498,26 +2498,26 @@ do_setup_scale (PrinterSetupState *state)
 			(GTK_TOGGLE_BUTTON (state->scale_fit_to_radio), TRUE);
 	}
 
-	scale_percent_spin = gnm_xml_get_widget (gui, "scale-percent-spin");
+	scale_percent_spin = go_gtk_builder_get_widget (gui, "scale-percent-spin");
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (scale_percent_spin), pi->scaling.percentage.x);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				      GTK_WIDGET (scale_percent_spin));
 
-	scale_width_spin = gnm_xml_get_widget (gui, "scale-h-spin");
+	scale_width_spin = go_gtk_builder_get_widget (gui, "scale-h-spin");
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (scale_width_spin), pi->scaling.dim.cols);
 	gtk_toggle_button_set_active
-		(GTK_TOGGLE_BUTTON (gnm_xml_get_widget (state->gui, "fit-h-check")),
+		(GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui, "fit-h-check")),
 		 pi->scaling.dim.cols > 0);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				      GTK_WIDGET (scale_width_spin));
 
-	scale_height_spin = gnm_xml_get_widget (gui, "scale-v-spin");
+	scale_height_spin = go_gtk_builder_get_widget (gui, "scale-v-spin");
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (scale_height_spin), pi->scaling.dim.rows);
 	gtk_toggle_button_set_active
-		(GTK_TOGGLE_BUTTON (gnm_xml_get_widget (state->gui, "fit-v-check")),
+		(GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui, "fit-v-check")),
 		 pi->scaling.dim.rows > 0);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				      GTK_WIDGET (scale_height_spin));
@@ -2527,7 +2527,7 @@ do_setup_scale (PrinterSetupState *state)
 static Sheet *
 print_setup_get_sheet (PrinterSetupState *state)
 {
-	GtkWidget *w = gnm_xml_get_widget (state->gui, "apply-to-all");
+	GtkWidget *w = go_gtk_builder_get_widget (state->gui, "apply-to-all");
 	gboolean apply_all_sheets = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	gnm_conf_set_printsetup_all_sheets (apply_all_sheets);
@@ -2581,7 +2581,7 @@ cb_do_print_ok (PrinterSetupState *state)
 	fetch_settings (state);
 	if (gtk_toggle_button_get_active (
 		    GTK_TOGGLE_BUTTON (
-			    gnm_xml_get_widget (state->gui,
+			    go_gtk_builder_get_widget (state->gui,
 						  "is_default_check")))) {
 		print_info_save (state->pi);
 	}
@@ -2638,7 +2638,7 @@ do_setup_sheet_selector (PrinterSetupState *state)
 	g_return_if_fail (state != NULL);
 	g_return_if_fail (state->sheet != NULL);
 
-	table = gnm_xml_get_widget (state->gui, "table-sheet");
+	table = go_gtk_builder_get_widget (state->gui, "table-sheet");
 	state->sheet_selector = gtk_combo_box_new_text ();
 	n = workbook_sheet_count (state->sheet->workbook);
 	for (i = 0 ; i < n ; i++) {
@@ -2653,14 +2653,14 @@ do_setup_sheet_selector (PrinterSetupState *state)
 			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
-	w = gnm_xml_get_widget (state->gui, "apply-to-all");
+	w = go_gtk_builder_get_widget (state->gui, "apply-to-all");
 	g_signal_connect (G_OBJECT (w),
 		"toggled",
 		G_CALLBACK (cb_do_sheet_selector_toggled), state);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
 				      gnm_conf_get_printsetup_all_sheets ());
 	cb_do_sheet_selector_toggled (GTK_TOGGLE_BUTTON (w), state);
-	w = gnm_xml_get_widget (state->gui, "apply-to-selected");
+	w = go_gtk_builder_get_widget (state->gui, "apply-to-selected");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
 				      !gnm_conf_get_printsetup_all_sheets ());
 	gtk_widget_show_all (table);
@@ -2675,26 +2675,26 @@ do_setup_main_dialog (PrinterSetupState *state)
 	g_return_if_fail (state->sheet != NULL);
 	g_return_if_fail (state->wbcg != NULL);
 
-	state->dialog = gnm_xml_get_widget (state->gui, "print-setup");
+	state->dialog = go_gtk_builder_get_widget (state->gui, "print-setup");
 
-	w = gnm_xml_get_widget (state->gui, "ok");
+	w = go_gtk_builder_get_widget (state->gui, "ok");
 	g_signal_connect_swapped (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (cb_do_print_ok), state);
-	w = gnm_xml_get_widget (state->gui, "print");
+	w = go_gtk_builder_get_widget (state->gui, "print");
 	g_signal_connect_swapped (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (cb_do_print), state);
-	w = gnm_xml_get_widget (state->gui, "preview");
+	w = go_gtk_builder_get_widget (state->gui, "preview");
 	g_signal_connect_swapped (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (cb_do_print_preview), state);
-	w = gnm_xml_get_widget (state->gui, "cancel");
+	w = go_gtk_builder_get_widget (state->gui, "cancel");
 	g_signal_connect_swapped (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (cb_do_print_cancel), state);
 
-	w = gnm_xml_get_widget (state->gui, "print-setup-notebook");
+	w = go_gtk_builder_get_widget (state->gui, "print-setup-notebook");
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (w), 0);
 
 	g_object_set_data_full (G_OBJECT (state->dialog),
@@ -2763,7 +2763,7 @@ do_fetch_scale (PrinterSetupState *state)
 		state->pi->scaling.percentage.x = state->pi->scaling.percentage.y = 100.;
 		state->pi->scaling.type = PRINT_SCALE_PERCENTAGE;
 	} else {
-		w = gnm_xml_get_widget (gui, "scale-percent-spin");
+		w = go_gtk_builder_get_widget (gui, "scale-percent-spin");
 		state->pi->scaling.percentage.x = state->pi->scaling.percentage.y
 			= gtk_spin_button_get_value (GTK_SPIN_BUTTON (w));
 		state->pi->scaling.type =
@@ -2771,20 +2771,20 @@ do_fetch_scale (PrinterSetupState *state)
 			  (GTK_TOGGLE_BUTTON (state->scale_percent_radio))) ?
 			   PRINT_SCALE_PERCENTAGE : PRINT_SCALE_FIT_PAGES);
 	}
-	w = gnm_xml_get_widget (gui, "fit-h-check");
+	w = go_gtk_builder_get_widget (gui, "fit-h-check");
 	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)))
 		state->pi->scaling.dim.cols = 0;
 	else {
-		w = gnm_xml_get_widget (gui, "scale-h-spin");
+		w = go_gtk_builder_get_widget (gui, "scale-h-spin");
 		state->pi->scaling.dim.cols =
 			gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (w));
 	}
 
-	w = gnm_xml_get_widget (gui, "fit-v-check");
+	w = go_gtk_builder_get_widget (gui, "fit-v-check");
 	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)))
 		state->pi->scaling.dim.rows = 0;
 	else {
-		w = gnm_xml_get_widget (gui, "scale-v-spin");
+		w = go_gtk_builder_get_widget (gui, "scale-v-spin");
 		state->pi->scaling.dim.rows =
 			gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (w));
 	}
@@ -2839,17 +2839,17 @@ do_fetch_page_info (PrinterSetupState *state)
 	PrintInformation *pi = state->pi;
 
 	pi->print_grid_lines = gtk_toggle_button_get_active
-		(GTK_TOGGLE_BUTTON (gnm_xml_get_widget (state->gui, "check-grid-lines")));
+		(GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui, "check-grid-lines")));
 	pi->print_even_if_only_styles = gtk_toggle_button_get_active
-		(GTK_TOGGLE_BUTTON (gnm_xml_get_widget (state->gui, "check-only-styles")));
+		(GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui, "check-only-styles")));
 	pi->print_black_and_white = gtk_toggle_button_get_active
-		(GTK_TOGGLE_BUTTON (gnm_xml_get_widget (state->gui, "check-black-white")));
+		(GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui, "check-black-white")));
 	pi->print_titles = gtk_toggle_button_get_active
-		(GTK_TOGGLE_BUTTON (gnm_xml_get_widget (state->gui, "check-print-titles")));
+		(GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui, "check-print-titles")));
 	pi->print_across_then_down = gtk_toggle_button_get_active
-		(GTK_TOGGLE_BUTTON (gnm_xml_get_widget (state->gui, "radio-order-right")));
+		(GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui, "radio-order-right")));
 	pi->do_not_print = gtk_toggle_button_get_active
-		(GTK_TOGGLE_BUTTON (gnm_xml_get_widget (state->gui, "check-do-not-print")));
+		(GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui, "check-do-not-print")));
 
 	g_free (pi->repeat_top);
 	pi->repeat_top = g_strdup (gnm_expr_entry_get_text (state->top_entry));
@@ -2922,7 +2922,7 @@ dialog_printer_setup (WBCGtk *wbcg, Sheet *sheet)
 					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
 
 	gnumeric_init_help_button (
-		gnm_xml_get_widget (state->gui, "help_button"),
+		go_gtk_builder_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_PRINTER_SETUP_GENERAL);
 	gnumeric_keyed_dialog (
 		wbcg, GTK_WINDOW (state->dialog), PRINTER_SETUP_KEY);
